@@ -1,874 +1,329 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from lindbergh.monkeyblade.net (lindbergh.monkeyblade.net [23.128.96.19])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D77EA18E05
-	for <linux-usb@vger.kernel.org>; Mon,  6 Nov 2023 11:06:46 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CEC1D18046
+	for <linux-usb@vger.kernel.org>; Mon,  6 Nov 2023 11:12:44 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="pcNxcUMh"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 33D75C433CA;
-	Mon,  6 Nov 2023 11:06:46 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1699268806;
-	bh=zYCeUz3jv9/umpNXCv/wsjwbSRxkyBBGplLPz4IhvZc=;
-	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=pcNxcUMhgeNTf7YQm3YOBSgzVYxDJga41uZ9Q4ZYoq9rOEbkgYFmokZKPVRcNP+8M
-	 r7X1IzmE7kdfh33x4eqWzJXp/48TdCmU/0YICLc6yspyoh2qCFTEPbqo9LMr7HXH6N
-	 Mc9dYFtb3DC3rsFdt6FacJKt2jd9Gzlbbyp7ocYgdHOMNs6CMlpHv36uHoXrcx1EqY
-	 yN9j3lARdmxAneC+vyOq3dNreKN8xGYGtfp8bQ2JBe4MdfybTBFpqquqk8IPYAKVHs
-	 RuWYG9T1X4TD1Z6aPgF8KPNQ1g5OuLQt8SR+GXthHIZ6CMnuPTMIDqnGiqRvB94mqk
-	 n3PazpcyMrIWA==
-Received: from johan by xi.lan with local (Exim 4.96)
-	(envelope-from <johan+linaro@kernel.org>)
-	id 1qzxS7-00085r-27;
-	Mon, 06 Nov 2023 12:07:31 +0100
-From: Johan Hovold <johan+linaro@kernel.org>
-To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-Cc: Vinod Koul <vkoul@kernel.org>,
-	Kishon Vijay Abraham I <kishon@kernel.org>,
-	Stanley Chang <stanley_chang@realtek.com>,
-	linux-kernel@vger.kernel.org,
-	linux-phy@lists.infradead.org,
-	linux-usb@vger.kernel.org,
-	Johan Hovold <johan+linaro@kernel.org>,
-	stable@vger.kernel.org
-Subject: [PATCH 1/3] Revert "phy: realtek: usb: Add driver for the Realtek SoC USB 3.0 PHY"
-Date: Mon,  6 Nov 2023 12:06:52 +0100
-Message-ID: <20231106110654.31090-2-johan+linaro@kernel.org>
-X-Mailer: git-send-email 2.41.0
-In-Reply-To: <20231106110654.31090-1-johan+linaro@kernel.org>
-References: <20231106110654.31090-1-johan+linaro@kernel.org>
+	dkim=pass (2048-bit key) header.d=cadence.com header.i=@cadence.com header.b="hUXzZZL+";
+	dkim=pass (1024-bit key) header.d=cadence.com header.i=@cadence.com header.b="oqmUzcWo"
+Received: from mx0a-0014ca01.pphosted.com (mx0a-0014ca01.pphosted.com [208.84.65.235])
+	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 4A8F598;
+	Mon,  6 Nov 2023 03:12:42 -0800 (PST)
+Received: from pps.filterd (m0042385.ppops.net [127.0.0.1])
+	by mx0a-0014ca01.pphosted.com (8.17.1.22/8.17.1.22) with ESMTP id 3A68J15p025615;
+	Mon, 6 Nov 2023 03:12:15 -0800
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cadence.com; h=
+	from:to:cc:subject:date:message-id:references:in-reply-to
+	:content-type:content-transfer-encoding:mime-version; s=
+	proofpoint; bh=gzC97ptKKkxdg/bRcI+fu47ntLRWc+kVSGW8noqSOB0=; b=h
+	UXzZZL+KkGRizbuiZH6BvWZtAkDAOho/JMpEk5HboF7nLxU1pz7XBFIHC7SSijiJ
+	VIBIgX53tccKkxZ0rExrlOxl34pw/kUQ6FHZVp2uVvqw/u9E5KyE4fu4MT6qKL2Y
+	YROTMDMWOLbIuXkvU4GFrdaIbsjMmZEePyIgrhpSODiDHpwvRB7WjBLxb0lMLuwX
+	drB0UVv0dc1V3tc5JLWd6SoIr7UudwXvm6N+qSexvh/mIvdhinkwX6nBGHl77n34
+	X2vL3mflm9rnX4c/Iy0dYYZueI39jwSL8QzFyJduuyeK36ms4PnYDvzC0Hx4FjcS
+	rh5if8K31z5Wu4M5dDyhw==
+Received: from nam10-mw2-obe.outbound.protection.outlook.com (mail-mw2nam10lp2100.outbound.protection.outlook.com [104.47.55.100])
+	by mx0a-0014ca01.pphosted.com (PPS) with ESMTPS id 3u5jgsdh0v-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Mon, 06 Nov 2023 03:12:15 -0800 (PST)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=FYHXUe+RpMMIf57KCnm1kfcpmva6Yq8SGTjMo2miSoISwPW0PHHgkua8QnXQgBOrIdE2woCAWzOVbF/4rSfYicJAt9lLfTsBdV1WLcgSWWHK+PgviZmPprqQu226MyCcrYL85+GmukKdaADoAz0PNdtGTthNRrUs6Yh78IwSIMDK+n+IJUwiC+2US91gVKHmtakMnD6yrC/H5EFUv4QBrXyE9cEA2L0puJSJcaiQmq/yWwWPcHpApyRnyngRD0Ge37Swy9uZdXxKRt5JMgFQQ2P+luGxluwPJMJVvp3vSQPmjDgdBEQIiVc3EdQz6/6/vX6e8sWVNI8Q88gcntmYTA==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=gzC97ptKKkxdg/bRcI+fu47ntLRWc+kVSGW8noqSOB0=;
+ b=aLiaMgvX3cG5nyfPK2XnBhCGnDAmY9ylSXV5Ov3fcI5dCw387q+O4MiBNMzQYSfxag0Bs4lXhTBjCcJhudxJWfqybNTvYB91LhtOpYruYzcbo6tBikuCtFw/bD02jYzG55i8RowgbC3ICNxWtegn/s8j9J47AcTY5pOlMlexNP646Yfeufydh6mkOZzBSqKAEevjjWsA2M1/XAV86ZPMk13/owmALjOK93rCRcc+kFMSBKHHFiiASSNz4hMz2ibyUPwQxLORRwXj6B43FAo3yBtQvmEw2MzIWfLVkKFuMOeGc77nnHbm13bgbHjJaanZYGBnQlXkqdga/O0fZUJDBA==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=cadence.com; dmarc=pass action=none header.from=cadence.com;
+ dkim=pass header.d=cadence.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cadence.com;
+ s=selector2;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=gzC97ptKKkxdg/bRcI+fu47ntLRWc+kVSGW8noqSOB0=;
+ b=oqmUzcWoafDMKkGtfyZzXMVuiCmCyyh01pW0qfUmsQzf5pasXUB1ilyxhZhohNCA3ZVlY4IWpMQgSswA4OgLBu6KFcrnyIUIpeMbcLLn3WL4WQtIioYEHRbIjpKoPho8HT0FlBdMaWuTxBm4dtpUamKu49bHx5oad++coXJNWR8=
+Received: from BYAPR07MB5381.namprd07.prod.outlook.com (2603:10b6:a03:6d::24)
+ by PH0PR07MB8479.namprd07.prod.outlook.com (2603:10b6:510:9d::11) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6954.28; Mon, 6 Nov
+ 2023 11:12:11 +0000
+Received: from BYAPR07MB5381.namprd07.prod.outlook.com
+ ([fe80::349b:3cfa:d8e3:df26]) by BYAPR07MB5381.namprd07.prod.outlook.com
+ ([fe80::349b:3cfa:d8e3:df26%4]) with mapi id 15.20.6954.028; Mon, 6 Nov 2023
+ 11:12:10 +0000
+From: Pawel Laszczak <pawell@cadence.com>
+To: Frank Li <Frank.li@nxp.com>
+CC: "peter.chen@kernel.org" <peter.chen@kernel.org>,
+        "rogerq@kernel.org"
+	<rogerq@kernel.org>,
+        "a-govindraju@ti.com" <a-govindraju@ti.com>,
+        "gregkh@linuxfoundation.org" <gregkh@linuxfoundation.org>,
+        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+        "linux-usb@vger.kernel.org" <linux-usb@vger.kernel.org>,
+        "imx@lists.linux.dev" <imx@lists.linux.dev>
+Subject: RE: cdns3 uvc first ISO parkage lost problem
+Thread-Topic: cdns3 uvc first ISO parkage lost problem
+Thread-Index: AQHaCPA13WAOp4MeAkqlygNsWSmHvrBh2GoQgACv/wCAAPw/UA==
+Date: Mon, 6 Nov 2023 11:12:10 +0000
+Message-ID: 
+ <BYAPR07MB538112FE4150BC19696D7613DDAAA@BYAPR07MB5381.namprd07.prod.outlook.com>
+References: <ZTvhEl+JcnhJXcrl@lizhi-Precision-Tower-5810>
+ <BYAPR07MB5381F7224612F0C0793B6B29DDA1A@BYAPR07MB5381.namprd07.prod.outlook.com>
+ <ZT/XkhOvbucxA90V@lizhi-Precision-Tower-5810>
+In-Reply-To: <ZT/XkhOvbucxA90V@lizhi-Precision-Tower-5810>
+Accept-Language: en-US
+Content-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+x-dg-ref: 
+ PG1ldGE+PGF0IG5tPSJib2R5LnR4dCIgcD0iYzpcdXNlcnNccGF3ZWxsXGFwcGRhdGFccm9hbWluZ1wwOWQ4NDliNi0zMmQzLTRhNDAtODVlZS02Yjg0YmEyOWUzNWJcbXNnc1xtc2ctNTI5YWFmNTEtN2M5NS0xMWVlLWE4ODQtMDBiZTQzMTQxNTFlXGFtZS10ZXN0XDUyOWFhZjUyLTdjOTUtMTFlZS1hODg0LTAwYmU0MzE0MTUxZWJvZHkudHh0IiBzej0iMTE3NTIiIHQ9IjEzMzQzNzQyNzI4MzMyNTA0MyIgaD0iVm9pa2x0MnlreXNhU0FxVWdLK3ZNU3dIZUJNPSIgaWQ9IiIgYmw9IjAiIGJvPSIxIi8+PC9tZXRhPg==
+x-dg-rorf: true
+x-ms-publictraffictype: Email
+x-ms-traffictypediagnostic: BYAPR07MB5381:EE_|PH0PR07MB8479:EE_
+x-ms-office365-filtering-correlation-id: 05023d8c-8cff-4264-e800-08dbdeb93888
+x-ms-exchange-senderadcheck: 1
+x-ms-exchange-antispam-relay: 0
+x-microsoft-antispam: BCL:0;
+x-microsoft-antispam-message-info: 
+ RkNqTMIrd1bhQxXb7g/6hUN1lTqFX1WZB5igVohnuaKGeYnFh8NeocSWL3aC0+avtfmfPeNUyPZo9TwseMJfDmtOG8jgupJBss9aUiE/PraEg3Hsjth9A0HsB3d5CGStsI0IP7EK/7fL/yXeK7+qM0yGhC4olCr1Vaz/Nav5E5D0GdXiL7k0WkWwfPz4Oe2myx/RqHdtvw4wDqPIIv//dnWf243UYEbQMJwzM84+ptO29GCd4cCL9OMYTTfenydUf9on6wIA/5AcZsPCOEgAwpkT86i6xaNsn6b3ETH5/hS074mIe+CF2JiB6Qyoy1PDV+lIINpqwgRQj4hGmd356o2xn5MfpLcsMwLrVWSkDVSHNxnTJBLE9RdQ1iuZXjf/mCG2UVhiPO25Iln6BZgF98H/U37Wr8WXg/tzrOEBEqhotlRngCbHaf2G7wXsobnah7Brmj9LaY5lF42UFS/qVwysuyZ5dku/FjvlaTpLCdpGY9cJtcyDEaQPOFVc6ACMsDizc/wzSvskD1v8ksGFJDyTyFhTaKbfbksqtvGex05U6xq61J92IHfPOsSCwR7YPec0vDPjgLz08xNJsy77bfjkvvHOsEwuqZBTglQpvdQpKCE9FKpzVlu87f8eI6jtCX24kc5uwzeizPjnm4z9NQ==
+x-forefront-antispam-report: 
+ CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:BYAPR07MB5381.namprd07.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230031)(136003)(346002)(366004)(39860400002)(376002)(396003)(230922051799003)(186009)(1800799009)(451199024)(64100799003)(26005)(66556008)(66946007)(54906003)(66476007)(66446008)(64756008)(6916009)(316002)(76116006)(71200400001)(7696005)(6506007)(9686003)(38070700009)(38100700002)(122000001)(83380400001)(33656002)(86362001)(966005)(4326008)(478600001)(2906002)(8676002)(8936002)(52536014)(5660300002)(41300700001)(55016003);DIR:OUT;SFP:1101;
+x-ms-exchange-antispam-messagedata-chunkcount: 1
+x-ms-exchange-antispam-messagedata-0: 
+ =?us-ascii?Q?IG5XjEqh9jIL/2ClFiXyPqX3Rn6DqWxzmtQI/7hhFN1I7iKbPzU/x8NadJL2?=
+ =?us-ascii?Q?Drbs8jjv0SucAnoiekFTMvkDzjtn3PZPWR0O9Y5zQyXq35CSELscxOolFLNO?=
+ =?us-ascii?Q?EUjHd9rSr+YTPS+y5FZ9/+Px62A7N/K1L43Hj3OAuYS3RdVXNKlpojth7nPx?=
+ =?us-ascii?Q?RmdGej7qXF14nvAh30MiHpCI722VehaCYC+dAoDiawpAPghJpZrtn7Ls0uN8?=
+ =?us-ascii?Q?nRNiUxBWg+rKJ5wjsjEDrDLnpcpZbgcxS2W44ATe+EHsy8/Q9DBIeWJ7/9lN?=
+ =?us-ascii?Q?3IVQj7abzwOOaiHlfa4uEsDNnWOpDzCGZoRHoagudT2JFgzO7jSzqQreHBjH?=
+ =?us-ascii?Q?HD10NPUDuXPReOQK73tuy48z398kI7jiAE0/0o9XlIWor1xudh9VUNC8OxDD?=
+ =?us-ascii?Q?pyQwUaaa7F2++DODkQgF8rCg/NTeRi96jbH5sMMWzDEgVeU68pQJVRNw6IrS?=
+ =?us-ascii?Q?3FyRdIELW70psHIOLHF5rK01Mvd5S28RrcYFYXoW7e1Hnf2YjZUZOnZ8rx+Y?=
+ =?us-ascii?Q?An5QNYHWPfvHflSW249PdvU2PffxMRarBPeVp0nmZpTOYa/cjGqk/k0KjPtL?=
+ =?us-ascii?Q?5BST1eyVyyB3f++PEEmeEsR1ZEEpg3hnpYvvipaICx/IrPeD9M0jIE3FOhoT?=
+ =?us-ascii?Q?2jFtlNfKZmbP6WiZfeehfL8BY7FObhiVwWT4NuWdw4KoMbxZ1Ykr49soaZay?=
+ =?us-ascii?Q?PHmS8IKN9/eHCIXs7Jl7lYB5Gx1SPHYjuBuVF/00xnodr7irUje5BAyny+Vk?=
+ =?us-ascii?Q?6vVgrTEDv8u9Vw55mswIzhHJoj97Pi9PW4WxnhESuhMLDvGIe0t+Mq4MRbKU?=
+ =?us-ascii?Q?yO+vn+pQOLxBwRBAEpGjSFic3dFFYSLBQhb0h8xS3SMtow2Aooaz8PFey3Iz?=
+ =?us-ascii?Q?ZGQKGLLsfxkrTVomaviHzTCtUkCosHrjKqgkboUyq3eSscc/QVNFvghMJNJC?=
+ =?us-ascii?Q?9oDJ3BvUHONE4tYIL7y87gAJgvGccJl+cTSiCQMkTBrdZLWsye/cI7+vl3rN?=
+ =?us-ascii?Q?BFPTVfcS3YYG092UsWXClMWODWI2FqQsoQSFmqhvs55dtVAqGH0FIUlk1VdQ?=
+ =?us-ascii?Q?P2TlzhkpjsfoWuPHPBqf0xqruZL/a/zVr5J9hWN7cbaUH+B8t2slm30iCflS?=
+ =?us-ascii?Q?2USld5TzvevX3rt/D1Sksg9zCPpSRuilgbFrZmtcX3qfbp2zeFS38k0sgTIf?=
+ =?us-ascii?Q?pDXtexXRrlF+BxnfvwsUDEEgKjgBvUpHJ5IgeChQ1jAz/FaQy4mEW2D7dipr?=
+ =?us-ascii?Q?Ei9FGldSw2ZEQV2PbLCDpezsGxo9yw7bDEYiAr45wpNZmamClvXRaDB2bxJ9?=
+ =?us-ascii?Q?tn8tXAewmPsz2bbmeq69LJucZa67nVyiHWfIBH0edFf2VG5swqbuijwPDLXd?=
+ =?us-ascii?Q?NROw7ekwMK3D60FiD+xeQ4jTibry8pD19yVyVadsdsljLDAaOl8gscPuN9F1?=
+ =?us-ascii?Q?F2PyO3695OIUK1rUHf6fYD0QfBob8ntRWRWYxNTVptOtpKsgucHzTdJV+guK?=
+ =?us-ascii?Q?pnWl+l06YBUHQlNUOHFqSrj8BBcr6emAARWclMRSpJNyh38vq4YlU2jEBtcQ?=
+ =?us-ascii?Q?f34nwA43CsRvzEoT5u0ZSEM69D9MSDxIY8L4OJ7X?=
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: quoted-printable
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+X-OriginatorOrg: cadence.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-AuthSource: BYAPR07MB5381.namprd07.prod.outlook.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 05023d8c-8cff-4264-e800-08dbdeb93888
+X-MS-Exchange-CrossTenant-originalarrivaltime: 06 Nov 2023 11:12:10.1413
+ (UTC)
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-id: d36035c5-6ce6-4662-a3dc-e762e61ae4c9
+X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
+X-MS-Exchange-CrossTenant-userprincipalname: 0sypKjUlq/wVD8GfMH1VVrSkphXadrus8/lF5JRKawZoRrsn+cslbnELSh1mhZjzvROvt/4QzkehIQCx5s7NAmdPZt/cQx4KTj2Z3TcF9Ec=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: PH0PR07MB8479
+X-Proofpoint-ORIG-GUID: pL9aqCto9-MEuOvb6gVPF79nSC5neFQj
+X-Proofpoint-GUID: pL9aqCto9-MEuOvb6gVPF79nSC5neFQj
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.272,Aquarius:18.0.987,Hydra:6.0.619,FMLib:17.11.176.26
+ definitions=2023-11-06_09,2023-11-02_03,2023-05-22_02
+X-Proofpoint-Spam-Details: rule=outbound_check_notspam policy=outbound_check score=0 phishscore=0
+ clxscore=1015 impostorscore=0 priorityscore=1501 lowpriorityscore=0
+ bulkscore=0 mlxscore=0 spamscore=0 mlxlogscore=293 malwarescore=0
+ adultscore=0 suspectscore=0 classifier=spam adjust=0 reason=mlx
+ scancount=1 engine=8.19.0-2310240000 definitions=main-2311060093
 
-This reverts commit adda6e82a7de7d6d478f6c8ef127f0ac51c510a1.
+>
+>On Mon, Oct 30, 2023 at 06:34:48AM +0000, Pawel Laszczak wrote:
+>>
+>> >
+>> >hi Pawel Laszczak
+>> >
+>> >Recently, I met the problem when use uvc. UVC report jpg header error.
+>> >
+>> >Basic reproduce steps.
+>> >Gadget side:
+>> >1 -
+>> >	https://urldefense.com/v3/__https://gist.github.com/kbingham/c39c
+>>
+>>4cc7c20882a104c08df5206e2f9f?permalink_comment_id=3D3270713__;!!EHsc
+>m
+>>
+>>S1ygiU1lA!H1h8GlLnbS6vqklXm_2qGyinP638O62Kk2eLB9zeMkjAGXUAPYyPXD
+>L
+>> >FasSqYt16xq0RGT0Ff-cP4A$
+>> >	uvc-gadget.sh start
+>> >2 -
+>> >	https://urldefense.com/v3/__https://git.ideasonboard.org/uvc-
+>>
+>>gadget.git__;!!EHscmS1ygiU1lA!H1h8GlLnbS6vqklXm_2qGyinP638O62Kk2eLB
+>9z
+>> >eMkjAGXUAPYyPXDLFasSqYt16xq0RGT1ogOdRQA$
+>> >	uvc-gadget -i test.jpg
+>> >
+>> >
+>> >Host side:
+>> >	https://urldefense.com/v3/__https://github.com/thekvs/uvccapture2
+>>
+>>__;!!EHscmS1ygiU1lA!H1h8GlLnbS6vqklXm_2qGyinP638O62Kk2eLB9zeMkjAG
+>X
+>> >UAPYyPXDLFasSqYt16xq0RGT1MNlKiXA$
+>> >	uvccapture2 --device /dev/video0  --resolution 640x360 --count 1 --
+>> >result 8qxp.jpeg
+>> >
+>> >	It will report jpeg header error.
+>> >
+>> >
+>> >After debugs, I found two problem.
+>> >
+>> >Problem 1, sg is enabled. so uvc driver will use sg. each package
+>> >include two trb,  trb0 is 8bytes header, trb1 is 1016bytes. total 1024.
+>> >
+>> >num_trb here is wrong.
+>> >it should be
+>> >	num_trb =3D priv_ep->interval * request->num_mapped_sgs.
+>> >
+>> >because priv_ep->interval is 1, I just simple set to
+>> >request->num_mapped_sg as below patch. USB analyer show one whole
+>> >1024 ISO package sent out as expectation although document said only
+>> >support one TD when use ISO (Maybe my doc is too old).
+>>
+>> Support for sg  in uvc has been added after upstreaming this driver,
+>> so the driver needs some improvement.
+>>
+>> Calculating of num_trb probably will more complicated change.
+>>
+>> You can see how it is implemented in
+>>
+>https://urldefense.com/v3/__https://elixir.bootlin.com/linux/latest/source=
+/d
+>rivers/usb/gadget/udc/cdns2/cdns2-
+>gadget.c*L412__;Iw!!EHscmS1ygiU1lA!EZS2StTKnSzdCT7N5B1-
+>l8nGXQgS63KwgcGINcpBC8rnRJu2u8ryV1UjwQb6YfwYLPq9T_115KC5qQ$ .
+>>
+>> CDNS2 is different controller and support only HS but has borrowed the
+>DMA part from CDNS3.
+>> It was upsteamed after adding sg to UVC.
+>>
+>> Regarding TD, it is true that controller can support only one TD per
+>> SOF but this TD can contain many TRBs
+>
+>Okay, great. I can work a patch if I can resolve problem 2.
 
-The recently added Realtek PHY drivers depend on the new port status
-notification mechanism which was built on the deprecated USB PHY
-implementation and devicetree binding.
+At this moment I don't know how to resolve the problem 2.
+I'm going to recreate this case on my side and try to find some solution.
 
-Specifically, using these PHYs would require describing the very same
-PHY using both the generic "phy" property and the deprecated "usb-phy"
-property which is clearly wrong.
+Pawel=20
 
-We should not be building new functionality on top of the legacy USB PHY
-implementation even if it is currently stuck in some kind of
-transitional limbo.
-
-Revert the new Realtek PHY drivers for now so that the port status
-notification interface can be reverted and replaced.
-
-Fixes: adda6e82a7de ("phy: realtek: usb: Add driver for the Realtek SoC USB 3.0 PHY")
-Cc: stable@vger.kernel.org	# 6.6
-Cc: Stanley Chang <stanley_chang@realtek.com>
-Signed-off-by: Johan Hovold <johan+linaro@kernel.org>
----
- drivers/phy/realtek/Kconfig        |  12 -
- drivers/phy/realtek/Makefile       |   1 -
- drivers/phy/realtek/phy-rtk-usb3.c | 761 -----------------------------
- 3 files changed, 774 deletions(-)
- delete mode 100644 drivers/phy/realtek/phy-rtk-usb3.c
-
-diff --git a/drivers/phy/realtek/Kconfig b/drivers/phy/realtek/Kconfig
-index 75ac7e7c31ae..745587751070 100644
---- a/drivers/phy/realtek/Kconfig
-+++ b/drivers/phy/realtek/Kconfig
-@@ -17,16 +17,4 @@ config PHY_RTK_RTD_USB2PHY
- 	  DWC3 USB IP. This driver will do the PHY initialization
- 	  of the parameters.
- 
--config PHY_RTK_RTD_USB3PHY
--	tristate "Realtek RTD USB3 PHY Transceiver Driver"
--	depends on USB_SUPPORT
--	select GENERIC_PHY
--	select USB_PHY
--	select USB_COMMON
--	help
--	  Enable this to support Realtek SoC USB3 phy transceiver.
--	  The DHC (digital home center) RTD series SoCs used the Synopsys
--	  DWC3 USB IP. This driver will do the PHY initialization
--	  of the parameters.
--
- endif # ARCH_REALTEK || COMPILE_TEST
-diff --git a/drivers/phy/realtek/Makefile b/drivers/phy/realtek/Makefile
-index ed7b47ff8a26..cf5d440841a2 100644
---- a/drivers/phy/realtek/Makefile
-+++ b/drivers/phy/realtek/Makefile
-@@ -1,3 +1,2 @@
- # SPDX-License-Identifier: GPL-2.0
- obj-$(CONFIG_PHY_RTK_RTD_USB2PHY)	+= phy-rtk-usb2.o
--obj-$(CONFIG_PHY_RTK_RTD_USB3PHY)	+= phy-rtk-usb3.o
-diff --git a/drivers/phy/realtek/phy-rtk-usb3.c b/drivers/phy/realtek/phy-rtk-usb3.c
-deleted file mode 100644
-index dfb3122f3f11..000000000000
---- a/drivers/phy/realtek/phy-rtk-usb3.c
-+++ /dev/null
-@@ -1,761 +0,0 @@
--// SPDX-License-Identifier: GPL-2.0
--/*
-- *  phy-rtk-usb3.c RTK usb3.0 phy driver
-- *
-- * copyright (c) 2023 realtek semiconductor corporation
-- *
-- */
--
--#include <linux/module.h>
--#include <linux/of.h>
--#include <linux/of_device.h>
--#include <linux/of_address.h>
--#include <linux/uaccess.h>
--#include <linux/debugfs.h>
--#include <linux/nvmem-consumer.h>
--#include <linux/regmap.h>
--#include <linux/sys_soc.h>
--#include <linux/mfd/syscon.h>
--#include <linux/phy/phy.h>
--#include <linux/usb.h>
--#include <linux/usb/hcd.h>
--#include <linux/usb/phy.h>
--
--#define USB_MDIO_CTRL_PHY_BUSY BIT(7)
--#define USB_MDIO_CTRL_PHY_WRITE BIT(0)
--#define USB_MDIO_CTRL_PHY_ADDR_SHIFT 8
--#define USB_MDIO_CTRL_PHY_DATA_SHIFT 16
--
--#define MAX_USB_PHY_DATA_SIZE 0x30
--#define PHY_ADDR_0X09 0x09
--#define PHY_ADDR_0X0B 0x0b
--#define PHY_ADDR_0X0D 0x0d
--#define PHY_ADDR_0X10 0x10
--#define PHY_ADDR_0X1F 0x1f
--#define PHY_ADDR_0X20 0x20
--#define PHY_ADDR_0X21 0x21
--#define PHY_ADDR_0X30 0x30
--
--#define REG_0X09_FORCE_CALIBRATION BIT(9)
--#define REG_0X0B_RX_OFFSET_RANGE_MASK 0xc
--#define REG_0X0D_RX_DEBUG_TEST_EN BIT(6)
--#define REG_0X10_DEBUG_MODE_SETTING 0x3c0
--#define REG_0X10_DEBUG_MODE_SETTING_MASK 0x3f8
--#define REG_0X1F_RX_OFFSET_CODE_MASK 0x1e
--
--#define USB_U3_TX_LFPS_SWING_TRIM_SHIFT 4
--#define USB_U3_TX_LFPS_SWING_TRIM_MASK 0xf
--#define AMPLITUDE_CONTROL_COARSE_MASK 0xff
--#define AMPLITUDE_CONTROL_FINE_MASK 0xffff
--#define AMPLITUDE_CONTROL_COARSE_DEFAULT 0xff
--#define AMPLITUDE_CONTROL_FINE_DEFAULT 0xffff
--
--#define PHY_ADDR_MAP_ARRAY_INDEX(addr) (addr)
--#define ARRAY_INDEX_MAP_PHY_ADDR(index) (index)
--
--struct phy_reg {
--	void __iomem *reg_mdio_ctl;
--};
--
--struct phy_data {
--	u8 addr;
--	u16 data;
--};
--
--struct phy_cfg {
--	int param_size;
--	struct phy_data param[MAX_USB_PHY_DATA_SIZE];
--
--	bool check_efuse;
--	bool do_toggle;
--	bool do_toggle_once;
--	bool use_default_parameter;
--	bool check_rx_front_end_offset;
--};
--
--struct phy_parameter {
--	struct phy_reg phy_reg;
--
--	/* Get from efuse */
--	u8 efuse_usb_u3_tx_lfps_swing_trim;
--
--	/* Get from dts */
--	u32 amplitude_control_coarse;
--	u32 amplitude_control_fine;
--};
--
--struct rtk_phy {
--	struct usb_phy phy;
--	struct device *dev;
--
--	struct phy_cfg *phy_cfg;
--	int num_phy;
--	struct phy_parameter *phy_parameter;
--
--	struct dentry *debug_dir;
--};
--
--#define PHY_IO_TIMEOUT_USEC		(50000)
--#define PHY_IO_DELAY_US			(100)
--
--static inline int utmi_wait_register(void __iomem *reg, u32 mask, u32 result)
--{
--	int ret;
--	unsigned int val;
--
--	ret = read_poll_timeout(readl, val, ((val & mask) == result),
--				PHY_IO_DELAY_US, PHY_IO_TIMEOUT_USEC, false, reg);
--	if (ret) {
--		pr_err("%s can't program USB phy\n", __func__);
--		return -ETIMEDOUT;
--	}
--
--	return 0;
--}
--
--static int rtk_phy3_wait_vbusy(struct phy_reg *phy_reg)
--{
--	return utmi_wait_register(phy_reg->reg_mdio_ctl, USB_MDIO_CTRL_PHY_BUSY, 0);
--}
--
--static u16 rtk_phy_read(struct phy_reg *phy_reg, char addr)
--{
--	unsigned int tmp;
--	u32 value;
--
--	tmp = (addr << USB_MDIO_CTRL_PHY_ADDR_SHIFT);
--
--	writel(tmp, phy_reg->reg_mdio_ctl);
--
--	rtk_phy3_wait_vbusy(phy_reg);
--
--	value = readl(phy_reg->reg_mdio_ctl);
--	value = value >> USB_MDIO_CTRL_PHY_DATA_SHIFT;
--
--	return (u16)value;
--}
--
--static int rtk_phy_write(struct phy_reg *phy_reg, char addr, u16 data)
--{
--	unsigned int val;
--
--	val = USB_MDIO_CTRL_PHY_WRITE |
--		    (addr << USB_MDIO_CTRL_PHY_ADDR_SHIFT) |
--		    (data << USB_MDIO_CTRL_PHY_DATA_SHIFT);
--
--	writel(val, phy_reg->reg_mdio_ctl);
--
--	rtk_phy3_wait_vbusy(phy_reg);
--
--	return 0;
--}
--
--static void do_rtk_usb3_phy_toggle(struct rtk_phy *rtk_phy, int index, bool connect)
--{
--	struct phy_cfg *phy_cfg = rtk_phy->phy_cfg;
--	struct phy_reg *phy_reg;
--	struct phy_parameter *phy_parameter;
--	struct phy_data *phy_data;
--	u8 addr;
--	u16 data;
--	int i;
--
--	phy_parameter = &((struct phy_parameter *)rtk_phy->phy_parameter)[index];
--	phy_reg = &phy_parameter->phy_reg;
--
--	if (!phy_cfg->do_toggle)
--		return;
--
--	i = PHY_ADDR_MAP_ARRAY_INDEX(PHY_ADDR_0X09);
--	phy_data = phy_cfg->param + i;
--	addr = phy_data->addr;
--	data = phy_data->data;
--
--	if (!addr && !data) {
--		addr = PHY_ADDR_0X09;
--		data = rtk_phy_read(phy_reg, addr);
--		phy_data->addr = addr;
--		phy_data->data = data;
--	}
--
--	rtk_phy_write(phy_reg, addr, data & (~REG_0X09_FORCE_CALIBRATION));
--	mdelay(1);
--	rtk_phy_write(phy_reg, addr, data | REG_0X09_FORCE_CALIBRATION);
--}
--
--static int do_rtk_phy_init(struct rtk_phy *rtk_phy, int index)
--{
--	struct phy_cfg *phy_cfg;
--	struct phy_reg *phy_reg;
--	struct phy_parameter *phy_parameter;
--	int i = 0;
--
--	phy_cfg = rtk_phy->phy_cfg;
--	phy_parameter = &((struct phy_parameter *)rtk_phy->phy_parameter)[index];
--	phy_reg = &phy_parameter->phy_reg;
--
--	if (phy_cfg->use_default_parameter)
--		goto do_toggle;
--
--	for (i = 0; i < phy_cfg->param_size; i++) {
--		struct phy_data *phy_data = phy_cfg->param + i;
--		u8 addr = phy_data->addr;
--		u16 data = phy_data->data;
--
--		if (!addr && !data)
--			continue;
--
--		rtk_phy_write(phy_reg, addr, data);
--	}
--
--do_toggle:
--	if (phy_cfg->do_toggle_once)
--		phy_cfg->do_toggle = true;
--
--	do_rtk_usb3_phy_toggle(rtk_phy, index, false);
--
--	if (phy_cfg->do_toggle_once) {
--		u16 check_value = 0;
--		int count = 10;
--		u16 value_0x0d, value_0x10;
--
--		/* Enable Debug mode by set 0x0D and 0x10 */
--		value_0x0d = rtk_phy_read(phy_reg, PHY_ADDR_0X0D);
--		value_0x10 = rtk_phy_read(phy_reg, PHY_ADDR_0X10);
--
--		rtk_phy_write(phy_reg, PHY_ADDR_0X0D,
--			      value_0x0d | REG_0X0D_RX_DEBUG_TEST_EN);
--		rtk_phy_write(phy_reg, PHY_ADDR_0X10,
--			      (value_0x10 & ~REG_0X10_DEBUG_MODE_SETTING_MASK) |
--			      REG_0X10_DEBUG_MODE_SETTING);
--
--		check_value = rtk_phy_read(phy_reg, PHY_ADDR_0X30);
--
--		while (!(check_value & BIT(15))) {
--			check_value = rtk_phy_read(phy_reg, PHY_ADDR_0X30);
--			mdelay(1);
--			if (count-- < 0)
--				break;
--		}
--
--		if (!(check_value & BIT(15)))
--			dev_info(rtk_phy->dev, "toggle fail addr=0x%02x, data=0x%04x\n",
--				 PHY_ADDR_0X30, check_value);
--
--		/* Disable Debug mode by set 0x0D and 0x10 to default*/
--		rtk_phy_write(phy_reg, PHY_ADDR_0X0D, value_0x0d);
--		rtk_phy_write(phy_reg, PHY_ADDR_0X10, value_0x10);
--
--		phy_cfg->do_toggle = false;
--	}
--
--	if (phy_cfg->check_rx_front_end_offset) {
--		u16 rx_offset_code, rx_offset_range;
--		u16 code_mask = REG_0X1F_RX_OFFSET_CODE_MASK;
--		u16 range_mask = REG_0X0B_RX_OFFSET_RANGE_MASK;
--		bool do_update = false;
--
--		rx_offset_code = rtk_phy_read(phy_reg, PHY_ADDR_0X1F);
--		if (((rx_offset_code & code_mask) == 0x0) ||
--		    ((rx_offset_code & code_mask) == code_mask))
--			do_update = true;
--
--		rx_offset_range = rtk_phy_read(phy_reg, PHY_ADDR_0X0B);
--		if (((rx_offset_range & range_mask) == range_mask) && do_update) {
--			dev_warn(rtk_phy->dev, "Don't update rx_offset_range (rx_offset_code=0x%x, rx_offset_range=0x%x)\n",
--				 rx_offset_code, rx_offset_range);
--			do_update = false;
--		}
--
--		if (do_update) {
--			u16 tmp1, tmp2;
--
--			tmp1 = rx_offset_range & (~range_mask);
--			tmp2 = rx_offset_range & range_mask;
--			tmp2 += (1 << 2);
--			rx_offset_range = tmp1 | (tmp2 & range_mask);
--			rtk_phy_write(phy_reg, PHY_ADDR_0X0B, rx_offset_range);
--			goto do_toggle;
--		}
--	}
--
--	return 0;
--}
--
--static int rtk_phy_init(struct phy *phy)
--{
--	struct rtk_phy *rtk_phy = phy_get_drvdata(phy);
--	int ret = 0;
--	int i;
--	unsigned long phy_init_time = jiffies;
--
--	for (i = 0; i < rtk_phy->num_phy; i++)
--		ret = do_rtk_phy_init(rtk_phy, i);
--
--	dev_dbg(rtk_phy->dev, "Initialized RTK USB 3.0 PHY (take %dms)\n",
--		jiffies_to_msecs(jiffies - phy_init_time));
--
--	return ret;
--}
--
--static int rtk_phy_exit(struct phy *phy)
--{
--	return 0;
--}
--
--static const struct phy_ops ops = {
--	.init		= rtk_phy_init,
--	.exit		= rtk_phy_exit,
--	.owner		= THIS_MODULE,
--};
--
--static void rtk_phy_toggle(struct usb_phy *usb3_phy, bool connect, int port)
--{
--	int index = port;
--	struct rtk_phy *rtk_phy = NULL;
--
--	rtk_phy = dev_get_drvdata(usb3_phy->dev);
--
--	if (index > rtk_phy->num_phy) {
--		dev_err(rtk_phy->dev, "%s: The port=%d is not in usb phy (num_phy=%d)\n",
--			__func__, index, rtk_phy->num_phy);
--		return;
--	}
--
--	do_rtk_usb3_phy_toggle(rtk_phy, index, connect);
--}
--
--static int rtk_phy_notify_port_status(struct usb_phy *x, int port,
--				      u16 portstatus, u16 portchange)
--{
--	bool connect = false;
--
--	pr_debug("%s port=%d portstatus=0x%x portchange=0x%x\n",
--		 __func__, port, (int)portstatus, (int)portchange);
--	if (portstatus & USB_PORT_STAT_CONNECTION)
--		connect = true;
--
--	if (portchange & USB_PORT_STAT_C_CONNECTION)
--		rtk_phy_toggle(x, connect, port);
--
--	return 0;
--}
--
--#ifdef CONFIG_DEBUG_FS
--static struct dentry *create_phy_debug_root(void)
--{
--	struct dentry *phy_debug_root;
--
--	phy_debug_root = debugfs_lookup("phy", usb_debug_root);
--	if (!phy_debug_root)
--		phy_debug_root = debugfs_create_dir("phy", usb_debug_root);
--
--	return phy_debug_root;
--}
--
--static int rtk_usb3_parameter_show(struct seq_file *s, void *unused)
--{
--	struct rtk_phy *rtk_phy = s->private;
--	struct phy_cfg *phy_cfg;
--	int i, index;
--
--	phy_cfg = rtk_phy->phy_cfg;
--
--	seq_puts(s, "Property:\n");
--	seq_printf(s, "  check_efuse: %s\n",
--		   phy_cfg->check_efuse ? "Enable" : "Disable");
--	seq_printf(s, "  do_toggle: %s\n",
--		   phy_cfg->do_toggle ? "Enable" : "Disable");
--	seq_printf(s, "  do_toggle_once: %s\n",
--		   phy_cfg->do_toggle_once ? "Enable" : "Disable");
--	seq_printf(s, "  use_default_parameter: %s\n",
--		   phy_cfg->use_default_parameter ? "Enable" : "Disable");
--
--	for (index = 0; index < rtk_phy->num_phy; index++) {
--		struct phy_reg *phy_reg;
--		struct phy_parameter *phy_parameter;
--
--		phy_parameter = &((struct phy_parameter *)rtk_phy->phy_parameter)[index];
--		phy_reg = &phy_parameter->phy_reg;
--
--		seq_printf(s, "PHY %d:\n", index);
--
--		for (i = 0; i < phy_cfg->param_size; i++) {
--			struct phy_data *phy_data = phy_cfg->param + i;
--			u8 addr = ARRAY_INDEX_MAP_PHY_ADDR(i);
--			u16 data = phy_data->data;
--
--			if (!phy_data->addr && !data)
--				seq_printf(s, "  addr = 0x%02x, data = none   ==> read value = 0x%04x\n",
--					   addr, rtk_phy_read(phy_reg, addr));
--			else
--				seq_printf(s, "  addr = 0x%02x, data = 0x%04x ==> read value = 0x%04x\n",
--					   addr, data, rtk_phy_read(phy_reg, addr));
--		}
--
--		seq_puts(s, "PHY Property:\n");
--		seq_printf(s, "  efuse_usb_u3_tx_lfps_swing_trim: 0x%x\n",
--			   (int)phy_parameter->efuse_usb_u3_tx_lfps_swing_trim);
--		seq_printf(s, "  amplitude_control_coarse: 0x%x\n",
--			   (int)phy_parameter->amplitude_control_coarse);
--		seq_printf(s, "  amplitude_control_fine: 0x%x\n",
--			   (int)phy_parameter->amplitude_control_fine);
--	}
--
--	return 0;
--}
--DEFINE_SHOW_ATTRIBUTE(rtk_usb3_parameter);
--
--static inline void create_debug_files(struct rtk_phy *rtk_phy)
--{
--	struct dentry *phy_debug_root = NULL;
--
--	phy_debug_root = create_phy_debug_root();
--
--	if (!phy_debug_root)
--		return;
--
--	rtk_phy->debug_dir = debugfs_create_dir(dev_name(rtk_phy->dev), phy_debug_root);
--
--	debugfs_create_file("parameter", 0444, rtk_phy->debug_dir, rtk_phy,
--			    &rtk_usb3_parameter_fops);
--
--	return;
--}
--
--static inline void remove_debug_files(struct rtk_phy *rtk_phy)
--{
--	debugfs_remove_recursive(rtk_phy->debug_dir);
--}
--#else
--static inline void create_debug_files(struct rtk_phy *rtk_phy) { }
--static inline void remove_debug_files(struct rtk_phy *rtk_phy) { }
--#endif /* CONFIG_DEBUG_FS */
--
--static int get_phy_data_by_efuse(struct rtk_phy *rtk_phy,
--				 struct phy_parameter *phy_parameter, int index)
--{
--	struct phy_cfg *phy_cfg = rtk_phy->phy_cfg;
--	u8 value = 0;
--	struct nvmem_cell *cell;
--
--	if (!phy_cfg->check_efuse)
--		goto out;
--
--	cell = nvmem_cell_get(rtk_phy->dev, "usb_u3_tx_lfps_swing_trim");
--	if (IS_ERR(cell)) {
--		dev_dbg(rtk_phy->dev, "%s no usb_u3_tx_lfps_swing_trim: %ld\n",
--			__func__, PTR_ERR(cell));
--	} else {
--		unsigned char *buf;
--		size_t buf_size;
--
--		buf = nvmem_cell_read(cell, &buf_size);
--		if (!IS_ERR(buf)) {
--			value = buf[0] & USB_U3_TX_LFPS_SWING_TRIM_MASK;
--			kfree(buf);
--		}
--		nvmem_cell_put(cell);
--	}
--
--	if (value > 0 && value < 0x8)
--		phy_parameter->efuse_usb_u3_tx_lfps_swing_trim = 0x8;
--	else
--		phy_parameter->efuse_usb_u3_tx_lfps_swing_trim = (u8)value;
--
--out:
--	return 0;
--}
--
--static void update_amplitude_control_value(struct rtk_phy *rtk_phy,
--					   struct phy_parameter *phy_parameter)
--{
--	struct phy_cfg *phy_cfg;
--	struct phy_reg *phy_reg;
--
--	phy_reg = &phy_parameter->phy_reg;
--	phy_cfg = rtk_phy->phy_cfg;
--
--	if (phy_parameter->amplitude_control_coarse != AMPLITUDE_CONTROL_COARSE_DEFAULT) {
--		u16 val_mask = AMPLITUDE_CONTROL_COARSE_MASK;
--		u16 data;
--
--		if (!phy_cfg->param[PHY_ADDR_0X20].addr && !phy_cfg->param[PHY_ADDR_0X20].data) {
--			phy_cfg->param[PHY_ADDR_0X20].addr = PHY_ADDR_0X20;
--			data = rtk_phy_read(phy_reg, PHY_ADDR_0X20);
--		} else {
--			data = phy_cfg->param[PHY_ADDR_0X20].data;
--		}
--
--		data &= (~val_mask);
--		data |= (phy_parameter->amplitude_control_coarse & val_mask);
--
--		phy_cfg->param[PHY_ADDR_0X20].data = data;
--	}
--
--	if (phy_parameter->efuse_usb_u3_tx_lfps_swing_trim) {
--		u8 efuse_val = phy_parameter->efuse_usb_u3_tx_lfps_swing_trim;
--		u16 val_mask = USB_U3_TX_LFPS_SWING_TRIM_MASK;
--		int val_shift = USB_U3_TX_LFPS_SWING_TRIM_SHIFT;
--		u16 data;
--
--		if (!phy_cfg->param[PHY_ADDR_0X20].addr && !phy_cfg->param[PHY_ADDR_0X20].data) {
--			phy_cfg->param[PHY_ADDR_0X20].addr = PHY_ADDR_0X20;
--			data = rtk_phy_read(phy_reg, PHY_ADDR_0X20);
--		} else {
--			data = phy_cfg->param[PHY_ADDR_0X20].data;
--		}
--
--		data &= ~(val_mask << val_shift);
--		data |= ((efuse_val & val_mask) << val_shift);
--
--		phy_cfg->param[PHY_ADDR_0X20].data = data;
--	}
--
--	if (phy_parameter->amplitude_control_fine != AMPLITUDE_CONTROL_FINE_DEFAULT) {
--		u16 val_mask = AMPLITUDE_CONTROL_FINE_MASK;
--
--		if (!phy_cfg->param[PHY_ADDR_0X21].addr && !phy_cfg->param[PHY_ADDR_0X21].data)
--			phy_cfg->param[PHY_ADDR_0X21].addr = PHY_ADDR_0X21;
--
--		phy_cfg->param[PHY_ADDR_0X21].data =
--			    phy_parameter->amplitude_control_fine & val_mask;
--	}
--}
--
--static int parse_phy_data(struct rtk_phy *rtk_phy)
--{
--	struct device *dev = rtk_phy->dev;
--	struct phy_parameter *phy_parameter;
--	int ret = 0;
--	int index;
--
--	rtk_phy->phy_parameter = devm_kzalloc(dev, sizeof(struct phy_parameter) *
--					      rtk_phy->num_phy, GFP_KERNEL);
--	if (!rtk_phy->phy_parameter)
--		return -ENOMEM;
--
--	for (index = 0; index < rtk_phy->num_phy; index++) {
--		phy_parameter = &((struct phy_parameter *)rtk_phy->phy_parameter)[index];
--
--		phy_parameter->phy_reg.reg_mdio_ctl = of_iomap(dev->of_node, 0) + index;
--
--		/* Amplitude control address 0x20 bit 0 to bit 7 */
--		if (of_property_read_u32(dev->of_node, "realtek,amplitude-control-coarse-tuning",
--					 &phy_parameter->amplitude_control_coarse))
--			phy_parameter->amplitude_control_coarse = AMPLITUDE_CONTROL_COARSE_DEFAULT;
--
--		/* Amplitude control address 0x21 bit 0 to bit 16 */
--		if (of_property_read_u32(dev->of_node, "realtek,amplitude-control-fine-tuning",
--					 &phy_parameter->amplitude_control_fine))
--			phy_parameter->amplitude_control_fine = AMPLITUDE_CONTROL_FINE_DEFAULT;
--
--		get_phy_data_by_efuse(rtk_phy, phy_parameter, index);
--
--		update_amplitude_control_value(rtk_phy, phy_parameter);
--	}
--
--	return ret;
--}
--
--static int rtk_usb3phy_probe(struct platform_device *pdev)
--{
--	struct rtk_phy *rtk_phy;
--	struct device *dev = &pdev->dev;
--	struct phy *generic_phy;
--	struct phy_provider *phy_provider;
--	const struct phy_cfg *phy_cfg;
--	int ret;
--
--	phy_cfg = of_device_get_match_data(dev);
--	if (!phy_cfg) {
--		dev_err(dev, "phy config are not assigned!\n");
--		return -EINVAL;
--	}
--
--	rtk_phy = devm_kzalloc(dev, sizeof(*rtk_phy), GFP_KERNEL);
--	if (!rtk_phy)
--		return -ENOMEM;
--
--	rtk_phy->dev			= &pdev->dev;
--	rtk_phy->phy.dev		= rtk_phy->dev;
--	rtk_phy->phy.label		= "rtk-usb3phy";
--	rtk_phy->phy.notify_port_status = rtk_phy_notify_port_status;
--
--	rtk_phy->phy_cfg = devm_kzalloc(dev, sizeof(*phy_cfg), GFP_KERNEL);
--
--	memcpy(rtk_phy->phy_cfg, phy_cfg, sizeof(*phy_cfg));
--
--	rtk_phy->num_phy = 1;
--
--	ret = parse_phy_data(rtk_phy);
--	if (ret)
--		goto err;
--
--	platform_set_drvdata(pdev, rtk_phy);
--
--	generic_phy = devm_phy_create(rtk_phy->dev, NULL, &ops);
--	if (IS_ERR(generic_phy))
--		return PTR_ERR(generic_phy);
--
--	phy_set_drvdata(generic_phy, rtk_phy);
--
--	phy_provider = devm_of_phy_provider_register(rtk_phy->dev, of_phy_simple_xlate);
--	if (IS_ERR(phy_provider))
--		return PTR_ERR(phy_provider);
--
--	ret = usb_add_phy_dev(&rtk_phy->phy);
--	if (ret)
--		goto err;
--
--	create_debug_files(rtk_phy);
--
--err:
--	return ret;
--}
--
--static void rtk_usb3phy_remove(struct platform_device *pdev)
--{
--	struct rtk_phy *rtk_phy = platform_get_drvdata(pdev);
--
--	remove_debug_files(rtk_phy);
--
--	usb_remove_phy(&rtk_phy->phy);
--}
--
--static const struct phy_cfg rtd1295_phy_cfg = {
--	.param_size = MAX_USB_PHY_DATA_SIZE,
--	.param = {  [0] = {0x01, 0x4008},  [1] = {0x01, 0xe046},
--		    [2] = {0x02, 0x6046},  [3] = {0x03, 0x2779},
--		    [4] = {0x04, 0x72f5},  [5] = {0x05, 0x2ad3},
--		    [6] = {0x06, 0x000e},  [7] = {0x07, 0x2e00},
--		    [8] = {0x08, 0x3591},  [9] = {0x09, 0x525c},
--		   [10] = {0x0a, 0xa600}, [11] = {0x0b, 0xa904},
--		   [12] = {0x0c, 0xc000}, [13] = {0x0d, 0xef1c},
--		   [14] = {0x0e, 0x2000}, [15] = {0x0f, 0x0000},
--		   [16] = {0x10, 0x000c}, [17] = {0x11, 0x4c00},
--		   [18] = {0x12, 0xfc00}, [19] = {0x13, 0x0c81},
--		   [20] = {0x14, 0xde01}, [21] = {0x15, 0x0000},
--		   [22] = {0x16, 0x0000}, [23] = {0x17, 0x0000},
--		   [24] = {0x18, 0x0000}, [25] = {0x19, 0x4004},
--		   [26] = {0x1a, 0x1260}, [27] = {0x1b, 0xff00},
--		   [28] = {0x1c, 0xcb00}, [29] = {0x1d, 0xa03f},
--		   [30] = {0x1e, 0xc2e0}, [31] = {0x1f, 0x2807},
--		   [32] = {0x20, 0x947a}, [33] = {0x21, 0x88aa},
--		   [34] = {0x22, 0x0057}, [35] = {0x23, 0xab66},
--		   [36] = {0x24, 0x0800}, [37] = {0x25, 0x0000},
--		   [38] = {0x26, 0x040a}, [39] = {0x27, 0x01d6},
--		   [40] = {0x28, 0xf8c2}, [41] = {0x29, 0x3080},
--		   [42] = {0x2a, 0x3082}, [43] = {0x2b, 0x2078},
--		   [44] = {0x2c, 0xffff}, [45] = {0x2d, 0xffff},
--		   [46] = {0x2e, 0x0000}, [47] = {0x2f, 0x0040}, },
--	.check_efuse = false,
--	.do_toggle = true,
--	.do_toggle_once = false,
--	.use_default_parameter = false,
--	.check_rx_front_end_offset = false,
--};
--
--static const struct phy_cfg rtd1619_phy_cfg = {
--	.param_size = MAX_USB_PHY_DATA_SIZE,
--	.param = {  [8] = {0x08, 0x3591},
--		   [38] = {0x26, 0x840b},
--		   [40] = {0x28, 0xf842}, },
--	.check_efuse = false,
--	.do_toggle = true,
--	.do_toggle_once = false,
--	.use_default_parameter = false,
--	.check_rx_front_end_offset = false,
--};
--
--static const struct phy_cfg rtd1319_phy_cfg = {
--	.param_size = MAX_USB_PHY_DATA_SIZE,
--	.param = {  [1] = {0x01, 0xac86},
--		    [6] = {0x06, 0x0003},
--		    [9] = {0x09, 0x924c},
--		   [10] = {0x0a, 0xa608},
--		   [11] = {0x0b, 0xb905},
--		   [14] = {0x0e, 0x2010},
--		   [32] = {0x20, 0x705a},
--		   [33] = {0x21, 0xf645},
--		   [34] = {0x22, 0x0013},
--		   [35] = {0x23, 0xcb66},
--		   [41] = {0x29, 0xff00}, },
--	.check_efuse = true,
--	.do_toggle = true,
--	.do_toggle_once = false,
--	.use_default_parameter = false,
--	.check_rx_front_end_offset = false,
--};
--
--static const struct phy_cfg rtd1619b_phy_cfg = {
--	.param_size = MAX_USB_PHY_DATA_SIZE,
--	.param = {  [1] = {0x01, 0xac8c},
--		    [6] = {0x06, 0x0017},
--		    [9] = {0x09, 0x724c},
--		   [10] = {0x0a, 0xb610},
--		   [11] = {0x0b, 0xb90d},
--		   [13] = {0x0d, 0xef2a},
--		   [15] = {0x0f, 0x9050},
--		   [16] = {0x10, 0x000c},
--		   [32] = {0x20, 0x70ff},
--		   [34] = {0x22, 0x0013},
--		   [35] = {0x23, 0xdb66},
--		   [38] = {0x26, 0x8609},
--		   [41] = {0x29, 0xff13},
--		   [42] = {0x2a, 0x3070}, },
--	.check_efuse = true,
--	.do_toggle = false,
--	.do_toggle_once = true,
--	.use_default_parameter = false,
--	.check_rx_front_end_offset = false,
--};
--
--static const  struct phy_cfg rtd1319d_phy_cfg = {
--	.param_size = MAX_USB_PHY_DATA_SIZE,
--	.param = {  [1] = {0x01, 0xac89},
--		    [4] = {0x04, 0xf2f5},
--		    [6] = {0x06, 0x0017},
--		    [9] = {0x09, 0x424c},
--		   [10] = {0x0a, 0x9610},
--		   [11] = {0x0b, 0x9901},
--		   [12] = {0x0c, 0xf000},
--		   [13] = {0x0d, 0xef2a},
--		   [14] = {0x0e, 0x1000},
--		   [15] = {0x0f, 0x9050},
--		   [32] = {0x20, 0x7077},
--		   [35] = {0x23, 0x0b62},
--		   [37] = {0x25, 0x10ec},
--		   [42] = {0x2a, 0x3070}, },
--	.check_efuse = true,
--	.do_toggle = false,
--	.do_toggle_once = true,
--	.use_default_parameter = false,
--	.check_rx_front_end_offset = true,
--};
--
--static const struct of_device_id usbphy_rtk_dt_match[] = {
--	{ .compatible = "realtek,rtd1295-usb3phy", .data = &rtd1295_phy_cfg },
--	{ .compatible = "realtek,rtd1319-usb3phy", .data = &rtd1319_phy_cfg },
--	{ .compatible = "realtek,rtd1319d-usb3phy", .data = &rtd1319d_phy_cfg },
--	{ .compatible = "realtek,rtd1619-usb3phy", .data = &rtd1619_phy_cfg },
--	{ .compatible = "realtek,rtd1619b-usb3phy", .data = &rtd1619b_phy_cfg },
--	{},
--};
--MODULE_DEVICE_TABLE(of, usbphy_rtk_dt_match);
--
--static struct platform_driver rtk_usb3phy_driver = {
--	.probe		= rtk_usb3phy_probe,
--	.remove_new	= rtk_usb3phy_remove,
--	.driver		= {
--		.name	= "rtk-usb3phy",
--		.of_match_table = usbphy_rtk_dt_match,
--	},
--};
--
--module_platform_driver(rtk_usb3phy_driver);
--
--MODULE_LICENSE("GPL");
--MODULE_ALIAS("platform: rtk-usb3phy");
--MODULE_AUTHOR("Stanley Chang <stanley_chang@realtek.com>");
--MODULE_DESCRIPTION("Realtek usb 3.0 phy driver");
--- 
-2.41.0
-
+>
+>>
+>> >
+>> >diff --git a/drivers/usb/cdns3/cdns3-gadget.c
+>> >b/drivers/usb/cdns3/cdns3- gadget.c index
+>> >69a44bd7e5d02..8cc99a885883f 100644
+>> >--- a/drivers/usb/cdns3/cdns3-gadget.c
+>> >+++ b/drivers/usb/cdns3/cdns3-gadget.c
+>> >@@ -1125,10 +1125,7 @@ static int cdns3_ep_run_transfer(struct
+>> >cdns3_endpoint *priv_ep,
+>> >        struct scatterlist *s =3D NULL;
+>> >        bool sg_supported =3D !!(request->num_mapped_sgs);
+>> >
+>> >-       if (priv_ep->type =3D=3D USB_ENDPOINT_XFER_ISOC)
+>> >-               num_trb =3D priv_ep->interval;
+>> >-       else
+>> >-               num_trb =3D sg_supported ? request->num_mapped_sgs : 1;
+>> >+       num_trb =3D sg_supported ? request->num_mapped_sgs : 1;
+>> >
+>> >        if (num_trb > priv_ep->free_trbs) {
+>> >                priv_ep->flags |=3D EP_RING_FULL;
+>> >
+>> >
+>> >*** Problem 2 ***
+>> >
+>> >According to doc and my observation, looks like hardware fetch data
+>> >into FIFO when get SOF, then transfer data when get IN token. Each
+>> >SOF will increase TRB regardless it is ready or not.
+>>
+>> Yes, but this fetched data will be sent in next  ITP.
+>>
+>> >
+>> >When gadget complete equeue ISO data, so SOF will increase TRB
+>> >regardless if there are IN token.
+>> >
+>> >   SOF       SOF       SOF     SOF  IN    SOF ....
+>> >      TRB0      TRB1      TRB2      TRB3  ...
+>> >
+>> >
+>> >Host may start get data at some time after gadget queue data.
+>> >
+>> >So TRB0..2 data will be lost.
+>> >
+>> >If it is audio data, it should be okay. But for uvc, it is jpeg
+>> >header, so host side report error.
+>> >
+>> >I checked dwc gadget driver, which start equeue ISO data only get NYET.
+>> >
+>> >I check cdns spec, there are ISOERR. But it is never happen.
+>> >According to document, ISOERR should issue when IN token and FIFO no
+>data.
+>> >
+>>
+>> Current CDNS3 driver has disabled ISOERR. Did you enable it?
+>
+>Yes, I enabled all IRQ.
+>
+>+       if (priv_ep->type =3D=3D USB_ENDPOINT_XFER_ISOC && priv_ep->dir) {
+>+               priv_ep->flags |=3D EP_QUIRK_ISO_IN_NOST;
+>+               reg |=3D 0xFFFF;
+>+       }
+>
+>Supposed ISOERR should happen even DMA is disabled.
+>But I also tried enable DMA, and using lenght 0 TRB and link to loop.
+>
+>Still no ISOERR happen. I can see TRBADDR changed, but still no ISOERR
+>
+>
+> irq/447-5b13000-200     [000] d..1.    78.662729: cdns3_epx_irq: IRQ for =
+ep2in:
+>00000804 IOC , ep_traddr: c0086018 ep_last_sid: 00000000 use_streams: 0
+>
+>	 ^^^^^^^
+> irq/447-5b13000-200     [000] d..1.    78.662851: cdns3_epx_irq: IRQ for =
+ep2in:
+>00000804 IOC , ep_traddr: c008600c ep_last_sid: 00000000 use_streams: 0
+> irq/447-5b13000-200     [000] d..1.    78.662975: cdns3_epx_irq: IRQ for =
+ep2in:
+>00000804 IOC , ep_traddr: c0086018 ep_last_sid: 00000000 use_streams: 0
+>
+>STS is 0x804, only IOC set.
+>
+>Frank
+>
+>>
+>> >I tried below method
+>> >	1.  Delay queue TRB, but no ISOERR.
+>> >	2.  queue a lenght 0 TRB,but no ISOERR
+>> >
+>> >My question is how to delay queue TRB to ISO IN token really happen
+>> >to avoid lost JPEG header.
+>> >
+>> >Frank
+>> >
+>> >
+>> >
+>> >
+>> >
+>>
