@@ -1,99 +1,77 @@
-Received: from lindbergh.monkeyblade.net (lindbergh.monkeyblade.net [23.128.96.19])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1B775BA3B
-	for <linux-usb@vger.kernel.org>; Tue,  7 Nov 2023 06:44:45 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; dkim=none
-Received: from rtits2.realtek.com.tw (rtits2.realtek.com [211.75.126.72])
-	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 3159B11A;
-	Mon,  6 Nov 2023 22:44:41 -0800 (PST)
-X-SpamFilter-By: ArmorX SpamTrap 5.78 with qID 3A76iR5114033888, This message is accepted by code: ctloc85258
-Received: from mail.realtek.com (rtexh36506.realtek.com.tw[172.21.6.27])
-	by rtits2.realtek.com.tw (8.15.2/2.95/5.92) with ESMTPS id 3A76iR5114033888
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
-	Tue, 7 Nov 2023 14:44:27 +0800
-Received: from RTEXMBS04.realtek.com.tw (172.21.6.97) by
- RTEXH36506.realtek.com.tw (172.21.6.27) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2507.17; Tue, 7 Nov 2023 14:44:27 +0800
-Received: from RTEXMBS04.realtek.com.tw (172.21.6.97) by
- RTEXMBS04.realtek.com.tw (172.21.6.97) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2375.7; Tue, 7 Nov 2023 14:44:26 +0800
-Received: from RTEXMBS04.realtek.com.tw ([fe80::40c2:6c24:2df4:e6c7]) by
- RTEXMBS04.realtek.com.tw ([fe80::40c2:6c24:2df4:e6c7%5]) with mapi id
- 15.01.2375.007; Tue, 7 Nov 2023 14:44:26 +0800
-From: =?big5?B?U3RhbmxleSBDaGFuZ1up96h8vHdd?= <stanley_chang@realtek.com>
-To: Vinod Koul <vkoul@kernel.org>,
-        Greg Kroah-Hartman
-	<gregkh@linuxfoundation.org>
-CC: Johan Hovold <johan+linaro@kernel.org>,
-        Kishon Vijay Abraham I
-	<kishon@kernel.org>,
-        "linux-kernel@vger.kernel.org"
-	<linux-kernel@vger.kernel.org>,
-        "linux-phy@lists.infradead.org"
-	<linux-phy@lists.infradead.org>,
-        "linux-usb@vger.kernel.org"
-	<linux-usb@vger.kernel.org>
-Subject: RE: [PATCH 0/3] Revert "usb: phy: add usb phy notify port status API"
-Thread-Topic: [PATCH 0/3] Revert "usb: phy: add usb phy notify port status
- API"
-Thread-Index: AQHaEKFYYUMOc04m8UWBbMSA7W5TDrBsnd2AgAACc4CAAcfbIA==
-Date: Tue, 7 Nov 2023 06:44:26 +0000
-Message-ID: <28e77cbc531248bf913ceedba6425cf6@realtek.com>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5EC64BA3B
+	for <linux-usb@vger.kernel.org>; Tue,  7 Nov 2023 07:01:16 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="BBVayIwb"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 41A5BC433C7;
+	Tue,  7 Nov 2023 07:01:16 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
+	s=korg; t=1699340476;
+	bh=pTogYhi8zS1WiutkSZQEnV8vqByAHH90aOvNtaJCd4w=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=BBVayIwbw80fMwQtZH9iXIre1SiZf3cGwRxYVcUNMDV1zoB12BUpxZOGOLJkYJzdM
+	 NI9TGleMAp9NulH8tGfLKRTUm2qk2OD38v//V0fH2sNDQ68K2JrIsCJmu3uaw5K/BT
+	 KiUEIs8oo8umG1pZdYNejd6Ed4aD2GhmPSNCWrNQ=
+Date: Mon, 6 Nov 2023 14:48:31 +0100
+From: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+To: Vinod Koul <vkoul@kernel.org>
+Cc: Johan Hovold <johan+linaro@kernel.org>,
+	Kishon Vijay Abraham I <kishon@kernel.org>,
+	Stanley Chang <stanley_chang@realtek.com>,
+	linux-kernel@vger.kernel.org, linux-phy@lists.infradead.org,
+	linux-usb@vger.kernel.org
+Subject: Re: [PATCH 0/3] Revert "usb: phy: add usb phy notify port status API"
+Message-ID: <2023110617-lushly-static-4d32@gregkh>
 References: <20231106110654.31090-1-johan+linaro@kernel.org>
- <2023110623-pointing-stump-643d@gregkh> <ZUjM/VEliT5c8H4C@matsya>
-In-Reply-To: <ZUjM/VEliT5c8H4C@matsya>
-Accept-Language: zh-TW, en-US
-Content-Language: zh-TW
-x-originating-ip: [172.21.190.159]
-x-kse-serverinfo: RTEXMBS04.realtek.com.tw, 9
-x-kse-antispam-interceptor-info: fallback
-x-kse-antivirus-interceptor-info: fallback
-Content-Type: text/plain; charset="big5"
-Content-Transfer-Encoding: base64
+ <2023110623-pointing-stump-643d@gregkh>
+ <ZUjM/VEliT5c8H4C@matsya>
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-KSE-AntiSpam-Interceptor-Info: fallback
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <ZUjM/VEliT5c8H4C@matsya>
 
-SGkgSm9oYW4gYW5kIFZpbm9kLA0KDQpJIG1vZGlmaWVkIHRoZSBSZWFsdGVrIHBoeSB0byBzb2x2
-ZSB0aGlzIGlzc3VlIGFuZCBvbmx5IHVzZSB0aGUgZ2VuZXJpYyBQSFkuDQpBbmQgc3VibWl0dGVk
-IHRoZXNlIHBhdGNoZXMgdG9kYXkgYXMgZm9sbG93cw0KaHR0cHM6Ly9sb3JlLmtlcm5lbC5vcmcv
-bGludXgtdXNiLzIwMjMxMTA3MDYzNTE4LjI3ODI0LTEtc3RhbmxleV9jaGFuZ0ByZWFsdGVrLmNv
-bS8NCmh0dHBzOi8vbG9yZS5rZXJuZWwub3JnL2xpbnV4LXVzYi8yMDIzMTEwNzA2MzUxOC4yNzgy
-NC0yLXN0YW5sZXlfY2hhbmdAcmVhbHRlay5jb20vDQpodHRwczovL2xvcmUua2VybmVsLm9yZy9s
-aW51eC11c2IvMjAyMzExMDcwNjM1MTguMjc4MjQtMy1zdGFubGV5X2NoYW5nQHJlYWx0ZWsuY29t
-Lw0KaHR0cHM6Ly9sb3JlLmtlcm5lbC5vcmcvbGludXgtdXNiLzIwMjMxMTA3MDYzNTE4LjI3ODI0
-LTQtc3RhbmxleV9jaGFuZ0ByZWFsdGVrLmNvbS8NCg0KSSBkb24ndCB0aGluayB0aGlzIHBhdGNo
-IGlzIG5lZWRlZCB0byByZXZlcnQgYTA4Nzk5Y2YxN2MyICgidXNiOnBoeTogTmV3IHVzYiBwaHkg
-bm90aWZpY2F0aW9uIHBvcnQgc3RhdHVzIEFQSSIpLg0KDQpUaGFua3MsDQpTdGFubGV5DQoNCj4g
-T24gMDYtMTEtMjMsIDEyOjE1LCBHcmVnIEtyb2FoLUhhcnRtYW4gd3JvdGU6DQo+ID4gT24gTW9u
-LCBOb3YgMDYsIDIwMjMgYXQgMTI6MDY6NTFQTSArMDEwMCwgSm9oYW4gSG92b2xkIHdyb3RlOg0K
-PiA+ID4gVGhlIHJlY2VudGx5IGFkZGVkIFJlYWx0ZWsgUEhZIGRyaXZlcnMgZGVwZW5kIG9uIHRo
-ZSBuZXcgcG9ydCBzdGF0dXMNCj4gPiA+IG5vdGlmaWNhdGlvbiBtZWNoYW5pc20gd2hpY2ggd2Fz
-IGJ1aWx0IG9uIHRoZSBkZXByZWNhdGVkIFVTQiBQSFkNCj4gPiA+IGltcGxlbWVudGF0aW9uIGFu
-ZCBkZXZpY2V0cmVlIGJpbmRpbmcuDQo+ID4gPg0KPiA+ID4gU3BlY2lmaWNhbGx5LCB1c2luZyB0
-aGVzZSBQSFlzIHdvdWxkIHJlcXVpcmUgZGVzY3JpYmluZyB0aGUgdmVyeQ0KPiA+ID4gc2FtZSBQ
-SFkgdXNpbmcgYm90aCB0aGUgZ2VuZXJpYyAicGh5IiBwcm9wZXJ0eSBhbmQgdGhlIGRlcHJlY2F0
-ZWQNCj4gInVzYi1waHkiDQo+ID4gPiBwcm9wZXJ0eSB3aGljaCBpcyBjbGVhcmx5IHdyb25nLg0K
-PiA+ID4NCj4gPiA+IFdlIHNob3VsZCBub3QgYmUgYnVpbGRpbmcgbmV3IGZ1bmN0aW9uYWxpdHkg
-b24gdG9wIG9mIHRoZSBsZWdhY3kgVVNCDQo+ID4gPiBQSFkgaW1wbGVtZW50YXRpb24gZXZlbiBp
-ZiBpdCBpcyBjdXJyZW50bHkgc3R1Y2sgaW4gc29tZSBraW5kIG9mDQo+ID4gPiB0cmFuc2l0aW9u
-YWwgbGltYm8uDQo+ID4gPg0KPiA+ID4gUmV2ZXJ0IHRoZSBuZXcgUmVhbHRlayBQSFkgZHJpdmVy
-cyBmb3Igbm93IHNvIHRoYXQgdGhlIHBvcnQgc3RhdHVzDQo+ID4gPiBub3RpZmljYXRpb24gaW50
-ZXJmYWNlIGNhbiBiZSByZXZlcnRlZCBhbmQgcmVwbGFjZWQgYmVmb3JlIHdlIGRpZw0KPiA+ID4g
-b3Vyc2VsdmVzIGludG8gYW4gZXZlbiBkZWVwZXIgaG9sZSB3aXRoIHRoaXMgUEhZIG1lc3MuDQo+
-ID4gPg0KPiA+ID4gTm90ZSB0aGF0IHRoZXJlIGFyZSBubyB1cHN0cmVhbSB1c2VycyBvZiB0aGVz
-ZSBQSFlzIGFuZCB0aGUgZHJpdmVycw0KPiA+ID4gd2VyZSBvbmx5IGluY2x1ZGVkIGluIDYuNiBz
-byB0aGVyZSBzaG91bGQgc3RpbGwgYmUgdGltZSB0byB1bmRvIHRoaXMuDQo+ID4NCj4gPiBObyB1
-c2VycyBvZiB0aGVzZSBwaHkgZHJpdmVycyB5ZXQ/ICBXaHkgd2VyZSB0aGV5IGFkZGVkPw0KPiAN
-Cj4gTm90IHN1cmUgd2h5LCB0aGV5IGRpZG50IGdvIHRocnUgcGh5IHNzIQ0KPiANCj4gPg0KPiA+
-ID4gUHJlZmVyYWJseSB0aGVzZSBzaG91bGQgZ28gaW4gdGhyb3VnaCBHcmVnJ3MgdHJlZSBmb3Ig
-Ni43LXJjMS4NCj4gPg0KPiA+IEknbGwgYmUgZ2xhZCB0byB0YWtlIHRoaXMgaWYgSSBjYW4gZ2V0
-IGFuIGFjayBmb3IgaXQuDQo+IA0KPiBQbHMgZG8gZHJvcCB0aGlzOg0KPiANCj4gQWNrZWQtYnk6
-IFZpbm9kIEtvdWwgPHZrb3VsQGtlcm5lbC5vcmc+DQo+IA0KPiAtLQ0KPiB+Vmlub2QNCg==
+On Mon, Nov 06, 2023 at 04:54:45PM +0530, Vinod Koul wrote:
+> On 06-11-23, 12:15, Greg Kroah-Hartman wrote:
+> > On Mon, Nov 06, 2023 at 12:06:51PM +0100, Johan Hovold wrote:
+> > > The recently added Realtek PHY drivers depend on the new port status
+> > > notification mechanism which was built on the deprecated USB PHY
+> > > implementation and devicetree binding.
+> > > 
+> > > Specifically, using these PHYs would require describing the very same
+> > > PHY using both the generic "phy" property and the deprecated "usb-phy"
+> > > property which is clearly wrong.
+> > > 
+> > > We should not be building new functionality on top of the legacy USB PHY
+> > > implementation even if it is currently stuck in some kind of
+> > > transitional limbo.
+> > > 
+> > > Revert the new Realtek PHY drivers for now so that the port status
+> > > notification interface can be reverted and replaced before we dig
+> > > ourselves into an even deeper hole with this PHY mess.
+> > > 
+> > > Note that there are no upstream users of these PHYs and the drivers were
+> > > only included in 6.6 so there should still be time to undo this.
+> > 
+> > No users of these phy drivers yet?  Why were they added?
+> 
+> Not sure why, they didnt go thru phy ss!
+> 
+> > 
+> > > Preferably these should go in through Greg's tree for 6.7-rc1.
+> > 
+> > I'll be glad to take this if I can get an ack for it.
+> 
+> Pls do drop this:
+> 
+> Acked-by: Vinod Koul <vkoul@kernel.org>
+
+Thanks, now applied.
+
+greg k-h
