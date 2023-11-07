@@ -1,122 +1,211 @@
 Received: from lindbergh.monkeyblade.net (lindbergh.monkeyblade.net [23.128.96.19])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7F55C947A;
-	Tue,  7 Nov 2023 06:24:16 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="IGCMk8ZZ"
-Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.43])
-	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 6AD9C101;
-	Mon,  6 Nov 2023 22:24:15 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1699338255; x=1730874255;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=xMd2rVgz/0nCDHGO5G5Cgmns963Fjfa40nHUcD2LIxI=;
-  b=IGCMk8ZZpOLcTsOgycxyY4TH3dQ/eEP5ApYP7g3QYG2nqGBUAliuOluS
-   5q0Nz+BKL2CeVuwhRrIK8vN1mQEN37rWnUNnI1BxvrXCo+05EWGnNTi1a
-   v0CS1yb/0h97f5ax1fmFs62RLrv9b8S/jp6ZWJnJBMIpQNvLbykJfLf2g
-   rNGe2YlKqBXrWEN561Ln0J9ZPIlalDjgXgkN7YnreOfgI5XG4VSa6AX7F
-   vArXh463zL2b9g2BwG+UkgLqjUbL1QWzwUxvGEE1WFQ3ROxRSdHNFEo9H
-   S5O6TpHxQWi8cqEM+Y1t2t7jqE0j+jbZLdSqqwa251uJAq1k49tAaNClj
-   Q==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10886"; a="475682216"
-X-IronPort-AV: E=Sophos;i="6.03,282,1694761200"; 
-   d="scan'208";a="475682216"
-Received: from fmsmga005.fm.intel.com ([10.253.24.32])
-  by fmsmga105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 06 Nov 2023 22:24:15 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10886"; a="1094047505"
-X-IronPort-AV: E=Sophos;i="6.03,282,1694761200"; 
-   d="scan'208";a="1094047505"
-Received: from black.fi.intel.com ([10.237.72.28])
-  by fmsmga005.fm.intel.com with ESMTP; 06 Nov 2023 22:24:07 -0800
-Received: by black.fi.intel.com (Postfix, from userid 1001)
-	id 15A0E3CC; Tue,  7 Nov 2023 08:24:05 +0200 (EET)
-Date: Tue, 7 Nov 2023 08:24:05 +0200
-From: Mika Westerberg <mika.westerberg@linux.intel.com>
-To: Lukas Wunner <lukas@wunner.de>
-Cc: Mario Limonciello <mario.limonciello@amd.com>,
-	Karol Herbst <kherbst@redhat.com>, Lyude Paul <lyude@redhat.com>,
-	Alex Deucher <alexander.deucher@amd.com>,
-	Christian =?utf-8?B?S8O2bmln?= <christian.koenig@amd.com>,
-	Bjorn Helgaas <bhelgaas@google.com>,
-	Hans de Goede <hdegoede@redhat.com>,
-	Ilpo =?utf-8?B?SsOkcnZpbmVu?= <ilpo.jarvinen@linux.intel.com>,
-	Danilo Krummrich <dakr@redhat.com>,
-	David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>,
-	Xinhui Pan <Xinhui.Pan@amd.com>,
-	"Rafael J . Wysocki" <rafael@kernel.org>,
-	Mark Gross <markgross@kernel.org>,
-	Andreas Noever <andreas.noever@gmail.com>,
-	Michael Jamet <michael.jamet@intel.com>,
-	Yehezkel Bernat <YehezkelShB@gmail.com>,
-	Pali =?utf-8?B?Um9ow6Fy?= <pali@kernel.org>,
-	Marek =?utf-8?B?QmVow7pu?= <kabel@kernel.org>,
-	"Maciej W . Rozycki" <macro@orcam.me.uk>,
-	Manivannan Sadhasivam <mani@kernel.org>,
-	"open list:DRM DRIVER FOR NVIDIA GEFORCE/QUADRO GPUS" <dri-devel@lists.freedesktop.org>,
-	"open list:DRM DRIVER FOR NVIDIA GEFORCE/QUADRO GPUS" <nouveau@lists.freedesktop.org>,
-	open list <linux-kernel@vger.kernel.org>,
-	"open list:RADEON and AMDGPU DRM DRIVERS" <amd-gfx@lists.freedesktop.org>,
-	"open list:PCI SUBSYSTEM" <linux-pci@vger.kernel.org>,
-	"open list:ACPI" <linux-acpi@vger.kernel.org>,
-	"open list:X86 PLATFORM DRIVERS" <platform-driver-x86@vger.kernel.org>,
-	"open list:THUNDERBOLT DRIVER" <linux-usb@vger.kernel.org>
-Subject: Re: [PATCH v2 8/9] PCI: Exclude PCIe ports used for tunneling in
- pcie_bandwidth_available()
-Message-ID: <20231107062405.GU17433@black.fi.intel.com>
-References: <20231103190758.82911-1-mario.limonciello@amd.com>
- <20231103190758.82911-9-mario.limonciello@amd.com>
- <20231106181022.GA18564@wunner.de>
- <712ebb25-3fc0-49b5-96a1-a13c3c4c4921@amd.com>
- <20231106185652.GA3360@wunner.de>
- <20231107054526.GT17433@black.fi.intel.com>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A71B218E
+	for <linux-usb@vger.kernel.org>; Tue,  7 Nov 2023 06:37:29 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; dkim=none
+Received: from rtits2.realtek.com.tw (rtits2.realtek.com [211.75.126.72])
+	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 6F15AE8;
+	Mon,  6 Nov 2023 22:37:27 -0800 (PST)
+X-SpamFilter-By: ArmorX SpamTrap 5.78 with qID 3A76ZbPR24026412, This message is accepted by code: ctloc85258
+Received: from mail.realtek.com (rtexh36506.realtek.com.tw[172.21.6.27])
+	by rtits2.realtek.com.tw (8.15.2/2.95/5.92) with ESMTPS id 3A76ZbPR24026412
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+	Tue, 7 Nov 2023 14:35:37 +0800
+Received: from RTEXDAG02.realtek.com.tw (172.21.6.101) by
+ RTEXH36506.realtek.com.tw (172.21.6.27) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2507.17; Tue, 7 Nov 2023 14:35:38 +0800
+Received: from RTEXH36505.realtek.com.tw (172.21.6.25) by
+ RTEXDAG02.realtek.com.tw (172.21.6.101) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2375.7; Tue, 7 Nov 2023 14:35:37 +0800
+Received: from localhost.localdomain (172.21.252.101) by
+ RTEXH36505.realtek.com.tw (172.21.6.25) with Microsoft SMTP Server id
+ 15.1.2375.32 via Frontend Transport; Tue, 7 Nov 2023 14:35:37 +0800
+From: Stanley Chang <stanley_chang@realtek.com>
+To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+CC: Stanley Chang <stanley_chang@realtek.com>, Vinod Koul <vkoul@kernel.org>,
+        Johan Hovold <johan@kernel.org>,
+        Kishon Vijay Abraham I <kishon@kernel.org>,
+        Jinjie Ruan <ruanjinjie@huawei.com>, Rob Herring <robh@kernel.org>,
+        "Alan
+ Stern" <stern@rowland.harvard.edu>,
+        Yang Yingliang
+	<yangyingliang@huawei.com>,
+        Flavio Suligoi <f.suligoi@asem.it>,
+        "Heikki
+ Krogerus" <heikki.krogerus@linux.intel.com>,
+        Roy Luo <royluo@google.com>, "Ray Chi" <raychi@google.com>,
+        =?UTF-8?q?Ricardo=20Ca=C3=B1uelo?=
+	<ricardo.canuelo@collabora.com>,
+        <linux-phy@lists.infradead.org>, <linux-kernel@vger.kernel.org>,
+        <linux-usb@vger.kernel.org>
+Subject: [PATCH v1 2/4] phy: realtek: usb2: Remove the legacy usb phy implementation
+Date: Tue, 7 Nov 2023 14:33:45 +0800
+Message-ID: <20231107063518.27824-2-stanley_chang@realtek.com>
+X-Mailer: git-send-email 2.42.0
+In-Reply-To: <20231107063518.27824-1-stanley_chang@realtek.com>
+References: <20231107063518.27824-1-stanley_chang@realtek.com>
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <20231107054526.GT17433@black.fi.intel.com>
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+X-KSE-ServerInfo: RTEXDAG02.realtek.com.tw, 9
+X-KSE-AntiSpam-Interceptor-Info: fallback
+X-KSE-Antivirus-Interceptor-Info: fallback
+X-KSE-AntiSpam-Interceptor-Info: fallback
 
-On Tue, Nov 07, 2023 at 07:45:26AM +0200, Mika Westerberg wrote:
-> Hi,
-> 
-> On Mon, Nov 06, 2023 at 07:56:52PM +0100, Lukas Wunner wrote:
-> > On Mon, Nov 06, 2023 at 12:44:25PM -0600, Mario Limonciello wrote:
-> > > Tangentially related; the link speed is currently symmetric but there are
-> > > two sysfs files.  Mika left a comment in drivers/thunderbolt/switch.c it may
-> > > be asymmetric in the future. So we may need to keep that in mind on any
-> > > design that builds on top of them.
-> > 
-> > Aren't asymmetric Thunderbolt speeds just a DisplayPort thing?
-> 
-> No, they affect the whole fabric. We have the initial code for
-> asymmetric switching in v6.7-rc1.
-> 
-> > > As 'thunderbolt' can be a module or built in, we need to bring code into PCI
-> > > core so that it works in early boot before it loads.
-> > 
-> > tb_switch_get_generation() is small enough that it could be moved to the
-> > PCI core.  I doubt that we need to make thunderbolt built-in only
-> > or move a large amount of code to the PCI core.
-> 
-> If at all possible I would like to avoid this and littering PCI side
-> with non-PCI stuff. There could be other similar "mediums" in the future
-> where you can transfer packets of "native" protocols such as PCIe so
-> instead of making it Thunderbolt/USB4 specific it should be generic
-> enough to support future extensions.
-> 
-> In case of Thunderbolt/USB4 there is no real way to figure out how much
-> bandwidth each PCIe tunnel gets (it is kind of bulk traffic that gets
-> what is left from isochronous protocols) so I would not even try that
-> and instead use the real PCIe links in pcie_bandwidth_available() and
-> skip all the "virtual" ones.
+Remove the port status notification on legacy USB PHY.
+Use the generic PHY to notify the usb device connect and disconnect.
 
-Actually can we call the new function something like pci_link_is_virtual()
-instead and make pcie_bandwidth_available() call it? That would be more
-future proof IMHO.
+To avoid using these PHYs would require describing the very same
+PHY using both the generic "phy" property and the deprecated "usb-phy"
+property.
+
+Signed-off-by: Stanley Chang <stanley_chang@realtek.com>
+---
+ drivers/phy/realtek/phy-rtk-usb2.c | 58 ++++++++++++------------------
+ 1 file changed, 23 insertions(+), 35 deletions(-)
+
+diff --git a/drivers/phy/realtek/phy-rtk-usb2.c b/drivers/phy/realtek/phy-rtk-usb2.c
+index 0a6426285c67..9cd2329fd7ca 100644
+--- a/drivers/phy/realtek/phy-rtk-usb2.c
++++ b/drivers/phy/realtek/phy-rtk-usb2.c
+@@ -18,8 +18,6 @@
+ #include <linux/mfd/syscon.h>
+ #include <linux/phy/phy.h>
+ #include <linux/usb.h>
+-#include <linux/usb/phy.h>
+-#include <linux/usb/hcd.h>
+ 
+ /* GUSB2PHYACCn register */
+ #define PHY_NEW_REG_REQ BIT(25)
+@@ -115,7 +113,6 @@ struct phy_parameter {
+ };
+ 
+ struct rtk_phy {
+-	struct usb_phy phy;
+ 	struct device *dev;
+ 
+ 	struct phy_cfg *phy_cfg;
+@@ -669,18 +666,9 @@ static int rtk_phy_exit(struct phy *phy)
+ 	return 0;
+ }
+ 
+-static const struct phy_ops ops = {
+-	.init		= rtk_phy_init,
+-	.exit		= rtk_phy_exit,
+-	.owner		= THIS_MODULE,
+-};
+-
+-static void rtk_phy_toggle(struct usb_phy *usb2_phy, bool connect, int port)
++static void rtk_phy_toggle(struct rtk_phy *rtk_phy, bool connect, int port)
+ {
+ 	int index = port;
+-	struct rtk_phy *rtk_phy = NULL;
+-
+-	rtk_phy = dev_get_drvdata(usb2_phy->dev);
+ 
+ 	if (index > rtk_phy->num_phy) {
+ 		dev_err(rtk_phy->dev, "%s: The port=%d is not in usb phy (num_phy=%d)\n",
+@@ -691,22 +679,34 @@ static void rtk_phy_toggle(struct usb_phy *usb2_phy, bool connect, int port)
+ 	do_rtk_phy_toggle(rtk_phy, index, connect);
+ }
+ 
+-static int rtk_phy_notify_port_status(struct usb_phy *x, int port,
+-				      u16 portstatus, u16 portchange)
++static int rtk_phy_connect(struct phy *phy, int port)
+ {
+-	bool connect = false;
++	struct rtk_phy *rtk_phy = phy_get_drvdata(phy);
++
++	dev_dbg(rtk_phy->dev, "%s port=%d\n", __func__, port);
++	rtk_phy_toggle(rtk_phy, true, port);
+ 
+-	pr_debug("%s port=%d portstatus=0x%x portchange=0x%x\n",
+-		 __func__, port, (int)portstatus, (int)portchange);
+-	if (portstatus & USB_PORT_STAT_CONNECTION)
+-		connect = true;
++	return 0;
++}
++
++static int rtk_phy_disconnect(struct phy *phy, int port)
++{
++	struct rtk_phy *rtk_phy = phy_get_drvdata(phy);
+ 
+-	if (portchange & USB_PORT_STAT_C_CONNECTION)
+-		rtk_phy_toggle(x, connect, port);
++	dev_dbg(rtk_phy->dev, "%s port=%d\n", __func__, port);
++	rtk_phy_toggle(rtk_phy, false, port);
+ 
+ 	return 0;
+ }
+ 
++static const struct phy_ops ops = {
++	.init		= rtk_phy_init,
++	.exit		= rtk_phy_exit,
++	.connect	= rtk_phy_connect,
++	.disconnect	= rtk_phy_disconnect,
++	.owner		= THIS_MODULE,
++};
++
+ #ifdef CONFIG_DEBUG_FS
+ static struct dentry *create_phy_debug_root(void)
+ {
+@@ -856,8 +856,6 @@ static inline void create_debug_files(struct rtk_phy *rtk_phy)
+ 
+ 	debugfs_create_file("parameter", 0444, rtk_phy->debug_dir, rtk_phy,
+ 			    &rtk_usb2_parameter_fops);
+-
+-	return;
+ }
+ 
+ static inline void remove_debug_files(struct rtk_phy *rtk_phy)
+@@ -1024,10 +1022,6 @@ static int rtk_usb2phy_probe(struct platform_device *pdev)
+ 		return -ENOMEM;
+ 
+ 	rtk_phy->dev			= &pdev->dev;
+-	rtk_phy->phy.dev		= rtk_phy->dev;
+-	rtk_phy->phy.label		= "rtk-usb2phy";
+-	rtk_phy->phy.notify_port_status = rtk_phy_notify_port_status;
+-
+ 	rtk_phy->phy_cfg = devm_kzalloc(dev, sizeof(*phy_cfg), GFP_KERNEL);
+ 
+ 	memcpy(rtk_phy->phy_cfg, phy_cfg, sizeof(*phy_cfg));
+@@ -1051,10 +1045,6 @@ static int rtk_usb2phy_probe(struct platform_device *pdev)
+ 	if (IS_ERR(phy_provider))
+ 		return PTR_ERR(phy_provider);
+ 
+-	ret = usb_add_phy_dev(&rtk_phy->phy);
+-	if (ret)
+-		goto err;
+-
+ 	create_debug_files(rtk_phy);
+ 
+ err:
+@@ -1066,8 +1056,6 @@ static void rtk_usb2phy_remove(struct platform_device *pdev)
+ 	struct rtk_phy *rtk_phy = platform_get_drvdata(pdev);
+ 
+ 	remove_debug_files(rtk_phy);
+-
+-	usb_remove_phy(&rtk_phy->phy);
+ }
+ 
+ static const struct phy_cfg rtd1295_phy_cfg = {
+@@ -1221,7 +1209,7 @@ static const struct phy_cfg rtd1312c_phy_cfg = {
+ static const struct phy_cfg rtd1619b_phy_cfg = {
+ 	.page0_size = MAX_USB_PHY_PAGE0_DATA_SIZE,
+ 	.page0 = { [0] = {0xe0, 0xa3},
+-		   [4] = {0xe4, 0x88},
++		   [4] = {0xe4, 0xa8},
+ 		   [5] = {0xe5, 0x4f},
+ 		   [6] = {0xe6, 0x02}, },
+ 	.page1_size = 8,
+-- 
+2.34.1
+
