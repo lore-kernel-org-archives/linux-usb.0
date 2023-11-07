@@ -1,28 +1,28 @@
 Received: from lindbergh.monkeyblade.net (lindbergh.monkeyblade.net [23.128.96.19])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C4CF0A41
-	for <linux-usb@vger.kernel.org>; Tue,  7 Nov 2023 06:37:29 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7520617F0
+	for <linux-usb@vger.kernel.org>; Tue,  7 Nov 2023 06:37:30 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; dkim=none
 Received: from rtits2.realtek.com.tw (rtits2.realtek.com [211.75.126.72])
-	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 7054610D;
+	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 766B2119;
 	Mon,  6 Nov 2023 22:37:27 -0800 (PST)
-X-SpamFilter-By: ArmorX SpamTrap 5.78 with qID 3A76ZulZ64026563, This message is accepted by code: ctloc85258
-Received: from mail.realtek.com (rtexh36506.realtek.com.tw[172.21.6.27])
-	by rtits2.realtek.com.tw (8.15.2/2.95/5.92) with ESMTPS id 3A76ZulZ64026563
+X-SpamFilter-By: ArmorX SpamTrap 5.78 with qID 3A76ZJYm84026363, This message is accepted by code: ctloc85258
+Received: from mail.realtek.com (rtexh36505.realtek.com.tw[172.21.6.25])
+	by rtits2.realtek.com.tw (8.15.2/2.95/5.92) with ESMTPS id 3A76ZJYm84026363
 	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
-	Tue, 7 Nov 2023 14:35:56 +0800
-Received: from RTEXMBS05.realtek.com.tw (172.21.6.98) by
- RTEXH36506.realtek.com.tw (172.21.6.27) with Microsoft SMTP Server
+	Tue, 7 Nov 2023 14:35:19 +0800
+Received: from RTEXMBS01.realtek.com.tw (172.21.6.94) by
+ RTEXH36505.realtek.com.tw (172.21.6.25) with Microsoft SMTP Server
  (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2507.17; Tue, 7 Nov 2023 14:35:56 +0800
+ 15.1.2375.32; Tue, 7 Nov 2023 14:35:19 +0800
 Received: from RTEXH36505.realtek.com.tw (172.21.6.25) by
- RTEXMBS05.realtek.com.tw (172.21.6.98) with Microsoft SMTP Server
+ RTEXMBS01.realtek.com.tw (172.21.6.94) with Microsoft SMTP Server
  (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2375.34; Tue, 7 Nov 2023 14:35:55 +0800
+ 15.1.2375.7; Tue, 7 Nov 2023 14:35:19 +0800
 Received: from localhost.localdomain (172.21.252.101) by
  RTEXH36505.realtek.com.tw (172.21.6.25) with Microsoft SMTP Server id
- 15.1.2375.32 via Frontend Transport; Tue, 7 Nov 2023 14:35:55 +0800
+ 15.1.2375.32 via Frontend Transport; Tue, 7 Nov 2023 14:35:19 +0800
 From: Stanley Chang <stanley_chang@realtek.com>
 To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
 CC: Stanley Chang <stanley_chang@realtek.com>, Vinod Koul <vkoul@kernel.org>,
@@ -35,16 +35,15 @@ CC: Stanley Chang <stanley_chang@realtek.com>, Vinod Koul <vkoul@kernel.org>,
 	<yangyingliang@huawei.com>,
         =?UTF-8?q?Ricardo=20Ca=C3=B1uelo?=
 	<ricardo.canuelo@collabora.com>,
-        Ray Chi <raychi@google.com>, Roy Luo
-	<royluo@google.com>,
-        <linux-phy@lists.infradead.org>, <linux-kernel@vger.kernel.org>,
-        <linux-usb@vger.kernel.org>
-Subject: [PATCH v1 3/4] phy: realtek: usb3: Remove the legacy usb phy implementation
-Date: Tue, 7 Nov 2023 14:33:46 +0800
-Message-ID: <20231107063518.27824-3-stanley_chang@realtek.com>
+        Roy Luo <royluo@google.com>,
+        Heikki Krogerus
+	<heikki.krogerus@linux.intel.com>,
+        Ray Chi <raychi@google.com>, <linux-phy@lists.infradead.org>,
+        <linux-kernel@vger.kernel.org>, <linux-usb@vger.kernel.org>
+Subject: [PATCH v1 1/4] phy: core: add notify_connect and notify_disconnect callback
+Date: Tue, 7 Nov 2023 14:33:44 +0800
+Message-ID: <20231107063518.27824-1-stanley_chang@realtek.com>
 X-Mailer: git-send-email 2.42.0
-In-Reply-To: <20231107063518.27824-1-stanley_chang@realtek.com>
-References: <20231107063518.27824-1-stanley_chang@realtek.com>
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
@@ -53,150 +52,126 @@ List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 Content-Type: text/plain
-X-KSE-ServerInfo: RTEXMBS05.realtek.com.tw, 9
+X-KSE-ServerInfo: RTEXMBS01.realtek.com.tw, 9
+X-KSE-AntiSpam-Interceptor-Info: fallback
+X-KSE-Antivirus-Interceptor-Info: fallback
+X-KSE-AntiSpam-Interceptor-Info: fallback
+X-KSE-ServerInfo: RTEXH36505.realtek.com.tw, 9
 X-KSE-AntiSpam-Interceptor-Info: fallback
 X-KSE-Antivirus-Interceptor-Info: fallback
 X-KSE-AntiSpam-Interceptor-Info: fallback
 
-Same as phy-rtk-usb2.c
-
-Remove the port status notification on legacy USB PHY.
-Use the generic PHY to notify the usb device connect and disconnect.
-
-To avoid using these PHYs would require describing the very same
-PHY using both the generic "phy" property and the deprecated "usb-phy"
-property.
+In Realtek SoC, the parameter of usb phy is designed to can dynamic
+tuning base on port status. Therefore, add a notify callback of phy
+driver when usb connection/disconnection change.
 
 Signed-off-by: Stanley Chang <stanley_chang@realtek.com>
 ---
- drivers/phy/realtek/phy-rtk-usb3.c | 56 ++++++++++++------------------
- 1 file changed, 22 insertions(+), 34 deletions(-)
+ drivers/phy/phy-core.c  | 47 +++++++++++++++++++++++++++++++++++++++++
+ include/linux/phy/phy.h | 18 ++++++++++++++++
+ 2 files changed, 65 insertions(+)
 
-diff --git a/drivers/phy/realtek/phy-rtk-usb3.c b/drivers/phy/realtek/phy-rtk-usb3.c
-index 67446a85e968..d992a21243e1 100644
---- a/drivers/phy/realtek/phy-rtk-usb3.c
-+++ b/drivers/phy/realtek/phy-rtk-usb3.c
-@@ -18,8 +18,6 @@
- #include <linux/mfd/syscon.h>
- #include <linux/phy/phy.h>
- #include <linux/usb.h>
--#include <linux/usb/hcd.h>
--#include <linux/usb/phy.h>
- 
- #define USB_MDIO_CTRL_PHY_BUSY BIT(7)
- #define USB_MDIO_CTRL_PHY_WRITE BIT(0)
-@@ -85,7 +83,6 @@ struct phy_parameter {
- };
- 
- struct rtk_phy {
--	struct usb_phy phy;
- 	struct device *dev;
- 
- 	struct phy_cfg *phy_cfg;
-@@ -303,18 +300,9 @@ static int rtk_phy_exit(struct phy *phy)
- 	return 0;
+diff --git a/drivers/phy/phy-core.c b/drivers/phy/phy-core.c
+index 96a0b1e111f3..a84ad4896b7f 100644
+--- a/drivers/phy/phy-core.c
++++ b/drivers/phy/phy-core.c
+@@ -489,6 +489,53 @@ int phy_calibrate(struct phy *phy)
  }
+ EXPORT_SYMBOL_GPL(phy_calibrate);
  
--static const struct phy_ops ops = {
--	.init		= rtk_phy_init,
--	.exit		= rtk_phy_exit,
--	.owner		= THIS_MODULE,
--};
--
--static void rtk_phy_toggle(struct usb_phy *usb3_phy, bool connect, int port)
-+static void rtk_phy_toggle(struct rtk_phy *rtk_phy, bool connect, int port)
- {
- 	int index = port;
--	struct rtk_phy *rtk_phy = NULL;
--
--	rtk_phy = dev_get_drvdata(usb3_phy->dev);
- 
- 	if (index > rtk_phy->num_phy) {
- 		dev_err(rtk_phy->dev, "%s: The port=%d is not in usb phy (num_phy=%d)\n",
-@@ -325,22 +313,34 @@ static void rtk_phy_toggle(struct usb_phy *usb3_phy, bool connect, int port)
- 	do_rtk_usb3_phy_toggle(rtk_phy, index, connect);
- }
- 
--static int rtk_phy_notify_port_status(struct usb_phy *x, int port,
--				      u16 portstatus, u16 portchange)
-+static int rtk_phy_connect(struct phy *phy, int port)
- {
--	bool connect = false;
-+	struct rtk_phy *rtk_phy = phy_get_drvdata(phy);
-+
-+	dev_dbg(rtk_phy->dev, "%s port=%d\n", __func__, port);
-+	rtk_phy_toggle(rtk_phy, true, port);
-+
-+	return 0;
-+}
- 
--	pr_debug("%s port=%d portstatus=0x%x portchange=0x%x\n",
--		 __func__, port, (int)portstatus, (int)portchange);
--	if (portstatus & USB_PORT_STAT_CONNECTION)
--		connect = true;
-+static int rtk_phy_disconnect(struct phy *phy, int port)
++/**
++ * phy_notify_connect() - phy connect notify
++ * @phy: the phy returned by phy_get()
++ * @port: the port index for connect
++ *
++ * If phy need the get connection status, the callback can be used.
++ * Returns: %0 if successful, a negative error code otherwise
++ */
++int phy_notify_connect(struct phy *phy, int port)
 +{
-+	struct rtk_phy *rtk_phy = phy_get_drvdata(phy);
- 
--	if (portchange & USB_PORT_STAT_C_CONNECTION)
--		rtk_phy_toggle(x, connect, port);
-+	dev_dbg(rtk_phy->dev, "%s port=%d\n", __func__, port);
-+	rtk_phy_toggle(rtk_phy, false, port);
- 
- 	return 0;
- }
- 
-+static const struct phy_ops ops = {
-+	.init		= rtk_phy_init,
-+	.exit		= rtk_phy_exit,
-+	.connect	= rtk_phy_connect,
-+	.disconnect	= rtk_phy_disconnect,
-+	.owner		= THIS_MODULE,
-+};
++	int ret;
 +
- #ifdef CONFIG_DEBUG_FS
- static struct dentry *create_phy_debug_root(void)
++	if (!phy || !phy->ops->connect)
++		return 0;
++
++	mutex_lock(&phy->mutex);
++	ret = phy->ops->connect(phy, port);
++	mutex_unlock(&phy->mutex);
++
++	return ret;
++}
++EXPORT_SYMBOL_GPL(phy_notify_connect);
++
++/**
++ * phy_notify_disconnect() - phy disconnect notify
++ * @phy: the phy returned by phy_get()
++ * @port: the port index for disconnect
++ *
++ * If phy need the get disconnection status, the callback can be used.
++ *
++ * Returns: %0 if successful, a negative error code otherwise
++ */
++int phy_notify_disconnect(struct phy *phy, int port)
++{
++	int ret;
++
++	if (!phy || !phy->ops->disconnect)
++		return 0;
++
++	mutex_lock(&phy->mutex);
++	ret = phy->ops->disconnect(phy, port);
++	mutex_unlock(&phy->mutex);
++
++	return ret;
++}
++EXPORT_SYMBOL_GPL(phy_notify_disconnect);
++
+ /**
+  * phy_configure() - Changes the phy parameters
+  * @phy: the phy returned by phy_get()
+diff --git a/include/linux/phy/phy.h b/include/linux/phy/phy.h
+index f6d607ef0e80..cf98cb29ddaa 100644
+--- a/include/linux/phy/phy.h
++++ b/include/linux/phy/phy.h
+@@ -122,6 +122,8 @@ struct phy_ops {
+ 			    union phy_configure_opts *opts);
+ 	int	(*reset)(struct phy *phy);
+ 	int	(*calibrate)(struct phy *phy);
++	int	(*connect)(struct phy *phy, int port);
++	int	(*disconnect)(struct phy *phy, int port);
+ 	void	(*release)(struct phy *phy);
+ 	struct module *owner;
+ };
+@@ -243,6 +245,8 @@ static inline enum phy_mode phy_get_mode(struct phy *phy)
+ }
+ int phy_reset(struct phy *phy);
+ int phy_calibrate(struct phy *phy);
++int phy_notify_connect(struct phy *phy, int port);
++int phy_notify_disconnect(struct phy *phy, int port);
+ static inline int phy_get_bus_width(struct phy *phy)
  {
-@@ -419,8 +419,6 @@ static inline void create_debug_files(struct rtk_phy *rtk_phy)
- 
- 	debugfs_create_file("parameter", 0444, rtk_phy->debug_dir, rtk_phy,
- 			    &rtk_usb3_parameter_fops);
--
--	return;
+ 	return phy->attrs.bus_width;
+@@ -396,6 +400,20 @@ static inline int phy_calibrate(struct phy *phy)
+ 	return -ENOSYS;
  }
  
- static inline void remove_debug_files(struct rtk_phy *rtk_phy)
-@@ -578,10 +576,6 @@ static int rtk_usb3phy_probe(struct platform_device *pdev)
- 		return -ENOMEM;
- 
- 	rtk_phy->dev			= &pdev->dev;
--	rtk_phy->phy.dev		= rtk_phy->dev;
--	rtk_phy->phy.label		= "rtk-usb3phy";
--	rtk_phy->phy.notify_port_status = rtk_phy_notify_port_status;
--
- 	rtk_phy->phy_cfg = devm_kzalloc(dev, sizeof(*phy_cfg), GFP_KERNEL);
- 
- 	memcpy(rtk_phy->phy_cfg, phy_cfg, sizeof(*phy_cfg));
-@@ -604,10 +598,6 @@ static int rtk_usb3phy_probe(struct platform_device *pdev)
- 	if (IS_ERR(phy_provider))
- 		return PTR_ERR(phy_provider);
- 
--	ret = usb_add_phy_dev(&rtk_phy->phy);
--	if (ret)
--		goto err;
--
- 	create_debug_files(rtk_phy);
- 
- err:
-@@ -619,8 +609,6 @@ static void rtk_usb3phy_remove(struct platform_device *pdev)
- 	struct rtk_phy *rtk_phy = platform_get_drvdata(pdev);
- 
- 	remove_debug_files(rtk_phy);
--
--	usb_remove_phy(&rtk_phy->phy);
- }
- 
- static const struct phy_cfg rtd1295_phy_cfg = {
++static inline int phy_notify_connect(struct phy *phy, int index)
++{
++	if (!phy)
++		return 0;
++	return -ENOSYS;
++}
++
++static inline int phy_notify_disconnect(struct phy *phy, int index)
++{
++	if (!phy)
++		return 0;
++	return -ENOSYS;
++}
++
+ static inline int phy_configure(struct phy *phy,
+ 				union phy_configure_opts *opts)
+ {
 -- 
 2.34.1
 
