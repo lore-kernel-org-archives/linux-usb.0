@@ -1,157 +1,136 @@
 Received: from lindbergh.monkeyblade.net (lindbergh.monkeyblade.net [23.128.96.19])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D939863B3
-	for <linux-usb@vger.kernel.org>; Wed,  8 Nov 2023 08:45:56 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AEED0E56C
+	for <linux-usb@vger.kernel.org>; Wed,  8 Nov 2023 09:39:51 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="vgGSK1Sn"
-Received: from mail-ed1-x52a.google.com (mail-ed1-x52a.google.com [IPv6:2a00:1450:4864:20::52a])
-	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C91771718
-	for <linux-usb@vger.kernel.org>; Wed,  8 Nov 2023 00:45:55 -0800 (PST)
-Received: by mail-ed1-x52a.google.com with SMTP id 4fb4d7f45d1cf-54366bb1c02so7153a12.1
-        for <linux-usb@vger.kernel.org>; Wed, 08 Nov 2023 00:45:55 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20230601; t=1699433154; x=1700037954; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=pnYR7bmgd7KfD+AkE17auBtmcY5ZsQOdpLALwgXFEH4=;
-        b=vgGSK1SnFwOdreuBoQIe37R2MUQdJ8CaAUB13Sbhq8XCk8NtjkoVgC0hkpuIX0MOjD
-         Ymiv+MJFF82Zv1tdR+prIev9ohM/gcM85T2jNHdH4LMeQMErhmzdI9ua3to3BLxsiMX9
-         PNw8Uw0OwZVC6CfvwmJs48KuwtS1TmRBgzILrue5OA5dVYcoQQdFvDqnQHbQ9Q5lo8E1
-         N6KMN+4x/JEnjondlWHEb7yXhTxPgf2iPbFUxHElLDpk3QYtB96bS2PLDglFWmmzV9Ss
-         M2t9xr59ZhAnNyHO5r4RF731uFCTiVzFHuNjzwdby7+M2WqCywYM+MWv2+05RM9PzeOJ
-         mNKg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1699433154; x=1700037954;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=pnYR7bmgd7KfD+AkE17auBtmcY5ZsQOdpLALwgXFEH4=;
-        b=u6iPuCFyGtvdegxWRcgMTHvv8YlsalreeD2jxhlCbeaG01TBMrvLZuoKk1aD4BOCLi
-         Ebbh2DM1F3/i4GsZSg+cHJa4OagXk2q3URp4KHfolHBxS3+qRXIlI/McrzbETnSxVpse
-         P4VXFdkTXS4cNgu2zFDowHn3DKcj2G3tEDzdjJF6bQHtDZ64nZzwS6DLeST/RqwcWz0h
-         byAxrNd+heTtdygKrrylWXSvCPzNCaqI3leN6/knDJNsz064vPHr4LB8mAsTHKg6Vu5o
-         5zHuPtLrLBYUe7MCgBGVPwfeq2IZyv+P63Skj1aOgEGMkAUEkHNSeraw7GQWHmg76F0A
-         cVGg==
-X-Gm-Message-State: AOJu0YxwEQAJeI+pxWQ5Quk2gpudYd1YzEMHOEY2/nbWt/EoeYQSlATd
-	CY35tY0swDpb354VrHqt05l1Ls9cGsAD1J6TQIRGzA==
-X-Google-Smtp-Source: AGHT+IHAGDE6Z1bTpaCcy23RjlMGNDAdGNwJ4C1SrldWsiu21577HL+eBwG41/PmtCgI9MYo+YHDL4vN6GX348PYOEw=
-X-Received: by 2002:a05:6402:528e:b0:544:e37e:d597 with SMTP id
- en14-20020a056402528e00b00544e37ed597mr233926edb.7.1699433154082; Wed, 08 Nov
- 2023 00:45:54 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Q0sKB8T6"
+Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.100])
+	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 380911A6
+	for <linux-usb@vger.kernel.org>; Wed,  8 Nov 2023 01:39:51 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1699436391; x=1730972391;
+  h=date:from:to:cc:subject:message-id;
+  bh=YhV9RYq62NAeGMfzes9D4BCO8HjlZ/S3LEb1Ii7IlU0=;
+  b=Q0sKB8T6rir1lwad6ec8VwzdCID+tcl2U08oMNiiNYBPRV40ILh2FTFQ
+   YYBk1+Xm5dVuco2bdml57R+VUJm8rmKpZMuHcZL9z4u9+heUuWq/dnWLW
+   EE1AvxXnzc6ZjR0ePCDBL9fZgUFEMhS4qc8cgwYNTVdeLYQhp/4M3R/Zx
+   GFkNr+FvD026ahy+3VRgJ4HeDWcU7IIl5LW4p73Uim/NFgeyTR8ehCFmr
+   jOiewiS7efIzgSNjLB+vf4G167WOhzFDBoXJEmhf+OxBqY0KuzifOU5mO
+   DcIwLfGihjmBHOUp+s0ilAdx+zTtEtYIwznoBcED1RjJGZu24kYihFMQV
+   w==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10887"; a="456223589"
+X-IronPort-AV: E=Sophos;i="6.03,285,1694761200"; 
+   d="scan'208";a="456223589"
+Received: from orsmga002.jf.intel.com ([10.7.209.21])
+  by orsmga105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 08 Nov 2023 01:39:40 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,10887"; a="763004535"
+X-IronPort-AV: E=Sophos;i="6.03,285,1694761200"; 
+   d="scan'208";a="763004535"
+Received: from lkp-server01.sh.intel.com (HELO 17d9e85e5079) ([10.239.97.150])
+  by orsmga002.jf.intel.com with ESMTP; 08 Nov 2023 01:39:39 -0800
+Received: from kbuild by 17d9e85e5079 with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1r0f29-0007rX-0b;
+	Wed, 08 Nov 2023 09:39:37 +0000
+Date: Wed, 08 Nov 2023 17:38:46 +0800
+From: kernel test robot <lkp@intel.com>
+To: "Greg Kroah-Hartman" <gregkh@linuxfoundation.org>
+Cc: linux-usb@vger.kernel.org
+Subject: [usb:rndis-removal] BUILD SUCCESS
+ f095fb54d0f124e88ab33e83d364f51d7e0ce050
+Message-ID: <202311081744.9P8OnRb8-lkp@intel.com>
+User-Agent: s-nail v14.9.24
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
-References: <20231031093921.755204-1-guanyulin@google.com> <f75d6cd2-fa9f-4820-969f-2a8839d78c9e@rowland.harvard.edu>
-In-Reply-To: <f75d6cd2-fa9f-4820-969f-2a8839d78c9e@rowland.harvard.edu>
-From: Guan-Yu Lin <guanyulin@google.com>
-Date: Wed, 8 Nov 2023 16:45:43 +0800
-Message-ID: <CAOuDEK0NcijUKAL3fGtO=Ks+Y38TRhJcVx+ff-QUyUA0LcQ1Bw@mail.gmail.com>
-Subject: Re: [PATCH] rpm: pm: enable PM_RPM_EXCEPTION config flag
-To: Alan Stern <stern@rowland.harvard.edu>
-Cc: gregkh@linuxfoundation.org, rafael@kernel.org, len.brown@intel.com, 
-	pavel@ucw.cz, heikki.krogerus@linux.intel.com, mkl@pengutronix.de, 
-	hadess@hadess.net, mailhol.vincent@wanadoo.fr, ivan.orlov0322@gmail.com, 
-	linux-usb@vger.kernel.org, linux-kernel@vger.kernel.org, 
-	linux-pm@vger.kernel.org, pumahsu@google.com, raychi@google.com, 
-	albertccwang@google.com
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
 
-On Tue, Oct 31, 2023 at 10:39=E2=80=AFPM Alan Stern <stern@rowland.harvard.=
-edu> wrote:
->
-> On Tue, Oct 31, 2023 at 05:38:55PM +0800, Guan-Yu Lin wrote:
-> > Introducing PM_RPM_EXCEPTION config flag, which may alter the priority
-> > between system power management and runtime power management. In
-> > suspend-to-idle flow, PM core will suspend all devices to avoid device
->
-> Your patch affects all forms of system suspend, not just
-> suspend-to-idle.  What do you actually mean here?
->
-> > interact with the system. However, chances are devices might be used by
-> > other systems rather than a single system. In this case, PM core should=
-n't
-> > suspend the devices. One may use PM_RPM_EXCEPTION config flag to mark
-> > such exception, and determine the power state of a device with runtime
-> > power management rather than system power management.
->
-> This sort of arrangement -- a device shared between two different
-> systems -- could happen with any sort of device.  Why does your patch
-> affect only USB devices?
->
-> > diff --git a/kernel/power/Kconfig b/kernel/power/Kconfig
-> > index 4b31629c5be4..beba7a0f3947 100644
-> > --- a/kernel/power/Kconfig
-> > +++ b/kernel/power/Kconfig
-> > @@ -193,6 +193,14 @@ config PM
-> >         responsible for the actual handling of device suspend requests =
-and
-> >         wake-up events.
-> >
-> > +config PM_RPM_EXCEPTION
-> > +     bool "Prioritize Runtime Power Management more than Power Managem=
-ent"
->
-> Runtime Power Management is a form of Power Management, so what you
-> wrote doesn't make sense.  What you really meant is: Prioritize Runtime
-> Power Management more than System Power Management.
->
-> > +     default n
-> > +     help
-> > +     Provides a way to prioritize Runtime Power Management more than P=
-ower
-> > +     Management. This way system can suspnd with maintaining specific
->
-> s/suspnd/suspend/
-> s/with/while/
->
-> > +     components in operation.
->
-> Your patch does not allow _specific_ components to be kept in operation.
-> _All_ in-use components that support prioritized PM (with this patch,
-> all USB components) will remain powered during system suspend, even if
-> the user wants only _some_ of them to be kept powered.
->
-> Alan Stern
->
-> > +
-> >  config PM_DEBUG
-> >       bool "Power Management Debug Support"
-> >       depends on PM
-> > --
-> > 2.42.0.820.g83a721a137-goog
-> >
+tree/branch: https://git.kernel.org/pub/scm/linux/kernel/git/gregkh/usb.git rndis-removal
+branch HEAD: f095fb54d0f124e88ab33e83d364f51d7e0ce050  USB: disable all RNDIS protocol drivers
 
-Thanks for the questions. Let me first introduce my motivation for
-proposing this feature. We can discuss the implementation details later.
+elapsed time: 2865m
 
-Motivation:
-Currently, system PM operations always override runtime PM operations.
-As runtime PM reflects the power status of devices, there is a
-possibility that runtime PM states that a device is in use, but system
-PM decides to suspend it. Up to now, we have assumed that a device can't
-function without resources from the system, so the device should acquire
-a wakelock to prevent this from happening. However, what if the device
-does not need the system's support to function? Or only needs limited
-resources (e.g., only limited power source or clock) to function? In this
-situation, we would like to keep the device on but allow the system to
-suspend. This is an example where we would like devices to follow runtime
-PM rather than system PM.
+configs tested: 69
+configs skipped: 2
 
-Feature Supported:
-1. Devices could control the priority of system PM and runtime PM during
-   runtime.
-2. The control should be at the device level, meaning that different
-   devices should control their own priorities.
+The following configs have been built successfully.
+More configs may be tested in the coming days.
 
-Goal of This Patch:
-1. Design a framework to support features above.
-2. Apply it into usb for demonstration.
+tested configs:
+alpha                             allnoconfig   gcc  
+alpha                            allyesconfig   gcc  
+alpha                               defconfig   gcc  
+arc                              allmodconfig   gcc  
+arc                               allnoconfig   gcc  
+arc                              allyesconfig   gcc  
+arc                                 defconfig   gcc  
+arm                                 defconfig   gcc  
+csky                             allmodconfig   gcc  
+csky                              allnoconfig   gcc  
+csky                             allyesconfig   gcc  
+csky                                defconfig   gcc  
+i386                             allmodconfig   gcc  
+i386                              allnoconfig   gcc  
+i386                             allyesconfig   gcc  
+i386                              debian-10.3   gcc  
+i386                                defconfig   gcc  
+loongarch                         allnoconfig   gcc  
+loongarch                           defconfig   gcc  
+m68k                             allmodconfig   gcc  
+m68k                              allnoconfig   gcc  
+m68k                             allyesconfig   gcc  
+m68k                                defconfig   gcc  
+microblaze                       allmodconfig   gcc  
+microblaze                        allnoconfig   gcc  
+microblaze                       allyesconfig   gcc  
+microblaze                          defconfig   gcc  
+mips                             allmodconfig   gcc  
+mips                              allnoconfig   gcc  
+mips                             allyesconfig   gcc  
+nios2                             allnoconfig   gcc  
+nios2                               defconfig   gcc  
+openrisc                         allmodconfig   gcc  
+openrisc                          allnoconfig   gcc  
+openrisc                         allyesconfig   gcc  
+openrisc                            defconfig   gcc  
+parisc                              defconfig   gcc  
+parisc64                            defconfig   gcc  
+powerpc                          allmodconfig   gcc  
+powerpc                           allnoconfig   gcc  
+powerpc                          allyesconfig   gcc  
+riscv                             allnoconfig   gcc  
+riscv                            allyesconfig   gcc  
+riscv                               defconfig   gcc  
+riscv                          rv32_defconfig   gcc  
+s390                             allmodconfig   gcc  
+s390                              allnoconfig   gcc  
+s390                             allyesconfig   gcc  
+s390                                defconfig   gcc  
+sh                               allmodconfig   gcc  
+sh                                allnoconfig   gcc  
+sh                               allyesconfig   gcc  
+sh                                  defconfig   gcc  
+sparc                            allmodconfig   gcc  
+sparc                             allnoconfig   gcc  
+sparc                            allyesconfig   gcc  
+sparc                               defconfig   gcc  
+sparc64                             defconfig   gcc  
+um                               allmodconfig   clang
+um                                allnoconfig   clang
+um                               allyesconfig   clang
+um                                  defconfig   gcc  
+um                             i386_defconfig   gcc  
+um                           x86_64_defconfig   gcc  
+x86_64                            allnoconfig   gcc  
+x86_64                           allyesconfig   gcc  
+x86_64                              defconfig   gcc  
+x86_64                          rhel-8.3-rust   clang
+x86_64                               rhel-8.3   gcc  
 
-Thanks,
-Guan-Yu
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
