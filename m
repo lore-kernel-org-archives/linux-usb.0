@@ -1,29 +1,29 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D3FD511CA1
-	for <linux-usb@vger.kernel.org>; Fri, 10 Nov 2023 09:26:13 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F31ED125A4
+	for <linux-usb@vger.kernel.org>; Fri, 10 Nov 2023 09:27:08 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="S8K19OuQ"
-Received: by smtp.kernel.org (Postfix) with ESMTPS id 5CBF6C433C8
-	for <linux-usb@vger.kernel.org>; Fri, 10 Nov 2023 09:26:13 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Kbf+XTDn"
+Received: by smtp.kernel.org (Postfix) with ESMTPS id 78B38C433C8
+	for <linux-usb@vger.kernel.org>; Fri, 10 Nov 2023 09:27:08 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1699608373;
-	bh=fnMtVxrVjsknUcS88ytbcJt+DWR6II1KKnJtwtOzqbc=;
+	s=k20201202; t=1699608428;
+	bh=rr+gsEEHuQPeygGrMhp0Pl3Kkafed+5eAHPihIecERo=;
 	h=From:To:Subject:Date:In-Reply-To:References:From;
-	b=S8K19OuQRiIkB6AC/6bsIVDYmOyHW5Be/v7ziV1a53fWmIBOGhHVDzmbM65QdrNS6
-	 F586fPWIzRc/BaoM1XlexXT28StpA6N/FBw/vBEROVJc+H67enFgbTBi36mIkd4A3F
-	 bZiDru40l+r58pmlbFY7O78yI0puB9KwpY5gilBYmc83uMuWj87rTQRGQPVySWFYJ7
-	 r/xXCbCOVbYCEN6BBw7kQKECJRaNjWT0KrBs/ESsLSm7fB/wndhHj9dZtcIw/eUUaS
-	 4e0C9c+XlZvhjuMPYSRxqWY6O6iv8OjshMlmraNqTLgf07+uKM6xBi0DTGCURhPUK/
-	 w6Hqnxt2JNdTA==
+	b=Kbf+XTDnmHePMH9b8GwagN3JXbjDz3Q1RoqsFP9hSFnbFuZWX7OAdzcgAMtz5txnG
+	 lSa5y7NvVS70uO+pC/vqB3BwpNgNCMxrfIma+eZnsKo3WjI30ctk2cbYfTMY4CDHu9
+	 LjOCLEER1qILIQKtONcBY7z+6WAbIjxWhkYbbjWD6bJFPbr6xgk1tFu+/aKd8ewsYB
+	 fwZ71S5Fwo0BcRXx+vP2zrSCaPiqKmniYeTjjPr5gqP3gXT2GA/hmWpjZoOLVHJg+Y
+	 fXe/XFcCMYdTv+YRMetF4LMmjq2sdASs+HsfkCMSmHA/PvXDQj0ZJPTZGo4SKrZXSG
+	 WCQJYLX4nWCfg==
 Received: by aws-us-west-2-korg-bugzilla-1.web.codeaurora.org (Postfix, from userid 48)
-	id 40C97C4332E; Fri, 10 Nov 2023 09:26:13 +0000 (UTC)
+	id 66BFFC4332E; Fri, 10 Nov 2023 09:27:08 +0000 (UTC)
 From: bugzilla-daemon@kernel.org
 To: linux-usb@vger.kernel.org
 Subject: [Bug 218118] USB3 port does not work on Chromebook XE303C12 with
  Linux kernel 6.5.11
-Date: Fri, 10 Nov 2023 09:26:12 +0000
+Date: Fri, 10 Nov 2023 09:27:08 +0000
 X-Bugzilla-Reason: None
 X-Bugzilla-Type: changed
 X-Bugzilla-Watch-Reason: AssignedTo drivers_usb@kernel-bugs.kernel.org
@@ -38,8 +38,8 @@ X-Bugzilla-Resolution:
 X-Bugzilla-Priority: P3
 X-Bugzilla-Assigned-To: drivers_usb@kernel-bugs.kernel.org
 X-Bugzilla-Flags: 
-X-Bugzilla-Changed-Fields: attachments.created
-Message-ID: <bug-218118-208809-H8PV51ZUzU@https.bugzilla.kernel.org/>
+X-Bugzilla-Changed-Fields: 
+Message-ID: <bug-218118-208809-7xm3xs1WNt@https.bugzilla.kernel.org/>
 In-Reply-To: <bug-218118-208809@https.bugzilla.kernel.org/>
 References: <bug-218118-208809@https.bugzilla.kernel.org/>
 Content-Type: text/plain; charset="UTF-8"
@@ -55,10 +55,10 @@ MIME-Version: 1.0
 
 https://bugzilla.kernel.org/show_bug.cgi?id=3D218118
 
---- Comment #6 from Andrew (quark@disroot.org) ---
-Created attachment 305392
-  --> https://bugzilla.kernel.org/attachment.cgi?id=3D305392&action=3Dedit
-dmesg
+--- Comment #7 from Andrew (quark@disroot.org) ---
+I applied configpatch and rebuilt the kernel. With debugging enabled usb3 p=
+ort
+works fine. That was unexpected for me.
 
 --=20
 You may reply to this email to add a comment.
