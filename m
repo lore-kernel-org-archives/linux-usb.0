@@ -1,31 +1,30 @@
 Received: from lindbergh.monkeyblade.net (lindbergh.monkeyblade.net [23.128.96.19])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 01520210EF;
-	Mon, 13 Nov 2023 14:27:04 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BD8C1210F4;
+	Mon, 13 Nov 2023 14:27:05 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b="nVdhVCUL"
-Received: from relay5-d.mail.gandi.net (relay5-d.mail.gandi.net [IPv6:2001:4b98:dc4:8::225])
-	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 22DB3D59;
-	Mon, 13 Nov 2023 06:27:00 -0800 (PST)
-Received: by mail.gandi.net (Postfix) with ESMTPSA id 266C41C0007;
-	Mon, 13 Nov 2023 14:26:58 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b="CdUrQ5QZ"
+Received: from relay5-d.mail.gandi.net (relay5-d.mail.gandi.net [217.70.183.197])
+	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 28F66D60;
+	Mon, 13 Nov 2023 06:27:03 -0800 (PST)
+Received: by mail.gandi.net (Postfix) with ESMTPSA id 4CF531C0003;
+	Mon, 13 Nov 2023 14:27:01 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=gm1;
-	t=1699885619;
+	t=1699885621;
 	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
 	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding;
-	bh=x/vcYfbmrCl2/iFXdAu/GqVZlYhoqhCpshthYgoXXWU=;
-	b=nVdhVCULSDjsp9z6AP86jPhGmku9Exz1YuO7aUG5D3bxAV25trNO7UbUIbIKjLn6pO58XU
-	Q015wDW7S3B0ZH3aBMk9IapaqSZlEXp1739X3DOxLDOz5gslxGoiYuaQUSVv3bWXIbmexe
-	VtFWOO0LHDRhnZs9BgPdle3PY4YhpQiQWrLQNyGJx0Agj55WcsMkebHipDAZQBh63BlyoR
-	/7cV2M/iPQVdaKK/4yLPqPdN48PV26RhPHUGeStoxTKY6ncKcF8Rpnu3n4SPzVtR+9lei4
-	fLfaKloIVo9coEMojXoaYv6oxwe7Zmji7dUYDUdeqAYGzxCoF/M4lhyOneahWA==
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=xhQIX2l1AguLqLqqSuhrXlTHhHreB3Yx+m4gIExyzdk=;
+	b=CdUrQ5QZKlKgfAHkaN5pRMkm6kJPA7FlAgX2N1M8ahm8ex2+uOgnaxX7lYbma/37xjoiRR
+	XvjQ+AmQaJMrockgTuSlRkL1QUubiF49WGsh9YTkowiuuvRhl9EoaH3DspwDotkBdXLOwv
+	LE9brLy6qOvyZkXRkYRhk8wg2GPX19qZGyr7ebhITZO+h+rXHfrYQk9V53UF5D5aVE3HeL
+	XdU2nwVZ5T0MfN8IR33H+UiHkN7fy69Xr1hkKECt9SoTyZ5PR5IBBIj8p0aBPrddSnfhPS
+	4m30yACn8GeoehQ57l1oVuMsJrzUg2PcR25Enpzsly5sV9f6yLG5IeL/tKxM+g==
 From: =?utf-8?q?Th=C3=A9o_Lebrun?= <theo.lebrun@bootlin.com>
-Subject: [PATCH 0/6] usb: cdns: fix suspend on J7200 by assuming reset on
- resume
-Date: Mon, 13 Nov 2023 15:26:55 +0100
-Message-Id: <20231113-j7200-usb-suspend-v1-0-ad1ee714835c@bootlin.com>
+Date: Mon, 13 Nov 2023 15:26:58 +0100
+Subject: [PATCH 3/6] usb: cdns3-ti: add suspend/resume procedures for J7200
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
@@ -34,9 +33,9 @@ List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 8bit
-X-B4-Tracking: v=1; b=H4sIAC8yUmUC/x3MPQqAMAxA4atIZgNNLCheRRz8STUOVRoUQby7x
- fEb3nvAJKkYtMUDSS413WMGlQVM6xAXQZ2zgR1XRFThVrNzeNqIdtohcUYefB2YGxLnIXdHkqD
- 3/+z69/0Alpv3dmMAAAA=
+Message-Id: <20231113-j7200-usb-suspend-v1-3-ad1ee714835c@bootlin.com>
+References: <20231113-j7200-usb-suspend-v1-0-ad1ee714835c@bootlin.com>
+In-Reply-To: <20231113-j7200-usb-suspend-v1-0-ad1ee714835c@bootlin.com>
 To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>, 
  Rob Herring <robh+dt@kernel.org>, 
  Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>, 
@@ -50,62 +49,98 @@ Cc: linux-usb@vger.kernel.org, devicetree@vger.kernel.org,
 X-Mailer: b4 0.12.3
 X-GND-Sasl: theo.lebrun@bootlin.com
 
-Hi,
+Hardware initialisation is only done at probe. The J7200 USB controller
+is reset at resume because of power-domains toggling off & on. We
+therefore (1) toggle PM runtime at suspend/resume & (2) reconfigure the
+hardware at resume.
 
-Suspend on the TI J7200 platform is broken currently. There are two
-components that need to be patched so that they assume reset on
-resume: (1) the TI wrapper cdns3-ti & (2) the HOST role of the
-controller.
+Reuse the newly extracted cdns_ti_init_hw() function that contains the
+register write sequence.
 
-Both only did their hardware configuration at probe time. We are talking
-about suspend-to-RAM but also suspend-to-idle; we have power-domains
-that turn off the controller in the second case which explains why
-s2idle doesn't work either.
-
-For cdns3-ti, we implement suspend & resume procedures only targeting
-our newly created compatible (ti,j7200-usb). The goal is to avoid
-breaking other platforms; it's unclear to me if power-domains are
-toggling at s2idle on those as well. About S2R I don't think it's
-targeted for those platforms.
-
-For the HOST role, we add a quirk flag which gets passed as auxiliary
-data by our wrapper TI driver. That avoids touching the behavior of
-other platforms; again I'm unsure what is expected and I wouldn't want
-to break stuff by re-initializing the role.
-
-Those patches have been tested on the TI J7200 EVM GP. No need to
-mention that other patches are required for S2R to work, but those will
-be sent later down the road. Those USB patches are rather standalone.
-
-Thanks,
-Théo
-
---
-Théo Lebrun, Bootlin
-Embedded Linux and Kernel engineering
-https://bootlin.com
+We guard this behavior based on compatible to avoid modifying the
+current behavior on other platforms. If the controller does not reset
+we do not want to touch PM runtime & do not want to redo reg writes.
 
 Signed-off-by: Théo Lebrun <theo.lebrun@bootlin.com>
 ---
-Théo Lebrun (6):
-      dt-bindings: usb: ti,j721e-usb: add ti,j7200-usb compatible
-      usb: cdns3-ti: move reg writes from probe into an init_hw helper
-      usb: cdns3-ti: add suspend/resume procedures for J7200
-      usb: cdns3: support power-off of controller when in host role
-      usb: cdns3-ti: notify cdns core that hardware resets across suspend on J7200
-      arm64: dts: ti: k3-j7200: use J7200-specific USB compatible
+ drivers/usb/cdns3/cdns3-ti.c | 48 +++++++++++++++++++++++++++++++++++++++++++-
+ 1 file changed, 47 insertions(+), 1 deletion(-)
 
- .../devicetree/bindings/usb/ti,j721e-usb.yaml      |   1 +
- arch/arm64/boot/dts/ti/k3-j7200-main.dtsi          |   2 +-
- drivers/usb/cdns3/cdns3-ti.c                       | 141 +++++++++++++++------
- drivers/usb/cdns3/core.h                           |   1 +
- drivers/usb/cdns3/host.c                           |  20 +++
- 5 files changed, 127 insertions(+), 38 deletions(-)
----
-base-commit: 1d42d5c8f1ca11106579dcaadef4161fee03419e
-change-id: 20231113-j7200-usb-suspend-2a47f2281e04
+diff --git a/drivers/usb/cdns3/cdns3-ti.c b/drivers/usb/cdns3/cdns3-ti.c
+index c331bcd2faeb..50b38c4b9c87 100644
+--- a/drivers/usb/cdns3/cdns3-ti.c
++++ b/drivers/usb/cdns3/cdns3-ti.c
+@@ -197,6 +197,50 @@ static int cdns_ti_probe(struct platform_device *pdev)
+ 	return error;
+ }
+ 
++#ifdef CONFIG_PM
++
++static int cdns_ti_suspend(struct device *dev)
++{
++	struct cdns_ti *data = dev_get_drvdata(dev);
++
++	if (!of_device_is_compatible(dev_of_node(dev), "ti,j7200-usb"))
++		return 0;
++
++	pm_runtime_put_sync(data->dev);
++
++	return 0;
++}
++
++static int cdns_ti_resume(struct device *dev)
++{
++	struct cdns_ti *data = dev_get_drvdata(dev);
++	int ret;
++
++	if (!of_device_is_compatible(dev_of_node(dev), "ti,j7200-usb"))
++		return 0;
++
++	ret = pm_runtime_get_sync(dev);
++	if (ret < 0) {
++		dev_err(dev, "pm_runtime_get_sync failed: %d\n", ret);
++		goto err;
++	}
++
++	cdns_ti_init_hw(data);
++
++	return 0;
++
++err:
++	pm_runtime_put_sync(data->dev);
++	pm_runtime_disable(data->dev);
++	return ret;
++}
++
++static const struct dev_pm_ops cdns_ti_pm_ops = {
++	SET_SYSTEM_SLEEP_PM_OPS(cdns_ti_suspend, cdns_ti_resume)
++};
++
++#endif /* CONFIG_PM */
++
+ static int cdns_ti_remove_core(struct device *dev, void *c)
+ {
+ 	struct platform_device *pdev = to_platform_device(dev);
+@@ -218,6 +262,7 @@ static void cdns_ti_remove(struct platform_device *pdev)
+ }
+ 
+ static const struct of_device_id cdns_ti_of_match[] = {
++	{ .compatible = "ti,j7200-usb", },
+ 	{ .compatible = "ti,j721e-usb", },
+ 	{ .compatible = "ti,am64-usb", },
+ 	{},
+@@ -228,8 +273,9 @@ static struct platform_driver cdns_ti_driver = {
+ 	.probe		= cdns_ti_probe,
+ 	.remove_new	= cdns_ti_remove,
+ 	.driver		= {
+-		.name	= "cdns3-ti",
++		.name		= "cdns3-ti",
+ 		.of_match_table	= cdns_ti_of_match,
++		.pm		= pm_ptr(&cdns_ti_pm_ops),
+ 	},
+ };
+ 
 
-Best regards,
 -- 
-Théo Lebrun <theo.lebrun@bootlin.com>
+2.41.0
 
