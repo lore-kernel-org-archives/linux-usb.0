@@ -1,31 +1,31 @@
 Received: from lindbergh.monkeyblade.net (lindbergh.monkeyblade.net [23.128.96.19])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B8760210F3;
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F335A210FC;
 	Mon, 13 Nov 2023 14:27:05 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b="dkrLrBm0"
+	dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b="SwUcstoM"
 Received: from relay5-d.mail.gandi.net (relay5-d.mail.gandi.net [217.70.183.197])
-	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C7BA4D6E;
-	Mon, 13 Nov 2023 06:27:03 -0800 (PST)
-Received: by mail.gandi.net (Postfix) with ESMTPSA id F36D91C0006;
-	Mon, 13 Nov 2023 14:27:01 +0000 (UTC)
+	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 9301FD5E;
+	Mon, 13 Nov 2023 06:27:02 -0800 (PST)
+Received: by mail.gandi.net (Postfix) with ESMTPSA id 8C3A21C0015;
+	Mon, 13 Nov 2023 14:27:00 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=gm1;
-	t=1699885622;
+	t=1699885621;
 	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
 	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=cnUtq32WECjfa76r/drw3nv80tgUh5X0WPjXLzFlw28=;
-	b=dkrLrBm0G6WnQIfo4v7EkNmhc1fxeqZv1l6opb3gjHwULojiv5p/NaJkGUcgKv6etaoTPi
-	0ADc6WeA4CdTabdx64+7Gy6f75FiUnUNQLtLQseNQx/zupfA/EeObKE/1sR3HGVLTDLlHM
-	Z7kk8kfQ1SjxnzJwKIPBztWSCscdZ887WmLlRhjPQw8cKbTzt9uJ1yImGdhxThhyNu2gcI
-	mNkXD5ji2f8B+Vz9TPGfvS9qEzz+GHVuLlueiKEMLpXbzezYnSKIVFa21m+qkzSOiKy7Ic
-	4YXN4WaS+eim3Llkje2kUE2pwefMyWZL7qdftfkh4ktna5b+quJLChPti4S6Ew==
+	bh=GSimQIqa/8SepKg3uis9mexXr+RooQka7AQUj0ZMCxM=;
+	b=SwUcstoMkO51WegbzPUOXINPZ7NYGCDMsSX0TGQ1JTX8616YqGNMPNTIaMYNIdWQ35Dku+
+	QmWV2FEHBVVZBsexgmEjdOmjFtlIq+ydInNn6XP2nZPQj55mglPNuuAyYqHwiITK75nWAC
+	VzBCcYJvpz7H087K6HdZz5+obEe/2eOZnvxwUb5P0L65KMHQfR4r/KZrxmelOxS5Fvq9CQ
+	NkXbPlSCOKL2S6v+1o1YlB9fCcBiQeDl5T+U4BF3PbBXFYe4Ud4wpofFGQK6Z+G2JjFI8E
+	i07xwHxck7QCcudy3pCixOhdQW/ekohVwHujrytfq81jMmf0ctoZNe/43FdDLQ==
 From: =?utf-8?q?Th=C3=A9o_Lebrun?= <theo.lebrun@bootlin.com>
-Date: Mon, 13 Nov 2023 15:26:59 +0100
-Subject: [PATCH 4/6] usb: cdns3: support power-off of controller when in
- host role
+Date: Mon, 13 Nov 2023 15:26:57 +0100
+Subject: [PATCH 2/6] usb: cdns3-ti: move reg writes from probe into an
+ init_hw helper
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
@@ -34,7 +34,7 @@ List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 8bit
-Message-Id: <20231113-j7200-usb-suspend-v1-4-ad1ee714835c@bootlin.com>
+Message-Id: <20231113-j7200-usb-suspend-v1-2-ad1ee714835c@bootlin.com>
 References: <20231113-j7200-usb-suspend-v1-0-ad1ee714835c@bootlin.com>
 In-Reply-To: <20231113-j7200-usb-suspend-v1-0-ad1ee714835c@bootlin.com>
 To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>, 
@@ -50,88 +50,139 @@ Cc: linux-usb@vger.kernel.org, devicetree@vger.kernel.org,
 X-Mailer: b4 0.12.3
 X-GND-Sasl: theo.lebrun@bootlin.com
 
-The controller is not being reconfigured at resume. Change resume to
-redo hardware config if quirk CDNS3_RESET_ON_RESUME is active.
+The hardware initialisation register write sequence is only used at
+probe. To support suspend/resume with a controller losing power, we
+must redo this sequence of writes.
 
-Platform data comes from the parent driver (eg cdns3-ti).
+Extract the register write sequence to a new cdns_ti_init_hw function to
+reuse it later down the road, at resume.
 
-The quirk should be passed if the platform driver knows that the
-controller might be in reset state at resume. We do NOT reconfigure the
-hardware without this quirk to avoid losing state if we did a suspend
-without reset.
-
-If the quirk is on, we notify the xHCI subsystem that:
-
-1. We reset on resume. It will therefore redo the xHC init & trigger
-   such message as "root hub lost power or was reset" in dmesg.
-
-2. It should disable/enable clocks on suspend/resume. This does not
-   matter on our platform as xhci-plat does not get access to any clock
-   but it would be the right thing to do if we indeed had such clocks.
+We keep the devicetree-parsing aspect of the sequence in probe & add a
+new field in the private struct to remember the USB2 refclk rate code
+computation result.
 
 Signed-off-by: Théo Lebrun <theo.lebrun@bootlin.com>
 ---
- drivers/usb/cdns3/core.h |  1 +
- drivers/usb/cdns3/host.c | 20 ++++++++++++++++++++
- 2 files changed, 21 insertions(+)
+ drivers/usb/cdns3/cdns3-ti.c | 76 ++++++++++++++++++++++++--------------------
+ 1 file changed, 41 insertions(+), 35 deletions(-)
 
-diff --git a/drivers/usb/cdns3/core.h b/drivers/usb/cdns3/core.h
-index 81a9c9d6be08..7487067ba23f 100644
---- a/drivers/usb/cdns3/core.h
-+++ b/drivers/usb/cdns3/core.h
-@@ -44,6 +44,7 @@ struct cdns3_platform_data {
- 			bool suspend, bool wakeup);
- 	unsigned long quirks;
- #define CDNS3_DEFAULT_PM_RUNTIME_ALLOW	BIT(0)
-+#define CDNS3_RESET_ON_RESUME		BIT(1)
+diff --git a/drivers/usb/cdns3/cdns3-ti.c b/drivers/usb/cdns3/cdns3-ti.c
+index 5945c4b1e11f..c331bcd2faeb 100644
+--- a/drivers/usb/cdns3/cdns3-ti.c
++++ b/drivers/usb/cdns3/cdns3-ti.c
+@@ -57,6 +57,7 @@ struct cdns_ti {
+ 	unsigned vbus_divider:1;
+ 	struct clk *usb2_refclk;
+ 	struct clk *lpm_clk;
++	int usb2_refclk_rate_code;
  };
  
- /**
-diff --git a/drivers/usb/cdns3/host.c b/drivers/usb/cdns3/host.c
-index 6164fc4c96a4..a81019a7c8cc 100644
---- a/drivers/usb/cdns3/host.c
-+++ b/drivers/usb/cdns3/host.c
-@@ -88,6 +88,9 @@ static int __cdns_host_init(struct cdns *cdns)
- 		goto err1;
- 	}
- 
-+	if (cdns->pdata && cdns->pdata->quirks & CDNS3_RESET_ON_RESUME)
-+		cdns->xhci_plat_data->quirks |= XHCI_RESET_ON_RESUME | XHCI_SUSPEND_RESUME_CLKS;
-+
- 	if (cdns->pdata && (cdns->pdata->quirks & CDNS3_DEFAULT_PM_RUNTIME_ALLOW))
- 		cdns->xhci_plat_data->quirks |= XHCI_DEFAULT_PM_RUNTIME_ALLOW;
- 
-@@ -124,6 +127,18 @@ static void cdns_host_exit(struct cdns *cdns)
- 	cdns_drd_host_off(cdns);
+ static const int cdns_ti_rate_table[] = {	/* in KHZ */
+@@ -85,15 +86,50 @@ static inline void cdns_ti_writel(struct cdns_ti *data, u32 offset, u32 value)
+ 	writel(value, data->usbss + offset);
  }
  
-+static int cdns_host_suspend(struct cdns *cdns, bool do_wakeup)
++static void cdns_ti_init_hw(struct cdns_ti *data)
 +{
-+	if (!do_wakeup)
-+		cdns_drd_host_off(cdns);
-+	return 0;
++	u32 reg;
++
++	/* assert RESET */
++	reg = cdns_ti_readl(data, USBSS_W1);
++	reg &= ~USBSS_W1_PWRUP_RST;
++	cdns_ti_writel(data, USBSS_W1, reg);
++
++	/* set static config */
++	reg = cdns_ti_readl(data, USBSS_STATIC_CONFIG);
++	reg &= ~USBSS1_STATIC_PLL_REF_SEL_MASK;
++	reg |= data->usb2_refclk_rate_code << USBSS1_STATIC_PLL_REF_SEL_SHIFT;
++
++	reg &= ~USBSS1_STATIC_VBUS_SEL_MASK;
++	if (data->vbus_divider)
++		reg |= 1 << USBSS1_STATIC_VBUS_SEL_SHIFT;
++
++	cdns_ti_writel(data, USBSS_STATIC_CONFIG, reg);
++	reg = cdns_ti_readl(data, USBSS_STATIC_CONFIG);
++
++	/* set USB2_ONLY mode if requested */
++	reg = cdns_ti_readl(data, USBSS_W1);
++	if (data->usb2_only)
++		reg |= USBSS_W1_USB2_ONLY;
++
++	/* set default modestrap */
++	reg |= USBSS_W1_MODESTRAP_SEL;
++	reg &= ~USBSS_W1_MODESTRAP_MASK;
++	reg |= USBSS_MODESTRAP_MODE_NONE << USBSS_W1_MODESTRAP_SHIFT;
++	cdns_ti_writel(data, USBSS_W1, reg);
++
++	/* de-assert RESET */
++	reg |= USBSS_W1_PWRUP_RST;
++	cdns_ti_writel(data, USBSS_W1, reg);
 +}
 +
-+static int cdns_host_resume(struct cdns *cdns, bool hibernated)
-+{
-+	return cdns_drd_host_on(cdns);
-+}
-+
- int cdns_host_init(struct cdns *cdns)
+ static int cdns_ti_probe(struct platform_device *pdev)
  {
- 	struct cdns_role_driver *rdrv;
-@@ -137,6 +152,11 @@ int cdns_host_init(struct cdns *cdns)
- 	rdrv->state	= CDNS_ROLE_STATE_INACTIVE;
- 	rdrv->name	= "host";
+ 	struct device *dev = &pdev->dev;
+ 	struct device_node *node = pdev->dev.of_node;
+ 	struct cdns_ti *data;
+-	int error;
+-	u32 reg;
+-	int rate_code, i;
+ 	unsigned long rate;
++	int error, i;
  
-+	if (cdns->pdata && cdns->pdata->quirks & CDNS3_RESET_ON_RESUME) {
-+		rdrv->suspend = cdns_host_suspend;
-+		rdrv->resume = cdns_host_resume;
-+	}
-+
- 	cdns->roles[USB_ROLE_HOST] = rdrv;
+ 	data = devm_kzalloc(dev, sizeof(*data), GFP_KERNEL);
+ 	if (!data)
+@@ -133,8 +169,6 @@ static int cdns_ti_probe(struct platform_device *pdev)
+ 		return -EINVAL;
+ 	}
  
- 	return 0;
+-	rate_code = i;
+-
+ 	pm_runtime_enable(dev);
+ 	error = pm_runtime_get_sync(dev);
+ 	if (error < 0) {
+@@ -142,39 +176,11 @@ static int cdns_ti_probe(struct platform_device *pdev)
+ 		goto err;
+ 	}
+ 
+-	/* assert RESET */
+-	reg = cdns_ti_readl(data, USBSS_W1);
+-	reg &= ~USBSS_W1_PWRUP_RST;
+-	cdns_ti_writel(data, USBSS_W1, reg);
+-
+-	/* set static config */
+-	reg = cdns_ti_readl(data, USBSS_STATIC_CONFIG);
+-	reg &= ~USBSS1_STATIC_PLL_REF_SEL_MASK;
+-	reg |= rate_code << USBSS1_STATIC_PLL_REF_SEL_SHIFT;
+-
+-	reg &= ~USBSS1_STATIC_VBUS_SEL_MASK;
+ 	data->vbus_divider = device_property_read_bool(dev, "ti,vbus-divider");
+-	if (data->vbus_divider)
+-		reg |= 1 << USBSS1_STATIC_VBUS_SEL_SHIFT;
+-
+-	cdns_ti_writel(data, USBSS_STATIC_CONFIG, reg);
+-	reg = cdns_ti_readl(data, USBSS_STATIC_CONFIG);
+-
+-	/* set USB2_ONLY mode if requested */
+-	reg = cdns_ti_readl(data, USBSS_W1);
+ 	data->usb2_only = device_property_read_bool(dev, "ti,usb2-only");
+-	if (data->usb2_only)
+-		reg |= USBSS_W1_USB2_ONLY;
+-
+-	/* set default modestrap */
+-	reg |= USBSS_W1_MODESTRAP_SEL;
+-	reg &= ~USBSS_W1_MODESTRAP_MASK;
+-	reg |= USBSS_MODESTRAP_MODE_NONE << USBSS_W1_MODESTRAP_SHIFT;
+-	cdns_ti_writel(data, USBSS_W1, reg);
++	data->usb2_refclk_rate_code = i;
+ 
+-	/* de-assert RESET */
+-	reg |= USBSS_W1_PWRUP_RST;
+-	cdns_ti_writel(data, USBSS_W1, reg);
++	cdns_ti_init_hw(data);
+ 
+ 	error = of_platform_populate(node, NULL, NULL, dev);
+ 	if (error) {
 
 -- 
 2.41.0
