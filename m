@@ -1,71 +1,28 @@
 Received: from lindbergh.monkeyblade.net (lindbergh.monkeyblade.net [23.128.96.19])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6D45921358
-	for <linux-usb@vger.kernel.org>; Mon, 13 Nov 2023 14:53:36 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="VJcfMXe3"
-Received: from mail-lf1-x12d.google.com (mail-lf1-x12d.google.com [IPv6:2a00:1450:4864:20::12d])
-	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id ACE7B1711
-	for <linux-usb@vger.kernel.org>; Mon, 13 Nov 2023 06:53:34 -0800 (PST)
-Received: by mail-lf1-x12d.google.com with SMTP id 2adb3069b0e04-507a3b8b113so6268784e87.0
-        for <linux-usb@vger.kernel.org>; Mon, 13 Nov 2023 06:53:34 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1699887213; x=1700492013; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=KajBuUuJpwuy15xSzO9YMy+TSc6B+gUFFD30MmfVQnM=;
-        b=VJcfMXe3ExiMBDQgYmCyUNtHRsDg+Yhk/Q8ESynJ1U48TbuzDon7N4dz3sWUHXWSCX
-         7y5mxJCq4E7WvR4+G+VohoZfFnwToNZBhO7YVmLoxyq6gCuyXB5oH33ME2oVmh9jm1Ow
-         wk+ww22bB8ouOCnSJo3BKLy8VKsPkSg9q8npY8TprRjzA0EYKGomAWuVTwW5gUgPZ/Qw
-         YtaN08+KPrjWJAdrY2PVyHd42CE18u45HGYKdxa2f0xEU6MTq+RK0GNMfuGGItC3YUyS
-         8vFDuHLadKsK4xyYgss2gF5O1nS3JvLp0xOnBZzqk4Xd5+ObSrz2rjvKW/IRWdYScLE9
-         4CDw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1699887213; x=1700492013;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=KajBuUuJpwuy15xSzO9YMy+TSc6B+gUFFD30MmfVQnM=;
-        b=uvPu1Ro7mYMJcaAi9sWzwXyFIegh2XMXzhuirrf7x4GnYYauyBJ9GDYS6EJt5LsrAZ
-         VK+LbO/7wbsonUPDZTezj3rRQVUM20fry0iGW/kswsFOiWMk8ohFkjfrtmOuJ0j2Iyx6
-         IPsOW2XwNhroXYgd+LE5rGDV5D2RZOxVuAvncGwpNSdng/POSqhR1hrEtCy8UgBjFQRX
-         bBjqUJMO/Ea976vznZ2D7q/iewXvgnzzb3sKz6lUXXbtwLiB5blnWskBh2iklsUOdgRM
-         ZIQzeVS6ipFfOgfssR5FBKLpAUEXzRq1uf8G3zhIviwOWqSP//YWhae4Jak76Uy7ZcGG
-         yxFQ==
-X-Gm-Message-State: AOJu0YzNWxHHlfDXsfGahfNj0kAUUtx9nOKLt3RPj9PAGddDlxz3BPaO
-	sq03udFHpNCSCNQF28arYng9Ig==
-X-Google-Smtp-Source: AGHT+IFssdsSeMO8OhuFr2rnn73oVtRkLf8RT6Drkzt27EUHXdwP55jUd9bvfFdMoYRyYOwcBoTFqA==
-X-Received: by 2002:a05:6512:3d90:b0:509:494d:c3d2 with SMTP id k16-20020a0565123d9000b00509494dc3d2mr5401160lfv.32.1699887212950;
-        Mon, 13 Nov 2023 06:53:32 -0800 (PST)
-Received: from eriador.lan (dzdqv0yyyyyyyyyyybcwt-3.rev.dnainternet.fi. [2001:14ba:a0db:1f00::8a5])
-        by smtp.gmail.com with ESMTPSA id x24-20020ac24898000000b0050794b05c8asm991429lfc.42.2023.11.13.06.53.31
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 13 Nov 2023 06:53:32 -0800 (PST)
-From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-To: Rob Herring <robh+dt@kernel.org>,
-	Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
-	Conor Dooley <conor+dt@kernel.org>,
-	Andy Gross <agross@kernel.org>,
-	Bjorn Andersson <andersson@kernel.org>,
-	Konrad Dybcio <konrad.dybcio@linaro.org>,
-	Hans de Goede <hdegoede@redhat.com>,
-	=?UTF-8?q?Ilpo=20J=C3=A4rvinen?= <ilpo.jarvinen@linux.intel.com>,
-	Mark Gross <markgross@kernel.org>,
-	Heikki Krogerus <heikki.krogerus@linux.intel.com>,
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 890DA21116
+	for <linux-usb@vger.kernel.org>; Mon, 13 Nov 2023 14:59:33 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; dkim=none
+Received: from mail11.truemail.it (mail11.truemail.it [IPv6:2001:4b7e:0:8::81])
+	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id EFFB910E5;
+	Mon, 13 Nov 2023 06:59:30 -0800 (PST)
+Received: from francesco-nb.pivistrello.it (93-49-2-63.ip317.fastwebnet.it [93.49.2.63])
+	by mail11.truemail.it (Postfix) with ESMTPA id 2CEA1207C0;
+	Mon, 13 Nov 2023 15:59:27 +0100 (CET)
+From: Francesco Dolcini <francesco@dolcini.it>
+To: Matthias Kaehlcke <mka@chromium.org>,
 	Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-Cc: devicetree@vger.kernel.org,
+Cc: Stefan Eichenberger <stefan.eichenberger@toradex.com>,
+	linux-usb@vger.kernel.org,
 	linux-kernel@vger.kernel.org,
-	linux-arm-msm@vger.kernel.org,
-	platform-driver-x86@vger.kernel.org,
-	linux-usb@vger.kernel.org
-Subject: [PATCH 3/3] arm64: dts: qcom: qrb5165-rb5: use u16 for DP altmode svid
-Date: Mon, 13 Nov 2023 16:33:09 +0200
-Message-ID: <20231113145328.42575-4-dmitry.baryshkov@linaro.org>
-X-Mailer: git-send-email 2.42.0
-In-Reply-To: <20231113145328.42575-1-dmitry.baryshkov@linaro.org>
-References: <20231113145328.42575-1-dmitry.baryshkov@linaro.org>
+	Francesco Dolcini <francesco.dolcini@toradex.com>
+Subject: [PATCH v1 2/2] usb: misc: onboard-hub: add support for Microchip USB5744
+Date: Mon, 13 Nov 2023 15:59:21 +0100
+Message-Id: <20231113145921.30104-3-francesco@dolcini.it>
+X-Mailer: git-send-email 2.25.1
+In-Reply-To: <20231113145921.30104-1-francesco@dolcini.it>
+References: <20231113145921.30104-1-francesco@dolcini.it>
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
@@ -74,27 +31,59 @@ List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-Follow the bindings and use 16-bit value for AltMode SVID instead of
-using the full u32.
+From: Stefan Eichenberger <stefan.eichenberger@toradex.com>
 
-Signed-off-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+Add support for the Microchip USB5744 USB3.0 and USB2.0 Hub.
+
+The Microchip USB5744 supports two power supplies, one for 1V2 and one
+for 3V3. According to the datasheet there is no need for a delay between
+power on and reset, so this value is set to 0.
+
+Signed-off-by: Stefan Eichenberger <stefan.eichenberger@toradex.com>
+Signed-off-by: Francesco Dolcini <francesco.dolcini@toradex.com>
 ---
- arch/arm64/boot/dts/qcom/qrb5165-rb5.dts | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ drivers/usb/misc/onboard_usb_hub.c | 2 ++
+ drivers/usb/misc/onboard_usb_hub.h | 7 +++++++
+ 2 files changed, 9 insertions(+)
 
-diff --git a/arch/arm64/boot/dts/qcom/qrb5165-rb5.dts b/arch/arm64/boot/dts/qcom/qrb5165-rb5.dts
-index c8cd40a462a3..88b37ceb13ed 100644
---- a/arch/arm64/boot/dts/qcom/qrb5165-rb5.dts
-+++ b/arch/arm64/boot/dts/qcom/qrb5165-rb5.dts
-@@ -1425,7 +1425,7 @@ PDO_FIXED_USB_COMM |
+diff --git a/drivers/usb/misc/onboard_usb_hub.c b/drivers/usb/misc/onboard_usb_hub.c
+index a341b2fbb7b4..2b45404e9732 100644
+--- a/drivers/usb/misc/onboard_usb_hub.c
++++ b/drivers/usb/misc/onboard_usb_hub.c
+@@ -432,6 +432,8 @@ static const struct usb_device_id onboard_hub_id_table[] = {
+ 	{ USB_DEVICE(VENDOR_ID_MICROCHIP, 0x2412) }, /* USB2412 USB 2.0 */
+ 	{ USB_DEVICE(VENDOR_ID_MICROCHIP, 0x2514) }, /* USB2514B USB 2.0 */
+ 	{ USB_DEVICE(VENDOR_ID_MICROCHIP, 0x2517) }, /* USB2517 USB 2.0 */
++	{ USB_DEVICE(VENDOR_ID_MICROCHIP, 0x2744) }, /* USB5744 USB 2.0 */
++	{ USB_DEVICE(VENDOR_ID_MICROCHIP, 0x5744) }, /* USB5744 USB 3.0 */
+ 	{ USB_DEVICE(VENDOR_ID_REALTEK, 0x0411) }, /* RTS5411 USB 3.1 */
+ 	{ USB_DEVICE(VENDOR_ID_REALTEK, 0x5411) }, /* RTS5411 USB 2.1 */
+ 	{ USB_DEVICE(VENDOR_ID_REALTEK, 0x0414) }, /* RTS5414 USB 3.2 */
+diff --git a/drivers/usb/misc/onboard_usb_hub.h b/drivers/usb/misc/onboard_usb_hub.h
+index c4e24a7b9290..292110e64a1d 100644
+--- a/drivers/usb/misc/onboard_usb_hub.h
++++ b/drivers/usb/misc/onboard_usb_hub.h
+@@ -16,6 +16,11 @@ static const struct onboard_hub_pdata microchip_usb424_data = {
+ 	.num_supplies = 1,
+ };
  
- 		altmodes {
- 			displayport {
--				svid = <0xff01>;
-+				svid = /bits/ 16 <0xff01>;
- 				vdo = <0x00001c46>;
- 			};
- 		};
++static const struct onboard_hub_pdata microchip_usb5744_data = {
++	.reset_us = 0,
++	.num_supplies = 2,
++};
++
+ static const struct onboard_hub_pdata realtek_rts5411_data = {
+ 	.reset_us = 0,
+ 	.num_supplies = 1,
+@@ -50,6 +55,8 @@ static const struct of_device_id onboard_hub_match[] = {
+ 	{ .compatible = "usb424,2412", .data = &microchip_usb424_data, },
+ 	{ .compatible = "usb424,2514", .data = &microchip_usb424_data, },
+ 	{ .compatible = "usb424,2517", .data = &microchip_usb424_data, },
++	{ .compatible = "usb424,2744", .data = &microchip_usb5744_data, },
++	{ .compatible = "usb424,5744", .data = &microchip_usb5744_data, },
+ 	{ .compatible = "usb451,8140", .data = &ti_tusb8041_data, },
+ 	{ .compatible = "usb451,8142", .data = &ti_tusb8041_data, },
+ 	{ .compatible = "usb4b4,6504", .data = &cypress_hx3_data, },
 -- 
-2.42.0
+2.25.1
 
