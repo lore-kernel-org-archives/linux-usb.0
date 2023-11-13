@@ -1,31 +1,31 @@
 Received: from lindbergh.monkeyblade.net (lindbergh.monkeyblade.net [23.128.96.19])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 014DB210E7;
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 01520210EF;
 	Mon, 13 Nov 2023 14:27:04 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b="dNWCpFGY"
+	dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b="nVdhVCUL"
 Received: from relay5-d.mail.gandi.net (relay5-d.mail.gandi.net [IPv6:2001:4b98:dc4:8::225])
-	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id CBC9FD5F;
-	Mon, 13 Nov 2023 06:27:01 -0800 (PST)
-Received: by mail.gandi.net (Postfix) with ESMTPSA id D83E21C000F;
-	Mon, 13 Nov 2023 14:26:59 +0000 (UTC)
+	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 22DB3D59;
+	Mon, 13 Nov 2023 06:27:00 -0800 (PST)
+Received: by mail.gandi.net (Postfix) with ESMTPSA id 266C41C0007;
+	Mon, 13 Nov 2023 14:26:58 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=gm1;
-	t=1699885620;
+	t=1699885619;
 	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
 	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=wEIgs122T7Asjcu3DAVwNs7eylVPunuGePaZEbl2tp8=;
-	b=dNWCpFGY1qQrSRHjE5jAiv2SOMoC/Vkt74glt8+kW453OpsdimOQ6aw9eXp0Wr1Towbw5M
-	Dn/7aBoG7qGp+huZcQjDhFZSDQBBatEWcfpoAP8PNAg5wW/CwA5iltmJyrI8+XpkdEwxTT
-	kbj+dZIBiPnY+l3/TLvEV/Fkz1K/f3VenxYi3abxz0g8t+5qbTs9p5RCK+l0lmr/59QTxk
-	M20tysL0nYfbuOdYylYb3UOX6T7ryx+nG65Rs9n3hNCx308YyEvh3tA9pfTUUWy8v1+pjw
-	P9RsYCFAcjnNUVLxbN/I4qCdHxIHacs2i21h5n0UkZCsEbAZvCXoVdM9evsWpw==
+	 content-transfer-encoding:content-transfer-encoding;
+	bh=x/vcYfbmrCl2/iFXdAu/GqVZlYhoqhCpshthYgoXXWU=;
+	b=nVdhVCULSDjsp9z6AP86jPhGmku9Exz1YuO7aUG5D3bxAV25trNO7UbUIbIKjLn6pO58XU
+	Q015wDW7S3B0ZH3aBMk9IapaqSZlEXp1739X3DOxLDOz5gslxGoiYuaQUSVv3bWXIbmexe
+	VtFWOO0LHDRhnZs9BgPdle3PY4YhpQiQWrLQNyGJx0Agj55WcsMkebHipDAZQBh63BlyoR
+	/7cV2M/iPQVdaKK/4yLPqPdN48PV26RhPHUGeStoxTKY6ncKcF8Rpnu3n4SPzVtR+9lei4
+	fLfaKloIVo9coEMojXoaYv6oxwe7Zmji7dUYDUdeqAYGzxCoF/M4lhyOneahWA==
 From: =?utf-8?q?Th=C3=A9o_Lebrun?= <theo.lebrun@bootlin.com>
-Date: Mon, 13 Nov 2023 15:26:56 +0100
-Subject: [PATCH 1/6] dt-bindings: usb: ti,j721e-usb: add ti,j7200-usb
- compatible
+Subject: [PATCH 0/6] usb: cdns: fix suspend on J7200 by assuming reset on
+ resume
+Date: Mon, 13 Nov 2023 15:26:55 +0100
+Message-Id: <20231113-j7200-usb-suspend-v1-0-ad1ee714835c@bootlin.com>
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
@@ -34,9 +34,9 @@ List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 8bit
-Message-Id: <20231113-j7200-usb-suspend-v1-1-ad1ee714835c@bootlin.com>
-References: <20231113-j7200-usb-suspend-v1-0-ad1ee714835c@bootlin.com>
-In-Reply-To: <20231113-j7200-usb-suspend-v1-0-ad1ee714835c@bootlin.com>
+X-B4-Tracking: v=1; b=H4sIAC8yUmUC/x3MPQqAMAxA4atIZgNNLCheRRz8STUOVRoUQby7x
+ fEb3nvAJKkYtMUDSS413WMGlQVM6xAXQZ2zgR1XRFThVrNzeNqIdtohcUYefB2YGxLnIXdHkqD
+ 3/+z69/0Alpv3dmMAAAA=
 To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>, 
  Rob Herring <robh+dt@kernel.org>, 
  Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>, 
@@ -50,27 +50,62 @@ Cc: linux-usb@vger.kernel.org, devicetree@vger.kernel.org,
 X-Mailer: b4 0.12.3
 X-GND-Sasl: theo.lebrun@bootlin.com
 
-On this platform, the controller is reset on resume. This makes it have
-a different behavior from other platforms.
+Hi,
+
+Suspend on the TI J7200 platform is broken currently. There are two
+components that need to be patched so that they assume reset on
+resume: (1) the TI wrapper cdns3-ti & (2) the HOST role of the
+controller.
+
+Both only did their hardware configuration at probe time. We are talking
+about suspend-to-RAM but also suspend-to-idle; we have power-domains
+that turn off the controller in the second case which explains why
+s2idle doesn't work either.
+
+For cdns3-ti, we implement suspend & resume procedures only targeting
+our newly created compatible (ti,j7200-usb). The goal is to avoid
+breaking other platforms; it's unclear to me if power-domains are
+toggling at s2idle on those as well. About S2R I don't think it's
+targeted for those platforms.
+
+For the HOST role, we add a quirk flag which gets passed as auxiliary
+data by our wrapper TI driver. That avoids touching the behavior of
+other platforms; again I'm unsure what is expected and I wouldn't want
+to break stuff by re-initializing the role.
+
+Those patches have been tested on the TI J7200 EVM GP. No need to
+mention that other patches are required for S2R to work, but those will
+be sent later down the road. Those USB patches are rather standalone.
+
+Thanks,
+Théo
+
+--
+Théo Lebrun, Bootlin
+Embedded Linux and Kernel engineering
+https://bootlin.com
 
 Signed-off-by: Théo Lebrun <theo.lebrun@bootlin.com>
 ---
- Documentation/devicetree/bindings/usb/ti,j721e-usb.yaml | 1 +
- 1 file changed, 1 insertion(+)
+Théo Lebrun (6):
+      dt-bindings: usb: ti,j721e-usb: add ti,j7200-usb compatible
+      usb: cdns3-ti: move reg writes from probe into an init_hw helper
+      usb: cdns3-ti: add suspend/resume procedures for J7200
+      usb: cdns3: support power-off of controller when in host role
+      usb: cdns3-ti: notify cdns core that hardware resets across suspend on J7200
+      arm64: dts: ti: k3-j7200: use J7200-specific USB compatible
 
-diff --git a/Documentation/devicetree/bindings/usb/ti,j721e-usb.yaml b/Documentation/devicetree/bindings/usb/ti,j721e-usb.yaml
-index 95ff9791baea..77e0c0499936 100644
---- a/Documentation/devicetree/bindings/usb/ti,j721e-usb.yaml
-+++ b/Documentation/devicetree/bindings/usb/ti,j721e-usb.yaml
-@@ -12,6 +12,7 @@ maintainers:
- properties:
-   compatible:
-     oneOf:
-+      - const: ti,j7200-usb
-       - const: ti,j721e-usb
-       - const: ti,am64-usb
-       - items:
+ .../devicetree/bindings/usb/ti,j721e-usb.yaml      |   1 +
+ arch/arm64/boot/dts/ti/k3-j7200-main.dtsi          |   2 +-
+ drivers/usb/cdns3/cdns3-ti.c                       | 141 +++++++++++++++------
+ drivers/usb/cdns3/core.h                           |   1 +
+ drivers/usb/cdns3/host.c                           |  20 +++
+ 5 files changed, 127 insertions(+), 38 deletions(-)
+---
+base-commit: 1d42d5c8f1ca11106579dcaadef4161fee03419e
+change-id: 20231113-j7200-usb-suspend-2a47f2281e04
 
+Best regards,
 -- 
-2.41.0
+Théo Lebrun <theo.lebrun@bootlin.com>
 
