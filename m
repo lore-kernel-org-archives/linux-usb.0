@@ -1,77 +1,94 @@
 Received: from lindbergh.monkeyblade.net (lindbergh.monkeyblade.net [23.128.96.19])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 95F9A2111A
-	for <linux-usb@vger.kernel.org>; Mon, 13 Nov 2023 14:59:35 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; dkim=none
-Received: from mail11.truemail.it (mail11.truemail.it [IPv6:2001:4b7e:0:8::81])
-	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 59A6E10FB
-	for <linux-usb@vger.kernel.org>; Mon, 13 Nov 2023 06:59:34 -0800 (PST)
-Received: from francesco-nb.pivistrello.it (93-49-2-63.ip317.fastwebnet.it [93.49.2.63])
-	by mail11.truemail.it (Postfix) with ESMTPA id B0C57207BF;
-	Mon, 13 Nov 2023 15:59:26 +0100 (CET)
-From: Francesco Dolcini <francesco@dolcini.it>
-To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	Rob Herring <robh+dt@kernel.org>,
-	Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
-	Conor Dooley <conor+dt@kernel.org>,
-	Piyush Mehta <piyush.mehta@amd.com>,
-	Michal Simek <michal.simek@amd.com>
-Cc: Stefan Eichenberger <stefan.eichenberger@toradex.com>,
-	linux-usb@vger.kernel.org,
-	devicetree@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	Francesco Dolcini <francesco.dolcini@toradex.com>
-Subject: [PATCH v1 1/2] dt-bindings: usb: microchip,usb5744: Add second supply
-Date: Mon, 13 Nov 2023 15:59:20 +0100
-Message-Id: <20231113145921.30104-2-francesco@dolcini.it>
-X-Mailer: git-send-email 2.25.1
-In-Reply-To: <20231113145921.30104-1-francesco@dolcini.it>
-References: <20231113145921.30104-1-francesco@dolcini.it>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E3A7521358;
+	Mon, 13 Nov 2023 15:33:39 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="S2Pzoa88"
+Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.136])
+	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A306DD63;
+	Mon, 13 Nov 2023 07:33:38 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1699889618; x=1731425618;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=traB1khJAcOjJDjDW0iULSetW36qB0wE8R68eicfZN8=;
+  b=S2Pzoa88/5HcnA1uGLzcvHrs0Q9CcsoYdggKtQ3b8S3VU7KhZeuXbZ4K
+   DrNxFOSmxnwDbmIdAcVn8eB5HKjMbCHMphYexkpsl7j65woT+Ov3njpAb
+   ru1al5eAkFtUgDRmDYdXoNcHF2KNJG8ZxI2d2s1dbIHi3JeFaasQHjhqv
+   tGH9eYAZumNFjpz625HbgLlPJr5SZYIDinQd0o86ObEZWVxFexrhm1YvI
+   vI3Y84XIsYTr4GYgoa3OqX6DTH87SZC6tB/U5hu2NWA5ypd8XAEFdqX1T
+   TIzvfoZGRJlGRONpggrX6+CmMn4Ipy7qOpYteb4zhPW5G8zFUafP9lX76
+   w==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10893"; a="369791859"
+X-IronPort-AV: E=Sophos;i="6.03,299,1694761200"; 
+   d="scan'208";a="369791859"
+Received: from fmsmga008.fm.intel.com ([10.253.24.58])
+  by fmsmga106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 13 Nov 2023 07:33:28 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,10893"; a="830265088"
+X-IronPort-AV: E=Sophos;i="6.03,299,1694761200"; 
+   d="scan'208";a="830265088"
+Received: from smile.fi.intel.com ([10.237.72.54])
+  by fmsmga008.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 13 Nov 2023 07:33:24 -0800
+Received: from andy by smile.fi.intel.com with local (Exim 4.97-RC3)
+	(envelope-from <andriy.shevchenko@linux.intel.com>)
+	id 1r2YwD-0000000Daff-0esz;
+	Mon, 13 Nov 2023 17:33:21 +0200
+Date: Mon, 13 Nov 2023 17:33:20 +0200
+From: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
+To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+Cc: Jonathan Cameron <Jonathan.Cameron@huawei.com>,
+	Yang Yingliang <yangyingliang@huawei.com>,
+	Mark Brown <broonie@kernel.org>, linux-input@vger.kernel.org,
+	linux-kernel@vger.kernel.org, linux-mmc@vger.kernel.org,
+	netdev@vger.kernel.org, linux-usb@vger.kernel.org,
+	linux-spi@vger.kernel.org,
+	Dmitry Torokhov <dmitry.torokhov@gmail.com>,
+	Ulf Hansson <ulf.hansson@linaro.org>,
+	"David S. Miller" <davem@davemloft.net>,
+	Eric Dumazet <edumazet@google.com>,
+	Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>
+Subject: Re: [PATCH v1 1/1] treewide, spi: Get rid of SPI_MASTER_HALF_DUPLEX
+Message-ID: <ZVJBwFYO7nHHAcli@smile.fi.intel.com>
+References: <20231113111249.3982461-1-andriy.shevchenko@linux.intel.com>
+ <2023111307-payer-retiring-0d72@gregkh>
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <2023111307-payer-retiring-0d72@gregkh>
+Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
 
-From: Stefan Eichenberger <stefan.eichenberger@toradex.com>
+On Mon, Nov 13, 2023 at 09:29:39AM -0500, Greg Kroah-Hartman wrote:
+> On Mon, Nov 13, 2023 at 01:12:49PM +0200, Andy Shevchenko wrote:
 
-The USB5744 has two power supplies one for 3V3 and one for 1V2. Add the
-second supply to the USB5744 DT binding.
+...
 
-Signed-off-by: Stefan Eichenberger <stefan.eichenberger@toradex.com>
-Signed-off-by: Francesco Dolcini <francesco.dolcini@toradex.com>
----
- .../devicetree/bindings/usb/microchip,usb5744.yaml         | 7 ++++++-
- 1 file changed, 6 insertions(+), 1 deletion(-)
+> >  drivers/input/rmi4/rmi_spi.c             | 2 +-
+> >  drivers/mmc/host/mmc_spi.c               | 2 +-
+> >  drivers/net/ethernet/micrel/ks8851_spi.c | 4 ++--
+> >  drivers/usb/gadget/udc/max3420_udc.c     | 2 +-
+> >  include/linux/spi/spi.h                  | 2 --
+> >  5 files changed, 5 insertions(+), 7 deletions(-)
+> 
+> This should go through the spi tree, right?  If so:
 
-diff --git a/Documentation/devicetree/bindings/usb/microchip,usb5744.yaml b/Documentation/devicetree/bindings/usb/microchip,usb5744.yaml
-index ff3a1707ef57..6d4cfd943f58 100644
---- a/Documentation/devicetree/bindings/usb/microchip,usb5744.yaml
-+++ b/Documentation/devicetree/bindings/usb/microchip,usb5744.yaml
-@@ -36,7 +36,11 @@ properties:
- 
-   vdd-supply:
-     description:
--      VDD power supply to the hub
-+      3V3 power supply to the hub
-+
-+  vdd2-supply:
-+    description:
-+      1V2 power supply to the hub
- 
-   peer-hub:
-     $ref: /schemas/types.yaml#/definitions/phandle
-@@ -62,6 +66,7 @@ allOf:
-       properties:
-         reset-gpios: false
-         vdd-supply: false
-+        vdd2-supply: false
-         peer-hub: false
-         i2c-bus: false
-     else:
+Correct.
+
+> Acked-by: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+> 
+> For the USB portion.
+
+Thank you!
+
 -- 
-2.25.1
+With Best Regards,
+Andy Shevchenko
+
 
