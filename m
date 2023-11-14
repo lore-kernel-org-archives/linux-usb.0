@@ -1,90 +1,99 @@
 Received: from lindbergh.monkeyblade.net (lindbergh.monkeyblade.net [23.128.96.19])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 89A258F5F
-	for <linux-usb@vger.kernel.org>; Tue, 14 Nov 2023 07:04:22 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; dkim=none
-Received: from rtits2.realtek.com.tw (rtits2.realtek.com [211.75.126.72])
-	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 4F41113E;
-	Mon, 13 Nov 2023 23:04:21 -0800 (PST)
-X-SpamFilter-By: ArmorX SpamTrap 5.78 with qID 3AE742qhC748857, This message is accepted by code: ctloc85258
-Received: from mail.realtek.com (rtexh36506.realtek.com.tw[172.21.6.27])
-	by rtits2.realtek.com.tw (8.15.2/2.95/5.92) with ESMTPS id 3AE742qhC748857
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
-	Tue, 14 Nov 2023 15:04:02 +0800
-Received: from RTEXMBS05.realtek.com.tw (172.21.6.98) by
- RTEXH36506.realtek.com.tw (172.21.6.27) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2507.17; Tue, 14 Nov 2023 15:04:02 +0800
-Received: from RTEXMBS04.realtek.com.tw (172.21.6.97) by
- RTEXMBS05.realtek.com.tw (172.21.6.98) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2375.34; Tue, 14 Nov 2023 15:04:01 +0800
-Received: from RTEXMBS04.realtek.com.tw ([fe80::40c2:6c24:2df4:e6c7]) by
- RTEXMBS04.realtek.com.tw ([fe80::40c2:6c24:2df4:e6c7%5]) with mapi id
- 15.01.2375.007; Tue, 14 Nov 2023 15:04:01 +0800
-From: =?big5?B?U3RhbmxleSBDaGFuZ1up96h8vHdd?= <stanley_chang@realtek.com>
-To: Johan Hovold <johan@kernel.org>
-CC: Thinh Nguyen <Thinh.Nguyen@synopsys.com>,
-        Christophe JAILLET
-	<christophe.jaillet@wanadoo.fr>,
-        Greg Kroah-Hartman
-	<gregkh@linuxfoundation.org>,
-        "linux-usb@vger.kernel.org"
-	<linux-usb@vger.kernel.org>,
-        "linux-kernel@vger.kernel.org"
-	<linux-kernel@vger.kernel.org>
-Subject: RE: [PATCH v1] usb: dwc3: add device put function to decrement the ref-counted reference
-Thread-Topic: [PATCH v1] usb: dwc3: add device put function to decrement the
- ref-counted reference
-Thread-Index: AQHaEVqWcz3GNmQjYUqtWzr6T0MhhrB0b34AgAT+ntA=
-Date: Tue, 14 Nov 2023 07:04:01 +0000
-Message-ID: <0c674943bf574bcb91a7b5b87180f7c1@realtek.com>
-References: <20231107091252.11783-1-stanley_chang@realtek.com>
- <ZU9bPMHqz7Gj4rHj@hovoldconsulting.com>
-In-Reply-To: <ZU9bPMHqz7Gj4rHj@hovoldconsulting.com>
-Accept-Language: zh-TW, en-US
-Content-Language: zh-TW
-x-originating-ip: [172.21.190.159]
-x-kse-serverinfo: RTEXMBS05.realtek.com.tw, 9
-x-kse-antispam-interceptor-info: fallback
-x-kse-antivirus-interceptor-info: fallback
-Content-Type: text/plain; charset="big5"
-Content-Transfer-Encoding: base64
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B6F75BE4D
+	for <linux-usb@vger.kernel.org>; Tue, 14 Nov 2023 07:08:28 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="A4d+5Abs"
+Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.31])
+	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A4D55195
+	for <linux-usb@vger.kernel.org>; Mon, 13 Nov 2023 23:08:27 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1699945707; x=1731481707;
+  h=from:to:cc:subject:date:message-id:mime-version:
+   content-transfer-encoding;
+  bh=EI+f6fYrzaOyYoTNSy0nR2nSThyevAe6RYlrAD9I2OQ=;
+  b=A4d+5Abs7M0h615azJ/klurGeL11ohSJHsZuq0I3kwaJy6KHBlTaH6I1
+   wSUadDsZDCYtyMmItXh2ctmY9Upf4s0nh7tXW8i2xHKqJjLRcfAB3PP1L
+   lNmlPMWjM0sZ8Q7eMQSSndmC0IKEaBxNIIhbX+FtM1JFeGrV75Requ4ZA
+   GQbG1Erozn8ER5rfCpvQswNkQPnHXz/zyXo9dY8xrwKyMW9Cibf239kwD
+   +b6yWkI6q/Rk2NWuatZEMLr4DFjVSgyhranMcn18szg+3eE/s60rZlAkT
+   Cmsm/+N2hjOUspOD9D7J/XqH9wENv2swjDppe1niXEZVUm2MNIWLUYpFD
+   g==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10893"; a="454891843"
+X-IronPort-AV: E=Sophos;i="6.03,301,1694761200"; 
+   d="scan'208";a="454891843"
+Received: from orsmga006.jf.intel.com ([10.7.209.51])
+  by orsmga104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 13 Nov 2023 23:08:27 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,10893"; a="741008561"
+X-IronPort-AV: E=Sophos;i="6.03,301,1694761200"; 
+   d="scan'208";a="741008561"
+Received: from wentongw-optiplex-8070.sh.intel.com ([10.239.154.12])
+  by orsmga006.jf.intel.com with ESMTP; 13 Nov 2023 23:08:25 -0800
+From: Wentong Wu <wentong.wu@intel.com>
+To: andriy.shevchenko@linux.intel.com,
+	hdegoede@redhat.com,
+	gregkh@linuxfoundation.org
+Cc: linux-usb@vger.kernel.org,
+	Wentong Wu <wentong.wu@intel.com>
+Subject: [PATCH] usb: misc: ljca: Drop _ADR support to get ljca children devices
+Date: Tue, 14 Nov 2023 15:25:31 +0800
+Message-Id: <20231114072531.1366753-1-wentong.wu@intel.com>
+X-Mailer: git-send-email 2.34.1
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-KSE-AntiSpam-Interceptor-Info: fallback
+Content-Transfer-Encoding: 8bit
 
-SGkgSm9oYW4sDQoNCj4gDQo+IE9uIFR1ZSwgTm92IDA3LCAyMDIzIGF0IDA1OjEyOjUxUE0gKzA4
-MDAsIFN0YW5sZXkgQ2hhbmcgd3JvdGU6DQo+ID4gV2hlbiB0aGUgZnVuY3Rpb24gZXhpdHMsIHRo
-ZSBjb3VudCBzaG91bGQgYmUgZGVjcmVtZW50ZWQgdmlhDQo+ID4gcGxhdGZvcm1fZGV2aWNlX3B1
-dCBhbmQgb2Zfbm9kZV9wdXQuDQo+IA0KPiBUaGlzIGlzbid0IHJlYWxseSBhIHNlbGYtY29udGFp
-bmVkIGNvbW1pdCBtZXNzYWdlIChhbmQgeW91ciB1c2Ugb2YgJ2NvdW50JyBpcw0KPiB0b28gdmFn
-dWUpLiBZb3UncmUgYWxzbyBjaGFuZ2luZyB0d28gZnVuY3Rpb25zIGluIHR3byBkaWZmZXJlbnQg
-d2F5cyBoZXJlLg0KDQpJIHdpbGwgbW9kaWZ5IHRoZSBjb21taXQgbWVzc2FnZS4NCg0KPiA+IEZp
-eGVzOiAzNGMyMDA0ODM1NjkgKCJ1c2I6IGR3YzM6IGFkZCBSZWFsdGVrIERIQyBSVEQgU29DIGR3
-YzMgZ2x1ZQ0KPiA+IGxheWVyIGRyaXZlciIpDQo+ID4gU2lnbmVkLW9mZi1ieTogU3RhbmxleSBD
-aGFuZyA8c3RhbmxleV9jaGFuZ0ByZWFsdGVrLmNvbT4NCj4gPiAtLS0NCj4gPiAgZHJpdmVycy91
-c2IvZHdjMy9kd2MzLXJ0ay5jIHwgMyArKysNCj4gPiAgMSBmaWxlIGNoYW5nZWQsIDMgaW5zZXJ0
-aW9ucygrKQ0KPiA+DQo+ID4gZGlmZiAtLWdpdCBhL2RyaXZlcnMvdXNiL2R3YzMvZHdjMy1ydGsu
-YyBiL2RyaXZlcnMvdXNiL2R3YzMvZHdjMy1ydGsuYw0KPiA+IGluZGV4IDU5MDAyOGU4ZmRjYi4u
-OWQ2ZjJhOGJkNmNlIDEwMDY0NA0KPiA+IC0tLSBhL2RyaXZlcnMvdXNiL2R3YzMvZHdjMy1ydGsu
-Yw0KPiA+ICsrKyBiL2RyaXZlcnMvdXNiL2R3YzMvZHdjMy1ydGsuYw0KPiA+IEBAIC0xODcsNiAr
-MTg3LDcgQEAgc3RhdGljIGVudW0gdXNiX2RldmljZV9zcGVlZA0KPiA+IF9fZ2V0X2R3YzNfbWF4
-aW11bV9zcGVlZChzdHJ1Y3QgZGV2aWNlX25vZGUgKm5wKQ0KPiA+DQo+ID4gICAgICAgcmV0ID0g
-bWF0Y2hfc3RyaW5nKHNwZWVkX25hbWVzLCBBUlJBWV9TSVpFKHNwZWVkX25hbWVzKSwNCj4gPiBt
-YXhpbXVtX3NwZWVkKTsNCj4gPg0KPiA+ICsgICAgIG9mX25vZGVfcHV0KGR3YzNfbnApOw0KDQpJ
-IHdpbGwgZml4ZWQgdGhpcy4NCg0KVGhhbmtzLA0KU3RhbmxleQ0KDQo+IFlvdSdyZSBzdGlsbCBs
-ZWFraW5nIGEgcmVmZXJlbmNlIGluIHRoZSBvZl9wcm9wZXJ0eV9yZWFkX3N0cmluZygpIGVycm9y
-IHBhdGgganVzdA0KPiBhYm92ZS4NCj4gDQo+ID4gICAgICAgcmV0dXJuIChyZXQgPCAwKSA/IFVT
-Ql9TUEVFRF9VTktOT1dOIDogcmV0OyAgfQ0KPiA+DQo+ID4gQEAgLTMzOSw2ICszNDAsOCBAQCBz
-dGF0aWMgaW50IGR3YzNfcnRrX3Byb2JlX2R3YzNfY29yZShzdHJ1Y3QNCj4gPiBkd2MzX3J0ayAq
-cnRrKQ0KPiA+DQo+ID4gICAgICAgc3dpdGNoX3VzYjJfcm9sZShydGssIHJ0ay0+Y3VyX3JvbGUp
-Ow0KPiA+DQo+ID4gKyAgICAgcGxhdGZvcm1fZGV2aWNlX3B1dChkd2MzX3BkZXYpOw0KPiA+ICsg
-ICAgIG9mX25vZGVfcHV0KGR3YzNfbm9kZSk7DQo+IA0KPiBQbGVhc2Uga2VlcCB0aGUgbmV3IGxp
-bmUgYmVmb3JlIHJldHVybiBmb3IgcmVhZGFiaWxpdHkuDQo+IA0KPiA+ICAgICAgIHJldHVybiAw
-Ow0KPiA+DQo+ID4gIGVycl9wZGV2X3B1dDoNCj4gDQo+IEpvaGFuDQo=
+Currently the shipped platforms use only _HID to distinguish
+ljca children devices. The _ADR support here is for future HW.
+This patch is to drop _ADR support and we can then re-introduce
+it (revert this patch) if future HW actually starts using _ADR
+to distinguish children devices.
+
+Signed-off-by: Wentong Wu <wentong.wu@intel.com>
+---
+ drivers/usb/misc/usb-ljca.c | 14 ++------------
+ 1 file changed, 2 insertions(+), 12 deletions(-)
+
+diff --git a/drivers/usb/misc/usb-ljca.c b/drivers/usb/misc/usb-ljca.c
+index c9decd0396d4..7f0deebebc13 100644
+--- a/drivers/usb/misc/usb-ljca.c
++++ b/drivers/usb/misc/usb-ljca.c
+@@ -457,8 +457,8 @@ static void ljca_auxdev_acpi_bind(struct ljca_adapter *adap,
+ 				  u64 adr, u8 id)
+ {
+ 	struct ljca_match_ids_walk_data wd = { 0 };
+-	struct acpi_device *parent, *adev;
+ 	struct device *dev = adap->dev;
++	struct acpi_device *parent;
+ 	char uid[4];
+ 
+ 	parent = ACPI_COMPANION(dev);
+@@ -466,17 +466,7 @@ static void ljca_auxdev_acpi_bind(struct ljca_adapter *adap,
+ 		return;
+ 
+ 	/*
+-	 * get auxdev ACPI handle from the ACPI device directly
+-	 * under the parent that matches _ADR.
+-	 */
+-	adev = acpi_find_child_device(parent, adr, false);
+-	if (adev) {
+-		ACPI_COMPANION_SET(&auxdev->dev, adev);
+-		return;
+-	}
+-
+-	/*
+-	 * _ADR is a grey area in the ACPI specification, some
++	 * Currently LJCA hw doesn't use _ADR instead the shipped
+ 	 * platforms use _HID to distinguish children devices.
+ 	 */
+ 	switch (adr) {
+-- 
+2.34.1
+
