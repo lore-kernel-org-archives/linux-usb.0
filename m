@@ -1,30 +1,29 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1A4931172C
-	for <linux-usb@vger.kernel.org>; Tue, 14 Nov 2023 07:17:34 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B6E1C11733
+	for <linux-usb@vger.kernel.org>; Tue, 14 Nov 2023 07:28:08 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="mcXD9sWh"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 1F83AC433C7;
-	Tue, 14 Nov 2023 07:17:31 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="kv+cJ6uY"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id CEEF1C433CA;
+	Tue, 14 Nov 2023 07:28:06 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1699946254;
-	bh=+4kSS2cqW5ZV1rlUePkSMz5J6w5P2YeUyYN7VwsA6kQ=;
+	s=k20201202; t=1699946888;
+	bh=+KjAg3oyDvkQWJep1sTAthLSg9NWkezMM9RV7V11nPM=;
 	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=mcXD9sWhg1oF72RJY/959llE/tvISFPr+2WfofYm3m3oKO+2p5SxNmb9gXqCaGQQz
-	 Pbc87hA717014dq07liKmSVat76mbxrnGNQ/pFQ2jkt5atJ/zK3qdwCKaU8iHp4SCt
-	 gYY4BbDtD/mp87pDGOuZNAsQJIrx9YmvwYlh5klAHrge8l0ZYlyZUh3wO+JfSeqjJw
-	 cmCC1QWkjFuuM9/iGXglSRUe+iGw9iD1YRqllYa4hifHN0363u8nl9N3jWnOpaq9nh
-	 crCOJDfZpAcOYVmPJrWYJF0iciXPF+WzLxdeZWwX3QZ3gPTHJRUhrMRPS1KWTL/RaR
-	 /GSSWyaMmS1cw==
-Date: Tue, 14 Nov 2023 15:17:20 +0800
+	b=kv+cJ6uY7xzWexH3qjNoqOd19GCvow+4H3pIlSYFhjiZZNqlKCNGtK/Rb+KlrhYVw
+	 gRSZ9G3VMOXJAtTrLHUxLFu0Bpa9OUjXXny59w1ZmoTMVKLzQTf7gqIGce/NL8rwWb
+	 PEU0lmGJp3vo1XPuMuPcXTPUtlzMFvExnOz8suMBR1Wlo+Hw1jiXRgibErPDyMPOsj
+	 c+zPO7tuG9h3k7p/v3A8l8PtF3dqoJydguhpn7do46D/bOqVX3LlVLawTmDBgyyioM
+	 KJT50OE3RVC5aOGhtrytsfS9pNRLlkZwKDn6QjQ87wnmw+Eyu6O2NfVen871P5vfQG
+	 wP1MDDSjsQAQA==
+Date: Tue, 14 Nov 2023 15:27:57 +0800
 From: Peter Chen <peter.chen@kernel.org>
-To: Pawel Laszczak <pawell@cadence.com>
-Cc: gregkh@linuxfoundation.org, linux-usb@vger.kernel.org,
-	linux-kernel@vger.kernel.org, stable@vger.kernel.org
-Subject: Re: [PATCH] usb: cdnsp: Fix deadlock issue during using NCM gadget
-Message-ID: <20231114071720.GA64573@nchen-desktop>
-References: <20231108093125.224963-1-pawell@cadence.com>
+To: Oliver Neukum <oneukum@suse.com>
+Cc: gregkh@linuxfoundation.org, linux-usb@vger.kernel.org
+Subject: Re: [PATCH] initialize struct otg_fsm earlier
+Message-ID: <20231114072757.GB64573@nchen-desktop>
+References: <20231113173125.23696-1-oneukum@suse.com>
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
@@ -33,73 +32,86 @@ List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20231108093125.224963-1-pawell@cadence.com>
+In-Reply-To: <20231113173125.23696-1-oneukum@suse.com>
 
-On 23-11-08 10:31:25, Pawel Laszczak wrote:
-> The interrupt service routine registered for the gadget is a primary
-> handler which mask the interrupt source and a threaded handler which
-> handles the source of the interrupt. Since the threaded handler is
-> voluntary threaded, the IRQ-core does not disable bottom halves before
-> invoke the handler like it does for the forced-threaded handler.
-> 
-> Due to changes in networking it became visible that a network gadget's
-> completions handler may schedule a softirq which remains unprocessed.
-> The gadget's completion handler is usually invoked either in hard-IRQ or
-> soft-IRQ context. In this context it is enough to just raise the softirq
-> because the softirq itself will be handled once that context is left.
-> In the case of the voluntary threaded handler, there is nothing that
-> will process pending softirqs. Which means it remain queued until
-> another random interrupt (on this CPU) fires and handles it on its exit
-> path or another thread locks and unlocks a lock with the bh suffix.
-> Worst case is that the CPU goes idle and the NOHZ complains about
-> unhandled softirqs.
-> 
-> Disable bottom halves before acquiring the lock (and disabling
-> interrupts) and enable them after dropping the lock. This ensures that
-> any pending softirqs will handled right away.
-> 
-> cc: <stable@vger.kernel.org>
-> Fixes: 3d82904559f4 ("usb: cdnsp: cdns3 Add main part of Cadence USBSSP DRD Driver")
-> Signed-off-by: Pawel Laszczak <pawell@cadence.com>
+On 23-11-13 18:31:20, Oliver Neukum wrote:
+> The earlier fix bf88fef0b6f1 ("usb: otg-fsm: Fix hrtimer list
+> corruption") in effect hid an issue with intialization.
 
-Acked-by: Peter Chen <peter.chen@kernel.org>
+Typo, hit an issue with initialization.
+
+> In effect it replaces the racy continous reinitialization
+> of fsm->hnp_polling_work with a delayed one-time
+> initialization.
+> 
+> This just makes no sense. As a single initialization
+> is sufficient, the clean solution is just to do it once
+> and do it early enough.
+
+The phy-fsl-usb is not the only user, there are other users, eg,
+chipidea.
 
 Peter
-
-> ---
->  drivers/usb/cdns3/cdnsp-ring.c | 3 +++
->  1 file changed, 3 insertions(+)
 > 
-> diff --git a/drivers/usb/cdns3/cdnsp-ring.c b/drivers/usb/cdns3/cdnsp-ring.c
-> index 07f6068342d4..275a6a2fa671 100644
-> --- a/drivers/usb/cdns3/cdnsp-ring.c
-> +++ b/drivers/usb/cdns3/cdnsp-ring.c
-> @@ -1529,6 +1529,7 @@ irqreturn_t cdnsp_thread_irq_handler(int irq, void *data)
->  	unsigned long flags;
->  	int counter = 0;
->  
-> +	local_bh_disable();
->  	spin_lock_irqsave(&pdev->lock, flags);
->  
->  	if (pdev->cdnsp_state & (CDNSP_STATE_HALTED | CDNSP_STATE_DYING)) {
-> @@ -1541,6 +1542,7 @@ irqreturn_t cdnsp_thread_irq_handler(int irq, void *data)
->  			cdnsp_died(pdev);
->  
->  		spin_unlock_irqrestore(&pdev->lock, flags);
-> +		local_bh_enable();
->  		return IRQ_HANDLED;
+> Fixes: bf88fef0b6f1 ("usb: otg-fsm: Fix hrtimer list corruption")
+> Signed-off-by: Oliver Neukum <oneukum@suse.com>
+> ---
+>  drivers/usb/common/usb-otg-fsm.c | 7 +------
+>  drivers/usb/phy/phy-fsl-usb.c    | 1 +
+>  include/linux/usb/otg-fsm.h      | 1 -
+>  3 files changed, 2 insertions(+), 7 deletions(-)
+> 
+> diff --git a/drivers/usb/common/usb-otg-fsm.c b/drivers/usb/common/usb-otg-fsm.c
+> index 0697fde51d00..0aa2eb7396ce 100644
+> --- a/drivers/usb/common/usb-otg-fsm.c
+> +++ b/drivers/usb/common/usb-otg-fsm.c
+> @@ -117,7 +117,7 @@ static void otg_leave_state(struct otg_fsm *fsm, enum usb_otg_state old_state)
 >  	}
->  
-> @@ -1557,6 +1559,7 @@ irqreturn_t cdnsp_thread_irq_handler(int irq, void *data)
->  	cdnsp_update_erst_dequeue(pdev, event_ring_deq, 1);
->  
->  	spin_unlock_irqrestore(&pdev->lock, flags);
-> +	local_bh_enable();
->  
->  	return IRQ_HANDLED;
 >  }
+>  
+> -static void otg_hnp_polling_work(struct work_struct *work)
+> +void otg_hnp_polling_work(struct work_struct *work)
+>  {
+>  	struct otg_fsm *fsm = container_of(to_delayed_work(work),
+>  				struct otg_fsm, hnp_polling_work);
+> @@ -193,11 +193,6 @@ static void otg_start_hnp_polling(struct otg_fsm *fsm)
+>  	if (!fsm->host_req_flag)
+>  		return;
+>  
+> -	if (!fsm->hnp_work_inited) {
+> -		INIT_DELAYED_WORK(&fsm->hnp_polling_work, otg_hnp_polling_work);
+> -		fsm->hnp_work_inited = true;
+> -	}
+> -
+>  	schedule_delayed_work(&fsm->hnp_polling_work,
+>  					msecs_to_jiffies(T_HOST_REQ_POLL));
+>  }
+> diff --git a/drivers/usb/phy/phy-fsl-usb.c b/drivers/usb/phy/phy-fsl-usb.c
+> index 79617bb0a70e..4553aaab3761 100644
+> --- a/drivers/usb/phy/phy-fsl-usb.c
+> +++ b/drivers/usb/phy/phy-fsl-usb.c
+> @@ -844,6 +844,7 @@ int usb_otg_start(struct platform_device *pdev)
+>  
+>  	/* Initialize the state machine structure with default values */
+>  	SET_OTG_STATE(otg_trans, OTG_STATE_UNDEFINED);
+> +	INIT_DELAYED_WORK(&fsm->hnp_polling_work, otg_hnp_polling_work);
+>  	fsm->otg = p_otg->phy.otg;
+>  
+>  	/* We don't require predefined MEM/IRQ resource index */
+> diff --git a/include/linux/usb/otg-fsm.h b/include/linux/usb/otg-fsm.h
+> index 6135d076c53d..cc0bc4edf227 100644
+> --- a/include/linux/usb/otg-fsm.h
+> +++ b/include/linux/usb/otg-fsm.h
+> @@ -183,7 +183,6 @@ struct otg_fsm {
+>  	struct mutex lock;
+>  	u8 *host_req_flag;
+>  	struct delayed_work hnp_polling_work;
+> -	bool hnp_work_inited;
+>  	bool state_changed;
+>  };
+>  
 > -- 
-> 2.37.2
+> 2.42.0
 > 
 
 -- 
