@@ -1,25 +1,25 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C428F14F90;
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C42DE3454C;
 	Fri, 17 Nov 2023 17:38:09 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="mtKlfPUJ"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 66A95C433C9;
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="nZY+9QHQ"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 6AEA2C433CB;
 	Fri, 17 Nov 2023 17:38:09 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
 	s=k20201202; t=1700242689;
-	bh=EUDBFroF5TjmYX0MrqbQ4lm7E/YuA+W3eE3VkPGKcm4=;
-	h=From:To:Cc:Subject:Date:From;
-	b=mtKlfPUJjJanONH237bSO3hOyU3SFX6xd57lxI10FihF5J/Mibv8D4PbuIiO4F5iy
-	 d4WA6/sHLhtXtn85tmoz8qRflR9TgpG14tbbU/u2a+SMRM04OTf2y5kJnuo0mfTcaE
-	 gQEg3YiAE39DARcXgaIYF5Ia1GBGkJ168le7YTOy0vg6tGGvcbwVyn7HDnnam8h3LV
-	 zJcX6KP7XzZSux28CArPbMBqEOCUU/OawwwhIYsz5NMxZWpfI21s3i3LoJkBgHAJ2H
-	 AYbrHhzqOdeRqKQjNWy+AcyBPetP5rOABkVxIGI+Tc5v3faQwuhgO9stvbnF/Q9zUT
-	 9E3RhmkCzm4fA==
+	bh=IDrqe0MvHTg6enNUp8mTcE/BgNy+EDele8qbx8DCFmE=;
+	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
+	b=nZY+9QHQrZY7aae9tNrEW16uBgb+gK8D9LEpKbV3uKNZZSycjpDoiD5Z+jnml14Vl
+	 PilvGJTsfZlrkdW7hu9pqR/xD0q5jFo0L6HJUtHjrf9TCp/4IaDh+cW0D9YpHP/BMU
+	 bLHLOFc2AczbfruoCz/8eRUfwePgOxfd/onUWUqd7zXHe1Ww3Virrdk6kSEcQI5Sxe
+	 kK/OJ0ER84KOgxHHStzkXz0q09ZuLDeV0lRKB+H9gb7QaAcZD4BfEm1AmjJvzxWMMM
+	 y1GD+Lrl7fKZpnxiEq43OMuNTiS79DMnhNm3eeMvRtbJZPILnScgV0SO+HxlxhmyHg
+	 +qq8ATEygyXJQ==
 Received: from johan by xi.lan with local (Exim 4.96.2)
 	(envelope-from <johan+linaro@kernel.org>)
-	id 1r42nF-0005Vo-0K;
+	id 1r42nF-0005Vu-1A;
 	Fri, 17 Nov 2023 18:38:13 +0100
 From: Johan Hovold <johan+linaro@kernel.org>
 To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
@@ -31,11 +31,14 @@ Cc: Andy Gross <agross@kernel.org>,
 	linux-arm-msm@vger.kernel.org,
 	linux-usb@vger.kernel.org,
 	linux-kernel@vger.kernel.org,
-	Johan Hovold <johan+linaro@kernel.org>
-Subject: [PATCH 0/3] USB: dwc3: qcom: fix resource leaks on probe deferral
-Date: Fri, 17 Nov 2023 18:36:47 +0100
-Message-ID: <20231117173650.21161-1-johan+linaro@kernel.org>
+	Johan Hovold <johan+linaro@kernel.org>,
+	Shawn Guo <shawn.guo@linaro.org>
+Subject: [PATCH 3/3] USB: dwc3: qcom: fix ACPI platform device leak
+Date: Fri, 17 Nov 2023 18:36:50 +0100
+Message-ID: <20231117173650.21161-4-johan+linaro@kernel.org>
 X-Mailer: git-send-email 2.41.0
+In-Reply-To: <20231117173650.21161-1-johan+linaro@kernel.org>
+References: <20231117173650.21161-1-johan+linaro@kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
@@ -44,30 +47,108 @@ List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-When reviewing the recently submitted series which reworks the dwc3 qcom
-glue implementation [1], I noticed that the driver's tear down handling
-is currently broken, something which can lead to memory leaks and
-potentially use-after-free issues on probe deferral and on driver
-unbind.
+Make sure to free the "urs" platform device, which is created for some
+ACPI platforms, on probe errors and on driver unbind.
 
-Let's get this sorted before reworking driver.
+Compile-tested only.
 
-Note that the last patch has only been compile tested as I don't have
-access to a sdm845 device.
+Fixes: c25c210f590e ("usb: dwc3: qcom: add URS Host support for sdm845 ACPI boot")
+Cc: Shawn Guo <shawn.guo@linaro.org>
+Signed-off-by: Johan Hovold <johan+linaro@kernel.org>
+---
+ drivers/usb/dwc3/dwc3-qcom.c | 37 +++++++++++++++++++++++++++++-------
+ 1 file changed, 30 insertions(+), 7 deletions(-)
 
-Johan
-
-[1] https://lore.kernel.org/lkml/20231016-dwc3-refactor-v1-0-ab4a84165470@quicinc.com/
-
-
-Johan Hovold (3):
-  USB: dwc3: qcom: fix resource leaks on probe deferral
-  USB: dwc3: qcom: fix software node leak on probe errors
-  USB: dwc3: qcom: fix ACPI platform device leak
-
- drivers/usb/dwc3/dwc3-qcom.c | 57 +++++++++++++++++++++++++++---------
- 1 file changed, 43 insertions(+), 14 deletions(-)
-
+diff --git a/drivers/usb/dwc3/dwc3-qcom.c b/drivers/usb/dwc3/dwc3-qcom.c
+index 0703f9b85cda..10fb481d943b 100644
+--- a/drivers/usb/dwc3/dwc3-qcom.c
++++ b/drivers/usb/dwc3/dwc3-qcom.c
+@@ -767,9 +767,9 @@ static int dwc3_qcom_of_register_core(struct platform_device *pdev)
+ 	return ret;
+ }
+ 
+-static struct platform_device *
+-dwc3_qcom_create_urs_usb_platdev(struct device *dev)
++static struct platform_device *dwc3_qcom_create_urs_usb_platdev(struct device *dev)
+ {
++	struct platform_device *urs_usb = NULL;
+ 	struct fwnode_handle *fwh;
+ 	struct acpi_device *adev;
+ 	char name[8];
+@@ -789,9 +789,26 @@ dwc3_qcom_create_urs_usb_platdev(struct device *dev)
+ 
+ 	adev = to_acpi_device_node(fwh);
+ 	if (!adev)
+-		return NULL;
++		goto err_put_handle;
++
++	urs_usb = acpi_create_platform_device(adev, NULL);
++	if (IS_ERR_OR_NULL(urs_usb))
++		goto err_put_handle;
++
++	return urs_usb;
+ 
+-	return acpi_create_platform_device(adev, NULL);
++err_put_handle:
++	fwnode_handle_put(fwh);
++
++	return urs_usb;
++}
++
++static void dwc3_qcom_destroy_urs_usb_platdev(struct platform_device *urs_usb)
++{
++	struct fwnode_handle *fwh = urs_usb->dev.fwnode;
++
++	platform_device_unregister(urs_usb);
++	fwnode_handle_put(fwh);
+ }
+ 
+ static int dwc3_qcom_probe(struct platform_device *pdev)
+@@ -875,13 +892,13 @@ static int dwc3_qcom_probe(struct platform_device *pdev)
+ 	qcom->qscratch_base = devm_ioremap_resource(dev, parent_res);
+ 	if (IS_ERR(qcom->qscratch_base)) {
+ 		ret = PTR_ERR(qcom->qscratch_base);
+-		goto clk_disable;
++		goto free_urs;
+ 	}
+ 
+ 	ret = dwc3_qcom_setup_irq(pdev);
+ 	if (ret) {
+ 		dev_err(dev, "failed to setup IRQs, err=%d\n", ret);
+-		goto clk_disable;
++		goto free_urs;
+ 	}
+ 
+ 	/*
+@@ -900,7 +917,7 @@ static int dwc3_qcom_probe(struct platform_device *pdev)
+ 
+ 	if (ret) {
+ 		dev_err(dev, "failed to register DWC3 Core, err=%d\n", ret);
+-		goto clk_disable;
++		goto free_urs;
+ 	}
+ 
+ 	ret = dwc3_qcom_interconnect_init(qcom);
+@@ -939,6 +956,9 @@ static int dwc3_qcom_probe(struct platform_device *pdev)
+ 		platform_device_del(qcom->dwc3);
+ 	}
+ 	platform_device_put(qcom->dwc3);
++free_urs:
++	if (qcom->urs_usb)
++		dwc3_qcom_destroy_urs_usb_platdev(qcom->urs_usb);
+ clk_disable:
+ 	for (i = qcom->num_clocks - 1; i >= 0; i--) {
+ 		clk_disable_unprepare(qcom->clks[i]);
+@@ -965,6 +985,9 @@ static void dwc3_qcom_remove(struct platform_device *pdev)
+ 	}
+ 	platform_device_put(qcom->dwc3);
+ 
++	if (qcom->urs_usb)
++		dwc3_qcom_destroy_urs_usb_platdev(qcom->urs_usb);
++
+ 	for (i = qcom->num_clocks - 1; i >= 0; i--) {
+ 		clk_disable_unprepare(qcom->clks[i]);
+ 		clk_put(qcom->clks[i]);
 -- 
 2.41.0
 
