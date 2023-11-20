@@ -1,25 +1,25 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BBF501DFC4;
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C10101DFC7;
 	Mon, 20 Nov 2023 16:16:19 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="pOZXQteg"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 2CC8FC433C8;
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Y+wXiaco"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 2F25FC433CB;
 	Mon, 20 Nov 2023 16:16:19 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
 	s=k20201202; t=1700496979;
-	bh=cp9VBVhfKB1W6Ax326oY4P4qaJJhzvjhHmBuHx1mN3s=;
+	bh=a5fyGCT8iWPqPVsgRUucqaCokV/kZiJAVbPFezCBmLw=;
 	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=pOZXQtegp1iz8hawwcJUqLwUvss7v0jB4bYt2liRYvbs73NbGkLN7lGl7ot2Hx0xz
-	 YGfdqVAZ4QNU8a08GLx6DHxUd1nbYkmNjaaXhc2vWfZefNx3cGkVFSNa/PtEk8vkTR
-	 keCxY8TrkyjVCt3rlhTkyyIubDu9n6eGDrNKZynJYMHvdtbt3O4NTQsHkFauyb9egy
-	 ErbMrqLb8xiBUhBT8w9+EVdJ7HVtT5vvd6eKJ5fs0FuTCq2P3Zf6XOlyZkZ7oihlHD
-	 KcgK+2wCpKwRv7BdeQ4Yga3zbBt8LIcClKUQi0lJPgUIK6icBwnLt5t+IJcLlPzBTY
-	 9gvfh/VboAHxA==
+	b=Y+wXiaco7qjT78OGEVCzAARrd3lrRixC1UX4o6C9RwLaI8TIKylD1a/6dUKSMyQS2
+	 6M0jAtDmFohyGdrg7jWvsNVdLKeShf5OD4s4wAV8s+pOZGe8poHcDLmeGUa8H+Q76C
+	 San5bP+TQQWBPoMGH5N/CyhQHAdWD6KEshnJaTGq+CtZHmk7RR5Nj/9U0yVedavbvK
+	 WVx9EjjJkVqBSqJBtMYZw/gEtKAzbVls23IzVN2uXgZ1zZS3PrMaMpvanfWSgyzgo8
+	 e19B3T5folkdAIOTqcqb+pnFiLnZMRtm1AOUdYuXSt5mArW4WXLukFfF/HB1N1FrD6
+	 hOxOKIEBozQCg==
 Received: from johan by xi.lan with local (Exim 4.96.2)
 	(envelope-from <johan+linaro@kernel.org>)
-	id 1r56wm-0001vq-2D;
+	id 1r56wm-0001vm-1h;
 	Mon, 20 Nov 2023 17:16:28 +0100
 From: Johan Hovold <johan+linaro@kernel.org>
 To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
@@ -37,9 +37,9 @@ Cc: Andy Gross <agross@kernel.org>,
 	devicetree@vger.kernel.org,
 	linux-kernel@vger.kernel.org,
 	Johan Hovold <johan+linaro@kernel.org>
-Subject: [PATCH 3/3] USB: dwc3: qcom: simplify wakeup interrupt setup
-Date: Mon, 20 Nov 2023 17:16:07 +0100
-Message-ID: <20231120161607.7405-4-johan+linaro@kernel.org>
+Subject: [PATCH 1/3] dt-bindings: usb: qcom,dwc3: fix example wakeup interrupt types
+Date: Mon, 20 Nov 2023 17:16:05 +0100
+Message-ID: <20231120161607.7405-2-johan+linaro@kernel.org>
 X-Mailer: git-send-email 2.41.0
 In-Reply-To: <20231120161607.7405-1-johan+linaro@kernel.org>
 References: <20231120161607.7405-1-johan+linaro@kernel.org>
@@ -51,68 +51,31 @@ List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-Use the IRQF_NO_AUTOEN irq flag when requesting the wakeup interrupts
-instead of setting it separately.
+The DP/DM wakeup interrupts are edge triggered and which edge to trigger
+on depends on use-case and whether a Low speed or Full/High speed device
+is connected.
 
-No functional change intended.
-
+Fixes: 3828026c9ec8 ("dt-bindings: usb: qcom,dwc3: Convert USB DWC3 bindings")
 Signed-off-by: Johan Hovold <johan+linaro@kernel.org>
 ---
- drivers/usb/dwc3/dwc3-qcom.c | 12 ++++--------
- 1 file changed, 4 insertions(+), 8 deletions(-)
+ Documentation/devicetree/bindings/usb/qcom,dwc3.yaml | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
 
-diff --git a/drivers/usb/dwc3/dwc3-qcom.c b/drivers/usb/dwc3/dwc3-qcom.c
-index 82544374110b..fdf6d5d3c2ad 100644
---- a/drivers/usb/dwc3/dwc3-qcom.c
-+++ b/drivers/usb/dwc3/dwc3-qcom.c
-@@ -546,10 +546,9 @@ static int dwc3_qcom_setup_irq(struct platform_device *pdev)
- 				pdata ? pdata->hs_phy_irq_index : -1);
- 	if (irq > 0) {
- 		/* Keep wakeup interrupts disabled until suspend */
--		irq_set_status_flags(irq, IRQ_NOAUTOEN);
- 		ret = devm_request_threaded_irq(qcom->dev, irq, NULL,
- 					qcom_dwc3_resume_irq,
--					IRQF_ONESHOT,
-+					IRQF_ONESHOT | IRQF_NO_AUTOEN,
- 					"qcom_dwc3 HS", qcom);
- 		if (ret) {
- 			dev_err(qcom->dev, "hs_phy_irq failed: %d\n", ret);
-@@ -561,10 +560,9 @@ static int dwc3_qcom_setup_irq(struct platform_device *pdev)
- 	irq = dwc3_qcom_get_irq(pdev, "dp_hs_phy_irq",
- 				pdata ? pdata->dp_hs_phy_irq_index : -1);
- 	if (irq > 0) {
--		irq_set_status_flags(irq, IRQ_NOAUTOEN);
- 		ret = devm_request_threaded_irq(qcom->dev, irq, NULL,
- 					qcom_dwc3_resume_irq,
--					IRQF_ONESHOT,
-+					IRQF_ONESHOT | IRQF_NO_AUTOEN,
- 					"qcom_dwc3 DP_HS", qcom);
- 		if (ret) {
- 			dev_err(qcom->dev, "dp_hs_phy_irq failed: %d\n", ret);
-@@ -576,10 +574,9 @@ static int dwc3_qcom_setup_irq(struct platform_device *pdev)
- 	irq = dwc3_qcom_get_irq(pdev, "dm_hs_phy_irq",
- 				pdata ? pdata->dm_hs_phy_irq_index : -1);
- 	if (irq > 0) {
--		irq_set_status_flags(irq, IRQ_NOAUTOEN);
- 		ret = devm_request_threaded_irq(qcom->dev, irq, NULL,
- 					qcom_dwc3_resume_irq,
--					IRQF_ONESHOT,
-+					IRQF_ONESHOT | IRQF_NO_AUTOEN,
- 					"qcom_dwc3 DM_HS", qcom);
- 		if (ret) {
- 			dev_err(qcom->dev, "dm_hs_phy_irq failed: %d\n", ret);
-@@ -591,10 +588,9 @@ static int dwc3_qcom_setup_irq(struct platform_device *pdev)
- 	irq = dwc3_qcom_get_irq(pdev, "ss_phy_irq",
- 				pdata ? pdata->ss_phy_irq_index : -1);
- 	if (irq > 0) {
--		irq_set_status_flags(irq, IRQ_NOAUTOEN);
- 		ret = devm_request_threaded_irq(qcom->dev, irq, NULL,
- 					qcom_dwc3_resume_irq,
--					IRQF_ONESHOT,
-+					IRQF_ONESHOT | IRQF_NO_AUTOEN,
- 					"qcom_dwc3 SS", qcom);
- 		if (ret) {
- 			dev_err(qcom->dev, "ss_phy_irq failed: %d\n", ret);
+diff --git a/Documentation/devicetree/bindings/usb/qcom,dwc3.yaml b/Documentation/devicetree/bindings/usb/qcom,dwc3.yaml
+index e889158ca205..915c8205623b 100644
+--- a/Documentation/devicetree/bindings/usb/qcom,dwc3.yaml
++++ b/Documentation/devicetree/bindings/usb/qcom,dwc3.yaml
+@@ -521,8 +521,8 @@ examples:
+ 
+             interrupts = <GIC_SPI 131 IRQ_TYPE_LEVEL_HIGH>,
+                          <GIC_SPI 486 IRQ_TYPE_LEVEL_HIGH>,
+-                         <GIC_SPI 488 IRQ_TYPE_LEVEL_HIGH>,
+-                         <GIC_SPI 489 IRQ_TYPE_LEVEL_HIGH>;
++                         <GIC_SPI 488 IRQ_TYPE_EDGE_BOTH>,
++                         <GIC_SPI 489 IRQ_TYPE_EDGE_BOTH>;
+             interrupt-names = "hs_phy_irq", "ss_phy_irq",
+                           "dm_hs_phy_irq", "dp_hs_phy_irq";
+ 
 -- 
 2.41.0
 
