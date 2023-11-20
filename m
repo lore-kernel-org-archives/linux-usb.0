@@ -1,96 +1,87 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 35E991DFDC;
-	Mon, 20 Nov 2023 16:53:01 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="J3IyRYIj"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id A55CDC433C7;
-	Mon, 20 Nov 2023 16:53:01 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1700499181;
-	bh=0Ltci87TG8iej+bFg5HVGpZD7dydE73T+Xze/XK8NW4=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=J3IyRYIjl5nbe0JjSWG/SnQsghzoMD1vpyTCHWlo9a+u4Kmdc4tshhqNZtSoOhfEW
-	 OgBx1DR41+Ta6nGT9qkG3HZGM2JqXC/xSGLMEhW4OunYNZQERumukoZsIkd6U+8teY
-	 lgfCi17hUo+f0/5qNQPpAFbTInadrahL8vAvsduEX3He84O4m0PJ27z2BNVsXEUkG4
-	 zxsx+ULMm0OD4hMry37SwY7KJqRUEltkCQBCceFixmR/tnWkhvhhGhjaI6CL8BK3I9
-	 tM4dLNlJtbWzRZanqcFVPcXOGW++nHHSlETOG1mnxacnNwOT4G66SrQnyL7SvjbDMP
-	 /dey0Vu/2+B7Q==
-Received: from johan by xi.lan with local (Exim 4.96.2)
-	(envelope-from <johan@kernel.org>)
-	id 1r57WI-0002Az-2C;
-	Mon, 20 Nov 2023 17:53:11 +0100
-Date: Mon, 20 Nov 2023 17:53:10 +0100
-From: Johan Hovold <johan@kernel.org>
-To: Andrew Halaney <ahalaney@redhat.com>
-Cc: Konrad Dybcio <konrad.dybcio@linaro.org>,
-	Johan Hovold <johan+linaro@kernel.org>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	Andy Gross <agross@kernel.org>,
-	Bjorn Andersson <andersson@kernel.org>,
-	Thinh Nguyen <Thinh.Nguyen@synopsys.com>,
-	Krishna Kurapati PSSNV <quic_kriskura@quicinc.com>,
-	linux-arm-msm@vger.kernel.org, linux-usb@vger.kernel.org,
-	linux-kernel@vger.kernel.org
-Subject: Re: [PATCH 0/3] USB: dwc3: qcom: fix resource leaks on probe deferral
-Message-ID: <ZVuO9qj3SRHAS4qm@hovoldconsulting.com>
-References: <20231117173650.21161-1-johan+linaro@kernel.org>
- <041f239f-7b40-4681-8c6c-2268f9c2c684@linaro.org>
- <74cswe5tivcctmnty3gfavzsxdvjz5m4rktyj5auzwvrndninm@dah4h2fdj3zv>
+	dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b="cqDuf8RN"
+Received: from relay4-d.mail.gandi.net (relay4-d.mail.gandi.net [217.70.183.196])
+	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B01D5CD;
+	Mon, 20 Nov 2023 09:06:09 -0800 (PST)
+Received: by mail.gandi.net (Postfix) with ESMTPSA id C04F9E0004;
+	Mon, 20 Nov 2023 17:06:07 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=gm1;
+	t=1700499968;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=4e4jB34Kjsk2UhhZjV+mvo2m7UoKK5NW1KZZ6R6IxOQ=;
+	b=cqDuf8RNFW1EIuNkivfh/7YHzcXWzE3RlLaDdCkEnyQgoOrbKlktlJzBPBcsgnzQZPwHTF
+	qz4DTkmFhScyDDAHK9IMH8OKsOpHbWoKWa6zXy+jgSfFx/KlqsZ/ZuOsQZrtH+VOVbz6Yj
+	lIo3gidp5cPwrxrR2Ng5s2CO4lWcoayR00h9GDgZTSrlHGwsZPeQdzXuVVDhCJ6Xrc2AQa
+	zGclxzuN3hL7ZzQ61Y4rBO6C7SNfR9C1pDm/8KG+A5JPARYyP3+gwUiC4SZpW9n5H0MZw4
+	sYRMW8mXzFYCQRAtifg6QcCYIaokeK5diiZbtPqVXQtKhqySHRPaLjsRit7OWw==
+From: =?utf-8?q?Th=C3=A9o_Lebrun?= <theo.lebrun@bootlin.com>
+Date: Mon, 20 Nov 2023 18:06:01 +0100
+Subject: [PATCH v2 1/7] dt-bindings: usb: ti,j721e-usb: add ti,j7200-usb
+ compatible
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <74cswe5tivcctmnty3gfavzsxdvjz5m4rktyj5auzwvrndninm@dah4h2fdj3zv>
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 8bit
+Message-Id: <20231120-j7200-usb-suspend-v2-1-038c7e4a3df4@bootlin.com>
+References: <20231120-j7200-usb-suspend-v2-0-038c7e4a3df4@bootlin.com>
+In-Reply-To: <20231120-j7200-usb-suspend-v2-0-038c7e4a3df4@bootlin.com>
+To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>, 
+ Rob Herring <robh+dt@kernel.org>, 
+ Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>, 
+ Conor Dooley <conor+dt@kernel.org>, Roger Quadros <rogerq@kernel.org>, 
+ Peter Chen <peter.chen@kernel.org>, Pawel Laszczak <pawell@cadence.com>, 
+ Nishanth Menon <nm@ti.com>, Vignesh Raghavendra <vigneshr@ti.com>, 
+ Tero Kristo <kristo@kernel.org>
+Cc: linux-usb@vger.kernel.org, devicetree@vger.kernel.org, 
+ linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org, 
+ "Thomas Petazzoni thomas.petazzoni"@bootlin.com, 
+ =?utf-8?q?Gr=C3=A9gory_Clement?= <gregory.clement@bootlin.com>, 
+ =?utf-8?q?Th=C3=A9o_Lebrun?= <theo.lebrun@bootlin.com>, 
+ Conor Dooley <conor.dooley@microchip.com>
+X-Mailer: b4 0.12.3
+X-GND-Sasl: theo.lebrun@bootlin.com
 
-On Mon, Nov 20, 2023 at 09:22:54AM -0600, Andrew Halaney wrote:
-> On Sat, Nov 18, 2023 at 12:47:30AM +0100, Konrad Dybcio wrote:
-> > On 17.11.2023 18:36, Johan Hovold wrote:
-> > > When reviewing the recently submitted series which reworks the dwc3 qcom
-> > > glue implementation [1], I noticed that the driver's tear down handling
-> > > is currently broken, something which can lead to memory leaks and
-> > > potentially use-after-free issues on probe deferral and on driver
-> > > unbind.
-> > > 
-> > > Let's get this sorted before reworking driver.
-> > > 
-> > > Note that the last patch has only been compile tested as I don't have
-> > > access to a sdm845 device.
+On this platform, the controller & its wrapper are reset on resume. This
+makes it have a different behavior from other platforms.
 
-> > I'll sound like a broken record, but:
-> > 
-> > is there anyone in the world that is actively benefiting from this failed
-> > experiment of using the ACPI tables that were shipped with these SoCs?
-> > 
-> > There are so so so many shortcomings associated with it due to how Windows
-> > drivers on these platforms know waaaay too much and largely use ACPI to
-> > "bind driver x" and I simply think it doesn't make sense to continue
-> > carrying this code forward given little use and no testing.
+We allow using the new compatible with a fallback onto the original
+ti,j721e-usb compatible. We therefore allow using an older kernel with
+a more recent devicetree.
 
-> For what it is worth, I have agreed with your opinion on this every time
-> I've read it. I am not the target audience of the question, but I'll at
-> least give my personal (interpreted: uneducated? undesired?) opinion
-> that the ACPI support in here adds little value and extra burden.
-> 
-> Of course that topic is a bit independent of this series, but I'd be
-> curious if a patchset removing the support would be welcomed or not by
-> maintainers, so I'm stirring the pot by replying here :)
+Acked-by: Conor Dooley <conor.dooley@microchip.com>
+Signed-off-by: Théo Lebrun <theo.lebrun@bootlin.com>
+---
+ Documentation/devicetree/bindings/usb/ti,j721e-usb.yaml | 4 ++++
+ 1 file changed, 4 insertions(+)
 
-I agree that if we can remove the ACPI hacks in here, we should try do
-so (e.g. given that no one really uses it anymore).
+diff --git a/Documentation/devicetree/bindings/usb/ti,j721e-usb.yaml b/Documentation/devicetree/bindings/usb/ti,j721e-usb.yaml
+index 95ff9791baea..69a222dfd9ff 100644
+--- a/Documentation/devicetree/bindings/usb/ti,j721e-usb.yaml
++++ b/Documentation/devicetree/bindings/usb/ti,j721e-usb.yaml
+@@ -12,11 +12,15 @@ maintainers:
+ properties:
+   compatible:
+     oneOf:
++      - const: ti,j7200-usb
+       - const: ti,j721e-usb
+       - const: ti,am64-usb
+       - items:
+           - const: ti,j721e-usb
+           - const: ti,am64-usb
++      - items:
++          - const: ti,j721e-usb
++          - const: ti,j7200-usb
+ 
+   reg:
+     maxItems: 1
 
-As Andrew already mentioned, that is a separate issue not directly
-related to this series, though.
+-- 
+2.42.0
 
-Removing it before reworking the dwc3 binding [1] and adding multiport
-support [2] should simplify both of those series quite a bit, however.
-
-Johan
-
-[1] https://lore.kernel.org/all/20231016-dwc3-refactor-v1-0-ab4a84165470@quicinc.com/
-[2] https://lore.kernel.org/all/20231007154806.605-1-quic_kriskura@quicinc.com/
