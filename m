@@ -1,141 +1,117 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D7CB31C29C;
-	Mon, 20 Nov 2023 15:45:43 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BF1141DFC5;
+	Mon, 20 Nov 2023 16:16:19 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="jXuXXuoy"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 645AEC433C8;
-	Mon, 20 Nov 2023 15:45:41 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="f+M7JHDM"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 31264C433C7;
+	Mon, 20 Nov 2023 16:16:19 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1700495143;
-	bh=Mf13kzSkExcyvPhnH9lBeXM+1UKNn14DDjcJ3StlIoc=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=jXuXXuoyJnfgUCQK1X12FP4JL1Y3eR9/BRp0/MUuTl3MhCF3KK0nFr3436r2pCKXb
-	 xkQX/ShmAMDV5lDZsBlsCsbVehE+uguaHwGEiArapYyz87IDl+gW3cbZdsfZfZfPx1
-	 ikbg4W0qxv0Bxvfze7lb/aH9l69mtk0wusvkpVpQcCB/Dg1oU38v5OHzFYgLAweCLS
-	 3eduYAQKOP/cWI3pb4RulPavh2uTpkHor16JLy2GQ34HS5fOqrMOZEXVUcX7ODvlCo
-	 0+rfXJJO94HQDKAiKWECUzw36pHa61BUAhuJublU3SeoSBqrWtzr8Xuo+/CvcqvOov
-	 2OC9I3utaCjQA==
-Date: Mon, 20 Nov 2023 15:45:39 +0000
-From: Conor Dooley <conor@kernel.org>
-To: Anand Moon <linux.amoon@gmail.com>
-Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	s=k20201202; t=1700496979;
+	bh=0MaPFqn+cznucJKrIbyiZQIJbG+WLSHKNg43LW6FYzo=;
+	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
+	b=f+M7JHDMHn8ZVIT2JxDub7nG01OiwBdMwf6+zh466edwZ60K1AAqZ1ZksTXL3hxiZ
+	 MLK4KeLxSkakqe6D/mrFe48elNTGrewsWACuaJ0lazdJ+mEzQUbqbCTL+uGj3RsN3m
+	 HecodNDE8QVfthebB1KO9Gz7/wvHdqbTksKGf1+sGZgbpWngA+D2HcGpy1+3xGvCfR
+	 fHsmBoa7Sv2deofSjvPqwZZ84mF4G3MC2a2lM+OH0E5uuuXpqN9TA594gFju+HuDMV
+	 cbkqKZgIWtUeCmKK94wgRU+N8EvCNgoGfQWkLixLSSt/qvzVsOU88JpkZpz+76nVEf
+	 r94+ZqlFDwTNg==
+Received: from johan by xi.lan with local (Exim 4.96.2)
+	(envelope-from <johan+linaro@kernel.org>)
+	id 1r56wm-0001vo-1x;
+	Mon, 20 Nov 2023 17:16:28 +0100
+From: Johan Hovold <johan+linaro@kernel.org>
+To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+Cc: Andy Gross <agross@kernel.org>,
+	Bjorn Andersson <andersson@kernel.org>,
+	Konrad Dybcio <konrad.dybcio@linaro.org>,
 	Rob Herring <robh+dt@kernel.org>,
 	Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
-	Conor Dooley <conor+dt@kernel.org>, Icenowy Zheng <uwu@icenowy.me>,
-	linux-usb@vger.kernel.org, devicetree@vger.kernel.org,
-	linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v3 1/2] dt-bindings: usb: Add the binding example for the
- Genesys Logic GL3523 hub
-Message-ID: <20231120-grinch-upbeat-05f7a32a99fa@spud>
-References: <20231119023454.1591-1-linux.amoon@gmail.com>
- <20231119023454.1591-2-linux.amoon@gmail.com>
- <20231119-phrasing-reverse-bbc1fde515d5@spud>
- <CANAwSgQ6H9FUEBKz7sCf4kUZSMnCfyXG-cpGTMZoT15W9187Kg@mail.gmail.com>
+	Conor Dooley <conor+dt@kernel.org>,
+	Thinh Nguyen <Thinh.Nguyen@synopsys.com>,
+	Wesley Cheng <quic_wcheng@quicinc.com>,
+	Krishna Kurapati PSSNV <quic_kriskura@quicinc.com>,
+	linux-arm-msm@vger.kernel.org,
+	linux-usb@vger.kernel.org,
+	devicetree@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	Johan Hovold <johan+linaro@kernel.org>,
+	stable@vger.kernel.org
+Subject: [PATCH 2/3] USB: dwc3: qcom: fix wakeup after probe deferral
+Date: Mon, 20 Nov 2023 17:16:06 +0100
+Message-ID: <20231120161607.7405-3-johan+linaro@kernel.org>
+X-Mailer: git-send-email 2.41.0
+In-Reply-To: <20231120161607.7405-1-johan+linaro@kernel.org>
+References: <20231120161607.7405-1-johan+linaro@kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha256;
-	protocol="application/pgp-signature"; boundary="i584DEwwEuaJNfQd"
-Content-Disposition: inline
-In-Reply-To: <CANAwSgQ6H9FUEBKz7sCf4kUZSMnCfyXG-cpGTMZoT15W9187Kg@mail.gmail.com>
+Content-Transfer-Encoding: 8bit
 
+The Qualcomm glue driver is overriding the interrupt trigger types
+defined by firmware when requesting the wakeup interrupts during probe.
 
---i584DEwwEuaJNfQd
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+This can lead to a failure to map the DP/DM wakeup interrupts after a
+probe deferral as the firmware defined trigger types do not match the
+type used for the initial mapping:
 
-On Sun, Nov 19, 2023 at 08:57:28PM +0530, Anand Moon wrote:
-> Hi Conor,
->=20
-> On Sun, 19 Nov 2023 at 19:28, Conor Dooley <conor@kernel.org> wrote:
-> >
-> > On Sun, Nov 19, 2023 at 08:04:50AM +0530, Anand Moon wrote:
-> > > Add the binding example for the USB3.1 Genesys Logic GL3523
-> > > integrates with USB 3.1 Gen 1 Super Speed and USB 2.0 High-Speed
-> > > hub.
-> >
-> > But no comment in the commit message about the new property for the
-> > "peer hub". $subject saying "dt-bindings: usb: Add the binding example
-> > for the Genesys Logic GL3523 hub" is misleading when the meaningful
-> > parts of the patch are unrelated to the example.
-> >
-> > >
-> > > Signed-off-by: Anand Moon <linux.amoon@gmail.com>
-> > > ---
-> > > V3: fix the dt_binding_check error, added new example for Genesys GL3=
-523
-> > > v2: added Genesys GL3523 binding
-> > > v1: none
-> > > ---
-> > >  .../bindings/usb/genesys,gl850g.yaml          | 63 +++++++++++++++++=
---
-> > >  1 file changed, 59 insertions(+), 4 deletions(-)
-> > >
-> > > diff --git a/Documentation/devicetree/bindings/usb/genesys,gl850g.yam=
-l b/Documentation/devicetree/bindings/usb/genesys,gl850g.yaml
-> > > index ee08b9c3721f..f8e88477fa11 100644
-> > > --- a/Documentation/devicetree/bindings/usb/genesys,gl850g.yaml
-> > > +++ b/Documentation/devicetree/bindings/usb/genesys,gl850g.yaml
-> > > @@ -9,9 +9,6 @@ title: Genesys Logic USB hub controller
-> > >  maintainers:
-> > >    - Icenowy Zheng <uwu@icenowy.me>
-> > >
-> > > -allOf:
-> > > -  - $ref: usb-device.yaml#
-> > > -
-> > >  properties:
-> > >    compatible:
-> > >      enum:
-> > > @@ -27,12 +24,44 @@ properties:
-> > >
-> > >    vdd-supply:
-> > >      description:
-> > > -      the regulator that provides 3.3V core power to the hub.
-> > > +      phandle to the regulator that provides power to the hub.
-> > > +
-> > > +  peer-hub:
-> > > +    $ref: /schemas/types.yaml#/definitions/phandle
-> > > +    description:
-> > > +      phandle to the peer hub on the controller.
-> >
-> > What is this, why is it needed? Please explain it in your commit
-> > message.
-> >
-> Ok, GL3523 integrates Genesys Logic self-developed USB 3.1 Gen 1
-> Super Speed transmitter/receiver physical layer (PHY) and USB 2.0
-> High-Speed PHY
->=20
-> peer-hub is used to cross-connect those phy nodes so that it can help
-> hub power on/off simultaneously.
+	irq: type mismatch, failed to map hwirq-14 for interrupt-controller@b220000!
+	irq: type mismatch, failed to map hwirq-15 for interrupt-controller@b220000!
 
-I said please explain it in your commit message, but on reflection I
-think that would be insufficient. Extending the description to explain
-what the peer-hub is would be great too. "peer hub on the controller"
-doesn't seem to make sense to me either, as the peer hub phandle is to
-another phy, not to the controller. I think that would probably also be
-resolved by explaining what the peer hub is in a more detailed manner.
+Fix this by not overriding the firmware provided trigger types when
+requesting the wakeup interrupts.
 
-If this is purely a genesys thing, the property should grow a genesys,
-prefix also.
+Fixes: a4333c3a6ba9 ("usb: dwc3: Add Qualcomm DWC3 glue driver")
+Cc: stable@vger.kernel.org      # 4.18
+Signed-off-by: Johan Hovold <johan+linaro@kernel.org>
+---
+ drivers/usb/dwc3/dwc3-qcom.c | 8 ++++----
+ 1 file changed, 4 insertions(+), 4 deletions(-)
 
-Cheers,
-Conor.
+diff --git a/drivers/usb/dwc3/dwc3-qcom.c b/drivers/usb/dwc3/dwc3-qcom.c
+index 10fb481d943b..82544374110b 100644
+--- a/drivers/usb/dwc3/dwc3-qcom.c
++++ b/drivers/usb/dwc3/dwc3-qcom.c
+@@ -549,7 +549,7 @@ static int dwc3_qcom_setup_irq(struct platform_device *pdev)
+ 		irq_set_status_flags(irq, IRQ_NOAUTOEN);
+ 		ret = devm_request_threaded_irq(qcom->dev, irq, NULL,
+ 					qcom_dwc3_resume_irq,
+-					IRQF_TRIGGER_HIGH | IRQF_ONESHOT,
++					IRQF_ONESHOT,
+ 					"qcom_dwc3 HS", qcom);
+ 		if (ret) {
+ 			dev_err(qcom->dev, "hs_phy_irq failed: %d\n", ret);
+@@ -564,7 +564,7 @@ static int dwc3_qcom_setup_irq(struct platform_device *pdev)
+ 		irq_set_status_flags(irq, IRQ_NOAUTOEN);
+ 		ret = devm_request_threaded_irq(qcom->dev, irq, NULL,
+ 					qcom_dwc3_resume_irq,
+-					IRQF_TRIGGER_HIGH | IRQF_ONESHOT,
++					IRQF_ONESHOT,
+ 					"qcom_dwc3 DP_HS", qcom);
+ 		if (ret) {
+ 			dev_err(qcom->dev, "dp_hs_phy_irq failed: %d\n", ret);
+@@ -579,7 +579,7 @@ static int dwc3_qcom_setup_irq(struct platform_device *pdev)
+ 		irq_set_status_flags(irq, IRQ_NOAUTOEN);
+ 		ret = devm_request_threaded_irq(qcom->dev, irq, NULL,
+ 					qcom_dwc3_resume_irq,
+-					IRQF_TRIGGER_HIGH | IRQF_ONESHOT,
++					IRQF_ONESHOT,
+ 					"qcom_dwc3 DM_HS", qcom);
+ 		if (ret) {
+ 			dev_err(qcom->dev, "dm_hs_phy_irq failed: %d\n", ret);
+@@ -594,7 +594,7 @@ static int dwc3_qcom_setup_irq(struct platform_device *pdev)
+ 		irq_set_status_flags(irq, IRQ_NOAUTOEN);
+ 		ret = devm_request_threaded_irq(qcom->dev, irq, NULL,
+ 					qcom_dwc3_resume_irq,
+-					IRQF_TRIGGER_HIGH | IRQF_ONESHOT,
++					IRQF_ONESHOT,
+ 					"qcom_dwc3 SS", qcom);
+ 		if (ret) {
+ 			dev_err(qcom->dev, "ss_phy_irq failed: %d\n", ret);
+-- 
+2.41.0
 
---i584DEwwEuaJNfQd
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iHUEABYIAB0WIQRh246EGq/8RLhDjO14tDGHoIJi0gUCZVt/IwAKCRB4tDGHoIJi
-0l7WAP4jO2VytV+gaR4Fr/4ZJpmrfQ2P5ysd6CPf71fn0gDBSgEA0EeG15JAP0T2
-UF4SNHfWgFn93keokaU5a5twE8yTlQA=
-=o5XT
------END PGP SIGNATURE-----
-
---i584DEwwEuaJNfQd--
