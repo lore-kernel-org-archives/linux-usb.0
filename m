@@ -1,43 +1,42 @@
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="WgESDd+1"
-Received: from mail-lf1-x133.google.com (mail-lf1-x133.google.com [IPv6:2a00:1450:4864:20::133])
-	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C1D0510C
-	for <linux-usb@vger.kernel.org>; Mon, 20 Nov 2023 14:49:24 -0800 (PST)
-Received: by mail-lf1-x133.google.com with SMTP id 2adb3069b0e04-507adc3381cso6394009e87.3
-        for <linux-usb@vger.kernel.org>; Mon, 20 Nov 2023 14:49:24 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="lacxF1Lq"
+Received: from mail-lf1-x142.google.com (mail-lf1-x142.google.com [IPv6:2a00:1450:4864:20::142])
+	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id CA2C285
+	for <linux-usb@vger.kernel.org>; Mon, 20 Nov 2023 15:18:00 -0800 (PST)
+Received: by mail-lf1-x142.google.com with SMTP id 2adb3069b0e04-507a62d4788so6989192e87.0
+        for <linux-usb@vger.kernel.org>; Mon, 20 Nov 2023 15:18:00 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1700520563; x=1701125363; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=8esms7qjDsIwHkmFPq5izCGww9P1bMAldhJOLTVxrVo=;
-        b=WgESDd+1HNeprrMOVztoWh8lTIrh7SUDPLUEIENJlpvrcTBmvQS+zDUU4rTB7gA8fS
-         fCUign0iYqVb1MPuzCU/UXi0IG83wkDBkDJqq3dDBvaJtmLDwO6X0Yb5p+aEK0hYlOST
-         NLJguGfgISiDE/uWI8Zw7vhOuedrN8F1oVCCL3KSdbt8Z7y/8aP6mONrvp4jbj48d/Oy
-         13oMWwNH5hKhobU8yAHgzdUxzN6KzUHnIeM5C4HZlOCzjXtpZZHRVF3WrFpLTAs7GHpz
-         YiG+IG+BukIk1vRIcNAbaWuXOVqgO3poStTzV1da8Pi3S+IhM2pbg3iefPIbFWvPH2md
-         YqoA==
+        d=linaro.org; s=google; t=1700522279; x=1701127079; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=ADt8pzOsXpdfsf1HgObr0YIdUIhge4egXUaCPmB+CDg=;
+        b=lacxF1LqvkmCPwO3lglQAtKCn9yNCdUD/JOLG8Qsi89G6n0vvKI99Ra/MxAcY4tMgV
+         EhIxacTXDIgZ953eFf7R2zkvmxyTiQIYZ3UWOIAXyY9RQLjq6lXs8qhYsqZxJuudO1GM
+         s8dfj4l17iPq+md0ByXM5G7jSqeZxODcD28p4zZat/2LFpxvm3CxFQCI1vXZ+ALfMhtP
+         aFO41pjKLuXVs6IZqRL4xoxzX9+TsEF2aWUl4jFP6w7JpPHCxMHVaazT5lRQsF43z23S
+         sh5EYlxKCWOsgWNLXRK3t2b9+nksOZTdbMRxC0xz6clI9k/ohzbyxOtl03l0m9R5jwDs
+         h4hA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1700520563; x=1701125363;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=8esms7qjDsIwHkmFPq5izCGww9P1bMAldhJOLTVxrVo=;
-        b=iKwbcBbiHAYIZL74q1BSTxIpQU8Tb6f59GjNGWy6KSabJ7b/HpxQ5RUKLGI54BJW48
-         O0Z72phWdoSuOcbqlxSDY9U0VC/zigJ2Qm0fEDMEzeK8Pk51vNCx7i8y+kqKHZ9m+OG0
-         XbQ20+C5IEYhQj5hu9YbXErsGYjufxnzYiwMuik7tjveTqXd06HBgl8kXVGKyEVji7oE
-         SZOvMvenY6tylBX5Ou0m7JM0gq8r+3mKpMfRTA/GNz75VPpnF3lemJwQRx/3RiYOUmOq
-         A8J2hozqyBFkd55ZO2q8LvLrUh4FVH+VC/f/ykP463IjROYC3Wl7ghQll+lty2Y6tlgz
-         AjCA==
-X-Gm-Message-State: AOJu0YzYfIyKsXVvZxPBK4+0EXFhrm050NWZlmPH91WPVMdXQwkmi8uY
-	rDzF217QIL5zcB5o0nYq7U25XA==
-X-Google-Smtp-Source: AGHT+IFSlei+njl+21Vg/SeVwhKhBCNtO5ycJO62MX4mCxIWXcMcNVTMVgx9fUPcaQOpdGDSgNXKtw==
-X-Received: by 2002:a05:6512:41e:b0:509:31e6:1de5 with SMTP id u30-20020a056512041e00b0050931e61de5mr5826985lfk.47.1700520563147;
-        Mon, 20 Nov 2023 14:49:23 -0800 (PST)
+        d=1e100.net; s=20230601; t=1700522279; x=1701127079;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=ADt8pzOsXpdfsf1HgObr0YIdUIhge4egXUaCPmB+CDg=;
+        b=WD4qH1Aqt/bZYlfitP5WLhytSDakDe9T5JwkugFg5B766b0hg3dglywj6fjePRsH/q
+         d0hr2JMCvt03NmeThEJatZ+uaAgauklT7CvqjuZvB3yOaTdCo6pV67u2DkbnvDoj3dYQ
+         En6vX2pMp6VazyQjfUZN4Hp+XCLxRQSw10E6amtVOm4PaIrUrWiTyqwwW2PTQV6paTcm
+         pwvtnjAC3Hf6EkJSEi2I4/3HVX52ujVUMWEIguxWDsS6bh5lKQEMmoHHLinxxrsO+4WG
+         Hp504YjD2iCTCuhRsBUiwqtMTkLcODyGck4o4CztCrXiElpPRpqoX3gqlRBs85rjaksx
+         pFYA==
+X-Gm-Message-State: AOJu0YzavjS5FBKmX0DtyLGSKGnxfF/P//C0Z1T7xx8lyvRYWAeH2Mye
+	x6CY/RXIZ0FkS7YqD8pNuZEPbw==
+X-Google-Smtp-Source: AGHT+IF9nbnnlfFuWTc+kca9xlA0YRyUIqjfnoareDqrnufygavYMGGnBbf+MK5jzMXQplQJTEzWKQ==
+X-Received: by 2002:a19:7109:0:b0:509:494d:c3d5 with SMTP id m9-20020a197109000000b00509494dc3d5mr5445896lfc.26.1700522279090;
+        Mon, 20 Nov 2023 15:17:59 -0800 (PST)
 Received: from eriador.lan (dzdqv0yyyyyyyyyyybcwt-3.rev.dnainternet.fi. [2001:14ba:a0db:1f00::8a5])
-        by smtp.gmail.com with ESMTPSA id c26-20020ac25f7a000000b00503189d8b8csm1297756lfc.198.2023.11.20.14.49.22
+        by smtp.gmail.com with ESMTPSA id bi32-20020a0565120ea000b0050aab042c7csm677036lfb.190.2023.11.20.15.17.58
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 20 Nov 2023 14:49:22 -0800 (PST)
+        Mon, 20 Nov 2023 15:17:58 -0800 (PST)
 From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
 To: Rob Herring <robh+dt@kernel.org>,
 	Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
@@ -55,12 +54,10 @@ Cc: devicetree@vger.kernel.org,
 	linux-arm-msm@vger.kernel.org,
 	platform-driver-x86@vger.kernel.org,
 	linux-usb@vger.kernel.org
-Subject: [PATCH v3 2/3] usb: typec: change altmode SVID to u16 entry
-Date: Tue, 21 Nov 2023 00:00:19 +0200
-Message-ID: <20231120224919.2293730-3-dmitry.baryshkov@linaro.org>
+Subject: [PATCH 0/2] usb: typec: tcpm: Handle Accessory Modes
+Date: Tue, 21 Nov 2023 01:11:06 +0200
+Message-ID: <20231120231757.2309482-1-dmitry.baryshkov@linaro.org>
 X-Mailer: git-send-email 2.42.0
-In-Reply-To: <20231120224919.2293730-1-dmitry.baryshkov@linaro.org>
-References: <20231120224919.2293730-1-dmitry.baryshkov@linaro.org>
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
@@ -69,55 +66,26 @@ List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-As stated in the changelog for the commit 7b458a4c5d73 ("usb: typec: Add
-typec_port_register_altmodes()"), the code should be adjusted according
-to the AltMode bindings. As the SVID is 16 bits wide (according to the
-USB PD Spec), use fwnode_property_read_u16() to read it.
+In addition to Alternative Modes (see [1]), some of the TCPM-backed
+boards (e.g. Qualcomm SM8150-HDK) can support USB-C Accessory Modes
+(e.g. the Analog Audio). Add bindings and driver support for parsing
+this kind of information.
 
-Acked-by: Hans de Goede <hdegoede@redhat.com>
-Reviewed-by: Heikki Krogerus <heikki.krogerus@linux.intel.com>
-Signed-off-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
----
- drivers/platform/x86/intel/chtwc_int33fe.c | 2 +-
- drivers/usb/typec/class.c                  | 5 +++--
- 2 files changed, 4 insertions(+), 3 deletions(-)
+Note, while it might make sense to put accessory-mode-audio and -debug
+handling to typec_get_fw_cap(), I decided against it. Several existing
+drivers use this function, while providing AccMode caps based on some
+internal logic.
 
-diff --git a/drivers/platform/x86/intel/chtwc_int33fe.c b/drivers/platform/x86/intel/chtwc_int33fe.c
-index 848baecc1bb0..93f75ba1dafd 100644
---- a/drivers/platform/x86/intel/chtwc_int33fe.c
-+++ b/drivers/platform/x86/intel/chtwc_int33fe.c
-@@ -136,7 +136,7 @@ static const struct software_node altmodes_node = {
- };
- 
- static const struct property_entry dp_altmode_properties[] = {
--	PROPERTY_ENTRY_U32("svid", 0xff01),
-+	PROPERTY_ENTRY_U16("svid", 0xff01),
- 	PROPERTY_ENTRY_U32("vdo", 0x0c0086),
- 	{ }
- };
-diff --git a/drivers/usb/typec/class.c b/drivers/usb/typec/class.c
-index 6ec2a94e6fad..4251d44137b6 100644
---- a/drivers/usb/typec/class.c
-+++ b/drivers/usb/typec/class.c
-@@ -2238,7 +2238,8 @@ void typec_port_register_altmodes(struct typec_port *port,
- 	struct typec_altmode_desc desc;
- 	struct typec_altmode *alt;
- 	size_t index = 0;
--	u32 svid, vdo;
-+	u16 svid;
-+	u32 vdo;
- 	int ret;
- 
- 	altmodes_node = device_get_named_child_node(&port->dev, "altmodes");
-@@ -2246,7 +2247,7 @@ void typec_port_register_altmodes(struct typec_port *port,
- 		return; /* No altmodes specified */
- 
- 	fwnode_for_each_child_node(altmodes_node, child) {
--		ret = fwnode_property_read_u32(child, "svid", &svid);
-+		ret = fwnode_property_read_u16(child, "svid", &svid);
- 		if (ret) {
- 			dev_err(&port->dev, "Error reading svid for altmode %s\n",
- 				fwnode_get_name(child));
+[1] https://lore.kernel.org/linux-usb/20231120224919.2293730-1-dmitry.baryshkov@linaro.org/
+
+Dmitry Baryshkov (2):
+  dt-bindings: connector: usb: add accessory mode description
+  usb: typec: tcpm: Parse Accessory Mode information
+
+ .../devicetree/bindings/connector/usb-connector.yaml | 12 ++++++++++++
+ drivers/usb/typec/tcpm/tcpm.c                        |  7 +++++++
+ 2 files changed, 19 insertions(+)
+
 -- 
 2.42.0
 
