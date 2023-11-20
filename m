@@ -1,188 +1,110 @@
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="e85fxMWv"
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
-	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id CAA88D2
-	for <linux-usb@vger.kernel.org>; Mon, 20 Nov 2023 12:50:57 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1700513457;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=NCdqcULXYaAlWiWs9GD5NBT5ezqfDctqKAHvvwYWuQA=;
-	b=e85fxMWv2ml0hK2Qn6W/n2cCcVZSj22ObQIeaev5UIoY3pXYPFyIAxwfkCEHdfK9hvnNLV
-	UslHnJGaNJ0Uw4+ll6800HacHGGRP6yotlLSuoc6TqhJZGMYmTqthJMvANH2lKfPQgkCWZ
-	yht1BOwro/H86wUwP20tkJCTtoXkOHA=
-Received: from mail-qv1-f72.google.com (mail-qv1-f72.google.com
- [209.85.219.72]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-625-yk-k3DtBOrGjA-gIGfRMNw-1; Mon, 20 Nov 2023 15:50:55 -0500
-X-MC-Unique: yk-k3DtBOrGjA-gIGfRMNw-1
-Received: by mail-qv1-f72.google.com with SMTP id 6a1803df08f44-679e650f9f0so6361086d6.3
-        for <linux-usb@vger.kernel.org>; Mon, 20 Nov 2023 12:50:55 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1700513455; x=1701118255;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=NCdqcULXYaAlWiWs9GD5NBT5ezqfDctqKAHvvwYWuQA=;
-        b=XdSgP1A9f0PtFO25RFuOvVy1XtiBHPfFebIeMMzJQw3X7xV+LdPGfZCLB62XXz9ovU
-         kZzH3YU44L8H3gjD6rUssjFh58KHugOzFzuZtAxhhKVOUnHkXG6iMndGht7uw6/dJgvv
-         RlHA8WWRpiNt5A2bCU9OWOL+xgotn3cqGqWem2FuyJH38wrw3sdI5avcSg9Hutmb/4Bv
-         LE7XihaG0Kh0SjhDJ6OdFP+dv6KqQVfijoF1rXMNpVsCq51XrETBsD4J8i3bBorEVQ1L
-         kLvu6eOFsVBKQ3pmdKmeS5mfuvMd+Msk9k8PYkiIUQoH+se+wJ4HRLj18tZn4qVDu8hu
-         v3aA==
-X-Gm-Message-State: AOJu0YwNkyIQQvCyIrffPEwtPZdFzxxYYSUBLGSKCvNNG4Rc9yluS40M
-	eOxW3OhHGHfzH2Q8/kFLkGy2zITuzDSFdRvHvkcFqzyIwkpSLud9QLa56OTzZqFoOOuH35gHOOc
-	AUIJ6Itb2sGDHxQdLwDel
-X-Received: by 2002:a05:6214:4113:b0:677:987e:87d with SMTP id kc19-20020a056214411300b00677987e087dmr11471414qvb.2.1700513455002;
-        Mon, 20 Nov 2023 12:50:55 -0800 (PST)
-X-Google-Smtp-Source: AGHT+IGtRRwGNlAO1HQ0kkAEKi4KQv7QcnNP8gXcJ/KT7pderSTsF9taEhMUrn0aqII8AFLOEpg+lQ==
-X-Received: by 2002:a05:6214:4113:b0:677:987e:87d with SMTP id kc19-20020a056214411300b00677987e087dmr11471400qvb.2.1700513454735;
-        Mon, 20 Nov 2023 12:50:54 -0800 (PST)
-Received: from fedora ([2600:1700:1ff0:d0e0::37])
-        by smtp.gmail.com with ESMTPSA id rv13-20020a05620a688d00b0077a7d02cffbsm2951878qkn.24.2023.11.20.12.50.53
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 20 Nov 2023 12:50:54 -0800 (PST)
-Date: Mon, 20 Nov 2023 14:50:52 -0600
-From: Andrew Halaney <ahalaney@redhat.com>
-To: Johan Hovold <johan+linaro@kernel.org>
-Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>, 
-	Andy Gross <agross@kernel.org>, Bjorn Andersson <andersson@kernel.org>, 
-	Konrad Dybcio <konrad.dybcio@linaro.org>, Rob Herring <robh+dt@kernel.org>, 
-	Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>, Conor Dooley <conor+dt@kernel.org>, 
-	Thinh Nguyen <Thinh.Nguyen@synopsys.com>, Wesley Cheng <quic_wcheng@quicinc.com>, 
-	Krishna Kurapati PSSNV <quic_kriskura@quicinc.com>, linux-arm-msm@vger.kernel.org, linux-usb@vger.kernel.org, 
-	devicetree@vger.kernel.org, linux-kernel@vger.kernel.org, stable@vger.kernel.org
-Subject: Re: [PATCH 2/3] USB: dwc3: qcom: fix wakeup after probe deferral
-Message-ID: <3ff65t36p6n3k7faw2z75t2vfi6rb5p64x7wqosetsksbhhwli@5xaxnm7zz4tu>
-References: <20231120161607.7405-1-johan+linaro@kernel.org>
- <20231120161607.7405-3-johan+linaro@kernel.org>
- <pgmtla6j3dshuq5zdxstszbkkssxcthtzelv2etcbrlstdw4nu@wixz6v5dfpum>
+Authentication-Results: smtp.subspace.kernel.org; dkim=none
+Received: from metis.whiteo.stw.pengutronix.de (metis.whiteo.stw.pengutronix.de [IPv6:2a0a:edc0:2:b01:1d::104])
+	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 5B595C3
+	for <linux-usb@vger.kernel.org>; Mon, 20 Nov 2023 13:59:52 -0800 (PST)
+Received: from drehscheibe.grey.stw.pengutronix.de ([2a0a:edc0:0:c01:1d::a2])
+	by metis.whiteo.stw.pengutronix.de with esmtps (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
+	(Exim 4.92)
+	(envelope-from <ukl@pengutronix.de>)
+	id 1r5CJ4-0003rW-8k; Mon, 20 Nov 2023 22:59:50 +0100
+Received: from [2a0a:edc0:0:900:1d::77] (helo=ptz.office.stw.pengutronix.de)
+	by drehscheibe.grey.stw.pengutronix.de with esmtps  (TLS1.3) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
+	(Exim 4.94.2)
+	(envelope-from <ukl@pengutronix.de>)
+	id 1r5CJ3-00ARFB-JM; Mon, 20 Nov 2023 22:59:49 +0100
+Received: from ukl by ptz.office.stw.pengutronix.de with local (Exim 4.94.2)
+	(envelope-from <ukl@pengutronix.de>)
+	id 1r5CJ3-004fD1-AJ; Mon, 20 Nov 2023 22:59:49 +0100
+From: =?UTF-8?q?Uwe=20Kleine-K=C3=B6nig?= <u.kleine-koenig@pengutronix.de>
+To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+Cc: Li Yang <leoyang.li@nxp.com>,
+	linux-usb@vger.kernel.org,
+	linuxppc-dev@lists.ozlabs.org,
+	kernel@pengutronix.de
+Subject: [PATCH 2/5] usb: gadget: fsl_udc: Convert to platform remove callback returning void
+Date: Mon, 20 Nov 2023 22:58:33 +0100
+Message-ID: <20231120215830.71071-3-u.kleine-koenig@pengutronix.de>
+X-Mailer: git-send-email 2.42.0.586.gbc5204569f7d.dirty
+In-Reply-To: <20231120215830.71071-1-u.kleine-koenig@pengutronix.de>
+References: <20231120215830.71071-1-u.kleine-koenig@pengutronix.de>
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <pgmtla6j3dshuq5zdxstszbkkssxcthtzelv2etcbrlstdw4nu@wixz6v5dfpum>
+Content-Type: text/plain; charset=UTF-8
+X-Developer-Signature: v=1; a=openpgp-sha256; l=2493; i=u.kleine-koenig@pengutronix.de; h=from:subject; bh=CSs6fYvx2qfxAgOBeqdlj/Xryxuk9uWte3xLS8fBXr8=; b=owEBbQGS/pANAwAKAY+A+1h9Ev5OAcsmYgBlW9aIWot7Ph0MnMhqpNWSAyrZOVYfxXa3crLAC XK4BGba8sCJATMEAAEKAB0WIQQ/gaxpOnoeWYmt/tOPgPtYfRL+TgUCZVvWiAAKCRCPgPtYfRL+ TjfCCAC4Xb8co7ZtHlno/6oh+VEwm7O1DjqKFOsIm7MIbT2v46NTLquuadC5uHGEv88VwUX9ptK cX9NoWER62BGNNJphOwYa0FgdTrqdj9op4/cc3zBhEq535QAxZreuqoB/fxOc9tIm172ia+5NXs e6Fcrw94NhOTkOPeMVdCKydCCcOlKMZWTR++XrUQz6atIV/eNaB3Zw+PF5AVcT5Wgp6WUbiM7wh pM7kUZ31MClWyfrONIjCHYUMUMLwTtQAm3upGtcPgdRBAhGWunBR0BDVZUgI93q5qXfFMsR5C8c NDMgOYzlz/P8R87hJGAsL0LSnpfpyUhTr7PZFdfv/NJwrhF4
+X-Developer-Key: i=u.kleine-koenig@pengutronix.de; a=openpgp; fpr=0D2511F322BFAB1C1580266BE2DCDD9132669BD6
+Content-Transfer-Encoding: 8bit
+X-SA-Exim-Connect-IP: 2a0a:edc0:0:c01:1d::a2
+X-SA-Exim-Mail-From: ukl@pengutronix.de
+X-SA-Exim-Scanned: No (on metis.whiteo.stw.pengutronix.de); SAEximRunCond expanded to false
+X-PTX-Original-Recipient: linux-usb@vger.kernel.org
 
-On Mon, Nov 20, 2023 at 11:39:07AM -0600, Andrew Halaney wrote:
-> On Mon, Nov 20, 2023 at 05:16:06PM +0100, Johan Hovold wrote:
-> > The Qualcomm glue driver is overriding the interrupt trigger types
-> > defined by firmware when requesting the wakeup interrupts during probe.
-> > 
-> > This can lead to a failure to map the DP/DM wakeup interrupts after a
-> > probe deferral as the firmware defined trigger types do not match the
-> > type used for the initial mapping:
-> > 
-> > 	irq: type mismatch, failed to map hwirq-14 for interrupt-controller@b220000!
-> > 	irq: type mismatch, failed to map hwirq-15 for interrupt-controller@b220000!
-> > 
-> > Fix this by not overriding the firmware provided trigger types when
-> > requesting the wakeup interrupts.
-> 
-> This series looks good to me and makes sense except for one point that
-> I'm struggling to understand. What exactly is the relationship with this
-> failure and probe deferral?
+The .remove() callback for a platform driver returns an int which makes
+many driver authors wrongly assume it's possible to do error handling by
+returning an error code. However the value returned is ignored (apart
+from emitting a warning) and this typically results in resource leaks.
 
-Eric Chanudet pointed out to me (thanks!) offlist that if you:
+To improve here there is a quest to make the remove callback return
+void. In the first step of this quest all drivers are converted to
+.remove_new(), which already returns void. Eventually after all drivers
+are converted, .remove_new() will be renamed to .remove().
 
-    1. Probe
-    2. Grab the IRQ
-    3. Request it (and muck with the trigger from the firmware default)
-    4. Defer out
-    5. Reprobe
-    6. Grab the IRQ again
+In the error path emit an error message replacing the (less useful)
+message by the core. Apart from the improved error message there is no
+change in behaviour.
 
-You get that error, which I played with some this afternoon...
-and can confirm.
+Signed-off-by: Uwe Kleine-König <u.kleine-koenig@pengutronix.de>
+---
+ drivers/usb/gadget/udc/fsl_udc_core.c | 13 +++++++------
+ 1 file changed, 7 insertions(+), 6 deletions(-)
 
-It really seems like maybe we should consider reworking messing with the
-trigger type at all (which is done later for runtime/system suspend)
-in a follow-up series?
-
-As far as I can tell if you were to remove the driver and reprobe after
-a suspend you'd hit similar. I've been sitting here scratching my head a
-bit trying to reason out why keeping it as IRQ_TYPE_EDGE_BOTH isn't
-acceptable in dwc3_qcom_enable_interrupts()... Correct me if you think
-that playing with the trigger there is really ok, but it seems like you
-run the same risks if you do that and then modprobe -r dwc3-qcom.
-
-I get that dwc3_qcom_enable_interrupts() limits the scope of what wakes us
-up to what we expect given the current device (or lack thereof), but it
-doesn't seem like you're really meant to play with the IRQ triggers,
-or at least the warning you shared makes me think it is not a great idea
-if you plan to probe the device ever again in the future.
-
-I'll post the current comment in dwc3_qcom_enable_interrupts() to
-explain the "limits the scope of what wakes us up" a bit more clearly:
-
-	/*
-	 * Configure DP/DM line interrupts based on the USB2 device attached to
-	 * the root hub port. When HS/FS device is connected, configure the DP line
-	 * as falling edge to detect both disconnect and remote wakeup scenarios. When
-	 * LS device is connected, configure DM line as falling edge to detect both
-	 * disconnect and remote wakeup. When no device is connected, configure both
-	 * DP and DM lines as rising edge to detect HS/HS/LS device connect scenario.
-	 */
-
-
-> 
-> Thanks,
-> Andrew
-> 
-> > 
-> > Fixes: a4333c3a6ba9 ("usb: dwc3: Add Qualcomm DWC3 glue driver")
-> > Cc: stable@vger.kernel.org      # 4.18
-> > Signed-off-by: Johan Hovold <johan+linaro@kernel.org>
-> > ---
-> >  drivers/usb/dwc3/dwc3-qcom.c | 8 ++++----
-> >  1 file changed, 4 insertions(+), 4 deletions(-)
-> > 
-> > diff --git a/drivers/usb/dwc3/dwc3-qcom.c b/drivers/usb/dwc3/dwc3-qcom.c
-> > index 10fb481d943b..82544374110b 100644
-> > --- a/drivers/usb/dwc3/dwc3-qcom.c
-> > +++ b/drivers/usb/dwc3/dwc3-qcom.c
-> > @@ -549,7 +549,7 @@ static int dwc3_qcom_setup_irq(struct platform_device *pdev)
-> >  		irq_set_status_flags(irq, IRQ_NOAUTOEN);
-> >  		ret = devm_request_threaded_irq(qcom->dev, irq, NULL,
-> >  					qcom_dwc3_resume_irq,
-> > -					IRQF_TRIGGER_HIGH | IRQF_ONESHOT,
-> > +					IRQF_ONESHOT,
-> >  					"qcom_dwc3 HS", qcom);
-> >  		if (ret) {
-> >  			dev_err(qcom->dev, "hs_phy_irq failed: %d\n", ret);
-> > @@ -564,7 +564,7 @@ static int dwc3_qcom_setup_irq(struct platform_device *pdev)
-> >  		irq_set_status_flags(irq, IRQ_NOAUTOEN);
-> >  		ret = devm_request_threaded_irq(qcom->dev, irq, NULL,
-> >  					qcom_dwc3_resume_irq,
-> > -					IRQF_TRIGGER_HIGH | IRQF_ONESHOT,
-> > +					IRQF_ONESHOT,
-> >  					"qcom_dwc3 DP_HS", qcom);
-> >  		if (ret) {
-> >  			dev_err(qcom->dev, "dp_hs_phy_irq failed: %d\n", ret);
-> > @@ -579,7 +579,7 @@ static int dwc3_qcom_setup_irq(struct platform_device *pdev)
-> >  		irq_set_status_flags(irq, IRQ_NOAUTOEN);
-> >  		ret = devm_request_threaded_irq(qcom->dev, irq, NULL,
-> >  					qcom_dwc3_resume_irq,
-> > -					IRQF_TRIGGER_HIGH | IRQF_ONESHOT,
-> > +					IRQF_ONESHOT,
-> >  					"qcom_dwc3 DM_HS", qcom);
-> >  		if (ret) {
-> >  			dev_err(qcom->dev, "dm_hs_phy_irq failed: %d\n", ret);
-> > @@ -594,7 +594,7 @@ static int dwc3_qcom_setup_irq(struct platform_device *pdev)
-> >  		irq_set_status_flags(irq, IRQ_NOAUTOEN);
-> >  		ret = devm_request_threaded_irq(qcom->dev, irq, NULL,
-> >  					qcom_dwc3_resume_irq,
-> > -					IRQF_TRIGGER_HIGH | IRQF_ONESHOT,
-> > +					IRQF_ONESHOT,
-> >  					"qcom_dwc3 SS", qcom);
-> >  		if (ret) {
-> >  			dev_err(qcom->dev, "ss_phy_irq failed: %d\n", ret);
-> > -- 
-> > 2.41.0
-> > 
-> > 
+diff --git a/drivers/usb/gadget/udc/fsl_udc_core.c b/drivers/usb/gadget/udc/fsl_udc_core.c
+index 2693a10eb0c7..535b6e79a198 100644
+--- a/drivers/usb/gadget/udc/fsl_udc_core.c
++++ b/drivers/usb/gadget/udc/fsl_udc_core.c
+@@ -2532,15 +2532,18 @@ static int fsl_udc_probe(struct platform_device *pdev)
+ /* Driver removal function
+  * Free resources and finish pending transactions
+  */
+-static int fsl_udc_remove(struct platform_device *pdev)
++static void fsl_udc_remove(struct platform_device *pdev)
+ {
+ 	struct resource *res = platform_get_resource(pdev, IORESOURCE_MEM, 0);
+ 	struct fsl_usb2_platform_data *pdata = dev_get_platdata(&pdev->dev);
+ 
+ 	DECLARE_COMPLETION_ONSTACK(done);
+ 
+-	if (!udc_controller)
+-		return -ENODEV;
++	if (!udc_controller) {
++		dev_err(&pdev->dev,
++			"Driver still in use but removing anyhow\n");
++		return;
++	}
+ 
+ 	udc_controller->done = &done;
+ 	usb_del_gadget_udc(&udc_controller->gadget);
+@@ -2568,8 +2571,6 @@ static int fsl_udc_remove(struct platform_device *pdev)
+ 	 */
+ 	if (pdata->exit)
+ 		pdata->exit(pdev);
+-
+-	return 0;
+ }
+ 
+ /*-----------------------------------------------------------------
+@@ -2667,7 +2668,7 @@ static const struct platform_device_id fsl_udc_devtype[] = {
+ MODULE_DEVICE_TABLE(platform, fsl_udc_devtype);
+ static struct platform_driver udc_driver = {
+ 	.probe		= fsl_udc_probe,
+-	.remove		= fsl_udc_remove,
++	.remove_new	= fsl_udc_remove,
+ 	.id_table	= fsl_udc_devtype,
+ 	/* these suspend and resume are not usb suspend and resume */
+ 	.suspend	= fsl_udc_suspend,
+-- 
+2.42.0
 
