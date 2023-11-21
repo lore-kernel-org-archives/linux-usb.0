@@ -1,42 +1,43 @@
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="VOS1oT+A"
-Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.20])
-	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 438EA10C1;
-	Tue, 21 Nov 2023 06:09:00 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="KIGrSUqL"
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.10])
+	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 1DE8F10E9;
+	Tue, 21 Nov 2023 06:15:58 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1700575740; x=1732111740;
+  t=1700576160; x=1732112160;
   h=date:from:to:cc:subject:message-id:references:
    mime-version:in-reply-to;
-  bh=S7FWmcXN79Vx+j4cixX7ygbYhrBJf1bmjbAASxLRWaA=;
-  b=VOS1oT+AvYN/oyzLTQ65zmwmD7T4jnfU6j1oqG49nU2SEeUhiHwQ1xqT
-   Kd/0cKMt8HVt0ccs1uJu1qi1D9h+DnHmoNKiq24kjZcRN/rdTGT1xtl6V
-   Ew9K8oevx+nWo6EEtVoP/24ewcPHbvmFYSwG6oyRiqIuQPAoxvi6x6yC+
-   Q9gAMyIOcNDoKthF4/mvAuHWeHGSGXTH6dGRlWuzr0vQkzqjvZTtbLb1X
-   bpstuLXAw1zXzyhjKmy7LHvm2vXQG3NXu3MTy/OBArTGVdeKuxY8ej3aM
-   UwHTQnw1teMFTGrUqPeSZ95BFczekpjJEv83KxxVc+y2ROsamxcxGocNK
-   g==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10901"; a="382242013"
+  bh=xQgVwAbHsU1vIB6WJDcMNKCuymgxW0pjQWc+1BIVk7Q=;
+  b=KIGrSUqLXKt2il7mfH+t2PVMaMm0QGfIDPXr/Asg2Zj7JZt+D70j3MtW
+   dJdqAmONs1yHm8WyTq5DkZF4Ssyhxt8FMct4k2X6ZaTZNOOqmlJAOy61F
+   x/AeGogUED+r8cOaGcb/K253KpFHLTt9Fmh6oDUBvBabhfLtfHel+Ga6o
+   erOjh7iwyhC7n0ICBmsgXzhMeP10On3h8CVWcqzRGLcMfjWDFY6Vc3V7A
+   YYuAaWo2pmKmFlJqses/0x1T2aH+2XlCcFHKG1VhbgwlbdVzngQ0Y2M6+
+   +giIw0qAU5vA8Y6sxSpmGY3dvXvTBMnCjNLDrMPC8bt7rf835jfzOmiI2
+   A==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10901"; a="5040917"
 X-IronPort-AV: E=Sophos;i="6.04,215,1695711600"; 
-   d="scan'208";a="382242013"
-Received: from orsmga002.jf.intel.com ([10.7.209.21])
-  by orsmga101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 21 Nov 2023 06:08:59 -0800
+   d="scan'208";a="5040917"
+Received: from fmsmga008.fm.intel.com ([10.253.24.58])
+  by orvoesa102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 21 Nov 2023 06:15:59 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10901"; a="766660042"
+X-IronPort-AV: E=McAfee;i="6600,9927,10901"; a="832659372"
 X-IronPort-AV: E=Sophos;i="6.04,215,1695711600"; 
-   d="scan'208";a="766660042"
+   d="scan'208";a="832659372"
 Received: from kuha.fi.intel.com ([10.237.72.185])
-  by orsmga002.jf.intel.com with SMTP; 21 Nov 2023 06:08:57 -0800
-Received: by kuha.fi.intel.com (sSMTP sendmail emulation); Tue, 21 Nov 2023 16:08:56 +0200
-Date: Tue, 21 Nov 2023 16:08:56 +0200
+  by fmsmga008.fm.intel.com with SMTP; 21 Nov 2023 06:15:54 -0800
+Received: by kuha.fi.intel.com (sSMTP sendmail emulation); Tue, 21 Nov 2023 16:15:53 +0200
+Date: Tue, 21 Nov 2023 16:15:53 +0200
 From: Heikki Krogerus <heikki.krogerus@linux.intel.com>
-To: Paul Menzel <pmenzel@molgen.mpg.de>
-Cc: linux-usb@vger.kernel.org, LKML <linux-kernel@vger.kernel.org>,
-	Hans de Goede <hdegoede@redhat.com>
-Subject: Re: Unplugging USB-C charger cable causes `ucsi_acpi USBC000:00:
- ucsi_handle_connector_change: ACK failed (-110)`
-Message-ID: <ZVy5+AxnOZNmUZ15@kuha.fi.intel.com>
-References: <b2466bc2-b62c-4328-94a4-b60af4135ba7@molgen.mpg.de>
+To: Guan-Yu Lin <guanyulin@google.com>
+Cc: linux@roeck-us.net, gregkh@linuxfoundation.org,
+	linux-usb@vger.kernel.org, linux-kernel@vger.kernel.org,
+	badhri@google.com, kyletso@google.com, albertccwang@google.com
+Subject: Re: [PATCH] usb: typec: tcpm: skip checking port->send_discover in
+ PD3.0
+Message-ID: <ZVy7mW1tJVifh/65@kuha.fi.intel.com>
+References: <20231116083221.1201892-1-guanyulin@google.com>
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
@@ -45,31 +46,56 @@ List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <b2466bc2-b62c-4328-94a4-b60af4135ba7@molgen.mpg.de>
+In-Reply-To: <20231116083221.1201892-1-guanyulin@google.com>
 
-On Tue, Nov 21, 2023 at 12:50:43PM +0100, Paul Menzel wrote:
-> Dear Linux folks,
+On Thu, Nov 16, 2023 at 04:32:16PM +0800, Guan-Yu Lin wrote:
+> The original Collison Avoidance mechanism, port->send_discover, avoids
+> the conflict when port partners start AMS almost the same time. However,
+> this mechanism is replaced by SINK_TX_OK and SINK_TX_NG. Skip the check
+> in PD3.0 to avoid the deadlock when source is requesting DR_SWAP where
+> sink is requesting DISCOVER_IDENTITY.
 > 
-> 
-> On the Dell XPS 13, BIOS 2.21.0 06/02/2022, with Debian sid/unstable and
-> Linux 6.5.10, when unplugging the (Dell) USB Type-C charger cable, Linux
-> logs the error below:
-> 
->     ucsi_acpi USBC000:00: ucsi_handle_connector_change: ACK failed (-110)
-> 
-> As this is logged with level error, can this be somehow fixed?
-> 
->     drivers/usb/typec/ucsi/ucsi.c: dev_err(ucsi->dev, "%s: ACK failed (%d)",
-> __func__, ret);
-> 
-> Please find the output of `dmesg` attached.
+> Signed-off-by: Guan-Yu Lin <guanyulin@google.com>
 
-Thanks. The firmware not reacting to the ACK command is weird, but I'm
-not sure if it's critical. Does the interface continue working after
-that? Do you see the partner devices appearing under /sys/class/typec/
-when you plug them, and disappearing when you unplug them?
+Reviewed-by: Heikki Krogerus <heikki.krogerus@linux.intel.com>
 
-thanks,
+> ---
+>  drivers/usb/typec/tcpm/tcpm.c | 6 +++---
+>  1 file changed, 3 insertions(+), 3 deletions(-)
+> 
+> diff --git a/drivers/usb/typec/tcpm/tcpm.c b/drivers/usb/typec/tcpm/tcpm.c
+> index 058d5b853b57..ff3c171a3a75 100644
+> --- a/drivers/usb/typec/tcpm/tcpm.c
+> +++ b/drivers/usb/typec/tcpm/tcpm.c
+> @@ -2847,7 +2847,7 @@ static void tcpm_pd_ctrl_request(struct tcpm_port *port,
+>  					   PD_MSG_CTRL_NOT_SUPP,
+>  					   NONE_AMS);
+>  		} else {
+> -			if (port->send_discover) {
+> +			if (port->send_discover && port->negotiated_rev < PD_REV30) {
+>  				tcpm_queue_message(port, PD_MSG_CTRL_WAIT);
+>  				break;
+>  			}
+> @@ -2863,7 +2863,7 @@ static void tcpm_pd_ctrl_request(struct tcpm_port *port,
+>  					   PD_MSG_CTRL_NOT_SUPP,
+>  					   NONE_AMS);
+>  		} else {
+> -			if (port->send_discover) {
+> +			if (port->send_discover && port->negotiated_rev < PD_REV30) {
+>  				tcpm_queue_message(port, PD_MSG_CTRL_WAIT);
+>  				break;
+>  			}
+> @@ -2872,7 +2872,7 @@ static void tcpm_pd_ctrl_request(struct tcpm_port *port,
+>  		}
+>  		break;
+>  	case PD_CTRL_VCONN_SWAP:
+> -		if (port->send_discover) {
+> +		if (port->send_discover && port->negotiated_rev < PD_REV30) {
+>  			tcpm_queue_message(port, PD_MSG_CTRL_WAIT);
+>  			break;
+>  		}
+> -- 
+> 2.43.0.rc0.421.g78406f8d94-goog
 
 -- 
 heikki
