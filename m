@@ -1,114 +1,154 @@
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="kkQgLeMV"
-Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.151])
-	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A01A9D7E;
-	Tue, 21 Nov 2023 06:20:06 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1700576406; x=1732112406;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=N0wFReOzgNDh2Uw8c3ueRDTaTSNzFrAmGUI7D1PGMVM=;
-  b=kkQgLeMVL7RTSonUefRoFXrx9FUnD3NYCWnOfH3lEAWr7xeMpKt/X8oS
-   L0NGI7Vo31zC7yhaF4dkS4AeWOMQzPn11BunuTRDAH7Ei9Iqbql6Fil9V
-   y0k91fV38Sb/0WDUh6bQGc/TQ8UlWlaLAMvm7lEWNV06nX49UTBuLk8fU
-   Ux4HdDP2RDtadtJgYOgCdM+P1vEVK9FezWeOLxp4RC/bGALUSU1KW5U21
-   9vqkE8j7DscKjVXvWdM8Gcc3mqA9pSGhz+0YjVBT4KjdaP25gEcwuGhH9
-   qckU/paRKcBu4E61axGT1GsS9Q3Hi79eU/irjZ5Ns9aWaG2/A8BTm2AeP
-   w==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10901"; a="372022143"
-X-IronPort-AV: E=Sophos;i="6.04,215,1695711600"; 
-   d="scan'208";a="372022143"
-Received: from orsmga007.jf.intel.com ([10.7.209.58])
-  by fmsmga107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 21 Nov 2023 06:20:06 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10901"; a="760114797"
-X-IronPort-AV: E=Sophos;i="6.04,215,1695711600"; 
-   d="scan'208";a="760114797"
-Received: from kuha.fi.intel.com ([10.237.72.185])
-  by orsmga007.jf.intel.com with SMTP; 21 Nov 2023 06:20:01 -0800
-Received: by kuha.fi.intel.com (sSMTP sendmail emulation); Tue, 21 Nov 2023 16:20:00 +0200
-Date: Tue, 21 Nov 2023 16:20:00 +0200
-From: Heikki Krogerus <heikki.krogerus@linux.intel.com>
-To: Johan Hovold <johan+linaro@kernel.org>
-Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	Andy Gross <agross@kernel.org>,
-	Bjorn Andersson <andersson@kernel.org>,
-	Konrad Dybcio <konrad.dybcio@linaro.org>,
-	Thinh Nguyen <Thinh.Nguyen@synopsys.com>,
-	Krishna Kurapati PSSNV <quic_kriskura@quicinc.com>,
-	linux-arm-msm@vger.kernel.org, linux-usb@vger.kernel.org,
-	linux-kernel@vger.kernel.org, stable@vger.kernel.org
-Subject: Re: [PATCH 2/3] USB: dwc3: qcom: fix software node leak on probe
- errors
-Message-ID: <ZVy7z5ZAm+IqzvM/@kuha.fi.intel.com>
-References: <20231117173650.21161-1-johan+linaro@kernel.org>
- <20231117173650.21161-3-johan+linaro@kernel.org>
+Authentication-Results: smtp.subspace.kernel.org; dkim=none
+Received: from mx3.molgen.mpg.de (mx3.molgen.mpg.de [141.14.17.11])
+	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 0662010D1;
+	Tue, 21 Nov 2023 06:26:20 -0800 (PST)
+Received: from [10.0.3.168] (unknown [93.240.169.83])
+	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
+	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+	(No client certificate requested)
+	(Authenticated sender: pmenzel)
+	by mx.molgen.mpg.de (Postfix) with ESMTPSA id A828561E5FE01;
+	Tue, 21 Nov 2023 15:26:00 +0100 (CET)
+Message-ID: <2bfe2311-27a6-46b5-8662-ba3cbb409f81@molgen.mpg.de>
+Date: Tue, 21 Nov 2023 15:25:59 +0100
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20231117173650.21161-3-johan+linaro@kernel.org>
+User-Agent: Mozilla Thunderbird
+Subject: Re: Unplugging USB-C charger cable causes `ucsi_acpi USBC000:00:
+ ucsi_handle_connector_change: ACK failed (-110)`
+Content-Language: en-US
+To: Heikki Krogerus <heikki.krogerus@linux.intel.com>
+Cc: linux-usb@vger.kernel.org, LKML <linux-kernel@vger.kernel.org>,
+ Hans de Goede <hdegoede@redhat.com>
+References: <b2466bc2-b62c-4328-94a4-b60af4135ba7@molgen.mpg.de>
+ <ZVy5+AxnOZNmUZ15@kuha.fi.intel.com>
+From: Paul Menzel <pmenzel@molgen.mpg.de>
+In-Reply-To: <ZVy5+AxnOZNmUZ15@kuha.fi.intel.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 
-On Fri, Nov 17, 2023 at 06:36:49PM +0100, Johan Hovold wrote:
-> Make sure to remove the software node also on (ACPI) probe errors to
-> avoid leaking the underlying resources.
+Dear Heikki,
+
+
+Thank you for your prompt reply.
+
+Am 21.11.23 um 15:08 schrieb Heikki Krogerus:
+> On Tue, Nov 21, 2023 at 12:50:43PM +0100, Paul Menzel wrote:
+
+>> On the Dell XPS 13, BIOS 2.21.0 06/02/2022, with Debian sid/unstable and
+>> Linux 6.5.10, when unplugging the (Dell) USB Type-C charger cable, Linux
+>> logs the error below:
+>>
+>>      ucsi_acpi USBC000:00: ucsi_handle_connector_change: ACK failed (-110)
+>>
+>> As this is logged with level error, can this be somehow fixed?
+>>
+>>      drivers/usb/typec/ucsi/ucsi.c: dev_err(ucsi->dev, "%s: ACK failed (%d)", __func__, ret);
+>>
+>> Please find the output of `dmesg` attached.
 > 
-> Note that the software node is only used for ACPI probe so the driver
-> unbind tear down is updated to match probe.
-> 
-> Fixes: 8dc6e6dd1bee ("usb: dwc3: qcom: Constify the software node")
-> Cc: stable@vger.kernel.org      # 5.12
-> Cc: Heikki Krogerus <heikki.krogerus@linux.intel.com>
-> Signed-off-by: Johan Hovold <johan+linaro@kernel.org>
+> Thanks. The firmware not reacting to the ACK command is weird, but I'm
+> not sure if it's critical. Does the interface continue working after
+> that? Do you see the partner devices appearing under /sys/class/typec/
+> when you plug them, and disappearing when you unplug them?
 
-Acked-by: Heikki Krogerus <heikki.krogerus@linux.intel.com>
+```
+$ LANG= grep . 
+/sys/class/typec/port0/device/power_supply/ucsi-source-psy-USBC000\:001/*
+/sys/class/typec/port0/device/power_supply/ucsi-source-psy-USBC000:001/current_max:0
+/sys/class/typec/port0/device/power_supply/ucsi-source-psy-USBC000:001/current_now:0
+grep: 
+/sys/class/typec/port0/device/power_supply/ucsi-source-psy-USBC000:001/device: 
+Is a directory
+grep: 
+/sys/class/typec/port0/device/power_supply/ucsi-source-psy-USBC000:001/hwmon7: 
+Is a directory
+/sys/class/typec/port0/device/power_supply/ucsi-source-psy-USBC000:001/online:0
+grep: 
+/sys/class/typec/port0/device/power_supply/ucsi-source-psy-USBC000:001/power: 
+Is a directory
+/sys/class/typec/port0/device/power_supply/ucsi-source-psy-USBC000:001/scope:System
+grep: 
+/sys/class/typec/port0/device/power_supply/ucsi-source-psy-USBC000:001/subsystem: 
+Is a directory
+/sys/class/typec/port0/device/power_supply/ucsi-source-psy-USBC000:001/type:USB
+/sys/class/typec/port0/device/power_supply/ucsi-source-psy-USBC000:001/uevent:POWER_SUPPLY_NAME=ucsi-source-psy-USBC000:001
+/sys/class/typec/port0/device/power_supply/ucsi-source-psy-USBC000:001/uevent:POWER_SUPPLY_TYPE=USB
+/sys/class/typec/port0/device/power_supply/ucsi-source-psy-USBC000:001/uevent:POWER_SUPPLY_USB_TYPE=[C] 
+PD PD_PPS
+/sys/class/typec/port0/device/power_supply/ucsi-source-psy-USBC000:001/uevent:POWER_SUPPLY_ONLINE=0
+/sys/class/typec/port0/device/power_supply/ucsi-source-psy-USBC000:001/uevent:POWER_SUPPLY_VOLTAGE_MIN=5000000
+/sys/class/typec/port0/device/power_supply/ucsi-source-psy-USBC000:001/uevent:POWER_SUPPLY_VOLTAGE_MAX=5000000
+/sys/class/typec/port0/device/power_supply/ucsi-source-psy-USBC000:001/uevent:POWER_SUPPLY_VOLTAGE_NOW=5000000
+/sys/class/typec/port0/device/power_supply/ucsi-source-psy-USBC000:001/uevent:POWER_SUPPLY_CURRENT_MAX=0
+/sys/class/typec/port0/device/power_supply/ucsi-source-psy-USBC000:001/uevent:POWER_SUPPLY_CURRENT_NOW=0
+/sys/class/typec/port0/device/power_supply/ucsi-source-psy-USBC000:001/uevent:POWER_SUPPLY_SCOPE=System
+/sys/class/typec/port0/device/power_supply/ucsi-source-psy-USBC000:001/usb_type:[C] 
+PD PD_PPS
+/sys/class/typec/port0/device/power_supply/ucsi-source-psy-USBC000:001/voltage_max:5000000
+/sys/class/typec/port0/device/power_supply/ucsi-source-psy-USBC000:001/voltage_min:5000000
+/sys/class/typec/port0/device/power_supply/ucsi-source-psy-USBC000:001/voltage_now:5000000
+grep: 
+/sys/class/typec/port0/device/power_supply/ucsi-source-psy-USBC000:001/wakeup49: 
+Is a directory
+```
 
-> ---
->  drivers/usb/dwc3/dwc3-qcom.c | 13 ++++++++-----
->  1 file changed, 8 insertions(+), 5 deletions(-)
-> 
-> diff --git a/drivers/usb/dwc3/dwc3-qcom.c b/drivers/usb/dwc3/dwc3-qcom.c
-> index 00c3021b43ce..0703f9b85cda 100644
-> --- a/drivers/usb/dwc3/dwc3-qcom.c
-> +++ b/drivers/usb/dwc3/dwc3-qcom.c
-> @@ -932,10 +932,12 @@ static int dwc3_qcom_probe(struct platform_device *pdev)
->  interconnect_exit:
->  	dwc3_qcom_interconnect_exit(qcom);
->  depopulate:
-> -	if (np)
-> +	if (np) {
->  		of_platform_depopulate(&pdev->dev);
-> -	else
-> +	} else {
-> +		device_remove_software_node(&qcom->dwc3->dev);
->  		platform_device_del(qcom->dwc3);
-> +	}
->  	platform_device_put(qcom->dwc3);
->  clk_disable:
->  	for (i = qcom->num_clocks - 1; i >= 0; i--) {
-> @@ -955,11 +957,12 @@ static void dwc3_qcom_remove(struct platform_device *pdev)
->  	struct device *dev = &pdev->dev;
->  	int i;
->  
-> -	device_remove_software_node(&qcom->dwc3->dev);
-> -	if (np)
-> +	if (np) {
->  		of_platform_depopulate(&pdev->dev);
-> -	else
-> +	} else {
-> +		device_remove_software_node(&qcom->dwc3->dev);
->  		platform_device_del(qcom->dwc3);
-> +	}
->  	platform_device_put(qcom->dwc3);
->  
->  	for (i = qcom->num_clocks - 1; i >= 0; i--) {
-> -- 
-> 2.41.0
+Now I unplugged the device, and the error is *not* logged. (I had a USB 
+Type-C port replicator plugged in during the day before.)
 
--- 
-heikki
+The directory is still there:
+
+```
+$ LANG= grep . 
+/sys/class/typec/port0/device/power_supply/ucsi-source-psy-USBC000\:001/*
+/sys/class/typec/port0/device/power_supply/ucsi-source-psy-USBC000:001/current_max:0
+/sys/class/typec/port0/device/power_supply/ucsi-source-psy-USBC000:001/current_now:0
+grep: 
+/sys/class/typec/port0/device/power_supply/ucsi-source-psy-USBC000:001/device: 
+Is a directory
+grep: 
+/sys/class/typec/port0/device/power_supply/ucsi-source-psy-USBC000:001/hwmon7: 
+Is a directory
+/sys/class/typec/port0/device/power_supply/ucsi-source-psy-USBC000:001/online:0
+grep: 
+/sys/class/typec/port0/device/power_supply/ucsi-source-psy-USBC000:001/power: 
+Is a directory
+/sys/class/typec/port0/device/power_supply/ucsi-source-psy-USBC000:001/scope:System
+grep: 
+/sys/class/typec/port0/device/power_supply/ucsi-source-psy-USBC000:001/subsystem: 
+Is a directory
+/sys/class/typec/port0/device/power_supply/ucsi-source-psy-USBC000:001/type:USB
+/sys/class/typec/port0/device/power_supply/ucsi-source-psy-USBC000:001/uevent:POWER_SUPPLY_NAME=ucsi-source-psy-USBC000:001
+/sys/class/typec/port0/device/power_supply/ucsi-source-psy-USBC000:001/uevent:POWER_SUPPLY_TYPE=USB
+/sys/class/typec/port0/device/power_supply/ucsi-source-psy-USBC000:001/uevent:POWER_SUPPLY_USB_TYPE=[C] 
+PD PD_PPS
+/sys/class/typec/port0/device/power_supply/ucsi-source-psy-USBC000:001/uevent:POWER_SUPPLY_ONLINE=0
+/sys/class/typec/port0/device/power_supply/ucsi-source-psy-USBC000:001/uevent:POWER_SUPPLY_VOLTAGE_MIN=5000000
+/sys/class/typec/port0/device/power_supply/ucsi-source-psy-USBC000:001/uevent:POWER_SUPPLY_VOLTAGE_MAX=5000000
+/sys/class/typec/port0/device/power_supply/ucsi-source-psy-USBC000:001/uevent:POWER_SUPPLY_VOLTAGE_NOW=5000000
+/sys/class/typec/port0/device/power_supply/ucsi-source-psy-USBC000:001/uevent:POWER_SUPPLY_CURRENT_MAX=0
+/sys/class/typec/port0/device/power_supply/ucsi-source-psy-USBC000:001/uevent:POWER_SUPPLY_CURRENT_NOW=0
+/sys/class/typec/port0/device/power_supply/ucsi-source-psy-USBC000:001/uevent:POWER_SUPPLY_SCOPE=System
+/sys/class/typec/port0/device/power_supply/ucsi-source-psy-USBC000:001/usb_type:[C] 
+PD PD_PPS
+/sys/class/typec/port0/device/power_supply/ucsi-source-psy-USBC000:001/voltage_max:5000000
+/sys/class/typec/port0/device/power_supply/ucsi-source-psy-USBC000:001/voltage_min:5000000
+/sys/class/typec/port0/device/power_supply/ucsi-source-psy-USBC000:001/voltage_now:5000000
+grep: 
+/sys/class/typec/port0/device/power_supply/ucsi-source-psy-USBC000:001/wakeup49: 
+Is a directory
+```
+
+I guess, that is the wrong directory I look at though?
+
+(I am going to monitor the logs over the next days.)
+
+
+Kind regards,
+
+Paul
+```
