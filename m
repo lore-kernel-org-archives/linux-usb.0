@@ -1,169 +1,140 @@
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="bV6hj1in"
-Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.126])
-	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id AC24B10D3;
-	Wed, 22 Nov 2023 10:38:56 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1700678336; x=1732214336;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=wIyOP0aG9TPi3lc0G7IvCLuDzn6Yv0SkV0fEgpSBYKo=;
-  b=bV6hj1in5Zb0bFOANItNzeFrYzNN+GnRFFnPvw70icAxK93CKBMHoQJt
-   rhA+vss888F8cU1eiFODPDCFsfvMiWDxJThO/syRt9VAEDnvpxWekRiQQ
-   MWFVvB4wRFGxZ/fxJCcen0+oxfG8gBc8LX59MwgKbrwTKX4tLEpuxyNYT
-   sfPc/QpSdvFFxc6TW/1U3IqC05LKWz5WvWPPv8F1mMIpCcqS3RzqOB1EQ
-   2A+NuU0QbxekDopafFdXYzz2xu6kofJQWBla2jRjXmMmpd7UZDcLjw4Tf
-   Qzr5cqdIjfJyYLRhV9pZwt+J6Ykhy+8MWOZ447bMyc66dgeJ4QkOiJ1+x
-   A==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10902"; a="377150106"
-X-IronPort-AV: E=Sophos;i="6.04,219,1695711600"; 
-   d="scan'208";a="377150106"
-Received: from orsmga001.jf.intel.com ([10.7.209.18])
-  by orsmga106.jf.intel.com with ESMTP; 22 Nov 2023 10:38:34 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10901"; a="801829392"
-X-IronPort-AV: E=Sophos;i="6.04,218,1695711600"; 
-   d="scan'208";a="801829392"
-Received: from unknown (HELO kuha.fi.intel.com) ([10.237.72.185])
-  by orsmga001.jf.intel.com with SMTP; 22 Nov 2023 00:59:47 -0800
-Received: by kuha.fi.intel.com (sSMTP sendmail emulation); Wed, 22 Nov 2023 10:56:46 +0200
-Date: Wed, 22 Nov 2023 10:56:46 +0200
-From: Heikki Krogerus <heikki.krogerus@linux.intel.com>
-To: Paul Menzel <pmenzel@molgen.mpg.de>
-Cc: linux-usb@vger.kernel.org, LKML <linux-kernel@vger.kernel.org>,
-	Hans de Goede <hdegoede@redhat.com>
-Subject: Re: Unplugging USB-C charger cable causes `ucsi_acpi USBC000:00:
- ucsi_handle_connector_change: ACK failed (-110)`
-Message-ID: <ZV3CTg03IPnZTVL0@kuha.fi.intel.com>
-References: <b2466bc2-b62c-4328-94a4-b60af4135ba7@molgen.mpg.de>
- <ZVy5+AxnOZNmUZ15@kuha.fi.intel.com>
- <2bfe2311-27a6-46b5-8662-ba3cbb409f81@molgen.mpg.de>
+	dkim=pass (2048-bit key) header.d=quicinc.com header.i=@quicinc.com header.b="TxmCctUm"
+Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com [205.220.168.131])
+	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D99E7A9;
+	Wed, 22 Nov 2023 11:13:21 -0800 (PST)
+Received: from pps.filterd (m0279867.ppops.net [127.0.0.1])
+	by mx0a-0031df01.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id 3AMJ0Lob004602;
+	Wed, 22 Nov 2023 19:13:16 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com; h=from : to : cc :
+ subject : date : message-id : mime-version : content-transfer-encoding :
+ content-type; s=qcppdkim1;
+ bh=7CG5oCnjWDSSBAJpAL91Z7Kealbavj8SFwKnO5GlXBI=;
+ b=TxmCctUmd2i0qy5mdgT56hPZs525Ofm2jggrLSBGfIu3RYQDfxdsUQ0h25+mVWU9gcbt
+ Ruc/S8akfJHirPRQ1bnke4I2T+7PLdbZLD0mdDqjJZeat4lBdJgz2nE5jaa1iMHgmdqF
+ Lm7Nwq+NHKSX0re9zCuEC89guazXL9KAL+uKTgRBLnJyoa6FJn9sgRrOHlcB6EIBS95Y
+ 8FUPlhbyigxV1AzGu9sqCPVLfL1NRaWPRw9QeyX42EgiJid0OHO/n7oumZIf4GxbbLXP
+ N7ZaYcDWA752miN/U7g9tTZNp8st8BehreIy9Q+3mF4u9hgcHZftoJ8Lp7TjN6cxGvMY Tw== 
+Received: from nalasppmta02.qualcomm.com (Global_NAT1.qualcomm.com [129.46.96.20])
+	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 3uh477jvrd-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Wed, 22 Nov 2023 19:13:16 +0000
+Received: from nalasex01a.na.qualcomm.com (nalasex01a.na.qualcomm.com [10.47.209.196])
+	by NALASPPMTA02.qualcomm.com (8.17.1.5/8.17.1.5) with ESMTPS id 3AMJDFRj030752
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Wed, 22 Nov 2023 19:13:15 GMT
+Received: from hu-kriskura-hyd.qualcomm.com (10.80.80.8) by
+ nalasex01a.na.qualcomm.com (10.47.209.196) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.1118.40; Wed, 22 Nov 2023 11:13:11 -0800
+From: Krishna Kurapati <quic_kriskura@quicinc.com>
+To: Andy Gross <agross@kernel.org>, Bjorn Andersson <andersson@kernel.org>,
+        Konrad Dybcio <konrad.dybcio@linaro.org>,
+        Greg Kroah-Hartman
+	<gregkh@linuxfoundation.org>,
+        Rob Herring <robh+dt@kernel.org>,
+        "Krzysztof
+ Kozlowski" <krzysztof.kozlowski+dt@linaro.org>,
+        Conor Dooley
+	<conor+dt@kernel.org>, <quic_wcheng@quicinc.com>
+CC: <linux-arm-msm@vger.kernel.org>, <linux-usb@vger.kernel.org>,
+        <devicetree@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
+        <quic_ppratap@quicinc.com>, <quic_jackp@quicinc.com>,
+        Krishna Kurapati
+	<quic_kriskura@quicinc.com>
+Subject: [PATCH 0/6] Refine USB interrupt vectors on Qualcomm platforms
+Date: Thu, 23 Nov 2023 00:42:59 +0530
+Message-ID: <20231122191259.3021-1-quic_kriskura@quicinc.com>
+X-Mailer: git-send-email 2.42.0
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <2bfe2311-27a6-46b5-8662-ba3cbb409f81@molgen.mpg.de>
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+X-ClientProxiedBy: nasanex01a.na.qualcomm.com (10.52.223.231) To
+ nalasex01a.na.qualcomm.com (10.47.209.196)
+X-QCInternal: smtphost
+X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800 signatures=585085
+X-Proofpoint-ORIG-GUID: TrW7wXycGNg_qUwLiUmOqvCyjNg1SQgZ
+X-Proofpoint-GUID: TrW7wXycGNg_qUwLiUmOqvCyjNg1SQgZ
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.272,Aquarius:18.0.987,Hydra:6.0.619,FMLib:17.11.176.26
+ definitions=2023-11-22_13,2023-11-22_01,2023-05-22_02
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 adultscore=0 phishscore=0
+ impostorscore=0 malwarescore=0 mlxlogscore=673 clxscore=1015
+ suspectscore=0 spamscore=0 bulkscore=0 mlxscore=0 priorityscore=1501
+ lowpriorityscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.12.0-2311060000 definitions=main-2311220139
 
-On Tue, Nov 21, 2023 at 03:25:59PM +0100, Paul Menzel wrote:
-> Dear Heikki,
-> 
-> 
-> Thank you for your prompt reply.
-> 
-> Am 21.11.23 um 15:08 schrieb Heikki Krogerus:
-> > On Tue, Nov 21, 2023 at 12:50:43PM +0100, Paul Menzel wrote:
-> 
-> > > On the Dell XPS 13, BIOS 2.21.0 06/02/2022, with Debian sid/unstable and
-> > > Linux 6.5.10, when unplugging the (Dell) USB Type-C charger cable, Linux
-> > > logs the error below:
-> > > 
-> > >      ucsi_acpi USBC000:00: ucsi_handle_connector_change: ACK failed (-110)
-> > > 
-> > > As this is logged with level error, can this be somehow fixed?
-> > > 
-> > >      drivers/usb/typec/ucsi/ucsi.c: dev_err(ucsi->dev, "%s: ACK failed (%d)", __func__, ret);
-> > > 
-> > > Please find the output of `dmesg` attached.
-> > 
-> > Thanks. The firmware not reacting to the ACK command is weird, but I'm
-> > not sure if it's critical. Does the interface continue working after
-> > that? Do you see the partner devices appearing under /sys/class/typec/
-> > when you plug them, and disappearing when you unplug them?
-> 
-> ```
-> $ LANG= grep .
-> /sys/class/typec/port0/device/power_supply/ucsi-source-psy-USBC000\:001/*
-> /sys/class/typec/port0/device/power_supply/ucsi-source-psy-USBC000:001/current_max:0
-> /sys/class/typec/port0/device/power_supply/ucsi-source-psy-USBC000:001/current_now:0
-> grep: /sys/class/typec/port0/device/power_supply/ucsi-source-psy-USBC000:001/device:
-> Is a directory
-> grep: /sys/class/typec/port0/device/power_supply/ucsi-source-psy-USBC000:001/hwmon7:
-> Is a directory
-> /sys/class/typec/port0/device/power_supply/ucsi-source-psy-USBC000:001/online:0
-> grep:
-> /sys/class/typec/port0/device/power_supply/ucsi-source-psy-USBC000:001/power:
-> Is a directory
-> /sys/class/typec/port0/device/power_supply/ucsi-source-psy-USBC000:001/scope:System
-> grep: /sys/class/typec/port0/device/power_supply/ucsi-source-psy-USBC000:001/subsystem:
-> Is a directory
-> /sys/class/typec/port0/device/power_supply/ucsi-source-psy-USBC000:001/type:USB
-> /sys/class/typec/port0/device/power_supply/ucsi-source-psy-USBC000:001/uevent:POWER_SUPPLY_NAME=ucsi-source-psy-USBC000:001
-> /sys/class/typec/port0/device/power_supply/ucsi-source-psy-USBC000:001/uevent:POWER_SUPPLY_TYPE=USB
-> /sys/class/typec/port0/device/power_supply/ucsi-source-psy-USBC000:001/uevent:POWER_SUPPLY_USB_TYPE=[C]
-> PD PD_PPS
-> /sys/class/typec/port0/device/power_supply/ucsi-source-psy-USBC000:001/uevent:POWER_SUPPLY_ONLINE=0
-> /sys/class/typec/port0/device/power_supply/ucsi-source-psy-USBC000:001/uevent:POWER_SUPPLY_VOLTAGE_MIN=5000000
-> /sys/class/typec/port0/device/power_supply/ucsi-source-psy-USBC000:001/uevent:POWER_SUPPLY_VOLTAGE_MAX=5000000
-> /sys/class/typec/port0/device/power_supply/ucsi-source-psy-USBC000:001/uevent:POWER_SUPPLY_VOLTAGE_NOW=5000000
-> /sys/class/typec/port0/device/power_supply/ucsi-source-psy-USBC000:001/uevent:POWER_SUPPLY_CURRENT_MAX=0
-> /sys/class/typec/port0/device/power_supply/ucsi-source-psy-USBC000:001/uevent:POWER_SUPPLY_CURRENT_NOW=0
-> /sys/class/typec/port0/device/power_supply/ucsi-source-psy-USBC000:001/uevent:POWER_SUPPLY_SCOPE=System
-> /sys/class/typec/port0/device/power_supply/ucsi-source-psy-USBC000:001/usb_type:[C]
-> PD PD_PPS
-> /sys/class/typec/port0/device/power_supply/ucsi-source-psy-USBC000:001/voltage_max:5000000
-> /sys/class/typec/port0/device/power_supply/ucsi-source-psy-USBC000:001/voltage_min:5000000
-> /sys/class/typec/port0/device/power_supply/ucsi-source-psy-USBC000:001/voltage_now:5000000
-> grep: /sys/class/typec/port0/device/power_supply/ucsi-source-psy-USBC000:001/wakeup49:
-> Is a directory
-> ```
-> 
-> Now I unplugged the device, and the error is *not* logged. (I had a USB
-> Type-C port replicator plugged in during the day before.)
-> 
-> The directory is still there:
-> 
-> ```
-> $ LANG= grep .
-> /sys/class/typec/port0/device/power_supply/ucsi-source-psy-USBC000\:001/*
-> /sys/class/typec/port0/device/power_supply/ucsi-source-psy-USBC000:001/current_max:0
-> /sys/class/typec/port0/device/power_supply/ucsi-source-psy-USBC000:001/current_now:0
-> grep: /sys/class/typec/port0/device/power_supply/ucsi-source-psy-USBC000:001/device:
-> Is a directory
-> grep: /sys/class/typec/port0/device/power_supply/ucsi-source-psy-USBC000:001/hwmon7:
-> Is a directory
-> /sys/class/typec/port0/device/power_supply/ucsi-source-psy-USBC000:001/online:0
-> grep:
-> /sys/class/typec/port0/device/power_supply/ucsi-source-psy-USBC000:001/power:
-> Is a directory
-> /sys/class/typec/port0/device/power_supply/ucsi-source-psy-USBC000:001/scope:System
-> grep: /sys/class/typec/port0/device/power_supply/ucsi-source-psy-USBC000:001/subsystem:
-> Is a directory
-> /sys/class/typec/port0/device/power_supply/ucsi-source-psy-USBC000:001/type:USB
-> /sys/class/typec/port0/device/power_supply/ucsi-source-psy-USBC000:001/uevent:POWER_SUPPLY_NAME=ucsi-source-psy-USBC000:001
-> /sys/class/typec/port0/device/power_supply/ucsi-source-psy-USBC000:001/uevent:POWER_SUPPLY_TYPE=USB
-> /sys/class/typec/port0/device/power_supply/ucsi-source-psy-USBC000:001/uevent:POWER_SUPPLY_USB_TYPE=[C]
-> PD PD_PPS
-> /sys/class/typec/port0/device/power_supply/ucsi-source-psy-USBC000:001/uevent:POWER_SUPPLY_ONLINE=0
-> /sys/class/typec/port0/device/power_supply/ucsi-source-psy-USBC000:001/uevent:POWER_SUPPLY_VOLTAGE_MIN=5000000
-> /sys/class/typec/port0/device/power_supply/ucsi-source-psy-USBC000:001/uevent:POWER_SUPPLY_VOLTAGE_MAX=5000000
-> /sys/class/typec/port0/device/power_supply/ucsi-source-psy-USBC000:001/uevent:POWER_SUPPLY_VOLTAGE_NOW=5000000
-> /sys/class/typec/port0/device/power_supply/ucsi-source-psy-USBC000:001/uevent:POWER_SUPPLY_CURRENT_MAX=0
-> /sys/class/typec/port0/device/power_supply/ucsi-source-psy-USBC000:001/uevent:POWER_SUPPLY_CURRENT_NOW=0
-> /sys/class/typec/port0/device/power_supply/ucsi-source-psy-USBC000:001/uevent:POWER_SUPPLY_SCOPE=System
-> /sys/class/typec/port0/device/power_supply/ucsi-source-psy-USBC000:001/usb_type:[C]
-> PD PD_PPS
-> /sys/class/typec/port0/device/power_supply/ucsi-source-psy-USBC000:001/voltage_max:5000000
-> /sys/class/typec/port0/device/power_supply/ucsi-source-psy-USBC000:001/voltage_min:5000000
-> /sys/class/typec/port0/device/power_supply/ucsi-source-psy-USBC000:001/voltage_now:5000000
-> grep: /sys/class/typec/port0/device/power_supply/ucsi-source-psy-USBC000:001/wakeup49:
-> Is a directory
-> ```
-> 
-> I guess, that is the wrong directory I look at though?
-> 
-> (I am going to monitor the logs over the next days.)
+Qualcomm targets define the following interrupts for usb wakeup:
+{dp/dm}_hs_phy_irq, hs_phy_irq, pwr_event, ss_phy_irq.
 
-Just list what you have in /sys/class/typec/ before and after plugging
-a device to the port:
+But QUSB2 Phy based targets have another interrupt which gets triggered
+in response to J/K states on dp/dm pads. Its functionality is replaced
+by dp/dm interrupts on Femto/m31/eusb2 phy based targets for wakeup
+purposes. Exceptions are some targets like SDM845/SDM670/SM6350 where
+dp/dm irq's are used although they are qusb2 phy targets.
 
-        ls /sys/class/typec/
+Currently in QUSB2 Phy based DT's, te qusb2_phy interrupt is named and
+used as "hs_phy_irq" when in fact it is a different interrupt (used by
+HW validation folks for debug purposes and not used on any downstream
+target qusb/non-qusb).
 
-thanks,
+On some non-QUSB2 targets (like sm8450/sm8550), the pwr_event IRQ was
+named as hs_phy_irq and actual pwr_event_irq was skipped.
+
+This series tries to address the discrepancies in the interrupt numbering
+adding the missing interrupts and correcting the existing ones.
+
+This series has been compared with downstream counter part and hw specifics
+to ensure the numbering is right. Since there is not functionality change
+the code has been only compile tested.
+
+However SC8280 is left unchanged. Its primary and secondary controllers
+also have hs_phy_irq but they are not added in this series because of
+one mismatch with hw specifics which needs to clarified. The control IRQ
+added and the interrupts added work fine today. Only the hs_phy_irq needs
+to be cleaned up which will be done later.
+
+Krishna Kurapati (6):
+  dt-bindings: usb: dwc3: Clean up hs_phy_irq in bindings
+  usb: dwc3: qcom: Rename hs_phy_irq to qusb2_phy_irq
+  arm64: dts: qcom: Fix hs_phy_irq for QUSB2 targets
+  arm64: dts: qcom: Fix hs_phy_irq for non-QUSB2 targets
+  arm64: dts: qcom: Fix hs_phy_irq for SDM670/SDM845/SM6350
+  arm64: dts: qcom: Add missing interrupts for qcs404/ipq5332
+
+ .../devicetree/bindings/usb/qcom,dwc3.yaml    | 126 ++++++++++--------
+ arch/arm/boot/dts/qcom/qcom-sdx55.dtsi        |   5 +-
+ arch/arm/boot/dts/qcom/qcom-sdx65.dtsi        |   2 +
+ arch/arm64/boot/dts/qcom/ipq5332.dtsi         |   8 +-
+ arch/arm64/boot/dts/qcom/ipq6018.dtsi         |  15 ++-
+ arch/arm64/boot/dts/qcom/ipq8074.dtsi         |  14 ++
+ arch/arm64/boot/dts/qcom/msm8953.dtsi         |   7 +-
+ arch/arm64/boot/dts/qcom/msm8996.dtsi         |  19 ++-
+ arch/arm64/boot/dts/qcom/msm8998.dtsi         |   7 +-
+ arch/arm64/boot/dts/qcom/qcs404.dtsi          |  16 +++
+ arch/arm64/boot/dts/qcom/sa8775p.dtsi         |  20 ++-
+ arch/arm64/boot/dts/qcom/sc7180.dtsi          |   3 +-
+ arch/arm64/boot/dts/qcom/sc7280.dtsi          |   6 +-
+ arch/arm64/boot/dts/qcom/sdm630.dtsi          |  19 ++-
+ arch/arm64/boot/dts/qcom/sdm670.dtsi          |   5 +-
+ arch/arm64/boot/dts/qcom/sdm845.dtsi          |  10 +-
+ arch/arm64/boot/dts/qcom/sm6115.dtsi          |   9 +-
+ arch/arm64/boot/dts/qcom/sm6125.dtsi          |   9 ++
+ arch/arm64/boot/dts/qcom/sm6350.dtsi          |   7 +-
+ arch/arm64/boot/dts/qcom/sm6375.dtsi          |   4 +-
+ arch/arm64/boot/dts/qcom/sm8150.dtsi          |  10 +-
+ arch/arm64/boot/dts/qcom/sm8250.dtsi          |   4 +
+ arch/arm64/boot/dts/qcom/sm8350.dtsi          |   4 +
+ arch/arm64/boot/dts/qcom/sm8450.dtsi          |   4 +-
+ arch/arm64/boot/dts/qcom/sm8550.dtsi          |   4 +-
+ drivers/usb/dwc3/dwc3-qcom.c                  |  22 +--
+ 26 files changed, 252 insertions(+), 107 deletions(-)
 
 -- 
-heikki
+2.42.0
+
