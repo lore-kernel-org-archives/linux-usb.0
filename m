@@ -1,128 +1,92 @@
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=igalia.com header.i=@igalia.com header.b="LHmoin3O"
-Received: from fanzine2.igalia.com (fanzine.igalia.com [178.60.130.6])
-	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A465A197
-	for <linux-usb@vger.kernel.org>; Wed, 22 Nov 2023 08:59:45 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=igalia.com;
-	s=20170329; h=Content-Transfer-Encoding:MIME-Version:Message-ID:Date:Subject:
-	Cc:To:From:Sender:Reply-To:Content-Type:Content-ID:Content-Description:
-	Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:
-	In-Reply-To:References:List-Id:List-Help:List-Unsubscribe:List-Subscribe:
-	List-Post:List-Owner:List-Archive;
-	bh=/bJqIzfxepuo8pcthWwbNE6bC6bMqHGe4jagmbBtvHE=; b=LHmoin3O94/Q15jCtrO7KqkaLO
-	ZlcrBx3SCqNNweRa+9SkTkNhty3O8e89HwdkgaJ0yJZHNUu3LGLrZo1sxZTj2Wh3kWj+o/KLSq6PR
-	878xCeEjIJdur39SBiR2Rw4JwVmdp7yyD9uClIm8oiW+KwUupOHIO3f9/Ub2TZQbvyS29dSGzAIl3
-	Z6klwiasJBpToXEDSWYeLuGs8hbx0eH3+Q1eDFPYp6ytcLV49zFjN43ZYZR7rGBEIF72wadzp76Vm
-	CfKPKhUbyazgNqiBX9ONJcrv/dPXS0/9fjMtXjC4lJTR2Ef4ec32JPcVMPPN0ec4A4Y1oPm2kRB4q
-	+Ha/DGKg==;
-Received: from 201-92-23-2.dsl.telesp.net.br ([201.92.23.2] helo=localhost)
-	by fanzine2.igalia.com with esmtpsa 
-	(Cipher TLS1.3:ECDHE_SECP256R1__RSA_PSS_RSAE_SHA256__AES_256_GCM:256) (Exim)
-	id 1r5qZg-0062Us-6l; Wed, 22 Nov 2023 17:59:40 +0100
-From: "Guilherme G. Piccoli" <gpiccoli@igalia.com>
-To: linux-usb@vger.kernel.org,
-	Thinh.Nguyen@synopsys.com
-Cc: balbi@kernel.org,
-	gregkh@linuxfoundation.org,
-	johan@kernel.org,
-	quic_wcheng@quicinc.com,
-	kernel@gpiccoli.net,
-	kernel-dev@igalia.com,
-	"Guilherme G. Piccoli" <gpiccoli@igalia.com>,
-	Andrey Smirnov <andrew.smirnov@gmail.com>,
-	Vivek Dasmohapatra <vivek@collabora.com>
-Subject: [PATCH] usb: dwc3: Fix spurious wakeup when port is on device mode
-Date: Wed, 22 Nov 2023 13:51:06 -0300
-Message-ID: <20231122165931.443845-1-gpiccoli@igalia.com>
-X-Mailer: git-send-email 2.42.0
+	dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b="YPVFJTVF"
+Received: from relay2-d.mail.gandi.net (relay2-d.mail.gandi.net [217.70.183.194])
+	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 7E92583;
+	Wed, 22 Nov 2023 09:15:01 -0800 (PST)
+Received: by mail.gandi.net (Postfix) with ESMTPSA id B547B40002;
+	Wed, 22 Nov 2023 17:14:57 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=gm1;
+	t=1700673299;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=AkVswiJ7VPVtZX+F/mFSJMy4cTc8YcymiMChgnVRYnw=;
+	b=YPVFJTVFZnnaVhBQtagXSCU0uOltCQ8PaBP/vpt0JIu2EA3Uh7BbmzW4752uw5vV6z0TFz
+	GPFuSXlnqFvHwTnUkGwF6GvkuVYCUkimS6hJXQyvgW51IApN8GrG4qbc1qEsPbnNYHgDzT
+	fC/ZhiN9fhu7k0o8ySDkh7StR8RvYOpsdZQYHpz1Bb+bE3+n5tqMa+9WOnYAYxqG4WaEow
+	oqq4vaW1FpXnNmXUk+j/1h2NdTYKvyu07xycfVkhZiKZ4TjTaJw0to5AhUyDFNBXzYaOHU
+	M+eVf7eoIgIEG1FErKH7Rb6n9jyj6QKr6euF3ha9qu/kUquevZlUKchwnhvXCw==
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Mime-Version: 1.0
+Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=UTF-8
+Date: Wed, 22 Nov 2023 18:14:57 +0100
+Message-Id: <CX5IDB4IPK92.31F1ICOWQSL84@tleb-bootlin-xps13-01>
+Subject: Re: [PATCH v2 1/7] dt-bindings: usb: ti,j721e-usb: add ti,j7200-usb
+ compatible
+Cc: <linux-usb@vger.kernel.org>, <devicetree@vger.kernel.org>,
+ <linux-kernel@vger.kernel.org>, <linux-arm-kernel@lists.infradead.org>,
+ =?utf-8?q?Gr=C3=A9gory_Clement?= <gregory.clement@bootlin.com>, "Conor
+ Dooley" <conor.dooley@microchip.com>
+To: "Krzysztof Kozlowski" <krzysztof.kozlowski@linaro.org>, "Greg
+ Kroah-Hartman" <gregkh@linuxfoundation.org>, "Rob Herring"
+ <robh+dt@kernel.org>, "Krzysztof Kozlowski"
+ <krzysztof.kozlowski+dt@linaro.org>, "Conor Dooley" <conor+dt@kernel.org>,
+ "Roger Quadros" <rogerq@kernel.org>, "Peter Chen" <peter.chen@kernel.org>,
+ "Pawel Laszczak" <pawell@cadence.com>, "Nishanth Menon" <nm@ti.com>,
+ "Vignesh Raghavendra" <vigneshr@ti.com>, "Tero Kristo" <kristo@kernel.org>
+From: =?utf-8?q?Th=C3=A9o_Lebrun?= <theo.lebrun@bootlin.com>
+X-Mailer: aerc 0.15.2
+References: <20231120-j7200-usb-suspend-v2-0-038c7e4a3df4@bootlin.com>
+ <20231120-j7200-usb-suspend-v2-1-038c7e4a3df4@bootlin.com>
+ <6f0da181-717c-4b14-ba3f-d287efe4105b@linaro.org>
+ <CX4NADEZZEO1.3TXPVNOONKBCF@tleb-bootlin-xps13-01>
+ <d0cc33d4-2b1a-43cd-8cd9-6b58d6c71c85@linaro.org>
+ <CX5A3OSPKM1Q.1CPN17KI0PD7A@tleb-bootlin-xps13-01>
+ <e91c2fa3-2cb4-44be-953f-2bfa26db2b4f@linaro.org>
+In-Reply-To: <e91c2fa3-2cb4-44be-953f-2bfa26db2b4f@linaro.org>
+X-GND-Sasl: theo.lebrun@bootlin.com
 
-It was noticed that on plugging a low-power USB source on Steam
-Deck USB-C port (handled by dwc3), if such port is on device role,
-the HW somehow keep asseting the PCIe PME line and triggering a
-wakeup event on S3/deep suspend (that manifests as a PME wakeup
-interrupt, failing the suspend path). That doesn't happen when the USB
-port is on host mode or if the USB device connected is not a low-power
-type (for example, a connected keyboard doesn't reproduce that).
+Hello,
 
-Even by masking all maskable ACPI GPEs, the problem still reproduces; also
-by having the PCIe PME mechanism using non-MSI interrupts, the symptom is
-observed as the HW succeeding to S3/suspend but waking up right after.
+On Wed Nov 22, 2023 at 1:00 PM CET, Krzysztof Kozlowski wrote:
+> On 22/11/2023 11:46, Th=C3=A9o Lebrun wrote:
+> >  - properties:
+> >    compatible:
+> >      oneOf:
+> >        - const: ti,j7200-usb
+> >        - items:
+> >            - const: ti,j721e-usb
+> >            - const: ti,am64-usb
+> >=20
+> >    J721E & AM64 are compatible, express that & update devicetrees.
+> >=20
+> > Option one is simpler & doesn't change devicetrees so I'd lean in that
+> > direction. What's your opinion?
+>
+> This one should be for am64.
+>
+> For your j7200, it depends whether the fallback to j721e makes sense,
+> IOW, if the Linux can use j721e compatible solely to use j7200 device.
 
-By changing the PRTCAP mode to DWC3_GCTL_PRTCAP_HOST in the controller
-(as one of the latest steps on gadget common suspend), we managed to
-circumvent the issue. The mode restore is already done in the common
-resume function. Notice that this patch does not change the in-driver
-port state on suspend, or else the resume path "thinks" the port was
-in host mode prior to suspend and resume it on a wrong fashion.
+All compatibles might be equivalent if the reset-on-resume behavior is
+observed on all three platforms. I don't have access to J721E or AM64
+to test that.
 
-Cc: Andrey Smirnov <andrew.smirnov@gmail.com>
-Cc: Vivek Dasmohapatra <vivek@collabora.com>
-Signed-off-by: Guilherme G. Piccoli <gpiccoli@igalia.com>
----
+@Roger Quadros: do you have any news if USB suspend/resume works on
+J721E and/or AM64? My testing on the J7200 EVM is (1) boot, (2) put
+the "USB2.0_MUX_SEL" GPIO high to have USB devices connected without
+plugging anything, then (3) trigger a s2idle. I get a memory bus
+exception on resume without my patches.
 
+Regards,
 
-Hi folks, first of all thanks in advance for reviews/feedback on this one.
-
-This patch is the result of a debug approach with no datasheet access.
-With that said, I'm not 100% sure writing to this register is free of
-undesired side-effects; one thing I'm considering is the following scenario:
-imagine a device A with the USB port on device/peripheral mode, and a device B
-connected to it, acting as host. What if we want device B be able to wakeup
-device A? Would this patch prevent that for all cases, always?
-
-I appreciate ideas in case this is not the best approach to fix the
-problem. We could also gate this approach to the HW board as a first step,
-for example.
-
-Thanks,
-
-
-Guilherme
-
-
- drivers/usb/dwc3/core.c | 7 ++++++-
- 1 file changed, 6 insertions(+), 1 deletion(-)
-
-diff --git a/drivers/usb/dwc3/core.c b/drivers/usb/dwc3/core.c
-index 0328c86ef806..5801d3ebbbcb 100644
---- a/drivers/usb/dwc3/core.c
-+++ b/drivers/usb/dwc3/core.c
-@@ -104,7 +104,7 @@ static int dwc3_get_dr_mode(struct dwc3 *dwc)
- 	return 0;
- }
- 
--void dwc3_set_prtcap(struct dwc3 *dwc, u32 mode)
-+static void __dwc3_set_prtcap(struct dwc3 *dwc, u32 mode)
- {
- 	u32 reg;
- 
-@@ -112,7 +112,11 @@ void dwc3_set_prtcap(struct dwc3 *dwc, u32 mode)
- 	reg &= ~(DWC3_GCTL_PRTCAPDIR(DWC3_GCTL_PRTCAP_OTG));
- 	reg |= DWC3_GCTL_PRTCAPDIR(mode);
- 	dwc3_writel(dwc->regs, DWC3_GCTL, reg);
-+}
- 
-+void dwc3_set_prtcap(struct dwc3 *dwc, u32 mode)
-+{
-+	__dwc3_set_prtcap(dwc, mode);
- 	dwc->current_dr_role = mode;
- }
- 
-@@ -2128,6 +2132,7 @@ static int dwc3_suspend_common(struct dwc3 *dwc, pm_message_t msg)
- 			break;
- 		dwc3_gadget_suspend(dwc);
- 		synchronize_irq(dwc->irq_gadget);
-+		__dwc3_set_prtcap(dwc, DWC3_GCTL_PRTCAP_HOST);
- 		dwc3_core_exit(dwc);
- 		break;
- 	case DWC3_GCTL_PRTCAP_HOST:
--- 
-2.42.0
-
+--
+Th=C3=A9o Lebrun, Bootlin
+Embedded Linux and Kernel engineering
+https://bootlin.com
