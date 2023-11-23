@@ -1,175 +1,112 @@
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=wolfvision.net header.i=@wolfvision.net header.b="0N7HzVeH"
-Received: from EUR01-DB5-obe.outbound.protection.outlook.com (mail-db5eur01on2074.outbound.protection.outlook.com [40.107.15.74])
-	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id DE14CD68;
-	Thu, 23 Nov 2023 07:37:28 -0800 (PST)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=aKJV/ef0lMutd65WYm9jAM8hJay9SYJ85nXXHUdp5GEx4YIawqi9xxnJHZLzrF3HIPHQVVe+s706MQvfqSa9PFHdd6aF8vuvY3z9i1QWCkXOchhZ+Pg1mzkePwnieFvuCKVky+DqKHp0UvT5jAneZMvTlCPaKOz+LovlH1vR3zdStTrbY5XI2bTYPaGDDW8rxCyF+NKgLN+KqwomYzw+qZaScvmH8gs+ErUkhy0pTSf16M7Xuy64+O71Mtn1mUxKc0Xiz+9IzD6BPzzqOU5qZiLjJXYKuV5KKvKN/kmoyKALyRfEOCxNclOqA6wFADAZcQ9hDpoSt8HMeQPVEnVEgA==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=jSSFJJxILrq9FVlxVr8Xq3i0p/W1AbYB4Pb3ODARUf4=;
- b=Ox/PVd46k29WAXP9jAo1Zmy2N7OrEbYVH/TLmDCC9JSayd2Ff2FapgbqnjbU3PKyRkoJ+uHuPXss0jDCVto+vdJH/lvuopdmtzjKOHQU9AU3nohg4O7lKBYJ0Z0Q3dShm6Hm7qN3orlGkwIplXQT+mbUrU+lqrEJw+EhHZavwNN5yq51QF3QXVDbE/VOZXfEFsiQ/kDArgGCLkFgO1JDS/RhLwUgjj9L1fmXKabbTFH8+WKiGARNCAU2II0MBW/iTXkLQ3Asgu0s06SslZ3tkT3j7kOXOxXmN58W5L7DYX4BRV6hyP6TZz8NHUdi693AYZ86MnDXv6T8Z9JXg8E39g==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=wolfvision.net; dmarc=pass action=none
- header.from=wolfvision.net; dkim=pass header.d=wolfvision.net; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=wolfvision.net;
- s=selector2;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=jSSFJJxILrq9FVlxVr8Xq3i0p/W1AbYB4Pb3ODARUf4=;
- b=0N7HzVeHsiQN5x+2654+ZACnDnhmgEJF/i5sfiDOaakWc4Wppuqfj3vPDJKoEnezc3ty65831+qYJQaTAZK+CMk8Tp/4lmUp5cr0q6+UolhmMLh6c+XBy6tJbwBwLyIXzM2yqPXGcUG5zG1NCB098bcUcXEWRMkgaYvcdYqHeRk=
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=wolfvision.net;
-Received: from VE1PR08MB4974.eurprd08.prod.outlook.com (2603:10a6:803:111::15)
- by VE1PR08MB5599.eurprd08.prod.outlook.com (2603:10a6:800:1a1::12) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7025.20; Thu, 23 Nov
- 2023 15:37:24 +0000
-Received: from VE1PR08MB4974.eurprd08.prod.outlook.com
- ([fe80::6b40:1e6f:7c94:71dc]) by VE1PR08MB4974.eurprd08.prod.outlook.com
- ([fe80::6b40:1e6f:7c94:71dc%4]) with mapi id 15.20.7025.020; Thu, 23 Nov 2023
- 15:37:24 +0000
-From: Javier Carrasco <javier.carrasco@wolfvision.net>
-Date: Thu, 23 Nov 2023 16:37:02 +0100
-Subject: [PATCH v3 2/2] dt-bindings: usb: tps6598x: add reset-gpios
- property
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-Message-Id: <20230912-topic-tps6598x_reset-v3-2-0c2873070a77@wolfvision.net>
-References: <20230912-topic-tps6598x_reset-v3-0-0c2873070a77@wolfvision.net>
-In-Reply-To: <20230912-topic-tps6598x_reset-v3-0-0c2873070a77@wolfvision.net>
-To: Heikki Krogerus <heikki.krogerus@linux.intel.com>, 
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>, 
- Rob Herring <robh+dt@kernel.org>, 
- Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>, 
- Conor Dooley <conor+dt@kernel.org>, 
- Bryan O'Donoghue <bryan.odonoghue@linaro.org>
-Cc: linux-usb@vger.kernel.org, linux-kernel@vger.kernel.org, 
- devicetree@vger.kernel.org, 
- Javier Carrasco <javier.carrasco@wolfvision.net>, 
- Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-X-Mailer: b4 0.12.0
-X-Developer-Signature: v=1; a=ed25519-sha256; t=1700753842; l=1462;
- i=javier.carrasco@wolfvision.net; s=20230509; h=from:subject:message-id;
- bh=32MkaeWH8tGOkOGWuOxuD6fsyjPm/VF9u3nSmwKN8Y0=;
- b=7MaPjs2xtrZW3Bem4FmSSQaoThsFivd1XCdEbiWJgpTWK99VE+ss8p7RzQhV8jyQMPNrCKamU
- 25a+iBKBrmfCW72J7Y/vxPzWLCkeX2edpnM7IaltJ0ZQ/VPOL+7wQpe
-X-Developer-Key: i=javier.carrasco@wolfvision.net; a=ed25519;
- pk=tIGJV7M+tCizagNijF0eGMBGcOsPD+0cWGfKjl4h6K8=
-X-ClientProxiedBy: VI1PR09CA0156.eurprd09.prod.outlook.com
- (2603:10a6:803:12c::40) To VE1PR08MB4974.eurprd08.prod.outlook.com
- (2603:10a6:803:111::15)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="fAJJH+EQ"
+Received: from mail-pl1-x62b.google.com (mail-pl1-x62b.google.com [IPv6:2607:f8b0:4864:20::62b])
+	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 9F011210C;
+	Thu, 23 Nov 2023 09:03:52 -0800 (PST)
+Received: by mail-pl1-x62b.google.com with SMTP id d9443c01a7336-1cc5fa0e4d5so8583725ad.0;
+        Thu, 23 Nov 2023 09:03:52 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1700759032; x=1701363832; darn=vger.kernel.org;
+        h=content-transfer-encoding:in-reply-to:content-language:references
+         :cc:to:subject:user-agent:mime-version:date:message-id:from:from:to
+         :cc:subject:date:message-id:reply-to;
+        bh=qbMWppXTD+nsdKUOaZh98FtIc9qszLByxh/ACBMNxDw=;
+        b=fAJJH+EQvYBKs7Dn4R4bvhQUX9TWDvaxT5dBRqdjl32CVzKjyCU3fmUCxGx6TmJX0j
+         M2xWY4Vw2w92RWfevjppRO6I0rnTusCKZ9zo2FdQLj8yzh3PyUgyBy+ar2x9XLEOWly2
+         C4olphsgKpyWnl7KviQmfqFZYP0CmsifkQTnBlzQroQp1PuzBlk203Z2dPs0ScFkv5r+
+         Wg8S0JdtdN00wIzVYBQhRcgu110hlfO+Zn4WPpVbUGz1YeXRfmhtdtXHOtHP/6XoKJwY
+         5r9nghGIJxYNuRKMB/TUykCROrRuEIb7OEvn3Yi0UHj1rjPSx2jzB6MwJnHjy5N2j8/k
+         0C3A==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1700759032; x=1701363832;
+        h=content-transfer-encoding:in-reply-to:content-language:references
+         :cc:to:subject:user-agent:mime-version:date:message-id:from
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=qbMWppXTD+nsdKUOaZh98FtIc9qszLByxh/ACBMNxDw=;
+        b=LHQMoFJai+A+v3z00CmBqu9klkXds/AluO37/QaGzfNvVtl0ckjWyE/JZDtfjekthp
+         NyMuKqgfrJri7cs0jSnJ8KVRah61ABQvD6ooHlgpMUm3ZGTf+zjwhg0zQJnpXG5h1ck6
+         /fK46NFwQPkIG+ASLJUx0fCZOFpz/RfKh1I9draTp3LnRPMZ/jkFu2ywPca4NqdOyj+G
+         l2Ca+8UTeFvI1grtvP64mo8OecOIEvwE5oGqtlYShLocHy3Fa65AALq3Hp9Lso70eE++
+         9ijeV3H+Ouwt2btUa0t3D3cSoGaiFdgtI7pdETWCoqjKIa88JGymuCOQS/eaxtpAkrbv
+         5wRA==
+X-Gm-Message-State: AOJu0Yw7ry9l/cyPSJi7WKQpEMWFHklFd4ZWgC48K0z3/Aj05nLCZj47
+	RiMfhYeBz1m8lQwb1VjWdRbUmCcOMgkeuQr8hT0=
+X-Google-Smtp-Source: AGHT+IFfyVTA3vy3ecbuVRECRZ8aluhOsMoEBn+3dPDQSaWiezt6PPtBA1pZjl2ZSvWn6CSr5DOHTQ==
+X-Received: by 2002:a17:902:7483:b0:1cf:7df0:667f with SMTP id h3-20020a170902748300b001cf7df0667fmr92476pll.44.1700759031716;
+        Thu, 23 Nov 2023 09:03:51 -0800 (PST)
+Received: from [172.24.5.154] ([119.8.44.69])
+        by smtp.gmail.com with ESMTPSA id s17-20020a170902c65100b001cc8cf4ad14sm1583799pls.142.2023.11.23.09.03.49
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Thu, 23 Nov 2023 09:03:50 -0800 (PST)
+From: Asuna Yang <spriteovo@gmail.com>
+X-Google-Original-From: Asuna Yang <SpriteOvO@gmail.com>
+Message-ID: <921fc036-7ebb-43cf-b4a3-de7a7c993bbf@gmail.com>
+Date: Fri, 24 Nov 2023 01:03:46 +0800
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: VE1PR08MB4974:EE_|VE1PR08MB5599:EE_
-X-MS-Office365-Filtering-Correlation-Id: dd983094-3073-449a-bc17-08dbec3a1739
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info:
-	CtGv7CCCMV87HG7b3lQMqiUURe/HrhdfVX7rAVBz3PdQncJ0KSdVt3vVvkgF4RmvM9L6Hc+fAo9efc8/oS8ru/0h2rt9fEs9icMi2Y/XXaKZ/5hYgNLc4fx/64BTQSrLEb9ZpFtVznLIaufbkhvCvQrjfm/qW66/9W/F61vQzWSIF73dxRvrY30M7ReXLCMnp8hUZ+zUkWNaZYSykvQOT0lPeJ05rWb1IOj6rQ4v1PIpp3AKed5qLP9ox4YeL7z90TnGihe6gpQ/mSRkij0HJvOvG2WLZmbHl6FOeSjldn+voQdavCqCoiGyDrRe1xNAtoTl5hPx8Qx5E7rmjM5vfdfAAc3+lhGB3SGBYgIG2wM05yxZwruUOGUax37Yzz3zFTe1vblZr0cguBNQTe5n49eriNszimVEV1ZAqMcMMpfBLzzLf/R8X+aKTfvrv+C4ePA0n0p1nEypQd+1uFF1rAB0GRZ0/Q2U77EG03aEp2puw4xUa8Z06Cb7OuXc68J5YoLbGAatjlFP1RHWM7+wKL25wlS0D3FCARuKGHKPrFYR7zsn0itHHUZKYzh9Az0SLMzHxUNgwiUG/4fnZ2jeeoWLbEqmiiT1tAGaDKeaRLU=
-X-Forefront-Antispam-Report:
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:VE1PR08MB4974.eurprd08.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230031)(346002)(39840400004)(376002)(136003)(366004)(396003)(230922051799003)(186009)(1800799012)(64100799003)(451199024)(86362001)(44832011)(5660300002)(7416002)(38100700002)(26005)(6666004)(316002)(110136005)(6506007)(54906003)(52116002)(6512007)(2616005)(4326008)(66476007)(66556008)(66946007)(8676002)(8936002)(41300700001)(6486002)(38350700005)(478600001)(2906002)(36756003);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0:
-	=?utf-8?B?WThkTEUrTDlMbFlXVHc1WG1ocUFQdE1zOGFOQ3hnVWxNN00zNk55RVRDMEkv?=
- =?utf-8?B?WnZ3WkQzMEZkNjAyVzk0L2JPdlJFZE5GRFRGOHlJc205NEdpQkQyZ2h3VFJq?=
- =?utf-8?B?YlYrVHdSLzhacEtXVXVld2k3Yk43eXFYcWgzWUtBTlMybTlIVStoWGx5TkhL?=
- =?utf-8?B?OU9sRUUyN00yL2NpU0o0WGE0NXBsUTl2NlhjcXhuUkhJWjJ3cktmUitjeWUr?=
- =?utf-8?B?MFV3MmlEaElQOXhvVXlvVk1VTXFwU0hFMFhBOWtmYmlBc2ZDREtOV083MVR2?=
- =?utf-8?B?SDdLc0xkeFBXa3pWRTY1WC9CTytjdkVGa2ZFK3Q1U3JCYkZYU3RiOGJzSkMw?=
- =?utf-8?B?QkdCdlNHWDZsUXl6U3RPa0JaV2REZWZrSVJNQ2RBR3ovZFdONnBNUVJVb213?=
- =?utf-8?B?OWlSZzB1eGU4alVOdmRjcXg4cCtPUjhNKytRZWwvN0ZUQjNFNUl5WWtxSXBv?=
- =?utf-8?B?djlHN1Z2NEx1MnE2TVJXVGQwMjJ2dU84aXN2aTUrbG9xOHJyQUxMSHJVQWJ2?=
- =?utf-8?B?bnBZTnI5U2ZVT1dwdHA3QmdkdDMwR2l2Mzl1YWdiNkxCT2gwWG82NUZjN21O?=
- =?utf-8?B?Rmp4ZXk1Q1B5dzl3UVpJME01WGVpNktDNkQ5cmJDYVhEYURKWTRBMUVNS2JR?=
- =?utf-8?B?cGZuTkVMK0ZUUTgwT1hqaUpxa3hoRW1RQkZHQlhPRnFlUDJuWU1saXgvNytq?=
- =?utf-8?B?VmpBVUdRZzdQTlJMTUZQSFkwTkFKc2pVT2FmYk9WMmRhVWNySUIxd3VsdDl1?=
- =?utf-8?B?WUVReFZGT24yRmd4dlN1VzBHbjU3Rk9NZVRuZ2Q1SWk0aWViUVltU3hQRDRZ?=
- =?utf-8?B?NjlnVTBObzA3K2pubWp3eWdHZ2xFdi93OWp2U0loQnJhUHcxR1pRY3ZkbUtS?=
- =?utf-8?B?UHZtRkVaNFlsbXI1RDYzZjJXTmtXZkIvSjBoSW1jS2NhWU9tOHJRQjRwaURn?=
- =?utf-8?B?WjE5Q3ljaEMzanNyeDJUalJhZUpqNlBOaUh3NGNPU081Q1JMQWx0b1hPeVFO?=
- =?utf-8?B?Rnl5dFh5WGthL3J6ZU5peHNEQzZKMW1kWHUwRUhQRnRxbWdvSlI3bE4xcW1r?=
- =?utf-8?B?MGp1S2c2c2YvVlZjZFZreFpnWDEzellmek56RWNPaERaRHRyS3R0S045ZWpZ?=
- =?utf-8?B?OUlIb000VzdzVUZUc0gwajE4UGpDaW15eEl4U29oMjB5TXJZS1RZWXE1SU1x?=
- =?utf-8?B?QVUzMDNtYnAvaUpnSG81WkpDSVNlVDgzL3VzeUhiclpDRFd4czNxbkJLeEIw?=
- =?utf-8?B?WEUwSm9sODlOVVJIT0RnZHlLelF5S1RERGV1RjMxZC94Tk5Yc1UzV29nZEhs?=
- =?utf-8?B?RDhYNitKWE5CN2svSG9PN1prYmNvR3k2bVQrL054Y1MxclhiWnBsSElyc2E2?=
- =?utf-8?B?ZnFTZWZZWEViYXBLMHFYSVlremxEdWtEZ21HV3oyMTNlL3pvVnRQL204SFo5?=
- =?utf-8?B?anpERVNCb1lWdzVtZWdlNFZKTHBGeWRTaDdnUVZqMHZnOXN5NFJXcHdqZG1U?=
- =?utf-8?B?amNyNGZiNzNiZTJqT3RIdFlXUVJDd2MwT25TYkYzTjBzRm1LSzZHM1VoM21V?=
- =?utf-8?B?bERlQk1wVkx2SUlYZkZBd29FT1JHQzRmbVdoSTlFY1l0RWVISXlxN0V1cEpw?=
- =?utf-8?B?aFBNZzdmb1ZDTnEzeU90Tkg2elRWM0pxU1RQTU15NnZTVTBBYlZZR0NGUXRs?=
- =?utf-8?B?bFpWbWVRMkhUVklPYm1ub0JNVG1iVkVqM01ZUU54ODVpcDEvM1JaMnkwNGFl?=
- =?utf-8?B?b2RUT2p4bVRCcG9UUXo4ZVVsYmJiTk5GWUlHMi9DYytnbWlGK1BEZTgrQVlK?=
- =?utf-8?B?NWwybDhSNjQ2UHV5UzQ0YWo3VTZ2QVg1Nk1aaXZIKzBUR2ZFSjVBU0dyRTRz?=
- =?utf-8?B?VnNkaGk4NkNKYWJxTzNzL3RRZjhKUjJiUlhoK29RbDZVZ2d5VUIwdVA5c3Nl?=
- =?utf-8?B?Q04vQzRqZlVkUVM4TXcyRXFwRmdiNEs5N2tFN3Z6QnI4Vi94T3BmSXNXdG1k?=
- =?utf-8?B?cWdYZWdHREV1YmhIWWE5ZXFsV3FEU3QyaUlQS1R6bCtYV0paVVdQMVBmYXJs?=
- =?utf-8?B?RDM3Ri80OUdZazE4cXZmeUIrSUpPK1NSWm1KcmZKYnV6VklnSnU2Y0tvUEZX?=
- =?utf-8?B?UUZQaEZPWlNoUkJ4ek55Q0pyYVhkdUVCTzJmNTBtcGhqNFFyZTVGN1FrcitV?=
- =?utf-8?Q?MlHCYoeoumED3H+K8uyoeJo=3D?=
-X-OriginatorOrg: wolfvision.net
-X-MS-Exchange-CrossTenant-Network-Message-Id: dd983094-3073-449a-bc17-08dbec3a1739
-X-MS-Exchange-CrossTenant-AuthSource: VE1PR08MB4974.eurprd08.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 23 Nov 2023 15:37:24.6503
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: e94ec9da-9183-471e-83b3-51baa8eb804f
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: V0kBs7rfwLN/bNmMpq/Vo3hWLBr6talZ6RX6l9w+DXeKiVz9NWdZAA5yDPe95zr6Y+GuOo+zjfcm6Cx07+nEeFTvtDe1xv0D8kLmyUuh+9g=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: VE1PR08MB5599
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v2] USB: serial: option: add Luat Air72*U series products
+To: Johan Hovold <johan@kernel.org>
+Cc: linux-usb@vger.kernel.org, linux-kernel@vger.kernel.org,
+ Yangyu Chen <cyy@cyyself.name>
+References: <20231122141803.82844-1-SpriteOvO@gmail.com>
+ <ZV9BaBBrn78i0x64@hovoldconsulting.com>
+Content-Language: en-US
+In-Reply-To: <ZV9BaBBrn78i0x64@hovoldconsulting.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 
-The TPS6598x device family provides a high-level reset pin. It can be
-either grounded or used to reinitialize all device settings.
+If#= 2: AT
+If#= 3: PPP + AT
+If#= 4: Debug
 
-Document the reset GPIO as an optional property and add it to the
-existing example.
+Reference from the device documentation:
+https://doc.openluat.com/wiki/21?wiki_page_id=2501
 
-Signed-off-by: Javier Carrasco <javier.carrasco@wolfvision.net>
-Reviewed-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
----
- Documentation/devicetree/bindings/usb/ti,tps6598x.yaml | 6 ++++++
- 1 file changed, 6 insertions(+)
+Should I send a v3 to include the serial interfaces information in the 
+git message? This is my first time sending a patch to the kernel, please 
+forgive me for not being particularly sure of the process.
 
-diff --git a/Documentation/devicetree/bindings/usb/ti,tps6598x.yaml b/Documentation/devicetree/bindings/usb/ti,tps6598x.yaml
-index 323d664ae06a..1745e28b3110 100644
---- a/Documentation/devicetree/bindings/usb/ti,tps6598x.yaml
-+++ b/Documentation/devicetree/bindings/usb/ti,tps6598x.yaml
-@@ -38,6 +38,10 @@ properties:
-       - const: main
-       - const: patch-address
- 
-+  reset-gpios:
-+    description: GPIO used for the HRESET pin.
-+    maxItems: 1
-+
-   wakeup-source: true
- 
-   interrupts:
-@@ -90,6 +94,7 @@ additionalProperties: false
- 
- examples:
-   - |
-+    #include <dt-bindings/gpio/gpio.h>
-     #include <dt-bindings/interrupt-controller/irq.h>
-     i2c {
-         #address-cells = <1>;
-@@ -106,6 +111,7 @@ examples:
- 
-             pinctrl-names = "default";
-             pinctrl-0 = <&typec_pins>;
-+            reset-gpios = <&gpio1 6 GPIO_ACTIVE_HIGH>;
- 
-             typec_con: connector {
-                 compatible = "usb-c-connector";
+Thanks,
 
--- 
-2.39.2
-
+On 11/23/23 20:11, Johan Hovold wrote:
+> On Wed, Nov 22, 2023 at 10:18:03PM +0800, Asuna Yang wrote:
+>> Update the USB serial option driver support for Luat Air72*U series
+>> products.
+>>
+>> ID 1782:4e00 Spreadtrum Communications Inc. UNISOC-8910
+>>
+>> T: Bus=01 Lev=01 Prnt=01 Port=00 Cnt=01 Dev#= 13 Spd=480 MxCh= 0
+>> D: Ver= 2.00 Cls=00(>ifc ) Sub=00 Prot=00 MxPS=64 #Cfgs= 1
+>> P: Vendor=1782 ProdID=4e00 Rev=00.00
+>> S: Manufacturer=UNISOC
+>> S: Product=UNISOC-8910
+>> C: #Ifs= 5 Cfg#= 1 Atr=e0 MxPwr=400mA
+>> I: If#= 0 Alt= 0 #EPs= 1 Cls=e0(wlcon) Sub=01 Prot=03 Driver=rndis_host
+>> E: Ad=82(I) Atr=03(Int.) MxPS= 8 Ivl=4096ms
+>> I: If#= 1 Alt= 0 #EPs= 2 Cls=0a(data ) Sub=00 Prot=00 Driver=rndis_host
+>> E: Ad=01(O) Atr=02(Bulk) MxPS= 512 Ivl=0ms
+>> E: Ad=81(I) Atr=02(Bulk) MxPS= 512 Ivl=0ms
+>> I: If#= 2 Alt= 0 #EPs= 2 Cls=ff(vend.) Sub=00 Prot=00 Driver=option
+>> E: Ad=02(O) Atr=02(Bulk) MxPS= 512 Ivl=0ms
+>> E: Ad=83(I) Atr=02(Bulk) MxPS= 512 Ivl=0ms
+>> I: If#= 3 Alt= 0 #EPs= 2 Cls=ff(vend.) Sub=00 Prot=00 Driver=option
+>> E: Ad=03(O) Atr=02(Bulk) MxPS= 512 Ivl=0ms
+>> E: Ad=84(I) Atr=02(Bulk) MxPS= 512 Ivl=0ms
+>> I: If#= 4 Alt= 0 #EPs= 2 Cls=ff(vend.) Sub=00 Prot=00 Driver=option
+>> E: Ad=04(O) Atr=02(Bulk) MxPS= 512 Ivl=0ms
+>> E: Ad=85(I) Atr=02(Bulk) MxPS= 512 Ivl=0ms
+>>
+>> Co-developed-by: Yangyu Chen <cyy@cyyself.name>
+>> Signed-off-by: Yangyu Chen <cyy@cyyself.name>
+>> Signed-off-by: Asuna Yang <SpriteOvO@gmail.com>
+> Thanks for the v2.
+>
+> Can you say something about what the three serial interfaces are used
+> for (and which is which)?
+>
+> Johan
