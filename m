@@ -1,91 +1,96 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 73D1F3FE59
-	for <linux-usb@vger.kernel.org>; Thu, 23 Nov 2023 17:22:39 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="XEnd+Al+"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id A0C0EC433D9;
-	Thu, 23 Nov 2023 17:22:38 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
-	s=korg; t=1700760159;
-	bh=2D3aUhEExlMCoGyBeeeacQjJUG+XraZinasPd6JBJW0=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=XEnd+Al+R2lAela/niSU367F4vosKZr3w25UtMD2C+vBQ7mtTDqd6shdG3Th7MK1w
-	 sEV0HrmSPBJkl17Gsn1VN95x1gItdZsCpWWxFTF5KUTYtDZfENPNPemsasuvv+Wi9R
-	 6sV80XlhTRfQajBK+lGsKWT3F2ieHOEIOO76zu5Q=
-Date: Thu, 23 Nov 2023 13:55:57 +0000
-From: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-To: Frieder Schrempf <frieder@fris.de>
-Cc: linux-kernel@vger.kernel.org, linux-usb@vger.kernel.org,
-	Matthias Kaehlcke <mka@chromium.org>,
+Authentication-Results: smtp.subspace.kernel.org; dkim=none
+Received: from metis.whiteo.stw.pengutronix.de (metis.whiteo.stw.pengutronix.de [IPv6:2a0a:edc0:2:b01:1d::104])
+	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 21BEA11F
+	for <linux-usb@vger.kernel.org>; Thu, 23 Nov 2023 09:36:17 -0800 (PST)
+Received: from drehscheibe.grey.stw.pengutronix.de ([2a0a:edc0:0:c01:1d::a2])
+	by metis.whiteo.stw.pengutronix.de with esmtps (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
+	(Exim 4.92)
+	(envelope-from <ukl@pengutronix.de>)
+	id 1r6Dca-0000Hu-Og; Thu, 23 Nov 2023 18:36:12 +0100
+Received: from [2a0a:edc0:0:900:1d::77] (helo=ptz.office.stw.pengutronix.de)
+	by drehscheibe.grey.stw.pengutronix.de with esmtps  (TLS1.3) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
+	(Exim 4.94.2)
+	(envelope-from <ukl@pengutronix.de>)
+	id 1r6DcZ-00B5cU-BT; Thu, 23 Nov 2023 18:36:11 +0100
+Received: from ukl by ptz.office.stw.pengutronix.de with local (Exim 4.94.2)
+	(envelope-from <ukl@pengutronix.de>)
+	id 1r6DcZ-006qY3-2G; Thu, 23 Nov 2023 18:36:11 +0100
+Date: Thu, 23 Nov 2023 18:36:10 +0100
+From: Uwe =?utf-8?Q?Kleine-K=C3=B6nig?= <u.kleine-koenig@pengutronix.de>
+To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+Cc: Frieder Schrempf <frieder@fris.de>, linux-kernel@vger.kernel.org,
+	linux-usb@vger.kernel.org, Matthias Kaehlcke <mka@chromium.org>,
 	Frieder Schrempf <frieder.schrempf@kontron.de>,
 	Anand Moon <linux.amoon@gmail.com>,
 	Benjamin Bara <benjamin.bara@skidata.com>,
-	Icenowy Zheng <uwu@icenowy.me>, Rob Herring <robh@kernel.org>,
-	Uwe =?iso-8859-1?Q?Kleine-K=F6nig?= <u.kleine-koenig@pengutronix.de>
+	Icenowy Zheng <uwu@icenowy.me>, Rob Herring <robh@kernel.org>
 Subject: Re: [PATCH 1/2] usb: misc: onboard_usb_hub: Add support for clock
  input
-Message-ID: <2023112329-augmented-ecology-0753@gregkh>
+Message-ID: <20231123173610.d6ytwlpbpcqng5pv@pengutronix.de>
 References: <20231123134728.709533-1-frieder@fris.de>
+ <2023112329-augmented-ecology-0753@gregkh>
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: multipart/signed; micalg=pgp-sha512;
+	protocol="application/pgp-signature"; boundary="vdyxpcye55rpoaff"
 Content-Disposition: inline
-In-Reply-To: <20231123134728.709533-1-frieder@fris.de>
+In-Reply-To: <2023112329-augmented-ecology-0753@gregkh>
+X-SA-Exim-Connect-IP: 2a0a:edc0:0:c01:1d::a2
+X-SA-Exim-Mail-From: ukl@pengutronix.de
+X-SA-Exim-Scanned: No (on metis.whiteo.stw.pengutronix.de); SAEximRunCond expanded to false
+X-PTX-Original-Recipient: linux-usb@vger.kernel.org
 
-On Thu, Nov 23, 2023 at 02:47:20PM +0100, Frieder Schrempf wrote:
-> From: Frieder Schrempf <frieder.schrempf@kontron.de>
-> 
-> Most onboard USB hubs have a dedicated crystal oscillator but on some
-> boards the clock signal for the hub is provided by the SoC.
-> 
-> In order to support this, we add the possibility of specifying a
-> clock in the devicetree that gets enabled/disabled when the hub
-> is powered up/down.
-> 
-> Signed-off-by: Frieder Schrempf <frieder.schrempf@kontron.de>
-> ---
->  drivers/usb/misc/onboard_usb_hub.c | 14 ++++++++++++++
->  1 file changed, 14 insertions(+)
-> 
-> diff --git a/drivers/usb/misc/onboard_usb_hub.c b/drivers/usb/misc/onboard_usb_hub.c
-> index a341b2fbb7b44..e710e3c82ba9b 100644
-> --- a/drivers/usb/misc/onboard_usb_hub.c
-> +++ b/drivers/usb/misc/onboard_usb_hub.c
-> @@ -5,6 +5,7 @@
->   * Copyright (c) 2022, Google LLC
->   */
->  
-> +#include <linux/clk.h>
->  #include <linux/device.h>
->  #include <linux/export.h>
->  #include <linux/gpio/consumer.h>
-> @@ -60,12 +61,19 @@ struct onboard_hub {
->  	bool going_away;
->  	struct list_head udev_list;
->  	struct mutex lock;
-> +	struct clk *clk;
->  };
->  
->  static int onboard_hub_power_on(struct onboard_hub *hub)
->  {
->  	int err;
->  
-> +	err = clk_prepare_enable(hub->clk);
-> +	if (err) {
-> +		dev_err(hub->dev, "failed to enable clock: %d\n", err);
-> +		return err;
-> +	}
 
-But what happens if clk is not set here?
+--vdyxpcye55rpoaff
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-And doesn't clk_prepare_enable() print out a message if it fails?
+Hello,
 
-thanks,
+On Thu, Nov 23, 2023 at 01:55:57PM +0000, Greg Kroah-Hartman wrote:
+> On Thu, Nov 23, 2023 at 02:47:20PM +0100, Frieder Schrempf wrote:
+> > +	err =3D clk_prepare_enable(hub->clk);
+> > +	if (err) {
+> > +		dev_err(hub->dev, "failed to enable clock: %d\n", err);
+> > +		return err;
 
-greg k-h
+I suggest to use %pe (and ERR_PTR(err)) here.
+
+> > +	}
+>=20
+> But what happens if clk is not set here?
+
+clk_prepare_enable() just does "return 0" if the clk argument is NULL.
+
+> And doesn't clk_prepare_enable() print out a message if it fails?
+
+clk_prepare_enable is silent on errors.
+
+Best regards
+Uwe
+
+--=20
+Pengutronix e.K.                           | Uwe Kleine-K=F6nig            |
+Industrial Linux Solutions                 | https://www.pengutronix.de/ |
+
+--vdyxpcye55rpoaff
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQEzBAABCgAdFiEEP4GsaTp6HlmJrf7Tj4D7WH0S/k4FAmVfjYoACgkQj4D7WH0S
+/k60Sgf9EIMAyid9PgcCWUFFbJtFNmTeRepSh9ej1g3njBiFowXw/VM/cGKLZ6Pn
+REMlndIq0Qy3BuRWLVGhpwM90rYyHEAXUZvAbaFZ1MTZEeP7yy1DDOY8LYuj6M1I
+pxS837HVoDzyW7h+OdZn/PPcdi/JeUZJ+bB8noi0xI8HZB/eqQPs3GQzkV21kBaM
+Su8HU85R3S0Ut3tuHcZLPphYoYzAPQnkWkGd1yEVvRBES3wal5idus7BsfWCVA/t
+PmCu9WOZjuI4jwiaMe/4qYEaN//fEYATe+wkQbU0DY1qloJ/25G4vzrHblSaqBVz
+2Re9n6rYDZz57NAfip8wvdSBRwy/pw==
+=upyH
+-----END PGP SIGNATURE-----
+
+--vdyxpcye55rpoaff--
