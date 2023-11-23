@@ -1,44 +1,43 @@
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=wolfvision.net header.i=@wolfvision.net header.b="DnpwOjRd"
+	dkim=pass (1024-bit key) header.d=wolfvision.net header.i=@wolfvision.net header.b="0N7HzVeH"
 Received: from EUR01-DB5-obe.outbound.protection.outlook.com (mail-db5eur01on2074.outbound.protection.outlook.com [40.107.15.74])
-	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 1BC44D5C;
-	Thu, 23 Nov 2023 07:37:31 -0800 (PST)
+	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id DE14CD68;
+	Thu, 23 Nov 2023 07:37:28 -0800 (PST)
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=btQRfktGYIydjd9iyvWgPGViA8w/6OQGnrWamkG9c0mJAZklPZlmbk7kxQCpvsps3gf/iieRJSv8inN1dkkRh9XKFnW58Id1tTR0WEocPMPAfHJVGw2vX0+Fk2TWjayhXM3MLkYg5kuQple+Ejj01OYdMX3nV/xn/bququNzAEIUdZ2/U5TP2e9stgVAvFPrJUgXdxBOCNWA8wjIXBsnpO/e/Gdt6SoEnutMY6kaOROKRi4HPRIXQXcGmbhMIOU183yVO7yVVCQSopnHNJ7BvST0/vEWwMlJCinUmVubt9/xk7HJlkRrWm/D1xls6+xRXQ4naCc8Ra6/z885vOo0QA==
+ b=aKJV/ef0lMutd65WYm9jAM8hJay9SYJ85nXXHUdp5GEx4YIawqi9xxnJHZLzrF3HIPHQVVe+s706MQvfqSa9PFHdd6aF8vuvY3z9i1QWCkXOchhZ+Pg1mzkePwnieFvuCKVky+DqKHp0UvT5jAneZMvTlCPaKOz+LovlH1vR3zdStTrbY5XI2bTYPaGDDW8rxCyF+NKgLN+KqwomYzw+qZaScvmH8gs+ErUkhy0pTSf16M7Xuy64+O71Mtn1mUxKc0Xiz+9IzD6BPzzqOU5qZiLjJXYKuV5KKvKN/kmoyKALyRfEOCxNclOqA6wFADAZcQ9hDpoSt8HMeQPVEnVEgA==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
  s=arcselector9901;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=/O1E0BPBEC1ZHg2m5TDbwK2fzyCXbIheULNNnxOFhzM=;
- b=IeIV2vIrh4Qaw9nJ9v6YmsdcCq4cjI2AcxpaVWks3AuD+dIu9C7zP+VMNofD0yFrNMgzwlAHh7r+ekPotLlFBprHqOomEz5FZUSpL3jysd4kYpoCE3GPUDXL8uwyJT32Jx3/i5StbUjZ6mMQvbeLfGf+c5dv54NZu+ssFCWZuM1aS0bdWm5AE5Om+oXbLDn964pYzI1nUyn77OSqadgVef1eht7fhDV+XT3iw0dDJn4UAgvp+8FBPQg+SC36m1M6vLMWeJuuEDD4srHCLMo17tzggT7eoV5vxqkrZkaicoBkmySLeFO8RfwMp+0NPBY7z04PVX2jVuJzest+wTPuoA==
+ bh=jSSFJJxILrq9FVlxVr8Xq3i0p/W1AbYB4Pb3ODARUf4=;
+ b=Ox/PVd46k29WAXP9jAo1Zmy2N7OrEbYVH/TLmDCC9JSayd2Ff2FapgbqnjbU3PKyRkoJ+uHuPXss0jDCVto+vdJH/lvuopdmtzjKOHQU9AU3nohg4O7lKBYJ0Z0Q3dShm6Hm7qN3orlGkwIplXQT+mbUrU+lqrEJw+EhHZavwNN5yq51QF3QXVDbE/VOZXfEFsiQ/kDArgGCLkFgO1JDS/RhLwUgjj9L1fmXKabbTFH8+WKiGARNCAU2II0MBW/iTXkLQ3Asgu0s06SslZ3tkT3j7kOXOxXmN58W5L7DYX4BRV6hyP6TZz8NHUdi693AYZ86MnDXv6T8Z9JXg8E39g==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
  smtp.mailfrom=wolfvision.net; dmarc=pass action=none
  header.from=wolfvision.net; dkim=pass header.d=wolfvision.net; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=wolfvision.net;
  s=selector2;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=/O1E0BPBEC1ZHg2m5TDbwK2fzyCXbIheULNNnxOFhzM=;
- b=DnpwOjRdjB1kK0uS0UdebgB9M15vntgW9GofyVlpG6wxWzDNpK/AvDyOugt3dP8eFVpU/3Bm7ZJ3GTrZmqDk+b1VKjivdKNUWA+hwO8vLHMoyxMQJwF8qDLdngksG0oW92QR59lbZZVLcgGiiyd+9gxdtolwCMXPIWymP6kMHs0=
+ bh=jSSFJJxILrq9FVlxVr8Xq3i0p/W1AbYB4Pb3ODARUf4=;
+ b=0N7HzVeHsiQN5x+2654+ZACnDnhmgEJF/i5sfiDOaakWc4Wppuqfj3vPDJKoEnezc3ty65831+qYJQaTAZK+CMk8Tp/4lmUp5cr0q6+UolhmMLh6c+XBy6tJbwBwLyIXzM2yqPXGcUG5zG1NCB098bcUcXEWRMkgaYvcdYqHeRk=
 Authentication-Results: dkim=none (message not signed)
  header.d=none;dmarc=none action=none header.from=wolfvision.net;
 Received: from VE1PR08MB4974.eurprd08.prod.outlook.com (2603:10a6:803:111::15)
  by VE1PR08MB5599.eurprd08.prod.outlook.com (2603:10a6:800:1a1::12) with
  Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7025.20; Thu, 23 Nov
- 2023 15:37:23 +0000
+ 2023 15:37:24 +0000
 Received: from VE1PR08MB4974.eurprd08.prod.outlook.com
  ([fe80::6b40:1e6f:7c94:71dc]) by VE1PR08MB4974.eurprd08.prod.outlook.com
  ([fe80::6b40:1e6f:7c94:71dc%4]) with mapi id 15.20.7025.020; Thu, 23 Nov 2023
- 15:37:23 +0000
+ 15:37:24 +0000
 From: Javier Carrasco <javier.carrasco@wolfvision.net>
-Subject: [PATCH v3 0/2] usb: typec: tps6598x: add reset gpio support
-Date: Thu, 23 Nov 2023 16:37:00 +0100
-Message-Id: <20230912-topic-tps6598x_reset-v3-0-0c2873070a77@wolfvision.net>
+Date: Thu, 23 Nov 2023 16:37:02 +0100
+Subject: [PATCH v3 2/2] dt-bindings: usb: tps6598x: add reset-gpios
+ property
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-X-B4-Tracking: v=1; b=H4sIAJxxX2UC/42Oyw7CIBREf6VhLQZun7jyP4wxlN5akgYaQKxp+
- u/SunShy5lkzpmFeHQaPTllC3EYtdfWpJAfMqIGae5IdZcyAQY5ExxosJNWNEy+KkUz3xx6DLQ
- sURSiwKYqBEnTVnqkrZNGDWlsHuOYyslhr+fddbmmPGgfrHvt6si39oclcspo3XSKtX3Fa8HOT
- zv2n89Hg4Fs1Aj/kCCRGEgOCKhKJr9I67q+Ad3m0rkcAQAA
+Message-Id: <20230912-topic-tps6598x_reset-v3-2-0c2873070a77@wolfvision.net>
+References: <20230912-topic-tps6598x_reset-v3-0-0c2873070a77@wolfvision.net>
+In-Reply-To: <20230912-topic-tps6598x_reset-v3-0-0c2873070a77@wolfvision.net>
 To: Heikki Krogerus <heikki.krogerus@linux.intel.com>, 
  Greg Kroah-Hartman <gregkh@linuxfoundation.org>, 
  Rob Herring <robh+dt@kernel.org>, 
@@ -50,11 +49,11 @@ Cc: linux-usb@vger.kernel.org, linux-kernel@vger.kernel.org,
  Javier Carrasco <javier.carrasco@wolfvision.net>, 
  Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
 X-Mailer: b4 0.12.0
-X-Developer-Signature: v=1; a=ed25519-sha256; t=1700753842; l=1454;
+X-Developer-Signature: v=1; a=ed25519-sha256; t=1700753842; l=1462;
  i=javier.carrasco@wolfvision.net; s=20230509; h=from:subject:message-id;
- bh=maSGGdCBegLJdGyRin2n6My+ZRfJxyU4BRrlYBoJEGc=;
- b=jNQgIV/li+8ahuupsTT5v2CTxE920xOhbLzZvzMJLL2ofwFpS9WtmeALRzZBQL6hen9Vu60wC
- GSt+39JlLJRB5v+EOtYpXkKn8kh50pbGekt986J55VzfCRZScP4o7Bq
+ bh=32MkaeWH8tGOkOGWuOxuD6fsyjPm/VF9u3nSmwKN8Y0=;
+ b=7MaPjs2xtrZW3Bem4FmSSQaoThsFivd1XCdEbiWJgpTWK99VE+ss8p7RzQhV8jyQMPNrCKamU
+ 25a+iBKBrmfCW72J7Y/vxPzWLCkeX2edpnM7IaltJ0ZQ/VPOL+7wQpe
 X-Developer-Key: i=javier.carrasco@wolfvision.net; a=ed25519;
  pk=tIGJV7M+tCizagNijF0eGMBGcOsPD+0cWGfKjl4h6K8=
 X-ClientProxiedBy: VI1PR09CA0156.eurprd09.prod.outlook.com
@@ -68,100 +67,109 @@ List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 X-MS-PublicTrafficType: Email
 X-MS-TrafficTypeDiagnostic: VE1PR08MB4974:EE_|VE1PR08MB5599:EE_
-X-MS-Office365-Filtering-Correlation-Id: ecd4e5ae-6e19-45ac-28da-08dbec3a1663
+X-MS-Office365-Filtering-Correlation-Id: dd983094-3073-449a-bc17-08dbec3a1739
 X-MS-Exchange-SenderADCheck: 1
 X-MS-Exchange-AntiSpam-Relay: 0
 X-Microsoft-Antispam: BCL:0;
 X-Microsoft-Antispam-Message-Info:
-	Up5CaTX9mBcWwzAG6JrviLrpx1Rz5dflUKLsDXMJUcwooDhN4m5pM89N2m9ccNKPXqN7BWtCzgk9yJ8YYjWsuHpWqAjXZlqhJgrD6JQeAQKfdK0cJRi5qWzaKDlUHZL529MxxFkTEf4k755NkEKdzJrWIVE7RaXqBtJw6oUN293va0BRpdRLh2v9P01zCzpqTh/c3Gcdh48TohxOZXD0CA+ncKsxcXLyWhTCeJwz2YSmXdqsne4Xged0uA/WPH4Tas04UXv/S4i4xwcZkHza+z5o0MvoKIOyOB97dq/Cc04cha54747I1f8D+PMd6qRjd2FCREYkPufTj4HmoJyyxepYp6sNGzXWtKW5X3C3FKfYegcCPecOurP2T6t4WVZVRoeDkCHtXbG1V3LSSmI/rt02eJXbtK3XakbocJaimEHBNbUsl8ixrG02ZmXl+hq6/nOVq6YxXeg8QFgGMVy+XC2IIf3K6xiXAic4E/OcJknv1SKS7GUEBXvzPx9WDUFnrl4pGm2TDMSj+0PDmflwP0co/srUitt+O9s4R6av9kNkNds3dpiCkPIz3SliOFNGMEFFfFEXoLoCXLEXrEm17LmOl87ciWdSgXcctAqRxaY=
+	CtGv7CCCMV87HG7b3lQMqiUURe/HrhdfVX7rAVBz3PdQncJ0KSdVt3vVvkgF4RmvM9L6Hc+fAo9efc8/oS8ru/0h2rt9fEs9icMi2Y/XXaKZ/5hYgNLc4fx/64BTQSrLEb9ZpFtVznLIaufbkhvCvQrjfm/qW66/9W/F61vQzWSIF73dxRvrY30M7ReXLCMnp8hUZ+zUkWNaZYSykvQOT0lPeJ05rWb1IOj6rQ4v1PIpp3AKed5qLP9ox4YeL7z90TnGihe6gpQ/mSRkij0HJvOvG2WLZmbHl6FOeSjldn+voQdavCqCoiGyDrRe1xNAtoTl5hPx8Qx5E7rmjM5vfdfAAc3+lhGB3SGBYgIG2wM05yxZwruUOGUax37Yzz3zFTe1vblZr0cguBNQTe5n49eriNszimVEV1ZAqMcMMpfBLzzLf/R8X+aKTfvrv+C4ePA0n0p1nEypQd+1uFF1rAB0GRZ0/Q2U77EG03aEp2puw4xUa8Z06Cb7OuXc68J5YoLbGAatjlFP1RHWM7+wKL25wlS0D3FCARuKGHKPrFYR7zsn0itHHUZKYzh9Az0SLMzHxUNgwiUG/4fnZ2jeeoWLbEqmiiT1tAGaDKeaRLU=
 X-Forefront-Antispam-Report:
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:VE1PR08MB4974.eurprd08.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230031)(346002)(39840400004)(376002)(136003)(366004)(396003)(230922051799003)(186009)(1800799012)(64100799003)(451199024)(86362001)(44832011)(5660300002)(7416002)(38100700002)(26005)(83380400001)(6666004)(316002)(110136005)(6506007)(54906003)(52116002)(6512007)(2616005)(4326008)(66476007)(66556008)(66946007)(8676002)(8936002)(41300700001)(6486002)(38350700005)(478600001)(966005)(2906002)(36756003);DIR:OUT;SFP:1101;
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:VE1PR08MB4974.eurprd08.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230031)(346002)(39840400004)(376002)(136003)(366004)(396003)(230922051799003)(186009)(1800799012)(64100799003)(451199024)(86362001)(44832011)(5660300002)(7416002)(38100700002)(26005)(6666004)(316002)(110136005)(6506007)(54906003)(52116002)(6512007)(2616005)(4326008)(66476007)(66556008)(66946007)(8676002)(8936002)(41300700001)(6486002)(38350700005)(478600001)(2906002)(36756003);DIR:OUT;SFP:1101;
 X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
 X-MS-Exchange-AntiSpam-MessageData-0:
-	=?utf-8?B?MG9Yd3ZST0dTRnRieTVMR0M3eDlnak1qb2ZYV0NibEFPamJCUncvLzZUYTBt?=
- =?utf-8?B?d2xrOGx5QndndzlLbWlLV1pFSk1wQWFHOTBjRkMvUlJGeGQ1a3E5bjhyVHA2?=
- =?utf-8?B?WjFDQkpzU2RxZlo5cGxxZExZUzFoOXlLRi9iQ1gzbFdiK2RNc21nVFA1MjRi?=
- =?utf-8?B?S3ZocjUrcW1hSGpXajM0djZ6MUc0Tm8rNHBwWDNDY2toQW5WV2g3NUxENmtl?=
- =?utf-8?B?RjFqb2hKVnFyL0t5R2pZb2N5Vk1ENjdwamcyYzlucEtqZ2xoUVJhcUFabzlG?=
- =?utf-8?B?ZWU2VU56bzZ0cUdIQjNRaFVaaTIvRDlkUnZURmNneGh2cW9kRHZFWnc4MW8w?=
- =?utf-8?B?Z0hEQktEZk0wSENpYmdiV2lBSFdoZFA0dllUTlZyNHlWa3RhemlYL1BwMWZO?=
- =?utf-8?B?R0QvdkNmVTZXZVdwMGFTWU9rRGlIZFk4M2E5SzVWZVJVQ2RDQy9RNWRXMEZm?=
- =?utf-8?B?bS9HcWY0dDRZeGJFMnV2ZHh3aTgzTXZWVTNWVG9rYzJhVkxPcVdiY3FIL09G?=
- =?utf-8?B?SnpVYlVCc1k5YmRDT3FnVEtHVksrU0VVZ0dDT25TSXBoRVNwYmtvZmNhYnoy?=
- =?utf-8?B?Mm1jbUMrZXJ5T0JCQ1MvZHg3T2xDZVF4SEhqdnNtdzZpbWtFbUNxenI5dy9W?=
- =?utf-8?B?bC9nYURZc1dLdDFtYTRDUXVwRzUzWWlZVmY2M1oxa05Vd2JKS05GM0hVemlj?=
- =?utf-8?B?dGFUOHVTT01EN0xlckk2UHhiMFdJdmlTUDl6VTlOVHREM0V0QVBNTkw5ckVN?=
- =?utf-8?B?NjliQUNNRHNaU1NYWDVzVlErZ21OUjhYdkMyb0Q1RFhYTUtvUWh1TzhGME5k?=
- =?utf-8?B?YUgyRHYrM013bmJZYnhZQUhnclpidVRDYnJydStLajl5WXA2TnRNejlxUTRR?=
- =?utf-8?B?MnhueExZbmhhcHVHSm5ENm94V3g4U2tXYXVEQ05KUWlDaXpLN2Rvd2lqUFB4?=
- =?utf-8?B?blQwNmI3T01Ma3gwczkzK0xNYm0wbGdtdUREMVJVTG02R0hVZm16MEVwQzFx?=
- =?utf-8?B?bmxvV202eWcveG5pUEdqdjBHT1hpL0ZjcnFqeTNpTmlwNkt3em51OEc0di9w?=
- =?utf-8?B?V2p6M1RZdWgrVzVnT3YxamZ6THdpdUJPUTV2cEVqR3Qwc2xjS21KZnlFQ1FM?=
- =?utf-8?B?aDkyRXlXdDBSQkVKMGNKUmRFNEo1Q2JhMTlKaFJoSDVPQWtNQUZSQ09iUFRY?=
- =?utf-8?B?SXVEN3RuTHhMS09Ydm15TDFTcEtrVmRoUG9CV0lXN2gvdDZROGpsbHAvcVlE?=
- =?utf-8?B?NTNiUzVNM3M0VFBiWHZmZG04c3d4RDhQOFpvSkVSRFBNb21ic1JHaWdoUzhq?=
- =?utf-8?B?K1FaMmcwaDIydE1Eay9yM2JneXZxNWxhQ3V5amcyMUdYVEd1eGN2UkE3TzFN?=
- =?utf-8?B?ZW5OTlZpUXdqZ3p5MUhXZHpicUNOYTk2QUFlbE01a3JrcS8wY3N5SEVXRkd6?=
- =?utf-8?B?NVRXRlY2U0dIb0VleUN1elZqYVZWMXF3MzBjWTh2WFRjbmRtZmw4b283ajMw?=
- =?utf-8?B?NDFxMlVTK1kzUlRhRDZTU0ltTkcvdWRTYW5YSEw1b3BQZERqbURrd3ZBQ1Rv?=
- =?utf-8?B?QmJjZmJOMGZRWVp2SW0zaGRHWmw1VE9EdFNXOTlnZHIvWHF0NHBzdWpIYTJJ?=
- =?utf-8?B?blhIRGQxMTZ5VUNyZVczeG11S3M0dmtJaGRmc2dnTmVMOWpDOG9aZHJnbTJy?=
- =?utf-8?B?dmk1SFM5cm5LcGhJYnpWNWpOSTdPS3Z6ZlBOaEhiSUcwdHRCVVZpREttRlVJ?=
- =?utf-8?B?V25FdW51cVlHMnV6OGNzQ05kdmNLVXBkSEdsSkQ5S1YxL1hTQ0F3YXlheFFV?=
- =?utf-8?B?NGFZOWVhanV1WklQT2xJWUIyakh5RDZjY0FUWUQwWUpkOGxGZEd4bmt6NG45?=
- =?utf-8?B?R2NKY2pxQWV0YXBmbTlCeFNKV21xbGl5M05OVFJleEdZMGNGdm9ia0tONVlz?=
- =?utf-8?B?NVNDQW5uMDZkdEJIR0VyNzVkUVNFL00vRkpHV2VFSnA2aFRUZGFJc3Y5WGkr?=
- =?utf-8?B?clVObXB2QjhJZkZwWUNoU2pFTHRKdlloQm42ckVkMlhwUytPN2t3ZlhzUlpQ?=
- =?utf-8?B?Ti9WRDFueitGcHBvdENNZlZLMHFHQmFzVG1Wb1c4UzZLVWdZUnN4Tldad2lE?=
- =?utf-8?B?WTFWZmJhc1BGZVRuaEpJTGN4NVJYVkk3ZFhJekkvWDN3ZXpPaHhLb0V0Wkxt?=
- =?utf-8?Q?6B2OI7llP53PlATymh8uoIA=3D?=
+	=?utf-8?B?WThkTEUrTDlMbFlXVHc1WG1ocUFQdE1zOGFOQ3hnVWxNN00zNk55RVRDMEkv?=
+ =?utf-8?B?WnZ3WkQzMEZkNjAyVzk0L2JPdlJFZE5GRFRGOHlJc205NEdpQkQyZ2h3VFJq?=
+ =?utf-8?B?YlYrVHdSLzhacEtXVXVld2k3Yk43eXFYcWgzWUtBTlMybTlIVStoWGx5TkhL?=
+ =?utf-8?B?OU9sRUUyN00yL2NpU0o0WGE0NXBsUTl2NlhjcXhuUkhJWjJ3cktmUitjeWUr?=
+ =?utf-8?B?MFV3MmlEaElQOXhvVXlvVk1VTXFwU0hFMFhBOWtmYmlBc2ZDREtOV083MVR2?=
+ =?utf-8?B?SDdLc0xkeFBXa3pWRTY1WC9CTytjdkVGa2ZFK3Q1U3JCYkZYU3RiOGJzSkMw?=
+ =?utf-8?B?QkdCdlNHWDZsUXl6U3RPa0JaV2REZWZrSVJNQ2RBR3ovZFdONnBNUVJVb213?=
+ =?utf-8?B?OWlSZzB1eGU4alVOdmRjcXg4cCtPUjhNKytRZWwvN0ZUQjNFNUl5WWtxSXBv?=
+ =?utf-8?B?djlHN1Z2NEx1MnE2TVJXVGQwMjJ2dU84aXN2aTUrbG9xOHJyQUxMSHJVQWJ2?=
+ =?utf-8?B?bnBZTnI5U2ZVT1dwdHA3QmdkdDMwR2l2Mzl1YWdiNkxCT2gwWG82NUZjN21O?=
+ =?utf-8?B?Rmp4ZXk1Q1B5dzl3UVpJME01WGVpNktDNkQ5cmJDYVhEYURKWTRBMUVNS2JR?=
+ =?utf-8?B?cGZuTkVMK0ZUUTgwT1hqaUpxa3hoRW1RQkZHQlhPRnFlUDJuWU1saXgvNytq?=
+ =?utf-8?B?VmpBVUdRZzdQTlJMTUZQSFkwTkFKc2pVT2FmYk9WMmRhVWNySUIxd3VsdDl1?=
+ =?utf-8?B?WUVReFZGT24yRmd4dlN1VzBHbjU3Rk9NZVRuZ2Q1SWk0aWViUVltU3hQRDRZ?=
+ =?utf-8?B?NjlnVTBObzA3K2pubWp3eWdHZ2xFdi93OWp2U0loQnJhUHcxR1pRY3ZkbUtS?=
+ =?utf-8?B?UHZtRkVaNFlsbXI1RDYzZjJXTmtXZkIvSjBoSW1jS2NhWU9tOHJRQjRwaURn?=
+ =?utf-8?B?WjE5Q3ljaEMzanNyeDJUalJhZUpqNlBOaUh3NGNPU081Q1JMQWx0b1hPeVFO?=
+ =?utf-8?B?Rnl5dFh5WGthL3J6ZU5peHNEQzZKMW1kWHUwRUhQRnRxbWdvSlI3bE4xcW1r?=
+ =?utf-8?B?MGp1S2c2c2YvVlZjZFZreFpnWDEzellmek56RWNPaERaRHRyS3R0S045ZWpZ?=
+ =?utf-8?B?OUlIb000VzdzVUZUc0gwajE4UGpDaW15eEl4U29oMjB5TXJZS1RZWXE1SU1x?=
+ =?utf-8?B?QVUzMDNtYnAvaUpnSG81WkpDSVNlVDgzL3VzeUhiclpDRFd4czNxbkJLeEIw?=
+ =?utf-8?B?WEUwSm9sODlOVVJIT0RnZHlLelF5S1RERGV1RjMxZC94Tk5Yc1UzV29nZEhs?=
+ =?utf-8?B?RDhYNitKWE5CN2svSG9PN1prYmNvR3k2bVQrL054Y1MxclhiWnBsSElyc2E2?=
+ =?utf-8?B?ZnFTZWZZWEViYXBLMHFYSVlremxEdWtEZ21HV3oyMTNlL3pvVnRQL204SFo5?=
+ =?utf-8?B?anpERVNCb1lWdzVtZWdlNFZKTHBGeWRTaDdnUVZqMHZnOXN5NFJXcHdqZG1U?=
+ =?utf-8?B?amNyNGZiNzNiZTJqT3RIdFlXUVJDd2MwT25TYkYzTjBzRm1LSzZHM1VoM21V?=
+ =?utf-8?B?bERlQk1wVkx2SUlYZkZBd29FT1JHQzRmbVdoSTlFY1l0RWVISXlxN0V1cEpw?=
+ =?utf-8?B?aFBNZzdmb1ZDTnEzeU90Tkg2elRWM0pxU1RQTU15NnZTVTBBYlZZR0NGUXRs?=
+ =?utf-8?B?bFpWbWVRMkhUVklPYm1ub0JNVG1iVkVqM01ZUU54ODVpcDEvM1JaMnkwNGFl?=
+ =?utf-8?B?b2RUT2p4bVRCcG9UUXo4ZVVsYmJiTk5GWUlHMi9DYytnbWlGK1BEZTgrQVlK?=
+ =?utf-8?B?NWwybDhSNjQ2UHV5UzQ0YWo3VTZ2QVg1Nk1aaXZIKzBUR2ZFSjVBU0dyRTRz?=
+ =?utf-8?B?VnNkaGk4NkNKYWJxTzNzL3RRZjhKUjJiUlhoK29RbDZVZ2d5VUIwdVA5c3Nl?=
+ =?utf-8?B?Q04vQzRqZlVkUVM4TXcyRXFwRmdiNEs5N2tFN3Z6QnI4Vi94T3BmSXNXdG1k?=
+ =?utf-8?B?cWdYZWdHREV1YmhIWWE5ZXFsV3FEU3QyaUlQS1R6bCtYV0paVVdQMVBmYXJs?=
+ =?utf-8?B?RDM3Ri80OUdZazE4cXZmeUIrSUpPK1NSWm1KcmZKYnV6VklnSnU2Y0tvUEZX?=
+ =?utf-8?B?UUZQaEZPWlNoUkJ4ek55Q0pyYVhkdUVCTzJmNTBtcGhqNFFyZTVGN1FrcitV?=
+ =?utf-8?Q?MlHCYoeoumED3H+K8uyoeJo=3D?=
 X-OriginatorOrg: wolfvision.net
-X-MS-Exchange-CrossTenant-Network-Message-Id: ecd4e5ae-6e19-45ac-28da-08dbec3a1663
+X-MS-Exchange-CrossTenant-Network-Message-Id: dd983094-3073-449a-bc17-08dbec3a1739
 X-MS-Exchange-CrossTenant-AuthSource: VE1PR08MB4974.eurprd08.prod.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 23 Nov 2023 15:37:23.2710
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 23 Nov 2023 15:37:24.6503
  (UTC)
 X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
 X-MS-Exchange-CrossTenant-Id: e94ec9da-9183-471e-83b3-51baa8eb804f
 X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: KlnLeQqEqGYRFVFwEVsngvo5KH0xI7bEvhKSNX6ChPj5JrZ2P8t2WkaE8lcQ6IVOjwuK7vWC2WHB85i6uvWuBwub9/AYHC9Co4YYnUwRon4=
+X-MS-Exchange-CrossTenant-UserPrincipalName: V0kBs7rfwLN/bNmMpq/Vo3hWLBr6talZ6RX6l9w+DXeKiVz9NWdZAA5yDPe95zr6Y+GuOo+zjfcm6Cx07+nEeFTvtDe1xv0D8kLmyUuh+9g=
 X-MS-Exchange-Transport-CrossTenantHeadersStamped: VE1PR08MB5599
 
-The TPS6598x PD controller provides an active-high hardware reset input
-that reinitializes all device settings. If it is not grounded by
-design, the driver must be able to de-assert it in order to initialize
-the device.
+The TPS6598x device family provides a high-level reset pin. It can be
+either grounded or used to reinitialize all device settings.
 
-This series adds and documents the reset signal management. It also
-includes the basic reset management for initialization and
-suspend/resume control.
+Document the reset GPIO as an optional property and add it to the
+existing example.
 
 Signed-off-by: Javier Carrasco <javier.carrasco@wolfvision.net>
+Reviewed-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
 ---
-Changes in v3:
-- core.c: added TPS_ prefix to the setup time definition for code
-  consistency.
-- Link to v2: https://lore.kernel.org/r/20230912-topic-tps6598x_reset-v2-0-02a12e2ec50a@wolfvision.net
+ Documentation/devicetree/bindings/usb/ti,tps6598x.yaml | 6 ++++++
+ 1 file changed, 6 insertions(+)
 
-Changes in v2:
-- core.c: minor coding style correction ({} in 'else' after 'if {}')
-- ti,tps6598x.yaml: reference to the device instead of the driver in
-  the commit message.
-- Link to v1: https://lore.kernel.org/r/20230912-topic-tps6598x_reset-v1-0-78dc0bf61790@wolfvision.net
+diff --git a/Documentation/devicetree/bindings/usb/ti,tps6598x.yaml b/Documentation/devicetree/bindings/usb/ti,tps6598x.yaml
+index 323d664ae06a..1745e28b3110 100644
+--- a/Documentation/devicetree/bindings/usb/ti,tps6598x.yaml
++++ b/Documentation/devicetree/bindings/usb/ti,tps6598x.yaml
+@@ -38,6 +38,10 @@ properties:
+       - const: main
+       - const: patch-address
+ 
++  reset-gpios:
++    description: GPIO used for the HRESET pin.
++    maxItems: 1
++
+   wakeup-source: true
+ 
+   interrupts:
+@@ -90,6 +94,7 @@ additionalProperties: false
+ 
+ examples:
+   - |
++    #include <dt-bindings/gpio/gpio.h>
+     #include <dt-bindings/interrupt-controller/irq.h>
+     i2c {
+         #address-cells = <1>;
+@@ -106,6 +111,7 @@ examples:
+ 
+             pinctrl-names = "default";
+             pinctrl-0 = <&typec_pins>;
++            reset-gpios = <&gpio1 6 GPIO_ACTIVE_HIGH>;
+ 
+             typec_con: connector {
+                 compatible = "usb-c-connector";
 
----
-Javier Carrasco (2):
-      usb: typec: tps6598x: add reset gpio support
-      dt-bindings: usb: tps6598x: add reset-gpios property
-
- .../devicetree/bindings/usb/ti,tps6598x.yaml         |  6 ++++++
- drivers/usb/typec/tipd/core.c                        | 20 ++++++++++++++++++++
- 2 files changed, 26 insertions(+)
----
-base-commit: b85ea95d086471afb4ad062012a4d73cd328fa86
-change-id: 20230912-topic-tps6598x_reset-55e9494e8649
-
-Best regards,
 -- 
-Javier Carrasco <javier.carrasco@wolfvision.net>
+2.39.2
 
