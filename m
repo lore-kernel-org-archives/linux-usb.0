@@ -1,98 +1,186 @@
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=raspberrypi.com header.i=@raspberrypi.com header.b="Er9wtzOl"
-Received: from mail-yw1-x1136.google.com (mail-yw1-x1136.google.com [IPv6:2607:f8b0:4864:20::1136])
-	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 268AA135
-	for <linux-usb@vger.kernel.org>; Mon, 27 Nov 2023 03:22:30 -0800 (PST)
-Received: by mail-yw1-x1136.google.com with SMTP id 00721157ae682-5cd81e76164so33600717b3.1
-        for <linux-usb@vger.kernel.org>; Mon, 27 Nov 2023 03:22:30 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=raspberrypi.com; s=google; t=1701084149; x=1701688949; darn=vger.kernel.org;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=OSqZ1LC6PGby35X/pA57G3jaWFYPlkSXydb/PTyGgHA=;
-        b=Er9wtzOl4UOjL6/wDJvyokS/F5UiRE6HX2S97Gh/CGtwpHiKb6/hK7gSYS5+2LMu1j
-         INX1gdRJwWGCmW9+2uikRg357zUeVSTZHsqX7NCyQB1AFiAfoQP6bPmY/VNPuXNN2uoI
-         QewpaGXbIkSi3OVemN2vbfbhoorP8av8oVf8caEhJNiZL2ppvhfbakSWpbsEO9Ba0049
-         +csafNypRk2ZP77dj4jG0JoqDyU7V7yQ8vJBL5SiZ+2DDY1RdhX8QTULG6tSVvLReHN9
-         yqsNt9NCSY3dEDbJFKdRecPHzwW29spI92CpLIT2zX7H8/HF65UzS3TkW0enykwAR1OD
-         cV/g==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1701084149; x=1701688949;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=OSqZ1LC6PGby35X/pA57G3jaWFYPlkSXydb/PTyGgHA=;
-        b=rRLIUX8Q314txCOH2wWJrd2wqNMfLIVz6L9OKO8QuLApGCV+c8yuiiKwoZ/Ul34iXN
-         YFhiGQy/cdjqBUciyWL5rUCauzvFnTwS6pP8GNy2VxV/TEfmBxl8fqrxhxIPSbg1S49N
-         WLNVi8TBCJ9c49Uns0pwqWOsoUMShVMlxhQB63cvEv53alZRb8syo6XjOFvmU6QJAhIv
-         D1QvPbtYT71Hx9zBshhP0xzbfrymYlRvX87eROsgym85MdJNLTp1toOf+E3MkcE7ks8y
-         lvYnvv9JE8g+d0Y/ZiZIFJje87N8HWxbgrWYGWooDREVzQvJwWAsfbYILFY1ITwXzt+p
-         gdiw==
-X-Gm-Message-State: AOJu0Yw+qBqkDVoZM822OnK1DCdq7DBUPYMD6zXtduP+KZlxuTaz1Fwt
-	veEuLQM2AC37HEQi2NwL/Sds/SF8MKifsJJ6l72HHg==
-X-Google-Smtp-Source: AGHT+IGT+Jz3oRbJCMrN6JyHccuWIXHwb/Z0VM3wtO5suAsKP8/c6a5/8jFBvlwnttH2xjITgHkAfzkay/sSr2Kyonk=
-X-Received: by 2002:a81:8083:0:b0:5cd:ad4:16dd with SMTP id
- q125-20020a818083000000b005cd0ad416ddmr11792845ywf.45.1701084149374; Mon, 27
- Nov 2023 03:22:29 -0800 (PST)
+	dkim=pass (1024-bit key) header.d=mysnt.onmicrosoft.com header.i=@mysnt.onmicrosoft.com header.b="NbrY72nN"
+Received: from EUR01-HE1-obe.outbound.protection.outlook.com (mail-he1eur01on2099.outbound.protection.outlook.com [40.107.13.99])
+	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 8DCC810A;
+	Mon, 27 Nov 2023 03:23:42 -0800 (PST)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=RTA9+gKAWq4CFDbK86X8oQEOF6cErA0eiCaQ08UcAaeFviHDuqbXoht1NmK2OEUMgEk2vHHWPexnG+rVjI9gVd+Kk7riycvwkEepqZtlA7qpaqu9wfI80KlueLo9PXB+7HUpFEy+mx9n/gV+Y4+4+MBzPDeUknjZbzJmpvGhh5/Z/irZOxXFmuEGIFbJGoj4auZUxADYXhFWH5HP+1My9T7cbx6Pf/w8bK1ouc1fzrzYQQwkTZODe+wPD8d87NopozabkKgCZT9z8bfSMB+fUSV8Fe1x2ZuqBCjYVhwfMfX5Nm1FaaIp6aCdcBAi2/o1EMQmhLb+vRKeIe061E32Xg==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=YTYXQS0qnDLglDKCa3AxY43B02Lnnajd9Qc6SBzbvhQ=;
+ b=VK4tn0Nk3yoyDGBY1FXc7zfNhhv6ccapqYX4PX7fP1B7CTiKvGXbCZoWv1NC2dBVOx476eC3zgjVogm8KGcKqmO0szMoE3mxtP5z7/cQ15pNTeIWlYFNDcfOiqowsaS+bc2jnrsKIA6+UlQNwl/zwFFrhLWzPaIqI81M5/AaBeEcOQqCMTJ632lRNqB1/mfCPSh2/hfuitFvBfK/9Er9WEJlGFyd9mHEQaEbcwgaFIJf6rdd5cWApbRUvEA/hc0CPNc/qAEyrtlDf6F1QNX6RploSrND4VdqvTiojprRpZUBrFfUEQJ5aeXHftHjDfN+fcpAfG9whDbM82xFhQ8BQQ==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=kontron.de; dmarc=pass action=none header.from=kontron.de;
+ dkim=pass header.d=kontron.de; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=mysnt.onmicrosoft.com;
+ s=selector2-mysnt-onmicrosoft-com;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=YTYXQS0qnDLglDKCa3AxY43B02Lnnajd9Qc6SBzbvhQ=;
+ b=NbrY72nNVcZDpX6uZTD31uzMPytVTGgzPQ36/VhpyDoLhJI2uvptNbJBL1MPCDIszKRe8SEDGa5JPg9REXa1tP6BdeeGgpWn2ueylBT/S2qqYeMNaNZWMJh3w8HKIaKpyzvQbzJLT7R1YOOFuCh9vAINj/aQFbxy6q4jlkOQQ3w=
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=kontron.de;
+Received: from PA4PR10MB5681.EURPRD10.PROD.OUTLOOK.COM (2603:10a6:102:263::10)
+ by GVXPR10MB8198.EURPRD10.PROD.OUTLOOK.COM (2603:10a6:150:113::21) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7025.27; Mon, 27 Nov
+ 2023 11:23:38 +0000
+Received: from PA4PR10MB5681.EURPRD10.PROD.OUTLOOK.COM
+ ([fe80::27ba:9922:8d12:7b3d]) by PA4PR10MB5681.EURPRD10.PROD.OUTLOOK.COM
+ ([fe80::27ba:9922:8d12:7b3d%5]) with mapi id 15.20.7025.022; Mon, 27 Nov 2023
+ 11:23:38 +0000
+Message-ID: <18b2ad8e-6b06-407a-a141-91a90ee7cffd@kontron.de>
+Date: Mon, 27 Nov 2023 12:23:36 +0100
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH 1/3] usb: misc: onboard_usb_hub: Print symbolic error
+ names
+Content-Language: en-US, de-DE
+To: Frieder Schrempf <frieder@fris.de>,
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+ linux-kernel@vger.kernel.org, linux-usb@vger.kernel.org,
+ Matthias Kaehlcke <mka@chromium.org>
+Cc: Alexander Stein <alexander.stein@ew.tq-group.com>,
+ Anand Moon <linux.amoon@gmail.com>, Benjamin Bara
+ <benjamin.bara@skidata.com>, Rob Herring <robh@kernel.org>,
+ =?UTF-8?Q?Uwe_Kleine-K=C3=B6nig?= <u.kleine-koenig@pengutronix.de>
+References: <20231127111332.107640-1-frieder@fris.de>
+From: Frieder Schrempf <frieder.schrempf@kontron.de>
+In-Reply-To: <20231127111332.107640-1-frieder@fris.de>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
+X-ClientProxiedBy: FR2P281CA0116.DEUP281.PROD.OUTLOOK.COM
+ (2603:10a6:d10:9d::9) To PA4PR10MB5681.EURPRD10.PROD.OUTLOOK.COM
+ (2603:10a6:102:263::10)
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20231126025612.12522-1-wahrenst@gmx.net> <53e1f6e6-a28e-45af-991e-75b283a21b34@broadcom.com>
- <46320840-09ab-4c86-90c9-bee7b75f248a@gmx.net>
-In-Reply-To: <46320840-09ab-4c86-90c9-bee7b75f248a@gmx.net>
-From: Phil Elwell <phil@raspberrypi.com>
-Date: Mon, 27 Nov 2023 11:22:17 +0000
-Message-ID: <CAMEGJJ3SXHSnasqoMJnshf5Wu92NVi8+NoMdxmMsJH7WH2WjWg@mail.gmail.com>
-Subject: Re: [PATCH 0/3] ARM: dts: bcm2711-rpi-cm4-io: Enable xHCI host
-To: Stefan Wahren <wahrenst@gmx.net>
-Cc: Justin Chen <justin.chen@broadcom.com>, 
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>, Rob Herring <robh+dt@kernel.org>, 
-	Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>, Conor Dooley <conor+dt@kernel.org>, 
-	Florian Fainelli <florian.fainelli@broadcom.com>, Mathias Nyman <mathias.nyman@intel.com>, 
-	bcm-kernel-feedback-list@broadcom.com, Cyril Brulebois <kibi@debian.org>, 
-	linux-usb@vger.kernel.org, devicetree@vger.kernel.org, 
-	linux-arm-kernel@lists.infradead.org
-Content-Type: text/plain; charset="UTF-8"
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: PA4PR10MB5681:EE_|GVXPR10MB8198:EE_
+X-MS-Office365-Filtering-Correlation-Id: ef827cfe-8bf9-4543-83c4-08dbef3b4d14
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info:
+	0J+LqqJRC1zUv3zbhPrCS3YT2BCEJkFnjbP7X6QncJ7A0A4PMvFeksCCrSAIqU3lfvjJ09y1eckIMvBPKcyNMw/1Cw5ncedLRiNKqBmhEbzDcSn0jO/h2xDZIROSxCs6wFTti5qAk3D3wRKASJB/l5bychyBDYj+DNf21pcb0EaItcDbuLTZCq/jXBdtd9VJA/qv+t4uapvRC77TYmsm7vjUZdWz7d88JD/l7/Q/XrXrE9aM503pMh9q5eoJHGy/1bJasinmtwmlBQnA5SvQRuYLgu6W1eQqHqt8YaiM9M4yiwy9Ei6UwELb0Al7S4P4rCuvJBu1+kHteZarENMFljp/I1j4h28HV0wMYkpEyggKyex00IdUzBGbrYx/dZzQEJGlTh6mUBJI/8jBIR89T/3v/vFCmQ2YFJ3/NQbxZLl5BRvq21Sx9Cg4VaevK/L1UZ3e6/5Y2X/Xlw1PBiiCXDQe+QVwwclSU5YlQDaTYADj9kHnKSRY5sar9NNWrM1zpIvGfg9GcH8ohTKeUFhhzght+WvzRMz1t9HhL+rbo9sUxHTL9ObgCmKV/54JWWrieyX1WoJuWjosTXiQ3CVeUscIheedVTTVCxUx5lCJ17QDRcknflHlv0XuV4rdWspReNPJ2u1oVWIz8TgkNwitQg==
+X-Forefront-Antispam-Report:
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:PA4PR10MB5681.EURPRD10.PROD.OUTLOOK.COM;PTR:;CAT:NONE;SFS:(13230031)(136003)(346002)(376002)(396003)(366004)(39860400002)(230922051799003)(64100799003)(186009)(451199024)(1800799012)(2616005)(26005)(6506007)(6512007)(53546011)(8676002)(8936002)(4326008)(44832011)(86362001)(6486002)(5660300002)(478600001)(54906003)(316002)(110136005)(66476007)(66556008)(66946007)(31696002)(38100700002)(83380400001)(31686004)(7416002)(2906002)(41300700001)(36756003)(43740500002)(45980500001);DIR:OUT;SFP:1102;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0:
+	=?utf-8?B?NkxiQlBzUXV1eUZFNmlFY0xyL09kOWZLQ1poS1R4bXpEbXZJU0dNOFFKcGRz?=
+ =?utf-8?B?QkNmRDVmaGdONU9vbmtoQzZYQ1JvMFd3ZkNFd2VKdC81Q1Fidlh6dVA1RnZQ?=
+ =?utf-8?B?dHl2M09pK0Fub29OKy9mQms2RFRJczk4Q1dqQzZ3WE9RWFMwMkRJclB5QnJz?=
+ =?utf-8?B?Qi9WbEtML0RWazA5UXlMVnlGTjl2ekpuLzE1VDY4c1orWnY1OXJHMW81UGxO?=
+ =?utf-8?B?WGhHTEtxVE5hd3V6VGkwRG5JUlM5MDYrcmR1dHlZdzRwZVgyMnVUak1RblA1?=
+ =?utf-8?B?cUhZWVZ4NndNeTBwS3JTTXpUQnF2MmZXMHMrck9QK2VLVTloT1E1dG5sMEM0?=
+ =?utf-8?B?cmVkSzN0b3FmM3ZsbFIyc2FBM1YwRVBRVUxWRWlQdmVzVTJHU0Z0SlZISEE5?=
+ =?utf-8?B?ek9PQWMyaEFFMklYeENVUDhOZDFYUnJQZC9DUnF5MUY0WnA5bEF0cE80WENn?=
+ =?utf-8?B?dlpZaVFENm9UcDZHQjVqYXRZOVd0SmJ4UjhhZE5FSTRJRDFXQ204Z0lFRnk5?=
+ =?utf-8?B?blVzOE1ZMElqQkxJY1VNRlFqZmJlVWVSVDE1UWRFa1NWUW1qOEl5VkFoWWhh?=
+ =?utf-8?B?dkFGTVliMFV2UzRicG9PcDlSZ3lGYnhPaFE4T0JTaFBVcEtrNDcxaWwvU1V3?=
+ =?utf-8?B?NDdjY20xRWtkZjNicWU3TTZuK2dTSS8vSmI0eEV4Nld4d3JValBTcHZ0b0VT?=
+ =?utf-8?B?eG1CUGhuZ3RTZmZXSnJ2Z3FjQWNrc2xTeGRCT1FNaFd2Y0kyYmNaSWJSR2pO?=
+ =?utf-8?B?citRZXovRHFOOXBkKzNCL01jUnFGTytiNnhRNnJiUmpqcnpTSmlDLzZDWEZz?=
+ =?utf-8?B?WHBSRFpnWlkvcHkxeTlocExoTndLSWtGazFha3pTTU1EVzFsV2dMOC82Umgy?=
+ =?utf-8?B?M3lsVy85RDBYbG8xRGdpQnpHSTBnc3VPVlQ4SkQxVkFER2xDR2FmQk5oaXFk?=
+ =?utf-8?B?Z2srRDBJT1U1YmFJdm8xR042T1doVnlUNytXSjNUUytpZDY3bWdFVzBmUXN6?=
+ =?utf-8?B?Z2YvZzY3LyszLzZpUUUxL0oxRjhmekFmWmVKWnhkUTBHbzVSYUp6M2htQ1pn?=
+ =?utf-8?B?R3JuSVd3VHRjb2tMMFA4QTI2WUFTSDJnWS8rbnVHNFFQU3c1SWR6N1NUNm9H?=
+ =?utf-8?B?dEs3ekNIUWNBQTN3Zzd6K1F3TzdBb2JSOVhsZGI1T09EeFFZT0txZWNTOFYy?=
+ =?utf-8?B?MEYyR1Z5d2tKS3llVFZxWkJiL2ZuZGZEUmU5N2I2TmV5SjR4ZG1GL21Ya2VW?=
+ =?utf-8?B?cE1oSWQyTkdyVnFYS0ZEOUF6cUR4NHdyM1VGL3grSHZBUEVxdWE2K3p3V1Zn?=
+ =?utf-8?B?b0IwK0ZFWjFsR1o3RjlKUFQzalJrUHUySU11U0YvNXlhSFRPZWhFdmtzK3E3?=
+ =?utf-8?B?cGJZYllTYmJjQjhVU2QvT0VaSTlMNUJoblk0WUh3Y3JKVjZaQ0ZZdml1L3dk?=
+ =?utf-8?B?VzZsQXBXdndDWWd4QWVHSGlZRkl2Mno1ZUIxdlpVWVhySS9SWW1taERJL1Z3?=
+ =?utf-8?B?S1NBeWFSQ2hHVmlaSEREQjMzejV0MDNqSVA4NUkrTzlCM25HUmVvL2FmbGda?=
+ =?utf-8?B?eU10VGYzYWU0UGNpZGdSNTJaTlo2T1RpQnlRbXBSUU9jZzV5VmxZMXZUOTNo?=
+ =?utf-8?B?Wi93U2NpV1lVT2R5c2JYamk4U3l6L0tKMUhMQTV2d2N1a2ZhaExKeHA4cHR4?=
+ =?utf-8?B?eFdrTFMvL1MvQmEyRm5jVEFUaEVXaVhYRGNNM3lwWS9YZXlCNFE5aUJnMTNR?=
+ =?utf-8?B?MEg3TDR3TEprVDk2SVlid3c3QVhMZDByMExUN1dncXdNUUswM0NtM2pXQkVB?=
+ =?utf-8?B?R0cwYlpiRE8ySnB0Qkd3WXFVMkVoSGtqbmpDRFh5dHh5ZlpZTmd2ak1hbzRG?=
+ =?utf-8?B?ZXZBMDgxKzFCUXJYVlRIQkpmaE1GaWpTNDRXTEJBZVB1VTFqQlQrdktyTmZJ?=
+ =?utf-8?B?aEpYWDkydDl6emttOEVaUWtGaC9XS3hoYllMTGszaXN1ZVVFOWR5RnZhUWJp?=
+ =?utf-8?B?UzlLMTZqNnZwd2VUN0sxcXY0K09lbVBnOThlOFJIa3labFdybmM0YjJDc00w?=
+ =?utf-8?B?MEZHUDNjbk5kZ212RUpCSVdkdWNTNFdsYzJtbnc0ZDVpVkNITFIzUnJFV0Np?=
+ =?utf-8?B?K3BTNnN1MVFCTE5EOUVad29WUVRzNTV3QlZMcHRyUUtDVVF3V0w2N3VtTEkw?=
+ =?utf-8?B?ZVE9PQ==?=
+X-OriginatorOrg: kontron.de
+X-MS-Exchange-CrossTenant-Network-Message-Id: ef827cfe-8bf9-4543-83c4-08dbef3b4d14
+X-MS-Exchange-CrossTenant-AuthSource: PA4PR10MB5681.EURPRD10.PROD.OUTLOOK.COM
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 27 Nov 2023 11:23:37.9572
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 8c9d3c97-3fd9-41c8-a2b1-646f3942daf1
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: N9QYDyZ7Sxk4+i+0qCVwmFS02QyBk1ZsSA42FbfJLfohyX0IydsEIL5dN7SVUrn8HDJlqQCp/QR3iin/+F+UhW+V1C1+UJ8Eqh6dcw2JXto=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: GVXPR10MB8198
 
-On Mon, 27 Nov 2023 at 11:08, Stefan Wahren <wahrenst@gmx.net> wrote:
->
-> Hi Justin,
->
-> [add Phil]
->
-> Am 27.11.23 um 07:02 schrieb Justin Chen:
-> >
-> >
-> > On 11/25/23 6:56 PM, Stefan Wahren wrote:
-> >> In contrast to the Raspberry Pi 4, the Compute Module 4 or the IO board
-> >> does not have a VL805 USB 3.0 host controller, which is connected via
-> >> PCIe. Instead, the BCM2711 on the Compute Module provides the built-in
-> >> xHCI.
-> >>
-> >
-> > Does this work? I maintain this built-in xHCI controller internally. I
-> > wasn't aware the Compute Module uses this block.
-> i successful tested this with a CM4 (arm 32 bit,
-> multi_v7_lpae_defconfig) with eMMC. Before this series the USB devices
-> (mouse, keyboard) connected to the host interface didn't work. After
-> comparing vendor DTS with mainline i noticed the missing xHCI block [1].
-> Unfortunately i wasn't able to get further information from the public
-> datasheets. I don't know if the VideoCore does some magic tricks on the
-> xHCI or i missed some downstream xHCI changes.
->
-> > This block is held in reset and needs a bit toggled to get things
-> > going. Florian, just to confirm, this is our "brcm,xhci-brcm-v2" block
-> > correct?
-> >
-> > Justin
->
-> [1]  -
-> https://github.com/raspberrypi/linux/blob/rpi-6.1.y/arch/arm/boot/dts/bcm2711-rpi-ds.dtsi#L119
+Sorry, forgot to add the correct version prefix v2 in this series. I
+will resend.
 
-What's the question here? Does the XHCI block present in the
-raspberrypi/linux dtsi file really exist? Yes it does.
-
-Phil
+On 27.11.23 12:13, Frieder Schrempf wrote:
+> From: Frieder Schrempf <frieder.schrempf@kontron.de>
+> 
+> Instead of printing the decimal error codes, let's use the more
+> human-readable symbolic error names provided by the %pe printk
+> format specifier.
+> 
+> Signed-off-by: Frieder Schrempf <frieder.schrempf@kontron.de>
+> ---
+> Changes in v2:
+> * new patch
+> ---
+>  drivers/usb/misc/onboard_usb_hub.c | 9 +++++----
+>  1 file changed, 5 insertions(+), 4 deletions(-)
+> 
+> diff --git a/drivers/usb/misc/onboard_usb_hub.c b/drivers/usb/misc/onboard_usb_hub.c
+> index a341b2fbb7b44..077824beffa01 100644
+> --- a/drivers/usb/misc/onboard_usb_hub.c
+> +++ b/drivers/usb/misc/onboard_usb_hub.c
+> @@ -7,6 +7,7 @@
+>  
+>  #include <linux/device.h>
+>  #include <linux/export.h>
+> +#include <linux/err.h>
+>  #include <linux/gpio/consumer.h>
+>  #include <linux/init.h>
+>  #include <linux/kernel.h>
+> @@ -68,7 +69,7 @@ static int onboard_hub_power_on(struct onboard_hub *hub)
+>  
+>  	err = regulator_bulk_enable(hub->pdata->num_supplies, hub->supplies);
+>  	if (err) {
+> -		dev_err(hub->dev, "failed to enable supplies: %d\n", err);
+> +		dev_err(hub->dev, "failed to enable supplies: %pe\n", ERR_PTR(err));
+>  		return err;
+>  	}
+>  
+> @@ -88,7 +89,7 @@ static int onboard_hub_power_off(struct onboard_hub *hub)
+>  
+>  	err = regulator_bulk_disable(hub->pdata->num_supplies, hub->supplies);
+>  	if (err) {
+> -		dev_err(hub->dev, "failed to disable supplies: %d\n", err);
+> +		dev_err(hub->dev, "failed to disable supplies: %pe\n", ERR_PTR(err));
+>  		return err;
+>  	}
+>  
+> @@ -235,7 +236,7 @@ static void onboard_hub_attach_usb_driver(struct work_struct *work)
+>  
+>  	err = driver_attach(&onboard_hub_usbdev_driver.drvwrap.driver);
+>  	if (err)
+> -		pr_err("Failed to attach USB driver: %d\n", err);
+> +		pr_err("Failed to attach USB driver: %pe\n", ERR_PTR(err));
+>  }
+>  
+>  static int onboard_hub_probe(struct platform_device *pdev)
+> @@ -262,7 +263,7 @@ static int onboard_hub_probe(struct platform_device *pdev)
+>  
+>  	err = devm_regulator_bulk_get(dev, hub->pdata->num_supplies, hub->supplies);
+>  	if (err) {
+> -		dev_err(dev, "Failed to get regulator supplies: %d\n", err);
+> +		dev_err(dev, "Failed to get regulator supplies: %pe\n", ERR_PTR(err));
+>  		return err;
+>  	}
+>  
