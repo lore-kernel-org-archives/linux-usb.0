@@ -1,18 +1,19 @@
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=fris.de header.i=@fris.de header.b="qa+lUfhG"
-Received: from mail.fris.de (unknown [IPv6:2a01:4f8:c2c:390b::1])
-	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 25C5DB8;
-	Mon, 27 Nov 2023 03:14:45 -0800 (PST)
-Received: from [127.0.0.1] (localhost [127.0.0.1]) by localhost (Mailerdaemon) with ESMTPSA id 82235BFC75;
-	Mon, 27 Nov 2023 12:14:38 +0100 (CET)
+	dkim=pass (2048-bit key) header.d=fris.de header.i=@fris.de header.b="jB5NtgEQ"
+Received: from mail.fris.de (mail.fris.de [116.203.77.234])
+	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B428C136;
+	Mon, 27 Nov 2023 03:14:49 -0800 (PST)
+Received: from [127.0.0.1] (localhost [127.0.0.1]) by localhost (Mailerdaemon) with ESMTPSA id E1D53C00A1;
+	Mon, 27 Nov 2023 12:14:46 +0100 (CET)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=fris.de; s=dkim;
-	t=1701083681; h=from:subject:date:message-id:to:cc:mime-version:
-	 content-transfer-encoding; bh=lIwxznIaQ/Q1UMhEJA7Uobh5avUf1uO3muzdBhAnjx8=;
-	b=qa+lUfhGMubLGaou1/eMPZmlh3vVzmAHWKAXTggKTkoF0hCuFsSCXibUdO5L7U6zJneAjX
-	hySObMmc3XVsDdC0qKJhfLx60Kq1A7Q5FdrZWHRpbeOEa6b6ZOzN1lWtNP+DXroo/qaSje
-	xIv/YOruSKYOMTaUK4HY4pb0V5AFlN2JF/9NWp+RgtwGqXy90OfkILyQQm4lNqKpH83ypu
-	6EVj9tchg43WPFkojxiG1Irwc53Tf2u9631wwLoyRWEsCTJJmN2ZaKoDkaj9plWLlY7obS
-	wwyMtEuiQveZOH+Rs+qfebNhJXlUVy848MfL9nv4zedCRPNlu1g8BWIRCyARyQ==
+	t=1701083687; h=from:subject:date:message-id:to:cc:mime-version:
+	 content-transfer-encoding:in-reply-to:references;
+	bh=n4MWxKLJ2mEngVhhcucO0tz7IR393NcgZWJ1yY5pvlM=;
+	b=jB5NtgEQ4dRybbSOrm2OELM7oJ9wR7dw9UlbJ74nBPs7qULp0yj5TbyvNl3aoYhzhsMTZn
+	U7M6CjKocJnfHdpM5DYRd3n6AY70/xn9xsyyL6r1bXwh1gMadELCxB0TkYTIrZAi/3HyZw
+	C9z0Y2biKEGz1mEIReY2qyqAByL/oK7FaP0rPw6ItV2R7AY6lPhUR7iDMrXqOY3jr9l8JS
+	4+sb4Jzra0LdrMaZAy7COXlmwTKVaKQyoJ/tuZF5edYbLAij1lg/XuvaIsf3u9t3MuetVS
+	/0SjAJpcOP3aEqnUdIEn6mSNSeQDRJdBNTKfLSHk0Vd8fTxCzMmqrofEfJ9Q5Q==
 From: Frieder Schrempf <frieder@fris.de>
 To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
 	linux-kernel@vger.kernel.org,
@@ -22,11 +23,15 @@ Cc: Frieder Schrempf <frieder.schrempf@kontron.de>,
 	Alexander Stein <alexander.stein@ew.tq-group.com>,
 	Anand Moon <linux.amoon@gmail.com>,
 	Benjamin Bara <benjamin.bara@skidata.com>,
+	Icenowy Zheng <uwu@icenowy.me>,
+	Jerome Brunet <jbrunet@baylibre.com>,
 	Rob Herring <robh@kernel.org>,
 	=?UTF-8?q?Uwe=20Kleine-K=C3=B6nig?= <u.kleine-koenig@pengutronix.de>
-Subject: [PATCH 1/3] usb: misc: onboard_usb_hub: Print symbolic error names
-Date: Mon, 27 Nov 2023 12:13:22 +0100
-Message-ID: <20231127111332.107640-1-frieder@fris.de>
+Subject: [PATCH 3/3] usb: misc: onboard_usb_hub: Add support for Cypress CY7C6563x
+Date: Mon, 27 Nov 2023 12:13:24 +0100
+Message-ID: <20231127111332.107640-3-frieder@fris.de>
+In-Reply-To: <20231127111332.107640-1-frieder@fris.de>
+References: <20231127111332.107640-1-frieder@fris.de>
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
@@ -38,66 +43,59 @@ X-Last-TLS-Session-Version: TLSv1.3
 
 From: Frieder Schrempf <frieder.schrempf@kontron.de>
 
-Instead of printing the decimal error codes, let's use the more
-human-readable symbolic error names provided by the %pe printk
-format specifier.
+The Cypress CY7C6563x is a 2/4-port USB 2.0 hub. Add support for
+this hub in the driver in order to bring up reset, supply or clock
+dependencies.
+
+There is no reset pulse width given in the datasheet so we expect
+a minimal value of 1us to be enough. This hasn't been tested though
+due to lack of hardware which has the reset connected to a GPIO.
 
 Signed-off-by: Frieder Schrempf <frieder.schrempf@kontron.de>
 ---
 Changes in v2:
-* new patch
+* none
 ---
- drivers/usb/misc/onboard_usb_hub.c | 9 +++++----
- 1 file changed, 5 insertions(+), 4 deletions(-)
+ drivers/usb/misc/onboard_usb_hub.c | 1 +
+ drivers/usb/misc/onboard_usb_hub.h | 6 ++++++
+ 2 files changed, 7 insertions(+)
 
 diff --git a/drivers/usb/misc/onboard_usb_hub.c b/drivers/usb/misc/onboard_usb_hub.c
-index a341b2fbb7b44..077824beffa01 100644
+index 0d84b16deab50..0c0b698f008b9 100644
 --- a/drivers/usb/misc/onboard_usb_hub.c
 +++ b/drivers/usb/misc/onboard_usb_hub.c
-@@ -7,6 +7,7 @@
+@@ -441,6 +441,7 @@ static void onboard_hub_usbdev_disconnect(struct usb_device *udev)
+ static const struct usb_device_id onboard_hub_id_table[] = {
+ 	{ USB_DEVICE(VENDOR_ID_CYPRESS, 0x6504) }, /* CYUSB33{0,1,2}x/CYUSB230x 3.0 */
+ 	{ USB_DEVICE(VENDOR_ID_CYPRESS, 0x6506) }, /* CYUSB33{0,1,2}x/CYUSB230x 2.0 */
++	{ USB_DEVICE(VENDOR_ID_CYPRESS, 0x6570) }, /* CY7C6563x 2.0 */
+ 	{ USB_DEVICE(VENDOR_ID_GENESYS, 0x0608) }, /* Genesys Logic GL850G USB 2.0 */
+ 	{ USB_DEVICE(VENDOR_ID_GENESYS, 0x0610) }, /* Genesys Logic GL852G USB 2.0 */
+ 	{ USB_DEVICE(VENDOR_ID_GENESYS, 0x0620) }, /* Genesys Logic GL3523 USB 3.1 */
+diff --git a/drivers/usb/misc/onboard_usb_hub.h b/drivers/usb/misc/onboard_usb_hub.h
+index c4e24a7b92904..67b2cc1e15e67 100644
+--- a/drivers/usb/misc/onboard_usb_hub.h
++++ b/drivers/usb/misc/onboard_usb_hub.h
+@@ -31,6 +31,11 @@ static const struct onboard_hub_pdata cypress_hx3_data = {
+ 	.num_supplies = 2,
+ };
  
- #include <linux/device.h>
- #include <linux/export.h>
-+#include <linux/err.h>
- #include <linux/gpio/consumer.h>
- #include <linux/init.h>
- #include <linux/kernel.h>
-@@ -68,7 +69,7 @@ static int onboard_hub_power_on(struct onboard_hub *hub)
- 
- 	err = regulator_bulk_enable(hub->pdata->num_supplies, hub->supplies);
- 	if (err) {
--		dev_err(hub->dev, "failed to enable supplies: %d\n", err);
-+		dev_err(hub->dev, "failed to enable supplies: %pe\n", ERR_PTR(err));
- 		return err;
- 	}
- 
-@@ -88,7 +89,7 @@ static int onboard_hub_power_off(struct onboard_hub *hub)
- 
- 	err = regulator_bulk_disable(hub->pdata->num_supplies, hub->supplies);
- 	if (err) {
--		dev_err(hub->dev, "failed to disable supplies: %d\n", err);
-+		dev_err(hub->dev, "failed to disable supplies: %pe\n", ERR_PTR(err));
- 		return err;
- 	}
- 
-@@ -235,7 +236,7 @@ static void onboard_hub_attach_usb_driver(struct work_struct *work)
- 
- 	err = driver_attach(&onboard_hub_usbdev_driver.drvwrap.driver);
- 	if (err)
--		pr_err("Failed to attach USB driver: %d\n", err);
-+		pr_err("Failed to attach USB driver: %pe\n", ERR_PTR(err));
- }
- 
- static int onboard_hub_probe(struct platform_device *pdev)
-@@ -262,7 +263,7 @@ static int onboard_hub_probe(struct platform_device *pdev)
- 
- 	err = devm_regulator_bulk_get(dev, hub->pdata->num_supplies, hub->supplies);
- 	if (err) {
--		dev_err(dev, "Failed to get regulator supplies: %d\n", err);
-+		dev_err(dev, "Failed to get regulator supplies: %pe\n", ERR_PTR(err));
- 		return err;
- 	}
- 
++static const struct onboard_hub_pdata cypress_hx2vl_data = {
++	.reset_us = 1,
++	.num_supplies = 1,
++};
++
+ static const struct onboard_hub_pdata genesys_gl850g_data = {
+ 	.reset_us = 3,
+ 	.num_supplies = 1,
+@@ -54,6 +59,7 @@ static const struct of_device_id onboard_hub_match[] = {
+ 	{ .compatible = "usb451,8142", .data = &ti_tusb8041_data, },
+ 	{ .compatible = "usb4b4,6504", .data = &cypress_hx3_data, },
+ 	{ .compatible = "usb4b4,6506", .data = &cypress_hx3_data, },
++	{ .compatible = "usb4b4,6570", .data = &cypress_hx2vl_data, },
+ 	{ .compatible = "usb5e3,608", .data = &genesys_gl850g_data, },
+ 	{ .compatible = "usb5e3,610", .data = &genesys_gl852g_data, },
+ 	{ .compatible = "usb5e3,620", .data = &genesys_gl852g_data, },
 -- 
 2.42.1
 
