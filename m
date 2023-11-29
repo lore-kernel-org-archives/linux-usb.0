@@ -1,95 +1,135 @@
-Authentication-Results: smtp.subspace.kernel.org; dkim=none
-Received: from mx01.omp.ru (mx01.omp.ru [90.154.21.10])
-	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D5A7010DB
-	for <linux-usb@vger.kernel.org>; Wed, 29 Nov 2023 12:44:00 -0800 (PST)
-Received: from [192.168.1.103] (178.176.78.44) by msexch01.omp.ru
- (10.188.4.12) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_CBC_SHA384) id 15.2.1258.12; Wed, 29 Nov
- 2023 23:43:50 +0300
-To: Alan Stern <stern@rowland.harvard.edu>, Greg Kroah-Hartman
-	<gregkh@linuxfoundation.org>, <linux-usb@vger.kernel.org>,
-	<usb-storage@lists.one-eyed-alien.net>
-From: Sergey Shtylyov <s.shtylyov@omp.ru>
-Subject: [PATCH] usb: storage: freecom: drop useless assignment in
- init_freecom()
-Organization: Open Mobile Platform
-Message-ID: <4d3fb70f-bf2f-96cc-a8fb-1ef658a24920@omp.ru>
-Date: Wed, 29 Nov 2023 23:43:50 +0300
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.10.1
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b="dVKQ8Mix"
+Received: from mail-pf1-x430.google.com (mail-pf1-x430.google.com [IPv6:2607:f8b0:4864:20::430])
+	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 0397B10C6
+	for <linux-usb@vger.kernel.org>; Wed, 29 Nov 2023 13:26:24 -0800 (PST)
+Received: by mail-pf1-x430.google.com with SMTP id d2e1a72fcca58-6cc2027f7a2so239212b3a.2
+        for <linux-usb@vger.kernel.org>; Wed, 29 Nov 2023 13:26:23 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=chromium.org; s=google; t=1701293183; x=1701897983; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=7sCyYkRoGgiDRrKxcp8ji3Yt467zSBtV+G7Y08/1tlE=;
+        b=dVKQ8MixDcLZ2oSabxC+7x6RrFJL047Gu8zum68hWW+AzR+BD2+QpqUDXLj1t1lzi+
+         6nO4NRw2Uimzsl6KnyJue0QEKfJPTgWIhPXeGwgBWpjm1ccBT3edLWDkMjq/63+t8A4c
+         Mfb2WNVDVoHz+YiVDdMjKxStJxLMVQFTl7B5c=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1701293183; x=1701897983;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=7sCyYkRoGgiDRrKxcp8ji3Yt467zSBtV+G7Y08/1tlE=;
+        b=HX3TYs3BNSu+prgZL4DTtH5jrQSfT1e5jcS1tF1Wy2AlVt0udnl6uDUh5uzw2W8S7X
+         wWuZkuYwyl8C4IwoWei3IRfPEY+hRDSdJySUbiTW0JTJxTALjGIBOeDQ6TykHICSF/KF
+         uiuiZTmuKfxmYfWZC4t1Phvu0xng52U9QmvQOvhvxfh+7zrSs2TPlJ2K7pqhWNYzXbBg
+         kN2pczBt1dZsLa6JelYh6xpkfNCJu3lgw9PSSGiemZwlEANX/A5Je0xOTdDP9puo0Sol
+         crTdeOsmvMFfmLLIlkBCkrQF39YLUc9eoJCJuIB2SA4J49Wr1OQsXa/ofKSK9tTK1qPv
+         jnZA==
+X-Gm-Message-State: AOJu0Yy4wN9A02PWs+eiOqqi8Cj8D1wzlai844KsuykmytWSdy1rYsAg
+	4uZViP6hZWFgLSrEhNNdyqCIsg==
+X-Google-Smtp-Source: AGHT+IHuJr/thflyNs5KBDR3MnZ/ZjMRWa/3xsno1k1cW6LIH0sssFnjJRvfIj02P0P07giWDmy72Q==
+X-Received: by 2002:a05:6a20:3d0b:b0:18c:90f9:5084 with SMTP id y11-20020a056a203d0b00b0018c90f95084mr14166441pzi.27.1701293183515;
+        Wed, 29 Nov 2023 13:26:23 -0800 (PST)
+Received: from tictac2.mtv.corp.google.com ([2620:15c:9d:2:dcf:15e4:5f50:e692])
+        by smtp.gmail.com with ESMTPSA id t22-20020a634616000000b005c215baacc1sm11816336pga.70.2023.11.29.13.26.22
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 29 Nov 2023 13:26:23 -0800 (PST)
+From: Douglas Anderson <dianders@chromium.org>
+To: Jakub Kicinski <kuba@kernel.org>,
+	Hayes Wang <hayeswang@realtek.com>,
+	"David S . Miller" <davem@davemloft.net>
+Cc: linux-usb@vger.kernel.org,
+	Grant Grundler <grundler@chromium.org>,
+	Laura Nao <laura.nao@collabora.com>,
+	Edward Hill <ecgh@chromium.org>,
+	Alan Stern <stern@rowland.harvard.edu>,
+	Simon Horman <horms@kernel.org>,
+	Douglas Anderson <dianders@chromium.org>,
+	=?UTF-8?q?Bj=C3=B8rn=20Mork?= <bjorn@mork.no>,
+	Eric Dumazet <edumazet@google.com>,
+	Paolo Abeni <pabeni@redhat.com>,
+	linux-kernel@vger.kernel.org,
+	netdev@vger.kernel.org
+Subject: [PATCH net v3 2/5] r8152: Add RTL8152_INACCESSIBLE checks to more loops
+Date: Wed, 29 Nov 2023 13:25:21 -0800
+Message-ID: <20231129132521.net.v3.2.I79c8a6c8cafd89979af5407d77a6eda589833dca@changeid>
+X-Mailer: git-send-email 2.43.0.rc1.413.gea7ed67945-goog
+In-Reply-To: <20231129132521.net.v3.1.I77097aa9ec01aeca1b3c75fde4ba5007a17fdf76@changeid>
+References: <20231129132521.net.v3.1.I77097aa9ec01aeca1b3c75fde4ba5007a17fdf76@changeid>
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-X-ClientProxiedBy: msexch01.omp.ru (10.188.4.12) To msexch01.omp.ru
- (10.188.4.12)
-X-KSE-ServerInfo: msexch01.omp.ru, 9
-X-KSE-AntiSpam-Interceptor-Info: scan successful
-X-KSE-AntiSpam-Version: 6.0.0, Database issued on: 11/29/2023 20:26:37
-X-KSE-AntiSpam-Status: KAS_STATUS_NOT_DETECTED
-X-KSE-AntiSpam-Method: none
-X-KSE-AntiSpam-Rate: 59
-X-KSE-AntiSpam-Info: Lua profiles 181714 [Nov 29 2023]
-X-KSE-AntiSpam-Info: Version: 6.0.0.2
-X-KSE-AntiSpam-Info: Envelope from: s.shtylyov@omp.ru
-X-KSE-AntiSpam-Info: LuaCore: 5 0.3.5 98d108ddd984cca1d7e65e595eac546a62b0144b
-X-KSE-AntiSpam-Info: {rep_avail}
-X-KSE-AntiSpam-Info: {Tracking_from_domain_doesnt_match_to}
-X-KSE-AntiSpam-Info: {relay has no DNS name}
-X-KSE-AntiSpam-Info: {SMTP from is not routable}
-X-KSE-AntiSpam-Info: {Found in DNSBL: 178.176.78.44 in (user)
- b.barracudacentral.org}
-X-KSE-AntiSpam-Info:
-	127.0.0.199:7.1.2;omp.ru:7.1.1;d41d8cd98f00b204e9800998ecf8427e.com:7.1.1
-X-KSE-AntiSpam-Info: ApMailHostAddress: 178.176.78.44
-X-KSE-AntiSpam-Info: {DNS response errors}
-X-KSE-AntiSpam-Info: Rate: 59
-X-KSE-AntiSpam-Info: Status: not_detected
-X-KSE-AntiSpam-Info: Method: none
-X-KSE-AntiSpam-Info: Auth:dmarc=temperror header.from=omp.ru;spf=temperror
- smtp.mailfrom=omp.ru;dkim=none
-X-KSE-Antiphishing-Info: Clean
-X-KSE-Antiphishing-ScanningType: Heuristic
-X-KSE-Antiphishing-Method: None
-X-KSE-Antiphishing-Bases: 11/29/2023 20:30:00
-X-KSE-Antivirus-Interceptor-Info: scan successful
-X-KSE-Antivirus-Info: Clean, bases: 11/29/2023 6:46:00 PM
-X-KSE-Attachment-Filter-Triggered-Rules: Clean
-X-KSE-Attachment-Filter-Triggered-Filters: Clean
-X-KSE-BulkMessagesFiltering-Scan-Result: InTheLimit
-X-Spam-Level: *
+Content-Transfer-Encoding: 8bit
 
-In init_freecom(), the results of usb_stor_control_msg() calls are stored
-in the local variable and then printed out by usb_stor_dbg() (if enabled),
-except for the 1st call, the result of which is completely ignored.  Drop
-the useless assignment.
+Previous commits added checks for RTL8152_INACCESSIBLE in the loops in
+the driver. There are still a few more that keep tripping the driver
+up in error cases and make things take longer than they should. Add
+those in.
 
-Found by Linux Verification Center (linuxtesting.org) with the Svace static
-analysis tool.
+All the loops that are part of this commit existed in some form or
+another since the r8152 driver was first introduced, though
+RTL8152_INACCESSIBLE was known as RTL8152_UNPLUG before commit
+715f67f33af4 ("r8152: Rename RTL8152_UNPLUG to RTL8152_INACCESSIBLE")
 
-Signed-off-by: Sergey Shtylyov <s.shtylyov@omp.ru>
-
+Fixes: ac718b69301c ("net/usb: new driver for RTL8152")
+Reviewed-by: Grant Grundler <grundler@chromium.org>
+Signed-off-by: Douglas Anderson <dianders@chromium.org>
 ---
-This patch is against the 'usb-next' branch of Greg KH's 'usb.git' repo...
 
- drivers/usb/storage/freecom.c |    2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+Changes in v3:
+- Use `break` when we see RTL8152_INACCESSIBLE, not `return`.
 
-Index: usb/drivers/usb/storage/freecom.c
-===================================================================
---- usb.orig/drivers/usb/storage/freecom.c
-+++ usb/drivers/usb/storage/freecom.c
-@@ -446,7 +446,7 @@ static int init_freecom(struct us_data *
- 	 * all our packets.  No need to allocate any extra buffer space.
- 	 */
+Changes in v2:
+- Added Fixes tag to RTL8152_INACCESSIBLE patches.
+- Split RTL8152_INACCESSIBLE patches by the commit the loop came from.
+
+ drivers/net/usb/r8152.c | 8 ++++++++
+ 1 file changed, 8 insertions(+)
+
+diff --git a/drivers/net/usb/r8152.c b/drivers/net/usb/r8152.c
+index d6edf0254599..e9955701f455 100644
+--- a/drivers/net/usb/r8152.c
++++ b/drivers/net/usb/r8152.c
+@@ -3000,6 +3000,8 @@ static void rtl8152_nic_reset(struct r8152 *tp)
+ 		ocp_write_byte(tp, MCU_TYPE_PLA, PLA_CR, CR_RST);
  
--	result = usb_stor_control_msg(us, us->recv_ctrl_pipe,
-+	usb_stor_control_msg(us, us->recv_ctrl_pipe,
- 			0x4c, 0xc0, 0x4346, 0x0, buffer, 0x20, 3*HZ);
- 	buffer[32] = '\0';
- 	usb_stor_dbg(us, "String returned from FC init is: %s\n", buffer);
+ 		for (i = 0; i < 1000; i++) {
++			if (test_bit(RTL8152_INACCESSIBLE, &tp->flags))
++				break;
+ 			if (!(ocp_read_byte(tp, MCU_TYPE_PLA, PLA_CR) & CR_RST))
+ 				break;
+ 			usleep_range(100, 400);
+@@ -3329,6 +3331,8 @@ static void rtl_disable(struct r8152 *tp)
+ 	rxdy_gated_en(tp, true);
+ 
+ 	for (i = 0; i < 1000; i++) {
++		if (test_bit(RTL8152_INACCESSIBLE, &tp->flags))
++			break;
+ 		ocp_data = ocp_read_byte(tp, MCU_TYPE_PLA, PLA_OOB_CTRL);
+ 		if ((ocp_data & FIFO_EMPTY) == FIFO_EMPTY)
+ 			break;
+@@ -3336,6 +3340,8 @@ static void rtl_disable(struct r8152 *tp)
+ 	}
+ 
+ 	for (i = 0; i < 1000; i++) {
++		if (test_bit(RTL8152_INACCESSIBLE, &tp->flags))
++			break;
+ 		if (ocp_read_word(tp, MCU_TYPE_PLA, PLA_TCR0) & TCR0_TX_EMPTY)
+ 			break;
+ 		usleep_range(1000, 2000);
+@@ -5499,6 +5505,8 @@ static void wait_oob_link_list_ready(struct r8152 *tp)
+ 	int i;
+ 
+ 	for (i = 0; i < 1000; i++) {
++		if (test_bit(RTL8152_INACCESSIBLE, &tp->flags))
++			break;
+ 		ocp_data = ocp_read_byte(tp, MCU_TYPE_PLA, PLA_OOB_CTRL);
+ 		if (ocp_data & LINK_LIST_READY)
+ 			break;
+-- 
+2.43.0.rc1.413.gea7ed67945-goog
+
