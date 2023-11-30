@@ -1,206 +1,128 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B3A4A524A3;
-	Thu, 30 Nov 2023 15:22:52 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="tH71F1PZ"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id F112BC433C7;
-	Thu, 30 Nov 2023 15:22:49 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1701357772;
-	bh=qkL/traqZYRhreQwWlBq0Fih3eZKxWuxg+IAiO0LgOA=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=tH71F1PZXOL00uhIYMA+WMCwxITIiKNZ1KskmSoUJiUJMWY9VD5QKEueflTsxdnUl
-	 ZOhThyCyJ2adRZEs4xRiqwKRnxNwoFrwS+1GPoDJeAfYymcLiY1GXV29krH5jWdd7A
-	 /hiPxou8A0xW2GEQ1iSGg71JZBiuUFSdD3oMLA/yeog3qDSF3mSCHFCgFrSVpxIzAS
-	 mTuz523ozWSwy7Vuz9ZVNlNdK4MgR+TmbqTxCHf6dG0oeWuLmCdI+64yICbkm1d5gO
-	 KfO1YcygcRcO8WznF1NyEDB+XRMUarOT0cFaOFpRs75+bdO7CQ+FHknqgfkHkzYGSy
-	 P9P1+kO32rHaQ==
-Date: Thu, 30 Nov 2023 15:22:47 +0000
-From: Conor Dooley <conor@kernel.org>
-To: Anand Moon <linux.amoon@gmail.com>
-Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	dkim=pass (2048-bit key) header.d=gmx.net header.i=wahrenst@gmx.net header.b="o3kX6ZpA"
+Received: from mout.gmx.net (mout.gmx.net [212.227.17.22])
+	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 95FF610F1;
+	Thu, 30 Nov 2023 07:43:20 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=gmx.net;
+	s=s31663417; t=1701358973; x=1701963773; i=wahrenst@gmx.net;
+	bh=yhMkKS+sAlCsS1nNe3kHstRuH6SokhhYvl1bbZnnXtY=;
+	h=X-UI-Sender-Class:From:To:Cc:Subject:Date:In-Reply-To:
+	 References;
+	b=o3kX6ZpAW7/CVSaaWHkLLKKxrL20QRhKA612lOqZlaFcRPAgSguhiwxe/jCQhq3E
+	 iaHrCojRc/26nflDqXkt4Ov98eXeZp2jCZ+vNqgtuF438xBAnD6yPND4oMIDxqzoI
+	 VSgVEibrKmp7Hem5QBYxtPLTHJdJycYRyckR7eysVFn0ASDHtXNjtKgIX/Lqyd0rE
+	 zWw+GmsRBZp3SF7rOmPENbWt8ElN79cXh4Z2YRG4CrFY8UpMRbRbZXci1FbDNEbMH
+	 vugIU/oCge48hvZKpGS70pYHzWjjYsJwaUMFLONBq83EPDsahsDsnV4g62CXZbZXu
+	 SKryzRamASum2Bno8g==
+X-UI-Sender-Class: 724b4f7f-cbec-4199-ad4e-598c01a50d3a
+Received: from stefanw-SCHENKER ([37.4.248.43]) by mail.gmx.net (mrgmx104
+ [212.227.17.168]) with ESMTPSA (Nemesis) id 1M89L1-1rDyFK16X5-005LZD; Thu, 30
+ Nov 2023 16:42:53 +0100
+From: Stefan Wahren <wahrenst@gmx.net>
+To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
 	Rob Herring <robh+dt@kernel.org>,
 	Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
-	Conor Dooley <conor+dt@kernel.org>, Icenowy Zheng <uwu@icenowy.me>,
-	Neil Armstrong <neil.armstrong@linaro.org>,
-	linux-amlogic@lists.infradead.org, linux-usb@vger.kernel.org,
-	devicetree@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v5 1/2] dt-bindings: usb: Add the binding example for the
- Genesys Logic GL3523 hub
-Message-ID: <20231130-snub-backshift-2f69754cf58f@spud>
-References: <20231130053130.21966-1-linux.amoon@gmail.com>
- <20231130053130.21966-2-linux.amoon@gmail.com>
- <20231130-twig-stoning-58235b3195c8@spud>
+	Conor Dooley <conor+dt@kernel.org>,
+	Florian Fainelli <florian.fainelli@broadcom.com>,
+	Mathias Nyman <mathias.nyman@intel.com>
+Cc: bcm-kernel-feedback-list@broadcom.com,
+	Cyril Brulebois <kibi@debian.org>,
+	linux-usb@vger.kernel.org,
+	devicetree@vger.kernel.org,
+	linux-arm-kernel@lists.infradead.org,
+	Stefan Wahren <wahrenst@gmx.net>
+Subject: [PATCH V2 2/2] ARM: dts: bcm2711: Add generic xHCI
+Date: Thu, 30 Nov 2023 16:42:29 +0100
+Message-Id: <20231130154229.22334-3-wahrenst@gmx.net>
+X-Mailer: git-send-email 2.34.1
+In-Reply-To: <20231130154229.22334-1-wahrenst@gmx.net>
+References: <20231130154229.22334-1-wahrenst@gmx.net>
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha256;
-	protocol="application/pgp-signature"; boundary="RlRi2l6ZtvVLk88M"
-Content-Disposition: inline
-In-Reply-To: <20231130-twig-stoning-58235b3195c8@spud>
-
-
---RlRi2l6ZtvVLk88M
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
 Content-Transfer-Encoding: quoted-printable
+X-Provags-ID: V03:K1:nFOnVGoxmH762IJxTV32OFk9LqgZ3wepQQVwxougTVVzIBWmZvy
+ nNHHfDUkuPckCm4Z4sgDnaLTLwqUX/h2LZsqboWyB9MARFQm27Zv1oW+QinSfQIBP1oq+hd
+ veQSjYLIKpc3ag+fioQB3WyLpX2xnsbOQrc1qtAyRzdxlccqztroRIO99GPbXI5Y0ur8YHT
+ xESY0cmdfGx+g6+8NiV3A==
+UI-OutboundReport: notjunk:1;M01:P0:DqP/bVl2bc0=;gsZO/adFcmtHNOXehG7oq16NB2h
+ Lz4hEN8rIxhea/py7dGMLbE20wsDTNnx6NXytzUx+yykdzT4w1zJDygTSEHj7Lzm3GqDy2EE6
+ PGCVz3dWrpqzW+/J/ek4GjD72GJkAN/JZjRSeOsxfiDsEz+xgXHFpl6UZExpLWgKAHTcNyFBD
+ sEB606hLvLFNURFv7Y4LgguXDSBvdkCv2qIROWwg16EGQdbAjpb8mhLkegljbbORLtP5e6bBB
+ SPqeDWuF426P3LFP79LTyEM1OXCcVujnke7ZwFKVpZy+53UGrkLxroHWftaiz6wUvIb+V7+oa
+ 2vLUJdcJpdglXAUYCLdUQP+7oF9q7qZF/T1EEz2uOg6LLjIvWE/9H7sAwtryiRwYnQoNv3qg5
+ gQ3aBIWnyTfpQg3+rUKpohyhE4LTNoqUIjfGOOW4q1s1v8cn1naO926YivD2yzf7b+XXjc1I2
+ sEWu484sHfVU5HfxdC1W8svE7caWvBjAEcgahxxKQpl2YIGtwlfqE0uJVYH5bBJSiK7OQjypD
+ Buq/9d/6U/a9NVoev60gmQZUDyj5DaX7uXkYtmeI2eDxMGggbX9h8VeHM5v3Jby/pn51C5TAu
+ 84D3teo8Ys1tnsvOap8WgoJYY75XSKejfgpL7Avf+ttxvNCBrlJoK7mXwfflg2GCt//FqXj1m
+ LFdkvEdyAipcKhORbzplvRLXaA/mLlcaN6uLT+kpiAmiwBuPbH79QEG3BJymYRaPPMxLUSIF8
+ +AeQH8IMABumwynWM0h7cAHWlXauNRAxGhIFxlUEFm7cZFy7uGEBOv10lXcI/AKQDftgOoxEx
+ VZpqEO662l2JDrgjA64YjLRLLv48EpJ650lgbaREpO3JPmyah8o82JGUWrRoTvBymbQPVp2Y0
+ e5G6FC8+wT0yB4ELNOhCcgLUSGoZmj5GOx1TiH0rsQ4HZ/EE7LPe4TFJ+g6unm//pI4hoyhv9
+ M5P6fA==
 
-On Thu, Nov 30, 2023 at 03:16:33PM +0000, Conor Dooley wrote:
-> On Thu, Nov 30, 2023 at 11:01:26AM +0530, Anand Moon wrote:
-> > Add the binding example for the USB3.1 Genesys Logic GL3523
-> > integrates with USB 3.1 Gen 1 Super Speed and USB 2.0 High-Speed
-> > hub.
-> >=20
-> > For onboard hub controllers that support USB 3.x and USB 2.0 hubs
-> > with shared resets and power supplies, this property is used to identify
-> > the hubs with which these are shared.
-> >=20
->=20
-> > [Conor Dooley: upgrade peer-hub description]
->=20
-> This should not be in the commit message. Otherwise,
-> Reviewed-by: Conor Dooley <conor.dooley@microchip.com>
->=20
-> Cheers,
-> Conor.
->=20
-> > Signed-off-by: Anand Moon <linux.amoon@gmail.com>
-> > ---
-> > v5: upgrade peer-hub description : Conor Dooley
-> > [0] https://www.genesyslogic.com.tw/en/product_view.php?show=3D67 [Bloc=
-k Diagram]
-> > v4: Fix the description of peer-hub and update the commit message.
-> > Schematics of the Odroid N2+
-> > https://dn.odroid.com/S922X/ODROID-N2/Schematic/odroid-n2_rev0.6_202101=
-21.pdf
-> > V3: fix the dt_binding_check error, added new example for Genesys GL3523
-> > v2: added Genesys GL3523 binding
-> > v1: none
-> > ---
-> >  .../bindings/usb/genesys,gl850g.yaml          | 65 +++++++++++++++++--
-> >  1 file changed, 61 insertions(+), 4 deletions(-)
-> >=20
-> > diff --git a/Documentation/devicetree/bindings/usb/genesys,gl850g.yaml =
-b/Documentation/devicetree/bindings/usb/genesys,gl850g.yaml
-> > index ee08b9c3721f..499192ea4074 100644
-> > --- a/Documentation/devicetree/bindings/usb/genesys,gl850g.yaml
-> > +++ b/Documentation/devicetree/bindings/usb/genesys,gl850g.yaml
-> > @@ -9,9 +9,6 @@ title: Genesys Logic USB hub controller
-> >  maintainers:
-> >    - Icenowy Zheng <uwu@icenowy.me>
-> > =20
-> > -allOf:
-> > -  - $ref: usb-device.yaml#
-> > -
-> >  properties:
-> >    compatible:
-> >      enum:
-> > @@ -27,12 +24,46 @@ properties:
-> > =20
-> >    vdd-supply:
-> >      description:
-> > -      the regulator that provides 3.3V core power to the hub.
-> > +      phandle to the regulator that provides power to the hub.
+The BCM2711 SoC also has a generic xHCI. The USB port is currently
+only usable on the Compute Module 4 (e.g. via IO board). Because
+DWC2 and xHCI share the same PHY, we let the bootloader enable it
+on demand.
 
-Wait, why is this text changing? I don't see it mentioned anywhere why
-this is no longer specifically 3.3v
+Signed-off-by: Stefan Wahren <wahrenst@gmx.net>
+Tested-by: Florian Fainelli <florian.fainelli@broadcom.com>
+=2D--
+ arch/arm/boot/dts/broadcom/bcm2711-rpi.dtsi |  5 +++++
+ arch/arm/boot/dts/broadcom/bcm2711.dtsi     | 14 ++++++++++++++
+ 2 files changed, 19 insertions(+)
 
-Thanks,
-Conor.
+diff --git a/arch/arm/boot/dts/broadcom/bcm2711-rpi.dtsi b/arch/arm/boot/d=
+ts/broadcom/bcm2711-rpi.dtsi
+index 98817a6675b9..d233a191c139 100644
+=2D-- a/arch/arm/boot/dts/broadcom/bcm2711-rpi.dtsi
++++ b/arch/arm/boot/dts/broadcom/bcm2711-rpi.dtsi
+@@ -1,6 +1,7 @@
+ // SPDX-License-Identifier: GPL-2.0
+ #include "bcm2835-rpi.dtsi"
 
-> > +
-> > +  peer-hub:
-> > +    $ref: /schemas/types.yaml#/definitions/phandle
-> > +    description:
-> > +      For onboard hub controllers that support USB 3.x and USB 2.0 hubs
-> > +      with shared resets and power supplies, this property is used to =
-identify
-> > +      the hubs with which these are shared.
-> > =20
-> >  required:
-> >    - compatible
-> >    - reg
-> > =20
-> > +allOf:
-> > +  - $ref: usb-device.yaml#
-> > +  - if:
-> > +      properties:
-> > +        compatible:
-> > +          contains:
-> > +            enum:
-> > +              - usb5e3,608
-> > +    then:
-> > +      properties:
-> > +        peer-hub: false
-> > +        vdd-supply: false
-> > +        reset-gpios: true
-> > +
-> > +  - if:
-> > +      properties:
-> > +        compatible:
-> > +          contains:
-> > +            enum:
-> > +              - usb5e3,610
-> > +              - usb5e3,620
-> > +    then:
-> > +      properties:
-> > +        peer-hub: true
-> > +        vdd-supply: true
-> > +        reset-gpios: true
-> > +
-> >  additionalProperties: false
-> > =20
-> >  examples:
-> > @@ -49,3 +80,29 @@ examples:
-> >              reset-gpios =3D <&pio 7 2 GPIO_ACTIVE_LOW>;
-> >          };
-> >      };
-> > +
-> > +  - |
-> > +    #include <dt-bindings/gpio/gpio.h>
-> > +    usb {
-> > +        dr_mode =3D "host";
-> > +        #address-cells =3D <1>;
-> > +        #size-cells =3D <0>;
-> > +
-> > +        /* 2.0 hub on port 1 */
-> > +        hub_2_0: hub@1 {
-> > +            compatible =3D "usb5e3,610";
-> > +            reg =3D <1>;
-> > +            peer-hub =3D <&hub_3_0>;
-> > +            reset-gpios =3D <&gpio 20 GPIO_ACTIVE_LOW>;
-> > +            vdd-supply =3D <&vcc_5v>;
-> > +        };
-> > +
-> > +        /* 3.1 hub on port 4 */
-> > +        hub_3_0: hub@2 {
-> > +            compatible =3D "usb5e3,620";
-> > +            reg =3D <2>;
-> > +            peer-hub =3D <&hub_2_0>;
-> > +            reset-gpios =3D <&gpio 20 GPIO_ACTIVE_LOW>;
-> > +            vdd-supply =3D <&vcc_5v>;
-> > +        };
-> > +    };
-> > --=20
-> > 2.42.0
-> >=20
++#include <dt-bindings/power/raspberrypi-power.h>
+ #include <dt-bindings/reset/raspberrypi,firmware-reset.h>
 
+ / {
+@@ -76,3 +77,7 @@ &v3d {
+ &vchiq {
+ 	interrupts =3D <GIC_SPI 34 IRQ_TYPE_LEVEL_HIGH>;
+ };
++
++&xhci {
++	power-domains =3D <&power RPI_POWER_DOMAIN_USB>;
++};
+diff --git a/arch/arm/boot/dts/broadcom/bcm2711.dtsi b/arch/arm/boot/dts/b=
+roadcom/bcm2711.dtsi
+index 4a379a14966d..8e68884c2f0d 100644
+=2D-- a/arch/arm/boot/dts/broadcom/bcm2711.dtsi
++++ b/arch/arm/boot/dts/broadcom/bcm2711.dtsi
+@@ -604,6 +604,20 @@ genet_mdio: mdio@e14 {
+ 			};
+ 		};
 
++		xhci: usb@7e9c0000 {
++			compatible =3D "brcm,xhci-brcm-v2";
++			reg =3D <0x0 0x7e9c0000 0x100000>;
++			#address-cells =3D <1>;
++			#size-cells =3D <0>;
++			interrupts =3D <GIC_SPI 176 IRQ_TYPE_LEVEL_HIGH>;
++			/* DWC2 and this IP block share the same USB PHY,
++			 * enabling both at the same time results in lockups.
++			 * So keep this node disabled and let the bootloader
++			 * decide which interface should be enabled.
++			 */
++			status =3D "disabled";
++		};
++
+ 		v3d: gpu@7ec00000 {
+ 			compatible =3D "brcm,2711-v3d";
+ 			reg =3D <0x0 0x7ec00000 0x4000>,
+=2D-
+2.34.1
 
---RlRi2l6ZtvVLk88M
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iHUEABYIAB0WIQRh246EGq/8RLhDjO14tDGHoIJi0gUCZWioxwAKCRB4tDGHoIJi
-0kyvAP4mrFsSqjulILny2yGh8/2PbF9zjOgQLnavgZb2aA1pOwEAlbokM8AGRXLE
-vImZQShoC/U9RPHihysDgZlZ1qae1Aw=
-=xGZx
------END PGP SIGNATURE-----
-
---RlRi2l6ZtvVLk88M--
