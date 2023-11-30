@@ -1,23 +1,23 @@
 Authentication-Results: smtp.subspace.kernel.org; dkim=none
 Received: from rtits2.realtek.com.tw (rtits2.realtek.com [211.75.126.72])
-	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 041D710F1;
+	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 0BD1210F2;
 	Thu, 30 Nov 2023 00:27:51 -0800 (PST)
-X-SpamFilter-By: ArmorX SpamTrap 5.78 with qID 3AU8R2pnC3390730, This message is accepted by code: ctloc85258
-Received: from mail.realtek.com (rtexh36506.realtek.com.tw[172.21.6.27])
-	by rtits2.realtek.com.tw (8.15.2/2.95/5.92) with ESMTPS id 3AU8R2pnC3390730
+X-SpamFilter-By: ArmorX SpamTrap 5.78 with qID 3AU8R1E303390713, This message is accepted by code: ctloc85258
+Received: from mail.realtek.com (rtexh36505.realtek.com.tw[172.21.6.25])
+	by rtits2.realtek.com.tw (8.15.2/2.95/5.92) with ESMTPS id 3AU8R1E303390713
 	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
-	Thu, 30 Nov 2023 16:27:02 +0800
-Received: from RTEXDAG01.realtek.com.tw (172.21.6.100) by
- RTEXH36506.realtek.com.tw (172.21.6.27) with Microsoft SMTP Server
+	Thu, 30 Nov 2023 16:27:01 +0800
+Received: from RTEXMBS02.realtek.com.tw (172.21.6.95) by
+ RTEXH36505.realtek.com.tw (172.21.6.25) with Microsoft SMTP Server
  (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2507.17; Thu, 30 Nov 2023 16:27:02 +0800
+ 15.1.2375.32; Thu, 30 Nov 2023 16:27:01 +0800
 Received: from RTEXMBS04.realtek.com.tw (172.21.6.97) by
- RTEXDAG01.realtek.com.tw (172.21.6.100) with Microsoft SMTP Server
+ RTEXMBS02.realtek.com.tw (172.21.6.95) with Microsoft SMTP Server
  (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2375.7; Thu, 30 Nov 2023 16:27:02 +0800
+ 15.1.2375.7; Thu, 30 Nov 2023 16:27:00 +0800
 Received: from RTEXMBS04.realtek.com.tw ([fe80::40c2:6c24:2df4:e6c7]) by
  RTEXMBS04.realtek.com.tw ([fe80::40c2:6c24:2df4:e6c7%5]) with mapi id
- 15.01.2375.007; Thu, 30 Nov 2023 16:27:02 +0800
+ 15.01.2375.007; Thu, 30 Nov 2023 16:27:00 +0800
 From: Hayes Wang <hayeswang@realtek.com>
 To: Douglas Anderson <dianders@chromium.org>,
         Jakub Kicinski
@@ -34,24 +34,20 @@ CC: "linux-usb@vger.kernel.org" <linux-usb@vger.kernel.org>,
         =?iso-8859-1?Q?Bj=F8rn_Mork?= <bjorn@mork.no>,
         "Eric
  Dumazet" <edumazet@google.com>, Paolo Abeni <pabeni@redhat.com>,
-        "Prashant
- Malani" <pmalani@chromium.org>,
-        "linux-kernel@vger.kernel.org"
-	<linux-kernel@vger.kernel.org>,
-        "netdev@vger.kernel.org"
-	<netdev@vger.kernel.org>
-Subject: RE: [PATCH net v3 4/5] r8152: Add RTL8152_INACCESSIBLE to r8153_pre_firmware_1()
-Thread-Topic: [PATCH net v3 4/5] r8152: Add RTL8152_INACCESSIBLE to
- r8153_pre_firmware_1()
-Thread-Index: AQHaIwq35N8GSRZ2oE2NWLdoNe1FyLCSgvTA
+        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+        "netdev@vger.kernel.org" <netdev@vger.kernel.org>
+Subject: RE: [PATCH net v3 3/5] r8152: Add RTL8152_INACCESSIBLE to r8156b_wait_loading_flash()
+Thread-Topic: [PATCH net v3 3/5] r8152: Add RTL8152_INACCESSIBLE to
+ r8156b_wait_loading_flash()
+Thread-Index: AQHaIwq3QynccWMLQUOiHILIrPvDobCSgsmA
 Date: Thu, 30 Nov 2023 08:27:00 +0000
-Message-ID: <edd2602be9f24c0c9ee041fdca5a1d3a@realtek.com>
+Message-ID: <0c913bbdab134dd2a9b63bb431665fd9@realtek.com>
 References: <20231129132521.net.v3.1.I77097aa9ec01aeca1b3c75fde4ba5007a17fdf76@changeid>
- <20231129132521.net.v3.4.I9c7bfe6fb76850f0323b3996e25a10ef0281fb7a@changeid>
-In-Reply-To: <20231129132521.net.v3.4.I9c7bfe6fb76850f0323b3996e25a10ef0281fb7a@changeid>
+ <20231129132521.net.v3.3.Ib839d9adc704a04f99743f070d6c8e39dec6a1aa@changeid>
+In-Reply-To: <20231129132521.net.v3.3.Ib839d9adc704a04f99743f070d6c8e39dec6a1aa@changeid>
 Accept-Language: zh-TW, en-US
 Content-Language: zh-TW
-x-kse-serverinfo: RTEXDAG01.realtek.com.tw, 9
+x-kse-serverinfo: RTEXMBS02.realtek.com.tw, 9
 x-kse-antispam-interceptor-info: fallback
 x-kse-antivirus-interceptor-info: fallback
 Content-Type: text/plain; charset="iso-8859-1"
@@ -63,6 +59,10 @@ List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 X-KSE-AntiSpam-Interceptor-Info: fallback
+X-KSE-ServerInfo: RTEXH36505.realtek.com.tw, 9
+X-KSE-AntiSpam-Interceptor-Info: fallback
+X-KSE-Antivirus-Interceptor-Info: fallback
+X-KSE-AntiSpam-Interceptor-Info: fallback
 
 Douglas Anderson <dianders@chromium.org>
 > Sent: Thursday, November 30, 2023 5:25 AM
@@ -70,9 +70,10 @@ Douglas Anderson <dianders@chromium.org>
 >=20
 > Delay loops in r8152 should break out if RTL8152_INACCESSIBLE is set
 > so that they don't delay too long if the device becomes
-> inaccessible. Add the break to the loop in r8153_pre_firmware_1().
+> inaccessible. Add the break to the loop in
+> r8156b_wait_loading_flash().
 >=20
-> Fixes: 9370f2d05a2a ("r8152: support request_firmware for RTL8153")
+> Fixes: 195aae321c82 ("r8152: support new chips")
 > Reviewed-by: Grant Grundler <grundler@chromium.org>
 > Signed-off-by: Douglas Anderson <dianders@chromium.org>
 
