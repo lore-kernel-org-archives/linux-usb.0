@@ -1,94 +1,67 @@
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmx.net header.i=wahrenst@gmx.net header.b="sB8jtZz6"
-Received: from mout.gmx.net (mout.gmx.net [212.227.17.22])
-	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 6FB1310D5;
-	Thu, 30 Nov 2023 07:43:24 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=gmx.net;
-	s=s31663417; t=1701358973; x=1701963773; i=wahrenst@gmx.net;
-	bh=kWZYlij2kNgwIM5uMiXInPyv/VHhBRMRoCrGHtd2dDQ=;
-	h=X-UI-Sender-Class:From:To:Cc:Subject:Date:In-Reply-To:
-	 References;
-	b=sB8jtZz6Xz8ASMBwCKpy52E4RbuiygkhQKQSsxr/DAhIArV9U5FCOk65DKwceGCw
-	 nUlnrJPipQ/pu3W4nw+QKTtZGk8x6Lu5WpuHHNtFPpsGwSqymZfbAw2BIX3JipAcz
-	 ZXCR9oXkD/vypngeggPK8Vbe2otQNOGDfVfWC6yqFP+xIyqNz0l0yftf30cRerldw
-	 cxOWfbMTDCgPMRQkFryuG/MdhIXBn5jwFSzllCFco4J3q55ZzdnWE6T160rv6udx7
-	 1iyNNTv9vFmoci8tCPNza0fhsKRkSdDpTUMfBm97dPLJgbicyptSn4GlpBymFsKph
-	 rlFM1y2wuMenuZF0Ew==
-X-UI-Sender-Class: 724b4f7f-cbec-4199-ad4e-598c01a50d3a
-Received: from stefanw-SCHENKER ([37.4.248.43]) by mail.gmx.net (mrgmx104
- [212.227.17.168]) with ESMTPSA (Nemesis) id 1MEm6F-1r2vcF3BPP-00GJv1; Thu, 30
- Nov 2023 16:42:52 +0100
-From: Stefan Wahren <wahrenst@gmx.net>
-To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	Rob Herring <robh+dt@kernel.org>,
-	Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
-	Conor Dooley <conor+dt@kernel.org>,
-	Florian Fainelli <florian.fainelli@broadcom.com>,
-	Mathias Nyman <mathias.nyman@intel.com>
-Cc: bcm-kernel-feedback-list@broadcom.com,
-	Cyril Brulebois <kibi@debian.org>,
-	linux-usb@vger.kernel.org,
-	devicetree@vger.kernel.org,
-	linux-arm-kernel@lists.infradead.org,
-	Stefan Wahren <wahrenst@gmx.net>,
-	Conor Dooley <conor.dooley@microchip.com>
-Subject: [PATCH V2 1/2] dt-bindings: usb: xhci: Add optional power-domains
-Date: Thu, 30 Nov 2023 16:42:28 +0100
-Message-Id: <20231130154229.22334-2-wahrenst@gmx.net>
-X-Mailer: git-send-email 2.34.1
-In-Reply-To: <20231130154229.22334-1-wahrenst@gmx.net>
-References: <20231130154229.22334-1-wahrenst@gmx.net>
+Authentication-Results: smtp.subspace.kernel.org; dkim=none
+Received: from netrider.rowland.org (netrider.rowland.org [192.131.102.5])
+	by lindbergh.monkeyblade.net (Postfix) with SMTP id 8538010F9
+	for <linux-usb@vger.kernel.org>; Thu, 30 Nov 2023 07:50:09 -0800 (PST)
+Received: (qmail 250227 invoked by uid 1000); 30 Nov 2023 10:50:08 -0500
+Date: Thu, 30 Nov 2023 10:50:08 -0500
+From: Alan Stern <stern@rowland.harvard.edu>
+To: Jose Ignacio Tornos Martinez <jtornosm@redhat.com>
+Cc: oneukum@suse.com, davem@davemloft.net, edumazet@google.com,
+  kuba@kernel.org, linux-kernel@vger.kernel.org, linux-usb@vger.kernel.org,
+  netdev@vger.kernel.org, pabeni@redhat.com
+Subject: Re: [PATCH] net: usb: ax88179_178a: avoid failed operations when
+ device is disconnected
+Message-ID: <e2faf901-84de-41ad-804d-6c86bc304ef1@rowland.harvard.edu>
+References: <51cb747a-21fe-4b3b-9567-01b9cc9d8873@rowland.harvard.edu>
+ <20231130084136.172052-1-jtornosm@redhat.com>
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
-X-Provags-ID: V03:K1:QQhxP6kT7761HtF+VIHw4espQ3ZzBNTv0Vb9JSXeLDhtSjHDJ46
- zC3Cw3U3lm6Ak4POJQy4XrTBmG5wQn+BGxbNEZ5f0gbcldpHa8PGCcy6VAakK7bVhG96iHu
- wSriIjhVu+ittIWgmD8tBxa9cqYcnSsT6HdkRFowTZaKb2ak8J0dumbOdN9bei1KvEa8I+Z
- UnLys6+as5tc1IwtnkXsw==
-UI-OutboundReport: notjunk:1;M01:P0:PvrOUnMOBjY=;LTAu8yW9kIzdrCOY6VrCfgfJ8VV
- PwuD9wZhKyzjuAr5qUM3OgRHmndO0nfRpIEUWfGb2z2lCZinzC0aL0p+yLnRxCYHuGKBH/Tpg
- prrjJPrzRD/+BuDCkAumoF1zTSs3NGzuGNqf5MhE16+hI4NEWm13qGQuIlzNAbLM+pJ1QnnXU
- d/nStLEUieOArKOuI1UynRIURdF6GpzWtxG2jivfQoS2m9PtuGR1t07xNt35kNJV0dKN+dLmM
- 6GHIm7qzeP9N/vC1TZpl78NogrCfJC/junx1w19s3euSdCJsBflcbJ0ia6JbViMZzjso/KF9l
- LIRVBtWM34HI7VJPfTw1B6qxLNA3WK5rLvEuavBvtQXbpS0Ddf/DZ8X3y6J0DbnVV+3X38N4m
- lT2DiG+G5agiLUFSQtF9wdLQj4DZ6FTmcBV+q0DCFzM8GbjYLcnNPJFI0dSRY4/VRdU4JQrs2
- fUKBpEbXgGKgeSztrNz7cRKeX2Y6qVsTzC6sKca6SKo/DFYld31l009Hym/EHOoE4yKzm7gNt
- FGE/8qRO/Igk+1zM21sMBfglNdWYGGx6DHcIRhH0I6/VifLbET5S3SN1M3Ar6yX/emGIwwH08
- 7KU/lfH4HPEyciO+ZzpJ/T02PlTjUyQXpdrpD7EWPqNQQh8MgyZoaF7ea+eQLj12iX1XTsNo/
- WgjqqBVytW9UQ2rhksMdE5SJ6nn+UuyRSwiiD81BlKBJLUBWCe3croq3SNwUtzvDXc0+NA41t
- kbIW51L0wnVGSjYw2A9thiYzWpT3IqMCZoQr8Cpp93kHPY8ZFRWlWGTGIy1dAO4X7iziYTtcf
- eHSNyVTDdKBB9yODZU7+QNj6v81Qoin8ej/uCTcuN5VZlM5XQtfuRNqucotuvCrjRf/efAHp4
- mh6lVKG5UCyIkAV5uWa+N4cwFOn1EgzusHh1z/fXWmddT8Ss2yf26VJkkwGKOJ0ksJqI58yHU
- kZ3KxohKZf92HpyMzKSVJaZuSxY=
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20231130084136.172052-1-jtornosm@redhat.com>
 
-BCM2711 SoC use a power domain for the xHCI. So allow supplying this
-domain in bindings.
+On Thu, Nov 30, 2023 at 09:41:36AM +0100, Jose Ignacio Tornos Martinez wrote:
+> Hi Oliver,
+> 
+> > I am sorry, but this is a layering violation. You are looking
+> > at an internal state of the USB layer to surpress logging
+> > -ENODEV. If you think these messages should go away, filter
+> > for ENODEV where they are generated.
+> Thank you for your comments and suggestion.
+> My intention was also to avoid unnecessary and failed operations 
+> if disconnection was detected.
 
-Signed-off-by: Stefan Wahren <wahrenst@gmx.net>
-Acked-by: Conor Dooley <conor.dooley@microchip.com>
-=2D--
- Documentation/devicetree/bindings/usb/generic-xhci.yaml | 3 +++
- 1 file changed, 3 insertions(+)
+What are these unnecessary operations?
 
-diff --git a/Documentation/devicetree/bindings/usb/generic-xhci.yaml b/Doc=
-umentation/devicetree/bindings/usb/generic-xhci.yaml
-index 594ebb3ee432..e48beaff7d0d 100644
-=2D-- a/Documentation/devicetree/bindings/usb/generic-xhci.yaml
-+++ b/Documentation/devicetree/bindings/usb/generic-xhci.yaml
-@@ -49,6 +49,9 @@ properties:
-       - const: core
-       - const: reg
+> Ok, let me research more and do better.
+> 
+> Hi Alan,
+> 
+> > In addition, you should be more careful about the distinction between 
+> > "unbound" and "disconnected".  It's possible for the driver to be 
+> > unbound from the device even while the device is still plugged in.  In 
+> > this situation, submitting URBs will fail with an error even though the 
+> > device state isn't USB_STATE_NOTATTACHED.
+> Thank you for you comments.
+> I also tested "unbound" and stop and unbind operations were correctly 
+> executed. I just wanted to avoid the issues during disconnection, if other 
+> operations are commanded later I think it is better to warn.
 
-+  power-domains:
-+    maxItems: 1
-+
- unevaluatedProperties: false
+In general, drivers should treat "unbind" the same as "disconnect" (in 
+both cases, the ->disconnect() routine is called).  If a driver tries to 
+send commands to the device while the disconnect routine is running, it 
+should expect that they might fail and not generate an error message if 
+they do.
 
- required:
-=2D-
-2.34.1
+(Also, note that the USB core will allow a driver to send commands to 
+the device during unbind only if the .soft_unbind flag is set in the 
+usb_driver structure.)
 
+And in any case, a driver should _never_ try to communicate with the 
+device after the disconnect routine has returned.
+
+Alan Stern
