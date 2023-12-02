@@ -1,23 +1,22 @@
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmx.net header.i=wahrenst@gmx.net header.b="CR58v8pi"
-Received: from mout.gmx.net (mout.gmx.net [212.227.15.15])
-	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C31BBFD;
-	Sat,  2 Dec 2023 15:23:19 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=gmx.net header.i=wahrenst@gmx.net header.b="kR/a0TT9"
+Received: from mout.gmx.net (mout.gmx.net [212.227.15.19])
+	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 80830118;
+	Sat,  2 Dec 2023 15:23:20 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=gmx.net;
-	s=s31663417; t=1701559377; x=1702164177; i=wahrenst@gmx.net;
-	bh=1yHSNAC8bttHA6etqyuvQwPmI2IH8vcMMN4otfV1ovM=;
-	h=X-UI-Sender-Class:From:To:Cc:Subject:Date:In-Reply-To:
-	 References;
-	b=CR58v8piGKktaHJHTEyfJjzEDVT/Hl6nEuUOU010dXUC9Sc1fuyyMGL8VWzvWijb
-	 WjfNzcIaC7fHJuZpoxMZFhk0/pTPMESOISVMKjJ46Flkece5+JG6zhcqqj3MH1Ucm
-	 CmNf6LgK5eJ4pCl5U1OMVtLgCUkFdPxs4NTJgsdm4XLqXCn6XtpYRAlyMr3PUhiF+
-	 j95phUHJrBUYjhxZJy2iSA72IwWrTFxeUgLor6RbIbLe+rayMrTmhyXIPNPDcvUGc
-	 6g7E1VKPlIW+FaThs1MFCWa+Ytq8md9Y2IzYI9Hzl6urLg7YHSq6EC2qBSN6gWnHg
-	 diC5jdbwLhcCuyODAA==
+	s=s31663417; t=1701559375; x=1702164175; i=wahrenst@gmx.net;
+	bh=BCpo5tuHoZciK4BX0GFd9b3qF9Y6KHB/u2hvsaUQTOk=;
+	h=X-UI-Sender-Class:From:To:Cc:Subject:Date;
+	b=kR/a0TT981RvoGRWicKM5pmTfJtEa3uMXoFXn6Ox3gn13TIiVt+GlzrF96hz51Ov
+	 /YI3luBzo3gE+rqz237fS3mTldsj6uUPbP/y2OCJCOAKR8QPiA0y/bGkonzfoiTC5
+	 v7REN/Pm2IlGEx7d7MM42n+BOrBy5cHDIfCUjZ4LkFy90sRClA4QRd2zS5nFMHDey
+	 zkMxny8qn2enBoZCx+DjfrDGy0A3LCEJmD5PCizi36KYUFGkRdEZhNahcGuzxQPmy
+	 p8CbZwAfoPysL63GhjJVw17wIhVEfmniWdLYYe6ouiRa5nXfpfWi4IdtNi5PBS04g
+	 eByj+QHghGzW7J+nFA==
 X-UI-Sender-Class: 724b4f7f-cbec-4199-ad4e-598c01a50d3a
 Received: from stefanw-SCHENKER ([37.4.248.43]) by mail.gmx.net (mrgmx005
- [212.227.17.190]) with ESMTPSA (Nemesis) id 1N63Vi-1rKRJJ0l0y-016Obq; Sun, 03
- Dec 2023 00:22:57 +0100
+ [212.227.17.190]) with ESMTPSA (Nemesis) id 1Mzyya-1rW1tJ2znK-00x0PE; Sun, 03
+ Dec 2023 00:22:55 +0100
 From: Stefan Wahren <wahrenst@gmx.net>
 To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
 	Rob Herring <robh+dt@kernel.org>,
@@ -31,12 +30,10 @@ Cc: bcm-kernel-feedback-list@broadcom.com,
 	devicetree@vger.kernel.org,
 	linux-arm-kernel@lists.infradead.org,
 	Stefan Wahren <wahrenst@gmx.net>
-Subject: [PATCH V3 3/3] ARM: dts: bcm2711: Add BCM2711 xHCI support
-Date: Sun,  3 Dec 2023 00:22:17 +0100
-Message-Id: <20231202232217.89652-4-wahrenst@gmx.net>
+Subject: [PATCH V3 0/3] ARM: dts: bcm2711: Add BCM2711 xHCI support
+Date: Sun,  3 Dec 2023 00:22:14 +0100
+Message-Id: <20231202232217.89652-1-wahrenst@gmx.net>
 X-Mailer: git-send-email 2.34.1
-In-Reply-To: <20231202232217.89652-1-wahrenst@gmx.net>
-References: <20231202232217.89652-1-wahrenst@gmx.net>
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
@@ -44,84 +41,52 @@ List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
-X-Provags-ID: V03:K1:oNPvOdjYtiFOilEXE/1leOM7ZjfciiG7DjObmgGpBw4RREIAqhu
- wCYZ0ZleIUeNr7Cqtc5NKBF2TQEljc6ld9ceaclTubDUDrpBnE3V3V5Gsp75zK5lKRXUeaq
- F5Ga4Vx8YfRFVjtgXKiTyyBti5dUJP/0suZIWpqTfhnBofokB7WSDnUtJVa6FvguMTeSzL/
- Rasr3YY/2Nq8Rv2/u3xpA==
-UI-OutboundReport: notjunk:1;M01:P0:ybfmQK7mqQc=;v9tWK0EXOv41q04Vz6HWv8Tao3+
- YU/cNJsSwPSH2C4EUr4ZdCtwAxgbrB3m8Iuu4u56vmOhkjker+wYvFPAs7ZFNKKJ7iOUgZPul
- lb2Ft29bYfhQGCyFvUxZl50pKKsyqmZLLpFmRQw9FZbSzvCVF4iIdIPfH7mURvO3tuZQ8WUqa
- IBwLkQlYcIS25jpKzsFomejd6SaAGGFUYo8X+XA5qlrgSERsOcCJweoMyhqL7gsGBr5r1zcGp
- P+HYEYcAGLPktEXadcTwhbN6Je7bNHjQ9gpTX+5+2I9dnVXy2kI2EYIgmbZbwXZ6RsF2oEytD
- CpPFGmaKWu4PK7qgWYarR1I24oL3bs0+0gPLNCS8oDCHdafePRWwvlUahuZ8+Y81dFm0QM5XQ
- JxbFV/fVqgI8Nijb3pz7lR1nSFjQZbS4GWIDd0/IV/J9e4iSc6GVqKHXF/WWtnulHMtUCfwV5
- Hb+ihoxjSvkQApjCeBnBpgjDM5NFsPuzEolpqllQvBJCzlGhMboSTxC2s/s5MJAsLiXgNC/nv
- XP0ai6Lv8jx/AeVQANhn/gH7tGDlhUpTq98BZzl/9gDExo12xa9xswKBt+b1yJwqUxnNyoydO
- 5uUUPwShycL24s1ZamwcKp4th0zaRPipZMfxsAJSV2OG8u77ClV+awqf89T5Jn2FX0wCQaEz/
- 5JaVk+elzZROf7a+q+nrDLSSfGwrAm4Tn+OlKX4mSRAtXyS/Q4O8a/MqmQAm+Zyrcode2Ra9z
- iACwWSmQoNPfW9lXhDb3ofCJEurtYAbQsgoK0MHg/Cp4fumLR6G+i2kE9W1gL+1aoV0fqYe8e
- ELV4qr8l4LwGHOr3tRo6yMQBzjSVWXpeymx7wSkg2eFdHfvdzCkVzsXyXEqKHP4nLcLWFRMks
- kYE1+jF61K9Q62LzDjwOt4bukRmn5kxSk3arFziseHQ8DwTJwaRmtu2BH+ciRMgF0p3NXk1WL
- Xrj0gCQx7iTjbqp6YrnAkGAfZik=
+X-Provags-ID: V03:K1:8n/wkLVVmr0wx6rXkhQjGhU+7R1ohZCIWNthzuk4gyQR/s1mnD9
+ FjwiILbvc/+k8+HY9P5SbfdGBBpzgwXWzzuAD0BGieJHzGNckrS0rTb+sDy9EDeX7UVIfql
+ MJy/HHOlbZw8tDaW+m2Mrs/rZ6Fwv4JaMNV1E9S5FexfFa0QIKfF0Y/zrE4vM3Dsxn9TlVq
+ wqlsuheE/lkvZM+yhCaZA==
+UI-OutboundReport: notjunk:1;M01:P0:KnPny017AyU=;OAsbnLSX7nVZBDqmjEzc6LJU5bg
+ /NQdaq2S5Bl44YP6U+SJ/T5UjXQSkpFXxQkeIu0yF8lzWliVKFOucqeS/tWFDyoTjbTZ12BxF
+ aOnUxHHOgd0bjNeq7L5nCeDvlRJ9cs7xP/y99HGlOL6yaTMiLKPv7tqAxem017tg7MVIAEO3k
+ WGBNzxtVTvqfB5/xXFkAZEzuxJSLw+TMSiZ/K0fGJaAS2fc2X3T5bYP3xNeaxgEqXKp7Eywcc
+ a0oBE0e/OseqzG9oof+QXdamwVj/JkQ77KopCidg798tV0anS3IrNJe6sq7fT9xRgoLwPH3Wq
+ 6Q8R95DUnT2pFyEgjkL0d92PiH+zOKIwyI07Y/WQ2geUorPxNdv/AHAfGf8SMzsJ+o56/vcQ1
+ RIrEAnYAEuGsObc1Kqahvc19wkqWoZq1mlFV9FR3M/VjLFn8VOGjUnHrSoydN3K6AixAS0/aE
+ Sb55XtQjfjE1+hZJU8htjls3Y3d8/SwDd5+9EgAV59PYlAVcnUlhrt2UbAm1h3uOnUTQ5qD3t
+ pNftLFongnW5QUDJWsIU10YdPlhS2slpsJgpN03I1lFoApsqcmN0jxNkOwjz03whj5LCeOwc7
+ S6GHS48x19Om8GpyMlnjrUx2UbjUJC0RI29FkorVP5Z0/rjWqIII6B7lhIExMMnB3ea44hbPN
+ eaiBvJheDNzev7I51l9N3evfGan2kxFOZv99qfhrsBn+X5T8YhEHYuRm0A9LvK2nfs3dVV2Hl
+ JqwguN/7twH4Dj4FvM+/PXSQ+q+fxi0V7JyzSYR5fckiEHV5Gao1LHvwybQR8yw7388HlEU5y
+ lbfXpF87+rJRCzvhSfMdXXojZiYlVt8S1rsIHYvfuzMd9RtKL0JRBRU9DPkdxK/PLjm+AQdfb
+ LHzuXRkHaQvz+YXMz2zjI/IjqoS1+QEu+is2X4ru5n8lu6TYd1VynB+FViNi/T8sX5smdBrxy
+ K8pkgUmk3mQv104yQwpAIJmjZBk=
 
-The BCM2711 SoC also has a mostly generic xHCI. The USB port is
-currently only usable on the Compute Module 4 (e.g. via IO board).
-Because DWC2 and xHCI share the same PHY, we let the bootloader
-enable it on demand.
+In contrast to the Raspberry Pi 4, the Compute Module 4 or the IO board
+does not have a VL805 USB 3.0 host controller, which is connected via
+PCIe. Instead, the BCM2711 on the Compute Module provides the built-in
+xHCI.
 
-Signed-off-by: Stefan Wahren <wahrenst@gmx.net>
-=2D--
- arch/arm/boot/dts/broadcom/bcm2711-rpi.dtsi |  5 +++++
- arch/arm/boot/dts/broadcom/bcm2711.dtsi     | 14 ++++++++++++++
- 2 files changed, 19 insertions(+)
+Changes in V3:
+- introduce a new compatible for BCM2711 in order to make the
+  power domain dependency SoC specific, which also results in
+  a driver change
 
-diff --git a/arch/arm/boot/dts/broadcom/bcm2711-rpi.dtsi b/arch/arm/boot/d=
-ts/broadcom/bcm2711-rpi.dtsi
-index 98817a6675b9..d233a191c139 100644
-=2D-- a/arch/arm/boot/dts/broadcom/bcm2711-rpi.dtsi
-+++ b/arch/arm/boot/dts/broadcom/bcm2711-rpi.dtsi
-@@ -1,6 +1,7 @@
- // SPDX-License-Identifier: GPL-2.0
- #include "bcm2835-rpi.dtsi"
+Changes in V2:
+- adjust xHCI compatible as suggested by Justin & Florian
+- keep xHCI disabled in order to let the bootloader decide which
+  USB block should be enabled, which result in a drop of patch 3
 
-+#include <dt-bindings/power/raspberrypi-power.h>
- #include <dt-bindings/reset/raspberrypi,firmware-reset.h>
+Stefan Wahren (3):
+  dt-bindings: usb: xhci: add support for BCM2711
+  usb: xhci: xhci-plat: Add support for BCM2711
+  ARM: dts: bcm2711: Add BCM2711 xHCI support
 
- / {
-@@ -76,3 +77,7 @@ &v3d {
- &vchiq {
- 	interrupts =3D <GIC_SPI 34 IRQ_TYPE_LEVEL_HIGH>;
- };
-+
-+&xhci {
-+	power-domains =3D <&power RPI_POWER_DOMAIN_USB>;
-+};
-diff --git a/arch/arm/boot/dts/broadcom/bcm2711.dtsi b/arch/arm/boot/dts/b=
-roadcom/bcm2711.dtsi
-index 4a379a14966d..ed5ef36e08ff 100644
-=2D-- a/arch/arm/boot/dts/broadcom/bcm2711.dtsi
-+++ b/arch/arm/boot/dts/broadcom/bcm2711.dtsi
-@@ -604,6 +604,20 @@ genet_mdio: mdio@e14 {
- 			};
- 		};
+ .../devicetree/bindings/usb/generic-xhci.yaml | 21 ++++++++++++++++---
+ arch/arm/boot/dts/broadcom/bcm2711-rpi.dtsi   |  5 +++++
+ arch/arm/boot/dts/broadcom/bcm2711.dtsi       | 14 +++++++++++++
+ drivers/usb/host/xhci-plat.c                  |  3 +++
+ 4 files changed, 40 insertions(+), 3 deletions(-)
 
-+		xhci: usb@7e9c0000 {
-+			compatible =3D "brcm,bcm2711-xhci";
-+			reg =3D <0x0 0x7e9c0000 0x100000>;
-+			#address-cells =3D <1>;
-+			#size-cells =3D <0>;
-+			interrupts =3D <GIC_SPI 176 IRQ_TYPE_LEVEL_HIGH>;
-+			/* DWC2 and this IP block share the same USB PHY,
-+			 * enabling both at the same time results in lockups.
-+			 * So keep this node disabled and let the bootloader
-+			 * decide which interface should be enabled.
-+			 */
-+			status =3D "disabled";
-+		};
-+
- 		v3d: gpu@7ec00000 {
- 			compatible =3D "brcm,2711-v3d";
- 			reg =3D <0x0 0x7ec00000 0x4000>,
 =2D-
 2.34.1
 
