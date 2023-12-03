@@ -1,42 +1,43 @@
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="J4QyUmie"
-Received: from mail-wm1-x332.google.com (mail-wm1-x332.google.com [IPv6:2a00:1450:4864:20::332])
-	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id F382CC0
-	for <linux-usb@vger.kernel.org>; Sun,  3 Dec 2023 03:43:35 -0800 (PST)
-Received: by mail-wm1-x332.google.com with SMTP id 5b1f17b1804b1-40c09fcfa9fso2671605e9.2
-        for <linux-usb@vger.kernel.org>; Sun, 03 Dec 2023 03:43:35 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="aubHynUW"
+Received: from mail-lf1-x129.google.com (mail-lf1-x129.google.com [IPv6:2a00:1450:4864:20::129])
+	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 2EAC7101
+	for <linux-usb@vger.kernel.org>; Sun,  3 Dec 2023 03:43:38 -0800 (PST)
+Received: by mail-lf1-x129.google.com with SMTP id 2adb3069b0e04-50bf26b677dso293995e87.2
+        for <linux-usb@vger.kernel.org>; Sun, 03 Dec 2023 03:43:38 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1701603814; x=1702208614; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=SxbKBXKaOzx3/nX++/IEYvlJe8A11NOZYUGsnN9FBBY=;
-        b=J4QyUmievc3DypbSeJhaPO6naFODZztsy6yYCn17mZ/k/AO7OVPok7s3rBfr3nPBnl
-         P2Ke/mhkRG7lI7G1omKBUsocdoCPXYdYMWKlK61b9EDfIozm6N0m1PRmhxnwLsBiR3jy
-         h8TpMcpHsh8yMJ65MCYc8bzi+DOUnQQ9e7aPFwiHNl1yUmfy5tEwvWayIVFfp62sQ19s
-         HrPDwp4jN5zsKhA5NKuzbT5v3NjHas0Xub5mqGL2inX2BjNHb5BRRdyFO4+qIBi7Hfu0
-         6i94/7l0+x+OkJum+8n0rrqCHRNA97PKj9sV6LIV1QtgO577WokSYFcUnkypw5aGiQkC
-         rj6Q==
+        d=linaro.org; s=google; t=1701603816; x=1702208616; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=Aam3IeZZYou7qOiCLTfYpnFJoW7z3fkJsLhT2kv0/so=;
+        b=aubHynUWayLjEk/toIzXpDUGsLaop4D0ZeEQydzx4oSX1bBhe9k2d85a545W/cuao9
+         RgdzqLWgJxdG/6LKlAkQX3hFUF4Slh2pwYbFSbO/CK+QJnVyoxO+Yfxn/gKfCPuIBab/
+         jdmSOrkNxQo8O93KavUU0tOJOdwMQpgKMg+z+iTpT2SOrN2ngc494rDAIuXRtsSqOPF5
+         n92ffSh0y8oI+pSCOxP0opBwVmLQ1x8EDjQ7IHXrog61UceTGYT67PAmLG5SNCmw5hIM
+         Ujkuws2pr04zo1CRngKsoHzBcDiQnIA0Bz2CoV1d/nduRNsJ8OgSrA9LB2VqePTqKeSX
+         Y3dA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1701603814; x=1702208614;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=SxbKBXKaOzx3/nX++/IEYvlJe8A11NOZYUGsnN9FBBY=;
-        b=H7Y8gLjCHGjyccZryXw+mp00Cqy0RDERnIulYC2PGYF3HFRsbpWoCu2lkmdwBxDzpd
-         IUmQb9aVe3R5twG2QLZGdlgb5zAtKp1hhR9KbkDKJ3G0Bh5cLfG/J8KGHdscCX5f23rH
-         6CtBAg05pGRmMdE/sRB5KLIkHwa/KBa9mH2xtyqU5N9KUnx5oKsA8ivCufbyVkSxJfxl
-         kmnknSCEy6KjpOYfeT+yXuVLEQEGR9L5wXvFc41nEEAL4QTPpBUsi5slBwzyemu2Lgbo
-         euieB5bgXQtAsd1A5LglvYLq9Onk+9V+1do6AT0O+DWmhZFm1ZP348DvfVhl4O4wusMA
-         njVw==
-X-Gm-Message-State: AOJu0Yx6AdgXT1D8tK5WSDrdMezFJ3iAvAVYUGY7NRNNAunMew0zN1+x
-	Rt/mZc1MB03u9oNFbWZ8AD9HGQ==
-X-Google-Smtp-Source: AGHT+IFdlXbi66bdK9azUEA/kFeRtMy70HvUZr1Nq1VwrzdZy0ztuHZBa7GKWBHTMGCpnYETs9x7YA==
-X-Received: by 2002:a05:600c:2d4c:b0:40b:5f03:b428 with SMTP id a12-20020a05600c2d4c00b0040b5f03b428mr914549wmg.330.1701603814301;
-        Sun, 03 Dec 2023 03:43:34 -0800 (PST)
+        d=1e100.net; s=20230601; t=1701603816; x=1702208616;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=Aam3IeZZYou7qOiCLTfYpnFJoW7z3fkJsLhT2kv0/so=;
+        b=fVZy6k3sifd2CYAWDcbpiffTEHswmQA/sn9l1WdLpiQSneVSaLMTFB+T6AlM0OUQ0c
+         qsYrEaYgYEnq09VBxv8mA/gw4iTAVm7hXvZ1gYzszL4BjiQgaB+I2ptONY7TVPEVnO1v
+         Kwg1dYUmpWBfcFvr+0wySwMPVaYvwyYA77OJZypNLNW8ypRj7xzyB4O+Y2DDpijjPsHL
+         LnIpNosUgxzV+INgRCwIYI7VSi2SHsDucDukXMaCUerYh3Li84FHB4l9lLmVMUIUCbci
+         fyNANCjYjD6sP8OOemLdB5uUlKIb0fok8IATIZH82+W/YGRbG/eHU+3VPOhjwkuU+WNT
+         Pu5g==
+X-Gm-Message-State: AOJu0YyvDJ0xxDj2SSqh4bcCglDK/79eON5X0n4YiF7DHciuFPsMJFg5
+	SIYBx7vyNE9CzIr3BRMNZlqiXA==
+X-Google-Smtp-Source: AGHT+IGQOl1f6KMGAm7kO5TDXZyrRAW/4peDnzvo3+EM4Ij4eFCpMQ47UXHc7VDNe3+gkvzZ/FZ8Dg==
+X-Received: by 2002:a19:2d05:0:b0:50b:f0e5:70fd with SMTP id k5-20020a192d05000000b0050bf0e570fdmr191998lfj.103.1701603816108;
+        Sun, 03 Dec 2023 03:43:36 -0800 (PST)
 Received: from umbar.unikie.fi ([192.130.178.91])
-        by smtp.gmail.com with ESMTPSA id o17-20020a2e90d1000000b002c993c5d4c6sm894666ljg.105.2023.12.03.03.43.33
+        by smtp.gmail.com with ESMTPSA id o17-20020a2e90d1000000b002c993c5d4c6sm894666ljg.105.2023.12.03.03.43.35
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 03 Dec 2023 03:43:33 -0800 (PST)
+        Sun, 03 Dec 2023 03:43:35 -0800 (PST)
 From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
 To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
 	David Airlie <airlied@gmail.com>,
@@ -62,11 +63,14 @@ Cc: dri-devel@lists.freedesktop.org,
 	linux-arm-msm@vger.kernel.org,
 	linux-usb@vger.kernel.org,
 	linux-kernel@vger.kernel.org,
-	freedreno@lists.freedesktop.org
-Subject: [PATCH RESEND 0/6] drm: simplify support for transparent DRM bridges
-Date: Sun,  3 Dec 2023 14:43:27 +0300
-Message-Id: <20231203114333.1305826-1-dmitry.baryshkov@linaro.org>
+	freedreno@lists.freedesktop.org,
+	Vinod Koul <vkoul@kernel.org>
+Subject: [PATCH RESEND 2/6] phy: qcom: qmp-combo: switch to DRM_AUX_BRIDGE
+Date: Sun,  3 Dec 2023 14:43:29 +0300
+Message-Id: <20231203114333.1305826-3-dmitry.baryshkov@linaro.org>
 X-Mailer: git-send-email 2.39.2
+In-Reply-To: <20231203114333.1305826-1-dmitry.baryshkov@linaro.org>
+References: <20231203114333.1305826-1-dmitry.baryshkov@linaro.org>
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
@@ -75,84 +79,106 @@ List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-Greg, could you please ack the last patch to be merged through the
-drm-misc tree? You have acked patch 3, but since that time I've added
-patches 4-6.
+Switch to using the new DRM_AUX_BRIDGE helper to create the
+transparent DRM bridge device instead of handcoding corresponding
+functionality.
 
-Supporting DP/USB-C can result in a chain of several transparent
-bridges (PHY, redrivers, mux, etc). All attempts to implement DP support
-in a different way resulted either in series of hacks or in device tree
-not reflecting the actual hardware design. This results in drivers
-having similar boilerplate code for such bridges.
+Acked-by: Vinod Koul <vkoul@kernel.org>
+Signed-off-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+---
+ drivers/phy/qualcomm/Kconfig              |  2 +-
+ drivers/phy/qualcomm/phy-qcom-qmp-combo.c | 44 ++---------------------
+ 2 files changed, 3 insertions(+), 43 deletions(-)
 
-Next, these drivers are susceptible to -EPROBE_DEFER loops: the next
-bridge can either be probed from the bridge->attach callback, when it is
-too late to return -EPROBE_DEFER, or from the probe() callback, when the
-next bridge might not yet be available, because it depends on the
-resources provided by the probing device. Device links can not fully
-solve this problem since there are mutual dependencies between adjancent
-devices.
-
-Last, but not least, this results in the the internal knowledge of DRM
-subsystem slowly diffusing into other subsystems, like PHY or USB/TYPEC.
-
-To solve all these issues, define a separate DRM helper, which creates
-separate aux device just for the bridge. During probe such aux device
-doesn't result in the EPROBE_DEFER loops. Instead it allows the device
-drivers to probe properly, according to the actual resource
-dependencies. The bridge auxdevs are then probed when the next bridge
-becomes available, sparing drivers from drm_bridge_attach() returning
--EPROBE_DEFER.
-
-Changes since v5:
- - Removed extra semicolon in !DRM_AUX_HPD_BRIDGE stubs definition.
-
-Changes since v4:
- - Added documentation for new API (Sima)
- - Added generic code to handle "last mile" DP bridges implementing just
-   the HPD functionality.
- - Rebased on top of linux-next to be able to drop #ifdef's around
-   drm_bridge->of_node
-
-Changes since v3:
- - Moved bridge driver to gpu/drm/bridge (Neil Armstrong)
- - Renamed it to aux-bridge (since there is already a simple_bridge driver)
- - Made CONFIG_OF mandatory for this driver (Neil Armstrong)
- - Added missing kfree and ida_free (Dan Carpenter)
-
-Changes since v2:
- - ifdef'ed bridge->of_node access (LKP)
-
-Changes since v1:
- - Added EXPORT_SYMBOL_GPL / MODULE_LICENSE / etc. to drm_simple_bridge
-
-
-Dmitry Baryshkov (6):
-  drm/bridge: add transparent bridge helper
-  phy: qcom: qmp-combo: switch to DRM_AUX_BRIDGE
-  usb: typec: nb7vpq904m: switch to DRM_AUX_BRIDGE
-  drm/bridge: implement generic DP HPD bridge
-  soc: qcom: pmic-glink: switch to DRM_AUX_HPD_BRIDGE
-  usb: typec: qcom-pmic-typec: switch to DRM_AUX_HPD_BRIDGE
-
- drivers/gpu/drm/bridge/Kconfig                |  17 ++
- drivers/gpu/drm/bridge/Makefile               |   2 +
- drivers/gpu/drm/bridge/aux-bridge.c           | 140 +++++++++++++++
- drivers/gpu/drm/bridge/aux-hpd-bridge.c       | 164 ++++++++++++++++++
- drivers/phy/qualcomm/Kconfig                  |   2 +-
- drivers/phy/qualcomm/phy-qcom-qmp-combo.c     |  44 +----
- drivers/soc/qcom/Kconfig                      |   1 +
- drivers/soc/qcom/pmic_glink_altmode.c         |  33 +---
- drivers/usb/typec/mux/Kconfig                 |   2 +-
- drivers/usb/typec/mux/nb7vpq904m.c            |  44 +----
- drivers/usb/typec/tcpm/Kconfig                |   1 +
- drivers/usb/typec/tcpm/qcom/qcom_pmic_typec.c |  41 +----
- include/drm/bridge/aux-bridge.h               |  37 ++++
- 13 files changed, 383 insertions(+), 145 deletions(-)
- create mode 100644 drivers/gpu/drm/bridge/aux-bridge.c
- create mode 100644 drivers/gpu/drm/bridge/aux-hpd-bridge.c
- create mode 100644 include/drm/bridge/aux-bridge.h
-
+diff --git a/drivers/phy/qualcomm/Kconfig b/drivers/phy/qualcomm/Kconfig
+index d891058b7c39..846f8c99547f 100644
+--- a/drivers/phy/qualcomm/Kconfig
++++ b/drivers/phy/qualcomm/Kconfig
+@@ -63,7 +63,7 @@ config PHY_QCOM_QMP_COMBO
+ 	depends on DRM || DRM=n
+ 	select GENERIC_PHY
+ 	select MFD_SYSCON
+-	select DRM_PANEL_BRIDGE if DRM
++	select DRM_AUX_BRIDGE if DRM_BRIDGE
+ 	help
+ 	  Enable this to support the QMP Combo PHY transceiver that is used
+ 	  with USB3 and DisplayPort controllers on Qualcomm chips.
+diff --git a/drivers/phy/qualcomm/phy-qcom-qmp-combo.c b/drivers/phy/qualcomm/phy-qcom-qmp-combo.c
+index 0417856b8e7b..435cd849e82e 100644
+--- a/drivers/phy/qualcomm/phy-qcom-qmp-combo.c
++++ b/drivers/phy/qualcomm/phy-qcom-qmp-combo.c
+@@ -21,7 +21,7 @@
+ #include <linux/usb/typec.h>
+ #include <linux/usb/typec_mux.h>
+ 
+-#include <drm/drm_bridge.h>
++#include <drm/bridge/aux-bridge.h>
+ 
+ #include <dt-bindings/phy/phy-qcom-qmp.h>
+ 
+@@ -1419,8 +1419,6 @@ struct qmp_combo {
+ 	struct clk_hw dp_link_hw;
+ 	struct clk_hw dp_pixel_hw;
+ 
+-	struct drm_bridge bridge;
+-
+ 	struct typec_switch_dev *sw;
+ 	enum typec_orientation orientation;
+ };
+@@ -3191,44 +3189,6 @@ static int qmp_combo_typec_switch_register(struct qmp_combo *qmp)
+ }
+ #endif
+ 
+-#if IS_ENABLED(CONFIG_DRM)
+-static int qmp_combo_bridge_attach(struct drm_bridge *bridge,
+-				   enum drm_bridge_attach_flags flags)
+-{
+-	struct qmp_combo *qmp = container_of(bridge, struct qmp_combo, bridge);
+-	struct drm_bridge *next_bridge;
+-
+-	if (!(flags & DRM_BRIDGE_ATTACH_NO_CONNECTOR))
+-		return -EINVAL;
+-
+-	next_bridge = devm_drm_of_get_bridge(qmp->dev, qmp->dev->of_node, 0, 0);
+-	if (IS_ERR(next_bridge)) {
+-		dev_err(qmp->dev, "failed to acquire drm_bridge: %pe\n", next_bridge);
+-		return PTR_ERR(next_bridge);
+-	}
+-
+-	return drm_bridge_attach(bridge->encoder, next_bridge, bridge,
+-				 DRM_BRIDGE_ATTACH_NO_CONNECTOR);
+-}
+-
+-static const struct drm_bridge_funcs qmp_combo_bridge_funcs = {
+-	.attach	= qmp_combo_bridge_attach,
+-};
+-
+-static int qmp_combo_dp_register_bridge(struct qmp_combo *qmp)
+-{
+-	qmp->bridge.funcs = &qmp_combo_bridge_funcs;
+-	qmp->bridge.of_node = qmp->dev->of_node;
+-
+-	return devm_drm_bridge_add(qmp->dev, &qmp->bridge);
+-}
+-#else
+-static int qmp_combo_dp_register_bridge(struct qmp_combo *qmp)
+-{
+-	return 0;
+-}
+-#endif
+-
+ static int qmp_combo_parse_dt_lecacy_dp(struct qmp_combo *qmp, struct device_node *np)
+ {
+ 	struct device *dev = qmp->dev;
+@@ -3440,7 +3400,7 @@ static int qmp_combo_probe(struct platform_device *pdev)
+ 	if (ret)
+ 		return ret;
+ 
+-	ret = qmp_combo_dp_register_bridge(qmp);
++	ret = drm_aux_bridge_register(dev);
+ 	if (ret)
+ 		return ret;
+ 
 -- 
 2.39.2
 
