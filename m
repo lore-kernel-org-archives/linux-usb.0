@@ -1,133 +1,96 @@
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmx.net header.i=wahrenst@gmx.net header.b="XRTyZn0v"
-Received: from mout.gmx.net (mout.gmx.net [212.227.15.18])
-	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B1C5511F;
-	Sat,  2 Dec 2023 15:23:20 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=gmx.net;
-	s=s31663417; t=1701559376; x=1702164176; i=wahrenst@gmx.net;
-	bh=TbxRik80dLzZG7DIQ9xWqFWVyrcfx693GRjJ1QeCo4o=;
-	h=X-UI-Sender-Class:From:To:Cc:Subject:Date:In-Reply-To:
-	 References;
-	b=XRTyZn0v3J6k8WSkFtnNhfFZEOmA4fBbQGdjrB5KGE7U4XcaseiYRPw6SvYD+vJL
-	 x4dkU2awZCyRzOybT4ccySAvB76n54Ml8lRCvNrkm8+rGCsSY9j8XEKKLBqROTAtn
-	 MGnXjnRfEyJ40Pe6hP8weRQVv8zHyANxD4igZrFll+aASbAbApv+I563AdWiW6O/7
-	 4vSCJD19HANt9gMeIldTWD969aurixSCMsftUcb1C6MHsxKR+Vv2c7j9HoTzBiHgN
-	 ieWCdz6cru0r01hIruRaYYCTy5QH27fekLrq9Qgl3St8DCFMKE446pNJQM5L73Vj+
-	 MPBK0C7fCtPZah3SNA==
-X-UI-Sender-Class: 724b4f7f-cbec-4199-ad4e-598c01a50d3a
-Received: from stefanw-SCHENKER ([37.4.248.43]) by mail.gmx.net (mrgmx005
- [212.227.17.190]) with ESMTPSA (Nemesis) id 1MhlKs-1rn0nw0oNs-00dp5u; Sun, 03
- Dec 2023 00:22:56 +0100
-From: Stefan Wahren <wahrenst@gmx.net>
-To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	Rob Herring <robh+dt@kernel.org>,
-	Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
-	Conor Dooley <conor+dt@kernel.org>,
-	Florian Fainelli <florian.fainelli@broadcom.com>,
-	Mathias Nyman <mathias.nyman@intel.com>
-Cc: bcm-kernel-feedback-list@broadcom.com,
-	Cyril Brulebois <kibi@debian.org>,
-	linux-usb@vger.kernel.org,
-	devicetree@vger.kernel.org,
-	linux-arm-kernel@lists.infradead.org,
-	Stefan Wahren <wahrenst@gmx.net>
-Subject: [PATCH V3 1/3] dt-bindings: usb: xhci: add support for BCM2711
-Date: Sun,  3 Dec 2023 00:22:15 +0100
-Message-Id: <20231202232217.89652-2-wahrenst@gmx.net>
+	dkim=pass (1024-bit key) header.d=hawknetworks.com header.i=@hawknetworks.com header.b="PXQtfmqR"
+Received: from mail-pg1-x52f.google.com (mail-pg1-x52f.google.com [IPv6:2607:f8b0:4864:20::52f])
+	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 9F098124
+	for <linux-usb@vger.kernel.org>; Sat,  2 Dec 2023 17:17:32 -0800 (PST)
+Received: by mail-pg1-x52f.google.com with SMTP id 41be03b00d2f7-5c21e185df5so1444328a12.1
+        for <linux-usb@vger.kernel.org>; Sat, 02 Dec 2023 17:17:32 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=hawknetworks.com; s=hawknetworks; t=1701566252; x=1702171052; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=VJuY8GE58qdOR7T86duPKoW3wzd9Ql6QkE8GpXHr/I4=;
+        b=PXQtfmqRUB6cNdVzkWcUJgTlo1jwgR3UCp/dAPAF2E/m/g4uxjj+1x9zAJKcfPpovS
+         vK9Jc7u1N8AeRPhLiZ6GJmUG/n5pi2D+TG/sNInvHkmCgtgNTSIWK6rFif66zUt5avMC
+         z+K0YUWOwy0tcL8TlRg5+an0/NQEhvl4K//dE=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1701566252; x=1702171052;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=VJuY8GE58qdOR7T86duPKoW3wzd9Ql6QkE8GpXHr/I4=;
+        b=iOkXvunq5tFPZOuLdUlpufxpuejtOfop/+BBzqxv1vB+NTlH81gJ8xvl4L/CCfbHBf
+         fu8a9IH60GRd4aY/kBcUCp6ore5CbzJ/+QrKKNM9LYjbQopHHlhpgGl9D/KIKtXrqA/f
+         K8xhl0k2Euhtrn0XRBLMbwyxvXUkmN6M1I4/2/CINNx4Byh2y/LIR0WPvBOjKNEtOaCJ
+         V56XmjTAwPUsSw3fO6b6pJgAC3MrFPx8LuBbc4YXkz7nhT3zNoT+GdMu0JIUNkvnHE63
+         t/1Qir15PpaXXwU2rS2FSPX3ORw0/K8b9PfMgKyPHkINTZLDvqBGz47m6BoMGLjTj1IP
+         r9+w==
+X-Gm-Message-State: AOJu0YwfMViEQhHd8KtwedhbFA6RVCDSOjIU5PJgpeThyrdAHl6IQzUL
+	oncGS76JAGYT7P0bktycdBR6EA==
+X-Google-Smtp-Source: AGHT+IGfaVYI9bV0rdDz70emOMa1CZFH4dogTRDVWXjCON7HkMRGMBsitKlfZ3VEnBZKYwLiMCiSMg==
+X-Received: by 2002:a05:6a20:dd92:b0:148:f952:552b with SMTP id kw18-20020a056a20dd9200b00148f952552bmr2146109pzb.51.1701566252028;
+        Sat, 02 Dec 2023 17:17:32 -0800 (PST)
+Received: from kkane-x1.adsrvr.org ([47.145.249.123])
+        by smtp.gmail.com with ESMTPSA id z19-20020a62d113000000b0068ffd56f705sm557766pfg.118.2023.12.02.17.17.31
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sat, 02 Dec 2023 17:17:31 -0800 (PST)
+From: Kelly Kane <kelly@hawknetworks.com>
+To: davem@davemloft.net,
+	edumazet@google.com,
+	kuba@kernel.org,
+	pabeni@redhat.com
+Cc: linux-usb@vger.kernel.org,
+	netdev@vger.kernel.org,
+	linux-kernel@vger.kernel.org
+Subject: [PATCH] r8152: add vendor/device ID pair for ASUS USB-C2500
+Date: Sat,  2 Dec 2023 17:17:12 -0800
+Message-Id: <20231203011712.6314-1-kelly@hawknetworks.com>
 X-Mailer: git-send-email 2.34.1
-In-Reply-To: <20231202232217.89652-1-wahrenst@gmx.net>
-References: <20231202232217.89652-1-wahrenst@gmx.net>
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
-X-Provags-ID: V03:K1:mVHHG7lLDU2toWoVhlnfCV8tio7telUp1Yc0xssnqcRC7o2XUht
- 4btrZuVRxJAfzs9mhoidiP5ynBJ8sd8a5iItdXcZFRKvlFEM9Ul7yxyKppHPhlD8HUJuFEa
- mYCBRYEuWcRr+iZNL+Hq7E/JYnhUYUK4DsO6x+TdRnezLgmMghnAf6QafurLCzdV+p367rl
- gt9eAEBCiuoOpk5tAPEkw==
-UI-OutboundReport: notjunk:1;M01:P0:ycFP+XFM+cM=;R2TbG7g6ZnUeVAfMTN2+GFWFBKS
- NQgEWBl5M5DT0KwYwBPYV7hPHJg+nwXf3Kr+Aip70vGVFdamItzFb+PuTvKiW8ojl6bPKhvlE
- w+XrTa22/kokJWr0fkqlvioGYdrWlnA6p9u1uQ/taZ3gettDayXTELUMa07WQPI8kK0gDtL5U
- V4/9ezeYA9DQxIPclEM05qwGDosLKLpTZQuVezCD/BNmElKpC5dPfMBip8zDOS4eIwU50Jdtq
- WPmBSs8TkL7ay3apB0D09wK9HiM5Pzz7/t1XXa+0L1pS9K4f69Pz69v02R4IRDN9/Iirl+hZb
- UIBq7gIk86xNQeWj1zf51zOlaZ7KwPiVEdptv2r8F8Me8/PCKQhunv4RHpBk0m2EVo1RKnkzg
- AOA5T//6yywxnzx2nWw27Au76C+MAn5L6sjkqWUITUljKCexE2P8Pk5EaGeoynlMTlbzp7l1o
- OEJB8VgAbc7prEbg9G0gFAa15N1yckhpjlNiVMJbYvveYB9LmSrpkOXRTFKlYE8nkX10TjJsb
- uXzWzzEuonTvusNbN+ghxCaty+FjNDww5t/K5aQ7XkLw3lc/pjYTeS93iMI76UX+83lZ1UK3i
- Tx6orNklRygieFhoMnyOu38nf7WaemMu1lvnJqokOMaE44NK5mZKKN63CA0rqZtHvbPvJRvhm
- V2cM6Hv4LaLkZFXCSzgW7FNSiVTV10U/g5prfBK7BtlJ/AziPe6YSXggpgBhe9Ctjhbz/N9j9
- DBAKcM7ZY8qYomND2G1PaNGOe+zxo60uXvbmvMNg+IdKKsLD2bKVLsKvuX2r5TipbNcBxDRUn
- h0eJMteGSk8GyzWzmjDCoYKg/ONeuRHKXgq9TGgkU69Ur0MfQcWUrjdw5tPaiwM5Cp2ln9cFH
- 0IxqoQBxtsL0TddLyRYW/VKYD5qtw42jv4umkICONjuJvHdU6CwMxVs1S3tfY7g92Tlll5xLx
- KG8zBUW8DGF7WzzLofM4xqP5HJY=
+Content-Transfer-Encoding: 8bit
 
-The xHCI IP on the BCM2711 SoC is compatible to "brcm,xhci-brcm-v2",
-but also requires a power domain. So introduce a new compatible
-and the specific constraints. Since the key allOf can only occur
-once, merge the reference below.
+The ASUS USB-C2500 is an RTL8156 based 2.5G Ethernet controller.
 
-Signed-off-by: Stefan Wahren <wahrenst@gmx.net>
-=2D--
- .../devicetree/bindings/usb/generic-xhci.yaml | 21 ++++++++++++++++---
- 1 file changed, 18 insertions(+), 3 deletions(-)
+Add the vendor and product ID values to the driver. This makes Ethernet
+work with the adapter.
 
-diff --git a/Documentation/devicetree/bindings/usb/generic-xhci.yaml b/Doc=
-umentation/devicetree/bindings/usb/generic-xhci.yaml
-index 594ebb3ee432..b6e10b0a3c24 100644
-=2D-- a/Documentation/devicetree/bindings/usb/generic-xhci.yaml
-+++ b/Documentation/devicetree/bindings/usb/generic-xhci.yaml
-@@ -9,9 +9,6 @@ title: USB xHCI Controller
- maintainers:
-   - Mathias Nyman <mathias.nyman@intel.com>
+Signed-off-by: Kelly Kane <kelly@hawknetworks.com>
+---
+ drivers/net/usb/r8152.c   | 1 +
+ include/linux/usb/r8152.h | 1 +
+ 2 files changed, 2 insertions(+)
 
--allOf:
--  - $ref: usb-xhci.yaml#
--
- properties:
-   compatible:
-     oneOf:
-@@ -28,6 +25,7 @@ properties:
-       - description: Broadcom STB SoCs with xHCI
-         enum:
-           - brcm,xhci-brcm-v2
-+          - brcm,bcm2711-xhci
-           - brcm,bcm7445-xhci
-       - description: Generic xHCI device
-         const: xhci-platform
-@@ -49,6 +47,9 @@ properties:
-       - const: core
-       - const: reg
+diff --git a/drivers/net/usb/r8152.c b/drivers/net/usb/r8152.c
+index afb20c0ed688..04aaae8a74c3 100644
+--- a/drivers/net/usb/r8152.c
++++ b/drivers/net/usb/r8152.c
+@@ -9993,6 +9993,7 @@ static const struct usb_device_id rtl8152_table[] = {
+ 	{ USB_DEVICE(VENDOR_ID_NVIDIA,  0x09ff) },
+ 	{ USB_DEVICE(VENDOR_ID_TPLINK,  0x0601) },
+ 	{ USB_DEVICE(VENDOR_ID_DLINK,   0xb301) },
++	{ USB_DEVICE(VENDOR_ID_ASUS,    0x1976) },
+ 	{}
+ };
+ 
+diff --git a/include/linux/usb/r8152.h b/include/linux/usb/r8152.h
+index 287e9d83fb8b..33a4c146dc19 100644
+--- a/include/linux/usb/r8152.h
++++ b/include/linux/usb/r8152.h
+@@ -30,6 +30,7 @@
+ #define VENDOR_ID_NVIDIA		0x0955
+ #define VENDOR_ID_TPLINK		0x2357
+ #define VENDOR_ID_DLINK			0x2001
++#define VENDOR_ID_ASUS			0x0b05
+ 
+ #if IS_REACHABLE(CONFIG_USB_RTL8152)
+ extern u8 rtl8152_get_version(struct usb_interface *intf);
 
-+  power-domains:
-+    maxItems: 1
-+
- unevaluatedProperties: false
-
- required:
-@@ -56,6 +57,20 @@ required:
-   - reg
-   - interrupts
-
-+allOf:
-+  - $ref: usb-xhci.yaml#
-+  - if:
-+      properties:
-+        compatible:
-+          contains:
-+            const: brcm,bcm2711-xhci
-+    then:
-+      required:
-+        - power-domains
-+    else:
-+      properties:
-+        power-domains: false
-+
- examples:
-   - |
-     usb@f0931000 {
-=2D-
+base-commit: ffc253263a1375a65fa6c9f62a893e9767fbebfa
+-- 
 2.34.1
 
