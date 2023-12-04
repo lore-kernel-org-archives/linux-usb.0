@@ -1,40 +1,40 @@
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="PpoUNasu"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="JrNPHN/e"
 Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.7])
-	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 82116B9
-	for <linux-usb@vger.kernel.org>; Mon,  4 Dec 2023 02:44:50 -0800 (PST)
+	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 95AEDB9
+	for <linux-usb@vger.kernel.org>; Mon,  4 Dec 2023 02:44:53 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1701686691; x=1733222691;
+  t=1701686694; x=1733222694;
   h=from:to:cc:subject:date:message-id:in-reply-to:
    references:mime-version:content-transfer-encoding;
-  bh=gafGrxk/um2/83hkmZW9t1GIqfBSudbPSKJUh3zbOBo=;
-  b=PpoUNasuLtsvnqFDwnu4CNrmy0udozgXgNTfgksN48Ce3IFyDiurq9FA
-   Gm7siFkdmG+M8oioPLkk8xqn3YCDCwRtkVCCHjCMAxt0blmxSHREAURvy
-   PZzktX4GPY3++RNshbSocx37uLqFCbLQpdPGDPM95yqLtWfgJI0fVEBb3
-   9QDpiUaW10hibILIH0sR10Sa+gxNtpoqZzlatMEQOSM5k+lt7ciqOYI/B
-   oM7iUhy/TuDyJpfdTyQgbYNQPMGtfpuN6bIkXzvGYnWF03b1D9klnAEy1
-   f6tNEuY5TQR/qI9PG9Vfw3ODKjZ+x6ylFguHs7M/qjbnMQsYTc8VHHHdX
-   g==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10913"; a="15260684"
+  bh=w0DnSPmZj85cgbMbS+eDufLxzKMrnYRs0INaeLDar+8=;
+  b=JrNPHN/ebOGheBlRx46VxmE45b91GnECWk56rGp1BOd9Kk3Lhkl1idtS
+   hvqekUePij93pXMy1Jh6LQ1D68R5KQO2CFcj6JpOPqBJaLmsjiMv+3hay
+   CKax2SwlZX2ZWOt2Ya3lxfFWIBid4BJkY4vkQ5dzKPico9GzoZgTHR5KY
+   vCdyKixowaMSu7sm+9VSEuotOS75QeBQj4x2Rs8k5vLSYGXZbjl/xqJok
+   vfO+JICx2UxmNenEi5jaaxkerIhES5ptvK7JbBKLXVyO4qkJYOfkeDXSi
+   8Lj2pzUeoK8k0WpSEglqMQHsaLifleUy6eejtxdiIlKsAJZFoAV8xUpjf
+   A==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10913"; a="15260690"
 X-IronPort-AV: E=Sophos;i="6.04,249,1695711600"; 
-   d="scan'208";a="15260684"
+   d="scan'208";a="15260690"
 Received: from fmsmga003.fm.intel.com ([10.253.24.29])
-  by fmvoesa101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 04 Dec 2023 02:44:50 -0800
+  by fmvoesa101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 04 Dec 2023 02:44:54 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10913"; a="861339002"
+X-IronPort-AV: E=McAfee;i="6600,9927,10913"; a="861339019"
 X-IronPort-AV: E=Sophos;i="6.04,249,1695711600"; 
-   d="scan'208";a="861339002"
+   d="scan'208";a="861339019"
 Received: from mattu-haswell.fi.intel.com ([10.237.72.199])
-  by FMSMGA003.fm.intel.com with ESMTP; 04 Dec 2023 02:44:48 -0800
+  by FMSMGA003.fm.intel.com with ESMTP; 04 Dec 2023 02:44:51 -0800
 From: Mathias Nyman <mathias.nyman@linux.intel.com>
 To: <gregkh@linuxfoundation.org>
 Cc: <linux-usb@vger.kernel.org>,
-	Niklas Neronin <niklas.neronin@linux.intel.com>,
-	Mathias Nyman <mathias.nyman@linux.intel.com>
-Subject: [PATCH v2 16/18] xhci: minor coding style cleanup in 'xhci_try_enable_msi()'
-Date: Mon,  4 Dec 2023 12:45:32 +0200
-Message-Id: <20231204104534.1335903-17-mathias.nyman@linux.intel.com>
+	Mathias Nyman <mathias.nyman@linux.intel.com>,
+	Kuen-Han Tsai <khtsai@google.com>
+Subject: [PATCH v2 18/18] xhci: fix possible null pointer deref during xhci urb enqueue
+Date: Mon,  4 Dec 2023 12:45:34 +0200
+Message-Id: <20231204104534.1335903-19-mathias.nyman@linux.intel.com>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20231204104534.1335903-1-mathias.nyman@linux.intel.com>
 References: <20231204104534.1335903-1-mathias.nyman@linux.intel.com>
@@ -46,37 +46,89 @@ List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-From: Niklas Neronin <niklas.neronin@linux.intel.com>
+There is a short gap between urb being submitted and actually added to the
+endpoint queue (linked). If the device is disconnected during this time
+then usb core is not yet aware of the pending urb, and device may be freed
+just before xhci_urq_enqueue() continues, dereferencing the freed device.
 
-Remove extra spaces/indentation and add spaces where required.
-This commit does not change any functionality.
+Freeing the device is protected by the xhci spinlock, so make sure we take
+and keep the lock while checking that device exists, dereference it, and
+add the urb to the queue.
 
-Signed-off-by: Niklas Neronin <niklas.neronin@linux.intel.com>
+Remove the unnecessary URB check, usb core checks it before calling
+xhci_urb_enqueue()
+
+Suggested-by: Kuen-Han Tsai <khtsai@google.com>
 Signed-off-by: Mathias Nyman <mathias.nyman@linux.intel.com>
 ---
- drivers/usb/host/xhci-pci.c | 8 +++-----
- 1 file changed, 3 insertions(+), 5 deletions(-)
+ drivers/usb/host/xhci.c | 40 +++++++++++++++++++++++-----------------
+ 1 file changed, 23 insertions(+), 17 deletions(-)
 
-diff --git a/drivers/usb/host/xhci-pci.c b/drivers/usb/host/xhci-pci.c
-index 398f81b0500b..dfeca3cbac8b 100644
---- a/drivers/usb/host/xhci-pci.c
-+++ b/drivers/usb/host/xhci-pci.c
-@@ -178,12 +178,10 @@ static int xhci_try_enable_msi(struct usb_hcd *hcd)
- 		snprintf(hcd->irq_descr, sizeof(hcd->irq_descr), "%s:usb%d",
- 			 hcd->driver->description, hcd->self.busnum);
+diff --git a/drivers/usb/host/xhci.c b/drivers/usb/host/xhci.c
+index df31d44498d6..4929c4396e9e 100644
+--- a/drivers/usb/host/xhci.c
++++ b/drivers/usb/host/xhci.c
+@@ -1521,24 +1521,7 @@ static int xhci_urb_enqueue(struct usb_hcd *hcd, struct urb *urb, gfp_t mem_flag
+ 	struct urb_priv	*urb_priv;
+ 	int num_tds;
  
--	/* fall back to legacy interrupt*/
--	ret = request_irq(pdev->irq, &usb_hcd_irq, IRQF_SHARED,
--			hcd->irq_descr, hcd);
-+	/* fall back to legacy interrupt */
-+	ret = request_irq(pdev->irq, &usb_hcd_irq, IRQF_SHARED, hcd->irq_descr, hcd);
- 	if (ret) {
--		xhci_err(xhci, "request interrupt %d failed\n",
--				pdev->irq);
-+		xhci_err(xhci, "request interrupt %d failed\n", pdev->irq);
- 		return ret;
+-	if (!urb)
+-		return -EINVAL;
+-	ret = xhci_check_args(hcd, urb->dev, urb->ep,
+-					true, true, __func__);
+-	if (ret <= 0)
+-		return ret ? ret : -EINVAL;
+-
+-	slot_id = urb->dev->slot_id;
+ 	ep_index = xhci_get_endpoint_index(&urb->ep->desc);
+-	ep_state = &xhci->devs[slot_id]->eps[ep_index].ep_state;
+-
+-	if (!HCD_HW_ACCESSIBLE(hcd))
+-		return -ESHUTDOWN;
+-
+-	if (xhci->devs[slot_id]->flags & VDEV_PORT_ERROR) {
+-		xhci_dbg(xhci, "Can't queue urb, port error, link inactive\n");
+-		return -ENODEV;
+-	}
+ 
+ 	if (usb_endpoint_xfer_isoc(&urb->ep->desc))
+ 		num_tds = urb->number_of_packets;
+@@ -1562,12 +1545,35 @@ static int xhci_urb_enqueue(struct usb_hcd *hcd, struct urb *urb, gfp_t mem_flag
+ 
+ 	spin_lock_irqsave(&xhci->lock, flags);
+ 
++	ret = xhci_check_args(hcd, urb->dev, urb->ep,
++			      true, true, __func__);
++	if (ret <= 0) {
++		ret = ret ? ret : -EINVAL;
++		goto free_priv;
++	}
++
++	slot_id = urb->dev->slot_id;
++
++	if (!HCD_HW_ACCESSIBLE(hcd)) {
++		ret = -ESHUTDOWN;
++		goto free_priv;
++	}
++
++	if (xhci->devs[slot_id]->flags & VDEV_PORT_ERROR) {
++		xhci_dbg(xhci, "Can't queue urb, port error, link inactive\n");
++		ret = -ENODEV;
++		goto free_priv;
++	}
++
+ 	if (xhci->xhc_state & XHCI_STATE_DYING) {
+ 		xhci_dbg(xhci, "Ep 0x%x: URB %p submitted for non-responsive xHCI host.\n",
+ 			 urb->ep->desc.bEndpointAddress, urb);
+ 		ret = -ESHUTDOWN;
+ 		goto free_priv;
  	}
- 	hcd->irq = pdev->irq;
++
++	ep_state = &xhci->devs[slot_id]->eps[ep_index].ep_state;
++
+ 	if (*ep_state & (EP_GETTING_STREAMS | EP_GETTING_NO_STREAMS)) {
+ 		xhci_warn(xhci, "WARN: Can't enqueue URB, ep in streams transition state %x\n",
+ 			  *ep_state);
 -- 
 2.25.1
 
