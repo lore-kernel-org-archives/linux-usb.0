@@ -1,230 +1,55 @@
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="m4NpO4qU"
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.7])
-	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id DE2C0E6
-	for <linux-usb@vger.kernel.org>; Mon,  4 Dec 2023 02:44:51 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1701686692; x=1733222692;
-  h=from:to:cc:subject:date:message-id:in-reply-to:
-   references:mime-version:content-transfer-encoding;
-  bh=IIGcJkqvYQtSASA7zEEPyLzUI0uC7sL38Hk30WACJcs=;
-  b=m4NpO4qUAJAxmNNsR7yYPdlrJ6wXRg8gjRVtjjpNo0XrO2Gk3Hp2/w9J
-   pf5n9JPM5t/actBRjByMmjpLODmC+eWIWXI3cGqyU6AtsGe1jlufejaPC
-   pcsFCTcP8xcCYQFQLzke0jAObPddqS0G0HjXiFuKIvMQE186fJsuLT6Jb
-   XcJLTuoMsZvDv3yhP8DIHQIKd+sLr+aoVRGGwyrziF8wuCVgGlFKGa1eT
-   Xzcffl/cpOMaFPBRDQ/E1Ib9qJZx4CbVa6+BgFF2BkOuM2g+yefLaPlWI
-   E+FBHLnp15QwALESZQ9UsnaMGn12Ti78QN0t43JJyr4MY6NtDqTxWhnKj
-   Q==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10913"; a="15260686"
-X-IronPort-AV: E=Sophos;i="6.04,249,1695711600"; 
-   d="scan'208";a="15260686"
-Received: from fmsmga003.fm.intel.com ([10.253.24.29])
-  by fmvoesa101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 04 Dec 2023 02:44:52 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10913"; a="861339008"
-X-IronPort-AV: E=Sophos;i="6.04,249,1695711600"; 
-   d="scan'208";a="861339008"
-Received: from mattu-haswell.fi.intel.com ([10.237.72.199])
-  by FMSMGA003.fm.intel.com with ESMTP; 04 Dec 2023 02:44:50 -0800
-From: Mathias Nyman <mathias.nyman@linux.intel.com>
-To: <gregkh@linuxfoundation.org>
-Cc: <linux-usb@vger.kernel.org>,
-	Mathias Nyman <mathias.nyman@linux.intel.com>
-Subject: [PATCH v2 17/18] xhci: Reconfigure endpoint 0 max packet size only during endpoint reset
-Date: Mon,  4 Dec 2023 12:45:33 +0200
-Message-Id: <20231204104534.1335903-18-mathias.nyman@linux.intel.com>
-X-Mailer: git-send-email 2.25.1
-In-Reply-To: <20231204104534.1335903-1-mathias.nyman@linux.intel.com>
-References: <20231204104534.1335903-1-mathias.nyman@linux.intel.com>
+Received: from eu-smtp-delivery-151.mimecast.com (eu-smtp-delivery-151.mimecast.com [185.58.85.151])
+	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 92CC2FD
+	for <linux-usb@vger.kernel.org>; Mon,  4 Dec 2023 02:45:40 -0800 (PST)
+Received: from AcuMS.aculab.com (156.67.243.121 [156.67.243.121]) by
+ relay.mimecast.com with ESMTP with both STARTTLS and AUTH (version=TLSv1.2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_CBC_SHA384) id
+ uk-mta-50-2tcDrf3BMCapFM9xEUomfg-1; Mon, 04 Dec 2023 10:45:37 +0000
+X-MC-Unique: 2tcDrf3BMCapFM9xEUomfg-1
+Received: from AcuMS.Aculab.com (10.202.163.4) by AcuMS.aculab.com
+ (10.202.163.4) with Microsoft SMTP Server (TLS) id 15.0.1497.48; Mon, 4 Dec
+ 2023 10:45:19 +0000
+Received: from AcuMS.Aculab.com ([::1]) by AcuMS.aculab.com ([::1]) with mapi
+ id 15.00.1497.048; Mon, 4 Dec 2023 10:45:19 +0000
+From: David Laight <David.Laight@ACULAB.COM>
+To: 'Mathias Nyman' <mathias.nyman@linux.intel.com>, 'Andy Shevchenko'
+	<andriy.shevchenko@linux.intel.com>
+CC: "gregkh@linuxfoundation.org" <gregkh@linuxfoundation.org>,
+	"linux-usb@vger.kernel.org" <linux-usb@vger.kernel.org>
+Subject: RE: [PATCH 08/19] xhci: dbc: Use sizeof_field() where it makes sense
+Thread-Topic: [PATCH 08/19] xhci: dbc: Use sizeof_field() where it makes sense
+Thread-Index: AQHaJGfznirkAH2q70aZpnygD+weDLCUrt6wgAAbzgCAAVrSUIACyaWAgAAFy6A=
+Date: Mon, 4 Dec 2023 10:45:19 +0000
+Message-ID: <622189793620442fbc727ab0f8b35d41@AcuMS.aculab.com>
+References: <20231201150647.1307406-1-mathias.nyman@linux.intel.com>
+ <20231201150647.1307406-9-mathias.nyman@linux.intel.com>
+ <e98fd89faf4446e594ca3b7c3cc627fc@AcuMS.aculab.com>
+ <ZWovIn0V95c-T74n@smile.fi.intel.com>
+ <aa4848b742854ab7921386ca69613866@AcuMS.aculab.com>
+ <e0d6698d-329a-64cb-a8e2-200dd03f3cd2@linux.intel.com>
+In-Reply-To: <e0d6698d-329a-64cb-a8e2-200dd03f3cd2@linux.intel.com>
+Accept-Language: en-GB, en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+x-ms-exchange-transport-fromentityheader: Hosted
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: aculab.com
+Content-Language: en-US
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: base64
 
-The max packet size for full speed control endpoint 0 may vary. It is
-defined in the device descriptor, which is read using the same endpoint.
-Usb core sets a temporary max packet size value until the real value is
-read.
-
-xhci driver needs to reconfigure the endpoint context seen by the
-controller if the max packet size changes.
-It makes more sense to do this reconfiguration in xhci_endpoint_reset()
-instead of urb enqueue as usb core will call endpoint reset during
-enumeration if the max packet values differ.
-Max packet size adjustment for endpoint 0 can only happen once per
-device enumeration.
-
-Previously the max packet size was checked during every urb enqueue.
-This is an additional check for every enqueued urb, and also turned out
-to have locking issues as urbs may be queued in any context while xhci
-max packet size reconfiguration requires memory allocation, locking, and
-sleeping.
-
-Tested with a full speed device using both old and new scheme enumeration
-and an intentionally incorrect preliminary max packet size value.
-
-Signed-off-by: Mathias Nyman <mathias.nyman@linux.intel.com>
----
- drivers/usb/host/xhci.c | 85 ++++++++++++++++++++---------------------
- 1 file changed, 42 insertions(+), 43 deletions(-)
-
-diff --git a/drivers/usb/host/xhci.c b/drivers/usb/host/xhci.c
-index 884b0898d9c9..df31d44498d6 100644
---- a/drivers/usb/host/xhci.c
-+++ b/drivers/usb/host/xhci.c
-@@ -1438,10 +1438,8 @@ static int xhci_configure_endpoint(struct xhci_hcd *xhci,
-  * descriptor.  If the usb_device's max packet size changes after that point,
-  * we need to issue an evaluate context command and wait on it.
-  */
--static int xhci_check_maxpacket(struct xhci_hcd *xhci, unsigned int slot_id,
--		unsigned int ep_index, struct urb *urb, gfp_t mem_flags)
-+static int xhci_check_ep0_maxpacket(struct xhci_hcd *xhci, struct xhci_virt_device *vdev)
- {
--	struct xhci_container_ctx *out_ctx;
- 	struct xhci_input_control_ctx *ctrl_ctx;
- 	struct xhci_ep_ctx *ep_ctx;
- 	struct xhci_command *command;
-@@ -1449,11 +1447,15 @@ static int xhci_check_maxpacket(struct xhci_hcd *xhci, unsigned int slot_id,
- 	int hw_max_packet_size;
- 	int ret = 0;
- 
--	out_ctx = xhci->devs[slot_id]->out_ctx;
--	ep_ctx = xhci_get_ep_ctx(xhci, out_ctx, ep_index);
-+	ep_ctx = xhci_get_ep_ctx(xhci, vdev->out_ctx, 0);
- 	hw_max_packet_size = MAX_PACKET_DECODED(le32_to_cpu(ep_ctx->ep_info2));
--	max_packet_size = usb_endpoint_maxp(&urb->dev->ep0.desc);
--	if (hw_max_packet_size != max_packet_size) {
-+	max_packet_size = usb_endpoint_maxp(&vdev->udev->ep0.desc);
-+
-+	if (hw_max_packet_size == max_packet_size)
-+		return 0;
-+
-+	switch (max_packet_size) {
-+	case 8: case 16: case 32: case 64: case 9:
- 		xhci_dbg_trace(xhci,  trace_xhci_dbg_context_change,
- 				"Max Packet Size for ep 0 changed.");
- 		xhci_dbg_trace(xhci,  trace_xhci_dbg_context_change,
-@@ -1465,28 +1467,22 @@ static int xhci_check_maxpacket(struct xhci_hcd *xhci, unsigned int slot_id,
- 		xhci_dbg_trace(xhci,  trace_xhci_dbg_context_change,
- 				"Issuing evaluate context command.");
- 
--		/* Set up the input context flags for the command */
--		/* FIXME: This won't work if a non-default control endpoint
--		 * changes max packet sizes.
--		 */
--
--		command = xhci_alloc_command(xhci, true, mem_flags);
-+		command = xhci_alloc_command(xhci, true, GFP_KERNEL);
- 		if (!command)
- 			return -ENOMEM;
- 
--		command->in_ctx = xhci->devs[slot_id]->in_ctx;
-+		command->in_ctx = vdev->in_ctx;
- 		ctrl_ctx = xhci_get_input_control_ctx(command->in_ctx);
- 		if (!ctrl_ctx) {
- 			xhci_warn(xhci, "%s: Could not get input context, bad type.\n",
- 					__func__);
- 			ret = -ENOMEM;
--			goto command_cleanup;
-+			break;
- 		}
- 		/* Set up the modified control endpoint 0 */
--		xhci_endpoint_copy(xhci, xhci->devs[slot_id]->in_ctx,
--				xhci->devs[slot_id]->out_ctx, ep_index);
-+		xhci_endpoint_copy(xhci, vdev->in_ctx, vdev->out_ctx, 0);
- 
--		ep_ctx = xhci_get_ep_ctx(xhci, command->in_ctx, ep_index);
-+		ep_ctx = xhci_get_ep_ctx(xhci, command->in_ctx, 0);
- 		ep_ctx->ep_info &= cpu_to_le32(~EP_STATE_MASK);/* must clear */
- 		ep_ctx->ep_info2 &= cpu_to_le32(~MAX_PACKET_MASK);
- 		ep_ctx->ep_info2 |= cpu_to_le32(MAX_PACKET(max_packet_size));
-@@ -1494,17 +1490,20 @@ static int xhci_check_maxpacket(struct xhci_hcd *xhci, unsigned int slot_id,
- 		ctrl_ctx->add_flags = cpu_to_le32(EP0_FLAG);
- 		ctrl_ctx->drop_flags = 0;
- 
--		ret = xhci_configure_endpoint(xhci, urb->dev, command,
--				true, false);
--
--		/* Clean up the input context for later use by bandwidth
--		 * functions.
--		 */
-+		ret = xhci_configure_endpoint(xhci, vdev->udev, command,
-+					      true, false);
-+		/* Clean up the input context for later use by bandwidth functions */
- 		ctrl_ctx->add_flags = cpu_to_le32(SLOT_FLAG);
--command_cleanup:
--		kfree(command->completion);
--		kfree(command);
-+		break;
-+	default:
-+		dev_dbg(&vdev->udev->dev, "incorrect max packet size %d for ep0\n",
-+			max_packet_size);
-+		return -EINVAL;
- 	}
-+
-+	kfree(command->completion);
-+	kfree(command);
-+
- 	return ret;
- }
- 
-@@ -1561,21 +1560,6 @@ static int xhci_urb_enqueue(struct usb_hcd *hcd, struct urb *urb, gfp_t mem_flag
- 
- 	trace_xhci_urb_enqueue(urb);
- 
--	if (usb_endpoint_xfer_control(&urb->ep->desc)) {
--		/* Check to see if the max packet size for the default control
--		 * endpoint changed during FS device enumeration
--		 */
--		if (urb->dev->speed == USB_SPEED_FULL) {
--			ret = xhci_check_maxpacket(xhci, slot_id,
--					ep_index, urb, mem_flags);
--			if (ret < 0) {
--				xhci_urb_free_priv(urb_priv);
--				urb->hcpriv = NULL;
--				return ret;
--			}
--		}
--	}
--
- 	spin_lock_irqsave(&xhci->lock, flags);
- 
- 	if (xhci->xhc_state & XHCI_STATE_DYING) {
-@@ -3104,6 +3088,21 @@ static void xhci_endpoint_reset(struct usb_hcd *hcd,
- 	int err;
- 
- 	xhci = hcd_to_xhci(hcd);
-+	ep_index = xhci_get_endpoint_index(&host_ep->desc);
-+
-+	/*
-+	 * Usb core assumes a max packet value for ep0 on FS devices until the
-+	 * real value is read from the descriptor. Core resets Ep0 if values
-+	 * mismatch. Reconfigure the xhci ep0 endpoint context here in that case
-+	 */
-+	if (usb_endpoint_xfer_control(&host_ep->desc) && ep_index == 0) {
-+		udev = container_of(host_ep, struct usb_device, ep0);
-+		if (udev->speed == USB_SPEED_FULL)
-+			xhci_check_ep0_maxpacket(xhci, xhci->devs[udev->slot_id]);
-+		/* Nothing else should be done here for ep0 during ep reset */
-+		return;
-+	}
-+
- 	if (!host_ep->hcpriv)
- 		return;
- 	udev = (struct usb_device *) host_ep->hcpriv;
-@@ -3116,7 +3115,7 @@ static void xhci_endpoint_reset(struct usb_hcd *hcd,
- 	 */
- 	if (!udev->slot_id || !vdev)
- 		return;
--	ep_index = xhci_get_endpoint_index(&host_ep->desc);
-+
- 	ep = &vdev->eps[ep_index];
- 
- 	/* Bail out if toggle is already being cleared by a endpoint reset */
--- 
-2.25.1
+PiBJJ2xsIGRyb3AgdGhpcyA4LzE5IHBhdGNoIGFzIGl0J3MganVzdCBhIG9uZSBsaW5lciBjbGVh
+bnVwIHRoYXQgZG9lcyBubw0KPiBoYXJtLCBidXQgYXBwYXJlbnRseSBkb2Vzbid0IHJlYWxseSBo
+ZWxwIGVpdGhlci4NCj4gDQo+IERhdmlkLCBJJ2xsIGJlIGhhcHB5IHRvIHRha2UgYSBwYXRjaCBm
+b3IgdGhpcyBmcm9tIHlvdSwgYnV0IHN0aWxsIG5lZWQgdG8NCj4gcnVuIGl0IHRocm91Z2ggc29t
+ZSB0ZXN0aW5nDQoNCkknZCBqdXN0IHJ1biBvYmpkdW1wIHRvIGNoZWNrIHRoZSBjb25zdGFudCBp
+cyB0aGUgc2FtZS4NCg0KCURhdmlkDQoNCi0NClJlZ2lzdGVyZWQgQWRkcmVzcyBMYWtlc2lkZSwg
+QnJhbWxleSBSb2FkLCBNb3VudCBGYXJtLCBNaWx0b24gS2V5bmVzLCBNSzEgMVBULCBVSw0KUmVn
+aXN0cmF0aW9uIE5vOiAxMzk3Mzg2IChXYWxlcykNCg==
 
