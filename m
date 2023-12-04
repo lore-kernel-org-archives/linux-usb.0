@@ -1,34 +1,34 @@
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="ZdIoO6he"
-Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.88])
-	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C859EAC
-	for <linux-usb@vger.kernel.org>; Mon,  4 Dec 2023 02:38:32 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="eiw5PYcT"
+Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.20])
+	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 9EDA7BB
+	for <linux-usb@vger.kernel.org>; Mon,  4 Dec 2023 02:38:33 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1701686312; x=1733222312;
+  t=1701686313; x=1733222313;
   h=from:to:cc:subject:date:message-id:in-reply-to:
    references:mime-version:content-transfer-encoding;
-  bh=g8JBvicfwDiK3ZwFe+4ka66Y2GSK0p5hbTrOQEoEDdo=;
-  b=ZdIoO6heZPoyVfNBD1guUQYgayflYrUjj6eu/kYvKDz3Bvv/FphiZawW
-   Yw6GR3LH+X2AXRhCnKJUAqIKY1AuxY5Ey0WAXdK0TvlFFS4yrlWNGvQrj
-   83V2N5+BaBVrFhDTQDp2N0Skem/nMFgbztGfynYO8xnj/pluuEkRhgIvp
-   Qid8kS7CzuHo/JzvPnSC+U/j/hTXg8DoSwmhN5Xk4cZYC/H8jjucdZEPZ
-   QoXq5+yK+ZTWwLM75AlGxfi0gdL2TAhoRs6hQjLXEiSkEp75hO4wTLFWl
-   8J3Pj8uyMo0K1OfGVGbKyCzsu4Gd8T6VDzpdGXUC2EFNSF7gv4P4OgZ09
-   Q==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10913"; a="424880764"
+  bh=RU3N8iuAomagZOqiT2yTYYpVSTyy9g+XgfW+GOXPsrc=;
+  b=eiw5PYcTdL3RbvikS0BQiaJ4T+5pmJzKMM7fap6meRO6MGMjkVpH1z9+
+   YyRbMPRj43jk439M3EmyRt5251yRwsOMmreCndt6SHglSrLRqKjs29Dhg
+   IydYX/R2uDrSFw18Eq2uQnsyBbb9NL7j5EAtgQ7CYFpWqNvqa/orC2St+
+   xNFgcoRzTMzLKXARqfh1o2+xIbJYUMec+EXES+QEHzsKg/PjC3mnrJivZ
+   ylcP/VdbrAn+JN4yBVSmGiLSi9r1QJjQXYtrBctgvzJLiANmJB1n+8nR2
+   VU41TzBAuNcRejhLHX+XSilZPrP7rvYROogP3TLuxlEuArjj0lRf6t6JH
+   A==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10913"; a="384116737"
 X-IronPort-AV: E=Sophos;i="6.04,249,1695711600"; 
-   d="scan'208";a="424880764"
-Received: from orsmga007.jf.intel.com ([10.7.209.58])
-  by fmsmga101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 04 Dec 2023 02:38:32 -0800
+   d="scan'208";a="384116737"
+Received: from orsmga001.jf.intel.com ([10.7.209.18])
+  by orsmga101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 04 Dec 2023 02:38:32 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10913"; a="763904016"
+X-IronPort-AV: E=McAfee;i="6600,9927,10913"; a="804861257"
 X-IronPort-AV: E=Sophos;i="6.04,249,1695711600"; 
-   d="scan'208";a="763904016"
+   d="scan'208";a="804861257"
 Received: from black.fi.intel.com ([10.237.72.28])
-  by orsmga007.jf.intel.com with ESMTP; 04 Dec 2023 02:38:29 -0800
+  by orsmga001.jf.intel.com with ESMTP; 04 Dec 2023 02:38:29 -0800
 Received: by black.fi.intel.com (Postfix, from userid 1001)
-	id 5617C268; Mon,  4 Dec 2023 12:38:28 +0200 (EET)
+	id 6D3C4881; Mon,  4 Dec 2023 12:38:28 +0200 (EET)
 From: Mika Westerberg <mika.westerberg@linux.intel.com>
 To: Yehezkel Bernat <YehezkelShB@gmail.com>,
 	Michael Jamet <michael.jamet@intel.com>,
@@ -39,9 +39,9 @@ Cc: linux-usb@vger.kernel.org,
 	Pengfei Xu <pengfei.xu@intel.com>,
 	Dan Carpenter <dan.carpenter@linaro.org>,
 	Mika Westerberg <mika.westerberg@linux.intel.com>
-Subject: [PATCH 01/11] thunderbolt: Unwind TMU configuration if tb_switch_set_tmu_mode_params() fails
-Date: Mon,  4 Dec 2023 12:38:18 +0200
-Message-ID: <20231204103828.1635531-2-mika.westerberg@linux.intel.com>
+Subject: [PATCH 03/11] thunderbolt: Move width_name() helper to tb.h
+Date: Mon,  4 Dec 2023 12:38:20 +0200
+Message-ID: <20231204103828.1635531-4-mika.westerberg@linux.intel.com>
 X-Mailer: git-send-email 2.42.0
 In-Reply-To: <20231204103828.1635531-1-mika.westerberg@linux.intel.com>
 References: <20231204103828.1635531-1-mika.westerberg@linux.intel.com>
@@ -53,33 +53,91 @@ List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-Dan reported that the kernel test robot found an issue with the TMU code
-namely in tb_switch_tmu_change_mode() where we should actually go back
-to the previous mode in case of failure instead of just returning back
-the error. Fix this by unwinding the configuration as we do with the
-other error paths in this function.
+From: Gil Fine <gil.fine@linux.intel.com>
 
-Reported-by: kernel test robot <lkp@intel.com>
-Reported-by: Dan Carpenter <dan.carpenter@linaro.org>
-Closes: https://lore.kernel.org/r/202311030814.AXtCk7PO-lkp@intel.com/
+We are going to use it in subsequent patches, so make it available outside of
+switch.c. Also, change the name to tb_width_name() to follow the naming
+conventions.
+
+Signed-off-by: Gil Fine <gil.fine@linux.intel.com>
 Signed-off-by: Mika Westerberg <mika.westerberg@linux.intel.com>
 ---
- drivers/thunderbolt/tmu.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ drivers/thunderbolt/switch.c | 20 ++------------------
+ drivers/thunderbolt/tb.h     | 16 ++++++++++++++++
+ 2 files changed, 18 insertions(+), 18 deletions(-)
 
-diff --git a/drivers/thunderbolt/tmu.c b/drivers/thunderbolt/tmu.c
-index 11f2aec2a5d3..9a259c72e5a7 100644
---- a/drivers/thunderbolt/tmu.c
-+++ b/drivers/thunderbolt/tmu.c
-@@ -894,7 +894,7 @@ static int tb_switch_tmu_change_mode(struct tb_switch *sw)
+diff --git a/drivers/thunderbolt/switch.c b/drivers/thunderbolt/switch.c
+index 44e9b09de47a..dbab551ac7b3 100644
+--- a/drivers/thunderbolt/switch.c
++++ b/drivers/thunderbolt/switch.c
+@@ -941,22 +941,6 @@ int tb_port_get_link_generation(struct tb_port *port)
+ 	}
+ }
  
- 	ret = tb_switch_set_tmu_mode_params(sw, sw->tmu.mode_request);
- 	if (ret)
--		return ret;
-+		goto out;
+-static const char *width_name(enum tb_link_width width)
+-{
+-	switch (width) {
+-	case TB_LINK_WIDTH_SINGLE:
+-		return "symmetric, single lane";
+-	case TB_LINK_WIDTH_DUAL:
+-		return "symmetric, dual lanes";
+-	case TB_LINK_WIDTH_ASYM_TX:
+-		return "asymmetric, 3 transmitters, 1 receiver";
+-	case TB_LINK_WIDTH_ASYM_RX:
+-		return "asymmetric, 3 receivers, 1 transmitter";
+-	default:
+-		return "unknown";
+-	}
+-}
+-
+ /**
+  * tb_port_get_link_width() - Get current link width
+  * @port: Port to check (USB4 or CIO)
+@@ -2769,7 +2753,7 @@ static void tb_switch_link_init(struct tb_switch *sw)
+ 		return;
  
- 	/* Program the new mode and the downstream router lane adapter */
- 	switch (sw->tmu.mode_request) {
+ 	tb_sw_dbg(sw, "current link speed %u.0 Gb/s\n", sw->link_speed);
+-	tb_sw_dbg(sw, "current link width %s\n", width_name(sw->link_width));
++	tb_sw_dbg(sw, "current link width %s\n", tb_width_name(sw->link_width));
+ 
+ 	bonded = sw->link_width >= TB_LINK_WIDTH_DUAL;
+ 
+@@ -3029,7 +3013,7 @@ int tb_switch_set_link_width(struct tb_switch *sw, enum tb_link_width width)
+ 
+ 	tb_switch_update_link_attributes(sw);
+ 
+-	tb_sw_dbg(sw, "link width set to %s\n", width_name(width));
++	tb_sw_dbg(sw, "link width set to %s\n", tb_width_name(width));
+ 	return ret;
+ }
+ 
+diff --git a/drivers/thunderbolt/tb.h b/drivers/thunderbolt/tb.h
+index e299e53473ae..1760c21e5b12 100644
+--- a/drivers/thunderbolt/tb.h
++++ b/drivers/thunderbolt/tb.h
+@@ -568,6 +568,22 @@ static inline struct tb_port *tb_port_at(u64 route, struct tb_switch *sw)
+ 	return &sw->ports[port];
+ }
+ 
++static inline const char *tb_width_name(enum tb_link_width width)
++{
++	switch (width) {
++	case TB_LINK_WIDTH_SINGLE:
++		return "symmetric, single lane";
++	case TB_LINK_WIDTH_DUAL:
++		return "symmetric, dual lanes";
++	case TB_LINK_WIDTH_ASYM_TX:
++		return "asymmetric, 3 transmitters, 1 receiver";
++	case TB_LINK_WIDTH_ASYM_RX:
++		return "asymmetric, 3 receivers, 1 transmitter";
++	default:
++		return "unknown";
++	}
++}
++
+ /**
+  * tb_port_has_remote() - Does the port have switch connected downstream
+  * @port: Port to check
 -- 
 2.42.0
 
