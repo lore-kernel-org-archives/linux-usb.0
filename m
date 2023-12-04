@@ -1,34 +1,34 @@
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="hsUEB7IE"
-Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.20])
-	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 712CEB9
-	for <linux-usb@vger.kernel.org>; Mon,  4 Dec 2023 02:38:33 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="XVQMUATK"
+Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.88])
+	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id BFCD985
+	for <linux-usb@vger.kernel.org>; Mon,  4 Dec 2023 02:38:35 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1701686313; x=1733222313;
+  t=1701686315; x=1733222315;
   h=from:to:cc:subject:date:message-id:in-reply-to:
    references:mime-version:content-transfer-encoding;
-  bh=zCrzdbuRai44mXVZLIKq7yNSksTeXxWhX20c3f6yTSc=;
-  b=hsUEB7IEnMvs60xFXQaGNzJ3/Vu7vFVbM6I5CFQa3Z3x2AqQvjugioCU
-   yQQy2G3AbE+Fbe+EEIG14JyyBJ32g46k0+EZ4AhaT6vP/EIbaf9B8AlK8
-   SNN6rZVB0jsy4D6LmH+GbTfWSsw6LbmXCbgasFE710gMoL9r1mexmwx9n
-   p/HzC0KTauQYtvwmCkzMVzXjDvz/Q/K/S62YOtaRyRfeCK8Ju0zOvW3QO
-   qaeMGR3lfvLR3YFFevF4XLn9529Ajgy8Xnbp8dA139mrmkfi+aRBB5KVz
-   X24lfzspRsUDx74go1ueUYKwg0PdNXBfsaMRUjdiH6xCRVSOaTE5W/peY
-   w==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10913"; a="384116729"
+  bh=We+repeTYELCMPXneaTei3I37pzCdeg2zhJuDb/i/us=;
+  b=XVQMUATKalfN+hfDTwq0eIyW1RYnnYt24i+s7Mpr3L+T+ftAeC6Yjb0n
+   fibpLUw3f9QjzoQoghtdWIs54GZOBUfwKjjCc4wESA+FU44uwHgrk+pk8
+   HxHBZaLmI0jx+1JCrRLc5Yv16o6Xlh4eCjF73+JGzD5j5Ym9xGNNapUgi
+   U8K13FYf5HlxQ7/31BKm2iBSziJk74RiEcXpwUrvZ3FIlqVbsXco7xfhM
+   ByX84p8DPmRNiFxcE0IUNVQk7PQNYPVp+MtLeGPQPszz42CvZKXKchUUV
+   scCTMXpIRGA1QZVoLktXUe3bYPh4rUGsndP6w3jqMaQA2Yfe1lmXQKlLg
+   A==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10913"; a="424880774"
 X-IronPort-AV: E=Sophos;i="6.04,249,1695711600"; 
-   d="scan'208";a="384116729"
-Received: from orsmga001.jf.intel.com ([10.7.209.18])
-  by orsmga101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 04 Dec 2023 02:38:32 -0800
+   d="scan'208";a="424880774"
+Received: from orsmga007.jf.intel.com ([10.7.209.58])
+  by fmsmga101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 04 Dec 2023 02:38:35 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10913"; a="804861252"
+X-IronPort-AV: E=McAfee;i="6600,9927,10913"; a="763904024"
 X-IronPort-AV: E=Sophos;i="6.04,249,1695711600"; 
-   d="scan'208";a="804861252"
+   d="scan'208";a="763904024"
 Received: from black.fi.intel.com ([10.237.72.28])
-  by orsmga001.jf.intel.com with ESMTP; 04 Dec 2023 02:38:29 -0800
+  by orsmga007.jf.intel.com with ESMTP; 04 Dec 2023 02:38:33 -0800
 Received: by black.fi.intel.com (Postfix, from userid 1001)
-	id 5F209368; Mon,  4 Dec 2023 12:38:28 +0200 (EET)
+	id A35CDA94; Mon,  4 Dec 2023 12:38:28 +0200 (EET)
 From: Mika Westerberg <mika.westerberg@linux.intel.com>
 To: Yehezkel Bernat <YehezkelShB@gmail.com>,
 	Michael Jamet <michael.jamet@intel.com>,
@@ -39,9 +39,9 @@ Cc: linux-usb@vger.kernel.org,
 	Pengfei Xu <pengfei.xu@intel.com>,
 	Dan Carpenter <dan.carpenter@linaro.org>,
 	Mika Westerberg <mika.westerberg@linux.intel.com>
-Subject: [PATCH 02/11] thunderbolt: Handle lane bonding of Gen 4 XDomain links properly
-Date: Mon,  4 Dec 2023 12:38:19 +0200
-Message-ID: <20231204103828.1635531-3-mika.westerberg@linux.intel.com>
+Subject: [PATCH 07/11] thunderbolt: Use tb_dp_read_cap() to read DP_COMMON_CAP as well
+Date: Mon,  4 Dec 2023 12:38:24 +0200
+Message-ID: <20231204103828.1635531-8-mika.westerberg@linux.intel.com>
 X-Mailer: git-send-email 2.42.0
 In-Reply-To: <20231204103828.1635531-1-mika.westerberg@linux.intel.com>
 References: <20231204103828.1635531-1-mika.westerberg@linux.intel.com>
@@ -53,107 +53,75 @@ List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-From: Gil Fine <gil.fine@linux.intel.com>
+There is no point doing this separately as the register layout is the
+same. For this reason rename tb_dp_read_dprx() to tb_dp_wait_dprx() and
+call tb_dp_read_cap() instead.
 
-Gen 4 links come up as bonded already so we are not supposed to initiate
-lane bonding on them. However, we should still update the port
-structures accordingly. Split these into their own functions to make it
-easier to follow.
+While there add debug log if the DPRX capability read times out.
 
-Signed-off-by: Gil Fine <gil.fine@linux.intel.com>
 Signed-off-by: Mika Westerberg <mika.westerberg@linux.intel.com>
 ---
- drivers/thunderbolt/tb.c      |  2 --
- drivers/thunderbolt/xdomain.c | 49 ++++++++++++++++++++++++++++++++++-
- 2 files changed, 48 insertions(+), 3 deletions(-)
+ drivers/thunderbolt/tunnel.c | 13 +++++++------
+ 1 file changed, 7 insertions(+), 6 deletions(-)
 
-diff --git a/drivers/thunderbolt/tb.c b/drivers/thunderbolt/tb.c
-index fd49f86e0353..3dabc1ac9ab3 100644
---- a/drivers/thunderbolt/tb.c
-+++ b/drivers/thunderbolt/tb.c
-@@ -513,8 +513,6 @@ static void tb_port_unconfigure_xdomain(struct tb_port *port)
- 		usb4_port_unconfigure_xdomain(port);
- 	else
- 		tb_lc_unconfigure_xdomain(port);
--
--	tb_port_enable(port->dual_link_port);
+diff --git a/drivers/thunderbolt/tunnel.c b/drivers/thunderbolt/tunnel.c
+index 7534cd3a81f4..a46ae3f598c5 100644
+--- a/drivers/thunderbolt/tunnel.c
++++ b/drivers/thunderbolt/tunnel.c
+@@ -1067,8 +1067,7 @@ static int tb_dp_alloc_bandwidth(struct tb_tunnel *tunnel, int *alloc_up,
+ 	return 0;
  }
  
- static void tb_scan_xdomain(struct tb_port *port)
-diff --git a/drivers/thunderbolt/xdomain.c b/drivers/thunderbolt/xdomain.c
-index 9803f0bbf20d..0a885ee5788d 100644
---- a/drivers/thunderbolt/xdomain.c
-+++ b/drivers/thunderbolt/xdomain.c
-@@ -1895,6 +1895,50 @@ struct device_type tb_xdomain_type = {
- };
- EXPORT_SYMBOL_GPL(tb_xdomain_type);
+-static int tb_dp_read_dprx(struct tb_tunnel *tunnel, u32 *rate, u32 *lanes,
+-			   int timeout_msec)
++static int tb_dp_wait_dprx(struct tb_tunnel *tunnel, int timeout_msec)
+ {
+ 	ktime_t timeout = ktime_add_ms(ktime_get(), timeout_msec);
+ 	struct tb_port *in = tunnel->src_port;
+@@ -1087,15 +1086,13 @@ static int tb_dp_read_dprx(struct tb_tunnel *tunnel, u32 *rate, u32 *lanes,
+ 			return ret;
  
-+static void tb_xdomain_link_init(struct tb_xdomain *xd, struct tb_port *down)
-+{
-+	if (!down->dual_link_port)
-+		return;
-+
-+	/*
-+	 * Gen 4 links come up already as bonded so only update the port
-+	 * structures here.
-+	 */
-+	if (tb_port_get_link_generation(down) >= 4) {
-+		down->bonded = true;
-+		down->dual_link_port->bonded = true;
-+	} else {
-+		xd->bonding_possible = true;
-+	}
-+}
-+
-+static void tb_xdomain_link_exit(struct tb_xdomain *xd)
-+{
-+	struct tb_port *down = tb_xdomain_downstream_port(xd);
-+
-+	if (!down->dual_link_port)
-+		return;
-+
-+	if (tb_port_get_link_generation(down) >= 4) {
-+		down->bonded = false;
-+		down->dual_link_port->bonded = false;
-+	} else if (xd->link_width > TB_LINK_WIDTH_SINGLE) {
-+		/*
-+		 * Just return port structures back to way they were and
-+		 * update credits. No need to update userspace because
-+		 * the XDomain is removed soon anyway.
-+		 */
-+		tb_port_lane_bonding_disable(down);
-+		tb_port_update_credits(down);
-+	} else if (down->dual_link_port) {
-+		/*
-+		 * Re-enable the lane 1 adapter we disabled at the end
-+		 * of tb_xdomain_get_properties().
-+		 */
-+		tb_port_enable(down->dual_link_port);
-+	}
-+}
-+
- /**
-  * tb_xdomain_alloc() - Allocate new XDomain object
-  * @tb: Domain where the XDomain belongs
-@@ -1945,7 +1989,8 @@ struct tb_xdomain *tb_xdomain_alloc(struct tb *tb, struct device *parent,
- 			goto err_free_local_uuid;
- 	} else {
- 		xd->needs_uuid = true;
--		xd->bonding_possible = !!down->dual_link_port;
-+
-+		tb_xdomain_link_init(xd, down);
- 	}
+ 		if (val & DP_COMMON_CAP_DPRX_DONE) {
+-			*rate = tb_dp_cap_get_rate(val);
+-			*lanes = tb_dp_cap_get_lanes(val);
+-
+ 			tb_tunnel_dbg(tunnel, "DPRX read done\n");
+ 			return 0;
+ 		}
+ 		usleep_range(100, 150);
+ 	} while (ktime_before(ktime_get(), timeout));
  
- 	device_initialize(&xd->dev);
-@@ -2014,6 +2059,8 @@ void tb_xdomain_remove(struct tb_xdomain *xd)
++	tb_tunnel_dbg(tunnel, "DPRX read timeout\n");
+ 	return -ETIMEDOUT;
+ }
  
- 	device_for_each_child_reverse(&xd->dev, xd, unregister_service);
+@@ -1110,6 +1107,7 @@ static int tb_dp_read_cap(struct tb_tunnel *tunnel, unsigned int cap, u32 *rate,
+ 	switch (cap) {
+ 	case DP_LOCAL_CAP:
+ 	case DP_REMOTE_CAP:
++	case DP_COMMON_CAP:
+ 		break;
  
-+	tb_xdomain_link_exit(xd);
-+
- 	/*
- 	 * Undo runtime PM here explicitly because it is possible that
- 	 * the XDomain was never added to the bus and thus device_del()
+ 	default:
+@@ -1182,7 +1180,7 @@ static int tb_dp_consumed_bandwidth(struct tb_tunnel *tunnel, int *consumed_up,
+ 		 * reduced one). Otherwise return the remote (possibly
+ 		 * reduced) caps.
+ 		 */
+-		ret = tb_dp_read_dprx(tunnel, &rate, &lanes, 150);
++		ret = tb_dp_wait_dprx(tunnel, 150);
+ 		if (ret) {
+ 			if (ret == -ETIMEDOUT)
+ 				ret = tb_dp_read_cap(tunnel, DP_REMOTE_CAP,
+@@ -1190,6 +1188,9 @@ static int tb_dp_consumed_bandwidth(struct tb_tunnel *tunnel, int *consumed_up,
+ 			if (ret)
+ 				return ret;
+ 		}
++		ret = tb_dp_read_cap(tunnel, DP_COMMON_CAP, &rate, &lanes);
++		if (ret)
++			return ret;
+ 	} else if (sw->generation >= 2) {
+ 		ret = tb_dp_read_cap(tunnel, DP_REMOTE_CAP, &rate, &lanes);
+ 		if (ret)
 -- 
 2.42.0
 
