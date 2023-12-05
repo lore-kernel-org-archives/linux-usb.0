@@ -1,104 +1,133 @@
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="OiWGUWdV"
-Received: from mail-pl1-x632.google.com (mail-pl1-x632.google.com [IPv6:2607:f8b0:4864:20::632])
-	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id CFC95C0
-	for <linux-usb@vger.kernel.org>; Tue,  5 Dec 2023 12:15:30 -0800 (PST)
-Received: by mail-pl1-x632.google.com with SMTP id d9443c01a7336-1d04d286bc0so28522705ad.3
-        for <linux-usb@vger.kernel.org>; Tue, 05 Dec 2023 12:15:30 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1701807330; x=1702412130; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=KHqRAVi4NT5d8GGHyN3TjlOKqkitjv9gbIbEzZ2nogw=;
-        b=OiWGUWdVZBWrrdtjvYOYMiO7m/ok7cJnIwibp/T31ExQTRnDGPtaNWJTLY7dJEhfPg
-         X4GH6TbB4uTkBF4k274y43mEw4zTkqcn0ZTV0w+4TjhqblazuG5euIJymR6MUVleYjwU
-         9frsOE91yLR9GSXr9oBazroWVkxNzAvjUnpk1CMW2sEbpFyj48j72qQvrxTE4CvIowwC
-         uRHIdN8b5ILE3tSF0uw1wA/qh1mkhakXqIbw0cTDVbPJvx06y5FsjZrEMFbDbUvTyiMb
-         DKJGj0Ecv+ReOLGM7HkWwcfwcQ7LsvTVrAurKj85DkqI2rfV1s8g7zxO7UeP+oStw5po
-         NCRw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1701807330; x=1702412130;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=KHqRAVi4NT5d8GGHyN3TjlOKqkitjv9gbIbEzZ2nogw=;
-        b=GvEU54ZdNiXJQUWAS2U/no7VU5G8Bz4ObMx5xZy8HbtUAjOBzGofpvmETKBsSEB+1Z
-         Wdf7FL8zMXm8z8RRZTBIgyFcnta41DY164dNOJ3/vL1J+6h+vkcAjavy/C7DqA5T0Wqn
-         LHxPfJ58bx6IunyDH+Fb+364h8wmAAPLDtxSV0JPE0SaZcPDZu0hCfDwVSkZA9HhArOi
-         Pc05ZsUMHPDUDYkFDUNOg8f9dPZAsQGm5nm/u+iiuYTkGBgDDoHI5U/RdaL+FtYj4zT6
-         KMwAR+fdjbmHBH2IZJemHirkQxy7eTpMcCTUc1ckZYvDMeAVc7N98rnxPHBCbeTttYN2
-         9UcQ==
-X-Gm-Message-State: AOJu0YzhbEeF/ve7KRGP0vpbSxlEXeovO5aL8L7LZDfA6/2brt+ANV6N
-	5zwMWRCMbN9GIn/UDiWLitY=
-X-Google-Smtp-Source: AGHT+IGuFeOaxGW+Yn05NIoXP33te4kzw+PAvspUPbYEu2Tzq/tcjNYJscWTUgUwkYII4OdvKaPQWA==
-X-Received: by 2002:a17:902:d4ce:b0:1d0:c532:84ce with SMTP id o14-20020a170902d4ce00b001d0c53284cemr1417618plg.77.1701807330171;
-        Tue, 05 Dec 2023 12:15:30 -0800 (PST)
-Received: from hdebian.corp.toradex.com ([201.82.41.210])
-        by smtp.gmail.com with ESMTPSA id j20-20020a170902759400b001c74df14e6fsm10585983pll.284.2023.12.05.12.15.27
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 05 Dec 2023 12:15:29 -0800 (PST)
-From: Hiago De Franco <hiagofranco@gmail.com>
-To: oneukum@suse.com
-Cc: davem@davemloft.net,
-	edumazet@google.com,
-	hiago.franco@toradex.com,
-	hiagofranco@gmail.com,
-	kuba@kernel.org,
-	linux-usb@vger.kernel.org,
-	pabeni@redhat.com
-Subject: Re: Question regarding CDC NCM and VNC performance issue
-Date: Tue,  5 Dec 2023 17:14:53 -0300
-Message-ID: <20231205201453.71764-1-hiagofranco@gmail.com>
-X-Mailer: git-send-email 2.42.0
-In-Reply-To: <a13fc273-20ee-4027-9508-7e8e93a9cd29@suse.com>
-References: <a13fc273-20ee-4027-9508-7e8e93a9cd29@suse.com>
+	dkim=pass (2048-bit key) header.d=quicinc.com header.i=@quicinc.com header.b="Jhhq4y0r"
+Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com [205.220.180.131])
+	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 87304D3;
+	Tue,  5 Dec 2023 12:15:41 -0800 (PST)
+Received: from pps.filterd (m0279869.ppops.net [127.0.0.1])
+	by mx0a-0031df01.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id 3B5KCPfO027444;
+	Tue, 5 Dec 2023 20:15:37 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com; h=message-id : date :
+ mime-version : subject : to : cc : references : from : in-reply-to :
+ content-type : content-transfer-encoding; s=qcppdkim1;
+ bh=uEhLb0Ninn2CfLq9LAvSGMVPwpAwACXLQKE397HR4Ls=;
+ b=Jhhq4y0rTm8z9lqLHFXr7p/UQ+YEG6vzMG5kuZ8XoqpSOb5K7CcbVC4rigAkJCoymTHf
+ +nE8Bl4Xrls64ESwXoyW493HBm60tStq9EdzCYhtGHfCwrPaAPejx93/i16rYNwhGy06
+ +9Mq6NAQIIIRpEIU/++iMA25QgWxCEZ3MbSgX742DVgW7REitM0D9Jiz/cJJYdTAd6zT
+ 6mjAVwHW1UHw3vPQIwkL0n74Hwn/m19wP5qvX3hyvqqiI3dkt3SN/e3kcHDleWTe4Ct9
+ I0sV3esCO4MjHCQ8UGY4KoJy3q4ez/N+Ycgy88rWb+aep+bWr5x+3k3APX7eOkv4NEEr iA== 
+Received: from nalasppmta05.qualcomm.com (Global_NAT1.qualcomm.com [129.46.96.20])
+	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 3utapgr07y-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Tue, 05 Dec 2023 20:15:37 +0000
+Received: from nalasex01b.na.qualcomm.com (nalasex01b.na.qualcomm.com [10.47.209.197])
+	by NALASPPMTA05.qualcomm.com (8.17.1.5/8.17.1.5) with ESMTPS id 3B5KAlxN011615
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Tue, 5 Dec 2023 20:10:47 GMT
+Received: from [10.110.40.150] (10.80.80.8) by nalasex01b.na.qualcomm.com
+ (10.47.209.197) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1118.40; Tue, 5 Dec
+ 2023 12:10:47 -0800
+Message-ID: <5aa271d5-1d7b-ed6a-2066-ad86ed5edc8b@quicinc.com>
+Date: Tue, 5 Dec 2023 12:10:43 -0800
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:91.0) Gecko/20100101
+ Thunderbird/91.9.1
+Subject: Re: [PATCH] usb: dwc3: gadget: Handle EP0 request dequeuing properly
+Content-Language: en-US
+To: Thinh Nguyen <Thinh.Nguyen@synopsys.com>
+CC: "gregkh@linuxfoundation.org" <gregkh@linuxfoundation.org>,
+        "linux-usb@vger.kernel.org" <linux-usb@vger.kernel.org>,
+        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>
+References: <20231121232003.20249-1-quic_wcheng@quicinc.com>
+ <20231205014647.jvw5yscdn232nddk@synopsys.com>
+From: Wesley Cheng <quic_wcheng@quicinc.com>
+In-Reply-To: <20231205014647.jvw5yscdn232nddk@synopsys.com>
+Content-Type: text/plain; charset="UTF-8"; format=flowed
+Content-Transfer-Encoding: 7bit
+X-ClientProxiedBy: nasanex01b.na.qualcomm.com (10.46.141.250) To
+ nalasex01b.na.qualcomm.com (10.47.209.197)
+X-QCInternal: smtphost
+X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800 signatures=585085
+X-Proofpoint-ORIG-GUID: r-xYL6KFRaqQzd-Vu9pawnS-TyEASiOv
+X-Proofpoint-GUID: r-xYL6KFRaqQzd-Vu9pawnS-TyEASiOv
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.272,Aquarius:18.0.997,Hydra:6.0.619,FMLib:17.11.176.26
+ definitions=2023-12-05_15,2023-12-05_01,2023-05-22_02
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 adultscore=0
+ priorityscore=1501 lowpriorityscore=0 clxscore=1011 impostorscore=0
+ mlxscore=0 phishscore=0 mlxlogscore=999 bulkscore=0 spamscore=0
+ suspectscore=0 malwarescore=0 classifier=spam adjust=0 reason=mlx
+ scancount=1 engine=8.12.0-2311290000 definitions=main-2312050160
 
-From: Hiago De Franco <hiago.franco@toradex.com>
+Hi Thinh,
 
-Hi Oliver,
+On 12/4/2023 5:46 PM, Thinh Nguyen wrote:
+> On Tue, Nov 21, 2023, Wesley Cheng wrote:
+>> Current EP0 dequeue path will share the same as other EPs.  However, there
+>> are some special considerations that need to be made for EP0 transfers:
+>>
+>>    - EP0 transfers never transition into the started_list
+>>    - EP0 only has one active request at a time
+>>
+>> In case there is a vendor specific control message for a function over USB
+>> FFS, then there is no guarantee on the timeline which the DATA/STATUS stage
+>> is responded to.  While this occurs, any attempt to end transfers on
+>> non-control EPs will end up having the DWC3_EP_DELAY_STOP flag set, and
+>> defer issuing of the end transfer command.  If the USB FFS application
+>> decides to timeout the control transfer, or if USB FFS AIO path exits, the
+>> USB FFS driver will issue a call to usb_ep_dequeue() for the ep0 request.
+>>
+>> In case of the AIO exit path, the AIO FS blocks until all pending USB
+>> requests utilizing the AIO path is completed.  However, since the dequeue
+>> of ep0 req does not happen properly, all non-control EPs with the
+>> DWC3_EP_DELAY_STOP flag set will not be handled, and the AIO exit path will
+>> be stuck waiting for the USB FFS data endpoints to receive a completion
+>> callback.
+>>
+>> Fix is to utilize dwc3_ep0_reset_state() in the dequeue API to ensure EP0
+>> is brought back to the SETUP state, and ensures that any deferred end
+>> transfer commands are handled.  This also will end any active transfers
+>> on EP0, compared to the previous implementation which directly called
+>> giveback only.
+>>
+>> Signed-off-by: Wesley Cheng <quic_wcheng@quicinc.com>
+>> ---
+>>   drivers/usb/dwc3/gadget.c | 12 +++++++++++-
+>>   1 file changed, 11 insertions(+), 1 deletion(-)
+>>
+>> diff --git a/drivers/usb/dwc3/gadget.c b/drivers/usb/dwc3/gadget.c
+>> index 858fe4c299b7..88d8d589f014 100644
+>> --- a/drivers/usb/dwc3/gadget.c
+>> +++ b/drivers/usb/dwc3/gadget.c
+>> @@ -2103,7 +2103,17 @@ static int dwc3_gadget_ep_dequeue(struct usb_ep *ep,
+>>   
+>>   	list_for_each_entry(r, &dep->pending_list, list) {
+>>   		if (r == req) {
+>> -			dwc3_gadget_giveback(dep, req, -ECONNRESET);
+>> +			/*
+>> +			 * Explicitly check for EP0/1 as dequeue for those
+>> +			 * EPs need to be handled differently.  Control EP
+>> +			 * only deals with one USB req, and giveback will
+>> +			 * occur during dwc3_ep0_stall_and_restart().  EP0
+>> +			 * requests are never added to started_list.
+>> +			 */
+>> +			if (dep->number > 1)
+>> +				dwc3_gadget_giveback(dep, req, -ECONNRESET);
+>> +			else
+>> +				dwc3_ep0_reset_state(dwc);
+>>   			goto out;
+>>   		}
+>>   	}
+> 
+> Should we add Fixes tag?
+> 
 
-Following up on your initial email, I found that adjusting the NTB size
-successfully resolved the problem on both Linux and Windows. The VNC
-client is now operating with speed and stability after dividing the
-package size by 8.
+Sure will add and resubmit.
 
-I know that altering the NTB size is not the correct solution, please
-consider the attached patch as an explanation, but the assumption that the
-issue may be related to an accumulation of small packages, causing delays
-in fulfilling the 16KB requirement, seems related.
-
-It appears that the proper fix involves the `hrtimer_start` function on
-line 1084 of `f_ncm.c`. However, I'm not sure what I could do to fix it.
-
-Thanks and regards,
-Hiago.
-
- drivers/usb/gadget/function/f_ncm.c | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
-
-diff --git a/drivers/usb/gadget/function/f_ncm.c b/drivers/usb/gadget/function/f_ncm.c
-index cc0ed29a4adc..138982da794a 100644
---- a/drivers/usb/gadget/function/f_ncm.c
-+++ b/drivers/usb/gadget/function/f_ncm.c
-@@ -88,8 +88,8 @@ static inline struct f_ncm *func_to_ncm(struct usb_function *f)
-  * If the host can group frames, allow it to do that, 16K is selected,
-  * because it's used by default by the current linux host driver
-  */
--#define NTB_DEFAULT_IN_SIZE	16384
--#define NTB_OUT_SIZE		16384
-+#define NTB_DEFAULT_IN_SIZE	2048
-+#define NTB_OUT_SIZE		2048
- 
- /* Allocation for storing the NDP, 32 should suffice for a
-  * 16k packet. This allows a maximum of 32 * 507 Byte packets to
--- 
-2.42.0
-
+Thanks
+Wesley Cheng
