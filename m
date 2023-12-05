@@ -1,183 +1,270 @@
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="cv+1sKgQ"
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
-	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 0C8E019F
-	for <linux-usb@vger.kernel.org>; Tue,  5 Dec 2023 05:52:14 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1701784334;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=t/k+Y8Tdfs9ltwRZOhu++CvuRNSUApgINWtqoRysI9s=;
-	b=cv+1sKgQq5RDdz3NlVt8ub1vNm5rb83txO16RsGgBCEdgDTcVzw6j66HXpCyOM6YaGDKTK
-	VMKwtrKr6TDTkbmKh52J9LYiWp3t7EkWLhCJFp+hNuYMsT0YjJZ+Ynb7V0E2x8qkv8Jdwf
-	MaVWei29wdo1GPnDn74xbVZhrEnUzTk=
-Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
- [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-106-kCG4QsraNpufn24efyM9sA-1; Tue, 05 Dec 2023 08:52:07 -0500
-X-MC-Unique: kCG4QsraNpufn24efyM9sA-1
-Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.rdu2.redhat.com [10.11.54.6])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
-	(No client certificate requested)
-	by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 02C4C185A790;
-	Tue,  5 Dec 2023 13:52:07 +0000 (UTC)
-Received: from fedora.redhat.com (unknown [10.39.193.51])
-	by smtp.corp.redhat.com (Postfix) with ESMTP id 580BA2166B33;
-	Tue,  5 Dec 2023 13:52:04 +0000 (UTC)
-From: Jose Ignacio Tornos Martinez <jtornosm@redhat.com>
-To: oneukum@suse.com
-Cc: davem@davemloft.net,
-	edumazet@google.com,
-	greg@kroah.com,
-	jtornosm@redhat.com,
-	kuba@kernel.org,
-	linux-kernel@vger.kernel.org,
-	linux-usb@vger.kernel.org,
-	netdev@vger.kernel.org,
-	pabeni@redhat.com,
-	stable@vger.kernel.org,
-	stern@rowland.harvard.edu
-Subject: [PATCH v4] net: usb: ax88179_178a: avoid failed operations when device is disconnected
-Date: Tue,  5 Dec 2023 14:51:54 +0100
-Message-ID: <20231205135154.516342-1-jtornosm@redhat.com>
-In-Reply-To: <4ce32363-378c-4ea3-9a4e-d7274d4f7787@suse.com>
-References: <4ce32363-378c-4ea3-9a4e-d7274d4f7787@suse.com>
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="TrTckcwt"
+Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.20])
+	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 6D85612C
+	for <linux-usb@vger.kernel.org>; Tue,  5 Dec 2023 06:07:19 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1701785239; x=1733321239;
+  h=date:from:to:cc:subject:message-id;
+  bh=W06qDQ/CQrMtXrkwAayvXsymLPvpZcA5wJuSSVge/wo=;
+  b=TrTckcwtFD0sxNl9aIauzToxkeh4F16YJXPIL+XS69OEiBVcOCJ9wMsA
+   6qqRi+d8r99XPSnT/eZwYseWfYrCAtQvWZI4733ug0muadVSGiGDYbUNF
+   yNW2cCM8yTF3BnuXyZHBldnzkUX4lo730732bcx5t5RJU067HSTOTYx8n
+   au2LEAbZwKwjtZlEYXecg2SwKRlg+q/3mc0pn5Q1Y1ujf2xRXNK8fe5Za
+   4R4hJtT6My0kMTRUCtqoIO4eNfg86BhN6tJio44kx1s3ngG/AnCkZWjLy
+   etvEOmtYiVY7sqJjCnhosjlkDGFfMX7EAbe/qKMCgh86vLIia1bVuwPQT
+   Q==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10914"; a="384299321"
+X-IronPort-AV: E=Sophos;i="6.04,252,1695711600"; 
+   d="scan'208";a="384299321"
+Received: from fmsmga008.fm.intel.com ([10.253.24.58])
+  by orsmga101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 05 Dec 2023 06:07:18 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,10914"; a="836979057"
+X-IronPort-AV: E=Sophos;i="6.04,252,1695711600"; 
+   d="scan'208";a="836979057"
+Received: from lkp-server02.sh.intel.com (HELO b07ab15da5fe) ([10.239.97.151])
+  by fmsmga008.fm.intel.com with ESMTP; 05 Dec 2023 06:07:16 -0800
+Received: from kbuild by b07ab15da5fe with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1rAW4x-00097c-0D;
+	Tue, 05 Dec 2023 14:07:15 +0000
+Date: Tue, 05 Dec 2023 22:06:44 +0800
+From: kernel test robot <lkp@intel.com>
+To: "Greg Kroah-Hartman" <gregkh@linuxfoundation.org>
+Cc: linux-usb@vger.kernel.org
+Subject: [usb:usb-testing] BUILD SUCCESS
+ 5e4c8814a431d21bfaf20b464134f40f2f81e152
+Message-ID: <202312052242.SWEMpoyd-lkp@intel.com>
+User-Agent: s-nail v14.9.24
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Scanned-By: MIMEDefang 3.4.1 on 10.11.54.6
 
-When the device is disconnected we get the following messages showing
-failed operations:
-Nov 28 20:22:11 localhost kernel: usb 2-3: USB disconnect, device number 2
-Nov 28 20:22:11 localhost kernel: ax88179_178a 2-3:1.0 enp2s0u3: unregister 'ax88179_178a' usb-0000:02:00.0-3, ASIX AX88179 USB 3.0 Gigabit Ethernet
-Nov 28 20:22:11 localhost kernel: ax88179_178a 2-3:1.0 enp2s0u3: Failed to read reg index 0x0002: -19
-Nov 28 20:22:11 localhost kernel: ax88179_178a 2-3:1.0 enp2s0u3: Failed to write reg index 0x0002: -19
-Nov 28 20:22:11 localhost kernel: ax88179_178a 2-3:1.0 enp2s0u3 (unregistered): Failed to write reg index 0x0002: -19
-Nov 28 20:22:11 localhost kernel: ax88179_178a 2-3:1.0 enp2s0u3 (unregistered): Failed to write reg index 0x0001: -19
-Nov 28 20:22:11 localhost kernel: ax88179_178a 2-3:1.0 enp2s0u3 (unregistered): Failed to write reg index 0x0002: -19
+tree/branch: https://git.kernel.org/pub/scm/linux/kernel/git/gregkh/usb.git usb-testing
+branch HEAD: 5e4c8814a431d21bfaf20b464134f40f2f81e152  usb: typec: tcpci: add vconn over current fault handling to maxim_core
 
-The reason is that although the device is detached, normal stop and
-unbind operations are commanded from the driver. These operations are
-not necessary in this situation, so avoid these logs when the device is
-detached if the result of the operation is -ENODEV and if the new flag
-informing about the disconnecting status is enabled.
+elapsed time: 1451m
 
-cc: stable@vger.kernel.org
-Fixes: e2ca90c276e1f ("ax88179_178a: ASIX AX88179_178A USB 3.0/2.0 to gigabit ethernet adapter driver")
-Signed-off-by: Jose Ignacio Tornos Martinez <jtornosm@redhat.com>
----
-V1 -> V2:
-- Follow the suggestions from Alan Stern and Oliver Neukum to check the
-result of the operations (-ENODEV) and not the internal state of the USB 
-layer (USB_STATE_NOTATTACHED).
-V2 -> V3
-- Add cc: stable line in the signed-off-by area.
-V3 -> V4
-- Follow the suggestions from Oliver Neukum to use only one flag when
-disconnecting and include barriers to avoid memory ordering issues.
+configs tested: 208
+configs skipped: 2
 
- drivers/net/usb/ax88179_178a.c | 38 +++++++++++++++++++++++++++-------
- 1 file changed, 31 insertions(+), 7 deletions(-)
+The following configs have been built successfully.
+More configs may be tested in the coming days.
 
-diff --git a/drivers/net/usb/ax88179_178a.c b/drivers/net/usb/ax88179_178a.c
-index 4ea0e155bb0d..1c671f2a43ee 100644
---- a/drivers/net/usb/ax88179_178a.c
-+++ b/drivers/net/usb/ax88179_178a.c
-@@ -173,6 +173,7 @@ struct ax88179_data {
- 	u8 in_pm;
- 	u32 wol_supported;
- 	u32 wolopts;
-+	u8 disconnecting;
- };
- 
- struct ax88179_int_data {
-@@ -208,6 +209,7 @@ static int __ax88179_read_cmd(struct usbnet *dev, u8 cmd, u16 value, u16 index,
- {
- 	int ret;
- 	int (*fn)(struct usbnet *, u8, u8, u16, u16, void *, u16);
-+	struct ax88179_data *ax179_data = dev->driver_priv;
- 
- 	BUG_ON(!dev);
- 
-@@ -219,9 +221,12 @@ static int __ax88179_read_cmd(struct usbnet *dev, u8 cmd, u16 value, u16 index,
- 	ret = fn(dev, cmd, USB_DIR_IN | USB_TYPE_VENDOR | USB_RECIP_DEVICE,
- 		 value, index, data, size);
- 
--	if (unlikely(ret < 0))
--		netdev_warn(dev->net, "Failed to read reg index 0x%04x: %d\n",
--			    index, ret);
-+	if (unlikely(ret < 0)) {
-+		smp_rmb();
-+		if (!(ret == -ENODEV && ax179_data->disconnecting))
-+			netdev_warn(dev->net, "Failed to read reg index 0x%04x: %d\n",
-+				    index, ret);
-+	}
- 
- 	return ret;
- }
-@@ -231,6 +236,7 @@ static int __ax88179_write_cmd(struct usbnet *dev, u8 cmd, u16 value, u16 index,
- {
- 	int ret;
- 	int (*fn)(struct usbnet *, u8, u8, u16, u16, const void *, u16);
-+	struct ax88179_data *ax179_data = dev->driver_priv;
- 
- 	BUG_ON(!dev);
- 
-@@ -242,9 +248,12 @@ static int __ax88179_write_cmd(struct usbnet *dev, u8 cmd, u16 value, u16 index,
- 	ret = fn(dev, cmd, USB_DIR_OUT | USB_TYPE_VENDOR | USB_RECIP_DEVICE,
- 		 value, index, data, size);
- 
--	if (unlikely(ret < 0))
--		netdev_warn(dev->net, "Failed to write reg index 0x%04x: %d\n",
--			    index, ret);
-+	if (unlikely(ret < 0)) {
-+		smp_rmb();
-+		if (!(ret == -ENODEV && ax179_data->disconnecting))
-+			netdev_warn(dev->net, "Failed to write reg index 0x%04x: %d\n",
-+				    index, ret);
-+	}
- 
- 	return ret;
- }
-@@ -492,6 +501,21 @@ static int ax88179_resume(struct usb_interface *intf)
- 	return usbnet_resume(intf);
- }
- 
-+static void ax88179_disconnect(struct usb_interface *intf)
-+{
-+	struct usbnet *dev = usb_get_intfdata(intf);
-+	struct ax88179_data *ax179_data;
-+
-+	if (!dev)
-+		return;
-+
-+	ax179_data = dev->driver_priv;
-+	ax179_data->disconnecting = 1;
-+	smp_wmb();
-+
-+	usbnet_disconnect(intf);
-+}
-+
- static void
- ax88179_get_wol(struct net_device *net, struct ethtool_wolinfo *wolinfo)
- {
-@@ -1906,7 +1930,7 @@ static struct usb_driver ax88179_178a_driver = {
- 	.suspend =	ax88179_suspend,
- 	.resume =	ax88179_resume,
- 	.reset_resume =	ax88179_resume,
--	.disconnect =	usbnet_disconnect,
-+	.disconnect =	ax88179_disconnect,
- 	.supports_autosuspend = 1,
- 	.disable_hub_initiated_lpm = 1,
- };
+tested configs:
+alpha                             allnoconfig   gcc  
+alpha                            allyesconfig   gcc  
+alpha                               defconfig   gcc  
+arc                              allmodconfig   gcc  
+arc                               allnoconfig   gcc  
+arc                              allyesconfig   gcc  
+arc                          axs103_defconfig   gcc  
+arc                      axs103_smp_defconfig   gcc  
+arc                                 defconfig   gcc  
+arc                         haps_hs_defconfig   gcc  
+arc                            hsdk_defconfig   gcc  
+arc                   randconfig-001-20231205   gcc  
+arc                   randconfig-002-20231205   gcc  
+arm                              allmodconfig   gcc  
+arm                               allnoconfig   gcc  
+arm                              allyesconfig   gcc  
+arm                         at91_dt_defconfig   gcc  
+arm                         axm55xx_defconfig   gcc  
+arm                                 defconfig   clang
+arm                          exynos_defconfig   gcc  
+arm                             mxs_defconfig   clang
+arm                          pxa168_defconfig   clang
+arm                   randconfig-001-20231205   gcc  
+arm                   randconfig-002-20231205   gcc  
+arm                   randconfig-003-20231205   gcc  
+arm                   randconfig-004-20231205   gcc  
+arm                         s5pv210_defconfig   clang
+arm                           sunxi_defconfig   gcc  
+arm64                            allmodconfig   clang
+arm64                             allnoconfig   gcc  
+arm64                               defconfig   gcc  
+arm64                 randconfig-001-20231205   gcc  
+arm64                 randconfig-002-20231205   gcc  
+arm64                 randconfig-003-20231205   gcc  
+arm64                 randconfig-004-20231205   gcc  
+csky                             allmodconfig   gcc  
+csky                              allnoconfig   gcc  
+csky                             allyesconfig   gcc  
+csky                                defconfig   gcc  
+csky                  randconfig-001-20231205   gcc  
+csky                  randconfig-002-20231205   gcc  
+hexagon                          alldefconfig   clang
+hexagon                          allmodconfig   clang
+hexagon                           allnoconfig   clang
+hexagon                          allyesconfig   clang
+hexagon                             defconfig   clang
+hexagon               randconfig-001-20231205   clang
+hexagon               randconfig-002-20231205   clang
+i386                             allmodconfig   clang
+i386                              allnoconfig   clang
+i386                             allyesconfig   clang
+i386         buildonly-randconfig-001-20231205   gcc  
+i386         buildonly-randconfig-002-20231205   gcc  
+i386         buildonly-randconfig-003-20231205   gcc  
+i386         buildonly-randconfig-004-20231205   gcc  
+i386         buildonly-randconfig-005-20231205   gcc  
+i386         buildonly-randconfig-006-20231205   gcc  
+i386                                defconfig   gcc  
+i386                  randconfig-001-20231205   gcc  
+i386                  randconfig-002-20231205   gcc  
+i386                  randconfig-003-20231205   gcc  
+i386                  randconfig-004-20231205   gcc  
+i386                  randconfig-005-20231205   gcc  
+i386                  randconfig-006-20231205   gcc  
+i386                  randconfig-011-20231205   clang
+i386                  randconfig-012-20231205   clang
+i386                  randconfig-013-20231205   clang
+i386                  randconfig-014-20231205   clang
+i386                  randconfig-015-20231205   clang
+i386                  randconfig-016-20231205   clang
+loongarch                        allmodconfig   gcc  
+loongarch                         allnoconfig   gcc  
+loongarch                        allyesconfig   gcc  
+loongarch                           defconfig   gcc  
+loongarch             randconfig-001-20231205   gcc  
+loongarch             randconfig-002-20231205   gcc  
+m68k                             allmodconfig   gcc  
+m68k                              allnoconfig   gcc  
+m68k                             allyesconfig   gcc  
+m68k                         apollo_defconfig   gcc  
+m68k                          atari_defconfig   gcc  
+m68k                                defconfig   gcc  
+m68k                        m5272c3_defconfig   gcc  
+m68k                        m5307c3_defconfig   gcc  
+m68k                        m5407c3_defconfig   gcc  
+microblaze                       allmodconfig   gcc  
+microblaze                        allnoconfig   gcc  
+microblaze                       allyesconfig   gcc  
+microblaze                          defconfig   gcc  
+mips                             allmodconfig   gcc  
+mips                              allnoconfig   clang
+mips                             allyesconfig   gcc  
+mips                         rt305x_defconfig   gcc  
+mips                           xway_defconfig   gcc  
+nios2                            alldefconfig   gcc  
+nios2                            allmodconfig   gcc  
+nios2                             allnoconfig   gcc  
+nios2                            allyesconfig   gcc  
+nios2                               defconfig   gcc  
+nios2                 randconfig-001-20231205   gcc  
+nios2                 randconfig-002-20231205   gcc  
+openrisc                         allmodconfig   gcc  
+openrisc                          allnoconfig   gcc  
+openrisc                         allyesconfig   gcc  
+openrisc                            defconfig   gcc  
+openrisc                       virt_defconfig   gcc  
+parisc                           allmodconfig   gcc  
+parisc                            allnoconfig   gcc  
+parisc                           allyesconfig   gcc  
+parisc                              defconfig   gcc  
+parisc                generic-64bit_defconfig   gcc  
+parisc                randconfig-001-20231205   gcc  
+parisc                randconfig-002-20231205   gcc  
+parisc64                            defconfig   gcc  
+powerpc                    adder875_defconfig   gcc  
+powerpc                          allmodconfig   clang
+powerpc                           allnoconfig   gcc  
+powerpc                          allyesconfig   clang
+powerpc                 canyonlands_defconfig   gcc  
+powerpc                      cm5200_defconfig   gcc  
+powerpc                      ep88xc_defconfig   gcc  
+powerpc                 mpc834x_itx_defconfig   gcc  
+powerpc                      pasemi_defconfig   gcc  
+powerpc                         ps3_defconfig   gcc  
+powerpc                     rainier_defconfig   gcc  
+powerpc               randconfig-001-20231205   gcc  
+powerpc               randconfig-002-20231205   gcc  
+powerpc               randconfig-003-20231205   gcc  
+powerpc                     redwood_defconfig   gcc  
+powerpc                     tqm8548_defconfig   gcc  
+powerpc                     tqm8555_defconfig   gcc  
+powerpc                      tqm8xx_defconfig   gcc  
+powerpc                        warp_defconfig   gcc  
+powerpc                         wii_defconfig   gcc  
+powerpc64             randconfig-001-20231205   gcc  
+powerpc64             randconfig-002-20231205   gcc  
+powerpc64             randconfig-003-20231205   gcc  
+riscv                            allmodconfig   gcc  
+riscv                             allnoconfig   clang
+riscv                            allyesconfig   gcc  
+riscv                               defconfig   gcc  
+riscv                 randconfig-001-20231205   gcc  
+riscv                 randconfig-002-20231205   gcc  
+riscv                          rv32_defconfig   clang
+s390                             allmodconfig   gcc  
+s390                              allnoconfig   gcc  
+s390                             allyesconfig   gcc  
+s390                                defconfig   gcc  
+s390                  randconfig-001-20231205   clang
+s390                  randconfig-002-20231205   clang
+sh                               allmodconfig   gcc  
+sh                                allnoconfig   gcc  
+sh                               allyesconfig   gcc  
+sh                        apsh4ad0a_defconfig   gcc  
+sh                                  defconfig   gcc  
+sh                         ecovec24_defconfig   gcc  
+sh                               j2_defconfig   gcc  
+sh                          r7780mp_defconfig   gcc  
+sh                    randconfig-001-20231205   gcc  
+sh                    randconfig-002-20231205   gcc  
+sh                           se7724_defconfig   gcc  
+sh                           se7751_defconfig   gcc  
+sh                     sh7710voipgw_defconfig   gcc  
+sh                        sh7757lcr_defconfig   gcc  
+sparc                            allmodconfig   gcc  
+sparc                            allyesconfig   gcc  
+sparc                       sparc64_defconfig   gcc  
+sparc64                          allmodconfig   gcc  
+sparc64                          allyesconfig   gcc  
+sparc64                             defconfig   gcc  
+sparc64               randconfig-001-20231205   gcc  
+sparc64               randconfig-002-20231205   gcc  
+um                               allmodconfig   clang
+um                                allnoconfig   clang
+um                               allyesconfig   clang
+um                                  defconfig   gcc  
+um                             i386_defconfig   gcc  
+um                    randconfig-001-20231205   gcc  
+um                    randconfig-002-20231205   gcc  
+um                           x86_64_defconfig   gcc  
+x86_64                            allnoconfig   gcc  
+x86_64                           allyesconfig   clang
+x86_64       buildonly-randconfig-001-20231205   gcc  
+x86_64       buildonly-randconfig-002-20231205   gcc  
+x86_64       buildonly-randconfig-003-20231205   gcc  
+x86_64       buildonly-randconfig-004-20231205   gcc  
+x86_64       buildonly-randconfig-005-20231205   gcc  
+x86_64       buildonly-randconfig-006-20231205   gcc  
+x86_64                              defconfig   gcc  
+x86_64                                  kexec   gcc  
+x86_64                randconfig-011-20231205   gcc  
+x86_64                randconfig-012-20231205   gcc  
+x86_64                randconfig-013-20231205   gcc  
+x86_64                randconfig-014-20231205   gcc  
+x86_64                randconfig-015-20231205   gcc  
+x86_64                randconfig-016-20231205   gcc  
+x86_64                randconfig-071-20231205   gcc  
+x86_64                randconfig-072-20231205   gcc  
+x86_64                randconfig-073-20231205   gcc  
+x86_64                randconfig-074-20231205   gcc  
+x86_64                randconfig-075-20231205   gcc  
+x86_64                randconfig-076-20231205   gcc  
+x86_64                          rhel-8.3-rust   clang
+x86_64                               rhel-8.3   gcc  
+xtensa                            allnoconfig   gcc  
+xtensa                           allyesconfig   gcc  
+xtensa                randconfig-001-20231205   gcc  
+xtensa                randconfig-002-20231205   gcc  
+
 -- 
-2.43.0
-
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
