@@ -1,89 +1,78 @@
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="KIPeSnlm"
-Received: from mail-lf1-x129.google.com (mail-lf1-x129.google.com [IPv6:2a00:1450:4864:20::129])
-	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 369FE1B6
-	for <linux-usb@vger.kernel.org>; Tue,  5 Dec 2023 23:16:13 -0800 (PST)
-Received: by mail-lf1-x129.google.com with SMTP id 2adb3069b0e04-50bfa5a6cffso3603036e87.0
-        for <linux-usb@vger.kernel.org>; Tue, 05 Dec 2023 23:16:13 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1701846971; x=1702451771; darn=vger.kernel.org;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=zDXbMWEhNI2lTiHePaAGslfA8GicK9kiWYsFKaGDIVI=;
-        b=KIPeSnlmUAfq8qCDYuebG2RO93LeEF5Q5tXjezP/79MFyEHxfWXmbbu+B0moudr+v+
-         NUVBCmpByYoCfcEVTuELtqfrbzRnEpJMr/TSDGJybI4e5MRAmqw1YXCGo8+a5uFLzgvm
-         1bwFucN5okUca4kYFTIVd5meTGpXqxuL3PNYum7jbp6Ua48TYjjKYxX69hq7dlJGvIDA
-         Q1+0hAXRm0habB08T4fSR4tSw1uGSw0V1iE1YGfRYWVeJKtDaZgC5+uYJ6TIBSv2TpAe
-         einT1xGUAoyJGIAgiN4ELwEtYWAnj1tCWJKEwP9VjBL7sIBWNYmoAAUm3dbcnI8fyboo
-         8XFg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1701846971; x=1702451771;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=zDXbMWEhNI2lTiHePaAGslfA8GicK9kiWYsFKaGDIVI=;
-        b=AQGrqytaGgl1Loc09Su+ZEp8OzuF1tsrjz/htJBFUrzp7OFtStIm66aqXmuq116Ra/
-         XA94LkgOCpYP8ZVjL8GsI3f+0jlExYSzSbupRLi+Ei4SEJ2WupIMLI0Y7aYFGPqMPxG+
-         pPeZLltpkIi5oXQVwfDD1soVBfbHq+FAyLkCmiARqldsLTceip9L+f/98FH5/wcyzCfh
-         HrAE45ER6zXOZqq8ZRHrleob4f3XECyrSLoVy3cMJRD034Awp111x55/vJOUaTeY63AI
-         pH+ukxanSx48sgjMm4To3YtfQ7p6e4VYjVmoXV+dbfAQv7U8lrBHwDoS9ZtIhzxm8mnw
-         3G3A==
-X-Gm-Message-State: AOJu0YzlFtiHxq7SjiCBzhlhySr1VpZ+aBe7RjuhVVeBJd0C5m1aId7k
-	5KixnnEIi4WyllqsNyCQoUzc9A==
-X-Google-Smtp-Source: AGHT+IFosgPawxVbHM+ucU/rImmtmf74cewBhXNK/zsrvoN6gu4JaquJiaTw9BlgaIdmcDryu2w2SQ==
-X-Received: by 2002:a05:6512:3d01:b0:50b:fdc6:9f30 with SMTP id d1-20020a0565123d0100b0050bfdc69f30mr276013lfv.41.1701846971330;
-        Tue, 05 Dec 2023 23:16:11 -0800 (PST)
-Received: from ?IPV6:2001:14ba:a0db:1f00::227? (dzdqv0yyyyyyyyyyyykxt-3.rev.dnainternet.fi. [2001:14ba:a0db:1f00::227])
-        by smtp.gmail.com with ESMTPSA id f17-20020a05651232d100b0050c10aa4582sm184607lfg.27.2023.12.05.23.16.10
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 05 Dec 2023 23:16:10 -0800 (PST)
-Message-ID: <fa72affd-ca04-4ea8-9892-d3a7cd1fbc8a@linaro.org>
-Date: Wed, 6 Dec 2023 09:16:09 +0200
+	dkim=pass (1024-bit key) header.d=rock-chips.com header.i=@rock-chips.com header.b="G9hc2pE1"
+X-Greylist: delayed 600 seconds by postgrey-1.37 at lindbergh.monkeyblade.net; Tue, 05 Dec 2023 23:19:31 PST
+Received: from mail-m92232.xmail.ntesmail.com (mail-m92232.xmail.ntesmail.com [103.126.92.232])
+	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 1E28B9E;
+	Tue,  5 Dec 2023 23:19:30 -0800 (PST)
+DKIM-Signature: a=rsa-sha256;
+	b=G9hc2pE1Vl1lBDFKkQ5Pc4UHtjbFYBDjCcQbMcmQ6BZIQmID9ySC4ZNy0kRUqZn2hsOo6IYLo/UeS6jcKkEGb3N332vRDlJHsJ4hxA8CNQ2zlEx8AEPu7LlJ0qumeRHwQB5pCVjlVt1claGVSK7fmV1mii/M6ZFWbSnfdOwj4Tk=;
+	s=default; c=relaxed/relaxed; d=rock-chips.com; v=1;
+	bh=ZGUnqnKqiH3fiQPt2YzpZAzinEzCmAaPqVPFdS5nUos=;
+	h=date:mime-version:subject:message-id:from;
+Received: from localhost.localdomain (unknown [58.22.7.114])
+	by mail-m12786.qiye.163.com (Hmail) with ESMTPA id 64F0A7C01FD;
+	Wed,  6 Dec 2023 14:59:40 +0800 (CST)
+From: Frank Wang <frank.wang@rock-chips.com>
+To: Thinh.Nguyen@synopsys.com,
+	gregkh@linuxfoundation.org
+Cc: linux-usb@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	william.wu@rock-chips.com,
+	wmc@rock-chips.com,
+	Frank Wang <frank.wang@rock-chips.com>
+Subject: [PATCH] usb: dwc3: set pm runtime active before resume common
+Date: Wed,  6 Dec 2023 14:59:39 +0800
+Message-Id: <20231206065939.16958-1-frank.wang@rock-chips.com>
+X-Mailer: git-send-email 2.17.1
+X-HM-Spam-Status: e1kfGhgUHx5ZQUpXWQgPGg8OCBgUHx5ZQUlOS1dZFg8aDwILHllBWSg2Ly
+	tZV1koWUFDSUNOT01LS0k3V1ktWUFJV1kPCRoVCBIfWUFZGU5LS1YaShhCGB5OTBlMTUxVEwETFh
+	oSFyQUDg9ZV1kYEgtZQVlOQ1VJSVVMVUpKT1lXWRYaDxIVHRRZQVlPS0hVSk1PSU5JVUpLS1VKQl
+	kG
+X-HM-Tid: 0a8c3decd5c4b256kuuu64f0a7c01fd
+X-HM-MType: 1
+X-HM-Sender-Digest: e1kMHhlZQR0aFwgeV1kSHx4VD1lBWUc6OVE6Qyo6LDw2MAENVkgaPisC
+	QgkKChdVSlVKTEtKQ09OQkNKSUlJVTMWGhIXVR0JGhUQVQwaFRw7CRQYEFYYExILCFUYFBZFWVdZ
+	EgtZQVlOQ1VJSVVMVUpKT1lXWQgBWUFKQk1LNwY+
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 1/3] usb: typec: nb7vpq904m: Only select DRM_AUX_BRIDGE
- with OF
-Content-Language: en-GB
-To: Nathan Chancellor <nathan@kernel.org>
-Cc: heikki.krogerus@linux.intel.com, gregkh@linuxfoundation.org,
- linux@roeck-us.net, neil.armstrong@linaro.org, bryan.odonoghue@linaro.org,
- linux-usb@vger.kernel.org, dri-devel@lists.freedesktop.org,
- patches@lists.linux.dev
-References: <20231205-drm_aux_bridge-fixes-v1-0-d242a0ae9df4@kernel.org>
- <20231205-drm_aux_bridge-fixes-v1-1-d242a0ae9df4@kernel.org>
-From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-In-Reply-To: <20231205-drm_aux_bridge-fixes-v1-1-d242a0ae9df4@kernel.org>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
 
-On 05/12/2023 22:13, Nathan Chancellor wrote:
-> CONFIG_DRM_AUX_BRIDGE depends on CONFIG_OF but that dependency is not
-> included when CONFIG_TYPEC_MUX_NB7VPQ904M selects it, resulting in a
-> Kconfig warning when CONFIG_OF is disabled:
-> 
->    WARNING: unmet direct dependencies detected for DRM_AUX_BRIDGE
->      Depends on [n]: HAS_IOMEM [=y] && DRM_BRIDGE [=y] && OF [=n]
->      Selected by [y]:
->      - TYPEC_MUX_NB7VPQ904M [=y] && USB_SUPPORT [=y] && TYPEC [=y] && I2C [=y] && (DRM [=y] || DRM [=y]=n) && DRM_BRIDGE [=y]
-> 
-> Only select CONFIG_DRM_AUX_BRIDGE with both CONFIG_DRM_BRIDGE and
-> CONFIG_OF to clear up the warning.
-> 
-> Fixes: c5d296bad640 ("usb: typec: nb7vpq904m: switch to DRM_AUX_BRIDGE")
-> Signed-off-by: Nathan Chancellor <nathan@kernel.org>
-> ---
->   drivers/usb/typec/mux/Kconfig | 2 +-
->   1 file changed, 1 insertion(+), 1 deletion(-)
+For device mode, if PM runtime autosuspend feature enabled, the
+runtime power status of dwc3 may be suspended when run dwc3_resume(),
+and dwc3 gadget would not be configured in dwc3_gadget_run_stop().
+It would cause gadget connected failed if USB cable has been plugged
+before PM resume. So move forward pm_runtime_set_active() to fix it.
 
-For this patch we'd need an ack from Heikki.
+Signed-off-by: Frank Wang <frank.wang@rock-chips.com>
+---
+ drivers/usb/dwc3/core.c | 9 ++++++---
+ 1 file changed, 6 insertions(+), 3 deletions(-)
 
+diff --git a/drivers/usb/dwc3/core.c b/drivers/usb/dwc3/core.c
+index b101dbf8c5dc..d891989e8459 100644
+--- a/drivers/usb/dwc3/core.c
++++ b/drivers/usb/dwc3/core.c
+@@ -2340,12 +2340,15 @@ static int dwc3_resume(struct device *dev)
+ 
+ 	pinctrl_pm_select_default_state(dev);
+ 
++	pm_runtime_disable(dev);
++	pm_runtime_set_active(dev);
++
+ 	ret = dwc3_resume_common(dwc, PMSG_RESUME);
+-	if (ret)
++	if (ret) {
++		pm_runtime_set_suspended(dev);
+ 		return ret;
++	}
+ 
+-	pm_runtime_disable(dev);
+-	pm_runtime_set_active(dev);
+ 	pm_runtime_enable(dev);
+ 
+ 	return 0;
 -- 
-With best wishes
-Dmitry
+2.17.1
 
