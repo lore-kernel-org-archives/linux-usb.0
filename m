@@ -1,51 +1,117 @@
-Received: from gandalf.ozlabs.org (gandalf.ozlabs.org [150.107.74.76])
-	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B7B91122;
-	Thu,  7 Dec 2023 04:44:29 -0800 (PST)
-Received: from authenticated.ozlabs.org (localhost [127.0.0.1])
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (1024-bit key) header.d=suse.com header.i=@suse.com header.b="CVZE7JSk"
+Received: from smtp-out2.suse.de (smtp-out2.suse.de [IPv6:2a07:de40:b251:101:10:150:64:2])
+	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 0675CAA
+	for <linux-usb@vger.kernel.org>; Thu,  7 Dec 2023 05:26:43 -0800 (PST)
+Received: from imap2.dmz-prg2.suse.org (imap2.dmz-prg2.suse.org [10.150.64.98])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
 	(No client certificate requested)
-	by mail.ozlabs.org (Postfix) with ESMTPSA id 4SmDVL0kpKz4xGR;
-	Thu,  7 Dec 2023 23:44:10 +1100 (AEDT)
-From: Michael Ellerman <patch-notifications@ellerman.id.au>
-To: Andrew Morton <akpm@linux-foundation.org>, linux-kernel@vger.kernel.org, Masahiro Yamada <masahiroy@kernel.org>, linux-kbuild@vger.kernel.org, Arnd Bergmann <arnd@kernel.org>
-Cc: Arnd Bergmann <arnd@arndb.de>, Matt Turner <mattst88@gmail.com>, Vineet Gupta <vgupta@kernel.org>, Russell King <linux@armlinux.org.uk>, Catalin Marinas <catalin.marinas@arm.com>, Will Deacon <will@kernel.org>, Steven Rostedt <rostedt@goodmis.org>, Masami Hiramatsu <mhiramat@kernel.org>, Mark Rutland <mark.rutland@arm.com>, Guo Ren <guoren@kernel.org>, Peter Zijlstra <peterz@infradead.org>, Ard Biesheuvel <ardb@kernel.org>, Huacai Chen <chenhuacai@kernel.org>, Greg Ungerer <gerg@linux-m68k.org>, Michal Simek <monstr@monstr.eu>, Thomas Bogendoerfer <tsbogend@alpha.franken.de>, Dinh Nguyen <dinguyen@kernel.org>, Nicholas Piggin <npiggin@gmail.com>, Christophe Leroy <christophe.leroy@csgroup.eu>, Geoff Levand <geoff@infradead.org>, Palmer Dabbelt <palmer@dabbelt.com>, Heiko Carstens <hca@linux.ibm.com>, John Paul Adrian Glaubitz <glaubitz@physik.fu-berlin.de>, "David S. Miller" <davem@davemloft.net>, Andy Lutomirski <luto@kernel.org>, Thomas Gleixner <tglx@linutronix.de>, Ingo Molna
- r <mingo@redhat.com>, x86@kernel.org, Helge Deller <deller@gmx.de>, Sudip Mukherjee <sudipm.mukherjee@gmail.com>, Greg Kroah-Hartman <gregkh@linuxfoundation.org>, Timur Tabi <timur@kernel.org>, Kent Overstreet <kent.overstreet@linux.dev>, David Woodhouse <dwmw2@infradead.org>, "Naveen N. Rao" <naveen.n.rao@linux.ibm.com>, Anil S Keshavamurthy <anil.s.keshavamurthy@intel.com>, Kees Cook <keescook@chromium.org>, Vincenzo Frascino <vincenzo.frascino@arm.com>, Juri Lelli <juri.lelli@redhat.com>, Vincent Guittot <vincent.guittot@linaro.org>, Nathan Chancellor <nathan@kernel.org>, Nick Desaulniers <ndesaulniers@google.com>, Nicolas Schier <nicolas@fjasle.eu>, Al Viro <viro@zeniv.linux.org.uk>, Uwe Kleine-König <u.kleine-koenig@pengutronix.de>, linux-alpha@vger.kernel.org, linux-snps-arc@lists.infradead.org, linux-arm-kernel@lists.infradead.org, linux-trace-kernel@vger.kernel.org, linux-csky@vger.kernel.org, loongarch@lists.linux.dev, linux-m68k@lists.linux-m68k.org, linux-mips@vger.kerne
- l.org, linuxppc-dev@lists.ozlabs.org, linux-riscv@lists.infradead.org, linux-s390@vger.kernel.org, linux-sh@vger.kernel.org, sparclinux@vger.kernel.org, netdev@vger.kernel.org, linux-parisc@vger.kernel.org, linux-usb@vger.kernel.org, linux-fbdev@vger.kernel.org, dri-devel@lists.freedesktop.org, linux-bcachefs@vger.kernel.org, linux-mtd@lists.infradead.org
-In-Reply-To: <20231108125843.3806765-1-arnd@kernel.org>
-References: <20231108125843.3806765-1-arnd@kernel.org>
-Subject: Re: (subset) [PATCH 00/22] -Wmissing-prototype warning fixes
-Message-Id: <170195271155.2310221.7822619081586355844.b4-ty@ellerman.id.au>
-Date: Thu, 07 Dec 2023 23:38:31 +1100
+	by smtp-out2.suse.de (Postfix) with ESMTPS id 8801B1FB5B;
+	Thu,  7 Dec 2023 13:26:42 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.com; s=susede1;
+	t=1701955602; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:  content-transfer-encoding:content-transfer-encoding;
+	bh=PRjokn8ymlmJiE3WTalVFwVkyc7m7Nrc4bVoc9q+N1E=;
+	b=CVZE7JSkNCoZOwYOzqJaSmd874jo1eWTHVB4l9PkwvhLibNiINVgdN36HrLIA8tzhAf+UY
+	rNFKgtgtWpBYc42nkO3CHHcVSF85fMULyGoiQVHA9UfxezNBlzkgKXgal3pHU4vo36k4cb
+	jMYnBmLknNClDZbgCCC5GaLBIZ+ovOg=
+Received: from imap2.dmz-prg2.suse.org (localhost [127.0.0.1])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by imap2.dmz-prg2.suse.org (Postfix) with ESMTPS id 3A65213907;
+	Thu,  7 Dec 2023 13:26:42 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([10.150.64.162])
+	by imap2.dmz-prg2.suse.org with ESMTPSA
+	id vbyGCxLIcWVtEgAAn2gu4w
+	(envelope-from <oneukum@suse.com>); Thu, 07 Dec 2023 13:26:42 +0000
+From: Oliver Neukum <oneukum@suse.com>
+To: gregkh@linuxfoundation.org,
+	hovold@kernel.org,
+	linux-usb@vger.kernel.org
+Cc: Oliver Neukum <oneukum@suse.com>
+Subject: [PATCH] usb: cdc-acm: return correct error code on unsupported break
+Date: Thu,  7 Dec 2023 14:26:30 +0100
+Message-ID: <20231207132639.18250-1-oneukum@suse.com>
+X-Mailer: git-send-email 2.43.0
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
+X-Spamd-Result: default: False [4.98 / 50.00];
+	 ARC_NA(0.00)[];
+	 RCVD_VIA_SMTP_AUTH(0.00)[];
+	 BAYES_SPAM(0.08)[59.18%];
+	 FROM_HAS_DN(0.00)[];
+	 RCPT_COUNT_THREE(0.00)[4];
+	 R_MISSING_CHARSET(2.50)[];
+	 TO_MATCH_ENVRCPT_ALL(0.00)[];
+	 MIME_GOOD(-0.10)[text/plain];
+	 BROKEN_CONTENT_TYPE(1.50)[];
+	 TO_DN_SOME(0.00)[];
+	 RCVD_COUNT_THREE(0.00)[3];
+	 DKIM_SIGNED(0.00)[suse.com:s=susede1];
+	 MID_CONTAINS_FROM(1.00)[];
+	 DBL_BLOCKED_OPENRESOLVER(0.00)[suse.com:email];
+	 FUZZY_BLOCKED(0.00)[rspamd.com];
+	 FROM_EQ_ENVFROM(0.00)[];
+	 MIME_TRACE(0.00)[0:+];
+	 RCVD_TLS_ALL(0.00)[]
+Authentication-Results: smtp-out2.suse.de;
+	none
+X-Spam-Score: 4.98
 
-On Wed, 08 Nov 2023 13:58:21 +0100, Arnd Bergmann wrote:
-> I slightly dropped the ball on this since last sending the series in
-> August, but a number of warning fixes have made it into the kernel in
-> the meantime, both from my earlier submission and from architecture
-> maintainers.
-> 
-> I have none patches that remain from the previous submission, with
-> two of them reworked according to comments. The additional patches
-> are from more testing across architectures and configurations that
-> I had previously missed.
-> 
-> [...]
+In ACM support for sending breaks to devices is optional.
+If a device says that it doenot support sending breaks,
+the host must respect that.
+Given the number of optional features providing tty operations
+for each combination is not practical and errors need to be
+returned dynamically if unsupported features are requested.
 
-Applied to powerpc/next.
+In case a device does not support break, we want the tty layer
+to treat that like it treats drivers that statically cannot
+support sending a break. It ignores the inability and does nothing.
+This patch uses EOPNOTSUPP to indicate that.
 
-[17/22] powerpc: ps3: move udbg_shutdown_ps3gelic prototype
-        https://git.kernel.org/powerpc/c/04c40eed3f7ac48ddaf20104489510e743a53c47
-[18/22] powerpc: pasemi: mark pas_shutdown() static
-        https://git.kernel.org/powerpc/c/0c9a768de64d24e38e27652b8c273725ccc31916
-[19/22] powerpc: powermac: mark smp_psurge_{give,take}_timebase static
-        https://git.kernel.org/powerpc/c/afb36ac386783d2ef2ed839293c03fd06f470be0
+Signed-off-by: Oliver Neukum <oneukum@suse.com>
+Fixes: 9e98966c7bb94 ("tty: rework break handling")
+---
+ drivers/tty/tty_io.c        | 3 +++
+ drivers/usb/class/cdc-acm.c | 3 +++
+ 2 files changed, 6 insertions(+)
 
-cheers
+diff --git a/drivers/tty/tty_io.c b/drivers/tty/tty_io.c
+index 06414e43e0b5..96617f9af819 100644
+--- a/drivers/tty/tty_io.c
++++ b/drivers/tty/tty_io.c
+@@ -2489,6 +2489,9 @@ static int send_break(struct tty_struct *tty, unsigned int duration)
+ 	if (!retval) {
+ 		msleep_interruptible(duration);
+ 		retval = tty->ops->break_ctl(tty, 0);
++	} else if (retval == -EOPNOTSUPP) {
++		/* some drivers can tell only dynamically */
++		retval = 0;
+ 	}
+ 	tty_write_unlock(tty);
+ 
+diff --git a/drivers/usb/class/cdc-acm.c b/drivers/usb/class/cdc-acm.c
+index a1f4e1ead97f..0e7439dba8fe 100644
+--- a/drivers/usb/class/cdc-acm.c
++++ b/drivers/usb/class/cdc-acm.c
+@@ -916,6 +916,9 @@ static int acm_tty_break_ctl(struct tty_struct *tty, int state)
+ 	struct acm *acm = tty->driver_data;
+ 	int retval;
+ 
++	if (!(acm->ctrl_caps & USB_CDC_CAP_BRK))
++		return -EOPNOTSUPP;
++
+ 	retval = acm_send_break(acm, state ? 0xffff : 0);
+ 	if (retval < 0)
+ 		dev_dbg(&acm->control->dev,
+-- 
+2.43.0
+
