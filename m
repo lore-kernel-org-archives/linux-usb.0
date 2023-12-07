@@ -1,93 +1,51 @@
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="hgnqVnZe"
-Received: from mail-pg1-x530.google.com (mail-pg1-x530.google.com [IPv6:2607:f8b0:4864:20::530])
-	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id EACD2D5E;
-	Thu,  7 Dec 2023 04:42:27 -0800 (PST)
-Received: by mail-pg1-x530.google.com with SMTP id 41be03b00d2f7-5c67fdbe7d4so111328a12.0;
-        Thu, 07 Dec 2023 04:42:27 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1701952947; x=1702557747; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=kBoD0NAlVPKWgZXNfYVQBHK6l1V4ZPm2HAkRoJxe6G8=;
-        b=hgnqVnZeE/zo6bn7psD1QLEF3sod0mgeeNVUWn9ogmm7yACZRYyX0SbYFQPUamx5Am
-         QcEl4GWxT/N/KuYzJXYciDRDi4dHBuRgfbc8Kt0XGJChEnBBRmLY+RQa/udMMkOUiowj
-         owj+O1hj4RHC/WDsslxaAqoDBQ/LjnBLCGjfpCON0qmUfsmZOLRo4Mrrq9pmQ0G0nHh4
-         9juHB3mzGVB4Ojr70iA9I4ed/s+fcPIEFF7WqCEnMsPv2IRZZ/kiDyQg+0ofM3VRVCE8
-         ncrVjGqW5WEOUccymbzHKmzCP38Ab88EVSwjcuRRKU6LqstDf6kLDrcA/v9393DNcFhA
-         9PFQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1701952947; x=1702557747;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=kBoD0NAlVPKWgZXNfYVQBHK6l1V4ZPm2HAkRoJxe6G8=;
-        b=biRsa0aU92NjAQPzVpm6d55JgCdjYg59Xs7DZalogzvpiu4jcsIm72ztLJHidhcEJf
-         Rywa6+5SGWtzbvu42u1/OYci2+KEkV6JZ4fOijCyBgBpvnsdWAMc1fTyzWsy/KioCw9E
-         0teb0a5E7X9OQKqB82Hmk4Ku/BFriLxJCcqg/2zrS2y4n0Wng2F7HOaa433TAr9S/v60
-         AJdr3cKfFOKjwa1t01B6pH4R8BCM/YiF3zFUwsbA75CJoSmYrA17bnX+Q5ryUMhx93Tg
-         7iOqzc8uTB8bf+3B4+Q/Rw/EHGNmLy7THvYD0d4pQc2Kgi7LvRKOBogWP3hJRuhJiTay
-         /7fg==
-X-Gm-Message-State: AOJu0YwT3mKQ4rkhcSw0cHLEtLCADO1QXS5jjuEvGuyOcsxaVtddfJGW
-	iEQ6k2/jT202XJNdgT4mLAU=
-X-Google-Smtp-Source: AGHT+IFH6AJFYpAebsuV5dy8XuNU7aXMCnYbBJkNaIgFkUfJ8ynJX2GLPLJDDjo0NDNpIg6Zl5tSEw==
-X-Received: by 2002:a05:6a21:188:b0:18f:c8e7:ac9f with SMTP id le8-20020a056a21018800b0018fc8e7ac9fmr5160633pzb.3.1701952947301;
-        Thu, 07 Dec 2023 04:42:27 -0800 (PST)
-Received: from fabio-Precision-3551.. ([2804:14c:485:4b61:492a:db3d:eb42:de92])
-        by smtp.gmail.com with ESMTPSA id pw10-20020a17090b278a00b002867594de40sm1263064pjb.14.2023.12.07.04.42.24
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 07 Dec 2023 04:42:26 -0800 (PST)
-From: Fabio Estevam <festevam@gmail.com>
-To: gregkh@linuxfoundation.org
-Cc: uwu@icenowy.me,
-	robh+dt@kernel.org,
-	krzysztof.kozlowski+dt@linaro.org,
-	conor+dt@kernel.org,
-	linux-usb@vger.kernel.org,
-	devicetree@vger.kernel.org,
-	Fabio Estevam <festevam@denx.de>
-Subject: [PATCH] dt-bindings: usb: genesys,gl850g: Document 'peer-hub'
-Date: Thu,  7 Dec 2023 09:42:17 -0300
-Message-Id: <20231207124217.2530457-1-festevam@gmail.com>
-X-Mailer: git-send-email 2.34.1
+Received: from gandalf.ozlabs.org (gandalf.ozlabs.org [150.107.74.76])
+	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B7B91122;
+	Thu,  7 Dec 2023 04:44:29 -0800 (PST)
+Received: from authenticated.ozlabs.org (localhost [127.0.0.1])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by mail.ozlabs.org (Postfix) with ESMTPSA id 4SmDVL0kpKz4xGR;
+	Thu,  7 Dec 2023 23:44:10 +1100 (AEDT)
+From: Michael Ellerman <patch-notifications@ellerman.id.au>
+To: Andrew Morton <akpm@linux-foundation.org>, linux-kernel@vger.kernel.org, Masahiro Yamada <masahiroy@kernel.org>, linux-kbuild@vger.kernel.org, Arnd Bergmann <arnd@kernel.org>
+Cc: Arnd Bergmann <arnd@arndb.de>, Matt Turner <mattst88@gmail.com>, Vineet Gupta <vgupta@kernel.org>, Russell King <linux@armlinux.org.uk>, Catalin Marinas <catalin.marinas@arm.com>, Will Deacon <will@kernel.org>, Steven Rostedt <rostedt@goodmis.org>, Masami Hiramatsu <mhiramat@kernel.org>, Mark Rutland <mark.rutland@arm.com>, Guo Ren <guoren@kernel.org>, Peter Zijlstra <peterz@infradead.org>, Ard Biesheuvel <ardb@kernel.org>, Huacai Chen <chenhuacai@kernel.org>, Greg Ungerer <gerg@linux-m68k.org>, Michal Simek <monstr@monstr.eu>, Thomas Bogendoerfer <tsbogend@alpha.franken.de>, Dinh Nguyen <dinguyen@kernel.org>, Nicholas Piggin <npiggin@gmail.com>, Christophe Leroy <christophe.leroy@csgroup.eu>, Geoff Levand <geoff@infradead.org>, Palmer Dabbelt <palmer@dabbelt.com>, Heiko Carstens <hca@linux.ibm.com>, John Paul Adrian Glaubitz <glaubitz@physik.fu-berlin.de>, "David S. Miller" <davem@davemloft.net>, Andy Lutomirski <luto@kernel.org>, Thomas Gleixner <tglx@linutronix.de>, Ingo Molna
+ r <mingo@redhat.com>, x86@kernel.org, Helge Deller <deller@gmx.de>, Sudip Mukherjee <sudipm.mukherjee@gmail.com>, Greg Kroah-Hartman <gregkh@linuxfoundation.org>, Timur Tabi <timur@kernel.org>, Kent Overstreet <kent.overstreet@linux.dev>, David Woodhouse <dwmw2@infradead.org>, "Naveen N. Rao" <naveen.n.rao@linux.ibm.com>, Anil S Keshavamurthy <anil.s.keshavamurthy@intel.com>, Kees Cook <keescook@chromium.org>, Vincenzo Frascino <vincenzo.frascino@arm.com>, Juri Lelli <juri.lelli@redhat.com>, Vincent Guittot <vincent.guittot@linaro.org>, Nathan Chancellor <nathan@kernel.org>, Nick Desaulniers <ndesaulniers@google.com>, Nicolas Schier <nicolas@fjasle.eu>, Al Viro <viro@zeniv.linux.org.uk>, Uwe Kleine-König <u.kleine-koenig@pengutronix.de>, linux-alpha@vger.kernel.org, linux-snps-arc@lists.infradead.org, linux-arm-kernel@lists.infradead.org, linux-trace-kernel@vger.kernel.org, linux-csky@vger.kernel.org, loongarch@lists.linux.dev, linux-m68k@lists.linux-m68k.org, linux-mips@vger.kerne
+ l.org, linuxppc-dev@lists.ozlabs.org, linux-riscv@lists.infradead.org, linux-s390@vger.kernel.org, linux-sh@vger.kernel.org, sparclinux@vger.kernel.org, netdev@vger.kernel.org, linux-parisc@vger.kernel.org, linux-usb@vger.kernel.org, linux-fbdev@vger.kernel.org, dri-devel@lists.freedesktop.org, linux-bcachefs@vger.kernel.org, linux-mtd@lists.infradead.org
+In-Reply-To: <20231108125843.3806765-1-arnd@kernel.org>
+References: <20231108125843.3806765-1-arnd@kernel.org>
+Subject: Re: (subset) [PATCH 00/22] -Wmissing-prototype warning fixes
+Message-Id: <170195271155.2310221.7822619081586355844.b4-ty@ellerman.id.au>
+Date: Thu, 07 Dec 2023 23:38:31 +1100
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
 
-From: Fabio Estevam <festevam@denx.de>
+On Wed, 08 Nov 2023 13:58:21 +0100, Arnd Bergmann wrote:
+> I slightly dropped the ball on this since last sending the series in
+> August, but a number of warning fixes have made it into the kernel in
+> the meantime, both from my earlier submission and from architecture
+> maintainers.
+> 
+> I have none patches that remain from the previous submission, with
+> two of them reworked according to comments. The additional patches
+> are from more testing across architectures and configurations that
+> I had previously missed.
+> 
+> [...]
 
-The 'peer-hub' is a valid property for the hub.
+Applied to powerpc/next.
 
-Document it to fix the following dt-schema warning:
+[17/22] powerpc: ps3: move udbg_shutdown_ps3gelic prototype
+        https://git.kernel.org/powerpc/c/04c40eed3f7ac48ddaf20104489510e743a53c47
+[18/22] powerpc: pasemi: mark pas_shutdown() static
+        https://git.kernel.org/powerpc/c/0c9a768de64d24e38e27652b8c273725ccc31916
+[19/22] powerpc: powermac: mark smp_psurge_{give,take}_timebase static
+        https://git.kernel.org/powerpc/c/afb36ac386783d2ef2ed839293c03fd06f470be0
 
-imx8mp-debix-som-a-bmb-08.dtb: hub@1: 'peer-hub' does not match any of the regexes: 'pinctrl-[0-9]+'
-	from schema $id: http://devicetree.org/schemas/usb/genesys,gl850g.yaml#
-
-Signed-off-by: Fabio Estevam <festevam@denx.de>
----
- Documentation/devicetree/bindings/usb/genesys,gl850g.yaml | 5 +++++
- 1 file changed, 5 insertions(+)
-
-diff --git a/Documentation/devicetree/bindings/usb/genesys,gl850g.yaml b/Documentation/devicetree/bindings/usb/genesys,gl850g.yaml
-index ee08b9c3721f..37cf5249e526 100644
---- a/Documentation/devicetree/bindings/usb/genesys,gl850g.yaml
-+++ b/Documentation/devicetree/bindings/usb/genesys,gl850g.yaml
-@@ -29,6 +29,11 @@ properties:
-     description:
-       the regulator that provides 3.3V core power to the hub.
- 
-+  peer-hub:
-+    $ref: /schemas/types.yaml#/definitions/phandle
-+    description:
-+      phandle to the peer hub on the controller.
-+
- required:
-   - compatible
-   - reg
--- 
-2.34.1
-
+cheers
