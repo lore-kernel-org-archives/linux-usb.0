@@ -1,246 +1,123 @@
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=amd.com header.i=@amd.com header.b="X89ddZDD"
-Received: from NAM11-BN8-obe.outbound.protection.outlook.com (mail-bn8nam11on2041.outbound.protection.outlook.com [40.107.236.41])
-	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 6FB8B83;
-	Tue, 12 Dec 2023 11:17:06 -0800 (PST)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=MCShfidYyPmiPI5gM0sxf47agveIP5pOR652gG17Ou8gRQUr0EULzwaiG7uFH0at5ZL0i/8Z0AivutOI40UL8v5BowNvi1uVYpJEI5LSiasNuoSFn53XsHdR2X74QxawE9osgoXln2x78V3uwGtmkNsDxYmfHhFbzBLndTiG4HXTsjV+5GTvOcK6Yj+pFW39VgAtoiGtJgyenGvCy0btp/lsdP+4zH0iw+FbzCwPnC7uZBDgSRJcQzvtS8oQjwdsRTa99iYmwEdA0ZWUH3mdMdDwPTyAhmgywHCdNUM0H3ZK+N0TCen/RECCia4xBvBZv+pjUeQRDXQPiWRT5tGZIg==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=m6eZK4M6pHCFIlxHf8yCTbMhWPuEcXtg5NbAiGDBTMw=;
- b=C4smStsWyBaWTR/qj1ueQTp3sqy3EtamDxE3J9A44vrZTVyXXbNIWQVpgYJ3Wj7XbZCTiXfbzaMFhoOg1a8BbOq53WIB4pfmIPxTPAYATNBMO1zxBLmJenhT9/tq6v3AiRS16MNSC3Hdc8SJJPKdxsXH1e6S939dS+kK34YfI8g+xUOHk3qbFBISApDyuSeHNpAMPhaQdP+eOtPnAyheW6AtXoyocfdatnJ2DEZcIJ5p/M/ZqtfXWa+dt5Sqs6fw4rkJ8MbRQ8itx+SQfZQihB/WnEhXtENvf0zvcHEdLjBSxL24jQigiVbe9z/dsQ3ruiplKXRToYgi+aiprfieew==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
- 165.204.84.17) smtp.rcpttodomain=gmail.com smtp.mailfrom=amd.com; dmarc=pass
- (p=quarantine sp=quarantine pct=100) action=none header.from=amd.com;
- dkim=none (message not signed); arc=none (0)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=m6eZK4M6pHCFIlxHf8yCTbMhWPuEcXtg5NbAiGDBTMw=;
- b=X89ddZDDme2V9z3dgEohuhQ1z/qU11jyj7vszESurrlYLeI0xMly6YQ54+od8zn4RV1Kc7jqZvuJYYzkvY4Q0zmhoVrvT0mU6stPlj5mgKyTaJBgVRbAwHSJ/960MtfAR8lhDqlt5NC2LiWYpk3vlWJRqQu+lhzLwKpSAd8/buY=
-Received: from MW4PR03CA0200.namprd03.prod.outlook.com (2603:10b6:303:b8::25)
- by BN9PR12MB5289.namprd12.prod.outlook.com (2603:10b6:408:102::18) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7068.33; Tue, 12 Dec
- 2023 19:17:04 +0000
-Received: from CO1PEPF000044FD.namprd21.prod.outlook.com
- (2603:10b6:303:b8:cafe::bf) by MW4PR03CA0200.outlook.office365.com
- (2603:10b6:303:b8::25) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7068.33 via Frontend
- Transport; Tue, 12 Dec 2023 19:17:03 +0000
-X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 165.204.84.17)
- smtp.mailfrom=amd.com; dkim=none (message not signed)
- header.d=none;dmarc=pass action=none header.from=amd.com;
-Received-SPF: Pass (protection.outlook.com: domain of amd.com designates
- 165.204.84.17 as permitted sender) receiver=protection.outlook.com;
- client-ip=165.204.84.17; helo=SATLEXMB04.amd.com; pr=C
-Received: from SATLEXMB04.amd.com (165.204.84.17) by
- CO1PEPF000044FD.mail.protection.outlook.com (10.167.241.203) with Microsoft
- SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.20.7113.7 via Frontend Transport; Tue, 12 Dec 2023 19:17:03 +0000
-Received: from jatayu.amd.com (10.180.168.240) by SATLEXMB04.amd.com
- (10.181.40.145) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2507.34; Tue, 12 Dec
- 2023 13:17:00 -0600
-From: Sanath S <Sanath.S@amd.com>
-To: <mario.limonciello@amd.com>, <andreas.noever@gmail.com>,
-	<michael.jamet@intel.com>, <mika.westerberg@linux.intel.com>,
-	<YehezkelShB@gmail.com>, <linux-usb@vger.kernel.org>,
-	<linux-kernel@vger.kernel.org>
-CC: Sanath S <Sanath.S@amd.com>
-Subject: [Patch v2 1/2] thunderbolt: Introduce tb_switch_reset_ports(), tb_port_reset() and usb4_port_reset()
-Date: Wed, 13 Dec 2023 00:46:34 +0530
-Message-ID: <20231212191635.2022520-2-Sanath.S@amd.com>
-X-Mailer: git-send-email 2.25.1
-In-Reply-To: <20231212191635.2022520-1-Sanath.S@amd.com>
-References: <20231212191635.2022520-1-Sanath.S@amd.com>
+	dkim=pass (2048-bit key) header.d=gmx.net header.i=wahrenst@gmx.net header.b="siTGftYd"
+Received: from mout.gmx.net (mout.gmx.net [212.227.15.19])
+	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 59D2FE9;
+	Tue, 12 Dec 2023 11:17:36 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=gmx.net;
+	s=s31663417; t=1702408604; x=1703013404; i=wahrenst@gmx.net;
+	bh=ACbaWNFhI4Cx8ABOfIZf0sedQjo/96CkJf/XFm3gSFw=;
+	h=X-UI-Sender-Class:Date:Subject:To:Cc:References:From:
+	 In-Reply-To;
+	b=siTGftYdIIfpqLMjfSUMkNoTPDjSwYkv77spcXetPEEqcUIZ/rJCW5AdXdhT2E+/
+	 vIDyTST7e9OwWhlxMlm3uOQ/LFyqsxmTa/+ikLL5mNf2EAEIv1PIxFZwSAmt8b2Vt
+	 33eVU7lYHDa5peCQMkX3wmHMxTcMcD7REf7FDMk4B58cd8JQrqY7lqINqKC8aJdcM
+	 GSVy0RH5twchCmxvXkLfCrF8V+S/oFM9ZhXK90oh2cI3eOM4R/V2rx2b7d6VzcsP8
+	 kEirOjqCEot/T4LWwloPdLWR7YfkKotZJR07sgJn3WF+lVsgTHxx5sL/sBDDhUJkM
+	 o4Kd/3p/72C4SGx/wQ==
+X-UI-Sender-Class: 724b4f7f-cbec-4199-ad4e-598c01a50d3a
+Received: from [192.168.1.130] ([37.4.248.43]) by mail.gmx.net (mrgmx004
+ [212.227.17.190]) with ESMTPSA (Nemesis) id 1Mn2aD-1rfHw30WoB-00kAvS; Tue, 12
+ Dec 2023 20:16:44 +0100
+Message-ID: <6f5ced56-94fb-43dc-859d-42398624cd55@gmx.net>
+Date: Tue, 12 Dec 2023 20:16:42 +0100
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-ClientProxiedBy: SATLEXMB03.amd.com (10.181.40.144) To SATLEXMB04.amd.com
- (10.181.40.145)
-X-EOPAttributedMessage: 0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: CO1PEPF000044FD:EE_|BN9PR12MB5289:EE_
-X-MS-Office365-Filtering-Correlation-Id: cab96617-95f9-49b6-390d-08dbfb46ec87
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info:
-	33lw69V4X7yhtMBLC1oEiFWQFGqDeS5QonoPSP5069RNhMdn5vwQ9NYEVa4pDBEfPSglpRRlwl5GuLeRvw40KuSsbWg9wAMN5nteuwm24f+LN6D05dyknPGSSEzlyiA60qmyloITr9oOhkzcnZgcEEQxCpcYkCANVd1jhVyWovnvfpUvIanqP3HTKM3PKDLMp/UNsqf592bjyMFKaG/90pbQvEVxJxyowW0Jla26kc0oOyEpuFolA8DVL6EeDm4CPgKbtikDmdHGlMFV/XeKXDqsPvWATLLo8on8B8zbtPG5BBgwDC7rjorExqQIp+CcgPC4sgKAAtEI1VS6aJUEHTPhLx4AJkSHQOLkleBba0DRzl7+T5Tr1zJH22icEnY8uySLfbtwadCfEbuZVuztCA6Y8PTUnE5O1RYYlr8JzEWLzu3EbMxtdXarr3ERMFTRBrfFGYfGBnnEhbNhEf2ohBok1Md/7Fbj5SwkTdZ4IsIXauRhIPbfqSbgx+JDHjBUt8duRZkIB/+SuinTkTuDJAea4/8wzEi4UmtflabHDSFgAOdPQT7VInkumSXTBFebsT4+eWbCUErsow3q1gv6WARk6aVr4taSSUYMzvubv33HFlw4SUiR8DYeuWmQ72ojeQVY9PiBly9KRFQdp/WBwp98CtzAkiwKbA1gUCt6gOsApmL2+MjQbNw6OfMh4CVyrDAeDytvqEW3aXVm02s77sRO1ZTMFoqa5HQKAxK5ZXdlTenWH4ns2ce25PXhr6V7
-X-Forefront-Antispam-Report:
-	CIP:165.204.84.17;CTRY:;LANG:en;SCL:1;SRV:;IPV:CAL;SFV:NSPM;H:SATLEXMB04.amd.com;PTR:InfoDomainNonexistent;CAT:NONE;SFS:(13230031)(4636009)(376002)(136003)(346002)(39860400002)(396003)(230922051799003)(451199024)(186009)(82310400011)(64100799003)(1800799012)(46966006)(36840700001)(40470700004)(41300700001)(81166007)(82740400003)(8676002)(316002)(8936002)(86362001)(36756003)(70206006)(110136005)(70586007)(478600001)(356005)(2906002)(16526019)(426003)(7696005)(40480700001)(336012)(1076003)(26005)(5660300002)(2616005)(83380400001)(40460700003)(47076005)(6666004)(4326008)(36860700001)(36900700001)(2101003);DIR:OUT;SFP:1101;
-X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 12 Dec 2023 19:17:03.6062
- (UTC)
-X-MS-Exchange-CrossTenant-Network-Message-Id: cab96617-95f9-49b6-390d-08dbfb46ec87
-X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
-X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=3dd8961f-e488-4e60-8e11-a82d994e183d;Ip=[165.204.84.17];Helo=[SATLEXMB04.amd.com]
-X-MS-Exchange-CrossTenant-AuthSource:
-	CO1PEPF000044FD.namprd21.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Anonymous
-X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: BN9PR12MB5289
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH V4 0/3] ARM: dts: bcm2711: Add BCM2711 xHCI support
+Content-Language: en-US
+To: Cyril Brulebois <kibi@debian.org>
+Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+ Rob Herring <robh+dt@kernel.org>,
+ Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+ Conor Dooley <conor+dt@kernel.org>,
+ Florian Fainelli <florian.fainelli@broadcom.com>,
+ Mathias Nyman <mathias.nyman@intel.com>,
+ bcm-kernel-feedback-list@broadcom.com, linux-usb@vger.kernel.org,
+ devicetree@vger.kernel.org, linux-arm-kernel@lists.infradead.org
+References: <20231205200531.8232-1-wahrenst@gmx.net>
+ <20231212190904.igxm2twvftokhdwr@mraw.org>
+From: Stefan Wahren <wahrenst@gmx.net>
+In-Reply-To: <20231212190904.igxm2twvftokhdwr@mraw.org>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: quoted-printable
+X-Provags-ID: V03:K1:ZnBG0/z+wh4wy+82FAbvdMniRIaOdEwLDjVTNOM4OeTg0y4mlTi
+ L7zC8cls2KR4y8dIcuSFXJtjCUTKFMbP5jKXa/+d0oZ5XuCF6C4HBvXjGgoNkr6rpP8doc/
+ AEAk+fApgL7HgbiNV5NLVeeBdPwTgAD6YNEz5KOKFATthEsMJiUKqmQ1O6S7pgGGnvTSIGF
+ IWwcoEuwhr8Pz6h4PA1tw==
+UI-OutboundReport: notjunk:1;M01:P0:dK5623jq9jw=;und38testhdiz4Hqpq74S1f8GWt
+ UnL1HTAtz9q8LfpsKQ9gtC24PG1Jz7eUziKQ3ulr0WhYxLZZhcq93A6cRQ3dljRbRuvCQh1i6
+ QPTQ83wX2OBO+8VQ9Pah4PnPB6hgymDk/bz0g7FWRg+5Q4TqxnOobm7JPtH0TW8tPYDH63mGp
+ sh5y15qjCZhBkYx/XkGRlIYStx8mFwOQhUOTSpHMTC0a8KZRXB2TC3PlbhJqOi7udehY7GKRk
+ sK229Oztdqs2sJtXuX+B53x0RNLy0xd1Kplw2U4SFQp+YuFdFlNRYcPivgCC05BCg5eGJNlq1
+ ELf9M65BXeqQBHHb6rE3TXCmVvn1JY6cKWHCSv/HL70dsROYvaBU9Fnwxdl7fmoBL5L8vmGI7
+ Ei8pXcFgEOvT5t0B0TByg4AfGOxgsisZSmt5y+QCNmKo8Z1iPFFUdiiXT7fW2FguC8viYkN8H
+ U/5Gm2yMeJWWqegJqVZHaw0BQ73n9Yow9GD7upRZpsVxS+vzeL/I+F/0VeA0+7nC01/b8CVen
+ ruyDRbSLUpdW9DK4yiaA/TZNluXKe3hugisWdcHVtzk91SydcpL1KHeMaNvU0JFS7ReVShlZx
+ /oCT1h0otY4QPTpscKqv2qlNkwwIXs8e5PqtOEB9puhpf+jXvsdiaInlo9e9/WsFrl59RSRip
+ 2EIXbtWkfhHgDG+TQXDiEbBtp1IF4ZySCdOlubRtA78Kkpu9CAGPr4Krd70+NIsfefsipylot
+ fFRzXOlJ//i0Mzbb6fa/pRojBv0HT8V692SkRF34QjvMZQ4eaiDm1sjYdPyEoUfT/4pBuloYk
+ 9QAZz2/AIcvZKcDwJY9Sj1aYUugg+w0G+nchCyFynUmgTetgg4i36oRIV1Q+qnEUYLHuTuHTw
+ zUn8YTvdR57tCjAfiG47BcALP24dxUqMVqbPHxBLwFIGT0VsOPZgu+U404wtZ8tSRPRlqk2e6
+ lHFpzg==
 
-Introduce the tb_switch_reset_ports() function that resets the
-downstream ports of a given switch. This helps us reset the USB4
-links created by boot firmware during the init sequence.
+Hi Cyril,
 
-Introduce the tb_port_reset() helper function that resets the
-given port.
+Am 12.12.23 um 20:09 schrieb Cyril Brulebois:
+> Stefan Wahren <wahrenst@gmx.net> (2023-12-05):
+>> In contrast to the Raspberry Pi 4, the Compute Module 4 or the IO board
+>> does not have a VL805 USB 3.0 host controller, which is connected via
+>> PCIe. Instead, the Compute Module provides the built-in
+>> xHCI of the BCM2711 SoC.
+>>
+>> Changes in V4:
+>> - use "brcm,xhci-brcm-v2" as fallback compatible as suggested by
+>>    Conor & Florian
+>>
+>> Changes in V3:
+>> - introduce a new compatible for BCM2711 in order to make the
+>>    power domain dependency SoC specific, which also results in
+>>    a driver change
+> This is still:
+>
+> Tested-by: Cyril Brulebois <cyril@debamax.com>
+thank you very much for your efforts. The series has been already
+applied by Greg.
 
-Introduce the usb4_port_reset() function that performs the DPR
-of a given port. This function follows the CM guide specification 7.3
-
-Suggested-by: Mario Limonciello <mario.limonciello@amd.com>
-Signed-off-by: Sanath S <Sanath.S@amd.com>
----
- drivers/thunderbolt/switch.c  | 35 +++++++++++++++++++++++++++++++
- drivers/thunderbolt/tb.h      |  2 ++
- drivers/thunderbolt/tb_regs.h |  1 +
- drivers/thunderbolt/usb4.c    | 39 +++++++++++++++++++++++++++++++++++
- 4 files changed, 77 insertions(+)
-
-diff --git a/drivers/thunderbolt/switch.c b/drivers/thunderbolt/switch.c
-index 44e9b09de47a..ef7ed92fd48e 100644
---- a/drivers/thunderbolt/switch.c
-+++ b/drivers/thunderbolt/switch.c
-@@ -626,6 +626,19 @@ int tb_port_unlock(struct tb_port *port)
- 	return 0;
- }
- 
-+/**
-+ * tb_port_reset() - Reset downstream port
-+ * @port: Port to reset
-+ *
-+ * Helps to reconfigure the USB4 link by resetting the downstream port.
-+ *
-+ * Return: Returns 0 on success or an error code on failure.
-+ */
-+static int tb_port_reset(struct tb_port *port)
-+{
-+	return usb4_port_reset(port);
-+}
-+
- static int __tb_port_enable(struct tb_port *port, bool enable)
- {
- 	int ret;
-@@ -1547,6 +1560,28 @@ static void tb_dump_switch(const struct tb *tb, const struct tb_switch *sw)
- 	       regs->__unknown1, regs->__unknown4);
- }
- 
-+/**
-+ * tb_switch_reset_ports() - Reset downstream ports of switch.
-+ * @sw: Switch whose ports need to be reset.
-+ *
-+ * This is applicable only for USB4 routers.
-+ * tb_switch_is_usb4() needs to be called before calling this
-+ * function.
-+ *
-+ * Return: Returns 0 on success or an error code on failure.
-+ */
-+int tb_switch_reset_ports(struct tb_switch *sw)
-+{
-+	struct tb_port *port;
-+	int ret = -EOPNOTSUPP;
-+
-+	tb_switch_for_each_port(sw, port) {
-+		if (tb_port_is_null(port) && port->cap_usb4)
-+			return tb_port_reset(port);
-+	}
-+	return ret;
-+}
-+
- /**
-  * tb_switch_reset() - reconfigure route, enable and send TB_CFG_PKG_RESET
-  * @sw: Switch to reset
-diff --git a/drivers/thunderbolt/tb.h b/drivers/thunderbolt/tb.h
-index e299e53473ae..f2687ec4ac53 100644
---- a/drivers/thunderbolt/tb.h
-+++ b/drivers/thunderbolt/tb.h
-@@ -797,6 +797,7 @@ void tb_switch_remove(struct tb_switch *sw);
- void tb_switch_suspend(struct tb_switch *sw, bool runtime);
- int tb_switch_resume(struct tb_switch *sw);
- int tb_switch_reset(struct tb_switch *sw);
-+int tb_switch_reset_ports(struct tb_switch *sw);
- int tb_switch_wait_for_bit(struct tb_switch *sw, u32 offset, u32 bit,
- 			   u32 value, int timeout_msec);
- void tb_sw_set_unplugged(struct tb_switch *sw);
-@@ -1281,6 +1282,7 @@ struct tb_port *usb4_switch_map_usb3_down(struct tb_switch *sw,
- int usb4_switch_add_ports(struct tb_switch *sw);
- void usb4_switch_remove_ports(struct tb_switch *sw);
- 
-+int usb4_port_reset(struct tb_port *port);
- int usb4_port_unlock(struct tb_port *port);
- int usb4_port_hotplug_enable(struct tb_port *port);
- int usb4_port_configure(struct tb_port *port);
-diff --git a/drivers/thunderbolt/tb_regs.h b/drivers/thunderbolt/tb_regs.h
-index 87e4795275fe..d49530bc0d53 100644
---- a/drivers/thunderbolt/tb_regs.h
-+++ b/drivers/thunderbolt/tb_regs.h
-@@ -389,6 +389,7 @@ struct tb_regs_port_header {
- #define PORT_CS_18_CSA				BIT(22)
- #define PORT_CS_18_TIP				BIT(24)
- #define PORT_CS_19				0x13
-+#define PORT_CS_19_DPR				BIT(0)
- #define PORT_CS_19_PC				BIT(3)
- #define PORT_CS_19_PID				BIT(4)
- #define PORT_CS_19_WOC				BIT(16)
-diff --git a/drivers/thunderbolt/usb4.c b/drivers/thunderbolt/usb4.c
-index 4277733d0021..c8a4bf33ed1c 100644
---- a/drivers/thunderbolt/usb4.c
-+++ b/drivers/thunderbolt/usb4.c
-@@ -1073,6 +1073,45 @@ void usb4_switch_remove_ports(struct tb_switch *sw)
- 	}
- }
- 
-+/**
-+ * usb4_port_reset() - Reset USB4 downsteam port
-+ * @port: USB4 port to reset.
-+ *
-+ * Helps to reconfigure USB4 link by resetting downstream port.
-+ *
-+ * Return: Returns 0 on success or an error code on failure.
-+ */
-+int usb4_port_reset(struct tb_port *port)
-+{
-+	u32 val = 0;
-+	int ret;
-+
-+	ret = tb_port_read(port, &val, TB_CFG_PORT,
-+			port->cap_usb4 + PORT_CS_19, 1);
-+	if (ret)
-+		return ret;
-+
-+	val = val | PORT_CS_19_DPR;
-+	ret = tb_port_write(port, &val, TB_CFG_PORT,
-+			port->cap_usb4 + PORT_CS_19, 1);
-+	if (ret)
-+		return ret;
-+
-+	/* Wait for 10ms after requesting downstream port reset */
-+	usleep_range(10000, 15000);
-+
-+	ret = tb_port_read(port, &val, TB_CFG_PORT,
-+			port->cap_usb4 + PORT_CS_19, 1);
-+	if (ret)
-+		return ret;
-+
-+	val &= ~PORT_CS_19_DPR;
-+	ret = tb_port_write(port, &val, TB_CFG_PORT,
-+			port->cap_usb4 + PORT_CS_19, 1);
-+
-+	return ret;
-+}
-+
- /**
-  * usb4_port_unlock() - Unlock USB4 downstream port
-  * @port: USB4 port to unlock
--- 
-2.34.1
+https://git.kernel.org/pub/scm/linux/kernel/git/gregkh/usb.git/log/?h=3Dus=
+b-next
+>
+>
+> Again, I'm also applying Jim Quinlan's PCIe patch series v8, to be able
+> to fully test what happens with USB devices, onboard and behind PCIe:
+>    https://lore.kernel.org/all/20231126201946.ffm3bhg5du2xgztv@mraw.org/
+>
+> With the following on a CM4 IO Board, with a Samsung flash drive and a
+> USB keyboard connected to onboard USB ports:
+>   - CM4 Lite Rev 1.0
+>   - CM4 8/32 Rev 1.0
+>   - CM4 4/32 Rev 1.1
+>
+> and using one of the three PCIe-to-USB boards referenced previously,
+> connecting another Samsung flash drive on one of its USB ports.
+>
+> Conclusion: I can see and use onboard USB devices alongside behind-PCIe
+> USB devices, either with or without adding otg_mode=3D1 to config.txt.
+>
+> On a CM4-based product that uses both onboard USB ports and PCIe-to-USB
+> ports, all USB components still work fine (3 RF adapters, 1 modem), with
+> or without otg_mode=3D1.
+>
+> (All of this is still with a Debian 12 arm64 user space.)
+>
+>
+> Cheers,
+>
+> _______________________________________________
+> linux-arm-kernel mailing list
+> linux-arm-kernel@lists.infradead.org
+> http://lists.infradead.org/mailman/listinfo/linux-arm-kernel
 
