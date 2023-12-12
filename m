@@ -1,70 +1,71 @@
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kemnade.info header.i=@kemnade.info header.b="IvrvKt2R"
-X-Greylist: delayed 1397 seconds by postgrey-1.37 at lindbergh.monkeyblade.net; Tue, 12 Dec 2023 07:44:59 PST
-Received: from mail.andi.de1.cc (mail.andi.de1.cc [IPv6:2a02:c205:3004:2154::1])
-	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 4134599
-	for <linux-usb@vger.kernel.org>; Tue, 12 Dec 2023 07:44:59 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=kemnade.info; s=20220719; h=Content-Transfer-Encoding:Content-Type:
-	MIME-Version:References:In-Reply-To:Message-ID:Subject:Cc:To:From:Date:Sender
-	:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
-	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:
-	List-Unsubscribe:List-Subscribe:List-Post:List-Owner:List-Archive;
-	bh=8/7UY3Bhx9kOpWH0pljI90JTWKEClugcDBTPjZhXP9I=; b=IvrvKt2Ro9FYXn4zgx6sY8r6zl
-	k7PKyiLzUyhm14tt0yTEl1QZnV/QE9IfhGJ21ZSL4vMaN1gkOPBcpke0/dX6mKmqZSUXZX2K1oKwp
-	wjaM4qdD/Fo80ja6Zqybnbfcp8qHHgBZ3d53i1KP9t5DNwnC4gP2/OAtTKMNktLZRtoqh2fmh5xb2
-	ulGCpojPcIsRQigz5i1JChmXhu+iP9XvN8TqHOYSKS0iDZ3Yy8zc+mjAbgI42L/ufiXBNXAngdQ5O
-	B1/0ttz5R4Dw4LvoqboRjD6Th0xTGNJExrLJ0XsNRuOWHB2yawl3axs5pYIBQL5RuEtJIdGUuiF6P
-	W8fPzubQ==;
-Received: from p200301077700c3001a3da2fffebfd33a.dip0.t-ipconnect.de ([2003:107:7700:c300:1a3d:a2ff:febf:d33a] helo=aktux)
-	by mail.andi.de1.cc with esmtpsa  (TLS1.3) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
-	(Exim 4.94.2)
-	(envelope-from <andreas@kemnade.info>)
-	id 1rD4Zn-007JTV-Hw; Tue, 12 Dec 2023 16:21:39 +0100
-Date: Tue, 12 Dec 2023 16:21:37 +0100
-From: Andreas Kemnade <andreas@kemnade.info>
-To: Adam Ford <aford173@gmail.com>
-Cc: Linux-OMAP <linux-omap@vger.kernel.org>, USB list
- <linux-usb@vger.kernel.org>, stern@rowland.harvard.edu, Greg Kroah-Hartman
- <gregkh@linuxfoundation.org>
-Subject: Re: ehci-omap unresponsive when used with external hub
-Message-ID: <20231212162137.047f9337@aktux>
-In-Reply-To: <CAHCN7xKGW4j6HsELJNbT10OyNX0zx2207nz=AQ97VxKJaEQkyg@mail.gmail.com>
-References: <CAHCN7xKGW4j6HsELJNbT10OyNX0zx2207nz=AQ97VxKJaEQkyg@mail.gmail.com>
-X-Mailer: Claws Mail 4.1.1 (GTK 3.24.38; x86_64-pc-linux-gnu)
+Received: from mail11.truemail.it (mail11.truemail.it [IPv6:2001:4b7e:0:8::81])
+	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 8AD3AD7E
+	for <linux-usb@vger.kernel.org>; Tue, 12 Dec 2023 08:36:22 -0800 (PST)
+Received: from francesco-nb.int.toradex.com (93-49-2-63.ip317.fastwebnet.it [93.49.2.63])
+	by mail11.truemail.it (Postfix) with ESMTPA id 271572205B;
+	Tue, 12 Dec 2023 17:36:18 +0100 (CET)
+Date: Tue, 12 Dec 2023 17:36:14 +0100
+From: Francesco Dolcini <francesco@dolcini.it>
+To: linux-usb@vger.kernel.org
+Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	Linyu Yuan <quic_linyyuan@quicinc.com>,
+	Maciej =?utf-8?Q?=C5=BBenczykowski?= <maze@google.com>,
+	Jon Hunter <jonathanh@nvidia.com>
+Subject: kernel warning in usb_ep_queue() during suspend/resume
+Message-ID: <ZXiL/tXS5/xSV+aP@francesco-nb.int.toradex.com>
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
-On Tue, 12 Dec 2023 08:58:31 -0600
-Adam Ford <aford173@gmail.com> wrote:
+Hello all,
+while doing some tests on kernel 6.1 the following warning is hit
+sporadically:
 
-> I have been troubleshooting an issue with USB which appears to happen
-> with  AM3517, OMAP3530,  and DM3730 in which the USB doesn't detect
-> removal or connection of USB devices and interrupts stop occurring.
-> 
-> In every case, I have the OMAP3 EHCI connected to a USB3220
-> transceiver which is treated as configured in the device tree as
-> usb-nop-xceiv with reset-gpios configured to enable it.
-> 
-Also issues on GTA04 (DM3730):
-The modem is behind it. There is an errata for that
-combination.
-Somehow reset/turning off does not work really. On GTA04
-we have issues with current consumption during suspend.
-including scenarios where there is a mismatch between state
-of phy and what the omap side the state is.
+  ------------[ cut here ]------------
+  WARNING: CPU: 0 PID: 1385 at drivers/usb/gadget/udc/core.c:295 usb_ep_queue+0x58/0x6c
+  Modules linked in: 8021q bnep mcp251x mwifiex_sdio mwifiex cfg80211 btmrvl_sdio btmrvl imx_sdma fuse
+  CPU: 0 PID: 1385 Comm: analogclock Not tainted 6.1.66-6.5.0-devel+git.6c6a6c7e211c #1
+  Hardware name: Freescale i.MX6 Ultralite (Device Tree)
+   unwind_backtrace from show_stack+0x10/0x14
+   show_stack from dump_stack_lvl+0x40/0x4c
+   dump_stack_lvl from __warn+0x88/0xc0
+   __warn from warn_slowpath_fmt+0x10c/0x1a0
+   warn_slowpath_fmt from usb_ep_queue+0x58/0x6c
+   usb_ep_queue from eth_start_xmit+0x1ec/0x330
+   eth_start_xmit from dev_hard_start_xmit+0x7c/0xf8
+   dev_hard_start_xmit from sch_direct_xmit+0x110/0x310
+   sch_direct_xmit from __qdisc_run+0x110/0x5d8
+   __qdisc_run from net_tx_action+0x170/0x20c
+   net_tx_action from __do_softirq+0xc0/0x234
+   __do_softirq from __irq_exit_rcu+0x8c/0xb8
+   __irq_exit_rcu from irq_exit+0x8/0x10
+   irq_exit from call_with_stack+0x18/0x20
+   call_with_stack from __irq_usr+0x7c/0xa0
+  Exception stack(0xe0fcdfb0 to 0xe0fcdff8)
+  dfa0:                                     b2f9e000 b30775a0 0002edf8 00000000
+  dfc0: 01493268 014fdd00 0002edf8 0002edf8 000185b8 be8d9734 b3f6f811 0000000c
+  dfe0: b2fb4580 be8d95f4 b3f6f7d3 b64006a8 20070010 ffffffff
+  ---[ end trace 0000000000000000 ]---
 
-What we do:
-enable off-mode and force-reset of both sides.
 
-and have this hack to solve at least the suspend issues:
-https://lore.kernel.org/linux-omap/20180216171414.8097-1-andreas@kemnade.info/
+The warning is happening during a suspend/resume test (not sure which
+one of the twos), I cannot really tell if this is a regression (and from
+which version, eventually), but this is happening since a while with
+multiple 6.1 kernel version (this last log is from a recent 6.1.66).
 
-Regards,
-Andreas
+I cannot really tell the current status with mainline or v6.6 given that
+it does not seems so trivial to reproduce.
+
+It happened on various arm and arm64 machine.
+
+The ethernet device is a USB NCM/ECM, running in gadget mode.
+
+Any idea?
+
+Francesco
+
