@@ -1,116 +1,161 @@
-Received: from mailgw01.mediatek.com (unknown [60.244.123.138])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-ed1-f45.google.com (mail-ed1-f45.google.com [209.85.208.45])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 60F69101C4;
-	Fri, 15 Dec 2023 07:34:42 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=mediatek.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=mediatek.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B6BC7D534
+	for <linux-usb@vger.kernel.org>; Fri, 15 Dec 2023 07:36:48 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=mediatek.com header.i=@mediatek.com header.b="mcbxVFEl"
-X-UUID: 64d4f9169b1c11eea5db2bebc7c28f94-20231215
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=mediatek.com; s=dk;
-	h=Content-Type:Content-Transfer-Encoding:MIME-Version:Message-ID:Date:Subject:CC:To:From; bh=sgVg6aQB6ADjvAD7vazIF0MWZPp4XjDd6V5th7rkY/s=;
-	b=mcbxVFEle/HZiONS8c4OOaJ3xo3rTasBSWEADqRLQ9cwLCFm7cEo9/cwoC9x2O82aHU2ii9MFfPu4bcdeYnbM3aBDw1+ZyP6G39OjEMdl3L8SdhpRbkRmZKQM4AyiT+4Nv7UeqZl9Jh3pIRNUZQtwNhnrEyQ+S7Z29MQkjm1r2E=;
-X-CID-P-RULE: Release_Ham
-X-CID-O-INFO: VERSION:1.1.35,REQID:19cb1b43-6f18-4145-854e-37a0cd09b0aa,IP:0,U
-	RL:0,TC:0,Content:0,EDM:0,RT:0,SF:0,FILE:0,BULK:0,RULE:Release_Ham,ACTION:
-	release,TS:0
-X-CID-META: VersionHash:5d391d7,CLOUDID:13fd35bd-2ac7-4da2-9f94-677a477649d9,B
-	ulkID:nil,BulkQuantity:0,Recheck:0,SF:102,TC:nil,Content:0,EDM:-3,IP:nil,U
-	RL:11|1,File:nil,Bulk:nil,QS:nil,BEC:nil,COL:0,OSI:0,OSA:0,AV:0,LES:1,SPR:
-	NO,DKR:0,DKP:0,BRR:0,BRE:0
-X-CID-BVR: 0
-X-CID-BAS: 0,_,0,_
-X-CID-FACTOR: TF_CID_SPAM_SNR,TF_CID_SPAM_ULN
-X-UUID: 64d4f9169b1c11eea5db2bebc7c28f94-20231215
-Received: from mtkmbs13n1.mediatek.inc [(172.21.101.193)] by mailgw01.mediatek.com
-	(envelope-from <chunfeng.yun@mediatek.com>)
-	(Generic MTA with TLSv1.2 ECDHE-RSA-AES256-GCM-SHA384 256/256)
-	with ESMTP id 1997620974; Fri, 15 Dec 2023 15:34:34 +0800
-Received: from mtkmbs11n2.mediatek.inc (172.21.101.187) by
- MTKMBS14N1.mediatek.inc (172.21.101.75) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.1118.26; Fri, 15 Dec 2023 15:34:33 +0800
-Received: from mhfsdcap04.gcn.mediatek.inc (10.17.3.154) by
- mtkmbs11n2.mediatek.inc (172.21.101.73) with Microsoft SMTP Server id
- 15.2.1118.26 via Frontend Transport; Fri, 15 Dec 2023 15:34:32 +0800
-From: Chunfeng Yun <chunfeng.yun@mediatek.com>
-To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>, Rob Herring
-	<robh+dt@kernel.org>, Krzysztof Kozlowski
-	<krzysztof.kozlowski+dt@linaro.org>, AngeloGioacchino Del Regno
-	<angelogioacchino.delregno@collabora.com>
-CC: Chunfeng Yun <chunfeng.yun@mediatek.com>, Conor Dooley
-	<conor+dt@kernel.org>, Matthias Brugger <matthias.bgg@gmail.com>, "Mathias
- Nyman" <mathias.nyman@intel.com>, <linux-usb@vger.kernel.org>,
-	<linux-arm-kernel@lists.infradead.org>, <linux-mediatek@lists.infradead.org>,
-	<devicetree@vger.kernel.org>, <linux-kernel@vger.kernel.org>, Macpaul Lin
-	<macpaul.lin@mediatek.com>, Eddie Hung <eddie.hung@mediatek.com>
-Subject: [PATCH v2 1/3] dt-bindings: usb: mtk-xhci: add a property for Gen1 isoc-in transfer issue
-Date: Fri, 15 Dec 2023 15:34:29 +0800
-Message-ID: <20231215073431.8512-1-chunfeng.yun@mediatek.com>
-X-Mailer: git-send-email 2.25.1
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="c8NpYo+i"
+Received: by mail-ed1-f45.google.com with SMTP id 4fb4d7f45d1cf-54c5d041c23so325045a12.2
+        for <linux-usb@vger.kernel.org>; Thu, 14 Dec 2023 23:36:48 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google; t=1702625807; x=1703230607; darn=vger.kernel.org;
+        h=content-transfer-encoding:in-reply-to:autocrypt:from:references:cc
+         :to:content-language:subject:user-agent:mime-version:date:message-id
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=frPzA9xTLGKz92/1qTzuW4BZr6aA4/SEQGAGAcHMDq0=;
+        b=c8NpYo+iEZIqQkaM5iIfHROZKG0dsLeEs/qiaN5TLeM90aFlaTpZpYXY77eL3aLokn
+         gw3me5Rc1OquJS2yhb07EDfzSBVHEQm+KRBRiq1qsGBW/N8bZpkXFgNc/JCa9AUefqc5
+         n5BaOKoYFywEuWOL99JuFaAEOxRU+qeE/DzfLmtgYq7WJl7CLpdVAFp4X3IIIORSEUiW
+         u78cLaq7kxLP9HOM3ve/Pi+FCOT7YX8T46crEoyM+2vnHmcI2NYMX+BqdxT7BhTpZdS7
+         isCzNrbBWXaxfcSG1foOJ3U8j4Zkw/yXk0F/QPjEZpn/Dcpk2i7rQvrDaoOK13n8UQFD
+         B8uA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1702625807; x=1703230607;
+        h=content-transfer-encoding:in-reply-to:autocrypt:from:references:cc
+         :to:content-language:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=frPzA9xTLGKz92/1qTzuW4BZr6aA4/SEQGAGAcHMDq0=;
+        b=iTsUKc9/RA1OscW+qNatwiAO/QKO7dmMLoIgPTSGWdVeFPZ8Rb/WdtPmANBZitOMCb
+         sQIe9iffD6OHyLj4I+uRTChUdVhVH+eFeXQMSVccSJOnlHVoL/wrhP3kBUtPFsFujJj/
+         LQji4PQ5Y5CzA0ZxX0pWSxsZbKc5KDagNBmb23Gf8enGJqCQZN9cxr5AAdrfuyU26KK2
+         m3dWyOykWgZ4T111p5c4aZwahSmet0BrTaZu6gWmNgBYsR0OJGXO3lJ+pqKpkcY5xzu3
+         XbvT05rEsD9/NvPk70QCqX2UAVQdc6KmBVlsfyAboESa2FsXbVpQSiYwdU8xNVFurtgm
+         pOJg==
+X-Gm-Message-State: AOJu0YyEA5927edwWDaXuYqmvi6VswnVe44dalQYxDIqcVa5E7MspvJi
+	Qcr1mlG9SS6qkQYuB87A3QRNpA==
+X-Google-Smtp-Source: AGHT+IFLu3IzW1GdoPuPzsqFBHKs+amYl6Tq/sMls8BhuNAw7AcNrl2M6sFfog+h0EvGqQIUKi0+Og==
+X-Received: by 2002:a50:bb69:0:b0:54c:4fec:ce with SMTP id y96-20020a50bb69000000b0054c4fec00cemr3275311ede.93.1702625807016;
+        Thu, 14 Dec 2023 23:36:47 -0800 (PST)
+Received: from [192.168.1.20] ([178.197.218.27])
+        by smtp.gmail.com with ESMTPSA id et14-20020a056402378e00b005527cfaa2dfsm1217270edb.49.2023.12.14.23.36.45
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Thu, 14 Dec 2023 23:36:46 -0800 (PST)
+Message-ID: <d50abf1a-1ee7-4f84-9f53-69dfe9aad103@linaro.org>
+Date: Fri, 15 Dec 2023 08:36:45 +0100
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-TM-AS-Product-Ver: SMEX-14.0.0.3152-9.1.1006-23728.005
-X-TM-AS-Result: No-10--5.470500-8.000000
-X-TMASE-MatchedRID: G4NbPPbBCbo28LK855iUisp9Bgr5ONKhXxT5cg8K/td+YesuCgkiXKLs
-	GdYIe0oEWB8Rur00SOpx/Hv6BudnAqB/4ZSHyd2lsyNb+yeIRApRnscLnNAC7Htd2pOTSxFkaUX
-	s6FguVy2ByM1EGDQjGHSSJ37AbZpnpHn0l5P4rnWp4G6k2AuBh1pq//Jp4zBuDzgndGCfGZmYpu
-	G7kpoKR74vrFmOaS1EoJY+2TrDFLUdpD3DKTh+QJ4CIKY/Hg3AGdQnQSTrKGPEQdG7H66TyH4gK
-	q42LRYk9i+qV8IgR2aLrnhVcSfOHHEiKywBj7DCoO85Cxn7YZh+3BndfXUhXQ==
-X-TM-AS-User-Approved-Sender: No
-X-TM-AS-User-Blocked-Sender: No
-X-TMASE-Result: 10--5.470500-8.000000
-X-TMASE-Version: SMEX-14.0.0.3152-9.1.1006-23728.005
-X-TM-SNTS-SMTP:
-	F48212FB97BEA4D638A53857B615E951372AC33B38A6187C2EBE1A5D097E70492000:8
-X-MTK: N
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v2 1/3] dt-bindings: usb: mtk-xhci: add a property for
+ Gen1 isoc-in transfer issue
+Content-Language: en-US
+To: Chunfeng Yun <chunfeng.yun@mediatek.com>,
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+ Rob Herring <robh+dt@kernel.org>,
+ Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+ AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
+Cc: Conor Dooley <conor+dt@kernel.org>,
+ Matthias Brugger <matthias.bgg@gmail.com>,
+ Mathias Nyman <mathias.nyman@intel.com>, linux-usb@vger.kernel.org,
+ linux-arm-kernel@lists.infradead.org, linux-mediatek@lists.infradead.org,
+ devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
+ Macpaul Lin <macpaul.lin@mediatek.com>, Eddie Hung <eddie.hung@mediatek.com>
+References: <20231215073431.8512-1-chunfeng.yun@mediatek.com>
+From: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+Autocrypt: addr=krzysztof.kozlowski@linaro.org; keydata=
+ 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
+ D2GYIS41Kv4Isx2dEFh+/Q==
+In-Reply-To: <20231215073431.8512-1-chunfeng.yun@mediatek.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 
-For Gen1 isoc-in endpoint on controller before about SSUSB IPM v1.6.0, it
-still send out unexpected ACK after receiving a short packet in burst
-transfer, this will cause an exception on connected device, specially for
-a 4k camera.
-Add a quirk property "rx-fifo-depth" to work around this hardware issue,
-prefer to use 2;
-The side-effect is that may cause performance drop about 10%, including
-bulk transfer.
+On 15/12/2023 08:34, Chunfeng Yun wrote:
+> For Gen1 isoc-in endpoint on controller before about SSUSB IPM v1.6.0, it
+> still send out unexpected ACK after receiving a short packet in burst
+> transfer, this will cause an exception on connected device, specially for
+> a 4k camera.
+> Add a quirk property "rx-fifo-depth" to work around this hardware issue,
+> prefer to use 2;
+> The side-effect is that may cause performance drop about 10%, including
+> bulk transfer.
+> 
+> Signed-off-by: Chunfeng Yun <chunfeng.yun@mediatek.com>
+> ---
+> v2: change 'mediatek,rxfifo-depth' to 'rx-fifo-depth'
+> ---
+>  .../devicetree/bindings/usb/mediatek,mtk-xhci.yaml   | 12 ++++++++++++
+>  1 file changed, 12 insertions(+)
+> 
+> diff --git a/Documentation/devicetree/bindings/usb/mediatek,mtk-xhci.yaml b/Documentation/devicetree/bindings/usb/mediatek,mtk-xhci.yaml
+> index e9644e333d78..e44a71acb5c0 100644
+> --- a/Documentation/devicetree/bindings/usb/mediatek,mtk-xhci.yaml
+> +++ b/Documentation/devicetree/bindings/usb/mediatek,mtk-xhci.yaml
+> @@ -124,6 +124,18 @@ properties:
+>        defined in the xHCI spec on MTK's controller.
+>      default: 5000
+>  
+> +  rx-fifo-depth:
+> +    $ref: /schemas/types.yaml#/definitions/uint32
+> +    description:
+> +      It is a quirk used to work around Gen1 isoc-in endpoint transfer issue
+> +      that still send out unexpected ACK after device finish the burst transfer
+> +      with a short packet and cause an exception, specially on a 4K camera
+> +      device, it happens on controller before about IPM v1.6.0; the side-effect
+> +      is that may cause performance drop about 10%, include bulk transfer,
+> +      prefer to use 2 here.
 
-Signed-off-by: Chunfeng Yun <chunfeng.yun@mediatek.com>
----
-v2: change 'mediatek,rxfifo-depth' to 'rx-fifo-depth'
----
- .../devicetree/bindings/usb/mediatek,mtk-xhci.yaml   | 12 ++++++++++++
- 1 file changed, 12 insertions(+)
+What is the meaning of 0-3? bytes? words?
 
-diff --git a/Documentation/devicetree/bindings/usb/mediatek,mtk-xhci.yaml b/Documentation/devicetree/bindings/usb/mediatek,mtk-xhci.yaml
-index e9644e333d78..e44a71acb5c0 100644
---- a/Documentation/devicetree/bindings/usb/mediatek,mtk-xhci.yaml
-+++ b/Documentation/devicetree/bindings/usb/mediatek,mtk-xhci.yaml
-@@ -124,6 +124,18 @@ properties:
-       defined in the xHCI spec on MTK's controller.
-     default: 5000
- 
-+  rx-fifo-depth:
-+    $ref: /schemas/types.yaml#/definitions/uint32
-+    description:
-+      It is a quirk used to work around Gen1 isoc-in endpoint transfer issue
-+      that still send out unexpected ACK after device finish the burst transfer
-+      with a short packet and cause an exception, specially on a 4K camera
-+      device, it happens on controller before about IPM v1.6.0; the side-effect
-+      is that may cause performance drop about 10%, include bulk transfer,
-+      prefer to use 2 here.
-+    minimum: 0
-+    maximum: 3
-+
-   # the following properties are only used for case 1
-   wakeup-source:
-     description: enable USB remote wakeup, see power/wakeup-source.txt
--- 
-2.18.0
+> +    minimum: 0
+> +    maximum: 3
+
+
+Best regards,
+Krzysztof
 
