@@ -1,36 +1,36 @@
 Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com [205.220.168.131])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AFC1168EA7;
-	Fri, 15 Dec 2023 21:50:30 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0FFF867203;
+	Fri, 15 Dec 2023 21:50:29 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=quicinc.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=quicinc.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=quicinc.com header.i=@quicinc.com header.b="WZ8C4f12"
-Received: from pps.filterd (m0279864.ppops.net [127.0.0.1])
-	by mx0a-0031df01.pphosted.com (8.17.1.24/8.17.1.24) with ESMTP id 3BFICbqI020169;
-	Fri, 15 Dec 2023 21:50:07 GMT
+	dkim=pass (2048-bit key) header.d=quicinc.com header.i=@quicinc.com header.b="oQmxXtee"
+Received: from pps.filterd (m0279862.ppops.net [127.0.0.1])
+	by mx0a-0031df01.pphosted.com (8.17.1.24/8.17.1.24) with ESMTP id 3BFKRWJB019422;
+	Fri, 15 Dec 2023 21:50:17 GMT
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com; h=
 	from:to:cc:subject:date:message-id:in-reply-to:references
-	:mime-version:content-type; s=qcppdkim1; bh=qYRy1BX9Yo9eBMTrtTU7
-	J1Mwu1uZPPw5M78bxOfO/mg=; b=WZ8C4f12kJLsxL2yontcf5eGcVfzG/mNyDrP
-	YopfA0fNRL1h1wawvHzFy78U8R3V/QTr9YwwQVWnQryoaYtT0o7+sDH26NfNF2B9
-	9eELwuHEI96pqeEc3BoKNMrgP0hJQFp/IKNj6o37SFMYH8C7HjAl+wDMFOjHxMt0
-	UYLgnpg2A/szFeEDjhRk8tqkrQHDZsBztBmHXEGnTaOgT1UAHlIVfSFDFb/vNZrB
-	yUW6v8XORvDlcmsQJuEBN0REtSsdKKEEA6TVF+9nIg/PFG3gJv5Ig9cGiKluPkZO
-	mRXt/yviG/qjQlKE8qbhwdjRFv5wb5Pe0/np4NnRhbjcNWL26Q==
-Received: from nalasppmta05.qualcomm.com (Global_NAT1.qualcomm.com [129.46.96.20])
-	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 3v0hqcj7b6-1
+	:mime-version:content-type; s=qcppdkim1; bh=l/SogG1mwYpfrMkIwODI
+	+k6bupo64StismUhwsMTISY=; b=oQmxXteeEiAQ4qOK14U4lOYc3BEbT6pdqV/s
+	X0AI1RLt9V5ALUZOUl8anB+UKYo0VOncNUOmcBL++xBOwTCfnO6Yh4V046N28Ey5
+	3Y93t/sxOuJ+5cXsoBXg30qP6uTWY7u2BZMIIghEz4PaIqgt1IxZWNWxqfN15f4C
+	cUtRD9vVFoHrjt6MhtKY7vwTndR1Q7DaEff5OaNeteFwzQrrEdWos5wcl1IRsRjl
+	0eR38nuUEn2Ef0yLrwV0a+evWpnSbISg3j4MWhfoaXZpZMejScA3l/Z5Z4A1lTIY
+	6e68M4XQLlukQ1XDCT6N72wbMAmm2J8pv4KkxiaNmfJo8w/s5w==
+Received: from nalasppmta03.qualcomm.com (Global_NAT1.qualcomm.com [129.46.96.20])
+	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 3v0w1989h1-1
 	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Fri, 15 Dec 2023 21:50:06 +0000 (GMT)
+	Fri, 15 Dec 2023 21:50:17 +0000 (GMT)
 Received: from nalasex01b.na.qualcomm.com (nalasex01b.na.qualcomm.com [10.47.209.197])
-	by NALASPPMTA05.qualcomm.com (8.17.1.5/8.17.1.5) with ESMTPS id 3BFLo6KZ000753
+	by NALASPPMTA03.qualcomm.com (8.17.1.5/8.17.1.5) with ESMTPS id 3BFLoGaN008371
 	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Fri, 15 Dec 2023 21:50:06 GMT
+	Fri, 15 Dec 2023 21:50:16 GMT
 Received: from hu-wcheng-lv.qualcomm.com (10.49.16.6) by
  nalasex01b.na.qualcomm.com (10.47.209.197) with Microsoft SMTP Server
  (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.1118.40; Fri, 15 Dec 2023 13:50:05 -0800
+ 15.2.1118.40; Fri, 15 Dec 2023 13:50:16 -0800
 From: Wesley Cheng <quic_wcheng@quicinc.com>
 To: <srinivas.kandagatla@linaro.org>, <mathias.nyman@intel.com>,
         <perex@perex.cz>, <conor+dt@kernel.org>, <corbet@lwn.net>,
@@ -42,12 +42,10 @@ To: <srinivas.kandagatla@linaro.org>, <mathias.nyman@intel.com>,
 CC: <linux-kernel@vger.kernel.org>, <devicetree@vger.kernel.org>,
         <linux-sound@vger.kernel.org>, <linux-usb@vger.kernel.org>,
         <linux-arm-msm@vger.kernel.org>, <linux-doc@vger.kernel.org>,
-        <alsa-devel@alsa-project.org>,
-        Mathias Nyman <mathias.nyman@linux.intel.com>,
-        Wesley Cheng <quic_wcheng@quicinc.com>
-Subject: [PATCH v10 02/41] xhci: add helper to stop endpoint and wait for completion
-Date: Fri, 15 Dec 2023 13:49:16 -0800
-Message-ID: <20231215214955.12110-3-quic_wcheng@quicinc.com>
+        <alsa-devel@alsa-project.org>, Wesley Cheng <quic_wcheng@quicinc.com>
+Subject: [PATCH v10 35/41] ASoC: usb: Fetch ASoC sound card information
+Date: Fri, 15 Dec 2023 13:49:49 -0800
+Message-ID: <20231215214955.12110-36-quic_wcheng@quicinc.com>
 X-Mailer: git-send-email 2.17.1
 In-Reply-To: <20231215214955.12110-1-quic_wcheng@quicinc.com>
 References: <20231215214955.12110-1-quic_wcheng@quicinc.com>
@@ -62,154 +60,74 @@ X-ClientProxiedBy: nalasex01c.na.qualcomm.com (10.47.97.35) To
  nalasex01b.na.qualcomm.com (10.47.209.197)
 X-QCInternal: smtphost
 X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800 signatures=585085
-X-Proofpoint-ORIG-GUID: UbNCYFPTOjcLVNHcKRoWfk4-FGJmzMeK
-X-Proofpoint-GUID: UbNCYFPTOjcLVNHcKRoWfk4-FGJmzMeK
+X-Proofpoint-GUID: bjmxWrLk81zgQlwU4_pydulmvcZgbyVD
+X-Proofpoint-ORIG-GUID: bjmxWrLk81zgQlwU4_pydulmvcZgbyVD
 X-Proofpoint-Virus-Version: vendor=baseguard
  engine=ICAP:2.0.272,Aquarius:18.0.997,Hydra:6.0.619,FMLib:17.11.176.26
  definitions=2023-12-09_01,2023-12-07_01,2023-05-22_02
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 malwarescore=0 mlxscore=0
- phishscore=0 adultscore=0 priorityscore=1501 impostorscore=0
- lowpriorityscore=0 mlxlogscore=999 clxscore=1015 suspectscore=0
- spamscore=0 bulkscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 priorityscore=1501
+ malwarescore=0 mlxlogscore=999 suspectscore=0 mlxscore=0 impostorscore=0
+ lowpriorityscore=0 spamscore=0 adultscore=0 phishscore=0 clxscore=1015
+ bulkscore=0 classifier=spam adjust=0 reason=mlx scancount=1
  engine=8.19.0-2311290000 definitions=main-2312150152
 
-From: Mathias Nyman <mathias.nyman@linux.intel.com>
+For USB sound to expose mixer controls to fetch information about the ASoC
+sound card, add an API that returns the platform sound card number that is
+registered with SOC USB.  Knowing this allows for applications to further
+query about the offload status.
 
-Expose xhci_stop_endpoint_sync() which is a synchronous variant of
-xhci_queue_stop_endpoint().  This is useful for client drivers that are
-using the secondary interrupters, and need to stop/clean up the current
-session.  The stop endpoint command handler will also take care of cleaning
-up the ring.
-
-Modifications to repurpose the new API into existing stop endpoint
-sequences was implemented by Wesley Cheng.
-
-Signed-off-by: Mathias Nyman <mathias.nyman@linux.intel.com>
-Co-developed-by: Wesley Cheng <quic_wcheng@quicinc.com>
 Signed-off-by: Wesley Cheng <quic_wcheng@quicinc.com>
 ---
- drivers/usb/host/xhci.c | 62 ++++++++++++++++++++++++++++++-----------
- drivers/usb/host/xhci.h |  2 ++
- 2 files changed, 48 insertions(+), 16 deletions(-)
+ include/sound/soc-usb.h |  1 +
+ sound/soc/soc-usb.c     | 26 ++++++++++++++++++++++++++
+ 2 files changed, 27 insertions(+)
 
-diff --git a/drivers/usb/host/xhci.c b/drivers/usb/host/xhci.c
-index b3c9abd97ab1..fd7d06f6fe36 100644
---- a/drivers/usb/host/xhci.c
-+++ b/drivers/usb/host/xhci.c
-@@ -2782,6 +2782,48 @@ static int xhci_reserve_bandwidth(struct xhci_hcd *xhci,
- 	return -ENOMEM;
+diff --git a/include/sound/soc-usb.h b/include/sound/soc-usb.h
+index 6bbd4339e8c5..77c19fc591ea 100644
+--- a/include/sound/soc-usb.h
++++ b/include/sound/soc-usb.h
+@@ -73,6 +73,7 @@ int snd_soc_usb_find_format(int card_idx, struct snd_pcm_hw_params *params,
+ int snd_soc_usb_connect(struct device *usbdev, struct snd_soc_usb_device *sdev);
+ int snd_soc_usb_disconnect(struct device *usbdev, struct snd_soc_usb_device *sdev);
+ void *snd_soc_usb_find_priv_data(struct device *dev);
++int snd_soc_usb_device_offload_available(struct device *dev);
+ 
+ int snd_soc_usb_prepare_session(struct snd_soc_usb *usb, int card_idx, int pcm_idx);
+ int snd_soc_usb_shutdown_session(struct snd_soc_usb *usb, int session_id);
+diff --git a/sound/soc/soc-usb.c b/sound/soc/soc-usb.c
+index 7d202b0a2680..b272945dcab0 100644
+--- a/sound/soc/soc-usb.c
++++ b/sound/soc/soc-usb.c
+@@ -340,6 +340,32 @@ int snd_soc_usb_find_format(int card_idx, struct snd_pcm_hw_params *params,
  }
+ EXPORT_SYMBOL_GPL(snd_soc_usb_find_format);
  
-+/*
-+ * Synchronous XHCI stop endpoint helper.  Issues the stop endpoint command and
-+ * waits for the command completion before returning.
++/**
++ * snd_soc_usb_device_offload_available() - Fetch BE DAI link sound card
++ * @dev: the device to find in SOC USB
++ *
++ * Finds the component linked to a specific SOC USB instance, and returns
++ * the sound card number for the platform card supporting offloading.
++ *
 + */
-+int xhci_stop_endpoint_sync(struct xhci_hcd *xhci, struct xhci_virt_ep *ep, int suspend,
-+			    gfp_t gfp_flags)
++int snd_soc_usb_device_offload_available(struct device *dev)
 +{
-+	struct xhci_command *command;
-+	unsigned long flags;
-+	int ret;
++	struct snd_soc_usb *ctx;
++	struct device_node *node;
 +
-+	command = xhci_alloc_command(xhci, true, GFP_KERNEL);
-+	if (!command)
-+		return -ENOMEM;
++	node = snd_soc_find_phandle(dev);
++	if (IS_ERR(node))
++		return -ENODEV;
 +
-+	spin_lock_irqsave(&xhci->lock, flags);
-+	ret = xhci_queue_stop_endpoint(xhci, command, ep->vdev->slot_id,
-+				       ep->ep_index, suspend);
-+	if (ret < 0) {
-+		spin_unlock_irqrestore(&xhci->lock, flags);
-+		goto out;
-+	}
++	ctx = snd_soc_find_usb_ctx(node);
++	of_node_put(node);
++	if (!ctx)
++		return -ENODEV;
 +
-+	xhci_ring_cmd_db(xhci);
-+	spin_unlock_irqrestore(&xhci->lock, flags);
-+
-+	ret = wait_for_completion_timeout(command->completion, msecs_to_jiffies(3000));
-+	if (!ret)
-+		xhci_warn(xhci, "%s: Unable to stop endpoint.\n",
-+				__func__);
-+
-+	if (command->status == COMP_COMMAND_ABORTED ||
-+	    command->status == COMP_COMMAND_RING_STOPPED) {
-+		xhci_warn(xhci, "Timeout while waiting for stop endpoint command\n");
-+		ret = -ETIME;
-+	}
-+out:
-+	xhci_free_command(xhci, command);
-+
-+	return ret;
++	return ctx->component->card->snd_card->number;
 +}
-+EXPORT_SYMBOL_GPL(xhci_stop_endpoint_sync);
- 
- /* Issue a configure endpoint command or evaluate context command
-  * and wait for it to finish.
-@@ -3102,7 +3144,7 @@ static void xhci_endpoint_reset(struct usb_hcd *hcd,
- 	struct xhci_virt_device *vdev;
- 	struct xhci_virt_ep *ep;
- 	struct xhci_input_control_ctx *ctrl_ctx;
--	struct xhci_command *stop_cmd, *cfg_cmd;
-+	struct xhci_command *cfg_cmd;
- 	unsigned int ep_index;
- 	unsigned long flags;
- 	u32 ep_flag;
-@@ -3157,10 +3199,6 @@ static void xhci_endpoint_reset(struct usb_hcd *hcd,
- 	if (ep_flag == SLOT_FLAG || ep_flag == EP0_FLAG)
- 		return;
- 
--	stop_cmd = xhci_alloc_command(xhci, true, GFP_NOWAIT);
--	if (!stop_cmd)
--		return;
--
- 	cfg_cmd = xhci_alloc_command_with_ctx(xhci, true, GFP_NOWAIT);
- 	if (!cfg_cmd)
- 		goto cleanup;
-@@ -3183,23 +3221,16 @@ static void xhci_endpoint_reset(struct usb_hcd *hcd,
- 		goto cleanup;
- 	}
- 
--	err = xhci_queue_stop_endpoint(xhci, stop_cmd, udev->slot_id,
--					ep_index, 0);
-+	spin_unlock_irqrestore(&xhci->lock, flags);
++EXPORT_SYMBOL_GPL(snd_soc_usb_device_offload_available);
 +
-+	err = xhci_stop_endpoint_sync(xhci, ep, 0, GFP_NOWAIT);
- 	if (err < 0) {
--		spin_unlock_irqrestore(&xhci->lock, flags);
--		xhci_free_command(xhci, cfg_cmd);
- 		xhci_dbg(xhci, "%s: Failed to queue stop ep command, %d ",
- 				__func__, err);
- 		goto cleanup;
- 	}
- 
--	xhci_ring_cmd_db(xhci);
--	spin_unlock_irqrestore(&xhci->lock, flags);
--
--	wait_for_completion(stop_cmd->completion);
--
- 	spin_lock_irqsave(&xhci->lock, flags);
--
- 	/* config ep command clears toggle if add and drop ep flags are set */
- 	ctrl_ctx = xhci_get_input_control_ctx(cfg_cmd->in_ctx);
- 	if (!ctrl_ctx) {
-@@ -3231,7 +3262,6 @@ static void xhci_endpoint_reset(struct usb_hcd *hcd,
- 
- 	xhci_free_command(xhci, cfg_cmd);
- cleanup:
--	xhci_free_command(xhci, stop_cmd);
- 	spin_lock_irqsave(&xhci->lock, flags);
- 	if (ep->ep_state & EP_SOFT_CLEAR_TOGGLE)
- 		ep->ep_state &= ~EP_SOFT_CLEAR_TOGGLE;
-diff --git a/drivers/usb/host/xhci.h b/drivers/usb/host/xhci.h
-index a5c72a634e6a..b7d06fcd58d1 100644
---- a/drivers/usb/host/xhci.h
-+++ b/drivers/usb/host/xhci.h
-@@ -2174,6 +2174,8 @@ void xhci_ring_doorbell_for_active_rings(struct xhci_hcd *xhci,
- void xhci_cleanup_command_queue(struct xhci_hcd *xhci);
- void inc_deq(struct xhci_hcd *xhci, struct xhci_ring *ring);
- unsigned int count_trbs(u64 addr, u64 len);
-+int xhci_stop_endpoint_sync(struct xhci_hcd *xhci, struct xhci_virt_ep *ep,
-+			    int suspend, gfp_t gfp_flags);
- 
- /* xHCI roothub code */
- void xhci_set_link_state(struct xhci_hcd *xhci, struct xhci_port *port,
+ /**
+  * snd_soc_usb_allocate_port() - allocate a SOC USB device
+  * @component: USB DPCM backend DAI component
