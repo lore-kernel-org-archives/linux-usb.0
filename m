@@ -1,36 +1,36 @@
 Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com [205.220.168.131])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E4A6C69797;
-	Fri, 15 Dec 2023 21:50:30 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BD8C46ABA0;
+	Fri, 15 Dec 2023 21:50:31 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=quicinc.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=quicinc.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=quicinc.com header.i=@quicinc.com header.b="exwxLsl5"
-Received: from pps.filterd (m0279864.ppops.net [127.0.0.1])
-	by mx0a-0031df01.pphosted.com (8.17.1.24/8.17.1.24) with ESMTP id 3BFLgcpp026240;
-	Fri, 15 Dec 2023 21:50:18 GMT
+	dkim=pass (2048-bit key) header.d=quicinc.com header.i=@quicinc.com header.b="eYI1m7QR"
+Received: from pps.filterd (m0279866.ppops.net [127.0.0.1])
+	by mx0a-0031df01.pphosted.com (8.17.1.24/8.17.1.24) with ESMTP id 3BFLSQJ0028660;
+	Fri, 15 Dec 2023 21:50:11 GMT
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com; h=
 	from:to:cc:subject:date:message-id:in-reply-to:references
-	:mime-version:content-type; s=qcppdkim1; bh=55ixrCvScNyoiF2MZa/K
-	lm288e6OMTksZwvaSzERilQ=; b=exwxLsl5nN2K+LbGixxsL9JCbOhv07ldPeYE
-	QYjLVS3Q2IjXU5lNIR1Y/Dzm4IAYFN6GOJMZ1fXpZIbsbT47rwJHH9xxU5DU/H6m
-	dxsgQXfoPCoI5JbbeL6klvUdlIlzKmT8JVyoEIp5Hu22j9g/XZErOfT0LbxfJ9KL
-	rjzugyARjWykfuKI26u2K+BG42OOko5CzVaTEY6b+5vVuzDCU/fmjKXXsn1cFVtE
-	1iw1dp67bpFmvqH+kZIieigmcK2RB/BcWrWdEeHajoWh1dCLTsoytSuVA92QJVsk
-	rHpJD50l5AmGDzurJhrpPMr15Sf4hcTRPhWXeH1cVnZKxqcylA==
-Received: from nalasppmta04.qualcomm.com (Global_NAT1.qualcomm.com [129.46.96.20])
-	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 3v0hqcj7bj-1
+	:mime-version:content-type; s=qcppdkim1; bh=eMuCxRzjFJNCzXTHvKDH
+	/OMHNktU6HnB8lTCQMc4++s=; b=eYI1m7QRkTmg8eWFQPfto8HEiq8PRfsQzPYs
+	nHiVbIvDimVbkHT5mB/a62QX4YXf3fKVF3AQrMbusgO4kwEF5RksssRyhrOOPgGR
+	xnjBfD5xurA0N6yaeCoN2Y1resnusMjkXYcBLDIKas71SdTfzmX4t1EbWmQk18hO
+	8pkJE7oLzTDXodVF37y6D8jkrgDlHFkA/07nImTRc2Z71HCwF/H+rVoSXE+2V65S
+	y83xPxLWrgDV+JMq+HJoJVoC9Vsfz16yA8czTMnmsgoWi4GU5p06v5Ub8+Uuqdhm
+	KThemRAvofSUTK2JgWI4N56iuVDsLRfvTbqKUZRrfTqrcstE9g==
+Received: from nalasppmta01.qualcomm.com (Global_NAT1.qualcomm.com [129.46.96.20])
+	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 3v0hdfa7dw-1
 	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Fri, 15 Dec 2023 21:50:18 +0000 (GMT)
+	Fri, 15 Dec 2023 21:50:10 +0000 (GMT)
 Received: from nalasex01b.na.qualcomm.com (nalasex01b.na.qualcomm.com [10.47.209.197])
-	by NALASPPMTA04.qualcomm.com (8.17.1.5/8.17.1.5) with ESMTPS id 3BFLoHEH031502
+	by NALASPPMTA01.qualcomm.com (8.17.1.5/8.17.1.5) with ESMTPS id 3BFLoA6c017963
 	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Fri, 15 Dec 2023 21:50:17 GMT
+	Fri, 15 Dec 2023 21:50:10 GMT
 Received: from hu-wcheng-lv.qualcomm.com (10.49.16.6) by
  nalasex01b.na.qualcomm.com (10.47.209.197) with Microsoft SMTP Server
  (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.1118.40; Fri, 15 Dec 2023 13:50:17 -0800
+ 15.2.1118.40; Fri, 15 Dec 2023 13:50:09 -0800
 From: Wesley Cheng <quic_wcheng@quicinc.com>
 To: <srinivas.kandagatla@linaro.org>, <mathias.nyman@intel.com>,
         <perex@perex.cz>, <conor+dt@kernel.org>, <corbet@lwn.net>,
@@ -43,9 +43,9 @@ CC: <linux-kernel@vger.kernel.org>, <devicetree@vger.kernel.org>,
         <linux-sound@vger.kernel.org>, <linux-usb@vger.kernel.org>,
         <linux-arm-msm@vger.kernel.org>, <linux-doc@vger.kernel.org>,
         <alsa-devel@alsa-project.org>, Wesley Cheng <quic_wcheng@quicinc.com>
-Subject: [PATCH v10 38/41] ALSA: usb-audio: Allow for rediscovery of connected USB SND devices
-Date: Fri, 15 Dec 2023 13:49:52 -0800
-Message-ID: <20231215214955.12110-39-quic_wcheng@quicinc.com>
+Subject: [PATCH v10 14/41] dt-bindings: usb: xhci: Add num-hc-interrupters definition
+Date: Fri, 15 Dec 2023 13:49:28 -0800
+Message-ID: <20231215214955.12110-15-quic_wcheng@quicinc.com>
 X-Mailer: git-send-email 2.17.1
 In-Reply-To: <20231215214955.12110-1-quic_wcheng@quicinc.com>
 References: <20231215214955.12110-1-quic_wcheng@quicinc.com>
@@ -60,92 +60,41 @@ X-ClientProxiedBy: nalasex01c.na.qualcomm.com (10.47.97.35) To
  nalasex01b.na.qualcomm.com (10.47.209.197)
 X-QCInternal: smtphost
 X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800 signatures=585085
-X-Proofpoint-ORIG-GUID: KPPMttJkLqkHWRlUtFlW_8G0XVo3FeC3
-X-Proofpoint-GUID: KPPMttJkLqkHWRlUtFlW_8G0XVo3FeC3
+X-Proofpoint-ORIG-GUID: kPJswOKIsVrrvKNRDxxVDWaee50KQNsu
+X-Proofpoint-GUID: kPJswOKIsVrrvKNRDxxVDWaee50KQNsu
 X-Proofpoint-Virus-Version: vendor=baseguard
  engine=ICAP:2.0.272,Aquarius:18.0.997,Hydra:6.0.619,FMLib:17.11.176.26
  definitions=2023-12-09_01,2023-12-07_01,2023-05-22_02
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 malwarescore=0 mlxscore=0
- phishscore=0 adultscore=0 priorityscore=1501 impostorscore=0
- lowpriorityscore=0 mlxlogscore=999 clxscore=1015 suspectscore=0
- spamscore=0 bulkscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 malwarescore=0
+ mlxlogscore=658 impostorscore=0 spamscore=0 lowpriorityscore=0
+ adultscore=0 clxscore=1015 priorityscore=1501 mlxscore=0 phishscore=0
+ bulkscore=0 suspectscore=0 classifier=spam adjust=0 reason=mlx scancount=1
  engine=8.19.0-2311290000 definitions=main-2312150152
 
-In case of notifying SND platform drivers of connection events, some of
-these use cases, such as offloading, require an ASoC USB backend device to
-be initialized before the events can be handled.  If the USB backend device
-has not yet been probed, this leads to missing initial USB audio device
-connection events.
+Add the definition for how many interrupts the XHCI host controller should
+allocate.  XHCI can potentially support up to 1024 interrupters, which
+implementations may want to limit.
 
-Expose an API that traverses the usb_chip array for connected devices, and
-to call the respective connection callback registered to the SND platform
-driver.
-
+Reviewed-by: Rob Herring <robh@kernel.org>
 Signed-off-by: Wesley Cheng <quic_wcheng@quicinc.com>
 ---
- sound/usb/card.c                  | 19 +++++++++++++++++++
- sound/usb/card.h                  |  2 ++
- sound/usb/qcom/qc_audio_offload.c |  2 ++
- 3 files changed, 23 insertions(+)
+ Documentation/devicetree/bindings/usb/usb-xhci.yaml | 6 ++++++
+ 1 file changed, 6 insertions(+)
 
-diff --git a/sound/usb/card.c b/sound/usb/card.c
-index 11b827b7a2a5..995b2df676ab 100644
---- a/sound/usb/card.c
-+++ b/sound/usb/card.c
-@@ -202,6 +202,25 @@ struct snd_usb_stream *snd_usb_find_suppported_substream(int card_idx,
- }
- EXPORT_SYMBOL_GPL(snd_usb_find_suppported_substream);
+diff --git a/Documentation/devicetree/bindings/usb/usb-xhci.yaml b/Documentation/devicetree/bindings/usb/usb-xhci.yaml
+index 180a261c3e8f..4238ae896ef6 100644
+--- a/Documentation/devicetree/bindings/usb/usb-xhci.yaml
++++ b/Documentation/devicetree/bindings/usb/usb-xhci.yaml
+@@ -29,6 +29,12 @@ properties:
+     description: Interrupt moderation interval
+     default: 5000
  
-+/*
-+ * in case the platform driver was not ready at the time of USB SND
-+ * device connect, expose an API to discover all connected USB devices
-+ * so it can populate any dependent resources/structures.
-+ */
-+void snd_usb_rediscover_devices(void)
-+{
-+	int i;
++  num-hc-interrupters:
++    description: Maximum number of interrupters to allocate
++    $ref: /schemas/types.yaml#/definitions/uint16
++    minimum: 1
++    maximum: 1024
 +
-+	mutex_lock(&register_mutex);
-+	for (i = 0; i < SNDRV_CARDS; i++) {
-+		if (usb_chip[i])
-+			if (platform_ops && platform_ops->connect_cb)
-+				platform_ops->connect_cb(usb_chip[i]);
-+	}
-+	mutex_unlock(&register_mutex);
-+}
-+EXPORT_SYMBOL_GPL(snd_usb_rediscover_devices);
-+
- /*
-  * disconnect streams
-  * called from usb_audio_disconnect()
-diff --git a/sound/usb/card.h b/sound/usb/card.h
-index 6d59995440c3..3a0d68f453a1 100644
---- a/sound/usb/card.h
-+++ b/sound/usb/card.h
-@@ -222,11 +222,13 @@ int snd_usb_unregister_platform_ops(void);
- #if IS_ENABLED(CONFIG_SND_USB_AUDIO)
- struct snd_usb_stream *snd_usb_find_suppported_substream(int card_idx,
- 			struct snd_pcm_hw_params *params, int direction);
-+void snd_usb_rediscover_devices(void);
- #else
- static struct snd_usb_stream *snd_usb_find_suppported_substream(int card_idx,
- 			struct snd_pcm_hw_params *params, int direction)
- {
- 	return NULL;
- }
-+static void snd_usb_rediscover_devices(void) { }
- #endif /* IS_ENABLED(CONFIG_SND_USB_AUDIO) */
- #endif /* __USBAUDIO_CARD_H */
-diff --git a/sound/usb/qcom/qc_audio_offload.c b/sound/usb/qcom/qc_audio_offload.c
-index e0a010a40b97..60b715e48508 100644
---- a/sound/usb/qcom/qc_audio_offload.c
-+++ b/sound/usb/qcom/qc_audio_offload.c
-@@ -1866,6 +1866,8 @@ static int __init qc_usb_audio_offload_init(void)
- 	if (ret < 0)
- 		goto release_qmi;
+ additionalProperties: true
  
-+	snd_usb_rediscover_devices();
-+
- 	return 0;
- 
- release_qmi:
+ examples:
