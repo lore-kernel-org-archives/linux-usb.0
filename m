@@ -1,36 +1,36 @@
 Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com [205.220.168.131])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 46FC7495E1;
-	Fri, 15 Dec 2023 21:50:27 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 972A45D908;
+	Fri, 15 Dec 2023 21:50:28 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=quicinc.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=quicinc.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=quicinc.com header.i=@quicinc.com header.b="mN24sJr0"
-Received: from pps.filterd (m0279867.ppops.net [127.0.0.1])
-	by mx0a-0031df01.pphosted.com (8.17.1.24/8.17.1.24) with ESMTP id 3BFICilr021603;
-	Fri, 15 Dec 2023 21:50:10 GMT
+	dkim=pass (2048-bit key) header.d=quicinc.com header.i=@quicinc.com header.b="T3KyAHIV"
+Received: from pps.filterd (m0279866.ppops.net [127.0.0.1])
+	by mx0a-0031df01.pphosted.com (8.17.1.24/8.17.1.24) with ESMTP id 3BFKSx49011911;
+	Fri, 15 Dec 2023 21:50:15 GMT
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com; h=
 	from:to:cc:subject:date:message-id:in-reply-to:references
-	:mime-version:content-type; s=qcppdkim1; bh=soLP1wxYe/Q2Qo2eRZtD
-	OZ0+xrFrE1vGLjGfET0ejzk=; b=mN24sJr0TUqELSz4o/Xr+zU3dAalJ6GGIvDi
-	kRFSqFcg7//B6n/mn4IsXlb0uvr51NK2uu/vvApZqq5PTVNgUU4zTnb6b6VX51ys
-	iBhiSwbeLvJ2ZdI1bJs72o3vGOTjduVQLlTECRsaOr2NL5Sx82Dk9y3EJlSAfxfj
-	z2BlK1ZvA5IrQYQx5lNuzA/PY6pTFU9hzdKgKUSGXxOlqoKeUp2eq1BQ7QR51rUC
-	9/+N6WCgVh70Mdn18aZr7xgj4aXZCouXYbJhAEUh060yEV/N/IWnGEjomahwywdJ
-	qlMJPdG20cmJ83cIjgirtJjpf6Wkiw2R8rV3HQGQGIRMKjZ0xQ==
-Received: from nalasppmta05.qualcomm.com (Global_NAT1.qualcomm.com [129.46.96.20])
-	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 3v0k90sw7n-1
+	:mime-version:content-type; s=qcppdkim1; bh=dF6QUt6bj0KwOs7HHOgo
+	xVmbHFD9fJB0ffHCN3hLSEM=; b=T3KyAHIVEQUGFwny2mlE5M5Rp6cGFUHWPLqc
+	xBDTRWRjQYdY3rlfEyEZGNA9VsQ50IF/b7Xv9gFgmKroLDUpZyZZu7PcW8Mho/T/
+	hWSCZJPFb7u1/PbuuAEcqoM0wfnUJpYWKMJ1pXdX6muLPJwJKSW9KpvjmANaSct9
+	gp+8DPqRDnS2u1j/bpHDqPNqP+fnXiW/PpOZruKic0gIVMtTSeWbd3mCQFmdmW7T
+	epY0rNJBtmQMbyo+E0WoMBx1EuDi+bfZ0v3vNKc5+jwV33cTXC5iUviFhAgKdyyW
+	lmIUrzP7VxhjAOhEuu9kZ4Vh3/8YY5+tPUg0YKjSRbRK7zEL5w==
+Received: from nalasppmta01.qualcomm.com (Global_NAT1.qualcomm.com [129.46.96.20])
+	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 3v0hdfa7e3-1
 	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Fri, 15 Dec 2023 21:50:09 +0000 (GMT)
+	Fri, 15 Dec 2023 21:50:15 +0000 (GMT)
 Received: from nalasex01b.na.qualcomm.com (nalasex01b.na.qualcomm.com [10.47.209.197])
-	by NALASPPMTA05.qualcomm.com (8.17.1.5/8.17.1.5) with ESMTPS id 3BFLo9oo000803
+	by NALASPPMTA01.qualcomm.com (8.17.1.5/8.17.1.5) with ESMTPS id 3BFLoEDM018011
 	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Fri, 15 Dec 2023 21:50:09 GMT
+	Fri, 15 Dec 2023 21:50:14 GMT
 Received: from hu-wcheng-lv.qualcomm.com (10.49.16.6) by
  nalasex01b.na.qualcomm.com (10.47.209.197) with Microsoft SMTP Server
  (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.1118.40; Fri, 15 Dec 2023 13:50:08 -0800
+ 15.2.1118.40; Fri, 15 Dec 2023 13:50:14 -0800
 From: Wesley Cheng <quic_wcheng@quicinc.com>
 To: <srinivas.kandagatla@linaro.org>, <mathias.nyman@intel.com>,
         <perex@perex.cz>, <conor+dt@kernel.org>, <corbet@lwn.net>,
@@ -43,9 +43,9 @@ CC: <linux-kernel@vger.kernel.org>, <devicetree@vger.kernel.org>,
         <linux-sound@vger.kernel.org>, <linux-usb@vger.kernel.org>,
         <linux-arm-msm@vger.kernel.org>, <linux-doc@vger.kernel.org>,
         <alsa-devel@alsa-project.org>, Wesley Cheng <quic_wcheng@quicinc.com>
-Subject: [PATCH v10 11/41] ALSA: usb-audio: Introduce USB SND platform op callbacks
-Date: Fri, 15 Dec 2023 13:49:25 -0800
-Message-ID: <20231215214955.12110-12-quic_wcheng@quicinc.com>
+Subject: [PATCH v10 29/41] ASoC: Introduce SND kcontrols to select sound card and PCM device
+Date: Fri, 15 Dec 2023 13:49:43 -0800
+Message-ID: <20231215214955.12110-30-quic_wcheng@quicinc.com>
 X-Mailer: git-send-email 2.17.1
 In-Reply-To: <20231215214955.12110-1-quic_wcheng@quicinc.com>
 References: <20231215214955.12110-1-quic_wcheng@quicinc.com>
@@ -60,143 +60,150 @@ X-ClientProxiedBy: nalasex01c.na.qualcomm.com (10.47.97.35) To
  nalasex01b.na.qualcomm.com (10.47.209.197)
 X-QCInternal: smtphost
 X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800 signatures=585085
-X-Proofpoint-ORIG-GUID: M9djNFMoD0Ew8m1xgEgxvGwgrSaBQDwl
-X-Proofpoint-GUID: M9djNFMoD0Ew8m1xgEgxvGwgrSaBQDwl
+X-Proofpoint-ORIG-GUID: I-Bxcl91rYfc5L9UBTBRaRgY6_PQXcb_
+X-Proofpoint-GUID: I-Bxcl91rYfc5L9UBTBRaRgY6_PQXcb_
 X-Proofpoint-Virus-Version: vendor=baseguard
  engine=ICAP:2.0.272,Aquarius:18.0.997,Hydra:6.0.619,FMLib:17.11.176.26
- definitions=2023-12-09_02,2023-12-07_01,2023-05-22_02
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 mlxscore=0 lowpriorityscore=0
- impostorscore=0 priorityscore=1501 malwarescore=0 clxscore=1015
- mlxlogscore=922 adultscore=0 suspectscore=0 bulkscore=0 spamscore=0
- phishscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ definitions=2023-12-09_01,2023-12-07_01,2023-05-22_02
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 malwarescore=0
+ mlxlogscore=999 impostorscore=0 spamscore=0 lowpriorityscore=0
+ adultscore=0 clxscore=1015 priorityscore=1501 mlxscore=0 phishscore=0
+ bulkscore=0 suspectscore=0 classifier=spam adjust=0 reason=mlx scancount=1
  engine=8.19.0-2311290000 definitions=main-2312150152
 
-Allow for different platforms to be notified on USB SND connect/disconnect
-seqeunces.  This allows for platform USB SND modules to properly initialize
-and populate internal structures with references to the USB SND chip
-device.
+Add SND kcontrol to SOC USB, which will allow for userpsace to determine
+which USB card number and PCM device to offload.  This allows for userspace
+to potentially tag an alternate path for a specific USB SND card and PCM
+device.  Previously, control was absent, and the offload path would be
+enabled on the last USB SND device which was connected.  This logic will
+continue to be applicable if no mixer input is received for specific device
+selection.
+
+An example to configure the offload device using tinymix:
+tinymix -D 0 set 'SNDUSB OFFLD device select' 1 0
+
+The above command will configure the offload path to utilize card#1 and PCM
+stream#0.
 
 Signed-off-by: Wesley Cheng <quic_wcheng@quicinc.com>
 ---
- sound/usb/card.c | 60 ++++++++++++++++++++++++++++++++++++++++++++++++
- sound/usb/card.h |  9 ++++++++
- 2 files changed, 69 insertions(+)
+ include/sound/soc-usb.h |  7 ++++-
+ sound/soc/soc-usb.c     | 65 +++++++++++++++++++++++++++++++++++++++++
+ 2 files changed, 71 insertions(+), 1 deletion(-)
 
-diff --git a/sound/usb/card.c b/sound/usb/card.c
-index 1b2edc0fd2e9..1ef6d144aa51 100644
---- a/sound/usb/card.c
-+++ b/sound/usb/card.c
-@@ -118,6 +118,49 @@ MODULE_PARM_DESC(skip_validation, "Skip unit descriptor validation (default: no)
- static DEFINE_MUTEX(register_mutex);
- static struct snd_usb_audio *usb_chip[SNDRV_CARDS];
- static struct usb_driver usb_audio_driver;
-+static struct snd_usb_platform_ops *platform_ops;
-+
-+/*
-+ * Register platform specific operations that will be notified on events
-+ * which occur in USB SND.  The platform driver can utilize this path to
-+ * enable features, such as USB audio offloading, which allows for audio data
-+ * to be queued by an audio DSP.
-+ *
-+ * Only one set of platform operations can be registered to USB SND.  The
-+ * platform register operation is protected by the register_mutex.
-+ */
-+int snd_usb_register_platform_ops(struct snd_usb_platform_ops *ops)
-+{
-+	int ret;
-+
-+	mutex_lock(&register_mutex);
-+	if (platform_ops) {
-+		ret = -EEXIST;
-+		goto out;
-+	}
-+
-+	platform_ops = ops;
-+out:
-+	mutex_unlock(&register_mutex);
-+	return 0;
-+}
-+EXPORT_SYMBOL_GPL(snd_usb_register_platform_ops);
-+
-+/*
-+ * Unregisters the current set of platform operations.  This allows for
-+ * a new set to be registered if required.
-+ *
-+ * The platform unregister operation is protected by the register_mutex.
-+ */
-+int snd_usb_unregister_platform_ops(void)
-+{
-+	mutex_lock(&register_mutex);
-+	platform_ops = NULL;
-+	mutex_unlock(&register_mutex);
-+
-+	return 0;
-+}
-+EXPORT_SYMBOL_GPL(snd_usb_unregister_platform_ops);
- 
- /*
-  * disconnect streams
-@@ -910,7 +953,11 @@ static int usb_audio_probe(struct usb_interface *intf,
- 	chip->num_interfaces++;
- 	usb_set_intfdata(intf, chip);
- 	atomic_dec(&chip->active);
-+
-+	if (platform_ops && platform_ops->connect_cb)
-+		platform_ops->connect_cb(chip);
- 	mutex_unlock(&register_mutex);
-+
- 	return 0;
- 
-  __error:
-@@ -947,6 +994,9 @@ static void usb_audio_disconnect(struct usb_interface *intf)
- 	card = chip->card;
- 
- 	mutex_lock(&register_mutex);
-+	if (platform_ops && platform_ops->disconnect_cb)
-+		platform_ops->disconnect_cb(chip);
-+
- 	if (atomic_inc_return(&chip->shutdown) == 1) {
- 		struct snd_usb_stream *as;
- 		struct snd_usb_endpoint *ep;
-@@ -1090,6 +1140,11 @@ static int usb_audio_suspend(struct usb_interface *intf, pm_message_t message)
- 		chip->system_suspend = chip->num_suspended_intf;
- 	}
- 
-+	mutex_lock(&register_mutex);
-+	if (platform_ops && platform_ops->suspend_cb)
-+		platform_ops->suspend_cb(intf, message);
-+	mutex_unlock(&register_mutex);
-+
- 	return 0;
- }
- 
-@@ -1130,6 +1185,11 @@ static int usb_audio_resume(struct usb_interface *intf)
- 
- 	snd_usb_midi_v2_resume_all(chip);
- 
-+	mutex_lock(&register_mutex);
-+	if (platform_ops && platform_ops->resume_cb)
-+		platform_ops->resume_cb(intf);
-+	mutex_unlock(&register_mutex);
-+
-  out:
- 	if (chip->num_suspended_intf == chip->system_suspend) {
- 		snd_power_change_state(chip->card, SNDRV_CTL_POWER_D0);
-diff --git a/sound/usb/card.h b/sound/usb/card.h
-index 6ec95b2edf86..2884912adc96 100644
---- a/sound/usb/card.h
-+++ b/sound/usb/card.h
-@@ -207,4 +207,13 @@ struct snd_usb_stream {
+diff --git a/include/sound/soc-usb.h b/include/sound/soc-usb.h
+index f42e7f224549..195300510acc 100644
+--- a/include/sound/soc-usb.h
++++ b/include/sound/soc-usb.h
+@@ -26,14 +26,19 @@ struct snd_soc_usb_device {
+  * @dev - USB backend device reference
+  * @component - reference to ASoC component
+  * @connection_status_cb - callback to notify connection events
++ * @put_offload_dev - callback to select USB sound card/PCM device
++ * @get_offload_dev - callback to fetch selected USB sound card/PCM device
+  * @priv_data - driver data
+  **/
+ struct snd_soc_usb {
  	struct list_head list;
+-	struct device *dev;
+ 	struct snd_soc_component *component;
+ 	int (*connection_status_cb)(struct snd_soc_usb *usb,
+ 			struct snd_soc_usb_device *sdev, bool connected);
++	int (*put_offload_dev)(struct snd_kcontrol *kcontrol,
++			      struct snd_ctl_elem_value *ucontrol);
++	int (*get_offload_dev)(struct snd_kcontrol *kcontrol,
++			      struct snd_ctl_elem_value *ucontrol);
+ 	void *priv_data;
  };
  
-+struct snd_usb_platform_ops {
-+	void (*connect_cb)(struct snd_usb_audio *chip);
-+	void (*disconnect_cb)(struct snd_usb_audio *chip);
-+	void (*suspend_cb)(struct usb_interface *intf, pm_message_t message);
-+	void (*resume_cb)(struct usb_interface *intf);
+diff --git a/sound/soc/soc-usb.c b/sound/soc/soc-usb.c
+index d62a51d9196c..622916a82b77 100644
+--- a/sound/soc/soc-usb.c
++++ b/sound/soc/soc-usb.c
+@@ -15,6 +15,9 @@ static struct device_node *snd_soc_find_phandle(struct device *dev)
+ {
+ 	struct device_node *node;
+ 
++	if (!dev)
++		return ERR_PTR(-ENODEV);
++
+ 	node = of_parse_phandle(dev->of_node, "usb-soc-be", 0);
+ 	if (!node)
+ 		return ERR_PTR(-ENODEV);
+@@ -38,6 +41,64 @@ static struct snd_soc_usb *snd_soc_find_usb_ctx(struct device_node *node)
+ 	return NULL;
+ }
+ 
++/* SOC USB sound kcontrols */
++static int soc_usb_put_offload_dev(struct snd_kcontrol *kcontrol,
++			      struct snd_ctl_elem_value *ucontrol)
++{
++	struct snd_soc_component *component = snd_kcontrol_chip(kcontrol);
++	struct snd_soc_usb *ctx = snd_soc_usb_find_priv_data(component->dev);
++	int ret = 0;
++
++	mutex_lock(&ctx_mutex);
++	if (ctx && ctx->put_offload_dev)
++		ret = ctx->put_offload_dev(kcontrol, ucontrol);
++	mutex_unlock(&ctx_mutex);
++
++	return ret;
++}
++
++static int soc_usb_get_offload_dev(struct snd_kcontrol *kcontrol,
++				   struct snd_ctl_elem_value *ucontrol)
++{
++	struct snd_soc_component *component = snd_kcontrol_chip(kcontrol);
++	struct snd_soc_usb *ctx = snd_soc_usb_find_priv_data(component->dev);
++	int ret = 0;
++
++	mutex_lock(&ctx_mutex);
++	if (ctx && ctx->get_offload_dev)
++		ret = ctx->get_offload_dev(kcontrol, ucontrol);
++	mutex_unlock(&ctx_mutex);
++
++	return ret;
++
++}
++
++static int soc_usb_offload_dev_info(struct snd_kcontrol *kcontrol,
++			      struct snd_ctl_elem_info *uinfo)
++{
++	uinfo->type = SNDRV_CTL_ELEM_TYPE_INTEGER;
++	uinfo->count = 2;
++	uinfo->value.integer.min = -1;
++	uinfo->value.integer.max = SNDRV_CARDS;
++
++	return 0;
++}
++
++static const struct snd_kcontrol_new soc_usb_dev_ctrl = {
++	.iface = SNDRV_CTL_ELEM_IFACE_CARD,
++	.access = SNDRV_CTL_ELEM_ACCESS_READWRITE,
++	.name = "SNDUSB OFFLD device select",
++	.info = soc_usb_offload_dev_info,
++	.get = soc_usb_get_offload_dev,
++	.put = soc_usb_put_offload_dev,
 +};
 +
-+int snd_usb_register_platform_ops(struct snd_usb_platform_ops *ops);
-+int snd_usb_unregister_platform_ops(void);
- #endif /* __USBAUDIO_CARD_H */
++static int snd_soc_usb_control_init(struct snd_soc_component *component)
++{
++	return snd_ctl_add(component->card->snd_card,
++				snd_ctl_new1(&soc_usb_dev_ctrl, component));
++}
++
+ /**
+  * snd_soc_usb_get_components_tag() - Retrieve SOC USB component tag
+  * @playback: direction of audio stream
+@@ -157,7 +218,11 @@ EXPORT_SYMBOL_GPL(snd_soc_usb_free_port);
+  */
+ int snd_soc_usb_add_port(struct snd_soc_usb *usb)
+ {
++	int ret;
+ 
++	ret = snd_soc_usb_control_init(usb->component);
++	if (ret < 0)
++		return ret;
+ 
+ 	mutex_lock(&ctx_mutex);
+ 	list_add_tail(&usb->list, &usb_ctx_list);
