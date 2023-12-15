@@ -1,36 +1,36 @@
 Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com [205.220.168.131])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DA05E138761;
-	Fri, 15 Dec 2023 21:50:48 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2BDEB138762;
+	Fri, 15 Dec 2023 21:50:49 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=quicinc.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=quicinc.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=quicinc.com header.i=@quicinc.com header.b="LS5lD6PN"
-Received: from pps.filterd (m0279862.ppops.net [127.0.0.1])
-	by mx0a-0031df01.pphosted.com (8.17.1.24/8.17.1.24) with ESMTP id 3BFLF22m025789;
-	Fri, 15 Dec 2023 21:50:18 GMT
+	dkim=pass (2048-bit key) header.d=quicinc.com header.i=@quicinc.com header.b="m5/1Lhfo"
+Received: from pps.filterd (m0279866.ppops.net [127.0.0.1])
+	by mx0a-0031df01.pphosted.com (8.17.1.24/8.17.1.24) with ESMTP id 3BFIc2Bk027733;
+	Fri, 15 Dec 2023 21:50:11 GMT
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com; h=
 	from:to:cc:subject:date:message-id:in-reply-to:references
-	:mime-version:content-type; s=qcppdkim1; bh=2OiOvsQD7ZWPb6z4rtLB
-	A/HS49iLIfIToMaiUYq1eM0=; b=LS5lD6PN1BKOEsZNkkhOItOoijCli/y9gWIO
-	vW7UuyC0WbzHMubx13CPzXn+QsJHjhFWGKhXb+j6Itpf2SsU6VxetBhBQRDB0hei
-	KPI/reCj3uO2FBUdMY7Rirl+R5fDcZEoAEjBDstdOug2hTvUPbusbmMJ8Iv+39NA
-	nqpG5QRpi8MCcajnVLK4BNCuiqpKnpMpb2mTtIRBbOWviLFByDHmGrThOwxPPeB+
-	g8E1ic1RNYIGwRolPoBc68Ml6ilzUf7ZQB9F73KSCWCZ+zPcLxjE97r08bwPIwSd
-	H/MuvR5zTv2+RXNMREXdjxgm7iZg4yE0///C2YK6KJEbyj5Bvw==
-Received: from nalasppmta04.qualcomm.com (Global_NAT1.qualcomm.com [129.46.96.20])
-	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 3v0w1989h3-1
+	:mime-version:content-type; s=qcppdkim1; bh=VKttq88MR9oEH90slTZo
+	cwLTUN/hRJzZfOrpKZ8mMDQ=; b=m5/1Lhfo4oAzjoK1HE7LNo9is34wjETYqMBg
+	UJZqBzSflsletqpAG/BCs8BLB+7hO6Lz8gLYnpWBvkR8YJGKDwx+H4HugFzZdIlw
+	g0odGh3YHa8+4weG1S21Eqsv/00tWN5ibf2KwviOSY0iebyi785lgFx11zTnTcMY
+	n9lFJpapBr9dMcbc8W/CtPNousetOeLu6wk50+W3VPKZeYdvDSoxKwbPCmIF8Fng
+	BRnhfYCYT8o0fYgOEhyDZOBc8YGHVwojTsvNW8a6os7mv3rEwiFepftkMoZjT0Bd
+	WX/+r3VIMtM3fIfXgB31vZsb3cGA8Y+iSnkL9QkNKJGN7hdtlg==
+Received: from nalasppmta01.qualcomm.com (Global_NAT1.qualcomm.com [129.46.96.20])
+	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 3v0hdfa7dx-1
 	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Fri, 15 Dec 2023 21:50:18 +0000 (GMT)
+	Fri, 15 Dec 2023 21:50:11 +0000 (GMT)
 Received: from nalasex01b.na.qualcomm.com (nalasex01b.na.qualcomm.com [10.47.209.197])
-	by NALASPPMTA04.qualcomm.com (8.17.1.5/8.17.1.5) with ESMTPS id 3BFLoHU0031505
+	by NALASPPMTA01.qualcomm.com (8.17.1.5/8.17.1.5) with ESMTPS id 3BFLoAp6017972
 	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Fri, 15 Dec 2023 21:50:17 GMT
+	Fri, 15 Dec 2023 21:50:10 GMT
 Received: from hu-wcheng-lv.qualcomm.com (10.49.16.6) by
  nalasex01b.na.qualcomm.com (10.47.209.197) with Microsoft SMTP Server
  (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.1118.40; Fri, 15 Dec 2023 13:50:17 -0800
+ 15.2.1118.40; Fri, 15 Dec 2023 13:50:10 -0800
 From: Wesley Cheng <quic_wcheng@quicinc.com>
 To: <srinivas.kandagatla@linaro.org>, <mathias.nyman@intel.com>,
         <perex@perex.cz>, <conor+dt@kernel.org>, <corbet@lwn.net>,
@@ -43,9 +43,9 @@ CC: <linux-kernel@vger.kernel.org>, <devicetree@vger.kernel.org>,
         <linux-sound@vger.kernel.org>, <linux-usb@vger.kernel.org>,
         <linux-arm-msm@vger.kernel.org>, <linux-doc@vger.kernel.org>,
         <alsa-devel@alsa-project.org>, Wesley Cheng <quic_wcheng@quicinc.com>
-Subject: [PATCH v10 39/41] ASoC: usb: Rediscover USB SND devices on USB port add
-Date: Fri, 15 Dec 2023 13:49:53 -0800
-Message-ID: <20231215214955.12110-40-quic_wcheng@quicinc.com>
+Subject: [PATCH v10 15/41] dt-bindings: usb: dwc3: Limit num-hc-interrupters definition
+Date: Fri, 15 Dec 2023 13:49:29 -0800
+Message-ID: <20231215214955.12110-16-quic_wcheng@quicinc.com>
 X-Mailer: git-send-email 2.17.1
 In-Reply-To: <20231215214955.12110-1-quic_wcheng@quicinc.com>
 References: <20231215214955.12110-1-quic_wcheng@quicinc.com>
@@ -60,63 +60,39 @@ X-ClientProxiedBy: nalasex01c.na.qualcomm.com (10.47.97.35) To
  nalasex01b.na.qualcomm.com (10.47.209.197)
 X-QCInternal: smtphost
 X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800 signatures=585085
-X-Proofpoint-GUID: 6T2RwhlcRHVJbQugvxidi5KQ6qGSa68h
-X-Proofpoint-ORIG-GUID: 6T2RwhlcRHVJbQugvxidi5KQ6qGSa68h
+X-Proofpoint-ORIG-GUID: uwgtoMzCKIZPoyKoO690_Z0ZP4u1br3w
+X-Proofpoint-GUID: uwgtoMzCKIZPoyKoO690_Z0ZP4u1br3w
 X-Proofpoint-Virus-Version: vendor=baseguard
  engine=ICAP:2.0.272,Aquarius:18.0.997,Hydra:6.0.619,FMLib:17.11.176.26
  definitions=2023-12-09_01,2023-12-07_01,2023-05-22_02
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 priorityscore=1501
- malwarescore=0 mlxlogscore=999 suspectscore=0 mlxscore=0 impostorscore=0
- lowpriorityscore=0 spamscore=0 adultscore=0 phishscore=0 clxscore=1015
- bulkscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 malwarescore=0
+ mlxlogscore=761 impostorscore=0 spamscore=0 lowpriorityscore=0
+ adultscore=0 clxscore=1015 priorityscore=1501 mlxscore=0 phishscore=0
+ bulkscore=0 suspectscore=0 classifier=spam adjust=0 reason=mlx scancount=1
  engine=8.19.0-2311290000 definitions=main-2312150152
 
-In case the USB backend device has not been initialized/probed, USB SND
-device connections can still occur.  When the USB backend is eventually
-made available, previous USB SND device connections are not communicated to
-the USB backend.  Call snd_usb_rediscover_devices() to generate the connect
-callbacks for all USB SND devices connected.  This will allow for the USB
-backend to be updated with the current set of devices available.
+Ensure that the number of XHCI secondary interrupters defined for a DWC3
+based implementation is limited to 8.  XHCI in general can potentially
+support up to 1024 interrupters.
 
-The chip array entries are all populated and removed while under the
-register_mutex, so going over potential race conditions:
-
-Thread#1:
-  q6usb_component_probe()
-    --> snd_soc_usb_add_port()
-      --> snd_usb_rediscover_devices()
-        --> mutex_lock(register_mutex)
-
-Thread#2
-  --> usb_audio_disconnect()
-    --> mutex_lock(register_mutex)
-
-So either thread#1 or thread#2 will complete first.  If
-
-Thread#1 completes before thread#2:
-  SOC USB will notify DPCM backend of the device connection.  Shortly
-  after, once thread#2 runs, we will get a disconnect event for the
-  connected device.
-
-Thread#2 completes before thread#1:
-  Then during snd_usb_rediscover_devices() it won't notify of any
-  connection for that particular chip index.
-
+Reviewed-by: Rob Herring <robh@kernel.org>
 Signed-off-by: Wesley Cheng <quic_wcheng@quicinc.com>
 ---
- sound/soc/soc-usb.c | 2 ++
- 1 file changed, 2 insertions(+)
+ Documentation/devicetree/bindings/usb/snps,dwc3.yaml | 4 ++++
+ 1 file changed, 4 insertions(+)
 
-diff --git a/sound/soc/soc-usb.c b/sound/soc/soc-usb.c
-index b272945dcab0..f22bf5c0989f 100644
---- a/sound/soc/soc-usb.c
-+++ b/sound/soc/soc-usb.c
-@@ -437,6 +437,8 @@ int snd_soc_usb_add_port(struct snd_soc_usb *usb)
- 	list_add_tail(&usb->list, &usb_ctx_list);
- 	mutex_unlock(&ctx_mutex);
+diff --git a/Documentation/devicetree/bindings/usb/snps,dwc3.yaml b/Documentation/devicetree/bindings/usb/snps,dwc3.yaml
+index ee5af4b381b1..203a1eb66691 100644
+--- a/Documentation/devicetree/bindings/usb/snps,dwc3.yaml
++++ b/Documentation/devicetree/bindings/usb/snps,dwc3.yaml
+@@ -432,6 +432,10 @@ properties:
+     items:
+       enum: [1, 4, 8, 16, 32, 64, 128, 256]
  
-+	snd_usb_rediscover_devices();
++  num-hc-interrupters:
++    maximum: 8
++    default: 1
 +
- 	return 0;
- }
- EXPORT_SYMBOL_GPL(snd_soc_usb_add_port);
+   port:
+     $ref: /schemas/graph.yaml#/properties/port
+     description:
