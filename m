@@ -1,36 +1,36 @@
 Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com [205.220.168.131])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E4A2369796;
-	Fri, 15 Dec 2023 21:50:30 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 261AA6BB29;
+	Fri, 15 Dec 2023 21:50:31 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=quicinc.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=quicinc.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=quicinc.com header.i=@quicinc.com header.b="IVQqP+2o"
-Received: from pps.filterd (m0279867.ppops.net [127.0.0.1])
-	by mx0a-0031df01.pphosted.com (8.17.1.24/8.17.1.24) with ESMTP id 3BFICYsJ021003;
-	Fri, 15 Dec 2023 21:50:19 GMT
+	dkim=pass (2048-bit key) header.d=quicinc.com header.i=@quicinc.com header.b="MtD+kHhG"
+Received: from pps.filterd (m0279862.ppops.net [127.0.0.1])
+	by mx0a-0031df01.pphosted.com (8.17.1.24/8.17.1.24) with ESMTP id 3BFLFFVn025898;
+	Fri, 15 Dec 2023 21:50:08 GMT
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com; h=
 	from:to:cc:subject:date:message-id:in-reply-to:references
-	:mime-version:content-type; s=qcppdkim1; bh=llHWIe5zbQO1tbGH7Roi
-	Drsh+BfbJOEpduoXXgWTYB0=; b=IVQqP+2opkuMqT6iS4AUumNs2XiRFtBEF7qM
-	9DLnn6Ay1JMPRcMiSm1T9fh/xjQEqwCTdkobGmfy+G8VBZ3UGdHHarzn3iAGDXtK
-	EVO5acRGpQ3T33yt+p+2goxsJavEzf7szvSSlhZQkHbcX4udOSSvUiLMVW++IHuz
-	nMt8koRArACqXFSJdE8yqCD2GDDYn36hfTQ4ABLOiaKjRxLK3k+0qJAv8v5Lr6Eu
-	ea77eRMeL4A9BSfKL4v5pSkQ5OOpiEndTOxGjFwDhGF0QY7aUawYcZRCaln7oxOu
-	QM8hvFHtOQ/xYWJz+JK4n/wcY72e/aHriQ7iLjzqxvo7T+8zhw==
-Received: from nalasppmta01.qualcomm.com (Global_NAT1.qualcomm.com [129.46.96.20])
-	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 3v0k90sw80-1
+	:mime-version:content-type; s=qcppdkim1; bh=/ZM8SPXr7udKkYr/SDUm
+	noP1IOgbHf5SfkdSPWJ27XA=; b=MtD+kHhGI5fUmGC2vsiwTYPOyP3JIFPXMqu0
+	DmxD1vCypgIckyQ4jw+N+DoY6EHUfZcJ4xS/xmZqyVLsYmJjlrfwRO7/9qG1DFiJ
+	H5oQfxjv8cKWKUPllR52cy+zHaF/c7h/d8DR2i37Lasb6Iy2/XxnQ75JRFyY0FaO
+	wKxNwK7lKQTc3wra4zigS2/GQnkKjrertZXD6afq0SgL8Fo/xxKpXy+tqQqU4Iug
+	/g7awn+a9YL8dmS/8/24w78f3Qbi36sCGBHDWLFQvuhKzm6lavo0tyed25Y6j7Op
+	ba4dvyuv6YBgXc6RWIgkvIWtVMNmbQiu3ZdgWpF1TlTzHRavAw==
+Received: from nalasppmta04.qualcomm.com (Global_NAT1.qualcomm.com [129.46.96.20])
+	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 3v0w1989gr-1
 	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Fri, 15 Dec 2023 21:50:18 +0000 (GMT)
+	Fri, 15 Dec 2023 21:50:08 +0000 (GMT)
 Received: from nalasex01b.na.qualcomm.com (nalasex01b.na.qualcomm.com [10.47.209.197])
-	by NALASPPMTA01.qualcomm.com (8.17.1.5/8.17.1.5) with ESMTPS id 3BFLoIhF018058
+	by NALASPPMTA04.qualcomm.com (8.17.1.5/8.17.1.5) with ESMTPS id 3BFLo7cg031393
 	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Fri, 15 Dec 2023 21:50:18 GMT
+	Fri, 15 Dec 2023 21:50:07 GMT
 Received: from hu-wcheng-lv.qualcomm.com (10.49.16.6) by
  nalasex01b.na.qualcomm.com (10.47.209.197) with Microsoft SMTP Server
  (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.1118.40; Fri, 15 Dec 2023 13:50:17 -0800
+ 15.2.1118.40; Fri, 15 Dec 2023 13:50:07 -0800
 From: Wesley Cheng <quic_wcheng@quicinc.com>
 To: <srinivas.kandagatla@linaro.org>, <mathias.nyman@intel.com>,
         <perex@perex.cz>, <conor+dt@kernel.org>, <corbet@lwn.net>,
@@ -43,9 +43,9 @@ CC: <linux-kernel@vger.kernel.org>, <devicetree@vger.kernel.org>,
         <linux-sound@vger.kernel.org>, <linux-usb@vger.kernel.org>,
         <linux-arm-msm@vger.kernel.org>, <linux-doc@vger.kernel.org>,
         <alsa-devel@alsa-project.org>, Wesley Cheng <quic_wcheng@quicinc.com>
-Subject: [PATCH v10 40/41] ASoC: qcom: Populate SoC components string
-Date: Fri, 15 Dec 2023 13:49:54 -0800
-Message-ID: <20231215214955.12110-41-quic_wcheng@quicinc.com>
+Subject: [PATCH v10 07/41] ASoC: dt-bindings: qcom,q6dsp-lpass-ports: Add USB_RX port
+Date: Fri, 15 Dec 2023 13:49:21 -0800
+Message-ID: <20231215214955.12110-8-quic_wcheng@quicinc.com>
 X-Mailer: git-send-email 2.17.1
 In-Reply-To: <20231215214955.12110-1-quic_wcheng@quicinc.com>
 References: <20231215214955.12110-1-quic_wcheng@quicinc.com>
@@ -60,81 +60,36 @@ X-ClientProxiedBy: nalasex01c.na.qualcomm.com (10.47.97.35) To
  nalasex01b.na.qualcomm.com (10.47.209.197)
 X-QCInternal: smtphost
 X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800 signatures=585085
-X-Proofpoint-ORIG-GUID: nZjq_ilJU4Bhnufksz_uyBPArk19Dm89
-X-Proofpoint-GUID: nZjq_ilJU4Bhnufksz_uyBPArk19Dm89
+X-Proofpoint-GUID: 7MHRPUld3_QhFF3KHNIvutCnpIS6Eb_J
+X-Proofpoint-ORIG-GUID: 7MHRPUld3_QhFF3KHNIvutCnpIS6Eb_J
 X-Proofpoint-Virus-Version: vendor=baseguard
  engine=ICAP:2.0.272,Aquarius:18.0.997,Hydra:6.0.619,FMLib:17.11.176.26
- definitions=2023-12-09_02,2023-12-07_01,2023-05-22_02
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 mlxscore=0 lowpriorityscore=0
- impostorscore=0 priorityscore=1501 malwarescore=0 clxscore=1015
- mlxlogscore=999 adultscore=0 suspectscore=0 bulkscore=0 spamscore=0
- phishscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ definitions=2023-12-09_01,2023-12-07_01,2023-05-22_02
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 priorityscore=1501
+ malwarescore=0 mlxlogscore=848 suspectscore=0 mlxscore=0 impostorscore=0
+ lowpriorityscore=0 spamscore=0 adultscore=0 phishscore=0 clxscore=1015
+ bulkscore=0 classifier=spam adjust=0 reason=mlx scancount=1
  engine=8.19.0-2311290000 definitions=main-2312150152
 
-For userspace to know about certain capabilities of the current platform
-card, add tags to the components string that it can use to enable support
-for that audio path.  In case of USB offloading, the "usboffldplybk: 1" tag
-is added to the string.
+Q6DSP supports handling of USB playback audio data if USB audio offloading
+is enabled.  Add a new definition for the USB_RX AFE port, which is
+referenced when the AFE port is started.
 
+Acked-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
 Signed-off-by: Wesley Cheng <quic_wcheng@quicinc.com>
 ---
- sound/soc/qcom/common.c | 22 ++++++++++++++++++++++
- sound/soc/qcom/common.h |  1 +
- sound/soc/qcom/sm8250.c |  3 +++
- 3 files changed, 26 insertions(+)
+ include/dt-bindings/sound/qcom,q6dsp-lpass-ports.h | 1 +
+ 1 file changed, 1 insertion(+)
 
-diff --git a/sound/soc/qcom/common.c b/sound/soc/qcom/common.c
-index 2645436b08c4..4a4e4c14e625 100644
---- a/sound/soc/qcom/common.c
-+++ b/sound/soc/qcom/common.c
-@@ -258,4 +258,26 @@ int qcom_snd_usb_offload_jack_setup(struct snd_soc_pcm_runtime *rtd,
- 	return 0;
- }
- EXPORT_SYMBOL_GPL(qcom_snd_usb_offload_jack_setup);
-+
-+int qcom_snd_add_components_string(struct snd_soc_pcm_runtime *rtd)
-+{
-+	struct snd_soc_dai *cpu_dai = snd_soc_rtd_to_cpu(rtd, 0);
-+	struct snd_soc_card *card = rtd->card;
-+	const char *prev = card->components;
-+
-+	switch (cpu_dai->id) {
-+	case USB_RX:
-+		card->components = devm_kasprintf(card->dev, GFP_KERNEL, "%s %s",
-+					  card->components,
-+					  snd_soc_usb_get_components_tag(true));
-+	default:
-+		break;
-+	}
-+
-+	if (prev && prev != card->components)
-+		devm_kfree(card->dev, prev);
-+
-+	return 0;
-+}
-+EXPORT_SYMBOL_GPL(qcom_snd_add_components_string);
- MODULE_LICENSE("GPL v2");
-diff --git a/sound/soc/qcom/common.h b/sound/soc/qcom/common.h
-index fca3046c8674..8546723e0aa8 100644
---- a/sound/soc/qcom/common.h
-+++ b/sound/soc/qcom/common.h
-@@ -11,4 +11,5 @@ int qcom_snd_wcd_jack_setup(struct snd_soc_pcm_runtime *rtd,
- 			    struct snd_soc_jack *jack, bool *jack_setup);
- int qcom_snd_usb_offload_jack_setup(struct snd_soc_pcm_runtime *rtd,
- 			    struct snd_soc_jack *jack, bool *jack_setup);
-+int qcom_snd_add_components_string(struct snd_soc_pcm_runtime *rtd);
- #endif
-diff --git a/sound/soc/qcom/sm8250.c b/sound/soc/qcom/sm8250.c
-index c33a7c5fb8ad..d1c4f34d04f5 100644
---- a/sound/soc/qcom/sm8250.c
-+++ b/sound/soc/qcom/sm8250.c
-@@ -38,6 +38,9 @@ static int sm8250_snd_init(struct snd_soc_pcm_runtime *rtd)
- 						&data->usb_offload_jack_setup);
- 	else
- 		ret = qcom_snd_wcd_jack_setup(rtd, &data->jack, &data->jack_setup);
-+
-+	qcom_snd_add_components_string(rtd);
-+
- 	return ret;
- }
+diff --git a/include/dt-bindings/sound/qcom,q6dsp-lpass-ports.h b/include/dt-bindings/sound/qcom,q6dsp-lpass-ports.h
+index 39f203256c4f..6d1ce7f5da51 100644
+--- a/include/dt-bindings/sound/qcom,q6dsp-lpass-ports.h
++++ b/include/dt-bindings/sound/qcom,q6dsp-lpass-ports.h
+@@ -139,6 +139,7 @@
+ #define DISPLAY_PORT_RX_5	133
+ #define DISPLAY_PORT_RX_6	134
+ #define DISPLAY_PORT_RX_7	135
++#define USB_RX			136
  
+ #define LPASS_CLK_ID_PRI_MI2S_IBIT	1
+ #define LPASS_CLK_ID_PRI_MI2S_EBIT	2
