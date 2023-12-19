@@ -1,28 +1,28 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 498B93D0D8;
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 49A043D0D9;
 	Tue, 19 Dec 2023 22:03:16 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="UUvylM7r"
-Received: by smtp.kernel.org (Postfix) with ESMTPS id AF230C43391;
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="FAPqsKcs"
+Received: by smtp.kernel.org (Postfix) with ESMTPS id CFD05C433AD;
 	Tue, 19 Dec 2023 22:03:15 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
 	s=k20201202; t=1703023395;
-	bh=i8P0wIY8MHNR0IMtWcJ3lmr2A2+O0+vGlp41TmDW9Ws=;
+	bh=go2X7Puo/mSsLfh/2Z4SXudqW4mEkrXFh2pimTmpnJE=;
 	h=From:Date:Subject:References:In-Reply-To:To:Cc:Reply-To:From;
-	b=UUvylM7rIglGvj739qnp45YIczwIDgMAS6sj4ktXX+qZAcpZL9Jp1WoQr6g87GoMT
-	 pLUhCNvqCas0JWFfGHFTPAygsN3pkDyof2ZD0Ie1cnVS7fE4uG5xZWfbpciFCCK0r0
-	 X/+AcDWmp8fqzdAGPwGGogrZ/Yh62oz0c7A+S0BAUOJYmpfoytBo1c3tRFK1GCGhXK
-	 2oyRge7VChXNjdfCAYqNHhk+0E250TKp/K5PHy+efwk3TGep784q+1SrFcVi/YD1pG
-	 1F4waGytTQygWFsvPn1iiw2nuN703RGjG5ylwG1Bwj8/qSHLSms/M7YFWmzgFJONgq
-	 aeiEdjRwgQh9A==
+	b=FAPqsKcsrSXE/WTx+4+Q1gqjBLjvCHkGHtHq1Lr5ObaTcJB0ipXQ9kKzsQgSv+/yK
+	 rlNuyD6HI/AGbZRDyqwc3Rz/q3tj4co904hiG3EYU2IzSfHplj+jtDVf5SNvM1m9QQ
+	 ouCIu4jGLv7vDxcDTBw60elbVe064DKoP6jKFeWbLCfPZJaZoytHqLadRtNQM8ebCx
+	 xtoBHIyZsVH7tEjhkPKxJcxv8eoAoIQGnlCPa6zZnzbj8LeSY5WfF71HLyf5Qmf7eD
+	 6Kg4pLWSU4bdguN1Sr2O4Mw5fJuKzoly108Duct0AyQljW0siiyMypspqp5ZypzhHe
+	 SDet2HulNF2Qg==
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 98D24C46CCD;
+	by smtp.lore.kernel.org (Postfix) with ESMTP id B6285C41535;
 	Tue, 19 Dec 2023 22:03:15 +0000 (UTC)
 From: Sam Ravnborg via B4 Relay <devnull+sam.ravnborg.org@kernel.org>
-Date: Tue, 19 Dec 2023 23:03:10 +0100
-Subject: [PATCH 05/27] sparc32: Drop sun specific power management drivers
+Date: Tue, 19 Dec 2023 23:03:12 +0100
+Subject: [PATCH 07/27] sparc32: Drop run-time patching of ipi trap
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
@@ -31,7 +31,7 @@ List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20231219-sam-sparc32-sunset-v3-v1-5-64bb44b598c5@ravnborg.org>
+Message-Id: <20231219-sam-sparc32-sunset-v3-v1-7-64bb44b598c5@ravnborg.org>
 References: <20231219-sam-sparc32-sunset-v3-v1-0-64bb44b598c5@ravnborg.org>
 In-Reply-To: <20231219-sam-sparc32-sunset-v3-v1-0-64bb44b598c5@ravnborg.org>
 To: "David S. Miller" <davem@davemloft.net>, 
@@ -44,11 +44,11 @@ Cc: Helge Deller <deller@gmx.de>, Alexander Viro <viro@zeniv.linux.org.uk>,
  linux-fbdev@vger.kernel.org, dri-devel@lists.freedesktop.org, 
  linux-sound@vger.kernel.org, Sam Ravnborg <sam@ravnborg.org>
 X-Mailer: b4 0.12.4
-X-Developer-Signature: v=1; a=ed25519-sha256; t=1703023392; l=8689;
+X-Developer-Signature: v=1; a=ed25519-sha256; t=1703023392; l=7101;
  i=sam@ravnborg.org; s=20230107; h=from:subject:message-id;
- bh=fThpDz4+PMLtttr9htY2gCawX85PeqZND9L6UPVn/AU=; =?utf-8?q?b=3DOtsYhDQL2gfc?=
- =?utf-8?q?36sjUQEkqHM5Gpi2qOmZo9mUeeInVwO/EiodJOjzL2CLQ6HIKMCVVNmZbBU88Oyw?=
- 1xqlbiSlCV4/vr/mH/KffmBQTiaOxktZzxxr8w0r28UXQfg8ZBhV
+ bh=tlF0Qzdtgp0HGemO/3+10iER+Qu3gIwXh+jWbYpA4f4=; =?utf-8?q?b=3DMyIGvjJP7bUD?=
+ =?utf-8?q?rXZZtLLpa4qa5DIwBZGuMWmURrw3ibHK+n9qjHJyP0rgnw47bT+8q7WQAU6TRW7C?=
+ pmUpczzCCQStma11zhOnkkUy9FOoVQbElF0QDaqLoLT5MnlqTAO9
 X-Developer-Key: i=sam@ravnborg.org; a=ed25519;
  pk=R0+pqV7BRYOAeOIGkyOrSNke7arx5y3LkEuNi37YEyU=
 X-Endpoint-Received: by B4 Relay for sam@ravnborg.org/20230107 with auth_id=22
@@ -57,357 +57,228 @@ Reply-To: <sam@ravnborg.org>
 
 From: Sam Ravnborg <sam@ravnborg.org>
 
-Drop the two sun specific apc and pmc drivers.
+There is no longer any need for the run-time patching of the ipi trap
+with the removal of sun4m and sun4d. Remove the patching and drop the
+ipi implementation for the two machines.
+
+The patch includes removal of patching from pcic as this was needed to
+fix the build. pcic will be removed in a later commit.
 
 Signed-off-by: Sam Ravnborg <sam@ravnborg.org>
 Cc: "David S. Miller" <davem@davemloft.net>
 Cc: Arnd Bergmann <arnd@kernel.org>
 Cc: Andreas Larsson <andreas@gaisler.com>
 ---
- arch/sparc/Kconfig         |   7 --
- arch/sparc/kernel/Makefile |   1 -
- arch/sparc/kernel/apc.c    | 196 ---------------------------------------------
- arch/sparc/kernel/pmc.c    | 100 -----------------------
- 4 files changed, 304 deletions(-)
+ arch/sparc/kernel/entry.S     | 70 ++-----------------------------------------
+ arch/sparc/kernel/kernel.h    |  4 ---
+ arch/sparc/kernel/leon_smp.c  |  3 --
+ arch/sparc/kernel/pcic.c      | 11 -------
+ arch/sparc/kernel/sun4d_smp.c |  3 --
+ arch/sparc/kernel/ttable_32.S |  9 +++---
+ 6 files changed, 7 insertions(+), 93 deletions(-)
 
-diff --git a/arch/sparc/Kconfig b/arch/sparc/Kconfig
-index 1520f68e944a..55a9e67c482e 100644
---- a/arch/sparc/Kconfig
-+++ b/arch/sparc/Kconfig
-@@ -324,13 +324,6 @@ config CMDLINE
+diff --git a/arch/sparc/kernel/entry.S b/arch/sparc/kernel/entry.S
+index c6a5cb949381..7cf148a996b9 100644
+--- a/arch/sparc/kernel/entry.S
++++ b/arch/sparc/kernel/entry.S
+@@ -174,32 +174,6 @@ maybe_smp4m_msg_check_resched:
+ maybe_smp4m_msg_out:
+ 	RESTORE_ALL
  
- 	  NOTE: This option WILL override the PROM bootargs setting!
+-	.align	4
+-	.globl	linux_trap_ipi15_sun4m
+-linux_trap_ipi15_sun4m:
+-	SAVE_ALL
+-	sethi	%hi(0x80000000), %o2
+-	GET_PROCESSOR4M_ID(o0)
+-	sethi	%hi(sun4m_irq_percpu), %l5
+-	or	%l5, %lo(sun4m_irq_percpu), %o5
+-	sll	%o0, 2, %o0
+-	ld	[%o5 + %o0], %o5
+-	ld	[%o5 + 0x00], %o3	! sun4m_irq_percpu[cpu]->pending
+-	andcc	%o3, %o2, %g0
+-	be	sun4m_nmi_error		! Must be an NMI async memory error
+-	 st	%o2, [%o5 + 0x04]	! sun4m_irq_percpu[cpu]->clear=0x80000000
+-	WRITE_PAUSE
+-	ld	[%o5 + 0x00], %g0	! sun4m_irq_percpu[cpu]->pending
+-	WRITE_PAUSE
+-	or	%l0, PSR_PIL, %l4
+-	wr	%l4, 0x0, %psr
+-	WRITE_PAUSE
+-	wr	%l4, PSR_ET, %psr
+-	WRITE_PAUSE
+-	call	smp4m_cross_call_irq
+-	 nop
+-	b	ret_trap_lockless_ipi
+-	 clr	%l6
  
--config SUN_PM
--	bool
--	default y if SPARC32
--	help
--	  Enable power management and CPU standby features on supported
--	  SPARC platforms.
--
- config SERIAL_CONSOLE
- 	bool
- 	depends on SPARC32
-diff --git a/arch/sparc/kernel/Makefile b/arch/sparc/kernel/Makefile
-index 95687af45d20..ab47823f8b4e 100644
---- a/arch/sparc/kernel/Makefile
-+++ b/arch/sparc/kernel/Makefile
-@@ -84,7 +84,6 @@ obj-$(CONFIG_SPARC32_SMP) += sun4m_smp.o sun4d_smp.o leon_smp.o
- obj-$(CONFIG_SPARC64_SMP) += hvtramp.o
+ 	.globl	smp4d_ticker
+ 	/* SMP per-cpu ticker interrupts are handled specially. */
+@@ -220,44 +194,6 @@ smp4d_ticker:
+ 	WRITE_PAUSE
+ 	RESTORE_ALL
  
- obj-y                     += auxio_$(BITS).o
--obj-$(CONFIG_SUN_PM)      += apc.o pmc.o
+-	.align	4
+-	.globl	linux_trap_ipi15_sun4d
+-linux_trap_ipi15_sun4d:
+-	SAVE_ALL
+-	sethi	%hi(CC_BASE), %o4
+-	sethi	%hi(MXCC_ERR_ME|MXCC_ERR_PEW|MXCC_ERR_ASE|MXCC_ERR_PEE), %o2
+-	or	%o4, (CC_EREG - CC_BASE), %o0
+-	ldda	[%o0] ASI_M_MXCC, %o0
+-	andcc	%o0, %o2, %g0
+-	bne	1f
+-	 sethi	%hi(BB_STAT2), %o2
+-	lduba	[%o2] ASI_M_CTL, %o2
+-	andcc	%o2, BB_STAT2_MASK, %g0
+-	bne	2f
+-	 or	%o4, (CC_ICLR - CC_BASE), %o0
+-	sethi	%hi(1 << 15), %o1
+-	stha	%o1, [%o0] ASI_M_MXCC	/* Clear PIL 15 in MXCC's ICLR */
+-	or	%l0, PSR_PIL, %l4
+-	wr	%l4, 0x0, %psr
+-	WRITE_PAUSE
+-	wr	%l4, PSR_ET, %psr
+-	WRITE_PAUSE
+-	call	smp4d_cross_call_irq
+-	 nop
+-	b	ret_trap_lockless_ipi
+-	 clr	%l6
+-
+-1:	/* MXCC error */
+-2:	/* BB error */
+-	/* Disable PIL 15 */
+-	set	CC_IMSK, %l4
+-	lduha	[%l4] ASI_M_MXCC, %l5
+-	sethi	%hi(1 << 15), %l7
+-	or	%l5, %l7, %l5
+-	stha	%l5, [%l4] ASI_M_MXCC
+-	/* FIXME */
+-1:	b,a	1b
+-
+ 	.globl	smpleon_ipi
+ 	.extern leon_ipi_interrupt
+ 	/* SMP per-cpu IPI interrupts are handled specially. */
+@@ -618,11 +554,11 @@ sun4m_nmi_error:
  
- obj-y                     += termios.o
+ #ifndef CONFIG_SMP
+ 	.align	4
+-	.globl	linux_trap_ipi15_sun4m
+-linux_trap_ipi15_sun4m:
++	.globl	linux_trap_ipi15_leon
++linux_trap_ipi15_leon:
+ 	SAVE_ALL
  
-diff --git a/arch/sparc/kernel/apc.c b/arch/sparc/kernel/apc.c
-deleted file mode 100644
-index d44725d37e30..000000000000
---- a/arch/sparc/kernel/apc.c
-+++ /dev/null
-@@ -1,196 +0,0 @@
--// SPDX-License-Identifier: GPL-2.0
--/* apc - Driver implementation for power management functions
-- * of Aurora Personality Chip (APC) on SPARCstation-4/5 and
-- * derivatives.
-- *
-- * Copyright (c) 2002 Eric Brower (ebrower@usa.net)
-- */
+-	ba	sun4m_nmi_error
++	ba      sun4m_nmi_error
+ 	 nop
+ #endif /* CONFIG_SMP */
+ 
+diff --git a/arch/sparc/kernel/kernel.h b/arch/sparc/kernel/kernel.h
+index c8ba3bc7e137..1d3980ac0658 100644
+--- a/arch/sparc/kernel/kernel.h
++++ b/arch/sparc/kernel/kernel.h
+@@ -134,10 +134,6 @@ void leonsmp_ipi_interrupt(void);
+ void leon_cross_call_irq(void);
+ 
+ /* head_32.S */
+-extern unsigned int t_nmi[];
+-extern unsigned int linux_trap_ipi15_sun4d[];
+-extern unsigned int linux_trap_ipi15_sun4m[];
 -
--#include <linux/kernel.h>
--#include <linux/fs.h>
--#include <linux/errno.h>
--#include <linux/init.h>
--#include <linux/miscdevice.h>
--#include <linux/pm.h>
--#include <linux/of.h>
--#include <linux/platform_device.h>
--#include <linux/module.h>
+ extern struct tt_entry trapbase;
+ extern struct tt_entry trapbase_cpu1;
+ extern struct tt_entry trapbase_cpu2;
+diff --git a/arch/sparc/kernel/leon_smp.c b/arch/sparc/kernel/leon_smp.c
+index 991e9ad3d3e8..42820c7422dd 100644
+--- a/arch/sparc/kernel/leon_smp.c
++++ b/arch/sparc/kernel/leon_smp.c
+@@ -463,8 +463,5 @@ static const struct sparc32_ipi_ops leon_ipi_ops = {
+ 
+ void __init leon_init_smp(void)
+ {
+-	/* Patch ipi15 trap table */
+-	t_nmi[1] = t_nmi[1] + (linux_trap_ipi15_leon - linux_trap_ipi15_sun4m);
 -
--#include <asm/io.h>
--#include <asm/oplib.h>
--#include <linux/uaccess.h>
--#include <asm/auxio.h>
--#include <asm/apc.h>
--#include <asm/processor.h>
--
--/* Debugging
-- * 
-- * #define APC_DEBUG_LED
-- */
--
--#define APC_MINOR	MISC_DYNAMIC_MINOR
--#define APC_OBPNAME	"power-management"
--#define APC_DEVNAME "apc"
--
--static u8 __iomem *regs;
--static int apc_no_idle = 0;
--
--#define apc_readb(offs)		(sbus_readb(regs+offs))
--#define apc_writeb(val, offs) 	(sbus_writeb(val, regs+offs))
--
--/* Specify "apc=noidle" on the kernel command line to 
-- * disable APC CPU standby support.  Certain prototype
-- * systems (SPARCstation-Fox) do not play well with APC
-- * CPU idle, so disable this if your system has APC and 
-- * crashes randomly.
-- */
--static int __init apc_setup(char *str) 
--{
--	if(!strncmp(str, "noidle", strlen("noidle"))) {
--		apc_no_idle = 1;
--		return 1;
--	}
--	return 0;
--}
--__setup("apc=", apc_setup);
--
--/* 
-- * CPU idle callback function
-- * See .../arch/sparc/kernel/process.c
-- */
--static void apc_swift_idle(void)
--{
--#ifdef APC_DEBUG_LED
--	set_auxio(0x00, AUXIO_LED); 
--#endif
--
--	apc_writeb(apc_readb(APC_IDLE_REG) | APC_IDLE_ON, APC_IDLE_REG);
--
--#ifdef APC_DEBUG_LED
--	set_auxio(AUXIO_LED, 0x00); 
--#endif
--} 
--
--static inline void apc_free(struct platform_device *op)
--{
--	of_iounmap(&op->resource[0], regs, resource_size(&op->resource[0]));
--}
--
--static int apc_open(struct inode *inode, struct file *f)
--{
--	return 0;
--}
--
--static int apc_release(struct inode *inode, struct file *f)
--{
--	return 0;
--}
--
--static long apc_ioctl(struct file *f, unsigned int cmd, unsigned long __arg)
--{
--	__u8 inarg, __user *arg = (__u8 __user *) __arg;
--
--	switch (cmd) {
--	case APCIOCGFANCTL:
--		if (put_user(apc_readb(APC_FANCTL_REG) & APC_REGMASK, arg))
--			return -EFAULT;
--		break;
--
--	case APCIOCGCPWR:
--		if (put_user(apc_readb(APC_CPOWER_REG) & APC_REGMASK, arg))
--			return -EFAULT;
--		break;
--
--	case APCIOCGBPORT:
--		if (put_user(apc_readb(APC_BPORT_REG) & APC_BPMASK, arg))
--			return -EFAULT;
--		break;
--
--	case APCIOCSFANCTL:
--		if (get_user(inarg, arg))
--			return -EFAULT;
--		apc_writeb(inarg & APC_REGMASK, APC_FANCTL_REG);
--		break;
--
--	case APCIOCSCPWR:
--		if (get_user(inarg, arg))
--			return -EFAULT;
--		apc_writeb(inarg & APC_REGMASK, APC_CPOWER_REG);
--		break;
--
--	case APCIOCSBPORT:
--		if (get_user(inarg, arg))
--			return -EFAULT;
--		apc_writeb(inarg & APC_BPMASK, APC_BPORT_REG);
--		break;
--
--	default:
--		return -EINVAL;
--	}
--
--	return 0;
--}
--
--static const struct file_operations apc_fops = {
--	.unlocked_ioctl =	apc_ioctl,
--	.open =			apc_open,
--	.release =		apc_release,
--	.llseek =		noop_llseek,
--};
--
--static struct miscdevice apc_miscdev = { APC_MINOR, APC_DEVNAME, &apc_fops };
--
--static int apc_probe(struct platform_device *op)
--{
--	int err;
--
--	regs = of_ioremap(&op->resource[0], 0,
--			  resource_size(&op->resource[0]), APC_OBPNAME);
--	if (!regs) {
--		printk(KERN_ERR "%s: unable to map registers\n", APC_DEVNAME);
--		return -ENODEV;
--	}
--
--	err = misc_register(&apc_miscdev);
--	if (err) {
--		printk(KERN_ERR "%s: unable to register device\n", APC_DEVNAME);
--		apc_free(op);
--		return -ENODEV;
--	}
--
--	/* Assign power management IDLE handler */
--	if (!apc_no_idle)
--		sparc_idle = apc_swift_idle;
--
--	printk(KERN_INFO "%s: power management initialized%s\n", 
--	       APC_DEVNAME, apc_no_idle ? " (CPU idle disabled)" : "");
--
--	return 0;
--}
--
--static const struct of_device_id apc_match[] = {
+ 	sparc32_ipi_ops = &leon_ipi_ops;
+ }
+diff --git a/arch/sparc/kernel/pcic.c b/arch/sparc/kernel/pcic.c
+index 25fe0a061732..d952bcbbc395 100644
+--- a/arch/sparc/kernel/pcic.c
++++ b/arch/sparc/kernel/pcic.c
+@@ -354,17 +354,6 @@ int __init pcic_probe(void)
+ 	prom_getstring(node, "name", namebuf, 63);  namebuf[63] = 0;
+ 	strcpy(pbm->prom_name, namebuf);
+ 
 -	{
--		.name = APC_OBPNAME,
--	},
--	{},
--};
--MODULE_DEVICE_TABLE(of, apc_match);
+-		extern int pcic_nmi_trap_patch[4];
 -
--static struct platform_driver apc_driver = {
--	.driver = {
--		.name = "apc",
--		.of_match_table = apc_match,
--	},
--	.probe		= apc_probe,
--};
--
--static int __init apc_init(void)
--{
--	return platform_driver_register(&apc_driver);
--}
--
--/* This driver is not critical to the boot process
-- * and is easiest to ioremap when SBus is already
-- * initialized, so we install ourselves thusly:
-- */
--__initcall(apc_init);
-diff --git a/arch/sparc/kernel/pmc.c b/arch/sparc/kernel/pmc.c
-deleted file mode 100644
-index 69a0206e56f0..000000000000
---- a/arch/sparc/kernel/pmc.c
-+++ /dev/null
-@@ -1,100 +0,0 @@
--// SPDX-License-Identifier: GPL-2.0
--/* pmc - Driver implementation for power management functions
-- * of Power Management Controller (PMC) on SPARCstation-Voyager.
-- *
-- * Copyright (c) 2002 Eric Brower (ebrower@usa.net)
-- */
--
--#include <linux/kernel.h>
--#include <linux/fs.h>
--#include <linux/errno.h>
--#include <linux/init.h>
--#include <linux/pm.h>
--#include <linux/of.h>
--#include <linux/platform_device.h>
--#include <linux/module.h>
--
--#include <asm/io.h>
--#include <asm/oplib.h>
--#include <linux/uaccess.h>
--#include <asm/auxio.h>
--#include <asm/processor.h>
--
--/* Debug
-- *
-- * #define PMC_DEBUG_LED
-- * #define PMC_NO_IDLE
-- */
--
--#define PMC_OBPNAME	"SUNW,pmc"
--#define PMC_DEVNAME	"pmc"
--
--#define PMC_IDLE_REG	0x00
--#define PMC_IDLE_ON	0x01
--
--static u8 __iomem *regs;
--
--#define pmc_readb(offs)		(sbus_readb(regs+offs))
--#define pmc_writeb(val, offs)	(sbus_writeb(val, regs+offs))
--
--/*
-- * CPU idle callback function
-- * See .../arch/sparc/kernel/process.c
-- */
--static void pmc_swift_idle(void)
--{
--#ifdef PMC_DEBUG_LED
--	set_auxio(0x00, AUXIO_LED);
--#endif
--
--	pmc_writeb(pmc_readb(PMC_IDLE_REG) | PMC_IDLE_ON, PMC_IDLE_REG);
--
--#ifdef PMC_DEBUG_LED
--	set_auxio(AUXIO_LED, 0x00);
--#endif
--}
--
--static int pmc_probe(struct platform_device *op)
--{
--	regs = of_ioremap(&op->resource[0], 0,
--			  resource_size(&op->resource[0]), PMC_OBPNAME);
--	if (!regs) {
--		printk(KERN_ERR "%s: unable to map registers\n", PMC_DEVNAME);
--		return -ENODEV;
+-		t_nmi[0] = pcic_nmi_trap_patch[0];
+-		t_nmi[1] = pcic_nmi_trap_patch[1];
+-		t_nmi[2] = pcic_nmi_trap_patch[2];
+-		t_nmi[3] = pcic_nmi_trap_patch[3];
+-		swift_flush_dcache();
+-		pcic_regs = pcic->pcic_regs;
 -	}
 -
--#ifndef PMC_NO_IDLE
--	/* Assign power management IDLE handler */
--	sparc_idle = pmc_swift_idle;
--#endif
+ 	prom_getstring(prom_root_node, "name", namebuf, 63);  namebuf[63] = 0;
+ 	{
+ 		struct pcic_sn2list *p;
+diff --git a/arch/sparc/kernel/sun4d_smp.c b/arch/sparc/kernel/sun4d_smp.c
+index 9a62a5cf3337..be5bcbee1af4 100644
+--- a/arch/sparc/kernel/sun4d_smp.c
++++ b/arch/sparc/kernel/sun4d_smp.c
+@@ -403,9 +403,6 @@ void __init sun4d_init_smp(void)
+ {
+ 	int i;
+ 
+-	/* Patch ipi15 trap table */
+-	t_nmi[1] = t_nmi[1] + (linux_trap_ipi15_sun4d - linux_trap_ipi15_sun4m);
 -
--	printk(KERN_INFO "%s: power management initialized\n", PMC_DEVNAME);
--	return 0;
--}
--
--static const struct of_device_id pmc_match[] = {
--	{
--		.name = PMC_OBPNAME,
--	},
--	{},
--};
--MODULE_DEVICE_TABLE(of, pmc_match);
--
--static struct platform_driver pmc_driver = {
--	.driver = {
--		.name = "pmc",
--		.of_match_table = pmc_match,
--	},
--	.probe		= pmc_probe,
--};
--
--static int __init pmc_init(void)
--{
--	return platform_driver_register(&pmc_driver);
--}
--
--/* This driver is not critical to the boot process
-- * and is easiest to ioremap when SBus is already
-- * initialized, so we install ourselves thusly:
-- */
--__initcall(pmc_init);
+ 	sparc32_ipi_ops = &sun4d_ipi_ops;
+ 
+ 	for (i = 0; i < NR_CPUS; i++) {
+diff --git a/arch/sparc/kernel/ttable_32.S b/arch/sparc/kernel/ttable_32.S
+index e79fd786fbbb..78bbf2548e1f 100644
+--- a/arch/sparc/kernel/ttable_32.S
++++ b/arch/sparc/kernel/ttable_32.S
+@@ -43,8 +43,7 @@ t_irq12:TRAP_ENTRY_INTERRUPT(12)            /* IRQ Zilog serial chip         */
+ t_irq13:TRAP_ENTRY_INTERRUPT(13)            /* IRQ Audio Intr.               */
+ t_irq14:TRAP_ENTRY_INTERRUPT(14)            /* IRQ Timer #2                  */
+ 
+-	.globl	t_nmi
+-t_nmi:	TRAP_ENTRY(0x1f, linux_trap_ipi15_sun4m)
++t_nmi:	TRAP_ENTRY(0x1f, linux_trap_ipi15_leon)
+ 
+ t_racc:	TRAP_ENTRY(0x20, do_reg_access)     /* General Register Access Error */
+ t_iacce:BAD_TRAP(0x21)                      /* Instr Access Error            */
+@@ -146,7 +145,7 @@ trapbase_cpu1:
+ 	TRAP_ENTRY_INTERRUPT(9) TRAP_ENTRY_INTERRUPT(10)
+ 	TRAP_ENTRY_INTERRUPT(11) TRAP_ENTRY_INTERRUPT(12)
+ 	TRAP_ENTRY_INTERRUPT(13) TRAP_ENTRY_INTERRUPT(14)
+-	TRAP_ENTRY(0x1f, linux_trap_ipi15_sun4m)
++	TRAP_ENTRY(0x1f, linux_trap_ipi15_leon)
+ 	TRAP_ENTRY(0x20, do_reg_access)
+ 	BAD_TRAP(0x21)
+ 	BAD_TRAP(0x22)
+@@ -245,7 +244,7 @@ trapbase_cpu2:
+ 	TRAP_ENTRY_INTERRUPT(12)
+ 	TRAP_ENTRY_INTERRUPT(13)
+ 	TRAP_ENTRY_INTERRUPT(14)
+-	TRAP_ENTRY(0x1f, linux_trap_ipi15_sun4m)
++	TRAP_ENTRY(0x1f, linux_trap_ipi15_leon)
+ 	TRAP_ENTRY(0x20, do_reg_access)
+ 	BAD_TRAP(0x21)
+ 	BAD_TRAP(0x22)
+@@ -345,7 +344,7 @@ trapbase_cpu3:
+ 	TRAP_ENTRY_INTERRUPT(12)
+ 	TRAP_ENTRY_INTERRUPT(13)
+ 	TRAP_ENTRY_INTERRUPT(14)
+-	TRAP_ENTRY(0x1f, linux_trap_ipi15_sun4m)
++	TRAP_ENTRY(0x1f, linux_trap_ipi15_leon)
+ 	TRAP_ENTRY(0x20, do_reg_access)
+ 	BAD_TRAP(0x21)
+ 	BAD_TRAP(0x22)
 
 -- 
 2.34.1
