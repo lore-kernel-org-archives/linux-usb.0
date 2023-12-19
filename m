@@ -1,28 +1,28 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 719A33FB03;
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C7DE241209;
 	Tue, 19 Dec 2023 22:03:16 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="UXuy/jSM"
-Received: by smtp.kernel.org (Postfix) with ESMTPS id 36FE9C43140;
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="L8fickSy"
+Received: by smtp.kernel.org (Postfix) with ESMTPS id A6119C116CB;
 	Tue, 19 Dec 2023 22:03:16 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
 	s=k20201202; t=1703023396;
-	bh=nyYkYuiVqyCR04RXBg22IyXtbGaFXThr3PFMPOtukLY=;
+	bh=+Beebx9gfnLAs0pJuWOQEcNAx7I2nncuMk7Ra3DGun4=;
 	h=From:Date:Subject:References:In-Reply-To:To:Cc:Reply-To:From;
-	b=UXuy/jSMfjZCEjI1VdiOpjbZNymmaGaZhoOoagGsQ+pQP8OJ3fP0KAdX8ghCvrgyd
-	 Uj7a9TILRU24l6U+RHL/ccTCXFXIvNRXuuh79zfg6itRoE0IqJC+UNJ5XZPb9ms8Ls
-	 jx60yVpc8iMbmxG9mKZxsF4mRICoLSMMnoKTJtEZcVeQUlpOIEanoAIZ3SrbDxW/gg
-	 J3vBaou45/oc5LOIgrbjKyn1kV0oK48e3NawBkC4fK3xx47Pdu1L3837WqFUDw1MLc
-	 JPKENcH9MEVeNWxHjC0FdOUjYoOod4Amx5GoFmlTEwKlrVlZr7g5ptURvmLSnHWnYn
-	 s8v4UvThze6wQ==
+	b=L8fickSy6u96Be9sQJspXpPb56FKoD0S4i5jLfrPPcsl6TTLwv7Tq5O893li6Hypb
+	 UZISRFNeQvm7YHmldvqP+mid9tEHOh2kLcRJxle5z+zEKYjZtYgf3OItXiIXp/bejK
+	 0Ai1BsMQ80n/UE8VtxQyxDewQxSExtLPtyDojbJsnR1u7gfBmH/CKnrYx25s2iK6eE
+	 u+L9EO6ICbYr+h6EnoM/qk/ahrelnR69YFVEnUauvJPIYDEZlFB+2QyG0BwaJZLuH6
+	 d2k1QeUxa8rBXXIa2cewb4ZciWiy4ZvhX5Xxyqv8J8GjxsABu+YFqY+lltoc4YuL3h
+	 BKK2zv6IqZJTw==
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 25E3FC46CD8;
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 9511FC41535;
 	Tue, 19 Dec 2023 22:03:16 +0000 (UTC)
 From: Sam Ravnborg via B4 Relay <devnull+sam.ravnborg.org@kernel.org>
-Date: Tue, 19 Dec 2023 23:03:20 +0100
-Subject: [PATCH 15/27] sparc32: Drop check for sparc_model
+Date: Tue, 19 Dec 2023 23:03:30 +0100
+Subject: [PATCH 25/27] sparc32: Drop sbus support
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
@@ -31,7 +31,7 @@ List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20231219-sam-sparc32-sunset-v3-v1-15-64bb44b598c5@ravnborg.org>
+Message-Id: <20231219-sam-sparc32-sunset-v3-v1-25-64bb44b598c5@ravnborg.org>
 References: <20231219-sam-sparc32-sunset-v3-v1-0-64bb44b598c5@ravnborg.org>
 In-Reply-To: <20231219-sam-sparc32-sunset-v3-v1-0-64bb44b598c5@ravnborg.org>
 To: "David S. Miller" <davem@davemloft.net>, 
@@ -44,11 +44,11 @@ Cc: Helge Deller <deller@gmx.de>, Alexander Viro <viro@zeniv.linux.org.uk>,
  linux-fbdev@vger.kernel.org, dri-devel@lists.freedesktop.org, 
  linux-sound@vger.kernel.org, Sam Ravnborg <sam@ravnborg.org>
 X-Mailer: b4 0.12.4
-X-Developer-Signature: v=1; a=ed25519-sha256; t=1703023392; l=7589;
+X-Developer-Signature: v=1; a=ed25519-sha256; t=1703023392; l=8434;
  i=sam@ravnborg.org; s=20230107; h=from:subject:message-id;
- bh=Ug/1kUk7xzX48rBhZcKGw3mgqlUZBCpZ4RMKG+8KP+I=; =?utf-8?q?b=3DbXvVFC5D/ZOI?=
- =?utf-8?q?dS61qfHNUW1erQ8hUNKMVTRiVKdXtTQ08Rg2XH2GNL3zQHM+NUQrelsZTxUS4hc3?=
- I2b/ASr1AO20iUlMauOuxsmyi1k/Ey2dEm/cRlWtL7nX9bePme1x
+ bh=noFWwB2355JcJw34vZTjvjPZYxXfFOJ+ZxyTkfyT2mI=; =?utf-8?q?b=3De82fXd+odSNL?=
+ =?utf-8?q?BQG5iBX6UXvJFUrU3yTayR5X1rsd79iibtwClLcKPPTffy2mjGn5mm6zqBvofsMi?=
+ VNVMYAp+C/vLDPhIqt9t7cbV649lfDaS3ATBb7q+ZXuZUo4m+yzW
 X-Developer-Key: i=sam@ravnborg.org; a=ed25519;
  pk=R0+pqV7BRYOAeOIGkyOrSNke7arx5y3LkEuNi37YEyU=
 X-Endpoint-Received: by B4 Relay for sam@ravnborg.org/20230107 with auth_id=22
@@ -57,278 +57,304 @@ Reply-To: <sam@ravnborg.org>
 
 From: Sam Ravnborg <sam@ravnborg.org>
 
-sparc32 is always LEON, so no need to check for the model.
+LEON do not have an sbus - so drop support for that for sparc32.
+Fix a few Kconfig expressions to use CONFIG_SBUS rather than SPARC
+as only SPARC64 has an sbus now.
 
 Signed-off-by: Sam Ravnborg <sam@ravnborg.org>
 Cc: "David S. Miller" <davem@davemloft.net>
 Cc: Arnd Bergmann <arnd@kernel.org>
 Cc: Andreas Larsson <andreas@gaisler.com>
 ---
- arch/sparc/include/asm/cpu_type.h | 18 ---------
- arch/sparc/include/asm/io_32.h    |  4 +-
- arch/sparc/include/asm/pgtsrmmu.h |  1 -
- arch/sparc/kernel/devices.c       |  7 +---
- arch/sparc/kernel/ioport.c        |  4 +-
- arch/sparc/kernel/leon_pmc.c      | 16 ++++----
- arch/sparc/kernel/setup_32.c      | 79 +--------------------------------------
- 7 files changed, 12 insertions(+), 117 deletions(-)
+ arch/sparc/Kconfig               |  4 +-
+ arch/sparc/include/asm/fb.h      |  8 ++--
+ arch/sparc/include/asm/io_32.h   | 83 ----------------------------------------
+ arch/sparc/kernel/ioport.c       | 49 ------------------------
+ arch/sparc/kernel/of_device_32.c | 14 -------
+ drivers/video/fbdev/Kconfig      |  2 +-
+ sound/sparc/Kconfig              |  1 +
+ 7 files changed, 9 insertions(+), 152 deletions(-)
 
-diff --git a/arch/sparc/include/asm/cpu_type.h b/arch/sparc/include/asm/cpu_type.h
-index 2b59799859d1..3e0154c3f41d 100644
---- a/arch/sparc/include/asm/cpu_type.h
-+++ b/arch/sparc/include/asm/cpu_type.h
-@@ -2,28 +2,10 @@
- #ifndef __ASM_CPU_TYPE_H
- #define __ASM_CPU_TYPE_H
+diff --git a/arch/sparc/Kconfig b/arch/sparc/Kconfig
+index 0fc52c3c7487..1b9cf7f3c500 100644
+--- a/arch/sparc/Kconfig
++++ b/arch/sparc/Kconfig
+@@ -392,11 +392,11 @@ endmenu
+ menu "Bus options (PCI etc.)"
+ config SBUS
+ 	bool
+-	default y
++	default y if SPARC64
  
--/*
-- * Sparc (general) CPU types
-- */
--enum sparc_cpu {
--  sun4m       = 0x00,
--  sun4d       = 0x01,
--  sun4e       = 0x02,
--  sun4u       = 0x03, /* V8 ploos ploos */
--  sun_unknown = 0x04,
--  ap1000      = 0x05, /* almost a sun4m */
--  sparc_leon  = 0x06, /* Leon SoC */
--};
--
+ config SBUSCHAR
+ 	bool
+-	default y
++	default y if SPARC64
+ 
+ config SUN_LDOMS
+ 	bool "Sun Logical Domains support"
+diff --git a/arch/sparc/include/asm/fb.h b/arch/sparc/include/asm/fb.h
+index 24440c0fda49..15b007875457 100644
+--- a/arch/sparc/include/asm/fb.h
++++ b/arch/sparc/include/asm/fb.h
+@@ -8,6 +8,9 @@
+ 
+ struct fb_info;
+ 
++int fb_is_primary_device(struct fb_info *info);
++#define fb_is_primary_device fb_is_primary_device
++
  #ifdef CONFIG_SPARC32
--extern enum sparc_cpu sparc_cpu_model;
- 
- #define SUN4M_NCPUS            4              /* Architectural limit of sun4m. */
- 
--#else
--
--#define sparc_cpu_model sun4u
--
+ static inline pgprot_t pgprot_framebuffer(pgprot_t prot,
+ 					  unsigned long vm_start, unsigned long vm_end,
+@@ -18,9 +21,7 @@ static inline pgprot_t pgprot_framebuffer(pgprot_t prot,
+ #define pgprot_framebuffer pgprot_framebuffer
  #endif
  
- #endif /* __ASM_CPU_TYPE_H */
+-int fb_is_primary_device(struct fb_info *info);
+-#define fb_is_primary_device fb_is_primary_device
+-
++#ifdef CONFIG_SPARC64
+ static inline void fb_memcpy_fromio(void *to, const volatile void __iomem *from, size_t n)
+ {
+ 	sbus_memcpy_fromio(to, from, n);
+@@ -38,6 +39,7 @@ static inline void fb_memset_io(volatile void __iomem *addr, int c, size_t n)
+ 	sbus_memset_io(addr, c, n);
+ }
+ #define fb_memset fb_memset_io
++#endif
+ 
+ #include <asm-generic/fb.h>
+ 
 diff --git a/arch/sparc/include/asm/io_32.h b/arch/sparc/include/asm/io_32.h
-index 549f0a72280d..83abe709d120 100644
+index 83abe709d120..b9f280ee1b11 100644
 --- a/arch/sparc/include/asm/io_32.h
 +++ b/arch/sparc/include/asm/io_32.h
-@@ -138,11 +138,11 @@ void pci_iounmap(struct pci_dev *dev, void __iomem *);
- 
- static inline int sbus_can_dma_64bit(void)
- {
--	return 0; /* actually, sparc_cpu_model==sun4d */
-+	return 0;
- }
- static inline int sbus_can_burst64(void)
- {
--	return 0; /* actually, sparc_cpu_model==sun4d */
-+	return 0;
- }
- struct device;
- void sbus_set_sbus64(struct device *, int);
-diff --git a/arch/sparc/include/asm/pgtsrmmu.h b/arch/sparc/include/asm/pgtsrmmu.h
-index 7cb5cbc83211..664d4bba1bcb 100644
---- a/arch/sparc/include/asm/pgtsrmmu.h
-+++ b/arch/sparc/include/asm/pgtsrmmu.h
-@@ -124,7 +124,6 @@ static inline void srmmu_flush_whole_tlb(void)
- 			     "i" (ASI_M_FLUSH_PROBE) : "memory");
- 
- }
--
- #endif /* !(__ASSEMBLY__) */
- 
- #endif /* !(_SPARC_PGTSRMMU_H) */
-diff --git a/arch/sparc/kernel/devices.c b/arch/sparc/kernel/devices.c
-index b3c2d51b22c4..2963e89611a3 100644
---- a/arch/sparc/kernel/devices.c
-+++ b/arch/sparc/kernel/devices.c
-@@ -26,8 +26,6 @@
- 
- static char *cpu_mid_prop(void)
- {
--	if (sparc_cpu_model == sun4d)
--		return "cpu-id";
- 	return "mid";
- }
- 
-@@ -40,8 +38,6 @@ static int check_cpu_node(phandle nd, int *cur_inst,
- 			*prom_node = nd;
- 		if (mid) {
- 			*mid = prom_getintdefault(nd, cpu_mid_prop(), 0);
--			if (sparc_cpu_model == sun4m)
--				*mid &= 3;
- 		}
- 		return 0;
+@@ -56,78 +56,6 @@ static inline void _memcpy_toio(volatile void __iomem *dst, const void *src,
  	}
-@@ -92,8 +88,7 @@ static int cpu_mid_compare(phandle nd, int instance, void *_arg)
- 	int this_mid;
- 
- 	this_mid = prom_getintdefault(nd, cpu_mid_prop(), 0);
--	if (this_mid == desired_mid
--	    || (sparc_cpu_model == sun4m && (this_mid & 3) == desired_mid))
-+	if (this_mid == desired_mid)
- 		return 0;
- 	return -ENODEV;
  }
+ 
+-/*
+- * SBus accessors.
+- *
+- * SBus has only one, memory mapped, I/O space.
+- * We do not need to flip bytes for SBus of course.
+- */
+-static inline u8 sbus_readb(const volatile void __iomem *addr)
+-{
+-	return *(__force volatile u8 *)addr;
+-}
+-
+-static inline u16 sbus_readw(const volatile void __iomem *addr)
+-{
+-	return *(__force volatile u16 *)addr;
+-}
+-
+-static inline u32 sbus_readl(const volatile void __iomem *addr)
+-{
+-	return *(__force volatile u32 *)addr;
+-}
+-
+-static inline void sbus_writeb(u8 b, volatile void __iomem *addr)
+-{
+-	*(__force volatile u8 *)addr = b;
+-}
+-
+-static inline void sbus_writew(u16 w, volatile void __iomem *addr)
+-{
+-	*(__force volatile u16 *)addr = w;
+-}
+-
+-static inline void sbus_writel(u32 l, volatile void __iomem *addr)
+-{
+-	*(__force volatile u32 *)addr = l;
+-}
+-
+-static inline void sbus_memset_io(volatile void __iomem *__dst, int c,
+-                                  __kernel_size_t n)
+-{
+-	while(n--) {
+-		sbus_writeb(c, __dst);
+-		__dst++;
+-	}
+-}
+-
+-static inline void sbus_memcpy_fromio(void *dst,
+-                                      const volatile void __iomem *src,
+-                                      __kernel_size_t n)
+-{
+-	char *d = dst;
+-
+-	while (n--) {
+-		char tmp = sbus_readb(src);
+-		*d++ = tmp;
+-		src++;
+-	}
+-}
+-
+-static inline void sbus_memcpy_toio(volatile void __iomem *dst,
+-                                    const void *src,
+-                                    __kernel_size_t n)
+-{
+-	const char *s = src;
+-	volatile void __iomem *d = dst;
+-
+-	while (n--) {
+-		char tmp = *s++;
+-		sbus_writeb(tmp, d);
+-		d++;
+-	}
+-}
+-
+ /* Create a virtual mapping cookie for an IO port range */
+ void __iomem *ioport_map(unsigned long port, unsigned int nr);
+ void ioport_unmap(void __iomem *);
+@@ -136,17 +64,6 @@ void ioport_unmap(void __iomem *);
+ struct pci_dev;
+ void pci_iounmap(struct pci_dev *dev, void __iomem *);
+ 
+-static inline int sbus_can_dma_64bit(void)
+-{
+-	return 0;
+-}
+-static inline int sbus_can_burst64(void)
+-{
+-	return 0;
+-}
+-struct device;
+-void sbus_set_sbus64(struct device *, int);
+-
+ #define __ARCH_HAS_NO_PAGE_ZERO_MAPPED		1
+ 
+ 
 diff --git a/arch/sparc/kernel/ioport.c b/arch/sparc/kernel/ioport.c
-index 5ebca5c7af1e..cf0ace29704a 100644
+index 9c4c72775274..97b836f3be25 100644
 --- a/arch/sparc/kernel/ioport.c
 +++ b/arch/sparc/kernel/ioport.c
-@@ -309,9 +309,7 @@ arch_initcall(sparc_register_ioport);
- void arch_sync_dma_for_cpu(phys_addr_t paddr, size_t size,
- 		enum dma_data_direction dir)
- {
--	if (dir != DMA_TO_DEVICE &&
--	    sparc_cpu_model == sparc_leon &&
--	    !sparc_leon3_snooping_enabled())
-+	if (dir != DMA_TO_DEVICE && !sparc_leon3_snooping_enabled())
+@@ -55,8 +55,6 @@ static void __iomem *_sparc_alloc_io(unsigned int busno, unsigned long phys,
+     unsigned long size, char *name);
+ static void _sparc_free_io(struct resource *res);
+ 
+-static void register_proc_sparc_ioport(void);
+-
+ /* This points to the next to use virtual memory for DVMA mappings */
+ static struct resource _sparc_dvma = {
+ 	.name = "sparc_dvma", .start = DVMA_VADDR, .end = DVMA_END - 1
+@@ -279,25 +277,6 @@ bool sparc_dma_free_resource(void *cpu_addr, size_t size)
+ 	return true;
+ }
+ 
+-#ifdef CONFIG_SBUS
+-
+-void sbus_set_sbus64(struct device *dev, int x)
+-{
+-	printk("sbus_set_sbus64: unsupported\n");
+-}
+-EXPORT_SYMBOL(sbus_set_sbus64);
+-
+-static int __init sparc_register_ioport(void)
+-{
+-	register_proc_sparc_ioport();
+-
+-	return 0;
+-}
+-
+-arch_initcall(sparc_register_ioport);
+-
+-#endif /* CONFIG_SBUS */
+-
+ /*
+  * IIep is write-through, not flushing on cpu to device transfer.
+  *
+@@ -310,31 +289,3 @@ void arch_sync_dma_for_cpu(phys_addr_t paddr, size_t size,
+ 	if (dir != DMA_TO_DEVICE && !sparc_leon3_snooping_enabled())
  		leon_flush_dcache_all();
  }
- 
-diff --git a/arch/sparc/kernel/leon_pmc.c b/arch/sparc/kernel/leon_pmc.c
-index 6c00cbad7fb5..d4a2d49f941c 100644
---- a/arch/sparc/kernel/leon_pmc.c
-+++ b/arch/sparc/kernel/leon_pmc.c
-@@ -79,15 +79,13 @@ static void pmc_leon_idle(void)
- /* Install LEON Power Down function */
- static int __init leon_pmc_install(void)
- {
--	if (sparc_cpu_model == sparc_leon) {
--		/* Assign power management IDLE handler */
--		if (pmc_leon_need_fixup())
--			sparc_idle = pmc_leon_idle_fixup;
--		else
--			sparc_idle = pmc_leon_idle;
 -
--		printk(KERN_INFO "leon: power management initialized\n");
--	}
-+	/* Assign power management IDLE handler */
-+	if (pmc_leon_need_fixup())
-+		sparc_idle = pmc_leon_idle_fixup;
-+	else
-+		sparc_idle = pmc_leon_idle;
-+
-+	printk(KERN_INFO "leon: power management initialized\n");
- 
- 	return 0;
- }
-diff --git a/arch/sparc/kernel/setup_32.c b/arch/sparc/kernel/setup_32.c
-index 5a497140c52a..cb981f2794b3 100644
---- a/arch/sparc/kernel/setup_32.c
-+++ b/arch/sparc/kernel/setup_32.c
-@@ -189,30 +189,12 @@ static void __init per_cpu_patch(void)
- {
- 	struct cpuid_patch_entry *p;
- 
--	if (sparc_cpu_model == sun4m) {
--		/* Nothing to do, this is what the unpatched code
--		 * targets.
--		 */
--		return;
+-#ifdef CONFIG_PROC_FS
+-
+-static int sparc_io_proc_show(struct seq_file *m, void *v)
+-{
+-	struct resource *root = m->private, *r;
+-	const char *nm;
+-
+-	for (r = root->child; r != NULL; r = r->sibling) {
+-		if ((nm = r->name) == NULL) nm = "???";
+-		seq_printf(m, "%016llx-%016llx: %s\n",
+-				(unsigned long long)r->start,
+-				(unsigned long long)r->end, nm);
 -	}
 -
- 	p = &__cpuid_patch;
- 	while (p < &__cpuid_patch_end) {
- 		unsigned long addr = p->addr;
- 		unsigned int *insns;
- 
--		switch (sparc_cpu_model) {
--		case sun4d:
--			insns = &p->sun4d[0];
--			break;
+-	return 0;
+-}
+-#endif /* CONFIG_PROC_FS */
 -
--		case sparc_leon:
--			insns = &p->leon[0];
--			break;
--		default:
--			prom_printf("Unknown cpu type, halting.\n");
--			prom_halt();
--		}
-+		insns = &p->leon[0];
- 		*(unsigned int *) (addr + 0) = insns[0];
- 		flushi(addr + 0);
- 		*(unsigned int *) (addr + 4) = insns[1];
-@@ -224,31 +206,9 @@ static void __init per_cpu_patch(void)
- 	}
+-static void register_proc_sparc_ioport(void)
+-{
+-#ifdef CONFIG_PROC_FS
+-	proc_create_single_data("io_map", 0, NULL, sparc_io_proc_show,
+-			&sparc_iomap);
+-	proc_create_single_data("dvma_map", 0, NULL, sparc_io_proc_show,
+-			&_sparc_dvma);
+-#endif
+-}
+diff --git a/arch/sparc/kernel/of_device_32.c b/arch/sparc/kernel/of_device_32.c
+index ddb3b197d5e4..99ec26782bcc 100644
+--- a/arch/sparc/kernel/of_device_32.c
++++ b/arch/sparc/kernel/of_device_32.c
+@@ -96,11 +96,6 @@ static unsigned long of_bus_pci_get_flags(const u32 *addr, unsigned long flags)
+ 	return flags;
  }
  
--struct leon_1insn_patch_entry {
--	unsigned int addr;
--	unsigned int insn;
--};
+-static unsigned long of_bus_sbus_get_flags(const u32 *addr, unsigned long flags)
+-{
+-	return IORESOURCE_MEM;
+-}
 -
--enum sparc_cpu sparc_cpu_model;
--EXPORT_SYMBOL(sparc_cpu_model);
--
- static __init void leon_patch(void)
- {
--	struct leon_1insn_patch_entry *start = (void *)__leon_1insn_patch;
--	struct leon_1insn_patch_entry *end = (void *)__leon_1insn_patch_end;
--
- 	/* Default instruction is leon - no patching */
--	if (sparc_cpu_model == sparc_leon)
--		return;
--
--	while (start < end) {
--		unsigned long addr = start->addr;
--
--		*(unsigned int *)(addr) = start->insn;
--		flushi(addr);
--
--		start++;
--	}
- }
+  /*
+  * AMBAPP bus specific translator
+  */
+@@ -145,15 +140,6 @@ static struct of_bus of_busses[] = {
+ 		.map = of_bus_pci_map,
+ 		.get_flags = of_bus_pci_get_flags,
+ 	},
+-	/* SBUS */
+-	{
+-		.name = "sbus",
+-		.addr_prop_name = "reg",
+-		.match = of_bus_sbus_match,
+-		.count_cells = of_bus_sbus_count_cells,
+-		.map = of_bus_default_map,
+-		.get_flags = of_bus_sbus_get_flags,
+-	},
+ 	/* AMBA */
+ 	{
+ 		.name = "ambapp",
+diff --git a/drivers/video/fbdev/Kconfig b/drivers/video/fbdev/Kconfig
+index 53693c826ebd..94f6dca5856f 100644
+--- a/drivers/video/fbdev/Kconfig
++++ b/drivers/video/fbdev/Kconfig
+@@ -518,7 +518,7 @@ config FB_GBE_MEM
  
- struct tt_entry *sparc_ttable;
-@@ -259,22 +219,6 @@ struct tt_entry *sparc_ttable;
- void __init sparc32_start_kernel(struct linux_romvec *rp)
- {
- 	prom_init(rp);
--
--	/* Set sparc_cpu_model */
--	sparc_cpu_model = sun_unknown;
--	if (!strcmp(&cputypval[0], "sun4m"))
--		sparc_cpu_model = sun4m;
--	if (!strcmp(&cputypval[0], "sun4s"))
--		sparc_cpu_model = sun4m; /* CP-1200 with PROM 2.30 -E */
--	if (!strcmp(&cputypval[0], "sun4d"))
--		sparc_cpu_model = sun4d;
--	if (!strcmp(&cputypval[0], "sun4e"))
--		sparc_cpu_model = sun4e;
--	if (!strcmp(&cputypval[0], "sun4u"))
--		sparc_cpu_model = sun4u;
--	if (!strncmp(&cputypval[0], "leon" , 4))
--		sparc_cpu_model = sparc_leon;
--
- 	leon_patch();
- 	start_kernel();
- }
-@@ -295,27 +239,6 @@ void __init setup_arch(char **cmdline_p)
+ config FB_SBUS
+ 	bool "SBUS and UPA framebuffers"
+-	depends on (FB = y) && SPARC
++	depends on (FB = y) && SBUS
+ 	help
+ 	  Say Y if you want support for SBUS or UPA based frame buffer device.
  
- 	register_console(&prom_early_console);
- 
--	switch(sparc_cpu_model) {
--	case sun4m:
--		pr_info("ARCH: SUN4M\n");
--		break;
--	case sun4d:
--		pr_info("ARCH: SUN4D\n");
--		break;
--	case sun4e:
--		pr_info("ARCH: SUN4E\n");
--		break;
--	case sun4u:
--		pr_info("ARCH: SUN4U\n");
--		break;
--	case sparc_leon:
--		pr_info("ARCH: LEON\n");
--		break;
--	default:
--		pr_info("ARCH: UNKNOWN!\n");
--		break;
--	}
--
- 	idprom_init();
- 	load_mmu();
- 
+diff --git a/sound/sparc/Kconfig b/sound/sparc/Kconfig
+index 59b9f16e8dea..af2fb963a455 100644
+--- a/sound/sparc/Kconfig
++++ b/sound/sparc/Kconfig
+@@ -4,6 +4,7 @@
+ menuconfig SND_SPARC
+ 	bool "Sparc sound devices"
+ 	depends on SPARC
++	depends on SBUS
+ 	default y
+ 	help
+ 	  Support for sound devices specific to Sun SPARC architectures.
 
 -- 
 2.34.1
