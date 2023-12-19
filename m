@@ -1,28 +1,28 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 030CF3D0AB;
-	Tue, 19 Dec 2023 22:03:15 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4B4B13D0DD;
+	Tue, 19 Dec 2023 22:03:16 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="TMt0yOSA"
-Received: by smtp.kernel.org (Postfix) with ESMTPS id 96835C433CA;
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="dC1sXLKa"
+Received: by smtp.kernel.org (Postfix) with ESMTPS id BACCCC43395;
 	Tue, 19 Dec 2023 22:03:15 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
 	s=k20201202; t=1703023395;
-	bh=lDrIpv+Vvy4Ng5UqEvwvmrUkOjepCnMUtodLTS55HZA=;
+	bh=0R9PzmtGxdJ6USDK3n4JiDrY3Q7MGOjxmyoxB9HDftA=;
 	h=From:Date:Subject:References:In-Reply-To:To:Cc:Reply-To:From;
-	b=TMt0yOSA2ChLdtbzRtR3zH4/2WypieBzeoWx7IHwppusG3yhkaK+Dw8f7uKfEYqmK
-	 gnN74o79GFRchP/W5OC4Z3chhiFe1Pedqjx8blexGhok3iur64PvZqrNN+M80h5eoM
-	 u0deXzqToMrcOaV5ihiM/RcbE/l6a8Kb+mS9S4jtucjkBmnyU8sFXp2ZZcQXzP8S9l
-	 tYg6nT3jtAN7hzO2lYaK836nsBNU/kQyvLBb7s04zG2wIUvhiDVRGpA4Te+4legrRH
-	 f+QnQh+sOYTeWi8GNyMmyXdPCqksKTr+AB1cEj43uNx+6PBw31anH1YMcsYR/CzTvW
-	 Z27yaD/CmgWRA==
+	b=dC1sXLKaC1mdDV9xpjM1S8WSoY9HoRLnfOJbm+uXk2+xFwPPUBHhNAq6vmIEeYC3r
+	 MzfbLTLD3zY60lu7yrcrtuLdlsNl7Rq3IuFrKirdtJS68dX8S25X2oN7Wu6ebgIDD7
+	 +D7wwEJHAOhcJVS0aHTLhjiLPst+mTW2UwLZjisGW8yLvMYBk2T4xB/uA3vsO2UIhj
+	 0GnpMb6WS0mfxz7qEKCBuLS61KgY+SmffGALXDea5pS++iXCM0DY2pxhM2M7EISiZx
+	 SG+pwU+bZ0PVcVm9vRqWHgrT6VNiiLvJ0Wg8unT5JURhFwmtXRm36zfreb8wuRnHas
+	 5GEr0ObY73U/g==
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 7EF60C46CD8;
+	by smtp.lore.kernel.org (Postfix) with ESMTP id AA4E7C46CD2;
 	Tue, 19 Dec 2023 22:03:15 +0000 (UTC)
 From: Sam Ravnborg via B4 Relay <devnull+sam.ravnborg.org@kernel.org>
-Date: Tue, 19 Dec 2023 23:03:08 +0100
-Subject: [PATCH 03/27] sparc32: Drop floppy support
+Date: Tue, 19 Dec 2023 23:03:11 +0100
+Subject: [PATCH 06/27] sparc32: Drop auxio support
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
@@ -31,7 +31,7 @@ List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20231219-sam-sparc32-sunset-v3-v1-3-64bb44b598c5@ravnborg.org>
+Message-Id: <20231219-sam-sparc32-sunset-v3-v1-6-64bb44b598c5@ravnborg.org>
 References: <20231219-sam-sparc32-sunset-v3-v1-0-64bb44b598c5@ravnborg.org>
 In-Reply-To: <20231219-sam-sparc32-sunset-v3-v1-0-64bb44b598c5@ravnborg.org>
 To: "David S. Miller" <davem@davemloft.net>, 
@@ -44,11 +44,11 @@ Cc: Helge Deller <deller@gmx.de>, Alexander Viro <viro@zeniv.linux.org.uk>,
  linux-fbdev@vger.kernel.org, dri-devel@lists.freedesktop.org, 
  linux-sound@vger.kernel.org, Sam Ravnborg <sam@ravnborg.org>
 X-Mailer: b4 0.12.4
-X-Developer-Signature: v=1; a=ed25519-sha256; t=1703023392; l=19846;
+X-Developer-Signature: v=1; a=ed25519-sha256; t=1703023392; l=10968;
  i=sam@ravnborg.org; s=20230107; h=from:subject:message-id;
- bh=m2/MK/BLIa9J3uhewvzMgBnAlbjpMCNEJ46bs8VF1tI=; =?utf-8?q?b=3DQQHSeD7dzx5z?=
- =?utf-8?q?Nx2DaDp4DRmMy1ul1LaTvsCpPx2/Sb6NSMaJxtz2iFFdVbr93lQ1q+rr7qQPXWlB?=
- DZS+bQsTCrzV43KdmnNFm5TRtEJriBvaGBAwpf1IaFFvczniCXMQ
+ bh=uPRcNTHpc3apZmH38dH08GpG9gby+F03Z/5vNFNt+bQ=; =?utf-8?q?b=3DizbwVBxoepZr?=
+ =?utf-8?q?5JXsCurPkXmxDhF7NTC6N0iyi+sg9aUQ7sZEdku9HTiFcFOA2jw/0aMKhz4LDPsu?=
+ N6j8wXkRBfrUv9dq+TB23KE1Cir6b/VexmmdWaCzgSig1RPwG8pY
 X-Developer-Key: i=sam@ravnborg.org; a=ed25519;
  pk=R0+pqV7BRYOAeOIGkyOrSNke7arx5y3LkEuNi37YEyU=
 X-Endpoint-Received: by B4 Relay for sam@ravnborg.org/20230107 with auth_id=22
@@ -57,725 +57,357 @@ Reply-To: <sam@ravnborg.org>
 
 From: Sam Ravnborg <sam@ravnborg.org>
 
-LEON do not have floppy support so we can drop it
+auxio is not supported by LEON - so drop it.
 
 Signed-off-by: Sam Ravnborg <sam@ravnborg.org>
 Cc: "David S. Miller" <davem@davemloft.net>
 Cc: Arnd Bergmann <arnd@kernel.org>
 Cc: Andreas Larsson <andreas@gaisler.com>
 ---
- arch/sparc/Kconfig                 |   2 +-
- arch/sparc/include/asm/floppy.h    |   2 -
- arch/sparc/include/asm/floppy_32.h | 393 -------------------------------------
- arch/sparc/kernel/entry.S          | 137 -------------
- arch/sparc/kernel/irq.h            |   3 -
- arch/sparc/kernel/irq_32.c         |  93 ---------
- arch/sparc/kernel/kernel.h         |   2 -
- 7 files changed, 1 insertion(+), 631 deletions(-)
+ arch/sparc/include/asm/auxio_32.h |  73 +-------------------
+ arch/sparc/kernel/Makefile        |   2 +-
+ arch/sparc/kernel/auxio_32.c      | 139 --------------------------------------
+ arch/sparc/kernel/devices.c       |   3 -
+ arch/sparc/kernel/kernel.h        |   4 --
+ arch/sparc/kernel/process_32.c    |  10 ---
+ arch/sparc/prom/misc_32.c         |   2 -
+ 7 files changed, 3 insertions(+), 230 deletions(-)
 
-diff --git a/arch/sparc/Kconfig b/arch/sparc/Kconfig
-index 49849790e66d..54c91431724b 100644
---- a/arch/sparc/Kconfig
-+++ b/arch/sparc/Kconfig
-@@ -195,7 +195,7 @@ config GENERIC_CALIBRATE_DELAY
+diff --git a/arch/sparc/include/asm/auxio_32.h b/arch/sparc/include/asm/auxio_32.h
+index 852457c7a265..e2335ddd359d 100644
+--- a/arch/sparc/include/asm/auxio_32.h
++++ b/arch/sparc/include/asm/auxio_32.h
+@@ -1,43 +1,12 @@
+ /* SPDX-License-Identifier: GPL-2.0 */
+ /*
+- * auxio.h:  Definitions and code for the Auxiliary I/O register.
++ * Dummy definitions for the Auxiliary I/O register.
+  *
+  * Copyright (C) 1995 David S. Miller (davem@caip.rutgers.edu)
+  */
+ #ifndef _SPARC_AUXIO_H
+ #define _SPARC_AUXIO_H
  
- config ARCH_MAY_HAVE_PC_FDC
- 	bool
--	default y
-+	default y if SPARC64
- 
- config EMULATED_CMPXCHG
- 	bool
-diff --git a/arch/sparc/include/asm/floppy.h b/arch/sparc/include/asm/floppy.h
-index 4b315802e635..c89f719a18e9 100644
---- a/arch/sparc/include/asm/floppy.h
-+++ b/arch/sparc/include/asm/floppy.h
-@@ -3,7 +3,5 @@
- #define ___ASM_SPARC_FLOPPY_H
- #if defined(__sparc__) && defined(__arch64__)
- #include <asm/floppy_64.h>
--#else
--#include <asm/floppy_32.h>
- #endif
- #endif
-diff --git a/arch/sparc/include/asm/floppy_32.h b/arch/sparc/include/asm/floppy_32.h
-deleted file mode 100644
-index 836f6575aa1d..000000000000
---- a/arch/sparc/include/asm/floppy_32.h
-+++ /dev/null
-@@ -1,393 +0,0 @@
--/* SPDX-License-Identifier: GPL-2.0 */
--/* asm/floppy.h: Sparc specific parts of the Floppy driver.
-- *
-- * Copyright (C) 1995 David S. Miller (davem@davemloft.net)
+-#include <asm/vaddrs.h>
+-
+-/* This register is an unsigned char in IO space.  It does two things.
+- * First, it is used to control the front panel LED light on machines
+- * that have it (good for testing entry points to trap handlers and irq's)
+- * Secondly, it controls various floppy drive parameters.
 - */
--
--#ifndef __ASM_SPARC_FLOPPY_H
--#define __ASM_SPARC_FLOPPY_H
--
--#include <linux/of.h>
--#include <linux/of_platform.h>
--#include <linux/pgtable.h>
--
--#include <asm/idprom.h>
--#include <asm/oplib.h>
--#include <asm/auxio.h>
--#include <asm/setup.h>
--#include <asm/page.h>
--#include <asm/irq.h>
--
--/* We don't need no stinkin' I/O port allocation crap. */
--#undef release_region
--#undef request_region
--#define release_region(X, Y)	do { } while(0)
--#define request_region(X, Y, Z)	(1)
--
--/* References:
-- * 1) Netbsd Sun floppy driver.
-- * 2) NCR 82077 controller manual
-- * 3) Intel 82077 controller manual
-- */
--struct sun_flpy_controller {
--	volatile unsigned char status_82072;  /* Main Status reg. */
--#define dcr_82072              status_82072   /* Digital Control reg. */
--#define status1_82077          status_82072   /* Auxiliary Status reg. 1 */
--
--	volatile unsigned char data_82072;    /* Data fifo. */
--#define status2_82077          data_82072     /* Auxiliary Status reg. 2 */
--
--	volatile unsigned char dor_82077;     /* Digital Output reg. */
--	volatile unsigned char tapectl_82077; /* What the? Tape control reg? */
--
--	volatile unsigned char status_82077;  /* Main Status Register. */
--#define drs_82077              status_82077   /* Digital Rate Select reg. */
--
--	volatile unsigned char data_82077;    /* Data fifo. */
--	volatile unsigned char ___unused;
--	volatile unsigned char dir_82077;     /* Digital Input reg. */
--#define dcr_82077              dir_82077      /* Config Control reg. */
--};
--
--/* You'll only ever find one controller on a SparcStation anyways. */
--static struct sun_flpy_controller *sun_fdc = NULL;
--
--struct sun_floppy_ops {
--	unsigned char (*fd_inb)(int port);
--	void (*fd_outb)(unsigned char value, int port);
--};
--
--static struct sun_floppy_ops sun_fdops;
--
--#define fd_inb(base, reg)         sun_fdops.fd_inb(reg)
--#define fd_outb(value, base, reg) sun_fdops.fd_outb(value, reg)
--#define fd_enable_dma()           sun_fd_enable_dma()
--#define fd_disable_dma()          sun_fd_disable_dma()
--#define fd_request_dma()          (0) /* nothing... */
--#define fd_free_dma()             /* nothing... */
--#define fd_clear_dma_ff()         /* nothing... */
--#define fd_set_dma_mode(mode)     sun_fd_set_dma_mode(mode)
--#define fd_set_dma_addr(addr)     sun_fd_set_dma_addr(addr)
--#define fd_set_dma_count(count)   sun_fd_set_dma_count(count)
--#define fd_enable_irq()           /* nothing... */
--#define fd_disable_irq()          /* nothing... */
--#define fd_request_irq()          sun_fd_request_irq()
--#define fd_free_irq()             /* nothing... */
--#if 0  /* P3: added by Alain, these cause a MMU corruption. 19960524 XXX */
--#define fd_dma_mem_alloc(size)    ((unsigned long) vmalloc(size))
--#define fd_dma_mem_free(addr,size) (vfree((void *)(addr)))
--#endif
--
--/* XXX This isn't really correct. XXX */
--#define get_dma_residue(x)        (0)
--
--#define FLOPPY0_TYPE  4
--#define FLOPPY1_TYPE  0
--
--/* Super paranoid... */
--#undef HAVE_DISABLE_HLT
--
--/* Here is where we catch the floppy driver trying to initialize,
-- * therefore this is where we call the PROM device tree probing
-- * routine etc. on the Sparc.
-- */
--#define FDC1                      sun_floppy_init()
--
--#define N_FDC    1
--#define N_DRIVE  8
--
--/* No 64k boundary crossing problems on the Sparc. */
--#define CROSS_64KB(a,s) (0)
--
--/* Routines unique to each controller type on a Sun. */
--static void sun_set_dor(unsigned char value, int fdc_82077)
--{
--	if (fdc_82077)
--		sun_fdc->dor_82077 = value;
--}
--
--static unsigned char sun_read_dir(void)
--{
--	return sun_fdc->dir_82077;
--}
--
--static unsigned char sun_82072_fd_inb(int port)
--{
--	udelay(5);
--	switch (port) {
--	default:
--		printk("floppy: Asked to read unknown port %d\n", port);
--		panic("floppy: Port bolixed.");
--	case FD_STATUS:
--		return sun_fdc->status_82072 & ~STATUS_DMA;
--	case FD_DATA:
--		return sun_fdc->data_82072;
--	case FD_DIR:
--		return sun_read_dir();
--	}
--	panic("sun_82072_fd_inb: How did I get here?");
--}
--
--static void sun_82072_fd_outb(unsigned char value, int port)
--{
--	udelay(5);
--	switch (port) {
--	default:
--		printk("floppy: Asked to write to unknown port %d\n", port);
--		panic("floppy: Port bolixed.");
--	case FD_DOR:
--		sun_set_dor(value, 0);
--		break;
--	case FD_DATA:
--		sun_fdc->data_82072 = value;
--		break;
--	case FD_DCR:
--		sun_fdc->dcr_82072 = value;
--		break;
--	case FD_DSR:
--		sun_fdc->status_82072 = value;
--		break;
--	}
--	return;
--}
--
--static unsigned char sun_82077_fd_inb(int port)
--{
--	udelay(5);
--	switch (port) {
--	default:
--		printk("floppy: Asked to read unknown port %d\n", port);
--		panic("floppy: Port bolixed.");
--	case FD_SRA:
--		return sun_fdc->status1_82077;
--	case FD_SRB:
--		return sun_fdc->status2_82077;
--	case FD_DOR:
--		return sun_fdc->dor_82077;
--	case FD_TDR:
--		return sun_fdc->tapectl_82077;
--	case FD_STATUS:
--		return sun_fdc->status_82077 & ~STATUS_DMA;
--	case FD_DATA:
--		return sun_fdc->data_82077;
--	case FD_DIR:
--		return sun_read_dir();
--	}
--	panic("sun_82077_fd_inb: How did I get here?");
--}
--
--static void sun_82077_fd_outb(unsigned char value, int port)
--{
--	udelay(5);
--	switch (port) {
--	default:
--		printk("floppy: Asked to write to unknown port %d\n", port);
--		panic("floppy: Port bolixed.");
--	case FD_DOR:
--		sun_set_dor(value, 1);
--		break;
--	case FD_DATA:
--		sun_fdc->data_82077 = value;
--		break;
--	case FD_DCR:
--		sun_fdc->dcr_82077 = value;
--		break;
--	case FD_DSR:
--		sun_fdc->status_82077 = value;
--		break;
--	case FD_TDR:
--		sun_fdc->tapectl_82077 = value;
--		break;
--	}
--	return;
--}
--
--/* For pseudo-dma (Sun floppy drives have no real DMA available to
-- * them so we must eat the data fifo bytes directly ourselves) we have
-- * three state variables.  doing_pdma tells our inline low-level
-- * assembly floppy interrupt entry point whether it should sit and eat
-- * bytes from the fifo or just transfer control up to the higher level
-- * floppy interrupt c-code.  I tried very hard but I could not get the
-- * pseudo-dma to work in c-code without getting many overruns and
-- * underruns.  If non-zero, doing_pdma encodes the direction of
-- * the transfer for debugging.  1=read 2=write
-- */
--
--/* Common routines to all controller types on the Sparc. */
--static inline void virtual_dma_init(void)
--{
--	/* nothing... */
--}
--
--static inline void sun_fd_disable_dma(void)
--{
--	doing_pdma = 0;
--	pdma_base = NULL;
--}
--
--static inline void sun_fd_set_dma_mode(int mode)
--{
--	switch(mode) {
--	case DMA_MODE_READ:
--		doing_pdma = 1;
--		break;
--	case DMA_MODE_WRITE:
--		doing_pdma = 2;
--		break;
--	default:
--		printk("Unknown dma mode %d\n", mode);
--		panic("floppy: Giving up...");
--	}
--}
--
--static inline void sun_fd_set_dma_addr(char *buffer)
--{
--	pdma_vaddr = buffer;
--}
--
--static inline void sun_fd_set_dma_count(int length)
--{
--	pdma_size = length;
--}
--
--static inline void sun_fd_enable_dma(void)
--{
--	pdma_base = pdma_vaddr;
--	pdma_areasize = pdma_size;
--}
--
--int sparc_floppy_request_irq(unsigned int irq, irq_handler_t irq_handler);
--
--static int sun_fd_request_irq(void)
--{
--	static int once = 0;
--
--	if (!once) {
--		once = 1;
--		return sparc_floppy_request_irq(FLOPPY_IRQ, floppy_interrupt);
--	} else {
--		return 0;
--	}
--}
--
--static struct linux_prom_registers fd_regs[2];
--
--static int sun_floppy_init(void)
--{
--	struct platform_device *op;
--	struct device_node *dp;
--	struct resource r;
--	char state[128];
--	phandle fd_node;
--	phandle tnode;
--	int num_regs;
--
--	use_virtual_dma = 1;
--
--	/* Forget it if we aren't on a machine that could possibly
--	 * ever have a floppy drive.
--	 */
--	if (sparc_cpu_model != sun4m) {
--		/* We certainly don't have a floppy controller. */
--		goto no_sun_fdc;
--	}
--	/* Well, try to find one. */
--	tnode = prom_getchild(prom_root_node);
--	fd_node = prom_searchsiblings(tnode, "obio");
--	if (fd_node != 0) {
--		tnode = prom_getchild(fd_node);
--		fd_node = prom_searchsiblings(tnode, "SUNW,fdtwo");
--	} else {
--		fd_node = prom_searchsiblings(tnode, "fd");
--	}
--	if (fd_node == 0) {
--		goto no_sun_fdc;
--	}
--
--	/* The sun4m lets us know if the controller is actually usable. */
--	if (prom_getproperty(fd_node, "status", state, sizeof(state)) != -1) {
--		if(!strcmp(state, "disabled")) {
--			goto no_sun_fdc;
--		}
--	}
--	num_regs = prom_getproperty(fd_node, "reg", (char *) fd_regs, sizeof(fd_regs));
--	num_regs = (num_regs / sizeof(fd_regs[0]));
--	prom_apply_obio_ranges(fd_regs, num_regs);
--	memset(&r, 0, sizeof(r));
--	r.flags = fd_regs[0].which_io;
--	r.start = fd_regs[0].phys_addr;
--	sun_fdc = of_ioremap(&r, 0, fd_regs[0].reg_size, "floppy");
--
--	/* Look up irq in platform_device.
--	 * We try "SUNW,fdtwo" and "fd"
--	 */
--	op = NULL;
--	for_each_node_by_name(dp, "SUNW,fdtwo") {
--		op = of_find_device_by_node(dp);
--		if (op)
--			break;
--	}
--	if (!op) {
--		for_each_node_by_name(dp, "fd") {
--			op = of_find_device_by_node(dp);
--			if (op)
--				break;
--		}
--	}
--	if (!op)
--		goto no_sun_fdc;
--
--	FLOPPY_IRQ = op->archdata.irqs[0];
--
--	/* Last minute sanity check... */
--	if (sun_fdc->status_82072 == 0xff) {
--		sun_fdc = NULL;
--		goto no_sun_fdc;
--	}
--
--	sun_fdops.fd_inb = sun_82077_fd_inb;
--	sun_fdops.fd_outb = sun_82077_fd_outb;
--	fdc_status = &sun_fdc->status_82077;
--
--	if (sun_fdc->dor_82077 == 0x80) {
--		sun_fdc->dor_82077 = 0x02;
--		if (sun_fdc->dor_82077 == 0x80) {
--			sun_fdops.fd_inb = sun_82072_fd_inb;
--			sun_fdops.fd_outb = sun_82072_fd_outb;
--			fdc_status = &sun_fdc->status_82072;
--		}
--	}
--
--	/* Success... */
--	allowed_drive_mask = 0x01;
--	return (int) sun_fdc;
--
--no_sun_fdc:
--	return -1;
--}
--
--static int sparc_eject(void)
--{
--	set_dor(0x00, 0xff, 0x90);
--	udelay(500);
--	set_dor(0x00, 0x6f, 0x00);
--	udelay(500);
--	return 0;
--}
--
--#define fd_eject(drive) sparc_eject()
--
--#define EXTRA_FLOPPY_PARAMS
--
--static DEFINE_SPINLOCK(dma_spin_lock);
--
--#define claim_dma_lock() \
--({	unsigned long flags; \
--	spin_lock_irqsave(&dma_spin_lock, flags); \
--	flags; \
--})
--
--#define release_dma_lock(__flags) \
--	spin_unlock_irqrestore(&dma_spin_lock, __flags);
--
--#endif /* !(__ASM_SPARC_FLOPPY_H) */
-diff --git a/arch/sparc/kernel/entry.S b/arch/sparc/kernel/entry.S
-index a3fdee4cd6fa..c6a5cb949381 100644
---- a/arch/sparc/kernel/entry.S
-+++ b/arch/sparc/kernel/entry.S
-@@ -55,143 +55,6 @@ arch_kgdb_breakpoint:
- 	.size		arch_kgdb_breakpoint,.-arch_kgdb_breakpoint
- #endif
- 
--#if defined(CONFIG_BLK_DEV_FD) || defined(CONFIG_BLK_DEV_FD_MODULE)
--	.align	4
--	.globl	floppy_hardint
--floppy_hardint:
--	/*
--	 * This code cannot touch registers %l0 %l1 and %l2
--	 * because SAVE_ALL depends on their values. It depends
--	 * on %l3 also, but we regenerate it before a call.
--	 * Other registers are:
--	 * %l3 -- base address of fdc registers
--	 * %l4 -- pdma_vaddr
--	 * %l5 -- scratch for ld/st address
--	 * %l6 -- pdma_size
--	 * %l7 -- scratch [floppy byte, ld/st address, aux. data]
--	 */
--
--	/* Do we have work to do? */
--	sethi	%hi(doing_pdma), %l7
--	ld	[%l7 + %lo(doing_pdma)], %l7
--	cmp	%l7, 0
--	be	floppy_dosoftint
--	 nop
--
--	/* Load fdc register base */
--	sethi	%hi(fdc_status), %l3
--	ld	[%l3 + %lo(fdc_status)], %l3
--
--	/* Setup register addresses */
--	sethi	%hi(pdma_vaddr), %l5	! transfer buffer
--	ld	[%l5 + %lo(pdma_vaddr)], %l4
--	sethi	%hi(pdma_size), %l5	! bytes to go
--	ld	[%l5 + %lo(pdma_size)], %l6
--next_byte:
--  	ldub	[%l3], %l7
--
--	andcc	%l7, 0x80, %g0		! Does fifo still have data
--	bz	floppy_fifo_emptied	! fifo has been emptied...
--	 andcc	%l7, 0x20, %g0		! in non-dma mode still?
--	bz	floppy_overrun		! nope, overrun
--	 andcc	%l7, 0x40, %g0		! 0=write 1=read
--	bz	floppy_write
--	 sub	%l6, 0x1, %l6
--
--	/* Ok, actually read this byte */
--	ldub	[%l3 + 1], %l7
--	orcc	%g0, %l6, %g0
--	stb	%l7, [%l4]
--	bne	next_byte
--	 add	%l4, 0x1, %l4
--
--	b	floppy_tdone
--	 nop
--
--floppy_write:
--	/* Ok, actually write this byte */
--	ldub	[%l4], %l7
--	orcc	%g0, %l6, %g0
--	stb	%l7, [%l3 + 1]
--	bne	next_byte
--	 add	%l4, 0x1, %l4
--
--	/* fall through... */
--floppy_tdone:
--	sethi	%hi(pdma_vaddr), %l5
--	st	%l4, [%l5 + %lo(pdma_vaddr)]
--	sethi	%hi(pdma_size), %l5
--	st	%l6, [%l5 + %lo(pdma_size)]
--	/* Flip terminal count pin */
--	set	auxio_register, %l7
--	ld	[%l7], %l7
--
--	ldub	[%l7], %l5
--
--	or	%l5, 0xc2, %l5
--	stb	%l5, [%l7]
--	andn    %l5, 0x02, %l5
--
--2:
--	/* Kill some time so the bits set */
--	WRITE_PAUSE
--	WRITE_PAUSE
--
--	stb     %l5, [%l7]
--
--	/* Prevent recursion */
--	sethi	%hi(doing_pdma), %l7
--	b	floppy_dosoftint
--	 st	%g0, [%l7 + %lo(doing_pdma)]
--
--	/* We emptied the FIFO, but we haven't read everything
--	 * as of yet.  Store the current transfer address and
--	 * bytes left to read so we can continue when the next
--	 * fast IRQ comes in.
--	 */
--floppy_fifo_emptied:
--	sethi	%hi(pdma_vaddr), %l5
--	st	%l4, [%l5 + %lo(pdma_vaddr)]
--	sethi	%hi(pdma_size), %l7
--	st	%l6, [%l7 + %lo(pdma_size)]
--
--	/* Restore condition codes */
--	wr	%l0, 0x0, %psr
--	WRITE_PAUSE
--
--	jmp	%l1
--	rett	%l2
--
--floppy_overrun:
--	sethi	%hi(pdma_vaddr), %l5
--	st	%l4, [%l5 + %lo(pdma_vaddr)]
--	sethi	%hi(pdma_size), %l5
--	st	%l6, [%l5 + %lo(pdma_size)]
--	/* Prevent recursion */
--	sethi	%hi(doing_pdma), %l7
--	st	%g0, [%l7 + %lo(doing_pdma)]
--
--	/* fall through... */
--floppy_dosoftint:
--	rd	%wim, %l3
--	SAVE_ALL
--
--	/* Set all IRQs off. */
--	or	%l0, PSR_PIL, %l4
--	wr	%l4, 0x0, %psr
--	WRITE_PAUSE
--	wr	%l4, PSR_ET, %psr
--	WRITE_PAUSE
--
--	mov	11, %o0			! floppy irq level (unused anyway)
--	mov	%g0, %o1		! devid is not used in fast interrupts
--	call	sparc_floppy_irq
--	 add	%sp, STACKFRAME_SZ, %o2	! struct pt_regs *regs
--
--	RESTORE_ALL
--	
--#endif /* (CONFIG_BLK_DEV_FD) */
--
- 	/* Bad trap handler */
- 	.globl	bad_trap_handler
- bad_trap_handler:
-diff --git a/arch/sparc/kernel/irq.h b/arch/sparc/kernel/irq.h
-index b02026ad6e34..0d9b740725b4 100644
---- a/arch/sparc/kernel/irq.h
-+++ b/arch/sparc/kernel/irq.h
-@@ -83,9 +83,6 @@ void handler_irq(unsigned int pil, struct pt_regs *regs);
- 
- unsigned long leon_get_irqmask(unsigned int irq);
- 
--/* irq_32.c */
--void sparc_floppy_irq(int irq, void *dev_id, struct pt_regs *regs);
--
- /* sun4m_irq.c */
- void sun4m_nmi(struct pt_regs *regs);
- 
-diff --git a/arch/sparc/kernel/irq_32.c b/arch/sparc/kernel/irq_32.c
-index e8452be5123b..510184c3aa17 100644
---- a/arch/sparc/kernel/irq_32.c
-+++ b/arch/sparc/kernel/irq_32.c
-@@ -235,99 +235,6 @@ void handler_irq(unsigned int pil, struct pt_regs *regs)
- 	set_irq_regs(old_regs);
- }
- 
--#if defined(CONFIG_BLK_DEV_FD) || defined(CONFIG_BLK_DEV_FD_MODULE)
--static unsigned int floppy_irq;
--
--int sparc_floppy_request_irq(unsigned int irq, irq_handler_t irq_handler)
--{
--	unsigned int cpu_irq;
--	int err;
--
--
--	err = request_irq(irq, irq_handler, 0, "floppy", NULL);
--	if (err)
--		return -1;
--
--	/* Save for later use in floppy interrupt handler */
--	floppy_irq = irq;
--
--	cpu_irq = (irq & (NR_IRQS - 1));
--
--	/* Dork with trap table if we get this far. */
--#define INSTANTIATE(table) \
--	table[SP_TRAP_IRQ1+(cpu_irq-1)].inst_one = SPARC_RD_PSR_L0; \
--	table[SP_TRAP_IRQ1+(cpu_irq-1)].inst_two = \
--		SPARC_BRANCH((unsigned long) floppy_hardint, \
--			     (unsigned long) &table[SP_TRAP_IRQ1+(cpu_irq-1)].inst_two);\
--	table[SP_TRAP_IRQ1+(cpu_irq-1)].inst_three = SPARC_RD_WIM_L3; \
--	table[SP_TRAP_IRQ1+(cpu_irq-1)].inst_four = SPARC_NOP;
--
--	INSTANTIATE(sparc_ttable)
--
--#if defined CONFIG_SMP
--	if (sparc_cpu_model != sparc_leon) {
--		struct tt_entry *trap_table;
--
--		trap_table = &trapbase_cpu1;
--		INSTANTIATE(trap_table)
--		trap_table = &trapbase_cpu2;
--		INSTANTIATE(trap_table)
--		trap_table = &trapbase_cpu3;
--		INSTANTIATE(trap_table)
--	}
--#endif
--#undef INSTANTIATE
--	/*
--	 * XXX Correct thing whould be to flush only I- and D-cache lines
--	 * which contain the handler in question. But as of time of the
--	 * writing we have no CPU-neutral interface to fine-grained flushes.
--	 */
--	flush_cache_all();
--	return 0;
--}
--EXPORT_SYMBOL(sparc_floppy_request_irq);
+-#define AUXIO_ORMEIN      0xf0    /* All writes must set these bits. */
+-#define AUXIO_ORMEIN4M    0xc0    /* sun4m - All writes must set these bits. */
+-#define AUXIO_FLPY_DENS   0x20    /* Floppy density, high if set. Read only. */
+-#define AUXIO_FLPY_DCHG   0x10    /* A disk change occurred.  Read only. */
+-#define AUXIO_EDGE_ON     0x10    /* sun4m - On means Jumper block is in. */
+-#define AUXIO_FLPY_DSEL   0x08    /* Drive select/start-motor. Write only. */
+-#define AUXIO_LINK_TEST   0x08    /* sun4m - On means TPE Carrier detect. */
+-
+-/* Set the following to one, then zero, after doing a pseudo DMA transfer. */
+-#define AUXIO_FLPY_TCNT   0x04    /* Floppy terminal count. Write only. */
+-
+-/* Set the following to zero to eject the floppy. */
+-#define AUXIO_FLPY_EJCT   0x02    /* Eject floppy disk.  Write only. */
+-#define AUXIO_LED         0x01    /* On if set, off if unset. Read/Write */
+-
+-#ifndef __ASSEMBLY__
 -
 -/*
-- * These variables are used to access state from the assembler
-- * interrupt handler, floppy_hardint, so we cannot put these in
-- * the floppy driver image because that would not work in the
-- * modular case.
+- * NOTE: these routines are implementation dependent--
+- * understand the hardware you are querying!
 - */
--volatile unsigned char *fdc_status;
--EXPORT_SYMBOL(fdc_status);
+-void set_auxio(unsigned char bits_on, unsigned char bits_off);
+-unsigned char get_auxio(void); /* .../asm/floppy.h */
 -
--char *pdma_vaddr;
--EXPORT_SYMBOL(pdma_vaddr);
--
--unsigned long pdma_size;
--EXPORT_SYMBOL(pdma_size);
--
--volatile int doing_pdma;
--EXPORT_SYMBOL(doing_pdma);
--
--char *pdma_base;
--EXPORT_SYMBOL(pdma_base);
--
--unsigned long pdma_areasize;
--EXPORT_SYMBOL(pdma_areasize);
--
--/* Use the generic irq support to call floppy_interrupt
-- * which was setup using request_irq() in sparc_floppy_request_irq().
-- * We only have one floppy interrupt so we do not need to check
-- * for additional handlers being wired up by irq_link()
+ /*
+  * The following routines are provided for driver-compatibility
+  * with sparc64 (primarily sunlance.c)
+@@ -46,44 +15,6 @@ unsigned char get_auxio(void); /* .../asm/floppy.h */
+ #define AUXIO_LTE_ON    1
+ #define AUXIO_LTE_OFF   0
+ 
+-/* auxio_set_lte - Set Link Test Enable (TPE Link Detect)
+- *
+- * on - AUXIO_LTE_ON or AUXIO_LTE_OFF
 - */
--void sparc_floppy_irq(int irq, void *dev_id, struct pt_regs *regs)
+-#define auxio_set_lte(on) \
+-do { \
+-	if(on) { \
+-		set_auxio(AUXIO_LINK_TEST, 0); \
+-	} else { \
+-		set_auxio(0, AUXIO_LINK_TEST); \
+-	} \
+-} while (0)
+-
+-#define AUXIO_LED_ON    1
+-#define AUXIO_LED_OFF   0
+-
+-/* auxio_set_led - Set system front panel LED
+- *
+- * on - AUXIO_LED_ON or AUXIO_LED_OFF
+- */
+-#define auxio_set_led(on) \
+-do { \
+-	if(on) { \
+-		set_auxio(AUXIO_LED, 0); \
+-	} else { \
+-		set_auxio(0, AUXIO_LED); \
+-	} \
+-} while (0)
+-
+-#endif /* !(__ASSEMBLY__) */
+-
+-
+-/* AUXIO2 (Power Off Control) */
+-extern volatile u8 __iomem *auxio_power_register;
+-
+-#define	AUXIO_POWER_DETECT_FAILURE	32
+-#define	AUXIO_POWER_CLEAR_FAILURE	2
+-#define	AUXIO_POWER_OFF			1
+-
++#define auxio_set_lte(on)
+ 
+ #endif /* !(_SPARC_AUXIO_H) */
+diff --git a/arch/sparc/kernel/Makefile b/arch/sparc/kernel/Makefile
+index ab47823f8b4e..577cb57c588a 100644
+--- a/arch/sparc/kernel/Makefile
++++ b/arch/sparc/kernel/Makefile
+@@ -83,7 +83,7 @@ obj-$(CONFIG_SMP)         += trampoline_$(BITS).o smp_$(BITS).o
+ obj-$(CONFIG_SPARC32_SMP) += sun4m_smp.o sun4d_smp.o leon_smp.o
+ obj-$(CONFIG_SPARC64_SMP) += hvtramp.o
+ 
+-obj-y                     += auxio_$(BITS).o
++obj-$(CONFIG_SPARC64)     += auxio_64.o
+ 
+ obj-y                     += termios.o
+ 
+diff --git a/arch/sparc/kernel/auxio_32.c b/arch/sparc/kernel/auxio_32.c
+deleted file mode 100644
+index 989860e890c4..000000000000
+--- a/arch/sparc/kernel/auxio_32.c
++++ /dev/null
+@@ -1,139 +0,0 @@
+-// SPDX-License-Identifier: GPL-2.0
+-/* auxio.c: Probing for the Sparc AUXIO register at boot time.
+- *
+- * Copyright (C) 1996 David S. Miller (davem@caip.rutgers.edu)
+- */
+-
+-#include <linux/stddef.h>
+-#include <linux/init.h>
+-#include <linux/spinlock.h>
+-#include <linux/of.h>
+-#include <linux/export.h>
+-
+-#include <asm/oplib.h>
+-#include <asm/io.h>
+-#include <asm/auxio.h>
+-#include <asm/string.h>		/* memset(), Linux has no bzero() */
+-#include <asm/cpu_type.h>
+-
+-#include "kernel.h"
+-
+-/* Probe and map in the Auxiliary I/O register */
+-
+-/* auxio_register is not static because it is referenced 
+- * in entry.S::floppy_tdone
+- */
+-void __iomem *auxio_register = NULL;
+-static DEFINE_SPINLOCK(auxio_lock);
+-
+-void __init auxio_probe(void)
 -{
--	struct pt_regs *old_regs;
+-	phandle node, auxio_nd;
+-	struct linux_prom_registers auxregs[1];
+-	struct resource r;
 -
--	old_regs = set_irq_regs(regs);
--	irq_enter();
--	generic_handle_irq(floppy_irq);
--	irq_exit();
--	set_irq_regs(old_regs);
--}
+-	switch (sparc_cpu_model) {
+-	case sparc_leon:
+-	case sun4d:
+-		return;
+-	default:
+-		break;
+-	}
+-	node = prom_getchild(prom_root_node);
+-	auxio_nd = prom_searchsiblings(node, "auxiliary-io");
+-	if(!auxio_nd) {
+-		node = prom_searchsiblings(node, "obio");
+-		node = prom_getchild(node);
+-		auxio_nd = prom_searchsiblings(node, "auxio");
+-		if(!auxio_nd) {
+-#ifdef CONFIG_PCI
+-			/* There may be auxio on Ebus */
+-			return;
+-#else
+-			if(prom_searchsiblings(node, "leds")) {
+-				/* VME chassis sun4m machine, no auxio exists. */
+-				return;
+-			}
+-			prom_printf("Cannot find auxio node, cannot continue...\n");
+-			prom_halt();
 -#endif
+-		}
+-	}
+-	if(prom_getproperty(auxio_nd, "reg", (char *) auxregs, sizeof(auxregs)) <= 0)
+-		return;
+-	prom_apply_obio_ranges(auxregs, 0x1);
+-	/* Map the register both read and write */
+-	r.flags = auxregs[0].which_io & 0xF;
+-	r.start = auxregs[0].phys_addr;
+-	r.end = auxregs[0].phys_addr + auxregs[0].reg_size - 1;
+-	auxio_register = of_ioremap(&r, 0, auxregs[0].reg_size, "auxio");
+-	/* Fix the address on sun4m. */
+-	if ((((unsigned long) auxregs[0].phys_addr) & 3) == 3)
+-		auxio_register += (3 - ((unsigned long)auxio_register & 3));
 -
- /* djhr
-  * This could probably be made indirect too and assigned in the CPU
-  * bits of the code. That would be much nicer I think and would also
+-	set_auxio(AUXIO_LED, 0);
+-}
+-
+-unsigned char get_auxio(void)
+-{
+-	if(auxio_register) 
+-		return sbus_readb(auxio_register);
+-	return 0;
+-}
+-EXPORT_SYMBOL(get_auxio);
+-
+-void set_auxio(unsigned char bits_on, unsigned char bits_off)
+-{
+-	unsigned char regval;
+-	unsigned long flags;
+-	spin_lock_irqsave(&auxio_lock, flags);
+-	switch (sparc_cpu_model) {
+-	case sun4m:
+-		if(!auxio_register)
+-			break;     /* VME chassis sun4m, no auxio. */
+-		regval = sbus_readb(auxio_register);
+-		sbus_writeb(((regval | bits_on) & ~bits_off) | AUXIO_ORMEIN4M,
+-			auxio_register);
+-		break;
+-	case sun4d:
+-		break;
+-	default:
+-		panic("Can't set AUXIO register on this machine.");
+-	}
+-	spin_unlock_irqrestore(&auxio_lock, flags);
+-}
+-EXPORT_SYMBOL(set_auxio);
+-
+-/* sun4m power control register (AUXIO2) */
+-
+-volatile u8 __iomem *auxio_power_register = NULL;
+-
+-void __init auxio_power_probe(void)
+-{
+-	struct linux_prom_registers regs;
+-	phandle node;
+-	struct resource r;
+-
+-	/* Attempt to find the sun4m power control node. */
+-	node = prom_getchild(prom_root_node);
+-	node = prom_searchsiblings(node, "obio");
+-	node = prom_getchild(node);
+-	node = prom_searchsiblings(node, "power");
+-	if (node == 0 || (s32)node == -1)
+-		return;
+-
+-	/* Map the power control register. */
+-	if (prom_getproperty(node, "reg", (char *)&regs, sizeof(regs)) <= 0)
+-		return;
+-	prom_apply_obio_ranges(&regs, 1);
+-	memset(&r, 0, sizeof(r));
+-	r.flags = regs.which_io & 0xF;
+-	r.start = regs.phys_addr;
+-	r.end = regs.phys_addr + regs.reg_size - 1;
+-	auxio_power_register =
+-		(u8 __iomem *)of_ioremap(&r, 0, regs.reg_size, "auxpower");
+-
+-	/* Display a quick message on the console. */
+-	if (auxio_power_register)
+-		printk(KERN_INFO "Power off control detected.\n");
+-}
+diff --git a/arch/sparc/kernel/devices.c b/arch/sparc/kernel/devices.c
+index 23b6e50d4ada..b3c2d51b22c4 100644
+--- a/arch/sparc/kernel/devices.c
++++ b/arch/sparc/kernel/devices.c
+@@ -132,7 +132,4 @@ void __init device_scan(void)
+ 							    0);
+ 	}
+ #endif /* !CONFIG_SMP */
+-
+-	auxio_probe();
+-	auxio_power_probe();
+ }
 diff --git a/arch/sparc/kernel/kernel.h b/arch/sparc/kernel/kernel.h
-index 15da3c0597a5..ef5579496088 100644
+index ef5579496088..c8ba3bc7e137 100644
 --- a/arch/sparc/kernel/kernel.h
 +++ b/arch/sparc/kernel/kernel.h
-@@ -151,8 +151,6 @@ extern unsigned int real_irq_entry[];
- extern unsigned int smp4d_ticker[];
- extern unsigned int patchme_maybe_smp_msg[];
+@@ -174,10 +174,6 @@ asmlinkage void user_unaligned_trap(struct pt_regs *regs, unsigned int insn);
+ /* windows.c */
+ void try_to_clear_window_buffer(struct pt_regs *regs, int who);
  
--void floppy_hardint(void);
+-/* auxio_32.c */
+-void __init auxio_probe(void);
+-void __init auxio_power_probe(void);
 -
- /* trampoline_32.S */
- extern unsigned long sun4m_cpu_startup;
- extern unsigned long sun4d_cpu_startup;
+ /* pcic.c */
+ extern void __iomem *pcic_regs;
+ void pcic_nmi(unsigned int pend, struct pt_regs *regs);
+diff --git a/arch/sparc/kernel/process_32.c b/arch/sparc/kernel/process_32.c
+index 9c7c662cb565..2e2836f314ca 100644
+--- a/arch/sparc/kernel/process_32.c
++++ b/arch/sparc/kernel/process_32.c
+@@ -27,7 +27,6 @@
+ #include <linux/slab.h>
+ #include <linux/cpu.h>
+ 
+-#include <asm/auxio.h>
+ #include <asm/oplib.h>
+ #include <linux/uaccess.h>
+ #include <asm/page.h>
+@@ -49,8 +48,6 @@ void (*sparc_idle)(void);
+ 
+ /* 
+  * Power-off handler instantiation for pm.h compliance
+- * This is done via auxio, but could be used as a fallback
+- * handler when auxio is not present-- unused for now...
+  */
+ void (*pm_power_off)(void) = machine_power_off;
+ EXPORT_SYMBOL(pm_power_off);
+@@ -103,13 +100,6 @@ void machine_restart(char * cmd)
+ 
+ void machine_power_off(void)
+ {
+-	if (auxio_power_register &&
+-	    (!of_node_is_type(of_console_device, "serial") || scons_pwroff)) {
+-		u8 power_register = sbus_readb(auxio_power_register);
+-		power_register |= AUXIO_POWER_OFF;
+-		sbus_writeb(power_register, auxio_power_register);
+-	}
+-
+ 	machine_halt();
+ }
+ 
+diff --git a/arch/sparc/prom/misc_32.c b/arch/sparc/prom/misc_32.c
+index 625750924860..78dde6bfbf0f 100644
+--- a/arch/sparc/prom/misc_32.c
++++ b/arch/sparc/prom/misc_32.c
+@@ -13,7 +13,6 @@
+ 
+ #include <asm/openprom.h>
+ #include <asm/oplib.h>
+-#include <asm/auxio.h>
+ 
+ extern void restore_current(void);
+ 
+@@ -60,7 +59,6 @@ prom_cmdline(void)
+ 	(*(romvec->pv_abort))();
+ 	restore_current();
+ 	spin_unlock_irqrestore(&prom_lock, flags);
+-	set_auxio(AUXIO_LED, 0);
+ }
+ 
+ /* Drop into the prom, but completely terminate the program.
 
 -- 
 2.34.1
