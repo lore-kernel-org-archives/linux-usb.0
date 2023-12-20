@@ -1,36 +1,36 @@
-Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com [205.220.168.131])
+Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com [205.220.180.131])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2E67F4F8BD;
-	Wed, 20 Dec 2023 22:46:19 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5B1DA524DF;
+	Wed, 20 Dec 2023 22:46:22 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=quicinc.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=quicinc.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=quicinc.com header.i=@quicinc.com header.b="eaQ4n4as"
-Received: from pps.filterd (m0279867.ppops.net [127.0.0.1])
-	by mx0a-0031df01.pphosted.com (8.17.1.24/8.17.1.24) with ESMTP id 3BKLJSCA024546;
-	Wed, 20 Dec 2023 22:45:55 GMT
+	dkim=pass (2048-bit key) header.d=quicinc.com header.i=@quicinc.com header.b="Fj3sTl8Y"
+Received: from pps.filterd (m0279873.ppops.net [127.0.0.1])
+	by mx0a-0031df01.pphosted.com (8.17.1.24/8.17.1.24) with ESMTP id 3BKLUmHQ020658;
+	Wed, 20 Dec 2023 22:46:06 GMT
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com; h=
 	from:to:cc:subject:date:message-id:in-reply-to:references
-	:mime-version:content-type; s=qcppdkim1; bh=dvSeSujDsWAxoUgpDofY
-	eTPsm6P/pMlRxfIJ/11lUYU=; b=eaQ4n4as4L3eylyBW1WUWyCYYpaxuipPP+P4
-	dVpvDNUHH/XDbYdkQPr7DE0gZE+JWU31mZ0//B+xbCuYLdZI2wgluPjYbSzkcMAj
-	5H2dUNjszNUygS0Yy+4vBFRvJArwuOTCk9Sk4dh5hQBgJtRGSyO2D3jD92ogLQf3
-	sTNs6jGuFXAKLFvH2QRHf4n9bfGfpAA1uII055SW/BH4tvZ+C2A8KMy/RH7CpCrU
-	ZpMHHjlm6qJ6tisn/cKSCbcBDRSDDssT1tzvtnWgMAPsl9UYdbvPLtmus17dd4tB
-	ggjXwoF4d41fy9XxgJ77RHZvJDBAEF4E14T197Js8fGK0HP9mA==
-Received: from nalasppmta01.qualcomm.com (Global_NAT1.qualcomm.com [129.46.96.20])
-	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 3v37vxw2s9-1
+	:mime-version:content-type; s=qcppdkim1; bh=GEq454iSwI48K4ZPgN9m
+	T347jXotm2BjHdb8t2pxU4g=; b=Fj3sTl8YMlVIJHR25sk0+AVAfOp0p0JV5mVG
+	inyaEiqcNMpQUJo+bB8fYoWEFsubdjIYxhncwMZDRd0mkX8BkUzVR2jqtGLXgMwn
+	rYHRtdGo0vnlRlcyd1tWr/ER4wJOmBJNMt+8JxjEv75gXLtY0tTLheBvsEuDbTbt
+	2qVUceiZe3KuxatjofZdJ6tjnye0QsbhalsLinckBSWVhkh33FkjfYct/K4eolrk
+	q86iAqG4I0woINTGxm0E2K9NBoPabe6WXTguuL+tFJ/x4DKn6adHECbS/1ZMuJVw
+	YlVqYbrgbmA3E42InafcRFwEi+P0RwZpttpKDeVhAOrlosOAKw==
+Received: from nalasppmta03.qualcomm.com (Global_NAT1.qualcomm.com [129.46.96.20])
+	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 3v3rppjmew-1
 	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Wed, 20 Dec 2023 22:45:55 +0000 (GMT)
+	Wed, 20 Dec 2023 22:46:06 +0000 (GMT)
 Received: from nalasex01b.na.qualcomm.com (nalasex01b.na.qualcomm.com [10.47.209.197])
-	by NALASPPMTA01.qualcomm.com (8.17.1.5/8.17.1.5) with ESMTPS id 3BKMjsIh007919
+	by NALASPPMTA03.qualcomm.com (8.17.1.5/8.17.1.5) with ESMTPS id 3BKMk5s9017033
 	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Wed, 20 Dec 2023 22:45:54 GMT
+	Wed, 20 Dec 2023 22:46:05 GMT
 Received: from hu-wcheng-lv.qualcomm.com (10.49.16.6) by
  nalasex01b.na.qualcomm.com (10.47.209.197) with Microsoft SMTP Server
  (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.1118.40; Wed, 20 Dec 2023 14:45:54 -0800
+ 15.2.1118.40; Wed, 20 Dec 2023 14:46:05 -0800
 From: Wesley Cheng <quic_wcheng@quicinc.com>
 To: <srinivas.kandagatla@linaro.org>, <mathias.nyman@intel.com>,
         <perex@perex.cz>, <conor+dt@kernel.org>, <corbet@lwn.net>,
@@ -43,9 +43,9 @@ CC: <linux-kernel@vger.kernel.org>, <devicetree@vger.kernel.org>,
         <linux-sound@vger.kernel.org>, <linux-usb@vger.kernel.org>,
         <linux-arm-msm@vger.kernel.org>, <linux-doc@vger.kernel.org>,
         <alsa-devel@alsa-project.org>, Wesley Cheng <quic_wcheng@quicinc.com>
-Subject: [PATCH v11 04/41] usb: host: xhci-mem: Cleanup pending secondary event ring events
-Date: Wed, 20 Dec 2023 14:45:07 -0800
-Message-ID: <20231220224544.18031-5-quic_wcheng@quicinc.com>
+Subject: [PATCH v11 37/41] ALSA: usb-audio: qcom: Use card and PCM index from QMI request
+Date: Wed, 20 Dec 2023 14:45:40 -0800
+Message-ID: <20231220224544.18031-38-quic_wcheng@quicinc.com>
 X-Mailer: git-send-email 2.17.1
 In-Reply-To: <20231220224544.18031-1-quic_wcheng@quicinc.com>
 References: <20231220224544.18031-1-quic_wcheng@quicinc.com>
@@ -60,160 +60,66 @@ X-ClientProxiedBy: nalasex01a.na.qualcomm.com (10.47.209.196) To
  nalasex01b.na.qualcomm.com (10.47.209.197)
 X-QCInternal: smtphost
 X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800 signatures=585085
-X-Proofpoint-ORIG-GUID: ptU1pFl-9Z2v7wQukOHceXaTLVQ45Z3r
-X-Proofpoint-GUID: ptU1pFl-9Z2v7wQukOHceXaTLVQ45Z3r
+X-Proofpoint-ORIG-GUID: x7Oo-m0Hsx3aiUdqUF6Tmm2zjRlC4bhF
+X-Proofpoint-GUID: x7Oo-m0Hsx3aiUdqUF6Tmm2zjRlC4bhF
 X-Proofpoint-Virus-Version: vendor=baseguard
  engine=ICAP:2.0.272,Aquarius:18.0.997,Hydra:6.0.619,FMLib:17.11.176.26
  definitions=2023-12-09_02,2023-12-07_01,2023-05-22_02
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 mlxlogscore=796
- suspectscore=0 impostorscore=0 lowpriorityscore=0 malwarescore=0
- bulkscore=0 phishscore=0 spamscore=0 clxscore=1015 mlxscore=0 adultscore=0
- priorityscore=1501 classifier=spam adjust=0 reason=mlx scancount=1
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 bulkscore=0 mlxscore=0
+ priorityscore=1501 suspectscore=0 mlxlogscore=992 impostorscore=0
+ clxscore=1015 spamscore=0 phishscore=0 lowpriorityscore=0 adultscore=0
+ malwarescore=0 classifier=spam adjust=0 reason=mlx scancount=1
  engine=8.19.0-2311290000 definitions=main-2312200163
 
-As part of xHCI bus suspend, the XHCI is halted.  However, if there are
-pending events in the secondary event ring, it is observed that the xHCI
-controller stops responding to further commands upon host or device
-initiated bus resume.  Iterate through all pending events and update the
-dequeue pointer to the beginning of the event ring.
+Utilize the card and PCM index coming from the USB QMI stream request.
+This field follows what is set by the ASoC USB backend, and could
+potentially carry information about a specific device selected through the
+ASoC USB backend.  The backend also has information about the last USB
+sound device plugged in, so it can choose to select the last device plugged
+in, accordingly.
 
 Signed-off-by: Wesley Cheng <quic_wcheng@quicinc.com>
 ---
- drivers/usb/host/xhci-mem.c  | 11 +++++----
- drivers/usb/host/xhci-ring.c | 46 +++++++++++++++++++++++++++++++++++-
- drivers/usb/host/xhci.c      |  2 +-
- drivers/usb/host/xhci.h      |  7 ++++++
- 4 files changed, 59 insertions(+), 7 deletions(-)
+ sound/usb/qcom/qc_audio_offload.c | 8 ++------
+ 1 file changed, 2 insertions(+), 6 deletions(-)
 
-diff --git a/drivers/usb/host/xhci-mem.c b/drivers/usb/host/xhci-mem.c
-index 4460fa7e9fab..5bf74c37cbf6 100644
---- a/drivers/usb/host/xhci-mem.c
-+++ b/drivers/usb/host/xhci-mem.c
-@@ -1827,7 +1827,7 @@ xhci_remove_interrupter(struct xhci_hcd *xhci, struct xhci_interrupter *ir)
- 		tmp &= ERST_SIZE_MASK;
- 		writel(tmp, &ir->ir_set->erst_size);
+diff --git a/sound/usb/qcom/qc_audio_offload.c b/sound/usb/qcom/qc_audio_offload.c
+index 1104499f89f7..e0a010a40b97 100644
+--- a/sound/usb/qcom/qc_audio_offload.c
++++ b/sound/usb/qcom/qc_audio_offload.c
+@@ -106,8 +106,6 @@ struct uaudio_qmi_dev {
+ 	bool er_mapped;
+ 	/* reference count to number of possible consumers */
+ 	atomic_t qdev_in_use;
+-	/* idx to last udev card number plugged in */
+-	unsigned int last_card_num;
+ };
  
--		xhci_write_64(xhci, ERST_EHB, &ir->ir_set->erst_dequeue);
-+		xhci_update_erst_dequeue(xhci, ir, ir->event_ring->first_seg->trbs, true);
- 	}
- }
+ struct uaudio_dev {
+@@ -1243,7 +1241,7 @@ static int prepare_qmi_response(struct snd_usb_substream *subs,
  
-@@ -1865,11 +1865,12 @@ void xhci_remove_secondary_interrupter(struct usb_hcd *hcd, struct xhci_interrup
- 	if (!ir || !ir->intr_num || ir->intr_num >= xhci->max_interrupters)
- 		xhci_dbg(xhci, "Invalid secondary interrupter, can't remove\n");
+ 	pcm_dev_num = (req_msg->usb_token & QMI_STREAM_REQ_DEV_NUM_MASK) >> 8;
+ 	xfer_buf_len = req_msg->xfer_buff_size;
+-	card_num = uaudio_qdev->last_card_num;
++	card_num = (req_msg->usb_token & QMI_STREAM_REQ_CARD_NUM_MASK) >> 16;
  
--	/* fixme, should we check xhci->interrupter[intr_num] == ir */
--	/* fixme locking */
--
- 	spin_lock_irq(&xhci->lock);
--
-+	/*
-+	 * Cleanup secondary interrupter to ensure there are no pending events.
-+	 * This also updates event ring dequeue pointer back to the start.
-+	 */
-+	xhci_skip_sec_intr_events(xhci, ir->event_ring, ir);
- 	intr_num = ir->intr_num;
+ 	if (!uadev[card_num].ctrl_intf) {
+ 		dev_err(&subs->dev->dev, "audio ctrl intf info not cached\n");
+@@ -1436,8 +1434,7 @@ static void handle_uaudio_stream_req(struct qmi_handle *handle,
  
- 	xhci_remove_interrupter(xhci, ir);
-diff --git a/drivers/usb/host/xhci-ring.c b/drivers/usb/host/xhci-ring.c
-index 33806ae966f9..448417c5d5b1 100644
---- a/drivers/usb/host/xhci-ring.c
-+++ b/drivers/usb/host/xhci-ring.c
-@@ -2980,7 +2980,7 @@ static int xhci_handle_event(struct xhci_hcd *xhci, struct xhci_interrupter *ir)
-  * - When all events have finished
-  * - To avoid "Event Ring Full Error" condition
-  */
--static void xhci_update_erst_dequeue(struct xhci_hcd *xhci,
-+void xhci_update_erst_dequeue(struct xhci_hcd *xhci,
- 				     struct xhci_interrupter *ir,
- 				     union xhci_trb *event_ring_deq,
- 				     bool clear_ehb)
-@@ -3013,6 +3013,50 @@ static void xhci_update_erst_dequeue(struct xhci_hcd *xhci,
- 	xhci_write_64(xhci, temp_64, &ir->ir_set->erst_dequeue);
- }
+ 	direction = (req_msg->usb_token & QMI_STREAM_REQ_DIRECTION);
+ 	pcm_dev_num = (req_msg->usb_token & QMI_STREAM_REQ_DEV_NUM_MASK) >> 8;
+-	pcm_card_num = req_msg->enable ? uaudio_qdev->last_card_num :
+-				ffs(uaudio_qdev->card_slot) - 1;
++	pcm_card_num = (req_msg->usb_token & QMI_STREAM_REQ_CARD_NUM_MASK) >> 16;
+ 	if (pcm_card_num >= SNDRV_CARDS) {
+ 		ret = -EINVAL;
+ 		goto response;
+@@ -1646,7 +1643,6 @@ static void qc_usb_audio_offload_probe(struct snd_usb_audio *chip)
+ 	sdev->num_capture = usb_qmi_get_pcm_num(chip, 1);
+ 	uadev[chip->card->number].sdev = sdev;
  
-+/*
-+ * Move the event ring dequeue pointer to skip events kept in the secondary
-+ * event ring.  This is used to ensure that pending events in the ring are
-+ * acknowledged, so the XHCI HCD can properly enter suspend/resume.  The
-+ * secondary ring is typically maintained by an external component.
-+ */
-+void xhci_skip_sec_intr_events(struct xhci_hcd *xhci,
-+	struct xhci_ring *ring,	struct xhci_interrupter *ir)
-+{
-+	union xhci_trb *erdp_trb, *current_trb;
-+	u64 erdp_reg;
-+	u32 iman_reg;
-+	dma_addr_t deq;
-+
-+	/* disable irq, ack pending interrupt and ack all pending events */
-+	xhci_disable_interrupter(ir);
-+	iman_reg = readl_relaxed(&ir->ir_set->irq_pending);
-+	if (iman_reg & IMAN_IP)
-+		writel_relaxed(iman_reg, &ir->ir_set->irq_pending);
-+
-+	/* last acked event trb is in erdp reg  */
-+	erdp_reg = xhci_read_64(xhci, &ir->ir_set->erst_dequeue);
-+	deq = (dma_addr_t)(erdp_reg & ERST_PTR_MASK);
-+	if (!deq) {
-+		xhci_err(xhci, "event ring handling not required\n");
-+		return;
-+	}
-+
-+	erdp_trb = current_trb = ir->event_ring->dequeue;
-+	/* read cycle state of the last acked trb to find out CCS */
-+	ring->cycle_state = le32_to_cpu(current_trb->event_cmd.flags) & TRB_CYCLE;
-+
-+	while (1) {
-+		inc_deq(xhci, ir->event_ring);
-+		erdp_trb = ir->event_ring->dequeue;
-+		/* cycle state transition */
-+		if ((le32_to_cpu(erdp_trb->event_cmd.flags) & TRB_CYCLE) !=
-+		    ring->cycle_state)
-+			break;
-+	}
-+
-+	xhci_update_erst_dequeue(xhci, ir, current_trb, true);
-+}
-+
- /*
-  * xHCI spec says we can get an interrupt, and if the HC has an error condition,
-  * we might get bad data out of the event ring.  Section 4.10.2.7 has a list of
-diff --git a/drivers/usb/host/xhci.c b/drivers/usb/host/xhci.c
-index 573ca5c4f31a..eb15c63e6775 100644
---- a/drivers/usb/host/xhci.c
-+++ b/drivers/usb/host/xhci.c
-@@ -333,7 +333,7 @@ static int xhci_enable_interrupter(struct xhci_interrupter *ir)
- 	return 0;
- }
+-	uaudio_qdev->last_card_num = chip->card->number;
+ 	snd_soc_usb_connect(usb_get_usb_backend(udev), sdev);
  
--static int xhci_disable_interrupter(struct xhci_interrupter *ir)
-+int xhci_disable_interrupter(struct xhci_interrupter *ir)
- {
- 	u32 iman;
- 
-diff --git a/drivers/usb/host/xhci.h b/drivers/usb/host/xhci.h
-index e98099b960e4..37887c2f0653 100644
---- a/drivers/usb/host/xhci.h
-+++ b/drivers/usb/host/xhci.h
-@@ -2093,6 +2093,9 @@ struct xhci_interrupter *
- xhci_create_secondary_interrupter(struct usb_hcd *hcd, int num_seg);
- void xhci_remove_secondary_interrupter(struct usb_hcd
- 				       *hcd, struct xhci_interrupter *ir);
-+void xhci_skip_sec_intr_events(struct xhci_hcd *xhci,
-+	struct xhci_ring *ring,	struct xhci_interrupter *ir);
-+int xhci_disable_interrupter(struct xhci_interrupter *ir);
- 
- /* xHCI host controller glue */
- typedef void (*xhci_get_quirks_t)(struct device *, struct xhci_hcd *);
-@@ -2180,6 +2183,10 @@ void inc_deq(struct xhci_hcd *xhci, struct xhci_ring *ring);
- unsigned int count_trbs(u64 addr, u64 len);
- int xhci_stop_endpoint_sync(struct xhci_hcd *xhci, struct xhci_virt_ep *ep,
- 			    int suspend, gfp_t gfp_flags);
-+void xhci_update_erst_dequeue(struct xhci_hcd *xhci,
-+				     struct xhci_interrupter *ir,
-+				     union xhci_trb *event_ring_deq,
-+				     bool clear_ehb);
- 
- /* xHCI roothub code */
- void xhci_set_link_state(struct xhci_hcd *xhci, struct xhci_port *port,
+ 	mutex_unlock(&chip->mutex);
