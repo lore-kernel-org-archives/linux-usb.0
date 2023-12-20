@@ -1,39 +1,39 @@
-Received: from mailgw01.mediatek.com (unknown [60.244.123.138])
+Received: from mailgw02.mediatek.com (unknown [210.61.82.184])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C67048489;
-	Wed, 20 Dec 2023 02:58:52 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EDABC8813;
+	Wed, 20 Dec 2023 02:58:54 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=mediatek.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=mediatek.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=mediatek.com header.i=@mediatek.com header.b="jvYFrS5K"
-X-UUID: b1052ffc9ee311eea5db2bebc7c28f94-20231220
+	dkim=pass (1024-bit key) header.d=mediatek.com header.i=@mediatek.com header.b="Ynb0LHKc"
+X-UUID: b22afad89ee311eeba30773df0976c77-20231220
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=mediatek.com; s=dk;
-	h=Content-Type:Content-Transfer-Encoding:MIME-Version:Message-ID:Date:Subject:CC:To:From; bh=Rd3y8r7VxkTeyuncm++Him7JbEb+aE634mlmf0NY6yA=;
-	b=jvYFrS5K55EoO5+wEXj8KHKgyAS2pA5VnqnNV0ya8cSY+M1mrF0dvEl6UZrjb7n2S6JfJu0URk+sUaQn/m67ilW7CNrW642xIS3r+IoCT2PY2oLby6vfjkI5xQmIML0iQSOPtO74zow2DoIkQf3C2a/9c/XB/4PLCVHGiZzZszU=;
+	h=Content-Type:Content-Transfer-Encoding:MIME-Version:References:In-Reply-To:Message-ID:Date:Subject:CC:To:From; bh=gPP+fjrilrhAMP+i+QG0Lq7aDVFhTO7O157PxOkEVns=;
+	b=Ynb0LHKcGtrjwSmrumhJm1XdN2iVnH31F9gAlvsKZOsUDaOG9RQihvw5FuGaApuzCUri1cykrR2g5rZ50+DPVe+xrlO531X9GwJ8wCcCkvjSabZ0oCeWxVDMPsSbiHTFIYSoUymujn9hYV5Box9thW1dzldALFC5mdEftEJwdgM=;
 X-CID-P-RULE: Release_Ham
-X-CID-O-INFO: VERSION:1.1.35,REQID:c6c3dbfe-deb1-4162-84e1-412fc9537862,IP:0,U
+X-CID-O-INFO: VERSION:1.1.35,REQID:5a9439a7-ed8e-4153-b482-3bc7d0b00079,IP:0,U
 	RL:0,TC:0,Content:0,EDM:0,RT:0,SF:0,FILE:0,BULK:0,RULE:Release_Ham,ACTION:
 	release,TS:0
-X-CID-META: VersionHash:5d391d7,CLOUDID:5e5be117-1474-414b-9c9f-6d23a122e796,B
+X-CID-META: VersionHash:5d391d7,CLOUDID:915be117-1474-414b-9c9f-6d23a122e796,B
 	ulkID:nil,BulkQuantity:0,Recheck:0,SF:102,TC:nil,Content:0,EDM:-3,IP:nil,U
 	RL:11|1,File:nil,Bulk:nil,QS:nil,BEC:nil,COL:0,OSI:0,OSA:0,AV:0,LES:1,SPR:
 	NO,DKR:0,DKP:0,BRR:0,BRE:0
 X-CID-BVR: 0
 X-CID-BAS: 0,_,0,_
 X-CID-FACTOR: TF_CID_SPAM_SNR,TF_CID_SPAM_ULN
-X-UUID: b1052ffc9ee311eea5db2bebc7c28f94-20231220
-Received: from mtkmbs13n2.mediatek.inc [(172.21.101.108)] by mailgw01.mediatek.com
+X-UUID: b22afad89ee311eeba30773df0976c77-20231220
+Received: from mtkmbs14n1.mediatek.inc [(172.21.101.75)] by mailgw02.mediatek.com
 	(envelope-from <chunfeng.yun@mediatek.com>)
 	(Generic MTA with TLSv1.2 ECDHE-RSA-AES256-GCM-SHA384 256/256)
-	with ESMTP id 589724999; Wed, 20 Dec 2023 10:58:45 +0800
+	with ESMTP id 617115450; Wed, 20 Dec 2023 10:58:47 +0800
 Received: from mtkmbs13n1.mediatek.inc (172.21.101.193) by
- MTKMBS14N2.mediatek.inc (172.21.101.76) with Microsoft SMTP Server
+ MTKMBS14N1.mediatek.inc (172.21.101.75) with Microsoft SMTP Server
  (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.1118.26; Wed, 20 Dec 2023 10:58:44 +0800
+ 15.2.1118.26; Wed, 20 Dec 2023 10:58:46 +0800
 Received: from mhfsdcap04.gcn.mediatek.inc (10.17.3.154) by
  mtkmbs13n1.mediatek.inc (172.21.101.73) with Microsoft SMTP Server id
- 15.2.1118.26 via Frontend Transport; Wed, 20 Dec 2023 10:58:43 +0800
+ 15.2.1118.26 via Frontend Transport; Wed, 20 Dec 2023 10:58:45 +0800
 From: Chunfeng Yun <chunfeng.yun@mediatek.com>
 To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>, Rob Herring
 	<robh+dt@kernel.org>, Krzysztof Kozlowski
@@ -45,10 +45,12 @@ CC: Chunfeng Yun <chunfeng.yun@mediatek.com>, Conor Dooley
 	<linux-arm-kernel@lists.infradead.org>, <linux-mediatek@lists.infradead.org>,
 	<devicetree@vger.kernel.org>, <linux-kernel@vger.kernel.org>, Eddie Hung
 	<eddie.hung@mediatek.com>, Macpaul Lin <macpaul.lin@mediatek.com>
-Subject: [PATCH v3 1/3] dt-bindings: usb: mtk-xhci: add a property for Gen1 isoc-in transfer issue
-Date: Wed, 20 Dec 2023 10:58:40 +0800
-Message-ID: <20231220025842.7082-1-chunfeng.yun@mediatek.com>
+Subject: [PATCH v3 3/3] arm64: dts: mediatek: mt8195: Add 'rx-fifo-depth' for cherry
+Date: Wed, 20 Dec 2023 10:58:42 +0800
+Message-ID: <20231220025842.7082-3-chunfeng.yun@mediatek.com>
 X-Mailer: git-send-email 2.25.1
+In-Reply-To: <20231220025842.7082-1-chunfeng.yun@mediatek.com>
+References: <20231220025842.7082-1-chunfeng.yun@mediatek.com>
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
@@ -58,60 +60,53 @@ MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 Content-Type: text/plain
 X-TM-AS-Product-Ver: SMEX-14.0.0.3152-9.1.1006-23728.005
-X-TM-AS-Result: No-10--6.009600-8.000000
-X-TMASE-MatchedRID: eGdMcixj1WQ28LK855iUisp9Bgr5ONKhXxT5cg8K/td+YesuCgkiXKLs
-	GdYIe0oEWB8Rur00SOpx/Hv6BudnAqB/4ZSHyd2lsyNb+yeIRApRnscLnNAC7Htd2pOTSxFkaUX
-	s6FguVy2ByM1EGDQjGHSSJ37AbZpnpHn0l5P4rnWp4G6k2AuBh1pq//Jp4zBuDzgndGCfGZmYpu
-	G7kpoKR74vrFmOaS1EoJY+2TrDFLUdpD3DKTh+QJ4CIKY/Hg3AaZGo0EeYG96m4/3ODjvukSq2r
-	l3dzGQ1Riv8hIYWPEqszylmlmspjawfKGpwa3LoEIxU5uOgcNJVrvWgRz6oTw==
+X-TM-AS-Result: No-10-1.858000-8.000000
+X-TMASE-MatchedRID: SmKlVN5gTYOLwgJA7qJvFEf49ONH0RaSGSqdEmeD/nUQVRHC3B6FYFfe
+	kLFvP8UVQt2470g7vecqScZQsLRFpMBMY+N44zjMwCZxkTHxcclQCOsAlaxN70C0ozeEMMB8gK6
+	qCGa1Z9f+L7hkgxmjCYAy6p60ZV62fJ5/bZ6npdiujVRFkkVsm1M3J2vm0mJ+yiHX4eBbTmTLpk
+	uFSwPGnqV24iXBtxcDn3OZvch5THViXwsLBqINMwd+1FkBk2L+Hkqld9LmJfhrhj/zqKQQB21Rj
+	oup2VCcWve+eVz4Pp5Vk5utmQ1VlGVF3+d9rnox6EMj9/eK3+Y=
 X-TM-AS-User-Approved-Sender: No
 X-TM-AS-User-Blocked-Sender: No
-X-TMASE-Result: 10--6.009600-8.000000
+X-TMASE-Result: 10-1.858000-8.000000
 X-TMASE-Version: SMEX-14.0.0.3152-9.1.1006-23728.005
 X-TM-SNTS-SMTP:
-	139357F67A1AC3DF979095D19572499B1A723477A91A23F2D28B428B5803F5332000:8
+	0892C9BC451D3DB96D076D71859C99E1D706F4D7315969C0460307EB121A3B6F2000:8
 X-MTK: N
 
-For Gen1 isoc-in endpoint on controller before about SSUSB IPM v1.6.0, it
-still send out unexpected ACK after receiving a short packet in burst
-transfer, this will cause an exception on connected device, specially for
-a 4k camera.
-Add a quirk property "rx-fifo-depth" to work around this hardware issue,
-prefer to use 3k bytes;
-The side-effect is that may cause performance drop about 10%, including
-bulk transfer.
+Add the quirk property "rx-fifo-depth" to work around Gen1 isoc-in
+transfer issue which send out unexpected ACK even after device
+already finished the burst transfer with a short patcket, specially
+for a 4K camera device.
 
 Signed-off-by: Chunfeng Yun <chunfeng.yun@mediatek.com>
 ---
-v3: add fifo depth unit, change the value range from 0-3 to 1-4
-v2: change 'mediatek,rxfifo-depth' to 'rx-fifo-depth'
+v3: change value according to binding
+v2: use 'rx-fifo-depth' property
 ---
- .../devicetree/bindings/usb/mediatek,mtk-xhci.yaml   | 12 ++++++++++++
- 1 file changed, 12 insertions(+)
+ arch/arm64/boot/dts/mediatek/mt8195-cherry.dtsi | 2 ++
+ 1 file changed, 2 insertions(+)
 
-diff --git a/Documentation/devicetree/bindings/usb/mediatek,mtk-xhci.yaml b/Documentation/devicetree/bindings/usb/mediatek,mtk-xhci.yaml
-index e9644e333d78..9478b7031796 100644
---- a/Documentation/devicetree/bindings/usb/mediatek,mtk-xhci.yaml
-+++ b/Documentation/devicetree/bindings/usb/mediatek,mtk-xhci.yaml
-@@ -124,6 +124,18 @@ properties:
-       defined in the xHCI spec on MTK's controller.
-     default: 5000
+diff --git a/arch/arm64/boot/dts/mediatek/mt8195-cherry.dtsi b/arch/arm64/boot/dts/mediatek/mt8195-cherry.dtsi
+index dd5b89b73190..58593348b810 100644
+--- a/arch/arm64/boot/dts/mediatek/mt8195-cherry.dtsi
++++ b/arch/arm64/boot/dts/mediatek/mt8195-cherry.dtsi
+@@ -1185,6 +1185,7 @@
  
-+  rx-fifo-depth:
-+    $ref: /schemas/types.yaml#/definitions/uint32
-+    description:
-+      It is a quirk used to work around Gen1 isoc-in endpoint transfer issue
-+      that still send out unexpected ACK after device finish the burst transfer
-+      with a short packet and cause an exception, specially on a 4K camera
-+      device, it happens on controller before about IPM v1.6.0; the side-effect
-+      is that may cause performance drop about 10%, include bulk transfer,
-+      prefer to use 3 here. The unit is 1K bytes.
-+    minimum: 1
-+    maximum: 4
-+
-   # the following properties are only used for case 1
-   wakeup-source:
-     description: enable USB remote wakeup, see power/wakeup-source.txt
+ 	vusb33-supply = <&mt6359_vusb_ldo_reg>;
+ 	vbus-supply = <&usb_vbus>;
++	rx-fifo-depth = <3>;
+ };
+ 
+ &xhci1 {
+@@ -1192,6 +1193,7 @@
+ 
+ 	vusb33-supply = <&mt6359_vusb_ldo_reg>;
+ 	vbus-supply = <&usb_vbus>;
++	rx-fifo-depth = <3>;
+ };
+ 
+ &xhci2 {
 -- 
 2.18.0
 
