@@ -1,36 +1,36 @@
-Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com [205.220.180.131])
+Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com [205.220.168.131])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BACD854729;
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2F2F154F96;
 	Wed, 20 Dec 2023 22:46:23 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=quicinc.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=quicinc.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=quicinc.com header.i=@quicinc.com header.b="AUqcoZqZ"
-Received: from pps.filterd (m0279870.ppops.net [127.0.0.1])
-	by mx0a-0031df01.pphosted.com (8.17.1.24/8.17.1.24) with ESMTP id 3BKMW4PA032308;
-	Wed, 20 Dec 2023 22:46:07 GMT
+	dkim=pass (2048-bit key) header.d=quicinc.com header.i=@quicinc.com header.b="esw0frrS"
+Received: from pps.filterd (m0279863.ppops.net [127.0.0.1])
+	by mx0a-0031df01.pphosted.com (8.17.1.24/8.17.1.24) with ESMTP id 3BKMEkc1021107;
+	Wed, 20 Dec 2023 22:45:58 GMT
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com; h=
 	from:to:cc:subject:date:message-id:in-reply-to:references
-	:mime-version:content-type; s=qcppdkim1; bh=llHWIe5zbQO1tbGH7Roi
-	Drsh+BfbJOEpduoXXgWTYB0=; b=AUqcoZqZqaE/GSJAhkJEfiqDqtEA9WVMMwzI
-	aZRt3VARTKW9X03SDeMspZt4yjFJCEN6Czo5KmUwFYvRbzObAK/GMoM+hKg78o8j
-	wvngYJ6+1asToWKZonFbukSh1iC3ZeBMjbbZ3FZet5BjYD32nhg5wMWMP4K1rXMw
-	VdwViMDlmW6qAI4P2IjtSqbByWHfSGqTWoMH3seSydi+gTTUfuN7stsxdMqe7fVt
-	jk/UYv+bH/1TSRuHrY8dojrC9Mzu8YvBL7gdvT6+6+c2IMRldNRjRP/yrdZZQG8f
-	mwWrEUqF5+AcngfQAdGf1+rsYmPvJnUERL0mS6TfMOo9DiRaBg==
-Received: from nalasppmta04.qualcomm.com (Global_NAT1.qualcomm.com [129.46.96.20])
-	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 3v3v33a5q7-1
+	:mime-version:content-type; s=qcppdkim1; bh=QAId/huwU+vLycR1v5ld
+	lqmYb6477nfIMJClVSaqa9U=; b=esw0frrSLfMZltL6DP6BXDYf6J2BxfvwNOQF
+	O3EyrYNp4miULoPr8wImo9QruzdUZk3IJcS6BI/P4xywREl4LK0YHhYAzqiBv9X2
+	8wI1CFoCZ1Xhs5rj2jaI0YzuPQQrOqILMOEhBjZGOou/ly6JsO1OTw7hPAKqK80+
+	uHW2iB0StfdvhbeuHzFRB+cp0x1sM62aYpkEkjJbVv+Ji22uaiVAl58cFl0NMry+
+	6ve4BxJ3PXxCzr6tDYlO5Qpme0oxI0NU6W/OwEwpasm0WsJFGh1ix3ky7p5F+Foz
+	SxomrvWfiUgz2KTwlQLfq26XqcbPBlMP7rGJx4uaCpqjJGrpgQ==
+Received: from nalasppmta03.qualcomm.com (Global_NAT1.qualcomm.com [129.46.96.20])
+	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 3v3xhnhtu1-1
 	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Wed, 20 Dec 2023 22:46:07 +0000 (GMT)
+	Wed, 20 Dec 2023 22:45:58 +0000 (GMT)
 Received: from nalasex01b.na.qualcomm.com (nalasex01b.na.qualcomm.com [10.47.209.197])
-	by NALASPPMTA04.qualcomm.com (8.17.1.5/8.17.1.5) with ESMTPS id 3BKMk6Kr032044
+	by NALASPPMTA03.qualcomm.com (8.17.1.5/8.17.1.5) with ESMTPS id 3BKMjvOw016422
 	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Wed, 20 Dec 2023 22:46:06 GMT
+	Wed, 20 Dec 2023 22:45:57 GMT
 Received: from hu-wcheng-lv.qualcomm.com (10.49.16.6) by
  nalasex01b.na.qualcomm.com (10.47.209.197) with Microsoft SMTP Server
  (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.1118.40; Wed, 20 Dec 2023 14:46:05 -0800
+ 15.2.1118.40; Wed, 20 Dec 2023 14:45:57 -0800
 From: Wesley Cheng <quic_wcheng@quicinc.com>
 To: <srinivas.kandagatla@linaro.org>, <mathias.nyman@intel.com>,
         <perex@perex.cz>, <conor+dt@kernel.org>, <corbet@lwn.net>,
@@ -43,9 +43,9 @@ CC: <linux-kernel@vger.kernel.org>, <devicetree@vger.kernel.org>,
         <linux-sound@vger.kernel.org>, <linux-usb@vger.kernel.org>,
         <linux-arm-msm@vger.kernel.org>, <linux-doc@vger.kernel.org>,
         <alsa-devel@alsa-project.org>, Wesley Cheng <quic_wcheng@quicinc.com>
-Subject: [PATCH v11 40/41] ASoC: qcom: Populate SoC components string
-Date: Wed, 20 Dec 2023 14:45:43 -0800
-Message-ID: <20231220224544.18031-41-quic_wcheng@quicinc.com>
+Subject: [PATCH v11 13/41] ALSA: usb-audio: Save UAC sample size information
+Date: Wed, 20 Dec 2023 14:45:16 -0800
+Message-ID: <20231220224544.18031-14-quic_wcheng@quicinc.com>
 X-Mailer: git-send-email 2.17.1
 In-Reply-To: <20231220224544.18031-1-quic_wcheng@quicinc.com>
 References: <20231220224544.18031-1-quic_wcheng@quicinc.com>
@@ -60,81 +60,52 @@ X-ClientProxiedBy: nalasex01a.na.qualcomm.com (10.47.209.196) To
  nalasex01b.na.qualcomm.com (10.47.209.197)
 X-QCInternal: smtphost
 X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800 signatures=585085
-X-Proofpoint-ORIG-GUID: m3vdB9E4mjJWCyS9dcRXT4MyPH_7fbba
-X-Proofpoint-GUID: m3vdB9E4mjJWCyS9dcRXT4MyPH_7fbba
+X-Proofpoint-ORIG-GUID: gVTTHiyPYotqtFwWnZUeEm2JSihv-3n0
+X-Proofpoint-GUID: gVTTHiyPYotqtFwWnZUeEm2JSihv-3n0
 X-Proofpoint-Virus-Version: vendor=baseguard
  engine=ICAP:2.0.272,Aquarius:18.0.997,Hydra:6.0.619,FMLib:17.11.176.26
  definitions=2023-12-09_01,2023-12-07_01,2023-05-22_02
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 impostorscore=0 spamscore=0
- mlxscore=0 malwarescore=0 mlxlogscore=999 clxscore=1015 priorityscore=1501
- adultscore=0 suspectscore=0 lowpriorityscore=0 bulkscore=0 phishscore=0
- classifier=spam adjust=0 reason=mlx scancount=1 engine=8.19.0-2311290000
- definitions=main-2312200162
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 malwarescore=0 clxscore=1015
+ adultscore=0 bulkscore=0 mlxscore=0 priorityscore=1501 phishscore=0
+ lowpriorityscore=0 spamscore=0 impostorscore=0 suspectscore=0
+ mlxlogscore=932 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.19.0-2311290000 definitions=main-2312200163
 
-For userspace to know about certain capabilities of the current platform
-card, add tags to the components string that it can use to enable support
-for that audio path.  In case of USB offloading, the "usboffldplybk: 1" tag
-is added to the string.
+Within the UAC descriptor, there is information describing the size of a
+sample (bSubframeSize/bSubslotSize) and the number of relevant bits
+(bBitResolution).  Currently, fmt_bits carries only the bit resolution,
+however, some offloading entities may also require the overall size of the
+sample.  Save this information in a separate parameter, as depending on the
+UAC format type, the sample size can not easily be decoded from other
+exisiting parameters.
 
 Signed-off-by: Wesley Cheng <quic_wcheng@quicinc.com>
 ---
- sound/soc/qcom/common.c | 22 ++++++++++++++++++++++
- sound/soc/qcom/common.h |  1 +
- sound/soc/qcom/sm8250.c |  3 +++
- 3 files changed, 26 insertions(+)
+ sound/usb/card.h   | 1 +
+ sound/usb/format.c | 1 +
+ 2 files changed, 2 insertions(+)
 
-diff --git a/sound/soc/qcom/common.c b/sound/soc/qcom/common.c
-index 2645436b08c4..4a4e4c14e625 100644
---- a/sound/soc/qcom/common.c
-+++ b/sound/soc/qcom/common.c
-@@ -258,4 +258,26 @@ int qcom_snd_usb_offload_jack_setup(struct snd_soc_pcm_runtime *rtd,
- 	return 0;
- }
- EXPORT_SYMBOL_GPL(qcom_snd_usb_offload_jack_setup);
-+
-+int qcom_snd_add_components_string(struct snd_soc_pcm_runtime *rtd)
-+{
-+	struct snd_soc_dai *cpu_dai = snd_soc_rtd_to_cpu(rtd, 0);
-+	struct snd_soc_card *card = rtd->card;
-+	const char *prev = card->components;
-+
-+	switch (cpu_dai->id) {
-+	case USB_RX:
-+		card->components = devm_kasprintf(card->dev, GFP_KERNEL, "%s %s",
-+					  card->components,
-+					  snd_soc_usb_get_components_tag(true));
-+	default:
-+		break;
-+	}
-+
-+	if (prev && prev != card->components)
-+		devm_kfree(card->dev, prev);
-+
-+	return 0;
-+}
-+EXPORT_SYMBOL_GPL(qcom_snd_add_components_string);
- MODULE_LICENSE("GPL v2");
-diff --git a/sound/soc/qcom/common.h b/sound/soc/qcom/common.h
-index fca3046c8674..8546723e0aa8 100644
---- a/sound/soc/qcom/common.h
-+++ b/sound/soc/qcom/common.h
-@@ -11,4 +11,5 @@ int qcom_snd_wcd_jack_setup(struct snd_soc_pcm_runtime *rtd,
- 			    struct snd_soc_jack *jack, bool *jack_setup);
- int qcom_snd_usb_offload_jack_setup(struct snd_soc_pcm_runtime *rtd,
- 			    struct snd_soc_jack *jack, bool *jack_setup);
-+int qcom_snd_add_components_string(struct snd_soc_pcm_runtime *rtd);
- #endif
-diff --git a/sound/soc/qcom/sm8250.c b/sound/soc/qcom/sm8250.c
-index c33a7c5fb8ad..d1c4f34d04f5 100644
---- a/sound/soc/qcom/sm8250.c
-+++ b/sound/soc/qcom/sm8250.c
-@@ -38,6 +38,9 @@ static int sm8250_snd_init(struct snd_soc_pcm_runtime *rtd)
- 						&data->usb_offload_jack_setup);
- 	else
- 		ret = qcom_snd_wcd_jack_setup(rtd, &data->jack, &data->jack_setup);
-+
-+	qcom_snd_add_components_string(rtd);
-+
- 	return ret;
- }
+diff --git a/sound/usb/card.h b/sound/usb/card.h
+index 2884912adc96..02e4ea898db5 100644
+--- a/sound/usb/card.h
++++ b/sound/usb/card.h
+@@ -15,6 +15,7 @@ struct audioformat {
+ 	unsigned int channels;		/* # channels */
+ 	unsigned int fmt_type;		/* USB audio format type (1-3) */
+ 	unsigned int fmt_bits;		/* number of significant bits */
++	unsigned int fmt_sz;		/* overall audio sub frame/slot size */
+ 	unsigned int frame_size;	/* samples per frame for non-audio */
+ 	unsigned char iface;		/* interface number */
+ 	unsigned char altsetting;	/* corresponding alternate setting */
+diff --git a/sound/usb/format.c b/sound/usb/format.c
+index ab5fed9f55b6..1721e4f360fb 100644
+--- a/sound/usb/format.c
++++ b/sound/usb/format.c
+@@ -80,6 +80,7 @@ static u64 parse_audio_format_i_type(struct snd_usb_audio *chip,
+ 	}
  
+ 	fp->fmt_bits = sample_width;
++	fp->fmt_sz = sample_bytes;
+ 
+ 	if ((pcm_formats == 0) &&
+ 	    (format == 0 || format == (1 << UAC_FORMAT_TYPE_I_UNDEFINED))) {
