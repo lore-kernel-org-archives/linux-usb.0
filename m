@@ -1,125 +1,350 @@
-Received: from mx01.omp.ru (mx01.omp.ru [90.154.21.10])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-SHA384 (256/256 bits))
+Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com [205.220.168.131])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B03DC224F5;
-	Wed, 27 Dec 2023 09:19:57 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=omp.ru
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=omp.ru
-Received: from [192.168.1.104] (178.176.74.67) by msexch01.omp.ru
- (10.188.4.12) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_CBC_SHA384) id 15.2.1258.12; Wed, 27 Dec
- 2023 12:19:42 +0300
-Subject: Re: [PATCH v4 1/3] dt-bindings: usb: mtk-xhci: add a property for
- Gen1 isoc-in transfer issue
-To: Chunfeng Yun <chunfeng.yun@mediatek.com>, Greg Kroah-Hartman
-	<gregkh@linuxfoundation.org>, Rob Herring <robh+dt@kernel.org>, Krzysztof
- Kozlowski <krzysztof.kozlowski+dt@linaro.org>, AngeloGioacchino Del Regno
-	<angelogioacchino.delregno@collabora.com>
-CC: Conor Dooley <conor+dt@kernel.org>, Matthias Brugger
-	<matthias.bgg@gmail.com>, Mathias Nyman <mathias.nyman@intel.com>,
-	<linux-usb@vger.kernel.org>, <linux-arm-kernel@lists.infradead.org>,
-	<linux-mediatek@lists.infradead.org>, <devicetree@vger.kernel.org>,
-	<linux-kernel@vger.kernel.org>, Eddie Hung <eddie.hung@mediatek.com>, Macpaul
- Lin <macpaul.lin@mediatek.com>
-References: <20231227060316.8539-1-chunfeng.yun@mediatek.com>
-From: Sergey Shtylyov <s.shtylyov@omp.ru>
-Organization: Open Mobile Platform
-Message-ID: <1e5772b3-2e71-069c-5794-ded2ee72222f@omp.ru>
-Date: Wed, 27 Dec 2023 12:19:42 +0300
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.10.1
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E874019BA7;
+	Wed, 27 Dec 2023 09:20:28 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=quicinc.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=quicinc.com
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=quicinc.com header.i=@quicinc.com header.b="g9zIrDMm"
+Received: from pps.filterd (m0279862.ppops.net [127.0.0.1])
+	by mx0a-0031df01.pphosted.com (8.17.1.24/8.17.1.24) with ESMTP id 3BR6RQ6b011665;
+	Wed, 27 Dec 2023 09:20:19 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com; h=
+	from:to:cc:subject:date:message-id:in-reply-to:references
+	:mime-version:content-transfer-encoding:content-type; s=
+	qcppdkim1; bh=YR1Gh/0yKh6EdRMgwVOOBkNHjVNqBi6KNlMRS30rPO8=; b=g9
+	zIrDMmQ/HlNg5ouXdX6rBz8sZ6V1Gg3b2PAOL16QnSDHL3MY0zAc48/k3Yk1VjVM
+	n4IP0PaRnFNqTbqIqfrX/eqadhh9e3TiG22ARRWmmHk3T8C2+DK1NoWo+6y9Heck
+	HfXNdP1VHG+Nxx5sTldPCqdwzLYBTorsz1h5n05aZGWFr3NjVvhdou5I7gsml1Cu
+	jvQmIDWC+IBTSt9X7FmfMUPqXG0VpUA0Ll1vUGppNE9y7scxQerxVFQ3RcFZgDE2
+	hDvmpOszugnp+BTgd/LEW96hLOTewZ8DQUVTeQ7IfFO9VLwOeKPYf7VTn3GVv7UN
+	yWPfsH5zE/qWQtbWQJuA==
+Received: from nalasppmta05.qualcomm.com (Global_NAT1.qualcomm.com [129.46.96.20])
+	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 3v8d450eqn-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Wed, 27 Dec 2023 09:20:19 +0000 (GMT)
+Received: from nalasex01a.na.qualcomm.com (nalasex01a.na.qualcomm.com [10.47.209.196])
+	by NALASPPMTA05.qualcomm.com (8.17.1.5/8.17.1.5) with ESMTPS id 3BR9KII4017059
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Wed, 27 Dec 2023 09:20:18 GMT
+Received: from hu-kriskura-hyd.qualcomm.com (10.80.80.8) by
+ nalasex01a.na.qualcomm.com (10.47.209.196) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.1118.40; Wed, 27 Dec 2023 01:20:13 -0800
+From: Krishna Kurapati <quic_kriskura@quicinc.com>
+To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Krzysztof Kozlowski
+	<krzysztof.kozlowski+dt@linaro.org>,
+        Rob Herring <robh+dt@kernel.org>, "Andy
+ Gross" <agross@kernel.org>,
+        Bjorn Andersson <andersson@kernel.org>,
+        "Thinh
+ Nguyen" <Thinh.Nguyen@synopsys.com>,
+        Konrad Dybcio
+	<konrad.dybcio@linaro.org>,
+        Wesley Cheng <quic_wcheng@quicinc.com>,
+        Conor
+ Dooley <conor+dt@kernel.org>, Johan Hovold <johan@kernel.org>
+CC: <linux-usb@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
+        <linux-arm-msm@vger.kernel.org>, <devicetree@vger.kernel.org>,
+        <quic_ppratap@quicinc.com>, <quic_jackp@quicinc.com>,
+        Krishna Kurapati
+	<quic_kriskura@quicinc.com>
+Subject: [PATCH v6 1/2] dt-bindings: usb: dwc3: Clean up hs_phy_irq in binding
+Date: Wed, 27 Dec 2023 14:49:50 +0530
+Message-ID: <20231227091951.685-2-quic_kriskura@quicinc.com>
+X-Mailer: git-send-email 2.42.0
+In-Reply-To: <20231227091951.685-1-quic_kriskura@quicinc.com>
+References: <20231227091951.685-1-quic_kriskura@quicinc.com>
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-In-Reply-To: <20231227060316.8539-1-chunfeng.yun@mediatek.com>
-Content-Type: text/plain; charset="utf-8"
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-X-ClientProxiedBy: msexch01.omp.ru (10.188.4.12) To msexch01.omp.ru
- (10.188.4.12)
-X-KSE-ServerInfo: msexch01.omp.ru, 9
-X-KSE-AntiSpam-Interceptor-Info: scan successful
-X-KSE-AntiSpam-Version: 6.1.0, Database issued on: 12/27/2023 08:58:14
-X-KSE-AntiSpam-Status: KAS_STATUS_NOT_DETECTED
-X-KSE-AntiSpam-Method: none
-X-KSE-AntiSpam-Rate: 59
-X-KSE-AntiSpam-Info: Lua profiles 182370 [Dec 27 2023]
-X-KSE-AntiSpam-Info: Version: 6.1.0.3
-X-KSE-AntiSpam-Info: Envelope from: s.shtylyov@omp.ru
-X-KSE-AntiSpam-Info: LuaCore: 7 0.3.7 6d6bf5bd8eea7373134f756a2fd73e9456bb7d1a
-X-KSE-AntiSpam-Info: {rep_avail}
-X-KSE-AntiSpam-Info: {Tracking_from_domain_doesnt_match_to}
-X-KSE-AntiSpam-Info: {relay has no DNS name}
-X-KSE-AntiSpam-Info: {SMTP from is not routable}
-X-KSE-AntiSpam-Info: {Found in DNSBL: 178.176.74.67 in (user)
- b.barracudacentral.org}
-X-KSE-AntiSpam-Info:
-	127.0.0.199:7.1.2;d41d8cd98f00b204e9800998ecf8427e.com:7.1.1;178.176.74.67:7.1.2;omp.ru:7.1.1
-X-KSE-AntiSpam-Info: ApMailHostAddress: 178.176.74.67
-X-KSE-AntiSpam-Info: {DNS response errors}
-X-KSE-AntiSpam-Info: Rate: 59
-X-KSE-AntiSpam-Info: Status: not_detected
-X-KSE-AntiSpam-Info: Method: none
-X-KSE-AntiSpam-Info: Auth:dmarc=temperror header.from=omp.ru;spf=temperror
- smtp.mailfrom=omp.ru;dkim=none
-X-KSE-Antiphishing-Info: Clean
-X-KSE-Antiphishing-ScanningType: Heuristic
-X-KSE-Antiphishing-Method: None
-X-KSE-Antiphishing-Bases: 12/27/2023 09:04:00
-X-KSE-Antivirus-Interceptor-Info: scan successful
-X-KSE-Antivirus-Info: Clean, bases: 12/27/2023 6:29:00 AM
-X-KSE-Attachment-Filter-Triggered-Rules: Clean
-X-KSE-Attachment-Filter-Triggered-Filters: Clean
-X-KSE-BulkMessagesFiltering-Scan-Result: InTheLimit
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+X-ClientProxiedBy: nasanex01b.na.qualcomm.com (10.46.141.250) To
+ nalasex01a.na.qualcomm.com (10.47.209.196)
+X-QCInternal: smtphost
+X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800 signatures=585085
+X-Proofpoint-ORIG-GUID: rDd5-qWVZtuEjcNepW7v8-XlZbX8ecOZ
+X-Proofpoint-GUID: rDd5-qWVZtuEjcNepW7v8-XlZbX8ecOZ
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.272,Aquarius:18.0.997,Hydra:6.0.619,FMLib:17.11.176.26
+ definitions=2023-12-09_01,2023-12-07_01,2023-05-22_02
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 bulkscore=0 mlxlogscore=999
+ adultscore=0 lowpriorityscore=0 clxscore=1015 phishscore=0 impostorscore=0
+ spamscore=0 malwarescore=0 suspectscore=0 mlxscore=0 priorityscore=1501
+ classifier=spam adjust=0 reason=mlx scancount=1 engine=8.19.0-2311290000
+ definitions=main-2312270068
 
-On 12/27/23 9:03 AM, Chunfeng Yun wrote:
+The high speed related interrupts present on QC targets are as follows:
 
-> For Gen1 isoc-in endpoint on controller before about SSUSB IPM v1.6.0, it
-> still send out unexpected ACK after receiving a short packet in burst
-> transfer, this will cause an exception on connected device, specially for
-> a 4k camera.
-> Add a quirk property "rx-fifo-depth" to work around this hardware issue,
-> prefer to use 3k bytes;
-> The side-effect is that may cause performance drop about 10%, including
+1. dp/dm irq's
+These IRQ's directly reflect changes on the DP/DM pads of the SoC. These
+are used as wakeup interrupts only on SoCs with non-QUSB2 targets with
+exception of SDM670/SDM845/SM6350.
 
-   That it may cause?
+2. qusb2_phy irq
+SoCs with QUSB2 PHY do not have separate DP/DM IRQs and expose only a
+single IRQ whose behavior can be modified by the QUSB2PHY_INTR_CTRL
+register. The required DPSE/DMSE configuration is done in
+QUSB2PHY_INTR_CTRL register of phy address space.
 
-> bulk transfer.
-> 
-> Signed-off-by: Chunfeng Yun <chunfeng.yun@mediatek.com>
-> ---
-> v4: change rx-fifo size in bytes
-> v3: add fifo depth unit, change the value range from 0-3 to 1-4
-> v2: change 'mediatek,rxfifo-depth' to 'rx-fifo-depth'
-> ---
->  .../devicetree/bindings/usb/mediatek,mtk-xhci.yaml    | 11 +++++++++++
->  1 file changed, 11 insertions(+)
-> 
-> diff --git a/Documentation/devicetree/bindings/usb/mediatek,mtk-xhci.yaml b/Documentation/devicetree/bindings/usb/mediatek,mtk-xhci.yaml
-> index e9644e333d78..9f621f2209df 100644
-> --- a/Documentation/devicetree/bindings/usb/mediatek,mtk-xhci.yaml
-> +++ b/Documentation/devicetree/bindings/usb/mediatek,mtk-xhci.yaml
-> @@ -124,6 +124,17 @@ properties:
->        defined in the xHCI spec on MTK's controller.
->      default: 5000
->  
-> +  rx-fifo-depth:
-> +    $ref: /schemas/types.yaml#/definitions/uint32
-> +    description:
-> +      It is a quirk used to work around Gen1 isoc-in endpoint transfer issue
-> +      that still send out unexpected ACK after device finish the burst transfer
+3. hs_phy_irq
+This is completely different from the above two and is present on all
+targets with exception of a few IPQ ones. The interrupt is not enabled by
+default and its functionality is mutually exclusive of qusb2_phy on QUSB
+targets and DP/DM on femto phy targets.
 
-   Finishes.
+The DTs of several QUSB2 PHY based SoCs incorrectly define "hs_phy_irq"
+when they should have been "qusb2_phy_irq". On Femto phy targets, the
+"hs_phy_irq" mentioned is either the actual "hs_phy_irq" or "pwr_event",
+neither of which would never be triggered directly are non-functional
+currently. The implementation tries to clean up this issue by addressing
+the discrepencies involved and fixing the hs_phy_irq's in respective DT's.
 
-> +      with a short packet and cause an exception, specially on a 4K camera
-> +      device, it happens on controller before about IPM v1.6.0; the side-effect
-> +      is that may cause performance drop about 10%, include bulk transfer,
+Classify SoC's into four groups based on whether qusb2_phy interrupt
+or {dp/dm}_hs_phy_irq is used for wakeup in high speed and whether the
+SoCs have hs_phy_irq present in them or not. The ss_phy_irq is optional
+interrupt because there are mutliple SoC's which either support only High
+Speed or there are multiple controllers within same Soc and the secondary
+controller is High Speed only capable.
 
-   That it may cause? And including?
+This breaks ABI on targets running older kernels, but since the interrupt
+definitions are given wrong on many targets and to establish proper rules
+for usage of DWC3 interrupts on Qualcomm platforms, DT binding update is
+necessary. The bindings put pwr_event as the first interrupt and ss_phy as
+the last. Since all SoCs have the pwr_event (HS) interrupt, but not all
+controllers have the SS PHY interrupt, this would prevent, to some extent,
+expressing that the SS PHY is optional by keeping it last in the binding
+schema and making sure that minItems = maxItems - 1.
 
-[...]
+No new targets have been added to schema. Only the existing ones have been
+re-ordered.
 
-MBR, Sergey
+Signed-off-by: Krishna Kurapati <quic_kriskura@quicinc.com>
+---
+ .../devicetree/bindings/usb/qcom,dwc3.yaml    | 141 ++++++++----------
+ 1 file changed, 61 insertions(+), 80 deletions(-)
+
+diff --git a/Documentation/devicetree/bindings/usb/qcom,dwc3.yaml b/Documentation/devicetree/bindings/usb/qcom,dwc3.yaml
+index 473c4bfaf8a2..8242e22fde36 100644
+--- a/Documentation/devicetree/bindings/usb/qcom,dwc3.yaml
++++ b/Documentation/devicetree/bindings/usb/qcom,dwc3.yaml
+@@ -99,12 +99,29 @@ properties:
+       - const: apps-usb
+ 
+   interrupts:
+-    minItems: 1
+-    maxItems: 4
++    description: |
++      Different types of interrupts are used based on HS PHY used on target:
++        - pwr_event: Used for wakeup based on other power events.
++        - hs_phY_irq: Apart from DP/DM/QUSB2 PHY interrupts, there is
++                       hs_phy_irq which is not triggered by default and its
++                       functionality is mutually exclusive to that of
++                       {dp/dm}_hs_phy_irq and qusb2_phy_irq.
++        - qusb2_phy: SoCs with QUSB2 PHY do not have separate DP/DM IRQs and
++                      expose only a single IRQ whose behavior can be modified
++                      by the QUSB2PHY_INTR_CTRL register. The required DPSE/
++                      DMSE configuration is done in QUSB2PHY_INTR_CTRL register
++                      of PHY address space.
++        - {dp/dm}_hs_phy_irq: These IRQ's directly reflect changes on the DP/
++                               DM pads of the SoC. These are used for wakeup
++                               only on SoCs with non-QUSB2 targets with
++                               exception of SDM670/SDM845/SM6350.
++        - ss_phy_irq: Used for remote wakeup in Super Speed mode of operation.
++    minItems: 2
++    maxItems: 5
+ 
+   interrupt-names:
+-    minItems: 1
+-    maxItems: 4
++    minItems: 2
++    maxItems: 5
+ 
+   qcom,select-utmi-as-pipe-clk:
+     description:
+@@ -361,60 +378,20 @@ allOf:
+         compatible:
+           contains:
+             enum:
+-              - qcom,ipq4019-dwc3
++              - qcom,ipq5018-dwc3
+               - qcom,ipq6018-dwc3
+-              - qcom,ipq8064-dwc3
+               - qcom,ipq8074-dwc3
+-              - qcom,msm8994-dwc3
+-              - qcom,qcs404-dwc3
+-              - qcom,sc7180-dwc3
+-              - qcom,sdm670-dwc3
+-              - qcom,sdm845-dwc3
+-              - qcom,sdx55-dwc3
+-              - qcom,sdx65-dwc3
+-              - qcom,sdx75-dwc3
+-              - qcom,sm4250-dwc3
+-              - qcom,sm6350-dwc3
+-              - qcom,sm8150-dwc3
+-              - qcom,sm8250-dwc3
+-              - qcom,sm8350-dwc3
+-              - qcom,sm8450-dwc3
+-              - qcom,sm8550-dwc3
+-              - qcom,sm8650-dwc3
+-    then:
+-      properties:
+-        interrupts:
+-          items:
+-            - description: The interrupt that is asserted
+-                when a wakeup event is received on USB2 bus.
+-            - description: The interrupt that is asserted
+-                when a wakeup event is received on USB3 bus.
+-            - description: Wakeup event on DM line.
+-            - description: Wakeup event on DP line.
+-        interrupt-names:
+-          items:
+-            - const: hs_phy_irq
+-            - const: ss_phy_irq
+-            - const: dm_hs_phy_irq
+-            - const: dp_hs_phy_irq
+-
+-  - if:
+-      properties:
+-        compatible:
+-          contains:
+-            enum:
+               - qcom,msm8953-dwc3
+-              - qcom,msm8996-dwc3
+               - qcom,msm8998-dwc3
+-              - qcom,sm6115-dwc3
+-              - qcom,sm6125-dwc3
+     then:
+       properties:
+         interrupts:
+-          maxItems: 2
++          minItems: 2
++          maxItems: 3
+         interrupt-names:
+           items:
+-            - const: hs_phy_irq
++            - const: pwr_event
++            - const: qusb2_phy
+             - const: ss_phy_irq
+ 
+   - if:
+@@ -422,37 +399,21 @@ allOf:
+         compatible:
+           contains:
+             enum:
+-              - qcom,ipq5018-dwc3
+-              - qcom,ipq5332-dwc3
++              - qcom,msm8996-dwc3
++              - qcom,qcs404-dwc3
+               - qcom,sdm660-dwc3
+-    then:
+-      properties:
+-        interrupts:
+-          minItems: 1
+-          maxItems: 2
+-        interrupt-names:
+-          minItems: 1
+-          items:
+-            - const: hs_phy_irq
+-            - const: ss_phy_irq
+-
+-  - if:
+-      properties:
+-        compatible:
+-          contains:
+-            enum:
+-              - qcom,sc7280-dwc3
++              - qcom,sm6115-dwc3
++              - qcom,sm6125-dwc3
+     then:
+       properties:
+         interrupts:
+           minItems: 3
+           maxItems: 4
+         interrupt-names:
+-          minItems: 3
+           items:
++            - const: pwr_event
++            - const: qusb2_phy
+             - const: hs_phy_irq
+-            - const: dp_hs_phy_irq
+-            - const: dm_hs_phy_irq
+             - const: ss_phy_irq
+ 
+   - if:
+@@ -460,7 +421,7 @@ allOf:
+         compatible:
+           contains:
+             enum:
+-              - qcom,sc8280xp-dwc3
++              - qcom,ipq5332-dwc3
+               - qcom,x1e80100-dwc3
+     then:
+       properties:
+@@ -478,16 +439,35 @@ allOf:
+         compatible:
+           contains:
+             enum:
++              - qcom,ipq4019-dwc3
++              - qcom,ipq8064-dwc3
++              - qcom,msm8994-dwc3
+               - qcom,sa8775p-dwc3
++              - qcom,sc7180-dwc3
++              - qcom,sc7280-dwc3
++              - qcom,sc8280xp-dwc3
++              - qcom,sdm670-dwc3
++              - qcom,sdm845-dwc3
++              - qcom,sdx55-dwc3
++              - qcom,sdx65-dwc3
++              - qcom,sdx75-dwc3
++              - qcom,sm4250-dwc3
++              - qcom,sm6350-dwc3
++              - qcom,sm8150-dwc3
++              - qcom,sm8250-dwc3
++              - qcom,sm8350-dwc3
++              - qcom,sm8450-dwc3
++              - qcom,sm8550-dwc3
++              - qcom,sm8650-dwc3
+     then:
+       properties:
+         interrupts:
+-          minItems: 3
+-          maxItems: 4
++          minItems: 4
++          maxItems: 5
+         interrupt-names:
+-          minItems: 3
+           items:
+             - const: pwr_event
++            - const: hs_phy_irq
+             - const: dp_hs_phy_irq
+             - const: dm_hs_phy_irq
+             - const: ss_phy_irq
+@@ -525,12 +505,13 @@ examples:
+                           <&gcc GCC_USB30_PRIM_MASTER_CLK>;
+             assigned-clock-rates = <19200000>, <150000000>;
+ 
+-            interrupts = <GIC_SPI 131 IRQ_TYPE_LEVEL_HIGH>,
+-                         <GIC_SPI 486 IRQ_TYPE_LEVEL_HIGH>,
++            interrupts = <GIC_SPI 130 IRQ_TYPE_LEVEL_HIGH>,
++                         <GIC_SPI 131 IRQ_TYPE_LEVEL_HIGH>,
++                         <GIC_SPI 489 IRQ_TYPE_EDGE_BOTH>,
+                          <GIC_SPI 488 IRQ_TYPE_EDGE_BOTH>,
+-                         <GIC_SPI 489 IRQ_TYPE_EDGE_BOTH>;
+-            interrupt-names = "hs_phy_irq", "ss_phy_irq",
+-                          "dm_hs_phy_irq", "dp_hs_phy_irq";
++                         <GIC_SPI 486 IRQ_TYPE_LEVEL_HIGH>;
++            interrupt-names = "pwr_event", "hs_phy_irq",
++                          "dp_hs_phy_irq", "dm_hs_phy_irq", "ss_phy_irq";
+ 
+             power-domains = <&gcc USB30_PRIM_GDSC>;
+ 
+-- 
+2.42.0
+
