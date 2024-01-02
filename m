@@ -1,134 +1,72 @@
-Received: from hi1smtp01.de.adit-jv.com (smtp1.de.adit-jv.com [93.241.18.167])
+Received: from madrid.collaboradmins.com (madrid.collaboradmins.com [46.235.227.194])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EABDAF515;
-	Tue,  2 Jan 2024 12:41:47 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=de.adit-jv.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=de.adit-jv.com
-Received: from hi2exch02.adit-jv.com (hi2exch02.adit-jv.com [10.72.92.28])
-	by hi1smtp01.de.adit-jv.com (Postfix) with ESMTP id 5A472520254;
-	Tue,  2 Jan 2024 13:34:33 +0100 (CET)
-Received: from vmlxhi-118.adit-jv.com (10.72.93.77) by hi2exch02.adit-jv.com
- (10.72.92.28) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.1.2507.35; Tue, 2 Jan
- 2024 13:34:33 +0100
-From: Hardik Gajjar <hgajjar@de.adit-jv.com>
-To: <gregkh@linuxfoundation.org>, <stern@rowland.harvard.edu>,
-	<john@keeping.me.uk>
-CC: <linux-usb@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
-	<erosca@de.adit-jv.com>, <hgajjar@de.adit-jv.com>, <jlayton@kernel.org>,
-	<brauner@kernel.org>
-Subject: [PATCH v3] usb: gadget: f_fs: Add the missing get_alt callback
-Date: Tue, 2 Jan 2024 13:34:19 +0100
-Message-ID: <20240102123419.13491-1-hgajjar@de.adit-jv.com>
-X-Mailer: git-send-email 2.17.1
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5D873F9DA;
+	Tue,  2 Jan 2024 13:12:42 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=collabora.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=collabora.com
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b="SjMzrZ3X"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
+	s=mail; t=1704201160;
+	bh=jURNCYzIQMWJUFkXTyaEOnK3LZ2MAWqvj/wPwq9Ok3Y=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=SjMzrZ3X9QwRg2hEYy796StNOVaXo5RbVzE4knGw2jEvBc3ksAZha66xtVpcWDMzQ
+	 vMxVT6gNCZQ7Y5VG3KeZVu3BxS0ABul3frAqcdARUtr6rfuExuIl0GTVbOQobSM4o4
+	 swXwOxcW7T1cIUrPGzFq0HBvcGX6Nd2i7azvH0caKFkwp3EnYb4f+4p+JSLH8sEb3X
+	 JDWlZH3Mcz3s3FH1H7XqAMmtixFp8pDSPsFRsze/HDKa7NMZuaWIZMskiK8Yl55jW3
+	 A/Z0OzH10h9swPRRkGS99rfx4APvzRS3gNe7n5pq0QeYOi6kR8j9dFyH2NLTbnJ8a/
+	 HPcusGofkyZpQ==
+Received: from notapiano (zone.collabora.co.uk [167.235.23.81])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange ECDHE (prime256v1) server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	(Authenticated sender: nfraprado)
+	by madrid.collaboradmins.com (Postfix) with ESMTPSA id 7025C378047E;
+	Tue,  2 Jan 2024 13:12:34 +0000 (UTC)
+Date: Tue, 2 Jan 2024 10:12:01 -0300
+From: =?utf-8?B?TsOtY29sYXMgRi4gUi4gQS4=?= Prado <nfraprado@collabora.com>
+To: Dan Carpenter <dan.carpenter@linaro.org>
+Cc: Shuah Khan <shuah@kernel.org>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	Bjorn Helgaas <bhelgaas@google.com>, kernelci@lists.linux.dev,
+	kernel@collabora.com, Tim Bird <Tim.Bird@sony.com>,
+	linux-pci@vger.kernel.org, David Gow <davidgow@google.com>,
+	linux-kselftest@vger.kernel.org, Rob Herring <robh+dt@kernel.org>,
+	Doug Anderson <dianders@chromium.org>, linux-usb@vger.kernel.org,
+	Saravana Kannan <saravanak@google.com>,
+	Guenter Roeck <groeck@chromium.org>, devicetree@vger.kernel.org,
+	linux-kernel@vger.kernel.org
+Subject: Re: [RFC PATCH v3 0/3] Add test to verify probe of devices from
+ discoverable busses
+Message-ID: <fb89ae5c-f3ef-49de-b93c-da6c8b92b06c@notapiano>
+References: <20231227123643.52348-1-nfraprado@collabora.com>
+ <3271d300-74c9-4ef3-b993-a8ddeda6076c@suswa.mountain>
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain
-X-ClientProxiedBy: hi2exch02.adit-jv.com (10.72.92.28) To
- hi2exch02.adit-jv.com (10.72.92.28)
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <3271d300-74c9-4ef3-b993-a8ddeda6076c@suswa.mountain>
 
-The Apple CarLife iAP gadget has a descriptor with two alternate
-settings. The host sends the set_alt request to configure alt_setting
-0 or 1, and this is verified by the subsequent get_alt request.
+On Tue, Jan 02, 2024 at 10:45:59AM +0300, Dan Carpenter wrote:
+> Life hack: Don't put RFC in the subject.  Especially if it's a v2 or
+> higher.  No one reads RFC patches.
 
-This patch implements and sets the get_alt callback. Without the
-get_alt callback, composite.c abruptly concludes the
-USB_REQ_GET/SET_INTERFACE request, assuming only one alt setting
-for the endpoint.
+Thanks for the tip. I've had a mixed experience with RFC series in the past,
+though this time around I did get some feedback on the previous versions so I
+can't complain. And I wasn't expecting swift replies in the middle of the
+holidays :). In any case, this should be the last RFC version as I feel like the
+approach has consolidated by now.
 
-Signed-off-by: Hardik Gajjar <hgajjar@de.adit-jv.com>
----
-changes since version 1:
-	- improve commit message to indicate why the get_alt callback
-	  is necessary
-	- Link to v1 - https://lore.kernel.org/all/20231124164435.74727-1-hgajjar@de.adit-jv.com/
+> 
+> This patchset seems like a low risk patch to apply.
 
-changes since version 2:
-	- Add the limit to allow set up to 2 alt settings.
-	- Link to v2 - https://lore.kernel.org/all/20231201145234.97452-1-hgajjar@de.adit-jv.com/
----
- drivers/usb/gadget/function/f_fs.c | 20 +++++++++++++++++++-
- 1 file changed, 19 insertions(+), 1 deletion(-)
+That's an interesting take on the usage of RFC I hadn't considered.
 
-diff --git a/drivers/usb/gadget/function/f_fs.c b/drivers/usb/gadget/function/f_fs.c
-index efe3e3b85769..22200d618184 100644
---- a/drivers/usb/gadget/function/f_fs.c
-+++ b/drivers/usb/gadget/function/f_fs.c
-@@ -42,6 +42,7 @@
- #include "configfs.h"
- 
- #define FUNCTIONFS_MAGIC	0xa647361 /* Chosen by a honest dice roll ;) */
-+#define MAX_ALT_SETTINGS	2		  /* Allow up to 2 alt settings to be set. */
- 
- /* Reference counter handling */
- static void ffs_data_get(struct ffs_data *ffs);
-@@ -75,6 +76,7 @@ struct ffs_function {
- 	short				*interfaces_nums;
- 
- 	struct usb_function		function;
-+	int				cur_alt[MAX_CONFIG_INTERFACES];
- };
- 
- 
-@@ -98,6 +100,7 @@ static int __must_check ffs_func_eps_enable(struct ffs_function *func);
- static int ffs_func_bind(struct usb_configuration *,
- 			 struct usb_function *);
- static int ffs_func_set_alt(struct usb_function *, unsigned, unsigned);
-+static int ffs_func_get_alt(struct usb_function *f, unsigned int intf);
- static void ffs_func_disable(struct usb_function *);
- static int ffs_func_setup(struct usb_function *,
- 			  const struct usb_ctrlrequest *);
-@@ -3232,6 +3235,15 @@ static void ffs_reset_work(struct work_struct *work)
- 	ffs_data_reset(ffs);
- }
- 
-+static int ffs_func_get_alt(struct usb_function *f,
-+			    unsigned int interface)
-+{
-+	struct ffs_function *func = ffs_func_from_usb(f);
-+	int intf = ffs_func_revmap_intf(func, interface);
-+
-+	return (intf < 0) ? intf : func->cur_alt[interface];
-+}
-+
- static int ffs_func_set_alt(struct usb_function *f,
- 			    unsigned interface, unsigned alt)
- {
-@@ -3239,6 +3251,9 @@ static int ffs_func_set_alt(struct usb_function *f,
- 	struct ffs_data *ffs = func->ffs;
- 	int ret = 0, intf;
- 
-+	if (alt > MAX_ALT_SETTINGS)
-+		return -EINVAL;
-+
- 	if (alt != (unsigned)-1) {
- 		intf = ffs_func_revmap_intf(func, interface);
- 		if (intf < 0)
-@@ -3266,8 +3281,10 @@ static int ffs_func_set_alt(struct usb_function *f,
- 
- 	ffs->func = func;
- 	ret = ffs_func_eps_enable(func);
--	if (ret >= 0)
-+	if (ret >= 0) {
- 		ffs_event_add(ffs, FUNCTIONFS_ENABLE);
-+		func->cur_alt[interface] = alt;
-+	}
- 	return ret;
- }
- 
-@@ -3574,6 +3591,7 @@ static struct usb_function *ffs_alloc(struct usb_function_instance *fi)
- 	func->function.bind    = ffs_func_bind;
- 	func->function.unbind  = ffs_func_unbind;
- 	func->function.set_alt = ffs_func_set_alt;
-+	func->function.get_alt = ffs_func_get_alt;
- 	func->function.disable = ffs_func_disable;
- 	func->function.setup   = ffs_func_setup;
- 	func->function.req_match = ffs_func_req_match;
--- 
-2.17.1
-
+Thanks,
+Nícolas
