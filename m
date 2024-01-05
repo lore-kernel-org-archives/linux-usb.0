@@ -1,85 +1,111 @@
-Received: from mout-p-202.mailbox.org (mout-p-202.mailbox.org [80.241.56.172])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-ed1-f46.google.com (mail-ed1-f46.google.com [209.85.208.46])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5BDC62C865
-	for <linux-usb@vger.kernel.org>; Fri,  5 Jan 2024 12:37:02 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=mailbox.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=mailbox.org
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9604F2D043;
+	Fri,  5 Jan 2024 12:42:51 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=mailbox.org header.i=@mailbox.org header.b="vhMQD9Rg";
-	dkim=pass (2048-bit key) header.d=mailbox.org header.i=@mailbox.org header.b="xDAsfah/"
-Received: from smtp1.mailbox.org (smtp1.mailbox.org [IPv6:2001:67c:2050:b231:465::1])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by mout-p-202.mailbox.org (Postfix) with ESMTPS id 4T62yh2lgwz9sSy;
-	Fri,  5 Jan 2024 13:37:00 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=mailbox.org; s=mail20150812;
-	t=1704458220;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=WxDl+Jqx9MvBnnn7WyGK6DDQLkShEXL5msiu40jDkiE=;
-	b=vhMQD9Rg6KXCTx1toLD69Ui/WXZrB9NHEyA3V9IZMfba1k45fQYirboJQM2b/nfijOM5+n
-	HAccaG2oLv4Bru52IPUdpN4+AP3SPS3haMiLbXXM5hju/f3tlFigy5JDCiSpGooncUbOgT
-	2dc5ho50tFHvAu2wBGVlsfI8k8+vhLSzl8czRF+2u7w8suViEXfavVmtgoaFIx7NSllG1u
-	SP8lTQIsKkthapOfAUo46g5i0DiIxjBx7ChLiETe7uIeQB0nj0cjYV6dbWskbPmDqe+H/m
-	BrcXsi1TUPcygh9qGvV4J3o6F0Pm/hVwzW0ZuzIbhQzBXT5+b3eYHWRH0MG4EQ==
-From: Leonard Dallmayr <leonard.dallmayr@mailbox.org>
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=mailbox.org; s=mail20150812;
-	t=1704458218;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=WxDl+Jqx9MvBnnn7WyGK6DDQLkShEXL5msiu40jDkiE=;
-	b=xDAsfah/jRniWrSw5glD8l39EwiznN7IY6OB8CjWIC2deSw4v5sP2X677YvGhNOJG2QZKL
-	rG3StbO14mTBahDw4D9opNDkaVLksTnQo2GI/g+JqyV/WCnOFB4MrIOzuX4XC5hOlPqb7J
-	OiyiHvMVI+fFKLblt5ek9SfxiiLK4l4+TNm2VfsK+OBTbJGeDrEqmfTB4lw62FHXnjDRJs
-	elf5dOkhU+K5O8UN3sToNoLHoyVdcH23tOZ9RNGRwct1g+0eGUBh/9EMw/sNQXncSQ2XHz
-	RfQanmc7D58M//LkeL1khWzAaDu8eHxHPBV0uJReAA8NdQHQb8fnf0DI3UJzEA==
-To: johan@kernel.org
-Cc: gregkh@linuxfoundation.org,
-	leonard.dallmayr@mailbox.org,
-	linux-usb@vger.kernel.org
-Subject: [PATCH] USB: serial: cp210x: add ID for IMST iM871A-USB
-Date: Fri,  5 Jan 2024 13:35:51 +0100
-Message-ID: <20240105123549.87143-3-leonard.dallmayr@mailbox.org>
-In-Reply-To: <ZZfrkSbmCW7vNCEZ@hovoldconsulting.com>
-References: <ZZfrkSbmCW7vNCEZ@hovoldconsulting.com>
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="fexVHH7I"
+Received: by mail-ed1-f46.google.com with SMTP id 4fb4d7f45d1cf-55559e26ccfso1881484a12.3;
+        Fri, 05 Jan 2024 04:42:51 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1704458570; x=1705063370; darn=vger.kernel.org;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=8Z/sbdKKt/wzLF4s9/xA3JvplJTqpdOGJ3HlSdybqII=;
+        b=fexVHH7IGBSYbV4lVwL8IbLqHOece2LUqKkLgg0Chzilr5AGKZ9eQamatfwBvXbrus
+         8n8wacln57aMue3ywhKbENOZFRPdrEpqZFC16LMzuJyMXPAn+NCpFGu00UsQEGD2O835
+         B99TbMDo4rMBAFrlACmZYCGYvidafOY5M+sjAwzA0zVUQe+55hnpnm+YbX4UAVtwPmle
+         5O2Mom55byRs4XazJcdUoOQFk7hfZBvo8ifmFjS7lrrs5iox/gVa41nqM+issjnDqv07
+         euPL5k/McKI1cwRLA+yMeaf4h14D7ehvhxTQNHBeUQckknk739z00X8Ft2mJyu0r3le1
+         9cfw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1704458570; x=1705063370;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=8Z/sbdKKt/wzLF4s9/xA3JvplJTqpdOGJ3HlSdybqII=;
+        b=iRJ505e5/m1MH3pTFpXfzTdUlUbubuw/o8Ka9sRDKbEabSQhg3C6jngTT+oTDHO0dT
+         qzo31ssztmYApBoztDfkuVDOtlVcvAu76F3FwGt9weEJgA5QvGW8yGAWG8RdjoMCumZx
+         vmfZAY9SLQ8sAYH8y+26I4+/jC0GZ06jLo+H7ojC4HDaStwO6U7aIRUT2xNl/SAkjMnT
+         SKpGrUN/UJ9PDIn2vtU22a0TxQEXgTXPpk0ALX0kBtWM1m/kdE0ish1x911JrdK+2FnT
+         Lf5SK9bZuCn+0YMqLFchgt6Uz3w76g/15zckua235i8/yFtPvlbZ71XnFsi5JlXDMGvg
+         Fn+Q==
+X-Gm-Message-State: AOJu0YxH92qZ++VttV0hgkpOAbjFuIcOy1xxr8ZBGL3BMqy4GrhJmz/0
+	WZ9a6GElemPownz/Oq8OSCQ=
+X-Google-Smtp-Source: AGHT+IGbfX1w0N1pem4IEfrQ3cQn6z6SoqBmdwTlzBDIsENtwVd4ZQekXNKiB19iA+prjtO3rEK/Uw==
+X-Received: by 2002:a50:cd15:0:b0:557:1cfd:6efa with SMTP id z21-20020a50cd15000000b005571cfd6efamr432236edi.112.1704458569397;
+        Fri, 05 Jan 2024 04:42:49 -0800 (PST)
+Received: from ?IPV6:2a02:8389:41cf:e200:19ad:2fc2:9145:71e5? (2a02-8389-41cf-e200-19ad-2fc2-9145-71e5.cable.dynamic.v6.surfer.at. [2a02:8389:41cf:e200:19ad:2fc2:9145:71e5])
+        by smtp.gmail.com with ESMTPSA id fd5-20020a056402388500b0055743d6e9ebsm71122edb.41.2024.01.05.04.42.48
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Fri, 05 Jan 2024 04:42:48 -0800 (PST)
+Message-ID: <56a15164-dbce-4740-b59e-b566f613f878@gmail.com>
+Date: Fri, 5 Jan 2024 13:42:47 +0100
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-MBO-RS-META: 93ik81sodjspkr9f8nxnahc9s1hechmw
-X-MBO-RS-ID: 6559916c47f0daa588c
-X-Rspamd-Queue-Id: 4T62yh2lgwz9sSy
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH] usb: typec: tipd: fix use of device-specific init
+ function
+To: Heikki Krogerus <heikki.krogerus@linux.intel.com>
+Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+ Roger Quadros <rogerq@kernel.org>,
+ Javier Carrasco <javier.carrasco@wolfvision.net>, linux-usb@vger.kernel.org,
+ linux-kernel@vger.kernel.org
+References: <20240104-dev_spec_init-v1-1-1a57e7fd8cc8@gmail.com>
+ <ZZf2lhtRdmIHmlBq@kuha.fi.intel.com>
+Content-Language: en-US
+From: Javier Carrasco <javier.carrasco.cruz@gmail.com>
+In-Reply-To: <ZZf2lhtRdmIHmlBq@kuha.fi.intel.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 
-The device IMST USB-Stick for Smart Meter is a rebranded IMST iM871A-USB
-Wireless M-Bus USB-adapter. It is used to read wireless water, gas and
-electricity meters.
+On 05.01.24 13:36, Heikki Krogerus wrote:
+> On Thu, Jan 04, 2024 at 06:07:12PM +0100, Javier Carrasco wrote:
+>> The current implementation supports device-pecific callbacks for the
+>> init function with a function pointer. The patch that introduced this
+>> feature did not update one call to the tps25750 init function to turn it
+>> into a call with the new pointer in the resume function.
+>>
+>> Fixes: d49f90822015 ("usb: typec: tipd: add init and reset functions to tipd_data")
+>> Signed-off-by: Javier Carrasco <javier.carrasco.cruz@gmail.com>
+> 
+> This was suggested by Roger, no?
+> 
 
-Signed-off-by: Leonard Dallmayr <leonard.dallmayr@mailbox.org>
----
- drivers/usb/serial/cp210x.c | 1 +
- 1 file changed, 1 insertion(+)
+Yes, it was. Thanks for the reminder.
 
-diff --git a/drivers/usb/serial/cp210x.c b/drivers/usb/serial/cp210x.c
-index 1e61fe043171..923e0ed85444 100644
---- a/drivers/usb/serial/cp210x.c
-+++ b/drivers/usb/serial/cp210x.c
-@@ -146,6 +146,7 @@ static const struct usb_device_id id_table[] = {
- 	{ USB_DEVICE(0x10C4, 0x85F8) }, /* Virtenio Preon32 */
- 	{ USB_DEVICE(0x10C4, 0x8664) }, /* AC-Services CAN-IF */
- 	{ USB_DEVICE(0x10C4, 0x8665) }, /* AC-Services OBD-IF */
-+	{ USB_DEVICE(0x10C4, 0x87ED) }, /* IMST USB-Stick for Smart Meter */
- 	{ USB_DEVICE(0x10C4, 0x8856) },	/* CEL EM357 ZigBee USB Stick - LR */
- 	{ USB_DEVICE(0x10C4, 0x8857) },	/* CEL EM357 ZigBee USB Stick */
- 	{ USB_DEVICE(0x10C4, 0x88A4) }, /* MMB Networks ZigBee USB Device */
--- 
-2.43.0
+Could the following trailer be added before applying?
 
+Suggested-by: Roger Quadros <rogerq@kernel.org>
+
+Otherwise I will resend the patch with that addition.
+
+> Reviewed-by: Heikki Krogerus <heikki.krogerus@linux.intel.com>
+> 
+>> ---
+>>  drivers/usb/typec/tipd/core.c | 2 +-
+>>  1 file changed, 1 insertion(+), 1 deletion(-)
+>>
+>> diff --git a/drivers/usb/typec/tipd/core.c b/drivers/usb/typec/tipd/core.c
+>> index a956eb976906..8a7cdfee27a1 100644
+>> --- a/drivers/usb/typec/tipd/core.c
+>> +++ b/drivers/usb/typec/tipd/core.c
+>> @@ -1495,7 +1495,7 @@ static int __maybe_unused tps6598x_resume(struct device *dev)
+>>  		return ret;
+>>  
+>>  	if (ret == TPS_MODE_PTCH) {
+>> -		ret = tps25750_init(tps);
+>> +		ret = tps->data->init(tps);
+>>  		if (ret)
+>>  			return ret;
+>>  	}
+> 
+> thans,
+> 
