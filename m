@@ -1,29 +1,48 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.136])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 95F762D601;
-	Fri,  5 Jan 2024 12:06:36 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5E7B12D056;
+	Fri,  5 Jan 2024 12:36:25 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=linux.intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="Y0mWOKyk"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id A2588C433C8;
-	Fri,  5 Jan 2024 12:06:35 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
-	s=korg; t=1704456396;
-	bh=771cJmS/QvQZS5wH+fF4qF6c0Cu3brr3xJExwpIAORc=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=Y0mWOKyk8NrVUi8/jFJtBL/mFSCUoIVGYI8Eapi3GsoO+FQWFrgEiicQwN+VzA4o5
-	 t69q71kbLGk8B1m7GJEJunGvK8BRInjboGoSpMkDy2XAQ3yvpT9KCg9Po78WimY91d
-	 gMyuIAjzU6EyQsLazYhIgwzo8jcQ2XySjA7cXAtw=
-Date: Fri, 5 Jan 2024 13:06:33 +0100
-From: Greg KH <gregkh@linuxfoundation.org>
-To: Niko Mauno <niko.mauno@vaisala.com>
-Cc: linux-usb@vger.kernel.org, linux-kernel@vger.kernel.org,
-	Jaaskelainen Vesa VEJ <vesa.jaaskelainen@vaisala.com>
-Subject: Re: [PATCH] usb: core: Make default authorization mode configurable
-Message-ID: <2024010518-embattled-illusion-9a13@gregkh>
-References: <20240104163203.7381-1-niko.mauno@vaisala.com>
- <2024010413-portable-lingo-3c11@gregkh>
- <522eb2bb-95d0-4e2f-a426-9347f14f51cb@vaisala.com>
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="ZhiWwE3E"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1704458185; x=1735994185;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=JLekH6LfdH1XcYg0zsP8rHQamQXBAPOrmRtK5D1F5i4=;
+  b=ZhiWwE3E3uWJmUfcG0AWopTAUvEdfd5PZa4iAqMsBiTc0Sij1gdXVVwT
+   dHLs6viEroUixC/f8RUWLYtz90pR7FOEj5w2Pi0oGi/puBrTX9wgx4QTg
+   ix3OvLcfuSYuKyCpxhsu2Q751j+JpMWBvhYjANkHwNYwuNyVNTxkUykL3
+   E4LR8MxljI6aS/1R0K1sgmrXqj9LAX+gU1Getp6/G5lQYaTAkkgKEL13h
+   KAyd8/9Q24w/iAjZ+IjXPaJLGAH7MOkBlLAmgzZJUFL6MaNDZjWy0/rRK
+   k0Gq7nh0/IqLp3kJjRBsluo62ESrTR/lbRNHUddmVA2LEneogaCRLMJX3
+   A==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10943"; a="376987681"
+X-IronPort-AV: E=Sophos;i="6.04,333,1695711600"; 
+   d="scan'208";a="376987681"
+Received: from orsmga003.jf.intel.com ([10.7.209.27])
+  by fmsmga106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 05 Jan 2024 04:36:24 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,10943"; a="730467578"
+X-IronPort-AV: E=Sophos;i="6.04,333,1695711600"; 
+   d="scan'208";a="730467578"
+Received: from kuha.fi.intel.com ([10.237.72.185])
+  by orsmga003.jf.intel.com with SMTP; 05 Jan 2024 04:36:21 -0800
+Received: by kuha.fi.intel.com (sSMTP sendmail emulation); Fri, 05 Jan 2024 14:36:20 +0200
+Date: Fri, 5 Jan 2024 14:36:20 +0200
+From: Heikki Krogerus <heikki.krogerus@linux.intel.com>
+To: Javier Carrasco <javier.carrasco.cruz@gmail.com>
+Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	Roger Quadros <rogerq@kernel.org>,
+	Javier Carrasco <javier.carrasco@wolfvision.net>,
+	linux-usb@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH] usb: typec: tipd: fix use of device-specific init
+ function
+Message-ID: <ZZf2lhtRdmIHmlBq@kuha.fi.intel.com>
+References: <20240104-dev_spec_init-v1-1-1a57e7fd8cc8@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
@@ -32,31 +51,40 @@ List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <522eb2bb-95d0-4e2f-a426-9347f14f51cb@vaisala.com>
+In-Reply-To: <20240104-dev_spec_init-v1-1-1a57e7fd8cc8@gmail.com>
 
-On Fri, Jan 05, 2024 at 01:56:35PM +0200, Niko Mauno wrote:
-> On 4.1.2024 18.41, Greg KH wrote:
-> > On Thu, Jan 04, 2024 at 06:32:03PM +0200, niko.mauno@vaisala.com wrote:
-> ...
-> > > +       The available values have the following meanings:
-> > > +             -1 is authorized for all devices (leftover from wireless USB)
-> > > +             0 is unauthorized for all devices
-> > > +             1 is authorized for all devices
-> > 
-> > What's the difference now between -1 and 1?  We don't have wireless USB
-> > anymore as that never turned into an actual product, so we shouldn't
-> > reference it anymore, right?
-> > 
-> > We should get rid of the -1 option entirely, but keep the module option
-> > and properly map it to '1'.
-> > 
-> > 
-> > > +             2 is authorized for internal devices
-> > 
-> > Needs a "if you don't know what to select, please choose X" text here.
+On Thu, Jan 04, 2024 at 06:07:12PM +0100, Javier Carrasco wrote:
+> The current implementation supports device-pecific callbacks for the
+> init function with a function pointer. The patch that introduced this
+> feature did not update one call to the tps25750 init function to turn it
+> into a call with the new pointer in the resume function.
 > 
-> Thanks, submitted v2 which strives to address also these considerations.
+> Fixes: d49f90822015 ("usb: typec: tipd: add init and reset functions to tipd_data")
+> Signed-off-by: Javier Carrasco <javier.carrasco.cruz@gmail.com>
 
-Much better, thanks.  I'll look at them after 6.8-rc1 is out.
+This was suggested by Roger, no?
 
-greg k-h
+Reviewed-by: Heikki Krogerus <heikki.krogerus@linux.intel.com>
+
+> ---
+>  drivers/usb/typec/tipd/core.c | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
+> 
+> diff --git a/drivers/usb/typec/tipd/core.c b/drivers/usb/typec/tipd/core.c
+> index a956eb976906..8a7cdfee27a1 100644
+> --- a/drivers/usb/typec/tipd/core.c
+> +++ b/drivers/usb/typec/tipd/core.c
+> @@ -1495,7 +1495,7 @@ static int __maybe_unused tps6598x_resume(struct device *dev)
+>  		return ret;
+>  
+>  	if (ret == TPS_MODE_PTCH) {
+> -		ret = tps25750_init(tps);
+> +		ret = tps->data->init(tps);
+>  		if (ret)
+>  			return ret;
+>  	}
+
+thans,
+
+-- 
+heikki
