@@ -1,123 +1,57 @@
-Received: from fllv0016.ext.ti.com (fllv0016.ext.ti.com [198.47.19.142])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5846524B2A;
-	Fri,  5 Jan 2024 10:02:40 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=ti.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ti.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B6B4B24210;
+	Fri,  5 Jan 2024 10:10:25 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=ti.com header.i=@ti.com header.b="XqnxykQc"
-Received: from fllv0034.itg.ti.com ([10.64.40.246])
-	by fllv0016.ext.ti.com (8.15.2/8.15.2) with ESMTP id 405A18ju018273;
-	Fri, 5 Jan 2024 04:01:08 -0600
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ti.com;
-	s=ti-com-17Q1; t=1704448868;
-	bh=197ER86cpXaHwKlmpOfg8emzQLPy/43sB+DYTl5MeVE=;
-	h=Date:From:To:CC:Subject:References:In-Reply-To;
-	b=XqnxykQcI31I1xDknMB6ESG6G8LS/d6XttBRqNACyWqEVI5KeKT1zrpM/aYXStXGc
-	 /XjvBo2788B7zVmesXCURKKLzGuh22KKOgHXUcAoRZrFpio7FVEPrTnkp0XAwI1jvH
-	 HN9Ho/nSwIdXQ6PepF5KinrWOlhU7vuezIoz+eRk=
-Received: from DLEE103.ent.ti.com (dlee103.ent.ti.com [157.170.170.33])
-	by fllv0034.itg.ti.com (8.15.2/8.15.2) with ESMTPS id 405A18kK109291
-	(version=TLSv1.2 cipher=AES256-GCM-SHA384 bits=256 verify=FAIL);
-	Fri, 5 Jan 2024 04:01:08 -0600
-Received: from DLEE108.ent.ti.com (157.170.170.38) by DLEE103.ent.ti.com
- (157.170.170.33) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.2507.23; Fri, 5
- Jan 2024 04:01:08 -0600
-Received: from lelvsmtp6.itg.ti.com (10.180.75.249) by DLEE108.ent.ti.com
- (157.170.170.38) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.2507.23 via
- Frontend Transport; Fri, 5 Jan 2024 04:01:08 -0600
-Received: from localhost ([10.249.131.210])
-	by lelvsmtp6.itg.ti.com (8.15.2/8.15.2) with ESMTP id 405A16Em108338;
-	Fri, 5 Jan 2024 04:01:07 -0600
-Date: Fri, 5 Jan 2024 15:31:06 +0530
-From: Jai Luthra <j-luthra@ti.com>
-To: Sergey Shtylyov <s.shtylyov@omp.ru>
-CC: Heikki Krogerus <heikki.krogerus@linux.intel.com>,
-        Greg Kroah-Hartman
-	<gregkh@linuxfoundation.org>,
-        Javier Carrasco
-	<javier.carrasco@wolfvision.net>,
-        <linux-usb@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
-        <rogerq@kernel.org>, <r-gunasekaran@ti.com>, <vigneshr@ti.com>,
-        <d-gole@ti.com>
-Subject: Re: [PATCH] usb: typec: tipd: Separate reset for TPS6598x
-Message-ID: <oonjlgz7fghlmxss6untb2u5hru35t27fbamlfqrolqdeteeyx@nkggaacpjeo3>
-References: <20240105-next-tps-fix-v1-1-158cabaec168@ti.com>
- <78925337-0bba-ca7d-aeb1-2d5c53c565ea@omp.ru>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="TwzST4hG"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 2C022C433C8;
+	Fri,  5 Jan 2024 10:10:22 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1704449425;
+	bh=KRltSTi0bD8VHHjBqa6/utOjY8l/zzl7utSN3i622lI=;
+	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+	b=TwzST4hGkmVSzCe8hHuXZBQyIEQV6QYTh4/hwdFLQuUykPzRlq7jCMbjViO+Zq8Ph
+	 EvnHkzQ4BAwuL7zOEnF1fiViVjhKpKpXbtyuNw0y3lywBt0gNjTIRiVkL2znWvsZHW
+	 9eLA+eSaD80AQPk+d3cKGNfyFD1rBfAJzon4KotcAUlnzQfowRfwxaWxMLAJbMOtyD
+	 UK6y9rBqGnI40gex4jRuCElFv0PwKkfFnRHosrmk2ByCD6dokK+qLKZAm96K8a1pmg
+	 ipqATxnycGUJO6W7i6p9u3maCqAq+JuGc+zIoC8oUkr+rOnCYpHOKgRdnewPdI9OTH
+	 uKLeOMfgEvM8w==
+Message-ID: <a3bacc32-b4e2-4141-8106-486bbf783f52@kernel.org>
+Date: Fri, 5 Jan 2024 12:10:20 +0200
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha256;
-	protocol="application/pgp-signature"; boundary="2mg3go7nhbzyckmm"
-Content-Disposition: inline
-In-Reply-To: <78925337-0bba-ca7d-aeb1-2d5c53c565ea@omp.ru>
-X-EXCLAIMER-MD-CONFIG: e1e8a2fd-e40a-4ac6-ac9b-f7e9cc9ee180
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH] usb: typec: tipd: Separate reset for TPS6598x
+To: Jai Luthra <j-luthra@ti.com>,
+ Heikki Krogerus <heikki.krogerus@linux.intel.com>,
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+ Javier Carrasco <javier.carrasco@wolfvision.net>
+Cc: linux-usb@vger.kernel.org, linux-kernel@vger.kernel.org,
+ r-gunasekaran@ti.com, vigneshr@ti.com, d-gole@ti.com
+References: <20240105-next-tps-fix-v1-1-158cabaec168@ti.com>
+Content-Language: en-US
+From: Roger Quadros <rogerq@kernel.org>
+In-Reply-To: <20240105-next-tps-fix-v1-1-158cabaec168@ti.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 
---2mg3go7nhbzyckmm
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
 
-On Jan 05, 2024 at 12:15:36 +0300, Sergey Shtylyov wrote:
-> Hello!
->=20
-> On 1/5/24 12:06 PM, Jai Luthra wrote:
->=20
-> > Some platforms like SK-AM62, SK-AM62A cannot boot up to prompt if
-> > TPS6598x is cold-reset during unconditionally on probe failures by
->=20
->    Hm, I can't parse this. During what?
 
-My bad
+On 05/01/2024 11:06, Jai Luthra wrote:
+> Some platforms like SK-AM62, SK-AM62A cannot boot up to prompt if
+> TPS6598x is cold-reset during unconditionally on probe failures by
+> sending "GAID" sequence.
+> 
+> The probe can fail initially because USB0 remote-endpoint may not be
+> probed yet, which defines the usb-role-switch property.
+> 
+> Fixes: d49f90822015 ("usb: typec: tipd: add init and reset functions to tipd_data")
+> Closes: https://lore.kernel.org/linux-usb/vmngazj6si7xxss7txenezkcukqje2glhvvs7ipdcx3vjiqvlk@ohmmhhhlryws/
+> Signed-off-by: Jai Luthra <j-luthra@ti.com>
 
-s/cold-reset during unconditionally/cold-reset unconditionally/
-
->=20
-> > sending "GAID" sequence.
-> >=20
-> > The probe can fail initially because USB0 remote-endpoint may not be
-> > probed yet, which defines the usb-role-switch property.
-> >=20
-> > Fixes: d49f90822015 ("usb: typec: tipd: add init and reset functions to=
- tipd_data")
-> > Closes: https://lore.kernel.org/linux-usb/vmngazj6si7xxss7txenezkcukqje=
-2glhvvs7ipdcx3vjiqvlk@ohmmhhhlryws/
-> > Signed-off-by: Jai Luthra <j-luthra@ti.com>
-> [...]
->=20
-> MBR, Sergey
->=20
-
---=20
-Thanks,
-Jai
-
-GPG Fingerprint: 4DE0 D818 E5D5 75E8 D45A AFC5 43DE 91F9 249A 7145
-
---2mg3go7nhbzyckmm
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQIzBAABCAAdFiEETeDYGOXVdejUWq/FQ96R+SSacUUFAmWX02EACgkQQ96R+SSa
-cUVGghAAsRfotuvarAUj38Gw/3p/0JOBRzQ/P866LOdUynLgU5JlOxwwCKyo1gon
-z6yPC1cRUuyzJAvyMYHxY+Je736aVioxr77mhj8rNwVoUbhFapmJIbjY+Jn4QLSa
-5NxaXOPJVINNp65sgMTSOyXb9MKGEXHErPPWGRFXP8E4gD4DFQAEC8Gngxea7j4U
-JVB+j8ZSGqLLbLTxclL0DH2LIbRD48qLNl61w+Q2s47Sstbqyj8byIj7ILOK+Ps6
-975RKXXSBlB51C8Y3K1jhPACckzt+Qj5Ja+TFUIUkjvKXA5lovUwm7D1mTtQNI0u
-/3dWPPTMQ1Qa0fjsRY2FD7WpV2Mv8QLLyLHtp1G2s8NTJEIRM1t4oe2EKz/lfKZr
-mJmnwrK3zDcqN8rpAB7ZdvaXmku/i9d1uYtvmKpSatdFHCV9Zx/dKM8nUIHZb0Fw
-4bcThCGXIY560QUYoCdfeNROpEnR8QSu97gDZEKBAzywy4OcuXwQUBo7H3WXyh9R
-iF1kbEd8gbOfTaKUb+sSzsYfx3z7fvtErOFQ6jFZnZSFVBxUQJIFkDZj62Nxi/aA
-5UO3cWQN9Am/Nu5mMZ+nDCaliVXb2hM0YIMKEqYpKXOpwPxIWuR8eEeZE2yYtzOD
-oTEkK5IHNI/tr/2jiICFGiFigCKaICsNcDbCor9mmrf8s9YZGLg=
-=fVsS
------END PGP SIGNATURE-----
-
---2mg3go7nhbzyckmm--
+Reviewed-by: Roger Quadros <rogerq@kernel.org>
