@@ -1,51 +1,51 @@
-Received: from mail-lj1-f182.google.com (mail-lj1-f182.google.com [209.85.208.182])
+Received: from mail-lj1-f169.google.com (mail-lj1-f169.google.com [209.85.208.169])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B5A3D16410
-	for <linux-usb@vger.kernel.org>; Sat, 13 Jan 2024 20:55:58 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 30DEA1804D
+	for <linux-usb@vger.kernel.org>; Sat, 13 Jan 2024 20:56:00 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="lz1+7e39"
-Received: by mail-lj1-f182.google.com with SMTP id 38308e7fff4ca-2cca5d81826so100112471fa.2
-        for <linux-usb@vger.kernel.org>; Sat, 13 Jan 2024 12:55:58 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="e1BuafaD"
+Received: by mail-lj1-f169.google.com with SMTP id 38308e7fff4ca-2cceb5f0918so80051161fa.2
+        for <linux-usb@vger.kernel.org>; Sat, 13 Jan 2024 12:55:59 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1705179357; x=1705784157; darn=vger.kernel.org;
+        d=linaro.org; s=google; t=1705179358; x=1705784158; darn=vger.kernel.org;
         h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
          :mime-version:subject:date:from:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=7p6gWY0YoqvRhvH4CsaKCkw0XoA/dxUPDgcmLcO++Co=;
-        b=lz1+7e39YQZlrJzMxIfebWkDPjzES428oQdzT/1ACb1DpbAAU5FBLuW92xqsrcHgPe
-         GbiTupc23lD1KsPW3bZ24XuSpNZSHi6yr0kkWjCYXsBzWGvEau/g4UWPe40BA+4LU+RP
-         a0fagI9gXC/3ZuQdZRpKjV7OJh6A+Mu3f99hiYeIFKbOQazZ5vJMBtApdPCfWyxwHNHP
-         igNpk+fm7BWmZeGMtoMIdLyRIX80z95TFy077ldAyx1IkgEauuxqzuOZ08dlY6z7Ti9E
-         RGOuGN+b8IWkjbmIxvIDc8dltrV7VrjhQEljKKynw/B27RoUcJsBuXWcEyPBJZhq2V+U
-         fkCg==
+        bh=DrYO45if9MkhdPnM9emuw8D1/bu4r/uB+Rm9iLY1LZw=;
+        b=e1BuafaDjvLr1Lx+rQzwR9Ol2toFm0bq89aeRxlReLhlvHT47Oef48ITVRP6DBswZL
+         u0ly+r3G5863JEaOI5TjFSou4jgcdZWsCaL3AWUzDdPJNsvwLGlN19Qw6FbFFxf9iq5w
+         Idzbff0rSOlq3Z1G8rk2/8PEu1TuRl7P/oTNykPPrhTZ9f/XRV+MafKo06J1S9/Kn4Ki
+         Dzi5rc5aj9yVmmpj2ahRTeorDCB2Z6vHU98br3c3bxcfiHL9cY7JPQD4S7O2GsIXyUxT
+         89+hlto1xqKkCgKxx5zQV8s4ntPbbZAq79t5rPCtas5IjHaBqB1ODDvs2L3x7JcNsZK7
+         zO1g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1705179357; x=1705784157;
+        d=1e100.net; s=20230601; t=1705179358; x=1705784158;
         h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
          :mime-version:subject:date:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=7p6gWY0YoqvRhvH4CsaKCkw0XoA/dxUPDgcmLcO++Co=;
-        b=gSju19yRIKLJRzhrC0yhYHYQ8fDFwUpGKJRozDy6Is63QCb8RIbuN2zKiD84VGKLlp
-         F82JhoGAqBTVOv7SLz7YCEkmYBLDQOxswR+EcpODIJCag9kRV5EIAE3OiJ1fMxOiewPI
-         JdNgySKuVJabmbbQRN4pGq6duf4mllNvg+16T6vFTlxkFD03cZDNIqpxIAMydsdegrJv
-         /uPsTPA8qQnLg92vODInVH5o3xuBwm9cfrtl5JXLrwEk3T+npcXVXya/zr6XP4vmf+Ef
-         zOy3ccnHyNwb916Xp3gjbAIFPZozTIE9YcTXzJC02+bwwJL9ebvpM//tqblZ968m6TC1
-         Grrg==
-X-Gm-Message-State: AOJu0YzK/ITW3gqJUNPxb4shrVnSYv00MNP1OBQ0TimdGh8g3GIc6GT/
-	pMtbo0ttTEnonLEXIbukptw/rz//zJ+wlA==
-X-Google-Smtp-Source: AGHT+IHbb6Hk424wpmBXA/9fo5agMx0JnS4ckc6EKBxpEvGttdRpEC8T4a1XsFQYTmrfLJQJgkphAQ==
-X-Received: by 2002:a05:6512:3a3:b0:50e:ac97:8bb2 with SMTP id v3-20020a05651203a300b0050eac978bb2mr1475688lfp.40.1705179357005;
-        Sat, 13 Jan 2024 12:55:57 -0800 (PST)
+        bh=DrYO45if9MkhdPnM9emuw8D1/bu4r/uB+Rm9iLY1LZw=;
+        b=edgulNgToswt8k/PUlJ8782YtW+1D3EAHTNgmV64gksfF+fSgdwNwBebL4FFwkvNSj
+         HVEdUGvyVbuCv7ZK/3qwyokPMIz4QaThfkvhwlqKibUD9O47iCLgSWHUaLslKCZQesrV
+         4Tq2QvPOJgrILJh59TVGT4HhWYv2019Fdbcv/477wTzplo0s6W775O7bBeNf5mLSkqOe
+         S1cwcT52kUCPQqf+ODe4ntp6VziKCzj2uWf7e4MyS9gjEOlkqT1bSGyvxzs6nQAjUsOA
+         Xb73H20XzjBYUBqP7VC3etQyFKJd7mjg1IjPbqeZF8NPSdRlGQN08kdwTF+W4A7iGp7u
+         xGEg==
+X-Gm-Message-State: AOJu0YwF+XaZ0GszdBdjIBudOoEPeBM+41i6hFbOd0+yXDWY7KfEzgRI
+	ZsdmFpNw1C+pSr1Aoh0iGcPnRNkhcbelAA==
+X-Google-Smtp-Source: AGHT+IHtkXOrSL9TAfk6/XUXQqm6LNGb8oabYf+fv5lMnRIIjxU+y2JF/ccNyKHDysvmhF7AF7ykdA==
+X-Received: by 2002:a05:6512:3e16:b0:50e:7be3:b410 with SMTP id i22-20020a0565123e1600b0050e7be3b410mr1080009lfv.105.1705179358402;
+        Sat, 13 Jan 2024 12:55:58 -0800 (PST)
 Received: from umbar.lan ([192.130.178.91])
-        by smtp.gmail.com with ESMTPSA id p14-20020a056512328e00b0050e9355d7eesm919802lfe.103.2024.01.13.12.55.56
+        by smtp.gmail.com with ESMTPSA id p14-20020a056512328e00b0050e9355d7eesm919802lfe.103.2024.01.13.12.55.57
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sat, 13 Jan 2024 12:55:56 -0800 (PST)
+        Sat, 13 Jan 2024 12:55:58 -0800 (PST)
 From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-Date: Sat, 13 Jan 2024 22:55:47 +0200
-Subject: [PATCH v2 04/15] dt-bindings: phy: qcom,msm8998-qmp-usb3-phy:
- support USB-C data
+Date: Sat, 13 Jan 2024 22:55:49 +0200
+Subject: [PATCH v2 06/15] usb: typec: qcom-pmic-typec: fix arguments of
+ qcom_pmic_typec_pdphy_set_roles
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
@@ -54,7 +54,7 @@ List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20240113-pmi632-typec-v2-4-182d9aa0a5b3@linaro.org>
+Message-Id: <20240113-pmi632-typec-v2-6-182d9aa0a5b3@linaro.org>
 References: <20240113-pmi632-typec-v2-0-182d9aa0a5b3@linaro.org>
 In-Reply-To: <20240113-pmi632-typec-v2-0-182d9aa0a5b3@linaro.org>
 To: Bjorn Andersson <andersson@kernel.org>, 
@@ -72,83 +72,88 @@ To: Bjorn Andersson <andersson@kernel.org>,
 Cc: linux-arm-msm@vger.kernel.org, devicetree@vger.kernel.org, 
  linux-usb@vger.kernel.org, linux-phy@lists.infradead.org
 X-Mailer: b4 0.12.4
-X-Developer-Signature: v=1; a=openpgp-sha256; l=1888;
+X-Developer-Signature: v=1; a=openpgp-sha256; l=3329;
  i=dmitry.baryshkov@linaro.org; h=from:subject:message-id;
- bh=DFAh3NKLCMzL120f+oFd/fyT9CXy+jx6bI/mJAUdqN0=;
- b=owEBbQGS/pANAwAKAYs8ij4CKSjVAcsmYgBlovjW4B6beCENV5/96moOaMSzx2h+m+EJaFunL
- SthbyEEWY2JATMEAAEKAB0WIQRMcISVXLJjVvC4lX+LPIo+Aiko1QUCZaL41gAKCRCLPIo+Aiko
- 1aCJB/91Cw/8WKjyEpSIFaaHXcsRjP6p85e6/a/7FdD7cuRjSfW8kepdL17IrwnUK+i2Q0xwLnX
- xX16b70KjG4G7vkM6zQMZtvR7jTqglUIkIPwxu9pkPnuJBUj7/TImgzzDsaY+z1SVo8hF50iPPw
- KxsrPhgDEIoLOOls1Jqze+HRaqp66PsRl2Qp+Da9bnC6ij1ech7MWsshoiA8R+29ljeH2wcWeqQ
- w+Fik+qyIUtQJEGv7H/y4GiFDtJmkqT9GifaK2QPzq5EIYc8h15LRZtZRaTkgo8zK7sU/UhPRAa
- QCFhZAxajUCLimoZgB4K1iyX3jONmza/VNmI7rgzUooJTPCt
+ bh=z5+t2zMtCUTK2jAH3Na6Dy0WZ3qbhWesIMT9Xe4mLP0=;
+ b=owEBbQGS/pANAwAKAYs8ij4CKSjVAcsmYgBlovjWutHD8dgmfbirhS+ilRzPSltZh4mmoLSRw
+ 7qlo8M1gr+JATMEAAEKAB0WIQRMcISVXLJjVvC4lX+LPIo+Aiko1QUCZaL41gAKCRCLPIo+Aiko
+ 1Ul2CACZOa4wBBNnNriCeL6gs9SGIyTin6NraWodtejNTjEut+tW+Kyau1DYOqb3qSDeSrtEIuv
+ gzWQygA23AfEa/91MziX9+4/F4MPiIrHvrXefEgMJmE47SfDP+wvtde2SdpEJupQ0KoJuc99WY1
+ EHHPHvR/R+8SGhz2yQvD/XI6ExtpqKOH1PSq5JNLWZ04/3rdytEqVIXijszSTeJTmH7PDlNCe7N
+ braqXqgTx8MK9iMCBlN4scbuQr9Zf1maCVRw5H6j7af4livmCeSeYyOPw+69GFXKnur6zO7PSdU
+ iqcZi+H9BhfTL8n3umcXHL/kDZRu4wcx/jTpXYgULmFcrt4Z
 X-Developer-Key: i=dmitry.baryshkov@linaro.org; a=openpgp;
  fpr=8F88381DD5C873E4AE487DA5199BF1243632046A
 
-Extend the Qualcomm USB-C QMP PHY schema with the USB-C related entry
-points: orientation-switch property and USB-C connection graph.
+The function qcom_pmic_typec_set_roles() passes enum values as boolean
+values to qcom_pmic_typec_pdphy_set_roles(), which then interprets them
+as bit values. Be more explicit about it, pass enum values directly and
+compute corresponding bit masks in qcom_pmic_typec_pdphy_set_roles().
 
-Reviewed-by: Bryan O'Donoghue <bryan.odonoghue@linaro.org>
 Signed-off-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
 ---
- .../bindings/phy/qcom,msm8998-qmp-usb3-phy.yaml    | 39 ++++++++++++++++++++++
- 1 file changed, 39 insertions(+)
+ drivers/usb/typec/tcpm/qcom/qcom_pmic_typec.c       | 2 +-
+ drivers/usb/typec/tcpm/qcom/qcom_pmic_typec_pdphy.c | 8 +++++---
+ drivers/usb/typec/tcpm/qcom/qcom_pmic_typec_pdphy.h | 3 ++-
+ 3 files changed, 8 insertions(+), 5 deletions(-)
 
-diff --git a/Documentation/devicetree/bindings/phy/qcom,msm8998-qmp-usb3-phy.yaml b/Documentation/devicetree/bindings/phy/qcom,msm8998-qmp-usb3-phy.yaml
-index 868fabd44d72..da5d4cbca24c 100644
---- a/Documentation/devicetree/bindings/phy/qcom,msm8998-qmp-usb3-phy.yaml
-+++ b/Documentation/devicetree/bindings/phy/qcom,msm8998-qmp-usb3-phy.yaml
-@@ -50,6 +50,22 @@ properties:
-   "#phy-cells":
-     const: 0
+diff --git a/drivers/usb/typec/tcpm/qcom/qcom_pmic_typec.c b/drivers/usb/typec/tcpm/qcom/qcom_pmic_typec.c
+index 1a2b4bddaa97..a243648abb4a 100644
+--- a/drivers/usb/typec/tcpm/qcom/qcom_pmic_typec.c
++++ b/drivers/usb/typec/tcpm/qcom/qcom_pmic_typec.c
+@@ -123,7 +123,7 @@ static int qcom_pmic_typec_set_roles(struct tcpc_dev *tcpc, bool attached,
+ 	struct pmic_typec *tcpm = tcpc_to_tcpm(tcpc);
  
-+  orientation-switch:
-+    description:
-+      Flag the PHY as possible handler of USB Type-C orientation switching
-+    type: boolean
-+
-+  ports:
-+    $ref: /schemas/graph.yaml#/properties/ports
-+    properties:
-+      port@0:
-+        $ref: /schemas/graph.yaml#/properties/port
-+        description: Output endpoint of the PHY
-+
-+      port@1:
-+        $ref: /schemas/graph.yaml#/properties/port
-+        description: Incoming endpoint from the USB controller
-+
- required:
-   - compatible
-   - reg
-@@ -129,4 +145,27 @@ examples:
+ 	return qcom_pmic_typec_pdphy_set_roles(tcpm->pmic_typec_pdphy,
+-					       data_role, power_role);
++					       power_role, data_role);
+ }
  
-       vdda-phy-supply = <&vreg_l1a_0p875>;
-       vdda-pll-supply = <&vreg_l2a_1p2>;
-+
-+      orientation-switch;
-+
-+      ports {
-+        #address-cells = <1>;
-+        #size-cells = <0>;
-+
-+        port@0 {
-+          reg = <0>;
-+
-+          endpoint {
-+            remote-endpoint = <&pmic_typec_mux_in>;
-+          };
-+        };
-+
-+        port@1 {
-+          reg = <1>;
-+
-+          endpoint {
-+            remote-endpoint = <&usb_dwc3_ss>;
-+          };
-+        };
-+      };
-     };
+ static int qcom_pmic_typec_set_pd_rx(struct tcpc_dev *tcpc, bool on)
+diff --git a/drivers/usb/typec/tcpm/qcom/qcom_pmic_typec_pdphy.c b/drivers/usb/typec/tcpm/qcom/qcom_pmic_typec_pdphy.c
+index 52c81378e36e..44d8342ed0ad 100644
+--- a/drivers/usb/typec/tcpm/qcom/qcom_pmic_typec_pdphy.c
++++ b/drivers/usb/typec/tcpm/qcom/qcom_pmic_typec_pdphy.c
+@@ -354,7 +354,8 @@ int qcom_pmic_typec_pdphy_set_pd_rx(struct pmic_typec_pdphy *pmic_typec_pdphy, b
+ }
+ 
+ int qcom_pmic_typec_pdphy_set_roles(struct pmic_typec_pdphy *pmic_typec_pdphy,
+-				    bool data_role_host, bool power_role_src)
++				    enum typec_role power_role,
++				    enum typec_data_role data_role)
+ {
+ 	struct device *dev = pmic_typec_pdphy->dev;
+ 	unsigned long flags;
+@@ -366,12 +367,13 @@ int qcom_pmic_typec_pdphy_set_roles(struct pmic_typec_pdphy *pmic_typec_pdphy,
+ 				 pmic_typec_pdphy->base + USB_PDPHY_MSG_CONFIG_REG,
+ 				 MSG_CONFIG_PORT_DATA_ROLE |
+ 				 MSG_CONFIG_PORT_POWER_ROLE,
+-				 data_role_host << 3 | power_role_src << 2);
++				 (data_role == TYPEC_HOST ? MSG_CONFIG_PORT_DATA_ROLE : 0) |
++				 (power_role == TYPEC_SOURCE ? MSG_CONFIG_PORT_POWER_ROLE : 0));
+ 
+ 	spin_unlock_irqrestore(&pmic_typec_pdphy->lock, flags);
+ 
+ 	dev_dbg(dev, "pdphy_set_roles: data_role_host=%d power_role_src=%d\n",
+-		data_role_host, power_role_src);
++		data_role, power_role);
+ 
+ 	return ret;
+ }
+diff --git a/drivers/usb/typec/tcpm/qcom/qcom_pmic_typec_pdphy.h b/drivers/usb/typec/tcpm/qcom/qcom_pmic_typec_pdphy.h
+index e67954e31b14..070822dc6f17 100644
+--- a/drivers/usb/typec/tcpm/qcom/qcom_pmic_typec_pdphy.h
++++ b/drivers/usb/typec/tcpm/qcom/qcom_pmic_typec_pdphy.h
+@@ -107,7 +107,8 @@ int qcom_pmic_typec_pdphy_start(struct pmic_typec_pdphy *pmic_typec_pdphy,
+ void qcom_pmic_typec_pdphy_stop(struct pmic_typec_pdphy *pmic_typec_pdphy);
+ 
+ int qcom_pmic_typec_pdphy_set_roles(struct pmic_typec_pdphy *pmic_typec_pdphy,
+-				    bool power_role_src, bool data_role_host);
++				    enum typec_role power_role,
++				    enum typec_data_role data_role);
+ 
+ int qcom_pmic_typec_pdphy_set_pd_rx(struct pmic_typec_pdphy *pmic_typec_pdphy, bool on);
+ 
 
 -- 
 2.39.2
