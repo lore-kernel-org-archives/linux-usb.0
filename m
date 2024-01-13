@@ -1,50 +1,51 @@
-Received: from mail-lj1-f177.google.com (mail-lj1-f177.google.com [209.85.208.177])
+Received: from mail-lj1-f178.google.com (mail-lj1-f178.google.com [209.85.208.178])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 04F061A704
-	for <linux-usb@vger.kernel.org>; Sat, 13 Jan 2024 05:42:50 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E7E5318EBD
+	for <linux-usb@vger.kernel.org>; Sat, 13 Jan 2024 05:42:52 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="CDJB844q"
-Received: by mail-lj1-f177.google.com with SMTP id 38308e7fff4ca-2cd7e348311so41122101fa.2
-        for <linux-usb@vger.kernel.org>; Fri, 12 Jan 2024 21:42:50 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="J5iXCdN/"
+Received: by mail-lj1-f178.google.com with SMTP id 38308e7fff4ca-2ccae380df2so78133901fa.1
+        for <linux-usb@vger.kernel.org>; Fri, 12 Jan 2024 21:42:52 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1705124569; x=1705729369; darn=vger.kernel.org;
+        d=linaro.org; s=google; t=1705124571; x=1705729371; darn=vger.kernel.org;
         h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
          :mime-version:subject:date:from:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=d12MD9AC8SeyHkBIK/5KAVEftigfYpJ4k/r4ZiuaTXE=;
-        b=CDJB844qVVrsnwDnWTYTwOBGfUh5tuzBIiB078ZOrO3lZlrWFv2nkxjPbdDb3lL1P6
-         WP+XgoEdNBp2kr5gDXFMT0kdSnQEFM7C9LKwerlLE5To76jNxZdE6cdEz7oWhWJTsxN9
-         gURt/ydzkzhypsk+3QoSJHQmYOfeJGCu6vZebkfDFfLWufY3+aCDa6wyS4HR00+nRN5s
-         8ZLY0Vm0C7rHQk+Iowb0h/VBHdtwUFty6hz0g084Osz0OQGAl2CipAtXFeNwokOKPM5c
-         JL52NWbYCDCzWYsB4pel51O7JznLmRnKbL/ShpGSwE3LpJklU7TjNrJZ6z+3eOIzPXQV
-         l7pA==
+        bh=Rt1Fx2eXQZUxhHw8olyy9wzj6/smMSugyfFHU2p7CSk=;
+        b=J5iXCdN/SOz8HT0bUB+ZiwqW78SVWukXdxHrNMrfmXFvvsE34Xr1aARi2Y9g1ADM5A
+         i3cgM+P8lXETFaIjL25Q65EVxWuU+3W7LKeP2iESKriQncfDnDNx+C5Y0s+vWvf0QxrY
+         wRm6Pp4urGtLbCqnoHaWS/fcB02Daeg1tjZHOQj2dBcjozN3baOKWJlv2galSlth6zcA
+         hhJkxUAer48ZNpkQ8aztCZei38xnRscVw8q0qmnBsym0BSiaHoEa3EMZ6bGGUEs5OOBa
+         nJDRWihD7W42Id6a1mwlGWWP27gBL5oJ7YDS84E85MCA+Rc3PQAfoqEb2jVeAZkEQpkG
+         GPGw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1705124569; x=1705729369;
+        d=1e100.net; s=20230601; t=1705124571; x=1705729371;
         h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
          :mime-version:subject:date:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=d12MD9AC8SeyHkBIK/5KAVEftigfYpJ4k/r4ZiuaTXE=;
-        b=dljMvABs+ko9wmRB2AFb48bXrg8Gj6UNJOIDsCvCN+H53hOuk/xtvM13nq2xvHFvOh
-         Myl+r2BmYLC2/7h2FfsTeOEc5DyF5Y6TLm1S3gbsz1rANB/AMq1kKi9H6pz24zuQJW/4
-         GSK0PLkHUSxgxas9aNkuNz8PIcJsqH8blHFra8JbhFDF1Ap10EmamIZn0n9H7/1PSTLC
-         bbP3OxdaP8YDzwtGW7WvNA/bmYdI3uXbvBmCAvJy0Eky6QE+JXGcWBO3HP5Cok3seLre
-         CLT0u8RpLUMa/jiV2u6ihC4ybw73qxzksvcwWeKfWM1ldtUofH5F+50pBhYPrm/JbyfP
-         drew==
-X-Gm-Message-State: AOJu0Yy4dKrIMxkN6wFUbmRNciwOuElYpMZbg+ukAQNNSmRL+jvGQUc9
-	nMokU1tDRqJgZegOcGDBngb5HpLyh23iAdwoydP9Oa9/jwY4d3GU
-X-Google-Smtp-Source: AGHT+IE1XZUSX5Dg4+qeBwr+Xjedb52wdaLlYG+984QN1Q0lme9Azl0zD3oJFwvPOE3Dq9XMTYLPbw==
-X-Received: by 2002:a2e:5c44:0:b0:2cd:1d6e:74c9 with SMTP id q65-20020a2e5c44000000b002cd1d6e74c9mr1058842ljb.48.1705124569123;
-        Fri, 12 Jan 2024 21:42:49 -0800 (PST)
+        bh=Rt1Fx2eXQZUxhHw8olyy9wzj6/smMSugyfFHU2p7CSk=;
+        b=TLh3JxQZao2nzcYOuD2l25exiJMS8Wq1Vllprm38oeon/wNgfNXYVbWbaPvXEiuGIi
+         IRM0Z+Ml4XqKARuYJg7DJKjcfeEG1yxGDnqaOdCsgM9U902aj+6LFkGpLnIEKcyeAp7Q
+         ORuYNJKtd1bGe+kJtqLZMbWGPNuLihSlhe42dAnATwvWyuyQ0Fx0XDtIL5g85AX0p1Ya
+         4cMMK0aHqKarRvgdGSWyMy3PfjTeYwwgsFplhgN5y24EWu4pBc6RY17HoU00r5QIBLau
+         r8Ew+sEGqNroObErxEkkX+cJ6tpWy+0FxA3MJUZAuVHRHJ5Kyi/RXrq6sDJHCaCvi+JK
+         WBxw==
+X-Gm-Message-State: AOJu0YyERLDPsBEBYyasWY77/HeT2OX/Sx7MtRG9ZLsvEPOXbt0rJHDI
+	LhhU8SEYGIQeESODmQlRLe2hOu5LfjwSdQ==
+X-Google-Smtp-Source: AGHT+IFYL7r0H7cOwUhVd8updc6YFb5OB2cs2sH8xDnwWH/pCAT17TOk/6BBLFhB72M2J7+rrNndjQ==
+X-Received: by 2002:a2e:8906:0:b0:2cc:932e:6bc8 with SMTP id d6-20020a2e8906000000b002cc932e6bc8mr1154677lji.6.1705124571279;
+        Fri, 12 Jan 2024 21:42:51 -0800 (PST)
 Received: from umbar.lan ([192.130.178.91])
-        by smtp.gmail.com with ESMTPSA id r22-20020a2eb616000000b002cc71e9168csm677719ljn.129.2024.01.12.21.42.48
+        by smtp.gmail.com with ESMTPSA id r22-20020a2eb616000000b002cc71e9168csm677719ljn.129.2024.01.12.21.42.50
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 12 Jan 2024 21:42:48 -0800 (PST)
+        Fri, 12 Jan 2024 21:42:50 -0800 (PST)
 From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-Date: Sat, 13 Jan 2024 07:42:45 +0200
-Subject: [PATCH 08/13] phy: qcom: qmp-usb: drop dual-lane handling
+Date: Sat, 13 Jan 2024 07:42:48 +0200
+Subject: [PATCH 11/13] arm64: dts: qcom: pmi632: define USB-C related
+ blocks
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
@@ -53,7 +54,7 @@ List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20240113-pmi632-typec-v1-8-de7dfd459353@linaro.org>
+Message-Id: <20240113-pmi632-typec-v1-11-de7dfd459353@linaro.org>
 References: <20240113-pmi632-typec-v1-0-de7dfd459353@linaro.org>
 In-Reply-To: <20240113-pmi632-typec-v1-0-de7dfd459353@linaro.org>
 To: Bjorn Andersson <andersson@kernel.org>, 
@@ -72,227 +73,67 @@ To: Bjorn Andersson <andersson@kernel.org>,
 Cc: linux-arm-msm@vger.kernel.org, devicetree@vger.kernel.org, 
  linux-usb@vger.kernel.org, linux-phy@lists.infradead.org
 X-Mailer: b4 0.12.4
-X-Developer-Signature: v=1; a=openpgp-sha256; l=6405;
+X-Developer-Signature: v=1; a=openpgp-sha256; l=1645;
  i=dmitry.baryshkov@linaro.org; h=from:subject:message-id;
- bh=b1GPB44WxYBgE/14iuMK/IlDCV3YUd+x1mI0t2kqyLU=;
- b=owEBbQGS/pANAwAKAYs8ij4CKSjVAcsmYgBloiLRFa0yDt5028ieyjf7t4ftPcBN4IXYyd65I
- 5+TzuPaxPaJATMEAAEKAB0WIQRMcISVXLJjVvC4lX+LPIo+Aiko1QUCZaIi0QAKCRCLPIo+Aiko
- 1RYVB/wL0dfUw7xObMyvXwJCB2TcGZfkdqwHAheAySYsY5gLHdmQKDkHzfszqK+JUqn59qV5BhM
- 9eYm3OZbn2OR/4K7U3SrFe1ztahbz42/Cj9/0UybxxRfhQNQMiQAbBxWcIyidk3BfVUgMypT73T
- JWg1ppibivVWS9wT8mV74oYo41w2/XFPefQ8g3mET28Dgs6PBzu/g0S6MHM6co0MrnyQxjqMMOI
- WFGiM2wzoSuoIE5QTaoKQ28bI5VsBwRip6ITdy7iW8hjtnhADDY/qXwQcSUhlcpLBE8JoPcs4/R
- fs5sHSLk2WKZi2JMr1vFRjpBySG76Mz+XTdBStZHeN1YrhgJ
+ bh=b+2xLC1HSDWyK7NfHL7Qb4D4Cu0c6AyLWzMpnVJ2Bkw=;
+ b=owEBbQGS/pANAwAKAYs8ij4CKSjVAcsmYgBloiLREn5R2vwCLilh0Ije+tbpYax/p/jUu0bF7
+ p0wrWOrQaOJATMEAAEKAB0WIQRMcISVXLJjVvC4lX+LPIo+Aiko1QUCZaIi0QAKCRCLPIo+Aiko
+ 1ecTCACcoT9cfmlWMLg7FWQiVgL+vtSXFyl8GY+TiV22QRdlsM0tocTnhHu0JSgfzbuuvPiMvUb
+ hSVUr56DA1TauYDZa+dGPwkdEcxp0UvguzxOuy2Do6eW3Hlm4gIMAuRDzoBP0eVsSEmgascPf0l
+ fWZpUiZkBPgdDWoyWHEM93ggm+Y5evMgSLUZfk3/rV8KyxhIEnuZGYDMCWGg7WpLA8tbclnE7g7
+ l3Vb8YDQM2ZKUxmH4AiAuxGCx3GvjBMmFqcnGs9scaSavroMrH74upYoHMvQ6Xym68WTnaHfATe
+ xdVOOWg1BFJAj2jJvKzJSPkeZBY2frZqHRl90ZL0X6MaeyuR
 X-Developer-Key: i=dmitry.baryshkov@linaro.org; a=openpgp;
  fpr=8F88381DD5C873E4AE487DA5199BF1243632046A
 
-Now as all dual-lane PHYs have been migrated to a new driver, drop
-support for dual lanes configuration. If the PHY uses two lanes for USB,
-it is symthom that it should use either a combo USB+DP or a USB-C PHY
-driver.
+Define VBUS regulator and the Type-C handling block as present on the
+Quacomm PMI632 PMIC.
 
 Signed-off-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
 ---
- drivers/phy/qualcomm/phy-qcom-qmp-usb.c | 57 +--------------------------------
- 1 file changed, 1 insertion(+), 56 deletions(-)
+ arch/arm64/boot/dts/qcom/pmi632.dtsi | 29 +++++++++++++++++++++++++++++
+ 1 file changed, 29 insertions(+)
 
-diff --git a/drivers/phy/qualcomm/phy-qcom-qmp-usb.c b/drivers/phy/qualcomm/phy-qcom-qmp-usb.c
-index c7698369d3dc..e62539ce99a6 100644
---- a/drivers/phy/qualcomm/phy-qcom-qmp-usb.c
-+++ b/drivers/phy/qualcomm/phy-qcom-qmp-usb.c
-@@ -1237,15 +1237,10 @@ struct qmp_usb_offsets {
- 	u16 pcs_usb;
- 	u16 tx;
- 	u16 rx;
--	/* for PHYs with >= 2 lanes */
--	u16 tx2;
--	u16 rx2;
- };
+diff --git a/arch/arm64/boot/dts/qcom/pmi632.dtsi b/arch/arm64/boot/dts/qcom/pmi632.dtsi
+index 4eb79e0ce40a..ccf288ddc987 100644
+--- a/arch/arm64/boot/dts/qcom/pmi632.dtsi
++++ b/arch/arm64/boot/dts/qcom/pmi632.dtsi
+@@ -45,6 +45,35 @@ pmic@2 {
+ 		#address-cells = <1>;
+ 		#size-cells = <0>;
  
- /* struct qmp_phy_cfg - per-PHY initialization config */
- struct qmp_phy_cfg {
--	int lanes;
--
- 	const struct qmp_usb_offsets *offsets;
- 
- 	/* Init sequence for PHY blocks - serdes, tx, rx, pcs */
-@@ -1285,8 +1280,6 @@ struct qmp_usb {
- 	void __iomem *pcs_usb;
- 	void __iomem *tx;
- 	void __iomem *rx;
--	void __iomem *tx2;
--	void __iomem *rx2;
- 
- 	struct clk *pipe_clk;
- 	struct clk_bulk_data *clks;
-@@ -1393,8 +1386,6 @@ static const struct qmp_usb_offsets qmp_usb_offsets_v7 = {
- };
- 
- static const struct qmp_phy_cfg ipq8074_usb3phy_cfg = {
--	.lanes			= 1,
--
- 	.offsets		= &qmp_usb_offsets_v3,
- 
- 	.serdes_tbl		= ipq8074_usb3_serdes_tbl,
-@@ -1411,8 +1402,6 @@ static const struct qmp_phy_cfg ipq8074_usb3phy_cfg = {
- };
- 
- static const struct qmp_phy_cfg ipq9574_usb3phy_cfg = {
--	.lanes			= 1,
--
- 	.offsets		= &qmp_usb_offsets_ipq9574,
- 
- 	.serdes_tbl		= ipq9574_usb3_serdes_tbl,
-@@ -1429,8 +1418,6 @@ static const struct qmp_phy_cfg ipq9574_usb3phy_cfg = {
- };
- 
- static const struct qmp_phy_cfg msm8996_usb3phy_cfg = {
--	.lanes			= 1,
--
- 	.offsets		= &qmp_usb_offsets_v3,
- 
- 	.serdes_tbl		= msm8996_usb3_serdes_tbl,
-@@ -1447,8 +1434,6 @@ static const struct qmp_phy_cfg msm8996_usb3phy_cfg = {
- };
- 
- static const struct qmp_phy_cfg sa8775p_usb3_uniphy_cfg = {
--	.lanes			= 1,
--
- 	.offsets		= &qmp_usb_offsets_v5,
- 
- 	.serdes_tbl		= sc8280xp_usb3_uniphy_serdes_tbl,
-@@ -1467,8 +1452,6 @@ static const struct qmp_phy_cfg sa8775p_usb3_uniphy_cfg = {
- };
- 
- static const struct qmp_phy_cfg sc8280xp_usb3_uniphy_cfg = {
--	.lanes			= 1,
--
- 	.offsets		= &qmp_usb_offsets_v5,
- 
- 	.serdes_tbl		= sc8280xp_usb3_uniphy_serdes_tbl,
-@@ -1487,8 +1470,6 @@ static const struct qmp_phy_cfg sc8280xp_usb3_uniphy_cfg = {
- };
- 
- static const struct qmp_phy_cfg qmp_v3_usb3_uniphy_cfg = {
--	.lanes			= 1,
--
- 	.offsets		= &qmp_usb_offsets_v3,
- 
- 	.serdes_tbl		= qmp_v3_usb3_uniphy_serdes_tbl,
-@@ -1507,8 +1488,6 @@ static const struct qmp_phy_cfg qmp_v3_usb3_uniphy_cfg = {
- };
- 
- static const struct qmp_phy_cfg sm8150_usb3_uniphy_cfg = {
--	.lanes			= 1,
--
- 	.offsets		= &qmp_usb_offsets_v4,
- 
- 	.serdes_tbl		= sm8150_usb3_uniphy_serdes_tbl,
-@@ -1530,8 +1509,6 @@ static const struct qmp_phy_cfg sm8150_usb3_uniphy_cfg = {
- };
- 
- static const struct qmp_phy_cfg sm8250_usb3_uniphy_cfg = {
--	.lanes			= 1,
--
- 	.offsets		= &qmp_usb_offsets_v4,
- 
- 	.serdes_tbl		= sm8150_usb3_uniphy_serdes_tbl,
-@@ -1553,8 +1530,6 @@ static const struct qmp_phy_cfg sm8250_usb3_uniphy_cfg = {
- };
- 
- static const struct qmp_phy_cfg sdx55_usb3_uniphy_cfg = {
--	.lanes			= 1,
--
- 	.offsets		= &qmp_usb_offsets_v4,
- 
- 	.serdes_tbl		= sm8150_usb3_uniphy_serdes_tbl,
-@@ -1576,8 +1551,6 @@ static const struct qmp_phy_cfg sdx55_usb3_uniphy_cfg = {
- };
- 
- static const struct qmp_phy_cfg sdx65_usb3_uniphy_cfg = {
--	.lanes			= 1,
--
- 	.offsets		= &qmp_usb_offsets_v5,
- 
- 	.serdes_tbl		= sm8150_usb3_uniphy_serdes_tbl,
-@@ -1599,7 +1572,6 @@ static const struct qmp_phy_cfg sdx65_usb3_uniphy_cfg = {
- };
- 
- static const struct qmp_phy_cfg sdx75_usb3_uniphy_cfg = {
--	.lanes			= 1,
- 	.offsets		= &qmp_usb_offsets_v6,
- 
- 	.serdes_tbl		= sdx75_usb3_uniphy_serdes_tbl,
-@@ -1621,8 +1593,6 @@ static const struct qmp_phy_cfg sdx75_usb3_uniphy_cfg = {
- };
- 
- static const struct qmp_phy_cfg sm8350_usb3_uniphy_cfg = {
--	.lanes			= 1,
--
- 	.offsets		= &qmp_usb_offsets_v5,
- 
- 	.serdes_tbl		= sm8150_usb3_uniphy_serdes_tbl,
-@@ -1644,8 +1614,6 @@ static const struct qmp_phy_cfg sm8350_usb3_uniphy_cfg = {
- };
- 
- static const struct qmp_phy_cfg x1e80100_usb3_uniphy_cfg = {
--	.lanes			= 1,
--
- 	.offsets		= &qmp_usb_offsets_v7,
- 
- 	.serdes_tbl		= x1e80100_usb3_uniphy_serdes_tbl,
-@@ -1780,11 +1748,6 @@ static int qmp_usb_power_on(struct phy *phy)
- 	qmp_usb_configure_lane(tx, cfg->tx_tbl, cfg->tx_tbl_num, 1);
- 	qmp_usb_configure_lane(rx, cfg->rx_tbl, cfg->rx_tbl_num, 1);
- 
--	if (cfg->lanes >= 2) {
--		qmp_usb_configure_lane(qmp->tx2, cfg->tx_tbl, cfg->tx_tbl_num, 2);
--		qmp_usb_configure_lane(qmp->rx2, cfg->rx_tbl, cfg->rx_tbl_num, 2);
--	}
--
- 	qmp_usb_configure(pcs, cfg->pcs_tbl, cfg->pcs_tbl_num);
- 
- 	if (pcs_usb)
-@@ -2131,7 +2094,6 @@ static int qmp_usb_parse_dt_legacy(struct qmp_usb *qmp, struct device_node *np)
- 	/*
- 	 * Get memory resources for the PHY:
- 	 * Resources are indexed as: tx -> 0; rx -> 1; pcs -> 2.
--	 * For dual lane PHYs: tx2 -> 3, rx2 -> 4, pcs_misc (optional) -> 5
- 	 * For single lane PHYs: pcs_misc (optional) -> 3.
- 	 */
- 	qmp->tx = devm_of_iomap(dev, np, 0, NULL);
-@@ -2149,19 +2111,7 @@ static int qmp_usb_parse_dt_legacy(struct qmp_usb *qmp, struct device_node *np)
- 	if (cfg->pcs_usb_offset)
- 		qmp->pcs_usb = qmp->pcs + cfg->pcs_usb_offset;
- 
--	if (cfg->lanes >= 2) {
--		qmp->tx2 = devm_of_iomap(dev, np, 3, NULL);
--		if (IS_ERR(qmp->tx2))
--			return PTR_ERR(qmp->tx2);
--
--		qmp->rx2 = devm_of_iomap(dev, np, 4, NULL);
--		if (IS_ERR(qmp->rx2))
--			return PTR_ERR(qmp->rx2);
--
--		qmp->pcs_misc = devm_of_iomap(dev, np, 5, NULL);
--	} else {
--		qmp->pcs_misc = devm_of_iomap(dev, np, 3, NULL);
--	}
-+	qmp->pcs_misc = devm_of_iomap(dev, np, 3, NULL);
- 
- 	if (IS_ERR(qmp->pcs_misc)) {
- 		dev_vdbg(dev, "PHY pcs_misc-reg not used\n");
-@@ -2213,11 +2163,6 @@ static int qmp_usb_parse_dt(struct qmp_usb *qmp)
- 	qmp->tx = base + offs->tx;
- 	qmp->rx = base + offs->rx;
- 
--	if (cfg->lanes >= 2) {
--		qmp->tx2 = base + offs->tx2;
--		qmp->rx2 = base + offs->rx2;
--	}
--
- 	ret = qmp_usb_clk_init(qmp);
- 	if (ret)
- 		return ret;
++		pmi632_vbus: usb-vbus-regulator@1100 {
++			compatible = "qcom,pmi632-vbus-reg", "qcom,pm8150b-vbus-reg";
++			status = "disabled";
++			reg = <0x1100>;
++		};
++
++		pmi632_typec: typec@1500 {
++			compatible = "qcom,pmi632-typec";
++			status = "disabled";
++			reg = <0x1500>;
++			interrupts = <0x2 0x15 0x00 IRQ_TYPE_EDGE_RISING>,
++				     <0x2 0x15 0x01 IRQ_TYPE_EDGE_BOTH>,
++				     <0x2 0x15 0x02 IRQ_TYPE_EDGE_RISING>,
++				     <0x2 0x15 0x03 IRQ_TYPE_EDGE_BOTH>,
++				     <0x2 0x15 0x04 IRQ_TYPE_EDGE_RISING>,
++				     <0x2 0x15 0x05 IRQ_TYPE_EDGE_RISING>,
++				     <0x2 0x15 0x06 IRQ_TYPE_EDGE_BOTH>,
++				     <0x2 0x15 0x07 IRQ_TYPE_EDGE_RISING>;
++			interrupt-names = "or-rid-detect-change",
++					  "vpd-detect",
++					  "cc-state-change",
++					  "vconn-oc",
++					  "vbus-change",
++					  "attach-detach",
++					  "legacy-cable-detect",
++					  "try-snk-src-detect";
++			vdd-vbus-supply = <&pmi632_vbus>;
++		};
++
+ 		pmi632_temp: temp-alarm@2400 {
+ 			compatible = "qcom,spmi-temp-alarm";
+ 			reg = <0x2400>;
 
 -- 
 2.39.2
