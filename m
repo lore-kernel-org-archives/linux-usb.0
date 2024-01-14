@@ -1,110 +1,88 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.9])
+Received: from mx0b-0016f401.pphosted.com (mx0a-0016f401.pphosted.com [67.231.148.174])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 50B8E3C36;
-	Sun, 14 Jan 2024 17:06:31 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 948ACCA42;
+	Sun, 14 Jan 2024 17:22:18 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=marvell.com
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.helo=mx0b-0016f401.pphosted.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Vgi2LRGB"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1705251993; x=1736787993;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=kBypvo3nEuuDndZPzEooAarNiHapFV9jzwSKYnqP4Ss=;
-  b=Vgi2LRGB1y72El36q9UJ7MXjaAG1tm7r83zy8MRfiPK9eocmFHKCZ96a
-   V+c/vHksOWc9E4e9cC1qlZ98raftTBxahB/sBtzHX81wGj9HucHiGKGmw
-   jo12A03ZKOWxifW5929s9A9aWHm2TuspsddowrgKEeE1G7GB6WPGlLayb
-   eJbmEiz+u2QYJgYFqHMsfrLu1EfCjeO8MkCcPSIHYJmW7s2tGVvrg29Jy
-   Y0PNGg4HqyR4tNGg6b/x3jxIdkYNCPyA6yiI772oToIPL+gw6y4BY6f+p
-   0iyU6PrATxS2iKuA14tQvUv7svHGBRIJ5PMQ/qX3xGUtICrnAU7Aw3W0k
-   g==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10953"; a="18081194"
-X-IronPort-AV: E=Sophos;i="6.04,194,1695711600"; 
-   d="scan'208";a="18081194"
-Received: from orsmga002.jf.intel.com ([10.7.209.21])
-  by orvoesa101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 14 Jan 2024 09:06:32 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10953"; a="783579560"
-X-IronPort-AV: E=Sophos;i="6.04,194,1695711600"; 
-   d="scan'208";a="783579560"
-Received: from smile.fi.intel.com ([10.237.72.54])
-  by orsmga002.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 14 Jan 2024 09:06:28 -0800
-Received: from andy by smile.fi.intel.com with local (Exim 4.97)
-	(envelope-from <andriy.shevchenko@intel.com>)
-	id 1rP3pP-0000000Dy2n-46Gw;
-	Sun, 14 Jan 2024 18:59:19 +0200
-Date: Sun, 14 Jan 2024 18:59:19 +0200
-From: Andy Shevchenko <andriy.shevchenko@intel.com>
-To: Hardik Gajjar <hgajjar@de.adit-jv.com>,
-	Ferry Toth <ftoth@exalondelft.nl>
-Cc: gregkh@linuxfoundation.org, s.hauer@pengutronix.de,
-	jonathanh@nvidia.com, linux-usb@vger.kernel.org,
-	linux-kernel@vger.kernel.org, quic_linyyuan@quicinc.com,
-	paul@crapouillou.net, quic_eserrao@quicinc.com,
-	erosca@de.adit-jv.com
-Subject: Re: [PATCH v4] usb: gadget: u_ether: Replace netif_stop_queue with
- netif_device_detach
-Message-ID: <ZaQS5x-XK08Jre6I@smile.fi.intel.com>
-References: <20231006153808.9758-1-hgajjar@de.adit-jv.com>
- <20231006155646.12938-1-hgajjar@de.adit-jv.com>
+	dkim=fail reason="signature verification failed" (2048-bit key) header.d=marvell.com header.i=@marvell.com header.b="Qp35Crx/"
+Received: from pps.filterd (m0045849.ppops.net [127.0.0.1])
+	by mx0a-0016f401.pphosted.com (8.17.1.24/8.17.1.24) with ESMTP id 40EGPmNC028268;
+	Sun, 14 Jan 2024 09:22:02 -0800
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=marvell.com; h=
+	from:to:cc:subject:date:message-id:in-reply-to:references
+	:mime-version:content-transfer-encoding:content-type; s=
+	pfpt0220; bh=E5WheNxtE7KIkYNksOdMvdibyOlZ+13KdYGfnetHwPQ=; b=Qp3
+	5Crx/5wb1l1BKN0t7tyocWgwSMQUsJFKkQFVr+VlNUhjMXHXJDitfydM23KLmP3r
+	uY8Fk3zGN6+sovJ2o0F5/+H9kpsRZ/fdMMTVJYqJhaidcd4wGa1/OBOrVvtwkjMr
+	955nSKJlY6A3ikOrwohSSIqCAzDKXnm+1r00AoOzk/DbmR9ZB+2a9XrBmslFZtuX
+	YoCvjcsuiOgd6hrPZCtPd1aJH9ZlfVFeudmQ0T/4rRuJy1HjQlhOSgx9K77YpEC4
+	zY7ytYwxIjzQg3Pljp9ZCtwGHJmuaDmbDjP7a0pndBluJgwK03/fYx5oVfk4Z7r2
+	QcvpKwakhecwNhLQGag==
+Received: from dc5-exch01.marvell.com ([199.233.59.181])
+	by mx0a-0016f401.pphosted.com (PPS) with ESMTPS id 3vmj24g66u-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-SHA384 bits=256 verify=NOT);
+	Sun, 14 Jan 2024 09:22:02 -0800 (PST)
+Received: from DC5-EXCH02.marvell.com (10.69.176.39) by DC5-EXCH01.marvell.com
+ (10.69.176.38) with Microsoft SMTP Server (TLS) id 15.0.1497.48; Sun, 14 Jan
+ 2024 09:22:01 -0800
+Received: from maili.marvell.com (10.69.176.80) by DC5-EXCH02.marvell.com
+ (10.69.176.39) with Microsoft SMTP Server id 15.0.1497.48 via Frontend
+ Transport; Sun, 14 Jan 2024 09:22:01 -0800
+Received: from dc3lp-swdev041.marvell.com (dc3lp-swdev041.marvell.com [10.6.60.191])
+	by maili.marvell.com (Postfix) with ESMTP id A62A95E6872;
+	Sun, 14 Jan 2024 09:21:58 -0800 (PST)
+From: Elad Nachman <enachman@marvell.com>
+To: <gregkh@linuxfoundation.org>,
+        rowland.harvard.edu@mx0a-0016f401.pphosted.com, <robh+dt@kernel.org>,
+        <krzysztof.kozlowski+dt@linaro.org>, <conor+dt@kernel.org>,
+        <devicetree@vger.kernel.org>, <linux-usb@vger.kernel.org>,
+        <linux-kernel@vger.kernel.org>
+CC: <enachman@marvell.com>
+Subject: [PATCH v4 1/2] dt-bindings: usb: Add Marvell ac5
+Date: Sun, 14 Jan 2024 19:21:53 +0200
+Message-ID: <20240114172154.2622275-2-enachman@marvell.com>
+X-Mailer: git-send-email 2.25.1
+In-Reply-To: <20240114172154.2622275-1-enachman@marvell.com>
+References: <20240114172154.2622275-1-enachman@marvell.com>
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20231006155646.12938-1-hgajjar@de.adit-jv.com>
-Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+X-Proofpoint-ORIG-GUID: JhQHn7g1R_7aAEHXoMKbfFbne6enF0oS
+X-Proofpoint-GUID: JhQHn7g1R_7aAEHXoMKbfFbne6enF0oS
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.272,Aquarius:18.0.997,Hydra:6.0.619,FMLib:17.11.176.26
+ definitions=2023-12-09_02,2023-12-07_01,2023-05-22_02
 
-+Cc: Ferry.
+From: Elad Nachman <enachman@marvell.com>
 
-On Fri, Oct 06, 2023 at 05:56:46PM +0200, Hardik Gajjar wrote:
-> This patch replaces the usage of netif_stop_queue with netif_device_detach
-> in the u_ether driver. The netif_device_detach function not only stops all
-> tx queues by calling netif_tx_stop_all_queues but also marks the device as
-> removed by clearing the __LINK_STATE_PRESENT bit.
-> 
-> This change helps notify user space about the disconnection of the device
-> more effectively, compared to netif_stop_queue, which only stops a single
-> transmit queue.
+Add Marvell ac5 device tree bindings to generic EHCI.
+This compatible enables the Marvell Orion platform code
+to properly configure the DMA mask for the Marvell AC5 SOC.
 
-This change effectively broke my USB ether setup.
+Signed-off-by: Elad Nachman <enachman@marvell.com>
+---
+ Documentation/devicetree/bindings/usb/generic-ehci.yaml | 1 +
+ 1 file changed, 1 insertion(+)
 
-git bisect start
-# status: waiting for both good and bad commits
-# good: [1f24458a1071f006e3f7449c08ae0f12af493923] Merge tag 'tty-6.7-rc1' of git://git.kernel.org/pub/scm/linux/kernel/git/gregkh/tty
-git bisect good 1f24458a1071f006e3f7449c08ae0f12af493923
-# status: waiting for bad commit, 1 good commit known
-# bad: [2c40c1c6adab90ee4660caf03722b3a3ec67767b] Merge tag 'usb-6.7-rc1' of git://git.kernel.org/pub/scm/linux/kernel/git/gregkh/usb
-git bisect bad 2c40c1c6adab90ee4660caf03722b3a3ec67767b
-# bad: [17d6b82d2d6d467149874b883cdba844844b996d] usb/usbip: fix wrong data added to platform device
-git bisect bad 17d6b82d2d6d467149874b883cdba844844b996d
-# good: [ba6b83a910b6d8a9379bda55cbf06cb945473a96] usb: xhci-mtk: add a bandwidth budget table
-git bisect good ba6b83a910b6d8a9379bda55cbf06cb945473a96
-# good: [dddc00f255415b826190cfbaa5d6dbc87cd9ded1] Revert "usb: gadget: uvc: cleanup request when not in correct state"
-git bisect good dddc00f255415b826190cfbaa5d6dbc87cd9ded1
-# bad: [8f999ce60ea3d47886b042ef1f22bb184b6e9c59] USB: typec: tps6598x: Refactor tps6598x port registration
-git bisect bad 8f999ce60ea3d47886b042ef1f22bb184b6e9c59
-# bad: [f49449fbc21e7e9550a5203902d69c8ae7dfd918] usb: gadget: u_ether: Replace netif_stop_queue with netif_device_detach
-git bisect bad f49449fbc21e7e9550a5203902d69c8ae7dfd918
-# good: [97475763484245916735a1aa9a3310a01d46b008] USB: usbip: fix stub_dev hub disconnect
-git bisect good 97475763484245916735a1aa9a3310a01d46b008
-# good: [0f5aa1b01263b8b621bc4f031a1f2983ef8517b7] usb: usbtest: fix a type promotion bug
-git bisect good 0f5aa1b01263b8b621bc4f031a1f2983ef8517b7
-# first bad commit: [f49449fbc21e7e9550a5203902d69c8ae7dfd918] usb: gadget: u_ether: Replace netif_stop_queue with netif_device_detach
-
-Note, revert indeed helps. Should I send a revert?
-
-I use configfs to setup USB EEM function and it worked till this commit.
-If needed, I can share my scripts, but I believe it's not needed as here
-we see a clear regression.
-
+diff --git a/Documentation/devicetree/bindings/usb/generic-ehci.yaml b/Documentation/devicetree/bindings/usb/generic-ehci.yaml
+index 87986c45be88..2ed178f16a78 100644
+--- a/Documentation/devicetree/bindings/usb/generic-ehci.yaml
++++ b/Documentation/devicetree/bindings/usb/generic-ehci.yaml
+@@ -77,6 +77,7 @@ properties:
+           - const: usb-ehci
+       - enum:
+           - generic-ehci
++          - marvell,ac5-ehci
+           - marvell,armada-3700-ehci
+           - marvell,orion-ehci
+           - nuvoton,npcm750-ehci
 -- 
-With Best Regards,
-Andy Shevchenko
-
+2.25.1
 
