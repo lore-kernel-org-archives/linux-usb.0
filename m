@@ -1,132 +1,148 @@
-Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com [205.220.168.131])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.12])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BFFD214A97;
-	Wed, 17 Jan 2024 09:35:18 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.168.131
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9A14614296
+	for <linux-usb@vger.kernel.org>; Wed, 17 Jan 2024 10:44:32 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.12
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1705484120; cv=none; b=m/Z8g+2c7nyHnb2NtVxMS3tdsa9H+UJ4gEy0/lB/hcHitFjY0X7crZW5SjDnmy7aHPGGrRE/OXXfgCn2C4zlloedwg2eMglK7VHS7ED12C5VQx/UZENg5iHjs2524jCPxQZEZUpnyW+c1uXHAOR5hg9Xdpr3jNuZiYtxUKbCiGU=
+	t=1705488274; cv=none; b=iU3b6/GNF8W/L6oQLmY1UCWFE6RloiMKwll7sI689MwadMaGYdUyt0BFsZA6QPZqRaxqFq2AQAZ2/YVcPGhPUP16bH7ZNiS5L3UDjOrzrmIEjK+Ek1zXjaFVseOuzRDiMOZiJyWptVlDYCzOEAMTpK8NMoHiMcCMOoUnn/pgm1g=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1705484120; c=relaxed/simple;
-	bh=x0Kcp/pwxTMh/ECqiJKT11P/bFTpgUJY8Nj46rmjhsQ=;
-	h=Received:DKIM-Signature:Received:Received:Received:Message-ID:
-	 Date:MIME-Version:User-Agent:Subject:Content-Language:From:To:CC:
-	 References:In-Reply-To:Content-Type:Content-Transfer-Encoding:
-	 X-Originating-IP:X-ClientProxiedBy:X-QCInternal:
-	 X-Proofpoint-Virus-Version:X-Proofpoint-GUID:
-	 X-Proofpoint-ORIG-GUID:X-Proofpoint-Virus-Version:
-	 X-Proofpoint-Spam-Details; b=DSg9alKAL1JkQoCqO4h/HNmgrm2qYS/axFAZYgFGKaZSxpX+qlJ2F2j5ik59cWQQwheJjDb2iXKyGf/yCf6VCRiWesSX0lyMM3q5dRgcwOU6+ygLirDgCKwIbZdDehXw07X/db6KDdt6SJKTdg0a0sLhMqmp1EHzXB+59Q3B4Zw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=quicinc.com; spf=pass smtp.mailfrom=quicinc.com; dkim=pass (2048-bit key) header.d=quicinc.com header.i=@quicinc.com header.b=djKypmE2; arc=none smtp.client-ip=205.220.168.131
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=quicinc.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=quicinc.com
+	s=arc-20240116; t=1705488274; c=relaxed/simple;
+	bh=f7bvVGg4ClA0lc3B0+sXSbtzPtfsowE1WV0rFndqT6s=;
+	h=DKIM-Signature:X-IronPort-AV:X-IronPort-AV:Received:X-ExtLoop1:
+	 X-IronPort-AV:X-IronPort-AV:Received:Message-ID:Date:MIME-Version:
+	 User-Agent:Content-Language:To:Cc:References:From:Subject:
+	 In-Reply-To:Content-Type:Content-Transfer-Encoding; b=t02cXRgatj2OPIV9bU74X7CWfoN/rNyfR8Ns1l8GmNJnPWmR5XwZ+o0QCljQTDkfpWGgWQZvZnZ8tLpJt6sinOVZ1Lyg4+WsokMsu/N50HKcX/1oDXBVewcPJbmuO/suw3vTCGPXqM7KuH/qovWiuuBUO49Bb+8isKy4EQmQfXM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=none smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=DIiCOj/Z; arc=none smtp.client-ip=198.175.65.12
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=linux.intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=quicinc.com header.i=@quicinc.com header.b="djKypmE2"
-Received: from pps.filterd (m0279865.ppops.net [127.0.0.1])
-	by mx0a-0031df01.pphosted.com (8.17.1.24/8.17.1.24) with ESMTP id 40H6n0nh000436;
-	Wed, 17 Jan 2024 09:35:14 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com; h=
-	message-id:date:mime-version:subject:from:to:cc:references
-	:in-reply-to:content-type:content-transfer-encoding; s=
-	qcppdkim1; bh=vMOS0DlzBel23A1Z1cIJQ4jSth1nNH9SdwsW3j+1mMY=; b=dj
-	KypmE2zjnI33oLWvCF+4H3OnMNrMKyx3M0PcAiCS3nR7Fx0zvW0HbVIvOFMBr+Ra
-	eKdyZ+UkHGp2O5sGxpgnJ6aR9WXZd/4hl0kn5V6nBzkknrP3HMYZKJc62WglhZeq
-	epTh0hfLhQCWu343un13/FKGynEKOSPadgkxDM0CHmU1phNGeH+WaZSv3sJ8ENym
-	KrI6IuAuEJ49d4w1j0UDIZRx80PCgpqNser2litrmc0IhLXysnhAXBn0nEt9v0Ap
-	Pxx3hov+FJysXrTpBjCgorfTmE4Fc47NiXZt0XpPpFjrzGkt8LV60PoX2xrbI96g
-	oOHtOXWjYfMMWq7MusCA==
-Received: from nasanppmta04.qualcomm.com (i-global254.qualcomm.com [199.106.103.254])
-	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 3vnrndaw1u-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Wed, 17 Jan 2024 09:35:14 +0000 (GMT)
-Received: from nasanex01a.na.qualcomm.com (nasanex01a.na.qualcomm.com [10.52.223.231])
-	by NASANPPMTA04.qualcomm.com (8.17.1.5/8.17.1.5) with ESMTPS id 40H9ZD9N018617
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Wed, 17 Jan 2024 09:35:13 GMT
-Received: from [10.218.39.189] (10.80.80.8) by nasanex01a.na.qualcomm.com
- (10.52.223.231) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1118.40; Wed, 17 Jan
- 2024 01:35:11 -0800
-Message-ID: <8ba84432-bd07-3e59-3638-924d5fadec30@quicinc.com>
-Date: Wed, 17 Jan 2024 15:05:07 +0530
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="DIiCOj/Z"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1705488272; x=1737024272;
+  h=message-id:date:mime-version:to:cc:references:from:
+   subject:in-reply-to:content-transfer-encoding;
+  bh=f7bvVGg4ClA0lc3B0+sXSbtzPtfsowE1WV0rFndqT6s=;
+  b=DIiCOj/ZjZib1gen3v9lx0GBv50eTzTxhP8Knjd7VzKA2YLvS5vi/SfB
+   WSSTAxj7Tzt3Cl09e/OMGn8PzBl2L+wsmUYrLTo0u3NJFzow8w9X3qXnz
+   oqO0pc6xKFA9k+EiswLkb6OCQw2OoDH3NWGWUOKnuQtMSOuniFdlf1GSS
+   XJCwrhHSX9YGnqBDxWb9FmwjDTRW/auLtoenDimqf2ioGT0dMEnnrc+LR
+   wEHHd4QW8JKraSWyPqqPLllsReeJfxqTCob6BEu4oyw4K8Kiy3GmCJEzM
+   Md+XPw9MZfhltnwIK1dQX2HwDYIP77t1l5GyS53wunQ2bxAb+nkk2VQxg
+   Q==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10955"; a="7513281"
+X-IronPort-AV: E=Sophos;i="6.05,200,1701158400"; 
+   d="scan'208";a="7513281"
+Received: from fmsmga003.fm.intel.com ([10.253.24.29])
+  by orvoesa104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 17 Jan 2024 02:44:32 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,10955"; a="874786839"
+X-IronPort-AV: E=Sophos;i="6.05,200,1701158400"; 
+   d="scan'208";a="874786839"
+Received: from mattu-haswell.fi.intel.com (HELO [10.237.72.199]) ([10.237.72.199])
+  by FMSMGA003.fm.intel.com with ESMTP; 17 Jan 2024 02:44:29 -0800
+Message-ID: <f6542354-d6d1-be22-82ed-5dfa57aa8337@linux.intel.com>
+Date: Wed, 17 Jan 2024 12:46:00 +0200
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:102.0) Gecko/20100101
- Thunderbird/102.2.2
-Subject: Re: [RFC PATCH] usb: dwc3: gadget: Fix NULL pointer dereference in
- dwc3_gadget_suspend
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Firefox/102.0 Thunderbird/102.13.0
 Content-Language: en-US
-From: UTTKARSH AGGARWAL <quic_uaggarwa@quicinc.com>
-To: Kuen-Han Tsai <khtsai@google.com>
-CC: Thinh Nguyen <Thinh.Nguyen@synopsys.com>,
-        Greg Kroah-Hartman
-	<gregkh@linuxfoundation.org>,
-        <linux-kernel@vger.kernel.org>, <linux-usb@vger.kernel.org>
-References: <20240110095532.4776-1-quic_uaggarwa@quicinc.com>
- <CAKzKK0qJOz_+pNAVAD8Ub6TZ9uhFOzuDC_bws9MVzxNa7RqYhA@mail.gmail.com>
- <77ffee9a-cd77-6a09-10ee-bdf17bfca5ec@quicinc.com>
-In-Reply-To: <77ffee9a-cd77-6a09-10ee-bdf17bfca5ec@quicinc.com>
-Content-Type: text/plain; charset="UTF-8"; format=flowed
+To: =?UTF-8?Q?Micha=c5=82_Pecio?= <michal.pecio@gmail.com>
+Cc: linux-usb@vger.kernel.org
+References: <20240115172709.0b6f2bba@foxbook>
+ <20240116153618.2527463-1-mathias.nyman@linux.intel.com>
+ <20240116232045.76da750b@foxbook>
+From: Mathias Nyman <mathias.nyman@linux.intel.com>
+Subject: Re: [RFT PATCH] xhci: process isoc TD properly when there was an
+ error mid TD.
+In-Reply-To: <20240116232045.76da750b@foxbook>
+Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
-X-ClientProxiedBy: nasanex01a.na.qualcomm.com (10.52.223.231) To
- nasanex01a.na.qualcomm.com (10.52.223.231)
-X-QCInternal: smtphost
-X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800 signatures=585085
-X-Proofpoint-GUID: _imoAAgSBlqQomJwOPibXrLFUxParQxb
-X-Proofpoint-ORIG-GUID: _imoAAgSBlqQomJwOPibXrLFUxParQxb
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.272,Aquarius:18.0.997,Hydra:6.0.619,FMLib:17.11.176.26
- definitions=2024-01-17_04,2024-01-16_01,2023-05-22_02
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 spamscore=0
- lowpriorityscore=0 mlxscore=0 suspectscore=0 mlxlogscore=481 clxscore=1015
- adultscore=0 impostorscore=0 malwarescore=0 bulkscore=0 phishscore=0
- priorityscore=1501 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.19.0-2311290000 definitions=main-2401170066
 
+On 17.1.2024 0.20, Michał Pecio wrote:
+> I applied your patch on v6.7 and it appears to be working. It removes
+> the disconnection spam and also handles intermittent transmission errors
+> on UVC without obvious glitches or errors messages, except one xhci_dbg
+> added to confirm that I'm really hitting this edge case.
+> 
+> Anything else that might be worth testing?
+> 
+> 
+> I have a question, though. What happens if there is no next TD because
+> a mid TD error has occured on the last packet queued by the client? Is
+> there any mechanism to retire that stuck TD on a NEC host which submits
+> one mid TD error event and then goes silent?
 
-On 1/17/2024 2:52 PM, UTTKARSH AGGARWAL wrote:
->
-> On 1/17/2024 12:47 PM, Kuen-Han Tsai wrote:
->>>          ret = dwc3_gadget_soft_disconnect(dwc);
->>>          if (ret)
->>>                  goto err;
->> For improved readability, we can remove the goto statement and move
->> the error handling logic here.
->
-> Hi Kuen-Han,
->
-> Thanks for the suggestion.
-> Does this looks good to you ?
->
->    int ret = dwc3_gadget_soft_disconnect(dwc);if (ret) {        if 
-> (dwc->softconnect)            dwc3_gadget_soft_connect(dwc);
->
->        return ret;    }    spin_lock_irqsave(&dwc->lock, flags);    if 
-> (dwc->gadget_driver)  dwc3_disconnect_gadget(dwc); 
->  spin_unlock_irqrestore(&dwc->lock, flags);
+In disconnect cases usb core should flush the remaining URBs once
+roothub code notices the disconnect.
 
-Sorry for the mistake.
+But yes, if the last TD in a URB is a multi TRB isoc TD, and it has an error
+MID TD then its stuck until timeout.
 
-int ret = dwc3_gadget_soft_disconnect(dwc);
+> 
+> Would it be possible to retire the TD right after the first failed TRB?
+> (I imagine difficulties in determining when exactly the host has moved
+> its internal pointer past the remaining TRBs so they can be reused).
 
-if (ret) {
+Probably not as a normal error handling routine.
+We have the same "Transfer event TRB DMA ptr not part of current TD" issue
+for hosts that do issue an event for the last TRB.
 
-       if (dwc->softconnect)
+If the TD is given back immediately we also have a memory issue as the
+DMA address pointed to by that last TRB might be accessed by the controller
+_after_ driver gave back the TD, and possibly freed/unmapped it.
 
-                  dwc3_gadget_soft_connect(dwc);
+But for that special case where there are no more TDs queued it might
+make sense
 
-       return ret;
+> 
+> 
+>> -			if (!ep->skip ||
+>> -			    !usb_endpoint_xfer_isoc(&td->urb->ep->desc)) {
+>> +			if (ep->skip && usb_endpoint_xfer_isoc(&td->urb->ep->desc)) {
+> I like this. I would suggest another cleanup: the if(!ep_seg && stuf)
+> right above your change could be pulled inside if(!ep_seg).
 
-}
+Noticed the same, but for stable kernel reasons it's probably better to limit
+this patch to mostly fixing this bug.
 
-spin_lock_irqsave(&dwc->lock, flags);
+> 
+> 
+>> +			 * if there was an error event mid TD then host may not
+>> +			 * give an event for the last TRB on an isoc TD.
+>> +			 * This event can be for the next TD, See xHCI 4.9.1.
+> This seems to suggest that 4.9.1 encourages such behavior, but the
+> opposite is the case as far as I understand.
 
-if (dwc->gadget_driver)
+I'll rephrase this.
 
-        dwc3_disconnect_gadget(dwc);
+> 
+> 
+>> +			if (td->error_mid_td) {
+>> +				struct xhci_td *td_next = list_next_entry(td, td_list);
+> This if needs && !list_is_last(&td->td_list, &ep_ring->td_list).
 
-spin_unlock_irqrestore(&dwc->lock, flags);
+Thanks, nice catch, good point.
+
+> 
+> Otherwise a serious bug in the host (maybe in the driver too) tricks
+> us into grabbing a pointer to ep_ring instead, filling the subsequent
+> "TRB not part of current TD" message with mystifying garbage numbers.
+> 
+> 
+>> +				if (ep_seg) {
+>> +					/* give back previous TD, start handling new */
+> Suggested:
+>> +					xhci_dbg(xhci, "Missing completion event after mid TD error\n");
+
+Makes sense.
+
+Thanks
+Mathias
 
