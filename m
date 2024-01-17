@@ -1,98 +1,163 @@
-Received: from fanzine2.igalia.com (fanzine.igalia.com [178.60.130.6])
+Received: from nautica.notk.org (nautica.notk.org [91.121.71.147])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7AD7D14296
-	for <linux-usb@vger.kernel.org>; Wed, 17 Jan 2024 10:44:56 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=178.60.130.6
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D735714AA5;
+	Wed, 17 Jan 2024 10:55:19 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=91.121.71.147
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1705488299; cv=none; b=hZkI+buAGM1eP3OQXihPzCmK19jYxoyKTDAykq2ZmIH2rzc7GNSic3IWz7NOD86vBoF4wppxEOE3xHrUNEo2aK2Y5yqIQRHSGSZ3XQ74ws1nk/G2XpYCNKQcFJQf0B7XYYK4dXjspbW3HnvdNiD+gpT9TqjDOHkkq3L4XRGyFhc=
+	t=1705488922; cv=none; b=NW/09ZXO1kdIMweXFCmWwtk+8i3WS8A6bQwGD3CF+B3Br9R5EAORJFw4Lr2blRYcYAr9CWN4oL+g2N9urTyQb8HqLwv7vwz39fQ87yhuemx5N/TCBeNbGYA3qLfNpvDpQCEMgm2Yv/8SKc2tBqrIPhgir8ZaKQ4cft8QbDM5HXQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1705488299; c=relaxed/simple;
-	bh=hs880b/eAkQ5pFcZXxeUkW5aVNCWnQ9s1kCMMUQ3RDs=;
-	h=DKIM-Signature:Received:Message-ID:Date:MIME-Version:User-Agent:
-	 Subject:Content-Language:To:Cc:References:From:In-Reply-To:
-	 Content-Type:Content-Transfer-Encoding; b=gcjyOfKK0kBgF0kmY3PPa2fkunll7wLAwAuBRoTs3X29SVFZFSUDgS1gg919nLPMe94YpGzRZUISd5my/oOtSR1yb8I8EjA/ZkQNqF9extOGeaHKGIULRc8TlPqlCeYmIqoPdoQ4mazQwfkz0j4V2BzQ75oT4Dr3IN/OBzpp/P8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=igalia.com; spf=pass smtp.mailfrom=igalia.com; dkim=pass (2048-bit key) header.d=igalia.com header.i=@igalia.com header.b=aJf6qqZo; arc=none smtp.client-ip=178.60.130.6
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=igalia.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=igalia.com
+	s=arc-20240116; t=1705488922; c=relaxed/simple;
+	bh=X7ri6/DC7dQ0k7GmkIF8uzW4YU+DeXLsZrOtnLLUppM=;
+	h=Received:DKIM-Signature:X-Spam-Checker-Version:X-Spam-Level:
+	 X-Spam-Status:Received:DKIM-Signature:Received:Date:From:To:Cc:
+	 Subject:Message-ID:References:MIME-Version:Content-Type:
+	 Content-Disposition:Content-Transfer-Encoding:In-Reply-To; b=ehmvPuxaPYzQV4ZxmFiOILtNlKiS1vv8HsDm4smKV7DrH+wNMCS9jzJa0z2qGr4pRWR6FsgGADmxoBVN5CP4IVxZAYV67WLnaHvMfdnwOM4NpWCJv9yXwJ26tf91bsEzUqbABjZNUVDCb5a5wVJKpAKfqEYxypI7y7TV1PcROBg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=codewreck.org; spf=pass smtp.mailfrom=codewreck.org; dkim=pass (2048-bit key) header.d=codewreck.org header.i=@codewreck.org header.b=Y80toRAW; dkim=pass (2048-bit key) header.d=codewreck.org header.i=@codewreck.org header.b=t+n8lC+5; arc=none smtp.client-ip=91.121.71.147
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=codewreck.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=codewreck.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=igalia.com header.i=@igalia.com header.b="aJf6qqZo"
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=igalia.com;
-	s=20170329; h=Content-Transfer-Encoding:Content-Type:In-Reply-To:From:
-	References:Cc:To:Subject:MIME-Version:Date:Message-ID:Sender:Reply-To:
-	Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
-	Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:
-	List-Subscribe:List-Post:List-Owner:List-Archive;
-	bh=jzjKCLRJpMMgQnO1yLdJ8/DASMBJpbOZnqpwOgziowk=; b=aJf6qqZotKcoF+Z4rUkjVTYUA9
-	MHlbYRUYMevPNJK+Douzov7veVQjEvlvvwbbSULqeSHzSCK5RG8emQPxsKyRDnkZLnKknkdPG5w4n
-	m1eEDp4pLdl1ha6GQ0Akwl419q61NFnKTZMtDVIafczmApbQxe0g2nE4wJfUeWQMYPPh/WC6MhDBW
-	5CggZ7WiObDYqZ8PLeXYyc4LyA015r/cVV+Rr3Pp5l/L1GaSZQZhcT5zpWkNlsjPmHiNG9E85QtCe
-	0v8FsILxvBo5j4PcTRRCXcl61dTBNNOYXeRVtXEZAG0t6havZ5uNnSHDpCgbIh9u0B95OiJkaNyVj
-	b1FjQTTw==;
-Received: from [191.193.161.120] (helo=[192.168.1.60])
-	by fanzine2.igalia.com with esmtpsa 
-	(Cipher TLS1.3:ECDHE_X25519__RSA_PSS_RSAE_SHA256__AES_128_GCM:128) (Exim)
-	id 1rQ3PX-007Jae-4p; Wed, 17 Jan 2024 11:44:43 +0100
-Message-ID: <8b49285e-46de-c52a-ea8d-542c91ba4128@igalia.com>
-Date: Wed, 17 Jan 2024 07:44:33 -0300
+	dkim=pass (2048-bit key) header.d=codewreck.org header.i=@codewreck.org header.b="Y80toRAW";
+	dkim=pass (2048-bit key) header.d=codewreck.org header.i=@codewreck.org header.b="t+n8lC+5"
+Received: by nautica.notk.org (Postfix, from userid 108)
+	id D3D05C020; Wed, 17 Jan 2024 11:55:17 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=codewreck.org; s=2;
+	t=1705488917; bh=QPQ1kHwkpR/bSo/5dfdZfVGrQA0NVwMsugmiUUBqUUA=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=Y80toRAWRVoIuFVFMKt8O9CH9+xIjHlZIcq0xVi94TZUHBF9cwWdav3kqOXFW9J/U
+	 k8RaIOlzOZc0z/7MJ4MqxnKiO9m0DEQ7TdvvpvcZH44Q1CsJXDOpOfHJaeZrBltCtZ
+	 /ltzVpUFNJpTg75NCLpAVWwTW9IPwiGyXnU+aKDtUbgdmZjb+/mmyg0D3ERy9O3KUL
+	 KeGqo3jtpMDeDZX1JClvR9uGV9vM7BlvpqpEyeeYIXd/mu1sGy8SKUxUKZAo6dhByx
+	 MiTx+tLd2cptwL8pHDLbjQ/gWRnW8h4veeWdpUFffxclpnhYHpYnih2T0l69Ys0XJf
+	 H3NYWSe98cZCw==
+X-Spam-Level: 
+Received: from gaia.codewreck.org (localhost [127.0.0.1])
+	by nautica.notk.org (Postfix) with ESMTPS id 1EC8DC009;
+	Wed, 17 Jan 2024 11:55:12 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=codewreck.org; s=2;
+	t=1705488916; bh=QPQ1kHwkpR/bSo/5dfdZfVGrQA0NVwMsugmiUUBqUUA=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=t+n8lC+5sdDFiHuENr4ruAOhrP5KsC2TfPzE81RyUjeCaSeWq1Dg/N1SuVOBLU2wZ
+	 I01/y48CGIUHlPrJqda07B7OR1HfSzbXAy7LnjE3JBYZx0RJdUQtGBx3QNeGyecCee
+	 d8XqzNq5hdZmQHtk0uAnxxBuVXEUiQcK5k9n0dLNk5rDtC9QSK4F78HD0C4r58yLMq
+	 NlHGvCDqQ9UNxn8MdSvQcxv0gn/OxysVNbNSTao35v8v+r12I3GbnpxD4lyu4p9gr4
+	 1YPEFUO6ItprrRyMSqSKD23o+ZU/dQfP8uTFpNqWozhLSRZeynqlqq8oSkp1cbkm5y
+	 JuP4s6mfnz8zw==
+Received: from localhost (gaia.codewreck.org [local])
+	by gaia.codewreck.org (OpenSMTPD) with ESMTPA id 9ed4a2fc;
+	Wed, 17 Jan 2024 10:55:08 +0000 (UTC)
+Date: Wed, 17 Jan 2024 19:54:53 +0900
+From: Dominique Martinet <asmadeus@codewreck.org>
+To: Jan =?utf-8?B?TMO8YmJl?= <jlu@pengutronix.de>
+Cc: Michael Grzeschik <m.grzeschik@pengutronix.de>,
+	Latchesar Ionkov <lucho@ionkov.net>, linux-usb@vger.kernel.org,
+	Jonathan Corbet <corbet@lwn.net>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	v9fs@lists.linux.dev,
+	Christian Schoenebeck <linux_oss@crudebyte.com>,
+	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+	kernel@pengutronix.de, Eric Van Hensbergen <ericvh@kernel.org>
+Subject: Re: [PATCH 0/3] usb: gadget: 9pfs transport
+Message-ID: <Zaex_fkKcui7QZd7@codewreck.org>
+References: <20240116-ml-topic-u9p-v1-0-ad8c306f9a4e@pengutronix.de>
+ <ZaZsUQUhSlMPLJg0@codewreck.org>
+ <0aba51a8be0fb165b44ec956bec7a9698a9518a2.camel@pengutronix.de>
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.15.1
-Subject: Re: [PATCH] usb: dwc3: Fix spurious wakeup when port is on device
- mode
-Content-Language: en-US
-To: Thinh Nguyen <Thinh.Nguyen@synopsys.com>
-Cc: "linux-usb@vger.kernel.org" <linux-usb@vger.kernel.org>,
- "balbi@kernel.org" <balbi@kernel.org>,
- "gregkh@linuxfoundation.org" <gregkh@linuxfoundation.org>,
- "johan@kernel.org" <johan@kernel.org>,
- "quic_wcheng@quicinc.com" <quic_wcheng@quicinc.com>,
- "kernel@gpiccoli.net" <kernel@gpiccoli.net>,
- "kernel-dev@igalia.com" <kernel-dev@igalia.com>,
- Andrey Smirnov <andrew.smirnov@gmail.com>,
- Vivek Dasmohapatra <vivek@collabora.com>,
- "piyush.mehta@amd.com" <piyush.mehta@amd.com>,
- "ray.huang@amd.com" <ray.huang@amd.com>
-References: <20231122165931.443845-1-gpiccoli@igalia.com>
- <2dfbf5c9-dd38-c919-c604-618ad08ce456@igalia.com>
- <20231205012336.mn7b7f4zypwcyv6w@synopsys.com>
- <9efaed91-d246-cf3c-efc0-e866f88a943d@igalia.com>
- <d85a5507-4d4a-9e60-fbd1-68b42afb2143@igalia.com>
- <20240111020119.5u3k3csn3bi2zhtw@synopsys.com>
- <849d11d9-9302-4d76-01b6-b5046f474fda@igalia.com>
- <20240113013320.mrqqrdajrnw62kis@synopsys.com>
- <54a9b6b6-ef41-f76a-43e0-a395adddb455@igalia.com>
- <20240117003437.mxgo3ebxql4ftwjt@synopsys.com>
-From: "Guilherme G. Piccoli" <gpiccoli@igalia.com>
-In-Reply-To: <20240117003437.mxgo3ebxql4ftwjt@synopsys.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <0aba51a8be0fb165b44ec956bec7a9698a9518a2.camel@pengutronix.de>
 
-On 16/01/2024 21:34, Thinh Nguyen wrote:
-> [...]
-> Please confirm that the STEAM DECK is soft-disconnected when you put it
-> in suspend. That's the current implementation of the dwc3. If not, then
-> it's possible the activity over the wire can wake up the STEAM DECK
-> since the controller is still active.
+Jan Lübbe wrote on Tue, Jan 16, 2024 at 04:51:41PM +0100:
+> > So I didn't have time to look at everything through, just want to make
+> > sure, this series allows sharing data from an usb gadget (e.g. some
+> > device with storage) over 9p as an alternative to things like MTP ?
 > 
+> It's the other way around. :) The USB host exports a filesystem, while the
+> gadget on the USB device side makes it mountable. Our main use-case is to use it
+> as an alternative to NFS root booting during the development of embedded Linux
+> devices. NFS root works in many cases, but has some downsides, which make it
+> cumbersome to use in more and more cases.
 
-Hi Thinh, apologies again but I don't understand the terminology.
+Oh!
+Okay, this makes a lot more sense. And that'll need a bit more
+explanations in the commits & Documentation/ as you've concluded :)
 
-What do you mean by soft-disconnected? Do you have any suggestion on how
-should I check that?
+
+> NFS root needs correctly configured Ethernet interfaces on both the development
+> host and the target device. On the target, this can interfere with the network
+> configuration that is used for the normal device operation (DHCP client, ...).
+> For the host, configuring a NFS (and perhaps DHCP) server can be an obstacle.
+> 
+> For target devices which don't have a real Ethernet interface, NFS root would
+> also work with the USB Ethernet gadget, but this increases the complexity
+> further.
+> 
+> As many embedded boards have a USB device port anyway, which is used during
+> development for uploading the boot-loader and to flash filesystem images (i.e.
+> via the fastboot protocol), we want to just reuse that single data cable to
+> allow access to the root filesystem as well. 
+> 
+> Compared to flashing images, using a network filesystem like NFS and 9P reduces
+> the time between compiling on the host and running the binary on the target, as
+> no flash and reboot cycle is needed. That can get rid of many minutes of waiting
+> over a day. :)
+
+My other hat is on embedded development (dayjob at Atmark Techno[1], the
+only english page linked is about 4 years out of date but I guess it's
+better than no page at all), so I can understand where you're coming
+from -- thanks for the background.
+
+[1] https://www.atmark-techno.com/english
+
+That means I'll actually want to test this, but kind of always busy so
+it might take a few weeks...
+Or better, do you happen to know if qemu can create a USB controller
+that supports OTG so it'll be easy to test for folks with no such
+hardware?
+We've got enough 9p protocols that aren't actually tested on a regular
+basis, it'd be great if we could have something that can run anywhere. 
 
 
-> If it is soft-disconnected, but the PME is still generated after system
-> suspend, can you check if that's also the case when physically
-> disconnected?
->
+> diod (9pfs server) and the forwarder are on the development host, where the root
+> filesystem is actually stored. The gadget is initialized during boot (or later)
+> on the embedded board. Then the forwarder will find it on the USB bus and start
+> forwarding requests.
+> 
+> It may seem a bit unusual that in this case the requests come from the device
+> and are handled by the host. The reason is that USB device ports are normally
+> not available on PCs, so a connection in the other direction would not work.
 
-Again, what does it mean "physically disconnected"?
-Thanks,
+Right, most host PCs won't have OTG available...
+I was also perplexed by the linux foundation (0x1d6b):0x0109 id, that
+might be clearer once it's properly documented -- I'll let someone from
+the usb side chime on this as I have no idea what's appropriate.
 
-Guilherme
+
+> In the future, the functionality of the forwarder could be integrated into the
+> 9pfs server. Alternatively, an improved forwarder could also react to udev
+> events of gadgets showing up and forward them to different 9PFS server over the
+> network (when you have multiple target devices connected to one USB host).
+
+Plenty of potential work ahead :)
+Frankly at this stage I don't think it's much simpler than e.g. CDC
+ethernet gadget and mounting nfs over tcp, but with further improvements
+it can definitely get simpler.
+
+
+> Perhaps, the inverse setup (9PFS server on the USB gadget side, mounted on a PC)
+> also would be useful in the future and could share some of this code. Then,
+> you'd have an alternative to MTP.
+
+(Yeah, I'm not actively looking for that -- was just asking because MTP
+has been kind of dead lately and I'm not aware of any potential
+alternative, but I didn't go looking for them either -- let's leave that
+to later)
+
+-- 
+Dominique Martinet | Asmadeus
