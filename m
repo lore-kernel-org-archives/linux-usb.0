@@ -1,117 +1,242 @@
-Received: from mail-lf1-f46.google.com (mail-lf1-f46.google.com [209.85.167.46])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.88])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 64AF825611
-	for <linux-usb@vger.kernel.org>; Thu, 18 Jan 2024 13:54:57 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.46
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 75652250EF
+	for <linux-usb@vger.kernel.org>; Thu, 18 Jan 2024 13:55:33 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.55.52.88
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1705586099; cv=none; b=L4GhNrbSSLhOMr4t6PbwVmxoKESH8nF41FV6AqAsoEMFeqk+Q0woM4L7Q9Y9OzZHFb5z2Qwar29u4sXSE4Wuxd90NempRVuzET0UVHNZs9hYq7YbEGKCtE/Bovcn1vqUNUCkg4mXCEjAWRsv698t8y/OfZuG6WZj7tdeRQgITe8=
+	t=1705586135; cv=none; b=Qekei1wtkeDyVPHsy09Nxth/WLFvf0YcK4r6yxNi+KtHTHxpmcIdD1XdhEJTaNtpED+NG3BS1gmvb6F2Hzw7Yj/m3P4SLMwhI6K6hELRW//yDkDddw2rN2n2RUJ9bGtzf56Ht52mhhZ2CxNb3T7yiwUlh18jw7M8wSmKfixoDZg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1705586099; c=relaxed/simple;
-	bh=ps1E8PJMTt8mzlLH9eECx/CQbcZhGFU/1wZdq7L4X7U=;
-	h=Received:DKIM-Signature:X-Google-DKIM-Signature:
-	 X-Gm-Message-State:X-Google-Smtp-Source:X-Received:Received:
-	 Message-ID:Date:MIME-Version:User-Agent:Subject:To:Cc:References:
-	 Content-Language:From:In-Reply-To:Content-Type:
-	 Content-Transfer-Encoding; b=jgIK7//k16nOmTr1eGHHMPc92eJmx410mmQAfT+sz/A5ZEUvchMfpnQ1XdL48RXJZktqr14l4Gq9WQbt8RylQgw06CZKojL1WwRsBFzwfZMsjXFL0Vn2bwmmgv8H8/Xws6kum0tmvaG4/WzQyw8HPlNgBtSpSkyhukyVBilf3X4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=eMO8vjFW; arc=none smtp.client-ip=209.85.167.46
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
+	s=arc-20240116; t=1705586135; c=relaxed/simple;
+	bh=dW2O4YnTxAPszVBuYLSvwPlH05xzhDVrz2gKAE3SNCs=;
+	h=DKIM-Signature:X-IronPort-AV:X-IronPort-AV:Received:X-ExtLoop1:
+	 X-IronPort-AV:X-IronPort-AV:Received:From:To:Cc:Subject:Date:
+	 Message-Id:X-Mailer:In-Reply-To:References:MIME-Version:
+	 Content-Type:Content-Transfer-Encoding; b=pUfpZEg+KxAO6X3BubP4wrZ93XOL/IJGjhhjFFlnX8k/3hBhu2Va/X93B2hefYDHufl81WLzr3JiKp2YAL6FLgp7kh+OIKSkqUVH4bXpGvJnEPQOWbi9BFEWUW7JMIOFH9x6rI8RilkZqlZ9GXuXnvOGV8QfkK3imDcu4zfqebo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=none smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=g82f9ufi; arc=none smtp.client-ip=192.55.52.88
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=linux.intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="eMO8vjFW"
-Received: by mail-lf1-f46.google.com with SMTP id 2adb3069b0e04-50e67f70f34so13070679e87.0
-        for <linux-usb@vger.kernel.org>; Thu, 18 Jan 2024 05:54:57 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1705586095; x=1706190895; darn=vger.kernel.org;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=ps1E8PJMTt8mzlLH9eECx/CQbcZhGFU/1wZdq7L4X7U=;
-        b=eMO8vjFWQ3mLQEcF9OVRKUcV8xq494PRj7nXY1uEX18N2uT+1U++WnIF31AH5f9QYV
-         M5+vJvnPlhu3Vt6Y/cc35q6yCz5RWvXlB/MPB5GRu9RflYkXahandtDYfT3ED7cUroRb
-         B0bIjyNmqjdE+4Iu9UkuSh1SCwmbyaV7pdzxBUfPB7wef/qmYDHHn+qPPDhH/HcoFxVo
-         NbZgi7KzWgwMO0qTknkSaSKV4TnQKqlw+a8BcpsQIxjLQIb2tIAqm1ljFpB0wsM8sjSW
-         5qZRjvQWX14VRxqgTR/zNV2x7V8UgOQ20NVKnAMFumItnNwSnd75igwmURnSDFbYT50I
-         rbzg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1705586095; x=1706190895;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=ps1E8PJMTt8mzlLH9eECx/CQbcZhGFU/1wZdq7L4X7U=;
-        b=NNLTRV3KizE5HWx6z1R0hoDjO9GBX0zJMdz2QGKKQ91E1OfyVszPbqQgXaEF20GRi+
-         VF/DgyOL/rHDFw++YkyIV/XOa7QQWlHOGnxX6DMECXwo/ugf3yqXEBycE8DedF7z3BeI
-         6zuGGG3q/yiELecju2H4muA6EYONXvshTk8AT80rwqJwUpGTetiZ++s2wiINL7/KHX0H
-         Adp8nYMkjCiw1HXGi6qqWeY5fKUxFMAisECLAZnPy7yKGZ4CHKQpxOqwV2vUR6ATCwpO
-         jl2XTKNiJ0Si2ZOmFMlKBu2wG59ANPGK2uEKXekc7kxcSasvqhA68ZMQ6pp9LbbdY1do
-         jn/g==
-X-Gm-Message-State: AOJu0Yx+KEalmgMwLskM8yGxtB9Ky+8fV+I2eJAutCoQbM8td3pnB7C/
-	7VsKlYULTKG7b8wjT9s8pZApelogk+C8rOdRXxuyQvoJsoJ7Y+Hwo56hvLIfBkM=
-X-Google-Smtp-Source: AGHT+IG81baX14qnfLZc7lP1lCoEd/MVMqnvyBVS2danUVivMYbgvenMBVknrh3McJP0uFBgXyCTSg==
-X-Received: by 2002:a05:6512:3c92:b0:50e:78f3:dbed with SMTP id h18-20020a0565123c9200b0050e78f3dbedmr612042lfv.91.1705586095296;
-        Thu, 18 Jan 2024 05:54:55 -0800 (PST)
-Received: from [172.30.204.173] (UNUSED.212-182-62-129.lubman.net.pl. [212.182.62.129])
-        by smtp.gmail.com with ESMTPSA id x7-20020ac24887000000b0050eab7d397bsm637771lfc.256.2024.01.18.05.54.51
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Thu, 18 Jan 2024 05:54:54 -0800 (PST)
-Message-ID: <e28dc651-a573-4c73-b030-19dd69c48493@linaro.org>
-Date: Thu, 18 Jan 2024 14:54:50 +0100
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="g82f9ufi"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1705586133; x=1737122133;
+  h=from:to:cc:subject:date:message-id:in-reply-to:
+   references:mime-version:content-transfer-encoding;
+  bh=dW2O4YnTxAPszVBuYLSvwPlH05xzhDVrz2gKAE3SNCs=;
+  b=g82f9ufiXIr/IYC/60isVikuVvjnZ0IM4bBrrzzUDBWTmpHewk6JqRBx
+   tFmHB7M2twawIVUQS1Gd6bjX3kWLZDECkAaleBni18N2+RCrnB0jV9Wp1
+   MF2ap/GMOtY34BFV/pVBGiAqaIHpA62MnO4dl6bPs9jzqwm52LlyoiBM0
+   wTGaaeuD60gsqApCoj/Hj+3IiSv4TuMVOpSPS5AN3piAI4QlTT6zNPePo
+   e6DQXODCRo7DdAVl+dAgztH8KmBxTfyZgb7QefVY5QtHgs+Zn3Al+5wKO
+   eurAYboQAWrnSyk0t1lafH1yoCBtoBO6emyIQ17bNzyCbehGlG27tSA1H
+   A==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10956"; a="431607249"
+X-IronPort-AV: E=Sophos;i="6.05,201,1701158400"; 
+   d="scan'208";a="431607249"
+Received: from orsmga005.jf.intel.com ([10.7.209.41])
+  by fmsmga101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 18 Jan 2024 05:55:31 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,10956"; a="957818563"
+X-IronPort-AV: E=Sophos;i="6.05,201,1701158400"; 
+   d="scan'208";a="957818563"
+Received: from mattu-haswell.fi.intel.com ([10.237.72.199])
+  by orsmga005.jf.intel.com with ESMTP; 18 Jan 2024 05:55:29 -0800
+From: Mathias Nyman <mathias.nyman@linux.intel.com>
+To: michal.pecio@gmail.com
+Cc: linux-usb@vger.kernel.org,
+	Mathias Nyman <mathias.nyman@linux.intel.com>
+Subject: [RFT PATCH v2] xhci: process isoc TD properly when there was an error mid TD.
+Date: Thu, 18 Jan 2024 15:56:52 +0200
+Message-Id: <20240118135652.2629101-1-mathias.nyman@linux.intel.com>
+X-Mailer: git-send-email 2.25.1
+In-Reply-To: <d9a72d01-0c8c-9dab-f405-268a66f47505@linux.intel.com>
+References: <d9a72d01-0c8c-9dab-f405-268a66f47505@linux.intel.com>
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v2 13/15] arm64: dts: qcom: pmi632: define USB-C related
- blocks
-To: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-Cc: Bjorn Andersson <quic_bjorande@quicinc.com>,
- Bjorn Andersson <andersson@kernel.org>, Liam Girdwood <lgirdwood@gmail.com>,
- Mark Brown <broonie@kernel.org>, Rob Herring <robh+dt@kernel.org>,
- Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
- Conor Dooley <conor+dt@kernel.org>, Wesley Cheng <quic_wcheng@quicinc.com>,
- Bryan O'Donoghue <bryan.odonoghue@linaro.org>,
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
- Vinod Koul <vkoul@kernel.org>, Kishon Vijay Abraham I <kishon@kernel.org>,
- Guenter Roeck <linux@roeck-us.net>,
- Heikki Krogerus <heikki.krogerus@linux.intel.com>,
- Philipp Zabel <p.zabel@pengutronix.de>, linux-arm-msm@vger.kernel.org,
- devicetree@vger.kernel.org, linux-usb@vger.kernel.org,
- linux-phy@lists.infradead.org
-References: <20240113-pmi632-typec-v2-0-182d9aa0a5b3@linaro.org>
- <20240113-pmi632-typec-v2-13-182d9aa0a5b3@linaro.org>
- <1d0d325d-d15e-4e86-b8e3-9f91b99e78bf@linaro.org>
- <20240117220153.GA649327@hu-bjorande-lv.qualcomm.com>
- <9a24a065-b649-4431-b8fb-78c733c07671@linaro.org>
- <CAA8EJppEFSy2=GKgkqC3uS15cO51KfxDrHtxHhAnA10kScYKhQ@mail.gmail.com>
-Content-Language: en-US
-From: Konrad Dybcio <konrad.dybcio@linaro.org>
-In-Reply-To: <CAA8EJppEFSy2=GKgkqC3uS15cO51KfxDrHtxHhAnA10kScYKhQ@mail.gmail.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 
+The last TRB of a isoc TD might not trigger an event if there was
+an error event for TRB mid TD. This is seen on a NEC Corporation
+uPD720200 USB 3.0 Host
 
+After an error mid a multi-TRB TD the xHC should according to xhci 4.9.1
+generate events for passed TRBs with IOC flag set if it proceeds to the
+next TD. This event is either a copy of the original error, or a
+"success" transfer event.
 
-On 1/18/24 14:38, Dmitry Baryshkov wrote:
-> On Thu, 18 Jan 2024 at 13:17, Konrad Dybcio <konrad.dybcio@linaro.org> wrote:
->>
->>
->>
->> On 1/17/24 23:01, Bjorn Andersson wrote:
->>> On Mon, Jan 15, 2024 at 11:00:53AM +0100, Konrad Dybcio wrote:
->>>> On 13.01.2024 21:55, Dmitry Baryshkov wrote:
->>>>> Define VBUS regulator and the Type-C handling block as present on the
->>>>> Quacomm PMI632 PMIC.
->>>>>
->>>>> Reviewed-by: Bryan O'Donoghue <bryan.odonoghue@linaro.org>
->>>>> Signed-off-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
->>>>> ---
+If that event is missing then the driver and xHC host get out of sync
+as driver is still expecting a transfer event for that first TD, while
+xHC host is already sending events for the next TD in the list.
+This leads to
+"Transfer event TRB DMA ptr not part of current TD" messages.
 
-[...]
+As a solution we tag the isoc TDs that get error events mid TD.
+If an event doesn't match the first TD, then check if the tag is
+set, and event points to the next TD.
+In that case give back the fist TD and process the next TD normally
 
-> Is there an ack?
+Make sure TD status and tranferred length stay valid in all cases.
 
-Reviewed-by: Konrad Dybcio <konrad.dybcio@linaro.org>
+Reported-by: Michał Pecio <michal.pecio@gmail.com>
+Signed-off-by: Mathias Nyman <mathias.nyman@linux.intel.com>
+---
+  v1 -> v2:
+  - Check for empty TD list, suggested by Michał
+  - Don't overwrite error status, suggested by Michał
+  - Add a debug print for missed TD completion event, suggested by Michał
+  - Reword commit message and code comments
+  - Set correct TD transfer length in isoc error case
 
-Konrad
+drivers/usb/host/xhci-ring.c | 81 +++++++++++++++++++++++++++++-------
+ drivers/usb/host/xhci.h      |  1 +
+ 2 files changed, 66 insertions(+), 16 deletions(-)
+
+diff --git a/drivers/usb/host/xhci-ring.c b/drivers/usb/host/xhci-ring.c
+index 33806ae966f9..9f0f694358cc 100644
+--- a/drivers/usb/host/xhci-ring.c
++++ b/drivers/usb/host/xhci-ring.c
+@@ -2376,6 +2376,9 @@ static int process_isoc_td(struct xhci_hcd *xhci, struct xhci_virt_ep *ep,
+ 	/* handle completion code */
+ 	switch (trb_comp_code) {
+ 	case COMP_SUCCESS:
++		/* Don't overwrite status if TD had an error, see xHCI 4.9.1 */
++		if (td->error_mid_td)
++			break;
+ 		if (remaining) {
+ 			frame->status = short_framestatus;
+ 			if (xhci->quirks & XHCI_TRUST_TX_LENGTH)
+@@ -2401,9 +2404,20 @@ static int process_isoc_td(struct xhci_hcd *xhci, struct xhci_virt_ep *ep,
+ 		break;
+ 	case COMP_USB_TRANSACTION_ERROR:
+ 		frame->status = -EPROTO;
+-		if (ep_trb != td->last_trb)
+-			return 0;
+-		break;
++		sum_trbs_for_length = true;
++
++		if (ep_trb == td->last_trb)
++			break;
++
++		/* Error mid TD, don't give TD back yet */
++		td->error_mid_td = true;
++		td->urb_length_set = true;
++
++		frame->actual_length = sum_trb_lengths(xhci, ep->ring, ep_trb) +
++			ep_trb_len - remaining;
++		td->urb->actual_length += frame->actual_length;
++		return 0;
++
+ 	case COMP_STOPPED:
+ 		sum_trbs_for_length = true;
+ 		break;
+@@ -2422,6 +2436,9 @@ static int process_isoc_td(struct xhci_hcd *xhci, struct xhci_virt_ep *ep,
+ 		break;
+ 	}
+ 
++	if (td->urb_length_set)
++		goto finish_td;
++
+ 	if (sum_trbs_for_length)
+ 		frame->actual_length = sum_trb_lengths(xhci, ep->ring, ep_trb) +
+ 			ep_trb_len - remaining;
+@@ -2430,6 +2447,7 @@ static int process_isoc_td(struct xhci_hcd *xhci, struct xhci_virt_ep *ep,
+ 
+ 	td->urb->actual_length += frame->actual_length;
+ 
++finish_td:
+ 	return finish_td(xhci, ep, ep_ring, td, trb_comp_code);
+ }
+ 
+@@ -2808,17 +2826,51 @@ static int handle_tx_event(struct xhci_hcd *xhci,
+ 		}
+ 
+ 		if (!ep_seg) {
+-			if (!ep->skip ||
+-			    !usb_endpoint_xfer_isoc(&td->urb->ep->desc)) {
+-				/* Some host controllers give a spurious
+-				 * successful event after a short transfer.
+-				 * Ignore it.
+-				 */
+-				if ((xhci->quirks & XHCI_SPURIOUS_SUCCESS) &&
+-						ep_ring->last_td_was_short) {
+-					ep_ring->last_td_was_short = false;
+-					goto cleanup;
++
++			if (ep->skip && usb_endpoint_xfer_isoc(&td->urb->ep->desc)) {
++				skip_isoc_td(xhci, td, ep, status);
++				goto cleanup;
++			}
++
++			/*
++			 * Some hosts give a spurious success event after a short
++			 * transfer. Ignore it.
++			 */
++			if ((xhci->quirks & XHCI_SPURIOUS_SUCCESS) &&
++			    ep_ring->last_td_was_short) {
++				ep_ring->last_td_was_short = false;
++				goto cleanup;
++			}
++
++			/*
++			 * xhci 4.10.2 states isoc endpoints should continue
++			 * processing the next TD if there was an error mid TD.
++			 * So host like NEC don't generate an event for the last
++			 * isoc TRB even if the IOC flag is set.
++			 * xhci 4.9.1 states that if there are errors in mult-TRB
++			 * TDs xHC should generate an error for that TRB, and if xHC
++			 * proceeds to the next TD it should genete an event for
++			 * any TRB with IOC flag on the way. Other host follow this.
++			 * So this event might be for the next TD.
++			 */
++			if (td->error_mid_td &&
++			    !list_is_last(&td->td_list, &ep_ring->td_list)) {
++				struct xhci_td *td_next = list_next_entry(td, td_list);
++
++				ep_seg = trb_in_td(xhci, td_next->start_seg, td_next->first_trb,
++						   td_next->last_trb, ep_trb_dma, false);
++				if (ep_seg) {
++					/* give back previous TD, start handling new */
++					xhci_dbg(xhci, "Missing TD completion event after mid TD error\n");
++					ep_ring->dequeue = td->last_trb;
++					ep_ring->deq_seg = td->last_trb_seg;
++					inc_deq(xhci, ep_ring);
++					xhci_td_cleanup(xhci, td, ep_ring, td->status);
++					td = td_next;
+ 				}
++			}
++
++			if (!ep_seg) {
+ 				/* HC is busted, give up! */
+ 				xhci_err(xhci,
+ 					"ERROR Transfer event TRB DMA ptr not "
+@@ -2830,9 +2882,6 @@ static int handle_tx_event(struct xhci_hcd *xhci,
+ 					  ep_trb_dma, true);
+ 				return -ESHUTDOWN;
+ 			}
+-
+-			skip_isoc_td(xhci, td, ep, status);
+-			goto cleanup;
+ 		}
+ 		if (trb_comp_code == COMP_SHORT_PACKET)
+ 			ep_ring->last_td_was_short = true;
+diff --git a/drivers/usb/host/xhci.h b/drivers/usb/host/xhci.h
+index a5c72a634e6a..6f82d404883f 100644
+--- a/drivers/usb/host/xhci.h
++++ b/drivers/usb/host/xhci.h
+@@ -1549,6 +1549,7 @@ struct xhci_td {
+ 	struct xhci_segment	*bounce_seg;
+ 	/* actual_length of the URB has already been set */
+ 	bool			urb_length_set;
++	bool			error_mid_td;
+ 	unsigned int		num_trbs;
+ };
+ 
+-- 
+2.25.1
+
