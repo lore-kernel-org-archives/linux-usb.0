@@ -1,117 +1,89 @@
-Received: from mta20.hihonor.com (mta20.hihonor.com [81.70.206.69])
+Received: from madrid.collaboradmins.com (madrid.collaboradmins.com [46.235.227.194])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0911B3D549
-	for <linux-usb@vger.kernel.org>; Mon, 22 Jan 2024 11:08:18 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=81.70.206.69
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 158343A8C7;
+	Mon, 22 Jan 2024 11:18:17 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=46.235.227.194
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1705921701; cv=none; b=hgEiA1POkDGASZn1BLfeIJfvSvt4ZD374FJ07WunfHASlCb1xhlCwauYFdqaaFYS/d5v5Q0RYImCpIc20wvgYRXQ1Hos4ZwyyHuy02bvo6FCbOn0NXxyw4DBPk4p/1rSgOynJG9ZT2Fs3oiAKfzmgQKDtQXY+VSKW30F7ZT2xXc=
+	t=1705922299; cv=none; b=r8SE2WLG64/+vO13Vu+5LAu3g8eMBg2BujhfFpc9Xmm0x37ro8SsA//bZLJq5xS1uM2QiiQqLrBYtB83y21T3jkG0BI9dkosawk3StRm2ljXFhtH9j+c9RkMicLK3kE8Fn1ln3EXd+ddyvWXcy1ih79aeH4KVDLqE1qLxS7WhoE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1705921701; c=relaxed/simple;
-	bh=oEK8kXP2UigoZExAFOPJb+O6+9yQ6vL1guwZf7m/hxg=;
-	h=From:To:CC:Subject:Date:Message-ID:MIME-Version:Content-Type; b=tzJKeXfXBF6+a6sL0iDniYYbTKGS11PBL9H0Jl7MqthuRqUSbm+xeO4rfk6AoJblIid6T09Mx9h9LSdMwQ5MQGtLR2/ye6eoK9Z7GNezoDczYUQdhbei4Xf+BEGWe6JjD8KginjN6GeT24gPqZCuYMhjwtzWLv7neik3Bw5Nk4c=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=hihonor.com; spf=pass smtp.mailfrom=hihonor.com; arc=none smtp.client-ip=81.70.206.69
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=hihonor.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=hihonor.com
-Received: from w003.hihonor.com (unknown [10.68.17.88])
-	by mta20.hihonor.com (SkyGuard) with ESMTPS id 4TJRqb66nDzYqdt2;
-	Mon, 22 Jan 2024 18:51:55 +0800 (CST)
-Received: from w025.hihonor.com (10.68.28.69) by w003.hihonor.com
- (10.68.17.88) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1258.25; Mon, 22 Jan
- 2024 18:51:56 +0800
-Received: from localhost.localdomain (10.144.17.252) by w025.hihonor.com
- (10.68.28.69) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1258.25; Mon, 22 Jan
- 2024 18:51:56 +0800
-From: yuan linyu <yuanlinyu@hihonor.com>
-To: Alan Stern <stern@rowland.harvard.edu>, Greg Kroah-Hartman
-	<gregkh@linuxfoundation.org>
-CC: <linux-usb@vger.kernel.org>, yuan linyu <yuanlinyu@hihonor.com>
-Subject: [PATCH v1] usb: f_mass_storage: forbid async queue when shutdown happen
-Date: Mon, 22 Jan 2024 18:51:38 +0800
-Message-ID: <20240122105138.3759477-1-yuanlinyu@hihonor.com>
-X-Mailer: git-send-email 2.25.1
+	s=arc-20240116; t=1705922299; c=relaxed/simple;
+	bh=vMwa77UO4uFeclhllLNti7h0zFg4x5xedkwHOsvwIW8=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=pieoMB312nOSmy5vnH8J+wSmCnF4rsyM+1kEVY0Dn3xGCCveUADKiwtXQMEPIuSVLSEL+Wc+4Gr/GUwEAKhipfzL4w58EcDDo3ZwdFr6x/FRCSCQ1UuJvXxrLsCidA4ucg/q7FstOhQEU0exsnhJGvv4aBhOArNnZQz7AiQmFJk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=collabora.com; spf=pass smtp.mailfrom=collabora.com; dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b=jriKl1Z0; arc=none smtp.client-ip=46.235.227.194
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=collabora.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=collabora.com
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b="jriKl1Z0"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
+	s=mail; t=1705922296;
+	bh=vMwa77UO4uFeclhllLNti7h0zFg4x5xedkwHOsvwIW8=;
+	h=From:To:Cc:Subject:Date:From;
+	b=jriKl1Z0lFRP7Vj045GQrt14Sk0lUooKDfd47uejA2xDlo+LPom7GZyRlVej5ey7x
+	 az3sE6ZS2UPo6VHkjCEbwKYk6hGAQMhnwVNQWAQJXWFwYTmC53IwSNqD7pBPslIS2G
+	 IoQfCEmNX64nAQD51BRnnWBlPI0iaC2Br/FWDl1V5Rv0mYYy5KmHnQC5FUUXZiaQbL
+	 uKpCAkl5qP0I69i+EkFoBqVDez/PBJ1ATHzY5y8elFXaLHibfMVa5ZlVvMl0jf4BcZ
+	 wpQy+mIg/6RNbhwLSfgSc5WeZ/U7Kym3itVm3S3azykvinMnmF6Vfc5rzS2bVJjWe3
+	 nIRDs4eoU91jA==
+Received: from IcarusMOD.eternityproject.eu (cola.collaboradmins.com [195.201.22.229])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	(Authenticated sender: kholk11)
+	by madrid.collaboradmins.com (Postfix) with ESMTPSA id 60C7037810CD;
+	Mon, 22 Jan 2024 11:18:15 +0000 (UTC)
+From: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
+To: chunfeng.yun@mediatek.com
+Cc: gregkh@linuxfoundation.org,
+	robh+dt@kernel.org,
+	krzysztof.kozlowski+dt@linaro.org,
+	conor+dt@kernel.org,
+	matthias.bgg@gmail.com,
+	angelogioacchino.delregno@collabora.com,
+	linux-usb@vger.kernel.org,
+	linux-arm-kernel@lists.infradead.org,
+	linux-mediatek@lists.infradead.org,
+	devicetree@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	Conor Dooley <conor.dooley@microchip.com>
+Subject: [PATCH v2 1/2] dt-bindings: usb: mtu3: Add MT8195 MTU3 ip-sleep support
+Date: Mon, 22 Jan 2024 12:18:08 +0100
+Message-ID: <20240122111809.148546-1-angelogioacchino.delregno@collabora.com>
+X-Mailer: git-send-email 2.43.0
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 7bit
-Content-Type: text/plain
-X-ClientProxiedBy: w001.hihonor.com (10.68.25.235) To w025.hihonor.com
- (10.68.28.69)
+Content-Transfer-Encoding: 8bit
 
-When write UDC to empty and unbind gadget driver from gadget device, it is
-possible that there are many queue failures for mass storage function.
+Of the four USB controllers present on the MediaTek MT8195 SoC, three
+of them (0, 2 and 3) are behind MTU3: add wakeup controls for them.
 
-The root cause is mass storage main thread alaways try to queue request to
-receive a command from host if running flag is on, on platform like dwc3,
-if pull down called, it will not queue request again and return
--ESHUTDOWN, but it not affect running flag of mass storage function.
-
-Check return code from mass storage function and clear running flag if it
-is -ESHUTDOWN, also indicate start in/out transfer failure to break loops.
-
-Signed-off-by: yuan linyu <yuanlinyu@hihonor.com>
+Acked-by: Conor Dooley <conor.dooley@microchip.com>
+Reviewed-by: Matthias Brugger <matthias.bgg@gmail.com>
+Signed-off-by: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
 ---
-v1: follow Alan suggestion, only limit change in f_mass_storage
-RFC: https://lore.kernel.org/linux-usb/5f4c9d8b6e0e4e73a5b3b1540a500b6a@hihonor.com/T/#t
+ Documentation/devicetree/bindings/usb/mediatek,mtu3.yaml | 5 ++++-
+ 1 file changed, 4 insertions(+), 1 deletion(-)
 
- drivers/usb/gadget/function/f_mass_storage.c | 28 +++++++++++++++++---
- 1 file changed, 24 insertions(+), 4 deletions(-)
-
-diff --git a/drivers/usb/gadget/function/f_mass_storage.c b/drivers/usb/gadget/function/f_mass_storage.c
-index 722a3ab2b337..d5174e066078 100644
---- a/drivers/usb/gadget/function/f_mass_storage.c
-+++ b/drivers/usb/gadget/function/f_mass_storage.c
-@@ -545,21 +545,41 @@ static int start_transfer(struct fsg_dev *fsg, struct usb_ep *ep,
+diff --git a/Documentation/devicetree/bindings/usb/mediatek,mtu3.yaml b/Documentation/devicetree/bindings/usb/mediatek,mtu3.yaml
+index a59d91243ac8..d4e187c78a0b 100644
+--- a/Documentation/devicetree/bindings/usb/mediatek,mtu3.yaml
++++ b/Documentation/devicetree/bindings/usb/mediatek,mtu3.yaml
+@@ -185,7 +185,10 @@ properties:
+             2 - used by mt2712 etc, revision 2 with following IPM rule;
+             101 - used by mt8183, specific 1.01;
+             102 - used by mt8192, specific 1.02;
+-          enum: [1, 2, 101, 102]
++            103 - used by mt8195, IP0, specific 1.03;
++            105 - used by mt8195, IP2, specific 1.05;
++            106 - used by mt8195, IP3, specific 1.06;
++          enum: [1, 2, 101, 102, 103, 105, 106]
  
- static bool start_in_transfer(struct fsg_common *common, struct fsg_buffhd *bh)
- {
-+	int rc;
-+
- 	if (!fsg_is_set(common))
- 		return false;
- 	bh->state = BUF_STATE_SENDING;
--	if (start_transfer(common->fsg, common->fsg->bulk_in, bh->inreq))
--		bh->state = BUF_STATE_EMPTY;
-+	rc = start_transfer(common->fsg, common->fsg->bulk_in, bh->inreq);
-+	if (!rc)
-+		return true;
-+
-+	bh->state = BUF_STATE_EMPTY;
-+	if (rc == -ESHUTDOWN) {
-+		common->running = 0;
-+		return false;
-+	}
-+
- 	return true;
- }
- 
- static bool start_out_transfer(struct fsg_common *common, struct fsg_buffhd *bh)
- {
-+	int rc;
-+
- 	if (!fsg_is_set(common))
- 		return false;
- 	bh->state = BUF_STATE_RECEIVING;
--	if (start_transfer(common->fsg, common->fsg->bulk_out, bh->outreq))
--		bh->state = BUF_STATE_FULL;
-+	rc = start_transfer(common->fsg, common->fsg->bulk_out, bh->outreq);
-+	if (!rc)
-+		return true;
-+
-+	bh->state = BUF_STATE_FULL;
-+	if (rc == -ESHUTDOWN) {
-+		common->running = 0;
-+		return false;
-+	}
-+
- 	return true;
- }
- 
+   mediatek,u3p-dis-msk:
+     $ref: /schemas/types.yaml#/definitions/uint32
 -- 
-2.25.1
+2.43.0
 
