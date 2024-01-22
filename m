@@ -1,93 +1,75 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.7])
+Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.88])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CDF083B79C
-	for <linux-usb@vger.kernel.org>; Mon, 22 Jan 2024 11:45:32 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.7
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 86A333A8F5
+	for <linux-usb@vger.kernel.org>; Mon, 22 Jan 2024 11:58:53 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.55.52.88
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1705923934; cv=none; b=tLCplPgdS1pwzmYWmqWJLs8nI/HmAdLeqNZq7BwE/ktKJxFVzGh+AReNVCpUNtSs7VXl7bF4gFrHRyRsu3+7wZVIsnSKtKprWU8qHoOl4DEJmnSRKjhzTLyNuRka9/LfrRQPyT7YDkB6B+HNsPqFweockZR7A6YsxgT4fH+HEJI=
+	t=1705924734; cv=none; b=lVJp3HtNO3rHARYvBReKFtfWgBpaDAM4/Mkk6+CrloBA+JPJE0TK45u9JMUbP7YzXtlCpE9Hg3JR5YSVw6VO8Ol0By2DQJirLBA68JwK547/bbz3UDNm77UkMG+ZBQh/0OvVZYoI/iUYG5Jo/ubkaXt5YuoNDXDpebc99comDLk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1705923934; c=relaxed/simple;
-	bh=c6P+JYzYIuqExp3UOxVYQVqC6aqWCZ941kaDd//oyUw=;
-	h=Message-ID:Date:MIME-Version:To:Cc:References:From:Subject:
-	 In-Reply-To:Content-Type; b=juHqM1VeyVI0dhf6mjWEv47Oa5xKFNe5oMFA8spwRvP9KXbiFjMOVA6F9dVsZ5uHdahvuQpZuO+Ci4gn/jF+e8TCoq7Drh1FKriCJ3eE2sr26/pqhtEN0TOa3hFjYDeaf0kxBOCAqKmd/Xo8IJZ2I9iKU3OIEefU2lM3V8Uordc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=none smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=QHkaAe7p; arc=none smtp.client-ip=192.198.163.7
+	s=arc-20240116; t=1705924734; c=relaxed/simple;
+	bh=gfN3cTbt3jijK2Gr7tyRnl1IIdCpBh7yI0nCcMuMvgQ=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=GQWEepBRTOvaKrht+SB1xTZZdNewh0HATCcuw3+JR24PSB6tq/11gEoQza8wF6NQM/9PhelDaLJKNMEAWGVrE39WCNkaBOkLQ6YqJ+fJjKZymlN52wZoAI4FNRyWeKnAmFlGWrEltSe/BGekF9az6ymglQyQN8GFrwyTCzORFFo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=none smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=H600vho2; arc=none smtp.client-ip=192.55.52.88
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=linux.intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="QHkaAe7p"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="H600vho2"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1705923933; x=1737459933;
-  h=message-id:date:mime-version:to:cc:references:from:
-   subject:in-reply-to:content-transfer-encoding;
-  bh=c6P+JYzYIuqExp3UOxVYQVqC6aqWCZ941kaDd//oyUw=;
-  b=QHkaAe7p5aIWDlQkiYfinUhRsFaSv/NvxMDM4DUdj8n3Gd261PE9tdgD
-   xz25U2J4QW5qHYMzpfw4Jby6SZgqb/tkP4ZHW189LVAXBNiqyZj/gtwve
-   6v+pSVLh4kmrb3/SZ+f6GqZQzTYuZ0PjvWsvQGzcV37hNAz+zvlPzU0xc
-   +vxO8si4vp1OcdIy+7KvKrxT6a1fMRgx26ipXFBSJXm/VlxYxzQ+CaZ03
-   Tc4kxkQZBXGTyde7DYuLjkb7ZdDI7RMGqkFpzdzwbQwpg20M1MwUOTgXS
-   3S/hnS9r439WNO9ZjFcRbB48wrauA4Vcl7srs1ACnFEMH9eamPZaX7S/b
-   g==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10960"; a="22664551"
+  t=1705924733; x=1737460733;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=gfN3cTbt3jijK2Gr7tyRnl1IIdCpBh7yI0nCcMuMvgQ=;
+  b=H600vho2i0rizOcku1Y/+a5j/GRONo5+36Xg3TVvAD1vcf7QfskM5hIr
+   XAhDGBiIOXP1/hIKo0DMtiLpn6qY+kCvqKuK9weHwEGmbqEnF5Ulg9y3M
+   0B6F2uUtoKiAZwKzV4Be2WgA7aL3gY4Ae/sQeJ9eSF0NKIyfQ5kwTC121
+   FGreSWtA+F97m3emsInlDDMjeuy3AAsQWL22GyaG9U1WP0Kjh/z6W+5s7
+   RwtbA0Ed1y5ytpHbV3/VfTvWRUn5Zwv9cdp6srvUvSxNwIMQtfR6sX/Uv
+   SvqsLR0OJyVwy1mAJ+gDLp2i//kACOowP3RW3fHssP+pF99GS16rC+kLG
+   A==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10960"; a="432350387"
 X-IronPort-AV: E=Sophos;i="6.05,211,1701158400"; 
-   d="scan'208";a="22664551"
-Received: from fmsmga004.fm.intel.com ([10.253.24.48])
-  by fmvoesa101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 22 Jan 2024 03:45:32 -0800
+   d="scan'208";a="432350387"
+Received: from orsmga005.jf.intel.com ([10.7.209.41])
+  by fmsmga101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 22 Jan 2024 03:58:51 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10960"; a="855908062"
+X-IronPort-AV: E=McAfee;i="6600,9927,10960"; a="958717651"
 X-IronPort-AV: E=Sophos;i="6.05,211,1701158400"; 
-   d="scan'208";a="855908062"
-Received: from mattu-haswell.fi.intel.com (HELO [10.237.72.199]) ([10.237.72.199])
-  by fmsmga004.fm.intel.com with ESMTP; 22 Jan 2024 03:45:31 -0800
-Message-ID: <ff56ae38-c95a-0a31-7e81-a645ba156875@linux.intel.com>
-Date: Mon, 22 Jan 2024 13:47:02 +0200
+   d="scan'208";a="958717651"
+Received: from black.fi.intel.com ([10.237.72.28])
+  by orsmga005.jf.intel.com with ESMTP; 22 Jan 2024 03:58:49 -0800
+Received: by black.fi.intel.com (Postfix, from userid 1001)
+	id 9A89F24D; Mon, 22 Jan 2024 13:33:38 +0200 (EET)
+Date: Mon, 22 Jan 2024 13:33:38 +0200
+From: Mika Westerberg <mika.westerberg@linux.intel.com>
+To: Mohammad Rahimi <rahimi.mhmmd@gmail.com>
+Cc: andreas.noever@gmail.com, michael.jamet@intel.com,
+	YehezkelShB@gmail.com, linux-usb@vger.kernel.org
+Subject: Re: [PATCH] thunderbolt: Fix xdomain rx_lanes_show and tx_lanes_show
+Message-ID: <20240122113338.GI2543524@black.fi.intel.com>
+References: <20240114034054.28562-1-rahimi.mhmmd@gmail.com>
+ <20240114034054.28562-2-rahimi.mhmmd@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Firefox/102.0 Thunderbird/102.13.0
-Content-Language: en-US
-To: =?UTF-8?Q?Micha=c5=82_Pecio?= <michal.pecio@gmail.com>
-Cc: linux-usb@vger.kernel.org
-References: <2c2d8711-3d2b-e943-a2a0-75637e725dc3@linux.intel.com>
- <20240119105835.2637358-1-mathias.nyman@linux.intel.com>
- <20240119225432.78c2d35d@foxbook>
-From: Mathias Nyman <mathias.nyman@linux.intel.com>
-Subject: Re: [RTF PATCH v3] xhci: process isoc TD properly when there was an
- error mid TD.
-In-Reply-To: <20240119225432.78c2d35d@foxbook>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <20240114034054.28562-2-rahimi.mhmmd@gmail.com>
 
-On 19.1.2024 23.54, Michał Pecio wrote:
-> Usual tests passed (but only transaction errors are covered).
-
-Thanks for testing, I'l add your a tested-by tag to the patch.
-
+On Sun, Jan 14, 2024 at 11:40:54AM +0800, Mohammad Rahimi wrote:
+> If the Inter-Domain link is operating in asymmetric TB_LINK_WIDTH_ASYM_TX
+> mode, the rx_lanes_show should return 1 since there is only one receiver
+> and tx_lanes_show should return 3 since there are 3 transmitters.
 > 
-> 
-> I noticed that with your new fix to the frame length bug, error_mid_td
-> always equals urb_length_set. So the new flag is perhaps not necessary
-> after all. The test in handle_tx_event() could be:
-> 
-> if (usb_pipeisoc(td->urb->pipe) && td->urb_length_set &&
->      !list_is_last(...  ))
-> 
-> I tried it and it works just as well.
+> Signed-off-by: Mohammad Rahimi <rahimi.mhmmd@gmail.com>
 
-This is probably true here, but urb_length_set and error_mid_td have a bit
-different idea behind them
+Applied to thunderbolt.git/next, thanks!
 
-For example short control transfers may send an event mid TD (during data stage).
-There is no error, we wait for the completion of the status stage but don't want
-to change the transfer length set in the urb.
-
-I suspect we will need to play with both flags for other error cases in the future.
-
-Thanks
-Mathias
-
+This is kind of cosmetic thing because it is not allowed to have
+asymmetric link over host-to-host connection according to the spec but
+maybe somewhere in the future...
