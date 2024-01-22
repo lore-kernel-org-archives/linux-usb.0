@@ -1,29 +1,33 @@
-Received: from xavier.telenet-ops.be (xavier.telenet-ops.be [195.130.132.52])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from weierstrass.telenet-ops.be (weierstrass.telenet-ops.be [195.130.137.81])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 85B313D55D
-	for <linux-usb@vger.kernel.org>; Mon, 22 Jan 2024 14:24:42 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.130.132.52
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 19ACA3D57D
+	for <linux-usb@vger.kernel.org>; Mon, 22 Jan 2024 14:32:50 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.130.137.81
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1705933485; cv=none; b=PaKg7jK4rculTEnH32E5IiVpFzMoSW1XCX19RxpZEjFeUfavTVBm8gC0GpWeu8+he3+tZzyQ7mOBE33NLgp4UtrapDrvsfNGbM1JSGApnWBdH7u5rpMd2BXFDwbIKcjvRMqeOy0n18BpCj3BUMDT4eWqsDiUy82ZCRwhWlbzCMA=
+	t=1705933972; cv=none; b=c4/vc1oOfOshM0876qHlxzoM6x+mSyEcktZrshtslPKHrDFs7PjBZrZKoIhxdYPlPaWFsfPGSGGovT9TzFDIeVbXuD5hD8aw8lUu4TaxmlWZPQm9vVYXRFMaDKVpmF0YgKLv/tXSjuHe9Npj4pkwKdzy17267PM7Xob4pOuKcEw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1705933485; c=relaxed/simple;
-	bh=u3lCWVWgAgWl8h7GW8PVAHDWbnbB0UjtV3vO7hRzYG4=;
-	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version:Content-Type; b=gOKe36nx2aC5iFADtZZlmS7Bp4BYTw423snJK1NegLfoYHzHCWPZCJVXU7Yp4Szo45ltlmhNVOup4LPtLg1N2YeDbC0mxeM+yrigMUJ8j3WHy6F69n76OfIw3/XFyMjqHZ98GnzqQgE70qIPnBovtVj9lR3xaM/450C7yQtfiXE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=glider.be; spf=none smtp.mailfrom=linux-m68k.org; arc=none smtp.client-ip=195.130.132.52
+	s=arc-20240116; t=1705933972; c=relaxed/simple;
+	bh=iTv19rICNpl1lnVCWMxVhw3rYmY8g6Kbzqytd3+JnzI=;
+	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
+	 MIME-Version; b=eRIeCpXwKcGCnd+PhOuWLloLGR9SE09zXoE17+ls+EiH2+WU5JJ3K0WYNuYBG+ESPD+KdDyFfZ5QWEtull3dCoCNXPJw/47SzDmZdQEkmSU6HXsh4EWv+I8NBMTwGlaQhOeD5uHTidCqt5YVIVd6jBDB7COkPolA+xyX1u6SlEY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=glider.be; spf=none smtp.mailfrom=linux-m68k.org; arc=none smtp.client-ip=195.130.137.81
 Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=glider.be
 Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=linux-m68k.org
+Received: from michel.telenet-ops.be (michel.telenet-ops.be [IPv6:2a02:1800:110:4::f00:18])
+	by weierstrass.telenet-ops.be (Postfix) with ESMTPS id 4TJXY62N1tz4x0K8
+	for <linux-usb@vger.kernel.org>; Mon, 22 Jan 2024 15:24:42 +0100 (CET)
 Received: from ramsan.of.borg ([IPv6:2a02:1810:ac12:ed40:955e:bba5:7ff4:cfb6])
-	by xavier.telenet-ops.be with bizsmtp
-	id dqQa2B00h0ZxL6o01qQbti; Mon, 22 Jan 2024 15:24:35 +0100
+	by michel.telenet-ops.be with bizsmtp
+	id dqQb2B0010ZxL6o06qQbSv; Mon, 22 Jan 2024 15:24:35 +0100
 Received: from rox.of.borg ([192.168.97.57])
 	by ramsan.of.borg with esmtp (Exim 4.95)
 	(envelope-from <geert@linux-m68k.org>)
-	id 1rRvDF-00GGwo-Pc;
+	id 1rRvDF-00GGww-Rw;
 	Mon, 22 Jan 2024 15:24:34 +0100
 Received: from geert by rox.of.borg with local (Exim 4.95)
 	(envelope-from <geert@linux-m68k.org>)
-	id 1rRvE2-00CFAU-OO;
+	id 1rRvE2-00CFAf-Sl;
 	Mon, 22 Jan 2024 15:24:34 +0100
 From: Geert Uytterhoeven <geert+renesas@glider.be>
 To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
@@ -33,93 +37,138 @@ Cc: linux-staging@lists.linux.dev,
 	linux-renesas-soc@vger.kernel.org,
 	linux-kernel@vger.kernel.org,
 	Geert Uytterhoeven <geert+renesas@glider.be>
-Subject: [PATCH v2 0/4] staging: Remove EMMA Mobile USB Gadget and board staging support
-Date: Mon, 22 Jan 2024 15:24:29 +0100
-Message-Id: <cover.1705932585.git.geert+renesas@glider.be>
+Subject: [PATCH v2 3/4] staging: board: Remove Armadillo-800-EVA board staging code
+Date: Mon, 22 Jan 2024 15:24:32 +0100
+Message-Id: <6d51e06a8586997b31eecead55a369f01c5696a7.1705932585.git.geert+renesas@glider.be>
 X-Mailer: git-send-email 2.34.1
+In-Reply-To: <cover.1705932585.git.geert+renesas@glider.be>
+References: <cover.1705932585.git.geert+renesas@glider.be>
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 
-	Hi Greg,
+Since commits 1399ebacbf590dfb ("drm: renesas: shmobile: Add DT
+support"), 138588e9fa237f97 ("ARM: dts: renesas: r8a7740: Add LCDC
+nodes"), and c9a0ed13382660c9 ("ARM: dts: renesas: armadillo800eva: Add
+LCD panel"), there is no longer any use for the Atmark Techno
+Armadillo-800-EVA board staging code.
 
-Board staging was introduced to host temporarily legacy board support
-for platforms that are under active conversion to DT.  Currently it
-hosts:
-  1. USB Gadget support for the Kyoto Microcomputer Co. KZM-A9-Dual
-     (KZM9D) development board,
-  2. Display support for the Atmark Techno Armadillo-800-EVA development
-     board.
-
-During the last few years, the KZM9D development board didn't receive
-much love.  Also, no one really cared about the EMMA Mobile USB Gadget
-driver, which is also hosted under staging.  Recently, the SH-Mobile
-LCDC DRM driver and Armadillo-800-EVA display support have been
-converted to DT.
-
-Hence this patch series removes all board staging support, together with
-the now unused EMMA Mobile USB Gadget driver.
-
-Changes compared to v1:
-  - Drop RFC, widen audience,
-  - Drop EMMA Mobile EV2 clkdev registration patch (merged),
-  - Add Acked-by,
-  - Remove Armadillo-800-EVA and core board staging code, too.
-
-Thanks!
-
-[1] "[PATCH/RFC 0/3] Remove KZM9D board staging support"
-    https://lore.kernel.org/all/cover.1686325857.git.geert+renesas@glider.be/
-
-Geert Uytterhoeven (4):
-  staging: emxx_udc: Remove EMMA Mobile USB Gadget driver
-  staging: board: Remove KZM9D board staging code
-  staging: board: Remove Armadillo-800-EVA board staging code
-  staging: Remove board staging code
-
- drivers/staging/Kconfig                 |    4 -
- drivers/staging/Makefile                |    2 -
- drivers/staging/board/Kconfig           |   12 -
- drivers/staging/board/Makefile          |    4 -
- drivers/staging/board/TODO              |    2 -
- drivers/staging/board/armadillo800eva.c |   88 -
- drivers/staging/board/board.c           |  204 --
- drivers/staging/board/board.h           |   46 -
- drivers/staging/board/kzm9d.c           |   26 -
- drivers/staging/emxx_udc/Kconfig        |   11 -
- drivers/staging/emxx_udc/Makefile       |    2 -
- drivers/staging/emxx_udc/TODO           |    6 -
- drivers/staging/emxx_udc/emxx_udc.c     | 3223 -----------------------
- drivers/staging/emxx_udc/emxx_udc.h     |  554 ----
- 14 files changed, 4184 deletions(-)
- delete mode 100644 drivers/staging/board/Kconfig
- delete mode 100644 drivers/staging/board/Makefile
- delete mode 100644 drivers/staging/board/TODO
+Signed-off-by: Geert Uytterhoeven <geert+renesas@glider.be>
+---
+v2:
+  - New.
+---
+ drivers/staging/board/Makefile          |  1 -
+ drivers/staging/board/armadillo800eva.c | 88 -------------------------
+ 2 files changed, 89 deletions(-)
  delete mode 100644 drivers/staging/board/armadillo800eva.c
- delete mode 100644 drivers/staging/board/board.c
- delete mode 100644 drivers/staging/board/board.h
- delete mode 100644 drivers/staging/board/kzm9d.c
- delete mode 100644 drivers/staging/emxx_udc/Kconfig
- delete mode 100644 drivers/staging/emxx_udc/Makefile
- delete mode 100644 drivers/staging/emxx_udc/TODO
- delete mode 100644 drivers/staging/emxx_udc/emxx_udc.c
- delete mode 100644 drivers/staging/emxx_udc/emxx_udc.h
 
+diff --git a/drivers/staging/board/Makefile b/drivers/staging/board/Makefile
+index 5db091b5ca01596a..b6a00c93c2cc10dd 100644
+--- a/drivers/staging/board/Makefile
++++ b/drivers/staging/board/Makefile
+@@ -1,3 +1,2 @@
+ # SPDX-License-Identifier: GPL-2.0
+ obj-y	:= board.o
+-obj-$(CONFIG_ARCH_R8A7740)	+= armadillo800eva.o
+diff --git a/drivers/staging/board/armadillo800eva.c b/drivers/staging/board/armadillo800eva.c
+deleted file mode 100644
+index 0225234dd7aa6b1c..0000000000000000
+--- a/drivers/staging/board/armadillo800eva.c
++++ /dev/null
+@@ -1,88 +0,0 @@
+-// SPDX-License-Identifier: GPL-2.0
+-/*
+- * Staging board support for Armadillo 800 eva.
+- * Enable not-yet-DT-capable devices here.
+- *
+- * Based on board-armadillo800eva.c
+- *
+- * Copyright (C) 2012 Renesas Solutions Corp.
+- * Copyright (C) 2012 Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>
+- */
+-
+-#include <linux/dma-mapping.h>
+-#include <linux/fb.h>
+-#include <linux/kernel.h>
+-#include <linux/platform_device.h>
+-#include <linux/videodev2.h>
+-
+-#include <video/sh_mobile_lcdc.h>
+-
+-#include "board.h"
+-
+-static struct fb_videomode lcdc0_mode = {
+-	.name		= "AMPIER/AM-800480",
+-	.xres		= 800,
+-	.yres		= 480,
+-	.left_margin	= 88,
+-	.right_margin	= 40,
+-	.hsync_len	= 128,
+-	.upper_margin	= 20,
+-	.lower_margin	= 5,
+-	.vsync_len	= 5,
+-	.sync		= 0,
+-};
+-
+-static struct sh_mobile_lcdc_info lcdc0_info = {
+-	.clock_source	= LCDC_CLK_BUS,
+-	.ch[0] = {
+-		.chan		= LCDC_CHAN_MAINLCD,
+-		.fourcc		= V4L2_PIX_FMT_RGB565,
+-		.interface_type	= RGB24,
+-		.clock_divider	= 5,
+-		.flags		= 0,
+-		.lcd_modes	= &lcdc0_mode,
+-		.num_modes	= 1,
+-		.panel_cfg = {
+-			.width	= 111,
+-			.height = 68,
+-		},
+-	},
+-};
+-
+-static struct resource lcdc0_resources[] = {
+-	DEFINE_RES_MEM_NAMED(0xfe940000, 0x4000, "LCD0"),
+-	DEFINE_RES_IRQ(177 + 32),
+-};
+-
+-static struct platform_device lcdc0_device = {
+-	.name		= "sh_mobile_lcdc_fb",
+-	.num_resources	= ARRAY_SIZE(lcdc0_resources),
+-	.resource	= lcdc0_resources,
+-	.id		= 0,
+-	.dev	= {
+-		.platform_data	= &lcdc0_info,
+-		.coherent_dma_mask = DMA_BIT_MASK(32),
+-	},
+-};
+-
+-static const struct board_staging_clk lcdc0_clocks[] __initconst = {
+-	{ "lcdc0", NULL, "sh_mobile_lcdc_fb.0" },
+-};
+-
+-static const struct board_staging_dev armadillo800eva_devices[] __initconst = {
+-	{
+-		.pdev	 = &lcdc0_device,
+-		.clocks	 = lcdc0_clocks,
+-		.nclocks = ARRAY_SIZE(lcdc0_clocks),
+-		.domain	 = "/system-controller@e6180000/pm-domains/c5/a4lc@1"
+-	},
+-};
+-
+-static void __init armadillo800eva_init(void)
+-{
+-	board_staging_gic_setup_xlate("arm,pl390", 32);
+-	board_staging_register_devices(armadillo800eva_devices,
+-				       ARRAY_SIZE(armadillo800eva_devices));
+-}
+-
+-board_staging("renesas,armadillo800eva", armadillo800eva_init);
 -- 
 2.34.1
 
-Gr{oetje,eeting}s,
-
-						Geert
-
---
-Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
-
-In personal conversations with technical people, I call myself a hacker. But
-when I'm talking to journalists I just say "programmer" or something like that.
-							    -- Linus Torvalds
