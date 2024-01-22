@@ -1,152 +1,117 @@
-Received: from madrid.collaboradmins.com (madrid.collaboradmins.com [46.235.227.194])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 79E4048780;
-	Mon, 22 Jan 2024 18:56:03 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=46.235.227.194
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EE7593DBA8;
+	Mon, 22 Jan 2024 19:24:15 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1705949764; cv=none; b=pGqDe8wZFPT9OSz2IvipYAXD2OSrO39lFNG7LrlasDYsmBM70W+dH841GgxCuJexrt+3vpdT7YrZXWuVqysFOQNvCTW2OYi+wYZCOGJzFGJwVOwT+8DNX8Z4pjk6QKpr+CVVEjSl568V7AD9eWZh7Eu3VILh85Q04+KXXRjXbpg=
+	t=1705951456; cv=none; b=aEVbdbEvWIgB0P5IdQPrpxmWMzSsTq7ACAjO2j/Cz75McxizM2qQnQv/ogaoItKnb8rW+mJJ6t8Oa4T4JWKYcQ2A9Ei4OzHn23U3FMhSj4oCvxQGfK6rzwrIwkjGudL163Psb9F0Lqlx56PDZe6CSor75y4T/rsvfHpBwnyOfHQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1705949764; c=relaxed/simple;
-	bh=bK4Q2EbBc/nuHHjpU5lTiNRDOBSyU7sMPKPNpqyyg8s=;
-	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
-	 In-Reply-To:To:Cc; b=jLsiQbgH1jKwA/JXeE/8j/Jz5qRA8Pzmu9tsdPVnjwc+9WqnokRgEVUc6DBP4PL1Rq3coJki0vZ1iE3mqBT3bKZvXo8TE5vwkhVEhu0qINXh6yteCgs92fdWfhkPYhQf5t596vgfPAz7w9mNJzFNWCNYPhhSA7s4BG2FkM55u/k=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=collabora.com; spf=pass smtp.mailfrom=collabora.com; dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b=H/fJHhNA; arc=none smtp.client-ip=46.235.227.194
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=collabora.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=collabora.com
+	s=arc-20240116; t=1705951456; c=relaxed/simple;
+	bh=MEXKZHQkB/IyiyQVHXrZDxlLURiVSiUhivYGVZLcqn0=;
+	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=ByF9IqdSPil69Mjoli42+D+gwIqFYP0nX0IAnXzNPfou4dpGCGkrz7Bk1kF4Y5NMh3kTZjLtiw06ICf1ucgjdrXg8EvY9vDhT6ATr3u8beJUzY2KeKQPBSrU+osP4oH5FyEvz5gyACdq6sSRuCYGaff3q85qQ2tYEtCfqEH75Xw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Om7TXwRG; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b="H/fJHhNA"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
-	s=mail; t=1705949762;
-	bh=bK4Q2EbBc/nuHHjpU5lTiNRDOBSyU7sMPKPNpqyyg8s=;
-	h=From:Date:Subject:References:In-Reply-To:To:Cc:From;
-	b=H/fJHhNArVz1m4aahhjDKDMbAHLrTGImjOS6d8WXBOLSU3QHcj+lcol49NLXYXp5b
-	 CyopSGhNUGpL/R8gv7kXjsa0Xkttk21qkISVdly8gShz9gCHWphNffpyXjvg5NzOSp
-	 pimw3bG0TzWrZBgnwnz+wV6Dn9k/DIMajrJzwZNbd6+XO+S+/+n9MQNKSokYut0L9w
-	 T9VZGNDVzZT/4etPJ+tplbSG+zV3lASWBsLH2XNiMMYveIkx6Q94iMCX7NMMK6oW7L
-	 6ns751E6MT+BrpAOUZdB/boLgB+n0qPNEv/JEET95uctoMchB9SEVusByxVqizI4UJ
-	 /cBQJy86FAO9Q==
-Received: from [192.168.0.47] (zone.collabora.co.uk [167.235.23.81])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	(Authenticated sender: nfraprado)
-	by madrid.collaboradmins.com (Postfix) with ESMTPSA id AABFF37820A7;
-	Mon, 22 Jan 2024 18:55:56 +0000 (UTC)
-From: =?utf-8?q?N=C3=ADcolas_F=2E_R=2E_A=2E_Prado?= <nfraprado@collabora.com>
-Date: Mon, 22 Jan 2024 15:53:23 -0300
-Subject: [PATCH v4 3/3] kselftest: devices: Add sample board file for XPS
- 13 9300
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Om7TXwRG"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 0FBDEC433C7;
+	Mon, 22 Jan 2024 19:23:53 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1705951455;
+	bh=MEXKZHQkB/IyiyQVHXrZDxlLURiVSiUhivYGVZLcqn0=;
+	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
+	b=Om7TXwRG+RLb91NjkMlGtbBbQYrAGinHi8YBBuORygdejt7BZ+vQd9Bqs0sBl/BxP
+	 VCw1yjmez+FHyuigs8WrRG3xG5dxGPTpaOT2qYeFl6QHLeQijLl0kkOlguh3EaCef5
+	 +AkOU52pnihuLtq9XxoisJbYHmdBJ7MWGdIGbaT+Hqd1d3bAs/JdGsBZD+YdEjOqeP
+	 eiYtqYfgWpXt9iSL4haLcS9baDm6slcDBeeq4Pri4phWer/ACYdMdlNEE7R3pgjieo
+	 tFpdEkRwqJLtm9GAX85YeLj+l6gbxcnR7JUDJE+8uHr22Geysx+TUOYD6M7QtotXaK
+	 eSyrD1CGdOh3w==
+Date: Mon, 22 Jan 2024 19:23:43 +0000
+From: Jonathan Cameron <jic23@kernel.org>
+To: Mark Brown <broonie@kernel.org>
+Cc: Uwe =?UTF-8?B?S2xlaW5lLUvDtm5pZw==?= <u.kleine-koenig@pengutronix.de>,
+ kernel@pengutronix.de, Moritz Fischer <mdf@kernel.org>, Wu Hao
+ <hao.wu@intel.com>, Xu Yilun <yilun.xu@intel.com>, Tom Rix
+ <trix@redhat.com>, linux-fpga@vger.kernel.org,
+ linux-kernel@vger.kernel.org, Alexander Aring <alex.aring@gmail.com>,
+ Stefan Schmidt <stefan@datenfreihafen.org>, Miquel Raynal
+ <miquel.raynal@bootlin.com>, "David S. Miller" <davem@davemloft.net>, Eric
+ Dumazet <edumazet@google.com>, Jakub Kicinski <kuba@kernel.org>, Paolo
+ Abeni <pabeni@redhat.com>, linux-wpan@vger.kernel.org,
+ netdev@vger.kernel.org, Lars-Peter Clausen <lars@metafoo.de>, Michael
+ Hennerich <Michael.Hennerich@analog.com>, linux-iio@vger.kernel.org, Dmitry
+ Torokhov <dmitry.torokhov@gmail.com>, linux-input@vger.kernel.org, Ulf
+ Hansson <ulf.hansson@linaro.org>, Rayyan Ansari <rayyan@ansari.sh>, Andy
+ Shevchenko <andriy.shevchenko@linux.intel.com>, Jonathan Cameron
+ <Jonathan.Cameron@huawei.com>, Martin Tuma
+ <martin.tuma@digiteqautomotive.com>, Mauro Carvalho Chehab
+ <mchehab@kernel.org>, linux-media@vger.kernel.org, Sergey Kozlov
+ <serjk@netup.ru>, Arnd Bergmann <arnd@arndb.de>, Greg Kroah-Hartman
+ <gregkh@linuxfoundation.org>, Yang Yingliang <yangyingliang@huawei.com>,
+ linux-mmc@vger.kernel.org, Richard Weinberger <richard@nod.at>, Vignesh
+ Raghavendra <vigneshr@ti.com>, Rob Herring <robh@kernel.org>, Heiko
+ Stuebner <heiko@sntech.de>, Michal Simek <michal.simek@amd.com>, Amit Kumar
+ Mahapatra via Alsa-devel <alsa-devel@alsa-project.org>,
+ linux-mtd@lists.infradead.org, Martin Blumenstingl
+ <martin.blumenstingl@googlemail.com>, Geert Uytterhoeven
+ <geert+renesas@glider.be>, Pali =?UTF-8?B?Um9ow6Fy?= <pali@kernel.org>,
+ Simon Horman <horms@kernel.org>, Ronald Wahl <ronald.wahl@raritan.com>,
+ Benson Leung <bleung@chromium.org>, Tzung-Bi Shih <tzungbi@kernel.org>,
+ Guenter Roeck <groeck@chromium.org>, chrome-platform@lists.linux.dev, Max
+ Filippov <jcmvbkbc@gmail.com>, linux-spi@vger.kernel.org,
+ linux-arm-kernel@lists.infradead.org, Bjorn Andersson
+ <andersson@kernel.org>, Konrad Dybcio <konrad.dybcio@linaro.org>,
+ linux-arm-msm@vger.kernel.org, Matthias Brugger <matthias.bgg@gmail.com>,
+ AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
+ linux-mediatek@lists.infradead.org, Thomas Zimmermann
+ <tzimmermann@suse.de>, Javier Martinez Canillas <javierm@redhat.com>, Amit
+ Kumar Mahapatra <amit.kumar-mahapatra@amd.com>,
+ dri-devel@lists.freedesktop.org, linux-fbdev@vger.kernel.org,
+ linux-staging@lists.linux.dev, Viresh Kumar <vireshk@kernel.org>, Rui
+ Miguel Silva <rmfrfs@gmail.com>, Johan Hovold <johan@kernel.org>, Alex
+ Elder <elder@kernel.org>, greybus-dev@lists.linaro.org, Peter Huewe
+ <peterhuewe@gmx.de>, Jarkko Sakkinen <jarkko@kernel.org>, Jason Gunthorpe
+ <jgg@ziepe.ca>, linux-integrity@vger.kernel.org, Herve Codina
+ <herve.codina@bootlin.com>, Alan Stern <stern@rowland.harvard.edu>, Aaro
+ Koskinen <aaro.koskinen@iki.fi>, Krzysztof Kozlowski
+ <krzysztof.kozlowski@linaro.org>, linux-usb@vger.kernel.org, Helge Deller
+ <deller@gmx.de>, Dario Binacchi <dario.binacchi@amarulasolutions.com>,
+ Kalle Valo <kvalo@kernel.org>, Dmitry Antipov <dmantipov@yandex.ru>,
+ libertas-dev@lists.infradead.org, linux-wireless@vger.kernel.org, Jonathan
+ Corbet <corbet@lwn.net>, James Clark <james.clark@arm.com>, Bjorn Helgaas
+ <bhelgaas@google.com>, linux-doc@vger.kernel.org
+Subject: Re: [PATCH v2 00/33] spi: get rid of some legacy macros
+Message-ID: <20240122192343.148a0b6d@jic23-huawei>
+In-Reply-To: <e62cdf7f-ce58-4f46-a0a0-25ce9fb271b1@sirena.org.uk>
+References: <cover.1705944943.git.u.kleine-koenig@pengutronix.de>
+	<e62cdf7f-ce58-4f46-a0a0-25ce9fb271b1@sirena.org.uk>
+X-Mailer: Claws Mail 4.2.0 (GTK 3.24.40; x86_64-pc-linux-gnu)
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 8bit
-Message-Id: <20240122-discoverable-devs-ksft-v4-3-d602e1df4aa2@collabora.com>
-References: <20240122-discoverable-devs-ksft-v4-0-d602e1df4aa2@collabora.com>
-In-Reply-To: <20240122-discoverable-devs-ksft-v4-0-d602e1df4aa2@collabora.com>
-To: Shuah Khan <shuah@kernel.org>, 
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>, 
- Bjorn Helgaas <bhelgaas@google.com>
-Cc: kernelci@lists.linux.dev, kernel@collabora.com, 
- Tim Bird <Tim.Bird@sony.com>, linux-pci@vger.kernel.org, 
- David Gow <davidgow@google.com>, linux-kselftest@vger.kernel.org, 
- Rob Herring <robh+dt@kernel.org>, Doug Anderson <dianders@chromium.org>, 
- linux-usb@vger.kernel.org, Saravana Kannan <saravanak@google.com>, 
- Dan Carpenter <dan.carpenter@linaro.org>, 
- Guenter Roeck <groeck@chromium.org>, devicetree@vger.kernel.org, 
- linux-kernel@vger.kernel.org, 
- =?utf-8?q?N=C3=ADcolas_F=2E_R=2E_A=2E_Prado?= <nfraprado@collabora.com>
-X-Mailer: b4 0.12.4
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
 
-Add a sample board file describing the file's format and with the list
-of devices expected to be probed on the XPS 13 9300 machine as an
-example x86 platform.
+On Mon, 22 Jan 2024 18:18:22 +0000
+Mark Brown <broonie@kernel.org> wrote:
 
-Test output:
+> On Mon, Jan 22, 2024 at 07:06:55PM +0100, Uwe Kleine-K=C3=B6nig wrote:
+>=20
+> > Note that Jonathan Cameron has already applied patch 3 to his tree, it
+> > didn't appear in a public tree though yet. I still included it here to
+> > make the kernel build bots happy. =20
+>=20
+> It's also going to be needed for buildability of the end of the series.
 
-TAP version 13
-Using board file: boards/Dell Inc.,XPS 13 9300.yaml
-1..22
-ok 1 /pci-controller/14.0/usb2-controller/9/camera.device
-ok 2 /pci-controller/14.0/usb2-controller/9/camera.0.driver
-ok 3 /pci-controller/14.0/usb2-controller/9/camera.1.driver
-ok 4 /pci-controller/14.0/usb2-controller/9/camera.2.driver
-ok 5 /pci-controller/14.0/usb2-controller/9/camera.3.driver
-ok 6 /pci-controller/14.0/usb2-controller/10/bluetooth.device
-ok 7 /pci-controller/14.0/usb2-controller/10/bluetooth.0.driver
-ok 8 /pci-controller/14.0/usb2-controller/10/bluetooth.1.driver
-ok 9 /pci-controller/2.0/gpu.device
-ok 10 /pci-controller/2.0/gpu.driver
-ok 11 /pci-controller/4.0/thermal.device
-ok 12 /pci-controller/4.0/thermal.driver
-ok 13 /pci-controller/12.0/sensors.device
-ok 14 /pci-controller/12.0/sensors.driver
-ok 15 /pci-controller/14.3/wifi.device
-ok 16 /pci-controller/14.3/wifi.driver
-ok 17 /pci-controller/1d.0/0.0/ssd.device
-ok 18 /pci-controller/1d.0/0.0/ssd.driver
-ok 19 /pci-controller/1d.7/0.0/sdcard-reader.device
-ok 20 /pci-controller/1d.7/0.0/sdcard-reader.driver
-ok 21 /pci-controller/1f.3/audio.device
-ok 22 /pci-controller/1f.3/audio.driver
-Totals: pass:22 fail:0 xfail:0 xpass:0 skip:0 error:0
+Ah.  I thought intent was to split this across all the different trees
+then do the final patch only after they were all gone?
 
-Signed-off-by: Nícolas F. R. A. Prado <nfraprado@collabora.com>
----
- .../devices/boards/Dell Inc.,XPS 13 9300.yaml      | 40 ++++++++++++++++++++++
- 1 file changed, 40 insertions(+)
+I'm fine with it going all in one go if people prefer that.
 
-diff --git a/tools/testing/selftests/devices/boards/Dell Inc.,XPS 13 9300.yaml b/tools/testing/selftests/devices/boards/Dell Inc.,XPS 13 9300.yaml
-new file mode 100644
-index 000000000000..ff932eb19f0b
---- /dev/null
-+++ b/tools/testing/selftests/devices/boards/Dell Inc.,XPS 13 9300.yaml	
-@@ -0,0 +1,40 @@
-+# SPDX-License-Identifier: GPL-2.0
-+#
-+# This is the device definition for the XPS 13 9300.
-+# The filename "Dell Inc.,XPS 13 9300" was chosen following the format
-+# "Vendor,Product", where Vendor comes from
-+# /sys/devices/virtual/dmi/id/sys_vendor, and Product comes from
-+# /sys/devices/virtual/dmi/id/product_name.
-+#
-+# See google,spherion.yaml for more information.
-+#
-+- type: pci-controller
-+  # This machine has a single PCI host controller so it's valid to not have any
-+  # key to identify the controller. If it had more than one controller, the UID
-+  # of the controller from ACPI could be used to distinguish as follows:
-+  #acpi-uid: 0
-+  devices:
-+    - path: 14.0
-+      type: usb-controller
-+      usb-version: 2
-+      devices:
-+        - path: 9
-+          name: camera
-+          interfaces: [0, 1, 2, 3]
-+        - path: 10
-+          name: bluetooth
-+          interfaces: [0, 1]
-+    - path: 2.0
-+      name: gpu
-+    - path: 4.0
-+      name: thermal
-+    - path: 12.0
-+      name: sensors
-+    - path: 14.3
-+      name: wifi
-+    - path: 1d.0/0.0
-+      name: ssd
-+    - path: 1d.7/0.0
-+      name: sdcard-reader
-+    - path: 1f.3
-+      name: audio
+My tree will be out in a few mins. Was just waiting to rebase on rc1
+which I've just done.
 
--- 
-2.43.0
-
+Jonathan
