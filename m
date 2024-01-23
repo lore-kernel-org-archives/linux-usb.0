@@ -1,155 +1,94 @@
-Received: from mail-pf1-f182.google.com (mail-pf1-f182.google.com [209.85.210.182])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.88])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 70E635D916
-	for <linux-usb@vger.kernel.org>; Tue, 23 Jan 2024 11:59:13 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.182
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DC34B5DF1D;
+	Tue, 23 Jan 2024 12:29:00 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.55.52.88
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1706011155; cv=none; b=WhmmsEvOmAC4VuJzv1sZOdavUkz28iLIDzUHHzAFKrKCvQGt+vuUdzB9sS4xuOWw47oM/dfflXetjC08BGbkJwuUv4ZB4daKlIjw2QVKU/Hnp0nepaSHFqsNEj1OYIe6Ihe2xQKnPD/uVI/U4ZoiEHXyC0G+gbChZIZFNhDL6aU=
+	t=1706012942; cv=none; b=V9KnUrldA0le+P+xWBgwvxoodSBePKu38bD9S3/gD8MYY24BFVWVLrfN5fUpBSnkGXdrjui7y1J/Cl+3YOxOfPE4mka+U71UzOMAV3azXJTWDGz8S//+2i6kfAXnN1Bdx2pzZNCl/4bWBEkLrXbHb0ABcAPb4dd8FToLWpr6xQ8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1706011155; c=relaxed/simple;
-	bh=Os8hIlLsFkGBkZeoXT/YcKzJ5GoXqLCjF3yLXjabNzc=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=RQX5kaer5ttuPB2vSxMFRMjyTSghJALNkQXvrTRk4X8m9qgvfIlzihaPhmHjYrTACPCbWSoFYY5cjcNJgZiIqsIU5UGYhQ3MEnGtQbOFONnjcrXr8D27ZwH9lLfAwi8xZ82VtulfaHAeNmzT48FewvQUPlBHFmAOmHWCRlCOGhg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=dmjmp3k5; arc=none smtp.client-ip=209.85.210.182
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=google.com
+	s=arc-20240116; t=1706012942; c=relaxed/simple;
+	bh=fa13xu/t9vD3MafwP+nS2cWhEeHXrK5C1PsxHCLZJHI=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=b5xx34fPumssO3KOC1fQhlusAiYTB2Qopw5J0P53qs8IIdPWy/Q6VkU71BxAfVC/cNBMgbuv5H24YcqDyfye8l92yE/Rw6cvB87ZAp5mU6RMKkdGsqKPrEmhzMdOFDQAojezhgysdGyb1uRFdY9bXtUlPo6zYN1SegDOKl9pTEY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=none smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=ZjxEFgFE; arc=none smtp.client-ip=192.55.52.88
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=linux.intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="dmjmp3k5"
-Received: by mail-pf1-f182.google.com with SMTP id d2e1a72fcca58-6dd7c194bb2so297322b3a.0
-        for <linux-usb@vger.kernel.org>; Tue, 23 Jan 2024 03:59:13 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20230601; t=1706011153; x=1706615953; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=QEI0es0Fh9CjmQ9+goIQ3glo1dNpAV2T7ObrjAwh6Bw=;
-        b=dmjmp3k5S3iOWWnCHxXf9rjyCNK6GnzsbCuYCuyL8gnqVf817JiEGbybYIc0EXbgil
-         7INAjF0lrMpA2vLsC4O2gYSDojuBegJamf0uxAE1QVTkl/JOdj+og3lPUI8zTODpfRKZ
-         Oqw5Kwm/4UwrD+Yrq7tqeYSL9em1IKaJ739FkL0ZLmGgeC1/m6rXDnwgRMAem1emNdEM
-         1rxJSa/V/1icF1PUc9AxfFKs1zIPFN2cWfsEpZbLlQbepucgOVyZ9OTxIbbGhGNaw8EY
-         MGGnjCdkJgpJwm1E74F+hmRi5DsP5tUxCGj1qQPBQC24WNdLCyDxwRVeGXw5WSLfucFf
-         CHWQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1706011153; x=1706615953;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=QEI0es0Fh9CjmQ9+goIQ3glo1dNpAV2T7ObrjAwh6Bw=;
-        b=qT4Q4d3DnOfvW5mkpD7fASIEvXNR1ZO6IvPdTEXfaJ387ci5QPI8xEl1/hI3q76Ro6
-         VLWm8jqZBGT0Kb5tEfMR0Xg9vkOZCPwVnUdEtMtSHbgrELNoCIQnd0/YidPh401/Ywp+
-         /AvwLq6hXCeRxS9ggmHCwyrvJ1rMtfloy5bwrPweyIVGo0+VJXuQ6v/Bkl0dwRe8rQ/A
-         TXtcccQ0FeDER+A/zMTOG+/v67mvBQFCreYhRQ1Adz5iEdIDmwhKwlaYia7U5aYnd9N0
-         anUPJ97HQ5wiFan9kuOEPTW75CxqBVZZTBlj50Y8KLzNJ8IA49QrKqZyHcXn6esxprKT
-         xbdg==
-X-Gm-Message-State: AOJu0Yz4VGaMpNa3TFkHda04goc0LsOXy4mM2xLlI0lFgo4igA8FxbL3
-	8W8UhTzN1mNh7g+KEFLrxt87lAHgz+MGmpK7Wbp+aZoE2g4miosdOHLWGM4XnEW0PXZGJEN40GC
-	Ni+7NbasphP4UIYE/SpQ8gAzSIgppSgOpEO4m
-X-Google-Smtp-Source: AGHT+IGx72UbdOpW3i/0sgcjdJBt1MEPY7k67MDAMdIFzUHdiD++kJWWcxdSo5/N8e6JggX3TWq7yKj0n+9drNmZF7o=
-X-Received: by 2002:a05:6a00:1405:b0:6d9:955a:d3bb with SMTP id
- l5-20020a056a00140500b006d9955ad3bbmr7944003pfu.10.1706011152521; Tue, 23 Jan
- 2024 03:59:12 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="ZjxEFgFE"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1706012941; x=1737548941;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:content-transfer-encoding:in-reply-to;
+  bh=fa13xu/t9vD3MafwP+nS2cWhEeHXrK5C1PsxHCLZJHI=;
+  b=ZjxEFgFEeQmd42aOsCYA7TW1xjHjMp6aPFTz71Nt0KvDksV5LikOERed
+   0UDB06G/sF7H7XSwsIeWWiiFkzYFoQuHW+AdyOad/du9+H90h9+Zfcw/i
+   wl0+InBEzbj8F4NdWqla3Rp54gZA+1+hr7A3CJNVof1wU9MXs2ZEqLaTP
+   3Ff47BmEChijV0k5xcCTH9+flaLOHNH6XejdVVkyOjLQuvQrT+3ffOmOn
+   b/DLk3lCTLzHrCI9LI+HTj5mscTsfLRFLdTbZaJPuE4p4vUvC7a5ohRs3
+   RJNUcLNWDKcpTSc2cl2ZpZ5AM2h0fsu1Dg/HunFclSuzh2TI8eyKpN5D5
+   g==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10961"; a="432662304"
+X-IronPort-AV: E=Sophos;i="6.05,214,1701158400"; 
+   d="scan'208";a="432662304"
+Received: from orsmga002.jf.intel.com ([10.7.209.21])
+  by fmsmga101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 23 Jan 2024 04:28:59 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,10961"; a="786050302"
+X-IronPort-AV: E=Sophos;i="6.05,214,1701158400"; 
+   d="scan'208";a="786050302"
+Received: from black.fi.intel.com ([10.237.72.28])
+  by orsmga002.jf.intel.com with ESMTP; 23 Jan 2024 04:28:57 -0800
+Received: by black.fi.intel.com (Postfix, from userid 1001)
+	id BCDE4483; Tue, 23 Jan 2024 13:34:19 +0200 (EET)
+Date: Tue, 23 Jan 2024 13:34:19 +0200
+From: Mika Westerberg <mika.westerberg@linux.intel.com>
+To: Christophe JAILLET <christophe.jaillet@wanadoo.fr>
+Cc: Andreas Noever <andreas.noever@gmail.com>,
+	Michael Jamet <michael.jamet@intel.com>,
+	Yehezkel Bernat <YehezkelShB@gmail.com>,
+	linux-kernel@vger.kernel.org, kernel-janitors@vger.kernel.org,
+	linux-usb@vger.kernel.org
+Subject: Re: [PATCH] thunderbolt: Remove usage of the deprecated
+ ida_simple_xx() API
+Message-ID: <20240123113419.GN2543524@black.fi.intel.com>
+References: <7fce4c8c4345d283dbfadd3cea60fdc49f9ca087.1705007397.git.christophe.jaillet@wanadoo.fr>
+ <20240122112922.GH2543524@black.fi.intel.com>
+ <d11852b1-6d9c-4ced-83cb-96e753edd45d@wanadoo.fr>
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20240117113806.2584341-1-badhri@google.com> <CA+XFjioEL4ZcdDZgK2N3squudx8T_DJGrwNDCaN-2XJ3Nb4sXQ@mail.gmail.com>
-In-Reply-To: <CA+XFjioEL4ZcdDZgK2N3squudx8T_DJGrwNDCaN-2XJ3Nb4sXQ@mail.gmail.com>
-From: Badhri Jagan Sridharan <badhri@google.com>
-Date: Tue, 23 Jan 2024 03:58:30 -0800
-Message-ID: <CAPTae5Lz3dW6Qw4izJFa7XGiBHmRr24vPWkoieijWd0TaLUBCA@mail.gmail.com>
-Subject: Re: [PATCH v1] Revert "usb: typec: tcpm: fix cc role at port reset"
-To: =?UTF-8?Q?G=C3=A1bor_Stefanik?= <netrolller.3d@gmail.com>
-Cc: gregkh@linuxfoundation.org, linux@roeck-us.net, 
-	heikki.krogerus@linux.intel.com, kyletso@google.com, 
-	linux-usb@vger.kernel.org, linux-kernel@vger.kernel.org, rdbabiera@google.com, 
-	amitsd@google.com, stable@vger.kernel.org, stable@kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <d11852b1-6d9c-4ced-83cb-96e753edd45d@wanadoo.fr>
 
-Hi Gabor,
+On Mon, Jan 22, 2024 at 06:57:42PM +0100, Christophe JAILLET wrote:
+> Le 22/01/2024 à 12:29, Mika Westerberg a écrit :
+> > On Thu, Jan 11, 2024 at 10:10:21PM +0100, Christophe JAILLET wrote:
+> > > ida_alloc() and ida_free() should be preferred to the deprecated
+> > > ida_simple_get() and ida_simple_remove().
+> > > 
+> > > Note that the upper limit of ida_simple_get() is exclusive, but the one of
+> > > ida_alloc_range()/ida_alloc_max() is inclusive. So a -1 has been added
+> > > when needed.
+> > 
+> > Looks tood to me but wanted to check if you tested this on a real
+> > hardware or you just build tested?
+> > 
+> > 
+> 
+> Hi,
+> 
+> It was compile tested only.
+> 
+> Transformation has been done with the help of the cocci script below.
 
-While HI-Zing CC pins disrupts power for batteryless devices, not
-Hi-Zing CC pins would prevent clean error recovery for self powered
-devices.
-Hi-Zing CC pins would make the port partner recognize it as disconnect
-and will result in bringup the connection back cleanly.
+Okay that's what I thought too. I ran some testing on a real hardware
+and did not see any issues.
 
-How about leveraging "self-powered" device tree property and Hi-Zing
-CC pins only when using "self-powered" ?
-
-Regards,
-Badhri
-
-On Wed, Jan 17, 2024 at 8:07=E2=80=AFAM G=C3=A1bor Stefanik <netrolller.3d@=
-gmail.com> wrote:
->
-> This will break operation of batteryless devices relying on a USB
-> Type-C port for their power needs, as the port reset upon controller
-> initialization will cause power to be cut to the device, resulting in
-> a boot loop.
-> Devices using the FUSB302C port controller are especially severely
-> affected, as upon losing power, this controller can retain CC states
-> for a very long time (potentially forever if some parasitic source of
-> power is present), requiring a full mechanical disconnect-reconnect
-> cycle before the device receives power again.
->
-> While the USB Type C specification does require this behavior, I would
-> consider this an oversight in the standard (perhaps left over from
-> when USB Power Delivery was still going to be USB Battery Charging
-> 2.0).
->
-> Badhri Jagan Sridharan <badhri@google.com> ezt =C3=ADrta (id=C5=91pont: 2=
-024.
-> jan. 17., Sze, 12:38):
-> >
-> > This reverts commit 1e35f074399dece73d5df11847d4a0d7a6f49434.
-> >
-> > Given that ERROR_RECOVERY calls into PORT_RESET for Hi-Zing
-> > the CC pins, setting CC pins to default state during PORT_RESET
-> > breaks error recovery.
-> >
-> > 4.5.2.2.2.1 ErrorRecovery State Requirements
-> > The port shall not drive VBUS or VCONN, and shall present a
-> > high-impedance to ground (above zOPEN) on its CC1 and CC2 pins.
-> >
-> > Hi-Zing the CC pins is the inteded behavior for PORT_RESET.
-> > CC pins are set to default state after tErrorRecovery in
-> > PORT_RESET_WAIT_OFF.
-> >
-> > 4.5.2.2.2.2 Exiting From ErrorRecovery State
-> > A Sink shall transition to Unattached.SNK after tErrorRecovery.
-> > A Source shall transition to Unattached.SRC after tErrorRecovery.
-> >
-> > Cc: stable@kernel.org
-> > Fixes: 1e35f074399d ("usb: typec: tcpm: fix cc role at port reset")
-> > Signed-off-by: Badhri Jagan Sridharan <badhri@google.com>
-> > ---
-> >  drivers/usb/typec/tcpm/tcpm.c | 3 +--
-> >  1 file changed, 1 insertion(+), 2 deletions(-)
-> >
-> > diff --git a/drivers/usb/typec/tcpm/tcpm.c b/drivers/usb/typec/tcpm/tcp=
-m.c
-> > index 5945e3a2b0f7..9d410718eaf4 100644
-> > --- a/drivers/usb/typec/tcpm/tcpm.c
-> > +++ b/drivers/usb/typec/tcpm/tcpm.c
-> > @@ -4876,8 +4876,7 @@ static void run_state_machine(struct tcpm_port *p=
-ort)
-> >                 break;
-> >         case PORT_RESET:
-> >                 tcpm_reset_port(port);
-> > -               tcpm_set_cc(port, tcpm_default_state(port) =3D=3D SNK_U=
-NATTACHED ?
-> > -                           TYPEC_CC_RD : tcpm_rp_cc(port));
-> > +               tcpm_set_cc(port, TYPEC_CC_OPEN);
-> >                 tcpm_set_state(port, PORT_RESET_WAIT_OFF,
-> >                                PD_T_ERROR_RECOVERY);
-> >                 break;
-> >
-> > base-commit: 933bb7b878ddd0f8c094db45551a7daddf806e00
-> > --
-> > 2.43.0.429.g432eaa2c6b-goog
-> >
-> >
+Applied to thunderbolt.git/next, thanks!
