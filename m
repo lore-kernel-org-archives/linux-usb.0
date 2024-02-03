@@ -1,45 +1,45 @@
 Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com [205.220.180.131])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3C10E495DB;
-	Sat,  3 Feb 2024 02:38:04 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 01AFF48CDC;
+	Sat,  3 Feb 2024 02:38:03 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.180.131
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1706927887; cv=none; b=dDmLn6pg1s66S5DUu2f9DR33wJwffAoKsTzW3GjDlrLed1K78NaheCmT/OASamS15bqAhMZxHhMQODNEZDruvLwIcUKCOzWK68OhpWHjxLQxKSNha9L48LTtl6nf01KWQYwF7gCzPFssUXK25YyK7qzwv3sfAYaz+c9HDNFYdSI=
+	t=1706927887; cv=none; b=RQJHOXGUuwYCoJiI2kMLcLLRTJAR9npSeKp0+YTGLRsHbTt0ZEyPiUyouyx3xQkhChV3lKvPhKMBeia8T+J3KLY+Op8Opnn37g+OY5iMxRvVmlcX6dpHtC7urts1wE1RTABuFKgZ/5poJBGHhQSC/KzyerFMta38Co/Xvbi5mPI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
 	s=arc-20240116; t=1706927887; c=relaxed/simple;
-	bh=kBRKQewBFwebBlSfn7sxo02gwubgl581TIfyTJo/ozk=;
+	bh=IS2mFSaOYw8NgJjI1LojZ65aEsKXdGK1aJu+0hEKs2Y=;
 	h=From:To:CC:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=YZ8DUVD5Vg+ki96uRkVNkjgz5pIRy5adcxNC3786Z9PAi0QB0VbJ9VwDpaypJhasyctUsL1I8j8+fsmzuzHdhg723vsLYztYW1GcOXOKhMxSj+yiBb6CEur0/sA6qhOuvIF+Tt0Xh/pGWQF8lDmK5TCj3cqGy1EJmwXHfy9S9rU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=quicinc.com; spf=pass smtp.mailfrom=quicinc.com; dkim=pass (2048-bit key) header.d=quicinc.com header.i=@quicinc.com header.b=Uc79986w; arc=none smtp.client-ip=205.220.180.131
+	 MIME-Version:Content-Type; b=Q7kRAbT8aR7AR2d+fyQdFWjwh8AKSHGNzVUyCveuRxhYvPmbXsXM+CSzQ5fk0s4MzUo0zbt1/EXpkIPXmWxgEtfKeuSK7H6gqfZt5XfuoaXjT7n5neG/j24WwEA21D4+cvVzI9jIQW0L7wmeVsaPjfH7euW62QYNq1MGuW+I0I4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=quicinc.com; spf=pass smtp.mailfrom=quicinc.com; dkim=pass (2048-bit key) header.d=quicinc.com header.i=@quicinc.com header.b=KUR+MLTj; arc=none smtp.client-ip=205.220.180.131
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=quicinc.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=quicinc.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=quicinc.com header.i=@quicinc.com header.b="Uc79986w"
+	dkim=pass (2048-bit key) header.d=quicinc.com header.i=@quicinc.com header.b="KUR+MLTj"
 Received: from pps.filterd (m0279868.ppops.net [127.0.0.1])
-	by mx0a-0031df01.pphosted.com (8.17.1.24/8.17.1.24) with ESMTP id 4132Z1tA015813;
+	by mx0a-0031df01.pphosted.com (8.17.1.24/8.17.1.24) with ESMTP id 4132ZjvE016519;
 	Sat, 3 Feb 2024 02:37:48 GMT
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com; h=
 	from:to:cc:subject:date:message-id:in-reply-to:references
-	:mime-version:content-type; s=qcppdkim1; bh=N1alWV4PWu2ZQmDggZ7z
-	suZUodSQzl50W127f+/3e+0=; b=Uc79986wdiSMq8zhN9dv5olmooLVvczDmIzS
-	DFESmwqumpGcPNO2LNhsysB0ATnankOArVhJS7leb4Wx/csplOKFWenIhJ2wYe3f
-	CTPHfkt3m6xvgHE4hSw/dr+TEe6ZNCz4MtYUmnXBYRK5dCvQzMXO+enmX0uhcKdO
-	4DAZEtlz4vX28BiX8y9HrJph75zzA905wLlr1OS3wUmQtchmNCRta/mRIxjtTbxY
-	cELuFFRQQBlFAo5hXjLxubyRER87MWg4bk5lG+B6ulvS9NecsAyRiJVdR5BuYJps
-	+vDRO2L6Vr46k+SX9qYOBJrUlPX0Mfg0xwStctkI4B4e4BPuNA==
-Received: from nalasppmta04.qualcomm.com (Global_NAT1.qualcomm.com [129.46.96.20])
-	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 3w1ctq003a-1
+	:mime-version:content-type; s=qcppdkim1; bh=Mac5fYtyQT3/dFjHQIR2
+	0e2Ic8f2mGSavzPia8fsM5c=; b=KUR+MLTjDvkWGWcn2LoIjixlumApNdQy38rg
+	D20t3ShNqnvTuQQyAlrMIEtE8N4ZTehlMI9udFkB0ytY8n09ViUvZGedtLusuVXY
+	4ahPB0cv1jC3j47x36Yongtt+qJTbY6vwD0ToRRlTy52jqxGNfIDuq/1asaeWoww
+	rAsXNl9RC9i2PUX6dJGEHuIIfdXpjTesfMjSSIoCIA/Zai0le1quaAgnwaB1H7M1
+	Sf6YP733jqCIamj2s77IRjrYXGP5cPpo/F/bBvMJUoYfVvGdsp6Fzv4EYJK1yeya
+	UdqGwNslAmO8ddi/+MFODGx4ehw0/PL9tQ+/lAS7KSLLbxaSog==
+Received: from nalasppmta03.qualcomm.com (Global_NAT1.qualcomm.com [129.46.96.20])
+	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 3w1ctq003f-1
 	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
 	Sat, 03 Feb 2024 02:37:47 +0000 (GMT)
 Received: from nalasex01b.na.qualcomm.com (nalasex01b.na.qualcomm.com [10.47.209.197])
-	by NALASPPMTA04.qualcomm.com (8.17.1.5/8.17.1.5) with ESMTPS id 4132bJWd004215
+	by NALASPPMTA03.qualcomm.com (8.17.1.5/8.17.1.5) with ESMTPS id 4132bSY3012280
 	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Sat, 3 Feb 2024 02:37:19 GMT
+	Sat, 3 Feb 2024 02:37:28 GMT
 Received: from hu-wcheng-lv.qualcomm.com (10.49.16.6) by
  nalasex01b.na.qualcomm.com (10.47.209.197) with Microsoft SMTP Server
  (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.1118.40; Fri, 2 Feb 2024 18:37:18 -0800
+ 15.2.1118.40; Fri, 2 Feb 2024 18:37:27 -0800
 From: Wesley Cheng <quic_wcheng@quicinc.com>
 To: <srinivas.kandagatla@linaro.org>, <mathias.nyman@intel.com>,
         <perex@perex.cz>, <conor+dt@kernel.org>, <corbet@lwn.net>,
@@ -51,12 +51,10 @@ To: <srinivas.kandagatla@linaro.org>, <mathias.nyman@intel.com>,
 CC: <linux-kernel@vger.kernel.org>, <devicetree@vger.kernel.org>,
         <linux-sound@vger.kernel.org>, <linux-usb@vger.kernel.org>,
         <linux-arm-msm@vger.kernel.org>, <linux-doc@vger.kernel.org>,
-        <alsa-devel@alsa-project.org>,
-        Mathias Nyman <mathias.nyman@linux.intel.com>,
-        Wesley Cheng <quic_wcheng@quicinc.com>
-Subject: [PATCH v13 06/53] xhci: remove unnecessary event_ring_deq parameter from xhci_handle_event()
-Date: Fri, 2 Feb 2024 18:35:58 -0800
-Message-ID: <20240203023645.31105-7-quic_wcheng@quicinc.com>
+        <alsa-devel@alsa-project.org>, Wesley Cheng <quic_wcheng@quicinc.com>
+Subject: [PATCH v13 35/53] ALSA: usb-audio: Prevent starting of audio stream if in use
+Date: Fri, 2 Feb 2024 18:36:27 -0800
+Message-ID: <20240203023645.31105-36-quic_wcheng@quicinc.com>
 X-Mailer: git-send-email 2.17.1
 In-Reply-To: <20240203023645.31105-1-quic_wcheng@quicinc.com>
 References: <20240203023645.31105-1-quic_wcheng@quicinc.com>
@@ -71,119 +69,100 @@ X-ClientProxiedBy: nalasex01b.na.qualcomm.com (10.47.209.197) To
  nalasex01b.na.qualcomm.com (10.47.209.197)
 X-QCInternal: smtphost
 X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800 signatures=585085
-X-Proofpoint-ORIG-GUID: havHPyCI2yOrvJNsKJocuu63du7Ignmg
-X-Proofpoint-GUID: havHPyCI2yOrvJNsKJocuu63du7Ignmg
+X-Proofpoint-ORIG-GUID: iqg0zktgSxo5nqQJ3tV3Gn-j4SzJh51A
+X-Proofpoint-GUID: iqg0zktgSxo5nqQJ3tV3Gn-j4SzJh51A
 X-Proofpoint-Virus-Version: vendor=baseguard
  engine=ICAP:2.0.272,Aquarius:18.0.1011,Hydra:6.0.619,FMLib:17.11.176.26
  definitions=2024-02-02_16,2024-01-31_01,2023-05-22_02
 X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 malwarescore=0
  priorityscore=1501 lowpriorityscore=0 mlxscore=0 adultscore=0
  clxscore=1015 bulkscore=0 suspectscore=0 spamscore=0 phishscore=0
- mlxlogscore=992 impostorscore=0 classifier=spam adjust=0 reason=mlx
+ mlxlogscore=999 impostorscore=0 classifier=spam adjust=0 reason=mlx
  scancount=1 engine=8.19.0-2401310000 definitions=main-2402030015
 
-From: Mathias Nyman <mathias.nyman@linux.intel.com>
+With USB audio offloading, an audio session is started from the ASoC
+platform sound card and PCM devices.  Likewise, the USB SND path is still
+readily available for use, in case the non-offload path is desired.  In
+order to prevent the two entities from attempting to use the USB bus,
+introduce a flag that determines when either paths are in use.
 
-The event_ring_deq parameter is used to check if the event ring dequeue
-position is updated while calling by xhci_handle_event(), meaning there was
-an actual event on the ring to handle. In this case the driver needs to
-inform hardware about the updated dequeue position.
-Basically event_ring_deq just stores the old event ring dequeue position
-before calling the event handler.
+If a PCM device is already in use, the check will return an error to
+userspace notifying that the stream is currently busy.  This ensures that
+only one path is using the USB substream.
 
-Keeping track of software event dequeue updates this way is no longer
-useful as driver anyways reads the current hardware dequeue position
-within the handle event, and checks if it needs to be updated.
-
-The driver might anyway need to modify the EHB (event handler busy) bit in
-the same register as the dequeue pointer even if the actual dequeue
-position did not change.
-
-Signed-off-by: Mathias Nyman <mathias.nyman@linux.intel.com>
 Signed-off-by: Wesley Cheng <quic_wcheng@quicinc.com>
 ---
- drivers/usb/host/xhci-ring.c | 37 +++++++++++++++---------------------
- 1 file changed, 15 insertions(+), 22 deletions(-)
+ sound/usb/card.h |  1 +
+ sound/usb/pcm.c  | 19 +++++++++++++++++--
+ 2 files changed, 18 insertions(+), 2 deletions(-)
 
-diff --git a/drivers/usb/host/xhci-ring.c b/drivers/usb/host/xhci-ring.c
-index 1b619a290446..a9d2e876d62b 100644
---- a/drivers/usb/host/xhci-ring.c
-+++ b/drivers/usb/host/xhci-ring.c
-@@ -2982,30 +2982,26 @@ static int xhci_handle_event(struct xhci_hcd *xhci, struct xhci_interrupter *ir)
-  */
- static void xhci_update_erst_dequeue(struct xhci_hcd *xhci,
- 				     struct xhci_interrupter *ir,
--				     union xhci_trb *event_ring_deq,
- 				     bool clear_ehb)
- {
- 	u64 temp_64;
- 	dma_addr_t deq;
+diff --git a/sound/usb/card.h b/sound/usb/card.h
+index ed4a664e24e5..6d59995440c3 100644
+--- a/sound/usb/card.h
++++ b/sound/usb/card.h
+@@ -165,6 +165,7 @@ struct snd_usb_substream {
+ 	unsigned int pkt_offset_adj;	/* Bytes to drop from beginning of packets (for non-compliant devices) */
+ 	unsigned int stream_offset_adj;	/* Bytes to drop from beginning of stream (for non-compliant devices) */
  
- 	temp_64 = xhci_read_64(xhci, &ir->ir_set->erst_dequeue);
--	/* If necessary, update the HW's version of the event ring deq ptr. */
--	if (event_ring_deq != ir->event_ring->dequeue) {
--		deq = xhci_trb_virt_to_dma(ir->event_ring->deq_seg,
--				ir->event_ring->dequeue);
--		if (deq == 0)
--			xhci_warn(xhci, "WARN something wrong with SW event ring dequeue ptr\n");
--		/*
--		 * Per 4.9.4, Software writes to the ERDP register shall
--		 * always advance the Event Ring Dequeue Pointer value.
--		 */
--		if ((temp_64 & ERST_PTR_MASK) == (deq & ERST_PTR_MASK))
--			return;
-+	deq = xhci_trb_virt_to_dma(ir->event_ring->deq_seg,
-+				   ir->event_ring->dequeue);
-+	if (deq == 0)
-+		xhci_warn(xhci, "WARN something wrong with SW event ring dequeue ptr\n");
-+	/*
-+	 * Per 4.9.4, Software writes to the ERDP register shall always advance
-+	 * the Event Ring Dequeue Pointer value.
-+	 */
-+	if ((temp_64 & ERST_PTR_MASK) == (deq & ERST_PTR_MASK) && !clear_ehb)
-+		return;
++	unsigned int opened:1;		/* pcm device opened */
+ 	unsigned int running: 1;	/* running status */
+ 	unsigned int period_elapsed_pending;	/* delay period handling */
  
--		/* Update HC event ring dequeue pointer */
--		temp_64 = ir->event_ring->deq_seg->num & ERST_DESI_MASK;
--		temp_64 |= deq & ERST_PTR_MASK;
--	}
-+	/* Update HC event ring dequeue pointer */
-+	temp_64 = ir->event_ring->deq_seg->num & ERST_DESI_MASK;
-+	temp_64 |= deq & ERST_PTR_MASK;
+diff --git a/sound/usb/pcm.c b/sound/usb/pcm.c
+index 3adb09ce1702..c2cb52cd5d23 100644
+--- a/sound/usb/pcm.c
++++ b/sound/usb/pcm.c
+@@ -1241,8 +1241,15 @@ static int snd_usb_pcm_open(struct snd_pcm_substream *substream)
+ 	struct snd_usb_stream *as = snd_pcm_substream_chip(substream);
+ 	struct snd_pcm_runtime *runtime = substream->runtime;
+ 	struct snd_usb_substream *subs = &as->substream[direction];
++	struct snd_usb_audio *chip = subs->stream->chip;
+ 	int ret;
  
- 	/* Clear the event handler busy flag (RW1C) */
- 	if (clear_ehb)
-@@ -3034,7 +3030,6 @@ static void xhci_clear_interrupt_pending(struct xhci_hcd *xhci,
- irqreturn_t xhci_irq(struct usb_hcd *hcd)
- {
- 	struct xhci_hcd *xhci = hcd_to_xhci(hcd);
--	union xhci_trb *event_ring_deq;
- 	struct xhci_interrupter *ir;
- 	irqreturn_t ret = IRQ_NONE;
- 	u64 temp_64;
-@@ -3092,15 +3087,13 @@ irqreturn_t xhci_irq(struct usb_hcd *hcd)
- 		goto out;
- 	}
++	mutex_lock(&chip->mutex);
++	if (subs->opened) {
++		mutex_unlock(&chip->mutex);
++		return -EBUSY;
++	}
++
+ 	runtime->hw = snd_usb_hardware;
+ 	/* need an explicit sync to catch applptr update in low-latency mode */
+ 	if (direction == SNDRV_PCM_STREAM_PLAYBACK &&
+@@ -1259,13 +1266,17 @@ static int snd_usb_pcm_open(struct snd_pcm_substream *substream)
  
--	event_ring_deq = ir->event_ring->dequeue;
- 	/* FIXME this should be a delayed service routine
- 	 * that clears the EHB.
- 	 */
- 	while (xhci_handle_event(xhci, ir) > 0) {
- 		if (event_loop++ < TRBS_PER_SEGMENT / 2)
- 			continue;
--		xhci_update_erst_dequeue(xhci, ir, event_ring_deq, false);
--		event_ring_deq = ir->event_ring->dequeue;
-+		xhci_update_erst_dequeue(xhci, ir, false);
+ 	ret = setup_hw_info(runtime, subs);
+ 	if (ret < 0)
+-		return ret;
++		goto out;
+ 	ret = snd_usb_autoresume(subs->stream->chip);
+ 	if (ret < 0)
+-		return ret;
++		goto out;
+ 	ret = snd_media_stream_init(subs, as->pcm, direction);
+ 	if (ret < 0)
+ 		snd_usb_autosuspend(subs->stream->chip);
++	subs->opened = 1;
++out:
++	mutex_unlock(&chip->mutex);
++
+ 	return ret;
+ }
  
- 		/* ring is half-full, force isoc trbs to interrupt more often */
- 		if (ir->isoc_bei_interval > AVOID_BEI_INTERVAL_MIN)
-@@ -3109,7 +3102,7 @@ irqreturn_t xhci_irq(struct usb_hcd *hcd)
- 		event_loop = 0;
- 	}
+@@ -1274,6 +1285,7 @@ static int snd_usb_pcm_close(struct snd_pcm_substream *substream)
+ 	int direction = substream->stream;
+ 	struct snd_usb_stream *as = snd_pcm_substream_chip(substream);
+ 	struct snd_usb_substream *subs = &as->substream[direction];
++	struct snd_usb_audio *chip = subs->stream->chip;
+ 	int ret;
  
--	xhci_update_erst_dequeue(xhci, ir, event_ring_deq, true);
-+	xhci_update_erst_dequeue(xhci, ir, true);
- 	ret = IRQ_HANDLED;
+ 	snd_media_stop_pipeline(subs);
+@@ -1287,6 +1299,9 @@ static int snd_usb_pcm_close(struct snd_pcm_substream *substream)
  
- out:
+ 	subs->pcm_substream = NULL;
+ 	snd_usb_autosuspend(subs->stream->chip);
++	mutex_lock(&chip->mutex);
++	subs->opened = 0;
++	mutex_unlock(&chip->mutex);
+ 
+ 	return 0;
+ }
