@@ -1,45 +1,45 @@
 Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com [205.220.180.131])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BCA91171AC;
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BE301171AE;
 	Sat,  3 Feb 2024 02:37:51 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.180.131
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1706927874; cv=none; b=VS6dBGejteqOYuaZCFHO/p09l/fy2d9rXjC7sce8477Qsihb8B8WtBITawNmcbTdVu3Wj/vSzSi4GW6TXjA/u4N7Zpef6i4Dz721a900puY2+0KXp/UzySeYZi7n5f6JzOkpJDRT1CIT2Kv5ZCGePZIgxd+GxYk4Wy0zHfkzNvM=
+	t=1706927874; cv=none; b=fBNtxAEAc5Y07jZwKf+QKmhNEE1L6eThN8qV3FQOxBIwsr2btJiB+r0beZ2hCEY8X8xVQ8moBdKH2/npsxszLXCk6aZ7BWI3vTa6WMQTSX/i2ZaenyfCyDfA0gDjsBozCSGQuSfWrV5XRvvZyQlNu35hJxCT1oXdsvdKFf0WdIs=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
 	s=arc-20240116; t=1706927874; c=relaxed/simple;
-	bh=tNQSlvKoWgbkhbz1r67WQZ6Cx+rn2Vw4a4260C31m90=;
+	bh=XHbx/v/TuXqw8WQvMgvyY6h+6CwDlT1EQepdFQ4hDLM=;
 	h=From:To:CC:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=eisYx++PSUsnE0ZRmTyZFQWUig0JFwDW/Ec6VmHc76kGrY2qlmrnFZhR5tYL5bhJwfvOG/xd8VI1QUvEeNY0KF79tdnJ8jiwYspxBaTfAin5rqGCQNX/uvWgVPoIu/RrTM+d2uc1kNeQ4mtu5giNXNg3leeewj3JWSJ/spJN/eI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=quicinc.com; spf=pass smtp.mailfrom=quicinc.com; dkim=pass (2048-bit key) header.d=quicinc.com header.i=@quicinc.com header.b=X+b+78vY; arc=none smtp.client-ip=205.220.180.131
+	 MIME-Version:Content-Type; b=icm9Vbz2eq1w4hGqGtP4+yLibmZynt+WHgvNOvKAO0PcFfqfsSGjeRDvkDK2JB0rhlYQu9XeCE5L20ngms7oqDnMKoNNYf13kvJ6qqSybm9P1z60eOMUhZTen43Oc2J2XvSOQy5JiFfzDnCU/XpjhtkMyA4KPte89ERPrUP0YaY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=quicinc.com; spf=pass smtp.mailfrom=quicinc.com; dkim=pass (2048-bit key) header.d=quicinc.com header.i=@quicinc.com header.b=J4OK3gk7; arc=none smtp.client-ip=205.220.180.131
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=quicinc.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=quicinc.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=quicinc.com header.i=@quicinc.com header.b="X+b+78vY"
-Received: from pps.filterd (m0279871.ppops.net [127.0.0.1])
-	by mx0a-0031df01.pphosted.com (8.17.1.24/8.17.1.24) with ESMTP id 41320CSW024270;
-	Sat, 3 Feb 2024 02:37:24 GMT
+	dkim=pass (2048-bit key) header.d=quicinc.com header.i=@quicinc.com header.b="J4OK3gk7"
+Received: from pps.filterd (m0279872.ppops.net [127.0.0.1])
+	by mx0a-0031df01.pphosted.com (8.17.1.24/8.17.1.24) with ESMTP id 4132QjKs029159;
+	Sat, 3 Feb 2024 02:37:32 GMT
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com; h=
 	from:to:cc:subject:date:message-id:in-reply-to:references
-	:mime-version:content-type; s=qcppdkim1; bh=A01XTM6TgZIHSNlPTXk1
-	gGSavEdxcNtrzNIQOSevhfM=; b=X+b+78vYFbX78dL+R9++Nf0HNVYGeA2GMIY6
-	QHuaGTbKj2hCWEwuAXmle6UqyWi8Cy+BvS6kC5MOn4TsEUCbL4brXsOAB0IhJDtD
-	GSW6eVOwOjQ9xlO+2jaOgiT6KGpI9MVF2vhU9FxT43bK6ctVb4yNL+ackY6dw8hD
-	GnoiecGZXIaoxoNtVKbDzVV/ubPASjPNGRHVrn+nlvDryJeFOQtmr+7hS+SrMmCl
-	ca9gwM4f7H68Kf8OfvacaDChekGOPVR8hICtejo0m7drC+kprJX9HDPfAzuIGzBe
-	KuSUjMiAEMV5qNg7jKSNsuF5FzZdty5tGf/J3BirM8I9Vhs8eg==
-Received: from nalasppmta01.qualcomm.com (Global_NAT1.qualcomm.com [129.46.96.20])
-	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 3w0pwjjuhy-1
+	:mime-version:content-type; s=qcppdkim1; bh=60ObKyG9TuHBxrZeqJMr
+	xbRUfxtLp+1tF0A4Dzl6/6A=; b=J4OK3gk7DNZV8jI5zFkNIicxTbyVkt/Ge+B0
+	pRllEeKpawUokwnY2IRPevo29sgSC6c7+OnKdQ+FQgMQNmbICTHQMtrtdIDN4J2F
+	r6wSr9ud1OxNoWqttOgo21NzJjiY3/hD+h9PmZv+z/g+rR+/ntpTxfJZqMcneAK6
+	wYgDJJ5goMw+v5Llrg7kevfRuPZswTpO3en0bpYFElbyThEeo8PNSCmoeAbnbmHJ
+	vXA6y4wauA3BqW6Od/pz9l6jp0SyiECTXNY0LCfpiWS6DSXa56AziHLo6N2Z30E6
+	f7XkfduP8jieLNQ3y8Kn8zXtFkrA+FmH7Xb9Ba2lkIxUQnFh8g==
+Received: from nalasppmta03.qualcomm.com (Global_NAT1.qualcomm.com [129.46.96.20])
+	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 3w1ax4849m-1
 	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Sat, 03 Feb 2024 02:37:23 +0000 (GMT)
+	Sat, 03 Feb 2024 02:37:31 +0000 (GMT)
 Received: from nalasex01b.na.qualcomm.com (nalasex01b.na.qualcomm.com [10.47.209.197])
-	by NALASPPMTA01.qualcomm.com (8.17.1.5/8.17.1.5) with ESMTPS id 4132bMRD008187
+	by NALASPPMTA03.qualcomm.com (8.17.1.5/8.17.1.5) with ESMTPS id 4132bUCr012287
 	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Sat, 3 Feb 2024 02:37:22 GMT
+	Sat, 3 Feb 2024 02:37:30 GMT
 Received: from hu-wcheng-lv.qualcomm.com (10.49.16.6) by
  nalasex01b.na.qualcomm.com (10.47.209.197) with Microsoft SMTP Server
  (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.1118.40; Fri, 2 Feb 2024 18:37:22 -0800
+ 15.2.1118.40; Fri, 2 Feb 2024 18:37:30 -0800
 From: Wesley Cheng <quic_wcheng@quicinc.com>
 To: <srinivas.kandagatla@linaro.org>, <mathias.nyman@intel.com>,
         <perex@perex.cz>, <conor+dt@kernel.org>, <corbet@lwn.net>,
@@ -52,9 +52,9 @@ CC: <linux-kernel@vger.kernel.org>, <devicetree@vger.kernel.org>,
         <linux-sound@vger.kernel.org>, <linux-usb@vger.kernel.org>,
         <linux-arm-msm@vger.kernel.org>, <linux-doc@vger.kernel.org>,
         <alsa-devel@alsa-project.org>, Wesley Cheng <quic_wcheng@quicinc.com>
-Subject: [PATCH v13 18/53] usb: host: xhci-mem: Cleanup pending secondary event ring events
-Date: Fri, 2 Feb 2024 18:36:10 -0800
-Message-ID: <20240203023645.31105-19-quic_wcheng@quicinc.com>
+Subject: [PATCH v13 43/53] ASoC: Add SND kcontrol for fetching USB offload status
+Date: Fri, 2 Feb 2024 18:36:35 -0800
+Message-ID: <20240203023645.31105-44-quic_wcheng@quicinc.com>
 X-Mailer: git-send-email 2.17.1
 In-Reply-To: <20240203023645.31105-1-quic_wcheng@quicinc.com>
 References: <20240203023645.31105-1-quic_wcheng@quicinc.com>
@@ -69,126 +69,283 @@ X-ClientProxiedBy: nalasex01b.na.qualcomm.com (10.47.209.197) To
  nalasex01b.na.qualcomm.com (10.47.209.197)
 X-QCInternal: smtphost
 X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800 signatures=585085
-X-Proofpoint-GUID: MtFFxoEgf9D4nj212zK-5Ia6lC_xBLc7
-X-Proofpoint-ORIG-GUID: MtFFxoEgf9D4nj212zK-5Ia6lC_xBLc7
+X-Proofpoint-ORIG-GUID: a9njwXRwMqosq7zR3H2dLEK_LdAJw9_2
+X-Proofpoint-GUID: a9njwXRwMqosq7zR3H2dLEK_LdAJw9_2
 X-Proofpoint-Virus-Version: vendor=baseguard
  engine=ICAP:2.0.272,Aquarius:18.0.1011,Hydra:6.0.619,FMLib:17.11.176.26
  definitions=2024-02-02_16,2024-01-31_01,2023-05-22_02
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 impostorscore=0
- lowpriorityscore=0 clxscore=1015 mlxscore=0 phishscore=0 mlxlogscore=803
- malwarescore=0 suspectscore=0 adultscore=0 priorityscore=1501 spamscore=0
- bulkscore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.19.0-2401310000 definitions=main-2402030014
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 lowpriorityscore=0
+ clxscore=1015 bulkscore=0 phishscore=0 mlxlogscore=999 priorityscore=1501
+ impostorscore=0 malwarescore=0 spamscore=0 adultscore=0 suspectscore=0
+ mlxscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.19.0-2401310000 definitions=main-2402030015
 
-As part of xHCI bus suspend, the XHCI is halted.  However, if there are
-pending events in the secondary event ring, it is observed that the xHCI
-controller stops responding to further commands upon host or device
-initiated bus resume.  Iterate through all pending events and update the
-dequeue pointer to the beginning of the event ring.
+Add a kcontrol to the platform sound card to fetch the current offload
+status.  This can allow for userspace to ensure/check which USB SND
+resources are actually busy versus having to attempt opening the USB SND
+devices, which will result in an error if offloading is active.
 
 Signed-off-by: Wesley Cheng <quic_wcheng@quicinc.com>
 ---
- drivers/usb/host/xhci-mem.c  |  7 ++++++-
- drivers/usb/host/xhci-ring.c | 33 ++++++++++++++++++++++++++++++++-
- drivers/usb/host/xhci.h      |  5 +++++
- 3 files changed, 43 insertions(+), 2 deletions(-)
+ include/sound/soc-usb.h |  27 ++++++++
+ sound/soc/soc-usb.c     | 150 +++++++++++++++++++++++++++++++++++++++-
+ 2 files changed, 175 insertions(+), 2 deletions(-)
 
-diff --git a/drivers/usb/host/xhci-mem.c b/drivers/usb/host/xhci-mem.c
-index 450adaca68ee..e4c13f056c1a 100644
---- a/drivers/usb/host/xhci-mem.c
-+++ b/drivers/usb/host/xhci-mem.c
-@@ -1827,7 +1827,7 @@ xhci_remove_interrupter(struct xhci_hcd *xhci, struct xhci_interrupter *ir)
- 		tmp &= ERST_SIZE_MASK;
- 		writel(tmp, &ir->ir_set->erst_size);
+diff --git a/include/sound/soc-usb.h b/include/sound/soc-usb.h
+index 20d7b32bba07..c05d9b2f5c90 100644
+--- a/include/sound/soc-usb.h
++++ b/include/sound/soc-usb.h
+@@ -6,6 +6,24 @@
+ #ifndef __LINUX_SND_SOC_USB_H
+ #define __LINUX_SND_SOC_USB_H
  
--		xhci_write_64(xhci, ERST_EHB, &ir->ir_set->erst_dequeue);
-+		xhci_update_erst_dequeue(xhci, ir, true);
- 	}
- }
- 
-@@ -1870,6 +1870,11 @@ void xhci_remove_secondary_interrupter(struct usb_hcd *hcd, struct xhci_interrup
- 		return;
- 	}
- 
-+	/*
-+	 * Cleanup secondary interrupter to ensure there are no pending events.
-+	 * This also updates event ring dequeue pointer back to the start.
-+	 */
-+	xhci_skip_sec_intr_events(xhci, ir->event_ring, ir);
- 	intr_num = ir->intr_num;
- 
- 	xhci_remove_interrupter(xhci, ir);
-diff --git a/drivers/usb/host/xhci-ring.c b/drivers/usb/host/xhci-ring.c
-index 958d6fd6d156..bdd88dcd0ad3 100644
---- a/drivers/usb/host/xhci-ring.c
-+++ b/drivers/usb/host/xhci-ring.c
-@@ -2973,7 +2973,7 @@ static int xhci_handle_event_trb(struct xhci_hcd *xhci, struct xhci_interrupter
-  * - When all events have finished
-  * - To avoid "Event Ring Full Error" condition
-  */
--static void xhci_update_erst_dequeue(struct xhci_hcd *xhci,
-+void xhci_update_erst_dequeue(struct xhci_hcd *xhci,
- 				     struct xhci_interrupter *ir,
- 				     bool clear_ehb)
- {
-@@ -3073,6 +3073,37 @@ static int xhci_handle_events(struct xhci_hcd *xhci, struct xhci_interrupter *ir
- 	return 0;
- }
- 
-+/*
-+ * Move the event ring dequeue pointer to skip events kept in the secondary
-+ * event ring.  This is used to ensure that pending events in the ring are
-+ * acknowledged, so the XHCI HCD can properly enter suspend/resume.  The
-+ * secondary ring is typically maintained by an external component.
++enum snd_soc_usb_dai_state {
++	SND_SOC_USB_IDLE,
++	SND_SOC_USB_PREPARED,
++	SND_SOC_USB_RUNNING,
++};
++
++/**
++ * struct snd_soc_usb_session
++ * @active_card_idx - active offloaded sound card
++ * @active_pcm_idx - active offloaded PCM device
++ * @state - USB BE DAI link PCM state
 + */
-+void xhci_skip_sec_intr_events(struct xhci_hcd *xhci,
-+	struct xhci_ring *ring,	struct xhci_interrupter *ir)
++struct snd_soc_usb_session {
++	int active_card_idx;
++	int active_pcm_idx;
++	enum snd_soc_usb_dai_state state;
++};
++
+ /**
+  * struct snd_soc_usb_device
+  * @card_idx - sound card index associated with USB device
+@@ -25,6 +43,8 @@ struct snd_soc_usb_device {
+  * @list - list head for SND SOC struct list
+  * @dev - USB backend device reference
+  * @component - reference to ASoC component
++ * @active_list - active sessions
++ * @num_supported_streams - number of supported concurrent sessions
+  * @connection_status_cb - callback to notify connection events
+  * @put_offload_dev - callback to select USB sound card/PCM device
+  * @get_offload_dev - callback to fetch selected USB sound card/PCM device
+@@ -33,6 +53,8 @@ struct snd_soc_usb_device {
+ struct snd_soc_usb {
+ 	struct list_head list;
+ 	struct snd_soc_component *component;
++	struct snd_soc_usb_session *active_list;
++	unsigned int num_supported_streams;
+ 	int (*connection_status_cb)(struct snd_soc_usb *usb,
+ 			struct snd_soc_usb_device *sdev, bool connected);
+ 	int (*put_offload_dev)(struct snd_kcontrol *kcontrol,
+@@ -50,6 +72,11 @@ int snd_soc_usb_connect(struct device *usbdev, struct snd_soc_usb_device *sdev);
+ int snd_soc_usb_disconnect(struct device *usbdev, struct snd_soc_usb_device *sdev);
+ void *snd_soc_usb_find_priv_data(struct device *dev);
+ 
++int snd_soc_usb_prepare_session(struct snd_soc_usb *usb, int card_idx, int pcm_idx);
++int snd_soc_usb_shutdown_session(struct snd_soc_usb *usb, int session_id);
++int snd_soc_usb_set_session_state(struct snd_soc_usb *usb, int session_id,
++				  enum snd_soc_usb_dai_state state);
++
+ struct snd_soc_usb *snd_soc_usb_allocate_port(struct snd_soc_component *component,
+ 			int num_supported_streams, void *data);
+ void snd_soc_usb_free_port(struct snd_soc_usb *usb);
+diff --git a/sound/soc/soc-usb.c b/sound/soc/soc-usb.c
+index c568c67e3e4a..9c082129cb9f 100644
+--- a/sound/soc/soc-usb.c
++++ b/sound/soc/soc-usb.c
+@@ -42,11 +42,62 @@ static struct snd_soc_usb *snd_soc_find_usb_ctx(struct device_node *node)
+ }
+ 
+ /* SOC USB sound kcontrols */
++static int snd_soc_usb_get_offload_status(struct snd_kcontrol *kcontrol,
++				   struct snd_ctl_elem_value *ucontrol)
 +{
-+	union xhci_trb *current_trb;
-+	u64 erdp_reg;
-+	dma_addr_t deq;
++	struct snd_soc_component *component = snd_kcontrol_chip(kcontrol);
++	struct snd_soc_usb *ctx = snd_soc_find_usb_ctx(component->dev->of_node);
++	int control_idx = 0;
++	int pcm_idx;
++	int card_idx;
++	int i;
 +
-+	/* disable irq, ack pending interrupt and ack all pending events */
-+	xhci_disable_interrupter(ir);
++	for (i = 0; i < ctx->num_supported_streams; i++) {
++		card_idx = -1;
++		pcm_idx = -1;
 +
-+	/* last acked event trb is in erdp reg  */
-+	erdp_reg = xhci_read_64(xhci, &ir->ir_set->erst_dequeue);
-+	deq = (dma_addr_t)(erdp_reg & ERST_PTR_MASK);
-+	if (!deq) {
-+		xhci_err(xhci, "event ring handling not required\n");
-+		return;
++		if (ctx->active_list[i].state == SND_SOC_USB_RUNNING) {
++			card_idx = ctx->active_list[i].active_card_idx;
++			pcm_idx = ctx->active_list[i].active_pcm_idx;
++		}
++
++		ucontrol->value.integer.value[control_idx] = card_idx;
++		control_idx++;
++		ucontrol->value.integer.value[control_idx] = pcm_idx;
++		control_idx++;
 +	}
 +
-+	current_trb = ir->event_ring->dequeue;
-+	/* read cycle state of the last acked trb to find out CCS */
-+	ring->cycle_state = le32_to_cpu(current_trb->event_cmd.flags) & TRB_CYCLE;
-+
-+	xhci_handle_events(xhci, ir);
++	return 0;
 +}
 +
- /*
-  * xHCI spec says we can get an interrupt, and if the HC has an error condition,
-  * we might get bad data out of the event ring.  Section 4.10.2.7 has a list of
-diff --git a/drivers/usb/host/xhci.h b/drivers/usb/host/xhci.h
-index 0a4d9449bdff..96f9d1b38ff5 100644
---- a/drivers/usb/host/xhci.h
-+++ b/drivers/usb/host/xhci.h
-@@ -1839,6 +1839,8 @@ struct xhci_interrupter *
- xhci_create_secondary_interrupter(struct usb_hcd *hcd, int num_seg);
- void xhci_remove_secondary_interrupter(struct usb_hcd
- 				       *hcd, struct xhci_interrupter *ir);
-+void xhci_skip_sec_intr_events(struct xhci_hcd *xhci,
-+	struct xhci_ring *ring,	struct xhci_interrupter *ir);
++static int snd_soc_usb_offload_status_info(struct snd_kcontrol *kcontrol,
++			      struct snd_ctl_elem_info *uinfo)
++{
++	struct snd_soc_component *component = snd_kcontrol_chip(kcontrol);
++	struct snd_soc_usb *ctx = snd_soc_find_usb_ctx(component->dev->of_node);
++
++	uinfo->type = SNDRV_CTL_ELEM_TYPE_INTEGER;
++	uinfo->count = 2*ctx->num_supported_streams;
++	uinfo->value.integer.min = -1;
++	uinfo->value.integer.max = SNDRV_CARDS;
++
++	return 0;
++}
++
++static const struct snd_kcontrol_new soc_usb_status_ctrl = {
++	.iface = SNDRV_CTL_ELEM_IFACE_CARD,
++	.access = SNDRV_CTL_ELEM_ACCESS_READ,
++	.name = "SNDUSB OFFLD playback status",
++	.info = snd_soc_usb_offload_status_info,
++	.get = snd_soc_usb_get_offload_status,
++	.put = NULL,
++};
++
+ static int soc_usb_put_offload_dev(struct snd_kcontrol *kcontrol,
+ 			      struct snd_ctl_elem_value *ucontrol)
+ {
+ 	struct snd_soc_component *component = snd_kcontrol_chip(kcontrol);
+-	struct snd_soc_usb *ctx = snd_soc_usb_find_priv_data(component->dev);
++	struct snd_soc_usb *ctx = snd_soc_find_usb_ctx(component->dev->of_node);
+ 	int ret = 0;
  
- /* xHCI host controller glue */
- typedef void (*xhci_get_quirks_t)(struct device *, struct xhci_hcd *);
-@@ -1930,6 +1932,9 @@ void inc_deq(struct xhci_hcd *xhci, struct xhci_ring *ring);
- unsigned int count_trbs(u64 addr, u64 len);
- int xhci_stop_endpoint_sync(struct xhci_hcd *xhci, struct xhci_virt_ep *ep,
- 			    int suspend, gfp_t gfp_flags);
-+void xhci_update_erst_dequeue(struct xhci_hcd *xhci,
-+				     struct xhci_interrupter *ir,
-+				     bool clear_ehb);
+ 	mutex_lock(&ctx_mutex);
+@@ -61,7 +112,7 @@ static int soc_usb_get_offload_dev(struct snd_kcontrol *kcontrol,
+ 				   struct snd_ctl_elem_value *ucontrol)
+ {
+ 	struct snd_soc_component *component = snd_kcontrol_chip(kcontrol);
+-	struct snd_soc_usb *ctx = snd_soc_usb_find_priv_data(component->dev);
++	struct snd_soc_usb *ctx = snd_soc_find_usb_ctx(component->dev->of_node);
+ 	int ret = 0;
  
- /* xHCI roothub code */
- void xhci_set_link_state(struct xhci_hcd *xhci, struct xhci_port *port,
+ 	mutex_lock(&ctx_mutex);
+@@ -95,10 +146,96 @@ static const struct snd_kcontrol_new soc_usb_dev_ctrl = {
+ 
+ static int snd_soc_usb_control_init(struct snd_soc_component *component)
+ {
++	int ret;
++
++	ret = snd_ctl_add(component->card->snd_card,
++				snd_ctl_new1(&soc_usb_status_ctrl, component));
++	if (ret < 0)
++		return ret;
++
+ 	return snd_ctl_add(component->card->snd_card,
+ 				snd_ctl_new1(&soc_usb_dev_ctrl, component));
+ }
+ 
++/**
++ * snd_soc_usb_set_session_state() - Set the session state for a session
++ * @usb: SOC USB device
++ * @session_id: index to active_list
++ * @state: USB PCM device index
++ *
++ * Set the session state for an entry in active_list.  This should be only
++ * called after snd_soc_usb_prepare_session.
++ *
++ * Returns 0 on success, negative on error.
++ *
++ */
++int snd_soc_usb_set_session_state(struct snd_soc_usb *usb, int session_id,
++				  enum snd_soc_usb_dai_state state)
++{
++	if (session_id < 0 || session_id >= usb->num_supported_streams)
++		return -EINVAL;
++
++	mutex_lock(&ctx_mutex);
++	if (usb->active_list[session_id].state == state) {
++		mutex_unlock(&ctx_mutex);
++		return 0;
++	}
++
++	usb->active_list[session_id].state = state;
++	mutex_unlock(&ctx_mutex);
++
++	return 0;
++}
++EXPORT_SYMBOL_GPL(snd_soc_usb_set_session_state);
++
++/**
++ * snd_soc_usb_prepare_session() - Find and prepare a session
++ * @usb: SOC USB device
++ * @card_idx: USB card index
++ * @pcm_idx: USB PCM device index
++ *
++ * Find an open active session slot on the SOC USB device.  If all slots
++ * are busy, return an error.  If not, claim the slot and place it into
++ * the SND_SOC_USB_PREPARED state.  This should be called first before
++ * calling snd_soc_usb_set_session_state or snd_soc_usb_shutdown_session.
++ *
++ * Returns the session id (index) to active_list, negative on error.
++ *
++ */
++int snd_soc_usb_prepare_session(struct snd_soc_usb *usb, int card_idx, int pcm_idx)
++{
++	int i;
++
++	mutex_lock(&ctx_mutex);
++	for (i = 0; i < usb->num_supported_streams; i++) {
++		if (usb->active_list[i].state == SND_SOC_USB_IDLE) {
++			usb->active_list[i].active_card_idx = card_idx;
++			usb->active_list[i].active_pcm_idx = pcm_idx;
++			usb->active_list[i].state = SND_SOC_USB_PREPARED;
++			mutex_unlock(&ctx_mutex);
++			return i;
++		}
++	}
++	mutex_unlock(&ctx_mutex);
++
++	return -EBUSY;
++}
++EXPORT_SYMBOL_GPL(snd_soc_usb_prepare_session);
++
++/**
++ * snd_soc_usb_shutdown_session() - Set USB SOC to idle state
++ * @usb: SOC USB device
++ * @session_id: index to active_list
++ *
++ * Place the session specified by session_id into the idle/shutdown state.
++ *
++ */
++int snd_soc_usb_shutdown_session(struct snd_soc_usb *usb, int session_id)
++{
++	return snd_soc_usb_set_session_state(usb, session_id, SND_SOC_USB_IDLE);
++}
++EXPORT_SYMBOL_GPL(snd_soc_usb_shutdown_session);
++
+ /**
+  * snd_soc_usb_get_components_tag() - Retrieve SOC USB component tag
+  * @playback: direction of audio stream
+@@ -185,8 +322,16 @@ struct snd_soc_usb *snd_soc_usb_allocate_port(struct snd_soc_component *componen
+ 	if (!usb)
+ 		return ERR_PTR(-ENOMEM);
+ 
++	usb->active_list = kcalloc(num_streams, sizeof(struct snd_soc_usb_session),
++				   GFP_KERNEL);
++	if (!usb->active_list) {
++		kfree(usb);
++		return ERR_PTR(-ENOMEM);
++	}
++
+ 	usb->component = component;
+ 	usb->priv_data = data;
++	usb->num_supported_streams = num_streams;
+ 
+ 	return usb;
+ }
+@@ -202,6 +347,7 @@ EXPORT_SYMBOL_GPL(snd_soc_usb_allocate_port);
+ void snd_soc_usb_free_port(struct snd_soc_usb *usb)
+ {
+ 	snd_soc_usb_remove_port(usb);
++	kfree(usb->active_list);
+ 	kfree(usb);
+ }
+ EXPORT_SYMBOL_GPL(snd_soc_usb_free_port);
