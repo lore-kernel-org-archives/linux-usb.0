@@ -1,218 +1,233 @@
-Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com [205.220.180.131])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.21])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1A3EC48CC8;
-	Sat,  3 Feb 2024 02:38:22 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.180.131
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B973461674
+	for <linux-usb@vger.kernel.org>; Sat,  3 Feb 2024 17:06:33 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.21
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1706927904; cv=none; b=tPVDQ5Y/XfwN+UFqWDR9EPhGUM6ACC5p/F4IksOQKVfnZDXkCU0J/Buo97keRuwftjiW0l420Ahvdjt4xQI4hOAkFc+UsPuytvJsGIlAXHZBE337woeZ9AP/bbPjuNG8O9tgJKfA6GQ7dkuKcnql+YtwPvHC8dU75eaSkySxuow=
+	t=1706979995; cv=none; b=rIJr7jHhAtRxeaiTNMzU8Xiv3Do+Ck7K0+glu+CohEBJhUl4Rb71zQNcpCII74wAdqec7T6SQgNgSrLM2/EtO4++Ko6Luxn2/FsCjY626m7UZGtghO0iaFPdZjjUUAhJ1BONPxS8tIDLQn2dwEqOkpgJqv7EpqVSWRpotA/Om+k=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1706927904; c=relaxed/simple;
-	bh=5j0LD4cU0Gyh4u94KaYfLWqCDiM58ryYVYdm0d3ckJ0=;
-	h=From:To:CC:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=drEDBHI+L4Qoq4yF6wL2wMsS8qHtH3Dr7HZi6aN9QszffM4fhD1fZ8Sgc4ymj1BrtDZd09TcyF1iaoC4y/X+YO15PGURoBMwavI58Y0XSPVxkvqAMcIMK/PdhYc0LN7l3kGbCiPZxZlBnJt4MiqsOAm2TTgTU5n9wCFM5y/apXs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=quicinc.com; spf=pass smtp.mailfrom=quicinc.com; dkim=pass (2048-bit key) header.d=quicinc.com header.i=@quicinc.com header.b=MS4hlyNP; arc=none smtp.client-ip=205.220.180.131
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=quicinc.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=quicinc.com
+	s=arc-20240116; t=1706979995; c=relaxed/simple;
+	bh=r1kpAm05agiLpFg3rTEbHum1WWO4STHbAxa7fN79zH4=;
+	h=Date:From:To:Cc:Subject:Message-ID; b=s69eVmaEmsObLkPhtDiSJ283dU2x0Ut+4pJOX71h+zPvdBnCLC+bZyoyx/PnkD5Bq5OJq+AyogElLVkmcydGZYvJH9tCpPhc9EsfvI1t+ReXDa8+Iwz5HK5yMSI3nt6K8RwzJhHN/u+wVZ0OiRVux+f1mLF/4v7I8SzEGbvvCCc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=S5E1HbTZ; arc=none smtp.client-ip=198.175.65.21
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=quicinc.com header.i=@quicinc.com header.b="MS4hlyNP"
-Received: from pps.filterd (m0279871.ppops.net [127.0.0.1])
-	by mx0a-0031df01.pphosted.com (8.17.1.24/8.17.1.24) with ESMTP id 4132Q51D004181;
-	Sat, 3 Feb 2024 02:38:06 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com; h=
-	from:to:cc:subject:date:message-id:in-reply-to:references
-	:mime-version:content-type; s=qcppdkim1; bh=7VZfx/Bay9jjE9Iv4MJz
-	JiR4uxKr/xQofmWH8gbXo0Y=; b=MS4hlyNPK3M+7a4w+eUQ4Uf0h/FmwZAWKjzc
-	sQB262Wm/T/KwKzXYZeAXr2hVs1w2m+4zSiPZqNs3D8Ns2gnxYgBiyEwPeM4EXfD
-	BUGNPhJ3guW+KrwgGVdMprbXCmo+q4xZmYzkmFZI2Hzt2fte+pHBL5kp5zHTF1A5
-	S6JKqm6KbzHicrrW5HATTjSry805CI4m3bCSRKkynaHj/zWAY10ZLG2gLWzFsLoC
-	9F8A7oFwU0EGfOiy4EMHIGYAWMlrY6q//GgeqSg37BmU6x5Rceh74BiQ6nupvwKK
-	OR5nfZeLmINSF3gX+h8b1NkIGEb3FYTk7zEPS+QTvdZAad6uuA==
-Received: from nalasppmta04.qualcomm.com (Global_NAT1.qualcomm.com [129.46.96.20])
-	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 3w0pwjjuj9-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Sat, 03 Feb 2024 02:38:05 +0000 (GMT)
-Received: from nalasex01b.na.qualcomm.com (nalasex01b.na.qualcomm.com [10.47.209.197])
-	by NALASPPMTA04.qualcomm.com (8.17.1.5/8.17.1.5) with ESMTPS id 4132bUB0004284
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Sat, 3 Feb 2024 02:37:30 GMT
-Received: from hu-wcheng-lv.qualcomm.com (10.49.16.6) by
- nalasex01b.na.qualcomm.com (10.47.209.197) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.1118.40; Fri, 2 Feb 2024 18:37:29 -0800
-From: Wesley Cheng <quic_wcheng@quicinc.com>
-To: <srinivas.kandagatla@linaro.org>, <mathias.nyman@intel.com>,
-        <perex@perex.cz>, <conor+dt@kernel.org>, <corbet@lwn.net>,
-        <lgirdwood@gmail.com>, <andersson@kernel.org>,
-        <krzysztof.kozlowski+dt@linaro.org>, <gregkh@linuxfoundation.org>,
-        <Thinh.Nguyen@synopsys.com>, <broonie@kernel.org>,
-        <bgoswami@quicinc.com>, <tiwai@suse.com>, <robh+dt@kernel.org>,
-        <konrad.dybcio@linaro.org>
-CC: <linux-kernel@vger.kernel.org>, <devicetree@vger.kernel.org>,
-        <linux-sound@vger.kernel.org>, <linux-usb@vger.kernel.org>,
-        <linux-arm-msm@vger.kernel.org>, <linux-doc@vger.kernel.org>,
-        <alsa-devel@alsa-project.org>, Wesley Cheng <quic_wcheng@quicinc.com>
-Subject: [PATCH v13 41/53] ASoC: Introduce SND kcontrols to select sound card and PCM device
-Date: Fri, 2 Feb 2024 18:36:33 -0800
-Message-ID: <20240203023645.31105-42-quic_wcheng@quicinc.com>
-X-Mailer: git-send-email 2.17.1
-In-Reply-To: <20240203023645.31105-1-quic_wcheng@quicinc.com>
-References: <20240203023645.31105-1-quic_wcheng@quicinc.com>
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="S5E1HbTZ"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1706979994; x=1738515994;
+  h=date:from:to:cc:subject:message-id;
+  bh=r1kpAm05agiLpFg3rTEbHum1WWO4STHbAxa7fN79zH4=;
+  b=S5E1HbTZieoilE34jQktRoCR5DCf6P2TuxXgltvJVLBIzujEspZFcvvt
+   5xqNCVu/tmPZ/DsxAv1YF4CHXSp0FdIWRrmkWxGYsAkctAlKcAil8y6+q
+   8Wce7BpZFRBWb9Q7w1caBsWouJPivLyDMPkNosFi3c85cftfIqGrurxbY
+   32u+kjsVC2iTLMYcTs6LiYiC3sD7cxWJv6FQkmCS3pl5+mX8WMTsynYEQ
+   G/9XZCYtA1VwEMgSRuFJ81X/RoQmh9Bj3kOd/JU33toEi9nzH/+56+RP1
+   iw+2IBdCVEClVXIlH2HK6UtKdFdkNiwcCsrBi6bZCipyTfKmpgPe3TlnV
+   w==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10973"; a="247325"
+X-IronPort-AV: E=Sophos;i="6.05,240,1701158400"; 
+   d="scan'208";a="247325"
+Received: from orviesa001.jf.intel.com ([10.64.159.141])
+  by orvoesa113.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 03 Feb 2024 09:06:33 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.05,240,1701158400"; 
+   d="scan'208";a="37778173"
+Received: from lkp-server02.sh.intel.com (HELO 59f4f4cd5935) ([10.239.97.151])
+  by orviesa001.jf.intel.com with ESMTP; 03 Feb 2024 09:06:32 -0800
+Received: from kbuild by 59f4f4cd5935 with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1rWJTJ-0005Mi-0g;
+	Sat, 03 Feb 2024 17:06:29 +0000
+Date: Sun, 04 Feb 2024 01:04:03 +0800
+From: kernel test robot <lkp@intel.com>
+To: "Greg Kroah-Hartman" <gregkh@linuxfoundation.org>
+Cc: linux-usb@vger.kernel.org
+Subject: [usb:usb-linus] BUILD SUCCESS
+ ad834c7c8e4a74dd6cd4397848aa255e473d4a63
+Message-ID: <202402040100.jhKQNaJu-lkp@intel.com>
+User-Agent: s-nail v14.9.24
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
-Content-Type: text/plain
-X-ClientProxiedBy: nalasex01b.na.qualcomm.com (10.47.209.197) To
- nalasex01b.na.qualcomm.com (10.47.209.197)
-X-QCInternal: smtphost
-X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800 signatures=585085
-X-Proofpoint-GUID: 9HxCtAv8oQakOhJsPFDxs9FhU7a2yUtv
-X-Proofpoint-ORIG-GUID: 9HxCtAv8oQakOhJsPFDxs9FhU7a2yUtv
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.272,Aquarius:18.0.1011,Hydra:6.0.619,FMLib:17.11.176.26
- definitions=2024-02-02_16,2024-01-31_01,2023-05-22_02
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 impostorscore=0
- lowpriorityscore=0 clxscore=1015 mlxscore=0 phishscore=0 mlxlogscore=999
- malwarescore=0 suspectscore=0 adultscore=0 priorityscore=1501 spamscore=0
- bulkscore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.19.0-2401310000 definitions=main-2402030015
 
-Add SND kcontrol to SOC USB, which will allow for userpsace to determine
-which USB card number and PCM device to offload.  This allows for userspace
-to potentially tag an alternate path for a specific USB SND card and PCM
-device.  Previously, control was absent, and the offload path would be
-enabled on the last USB SND device which was connected.  This logic will
-continue to be applicable if no mixer input is received for specific device
-selection.
+tree/branch: https://git.kernel.org/pub/scm/linux/kernel/git/gregkh/usb.git usb-linus
+branch HEAD: ad834c7c8e4a74dd6cd4397848aa255e473d4a63  Merge tag 'usb-serial-6.8-rc3' of https://git.kernel.org/pub/scm/linux/kernel/git/johan/usb-serial into usb-linus
 
-An example to configure the offload device using tinymix:
-tinymix -D 0 set 'SNDUSB OFFLD device select' 1 0
+elapsed time: 1459m
 
-The above command will configure the offload path to utilize card#1 and PCM
-stream#0.
+configs tested: 160
+configs skipped: 3
 
-Signed-off-by: Wesley Cheng <quic_wcheng@quicinc.com>
----
- include/sound/soc-usb.h |  7 ++++-
- sound/soc/soc-usb.c     | 65 +++++++++++++++++++++++++++++++++++++++++
- 2 files changed, 71 insertions(+), 1 deletion(-)
+The following configs have been built successfully.
+More configs may be tested in the coming days.
 
-diff --git a/include/sound/soc-usb.h b/include/sound/soc-usb.h
-index d9fc83180c56..20d7b32bba07 100644
---- a/include/sound/soc-usb.h
-+++ b/include/sound/soc-usb.h
-@@ -26,14 +26,19 @@ struct snd_soc_usb_device {
-  * @dev - USB backend device reference
-  * @component - reference to ASoC component
-  * @connection_status_cb - callback to notify connection events
-+ * @put_offload_dev - callback to select USB sound card/PCM device
-+ * @get_offload_dev - callback to fetch selected USB sound card/PCM device
-  * @priv_data - driver data
-  **/
- struct snd_soc_usb {
- 	struct list_head list;
--	struct device *dev;
- 	struct snd_soc_component *component;
- 	int (*connection_status_cb)(struct snd_soc_usb *usb,
- 			struct snd_soc_usb_device *sdev, bool connected);
-+	int (*put_offload_dev)(struct snd_kcontrol *kcontrol,
-+			      struct snd_ctl_elem_value *ucontrol);
-+	int (*get_offload_dev)(struct snd_kcontrol *kcontrol,
-+			      struct snd_ctl_elem_value *ucontrol);
- 	void *priv_data;
- };
- 
-diff --git a/sound/soc/soc-usb.c b/sound/soc/soc-usb.c
-index cad8e1d798e4..c568c67e3e4a 100644
---- a/sound/soc/soc-usb.c
-+++ b/sound/soc/soc-usb.c
-@@ -15,6 +15,9 @@ static struct device_node *snd_soc_find_phandle(struct device *dev)
- {
- 	struct device_node *node;
- 
-+	if (!dev)
-+		return ERR_PTR(-ENODEV);
-+
- 	node = of_parse_phandle(dev->of_node, "usb-soc-be", 0);
- 	if (!node)
- 		return ERR_PTR(-ENODEV);
-@@ -38,6 +41,64 @@ static struct snd_soc_usb *snd_soc_find_usb_ctx(struct device_node *node)
- 	return NULL;
- }
- 
-+/* SOC USB sound kcontrols */
-+static int soc_usb_put_offload_dev(struct snd_kcontrol *kcontrol,
-+			      struct snd_ctl_elem_value *ucontrol)
-+{
-+	struct snd_soc_component *component = snd_kcontrol_chip(kcontrol);
-+	struct snd_soc_usb *ctx = snd_soc_usb_find_priv_data(component->dev);
-+	int ret = 0;
-+
-+	mutex_lock(&ctx_mutex);
-+	if (ctx && ctx->put_offload_dev)
-+		ret = ctx->put_offload_dev(kcontrol, ucontrol);
-+	mutex_unlock(&ctx_mutex);
-+
-+	return ret;
-+}
-+
-+static int soc_usb_get_offload_dev(struct snd_kcontrol *kcontrol,
-+				   struct snd_ctl_elem_value *ucontrol)
-+{
-+	struct snd_soc_component *component = snd_kcontrol_chip(kcontrol);
-+	struct snd_soc_usb *ctx = snd_soc_usb_find_priv_data(component->dev);
-+	int ret = 0;
-+
-+	mutex_lock(&ctx_mutex);
-+	if (ctx && ctx->get_offload_dev)
-+		ret = ctx->get_offload_dev(kcontrol, ucontrol);
-+	mutex_unlock(&ctx_mutex);
-+
-+	return ret;
-+
-+}
-+
-+static int soc_usb_offload_dev_info(struct snd_kcontrol *kcontrol,
-+			      struct snd_ctl_elem_info *uinfo)
-+{
-+	uinfo->type = SNDRV_CTL_ELEM_TYPE_INTEGER;
-+	uinfo->count = 2;
-+	uinfo->value.integer.min = -1;
-+	uinfo->value.integer.max = SNDRV_CARDS;
-+
-+	return 0;
-+}
-+
-+static const struct snd_kcontrol_new soc_usb_dev_ctrl = {
-+	.iface = SNDRV_CTL_ELEM_IFACE_CARD,
-+	.access = SNDRV_CTL_ELEM_ACCESS_READWRITE,
-+	.name = "SNDUSB OFFLD device select",
-+	.info = soc_usb_offload_dev_info,
-+	.get = soc_usb_get_offload_dev,
-+	.put = soc_usb_put_offload_dev,
-+};
-+
-+static int snd_soc_usb_control_init(struct snd_soc_component *component)
-+{
-+	return snd_ctl_add(component->card->snd_card,
-+				snd_ctl_new1(&soc_usb_dev_ctrl, component));
-+}
-+
- /**
-  * snd_soc_usb_get_components_tag() - Retrieve SOC USB component tag
-  * @playback: direction of audio stream
-@@ -157,7 +218,11 @@ EXPORT_SYMBOL_GPL(snd_soc_usb_free_port);
-  */
- int snd_soc_usb_add_port(struct snd_soc_usb *usb)
- {
-+	int ret;
- 
-+	ret = snd_soc_usb_control_init(usb->component);
-+	if (ret < 0)
-+		return ret;
- 
- 	mutex_lock(&ctx_mutex);
- 	list_add_tail(&usb->list, &usb_ctx_list);
+tested configs:
+alpha                             allnoconfig   gcc  
+alpha                            allyesconfig   gcc  
+alpha                               defconfig   gcc  
+arc                              allmodconfig   gcc  
+arc                               allnoconfig   gcc  
+arc                              allyesconfig   gcc  
+arc                                 defconfig   gcc  
+arc                     nsimosci_hs_defconfig   gcc  
+arc                   randconfig-001-20240203   gcc  
+arc                   randconfig-002-20240203   gcc  
+arc                    vdk_hs38_smp_defconfig   gcc  
+arm                              allmodconfig   gcc  
+arm                               allnoconfig   clang
+arm                              allyesconfig   gcc  
+arm                       aspeed_g5_defconfig   gcc  
+arm                                 defconfig   clang
+arm                   randconfig-003-20240203   gcc  
+arm                        shmobile_defconfig   gcc  
+arm                         socfpga_defconfig   gcc  
+arm                           u8500_defconfig   gcc  
+arm64                            allmodconfig   clang
+arm64                             allnoconfig   gcc  
+arm64                               defconfig   gcc  
+arm64                 randconfig-003-20240203   gcc  
+arm64                 randconfig-004-20240203   gcc  
+csky                             allmodconfig   gcc  
+csky                              allnoconfig   gcc  
+csky                             allyesconfig   gcc  
+csky                                defconfig   gcc  
+csky                  randconfig-001-20240203   gcc  
+csky                  randconfig-002-20240203   gcc  
+hexagon                          allmodconfig   clang
+hexagon                           allnoconfig   clang
+hexagon                          allyesconfig   clang
+hexagon                             defconfig   clang
+i386                             allmodconfig   gcc  
+i386                              allnoconfig   gcc  
+i386                             allyesconfig   gcc  
+i386         buildonly-randconfig-002-20240203   gcc  
+i386         buildonly-randconfig-006-20240203   gcc  
+i386                                defconfig   clang
+i386                  randconfig-002-20240203   gcc  
+i386                  randconfig-004-20240203   gcc  
+i386                  randconfig-006-20240203   gcc  
+i386                  randconfig-012-20240203   gcc  
+i386                  randconfig-013-20240203   gcc  
+i386                  randconfig-014-20240203   gcc  
+i386                  randconfig-015-20240203   gcc  
+i386                  randconfig-016-20240203   gcc  
+loongarch                        allmodconfig   gcc  
+loongarch                         allnoconfig   gcc  
+loongarch                        allyesconfig   gcc  
+loongarch                           defconfig   gcc  
+loongarch             randconfig-001-20240203   gcc  
+loongarch             randconfig-002-20240203   gcc  
+m68k                             allmodconfig   gcc  
+m68k                              allnoconfig   gcc  
+m68k                             allyesconfig   gcc  
+m68k                         apollo_defconfig   gcc  
+m68k                       bvme6000_defconfig   gcc  
+m68k                                defconfig   gcc  
+m68k                       m5475evb_defconfig   gcc  
+m68k                          multi_defconfig   gcc  
+m68k                        mvme147_defconfig   gcc  
+microblaze                       allmodconfig   gcc  
+microblaze                        allnoconfig   gcc  
+microblaze                       allyesconfig   gcc  
+microblaze                          defconfig   gcc  
+microblaze                      mmu_defconfig   gcc  
+mips                             allmodconfig   gcc  
+mips                              allnoconfig   gcc  
+mips                             allyesconfig   gcc  
+mips                  maltasmvp_eva_defconfig   gcc  
+nios2                            alldefconfig   gcc  
+nios2                            allmodconfig   gcc  
+nios2                             allnoconfig   gcc  
+nios2                            allyesconfig   gcc  
+nios2                               defconfig   gcc  
+nios2                 randconfig-001-20240203   gcc  
+nios2                 randconfig-002-20240203   gcc  
+openrisc                         allmodconfig   gcc  
+openrisc                          allnoconfig   gcc  
+openrisc                         allyesconfig   gcc  
+openrisc                            defconfig   gcc  
+parisc                           allmodconfig   gcc  
+parisc                            allnoconfig   gcc  
+parisc                           allyesconfig   gcc  
+parisc                              defconfig   gcc  
+parisc                randconfig-001-20240203   gcc  
+parisc                randconfig-002-20240203   gcc  
+parisc64                         alldefconfig   gcc  
+parisc64                            defconfig   gcc  
+powerpc                          allmodconfig   gcc  
+powerpc                           allnoconfig   gcc  
+powerpc                          allyesconfig   clang
+powerpc                     kmeter1_defconfig   gcc  
+powerpc                    mvme5100_defconfig   gcc  
+powerpc                         ps3_defconfig   gcc  
+powerpc                    sam440ep_defconfig   gcc  
+powerpc64             randconfig-002-20240203   gcc  
+riscv                            allmodconfig   clang
+riscv                             allnoconfig   gcc  
+riscv                            allyesconfig   clang
+riscv                               defconfig   clang
+s390                             allmodconfig   clang
+s390                              allnoconfig   clang
+s390                             allyesconfig   gcc  
+s390                          debug_defconfig   gcc  
+s390                                defconfig   clang
+s390                  randconfig-001-20240203   gcc  
+sh                               allmodconfig   gcc  
+sh                                allnoconfig   gcc  
+sh                               allyesconfig   gcc  
+sh                                  defconfig   gcc  
+sh                        dreamcast_defconfig   gcc  
+sh                ecovec24-romimage_defconfig   gcc  
+sh                          landisk_defconfig   gcc  
+sh                          lboxre2_defconfig   gcc  
+sh                          polaris_defconfig   gcc  
+sh                    randconfig-001-20240203   gcc  
+sh                    randconfig-002-20240203   gcc  
+sh                          rsk7201_defconfig   gcc  
+sh                          rsk7203_defconfig   gcc  
+sh                           se7780_defconfig   gcc  
+sh                        sh7763rdp_defconfig   gcc  
+sh                        sh7785lcr_defconfig   gcc  
+sh                            titan_defconfig   gcc  
+sparc                            allmodconfig   gcc  
+sparc                             allnoconfig   gcc  
+sparc                            allyesconfig   gcc  
+sparc                               defconfig   gcc  
+sparc64                          allmodconfig   gcc  
+sparc64                          allyesconfig   gcc  
+sparc64                             defconfig   gcc  
+sparc64               randconfig-001-20240203   gcc  
+sparc64               randconfig-002-20240203   gcc  
+um                               allmodconfig   clang
+um                                allnoconfig   clang
+um                               allyesconfig   gcc  
+um                                  defconfig   clang
+um                           x86_64_defconfig   clang
+x86_64                            allnoconfig   clang
+x86_64                           allyesconfig   clang
+x86_64                              defconfig   gcc  
+x86_64                randconfig-003-20240203   clang
+x86_64                randconfig-013-20240203   clang
+x86_64                randconfig-014-20240203   clang
+x86_64                randconfig-015-20240203   clang
+x86_64                randconfig-016-20240203   clang
+x86_64                randconfig-071-20240203   clang
+x86_64                randconfig-073-20240203   clang
+x86_64                randconfig-074-20240203   clang
+x86_64                randconfig-075-20240203   clang
+x86_64                randconfig-076-20240203   clang
+x86_64                          rhel-8.3-rust   clang
+x86_64                               rhel-8.3   gcc  
+xtensa                            allnoconfig   gcc  
+xtensa                           allyesconfig   gcc  
+xtensa                randconfig-001-20240203   gcc  
+xtensa                randconfig-002-20240203   gcc  
+
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
