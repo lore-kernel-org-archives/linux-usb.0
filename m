@@ -1,56 +1,79 @@
-Received: from mail.itouring.de (mail.itouring.de [85.10.202.141])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pg1-f174.google.com (mail-pg1-f174.google.com [209.85.215.174])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1D7815B689;
-	Sun, 11 Feb 2024 16:02:37 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=85.10.202.141
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2B7965381E;
+	Sun, 11 Feb 2024 16:06:28 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.215.174
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1707667361; cv=none; b=E/5Wb4Fhmgt7LQrvWYwc1kUKH8w0MmPHEJ8HqzRogVE3PEZgZkecGUem8SjO56Nyyt+L8ULjI3tkhU3WoH3Qozx50oDjHkSmpauXCwZ4v5RQLRHUT+PK4k6yFjDwIMNXZA8hdHhkztCfYSdQCF2pm2CnVmL/oSwEdDxiqLJXpzo=
+	t=1707667589; cv=none; b=RbKBaW8ynGuZlOLoZUXdh2HqoUp35mimLG6xMq8ei2QutXuTaxyNgxCEarOEA01MTfYpQCoXMSY99VAi9kd/F3yKWrv5Y6gtWg2c4zV/FW05JI9i19fv3FBl/N4+Fn5/uPRBKM7LYXJOihDAL+4bs1klKrnMnjoQiyE6OIDuTSA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1707667361; c=relaxed/simple;
-	bh=b/FTp5wr7CP8Mhnbmc++m9Krji2RO/vpS0OpJ7CX8NE=;
-	h=Subject:To:References:From:Message-ID:Date:MIME-Version:
-	 In-Reply-To:Content-Type; b=f19i66PJ/RIuE5WwcGYOYhxex5zYv8BIUzHh9i2h7MtnGGCSQmmt64jl03QvWF/Jq/fkobDOQlMC+tNAUHJbSZtz5E6CovNdfkiMjnUQDpr7EBk0iU+7ugjG3wBsH3ALUTW/03URS6Cc5sbPEWQNMwo5wR6bPhEHYLkz9Nsqbjw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=applied-asynchrony.com; spf=pass smtp.mailfrom=applied-asynchrony.com; arc=none smtp.client-ip=85.10.202.141
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=applied-asynchrony.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=applied-asynchrony.com
-Received: from tux.applied-asynchrony.com (p5ddd7ec8.dip0.t-ipconnect.de [93.221.126.200])
-	by mail.itouring.de (Postfix) with ESMTPSA id 86AAF103702;
-	Sun, 11 Feb 2024 17:02:29 +0100 (CET)
-Received: from [192.168.100.221] (hho.applied-asynchrony.com [192.168.100.221])
-	by tux.applied-asynchrony.com (Postfix) with ESMTP id 31DCBF01605;
-	Sun, 11 Feb 2024 17:02:29 +0100 (CET)
-Subject: Re: I/O errors while writing to external Transcend XS-2000 4TB SSD
-To: Martin Steigerwald <martin@lichtvoll.de>, stable@vger.kernel.org,
- regressions@lists.linux.dev, linux-usb@vger.kernel.org
-References: <1854085.atdPhlSkOF@lichtvoll.de>
-From: =?UTF-8?Q?Holger_Hoffst=c3=a4tte?= <holger@applied-asynchrony.com>
-Organization: Applied Asynchrony, Inc.
-Message-ID: <5264d425-fc13-6a77-2dbf-6853479051a0@applied-asynchrony.com>
-Date: Sun, 11 Feb 2024 17:02:29 +0100
+	s=arc-20240116; t=1707667589; c=relaxed/simple;
+	bh=J5v1lilPiTlSOrg+FnUKeXivswZYOjGz4FkxGbLee5I=;
+	h=Date:From:To:Cc:Message-ID:In-Reply-To:Subject:MIME-Version:
+	 Content-Type; b=sxw1V9UwbxjVDn87U8GW2TYDMO3BK7CbqNUOW08Vd2hFoh6RWzvAazY1Px47B2lKMFo+NSgILntt21/sFV4y3CvmxTzJ13Jth+diqIqU3IVY74qJm3dGTWwGVSP/ulPSBAqnYYo/Qu7IHajzJRJIdtOL3aBITA6nozoFe/+E9Rs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=Q1rHOomI; arc=none smtp.client-ip=209.85.215.174
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Q1rHOomI"
+Received: by mail-pg1-f174.google.com with SMTP id 41be03b00d2f7-5cfd95130c6so1282137a12.1;
+        Sun, 11 Feb 2024 08:06:28 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1707667587; x=1708272387; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:subject:in-reply-to
+         :message-id:cc:to:from:date:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=J5v1lilPiTlSOrg+FnUKeXivswZYOjGz4FkxGbLee5I=;
+        b=Q1rHOomIU47uJqGSc2lWGiRzzo3UEu7ry9zkkumwKviVaEXLfbnyBO5sMiY+Q6ls6s
+         kEE4JvxBaBSiF5ukoshGRZgYir9nxgcmzSMjRYA+B+YIYajzJt+widGub2nPcuZXEi6w
+         LTdTKUq07GxRQg/cuNKhCMieN+DZQqHPbcRJVAYJmS8jtIJ3QpUyPVGTcosjdTcG0wsU
+         N7Q4F9edOJCSmA7IcD663BYE77mpSUu1W8C8kgUWD3CTJnCXS2Lq3WaC/XToR+hRvAq+
+         E5uBGFApPeRauFLbglst1MQAUry5mc6yTMjV+/LXa5lq6rrP+NDf/d7Vr3ApsssHaBn6
+         xrkw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1707667587; x=1708272387;
+        h=content-transfer-encoding:mime-version:subject:in-reply-to
+         :message-id:cc:to:from:date:x-gm-message-state:from:to:cc:subject
+         :date:message-id:reply-to;
+        bh=J5v1lilPiTlSOrg+FnUKeXivswZYOjGz4FkxGbLee5I=;
+        b=th4ea+VSGC7Z5W86+9OkBNLy/Dgj4jbVsPf/Un7lgouhRoUUXaNv19GWOe0C44zqlX
+         SfKZbGnfxXnFlrOYWi/H9/J5VZ/5ahppurPjOC2L0RdIqAuTXAIdfmFrARbgD6qr+Dtd
+         bF7+UJwi50YJlKIVKO1tw70xem7tdQDSSEYnx4STEjENTNNfOE2egzCUBh83YYoyLqzu
+         8765wyEcZFmhWMVCqFQJpqPsz00kU+m8daUqgPTdSahkc+me2SML295bQ5iWIEcpdHtx
+         UmtO9ySWHwpg2MS745ORhqOIpIHpYQvTgeGV2F18P9uIuO0bLwTtoMcn3TCvLHV3hAeN
+         HO+g==
+X-Forwarded-Encrypted: i=1; AJvYcCX6LFR/Tn7BYzeD5oUTdA8pfm606dLztNo9Cffkcqivn1Pz6awJkT0HhzMczLYTGfGIC26mY88RmnrQaAcUSuUT9wjoJNvHdeOEefBd76NxhseUtemOESz+RUdujsAHdMyh/zfbEhGFxVsbsXL3sw6CISyLW0mSz/jFnmz0PA+0sDFx
+X-Gm-Message-State: AOJu0Yyp9e/vAoS50XpLYfPzT2/UpHYOvwoSzLeVNufz9uizD1Pcwejw
+	yw4DGewsErwqy/qCSvtcFtaP5LFhesh2X4M6UK3Mj4SUuBBTqs32
+X-Google-Smtp-Source: AGHT+IGBoWdAbZqysUxImCGwE8O25A18/b8hOtrELQdynZGxaAhikmARfR7WfEA96ofwjCVdk5AZMA==
+X-Received: by 2002:a05:6a00:d71:b0:6e0:51d7:5805 with SMTP id n49-20020a056a000d7100b006e051d75805mr3198339pfv.1.1707667587477;
+        Sun, 11 Feb 2024 08:06:27 -0800 (PST)
+X-Forwarded-Encrypted: i=1; AJvYcCUz2Qzb9GZhStD6wRQZtPPb/PVsGvWS25k2TnMXC57Yd/y+wktpbP3LMphYxo59+hVppr5eTTSZ7m6S5kLoVPxYgpPpDHStG+2cH7UDBB5f3nqmmFqmdUALcVkaO2IIZFDbLK0WPm88xTPPG56BXLLui82BQVW+PhAq3tGLc5c5wsD1cWkeQnBcvaX5lSJYD9gda+gB/XzYuT5KOc5/XcfowUlKS7pk+45EXBqTxEyYNHcUwzafcma5D8EjH9WgIv2mtipDw8R/1VxvK1CczWei0EWDYZSfJ50qsLxjGRKouDHKJ4D0Z1h0hRVjfuWWCPl2ObPK9wMT0O65JLN5aOn/MXNe
+Received: from [127.0.0.1] ([106.221.225.147])
+        by smtp.gmail.com with ESMTPSA id m4-20020a62f204000000b006df50bbbaecsm3864390pfh.86.2024.02.11.08.06.21
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Sun, 11 Feb 2024 08:06:27 -0800 (PST)
+Date: Sun, 11 Feb 2024 21:36:18 +0530 (GMT+05:30)
+From: Shresth Prasad <shresthprasad7@gmail.com>
+To: ricardo@marliere.net
+Cc: corbet@lwn.net, gregkh@linuxfoundation.org, linux-doc@vger.kernel.org,
+	linux-kernel-mentees@lists.linuxfoundation.org,
+	linux-kernel@vger.kernel.org, linux-usb@vger.kernel.org,
+	shresthprasad7@gmail.com, skhan@linuxfoundation.org
+Message-ID: <daa83658-8d78-4aa9-bd59-26b274534f57@gmail.com>
+In-Reply-To: <qhnapkrcmqvpagzii46be362iyaelcbodo6vh7v3sem3ww5kpl@nw65w7gbyjij>
+Subject: Re: [PATCH] Fix malformed table error in gadget-testing.rst
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-In-Reply-To: <1854085.atdPhlSkOF@lichtvoll.de>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
+X-Correlation-ID: <daa83658-8d78-4aa9-bd59-26b274534f57@gmail.com>
 
-On 2024-02-11 16:42, Martin Steigerwald wrote:
-> Hi!
-> I am trying to put data on an external Kingston XS-2000 4 TB SSD using
-> self-compiled Linux 6.7.4 kernel and encrypted BCacheFS. I do not think
-> BCacheFS has any part in the errors I see, but if you disagree feel free
-> to CC the BCacheFS mailing list as you reply.
+My bad, I should have checked beforehand. Thank you for your help.
 
-This is indeed a known bug with bcachefs on USB-connected devices.
-Apply the following commit:
-
-https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/commit/fs/bcachefs?id=3e44f325f6f75078cdcd44cd337f517ba3650d05
-
-This and some other commits are already scheduled for -stable.
-
-Holger
+Regards,
+Shresth
