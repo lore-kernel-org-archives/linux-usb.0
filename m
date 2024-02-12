@@ -1,177 +1,134 @@
-Received: from mail.lichtvoll.de (luna.lichtvoll.de [194.150.191.11])
+Received: from puleglot.ru (puleglot.ru [195.201.32.202])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0AD643CF45;
-	Mon, 12 Feb 2024 15:52:18 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=194.150.191.11
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D303D3CF52;
+	Mon, 12 Feb 2024 15:53:47 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.201.32.202
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1707753142; cv=none; b=dFhsrK8HKWTE41VFVQifodiIRWdYLtZohSf2QhPZN2zXlLAvgSlGt/0OeybTPwaIQ2dks2f/AyOqJTagczHDjzkaGjsdsiDjntJQb4/O/cFT5eWQzH1QJTD6fPXcIzpVdXZm2oH1NgLDxQBlZBG2ZZC02OUSgXCnVYdm0soaVE0=
+	t=1707753232; cv=none; b=PahyXOYamyiaGRzqnPBphrBxltpm60QNWM3jVpbsw96LV4onbR4QoecpuwcI1Pw4s86OMrhuPL6/bH7e4u12KK2IHsECPPauVACqG/jr1gUl2lw605CFbv3xuRC9uxu3ABSSPsamgguH4CCa0Ou8e568biBp5m5/gqjcpiGB8jE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1707753142; c=relaxed/simple;
-	bh=gv2GhH8lA7e+BegMfuoFr5juDlHcR6ol8Y92EvU+GNY=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=SrodZAp3X81XLCbG8KfD69TxCTFn1ubIHdEtxfIiu9pILdkZS2/+pdiTUfjedevdF0Cxkyq6uKNcxxpmJBC2iL8mWe58+j6y3jKEroy9qZGKOvQFXynhU27Vyaxdwz0I3MQdmH1VsdrpZESr2hcbnQvoUwQL2Z/Tw7uTj9mkesE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=lichtvoll.de; spf=pass smtp.mailfrom=lichtvoll.de; arc=none smtp.client-ip=194.150.191.11
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=lichtvoll.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=lichtvoll.de
-Received: from 127.0.0.1 (localhost [127.0.0.1])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature ECDSA (secp384r1) server-digest SHA384)
-	(No client certificate requested)
-	by mail.lichtvoll.de (Postfix) with ESMTPSA id EBF968978A1;
-	Mon, 12 Feb 2024 16:52:10 +0100 (CET)
-Authentication-Results: mail.lichtvoll.de;
-	auth=pass smtp.auth=martin smtp.mailfrom=martin@lichtvoll.de
-From: Martin Steigerwald <martin@lichtvoll.de>
-To: Kent Overstreet <kent.overstreet@linux.dev>
-Cc: stable@vger.kernel.org, regressions@lists.linux.dev,
- linux-usb@vger.kernel.org,
- Holger =?ISO-8859-1?Q?Hoffst=E4tte?= <holger@applied-asynchrony.com>,
- linux-bcachefs@vger.kernel.org
-Subject: Re: I/O errors while writing to external Transcend XS-2000 4TB SSD
-Date: Mon, 12 Feb 2024 16:52:09 +0100
-Message-ID: <6599603.G0QQBjFxQf@lichtvoll.de>
-In-Reply-To: <mqlu3q3npll5wxq5cfuxejcxtdituyydkjdz3pxnpqqmpbs2cl@tox3ulilhaq2>
-References:
- <1854085.atdPhlSkOF@lichtvoll.de> <5444405.Sb9uPGUboI@lichtvoll.de>
- <mqlu3q3npll5wxq5cfuxejcxtdituyydkjdz3pxnpqqmpbs2cl@tox3ulilhaq2>
+	s=arc-20240116; t=1707753232; c=relaxed/simple;
+	bh=spy70HfjoheqAjWploJYPJrRSAN4AXykUGUgKoklCc8=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=rJIHF6JwxXv4G6kkIftpRtOJnulNOwb/BdgzZV5KokHqQ0zv7DrFoTyKqPfSn/mu+0k508pRuGCGW/YVeKAOyGTLknCCAenjL14TA9Lf1EyOh8mRJVtBL/MdzuPQr5ONRIE5imzeStYZpLvSv9G8qSR1Xmi9N/FRhhYDO85Q/lY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=tsoy.me; spf=pass smtp.mailfrom=puleglot.ru; dkim=pass (1024-bit key) header.d=tsoy.me header.i=@tsoy.me header.b=Pxkb/jWE; arc=none smtp.client-ip=195.201.32.202
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=tsoy.me
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=puleglot.ru
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (1024-bit key) header.d=tsoy.me header.i=@tsoy.me header.b="Pxkb/jWE"
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=tsoy.me;
+	s=mymail; h=Sender:Content-Transfer-Encoding:MIME-Version:Message-ID:Date:
+	Subject:Cc:To:From:Reply-To:Content-Type:Content-ID:Content-Description:
+	Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:
+	In-Reply-To:References:List-Id:List-Help:List-Unsubscribe:List-Subscribe:
+	List-Post:List-Owner:List-Archive;
+	bh=yUpIoVx1qo/FtfUPPy1ERNngaKI9xiKtsIUKmgw0teU=; b=Pxkb/jWERnVbCQtZNIMSGMidTq
+	mbmODKjEWysQcHkMkFbStR0cSVg8djSN6A0Ao9wG9XDXJ7Y+gTFrWGm02NFSF7jMQ8pMl0wNcICUB
+	Ov0ZQSwAv3b4tbna+y43S1xZsw9ms5D8FDCDxstcwx/bbo926fRBDcwWQ2aOvU9aUhiY=;
+Received: from [2a00:1370:819a:f1b4:f5a8:7291:14f0:548b] (helo=home..)
+	by puleglot.ru with esmtpsa  (TLS1.3) tls TLS_AES_256_GCM_SHA384
+	(Exim 4.97.1)
+	(envelope-from <puleglot@puleglot.ru>)
+	id 1rZYEt-00000001IST-0T4L;
+	Mon, 12 Feb 2024 18:28:59 +0300
+From: Alexander Tsoy <alexander@tsoy.me>
+To: linux-usb@vger.kernel.org
+Cc: linux-sound@vger.kernel.org,
+	alsa-devel@alsa-project.org,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	Takashi Iwai <tiwai@suse.com>,
+	Jaroslav Kysela <perex@perex.cz>,
+	Nikolay Yakimov <root@livid.pp.ru>,
+	Saranya Gopal <saranya.gopal@intel.com>
+Subject: [PATCH] USB: Always select config with the highest supported UAC version
+Date: Mon, 12 Feb 2024 18:28:48 +0300
+Message-ID: <20240212152848.44782-1-alexander@tsoy.me>
+X-Mailer: git-send-email 2.43.0
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
-Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8bit
+Sender: puleglot@puleglot.ru
 
-Kent Overstreet - 11.02.24, 19:51:32 CET:
-> On Sun, Feb 11, 2024 at 06:06:27PM +0100, Martin Steigerwald wrote:
-[=E2=80=A6]
-> > CC'ing BCacheFS mailing list.
-> >=20
-> > My original mail is here:
-> >=20
-> > https://lore.kernel.org/linux-usb/5264d425-fc13-6a77-2dbf-6853479051a0
-> > @applied-asynchrony.com/T/ #m5ec9ecad1240edfbf41ad63c7aeeb6aa6ea38a5e
-> >=20
-> > Holger Hoffst=C3=A4tte - 11.02.24, 17:02:29 CET:
-> > > On 2024-02-11 16:42, Martin Steigerwald wrote:
-> > > > Hi!
-> > > > I am trying to put data on an external Kingston XS-2000 4 TB SSD
-> > > > using
-> > > > self-compiled Linux 6.7.4 kernel and encrypted BCacheFS. I do not
-> > > > think BCacheFS has any part in the errors I see, but if you
-> > > > disagree
-> > > > feel free to CC the BCacheFS mailing list as you reply.
-> > >=20
-> > > This is indeed a known bug with bcachefs on USB-connected devices.
-> > > Apply the following commit:
-> > >=20
-> > > https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/c
-> > > ommi t/fs/bcachefs?id=3D3e44f325f6f75078cdcd44cd337f517ba3650d05
-> > >=20
-> > > This and some other commits are already scheduled for -stable.
-> >=20
-> > Thanks!
-> >=20
-> > Oh my. I was aware of some bug fixes coming for stable. I briefly
-> > looked through them, but now I did not make a connection.
-> >=20
-> > I will wait for 6.7.5 and retry then I bet.
->=20
-> That doesn't look related - the device claims to not support flush or
-> fua, and the bug resulted in us not sending flush/fua devices; the main
-> thing people would see without that patch, on 6.8, would be an immediate
-> -EOPNOTSUP on the first flush journal write.
->=20
-> He only got errors after an hour or so, or 10 minutes with UAS disabled;
-> we send flushes once a second. Sounds like a screwy device.
+Config with the highest supported UAC version is always preferable because
+it usually provides more features.
 
-Thanks for that explanation, Kent.
+Main motivation for this change is to improve support for several UAC2
+devices which have UAC1 config as the first one for compatibility reasons.
+UAC2 mode provides a wider range of supported sampling rates on these
+devices. Also when UAC4 support is implemented, it will need just one
+additional case line without changing the logic.
 
-I am the one with that external Transcend XS 2000 4 TB SSD and I
-specifically did not CC bcachefs mailing list at the beginning as after
-seeing things like
+Signed-off-by: Alexander Tsoy <alexander@tsoy.me>
+---
+ drivers/usb/core/generic.c | 39 +++++++++++++++++++++++++-------------
+ 1 file changed, 26 insertions(+), 13 deletions(-)
 
-[33963.462694] sd 0:0:0:0: [sda] tag#10 uas_zap_pending 0 uas-tag 1 infligh=
-t: CMD=20
-[33963.462708] sd 0:0:0:0: [sda] tag#10 CDB: Write(16) 8a 00 00 00 00 00 82=
- c1 bc 00 00 00 04 00 00 00
-[=E2=80=A6]
-[33963.592872] sd 0:0:0:0: [sda] tag#10 FAILED Result: hostbyte=3DDID_RESET=
- driverbyte=3DDRIVER_OK cmd_age=3D182s
-
-I thought some quirks in the device to be at fault.
-
-However while Sandisk Extreme Pro 2 TB claims to support DPO and FUA I see
-
-Write cache: disabled, read cache: enabled, doesn't support DPO or FUA
-
-also with other devices like external Toshiba Canvio 4 TB hard disks. Using
-LUKS encrypted BTRFS on those I never saw any timeout while writing out
-data issue with any of those hard disks. Also with disabled write cache
-any cache flush / FUA request should be a no-op anyway? These hard disks
-have been doing a ton of backup workloads without any issues, but so far
-only with BTRFS.
-
-I may test the Transcend XS2000 with BTRFS to see whether it makes a
-difference, however I really like to use it with BCacheFS and I do not real=
-ly
-like to use LUKS for external devices. According to the kernel log I still
-don't really think those errors at the block layer were about anything
-filesystem specific, but what  do I know?
-
-With UAS enabled for Transcend XS2000 I see:
-
-Write cache: disabled, read cache: enabled, doesn't support DPO or FUA
-
-This sounds about right: Without cache flush / FUA request disable write
-cache.
-
-With UAS disabled, using only usb-storage, however I see:
-
-Write cache: enabled, read cache: enabled, doesn't support DPO or FUA
-
-Which appears to be broken to me: If it cannot do cache flush / FUA it
-should have write cache disabled.
-
-Thus I removed the quirk to disable UAS again. It did not help anyway.
-
-However when I look at the output of "hdparm -I" for that Transcend XS2000
-none of this makes sense. Cause it blatantly advertises to support
-
-[=E2=80=A6]
-           *    Mandatory FLUSH_CACHE
-           *    FLUSH_CACHE_EXT
-[=E2=80=A6]
-           *    WRITE_{DMA|MULTIPLE}_FUA_EXT
-[=E2=80=A6]
-
-It has firmware revision S9K00107. I see whether I can get this updated
-in case any update is available. Which is not obvious to me as Kingston
-only offers to download a Windows application to update the firmware.
-
-I asked them how to do an update on Linux. But am also prepared to run to
-a friend with Windows system to do the update.
-
-There is no urgency in this, so let's see whether a firmware update may
-fix anything. In case someone has any additional insight, feel free to add
-it. Otherwise I consider it case closed unless I retest with either Linux
-kernel 6.7.5 or 6.8-rc4 and/or after having made a firmware update
-if available.
-
-Maybe also some other quirks would need to be enabled for that
-device? I tested it with:
-
-% cat /etc/modprobe.d/disable-uas.conf
-# Does not work with external SSD Transcend XS2000 4TB
-options usb-storage quirks=3D0951:176b:u
-
-but as explained that did not help and thus I disabled UAS disabling
-quirk again.
-
-Best,
-=2D-=20
-Martin
-
+diff --git a/drivers/usb/core/generic.c b/drivers/usb/core/generic.c
+index b134bff5c3fe..8aeb180e1cf9 100644
+--- a/drivers/usb/core/generic.c
++++ b/drivers/usb/core/generic.c
+@@ -48,9 +48,16 @@ static bool is_audio(struct usb_interface_descriptor *desc)
+ 	return desc->bInterfaceClass == USB_CLASS_AUDIO;
+ }
+ 
+-static bool is_uac3_config(struct usb_interface_descriptor *desc)
++static bool is_supported_uac(struct usb_interface_descriptor *desc)
+ {
+-	return desc->bInterfaceProtocol == UAC_VERSION_3;
++	switch(desc->bInterfaceProtocol) {
++	case UAC_VERSION_1:
++	case UAC_VERSION_2:
++	case UAC_VERSION_3:
++		return true;
++	default:
++		return false;
++	}
+ }
+ 
+ int usb_choose_configuration(struct usb_device *udev)
+@@ -135,22 +142,28 @@ int usb_choose_configuration(struct usb_device *udev)
+ 		}
+ 
+ 		/*
+-		 * Select first configuration as default for audio so that
+-		 * devices that don't comply with UAC3 protocol are supported.
+-		 * But, still iterate through other configurations and
+-		 * select UAC3 compliant config if present.
++		 * Iterate through audio configurations and select the first of
++		 * the highest supported UAC versions. Select the first config
++		 * if no supported UAC configs are found.
+ 		 */
+ 		if (desc && is_audio(desc)) {
+-			/* Always prefer the first found UAC3 config */
+-			if (is_uac3_config(desc)) {
+-				best = c;
+-				break;
+-			}
++			struct usb_interface_descriptor	*best_desc = NULL;
++
++			if (best)
++				best_desc = &best->intf_cache[0]->altsetting->desc;
+ 
+-			/* If there is no UAC3 config, prefer the first config */
+-			else if (i == 0)
++			if (i == 0)
+ 				best = c;
+ 
++			/* Assume that bInterfaceProtocol value is always
++			 * growing when UAC versions are incremented, so that
++			 * the direct comparison is possible. */
++			else if (is_supported_uac(desc) && best_desc &&
++				 (!is_supported_uac(best_desc) ||
++				  (desc->bInterfaceProtocol >
++				   best_desc->bInterfaceProtocol)))
++					best = c;
++
+ 			/* Unconditional continue, because the rest of the code
+ 			 * in the loop is irrelevant for audio devices, and
+ 			 * because it can reassign best, which for audio devices
+-- 
+2.43.0
 
