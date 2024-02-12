@@ -1,134 +1,174 @@
-Received: from puleglot.ru (puleglot.ru [195.201.32.202])
+Received: from EUR04-DB3-obe.outbound.protection.outlook.com (mail-db3eur04on2058.outbound.protection.outlook.com [40.107.6.58])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D303D3CF52;
-	Mon, 12 Feb 2024 15:53:47 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.201.32.202
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1707753232; cv=none; b=PahyXOYamyiaGRzqnPBphrBxltpm60QNWM3jVpbsw96LV4onbR4QoecpuwcI1Pw4s86OMrhuPL6/bH7e4u12KK2IHsECPPauVACqG/jr1gUl2lw605CFbv3xuRC9uxu3ABSSPsamgguH4CCa0Ou8e568biBp5m5/gqjcpiGB8jE=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1707753232; c=relaxed/simple;
-	bh=spy70HfjoheqAjWploJYPJrRSAN4AXykUGUgKoklCc8=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=rJIHF6JwxXv4G6kkIftpRtOJnulNOwb/BdgzZV5KokHqQ0zv7DrFoTyKqPfSn/mu+0k508pRuGCGW/YVeKAOyGTLknCCAenjL14TA9Lf1EyOh8mRJVtBL/MdzuPQr5ONRIE5imzeStYZpLvSv9G8qSR1Xmi9N/FRhhYDO85Q/lY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=tsoy.me; spf=pass smtp.mailfrom=puleglot.ru; dkim=pass (1024-bit key) header.d=tsoy.me header.i=@tsoy.me header.b=Pxkb/jWE; arc=none smtp.client-ip=195.201.32.202
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=tsoy.me
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=puleglot.ru
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 842F43D0C6;
+	Mon, 12 Feb 2024 16:19:29 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=40.107.6.58
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1707754771; cv=fail; b=TjZiDqdnk1XCxrsgQT6qbVb4+QjhvKVshCRriJvinFB/h422ghaRxHJYvBdZg3h++a0nd0IPTFOL56a+fRDWjgNXBZcgcTQ1gu3E+odx+r1OSFHJ5X2Q29cKl6xblEP6QYMX+MwPc4Lu04o/39QWNhJx4S7PEzW6QllDtT8MJWU=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1707754771; c=relaxed/simple;
+	bh=4AreUVs8qbJPazFYOwry+mqCqgNHwxJG1zEVSHH/bYQ=;
+	h=From:Subject:Date:Message-Id:Content-Type:To:Cc:MIME-Version; b=auSqujKPAlDJiK8CgWZYymECSbSP0HLuxaEpGYFlUfNImYQWTBEJzs2IAIS1d4+5HuOjySBTl21I6vn6kqWw0rc2JQado6nqjr/OjyT279ynkRmORKQ8ywOHQ7Gqm3i+RFFQPy3IBZKaBdEpQWw83SNhxsHkLrQzXf3Sgdr3XKk=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=nxp.com; spf=pass smtp.mailfrom=nxp.com; dkim=pass (1024-bit key) header.d=nxp.com header.i=@nxp.com header.b=HfXfffhr; arc=fail smtp.client-ip=40.107.6.58
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=nxp.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=nxp.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=tsoy.me header.i=@tsoy.me header.b="Pxkb/jWE"
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=tsoy.me;
-	s=mymail; h=Sender:Content-Transfer-Encoding:MIME-Version:Message-ID:Date:
-	Subject:Cc:To:From:Reply-To:Content-Type:Content-ID:Content-Description:
-	Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:
-	In-Reply-To:References:List-Id:List-Help:List-Unsubscribe:List-Subscribe:
-	List-Post:List-Owner:List-Archive;
-	bh=yUpIoVx1qo/FtfUPPy1ERNngaKI9xiKtsIUKmgw0teU=; b=Pxkb/jWERnVbCQtZNIMSGMidTq
-	mbmODKjEWysQcHkMkFbStR0cSVg8djSN6A0Ao9wG9XDXJ7Y+gTFrWGm02NFSF7jMQ8pMl0wNcICUB
-	Ov0ZQSwAv3b4tbna+y43S1xZsw9ms5D8FDCDxstcwx/bbo926fRBDcwWQ2aOvU9aUhiY=;
-Received: from [2a00:1370:819a:f1b4:f5a8:7291:14f0:548b] (helo=home..)
-	by puleglot.ru with esmtpsa  (TLS1.3) tls TLS_AES_256_GCM_SHA384
-	(Exim 4.97.1)
-	(envelope-from <puleglot@puleglot.ru>)
-	id 1rZYEt-00000001IST-0T4L;
-	Mon, 12 Feb 2024 18:28:59 +0300
-From: Alexander Tsoy <alexander@tsoy.me>
-To: linux-usb@vger.kernel.org
-Cc: linux-sound@vger.kernel.org,
-	alsa-devel@alsa-project.org,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	Takashi Iwai <tiwai@suse.com>,
-	Jaroslav Kysela <perex@perex.cz>,
-	Nikolay Yakimov <root@livid.pp.ru>,
-	Saranya Gopal <saranya.gopal@intel.com>
-Subject: [PATCH] USB: Always select config with the highest supported UAC version
-Date: Mon, 12 Feb 2024 18:28:48 +0300
-Message-ID: <20240212152848.44782-1-alexander@tsoy.me>
-X-Mailer: git-send-email 2.43.0
+	dkim=pass (1024-bit key) header.d=nxp.com header.i=@nxp.com header.b="HfXfffhr"
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=HnZN89JE9GZPeJUTebRhb+uGI6L2dPwPkSqUF+tbMQBKJtggeIq+7rgE2TfXgef+5wTQVciUsX3NZCKLx3VW9O3ZcSEZysy/YhYfhNxJYLvw7AMkaLNDlY7EGYw5eTvUMPGVCFdpsB9jZjDCM33rflfAfTAyFSxcfoH1xaYM8aWBQ0MesS1I9IrQLWQdzhfN8lBFSNTrFxTGPbmv+HXhPSHrgldwibwecaLtWPd+e3qH2dMUg0lOXi0i5rB60K83KbzfPwtxDkqP+PqriSCWKWi4yur7UuniHSyI0EYAKFng3MQOogRhTMASEAPbXRqrIYmErzfBBABIyYQG11eg3A==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=APn133vps1qZVgRAsZ+ekprpeynA9N2Q4ns6Q/jpOJI=;
+ b=ScX9v//6Hy9CtMnYP7CscMskMnW2DdbaQB5swcH6YKE0ELtgjNTZcI86BHjj19pr4X1sc21mVg/ej+lYHbCDrPB4Psde90He6QBwGNDzSIuJPiroXwNAQRZntCwC94w3T2O9TWoaTGyE49Ts3dKM8vWB7idz1HDxrZ7ldiFXKk759a2DeggHh+JPFYzVsrY4YuA6hze1rxjWosmg65BVgF/D5rSVEKy06jC1TyDRhYAvOV80hKQdsVBoG8utFu31lj/DSzcrbg3Af4fo3efF04KH1PAZ6d033VttNL5eZQCu/2tJoDTxgJm6lJo0/i++nWfRvDzK3siepPACXPraVg==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=nxp.com; dmarc=pass action=none header.from=nxp.com; dkim=pass
+ header.d=nxp.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nxp.com; s=selector2;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=APn133vps1qZVgRAsZ+ekprpeynA9N2Q4ns6Q/jpOJI=;
+ b=HfXfffhrWE87pJeFKW0PJOo2Tvw5Ld+8DROVBKezHeqNuZX+4OyTvQn52PdzXaZzMopKGSQ4JSGzJv4pLPizeUaLmgwQ55C6Ws10hO4CumaDpSvbUk3wphAfOzpecyuOfquHHXGwARRDxdDxrJKS9V8niKddDNSF1QtH+mLySB4=
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=nxp.com;
+Received: from PAXPR04MB9642.eurprd04.prod.outlook.com (2603:10a6:102:240::14)
+ by DU2PR04MB9049.eurprd04.prod.outlook.com (2603:10a6:10:2e4::14) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7270.35; Mon, 12 Feb
+ 2024 16:19:26 +0000
+Received: from PAXPR04MB9642.eurprd04.prod.outlook.com
+ ([fe80::c8b4:5648:8948:e85c]) by PAXPR04MB9642.eurprd04.prod.outlook.com
+ ([fe80::c8b4:5648:8948:e85c%3]) with mapi id 15.20.7270.025; Mon, 12 Feb 2024
+ 16:19:26 +0000
+From: Frank Li <Frank.Li@nxp.com>
+Subject: [PATCH v2 0/2] usb: dwc3: drop 'snps,host-vbus-glitches-quirk'
+Date: Mon, 12 Feb 2024 11:19:06 -0500
+Message-Id: <20240212-vbus-glitch-v2-0-d71b73a82de1@nxp.com>
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+X-B4-Tracking: v=1; b=H4sIAPpEymUC/23MQQ6DIBRF0a2YPy4NUgLSkftoHCig/KQFA5bYG
+ PZe6rjD+5J3Dkg2ok1wbw6INmPC4GuwSwPajX6xBE1tYJRxyqgkeXonsjxx044oOZsbp6YbhYD
+ 6WKOdcT+1x1DbYdpC/Jx4bn/rfye3hBI52U5SpbhoTe/39arDC4ZSyhe8BzimpAAAAA==
+To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>, 
+ Rob Herring <robh@kernel.org>, 
+ Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>, 
+ Conor Dooley <conor+dt@kernel.org>, Felipe Balbi <balbi@kernel.org>, 
+ Thinh Nguyen <Thinh.Nguyen@synopsys.com>
+Cc: linux-usb@vger.kernel.org, devicetree@vger.kernel.org, 
+ linux-kernel@vger.kernel.org, imx@lists.linux.dev, 
+ Frank Li <Frank.Li@nxp.com>
+X-Mailer: b4 0.13-dev-c87ef
+X-Developer-Signature: v=1; a=ed25519-sha256; t=1707754764; l=1420;
+ i=Frank.Li@nxp.com; s=20240130; h=from:subject:message-id;
+ bh=4AreUVs8qbJPazFYOwry+mqCqgNHwxJG1zEVSHH/bYQ=;
+ b=fBqD+wOOusIHV3mCsqVjf525SLFsdDSgejychMLRnwHv2Sas7S6t9HCdMmednpaqtq0nbePpw
+ /udk6V0gATgC5Xf9hrEK2/cKhWIJemmYaq+y6jNNP0dTv8Tj5TCWxND
+X-Developer-Key: i=Frank.Li@nxp.com; a=ed25519;
+ pk=I0L1sDUfPxpAkRvPKy7MdauTuSENRq+DnA+G4qcS94Q=
+X-ClientProxiedBy: SN4PR0501CA0001.namprd05.prod.outlook.com
+ (2603:10b6:803:40::14) To PAXPR04MB9642.eurprd04.prod.outlook.com
+ (2603:10a6:102:240::14)
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Sender: puleglot@puleglot.ru
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: PAXPR04MB9642:EE_|DU2PR04MB9049:EE_
+X-MS-Office365-Filtering-Correlation-Id: 80574769-29a5-43fe-eb18-08dc2be661f1
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info:
+	vls2WKklEyOIV4mMH93d0VDBadhBsxHg9Ys2YegY/W6+fMx9M1w0FPmpoR/jrDjJh1wPGgtkyyF09gM1On3GzdIHnFYlcI5heuYF9EbnAUs+FTVfrTP9sswhOPP0LD/OLABAMl1uVTDJEwiwpP5L780wdqcvXeLD560sWv6X8yb5XTGzi1miOyecj2Xnfgxn3WI7OrbFpAKnQzkblhp5bBuHurG5zKx3ZW+9w5m3cQJ6MnCzf7ZfKqH5cpJn0WBvkTRYYGwbIuVL6IoIP0Ln+dFVq4Gscl79faKyBE7rhqdJwRY563SZp7jf9UX3R029t6wPTI5wqpO3gyNzbbkPdMlXURnJHOzqD2zGAQXeX3i1YGY3IpCdA4sr22t/AgPyztFrBV28M64lAkz1LTTCwlrAI60XdqdwSGBc8IpIxN642tt3z+okjPvwkraRD3rncgcMH8QKnRcp1+BXd+rdWeY+tJdJ3EEYX3/cnjiE5fuc0GuYrXkHdXi+SSv5D4P+3+c8wwL2qGVUZ3cu7S3n5j97K8LpJ6cbLhYKLbGiTLYpdq7Td+qKAfLv8fc93S1a+RGPz9+CqBdEj9A1esrS2YMHpzfg1D+UtAmu1WPC1gs=
+X-Forefront-Antispam-Report:
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:PAXPR04MB9642.eurprd04.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230031)(376002)(346002)(136003)(366004)(39860400002)(396003)(230922051799003)(64100799003)(1800799012)(451199024)(186009)(6512007)(966005)(478600001)(6486002)(41300700001)(8676002)(8936002)(4326008)(7416002)(5660300002)(2906002)(110136005)(38350700005)(66476007)(6506007)(6666004)(316002)(52116002)(66946007)(66556008)(83380400001)(2616005)(86362001)(26005)(38100700002)(36756003);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0:
+	=?utf-8?B?NE5yaGFsem05TGNkSTB2R3hWTkFwL252UzdMT3JOQ3FjcFM0YXZ0RUtnc1FB?=
+ =?utf-8?B?c1RZMmVBSjlIQTlad3FDY0Juc21nMW9FbDhzNHBhMnZsSkduS3BMYjhkYWFi?=
+ =?utf-8?B?UGppU2Q0UDBwQjQ1MGhqTXVGMWJ5Y0pJeVpNbG5mZjFqb0tSWnhNdk15NDRn?=
+ =?utf-8?B?bnU2aDh2M2lBdTYrcmpvelljeG9aVE5WNUhzM0dEVVRiOEhSNlFoaCtqR0Fi?=
+ =?utf-8?B?OUNFem8zN0M3cVcxN0FYNjF0YkxJOXVBaTZrRmpwVFJSVGVUY094Tnp5Nmp3?=
+ =?utf-8?B?QjhqZG5sR0RmbG14dzNsVTVDblpCMzNROUk2T01peU5BMUVjalZNVnVQQm9t?=
+ =?utf-8?B?ZzkzQVNTUEZnT1Zlalp5NHdLclo1L1hIWlNqbjEyM09Wek1mVm9KNURYbWg4?=
+ =?utf-8?B?NlVlZk5iMXJrbEJqaWpFakZBeU1PTFBRRk93WGRZRG1DbThZWkZFdTBzbm96?=
+ =?utf-8?B?ZE10WXI1ODdwRVN6K1FuUUNDb1QweldkS2RDNWdsZHBDV3c3RkhDVjhHazQw?=
+ =?utf-8?B?YVRSaGMvYlVnN1BweEZmK08wQ1FlcEEyNC9IMVpCOG80U2sxT0VrdjBUV2d0?=
+ =?utf-8?B?OVU2NmxBY3pKdTdvUHI3L3liVnJ0OWh3a1Z0YVFlMjhjUzlwZFpZZGZOV2dB?=
+ =?utf-8?B?ek1oUEJ5ZkduYmgrRFJMNmNBb3hKcVd3Y3JWTm1iTUdMa2hJUUJUT0lha2dE?=
+ =?utf-8?B?SW5YMGpSeWxwZ2N4b0pRMytjMS9JajVXRHh1ZnZ6a0tUOFlCSWpoQWxoMnB6?=
+ =?utf-8?B?Z2tPU2pCdnhJdWRWN3c4SjI0bkg1RWVCd3dQSG1Ockc4QWxyRUZaR3NLOW01?=
+ =?utf-8?B?OFowTVZRN1A2ajROWlp6NkxRanFIYnZLTFB3d1VBenJBNTltMGlXL2pDUlQy?=
+ =?utf-8?B?ZjRPZEJMbWVNcEdJVXFnajFkNVpkc29yaGt2U2EydE5qT1drSStqWnJLb09L?=
+ =?utf-8?B?YjhDNDMrNGw2aVZKeEk5UTJGN1cwSW9qSC9ZMXY4eHBSVzhqV0xIaVBIVmlj?=
+ =?utf-8?B?TG1vWk9pSVBkU0UyM0RtYXJIMkJjT0tWOEJvVm5wVjhkdFI3T2xtdGMxZlJW?=
+ =?utf-8?B?TXIyNjhkZ2dEN1dPZWRyU1RnaUJKS1lBRlJtczV1blFYM2hUS1VXRndVVTV6?=
+ =?utf-8?B?dUc1NjhFeldpelFFR3YzZzllQ2d3MnNNZ1pwOGJWbU93d2p5TkVTc2M3YVQr?=
+ =?utf-8?B?OUk4TFN5akZvT1dHdVYrZW0ySklVeStRTzh5M0tzd0tMUWJaUDVjcXlKZzI1?=
+ =?utf-8?B?ckRnUHRTa1F2RjZmcnY0R1dhZGJXZHhWU0paRDFUTG15Z0dJZDYzQlRlZEMw?=
+ =?utf-8?B?MkY2eFlzZ1BNcVJYUW1hRDc3MnYwVTlXck9sRC8xMk9rRndSeHdiZXNvZjk3?=
+ =?utf-8?B?T3d0R1p2aDlEc3ZFdG9PRENrbkRLS1NFcUZ6QTVJUStQMTRhaVpKeTJWcHVj?=
+ =?utf-8?B?Q0ZRREhHSnNTZ1FKQitxRXJHeTNNQ29CTWt0OXlHQlBBZDdnUmQ2NHNnbEFj?=
+ =?utf-8?B?SkMrRzFFSWJxdUI1eExhbzdleFpUUjI2SjdGZWtTNy84M3J5ajV0S1ZsNC9r?=
+ =?utf-8?B?bUZEM0lDMGtGT1ZvMVFHRk5sWVR4U0JZNGFuTWxtRFVkWG1SNTdQdjc4WHhx?=
+ =?utf-8?B?RTkzanN5V0xiRmNHQUd5cXdsZzY1SW9wbUdoMHJ6VW5UcXRySU9LRkdUZjRh?=
+ =?utf-8?B?RUNicldpMnhCNWJwd2JXUzd4OW8rNzRTZEhzb0N3UG5SbHpaVDdGNGFzc1NH?=
+ =?utf-8?B?SkFPWURQRnYvaUEyaGljTENXY2xXSGhKLzFGTE1KQnc2NWtMUEorTjZXMnVL?=
+ =?utf-8?B?NUhDN1FLeDFES2w0ZkxyVktURVF3a293WG1yNlh6RXQxK2czeW1tZ1JjNmV6?=
+ =?utf-8?B?eG9xY1g0UFM5K1ZqT1hObFVwWllTSCt3ZUpzV3p6OElWTXhZWXczc3JSMUhj?=
+ =?utf-8?B?QTFLS0Q3Mk1aZ2pUbG1GTlp3b3duU2ZQQ2d2RGdsa3YwbHM4L3BOdnRYRWdl?=
+ =?utf-8?B?R3VsNFpYZHpJQ2I5QktsZXdNM21PdHdCZVQ1UU5sZ0Fwc0t1VU4rRWF3UHlr?=
+ =?utf-8?B?cFVSMmtsbEVaYjFlZWtTc216dXBBSS81SlVhSnRWK0QzQVc1WGVzcTl0dzZO?=
+ =?utf-8?Q?XuLY=3D?=
+X-OriginatorOrg: nxp.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 80574769-29a5-43fe-eb18-08dc2be661f1
+X-MS-Exchange-CrossTenant-AuthSource: PAXPR04MB9642.eurprd04.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 12 Feb 2024 16:19:26.6405
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 686ea1d3-bc2b-4c6f-a92c-d99c5c301635
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: pNIfAoKJH7MQBgvlR/3CGKeGz0jbByZe32p/l7p3navU3rZeJg6QrBTeW1CZNGePd9y6w6PAIlDNDAv1YoVHpw==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: DU2PR04MB9049
 
-Config with the highest supported UAC version is always preferable because
-it usually provides more features.
+Since dt maintainer give comments at old thread
+https://lore.kernel.org/linux-usb/20240119213130.3147517-1-Frank.Li@nxp.com/
 
-Main motivation for this change is to improve support for several UAC2
-devices which have UAC1 config as the first one for compatibility reasons.
-UAC2 mode provides a wider range of supported sampling rates on these
-devices. Also when UAC4 support is implemented, it will need just one
-additional case line without changing the logic.
+The patch v4 already merged.
+https://lore.kernel.org/linux-usb/20240124152525.3910311-1-Frank.Li@nxp.com/
 
-Signed-off-by: Alexander Tsoy <alexander@tsoy.me>
+In thread "dwc3: drop 'quirk' suffix at snps,host-vbus-glitches-quirk"
+https://lore.kernel.org/imx/ZcVr05vAYsObrrRR@lizhi-Precision-Tower-5810/T/#t
+
+DT maintainer and DWC maintainer think it is better to apply workaround
+unconditionaly. 
+
+Drop 'snps,host-vbus-glitches-quirk' and apply workaround unconditional.
+
+Signed-off-by: Frank Li <Frank.Li@nxp.com>
 ---
- drivers/usb/core/generic.c | 39 +++++++++++++++++++++++++-------------
- 1 file changed, 26 insertions(+), 13 deletions(-)
+Changes in v2:
+- Drop 'snps,host-vbus-glitches-quirk' and apply workaround unconditional. 
+- Link to v1: https://lore.kernel.org/r/20240207-vbus-glitch-v1-0-7be87099461d@nxp.com
 
-diff --git a/drivers/usb/core/generic.c b/drivers/usb/core/generic.c
-index b134bff5c3fe..8aeb180e1cf9 100644
---- a/drivers/usb/core/generic.c
-+++ b/drivers/usb/core/generic.c
-@@ -48,9 +48,16 @@ static bool is_audio(struct usb_interface_descriptor *desc)
- 	return desc->bInterfaceClass == USB_CLASS_AUDIO;
- }
- 
--static bool is_uac3_config(struct usb_interface_descriptor *desc)
-+static bool is_supported_uac(struct usb_interface_descriptor *desc)
- {
--	return desc->bInterfaceProtocol == UAC_VERSION_3;
-+	switch(desc->bInterfaceProtocol) {
-+	case UAC_VERSION_1:
-+	case UAC_VERSION_2:
-+	case UAC_VERSION_3:
-+		return true;
-+	default:
-+		return false;
-+	}
- }
- 
- int usb_choose_configuration(struct usb_device *udev)
-@@ -135,22 +142,28 @@ int usb_choose_configuration(struct usb_device *udev)
- 		}
- 
- 		/*
--		 * Select first configuration as default for audio so that
--		 * devices that don't comply with UAC3 protocol are supported.
--		 * But, still iterate through other configurations and
--		 * select UAC3 compliant config if present.
-+		 * Iterate through audio configurations and select the first of
-+		 * the highest supported UAC versions. Select the first config
-+		 * if no supported UAC configs are found.
- 		 */
- 		if (desc && is_audio(desc)) {
--			/* Always prefer the first found UAC3 config */
--			if (is_uac3_config(desc)) {
--				best = c;
--				break;
--			}
-+			struct usb_interface_descriptor	*best_desc = NULL;
-+
-+			if (best)
-+				best_desc = &best->intf_cache[0]->altsetting->desc;
- 
--			/* If there is no UAC3 config, prefer the first config */
--			else if (i == 0)
-+			if (i == 0)
- 				best = c;
- 
-+			/* Assume that bInterfaceProtocol value is always
-+			 * growing when UAC versions are incremented, so that
-+			 * the direct comparison is possible. */
-+			else if (is_supported_uac(desc) && best_desc &&
-+				 (!is_supported_uac(best_desc) ||
-+				  (desc->bInterfaceProtocol >
-+				   best_desc->bInterfaceProtocol)))
-+					best = c;
-+
- 			/* Unconditional continue, because the rest of the code
- 			 * in the loop is irrelevant for audio devices, and
- 			 * because it can reassign best, which for audio devices
+---
+Frank Li (2):
+      dt-bindings: usb: dwc3: drop 'snps,host-vbus-glitches-quirk'
+      usb: dwc3: apply snps,host-vbus-glitches workaround unconditionally
+
+ Documentation/devicetree/bindings/usb/snps,dwc3.yaml | 7 -------
+ drivers/usb/dwc3/core.c                              | 3 ---
+ drivers/usb/dwc3/core.h                              | 2 --
+ drivers/usb/dwc3/host.c                              | 3 +--
+ 4 files changed, 1 insertion(+), 14 deletions(-)
+---
+base-commit: b1d3a0e70c3881d2f8cf6692ccf7c2a4fb2d030d
+change-id: 20240207-vbus-glitch-97fd340d8a66
+
+Best regards,
 -- 
-2.43.0
+Frank Li <Frank.Li@nxp.com>
 
