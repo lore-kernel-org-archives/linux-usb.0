@@ -1,174 +1,179 @@
-Received: from out203-205-251-72.mail.qq.com (out203-205-251-72.mail.qq.com [203.205.251.72])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9ABBE29CE4;
-	Tue, 13 Feb 2024 13:15:51 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=203.205.251.72
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 261CB55C01
+	for <linux-usb@vger.kernel.org>; Tue, 13 Feb 2024 13:21:26 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1707830154; cv=none; b=JWsSs/misDe5Sz+VTXn0zy3EENilIlZKzmZBwa5YKBV2Z0sUcVqJAeu1/61yNCw+/X1kKEl+B3KeCRqvp+oS1dR3N9s0hO3kl81s2QYG4gth6psq2edcPY7zqZBOoHKxw3sZNvuMFJzdhzfRD5GUPifMLVO7Q0uqlbMXHCqcbMA=
+	t=1707830486; cv=none; b=eJVQUap1TmRc5GY58zOh6DQfLFmpGHIsy094HBmMJQZL6IVK8dqp6rUhJ6qIx34jd3qwGioVRfoNpR57qVdMtXRdAcODTqbCkX98YCtOwU0/RQtQDw9vy/lcko3twVXRaTjLaGZIFYn6iHof72ICkoHlVM7TouAL6HE51/1D+uU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1707830154; c=relaxed/simple;
-	bh=gxpXc33c0/tivVgSIAJHqg/XR8543C4zbAojXjlXODA=;
-	h=Message-ID:From:To:Cc:Subject:Date:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=ka8ev9oXOYnrYPw8MZ4theyBZaejlPUy/tJ5YTcIW8kgQTF81Ed2lXTh7IXJ3LG5EOfPU5FLrXhX66/wyLfNT0Vu2z8OS6O5dor4HSTtrFwlcbkAlms9UCawCkaW7LV7FYPeELOOauzGxnxrIAgCiwpj3S+Mu7NIy6E1HroHhnE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=qq.com; spf=pass smtp.mailfrom=qq.com; dkim=pass (1024-bit key) header.d=qq.com header.i=@qq.com header.b=inDrKRFm; arc=none smtp.client-ip=203.205.251.72
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=qq.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=qq.com
+	s=arc-20240116; t=1707830486; c=relaxed/simple;
+	bh=X5oVG7dtDlhCgADnl5FLp29iB34kd6hhrxLRhLOzyF0=;
+	h=From:To:Subject:Date:Message-ID:Content-Type:MIME-Version; b=KOnJVRZuT+lhPIA6//va3GWPVDqKmzpaAQEbYSvEJUDYoLi+YI4iCHlic+MUYLADMbs4xGLBA59WQ8MZzP/Hq1VMjaiBpqCsLIQZ/T4ClPqZ70+b8sp7T7x2wuPyVTLhN1zd8Qxxw18YaBEMJZPZNCcuU4gIfWL8c8dUWnzmGbY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=teTA7niE; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=qq.com header.i=@qq.com header.b="inDrKRFm"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qq.com; s=s201512;
-	t=1707829841; bh=bkKyuqkAwr4sG3hZNQo0E5KcA8LMWQh9y91i0CS2DG0=;
-	h=From:To:Cc:Subject:Date:In-Reply-To:References;
-	b=inDrKRFmll8R+yYYY0ftDPrWIm0WucaYoqI0Ga56vMTs+tUBXBYsSF85WhFWWujeI
-	 E3zyBYj+dlqwtryJCF18OLKniYpapYhRjQz1hCN6ahKl6bZlyhf+LUtV2Q29nOGYtp
-	 eLoDTEn7wjQR+fo/10kRVQZDoJD0XSDKbwKVZQLc=
-Received: from pek-lxu-l1.wrs.com ([36.129.58.158])
-	by newxmesmtplogicsvrszb6-0.qq.com (NewEsmtp) with SMTP
-	id 2A63AECA; Tue, 13 Feb 2024 21:10:38 +0800
-X-QQ-mid: xmsmtpt1707829838toask8lu6
-Message-ID: <tencent_1755B769F77446DC1379E362296083BF0405@qq.com>
-X-QQ-XMAILINFO: NafziRg7Bx69/VRWICJG/HVsVWgnLmPvroYF2fGmjhVx6dncrzPuT8+LDaDWSs
-	 3n0h1nb2CVwyaCRYXwDloJFxK+8Mbd9TPKtbImqRzbFpZoInlh6STMyEm7Sd4yj6MhWH8pZZwNnv
-	 8klZ6hpx70GfD4pokKZAsMqMVYJLS8NVLRsfSTpOZDH6SMmXWzPZ2PFkbE91gj+w4WTQ7P2suhb5
-	 Ao30tj7jq5yjlUrJOxcwr7bUk7Sem7Ed8fkQ6pBlasdVI9igCitZuHRIB0AcRItpFFsOzwUD8FFG
-	 PwbjzkFVHNt7JQ4YWCBg6ov5YOtlPMmw93bBHpm5O2KtaJbtpwxNC9l1VfqcMzzq/cFS71Jv1fnc
-	 axXopahYqGGDcxPnx19xiGNVqevMUH80A5wIk9BF0U7nbV5lyNQxcvlOXBT1vdONXL9vifncrpKA
-	 euauM5LGJEHnvz8u6D4MahEdC2ypHGbxftRehTROvY4aNXhyqBbLiXwKVbFAboU8+QoHMy+616+1
-	 3NOue9/H6uZsurf/4LlUWKwTPUJizdfhD0Z/Z43hotake0W6RDdbtrIEjiGCrKvN2uqozDnx74dp
-	 05kf12F0gMlLe9NQgH1NEcFaqu8owAzNTvK7xAw18jWkd3BxTo8MLQ3j6klN+YrOVgC/bEE1cJbz
-	 bjZYJlpKZ5TQDLOCynsMfNDEofJWscVn1Rum+wvQ3uoA+fTY4K+xPtEtpTluvL2OsqJxa6v5LC5P
-	 INN2bsw7o6PEYQ2PLd3JOZ6Hw3zsh7p7JkmhbjdEYqG+AjHl8zRSfXk338snhCstuLa1ZPiPZfe0
-	 YVZmeAET7/D3uU7qDogfok5j7c1QAwKQm8pIT+Sh51vgayXpSs7V/ODhSl5CBGhEQ2AudKzpI6HM
-	 hSQEIlcEoWUAhVZr+8Gqj+9bewIvmRHRhTs7caF7WKKYeuF4mWsJlaa/S6GptoRhOZbaPL1YcqRz
-	 jx1YxZdqA=
-X-QQ-XMRINFO: MPJ6Tf5t3I/ycC2BItcBVIA=
-From: Edward Adam Davis <eadavis@qq.com>
-To: gregkh@linuxfoundation.org
-Cc: eadavis@qq.com,
-	linux-input@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	linux-usb@vger.kernel.org,
-	rafael@kernel.org,
-	syzbot+8e41bb0c055b209ebbf4@syzkaller.appspotmail.com,
-	syzkaller-bugs@googlegroups.com
-Subject: Re: [PATCH riscv64] kobject: fix WARNING in input_register_device
-Date: Tue, 13 Feb 2024 21:10:37 +0800
-X-OQ-MSGID: <20240213131037.1139171-2-eadavis@qq.com>
-X-Mailer: git-send-email 2.43.0
-In-Reply-To: <2024021316-nuclei-botany-5446@gregkh>
-References: <2024021316-nuclei-botany-5446@gregkh>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="teTA7niE"
+Received: by smtp.kernel.org (Postfix) with ESMTPS id DA6A7C43390
+	for <linux-usb@vger.kernel.org>; Tue, 13 Feb 2024 13:21:25 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1707830485;
+	bh=X5oVG7dtDlhCgADnl5FLp29iB34kd6hhrxLRhLOzyF0=;
+	h=From:To:Subject:Date:From;
+	b=teTA7niELTE65HtGGpvYbIqH8PyIkUBFlOs75+Ae8f0D2tIYcFzRpdTusAZUY+rxO
+	 FDc4ui0hUCXiMTR8hMqWzyPRArCGODOVlRTtIGf4H3XWxBxctjF4fYap7C2KL5IDlF
+	 8o0f6Rxqn0Amdpe9i9wqayQ4OaHauJ3/vZ9Qqrg19VsDmCPj2TFRqAMU81ZT4JgTLI
+	 UjTg/MV9BGVQxyi9uRI4IogvZecZkYElzSZu6WYTc7sNa06PDOVBKnN8fQdc+Kqe6M
+	 eJF/tTtzJKgCK//0HvqHY77Kvpr0pUwIKlaJRifpRJ1WQiJoZmceJhXm/xDpXKCEto
+	 UeWmQUg4GgXoQ==
+Received: by aws-us-west-2-korg-bugzilla-1.web.codeaurora.org (Postfix, from userid 48)
+	id C55CDC53BCD; Tue, 13 Feb 2024 13:21:25 +0000 (UTC)
+From: bugzilla-daemon@kernel.org
+To: linux-usb@vger.kernel.org
+Subject: [Bug 218487] New: Linux warning `usb: port power management may be
+ unreliable` on Dell OptiPlex 5055
+Date: Tue, 13 Feb 2024 13:21:25 +0000
+X-Bugzilla-Reason: None
+X-Bugzilla-Type: new
+X-Bugzilla-Watch-Reason: AssignedTo drivers_usb@kernel-bugs.kernel.org
+X-Bugzilla-Product: Drivers
+X-Bugzilla-Component: USB
+X-Bugzilla-Version: 2.5
+X-Bugzilla-Keywords: 
+X-Bugzilla-Severity: normal
+X-Bugzilla-Who: pmenzel+bugzilla.kernel.org@molgen.mpg.de
+X-Bugzilla-Status: NEW
+X-Bugzilla-Resolution: 
+X-Bugzilla-Priority: P3
+X-Bugzilla-Assigned-To: drivers_usb@kernel-bugs.kernel.org
+X-Bugzilla-Flags: 
+X-Bugzilla-Changed-Fields: bug_id short_desc product version rep_platform
+ op_sys bug_status bug_severity priority component assigned_to reporter
+ cf_regression attachments.created
+Message-ID: <bug-218487-208809@https.bugzilla.kernel.org/>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+X-Bugzilla-URL: https://bugzilla.kernel.org/
+Auto-Submitted: auto-generated
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
 
-On Tue, 13 Feb 2024 08:20:52 +0100, Greg KH wrote:
-> On Thu, 8 Feb 2024 10:56:00, Greg KH wrote:
-> On Tue, Feb 13, 2024 at 08:43:26AM +0800, Edward Adam Davis wrote:
-> > On Thu, 8 Feb 2024 12:25:10 +0000, Greg KH wrote:
-> > > On Thu, Feb 08, 2024 at 07:37:56PM +0800, Edward Adam Davis wrote:
-> > > > On Thu, 8 Feb 2024 10:56:00, Greg KH wrote:
-> > > > > > The input_add_uevent_modalias_var()->input_print_modalias() will add 1684 bytes
-> > > > > > of data to env, which will result in insufficient memory allocated to the buf
-> > > > > > members of env.
-> > > > >
-> > > > > What is "env"?  And can you wrap your lines at 72 columns please?
-> > > > env is an instance of struct kobj_uevent_env.
-> > >
-> > > Ok, be specific please in your changelog text, otherwise we can't really
-> > > understand what is happening.
-> > >
-> > > > > > Reported-and-tested-by: syzbot+8e41bb0c055b209ebbf4@syzkaller.appspotmail.com
-> > > > > > Signed-off-by: Edward Adam Davis <eadavis@qq.com>
-> > > > > > ---
-> > > > > >  include/linux/kobject.h | 2 +-
-> > > > > >  1 file changed, 1 insertion(+), 1 deletion(-)
-> > > > > >
-> > > > > > diff --git a/include/linux/kobject.h b/include/linux/kobject.h
-> > > > > > index c30affcc43b4..74b37b6459cd 100644
-> > > > > > --- a/include/linux/kobject.h
-> > > > > > +++ b/include/linux/kobject.h
-> > > > > > @@ -30,7 +30,7 @@
-> > > > > >
-> > > > > >  #define UEVENT_HELPER_PATH_LEN		256
-> > > > > >  #define UEVENT_NUM_ENVP			64	/* number of env pointers */
-> > > > > > -#define UEVENT_BUFFER_SIZE		2048	/* buffer for the variables */
-> > > > > > +#define UEVENT_BUFFER_SIZE		2560	/* buffer for the variables */
-> > > > >
-> > > > > That's an odd number, why that?  Why not just a page?  What happens if
-> > > > > some other path wants more?
-> > > > An increase of 512 bytes is sufficient for the current issue. Do not consider
-> > > > the problem of hypothetical existence.
-> > >
-> > > Why is this 512 bytes sufficient now?  What changed to cause this?
-> > There is the following code in input_print_modalias():
-> >
-> > drivers/input/input.c
-> >    1         len += input_print_modalias_bits(buf + len, size - len,
-> > 1403                                 'k', id->keybit, KEY_MIN_INTERESTING, KEY_MAX);
-> > This code will add up to 2608 bytes of data to env at most.
-> > (KEY_MAX - KEY_MIN_INTERESTING) * 4 = (256 * 3 - 1 - 113 ) * 4 = (765 - 113) * 4 = 652 * 4 = 2608 bytes。
-> > Note: In the expression, 4 represents 3 bytes of hexadecimal data and 1 byte of comma.
-> 
-> So your change above is wrong and will not work for the max size?
-Yes.
-> 
-> Why not restrict the modalias here to fit instead of overflowing?  Odds
-> are we should be checking this properly no matter what the value is
-> changed to, right?
-Right.
-It may be necessary to deepen our understanding of this piece of code before
-fixing this issue internally.
-> 
-> > include/uapi/linux/input-event-codes.h
-> > 188 #define KEY_MUTE                113
-> > 807 #define KEY_MIN_INTERESTING     KEY_MUTE
-> > 808 #define KEY_MAX                 0x2ff
-> > During my actual testing process, I found that a total of 1684 bytes were
-> > contributed in input_print_modalias().
-> > >
-> > > And how can we detect this automatically in the future?  Shouldn't we
-> > > just be truncating the buffer instead of having an overflow?
-> > >
-> > > > > And what's causing the input stack to have so many variables all of a
-> > > > > sudden, what changed to cause this?  Is this a bugfix for a specific
-> > > > > commit that needs to be backported to older kernels?  Why did this
-> > > > > buffer size all of a sudden be too small?
-> > > > The result of my analysis is that several members of struct input_dev are too
-> > > > large, such as its member keybit.
-> > >
-> > > And when did that change?  What commit id?  What prevents it from
-> > > growing again and us needing to change this again?
-> > The code that caused this issue has been introduced for a long time, and it is
-> > speculated that it was due to the fact that the warning in add_uevent_var() was
-> > returned directly to ENOMEM without being taken seriously.
-> >
-> > lib/kobject_uevent.c
-> >   2         if (len >= (sizeof(env->buf) - env->buflen)) {
-> >   1                 WARN(1, KERN_ERR "add_uevent_var: buffer size too small\n");
-> > 672                 return -ENOMEM;
-> 
-> Odd line numbers?
-> 
-> Anyway, we should get rid of the WARN() as that will cause crashes, and
-> just handle it properly there.
-> 
-> 
-> >   1         }
-> >
-> > I believe that this issue was introduced by:
-> > 7eff2e7a8b65 - Driver core: change add_ueventvar to use a struct.
-> 
-> In 2007?  And never been actually hit since then?  So is this a real
-> issue? :)
-Yes. But as I mentioned earlier, in add_uevent_var(), it will exit directly after
-a warning, so this issue has not been given enough attention, perhaps it has
-happened many times.
+https://bugzilla.kernel.org/show_bug.cgi?id=3D218487
 
-thanks,
-edward.
+            Bug ID: 218487
+           Summary: Linux warning `usb: port power management may be
+                    unreliable` on Dell OptiPlex 5055
+           Product: Drivers
+           Version: 2.5
+          Hardware: All
+                OS: Linux
+            Status: NEW
+          Severity: normal
+          Priority: P3
+         Component: USB
+          Assignee: drivers_usb@kernel-bugs.kernel.org
+          Reporter: pmenzel+bugzilla.kernel.org@molgen.mpg.de
+        Regression: No
 
+Created attachment 305861
+  --> https://bugzilla.kernel.org/attachment.cgi?id=3D305861&action=3Dedit
+Linux 6.6.12 messages (output of `dmesg`) with system firmware 1.1.50
+
+On the Dell OptiPlex 5055 with at least system firmware version 1.1.50, Lin=
+ux
+6.6.12 warns:
+
+    $ dmesg | grep "be unreliable"
+    [    3.289270] usb: port power management may be unreliable
+    $ dmesg | grep -e "DMI:" -e "Linux version" -e microcode
+    [    0.000000] Linux version 6.6.12.mx64.461
+(root@theinternet.molgen.mpg.de) (gcc (GCC) 12.3.0, GNU ld (GNU Binutils) 2=
+.41)
+#1 SMP PREEMPT_DYNAMIC Thu Jan 18 10:47:08 CET 2024
+    [    0.000000] DMI: Dell Inc. OptiPlex 5055 Ryzen CPU/0P03DX, BIOS 1.1.=
+50
+07/28/2021
+    [    3.488086] microcode: CPU0: patch_level=3D0x08001137
+    [    3.488088] microcode: CPU2: patch_level=3D0x08001137
+    [    3.488088] microcode: CPU3: patch_level=3D0x08001137
+    [    3.488091] microcode: CPU1: patch_level=3D0x08001137
+    [    3.488094] microcode: CPU6: patch_level=3D0x08001137
+    [    3.488094] microcode: CPU5: patch_level=3D0x08001137
+    [    3.488095] microcode: CPU7: patch_level=3D0x08001137
+    [    3.530149] microcode: CPU4: patch_level=3D0x08001137
+    [    3.530171] microcode: Microcode Update Driver: v2.2.
+    $ usb-devices
+
+    T:  Bus=3D01 Lev=3D00 Prnt=3D00 Port=3D00 Cnt=3D00 Dev#=3D  1 Spd=3D480=
+ MxCh=3D10
+    D:  Ver=3D 2.00 Cls=3D09(hub  ) Sub=3D00 Prot=3D01 MxPS=3D64 #Cfgs=3D  1
+    P:  Vendor=3D1d6b ProdID=3D0002 Rev=3D06.06
+    S:  Manufacturer=3DLinux 6.6.12.mx64.461 xhci-hcd
+    S:  Product=3DxHCI Host Controller
+    S:  SerialNumber=3D0000:01:00.0
+    C:  #Ifs=3D 1 Cfg#=3D 1 Atr=3De0 MxPwr=3D0mA
+    I:  If#=3D0x0 Alt=3D 0 #EPs=3D 1 Cls=3D09(hub  ) Sub=3D00 Prot=3D00 Dri=
+ver=3Dhub
+
+    T:  Bus=3D01 Lev=3D01 Prnt=3D01 Port=3D09 Cnt=3D01 Dev#=3D  3 Spd=3D1.5=
+ MxCh=3D 0
+    D:  Ver=3D 1.10 Cls=3D00(>ifc ) Sub=3D00 Prot=3D00 MxPS=3D 8 #Cfgs=3D  1
+    P:  Vendor=3D413c ProdID=3D2113 Rev=3D01.08
+    S:  Product=3DDell KB216 Wired Keyboard
+    C:  #Ifs=3D 2 Cfg#=3D 1 Atr=3Da0 MxPwr=3D100mA
+    I:  If#=3D0x0 Alt=3D 0 #EPs=3D 1 Cls=3D03(HID  ) Sub=3D01 Prot=3D01 Dri=
+ver=3Dusbhid
+    I:  If#=3D0x1 Alt=3D 0 #EPs=3D 1 Cls=3D03(HID  ) Sub=3D00 Prot=3D00 Dri=
+ver=3Dusbhid
+
+    T:  Bus=3D01 Lev=3D01 Prnt=3D01 Port=3D06 Cnt=3D02 Dev#=3D  2 Spd=3D1.5=
+ MxCh=3D 0
+    D:  Ver=3D 2.00 Cls=3D00(>ifc ) Sub=3D00 Prot=3D00 MxPS=3D 8 #Cfgs=3D  1
+    P:  Vendor=3D046d ProdID=3Dc077 Rev=3D72.00
+    S:  Manufacturer=3DLogitech
+    S:  Product=3DUSB Optical Mouse
+    C:  #Ifs=3D 1 Cfg#=3D 1 Atr=3Da0 MxPwr=3D100mA
+    I:  If#=3D0x0 Alt=3D 0 #EPs=3D 1 Cls=3D03(HID  ) Sub=3D01 Prot=3D02 Dri=
+ver=3Dusbhid
+
+    T:  Bus=3D02 Lev=3D00 Prnt=3D00 Port=3D00 Cnt=3D00 Dev#=3D  1 Spd=3D100=
+00 MxCh=3D 4
+    D:  Ver=3D 3.10 Cls=3D09(hub  ) Sub=3D00 Prot=3D03 MxPS=3D 9 #Cfgs=3D  1
+    P:  Vendor=3D1d6b ProdID=3D0003 Rev=3D06.06
+    S:  Manufacturer=3DLinux 6.6.12.mx64.461 xhci-hcd
+    S:  Product=3DxHCI Host Controller
+    S:  SerialNumber=3D0000:01:00.0
+    C:  #Ifs=3D 1 Cfg#=3D 1 Atr=3De0 MxPwr=3D0mA
+    I:  If#=3D0x0 Alt=3D 0 #EPs=3D 1 Cls=3D09(hub  ) Sub=3D00 Prot=3D00 Dri=
+ver=3Dhub
+
+    T:  Bus=3D03 Lev=3D00 Prnt=3D00 Port=3D00 Cnt=3D00 Dev#=3D  1 Spd=3D480=
+ MxCh=3D 4
+    D:  Ver=3D 2.00 Cls=3D09(hub  ) Sub=3D00 Prot=3D01 MxPS=3D64 #Cfgs=3D  1
+    P:  Vendor=3D1d6b ProdID=3D0002 Rev=3D06.06
+    S:  Manufacturer=3DLinux 6.6.12.mx64.461 xhci-hcd
+    S:  Product=3DxHCI Host Controller
+    S:  SerialNumber=3D0000:05:00.3
+    C:  #Ifs=3D 1 Cfg#=3D 1 Atr=3De0 MxPwr=3D0mA
+    I:  If#=3D0x0 Alt=3D 0 #EPs=3D 1 Cls=3D09(hub  ) Sub=3D00 Prot=3D00 Dri=
+ver=3Dhub
+
+    T:  Bus=3D04 Lev=3D00 Prnt=3D00 Port=3D00 Cnt=3D00 Dev#=3D  1 Spd=3D500=
+0 MxCh=3D 4
+    D:  Ver=3D 3.00 Cls=3D09(hub  ) Sub=3D00 Prot=3D03 MxPS=3D 9 #Cfgs=3D  1
+    P:  Vendor=3D1d6b ProdID=3D0003 Rev=3D06.06
+    S:  Manufacturer=3DLinux 6.6.12.mx64.461 xhci-hcd
+    S:  Product=3DxHCI Host Controller
+    S:  SerialNumber=3D0000:05:00.3
+    C:  #Ifs=3D 1 Cfg#=3D 1 Atr=3De0 MxPwr=3D0mA
+    I:  If#=3D0x0 Alt=3D 0 #EPs=3D 1 Cls=3D09(hub  ) Sub=3D00 Prot=3D00 Dri=
+ver=3Dhub
+
+--=20
+You may reply to this email to add a comment.
+
+You are receiving this mail because:
+You are watching the assignee of the bug.=
