@@ -1,105 +1,174 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from out203-205-251-72.mail.qq.com (out203-205-251-72.mail.qq.com [203.205.251.72])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 29BA955C03;
-	Tue, 13 Feb 2024 13:13:46 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9ABBE29CE4;
+	Tue, 13 Feb 2024 13:15:51 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=203.205.251.72
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1707830026; cv=none; b=ty2bBEj7p3n5qwIG4NRCde6HGV/EvLmeEouJWPbw1w0GjnfXLrdeLPpr8UIVHKr4dZLvBhRrZFqS+i49/VDzS7ZIuX/KoEHNFPTXq3VvH5hphAdz/l3xeKWB9CJpwLrCgqJEx0XahCRch4ex+9UV9ZGy/a93UN8gITClV4XWkeA=
+	t=1707830154; cv=none; b=JWsSs/misDe5Sz+VTXn0zy3EENilIlZKzmZBwa5YKBV2Z0sUcVqJAeu1/61yNCw+/X1kKEl+B3KeCRqvp+oS1dR3N9s0hO3kl81s2QYG4gth6psq2edcPY7zqZBOoHKxw3sZNvuMFJzdhzfRD5GUPifMLVO7Q0uqlbMXHCqcbMA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1707830026; c=relaxed/simple;
-	bh=z+9VSgqO5bthw9m2XPCSK750+TzphWPWfMm9vhOdbVg=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=U5UB/tXUfX76X19Vn5CkEVyStd6ydHm4pgaNMDxwK9dAD41rxcP/fge7sohiGSFL0N7aKbvulSdveGieK/9n3O72o7+N7vTkr9ClijnjrceAXsSyN1pAYDBleuBXa19YBNBUkMHhly/nQ0Qs8nXntd2q35HcUj/xuQKd9wRRvDc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Ak3yK6jg; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1707830154; c=relaxed/simple;
+	bh=gxpXc33c0/tivVgSIAJHqg/XR8543C4zbAojXjlXODA=;
+	h=Message-ID:From:To:Cc:Subject:Date:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=ka8ev9oXOYnrYPw8MZ4theyBZaejlPUy/tJ5YTcIW8kgQTF81Ed2lXTh7IXJ3LG5EOfPU5FLrXhX66/wyLfNT0Vu2z8OS6O5dor4HSTtrFwlcbkAlms9UCawCkaW7LV7FYPeELOOauzGxnxrIAgCiwpj3S+Mu7NIy6E1HroHhnE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=qq.com; spf=pass smtp.mailfrom=qq.com; dkim=pass (1024-bit key) header.d=qq.com header.i=@qq.com header.b=inDrKRFm; arc=none smtp.client-ip=203.205.251.72
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=qq.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=qq.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Ak3yK6jg"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 06392C433F1;
-	Tue, 13 Feb 2024 13:13:43 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1707830025;
-	bh=z+9VSgqO5bthw9m2XPCSK750+TzphWPWfMm9vhOdbVg=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=Ak3yK6jg5ez+EnZN1BYr8fbMDwG+r1nhj8JYieuyIXy0OtGNubN2/EutkqCv7+6dz
-	 /OacWbN+f3qKkzQ2lkZ4ZPoy/WoZ+JwGHY8qEjwUJ+WrX0Q5Zi1ouackNHWAv47/O8
-	 TcOhPc6ATO+nq+aZfAplPZrsNvDCYgsq6jY8x/WmCOo38ymKjNguIqnh+9I2lzpLlu
-	 qILRKspMGdEZuHbhWVhzLSCaCR/vb8A/5Kmi34uIpsROXXWSjTwGuS59X1UyaagixO
-	 +llSf+vRCCzvnb9Tw4JgQluuT+y7shRrsh8wd3dK6dO65U7OmaUucJRiNRJEUnuT4c
-	 o3DNJirvEYsLQ==
-Date: Tue, 13 Feb 2024 13:13:41 +0000
-From: Mark Brown <broonie@kernel.org>
-To: Badhri Jagan Sridharan <badhri@google.com>
-Cc: Guenter Roeck <linux@roeck-us.net>,
-	Heikki Krogerus <heikki.krogerus@linux.intel.com>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	=?iso-8859-1?Q?G=E1bor?= Stefanik <netrolller.3d@gmail.com>,
-	rdbabiera@google.com, amitsd@google.com, linux-usb@vger.kernel.org,
-	linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] usb: typec: tpcm: Fix issues with power being removed
- during reset
-Message-ID: <3a09ea3b-3a42-4fce-85f8-f8408a4a2206@sirena.org.uk>
-References: <20240212-usb-fix-renegade-v1-1-22c43c88d635@kernel.org>
- <CAPTae5LOresaK3Epd4R_ifpx2kw21tubQDENg4OMrhJWsar-oA@mail.gmail.com>
+	dkim=pass (1024-bit key) header.d=qq.com header.i=@qq.com header.b="inDrKRFm"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qq.com; s=s201512;
+	t=1707829841; bh=bkKyuqkAwr4sG3hZNQo0E5KcA8LMWQh9y91i0CS2DG0=;
+	h=From:To:Cc:Subject:Date:In-Reply-To:References;
+	b=inDrKRFmll8R+yYYY0ftDPrWIm0WucaYoqI0Ga56vMTs+tUBXBYsSF85WhFWWujeI
+	 E3zyBYj+dlqwtryJCF18OLKniYpapYhRjQz1hCN6ahKl6bZlyhf+LUtV2Q29nOGYtp
+	 eLoDTEn7wjQR+fo/10kRVQZDoJD0XSDKbwKVZQLc=
+Received: from pek-lxu-l1.wrs.com ([36.129.58.158])
+	by newxmesmtplogicsvrszb6-0.qq.com (NewEsmtp) with SMTP
+	id 2A63AECA; Tue, 13 Feb 2024 21:10:38 +0800
+X-QQ-mid: xmsmtpt1707829838toask8lu6
+Message-ID: <tencent_1755B769F77446DC1379E362296083BF0405@qq.com>
+X-QQ-XMAILINFO: NafziRg7Bx69/VRWICJG/HVsVWgnLmPvroYF2fGmjhVx6dncrzPuT8+LDaDWSs
+	 3n0h1nb2CVwyaCRYXwDloJFxK+8Mbd9TPKtbImqRzbFpZoInlh6STMyEm7Sd4yj6MhWH8pZZwNnv
+	 8klZ6hpx70GfD4pokKZAsMqMVYJLS8NVLRsfSTpOZDH6SMmXWzPZ2PFkbE91gj+w4WTQ7P2suhb5
+	 Ao30tj7jq5yjlUrJOxcwr7bUk7Sem7Ed8fkQ6pBlasdVI9igCitZuHRIB0AcRItpFFsOzwUD8FFG
+	 PwbjzkFVHNt7JQ4YWCBg6ov5YOtlPMmw93bBHpm5O2KtaJbtpwxNC9l1VfqcMzzq/cFS71Jv1fnc
+	 axXopahYqGGDcxPnx19xiGNVqevMUH80A5wIk9BF0U7nbV5lyNQxcvlOXBT1vdONXL9vifncrpKA
+	 euauM5LGJEHnvz8u6D4MahEdC2ypHGbxftRehTROvY4aNXhyqBbLiXwKVbFAboU8+QoHMy+616+1
+	 3NOue9/H6uZsurf/4LlUWKwTPUJizdfhD0Z/Z43hotake0W6RDdbtrIEjiGCrKvN2uqozDnx74dp
+	 05kf12F0gMlLe9NQgH1NEcFaqu8owAzNTvK7xAw18jWkd3BxTo8MLQ3j6klN+YrOVgC/bEE1cJbz
+	 bjZYJlpKZ5TQDLOCynsMfNDEofJWscVn1Rum+wvQ3uoA+fTY4K+xPtEtpTluvL2OsqJxa6v5LC5P
+	 INN2bsw7o6PEYQ2PLd3JOZ6Hw3zsh7p7JkmhbjdEYqG+AjHl8zRSfXk338snhCstuLa1ZPiPZfe0
+	 YVZmeAET7/D3uU7qDogfok5j7c1QAwKQm8pIT+Sh51vgayXpSs7V/ODhSl5CBGhEQ2AudKzpI6HM
+	 hSQEIlcEoWUAhVZr+8Gqj+9bewIvmRHRhTs7caF7WKKYeuF4mWsJlaa/S6GptoRhOZbaPL1YcqRz
+	 jx1YxZdqA=
+X-QQ-XMRINFO: MPJ6Tf5t3I/ycC2BItcBVIA=
+From: Edward Adam Davis <eadavis@qq.com>
+To: gregkh@linuxfoundation.org
+Cc: eadavis@qq.com,
+	linux-input@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	linux-usb@vger.kernel.org,
+	rafael@kernel.org,
+	syzbot+8e41bb0c055b209ebbf4@syzkaller.appspotmail.com,
+	syzkaller-bugs@googlegroups.com
+Subject: Re: [PATCH riscv64] kobject: fix WARNING in input_register_device
+Date: Tue, 13 Feb 2024 21:10:37 +0800
+X-OQ-MSGID: <20240213131037.1139171-2-eadavis@qq.com>
+X-Mailer: git-send-email 2.43.0
+In-Reply-To: <2024021316-nuclei-botany-5446@gregkh>
+References: <2024021316-nuclei-botany-5446@gregkh>
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-	protocol="application/pgp-signature"; boundary="wNzrdL2IZ5232/Er"
-Content-Disposition: inline
-In-Reply-To: <CAPTae5LOresaK3Epd4R_ifpx2kw21tubQDENg4OMrhJWsar-oA@mail.gmail.com>
-X-Cookie: Does not include installation.
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 
+On Tue, 13 Feb 2024 08:20:52 +0100, Greg KH wrote:
+> On Thu, 8 Feb 2024 10:56:00, Greg KH wrote:
+> On Tue, Feb 13, 2024 at 08:43:26AM +0800, Edward Adam Davis wrote:
+> > On Thu, 8 Feb 2024 12:25:10 +0000, Greg KH wrote:
+> > > On Thu, Feb 08, 2024 at 07:37:56PM +0800, Edward Adam Davis wrote:
+> > > > On Thu, 8 Feb 2024 10:56:00, Greg KH wrote:
+> > > > > > The input_add_uevent_modalias_var()->input_print_modalias() will add 1684 bytes
+> > > > > > of data to env, which will result in insufficient memory allocated to the buf
+> > > > > > members of env.
+> > > > >
+> > > > > What is "env"?  And can you wrap your lines at 72 columns please?
+> > > > env is an instance of struct kobj_uevent_env.
+> > >
+> > > Ok, be specific please in your changelog text, otherwise we can't really
+> > > understand what is happening.
+> > >
+> > > > > > Reported-and-tested-by: syzbot+8e41bb0c055b209ebbf4@syzkaller.appspotmail.com
+> > > > > > Signed-off-by: Edward Adam Davis <eadavis@qq.com>
+> > > > > > ---
+> > > > > >  include/linux/kobject.h | 2 +-
+> > > > > >  1 file changed, 1 insertion(+), 1 deletion(-)
+> > > > > >
+> > > > > > diff --git a/include/linux/kobject.h b/include/linux/kobject.h
+> > > > > > index c30affcc43b4..74b37b6459cd 100644
+> > > > > > --- a/include/linux/kobject.h
+> > > > > > +++ b/include/linux/kobject.h
+> > > > > > @@ -30,7 +30,7 @@
+> > > > > >
+> > > > > >  #define UEVENT_HELPER_PATH_LEN		256
+> > > > > >  #define UEVENT_NUM_ENVP			64	/* number of env pointers */
+> > > > > > -#define UEVENT_BUFFER_SIZE		2048	/* buffer for the variables */
+> > > > > > +#define UEVENT_BUFFER_SIZE		2560	/* buffer for the variables */
+> > > > >
+> > > > > That's an odd number, why that?  Why not just a page?  What happens if
+> > > > > some other path wants more?
+> > > > An increase of 512 bytes is sufficient for the current issue. Do not consider
+> > > > the problem of hypothetical existence.
+> > >
+> > > Why is this 512 bytes sufficient now?  What changed to cause this?
+> > There is the following code in input_print_modalias():
+> >
+> > drivers/input/input.c
+> >    1         len += input_print_modalias_bits(buf + len, size - len,
+> > 1403                                 'k', id->keybit, KEY_MIN_INTERESTING, KEY_MAX);
+> > This code will add up to 2608 bytes of data to env at most.
+> > (KEY_MAX - KEY_MIN_INTERESTING) * 4 = (256 * 3 - 1 - 113 ) * 4 = (765 - 113) * 4 = 652 * 4 = 2608 bytes。
+> > Note: In the expression, 4 represents 3 bytes of hexadecimal data and 1 byte of comma.
+> 
+> So your change above is wrong and will not work for the max size?
+Yes.
+> 
+> Why not restrict the modalias here to fit instead of overflowing?  Odds
+> are we should be checking this properly no matter what the value is
+> changed to, right?
+Right.
+It may be necessary to deepen our understanding of this piece of code before
+fixing this issue internally.
+> 
+> > include/uapi/linux/input-event-codes.h
+> > 188 #define KEY_MUTE                113
+> > 807 #define KEY_MIN_INTERESTING     KEY_MUTE
+> > 808 #define KEY_MAX                 0x2ff
+> > During my actual testing process, I found that a total of 1684 bytes were
+> > contributed in input_print_modalias().
+> > >
+> > > And how can we detect this automatically in the future?  Shouldn't we
+> > > just be truncating the buffer instead of having an overflow?
+> > >
+> > > > > And what's causing the input stack to have so many variables all of a
+> > > > > sudden, what changed to cause this?  Is this a bugfix for a specific
+> > > > > commit that needs to be backported to older kernels?  Why did this
+> > > > > buffer size all of a sudden be too small?
+> > > > The result of my analysis is that several members of struct input_dev are too
+> > > > large, such as its member keybit.
+> > >
+> > > And when did that change?  What commit id?  What prevents it from
+> > > growing again and us needing to change this again?
+> > The code that caused this issue has been introduced for a long time, and it is
+> > speculated that it was due to the fact that the warning in add_uevent_var() was
+> > returned directly to ENOMEM without being taken seriously.
+> >
+> > lib/kobject_uevent.c
+> >   2         if (len >= (sizeof(env->buf) - env->buflen)) {
+> >   1                 WARN(1, KERN_ERR "add_uevent_var: buffer size too small\n");
+> > 672                 return -ENOMEM;
+> 
+> Odd line numbers?
+> 
+> Anyway, we should get rid of the WARN() as that will cause crashes, and
+> just handle it properly there.
+> 
+> 
+> >   1         }
+> >
+> > I believe that this issue was introduced by:
+> > 7eff2e7a8b65 - Driver core: change add_ueventvar to use a struct.
+> 
+> In 2007?  And never been actually hit since then?  So is this a real
+> issue? :)
+Yes. But as I mentioned earlier, in add_uevent_var(), it will exit directly after
+a warning, so this issue has not been given enough attention, perhaps it has
+happened many times.
 
---wNzrdL2IZ5232/Er
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+thanks,
+edward.
 
-On Tue, Feb 13, 2024 at 02:09:16AM -0800, Badhri Jagan Sridharan wrote:
-> Hi Mark,
-
-Please don't top post, reply in line with needed context.  This allows
-readers to readily follow the flow of conversation and understand what
-you are talking about and also helps ensure that everything in the
-discussion is being addressed.
-
-> While HI-Zing CC pins disrupts power for batteryless devices, not
-> Hi-Zing CC pins would prevent clean error recovery for self powered
-> devices which is why "usb: typec: tcpm: fix cc role at port reset" was re=
-verted.
-> Please note that the breakage in error recovery behavior is a
-> regression as well.
-> Hi-Zing CC pins would make the port partner recognize it as disconnect
-> and will result in bringup the connection back cleanly.
->=20
-> How about leveraging "self-powered" device tree property and Hi-Zing
-> CC pins only when using "self-powered" ?
-> This should help devices which don't have batteries while NOT regressing
-> the error recovery behavior for the self powered devices.
-
-I don't super care so long as the boards I care about continue to
-function, I submitted this patch because the only response to my report
-about the rk3399-roc-pc having been broken in mainline was a
-confirmation that the failure was expected.  As I noted in the commit
-log checking if there is an alternative power source does seem like a
-viable option here, I am not particularly familiar with this code.
-
---wNzrdL2IZ5232/Er
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQEzBAABCgAdFiEEreZoqmdXGLWf4p/qJNaLcl1Uh9AFAmXLawQACgkQJNaLcl1U
-h9DeBgf9HO4xYfg24xt/Jvbh1Le5gyPcZnCGlzA0xrtgv4g1unnklA5uQ/EfFen6
-hbGufKQ5/sRQ3gCxUve350Vaq/ynTH5EM6gkTLCmiYNp2KFBejcFq88+Zb8ekOMy
-Tnzd4GVwHFVxQczjK8kKnjvXwiqnJBg08Dcq3i8dp3GrvxYir+Q79gRV6nHbzZvb
-Toa3WxY51eRZE+1iKGK31Zeb0lmwnqHZ9LY9jmUEpZO+gzoX/FGKdyoo31ZkiIlP
-NFkkQmYKc+iMN8trojxI6rguRMu8zvZpZbrm8Gx69+9rPmIEAunXbDVbV0pcj9uf
-cR4Zl/H4+6Gud2N5FIi2O3Z2oZwZeQ==
-=oW47
------END PGP SIGNATURE-----
-
---wNzrdL2IZ5232/Er--
