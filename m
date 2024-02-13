@@ -1,83 +1,79 @@
-Received: from out162-62-58-211.mail.qq.com (out162-62-58-211.mail.qq.com [162.62.58.211])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5218B60255;
-	Tue, 13 Feb 2024 00:55:13 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=162.62.58.211
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8EBE214F7A
+	for <linux-usb@vger.kernel.org>; Tue, 13 Feb 2024 07:08:36 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1707785718; cv=none; b=PrJ2ERIcTPgEkxoe7UenscbhN0+NNVMNF/ur+euJjtVuZlvssTN2wQg0wx9mVkFO5cEHB8SDXyPQdgCErwtLtzbL61URB9thHepHjIg5oI5PgvmqboqMf1JolS+XwfPMItcW3NcvHnHb7YUdm+8nzsYqK9sc7gNniOmC/teS5hw=
+	t=1707808116; cv=none; b=FD7L/tRVo6+4bmK/e0lklhLc6yN5lZCOL9TCAqu+wO3pBKRVdkBQaGHzH9d6g9pP4eEON/VCjMRTfa6kTt7mH6HjnCk5FghaI18bhpfG71+lqLP2vtq/BiXIVzCvGjKGQzc964ULSKD30LNOH3opLSRdxmvm//ZIGCcEE+3XqIo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1707785718; c=relaxed/simple;
-	bh=2puoh82NlL7KgPajwOKr+RoT+y7OyuLuade3sdrbDg8=;
-	h=Message-ID:From:To:Cc:Subject:Date:In-Reply-To:References:
-	 MIME-Version; b=DCcdheM29r8jkWUFXax95gvDWN5i7vXfY60d7si3fXHZPLu2rukUPiAaaUhIa8lIyeK06SuCBI5kayE32Hta7Tds5Krt1UNvroi9lVxlvTH0GJborl4yeOOMrIoklcMH6e8/NfnIUlVr1cL2jG60jTNcArYRqT/BNQWHFJ4ctFc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=qq.com; spf=pass smtp.mailfrom=qq.com; dkim=pass (1024-bit key) header.d=qq.com header.i=@qq.com header.b=zqg7XtTK; arc=none smtp.client-ip=162.62.58.211
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=qq.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=qq.com
+	s=arc-20240116; t=1707808116; c=relaxed/simple;
+	bh=cHcpa3RDjQoRNyrCyvieqWZf84BIkhOg8Eea4s59OC8=;
+	h=From:To:Subject:Date:Message-ID:In-Reply-To:References:
+	 Content-Type:MIME-Version; b=iphdElfokdmFkofAKrTv14NW2VG8wJ90dQwBvG1+DJmQXwgcU3PP7/qvTmWUaDD6wWKXq7z5Bz1UuJG2xxX1OL+SxkAa3z19Y0srcbEtMFNEglbI+bDQk/k51nbid3Qne9utZrMxcXU94v/sjhnUWJAesfZyAkW95QdZh3GamDg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=faP+YWhZ; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=qq.com header.i=@qq.com header.b="zqg7XtTK"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qq.com; s=s201512;
-	t=1707785404; bh=0qDgLx5aQ2V4NWIxvN8S5gR/fmOBA2ONJsoUoqof8Cw=;
-	h=From:To:Cc:Subject:Date:In-Reply-To:References;
-	b=zqg7XtTKxpn7J1EBghb2yG2AceY9RHLJLb501V+cgoyuIRLjm6Qw4xPmANaw8/EVp
-	 oMQjiC3z3u6psEpY/mbtDsozBxW3k7WgEF1yzJGJ/VzTpQ96JmbtPdf3QVueVJ4ZFH
-	 Xh+fOS9QgQTfMDp7584aQQpqiBRa4TaqwIfKpekE=
-Received: from pek-lxu-l1.wrs.com ([36.129.58.158])
-	by newxmesmtplogicsvrszb6-0.qq.com (NewEsmtp) with SMTP
-	id C8128AF5; Tue, 13 Feb 2024 08:50:01 +0800
-X-QQ-mid: xmsmtpt1707785401tagud59b2
-Message-ID: <tencent_9D9878866FF42C756D2C94DCEA36EC26CE0A@qq.com>
-X-QQ-XMAILINFO: Mdc3TkmnJyI/zfzQDSy+gE7tbtK5LFsNIopNlDffVWhTZ6+IQ3sUA9dXd5CznS
-	 aqZHlhLaCglfakmfRepcF5fTYsXrABkghzNMGJa+p5dNPvtAoAhJdhYY1hJ0A6r7wbfOtHq+EmOH
-	 ZV8RayrkepS9CFQ6HP8fRpRQirJ/IRb/2aD/QROyqv+Y0+tRCR3at3lpQyFBm+vkoyFchRup96di
-	 MHyDGSp8fk42G01Yj4HrLB0CeV4foYN0wK+/V0plHLCKjbXgzibR3CjmPcK1mnjYRATpRajBlrNf
-	 GqzSL1TcA4KojR7vu9t1fj+W0Tjv7UPNpEOqEdGEJANGcMKv83K0H2yfuCovU0zH3zG6voS3rhBf
-	 UQW2pxglFM9SYE1xowuCUbHqSaR9+wovz2Yzo8kvwkKt6csLcv3JDB9Od+KUuhEwFY6T7biuE7Is
-	 cX2z+nWjRXgWGRVuUKaNIyDRr1KxU8Jwx8/zAUqGS/gZUWqOLF4kzVo8jy2UUtD7tsx1cDNtqdv7
-	 rXklwrQBUNeUKG2LfK9defmTEdddVMPnFZ2DQyKG2DQqVjBibEGiKtR+9kW402CwE4JFmoaPircA
-	 LPCjKcoT+lPLaxjA/eAmMKajv8KZjNNFPiIURR4ag6h8do4IRaQ1Fq02mKu/t77EA1Duxk7VL0SU
-	 YY2qCI046VWi/9n/9m26wAebm/I5iRHdpZM/34+t1Qr9eSy1iuJcR/Yb2CZ4HeMxOncnh9wUPwsG
-	 mqqk/oZh00wpruBBsvnMqEjBtiZ7lfyC/PcdWhhGJGVN+Ss98a1/OoQYNlXnnfs0iUvxVVUQIyy0
-	 xyeu5TQu0svzYv26fqGYVyW5GWgfMwWIJUNQesZCvBTQ/LJqzwKqR22ps5aQW5EklC6X0K+pasSy
-	 M81TtS+xoANRKp9/gXeBz0xX6enrbeVake3NOP/p4RKCgHevb70Zo87NDuSE+0eQ==
-X-QQ-XMRINFO: MSVp+SPm3vtS1Vd6Y4Mggwc=
-From: Edward Adam Davis <eadavis@qq.com>
-To: gregkh@linuxfoundation.org
-Cc: eadavis@qq.com,
-	linux-input@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	linux-usb@vger.kernel.org,
-	rafael@kernel.org,
-	syzbot+8e41bb0c055b209ebbf4@syzkaller.appspotmail.com,
-	syzkaller-bugs@googlegroups.com
-Subject: Re: [PATCH riscv64] kobject: fix WARNING in input_register_device
-Date: Tue, 13 Feb 2024 08:50:01 +0800
-X-OQ-MSGID: <20240213005000.290327-2-eadavis@qq.com>
-X-Mailer: git-send-email 2.43.0
-In-Reply-To: <2024020821-quintet-survival-54f4@gregkh>
-References: <2024020821-quintet-survival-54f4@gregkh>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="faP+YWhZ"
+Received: by smtp.kernel.org (Postfix) with ESMTPS id 01AD2C43330
+	for <linux-usb@vger.kernel.org>; Tue, 13 Feb 2024 07:08:36 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1707808116;
+	bh=cHcpa3RDjQoRNyrCyvieqWZf84BIkhOg8Eea4s59OC8=;
+	h=From:To:Subject:Date:In-Reply-To:References:From;
+	b=faP+YWhZUg1kwmHBq2n5kMfowtbV4JUebTW/fF9vJnuVLTUka1WfLk/kSAOIzb9Z/
+	 Un11s1OMpIBJI8nqoqwuLQV8H8KCi9mBKy/lP4jfov8mI0z9Vz357Ne+nUPLsLPyeh
+	 1iQuutcRi/rqw53cxSFScV+727xe7JXUKChY4Pr/D95LVqNC4veGhEw5DEJ1WttLz5
+	 e3/NXAYM2PRlOm99u2jaFfNHaTSuGKSFpYbKDh6fsWqHrk6kJm0LLK6M+oqvRxm6UK
+	 YXi8SgKaQJcuo2Hc//aGX1sYe4pFVUN2mpikK3NJ2uoJxCYEPfE8viWDQvU4uOB77V
+	 wOr7SUYKT5TSQ==
+Received: by aws-us-west-2-korg-bugzilla-1.web.codeaurora.org (Postfix, from userid 48)
+	id E7141C53BD1; Tue, 13 Feb 2024 07:08:35 +0000 (UTC)
+From: bugzilla-daemon@kernel.org
+To: linux-usb@vger.kernel.org
+Subject: [Bug 216728] Thunderbolt USB Controller died after resume on Intel
+ CometLake platform
+Date: Tue, 13 Feb 2024 07:08:35 +0000
+X-Bugzilla-Reason: None
+X-Bugzilla-Type: changed
+X-Bugzilla-Watch-Reason: AssignedTo drivers_usb@kernel-bugs.kernel.org
+X-Bugzilla-Product: Drivers
+X-Bugzilla-Component: USB
+X-Bugzilla-Version: 2.5
+X-Bugzilla-Keywords: 
+X-Bugzilla-Severity: high
+X-Bugzilla-Who: mika.westerberg@linux.intel.com
+X-Bugzilla-Status: NEW
+X-Bugzilla-Resolution: 
+X-Bugzilla-Priority: P1
+X-Bugzilla-Assigned-To: drivers_usb@kernel-bugs.kernel.org
+X-Bugzilla-Flags: 
+X-Bugzilla-Changed-Fields: 
+Message-ID: <bug-216728-208809-OsfHN85YUB@https.bugzilla.kernel.org/>
+In-Reply-To: <bug-216728-208809@https.bugzilla.kernel.org/>
+References: <bug-216728-208809@https.bugzilla.kernel.org/>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+X-Bugzilla-URL: https://bugzilla.kernel.org/
+Auto-Submitted: auto-generated
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
 
-On Thu, 8 Feb 2024 12:25:35 +0000, Greg KH wrote:
-> On Thu, Feb 08, 2024 at 07:37:56PM +0800, Edward Adam Davis wrote:
-> > On Thu, 8 Feb 2024 10:56:00, Greg KH wrote:
-> > > > The input_add_uevent_modalias_var()->input_print_modalias() will add 1684 bytes
-> > > > of data to env, which will result in insufficient memory allocated to the buf
-> > > > members of env.
-> > >
-> > > What is "env"?  And can you wrap your lines at 72 columns please?
-> > env is an instance of struct kobj_uevent_env.
-> 
-> Also, why is "risc64" in the subject line?
-Because when syzbot reported this issue, it wrote "userspace arch: riscv64".
-However, I actually tested it on the master branch of upstream.
+https://bugzilla.kernel.org/show_bug.cgi?id=3D216728
 
-thanks,
-edward.
+--- Comment #47 from Mika Westerberg (mika.westerberg@linux.intel.com) ---
+Hi Rustam,
 
+Can you open a new bugzilla about your issue where you describe the exact s=
+teps
+you do, the results you get vs. expectation and attach full dmesg (with
+thunderbolt.dyndbg=3D+p in the kernel command line)?
+
+--=20
+You may reply to this email to add a comment.
+
+You are receiving this mail because:
+You are watching the assignee of the bug.=
