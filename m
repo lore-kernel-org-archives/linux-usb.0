@@ -1,16 +1,16 @@
 Received: from metis.whiteo.stw.pengutronix.de (metis.whiteo.stw.pengutronix.de [185.203.201.7])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C36CD63087
-	for <linux-usb@vger.kernel.org>; Tue, 13 Feb 2024 23:28:21 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 767256310A
+	for <linux-usb@vger.kernel.org>; Tue, 13 Feb 2024 23:38:03 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.203.201.7
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1707866906; cv=none; b=U3/gcFD4h8JGTdltuMonpzP6+KzmP/goiVk4Abfp1AxROSp8srslsot21MHODEseI/shNwOFVxxajSxKzcHn4VpHAtCJd1XhnrWg7pTPt2AA0+x/F5x+0WP+6NDHTuuTyEmAJJ+L3KgQdDdj/7gfC8y+BBPL4YK/52EyPWkG8JE=
+	t=1707867485; cv=none; b=f0hH9lhowmgvmUllRi2TYSatCbjsfDcOE9LdwjZ2CJFSLH95DUF9k8vffAxY2jTRBpdDzEKtAwOwNf2QQHSLAURulV2GHETIW0xRbYllKn5VfbZVy8W7fdr55QzVK2161eoX4jgq86nnQIqrYmE1sZ7vLbab8OSuBFE7unGYxx0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1707866906; c=relaxed/simple;
-	bh=30YYmuToXt0Be5FF1D9822Y6K2GuA90aOezsbaqJW0s=;
+	s=arc-20240116; t=1707867485; c=relaxed/simple;
+	bh=gTEKiN/I5qFt+biy0SUpmyrfSWXAwpkAIwfL3qS3OLE=;
 	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
-	 In-Reply-To:To:Cc; b=i/zsKhsJIpzZrEZ7OHGdtxjJRWl8f7A1P7qYAfhhrhnzo/IHg62peRG1wzHGV1UCsnJbK0b8SFkHqVzG/RN1gpfxB9Sg4UqjBKB9aofIbFKKnjeEkBh89TpB05shAYYG8yMOCpF6kkcwCrQbvtc+g9tqX6M7+GaolyEus4CvqZI=
+	 In-Reply-To:To:Cc; b=HTxAV1Xc9yshbAgqbcsJmCW6v382zjwRHpG1ztgnUoTiMqx0wS78+MbTxdDtivLa5bvY4rBsq6fbHxDS84t0SyePy9VNVJbNyaKnMlytyFzOb2QgSoB242NoQyaiI1xs6giCMjf+AI0GCOmqU9tdhP9w3y6RFdGPmuDPrD4hN9E=
 ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=pengutronix.de; spf=pass smtp.mailfrom=pengutronix.de; arc=none smtp.client-ip=185.203.201.7
 Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=pengutronix.de
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=pengutronix.de
@@ -18,21 +18,21 @@ Received: from drehscheibe.grey.stw.pengutronix.de ([2a0a:edc0:0:c01:1d::a2])
 	by metis.whiteo.stw.pengutronix.de with esmtps (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
 	(Exim 4.92)
 	(envelope-from <m.grzeschik@pengutronix.de>)
-	id 1ra2CI-0000eR-Ij; Wed, 14 Feb 2024 00:28:18 +0100
+	id 1ra2Lg-00013K-2r; Wed, 14 Feb 2024 00:38:00 +0100
 Received: from [2a0a:edc0:0:1101:1d::ac] (helo=dude04.red.stw.pengutronix.de)
 	by drehscheibe.grey.stw.pengutronix.de with esmtps  (TLS1.3) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
 	(Exim 4.94.2)
 	(envelope-from <m.grzeschik@pengutronix.de>)
-	id 1ra2CH-000Zcp-Up; Wed, 14 Feb 2024 00:28:17 +0100
+	id 1ra2Lf-000Zga-JR; Wed, 14 Feb 2024 00:37:59 +0100
 Received: from localhost ([::1] helo=dude04.red.stw.pengutronix.de)
 	by dude04.red.stw.pengutronix.de with esmtp (Exim 4.96)
 	(envelope-from <m.grzeschik@pengutronix.de>)
-	id 1ra2CH-002uYW-2t;
-	Wed, 14 Feb 2024 00:28:17 +0100
+	id 1ra2Lf-0032pb-1k;
+	Wed, 14 Feb 2024 00:37:59 +0100
 From: Michael Grzeschik <m.grzeschik@pengutronix.de>
-Date: Wed, 14 Feb 2024 00:28:01 +0100
-Subject: [PATCH 2/3] usb: gadget: uvc: refactor the check for a valid
- buffer in the pump worker
+Date: Wed, 14 Feb 2024 00:37:54 +0100
+Subject: [PATCH 1/2] usb: gadget: uvc: dont drop frames if zero length
+ packages are late
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
@@ -41,30 +41,30 @@ List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20240214-uvc-gadget-cleanup-v1-2-de6d78780459@pengutronix.de>
-References: <20240214-uvc-gadget-cleanup-v1-0-de6d78780459@pengutronix.de>
-In-Reply-To: <20240214-uvc-gadget-cleanup-v1-0-de6d78780459@pengutronix.de>
+Message-Id: <20240214-uvc-error-tag-v1-1-37659a3877fe@pengutronix.de>
+References: <20240214-uvc-error-tag-v1-0-37659a3877fe@pengutronix.de>
+In-Reply-To: <20240214-uvc-error-tag-v1-0-37659a3877fe@pengutronix.de>
 To: Laurent Pinchart <laurent.pinchart@ideasonboard.com>, 
  Daniel Scally <dan.scally@ideasonboard.com>, 
  Greg Kroah-Hartman <gregkh@linuxfoundation.org>
 Cc: linux-usb@vger.kernel.org, linux-kernel@vger.kernel.org, 
  Michael Grzeschik <m.grzeschik@pengutronix.de>
 X-Mailer: b4 0.12.0
-X-Developer-Signature: v=1; a=openpgp-sha256; l=1153;
+X-Developer-Signature: v=1; a=openpgp-sha256; l=937;
  i=m.grzeschik@pengutronix.de; h=from:subject:message-id;
- bh=30YYmuToXt0Be5FF1D9822Y6K2GuA90aOezsbaqJW0s=;
- b=owEBbQKS/ZANAwAKAb9pWET5cfSrAcsmYgBly/sR6vOuNRf8bz1usN1hrU8dGhJSMxHuyafO/
- vgaWNxSX/eJAjMEAAEKAB0WIQQV2+2Fpbqd6fvv0Gi/aVhE+XH0qwUCZcv7EQAKCRC/aVhE+XH0
- q3pXEACPUYRmu19z11qUsOha/z9QRa+P7klnxF6Mf3Zgi6d8WSPDG3m1wdvDxkGuPcRJ6ksszw6
- qBmF8jzi/kPJFD8aOZwdaPExVhPEP2QN9n7k09m2C+hLlEzstCtqMF4oIUseP4P+4ERtJDac0JW
- qux4XtvYoU2d4OIMKZ0jHTLKT2TDe+QSuvYhFCFse0EUufu1lJvQrY36oaYFbIMGRN4jIqS3/OL
- LqmIQPuKzluEaypn5dL2EiUMt/e8SWbtBGowp6byn0x2YK7x14x7VaZqzcWRsF1c3W77PS9GFtA
- kVdq9F2uUQaI/MOGtx/aYZ0c3Z+C4JTV0JJOjoc+3dgsNXRqn+qOE/Wusr3fMgKd+mbg4B970lE
- pZETUw5p5wv1CwsbcKeEp6MZZGLU4ujE3ortF9rWAAJx4WJzlXiYRoTnBg7TrfFf+41ssu5kdPU
- ZcXN0G6VQlz7r42JKbezSEIeGbjhUAEFpMv3RDOqxm1DUw0z+Ao9KfAV724kGW407Y8gE8kWfmT
- D5Xw9BMLebOHgSiEqJPtKzym3/fkI6uc2pMycN7pZzgqhLLiawSLiYqDKiI+bV6Tucy6/mOV2cZ
- VYTZr5upT5Xy0zxQKbIr9nb968YB9ybO+KD7A75HetLTqQ5un+Daq+T0KJYhJdAlXf2QtGeYwU5
- lizaj9dmtWYG1aw==
+ bh=gTEKiN/I5qFt+biy0SUpmyrfSWXAwpkAIwfL3qS3OLE=;
+ b=owEBbQKS/ZANAwAKAb9pWET5cfSrAcsmYgBly/1Wy/1EqSpObvI/HG2k4YG/rBcLlg2ivgGR9
+ wdjpHOzXeqJAjMEAAEKAB0WIQQV2+2Fpbqd6fvv0Gi/aVhE+XH0qwUCZcv9VgAKCRC/aVhE+XH0
+ q9PDD/wLSvtIVxMOKt1XQdj5EHM5Gb8+3in0n7Snqmg4EQCxnmSXXGv7QacEK1fvvH75d23AFg9
+ jAn9b8FxbYLi3cYmpJO/NBQBHmumcstzkncr++maVbLw816H069f241gcIJWOm8c5x/BFVvk38l
+ 9OB1WZxe/MmkslzP8vATHUBpEGtJyPW0DqCnsccek0OS6KzYTm/6TUTaqoJxInbfL+2NQgWc2Zc
+ CcvHj/JP8H/3ihq3BdvPKz+F6iYY94hKF79mIPH5cA/OrqoOGpf8YNFTCT4gQKVhAKTfd4qFoEo
+ 0vzqSj7/J4bUiAlVHAVC9QDycunlKJA+SBDFlbEUzS7K4DSXX8CI2TC37WZTM+rmiAt6e0fwd6/
+ sR4q18wOon1QgxE3Nczyq6dJNlKlKsxuPkqTTud6DyPOKRfs3YrMsXBxwHeya4gYKQF7m0mcd/9
+ PANbBlpTbjiBqp8uuzu4g5MuwvmLa7y0NBvhVfaVUS9zJn1P31uiZxzN2WXh7zLazUYgFqLAiL7
+ aBHjMkQT1x3aQO/YEODkts9BgAv0P7dVHVP/TCPDx9V8NAVGtHc7T61ElWxunVVqLISSBHkNfAY
+ M6o6zCKM6GTv4ybbsrWO74C1RI7h50hvdhO/A8PMsQ2QTdSOdfIhyo17wjfr/Yp2AsUzsjgApmN
+ zQue72UoZMKV+yw==
 X-Developer-Key: i=m.grzeschik@pengutronix.de; a=openpgp;
  fpr=957BC452CE953D7EA60CF4FC0BE9E3157A1E2C64
 X-SA-Exim-Connect-IP: 2a0a:edc0:0:c01:1d::a2
@@ -72,39 +72,29 @@ X-SA-Exim-Mail-From: m.grzeschik@pengutronix.de
 X-SA-Exim-Scanned: No (on metis.whiteo.stw.pengutronix.de); SAEximRunCond expanded to false
 X-PTX-Original-Recipient: linux-usb@vger.kernel.org
 
-By toggling the condition check for a valid buffer, the else path
-can be completely avoided.
+If the request that was missed was zero bytes long, it
+is likely that the overall transferred frame was not affected.
+So don't flag the frame incomplete in that case.
 
 Signed-off-by: Michael Grzeschik <m.grzeschik@pengutronix.de>
 ---
- drivers/usb/gadget/function/uvc_video.c | 7 +++----
- 1 file changed, 3 insertions(+), 4 deletions(-)
+ drivers/usb/gadget/function/uvc_video.c | 3 ++-
+ 1 file changed, 2 insertions(+), 1 deletion(-)
 
 diff --git a/drivers/usb/gadget/function/uvc_video.c b/drivers/usb/gadget/function/uvc_video.c
-index b17c61c932652..b4f3b3c784218 100644
+index dd3241fc6939d..c288aceee92ac 100644
 --- a/drivers/usb/gadget/function/uvc_video.c
 +++ b/drivers/usb/gadget/function/uvc_video.c
-@@ -594,10 +594,7 @@ static void uvcg_video_pump(struct work_struct *work)
- 		 */
- 		spin_lock_irqsave(&queue->irqlock, flags);
- 		buf = uvcg_queue_head(queue);
--
--		if (buf != NULL) {
--			video->encode(req, video, buf);
--		} else {
-+		if (!buf) {
- 			/*
- 			 * Either the queue has been disconnected or no video buffer
- 			 * available for bulk transfer. Either way, stop processing
-@@ -607,6 +604,8 @@ static void uvcg_video_pump(struct work_struct *work)
- 			break;
- 		}
+@@ -397,7 +397,8 @@ uvc_video_complete(struct usb_ep *ep, struct usb_request *req)
  
-+		video->encode(req, video, buf);
-+
- 		spin_unlock_irqrestore(&queue->irqlock, flags);
+ 	case -EXDEV:
+ 		uvcg_dbg(&video->uvc->func, "VS request missed xfer.\n");
+-		queue->flags |= UVC_QUEUE_DROP_INCOMPLETE;
++		if (req->length != 0)
++			queue->flags |= UVC_QUEUE_DROP_INCOMPLETE;
+ 		break;
  
- 		spin_lock_irqsave(&video->req_lock, flags);
+ 	case -ESHUTDOWN:	/* disconnect from host. */
 
 -- 
 2.39.2
