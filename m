@@ -1,186 +1,83 @@
-Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com [205.220.168.131])
+Received: from out162-62-58-211.mail.qq.com (out162-62-58-211.mail.qq.com [162.62.58.211])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BBD0759140;
-	Tue, 13 Feb 2024 00:55:07 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.168.131
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5218B60255;
+	Tue, 13 Feb 2024 00:55:13 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=162.62.58.211
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1707785714; cv=none; b=S4nfHOtXzaAahwJCnK+STvO5koEwAp3UsX32e5LCVTNSL3RQfDd8aG45nMpkCnLadvDqz8pswp0dwK1BANR/0XEaAh+UFtINcAu9QFvrAfOlFF9L1zpUxzpc2GACRZudSxw2CKhAz4ARRgUtbgS5+4ODt83IURqUoPSUkjtHWsw=
+	t=1707785718; cv=none; b=PrJ2ERIcTPgEkxoe7UenscbhN0+NNVMNF/ur+euJjtVuZlvssTN2wQg0wx9mVkFO5cEHB8SDXyPQdgCErwtLtzbL61URB9thHepHjIg5oI5PgvmqboqMf1JolS+XwfPMItcW3NcvHnHb7YUdm+8nzsYqK9sc7gNniOmC/teS5hw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1707785714; c=relaxed/simple;
-	bh=RtmQaj8NkOIBrQYRKvHrCqtxnDMndM5jafzZvCboeCs=;
-	h=From:To:CC:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=kYJBTuZSRWRrP4VqPCoXr9sJdMS8qEYgJ41s4B2c+xBH281K1KOh+A55pLd4+C5zXbsS4f33W4Y9gfxPiUnjY7GtlzohTeY1HDnncX8RcMXo9WWA4ylm5+EAMP4kCkqML3fZMnGvQK1fpMFPTJSU22L9moFWK8nWI9FUB9Wkvmg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=quicinc.com; spf=pass smtp.mailfrom=quicinc.com; dkim=pass (2048-bit key) header.d=quicinc.com header.i=@quicinc.com header.b=eEbzHleP; arc=none smtp.client-ip=205.220.168.131
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=quicinc.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=quicinc.com
+	s=arc-20240116; t=1707785718; c=relaxed/simple;
+	bh=2puoh82NlL7KgPajwOKr+RoT+y7OyuLuade3sdrbDg8=;
+	h=Message-ID:From:To:Cc:Subject:Date:In-Reply-To:References:
+	 MIME-Version; b=DCcdheM29r8jkWUFXax95gvDWN5i7vXfY60d7si3fXHZPLu2rukUPiAaaUhIa8lIyeK06SuCBI5kayE32Hta7Tds5Krt1UNvroi9lVxlvTH0GJborl4yeOOMrIoklcMH6e8/NfnIUlVr1cL2jG60jTNcArYRqT/BNQWHFJ4ctFc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=qq.com; spf=pass smtp.mailfrom=qq.com; dkim=pass (1024-bit key) header.d=qq.com header.i=@qq.com header.b=zqg7XtTK; arc=none smtp.client-ip=162.62.58.211
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=qq.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=qq.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=quicinc.com header.i=@quicinc.com header.b="eEbzHleP"
-Received: from pps.filterd (m0279863.ppops.net [127.0.0.1])
-	by mx0a-0031df01.pphosted.com (8.17.1.24/8.17.1.24) with ESMTP id 41D0kqEa002770;
-	Tue, 13 Feb 2024 00:54:45 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com; h=
-	from:to:cc:subject:date:message-id:in-reply-to:references
-	:mime-version:content-type; s=qcppdkim1; bh=TP9fyOwkywtfaOI9LqRo
-	kjI/c6lBCTPIOkl0CcpX2Ew=; b=eEbzHleP4IvVKYMAeJNazIeF6Hf8a88A0Bv1
-	+oREfTyjuQnRr3G8NuUuuwHqZi8KGeR+odJq+deUEV1uiYqC3BAa5w7Gfuw1EYjJ
-	r1YUQiDyz53Fx0RSLe2ocvCaIFKdmywKUZWcb7rbAYtxrg3rnjtjqcuKH+96ATKn
-	94GsxDYV+QNDCfvrRpBiMPBAvLEv9jSvIv+lPFZJQtrtzVM3ET9O1Gw+f7DZaGcn
-	Ps6RDrLdMCWSbytC2o47yhEAwuZ8RUgfQEsXhaKKGQYJ48xSU3NvRdgpTL0CDmsh
-	6XAAB1spUG8/KtTRzPwU6GLxICMgTBBmU/+gNecWpjUtZhQIxA==
-Received: from nalasppmta02.qualcomm.com (Global_NAT1.qualcomm.com [129.46.96.20])
-	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 3w7gse1tuj-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Tue, 13 Feb 2024 00:54:45 +0000 (GMT)
-Received: from nalasex01b.na.qualcomm.com (nalasex01b.na.qualcomm.com [10.47.209.197])
-	by NALASPPMTA02.qualcomm.com (8.17.1.5/8.17.1.5) with ESMTPS id 41D0siOH030072
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Tue, 13 Feb 2024 00:54:44 GMT
-Received: from hu-wcheng-lv.qualcomm.com (10.49.16.6) by
- nalasex01b.na.qualcomm.com (10.47.209.197) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.1118.40; Mon, 12 Feb 2024 16:54:44 -0800
-From: Wesley Cheng <quic_wcheng@quicinc.com>
-To: <srinivas.kandagatla@linaro.org>, <mathias.nyman@intel.com>,
-        <perex@perex.cz>, <conor+dt@kernel.org>, <corbet@lwn.net>,
-        <lgirdwood@gmail.com>, <andersson@kernel.org>,
-        <krzysztof.kozlowski+dt@linaro.org>, <gregkh@linuxfoundation.org>,
-        <Thinh.Nguyen@synopsys.com>, <broonie@kernel.org>,
-        <bgoswami@quicinc.com>, <tiwai@suse.com>, <robh+dt@kernel.org>,
-        <konrad.dybcio@linaro.org>
-CC: <linux-kernel@vger.kernel.org>, <devicetree@vger.kernel.org>,
-        <linux-sound@vger.kernel.org>, <linux-usb@vger.kernel.org>,
-        <linux-arm-msm@vger.kernel.org>, <linux-doc@vger.kernel.org>,
-        <alsa-devel@alsa-project.org>, Wesley Cheng <quic_wcheng@quicinc.com>
-Subject: [PATCH v15 42/50] ASoC: qcom: qdsp6: Add PCM ops to track current state
-Date: Mon, 12 Feb 2024 16:54:14 -0800
-Message-ID: <20240213005422.3121-43-quic_wcheng@quicinc.com>
-X-Mailer: git-send-email 2.17.1
-In-Reply-To: <20240213005422.3121-1-quic_wcheng@quicinc.com>
-References: <20240213005422.3121-1-quic_wcheng@quicinc.com>
+	dkim=pass (1024-bit key) header.d=qq.com header.i=@qq.com header.b="zqg7XtTK"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qq.com; s=s201512;
+	t=1707785404; bh=0qDgLx5aQ2V4NWIxvN8S5gR/fmOBA2ONJsoUoqof8Cw=;
+	h=From:To:Cc:Subject:Date:In-Reply-To:References;
+	b=zqg7XtTKxpn7J1EBghb2yG2AceY9RHLJLb501V+cgoyuIRLjm6Qw4xPmANaw8/EVp
+	 oMQjiC3z3u6psEpY/mbtDsozBxW3k7WgEF1yzJGJ/VzTpQ96JmbtPdf3QVueVJ4ZFH
+	 Xh+fOS9QgQTfMDp7584aQQpqiBRa4TaqwIfKpekE=
+Received: from pek-lxu-l1.wrs.com ([36.129.58.158])
+	by newxmesmtplogicsvrszb6-0.qq.com (NewEsmtp) with SMTP
+	id C8128AF5; Tue, 13 Feb 2024 08:50:01 +0800
+X-QQ-mid: xmsmtpt1707785401tagud59b2
+Message-ID: <tencent_9D9878866FF42C756D2C94DCEA36EC26CE0A@qq.com>
+X-QQ-XMAILINFO: Mdc3TkmnJyI/zfzQDSy+gE7tbtK5LFsNIopNlDffVWhTZ6+IQ3sUA9dXd5CznS
+	 aqZHlhLaCglfakmfRepcF5fTYsXrABkghzNMGJa+p5dNPvtAoAhJdhYY1hJ0A6r7wbfOtHq+EmOH
+	 ZV8RayrkepS9CFQ6HP8fRpRQirJ/IRb/2aD/QROyqv+Y0+tRCR3at3lpQyFBm+vkoyFchRup96di
+	 MHyDGSp8fk42G01Yj4HrLB0CeV4foYN0wK+/V0plHLCKjbXgzibR3CjmPcK1mnjYRATpRajBlrNf
+	 GqzSL1TcA4KojR7vu9t1fj+W0Tjv7UPNpEOqEdGEJANGcMKv83K0H2yfuCovU0zH3zG6voS3rhBf
+	 UQW2pxglFM9SYE1xowuCUbHqSaR9+wovz2Yzo8kvwkKt6csLcv3JDB9Od+KUuhEwFY6T7biuE7Is
+	 cX2z+nWjRXgWGRVuUKaNIyDRr1KxU8Jwx8/zAUqGS/gZUWqOLF4kzVo8jy2UUtD7tsx1cDNtqdv7
+	 rXklwrQBUNeUKG2LfK9defmTEdddVMPnFZ2DQyKG2DQqVjBibEGiKtR+9kW402CwE4JFmoaPircA
+	 LPCjKcoT+lPLaxjA/eAmMKajv8KZjNNFPiIURR4ag6h8do4IRaQ1Fq02mKu/t77EA1Duxk7VL0SU
+	 YY2qCI046VWi/9n/9m26wAebm/I5iRHdpZM/34+t1Qr9eSy1iuJcR/Yb2CZ4HeMxOncnh9wUPwsG
+	 mqqk/oZh00wpruBBsvnMqEjBtiZ7lfyC/PcdWhhGJGVN+Ss98a1/OoQYNlXnnfs0iUvxVVUQIyy0
+	 xyeu5TQu0svzYv26fqGYVyW5GWgfMwWIJUNQesZCvBTQ/LJqzwKqR22ps5aQW5EklC6X0K+pasSy
+	 M81TtS+xoANRKp9/gXeBz0xX6enrbeVake3NOP/p4RKCgHevb70Zo87NDuSE+0eQ==
+X-QQ-XMRINFO: MSVp+SPm3vtS1Vd6Y4Mggwc=
+From: Edward Adam Davis <eadavis@qq.com>
+To: gregkh@linuxfoundation.org
+Cc: eadavis@qq.com,
+	linux-input@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	linux-usb@vger.kernel.org,
+	rafael@kernel.org,
+	syzbot+8e41bb0c055b209ebbf4@syzkaller.appspotmail.com,
+	syzkaller-bugs@googlegroups.com
+Subject: Re: [PATCH riscv64] kobject: fix WARNING in input_register_device
+Date: Tue, 13 Feb 2024 08:50:01 +0800
+X-OQ-MSGID: <20240213005000.290327-2-eadavis@qq.com>
+X-Mailer: git-send-email 2.43.0
+In-Reply-To: <2024020821-quintet-survival-54f4@gregkh>
+References: <2024020821-quintet-survival-54f4@gregkh>
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain
-X-ClientProxiedBy: nalasex01b.na.qualcomm.com (10.47.209.197) To
- nalasex01b.na.qualcomm.com (10.47.209.197)
-X-QCInternal: smtphost
-X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800 signatures=585085
-X-Proofpoint-GUID: p9iPdqQ6jTGAzA9IzhGTzHGUP9wlC9mb
-X-Proofpoint-ORIG-GUID: p9iPdqQ6jTGAzA9IzhGTzHGUP9wlC9mb
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.272,Aquarius:18.0.1011,Hydra:6.0.619,FMLib:17.11.176.26
- definitions=2024-02-12_20,2024-02-12_03,2023-05-22_02
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 impostorscore=0
- suspectscore=0 adultscore=0 spamscore=0 clxscore=1015 phishscore=0
- malwarescore=0 mlxscore=0 bulkscore=0 mlxlogscore=999 lowpriorityscore=0
- priorityscore=1501 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.19.0-2401310000 definitions=main-2402130005
+Content-Transfer-Encoding: 8bit
 
-Register PCM callbacks so that the Q6USB DPCM backend dai link can track
-and update the status of the PCM device.  Utilize the SOC USB state APIs to
-ensure that the SND kcontrol for the offload status is updated properly.
+On Thu, 8 Feb 2024 12:25:35 +0000, Greg KH wrote:
+> On Thu, Feb 08, 2024 at 07:37:56PM +0800, Edward Adam Davis wrote:
+> > On Thu, 8 Feb 2024 10:56:00, Greg KH wrote:
+> > > > The input_add_uevent_modalias_var()->input_print_modalias() will add 1684 bytes
+> > > > of data to env, which will result in insufficient memory allocated to the buf
+> > > > members of env.
+> > >
+> > > What is "env"?  And can you wrap your lines at 72 columns please?
+> > env is an instance of struct kobj_uevent_env.
+> 
+> Also, why is "risc64" in the subject line?
+Because when syzbot reported this issue, it wrote "userspace arch: riscv64".
+However, I actually tested it on the master branch of upstream.
 
-Signed-off-by: Wesley Cheng <quic_wcheng@quicinc.com>
----
- sound/soc/qcom/qdsp6/q6usb.c | 52 +++++++++++++++++++++++++++++++++---
- 1 file changed, 49 insertions(+), 3 deletions(-)
+thanks,
+edward.
 
-diff --git a/sound/soc/qcom/qdsp6/q6usb.c b/sound/soc/qcom/qdsp6/q6usb.c
-index 61d30303a7bb..84543b34f2b7 100644
---- a/sound/soc/qcom/qdsp6/q6usb.c
-+++ b/sound/soc/qcom/qdsp6/q6usb.c
-@@ -30,6 +30,9 @@
- struct q6usb_status {
- 	struct snd_soc_usb_device *sdev;
- 	unsigned int pcm_index;
-+	bool prepared;
-+	bool running;
-+	int session_id;
- };
- 
- struct q6usb_port_data {
-@@ -81,14 +84,48 @@ static int q6usb_hw_params(struct snd_pcm_substream *substream,
- 		goto out;
- 
- 	data->status[data->sel_card_idx].pcm_index = data->sel_pcm_idx;
-+	data->status[data->sel_card_idx].prepared = true;
-+	data->status[data->sel_card_idx].session_id =
-+		snd_soc_usb_prepare_session(data->usb, data->sel_card_idx,
-+						data->sel_pcm_idx);
- out:
- 	mutex_unlock(&data->mutex);
- 
- 	return ret;
- }
- 
-+static int q6usb_prepare(struct snd_pcm_substream *substream,
-+		struct snd_soc_dai *dai)
-+{
-+	struct q6usb_port_data *data = dev_get_drvdata(dai->dev);
-+
-+	mutex_lock(&data->mutex);
-+	data->status[data->sel_card_idx].running = true;
-+	snd_soc_usb_set_session_state(data->usb,
-+			data->status[data->sel_card_idx].session_id,
-+			SND_SOC_USB_RUNNING);
-+	mutex_unlock(&data->mutex);
-+
-+	return 0;
-+}
-+
-+static void q6usb_shutdown(struct snd_pcm_substream *substream,
-+				struct snd_soc_dai *dai)
-+{
-+	struct q6usb_port_data *data = dev_get_drvdata(dai->dev);
-+
-+	mutex_lock(&data->mutex);
-+	data->status[data->sel_card_idx].running = false;
-+	data->status[data->sel_card_idx].prepared = false;
-+	snd_soc_usb_shutdown_session(data->usb,
-+			data->status[data->sel_card_idx].session_id);
-+	mutex_unlock(&data->mutex);
-+}
-+
- static const struct snd_soc_dai_ops q6usb_ops = {
- 	.hw_params = q6usb_hw_params,
-+	.prepare = q6usb_prepare,
-+	.shutdown = q6usb_shutdown,
- };
- 
- static struct snd_soc_dai_driver q6usb_be_dais[] = {
-@@ -149,10 +186,15 @@ static int q6usb_put_offload_dev(struct snd_kcontrol *kcontrol,
- 	int pcmidx;
- 	int cardidx;
- 
-+	mutex_lock(&data->mutex);
-+
-+	/* Don't allow changes to the offloading devices if session is busy */
-+	if (data->sel_card_idx >= 0 && data->status[data->sel_card_idx].prepared)
-+		goto out;
-+
- 	cardidx = ucontrol->value.integer.value[0];
- 	pcmidx = ucontrol->value.integer.value[1];
- 
--	mutex_lock(&data->mutex);
- 	if ((cardidx >= 0 && test_bit(cardidx, &data->available_card_slot))) {
- 		data->sel_card_idx = cardidx;
- 		changed = 1;
-@@ -203,8 +245,12 @@ static int q6usb_alsa_connection_cb(struct snd_soc_usb *usb,
- 
- 	mutex_lock(&data->mutex);
- 	if (connected) {
--		/* We only track the latest USB headset plugged in */
--		if (!data->idx_valid) {
-+		/*
-+		 * Update the latest USB headset plugged in, if session is
-+		 * idle.
-+		 */
-+		if (!data->idx_valid &&
-+			!data->status[data->sel_card_idx].prepared) {
- 			data->sel_card_idx = sdev->card_idx;
- 			data->sel_pcm_idx = 0;
- 		}
