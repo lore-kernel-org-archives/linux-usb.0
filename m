@@ -1,147 +1,199 @@
-Received: from out203-205-251-72.mail.qq.com (out203-205-251-72.mail.qq.com [203.205.251.72])
+Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com [205.220.180.131])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 866E41772F;
-	Tue, 13 Feb 2024 00:43:36 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=203.205.251.72
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7310017CD;
+	Tue, 13 Feb 2024 00:54:54 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.180.131
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1707785019; cv=none; b=R+h8ppM4AR/1zWpqkeSRUUmlz+onjUNRIe6S1EudutJ/VxFXVNpgH62XJpQXUlU0GfKmalwndlHs9STjU6W2iT79GxH6jdjldG60In4BBprWnGmYvhywjDs/ZMKcPD2dR99AgVTv0T9NwMotkKITs6cAiWJ8I0mRDhLVNEC8pEU=
+	t=1707785696; cv=none; b=t19eEVFDGDo8yCY2763meTqF48el4GZHAy8CdutX8ISr7pQiudnsnIQv4RqUJ8QIprErTDc7bsO7U7keAB+bywhdsRsKSjo4E1YW5fHBFVW6fuRD9IjdpodtldvywLsPc/i0No1OMT2eWsuccCOHBOEK+FAqxvf6apY1T7A/aWc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1707785019; c=relaxed/simple;
-	bh=F7fpg2CdE0Wy2uPhD166DyADD4Ox3yGxvUgrFRhaQS8=;
-	h=Message-ID:From:To:Cc:Subject:Date:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=P5Mz0531/1v1HC617XetLO88zrAY5Q+f1InNgkBV2uFY2FCrwlLHjXS97p25hE8FaPegnOfdctFNlap5ZagJaSUg0QS/wDXiUwjM1w6cqEC0uWvaCE9GPMJMm9G5XegK1u+x7LdPv1RZkroIu1oulIEmjLfMNhxYipIiYl8shUI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=qq.com; spf=pass smtp.mailfrom=qq.com; dkim=pass (1024-bit key) header.d=qq.com header.i=@qq.com header.b=TMfT4LRP; arc=none smtp.client-ip=203.205.251.72
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=qq.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=qq.com
+	s=arc-20240116; t=1707785696; c=relaxed/simple;
+	bh=Ug45xHk+xy84mO+G0Mu7yWycvffGSHKXzcE/I/5ssZ4=;
+	h=From:To:CC:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=WrbbZWrK68qcDyTE2FGRTR7jagBjZc+7CBbVPv52lyGcWyJPe7rDZ7+kGUCZdrOmxOiLcNt5Z239PwLuRpkhqMpO/qVuXy3mDVp/9aJqTVK+lMZpXZpHXP0sphPc4+YhdHfprgucYdzPPwnYm8Vulefy7ESfzu9hT6++FYqn5cA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=quicinc.com; spf=pass smtp.mailfrom=quicinc.com; dkim=pass (2048-bit key) header.d=quicinc.com header.i=@quicinc.com header.b=D+p3pMi2; arc=none smtp.client-ip=205.220.180.131
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=quicinc.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=quicinc.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=qq.com header.i=@qq.com header.b="TMfT4LRP"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qq.com; s=s201512;
-	t=1707785014; bh=wiPSfuRqZnFsMPwUv5OCFPjP7dEarDAicP/Tc9X1eiQ=;
-	h=From:To:Cc:Subject:Date:In-Reply-To:References;
-	b=TMfT4LRP723MraUT+zeDVSZmPCpoKYyto74wxMY2nFnrpqhhEQgxK7tfeE7O1GJnD
-	 SgikGKDTcTTB96Ekq7ISnRe8WMn0EiDzRWHFA4vDc/zsRD3M4dB4MGlI3o/IiTcyQB
-	 l5JzBb0SONSLqHxuGqPi6Ilzu1IJU4deYTO2hUB4=
-Received: from pek-lxu-l1.wrs.com ([36.129.58.158])
-	by newxmesmtplogicsvrszb9-1.qq.com (NewEsmtp) with SMTP
-	id ADEAEAC9; Tue, 13 Feb 2024 08:43:30 +0800
-X-QQ-mid: xmsmtpt1707785010tdv1gnwzi
-Message-ID: <tencent_DDCFB377C3642974A3A3A44D176B776DA605@qq.com>
-X-QQ-XMAILINFO: NYqi3QrBgYD/lt5S161oxaFNxO1cjhRBqMoSxSpD2ZO9EBHtwOA/GjZsHF+gY7
-	 cFEyXy2Qj/MoXLpeC8VlNIVt39aTWzMEiOq/QRE9PW4znfioaIQ1fRfAsoeOn7ZpSdlm0/XCS6Zk
-	 QnA3kE1+sfeAk/yXaqpZdRtMJJJlzItwLkllhn0Xt5DhSXJGhZ5Ok64Gl22GTKqDVGWkREiFd7eK
-	 nbYtLBEQMqdDzUMUOquukGX9FTwNsE9rSrtyvCbWrMWHGxlTDhAZV51AOCIMVVTnmXSgNaBxivdE
-	 CUCHHlKK+YeTddMabu/P36lsmD0sKgXykDSblxU5xdornsoLVB6jqeAuTGIHJtxAKui8bSiWJQTC
-	 72xExYCgnDSYK5q6JAQdhWRqayqmz+TJ2cuNEaldM+2wIBFzUn+GvyqnhnMv6FIhc550Bpm4vRS1
-	 rkGlkogIeqRa5G7RGCfIU3UoamLK0I1OTUb5O9g5FhDdFpJldEbfZ6Et2iwK+wing6q1pQGWY2aU
-	 DMQo0qOg5sX6NeQ/viAe5ovP0cAdKo3eS6TR4WYvrx68BtWZdPIrl31u//aMnHkj68erRTClxocv
-	 cVvOSauFMtZ7jyG0ExBl9qo7jVjunKk7f6OdIFoi1CTlmCwi2EopoTBk45OOR59lg1ingdDARITL
-	 yIvJ6rMSV45kMqyc10SXWDIdSK3VT0DKAkYLOo2ytLXkiq2CyBkQQNtvnB39JuV7vY1yYwa15gDV
-	 6nwpqEO0UflBlZodEh4Q0B3DlR55DuiOcuNlvOP8f4aar4UH1D/vhT79RoIys60Vlvmd8PRs/z4i
-	 HtMxIzUg4evzAsAX5xE1XojmI6E06Nt3aVVh7Kt9GlcKsJ0BOIX4mB91p2Mx1kNn4heT/73uXeDq
-	 vSKQM+oCsh06zS7rrM1gGiggB9mq7GpY7U5SYJ3uiKVYoTFifJSYiNinGGp4Dn7w594hubAIJD
-X-QQ-XMRINFO: NS+P29fieYNw95Bth2bWPxk=
-From: Edward Adam Davis <eadavis@qq.com>
-To: gregkh@linuxfoundation.org
-Cc: eadavis@qq.com,
-	linux-input@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	linux-usb@vger.kernel.org,
-	rafael@kernel.org,
-	syzbot+8e41bb0c055b209ebbf4@syzkaller.appspotmail.com,
-	syzkaller-bugs@googlegroups.com
-Subject: Re: [PATCH riscv64] kobject: fix WARNING in input_register_device
-Date: Tue, 13 Feb 2024 08:43:26 +0800
-X-OQ-MSGID: <20240213004330.285237-2-eadavis@qq.com>
-X-Mailer: git-send-email 2.43.0
-In-Reply-To: <2024020836-flypaper-relapse-5c97@gregkh>
-References: <2024020836-flypaper-relapse-5c97@gregkh>
+	dkim=pass (2048-bit key) header.d=quicinc.com header.i=@quicinc.com header.b="D+p3pMi2"
+Received: from pps.filterd (m0279871.ppops.net [127.0.0.1])
+	by mx0a-0031df01.pphosted.com (8.17.1.24/8.17.1.24) with ESMTP id 41D0qOTH012544;
+	Tue, 13 Feb 2024 00:54:39 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com; h=
+	from:to:cc:subject:date:message-id:in-reply-to:references
+	:mime-version:content-type; s=qcppdkim1; bh=j5g8dyzHs41c6UacW6fN
+	XqfVWRX2FAOh81uCqGT3fVg=; b=D+p3pMi2vwN/3W40w9REPjUjvCRreugM9Jfo
+	4u3A2PXcZoF7Xsgoio/7YYQfqNfWjir1zCPZsdUqPV3R92Bbf+W75Au16UWo398A
+	ND1gQDvliD76ZNAm1WnYAafC87gFtuwSC1hHDyF0SYqNPF7j1ThFUdvQg09bsSLN
+	lfj3MyR6dTlHiobJ1K7ScZMWkKkKZuR+UVE3m2RnRh3aKzWKvgVhCIQySOdfhOJn
+	dy4TAqk89wKpal0pncsGcLsh69WxbcLqVkY/AYsy4oU+ZblLNcOIsxAPVEV1rV7J
+	SgsjmUHkrRkuyv35B1i2Vk1b9NGr2vLTgUPQTTI9gM+3DsuZwQ==
+Received: from nalasppmta02.qualcomm.com (Global_NAT1.qualcomm.com [129.46.96.20])
+	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 3w7gvjhux4-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Tue, 13 Feb 2024 00:54:38 +0000 (GMT)
+Received: from nalasex01b.na.qualcomm.com (nalasex01b.na.qualcomm.com [10.47.209.197])
+	by NALASPPMTA02.qualcomm.com (8.17.1.5/8.17.1.5) with ESMTPS id 41D0sbUL029991
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Tue, 13 Feb 2024 00:54:37 GMT
+Received: from hu-wcheng-lv.qualcomm.com (10.49.16.6) by
+ nalasex01b.na.qualcomm.com (10.47.209.197) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.1118.40; Mon, 12 Feb 2024 16:54:37 -0800
+From: Wesley Cheng <quic_wcheng@quicinc.com>
+To: <srinivas.kandagatla@linaro.org>, <mathias.nyman@intel.com>,
+        <perex@perex.cz>, <conor+dt@kernel.org>, <corbet@lwn.net>,
+        <lgirdwood@gmail.com>, <andersson@kernel.org>,
+        <krzysztof.kozlowski+dt@linaro.org>, <gregkh@linuxfoundation.org>,
+        <Thinh.Nguyen@synopsys.com>, <broonie@kernel.org>,
+        <bgoswami@quicinc.com>, <tiwai@suse.com>, <robh+dt@kernel.org>,
+        <konrad.dybcio@linaro.org>
+CC: <linux-kernel@vger.kernel.org>, <devicetree@vger.kernel.org>,
+        <linux-sound@vger.kernel.org>, <linux-usb@vger.kernel.org>,
+        <linux-arm-msm@vger.kernel.org>, <linux-doc@vger.kernel.org>,
+        <alsa-devel@alsa-project.org>, Wesley Cheng <quic_wcheng@quicinc.com>
+Subject: [PATCH v15 17/50] usb: host: xhci-mem: Allow for interrupter clients to choose specific index
+Date: Mon, 12 Feb 2024 16:53:49 -0800
+Message-ID: <20240213005422.3121-18-quic_wcheng@quicinc.com>
+X-Mailer: git-send-email 2.17.1
+In-Reply-To: <20240213005422.3121-1-quic_wcheng@quicinc.com>
+References: <20240213005422.3121-1-quic_wcheng@quicinc.com>
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+X-ClientProxiedBy: nalasex01b.na.qualcomm.com (10.47.209.197) To
+ nalasex01b.na.qualcomm.com (10.47.209.197)
+X-QCInternal: smtphost
+X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800 signatures=585085
+X-Proofpoint-GUID: CxkkanV08lSVIP4tsfs-GcGgpY2w2I1j
+X-Proofpoint-ORIG-GUID: CxkkanV08lSVIP4tsfs-GcGgpY2w2I1j
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.272,Aquarius:18.0.1011,Hydra:6.0.619,FMLib:17.11.176.26
+ definitions=2024-02-12_20,2024-02-12_03,2023-05-22_02
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 malwarescore=0 phishscore=0
+ suspectscore=0 spamscore=0 mlxscore=0 lowpriorityscore=0
+ priorityscore=1501 impostorscore=0 mlxlogscore=504 adultscore=0
+ bulkscore=0 clxscore=1015 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.19.0-2401310000 definitions=main-2402130004
 
-On Thu, 8 Feb 2024 12:25:10 +0000, Greg KH wrote:
-> On Thu, Feb 08, 2024 at 07:37:56PM +0800, Edward Adam Davis wrote:
-> > On Thu, 8 Feb 2024 10:56:00, Greg KH wrote:
-> > > > The input_add_uevent_modalias_var()->input_print_modalias() will add 1684 bytes
-> > > > of data to env, which will result in insufficient memory allocated to the buf
-> > > > members of env.
-> > >
-> > > What is "env"?  And can you wrap your lines at 72 columns please?
-> > env is an instance of struct kobj_uevent_env.
-> 
-> Ok, be specific please in your changelog text, otherwise we can't really
-> understand what is happening.
-> 
-> > > > Reported-and-tested-by: syzbot+8e41bb0c055b209ebbf4@syzkaller.appspotmail.com
-> > > > Signed-off-by: Edward Adam Davis <eadavis@qq.com>
-> > > > ---
-> > > >  include/linux/kobject.h | 2 +-
-> > > >  1 file changed, 1 insertion(+), 1 deletion(-)
-> > > >
-> > > > diff --git a/include/linux/kobject.h b/include/linux/kobject.h
-> > > > index c30affcc43b4..74b37b6459cd 100644
-> > > > --- a/include/linux/kobject.h
-> > > > +++ b/include/linux/kobject.h
-> > > > @@ -30,7 +30,7 @@
-> > > >
-> > > >  #define UEVENT_HELPER_PATH_LEN		256
-> > > >  #define UEVENT_NUM_ENVP			64	/* number of env pointers */
-> > > > -#define UEVENT_BUFFER_SIZE		2048	/* buffer for the variables */
-> > > > +#define UEVENT_BUFFER_SIZE		2560	/* buffer for the variables */
-> > >
-> > > That's an odd number, why that?  Why not just a page?  What happens if
-> > > some other path wants more?
-> > An increase of 512 bytes is sufficient for the current issue. Do not consider
-> > the problem of hypothetical existence.
-> 
-> Why is this 512 bytes sufficient now?  What changed to cause this?
-There is the following code in input_print_modalias():
+Some clients may operate only on a specific XHCI interrupter instance.
+Allow for the associated class driver to request for the interrupter that
+it requires.
 
-drivers/input/input.c
-   1         len += input_print_modalias_bits(buf + len, size - len,
-1403                                 'k', id->keybit, KEY_MIN_INTERESTING, KEY_MAX);
-This code will add up to 2608 bytes of data to env at most.
-(KEY_MAX - KEY_MIN_INTERESTING) * 4 = (256 * 3 - 1 - 113 ) * 4 = (765 - 113) * 4 = 652 * 4 = 2608 bytes。
-Note: In the expression, 4 represents 3 bytes of hexadecimal data and 1 byte of comma.
+Signed-off-by: Wesley Cheng <quic_wcheng@quicinc.com>
+---
+ drivers/usb/host/xhci-mem.c       | 30 ++++++++++++++++--------------
+ drivers/usb/host/xhci-sideband.c  |  4 ++--
+ drivers/usb/host/xhci.h           |  2 +-
+ include/linux/usb/xhci-sideband.h |  2 +-
+ 4 files changed, 20 insertions(+), 18 deletions(-)
 
-include/uapi/linux/input-event-codes.h
-188 #define KEY_MUTE                113
-807 #define KEY_MIN_INTERESTING     KEY_MUTE
-808 #define KEY_MAX                 0x2ff
-During my actual testing process, I found that a total of 1684 bytes were
-contributed in input_print_modalias().
-> 
-> And how can we detect this automatically in the future?  Shouldn't we
-> just be truncating the buffer instead of having an overflow?
-> 
-> > > And what's causing the input stack to have so many variables all of a
-> > > sudden, what changed to cause this?  Is this a bugfix for a specific
-> > > commit that needs to be backported to older kernels?  Why did this
-> > > buffer size all of a sudden be too small?
-> > The result of my analysis is that several members of struct input_dev are too
-> > large, such as its member keybit.
-> 
-> And when did that change?  What commit id?  What prevents it from
-> growing again and us needing to change this again?
-The code that caused this issue has been introduced for a long time, and it is
-speculated that it was due to the fact that the warning in add_uevent_var() was
-returned directly to ENOMEM without being taken seriously.
-
-lib/kobject_uevent.c
-  2         if (len >= (sizeof(env->buf) - env->buflen)) { 
-  1                 WARN(1, KERN_ERR "add_uevent_var: buffer size too small\n");
-672                 return -ENOMEM;                                                                                                                                                                        
-  1         }
-
-I believe that this issue was introduced by:
-7eff2e7a8b65 - Driver core: change add_ueventvar to use a struct.
-
-thanks,
-edward.
-
+diff --git a/drivers/usb/host/xhci-mem.c b/drivers/usb/host/xhci-mem.c
+index e4c13f056c1a..ae28dac7a747 100644
+--- a/drivers/usb/host/xhci-mem.c
++++ b/drivers/usb/host/xhci-mem.c
+@@ -2360,7 +2360,7 @@ xhci_add_interrupter(struct xhci_hcd *xhci, struct xhci_interrupter *ir,
+ }
+ 
+ struct xhci_interrupter *
+-xhci_create_secondary_interrupter(struct usb_hcd *hcd, int num_seg)
++xhci_create_secondary_interrupter(struct usb_hcd *hcd, int num_seg, int intr_num)
+ {
+ 	struct xhci_hcd *xhci = hcd_to_xhci(hcd);
+ 	struct xhci_interrupter *ir;
+@@ -2375,28 +2375,30 @@ xhci_create_secondary_interrupter(struct usb_hcd *hcd, int num_seg)
+ 		return NULL;
+ 
+ 	spin_lock_irq(&xhci->lock);
+-
+-	/* Find available secondary interrupter, interrupter 0 is reserved for primary */
++	/* Find available secondary interrupter, interrupter 0 is reserverd for primary */
+ 	for (i = 1; i < xhci->max_interrupters; i++) {
+-		if (xhci->interrupters[i] == NULL) {
+-			err = xhci_add_interrupter(xhci, ir, i);
+-			break;
++		if ((intr_num > 0 && i == intr_num) || intr_num <= 0) {
++			if (xhci->interrupters[i] == NULL) {
++				err = xhci_add_interrupter(xhci, ir, i);
++				if (err) {
++					spin_unlock_irq(&xhci->lock);
++					goto free_ir;
++				}
++				break;
++			}
+ 		}
+ 	}
+-
+ 	spin_unlock_irq(&xhci->lock);
+ 
+-	if (err) {
+-		xhci_warn(xhci, "Failed to add secondary interrupter, max interrupters %d\n",
+-			  xhci->max_interrupters);
+-		xhci_free_interrupter(xhci, ir);
+-		return NULL;
+-	}
+-
+ 	xhci_dbg(xhci, "Add secondary interrupter %d, max interrupters %d\n",
+ 		 i, xhci->max_interrupters);
+ 
+ 	return ir;
++
++free_ir:
++	xhci_free_interrupter(xhci, ir);
++
++	return NULL;
+ }
+ EXPORT_SYMBOL_GPL(xhci_create_secondary_interrupter);
+ 
+diff --git a/drivers/usb/host/xhci-sideband.c b/drivers/usb/host/xhci-sideband.c
+index 504a6f1586b5..3acbf23095e9 100644
+--- a/drivers/usb/host/xhci-sideband.c
++++ b/drivers/usb/host/xhci-sideband.c
+@@ -278,7 +278,7 @@ EXPORT_SYMBOL_GPL(xhci_sideband_enable_interrupt);
+  */
+ int
+ xhci_sideband_create_interrupter(struct xhci_sideband *sb, int num_seg,
+-				 bool ip_autoclear)
++				 int intr_num, bool ip_autoclear)
+ {
+ 	int ret = 0;
+ 
+@@ -292,7 +292,7 @@ xhci_sideband_create_interrupter(struct xhci_sideband *sb, int num_seg,
+ 	}
+ 
+ 	sb->ir = xhci_create_secondary_interrupter(xhci_to_hcd(sb->xhci),
+-			num_seg);
++			num_seg, intr_num);
+ 	if (!sb->ir) {
+ 		ret = -ENOMEM;
+ 		goto out;
+diff --git a/drivers/usb/host/xhci.h b/drivers/usb/host/xhci.h
+index 96f9d1b38ff5..60abbc4103fd 100644
+--- a/drivers/usb/host/xhci.h
++++ b/drivers/usb/host/xhci.h
+@@ -1836,7 +1836,7 @@ struct xhci_container_ctx *xhci_alloc_container_ctx(struct xhci_hcd *xhci,
+ void xhci_free_container_ctx(struct xhci_hcd *xhci,
+ 		struct xhci_container_ctx *ctx);
+ struct xhci_interrupter *
+-xhci_create_secondary_interrupter(struct usb_hcd *hcd, int num_seg);
++xhci_create_secondary_interrupter(struct usb_hcd *hcd, int num_seg, int intr_num);
+ void xhci_remove_secondary_interrupter(struct usb_hcd
+ 				       *hcd, struct xhci_interrupter *ir);
+ void xhci_skip_sec_intr_events(struct xhci_hcd *xhci,
+diff --git a/include/linux/usb/xhci-sideband.h b/include/linux/usb/xhci-sideband.h
+index a749ae307ba7..1026502739c5 100644
+--- a/include/linux/usb/xhci-sideband.h
++++ b/include/linux/usb/xhci-sideband.h
+@@ -58,7 +58,7 @@ int xhci_sideband_enable_interrupt(struct xhci_sideband *sb, u32 imod_interval);
+ 
+ int
+ xhci_sideband_create_interrupter(struct xhci_sideband *sb, int num_seg,
+-				 bool ip_autoclear);
++				 int intr_num, bool ip_autoclear);
+ 
+ void
+ xhci_sideband_remove_interrupter(struct xhci_sideband *sb);
