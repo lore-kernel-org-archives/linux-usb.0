@@ -1,218 +1,105 @@
-Received: from ciao.gmane.io (ciao.gmane.io [116.202.254.214])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A9D5150254
-	for <linux-usb@vger.kernel.org>; Tue, 13 Feb 2024 13:06:43 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=116.202.254.214
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 29BA955C03;
+	Tue, 13 Feb 2024 13:13:46 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1707829605; cv=none; b=U9/YK0APm86PWgmFpg6OhgMfB14sqsHCe+O/i4w5suCDy9ZQrRWNfVRVzUBtIfICieSJsdSibEuCdCb8IMhS5yvft61oqrBoGR8r+OgfXr5M9xAO63U87DeRriSQPoVURH0eReru5HKnDaL7aay/faYv9Z/KKqOkfp5YNG6CCdo=
+	t=1707830026; cv=none; b=ty2bBEj7p3n5qwIG4NRCde6HGV/EvLmeEouJWPbw1w0GjnfXLrdeLPpr8UIVHKr4dZLvBhRrZFqS+i49/VDzS7ZIuX/KoEHNFPTXq3VvH5hphAdz/l3xeKWB9CJpwLrCgqJEx0XahCRch4ex+9UV9ZGy/a93UN8gITClV4XWkeA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1707829605; c=relaxed/simple;
-	bh=Tjcyyqnsle0pWXHD9sQjVFWXbeqMpGlAGL+H/lXJst8=;
-	h=To:From:Subject:Date:Message-ID:References:Mime-Version:
-	 Content-Type:In-Reply-To:Cc; b=P4slWJNakx2VJMj31gVO/f1J0hoaqzu+vLLsu4siGZlnzQc0LzYqcI26U0ytsvE1mfRWQRL31a5AQvuwxCrEBxE5NXx5UV0YR65bcB1SNeV3QwCAskJCwGFL0CkB7psmNHhvu7hggFrppaXoDeFb82TFoge4XlvLZQOPDoaYEtE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=m.gmane-mx.org; arc=none smtp.client-ip=116.202.254.214
-Authentication-Results: smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=m.gmane-mx.org
-Received: from list by ciao.gmane.io with local (Exim 4.92)
-	(envelope-from <glug-linux-usb@m.gmane-mx.org>)
-	id 1rZsUd-0007Kr-UQ
-	for linux-usb@vger.kernel.org; Tue, 13 Feb 2024 14:06:35 +0100
-X-Injected-Via-Gmane: http://gmane.org/
-To: linux-usb@vger.kernel.org
-From: Julian Sikorski <belegdol@gmail.com>
-Subject: Re: [PATCH] usb-storage: Ignore UAS for LaCie Rugged FW USB3
-Date: Tue, 13 Feb 2024 14:06:30 +0100
-Message-ID: <0cf5ea13-6472-47e1-a32f-b9f332656c6a@gmail.com>
-References: <20240209151121.1004985-1-tasos@tasossah.com>
- <b16e72ad-3f2d-46a8-8361-2641088694df@rowland.harvard.edu>
- <2978efa3-e83f-4ef5-907d-8232e4b692a5@tasossah.com>
- <6d4b1f55-09df-47e9-945d-fa38cd36588c@gmail.com>
- <b6dcf71b-f094-4664-8d43-7d8c0173f51f@gmail.com>
- <c21f9649-30be-462a-b9ec-f7c96ead30cf@gmail.com>
+	s=arc-20240116; t=1707830026; c=relaxed/simple;
+	bh=z+9VSgqO5bthw9m2XPCSK750+TzphWPWfMm9vhOdbVg=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=U5UB/tXUfX76X19Vn5CkEVyStd6ydHm4pgaNMDxwK9dAD41rxcP/fge7sohiGSFL0N7aKbvulSdveGieK/9n3O72o7+N7vTkr9ClijnjrceAXsSyN1pAYDBleuBXa19YBNBUkMHhly/nQ0Qs8nXntd2q35HcUj/xuQKd9wRRvDc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Ak3yK6jg; arc=none smtp.client-ip=10.30.226.201
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Ak3yK6jg"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 06392C433F1;
+	Tue, 13 Feb 2024 13:13:43 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1707830025;
+	bh=z+9VSgqO5bthw9m2XPCSK750+TzphWPWfMm9vhOdbVg=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=Ak3yK6jg5ez+EnZN1BYr8fbMDwG+r1nhj8JYieuyIXy0OtGNubN2/EutkqCv7+6dz
+	 /OacWbN+f3qKkzQ2lkZ4ZPoy/WoZ+JwGHY8qEjwUJ+WrX0Q5Zi1ouackNHWAv47/O8
+	 TcOhPc6ATO+nq+aZfAplPZrsNvDCYgsq6jY8x/WmCOo38ymKjNguIqnh+9I2lzpLlu
+	 qILRKspMGdEZuHbhWVhzLSCaCR/vb8A/5Kmi34uIpsROXXWSjTwGuS59X1UyaagixO
+	 +llSf+vRCCzvnb9Tw4JgQluuT+y7shRrsh8wd3dK6dO65U7OmaUucJRiNRJEUnuT4c
+	 o3DNJirvEYsLQ==
+Date: Tue, 13 Feb 2024 13:13:41 +0000
+From: Mark Brown <broonie@kernel.org>
+To: Badhri Jagan Sridharan <badhri@google.com>
+Cc: Guenter Roeck <linux@roeck-us.net>,
+	Heikki Krogerus <heikki.krogerus@linux.intel.com>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	=?iso-8859-1?Q?G=E1bor?= Stefanik <netrolller.3d@gmail.com>,
+	rdbabiera@google.com, amitsd@google.com, linux-usb@vger.kernel.org,
+	linux-kernel@vger.kernel.org
+Subject: Re: [PATCH] usb: typec: tpcm: Fix issues with power being removed
+ during reset
+Message-ID: <3a09ea3b-3a42-4fce-85f8-f8408a4a2206@sirena.org.uk>
+References: <20240212-usb-fix-renegade-v1-1-22c43c88d635@kernel.org>
+ <CAPTae5LOresaK3Epd4R_ifpx2kw21tubQDENg4OMrhJWsar-oA@mail.gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
-Mime-Version: 1.0
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-User-Agent: Mozilla Thunderbird
-Content-Language: en-US
-In-Reply-To: <c21f9649-30be-462a-b9ec-f7c96ead30cf@gmail.com>
-Cc: linux-scsi@vger.kernel.org
+MIME-Version: 1.0
+Content-Type: multipart/signed; micalg=pgp-sha512;
+	protocol="application/pgp-signature"; boundary="wNzrdL2IZ5232/Er"
+Content-Disposition: inline
+In-Reply-To: <CAPTae5LOresaK3Epd4R_ifpx2kw21tubQDENg4OMrhJWsar-oA@mail.gmail.com>
+X-Cookie: Does not include installation.
 
-Am 10.02.24 um 22:43 schrieb Julian Sikorski:
-> Am 10.02.24 um 22:35 schrieb Julian Sikorski:
->> Am 10.02.24 um 15:21 schrieb Julian Sikorski:
->>> Am 10.02.24 um 14:24 schrieb Tasos Sahanidis:
->>>> On 2024-02-09 17:31, Alan Stern wrote:
->>>>> On Fri, Feb 09, 2024 at 05:11:21PM +0200, Tasos Sahanidis wrote:
->>>>>> This external HDD fails when plugged in to a USB 3 port. Ignoring 
->>>>>> UAS and
->>>>>> falling back to mass storage resolves this issue.
->>>>>
->>>>> What happens when it is plugged into a USB-2 port?
->>>>
->>>> It works without any quirks over USB 2.0 with uas, however asking for
->>>> cache data fails gracefully.
->>>>
->>>> [  520.829840] scsi host4: uas
->>>> [  521.024643] scsi 4:0:0:0: Direct-Access     LaCie    Rugged FW 
->>>> USB3   1081 PQ: 0 ANSI: 4
->>>> [  521.026370] sd 4:0:0:0: Attached scsi generic sg2 type 0
->>>> [  521.030096] sd 4:0:0:0: [sdc] 976773153 512-byte logical blocks: 
->>>> (500 GB/466 GiB)
->>>> [  521.030369] sd 4:0:0:0: [sdc] Write Protect is off
->>>> [  521.030373] sd 4:0:0:0: [sdc] Mode Sense: 47 00 10 08
->>>> [  521.030507] sd 4:0:0:0: [sdc] Asking for cache data failed
->>>> [  521.030512] sd 4:0:0:0: [sdc] Assuming drive cache: write through
->>>> [  521.065916]  sdc: sdc1
->>>> [  521.067783] sd 4:0:0:0: [sdc] Attached SCSI disk
->>>> [  521.699380] EXT4-fs (sdc1): recovery complete
->>>> [  521.699388] EXT4-fs (sdc1): mounted filesystem with ordered data 
->>>> mode. Opts: errors=remount-ro. Quota mode: none.
->>>>
->>>>> Have you checked to see if any of the quirk flags can prevent this
->>>>> problem?  It looks like the only issue might be that one Mode Sense(6)
->>>>> command.
->>>>
->>>> I have tried various combinations of all the available quirks and I
->>>> couldn't get it to not hang. Without any quirks it keeps retrying Mode
->>>> Sense(6) constantly.
->>>>
->>>> I tested US_FL_ALWAYS_SYNC as it sets sdev->skip_ms_page_8 (both with
->>>> and without US_FL_NO_REPORT_OPCODES | US_FL_NO_SAME), and it hung at an
->>>> ATA passthrough command; presumably the next step afterwards.
->>>>
->>>> 30 seconds and one USB reset later, the disk is recognised, but I
->>>> do not know if it is reliable.
->>>>
->>>> [  329.161316] scsi 4:0:0:0: Direct-Access     LaCie    Rugged FW 
->>>> USB3   1081 PQ: 0 ANSI: 4
->>>> [  329.162228] sd 4:0:0:0: Attached scsi generic sg2 type 0
->>>> [  329.166650] sd 4:0:0:0: [sdc] 976773153 512-byte logical blocks: 
->>>> (500 GB/466 GiB)
->>>> [  329.166654] sd 4:0:0:0: [sdc] Assuming Write Enabled
->>>> [  329.166655] sd 4:0:0:0: [sdc] Assuming drive cache: write back
->>>> [  329.197983]  sdc: sdc1
->>>> [  329.198521] sd 4:0:0:0: [sdc] Attached SCSI disk
->>>> [  359.553806] sd 4:0:0:0: [sdc] tag#3 uas_eh_abort_handler 0 
->>>> uas-tag 1 inflight: IN
->>>> [  359.553816] sd 4:0:0:0: [sdc] tag#3 CDB: ATA command pass 
->>>> through(12)/Blank a1 08 2e 00 01 00 00 00 00 ec 00 00
->>>> [  359.573771] scsi host4: uas_eh_device_reset_handler start
->>>> [  359.702116] usb 3-1: reset SuperSpeed USB device number 3 using 
->>>> xhci_hcd
->>>> [  359.722068] usb 3-1: LPM exit latency is zeroed, disabling LPM.
->>>> [  359.724348] scsi host4: uas_eh_device_reset_handler success
->>>> [  360.582975] EXT4-fs (sdc1): recovery complete
->>>> [  360.633098] EXT4-fs (sdc1): mounted filesystem with ordered data 
->>>> mode. Opts: errors=remount-ro. Quota mode: none.
->>>>
->>>> My assumption is that something goes wrong during init and that 
->>>> makes it
->>>> hang in general. Perhaps the Mode Sense(6) is broken in addition to
->>>> whatever else is misbehaving. I don't believe the XHCI controller is at
->>>> fault.
->>>>
->>>>> Falling back from uas to usb-storage could reduce the throughput
->>>>> considerably.  We would like to avoid doing this if possible.
->>>>
->>>> Absolutely, but at the same time I am not sure how much it matters for
->>>> an old mechanical hard disk. Granted, someone can use the same 
->>>> enclosure
->>>> and install an SSD internally, so perhaps that makes it worth it.
->>>>
->>>> Thanks
->>>>
->>>> -- 
->>>> Tasos
->>>>
->>>>
->>>>
->>> This seems to be similar to the issue I am facing with a similar 
->>> LaCie Rugged USB3-FW 059f:1061. Initially we patched it to IGNORE_UAS 
->>> but it then turned out to be working with US_FL_NO_REPORT_OPCODES and 
->>> US_FL_NO_SAME. This was back in September 2021. In August 2023 I 
->>> reported a similar issue as you, I am still seeing it in 6.7.3. The 
->>> good news is that after initial problems it seems to be working fine 
->>> once the USB connection is established.
->>
->> I have now narrowed it down to having broken between 5.18.19 and 
->> 5.19.4 kernels. Tasos, if you are interested, you might want to check 
->> if you can get the drive working with US_FL_NO_REPORT_OPCODES and
->> US_FL_NO_SAME alone (fk) quirks alone on 36 live, which ships 5.17.5 
->> kernel. Exercise caution as it is an EOL system.
->> I will see if I can narrow down the regression further.
->>
->> Best regards,
->> Julian
->>
-> Oddly enough, with 5.19.4 the device starts working after one reset 
-> instead of after four:
-> 
-> Feb 10 22:36:56 kernel: usb 2-4: new SuperSpeed USB device number 3 
-> using xhci_hcd
-> Feb 10 22:36:56 kernel: usb 2-4: New USB device found, idVendor=059f, 
-> idProduct=1061, bcdDevice= 0.01
-> Feb 10 22:36:56 kernel: usb 2-4: New USB device strings: Mfr=2, 
-> Product=3, SerialNumber=1
-> Feb 10 22:36:56 kernel: usb 2-4: Product: Rugged USB3-FW
-> Feb 10 22:36:56 kernel: usb 2-4: Manufacturer: LaCie
-> Feb 10 22:36:56 kernel: usb 2-4: SerialNumber: 00000000157f928920fa
-> Feb 10 22:36:56 kernel: scsi host6: uas
-> Feb 10 22:36:56 kernel: scsi 6:0:0:0: Direct-Access     LaCie    Rugged 
-> FW USB3   051E PQ: 0 ANSI: 6
-> Feb 10 22:36:56 kernel: sd 6:0:0:0: Attached scsi generic sg1 type 0
-> Feb 10 22:36:56 kernel: sd 6:0:0:0: [sda] 1953525168 512-byte logical 
-> blocks: (1.00 TB/932 GiB)
-> Feb 10 22:36:56 kernel: sd 6:0:0:0: [sda] Write Protect is off
-> Feb 10 22:36:56 kernel: sd 6:0:0:0: [sda] Mode Sense: 43 00 00 00
-> Feb 10 22:36:56 kernel: sd 6:0:0:0: [sda] Write cache: enabled, read 
-> cache: enabled, doesn't support DPO or FUA
-> Feb 10 22:36:56 kernel: sd 6:0:0:0: [sda] Preferred minimum I/O size 512 
-> bytes
-> Feb 10 22:36:56 kernel: sd 6:0:0:0: [sda] Optimal transfer size 33553920 
-> bytes
-> Feb 10 22:37:26 kernel: sd 6:0:0:0: [sda] tag#23 uas_eh_abort_handler 0 
-> uas-tag 1 inflight: IN
-> Feb 10 22:37:26 kernel: sd 6:0:0:0: [sda] tag#23 CDB: Inquiry 12 01 b9 
-> 00 04 00
-> Feb 10 22:37:26 kernel: scsi host6: uas_eh_device_reset_handler start
-> Feb 10 22:37:26 kernel: usb 2-4: reset SuperSpeed USB device number 3 
-> using xhci_hcd
-> Feb 10 22:37:26 kernel: scsi host6: uas_eh_device_reset_handler success
-> Feb 10 22:37:26 kernel:  sda: sda1 sda2
-> Feb 10 22:37:26 kernel: sd 6:0:0:0: [sda] Attached SCSI disk
-> 
-> Further bisecting is going to be difficult as there are no built kernels 
-> left. I will see if the time effort is manageable.
-> 
-> Best regards,
-> Julian
 
-So I have good news and bad news. The good news is that I have managed 
-to bisect the issue down to commit
+--wNzrdL2IZ5232/Er
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/commit/?id=c92a6b5d6335
+On Tue, Feb 13, 2024 at 02:09:16AM -0800, Badhri Jagan Sridharan wrote:
+> Hi Mark,
 
-With c92a6b5d6335 and with e60ac0b9e445, the drive requires multiple 
-resets in the VM. With 7fb019c46eee onwards, it only requires one reset.
-The bad news is that I am not able to fix it with BLIST_NO_VPD_SIZE:
+Please don't top post, reply in line with needed context.  This allows
+readers to readily follow the flow of conversation and understand what
+you are talking about and also helps ensure that everything in the
+discussion is being addressed.
 
-$ echo "LaCie:Rugged FW USB3:0x2000" | sudo tee /proc/scsi/device_info
+> While HI-Zing CC pins disrupts power for batteryless devices, not
+> Hi-Zing CC pins would prevent clean error recovery for self powered
+> devices which is why "usb: typec: tcpm: fix cc role at port reset" was re=
+verted.
+> Please note that the breakage in error recovery behavior is a
+> regression as well.
+> Hi-Zing CC pins would make the port partner recognize it as disconnect
+> and will result in bringup the connection back cleanly.
+>=20
+> How about leveraging "self-powered" device tree property and Hi-Zing
+> CC pins only when using "self-powered" ?
+> This should help devices which don't have batteries while NOT regressing
+> the error recovery behavior for the self powered devices.
 
-This is despite this being used to fix problems with some other devices:
+I don't super care so long as the boards I care about continue to
+function, I submitted this patch because the only response to my report
+about the rk3399-roc-pc having been broken in mainline was a
+confirmation that the failure was expected.  As I noted in the commit
+log checking if there is an alternative power source does seem like a
+viable option here, I am not particularly familiar with this code.
 
-https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/commit/?id=4b1a2c2a8e0ddcb89c5f6c5003bd9b53142f69e3
+--wNzrdL2IZ5232/Er
+Content-Type: application/pgp-signature; name="signature.asc"
 
-I am cross-posting this to scsi list, maybe someone there would be able 
-to understand what is going on.
-Out of interest, why is the device called "Rugged FW USB3" by scsi but 
-"Rugged USB3-FW" by usb?
+-----BEGIN PGP SIGNATURE-----
 
-Best regards,
-Julian
+iQEzBAABCgAdFiEEreZoqmdXGLWf4p/qJNaLcl1Uh9AFAmXLawQACgkQJNaLcl1U
+h9DeBgf9HO4xYfg24xt/Jvbh1Le5gyPcZnCGlzA0xrtgv4g1unnklA5uQ/EfFen6
+hbGufKQ5/sRQ3gCxUve350Vaq/ynTH5EM6gkTLCmiYNp2KFBejcFq88+Zb8ekOMy
+Tnzd4GVwHFVxQczjK8kKnjvXwiqnJBg08Dcq3i8dp3GrvxYir+Q79gRV6nHbzZvb
+Toa3WxY51eRZE+1iKGK31Zeb0lmwnqHZ9LY9jmUEpZO+gzoX/FGKdyoo31ZkiIlP
+NFkkQmYKc+iMN8trojxI6rguRMu8zvZpZbrm8Gx69+9rPmIEAunXbDVbV0pcj9uf
+cR4Zl/H4+6Gud2N5FIi2O3Z2oZwZeQ==
+=oW47
+-----END PGP SIGNATURE-----
 
+--wNzrdL2IZ5232/Er--
