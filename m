@@ -1,171 +1,180 @@
-Received: from vps0.lunn.ch (vps0.lunn.ch [156.67.10.101])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-ej1-f42.google.com (mail-ej1-f42.google.com [209.85.218.42])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EFC26146910;
-	Wed, 14 Feb 2024 23:14:18 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=156.67.10.101
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AAA521474B3
+	for <linux-usb@vger.kernel.org>; Wed, 14 Feb 2024 23:14:21 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.42
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1707952460; cv=none; b=CkITx/o7x88BRKo/4X3d4ah4HCYzUC3qdtxqewDKzPlSEzum1iRLsjzjoexgHEvX5HQfW+VQ1pc+nKbvwDQggQBIm2/8HwNs/cXuB+xmu++tCbxTEsLjutu4myBi5V3wEA41N2QHysVWO3/Ea5YbB26MTf4dR48eg6fNB1zHKKU=
+	t=1707952464; cv=none; b=YBEvAu3fF1MUck7dIYPyD1oL5VI2PKXYhCj/Vgbeg2qZ2ATvP8Qpi8zTCOxRLUyrfEXwNKAZ7fSQXLWpc+TBMvQDvq9zlimVgxmG9vo7RK7OGHVYz8qydRaaAp09fybvln2ThL7DezRwoetJRNW4UV6BIgrMTGPEW8jMwZTURSI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1707952460; c=relaxed/simple;
-	bh=JAaXmFLPL7MF52z7W5bakKctdf1rOc6D32Y12paOGJs=;
-	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
-	 In-Reply-To:To:Cc; b=FdXeUYkBmIHbOnoQy39C/ZvgJvkMUuNjZWK1cGTeiYpZniFK0U2drXNRyi5H8VzW9r1ofpHRK/GA9UBbFOos7MDjyDiJwTTgotb2ZeC353EshqC12RSXAwfcKBaNmFgnJyq6aILA23+jEdNZjY8esrrdH2poUp650JkvVwC18zc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lunn.ch; spf=pass smtp.mailfrom=lunn.ch; dkim=pass (1024-bit key) header.d=lunn.ch header.i=@lunn.ch header.b=yYvr0HZB; arc=none smtp.client-ip=156.67.10.101
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lunn.ch
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=lunn.ch
+	s=arc-20240116; t=1707952464; c=relaxed/simple;
+	bh=9+dCxs0xsYhTXZ07xpquz6ytsf91ewkmJTIEICMPV/4=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=YkeM2rBPqu0El/BqyIwH8oJyXEWJpKCO9kktmhM/cgCPAMLCH9tY2dBPqxCcAIV158kZHMUZBIKWDROSH2MtYQ6O7nx4mkwcB/jycQfUkfISizXsaWVYJM1lXPrmaL0Shnw8fbpeNvdzZHqURnYGiX3C+fg5EdbKFt0kJd93Fw4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=suse.com; spf=pass smtp.mailfrom=suse.com; dkim=pass (2048-bit key) header.d=suse.com header.i=@suse.com header.b=CcWywS/p; arc=none smtp.client-ip=209.85.218.42
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=suse.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=lunn.ch header.i=@lunn.ch header.b="yYvr0HZB"
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=lunn.ch;
-	s=20171124; h=Cc:To:In-Reply-To:References:Message-Id:
-	Content-Transfer-Encoding:Content-Type:MIME-Version:Subject:Date:From:From:
-	Sender:Reply-To:Subject:Date:Message-ID:To:Cc:MIME-Version:Content-Type:
-	Content-Transfer-Encoding:Content-ID:Content-Description:Content-Disposition:
-	In-Reply-To:References; bh=4VBrx1qM6Gzjf/dZj0JHXBU4KIuERNSMCLhowQQxEkc=; b=yY
-	vr0HZBqvrauJsxjToICtsqe65J5iyJVMVOpkM0HE6Q18WSpF3X0KcTW6LdKQeEwd97UksOlIuIA3i
-	lI4zlN82bM2oB5fqSDLrIrTWCPdkJWOEkhM6O153yRL0AUUYmY+WBZC2wpyXCC45iJtkyUgOsTliX
-	up/XhO4uqpS2tSk=;
-Received: from c-76-156-77-114.hsd1.mn.comcast.net ([76.156.77.114] helo=thinkpad.home.lunn.ch)
-	by vps0.lunn.ch with esmtpsa  (TLS1.3) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
-	(Exim 4.94.2)
-	(envelope-from <andrew@lunn.ch>)
-	id 1raOSK-007pqx-65; Thu, 15 Feb 2024 00:14:20 +0100
-From: Andrew Lunn <andrew@lunn.ch>
-Date: Wed, 14 Feb 2024 17:13:24 -0600
-Subject: [PATCH net-next v2 7/8] net: intel: igb: Use linkmode helpers for
- EEE
+	dkim=pass (2048-bit key) header.d=suse.com header.i=@suse.com header.b="CcWywS/p"
+Received: by mail-ej1-f42.google.com with SMTP id a640c23a62f3a-a29c4bbb2f4so27321266b.1
+        for <linux-usb@vger.kernel.org>; Wed, 14 Feb 2024 15:14:21 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=suse.com; s=google; t=1707952460; x=1708557260; darn=vger.kernel.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=k00c+eMas0sQrVf5Mkf37AkgKjaEP45uEEFu+ncFEjE=;
+        b=CcWywS/pQ2ED1pvf7mky0jdOGGeuJmEeaLNMJzJh6VMpp/p4Xo7qWAj6jD5iw/HPP9
+         QwkVOtk98I2Cb+7ZJtYSxUqUHSrNPCCsgNBs9mDPvlx4M8f+UcqyJ6zcYBLeMV8ca85Q
+         W2Uh12b+AhxjPH3X8DlC6/8Nc/zO0w2iWnb6NaPRlGQe/QWYdDu6Nh9j+cT4S1+BXDfK
+         rLF82ZPcfhgBP4DNC3CCX2PeyDdDULdvM0HXISLkZA3wo/NHVShDrtFeIpBDdCzR5kQ1
+         fJAIno+UMSLahQd26WQ75qbpZUvvHx+pn7JM5WlQyooDUvulH1sGq2BxdhYUgC/fTNyS
+         FiSA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1707952460; x=1708557260;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=k00c+eMas0sQrVf5Mkf37AkgKjaEP45uEEFu+ncFEjE=;
+        b=EUYMF/HPVbBSIQkLSJGElDAcJV83F36IjaLSy4iAa36+vlNRquTNLptzqUPCo9+Qmx
+         L8z0HHApb8IS8zlRYiPUSusfw7i1OMutRs6eWs5ZuIOSGbY6n8CnJZSqgozuVjLuoCKi
+         iMehE8PljGHWiB0elkIrHzzmRxQFb4h3bjcb1IbbNj6MANJnpFwCBtlW7nlEcSe+Fnki
+         yUTALHicZR8N4QtxV5bt9GmId8CmZKeOcJt0SshC4Hs5nL4UYSjMDnUkT7Lt9kYvydVH
+         VroNJAunDAmX0Bq2/0GiA6Z0u918UYYAyj9BPJslxgMABtr/MzlIFxK0LWiSjMVsZ5RB
+         CQ/w==
+X-Forwarded-Encrypted: i=1; AJvYcCVgmoUjzpafjTUpXx/2R8xSEmWsy7rBUU9uxDWYF7xB6pSJPg3OElhVGiSTGecfZHwFDRYNyiwgQNg/PN6tx0i8Sbz8XRxXdfd9
+X-Gm-Message-State: AOJu0YwItmmDlNluHLWyGNAQscdMDxpXRNuRt6n7AwrAGpSNHYdaaQfp
+	RsajL/7EyIysfB6IH5YJb9dthpVgkcMknLh5P6r7b/xLvP4N7AWQYsZHQwwH0k+J/NKQBFAkAwH
+	U6IoTALSq/HRkoVj6KwZw0wG1Do4z4bzIS8DiGQ==
+X-Google-Smtp-Source: AGHT+IEmSOh2SgQ6iNK8etMSaX5/e78N71ehh9lNYrzUHKOujHsQMSgwOywTv73GH10jE/Uu3g98mZAN+6w1KzwOFJY=
+X-Received: by 2002:a17:906:bc5a:b0:a3c:875b:f378 with SMTP id
+ s26-20020a170906bc5a00b00a3c875bf378mr5885ejv.36.1707952459921; Wed, 14 Feb
+ 2024 15:14:19 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-Message-Id: <20240214-keee-u32-cleanup-v2-7-4ac534b83d66@lunn.ch>
-References: <20240214-keee-u32-cleanup-v2-0-4ac534b83d66@lunn.ch>
-In-Reply-To: <20240214-keee-u32-cleanup-v2-0-4ac534b83d66@lunn.ch>
-To: "David S. Miller" <davem@davemloft.net>, 
- Eric Dumazet <edumazet@google.com>, Jakub Kicinski <kuba@kernel.org>, 
- Paolo Abeni <pabeni@redhat.com>, Ariel Elior <aelior@marvell.com>, 
- Manish Chopra <manishc@marvell.com>, 
- Jesse Brandeburg <jesse.brandeburg@intel.com>, 
- Tony Nguyen <anthony.l.nguyen@intel.com>
-Cc: linux-usb@vger.kernel.org, netdev@vger.kernel.org, 
- linux-kernel@vger.kernel.org, intel-wired-lan@lists.osuosl.org, 
- Andrew Lunn <andrew@lunn.ch>
-X-Mailer: b4 0.12.4
-X-Developer-Signature: v=1; a=openpgp-sha256; l=3793; i=andrew@lunn.ch;
- h=from:subject:message-id; bh=JAaXmFLPL7MF52z7W5bakKctdf1rOc6D32Y12paOGJs=;
- b=owEBbQKS/ZANAwAKAea/DcumaUyEAcsmYgBlzUkl6bCIJsuq7uQBOYjilp8H2Mc3zzEENWGYb
- MCFQq2u2xaJAjMEAAEKAB0WIQRh+xAly1MmORb54bfmvw3LpmlMhAUCZc1JJQAKCRDmvw3LpmlM
- hMUzD/4pN42aAVrMi68wrLcT4Yavlv/tqf6KXGJhjQAiOJQUeR/4OGZInc1i2zK4vJuZipO9xIm
- 0ZadbJHSZ09NML3NPztSN0ShX/BLW8p7EW3y9kur4/+j+zoPQ2H2vlkL0KOAoMEXouADNM4Z8N0
- daiRGodsxguANENju/n8NP58WtOkLTwnZ1yjtlxvFgPrGSMb3zThyf6KZQq3xqF2bgzTJsmK6YE
- sQehiGAhUMyA5VQqTlS2pZ4BYa5c9qJvgmrCJSOgwdL5wffKGqpFlxdz/nOrLutVZ253xM3NzkU
- eohPeP85zU9bfBt+l55P35oEm/52xLFwxF8e2e+r5ES3MncE5TfNWdLh7X9r6E9UcdrXywHRLo3
- BAfDlG6v6tCAP7hlFTLBQzRUkhfJ1e7RV9u8Xgtn7W0t4JXHjvsQYt6eESkiTDTqXbMyEBE6c3g
- SjlahGsXzmlYMAWt+i9U/cYHIbifW089bGhCmbqsA7Ya2TCJyb33ZGwn8IWLEh4+vXOljdewW1/
- a0NrTuk41WViJ9wj2h8gM/nl5BbT79sWa2nQSsnQDFwdmxJ0Bv3k3RwZ+20DpJafFCbZhp8ouaS
- 9GzTx2GWRXdNDoe3Fv52tyO37UERPptmt6zT2wGrtiNluF+pUVhqJL3E66XLQRZo6xE/YzxM18g
- TAF01T6FlbQaZqg==
-X-Developer-Key: i=andrew@lunn.ch; a=openpgp;
- fpr=61FB1025CB53263916F9E1B7E6BF0DCBA6694C84
+References: <20240214221411.2888112-1-martin.petersen@oracle.com>
+In-Reply-To: <20240214221411.2888112-1-martin.petersen@oracle.com>
+From: Lee Duncan <lduncan@suse.com>
+Date: Wed, 14 Feb 2024 15:14:08 -0800
+Message-ID: <CAPj3X_WBdsoYJKbkpx8Bmkjd1ud=eKC6z-qwO3OW5Z+894-kbA@mail.gmail.com>
+Subject: Re: [PATCH v2] scsi: core: Consult supported VPD page list prior to
+ fetching page
+To: "Martin K. Petersen" <martin.petersen@oracle.com>
+Cc: linux-scsi@vger.kernel.org, linux-usb@vger.kernel.org, belegdol@gmail.com, 
+	stable@vger.kernel.org, Bart Van Assche <bvanassche@acm.org>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-Make use of the existing linkmode helpers for converting PHY EEE
-register values into links modes, now that ethtool_keee uses link
-modes, rather than u32 values.
+On Wed, Feb 14, 2024 at 2:14=E2=80=AFPM Martin K. Petersen
+<martin.petersen@oracle.com> wrote:
+>
+> Commit c92a6b5d6335 ("scsi: core: Query VPD size before getting full
+> page") removed the logic which checks whether a VPD page is present on
+> the supported pages list before asking for the page itself. That was
+> done because SPC helpfully states "The Supported VPD Pages VPD page
+> list may or may not include all the VPD pages that are able to be
+> returned by the device server". Testing had revealed a few devices
+> that supported some of the 0xBn pages but didn't actually list them in
+> page 0.
+>
+> Julian Sikorski bisected a problem with his drive resetting during
+> discovery to the commit above. As it turns out, this particular drive
+> firmware will crash if we attempt to fetch page 0xB9.
+>
+> Various approaches were attempted to work around this. In the end,
+> reinstating the logic that consults VPD page 0 before fetching any
+> other page was the path of least resistance. A firmware update for the
+> devices which originally compelled us to remove the check has since
+> been released.
+>
+> Cc: stable@vger.kernel.org
+> Cc: Bart Van Assche <bvanassche@acm.org>
+> Fixes: c92a6b5d6335 ("scsi: core: Query VPD size before getting full page=
+")
+> Reported-by: Julian Sikorski <belegdol@gmail.com>
+> Tested-by: Julian Sikorski <belegdol@gmail.com>
+> Signed-off-by: Martin K. Petersen <martin.petersen@oracle.com>
+>
+> ---
+>
+> v2: Address Bart's comments.
+> ---
+>  drivers/scsi/scsi.c        | 22 ++++++++++++++++++++--
+>  include/scsi/scsi_device.h |  4 ----
+>  2 files changed, 20 insertions(+), 6 deletions(-)
+>
+> diff --git a/drivers/scsi/scsi.c b/drivers/scsi/scsi.c
+> index 76d369343c7a..8cad9792a562 100644
+> --- a/drivers/scsi/scsi.c
+> +++ b/drivers/scsi/scsi.c
+> @@ -328,21 +328,39 @@ static int scsi_vpd_inquiry(struct scsi_device *sde=
+v, unsigned char *buffer,
+>         return result + 4;
+>  }
+>
+> +enum scsi_vpd_parameters {
+> +       SCSI_VPD_HEADER_SIZE =3D 4,
+> +       SCSI_VPD_LIST_SIZE =3D 36,
+> +};
+> +
+>  static int scsi_get_vpd_size(struct scsi_device *sdev, u8 page)
+>  {
+> -       unsigned char vpd_header[SCSI_VPD_HEADER_SIZE] __aligned(4);
+> +       unsigned char vpd[SCSI_VPD_LIST_SIZE] __aligned(4);
+>         int result;
+>
+>         if (sdev->no_vpd_size)
+>                 return SCSI_DEFAULT_VPD_LEN;
+>
+> +       /*
+> +        * Fetch the supported pages VPD and validate that the requested =
+page
+> +        * number is present.
+> +        */
+> +       if (page !=3D 0) {
+> +               result =3D scsi_vpd_inquiry(sdev, vpd, 0, sizeof(vpd));
+> +               if (result < SCSI_VPD_HEADER_SIZE)
+> +                       return 0;
+> +
+> +               result -=3D SCSI_VPD_HEADER_SIZE;
+> +               if (!memchr(&vpd[SCSI_VPD_HEADER_SIZE], page, result))
+> +                       return 0;
+> +       }
+>         /*
+>          * Fetch the VPD page header to find out how big the page
+>          * is. This is done to prevent problems on legacy devices
+>          * which can not handle allocation lengths as large as
+>          * potentially requested by the caller.
+>          */
+> -       result =3D scsi_vpd_inquiry(sdev, vpd_header, page, sizeof(vpd_he=
+ader));
+> +       result =3D scsi_vpd_inquiry(sdev, vpd, page, SCSI_VPD_HEADER_SIZE=
+);
+>         if (result < 0)
+>                 return 0;
+>
+> diff --git a/include/scsi/scsi_device.h b/include/scsi/scsi_device.h
+> index cb019c80763b..72a6b3923fc7 100644
+> --- a/include/scsi/scsi_device.h
+> +++ b/include/scsi/scsi_device.h
+> @@ -100,10 +100,6 @@ struct scsi_vpd {
+>         unsigned char   data[];
+>  };
+>
+> -enum scsi_vpd_parameters {
+> -       SCSI_VPD_HEADER_SIZE =3D 4,
+> -};
+> -
+>  struct scsi_device {
+>         struct Scsi_Host *host;
+>         struct request_queue *request_queue;
+> --
+> 2.42.1
+>
+>
 
-Signed-off-by: Andrew Lunn <andrew@lunn.ch>
----
- drivers/net/ethernet/intel/igb/igb_ethtool.c | 33 ++++++++++++++++++----------
- 1 file changed, 22 insertions(+), 11 deletions(-)
-
-diff --git a/drivers/net/ethernet/intel/igb/igb_ethtool.c b/drivers/net/ethernet/intel/igb/igb_ethtool.c
-index b87b23d2151c..5da50574a28c 100644
---- a/drivers/net/ethernet/intel/igb/igb_ethtool.c
-+++ b/drivers/net/ethernet/intel/igb/igb_ethtool.c
-@@ -3038,11 +3038,13 @@ static int igb_get_eee(struct net_device *netdev, struct ethtool_keee *edata)
- 	    (hw->phy.media_type != e1000_media_type_copper))
- 		return -EOPNOTSUPP;
- 
--	edata->supported_u32 = (SUPPORTED_1000baseT_Full |
--				SUPPORTED_100baseT_Full);
-+	linkmode_set_bit(ETHTOOL_LINK_MODE_1000baseT_Full_BIT,
-+			 edata->supported);
-+	linkmode_set_bit(ETHTOOL_LINK_MODE_100baseT_Full_BIT,
-+			 edata->supported);
- 	if (!hw->dev_spec._82575.eee_disable)
--		edata->advertised_u32 =
--			mmd_eee_adv_to_ethtool_adv_t(adapter->eee_advert);
-+		mii_eee_cap1_mod_linkmode_t(edata->advertised,
-+					    adapter->eee_advert);
- 
- 	/* The IPCNFG and EEER registers are not supported on I354. */
- 	if (hw->mac.type == e1000_i354) {
-@@ -3068,7 +3070,7 @@ static int igb_get_eee(struct net_device *netdev, struct ethtool_keee *edata)
- 		if (ret_val)
- 			return -ENODATA;
- 
--		edata->lp_advertised_u32 = mmd_eee_adv_to_ethtool_adv_t(phy_data);
-+		mii_eee_cap1_mod_linkmode_t(edata->lp_advertised, phy_data);
- 		break;
- 	case e1000_i354:
- 	case e1000_i210:
-@@ -3099,7 +3101,7 @@ static int igb_get_eee(struct net_device *netdev, struct ethtool_keee *edata)
- 		edata->eee_enabled = false;
- 		edata->eee_active = false;
- 		edata->tx_lpi_enabled = false;
--		edata->advertised_u32 &= ~edata->advertised_u32;
-+		linkmode_zero(edata->advertised);
- 	}
- 
- 	return 0;
-@@ -3109,6 +3111,8 @@ static int igb_set_eee(struct net_device *netdev,
- 		       struct ethtool_keee *edata)
- {
- 	struct igb_adapter *adapter = netdev_priv(netdev);
-+	__ETHTOOL_DECLARE_LINK_MODE_MASK(supported) = {};
-+	__ETHTOOL_DECLARE_LINK_MODE_MASK(tmp) = {};
- 	struct e1000_hw *hw = &adapter->hw;
- 	struct ethtool_keee eee_curr;
- 	bool adv1g_eee = true, adv100m_eee = true;
-@@ -3138,14 +3142,21 @@ static int igb_set_eee(struct net_device *netdev,
- 			return -EINVAL;
- 		}
- 
--		if (!edata->advertised_u32 || (edata->advertised_u32 &
--		    ~(ADVERTISE_100_FULL | ADVERTISE_1000_FULL))) {
-+		linkmode_set_bit(ETHTOOL_LINK_MODE_1000baseT_Full_BIT,
-+				 supported);
-+		linkmode_set_bit(ETHTOOL_LINK_MODE_100baseT_Full_BIT,
-+				 supported);
-+		if (linkmode_andnot(tmp, edata->advertised, supported)) {
- 			dev_err(&adapter->pdev->dev,
- 				"EEE Advertisement supports only 100Tx and/or 100T full duplex\n");
- 			return -EINVAL;
- 		}
--		adv100m_eee = !!(edata->advertised_u32 & ADVERTISE_100_FULL);
--		adv1g_eee = !!(edata->advertised_u32 & ADVERTISE_1000_FULL);
-+		adv100m_eee = linkmode_test_bit(
-+			ETHTOOL_LINK_MODE_100baseT_Full_BIT,
-+			edata->advertised);
-+		adv1g_eee = linkmode_test_bit(
-+			ETHTOOL_LINK_MODE_1000baseT_Full_BIT,
-+			edata->advertised);
- 
- 	} else if (!edata->eee_enabled) {
- 		dev_err(&adapter->pdev->dev,
-@@ -3153,7 +3164,7 @@ static int igb_set_eee(struct net_device *netdev,
- 		return -EINVAL;
- 	}
- 
--	adapter->eee_advert = ethtool_adv_to_mmd_eee_adv_t(edata->advertised_u32);
-+	adapter->eee_advert = linkmode_to_mii_eee_cap1_t(edata->advertised);
- 	if (hw->dev_spec._82575.eee_disable != !edata->eee_enabled) {
- 		hw->dev_spec._82575.eee_disable = !edata->eee_enabled;
- 		adapter->flags |= IGB_FLAG_EEE;
-
--- 
-2.43.0
-
+Reviewed-by: Lee Duncan <lee.duncan@suse.com>
