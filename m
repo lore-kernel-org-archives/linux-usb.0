@@ -1,79 +1,56 @@
-Received: from NAM10-MW2-obe.outbound.protection.outlook.com (mail-mw2nam10on2081.outbound.protection.outlook.com [40.107.94.81])
+Received: from mx0a-00069f02.pphosted.com (mx0a-00069f02.pphosted.com [205.220.165.32])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DCD9214533A;
-	Wed, 14 Feb 2024 21:58:35 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=40.107.94.81
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1707947917; cv=fail; b=LdblVJRHZ+AVVkce00oeCmRxcatCjWzTdAitBNNXQK7vFgQ5mEdf1XPSVBCHh9IUywSxu/EHx4NF+jQ5357dLeH2cGdtMzAQguofngMXzA+2nT4SQtJbo/D1cKGT0ZoeOD6RkDrXvSQ8URlfkLcj0iFSLzFM448lvyraBkQFXO4=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1707947917; c=relaxed/simple;
-	bh=SXFJG0tduoSabP9hIG4fe9I+tW8zhK0aLnnxwVJXp/k=;
-	h=From:To:CC:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=skErU+KY/InJbEJpBRmeITqqMGNgFAK/MyqHgytqyzpphY73HG1Ft0+aAGu7O8L/D/T4/UtsiazKEzggIsNzFU67QKbTsmcnl6t3+n/Avs/8t8unLTfQOjXPJmamc38kOUHj1XWbPs+cUdSbDnfNxAfN2saTZw2zqt2vmwic70U=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amd.com; spf=fail smtp.mailfrom=amd.com; dkim=pass (1024-bit key) header.d=amd.com header.i=@amd.com header.b=1OgsIgDK; arc=fail smtp.client-ip=40.107.94.81
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amd.com
-Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=amd.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B81EB141989;
+	Wed, 14 Feb 2024 22:14:32 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.165.32
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1707948874; cv=none; b=k4i1TOQcuYRgP/6CyYJBzETMn6L0evNbFzPOQKuMHCwSAQZ3tPp1Xe0YQ4uAE9wzkGHuTrfOcm3GfHm3prvE0Qbj7+/qAz/fF8+IZGevbowotxjr7yRGI2aQDzqLpx80dTHvkNvDTaxE7n6rnLxdUmkKgqH80QtdTi8akvvkVVU=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1707948874; c=relaxed/simple;
+	bh=MBNyoTNrMFm88MBdz2XN+cxJ+NbJO9blJRPLgTBPtDk=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=Nnl/sKKrdV6Uhhf8/nxmQlgiM569BME7/00CCsGcdiiCrxV3GEdBDnwfWidaFY7bj+4z5syEZbqRFInwv7LZQAWYlIJVI5pI0jKH8jmsLSQOfpGqdGfFrUNe7/Cs27Tz7u9Aw3Mo6Xrs5tennlxVsyc+oDr+KM7Lh+xCL8icPIU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=oracle.com; spf=pass smtp.mailfrom=oracle.com; dkim=pass (2048-bit key) header.d=oracle.com header.i=@oracle.com header.b=TG40N4FN; arc=none smtp.client-ip=205.220.165.32
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=oracle.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=oracle.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=amd.com header.i=@amd.com header.b="1OgsIgDK"
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=MIT4i87p6+igZSg7zZehRj94hlWJFA1tCnROgpErcKaF3p4gE8jSBPRNtjHSeT7tguVAEx7rmekizd8rfzwhLKPYsq+rofDhNe/VPCnDnpqcRaLJG/X5I0JqwJzxITpGXhsB+jakTxeM/vi48w7I23QrtAeBN0Ar9j2f/bqo8MFBdVnZ4p8EjrzugdHP7Y2JXvbvSw2cCK20cWBFYCoVwOoqo3UfK2ftweBRDQl3Ko320D/AlBNzv14SYt0hFO/BSk66cH2A+ysYz358TeeakV1/KB5s9zYpBc6gZ4fhXyVegZ9BJXdJ+/kY8ILL5TwATNz9PO99cRnDac4rIRvOHQ==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=4ORp1B0GDlx0yhtKVHvd8wLazCIEidsG80UXdSSW/bo=;
- b=FsdSjcECuWXoriZTjVx8Sa/aGGN5Zcvmwtpm4KAGuDfYsapWztei7wC9cssv2xA7H2tu57asLuPmyWL3ccfr3vgi4sejhLGNwL4ZRjmrJTnZJwR+L2JSlrjqfMGzIZ31aqm990FkI4L7kr59jk8CVZRYQvx91vmfzh+NbCoDP5TRo302m2fNA7hMNrVOo0fZsIS6OSIPo8ENXGFWGdkdB7ZcQM57lHDSa5jaDKRwceF8fCyC+8lPtzUCgYJt6yJF4g1EI/yIUWD1gt5bmmBuwi6C4s2yuvsgD9K0HiYIVRPfFS8XEyJWS6BFWIdvjElz9UEsua7eHm05QsYIcj/94w==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
- 165.204.84.17) smtp.rcpttodomain=ffwll.ch smtp.mailfrom=amd.com; dmarc=pass
- (p=quarantine sp=quarantine pct=100) action=none header.from=amd.com;
- dkim=none (message not signed); arc=none (0)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=4ORp1B0GDlx0yhtKVHvd8wLazCIEidsG80UXdSSW/bo=;
- b=1OgsIgDKz1C6AyLXEozEznA7ftBeHVsXCHkF5pPYMe1Hqp2e/a6Z5feiQk5W/gys4n3VFHMX+KmK+BnEND5hcE2EWuY6ijQfE0MS3of9Lz1bdU4Kq/7EL5NheQV3PdBDRjInopfIlpdv7Tkiv5742i1d+P2Up70nIfklOtZOJFs=
-Received: from BL0PR1501CA0017.namprd15.prod.outlook.com
- (2603:10b6:207:17::30) by SA1PR12MB6920.namprd12.prod.outlook.com
- (2603:10b6:806:258::5) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7292.18; Wed, 14 Feb
- 2024 21:58:30 +0000
-Received: from MN1PEPF0000ECD9.namprd02.prod.outlook.com
- (2603:10b6:207:17:cafe::5f) by BL0PR1501CA0017.outlook.office365.com
- (2603:10b6:207:17::30) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7292.26 via Frontend
- Transport; Wed, 14 Feb 2024 21:58:30 +0000
-X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 165.204.84.17)
- smtp.mailfrom=amd.com; dkim=none (message not signed)
- header.d=none;dmarc=pass action=none header.from=amd.com;
-Received-SPF: Pass (protection.outlook.com: domain of amd.com designates
- 165.204.84.17 as permitted sender) receiver=protection.outlook.com;
- client-ip=165.204.84.17; helo=SATLEXMB04.amd.com; pr=C
-Received: from SATLEXMB04.amd.com (165.204.84.17) by
- MN1PEPF0000ECD9.mail.protection.outlook.com (10.167.242.138) with Microsoft
- SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.20.7292.25 via Frontend Transport; Wed, 14 Feb 2024 21:58:30 +0000
-Received: from AUS-P9-MLIMONCI.amd.com (10.180.168.240) by SATLEXMB04.amd.com
- (10.181.40.145) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2507.35; Wed, 14 Feb
- 2024 15:58:29 -0600
-From: Mario Limonciello <mario.limonciello@amd.com>
-To: Daniel Vetter <daniel@ffwll.ch>, Jani Nikula
-	<jani.nikula@linux.intel.com>, Alex Deucher <alexander.deucher@amd.com>,
-	"Hans de Goede" <hdegoede@redhat.com>, "open list:DRM DRIVERS"
-	<dri-devel@lists.freedesktop.org>
-CC: <amd-gfx@lists.freedesktop.org>, "open list:USB SUBSYSTEM"
-	<linux-usb@vger.kernel.org>, <linux-fbdev@vger.kernel.org>,
-	<nouveau@lists.freedesktop.org>, <intel-gfx@lists.freedesktop.org>,
-	<platform-driver-x86@vger.kernel.org>, <intel-xe@lists.freedesktop.org>,
-	<linux-renesas-soc@vger.kernel.org>, "open list:ACPI"
-	<linux-acpi@vger.kernel.org>, open list <linux-kernel@vger.kernel.org>,
-	Melissa Wen <mwen@igalia.com>, Mark Pearson <mpearson-lenovo@squebb.ca>,
-	Mario Limonciello <mario.limonciello@amd.com>
-Subject: [PATCH v6 4/5] drm/amd: Fetch the EDID from _DDC if available for eDP
-Date: Wed, 14 Feb 2024 15:57:55 -0600
-Message-ID: <20240214215756.6530-5-mario.limonciello@amd.com>
-X-Mailer: git-send-email 2.34.1
-In-Reply-To: <20240214215756.6530-1-mario.limonciello@amd.com>
-References: <20240214215756.6530-1-mario.limonciello@amd.com>
+	dkim=pass (2048-bit key) header.d=oracle.com header.i=@oracle.com header.b="TG40N4FN"
+Received: from pps.filterd (m0246627.ppops.net [127.0.0.1])
+	by mx0b-00069f02.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id 41ELiWJ4022704;
+	Wed, 14 Feb 2024 22:14:21 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com; h=from : to : cc :
+ subject : date : message-id : mime-version : content-transfer-encoding;
+ s=corp-2023-11-20; bh=6xQXk51zyAc/FJVeHYLZ/+JdxhV5quNYw+01DQcVd5M=;
+ b=TG40N4FNlDOT7ZFvxte3ufnEvTokR5mCkLEyLnTqAY8EQse0cc8H0xA5nXIloiu8CBTy
+ o+21h0lKx1SHDkqoW8bUVZk3li8XCX+n3gTSeT58mRduvPC88zwNzSDoCRjIHb7vM0WS
+ U0ZZo0XFze0w+6kMaLonaacLycbU0fTjMoUPqv9UG8iFPib61kI0EJdcuYXXOlYXxjaE
+ otXKjS16K6ME4hGl1HTOf/MY+KGdahnPNumJ5Y7qHy2tnGZkAjb7vaxjJ+vnvvmMWMNe
+ PZEEi2Dhgu4dRXO8bbwyLe9L0YVFxZuxWtOzzw/0hiI6nkenw4AYfMtG2hjUK+O6cxih TQ== 
+Received: from iadpaimrmta02.imrmtpd1.prodappiadaev1.oraclevcn.com (iadpaimrmta02.appoci.oracle.com [147.154.18.20])
+	by mx0b-00069f02.pphosted.com (PPS) with ESMTPS id 3w92ppgghp-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+	Wed, 14 Feb 2024 22:14:21 +0000
+Received: from pps.filterd (iadpaimrmta02.imrmtpd1.prodappiadaev1.oraclevcn.com [127.0.0.1])
+	by iadpaimrmta02.imrmtpd1.prodappiadaev1.oraclevcn.com (8.17.1.19/8.17.1.19) with ESMTP id 41EM7PWJ000598;
+	Wed, 14 Feb 2024 22:14:19 GMT
+Received: from pps.reinject (localhost [127.0.0.1])
+	by iadpaimrmta02.imrmtpd1.prodappiadaev1.oraclevcn.com (PPS) with ESMTPS id 3w5yk9mmsk-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+	Wed, 14 Feb 2024 22:14:19 +0000
+Received: from iadpaimrmta02.imrmtpd1.prodappiadaev1.oraclevcn.com (iadpaimrmta02.imrmtpd1.prodappiadaev1.oraclevcn.com [127.0.0.1])
+	by pps.reinject (8.17.1.5/8.17.1.5) with ESMTP id 41EMEJIU031042;
+	Wed, 14 Feb 2024 22:14:19 GMT
+Received: from ca-mkp2.ca.oracle.com.com (mpeterse-ol9.allregionaliads.osdevelopmeniad.oraclevcn.com [100.100.251.135])
+	by iadpaimrmta02.imrmtpd1.prodappiadaev1.oraclevcn.com (PPS) with ESMTP id 3w5yk9mms8-1;
+	Wed, 14 Feb 2024 22:14:19 +0000
+From: "Martin K. Petersen" <martin.petersen@oracle.com>
+To: linux-scsi@vger.kernel.org, linux-usb@vger.kernel.org
+Cc: belegdol@gmail.com, "Martin K. Petersen" <martin.petersen@oracle.com>,
+        stable@vger.kernel.org, Bart Van Assche <bvanassche@acm.org>
+Subject: [PATCH v2] scsi: core: Consult supported VPD page list prior to fetching page
+Date: Wed, 14 Feb 2024 17:14:11 -0500
+Message-ID: <20240214221411.2888112-1-martin.petersen@oracle.com>
+X-Mailer: git-send-email 2.42.1
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
@@ -81,129 +58,111 @@ List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-ClientProxiedBy: SATLEXMB04.amd.com (10.181.40.145) To SATLEXMB04.amd.com
- (10.181.40.145)
-X-EOPAttributedMessage: 0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: MN1PEPF0000ECD9:EE_|SA1PR12MB6920:EE_
-X-MS-Office365-Filtering-Correlation-Id: 0b7ad7d4-4bac-44e9-d0f5-08dc2da81483
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info:
-	xiiJQ96Vp9Gm6Xm/ImMcB90XfBvuBuxpGw5lSpy44KXkYHlkVqXlAPL2PYUGuwplk/Gip+48Z074oQlAdY+uE93olodmiLgh+NRCNFFc5uldZS2zj7kRb+kacU78oIkWNDiYE0rD+MphtCJd5VAXEIO/8lBztveLYqk3NM6wE3A8o5aP81diOFVIaz4+zDVn3yxotikS2Nqtcnj5VzrBal9GKWnIviGMFnAyYh1SEYipo0KFJsnI2EPZw+GaDU8idB886JTfZwIE01fkfNcgtkRfH5sciYd4Xm7FPJW6Diu1d4VU/lKKi2/EHH190+JegfIarmA2jxV4rWggpMPz93XDR5i9rTyGr+uwFeMAl/NMyGesu9g+V+aFZ459YMmF40mughJEC9tXsKngMDBJcBp+1GPhBhxLn20Lq8IjrjLQROu+JQENVk7Jg37k0TNfFA8e1OU353Cgw3GFs28CgRWiRVCIWt+e/IEPK3jxkX31okW9FNxkdQYfHXKneNOD3OvcMYKrfXpUkpOMSKO8fVA/imcWGmhrpZbx7t2Cb+H9iaVpW2XrRk2joXf8In/XcUXMalZNRBjho16B+g/bb7a5yPZGUP44vhQLonk2bMqOQT9KP9U2aOFDhrv7XocZhzThsI3bCdx1e7k5jr1XNUa9Wzl4zN8+jpjBUap92KU=
-X-Forefront-Antispam-Report:
-	CIP:165.204.84.17;CTRY:US;LANG:en;SCL:1;SRV:;IPV:CAL;SFV:NSPM;H:SATLEXMB04.amd.com;PTR:InfoDomainNonexistent;CAT:NONE;SFS:(13230031)(4636009)(39860400002)(396003)(346002)(136003)(376002)(230922051799003)(36860700004)(82310400011)(451199024)(1800799012)(186009)(64100799003)(46966006)(40470700004)(86362001)(7416002)(36756003)(2906002)(44832011)(7696005)(66899024)(70206006)(316002)(82740400003)(426003)(6666004)(110136005)(336012)(54906003)(2616005)(41300700001)(16526019)(1076003)(66574015)(4326008)(5660300002)(8936002)(83380400001)(8676002)(26005)(81166007)(70586007)(478600001)(356005);DIR:OUT;SFP:1101;
-X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 14 Feb 2024 21:58:30.1237
- (UTC)
-X-MS-Exchange-CrossTenant-Network-Message-Id: 0b7ad7d4-4bac-44e9-d0f5-08dc2da81483
-X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
-X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=3dd8961f-e488-4e60-8e11-a82d994e183d;Ip=[165.204.84.17];Helo=[SATLEXMB04.amd.com]
-X-MS-Exchange-CrossTenant-AuthSource:
-	MN1PEPF0000ECD9.namprd02.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Anonymous
-X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: SA1PR12MB6920
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.272,Aquarius:18.0.1011,Hydra:6.0.619,FMLib:17.11.176.26
+ definitions=2024-02-14_14,2024-02-14_01,2023-05-22_02
+X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 mlxlogscore=999 phishscore=0 mlxscore=0
+ bulkscore=0 spamscore=0 malwarescore=0 adultscore=0 suspectscore=0
+ classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2311290000
+ definitions=main-2402140167
+X-Proofpoint-ORIG-GUID: zQ8k94iFH4zMb3RUJmygo0uic13atvkN
+X-Proofpoint-GUID: zQ8k94iFH4zMb3RUJmygo0uic13atvkN
 
-Some manufacturers have intentionally put an EDID that differs from
-the EDID on the internal panel on laptops.
+Commit c92a6b5d6335 ("scsi: core: Query VPD size before getting full
+page") removed the logic which checks whether a VPD page is present on
+the supported pages list before asking for the page itself. That was
+done because SPC helpfully states "The Supported VPD Pages VPD page
+list may or may not include all the VPD pages that are able to be
+returned by the device server". Testing had revealed a few devices
+that supported some of the 0xBn pages but didn't actually list them in
+page 0.
 
-Attempt to fetch this EDID if it exists and prefer it over the EDID
-that is provided by the panel. If a user prefers to use the EDID from
-the panel, offer a module parameter that would disable this.
+Julian Sikorski bisected a problem with his drive resetting during
+discovery to the commit above. As it turns out, this particular drive
+firmware will crash if we attempt to fetch page 0xB9.
 
-Signed-off-by: Mario Limonciello <mario.limonciello@amd.com>
+Various approaches were attempted to work around this. In the end,
+reinstating the logic that consults VPD page 0 before fetching any
+other page was the path of least resistance. A firmware update for the
+devices which originally compelled us to remove the check has since
+been released.
+
+Cc: stable@vger.kernel.org
+Cc: Bart Van Assche <bvanassche@acm.org>
+Fixes: c92a6b5d6335 ("scsi: core: Query VPD size before getting full page")
+Reported-by: Julian Sikorski <belegdol@gmail.com>
+Tested-by: Julian Sikorski <belegdol@gmail.com>
+Signed-off-by: Martin K. Petersen <martin.petersen@oracle.com>
+
 ---
- drivers/gpu/drm/amd/amdgpu/amdgpu.h                       | 1 +
- drivers/gpu/drm/amd/amdgpu/amdgpu_connectors.c            | 3 +++
- drivers/gpu/drm/amd/amdgpu/amdgpu_drv.c                   | 8 ++++++++
- drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c         | 4 +++-
- drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_helpers.c | 2 ++
- 5 files changed, 17 insertions(+), 1 deletion(-)
 
-diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu.h b/drivers/gpu/drm/amd/amdgpu/amdgpu.h
-index 312dfaec7b4a..fcec39a62a39 100644
---- a/drivers/gpu/drm/amd/amdgpu/amdgpu.h
-+++ b/drivers/gpu/drm/amd/amdgpu/amdgpu.h
-@@ -215,6 +215,7 @@ extern int amdgpu_smartshift_bias;
- extern int amdgpu_use_xgmi_p2p;
- extern int amdgpu_mtype_local;
- extern bool enforce_isolation;
-+extern bool acpi_edid;
- #ifdef CONFIG_HSA_AMD
- extern int sched_policy;
- extern bool debug_evictions;
-diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_connectors.c b/drivers/gpu/drm/amd/amdgpu/amdgpu_connectors.c
-index 9caba10315a8..9165a199ac9b 100644
---- a/drivers/gpu/drm/amd/amdgpu/amdgpu_connectors.c
-+++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_connectors.c
-@@ -281,6 +281,9 @@ static void amdgpu_connector_get_edid(struct drm_connector *connector)
- 	if (amdgpu_connector->edid)
- 		return;
+v2: Address Bart's comments.
+---
+ drivers/scsi/scsi.c        | 22 ++++++++++++++++++++--
+ include/scsi/scsi_device.h |  4 ----
+ 2 files changed, 20 insertions(+), 6 deletions(-)
+
+diff --git a/drivers/scsi/scsi.c b/drivers/scsi/scsi.c
+index 76d369343c7a..8cad9792a562 100644
+--- a/drivers/scsi/scsi.c
++++ b/drivers/scsi/scsi.c
+@@ -328,21 +328,39 @@ static int scsi_vpd_inquiry(struct scsi_device *sdev, unsigned char *buffer,
+ 	return result + 4;
+ }
  
-+	/* if the BIOS specifies the EDID via _DDC, prefer this */
-+	connector->acpi_edid_allowed = acpi_edid;
++enum scsi_vpd_parameters {
++	SCSI_VPD_HEADER_SIZE = 4,
++	SCSI_VPD_LIST_SIZE = 36,
++};
 +
- 	/* on hw with routers, select right port */
- 	if (amdgpu_connector->router.ddc_valid)
- 		amdgpu_i2c_router_select_ddc_port(amdgpu_connector);
-diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_drv.c b/drivers/gpu/drm/amd/amdgpu/amdgpu_drv.c
-index 161ecf9b4174..9676df447a57 100644
---- a/drivers/gpu/drm/amd/amdgpu/amdgpu_drv.c
-+++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_drv.c
-@@ -166,6 +166,7 @@ uint amdgpu_sdma_phase_quantum = 32;
- char *amdgpu_disable_cu;
- char *amdgpu_virtual_display;
- bool enforce_isolation;
-+bool acpi_edid = true;
- /*
-  * OverDrive(bit 14) disabled by default
-  * GFX DCS(bit 19) disabled by default
-@@ -990,6 +991,13 @@ MODULE_PARM_DESC(wbrf,
- 	"Enable Wifi RFI interference mitigation (0 = disabled, 1 = enabled, -1 = auto(default)");
- module_param_named(wbrf, amdgpu_wbrf, int, 0444);
+ static int scsi_get_vpd_size(struct scsi_device *sdev, u8 page)
+ {
+-	unsigned char vpd_header[SCSI_VPD_HEADER_SIZE] __aligned(4);
++	unsigned char vpd[SCSI_VPD_LIST_SIZE] __aligned(4);
+ 	int result;
  
-+/**
-+ * DOC: acpi_edid (bool)
-+ * Try to fetch EDID for eDP display from BIOS using ACPI _DDC method.
-+ */
-+module_param(acpi_edid, bool, 0444);
-+MODULE_PARM_DESC(acpi_edid, "Fetch EDID for eDP display from BIOS");
+ 	if (sdev->no_vpd_size)
+ 		return SCSI_DEFAULT_VPD_LEN;
+ 
++	/*
++	 * Fetch the supported pages VPD and validate that the requested page
++	 * number is present.
++	 */
++	if (page != 0) {
++		result = scsi_vpd_inquiry(sdev, vpd, 0, sizeof(vpd));
++		if (result < SCSI_VPD_HEADER_SIZE)
++			return 0;
 +
- /* These devices are not supported by amdgpu.
-  * They are supported by the mach64, r128, radeon drivers
-  */
-diff --git a/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c b/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c
-index 467796d97313..504577ea36e7 100644
---- a/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c
-+++ b/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c
-@@ -6649,8 +6649,10 @@ static void amdgpu_dm_connector_funcs_force(struct drm_connector *connector)
- 	 * Note: drm_get_edid gets edid in the following order:
- 	 * 1) override EDID if set via edid_override debugfs,
- 	 * 2) firmware EDID if set via edid_firmware module parameter
--	 * 3) regular DDC read.
-+	 * 3) ACPI EDID if allowed via module parameter
-+	 * 4) regular DDC read.
++		result -= SCSI_VPD_HEADER_SIZE;
++		if (!memchr(&vpd[SCSI_VPD_HEADER_SIZE], page, result))
++			return 0;
++	}
+ 	/*
+ 	 * Fetch the VPD page header to find out how big the page
+ 	 * is. This is done to prevent problems on legacy devices
+ 	 * which can not handle allocation lengths as large as
+ 	 * potentially requested by the caller.
  	 */
-+	connector->acpi_edid_allowed = acpi_edid;
- 	edid = drm_get_edid(connector, &amdgpu_connector->ddc_bus->aux.ddc);
- 	if (!edid) {
- 		DRM_ERROR("No EDID found on connector: %s.\n", connector->name);
-diff --git a/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_helpers.c b/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_helpers.c
-index 85b7f58a7f35..d570a1b6141b 100644
---- a/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_helpers.c
-+++ b/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_helpers.c
-@@ -910,6 +910,8 @@ enum dc_edid_status dm_helpers_read_local_edid(
- 	 * do check sum and retry to make sure read correct edid.
- 	 */
- 	do {
-+		/* prefer ACPI over panel for eDP */
-+		connector->acpi_edid_allowed = acpi_edid;
+-	result = scsi_vpd_inquiry(sdev, vpd_header, page, sizeof(vpd_header));
++	result = scsi_vpd_inquiry(sdev, vpd, page, SCSI_VPD_HEADER_SIZE);
+ 	if (result < 0)
+ 		return 0;
  
- 		edid = drm_get_edid(&aconnector->base, ddc);
+diff --git a/include/scsi/scsi_device.h b/include/scsi/scsi_device.h
+index cb019c80763b..72a6b3923fc7 100644
+--- a/include/scsi/scsi_device.h
++++ b/include/scsi/scsi_device.h
+@@ -100,10 +100,6 @@ struct scsi_vpd {
+ 	unsigned char	data[];
+ };
  
+-enum scsi_vpd_parameters {
+-	SCSI_VPD_HEADER_SIZE = 4,
+-};
+-
+ struct scsi_device {
+ 	struct Scsi_Host *host;
+ 	struct request_queue *request_queue;
 -- 
-2.34.1
+2.42.1
 
