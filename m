@@ -1,121 +1,134 @@
-Received: from vps0.lunn.ch (vps0.lunn.ch [156.67.10.101])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-lf1-f48.google.com (mail-lf1-f48.google.com [209.85.167.48])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DC696250F6;
-	Wed, 14 Feb 2024 23:14:32 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=156.67.10.101
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1A7562556E
+	for <linux-usb@vger.kernel.org>; Wed, 14 Feb 2024 23:51:19 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.48
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1707952474; cv=none; b=nv2MJhMd9zgzQZtFYHHGyuDl7nSKaSImE9/7Wn2SQaEngwA27BKqAjg9FkFoN2YuRZ/1aG3H2l+Ro/zOm1vGHA5Mlnjw9Pvz7GgeE8PoH4SJ7tuqwTT8KiAlR5tR5EAP0ElMZEPxvesLEDZEYbeB6u9yWKTSTx/7+ezk404LpVI=
+	t=1707954682; cv=none; b=ANgmoVe31lVS9Y+2ctI3Zur6ZpWYfKnBbuOLJm1ODjQgeAWljnHKetXkZsxCpfREtUQgSJqls/0rQtcKwvTEfRHG83gTVJBjGGUPPWCAAyEPx3tBSFrDxzUj2dUydwMww3nG4kW3DyA/Km/y/LYl+2tNje3Ik1G3ydRUVZ7UlB4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1707952474; c=relaxed/simple;
-	bh=JUBlNHQ9KEInXfv/Ts82d6LWLEYOujFvKhAve8sOAdY=;
-	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
-	 In-Reply-To:To:Cc; b=mXkHEeDPZPWuiSw00XBrIWfbJxVaZ165Aw35Fex/jrft4JoT/9dcobI31tzBO/2SopNFWH6XTCZiP9RkzslwdkjGZrGgEU64fr+bNJsxAahURStpBoK0nbXlRGlHvVBbqm4/8pET2ecMqCMvrF88VwSuPLOc/v4pKqq50zWY2Uc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lunn.ch; spf=pass smtp.mailfrom=lunn.ch; dkim=pass (1024-bit key) header.d=lunn.ch header.i=@lunn.ch header.b=KTKfCbqz; arc=none smtp.client-ip=156.67.10.101
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lunn.ch
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=lunn.ch
+	s=arc-20240116; t=1707954682; c=relaxed/simple;
+	bh=gC+EHOPYgEnF4B4thgpejb8qEq5JPx1Zww7p4djo4U8=;
+	h=MIME-Version:In-Reply-To:References:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=eX/U2ih+Ln4uh21+JchetcDKxmXz57e/FPS24BjDWYYsGc6z5nRKSEJBOqddzrAYSujJd95MQFkgFlt7xOAeCP6MkmYYDItU0p/Vk9qnbL7aE6pVpAuBLsUchqkE5Gi+7OYvj9nAxc0+MlSb5V7wfuJWLQquWN6ei7J6CcjzSds=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org; spf=pass smtp.mailfrom=chromium.org; dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b=OM9jhaoz; arc=none smtp.client-ip=209.85.167.48
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=chromium.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=lunn.ch header.i=@lunn.ch header.b="KTKfCbqz"
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=lunn.ch;
-	s=20171124; h=Cc:To:In-Reply-To:References:Message-Id:
-	Content-Transfer-Encoding:Content-Type:MIME-Version:Subject:Date:From:From:
-	Sender:Reply-To:Subject:Date:Message-ID:To:Cc:MIME-Version:Content-Type:
-	Content-Transfer-Encoding:Content-ID:Content-Description:Content-Disposition:
-	In-Reply-To:References; bh=VwM8omFAb/USTaaRR/I+p2JFbh5V/UtXkfhHiw9cl4I=; b=KT
-	KfCbqzHMlot+Qw4VoK7sWzsR5eTkkxy5tkQyuR836xwuSc8UenUGk1NAo3ocYCvRF3J2LZrUOm+zW
-	o9JCPCeth3907YcUiVNDjKnk5Hgl3JtsqUG0RIBr0w2QeUiTwrqJjxgAX5wr68pBYWr4Sl8An2U9s
-	jE8NNWhAtTtyv5U=;
-Received: from c-76-156-77-114.hsd1.mn.comcast.net ([76.156.77.114] helo=thinkpad.home.lunn.ch)
-	by vps0.lunn.ch with esmtpsa  (TLS1.3) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
-	(Exim 4.94.2)
-	(envelope-from <andrew@lunn.ch>)
-	id 1raOSN-007pqx-IF; Thu, 15 Feb 2024 00:14:23 +0100
-From: Andrew Lunn <andrew@lunn.ch>
-Date: Wed, 14 Feb 2024 17:13:25 -0600
-Subject: [PATCH net-next v2 8/8] net: intel: igc: Use linkmode helpers for
- EEE
+	dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b="OM9jhaoz"
+Received: by mail-lf1-f48.google.com with SMTP id 2adb3069b0e04-5116ec49365so342359e87.3
+        for <linux-usb@vger.kernel.org>; Wed, 14 Feb 2024 15:51:19 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=chromium.org; s=google; t=1707954678; x=1708559478; darn=vger.kernel.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:user-agent
+         :from:references:in-reply-to:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=gC+EHOPYgEnF4B4thgpejb8qEq5JPx1Zww7p4djo4U8=;
+        b=OM9jhaozeUM0qJdXcnYNfoZ5rOWPSyeUqfGlWFjFhhuUw+PFX71ToeEPbz3XF29S+i
+         QJpWT9uDbkEJRy36Nxtcrp6Q/cpe26tKTXHvQJY3p+2enE+OIX84Afhks6re1yumjvZM
+         DaVoJS0iLYfFeO9yS74w156tz+VGL/BwmeVCc=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1707954678; x=1708559478;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:user-agent
+         :from:references:in-reply-to:mime-version:x-gm-message-state:from:to
+         :cc:subject:date:message-id:reply-to;
+        bh=gC+EHOPYgEnF4B4thgpejb8qEq5JPx1Zww7p4djo4U8=;
+        b=xEyY58ubSeZLjeWGXb7che6jlMI5LOn2DLzq+HOf9t1rJCgqHbZ0FAndERvln8DwlJ
+         y7xtQN7AvJ/XqiManfndpMLes4kd3imWMCtQmJi+ZP3w7AW1chJjJ5rKo77E/2jy4oYV
+         cOb5RGCdNiXNMNCJ0+ODpJj0O3n+gHLIcXhNTg1c+ogH+VeyS3RpZiaMOLaZDpfT08FJ
+         Eg5mu2pndVd6HZjtt6bxzfWwlLwVKSJG54PurJhnQ/kDD8US+Feoz698lduFdAUR4a6+
+         B9cufsPGm5lELmdq4UPPBPru8ljHMKBl6IuEU6tJtMiwE5JjOVW5gnfOgI/v563t/ImD
+         5h2w==
+X-Forwarded-Encrypted: i=1; AJvYcCWv27A1NP/90Q4qKk1u7iAMAKyQZlKuNJy4bvvB4TDCeLP8ZTtEs/DU42ZzM+8Z5GwELwZ28w3MMY2GwmGZduziARm0/gEzlspU
+X-Gm-Message-State: AOJu0Yx23e2FPfOGrf1qoZrfPn8VeY3Lip6y4z7WqcsFQuUpgLqdblxX
+	HsZ0BDpuSiDpNdiY7lDVbLemWXIBU7jQ+skLvT+8k5t/DasreeqQQL2xpMxRE0QpJTk7WUdsxyC
+	M+3aNg0Gkf1fJt2UKe3WPkdJdlZeQot2w9cL/
+X-Google-Smtp-Source: AGHT+IHY6HUhss7mHx1ExihADt6J1OI5zkXYcKo2xuLwjQ63JGNlMqWZ5oVvebM0eOWq56qXmv8DOgdu6dbCXc/ooo8=
+X-Received: by 2002:a05:6512:3ca5:b0:511:87c6:3060 with SMTP id
+ h37-20020a0565123ca500b0051187c63060mr321912lfv.12.1707954678054; Wed, 14 Feb
+ 2024 15:51:18 -0800 (PST)
+Received: from 753933720722 named unknown by gmailapi.google.com with
+ HTTPREST; Wed, 14 Feb 2024 15:51:17 -0800
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-Message-Id: <20240214-keee-u32-cleanup-v2-8-4ac534b83d66@lunn.ch>
-References: <20240214-keee-u32-cleanup-v2-0-4ac534b83d66@lunn.ch>
-In-Reply-To: <20240214-keee-u32-cleanup-v2-0-4ac534b83d66@lunn.ch>
-To: "David S. Miller" <davem@davemloft.net>, 
- Eric Dumazet <edumazet@google.com>, Jakub Kicinski <kuba@kernel.org>, 
- Paolo Abeni <pabeni@redhat.com>, Ariel Elior <aelior@marvell.com>, 
- Manish Chopra <manishc@marvell.com>, 
- Jesse Brandeburg <jesse.brandeburg@intel.com>, 
- Tony Nguyen <anthony.l.nguyen@intel.com>
-Cc: linux-usb@vger.kernel.org, netdev@vger.kernel.org, 
- linux-kernel@vger.kernel.org, intel-wired-lan@lists.osuosl.org, 
- Andrew Lunn <andrew@lunn.ch>
-X-Mailer: b4 0.12.4
-X-Developer-Signature: v=1; a=openpgp-sha256; l=1638; i=andrew@lunn.ch;
- h=from:subject:message-id; bh=JUBlNHQ9KEInXfv/Ts82d6LWLEYOujFvKhAve8sOAdY=;
- b=owEBbQKS/ZANAwAKAea/DcumaUyEAcsmYgBlzUklKe7j/H8r+mEvYMjo5M5wQh5Gdw3q5KAH6
- L4whiI972WJAjMEAAEKAB0WIQRh+xAly1MmORb54bfmvw3LpmlMhAUCZc1JJQAKCRDmvw3LpmlM
- hM1xD/4lxlo53phEXX7A+P7upo21SlhwgWCNZMC87FoevHKp68+yAODJhTyHVO3yo4u23qG+2+3
- wNMfeQuHGf3WU3WLoZI19M3MXvOvpaRuORsWD2dQE7RfWyTc96Y/+6nFRTJkHuPAF28DdbPT7dg
- du/5w20lBhkS6IP0IcJP0HBrdVysT45EHnfEBd+94BWl3V8ObTcboi3LOswuQzqUGcl/ODndHmc
- LRWGNt10pa4KnGYVN01LcghbfJxPWqf5WQeIPtIQew1+kCwkA/wtWRuDzG7qwrdVUXi+08sZfnz
- 9U1SrZQT+bgCaUC07pmkLMhvmIJMgppqgNHPNcRhuw6d8bkLLsVIquS0OAScGxlaIQBzzP56I7y
- 3PaphJ2FTOeNzVVbzpudFftXfa2y/7dJhiTVwajYimZ3sYTkOyTdhEuS+nJwLHVCBkNUN3MVOyc
- A59iMSl8qVyEZm5x+7/zrqcN17CEIiXkQQcnc1F94IvhUpj86R2WdsVKoMl0KJq3GAAe3D9YhAK
- ClQLSYI5P5Ld4msk2tuDKc8SAddHjnGNYrsjDuw7njYUNbzVuQjyiuBSvfrKClGVtFSRuJ7+YFM
- ARcRM8h671nefDkpmgYUmaE1ltPGHsWXymsy8Zbs1lVSOP98rMbc3wVr3pVFgmBsrzFZKYguQV8
- qIgXgkNp3fpbajw==
-X-Developer-Key: i=andrew@lunn.ch; a=openpgp;
- fpr=61FB1025CB53263916F9E1B7E6BF0DCBA6694C84
+In-Reply-To: <CAD=FV=UuunNnXJ0kAzRPVy0DX7Wv2eQOa-fMJQ-aKtaGnyQaQA@mail.gmail.com>
+References: <20240210070934.2549994-1-swboyd@chromium.org> <20240210070934.2549994-5-swboyd@chromium.org>
+ <CAD=FV=UuunNnXJ0kAzRPVy0DX7Wv2eQOa-fMJQ-aKtaGnyQaQA@mail.gmail.com>
+From: Stephen Boyd <swboyd@chromium.org>
+User-Agent: alot/0.10
+Date: Wed, 14 Feb 2024 15:51:17 -0800
+Message-ID: <CAE-0n51b9=BJv6PMmsdLDT7tcgKT63qrqNknp-CQd5BOb1dhjA@mail.gmail.com>
+Subject: Re: [PATCH 04/22] usb: core: Set connect_type of ports based on DT node
+To: Doug Anderson <dianders@chromium.org>
+Cc: chrome-platform@lists.linux.dev, linux-kernel@vger.kernel.org, 
+	patches@lists.linux.dev, linux-arm-kernel@lists.infradead.org, 
+	devicetree@vger.kernel.org, linux-arm-msm@vger.kernel.org, 
+	Pin-yen Lin <treapking@chromium.org>, Greg Kroah-Hartman <gregkh@linuxfoundation.org>, 
+	Matthias Kaehlcke <mka@chromium.org>, linux-usb@vger.kernel.org, 
+	maciek swiech <drmasquatch@google.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-Make use of the existing linkmode helpers for converting PHY EEE
-register values into links modes, now that ethtool_keee uses link
-modes, rather than u32 values.
+Quoting Doug Anderson (2024-02-13 16:03:11)
+> Hi,
+>
+> On Fri, Feb 9, 2024 at 11:09=E2=80=AFPM Stephen Boyd <swboyd@chromium.org=
+> wrote:
+> >
+> > When a USB hub is described in DT, such as any device that matches the
+> > onboard-hub driver, the connect_type is set to "unknown" or
+> > USB_PORT_CONNECT_TYPE_UNKNOWN. This makes any device plugged into that
+> > USB port report their 'removable' device attribute as "unknown". Improv=
+e
+> > the connect_type attribute for ports, and in turn the removable
+> > attribute for USB devices, by looking for child devices with a reg
+> > property or an OF graph when the device is described in DT.
+> >
+> > If the graph exists, endpoints that are connected to a remote node must
+> > be something like a usb-{a,b,c}-connector compatible node, or an
+> > intermediate node like a redriver, and not a hardwired USB device on th=
+e
+> > board. Set the connect_type to USB_PORT_CONNECT_TYPE_HOT_PLUG in this
+> > case because the device is going to be plugged in. Set the connect_type
+> > to USB_PORT_CONNECT_TYPE_HARD_WIRED if there's a child node for the por=
+t
+> > like 'device@2' for port2. Set the connect_type to USB_PORT_NOT_USED if
+> > there isn't an endpoint or child node corresponding to the port number.
+>
+> The above sounds good, but then I look at patch #18 ("dt-bindings:
+> chrome: Add binding for ChromeOS Pogo pin connector") and patch #22
+> ("arm64: dts: qcom: sc7180-trogdor: Wire up USB and DP to
+> usb-c-connectors") and it makes my Spidey Sense tingle.
+>
+> Specifically, I _think_ if a port is "hard wired" that can sometimes
+> tell the system that the port is a bit more trusted. In the case of
+> the "pogo" pins on detachables, though, I don't _think_ there's
+> anything that prevents someone from making a "pogo to USB A port"
+> adapter and then you could plug anything you wanted into the pogo
+> port. If there's any extra trust given to these "internal" ports a
+> nefarious attacker could presumably abuse that trust for the pogo
+> pins.
 
-Signed-off-by: Andrew Lunn <andrew@lunn.ch>
----
- drivers/net/ethernet/intel/igc/igc_ethtool.c | 9 +++++----
- 1 file changed, 5 insertions(+), 4 deletions(-)
+The pogo pins on detachables are connected via the OF graph, so they are
+only ever going to be either "not connected" or "hotplug". They can't
+become "hard wired" because they're not a child node with a reg property
+corresponding to the USB port.
 
-diff --git a/drivers/net/ethernet/intel/igc/igc_ethtool.c b/drivers/net/ethernet/intel/igc/igc_ethtool.c
-index ac92d10a3e97..1a64f1ca6ca8 100644
---- a/drivers/net/ethernet/intel/igc/igc_ethtool.c
-+++ b/drivers/net/ethernet/intel/igc/igc_ethtool.c
-@@ -1630,8 +1630,8 @@ static int igc_ethtool_get_eee(struct net_device *netdev,
- 	u32 eeer;
- 
- 	if (hw->dev_spec._base.eee_enable)
--		edata->advertised_u32 =
--			mmd_eee_adv_to_ethtool_adv_t(adapter->eee_advert);
-+		mii_eee_cap1_mod_linkmode_t(edata->advertised,
-+					    adapter->eee_advert);
- 
- 	*edata = adapter->eee;
- 
-@@ -1653,7 +1653,7 @@ static int igc_ethtool_get_eee(struct net_device *netdev,
- 		edata->eee_enabled = false;
- 		edata->eee_active = false;
- 		edata->tx_lpi_enabled = false;
--		edata->advertised_u32 &= ~edata->advertised_u32;
-+		linkmode_zero(edata->advertised);
- 	}
- 
- 	return 0;
-@@ -1695,7 +1695,8 @@ static int igc_ethtool_set_eee(struct net_device *netdev,
- 		return -EINVAL;
- 	}
- 
--	adapter->eee_advert = ethtool_adv_to_mmd_eee_adv_t(edata->advertised_u32);
-+	adapter->eee_advert = linkmode_to_mii_eee_cap1_t(edata->advertised);
-+
- 	if (hw->dev_spec._base.eee_enable != edata->eee_enabled) {
- 		hw->dev_spec._base.eee_enable = edata->eee_enabled;
- 		adapter->flags |= IGC_FLAG_EEE;
+>
+> I have no idea if this is a realistic concern or not. I'm about 95%
+> sure that hardwired "PCIe" ports get extra trust and get "deferred
+> IOMMU flush" enabled and, in the case of PCIe, that actually is a real
+> security hole. For USB, though, I think the system is more isolated by
+> the USB host controller so I'm not sure that there is any extra trust
+> given to "hard wired" ports. ...so maybe the answer here is to just
+> ignore my rambling. ...or maybe the answer here is that everything is
+> fine but patches #18 and #22 should be modified not to cause the pogo
+> pins to be considered as "hard wired" since they really aren't...
+>
 
--- 
-2.43.0
-
+Pogo pins should be considered hot plug with this patch series, but I
+will double check that I didn't mess up that logic.
