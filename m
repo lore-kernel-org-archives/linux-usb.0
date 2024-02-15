@@ -1,118 +1,70 @@
-Received: from cae.in-ulm.de (cae.in-ulm.de [217.10.14.231])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 1609A69D01;
-	Thu, 15 Feb 2024 10:20:36 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.10.14.231
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+	(No client certificate requested)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A810D12A142;
+	Thu, 15 Feb 2024 11:07:23 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1707992441; cv=none; b=l72mBWus2NGu0JRJzPvhDlwOGbXnlQnlx40wd0umcUUBDsvlntEfzAzs3JP5MKAubJlBQynrxLZ7wZOTrKnbz1WNZexL3RArArZwlCUfHA+cXw8jElwIKUYDEetPDU11sDOHNbaXxc2wXHi+AKzsogJPHrAjc+lz+siRTC4tT6M=
+	t=1707995244; cv=none; b=YYLG3LlfvPwHLjES6+BR/FhNE/ywGSO43oqGMO/rL79PTm+ZZLiy0TW2WzZV2PJ/fLIo78TPcGT1DzqYP/Pjxz1THv94pAjLY/wpGRgDnP2y0hp1f/LWbHhsCYi+2ULc24aiQ0LlHduIIspJNAOkoOSDrySrLgrvefh/VRvavdM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1707992441; c=relaxed/simple;
-	bh=MNzjTQVy8i+SjCyYirVZZm1jgkX/BUR/FaONBXox8oA=;
-	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=dk/YR2Bj/CD+KLZ0FMVdpGEiYYxpljC7KUcpVSB4doMsD6s4aYDK6uSgUsvNYkqL2wagRTiJDZlYhhqHam27tJ25AJ4ZXFfcV+X282rJTc4rtG2GvpRGTPuHFppkNBhfOM0O6dxjj5zCSre2aZe/cifjQsoGZpu2s6gEp8rhi2s=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=c--e.de; spf=pass smtp.mailfrom=c--e.de; arc=none smtp.client-ip=217.10.14.231
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=c--e.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=c--e.de
-Received: by cae.in-ulm.de (Postfix, from userid 1000)
-	id 1F8F61402E9; Thu, 15 Feb 2024 11:10:41 +0100 (CET)
-From: "Christian A. Ehrhardt" <lk@c--e.de>
-To: linux-usb@vger.kernel.org,
-	linux-kernel@vger.kernel.org
-Cc: "Christian A. Ehrhardt" <lk@c--e.de>,
+	s=arc-20240116; t=1707995244; c=relaxed/simple;
+	bh=ipndqY9nxNMul3gLMF2c2rmj5102VFlC9qbLx+KDy1A=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=OHdy9m33z4oX6GnhJFdu3pMqLDl69IBl1WYw0ZXySlaBZhAYw42RblTTQzkq3pQb2SabrCJig1N1NlzFBWLnfH5wG5aJhUGsuE0s74iZCO+jWf3NoTU/BG+MEZkUCAYlFUxubJb3KjirTEntL4JyjHICzf+1d6Id8mrnoQAGG/I=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b=Zef6unym; arc=none smtp.client-ip=10.30.226.201
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="Zef6unym"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 5D735C433F1;
+	Thu, 15 Feb 2024 11:07:23 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
+	s=korg; t=1707995243;
+	bh=ipndqY9nxNMul3gLMF2c2rmj5102VFlC9qbLx+KDy1A=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=Zef6unymmtg2xVd8EVCwZRlYMiB9Se8NDapY1MlfKXQbufriMTfEJz6POwaKTma2L
+	 whytBk4ezUboR0thm0CqCh+WMbnKKmXOp3B7YXqnZ1MduMnncazOOipB3ai5vQYXda
+	 zDjzudIqwca5ct7xDSpqMkjxU0my2EYf7QxEuOUk=
+Date: Thu, 15 Feb 2024 12:07:20 +0100
+From: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+To: "Christian A. Ehrhardt" <lk@c--e.de>
+Cc: linux-usb@vger.kernel.org, linux-kernel@vger.kernel.org,
 	Heikki Krogerus <heikki.krogerus@linux.intel.com>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
 	Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
-	=?UTF-8?q?Uwe=20Kleine-K=C3=B6nig?= <u.kleine-koenig@pengutronix.de>,
+	Uwe =?iso-8859-1?Q?Kleine-K=F6nig?= <u.kleine-koenig@pengutronix.de>,
 	Sing-Han Chen <singhanc@nvidia.com>,
 	Haotien Hsu <haotienh@nvidia.com>,
 	Utkarsh Patel <utkarsh.h.patel@intel.com>,
-	"Jonathan Hunter" <jonathanh@nvidia.com>,
-	"Wayne Chang" <waynec@nvidia.com>,
-	"WK Tsai" <wtsai@nvidia.com>
-Subject: [PATCH CFT] usb: ucsi_ccg: Fix command completion handling
-Date: Thu, 15 Feb 2024 11:10:24 +0100
-Message-Id: <20240215101024.764444-1-lk@c--e.de>
-X-Mailer: git-send-email 2.30.2
+	Jonathan Hunter <jonathanh@nvidia.com>,
+	Wayne Chang <waynec@nvidia.com>, WK Tsai <wtsai@nvidia.com>
+Subject: Re: [PATCH CFT] usb: ucsi_ccg: Fix command completion handling
+Message-ID: <2024021504-oven-worst-5c15@gregkh>
+References: <20240215101024.764444-1-lk@c--e.de>
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20240215101024.764444-1-lk@c--e.de>
 
-In case of a spurious or otherwise delayed interrupt
-it is possible that CCI still reports the previous completion.
-For this reason the UCSI spec provides different completion
-bits for normal commands and for UCSI_ACK_CC_CI.
+On Thu, Feb 15, 2024 at 11:10:24AM +0100, Christian A. Ehrhardt wrote:
+> In case of a spurious or otherwise delayed interrupt
+> it is possible that CCI still reports the previous completion.
+> For this reason the UCSI spec provides different completion
+> bits for normal commands and for UCSI_ACK_CC_CI.
+> 
+> Only complete a sync command if the correct completion bit
+> is set.
+> 
+> This should avoid the need to clear out CCI before starting
+> a command. Thus remove this code.
+> 
+> Signed-off-by: Christian A. Ehrhardt <lk@c--e.de>
+> Fixes: e32fd989ac1c ("usb: typec: ucsi: ccg: Move to the new API")
 
-Only complete a sync command if the correct completion bit
-is set.
+What does "CFT" in your subject line mean?
 
-This should avoid the need to clear out CCI before starting
-a command. Thus remove this code.
+thanks,
 
-Signed-off-by: Christian A. Ehrhardt <lk@c--e.de>
-Fixes: e32fd989ac1c ("usb: typec: ucsi: ccg: Move to the new API")
----
-Additional information:
-A similar change for ucsi_acpi.c is here:
-  https://lore.kernel.org/all/20240121204123.275441-3-lk@c--e.de/
-This restores behaviour that ucsi.c had before moving to the new API.
-I've seen timeouts with ucsi_acpi.c without that fix, often if there
-were many port events (plug/unplug).
-
-I do _not_ have CCG hardware to test this. So someone else will have to
-provide a Tested-By tag or similar (hence the CFT in the subject).
-
-But from looking at the code I think this change is needed for CCG,
-too. Additionally, the recent change to CCG here
-  https://lore.kernel.org/all/20240126030115.3791554-1-haotienh@nvidia.com/
-seems to work around the same problem.
-
-Clearing the cached CCI value should not be necessary with this
-anymore and I suspect that it can potentially cause other problems.
-However, I can send an update patch without this hunk if desired.
-
-
- drivers/usb/typec/ucsi/ucsi_ccg.c | 19 ++++++++-----------
- 1 file changed, 8 insertions(+), 11 deletions(-)
-
-diff --git a/drivers/usb/typec/ucsi/ucsi_ccg.c b/drivers/usb/typec/ucsi/ucsi_ccg.c
-index dda7c7c94e08..9442307e0abd 100644
---- a/drivers/usb/typec/ucsi/ucsi_ccg.c
-+++ b/drivers/usb/typec/ucsi/ucsi_ccg.c
-@@ -616,14 +616,6 @@ static int ucsi_ccg_async_write(struct ucsi *ucsi, unsigned int offset,
- 	struct ucsi_ccg *uc = ucsi_get_drvdata(ucsi);
- 	u16 reg = CCGX_RAB_UCSI_DATA_BLOCK(offset);
- 
--	/*
--	 * UCSI may read CCI instantly after async_write,
--	 * clear CCI to avoid caller getting wrong data before we get CCI from ISR
--	 */
--	spin_lock(&uc->op_lock);
--	uc->op_data.cci = 0;
--	spin_unlock(&uc->op_lock);
--
- 	return ccg_write(uc, reg, val, val_len);
- }
- 
-@@ -708,9 +700,14 @@ static irqreturn_t ccg_irq_handler(int irq, void *data)
- err_clear_irq:
- 	ccg_write(uc, CCGX_RAB_INTR_REG, &intr_reg, sizeof(intr_reg));
- 
--	if (!ret && test_bit(DEV_CMD_PENDING, &uc->flags) &&
--	    cci & (UCSI_CCI_ACK_COMPLETE | UCSI_CCI_COMMAND_COMPLETE))
--		complete(&uc->complete);
-+	if (!ret && test_bit(DEV_CMD_PENDING, &uc->flags)) {
-+		bool ack = UCSI_COMMAND(uc->last_cmd_sent) == UCSI_ACK_CC_CI;
-+
-+		if (ack && (cci & UCSI_CCI_ACK_COMPLETE))
-+			complete(&uc->complete);
-+		if (!ack && (cci & UCSI_CCI_COMMAND_COMPLETE))
-+			complete(&uc->complete);
-+	}
- 
- 	return IRQ_HANDLED;
- }
--- 
-2.40.1
-
+greg k-h
