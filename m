@@ -1,119 +1,103 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from mx1.tq-group.com (mx1.tq-group.com [93.104.207.81])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AB1DF33CF;
-	Thu, 15 Feb 2024 07:21:48 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 64752DDC4;
+	Thu, 15 Feb 2024 07:50:00 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=93.104.207.81
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1707981708; cv=none; b=iUvqiuqyowXMmuWcUfVZu5rh3PxRRSnHFsppPiKaJLdus//8RoEeGIkJpmP2WskUo32pZJ34VJ52i+F5BSPE8TsbRGL1x54yRYKXiMsGEb3dk7Q0Cocy6P3xYe07k0BLCjJwRluU62Eco0z91Te/YJSREoC7S6h+mf3NTWFjFeY=
+	t=1707983406; cv=none; b=TfxJdp8PNlIv39K9zQpN7rGYHQliLPpDBQ7+LFN4sRpCMIcBJ4HE+7NXuuQQHF1tHiUZxrBzlWSYofr0CpRO6KBI/YkDy2FjGQ7t3Bg+aWUzwouGbKMwnZ6FxhSE6hhPTG8r8IOsmZGgpwMEnNC+IbwoI/5e0qebWKyRnysP/2M=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1707981708; c=relaxed/simple;
-	bh=QKpRsp1RwTdcyAJM3bUrM0Ffhxf1+M/TAhIk32zyMRs=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=ux2qRhWvPiB9bNnb/bj64RRwjJpYP7KWGzmCb+Ju4AeEyiOVnnGEZa6uStVE3/w2OjLWZkPz9bkXjl6JjNruqCUpCA5s+gHmMPohryqoohrkjCOiD+KX9hgN/ccPBA8TZSUqy86wQQabOp8E09yR1RJBbYRXkR97br75ynMjGF4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=EWC2P15Y; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1707983406; c=relaxed/simple;
+	bh=cClc/BHqEEQLZlTHoU6oL+CwJAPdn6RRW3EZ32kBRAI=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=ImK4dRdeIWlo2CRTNN1CsvGGtYkk1cOQJMPS+xZRoabbz78/5y0MOeD3fDrp8xKYNw2goR5yjcSBLDFk1u91t4SJ3QsVBQPSL9hzVdxg5W2uWLFJBGTgRHi59A11AemCmeOmSLof3a4p9PNQ9Wj+x4eQHk4wwokSr0qAPlCB4ms=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ew.tq-group.com; spf=pass smtp.mailfrom=ew.tq-group.com; dkim=pass (2048-bit key) header.d=tq-group.com header.i=@tq-group.com header.b=npF2tKCx; arc=none smtp.client-ip=93.104.207.81
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ew.tq-group.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ew.tq-group.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="EWC2P15Y"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 58A8FC433C7;
-	Thu, 15 Feb 2024 07:21:46 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1707981708;
-	bh=QKpRsp1RwTdcyAJM3bUrM0Ffhxf1+M/TAhIk32zyMRs=;
-	h=Date:From:To:Cc:Subject:From;
-	b=EWC2P15Y1fQ/JTT9auxop0Kb73/apngE0JaFj/x3RqcAuswivKAAwWZh0c+k8GEaL
-	 MDaLwYzPVWGAcRbTMl3xqgqbUA2g2haC1rakhO8FrvgC506xbADeAa4pE7/wBGsKzV
-	 9k8Yjm4mv0rU6k/vC78rvWzcRYbFDjO23Y2orx4//6oAyA0SRKzNo40npD7IT3lpiO
-	 G/ed52SdH5tpcaOPiki5obe+Y7HYTZnTnKmc7nuL6cVP7B4DFvzc3HBPYAH5etQwyu
-	 qRZUQIUau2QWQm0cTOLFzl0lr2tEs3MN4y2ykE/6wi4Ow+WIDnT1DGvwR/xgCnEMCQ
-	 7augH/wyW7Ugg==
-Date: Thu, 15 Feb 2024 15:21:38 +0800
-From: Peter Chen <peter.chen@kernel.org>
-To: Pawel Laszczak <pawell@cadence.com>
-Cc: gregkh@linuxfoundation.org, linux-usb@vger.kernel.org,
-	linux-kernel@vger.kernel.org, peter.chen@cixtech.com,
-	stable@vger.kernel.org
-Subject: Re: [PATCH] usb: cdnsp: blocked some cdns3 specific code
-Message-ID: <20240215072138.GB1256251@nchen-desktop>
+	dkim=pass (2048-bit key) header.d=tq-group.com header.i=@tq-group.com header.b="npF2tKCx"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+  d=tq-group.com; i=@tq-group.com; q=dns/txt; s=key1;
+  t=1707983402; x=1739519402;
+  h=from:to:cc:subject:date:message-id:in-reply-to:
+   references:mime-version:content-transfer-encoding;
+  bh=4uD0jh6dOnNgJjxhLQXnDzApRHPfgs2VTFWcjQE9Sxg=;
+  b=npF2tKCxYW/dj31sPPN5xsfySGaqO0gpx5cF8n9rhEfJLYpHCKiXsKX1
+   AJb1Zi+ZUc8mYq0ZlQu+I2Cn/3TWRyYFRxA7ysRtuR0lab+12bl0xEFx0
+   4R0w7GopVb8lgXc6Yq6RdWf32vEXtdl1Wr9PO+yqgqbrzVZ6ylYMT7Br3
+   CNObL6FELs2/FtGdiQ2JJGy3x47E3kKVW/36WYh5KFQ4OcAoNvb3Q0p2t
+   LTSx9ONYf1Azx70Jjb8xHD8nlj+o9zVOPUsut7UKzXggst39lO4j0NoI1
+   QHfSgbwBgXoiLP5lJwoD8aBCP2eyvo8WeF3oFQ8QHWqsk59pVjkIfLSl7
+   w==;
+X-IronPort-AV: E=Sophos;i="6.06,161,1705359600"; 
+   d="scan'208";a="35416455"
+Received: from vtuxmail01.tq-net.de ([10.115.0.20])
+  by mx1.tq-group.com with ESMTP; 15 Feb 2024 08:49:58 +0100
+Received: from steina-w.localnet (steina-w.tq-net.de [10.123.53.25])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+	(No client certificate requested)
+	by vtuxmail01.tq-net.de (Postfix) with ESMTPSA id 27CCE280075;
+	Thu, 15 Feb 2024 08:49:58 +0100 (CET)
+From: Alexander Stein <alexander.stein@ew.tq-group.com>
+To: steve.glendinning@shawell.net, UNGLinuxDriver@microchip.com, davem@davemloft.net, edumazet@google.com, kuba@kernel.org, pabeni@redhat.com, Andre Werner <andre.werner@systec-electronic.com>
+Cc: netdev@vger.kernel.org, linux-usb@vger.kernel.org, linux-kernel@vger.kernel.org, daniel.krueger@systec-electronic.com, Andre Werner <andre.werner@systec-electronic.com>
+Subject: Re: [PATCH net-next] net: smsc95xx: add support for SYS TEC USB-SPEmodule1
+Date: Thu, 15 Feb 2024 08:50:00 +0100
+Message-ID: <13454529.uLZWGnKmhe@steina-w>
+Organization: TQ-Systems GmbH
+In-Reply-To: <20240214132507.28072-1-andre.werner@systec-electronic.com>
+References: <20240214132507.28072-1-andre.werner@systec-electronic.com>
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset="iso-8859-1"
 
-It is for both cdns3 and cdnsp.
+Hi Andre,
 
-Reply-To: 
-In-Reply-To: <20240206104018.48272-1-pawell@cadence.com>
-
-On 24-02-06 11:40:18, Pawel Laszczak wrote:
-> host.c file has some parts of code that were introduced for CDNS3 driver
-> and should not be used with CDNSP driver.
-> This patch blocks using these parts of codes by CDNSP driver.
-> These elements include:
-> - xhci_plat_cdns3_xhci object
-> - cdns3 specific XECP_PORT_CAP_REG register
-> - cdns3 specific XECP_AUX_CTRL_REG1 register
-> 
-> cc: <stable@vger.kernel.org>
-> Fixes: 3d82904559f4 ("usb: cdnsp: cdns3 Add main part of Cadence USBSSP DRD Driver")
-> Signed-off-by: Pawel Laszczak <pawell@cadence.com>
+Am Mittwoch, 14. Februar 2024, 14:25:07 CET schrieb Andre Werner:
+> This patch adds support for the SYS TEC USB-SPEmodule1 10Base-T1L
+> ethernet device to the existing smsc95xx driver by adding the new
+> USB VID/PID pair.
+>=20
+> Signed-off-by: Andre Werner <andre.werner@systec-electronic.com>
 > ---
->  drivers/usb/cdns3/host.c | 16 ++++++++++++++--
->  1 file changed, 14 insertions(+), 2 deletions(-)
-> 
-> diff --git a/drivers/usb/cdns3/host.c b/drivers/usb/cdns3/host.c
-> index 6164fc4c96a4..ceca4d839dfd 100644
-> --- a/drivers/usb/cdns3/host.c
-> +++ b/drivers/usb/cdns3/host.c
-> @@ -18,6 +18,11 @@
->  #include "../host/xhci.h"
->  #include "../host/xhci-plat.h"
->  
-> +/*
-> + * The XECP_PORT_CAP_REG and XECP_AUX_CTRL_REG1 exist only
-> + * in Cadence USB3 dual-role controller, so it can't be used
-> + * with Cadence CDNSP dual-role controller.
-> + */
->  #define XECP_PORT_CAP_REG	0x8000
->  #define XECP_AUX_CTRL_REG1	0x8120
->  
-> @@ -57,6 +62,8 @@ static const struct xhci_plat_priv xhci_plat_cdns3_xhci = {
->  	.resume_quirk = xhci_cdns3_resume_quirk,
+>  drivers/net/usb/smsc95xx.c | 5 +++++
+>  1 file changed, 5 insertions(+)
+>=20
+> diff --git a/drivers/net/usb/smsc95xx.c b/drivers/net/usb/smsc95xx.c
+> index a530f20ee257..bb4e62a93d96 100644
+> --- a/drivers/net/usb/smsc95xx.c
+> +++ b/drivers/net/usb/smsc95xx.c
+> @@ -2109,6 +2109,11 @@ static const struct usb_device_id products[] =3D {
+>  		USB_DEVICE(0x184F, 0x0051),
+>  		.driver_info =3D (unsigned long)&smsc95xx_info,
+>  	},
+> +	{
+> +		/* SYSTEC USB-SPEmodule1 10BASE-T1L Ethernet Device */
+> +		USB_DEVICE(0x0878, 0x1400),
+> +		.driver_info =3D (unsigned long)&smsc95xx_info,
+> +	},
+
+IMHO entries should be sorted by USB Vendor ID. So this goes before=20
+Microchip's EVB-LAN8670-USB.
+
+Best regards,
+Alexander
+
+>  	{ },		/* END */
 >  };
->  
-> +static const struct xhci_plat_priv xhci_plat_cdnsp_xhci;
-> +
->  static int __cdns_host_init(struct cdns *cdns)
->  {
->  	struct platform_device *xhci;
-> @@ -81,8 +88,13 @@ static int __cdns_host_init(struct cdns *cdns)
->  		goto err1;
->  	}
->  
-> -	cdns->xhci_plat_data = kmemdup(&xhci_plat_cdns3_xhci,
-> -			sizeof(struct xhci_plat_priv), GFP_KERNEL);
-> +	if (cdns->version < CDNSP_CONTROLLER_V2)
-> +		cdns->xhci_plat_data = kmemdup(&xhci_plat_cdns3_xhci,
-> +				sizeof(struct xhci_plat_priv), GFP_KERNEL);
-> +	else
-> +		cdns->xhci_plat_data = kmemdup(&xhci_plat_cdnsp_xhci,
-> +				sizeof(struct xhci_plat_priv), GFP_KERNEL);
-> +
+>  MODULE_DEVICE_TABLE(usb, products);
 
-You may explain why you duplicate another structure for cdnsp at commit
-log.
 
->  	if (!cdns->xhci_plat_data) {
->  		ret = -ENOMEM;
->  		goto err1;
-> 
+=2D-=20
+TQ-Systems GmbH | M=FChlstra=DFe 2, Gut Delling | 82229 Seefeld, Germany
+Amtsgericht M=FCnchen, HRB 105018
+Gesch=E4ftsf=FChrer: Detlef Schneider, R=FCdiger Stahl, Stefan Schneider
+http://www.tq-group.com/
 
-Others are okay for me.
 
--- 
-
-Thanks,
-Peter Chen
