@@ -1,84 +1,76 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 45FE3182B3
-	for <linux-usb@vger.kernel.org>; Thu, 15 Feb 2024 09:37:21 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E41A669951;
+	Thu, 15 Feb 2024 10:14:52 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1707989842; cv=none; b=kjKs9Mt1ABS66wtLdyyXBzVgdm2Wwq9LisLJveLRwyo0CVtO/SL8mkxY0ovDsOOXtkmlm/ALs0TlrKrTx/QWYJNtMcv7GshF9Qog9vJbPh/ivNhAvh31FXpmno+EPF1ZkncwoMhAHdw7nJ16koHsc56JoCIE8b7kKcI2nFDAIjY=
+	t=1707992093; cv=none; b=RzNcUG8LAKDjzQ3jvrvVQE7AYRAa9Tric9sx2tAqYzZjpYSwPNyCq629p6b37Dwgyt049h68SG5NNJTXJMuQbK1qRp0sqehLoEEHvielxQMT8loXH/pLWuta3wm+9LDSD3jWZ8y02qy1TW6L/il10d9FV6cpaREdYKkjBz/9nm8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1707989842; c=relaxed/simple;
-	bh=KN1cFDuqCvpdJc9z3ae7sAHCTynNWJLmVpNzmTxnqjw=;
-	h=From:To:Subject:Date:Message-ID:In-Reply-To:References:
-	 Content-Type:MIME-Version; b=eT34GvmVETfh7HDZuRmssdDpEgr21+X207MAv8gR0rNEDjV8BbKmPmSkYmRXFQHvjz/4t5Mjhgwow9DSQOOZd9X36RPJ0pYRPU+IMQG08mfbG+uozxaAHH/Rh1ld23DgdxIlrt6hgVmBhTFCy6YpYgC9lWXckepwOirpB9UJVxI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=b5U56Izf; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1707992093; c=relaxed/simple;
+	bh=AAaf7HU4oAiDvmTgBeNmZT7365DHcQ1hHRUGYlcpDdI=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=Iy91yJU12aofM2OOk7ATKKwpMWNxWADzN8Yt+LYDrPs+n74+Y9BFNh7lLNCdxukIjLop7RRpFqKxaVOMlejl3JruRBOCLA4zrf7n7mIMdpHINaDWcR9EzSycvfwEKi0Qp16saBrJ6UMXk6r2oWhXwTsEXyWwnnLcn+Bfb8pPYXs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b=COiRahy0; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="b5U56Izf"
-Received: by smtp.kernel.org (Postfix) with ESMTPS id C9FD6C43143
-	for <linux-usb@vger.kernel.org>; Thu, 15 Feb 2024 09:37:21 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1707989841;
-	bh=KN1cFDuqCvpdJc9z3ae7sAHCTynNWJLmVpNzmTxnqjw=;
-	h=From:To:Subject:Date:In-Reply-To:References:From;
-	b=b5U56IzfdMbt5q7WM9/2rWmSJgeXyzeHV/aDip/JykGS3siraf6I6Ox1JTeyzdiC/
-	 5Yk6W9LEz47kdlZ9ja0Yk6PZGSbl8dxmOJXppVG5MB7EGXmrtxiPU3AAgEIBMfZPsh
-	 q+R1g7LZ4a53MahyASLWM4hnc5D4iumcYLIrRLD6j8bYgysyBRXvVYxIuHObAiOt8L
-	 76/Q73hYjTytAMMUrpINuxETOt9bjJyTVhuTVFzOBYBnrW+YvRVpLiuuX/8nyNhq7n
-	 lIkjiq0Kn4mqj4nAL/9UMstacLC5Mp1TYRVjWdr6uzJcZ32liH605m51/xfUNyXJof
-	 T5Fi4ljuEt1tg==
-Received: by aws-us-west-2-korg-bugzilla-1.web.codeaurora.org (Postfix, from userid 48)
-	id AAFD7C53BD0; Thu, 15 Feb 2024 09:37:21 +0000 (UTC)
-From: bugzilla-daemon@kernel.org
-To: linux-usb@vger.kernel.org
-Subject: [Bug 218465] Linux warning `usb: port power management may be
- unreliable` on Dell XPS 13 9360
-Date: Thu, 15 Feb 2024 09:37:21 +0000
-X-Bugzilla-Reason: None
-X-Bugzilla-Type: changed
-X-Bugzilla-Watch-Reason: AssignedTo drivers_usb@kernel-bugs.kernel.org
-X-Bugzilla-Product: Drivers
-X-Bugzilla-Component: USB
-X-Bugzilla-Version: 2.5
-X-Bugzilla-Keywords: 
-X-Bugzilla-Severity: normal
-X-Bugzilla-Who: mathias.nyman@linux.intel.com
-X-Bugzilla-Status: RESOLVED
-X-Bugzilla-Resolution: DUPLICATE
-X-Bugzilla-Priority: P3
-X-Bugzilla-Assigned-To: drivers_usb@kernel-bugs.kernel.org
-X-Bugzilla-Flags: 
-X-Bugzilla-Changed-Fields: 
-Message-ID: <bug-218465-208809-ZMDr0huLuU@https.bugzilla.kernel.org/>
-In-Reply-To: <bug-218465-208809@https.bugzilla.kernel.org/>
-References: <bug-218465-208809@https.bugzilla.kernel.org/>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-X-Bugzilla-URL: https://bugzilla.kernel.org/
-Auto-Submitted: auto-generated
+	dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="COiRahy0"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id C1F79C433F1;
+	Thu, 15 Feb 2024 10:14:51 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
+	s=korg; t=1707992092;
+	bh=AAaf7HU4oAiDvmTgBeNmZT7365DHcQ1hHRUGYlcpDdI=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=COiRahy0TvzZdiT9aOPJ0J+j0dBNhczRxoeHAqlqRQdsDiRj5Vv1Ui7GfAzEUfsTI
+	 vipOGjHz2KSWF/2yniG06X/fnLlhxTEj8rTkRI/evDCxi3INQrOMrBoXK33E+BHrdl
+	 zyoyhGXFS+G/Cun28IEdnCrF32OL3JGQoRgddKZw=
+Date: Thu, 15 Feb 2024 11:14:49 +0100
+From: Greg KH <gregkh@linuxfoundation.org>
+To: Pairman Guo <pairmanxlr@gmail.com>
+Cc: valentina.manea.m@gmail.com, shuah@kernel.org,
+	linux-usb@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH] USBIP: Use fallthrough pseudo-keyword
+Message-ID: <2024021516-chapter-willed-ccf3@gregkh>
+References: <20240215092630.148917-1-pairmanxlr@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20240215092630.148917-1-pairmanxlr@gmail.com>
 
-https://bugzilla.kernel.org/show_bug.cgi?id=3D218465
+On Thu, Feb 15, 2024 at 05:26:30PM +0800, Pairman Guo wrote:
+> Hi maintainers,
+> 
+> There is a usage of ``/* FALLTHRU */`` in a switch statement in main()
+> that have long been untouched. This patch replaced it with the
+> better and proper pseudo-keyword ``fallthrough;``.
+> 
+> Please merge if it is the case. Thank you in advance.
 
---- Comment #5 from Mathias Nyman (mathias.nyman@linux.intel.com) ---
-This DELL machine has ACPI entries for USB ports that are not usable.
-These ports are supported by xHCI host hardware but are not internally or
-externally connected anywhere.  They have _UPC (USB port capability) ACPI
-objects stating they are not connectable, and _PLD (Physical Location of
-Device) that just returns 0 for their group token group position.
+This is not needed in a changelog text.
 
-So all unusable USB2 and USB3 ports have similar _PLD entries, which then
-confuses Linux when trying to pair together USB2 and USB3 ports.=20
+> Signed-off-by: Pairman Guo <pairmanxlr@gmail.com>
+> ---
+>  tools/usb/usbip/src/usbip.c | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
+> 
+> diff --git a/tools/usb/usbip/src/usbip.c b/tools/usb/usbip/src/usbip.c
+> index f7c7220d9..ddcafb5c7 100644
+> --- a/tools/usb/usbip/src/usbip.c
+> +++ b/tools/usb/usbip/src/usbip.c
+> @@ -165,7 +165,7 @@ int main(int argc, char *argv[])
+>  		case '?':
+>  			printf("usbip: invalid option\n");
+>  			/* Terminate after printing error */
+> -			/* FALLTHRU */
+> +			fallthrough;
 
-Linux could probably ignore printing any warning messages for ports that
-have _PLD entries but _UPC shows they are not connectable
+Did you compile this?  This is userspace code, and as-such, I don't
+think it has this keyword, does it?
 
---=20
-You may reply to this email to add a comment.
+thanks,
 
-You are receiving this mail because:
-You are watching the assignee of the bug.=
+greg k-h
