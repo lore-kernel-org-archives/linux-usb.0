@@ -1,204 +1,195 @@
-Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com [205.220.180.131])
+Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com [205.220.168.131])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id ECFA31B803;
-	Fri, 16 Feb 2024 00:59:35 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.180.131
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B34F9FBF7;
+	Fri, 16 Feb 2024 03:59:56 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.168.131
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1708045177; cv=none; b=cIjXAgpETXHgACYVWIvezKxdKgnvL/dowRihtt1GFcionTx3HacNv5DAJjQZXwVogh4mPYyl1FgjeuwJYTpApT/CAXSdjYybGS5789ELqs5U8FDBXc6UwW+em4s209yksBI2kStFQgymLcYsdAm8uEBhWTeOu/oTk8ElXRRaBCc=
+	t=1708055998; cv=none; b=dwF/IRp98HN48OCUSa4xexNoPWBEAVsw+H56Ll2XoULHTi1PzSydP+SC6zrR4aKp3QkrmRH4Wc9nvAlYejWfjSAR9xoY3utoEaJjz8ojZDbjSd3zfMYhYyO/BSKJ+6ka4Vl8gnGni2ubASPKR5RPPiUvza0VojlUwcjSWfCknQU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1708045177; c=relaxed/simple;
-	bh=39A/xiTKQauSSJ8A4yn+0yojQ14leyJe5VSWz1gzLh8=;
+	s=arc-20240116; t=1708055998; c=relaxed/simple;
+	bh=6MOaedXgkbzibZ28HDidXqrPP+Ko2MSGLNtNHwen++w=;
 	h=From:To:CC:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=OcTLkDU1x0Xjabx3lFpM+0+y3c9lCPwicjIbBbolZFyvzRS3OuNgCdmA76Mn/S03M6cocuwgZI8Fjc4BuF7U4r8EeTwfjJhQH6BDAhmOF1BveNjLVKROFzrdoSuRrI7iNMDTynFFEQd8NtZ2nEg7NnHfpJyKK7En/F2Aowm6vYA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=quicinc.com; spf=pass smtp.mailfrom=quicinc.com; dkim=pass (2048-bit key) header.d=quicinc.com header.i=@quicinc.com header.b=VcTIveCh; arc=none smtp.client-ip=205.220.180.131
+	 MIME-Version:Content-Type; b=SreeQTCiIpA9Hzwm0ISGAueemkPq9GeIVaXOY8aB7LJ9YOJ4Fn99MIl4yL4Q17301gklaHMMdR0yfFRpSBNzWnP+5oREXYZ7Qxxtg+agbxYIlQLgQPrqSGAkW2hKvOvT/K1BdbV3oIBZGB1+oyMvXykxzgERA8FWw7/jeot1sXQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=quicinc.com; spf=pass smtp.mailfrom=quicinc.com; dkim=pass (2048-bit key) header.d=quicinc.com header.i=@quicinc.com header.b=IHid9uk1; arc=none smtp.client-ip=205.220.168.131
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=quicinc.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=quicinc.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=quicinc.com header.i=@quicinc.com header.b="VcTIveCh"
-Received: from pps.filterd (m0279870.ppops.net [127.0.0.1])
-	by mx0a-0031df01.pphosted.com (8.17.1.24/8.17.1.24) with ESMTP id 41G0ltnK019880;
-	Fri, 16 Feb 2024 00:59:30 GMT
+	dkim=pass (2048-bit key) header.d=quicinc.com header.i=@quicinc.com header.b="IHid9uk1"
+Received: from pps.filterd (m0279862.ppops.net [127.0.0.1])
+	by mx0a-0031df01.pphosted.com (8.17.1.24/8.17.1.24) with ESMTP id 41G3lJfe020027;
+	Fri, 16 Feb 2024 03:59:38 GMT
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com; h=
 	from:to:cc:subject:date:message-id:in-reply-to:references
-	:mime-version:content-transfer-encoding:content-type; s=
-	qcppdkim1; bh=YBL6RfIICPWsz3SJ2ooj1M90QUk7ahuLlrso6UxkTJE=; b=Vc
-	TIveChnsiIzkGMrr81edteIWPv53EFcXNnUtsQccVUYsQq8WWHUHie5FI49Lihxc
-	XpSLKGpAK6qivrMI4BJSlc5Y7unJbGhLHtyMoWiSdvq0iqP/vSz/Rt3407T5fAnS
-	RloqcZIxHTfsPoC4uWVw28wTXa5DRCUO4c2bdy+GVln13PZcm2tie35O5B0klrdG
-	johSvcjumnxPA8bjVd9zCA2Q7/dKy3LY8ij4xoaB2KhVGVbWz7OvzHWo/WARNd7f
-	TgSkrx1Iznf13Ipc1I3vnFj9eBq0i9Pu1bZQPBkNICCQW8pWLDem9f5J9suk9EBx
-	3jotmovvfsVLCEo3NyTw==
-Received: from nalasppmta05.qualcomm.com (Global_NAT1.qualcomm.com [129.46.96.20])
-	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 3w9cudjq3r-1
+	:mime-version:content-type; s=qcppdkim1; bh=J/rDoSPgKdKtWvPImsDn
+	J8JGTjM0ITD0J1L4K2heNis=; b=IHid9uk1cqvIXTBKId38vwAXGoqP6r55TALc
+	iZY/uVQzbn6bjKkU6Bln8RukLZGYuAsZjF1ztZ8V/H35SGCgMfsQ7nynazOThRuW
+	6xdXojqCjyeaiFLSkCOFVvdemJhdG6tKzTPBwWALjDymtvxYFLcAp+ZjWyoKAGES
+	qrKm3dqEKjyy/FzxFwPCMJaSLK8vW0zSy/Uzt+TuVIxWSwlM9DrljInfhVHyN2Ca
+	585MgW4pfEcMfyC6ouI7lK7MoAXzgv4Drtdslp5yUqs2NION1HAXrKassgLjWjr6
+	mN6DD/QbDh5s8InYPxJJbHL91XAhpHm6tLXBFxg00tm6jnDRkw==
+Received: from nalasppmta01.qualcomm.com (Global_NAT1.qualcomm.com [129.46.96.20])
+	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 3wa03r80ge-1
 	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Fri, 16 Feb 2024 00:59:29 +0000 (GMT)
-Received: from nalasex01a.na.qualcomm.com (nalasex01a.na.qualcomm.com [10.47.209.196])
-	by NALASPPMTA05.qualcomm.com (8.17.1.5/8.17.1.5) with ESMTPS id 41G0wmqG029211
+	Fri, 16 Feb 2024 03:59:38 +0000 (GMT)
+Received: from nalasex01b.na.qualcomm.com (nalasex01b.na.qualcomm.com [10.47.209.197])
+	by NALASPPMTA01.qualcomm.com (8.17.1.5/8.17.1.5) with ESMTPS id 41G3xbpl032293
 	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Fri, 16 Feb 2024 00:58:48 GMT
-Received: from hu-kriskura-hyd.qualcomm.com (10.80.80.8) by
- nalasex01a.na.qualcomm.com (10.47.209.196) with Microsoft SMTP Server
+	Fri, 16 Feb 2024 03:59:37 GMT
+Received: from hu-wcheng-lv.qualcomm.com (10.49.16.6) by
+ nalasex01b.na.qualcomm.com (10.47.209.197) with Microsoft SMTP Server
  (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.1118.40; Thu, 15 Feb 2024 16:58:43 -0800
-From: Krishna Kurapati <quic_kriskura@quicinc.com>
-To: Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
-        Rob Herring
-	<robh+dt@kernel.org>,
-        Bjorn Andersson <andersson@kernel.org>,
-        Wesley Cheng
-	<quic_wcheng@quicinc.com>,
-        Konrad Dybcio <konrad.dybcio@linaro.org>,
-        "Greg
- Kroah-Hartman" <gregkh@linuxfoundation.org>,
-        Conor Dooley
-	<conor+dt@kernel.org>,
-        Thinh Nguyen <Thinh.Nguyen@synopsys.com>,
-        Felipe Balbi
-	<balbi@kernel.org>, Johan Hovold <johan@kernel.org>
-CC: <devicetree@vger.kernel.org>, <linux-arm-msm@vger.kernel.org>,
-        <linux-usb@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
-        <quic_ppratap@quicinc.com>, <quic_jackp@quicinc.com>,
-        Krishna Kurapati
-	<quic_kriskura@quicinc.com>
-Subject: [PATCH v15 6/9] usb: dwc3: qcom: Add helper function to request wakeup interrupts
-Date: Fri, 16 Feb 2024 06:27:53 +0530
-Message-ID: <20240216005756.762712-7-quic_kriskura@quicinc.com>
-X-Mailer: git-send-email 2.34.1
-In-Reply-To: <20240216005756.762712-1-quic_kriskura@quicinc.com>
-References: <20240216005756.762712-1-quic_kriskura@quicinc.com>
+ 15.2.1118.40; Thu, 15 Feb 2024 19:59:37 -0800
+From: Wesley Cheng <quic_wcheng@quicinc.com>
+To: <srinivas.kandagatla@linaro.org>, <mathias.nyman@intel.com>,
+        <perex@perex.cz>, <conor+dt@kernel.org>, <corbet@lwn.net>,
+        <lgirdwood@gmail.com>, <andersson@kernel.org>,
+        <krzysztof.kozlowski+dt@linaro.org>, <gregkh@linuxfoundation.org>,
+        <Thinh.Nguyen@synopsys.com>, <broonie@kernel.org>,
+        <bgoswami@quicinc.com>, <tiwai@suse.com>, <robh+dt@kernel.org>,
+        <konrad.dybcio@linaro.org>
+CC: <linux-kernel@vger.kernel.org>, <devicetree@vger.kernel.org>,
+        <linux-sound@vger.kernel.org>, <linux-usb@vger.kernel.org>,
+        <linux-arm-msm@vger.kernel.org>, <linux-doc@vger.kernel.org>,
+        <alsa-devel@alsa-project.org>, Wesley Cheng <quic_wcheng@quicinc.com>
+Subject: [PATCH v16 16/50] usb: host: xhci-mem: Cleanup pending secondary event ring events
+Date: Thu, 15 Feb 2024 19:58:49 -0800
+Message-ID: <20240216035923.23392-17-quic_wcheng@quicinc.com>
+X-Mailer: git-send-email 2.17.1
+In-Reply-To: <20240216035923.23392-1-quic_wcheng@quicinc.com>
+References: <20240216035923.23392-1-quic_wcheng@quicinc.com>
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
 Content-Type: text/plain
-X-ClientProxiedBy: nasanex01a.na.qualcomm.com (10.52.223.231) To
- nalasex01a.na.qualcomm.com (10.47.209.196)
+X-ClientProxiedBy: nalasex01a.na.qualcomm.com (10.47.209.196) To
+ nalasex01b.na.qualcomm.com (10.47.209.197)
 X-QCInternal: smtphost
 X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800 signatures=585085
-X-Proofpoint-GUID: gCIWrzbUwCkicjeNN7KcMdHli-kPupDH
-X-Proofpoint-ORIG-GUID: gCIWrzbUwCkicjeNN7KcMdHli-kPupDH
+X-Proofpoint-ORIG-GUID: tRkRKpWOkWuUUdL5n6zv_FcZPqAvGhUN
+X-Proofpoint-GUID: tRkRKpWOkWuUUdL5n6zv_FcZPqAvGhUN
 X-Proofpoint-Virus-Version: vendor=baseguard
  engine=ICAP:2.0.272,Aquarius:18.0.1011,Hydra:6.0.619,FMLib:17.11.176.26
- definitions=2024-02-15_24,2024-02-14_01,2023-05-22_02
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 impostorscore=0
- mlxlogscore=852 priorityscore=1501 spamscore=0 suspectscore=0 phishscore=0
- bulkscore=0 lowpriorityscore=0 malwarescore=0 mlxscore=0 clxscore=1015
- adultscore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.19.0-2401310000 definitions=main-2402160005
+ definitions=2024-02-16_03,2024-02-14_01,2023-05-22_02
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 malwarescore=0
+ mlxlogscore=896 lowpriorityscore=0 mlxscore=0 adultscore=0
+ priorityscore=1501 clxscore=1015 bulkscore=0 phishscore=0 spamscore=0
+ suspectscore=0 impostorscore=0 classifier=spam adjust=0 reason=mlx
+ scancount=1 engine=8.19.0-2401310000 definitions=main-2402160031
 
-The logic for requesting interrupts is duplicated for each interrupt. In
-the upcoming patches that introduces support for multiport, it would be
-better to clean up the duplication before reading mulitport related
-interrupts.
+As part of xHCI bus suspend, the XHCI is halted.  However, if there are
+pending events in the secondary event ring, it is observed that the xHCI
+controller stops responding to further commands upon host or device
+initiated bus resume.  Iterate through all pending events and update the
+dequeue pointer to the beginning of the event ring.
 
-Refactor interrupt setup call by adding a new helper function for
-requesting the wakeup interrupts. To simplify implementation, make
-the display name same as the interrupt name expected in DT.
-
-Signed-off-by: Krishna Kurapati <quic_kriskura@quicinc.com>
-Reviewed-by: Bjorn Andersson <andersson@kernel.org>
-Acked-by: Thinh Nguyen <Thinh.Nguyen@synopsys.com>
+Change-Id: I13d20bfdfb5d615acdf5fbc18c85e7c2c0ea8549
+Signed-off-by: Wesley Cheng <quic_wcheng@quicinc.com>
 ---
- drivers/usb/dwc3/dwc3-qcom.c | 53 ++++++++++++++++--------------------
- 1 file changed, 24 insertions(+), 29 deletions(-)
+ drivers/usb/host/xhci-mem.c  |  7 ++++++-
+ drivers/usb/host/xhci-ring.c | 33 ++++++++++++++++++++++++++++++++-
+ drivers/usb/host/xhci.h      |  5 +++++
+ 3 files changed, 43 insertions(+), 2 deletions(-)
 
-diff --git a/drivers/usb/dwc3/dwc3-qcom.c b/drivers/usb/dwc3/dwc3-qcom.c
-index dbd6a5b2b289..08df29584366 100644
---- a/drivers/usb/dwc3/dwc3-qcom.c
-+++ b/drivers/usb/dwc3/dwc3-qcom.c
-@@ -535,6 +535,22 @@ static int dwc3_qcom_get_irq(struct platform_device *pdev,
- 	return ret;
+diff --git a/drivers/usb/host/xhci-mem.c b/drivers/usb/host/xhci-mem.c
+index 450adaca68ee..e4c13f056c1a 100644
+--- a/drivers/usb/host/xhci-mem.c
++++ b/drivers/usb/host/xhci-mem.c
+@@ -1827,7 +1827,7 @@ xhci_remove_interrupter(struct xhci_hcd *xhci, struct xhci_interrupter *ir)
+ 		tmp &= ERST_SIZE_MASK;
+ 		writel(tmp, &ir->ir_set->erst_size);
+ 
+-		xhci_write_64(xhci, ERST_EHB, &ir->ir_set->erst_dequeue);
++		xhci_update_erst_dequeue(xhci, ir, true);
+ 	}
  }
  
-+static int dwc3_qcom_request_irq(struct dwc3_qcom *qcom, int irq,
-+				 const char *name)
+@@ -1870,6 +1870,11 @@ void xhci_remove_secondary_interrupter(struct usb_hcd *hcd, struct xhci_interrup
+ 		return;
+ 	}
+ 
++	/*
++	 * Cleanup secondary interrupter to ensure there are no pending events.
++	 * This also updates event ring dequeue pointer back to the start.
++	 */
++	xhci_skip_sec_intr_events(xhci, ir->event_ring, ir);
+ 	intr_num = ir->intr_num;
+ 
+ 	xhci_remove_interrupter(xhci, ir);
+diff --git a/drivers/usb/host/xhci-ring.c b/drivers/usb/host/xhci-ring.c
+index 82c10a5ac6e9..dd78662122ea 100644
+--- a/drivers/usb/host/xhci-ring.c
++++ b/drivers/usb/host/xhci-ring.c
+@@ -3023,7 +3023,7 @@ static int xhci_handle_event_trb(struct xhci_hcd *xhci, struct xhci_interrupter
+  * - When all events have finished
+  * - To avoid "Event Ring Full Error" condition
+  */
+-static void xhci_update_erst_dequeue(struct xhci_hcd *xhci,
++void xhci_update_erst_dequeue(struct xhci_hcd *xhci,
+ 				     struct xhci_interrupter *ir,
+ 				     bool clear_ehb)
+ {
+@@ -3123,6 +3123,37 @@ static int xhci_handle_events(struct xhci_hcd *xhci, struct xhci_interrupter *ir
+ 	return 0;
+ }
+ 
++/*
++ * Move the event ring dequeue pointer to skip events kept in the secondary
++ * event ring.  This is used to ensure that pending events in the ring are
++ * acknowledged, so the XHCI HCD can properly enter suspend/resume.  The
++ * secondary ring is typically maintained by an external component.
++ */
++void xhci_skip_sec_intr_events(struct xhci_hcd *xhci,
++	struct xhci_ring *ring,	struct xhci_interrupter *ir)
 +{
-+	int ret;
++	union xhci_trb *current_trb;
++	u64 erdp_reg;
++	dma_addr_t deq;
 +
-+	/* Keep wakeup interrupts disabled until suspend */
-+	ret = devm_request_threaded_irq(qcom->dev, irq, NULL,
-+					qcom_dwc3_resume_irq,
-+					IRQF_ONESHOT | IRQF_NO_AUTOEN,
-+					name, qcom);
-+	if (ret)
-+		dev_err(qcom->dev, "failed to request irq %s: %d\n", name, ret);
++	/* disable irq, ack pending interrupt and ack all pending events */
++	xhci_disable_interrupter(ir);
 +
-+	return ret;
++	/* last acked event trb is in erdp reg  */
++	erdp_reg = xhci_read_64(xhci, &ir->ir_set->erst_dequeue);
++	deq = (dma_addr_t)(erdp_reg & ERST_PTR_MASK);
++	if (!deq) {
++		xhci_err(xhci, "event ring handling not required\n");
++		return;
++	}
++
++	current_trb = ir->event_ring->dequeue;
++	/* read cycle state of the last acked trb to find out CCS */
++	ring->cycle_state = le32_to_cpu(current_trb->event_cmd.flags) & TRB_CYCLE;
++
++	xhci_handle_events(xhci, ir);
 +}
 +
- static int dwc3_qcom_setup_irq(struct platform_device *pdev)
- {
- 	struct dwc3_qcom *qcom = platform_get_drvdata(pdev);
-@@ -545,57 +561,36 @@ static int dwc3_qcom_setup_irq(struct platform_device *pdev)
- 	irq = dwc3_qcom_get_irq(pdev, "qusb2_phy",
- 				pdata ? pdata->qusb2_phy_irq_index : -1);
- 	if (irq > 0) {
--		/* Keep wakeup interrupts disabled until suspend */
--		ret = devm_request_threaded_irq(qcom->dev, irq, NULL,
--					qcom_dwc3_resume_irq,
--					IRQF_ONESHOT | IRQF_NO_AUTOEN,
--					"qcom_dwc3 QUSB2", qcom);
--		if (ret) {
--			dev_err(qcom->dev, "qusb2_phy_irq failed: %d\n", ret);
-+		ret = dwc3_qcom_request_irq(qcom, irq, "hs_phy_irq");
-+		if (ret)
- 			return ret;
--		}
- 		qcom->qusb2_phy_irq = irq;
- 	}
+ /*
+  * xHCI spec says we can get an interrupt, and if the HC has an error condition,
+  * we might get bad data out of the event ring.  Section 4.10.2.7 has a list of
+diff --git a/drivers/usb/host/xhci.h b/drivers/usb/host/xhci.h
+index 22aa9f2a2c0a..92ff1cf23556 100644
+--- a/drivers/usb/host/xhci.h
++++ b/drivers/usb/host/xhci.h
+@@ -1840,6 +1840,8 @@ struct xhci_interrupter *
+ xhci_create_secondary_interrupter(struct usb_hcd *hcd, int num_seg);
+ void xhci_remove_secondary_interrupter(struct usb_hcd
+ 				       *hcd, struct xhci_interrupter *ir);
++void xhci_skip_sec_intr_events(struct xhci_hcd *xhci,
++	struct xhci_ring *ring,	struct xhci_interrupter *ir);
  
- 	irq = dwc3_qcom_get_irq(pdev, "dp_hs_phy_irq",
- 				pdata ? pdata->dp_hs_phy_irq_index : -1);
- 	if (irq > 0) {
--		ret = devm_request_threaded_irq(qcom->dev, irq, NULL,
--					qcom_dwc3_resume_irq,
--					IRQF_ONESHOT | IRQF_NO_AUTOEN,
--					"qcom_dwc3 DP_HS", qcom);
--		if (ret) {
--			dev_err(qcom->dev, "dp_hs_phy_irq failed: %d\n", ret);
-+		ret = dwc3_qcom_request_irq(qcom, irq, "dp_hs_phy_irq");
-+		if (ret)
- 			return ret;
--		}
- 		qcom->dp_hs_phy_irq = irq;
- 	}
+ /* xHCI host controller glue */
+ typedef void (*xhci_get_quirks_t)(struct device *, struct xhci_hcd *);
+@@ -1931,6 +1933,9 @@ void inc_deq(struct xhci_hcd *xhci, struct xhci_ring *ring);
+ unsigned int count_trbs(u64 addr, u64 len);
+ int xhci_stop_endpoint_sync(struct xhci_hcd *xhci, struct xhci_virt_ep *ep,
+ 			    int suspend, gfp_t gfp_flags);
++void xhci_update_erst_dequeue(struct xhci_hcd *xhci,
++				     struct xhci_interrupter *ir,
++				     bool clear_ehb);
  
- 	irq = dwc3_qcom_get_irq(pdev, "dm_hs_phy_irq",
- 				pdata ? pdata->dm_hs_phy_irq_index : -1);
- 	if (irq > 0) {
--		ret = devm_request_threaded_irq(qcom->dev, irq, NULL,
--					qcom_dwc3_resume_irq,
--					IRQF_ONESHOT | IRQF_NO_AUTOEN,
--					"qcom_dwc3 DM_HS", qcom);
--		if (ret) {
--			dev_err(qcom->dev, "dm_hs_phy_irq failed: %d\n", ret);
-+		ret = dwc3_qcom_request_irq(qcom, irq, "dm_hs_phy_irq");
-+		if (ret)
- 			return ret;
--		}
- 		qcom->dm_hs_phy_irq = irq;
- 	}
- 
- 	irq = dwc3_qcom_get_irq(pdev, "ss_phy_irq",
- 				pdata ? pdata->ss_phy_irq_index : -1);
- 	if (irq > 0) {
--		ret = devm_request_threaded_irq(qcom->dev, irq, NULL,
--					qcom_dwc3_resume_irq,
--					IRQF_ONESHOT | IRQF_NO_AUTOEN,
--					"qcom_dwc3 SS", qcom);
--		if (ret) {
--			dev_err(qcom->dev, "ss_phy_irq failed: %d\n", ret);
-+		ret = dwc3_qcom_request_irq(qcom, irq, "ss_phy_irq");
-+		if (ret)
- 			return ret;
--		}
- 		qcom->ss_phy_irq = irq;
- 	}
- 
--- 
-2.34.1
-
+ /* xHCI roothub code */
+ void xhci_set_link_state(struct xhci_hcd *xhci, struct xhci_port *port,
