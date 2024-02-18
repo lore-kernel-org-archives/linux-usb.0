@@ -1,181 +1,113 @@
-Received: from mail-oo1-f41.google.com (mail-oo1-f41.google.com [209.85.161.41])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from fallback22.i.mail.ru (fallback22.i.mail.ru [79.137.243.74])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B5A3171B2B;
-	Sun, 18 Feb 2024 19:17:46 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.161.41
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8888D6F507;
+	Sun, 18 Feb 2024 19:36:37 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=79.137.243.74
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1708283868; cv=none; b=sPWO6+xAIchFPvGSaTn5+LSaHbNTUGLCypLPvrPvy2WXuOD0S+knwxTxkI5nmwkuYsWcCop2K/9eJYPdLRdtnu4ff58Tp3zg1Ps4/S1IpwoLIpw7nJUNi/Bv16cR1u9RgSeh8m1VxiiEKvm2mhoLlJKk3S5vhnV3OzDps7goXvI=
+	t=1708285002; cv=none; b=ozbTwLpDLRdnRdbk5Fzwv1XSJWTOMECSKyDs4CHQW8RJvUIg1jbFMjVPnFUcaunmoAWwPgsVrIx4jMV6NR86M8jjA5wZPPE1hkTiepwM87l3Bog05Jwp4KJsJgGZnD/R8wxH/LmDsNiZB7UuaEoZcpL+3M4PT3DVhP9AhsQgBJw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1708283868; c=relaxed/simple;
-	bh=PlDZ/DQXM/07PMDcTyBhIrDP9W36zYqNuPUo0TzKbvE=;
-	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
-	 In-Reply-To:To:Cc; b=pWVhib8L8yiajBboNLyWo3fL4EMuK85PXBbuRTkpAN47pbPGUIYWISB5hVrRoflN0TBSiI09p/zSOcEEr2ovRvLf2DzGc6rkEWpWlUXCqcqZQiNtNDt+h6qWhqkIre3k7923GiL5Jzm/488pfX4zf6+o/5ISYM2cQbTxJA6BCW8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=marliere.net; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=marliere.net header.i=@marliere.net header.b=jxr11Znv; arc=none smtp.client-ip=209.85.161.41
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=marliere.net
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1708285002; c=relaxed/simple;
+	bh=cBTLLd4fPeaUvWkODfGyD3++ZlviOPyT7dSZACmAIOQ=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=ibUby+qDoCC1AKOjI0S8doAX0ADUbZydtkuTBX4vNpSQlNHHj8E6kVBIXN4Kd5p1yIYn4V8AMOu5nBSCPwnUgjjtoDcNL4WZkqgPqhV/93q989YgGYm7oXlZk3mA6Jh6xNVpO3qsrVCkodqTAslVFHkpgATFpLAxD8jbELi/vEk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=jiaxyga.com; spf=pass smtp.mailfrom=jiaxyga.com; dkim=pass (1024-bit key) header.d=jiaxyga.com header.i=@jiaxyga.com header.b=nuN2t6YX; dkim=pass (1024-bit key) header.d=jiaxyga.com header.i=@jiaxyga.com header.b=NSAsfQ3W; arc=none smtp.client-ip=79.137.243.74
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=jiaxyga.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=jiaxyga.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=marliere.net header.i=@marliere.net header.b="jxr11Znv"
-Received: by mail-oo1-f41.google.com with SMTP id 006d021491bc7-59d7cbf1279so2313273eaf.2;
-        Sun, 18 Feb 2024 11:17:46 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1708283866; x=1708888666;
-        h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
-         :mime-version:subject:date:dkim-signature:from:x-gm-message-state
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=vQNRYm3ukxsOLCb4b7JJwL+j5XGiWOnosPqQUAzHJIQ=;
-        b=bxyI0iNH9wH7eQpyHy6QXkFsnjLvRT4PtANswm+WQpQ1V8uwxdILlif3/F3yZ45ycY
-         OkCPDKr8ObPY9iAWSBnWgoaPThuPbDKYEmjB3/sT68pA+RF0UwLAQuCr951rzn37a0/r
-         ellZxVEBCGmiomB6E08osLq/XFklXnudoq3sjd8FrBIQMz+OwwOSBMtaMmWV48UakciO
-         vBv7lg8ivBHd/hWT/QnKPRhOVTIz08up/J5EE+QpZV1ecoj658ygrvp6trvZGHWNAen8
-         k36lM0BkG8suyawg75mbxd/aO8RPDsth5WkwCxxx49kkh3UaLdWAZ+9MsQIRZ7X40PTC
-         IIgw==
-X-Forwarded-Encrypted: i=1; AJvYcCVY8w7quQkQxoD2VlJq01A7pm65fHr+cQSEMFw/J7hyZCOAu+prKCz1JgchhVRFDLG9OKoGbaKyTXTFsPl88LUFfv7O43+voyMHw5P/
-X-Gm-Message-State: AOJu0YxzrBZc6S+l1sa8vt9BZBgk5O2n+vVk5FKMufOfISz32C5I6taY
-	RLfNr77FrPa12Fg6pkgBKuF+bW8MnS0l8/3IaorUXyk+QpvtgfEq
-X-Google-Smtp-Source: AGHT+IHNSBDdixhtzL9S51bmQvSdYOHfw8Jh+BFGmARn/5r61F82/KS6NNVeKhUD8UcHzpqeAomupg==
-X-Received: by 2002:a05:6358:63a2:b0:178:b7c0:323f with SMTP id k34-20020a05635863a200b00178b7c0323fmr12456899rwh.19.1708283865667;
-        Sun, 18 Feb 2024 11:17:45 -0800 (PST)
-Received: from mail.marliere.net ([24.199.118.162])
-        by smtp.gmail.com with ESMTPSA id p21-20020aa78615000000b006e0949b2548sm2634422pfn.209.2024.02.18.11.17.44
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 18 Feb 2024 11:17:45 -0800 (PST)
-From: "Ricardo B. Marliere" <ricardo@marliere.net>
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=marliere.net;
-	s=2024; t=1708283864;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=vQNRYm3ukxsOLCb4b7JJwL+j5XGiWOnosPqQUAzHJIQ=;
-	b=jxr11ZnvAo4cR83d6om9WnVVOUns/mfSWeHif+O75tci1hSFO8RfZ8Op/hwvqqh+01nE2/
-	95WQTinlCXTX2v7qbqFfxj33V+g026d9ixsPkn3/+dH552dokspiuT7x/BbhTo6jpcJu4h
-	Dd2LvJDrp8qXO+ZjDWR9NSVTCjYUMweQA6g7jTkZAcFUjXIe04UbSkdIK1OZRkfOtBQ8A+
-	SDM/vGT340u7flzNWJIGYPvSUTeF2jJTi5rEJ9649q7+X71dcdOheRNhIr4ninfFwsE3gz
-	+b85WgFSovQ7OVEz8nPm3248+GYog+GFpLA5tJlO0AUF10nQnCVpUcrCHw4M0g==
-Authentication-Results: ORIGINATING;
-	auth=pass smtp.auth=ricardo@marliere.net smtp.mailfrom=ricardo@marliere.net
-Date: Sun, 18 Feb 2024 16:18:12 -0300
-Subject: [PATCH 4/4] usb: core: constify the struct device_type usage
+	dkim=pass (1024-bit key) header.d=jiaxyga.com header.i=@jiaxyga.com header.b="nuN2t6YX";
+	dkim=pass (1024-bit key) header.d=jiaxyga.com header.i=@jiaxyga.com header.b="NSAsfQ3W"
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=jiaxyga.com; s=mailru;
+	h=Content-Transfer-Encoding:Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:Message-ID:From:Subject:Content-Type:Content-Transfer-Encoding:To:Cc; bh=o/hxFDSgXayAN8I0Y2EKcBJU46DJQsaZjaDQYg69Zrk=;
+	t=1708284998;x=1708374998; 
+	b=nuN2t6YXOZJPDSq6nNIGqcR9BxMq3YdPBhWXpMka5GXytPo4nVSB6zenx83nU69ad5TmFmmztMPX5oLyh9552MC+rsXkKU7oTOSN1EbnHvkUtf2hMHRhPqtUW4jWmbW69vFaHXaUAQjYYJxtUuysexKai6ponh+NsQQjDuBAyOo=;
+Received: from [10.12.4.29] (port=48678 helo=smtp51.i.mail.ru)
+	by fallback22.i.mail.ru with esmtp (envelope-from <danila@jiaxyga.com>)
+	id 1rbmHu-00BQ6z-F3; Sun, 18 Feb 2024 21:53:18 +0300
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=jiaxyga.com
+	; s=mailru; h=Content-Transfer-Encoding:Content-Type:In-Reply-To:From:
+	References:Cc:To:Subject:MIME-Version:Date:Message-ID:From:Sender:Reply-To:To
+	:Cc:Content-Type:Content-Transfer-Encoding:Content-ID:Content-Description:
+	Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:
+	List-Id:List-Help:List-Unsubscribe:List-Subscribe:List-Post:List-Owner:
+	List-Archive:X-Cloud-Ids:Disposition-Notification-To;
+	bh=o/hxFDSgXayAN8I0Y2EKcBJU46DJQsaZjaDQYg69Zrk=; t=1708282398; x=1708372398; 
+	b=NSAsfQ3WT+evT9o2P3VRybQHhAFAxDoN+cYtqNS2LeBkdLiRkL8ADbhfwjTB9r4YHGYRDqbhg1J
+	MG6K1yp8o62Mz3Iq3oizUS/vGcdSg3I6wEtv133tj38xf+8ETxGDaDDNswsJlBn7f2Gjeg/qIYM1A
+	NhtqUO7743tgYY9P7JE=;
+Received: by smtp51.i.mail.ru with esmtpa (envelope-from <danila@jiaxyga.com>)
+	id 1rbmHe-00000005vMT-21OP; Sun, 18 Feb 2024 21:53:03 +0300
+Message-ID: <60728953-bdf0-4a06-a90a-d1191d41962b@jiaxyga.com>
+Date: Sun, 18 Feb 2024 21:52:03 +0300
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH 3/3] arm64: dts: qcom: pm6150: define USB-C related blocks
+Content-Language: en-US
+To: Bryan O'Donoghue <bryan.odonoghue@linaro.org>, andersson@kernel.org,
+ konrad.dybcio@linaro.org, lgirdwood@gmail.com, broonie@kernel.org,
+ robh@kernel.org, krzysztof.kozlowski+dt@linaro.org, conor+dt@kernel.org,
+ gregkh@linuxfoundation.org, quic_wcheng@quicinc.com
+Cc: linux-arm-msm@vger.kernel.org, linux-kernel@vger.kernel.org,
+ devicetree@vger.kernel.org, linux-usb@vger.kernel.org,
+ Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+References: <20240217163201.32989-1-danila@jiaxyga.com>
+ <20240217163201.32989-4-danila@jiaxyga.com>
+ <6bf11ccd-ff08-369b-913f-277c189afb76@linaro.org>
+ <b0b732b8-456a-4021-8277-cd51f01ead17@jiaxyga.com>
+ <44c669a0-3722-4a58-be78-0c91f0573ca1@linaro.org>
+From: Danila Tikhonov <danila@jiaxyga.com>
+In-Reply-To: <44c669a0-3722-4a58-be78-0c91f0573ca1@linaro.org>
+Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
-Message-Id: <20240218-device_cleanup-usb-v1-4-77423c4da262@marliere.net>
-References: <20240218-device_cleanup-usb-v1-0-77423c4da262@marliere.net>
-In-Reply-To: <20240218-device_cleanup-usb-v1-0-77423c4da262@marliere.net>
-To: Heikki Krogerus <heikki.krogerus@linux.intel.com>, 
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-Cc: linux-usb@vger.kernel.org, linux-kernel@vger.kernel.org, 
- "Ricardo B. Marliere" <ricardo@marliere.net>
-X-Developer-Signature: v=1; a=openpgp-sha256; l=3413; i=ricardo@marliere.net;
- h=from:subject:message-id; bh=PlDZ/DQXM/07PMDcTyBhIrDP9W36zYqNuPUo0TzKbvE=;
- b=owEBbQKS/ZANAwAKAckLinxjhlimAcsmYgBl0lf1mygX1QLxHNFMAm/dvDIotCaFbkuZjMfCB
- AtIDT8fKbeJAjMEAAEKAB0WIQQDCo6eQk7jwGVXh+HJC4p8Y4ZYpgUCZdJX9QAKCRDJC4p8Y4ZY
- pjfYD/49rP6j1XNXmK3NjDC1kryNy/X232I7AlecWd+LG6BquAUQA1H/l/STXE6NccXSXdK5SOE
- 4Db5GT6YeX2Vh6VF02/wUDXUMqVtdWyq0tyRgUKJ872+T2KFM+jcgMIfyi7Urg7EwTJ029CgYIZ
- dBjZAdLKk1AZr2CzoRUzxPi+dMbE8Ah0qWghMU4Lg67ift1V9FDuApGQaIFKaRiqDDehdptmGaF
- v7aIEwsXbbqOfvbWLcMz4ncJv32fhA0UwxT8qCTUZ3+P1ClXC45ycsJV3X27pfC44Oej7OpUeEc
- lSP4/iryIyy3UqTmmiFFS/g+Ud4eTaJNMKsSL6AY49DcRzywrS5kO/7+SuW7AvecMnTNMs1SLX0
- ktGt8125IK658Bsde2d8lQ9YEeu5OSM118abbTg9lDwKTpbP02kI0iFO7TtA2ISXcOjWf8Nb1cu
- 7jCs+o3AlTcC6kDzNJ4tObqUDuT/czEDRLUDdG8T8xpHCccKVj3tHMwCscP80cuC5E/D1sne/wQ
- /NjjjwJytBmFcsuLTZQaQG1K0GSyM3MBzSdNUVRhhVmrUnsNk30dCmI+QaTfWrgrFvYx8tFaSJE
- Pk0IYISliJNTyIrsBrJfbgq74gAIzXRYXYW/N5PF8bBTa6El1IRuYcq+hJr/gQ1X4PRK6DuPZVJ
- s3Pgt9Q3AEkiH1w==
-X-Developer-Key: i=ricardo@marliere.net; a=openpgp;
- fpr=030A8E9E424EE3C0655787E1C90B8A7C638658A6
+X-Mailru-Src: smtp
+X-4EC0790: 10
+X-7564579A: B8F34718100C35BD
+X-77F55803: 4F1203BC0FB41BD9001F8F2F6BAD2021721DFC1638C0DE020CB518295F388C0600894C459B0CD1B9A01AAA9C53E1FC432F2A137662B0CE962297CA7220B8368C71C683C9A4AAF24583DAA694144A5695
+X-7FA49CB5: FF5795518A3D127A4AD6D5ED66289B5278DA827A17800CE746D93DAA4671895CEA1F7E6F0F101C67BD4B6F7A4D31EC0BCC500DACC3FED6E28638F802B75D45FF8AA50765F790063767500BC4578134A08638F802B75D45FF36EB9D2243A4F8B5A6FCA7DBDB1FC311F39EFFDF887939037866D6147AF826D8FBF1F58988AA117F27B5378C4569AF915A99C2240F7500D3CC7F00164DA146DAFE8445B8C89999728AA50765F79006374F09588CB15B21E6389733CBF5DBD5E9C8A9BA7A39EFB766F5D81C698A659EA7CC7F00164DA146DA9985D098DBDEAEC8ED96AA85C75E140D117882F4460429728AD0CFFFB425014E868A13BD56FB6657D81D268191BDAD3DC09775C1D3CA48CFACA9F7D16C0C9468BA3038C0950A5D36C8A9BA7A39EFB766D91E3A1F190DE8FDBA3038C0950A5D36D5E8D9A59859A8B6AFA7A56FB51D02A176E601842F6C81A1F004C906525384303E02D724532EE2C3F43C7A68FF6260569E8FC8737B5C2249D082881546D93491E827F84554CEF50127C277FBC8AE2E8BA83251EDC214901ED5E8D9A59859A8B603913CCF128142C9089D37D7C0E48F6C5571747095F342E88FB05168BE4CE3AF
+X-C1DE0DAB: 0D63561A33F958A5B96BF9A7E50CFEC45002B1117B3ED696BFF207C5EA5A8D5922DFD5397F446790823CB91A9FED034534781492E4B8EEAD9DB614F8F96CFA30BDAD6C7F3747799A
+X-C8649E89: 1C3962B70DF3F0ADBF74143AD284FC7177DD89D51EBB7742424CF958EAFF5D571004E42C50DC4CA955A7F0CF078B5EC49A30900B95165D34411AA3F52B5778B68AFB7C41CED23D24D319A1D15F84B4677068687820F8DA58194B66EDDAE282011D7E09C32AA3244C8304EF706C60CF3B2887F5EA2DDCF344BE1C58D71CDCC731EA455F16B58544A26EF364EE5276B8775DA084F8E80FEBD322CFFF16B4474ECB4573B60270F1EB7C214C2BC1176D5C25
+X-D57D3AED: 3ZO7eAau8CL7WIMRKs4sN3D3tLDjz0dLbV79QFUyzQ2Ujvy7cMT6pYYqY16iZVKkSc3dCLJ7zSJH7+u4VD18S7Vl4ZUrpaVfd2+vE6kuoey4m4VkSEu530nj6fImhcD4MUrOEAnl0W826KZ9Q+tr5ycPtXkTV4k65bRjmOUUP8cvGozZ33TWg5HZplvhhXbhDGzqmQDTd6OAevLeAnq3Ra9uf7zvY2zzsIhlcp/Y7m53TZgf2aB4JOg4gkr2bioj3ZJ49a6yxuuwKMqqiM4moA==
+X-Mailru-Sender: 9EB879F2C80682A09F26F806C739498149590CA6AC7771EACDECE012BE5914E03C454A2D891CD7F55FD86E11417434552C62728BC403A049225EC17F3711B6CF1A6F2E8989E84EC137BFB0221605B344978139F6FA5A77F05FEEDEB644C299C0ED14614B50AE0675
+X-Mras: Ok
+X-7564579A: B8F34718100C35BD
+X-77F55803: 6242723A09DB00B4A77971E4CF73965D9E271BDE2CCB4C0C9224595B18E9D805049FFFDB7839CE9E8F5A60B08382AFE3C7D0837E42D462A30016A7864CFEE5E5F33A3D857371F1ED
+X-7FA49CB5: 0D63561A33F958A5C4A1241F65A9DF449011F685861E5E6B1A890AC55145D5408941B15DA834481FA18204E546F3947C4B6F6234D9065C97F6B57BC7E64490618DEB871D839B7333395957E7521B51C2DFABB839C843B9C08941B15DA834481F8AA50765F7900637CBDA538BD653CEDD389733CBF5DBD5E9B5C8C57E37DE458BD96E472CDF7238E0725E5C173C3A84C36623C589A9CCD53435872C767BF85DA2F004C90652538430E4A6367B16DE6309
+X-87b9d050: 1
+X-D57D3AED: 3ZO7eAau8CL7WIMRKs4sN3D3tLDjz0dLbV79QFUyzQ2Ujvy7cMT6pYYqY16iZVKkSc3dCLJ7zSJH7+u4VD18S7Vl4ZUrpaVfd2+vE6kuoey4m4VkSEu530nj6fImhcD4MUrOEAnl0W826KZ9Q+tr5ycPtXkTV4k65bRjmOUUP8cvGozZ33TWg5HZplvhhXbhDGzqmQDTd6OAevLeAnq3Ra9uf7zvY2zzsIhlcp/Y7m53TZgf2aB4JOg4gkr2bioj3ZJ49a6yxuuW3WXFcmWZoQ==
+X-Mailru-MI: 8000000000000800
+X-Mras: Ok
 
-Since commit aed65af1cc2f ("drivers: make device_type const"), the driver
-core can properly handle constant struct device_type. Move the
-usb_device_type, usb_if_device_type, usb_ep_device_type and
-usb_port_device_type variables to be constant structures as well, placing
-it into read-only memory which can not be modified at runtime.
+You are referring to Dmitry Baryshkov, as I see. But Dmitry has already 
+reviewed my patch (message above).
+So it would be rude to change anything without his knowledge. Let's wait 
+for his answer.
 
-Signed-off-by: Ricardo B. Marliere <ricardo@marliere.net>
 ---
- drivers/usb/core/endpoint.c | 2 +-
- drivers/usb/core/message.c  | 2 +-
- drivers/usb/core/port.c     | 2 +-
- drivers/usb/core/usb.c      | 2 +-
- drivers/usb/core/usb.h      | 8 ++++----
- 5 files changed, 8 insertions(+), 8 deletions(-)
+Best wishes
+Danila
 
-diff --git a/drivers/usb/core/endpoint.c b/drivers/usb/core/endpoint.c
-index a2530811cf7d..4b38b87a1343 100644
---- a/drivers/usb/core/endpoint.c
-+++ b/drivers/usb/core/endpoint.c
-@@ -141,7 +141,7 @@ static void ep_device_release(struct device *dev)
- 	kfree(ep_dev);
- }
- 
--struct device_type usb_ep_device_type = {
-+const struct device_type usb_ep_device_type = {
- 	.name =		"usb_endpoint",
- 	.release = ep_device_release,
- };
-diff --git a/drivers/usb/core/message.c b/drivers/usb/core/message.c
-index 077dfe48d01c..67316d271596 100644
---- a/drivers/usb/core/message.c
-+++ b/drivers/usb/core/message.c
-@@ -1849,7 +1849,7 @@ static int usb_if_uevent(const struct device *dev, struct kobj_uevent_env *env)
- 	return 0;
- }
- 
--struct device_type usb_if_device_type = {
-+const struct device_type usb_if_device_type = {
- 	.name =		"usb_interface",
- 	.release =	usb_release_interface,
- 	.uevent =	usb_if_uevent,
-diff --git a/drivers/usb/core/port.c b/drivers/usb/core/port.c
-index c628c1abc907..84d36172b040 100644
---- a/drivers/usb/core/port.c
-+++ b/drivers/usb/core/port.c
-@@ -429,7 +429,7 @@ static const struct dev_pm_ops usb_port_pm_ops = {
- #endif
- };
- 
--struct device_type usb_port_device_type = {
-+const struct device_type usb_port_device_type = {
- 	.name =		"usb_port",
- 	.release =	usb_port_device_release,
- 	.pm =		&usb_port_pm_ops,
-diff --git a/drivers/usb/core/usb.c b/drivers/usb/core/usb.c
-index dc8d9228a5e7..a0c432b14b20 100644
---- a/drivers/usb/core/usb.c
-+++ b/drivers/usb/core/usb.c
-@@ -592,7 +592,7 @@ static char *usb_devnode(const struct device *dev,
- 			 usb_dev->bus->busnum, usb_dev->devnum);
- }
- 
--struct device_type usb_device_type = {
-+const struct device_type usb_device_type = {
- 	.name =		"usb_device",
- 	.release =	usb_release_dev,
- 	.uevent =	usb_dev_uevent,
-diff --git a/drivers/usb/core/usb.h b/drivers/usb/core/usb.h
-index bfecb50773b6..b8324ea05b20 100644
---- a/drivers/usb/core/usb.h
-+++ b/drivers/usb/core/usb.h
-@@ -144,10 +144,10 @@ static inline int usb_disable_usb2_hardware_lpm(struct usb_device *udev)
- extern const struct class usbmisc_class;
- extern const struct bus_type usb_bus_type;
- extern struct mutex usb_port_peer_mutex;
--extern struct device_type usb_device_type;
--extern struct device_type usb_if_device_type;
--extern struct device_type usb_ep_device_type;
--extern struct device_type usb_port_device_type;
-+extern const struct device_type usb_device_type;
-+extern const struct device_type usb_if_device_type;
-+extern const struct device_type usb_ep_device_type;
-+extern const struct device_type usb_port_device_type;
- extern struct usb_device_driver usb_generic_driver;
- 
- static inline int is_usb_device(const struct device *dev)
-
--- 
-2.43.0
+On 2/18/24 20:14, Bryan O'Donoghue wrote:
+> On 18/02/2024 8:05 a.m., Danila Tikhonov wrote:
+>> I know that some interrupts have both for PM8150B, but for PM6150 all 
+>> interrupts are rising.
+>> Please look at the downstream kernel:
+>> https://git.codelinaro.org/clo/la/kernel/msm-4.14/-/blob/187022f2721d584ac4ec92c0ac1af77da487521d/arch/arm64/boot/dts/qcom/pm6150.dtsi#L319 
+>>
+>> https://git.codelinaro.org/clo/la/kernel/msm-4.14/-/blob/187022f2721d584ac4ec92c0ac1af77da487521d/arch/arm64/boot/dts/qcom/pm8150b.dtsi#L292 
+>>
+>>
+>
+>
+> Please take a look here, I think the same logic should apply to your 
+> patchset.
+>
+> https://www.spinics.net/lists/devicetree/msg665558.html
+>
+> ---
+> bod
 
