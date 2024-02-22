@@ -1,22 +1,23 @@
 Received: from metis.whiteo.stw.pengutronix.de (metis.whiteo.stw.pengutronix.de [185.203.201.7])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3D65173F27
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E699E73F28
 	for <linux-usb@vger.kernel.org>; Thu, 22 Feb 2024 21:09:27 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.203.201.7
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1708636168; cv=none; b=h/+E6yBF0tLpHSWb5bRlyDS7WkMfhtJiuFtz4yZA94FoYXRpoa84D1le32U1o19hM7wRuGXjuMnqqMW21MTzDtToWy7dqHUsJ0GX/ACQabOavJsvAI58U9Tvq2YzzvY4zdq8ycxWWy3kmQzCqgyJ0bJfE0zxobH35W/whDlquRQ=
+	t=1708636169; cv=none; b=qD0Ji6KCI+oL4eopFJzftadyArlHSpaIDS+EpwJd4yrdJ24g6Oq+zSzn5iNM9Wpvb+PGSJC4DLxAWVGkYwfbpAIeuGhtlLmp4qVO2oxP04DmIJOXHTMaJPBDijbRmwNHFPbjGtkRklf5CQh2BF09fVeg/ZhlKy0sp8ezWJZU3Vc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1708636168; c=relaxed/simple;
-	bh=j31Dajbarf+Gba2tIUbxNCli685oiAzWii4l564PZMs=;
-	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=E2ens17h20xj0ZVx+wikFltSgbFT4EmupUoOL6N0lrdueBeUHjvLnHLNOoYjiQw0k1SMT2Lqxm3mjYqL/NXCP5OSovunOgMKEx5F2yBEUtN7n7mprScpBllLaJpZj/FaTCvV8FMPYQVQv/5jgOnQjqdUGOA+tXjq2kBPqjmXboo=
+	s=arc-20240116; t=1708636169; c=relaxed/simple;
+	bh=9fXdVza5W4TGckttMR2jjvZECW0BZ3vgTQy5/Q1KsoQ=;
+	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
+	 MIME-Version; b=pw5SDSExDFb3bNHGDeMT2LxNL24VIuDesPsSu0zEo5YDmAT5P2gSNmuW/Tb3xLdIRnf1ZTpg5ZbYK5q0QbHMNh91M8S5aO1ocqqgN/+F+Cu7JoLo6aLAVaMGH4jmsvppRbkTD1estLGze5yG6I4VloLhrp1T3MLTTvftTn/rD+s=
 ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=pengutronix.de; spf=pass smtp.mailfrom=pengutronix.de; arc=none smtp.client-ip=185.203.201.7
 Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=pengutronix.de
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=pengutronix.de
 Received: from dude02.red.stw.pengutronix.de ([2a0a:edc0:0:1101:1d::28])
 	by metis.whiteo.stw.pengutronix.de with esmtp (Exim 4.92)
 	(envelope-from <m.felsch@pengutronix.de>)
-	id 1rdGJY-0000lo-UV; Thu, 22 Feb 2024 22:09:08 +0100
+	id 1rdGJZ-0000lo-A0; Thu, 22 Feb 2024 22:09:09 +0100
 From: Marco Felsch <m.felsch@pengutronix.de>
 To: gregkh@linuxfoundation.org,
 	robh+dt@kernel.org,
@@ -29,10 +30,12 @@ Cc: devicetree@vger.kernel.org,
 	linux-usb@vger.kernel.org,
 	linux-kernel@vger.kernel.org,
 	kernel@pengutronix.de
-Subject: [PATCH v3 0/4] USB-C TCPM Orientation Support
-Date: Thu, 22 Feb 2024 22:08:59 +0100
-Message-Id: <20240222210903.208901-1-m.felsch@pengutronix.de>
+Subject: [PATCH v3 3/4] usb: typec: tcpm: add support to set tcpc connector orientatition
+Date: Thu, 22 Feb 2024 22:09:02 +0100
+Message-Id: <20240222210903.208901-4-m.felsch@pengutronix.de>
 X-Mailer: git-send-email 2.39.2
+In-Reply-To: <20240222210903.208901-1-m.felsch@pengutronix.de>
+References: <20240222210903.208901-1-m.felsch@pengutronix.de>
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
@@ -45,43 +48,54 @@ X-SA-Exim-Mail-From: m.felsch@pengutronix.de
 X-SA-Exim-Scanned: No (on metis.whiteo.stw.pengutronix.de); SAEximRunCond expanded to false
 X-PTX-Original-Recipient: linux-usb@vger.kernel.org
 
-Hi,
-
-this adds the support to control the optional connector-orientation
-available on some TCPC from the TCPM.
-
-I used an custom board with OnSemi FUSB307B TCPC which is spec [1]
-compatible but albeit the spec [1] says that this pin is controlled by
-the TCPC if 'TCPC_CONTROL.DebugAccessoryControl = 0' it isn't at least
-for this device.
-
-I'm unsure if the usb tcpci spec has an copy'n'paste failure since
-'TCPC_CONTROL.DebugAccessoryControl' shouldn't control the state of the
-'connector orientation' pin or if the OnSemi FUSB307B has an HW bug.
-Since on my device the 'TCPC_CONTROL.DebugAccessoryControl' is set to
-0 but the register wasn't updated automatically.
-
-The patch adapting the existing dts files is send separately, as
-requested.
-
-Regards,
-  Marco
+This adds the support to set the connector orientation value
+accordingly. This is part of the optional CONFIG_STANDARD_OUTPUT
+register 0x18, specified within the USB port controller spsicification
+rev. 2.0 [1].
 
 [1] https://www.usb.org/sites/default/files/documents/usb-port_controller_specification_rev2.0_v1.0_0.pdf
 
-Marco Felsch (4):
-  dt-bindings: usb: typec-tcpci: add tcpci fallback binding
-  usb: typec: tcpci: add generic tcpci fallback compatible
-  usb: typec: tcpm: add support to set tcpc connector orientatition
-  usb: typec: tcpci: add support to set connector orientation
+Signed-off-by: Marco Felsch <m.felsch@pengutronix.de>
+---
+v3:
+- no changes
+v2:
+- no changes
 
- .../devicetree/bindings/usb/nxp,ptn5110.yaml  |  6 ++-
- drivers/usb/typec/tcpm/tcpci.c                | 45 +++++++++++++++++++
- drivers/usb/typec/tcpm/tcpm.c                 |  6 +++
- include/linux/usb/tcpci.h                     |  8 ++++
- include/linux/usb/tcpm.h                      |  2 +
- 5 files changed, 65 insertions(+), 2 deletions(-)
+ drivers/usb/typec/tcpm/tcpm.c | 6 ++++++
+ include/linux/usb/tcpm.h      | 2 ++
+ 2 files changed, 8 insertions(+)
 
+diff --git a/drivers/usb/typec/tcpm/tcpm.c b/drivers/usb/typec/tcpm/tcpm.c
+index 5945e3a2b0f7..85ca26687324 100644
+--- a/drivers/usb/typec/tcpm/tcpm.c
++++ b/drivers/usb/typec/tcpm/tcpm.c
+@@ -1099,6 +1099,12 @@ static int tcpm_set_roles(struct tcpm_port *port, bool attached,
+ 	if (ret < 0)
+ 		return ret;
+ 
++	if (port->tcpc->set_orientation) {
++		ret = port->tcpc->set_orientation(port->tcpc, orientation);
++		if (ret < 0)
++			return ret;
++	}
++
+ 	port->pwr_role = role;
+ 	port->data_role = data;
+ 	typec_set_data_role(port->typec_port, data);
+diff --git a/include/linux/usb/tcpm.h b/include/linux/usb/tcpm.h
+index 65fac5e1f317..93b681ff3ef9 100644
+--- a/include/linux/usb/tcpm.h
++++ b/include/linux/usb/tcpm.h
+@@ -133,6 +133,8 @@ struct tcpc_dev {
+ 		      enum typec_cc_status *cc2);
+ 	int (*set_polarity)(struct tcpc_dev *dev,
+ 			    enum typec_cc_polarity polarity);
++	int (*set_orientation)(struct tcpc_dev *dev,
++			       enum typec_orientation orientation);
+ 	int (*set_vconn)(struct tcpc_dev *dev, bool on);
+ 	int (*set_vbus)(struct tcpc_dev *dev, bool on, bool charge);
+ 	int (*set_current_limit)(struct tcpc_dev *dev, u32 max_ma, u32 mv);
 -- 
 2.39.2
 
