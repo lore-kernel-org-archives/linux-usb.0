@@ -1,201 +1,286 @@
-Received: from post.baikalelectronics.com (post.baikalelectronics.com [213.79.110.86])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 4F43F45C18;
-	Thu, 22 Feb 2024 17:50:22 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.79.110.86
+Received: from mail-ua1-f46.google.com (mail-ua1-f46.google.com [209.85.222.46])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+	(No client certificate requested)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4AD0E14B82B
+	for <linux-usb@vger.kernel.org>; Thu, 22 Feb 2024 19:18:01 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.222.46
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1708624225; cv=none; b=mQZ96CfkbUnvk7+sKgQz6kIG/LXBTWZe/7luJmjmdIVfK9tHBboEDPJLMWWrZ0MmhlEldG9/cqkkFyV7EHU7ZpI7vSfLk5Pw2j/ZOxeho63ofouO0F62mmKHYEomymdhmqHKWVHs9rzevejhn2D2m1fiY9bwxxDBGHloMKUD9wI=
+	t=1708629483; cv=none; b=Z9dJwicwYci85G0GI1y935Ll4XQ1GMq1aa3m05YPMMVDBZdf+oyIGavQrdwS9F8naGAIYDvD1pB8aanzXQzjEkczNxScJUNTscRgD5Y1o5Q65Y4ToPfDsVX45gQZhA9dAVTdo78e+NI/EyHQxBiXDemtfwHJjFCo94WQer3pqRs=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1708624225; c=relaxed/simple;
-	bh=3qmplO43I9PzDk/n4V+hkSgfw8S4LC83IjeuJyEm4HI=;
-	h=From:To:CC:Subject:Date:Message-ID:MIME-Version:Content-Type; b=cq1vl3GTNW4u+Qe4F6YDKwCIAWuVNTIt5zIC5Odz9h5c4LLcTN36PHNniJE6378WjbhOmiy/o3CGwUw9fjAkmWpkJvgn1jM/2ri+6quj2CYLvJRZBvWsqoyOn4Qa5gNLoedUHyqA19LYyLQ/4Yu1HqhGohvnMYzzPazLWwFFT3k=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=baikalelectronics.ru; spf=pass smtp.mailfrom=baikalelectronics.ru; dkim=pass (1024-bit key) header.d=baikalelectronics.ru header.i=@baikalelectronics.ru header.b=N4CfgLMK; arc=none smtp.client-ip=213.79.110.86
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=baikalelectronics.ru
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=baikalelectronics.ru
+	s=arc-20240116; t=1708629483; c=relaxed/simple;
+	bh=hHaCh0qYRJtQz/22yVWqMc419T74hhb+qmd6KY7KPNM=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=No226Wi5tF1gtfzjzLafxvczo5u3O3AGu03JxwJ5gqDP1Bv2Kn1vo0UGwLA6SVWKNtSZKRClFW8KmcMhxHBjOSFpjRwEhpefZWcqToTBtKSOAyH/9WKVKedV7BngDFK5ziNFAQARFr5FNia2h7AYmDd9txONLg2a1f3N7UrveDg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=lKq0bGX3; arc=none smtp.client-ip=209.85.222.46
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=baikalelectronics.ru header.i=@baikalelectronics.ru header.b="N4CfgLMK"
-Received: from post.baikalelectronics.com (localhost.localdomain [127.0.0.1])
-	by post.baikalelectronics.com (Proxmox) with ESMTP id 45F81E0EC2;
-	Thu, 22 Feb 2024 20:44:58 +0300 (MSK)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
-	baikalelectronics.ru; h=cc:cc:content-transfer-encoding
-	:content-type:content-type:date:from:from:message-id
-	:mime-version:reply-to:subject:subject:to:to; s=post; bh=ECxaRkn
-	9yfqjrxSfI8sHbBDrza4hdFLYIVczvySlchw=; b=N4CfgLMKNqKY1JTx83U2XNW
-	HLxS2lzaYHex5BfzTb83yqoyLz27fK3KU+zjqSveb1yOUgUQbtykgEw8chgV3XBP
-	pOZkKAjU/65EB0Gb+WUD3ebZ8vJ2fqcvyCjN1Psmq0jNEhILTMAE16xR46a8K/QB
-	Rdq3Fno/FUkxZddqDTfA=
-Received: from mail.baikal.int (mail.baikal.int [192.168.51.25])
-	by post.baikalelectronics.com (Proxmox) with ESMTP id 1530EE0DE6;
-	Thu, 22 Feb 2024 20:44:58 +0300 (MSK)
-Received: from localhost (10.8.30.70) by mail (192.168.51.25) with Microsoft
- SMTP Server (TLS) id 15.0.1395.4; Thu, 22 Feb 2024 20:44:57 +0300
-From: Serge Semin <Sergey.Semin@baikalelectronics.ru>
-To: Michael Ellerman <mpe@ellerman.id.au>, Nicholas Piggin
-	<npiggin@gmail.com>, Christophe Leroy <christophe.leroy@csgroup.eu>, Aneesh
- Kumar K.V <aneesh.kumar@kernel.org>, "Naveen N. Rao"
-	<naveen.n.rao@linux.ibm.com>, Rob Herring <robh+dt@kernel.org>, Frank Rowand
-	<frowand.list@gmail.com>, Krzysztof Kozlowski
-	<krzysztof.kozlowski+dt@linaro.org>, Conor Dooley <conor+dt@kernel.org>, Greg
- Kroah-Hartman <gregkh@linuxfoundation.org>
-CC: Serge Semin <Sergey.Semin@baikalelectronics.ru>, Serge Semin
-	<fancer.lancer@gmail.com>, Krzysztof Kozlowski <krzk@kernel.org>, Rob Herring
-	<robh@kernel.org>, <linuxppc-dev@lists.ozlabs.org>,
-	<linux-usb@vger.kernel.org>, <devicetree@vger.kernel.org>,
-	<linux-kernel@vger.kernel.org>
-Subject: [PATCH RESEND v10 0/1] dt-bindings: usb: Harmonize xHCI/EHCI/OHCI/DWC3 nodes name
-Date: Thu, 22 Feb 2024 20:44:50 +0300
-Message-ID: <20240222174456.25903-1-Sergey.Semin@baikalelectronics.ru>
-X-Mailer: git-send-email 2.43.0
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="lKq0bGX3"
+Received: by mail-ua1-f46.google.com with SMTP id a1e0cc1a2514c-7d5c514944fso573809241.1
+        for <linux-usb@vger.kernel.org>; Thu, 22 Feb 2024 11:18:01 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1708629480; x=1709234280; darn=vger.kernel.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=Lk/hQX0g76DH2PDGuuic9ne11CgGhr4vV3zmfQNW/W8=;
+        b=lKq0bGX3uUd7HtwVFmuxx/7m21WXz46CHSyFaugfNQaqm/cOGKyHSPlqsmHEvuLzsE
+         hAzUGvRLT1tj3ksjcbkEdYuxWqcXKY4wl4iiTW66dc5kv15y2zzi4dIr3M6t1knL9HEt
+         yzX6pDuw5cZHzdYCJz24u3qf08OqTRHtl0GmdndL5MuKGOItryLll/x+cCqMWTnxQMZ6
+         bUPEDqjdd1OPBrIZx7ddtOnuSkoxFPCO/1aaHP+QR7XexmkB4lO5PZMXUG04FeYDq5oA
+         upWBf75faDRH8T+Nw+UJMziCLnn4deiPSJzl5KOyIqanth1+gnP5Qqp1fJNuMXQl1Xud
+         jZmg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1708629480; x=1709234280;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=Lk/hQX0g76DH2PDGuuic9ne11CgGhr4vV3zmfQNW/W8=;
+        b=tUrxzfQvb+GPzVs9CO9kXEXkgKvLWx1rDzVmRWdJjy0jn2ZcD9nTv31Ac3NH5Avb+c
+         MvVwK2y37ixxVDBMXgrDPPCrOdTP1Hcznq3rtJXYJFJ6g09yxI0bOGamu+uDPI+FCK4g
+         VZVSE45fA4O8Eq/ML5oa69aayjUzKxW+//YbCiEqDThwQ51STNenG5flWKpiq+HatHJh
+         4C5LAVqmL0XX/1rK0JU14E0YDO0happjesEfU24lCwwsFheey+i27Sw+mG8U6BB3eUOV
+         bmbB84ffjgaiQfP9sW9YSPr754+pmSHJAISv4/0hGDD89tLiNmOB0kB2PsO01xzw/ESl
+         c/1Q==
+X-Gm-Message-State: AOJu0Ywtyh6OZ/V8+3zHsEt4pd0eUrAUYmRDPMDVtLj7MbdoFnswHLCe
+	TucCFbmGVRp3fNEIYpfO4crkT2iAXOAWfbOCve3sseRA/RN77JmwcDOKVZEA0pbptVlmKRwfxLt
+	I4zu+MV1plqFQBu2OguS3b0ZfNiM9Jvm3SYE=
+X-Google-Smtp-Source: AGHT+IGnz0sU7GMOldiNplNVwBaC8NYxqLmjTa0Cy9FZCqAOrSncwemQFPxTk5DjzQLGUpaXguS/v57wzZg1MgJ7aOA=
+X-Received: by 2002:a05:6122:2486:b0:4d1:3924:caa6 with SMTP id
+ by6-20020a056122248600b004d13924caa6mr3174657vkb.1.1708629479998; Thu, 22 Feb
+ 2024 11:17:59 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-ClientProxiedBy: MAIL.baikal.int (192.168.51.25) To mail (192.168.51.25)
-
-As the subject states this series is an attempt to harmonize the xHCI,
-EHCI, OHCI and DWC USB3 DT nodes with the DT schema introduced in the
-framework of the patchset [1].
-
-Firstly as Krzysztof suggested we've deprecated a support of DWC USB3
-controllers with "synopsys,"-vendor prefix compatible string in favor of
-the ones with valid "snps,"-prefix. It's done in all the DTS files,
-which have been unfortunate to define such nodes.
-
-Secondly we suggest to fix the snps,quirk-frame-length-adjustment property
-declaration in the Amlogic meson-g12-common.dtsi DTS file, since it has
-been erroneously declared as boolean while having uint32 type. Neil said
-it was ok to init that property with 0x20 value.
-
-Thirdly the main part of the patchset concern fixing the xHCI, EHCI/OHCI
-and DWC USB3 DT nodes name as in accordance with their DT schema the
-corresponding node name is suppose to comply with the Generic USB HCD DT
-schema, which requires the USB nodes to have the name acceptable by the
-regexp: "^usb(@.*)?". Such requirement had been applicable even before we
-introduced the new DT schema in [1], but as we can see it hasn't been
-strictly implemented for a lot the DTS files. Since DT schema is now
-available the automated DTS validation shall make sure that the rule isn't
-violated.
-
-Note most of these patches have been a part of the last three patches of
-[1]. But since there is no way to have them merged in in a combined
-manner, I had to move them to the dedicated series and split them up so to
-be accepted by the corresponding subsystem maintainers one-by-one.
-
-[1] Link: https://lore.kernel.org/linux-usb/20201014101402.18271-1-Sergey.Semin@baikalelectronics.ru
-Changelog v1:
-- As Krzysztof suggested I've created a script which checked whether the
-  node names had been also updated in all the depended dts files. As a
-  result I found two more files which should have been also modified:
-  arch/arc/boot/dts/{axc003.dtsi,axc003_idu.dtsi}
-- Correct the USB DWC3 nodes name found in
-  arch/arm64/boot/dts/apm/{apm-storm.dtsi,apm-shadowcat.dtsi} too.
-
-Link: https://lore.kernel.org/linux-usb/20201020115959.2658-1-Sergey.Semin@baikalelectronics.ru
-Changelog v2:
-- Drop the patch:
-  [PATCH 01/29] usb: dwc3: Discard synopsys,dwc3 compatibility string
-  and get back the one which marks the "synopsys,dwc3" compatible string
-  as deprecated into the DT schema related series.
-- Drop the patches:
-  [PATCH 03/29] arm: dts: am437x: Correct DWC USB3 compatible string
-  [PATCH 04/29] arm: dts: exynos: Correct DWC USB3 compatible string
-  [PATCH 07/29] arm: dts: bcm53x: Harmonize EHCI/OHCI DT nodes name
-  [PATCH 08/29] arm: dts: stm32: Harmonize EHCI/OHCI DT nodes name
-  [PATCH 16/29] arm: dts: bcm5301x: Harmonize xHCI DT nodes name
-  [PATCH 19/29] arm: dts: exynos: Harmonize DWC USB3 DT nodes name
-  [PATCH 21/29] arm: dts: ls1021a: Harmonize DWC USB3 DT nodes name
-  [PATCH 22/29] arm: dts: omap5: Harmonize DWC USB3 DT nodes name
-  [PATCH 24/29] arm64: dts: allwinner: h6: Harmonize DWC USB3 DT nodes name
-  [PATCH 26/29] arm64: dts: exynos: Harmonize DWC USB3 DT nodes name
-  [PATCH 27/29] arm64: dts: layerscape: Harmonize DWC USB3 DT nodes name
-  since they have been applied to the corresponding maintainers repos.
-- Fix drivers/usb/dwc3/dwc3-qcom.c to be looking for the "usb@"-prefixed
-  sub-node and falling back to the "dwc3@"-prefixed one on failure.
-
-Link: https://lore.kernel.org/linux-usb/20201111091552.15593-1-Sergey.Semin@baikalelectronics.ru
-Changelog v3:
-- Drop the patches:
-  [PATCH v2 04/18] arm: dts: hisi-x5hd2: Harmonize EHCI/OHCI DT nodes name
-  [PATCH v2 06/18] arm64: dts: hisi: Harmonize EHCI/OHCI DT nodes name
-  [PATCH v2 07/18] mips: dts: jz47x: Harmonize EHCI/OHCI DT nodes name
-  [PATCH v2 08/18] mips: dts: sead3: Harmonize EHCI/OHCI DT nodes name
-  [PATCH v2 09/18] mips: dts: ralink: mt7628a: Harmonize EHCI/OHCI DT nodes name
-  [PATCH v2 11/18] arm64: dts: marvell: cp11x: Harmonize xHCI DT nodes name
-  [PATCH v2 12/18] arm: dts: marvell: armada-375: Harmonize DWC USB3 DT nodes name
-  [PATCH v2 16/18] arm64: dts: hi3660: Harmonize DWC USB3 DT nodes name
-  since they have been applied to the corresponding maintainers repos.
-
-Link: https://lore.kernel.org/linux-usb/20201205155621.3045-1-Sergey.Semin@baikalelectronics.ru
-Changelog v4:
-- Just resend.
-
-Link: https://lore.kernel.org/linux-usb/20201210091756.18057-1-Sergey.Semin@baikalelectronics.ru
-Changelog v5:
-- Drop the patch:
-  [PATCH v4 02/10] arm64: dts: amlogic: meson-g12: Set FL-adj property value
-  since it has been applied to the corresponding maintainers repos.
-- Get back the patch:
-  [PATCH 21/29] arm: dts: ls1021a: Harmonize DWC USB3 DT nodes name
-  as it has been missing in the kernel 5.11-rc7
-- Rebase onto the kernel 5.11-rc7.
-
-Link: https://lore.kernel.org/lkml/20210208135154.6645-1-Sergey.Semin@baikalelectronics.ru
-Changelog v6:
-- Just resend and add linux-usb.vger.kernel.org to the list of Ccecipients.
-
-Link: https://lore.kernel.org/linux-usb/20210210172850.20849-1-Sergey.Semin@baikalelectronics.ru
-Link: https://lore.kernel.org/linux-usb/20210212205521.14280-1-Sergey.Semin@baikalelectronics.ru
-Changelog v7:
-- Replace "of_get_child_by_name(np, "usb") ?: of_get_child_by_name(np, "dwc3");"
-  pattern with using of_get_compatible_child() method in the Qcom DWC3 driver.
-- Drop the patches:
-  [PATCH v6 01/10] arm: dts: ls1021a: Harmonize DWC USB3 DT nodes name
-  [PATCH v6 02/10] arm: dts: keystone: Correct DWC USB3 compatible string
-  [PATCH v6 06/10] arm: dts: keystone: Harmonize DWC USB3 DT nodes name
-  since they have been applied to the corresponding maintainers repos.
-- Cleanup the list of recipients.
-- Rebase onto kernel 5.12-rc4.
-
-Link: https://lore.kernel.org/lkml/20210324204836.29668-1-Sergey.Semin@baikalelectronics.ru
-Changelog v8:
-- Just resend.
-
-Link: https://lore.kernel.org/lkml/20210409113029.7144-1-Sergey.Semin@baikalelectronics.ru
-Changelog v9:
-- Drop the patches:
-  [PATCH RESEND v8 1/8] arm: dts: ls1021a: Harmonize DWC USB3 DT nodes name
-  [PATCH RESEND v8 7/8] usb: dwc3: qcom: Detect DWC3 DT-nodes using compatible string
-  since they have been applied to the corresponding maintainers repos.
-- Rebase onto the kernel 5.19-rcX.
-
-Link: https://lore.kernel.org/lkml/20220624141622.7149-1-Sergey.Semin@baikalelectronics.ru
-Changelog v10:
-- Just resend.
-- Rebase onto the kernel 6.8-rc3.
-- Drop the already merged in patches:
-  [PATCH RESEND v9 1/5] arc: dts: Harmonize EHCI/OHCI DT nodes name
-  [PATCH RESEND v9 2/5] arm: dts: lpc18xx: Harmonize EHCI/OHCI DT nodes name
-  [PATCH RESEND v9 4/5] arm: dts: stih407-family: Harmonize DWC USB3 DT nodes name
-  [PATCH RESEND v9 5/5] arm64: dts: apm: Harmonize DWC USB3 DT nodes name
-
-Cc: Krzysztof Kozlowski <krzk@kernel.org>
-Cc: Rob Herring <robh@kernel.org>
-Cc: linuxppc-dev@lists.ozlabs.org
+References: <CAHK3GzziwVASKgvBQmv_DnhwLJ8Bj2K=42ptyTrtOFCAAPXcnw@mail.gmail.com>
+ <Yp9k4JRcNMcvVi6l@rowland.harvard.edu> <CAHK3Gzw7tqgjyiKgEqg0LHMFf4ycjOKE=pdobf6OFeANvUvkQg@mail.gmail.com>
+ <30fa974b-d943-4b8f-b6a7-313f03ca439e@rowland.harvard.edu>
+In-Reply-To: <30fa974b-d943-4b8f-b6a7-313f03ca439e@rowland.harvard.edu>
+From: Kevin Rowland <kevin.p.rowland@gmail.com>
+Date: Thu, 22 Feb 2024 11:17:48 -0800
+Message-ID: <CAHK3GzzvDkA_a2eFEqx8Dw+mL9wLnCh5F-TUBKKT0ui8psfXuw@mail.gmail.com>
+Subject: Re: Control of external VBUS on resume from sleep
+To: Alan Stern <stern@rowland.harvard.edu>
 Cc: linux-usb@vger.kernel.org
-Cc: devicetree@vger.kernel.org
-Cc: linux-kernel@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-Serge Semin (1):
-  powerpc: dts: akebono: Harmonize EHCI/OHCI DT nodes name
+On Thu, Feb 22, 2024 at 7:55=E2=80=AFAM Alan Stern <stern@rowland.harvard.e=
+du> wrote:
+>
+> On Wed, Feb 21, 2024 at 02:40:05PM -0800, Kevin Rowland wrote:
+> > Alan, first, apologies for the extremely late response.
+> >
+> > I successfully hacked around the original issue, things have been
+> > working for a long
+> > time, but now I have to revisit it. Responses inline.
+> >
+> > On Tue, Jun 7, 2022 at 7:46 AM Alan Stern <stern@rowland.harvard.edu> w=
+rote:
+> > >
+> > > On Mon, Jun 06, 2022 at 03:12:58PM -0700, Kevin Rowland wrote:
+> > > > Hello all,
+> > > >
+> > > > I've got a USB 3.0 host (an NXP i.MX8QM running 5.10.72 with Cadenc=
+e
+> > > > XHCI host controller IP) connected to a USB device on the same PCB,
+> > > > which also happens to run Linux (although I think that's beside the
+> > > > point here). The quirk is that, although D+/D- are routed directly
+> > > > from host to device, VBUS is actually controlled by a separate GPIO=
+ on
+> > > > the host. The dedicated VBUS pin on the USB host controller is pull=
+ed
+> > > > high. ID is pulled high on the PBC but driven low by a GPIO from th=
+e
+> > > > i.MX8, so we can imagine it's tied to ground.
+> > > >
+> > > > I've made a little schematic drawing [1] to help visualize the conn=
+ections.
+> > > >
+> > > > We've run into an issue where, on resume from STR, the following
+> > > > sequence occurs:
+> > > > - the GPIO peripheral on the host is powered back on, VBUS is
+> > > > immediately driven high
+> > >
+> > > Why wasn't the GPIO turned on the whole time the system was suspended=
+?
+> > > How can remote wakeup work without VBUS power?
+> > We don't currently use remote wakeup. The device is self-powered and en=
+ters
+> > suspend-to-RAM itself when the host is suspended. The device can then w=
+ake
+> > from an external source, at which point it will wake the host (i.MX8)
+> > by asserting a
+> > GPIO.
+> >
+> > We've discussed maintaining VBUS through suspend and using USB remote
+> > wakeup from the device, but that's off the table right now. Part of
+> > the reason is
+> > that our SoC can't get down into its lowest power state without powerin=
+g off all
+> > on-chip peripherals like the USB host controller - it can, however,
+> > get to its lowest
+> > power state and still wake via GPIO events.
+> >
+> > > > - the device signals attach on DP/DN, but _I believe_ the host
+> > > > controller on the host is not yet powered on
+> > Slight correction, we have a 3.0 link so the device signals attach on
+> > the SS lines,
+> > then I think it falls back to signaling attach on DP/DN. Hopefully that=
+ doesn't
+> > change things too much.
+> >
+> > > > - the host controller is then powered on and the {hub, hcd, xhci}
+> > > > drivers all resume, but no port status change is detected; I believ=
+e
+> > > > that attach signaling was missed by the host controller
+>
+> You mean the port is physically attached to the device but the host
+> controller reports that it is not connected?
+>
+> As part of its resume handling, the hub driver polls all the port
+> statuses.  If there was a status change, it would be aware unless the
+> controller's root hub simply did not report the new port status at all.
 
- arch/powerpc/boot/dts/akebono.dts | 6 +++---
- 1 file changed, 3 insertions(+), 3 deletions(-)
+Right, in my original investigation from 18 months ago, on return from
+`check_port_resume_type()` in `usb_port_resume()` I saw that BIT(0) in
+both portstatus and portchange was cleared.
 
--- 
-2.43.0
+Then, if I hacked in an extra LOW->HIGH toggle of VBUS in
+`usb_port_resume()`, right before `wait_for_connected()` /
+`check_port_resume_type()`, I saw BIT(0) in both of those two port
+registers was set, and enumeration succeeded. My conclusion was that
+the host controller hardware was simply not powered on when VBUS was
+first driven HIGH, so the hardware missed ATTACH signaling by the
+device, and therefore BIT(0) remained clear. Hacking in an extra
+rising edge on VBUS forced the device to signal ATTACH again, and at
+that point the hardware was powered and ready to notice it.
 
+I'm still pretty confident that that conclusion is correct, but I'm
+open to clarifications.
 
+>
+> > > > I'd like for the host controller driver (or the root hub driver??) =
+to
+> > > > have explicit control of VBUS, so that it's driven high only when t=
+he
+> > > > host controller regains power and is ready to detect attach signali=
+ng.
+>
+> In fact, the hub driver is aware of none of this.  The host controller
+> driver, or better, the host controller's platform driver is where all
+> the knowledge about the VBUS GPIO resides.
+>
+> How does your resume sequence work?  Does the PM core call a resume
+> routine in the platform driver, which then tells the xHCI core to do its
+> resume processing?  If that's the case then all you have to is turn on
+> the GPIO after the xHCI resume processing is finished, just before the
+> platform driver's resume routine returns.
+>
+> If that's not how it works then you might have to add some
+> platform-specific glue code to the end of the xHCI core resume routine.
+> Maybe controlled by a quirk flag.
+>
+
+I'm not sure if "platform driver" here means the i.MX8-specific driver
+or the glue driver in `xhci-plat.c`. I see that the glue driver in
+`xhci-plat.c` registers a resume hook. That resume hook indeed calls
+`xhci_resume()` to tell the xHCI core to resume.
+
+The i.MX8-specific driver is just the `cdns3` driver, which doesn't
+seem to call into the xHCI core directly. Rather, the `cdns3` driver
+creates the xHCI platform device with a
+`platform_device_{alloc,add}()` pair. So since the xHCI platform
+device is a child of the`cdns3` device, the latter will be resumed
+before the former (just because of their ordering in `dpm_list`).
+Writing that out makes me think I need to drive VBUS in the glue
+driver, in `xhci-plat.c:xhci_plat_resume()`, after returning from
+`xhci_resume()`, exactly as you've suggested. I can structure it in
+the same way as the existing `suspend_quirk()`, such that a callback
+is included in the "private" data passed by the `cdns3` driver.
+
+> > > > I see device-tree documentation about the USB connector node and
+> > > > `vbus-supply`, but I'm having a hard time understanding how to squa=
+re
+> > > > my use-case with `drivers/usb/common/usb-conn-gpio.c`, which reacts=
+ to
+> > > > state changes on VBUS or ID.
+> > > >
+> > > > Any thoughts on where I should stick the logic that enables VBUS on
+> > > > resume? My current (very hacky) fix is to initialize a global (argh=
+!)
+> > > > gpio_desc to refer to the VBUS GPIO, then to call
+> > > > `gpiod_set_value(<gpio_desc>, 0); gpiod_set_value(<gpio_desc>, 1);`=
+ in
+> > > > `usb_port_resume()`, which is where I ended up when tracking the
+> > > > original issue. This toggles VBUS and allows us to catch the new ro=
+und
+> > > > of attach signaling from the device.
+> > >
+> > > The hub driver already knows to turn on port power when a hub is
+> > > initialized or during a reset-resume.  It doesn't do so during a
+> > > regular resume because it assumes power was on the whole time.  You c=
+an
+> > > change this, if necessary.
+> > Via set_port_feature(PORT_FEAT_POWER) in hub_power_on? Does this mean
+> > I should patch in some extra logic to ask the platform-specific driver
+> > to assert the
+> > external VBUS GPIO? I'm happy to do that, I just don't want to miss log=
+ic that's
+> > already built-in to the drivers.
+> >
+> > If I'm reading the indirection correctly, I'll need:
+> > hcd_to_xhci(bus_to_hcd(hub->hdev->bus))
+> >
+> > to access the struct xhci_hcd. I don't yet see how to go from there to
+> > the platform
+> > driver.
+>
+> This is a good indication that you're trying to do things in the wrong
+> place.  Since what you're talking about is all platform-specific stuff,
+> that best place to put it all is in the platform driver.
+>
+
+Okay great, avoiding the indirection game is always nice :-)
+
+> Alan Stern
+>
+> > > > I'm happy to use the fixed-regulator framework instead, I'm just no=
+t
+> > > > sure which driver should own the gpio_desc / regulator and where it
+> > > > should be disabled / enabled during suspend / resume.
+> > >
+> > > Probably whichever platform-specific driver manages your xHCI control=
+ler
+> > > should be the one to interact with the GPIO.  But it should make chan=
+ges
+> > > only when told to do so by a higher layer (such as the hub driver).
+> > This helps, thanks.
+> >
+> > Best,
+> > Kevin
+> >
+> >
+> >
+> > > Alan Stern
+> > >
+> > > > Best,
+> > > > Kevin
+> > > >
+> > > > [1]
+> > > >
+> > > >  i.MX8                      device
+> > > > .----------------.         .-------------.
+> > > > |     GPIOX.Y ---|-------->| VBUS (in)   |
+> > > > |                |         |             |
+> > > > |  USB           |    _    |             |
+> > > > | .------------. |    |    |             |
+> > > > | |    VBUS ---|-|----'    |             |
+> > > > | |     DP <---|-|-------->| DP          |
+> > > > | |     DP <---|-|-------->| DN          |
+> > > > | |     ID ----|-|----.    '-------------'
+> > > > | '------------' |    |
+> > > > '----------------'    v
