@@ -1,97 +1,182 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.12])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C58867E779;
-	Fri, 23 Feb 2024 13:17:52 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AA6E076039
+	for <linux-usb@vger.kernel.org>; Fri, 23 Feb 2024 14:01:31 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.12
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1708694272; cv=none; b=poXCQe6aOhykG615sTp9LYhwsY/Cs4q4g0g38lmOOWt1X0G0jCKSP6pzzJcANdiAGSdjY4LqFrMK04tCiS4PtxK9EzxMD5GyCcBJ9PkNgd56REWJaqEJectIXZSSEy685Aid0L9EiBU4wZbAy6sTZ4MRITWpNQrOinn69uh1nd4=
+	t=1708696893; cv=none; b=dxg0Cd9hTtAsWiqUJdoS7YnzNCtxE7maAYaE7JWLR6K5L6rqfx5v1xTD9lgM4wXVLnr7UjFAtIgG4mFdfSOpSVMTw/soTVUUD+z/iu1yHzeblRJNlzCGFDezTfZ/Bu+BE4kya2Uoty6/+0F7oezBWE/ZdfBnEmZwdAZyQOpmKG4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1708694272; c=relaxed/simple;
-	bh=Dah7nKbNvgz0/8dvPVQyf9mzODhi8A9Za+//Q+h+nOo=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=A+/1XwdRHW4/rSK/TPcl35eCza6wdIQPC+QI8eoNcsMiUOcPZPhJmc+uaN1fnRzLY718BqK6FzrWYcYjzoQ/ZhPoL4kp6sZhUqdPOmJnid8JXNZoRJavBoAIDp9961DfdLqKL7oW7XRfIjH9VC+DntmN9mCYmkSYSY7b/FNo8KI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=ZLn+NWth; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1708696893; c=relaxed/simple;
+	bh=uFhLumf0xn7KImr/ozi31eMwhK5EEJzKCyw69hFph+0=;
+	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=KWU8G+cyd0i3vtEqkHdUZglLN72vF2WPZIez+Wke1h+b6bnSvLtKeT/JKfeEZ+kfEVrlRnGypzzQOC/OjHh4ZPmwAbWOryEy8XNfmQtwIIo4OQZDQpNrqLbGXtD59ffM48LoPd8rwafXf0XnlleZ8NNn5OQg7Xcv6qg34+gv6jg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=none smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=HaB+Rzqa; arc=none smtp.client-ip=192.198.163.12
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=linux.intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="ZLn+NWth"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id D6ACAC433C7;
-	Fri, 23 Feb 2024 13:17:48 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1708694272;
-	bh=Dah7nKbNvgz0/8dvPVQyf9mzODhi8A9Za+//Q+h+nOo=;
-	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-	b=ZLn+NWthQGZDjuQdLhDm9cq4Z+NCyABBvxxLqqJvYpMnsAcNi7UZ/YrudXsXlJPJR
-	 I7vVywWsWW57tgfWCgvWV77uy4Q77QFxCUPg4uvEld21dfq0WwWnm4lhrXn1eExFO8
-	 RvOkAm9AU+voMEa4+V2yo4Hqtaq5Nkax1ah/vsy0VrbBphdcjh4mfJamTi6pX/FEuH
-	 uX8bjiTH7weTUkKEbYnoeURf50E7qrqMICYoLdPAKz9O0bJNjVG8aesiOB0fNk9Qji
-	 5ZJIwE4jJABFElU2Xk6PbcCFg6lpFOREGu2axf11wROsAi7FVqW1SyP4xkcpqBv4+g
-	 o8Z3uA2T03RsA==
-Message-ID: <48e63867-616e-4a37-ab17-a6977c600ec1@kernel.org>
-Date: Fri, 23 Feb 2024 15:17:46 +0200
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="HaB+Rzqa"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1708696892; x=1740232892;
+  h=from:to:cc:subject:date:message-id:mime-version:
+   content-transfer-encoding;
+  bh=uFhLumf0xn7KImr/ozi31eMwhK5EEJzKCyw69hFph+0=;
+  b=HaB+RzqaO5ZHR4/tHI7E4J+xxLpNa2mO0dsJau7C1bt1LY1nLAc9IEfN
+   4m5yXgrf05/w8ykX5hx34XeOyIrJGhe5b0fNMqCYhw/nnTUQ3Q1zd3ALy
+   aHfVBC2FDqNQR10G9cq3TIxfQYkDPsopmPRVgx6+adCoeWEt4ghVcwj5F
+   J8TjJbV7+FuloA8qBLUixPjb6ogKprlhVNpZaCXbzt++AzQQnIVLbhCrv
+   QWO9TBmTuo1Tx9CWbeKhFltNNb1IstExNRdINzaPmx48ys4nuZooAs+yM
+   NJ4IljDNIwh4RHQi99q+bL26PIwkUUUJAUYBUZXQ4q8SvoYDSnNAHC5Hz
+   g==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10992"; a="6796726"
+X-IronPort-AV: E=Sophos;i="6.06,180,1705392000"; 
+   d="scan'208";a="6796726"
+Received: from fmsmga001.fm.intel.com ([10.253.24.23])
+  by fmvoesa106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 23 Feb 2024 06:01:31 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,10992"; a="937025040"
+X-IronPort-AV: E=Sophos;i="6.06,180,1705392000"; 
+   d="scan'208";a="937025040"
+Received: from mattu-haswell.fi.intel.com ([10.237.72.199])
+  by fmsmga001.fm.intel.com with ESMTP; 23 Feb 2024 06:01:29 -0800
+From: Mathias Nyman <mathias.nyman@linux.intel.com>
+To: gregkh@linuxfoundation.org
+Cc: linux-usb@vger.kernel.org,
+	<stern@rowland.harvard.edu>,
+	Mathias Nyman <mathias.nyman@linux.intel.com>
+Subject: [PATCH v2] usb: usb-acpi: Set port connect type of not connectable ports correctly
+Date: Fri, 23 Feb 2024 16:03:05 +0200
+Message-Id: <20240223140305.185182-1-mathias.nyman@linux.intel.com>
+X-Mailer: git-send-email 2.25.1
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v3 0/5] usb: dwc3-am62: module removal and errata fixes
-Content-Language: en-US
-To: Thinh Nguyen <Thinh.Nguyen@synopsys.com>,
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
- Rob Herring <robh+dt@kernel.org>,
- Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
- Conor Dooley <conor+dt@kernel.org>
-Cc: nm@ti.com, r-gunasekaran@ti.com, afd@ti.com, b-liu@ti.com, srk@ti.com,
- francesco@dolcini.it, linux-usb@vger.kernel.org,
- linux-kernel@vger.kernel.org, devicetree@vger.kernel.org
-References: <20240214-for-v6-9-am62-usb-errata-3-0-v3-0-147ec5eae18c@kernel.org>
-From: Roger Quadros <rogerq@kernel.org>
-In-Reply-To: <20240214-for-v6-9-am62-usb-errata-3-0-v3-0-147ec5eae18c@kernel.org>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
 
-Hi Thinh,
+Ports with  _UPC (USB Port Capability) ACPI objects stating they are
+"not connectable" are not wired to any connector or internal device.
+They only exist inside the host controller.
 
-On 14/02/2024 11:46, Roger Quadros wrote:
-> Hi,
-> 
-> This series fixes errors during module removal. It also
-> implements PHY core voltage selection as per TI recommendation
-> and workaround for Errata i2409 [1].
-> 
-> The workaround needs PHY2 region to be present in device node.
-> The device tree patch will be sent later after the DT binding doc
-> is merged.
-> 
-> [1] - https://www.ti.com/lit/er/sprz487d/sprz487d.pdf
-> 
-> Changelog in each file
-> 
-> v2: https://lore.kernel.org/all/20240205141221.56076-1-rogerq@kernel.org/
-> v1: https://lore.kernel.org/all/20240201121220.5523-1-rogerq@kernel.org/
-> 
-> Signed-off-by: Roger Quadros <rogerq@kernel.org>
-> ---
-> Roger Quadros (5):
->       usb: dwc3-am62: call of_platform_depopulate in .remove()
->       usb: dwc3-am62: fix error on module removal
->       usb: dwc3-am62: Fix PHY core voltage selection
->       dt-bindings: usb/ti,am62-usb.yaml: Add PHY2 register space
->       usb: dwc3-am62: add workaround for Errata i2409
+These ports may not have an ACPI _PLD (Physical Location of Device)
+object.
 
-Any feedback on this series? Thanks!
+Rework the code so that _UPC is read even if _PLD does not exist, and
+make sure the port->connect_type is set to "USB_PORT_NOT_USED" instead
+of "USB_PORT_CONNECT_TYPE_UNKNOWN".
 
-> 
->  .../devicetree/bindings/usb/ti,am62-usb.yaml       |  8 +++-
->  drivers/usb/dwc3/dwc3-am62.c                       | 45 ++++++++++++++++------
->  2 files changed, 39 insertions(+), 14 deletions(-)
-> ---
-> base-commit: 6613476e225e090cc9aad49be7fa504e290dd33d
-> change-id: 20240206-for-v6-9-am62-usb-errata-3-0-233024ea8e9d
-> 
-> Best regards,
+No bugs or known issues are reported due to possibly not parsing _UPC,
+and thus leaving the port connect type as "unknown" instead of
+"not used". Nice to have this fixed but no need to add it to stable
+kernels, or urgency to get it upstream.
 
+Signed-off-by: Mathias Nyman <mathias.nyman@linux.intel.com>
+---
+v1 -> v2
+  - Commit message improvements
+  - send patch separately for easier picking to usb-next
+
+ drivers/usb/core/usb-acpi.c | 46 ++++++++++++++++++-------------------
+ 1 file changed, 23 insertions(+), 23 deletions(-)
+
+diff --git a/drivers/usb/core/usb-acpi.c b/drivers/usb/core/usb-acpi.c
+index a34b22537d7c..f250dfc3b14d 100644
+--- a/drivers/usb/core/usb-acpi.c
++++ b/drivers/usb/core/usb-acpi.c
+@@ -142,12 +142,19 @@ int usb_acpi_set_power_state(struct usb_device *hdev, int index, bool enable)
+ }
+ EXPORT_SYMBOL_GPL(usb_acpi_set_power_state);
+ 
+-static enum usb_port_connect_type usb_acpi_get_connect_type(acpi_handle handle,
+-		struct acpi_pld_info *pld)
++/*
++ * Private to usb-acpi, all the core needs to know is that
++ * port_dev->location is non-zero when it has been set by the firmware.
++ */
++#define USB_ACPI_LOCATION_VALID (1 << 31)
++
++static void
++usb_acpi_get_connect_type(struct usb_port *port_dev, acpi_handle *handle)
+ {
+ 	enum usb_port_connect_type connect_type = USB_PORT_CONNECT_TYPE_UNKNOWN;
+ 	struct acpi_buffer buffer = { ACPI_ALLOCATE_BUFFER, NULL };
+ 	union acpi_object *upc = NULL;
++	struct acpi_pld_info *pld;
+ 	acpi_status status;
+ 
+ 	/*
+@@ -158,6 +165,12 @@ static enum usb_port_connect_type usb_acpi_get_connect_type(acpi_handle handle,
+ 	 * a usb device is directly hard-wired to the port. If no visible and
+ 	 * no connectable, the port would be not used.
+ 	 */
++
++	status = acpi_get_physical_device_location(handle, &pld);
++	if (ACPI_SUCCESS(status) && pld)
++		port_dev->location = USB_ACPI_LOCATION_VALID |
++			pld->group_token << 8 | pld->group_position;
++
+ 	status = acpi_evaluate_object(handle, "_UPC", NULL, &buffer);
+ 	if (ACPI_FAILURE(status))
+ 		goto out;
+@@ -166,25 +179,22 @@ static enum usb_port_connect_type usb_acpi_get_connect_type(acpi_handle handle,
+ 	if (!upc || (upc->type != ACPI_TYPE_PACKAGE) || upc->package.count != 4)
+ 		goto out;
+ 
++	/* UPC states port is connectable */
+ 	if (upc->package.elements[0].integer.value)
+-		if (pld->user_visible)
++		if (!pld)
++			; /* keep connect_type as unknown */
++		else if (pld->user_visible)
+ 			connect_type = USB_PORT_CONNECT_TYPE_HOT_PLUG;
+ 		else
+ 			connect_type = USB_PORT_CONNECT_TYPE_HARD_WIRED;
+-	else if (!pld->user_visible)
++	else
+ 		connect_type = USB_PORT_NOT_USED;
+ out:
++	port_dev->connect_type = connect_type;
+ 	kfree(upc);
+-	return connect_type;
++	ACPI_FREE(pld);
+ }
+ 
+-
+-/*
+- * Private to usb-acpi, all the core needs to know is that
+- * port_dev->location is non-zero when it has been set by the firmware.
+- */
+-#define USB_ACPI_LOCATION_VALID (1 << 31)
+-
+ static struct acpi_device *
+ usb_acpi_get_companion_for_port(struct usb_port *port_dev)
+ {
+@@ -222,22 +232,12 @@ static struct acpi_device *
+ usb_acpi_find_companion_for_port(struct usb_port *port_dev)
+ {
+ 	struct acpi_device *adev;
+-	struct acpi_pld_info *pld;
+-	acpi_handle *handle;
+-	acpi_status status;
+ 
+ 	adev = usb_acpi_get_companion_for_port(port_dev);
+ 	if (!adev)
+ 		return NULL;
+ 
+-	handle = adev->handle;
+-	status = acpi_get_physical_device_location(handle, &pld);
+-	if (ACPI_SUCCESS(status) && pld) {
+-		port_dev->location = USB_ACPI_LOCATION_VALID
+-			| pld->group_token << 8 | pld->group_position;
+-		port_dev->connect_type = usb_acpi_get_connect_type(handle, pld);
+-		ACPI_FREE(pld);
+-	}
++	usb_acpi_get_connect_type(port_dev, adev->handle);
+ 
+ 	return adev;
+ }
 -- 
-cheers,
--roger
+2.25.1
+
