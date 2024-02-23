@@ -1,135 +1,113 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pg1-f175.google.com (mail-pg1-f175.google.com [209.85.215.175])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E4B0E5DF00;
-	Fri, 23 Feb 2024 14:02:58 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E62534C79
+	for <linux-usb@vger.kernel.org>; Fri, 23 Feb 2024 14:43:11 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.215.175
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1708696979; cv=none; b=uHV+lKd+SxPBps2Sb4+D9xZTkyX4h4lqW3lMXz/6DDXdsZIlbV3wTOfiKzbdawlqxfcaP6MBYkwsGtwqn3bK7cl0BveYRX+YRk69kdBYQpCgKdvd/bGUnhXLJa6tKMwmJKhZGn3AurtKMobMMWFeGnSHyXJ0toHerkOt4LEMc+o=
+	t=1708699393; cv=none; b=QqElOuBDeng3+vpMWrTiZFfRYOF1uF62BUTN50TwUe3PKSBFGhJbE2xd/ORA+IP/2KNTpOgMYECca+OJ2M94hUPM8MFCQRe6kieH3xL1d2Scv/ll1H9HVSM28kLO4xkupuTsKauLOSFK5U6mA8d02onVp5vuAmhjnOyPHgzLyTo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1708696979; c=relaxed/simple;
-	bh=KudqgcL6FXV7PnIRApxE0DX6lKwquS27CBUuH61ACuY=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=dZCNZ6zzWK87jfPUTFKPFmAIMsyoAiyrNgGnCdJAh12molDEJvVvVi0IcTeuoUo9w9OkoigG/mu85/8pG8irRsdj7E7XIw657e406Yn37pkhfaJdo86EpCxRSyTV6Ui22XsU0uNuKtLpyVNVmH/X2TMjelQ6LT3z44jeUtbVWwI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=fLi4DYFc; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1708699393; c=relaxed/simple;
+	bh=LCCnxhxOKUUGScjoj8X/h+vtjtJ8g9tt6GUc6Qartj0=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=QofJ2ToiX0e7dRpMfFaSCiTQkxGz+0d/vt+d9F2/QvuJ7YKS41cCROudeKZaOSwHflHVvW+laTknycownX7TcGnRBq+2+ua9Jw0Z+Z+AvU4jdGha6Q0DOIrulBStRWtlMHRzevik+8yfq7T0KGBhbXXCyviZS74SsAmYMpm2ZKk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=kernel.dk; spf=pass smtp.mailfrom=kernel.dk; dkim=pass (2048-bit key) header.d=kernel-dk.20230601.gappssmtp.com header.i=@kernel-dk.20230601.gappssmtp.com header.b=coMqQ7hy; arc=none smtp.client-ip=209.85.215.175
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=kernel.dk
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=kernel.dk
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="fLi4DYFc"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 98BDDC43390;
-	Fri, 23 Feb 2024 14:02:58 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1708696978;
-	bh=KudqgcL6FXV7PnIRApxE0DX6lKwquS27CBUuH61ACuY=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=fLi4DYFcXeqOjYNV4Q5Y0zzkCxXVhiAEIcopANPUixE0A00H3p4zQaXilBTNRWWAz
-	 8WdpvA726hFRxVFaBV7VooO96ZCe8lQoO75INuRxATCb3qw09fQypMk1wtHPRPiUNH
-	 3D/UnzbO/QSRQ5VsUuoN81I5eI7gAvPnmR2ts3yqN7JMAi1wvt3FB4W8WXCXGWh+kv
-	 ILMB/mrEGzFtkwk/wyGov8x8/C4FR/kPzV5yksDYCaViYHPuVhwq/+J/WdfTQaTthb
-	 LXW8WMDUAavJojYX2dwmpZAfKHfiWfnvIuRgNwpZQSxxJpBgmWl6f7XiUsBrz2eHnW
-	 OPI70JWN1c/NA==
-Date: Fri, 23 Feb 2024 07:02:56 -0700
-From: Rob Herring <robh@kernel.org>
-To: Xu Yang <xu.yang_2@nxp.com>
-Cc: gregkh@linuxfoundation.org, krzysztof.kozlowski+dt@linaro.org,
-	shawnguo@kernel.org, conor+dt@kernel.org, s.hauer@pengutronix.de,
-	kernel@pengutronix.de, festevam@gmail.com, linux-imx@nxp.com,
-	peter.chen@kernel.org, jun.li@nxp.com, linux-usb@vger.kernel.org,
-	devicetree@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
-	linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v6 4/9] dt-bindings: usb: add NXP ChipIdea USB2
- Controller schema
-Message-ID: <20240223140256.GA1768266-robh@kernel.org>
-References: <20240221145846.1611627-1-xu.yang_2@nxp.com>
- <20240221145846.1611627-4-xu.yang_2@nxp.com>
+	dkim=pass (2048-bit key) header.d=kernel-dk.20230601.gappssmtp.com header.i=@kernel-dk.20230601.gappssmtp.com header.b="coMqQ7hy"
+Received: by mail-pg1-f175.google.com with SMTP id 41be03b00d2f7-5cdbc42f5efso316615a12.0
+        for <linux-usb@vger.kernel.org>; Fri, 23 Feb 2024 06:43:11 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=kernel-dk.20230601.gappssmtp.com; s=20230601; t=1708699391; x=1709304191; darn=vger.kernel.org;
+        h=content-transfer-encoding:in-reply-to:from:references:cc:to
+         :content-language:subject:user-agent:mime-version:date:message-id
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=GaiOkbA7+hcdvvfDFyD524BR9JUDgPVysbGQWfqsDPs=;
+        b=coMqQ7hyMeoPDlFryqCi3Yjbj8HfuO3QSwyNknqI0QT0YLje91naBj96S2Ih/IdesG
+         DzoNG+Ay2A9iUZMIi7XZSkmf4fAXgTO3Ar8FrMRnFNIp+oRI3m1yPUIIUUdDRAUjnma7
+         wcEWDGI0UTI69e9QwCXSm1PcnDK4cqXFvOsCjYswgZOeEJt2MrRfT/ikELxCr3Lmpwoq
+         CCPh8/eelf27Yp4nh6Ra04qJRySpfJIZ4qZHiPMp0wvNlX2LgOJH85h/GFLRb8SF/b9k
+         EBugKy1QHd30vIcempHm2my3vLgu9TuMge+3n+p/lp/y4yUfeyLP4YzcMm8pauvNuwVJ
+         BqRw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1708699391; x=1709304191;
+        h=content-transfer-encoding:in-reply-to:from:references:cc:to
+         :content-language:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=GaiOkbA7+hcdvvfDFyD524BR9JUDgPVysbGQWfqsDPs=;
+        b=oN+ERcyqAZ8a7bkh3TMjBcb3yEth7NVB69QUw9/nFgqHYlOm0DVGCdRNrKq62kE7we
+         vXqMKsPCzYpxW8p4ZhNdftJokgFzuJM3uN4LOROLsn5Zlh34N5lJnFRnwVclL2tHncUw
+         07wAXVCbjVNHuZFAJWfRyP20fc+IfECA40fJEd1J6LG3h5P44j6cjNlLSDuPZwc6WRRb
+         e3m51vdXiKzHsL1sJAtO91Z1JV+IDoKvSPptp3SsfTRwwVVy1dRNt9mQVK9e/uEctvvx
+         W3wQW07T/1cjtcMiVeNRxUpqYjnqemN82vIi8lh7WYiV8CqX0EMyKVmZcIXvoV99oBh1
+         KEGA==
+X-Forwarded-Encrypted: i=1; AJvYcCUlXT2v4mHCZMhc4+MrvKhL84g2Q+zw7BBghcV/ba83l/2gNP2VVMZFgGHveOmziyavvTd2CEdBkVW92Bl2+RCSWolrAj9y5Olb
+X-Gm-Message-State: AOJu0YwxBgsWXk0IJgWE9aVcPcsyUTdoC+7HzfokDXFSo4jBXqdaMXh5
+	L93+ykq6QfHHJwLLpoJe81QJjL46l+8yVK8BDReVESEjVugXrH4Antvs6gOiuNE=
+X-Google-Smtp-Source: AGHT+IFCe2OmI6udUtrLrpGM7CH6IcwXuOjaaWwTj2TJkeKJuL+YC18h5jSygUOYCFe/1oOsbioDdw==
+X-Received: by 2002:a17:90a:3f16:b0:299:3fb4:4f28 with SMTP id l22-20020a17090a3f1600b002993fb44f28mr1673303pjc.4.1708699391114;
+        Fri, 23 Feb 2024 06:43:11 -0800 (PST)
+Received: from [172.20.8.9] (071-095-160-189.biz.spectrum.com. [71.95.160.189])
+        by smtp.gmail.com with ESMTPSA id z15-20020a17090ab10f00b002995e9aca72sm1522284pjq.29.2024.02.23.06.43.09
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Fri, 23 Feb 2024 06:43:10 -0800 (PST)
+Message-ID: <3cbe7ad1-421a-493c-9cb2-9234e139923f@kernel.dk>
+Date: Fri, 23 Feb 2024 07:43:08 -0700
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20240221145846.1611627-4-xu.yang_2@nxp.com>
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH] usb: gadget: f_fs: Fix NULL pointer dereference in
+ ffs_epfile_async_io_complete()
+Content-Language: en-US
+To: Selvarasu Ganesan <quic_selvaras@quicinc.com>,
+ Greg KH <gregkh@linuxfoundation.org>
+Cc: brauner@kernel.org, jack@suse.cz, jlayton@kernel.org,
+ keescook@chromium.org, peter@korsgaard.com, hayama@lineo.co.jp,
+ dmantipov@yandex.ru, quic_linyyuan@quicinc.com, linux-usb@vger.kernel.org,
+ linux-kernel@vger.kernel.org, quic_ppratap@quicinc.com,
+ quic_wcheng@quicinc.com, quic_jackp@quicinc.com
+References: <20240223054809.2379-1-quic_selvaras@quicinc.com>
+ <2024022302-routine-schematic-b4fd@gregkh>
+ <d2f40e2d-cbbd-41f9-9aa6-41d0f251ffda@quicinc.com>
+From: Jens Axboe <axboe@kernel.dk>
+In-Reply-To: <d2f40e2d-cbbd-41f9-9aa6-41d0f251ffda@quicinc.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 
-On Wed, Feb 21, 2024 at 10:58:41PM +0800, Xu Yang wrote:
-> As more and more NXP i.MX chips come out, it becomes harder to maintain
-> ci-hdrc-usb2.yaml if more stuffs like property restrictions are added to
-> this file. This will separate i.MX parts out of ci-hdrc-usb2.yaml and add
-> a new schema for NXP ChipIdea USB2 Controller.
+On 2/23/24 4:35 AM, Selvarasu Ganesan wrote:
+> Here?s what the code might look like with a new lock:
 > 
-> Signed-off-by: Xu Yang <xu.yang_2@nxp.com>
+> static void ffs_epfile_async_io_complete(struct usb_ep *_ep,
+>                                          struct usb_request *req)
+> {
+> ....
+> spin_lock(&ffs->new_lock);
+> if (ffs && ffs->io_completion_wq)
+>     queue_work(ffs->io_completion_wq, &io_data->work);
+> spin_unlock(&ffs->new_lock);
+> ....
+> }
 > 
-> ---
-> Changes in v6:
->  - new patch
-> ---
->  .../bindings/usb/ci-hdrc-usb2-imx.yaml        | 75 +++++++++++++++++++
->  1 file changed, 75 insertions(+)
->  create mode 100644 Documentation/devicetree/bindings/usb/ci-hdrc-usb2-imx.yaml
 > 
-> diff --git a/Documentation/devicetree/bindings/usb/ci-hdrc-usb2-imx.yaml b/Documentation/devicetree/bindings/usb/ci-hdrc-usb2-imx.yaml
-> new file mode 100644
-> index 000000000000..2ec62f564bf5
-> --- /dev/null
-> +++ b/Documentation/devicetree/bindings/usb/ci-hdrc-usb2-imx.yaml
-> @@ -0,0 +1,75 @@
-> +# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
-> +%YAML 1.2
-> +---
-> +$id: http://devicetree.org/schemas/usb/ci-hdrc-usb2-imx.yaml#
-> +$schema: http://devicetree.org/meta-schemas/core.yaml#
-> +
-> +title: NXP USB2 ChipIdea USB controller
-> +
-> +maintainers:
-> +  - Xu Yang <xu.yang_2@nxp.com>
-> +
-> +properties:
-> +  compatible:
-> +    oneOf:
-> +      - enum:
-> +          - fsl,imx27-usb
-> +      - items:
-> +          - enum:
-> +              - fsl,imx23-usb
-> +              - fsl,imx25-usb
-> +              - fsl,imx28-usb
-> +              - fsl,imx35-usb
-> +              - fsl,imx50-usb
-> +              - fsl,imx51-usb
-> +              - fsl,imx53-usb
-> +              - fsl,imx6q-usb
-> +              - fsl,imx6sl-usb
-> +              - fsl,imx6sx-usb
-> +              - fsl,imx6ul-usb
-> +              - fsl,imx7d-usb
-> +              - fsl,vf610-usb
-> +          - const: fsl,imx27-usb
-> +      - items:
-> +          - enum:
-> +              - fsl,imx8dxl-usb
-> +              - fsl,imx8ulp-usb
-> +          - const: fsl,imx7ulp-usb
-> +          - const: fsl,imx6ul-usb
-> +      - items:
-> +          - enum:
-> +              - fsl,imx8mm-usb
-> +              - fsl,imx8mn-usb
-> +          - const: fsl,imx7d-usb
-> +          - const: fsl,imx27-usb
-> +      - items:
-> +          - enum:
-> +              - fsl,imx6sll-usb
-> +              - fsl,imx7ulp-usb
-> +          - const: fsl,imx6ul-usb
-> +          - const: fsl,imx27-usb
+> 
+> static void ffs_data_put(struct ffs_data *ffs) {
+> ...
+> destroy_workqueue(ffs->io_completion_wq);
+> kfree(ffs->dev_name);
+> spin_lock(&ffs->new_lock);
+> kfree(ffs);
+> spin_unlock(&ffs->new_lock);
+> ...
+> }
 
-Now you just duplicated all the compatibles, and now any new compatibles 
-have to be added in 2 places. For this to work, you have to split 
-ci-hdrc-usb2.yaml into 2 files. One with all the common properties and 
-one with compatibles (minus imx). This is also needed if imx has any 
-extra properties the other don't.
+This obviously won't work at all, and it's not the right way to fix it
+at all. It needs a ref count.
 
-Didn't I say this already?
-
-Rob
+-- 
+Jens Axboe
 
