@@ -1,113 +1,118 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C9F8012E5D;
-	Sun, 25 Feb 2024 12:04:03 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 446C514AA3;
+	Sun, 25 Feb 2024 13:56:48 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1708862643; cv=none; b=esfq21ImW7XWEFLlhHYt1uNNe9m/JUWOlCQkFCRaISbppRdlVr4q8i6Si6JsmHX13/j3N+lFxXMXgo+h1N79OdLRJaFq9yoTkTlhvbLjSFeTX8Dmp3f/xEinB+rXOemz7xKFjVdGjkyUbcBa98XcwPhx5kqKJLtzoAy+8yEYn4c=
+	t=1708869409; cv=none; b=OxytvApW19aDg0NNgdvIzHw87t9nku66EJgf21xsNPdFgyVN3inz9jczwRhhbVJZrM5e1x7v6u2+BMGY57Jd79uBeXsFXHmzfJvab4/5R0G4TS4eH/v78RDnnbEwZUpdvzJlgV8BL7hBaIWV8CTrEMpITwQkHLcXfILmxTwK5LY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1708862643; c=relaxed/simple;
-	bh=zPcJ2vC3A6HhIVo48qXQTTqMOtfOET2qYf2tQ9lsrYY=;
-	h=From:Subject:Date:Message-Id:MIME-Version:Content-Type:To:Cc; b=IRu1O+/lz4g9JoiQ6OvZN7RNIenvgHgz9Je4CXbJz9wtRK5Hwlf5uf1GdN4LRVjlwmxFrh25LjlINzk7vOJKu6iEpsflbOP9cK6YbGbcS3ZYGJeVYLAld8HJywCKXt5OAFfO9Sm26d11cMNDdgXdAPwHz8Q6AY7tXY93rmWS/vE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=RyiBkJ9U; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1708869409; c=relaxed/simple;
+	bh=eRiacYGs142auxDBgiJEG5vpqq5Rj1hXRktpvD05jIc=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=g7DpaR8Xv/DeIwPPw+9sTkGp5zfSI9X1983Oa5b3kUUgAPx66Nt5L0fPLCfxXDdM/JXiKIcl+SpSKp+RpRmpSSZFUPKrnhJ8s1RtPCCEsagMF8kniW2AnNMOpKIm6Z2PaIhzymjHTng0veIJ8+gBacrz78D4wJbdwF+hD81NYtg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b=SIbiH+Zd; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="RyiBkJ9U"
-Received: by smtp.kernel.org (Postfix) with ESMTPS id 5BB42C433F1;
-	Sun, 25 Feb 2024 12:04:03 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1708862643;
-	bh=zPcJ2vC3A6HhIVo48qXQTTqMOtfOET2qYf2tQ9lsrYY=;
-	h=From:Subject:Date:To:Cc:Reply-To:From;
-	b=RyiBkJ9UMomoycGN8oAtIW8hlI/RFu9MkPMz7e0LzdwMDzdwpLtRi5ia6S97Mlhz7
-	 wMMoSsn0tfIC3O/I/TgUKzhjP/qZesZGfxZlg9yzblW0GK+rWmGdbPqft/FhCHt2r4
-	 HsDxhfavXrR4sIG5cwZl9eIkKv8v3p+QCw9Og2jQQ/IYUB6qcs/Z/eB6cfeBOuZqNy
-	 WESnJFfMyVsX6TXCgYZGinj1JqZrESk1vbXrXd3LPh0uF1VpkM+X73uaGnJw08Lfej
-	 f1SDd8GZXGpHrcpGdN+jLlZLn8UKh95CMY9bwTv4nemhRhcrwlo1MAa0uYCwFsSl2v
-	 gE5zMBZuaaelg==
-Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 373E3C47DD9;
-	Sun, 25 Feb 2024 12:04:03 +0000 (UTC)
-From: Yang Xiwen via B4 Relay <devnull+forbidden405.outlook.com@kernel.org>
-Subject: [PATCH v4 0/2] usb: dwc3: add glue driver for Hi3798MV200
-Date: Sun, 25 Feb 2024 20:03:47 +0800
-Message-Id: <20240225-dwc3-v4-0-8c1fd6c6f615@outlook.com>
+	dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="SIbiH+Zd"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 6D530C433C7;
+	Sun, 25 Feb 2024 13:56:48 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
+	s=korg; t=1708869408;
+	bh=eRiacYGs142auxDBgiJEG5vpqq5Rj1hXRktpvD05jIc=;
+	h=Date:From:To:Cc:Subject:From;
+	b=SIbiH+Zdz/lRFwIz4JFwOOCyS4YIL7FUAJFJJoy43LkdnDnySaUW/4AQ5fg1jBDbZ
+	 4vsNxykRWaj/b3JSR622iRg10DVm5JM1g97kHpQFYbPhScI34m1xlDC6yDaD3KNMN1
+	 uxJQDmQpuk2tiEyFmhr9bHEWtgIwl0bXxOuMQvO0=
+Date: Sun, 25 Feb 2024 14:56:46 +0100
+From: Greg KH <gregkh@linuxfoundation.org>
+To: Linus Torvalds <torvalds@linux-foundation.org>
+Cc: Andrew Morton <akpm@linux-foundation.org>, linux-kernel@vger.kernel.org,
+	linux-usb@vger.kernel.org
+Subject: [GIT PULL] USB driver fixes for 6.8-rc6
+Message-ID: <ZdtHHn2s9ksLd9zT@kroah.com>
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-X-B4-Tracking: v=1; b=H4sIAKMs22UC/23MQQ7CIBCF4as0rMXAAIKuvIdxQelgiVpMW1HT9
- O7S6sbY5ZvM9w+kwzZgR3bFQFpMoQuxyUOuCuJq25yQhipvAgwkA65p9XCCbrbagCmlYdaS/Hp
- r0YfnnDkc865D18f2NVcTn67fAMhPIHHKqPa+BITSWi328d5fYjyvXbySKZFgiUFmBqV3lVaaa
- /XPxBITmYESyjtE7Zn5ZeM4vgE6APEuCAEAAA==
-To: Thinh Nguyen <Thinh.Nguyen@synopsys.com>, 
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>, 
- Rob Herring <robh+dt@kernel.org>, 
- Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>, 
- Conor Dooley <conor+dt@kernel.org>
-Cc: linux-usb@vger.kernel.org, linux-kernel@vger.kernel.org, 
- devicetree@vger.kernel.org, Yang Xiwen <forbidden405@outlook.com>, 
- Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-X-Mailer: b4 0.12.4
-X-Developer-Signature: v=1; a=ed25519-sha256; t=1708862628; l=1668;
- i=forbidden405@outlook.com; s=20230724; h=from:subject:message-id;
- bh=zPcJ2vC3A6HhIVo48qXQTTqMOtfOET2qYf2tQ9lsrYY=;
- b=sjlryJDUd028obFeraj/Zs16TT0AhhjYtAK23/PgjYEVlDO03Ex/s8VCyMAXzJb26y7kuRDiB
- bhkAaOd4SckApV2UcAI3de8VumYuXzlh2cEG0qf88nN38lAIOcx/vAL
-X-Developer-Key: i=forbidden405@outlook.com; a=ed25519;
- pk=qOD5jhp891/Xzc+H/PZ8LWVSWE3O/XCQnAg+5vdU2IU=
-X-Endpoint-Received:
- by B4 Relay for forbidden405@outlook.com/20230724 with auth_id=67
-X-Original-From: Yang Xiwen <forbidden405@outlook.com>
-Reply-To: <forbidden405@outlook.com>
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
-Hi3798MV200 uses DWC3 with a few more clocks and a dedicated reset.
+The following changes since commit b401b621758e46812da61fa58a67c3fd8d91de0d:
 
-Note xhci-histb.c can also be used. But since it's DWC3 in fact, trying
-to support it with the help of DWC3 framework seems a better solution.
+  Linux 6.8-rc5 (2024-02-18 12:56:25 -0800)
 
-Hi3798CV200 can also try to migrate to this driver too. Thus we can
-remove xhci-histb.c in the future.
+are available in the Git repository at:
 
-Signed-off-by: Yang Xiwen <forbidden405@outlook.com>
----
-Changes in v4:
-- bindings: example: move ranges after compatible
-- remove me from email
-- Link to v3: https://lore.kernel.org/r/20240224-dwc3-v3-0-2535fcee7f08@outlook.com
+  git://git.kernel.org/pub/scm/linux/kernel/git/gregkh/usb.git tags/usb-6.8-rc6
 
-Changes in v3:
-- binding: remove example address
-- binding: remove reg (Krzysztof)
-- binding: rearrange required (Krzysztof)
-- binding: put additionalProperties after required (Krzysztof)
-- binding: indent properly (Krzysztof)
-- Link to v2: https://lore.kernel.org/r/20240224-dwc3-v2-0-8e4fcd757175@outlook.com
+for you to fetch changes up to 69f89168b310878be82d7d97bc0d22068ad858c0:
 
-Changes in v2:
-- remove histb-clock.h as it's deprecated.
-- fix bot error (Rob Herring)
-- add a dummy reg property to make simple-bus parent node happy.
-  (duplicate with subnode, not used in driver)
-- Link to v1: https://lore.kernel.org/r/20240224-dwc3-v1-0-7ffb2e2baa73@outlook.com
+  usb: typec: tpcm: Fix issues with power being removed during reset (2024-02-20 09:14:36 +0100)
 
----
-Yang Xiwen (2):
-      dt-bindings: usb: add hisilicon,hi3798mv200-dwc3
-      usb: dwc3: of-simple: Add compatible for hi3798mv200 DWC3 controller
+----------------------------------------------------------------
+USB fixes for 6.8-rc6
 
- .../bindings/usb/hisilicon,hi3798mv200-dwc3.yaml   | 99 ++++++++++++++++++++++
- drivers/usb/dwc3/dwc3-of-simple.c                  |  1 +
- 2 files changed, 100 insertions(+)
----
-base-commit: 8d3dea210042f54b952b481838c1e7dfc4ec751d
-change-id: 20240217-dwc3-697828b480aa
+Here are some small USB fixes for 6.8-rc6 to resolve some reported
+problems.  These include:
+  - regression fixes with typec tpcm code as reported by many
+  - cdnsp and cdns3 driver fixes
+  - usb role setting code bugfixes
+  - build fix for uhci driver
+  - ncm gadget driver bugfix
+  - MAINTAINERS entry update
 
-Best regards,
--- 
-Yang Xiwen <forbidden405@outlook.com>
+All of these have been in linux-next all week with no reported issues
+and there is at least one fix in here that is in Thorsten's regression
+list that is being tracked.
 
+Signed-off-by: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+
+----------------------------------------------------------------
+Aaro Koskinen (1):
+      usb: gadget: omap_udc: fix USB gadget regression on Palm TE
+
+Andreas Larsson (1):
+      usb: uhci-grlib: Explicitly include linux/platform_device.h
+
+Frank Li (2):
+      usb: cdns3: fixed memory use after free at cdns3_gadget_ep_disable()
+      usb: cdns3: fix memory double free when handle zero packet
+
+Guenter Roeck (1):
+      MAINTAINERS: Drop myself as maintainer of TYPEC port controller drivers
+
+Krishna Kurapati (1):
+      usb: gadget: ncm: Avoid dropping datagrams of properly parsed NTBs
+
+Mark Brown (1):
+      usb: typec: tpcm: Fix issues with power being removed during reset
+
+Ondrej Jirman (1):
+      Revert "usb: typec: tcpm: reset counter when enter into unattached state after try role"
+
+Pawel Laszczak (2):
+      usb: cdnsp: blocked some cdns3 specific code
+      usb: cdnsp: fixed issue with incorrect detecting CDNSP family controllers
+
+Thinh Nguyen (1):
+      usb: dwc3: gadget: Don't disconnect if not started
+
+Xu Yang (2):
+      usb: roles: fix NULL pointer issue when put module's reference
+      usb: roles: don't get/set_role() when usb_role_switch is unregistered
+
+ MAINTAINERS                         |  3 +--
+ drivers/usb/cdns3/cdns3-gadget.c    |  8 ++++++--
+ drivers/usb/cdns3/core.c            |  1 -
+ drivers/usb/cdns3/drd.c             | 13 +++++++++----
+ drivers/usb/cdns3/drd.h             |  6 +++++-
+ drivers/usb/cdns3/host.c            | 16 ++++++++++++++--
+ drivers/usb/dwc3/gadget.c           |  5 +++++
+ drivers/usb/gadget/function/f_ncm.c | 10 +++++++++-
+ drivers/usb/gadget/udc/omap_udc.c   |  3 ++-
+ drivers/usb/host/uhci-grlib.c       |  1 +
+ drivers/usb/roles/class.c           | 29 +++++++++++++++++++++--------
+ drivers/usb/typec/tcpm/tcpm.c       |  6 ++----
+ 12 files changed, 75 insertions(+), 26 deletions(-)
