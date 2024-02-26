@@ -1,99 +1,149 @@
-Received: from mailgw.kylinos.cn (mailgw.kylinos.cn [124.126.103.232])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.12])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 35F911CF80;
-	Mon, 26 Feb 2024 08:15:43 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=124.126.103.232
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B30E21CAAE;
+	Mon, 26 Feb 2024 08:16:07 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.12
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1708935349; cv=none; b=M25Rb4z3blfqpIT0qrVcn9+la0k72O46Op9vquIrLH6Fy1sKVWUWBikM+Pdcl1PPnvnU559uGFUPcFluJCSGZidy3OfTqZDsGge71wBREJk/fo8K4VhUXgKfbJ6t+gR7dC4j/YQQL7dKf4+bncdl0w6yflVILWq6ymAFfR5jHGU=
+	t=1708935369; cv=none; b=dzgFgHUxQ6rysZTGNIgGX3rrJuGaKo3kJACcWGvNS5vRHDa1s6H1hAB6bPlIrUI2E5LUxR1lM/63BZaVyKZyCa3fJqZ3/o3o558lGFrATv+W+HLQWm+QYJGjFTpBYopRQpO0d4Qo2Mgq3CJb8TrT240BipTkdg+3gI1l6wUM5MY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1708935349; c=relaxed/simple;
-	bh=1Ly8Ln5JNzP8Po26apTgYD6fQ2vZoTYlsMkbNJ0EYuE=;
-	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=ejPu8uJIl7ydnT3+iD3BKrifj5wy5uQOZ5vUnNhRpMj6a9EQo2lu7K2Y4X/SLFZg5lvG0g7REkjpdiy1dFOvIsaB/SRoOZ+k+HGn1qSZiSo4Vyw02l1zDrrTR4JjNWZt4Uo3VGPZmuDMWGmdsgZELKQQ09Y6Ce3xPU771qF9NkM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=kylinos.cn; spf=pass smtp.mailfrom=kylinos.cn; arc=none smtp.client-ip=124.126.103.232
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=kylinos.cn
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=kylinos.cn
-X-UUID: c414adaebff1491ea3c435d69bf18d7c-20240226
-X-CID-O-RULE: Release_Ham
-X-CID-RULE: Release_Ham
-X-CID-O-INFO: VERSION:1.1.37,REQID:78a62de6-603d-4ccf-97e6-01674f37df55,IP:10,
-	URL:0,TC:0,Content:0,EDM:0,RT:0,SF:-15,FILE:0,BULK:0,RULE:Release_Ham,ACTI
-	ON:release,TS:-5
-X-CID-INFO: VERSION:1.1.37,REQID:78a62de6-603d-4ccf-97e6-01674f37df55,IP:10,UR
-	L:0,TC:0,Content:0,EDM:0,RT:0,SF:-15,FILE:0,BULK:0,RULE:Release_Ham,ACTION
-	:release,TS:-5
-X-CID-META: VersionHash:6f543d0,CLOUDID:63bad180-4f93-4875-95e7-8c66ea833d57,B
-	ulkID:2402261559416CA0LJEE,BulkQuantity:0,Recheck:0,SF:17|19|44|66|38|24|1
-	02,TC:nil,Content:0,EDM:-3,IP:-2,URL:0,File:nil,RT:nil,Bulk:nil,QS:nil,BEC
-	:nil,COL:0,OSI:0,OSA:0,AV:0,LES:1,SPR:NO,DKR:0,DKP:0,BRR:0,BRE:0
-X-CID-BVR: 0,NGT
-X-CID-BAS: 0,NGT,0,_
-X-CID-FACTOR: TF_CID_SPAM_SNR,TF_CID_SPAM_FAS,TF_CID_SPAM_FSD,TF_CID_SPAM_FSI
-X-UUID: c414adaebff1491ea3c435d69bf18d7c-20240226
-X-User: huxiaoying@kylinos.cn
-Received: from localhost.localdomain [(112.64.161.44)] by mailgw
-	(envelope-from <huxiaoying@kylinos.cn>)
-	(Generic MTA)
-	with ESMTP id 51673992; Mon, 26 Feb 2024 15:59:39 +0800
-From: Tom Hu <huxiaoying@kylinos.cn>
-To: linux-kernel@vger.kernel.org,
-	stern@rowland.harvard.edu,
-	gregkh@linuxfoundation.org
-Cc: linux-usb@vger.kernel.org,
-	usb-storage@lists.one-eyed-alien.net,
-	Tom Hu <huxiaoying@kylinos.cn>
-Subject: [PATCH] usb-storage: Add Brain USB3-FW to IGNORE_UAS
-Date: Mon, 26 Feb 2024 15:59:36 +0800
-Message-Id: <20240226075936.1744353-1-huxiaoying@kylinos.cn>
-X-Mailer: git-send-email 2.25.1
+	s=arc-20240116; t=1708935369; c=relaxed/simple;
+	bh=FtOOCfXzizLmWXgElgop85mmc1HTLKJDPRDYSNRnr4w=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=LZNhunRHlJk3Avp+q3fpxmQlb4qPdGpoGyEvI9Rb5g+HwpWRhOQJJtmH3vxqKnPKfIoTKI2RtsNmDNLyMMgeVkDQzYD04ucfp+PLVkdoLh4N8uV7jlNOvIPwhhkHoMg1skI8DpzkXtsLO6XELTd7gVJahT6ZVy/ZU50PZowhHqg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=none smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=hoZ/igJy; arc=none smtp.client-ip=192.198.163.12
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=linux.intel.com
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="hoZ/igJy"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1708935367; x=1740471367;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=FtOOCfXzizLmWXgElgop85mmc1HTLKJDPRDYSNRnr4w=;
+  b=hoZ/igJys+Z1kqFqjlUDkjyGmtidNz7MC6oINgItd5UTGrvYZ9rJorAN
+   xpnnDGzAgNHaC050yvLVtBwjpP7bNpR2v1VVeCmNM2a8pKqDxLJcP8ed9
+   wmcKIBnZSOSBOG21SSW37YSlBPiL6FYA6gM/nEwGYWXNLnWic7ciRATYb
+   I3y2E8ErzNVdhpKfpr3o4K/ix8EoOLIF/wQr2Ism71eGnc9vcGRkAeJhw
+   QmPlCt4zjIKjNahPhyZ36R6kxA+Nxjc6SZZ4UY8ZSbNEgCAMF06AIEZ+j
+   IJn8a50pOyKKjR8ktgAxeKhNdp7rtWPf8s4btH1tJqwAkRgp5xvLixi3x
+   g==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10995"; a="6992102"
+X-IronPort-AV: E=Sophos;i="6.06,185,1705392000"; 
+   d="scan'208";a="6992102"
+Received: from fmsmga001.fm.intel.com ([10.253.24.23])
+  by fmvoesa106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 26 Feb 2024 00:16:05 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,10995"; a="937029489"
+X-IronPort-AV: E=Sophos;i="6.06,185,1705392000"; 
+   d="scan'208";a="937029489"
+Received: from kuha.fi.intel.com ([10.237.72.185])
+  by fmsmga001.fm.intel.com with SMTP; 26 Feb 2024 00:16:02 -0800
+Received: by kuha.fi.intel.com (sSMTP sendmail emulation); Mon, 26 Feb 2024 10:16:01 +0200
+Date: Mon, 26 Feb 2024 10:16:01 +0200
+From: Heikki Krogerus <heikki.krogerus@linux.intel.com>
+To: RD Babiera <rdbabiera@google.com>
+Cc: linux@roeck-us.net, gregkh@linuxfoundation.org, badhri@google.com,
+	linux-usb@vger.kernel.org, linux-kernel@vger.kernel.org,
+	Dan Carpenter <dan.carpenter@linaro.org>
+Subject: Re: [PATCH v1] usb: typec: tcpm: fix SOP' sequences in tcpm_pd_svdm
+Message-ID: <ZdxIwdIs+CgxpnVD@kuha.fi.intel.com>
+References: <20240223002233.3936275-2-rdbabiera@google.com>
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20240223002233.3936275-2-rdbabiera@google.com>
 
-The UAS mode of BRAIN USB_HDD is reported to fail to work on several
-platforms with the following error message, then after re-connecting the
-device will be offlined and not working at all.
+On Fri, Feb 23, 2024 at 12:22:34AM +0000, RD Babiera wrote:
+> The Smatch checker flags svdm_version being uninitialized for Discover
+> Identity Messages within tcpm_pd_svdm for the CMDT_INIT case. Cable plugs
+> cannot initialize SVDM commands, however a port partner that isn't allowed
+> to communicate over SOP' could, which would result in the CMDT_INIT block
+> running for a received SOP' message.
+> 
+> First, initialize svdm_version for the TCPC_TX_SOP_PRIME case. If the
+> svdm_version returns as an error, we expect the received svdm to be the
+> result of Discover Identity that updates the value accordingly.
+> 
+> Next, drop all SOP' messages of type CMDT_INIT within tcpm_pd_svdm.
+> 
+> Finally, remove redundant call that assigns modep and pdev. Smatch will
+> raise an uninitialized symbol error over modep_prime and pdev_prime, but
+> both the assignment and use of these variables are guarded behind
+> a check for rx_sop_type == TCPC_TX_SOP_PRIME.
+> 
+> Reported-by: Dan Carpenter <dan.carpenter@linaro.org>
+> Closes: https://lore.kernel.org/all/a432603b-b801-4001-b309-247dded707d3@moroto.mountain/
+> Fixes: fb7ff25ae433 ("usb: typec: tcpm: add discover identity support for SOP'")
+> Signed-off-by: RD Babiera <rdbabiera@google.com>
 
-[  622.518442][ 2] sd 8:0:0:0: [sda] tag#17 uas_eh_abort_handler 0 uas-tag 18
-                   inflight: CMD
-[  622.527575][ 2] sd 8:0:0:0: [sda] tag#17 CDB: Write(10) 2a 00 03 6f 88 00 00
-                   04 00 00
-[  622.536330][ 2] sd 8:0:0:0: [sda] tag#0 uas_eh_abort_handler 0 uas-tag 1
-                   inflight: CMD
-[  622.545266][ 2] sd 8:0:0:0: [sda] tag#0 CDB: Write(10) 2a 00 07 44 1a 88 00
-                   00 08 00
+Acked-by: Heikki Krogerus <heikki.krogerus@linux.intel.com>
 
-These disks have a broken uas implementation, the tag field of the status
-iu-s is not set properly, so we need to fall-back to usb-storage.
+> ---
+>  drivers/usb/typec/tcpm/tcpm.c | 26 ++++++++++++++++----------
+>  1 file changed, 16 insertions(+), 10 deletions(-)
+> 
+> diff --git a/drivers/usb/typec/tcpm/tcpm.c b/drivers/usb/typec/tcpm/tcpm.c
+> index d975fc525eac..55c438c62203 100644
+> --- a/drivers/usb/typec/tcpm/tcpm.c
+> +++ b/drivers/usb/typec/tcpm/tcpm.c
+> @@ -1878,11 +1878,6 @@ static int tcpm_pd_svdm(struct tcpm_port *port, struct typec_altmode *adev,
+>  	tcpm_log(port, "Rx VDM cmd 0x%x type %d cmd %d len %d",
+>  		 p[0], cmd_type, cmd, cnt);
+>  
+> -	modep = &port->mode_data;
+> -
+> -	pdev = typec_match_altmode(port->partner_altmode, ALTMODE_DISCOVERY_MAX,
+> -				   PD_VDO_VID(p[0]), PD_VDO_OPOS(p[0]));
+> -
+>  	switch (rx_sop_type) {
+>  	case TCPC_TX_SOP_PRIME:
+>  		modep_prime = &port->mode_data_prime;
+> @@ -1890,11 +1885,13 @@ static int tcpm_pd_svdm(struct tcpm_port *port, struct typec_altmode *adev,
+>  						 ALTMODE_DISCOVERY_MAX,
+>  						 PD_VDO_VID(p[0]),
+>  						 PD_VDO_OPOS(p[0]));
+> -		if (!IS_ERR_OR_NULL(port->cable)) {
+> -			svdm_version = typec_get_cable_svdm_version(typec);
+> -			if (PD_VDO_SVDM_VER(p[0]) < svdm_version)
+> -				typec_cable_set_svdm_version(port->cable, svdm_version);
+> -		}
+> +		svdm_version = typec_get_cable_svdm_version(typec);
+> +		/*
+> +		 * Update SVDM version if cable was discovered before port partner.
+> +		 */
+> +		if (!IS_ERR_OR_NULL(port->cable) &&
+> +		    PD_VDO_SVDM_VER(p[0]) < svdm_version)
+> +			typec_cable_set_svdm_version(port->cable, svdm_version);
+>  		break;
+>  	case TCPC_TX_SOP:
+>  		modep = &port->mode_data;
+> @@ -1920,6 +1917,15 @@ static int tcpm_pd_svdm(struct tcpm_port *port, struct typec_altmode *adev,
+>  
+>  	switch (cmd_type) {
+>  	case CMDT_INIT:
+> +		/*
+> +		 * Only the port or port partner is allowed to initialize SVDM
+> +		 * commands over SOP'. In case the port partner initializes a
+> +		 * sequence when it is not allowed to send SOP' messages, drop
+> +		 * the message should the TCPM port try to process it.
+> +		 */
+> +		if (rx_sop_type == TCPC_TX_SOP_PRIME)
+> +			return 0;
+> +
+>  		switch (cmd) {
+>  		case CMD_DISCOVER_IDENT:
+>  			if (PD_VDO_VID(p[0]) != USB_SID_PD)
+> 
+> base-commit: 3bf0514dc6f36f81ee11b1becd977cb87b4c90c6
+> -- 
+> 2.44.0.rc0.258.g7320e95886-goog
 
-Signed-off-by: Hu Xiaoying <huxiaoying@kylinos.cn>
-1
----
- drivers/usb/storage/unusual_uas.h | 7 +++++++
- 1 file changed, 7 insertions(+)
-
-diff --git a/drivers/usb/storage/unusual_uas.h b/drivers/usb/storage/unusual_uas.h
-index 1f8c9b16a0fb..98b7ff2c76ba 100644
---- a/drivers/usb/storage/unusual_uas.h
-+++ b/drivers/usb/storage/unusual_uas.h
-@@ -83,6 +83,13 @@ UNUSUAL_DEV(0x0bc2, 0x331a, 0x0000, 0x9999,
- 		USB_SC_DEVICE, USB_PR_DEVICE, NULL,
- 		US_FL_NO_REPORT_LUNS),
- 
-+/* Reported-by: Tom Hu <huxiaoying@kylinos.cn> */
-+UNUSUAL_DEV(0x1234, 0x1234, 0x0000, 0x9999,
-+		"Brain",
-+		"External HDD",
-+		USB_SC_DEVICE, USB_PR_DEVICE, NULL,
-+		US_FL_IGNORE_UAS),
-+
- /* Reported-by: Benjamin Tissoires <benjamin.tissoires@redhat.com> */
- UNUSUAL_DEV(0x13fd, 0x3940, 0x0000, 0x9999,
- 		"Initio Corporation",
 -- 
-2.25.1
-
+heikki
