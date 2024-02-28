@@ -1,144 +1,137 @@
-Received: from mail-pf1-f174.google.com (mail-pf1-f174.google.com [209.85.210.174])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com [205.220.168.131])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 664B9111E
-	for <linux-usb@vger.kernel.org>; Wed, 28 Feb 2024 00:07:05 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.174
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CD72E1FA3;
+	Wed, 28 Feb 2024 01:36:50 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.168.131
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1709078826; cv=none; b=SN3gsi29lht9hJ8XcSS3Am7SravzFB7MS+W5mPoMVE3kMAr8cLpqV8vLaXrzwy7eAWiKPpvS21q8roPiDx3NW8dytl63tMxyvbC2C6HKEqrZDPfI6dyKdWRvqxZLjiT/MqM0itb4/s2GJ7Bo0wyL5QltojZ3I+oelmaS34/hjZU=
+	t=1709084212; cv=none; b=ZeShH/jxRnbIsXVYCFcthAfs5WOGtS1it1X2DFuGIfvOandm0HAPXhhiGLiCSzVKPysRmdPOfxsvGYmxurNIlAD9rsDK4Yz+oHULO6+WmLmkKeG+SBIHr9X6jtUwC+DxUYbeBptD9E8y3CpBBJ2aCxIhNjz/MUrxgvGwsS0iKKI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1709078826; c=relaxed/simple;
-	bh=y3oeCWuiY7SKVrYuIRHS+ZMSQe7tGBXllwPklBBcm7M=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=qwjlfOKF1yHLP4OiDx7tDdSA3YzVyWNzC8Ay0INT+tERvU9Dgk82EYVlukXY0IsUqPZJCDthJLWdcVLGnEZJv3hascX7KDpdPsgcQVZQzJUSBlwCRc6pMKtZKT29Xb32U+OGifIfOphk0Uw+ksa3QNO/zJwNKnIflnd+kOGLBvU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=pDv1DsS8; arc=none smtp.client-ip=209.85.210.174
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=google.com
+	s=arc-20240116; t=1709084212; c=relaxed/simple;
+	bh=PPfBx+CV5bDfqCP66p/XGcuElNdd/Oy2AlEnS1Ijf7Q=;
+	h=From:To:CC:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=ZkdWQN1AJGncp2qf93XAc+8qFq0jVnoo5RdnL0jm33e2vH5watpsW1oGnp2pkiTfNcVeP2DTstWYskkfk6P1SagMZLy8gjBiAchSBpLZKHhirg7Re+DvuYavKCGzmFzcoPRa3rSxhooN5ASuihwL7I6Czh9pfUnI69Frk5sxe00=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=quicinc.com; spf=pass smtp.mailfrom=quicinc.com; dkim=pass (2048-bit key) header.d=quicinc.com header.i=@quicinc.com header.b=IIr56FtS; arc=none smtp.client-ip=205.220.168.131
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=quicinc.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=quicinc.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="pDv1DsS8"
-Received: by mail-pf1-f174.google.com with SMTP id d2e1a72fcca58-6e09143c7bdso2998502b3a.3
-        for <linux-usb@vger.kernel.org>; Tue, 27 Feb 2024 16:07:05 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20230601; t=1709078824; x=1709683624; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=JwJ7r+hhbElRRt/Ehuz+IMcLRUC1TV153CrNCo3tLcw=;
-        b=pDv1DsS8vCxLehRIvwqgPu4hvL6Yjte+QKydppB2WKMvf/gPBDz8Qwu+A6ZS09Avxs
-         LS6+t2dblHHwsn0SfeC8J2aAGz1mM9NN48EZ1xJUhO+FGBU7MNYYY3eLdLexc7ZgIrh/
-         RrkgyOhAga+03tROj9LrrWxwrGuq+kW0Wf2XpZttI5b7BkSyMfUAag5UhLPaJ4AtqZvK
-         5aLn0r2JVaecs4RSG0xa2soI+KI7f8Nq2wAegUBBCYUVWI7XtsCA7svmz/jWkFOsI+FF
-         Rsv4ZWFFmSyGLPX+mquh+49hxINyq3F4aor4gCKUzz1BJQZBCrB80HpOJJ3EltzvXF5A
-         7veA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1709078824; x=1709683624;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=JwJ7r+hhbElRRt/Ehuz+IMcLRUC1TV153CrNCo3tLcw=;
-        b=Qz9nEEXKhld++Kyewxlnx6LLbEQvvfXNn1+hNrDrxNzAPG10V/QUcDFlcpc9CWvNPy
-         px4LzsmPnHMiNmhsNj4UmuUAeVfvs7sV7DBYsGIVtumnPgQoeLBeVoJgRWL/n1k/kzOH
-         SxgZLJ/zvjg3UD8/JItLewaNaaDJozx8TCNTaokrJsvepAcQ3Mugo2bU3cXuKQh9hQ5d
-         yIUbkg0Boq5PX7RdYhUdcF94pCnTC28Brtch/HCbNKpt2VIuDOH27KUVdV4OFGaR3eCA
-         4PRy6pImCQMvBC9Oa8oROBqktwQmYmbl2ShEdSwCmi4VdvQwKnCCJjQq+tCf4HaOv1OM
-         HWdA==
-X-Forwarded-Encrypted: i=1; AJvYcCW4sosQGpPtZsBUPMo3ej6ppGbRly3lx7Qt1iMN2Elh18SIhGPVaEClYlY4+32uWgWq8Pt8drdelrpowwjVrMxifqW80zKcLP44
-X-Gm-Message-State: AOJu0YzEk56llNt+QJwebE5QGMkdwoUvVuxAVU6lYnmyxty2ob+JswuN
-	N3tfYfyjJ87+ctt/ex0a5Wk8tR53MY+ka5igZzrbo6IrzNsIF4Nly4rdYYnhuMP5SgygmW4JZKH
-	WT1Khvz48+uF+/nGDqFLYoM01PePYpIvkqP71
-X-Google-Smtp-Source: AGHT+IF6Y45ROTMne27xC4ORln067WR8PTJiN33sd62jEyUVDaw2u554x+rc6uhLR80s1PRcLn+147VFTDkzg/LLA/o=
-X-Received: by 2002:a05:6a20:ac44:b0:1a1:15ce:1f64 with SMTP id
- dh4-20020a056a20ac4400b001a115ce1f64mr1594408pzb.29.1709078824383; Tue, 27
- Feb 2024 16:07:04 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=quicinc.com header.i=@quicinc.com header.b="IIr56FtS"
+Received: from pps.filterd (m0279862.ppops.net [127.0.0.1])
+	by mx0a-0031df01.pphosted.com (8.17.1.24/8.17.1.24) with ESMTP id 41S0WvB3018548;
+	Wed, 28 Feb 2024 01:36:31 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com; h=
+	from:to:cc:subject:date:message-id:in-reply-to:references
+	:mime-version:content-type; s=qcppdkim1; bh=YGr4ptvXDBE+aeU+gZ8Z
+	8bhVE9Vb8xrnm4DY00/Y8Hs=; b=IIr56FtS91oYhPWS8HA/FZn7w6qbcJ8PTVoj
+	J3SeSuDvK4FWI8L+d1vdBe1A46nkuVGjtNhdWIVd06KMPq9dF3HCNq31IgBYCZIh
+	QhscCfAdiw3UveFP8GHpxitZp4Xsq9uiRW9iJmXEvkfOBZ7IPMOoAsXAUeozjZhI
+	q312ixThhWQKCbhstJ3LdZRx05Jnhjr3AG4Y5X5KeKMhmRQkrFuOGPu9p2XVHrdF
+	EpHE5aalwFD4huYiOVcLEXzjydqpDRXtrOPurIDnre1womC0Jdr/I7PSxqU8sWR5
+	lBfxOE7H6iWBGW16ui4zq/PFjuWGkdVW+D0LR+WeJPonyyVD0w==
+Received: from nalasppmta02.qualcomm.com (Global_NAT1.qualcomm.com [129.46.96.20])
+	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 3whtbw836t-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Wed, 28 Feb 2024 01:36:31 +0000 (GMT)
+Received: from nalasex01b.na.qualcomm.com (nalasex01b.na.qualcomm.com [10.47.209.197])
+	by NALASPPMTA02.qualcomm.com (8.17.1.5/8.17.1.5) with ESMTPS id 41S1aUJC025294
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Wed, 28 Feb 2024 01:36:30 GMT
+Received: from hu-wcheng-lv.qualcomm.com (10.49.16.6) by
+ nalasex01b.na.qualcomm.com (10.47.209.197) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.1118.40; Tue, 27 Feb 2024 17:36:29 -0800
+From: Wesley Cheng <quic_wcheng@quicinc.com>
+To: <srinivas.kandagatla@linaro.org>, <mathias.nyman@intel.com>,
+        <perex@perex.cz>, <conor+dt@kernel.org>, <corbet@lwn.net>,
+        <lgirdwood@gmail.com>, <andersson@kernel.org>,
+        <krzysztof.kozlowski+dt@linaro.org>, <gregkh@linuxfoundation.org>,
+        <Thinh.Nguyen@synopsys.com>, <broonie@kernel.org>,
+        <bgoswami@quicinc.com>, <tiwai@suse.com>, <robh+dt@kernel.org>,
+        <konrad.dybcio@linaro.org>
+CC: <linux-kernel@vger.kernel.org>, <devicetree@vger.kernel.org>,
+        <linux-sound@vger.kernel.org>, <linux-usb@vger.kernel.org>,
+        <linux-arm-msm@vger.kernel.org>, <linux-doc@vger.kernel.org>,
+        <alsa-devel@alsa-project.org>, Wesley Cheng <quic_wcheng@quicinc.com>
+Subject: [PATCH v18 02/41] usb: host: xhci: Export enable and disable interrupter APIs
+Date: Tue, 27 Feb 2024 17:35:40 -0800
+Message-ID: <20240228013619.29758-3-quic_wcheng@quicinc.com>
+X-Mailer: git-send-email 2.17.1
+In-Reply-To: <20240228013619.29758-1-quic_wcheng@quicinc.com>
+References: <20240228013619.29758-1-quic_wcheng@quicinc.com>
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20240227235832.744908-1-badhri@google.com>
-In-Reply-To: <20240227235832.744908-1-badhri@google.com>
-From: Badhri Jagan Sridharan <badhri@google.com>
-Date: Tue, 27 Feb 2024 16:06:27 -0800
-Message-ID: <CAPTae5JAKe_16SkyTkSsbZ15Q6XtGJXGRomZJN4gCMEO+fRYBw@mail.gmail.com>
-Subject: Re: [PATCH v1] usb: typec: tpcm: Fix PORT_RESET behavior for self
- powered devices
-To: gregkh@linuxfoundation.org, linux@roeck-us.net, 
-	heikki.krogerus@linux.intel.com
-Cc: kyletso@google.com, linux-usb@vger.kernel.org, 
-	linux-kernel@vger.kernel.org, rdbabiera@google.com, amitsd@google.com, 
-	stable@vger.kernel.org, frank.wang@rock-chips.com, broonie@kernel.org, 
-	stable@kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain
+X-ClientProxiedBy: nalasex01b.na.qualcomm.com (10.47.209.197) To
+ nalasex01b.na.qualcomm.com (10.47.209.197)
+X-QCInternal: smtphost
+X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800 signatures=585085
+X-Proofpoint-GUID: rn_m8xPahI5TKHb-SYkfZEP6oOcC6TDM
+X-Proofpoint-ORIG-GUID: rn_m8xPahI5TKHb-SYkfZEP6oOcC6TDM
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.272,Aquarius:18.0.1011,Hydra:6.0.619,FMLib:17.11.176.26
+ definitions=2024-02-27_11,2024-02-27_01,2023-05-22_02
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 adultscore=0 phishscore=0
+ suspectscore=0 priorityscore=1501 impostorscore=0 malwarescore=0
+ spamscore=0 mlxlogscore=650 lowpriorityscore=0 mlxscore=0 bulkscore=0
+ clxscore=1015 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.19.0-2402120000 definitions=main-2402280010
 
-HI all,
+Secondary interrupters can be OS owned, so expose the enable and disable
+interrupter APIs, so that the interrupts can be configured as requested
+depending on the client.
 
-Please ignore this patch. Adding the right tag "Cc:
-stable@vger.kernel.org"  for CCing stable.
+Signed-off-by: Wesley Cheng <quic_wcheng@quicinc.com>
+---
+ drivers/usb/host/xhci.c | 6 ++++--
+ drivers/usb/host/xhci.h | 2 ++
+ 2 files changed, 6 insertions(+), 2 deletions(-)
 
-Thanks,
-Badhri
-
-On Tue, Feb 27, 2024 at 3:58=E2=80=AFPM Badhri Jagan Sridharan
-<badhri@google.com> wrote:
->
-> While commit 69f89168b310 ("usb: typec: tpcm: Fix issues with power being
-> removed during reset") fixes the boot issues for bus powered devices such
-> as LibreTech Renegade Elite/Firefly, it trades off the CC pins NOT being
-> Hi-Zed during errory recovery (i.e PORT_RESET) for devices which are NOT
-> bus powered(a.k.a self powered). This change Hi-Zs the CC pins only for
-> self powered devices, thus preventing brown out for bus powered devices
->
-> Adhering to spec is gaining more importance due to the Common charger
-> initiative enforced by the European Union.
->
-> Quoting from the spec:
->     4.5.2.2.2.1 ErrorRecovery State Requirements
->     The port shall not drive VBUS or VCONN, and shall present a
->     high-impedance to ground (above zOPEN) on its CC1 and CC2 pins.
->
-> Hi-Zing the CC pins is the inteded behavior for PORT_RESET.
-> CC pins are set to default state after tErrorRecovery in
-> PORT_RESET_WAIT_OFF.
->
->     4.5.2.2.2.2 Exiting From ErrorRecovery State
->     A Sink shall transition to Unattached.SNK after tErrorRecovery.
->     A Source shall transition to Unattached.SRC after tErrorRecovery.
->
-> Fixes: 69f89168b310 ("usb: typec: tpcm: Fix issues with power being remov=
-ed during reset")
-> Cc: stable@kernel.org
-> Cc: Mark Brown <broonie@kernel.org>
-> Signed-off-by: Badhri Jagan Sridharan <badhri@google.com>
-> ---
->  drivers/usb/typec/tcpm/tcpm.c | 7 +++++--
->  1 file changed, 5 insertions(+), 2 deletions(-)
->
-> diff --git a/drivers/usb/typec/tcpm/tcpm.c b/drivers/usb/typec/tcpm/tcpm.=
-c
-> index c9a78f55ca48..bbe1381232eb 100644
-> --- a/drivers/usb/typec/tcpm/tcpm.c
-> +++ b/drivers/usb/typec/tcpm/tcpm.c
-> @@ -5593,8 +5593,11 @@ static void run_state_machine(struct tcpm_port *po=
-rt)
->                 break;
->         case PORT_RESET:
->                 tcpm_reset_port(port);
-> -               tcpm_set_cc(port, tcpm_default_state(port) =3D=3D SNK_UNA=
-TTACHED ?
-> -                           TYPEC_CC_RD : tcpm_rp_cc(port));
-> +               if (port->self_powered)
-> +                       tcpm_set_cc(port, TYPEC_CC_OPEN);
-> +               else
-> +                       tcpm_set_cc(port, tcpm_default_state(port) =3D=3D=
- SNK_UNATTACHED ?
-> +                                   TYPEC_CC_RD : tcpm_rp_cc(port));
->                 tcpm_set_state(port, PORT_RESET_WAIT_OFF,
->                                PD_T_ERROR_RECOVERY);
->                 break;
->
-> base-commit: a560a5672826fc1e057068bda93b3d4c98d037a2
-> --
-> 2.44.0.rc1.240.g4c46232300-goog
->
+diff --git a/drivers/usb/host/xhci.c b/drivers/usb/host/xhci.c
+index 9803efe7cdf2..dfc59338afb6 100644
+--- a/drivers/usb/host/xhci.c
++++ b/drivers/usb/host/xhci.c
+@@ -320,7 +320,7 @@ static void xhci_zero_64b_regs(struct xhci_hcd *xhci)
+ 		xhci_info(xhci, "Fault detected\n");
+ }
+ 
+-static int xhci_enable_interrupter(struct xhci_interrupter *ir)
++int xhci_enable_interrupter(struct xhci_interrupter *ir)
+ {
+ 	u32 iman;
+ 
+@@ -332,8 +332,9 @@ static int xhci_enable_interrupter(struct xhci_interrupter *ir)
+ 
+ 	return 0;
+ }
++EXPORT_SYMBOL_GPL(xhci_enable_interrupter);
+ 
+-static int xhci_disable_interrupter(struct xhci_interrupter *ir)
++int xhci_disable_interrupter(struct xhci_interrupter *ir)
+ {
+ 	u32 iman;
+ 
+@@ -345,6 +346,7 @@ static int xhci_disable_interrupter(struct xhci_interrupter *ir)
+ 
+ 	return 0;
+ }
++EXPORT_SYMBOL_GPL(xhci_disable_interrupter);
+ 
+ /* interrupt moderation interval imod_interval in nanoseconds */
+ static int xhci_set_interrupter_moderation(struct xhci_interrupter *ir,
+diff --git a/drivers/usb/host/xhci.h b/drivers/usb/host/xhci.h
+index 4f5e5187ea46..8908c3f5af6f 100644
+--- a/drivers/usb/host/xhci.h
++++ b/drivers/usb/host/xhci.h
+@@ -1872,6 +1872,8 @@ int xhci_alloc_tt_info(struct xhci_hcd *xhci,
+ 		struct xhci_virt_device *virt_dev,
+ 		struct usb_device *hdev,
+ 		struct usb_tt *tt, gfp_t mem_flags);
++int xhci_enable_interrupter(struct xhci_interrupter *ir);
++int xhci_disable_interrupter(struct xhci_interrupter *ir);
+ 
+ /* xHCI ring, segment, TRB, and TD functions */
+ dma_addr_t xhci_trb_virt_to_dma(struct xhci_segment *seg, union xhci_trb *trb);
