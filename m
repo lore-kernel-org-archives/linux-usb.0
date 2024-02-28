@@ -1,128 +1,216 @@
-Received: from netrider.rowland.org (netrider.rowland.org [192.131.102.5])
-	by smtp.subspace.kernel.org (Postfix) with SMTP id 2746515DBBA
-	for <linux-usb@vger.kernel.org>; Wed, 28 Feb 2024 16:12:06 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.131.102.5
+Received: from mail-io1-f54.google.com (mail-io1-f54.google.com [209.85.166.54])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+	(No client certificate requested)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 573096EF01
+	for <linux-usb@vger.kernel.org>; Wed, 28 Feb 2024 16:13:33 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.166.54
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1709136730; cv=none; b=Ey09SjbxsGBQX4FvvVdg/pqL4p2amIVa2faheMgwOdiJouKmu/n0f7GbL6BwD/djwDuBEhf50MuiIMNDf/SkWi43GrjjwXAGKLRrCEwyeyt3xxRHw597Qkos7t/tdpCkx4geu0Hen6pf3zbQ4iFW+1DEbPElc/IwytPX96v7eyE=
+	t=1709136816; cv=none; b=ZDzT4+1DGB7bCjmRTXnMpXzL9C4TeSzTbHx8stg61IQPDwyvU/OSyhpCEmaUcKUM6EeFCFfz8SQozFB/47KtmXz0cxsOz3aRhFYX4UwNftTgwdwjiAJ5a+OYh5C8WdVtBU+J3OJ85K3N53Zc0Nan+4tjHbn3XizCQLH6ju1wYxo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1709136730; c=relaxed/simple;
-	bh=FOSvzJIqz76gZszAfCyXvUnqGoQxI5NXFDSG9rTprIQ=;
+	s=arc-20240116; t=1709136816; c=relaxed/simple;
+	bh=UXQYgweCzqHDWLN2agJa0jubYiisrMuCRI823sfxrls=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=pzpXm7clj2iXWj3cLKIRFMeOLMsAJ0XLTmu6OPPYueTsZ+WDgknOi+jKkovK0YFJbR4c8Jj6l6V86GILn/TnQDa5psd7dlrpH037F16TGId5Lcotee4r0G+6e921tP/dCiKPp9TvndQF+VrEdOpKr4HA3Ei4mlpijXDk+qzO0AU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=rowland.harvard.edu; spf=pass smtp.mailfrom=netrider.rowland.org; arc=none smtp.client-ip=192.131.102.5
-Authentication-Results: smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=rowland.harvard.edu
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=netrider.rowland.org
-Received: (qmail 797627 invoked by uid 1000); 28 Feb 2024 11:12:06 -0500
-Date: Wed, 28 Feb 2024 11:12:06 -0500
-From: Alan Stern <stern@rowland.harvard.edu>
-To: syzbot <syzbot+28748250ab47a8f04100@syzkaller.appspotmail.com>
-Cc: bvanassche@acm.org, emilne@redhat.com, gregkh@linuxfoundation.org,
-  linux-kernel@vger.kernel.org, linux-usb@vger.kernel.org,
-  martin.petersen@oracle.com, syzkaller-bugs@googlegroups.com,
-  tasos@tasossah.com, usb-storage@lists.one-eyed-alien.net
-Subject: Re: [syzbot] [usb-storage?] divide error in isd200_ata_command
-Message-ID: <13add23d-af18-4f84-9f1a-043932a9712b@rowland.harvard.edu>
-References: <8fe3f46c-4ee5-4597-bf2d-12a5d634a264@rowland.harvard.edu>
- <0000000000008b026406126a4bbe@google.com>
+	 Content-Type:Content-Disposition:In-Reply-To; b=CwGurCAbgDFCCEjCgqKWNGFXMM2nSxTTlPsCpEMoLLXHhObBcMuPg+OqD2/azWQRnuP+yk8eiJ+wDPl+Mrz2UqQ8XoTp/JzX4X7mg85u+i5A320F2cFi0tKhqKVYq/HXwaZlSLupR3igYH+1zkSVURjOlMuCWrOV6s+qw25569M=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org; spf=pass smtp.mailfrom=chromium.org; dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b=JoVUtBFI; arc=none smtp.client-ip=209.85.166.54
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=chromium.org
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b="JoVUtBFI"
+Received: by mail-io1-f54.google.com with SMTP id ca18e2360f4ac-7c7b8fb8ba6so211546739f.2
+        for <linux-usb@vger.kernel.org>; Wed, 28 Feb 2024 08:13:33 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=chromium.org; s=google; t=1709136812; x=1709741612; darn=vger.kernel.org;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=8fcQ/IAWznRjXpStxlQ01G1Kz8L7H9BnNsQbERo5eec=;
+        b=JoVUtBFI597vn9R571PNRnez6js/OM2w3aGNSa0TC/U3ov2plXKyZnBWaDG0Qcqwar
+         +bN+TMNRr1PPtc54ypYJTCWT1Hd6UR1uCC7vgFTorbeGAwrvdWUhklywWvNqyURX8ytQ
+         2uFSgq/phdjxBxPYk94MHJOBas3uJ4fJrHVew=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1709136812; x=1709741612;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=8fcQ/IAWznRjXpStxlQ01G1Kz8L7H9BnNsQbERo5eec=;
+        b=V08mcigcuC+bcuRqy2wS6UyQB8nu1g2JSpBGAVJjWHzqiGanhmRz2lKRE6GNBNdgF4
+         1nXtVBbWVKxaJN7P7tMcfryC/TPrJciPD8Ms4M/9OmnCAv6KwWDHCHKIK3pbFLkY2pNo
+         JMcvAMla4BmVxelTEI4eb6BZz40r7b9ANivsyoC33St87aI3GCUryYJlkj9vmKvt/PxD
+         jHFdD9DUagetbsas6jYDKY+H/l1Ahw9mBYI5dmm9vwRUo7bzWd3u+Sy/mSkQ9t3UC4Up
+         pX4ZfafatXP/g0HtDxR4Na1E2gi6n0hc57NHYygnK9olISLQSOXQJKmgFg+XGu3lkODw
+         yzyQ==
+X-Forwarded-Encrypted: i=1; AJvYcCVa0m6qD3Q8S24YClW/lIw3p0FJAWJFwzj9h2Je2hbagZaID3aGAYLxQCyWEgyEhQaZAAIKMTcruiw9BvZHCRv6TsDibeBjhCBr
+X-Gm-Message-State: AOJu0YwMa++83tEeIuYvxzjoRwNSmdrZwUNzFX7JOahb17fuArKrgI31
+	U429/L8F3PUnnTqWzDXIvXmu3pRF6/BFvHp/OKgZRgHWrcaIQ9/xL8AqD5aL/w==
+X-Google-Smtp-Source: AGHT+IF/VtxzFoMcpznCdgAfPuARd0pMsINYif0A4fXJ7UWIBFB2SMpH2WyFgInTFSgxc5Q1p9rDcg==
+X-Received: by 2002:a6b:e41a:0:b0:7c7:ead3:d8a0 with SMTP id u26-20020a6be41a000000b007c7ead3d8a0mr5164129iog.2.1709136812326;
+        Wed, 28 Feb 2024 08:13:32 -0800 (PST)
+Received: from localhost (144.57.222.35.bc.googleusercontent.com. [35.222.57.144])
+        by smtp.gmail.com with UTF8SMTPSA id h2-20020a02c4c2000000b004745680ef83sm2325134jaj.123.2024.02.28.08.13.31
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Wed, 28 Feb 2024 08:13:31 -0800 (PST)
+Date: Wed, 28 Feb 2024 16:13:31 +0000
+From: Matthias Kaehlcke <mka@chromium.org>
+To: Javier Carrasco <javier.carrasco@wolfvision.net>
+Cc: Liam Girdwood <lgirdwood@gmail.com>, Mark Brown <broonie@kernel.org>,
+	Rob Herring <robh+dt@kernel.org>,
+	Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+	Conor Dooley <conor+dt@kernel.org>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	Helen Koike <helen.koike@collabora.com>,
+	Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+	Maxime Ripard <mripard@kernel.org>,
+	Thomas Zimmermann <tzimmermann@suse.de>,
+	David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>,
+	Catalin Marinas <catalin.marinas@arm.com>,
+	Will Deacon <will@kernel.org>, Russell King <linux@armlinux.org.uk>,
+	linux-sound@vger.kernel.org, devicetree@vger.kernel.org,
+	linux-kernel@vger.kernel.org, linux-usb@vger.kernel.org,
+	dri-devel@lists.freedesktop.org,
+	linux-arm-kernel@lists.infradead.org
+Subject: Re: [PATCH v5 1/8] usb: misc: onboard_hub: use device supply names
+Message-ID: <Zd9bq5hLj3Pv5ZHa@google.com>
+References: <20240228-onboard_xvf3500-v5-0-76b805fd3fe6@wolfvision.net>
+ <20240228-onboard_xvf3500-v5-1-76b805fd3fe6@wolfvision.net>
+ <Zd9TLL0IM08Wh63i@google.com>
+ <2bbd5eae-f963-40d6-a827-1c273ef5b211@wolfvision.net>
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <0000000000008b026406126a4bbe@google.com>
+In-Reply-To: <2bbd5eae-f963-40d6-a827-1c273ef5b211@wolfvision.net>
 
-On Tue, Feb 27, 2024 at 09:20:03PM -0800, syzbot wrote:
-> Hello,
+On Wed, Feb 28, 2024 at 05:02:10PM +0100, Javier Carrasco wrote:
+> On 28.02.24 16:37, Matthias Kaehlcke wrote:
+> > Hi Javier,
+> > 
+> > Thanks for moving this patch to the front of the series!
+> > 
+> > A few more comments inline.
+> > 
+> > On Wed, Feb 28, 2024 at 02:51:28PM +0100, Javier Carrasco wrote:
+> >> The current implementation uses generic names for the power supplies,
+> >> which conflicts with proper name definitions in the device bindings.
+> >>
+> >> Add a per-device property to include real supply names and keep generic
+> >> names for existing devices to keep backward compatibility.
+> >>
+> >> Signed-off-by: Javier Carrasco <javier.carrasco@wolfvision.net>
+> >> ---
+> >>  drivers/usb/misc/onboard_usb_hub.c | 49 ++++++++++++++++++++------------------
+> >>  drivers/usb/misc/onboard_usb_hub.h | 12 ++++++++++
+> >>  2 files changed, 38 insertions(+), 23 deletions(-)
+> >>
+> >> diff --git a/drivers/usb/misc/onboard_usb_hub.c b/drivers/usb/misc/onboard_usb_hub.c
+> >> index 0dd2b032c90b..3755f6cc1eda 100644
+> >> --- a/drivers/usb/misc/onboard_usb_hub.c
+> >> +++ b/drivers/usb/misc/onboard_usb_hub.c
+> >> @@ -29,17 +29,6 @@
+> >>  
+> >>  #include "onboard_usb_hub.h"
+> >>  
+> >> -/*
+> >> - * Use generic names, as the actual names might differ between hubs. If a new
+> >> - * hub requires more than the currently supported supplies, add a new one here.
+> >> - */
+> >> -static const char * const supply_names[] = {
+> >> -	"vdd",
+> >> -	"vdd2",
+> >> -};
+> >> -
+> >> -#define MAX_SUPPLIES ARRAY_SIZE(supply_names)
+> >> -
+> >>  static void onboard_hub_attach_usb_driver(struct work_struct *work);
+> >>  
+> >>  static struct usb_device_driver onboard_hub_usbdev_driver;
+> >> @@ -65,6 +54,30 @@ struct onboard_hub {
+> >>  	struct clk *clk;
+> >>  };
+> >>  
+> >> +static int onboard_hub_get_regulator_bulk(struct device *dev,
+> >> +					  struct onboard_hub *onboard_hub)
+> > 
+> > Let's call this onboard_hub_get_regulators(), it's an implementation detail
+> > that regulator_bulk_get() is used for getting them.
+> > 
+> > no need to pass 'dev', there is onboard_hub->dev
+> > 
 > 
-> syzbot tried to test the proposed patch but the build/boot failed:
+> Not at this point, though. The hub->dev = dev assignment happens a few
+> lines below, but there is no reason not to move the line up. I will
+> modify this for v6.
 > 
-> failed to checkout kernel repo https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/ on commit f2e367d6ad3b: failed to run ["git" "fetch" "--force" "--tags" "7b440d1b40dd93ea98b5af6bba55ffca63425216" "f2e367d6ad3b"]: exit status 128
-> fatal: couldn't find remote ref f2e367d6ad3b
-
-I'm going to guess this was a temporary failure and try again.  If that 
-wasn't the case, something is seriously wrong somewhere.  I had no 
-trouble accessing that commit using the git.kernel.org web interface.
-
-Alan Stern
-
-On Mon, Feb 26, 2024 at 01:42:26AM -0800, syzbot wrote:
-> Hello,
+> >>  static int onboard_hub_power_on(struct onboard_hub *hub)
+> >>  {
+> >>  	int err;
+> >> @@ -253,7 +266,6 @@ static int onboard_hub_probe(struct platform_device *pdev)
+> >>  {
+> >>  	struct device *dev = &pdev->dev;
+> >>  	struct onboard_hub *hub;
+> >> -	unsigned int i;
+> >>  	int err;
+> >>  
+> >>  	hub = devm_kzalloc(dev, sizeof(*hub), GFP_KERNEL);
+> >> @@ -264,18 +276,9 @@ static int onboard_hub_probe(struct platform_device *pdev)
+> >>  	if (!hub->pdata)
+> >>  		return -EINVAL;
+> >>  
+> >> -	if (hub->pdata->num_supplies > MAX_SUPPLIES)
+> >> -		return dev_err_probe(dev, -EINVAL, "max %zu supplies supported!\n",
+> >> -				     MAX_SUPPLIES);
+> >> -
+> >> -	for (i = 0; i < hub->pdata->num_supplies; i++)
+> >> -		hub->supplies[i].supply = supply_names[i];
+> >> -
+> >> -	err = devm_regulator_bulk_get(dev, hub->pdata->num_supplies, hub->supplies);
+> >> -	if (err) {
+> >> -		dev_err(dev, "Failed to get regulator supplies: %pe\n", ERR_PTR(err));
+> >> +	err = onboard_hub_get_regulator_bulk(dev, onboard_hub);
+> > 
+> > The local variable is called 'hub', not 'onboard_hub'.
+> > 
 > 
-> syzbot found the following issue on:
+> Good catch! Actually this patch alone would have not compiled, but once
+> the renaming is done, everything is ok again. I will fix this for v6.
 > 
-> HEAD commit:    f2e367d6ad3b Merge tag 'for-6.8/dm-fix-3' of git://git.ker..
-> git tree:       upstream
+> >> diff --git a/drivers/usb/misc/onboard_usb_hub.h b/drivers/usb/misc/onboard_usb_hub.h
+> >> index f360d5cf8d8a..ea24bd6790f0 100644
+> >> --- a/drivers/usb/misc/onboard_usb_hub.h
+> >> +++ b/drivers/usb/misc/onboard_usb_hub.h
+> >> @@ -6,54 +6,66 @@
+> >>  #ifndef _USB_MISC_ONBOARD_USB_HUB_H
+> >>  #define _USB_MISC_ONBOARD_USB_HUB_H
+> >>  
+> >> +#define MAX_SUPPLIES 2
+> >> +
+> >>  struct onboard_hub_pdata {
+> >>  	unsigned long reset_us;		/* reset pulse width in us */
+> >>  	unsigned int num_supplies;	/* number of supplies */
+> >> +	const char * const supply_names[MAX_SUPPLIES]; /* use the real names */
+> > 
+> > The comment isn't particularly useful or accurate. Not in all cases
+> > real names are used and outside of the context of this change the
+> > comment is hard to understand.
+> > 
+> > I'd say just omit it, the name of the field is self-documenting enough,
+> > there is no need to repeat the same in a comment (as for 'num_supplies'
+> > ...)
+> 
+> I added tthe comment because I can foresee what is going to happen:
+> people will copy the names from existing devices, we will have to ask if
+> the supplies are actually called vdd and vdd2 in the datasheet, and then
+> the real names will be sent in v2. Especially at the beginning, when the
+> supported devices are using vdd and vdd2.
 
-#syz test: https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/ f2e367d6ad3b
+It will probably happen, but I don't expect the comment to prevent that
+in most cases. First people need to read the comment and then interpret
+it correctly, which isn't a given.
 
-Index: usb-devel/drivers/usb/storage/isd200.c
-===================================================================
---- usb-devel.orig/drivers/usb/storage/isd200.c
-+++ usb-devel/drivers/usb/storage/isd200.c
-@@ -1105,7 +1105,7 @@ static void isd200_dump_driveid(struct u
- static int isd200_get_inquiry_data( struct us_data *us )
- {
- 	struct isd200_info *info = (struct isd200_info *)us->extra;
--	int retStatus = ISD200_GOOD;
-+	int retStatus;
- 	u16 *id = info->id;
- 
- 	usb_stor_dbg(us, "Entering isd200_get_inquiry_data\n");
-@@ -1137,6 +1137,13 @@ static int isd200_get_inquiry_data( stru
- 				isd200_fix_driveid(id);
- 				isd200_dump_driveid(us, id);
- 
-+				/* Prevent division by 0 in isd200_scsi_to_ata() */
-+				if (id[ATA_ID_HEADS] == 0 || id[ATA_ID_SECTORS] == 0) {
-+					usb_stor_dbg(us, "   Invalid ATA Identify data\n");
-+					retStatus = ISD200_ERROR;
-+					goto Done;
-+				}
-+
- 				memset(&info->InquiryData, 0, sizeof(info->InquiryData));
- 
- 				/* Standard IDE interface only supports disks */
-@@ -1202,6 +1209,7 @@ static int isd200_get_inquiry_data( stru
- 		}
- 	}
- 
-+ Done:
- 	usb_stor_dbg(us, "Leaving isd200_get_inquiry_data %08X\n", retStatus);
- 
- 	return(retStatus);
-@@ -1481,22 +1489,27 @@ static int isd200_init_info(struct us_da
- 
- static int isd200_Initialization(struct us_data *us)
- {
-+	int rc = 0;
-+
- 	usb_stor_dbg(us, "ISD200 Initialization...\n");
- 
- 	/* Initialize ISD200 info struct */
- 
--	if (isd200_init_info(us) == ISD200_ERROR) {
-+	if (isd200_init_info(us) < 0) {
- 		usb_stor_dbg(us, "ERROR Initializing ISD200 Info struct\n");
-+		rc = -ENOMEM;
- 	} else {
- 		/* Get device specific data */
- 
--		if (isd200_get_inquiry_data(us) != ISD200_GOOD)
-+		if (isd200_get_inquiry_data(us) != ISD200_GOOD) {
- 			usb_stor_dbg(us, "ISD200 Initialization Failure\n");
--		else
-+			rc = -EINVAL;
-+		} else {
- 			usb_stor_dbg(us, "ISD200 Initialization complete\n");
-+		}
- 	}
- 
--	return 0;
-+	return rc;
- }
- 
- 
-
+> But if you think the field name is self-documenting, I am fine with it
+> too. I will remove the comment for v6.
+> 
+> Thanks again and best regards,
+> Javier Carrasco
