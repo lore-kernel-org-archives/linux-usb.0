@@ -1,249 +1,104 @@
-Received: from EUR04-VI1-obe.outbound.protection.outlook.com (mail-vi1eur04on2098.outbound.protection.outlook.com [40.107.8.98])
+Received: from outgoing.selfhost.de (mordac.selfhost.de [82.98.82.6])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 667CE8626B;
-	Wed, 28 Feb 2024 20:50:28 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=40.107.8.98
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1709153430; cv=fail; b=jKsuOtWqhOmulHWQ6rWXdKl7bahtKWBlTm5cGZaJ6soKcrvQKwwvdDg5qJSyVcxLplmOXK/26wKfVlVD/x4t10I+MR+GECDvCVftlnqVxdVRr8VjaJxvIIWFbX+XyyEn5cIVWuPZZEgtHdcmgp49NU2IdKkbdTgbTLXpDrluDKg=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1709153430; c=relaxed/simple;
-	bh=42m4+NxAJdimrfDyW6xvYTAQYdXJ3XPBVMURPSxeaJY=;
-	h=Message-ID:Date:Subject:To:Cc:References:From:In-Reply-To:
-	 Content-Type:MIME-Version; b=rlis7irg+h4HI+geZre+2VXs4vC+M/WUQTEWij/V5vAWl2eyKV/U4Jk7VDX+nmWD3KRs9bPOt4iNkLjtJa0XH7ukwATNqM6gipiyYNJh0w0T2D+SgXLNUqF06UMT/4eIt1vfigJT4V23iw0ue9pbf3R27UC/W4kSFBGRjCLDaf0=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=wolfvision.net; spf=pass smtp.mailfrom=wolfvision.net; dkim=pass (1024-bit key) header.d=wolfvision.net header.i=@wolfvision.net header.b=F0p7kdLh; arc=fail smtp.client-ip=40.107.8.98
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=wolfvision.net
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=wolfvision.net
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=wolfvision.net header.i=@wolfvision.net header.b="F0p7kdLh"
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=UeDwHf2uWVFNnXvjirmpG5bdqr57wvvWbIAYfHC9ui2UhYTYfSiOFXX0goyodKPyUtpvFEWQBpKXo8loHPMEUfPtmhKnKaj8Wfoit+q74lqrbPBw96zw5FpdfbDqv/bGxeHQq/Gd8cVIsEUlsHLx5wI1uyyIDcAapeBXheESGxMpumGTiH7tiwwgMeYlDnCRvwvE1o3Y/PZ8ECg2W8HgMkYuzFydcDuX2+bCVAEQSJqcmqtpqGboTkBkpniAgl8e8xOZnt1w5yrJ92zm2suvSB+D2Luxw9jnxvrWfxahcj7bSf6WXEBJ4Fk6uzIHQx8506apw/DH9XmHTU4OgFQ2lA==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=iOphKdFcjYy4xr0RV7m8P8dE/Wkg+pKiza/ydZMOQl0=;
- b=Uml6TsSDn0e5/W5gddLPqoprLRZ9NAojz1nF6Pi14YE9F4va8OwHzVBi4uAiRW+2mnOsQhO6FOQCfjiKrsh75MT2r248l4bwaMKYp2J/TyyzgKEG5mY6D1adtAZCrfKXB4adisH4qxgW5ILOIvdMy2vHJhAFPiDrb3RZ7KPEBYNVvXF1/doEujtSX5T+wk61rnm4+/Ct989eLJ6LDRrpD7nuOgzUbWV7dunYJ4uNDxYJ5KMABXcKAitvYj6QNebdYMbDeKQAMv6JbqAkpF+xOC/0ayIRYxSjBvVs+7klsw2A19+BkjRsq25m6ulfOGtydzMbkFp6q7COKBM6Sg3pCw==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=wolfvision.net; dmarc=pass action=none
- header.from=wolfvision.net; dkim=pass header.d=wolfvision.net; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=wolfvision.net;
- s=selector2;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=iOphKdFcjYy4xr0RV7m8P8dE/Wkg+pKiza/ydZMOQl0=;
- b=F0p7kdLhCDKthIlYNQdom/yMT14YXczyHmwCvXnFGGrWq1392fiZ1V0EiINvuVcW0O4pPSMtWRgDaYf2IQYmSXSAyKsniaqvwxjgKl/246/tC/fTUbhpDD+9EIBjHlAawxd93MJogLrR/piRUY9LGxwRxOwOWwsR3WLoaeBm7RQ=
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=wolfvision.net;
-Received: from VE1PR08MB4974.eurprd08.prod.outlook.com (2603:10a6:803:111::15)
- by AS8PR08MB8327.eurprd08.prod.outlook.com (2603:10a6:20b:56e::15) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7316.41; Wed, 28 Feb
- 2024 20:50:25 +0000
-Received: from VE1PR08MB4974.eurprd08.prod.outlook.com
- ([fe80::9e35:6de9:e4fc:843f]) by VE1PR08MB4974.eurprd08.prod.outlook.com
- ([fe80::9e35:6de9:e4fc:843f%6]) with mapi id 15.20.7316.035; Wed, 28 Feb 2024
- 20:50:25 +0000
-Message-ID: <63d9be60-40dd-49f6-9a75-72d4be746024@wolfvision.net>
-Date: Wed, 28 Feb 2024 21:50:22 +0100
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v5 6/8] usb: misc: onboard_dev: add support for non-hub
- devices
-To: Matthias Kaehlcke <mka@chromium.org>
-Cc: Liam Girdwood <lgirdwood@gmail.com>, Mark Brown <broonie@kernel.org>,
- Rob Herring <robh+dt@kernel.org>,
- Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
- Conor Dooley <conor+dt@kernel.org>,
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
- Helen Koike <helen.koike@collabora.com>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
- David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>,
- Catalin Marinas <catalin.marinas@arm.com>, Will Deacon <will@kernel.org>,
- Russell King <linux@armlinux.org.uk>, linux-sound@vger.kernel.org,
- devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
- linux-usb@vger.kernel.org, dri-devel@lists.freedesktop.org,
- linux-arm-kernel@lists.infradead.org
-References: <20240228-onboard_xvf3500-v5-0-76b805fd3fe6@wolfvision.net>
- <20240228-onboard_xvf3500-v5-6-76b805fd3fe6@wolfvision.net>
- <Zd93JZTlN4BCxWm7@google.com>
- <ecf303c3-d7a1-49d5-a997-32596215e43d@wolfvision.net>
- <Zd-ahtPpI8zbAYQ9@google.com>
-Content-Language: en-US
-From: Javier Carrasco <javier.carrasco@wolfvision.net>
-In-Reply-To: <Zd-ahtPpI8zbAYQ9@google.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
-X-ClientProxiedBy: FR0P281CA0191.DEUP281.PROD.OUTLOOK.COM
- (2603:10a6:d10:ab::14) To VE1PR08MB4974.eurprd08.prod.outlook.com
- (2603:10a6:803:111::15)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 569B586270
+	for <linux-usb@vger.kernel.org>; Wed, 28 Feb 2024 21:32:41 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=82.98.82.6
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1709155965; cv=none; b=OdM8qmggQv6+wSRDNTiswKXquHvqJZNrEK9saoEYCIRO2YgLkWO46HNrW4bw7/X4pBe/OwYhZrV5YAFd7haIRYpJ+YhdtwP7PGpWhXRDpWa5mX1Jw3su0OjV7k442+C18HFJyhBBH4UNjy+JoNARVC+WGph9S+YSK62Mk26cemc=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1709155965; c=relaxed/simple;
+	bh=YZFbjwaS7EZ82Bo+AEk8uyNZ9d9OwKHxLaI27fIsRCc=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=ZiVz3LmDstnxW1LJxtoqNcpEMoWYMK5tD+punOP9+KoJRrYvZMal7FCx+qvAqH/hrBUNTlIhjXmeupu6zn0gwb9CuzkOgrdSjG4ZkmzaFQ53iGnzXgrfTaHModM6ir+wEhB+Fhu2OK6I++yGFOzVHhfxpSx/7CDftY+b46m3k8Y=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=afaics.de; spf=none smtp.mailfrom=afaics.de; arc=none smtp.client-ip=82.98.82.6
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=afaics.de
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=afaics.de
+Received: (qmail 3203 invoked from network); 28 Feb 2024 21:32:39 -0000
+Received: from unknown (HELO mailhost.afaics.de) (postmaster@xqrsonfo.mail.selfhost.de@79.192.199.18)
+  by mailout.selfhost.de with ESMTPA; 28 Feb 2024 21:32:39 -0000
+X-Spam-Level: ****
+X-Spam-Report: 
+	*  4.0 RCVD_IN_PBL RBL: Last ext relay in Spamhaus PBL (Non-MTA IPs)
+	*      [2003:e3:1f31:6503:68fd:ffff:fe6f:e76 listed in]
+	[zen.spamhaus.org]
+	*  0.0 HELO_NO_DOMAIN Relay reports its domain incorrectly
+	*  0.0 DMARC_MISSING Missing DMARC policy
+	*  0.0 KHOP_HELO_FCRDNS Relay HELO differs from its IP's reverse DNS
+Received: from [IPV6:2003:e3:1f31:6503:68fd:ffff:fe6f:e76] (p200300e31f31650368fdfffffe6f0e76.dip0.t-ipconnect.de [2003:e3:1f31:6503:68fd:ffff:fe6f:e76])
+	by marvin.afaics.de (OpenSMTPD) with ESMTP id cc23ecd1;
+	Wed, 28 Feb 2024 22:32:34 +0100 (CET)
+Message-ID: <acb5b4db-ef01-4edd-b97c-d8f7e2b241f2@afaics.de>
+Date: Wed, 28 Feb 2024 22:32:32 +0100
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: VE1PR08MB4974:EE_|AS8PR08MB8327:EE_
-X-MS-Office365-Filtering-Correlation-Id: 29efb367-52d7-4e0c-09cf-08dc389ee365
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info:
-	uMptwcWlB2FEvxED37OAbe+3xOP3+V3tEj/Nh5qD5wOipE+KQCjFVRzzCDK590xx5B7ERoOoeWDU/+BDkJuiOXeLJZ/PJV+Ajy1wQdn5tVRvhNe9lO7gOWbENF2HKiJ82kfIIefgkkuesajlBFN8+m4zaJInTgLOY8X2zhMDeWOfE9Vjn+FAERRaOfn75bGHaof88nnxIU/tyIhLO8vM3ezQYRMS/7Pds3gKPSEfbnbKOngXzxg5S/hVe8YKnMDY+d8oumC0FgIAw5A0Dqyhpc0G07J5bRuY6PziynYGaGZI9b8Td/5aMED367hUUDkTdJqFgTCI1R6EJQu+6OHfsYQhkIPtIBH6OD4baczOIs7kOFXmjCidI9+yywZHVFQSSn3eGfcHWJ4F2z/1tIVgkrXnrw1DlcnXWltv37TqbCx97CAqW1FjVpPeLMN6E35IWE+SUXaY3Mo11YCy517racwWDmEcqBmuGvfPO5Bveaj//H7bnkmSwauCiI0MiDASeUsJzBZL2Fm+hLO3ASt6cQYeJ6Q23cvgaDci4P32aIkL2nCdW4VT0iMqBLkEZHe6UCXom9cwfIn5cdnI5hWDG0jo8/yTcBFweNtrFfatb2rqMmc8FlIAT110HTu1VnwX/NYKcaQlz/Re2HLoan80yQ==
-X-Forefront-Antispam-Report:
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:VE1PR08MB4974.eurprd08.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230031);DIR:OUT;SFP:1102;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0:
-	=?utf-8?B?WkJRKzZLT1dVbDJXbHUzaE9jWWdId2Q4UGxVUVd4VXZQMDVKK0p4dC9PL1d1?=
- =?utf-8?B?OXovVHVzTTdlNXNkblRLTC8reS9BbC9nd0NjYmdjRTZySkp2T0NRRmlhZzNl?=
- =?utf-8?B?TDQ3WklrTkcxOWJWYW5YendFbC9sejU2RUN3ak03dXE5TWNxY01LZVFUWHhj?=
- =?utf-8?B?emFOazlrb2o1d2RwWU4xR0I1MjZtd1pIOGdtcmFEMldhZWpLNFFvb2ZlcTBB?=
- =?utf-8?B?N01JaDBETWE1TkxGMzVyaDYvOTNqWUlMdkdRMmxPRDE0ai95dVdMdUxiYStG?=
- =?utf-8?B?dThZRVZRR2kzVDVNTmJtNlJaRkZjVGUrVDgwOVNRVTRaMVdMUDkyR096K05X?=
- =?utf-8?B?NVB4M3dTRjN1NmVpaUdTbmlFUWJVdmJYWmJFc0FnQlNHdS90clBBZjkwdHNl?=
- =?utf-8?B?N0I1T2tkQkFqVlRPOWZIYjRJL2Y1eXZja2FxTk5rRWhKMFNSTWtmSlpMcDlF?=
- =?utf-8?B?NFRZQW9DTnVIQ1NyVDZhSmdsaWlCWDdURitIUTQ4MDVGMDBpQW8vNEhLU0k3?=
- =?utf-8?B?bVdDUGs5YTFndmt5UnBtMVppL0RtL2piK1N0TXpsdW5sbVZWVU5pTFdYcDRi?=
- =?utf-8?B?VElsZkdjNFVuaFZ3ZFVaVWFCcTFJVFFNK0k2djFhaFJKeklBSFBLbENqWG45?=
- =?utf-8?B?dFRlWld1NkRGMXdrTzBtblpDVExXM2NrcTN3TjFXNlQxYS9KNkdGaVlvd2Ru?=
- =?utf-8?B?eWZ2SVlxbXpOSHI0RHg0bEJXT0o2UVBUTHcrMTg1Y21MWGFaVWJDeXdwUFVT?=
- =?utf-8?B?M29JUkx4QktUSTd6YVlBVmhQazJ3bmNPYkdJUng4WS9hTUw5VkNXbFlMcXRP?=
- =?utf-8?B?T29WVWhXQXpQbjdZbCtCdmhsaFJTdllDanlKQm1ub3dTejVjWllSMCtuL3gz?=
- =?utf-8?B?VFdFbGJ3L3hhVmpINE1WOE16aWFPQ1g3T0wzU21jUWp0dW5XS21sbFEyTER4?=
- =?utf-8?B?ZXRJcmdrU3d2TEpPeTEvZHZta2tEM3BTRDZTQUZqeFI0VUsvSStSSktlWDhE?=
- =?utf-8?B?bHZ5bmNtYzBlT1VpY0VDTHF2Q0dXRnpHUUFzZFd4VnFHdFREbHhwRitaZW41?=
- =?utf-8?B?Q04xa1NhemFsazUxWmw4VEltekZ4RnhVc2l0alNpTkhaMFd5b1h1amU0ME5Q?=
- =?utf-8?B?aEZTSUUxK1FnLzBvMjdDTXdqQ0tYOHoxQjc3bHI4Z3VJUUVobUszMnZFeVBh?=
- =?utf-8?B?QUV0MVNZUjBYMUExU0ZrNGd0MWM3SnNpMktOUXZ1OVVQQ0FZMnE5cGE0VmJN?=
- =?utf-8?B?RFkwa3REcDZ4Y3VCRm9XYmVaTHplTkpmb0RpK1BGcVlFUUNsQXEvanpld1Bk?=
- =?utf-8?B?aGhJTzV6QkhPZTZMcWIvS1pvck5aU0NGd1B0aG9vYm9XS1BiWW44RWw0VUpy?=
- =?utf-8?B?SHUxSzRvZGpVNzNheVZzK2txM1lmTDYxR3IvNllHQTZyaG5Dbm1WYVJHOURz?=
- =?utf-8?B?djZFdGJMeERVaGRtdGwrVUkzR1d4ak9FcDBxbFVERld0VmVtUk1DS2xoVWVN?=
- =?utf-8?B?eFFTSnFENjk5YVBYa3BCYlREcFpwanZHVThVeDQ5aFdDNDEwVEtGTzFsZDk5?=
- =?utf-8?B?ejhFTStTd3R0WGZsc2w2cExHa1lMUXpZcFFsT2hMRTNWUmNkSUk0SkY4enJi?=
- =?utf-8?B?Z3gxN2RzUDlPR0cvQTgwMEhNNGZiWmlmb3pVSURhdGZGSmZpUXBrclZqZHc1?=
- =?utf-8?B?Yk5TZFZDc3RXakpWd1NJRU0zRlR2VVk5WkVnTnJ1L1BCQXE2K0ViOUoxc0My?=
- =?utf-8?B?aEh1RzFUL0tPMXR1RWRYbE5WTms4YTBGdkVJMkpTZVFWcmZ5ZzE4TFRGZktt?=
- =?utf-8?B?bTZlb2l2S1ZSWnJIWlhRWHJYRVRVK1FPck1POWNmWXNFeTdrTzJVeHpGc2pI?=
- =?utf-8?B?NWtGaTFPTHhvcmp5Y1UzK1E3RVp2T25oU1gwajc3a0ZiODdwdWROZDRDYWdr?=
- =?utf-8?B?dS9lMnF1akFoMHdEQVhDYVczRWtta3BqK2psOUR3V0ZpV0ZVZVFYYk15R0Yr?=
- =?utf-8?B?czFJcmdMRkcyVE1xU0d0cXFpNFpmY2V0NUU2cHI3NUN2ZE5RU3BYSW91eEo0?=
- =?utf-8?B?cStDVU12d1g5V05jMGw5Mzc5SzNBYzJoaFByNExSazA4MlZkUU1aUWk5aS9E?=
- =?utf-8?B?SjRDRDVQblZLUFE1SHZBQ0U0VTNoTnFMRFg2a0ZYbzQxTXlnTEs4NkNYV1NR?=
- =?utf-8?B?VjlZVTBWOC9kZDRqai83cHZ1YkRGU05VRlFqU092MHZ6cFJIbVlVNE5wRTlu?=
- =?utf-8?Q?WdJdAa80Nt5J6NhsW17ETCgig4vMmjyzm7QoTpHyxU=3D?=
-X-OriginatorOrg: wolfvision.net
-X-MS-Exchange-CrossTenant-Network-Message-Id: 29efb367-52d7-4e0c-09cf-08dc389ee365
-X-MS-Exchange-CrossTenant-AuthSource: VE1PR08MB4974.eurprd08.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 28 Feb 2024 20:50:25.1884
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: e94ec9da-9183-471e-83b3-51baa8eb804f
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: dHL8/RrccjDBrErtse3jwVL0bCi6/viXGPez0Gfu/z7gmOcccUfS12q7XYumUxZRwd/Ty8IbVhs2emEcPAkUyggxo7DRJJTjSNO6Q5TsqrU=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: AS8PR08MB8327
+User-Agent: Betterbird (Linux)
+Subject: Re: RIP on discard, JMicron USB adaptor
+To: "Martin K. Petersen" <martin.petersen@oracle.com>,
+ Harald Dunkel <harald.dunkel@aixigo.com>
+Cc: Keith Busch <kbusch@kernel.org>, Alan Stern <stern@rowland.harvard.edu>,
+ Jens Axboe <axboe@kernel.dk>, Bart Van Assche <bvanassche@acm.org>,
+ linux-block@vger.kernel.org, linux-usb@vger.kernel.org
+References: <70bc51d7-c8a2-4b06-ab7a-e321d20db49a@aixigo.com>
+ <62296d89-f7e6-4f54-add8-35b531dc657c@rowland.harvard.edu>
+ <Zd9Xbz3L6JEvBHHT@kbusch-mbp> <yq1sf1c1h0x.fsf@ca-mkp.ca.oracle.com>
+From: Harald Dunkel <harri@afaics.de>
+Content-Language: en-US
+Autocrypt: addr=harri@afaics.de; keydata=
+ xsBNBFIHbdABCACYHRLHGdFRk7bWkgdPhDLin6jLIS0ppegsx0Vc9STFyiHFUW+6HU9ZYTpO
+ f2qbcWlE3YJYacy6zOiiTjYX31quhvGrP3UJXKjXsAp7CFsMxRJUhm20Ph0nCl/Oed9SDNXN
+ HQJwHoOVWrsu/sGxNTfjCWRJleBE11P+TuuLOAP9dbqFbWhmkTsE9Lp9d16Ak77MWmWWxBvD
+ cBsUuC2GOYDfFOPM3j16w7aw4Y9GI2B5QzFiHvOR/hCazfDEMQAlaHMm6sH8uzrjNEtB5dvm
+ vxF8j/IpvsuvWGhZ68rej2gPwoVrRTEBaYslW8/5dm8o1HuTkuLqxhNTcvYWyV8uKRtTABEB
+ AAHNH0hhcmFsZCBEdW5rZWwgPGhhcnJpQGFmYWljcy5kZT7CwHoEEwEIACQCGwMCHgECF4AC
+ GQEFAlQYLhUFCwkIBwMFFQoJCAsFFgIDAQAACgkQCp4qnmbTgcu7Fwf/RoWwNDxJPD96vBFb
+ Jzfta9qVA0JpbKoMAnNY0tDWiF5Ur8UY/tv/RDVV44Vx3Ef0fzQZN0CtHsNfAKO+KXBMUiuT
+ AP4AadpaIwYMo8v+SmPzJSUxWgBm6IsHwn1udXRdEgdR9guWkLPRGCK3x84sorAOUnUHJHkq
+ UrDFQUNfNA9lqM7ttunfVtG4SaqcLEOpJ1s/aMUsEODlP/lws42VjubIVg403cMIgvqs5cT8
+ EjLDNqCwEoWZRhfpg5x3D5uNDNWSW70Z+6Knicbi129QIu4HtSnfrxiuvHz2LLPFOVQuj8h4
+ TPT6tkfIURKipFXoIC3YiK8f94rFO3q86oNJUs7ATQRSB23QAQgA27gQiXZ96pbJkGoz1RWX
+ T8WSQJ5TWVJyf4eswoVI8Ffk5vLE+xPpAYEDkL7JYGCvBN1BKrcaZzDy8Irfys6bHI3JmVVi
+ ZloSkVS8QL7pQGfp74VT3NvDjK6LDe9QMv8Rb45laSRD5XCGRMTxz9pwu3vNcOPCfV5nmbyB
+ /6h4/bguFH1+6aGz6HyC8v/tjhL6+cY329inJ+vWVJYssweMIIYpssUtDaPKZO0080toLLrt
+ KuVgiUb9llbmZgKGElRjwgGT8AUXDRFCzn0ws/nuGNw0L+EdCI3VdZSK5KMEO34vZq7iNeM1
+ ZVnPVZAbHheR30NFKTgrwvlt8G7blHJPWwARAQABwsBfBBgBCAAJBQJSB23QAhsMAAoJEAqe
+ Kp5m04HLiiEH/jlKumVyQrOxH58iQFzVDthDfJdBLmnDlfVx2Dzn60vc5To6yJ3fwO21s3xC
+ /LW9aZSfDueV0nWU4/Wow/X5GEH90Vc1sFoeSZb/GW03vsO1n/OFIVlv9GQv+RviWMDEwKKx
+ CMvdqUlVblWf1iT/ngPN0YawKGF0Dgn8TRzfL/Tq9muwNUaONzz8PWBUIm1+8JDZszYLzLoz
+ YiY0usL4GH9BCeW6XG2Q6j4cpyOQZ0VKiBs1Rh+dmswn+iXLfi08Q0IxYAD6wjHdJTBD9pE9
+ 5Uj8/1spt51FBAAIP+7sd2mpAvsNnojatuOgjBmBxFwiOKeyDNe1wvKr4dsRheOLV8M=
+In-Reply-To: <yq1sf1c1h0x.fsf@ca-mkp.ca.oracle.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 
-On 28.02.24 21:41, Matthias Kaehlcke wrote:
-> On Wed, Feb 28, 2024 at 09:21:00PM +0100, Javier Carrasco wrote:
->> On 28.02.24 19:10, Matthias Kaehlcke wrote:
->>> On Wed, Feb 28, 2024 at 02:51:33PM +0100, Javier Carrasco wrote:
->>>> Most of the functionality this driver provides can be used by non-hub
->>>> devices as well.
->>>>
->>>> To account for the hub-specific code, add a flag to the device data
->>>> structure and check its value for hub-specific code.
->>>>
->>>> The 'always_powered_in_supend' attribute is only available for hub
->>>> devices, keeping the driver's default behavior for non-hub devices (keep
->>>> on in suspend).
->>>>
->>>> Signed-off-by: Javier Carrasco <javier.carrasco@wolfvision.net>
->>>> ---
->>>>  drivers/usb/misc/onboard_usb_dev.c | 25 +++++++++++++++++++++++--
->>>>  drivers/usb/misc/onboard_usb_dev.h | 10 ++++++++++
->>>>  2 files changed, 33 insertions(+), 2 deletions(-)
->>>>
->>>> diff --git a/drivers/usb/misc/onboard_usb_dev.c b/drivers/usb/misc/onboard_usb_dev.c
->>>> index e1779bd2d126..df0ed172c7ec 100644
->>>> --- a/drivers/usb/misc/onboard_usb_dev.c
->>>> +++ b/drivers/usb/misc/onboard_usb_dev.c
->>>> @@ -132,7 +132,8 @@ static int __maybe_unused onboard_dev_suspend(struct device *dev)
->>>>  	struct usbdev_node *node;
->>>>  	bool power_off = true;
->>>>  
->>>> -	if (onboard_dev->always_powered_in_suspend)
->>>> +	if (onboard_dev->always_powered_in_suspend &&
->>>> +	    !onboard_dev->pdata->is_hub)
->>>>  		return 0;
->>>
->>> With this non-hub devices would always be powered down, since
->>> 'always_powerd_in_suspend' is not set for them. This should be:
->>>
->>
->> May I ask you what you meant in v4 with this comment?
->>
->>> Even without the sysfs attribute the field 'always_powered_in_suspend'
->>> could
->>> be set to true by probe() for non-hub devices.
+Hi Martin,
+
+On 2024-02-28 21:19:25, Martin K. Petersen wrote:
 > 
-> struct onboard_dev always has the field 'always_powered_in_suspend',
-> even for non-hubs, that don't have the corresponding sysfs attribute.
-> Currently it is left uninitialized (i.e. false) for non-hubs. Instead
-> it could be initialized to true by probe() for non-hubs, which would
-> be semantically correct. With that it wouldn't be necessary to check
-> here whether a device is hub, because the field would provide the
-> necessary information.
+>> In the code comments above the WARN, this condition indicates "the
+>> discard granularity isn't set by buggy device driver". The block layer
+>> needs this set if your driver also sets the max_discard_sectors limit.
+> 
+> Please provide the output of:
+> 
+> # sg_readcap -l /dev/sdN
+> # sg_vpd -l /dev/sdN
+> # sg_vpd -p 0xb0 /dev/sdN
+> # sg_vpd -p 0xb1 /dev/sdN
+> # sg_vpd -p 0xb2 /dev/sdN
+> # sg_opcodes /dev/sdN
+> 
+> Thanks!
 > 
 
-That is maybe what is confusing me a bit. Should it not be false for
-non-hub devices? That property is only meant for hubs, so why should
-non-hub devices be always powered in suspend? I thought it should always
-be false for non-hub devices, and configurable for hubs.
+I am not in the office anymore, so I cannot plugin the USB device to run
+the commands you requested. First thing tomorrow in the morning, promised.
 
->>>   if (!onboard_dev->pdata->is_hub ||
->>>        onboard_dev->always_powered_in_suspend)
->>>
->>> Checking for the (non-)hub status first is clearer IMO, also it avoids
->>> an unneccessary check of 'always_powered' for non-hub devices.
->>>
->>
->> That makes sense and will be fixed.
->>
->>> Without code context: for hubs there can be multiple device tree nodes
->>> for the same physical hub chip (e.g. one for the USB2 and another for
->>> the USB3 part). I suppose this could also be the case for non-hub
->>> devices. For hubs there is the 'peer-hub' device tree property to
->>> establish a link between the two USB devices, as a result the onboard
->>> driver only creates a single platform device (which is desired,
->>> otherwise two platform devices would be in charge for power sequencing
->>> the same phyiscal device. For non-hub devices there is currently no such
->>> link. In many cases I expect there will be just one DT entry even though
->>> the device has multiple USB interfaces, but it could happen and would
->>> actually be a more accurate representation.
->>>
->>> General support is already there (the code dealing with 'peer-hub'), but
->>> we'd have to come up with a suitable name. 'peer-device' is the first
->>> thing that comes to my mind, but there might be better options. If such
->>> a generic property is added then we should deprecate 'peer-hub', but
->>> maintain backwards compatibility.
->>
->> I have nothing against that, but the first non-hub device that will be
->> added does not have multiple DT nodes, so I have nothing to test that
->> extension with real hardware.
-> 
-> I see, the XVF3500 is USB 2.0 only, so it isn't suitable for testing.
-> 
->> That could be added in the future, though, if the need ever arises.
-> 
-> I expect it will, when a DT maintainer asks the hardware to be
-> represented correctly for a device that is connected to more than one USB
-> bus. IIRC that's how 'peer-hub' was born :)
-> 
-> Ok, we can leave it out for now. I might send a dedicated patch after your
-> series landed. If a switch to 'peer-device' or similar is anticipated then
-> it's probably best to deprecate 'peer-hub' ASAP, to avoid it from getting
-> added to more bindings.
 
-Best regards,
-Javier Carrasco
+Regards
 
+Harri
