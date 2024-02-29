@@ -1,78 +1,98 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.21])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.223.131])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7270B7D415
-	for <linux-usb@vger.kernel.org>; Thu, 29 Feb 2024 12:55:40 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.21
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1BE491DFE3;
+	Thu, 29 Feb 2024 13:18:56 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.131
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1709211342; cv=none; b=m3h0lOecq2NX7xITf/ONQdj9Ih+F5PmkU88unjZ5EcR01cXLSr3Epu4ZUtDR64Rl7QeuuI3WSPUhc4FfYimj28uXcQQSwCjhIWzR2kMqb4zVpW4mZpB5CAG5ctZUWg9g8hmRTeNyaSWb/D1RBvg0X9SKOQ7NUFEtK/LlyFN94Vk=
+	t=1709212738; cv=none; b=ZPh/au95ySRA/tG60x02T3R9caSSL+w5LeC7L5uNtq19v8ZsgO73lVYnvCAnynJ0ICzYH+6OnmICqHJGjUitAiw4BCC9qHcSy1KnchNuM3oQjOrgILi00Q+F3iBbOib2AcvhlEZRRJIh4D1Jxvll7UJxvfy3b+R8//AJGL59dno=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1709211342; c=relaxed/simple;
-	bh=Nt4NxWgI6RJwbHPvc3EhO2PsoxHefqJJw+nQ9Y7LHsA=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=eWT/bWWp0XJsQXPafMfPGx6o9F3rn0L2GeAJ5IQCzn7OtnpGNuLAvUsNJGMOXTT0SlnVpyiJgpu5n7k8WtYIeBO9B/qlAXjTz6J4q/YrqUd4MMHsgLXcbrc5aXQh0yQofPEJm9th0qADmYc3qgZ0nzc0GHXWI14ac1mQPzNBa/w=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=none smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=K/lx7SFG; arc=none smtp.client-ip=198.175.65.21
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=linux.intel.com
+	s=arc-20240116; t=1709212738; c=relaxed/simple;
+	bh=e9ApuH6Hz9Lx3CwIlv2WZ1oQLTe/qwHB9BrcYoFh5lU=;
+	h=From:To:Subject:Date:Message-ID:MIME-Version; b=n4sWmzDXgX64FBhhOYaXE5RqtKJWGMeO7L5Bv7fyR+B1leu/vkc3Tn+hdQ90Eh900Ytw1gK1PM69LDs+eKbLeoBiOe6Q6SEkKuTZkIWM8bobkU6aJOXywJ206dnxv6NBCo6bC/DYr5zYm71xL+nHxqROQG6ZT7aOGiJqIWAl3N8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=suse.com; spf=pass smtp.mailfrom=suse.com; dkim=pass (1024-bit key) header.d=suse.com header.i=@suse.com header.b=PXvXJg7K; dkim=pass (1024-bit key) header.d=suse.com header.i=@suse.com header.b=PXvXJg7K; arc=none smtp.client-ip=195.135.223.131
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=suse.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="K/lx7SFG"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1709211340; x=1740747340;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=Nt4NxWgI6RJwbHPvc3EhO2PsoxHefqJJw+nQ9Y7LHsA=;
-  b=K/lx7SFGo37xcxHuYk8Du3Ds0qhE9Zye8/zXCvHr3HjCBFmJNmc2ajLj
-   Srd7Smg6S8zKYzElSJNYUnMKvh/YmSUN8X6Kdt2OYifGK7AGlE96dGGLb
-   Dg416snUcY/Akg3EahClmMQY1fA8O5yF6l9oeetcokHfJxppcljxaisBH
-   NQtJgnKsAa8pbI3zbIx0KNyw9rl6DMshYbqFVbBif0xa+fKE0utrUqA/Z
-   h11Ff7FYaN5P2jlGyLeyvinQ+g/sH3GATG9ToYlBV1reNtZ7tio37ZIRj
-   acx9Pnwem6qfJpJKly8s87WOMP4SgIPqT+RIbOapoY8prgOv8AuRAeNGf
-   A==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10998"; a="3600913"
-X-IronPort-AV: E=Sophos;i="6.06,194,1705392000"; 
-   d="scan'208";a="3600913"
-Received: from fmsmga001.fm.intel.com ([10.253.24.23])
-  by orvoesa113.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 29 Feb 2024 04:55:39 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10998"; a="937035911"
-X-IronPort-AV: E=Sophos;i="6.06,194,1705392000"; 
-   d="scan'208";a="937035911"
-Received: from black.fi.intel.com ([10.237.72.28])
-  by fmsmga001.fm.intel.com with ESMTP; 29 Feb 2024 04:55:37 -0800
-Received: by black.fi.intel.com (Postfix, from userid 1001)
-	id 6D0EE3BC; Thu, 29 Feb 2024 14:55:36 +0200 (EET)
-Date: Thu, 29 Feb 2024 14:55:36 +0200
-From: "mika.westerberg@linux.intel.com" <mika.westerberg@linux.intel.com>
-To: "mohamed.rayan@siemens.com" <mohamed.rayan@siemens.com>
-Cc: "andreas.noever@gmail.com" <andreas.noever@gmail.com>,
-	"michael.jamet@intel.com" <michael.jamet@intel.com>,
-	"YehezkelShB@gmail.com" <YehezkelShB@gmail.com>,
-	"linux-usb@vger.kernel.org" <linux-usb@vger.kernel.org>,
-	"mohamed.samy@siemens.com" <mohamed.samy@siemens.com>,
-	"mohamed.el_nahas@siemens.com" <mohamed.el_nahas@siemens.com>,
-	"ahmed_mohammed@siemens.com" <ahmed_mohammed@siemens.com>
-Subject: Re: Inquiry about tb/usb4 driver
-Message-ID: <20240229125536.GI8454@black.fi.intel.com>
-References: <SEZPR06MB5439E9D11593D4550BDCA4AFF35F2@SEZPR06MB5439.apcprd06.prod.outlook.com>
- <20240229123042.GH8454@black.fi.intel.com>
- <SEZPR06MB5439B1EDA735894215D6263BF35F2@SEZPR06MB5439.apcprd06.prod.outlook.com>
+	dkim=pass (1024-bit key) header.d=suse.com header.i=@suse.com header.b="PXvXJg7K";
+	dkim=pass (1024-bit key) header.d=suse.com header.i=@suse.com header.b="PXvXJg7K"
+Received: from imap2.dmz-prg2.suse.org (imap2.dmz-prg2.suse.org [IPv6:2a07:de40:b281:104:10:150:64:98])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by smtp-out2.suse.de (Postfix) with ESMTPS id 4048A1F7E6;
+	Thu, 29 Feb 2024 13:18:55 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.com; s=susede1;
+	t=1709212735; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:
+	 mime-version:mime-version:  content-transfer-encoding:content-transfer-encoding;
+	bh=e9ApuH6Hz9Lx3CwIlv2WZ1oQLTe/qwHB9BrcYoFh5lU=;
+	b=PXvXJg7KNFMqAEEbUgR3dKFbpUJrNGGevJnF1jzbveRf9boYcey0ULOT/I9YdJjh6TfPO9
+	BJkxFc/9rEVNjf4D7v6vNoVD7Tr5C7Ek6WBScgkXSEQnvcEjgrPs6YesERaL7YqRMMd2YK
+	tfddMu1PZTf37fYnlH1qr/wWWH4T7mg=
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.com; s=susede1;
+	t=1709212735; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:
+	 mime-version:mime-version:  content-transfer-encoding:content-transfer-encoding;
+	bh=e9ApuH6Hz9Lx3CwIlv2WZ1oQLTe/qwHB9BrcYoFh5lU=;
+	b=PXvXJg7KNFMqAEEbUgR3dKFbpUJrNGGevJnF1jzbveRf9boYcey0ULOT/I9YdJjh6TfPO9
+	BJkxFc/9rEVNjf4D7v6vNoVD7Tr5C7Ek6WBScgkXSEQnvcEjgrPs6YesERaL7YqRMMd2YK
+	tfddMu1PZTf37fYnlH1qr/wWWH4T7mg=
+Received: from imap2.dmz-prg2.suse.org (localhost [127.0.0.1])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by imap2.dmz-prg2.suse.org (Postfix) with ESMTPS id F064A13451;
+	Thu, 29 Feb 2024 13:18:54 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([10.150.64.162])
+	by imap2.dmz-prg2.suse.org with ESMTPSA
+	id XsU0OD6E4GWPKQAAn2gu4w
+	(envelope-from <oneukum@suse.com>); Thu, 29 Feb 2024 13:18:54 +0000
+From: Oliver Neukum <oneukum@suse.com>
+To: gregkh@linuxfoundation.org,
+	linux-usb@vger.kernel.org,
+	linux-kernel@vger.kernel.org
+Subject: 
+Date: Thu, 29 Feb 2024 14:17:32 +0100
+Message-ID: <20240229131851.16148-1-oneukum@suse.com>
+X-Mailer: git-send-email 2.43.2
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <SEZPR06MB5439B1EDA735894215D6263BF35F2@SEZPR06MB5439.apcprd06.prod.outlook.com>
+Content-Transfer-Encoding: 8bit
+X-Spam-Level: **
+X-Spamd-Bar: ++
+Authentication-Results: smtp-out2.suse.de;
+	dkim=pass header.d=suse.com header.s=susede1 header.b=PXvXJg7K
+X-Rspamd-Server: rspamd2.dmz-prg2.suse.org
+X-Spamd-Result: default: False [2.49 / 50.00];
+	 ARC_NA(0.00)[];
+	 RCVD_VIA_SMTP_AUTH(0.00)[];
+	 R_DKIM_ALLOW(-0.20)[suse.com:s=susede1];
+	 FROM_HAS_DN(0.00)[];
+	 RCPT_COUNT_THREE(0.00)[3];
+	 R_MISSING_CHARSET(2.50)[];
+	 TO_MATCH_ENVRCPT_ALL(0.00)[];
+	 MIME_GOOD(-0.10)[text/plain];
+	 TO_DN_NONE(0.00)[];
+	 BROKEN_CONTENT_TYPE(1.50)[];
+	 DWL_DNSWL_MED(-2.00)[suse.com:dkim];
+	 NEURAL_HAM_LONG(-1.00)[-1.000];
+	 RCVD_COUNT_THREE(0.00)[3];
+	 DKIM_SIGNED(0.00)[suse.com:s=susede1];
+	 DKIM_TRACE(0.00)[suse.com:+];
+	 MX_GOOD(-0.01)[];
+	 MID_CONTAINS_FROM(1.00)[];
+	 DBL_BLOCKED_OPENRESOLVER(0.00)[suse.com:dkim];
+	 NEURAL_HAM_SHORT(-0.20)[-1.000];
+	 FROM_EQ_ENVFROM(0.00)[];
+	 MIME_TRACE(0.00)[0:+];
+	 EMPTY_SUBJECT(1.00)[];
+	 RCVD_TLS_ALL(0.00)[];
+	 BAYES_HAM(-0.00)[13.07%]
+X-Spam-Score: 2.49
+X-Rspamd-Queue-Id: 4048A1F7E6
+X-Spam-Flag: NO
 
-On Thu, Feb 29, 2024 at 12:48:46PM +0000, mohamed.rayan@siemens.com wrote:
-> Hello Mike,
-> 
-> Thanks for your reply,
-> 
-> Yes, I see a problem in my case, because When " tb_cfg_get_upstream_port", " upstream_port" variable gets updated with wrong value not the actual "upstream port" corresponding value in the Router configuration space of the USB4 host controller.
-
-Can you share full dmesg with thunderbolt.dyndbg=+p in the command line
-so we can take a look?
+This is intended to be a cleanup
