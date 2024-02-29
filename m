@@ -1,169 +1,174 @@
-Received: from outgoing.selfhost.de (mordac.selfhost.de [82.98.82.6])
+Received: from EUR05-AM6-obe.outbound.protection.outlook.com (mail-am6eur05on2139.outbound.protection.outlook.com [40.107.22.139])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C36F24F1FE
-	for <linux-usb@vger.kernel.org>; Thu, 29 Feb 2024 08:21:14 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=82.98.82.6
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1709194877; cv=none; b=CAM7w0+KLcaP+10wuuqofTaR1te4xdLzKZfVHt9m7kMwd3NKcUPs5l3swJWCsaaNkFMvb4byM4Iisw7na+uUZqHOyd0/GtmB5OwJ3xc/Ft3qzIn8WwX+9xmTZ+hzwSxlj1O2Sgscdm8fC9bOC9hlhhic2SJEi5yBDFUaeGwaQhA=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1709194877; c=relaxed/simple;
-	bh=c3/1KWXdvm/MBju6h/jrIHxJ8idnwvwGpTR00gWFSzg=;
-	h=Message-ID:Date:MIME-Version:Subject:From:To:Cc:References:
-	 In-Reply-To:Content-Type; b=hTx/rz3Fj04+PMEOlZC6fk0eWgCIoSUa7kb/2PS0ec/Lm+LYQzfbiKNobEyNwRzOzBwIKifmilzEEUDHupLCjLf4tn3ZgaVBs1QWtVV1Bie32otpzhOe4zmCG27FBuZkCpmdEFDfdVRQ0yqnu6qOrUb5P5c9iNmuJcTQyBZsuMU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=afaics.de; spf=none smtp.mailfrom=afaics.de; arc=none smtp.client-ip=82.98.82.6
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=afaics.de
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=afaics.de
-Received: (qmail 15066 invoked from network); 29 Feb 2024 08:21:12 -0000
-Received: from unknown (HELO mailhost.afaics.de) (postmaster@xqrsonfo.mail.selfhost.de@79.192.199.18)
-  by mailout.selfhost.de with ESMTPA; 29 Feb 2024 08:21:12 -0000
-X-Spam-Level: ****
-X-Spam-Report: 
-	*  4.0 RCVD_IN_PBL RBL: Last ext relay in Spamhaus PBL (Non-MTA IPs)
-	*      [2003:e3:1f31:6503:8865:8fff:feb7:694d listed in]
-	[zen.spamhaus.org]
-	*  0.0 HELO_NO_DOMAIN Relay reports its domain incorrectly
-	*  0.0 KHOP_HELO_FCRDNS Relay HELO differs from its IP's reverse DNS
-	*  0.0 DMARC_MISSING Missing DMARC policy
-Received: from [IPV6:2003:e3:1f31:6503:8865:8fff:feb7:694d] (p200300e31f31650388658ffffeb7694d.dip0.t-ipconnect.de [2003:e3:1f31:6503:8865:8fff:feb7:694d])
-	by marvin.afaics.de (OpenSMTPD) with ESMTP id db5b7ac1;
-	Thu, 29 Feb 2024 09:21:08 +0100 (CET)
-Message-ID: <633b4ae2-408c-469a-8df1-7530de9f7a97@afaics.de>
-Date: Thu, 29 Feb 2024 09:21:08 +0100
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 14E5A51C52;
+	Thu, 29 Feb 2024 08:34:56 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=40.107.22.139
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1709195698; cv=fail; b=spB9S7OjtD27oq3CldJVWA+S9t8jrJVWhsOFGXkOMO+HieA0FL676VSf5sN6V+jcL63reQHVAoP+79Jk0yQkV9gPhVNCRkVobg337IzUpzV2i1Nvgd1LtG66vuh2t/QZzXXiUK9m1Tb8E9a8RYfIWCmIrdaAnZUX5HqqIFYhA94=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1709195698; c=relaxed/simple;
+	bh=SFVrdbQBKp6w6iOi3+cJln+dSXaq8fghc4J0yWNMHNw=;
+	h=From:Date:Subject:Content-Type:Message-Id:References:In-Reply-To:
+	 To:Cc:MIME-Version; b=Vuu1v0ZBfuPUjiArmzuCQMxxjlGpB+TlD6IybcRCQwx6ezFmmb4hzISy4hiNdeUN7CMFxqnuxcV5023gsLDTDqE83jF2Xe40YQlMHbhsJslfqox8iIa6ddyeshgGE7bNaiu3LdV9B+aFlKOnydYrLuPIh8+nwfT7DAKJvA7/ZBQ=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=wolfvision.net; spf=pass smtp.mailfrom=wolfvision.net; dkim=pass (1024-bit key) header.d=wolfvision.net header.i=@wolfvision.net header.b=Rq7KXKmD; arc=fail smtp.client-ip=40.107.22.139
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=wolfvision.net
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=wolfvision.net
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (1024-bit key) header.d=wolfvision.net header.i=@wolfvision.net header.b="Rq7KXKmD"
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=JvKDmjGUw1yvjg5mr4VZK9c200CwVLDy8+Xarro8rQWDR13GHKmEqzbnB3SQmrq1Y2kE6G2gjJ8ZuYuIMCyVA0Qd0199VwafC7Q2yzqzig/7auROwpZA8rdUnMDtbRUFtm0PZyxFFCfG/fdOZCO2XAoR6d0+r3sFPDLkj+qAkouPdUYFjlyCtHxmkemyOfHHQpvHZ/PxwdGUYbiiMOLFy8O+JnTePnHqU6mha9aIZXeUzru2/75/BIfA7vcwswXFd3/4pVVUPUU/Vkmnl3b5FwoopMGBYiOKlwAhOyyvDjtrJ86xjYBkp6JryuYIpyW0glV7DwXSpYTeFQ1IEIvOAA==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=oZ/pSS/SvY4eruNxrTINDd0ELQdqtnODz0ZyyM7YC4k=;
+ b=OCHoXjB/VpKoZbVDwLPAUyveyIsEp6amYFu2s3MAz9fV9Cui/kohoYacN8O5HLq8hXmoDL1KS3/BVE4vtJSTSZlTqqx2aq5PGkCU2t3I7NRC4hYbUjx3sWhgZC5bZ65R54Sqcd4AnQlGvaMWX07RXeYKM4KHHymo1/aT9KZ3i3yugepcKYGZj2Mc+7gVquJZ7OILnC0gGEjCyAx/+SSzNtXf2iZHISsY/L5QO1E0Vj/2RQbemDau2U6Fq2wvcFA8joZDvGMgsArDIvG3z8cmQUAFzqT3PKCFm3oUqtyI2bXKy736vY89nF6r8zh9OkIh7FDuktL+vLiX16t2j1cW5Q==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=wolfvision.net; dmarc=pass action=none
+ header.from=wolfvision.net; dkim=pass header.d=wolfvision.net; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=wolfvision.net;
+ s=selector2;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=oZ/pSS/SvY4eruNxrTINDd0ELQdqtnODz0ZyyM7YC4k=;
+ b=Rq7KXKmDWmLPLGQ3ggUkdw/eqH2TjvZmh3cv6WQ4kVoxRVpGKr/yw/peHqobpifWoO/dyfzPyOQrL+pm4/btVy0HL/ybP77fxpJ+8d4ClCTN4QSVqJKh0UKvyvbJzLT6ZCFC4vCn+A5oXEbFygDIfOqQCp9OMBBWTTHxFsIIgG8=
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=wolfvision.net;
+Received: from VE1PR08MB4974.eurprd08.prod.outlook.com (2603:10a6:803:111::15)
+ by DU0PR08MB9727.eurprd08.prod.outlook.com (2603:10a6:10:445::19) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7316.41; Thu, 29 Feb
+ 2024 08:34:53 +0000
+Received: from VE1PR08MB4974.eurprd08.prod.outlook.com
+ ([fe80::9e35:6de9:e4fc:843f]) by VE1PR08MB4974.eurprd08.prod.outlook.com
+ ([fe80::9e35:6de9:e4fc:843f%6]) with mapi id 15.20.7316.035; Thu, 29 Feb 2024
+ 08:34:53 +0000
+From: Javier Carrasco <javier.carrasco@wolfvision.net>
+Date: Thu, 29 Feb 2024 09:34:44 +0100
+Subject: [PATCH v6 1/9] usb: misc: onboard_hub: use pointer consistently in
+ the probe function
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+Message-Id: <20240229-onboard_xvf3500-v6-1-a0aff2947040@wolfvision.net>
+References: <20240229-onboard_xvf3500-v6-0-a0aff2947040@wolfvision.net>
+In-Reply-To: <20240229-onboard_xvf3500-v6-0-a0aff2947040@wolfvision.net>
+To: Liam Girdwood <lgirdwood@gmail.com>, Mark Brown <broonie@kernel.org>, 
+ Rob Herring <robh+dt@kernel.org>, 
+ Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>, 
+ Conor Dooley <conor+dt@kernel.org>, Matthias Kaehlcke <mka@chromium.org>, 
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>, 
+ Helen Koike <helen.koike@collabora.com>, 
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
+ Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>, 
+ David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>, 
+ Catalin Marinas <catalin.marinas@arm.com>, Will Deacon <will@kernel.org>, 
+ Russell King <linux@armlinux.org.uk>
+Cc: linux-sound@vger.kernel.org, devicetree@vger.kernel.org, 
+ linux-kernel@vger.kernel.org, linux-usb@vger.kernel.org, 
+ dri-devel@lists.freedesktop.org, linux-arm-kernel@lists.infradead.org, 
+ Javier Carrasco <javier.carrasco@wolfvision.net>
+X-Mailer: b4 0.14-dev
+X-Developer-Signature: v=1; a=ed25519-sha256; t=1709195691; l=853;
+ i=javier.carrasco@wolfvision.net; s=20230509; h=from:subject:message-id;
+ bh=SFVrdbQBKp6w6iOi3+cJln+dSXaq8fghc4J0yWNMHNw=;
+ b=xGSVI4zRSKyb+ceH8aCwoSZAZaOEt7JmR6WYz4swE1/h1zNBi2AhuPBawrl/kg95eNJAkGERS
+ 0yK3obd4WnDAjEU680G3EdZqu7XkB6NVxVZiu1Qt1ckn1gfylO04hZH
+X-Developer-Key: i=javier.carrasco@wolfvision.net; a=ed25519;
+ pk=tIGJV7M+tCizagNijF0eGMBGcOsPD+0cWGfKjl4h6K8=
+X-ClientProxiedBy: FR3P281CA0020.DEUP281.PROD.OUTLOOK.COM
+ (2603:10a6:d10:1c::21) To VE1PR08MB4974.eurprd08.prod.outlook.com
+ (2603:10a6:803:111::15)
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Betterbird (Linux)
-Subject: Re: RIP on discard, JMicron USB adaptor
-From: Harald Dunkel <harri@afaics.de>
-To: Oliver Neukum <oneukum@suse.com>, Alan Stern <stern@rowland.harvard.edu>,
- Keith Busch <kbusch@kernel.org>
-Cc: Harald Dunkel <harald.dunkel@aixigo.com>, Jens Axboe <axboe@kernel.dk>,
- Bart Van Assche <bvanassche@acm.org>,
- "Martin K. Petersen" <martin.petersen@oracle.com>,
- linux-block@vger.kernel.org, linux-usb@vger.kernel.org,
- linux-scsi@vger.kernel.org
-References: <70bc51d7-c8a2-4b06-ab7a-e321d20db49a@aixigo.com>
- <62296d89-f7e6-4f54-add8-35b531dc657c@rowland.harvard.edu>
- <Zd9Xbz3L6JEvBHHT@kbusch-mbp>
- <76fcb1b1-cdf2-45d0-aeab-c712ee517b34@rowland.harvard.edu>
- <4111f9ba-e1dc-4158-af6f-c048bcf8ccd2@suse.com>
- <81499610-bbac-4957-a2ab-331db68455f0@afaics.de>
- <5baf28bd-b89e-49aa-ad66-6725ba9a87f9@afaics.de>
-Content-Language: en-US
-Autocrypt: addr=harri@afaics.de; keydata=
- xsBNBFIHbdABCACYHRLHGdFRk7bWkgdPhDLin6jLIS0ppegsx0Vc9STFyiHFUW+6HU9ZYTpO
- f2qbcWlE3YJYacy6zOiiTjYX31quhvGrP3UJXKjXsAp7CFsMxRJUhm20Ph0nCl/Oed9SDNXN
- HQJwHoOVWrsu/sGxNTfjCWRJleBE11P+TuuLOAP9dbqFbWhmkTsE9Lp9d16Ak77MWmWWxBvD
- cBsUuC2GOYDfFOPM3j16w7aw4Y9GI2B5QzFiHvOR/hCazfDEMQAlaHMm6sH8uzrjNEtB5dvm
- vxF8j/IpvsuvWGhZ68rej2gPwoVrRTEBaYslW8/5dm8o1HuTkuLqxhNTcvYWyV8uKRtTABEB
- AAHNH0hhcmFsZCBEdW5rZWwgPGhhcnJpQGFmYWljcy5kZT7CwHoEEwEIACQCGwMCHgECF4AC
- GQEFAlQYLhUFCwkIBwMFFQoJCAsFFgIDAQAACgkQCp4qnmbTgcu7Fwf/RoWwNDxJPD96vBFb
- Jzfta9qVA0JpbKoMAnNY0tDWiF5Ur8UY/tv/RDVV44Vx3Ef0fzQZN0CtHsNfAKO+KXBMUiuT
- AP4AadpaIwYMo8v+SmPzJSUxWgBm6IsHwn1udXRdEgdR9guWkLPRGCK3x84sorAOUnUHJHkq
- UrDFQUNfNA9lqM7ttunfVtG4SaqcLEOpJ1s/aMUsEODlP/lws42VjubIVg403cMIgvqs5cT8
- EjLDNqCwEoWZRhfpg5x3D5uNDNWSW70Z+6Knicbi129QIu4HtSnfrxiuvHz2LLPFOVQuj8h4
- TPT6tkfIURKipFXoIC3YiK8f94rFO3q86oNJUs7ATQRSB23QAQgA27gQiXZ96pbJkGoz1RWX
- T8WSQJ5TWVJyf4eswoVI8Ffk5vLE+xPpAYEDkL7JYGCvBN1BKrcaZzDy8Irfys6bHI3JmVVi
- ZloSkVS8QL7pQGfp74VT3NvDjK6LDe9QMv8Rb45laSRD5XCGRMTxz9pwu3vNcOPCfV5nmbyB
- /6h4/bguFH1+6aGz6HyC8v/tjhL6+cY329inJ+vWVJYssweMIIYpssUtDaPKZO0080toLLrt
- KuVgiUb9llbmZgKGElRjwgGT8AUXDRFCzn0ws/nuGNw0L+EdCI3VdZSK5KMEO34vZq7iNeM1
- ZVnPVZAbHheR30NFKTgrwvlt8G7blHJPWwARAQABwsBfBBgBCAAJBQJSB23QAhsMAAoJEAqe
- Kp5m04HLiiEH/jlKumVyQrOxH58iQFzVDthDfJdBLmnDlfVx2Dzn60vc5To6yJ3fwO21s3xC
- /LW9aZSfDueV0nWU4/Wow/X5GEH90Vc1sFoeSZb/GW03vsO1n/OFIVlv9GQv+RviWMDEwKKx
- CMvdqUlVblWf1iT/ngPN0YawKGF0Dgn8TRzfL/Tq9muwNUaONzz8PWBUIm1+8JDZszYLzLoz
- YiY0usL4GH9BCeW6XG2Q6j4cpyOQZ0VKiBs1Rh+dmswn+iXLfi08Q0IxYAD6wjHdJTBD9pE9
- 5Uj8/1spt51FBAAIP+7sd2mpAvsNnojatuOgjBmBxFwiOKeyDNe1wvKr4dsRheOLV8M=
-In-Reply-To: <5baf28bd-b89e-49aa-ad66-6725ba9a87f9@afaics.de>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: VE1PR08MB4974:EE_|DU0PR08MB9727:EE_
+X-MS-Office365-Filtering-Correlation-Id: 069d09f9-4aef-440e-8ab4-08dc39014d73
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info:
+	OA5kImIKOl7+LZWEPE2IMBItBOiV1bY7jLa5uRB9P8JfOT8PItETRNh9JQ7a/aAAzcCVPe95XIVQH6RzDmQ4iARZn2gc10bkNTfGnmZXvKhcZi7HGh3GgbSZ0V7ci0F4M1D0gas3CABJnvoG7d1ZQQ5eX4XSLHxIHeGUqgxCaRyThVc2Vy1QF1jJPPElWi3NvpJN9FEbQanHx0hgW3NS+BO7ZA9rh1TluA0PSKficXnZU0aOy4vI2c2bi3/FhnCEZ2wFC32B7j1mEY68zhPVkeyTo7G5bYH0efpfQRXxTjB2IUXXeu/8hyTEkUPKT86GyVw22Czeot+ClTBP0KLUvf9eAgHKkvHNhyCPf9KJZCXvd89044pVisjTwfegwNbmOoUWMSP8h4D264It5dTiV8pbSoVnamUut4B3k/C3UU2aUdVs1yrUJsm+GPc8XFlwMXKtLzCNb832/PBvHlTxQmxL3nB3fX3MHWeXZ2VpX4uMwWANIdzTDBQNXJ4sXlC7L6YX38rjFUhIHXruDvVYbcTEQszn39+QuKMEgc672H5ip3wHBeAjoMgicvKn3SxrPTt+bYqp56Qgta3CvKT3K993DtnrkXfao9ze3nDENw52gj2+yl9mi95ulecMlBbFSuYFQzas9yhB2Jjoa57aST4jx2be9GCtn/ab0wfVcPiW4n4EIIgtcMHEng26iwK0Z0J6U02CzcxmhN4S6ofV7hB7ritjxURl9J+NaTYQInU=
+X-Forefront-Antispam-Report:
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:VE1PR08MB4974.eurprd08.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230031)(921011)(38350700005);DIR:OUT;SFP:1102;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0:
+	=?utf-8?B?cWJDWGpYTzRUcUNtWnh6SUJpTWRhUnI3aVVCUkp2Y1krcS9rbnBPeitqWWJT?=
+ =?utf-8?B?MS9VU0pDTkNZN0djVGo3T05Gem01VVBpdGk1OFlNVEtBOFZSRXp3MkZnTUo1?=
+ =?utf-8?B?TGdjeVVYQ2ZaSlpJd1h5TytlNjNteXhwQWZUZUpmTnB0eEJ1MFJ4WGk3TGNz?=
+ =?utf-8?B?cjRhY3ZDbUxGY2NpakF2cjAvcnVEVmg5RUticW1VODJIcFNkamZsZXlaeGli?=
+ =?utf-8?B?bHFEZ3JQZzYvblJzc2YxQWowQ2EvVnRxUFRBODBxZG1wazhBY3RXREFqNzJi?=
+ =?utf-8?B?dHJvaXdFUlZ4aHNWcU9vU1J5MVVFVzZqR0l2VmdnODZWOHJ5VjZJUXQrS1RX?=
+ =?utf-8?B?VXhxbnpjazZKNDMzN1ZidXZvMnVRcFNTamljVkFIUHVhZEgzWjZGRjMvRnBL?=
+ =?utf-8?B?UkVsT3NDd1gxeXNOck9JRzJwbWhKVE1BK01CcklJNG9PRlJLdHBsK0lNK2VC?=
+ =?utf-8?B?UGRxT2VFNDBDU3gvQ1hJSE55MXlOWUdnbmZqSWs0L1ZaNFNmWUhxbDJZRnZE?=
+ =?utf-8?B?bGE2SU1tVjQ4ODNZMnlGa2taT2E3UW9paFNrS0ZxR0E4N2lzQUY2eDNLNXpp?=
+ =?utf-8?B?Qm94M1FXYklSdm1lTmRZNURYZnhjQW1NNjNCZGlvT0V4UjE5L1ZUa3lZUDZC?=
+ =?utf-8?B?RmZEZlVienFsWXNBQVZSTVdlNDg3NkFiZmZiUDI1Z1dWaTFFVmVYUzYxWi9I?=
+ =?utf-8?B?U3FlbjRadDF3aXYya25telBWU2Q5RHVzL3pncjJjRThmVk41MFNtWmUycS9i?=
+ =?utf-8?B?WnZGQ2ZNQmpSWW9BMUh2SSt3VlU0dXhrTUVqY0xGYUFBNjZmN0dna0wzOURI?=
+ =?utf-8?B?VndKbUZXOU5lSkxaeEVzeHM1VGdSL0x4eks4eC9kNXFPS2hMMURlY2VyZUtI?=
+ =?utf-8?B?Tk5ueGdTTkdFdW5vWG5BaVY0bFNud0J6aUhXSFZqMDdPSjhOVlJ3Q3BpclE5?=
+ =?utf-8?B?dHB3OXJMdWVoRHgyWng3akYzekoydmxZQS9NNERHaEQ4eFMvYXlUR3NBb2Jv?=
+ =?utf-8?B?N0NXNW9ZaDQ1VTN1T3ErVWoxc2VqSm5RU1NmT0dpbCs5a0xJOHR3aVB5elp4?=
+ =?utf-8?B?dWl1U0d5ZHY5SUxiVHJMUmRxM2habERHNHpOc1I3S0ZKL21kdDZuUEtuMmJF?=
+ =?utf-8?B?ajJJNG1xOS9NOVhDZWFMV1EzZTBnWlBjbEVBRjcvQ0djZEZGekpPNGxjZ3Fh?=
+ =?utf-8?B?OXBHZFpEb2xSNlNudk14L2NkVFdobENaOERVY05QWVlOTFAvb291cGNCWmVv?=
+ =?utf-8?B?Qmo2UG5sUlRjVWhtR3RCTitLbjZRREV3VU5EVXk0dzFjYmZESThYMDUyaTl4?=
+ =?utf-8?B?dFdjZnR3U2N2Y0paWlIwK056TVY3SVBBbUJaRHhwTGJMYzVlcS93NUdVd2Iz?=
+ =?utf-8?B?R25QaFVNekR3NlhNWmV5bzhSM215WDQzTGEwN3FZaE9oT2w5eElXRFF2Z1l5?=
+ =?utf-8?B?aFB5S3QraXBkeW95Q011cVJNaTdiYUpsMXY3MXcwbVdzWkh6RWp6SW5IbGtz?=
+ =?utf-8?B?Vm15L01TQVIrMUIzamtXRmJjSFYyaE5jS0FPQk1ORHA0WFNxb1lDY1hVNlk5?=
+ =?utf-8?B?VUJCUnJKZ0g4Y3JWY1FTV2JJSmszamxFaWN3cjFWSzhIOHE4b20yZEJlajBm?=
+ =?utf-8?B?bFdlWmxHYjdTdGpDd0hEc2pGSFMyRG5LNDBlbkc2TEZzNnhJaXd2bEh6T2I5?=
+ =?utf-8?B?NGxpM3RsRFNvUnd0cDJROG9oOGxpZEgwMHVHOHIweU0zd0ZqYnFlWFBCcmVm?=
+ =?utf-8?B?TFJFbno3YUFIa040YWI2bUJ3SUxxOU8xQSthbU8xb2xGSFNoYzhKVzZScVRa?=
+ =?utf-8?B?ZldUdC9iZktIS2ZrVVFGWlZBeERDVU44TUF2dVFFLzNyYTNocEZUbDY2aSti?=
+ =?utf-8?B?YUsxWTk4ODRad3NlZEhOeW92eUJKc0c4YzZwVjhib2tCUDhwdVdqRGcrb0xS?=
+ =?utf-8?B?NDJnUVZoOXBSRTFxT2ZTYXhhOGsrVVVnL2lyeWl2RHdxdEJCQ2RXN1NMN1Jw?=
+ =?utf-8?B?TEFGOEMrZ0szU0VuVFZiaGZuUlVpSUhXZkdRRkVKd2lkSE9xRkhzTGxRVkhj?=
+ =?utf-8?B?N0w3QXpNS240UzNNVTRZV0hTN3g1WGNqajErOXdTUElvZnlTUmFZRHg3TlVF?=
+ =?utf-8?B?Y2VPK0g4S3lsRWgwRkYvbHVta3dFUmJFcHFQdk81OGV6YVIxSSt1a3VnVHRp?=
+ =?utf-8?Q?VZAzmLvJ5qDrxEpOl4lXQvo=3D?=
+X-OriginatorOrg: wolfvision.net
+X-MS-Exchange-CrossTenant-Network-Message-Id: 069d09f9-4aef-440e-8ab4-08dc39014d73
+X-MS-Exchange-CrossTenant-AuthSource: VE1PR08MB4974.eurprd08.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 29 Feb 2024 08:34:53.8064
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: e94ec9da-9183-471e-83b3-51baa8eb804f
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: bpBikqnE4IqF5pJSSCe8q0Mvj7KpBw8Cg0dMAkL8WP6dy8RIrdcAwvu64vLC2ICp5HftCaoqlOFufxbD+4HFzoncCr20s27u7ImarDNFNj8=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: DU0PR08MB9727
 
-On 2024-02-29 08:31:51, Harald Dunkel wrote:
-> Good news (sort of): I was able to reproduce the problem after a
-> power cycle. Full dmesg output is attached. Hope this helps.
-> 
+Commit 14485de431b0 ("usb: Use device_get_match_data()") overlooked the
+already existing pointer to pdev->dev 'dev'.
 
-And for 6.7.6:
+Use the existing pointer 'dev' in device_get_match_data() to keep code
+consistency.
 
-```
-[Thu Feb 29 09:11:05 2024] usb 1-4: reset high-speed USB device number 3 using xhci_hcd
-[Thu Feb 29 09:11:10 2024] logitech-hidpp-device 0003:046D:4082.0007: HID++ 4.5 device connected.
-[Thu Feb 29 09:11:37 2024] usb 1-12.1: new high-speed USB device number 13 using xhci_hcd
-[Thu Feb 29 09:11:38 2024] usb 1-12.1: New USB device found, idVendor=152d, idProduct=0583, bcdDevice=31.08
-[Thu Feb 29 09:11:38 2024] usb 1-12.1: New USB device strings: Mfr=1, Product=2, SerialNumber=3
-[Thu Feb 29 09:11:38 2024] usb 1-12.1: Product: USB Storage Device
-[Thu Feb 29 09:11:38 2024] usb 1-12.1: Manufacturer: JMicron
-[Thu Feb 29 09:11:38 2024] usb 1-12.1: SerialNumber: DD56419885A7C
-[Thu Feb 29 09:11:38 2024] scsi host9: uas
-[Thu Feb 29 09:11:38 2024] scsi 9:0:0:0: Direct-Access     SAMSUNG  MZVLB1T0HALR     3108 PQ: 0 ANSI: 6
-[Thu Feb 29 09:11:38 2024] sd 9:0:0:0: Attached scsi generic sg5 type 0
-[Thu Feb 29 09:11:40 2024] sd 9:0:0:0: [sdf] 2000409264 512-byte logical blocks: (1.02 TB/954 GiB)
-[Thu Feb 29 09:11:40 2024] sd 9:0:0:0: [sdf] 4096-byte physical blocks
-[Thu Feb 29 09:11:40 2024] sd 9:0:0:0: [sdf] Write Protect is off
-[Thu Feb 29 09:11:40 2024] sd 9:0:0:0: [sdf] Mode Sense: 6b 00 00 08
-[Thu Feb 29 09:11:40 2024] sd 9:0:0:0: [sdf] Write cache: enabled, read cache: enabled, doesn't support DPO or FUA
-[Thu Feb 29 09:11:40 2024] sd 9:0:0:0: [sdf] Preferred minimum I/O size 4096 bytes
-[Thu Feb 29 09:11:40 2024] sd 9:0:0:0: [sdf] Optimal transfer size 33553920 bytes not a multiple of preferred minimum block size (4096 bytes)
-[Thu Feb 29 09:11:40 2024]  sdf: sdf1
-[Thu Feb 29 09:11:40 2024] sd 9:0:0:0: [sdf] Attached SCSI disk
-[Thu Feb 29 09:12:53 2024] ------------[ cut here ]------------
-[Thu Feb 29 09:12:53 2024] WARNING: CPU: 0 PID: 3290 at block/blk-lib.c:50 __blkdev_issue_discard+0x13e/0x180
-[Thu Feb 29 09:12:53 2024] Modules linked in: snd_seq_dummy snd_hrtimer snd_seq_midi snd_seq_midi_event snd_seq cpufreq_userspace cpufreq_conservative cpufreq_powersave cpufreq_ondemand cbc cts rpcsec_gss_krb5 nfsv4 dns_resolver nfs lockd grace fscache netfs scsi_transport_iscsi nvme_fabrics 
-dell_rbu rfkill qrtr dcdbas uinput binfmt_misc nls_utf8 nls_cp437 vfat fat nvidia_drm(PO) nvidia_modeset(PO) intel_rapl_msr intel_rapl_common snd_hda_codec_realtek intel_uncore_frequency snd_hda_codec_generic ledtrig_audio intel_uncore_frequency_common x86_pkg_temp_thermal intel_powerclamp coretemp 
-kvm_intel kvm snd_hda_codec_hdmi irqbypass mei_pxp mei_hdcp i915 snd_hda_intel rapl snd_intel_dspcfg snd_usb_audio cec snd_hda_codec snd_usbmidi_lib drm_buddy intel_cstate uvcvideo snd_hda_core snd_rawmidi videobuf2_vmalloc drm_display_helper snd_hwdep snd_seq_device uvc snd_pcm_oss videobuf2_memops 
-ttm snd_mixer_oss videobuf2_v4l2 snd_pcm tpm_crb videodev drm_kms_helper tpm_tis snd_timer videobuf2_common evdev tpm_tis_core snd intel_gtt intel_uncore
-[Thu Feb 29 09:12:53 2024]  wmi_bmof input_leds gigabyte_wmi pcspkr mc soundcore i2c_algo_bit tpm intel_hid rng_core sparse_keymap acpi_tad acpi_pad sg button mei_me mei nvidia(PO) bonding tls xt_recent br_netfilter overlay xt_comment xt_CHECKSUM nf_tables nfnetlink bridge 8021q garp stp mrp llc 
-macvlan veth iptable_nat iptable_mangle iptable_filter ip6table_nat nf_nat nf_conntrack nf_defrag_ipv6 nf_defrag_ipv4 ip6table_mangle ip6table_filter ip6_tables auth_rpcgss loop drm fuse efi_pstore agpgart configfs sunrpc ip_tables x_tables autofs4 ext4 crc16 mbcache jbd2 btrfs blake2b_generic 
-efivarfs raid10 raid456 async_raid6_recov async_memcpy async_pq async_xor async_tx xor raid6_pq libcrc32c crc32c_generic raid0 multipath linear hid_logitech_hidpp hid_logitech_dj uas usb_storage hid_generic usbhid hid cdc_ncm cdc_ether usbnet r8152 mii raid1 md_mod sd_mod dm_mod crct10dif_pclmul 
-crc32_pclmul crc32c_intel polyval_clmulni polyval_generic gf128mul ghash_clmulni_intel sha512_ssse3 sha512_generic sha256_ssse3 sha1_ssse3
-[Thu Feb 29 09:12:53 2024]  i2c_designware_platform i2c_designware_core nvme nvme_core t10_pi ahci xhci_pci crc64_rocksoft_generic aesni_intel crypto_simd r8169 libahci cryptd i2c_i801 crc64_rocksoft xhci_hcd i2c_smbus realtek crc64 libata intel_lpss_pci usbcore intel_lpss scsi_mod idma64 
-scsi_common virt_dma usb_common fan video pinctrl_alderlake pinctrl_intel wmi pwm_lpss
-[Thu Feb 29 09:12:53 2024] CPU: 0 PID: 3290 Comm: blkdiscard Tainted: P           O       6.7.6-raw #1
-[Thu Feb 29 09:12:53 2024] Hardware name: Gigabyte Technology Co., Ltd. Z790 GAMING X/Z790 GAMING X, BIOS F9b 11/10/2023
-[Thu Feb 29 09:12:53 2024] RIP: 0010:__blkdev_issue_discard+0x13e/0x180
-[Thu Feb 29 09:12:53 2024] Code: 48 39 d8 75 91 f7 da 89 d3 c1 eb 09 eb 8b 48 8b 04 24 4c 89 20 48 83 c4 08 31 c0 5b 5d 41 5c 41 5d 41 5e 41 5f c3 cc cc cc cc <0f> 0b 48 c7 c6 00 26 e8 93 48 c7 c7 60 91 50 94 e8 3d 7a 5b 00 85
-[Thu Feb 29 09:12:53 2024] RSP: 0018:ffffa7654119bd08 EFLAGS: 00010246
-[Thu Feb 29 09:12:53 2024] RAX: ffff8d8f4c5be0b0 RBX: ffff8d8f4add3e80 RCX: ffff8d8f4add12c0
-[Thu Feb 29 09:12:53 2024] RDX: 0000000000000000 RSI: 0000000000000000 RDI: ffff8d8f4add3e80
-[Thu Feb 29 09:12:53 2024] RBP: 0000000000000cc0 R08: ffffa7654119bd48 R09: 0000000000000000
-[Thu Feb 29 09:12:53 2024] R10: 000000000000081c R11: 0000000000000000 R12: 0000000000000000
-[Thu Feb 29 09:12:53 2024] R13: 00000000773bc800 R14: 000000ee77900000 R15: ffff8d8f4add3e80
-[Thu Feb 29 09:12:53 2024] FS:  00007fb69dc57740(0000) GS:ffff8d9ebf400000(0000) knlGS:0000000000000000
-[Thu Feb 29 09:12:53 2024] CS:  0010 DS: 0000 ES: 0000 CR0: 0000000080050033
-[Thu Feb 29 09:12:53 2024] CR2: 00007ffefb8c6170 CR3: 000000017d8da000 CR4: 0000000000f50ef0
-[Thu Feb 29 09:12:53 2024] PKRU: 55555554
-[Thu Feb 29 09:12:53 2024] Call Trace:
-[Thu Feb 29 09:12:53 2024]  <TASK>
-[Thu Feb 29 09:12:53 2024]  ? __blkdev_issue_discard+0x13e/0x180
-[Thu Feb 29 09:12:53 2024]  ? __warn+0x7c/0x130
-[Thu Feb 29 09:12:53 2024]  ? __blkdev_issue_discard+0x13e/0x180
-[Thu Feb 29 09:12:53 2024]  ? report_bug+0x191/0x1c0
-[Thu Feb 29 09:12:53 2024]  ? handle_bug+0x3a/0x70
-[Thu Feb 29 09:12:53 2024]  ? exc_invalid_op+0x17/0x70
-[Thu Feb 29 09:12:53 2024]  ? asm_exc_invalid_op+0x1a/0x20
-[Thu Feb 29 09:12:53 2024]  ? __blkdev_issue_discard+0x13e/0x180
-[Thu Feb 29 09:12:53 2024]  blkdev_issue_discard+0x50/0xb0
-[Thu Feb 29 09:12:53 2024]  blkdev_common_ioctl+0x820/0x970
-[Thu Feb 29 09:12:53 2024]  ? do_fault+0x27c/0x690
-[Thu Feb 29 09:12:53 2024]  blkdev_ioctl+0xc7/0x260
-[Thu Feb 29 09:12:53 2024]  __x64_sys_ioctl+0x8f/0xd0
-[Thu Feb 29 09:12:53 2024]  do_syscall_64+0x61/0x120
-[Thu Feb 29 09:12:53 2024]  ? __count_memcg_events+0x6e/0xc0
-[Thu Feb 29 09:12:53 2024]  ? handle_mm_fault+0xb0/0x370
-[Thu Feb 29 09:12:53 2024]  ? __ct_user_enter+0x8d/0x100
-[Thu Feb 29 09:12:53 2024]  entry_SYSCALL_64_after_hwframe+0x6e/0x76
-[Thu Feb 29 09:12:53 2024] RIP: 0033:0x7fb69dd57c5b
-[Thu Feb 29 09:12:53 2024] Code: 00 48 89 44 24 18 31 c0 48 8d 44 24 60 c7 04 24 10 00 00 00 48 89 44 24 08 48 8d 44 24 20 48 89 44 24 10 b8 10 00 00 00 0f 05 <89> c2 3d 00 f0 ff ff 77 1c 48 8b 44 24 18 64 48 2b 04 25 28 00 00
-[Thu Feb 29 09:12:53 2024] RSP: 002b:00007ffefb889d70 EFLAGS: 00000246 ORIG_RAX: 0000000000000010
-[Thu Feb 29 09:12:53 2024] RAX: ffffffffffffffda RBX: 0000000000000000 RCX: 00007fb69dd57c5b
-[Thu Feb 29 09:12:53 2024] RDX: 00007ffefb889e30 RSI: 0000000000001277 RDI: 0000000000000003
-[Thu Feb 29 09:12:53 2024] RBP: 0000000000000000 R08: 0000000000000007 R09: 000055b80fbd32f0
-[Thu Feb 29 09:12:53 2024] R10: 00007ffefb889da0 R11: 0000000000000246 R12: 000000ee77900000
-[Thu Feb 29 09:12:53 2024] R13: 0000000000000003 R14: 000055b80fbd32f0 R15: 0000000000000000
-[Thu Feb 29 09:12:53 2024]  </TASK>
-[Thu Feb 29 09:12:53 2024] ---[ end trace 0000000000000000 ]---
-[Thu Feb 29 09:12:53 2024] sdf1: Error: discard_granularity is 0.
-```
+Signed-off-by: Javier Carrasco <javier.carrasco@wolfvision.net>
+---
+ drivers/usb/misc/onboard_usb_hub.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/drivers/usb/misc/onboard_usb_hub.c b/drivers/usb/misc/onboard_usb_hub.c
+index 0dd2b032c90b..81c001fd38c1 100644
+--- a/drivers/usb/misc/onboard_usb_hub.c
++++ b/drivers/usb/misc/onboard_usb_hub.c
+@@ -260,7 +260,7 @@ static int onboard_hub_probe(struct platform_device *pdev)
+ 	if (!hub)
+ 		return -ENOMEM;
+ 
+-	hub->pdata = device_get_match_data(&pdev->dev);
++	hub->pdata = device_get_match_data(dev);
+ 	if (!hub->pdata)
+ 		return -EINVAL;
+ 
+
+-- 
+2.40.1
+
