@@ -1,231 +1,533 @@
-Received: from mx0b-00230701.pphosted.com (mx0b-00230701.pphosted.com [148.163.158.9])
+Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com [205.220.168.131])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2313C38FAA
-	for <linux-usb@vger.kernel.org>; Tue,  5 Mar 2024 04:12:37 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=148.163.158.9
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1709611962; cv=fail; b=f2JgqjBp/Y8sek5BE4TAvigqq44fT7rKHewss+HbdUhBe/PwQ76OxCRz9RLSMv8huMHSZ7Ezc3KEzlhHiK0ffgL24XmzIb1b7aU704yNevAfXDQkDZeM1RIria9/Y8j1A+fupqQvQHnkM44vCTj3w2+y7kJ6h6tv8nhsEDfWiX4=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1709611962; c=relaxed/simple;
-	bh=zdO3O2doEQU6TM+ly9JoFvP1VpNokaSLel8cwG8mvMs=;
-	h=From:To:CC:Subject:Date:Message-ID:References:In-Reply-To:
-	 Content-Type:MIME-Version; b=m1sgcGWaRjYyhjs1hd0Kv4GAQ4LQP3uuVFR8L7vvarp0ubhQs2TrY12IncNHRxUxaglhdpSXZQVN4kncnSx3OcjBImPmol//03aSXufYn3DsDHuYzy0p0fofPc4+/JeIpRLO8tJLlaSpRVypKREa/q5jrxBM426KJZs0UZUp3TA=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=synopsys.com; spf=pass smtp.mailfrom=synopsys.com; dkim=pass (2048-bit key) header.d=synopsys.com header.i=@synopsys.com header.b=JFv1z0W8; dkim=pass (2048-bit key) header.d=synopsys.com header.i=@synopsys.com header.b=YjwKH+uc; dkim=fail (1024-bit key) header.d=synopsys.com header.i=@synopsys.com header.b=pefTIQmQ reason="signature verification failed"; arc=fail smtp.client-ip=148.163.158.9
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=synopsys.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=synopsys.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E9C063C087;
+	Tue,  5 Mar 2024 04:22:17 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.168.131
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1709612540; cv=none; b=Q1v1DjS/1dv+FHsEYhdgUBenupCG+YVTa+stV2GnlK5c37wTaG7zkblFo38u6ioynIJApKpH3/uN9ae6L4aw87Wma8dEHQ+R+vG/Hso5kpPkZKIxuQFq9hCkpmQoBLyXJdQlIS4o2M+5kNHeWZxIfOi8bme+c2cuDMO0aPDfauo=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1709612540; c=relaxed/simple;
+	bh=0xM7NyL1pkdybHyg/1YdZzaZV2WQ7gK69y2nSqCZkKI=;
+	h=From:To:CC:Subject:Date:Message-ID:MIME-Version:Content-Type; b=HwZdXQ3SqKaOT5j+NJf7wmofdgdCpybdCOjGJ2MThRh5DjEJDy/LC8WOq1qoY6sji+se9euinZwsCDYcTzDDAhk8GT5/32xlSWMlrV+Qx0vhogz3Ck7L9pBJU6zaWvMDlXUbNhZQsKdaBWcGDsMgVC+XjWT/FB4+m+4GlCNhhfs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=quicinc.com; spf=pass smtp.mailfrom=quicinc.com; dkim=pass (2048-bit key) header.d=quicinc.com header.i=@quicinc.com header.b=oDMFf3Xb; arc=none smtp.client-ip=205.220.168.131
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=quicinc.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=quicinc.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=synopsys.com header.i=@synopsys.com header.b="JFv1z0W8";
-	dkim=pass (2048-bit key) header.d=synopsys.com header.i=@synopsys.com header.b="YjwKH+uc";
-	dkim=fail reason="signature verification failed" (1024-bit key) header.d=synopsys.com header.i=@synopsys.com header.b="pefTIQmQ"
-Received: from pps.filterd (m0098572.ppops.net [127.0.0.1])
-	by mx0b-00230701.pphosted.com (8.17.1.24/8.17.1.24) with ESMTP id 4250Xh7b031647;
-	Mon, 4 Mar 2024 18:41:55 -0800
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=synopsys.com; h=
-	from:to:cc:subject:date:message-id:references:in-reply-to
-	:content-type:content-id:content-transfer-encoding:mime-version;
-	 s=pfptdkimsnps; bh=zdO3O2doEQU6TM+ly9JoFvP1VpNokaSLel8cwG8mvMs=; b=
-	JFv1z0W8163KeMJTgB0P7JFx86qvIA2h6pyXloayoKslPHbtno6Hx1Pls/1qjHH/
-	DOp2EnTTsCr5P60iVXJu8LNS03R8ilq2Z9O6rrHioqJUybyNsBcpIVRHYY3/5Gy9
-	DvHFBJmuXKJongs099xTqO4T/MXczLlWKwyq/t0lmZ/FldAcAeZ+pLQy+XWfVf+7
-	Oq+HCbJTCuC6Mx8A7eisS357RMDFyORnSFy6jTMsnLDtKzNBehdgZaBYqSO30zFW
-	ud+6gh1P/tQEOcHf3orv/Wxcjpy9yBfOPKg8La8juHht8FnR3dov7YZwKjRNpbLd
-	K7zSXfeuvhzWRisiFReaqA==
-Received: from smtprelay-out1.synopsys.com (smtprelay-out1.synopsys.com [149.117.73.133])
-	by mx0b-00230701.pphosted.com (PPS) with ESMTPS id 3wm3mh9644-1
+	dkim=pass (2048-bit key) header.d=quicinc.com header.i=@quicinc.com header.b="oDMFf3Xb"
+Received: from pps.filterd (m0279863.ppops.net [127.0.0.1])
+	by mx0a-0031df01.pphosted.com (8.17.1.24/8.17.1.24) with ESMTP id 4253nSmx015123;
+	Tue, 5 Mar 2024 04:22:11 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com; h=
+	from:to:cc:subject:date:message-id:mime-version
+	:content-transfer-encoding:content-type; s=qcppdkim1; bh=n9v/xZ+
+	yKjOqjVGGE3FNCkbRvvYOjln8Xvl7+jR9/uE=; b=oDMFf3XbGv+Eg1ZKayepFpj
+	YE7rN2wAPsl7FLXDxZmrnz3DiwuBLHloyZNJmxSkCe8hfWOnJ+a02s2BuGRMJEsd
+	IjYOQey+PJOAPo1m8XMiW5eb9mv7fyfUMk5DWRC6536xyaiuFy1q1CKIEdIoF4Ja
+	Uc4tkLWlWPM6HC7ymDZTO5JlJA3pubLhWomLF9PyRDTUXvBsakX1xj3lGUol8eFP
+	mse4i1Hb8grD+kh9voEtYt9XjvufGPLmqJA7Z7N6HS1BZyoCmAyNCqW+O6ScDXUe
+	UuOHHUqvqeZ5MIGdvv2ljeVyUaYDSkiIJLv7hPJEHNwBkpLo85xmhHN3fTq9SEA=
+	=
+Received: from nalasppmta01.qualcomm.com (Global_NAT1.qualcomm.com [129.46.96.20])
+	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 3wndaj1xu0-1
 	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Mon, 04 Mar 2024 18:41:55 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=synopsys.com; s=mail;
-	t=1709606513; bh=zdO3O2doEQU6TM+ly9JoFvP1VpNokaSLel8cwG8mvMs=;
-	h=From:To:CC:Subject:Date:References:In-Reply-To:From;
-	b=YjwKH+ucmusthu7s+JGM0PMTkRVzLrqn5FyzDCPjEWjPItkcHQ8pGvMoFMOsSNBYw
-	 /boAACjkXP6GCKnm/O/v4ub+xCQqiCHqhdC7wtOFuc7sNNc1qNpdT33sHif6aWl5kX
-	 AFUGdxICco1Zu8yhkrlTiYrM8Bkioe3cClsrZcFolqmcxaMQXzgtc2zzu2odgcjDbB
-	 YE5S60d7EWrTHS3xq0aRmcWxrv0CLVSmdIe6dxY3GdpfGN69seYSW54veRQKrJxDD/
-	 aMUAFyoTufE9L1GDbyIhI9bUSLapliMDyChwsR/8B20qSbl7hbVq1DCdZZa3YA7WZb
-	 9Xfh2kbeWcUuA==
-Received: from mailhost.synopsys.com (sv2-mailhost2.synopsys.com [10.205.2.134])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (2048 bits)
-	 client-signature RSA-PSS (2048 bits))
-	(Client CN "mailhost.synopsys.com", Issuer "SNPSica2" (verified OK))
-	by smtprelay-out1.synopsys.com (Postfix) with ESMTPS id ACF364035A;
-	Tue,  5 Mar 2024 02:41:50 +0000 (UTC)
-Received: from o365relay-in.synopsys.com (sv2-o365relay3.synopsys.com [10.202.1.139])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits))
-	(Client CN "o365relay-in.synopsys.com", Issuer "Entrust Certification Authority - L1K" (verified OK))
-	by mailhost.synopsys.com (Postfix) with ESMTPS id E3692A0096;
-	Tue,  5 Mar 2024 02:41:49 +0000 (UTC)
-Authentication-Results: o365relay-in.synopsys.com; dmarc=pass (p=reject dis=none) header.from=synopsys.com
-Authentication-Results: o365relay-in.synopsys.com; spf=pass smtp.mailfrom=synopsys.com
-Authentication-Results: o365relay-in.synopsys.com;
-	dkim=pass (1024-bit key; unprotected) header.d=synopsys.com header.i=@synopsys.com header.a=rsa-sha256 header.s=selector1 header.b=pefTIQmQ;
-	dkim-atps=neutral
-Received: from NAM04-MW2-obe.outbound.protection.outlook.com (mail-mw2nam04lp2169.outbound.protection.outlook.com [104.47.73.169])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-	(Client CN "mail.protection.outlook.com", Issuer "DigiCert Cloud Services CA-1" (verified OK))
-	by o365relay-in.synopsys.com (Postfix) with ESMTPS id F387140347;
-	Tue,  5 Mar 2024 02:41:47 +0000 (UTC)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=gmTZL/yHKNv0Skx8z2yJtHXFlKTqVfCZ04EIV0kVqRKejTCgoULNLzFjc38jTauaCNJpKuX0Jy/sonteU8ZjYV31kj75EGVZ+W0SpVjsDNHVU5lNJVjNkNIagyXnIcqL3alKEpa0TzaUnHrYLMbo7envzY7raA8oRqrGACcRhARQH233XmeYwm9qPYKKxiuiTPnLGZLGM9KJFntN0Er2NK8fXN0orD3eyKm/M17P679gMrGUFRoFxO1qHl/ceqG44JAzO9zhT27u3wq/MTSAiK7N6Adtmvzfe5/MZSIT4x26Os0fi7cJxxvuygQn/43wCspSaIJhCMtJht8FjbATag==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=zdO3O2doEQU6TM+ly9JoFvP1VpNokaSLel8cwG8mvMs=;
- b=JYq5qnbdxwt0I/eEzZg+2H3Nn0d0P0U77/GC6P7ubAIBKPO8RENLSJE4sfziBot2jbv6ED+ZNSHEIYbZyDfgHqCYoihKDnJd6LeF0Kmg/jIupF6uJysBHRPVUoehOIgbCUke2SUalklQpGGwgiYDa7e7CxPohYOsqEsgoUrXyAuao+HABXATGez8zMBs5dZlYiU5PwGBLG5udTJnQvF+PXfJeiYJCJVt7weyQSNOP2yiiJXVJrjLNg7Kpxrfgbs2hqfFtVzAAzCEZN50CFBmzdDZJZWKuuVi6Ucn2ffmJ1pmJtzeANDEhBVF+TE6O2dQ82BgcwazlBEq6ADjMnxEcA==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=synopsys.com; dmarc=pass action=none header.from=synopsys.com;
- dkim=pass header.d=synopsys.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=synopsys.com;
- s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=zdO3O2doEQU6TM+ly9JoFvP1VpNokaSLel8cwG8mvMs=;
- b=pefTIQmQriOILME2MnzZQybL1qE2QFxUQnlHNnF5lTQO+7klNFDgvHlRywhCZNh59UvP34shOjpx8imNBo2gX0QA7VtzqneDYnV4WLkfpDyb/u1g9kTP3Lq4eOyFBkMxZ9slORprodbW7AAznWtNIpckvpO9y82oa17VnYm4Tcw=
-Received: from LV2PR12MB5990.namprd12.prod.outlook.com (2603:10b6:408:170::16)
- by CY5PR12MB6624.namprd12.prod.outlook.com (2603:10b6:930:40::14) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7339.39; Tue, 5 Mar
- 2024 02:41:45 +0000
-Received: from LV2PR12MB5990.namprd12.prod.outlook.com
- ([fe80::c87:4fbe:a367:419c]) by LV2PR12MB5990.namprd12.prod.outlook.com
- ([fe80::c87:4fbe:a367:419c%3]) with mapi id 15.20.7339.035; Tue, 5 Mar 2024
- 02:41:44 +0000
-X-SNPS-Relay: synopsys.com
-From: Thinh Nguyen <Thinh.Nguyen@synopsys.com>
-To: "Guilherme G. Piccoli" <gpiccoli@igalia.com>
-CC: Thinh Nguyen <Thinh.Nguyen@synopsys.com>,
-        "linux-usb@vger.kernel.org" <linux-usb@vger.kernel.org>,
-        "balbi@kernel.org" <balbi@kernel.org>,
-        "gregkh@linuxfoundation.org" <gregkh@linuxfoundation.org>,
-        "johan@kernel.org" <johan@kernel.org>,
-        "quic_wcheng@quicinc.com" <quic_wcheng@quicinc.com>,
-        "kernel@gpiccoli.net" <kernel@gpiccoli.net>,
-        "kernel-dev@igalia.com" <kernel-dev@igalia.com>,
-        Andrey Smirnov <andrew.smirnov@gmail.com>,
-        Vivek Dasmohapatra <vivek@collabora.com>,
-        "piyush.mehta@amd.com" <piyush.mehta@amd.com>,
-        "ray.huang@amd.com" <ray.huang@amd.com>
-Subject: Re: [PATCH] usb: dwc3: Fix spurious wakeup when port is on device
- mode
-Thread-Topic: [PATCH] usb: dwc3: Fix spurious wakeup when port is on device
- mode
-Thread-Index: 
- AQHaHWVQyO2xJEu1EUm3AscfDvsycrCZEZEAgADm+gCAAN61AIA3OYEAgAIYloCAAO4SAIACLscAgAWsYQCAAIyKgIAAqmqAgADpX4CABdZRgIACH0WAgAi5FoCAAkh6AIACnmOAgAB3LICAAN6oAIAHFi2AgAB/wICABATrAIAAF8SAgCauMwCAALNhAA==
-Date: Tue, 5 Mar 2024 02:41:44 +0000
-Message-ID: <20240305024126.iuculhwkj5epg4gq@synopsys.com>
-References: <dd3339b0-75ac-b64e-4dac-d9394e91baef@igalia.com>
- <20240130021704.ndbkkyksauku7nwr@synopsys.com>
- <29ebf575-e09b-4452-ed60-41a667e78c5f@igalia.com>
- <20240201012301.qtp4vr67cwnte5im@synopsys.com>
- <20d855ca-678c-671b-d956-f08f2ac88573@igalia.com>
- <20240206025307.j2lz3v2idwm7gusp@synopsys.com>
- <43013c1a-92c1-658b-ace9-8ed6ae98769e@igalia.com>
- <20240208235300.pjife5zxfz5onqvk@synopsys.com>
- <b9495221-54be-ae5d-774a-f1450290b104@igalia.com>
- <7594701a-34d7-579b-6c9c-05a18d3ab651@igalia.com>
-In-Reply-To: <7594701a-34d7-579b-6c9c-05a18d3ab651@igalia.com>
-Accept-Language: en-US
-Content-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-x-ms-publictraffictype: Email
-x-ms-traffictypediagnostic: LV2PR12MB5990:EE_|CY5PR12MB6624:EE_
-x-ms-office365-filtering-correlation-id: ebc1db45-862c-447e-f290-08dc3cbdcbf1
-x-ms-exchange-senderadcheck: 1
-x-ms-exchange-antispam-relay: 0
-x-microsoft-antispam: BCL:0;
-x-microsoft-antispam-message-info: 
- 4EZQpIEdLOTb2ZljHfjfVcN5rjgDOUw2htwhNKGQGeCpnA4045BHMbd/Cxng4g20dO5GD16BTOhhdi1f0ifmc6gCWbleRQnjeJOFrsxqkqb1HC38yHoyfilkeh9kVhJzbnAjxdqm2nGFEtH1GX9FJThDOrlQh6aCqdTUH94HXCHLNzV1HVrzfz9DFiuzTVWGeAGnDWhMglGC3uOAGRsjaxjXQ6VpZ0Gigl0nclgfQr2xsVEWxGwR0zmpImpQqeI8mS3g7TOmcCo/knnaKnRg0q9+slNmp0AuMdXgVWdQMwybs7qVzdnJunSoJHCmhZxQc1WnJMpGZTwVUH/hGPLgxk6XJ5Wu5qtX5fePyXvWTkhdTgu5TbDudOtybFyecnKUoOLBSxgbCsxZJbQd9S1txHZW61/1H8Wf609aPchHLgEclAw7Bgfj9dECQls6qWgfU5QsoMieaXn9IJqCQmNaQ8JuP/MBXbBd9XalIvXhbxlfEIovsu3jvUTTemNkUYcsQ5Orxl3vAy21Nq70MPEhnxaCSmeCK0XLRdws0BHNQ7YFFFurFIKwU01jfFcB+w7qjLANtdQZA8m3TvD82e79lA+p5f4BUFQW8QsIFxtnUICi2IOn+tpR6RmZmByMg5rSTMPwL7L61vG3oquZeh6/alWBufJIQ3Oz4Q4CWMseUDC1jHtjhcAJtZdReqRX3cdTR7xNl8VDsI22XQjXP3BNwg==
-x-forefront-antispam-report: 
- CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:LV2PR12MB5990.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230031)(376005)(38070700009);DIR:OUT;SFP:1101;
-x-ms-exchange-antispam-messagedata-chunkcount: 1
-x-ms-exchange-antispam-messagedata-0: 
- =?utf-8?B?bm1RVDdLZUdEY1JpeXV1YmtxYnF0cnVndjFObXMwUWFyZk1TVi9GQ1pqK2hv?=
- =?utf-8?B?eU5Mb3pkaUhCcXYxdEc2SXltVk1YTjg0RVFpeHI1UHB2aFIwclkxMXVjby92?=
- =?utf-8?B?ckFLL0hJaVhQL1pqc1hwNkdVMVpSQVlSQXdxK0FZZTErNmlENWhlT21aUmo5?=
- =?utf-8?B?S2JmQktsRVlNTXdxdUIzU2hnbnJ4TTYzZFB6MkJjTTF4S2RWYThhNzd6Q3pi?=
- =?utf-8?B?OGlzRzBMMnhHSWpGazk1eW02V1dmR1crNDZxTFlwcDZCckRpd0tqV1ZCWXBS?=
- =?utf-8?B?T3NmLysyZGJPUk5jem1KZlUzcTdYeEM3M0NEK1pFN3hDcG5zaDBNMnczTldl?=
- =?utf-8?B?dndpYVJneXZSK1crNW1LNVZBQit4UzZRdnVmbGdGYXExNjBMZEM1WDYzblh2?=
- =?utf-8?B?c1lBV2M0RWt3ckwxTllsQ3pWdG0yei96UElMMGhCN0pqZ2lVMWw5Tm1lQ2Ur?=
- =?utf-8?B?UFg2Mmk2S2hkL1EvbDk2U2lYeEZ5RXdQQitYczFUVXRPeHJiWVk1TGZzRzNh?=
- =?utf-8?B?R1RKTCtkS2VnelNRMDNueFhJNjM5MWV0dHR0TldaZ0tDbDQ3TDlHZEpZbngx?=
- =?utf-8?B?Qnc1VWJSWkdYbjZ2Y3VGSGlLbEwwNHRjc3RzekdSTm5yeWJhK29HdnUvdVhi?=
- =?utf-8?B?M2ZtMjY2WmY1NkVDc0RiOThqeEpoME40eVVlMEtxTFhzblJjK1hURHNNS1V2?=
- =?utf-8?B?TW92WXNOelBsNVRDWmVzdjZPMzFXTXhHM09kN29iOUQ3d0R1U0lkTXFaZlBk?=
- =?utf-8?B?QVZ3WWZUTHVHZnRzSGVLVTRKRWJSVFBQYk85cUJnZW5KUk5CbjczWWZsY3hk?=
- =?utf-8?B?WGJpaDA5U0RLTjhBcVVvNVBYV2hCQ3hqNlpveUhuMENlSjVoeTEzTVh0MlV1?=
- =?utf-8?B?UWZhbEkrN1NKZUVVdHlyWlBEUXBVMDZlSDJVd1hGeXkzeWMyS215RlFib1R4?=
- =?utf-8?B?MmVnSnNYWTAxazdBeXFEcmZLQ3JpcWF5MjB5ZStLVXdUSVkvYTRpQXRuTzhD?=
- =?utf-8?B?Mk9Ob3VkVjV0cDdFMXVGcFl1UEVEdkdHaDAyVkZrV0ptY2hrQ0VUYWo3aXZu?=
- =?utf-8?B?enptY0JBUE5pMHYyUi9naXZLcGx3ZVkzdVZWZm5OS053b2Nma3Z3eFlERlRk?=
- =?utf-8?B?R2FGUit6Y2NQMjVZYkxmaG1LdStjVDA5a0swSTgwNzNhQVVZai8xMzlRYU91?=
- =?utf-8?B?V2V1UVZLT0hOTWpIRi9xY25TZEF3UlBHTjRaWnh0VDJRU0VncVBhNGYzdXVW?=
- =?utf-8?B?U3VnRTl2NDM5T1k4Q05EUmpuN3QvUEhWVmdsbklVRTZCVTlkZ0YzUE92cm9l?=
- =?utf-8?B?eHBOSlYzc3pSczNQVFlISFcvZkZxdEpxQ2xEL0c0SWZtTjY2NGVJNVpkZVA5?=
- =?utf-8?B?cThpSjVCUTVCOXpUVEE4S1JjcFFvcmU4T05qeHgxeDR0aXpEemZIR1UxNm16?=
- =?utf-8?B?N2I2UWZ1ZC96WG9UWDhDY2pqdm13UXNFcnZYMlFvUFdyamVEUUd4bVAwc1Qw?=
- =?utf-8?B?cnlTWitNdnJMV01hUGNVeXlhSjZrWDN0Y1MzK0l5Mi9ENGVpdTU0bnJoVUox?=
- =?utf-8?B?alBSY3ljMGhVbXlRQThneHlPR2QxallEZ05tbmV4SGd6Y3NoWDhyM29hVjlz?=
- =?utf-8?B?NTBLVU5ZLzFDS1ZQVXFNV3RoWFF0azErOHhCeWMrRnIwQlhjeVVqKzRnWEty?=
- =?utf-8?B?T3loMDEyR2ZRdGlnQzJ3enFORC9GUUo3RlpuamVLY3QyT2k1cldldGRrMGN4?=
- =?utf-8?B?Z3ZDWnIvWUVGWmV6Qko4Q0Y0MERZTHowV0VENU91T29yTS9wU2Y4Q0VPMldO?=
- =?utf-8?B?MlZUVW9SaXVxVE81M0k1RUluN1hTeVVqVjkyMm4xY094c2c2SExTM24ycVg2?=
- =?utf-8?B?TldtalQweGVPOGpkamEyaFZTVkNULzdWeTZ2bHplWkRHS1ZxQXRQNExrL2lq?=
- =?utf-8?B?QUFsMVhvN0c1WVBsa2h5Ymg3eXd1eTdrbXBqQVlqdGJKc0VLVUc3bEN6Y1BL?=
- =?utf-8?B?RFJPMnVOZGd1Nm43ZHR5elRNQVJ4clZIejlwQW9pdG1QWFUwM0hmMUwrVVpw?=
- =?utf-8?B?eFdpRGdaUUI4bnFLd2pNZGkvd3JOaytuZjQxbndQMWkrTXZEbEVwT25rd1RJ?=
- =?utf-8?Q?tTa8A4RKTAnyAC98ipi/e4PFW?=
-Content-Type: text/plain; charset="utf-8"
-Content-ID: <E4697488A1448E418ABAC558A838B891@namprd12.prod.outlook.com>
-Content-Transfer-Encoding: base64
+	Tue, 05 Mar 2024 04:22:10 +0000 (GMT)
+Received: from nalasex01a.na.qualcomm.com (nalasex01a.na.qualcomm.com [10.47.209.196])
+	by NALASPPMTA01.qualcomm.com (8.17.1.5/8.17.1.5) with ESMTPS id 4254Lxk0014117
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Tue, 5 Mar 2024 04:21:59 GMT
+Received: from hu-kriskura-hyd.qualcomm.com (10.80.80.8) by
+ nalasex01a.na.qualcomm.com (10.47.209.196) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.1118.40; Mon, 4 Mar 2024 20:21:55 -0800
+From: Krishna Kurapati <quic_kriskura@quicinc.com>
+To: Bjorn Andersson <andersson@kernel.org>,
+        Wesley Cheng
+	<quic_wcheng@quicinc.com>,
+        Konrad Dybcio <konrad.dybcio@linaro.org>,
+        "Greg
+ Kroah-Hartman" <gregkh@linuxfoundation.org>,
+        Thinh Nguyen
+	<Thinh.Nguyen@synopsys.com>,
+        Johan Hovold <johan@kernel.org>
+CC: <linux-arm-msm@vger.kernel.org>, <linux-usb@vger.kernel.org>,
+        <linux-kernel@vger.kernel.org>, <quic_ppratap@quicinc.com>,
+        <quic_jackp@quicinc.com>, Krishna Kurapati <quic_kriskura@quicinc.com>
+Subject: [PATCH] usb: dwc3: qcom: Remove ACPI support from glue driver
+Date: Tue, 5 Mar 2024 09:51:43 +0530
+Message-ID: <20240305042143.3455101-1-quic_kriskura@quicinc.com>
+X-Mailer: git-send-email 2.34.1
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-MS-Exchange-AntiSpam-ExternalHop-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-ExternalHop-MessageData-0: 
-	EPJHZMbSmczbDxmLEGtePsgSxJ0jqx2jNwtKTIgwF+YLW6s4/4YZGwL5qZElzwm2kCuj6nQGVZK/ANKKRc7TZ/g+Tx6w20qXeBW6btKuUs0EugFrnU4yvhj8ShaiHSB+7GagtsoY22tBoOp80cMVnyWBTnMwJJjU7+eARlk8Tdf7Ig0bbij27dekX8mVLXykkCnTE3yfEnpwroTfN0skrLWTT7xidyaoWltnPFjUO/bDEzK69Tm/mXWGFDsKAFjCX5HyBdMu4uDNhvOy9gAO5joxC9sOgq43PdbnYK+2sHjJYovID1hupZapnl/rwBaEdb0iLG9uPqsxJFDJbYsGuG4ls0NwOsL7D7vPXPq0WxMJT0kX81ysNlGaTcZUAKnxRtRUkuFiJ49qHpdJTSDTqMKA62ml5VvtOeAKh1/oOi/n/7SXqGjtDAL3zb8h9ECtQAk++Xe/aAFjR8AtL3a8B4d66Q2H4C0Oip/pbxpYD5Knbhp8Xw+MXS1hZ8vycETgEDbhlOPbjw9idJN4VyDuDcW6pDbFJaNUpGBC/E6KUaxfhOSExalyQa9xHWY0zb9VgrMiKJN1wIP+T3jTcg4yPeqAWfLA2X0dr/TGkhMLrOAfbVwEs0CXUKR5rPj8zyrIghzu2b/6c92zxeiQtRqdaw==
-X-OriginatorOrg: synopsys.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-AuthSource: LV2PR12MB5990.namprd12.prod.outlook.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: ebc1db45-862c-447e-f290-08dc3cbdcbf1
-X-MS-Exchange-CrossTenant-originalarrivaltime: 05 Mar 2024 02:41:44.7793
- (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: c33c9f88-1eb7-4099-9700-16013fd9e8aa
-X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: SQ1eVnnCkrJ5rF1zbMVkdyE4kKhcDSrfbOExeX6saxAN+jhidX/4nrxvqIMWSZ9y4Hd9HKrs4hunPysgh3XWUg==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: CY5PR12MB6624
-X-Proofpoint-ORIG-GUID: sacKtPM5_AhITvF3oGiYBtFBK7II8Qwm
-X-Proofpoint-GUID: sacKtPM5_AhITvF3oGiYBtFBK7II8Qwm
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+X-ClientProxiedBy: nasanex01b.na.qualcomm.com (10.46.141.250) To
+ nalasex01a.na.qualcomm.com (10.47.209.196)
+X-QCInternal: smtphost
+X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800 signatures=585085
+X-Proofpoint-ORIG-GUID: SjmvAjr0TfjVOwCri3R7ZTgQdRanphCJ
+X-Proofpoint-GUID: SjmvAjr0TfjVOwCri3R7ZTgQdRanphCJ
 X-Proofpoint-Virus-Version: vendor=baseguard
  engine=ICAP:2.0.272,Aquarius:18.0.1011,Hydra:6.0.619,FMLib:17.11.176.26
- definitions=2024-03-04_20,2024-03-04_01,2023-05-22_02
-X-Proofpoint-Spam-Details: rule=outbound_active_cloned_notspam policy=outbound_active_cloned score=0
- priorityscore=1501 impostorscore=0 malwarescore=0 suspectscore=0
- phishscore=0 mlxlogscore=836 spamscore=0 clxscore=1011 mlxscore=0
- lowpriorityscore=0 bulkscore=0 adultscore=0 classifier=spam adjust=0
- reason=mlx scancount=1 engine=8.19.0-2402120000
- definitions=main-2403050019
+ definitions=2024-03-05_01,2024-03-04_01,2023-05-22_02
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 impostorscore=0
+ suspectscore=0 lowpriorityscore=0 malwarescore=0 phishscore=0 adultscore=0
+ bulkscore=0 mlxlogscore=682 mlxscore=0 priorityscore=1501 spamscore=0
+ clxscore=1015 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.19.0-2402120000 definitions=main-2403050031
 
-T24gTW9uLCBNYXIgMDQsIDIwMjQsIEd1aWxoZXJtZSBHLiBQaWNjb2xpIHdyb3RlOg0KPiBPbiAw
-OC8wMi8yMDI0IDIyOjE4LCBHdWlsaGVybWUgRy4gUGljY29saSB3cm90ZToNCj4gPiBPbiAwOC8w
-Mi8yMDI0IDIwOjUzLCBUaGluaCBOZ3V5ZW4gd3JvdGU6DQo+ID4+IFsuLi5dDQo+ID4+DQo+ID4+
-IFRoYW5rcy4gSSBoYXZlIHNvbWUgc3VzcGljaW9ucyBvZiB3aGF0IGhhcHBlbmVkLiBJJ2xsIGNy
-ZWF0ZSBhIHBhdGNoLA0KPiA+PiBidXQgSSdsbCBuZWVkIHNvbWUgdGltZS4NCj4gPj4NCj4gPj4g
-VGhhbmtzLA0KPiA+PiBUaGluaA0KPiA+IA0KPiA+IFRoYW5rIHlvdSBhIGJ1bmNoISBMZXQgdXMg
-a25vdyB3aGVuIHlvdSBoYXZlIGEgY2FuZGlkYXRlLCBJIGNhbiB0ZXN0IGl0DQo+ID4gcXVpY2ts
-eSBpbiB0aGUgU3RlYW0gRGVjayA9KQ0KPiA+IA0KPiA+IENoZWVycywNCj4gPiANCj4gPiANCj4g
-PiBHdWlsaGVybWUNCj4gPiANCj4gDQo+IEhpIFRoaW5oLCBob3BlIGV2ZXJ5dGhpbmcgaXMgYWxy
-aWdodC4NCj4gDQo+IExldCBtZSBrbm93IGlmIHdlIGNhbiBoZWxwIGluIGFueXRoaW5nIG9yIHBy
-b3ZpZGUgbW9yZSB0ZXN0IHJlc3VsdHMsDQo+IHdlJ2QgYmUgZ2xhZCB0by4NCj4gDQoNCkhpLA0K
-DQpTb3JyeSwgdGhlcmUncyBhIHN1cmdlIG9mIGl0ZW1zIHN1ZGRlbmx5IGdvdCBvbiBteSBwbGF0
-ZS4gSSdsbCB1cGRhdGUNCnlvdSBtb3JlIHRvbW9ycm93Lg0KDQpSZWdhcmRpbmcgdGhlIHJlbW90
-ZSB3YWtldXAgZGlkbid0IGdldHRpbmcgc2V0LCBpdCdzIHByb2JhYmx5IGJlY2F1c2Ugd2UNCnRy
-aWVkIHRvIGVuYWJsZSBpdCBiZWZvcmUgYWRkaW5nIHRoZSB4aGNpIHBsYXRmb3JtIGRldmljZSB3
-aGVuIHN3aXRjaGluZw0KdG8gaG9zdC4gSnVzdCBuZWVkIHRvIG1vdmUgdGhhdCBlbmFibGluZyB3
-YWtldXAgYWZ0ZXIuIEkgaGF2ZW4ndCBjcmVhdGVkDQphIHBhdGNoIGZvciB5b3UgdG8gdHJ5IGl0
-IG91dCB5ZXQuIEknbGwgdHJ5IHRvIGRvIGl0IGJ5IHRoaXMgd2Vlay4NCg0KQlIsDQpUaGluaA==
+Minimal ACPI support was added to the Qualcomm DWC3 glue driver in order to
+enable USB on SDM850 and SC8180X compute platforms. The support is still
+functional, but unnoticed regressions in other drivers indicates that no
+one actually booting any of platforms dependent on this implementation.
+
+The functionality provides is the bare minimum and is not expected to aid
+in the effort of bringing full ACPI support to the driver in the future.
+
+Remove the ACPI code from the Qualcomm DWC3 glue driver to aid in the
+implementation of improvements that are actually used like multiport and
+flattening device tree.
+
+Commit message by Bjorn Andersson.
+
+Signed-off-by: Krishna Kurapati <quic_kriskura@quicinc.com>
+---
+ drivers/usb/dwc3/dwc3-qcom.c | 273 ++---------------------------------
+ 1 file changed, 11 insertions(+), 262 deletions(-)
+
+diff --git a/drivers/usb/dwc3/dwc3-qcom.c b/drivers/usb/dwc3/dwc3-qcom.c
+index dbd6a5b2b289..a0879f224d96 100644
+--- a/drivers/usb/dwc3/dwc3-qcom.c
++++ b/drivers/usb/dwc3/dwc3-qcom.c
+@@ -4,7 +4,6 @@
+  * Inspired by dwc3-of-simple.c
+  */
+ 
+-#include <linux/acpi.h>
+ #include <linux/io.h>
+ #include <linux/of.h>
+ #include <linux/clk.h>
+@@ -53,22 +52,10 @@
+ #define APPS_USB_AVG_BW 0
+ #define APPS_USB_PEAK_BW MBps_to_icc(40)
+ 
+-struct dwc3_acpi_pdata {
+-	u32			qscratch_base_offset;
+-	u32			qscratch_base_size;
+-	u32			dwc3_core_base_size;
+-	int			qusb2_phy_irq_index;
+-	int			dp_hs_phy_irq_index;
+-	int			dm_hs_phy_irq_index;
+-	int			ss_phy_irq_index;
+-	bool			is_urs;
+-};
+-
+ struct dwc3_qcom {
+ 	struct device		*dev;
+ 	void __iomem		*qscratch_base;
+ 	struct platform_device	*dwc3;
+-	struct platform_device	*urs_usb;
+ 	struct clk		**clks;
+ 	int			num_clocks;
+ 	struct reset_control	*resets;
+@@ -84,8 +71,6 @@ struct dwc3_qcom {
+ 	struct notifier_block	vbus_nb;
+ 	struct notifier_block	host_nb;
+ 
+-	const struct dwc3_acpi_pdata *acpi_pdata;
+-
+ 	enum usb_dr_mode	mode;
+ 	bool			is_suspended;
+ 	bool			pm_suspended;
+@@ -248,9 +233,6 @@ static int dwc3_qcom_interconnect_init(struct dwc3_qcom *qcom)
+ 	struct device *dev = qcom->dev;
+ 	int ret;
+ 
+-	if (has_acpi_companion(dev))
+-		return 0;
+-
+ 	qcom->icc_path_ddr = of_icc_get(dev, "usb-ddr");
+ 	if (IS_ERR(qcom->icc_path_ddr)) {
+ 		return dev_err_probe(dev, PTR_ERR(qcom->icc_path_ddr),
+@@ -519,31 +501,13 @@ static void dwc3_qcom_select_utmi_clk(struct dwc3_qcom *qcom)
+ 			  PIPE_UTMI_CLK_DIS);
+ }
+ 
+-static int dwc3_qcom_get_irq(struct platform_device *pdev,
+-			     const char *name, int num)
+-{
+-	struct dwc3_qcom *qcom = platform_get_drvdata(pdev);
+-	struct platform_device *pdev_irq = qcom->urs_usb ? qcom->urs_usb : pdev;
+-	struct device_node *np = pdev->dev.of_node;
+-	int ret;
+-
+-	if (np)
+-		ret = platform_get_irq_byname_optional(pdev_irq, name);
+-	else
+-		ret = platform_get_irq_optional(pdev_irq, num);
+-
+-	return ret;
+-}
+-
+ static int dwc3_qcom_setup_irq(struct platform_device *pdev)
+ {
+ 	struct dwc3_qcom *qcom = platform_get_drvdata(pdev);
+-	const struct dwc3_acpi_pdata *pdata = qcom->acpi_pdata;
+ 	int irq;
+ 	int ret;
+ 
+-	irq = dwc3_qcom_get_irq(pdev, "qusb2_phy",
+-				pdata ? pdata->qusb2_phy_irq_index : -1);
++	irq = platform_get_irq_byname_optional(pdev, "qusb2_phy");
+ 	if (irq > 0) {
+ 		/* Keep wakeup interrupts disabled until suspend */
+ 		ret = devm_request_threaded_irq(qcom->dev, irq, NULL,
+@@ -557,8 +521,7 @@ static int dwc3_qcom_setup_irq(struct platform_device *pdev)
+ 		qcom->qusb2_phy_irq = irq;
+ 	}
+ 
+-	irq = dwc3_qcom_get_irq(pdev, "dp_hs_phy_irq",
+-				pdata ? pdata->dp_hs_phy_irq_index : -1);
++	irq = platform_get_irq_byname_optional(pdev, "dp_hs_phy_irq");
+ 	if (irq > 0) {
+ 		ret = devm_request_threaded_irq(qcom->dev, irq, NULL,
+ 					qcom_dwc3_resume_irq,
+@@ -571,8 +534,7 @@ static int dwc3_qcom_setup_irq(struct platform_device *pdev)
+ 		qcom->dp_hs_phy_irq = irq;
+ 	}
+ 
+-	irq = dwc3_qcom_get_irq(pdev, "dm_hs_phy_irq",
+-				pdata ? pdata->dm_hs_phy_irq_index : -1);
++	irq = platform_get_irq_byname_optional(pdev, "dm_hs_phy_irq");
+ 	if (irq > 0) {
+ 		ret = devm_request_threaded_irq(qcom->dev, irq, NULL,
+ 					qcom_dwc3_resume_irq,
+@@ -585,8 +547,7 @@ static int dwc3_qcom_setup_irq(struct platform_device *pdev)
+ 		qcom->dm_hs_phy_irq = irq;
+ 	}
+ 
+-	irq = dwc3_qcom_get_irq(pdev, "ss_phy_irq",
+-				pdata ? pdata->ss_phy_irq_index : -1);
++	irq = platform_get_irq_byname_optional(pdev, "ss_phy_irq");
+ 	if (irq > 0) {
+ 		ret = devm_request_threaded_irq(qcom->dev, irq, NULL,
+ 					qcom_dwc3_resume_irq,
+@@ -649,88 +610,6 @@ static int dwc3_qcom_clk_init(struct dwc3_qcom *qcom, int count)
+ 	return 0;
+ }
+ 
+-static const struct property_entry dwc3_qcom_acpi_properties[] = {
+-	PROPERTY_ENTRY_STRING("dr_mode", "host"),
+-	{}
+-};
+-
+-static const struct software_node dwc3_qcom_swnode = {
+-	.properties = dwc3_qcom_acpi_properties,
+-};
+-
+-static int dwc3_qcom_acpi_register_core(struct platform_device *pdev)
+-{
+-	struct dwc3_qcom	*qcom = platform_get_drvdata(pdev);
+-	struct device		*dev = &pdev->dev;
+-	struct resource		*res, *child_res = NULL;
+-	struct platform_device	*pdev_irq = qcom->urs_usb ? qcom->urs_usb :
+-							    pdev;
+-	int			irq;
+-	int			ret;
+-
+-	qcom->dwc3 = platform_device_alloc("dwc3", PLATFORM_DEVID_AUTO);
+-	if (!qcom->dwc3)
+-		return -ENOMEM;
+-
+-	qcom->dwc3->dev.parent = dev;
+-	qcom->dwc3->dev.type = dev->type;
+-	qcom->dwc3->dev.dma_mask = dev->dma_mask;
+-	qcom->dwc3->dev.dma_parms = dev->dma_parms;
+-	qcom->dwc3->dev.coherent_dma_mask = dev->coherent_dma_mask;
+-
+-	child_res = kcalloc(2, sizeof(*child_res), GFP_KERNEL);
+-	if (!child_res) {
+-		platform_device_put(qcom->dwc3);
+-		return -ENOMEM;
+-	}
+-
+-	res = platform_get_resource(pdev, IORESOURCE_MEM, 0);
+-	if (!res) {
+-		dev_err(&pdev->dev, "failed to get memory resource\n");
+-		ret = -ENODEV;
+-		goto out;
+-	}
+-
+-	child_res[0].flags = res->flags;
+-	child_res[0].start = res->start;
+-	child_res[0].end = child_res[0].start +
+-		qcom->acpi_pdata->dwc3_core_base_size;
+-
+-	irq = platform_get_irq(pdev_irq, 0);
+-	if (irq < 0) {
+-		ret = irq;
+-		goto out;
+-	}
+-	child_res[1].flags = IORESOURCE_IRQ;
+-	child_res[1].start = child_res[1].end = irq;
+-
+-	ret = platform_device_add_resources(qcom->dwc3, child_res, 2);
+-	if (ret) {
+-		dev_err(&pdev->dev, "failed to add resources\n");
+-		goto out;
+-	}
+-
+-	ret = device_add_software_node(&qcom->dwc3->dev, &dwc3_qcom_swnode);
+-	if (ret < 0) {
+-		dev_err(&pdev->dev, "failed to add properties\n");
+-		goto out;
+-	}
+-
+-	ret = platform_device_add(qcom->dwc3);
+-	if (ret) {
+-		dev_err(&pdev->dev, "failed to add device\n");
+-		device_remove_software_node(&qcom->dwc3->dev);
+-		goto out;
+-	}
+-	kfree(child_res);
+-	return 0;
+-
+-out:
+-	platform_device_put(qcom->dwc3);
+-	kfree(child_res);
+-	return ret;
+-}
+-
+ static int dwc3_qcom_of_register_core(struct platform_device *pdev)
+ {
+ 	struct dwc3_qcom	*qcom = platform_get_drvdata(pdev);
+@@ -763,57 +642,12 @@ static int dwc3_qcom_of_register_core(struct platform_device *pdev)
+ 	return ret;
+ }
+ 
+-static struct platform_device *dwc3_qcom_create_urs_usb_platdev(struct device *dev)
+-{
+-	struct platform_device *urs_usb = NULL;
+-	struct fwnode_handle *fwh;
+-	struct acpi_device *adev;
+-	char name[8];
+-	int ret;
+-	int id;
+-
+-	/* Figure out device id */
+-	ret = sscanf(fwnode_get_name(dev->fwnode), "URS%d", &id);
+-	if (!ret)
+-		return NULL;
+-
+-	/* Find the child using name */
+-	snprintf(name, sizeof(name), "USB%d", id);
+-	fwh = fwnode_get_named_child_node(dev->fwnode, name);
+-	if (!fwh)
+-		return NULL;
+-
+-	adev = to_acpi_device_node(fwh);
+-	if (!adev)
+-		goto err_put_handle;
+-
+-	urs_usb = acpi_create_platform_device(adev, NULL);
+-	if (IS_ERR_OR_NULL(urs_usb))
+-		goto err_put_handle;
+-
+-	return urs_usb;
+-
+-err_put_handle:
+-	fwnode_handle_put(fwh);
+-
+-	return urs_usb;
+-}
+-
+-static void dwc3_qcom_destroy_urs_usb_platdev(struct platform_device *urs_usb)
+-{
+-	struct fwnode_handle *fwh = urs_usb->dev.fwnode;
+-
+-	platform_device_unregister(urs_usb);
+-	fwnode_handle_put(fwh);
+-}
+-
+ static int dwc3_qcom_probe(struct platform_device *pdev)
+ {
+ 	struct device_node	*np = pdev->dev.of_node;
+ 	struct device		*dev = &pdev->dev;
+ 	struct dwc3_qcom	*qcom;
+ 	struct resource		*res, *parent_res = NULL;
+-	struct resource		local_res;
+ 	int			ret, i;
+ 	bool			ignore_pipe_clk;
+ 	bool			wakeup_source;
+@@ -825,14 +659,6 @@ static int dwc3_qcom_probe(struct platform_device *pdev)
+ 	platform_set_drvdata(pdev, qcom);
+ 	qcom->dev = &pdev->dev;
+ 
+-	if (has_acpi_companion(dev)) {
+-		qcom->acpi_pdata = acpi_device_get_match_data(dev);
+-		if (!qcom->acpi_pdata) {
+-			dev_err(&pdev->dev, "no supporting ACPI device data\n");
+-			return -EINVAL;
+-		}
+-	}
+-
+ 	qcom->resets = devm_reset_control_array_get_optional_exclusive(dev);
+ 	if (IS_ERR(qcom->resets)) {
+ 		return dev_err_probe(&pdev->dev, PTR_ERR(qcom->resets),
+@@ -860,41 +686,18 @@ static int dwc3_qcom_probe(struct platform_device *pdev)
+ 	}
+ 
+ 	res = platform_get_resource(pdev, IORESOURCE_MEM, 0);
+-
+-	if (np) {
+-		parent_res = res;
+-	} else {
+-		memcpy(&local_res, res, sizeof(struct resource));
+-		parent_res = &local_res;
+-
+-		parent_res->start = res->start +
+-			qcom->acpi_pdata->qscratch_base_offset;
+-		parent_res->end = parent_res->start +
+-			qcom->acpi_pdata->qscratch_base_size;
+-
+-		if (qcom->acpi_pdata->is_urs) {
+-			qcom->urs_usb = dwc3_qcom_create_urs_usb_platdev(dev);
+-			if (IS_ERR_OR_NULL(qcom->urs_usb)) {
+-				dev_err(dev, "failed to create URS USB platdev\n");
+-				if (!qcom->urs_usb)
+-					ret = -ENODEV;
+-				else
+-					ret = PTR_ERR(qcom->urs_usb);
+-				goto clk_disable;
+-			}
+-		}
+-	}
++	parent_res = res;
+ 
+ 	qcom->qscratch_base = devm_ioremap_resource(dev, parent_res);
+ 	if (IS_ERR(qcom->qscratch_base)) {
+ 		ret = PTR_ERR(qcom->qscratch_base);
+-		goto free_urs;
++		goto clk_disable;
+ 	}
+ 
+ 	ret = dwc3_qcom_setup_irq(pdev);
+ 	if (ret) {
+ 		dev_err(dev, "failed to setup IRQs, err=%d\n", ret);
+-		goto free_urs;
++		goto clk_disable;
+ 	}
+ 
+ 	/*
+@@ -906,14 +709,10 @@ static int dwc3_qcom_probe(struct platform_device *pdev)
+ 	if (ignore_pipe_clk)
+ 		dwc3_qcom_select_utmi_clk(qcom);
+ 
+-	if (np)
+-		ret = dwc3_qcom_of_register_core(pdev);
+-	else
+-		ret = dwc3_qcom_acpi_register_core(pdev);
+-
++	ret = dwc3_qcom_of_register_core(pdev);
+ 	if (ret) {
+ 		dev_err(dev, "failed to register DWC3 Core, err=%d\n", ret);
+-		goto free_urs;
++		goto clk_disable;
+ 	}
+ 
+ 	ret = dwc3_qcom_interconnect_init(qcom);
+@@ -945,16 +744,8 @@ static int dwc3_qcom_probe(struct platform_device *pdev)
+ interconnect_exit:
+ 	dwc3_qcom_interconnect_exit(qcom);
+ depopulate:
+-	if (np) {
+-		of_platform_depopulate(&pdev->dev);
+-	} else {
+-		device_remove_software_node(&qcom->dwc3->dev);
+-		platform_device_del(qcom->dwc3);
+-	}
++	of_platform_depopulate(&pdev->dev);
+ 	platform_device_put(qcom->dwc3);
+-free_urs:
+-	if (qcom->urs_usb)
+-		dwc3_qcom_destroy_urs_usb_platdev(qcom->urs_usb);
+ clk_disable:
+ 	for (i = qcom->num_clocks - 1; i >= 0; i--) {
+ 		clk_disable_unprepare(qcom->clks[i]);
+@@ -969,21 +760,12 @@ static int dwc3_qcom_probe(struct platform_device *pdev)
+ static void dwc3_qcom_remove(struct platform_device *pdev)
+ {
+ 	struct dwc3_qcom *qcom = platform_get_drvdata(pdev);
+-	struct device_node *np = pdev->dev.of_node;
+ 	struct device *dev = &pdev->dev;
+ 	int i;
+ 
+-	if (np) {
+-		of_platform_depopulate(&pdev->dev);
+-	} else {
+-		device_remove_software_node(&qcom->dwc3->dev);
+-		platform_device_del(qcom->dwc3);
+-	}
++	of_platform_depopulate(&pdev->dev);
+ 	platform_device_put(qcom->dwc3);
+ 
+-	if (qcom->urs_usb)
+-		dwc3_qcom_destroy_urs_usb_platdev(qcom->urs_usb);
+-
+ 	for (i = qcom->num_clocks - 1; i >= 0; i--) {
+ 		clk_disable_unprepare(qcom->clks[i]);
+ 		clk_put(qcom->clks[i]);
+@@ -1053,38 +835,6 @@ static const struct of_device_id dwc3_qcom_of_match[] = {
+ };
+ MODULE_DEVICE_TABLE(of, dwc3_qcom_of_match);
+ 
+-#ifdef CONFIG_ACPI
+-static const struct dwc3_acpi_pdata sdm845_acpi_pdata = {
+-	.qscratch_base_offset = SDM845_QSCRATCH_BASE_OFFSET,
+-	.qscratch_base_size = SDM845_QSCRATCH_SIZE,
+-	.dwc3_core_base_size = SDM845_DWC3_CORE_SIZE,
+-	.qusb2_phy_irq_index = 1,
+-	.dp_hs_phy_irq_index = 4,
+-	.dm_hs_phy_irq_index = 3,
+-	.ss_phy_irq_index = 2
+-};
+-
+-static const struct dwc3_acpi_pdata sdm845_acpi_urs_pdata = {
+-	.qscratch_base_offset = SDM845_QSCRATCH_BASE_OFFSET,
+-	.qscratch_base_size = SDM845_QSCRATCH_SIZE,
+-	.dwc3_core_base_size = SDM845_DWC3_CORE_SIZE,
+-	.qusb2_phy_irq_index = 1,
+-	.dp_hs_phy_irq_index = 4,
+-	.dm_hs_phy_irq_index = 3,
+-	.ss_phy_irq_index = 2,
+-	.is_urs = true,
+-};
+-
+-static const struct acpi_device_id dwc3_qcom_acpi_match[] = {
+-	{ "QCOM2430", (unsigned long)&sdm845_acpi_pdata },
+-	{ "QCOM0304", (unsigned long)&sdm845_acpi_urs_pdata },
+-	{ "QCOM0497", (unsigned long)&sdm845_acpi_urs_pdata },
+-	{ "QCOM04A6", (unsigned long)&sdm845_acpi_pdata },
+-	{ },
+-};
+-MODULE_DEVICE_TABLE(acpi, dwc3_qcom_acpi_match);
+-#endif
+-
+ static struct platform_driver dwc3_qcom_driver = {
+ 	.probe		= dwc3_qcom_probe,
+ 	.remove_new	= dwc3_qcom_remove,
+@@ -1092,7 +842,6 @@ static struct platform_driver dwc3_qcom_driver = {
+ 		.name	= "dwc3-qcom",
+ 		.pm	= &dwc3_qcom_dev_pm_ops,
+ 		.of_match_table	= dwc3_qcom_of_match,
+-		.acpi_match_table = ACPI_PTR(dwc3_qcom_acpi_match),
+ 	},
+ };
+ 
+-- 
+2.34.1
+
