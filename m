@@ -1,100 +1,518 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from SHSQR01.spreadtrum.com (unknown [222.66.158.135])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3100C79E4
-	for <linux-usb@vger.kernel.org>; Wed,  6 Mar 2024 02:18:57 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7785033CA;
+	Wed,  6 Mar 2024 05:50:12 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=222.66.158.135
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1709691538; cv=none; b=rM/+Pape2Fq1ncSwODcbM3S3PXRPzjM/aY3+vLi7YY8kyb8xX3RnkL+AU6mNHi7Le3rb8hgJcGQbxWZuf7xdWL3lR+npPyz8cvzgrxZnnnKlCatk4mLGtoQoB+eBOYWJyX/m+zDqr5kt4l2GXerUF+FwNKHE64EjExcuZ3dpLvM=
+	t=1709704218; cv=none; b=Xv381KtriMFcpH0I4ENZ9XXU+oj9uHgL6VN2ytF6G7mwC1ZRtcPzBIlHi6Dl65Y1RIpt723p/aW5ywTYs8UpbjNXJW/jZ0FPraJpoT7CeeMAr1AIGgpF5nYTuNTTN4ypob12FpJcvoRd5g3UrU658rzN1w2jrhwQupuu25k32gQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1709691538; c=relaxed/simple;
-	bh=0h2WugR1ScO0aQZgQYqd9w+ipWGPVlIJf+qR5f25Pkg=;
-	h=From:To:Subject:Date:Message-ID:In-Reply-To:References:
-	 Content-Type:MIME-Version; b=LXmXB7fsUxFuf6AdeBx33Yui02DP4UpgLF58Uw9ETRFLUVSwvy5DvAFV+ySHUMrFLFNG8AEtBDOqKlVk4WHm5Ts9eIPcztYzXohwaj1z1lcHBU2t0Ux/tsUhuv7+Hs/oMtcbhN+iKsTRDsel3HT56Ktr/LPfWV2kj+qtylevTnA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=L8LDIagz; arc=none smtp.client-ip=10.30.226.201
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="L8LDIagz"
-Received: by smtp.kernel.org (Postfix) with ESMTPS id C576FC43399
-	for <linux-usb@vger.kernel.org>; Wed,  6 Mar 2024 02:18:57 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1709691537;
-	bh=0h2WugR1ScO0aQZgQYqd9w+ipWGPVlIJf+qR5f25Pkg=;
-	h=From:To:Subject:Date:In-Reply-To:References:From;
-	b=L8LDIagz/Xx5G2dTsekT1CSsVlkbJ9uLVPfqtssBcdsPmZdJeSu7aYDou7+LO21xu
-	 ac9F8j99BA9PXwzVoj4xLkpGbbtFMXFqm5fK31nzxJPOMIK5D0mB5QGOXOJ1r7Sc2a
-	 ODr8ptmXIdy6TvA+zSDjyVrAe3rOBOlv4k/UZrh0sfv1+1tCsyhro+R0Eahd4oyQKI
-	 MVO0woqxbWHMHMqWzI4ExQy6IOGF9fB5eYlMJuuvkX2cGQw6kt9GaZ5UM1LKBgN79m
-	 NKlcZU3PPumdIkZxs0zl28wy3pPQwS0Ts1U8NOjaIuUu4Hk25GW0geRwRSYsQ08+Kb
-	 xOPUhYNXwAomA==
-Received: by aws-us-west-2-korg-bugzilla-1.web.codeaurora.org (Postfix, from userid 48)
-	id AE12DC53BD0; Wed,  6 Mar 2024 02:18:57 +0000 (UTC)
-From: bugzilla-daemon@kernel.org
-To: linux-usb@vger.kernel.org
-Subject: [Bug 218525] Thunderbolt eGPU bad performance
-Date: Wed, 06 Mar 2024 02:18:57 +0000
-X-Bugzilla-Reason: None
-X-Bugzilla-Type: changed
-X-Bugzilla-Watch-Reason: AssignedTo drivers_usb@kernel-bugs.kernel.org
-X-Bugzilla-Product: Drivers
-X-Bugzilla-Component: USB
-X-Bugzilla-Version: 2.5
-X-Bugzilla-Keywords: 
-X-Bugzilla-Severity: normal
-X-Bugzilla-Who: benjamin.sabatini@gmail.com
-X-Bugzilla-Status: NEW
-X-Bugzilla-Resolution: 
-X-Bugzilla-Priority: P3
-X-Bugzilla-Assigned-To: drivers_usb@kernel-bugs.kernel.org
-X-Bugzilla-Flags: 
-X-Bugzilla-Changed-Fields: cc
-Message-ID: <bug-218525-208809-hytt4F5Lfg@https.bugzilla.kernel.org/>
-In-Reply-To: <bug-218525-208809@https.bugzilla.kernel.org/>
-References: <bug-218525-208809@https.bugzilla.kernel.org/>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-X-Bugzilla-URL: https://bugzilla.kernel.org/
-Auto-Submitted: auto-generated
+	s=arc-20240116; t=1709704218; c=relaxed/simple;
+	bh=eP1y309MQnlllItUv+qEXrncOAEA4pVGLMPU08Z16bc=;
+	h=From:To:CC:Subject:Date:Message-ID:MIME-Version:Content-Type; b=k+2BD3LT0hV6PVEFYVsM2evjPczqsK4N5Pmu9e3Fp5a6AFVIULs/38vMjBzP7/CjPnZqIWUpY0ylBJcomIEIUc+4G9MfPjLgR6uvT1bFkGU4yAyBqYmQJ/sDOybL1Pb7J95tTz4Ynv+WZbHhYnE6eLmFGVpF6IOKDnv07t/3Flg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=unisoc.com; spf=pass smtp.mailfrom=unisoc.com; arc=none smtp.client-ip=222.66.158.135
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=unisoc.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=unisoc.com
+Received: from dlp.unisoc.com ([10.29.3.86])
+	by SHSQR01.spreadtrum.com with ESMTP id 4265nsj6054367;
+	Wed, 6 Mar 2024 13:49:54 +0800 (+08)
+	(envelope-from surong.pang@unisoc.com)
+Received: from SHDLP.spreadtrum.com (shmbx05.spreadtrum.com [10.29.1.56])
+	by dlp.unisoc.com (SkyGuard) with ESMTPS id 4TqM1c02kSz2KrC3W;
+	Wed,  6 Mar 2024 13:48:52 +0800 (CST)
+Received: from zeshkernups01.spreadtrum.com (10.29.55.99) by
+ shmbx05.spreadtrum.com (10.29.1.56) with Microsoft SMTP Server (TLS) id
+ 15.0.1497.23; Wed, 6 Mar 2024 13:49:52 +0800
+From: Surong Pang <surong.pang@unisoc.com>
+To: <gregkh@linuxfoundation.org>, <linux-usb@vger.kernel.org>,
+        <linux-kernel@vger.kernel.org>
+CC: <Orson.Zhai@unisoc.com>, <Zhiyong.liu@unisoc.com>, <Surong.Pang@gmail.com>
+Subject: [PATCH] usb: gadget: rndis: add multi packages support for rndis
+Date: Wed, 6 Mar 2024 13:49:49 +0800
+Message-ID: <20240306054949.324172-1-surong.pang@unisoc.com>
+X-Mailer: git-send-email 2.34.1
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+X-ClientProxiedBy: SHCAS01.spreadtrum.com (10.0.1.201) To
+ shmbx05.spreadtrum.com (10.29.1.56)
+X-MAIL:SHSQR01.spreadtrum.com 4265nsj6054367
 
-https://bugzilla.kernel.org/show_bug.cgi?id=3D218525
+As ncm, aggergate multi skb packages and transfer them at one URB.
+In USB2.0, the network throughput can be improved from about 18MB/S
+to 35MB/S.
 
-Benjamin (benjamin.sabatini@gmail.com) changed:
+Signed-off-by: Surong Pang <surong.pang@unisoc.com>
+---
+ drivers/usb/gadget/function/f_rndis.c | 123 ++++++++++++++++++++---
+ drivers/usb/gadget/function/rndis.c   | 135 +++++++++++++++++++++-----
+ drivers/usb/gadget/function/rndis.h   |  13 ++-
+ 3 files changed, 234 insertions(+), 37 deletions(-)
 
-           What    |Removed                     |Added
-----------------------------------------------------------------------------
-                 CC|                            |benjamin.sabatini@gmail.com
+diff --git a/drivers/usb/gadget/function/f_rndis.c b/drivers/usb/gadget/function/f_rndis.c
+index b47f99d17ee9..a87497b80946 100644
+--- a/drivers/usb/gadget/function/f_rndis.c
++++ b/drivers/usb/gadget/function/f_rndis.c
+@@ -77,6 +77,12 @@ struct f_rndis {
+ 	struct usb_ep			*notify;
+ 	struct usb_request		*notify_req;
+ 	atomic_t			notify_count;
++
++	struct net_device		*netdev;
++	/* For multi-frame RNDIS TX */
++	u16				prepared_tx_skb_count;
++	struct sk_buff			*prepared_tx_skb;
++	struct hrtimer			task_timer;
+ };
+ 
+ static inline struct f_rndis *func_to_rndis(struct usb_function *f)
+@@ -92,6 +98,7 @@ static inline struct f_rndis *func_to_rndis(struct usb_function *f)
+ #define RNDIS_STATUS_INTERVAL_MS	32
+ #define STATUS_BYTECOUNT		8	/* 8 bytes data */
+ 
++#define TX_TIMEOUT_NSECS 200000
+ 
+ /* interface descriptor: */
+ 
+@@ -102,9 +109,9 @@ static struct usb_interface_descriptor rndis_control_intf = {
+ 	/* .bInterfaceNumber = DYNAMIC */
+ 	/* status endpoint is optional; this could be patched later */
+ 	.bNumEndpoints =	1,
+-	.bInterfaceClass =	USB_CLASS_COMM,
+-	.bInterfaceSubClass =   USB_CDC_SUBCLASS_ACM,
+-	.bInterfaceProtocol =   USB_CDC_ACM_PROTO_VENDOR,
++	.bInterfaceClass =	USB_CLASS_WIRELESS_CONTROLLER,
++	.bInterfaceSubClass =	0x01,
++	.bInterfaceProtocol =	USB_CDC_ACM_PROTO_AT_PCCA101_WAKE,
+ 	/* .iInterface = DYNAMIC */
+ };
+ 
+@@ -162,10 +169,10 @@ rndis_iad_descriptor = {
+ 	.bDescriptorType =	USB_DT_INTERFACE_ASSOCIATION,
+ 
+ 	.bFirstInterface =	0, /* XXX, hardcoded */
+-	.bInterfaceCount = 	2,	// control + data
+-	.bFunctionClass =	USB_CLASS_COMM,
+-	.bFunctionSubClass =	USB_CDC_SUBCLASS_ETHERNET,
+-	.bFunctionProtocol =	USB_CDC_PROTO_NONE,
++	.bInterfaceCount =	2, // control + data
++	.bFunctionClass =	USB_CLASS_WIRELESS_CONTROLLER,
++	.bFunctionSubClass =	0x01,
++	.bFunctionProtocol =	USB_CDC_ACM_PROTO_AT_PCCA101_WAKE,
+ 	/* .iFunction = DYNAMIC */
+ };
+ 
+@@ -352,20 +359,104 @@ static struct usb_gadget_strings *rndis_strings[] = {
+ 	NULL,
+ };
+ 
++/*
++ * The transmit should only be run if no skb data has been sent
++ * for a certain duration.
++ */
++static enum hrtimer_restart rndis_tx_timeout(struct hrtimer *data)
++{
++	struct f_rndis *rndis = container_of(data, struct f_rndis, task_timer);
++	struct net_device *netdev = READ_ONCE(rndis->netdev);
++
++	if (netdev) {
++		/* XXX This allowance of a NULL skb argument to ndo_start_xmit
++		 * XXX is not sane.  The gadget layer should be redesigned so
++		 * XXX that the dev->wrap() invocations to build SKBs is transparent
++		 * XXX and performed in some way outside of the ndo_start_xmit
++		 * XXX interface.
++		 *
++		 * This will call directly into u_ether's eth_start_xmit()
++		 */
++		netdev->netdev_ops->ndo_start_xmit(NULL, netdev);
++	}
++	return HRTIMER_NORESTART;
++}
++
++static struct sk_buff *package_for_tx(struct f_rndis *rndis)
++{
++	struct sk_buff *skb = NULL;
++
++	/* Stop the timer */
++	hrtimer_try_to_cancel(&rndis->task_timer);
++
++	/* Merge the skbs */
++	swap(skb, rndis->prepared_tx_skb);
++
++	return skb;
++}
++
+ /*-------------------------------------------------------------------------*/
+ 
+ static struct sk_buff *rndis_add_header(struct gether *port,
+ 					struct sk_buff *skb)
+ {
+-	struct sk_buff *skb2;
++	struct f_rndis *rndis = func_to_rndis(&port->func);
++	struct usb_composite_dev *cdev = rndis->port.func.config->cdev;
++	struct rndis_params *params = rndis->params;
++	struct sk_buff *skb2 = NULL;
++	int head_len = sizeof(struct rndis_packet_msg_type);
++
++	if (skb) {
++		if (rndis->prepared_tx_skb &&
++			(rndis->prepared_tx_skb_count >= params->max_in_pkts_per_xfer ||
++			(rndis->prepared_tx_skb->len + skb->len + head_len) >=
++			params->max_in_size_per_xfer)) {
++			DBG(cdev, "prepared tx skb count %d, len %d\n",
++				rndis->prepared_tx_skb_count, rndis->prepared_tx_skb->len);
++			skb2 = package_for_tx(rndis);
++		}
++
++		if (!rndis->prepared_tx_skb) {
++			/* Create a new skb for multi xfer. */
++			DBG(cdev, "create a new multi skb, len %d\n", params->max_in_size_per_xfer);
++
++			rndis->prepared_tx_skb =
++				alloc_skb(params->max_in_size_per_xfer, GFP_ATOMIC);
++			if (!rndis->prepared_tx_skb)
++				goto err;
+ 
+-	if (!skb)
+-		return NULL;
++			rndis->prepared_tx_skb->dev = rndis->netdev;
++			rndis->prepared_tx_skb_count = 0;
+ 
++			/* Start the timer. */
++			hrtimer_start(&rndis->task_timer, TX_TIMEOUT_NSECS,
++				      HRTIMER_MODE_REL_SOFT);
++		}
++
++		/*
++		 * Add the new data to the skb
++		 * PacketAlignmentFactor is 0, no need to add padding
++		 */
++		rndis_copy_hdr(rndis->prepared_tx_skb, skb);
++		skb_put_data(rndis->prepared_tx_skb, skb->data, skb->len);
++		rndis->prepared_tx_skb_count++;
++		dev_consume_skb_any(skb);
++		skb = NULL;
++	} else if (rndis->prepared_tx_skb) {
++		/* If we get here eth_start_xmit() was called with NULL skb by
++		 * rndis_tx_timeout() - hence, this is our signal to flush/send.
++		 */
++		DBG(cdev, "timer expired, prepared tx skb count %d, len %d\n",
++			rndis->prepared_tx_skb_count, rndis->prepared_tx_skb->len);
++		skb2 = package_for_tx(rndis);
++	}
++	return skb2;
++
++err:
+ 	skb2 = skb_realloc_headroom(skb, sizeof(struct rndis_packet_msg_type));
+ 	rndis_add_hdr(skb2);
+ 
+-	dev_kfree_skb(skb);
++	dev_consume_skb_any(skb);
+ 	return skb2;
+ }
+ 
+@@ -546,6 +637,7 @@ static int rndis_set_alt(struct usb_function *f, unsigned intf, unsigned alt)
+ 
+ 		if (rndis->port.in_ep->enabled) {
+ 			DBG(cdev, "reset rndis\n");
++			rndis->netdev = NULL;
+ 			gether_disconnect(&rndis->port);
+ 		}
+ 
+@@ -582,8 +674,9 @@ static int rndis_set_alt(struct usb_function *f, unsigned intf, unsigned alt)
+ 		net = gether_connect(&rndis->port);
+ 		if (IS_ERR(net))
+ 			return PTR_ERR(net);
++		rndis->netdev = net;
+ 
+-		rndis_set_param_dev(rndis->params, net,
++		rndis_set_param_dev(&rndis->port, rndis->params, net,
+ 				&rndis->port.cdc_filter);
+ 	} else
+ 		goto fail;
+@@ -604,6 +697,7 @@ static void rndis_disable(struct usb_function *f)
+ 	DBG(cdev, "rndis deactivated\n");
+ 
+ 	rndis_uninit(rndis->params);
++	rndis->netdev = NULL;
+ 	gether_disconnect(&rndis->port);
+ 
+ 	usb_ep_disable(rndis->notify);
+@@ -793,6 +887,9 @@ rndis_bind(struct usb_configuration *c, struct usb_function *f)
+ 		goto fail_free_descs;
+ 	}
+ 
++	hrtimer_init(&rndis->task_timer, CLOCK_MONOTONIC, HRTIMER_MODE_REL_SOFT);
++	rndis->task_timer.function = rndis_tx_timeout;
++
+ 	/* NOTE:  all that is done without knowing or caring about
+ 	 * the network link ... which is unavailable to this code
+ 	 * until we're activated via set_alt().
+@@ -956,6 +1053,8 @@ static void rndis_unbind(struct usb_configuration *c, struct usb_function *f)
+ {
+ 	struct f_rndis		*rndis = func_to_rndis(f);
+ 
++	hrtimer_cancel(&rndis->task_timer);
++
+ 	kfree(f->os_desc_table);
+ 	f->os_desc_n = 0;
+ 	usb_free_all_descriptors(f);
+diff --git a/drivers/usb/gadget/function/rndis.c b/drivers/usb/gadget/function/rndis.c
+index 29bf8664bf58..fd321b53e46f 100644
+--- a/drivers/usb/gadget/function/rndis.c
++++ b/drivers/usb/gadget/function/rndis.c
+@@ -39,6 +39,8 @@
+ 
+ #include "rndis.h"
+ 
++static int max_out_pkts_per_xfer;
++static int max_out_size_per_xfer;
+ 
+ /* The driver for your USB chip needs to support ep0 OUT to work with
+  * RNDIS, plus all three CDC Ethernet endpoints (interrupt not optional).
+@@ -574,12 +576,12 @@ static int rndis_init_response(struct rndis_params *params,
+ 	resp->MinorVersion = cpu_to_le32(RNDIS_MINOR_VERSION);
+ 	resp->DeviceFlags = cpu_to_le32(RNDIS_DF_CONNECTIONLESS);
+ 	resp->Medium = cpu_to_le32(RNDIS_MEDIUM_802_3);
+-	resp->MaxPacketsPerTransfer = cpu_to_le32(1);
+-	resp->MaxTransferSize = cpu_to_le32(
+-		  params->dev->mtu
++	resp->MaxPacketsPerTransfer = cpu_to_le32(params->max_out_pkts_per_xfer);
++	resp->MaxTransferSize = cpu_to_le32(params->max_out_pkts_per_xfer *
++		  (params->dev->mtu
+ 		+ sizeof(struct ethhdr)
+ 		+ sizeof(struct rndis_packet_msg_type)
+-		+ 22);
++		+ 22));
+ 	resp->PacketAlignmentFactor = cpu_to_le32(0);
+ 	resp->AFListOffset = cpu_to_le32(0);
+ 	resp->AFListSize = cpu_to_le32(0);
+@@ -790,7 +792,7 @@ EXPORT_SYMBOL_GPL(rndis_set_host_mac);
+  */
+ int rndis_msg_parser(struct rndis_params *params, u8 *buf)
+ {
+-	u32 MsgType, MsgLength;
++	u32 MsgType, MsgLength, RequestID, MajorVersion, MinorVersion, MaxTransferSize;
+ 	__le32 *tmp;
+ 
+ 	if (!buf)
+@@ -813,7 +815,12 @@ int rndis_msg_parser(struct rndis_params *params, u8 *buf)
+ 	case RNDIS_MSG_INIT:
+ 		pr_debug("%s: RNDIS_MSG_INIT\n",
+ 			__func__);
++		RequestID   = get_unaligned_le32(tmp++);
++		MajorVersion = get_unaligned_le32(tmp++);
++		MinorVersion = get_unaligned_le32(tmp++);
++		MaxTransferSize = get_unaligned_le32(tmp++);
+ 		params->state = RNDIS_INITIALIZED;
++		params->max_in_size_per_xfer = MaxTransferSize;
+ 		return rndis_init_response(params, (rndis_init_msg_type *)buf);
+ 
+ 	case RNDIS_MSG_HALT:
+@@ -922,6 +929,8 @@ struct rndis_params *rndis_register(void (*resp_avail)(void *v), void *v)
+ 	params->media_state = RNDIS_MEDIA_STATE_DISCONNECTED;
+ 	params->resp_avail = resp_avail;
+ 	params->v = v;
++	params->max_in_pkts_per_xfer  = RNDIS_MAX_IN_PKTS_PER_XFER;
++	params->max_out_pkts_per_xfer = RNDIS_MAX_OUT_PKTS_PER_XFER;
+ 	INIT_LIST_HEAD(&params->resp_queue);
+ 	spin_lock_init(&params->resp_lock);
+ 	pr_debug("%s: configNr = %d\n", __func__, i);
+@@ -954,8 +963,8 @@ void rndis_deregister(struct rndis_params *params)
+ 	rndis_put_nr(i);
+ }
+ EXPORT_SYMBOL_GPL(rndis_deregister);
+-int rndis_set_param_dev(struct rndis_params *params, struct net_device *dev,
+-			u16 *cdc_filter)
++int rndis_set_param_dev(struct gether *port, struct rndis_params *params,
++			struct net_device *dev, u16 *cdc_filter)
+ {
+ 	pr_debug("%s:\n", __func__);
+ 	if (!dev)
+@@ -965,7 +974,18 @@ int rndis_set_param_dev(struct rndis_params *params, struct net_device *dev,
+ 
+ 	params->dev = dev;
+ 	params->filter = cdc_filter;
+-
++	params->max_out_size_per_xfer = (params->max_out_pkts_per_xfer *
++					(dev->mtu
++					+ sizeof(struct ethhdr)
++					+ sizeof(struct rndis_packet_msg_type)
++					+ 22));
++	port->is_fixed = true;
++	port->fixed_out_len = params->max_out_size_per_xfer;
++
++	pr_debug("mtu %d, fixed_out_len %d\n", dev->mtu, port->fixed_out_len);
++
++	max_out_pkts_per_xfer = params->max_out_pkts_per_xfer;
++	max_out_size_per_xfer = params->max_out_size_per_xfer;
+ 	return 0;
+ }
+ EXPORT_SYMBOL_GPL(rndis_set_param_dev);
+@@ -1013,6 +1033,23 @@ void rndis_add_hdr(struct sk_buff *skb)
+ }
+ EXPORT_SYMBOL_GPL(rndis_add_hdr);
+ 
++void rndis_copy_hdr(struct sk_buff *dest_skb, struct sk_buff *new_skb)
++{
++	struct rndis_packet_msg_type header;
++	int head_len = sizeof(header);
++
++	if (!dest_skb || !new_skb)
++		return;
++
++	memset(&header, 0, head_len);
++	header.MessageType = cpu_to_le32(RNDIS_MSG_PACKET);
++	header.MessageLength = cpu_to_le32(head_len + new_skb->len);
++	header.DataOffset = cpu_to_le32(36);
++	header.DataLength = cpu_to_le32(new_skb->len);
++	skb_put_data(dest_skb, &header, head_len);
++}
++EXPORT_SYMBOL_GPL(rndis_copy_hdr);
++
+ void rndis_free_response(struct rndis_params *params, u8 *buf)
+ {
+ 	rndis_resp_t *r, *n;
+@@ -1071,26 +1108,78 @@ int rndis_rm_hdr(struct gether *port,
+ 			struct sk_buff *skb,
+ 			struct sk_buff_head *list)
+ {
+-	/* tmp points to a struct rndis_packet_msg_type */
+-	__le32 *tmp = (void *)skb->data;
++	int ret = 0;
++	int num_pkts = 1;
+ 
+-	/* MessageType, MessageLength */
+-	if (cpu_to_le32(RNDIS_MSG_PACKET)
+-			!= get_unaligned(tmp++)) {
+-		dev_kfree_skb_any(skb);
+-		return -EINVAL;
+-	}
+-	tmp++;
++	while (skb->len) {
++		struct rndis_packet_msg_type *hdr;
++		struct sk_buff *skb2;
++		u32 msg_len, data_offset, data_len;
++
++		/* some rndis hosts send extra byte to avoid zlp, ignore it */
++		if (skb->len == 1) {
++			pr_info("skb len 1, should ignore!\n");
++			break;
++		}
++
++		if (skb->len < sizeof(*hdr)) {
++			pr_err("invalid rndis pkt: skblen:%u hdr_len:%zu",
++			       skb->len, sizeof(*hdr));
++			skb->len = 0;
++			ret = -EINVAL;
++			break;
++		}
+ 
+-	/* DataOffset, DataLength */
+-	if (!skb_pull(skb, get_unaligned_le32(tmp++) + 8)) {
+-		dev_kfree_skb_any(skb);
+-		return -EOVERFLOW;
++		hdr = (void *)skb->data;
++		msg_len = le32_to_cpu(hdr->MessageLength);
++		data_offset = le32_to_cpu(hdr->DataOffset);
++		data_len = le32_to_cpu(hdr->DataLength);
++
++		if (skb->len < msg_len ||
++		    ((data_offset + data_len + 8) > msg_len)) {
++			pr_err("invalid rndis message: %d/%d/%d/%d, len:%d\n",
++			       le32_to_cpu(hdr->MessageType),
++			       msg_len, data_offset, data_len, skb->len);
++			skb->len = 0;
++			ret = -EOVERFLOW;
++			break;
++		}
++		if (le32_to_cpu(hdr->MessageType) != RNDIS_MSG_PACKET) {
++			pr_err("invalid rndis message: %d/%d/%d/%d, len:%d\n",
++			       le32_to_cpu(hdr->MessageType), msg_len,
++			       data_offset, data_len, skb->len);
++			skb->len = 0;
++			ret = -EINVAL;
++			break;
++		}
++
++		skb_pull(skb, data_offset + 8);
++
++		if (data_len == skb->len) {
++			skb_trim(skb, data_len);
++			break;
++		}
++
++		skb2 = skb_clone(skb, GFP_ATOMIC);
++		if (!skb2) {
++			pr_err("%s:skb clone failed\n", __func__);
++			skb->len = 0;
++			ret = -ENOMEM;
++			break;
++		}
++
++		skb_pull(skb, msg_len - (data_offset + 8));
++		skb_trim(skb2, data_len);
++		skb_queue_tail(list, skb2);
++
++		num_pkts++;
+ 	}
+-	skb_trim(skb, get_unaligned_le32(tmp++));
++
++	if (num_pkts > max_out_pkts_per_xfer)
++		pr_err("max out pkts per xfer rcvd %d\n", num_pkts);
+ 
+ 	skb_queue_tail(list, skb);
+-	return 0;
++	return ret;
+ }
+ EXPORT_SYMBOL_GPL(rndis_rm_hdr);
+ 
+diff --git a/drivers/usb/gadget/function/rndis.h b/drivers/usb/gadget/function/rndis.h
+index 6206b8b7490f..d6acbc1577f8 100644
+--- a/drivers/usb/gadget/function/rndis.h
++++ b/drivers/usb/gadget/function/rndis.h
+@@ -19,6 +19,9 @@
+ #define RNDIS_MAXIMUM_FRAME_SIZE	1518
+ #define RNDIS_MAX_TOTAL_SIZE		1558
+ 
++#define RNDIS_MAX_IN_PKTS_PER_XFER	10
++#define RNDIS_MAX_OUT_PKTS_PER_XFER	3
++
+ typedef struct rndis_init_msg_type {
+ 	__le32	MessageType;
+ 	__le32	MessageLength;
+@@ -175,18 +178,24 @@ typedef struct rndis_params {
+ 	void			*v;
+ 	struct list_head	resp_queue;
+ 	spinlock_t		resp_lock;
++
++	u32			max_in_size_per_xfer;
++	u32			max_in_pkts_per_xfer;
++	u32			max_out_size_per_xfer;
++	u32			max_out_pkts_per_xfer;
+ } rndis_params;
+ 
+ /* RNDIS Message parser and other useless functions */
+ int  rndis_msg_parser(struct rndis_params *params, u8 *buf);
+ struct rndis_params *rndis_register(void (*resp_avail)(void *v), void *v);
+ void rndis_deregister(struct rndis_params *params);
+-int  rndis_set_param_dev(struct rndis_params *params, struct net_device *dev,
+-			 u16 *cdc_filter);
++int  rndis_set_param_dev(struct gether *port, struct rndis_params *params,
++			 struct net_device *dev, u16 *cdc_filter);
+ int  rndis_set_param_vendor(struct rndis_params *params, u32 vendorID,
+ 			    const char *vendorDescr);
+ int  rndis_set_param_medium(struct rndis_params *params, u32 medium,
+ 			     u32 speed);
++void rndis_copy_hdr(struct sk_buff *dest_skb, struct sk_buff *new_skb);
+ void rndis_add_hdr(struct sk_buff *skb);
+ int rndis_rm_hdr(struct gether *port, struct sk_buff *skb,
+ 			struct sk_buff_head *list);
+-- 
+2.34.1
 
---- Comment #15 from Benjamin (benjamin.sabatini@gmail.com) ---
-(In reply to Mika Westerberg from comment #13)
-> Okay with this you have ASPM disabled:
->=20
->               LnkCtl: ASPM Disabled; RCB 64 bytes, Disabled- CommClk+
->                       ExtSynch- ClockPM+ AutWidDis- BWInt- AutBWInt-
->               LnkSta: Speed 2.5GT/s (downgraded), Width x4 (downgraded)
->                       TrErr- Train- SlotClk+ DLActive- BWMgmt- ABWMgmt-
->=20
-> However, the link speed is now at gen 1 but I guess that gets adjusted th=
-en
-> as you mentioned. I suggest to check that when you play some affected game
-> that it actually runs at the 8GT/s x 4.
->=20
-> One more thing comes to mind but you probably checked it already. The game
-> may not be using the eGPU and instead it is running on the internal one.
-> With the Unigine benchmark it clearly used the eGPU.
-
-Hello. I'm just confirming the issue over TB4 on a Lenovo Z13 laptop and RX
-7600 XT in an eGPU setup using the same kernel parameters as workarounds
-(amd_iommu=3Doff instead). It never pulls more than ~50 watts and maybe ~20=
-00MHz
-on the GPU and ~400 MHz on the VRAM.
-
---=20
-You may reply to this email to add a comment.
-
-You are receiving this mail because:
-You are watching the assignee of the bug.=
