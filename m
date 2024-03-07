@@ -1,54 +1,58 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.16])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.11])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AE1C112882C;
-	Thu,  7 Mar 2024 11:25:13 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.16
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C48C412880A;
+	Thu,  7 Mar 2024 11:39:40 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.11
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1709810715; cv=none; b=HLW72eZt3HhfT+LHBALOqlJE/pPoJm9BgAPNCw8czUXYVHBrqJtEqfq7jIB74aLqHk1XETJrPqX6sfgQ98qQ7E4Oq4Iv/VOumYm2xCZFdrsIcz7v5nwftLObeYCqBuZG5QOiL5d2/dOPSrT34vHBPlBtmYC02XSUdj9BkgAEbAQ=
+	t=1709811582; cv=none; b=DfIc9ZkAvqHH00bg1JjD/7itnEvF84Q0hAxzU0n3UNtDN0SMJRLd4l9fCPIS4bsT5pXGpOdtFHFQsKCij8OMYwbFIUwUsqNbFNGLsjq7Jqrem3iebfYH2eVtQg6V/TUbk1Kn9IGUGvNdJOuJ0zbvMRWbo4KQ6Oqs+o/p3155ZlQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1709810715; c=relaxed/simple;
-	bh=Z4HVVWAlFYg3PWtT3chRrGJgGum707BJPs2HUlzA5Uo=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=FYuKks+0k2Ho/Z2hQZnUIDL7ECWgN8UDT143yJQ0y4KzDASGDm/l/LwPBCOhaqzOLGKOr3oMt7fhXvsMmL4GFAdF/gYTJg5ibatGew907aliwqf82RdUxnc/LjZjnCjUZQjy9t1W0+P8vayhvTnXScOCTcuAgnCcK5liQ3S8eT8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=none smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=OZ3uKtaj; arc=none smtp.client-ip=192.198.163.16
+	s=arc-20240116; t=1709811582; c=relaxed/simple;
+	bh=iqZV3mRl4X6woeXPEVm5WsIKnmDS1fVKh9IZ/j83Cvs=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=hqKKCi5a7o0ybw2EMJ2YUd0fGPBT5JvMv7H85kI6oj2LE5qgtpM5sLTqhd4kXNzNy1+kNuAqrwb9ZdTM6WmYt/Z8/lU9S5oEZn6/L4UqOlmuZQkeTFuHOeEbz8B1nbxOm8Fx6XuJhMqxzgHr0XIJM8DBgb0o8Uga6vI8i/gmAWM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=none smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=kmiMTaw1; arc=none smtp.client-ip=192.198.163.11
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=linux.intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="OZ3uKtaj"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="kmiMTaw1"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1709810713; x=1741346713;
+  t=1709811581; x=1741347581;
   h=from:to:cc:subject:date:message-id:mime-version:
    content-transfer-encoding;
-  bh=Z4HVVWAlFYg3PWtT3chRrGJgGum707BJPs2HUlzA5Uo=;
-  b=OZ3uKtajGN23jUk3HUKlwXYxUqn4/aYaFNIHPKFuSSJ7DAm8M7ErWZ5j
-   CpnGeaj4A8Yk8jan+YaaWNwecsew5Pi889WQrPcwgAe6poRDP5EP/mnLd
-   v2i1ezWQDFz3k5ExnmqmHuXm55yQGUArdIZslF+JwOHCDC7GyIaPJKatK
-   V002GCUZcxlRXtUlMBRJuzBlVjEA3GCdNWBS/xbsRPwJDBFBTyLjd+Eaf
-   0CXaLYmF3gfvVsXSAK7450iKhEVCwNXkAl3o1Lig0fs4rQXzulC2P3qop
-   qgVfT51YPD3P4Gos4zkQWEin5Ptrat454AYcW7fJssav5sCYT5PWLS79M
-   Q==;
-X-IronPort-AV: E=McAfee;i="6600,9927,11005"; a="5059845"
+  bh=iqZV3mRl4X6woeXPEVm5WsIKnmDS1fVKh9IZ/j83Cvs=;
+  b=kmiMTaw1cH/re/xSqBDGCcX6d6CBWoDBOWXenfXI696CzQ0zLdruv0YA
+   36uBXcXqYySo3IHY0hu8Rvsa1xFZcWzhCSCyT0oUzpsV3RrtVmRl20EP0
+   kzglAvqx+yLQxyLefIYceYq4O+A2X/Ml60Sv6MjsIUGR6rvydw0v7A4f8
+   tnJySPkgYO5Ff/obxYEndpLx36P4YrNAJm7634OFtJQs4x/vuDX8CVNRG
+   Hhymf7kA6pbzjo0nR2Ek8OEsmeNQeYZmILrYKOJzEU/3PHu6iLxAGukfX
+   +qv1lj9EB2+yGuN6s9aGLrGjFbGDTl2WxMpTH4OHzoz9BvDoaOgrB9ctP
+   g==;
+X-IronPort-AV: E=McAfee;i="6600,9927,11005"; a="15119379"
 X-IronPort-AV: E=Sophos;i="6.07,211,1708416000"; 
-   d="scan'208";a="5059845"
+   d="scan'208";a="15119379"
 Received: from fmsmga001.fm.intel.com ([10.253.24.23])
-  by fmvoesa110.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 07 Mar 2024 03:25:12 -0800
+  by fmvoesa105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 07 Mar 2024 03:39:40 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,11005"; a="937045837"
+X-IronPort-AV: E=McAfee;i="6600,9927,11005"; a="937045877"
 X-IronPort-AV: E=Sophos;i="6.07,211,1708416000"; 
-   d="scan'208";a="937045837"
+   d="scan'208";a="937045877"
 Received: from black.fi.intel.com ([10.237.72.28])
-  by fmsmga001.fm.intel.com with ESMTP; 07 Mar 2024 03:25:11 -0800
+  by fmsmga001.fm.intel.com with ESMTP; 07 Mar 2024 03:39:37 -0800
 Received: by black.fi.intel.com (Postfix, from userid 1003)
-	id 4F3BA193; Thu,  7 Mar 2024 13:25:10 +0200 (EET)
+	id C3BB4193; Thu,  7 Mar 2024 13:39:36 +0200 (EET)
 From: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
-To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+To: linux-arm-kernel@lists.infradead.org,
 	linux-usb@vger.kernel.org,
 	linux-kernel@vger.kernel.org
-Cc: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
-Subject: [PATCH v1 1/1] usb: gadget/snps_udc_plat: Remove unused of_gpio.h
-Date: Thu,  7 Mar 2024 13:25:09 +0200
-Message-ID: <20240307112509.3627937-1-andriy.shevchenko@linux.intel.com>
+Cc: Daniel Mack <daniel@zonque.org>,
+	Haojian Zhuang <haojian.zhuang@gmail.com>,
+	Robert Jarzmik <robert.jarzmik@free.fr>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	Andy Shevchenko <andriy.shevchenko@linux.intel.com>
+Subject: [PATCH v1 1/1] USB: gadget: pxa27x_udc: Remove unused of_gpio.h
+Date: Thu,  7 Mar 2024 13:39:36 +0200
+Message-ID: <20240307113936.3642469-1-andriy.shevchenko@linux.intel.com>
 X-Mailer: git-send-email 2.43.0.rc1.1.gbec44491f096
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
@@ -63,21 +67,21 @@ The driver doesn't use it, simply remove the unused header.
 
 Signed-off-by: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
 ---
- drivers/usb/gadget/udc/snps_udc_plat.c | 1 -
+ drivers/usb/gadget/udc/pxa27x_udc.c | 1 -
  1 file changed, 1 deletion(-)
 
-diff --git a/drivers/usb/gadget/udc/snps_udc_plat.c b/drivers/usb/gadget/udc/snps_udc_plat.c
-index 547af2ed9e5e..ba5a06690507 100644
---- a/drivers/usb/gadget/udc/snps_udc_plat.c
-+++ b/drivers/usb/gadget/udc/snps_udc_plat.c
-@@ -8,7 +8,6 @@
- #include <linux/extcon.h>
- #include <linux/of_address.h>
- #include <linux/of_irq.h>
+diff --git a/drivers/usb/gadget/udc/pxa27x_udc.c b/drivers/usb/gadget/udc/pxa27x_udc.c
+index 61424cfd2e1c..1a6317e4b2a3 100644
+--- a/drivers/usb/gadget/udc/pxa27x_udc.c
++++ b/drivers/usb/gadget/udc/pxa27x_udc.c
+@@ -24,7 +24,6 @@
+ #include <linux/byteorder/generic.h>
+ #include <linux/platform_data/pxa2xx_udc.h>
+ #include <linux/of.h>
 -#include <linux/of_gpio.h>
- #include <linux/platform_device.h>
- #include <linux/phy/phy.h>
- #include <linux/module.h>
+ 
+ #include <linux/usb.h>
+ #include <linux/usb/ch9.h>
 -- 
 2.43.0.rc1.1.gbec44491f096
 
