@@ -1,39 +1,65 @@
-Received: from relay5-d.mail.gandi.net (relay5-d.mail.gandi.net [217.70.183.197])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wm1-f43.google.com (mail-wm1-f43.google.com [209.85.128.43])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 68C78128396;
-	Thu,  7 Mar 2024 09:55:21 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.70.183.197
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9906383CB9;
+	Thu,  7 Mar 2024 10:51:38 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.43
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1709805323; cv=none; b=CEeiJWS8j0kZ/Pgse4nB6pMPvxSfVyh0OcjSNT+j0T/BUKLIXlXmFZIm8ta65dKbtrhN5tcAiyS2/q9mHja3As1chlwZK4a3vsOFJqrmqA5zrlNKF92SIPtxJsCP/KVjubirdvkwD67S0ciBFesalQjbKd7M2lBHinvpxFC9guE=
+	t=1709808700; cv=none; b=LKas4FOh7ylqgrUZs08kVj/4mo4o9z+xDinO45iNmjO3IZCEXFv2xuvnpETBAQkNBFkJipCoxH2rf1HQ2CIoj9CLyy07iiudoUAd8lvNEGQRnhp+6h+kpfRngt45980QF3kfrXWN89gsubF/ruXO4EtOFGFd5Jj36JlYNqSH8Tg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1709805323; c=relaxed/simple;
-	bh=0tZdFeijHB9YMUxabiDXE3y6atvPRlg0wA4sm39K8sA=;
-	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
-	 In-Reply-To:To:Cc; b=Fj3f8b26AKUrMT5HZhiwvMgbcjYfFQ2FUM9w9LOA2k8RbMt0HlxXBcmrtZgnHCvwzwPLXvskcXM/G7JZU7eFxw/55XJOUdh02VlWRisb2v/WMdIgCjey/3L85iF8zYjFT+JXkv03GHAA5x+4HLlnh7l42kq2TsYyHFMhBhweIFw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com; spf=pass smtp.mailfrom=bootlin.com; dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b=GVyKiu3m; arc=none smtp.client-ip=217.70.183.197
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=bootlin.com
+	s=arc-20240116; t=1709808700; c=relaxed/simple;
+	bh=LFi8S+OWOa1EYqqXXM+L4rFj+uOGc2AEYkl18pL38+0=;
+	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version:Content-Type; b=ECr3HlnhImdONHA0JfAC97CqcTD09/R9v3pnCJBlN5H3M5U4eHwJqNiMhImFsawI/MbJteccxMOsueeOwNU6UpnOtt9Xr6hvlbc1Oy1tn6Hopz4dNElTztQXMKyFGBiY1UM5BATSVAZhWbp6rpT8WkS7J8igIrtSuyoqicPDtKw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=Bw4K5vLn; arc=none smtp.client-ip=209.85.128.43
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b="GVyKiu3m"
-Received: by mail.gandi.net (Postfix) with ESMTPSA id 44F551C0014;
-	Thu,  7 Mar 2024 09:55:13 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=gm1;
-	t=1709805314;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=SGwpJdmrXnr5kCZ7jekdFRDPw/Wb1kTlGDHTcb2LulM=;
-	b=GVyKiu3mOGix73RAAo10YDgwzKGGEwexrved6rLPs2VZBOhJie6KSBxn8ebNTKl+kLGejA
-	BXWvO0aJeEsv6ulxFQZkCBcf8kHJ6mq5nydhLme3zyJTliHtOumKpM+T5wMwt/25IKh6Im
-	ukjRVrDDrQRxYLXa6swnz+1DOgwNB1AS5TXG0ML6ealSEo+wBTp/1POJQtd8WBucIyMCKC
-	f2AftKM/PFvJQCJtv9pF3f4jFJzQEH34YOiIm+ePS8QpNxuXz+cdBULjdS/UUR+pbBCM7O
-	ta5VSCFxl+Oka+t1+qZQVCm1yYyMiEjXTuk9orIEI+C3th5QxDjlMUj2/FBijQ==
-From: =?utf-8?q?Th=C3=A9o_Lebrun?= <theo.lebrun@bootlin.com>
-Date: Thu, 07 Mar 2024 10:55:07 +0100
-Subject: [PATCH v4 6/9] usb: cdns3: add quirk to platform data for
- reset-on-resume
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Bw4K5vLn"
+Received: by mail-wm1-f43.google.com with SMTP id 5b1f17b1804b1-4130e293686so5240945e9.3;
+        Thu, 07 Mar 2024 02:51:38 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1709808697; x=1710413497; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=ZOL8jp68frDmdFmotjs/CjSEGrRrsCfDr/cS6FaUvfQ=;
+        b=Bw4K5vLn1BbT5HKrWqMEiNe4yyYkqN6ok3MFtRFgjqu5Bc9fkXMmMVlhMIT/Jafexa
+         SsbIeU0zvSammARhKpPaz1PNva67iJyMIjo/BrGytZCC1aCzOrwW4WJkNHQn+l6iW8M/
+         Zg3s1WL+C6m0iT8egEhoKjb1UlubR/IEZd6IBUHlyZt3t5ADkUyUa2XMGMzcEN5dkInU
+         beDc4lHAHde7cdVBr3HaNq2pc6VWgHM3kvHOJxDsO09UU2FXntWjOb7z3mGno90RQQxH
+         TluxCQ1v/6NMJLsy4GyUaotSwP3NRi82TQrzPESMdrj3PW+EXGb6RjHEEAHtFhAoT+pO
+         QWkA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1709808697; x=1710413497;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=ZOL8jp68frDmdFmotjs/CjSEGrRrsCfDr/cS6FaUvfQ=;
+        b=Am0G5Y8qe4oThMDJEYc9vMIvrFu60R3oUt7gfcUaUcNjTMGLwv7guUC2VMB2pxdIbk
+         vMoBsNw7M/e6clWePczaqK/fzNuFRxPmzZ5Uem4JUTbS/Gm37tYrfT8s0PHhjQNH93Rd
+         Ql8hyG4iEIU4rdvwqS8rw7Ibp9Hqs9MrsZFxe/3NGlhUtZ07j5C87S2OG1xM/MiPOUgJ
+         kautF65FMy8iM6zwGILQMm+eLHSo2Gtav8Q4nUGvlerRDOFYTXAorjhXwi+/mUv4iIk6
+         xHOd8orv6n7ZLUm9lVuX2xLf4FkiqSkzEmmiW+5YKLICHml11ZPLEVQsbwsK99Fo9XlA
+         zjIA==
+X-Forwarded-Encrypted: i=1; AJvYcCXFxzOFnUf1iIjvK1XiIeFKNYfvVfp0wM3gGjlYq99Ezn5+8WABcV+hrK688dAZDrkQgZMDPx0YdpQYIyS3NiNtQB6DrShDXr1BsGJm9PmGMOrXeROONI5kYhYPycIe8B3z2F61bpEl
+X-Gm-Message-State: AOJu0YxmRn3H/qUeegtIYR8D8NjaI74ro/KvDSH+/gMrGO+Y/fA98KRf
+	aawvZFPwQVzg+9OgGTH2VAtXj2WzVPDzZyQGoKH3gjApKj3OMp2cBaOngbTDcUU=
+X-Google-Smtp-Source: AGHT+IGeEgkRgsaiFwIjcNuzK8ZuJjK2X784yUxLBu2x7jaeWNAD/A3sG6sJX9D0PSNNKgNvB3Mxaw==
+X-Received: by 2002:adf:f249:0:b0:33b:87fb:7106 with SMTP id b9-20020adff249000000b0033b87fb7106mr12194062wrp.55.1709808696943;
+        Thu, 07 Mar 2024 02:51:36 -0800 (PST)
+Received: from localhost (cpc154979-craw9-2-0-cust193.16-3.cable.virginm.net. [80.193.200.194])
+        by smtp.gmail.com with ESMTPSA id bk23-20020a0560001d9700b0033d282c7537sm20282575wrb.23.2024.03.07.02.51.36
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 07 Mar 2024 02:51:36 -0800 (PST)
+From: Colin Ian King <colin.i.king@gmail.com>
+To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	u.kleine-koenig@pengutronix.de,
+	linux-usb@vger.kernel.org
+Cc: kernel-janitors@vger.kernel.org,
+	linux-kernel@vger.kernel.org
+Subject: [PATCH][next] usb: gadget: net2272: remove redundant variable irqflags
+Date: Thu,  7 Mar 2024 10:51:35 +0000
+Message-Id: <20240307105135.1981060-1-colin.i.king@gmail.com>
+X-Mailer: git-send-email 2.39.2
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
@@ -42,71 +68,49 @@ List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 8bit
-Message-Id: <20240307-j7200-usb-suspend-v4-6-5ec7615431f3@bootlin.com>
-References: <20240307-j7200-usb-suspend-v4-0-5ec7615431f3@bootlin.com>
-In-Reply-To: <20240307-j7200-usb-suspend-v4-0-5ec7615431f3@bootlin.com>
-To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>, 
- Rob Herring <robh+dt@kernel.org>, 
- Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>, 
- Conor Dooley <conor+dt@kernel.org>, Roger Quadros <rogerq@kernel.org>, 
- Peter Chen <peter.chen@kernel.org>, Pawel Laszczak <pawell@cadence.com>, 
- Nishanth Menon <nm@ti.com>, Vignesh Raghavendra <vigneshr@ti.com>, 
- Tero Kristo <kristo@kernel.org>
-Cc: Thomas Petazzoni <thomas.petazzoni@bootlin.com>, 
- =?utf-8?q?Gr=C3=A9gory_Clement?= <gregory.clement@bootlin.com>, 
- Kevin Hilman <khilman@kernel.org>, Alan Stern <stern@rowland.harvard.edu>, 
- linux-usb@vger.kernel.org, devicetree@vger.kernel.org, 
- linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org, 
- =?utf-8?q?Th=C3=A9o_Lebrun?= <theo.lebrun@bootlin.com>
-X-Mailer: b4 0.13.0
-X-GND-Sasl: theo.lebrun@bootlin.com
 
-The cdns3 host role does not care about reset-on-resume. xHCI however
-reconfigures itself in silence rather than printing a warning about a
-resume error. Related warning example:
+The variable irqflags is being initialized and being bit-or'd with
+values but it is never read afterwards. The variable is redundant
+and can be removed.
 
-  [   16.017462] xhci-hcd xhci-hcd.1.auto: xHC error in resume, USBSTS 0x401, Reinit
+Cleans up clang scan build warning:
+drivers/usb/gadget/udc/net2272.c:2610:15: warning: variable 'irqflags'
+set but not used [-Wunused-but-set-variable]
 
-Allow passing a CDNS3_RESET_ON_RESUME quirk flag from cdns3 pdata down
-to xHCI pdata. The goal is to allow signaling about reset-on-resume
-behavior from platform wrapper drivers.
-
-When used, remote wakeup is not expected to work.
-
-Acked-by: Peter Chen <peter.chen@kernel.org>
-Signed-off-by: Théo Lebrun <theo.lebrun@bootlin.com>
+Signed-off-by: Colin Ian King <colin.i.king@gmail.com>
 ---
- drivers/usb/cdns3/core.h | 1 +
- drivers/usb/cdns3/host.c | 3 +++
- 2 files changed, 4 insertions(+)
+ drivers/usb/gadget/udc/net2272.c | 11 -----------
+ 1 file changed, 11 deletions(-)
 
-diff --git a/drivers/usb/cdns3/core.h b/drivers/usb/cdns3/core.h
-index 81a9c9d6be08..7487067ba23f 100644
---- a/drivers/usb/cdns3/core.h
-+++ b/drivers/usb/cdns3/core.h
-@@ -44,6 +44,7 @@ struct cdns3_platform_data {
- 			bool suspend, bool wakeup);
- 	unsigned long quirks;
- #define CDNS3_DEFAULT_PM_RUNTIME_ALLOW	BIT(0)
-+#define CDNS3_RESET_ON_RESUME		BIT(1)
- };
+diff --git a/drivers/usb/gadget/udc/net2272.c b/drivers/usb/gadget/udc/net2272.c
+index 12e76bb62c20..afd2a836be6d 100644
+--- a/drivers/usb/gadget/udc/net2272.c
++++ b/drivers/usb/gadget/udc/net2272.c
+@@ -2607,7 +2607,6 @@ net2272_plat_probe(struct platform_device *pdev)
+ {
+ 	struct net2272 *dev;
+ 	int ret;
+-	unsigned int irqflags;
+ 	resource_size_t base, len;
+ 	struct resource *iomem, *iomem_bus, *irq_res;
  
- /**
-diff --git a/drivers/usb/cdns3/host.c b/drivers/usb/cdns3/host.c
-index 6164fc4c96a4..28c4d1deb231 100644
---- a/drivers/usb/cdns3/host.c
-+++ b/drivers/usb/cdns3/host.c
-@@ -91,6 +91,9 @@ static int __cdns_host_init(struct cdns *cdns)
- 	if (cdns->pdata && (cdns->pdata->quirks & CDNS3_DEFAULT_PM_RUNTIME_ALLOW))
- 		cdns->xhci_plat_data->quirks |= XHCI_DEFAULT_PM_RUNTIME_ALLOW;
+@@ -2623,16 +2622,6 @@ net2272_plat_probe(struct platform_device *pdev)
+ 	if (IS_ERR(dev))
+ 		return PTR_ERR(dev);
  
-+	if (cdns->pdata && (cdns->pdata->quirks & CDNS3_RESET_ON_RESUME))
-+		cdns->xhci_plat_data->quirks |= XHCI_RESET_ON_RESUME;
-+
- 	ret = platform_device_add_data(xhci, cdns->xhci_plat_data,
- 			sizeof(struct xhci_plat_priv));
- 	if (ret)
-
+-	irqflags = 0;
+-	if (irq_res->flags & IORESOURCE_IRQ_HIGHEDGE)
+-		irqflags |= IRQF_TRIGGER_RISING;
+-	if (irq_res->flags & IORESOURCE_IRQ_LOWEDGE)
+-		irqflags |= IRQF_TRIGGER_FALLING;
+-	if (irq_res->flags & IORESOURCE_IRQ_HIGHLEVEL)
+-		irqflags |= IRQF_TRIGGER_HIGH;
+-	if (irq_res->flags & IORESOURCE_IRQ_LOWLEVEL)
+-		irqflags |= IRQF_TRIGGER_LOW;
+-
+ 	base = iomem->start;
+ 	len = resource_size(iomem);
+ 	if (iomem_bus)
 -- 
-2.44.0
+2.39.2
 
