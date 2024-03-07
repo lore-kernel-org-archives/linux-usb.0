@@ -1,261 +1,170 @@
-Received: from mail-ej1-f52.google.com (mail-ej1-f52.google.com [209.85.218.52])
+Received: from mail-pg1-f177.google.com (mail-pg1-f177.google.com [209.85.215.177])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BC8EC129A64
-	for <linux-usb@vger.kernel.org>; Thu,  7 Mar 2024 11:39:42 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.52
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6FDCB129A72;
+	Thu,  7 Mar 2024 11:57:54 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.215.177
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1709811586; cv=none; b=FfMHfKXTgFxRZ7b1AMdLwSh6RJe1f0oTckcuKADwktlW+5EDTwD39tjhSVvcyeJJL/wWBFIwMg+4U+RoHvExIbCe9JpTxMxz4XXXS6ol0Y2p1TW01SHs+8B/gQg77g7lV/gCBbbFxAKAOTrBbYM30+gnZTlR0A7gUj5ZE6HyH5E=
+	t=1709812675; cv=none; b=B92GCGaZplNm2Hv4oUB7GPF/RjmjGxm80s+NXbU7yMXD5psejiV2ICTHe1Atxo5uiThH/9YjgSdA88xNxLVNWOU+0mpzx6wd829tSu6bsaod4Yjin3D814L1CL5exm4nFBBDc7b5wkN7V5Vf68BUciBwVhjcZnbw0mLgcCRmwK0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1709811586; c=relaxed/simple;
-	bh=kUtRXFv03Af2myonOW7iJH+7QC6OB41YDaO4QoZ6erc=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=HhrOTiQrMsFULlX0ZcRXeG661eN9wX/ZO/GTMEMGETP2z3uuhhk46gkgNWYOySfVguJD4zqFL6NV8l19EmwazxHNfQOh/5aGzuNT0riuW7HXRF5iFPjGOTw+YA5GR6Bm5mXDpd0gbtizkyNY+Vd4xcMfeMXhqAljHxdT1VCSMTc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=amarulasolutions.com; spf=pass smtp.mailfrom=amarulasolutions.com; dkim=pass (1024-bit key) header.d=amarulasolutions.com header.i=@amarulasolutions.com header.b=Y/EKx0x5; arc=none smtp.client-ip=209.85.218.52
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=amarulasolutions.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=amarulasolutions.com
+	s=arc-20240116; t=1709812675; c=relaxed/simple;
+	bh=J86UKY8qhazKaB7pPML7j0nM+vkhkOPEx5DuuIIA3J8=;
+	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
+	 MIME-Version; b=PCcry7tefH44Ia3qqHzUEKceLJSLwnCU7JbAQ7o9fQmbPJ4ie8uA7HCTBODmZBUfnduPHTQftIgDaRsZDnZUF+gDQ0glGhDHNXYLpu9aaZNH93BCn4fQ5MMaxSSBqaT5Lg+2qvk+Rs1QZIWLVaDOwGL464fvtWvpVb1HASxY0cQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=JKPelkEM; arc=none smtp.client-ip=209.85.215.177
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=amarulasolutions.com header.i=@amarulasolutions.com header.b="Y/EKx0x5"
-Received: by mail-ej1-f52.google.com with SMTP id a640c23a62f3a-a45bdf6e9c2so99571066b.0
-        for <linux-usb@vger.kernel.org>; Thu, 07 Mar 2024 03:39:42 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="JKPelkEM"
+Received: by mail-pg1-f177.google.com with SMTP id 41be03b00d2f7-5dbd519bde6so657265a12.1;
+        Thu, 07 Mar 2024 03:57:54 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=amarulasolutions.com; s=google; t=1709811581; x=1710416381; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
+        d=gmail.com; s=20230601; t=1709812674; x=1710417474; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=YmyofjGAATtNfbRkux5Tn72b+cMR3JWBDg4s/dxWhdo=;
-        b=Y/EKx0x5FXWSK4MlpeFFvF/bYC5iptrL7fmE9E2CucLtax9Pc++SOtueQjtpRBd6Qe
-         IVd10xEupxQeXchwYjwfxiNeoJObcSR+hIGuUdWAB6QhL4iqZ5RF7ux8KIga9Fu3AWzR
-         laGbJj0ikVnzSUnGPOvwof/O4w2oGiVHEYdLs=
+        bh=GnDe8WtbZ9hcODNTV3jRGEgDe7+iT2YCtcCLNf4Qsns=;
+        b=JKPelkEMPcXIaOxjKzKvJfNaJXgH8pc9Ej3xlH1GvengBtze6GwrVyclaj9KFj1QqN
+         ua1F90If9HQV2l5MpwA8EQ63HvAbsyRp4pXSuJE5sy8dGlDPWd0d96eJv4hb1aQB3lwO
+         I7ONpCUrtzNVMojZgOgwOCkQ4y83ElfCbx5BNnnhhTsf0T30ljbdjX1Wy1Wm9vAPT76V
+         ouSEoApFTO6IfvnxAS82dviTPec5xR2b4zN4UdFTohmE+0qDxygEt+ORz6wwopVjmb2h
+         NwxP258R4n9hB1z850MeCvTZBlZ8myS1tveZGfkpw5G8Xt4zi02G8Y/85G4hY5HMniJ6
+         J/LQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1709811581; x=1710416381;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+        d=1e100.net; s=20230601; t=1709812674; x=1710417474;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=YmyofjGAATtNfbRkux5Tn72b+cMR3JWBDg4s/dxWhdo=;
-        b=BDSfBFtqxyWNIOjOl2dJ69IsQ6+V49R8VcOp6mZLQWopzIFr0MSJTQMHhmy4yu9BQz
-         bEE5q4RoSd+zFxMctNbX6r6Khmu131E6SK87dNxt3894vH5mHX3SRFFixHOHG0ak3dn3
-         Cmcba3mkGSysuyplaEA+WYdjalR0jahmoqJmHLUqs0L3aH0mn6v8JToKJC9mzIE4uoeX
-         KNEmRZ+QSX8BPW6g19PzjPVjLNKBOidbLhgXqlxp+wBjj1a/wZAGq4VW0yqpqsAmibgz
-         aPysvLS99NcT4KkdI1KBW6QzSmJLEdtC6HHEA8nFj+k4rlUpKZ4ekpkNWjL09sPj1wZu
-         gV3Q==
-X-Forwarded-Encrypted: i=1; AJvYcCUvf+vvu/1eoBOjgOY8d+0hAz7ohtfXj/+q4CdTPs9gg8/omvQtNFq1sUamafT3wuZvsmE8SJIUysE0XGSM/+PLicPdFB/Ms78e
-X-Gm-Message-State: AOJu0YwVMZMmBJc/DX3G9p3KfRjHVaqqAsjhZcXganRnArkOuSkrpQLz
-	Yp83fiO6rQsCgbDFyzBhHJEvPMflfGXTZwFTxHSScKN9sx15xmLSUUtf2TYiKdlsgNjtussEYuH
-	p6cdUn5ixgCMvCsHaQSFJEHbHNHrqeQrFsbDOig==
-X-Google-Smtp-Source: AGHT+IEq4uXLnuvDMQxDLscG2Nl653AwCF7NrOD6IMSI06nfTPmzUcMJtV8xTGceFascG/93JVOwtTXBnv4kJciRtnM=
-X-Received: by 2002:a17:906:6049:b0:a45:c8cb:f5c1 with SMTP id
- p9-20020a170906604900b00a45c8cbf5c1mr1697588ejj.63.1709811580611; Thu, 07 Mar
- 2024 03:39:40 -0800 (PST)
+        bh=GnDe8WtbZ9hcODNTV3jRGEgDe7+iT2YCtcCLNf4Qsns=;
+        b=ZlNOjMvev5cDBFrI5dcdOq2Ci6PdBvR5cTW4grc1w9Fcu/Kw21oF4w7evx3GIfkm9S
+         6x7Iwps7cNkgyJrCJbO1wZOEfwa4mX3VbQVCCexxzYXof850OtYNtdnsPEDSz85S0U9e
+         8AKyh55qKQeMfLMQV0X0Cpg1B8bng9J3yRsNqy7QFIKzBgF86EULIyfHhiucGvCaO/D/
+         s2ZdGBt87J5zTvsirHFIU6cFMhQBT4U1F+sA3FRFsHNpN+yuXlp2ioPbIOj+EYdTR2MZ
+         bj+dB+l6LhKv4pwGZ88lghCV95ig+Jw2wYZrpq7ffI6tMTi2V9E/iKQHePz+yV8JAD4g
+         yEgA==
+X-Forwarded-Encrypted: i=1; AJvYcCVL4lsdZrV6FUfeeAtxQAFgYbZGEwJnj1+C8KgtnQvCr+kdB04spG+MtSs3vu6b3ts+beWWcnx1JO9Tz6Ss/rtpm1W/cVBmU7HRxE3z
+X-Gm-Message-State: AOJu0YwHqPjar0FOBkZk+xpzxliuc9HTccYOrIMA+ahnnrfuZ6dPIroL
+	g85Reh+rQ0e/XbjaU2VGLADUMrrIR9G+b2xD2q7eSg1ea2ZJrPJ1
+X-Google-Smtp-Source: AGHT+IGh+oenmFUHmGunUsmpdxKdgB27yRhLeGFEaRlazILAGetA315ev5uBqawUMt3AexyzdHKHHQ==
+X-Received: by 2002:a05:6a20:ba84:b0:1a1:4df8:1ec4 with SMTP id fb4-20020a056a20ba8400b001a14df81ec4mr6282239pzb.19.1709812673611;
+        Thu, 07 Mar 2024 03:57:53 -0800 (PST)
+Received: from VM-147-239-centos.localdomain ([14.22.11.162])
+        by smtp.gmail.com with ESMTPSA id q4-20020a63e944000000b005dc1edf7371sm12722063pgj.9.2024.03.07.03.57.51
+        (version=TLS1_2 cipher=ECDHE-ECDSA-AES128-GCM-SHA256 bits=128/128);
+        Thu, 07 Mar 2024 03:57:53 -0800 (PST)
+From: Yongzhi Liu <hyperlyzcs@gmail.com>
+To: hdegoede@redhat.com,
+	wentong.wu@intel.com,
+	gregkh@linuxfoundation.org,
+	andi.shyti@linux.intel.com
+Cc: linux-usb@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	jitxie@tencent.com,
+	huntazhang@tencent.com,
+	Yongzhi Liu <hyperlyzcs@gmail.com>
+Subject: [PATCH V2] usb: misc: ljca: Fix double free in error handling path
+Date: Thu,  7 Mar 2024 19:57:43 +0800
+Message-Id: <20240307115743.13104-1-hyperlyzcs@gmail.com>
+X-Mailer: git-send-email 2.36.1
+In-Reply-To: <2c77e58a-fe07-464f-9032-3933080be349@redhat.com>
+References: <2c77e58a-fe07-464f-9032-3933080be349@redhat.com>
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20240226100502.1845284-1-michael@amarulasolutions.com>
- <20240226223643.pay4tb66j3q44cuk@synopsys.com> <CAOf5uwkcFuSRZy3F44pSZFpHk5Hah-r8m01JLt3Gd1ngvg-CPQ@mail.gmail.com>
- <20240307012847.2tkn7nu3juf2x6w2@synopsys.com>
-In-Reply-To: <20240307012847.2tkn7nu3juf2x6w2@synopsys.com>
-From: Michael Nazzareno Trimarchi <michael@amarulasolutions.com>
-Date: Thu, 7 Mar 2024 12:39:29 +0100
-Message-ID: <CAOf5uwnx+VYXZnNHAHK9_6dLh5XsNJaQPSwbfUuER1uWwe4_gw@mail.gmail.com>
-Subject: Re: [PATCH V3] usb: dwc3: gadget: Fix suspend/resume warning when
- no-gadget is connected
-To: Thinh Nguyen <Thinh.Nguyen@synopsys.com>
-Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>, 
-	"linux-usb@vger.kernel.org" <linux-usb@vger.kernel.org>, 
-	"linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>, 
-	"linux-amarula@amarulasolutions.com" <linux-amarula@amarulasolutions.com>, 
-	"stable@vger.kernel.org" <stable@vger.kernel.org>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Transfer-Encoding: 8bit
 
-Hi
+When auxiliary_device_add() returns error and then calls
+auxiliary_device_uninit(), callback function ljca_auxdev_release
+calls kfree(auxdev->dev.platform_data) to free the parameter data
+of the function ljca_new_client_device. The callers of
+ljca_new_client_device shouldn't call kfree() again
+in the error handling path to free the platform data.
 
-On Thu, Mar 7, 2024 at 2:30=E2=80=AFAM Thinh Nguyen <Thinh.Nguyen@synopsys.=
-com> wrote:
->
-> Hi,
->
-> On Mon, Feb 26, 2024, Michael Nazzareno Trimarchi wrote:
-> > Hi
-> >
-> > On Mon, Feb 26, 2024 at 11:36=E2=80=AFPM Thinh Nguyen <Thinh.Nguyen@syn=
-opsys.com> wrote:
-> > >
-> > > Hi,
-> > >
-> > > On Mon, Feb 26, 2024, Michael Trimarchi wrote:
-> > > > This patch avoid to disconnect an already gadget in not connected s=
-tate
-> > > >
-> > > > [   45.597274] dwc3 31000000.usb: wait for SETUP phase timed out
-> > > > [   45.599140] dwc3 31000000.usb: failed to set STALL on ep0out
-> > > > [   45.601069] ------------[ cut here ]------------
-> > > > [   45.601073] WARNING: CPU: 0 PID: 150 at drivers/usb/dwc3/ep0.c:2=
-89 dwc3_ep0_out_start+0xcc/0xd4
-> > > > [   45.601102] Modules linked in: cfg80211 rfkill ipv6 rpmsg_ctrl r=
-pmsg_char crct10dif_ce rti_wdt k3_j72xx_bandgap rtc_ti_k3 omap_mailbox sa2u=
-l authenc [last unloaded: ti_k3_r5_remoteproc]
-> > > > [   45.601151] CPU: 0 PID: 150 Comm: sh Not tainted 6.8.0-rc5 #1
-> > > > [   45.601159] Hardware name: BSH - CCM-M3 (DT)
-> > > > [   45.601164] pstate: 600000c5 (nZCv daIF -PAN -UAO -TCO -DIT -SSB=
-S BTYPE=3D--)
-> > > > [   45.601172] pc : dwc3_ep0_out_start+0xcc/0xd4
-> > > > [   45.601179] lr : dwc3_ep0_out_start+0x50/0xd4
-> > > > [   45.601186] sp : ffff8000832739e0
-> > > > [   45.601189] x29: ffff8000832739e0 x28: ffff800082a21000 x27: fff=
-f8000808dc630
-> > > > [   45.601200] x26: 0000000000000002 x25: ffff800082530a44 x24: 000=
-0000000000000
-> > > > [   45.601210] x23: ffff000000e079a0 x22: ffff000000e07a68 x21: 000=
-0000000000001
-> > > > [   45.601219] x20: ffff000000e07880 x19: ffff000000e07880 x18: 000=
-0000000000040
-> > > > [   45.601229] x17: ffff7fff8e1ce000 x16: ffff800080000000 x15: fff=
-ffffffffe5260
-> > > > [   45.601239] x14: 0000000000000000 x13: 206e6f204c4c4154 x12: 532=
-0746573206f74
-> > > > [   45.601249] x11: 0000000000000001 x10: 000000000000000a x9 : fff=
-f800083273930
-> > > > [   45.601259] x8 : 000000000000000a x7 : ffffffffffff3f0c x6 : fff=
-fffffffff3f00
-> > > > [   45.601268] x5 : ffffffffffff3f0c x4 : 0000000000000000 x3 : 000=
-0000000000000
-> > > > [   45.601278] x2 : 0000000000000000 x1 : ffff000004e7e600 x0 : 000=
-00000ffffff92
-> > > > [   45.601289] Call trace:
-> > > > [   45.601293]  dwc3_ep0_out_start+0xcc/0xd4
-> > > > [   45.601301]  dwc3_ep0_stall_and_restart+0x98/0xbc
-> > > > [   45.601309]  dwc3_ep0_reset_state+0x5c/0x88
-> > > > [   45.601315]  dwc3_gadget_soft_disconnect+0x144/0x160
-> > > > [   45.601323]  dwc3_gadget_suspend+0x18/0xb0
-> > > > [   45.601329]  dwc3_suspend_common+0x5c/0x18c
-> > > > [   45.601341]  dwc3_suspend+0x20/0x44
-> > > > [   45.601350]  platform_pm_suspend+0x2c/0x6c
-> > > > [   45.601360]  __device_suspend+0x10c/0x34c
-> > > > [   45.601372]  dpm_suspend+0x1a8/0x240
-> > > > [   45.601382]  dpm_suspend_start+0x80/0x9c
-> > > > [   45.601391]  suspend_devices_and_enter+0x1c4/0x584
-> > > > [   45.601402]  pm_suspend+0x1b0/0x264
-> > > > [   45.601408]  state_store+0x80/0xec
-> > > > [   45.601415]  kobj_attr_store+0x18/0x2c
-> > > > [   45.601426]  sysfs_kf_write+0x44/0x54
-> > > > [   45.601434]  kernfs_fop_write_iter+0x120/0x1ec
-> > > > [   45.601445]  vfs_write+0x23c/0x358
-> > > > [   45.601458]  ksys_write+0x70/0x104
-> > > > [   45.601467]  __arm64_sys_write+0x1c/0x28
-> > > > [   45.601477]  invoke_syscall+0x48/0x114
-> > > > [   45.601488]  el0_svc_common.constprop.0+0x40/0xe0
-> > > > [   45.601498]  do_el0_svc+0x1c/0x28
-> > > > [   45.601506]  el0_svc+0x34/0xb8
-> > > > [   45.601516]  el0t_64_sync_handler+0x100/0x12c
-> > > > [   45.601522]  el0t_64_sync+0x190/0x194
-> > > > [   45.601531] ---[ end trace 0000000000000000 ]---
-> > > > [   45.608794] Disabling non-boot CPUs ...
-> > > > [   45.611029] psci: CPU1 killed (polled 0 ms)
-> > > > [   45.611837] Enabling non-boot CPUs ...
-> > > > [   45.612247] Detected VIPT I-cache on CPU1
-> > > >
-> > > > Tested on a am62x board with a usbnet gadget
-> > > >
-> > > > Fixes: 61a348857e86 ("usb: dwc3: gadget: Fix NULL pointer dereferen=
-ce in dwc3_gadget_suspend)
-> > > > Cc: stable@vger.kernel.org
-> > > > Signed-off-by: Michael Trimarchi <michael@amarulasolutions.com>
-> > > > ---
-> > > > V2->V3:
-> > > >       - Change the logic of the patch using the gadget connected st=
-ate
-> > > >       - Change of the commit message
-> > > > V1->V2:
-> > > >       - Add stable in CC
-> > > > ---
-> > > >  drivers/usb/dwc3/gadget.c | 9 +++++++++
-> > > >  1 file changed, 9 insertions(+)
-> > > >
-> > > > diff --git a/drivers/usb/dwc3/gadget.c b/drivers/usb/dwc3/gadget.c
-> > > > index 4c8dd6724678..a7316a1703ad 100644
-> > > > --- a/drivers/usb/dwc3/gadget.c
-> > > > +++ b/drivers/usb/dwc3/gadget.c
-> > > > @@ -2650,6 +2650,15 @@ static int dwc3_gadget_soft_disconnect(struc=
-t dwc3 *dwc)
-> > > >       int ret;
-> > > >
-> > > >       spin_lock_irqsave(&dwc->lock, flags);
-> > > > +     /*
-> > > > +      * Attempt to disconnect a no connected gadget
-> > > > +      */
-> > > > +     if (!dwc->connected) {
-> > > > +             dev_warn(dwc->dev, "No connected device\n");
-> > > > +             spin_unlock_irqrestore(&dwc->lock, flags);
-> > > > +             return 0;
-> > > > +     }
-> > > > +
-> > > >       dwc->connected =3D false;
-> > > >
-> > > >       /*
-> > > > --
-> > > > 2.40.1
-> > > >
-> > >
-> > > There's already a fix for this, and it's already in mainline. Let me
-> > > know if this works for you:
-> > >
-> > > https://urldefense.com/v3/__https://git.kernel.org/pub/scm/linux/kern=
-el/git/torvalds/linux.git/commit/?id=3Db191a18cb5c47109ca696370a74a5062a70a=
-dfd0__;!!A4F2R9G_pg!dqF-dGSHGR41Bep_7ZG2mWfPNYWfC4T-_FpOf_pFIvqa9L1n1e6l6D3=
-oP9bOlRRFobW4Uvh0VAP8qBkLMfNkUlfaeTc$
-> > >
-> >
-> > Can you explain to me the logic here? I mean pullsup_connected seems
-> > never protected by spin lock and so I can not figure
-> > out it easily and the commit message does not explain so much
-> >
->
-> Sorry for the delay response.
->
-> Ah.. you're right, the spin_lock isn't useful there. My intention was to
-> avoid soft disconnect flow to occur during system suspend along with
-> pullup(off). I somehow forgot that it isn't protected with spin_lock.
->
+Fix this by cleaning up the redundant kfree() in all callers and
+adding kfree() the passed in platform_data on errors which happen
+before auxiliary_device_init() succeeds .
 
-You reduce the window of failure but we need to rework anyway
+Fixes: acd6199f195d ("usb: Add support for Intel LJCA device")
+Signed-off-by: Yongzhi Liu <hyperlyzcs@gmail.com>
+---
+ drivers/usb/misc/usb-ljca.c | 26 +++++++++-----------------
+ 1 file changed, 9 insertions(+), 17 deletions(-)
 
-> It's a very unlikely scenario. Even if it did happen, it should be
-> harmless. But to solve that perhaps we can:
-> 1) Keep the code simple and enforce no sleep and hold spin_lock during
->    the entirety of run_stop() sequence
+diff --git a/drivers/usb/misc/usb-ljca.c b/drivers/usb/misc/usb-ljca.c
+index 35770e608c64..bd9ccbea6e72 100644
+--- a/drivers/usb/misc/usb-ljca.c
++++ b/drivers/usb/misc/usb-ljca.c
+@@ -518,8 +518,10 @@ static int ljca_new_client_device(struct ljca_adapter *adap, u8 type, u8 id,
+ 	int ret;
+ 
+ 	client = kzalloc(sizeof *client, GFP_KERNEL);
+-	if (!client)
++	if (!client) {
++		kfree(data);
+ 		return -ENOMEM;
++	}
+ 
+ 	client->type = type;
+ 	client->id = id;
+@@ -535,8 +537,10 @@ static int ljca_new_client_device(struct ljca_adapter *adap, u8 type, u8 id,
+ 	auxdev->dev.release = ljca_auxdev_release;
+ 
+ 	ret = auxiliary_device_init(auxdev);
+-	if (ret)
++	if (ret) {
++		kfree(data);
+ 		goto err_free;
++	}
+ 
+ 	ljca_auxdev_acpi_bind(adap, auxdev, adr, id);
+ 
+@@ -590,12 +594,8 @@ static int ljca_enumerate_gpio(struct ljca_adapter *adap)
+ 		valid_pin[i] = get_unaligned_le32(&desc->bank_desc[i].valid_pins);
+ 	bitmap_from_arr32(gpio_info->valid_pin_map, valid_pin, gpio_num);
+ 
+-	ret = ljca_new_client_device(adap, LJCA_CLIENT_GPIO, 0, "ljca-gpio",
++	return ljca_new_client_device(adap, LJCA_CLIENT_GPIO, 0, "ljca-gpio",
+ 				     gpio_info, LJCA_GPIO_ACPI_ADR);
+-	if (ret)
+-		kfree(gpio_info);
+-
+-	return ret;
+ }
+ 
+ static int ljca_enumerate_i2c(struct ljca_adapter *adap)
+@@ -626,13 +626,9 @@ static int ljca_enumerate_i2c(struct ljca_adapter *adap)
+ 		i2c_info->capacity = desc->info[i].capacity;
+ 		i2c_info->intr_pin = desc->info[i].intr_pin;
+ 
+-		ret = ljca_new_client_device(adap, LJCA_CLIENT_I2C, i,
++		return ljca_new_client_device(adap, LJCA_CLIENT_I2C, i,
+ 					     "ljca-i2c", i2c_info,
+ 					     LJCA_I2C1_ACPI_ADR + i);
+-		if (ret) {
+-			kfree(i2c_info);
+-			return ret;
+-		}
+ 	}
+ 
+ 	return 0;
+@@ -666,13 +662,9 @@ static int ljca_enumerate_spi(struct ljca_adapter *adap)
+ 		spi_info->id = desc->info[i].id;
+ 		spi_info->capacity = desc->info[i].capacity;
+ 
+-		ret = ljca_new_client_device(adap, LJCA_CLIENT_SPI, i,
++		return ljca_new_client_device(adap, LJCA_CLIENT_SPI, i,
+ 					     "ljca-spi", spi_info,
+ 					     LJCA_SPI1_ACPI_ADR + i);
+-		if (ret) {
+-			kfree(spi_info);
+-			return ret;
+-		}
+ 	}
+ 
+ 	return 0;
+-- 
+2.36.1
 
-
-If the run_stop is executing I can imagine that you only need to mark it as
-ongoing and protect with a spin_lock, returning -EINVAL on the suspend
-hook. I will keep
-it simple
-
-Michael
-
-> 2) Enforce a must-lock check to run_stop() and unlock during sleep. This
->    requires more code changes and reviews.
->
-> If you have some ideas, please share. (Note that using dwc->connected
-> isn't sufficient)
->
-> Thanks,
-> Thinh
-
-
-
---=20
-Michael Nazzareno Trimarchi
-Co-Founder & Chief Executive Officer
-M. +39 347 913 2170
-michael@amarulasolutions.com
-__________________________________
-
-Amarula Solutions BV
-Joop Geesinkweg 125, 1114 AB, Amsterdam, NL
-T. +31 (0)85 111 9172
-info@amarulasolutions.com
-www.amarulasolutions.com
