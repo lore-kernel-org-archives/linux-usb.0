@@ -1,41 +1,41 @@
-Received: from relmlie6.idc.renesas.com (relmlor2.renesas.com [210.160.252.172])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 3AD8536D;
-	Fri,  8 Mar 2024 18:09:37 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=210.160.252.172
+Received: from relmlie5.idc.renesas.com (relmlor1.renesas.com [210.160.252.171])
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 0E40950251;
+	Fri,  8 Mar 2024 18:09:39 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=210.160.252.171
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1709921380; cv=none; b=kHTOSSY1SjWFBwhjtydTIJYJKrmR5rqo1Yy5fIitZxJb3J8fsFwbL4xHlBQ4oPSFeRVQFwcv+YyRYtV7bzFJq4f4UmsxISfvG3XwE4qRmG4VJBx3GEpfjyqak2X6ohWroO01XqTPD262XCBNlXyN8Ido/Rhbts47WnPtk41FPX0=
+	t=1709921382; cv=none; b=e+FgUijRNCtm8mb7ZP3U3xccGjl5kZawlPi8vApANsHdXBNuZ5+e09sWwaJmWELGQNRDUmBYvIGo5R/kVwQG4Wy15GDNxht763qf1oC6Q4vY1RGzO4MVjvI9/G2UVz0C3EqXQ9DBsj9vFYZYNeGNdpE4TnBN/Mr0ez4DiURzjB4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1709921380; c=relaxed/simple;
-	bh=RBKBxT5+2zN+i54r6L8tnxdS3A0R/Ql/8jk1yCWNgDQ=;
+	s=arc-20240116; t=1709921382; c=relaxed/simple;
+	bh=Zr6zzX8zyrUcnqW0M6au7J1N1WCZ1A1Gz3sOHWw9etY=;
 	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
-	 MIME-Version; b=ZlAmw+Yrj98u2c0dLxAWtnowUgqjMqkdn3P4TKEgbhx0jcvKmKLYxoAcaQdXLfLLCHwvzZH74xDDAm3ofYuNJ9RkP3eDh/6VG0es6/jvRU/1N8AE3jGSIHv68nkkZ4IEKRkwv6sYxKZlTpTjvet2e7Nmr8LBT6AMz/jv6709EVs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=bp.renesas.com; spf=pass smtp.mailfrom=bp.renesas.com; arc=none smtp.client-ip=210.160.252.172
+	 MIME-Version; b=s/hzZzDz1plcoGxj6gXPzPoHQXS8cQH8hQcAbNhKgoWHCC4XQk0eXbGYx/ppDySJsM71itWmnPDMSmWc8QH7Gz5LemFAC4yw23HtorXsPhaj8jf+8Q2i9k954+BOFrn/rDqALHlwVFlwSTDskiz4iFkuDTCsQF1DeNCIA9OJ4dQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=bp.renesas.com; spf=pass smtp.mailfrom=bp.renesas.com; arc=none smtp.client-ip=210.160.252.171
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=bp.renesas.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=bp.renesas.com
 X-IronPort-AV: E=Sophos;i="6.07,110,1708354800"; 
-   d="scan'208";a="200889926"
+   d="scan'208";a="196951386"
 Received: from unknown (HELO relmlir5.idc.renesas.com) ([10.200.68.151])
-  by relmlie6.idc.renesas.com with ESMTP; 09 Mar 2024 03:09:30 +0900
+  by relmlie5.idc.renesas.com with ESMTP; 09 Mar 2024 03:09:39 +0900
 Received: from localhost.localdomain (unknown [10.226.92.24])
-	by relmlir5.idc.renesas.com (Postfix) with ESMTP id 2B23B40158E6;
-	Sat,  9 Mar 2024 03:09:26 +0900 (JST)
+	by relmlir5.idc.renesas.com (Postfix) with ESMTP id D84E940158E6;
+	Sat,  9 Mar 2024 03:09:35 +0900 (JST)
 From: Biju Das <biju.das.jz@bp.renesas.com>
-To: Rob Herring <robh@kernel.org>,
-	Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
-	Conor Dooley <conor+dt@kernel.org>
+To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
 Cc: Biju Das <biju.das.jz@bp.renesas.com>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
 	Geert Uytterhoeven <geert+renesas@glider.be>,
 	Magnus Damm <magnus.damm@gmail.com>,
+	Huy Nguyen <huy.nguyen.wh@renesas.com>,
+	Rob Herring <robh@kernel.org>,
 	Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>,
+	Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>,
+	=?UTF-8?q?Uwe=20Kleine-K=C3=B6nig?= <u.kleine-koenig@pengutronix.de>,
 	linux-usb@vger.kernel.org,
-	devicetree@vger.kernel.org,
 	linux-renesas-soc@vger.kernel.org,
 	Prabhakar Mahadev Lad <prabhakar.mahadev-lad.rj@bp.renesas.com>,
 	Biju Das <biju.das.au@gmail.com>
-Subject: [PATCH 1/4] dt-bindings: usb: renesas,usbhs: Document RZ/G2L family compatible
-Date: Fri,  8 Mar 2024 18:09:16 +0000
-Message-Id: <20240308180919.6603-2-biju.das.jz@bp.renesas.com>
+Subject: [PATCH 3/4] usb: renesas_usbhs: Remove trailing comma in the terminator entry for OF table
+Date: Fri,  8 Mar 2024 18:09:18 +0000
+Message-Id: <20240308180919.6603-4-biju.das.jz@bp.renesas.com>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20240308180919.6603-1-biju.das.jz@bp.renesas.com>
 References: <20240308180919.6603-1-biju.das.jz@bp.renesas.com>
@@ -47,35 +47,29 @@ List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-The USBHS IP found on RZ/G2L SoCs only has 10 pipe buffers compared
-to 16 pipe buffers on RZ/A2M. Document renesas,rzg2l-usbhs family
-compatible to handle this difference for RZ/G2L family SoCs.
+Remove the trailing comma in the terminator entry for the OF table
+making code robust against (theoretical) misrebases or other similar
+things where the new entry goes _after_ the termination without the
+compiler noticing.
 
 Signed-off-by: Biju Das <biju.das.jz@bp.renesas.com>
 ---
- Documentation/devicetree/bindings/usb/renesas,usbhs.yaml | 6 +++++-
- 1 file changed, 5 insertions(+), 1 deletion(-)
+ drivers/usb/renesas_usbhs/common.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/Documentation/devicetree/bindings/usb/renesas,usbhs.yaml b/Documentation/devicetree/bindings/usb/renesas,usbhs.yaml
-index 40ada78f2328..c63db3ebd07b 100644
---- a/Documentation/devicetree/bindings/usb/renesas,usbhs.yaml
-+++ b/Documentation/devicetree/bindings/usb/renesas,usbhs.yaml
-@@ -19,10 +19,14 @@ properties:
-       - items:
-           - enum:
-               - renesas,usbhs-r7s9210   # RZ/A2
-+          - const: renesas,rza2-usbhs
-+
-+      - items:
-+          - enum:
-               - renesas,usbhs-r9a07g043 # RZ/G2UL and RZ/Five
-               - renesas,usbhs-r9a07g044 # RZ/G2{L,LC}
-               - renesas,usbhs-r9a07g054 # RZ/V2L
--          - const: renesas,rza2-usbhs
-+          - const: renesas,rzg2l-usbhs
+diff --git a/drivers/usb/renesas_usbhs/common.c b/drivers/usb/renesas_usbhs/common.c
+index 030ec36deb64..7f8fc86fc687 100644
+--- a/drivers/usb/renesas_usbhs/common.c
++++ b/drivers/usb/renesas_usbhs/common.c
+@@ -599,7 +599,7 @@ static const struct of_device_id usbhs_of_match[] = {
+ 		.compatible = "renesas,rzg2l-usbhs",
+ 		.data = &usbhs_rza2_plat_info,
+ 	},
+-	{ },
++	{ }
+ };
+ MODULE_DEVICE_TABLE(of, usbhs_of_match);
  
-       - items:
-           - enum:
 -- 
 2.25.1
 
