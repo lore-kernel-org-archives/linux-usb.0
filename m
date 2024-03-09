@@ -1,37 +1,37 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EB0A423741;
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 08B3428E17;
 	Sat,  9 Mar 2024 18:15:48 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1710008149; cv=none; b=Np2nxUf15Hs08Ys37F7uHzP9FhEy1Jl3t82norOdDrZKU0vqtCPQDfasf4dELg7jhcj/pwwnDPsPAWOC6hgZuN1OsiUox4YYJ5GaAM60MCUXILSH+W2u+BgC1b+EyeMo3Rk1Hma9Lkm7dxvP4bOABdTB+6UrjeIMk7qwOyCbUsA=
+	t=1710008149; cv=none; b=YD/H3ukynkEkK4Iio8Klfem7Qy2hBAdzXtWSkQEY1DYzPrzh02Bqj5/K8LHRoQz5Ze2e9Ite4tIs1dWIFPEBjLOcq8TdepOSaj69ZtS7kxt5pXfAoNmy4x3o4NjmiovhOBtWJi5/HfPaXE3hvv5oCFdKWlkzZQ8TjLvcNU9L0u8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
 	s=arc-20240116; t=1710008149; c=relaxed/simple;
-	bh=1NJl9mXnMzZzopksxxgGge5qO9JJgmiilKhwb7g3eig=;
-	h=From:Subject:Date:Message-Id:MIME-Version:Content-Type:To:Cc; b=YXTedqO1Ns5jodu4HhHQky6985kF4/qzTqtsU4pCYnI/KXrn0EmHmRjbHq68fSALE8fkWwrZ9ffiBUvMb99OmRtH4kQ6/CB5ZeFOn9GPBLTw9cwXV8r4QPk6Yn010Kxihlv7lv7D+9ZsbcSqnwgVrEQb0Rf9GQT3v7TlE3QMwvI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Na3ZzPEv; arc=none smtp.client-ip=10.30.226.201
+	bh=lY2Ipf3Tzw0Bxc3mcuYdmgC6i5v5g85xug+O6Qs1EbY=;
+	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
+	 In-Reply-To:To:Cc; b=gpJkPUWBL6AgKGjsKYkmii1k29WA86Q92BRgHdu2Pl+uPF2zjZQMBVMAhx3SXrp7Pxi8mRA7AcUKyi+UafLVMlyK59WLuGbWTVbZfiFdNve9/6qg2z/jOUroG9d9/7dQXWj37/tiFpuQ5a0pzVlrQHjurVqOC8bk/mG8l7vEcLY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=OdQ3HAP4; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Na3ZzPEv"
-Received: by smtp.kernel.org (Postfix) with ESMTPS id 69FBFC433F1;
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="OdQ3HAP4"
+Received: by smtp.kernel.org (Postfix) with ESMTPS id AD08EC433B2;
 	Sat,  9 Mar 2024 18:15:48 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
 	s=k20201202; t=1710008148;
-	bh=1NJl9mXnMzZzopksxxgGge5qO9JJgmiilKhwb7g3eig=;
-	h=From:Subject:Date:To:Cc:Reply-To:From;
-	b=Na3ZzPEvwa4O0WZSjA59AlWLXEEHJuuu/TN5NUSg2XkLqLjOOH1lfnKXhKuG9JHnr
-	 DHQ+iOufkVH64hKVRrgKgDsWd1bYThbp2TQbYpYr/nF7tlLynHuze5Q5Pt/lqEbPYB
-	 ebQKKOGPpIErBx1zsEPKYyUE6/SRZ/c3zY9+V2Csa0aOpMGax5+bUpB/DTXvjdNlDF
-	 XDL7fEDX5/cxFzCa5qCHygMi1Y+2TO7S0ao47fhm+qEpm9TNVj24+JyYkJbg9BOREI
-	 UJ8RKsmNAdD1iliihcU6w3H7O/1TYefeB8GWNMWP0t8WwKE9l2lT6tikQsRJPI5s7p
-	 PM/Gr1ZaMo7+A==
+	bh=lY2Ipf3Tzw0Bxc3mcuYdmgC6i5v5g85xug+O6Qs1EbY=;
+	h=From:Date:Subject:References:In-Reply-To:To:Cc:Reply-To:From;
+	b=OdQ3HAP4WNCN6aUrM2v0E9ql4o1O4d8MjB8XOLxLliRCXX00tomWz6dDCciPszrbA
+	 ZTYrhaqikGereJ2geK06yE3aTytJqTob0tvVCRXXT5bZwHDyEQy7vG7CptUxwsZJaO
+	 9KYnpH/Ng82fJTPOUvBvz6owNdBW0YvhcnwKELpqYxd7ZouKKtm51OpqBCdbslzQc2
+	 kWN1DPRTGCe/Xe4dQRMvMiDg7k7oSSUOLaUIex2hI4wRyUzYWry2qbucpsOY+SxYNQ
+	 94WSNN3ouc4AgeSrSJ9KlfjAxMztVJMyJa9huUqP1Qlu2chHmflo5uKE6+FY1HXeLn
+	 5O/KNlswyx3gQ==
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 44CCAC54E41;
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 94455C54E60;
 	Sat,  9 Mar 2024 18:15:48 +0000 (UTC)
 From: Sam Ravnborg via B4 Relay <devnull+sam.ravnborg.org@kernel.org>
-Subject: [PATCH v2 00/28] sparc32: sunset sun4m and sun4d
-Date: Sat, 09 Mar 2024 19:15:21 +0100
-Message-Id: <20240309-sunset-v2-0-f09912574d2c@ravnborg.org>
+Date: Sat, 09 Mar 2024 19:15:25 +0100
+Subject: [PATCH v2 04/28] sparc32: Drop sun4m specific led driver
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
@@ -40,9 +40,9 @@ List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-X-B4-Tracking: v=1; b=H4sIADmn7GUC/6tWKk4tykwtVrJSqFYqSi3LLM7MzwNyjHQUlJIzE
- vPSU3UzU4B8JSMDIxMDYwNL3eLSvOLUEl1jE2PzpFQzk+QU0zQloOKCotS0zAqwQdGxtbUAZB7
- W9lgAAAA=
+Message-Id: <20240309-sunset-v2-4-f09912574d2c@ravnborg.org>
+References: <20240309-sunset-v2-0-f09912574d2c@ravnborg.org>
+In-Reply-To: <20240309-sunset-v2-0-f09912574d2c@ravnborg.org>
 To: "David S. Miller" <davem@davemloft.net>, 
  Arnd Bergmann <arnd@kernel.org>, Andreas Larsson <andreas@gaisler.com>
 Cc: Helge Deller <deller@gmx.de>, Randy Dunlap <rdunlap@infradead.org>, 
@@ -57,174 +57,217 @@ Cc: Helge Deller <deller@gmx.de>, Randy Dunlap <rdunlap@infradead.org>,
  linux-fbdev@vger.kernel.org, dri-devel@lists.freedesktop.org, 
  linux-sound@vger.kernel.org, Sam Ravnborg <sam@ravnborg.org>
 X-Mailer: b4 0.12.4
-X-Developer-Signature: v=1; a=ed25519-sha256; t=1710008145; l=7406;
+X-Developer-Signature: v=1; a=ed25519-sha256; t=1710008145; l=5309;
  i=sam@ravnborg.org; s=20230107; h=from:subject:message-id;
- bh=1NJl9mXnMzZzopksxxgGge5qO9JJgmiilKhwb7g3eig=; =?utf-8?q?b=3DrEflVNXGOMo+?=
- =?utf-8?q?Li+bzuhPlRnIo+TvZn/G8VUk8BZAuXBrwWeyHqKFp6zDu3+tKXSZaIvWLoW3DYEN?=
- 4CHZt4V+BNTo2GApis+OJtQSsES1RZiAaUB9Az+S5S60wpS1LV47
+ bh=nHENULW1+SgZ2NAJYTIx7b3r6yWENGwntF0/duScqoA=; =?utf-8?q?b=3DMVo5ZgcJhY4Y?=
+ =?utf-8?q?4cSp49zv0wI9dUXSZtJ5ZAEpC5OMSce8SiSeydzoONsM4oihJmOtWsAELu8fhm/X?=
+ RKxTjW5FA/woDaxqzqlecuG12rWBBEbCAHT+Gfy4UfNBGLXL+zhd
 X-Developer-Key: i=sam@ravnborg.org; a=ed25519;
  pk=R0+pqV7BRYOAeOIGkyOrSNke7arx5y3LkEuNi37YEyU=
 X-Endpoint-Received: by B4 Relay for sam@ravnborg.org/20230107 with auth_id=22
 X-Original-From: Sam Ravnborg <sam@ravnborg.org>
 Reply-To: <sam@ravnborg.org>
 
-This is the second attempt to sunset sun4m and sun4d.
-See [1] for the inital attempt.
+From: Sam Ravnborg <sam@ravnborg.org>
 
-The sun4m and sun4d parts of the kernel have seen no real interest
-for several years now. Last time a few people surfaced, but it was
-either due to a personal project or for nostalgic reasons.
-It is time to let go and drop the parts of sparc32 that in reality
-are not in use.
+The led driver is only relevant for the sun4m machines.
 
-LEON from Frontgrade Gaisler is the only real user of sparc32,
-and this patchset reduces sparc32 to what is required by LEON.
-
-The defconfig is first adapted to the one used by Gaisler.
-Then the patches removes sun4m and sun4d specific
-implementations such as small drivers, SMP support, IRQ suppor etc.
-
-Removing sun4m and sun4d support allowed removal of the run time
-patching of the code as well as a lot of assembler code.
-The result is a much cleaner assembler code that is easier to
-understand and thus maintain and extend.
-
-Changes in v2:
-  - Rebased on top of Andreas' for-next branch
-  - Collected ack's
-  - Added patch to remove cpuid patching (Andreas)
-  - Run-time testing using qemu (Andreas, Mark Cave-Ayland)
-
-	Sam
-
-[1]: https://lore.kernel.org/all/20201218184347.2180772-1-sam@ravnborg.org/
-
+Signed-off-by: Sam Ravnborg <sam@ravnborg.org>
+Acked-by: Arnd Bergmann <arnd@kernel.org>
+Cc: "David S. Miller" <davem@davemloft.net>
+Cc: Arnd Bergmann <arnd@kernel.org>
+Cc: Andreas Larsson <andreas@gaisler.com>
 ---
-Sam Ravnborg (28):
-      sparc32: Update defconfig to LEON SMP
-      sparc32: Drop sun4m/sun4d support from head_32.S
-      sparc32: Drop floppy support
-      sparc32: Drop sun4m specific led driver
-      sparc32: Drop sun specific power management drivers
-      sparc32: Drop auxio support
-      sparc32: Drop run-time patching of ipi trap
-      sparc32: Drop patching of interrupt vector
-      sparc32: Drop sun4m/sun4d specific irq handling
-      sparc32: Drop sun4d/sun4m smp support
-      sparc32: Drop pcic support
-      sparc32: Drop mbus support
-      sparc32: Drop unused function __get_{phys,iospace}
-      sparc32: Drop unused mmu models
-      sparc32: Drop check for sparc_model
-      sparc32: Drop use of sparc_config
-      sparc32: Drop run-time cpuid patching
-      sparc32: Drop run-time patching of ASI instructions
-      sparc32: Drop support for 7 register windows
-      sparc32: Drop additional sun4d bits
-      sparc32: Drop unused prom ranges support
-      sparc32: Drop unused sbus iommu support
-      sparc32: Drop sun4m irq support
-      sparc32: Drop unused trampoline code
-      sparc32: Drop config SPARC_LEON
-      sparc32: Drop sbus support
-      sbus: char: Drop now unused uctrl driver
-      fbdev/p9100: Drop now unused driver p9100
+ arch/sparc/Kconfig         |   9 ---
+ arch/sparc/kernel/Makefile |   1 -
+ arch/sparc/kernel/led.c    | 146 ---------------------------------------------
+ 3 files changed, 156 deletions(-)
 
- arch/sparc/Kconfig                    |  54 +--
- arch/sparc/configs/sparc32_defconfig  | 170 +++----
- arch/sparc/include/asm/asmmacro.h     |  22 -
- arch/sparc/include/asm/auxio_32.h     |  73 +--
- arch/sparc/include/asm/cpu_type.h     |  18 -
- arch/sparc/include/asm/elf_32.h       |   2 -
- arch/sparc/include/asm/fb.h           |   8 +-
- arch/sparc/include/asm/floppy.h       |   2 -
- arch/sparc/include/asm/floppy_32.h    | 393 ----------------
- arch/sparc/include/asm/io-unit.h      |  59 ---
- arch/sparc/include/asm/io_32.h        |  83 ----
- arch/sparc/include/asm/iommu.h        |   2 -
- arch/sparc/include/asm/iommu_32.h     | 122 -----
- arch/sparc/include/asm/irq_32.h       |   2 -
- arch/sparc/include/asm/mbus.h         |  97 ----
- arch/sparc/include/asm/mxcc.h         | 138 ------
- arch/sparc/include/asm/obio.h         | 226 ---------
- arch/sparc/include/asm/oplib_32.h     |  11 -
- arch/sparc/include/asm/pcic.h         | 130 ------
- arch/sparc/include/asm/pgtable_32.h   |  24 -
- arch/sparc/include/asm/pgtsrmmu.h     |  33 +-
- arch/sparc/include/asm/ross.h         | 192 --------
- arch/sparc/include/asm/sbi.h          | 116 -----
- arch/sparc/include/asm/sections.h     |   3 -
- arch/sparc/include/asm/setup.h        |  12 -
- arch/sparc/include/asm/swift.h        | 107 -----
- arch/sparc/include/asm/switch_to_32.h |   1 -
- arch/sparc/include/asm/timer_32.h     |   1 +
- arch/sparc/include/asm/tsunami.h      |  65 ---
- arch/sparc/include/asm/turbosparc.h   | 126 -----
- arch/sparc/include/asm/viking.h       | 255 -----------
- arch/sparc/include/asm/winmacro.h     |  12 -
- arch/sparc/kernel/Makefile            |   8 +-
- arch/sparc/kernel/apc.c               | 196 --------
- arch/sparc/kernel/auxio_32.c          | 139 ------
- arch/sparc/kernel/cpu.c               |   1 -
- arch/sparc/kernel/devices.c           |  10 +-
- arch/sparc/kernel/entry.S             | 426 +----------------
- arch/sparc/kernel/etrap_32.S          |  50 +-
- arch/sparc/kernel/head_32.S           | 255 +----------
- arch/sparc/kernel/ioport.c            |  55 +--
- arch/sparc/kernel/irq.h               |  84 +---
- arch/sparc/kernel/irq_32.c            | 133 +-----
- arch/sparc/kernel/kernel.h            |  53 +--
- arch/sparc/kernel/led.c               | 146 ------
- arch/sparc/kernel/leon_kernel.c       |  53 +--
- arch/sparc/kernel/leon_pmc.c          |  16 +-
- arch/sparc/kernel/leon_smp.c          |   3 -
- arch/sparc/kernel/of_device_32.c      |  18 +-
- arch/sparc/kernel/pcic.c              | 840 ----------------------------------
- arch/sparc/kernel/pmc.c               | 100 ----
- arch/sparc/kernel/process_32.c        |  10 -
- arch/sparc/kernel/rtrap_32.S          |  73 ++-
- arch/sparc/kernel/setup_32.c          | 109 -----
- arch/sparc/kernel/smp_32.c            | 102 +----
- arch/sparc/kernel/sun4d_irq.c         | 519 ---------------------
- arch/sparc/kernel/sun4d_smp.c         | 415 -----------------
- arch/sparc/kernel/sun4m_irq.c         | 478 -------------------
- arch/sparc/kernel/sun4m_smp.c         | 275 -----------
- arch/sparc/kernel/time_32.c           |  68 +--
- arch/sparc/kernel/trampoline_32.S     | 127 +----
- arch/sparc/kernel/ttable_32.S         |   9 +-
- arch/sparc/kernel/vmlinux.lds.S       |   5 -
- arch/sparc/kernel/wof.S               |  61 +--
- arch/sparc/kernel/wuf.S               |  41 +-
- arch/sparc/mm/Makefile                |   4 +-
- arch/sparc/mm/hypersparc.S            | 414 -----------------
- arch/sparc/mm/io-unit.c               | 286 ------------
- arch/sparc/mm/iommu.c                 | 455 ------------------
- arch/sparc/mm/mm_32.h                 |   4 -
- arch/sparc/mm/srmmu.c                 | 836 +--------------------------------
- arch/sparc/mm/srmmu_access.S          |  83 ----
- arch/sparc/mm/swift.S                 | 256 -----------
- arch/sparc/mm/tsunami.S               | 132 ------
- arch/sparc/mm/viking.S                | 284 ------------
- arch/sparc/prom/Makefile              |   1 -
- arch/sparc/prom/init_32.c             |   2 -
- arch/sparc/prom/misc_32.c             |   2 -
- arch/sparc/prom/ranges.c              | 114 -----
- drivers/sbus/char/Kconfig             |   8 -
- drivers/sbus/char/Makefile            |   1 -
- drivers/sbus/char/uctrl.c             | 434 ------------------
- drivers/usb/host/Kconfig              |   2 +-
- drivers/usb/host/ehci-hcd.c           |   4 +-
- drivers/usb/host/uhci-hcd.c           |   2 +-
- drivers/video/fbdev/Kconfig           |  10 +-
- drivers/video/fbdev/Makefile          |   1 -
- drivers/video/fbdev/p9100.c           | 372 ---------------
- sound/sparc/Kconfig                   |   1 +
- 89 files changed, 316 insertions(+), 10829 deletions(-)
----
-base-commit: 84b76d05828a1909e20d0f66553b876b801f98c8
-change-id: 20240309-sunset-3437be64cd5f
+diff --git a/arch/sparc/Kconfig b/arch/sparc/Kconfig
+index 278452f22f75..df88ad5df470 100644
+--- a/arch/sparc/Kconfig
++++ b/arch/sparc/Kconfig
+@@ -327,15 +327,6 @@ config SUN_PM
+ 	  Enable power management and CPU standby features on supported
+ 	  SPARC platforms.
+ 
+-config SPARC_LED
+-	tristate "Sun4m LED driver"
+-	depends on SPARC32
+-	help
+-	  This driver toggles the front-panel LED on sun4m systems
+-	  in a user-specifiable manner.  Its state can be probed
+-	  by reading /proc/led and its blinking mode can be changed
+-	  via writes to /proc/led
+-
+ config SERIAL_CONSOLE
+ 	bool
+ 	depends on SPARC32
+diff --git a/arch/sparc/kernel/Makefile b/arch/sparc/kernel/Makefile
+index 58ea4ef9b622..d3a0e0ebcfe7 100644
+--- a/arch/sparc/kernel/Makefile
++++ b/arch/sparc/kernel/Makefile
+@@ -89,7 +89,6 @@ obj-y                     += termios.o
+ 
+ obj-$(CONFIG_MODULES)     += module.o
+ obj-$(CONFIG_MODULES)     += sparc_ksyms.o
+-obj-$(CONFIG_SPARC_LED)   += led.o
+ obj-$(CONFIG_KGDB)        += kgdb_$(BITS).o
+ 
+ obj-$(CONFIG_DYNAMIC_FTRACE) += ftrace.o
+diff --git a/arch/sparc/kernel/led.c b/arch/sparc/kernel/led.c
+deleted file mode 100644
+index ab657b359789..000000000000
+--- a/arch/sparc/kernel/led.c
++++ /dev/null
+@@ -1,146 +0,0 @@
+-// SPDX-License-Identifier: GPL-2.0-only
+-#include <linux/kernel.h>
+-#include <linux/module.h>
+-#include <linux/init.h>
+-#include <linux/proc_fs.h>
+-#include <linux/seq_file.h>
+-#include <linux/slab.h>
+-#include <linux/string.h>
+-#include <linux/jiffies.h>
+-#include <linux/timer.h>
+-#include <linux/uaccess.h>
+-#include <linux/sched/loadavg.h>
+-
+-#include <asm/auxio.h>
+-
+-#define LED_MAX_LENGTH 8 /* maximum chars written to proc file */
+-
+-static inline void led_toggle(void)
+-{
+-	unsigned char val = get_auxio();
+-	unsigned char on, off;
+-
+-	if (val & AUXIO_LED) {
+-		on = 0;
+-		off = AUXIO_LED;
+-	} else {
+-		on = AUXIO_LED;
+-		off = 0;
+-	}
+-
+-	set_auxio(on, off);
+-}
+-
+-static struct timer_list led_blink_timer;
+-static unsigned long led_blink_timer_timeout;
+-
+-static void led_blink(struct timer_list *unused)
+-{
+-	unsigned long timeout = led_blink_timer_timeout;
+-
+-	led_toggle();
+-
+-	/* reschedule */
+-	if (!timeout) { /* blink according to load */
+-		led_blink_timer.expires = jiffies +
+-			((1 + (avenrun[0] >> FSHIFT)) * HZ);
+-	} else { /* blink at user specified interval */
+-		led_blink_timer.expires = jiffies + (timeout * HZ);
+-	}
+-	add_timer(&led_blink_timer);
+-}
+-
+-#ifdef CONFIG_PROC_FS
+-static int led_proc_show(struct seq_file *m, void *v)
+-{
+-	if (get_auxio() & AUXIO_LED)
+-		seq_puts(m, "on\n");
+-	else
+-		seq_puts(m, "off\n");
+-	return 0;
+-}
+-
+-static int led_proc_open(struct inode *inode, struct file *file)
+-{
+-	return single_open(file, led_proc_show, NULL);
+-}
+-
+-static ssize_t led_proc_write(struct file *file, const char __user *buffer,
+-			      size_t count, loff_t *ppos)
+-{
+-	char *buf = NULL;
+-
+-	if (count > LED_MAX_LENGTH)
+-		count = LED_MAX_LENGTH;
+-
+-	buf = memdup_user_nul(buffer, count);
+-	if (IS_ERR(buf))
+-		return PTR_ERR(buf);
+-
+-	/* work around \n when echo'ing into proc */
+-	if (buf[count - 1] == '\n')
+-		buf[count - 1] = '\0';
+-
+-	/* before we change anything we want to stop any running timers,
+-	 * otherwise calls such as on will have no persistent effect
+-	 */
+-	del_timer_sync(&led_blink_timer);
+-
+-	if (!strcmp(buf, "on")) {
+-		auxio_set_led(AUXIO_LED_ON);
+-	} else if (!strcmp(buf, "toggle")) {
+-		led_toggle();
+-	} else if ((*buf > '0') && (*buf <= '9')) {
+-		led_blink_timer_timeout = simple_strtoul(buf, NULL, 10);
+-		led_blink(&led_blink_timer);
+-	} else if (!strcmp(buf, "load")) {
+-		led_blink_timer_timeout = 0;
+-		led_blink(&led_blink_timer);
+-	} else {
+-		auxio_set_led(AUXIO_LED_OFF);
+-	}
+-
+-	kfree(buf);
+-
+-	return count;
+-}
+-
+-static const struct proc_ops led_proc_ops = {
+-	.proc_open	= led_proc_open,
+-	.proc_read	= seq_read,
+-	.proc_lseek	= seq_lseek,
+-	.proc_release	= single_release,
+-	.proc_write	= led_proc_write,
+-};
+-#endif
+-
+-#define LED_VERSION	"0.1"
+-
+-static int __init led_init(void)
+-{
+-	timer_setup(&led_blink_timer, led_blink, 0);
+-
+-#ifdef CONFIG_PROC_FS
+-	if (!proc_create("led", 0, NULL, &led_proc_ops))
+-		return -ENOMEM;
+-#endif
+-	printk(KERN_INFO
+-	       "led: version %s, Lars Kotthoff <metalhead@metalhead.ws>\n",
+-	       LED_VERSION);
+-
+-	return 0;
+-}
+-
+-static void __exit led_exit(void)
+-{
+-	remove_proc_entry("led", NULL);
+-	del_timer_sync(&led_blink_timer);
+-}
+-
+-module_init(led_init);
+-module_exit(led_exit);
+-
+-MODULE_AUTHOR("Lars Kotthoff <metalhead@metalhead.ws>");
+-MODULE_DESCRIPTION("Provides control of the front LED on SPARC systems.");
+-MODULE_LICENSE("GPL");
+-MODULE_VERSION(LED_VERSION);
 
-Best regards,
 -- 
-Sam Ravnborg <sam@ravnborg.org>
+2.34.1
 
