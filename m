@@ -1,37 +1,37 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9FE67481B1;
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6DE3B4776A;
 	Sat,  9 Mar 2024 18:15:49 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1710008149; cv=none; b=K7oAFeWjaYokbtl2xOiCBoKzajBy86eBCUIm0z1D8sq4bcgiAJpAedArqgfqL9qKNnsX1D9oqF9VPdy1yohGLVoVWZi9Wiay1HKZrzJrCehwSj3/ARZzWWybNddMavlfvYXSVlosw3/7jJ2njIGRx4l4HKkP6+8zj2+gydmehBU=
+	t=1710008149; cv=none; b=qf7dBx3EXb90GmXIi3rTesVJe++/nfK7WXJfg1UxUOFnH9NRJvzc8GScmgEBaO0dCTGypQWjNAJsQMV6QGAMEW6asjc1evBgCZr7WYiMlV5sRHswp34M3LIp0FOhAIBguV5Nq/u0M2UrX1Z6TBO2xWz5BubAypI4LokaWfkskDI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
 	s=arc-20240116; t=1710008149; c=relaxed/simple;
-	bh=xwGHJdiU+5rpNpoMuivxmKWxjS8qrzD13Vu4JHbBJy4=;
+	bh=bDdSQ5OXenp8idL9VsJshycUErnHizhyVEKD6wuzwf0=;
 	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
-	 In-Reply-To:To:Cc; b=A3FlzBUVhpyFbMvDPOt5Ammyo1kxorDAUzuh4GiW1m3sDodmDZ43q5zMJj4eNoGVWi3mAOd42XvPksLQTWhgCJaVor+uvrTxd6vj5rBYdnrq8QK2V6ugwXp6rqoqQkEAEMSlQ05ss2L02/WgLEmJx80a8X/9UMoJ+fBhe30GhvM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Ly0U2UnI; arc=none smtp.client-ip=10.30.226.201
+	 In-Reply-To:To:Cc; b=ef3JTx/7dX6J5xWUnz8O3K3Idv6qSRrZ0bQcodyN4yeaLLYsKlgFxE3NW6EVRitYVRHgKzoYJ0NAwQpc4jDBJG8RdrP41/lX92mmzjoeEXZ4CdXq7EbkHQXf4wQYsZXHhfT3xatGoyIWBeHP3QncxS8OuB5Y5tUuB1vy9uz0HwA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=P3Ww3pM4; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Ly0U2UnI"
-Received: by smtp.kernel.org (Postfix) with ESMTPS id 37B47C43394;
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="P3Ww3pM4"
+Received: by smtp.kernel.org (Postfix) with ESMTPS id 0674FC41679;
 	Sat,  9 Mar 2024 18:15:49 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
 	s=k20201202; t=1710008149;
-	bh=xwGHJdiU+5rpNpoMuivxmKWxjS8qrzD13Vu4JHbBJy4=;
+	bh=bDdSQ5OXenp8idL9VsJshycUErnHizhyVEKD6wuzwf0=;
 	h=From:Date:Subject:References:In-Reply-To:To:Cc:Reply-To:From;
-	b=Ly0U2UnIqxPNU5ijGloqwygMmhVUYS6gjcaRaikjPKyRKfyWitUYi37Vo4XanHHib
-	 Ciu1pUuc4VlTHIfki9mt3snP5U7/lNjFL/4ZLeoWlKYy5Bj1PvFX+qxk5HQNigHcIs
-	 nx9LE+918sabzgvsDrpM8YSiuDJv17pM4BW/xWKOZ7Ze1p+Gblk5EvxZ92AQn4UEc+
-	 4euitDg9LD0bMwqo05/0CqIGOfWJmmENhUyhYWoPA2oXNomLA0u+/45zZt9PCh179S
-	 07ycuLPE5whFrtguLQHuxiQYQ7qu4Oknygbe1xN8FlKR3qyCUZIAb39YS8QosaxTLs
-	 4D7T0YSNZH/kg==
+	b=P3Ww3pM4L6+PZwdbNwQlMtRSWROGf3RoJaRqaig/IaYoTim4S2/6TYfh/aMcOQoGh
+	 I3Jd88PBZ7qGR9aAajYWYzAGqzRXo7BT2d41dDX5GPuMwuZzdByXavJ92Jcj/uqdNH
+	 hoh4qi8wber6QJBiSjq4ul8mq882di3Br09gPsSArpuAMX9fxpGXnPJPOq9h4x9Ynv
+	 06t6kP0dQHyBOQ6HUiLQki6JzD6ouqX5Eki6BxvrYUP5/5tV31TjRrzMkvqD6SO1jI
+	 Vjt01TwZfEg3GI/UDU+erYmEZDCaM9JhM2LBMoULZFF5pyDAKjc8XIelP1l4ri3zys
+	 uqhFNmXrUymuQ==
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 234E5C54E60;
-	Sat,  9 Mar 2024 18:15:49 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id E5613C54E60;
+	Sat,  9 Mar 2024 18:15:48 +0000 (UTC)
 From: Sam Ravnborg via B4 Relay <devnull+sam.ravnborg.org@kernel.org>
-Date: Sat, 09 Mar 2024 19:15:32 +0100
-Subject: [PATCH v2 11/28] sparc32: Drop pcic support
+Date: Sat, 09 Mar 2024 19:15:30 +0100
+Subject: [PATCH v2 09/28] sparc32: Drop sun4m/sun4d specific irq handling
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
@@ -40,7 +40,7 @@ List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20240309-sunset-v2-11-f09912574d2c@ravnborg.org>
+Message-Id: <20240309-sunset-v2-9-f09912574d2c@ravnborg.org>
 References: <20240309-sunset-v2-0-f09912574d2c@ravnborg.org>
 In-Reply-To: <20240309-sunset-v2-0-f09912574d2c@ravnborg.org>
 To: "David S. Miller" <davem@davemloft.net>, 
@@ -57,11 +57,11 @@ Cc: Helge Deller <deller@gmx.de>, Randy Dunlap <rdunlap@infradead.org>,
  linux-fbdev@vger.kernel.org, dri-devel@lists.freedesktop.org, 
  linux-sound@vger.kernel.org, Sam Ravnborg <sam@ravnborg.org>
 X-Mailer: b4 0.12.4
-X-Developer-Signature: v=1; a=ed25519-sha256; t=1710008145; l=34306;
+X-Developer-Signature: v=1; a=ed25519-sha256; t=1710008145; l=25224;
  i=sam@ravnborg.org; s=20230107; h=from:subject:message-id;
- bh=DGZ2wxuXZ7nYM5BEE2klNGM387YzyWeERBacPj+W/yI=; =?utf-8?q?b=3D+pAmp6tuSlnL?=
- =?utf-8?q?dvytdk4FDhH2HZWFXkhJp+1gGHtwI+sP9MgoWSi+tsjBRB/898IrsQoKBBGTkr8I?=
- 0qAj/YNNBgovoYA2ocIhNxl7ellDNFjeZd1oVG29/lKPBgnUvwvC
+ bh=0vwGh6YM0dCUoW+EtF5Blq9pmNyy5xU2x81Eck+EPGI=; =?utf-8?q?b=3DzLIQSUTmiJVX?=
+ =?utf-8?q?VN+seUULSgzJPGfFqzTQv3eCpxhpFPwrID5g3Y+PD0I5K+FBKA0QNX6CSlXMqRFT?=
+ DJpN3RTaBMHkRFiLEpH2EMLaomKuqdYAkyoXJobZx5tFuLOFW9JH
 X-Developer-Key: i=sam@ravnborg.org; a=ed25519;
  pk=R0+pqV7BRYOAeOIGkyOrSNke7arx5y3LkEuNi37YEyU=
 X-Endpoint-Received: by B4 Relay for sam@ravnborg.org/20230107 with auth_id=22
@@ -70,7 +70,10 @@ Reply-To: <sam@ravnborg.org>
 
 From: Sam Ravnborg <sam@ravnborg.org>
 
-pcic is only used by MicroSPARC-IIep and not relevant for LEON.
+Some of the sun4m irq infrastructure is used by LEON too,
+so keep that and drop the rest.
+The patch include a few extra fixes fix the build after
+the removal of the irq support.
 
 Signed-off-by: Sam Ravnborg <sam@ravnborg.org>
 Acked-by: Arnd Bergmann <arnd@kernel.org>
@@ -78,1122 +81,918 @@ Cc: "David S. Miller" <davem@davemloft.net>
 Cc: Arnd Bergmann <arnd@kernel.org>
 Cc: Andreas Larsson <andreas@gaisler.com>
 ---
- arch/sparc/Kconfig            |   5 -
- arch/sparc/include/asm/pcic.h | 130 -------
- arch/sparc/kernel/Makefile    |   1 -
- arch/sparc/kernel/entry.S     |  48 ---
- arch/sparc/kernel/irq_32.c    |   1 -
- arch/sparc/kernel/kernel.h    |   4 -
- arch/sparc/kernel/pcic.c      | 829 ------------------------------------------
- arch/sparc/kernel/time_32.c   |   6 +-
- 8 files changed, 1 insertion(+), 1023 deletions(-)
+ arch/sparc/include/asm/irq_32.h |   2 -
+ arch/sparc/kernel/Makefile      |   2 +-
+ arch/sparc/kernel/irq_32.c      |  30 +--
+ arch/sparc/kernel/kernel.h      |  13 --
+ arch/sparc/kernel/sun4d_irq.c   | 494 ----------------------------------------
+ arch/sparc/kernel/sun4d_smp.c   |   4 -
+ arch/sparc/kernel/sun4m_irq.c   | 240 -------------------
+ arch/sparc/mm/io-unit.c         |   2 -
+ 8 files changed, 2 insertions(+), 785 deletions(-)
 
-diff --git a/arch/sparc/Kconfig b/arch/sparc/Kconfig
-index 23cdf1959991..19ee7bc0b2ea 100644
---- a/arch/sparc/Kconfig
-+++ b/arch/sparc/Kconfig
-@@ -410,11 +410,6 @@ config SUN_LDOMS
- 	  Say Y here is you want to support virtual devices via
- 	  Logical Domains.
+diff --git a/arch/sparc/include/asm/irq_32.h b/arch/sparc/include/asm/irq_32.h
+index 6ee48321cbc2..c402c81b85a7 100644
+--- a/arch/sparc/include/asm/irq_32.h
++++ b/arch/sparc/include/asm/irq_32.h
+@@ -17,8 +17,6 @@
  
--config PCIC_PCI
--	bool
--	depends on PCI && SPARC32 && !SPARC_LEON
--	default y
+ #define irq_canonicalize(irq)	(irq)
+ 
+-void __init sun4d_init_sbi_irq(void);
 -
- config LEON_PCI
- 	bool
- 	depends on PCI && SPARC_LEON
-diff --git a/arch/sparc/include/asm/pcic.h b/arch/sparc/include/asm/pcic.h
-deleted file mode 100644
-index 238376b1ffcc..000000000000
---- a/arch/sparc/include/asm/pcic.h
-+++ /dev/null
-@@ -1,130 +0,0 @@
--/* SPDX-License-Identifier: GPL-2.0 */
--/*
-- * pcic.h: JavaEngine 1 specific PCI definitions.
-- *
-- * Copyright (C) 1998 V. Roganov and G. Raiko
-- */
--
--#ifndef __SPARC_PCIC_H
--#define __SPARC_PCIC_H
--
--#ifndef __ASSEMBLY__
--
--#include <linux/types.h>
--#include <linux/smp.h>
--#include <linux/pci.h>
--#include <linux/ioport.h>
--#include <asm/pbm.h>
--
--struct linux_pcic {
--        void __iomem            *pcic_regs;
--        unsigned long           pcic_io;
--        void __iomem            *pcic_config_space_addr;
--        void __iomem            *pcic_config_space_data;
--	struct resource		pcic_res_regs;
--	struct resource		pcic_res_io;
--	struct resource		pcic_res_cfg_addr;
--	struct resource		pcic_res_cfg_data;
--        struct linux_pbm_info   pbm;
--	struct pcic_ca2irq	*pcic_imap;
--	int			pcic_imdim;
--};
--
--#ifdef CONFIG_PCIC_PCI
--int pcic_present(void);
--int pcic_probe(void);
--void pci_time_init(void);
--void sun4m_pci_init_IRQ(void);
--#else
--static inline int pcic_present(void) { return 0; }
--static inline int pcic_probe(void) { return 0; }
--static inline void pci_time_init(void) {}
--static inline void sun4m_pci_init_IRQ(void) {}
--#endif
--#endif
--
--/* Size of PCI I/O space which we relocate. */
--#define PCI_SPACE_SIZE                  0x1000000       /* 16 MB */
--
--/* PCIC Register Set. */
--#define PCI_DIAGNOSTIC_0                0x40    /* 32 bits */
--#define PCI_SIZE_0                      0x44    /* 32 bits */
--#define PCI_SIZE_1                      0x48    /* 32 bits */
--#define PCI_SIZE_2                      0x4c    /* 32 bits */
--#define PCI_SIZE_3                      0x50    /* 32 bits */
--#define PCI_SIZE_4                      0x54    /* 32 bits */
--#define PCI_SIZE_5                      0x58    /* 32 bits */
--#define PCI_PIO_CONTROL                 0x60    /* 8  bits */
--#define PCI_DVMA_CONTROL                0x62    /* 8  bits */
--#define  PCI_DVMA_CONTROL_INACTIVITY_REQ        (1<<0)
--#define  PCI_DVMA_CONTROL_IOTLB_ENABLE          (1<<0)
--#define  PCI_DVMA_CONTROL_IOTLB_DISABLE         0
--#define  PCI_DVMA_CONTROL_INACTIVITY_ACK        (1<<4)
--#define PCI_INTERRUPT_CONTROL           0x63    /* 8  bits */
--#define PCI_CPU_INTERRUPT_PENDING       0x64    /* 32 bits */
--#define PCI_DIAGNOSTIC_1                0x68    /* 16 bits */
--#define PCI_SOFTWARE_INT_CLEAR          0x6a    /* 16 bits */
--#define PCI_SOFTWARE_INT_SET            0x6e    /* 16 bits */
--#define PCI_SYS_INT_PENDING             0x70    /* 32 bits */
--#define  PCI_SYS_INT_PENDING_PIO		0x40000000
--#define  PCI_SYS_INT_PENDING_DMA		0x20000000
--#define  PCI_SYS_INT_PENDING_PCI		0x10000000
--#define  PCI_SYS_INT_PENDING_APSR		0x08000000
--#define PCI_SYS_INT_TARGET_MASK         0x74    /* 32 bits */
--#define PCI_SYS_INT_TARGET_MASK_CLEAR   0x78    /* 32 bits */
--#define PCI_SYS_INT_TARGET_MASK_SET     0x7c    /* 32 bits */
--#define PCI_SYS_INT_PENDING_CLEAR       0x83    /* 8  bits */
--#define  PCI_SYS_INT_PENDING_CLEAR_ALL		0x80
--#define  PCI_SYS_INT_PENDING_CLEAR_PIO		0x40
--#define  PCI_SYS_INT_PENDING_CLEAR_DMA		0x20
--#define  PCI_SYS_INT_PENDING_CLEAR_PCI		0x10
--#define PCI_IOTLB_CONTROL               0x84    /* 8  bits */
--#define PCI_INT_SELECT_LO               0x88    /* 16 bits */
--#define PCI_ARBITRATION_SELECT          0x8a    /* 16 bits */
--#define PCI_INT_SELECT_HI               0x8c    /* 16 bits */
--#define PCI_HW_INT_OUTPUT               0x8e    /* 16 bits */
--#define PCI_IOTLB_RAM_INPUT             0x90    /* 32 bits */
--#define PCI_IOTLB_CAM_INPUT             0x94    /* 32 bits */
--#define PCI_IOTLB_RAM_OUTPUT            0x98    /* 32 bits */
--#define PCI_IOTLB_CAM_OUTPUT            0x9c    /* 32 bits */
--#define PCI_SMBAR0                      0xa0    /* 8  bits */
--#define PCI_MSIZE0                      0xa1    /* 8  bits */
--#define PCI_PMBAR0                      0xa2    /* 8  bits */
--#define PCI_SMBAR1                      0xa4    /* 8  bits */
--#define PCI_MSIZE1                      0xa5    /* 8  bits */
--#define PCI_PMBAR1                      0xa6    /* 8  bits */
--#define PCI_SIBAR                       0xa8    /* 8  bits */
--#define   PCI_SIBAR_ADDRESS_MASK        0xf
--#define PCI_ISIZE                       0xa9    /* 8  bits */
--#define   PCI_ISIZE_16M                 0xf
--#define   PCI_ISIZE_32M                 0xe
--#define   PCI_ISIZE_64M                 0xc
--#define   PCI_ISIZE_128M                0x8
--#define   PCI_ISIZE_256M                0x0
--#define PCI_PIBAR                       0xaa    /* 8  bits */
--#define PCI_CPU_COUNTER_LIMIT_HI        0xac    /* 32 bits */
--#define PCI_CPU_COUNTER_LIMIT_LO        0xb0    /* 32 bits */
--#define PCI_CPU_COUNTER_LIMIT           0xb4    /* 32 bits */
--#define PCI_SYS_LIMIT                   0xb8    /* 32 bits */
--#define PCI_SYS_COUNTER                 0xbc    /* 32 bits */
--#define   PCI_SYS_COUNTER_OVERFLOW      (1<<31) /* Limit reached */
--#define PCI_SYS_LIMIT_PSEUDO            0xc0    /* 32 bits */
--#define PCI_USER_TIMER_CONTROL          0xc4    /* 8  bits */
--#define PCI_USER_TIMER_CONFIG           0xc5    /* 8  bits */
--#define PCI_COUNTER_IRQ                 0xc6    /* 8  bits */
--#define  PCI_COUNTER_IRQ_SET(sys_irq, cpu_irq)  ((((sys_irq) & 0xf) << 4) | \
--                                                  ((cpu_irq) & 0xf))
--#define  PCI_COUNTER_IRQ_SYS(v)                 (((v) >> 4) & 0xf)
--#define  PCI_COUNTER_IRQ_CPU(v)                 ((v) & 0xf)
--#define PCI_PIO_ERROR_COMMAND           0xc7    /* 8  bits */
--#define PCI_PIO_ERROR_ADDRESS           0xc8    /* 32 bits */
--#define PCI_IOTLB_ERROR_ADDRESS         0xcc    /* 32 bits */
--#define PCI_SYS_STATUS                  0xd0    /* 8  bits */
--#define   PCI_SYS_STATUS_RESET_ENABLE           (1<<0)
--#define   PCI_SYS_STATUS_RESET                  (1<<1)
--#define   PCI_SYS_STATUS_WATCHDOG_RESET         (1<<4)
--#define   PCI_SYS_STATUS_PCI_RESET              (1<<5)
--#define   PCI_SYS_STATUS_PCI_RESET_ENABLE       (1<<6)
--#define   PCI_SYS_STATUS_PCI_SATTELITE_MODE     (1<<7)
--
--#endif /* !(__SPARC_PCIC_H) */
+ #define NO_IRQ		0xffffffff
+ 
+ #endif
 diff --git a/arch/sparc/kernel/Makefile b/arch/sparc/kernel/Makefile
-index bd31bdd0b13e..50d696c8a9d2 100644
+index b253b7e132ce..d3d21e58b4e6 100644
 --- a/arch/sparc/kernel/Makefile
 +++ b/arch/sparc/kernel/Makefile
-@@ -73,7 +73,6 @@ obj-$(CONFIG_SPARC64)	+= pcr.o
- obj-$(CONFIG_SPARC64)	+= nmi.o
- obj-$(CONFIG_SPARC64_SMP) += cpumap.o
+@@ -28,7 +28,7 @@ obj-y                   += traps_$(BITS).o
  
--obj-$(CONFIG_PCIC_PCI)    += pcic.o
- obj-$(CONFIG_LEON_PCI)    += leon_pci.o
- obj-$(CONFIG_SPARC_GRPCI2)+= leon_pci_grpci2.o
- obj-$(CONFIG_SPARC_GRPCI1)+= leon_pci_grpci1.o
-diff --git a/arch/sparc/kernel/entry.S b/arch/sparc/kernel/entry.S
-index 9bd3813b872d..13011969e7eb 100644
---- a/arch/sparc/kernel/entry.S
-+++ b/arch/sparc/kernel/entry.S
-@@ -965,54 +965,6 @@ restore_current:
- 	retl
- 	 nop
+ # IRQ
+ obj-y                   += irq_$(BITS).o
+-obj-$(CONFIG_SPARC32)   += sun4m_irq.o sun4d_irq.o
++obj-$(CONFIG_SPARC32)   += sun4m_irq.o
  
--#ifdef CONFIG_PCIC_PCI
--#include <asm/pcic.h>
--
--	.align	4
--	.globl	linux_trap_ipi15_pcic
--linux_trap_ipi15_pcic:
--	rd	%wim, %l3
--	SAVE_ALL
--
--	/*
--	 * First deactivate NMI
--	 * or we cannot drop ET, cannot get window spill traps.
--	 * The busy loop is necessary because the PIO error
--	 * sometimes does not go away quickly and we trap again.
--	 */
--	sethi	%hi(pcic_regs), %o1
--	ld	[%o1 + %lo(pcic_regs)], %o2
--
--	! Get pending status for printouts later.
--	ld	[%o2 + PCI_SYS_INT_PENDING], %o0
--
--	mov	PCI_SYS_INT_PENDING_CLEAR_ALL, %o1
--	stb	%o1, [%o2 + PCI_SYS_INT_PENDING_CLEAR]
--1:
--	ld	[%o2 + PCI_SYS_INT_PENDING], %o1
--	andcc	%o1, ((PCI_SYS_INT_PENDING_PIO|PCI_SYS_INT_PENDING_PCI)>>24), %g0
--	bne	1b
--	 nop
--
--	or	%l0, PSR_PIL, %l4
--	wr	%l4, 0x0, %psr
--	WRITE_PAUSE
--	wr	%l4, PSR_ET, %psr
--	WRITE_PAUSE
--
--	call	pcic_nmi
--	 add	%sp, STACKFRAME_SZ, %o1	! struct pt_regs *regs
--	RESTORE_ALL
--
--	.globl	pcic_nmi_trap_patch
--pcic_nmi_trap_patch:
--	sethi	%hi(linux_trap_ipi15_pcic), %l3
--	jmpl	%l3 + %lo(linux_trap_ipi15_pcic), %g0
--	 rd	%psr, %l0
--	.word	0
--
--#endif /* CONFIG_PCIC_PCI */
--
- 	.globl	flushw_all
- flushw_all:
- 	save	%sp, -0x40, %sp
+ obj-y                   += process_$(BITS).o
+ obj-y                   += process.o
 diff --git a/arch/sparc/kernel/irq_32.c b/arch/sparc/kernel/irq_32.c
-index 135170f362c1..a6af08fce796 100644
+index 510184c3aa17..135170f362c1 100644
 --- a/arch/sparc/kernel/irq_32.c
 +++ b/arch/sparc/kernel/irq_32.c
-@@ -19,7 +19,6 @@
- #include <asm/cacheflush.h>
- #include <asm/cpudata.h>
- #include <asm/setup.h>
--#include <asm/pcic.h>
- #include <asm/leon.h>
+@@ -235,36 +235,8 @@ void handler_irq(unsigned int pil, struct pt_regs *regs)
+ 	set_irq_regs(old_regs);
+ }
  
- #include "kernel.h"
-diff --git a/arch/sparc/kernel/kernel.h b/arch/sparc/kernel/kernel.h
-index 621fb7b6ec64..4fcd782f16a7 100644
---- a/arch/sparc/kernel/kernel.h
-+++ b/arch/sparc/kernel/kernel.h
-@@ -138,10 +138,6 @@ asmlinkage void user_unaligned_trap(struct pt_regs *regs, unsigned int insn);
- /* windows.c */
- void try_to_clear_window_buffer(struct pt_regs *regs, int who);
- 
--/* pcic.c */
--extern void __iomem *pcic_regs;
--void pcic_nmi(unsigned int pend, struct pt_regs *regs);
--
- /* time_32.c */
- void __init time_init(void);
- 
-diff --git a/arch/sparc/kernel/pcic.c b/arch/sparc/kernel/pcic.c
-deleted file mode 100644
-index d952bcbbc395..000000000000
---- a/arch/sparc/kernel/pcic.c
-+++ /dev/null
-@@ -1,829 +0,0 @@
--// SPDX-License-Identifier: GPL-2.0
--/*
-- * pcic.c: MicroSPARC-IIep PCI controller support
+-/* djhr
+- * This could probably be made indirect too and assigned in the CPU
+- * bits of the code. That would be much nicer I think and would also
+- * fit in with the idea of being able to tune your kernel for your machine
+- * by removing unrequired machine and device support.
 - *
-- * Copyright (C) 1998 V. Roganov and G. Raiko
-- *
-- * Code is derived from Ultra/PCI PSYCHO controller support, see that
-- * for author info.
-- *
-- * Support for diverse IIep based platforms by Pete Zaitcev.
-- * CP-1200 by Eric Brower.
 - */
 -
--#include <linux/kernel.h>
--#include <linux/types.h>
--#include <linux/init.h>
--#include <linux/mm.h>
+ void __init init_IRQ(void)
+ {
+-	switch (sparc_cpu_model) {
+-	case sun4m:
+-		pcic_probe();
+-		if (pcic_present())
+-			sun4m_pci_init_IRQ();
+-		else
+-			sun4m_init_IRQ();
+-		break;
+-
+-	case sun4d:
+-		sun4d_init_IRQ();
+-		break;
+-
+-	case sparc_leon:
+-		leon_init_IRQ();
+-		break;
+-
+-	default:
+-		prom_printf("Cannot initialize IRQs on this Sun machine...");
+-		break;
+-	}
++	leon_init_IRQ();
+ }
+ 
+diff --git a/arch/sparc/kernel/kernel.h b/arch/sparc/kernel/kernel.h
+index 6165e1b26df7..c467b1425506 100644
+--- a/arch/sparc/kernel/kernel.h
++++ b/arch/sparc/kernel/kernel.h
+@@ -93,7 +93,6 @@ extern spinlock_t irq_action_lock;
+ void unexpected_irq(int irq, void *dev_id, struct pt_regs * regs);
+ 
+ /* sun4m_irq.c */
+-void sun4m_init_IRQ(void);
+ void sun4m_unmask_profile_irq(void);
+ void sun4m_clear_profile_irq(int cpu);
+ 
+@@ -106,18 +105,6 @@ void __init smp4m_smp_done(void);
+ void smp4m_cross_call_irq(void);
+ void smp4m_percpu_timer_interrupt(struct pt_regs *regs);
+ 
+-/* sun4d_irq.c */
+-extern spinlock_t sun4d_imsk_lock;
+-
+-void sun4d_init_IRQ(void);
+-int sun4d_request_irq(unsigned int irq,
+-                      irq_handler_t handler,
+-                      unsigned long irqflags,
+-                      const char *devname, void *dev_id);
+-int show_sun4d_interrupts(struct seq_file *, void *);
+-void sun4d_distribute_irqs(void);
+-void sun4d_free_irq(unsigned int irq, void *dev_id);
+-
+ /* sun4d_smp.c */
+ void sun4d_cpu_pre_starting(void *arg);
+ void sun4d_cpu_pre_online(void *arg);
+diff --git a/arch/sparc/kernel/sun4d_irq.c b/arch/sparc/kernel/sun4d_irq.c
+deleted file mode 100644
+index 7140cff04b54..000000000000
+--- a/arch/sparc/kernel/sun4d_irq.c
++++ /dev/null
+@@ -1,494 +0,0 @@
+-// SPDX-License-Identifier: GPL-2.0
+-/*
+- * SS1000/SC2000 interrupt handling.
+- *
+- *  Copyright (C) 1997,1998 Jakub Jelinek (jj@sunsite.mff.cuni.cz)
+- *  Heavily based on arch/sparc/kernel/irq.c.
+- */
+-
+-#include <linux/kernel_stat.h>
 -#include <linux/slab.h>
--#include <linux/jiffies.h>
+-#include <linux/seq_file.h>
 -
--#include <asm/swift.h> /* for cache flushing. */
--#include <asm/io.h>
--
--#include <linux/ctype.h>
--#include <linux/pci.h>
--#include <linux/time.h>
--#include <linux/timex.h>
--#include <linux/interrupt.h>
--#include <linux/export.h>
--
--#include <asm/irq.h>
--#include <asm/oplib.h>
--#include <asm/prom.h>
--#include <asm/pcic.h>
--#include <asm/timex.h>
 -#include <asm/timer.h>
--#include <linux/uaccess.h>
--#include <asm/irq_regs.h>
+-#include <asm/traps.h>
+-#include <asm/irq.h>
+-#include <asm/io.h>
+-#include <asm/sbi.h>
+-#include <asm/cacheflush.h>
+-#include <asm/setup.h>
+-#include <asm/oplib.h>
 -
 -#include "kernel.h"
 -#include "irq.h"
 -
--/*
-- * I studied different documents and many live PROMs both from 2.30
-- * family and 3.xx versions. I came to the amazing conclusion: there is
-- * absolutely no way to route interrupts in IIep systems relying on
-- * information which PROM presents. We must hardcode interrupt routing
-- * schematics. And this actually sucks.   -- zaitcev 1999/05/12
+-/* Sun4d interrupts fall roughly into two categories.  SBUS and
+- * cpu local.  CPU local interrupts cover the timer interrupts
+- * and whatnot, and we encode those as normal PILs between
+- * 0 and 15.
+- * SBUS interrupts are encodes as a combination of board, level and slot.
+- */
+-
+-struct sun4d_handler_data {
+-	unsigned int cpuid;    /* target cpu */
+-	unsigned int real_irq; /* interrupt level */
+-};
+-
+-
+-static unsigned int sun4d_encode_irq(int board, int lvl, int slot)
+-{
+-	return (board + 1) << 5 | (lvl << 2) | slot;
+-}
+-
+-struct sun4d_timer_regs {
+-	u32	l10_timer_limit;
+-	u32	l10_cur_countx;
+-	u32	l10_limit_noclear;
+-	u32	ctrl;
+-	u32	l10_cur_count;
+-};
+-
+-static struct sun4d_timer_regs __iomem *sun4d_timers;
+-
+-#define SUN4D_TIMER_IRQ        10
+-
+-/* Specify which cpu handle interrupts from which board.
+- * Index is board - value is cpu.
+- */
+-static unsigned char board_to_cpu[32];
+-
+-static int pil_to_sbus[] = {
+-	0,
+-	0,
+-	1,
+-	2,
+-	0,
+-	3,
+-	0,
+-	4,
+-	0,
+-	5,
+-	0,
+-	6,
+-	0,
+-	7,
+-	0,
+-	0,
+-};
+-
+-/* Exported for sun4d_smp.c */
+-DEFINE_SPINLOCK(sun4d_imsk_lock);
+-
+-/* SBUS interrupts are encoded integers including the board number
+- * (plus one), the SBUS level, and the SBUS slot number.  Sun4D
+- * IRQ dispatch is done by:
 - *
-- * To find irq for a device we determine which routing map
-- * is in effect or, in other words, on which machine we are running.
-- * We use PROM name for this although other techniques may be used
-- * in special cases (Gleb reports a PROMless IIep based system).
-- * Once we know the map we take device configuration address and
-- * find PCIC pin number where INT line goes. Then we may either program
-- * preferred irq into the PCIC or supply the preexisting irq to the device.
-- */
--struct pcic_ca2irq {
--	unsigned char busno;		/* PCI bus number */
--	unsigned char devfn;		/* Configuration address */
--	unsigned char pin;		/* PCIC external interrupt pin */
--	unsigned char irq;		/* Preferred IRQ (mappable in PCIC) */
--	unsigned int force;		/* Enforce preferred IRQ */
--};
--
--struct pcic_sn2list {
--	char *sysname;
--	struct pcic_ca2irq *intmap;
--	int mapdim;
--};
--
--/*
-- * JavaEngine-1 apparently has different versions.
+- * 1) Reading the BW local interrupt table in order to get the bus
+- *    interrupt mask.
 - *
-- * According to communications with Sun folks, for P2 build 501-4628-03:
-- * pin 0 - parallel, audio;
-- * pin 1 - Ethernet;
-- * pin 2 - su;
-- * pin 3 - PS/2 kbd and mouse.
+- *    This table is indexed by SBUS interrupt level which can be
+- *    derived from the PIL we got interrupted on.
 - *
-- * OEM manual (805-1486):
-- * pin 0: Ethernet
-- * pin 1: All EBus
-- * pin 2: IGA (unused)
-- * pin 3: Not connected
-- * OEM manual says that 501-4628 & 501-4811 are the same thing,
-- * only the latter has NAND flash in place.
+- * 2) For each bus showing interrupt pending from #1, read the
+- *    SBI interrupt state register.  This will indicate which slots
+- *    have interrupts pending for that SBUS interrupt level.
 - *
-- * So far unofficial Sun wins over the OEM manual. Poor OEMs...
+- * 3) Call the genreric IRQ support.
 - */
--static struct pcic_ca2irq pcic_i_je1a[] = {	/* 501-4811-03 */
--	{ 0, 0x00, 2, 12, 0 },		/* EBus: hogs all */
--	{ 0, 0x01, 1,  6, 1 },		/* Happy Meal */
--	{ 0, 0x80, 0,  7, 0 },		/* IGA (unused) */
--};
--
--/* XXX JS-E entry is incomplete - PCI Slot 2 address (pin 7)? */
--static struct pcic_ca2irq pcic_i_jse[] = {
--	{ 0, 0x00, 0, 13, 0 },		/* Ebus - serial and keyboard */
--	{ 0, 0x01, 1,  6, 0 },		/* hme */
--	{ 0, 0x08, 2,  9, 0 },		/* VGA - we hope not used :) */
--	{ 0, 0x10, 6,  8, 0 },		/* PCI INTA# in Slot 1 */
--	{ 0, 0x18, 7, 12, 0 },		/* PCI INTA# in Slot 2, shared w. RTC */
--	{ 0, 0x38, 4,  9, 0 },		/* All ISA devices. Read 8259. */
--	{ 0, 0x80, 5, 11, 0 },		/* EIDE */
--	/* {0,0x88, 0,0,0} - unknown device... PMU? Probably no interrupt. */
--	{ 0, 0xA0, 4,  9, 0 },		/* USB */
--	/*
--	 * Some pins belong to non-PCI devices, we hardcode them in drivers.
--	 * sun4m timers - irq 10, 14
--	 * PC style RTC - pin 7, irq 4 ?
--	 * Smart card, Parallel - pin 4 shared with USB, ISA
--	 * audio - pin 3, irq 5 ?
--	 */
--};
--
--/* SPARCengine-6 was the original release name of CP1200.
-- * The documentation differs between the two versions
-- */
--static struct pcic_ca2irq pcic_i_se6[] = {
--	{ 0, 0x08, 0,  2, 0 },		/* SCSI	*/
--	{ 0, 0x01, 1,  6, 0 },		/* HME	*/
--	{ 0, 0x00, 3, 13, 0 },		/* EBus	*/
--};
--
--/*
-- * Krups (courtesy of Varol Kaptan)
-- * No documentation available, but it was easy to guess
-- * because it was very similar to Espresso.
-- *  
-- * pin 0 - kbd, mouse, serial;
-- * pin 1 - Ethernet;
-- * pin 2 - igs (we do not use it);
-- * pin 3 - audio;
-- * pin 4,5,6 - unused;
-- * pin 7 - RTC (from P2 onwards as David B. says).
-- */
--static struct pcic_ca2irq pcic_i_jk[] = {
--	{ 0, 0x00, 0, 13, 0 },		/* Ebus - serial and keyboard */
--	{ 0, 0x01, 1,  6, 0 },		/* hme */
--};
--
--/*
-- * Several entries in this list may point to the same routing map
-- * as several PROMs may be installed on the same physical board.
-- */
--#define SN2L_INIT(name, map)	\
--  { name, map, ARRAY_SIZE(map) }
--
--static struct pcic_sn2list pcic_known_sysnames[] = {
--	SN2L_INIT("SUNW,JavaEngine1", pcic_i_je1a),	/* JE1, PROM 2.32 */
--	SN2L_INIT("SUNW,JS-E", pcic_i_jse),	/* PROLL JavaStation-E */
--	SN2L_INIT("SUNW,SPARCengine-6", pcic_i_se6), /* SPARCengine-6/CP-1200 */
--	SN2L_INIT("SUNW,JS-NC", pcic_i_jk),	/* PROLL JavaStation-NC */
--	SN2L_INIT("SUNW,JSIIep", pcic_i_jk),	/* OBP JavaStation-NC */
--	{ NULL, NULL, 0 }
--};
--
--/*
-- * Only one PCIC per IIep,
-- * and since we have no SMP IIep, only one per system.
-- */
--static int pcic0_up;
--static struct linux_pcic pcic0;
--
--void __iomem *pcic_regs;
--static volatile int pcic_speculative;
--static volatile int pcic_trapped;
--
--/* forward */
--unsigned int pcic_build_device_irq(struct platform_device *op,
--                                   unsigned int real_irq);
--
--#define CONFIG_CMD(bus, device_fn, where) (0x80000000 | (((unsigned int)bus) << 16) | (((unsigned int)device_fn) << 8) | (where & ~3))
--
--static int pcic_read_config_dword(unsigned int busno, unsigned int devfn,
--    int where, u32 *value)
+-static void sun4d_sbus_handler_irq(int sbusl)
 -{
--	struct linux_pcic *pcic;
--	unsigned long flags;
+-	unsigned int bus_mask;
+-	unsigned int sbino, slot;
+-	unsigned int sbil;
 -
--	pcic = &pcic0;
+-	bus_mask = bw_get_intr_mask(sbusl) & 0x3ffff;
+-	bw_clear_intr_mask(sbusl, bus_mask);
 -
--	local_irq_save(flags);
--#if 0 /* does not fail here */
--	pcic_speculative = 1;
--	pcic_trapped = 0;
--#endif
--	writel(CONFIG_CMD(busno, devfn, where), pcic->pcic_config_space_addr);
--#if 0 /* does not fail here */
--	nop();
--	if (pcic_trapped) {
--		local_irq_restore(flags);
--		*value = ~0;
--		return 0;
--	}
--#endif
--	pcic_speculative = 2;
--	pcic_trapped = 0;
--	*value = readl(pcic->pcic_config_space_data + (where&4));
--	nop();
--	if (pcic_trapped) {
--		pcic_speculative = 0;
--		local_irq_restore(flags);
--		*value = ~0;
--		return 0;
--	}
--	pcic_speculative = 0;
--	local_irq_restore(flags);
--	return 0;
--}
+-	sbil = (sbusl << 2);
+-	/* Loop for each pending SBI */
+-	for (sbino = 0; bus_mask; sbino++, bus_mask >>= 1) {
+-		unsigned int idx, mask;
 -
--static int pcic_read_config(struct pci_bus *bus, unsigned int devfn,
--   int where, int size, u32 *val)
--{
--	unsigned int v;
--
--	if (bus->number != 0) return -EINVAL;
--	switch (size) {
--	case 1:
--		pcic_read_config_dword(bus->number, devfn, where&~3, &v);
--		*val = 0xff & (v >> (8*(where & 3)));
--		return 0;
--	case 2:
--		if (where&1) return -EINVAL;
--		pcic_read_config_dword(bus->number, devfn, where&~3, &v);
--		*val = 0xffff & (v >> (8*(where & 3)));
--		return 0;
--	case 4:
--		if (where&3) return -EINVAL;
--		pcic_read_config_dword(bus->number, devfn, where&~3, val);
--		return 0;
--	}
--	return -EINVAL;
--}
--
--static int pcic_write_config_dword(unsigned int busno, unsigned int devfn,
--    int where, u32 value)
--{
--	struct linux_pcic *pcic;
--	unsigned long flags;
--
--	pcic = &pcic0;
--
--	local_irq_save(flags);
--	writel(CONFIG_CMD(busno, devfn, where), pcic->pcic_config_space_addr);
--	writel(value, pcic->pcic_config_space_data + (where&4));
--	local_irq_restore(flags);
--	return 0;
--}
--
--static int pcic_write_config(struct pci_bus *bus, unsigned int devfn,
--   int where, int size, u32 val)
--{
--	unsigned int v;
--
--	if (bus->number != 0) return -EINVAL;
--	switch (size) {
--	case 1:
--		pcic_read_config_dword(bus->number, devfn, where&~3, &v);
--		v = (v & ~(0xff << (8*(where&3)))) |
--		    ((0xff&val) << (8*(where&3)));
--		return pcic_write_config_dword(bus->number, devfn, where&~3, v);
--	case 2:
--		if (where&1) return -EINVAL;
--		pcic_read_config_dword(bus->number, devfn, where&~3, &v);
--		v = (v & ~(0xffff << (8*(where&3)))) |
--		    ((0xffff&val) << (8*(where&3)));
--		return pcic_write_config_dword(bus->number, devfn, where&~3, v);
--	case 4:
--		if (where&3) return -EINVAL;
--		return pcic_write_config_dword(bus->number, devfn, where, val);
--	}
--	return -EINVAL;
--}
--
--static struct pci_ops pcic_ops = {
--	.read =		pcic_read_config,
--	.write =	pcic_write_config,
--};
--
--/*
-- * On sparc64 pcibios_init() calls pci_controller_probe().
-- * We want PCIC probed little ahead so that interrupt controller
-- * would be operational.
-- */
--int __init pcic_probe(void)
--{
--	struct linux_pcic *pcic;
--	struct linux_prom_registers regs[PROMREG_MAX];
--	struct linux_pbm_info* pbm;
--	char namebuf[64];
--	phandle node;
--	int err;
--
--	if (pcic0_up) {
--		prom_printf("PCIC: called twice!\n");
--		prom_halt();
--	}
--	pcic = &pcic0;
--
--	node = prom_getchild (prom_root_node);
--	node = prom_searchsiblings (node, "pci");
--	if (node == 0)
--		return -ENODEV;
--	/*
--	 * Map in PCIC register set, config space, and IO base
--	 */
--	err = prom_getproperty(node, "reg", (char*)regs, sizeof(regs));
--	if (err == 0 || err == -1) {
--		prom_printf("PCIC: Error, cannot get PCIC registers "
--			    "from PROM.\n");
--		prom_halt();
--	}
--
--	pcic0_up = 1;
--
--	pcic->pcic_res_regs.name = "pcic_registers";
--	pcic->pcic_regs = ioremap(regs[0].phys_addr, regs[0].reg_size);
--	if (!pcic->pcic_regs) {
--		prom_printf("PCIC: Error, cannot map PCIC registers.\n");
--		prom_halt();
--	}
--
--	pcic->pcic_res_io.name = "pcic_io";
--	if ((pcic->pcic_io = (unsigned long)
--	    ioremap(regs[1].phys_addr, 0x10000)) == 0) {
--		prom_printf("PCIC: Error, cannot map PCIC IO Base.\n");
--		prom_halt();
--	}
--
--	pcic->pcic_res_cfg_addr.name = "pcic_cfg_addr";
--	if ((pcic->pcic_config_space_addr =
--	    ioremap(regs[2].phys_addr, regs[2].reg_size * 2)) == NULL) {
--		prom_printf("PCIC: Error, cannot map "
--			    "PCI Configuration Space Address.\n");
--		prom_halt();
--	}
--
--	/*
--	 * Docs say three least significant bits in address and data
--	 * must be the same. Thus, we need adjust size of data.
--	 */
--	pcic->pcic_res_cfg_data.name = "pcic_cfg_data";
--	if ((pcic->pcic_config_space_data =
--	    ioremap(regs[3].phys_addr, regs[3].reg_size * 2)) == NULL) {
--		prom_printf("PCIC: Error, cannot map "
--			    "PCI Configuration Space Data.\n");
--		prom_halt();
--	}
--
--	pbm = &pcic->pbm;
--	pbm->prom_node = node;
--	prom_getstring(node, "name", namebuf, 63);  namebuf[63] = 0;
--	strcpy(pbm->prom_name, namebuf);
--
--	prom_getstring(prom_root_node, "name", namebuf, 63);  namebuf[63] = 0;
--	{
--		struct pcic_sn2list *p;
--
--		for (p = pcic_known_sysnames; p->sysname != NULL; p++) {
--			if (strcmp(namebuf, p->sysname) == 0)
--				break;
--		}
--		pcic->pcic_imap = p->intmap;
--		pcic->pcic_imdim = p->mapdim;
--	}
--	if (pcic->pcic_imap == NULL) {
--		/*
--		 * We do not panic here for the sake of embedded systems.
--		 */
--		printk("PCIC: System %s is unknown, cannot route interrupts\n",
--		    namebuf);
--	}
--
--	return 0;
--}
--
--static void __init pcic_pbm_scan_bus(struct linux_pcic *pcic)
--{
--	struct linux_pbm_info *pbm = &pcic->pbm;
--
--	pbm->pci_bus = pci_scan_bus(pbm->pci_first_busno, &pcic_ops, pbm);
--	if (!pbm->pci_bus)
--		return;
--
--#if 0 /* deadwood transplanted from sparc64 */
--	pci_fill_in_pbm_cookies(pbm->pci_bus, pbm, pbm->prom_node);
--	pci_record_assignments(pbm, pbm->pci_bus);
--	pci_assign_unassigned(pbm, pbm->pci_bus);
--	pci_fixup_irq(pbm, pbm->pci_bus);
--#endif
--	pci_bus_add_devices(pbm->pci_bus);
--}
--
--/*
-- * Main entry point from the PCI subsystem.
-- */
--static int __init pcic_init(void)
--{
--	struct linux_pcic *pcic;
--
--	/*
--	 * PCIC should be initialized at start of the timer.
--	 * So, here we report the presence of PCIC and do some magic passes.
--	 */
--	if(!pcic0_up)
--		return 0;
--	pcic = &pcic0;
--
--	/*
--	 *      Switch off IOTLB translation.
--	 */
--	writeb(PCI_DVMA_CONTROL_IOTLB_DISABLE, 
--	       pcic->pcic_regs+PCI_DVMA_CONTROL);
--
--	/*
--	 *      Increase mapped size for PCI memory space (DMA access).
--	 *      Should be done in that order (size first, address second).
--	 *      Why we couldn't set up 4GB and forget about it? XXX
--	 */
--	writel(0xF0000000UL, pcic->pcic_regs+PCI_SIZE_0);
--	writel(0+PCI_BASE_ADDRESS_SPACE_MEMORY, 
--	       pcic->pcic_regs+PCI_BASE_ADDRESS_0);
--
--	pcic_pbm_scan_bus(pcic);
--
--	return 0;
--}
--
--int pcic_present(void)
--{
--	return pcic0_up;
--}
--
--static int pdev_to_pnode(struct linux_pbm_info *pbm, struct pci_dev *pdev)
--{
--	struct linux_prom_pci_registers regs[PROMREG_MAX];
--	int err;
--	phandle node = prom_getchild(pbm->prom_node);
--
--	while(node) {
--		err = prom_getproperty(node, "reg", 
--				       (char *)&regs[0], sizeof(regs));
--		if(err != 0 && err != -1) {
--			unsigned long devfn = (regs[0].which_io >> 8) & 0xff;
--			if(devfn == pdev->devfn)
--				return node;
--		}
--		node = prom_getsibling(node);
--	}
--	return 0;
--}
--
--static inline struct pcidev_cookie *pci_devcookie_alloc(void)
--{
--	return kmalloc(sizeof(struct pcidev_cookie), GFP_ATOMIC);
--}
--
--static void pcic_map_pci_device(struct linux_pcic *pcic,
--    struct pci_dev *dev, int node)
--{
--	char namebuf[64];
--	unsigned long address;
--	unsigned long flags;
--	int j;
--
--	if (node == 0 || node == -1) {
--		strcpy(namebuf, "???");
--	} else {
--		prom_getstring(node, "name", namebuf, 63); namebuf[63] = 0;
--	}
--
--	for (j = 0; j < 6; j++) {
--		address = dev->resource[j].start;
--		if (address == 0) break;	/* are sequential */
--		flags = dev->resource[j].flags;
--		if ((flags & IORESOURCE_IO) != 0) {
--			if (address < 0x10000) {
--				/*
--				 * A device responds to I/O cycles on PCI.
--				 * We generate these cycles with memory
--				 * access into the fixed map (phys 0x30000000).
--				 *
--				 * Since a device driver does not want to
--				 * do ioremap() before accessing PC-style I/O,
--				 * we supply virtual, ready to access address.
--				 *
--				 * Note that request_region()
--				 * works for these devices.
--				 *
--				 * XXX Neat trick, but it's a *bad* idea
--				 * to shit into regions like that.
--				 * What if we want to allocate one more
--				 * PCI base address...
--				 */
--				dev->resource[j].start =
--				    pcic->pcic_io + address;
--				dev->resource[j].end = 1;  /* XXX */
--				dev->resource[j].flags =
--				    (flags & ~IORESOURCE_IO) | IORESOURCE_MEM;
--			} else {
--				/*
--				 * OOPS... PCI Spec allows this. Sun does
--				 * not have any devices getting above 64K
--				 * so it must be user with a weird I/O
--				 * board in a PCI slot. We must remap it
--				 * under 64K but it is not done yet. XXX
--				 */
--				pci_info(dev, "PCIC: Skipping I/O space at "
--					 "0x%lx, this will Oops if a driver "
--					 "attaches device '%s'\n", address,
--					 namebuf);
--			}
--		}
--	}
--}
--
--static void
--pcic_fill_irq(struct linux_pcic *pcic, struct pci_dev *dev, int node)
--{
--	struct pcic_ca2irq *p;
--	unsigned int real_irq;
--	int i, ivec;
--	char namebuf[64];
--
--	if (node == 0 || node == -1) {
--		strcpy(namebuf, "???");
--	} else {
--		prom_getstring(node, "name", namebuf, sizeof(namebuf));
--	}
--
--	if ((p = pcic->pcic_imap) == NULL) {
--		dev->irq = 0;
--		return;
--	}
--	for (i = 0; i < pcic->pcic_imdim; i++) {
--		if (p->busno == dev->bus->number && p->devfn == dev->devfn)
--			break;
--		p++;
--	}
--	if (i >= pcic->pcic_imdim) {
--		pci_info(dev, "PCIC: device %s not found in %d\n", namebuf,
--			 pcic->pcic_imdim);
--		dev->irq = 0;
--		return;
--	}
--
--	i = p->pin;
--	if (i >= 0 && i < 4) {
--		ivec = readw(pcic->pcic_regs+PCI_INT_SELECT_LO);
--		real_irq = ivec >> (i << 2) & 0xF;
--	} else if (i >= 4 && i < 8) {
--		ivec = readw(pcic->pcic_regs+PCI_INT_SELECT_HI);
--		real_irq = ivec >> ((i-4) << 2) & 0xF;
--	} else {					/* Corrupted map */
--		pci_info(dev, "PCIC: BAD PIN %d\n", i); for (;;) {}
--	}
--/* P3 */ /* printk("PCIC: device %s pin %d ivec 0x%x irq %x\n", namebuf, i, ivec, dev->irq); */
--
--	/* real_irq means PROM did not bother to program the upper
--	 * half of PCIC. This happens on JS-E with PROM 3.11, for instance.
--	 */
--	if (real_irq == 0 || p->force) {
--		if (p->irq == 0 || p->irq >= 15) {	/* Corrupted map */
--			pci_info(dev, "PCIC: BAD IRQ %d\n", p->irq); for (;;) {}
--		}
--		pci_info(dev, "PCIC: setting irq %d at pin %d\n", p->irq,
--			 p->pin);
--		real_irq = p->irq;
--
--		i = p->pin;
--		if (i >= 4) {
--			ivec = readw(pcic->pcic_regs+PCI_INT_SELECT_HI);
--			ivec &= ~(0xF << ((i - 4) << 2));
--			ivec |= p->irq << ((i - 4) << 2);
--			writew(ivec, pcic->pcic_regs+PCI_INT_SELECT_HI);
--		} else {
--			ivec = readw(pcic->pcic_regs+PCI_INT_SELECT_LO);
--			ivec &= ~(0xF << (i << 2));
--			ivec |= p->irq << (i << 2);
--			writew(ivec, pcic->pcic_regs+PCI_INT_SELECT_LO);
--		}
--	}
--	dev->irq = pcic_build_device_irq(NULL, real_irq);
--}
--
--/*
-- * Normally called from {do_}pci_scan_bus...
-- */
--void pcibios_fixup_bus(struct pci_bus *bus)
--{
--	struct pci_dev *dev;
--	struct linux_pcic *pcic;
--	/* struct linux_pbm_info* pbm = &pcic->pbm; */
--	int node;
--	struct pcidev_cookie *pcp;
--
--	if (!pcic0_up) {
--		pci_info(bus, "pcibios_fixup_bus: no PCIC\n");
--		return;
--	}
--	pcic = &pcic0;
--
--	/*
--	 * Next crud is an equivalent of pbm = pcic_bus_to_pbm(bus);
--	 */
--	if (bus->number != 0) {
--		pci_info(bus, "pcibios_fixup_bus: nonzero bus 0x%x\n",
--			 bus->number);
--		return;
--	}
--
--	list_for_each_entry(dev, &bus->devices, bus_list) {
--		node = pdev_to_pnode(&pcic->pbm, dev);
--		if(node == 0)
--			node = -1;
--
--		/* cookies */
--		pcp = pci_devcookie_alloc();
--		pcp->pbm = &pcic->pbm;
--		pcp->prom_node = of_find_node_by_phandle(node);
--		dev->sysdata = pcp;
--
--		/* fixing I/O to look like memory */
--		if ((dev->class>>16) != PCI_BASE_CLASS_BRIDGE)
--			pcic_map_pci_device(pcic, dev, node);
--
--		pcic_fill_irq(pcic, dev, node);
--	}
--}
--
--int pcibios_enable_device(struct pci_dev *dev, int mask)
--{
--	struct resource *res;
--	u16 cmd, oldcmd;
--	int i;
--
--	pci_read_config_word(dev, PCI_COMMAND, &cmd);
--	oldcmd = cmd;
--
--	pci_dev_for_each_resource(dev, res, i) {
--		/* Only set up the requested stuff */
--		if (!(mask & (1<<i)))
+-		if (!(bus_mask & 1))
 -			continue;
+-		/* XXX This seems to ACK the irq twice.  acquire_sbi()
+-		 * XXX uses swap, therefore this writes 0xf << sbil,
+-		 * XXX then later release_sbi() will write the individual
+-		 * XXX bits which were set again.
+-		 */
+-		mask = acquire_sbi(SBI2DEVID(sbino), 0xf << sbil);
+-		mask &= (0xf << sbil);
 -
--		if (res->flags & IORESOURCE_IO)
--			cmd |= PCI_COMMAND_IO;
--		if (res->flags & IORESOURCE_MEM)
--			cmd |= PCI_COMMAND_MEMORY;
--	}
+-		/* Loop for each pending SBI slot */
+-		slot = (1 << sbil);
+-		for (idx = 0; mask != 0; idx++, slot <<= 1) {
+-			unsigned int pil;
+-			struct irq_bucket *p;
 -
--	if (cmd != oldcmd) {
--		pci_info(dev, "enabling device (%04x -> %04x)\n", oldcmd, cmd);
--		pci_write_config_word(dev, PCI_COMMAND, cmd);
+-			if (!(mask & slot))
+-				continue;
+-
+-			mask &= ~slot;
+-			pil = sun4d_encode_irq(sbino, sbusl, idx);
+-
+-			p = irq_map[pil];
+-			while (p) {
+-				struct irq_bucket *next;
+-
+-				next = p->next;
+-				generic_handle_irq(p->irq);
+-				p = next;
+-			}
+-			release_sbi(SBI2DEVID(sbino), slot);
+-		}
 -	}
+-}
+-
+-void sun4d_handler_irq(unsigned int pil, struct pt_regs *regs)
+-{
+-	struct pt_regs *old_regs;
+-	/* SBUS IRQ level (1 - 7) */
+-	int sbusl = pil_to_sbus[pil];
+-
+-	/* FIXME: Is this necessary?? */
+-	cc_get_ipen();
+-
+-	cc_set_iclr(1 << pil);
+-
+-#ifdef CONFIG_SMP
+-	/*
+-	 * Check IPI data structures after IRQ has been cleared. Hard and Soft
+-	 * IRQ can happen at the same time, so both cases are always handled.
+-	 */
+-	if (pil == SUN4D_IPI_IRQ)
+-		sun4d_ipi_interrupt();
+-#endif
+-
+-	old_regs = set_irq_regs(regs);
+-	irq_enter();
+-	if (sbusl == 0) {
+-		/* cpu interrupt */
+-		struct irq_bucket *p;
+-
+-		p = irq_map[pil];
+-		while (p) {
+-			struct irq_bucket *next;
+-
+-			next = p->next;
+-			generic_handle_irq(p->irq);
+-			p = next;
+-		}
+-	} else {
+-		/* SBUS interrupt */
+-		sun4d_sbus_handler_irq(sbusl);
+-	}
+-	irq_exit();
+-	set_irq_regs(old_regs);
+-}
+-
+-
+-static void sun4d_mask_irq(struct irq_data *data)
+-{
+-	struct sun4d_handler_data *handler_data = irq_data_get_irq_handler_data(data);
+-	unsigned int real_irq;
+-#ifdef CONFIG_SMP
+-	int cpuid = handler_data->cpuid;
+-	unsigned long flags;
+-#endif
+-	real_irq = handler_data->real_irq;
+-#ifdef CONFIG_SMP
+-	spin_lock_irqsave(&sun4d_imsk_lock, flags);
+-	cc_set_imsk_other(cpuid, cc_get_imsk_other(cpuid) | (1 << real_irq));
+-	spin_unlock_irqrestore(&sun4d_imsk_lock, flags);
+-#else
+-	cc_set_imsk(cc_get_imsk() | (1 << real_irq));
+-#endif
+-}
+-
+-static void sun4d_unmask_irq(struct irq_data *data)
+-{
+-	struct sun4d_handler_data *handler_data = irq_data_get_irq_handler_data(data);
+-	unsigned int real_irq;
+-#ifdef CONFIG_SMP
+-	int cpuid = handler_data->cpuid;
+-	unsigned long flags;
+-#endif
+-	real_irq = handler_data->real_irq;
+-
+-#ifdef CONFIG_SMP
+-	spin_lock_irqsave(&sun4d_imsk_lock, flags);
+-	cc_set_imsk_other(cpuid, cc_get_imsk_other(cpuid) & ~(1 << real_irq));
+-	spin_unlock_irqrestore(&sun4d_imsk_lock, flags);
+-#else
+-	cc_set_imsk(cc_get_imsk() & ~(1 << real_irq));
+-#endif
+-}
+-
+-static unsigned int sun4d_startup_irq(struct irq_data *data)
+-{
+-	irq_link(data->irq);
+-	sun4d_unmask_irq(data);
 -	return 0;
 -}
 -
--/* Makes compiler happy */
--static volatile int pcic_timer_dummy;
--
--static void pcic_clear_clock_irq(void)
+-static void sun4d_shutdown_irq(struct irq_data *data)
 -{
--	pcic_timer_dummy = readl(pcic0.pcic_regs+PCI_SYS_LIMIT);
+-	sun4d_mask_irq(data);
+-	irq_unlink(data->irq);
 -}
 -
--/* CPU frequency is 100 MHz, timer increments every 4 CPU clocks */
--#define USECS_PER_JIFFY  (1000000 / HZ)
--#define TICK_TIMER_LIMIT ((100 * 1000000 / 4) / HZ)
+-static struct irq_chip sun4d_irq = {
+-	.name		= "sun4d",
+-	.irq_startup	= sun4d_startup_irq,
+-	.irq_shutdown	= sun4d_shutdown_irq,
+-	.irq_unmask	= sun4d_unmask_irq,
+-	.irq_mask	= sun4d_mask_irq,
+-};
 -
--static unsigned int pcic_cycles_offset(void)
+-#ifdef CONFIG_SMP
+-/* Setup IRQ distribution scheme. */
+-void __init sun4d_distribute_irqs(void)
 -{
--	u32 value, count;
+-	struct device_node *dp;
 -
--	value = readl(pcic0.pcic_regs + PCI_SYS_COUNTER);
--	count = value & ~PCI_SYS_COUNTER_OVERFLOW;
+-	int cpuid = cpu_logical_map(1);
 -
--	if (value & PCI_SYS_COUNTER_OVERFLOW)
--		count += TICK_TIMER_LIMIT;
+-	if (cpuid == -1)
+-		cpuid = cpu_logical_map(0);
+-	for_each_node_by_name(dp, "sbi") {
+-		int devid = of_getintprop_default(dp, "device-id", 0);
+-		int board = of_getintprop_default(dp, "board#", 0);
+-		board_to_cpu[board] = cpuid;
+-		set_sbi_tid(devid, cpuid << 3);
+-	}
+-	printk(KERN_ERR "All sbus IRQs directed to CPU%d\n", cpuid);
+-}
+-#endif
+-
+-static void sun4d_clear_clock_irq(void)
+-{
+-	sbus_readl(&sun4d_timers->l10_timer_limit);
+-}
+-
+-static void sun4d_load_profile_irq(int cpu, unsigned int limit)
+-{
+-	unsigned int value = limit ? timer_value(limit) : 0;
+-	bw_set_prof_limit(cpu, value);
+-}
+-
+-static void __init sun4d_load_profile_irqs(void)
+-{
+-	int cpu = 0, mid;
+-
+-	while (!cpu_find_by_instance(cpu, NULL, &mid)) {
+-		sun4d_load_profile_irq(mid >> 3, 0);
+-		cpu++;
+-	}
+-}
+-
+-static unsigned int _sun4d_build_device_irq(unsigned int real_irq,
+-                                            unsigned int pil,
+-                                            unsigned int board)
+-{
+-	struct sun4d_handler_data *handler_data;
+-	unsigned int irq;
+-
+-	irq = irq_alloc(real_irq, pil);
+-	if (irq == 0) {
+-		prom_printf("IRQ: allocate for %d %d %d failed\n",
+-			real_irq, pil, board);
+-		goto err_out;
+-	}
+-
+-	handler_data = irq_get_handler_data(irq);
+-	if (unlikely(handler_data))
+-		goto err_out;
+-
+-	handler_data = kzalloc(sizeof(struct sun4d_handler_data), GFP_ATOMIC);
+-	if (unlikely(!handler_data)) {
+-		prom_printf("IRQ: kzalloc(sun4d_handler_data) failed.\n");
+-		prom_halt();
+-	}
+-	handler_data->cpuid    = board_to_cpu[board];
+-	handler_data->real_irq = real_irq;
+-	irq_set_chip_and_handler_name(irq, &sun4d_irq,
+-	                              handle_level_irq, "level");
+-	irq_set_handler_data(irq, handler_data);
+-
+-err_out:
+-	return irq;
+-}
+-
+-
+-
+-static unsigned int sun4d_build_device_irq(struct platform_device *op,
+-                                           unsigned int real_irq)
+-{
+-	struct device_node *dp = op->dev.of_node;
+-	struct device_node *board_parent, *bus = dp->parent;
+-	char *bus_connection;
+-	const struct linux_prom_registers *regs;
+-	unsigned int pil;
+-	unsigned int irq;
+-	int board, slot;
+-	int sbusl;
+-
+-	irq = real_irq;
+-	while (bus) {
+-		if (of_node_name_eq(bus, "sbi")) {
+-			bus_connection = "io-unit";
+-			break;
+-		}
+-
+-		if (of_node_name_eq(bus, "bootbus")) {
+-			bus_connection = "cpu-unit";
+-			break;
+-		}
+-
+-		bus = bus->parent;
+-	}
+-	if (!bus)
+-		goto err_out;
+-
+-	regs = of_get_property(dp, "reg", NULL);
+-	if (!regs)
+-		goto err_out;
+-
+-	slot = regs->which_io;
+-
 -	/*
--	 * We divide all by HZ
--	 * to have microsecond resolution and to avoid overflow
+-	 * If Bus nodes parent is not io-unit/cpu-unit or the io-unit/cpu-unit
+-	 * lacks a "board#" property, something is very wrong.
 -	 */
--	count = ((count / HZ) * USECS_PER_JIFFY) / (TICK_TIMER_LIMIT / HZ);
+-	if (!of_node_name_eq(bus->parent, bus_connection)) {
+-		printk(KERN_ERR "%pOF: Error, parent is not %s.\n",
+-			bus, bus_connection);
+-		goto err_out;
+-	}
+-	board_parent = bus->parent;
+-	board = of_getintprop_default(board_parent, "board#", -1);
+-	if (board == -1) {
+-		printk(KERN_ERR "%pOF: Error, lacks board# property.\n",
+-			board_parent);
+-		goto err_out;
+-	}
 -
--	/* Coordinate with the sparc_config.clock_rate setting */
--	return count * 2;
+-	sbusl = pil_to_sbus[real_irq];
+-	if (sbusl)
+-		pil = sun4d_encode_irq(board, sbusl, slot);
+-	else
+-		pil = real_irq;
+-
+-	irq = _sun4d_build_device_irq(real_irq, pil, board);
+-err_out:
+-	return irq;
 -}
 -
--void __init pci_time_init(void)
+-static unsigned int sun4d_build_timer_irq(unsigned int board,
+-                                          unsigned int real_irq)
 -{
--	struct linux_pcic *pcic = &pcic0;
--	unsigned long v;
--	int timer_irq, irq;
+-	return _sun4d_build_device_irq(real_irq, real_irq, board);
+-}
+-
+-
+-static void __init sun4d_init_timers(void)
+-{
+-	struct device_node *dp;
+-	struct resource res;
+-	unsigned int irq;
+-	const u32 *reg;
 -	int err;
+-	int board;
 -
--#ifndef CONFIG_SMP
--	/*
--	 * The clock_rate is in SBUS dimension.
--	 * We take into account this in pcic_cycles_offset()
+-	dp = of_find_node_by_name(NULL, "cpu-unit");
+-	if (!dp) {
+-		prom_printf("sun4d_init_timers: Unable to find cpu-unit\n");
+-		prom_halt();
+-	}
+-
+-	/* Which cpu-unit we use is arbitrary, we can view the bootbus timer
+-	 * registers via any cpu's mapping.  The first 'reg' property is the
+-	 * bootbus.
 -	 */
--	sparc_config.clock_rate = SBUS_CLOCK_RATE / HZ;
+-	reg = of_get_property(dp, "reg", NULL);
+-	if (!reg) {
+-		prom_printf("sun4d_init_timers: No reg property\n");
+-		prom_halt();
+-	}
+-
+-	board = of_getintprop_default(dp, "board#", -1);
+-	if (board == -1) {
+-		prom_printf("sun4d_init_timers: No board# property on cpu-unit\n");
+-		prom_halt();
+-	}
+-
+-	of_node_put(dp);
+-
+-	res.start = reg[1];
+-	res.end = reg[2] - 1;
+-	res.flags = reg[0] & 0xff;
+-	sun4d_timers = of_ioremap(&res, BW_TIMER_LIMIT,
+-				  sizeof(struct sun4d_timer_regs), "user timer");
+-	if (!sun4d_timers) {
+-		prom_printf("sun4d_init_timers: Can't map timer regs\n");
+-		prom_halt();
+-	}
+-
+-#ifdef CONFIG_SMP
+-	sparc_config.cs_period = SBUS_CLOCK_RATE * 2;  /* 2 seconds */
+-#else
+-	sparc_config.cs_period = SBUS_CLOCK_RATE / HZ; /* 1/HZ sec  */
 -	sparc_config.features |= FEAT_L10_CLOCKEVENT;
 -#endif
 -	sparc_config.features |= FEAT_L10_CLOCKSOURCE;
--	sparc_config.get_cycles_offset = pcic_cycles_offset;
+-	sbus_writel(timer_value(sparc_config.cs_period),
+-		    &sun4d_timers->l10_timer_limit);
 -
--	writel (TICK_TIMER_LIMIT, pcic->pcic_regs+PCI_SYS_LIMIT);
--	/* PROM should set appropriate irq */
--	v = readb(pcic->pcic_regs+PCI_COUNTER_IRQ);
--	timer_irq = PCI_COUNTER_IRQ_SYS(v);
--	writel (PCI_COUNTER_IRQ_SET(timer_irq, 0),
--		pcic->pcic_regs+PCI_COUNTER_IRQ);
--	irq = pcic_build_device_irq(NULL, timer_irq);
--	err = request_irq(irq, timer_interrupt,
--			  IRQF_TIMER, "timer", NULL);
+-	master_l10_counter = &sun4d_timers->l10_cur_count;
+-
+-	irq = sun4d_build_timer_irq(board, SUN4D_TIMER_IRQ);
+-	err = request_irq(irq, timer_interrupt, IRQF_TIMER, "timer", NULL);
 -	if (err) {
--		prom_printf("time_init: unable to attach IRQ%d\n", timer_irq);
+-		prom_printf("sun4d_init_timers: request_irq() failed with %d\n",
+-		             err);
 -		prom_halt();
 -	}
--	local_irq_enable();
+-	sun4d_load_profile_irqs();
 -}
 -
--
--#if 0
--static void watchdog_reset() {
--	writeb(0, pcic->pcic_regs+PCI_SYS_STATUS);
--}
--#endif
--
--/*
-- * NMI
-- */
--void pcic_nmi(unsigned int pend, struct pt_regs *regs)
+-void __init sun4d_init_sbi_irq(void)
 -{
--	pend = swab32(pend);
+-	struct device_node *dp;
+-	int target_cpu;
 -
--	if (!pcic_speculative || (pend & PCI_SYS_INT_PENDING_PIO) == 0) {
--		/*
--		 * XXX On CP-1200 PCI #SERR may happen, we do not know
--		 * what to do about it yet.
--		 */
--		printk("Aiee, NMI pend 0x%x pc 0x%x spec %d, hanging\n",
--		    pend, (int)regs->pc, pcic_speculative);
--		for (;;) { }
+-	target_cpu = boot_cpu_id;
+-	for_each_node_by_name(dp, "sbi") {
+-		int devid = of_getintprop_default(dp, "device-id", 0);
+-		int board = of_getintprop_default(dp, "board#", 0);
+-		unsigned int mask;
+-
+-		set_sbi_tid(devid, target_cpu << 3);
+-		board_to_cpu[board] = target_cpu;
+-
+-		/* Get rid of pending irqs from PROM */
+-		mask = acquire_sbi(devid, 0xffffffff);
+-		if (mask) {
+-			printk(KERN_ERR "Clearing pending IRQs %08x on SBI %d\n",
+-			       mask, board);
+-			release_sbi(devid, mask);
+-		}
 -	}
--	pcic_speculative = 0;
--	pcic_trapped = 1;
--	regs->pc = regs->npc;
--	regs->npc += 4;
 -}
 -
--static inline unsigned long get_irqmask(int irq_nr)
+-void __init sun4d_init_IRQ(void)
 -{
--	return 1 << irq_nr;
--}
+-	local_irq_disable();
 -
--static void pcic_mask_irq(struct irq_data *data)
+-	sparc_config.init_timers      = sun4d_init_timers;
+-	sparc_config.build_device_irq = sun4d_build_device_irq;
+-	sparc_config.clock_rate       = SBUS_CLOCK_RATE;
+-	sparc_config.clear_clock_irq  = sun4d_clear_clock_irq;
+-	sparc_config.load_profile_irq = sun4d_load_profile_irq;
+-
+-	/* Cannot enable interrupts until OBP ticker is disabled. */
+-}
+diff --git a/arch/sparc/kernel/sun4d_smp.c b/arch/sparc/kernel/sun4d_smp.c
+index be5bcbee1af4..7f49a8fa3e3a 100644
+--- a/arch/sparc/kernel/sun4d_smp.c
++++ b/arch/sparc/kernel/sun4d_smp.c
+@@ -65,7 +65,6 @@ void sun4d_cpu_pre_starting(void *arg)
+ 
+ void sun4d_cpu_pre_online(void *arg)
+ {
+-	unsigned long flags;
+ 	int cpuid;
+ 
+ 	cpuid = hard_smp_processor_id();
+@@ -103,9 +102,7 @@ void sun4d_cpu_pre_online(void *arg)
+ 	while (!cpumask_test_cpu(cpuid, &smp_commenced_mask))
+ 		barrier();
+ 
+-	spin_lock_irqsave(&sun4d_imsk_lock, flags);
+ 	cc_set_imsk(cc_get_imsk() & ~0x4000); /* Allow PIL 14 as well */
+-	spin_unlock_irqrestore(&sun4d_imsk_lock, flags);
+ }
+ 
+ /*
+@@ -177,7 +174,6 @@ void __init smp4d_smp_done(void)
+ 
+ 	/* Ok, they are spinning and ready to go. */
+ 	smp_processors_ready = 1;
+-	sun4d_distribute_irqs();
+ }
+ 
+ /* Memory structure giving interrupt handler information about IPI generated */
+diff --git a/arch/sparc/kernel/sun4m_irq.c b/arch/sparc/kernel/sun4m_irq.c
+index 1079638986b5..1a220a2b9ac3 100644
+--- a/arch/sparc/kernel/sun4m_irq.c
++++ b/arch/sparc/kernel/sun4m_irq.c
+@@ -187,103 +187,6 @@ static unsigned long sun4m_imask[0x50] = {
+ 	0, SUN4M_INT_VME(6), 0, 0
+ };
+ 
+-static void sun4m_mask_irq(struct irq_data *data)
 -{
--	unsigned long mask, flags;
+-	struct sun4m_handler_data *handler_data;
+-	int cpu = smp_processor_id();
 -
--	mask = (unsigned long)data->chip_data;
--	local_irq_save(flags);
--	writel(mask, pcic0.pcic_regs+PCI_SYS_INT_TARGET_MASK_SET);
--	local_irq_restore(flags);
+-	handler_data = irq_data_get_irq_handler_data(data);
+-	if (handler_data->mask) {
+-		unsigned long flags;
+-
+-		local_irq_save(flags);
+-		if (handler_data->percpu) {
+-			sbus_writel(handler_data->mask, &sun4m_irq_percpu[cpu]->set);
+-		} else {
+-			sbus_writel(handler_data->mask, &sun4m_irq_global->mask_set);
+-		}
+-		local_irq_restore(flags);
+-	}
 -}
 -
--static void pcic_unmask_irq(struct irq_data *data)
+-static void sun4m_unmask_irq(struct irq_data *data)
 -{
--	unsigned long mask, flags;
+-	struct sun4m_handler_data *handler_data;
+-	int cpu = smp_processor_id();
 -
--	mask = (unsigned long)data->chip_data;
--	local_irq_save(flags);
--	writel(mask, pcic0.pcic_regs+PCI_SYS_INT_TARGET_MASK_CLEAR);
--	local_irq_restore(flags);
+-	handler_data = irq_data_get_irq_handler_data(data);
+-	if (handler_data->mask) {
+-		unsigned long flags;
+-
+-		local_irq_save(flags);
+-		if (handler_data->percpu) {
+-			sbus_writel(handler_data->mask, &sun4m_irq_percpu[cpu]->clear);
+-		} else {
+-			sbus_writel(handler_data->mask, &sun4m_irq_global->mask_clear);
+-		}
+-		local_irq_restore(flags);
+-	}
 -}
 -
--static unsigned int pcic_startup_irq(struct irq_data *data)
+-static unsigned int sun4m_startup_irq(struct irq_data *data)
 -{
 -	irq_link(data->irq);
--	pcic_unmask_irq(data);
+-	sun4m_unmask_irq(data);
 -	return 0;
 -}
 -
--static struct irq_chip pcic_irq = {
--	.name		= "pcic",
--	.irq_startup	= pcic_startup_irq,
--	.irq_mask	= pcic_mask_irq,
--	.irq_unmask	= pcic_unmask_irq,
+-static void sun4m_shutdown_irq(struct irq_data *data)
+-{
+-	sun4m_mask_irq(data);
+-	irq_unlink(data->irq);
+-}
+-
+-static struct irq_chip sun4m_irq = {
+-	.name		= "sun4m",
+-	.irq_startup	= sun4m_startup_irq,
+-	.irq_shutdown	= sun4m_shutdown_irq,
+-	.irq_mask	= sun4m_mask_irq,
+-	.irq_unmask	= sun4m_unmask_irq,
 -};
 -
--unsigned int pcic_build_device_irq(struct platform_device *op,
--                                   unsigned int real_irq)
+-
+-static unsigned int sun4m_build_device_irq(struct platform_device *op,
+-					   unsigned int real_irq)
 -{
+-	struct sun4m_handler_data *handler_data;
 -	unsigned int irq;
--	unsigned long mask;
+-	unsigned int pil;
 -
--	irq = 0;
--	mask = get_irqmask(real_irq);
--	if (mask == 0)
--		goto out;
+-	if (real_irq >= OBP_INT_LEVEL_VME) {
+-		prom_printf("Bogus sun4m IRQ %u\n", real_irq);
+-		prom_halt();
+-	}
+-	pil = (real_irq & 0xf);
+-	irq = irq_alloc(real_irq, pil);
 -
--	irq = irq_alloc(real_irq, real_irq);
 -	if (irq == 0)
 -		goto out;
 -
--	irq_set_chip_and_handler_name(irq, &pcic_irq,
--	                              handle_level_irq, "PCIC");
--	irq_set_chip_data(irq, (void *)mask);
+-	handler_data = irq_get_handler_data(irq);
+-	if (unlikely(handler_data))
+-		goto out;
+-
+-	handler_data = kzalloc(sizeof(struct sun4m_handler_data), GFP_ATOMIC);
+-	if (unlikely(!handler_data)) {
+-		prom_printf("IRQ: kzalloc(sun4m_handler_data) failed.\n");
+-		prom_halt();
+-	}
+-
+-	handler_data->mask = sun4m_imask[real_irq];
+-	handler_data->percpu = real_irq < OBP_INT_LEVEL_ONBOARD;
+-	irq_set_chip_and_handler_name(irq, &sun4m_irq,
+-	                              handle_level_irq, "level");
+-	irq_set_handler_data(irq, handler_data);
 -
 -out:
 -	return irq;
 -}
 -
+ struct sun4m_timer_percpu {
+ 	u32		l14_limit;
+ 	u32		l14_count;
+@@ -293,21 +196,6 @@ struct sun4m_timer_percpu {
+ 
+ static struct sun4m_timer_percpu __iomem *timers_percpu[SUN4M_NCPUS];
+ 
+-struct sun4m_timer_global {
+-	u32		l10_limit;
+-	u32		l10_count;
+-	u32		l10_limit_noclear;
+-	u32		reserved;
+-	u32		timer_config;
+-};
 -
--static void pcic_load_profile_irq(int cpu, unsigned int limit)
+-static struct sun4m_timer_global __iomem *timers_global;
+-
+-static void sun4m_clear_clock_irq(void)
 -{
--	printk("PCIC: unimplemented code: FILE=%s LINE=%d", __FILE__, __LINE__);
+-	sbus_readl(&timers_global->l10_limit);
 -}
 -
--void __init sun4m_pci_init_IRQ(void)
+ void sun4m_nmi(struct pt_regs *regs)
+ {
+ 	unsigned long afsr, afar, si;
+@@ -348,131 +236,3 @@ void sun4m_clear_profile_irq(int cpu)
+ {
+ 	sbus_readl(&timers_percpu[cpu]->l14_limit);
+ }
+-
+-static void sun4m_load_profile_irq(int cpu, unsigned int limit)
 -{
--	sparc_config.build_device_irq = pcic_build_device_irq;
--	sparc_config.clear_clock_irq  = pcic_clear_clock_irq;
--	sparc_config.load_profile_irq = pcic_load_profile_irq;
+-	unsigned int value = limit ? timer_value(limit) : 0;
+-	sbus_writel(value, &timers_percpu[cpu]->l14_limit);
 -}
 -
--subsys_initcall(pcic_init);
-diff --git a/arch/sparc/kernel/time_32.c b/arch/sparc/kernel/time_32.c
-index 08bbdc458596..848404610b86 100644
---- a/arch/sparc/kernel/time_32.c
-+++ b/arch/sparc/kernel/time_32.c
-@@ -43,7 +43,6 @@
- #include <asm/io.h>
- #include <asm/idprom.h>
- #include <asm/page.h>
--#include <asm/pcic.h>
- #include <asm/irq_regs.h>
- #include <asm/setup.h>
+-static void __init sun4m_init_timers(void)
+-{
+-	struct device_node *dp = of_find_node_by_name(NULL, "counter");
+-	int i, err, len, num_cpu_timers;
+-	unsigned int irq;
+-	const u32 *addr;
+-
+-	if (!dp) {
+-		printk(KERN_ERR "sun4m_init_timers: No 'counter' node.\n");
+-		return;
+-	}
+-
+-	addr = of_get_property(dp, "address", &len);
+-	of_node_put(dp);
+-	if (!addr) {
+-		printk(KERN_ERR "sun4m_init_timers: No 'address' prop.\n");
+-		return;
+-	}
+-
+-	num_cpu_timers = (len / sizeof(u32)) - 1;
+-	for (i = 0; i < num_cpu_timers; i++) {
+-		timers_percpu[i] = (void __iomem *)
+-			(unsigned long) addr[i];
+-	}
+-	timers_global = (void __iomem *)
+-		(unsigned long) addr[num_cpu_timers];
+-
+-	/* Every per-cpu timer works in timer mode */
+-	sbus_writel(0x00000000, &timers_global->timer_config);
+-
+-#ifdef CONFIG_SMP
+-	sparc_config.cs_period = SBUS_CLOCK_RATE * 2;  /* 2 seconds */
+-	sparc_config.features |= FEAT_L14_ONESHOT;
+-#else
+-	sparc_config.cs_period = SBUS_CLOCK_RATE / HZ; /* 1/HZ sec  */
+-	sparc_config.features |= FEAT_L10_CLOCKEVENT;
+-#endif
+-	sparc_config.features |= FEAT_L10_CLOCKSOURCE;
+-	sbus_writel(timer_value(sparc_config.cs_period),
+-	            &timers_global->l10_limit);
+-
+-	master_l10_counter = &timers_global->l10_count;
+-
+-	irq = sun4m_build_device_irq(NULL, SUN4M_TIMER_IRQ);
+-
+-	err = request_irq(irq, timer_interrupt, IRQF_TIMER, "timer", NULL);
+-	if (err) {
+-		printk(KERN_ERR "sun4m_init_timers: Register IRQ error %d.\n",
+-			err);
+-		return;
+-	}
+-
+-	for (i = 0; i < num_cpu_timers; i++)
+-		sbus_writel(0, &timers_percpu[i]->l14_limit);
+-	if (num_cpu_timers == 4)
+-		sbus_writel(SUN4M_INT_E14, &sun4m_irq_global->mask_set);
+-
+-#ifdef CONFIG_SMP
+-	{
+-		unsigned long flags;
+-		struct tt_entry *trap_table = &sparc_ttable[SP_TRAP_IRQ1 + (14 - 1)];
+-
+-		/* For SMP we use the level 14 ticker, however the bootup code
+-		 * has copied the firmware's level 14 vector into the boot cpu's
+-		 * trap table, we must fix this now or we get squashed.
+-		 */
+-		local_irq_save(flags);
+-		trap_table->inst_one = lvl14_save[0];
+-		trap_table->inst_two = lvl14_save[1];
+-		trap_table->inst_three = lvl14_save[2];
+-		trap_table->inst_four = lvl14_save[3];
+-		local_ops->cache_all();
+-		local_irq_restore(flags);
+-	}
+-#endif
+-}
+-
+-void __init sun4m_init_IRQ(void)
+-{
+-	struct device_node *dp = of_find_node_by_name(NULL, "interrupt");
+-	int len, i, mid, num_cpu_iregs;
+-	const u32 *addr;
+-
+-	if (!dp) {
+-		printk(KERN_ERR "sun4m_init_IRQ: No 'interrupt' node.\n");
+-		return;
+-	}
+-
+-	addr = of_get_property(dp, "address", &len);
+-	of_node_put(dp);
+-	if (!addr) {
+-		printk(KERN_ERR "sun4m_init_IRQ: No 'address' prop.\n");
+-		return;
+-	}
+-
+-	num_cpu_iregs = (len / sizeof(u32)) - 1;
+-	for (i = 0; i < num_cpu_iregs; i++) {
+-		sun4m_irq_percpu[i] = (void __iomem *)
+-			(unsigned long) addr[i];
+-	}
+-	sun4m_irq_global = (void __iomem *)
+-		(unsigned long) addr[num_cpu_iregs];
+-
+-	local_irq_disable();
+-
+-	sbus_writel(~SUN4M_INT_MASKALL, &sun4m_irq_global->mask_set);
+-	for (i = 0; !cpu_find_by_instance(i, NULL, &mid); i++)
+-		sbus_writel(~0x17fff, &sun4m_irq_percpu[mid]->clear);
+-
+-	if (num_cpu_iregs == 4)
+-		sbus_writel(0, &sun4m_irq_global->interrupt_target);
+-
+-	sparc_config.init_timers      = sun4m_init_timers;
+-	sparc_config.build_device_irq = sun4m_build_device_irq;
+-	sparc_config.clock_rate       = SBUS_CLOCK_RATE;
+-	sparc_config.clear_clock_irq  = sun4m_clear_clock_irq;
+-	sparc_config.load_profile_irq = sun4m_load_profile_irq;
+-
+-
+-	/* Cannot enable interrupts until OBP ticker is disabled. */
+-}
+diff --git a/arch/sparc/mm/io-unit.c b/arch/sparc/mm/io-unit.c
+index d8376f61b4d0..d94d7868feb9 100644
+--- a/arch/sparc/mm/io-unit.c
++++ b/arch/sparc/mm/io-unit.c
+@@ -86,8 +86,6 @@ static int __init iounit_init(void)
+ 		of_propagate_archdata(op);
+ 	}
  
-@@ -347,9 +346,6 @@ void __init time_init(void)
- 	sparc_config.features = 0;
- 	late_time_init = sparc32_late_time_init;
- 
--	if (pcic_present())
--		pci_time_init();
--	else
--		sbus_time_init();
-+	sbus_time_init();
+-	sun4d_init_sbi_irq();
+-
+ 	return 0;
  }
  
 
