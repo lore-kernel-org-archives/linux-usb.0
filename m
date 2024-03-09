@@ -1,38 +1,37 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DB09A4AECF;
-	Sat,  9 Mar 2024 18:15:49 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3684B4CB55;
+	Sat,  9 Mar 2024 18:15:50 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1710008150; cv=none; b=UOsukiPMGh3jRfkaO1no4FMymSfEa0sNiVWU7qyFXOa5Rr/sxsgjc3Ny2FFYW9oQ5264s4ZZzEDQjvqqRWLEMtYDjPVo+BN8UWbXLmhuLdkWEkP+XxrvrdFz/AFOS7uoTey9/BZa0fYrz0DfJdpOeBprIRAEHjQTfnEBXcm+KcI=
+	t=1710008150; cv=none; b=UPDdw8pcFNjMMrlsbtUmsB+/6RUpG+RdGcWyh1EIXuH3ufZ1ii1N3RZ38ng7zDyzhAWKOR/rZW8Z3ZI8ZGoCGdvloXQftiaOeh8L5D4IvNBBKJUM2Ex+/SvsCulws5DwZqU98Ik1g3iQCDH08RNOx61dD+8QxemF6knc0zmtotc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
 	s=arc-20240116; t=1710008150; c=relaxed/simple;
-	bh=CMOmzTl3Gh0b3oru1EplV7+/OIJRkbU2sBgCDsaSWjU=;
+	bh=k8jxQ+yb9Bob94sQGbNWFDdXBKJk25bFLZIZ7RQlir0=;
 	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
-	 In-Reply-To:To:Cc; b=ZBZ29qV4da36J99ZWuUeB4SaIsbj8sUy3x99XH6tjec2f49/iXY83zXlk+tGAVoBbGjuNDeXejsdkzPrH7NksyeuRFR1U0hVnZyiIrtCbu+m4ZOXUye6D2afpal1A6gMhKHgqpaSnzBWjPjcRJl8T1H9xRYJ58+RblKaAy52iWs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=luH3//cD; arc=none smtp.client-ip=10.30.226.201
+	 In-Reply-To:To:Cc; b=EaUP4DqWS0PO57wx7LzLlTgEMuKcI4RnBmuXEm30jh97+G3KNJhPEwRyAPgedl6uH4cFImLDyf3CYj8nfbRbFiXlCU29WlQU8AVHJ77/pIHnN3khglMk9qTMnC3kj0tmmb8186CDVLQcbCN1uUewTuN/uWj4IaVBo4yZUj0pJI0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=jNCWz1Js; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="luH3//cD"
-Received: by smtp.kernel.org (Postfix) with ESMTPS id B934EC3278B;
-	Sat,  9 Mar 2024 18:15:49 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="jNCWz1Js"
+Received: by smtp.kernel.org (Postfix) with ESMTPS id 0FEDAC43143;
+	Sat,  9 Mar 2024 18:15:50 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1710008149;
-	bh=CMOmzTl3Gh0b3oru1EplV7+/OIJRkbU2sBgCDsaSWjU=;
+	s=k20201202; t=1710008150;
+	bh=k8jxQ+yb9Bob94sQGbNWFDdXBKJk25bFLZIZ7RQlir0=;
 	h=From:Date:Subject:References:In-Reply-To:To:Cc:Reply-To:From;
-	b=luH3//cDS+cmesir3kHAGiQjtvoBNSxSFcAJQqAYI4WPzEAlJuVobr0yvHxT7Mipo
-	 zE4OJLaDBV5i3r5P1zLf++oOR/NfR/GtDiCkAjfvLvbzoJkdriSrP3EjzlSlPFTCuj
-	 Sl/KczlgRPMIsM7sFy7oWkbp4w2M97rnKCUajFZR5msHVOHEldpTcnFYT/rGdq46Ux
-	 D5LJ+UBCrJjVhQUACfXq/2lgDP8xZMOgrf51E1aZqkhEoDcOPkkNGbdHJlqpPZZI98
-	 9LK6p7MpazdGN7G1OcyA6EynRMlfryMRKgWyhdAz1StSbaGLopwilTxPCsFBZVi2t2
-	 PqygEdmmwWVxg==
+	b=jNCWz1Js53bf8Ar9wtVHW0vNrQFbROfKYtruVQvYYWSQuYf7xZyksS7/TPpnOmtec
+	 nkVZuOEbIBei4eGAWMfsODfopASqOy3QR32iJZaGX5SZNbdco+K7vOqbXgLWkBtdby
+	 run4WUe/k7my9Ep1mIIclJi+DlyRhpgXolleSUeX15GbtDk4FrDvsDoUyjiArfrE9b
+	 P1waxyzbO2YurUv8bOc4lluDsdewzu6FxYiDMlT7yvxHon7QWPOWyVf+M4wyW4FJ+l
+	 Di0ItBI1fo+BQOykbXifLhCKLs3V2HSq0b0wsCHDVOTI1lELZt5U+mNMxqaCaQ6H7X
+	 wxuHRRiIJvnKg==
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id A8FC8C54E66;
+	by smtp.lore.kernel.org (Postfix) with ESMTP id EFE15C54E66;
 	Sat,  9 Mar 2024 18:15:49 +0000 (UTC)
 From: Sam Ravnborg via B4 Relay <devnull+sam.ravnborg.org@kernel.org>
-Date: Sat, 09 Mar 2024 19:15:39 +0100
-Subject: [PATCH v2 18/28] sparc32: Drop run-time patching of ASI
- instructions
+Date: Sat, 09 Mar 2024 19:15:43 +0100
+Subject: [PATCH v2 22/28] sparc32: Drop unused sbus iommu support
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
@@ -41,7 +40,7 @@ List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20240309-sunset-v2-18-f09912574d2c@ravnborg.org>
+Message-Id: <20240309-sunset-v2-22-f09912574d2c@ravnborg.org>
 References: <20240309-sunset-v2-0-f09912574d2c@ravnborg.org>
 In-Reply-To: <20240309-sunset-v2-0-f09912574d2c@ravnborg.org>
 To: "David S. Miller" <davem@davemloft.net>, 
@@ -58,11 +57,11 @@ Cc: Helge Deller <deller@gmx.de>, Randy Dunlap <rdunlap@infradead.org>,
  linux-fbdev@vger.kernel.org, dri-devel@lists.freedesktop.org, 
  linux-sound@vger.kernel.org, Sam Ravnborg <sam@ravnborg.org>
 X-Mailer: b4 0.12.4
-X-Developer-Signature: v=1; a=ed25519-sha256; t=1710008145; l=15091;
+X-Developer-Signature: v=1; a=ed25519-sha256; t=1710008145; l=21826;
  i=sam@ravnborg.org; s=20230107; h=from:subject:message-id;
- bh=OR3+xi6Vz+6TSKjVmSuoidSli8x59movdv9gYDnB34g=; =?utf-8?q?b=3DN84dKZDl0J9n?=
- =?utf-8?q?sGMWSMrRdHcjDwYOVGFrf+ui42ELPnK6UQqxoqBuyF1Rii7Hjlrr9uo+XaQREO4s?=
- j9bfLethAonLzSyIdQhZV6Jcvt7ZhOgjknXwNKMcQf2fVvS5ZFqj
+ bh=RvVo6WLDHhihZ4PMk2hcDpax8P8sVKXkfA6DajZU5pk=; =?utf-8?q?b=3DMRJAPG9/pFY1?=
+ =?utf-8?q?/fZ+tXMjq1oCsDhPow+QrB2lS4BOipI2zWu82yRArgwW88S51gcsT71LDt5iat1g?=
+ aa7FB04kCihHxOIOTQ6AiWHprapM+/PMYL3E/f4Na9sTXLIm4T5w
 X-Developer-Key: i=sam@ravnborg.org; a=ed25519;
  pk=R0+pqV7BRYOAeOIGkyOrSNke7arx5y3LkEuNi37YEyU=
 X-Endpoint-Received: by B4 Relay for sam@ravnborg.org/20230107 with auth_id=22
@@ -71,14 +70,7 @@ Reply-To: <sam@ravnborg.org>
 
 From: Sam Ravnborg <sam@ravnborg.org>
 
-With only LEON supported there is no need to run-time patch
-the instructions to match ASI.
-
-Move a few functions back to C with inline asm, now that
-run-time patching is not needed.
-
-Deleted a few functions that turns out not to be used rather
-than re-implement them in C.
+LEON do not have sbus iommu support - drop it.
 
 Signed-off-by: Sam Ravnborg <sam@ravnborg.org>
 Acked-by: Arnd Bergmann <arnd@kernel.org>
@@ -86,415 +78,632 @@ Cc: "David S. Miller" <davem@davemloft.net>
 Cc: Arnd Bergmann <arnd@kernel.org>
 Cc: Andreas Larsson <andreas@gaisler.com>
 ---
- arch/sparc/include/asm/asmmacro.h | 22 -----------
- arch/sparc/include/asm/pgtsrmmu.h | 28 ++++++-------
- arch/sparc/include/asm/sections.h |  3 --
- arch/sparc/kernel/entry.S         |  7 +---
- arch/sparc/kernel/etrap_32.S      | 15 +++----
- arch/sparc/kernel/rtrap_32.S      | 18 +++------
- arch/sparc/kernel/vmlinux.lds.S   |  5 ---
- arch/sparc/kernel/wof.S           | 18 +++------
- arch/sparc/kernel/wuf.S           | 21 ++++------
- arch/sparc/mm/Makefile            |  1 -
- arch/sparc/mm/srmmu_access.S      | 83 ---------------------------------------
- 11 files changed, 40 insertions(+), 181 deletions(-)
+ arch/sparc/include/asm/iommu.h    |   2 -
+ arch/sparc/include/asm/iommu_32.h | 122 -----------
+ arch/sparc/kernel/ioport.c        |   1 -
+ arch/sparc/mm/Makefile            |   2 +-
+ arch/sparc/mm/iommu.c             | 420 --------------------------------------
+ arch/sparc/mm/mm_32.h             |   3 -
+ arch/sparc/mm/srmmu.c             |   3 -
+ 7 files changed, 1 insertion(+), 552 deletions(-)
 
-diff --git a/arch/sparc/include/asm/asmmacro.h b/arch/sparc/include/asm/asmmacro.h
-index 49aaf6f3bc55..d5782dbc7810 100644
---- a/arch/sparc/include/asm/asmmacro.h
-+++ b/arch/sparc/include/asm/asmmacro.h
-@@ -21,26 +21,4 @@
- /* All traps low-level code here must end with this macro. */
- #define RESTORE_ALL b ret_trap_entry; clr %l6;
- 
--/* Support for run-time patching of single instructions.
-- * This is used to handle the differences in the ASI for
-- * MMUREGS for LEON and SUN.
-- *
-- * Sample:
-- * LEON_PI(lda [%g0] ASI_LEON_MMUREGS, %o0
-- * SUN_PI_(lda [%g0] ASI_M_MMUREGS, %o0
-- * PI == Patch Instruction
-- *
-- * For LEON we will use the first variant,
-- * and for all other we will use the SUN variant.
-- * The order is important.
-- */
--#define LEON_PI(...)				\
--662:	__VA_ARGS__
--
--#define SUN_PI_(...)				\
--	.section .leon_1insn_patch, "ax";	\
--	.word 662b;				\
--	__VA_ARGS__;				\
--	.previous
--
- #endif /* !(_SPARC_ASMMACRO_H) */
-diff --git a/arch/sparc/include/asm/pgtsrmmu.h b/arch/sparc/include/asm/pgtsrmmu.h
-index 7cb5cbc83211..69c28ff3c4c4 100644
---- a/arch/sparc/include/asm/pgtsrmmu.h
-+++ b/arch/sparc/include/asm/pgtsrmmu.h
-@@ -107,22 +107,22 @@ extern void *srmmu_nocache_pool;
- #define __nocache_va(PADDR) (__va((unsigned long)PADDR) - (unsigned long)srmmu_nocache_pool + SRMMU_NOCACHE_VADDR)
- #define __nocache_fix(VADDR) ((__typeof__(VADDR))__va(__nocache_pa(VADDR)))
- 
--/* Accessing the MMU control register. */
--unsigned int srmmu_get_mmureg(void);
--void srmmu_set_mmureg(unsigned long regval);
--void srmmu_set_ctable_ptr(unsigned long paddr);
--void srmmu_set_context(int context);
--int srmmu_get_context(void);
--unsigned int srmmu_get_fstatus(void);
--unsigned int srmmu_get_faddr(void);
--
--/* This is guaranteed on all SRMMU's. */
--static inline void srmmu_flush_whole_tlb(void)
-+static inline void srmmu_set_ctable_ptr(unsigned long paddr)
- {
--	__asm__ __volatile__("sta %%g0, [%0] %1\n\t": :
--			     "r" (0x400),        /* Flush entire TLB!! */
--			     "i" (ASI_M_FLUSH_PROBE) : "memory");
-+	paddr = ((paddr >> 4) & SRMMU_CTX_PMASK);
-+	asm volatile("sta %0, [%1] %2\n\t" : : "r" (paddr), "r" (SRMMU_CTXTBL_PTR), "i" (ASI_LEON_MMUREGS) : "memory");
-+}
- 
-+static inline void srmmu_set_context(int context)
-+{
-+	asm volatile("sta %0, [%1] %2\n\t" : : "r" (context), "r" (SRMMU_CTX_REG), "i" (ASI_LEON_MMUREGS) : "memory");
-+}
-+
-+static inline int srmmu_get_context(void)
-+{
-+	register int retval;
-+	asm volatile("lda [%1] %2, %0\n\t" : "=r" (retval) : "r" (SRMMU_CTX_REG), "i" (ASI_LEON_MMUREGS));
-+	return retval;
- }
- 
- #endif /* !(__ASSEMBLY__) */
-diff --git a/arch/sparc/include/asm/sections.h b/arch/sparc/include/asm/sections.h
-index 08f833453ab3..e9d28148850b 100644
---- a/arch/sparc/include/asm/sections.h
-+++ b/arch/sparc/include/asm/sections.h
-@@ -8,7 +8,4 @@
- /* sparc entry point */
- extern char _start[];
- 
--extern char __leon_1insn_patch[];
--extern char __leon_1insn_patch_end[];
--
+diff --git a/arch/sparc/include/asm/iommu.h b/arch/sparc/include/asm/iommu.h
+index 37935cb34865..ea07526ff476 100644
+--- a/arch/sparc/include/asm/iommu.h
++++ b/arch/sparc/include/asm/iommu.h
+@@ -3,7 +3,5 @@
+ #define ___ASM_SPARC_IOMMU_H
+ #if defined(__sparc__) && defined(__arch64__)
+ #include <asm/iommu_64.h>
+-#else
+-#include <asm/iommu_32.h>
  #endif
-diff --git a/arch/sparc/kernel/entry.S b/arch/sparc/kernel/entry.S
-index f158cbca3e62..18c67b4fb017 100644
---- a/arch/sparc/kernel/entry.S
-+++ b/arch/sparc/kernel/entry.S
-@@ -469,11 +469,8 @@ srmmu_fault:
- 	mov	0x400, %l5
- 	mov	0x300, %l4
- 
--LEON_PI(lda	[%l5] ASI_LEON_MMUREGS, %l6)	! read sfar first
--SUN_PI_(lda	[%l5] ASI_M_MMUREGS, %l6)	! read sfar first
+ #endif
+diff --git a/arch/sparc/include/asm/iommu_32.h b/arch/sparc/include/asm/iommu_32.h
+deleted file mode 100644
+index af51cd5ea3c1..000000000000
+--- a/arch/sparc/include/asm/iommu_32.h
++++ /dev/null
+@@ -1,122 +0,0 @@
+-/* SPDX-License-Identifier: GPL-2.0 */
+-/* iommu.h: Definitions for the sun4m IOMMU.
+- *
+- * Copyright (C) 1996 David S. Miller (davem@caip.rutgers.edu)
+- */
+-#ifndef _SPARC_IOMMU_H
+-#define _SPARC_IOMMU_H
 -
--LEON_PI(lda	[%l4] ASI_LEON_MMUREGS, %l5)	! read sfsr last
--SUN_PI_(lda	[%l4] ASI_M_MMUREGS, %l5)	! read sfsr last
-+	lda	[%l5] ASI_LEON_MMUREGS, %l6	! read sfar first
-+	lda	[%l4] ASI_LEON_MMUREGS, %l5	! read sfsr last
+-#include <asm/page.h>
+-#include <asm/bitext.h>
+-
+-/* The iommu handles all virtual to physical address translations
+- * that occur between the SBUS and physical memory.  Access by
+- * the cpu to IO registers and similar go over the mbus so are
+- * translated by the on chip SRMMU.  The iommu and the srmmu do
+- * not need to have the same translations at all, in fact most
+- * of the time the translations they handle are a disjunct set.
+- * Basically the iommu handles all dvma sbus activity.
+- */
+-
+-/* The IOMMU registers occupy three pages in IO space. */
+-struct iommu_regs {
+-	/* First page */
+-	volatile unsigned long control;    /* IOMMU control */
+-	volatile unsigned long base;       /* Physical base of iopte page table */
+-	volatile unsigned long _unused1[3];
+-	volatile unsigned long tlbflush;   /* write only */
+-	volatile unsigned long pageflush;  /* write only */
+-	volatile unsigned long _unused2[1017];
+-	/* Second page */
+-	volatile unsigned long afsr;       /* Async-fault status register */
+-	volatile unsigned long afar;       /* Async-fault physical address */
+-	volatile unsigned long _unused3[2];
+-	volatile unsigned long sbuscfg0;   /* SBUS configuration registers, per-slot */
+-	volatile unsigned long sbuscfg1;
+-	volatile unsigned long sbuscfg2;
+-	volatile unsigned long sbuscfg3;
+-	volatile unsigned long mfsr;       /* Memory-fault status register */
+-	volatile unsigned long mfar;       /* Memory-fault physical address */
+-	volatile unsigned long _unused4[1014];
+-	/* Third page */
+-	volatile unsigned long mid;        /* IOMMU module-id */
+-};
+-
+-#define IOMMU_CTRL_IMPL     0xf0000000 /* Implementation */
+-#define IOMMU_CTRL_VERS     0x0f000000 /* Version */
+-#define IOMMU_CTRL_RNGE     0x0000001c /* Mapping RANGE */
+-#define IOMMU_RNGE_16MB     0x00000000 /* 0xff000000 -> 0xffffffff */
+-#define IOMMU_RNGE_32MB     0x00000004 /* 0xfe000000 -> 0xffffffff */
+-#define IOMMU_RNGE_64MB     0x00000008 /* 0xfc000000 -> 0xffffffff */
+-#define IOMMU_RNGE_128MB    0x0000000c /* 0xf8000000 -> 0xffffffff */
+-#define IOMMU_RNGE_256MB    0x00000010 /* 0xf0000000 -> 0xffffffff */
+-#define IOMMU_RNGE_512MB    0x00000014 /* 0xe0000000 -> 0xffffffff */
+-#define IOMMU_RNGE_1GB      0x00000018 /* 0xc0000000 -> 0xffffffff */
+-#define IOMMU_RNGE_2GB      0x0000001c /* 0x80000000 -> 0xffffffff */
+-#define IOMMU_CTRL_ENAB     0x00000001 /* IOMMU Enable */
+-
+-#define IOMMU_AFSR_ERR      0x80000000 /* LE, TO, or BE asserted */
+-#define IOMMU_AFSR_LE       0x40000000 /* SBUS reports error after transaction */
+-#define IOMMU_AFSR_TO       0x20000000 /* Write access took more than 12.8 us. */
+-#define IOMMU_AFSR_BE       0x10000000 /* Write access received error acknowledge */
+-#define IOMMU_AFSR_SIZE     0x0e000000 /* Size of transaction causing error */
+-#define IOMMU_AFSR_S        0x01000000 /* Sparc was in supervisor mode */
+-#define IOMMU_AFSR_RESV     0x00f00000 /* Reserver, forced to 0x8 by hardware */
+-#define IOMMU_AFSR_ME       0x00080000 /* Multiple errors occurred */
+-#define IOMMU_AFSR_RD       0x00040000 /* A read operation was in progress */
+-#define IOMMU_AFSR_FAV      0x00020000 /* IOMMU afar has valid contents */
+-
+-#define IOMMU_SBCFG_SAB30   0x00010000 /* Phys-address bit 30 when bypass enabled */
+-#define IOMMU_SBCFG_BA16    0x00000004 /* Slave supports 16 byte bursts */
+-#define IOMMU_SBCFG_BA8     0x00000002 /* Slave supports 8 byte bursts */
+-#define IOMMU_SBCFG_BYPASS  0x00000001 /* Bypass IOMMU, treat all addresses
+-					  produced by this device as pure
+-					  physical. */
+-
+-#define IOMMU_MFSR_ERR      0x80000000 /* One or more of PERR1 or PERR0 */
+-#define IOMMU_MFSR_S        0x01000000 /* Sparc was in supervisor mode */
+-#define IOMMU_MFSR_CPU      0x00800000 /* CPU transaction caused parity error */
+-#define IOMMU_MFSR_ME       0x00080000 /* Multiple parity errors occurred */
+-#define IOMMU_MFSR_PERR     0x00006000 /* high bit indicates parity error occurred
+-					  on the even word of the access, low bit
+-					  indicated odd word caused the parity error */
+-#define IOMMU_MFSR_BM       0x00001000 /* Error occurred while in boot mode */
+-#define IOMMU_MFSR_C        0x00000800 /* Address causing error was marked cacheable */
+-#define IOMMU_MFSR_RTYP     0x000000f0 /* Memory request transaction type */
+-
+-#define IOMMU_MID_SBAE      0x001f0000 /* SBus arbitration enable */
+-#define IOMMU_MID_SE        0x00100000 /* Enables SCSI/ETHERNET arbitration */
+-#define IOMMU_MID_SB3       0x00080000 /* Enable SBUS device 3 arbitration */
+-#define IOMMU_MID_SB2       0x00040000 /* Enable SBUS device 2 arbitration */
+-#define IOMMU_MID_SB1       0x00020000 /* Enable SBUS device 1 arbitration */
+-#define IOMMU_MID_SB0       0x00010000 /* Enable SBUS device 0 arbitration */
+-#define IOMMU_MID_MID       0x0000000f /* Module-id, hardcoded to 0x8 */
+-
+-/* The format of an iopte in the page tables */
+-#define IOPTE_PAGE          0x07ffff00 /* Physical page number (PA[30:12]) */
+-#define IOPTE_CACHE         0x00000080 /* Cached (in vme IOCACHE or Viking/MXCC) */
+-#define IOPTE_WRITE         0x00000004 /* Writeable */
+-#define IOPTE_VALID         0x00000002 /* IOPTE is valid */
+-#define IOPTE_WAZ           0x00000001 /* Write as zeros */
+-
+-struct iommu_struct {
+-	struct iommu_regs __iomem *regs;
+-	iopte_t *page_table;
+-	/* For convenience */
+-	unsigned long start; /* First managed virtual address */
+-	unsigned long end;   /* Last managed virtual address */
+-
+-	struct bit_map usemap;
+-};
+-
+-static inline void iommu_invalidate(struct iommu_regs __iomem *regs)
+-{
+-	sbus_writel(0, &regs->tlbflush);
+-}
+-
+-static inline void iommu_invalidate_page(struct iommu_regs __iomem *regs, unsigned long ba)
+-{
+-	sbus_writel(ba & PAGE_MASK, &regs->pageflush);
+-}
+-
+-#endif /* !(_SPARC_IOMMU_H) */
+diff --git a/arch/sparc/kernel/ioport.c b/arch/sparc/kernel/ioport.c
+index 745579a40785..9c4c72775274 100644
+--- a/arch/sparc/kernel/ioport.c
++++ b/arch/sparc/kernel/ioport.c
+@@ -48,7 +48,6 @@
+ #include <asm/page.h>
+ #include <asm/pgalloc.h>
+ #include <asm/dma.h>
+-#include <asm/iommu.h>
+ #include <asm/leon.h>
  
- 	andn	%l6, 0xfff, %l6
- 	srl	%l5, 6, %l5			! and encode all info into l7
-diff --git a/arch/sparc/kernel/etrap_32.S b/arch/sparc/kernel/etrap_32.S
-index 9f243f918619..bb222459f097 100644
---- a/arch/sparc/kernel/etrap_32.S
-+++ b/arch/sparc/kernel/etrap_32.S
-@@ -235,8 +235,7 @@ tsetup_srmmu_stackchk:
- 
- 	cmp	%glob_tmp, %sp
- 	bleu,a	1f
--LEON_PI( lda	[%g0] ASI_LEON_MMUREGS, %glob_tmp)	! read MMU control
--SUN_PI_( lda	[%g0] ASI_M_MMUREGS, %glob_tmp)		! read MMU control
-+	 lda	[%g0] ASI_LEON_MMUREGS, %glob_tmp	! read MMU control
- 
- trap_setup_user_stack_is_bolixed:
- 	/* From user/kernel into invalid window w/bad user
-@@ -251,24 +250,20 @@ trap_setup_user_stack_is_bolixed:
- 1:
- 	/* Clear the fault status and turn on the no_fault bit. */
- 	or	%glob_tmp, 0x2, %glob_tmp		! or in no_fault bit
--LEON_PI(sta	%glob_tmp, [%g0] ASI_LEON_MMUREGS)		! set it
--SUN_PI_(sta	%glob_tmp, [%g0] ASI_M_MMUREGS)		! set it
-+	sta	%glob_tmp, [%g0] ASI_LEON_MMUREGS	! set it
- 
- 	/* Dump the registers and cross fingers. */
- 	STORE_WINDOW(sp)
- 
- 	/* Clear the no_fault bit and check the status. */
- 	andn	%glob_tmp, 0x2, %glob_tmp
--LEON_PI(sta	%glob_tmp, [%g0] ASI_LEON_MMUREGS)
--SUN_PI_(sta	%glob_tmp, [%g0] ASI_M_MMUREGS)
-+	sta	%glob_tmp, [%g0] ASI_LEON_MMUREGS
- 
- 	mov	AC_M_SFAR, %glob_tmp
--LEON_PI(lda	[%glob_tmp] ASI_LEON_MMUREGS, %g0)
--SUN_PI_(lda	[%glob_tmp] ASI_M_MMUREGS, %g0)
-+	lda	[%glob_tmp] ASI_LEON_MMUREGS, %g0
- 
- 	mov	AC_M_SFSR, %glob_tmp
--LEON_PI(lda	[%glob_tmp] ASI_LEON_MMUREGS, %glob_tmp)! save away status of winstore
--SUN_PI_(lda	[%glob_tmp] ASI_M_MMUREGS, %glob_tmp)	! save away status of winstore
-+	lda	[%glob_tmp] ASI_LEON_MMUREGS, %glob_tmp	! save away status of winstore
- 
- 	andcc	%glob_tmp, 0x2, %g0			! did we fault?
- 	bne	trap_setup_user_stack_is_bolixed	! failure
-diff --git a/arch/sparc/kernel/rtrap_32.S b/arch/sparc/kernel/rtrap_32.S
-index 8931fe266346..a232b367c219 100644
---- a/arch/sparc/kernel/rtrap_32.S
-+++ b/arch/sparc/kernel/rtrap_32.S
-@@ -232,14 +232,11 @@ srmmu_rett_stackchk:
- 	cmp	%g1, %fp
- 	bleu	ret_trap_user_stack_is_bolixed
- 	 mov	AC_M_SFSR, %g1
--LEON_PI(lda	[%g1] ASI_LEON_MMUREGS, %g0)
--SUN_PI_(lda	[%g1] ASI_M_MMUREGS, %g0)
-+	lda	[%g1] ASI_LEON_MMUREGS, %g0
- 
--LEON_PI(lda	[%g0] ASI_LEON_MMUREGS, %g1)
--SUN_PI_(lda	[%g0] ASI_M_MMUREGS, %g1)
-+	lda	[%g0] ASI_LEON_MMUREGS, %g1
- 	or	%g1, 0x2, %g1
--LEON_PI(sta	%g1, [%g0] ASI_LEON_MMUREGS)
--SUN_PI_(sta	%g1, [%g0] ASI_M_MMUREGS)
-+	sta	%g1, [%g0] ASI_LEON_MMUREGS
- 
- 	restore	%g0, %g0, %g0
- 
-@@ -248,16 +245,13 @@ SUN_PI_(sta	%g1, [%g0] ASI_M_MMUREGS)
- 	save	%g0, %g0, %g0
- 
- 	andn	%g1, 0x2, %g1
--LEON_PI(sta	%g1, [%g0] ASI_LEON_MMUREGS)
--SUN_PI_(sta	%g1, [%g0] ASI_M_MMUREGS)
-+	sta	%g1, [%g0] ASI_LEON_MMUREGS
- 
- 	mov	AC_M_SFAR, %g2
--LEON_PI(lda	[%g2] ASI_LEON_MMUREGS, %g2)
--SUN_PI_(lda	[%g2] ASI_M_MMUREGS, %g2)
-+	lda	[%g2] ASI_LEON_MMUREGS, %g2
- 
- 	mov	AC_M_SFSR, %g1
--LEON_PI(lda	[%g1] ASI_LEON_MMUREGS, %g1)
--SUN_PI_(lda	[%g1] ASI_M_MMUREGS, %g1)
-+	lda	[%g1] ASI_LEON_MMUREGS, %g1
- 	andcc	%g1, 0x2, %g0
- 	be	ret_trap_userwins_ok
- 	 nop
-diff --git a/arch/sparc/kernel/vmlinux.lds.S b/arch/sparc/kernel/vmlinux.lds.S
-index d317a843f7ea..1cc4d3e79321 100644
---- a/arch/sparc/kernel/vmlinux.lds.S
-+++ b/arch/sparc/kernel/vmlinux.lds.S
-@@ -113,11 +113,6 @@ SECTIONS
- 		*(.sun4v_2insn_patch)
- 		__sun4v_2insn_patch_end = .;
- 	}
--	.leon_1insn_patch : {
--		__leon_1insn_patch = .;
--		*(.leon_1insn_patch)
--		__leon_1insn_patch_end = .;
--	}
- 	.swapper_tsb_phys_patch : {
- 		__swapper_tsb_phys_patch = .;
- 		*(.swapper_tsb_phys_patch)
-diff --git a/arch/sparc/kernel/wof.S b/arch/sparc/kernel/wof.S
-index 96a3a112423a..fe4cfd4abcd2 100644
---- a/arch/sparc/kernel/wof.S
-+++ b/arch/sparc/kernel/wof.S
-@@ -333,30 +333,24 @@ spwin_srmmu_stackchk:
- 	 mov	AC_M_SFSR, %glob_tmp
- 
- 	/* Clear the fault status and turn on the no_fault bit. */
--LEON_PI(lda	[%glob_tmp] ASI_LEON_MMUREGS, %g0)	! eat SFSR
--SUN_PI_(lda	[%glob_tmp] ASI_M_MMUREGS, %g0)		! eat SFSR
-+	lda	[%glob_tmp] ASI_LEON_MMUREGS, %g0	! eat SFSR
- 
--LEON_PI(lda	[%g0] ASI_LEON_MMUREGS, %glob_tmp)	! read MMU control
--SUN_PI_(lda	[%g0] ASI_M_MMUREGS, %glob_tmp)		! read MMU control
-+	lda	[%g0] ASI_LEON_MMUREGS, %glob_tmp	! read MMU control
- 	or	%glob_tmp, 0x2, %glob_tmp		! or in no_fault bit
--LEON_PI(sta	%glob_tmp, [%g0] ASI_LEON_MMUREGS)	! set it
--SUN_PI_(sta	%glob_tmp, [%g0] ASI_M_MMUREGS)		! set it
-+	sta	%glob_tmp, [%g0] ASI_LEON_MMUREGS	! set it
- 
- 	/* Dump the registers and cross fingers. */
- 	STORE_WINDOW(sp)
- 
- 	/* Clear the no_fault bit and check the status. */
- 	andn	%glob_tmp, 0x2, %glob_tmp
--LEON_PI(sta	%glob_tmp, [%g0] ASI_LEON_MMUREGS)
--SUN_PI_(sta	%glob_tmp, [%g0] ASI_M_MMUREGS)
-+	sta	%glob_tmp, [%g0] ASI_LEON_MMUREGS
- 
- 	mov	AC_M_SFAR, %glob_tmp
--LEON_PI(lda	[%glob_tmp] ASI_LEON_MMUREGS, %g0)
--SUN_PI_(lda	[%glob_tmp] ASI_M_MMUREGS, %g0)
-+	lda	[%glob_tmp] ASI_LEON_MMUREGS, %g0
- 
- 	mov	AC_M_SFSR, %glob_tmp
--LEON_PI(lda	[%glob_tmp] ASI_LEON_MMUREGS, %glob_tmp)
--SUN_PI_(lda	[%glob_tmp] ASI_M_MMUREGS, %glob_tmp)
-+	lda	[%glob_tmp] ASI_LEON_MMUREGS, %glob_tmp
- 	andcc	%glob_tmp, 0x2, %g0			! did we fault?
- 	be,a	spwin_finish_up + 0x4			! cool beans, success
- 	 restore %g0, %g0, %g0
-diff --git a/arch/sparc/kernel/wuf.S b/arch/sparc/kernel/wuf.S
-index 1a4ca490e9c2..4c52b69d4b7a 100644
---- a/arch/sparc/kernel/wuf.S
-+++ b/arch/sparc/kernel/wuf.S
-@@ -255,19 +255,16 @@ srmmu_fwin_stackchk:
- 	mov	AC_M_SFSR, %l4
- 	cmp	%l5, %sp
- 	bleu	fwin_user_stack_is_bolixed
--LEON_PI( lda	[%l4] ASI_LEON_MMUREGS, %g0)	! clear fault status
--SUN_PI_( lda	[%l4] ASI_M_MMUREGS, %g0)	! clear fault status
-+	 lda	[%l4] ASI_LEON_MMUREGS, %g0	! clear fault status
- 
- 	/* The technique is, turn off faults on this processor,
- 	 * just let the load rip, then check the sfsr to see if
- 	 * a fault did occur.  Then we turn on fault traps again
- 	 * and branch conditionally based upon what happened.
- 	 */
--LEON_PI(lda	[%g0] ASI_LEON_MMUREGS, %l5)	! read mmu-ctrl reg
--SUN_PI_(lda	[%g0] ASI_M_MMUREGS, %l5)	! read mmu-ctrl reg
-+	lda	[%g0] ASI_LEON_MMUREGS, %l5	! read mmu-ctrl reg
- 	or	%l5, 0x2, %l5			! turn on no-fault bit
--LEON_PI(sta	%l5, [%g0] ASI_LEON_MMUREGS)	! store it
--SUN_PI_(sta	%l5, [%g0] ASI_M_MMUREGS)	! store it
-+	sta	%l5, [%g0] ASI_LEON_MMUREGS	! store it
- 
- 	/* Cross fingers and go for it. */
- 	LOAD_WINDOW(sp)
-@@ -279,19 +276,15 @@ SUN_PI_(sta	%l5, [%g0] ASI_M_MMUREGS)	! store it
- 
- 	/* LOCATION: Window 'T' */
- 
--LEON_PI(lda	[%g0] ASI_LEON_MMUREGS, %twin_tmp1)	! load mmu-ctrl again
--SUN_PI_(lda	[%g0] ASI_M_MMUREGS, %twin_tmp1)	! load mmu-ctrl again
-+	lda	[%g0] ASI_LEON_MMUREGS, %twin_tmp1	! load mmu-ctrl again
- 	andn	%twin_tmp1, 0x2, %twin_tmp1		! clear no-fault bit
--LEON_PI(sta	%twin_tmp1, [%g0] ASI_LEON_MMUREGS)	! store it
--SUN_PI_(sta	%twin_tmp1, [%g0] ASI_M_MMUREGS)	! store it
-+	sta	%twin_tmp1, [%g0] ASI_LEON_MMUREGS	! store it
- 
- 	mov	AC_M_SFAR, %twin_tmp2
--LEON_PI(lda	[%twin_tmp2] ASI_LEON_MMUREGS, %g0)	! read fault address
--SUN_PI_(lda	[%twin_tmp2] ASI_M_MMUREGS, %g0)	! read fault address
-+	lda	[%twin_tmp2] ASI_LEON_MMUREGS, %g0	! read fault address
- 
- 	mov	AC_M_SFSR, %twin_tmp2
--LEON_PI(lda	[%twin_tmp2] ASI_LEON_MMUREGS, %twin_tmp2) ! read fault status
--SUN_PI_(lda	[%twin_tmp2] ASI_M_MMUREGS, %twin_tmp2)	   ! read fault status
-+	lda	[%twin_tmp2] ASI_LEON_MMUREGS, %twin_tmp2 ! read fault status
- 	andcc	%twin_tmp2, 0x2, %g0			   ! did fault occur?
- 
- 	bne	1f					   ! yep, cleanup
+ static void __iomem *_sparc_ioremap(struct resource *res, u32 bus, u32 pa, int sz);
 diff --git a/arch/sparc/mm/Makefile b/arch/sparc/mm/Makefile
-index 7b3ff6dd382e..f0560eea2958 100644
+index f8a897e24438..ad5c50aee517 100644
 --- a/arch/sparc/mm/Makefile
 +++ b/arch/sparc/mm/Makefile
-@@ -8,7 +8,6 @@ obj-$(CONFIG_SPARC64)   += ultra.o tlb.o tsb.o
+@@ -7,7 +7,7 @@ asflags-y := -ansi
+ obj-$(CONFIG_SPARC64)   += ultra.o tlb.o tsb.o
  obj-y                   += fault_$(BITS).o
  obj-y                   += init_$(BITS).o
- obj-$(CONFIG_SPARC32)   += srmmu.o iommu.o io-unit.o
--obj-$(CONFIG_SPARC32)   += srmmu_access.o
+-obj-$(CONFIG_SPARC32)   += srmmu.o iommu.o
++obj-$(CONFIG_SPARC32)   += srmmu.o
  obj-$(CONFIG_SPARC32)   += leon_mm.o
  
  # Only used by sparc64
-diff --git a/arch/sparc/mm/srmmu_access.S b/arch/sparc/mm/srmmu_access.S
+diff --git a/arch/sparc/mm/iommu.c b/arch/sparc/mm/iommu.c
 deleted file mode 100644
-index d8d2e644a5ca..000000000000
---- a/arch/sparc/mm/srmmu_access.S
+index 482e08df7bad..000000000000
+--- a/arch/sparc/mm/iommu.c
 +++ /dev/null
-@@ -1,83 +0,0 @@
--/* SPDX-License-Identifier: GPL-2.0 */
--/* Assembler variants of srmmu access functions.
-- * Implemented in assembler to allow run-time patching.
-- * LEON uses a different ASI for MMUREGS than SUN.
+@@ -1,420 +0,0 @@
+-// SPDX-License-Identifier: GPL-2.0
+-/*
+- * iommu.c:  IOMMU specific routines for memory management.
 - *
-- * The leon_1insn_patch infrastructure is used
-- * for the run-time patching.
+- * Copyright (C) 1995 David S. Miller  (davem@caip.rutgers.edu)
+- * Copyright (C) 1995,2002 Pete Zaitcev     (zaitcev@yahoo.com)
+- * Copyright (C) 1996 Eddie C. Dost    (ecd@skynet.be)
+- * Copyright (C) 1997,1998 Jakub Jelinek    (jj@sunsite.mff.cuni.cz)
 - */
 -
--#include <linux/linkage.h>
+-#include <linux/kernel.h>
+-#include <linux/init.h>
+-#include <linux/mm.h>
+-#include <linux/slab.h>
+-#include <linux/dma-map-ops.h>
+-#include <linux/of.h>
+-#include <linux/of_platform.h>
+-#include <linux/platform_device.h>
 -
--#include <asm/asmmacro.h>
--#include <asm/pgtsrmmu.h>
--#include <asm/asi.h>
+-#include <asm/io.h>
+-#include <asm/cacheflush.h>
+-#include <asm/tlbflush.h>
+-#include <asm/bitext.h>
+-#include <asm/iommu.h>
+-#include <asm/dma.h>
 -
--/* unsigned int srmmu_get_mmureg(void) */
--ENTRY(srmmu_get_mmureg)
--LEON_PI(lda	[%g0] ASI_LEON_MMUREGS, %o0)
--SUN_PI_(lda	[%g0] ASI_M_MMUREGS, %o0)
--	retl
--	 nop
--ENDPROC(srmmu_get_mmureg)
+-#include "mm_32.h"
 -
--/* void srmmu_set_mmureg(unsigned long regval) */
--ENTRY(srmmu_set_mmureg)
--LEON_PI(sta	%o0, [%g0] ASI_LEON_MMUREGS)
--SUN_PI_(sta	%o0, [%g0] ASI_M_MMUREGS)
--	retl
--	 nop
--ENDPROC(srmmu_set_mmureg)
+-/*
+- * This can be sized dynamically, but we will do this
+- * only when we have a guidance about actual I/O pressures.
+- */
+-#define IOMMU_RNGE	IOMMU_RNGE_256MB
+-#define IOMMU_START	0xF0000000
+-#define IOMMU_WINSIZE	(256*1024*1024U)
+-#define IOMMU_NPTES	(IOMMU_WINSIZE/PAGE_SIZE)	/* 64K PTEs, 256KB */
+-#define IOMMU_ORDER	6				/* 4096 * (1<<6) */
 -
--/* void srmmu_set_ctable_ptr(unsigned long paddr) */
--ENTRY(srmmu_set_ctable_ptr)
--	/* paddr = ((paddr >> 4) & SRMMU_CTX_PMASK); */
--	srl	%o0, 4, %g1
--	and	%g1, SRMMU_CTX_PMASK, %g1
+-/*
+- * Values precomputed according to CPU type.
+- */
+-static unsigned int ioperm_noc;		/* Consistent mapping iopte flags */
+-static pgprot_t dvma_prot;		/* Consistent mapping pte flags */
 -
--	mov	SRMMU_CTXTBL_PTR, %g2
--LEON_PI(sta	%g1, [%g2] ASI_LEON_MMUREGS)
--SUN_PI_(sta	%g1, [%g2] ASI_M_MMUREGS)
--	retl
--	 nop
--ENDPROC(srmmu_set_ctable_ptr)
+-#define IOPERM        (IOPTE_CACHE | IOPTE_WRITE | IOPTE_VALID)
+-#define MKIOPTE(pfn, perm) (((((pfn)<<8) & IOPTE_PAGE) | (perm)) & ~IOPTE_WAZ)
 -
+-static const struct dma_map_ops sbus_iommu_dma_gflush_ops;
+-static const struct dma_map_ops sbus_iommu_dma_pflush_ops;
 -
--/* void srmmu_set_context(int context) */
--ENTRY(srmmu_set_context)
--	mov	SRMMU_CTX_REG, %g1
--LEON_PI(sta	%o0, [%g1] ASI_LEON_MMUREGS)
--SUN_PI_(sta	%o0, [%g1] ASI_M_MMUREGS)
--	retl
--	 nop
--ENDPROC(srmmu_set_context)
+-static void __init sbus_iommu_init(struct platform_device *op)
+-{
+-	struct iommu_struct *iommu;
+-	unsigned int impl, vers;
+-	unsigned long *bitmap;
+-	unsigned long control;
+-	unsigned long base;
+-	unsigned long tmp;
 -
+-	iommu = kmalloc(sizeof(struct iommu_struct), GFP_KERNEL);
+-	if (!iommu) {
+-		prom_printf("Unable to allocate iommu structure\n");
+-		prom_halt();
+-	}
 -
--/* int srmmu_get_context(void) */
--ENTRY(srmmu_get_context)
--	mov	SRMMU_CTX_REG, %o0
--LEON_PI(lda     [%o0] ASI_LEON_MMUREGS, %o0)
--SUN_PI_(lda	[%o0] ASI_M_MMUREGS, %o0)
--	retl
--	 nop
--ENDPROC(srmmu_get_context)
+-	iommu->regs = of_ioremap(&op->resource[0], 0, PAGE_SIZE * 3,
+-				 "iommu_regs");
+-	if (!iommu->regs) {
+-		prom_printf("Cannot map IOMMU registers\n");
+-		prom_halt();
+-	}
 -
+-	control = sbus_readl(&iommu->regs->control);
+-	impl = (control & IOMMU_CTRL_IMPL) >> 28;
+-	vers = (control & IOMMU_CTRL_VERS) >> 24;
+-	control &= ~(IOMMU_CTRL_RNGE);
+-	control |= (IOMMU_RNGE_256MB | IOMMU_CTRL_ENAB);
+-	sbus_writel(control, &iommu->regs->control);
 -
--/* unsigned int srmmu_get_fstatus(void) */
--ENTRY(srmmu_get_fstatus)
--	mov	SRMMU_FAULT_STATUS, %o0
--LEON_PI(lda     [%o0] ASI_LEON_MMUREGS, %o0)
--SUN_PI_(lda	[%o0] ASI_M_MMUREGS, %o0)
--	retl
--	 nop
--ENDPROC(srmmu_get_fstatus)
+-	iommu_invalidate(iommu->regs);
+-	iommu->start = IOMMU_START;
+-	iommu->end = 0xffffffff;
 -
+-	/* Allocate IOMMU page table */
+-	/* Stupid alignment constraints give me a headache. 
+-	   We need 256K or 512K or 1M or 2M area aligned to
+-           its size and current gfp will fortunately give
+-           it to us. */
+-        tmp = __get_free_pages(GFP_KERNEL, IOMMU_ORDER);
+-	if (!tmp) {
+-		prom_printf("Unable to allocate iommu table [0x%lx]\n",
+-			    IOMMU_NPTES * sizeof(iopte_t));
+-		prom_halt();
+-	}
+-	iommu->page_table = (iopte_t *)tmp;
 -
--/* unsigned int srmmu_get_faddr(void) */
--ENTRY(srmmu_get_faddr)
--	mov	SRMMU_FAULT_ADDR, %o0
--LEON_PI(lda     [%o0] ASI_LEON_MMUREGS, %o0)
--SUN_PI_(lda	[%o0] ASI_M_MMUREGS, %o0)
--	retl
--	 nop
--ENDPROC(srmmu_get_faddr)
+-	/* Initialize new table. */
+-	memset(iommu->page_table, 0, IOMMU_NPTES*sizeof(iopte_t));
+-	flush_cache_all();
+-	flush_tlb_all();
+-
+-	base = __pa((unsigned long)iommu->page_table) >> 4;
+-	sbus_writel(base, &iommu->regs->base);
+-	iommu_invalidate(iommu->regs);
+-
+-	bitmap = kmalloc(IOMMU_NPTES>>3, GFP_KERNEL);
+-	if (!bitmap) {
+-		prom_printf("Unable to allocate iommu bitmap [%d]\n",
+-			    (int)(IOMMU_NPTES>>3));
+-		prom_halt();
+-	}
+-	bit_map_init(&iommu->usemap, bitmap, IOMMU_NPTES);
+-	iommu->usemap.num_colors = 1;
+-
+-	printk(KERN_INFO "IOMMU: impl %d vers %d table 0x%p[%d B] map [%d b]\n",
+-	       impl, vers, iommu->page_table,
+-	       (int)(IOMMU_NPTES*sizeof(iopte_t)), (int)IOMMU_NPTES);
+-
+-	op->dev.archdata.iommu = iommu;
+-
+-	if (flush_page_for_dma_global)
+-		op->dev.dma_ops = &sbus_iommu_dma_gflush_ops;
+-	 else
+-		op->dev.dma_ops = &sbus_iommu_dma_pflush_ops;
+-}
+-
+-static int __init iommu_init(void)
+-{
+-	struct device_node *dp;
+-
+-	for_each_node_by_name(dp, "iommu") {
+-		struct platform_device *op = of_find_device_by_node(dp);
+-
+-		sbus_iommu_init(op);
+-		of_propagate_archdata(op);
+-	}
+-
+-	return 0;
+-}
+-
+-subsys_initcall(iommu_init);
+-
+-/* Flush the iotlb entries to ram. */
+-/* This could be better if we didn't have to flush whole pages. */
+-static void iommu_flush_iotlb(iopte_t *iopte, unsigned int niopte)
+-{
+-	unsigned long start;
+-	unsigned long end;
+-
+-	start = (unsigned long)iopte;
+-	end = PAGE_ALIGN(start + niopte*sizeof(iopte_t));
+-	start &= PAGE_MASK;
+-	while(start < end) {
+-		__flush_page_to_ram(start);
+-		start += PAGE_SIZE;
+-	}
+-}
+-
+-static dma_addr_t __sbus_iommu_map_page(struct device *dev, struct page *page,
+-		unsigned long offset, size_t len, bool per_page_flush)
+-{
+-	struct iommu_struct *iommu = dev->archdata.iommu;
+-	phys_addr_t paddr = page_to_phys(page) + offset;
+-	unsigned long off = paddr & ~PAGE_MASK;
+-	unsigned long npages = (off + len + PAGE_SIZE - 1) >> PAGE_SHIFT;
+-	unsigned long pfn = __phys_to_pfn(paddr);
+-	unsigned int busa, busa0;
+-	iopte_t *iopte, *iopte0;
+-	int ioptex, i;
+-
+-	/* XXX So what is maxphys for us and how do drivers know it? */
+-	if (!len || len > 256 * 1024)
+-		return DMA_MAPPING_ERROR;
+-
+-	/*
+-	 * We expect unmapped highmem pages to be not in the cache.
+-	 * XXX Is this a good assumption?
+-	 * XXX What if someone else unmaps it here and races us?
+-	 */
+-	if (per_page_flush && !PageHighMem(page)) {
+-		unsigned long vaddr, p;
+-
+-		vaddr = (unsigned long)page_address(page) + offset;
+-		for (p = vaddr & PAGE_MASK; p < vaddr + len; p += PAGE_SIZE)
+-			flush_page_for_dma(p);
+-	}
+-
+-	/* page color = pfn of page */
+-	ioptex = bit_map_string_get(&iommu->usemap, npages, pfn);
+-	if (ioptex < 0)
+-		panic("iommu out");
+-	busa0 = iommu->start + (ioptex << PAGE_SHIFT);
+-	iopte0 = &iommu->page_table[ioptex];
+-
+-	busa = busa0;
+-	iopte = iopte0;
+-	for (i = 0; i < npages; i++) {
+-		iopte_val(*iopte) = MKIOPTE(pfn, IOPERM);
+-		iommu_invalidate_page(iommu->regs, busa);
+-		busa += PAGE_SIZE;
+-		iopte++;
+-		pfn++;
+-	}
+-
+-	iommu_flush_iotlb(iopte0, npages);
+-	return busa0 + off;
+-}
+-
+-static dma_addr_t sbus_iommu_map_page_gflush(struct device *dev,
+-		struct page *page, unsigned long offset, size_t len,
+-		enum dma_data_direction dir, unsigned long attrs)
+-{
+-	flush_page_for_dma(0);
+-	return __sbus_iommu_map_page(dev, page, offset, len, false);
+-}
+-
+-static dma_addr_t sbus_iommu_map_page_pflush(struct device *dev,
+-		struct page *page, unsigned long offset, size_t len,
+-		enum dma_data_direction dir, unsigned long attrs)
+-{
+-	return __sbus_iommu_map_page(dev, page, offset, len, true);
+-}
+-
+-static int __sbus_iommu_map_sg(struct device *dev, struct scatterlist *sgl,
+-		int nents, enum dma_data_direction dir, unsigned long attrs,
+-		bool per_page_flush)
+-{
+-	struct scatterlist *sg;
+-	int j;
+-
+-	for_each_sg(sgl, sg, nents, j) {
+-		sg->dma_address =__sbus_iommu_map_page(dev, sg_page(sg),
+-				sg->offset, sg->length, per_page_flush);
+-		if (sg->dma_address == DMA_MAPPING_ERROR)
+-			return -EIO;
+-		sg->dma_length = sg->length;
+-	}
+-
+-	return nents;
+-}
+-
+-static int sbus_iommu_map_sg_gflush(struct device *dev, struct scatterlist *sgl,
+-		int nents, enum dma_data_direction dir, unsigned long attrs)
+-{
+-	flush_page_for_dma(0);
+-	return __sbus_iommu_map_sg(dev, sgl, nents, dir, attrs, false);
+-}
+-
+-static int sbus_iommu_map_sg_pflush(struct device *dev, struct scatterlist *sgl,
+-		int nents, enum dma_data_direction dir, unsigned long attrs)
+-{
+-	return __sbus_iommu_map_sg(dev, sgl, nents, dir, attrs, true);
+-}
+-
+-static void sbus_iommu_unmap_page(struct device *dev, dma_addr_t dma_addr,
+-		size_t len, enum dma_data_direction dir, unsigned long attrs)
+-{
+-	struct iommu_struct *iommu = dev->archdata.iommu;
+-	unsigned int busa = dma_addr & PAGE_MASK;
+-	unsigned long off = dma_addr & ~PAGE_MASK;
+-	unsigned int npages = (off + len + PAGE_SIZE-1) >> PAGE_SHIFT;
+-	unsigned int ioptex = (busa - iommu->start) >> PAGE_SHIFT;
+-	unsigned int i;
+-
+-	BUG_ON(busa < iommu->start);
+-	for (i = 0; i < npages; i++) {
+-		iopte_val(iommu->page_table[ioptex + i]) = 0;
+-		iommu_invalidate_page(iommu->regs, busa);
+-		busa += PAGE_SIZE;
+-	}
+-	bit_map_clear(&iommu->usemap, ioptex, npages);
+-}
+-
+-static void sbus_iommu_unmap_sg(struct device *dev, struct scatterlist *sgl,
+-		int nents, enum dma_data_direction dir, unsigned long attrs)
+-{
+-	struct scatterlist *sg;
+-	int i;
+-
+-	for_each_sg(sgl, sg, nents, i) {
+-		sbus_iommu_unmap_page(dev, sg->dma_address, sg->length, dir,
+-				attrs);
+-		sg->dma_address = 0x21212121;
+-	}
+-}
+-
+-#ifdef CONFIG_SBUS
+-static void *sbus_iommu_alloc(struct device *dev, size_t len,
+-		dma_addr_t *dma_handle, gfp_t gfp, unsigned long attrs)
+-{
+-	struct iommu_struct *iommu = dev->archdata.iommu;
+-	unsigned long va, addr, page, end, ret;
+-	iopte_t *iopte = iommu->page_table;
+-	iopte_t *first;
+-	int ioptex;
+-
+-	/* XXX So what is maxphys for us and how do drivers know it? */
+-	if (!len || len > 256 * 1024)
+-		return NULL;
+-
+-	len = PAGE_ALIGN(len);
+-	va = __get_free_pages(gfp | __GFP_ZERO, get_order(len));
+-	if (va == 0)
+-		return NULL;
+-
+-	addr = ret = sparc_dma_alloc_resource(dev, len);
+-	if (!addr)
+-		goto out_free_pages;
+-
+-	BUG_ON((va & ~PAGE_MASK) != 0);
+-	BUG_ON((addr & ~PAGE_MASK) != 0);
+-	BUG_ON((len & ~PAGE_MASK) != 0);
+-
+-	/* page color = physical address */
+-	ioptex = bit_map_string_get(&iommu->usemap, len >> PAGE_SHIFT,
+-		addr >> PAGE_SHIFT);
+-	if (ioptex < 0)
+-		panic("iommu out");
+-
+-	iopte += ioptex;
+-	first = iopte;
+-	end = addr + len;
+-	while(addr < end) {
+-		page = va;
+-		{
+-			pmd_t *pmdp;
+-			pte_t *ptep;
+-
+-			__flush_page_to_ram(page);
+-
+-			pmdp = pmd_off_k(addr);
+-			ptep = pte_offset_kernel(pmdp, addr);
+-
+-			set_pte(ptep, mk_pte(virt_to_page(page), dvma_prot));
+-		}
+-		iopte_val(*iopte++) =
+-		    MKIOPTE(page_to_pfn(virt_to_page(page)), ioperm_noc);
+-		addr += PAGE_SIZE;
+-		va += PAGE_SIZE;
+-	}
+-	/* P3: why do we need this?
+-	 *
+-	 * DAVEM: Because there are several aspects, none of which
+-	 *        are handled by a single interface.  Some cpus are
+-	 *        completely not I/O DMA coherent, and some have
+-	 *        virtually indexed caches.  The driver DMA flushing
+-	 *        methods handle the former case, but here during
+-	 *        IOMMU page table modifications, and usage of non-cacheable
+-	 *        cpu mappings of pages potentially in the cpu caches, we have
+-	 *        to handle the latter case as well.
+-	 */
+-	flush_cache_all();
+-	iommu_flush_iotlb(first, len >> PAGE_SHIFT);
+-	flush_tlb_all();
+-	iommu_invalidate(iommu->regs);
+-
+-	*dma_handle = iommu->start + (ioptex << PAGE_SHIFT);
+-	return (void *)ret;
+-
+-out_free_pages:
+-	free_pages(va, get_order(len));
+-	return NULL;
+-}
+-
+-static void sbus_iommu_free(struct device *dev, size_t len, void *cpu_addr,
+-			       dma_addr_t busa, unsigned long attrs)
+-{
+-	struct iommu_struct *iommu = dev->archdata.iommu;
+-	iopte_t *iopte = iommu->page_table;
+-	struct page *page = virt_to_page(cpu_addr);
+-	int ioptex = (busa - iommu->start) >> PAGE_SHIFT;
+-	unsigned long end;
+-
+-	if (!sparc_dma_free_resource(cpu_addr, len))
+-		return;
+-
+-	BUG_ON((busa & ~PAGE_MASK) != 0);
+-	BUG_ON((len & ~PAGE_MASK) != 0);
+-
+-	iopte += ioptex;
+-	end = busa + len;
+-	while (busa < end) {
+-		iopte_val(*iopte++) = 0;
+-		busa += PAGE_SIZE;
+-	}
+-	flush_tlb_all();
+-	iommu_invalidate(iommu->regs);
+-	bit_map_clear(&iommu->usemap, ioptex, len >> PAGE_SHIFT);
+-
+-	__free_pages(page, get_order(len));
+-}
+-#endif
+-
+-static const struct dma_map_ops sbus_iommu_dma_gflush_ops = {
+-#ifdef CONFIG_SBUS
+-	.alloc			= sbus_iommu_alloc,
+-	.free			= sbus_iommu_free,
+-#endif
+-	.map_page		= sbus_iommu_map_page_gflush,
+-	.unmap_page		= sbus_iommu_unmap_page,
+-	.map_sg			= sbus_iommu_map_sg_gflush,
+-	.unmap_sg		= sbus_iommu_unmap_sg,
+-};
+-
+-static const struct dma_map_ops sbus_iommu_dma_pflush_ops = {
+-#ifdef CONFIG_SBUS
+-	.alloc			= sbus_iommu_alloc,
+-	.free			= sbus_iommu_free,
+-#endif
+-	.map_page		= sbus_iommu_map_page_pflush,
+-	.unmap_page		= sbus_iommu_unmap_page,
+-	.map_sg			= sbus_iommu_map_sg_pflush,
+-	.unmap_sg		= sbus_iommu_unmap_sg,
+-};
+-
+-void __init ld_mmu_iommu(void)
+-{
+-	dvma_prot = __pgprot(SRMMU_CACHE | SRMMU_ET_PTE | SRMMU_PRIV);
+-	ioperm_noc = IOPTE_CACHE | IOPTE_WRITE | IOPTE_VALID;
+-}
+diff --git a/arch/sparc/mm/mm_32.h b/arch/sparc/mm/mm_32.h
+index 2c83b8ce742d..102e6a5162b0 100644
+--- a/arch/sparc/mm/mm_32.h
++++ b/arch/sparc/mm/mm_32.h
+@@ -14,6 +14,3 @@ extern int flush_page_for_dma_global;
+ extern void (*poke_srmmu)(void);
+ 
+ void __init srmmu_paging_init(void);
+-
+-/* iommu.c */
+-void ld_mmu_iommu(void);
+diff --git a/arch/sparc/mm/srmmu.c b/arch/sparc/mm/srmmu.c
+index 949247a6896b..dab71cd3fdb2 100644
+--- a/arch/sparc/mm/srmmu.c
++++ b/arch/sparc/mm/srmmu.c
+@@ -1023,10 +1023,7 @@ void __init load_mmu(void)
+ 	/* It really is const after this point. */
+ 	sparc32_cachetlb_ops = (const struct sparc32_cachetlb_ops *)
+ 		&smp_cachetlb_ops;
+-#endif
+ 
+-	ld_mmu_iommu();
+-#ifdef CONFIG_SMP
+ 	leon_init_smp();
+ #endif
+ }
 
 -- 
 2.34.1
