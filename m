@@ -1,100 +1,93 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.8])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-yb1-f202.google.com (mail-yb1-f202.google.com [209.85.219.202])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 65F4A3FB39
-	for <linux-usb@vger.kernel.org>; Mon, 11 Mar 2024 14:08:13 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.8
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 493B13FBBE
+	for <linux-usb@vger.kernel.org>; Mon, 11 Mar 2024 14:45:25 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.219.202
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1710166095; cv=none; b=NwYDVd914t0nPEWuKKh4/qyEHW1oML9lEuy8IeF4ImVkoRZBdymgbNZQbjxnnP+1UU8xfugU4epzURFqDOO1h9pJ1KAVrGZbyG8ah5OZ5Zi7Ke+ukUMHDx6vk86WHK6UiviJVWGcODxjK7CCtOuYuTGm1Brsyo9rtPuKsNhYF5Q=
+	t=1710168326; cv=none; b=rpt0K/ZkucnVmdyaEmtH/0oAOjTcJHC5XnYJm9xFHhVxLuqUy6vlTlof1Ry4+DmXEoJ5dSjV630alGWuogCNzeMHFGdnlmIQJ+yDZNpEXDzkFaCMXxZ0JjP9b7yxMWZkDfvAWTAJXCffcLq+IGiZNYwjIfZK4kGObqfWwjQ2lhA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1710166095; c=relaxed/simple;
-	bh=HGUaeKfExZYTwtcSbNPnBWYeHvgY6LqqFM8aPC3l5Do=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=D+owQZTvYFNNAe9ZqGRcbGnv2ccWKmV7cZVL9ThnpO1+rWJma/RrKa7yS8puPRz4hbuYUSrtTisLR3czUzCaIA4rmVanbzSiQ5GwsUE/GN50uNzoePrq82GDr1zfIcTAJlqt8Xus51Dw3iY6DB+YxJrarhsw5CY+n6Y9PLY9Yys=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=none smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=kmSMBua6; arc=none smtp.client-ip=192.198.163.8
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=linux.intel.com
+	s=arc-20240116; t=1710168326; c=relaxed/simple;
+	bh=i6ug7ibJ0/Kb9CafhzbFo1ueKa9zp2O6WyiYRxRdtrY=;
+	h=Date:Mime-Version:Message-ID:Subject:From:To:Cc:Content-Type; b=lID24NRWgpvTY/kd7CEBqKgXYUFptfWsFeF2tKc+yNkoqo16QUZhfKh61HVsDn0cCydnppbMpn90HwaWW5Tp9qbf2Yiw7+60/McBrXESlhro/nfnSbfxgGCj44hFSUw1t5V3QDSLhuVC5XMXdpfCj2k6KHw+8WgwfNbLdZLAZEw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=flex--kyletso.bounces.google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=ZH9tGnJf; arc=none smtp.client-ip=209.85.219.202
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=flex--kyletso.bounces.google.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="kmSMBua6"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1710166094; x=1741702094;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=HGUaeKfExZYTwtcSbNPnBWYeHvgY6LqqFM8aPC3l5Do=;
-  b=kmSMBua6AuMEtG5Qn6tNAikc2AttHeYR/QYPBQUsp6qNFg/K/57fy3G9
-   gc+EtYUlx/NAN7QkJe0dtk4Cb/HakTm7AWz+xssgb1Xw3c80iLjbu9ZxY
-   ttep05zQHE35/6eU8Wf1NWSjZsf6nv6O6WeOS/7V0kyPLjhYAIuEzBRt0
-   sA0FIbJiTGfsenWC8BMzeqIfAOZfUIcI7Xuy5Jf2CCUKJMICc2gFpbyFa
-   4lm0DivrlvqyFrx0J7Q2zkip0mm9W8Md7W7y50BL+iVRagYau3gFLYYeM
-   ijCgeZmHdNgrxyYw2IRwFt5Q+2ge/o8+T2CGpoIVQpQAnqDTciO/n+wIR
-   w==;
-X-IronPort-AV: E=McAfee;i="6600,9927,11009"; a="22351031"
-X-IronPort-AV: E=Sophos;i="6.07,116,1708416000"; 
-   d="scan'208";a="22351031"
-Received: from fmsmga001.fm.intel.com ([10.253.24.23])
-  by fmvoesa102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 11 Mar 2024 07:08:13 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,11009"; a="937049954"
-X-IronPort-AV: E=Sophos;i="6.07,116,1708416000"; 
-   d="scan'208";a="937049954"
-Received: from black.fi.intel.com ([10.237.72.28])
-  by fmsmga001.fm.intel.com with ESMTP; 11 Mar 2024 07:08:10 -0700
-Received: by black.fi.intel.com (Postfix, from userid 1001)
-	id 43E9A177; Mon, 11 Mar 2024 16:08:08 +0200 (EET)
-Date: Mon, 11 Mar 2024 16:08:08 +0200
-From: "mika.westerberg@linux.intel.com" <mika.westerberg@linux.intel.com>
-To: "mohamed.rayan@siemens.com" <mohamed.rayan@siemens.com>
-Cc: "andreas.noever@gmail.com" <andreas.noever@gmail.com>,
-	"michael.jamet@intel.com" <michael.jamet@intel.com>,
-	"YehezkelShB@gmail.com" <YehezkelShB@gmail.com>,
-	"linux-usb@vger.kernel.org" <linux-usb@vger.kernel.org>,
-	"mohamed.samy@siemens.com" <mohamed.samy@siemens.com>,
-	"mohamed.el_nahas@siemens.com" <mohamed.el_nahas@siemens.com>,
-	"ahmed_mohammed@siemens.com" <ahmed_mohammed@siemens.com>
-Subject: Re: Inquiry about tb/usb4 driver
-Message-ID: <20240311140808.GH112498@black.fi.intel.com>
-References: <SEZPR06MB5439E9D11593D4550BDCA4AFF35F2@SEZPR06MB5439.apcprd06.prod.outlook.com>
- <20240229123042.GH8454@black.fi.intel.com>
- <SEZPR06MB5439B1EDA735894215D6263BF35F2@SEZPR06MB5439.apcprd06.prod.outlook.com>
- <20240229125536.GI8454@black.fi.intel.com>
- <SEZPR06MB5439FEE8694906792549E92FF3242@SEZPR06MB5439.apcprd06.prod.outlook.com>
- <20240311115627.GD112498@black.fi.intel.com>
- <SEZPR06MB5439F409D2761039ECD26BA8F3242@SEZPR06MB5439.apcprd06.prod.outlook.com>
+	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="ZH9tGnJf"
+Received: by mail-yb1-f202.google.com with SMTP id 3f1490d57ef6-dcbfe1a42a4so7961770276.2
+        for <linux-usb@vger.kernel.org>; Mon, 11 Mar 2024 07:45:25 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=google.com; s=20230601; t=1710168324; x=1710773124; darn=vger.kernel.org;
+        h=cc:to:from:subject:message-id:mime-version:date:from:to:cc:subject
+         :date:message-id:reply-to;
+        bh=dS0RD4NP4nYM0xX9pXu7CBpa5Z7kk4eKmZrP0C7k8oY=;
+        b=ZH9tGnJfUNwiRlzJIKwSIhhnHAcY4Cc5ADBwGH3hKkJlmXODXcILbIEwJ6TGokIAfT
+         Z40R8n1jI35Yu8o2MMea8JiYH4jXW0rBMq22TPb62oZjwUQ/AWXKBLC/MK4hZ7rm6VZe
+         JG6hO3Ltfa0/iRfNjkTsZaWd3+nmIwEEPBknZY9EVXmwHrtuIgKy4aXPA0jrCXCw5xed
+         KTP6jvEkAyWgu0G8DDlQauRV/PxZJNInsxNaYfCr6W8/0pj1tqjyit6sVc6i1YM3FLUI
+         liQ+U7sKXOTH3s9QfqM7/Y2DuZlW//ada4Fp9igEZM+ckAAxi4YbyvHs0fWP5do0w20E
+         jzkA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1710168324; x=1710773124;
+        h=cc:to:from:subject:message-id:mime-version:date:x-gm-message-state
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=dS0RD4NP4nYM0xX9pXu7CBpa5Z7kk4eKmZrP0C7k8oY=;
+        b=E2e7+cXaxUiPLG2Vf0jjISbY0wxeonRCmZ4SB2ccYzufaX9o/Ii+cnPQlSSjH1Ko75
+         qsGtwJl8nL5o9V3TJDdfWjQlQVaCdOEdy8XAhnqSoij2J51pJR3nH+8Jg8QC9rgjDg/i
+         EyReps/5/Q9RccNBozoOadChx9lK38r2OF1NofuhMgZd/32qH0WkdxwFCpUnxf2DJxLb
+         K+Adgtw5KtQ+DKM6OzxSS2Cz6d9k099seEytbWBlLuOpwsqFk+PfqCezsi2r8PpMOh5b
+         EBQ7J284qt0ejajudaxb3+/l6aHYdEEy3aHrNyLNcXXR4lBM7zf2iHldzqk/Bq3WT0T4
+         BgsQ==
+X-Forwarded-Encrypted: i=1; AJvYcCX+IKQ9z90zALHZ/6IztTnAFDnAqvflpiz4VQU1IFAM12lcH1tUR7mc20sugoae9wvlX7tUy9EgBDQgcmRjZwp7KW2ipe28/TQm
+X-Gm-Message-State: AOJu0YzlKhqDhs0ylgsV+8rnGjz1l3x3OOsPTZAoG5WitQOcDL4NWODQ
+	SLobVlRLcgr4F2FUF+dEkXY6hFlmRfSQZNen2d5WhiAM8GOb95JZb2zUmMsyTUnAz9/dBt0KIMN
+	fiT7AYg==
+X-Google-Smtp-Source: AGHT+IHdZiZaHMJe56VAsU48z7RxtFDHe9tn3wMla7NpWgQzixeZhSJxWsqVVEukii4H1npzGFX76HZGQpiw
+X-Received: from kyletso-p620lin01.ntc.corp.google.com ([2401:fa00:fc:202:a76e:a92b:1d72:6e4b])
+ (user=kyletso job=sendgmr) by 2002:a05:6902:124c:b0:dc6:d678:371d with SMTP
+ id t12-20020a056902124c00b00dc6d678371dmr1856163ybu.3.1710168324317; Mon, 11
+ Mar 2024 07:45:24 -0700 (PDT)
+Date: Mon, 11 Mar 2024 22:45:00 +0800
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <SEZPR06MB5439F409D2761039ECD26BA8F3242@SEZPR06MB5439.apcprd06.prod.outlook.com>
+Mime-Version: 1.0
+X-Mailer: git-send-email 2.44.0.278.ge034bb2e1d-goog
+Message-ID: <20240311144500.3694849-1-kyletso@google.com>
+Subject: [PATCH v1] usb: typec: tcpm: Correct port source pdo array in pd_set callback
+From: Kyle Tso <kyletso@google.com>
+To: linux@roeck-us.net, heikki.krogerus@linux.intel.com, 
+	gregkh@linuxfoundation.org
+Cc: badhri@google.com, linux-kernel@vger.kernel.org, linux-usb@vger.kernel.org, 
+	Kyle Tso <kyletso@google.com>, stable@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
 
-Hi,
+In tcpm_pd_set, the array of port source capabilities is port->src_pdo,
+not port->snk_pdo.
 
-On Mon, Mar 11, 2024 at 02:03:38PM +0000, mohamed.rayan@siemens.com wrote:
-> Hi Mike,
-> 
-> I have enabled the dmesg as per your instructions below,
-> 
-> Kindly check the log as attached and let me know if you need anything else.
+Fixes: cd099cde4ed2 ("usb: typec: tcpm: Support multiple capabilities")
+Cc: stable@vger.kernel.org
+Signed-off-by: Kyle Tso <kyletso@google.com>
+---
+ drivers/usb/typec/tcpm/tcpm.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-Checked now, thanks! Found this:
+diff --git a/drivers/usb/typec/tcpm/tcpm.c b/drivers/usb/typec/tcpm/tcpm.c
+index 3d505614bff1..9485f6373de4 100644
+--- a/drivers/usb/typec/tcpm/tcpm.c
++++ b/drivers/usb/typec/tcpm/tcpm.c
+@@ -6858,7 +6858,7 @@ static int tcpm_pd_set(struct typec_port *p, struct usb_power_delivery *pd)
+ 
+ 	if (data->source_desc.pdo[0]) {
+ 		for (i = 0; i < PDO_MAX_OBJECTS && data->source_desc.pdo[i]; i++)
+-			port->snk_pdo[i] = data->source_desc.pdo[i];
++			port->src_pdo[i] = data->source_desc.pdo[i];
+ 		port->nr_src_pdo = i + 1;
+ 	}
+ 
+-- 
+2.44.0.278.ge034bb2e1d-goog
 
-[  156.919971] thunderbolt: loading out-of-tree module taints kernel.                     
-[  156.919991] thunderbolt: module verification failed: signature and/or required key miss
-ing - tainting kernel                                                                     
-[  156.932195] ACPI: bus type thunderbolt registered                                      
-[  156.987694] TBT debug : ==> Start to enable MSI interrupt <===========                 
-[  156.996266] TBT debug : ==> pci_alloc_irq_vectors is done <=========
-
-This is something that is not part of the mainline kernel. First of all
-Thunderbolt driver has been in the mainline for a long time so it
-definitely is not out-of-tree module. The debugging also does not exists
-on any of the trees I'm working on.
-
-In other words, I cannot help you here.
-
-If you provide me the same output on a mainline kernel with no
-modifications I can take a look, sure.
