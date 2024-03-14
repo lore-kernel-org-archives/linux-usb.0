@@ -1,77 +1,144 @@
-Received: from mta21.hihonor.com (mta21.hihonor.com [81.70.160.142])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-ej1-f43.google.com (mail-ej1-f43.google.com [209.85.218.43])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 27C636BFAC;
-	Thu, 14 Mar 2024 09:36:08 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=81.70.160.142
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 40E516E617
+	for <linux-usb@vger.kernel.org>; Thu, 14 Mar 2024 10:30:02 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.43
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1710408970; cv=none; b=gC+CqA9BVgvZIOgC8dhrPY3fIc2WWDZUTrqOP8q61N5FyV83/rjHyqrpn6CPFqB+YRfb0Ylxw5AmYFnRD4OXqnaHoG8RHaHpyKClBtSYkpphxIk6PSNodTJns+W55I90pyS+YJd5OdKUx2b+AxjGu9Sxk2goIFim0552fk83OtU=
+	t=1710412203; cv=none; b=tNlUTf4N6Bvdx6HviJOjFWh+hgUEGY6kiVisZQJfitDXZbdomlsUOtLfua+6M1ae3vgtwCAngvqNR2APY8j5h+LweFXN1n3v7FIj5dR8q2b1g01wP1gXqv4cFAr25+NrW9ZyZ1r4jG24tz4e0Av/JrgnRRTNmWT1wZod9bBS1Eg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1710408970; c=relaxed/simple;
-	bh=Qcl1blVSnSRz1idRFGTxtnYrVglAakLoz0XoHSP6hkM=;
-	h=From:To:CC:Subject:Date:Message-ID:References:In-Reply-To:
-	 Content-Type:MIME-Version; b=MtdAV5nRSeMWfVdXTmXdz1Tio6KZ07IrLwdK1KSgOpJsMR+BymC/27dXt7BoG6r+0a0Q85gp1T7o0Qf5t/kHMo1ECXYrwmfDNjvVss6ANvwHb/iJnFn9xSyU+SWZx9hdWswg2YEN7QrBgrMpr3CV8ezRv2L35xEs+Fpcfe1ailE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=hihonor.com; spf=pass smtp.mailfrom=hihonor.com; arc=none smtp.client-ip=81.70.160.142
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=hihonor.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=hihonor.com
-Received: from w011.hihonor.com (unknown [10.68.20.122])
-	by mta21.hihonor.com (SkyGuard) with ESMTPS id 4TwMKg3BqfzcXYv8;
-	Thu, 14 Mar 2024 17:20:07 +0800 (CST)
-Received: from a008.hihonor.com (10.68.30.56) by w011.hihonor.com
- (10.68.20.122) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1258.25; Thu, 14 Mar
- 2024 17:20:26 +0800
-Received: from w025.hihonor.com (10.68.28.69) by a008.hihonor.com
- (10.68.30.56) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1258.25; Thu, 14 Mar
- 2024 17:20:25 +0800
-Received: from w025.hihonor.com ([fe80::5770:e914:c15d:4346]) by
- w025.hihonor.com ([fe80::5770:e914:c15d:4346%14]) with mapi id
- 15.02.1258.025; Thu, 14 Mar 2024 17:20:25 +0800
-From: yuanlinyu <yuanlinyu@hihonor.com>
-To: Oliver Neukum <oneukum@suse.com>, Alan Stern <stern@rowland.harvard.edu>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-CC: "linux-usb@vger.kernel.org" <linux-usb@vger.kernel.org>,
-	"stable@vger.kernel.org" <stable@vger.kernel.org>
-Subject: RE: [PATCH v1] usb: f_mass_storage: reduce chance to queue disable ep
-Thread-Topic: [PATCH v1] usb: f_mass_storage: reduce chance to queue disable
- ep
-Thread-Index: AQHadd1DBEawBTTN7U63+22niyjmfrE2V6OAgACK6iCAABJd8A==
-Date: Thu, 14 Mar 2024 09:20:25 +0000
-Message-ID: <fd1200d4a72840acbb09e1d91ccd30c4@hihonor.com>
-References: <20240314065949.2627778-1-yuanlinyu@hihonor.com>
- <2233fe16-ca3e-4a5e-bc69-a2447ddd2e82@suse.com>
- <ee024edfcb4447fb884878b15fe202f0@hihonor.com>
-In-Reply-To: <ee024edfcb4447fb884878b15fe202f0@hihonor.com>
-Accept-Language: zh-CN, en-US
-Content-Language: zh-CN
-X-MS-Has-Attach:
-X-MS-TNEF-Correlator:
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+	s=arc-20240116; t=1710412203; c=relaxed/simple;
+	bh=l85vnkr5IVShaY0q/S02bkIi9AiEbiKbWt69y83fl00=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=RHAI2OsNyoiN3AHyOLjT+zpH+4TwhF6puMYdli98G0eK35kl0hCGIr5umxEm6DwbC6op495SR4mlhcJdSBzfedXo3k11SyI2gFHqtf7DzZKZs0vjVtMjzYD2AfUVH607nTcViIriR4OA4OHSGqNvHIiyR1TuMPIFwi6AiPhNLk4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=tDxU1XBo; arc=none smtp.client-ip=209.85.218.43
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=google.com
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="tDxU1XBo"
+Received: by mail-ej1-f43.google.com with SMTP id a640c23a62f3a-a466f89560eso65882366b.3
+        for <linux-usb@vger.kernel.org>; Thu, 14 Mar 2024 03:30:02 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=google.com; s=20230601; t=1710412201; x=1711017001; darn=vger.kernel.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=jcGu0HbVhJ43nJUYs2HgED0p2686qNZu20aPF6xMbD0=;
+        b=tDxU1XBo8Yy3CGE41rhPNSftVACrFGazPrIt3QB9KNqkNRFwR8qPf2sKC8Yu9vGvYo
+         7MZAg9u6twmvy2pht4oFXxquE67+Y0wGbVqy7Ijkq6NdOHoyXHJFCA4hLLnk4IKmBk6P
+         DVwaEMHzE7blXcii4HuW2aArMm8yZ3Ptt8yEy0fOeDZwAjEHd0hWmY65MzEdfwyQMUj5
+         VoyX4N6dWvjp05Dh1xP1FO3D9Yovfv8v9vduIw71RH5QIPxRJyWBWGenELH25dJ+OnJ7
+         xdM69HwdQlCznhgf0sBJyFIyQdCvzJw24QObFzj6+MDGF6ugnJcqfZrYa3wOtu4Jcn1f
+         J3hg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1710412201; x=1711017001;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=jcGu0HbVhJ43nJUYs2HgED0p2686qNZu20aPF6xMbD0=;
+        b=qz6CdHegfuUzp9/InekWN9NJ+NTNaxebZgRdP3fuBl2LjxEap7/yqStMv88pbv8h7r
+         TLCPyW1nDk2ZDtt3/UVD6n8A4ZC7Tq4NLVqAXpbRkybadelsBbyvq81OE1aN2g63y5NE
+         5txKP/jSB3ZuXMZgqhfPQtuzD8hc6sYcvN5b55/9kWAX/xoegoVZhtt5wEMEYCSFncTY
+         9lETBxUZaa1CX7q05/4LPdJW+HGoAwd99eiGxU42bz4Tc/mdpDGQN5xZSEs3OP0oznse
+         tAnbdL9Ps1tFu2HfTAvV5TaWG7DLmkRnSObop8mIB20U7nymBEPxb6762DmsFzNO8S/d
+         +mKA==
+X-Forwarded-Encrypted: i=1; AJvYcCU/WSZMx/GpOw2sQOrGbs53caaoI4TFaQ4vbttPFg3Ohdb2ZV9cUM2MScLvAn4McnKJVFgO3ebnAPPKPU7X9lV5w6Vi93Afd++x
+X-Gm-Message-State: AOJu0YySxha8VHjlVhnbpfUi2oANbYTxTMX43Znf5q5rMdlyWWI/AChj
+	LDxvOSdSillpEyJB0AOHyS3L6A4vNycPBb4JgxyZq7mKySkoBvLEiaO9ulDKTfFYr6+y+NINdLV
+	hgsftH6zqCWV8Mrnf+QTyAsFF2F1U6l0WHKhG
+X-Google-Smtp-Source: AGHT+IGON9Se+9pz19hDr8yNzBsEwejkS9/dMYiC1+kL2sDCzCuSpkLFSJJXHnc5NytKjijIcb1mX2sR+v6mI2ND08I=
+X-Received: by 2002:a17:906:99d3:b0:a46:749b:58a with SMTP id
+ s19-20020a17090699d300b00a46749b058amr784155ejn.57.1710412200434; Thu, 14 Mar
+ 2024 03:30:00 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
+References: <20240228013619.29758-1-quic_wcheng@quicinc.com>
+ <20240228013619.29758-21-quic_wcheng@quicinc.com> <CANqn-rjTgHgzssxZiuwvTKzOS31wzjS4Y9G-XacZN4a7c82MaA@mail.gmail.com>
+ <d97f635f-053b-70a7-5ffe-a1ae273091d1@quicinc.com>
+In-Reply-To: <d97f635f-053b-70a7-5ffe-a1ae273091d1@quicinc.com>
+From: Albert Wang <albertccwang@google.com>
+Date: Thu, 14 Mar 2024 18:29:47 +0800
+Message-ID: <CANqn-ring2uf=A-F7VuRwnJ--n=FtFzSddCmR-=nfxCGcFAF2g@mail.gmail.com>
+Subject: Re: [PATCH v18 20/41] ALSA: usb-audio: qcom: Introduce QC USB SND
+ offloading support
+To: Wesley Cheng <quic_wcheng@quicinc.com>
+Cc: srinivas.kandagatla@linaro.org, mathias.nyman@intel.com, perex@perex.cz, 
+	conor+dt@kernel.org, corbet@lwn.net, lgirdwood@gmail.com, 
+	andersson@kernel.org, krzysztof.kozlowski+dt@linaro.org, 
+	gregkh@linuxfoundation.org, Thinh.Nguyen@synopsys.com, broonie@kernel.org, 
+	bgoswami@quicinc.com, tiwai@suse.com, robh+dt@kernel.org, 
+	konrad.dybcio@linaro.org, linux-kernel@vger.kernel.org, 
+	devicetree@vger.kernel.org, linux-sound@vger.kernel.org, 
+	linux-usb@vger.kernel.org, linux-arm-msm@vger.kernel.org, 
+	linux-doc@vger.kernel.org, alsa-devel@alsa-project.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-PiBGcm9tOiB5dWFubGlueXUNCj4gU2VudDogVGh1cnNkYXksIE1hcmNoIDE0LCAyMDI0IDQ6MTQg
-UE0NCj4gVG86ICdPbGl2ZXIgTmV1a3VtJyA8b25ldWt1bUBzdXNlLmNvbT47IEFsYW4gU3Rlcm4N
-Cj4gPHN0ZXJuQHJvd2xhbmQuaGFydmFyZC5lZHU+OyBHcmVnIEtyb2FoLUhhcnRtYW4NCj4gPGdy
-ZWdraEBsaW51eGZvdW5kYXRpb24ub3JnPg0KPiBDYzogbGludXgtdXNiQHZnZXIua2VybmVsLm9y
-Zzsgc3RhYmxlQHZnZXIua2VybmVsLm9yZw0KPiBTdWJqZWN0OiBSRTogW1BBVENIIHYxXSB1c2I6
-IGZfbWFzc19zdG9yYWdlOiByZWR1Y2UgY2hhbmNlIHRvIHF1ZXVlIGRpc2FibGUgZXANCj4gDQo+
-ID4gRnJvbTogT2xpdmVyIE5ldWt1bSA8b25ldWt1bUBzdXNlLmNvbT4NCj4gPiBTZW50OiBUaHVy
-c2RheSwgTWFyY2ggMTQsIDIwMjQgMzo1NCBQTQ0KPiA+DQo+ID4NCj4gPiBTb3JyeSwgbm93IGZv
-ciB0aGUgbG9uZ2VyIGV4cGxhbmF0aW9uLiBZb3UnZCBpbnRyb2R1Y2UgYSBkZWFkbG9jay4NCj4g
-PiBZb3UganVzdCBjYW5ub3Qgc2xlZXAgd2l0aCBhIHNwaW5sb2NrIGhlbGQuIEl0IHNlZW1zIHRv
-IG1lIHRoYXQNCj4gDQo+IEkgZGlkbid0IHJldmlldyB1c2JfZXBfcXVldWUoKSBjbGVhcmx5LCBp
-biBteSB0ZXN0LCBJIGRpZG4ndCBoaXQgc2xlZXAuDQo+IEJ1dCB0aGUgY29uY2VybiBpcyBnb29k
-LCB3aWxsIGZpbmQgYmV0dGVyIHdheSB0byBhdm9pZCBpdC4NCg0KT2xpdmVyLCBjb3VsZCB5b3Ug
-c2hhcmUgb25lIGV4YW1wbGUgd2hpY2ggY2FuIHNsZWVwID8NCg0KSSBjaGVjayBzZXZlcmFsIFVE
-QyBkcml2ZXJzLCBsaWtlIGR3YzMsIGNkbnNwLCBjZG5zMywgDQpCb3RoIGRpc2FibGUvcXVldWUg
-ZnVuY3Rpb24gaGF2ZSBzcGlubG9jaywgdGhpcyBtZWFucyBubyBzbGVlcCwgcmlnaHQgPw0KDQo+
-IA0KPiA+IGlmIHlvdSB3YW50IHRvIGRvIHRoaXMgY2xlYW5seSwgeW91IG5lZWQgdG8gcmV2aXNp
-dCB0aGUgbG9ja2luZw0KPiA+IHRvIHVzZSBsb2NrcyB5b3UgY2FuIHNsZWVwIHVuZGVyLg0KPiA+
-DQo+ID4gCUhUSA0KPiA+IAkJT2xpdmVyDQo=
+On Thu, Mar 14, 2024 at 3:18=E2=80=AFAM Wesley Cheng <quic_wcheng@quicinc.c=
+om> wrote:
+>
+> Hi Albert,
+>
+> On 3/13/2024 1:03 AM, Albert Wang wrote:
+> > Hi Wesley,
+> >
+> > The suspend function `qc_usb_audio_offload_suspend()` looks to stop
+> > the traffic on the bus, so that the bus can be suspended. That allows
+> > the application processor(AP) to enter suspend. There is a subtle
+> > difference with our feature, which is to allow AP suspend with the
+> > Host and USB controller active to continue the audio offloading. We
+> > call this feature `allow AP suspend in playback`. So, I have some
+> > points to clarify with you:
+>
+> Yes, I'm aware of that feature also.
+>
+> > 1. Will the suspend flow `usb_audio_suspend() -->
+> > platform_ops->suspend_cb() --> qc_usb_audio_offload_suspend()` be
+> > called when offloading is active?
+>
+> It can be.  This is why in our case, we are going to issue the
+> disconnect event to the audio DSP to stop the session if it is currently
+> in one.
+>
+> > 2. As my understanding, the suspend function is to allow AP suspend
+> > when the offloading is IDLE, but it won't allow AP suspend when in
+> > playback or capture. Please correct me if anything is wrong.
+>
+> As mentioned above, it will let apps go into PM suspend after forcing
+> the audio stream to be idle.  We won't block PM suspend entry.
+>
+Right. Your design is to force the audio stream idle, or say, inform
+the audio DSP
+to stop the current offloading session first, then AP can go into PM
+suspend as usual.
+Then I can say the current design did not support the `allow AP
+suspend in playback`
+feature, right?
+
+> Yes, I saw that patch as well.  I'll take a look once this series lands
+> upstream.
+
+That patch is rejected and archived now. So we need to find another
+approach to do
+that, even based on your framework.
+
+Thanks,
+Albert
+
+
+> > 3. We would like to integrate the `allow AP suspend in playback`
+> > feature with your framework to become one upstream offload solution.
+> > Here is the patch:
+> > https://patchwork.kernel.org/project/linux-pm/patch/20240223143833.1509=
+961-1-guanyulin@google.com/
+> > .
+>
+> Yes, I saw that patch as well.  I'll take a look once this series lands
+> upstream.
+>
+> Thanks
+> Wesley Cheng
