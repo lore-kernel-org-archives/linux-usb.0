@@ -1,70 +1,151 @@
-Received: from m16.mail.163.com (m16.mail.163.com [220.197.31.4])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id E530C4C61;
-	Sat, 16 Mar 2024 05:51:07 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=220.197.31.4
+Received: from netrider.rowland.org (netrider.rowland.org [192.131.102.5])
+	by smtp.subspace.kernel.org (Postfix) with SMTP id 51133611E
+	for <linux-usb@vger.kernel.org>; Sat, 16 Mar 2024 20:35:37 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.131.102.5
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1710568271; cv=none; b=Chxrt+hOsUvwzDlOiUoNJyG6YButCf5kUVYln8fzhTWJKRXFOr9Cul+F00fb5EvEFByG9IMDaas+j4JAyUxaUzjI+7dsyWitlAU7dX0wFjBnaRnNqNdT5WYkkXxkCQiENhHD4ZOVVGFfhi8ZDj14aK2cQ9n2dxvhmzSJXP+SCuU=
+	t=1710621341; cv=none; b=HlU09q6Fr+aRM8AH7L3hvxmHTDxOBcAmt+5ciSnNFieDGpvr3l/tpVq4EChUT64gJhc52z+Q0H6WLPX0eJAjlPAWUUAwNZlCNM35gGQz4tJubys6GzckRCwYFzN6Id2nCTW2BIAzFtflorvJJHTQyUgSktz4f7oaRpk+NcDXiCU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1710568271; c=relaxed/simple;
-	bh=PcvHHTSMBw117q5/ugEHQe5fTF6QB9/SiG4cfaolfFI=;
-	h=Date:From:To:Cc:Subject:In-Reply-To:References:Content-Type:
-	 MIME-Version:Message-ID; b=dCEEBeOe9DKG6jsZKxUyUK+jann/qEsu2tJZ91Z7fcPkl3GcZomlwOUUEBfKK6Rmt7HSNjVmc03z9klDD4m28Xe1ZoIxlgt5iig4T0WYGnyMs/GJx9r0oI6C9iy6MWGJ9G8cVlhdlWwrJQ6v8wYyx5NRgJDY4IssOofdBh4fmGo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=163.com; spf=pass smtp.mailfrom=163.com; dkim=fail (1024-bit key) header.d=163.com header.i=@163.com header.b=LptSJUcs reason="signature verification failed"; arc=none smtp.client-ip=220.197.31.4
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=163.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=163.com
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=fail reason="signature verification failed" (1024-bit key) header.d=163.com header.i=@163.com header.b="LptSJUcs"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=163.com;
-	s=s110527; h=Date:From:Subject:Content-Type:MIME-Version:
-	Message-ID; bh=uFFZvRYf7/jGYNLrlL2FZXdrRg8lHe52BaTJPVTBtY4=; b=L
-	ptSJUcs33GjUzP/xYBwwK6Iz5GTgvBR1fIr6wH/daATTWIBntUmWMoaUYjGXXwRM
-	y6fmQkEqiumAJUospRt6CrFpvYKiNkAB0WHDVAStlY43soF56Koalaf63BCr5TRR
-	SyOjMU7RNfjxQL4B12B/xYpR3HRuljEIFtNFWz3VMU=
-Received: from 18500469033$163.com ( [114.250.139.10] ) by
- ajax-webmail-wmsvr-40-125 (Coremail) ; Sat, 16 Mar 2024 13:35:34 +0800
- (CST)
-Date: Sat, 16 Mar 2024 13:35:34 +0800 (CST)
-From: "Dingyan Li" <18500469033@163.com>
-To: "Greg KH" <gregkh@linuxfoundation.org>
-Cc: stern@rowland.harvard.edu, linux-usb@vger.kernel.org, 
-	linux-kernel@vger.kernel.org
-Subject: Re:Re: [PATCH v2] USB: Use EHCI control transfer pid macros instead
- of constant values.
-X-Priority: 3
-X-Mailer: Coremail Webmail Server Version XT5.0.14 build 20230109(dcb5de15)
- Copyright (c) 2002-2024 www.mailtech.cn 163com
-In-Reply-To: <2024030910-hurled-ibuprofen-1b52@gregkh>
-References: <37bdd932-07a4-4514-a5cc-b70d48c962a6@rowland.harvard.edu>
- <20240309033709.14604-1-18500469033@163.com>
- <2024030910-hurled-ibuprofen-1b52@gregkh>
-X-NTES-SC: AL_Qu2aAvmduEso4iibYukfm0cQhe89UcW5uf4i3YFTPptwjAzpygQDcWZaMGPb2+CVKxyTiAGOYhNjyPVVXoN3YLoy8R8I4H7Xg8T41AM0/Hb8JQ==
-Content-Transfer-Encoding: base64
-Content-Type: text/plain; charset=GBK
+	s=arc-20240116; t=1710621341; c=relaxed/simple;
+	bh=gTuos2vrk2Aq2RdkAXzhuDP3hXzu8Fb6ZlqMaChzjhI=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=APONsMnJrjXCbLGNh9fDyMuLlNtIQgwbanYPJyiO5OO2mXH9JCY4QQcZFXIwxL9aaxVhmG6aWi1i0mYPtqSdylTULhz67uZfVpvw/wuf/tSLkSIXtljKnEDXl99eDfNyh9XQVvoeOc/WPqAIjEfeub+N6eYR45RHYlrcvrywwUY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=rowland.harvard.edu; spf=pass smtp.mailfrom=netrider.rowland.org; arc=none smtp.client-ip=192.131.102.5
+Authentication-Results: smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=rowland.harvard.edu
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=netrider.rowland.org
+Received: (qmail 524355 invoked by uid 1000); 16 Mar 2024 16:35:30 -0400
+Date: Sat, 16 Mar 2024 16:35:30 -0400
+From: Alan Stern <stern@rowland.harvard.edu>
+To: Jan =?utf-8?B?xIxlcm3DoWs=?= <sairon@sairon.cz>
+Cc: Greg KH <gregkh@linuxfoundation.org>, Khazhy Kumykov <khazhy@google.com>,
+  USB mailing list <linux-usb@vger.kernel.org>, regressions@lists.linux.dev
+Subject: Re: [REGRESSION] Re: [PATCH 0/3] USB: core: Don't overwrite device
+ descriptor during reinitialization
+Message-ID: <8b8e2773-47eb-48f4-b5e8-dcd885ee5c5b@rowland.harvard.edu>
+References: <6eadec91-990a-4fbd-8883-8366c4a4d8e4@rowland.harvard.edu>
+ <1e954652-dfb3-4248-beea-b8a449128ff0@sairon.cz>
+ <4c3ab861-0274-409b-aad3-7cfb53dc2308@rowland.harvard.edu>
+ <00f0786b-a9f2-4f73-8d23-3b1fa4c8b77e@sairon.cz>
+ <60def275-5237-48df-b37b-ab886f4ee017@rowland.harvard.edu>
+ <4c2a410b-2997-4a7a-8fd6-2bec819a1c4f@sairon.cz>
+ <4a168b8b-f012-4b36-92bd-83aeb6849410@rowland.harvard.edu>
+ <92d3d802-73df-4ab5-aab4-b2325512e98f@sairon.cz>
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Message-ID: <7ac221bb.256b.18e45c223ba.Coremail.18500469033@163.com>
-X-Coremail-Locale: zh_CN
-X-CM-TRANSID:_____wD3_xamL_VlaxoCAA--.6777W
-X-CM-SenderInfo: jprykiiquwmiitt6il2tof0z/1tbiQA+jy2VOB6UU+gACsC
-X-Coremail-Antispam: 1U5529EdanIXcx71UUUUU7vcSsGvfC2KfnxnUU==
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <92d3d802-73df-4ab5-aab4-b2325512e98f@sairon.cz>
 
-QXQgMjAyNC0wMy0wOSAxNToxNDo0OCwgIkdyZWcgS0giIDxncmVna2hAbGludXhmb3VuZGF0aW9u
-Lm9yZz4gd3JvdGU6Cj5PbiBTYXQsIE1hciAwOSwgMjAyNCBhdCAxMTozNzowOUFNICswODAwLCBE
-aW5neWFuIExpIHdyb3RlOgo+PiBNYWNyb3Mgd2l0aCBnb29kIG5hbWVzIG9mZmVyIGJldHRlciBy
-ZWFkYWJpbGl0eS4gQmVzaWRlcywgYWxzbyBtb3ZlCj4+IHRoZSBkZWZpbml0aW9uIHRvIGVoY2ku
-aC4KPj4gCj4+IFNpZ25lZC1vZmYtYnk6IERpbmd5YW4gTGkgPDE4NTAwNDY5MDMzQDE2My5jb20+
-Cj4+IFJldmlld2VkLWJ5OiBBbGFuIFN0ZXJuIDxzdGVybkByb3dsYW5kLmhhcnZhcmQuZWR1Pgo+
-PiAtLS0KPj4gVjEgLT4gVjI6IFJlcGxhY2VtZW50IGluIG1vcmUgcGxhY2VzIHdoZXJlIEFsYW4g
-cG9pbnRlZCBvdXQuCj4+IAo+Cj5UaGlzIHNob3VsZCBiZSB2MywgYXMgeW91IGhhdmUgYWRkZWQg
-QWxhbidzIHJldmlld2VkLWJ5LCBhbmQgYWRkZWQgdGhlCj5wcm9wZXIgdmVyc2lvbmluZyBpbmZv
-cm1hdGlvbi4gIFBsZWFzZSByZXNlbmQgaXQgYXMgc3VjaCBhcyBvdXIgdG9vbHMKPmNhbid0IGRp
-ZyBpdCBvdXQgZnJvbSB0aGUgZW5kIG9mIHRoZSB0aHJlYWQgbGlrZSB0aGlzIDooCj4KPnRoYW5r
-cywKPgo+Z3JlZyBrLWgKCkhpIEdyZWcsCgpTb3JyeSB0aGF0IEknbSBub3QgcXVpdGUgZmFtaWxp
-YXIgd2l0aCB0aGUgcHJvY2Vzcy4gIFNpbmNlIEkgaGF2ZW4ndApnb3QgYW55IGZlZWRiYWNrIGZv
-ciBhIHdoaWxlIGFmdGVyIHNlbmRpbmcgdGhlIHYzIHBhdGNoLiBEbyB0aGF0IG1lYW4KdGhlIHBh
-dGNoIGlzIGFjY2VwdGVkPyBPciBhbnl0aGluZyBlbHNlIEkgc3RpbGwgbmVlZCB0byBpbXByb3Zl
-PwoKUmVnYXJkcywKRGluZ3lhbg==
+On Tue, Mar 12, 2024 at 09:57:06AM +0100, Jan Čermák wrote:
+> Hi Alan
+> 
+> On 11. 03. 24 15:43, Alan Stern wrote:
+> > Well, at least this means you do have a way of using the device, even
+> > if it is rather awkward.  It might even work on the Raspberry Pi machine.
+> 
+> Still, I'm looking for a more permanent and robust solution. If it were only
+> a single device I'm using myself, I could come up with a workaround.
+> However, this is one of the very few available Z-Wave USB interfaces and
+> there are more users affected. So far we went with reverting the patches,
+> but that's surely not the way we want to go forward.
+> 
+> > The device is so non-responsive, I'm amazed it ever works at all.
+> > Judging by the usbmon traces, it doesn't look as if it would work on a
+> > Windows system.
+> > 
+> > Actually, if you have access to a computer running Windows or Mac OSX
+> > and you can try out the device on that computer, it would be good to
+> > get the equivalent of a usbmon trace (something like a Wireshark
+> > capture log would do).  If those systems manage to do something that
+> > Linux doesn't, we ought to know what it is.
+> 
+> Fredrik (one of the original reporters) is following this conversation, here
+> [1] are logs from his machine with some details in the ticket [2]. He also
+> wonders why the initialization doesn't work only on USB2 ports but works on
+> USB3 if the initialization code is shared between those two.
+
+It's very difficult to compare the Windows log with the usbmon trace.  
+However, something Frederik mentioned about the number of resets led me 
+to check more closely.  There are some extra unnecessary resets in the 
+usbmon trace, and a reset that should be there is missing.
+
+Below is a patch meant to get the number of resets back to what it 
+should be.  I'd appreciate it if you can test this, and report the 
+kernel log output along with the usbmon output for the normal case and 
+also with the "old_scheme_first" parameter set.
+
+I'm not very hopeful that this will solve the problem, but there's a 
+good chance it will help point us in the right direction by removing 
+extraneous complications.
+
+Alan Stern
+
+
+
+ drivers/usb/core/hub.c |   27 ++++++++++++++++++++-------
+ 1 file changed, 20 insertions(+), 7 deletions(-)
+
+Index: usb-devel/drivers/usb/core/hub.c
+===================================================================
+--- usb-devel.orig/drivers/usb/core/hub.c
++++ usb-devel/drivers/usb/core/hub.c
+@@ -4961,6 +4961,18 @@ hub_port_init(struct usb_hub *hub, struc
+ 			break;
+ 		}
+ 
++		if (retries > 0) {
++			retval = hub_port_reset(hub, port1, udev, delay, false);
++			if (retval < 0)		/* error or disconnect */
++				goto fail;
++			if (oldspeed != udev->speed) {
++				dev_dbg(&udev->dev,
++					"device reset changed speed!\n");
++				retval = -ENODEV;
++				goto fail;
++			}
++		}
++
+ 		if (do_new_scheme) {
+ 			retval = hub_enable_device(udev);
+ 			if (retval < 0) {
+@@ -4972,6 +4984,13 @@ hub_port_init(struct usb_hub *hub, struc
+ 
+ 			maxp0 = get_bMaxPacketSize0(udev, buf,
+ 					GET_DESCRIPTOR_BUFSIZE, retries == 0);
++			if (maxp0 < 0) {
++				if (maxp0 != -ENODEV)
++					dev_err(&udev->dev, "device descriptor read/64, error %d\n",
++							maxp0);
++				retval = maxp0;
++				continue;
++			}
+ 			if (maxp0 > 0 && !initial &&
+ 					maxp0 != udev->descriptor.bMaxPacketSize0) {
+ 				dev_err(&udev->dev, "device reset changed ep0 maxpacket size!\n");
+@@ -4988,13 +5007,6 @@ hub_port_init(struct usb_hub *hub, struc
+ 				retval = -ENODEV;
+ 				goto fail;
+ 			}
+-			if (maxp0 < 0) {
+-				if (maxp0 != -ENODEV)
+-					dev_err(&udev->dev, "device descriptor read/64, error %d\n",
+-							maxp0);
+-				retval = maxp0;
+-				continue;
+-			}
+ 		}
+ 
+ 		for (operations = 0; operations < SET_ADDRESS_TRIES; ++operations) {
+@@ -5533,6 +5545,7 @@ loop:
+ 			msleep(2 * hub_power_on_good_delay(hub));
+ 			usb_hub_set_port_power(hdev, hub, port1, true);
+ 			msleep(hub_power_on_good_delay(hub));
++			hub_port_debounce_be_stable(hub, port1);
+ 		}
+ 	}
+ 	if (hub->hdev->parent ||
+
