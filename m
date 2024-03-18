@@ -1,102 +1,197 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-yw1-f169.google.com (mail-yw1-f169.google.com [209.85.128.169])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1F87E6994D;
-	Thu, 21 Mar 2024 08:29:22 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1711009763; cv=none; b=Uahta9xDGZDTXOroliyVeFMtxmrlZM1cFE2+FRhNkozGqV1FPy6Nx4+Z/XGtKWDFpv9HJs7wrX92AlO79uDj4eYSYuzID/azHj6RjJLBQzCzQ8FMR/ttGXaYjNWsR2/G2kd/PYC11o9WNoYyvZQsPieS5IVJmmgVZOAyWRuvXoo=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1711009763; c=relaxed/simple;
-	bh=7kCuWcguJfXb+C5s5vznrmpMKt2aumVRMMbZ27GwQRI=;
-	h=From:To:Cc:Subject:References:Date:In-Reply-To:Message-ID:
-	 MIME-Version:Content-Type; b=Tn6tPdeIMWlzv+iDYBWF7av1ygEI6GnjVUEb/DDZ1I+gFqZb0vmYwNyZlIVWyK7nPA74HlXtnSP84GTeYwbmfYR5MtFUE95k/+hp7RqatF1fnchsZLpBFN/rCR9xQ9a14Ho4q4bUwfWKGpporTaDPcK82ndu4LQW5Jvr/nfFpH8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=S3PLOttA; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 32A77C8FF
+	for <linux-usb@vger.kernel.org>; Thu, 21 Mar 2024 08:41:24 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=209.85.128.169
+ARC-Seal:i=3; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1711010486; cv=fail; b=Xm1QkxuAal4SoZjezqfbx0PMGwrZYyndeBRlKHmBRvO5YsvoGzOqNVQL3bOZseQm3OGXFN/PLR+C3vxgQVnglLPw3mqmu04OpkwaFXRqpWpHe7IH6kMrXKRgwv3bnLBjlmygcTuG/NbUFEoxvuGSgVab+dJQggqqDZe2IeNbA9Y=
+ARC-Message-Signature:i=3; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1711010486; c=relaxed/simple;
+	bh=HjZ6DTTFckPQMqiYHpgCAvYOUnUnPN6rebRmm1d1J9Y=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=jDvYVsYEXISgVar2Rs4nKJSJGq4HV1SuBn3Jj4+gJlf6rXX3L/at2gvY5aZKRXjRmH5IaU9mrbF8P6RNV/IRlIVS9Hx6UwV4hPEK4nmne0/dsdAJVyp/HIXjkWbJbaWoz4yqGHfg89WtGTxMtaGAHTqm8RmGhqEVXqYFx8tlrVc=
+ARC-Authentication-Results:i=3; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=b3OZmXHa; arc=fail smtp.client-ip=209.85.128.169
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="S3PLOttA"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id DDFA4C433C7;
-	Thu, 21 Mar 2024 08:29:20 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1711009762;
-	bh=7kCuWcguJfXb+C5s5vznrmpMKt2aumVRMMbZ27GwQRI=;
-	h=From:To:Cc:Subject:References:Date:In-Reply-To:From;
-	b=S3PLOttAxQVJs5+U1SxWEPd1adUzlZKsRvspPFtIee7I+PkW7lYi5w01c5dKOfR8K
-	 qvGRCZ2YCxx6++ElMesCX5CyH73jUNLxtPE4cKM6a9wo8lzNe1tcRBIbYxoKXdojFh
-	 rzGySzbifLgGxwVRBD7BKLGlx+Pu7nln3i78b/welbNKlYgUrQKOln7QJV/aHj/TNw
-	 ZtVAjCUxOLAvyXT/5kGJzi/Xys4ZhypuKbrShGMAcbNkruLovn5Auw/TV4+Skul6uF
-	 zShoCG2AovfLVmh8Odh0g7HqKFPD92U/d8sBpZ5hcpg41eNmllphYZ4nSfmO0OrINj
-	 rT9nl9deErSgA==
-From: Kalle Valo <kvalo@kernel.org>
-To: Edward Adam Davis <eadavis@qq.com>
-Cc: syzbot+93cbd5fbb85814306ba1@syzkaller.appspotmail.com,
-  linux-kernel@vger.kernel.org,  linux-usb@vger.kernel.org,
-  linux-wireless@vger.kernel.org,  netdev@vger.kernel.org,
-  syzkaller-bugs@googlegroups.com,  toke@toke.dk
-Subject: Re: [PATCH usb] wifi: ath9k: fix oob in htc_issue_send
-References: <0000000000004e41110614187d35@google.com>
-	<tencent_7225DC0D859205DD8BDDAE191CCFBF0D8907@qq.com>
-Date: Thu, 21 Mar 2024 10:29:18 +0200
-In-Reply-To: <tencent_7225DC0D859205DD8BDDAE191CCFBF0D8907@qq.com> (Edward
-	Adam Davis's message of "Thu, 21 Mar 2024 15:31:33 +0800")
-Message-ID: <87bk789ee9.fsf@kernel.org>
-User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/28.2 (gnu/linux)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="b3OZmXHa"
+Received: by mail-yw1-f169.google.com with SMTP id 00721157ae682-60a15449303so7462007b3.0
+        for <linux-usb@vger.kernel.org>; Thu, 21 Mar 2024 01:41:24 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1711010484; x=1711615284;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:dkim-signature:x-forwarded-for:x-forwarded-to:resent-to
+         :resent-message-id:resent-date:resent-from:x-gm-message-state:from
+         :to:cc:subject:date:message-id:reply-to;
+        bh=p3vo1wc6J3C2AA1kLchReOFQ9IMrR/d6PBa4DE7a/Vs=;
+        b=Ppq6FJvc8WL1hGysKLlNKFHWVSNx+wev0pJS8QFwwGZqzI5i/lUQbZJbRTuYyLihv4
+         cQ240DRP0RnsR34HlH0VeawD+vGjqs6tXuaZcVRYbVMENCaW1HKVcXdHQ25nVUHPjlkk
+         ywHJ0+ZP3oWGbzyAoRzMCuT/9X4hkH7pf9gLZECFmWjvhTc2XXJLpTFhjpmRqZULftwS
+         wgjeU8/9w8YwRou/YnsZfybnbHu/tWsmYETgNdt6WexXuNJbuEKvFrehdjZDGW+jnlU8
+         3PeOYbZwk5Q3KRwv53mg1Slp8TahpCmMt48dkBcRw/euM+UkqaC4TvjmFuuk2/0vQnGe
+         dS4w==
+X-Gm-Message-State: AOJu0YzdODPG3kdCc+yTKYt/jajuFk7UvbDz6sLZ9LGshCOK6OJQON9m
+	9X7F//yKwTuA56XwxaZTBKlw0g2QURcdJ1HtjMQh4I3TkxGhDMp1+IGWYgsI
+X-Google-Smtp-Source: AGHT+IEs2BZnG9n8DJIVAaVjiMTX8ncyqbrznoAUkUk40jzsqcNqee8MfckGKrWhMFgChGHKSUBJHw==
+X-Received: by 2002:a81:d354:0:b0:60c:c4fd:7649 with SMTP id d20-20020a81d354000000b0060cc4fd7649mr1252481ywl.16.1711010483469;
+        Thu, 21 Mar 2024 01:41:23 -0700 (PDT)
+Received: from vps.qemfd.net (vps.qemfd.net. [173.230.130.29])
+        by smtp.gmail.com with ESMTPSA id t8-20020a818308000000b006079e8f3572sm3214121ywf.85.2024.03.21.01.41.22
+        for <linux-usb@vger.kernel.org>
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 21 Mar 2024 01:41:23 -0700 (PDT)
+Received: from schwarzgerat.orthanc (schwarzgerat.danknet [192.168.128.2])
+	by vps.qemfd.net (Postfix) with ESMTP id C02112B624
+	for <linux-usb@vger.kernel.org>; Thu, 21 Mar 2024 04:41:22 -0400 (EDT)
+Received: by schwarzgerat.orthanc (Postfix, from userid 1000)
+	id 89669600199; Thu, 21 Mar 2024 04:37:11 -0400 (EDT)
+Resent-From: nick black <dankamongmen@gmail.com>
+Resent-Date: Thu, 21 Mar 2024 04:37:11 -0400
+Resent-Message-ID: <20240321083711.GA1787714@schwarzgerat.orthanc>
+Resent-To: linux-usb@vger.kernel.org
+X-Spam-Level: 
+Received: from schwarzgerat.orthanc (localhost [IPv6:::1])
+	by schwarzgerat.orthanc (Postfix) with ESMTP id 7D5F3601E1A
+	for <dank@localhost>; Mon, 18 Mar 2024 01:26:10 -0400 (EDT)
+Received: from 192.168.128.1 [192.168.128.1]
+	by schwarzgerat.orthanc with IMAP (fetchmail-6.4.38)
+	for <dank@localhost> (single-drop); Mon, 18 Mar 2024 01:26:10 -0400 (EDT)
+Received: from mail-ed1-f44.google.com (mail-ed1-f44.google.com [209.85.208.44])
+	by vps.qemfd.net (Postfix) with ESMTPS id E53A12B35B
+	for <dank@qemfd.net>; Mon, 18 Mar 2024 01:26:09 -0400 (EDT)
+Received: by mail-ed1-f44.google.com with SMTP id 4fb4d7f45d1cf-56a2bb7d944so523138a12.3
+        for <dank@qemfd.net>; Sun, 17 Mar 2024 22:26:09 -0700 (PDT)
+ARC-Seal: i=2; a=rsa-sha256; t=1710739568; cv=pass;
+        d=google.com; s=arc-20160816;
+        b=THBCIeRDRipQg58zyWyKcrfZMCmXIG3nZObo7Ri1FOoj5nr5lofQ7MmpOz0iRD27zR
+         Q9kIPeqsRrh1mSqQC7QKEMj12oL7CjJMrJqz+r39XqssQzq2g/mYzWsVofllzDUBikfc
+         nJalnbk9cEdOc7vbq0ae48gkOM2NS/bNIZsv/pD/6/WerxT0TPBkmWXEQQJquW4aVoeW
+         //mGtn4KDJuRXusMOs5qKor6Wt2OD38RWCU4GYOjs/Tiy/PAbCzvsMD7zwi0gsrWPV0P
+         QLxIhWe3dPY7cJbei4RbwkE9UVXsFw6wnef7F3Yx0pqWQQrxl1lhd2ZHV3P8kLCpmH2x
+         3Sdg==
+ARC-Message-Signature: i=2; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:dkim-signature:delivered-to;
+        bh=p3vo1wc6J3C2AA1kLchReOFQ9IMrR/d6PBa4DE7a/Vs=;
+        fh=v04QiUVcuwj4hU78H6bavRzVPq5VuA7HFyH/DPabRGs=;
+        b=yYiU77qas1WEOl5ku9j7yL6c5YHXKwOuR7WUZTGLuDnNG9iasVoAVob1DDktJTDcyq
+         xah0OH77R+DnqHsIQWUkMY1FUJeWE9utXLqkqb+lEpbq1i/XAZP0OFowBjmN8s3dLBnv
+         Kz1dB8GShmeKnlVQAaTR5ZpxmuGsuY1HaNr6UvKy+xdaEdNMtKF0nhTnYTACPUaTOQn8
+         /KD1PWsv5Dgv1b+xWxQw+mQ10e78PZohvS6CaIXNEpEX5+lTsyEc3wZrWT7783qeURG0
+         Sklrkbb8mxZvEdfwJcMDQZFa6j0AQPMJ38KoPD3diqTVg5Oc1IRIIuuQf0upjtpSwrpI
+         rDqw==;
+        darn=qemfd.net
+ARC-Authentication-Results: i=2; mx.google.com;
+       dkim=pass header.i=@gmail.com header.s=20230601 header.b=b3OZmXHa;
+       spf=pass (google.com: domain of dankamongmen@gmail.com designates 209.85.220.41 as permitted sender) smtp.mailfrom=dankamongmen@gmail.com;
+       dmarc=pass (p=NONE sp=QUARANTINE dis=NONE) header.from=gmail.com
+X-Forwarded-Encrypted: i=2; AJvYcCVgFU6Mms69sz5685lHavyp5V4zSxAzfrzPB3PMB+Fg57STG/qgtDsawx3zicm4C0tr7U5IDnR2DyIqzkYVrA==
+X-Received: by 2002:a17:907:209c:b0:a46:c24f:ddf8 with SMTP id pv28-20020a170907209c00b00a46c24fddf8mr583315ejb.34.1710739568677;
+        Sun, 17 Mar 2024 22:26:08 -0700 (PDT)
+X-Forwarded-To: dank@qemfd.net
+X-Forwarded-For: dankamongmen@gmail.com dank@qemfd.net
+Received: by 2002:a17:906:c8d5:b0:a46:a9c5:d38d with SMTP id gc21csp921850ejb;
+        Sun, 17 Mar 2024 22:26:07 -0700 (PDT)
+X-Received: by 2002:a25:3357:0:b0:dd0:bb34:1e77 with SMTP id z84-20020a253357000000b00dd0bb341e77mr6758682ybz.53.1710739567380;
+        Sun, 17 Mar 2024 22:26:07 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1710739567; cv=none;
+        d=google.com; s=arc-20160816;
+        b=TmZQu1qPKJ6PsQncIqG+pu+ZNyGQ1nBe1wCcUwTzXj4T1AVMn8KDiYpVR/ygrsT5KP
+         ko/XD+rzuSahYktnsz9ZyQTL7qah5EGtaDFgC3c5Y4LnS/rYL+Fx+qXB9vDq3r3G5lhq
+         +JbP3xMvDChaI10nrt6YQbOH/j3KFe6KV99h/7f22/FcVHrd/dEvan2ZwLTwh8JaIbzu
+         rlpsWUw5iMUU/CHZykZD6KOdECKR+jHi/aFkatH0ydhPDtmQRYMDaWlAgoF3odhhi4tU
+         +bfi7BSQXpE4MWHzPJP3UWEXB3fBwFWada2Rlyxu+j6IjNSTtFKdTtZjlIn24NAx08uL
+         GKew==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:dkim-signature;
+        bh=p3vo1wc6J3C2AA1kLchReOFQ9IMrR/d6PBa4DE7a/Vs=;
+        fh=1z2MSwc646+KKXK4Cwhx+L5urR8S2Cq86EFYdYEWC5Q=;
+        b=g1VLT7QUinwLtO4y6/vLbYxtmxyygm/lUkB4wtyBQi8yGkJ8vYorONqzN7gFsvGV9M
+         Zc/zyXGbg2CTCN+Cx6SC8Ny0aYjnBwp5hRc7phW4VfQ03KU6bj4CTZJpejx4wFCHfn/I
+         GTdX3gOaeFwjKk1au02BAHEBjp4oPoWUKFcvDwwMY2RgltumXuKJLP5eG++O/S6oTWyF
+         fnwnrz493v0wVylUskFG+3u4hbyK5VZwaXVZEacEfrlGBcqRYCSkKMMnxvubIEwtbYfc
+         kD0FtCd4+CpHzQ8aL0wbVAQYcMciMP++k+K2AHmv62HuM6F4oS8Wn5TEYRcxgDxJQM7Q
+         vPWQ==;
+        dara=google.com
+ARC-Authentication-Results: i=1; mx.google.com;
+       dkim=pass header.i=@gmail.com header.s=20230601 header.b=b3OZmXHa;
+       spf=pass (google.com: domain of dankamongmen@gmail.com designates 209.85.220.41 as permitted sender) smtp.mailfrom=dankamongmen@gmail.com;
+       dmarc=pass (p=NONE sp=QUARANTINE dis=NONE) header.from=gmail.com
+Received: from mail-sor-f41.google.com (mail-sor-f41.google.com. [209.85.220.41])
+        by mx.google.com with SMTPS id u6-20020a25ab06000000b00dc7012d99fbsor3212819ybi.4.2024.03.17.22.26.07
+        for <dankamongmen@gmail.com>
+        (Google Transport Security);
+        Sun, 17 Mar 2024 22:26:07 -0700 (PDT)
+Received-SPF: pass (google.com: domain of dankamongmen@gmail.com designates 209.85.220.41 as permitted sender) client-ip=209.85.220.41;
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1710739566; x=1711344366; dara=google.com;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=p3vo1wc6J3C2AA1kLchReOFQ9IMrR/d6PBa4DE7a/Vs=;
+        b=b3OZmXHaj0ZOXNqg/E4DBSn2S1/vAxB32kXhPD7PrG8JJiCoRRXdn3AvM7ks9t67er
+         wNtIkMxZ6amTqL/2fmj/ZAv6AiZnwc49yp7nMW0DCo2LXg2nAJM10atDi6mRk0KcKmp0
+         ktPbQVuUE13SuDCvNowKDqdoswezZ5/zqg55bSJ0jx732YRdHKyd7dM04H1wGDjMTInK
+         scqFENDCsHaIEITkjZG4UnNW5OBOJIRzpGnzgW2gPF26Fb7u0/rZhKGKs3nWIUTFH6Vr
+         yoCz8OAaf0cOdPGwPsH6H0Se2w3/PntwJZtr87tvJUIuy+YBnqAiJgLYI8RusgSsuTh4
+         OOEA==
+X-Received: by 2002:a5b:9d0:0:b0:dcc:1a56:597a with SMTP id y16-20020a5b09d0000000b00dcc1a56597amr7740065ybq.36.1710739565943;
+        Sun, 17 Mar 2024 22:26:05 -0700 (PDT)
+Received: from vps.qemfd.net (vps.qemfd.net. [173.230.130.29])
+        by smtp.gmail.com with ESMTPSA id d6-20020a259706000000b00dcc234241c4sm1600217ybo.55.2024.03.17.22.26.04
+        for <dankamongmen@gmail.com>
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sun, 17 Mar 2024 22:26:05 -0700 (PDT)
+Received: from schwarzgerat.orthanc (schwarzgerat.danknet [192.168.128.2])
+	by vps.qemfd.net (Postfix) with ESMTP id AB67B2B354;
+	Mon, 18 Mar 2024 01:26:04 -0400 (EDT)
+Received: by schwarzgerat.orthanc (Postfix, from userid 1000)
+	id 9C25E601E3A; Mon, 18 Mar 2024 01:26:04 -0400 (EDT)
+From: nick black <dankamongmen@gmail.com>
+To: linux-usb@vger.kernel.org
+Cc: nick black <dankamongmen@gmail.com>
+Subject: [PATCH] usb: always print reset/new device message
+Date: Mon, 18 Mar 2024 01:25:23 -0400
+Message-ID: <20240318052600.671908-1-dankamongmen@gmail.com>
+X-Mailer: git-send-email 2.43.0
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain
+Content-Transfer-Encoding: 8bit
 
-Edward Adam Davis <eadavis@qq.com> writes:
+Since usb_speed_string() always returns a valid string
+(invalid speeds turn into "UNKNOWN"), go ahead and
+always print this diagnostic, rather than checking the
+speed here (which wasn't up to date for SPEED_SUPER_PLUS,
+and looks like it had an off-by-one error anyway).
 
-> [syzbot reported]
-> usb 1-1: ath9k_htc: Transferred FW: ath9k_htc/htc_9271-1.4.0.fw, size: 51008
-> ath9k_htc 1-1:1.0: ath9k_htc: HTC initialized with 33 credits
-> ------------[ cut here ]------------
-> UBSAN: array-index-out-of-bounds in drivers/net/wireless/ath/ath9k/htc_hst.c:26:51
-> index 255 is out of range for type 'htc_endpoint [22]'
-> CPU: 1 PID: 2494 Comm: kworker/1:2 Not tainted 6.8.0-rc6-syzkaller-00190-ga788e53c05ae #0
-> Hardware name: Google Google Compute Engine/Google Compute Engine, BIOS Google 02/29/2024
-> Workqueue: events request_firmware_work_func
-> Call Trace:
->  <TASK>
->  __dump_stack lib/dump_stack.c:88 [inline]
->  dump_stack_lvl+0x125/0x1b0 lib/dump_stack.c:106
->  ubsan_epilogue lib/ubsan.c:217 [inline]
->  __ubsan_handle_out_of_bounds+0x111/0x150 lib/ubsan.c:347
->  htc_issue_send.constprop.0+0x209/0x230 drivers/net/wireless/ath/ath9k/htc_hst.c:26
->  ath9k_wmi_cmd_issue drivers/net/wireless/ath/ath9k/wmi.c:305 [inline]
->  ath9k_wmi_cmd+0x424/0x630 drivers/net/wireless/ath/ath9k/wmi.c:342
->  ath9k_regread+0xdb/0x160 drivers/net/wireless/ath/ath9k/htc_drv_init.c:242
->  ath9k_hw_read_revisions drivers/net/wireless/ath/ath9k/hw.c:287 [inline]
->  __ath9k_hw_init drivers/net/wireless/ath/ath9k/hw.c:572 [inline]
->  ath9k_hw_init+0xf02/0x2b30 drivers/net/wireless/ath/ath9k/hw.c:700
->  ath9k_init_priv drivers/net/wireless/ath/ath9k/htc_drv_init.c:662 [inline]
->  ath9k_init_device drivers/net/wireless/ath/ath9k/htc_drv_init.c:839 [inline]
->  ath9k_htc_probe_device+0xb37/0x25f0 drivers/net/wireless/ath/ath9k/htc_drv_init.c:963
->  ath9k_htc_hw_init+0x33/0x70 drivers/net/wireless/ath/ath9k/htc_hst.c:529
->  ath9k_hif_usb_firmware_cb+0x272/0x620 drivers/net/wireless/ath/ath9k/hif_usb.c:1273
->  request_firmware_work_func+0x13a/0x240 drivers/base/firmware_loader/main.c:1163
->  process_one_work+0x886/0x15d0 kernel/workqueue.c:2633
->  process_scheduled_works kernel/workqueue.c:2706 [inline]
->  worker_thread+0x8b9/0x1290 kernel/workqueue.c:2787
->  kthread+0x2c6/0x3a0 kernel/kthread.c:388
->  ret_from_fork+0x45/0x80 arch/x86/kernel/process.c:147
->  ret_from_fork_asm+0x11/0x20 arch/x86/entry/entry_64.S:243
->  </TASK>
-> ---[ end trace ]---
-> [Fix]
-> If the target does not return a valid end point id during the device connection
-> process, returns a failure.
->
-> Fixes: fb9987d0f748 ("ath9k_htc: Support for AR9271 chipset.")
-> Reported-and-tested-by: syzbot+93cbd5fbb85814306ba1@syzkaller.appspotmail.com
-> Signed-off-by: Edward Adam Davis <eadavis@qq.com>
+Signed-off-by: nick black <dankamongmen@gmail.com>
+---
+ drivers/usb/core/hub.c | 9 ++++-----
+ 1 file changed, 4 insertions(+), 5 deletions(-)
 
-This should go to ath tree, not usb. No need to resend because of this.
-
+diff --git a/drivers/usb/core/hub.c b/drivers/usb/core/hub.c
+index e38a4124f610..7325e5420900 100644
+--- a/drivers/usb/core/hub.c
++++ b/drivers/usb/core/hub.c
+@@ -4909,11 +4909,10 @@ hub_port_init(struct usb_hub *hub, struct usb_device *udev, int port1,
+ 	else
+ 		driver_name = udev->bus->sysdev->driver->name;
+ 
+-	if (udev->speed < USB_SPEED_SUPER)
+-		dev_info(&udev->dev,
+-				"%s %s USB device number %d using %s\n",
+-				(initial ? "new" : "reset"), speed,
+-				devnum, driver_name);
++	dev_info(&udev->dev,
++			"%s %s USB device number %d using %s\n",
++			(initial ? "new" : "reset"), speed,
++			devnum, driver_name);
+ 
+ 	if (initial) {
+ 		/* Set up TT records, if needed  */
 -- 
-https://patchwork.kernel.org/project/linux-wireless/list/
-
-https://wireless.wiki.kernel.org/en/developers/documentation/submittingpatches
+2.43.0
