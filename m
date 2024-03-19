@@ -1,29 +1,30 @@
 Received: from relmlie5.idc.renesas.com (relmlor1.renesas.com [210.160.252.171])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 0E31E7E57A;
-	Tue, 19 Mar 2024 10:54:16 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 5657F57889;
+	Tue, 19 Mar 2024 10:54:20 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=210.160.252.171
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1710845659; cv=none; b=XIhl02UENQaIVBYtqLSiF/4C48INwNxpOmoPzkHyIam72y8Fog18VwxVgOpPyhjpVy6qTOBVW8g8aGcDhRqE1jbQHJntV6XP9xJ4zmQj4d4omZjGQJLx/Br4QTkZfRy3ZU9mJsWjE0cvcIOgxOjRzk+kT9dtpQjF3uqXL9458w4=
+	t=1710845662; cv=none; b=Kzx2E9Ngecxeqcy9a0FvjzV03nBOEvODM0MuRr0W8iogqRpF086SzY1TR6ehjruPboXyolhfPhKlcbfbrMcCFgpZJFhEWV9MAlw3asE9dX1FJBIeIbbbw2T2dUsduugAizXC6dDmDO93Vc+ygfCGl4lFHzPfNv/WWF6qWcx4Fu0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1710845659; c=relaxed/simple;
-	bh=EujaVnC/lwpcadYy18mVrRLsg9qlMrJKnWS7bBtX5Vk=;
+	s=arc-20240116; t=1710845662; c=relaxed/simple;
+	bh=Z2dHHfAw9amorpV9mBHPDcDxqaemCnaWFmP6praHui8=;
 	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
-	 MIME-Version; b=jyz/9blG0+AU7jKOkp7StZpp65qNb+BsgCgoPz2ZUXXWhRHd0Hhqh4HCJJkvdmGIk7Dn29ruI9Z+f+ScYvRLZLrqVUs+JPPZSxJDRmbj3ySTHqzh80DmXwdHInkOntMbxmQmEPMvjtW8w3grQSOluMJQVNdRJl6sYsLANhR+UBo=
+	 MIME-Version; b=g61PzxPzmRgvY7nNf/rXOp5wTRXXtuyHAtpUiOoP2ngKzoX4LGwhB3exeTW5lBI4N7ejW4tVNSUYrwzBA20Zp6/4VABT/pYOPw/n3XHebsn/wtyWaHVdKkTB9tkjPO5ex2DAoBQ1p7FD+Aup43sLjDxj1XR0ox6qPQvx2AyMcF8=
 ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=bp.renesas.com; spf=pass smtp.mailfrom=bp.renesas.com; arc=none smtp.client-ip=210.160.252.171
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=bp.renesas.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=bp.renesas.com
 X-IronPort-AV: E=Sophos;i="6.07,136,1708354800"; 
-   d="scan'208";a="198343202"
+   d="scan'208";a="198343217"
 Received: from unknown (HELO relmlir5.idc.renesas.com) ([10.200.68.151])
-  by relmlie5.idc.renesas.com with ESMTP; 19 Mar 2024 19:54:11 +0900
+  by relmlie5.idc.renesas.com with ESMTP; 19 Mar 2024 19:54:20 +0900
 Received: from localhost.localdomain (unknown [10.226.92.214])
-	by relmlir5.idc.renesas.com (Postfix) with ESMTP id 0B5504006DFB;
-	Tue, 19 Mar 2024 19:54:07 +0900 (JST)
+	by relmlir5.idc.renesas.com (Postfix) with ESMTP id 39EA5400755D;
+	Tue, 19 Mar 2024 19:54:15 +0900 (JST)
 From: Biju Das <biju.das.jz@bp.renesas.com>
 To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
 Cc: Biju Das <biju.das.jz@bp.renesas.com>,
 	Geert Uytterhoeven <geert+renesas@glider.be>,
 	Magnus Damm <magnus.damm@gmail.com>,
+	Huy Nguyen <huy.nguyen.wh@renesas.com>,
 	Rob Herring <robh@kernel.org>,
 	Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>,
 	Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>,
@@ -32,9 +33,9 @@ Cc: Biju Das <biju.das.jz@bp.renesas.com>,
 	linux-renesas-soc@vger.kernel.org,
 	Prabhakar Mahadev Lad <prabhakar.mahadev-lad.rj@bp.renesas.com>,
 	Biju Das <biju.das.au@gmail.com>
-Subject: [PATCH v5 2/6] usb: renesas_usbhs: Simplify obtaining device data
-Date: Tue, 19 Mar 2024 10:53:52 +0000
-Message-Id: <20240319105356.87287-3-biju.das.jz@bp.renesas.com>
+Subject: [PATCH v5 4/6] usb: renesas_usbhs: Update usbhs pipe configuration for RZ/G2L family
+Date: Tue, 19 Mar 2024 10:53:54 +0000
+Message-Id: <20240319105356.87287-5-biju.das.jz@bp.renesas.com>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20240319105356.87287-1-biju.das.jz@bp.renesas.com>
 References: <20240319105356.87287-1-biju.das.jz@bp.renesas.com>
@@ -46,50 +47,120 @@ List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-Simplify probe() by removing redundant dev->of_node check.
+The RZ/G2L family SoCs has 10 pipe buffers compared to 16 pipe buffers on
+RZ/A2M. Update the pipe configuration for RZ/G2L family SoCs and use
+family SoC specific compatible to handle this difference.
 
-While at it, replace dev_err->dev_err_probe for error path.
+The pipe configuration of RZ/G2L is same as usbhsc_rzg2l_default_pipe[],
+so select the default pipe configuration for RZ/G2L SoCs by setting
+.has_new_pipe_configs to zero.
+
+Add SoC specific compatible to OF table to avoid ABI breakage with old
+DTB. To optimize memory usage the SoC specific compatible will be removed
+later.
+
+Based on the patch in BSP by Huy Nguyen <huy.nguyen.wh@renesas.com>
 
 Signed-off-by: Biju Das <biju.das.jz@bp.renesas.com>
-Reviewed-by: Geert Uytterhoeven <geert+renesas@glider.be>
 ---
 v4->v5:
- * No change.
+ * Restored the else path for has_new_pipe_configs check in usbhs_probe().
 v3->v4:
- * No change.
+ * Credit  Huy Nguyen's work in the commit message and dropped his name
+   from Signed-off-by tag.
+ * Selection of usbhsc_rzg2l_default_pipe[] by setting the variable
+   has_new_pipe_configs to zero.
+ * Updated commit description.
+ * Dropped the check 'priv->dparam.pipe_configs' as it is same as
+   checking !has_new_pipe_configs.
 v2->v3:
- * Added Rb tag from Geert.
-v2:
- * New patch.
+ * Updated commit description
+ * Dropped usbhsc_rzg2l_pipe[] and reusing the default_pipe[].
+v1->v2:
+ * Dropped using of_device_is_compatible() in probe.
+ * Added usbhs_rzg2l_plat_info and replaced the device data for RZ/G2L
+   from usbhs_rza2_plat_info->usbhs_rzg2l_plat_info.
+ * Moved usbhsc_rzg2l_pipe table near to the user.
+ * Updated commit description.
 ---
- drivers/usb/renesas_usbhs/common.c | 13 ++++---------
- 1 file changed, 4 insertions(+), 9 deletions(-)
+ drivers/usb/renesas_usbhs/common.c | 18 +++++++++++++++++-
+ drivers/usb/renesas_usbhs/rza.h    |  1 +
+ drivers/usb/renesas_usbhs/rza2.c   | 13 +++++++++++++
+ 3 files changed, 31 insertions(+), 1 deletion(-)
 
 diff --git a/drivers/usb/renesas_usbhs/common.c b/drivers/usb/renesas_usbhs/common.c
-index dd1c17542439..0c62e4c6c88d 100644
+index 177fa3144a47..b436927c2711 100644
 --- a/drivers/usb/renesas_usbhs/common.c
 +++ b/drivers/usb/renesas_usbhs/common.c
-@@ -595,16 +595,11 @@ static int usbhs_probe(struct platform_device *pdev)
- 	u32 tmp;
- 	int irq;
+@@ -363,7 +363,7 @@ static void usbhsc_clk_disable_unprepare(struct usbhs_priv *priv)
+  *		platform default param
+  */
  
--	/* check device node */
--	if (dev_of_node(dev))
--		info = of_device_get_match_data(dev);
--	else
--		info = renesas_usbhs_get_info(pdev);
--
--	/* check platform information */
-+	info = of_device_get_match_data(dev);
- 	if (!info) {
--		dev_err(dev, "no platform information\n");
--		return -EINVAL;
-+		info = renesas_usbhs_get_info(pdev);
-+		if (!info)
-+			return dev_err_probe(dev, -EINVAL, "no platform info\n");
- 	}
+-/* commonly used on old SH-Mobile SoCs */
++/* commonly used on old SH-Mobile and RZ/G2L family SoCs */
+ static struct renesas_usbhs_driver_pipe_config usbhsc_default_pipe[] = {
+ 	RENESAS_USBHS_PIPE(USB_ENDPOINT_XFER_CONTROL, 64, 0x00, false),
+ 	RENESAS_USBHS_PIPE(USB_ENDPOINT_XFER_ISOC, 1024, 0x08, true),
+@@ -565,6 +565,18 @@ static const struct of_device_id usbhs_of_match[] = {
+ 		.compatible = "renesas,usbhs-r8a77995",
+ 		.data = &usbhs_rcar_gen3_with_pll_plat_info,
+ 	},
++	{
++		.compatible = "renesas,usbhs-r9a07g043",
++		.data = &usbhs_rzg2l_plat_info,
++	},
++	{
++		.compatible = "renesas,usbhs-r9a07g044",
++		.data = &usbhs_rzg2l_plat_info,
++	},
++	{
++		.compatible = "renesas,usbhs-r9a07g054",
++		.data = &usbhs_rzg2l_plat_info,
++	},
+ 	{
+ 		.compatible = "renesas,rcar-gen2-usbhs",
+ 		.data = &usbhs_rcar_gen2_plat_info,
+@@ -581,6 +593,10 @@ static const struct of_device_id usbhs_of_match[] = {
+ 		.compatible = "renesas,rza2-usbhs",
+ 		.data = &usbhs_rza2_plat_info,
+ 	},
++	{
++		.compatible = "renesas,rzg2l-usbhs",
++		.data = &usbhs_rzg2l_plat_info,
++	},
+ 	{ },
+ };
+ MODULE_DEVICE_TABLE(of, usbhs_of_match);
+diff --git a/drivers/usb/renesas_usbhs/rza.h b/drivers/usb/renesas_usbhs/rza.h
+index a29b75fef057..8b879aa34a20 100644
+--- a/drivers/usb/renesas_usbhs/rza.h
++++ b/drivers/usb/renesas_usbhs/rza.h
+@@ -3,3 +3,4 @@
  
- 	/* platform data */
+ extern const struct renesas_usbhs_platform_info usbhs_rza1_plat_info;
+ extern const struct renesas_usbhs_platform_info usbhs_rza2_plat_info;
++extern const struct renesas_usbhs_platform_info usbhs_rzg2l_plat_info;
+diff --git a/drivers/usb/renesas_usbhs/rza2.c b/drivers/usb/renesas_usbhs/rza2.c
+index f079817250bb..b83699eab373 100644
+--- a/drivers/usb/renesas_usbhs/rza2.c
++++ b/drivers/usb/renesas_usbhs/rza2.c
+@@ -71,3 +71,16 @@ const struct renesas_usbhs_platform_info usbhs_rza2_plat_info = {
+ 		.has_new_pipe_configs = 1,
+ 	},
+ };
++
++const struct renesas_usbhs_platform_info usbhs_rzg2l_plat_info = {
++	.platform_callback = {
++		.hardware_init = usbhs_rza2_hardware_init,
++		.hardware_exit = usbhs_rza2_hardware_exit,
++		.power_ctrl = usbhs_rza2_power_ctrl,
++		.get_id = usbhs_get_id_as_gadget,
++	},
++	.driver_param = {
++		.has_cnen = 1,
++		.cfifo_byte_addr = 1,
++	},
++};
 -- 
 2.25.1
 
