@@ -1,24 +1,24 @@
-Received: from relmlie6.idc.renesas.com (relmlor2.renesas.com [210.160.252.172])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id F21F77E10C;
-	Tue, 19 Mar 2024 10:54:15 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=210.160.252.172
+Received: from relmlie5.idc.renesas.com (relmlor1.renesas.com [210.160.252.171])
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 0E31E7E57A;
+	Tue, 19 Mar 2024 10:54:16 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=210.160.252.171
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1710845658; cv=none; b=IlesQ5mGJNUWrwkiBNmO1ZWUtHTwUuHN/BD7MllIr/7tCcSbDXd80953TBeTh5AIBzismc4PfF/z7sfp62A144ArHfdhHpc+5Uh30/NBYIoJyH4A8qVlxOW6zgbUV5o8yE04nbcoTV4h9Zaq7bcX5Z8/3kTBXa0E7Yc1ogNR4EI=
+	t=1710845659; cv=none; b=XIhl02UENQaIVBYtqLSiF/4C48INwNxpOmoPzkHyIam72y8Fog18VwxVgOpPyhjpVy6qTOBVW8g8aGcDhRqE1jbQHJntV6XP9xJ4zmQj4d4omZjGQJLx/Br4QTkZfRy3ZU9mJsWjE0cvcIOgxOjRzk+kT9dtpQjF3uqXL9458w4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1710845658; c=relaxed/simple;
-	bh=yGOd+u7cHytye3IDOHeBUl7oE8KjC9R2wfhVRXE7Klg=;
+	s=arc-20240116; t=1710845659; c=relaxed/simple;
+	bh=EujaVnC/lwpcadYy18mVrRLsg9qlMrJKnWS7bBtX5Vk=;
 	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
-	 MIME-Version; b=YIq1r5mroGey8vnc4Y0vtEAuYq+8aeFPyVGzJvxSBAxTGRMyoqt2UeYswOmizsj5MpvrSEcmCSqI2dcWDYSTliL/rjauP9RNcAWI3O5stPOnd1Hm8i2hhSI6CzVdcC2GK3e65BkX+3x9pxFj3AHa2Ta12VJw97CqJoJRZsG19RU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=bp.renesas.com; spf=pass smtp.mailfrom=bp.renesas.com; arc=none smtp.client-ip=210.160.252.172
+	 MIME-Version; b=jyz/9blG0+AU7jKOkp7StZpp65qNb+BsgCgoPz2ZUXXWhRHd0Hhqh4HCJJkvdmGIk7Dn29ruI9Z+f+ScYvRLZLrqVUs+JPPZSxJDRmbj3ySTHqzh80DmXwdHInkOntMbxmQmEPMvjtW8w3grQSOluMJQVNdRJl6sYsLANhR+UBo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=bp.renesas.com; spf=pass smtp.mailfrom=bp.renesas.com; arc=none smtp.client-ip=210.160.252.171
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=bp.renesas.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=bp.renesas.com
 X-IronPort-AV: E=Sophos;i="6.07,136,1708354800"; 
-   d="scan'208";a="202296502"
+   d="scan'208";a="198343202"
 Received: from unknown (HELO relmlir5.idc.renesas.com) ([10.200.68.151])
-  by relmlie6.idc.renesas.com with ESMTP; 19 Mar 2024 19:54:15 +0900
+  by relmlie5.idc.renesas.com with ESMTP; 19 Mar 2024 19:54:11 +0900
 Received: from localhost.localdomain (unknown [10.226.92.214])
-	by relmlir5.idc.renesas.com (Postfix) with ESMTP id 217714006DFB;
-	Tue, 19 Mar 2024 19:54:11 +0900 (JST)
+	by relmlir5.idc.renesas.com (Postfix) with ESMTP id 0B5504006DFB;
+	Tue, 19 Mar 2024 19:54:07 +0900 (JST)
 From: Biju Das <biju.das.jz@bp.renesas.com>
 To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
 Cc: Biju Das <biju.das.jz@bp.renesas.com>,
@@ -32,9 +32,9 @@ Cc: Biju Das <biju.das.jz@bp.renesas.com>,
 	linux-renesas-soc@vger.kernel.org,
 	Prabhakar Mahadev Lad <prabhakar.mahadev-lad.rj@bp.renesas.com>,
 	Biju Das <biju.das.au@gmail.com>
-Subject: [PATCH v5 3/6] usb: renesas_usbhs: Improve usbhsc_default_pipe[] for isochronous transfers
-Date: Tue, 19 Mar 2024 10:53:53 +0000
-Message-Id: <20240319105356.87287-4-biju.das.jz@bp.renesas.com>
+Subject: [PATCH v5 2/6] usb: renesas_usbhs: Simplify obtaining device data
+Date: Tue, 19 Mar 2024 10:53:52 +0000
+Message-Id: <20240319105356.87287-3-biju.das.jz@bp.renesas.com>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20240319105356.87287-1-biju.das.jz@bp.renesas.com>
 References: <20240319105356.87287-1-biju.das.jz@bp.renesas.com>
@@ -46,45 +46,50 @@ List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-As per the hardware manual, double buffer setting results in fewer
-interrupts for high-speed data transfers. Improve usbhsc_default_pipe[]
-for isochronous transfers by updating the table from single->double
-buffering and update the pipe number accordingly.
+Simplify probe() by removing redundant dev->of_node check.
 
-Suggested-by: Geert Uytterhoeven <geert+renesas@glider.be>
+While at it, replace dev_err->dev_err_probe for error path.
+
 Signed-off-by: Biju Das <biju.das.jz@bp.renesas.com>
 Reviewed-by: Geert Uytterhoeven <geert+renesas@glider.be>
 ---
 v4->v5:
- * No change
+ * No change.
 v3->v4:
- * Added Rbtag from Geert.
-v3:
- * New patch
+ * No change.
+v2->v3:
+ * Added Rb tag from Geert.
+v2:
+ * New patch.
 ---
- drivers/usb/renesas_usbhs/common.c | 8 ++++----
- 1 file changed, 4 insertions(+), 4 deletions(-)
+ drivers/usb/renesas_usbhs/common.c | 13 ++++---------
+ 1 file changed, 4 insertions(+), 9 deletions(-)
 
 diff --git a/drivers/usb/renesas_usbhs/common.c b/drivers/usb/renesas_usbhs/common.c
-index 0c62e4c6c88d..177fa3144a47 100644
+index dd1c17542439..0c62e4c6c88d 100644
 --- a/drivers/usb/renesas_usbhs/common.c
 +++ b/drivers/usb/renesas_usbhs/common.c
-@@ -366,11 +366,11 @@ static void usbhsc_clk_disable_unprepare(struct usbhs_priv *priv)
- /* commonly used on old SH-Mobile SoCs */
- static struct renesas_usbhs_driver_pipe_config usbhsc_default_pipe[] = {
- 	RENESAS_USBHS_PIPE(USB_ENDPOINT_XFER_CONTROL, 64, 0x00, false),
--	RENESAS_USBHS_PIPE(USB_ENDPOINT_XFER_ISOC, 1024, 0x08, false),
--	RENESAS_USBHS_PIPE(USB_ENDPOINT_XFER_ISOC, 1024, 0x18, false),
--	RENESAS_USBHS_PIPE(USB_ENDPOINT_XFER_BULK, 512, 0x28, true),
--	RENESAS_USBHS_PIPE(USB_ENDPOINT_XFER_BULK, 512, 0x38, true),
-+	RENESAS_USBHS_PIPE(USB_ENDPOINT_XFER_ISOC, 1024, 0x08, true),
-+	RENESAS_USBHS_PIPE(USB_ENDPOINT_XFER_ISOC, 1024, 0x28, true),
- 	RENESAS_USBHS_PIPE(USB_ENDPOINT_XFER_BULK, 512, 0x48, true),
-+	RENESAS_USBHS_PIPE(USB_ENDPOINT_XFER_BULK, 512, 0x58, true),
-+	RENESAS_USBHS_PIPE(USB_ENDPOINT_XFER_BULK, 512, 0x68, true),
- 	RENESAS_USBHS_PIPE(USB_ENDPOINT_XFER_INT, 64, 0x04, false),
- 	RENESAS_USBHS_PIPE(USB_ENDPOINT_XFER_INT, 64, 0x05, false),
- 	RENESAS_USBHS_PIPE(USB_ENDPOINT_XFER_INT, 64, 0x06, false),
+@@ -595,16 +595,11 @@ static int usbhs_probe(struct platform_device *pdev)
+ 	u32 tmp;
+ 	int irq;
+ 
+-	/* check device node */
+-	if (dev_of_node(dev))
+-		info = of_device_get_match_data(dev);
+-	else
+-		info = renesas_usbhs_get_info(pdev);
+-
+-	/* check platform information */
++	info = of_device_get_match_data(dev);
+ 	if (!info) {
+-		dev_err(dev, "no platform information\n");
+-		return -EINVAL;
++		info = renesas_usbhs_get_info(pdev);
++		if (!info)
++			return dev_err_probe(dev, -EINVAL, "no platform info\n");
+ 	}
+ 
+ 	/* platform data */
 -- 
 2.25.1
 
