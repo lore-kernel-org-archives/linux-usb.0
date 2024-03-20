@@ -1,38 +1,36 @@
-Received: from cae.in-ulm.de (cae.in-ulm.de [217.10.14.231])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 2FFBE224D7;
-	Wed, 20 Mar 2024 07:40:16 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.10.14.231
+Received: from cstnet.cn (smtp81.cstnet.cn [159.226.251.81])
+	(using TLSv1.2 with cipher DHE-RSA-AES256-SHA (256/256 bits))
+	(No client certificate requested)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7540D20DCC;
+	Wed, 20 Mar 2024 07:46:43 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=159.226.251.81
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1710920421; cv=none; b=gPnePPvFbrpk2fw8ETIJlDGIR2ho5+A9dODmIsh5kI7u/TwyDclrxSR1vr3cLbmUdge8P1saaotVXXVQFqVJz1GavHFV6FR8kjdG+QUrl6XNZSt38FC4Nsd8dvME3YYBvitMmY/Qtw2XLvUfq/4/wMojXM1H4+xoPWfrbZS573E=
+	t=1710920808; cv=none; b=tw5PffJttBJ7Sn2j6OmYgy6NqciEhH8dowwrYiyo5vYmJ4aFFBGfceaPb1/o291HEX0CVehfBROPyVSqtfr37FuWUIA0O2OB6tqTy1lQB83jxcKpEJFqtWlSLmClgmbPKsyXwMofCzQtjEqIH4RfGyvOVa4XZVtOilHImIS8l18=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1710920421; c=relaxed/simple;
-	bh=wdumJfdBUiAeynPQ+4UsuFQrroX9g3XBCSeJGri3dZI=;
-	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
-	 MIME-Version; b=n+Tu3Z2nA8n4QtJwI8LTv/VdGRLau04L+R0txW0rD4IiTpyC6TwqOu7a6aH51snhcZ+Y7Kx9iXFZtX/u1oiF5qhbUPCmpJXM2lGizOGSZbc8N+RzP4B9GBbdKch3f/9lVLoJqsIQ4K9sxmk5yKiZyRpuj1TBZPAB12NW5yCN+54=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=c--e.de; spf=pass smtp.mailfrom=c--e.de; arc=none smtp.client-ip=217.10.14.231
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=c--e.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=c--e.de
-Received: by cae.in-ulm.de (Postfix, from userid 1000)
-	id 4F2C214092E; Wed, 20 Mar 2024 08:40:15 +0100 (CET)
-From: "Christian A. Ehrhardt" <lk@c--e.de>
-To: linux-kernel@vger.kernel.org
-Cc: "Christian A. Ehrhardt" <lk@c--e.de>,
-	Heikki Krogerus <heikki.krogerus@linux.intel.com>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	Prashant Malani <pmalani@chromium.org>,
-	Jameson Thies <jthies@google.com>,
-	Abhishek Pandit-Subedi <abhishekpandit@chromium.org>,
-	Neil Armstrong <neil.armstrong@linaro.org>,
-	=?UTF-8?q?Uwe=20Kleine-K=C3=B6nig?= <u.kleine-koenig@pengutronix.de>,
-	=?UTF-8?q?Samuel=20=C4=8Cavoj?= <samuel@cavoj.net>,
+	s=arc-20240116; t=1710920808; c=relaxed/simple;
+	bh=R8qWnT0pcFEIMIHAwgUqU6SjvSra2zMocjTcX/gqfSU=;
+	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=WTKaP8KOtuShYbg6SiC/TsjWw4dHYLe63VR2U+AFybE5iavlAfYnxC/iJoWz18PbC3PlvXp4Rw3vtYFYPRbCPBeqSPP+UxTBkF90Nwobw3FtKjiDE+p4gcRZDcr5PrKmkHmzjCWKnlXYR1APwQeaO+7bjZ82bs6tssu/C9sbf1U=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=iscas.ac.cn; spf=pass smtp.mailfrom=iscas.ac.cn; arc=none smtp.client-ip=159.226.251.81
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=iscas.ac.cn
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=iscas.ac.cn
+Received: from localhost (unknown [124.16.138.129])
+	by APP-03 (Coremail) with SMTP id rQCowACHZwBdkvplsfItBw--.36178S2;
+	Wed, 20 Mar 2024 15:38:06 +0800 (CST)
+From: Chen Ni <nichen@iscas.ac.cn>
+To: davem@davemloft.net,
+	edumazet@google.com,
+	kuba@kernel.org,
+	pabeni@redhat.com,
+	grundler@chromium.org,
+	christian.riesch@omicron.at,
 	linux-usb@vger.kernel.org,
-	Kenneth Crudup <kenny@panix.com>
-Subject: [PATCH 4/5] usb: typec: ucsi_acpi: Refactor and fix DELL quirk
-Date: Wed, 20 Mar 2024 08:39:25 +0100
-Message-Id: <20240320073927.1641788-5-lk@c--e.de>
-X-Mailer: git-send-email 2.30.2
-In-Reply-To: <20240320073927.1641788-1-lk@c--e.de>
-References: <20240320073927.1641788-1-lk@c--e.de>
+	netdev@vger.kernel.org,
+	linux-kernel@vger.kernel.org
+Cc: Chen Ni <nichen@iscas.ac.cn>
+Subject: [PATCH net] net: asix: Add check for usbnet_get_endpoints
+Date: Wed, 20 Mar 2024 07:37:15 +0000
+Message-Id: <20240320073715.2002973-1-nichen@iscas.ac.cn>
+X-Mailer: git-send-email 2.25.1
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
@@ -40,161 +38,71 @@ List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
+X-CM-TRANSID:rQCowACHZwBdkvplsfItBw--.36178S2
+X-Coremail-Antispam: 1UD129KBjvJXoW7tFy3AFyDGr1DXr18Aw1fWFg_yoW8Wry5pF
+	48Ga98tr48JrW8G3yDtw48urW5ZFn2qa42kF92kw1a9Fy3AF93Gr10kw1Yy3s29FWfXa4q
+	yF4DGw4Yqr15WaUanT9S1TB71UUUUU7qnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
+	9KBjDU0xBIdaVrnRJUUUv014x267AKxVW8JVW5JwAFc2x0x2IEx4CE42xK8VAvwI8IcIk0
+	rVWrJVCq3wAFIxvE14AKwVWUJVWUGwA2ocxC64kIII0Yj41l84x0c7CEw4AK67xGY2AK02
+	1l84ACjcxK6xIIjxv20xvE14v26r4j6ryUM28EF7xvwVC0I7IYx2IY6xkF7I0E14v26r4j
+	6F4UM28EF7xvwVC2z280aVAFwI0_Gr1j6F4UJwA2z4x0Y4vEx4A2jsIEc7CjxVAFwI0_Cr
+	1j6rxdM2AIxVAIcxkEcVAq07x20xvEncxIr21l5I8CrVACY4xI64kE6c02F40Ex7xfMcIj
+	6xIIjxv20xvE14v26r1j6r18McIj6I8E87Iv67AKxVW8JVWxJwAm72CE4IkC6x0Yz7v_Jr
+	0_Gr1lF7xvr2IYc2Ij64vIr41lF7I21c0EjII2zVCS5cI20VAGYxC7M4IIrI8v6xkF7I0E
+	8cxan2IY04v7MxAIw28IcxkI7VAKI48JMxC20s026xCaFVCjc4AY6r1j6r4UMI8I3I0E5I
+	8CrVAFwI0_Jr0_Jr4lx2IqxVCjr7xvwVAFwI0_JrI_JrWlx4CE17CEb7AF67AKxVWUtVW8
+	ZwCIc40Y0x0EwIxGrwCI42IY6xIIjxv20xvE14v26r1j6r1xMIIF0xvE2Ix0cI8IcVCY1x
+	0267AKxVWUJVW8JwCI42IY6xAIw20EY4v20xvaj40_Jr0_JF4lIxAIcVC2z280aVAFwI0_
+	Jr0_Gr1lIxAIcVC2z280aVCY1x0267AKxVW8JVW8JrUvcSsGvfC2KfnxnUUI43ZEXa7VUb
+	0D73UUUUU==
+X-CM-SenderInfo: xqlfxv3q6l2u1dvotugofq/
 
-Some DELL systems don't like UCSI_ACK_CC_CI commands with the
-UCSI_ACK_CONNECTOR_CHANGE but not the UCSI_ACK_COMMAND_COMPLETE
-bit set. The current quirk still leaves room for races because
-it requires two consecutive ACK commands to be sent.
+Add check for usbnet_get_endpoints() and return the error if it fails
+in order to transfer the error.
 
-Refactor and significantly simplify the quirk to fix this:
-Send a dummy command and bundle the connector change ack with the
-command completion ack in a single UCSI_ACK_CC_CI command.
-This removes the need to probe for the quirk.
-
-While there define flag bits for struct ucsi_acpi->flags in ucsi_acpi.c
-and don't re-use definitions from ucsi.h for struct ucsi->flags.
-
-Fixes: f3be347ea42d ("usb: ucsi_acpi: Quirk to ack a connector change ack cmd")
-Cc: stable@vger.kernel.org
-Signed-off-by: Christian A. Ehrhardt <lk@c--e.de>
+Fixes: b4cdae20ef95 ("asix: Rename asix.c to asix_devices.c")
+Signed-off-by: Chen Ni <nichen@iscas.ac.cn>
 ---
- drivers/usb/typec/ucsi/ucsi_acpi.c | 75 +++++++++++++-----------------
- 1 file changed, 33 insertions(+), 42 deletions(-)
+ drivers/net/usb/asix_devices.c | 12 +++++++++---
+ 1 file changed, 9 insertions(+), 3 deletions(-)
 
-diff --git a/drivers/usb/typec/ucsi/ucsi_acpi.c b/drivers/usb/typec/ucsi/ucsi_acpi.c
-index 928eacbeb21a..7b3ac133ef86 100644
---- a/drivers/usb/typec/ucsi/ucsi_acpi.c
-+++ b/drivers/usb/typec/ucsi/ucsi_acpi.c
-@@ -23,10 +23,11 @@ struct ucsi_acpi {
- 	void *base;
- 	struct completion complete;
- 	unsigned long flags;
-+#define UCSI_ACPI_SUPPRESS_EVENT	0
-+#define UCSI_ACPI_COMMAND_PENDING	1
-+#define UCSI_ACPI_ACK_PENDING		2
- 	guid_t guid;
- 	u64 cmd;
--	bool dell_quirk_probed;
--	bool dell_quirk_active;
- };
+diff --git a/drivers/net/usb/asix_devices.c b/drivers/net/usb/asix_devices.c
+index f7cff58fe044..4732a2951bf2 100644
+--- a/drivers/net/usb/asix_devices.c
++++ b/drivers/net/usb/asix_devices.c
+@@ -230,7 +230,9 @@ static int ax88172_bind(struct usbnet *dev, struct usb_interface *intf)
+ 	int i;
+ 	unsigned long gpio_bits = dev->driver_info->data;
  
- static int ucsi_acpi_dsm(struct ucsi_acpi *ua, int func)
-@@ -79,9 +80,9 @@ static int ucsi_acpi_sync_write(struct ucsi *ucsi, unsigned int offset,
+-	usbnet_get_endpoints(dev,intf);
++	ret = usbnet_get_endpoints(dev, intf);
++	if (ret < 0)
++		goto out;
+ 
+ 	/* Toggle the GPIOs in a manufacturer/model specific way */
+ 	for (i = 2; i >= 0; i--) {
+@@ -834,7 +836,9 @@ static int ax88772_bind(struct usbnet *dev, struct usb_interface *intf)
+ 
+ 	dev->driver_priv = priv;
+ 
+-	usbnet_get_endpoints(dev, intf);
++	ret = usbnet_get_endpoints(dev, intf);
++	if (ret < 0)
++		return ret;
+ 
+ 	/* Maybe the boot loader passed the MAC address via device tree */
+ 	if (!eth_platform_get_mac_address(&dev->udev->dev, buf)) {
+@@ -1258,7 +1262,9 @@ static int ax88178_bind(struct usbnet *dev, struct usb_interface *intf)
  	int ret;
+ 	u8 buf[ETH_ALEN] = {0};
  
- 	if (ack)
--		set_bit(ACK_PENDING, &ua->flags);
-+		set_bit(UCSI_ACPI_ACK_PENDING, &ua->flags);
- 	else
--		set_bit(COMMAND_PENDING, &ua->flags);
-+		set_bit(UCSI_ACPI_COMMAND_PENDING, &ua->flags);
+-	usbnet_get_endpoints(dev,intf);
++	ret = usbnet_get_endpoints(dev, intf);
++	if (ret < 0)
++		return ret;
  
- 	ret = ucsi_acpi_async_write(ucsi, offset, val, val_len);
- 	if (ret)
-@@ -92,9 +93,9 @@ static int ucsi_acpi_sync_write(struct ucsi *ucsi, unsigned int offset,
- 
- out_clear_bit:
- 	if (ack)
--		clear_bit(ACK_PENDING, &ua->flags);
-+		clear_bit(UCSI_ACPI_ACK_PENDING, &ua->flags);
- 	else
--		clear_bit(COMMAND_PENDING, &ua->flags);
-+		clear_bit(UCSI_ACPI_COMMAND_PENDING, &ua->flags);
- 
- 	return ret;
- }
-@@ -129,51 +130,40 @@ static const struct ucsi_operations ucsi_zenbook_ops = {
- };
- 
- /*
-- * Some Dell laptops expect that an ACK command with the
-- * UCSI_ACK_CONNECTOR_CHANGE bit set is followed by a (separate)
-- * ACK command that only has the UCSI_ACK_COMMAND_COMPLETE bit set.
-- * If this is not done events are not delivered to OSPM and
-- * subsequent commands will timeout.
-+ * Some Dell laptops don't like ACK commands with the
-+ * UCSI_ACK_CONNECTOR_CHANGE but not the UCSI_ACK_COMMAND_COMPLETE
-+ * bit set. To work around this send a dummy command and bundle the
-+ * UCSI_ACK_CONNECTOR_CHANGE with the UCSI_ACK_COMMAND_COMPLETE
-+ * for the dummy command.
-  */
- static int
- ucsi_dell_sync_write(struct ucsi *ucsi, unsigned int offset,
- 		     const void *val, size_t val_len)
- {
- 	struct ucsi_acpi *ua = ucsi_get_drvdata(ucsi);
--	u64 cmd = *(u64 *)val, ack = 0;
-+	u64 cmd = *(u64 *)val;
-+	u64 dummycmd = UCSI_GET_CAPABILITY;
- 	int ret;
- 
--	if (UCSI_COMMAND(cmd) == UCSI_ACK_CC_CI &&
--	    cmd & UCSI_ACK_CONNECTOR_CHANGE)
--		ack = UCSI_ACK_CC_CI | UCSI_ACK_COMMAND_COMPLETE;
--
--	ret = ucsi_acpi_sync_write(ucsi, offset, val, val_len);
--	if (ret != 0)
--		return ret;
--	if (ack == 0)
--		return ret;
--
--	if (!ua->dell_quirk_probed) {
--		ua->dell_quirk_probed = true;
--
--		cmd = UCSI_GET_CAPABILITY;
--		ret = ucsi_acpi_sync_write(ucsi, UCSI_CONTROL, &cmd,
--					   sizeof(cmd));
--		if (ret == 0)
--			return ucsi_acpi_sync_write(ucsi, UCSI_CONTROL,
--						    &ack, sizeof(ack));
--		if (ret != -ETIMEDOUT)
-+	if (cmd == (UCSI_ACK_CC_CI | UCSI_ACK_CONNECTOR_CHANGE)) {
-+		cmd |= UCSI_ACK_COMMAND_COMPLETE;
-+
-+		/*
-+		 * The UCSI core thinks it is sending a connector change ack
-+		 * and will accept new connector change events. We don't want
-+		 * this to happen for the dummy command as its response will
-+		 * still report the very event that the core is trying to clear.
-+		 */
-+		set_bit(UCSI_ACPI_SUPPRESS_EVENT, &ua->flags);
-+		ret = ucsi_acpi_sync_write(ucsi, UCSI_CONTROL, &dummycmd,
-+					   sizeof(dummycmd));
-+		clear_bit(UCSI_ACPI_SUPPRESS_EVENT, &ua->flags);
-+
-+		if (ret < 0)
- 			return ret;
--
--		ua->dell_quirk_active = true;
--		dev_err(ua->dev, "Firmware bug: Additional ACK required after ACKing a connector change.\n");
--		dev_err(ua->dev, "Firmware bug: Enabling workaround\n");
- 	}
- 
--	if (!ua->dell_quirk_active)
--		return ret;
--
--	return ucsi_acpi_sync_write(ucsi, UCSI_CONTROL, &ack, sizeof(ack));
-+	return ucsi_acpi_sync_write(ucsi, UCSI_CONTROL, &cmd, sizeof(cmd));
- }
- 
- static const struct ucsi_operations ucsi_dell_ops = {
-@@ -209,13 +199,14 @@ static void ucsi_acpi_notify(acpi_handle handle, u32 event, void *data)
- 	if (ret)
- 		return;
- 
--	if (UCSI_CCI_CONNECTOR(cci))
-+	if (UCSI_CCI_CONNECTOR(cci) &&
-+	    !test_bit(UCSI_ACPI_SUPPRESS_EVENT, &ua->flags))
- 		ucsi_connector_change(ua->ucsi, UCSI_CCI_CONNECTOR(cci));
- 
- 	if (cci & UCSI_CCI_ACK_COMPLETE && test_bit(ACK_PENDING, &ua->flags))
- 		complete(&ua->complete);
- 	if (cci & UCSI_CCI_COMMAND_COMPLETE &&
--	    test_bit(COMMAND_PENDING, &ua->flags))
-+	    test_bit(UCSI_ACPI_COMMAND_PENDING, &ua->flags))
- 		complete(&ua->complete);
- }
- 
+ 	/* Get the MAC address */
+ 	ret = asix_read_cmd(dev, AX_CMD_READ_NODE_ID, 0, 0, ETH_ALEN, buf, 0);
 -- 
-2.40.1
+2.25.1
 
