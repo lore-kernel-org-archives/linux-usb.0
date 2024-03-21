@@ -1,159 +1,65 @@
-Received: from mail-yw1-f169.google.com (mail-yw1-f169.google.com [209.85.128.169])
+Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.223.131])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 32A77C8FF
-	for <linux-usb@vger.kernel.org>; Thu, 21 Mar 2024 08:41:24 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=209.85.128.169
-ARC-Seal:i=3; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1711010486; cv=fail; b=Xm1QkxuAal4SoZjezqfbx0PMGwrZYyndeBRlKHmBRvO5YsvoGzOqNVQL3bOZseQm3OGXFN/PLR+C3vxgQVnglLPw3mqmu04OpkwaFXRqpWpHe7IH6kMrXKRgwv3bnLBjlmygcTuG/NbUFEoxvuGSgVab+dJQggqqDZe2IeNbA9Y=
-ARC-Message-Signature:i=3; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1711010486; c=relaxed/simple;
-	bh=HjZ6DTTFckPQMqiYHpgCAvYOUnUnPN6rebRmm1d1J9Y=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=jDvYVsYEXISgVar2Rs4nKJSJGq4HV1SuBn3Jj4+gJlf6rXX3L/at2gvY5aZKRXjRmH5IaU9mrbF8P6RNV/IRlIVS9Hx6UwV4hPEK4nmne0/dsdAJVyp/HIXjkWbJbaWoz4yqGHfg89WtGTxMtaGAHTqm8RmGhqEVXqYFx8tlrVc=
-ARC-Authentication-Results:i=3; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=b3OZmXHa; arc=fail smtp.client-ip=209.85.128.169
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D9BB083CC6;
+	Thu, 21 Mar 2024 12:48:03 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.131
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1711025286; cv=none; b=uG96Zqy1Yy8bNb2T1Xt3uvoObB7gRQyeJHovIsGRZ+QB8QJdm0IBnqcvvoAKz+7YZE0GCAEa7eHnEuhFJwiN89TupCCNRs9L+sejUblNzLpAopomp09THvlz7GGgRanE7ZIQ2lRF+8t1a3JmyOPo9iA4RZp19+UFNy1rjv9Vxj8=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1711025286; c=relaxed/simple;
+	bh=4pwkuVPASujLtvUAcOeumSFvUYsF5sf+M00LrdtdnmY=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=RXtXJoSnSduzo4epT1DPxftCzmeQV27meVCXzop/H2xNr5eWTXZ1c7bVfxxR6GSuA6g8AUzLCp82UIJVevHGdzDNU+qMM9clr3MzwC/7A++I0Zvw58X8C1Jx8rHYrh6h3SNAy5iimh+ud0F05T48+PSOD7WJ6HVtdTOhSElU2io=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=suse.com; spf=pass smtp.mailfrom=suse.com; dkim=pass (1024-bit key) header.d=suse.com header.i=@suse.com header.b=NMYbxKjV; dkim=pass (1024-bit key) header.d=suse.com header.i=@suse.com header.b=B8z9YuAR; arc=none smtp.client-ip=195.135.223.131
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=suse.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="b3OZmXHa"
-Received: by mail-yw1-f169.google.com with SMTP id 00721157ae682-60a15449303so7462007b3.0
-        for <linux-usb@vger.kernel.org>; Thu, 21 Mar 2024 01:41:24 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1711010484; x=1711615284;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:dkim-signature:x-forwarded-for:x-forwarded-to:resent-to
-         :resent-message-id:resent-date:resent-from:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to;
-        bh=p3vo1wc6J3C2AA1kLchReOFQ9IMrR/d6PBa4DE7a/Vs=;
-        b=Ppq6FJvc8WL1hGysKLlNKFHWVSNx+wev0pJS8QFwwGZqzI5i/lUQbZJbRTuYyLihv4
-         cQ240DRP0RnsR34HlH0VeawD+vGjqs6tXuaZcVRYbVMENCaW1HKVcXdHQ25nVUHPjlkk
-         ywHJ0+ZP3oWGbzyAoRzMCuT/9X4hkH7pf9gLZECFmWjvhTc2XXJLpTFhjpmRqZULftwS
-         wgjeU8/9w8YwRou/YnsZfybnbHu/tWsmYETgNdt6WexXuNJbuEKvFrehdjZDGW+jnlU8
-         3PeOYbZwk5Q3KRwv53mg1Slp8TahpCmMt48dkBcRw/euM+UkqaC4TvjmFuuk2/0vQnGe
-         dS4w==
-X-Gm-Message-State: AOJu0YzdODPG3kdCc+yTKYt/jajuFk7UvbDz6sLZ9LGshCOK6OJQON9m
-	9X7F//yKwTuA56XwxaZTBKlw0g2QURcdJ1HtjMQh4I3TkxGhDMp1+IGWYgsI
-X-Google-Smtp-Source: AGHT+IEs2BZnG9n8DJIVAaVjiMTX8ncyqbrznoAUkUk40jzsqcNqee8MfckGKrWhMFgChGHKSUBJHw==
-X-Received: by 2002:a81:d354:0:b0:60c:c4fd:7649 with SMTP id d20-20020a81d354000000b0060cc4fd7649mr1252481ywl.16.1711010483469;
-        Thu, 21 Mar 2024 01:41:23 -0700 (PDT)
-Received: from vps.qemfd.net (vps.qemfd.net. [173.230.130.29])
-        by smtp.gmail.com with ESMTPSA id t8-20020a818308000000b006079e8f3572sm3214121ywf.85.2024.03.21.01.41.22
-        for <linux-usb@vger.kernel.org>
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 21 Mar 2024 01:41:23 -0700 (PDT)
-Received: from schwarzgerat.orthanc (schwarzgerat.danknet [192.168.128.2])
-	by vps.qemfd.net (Postfix) with ESMTP id C02112B624
-	for <linux-usb@vger.kernel.org>; Thu, 21 Mar 2024 04:41:22 -0400 (EDT)
-Received: by schwarzgerat.orthanc (Postfix, from userid 1000)
-	id 89669600199; Thu, 21 Mar 2024 04:37:11 -0400 (EDT)
-Resent-From: nick black <dankamongmen@gmail.com>
-Resent-Date: Thu, 21 Mar 2024 04:37:11 -0400
-Resent-Message-ID: <20240321083711.GA1787714@schwarzgerat.orthanc>
-Resent-To: linux-usb@vger.kernel.org
-X-Spam-Level: 
-Received: from schwarzgerat.orthanc (localhost [IPv6:::1])
-	by schwarzgerat.orthanc (Postfix) with ESMTP id 7D5F3601E1A
-	for <dank@localhost>; Mon, 18 Mar 2024 01:26:10 -0400 (EDT)
-Received: from 192.168.128.1 [192.168.128.1]
-	by schwarzgerat.orthanc with IMAP (fetchmail-6.4.38)
-	for <dank@localhost> (single-drop); Mon, 18 Mar 2024 01:26:10 -0400 (EDT)
-Received: from mail-ed1-f44.google.com (mail-ed1-f44.google.com [209.85.208.44])
-	by vps.qemfd.net (Postfix) with ESMTPS id E53A12B35B
-	for <dank@qemfd.net>; Mon, 18 Mar 2024 01:26:09 -0400 (EDT)
-Received: by mail-ed1-f44.google.com with SMTP id 4fb4d7f45d1cf-56a2bb7d944so523138a12.3
-        for <dank@qemfd.net>; Sun, 17 Mar 2024 22:26:09 -0700 (PDT)
-ARC-Seal: i=2; a=rsa-sha256; t=1710739568; cv=pass;
-        d=google.com; s=arc-20160816;
-        b=THBCIeRDRipQg58zyWyKcrfZMCmXIG3nZObo7Ri1FOoj5nr5lofQ7MmpOz0iRD27zR
-         Q9kIPeqsRrh1mSqQC7QKEMj12oL7CjJMrJqz+r39XqssQzq2g/mYzWsVofllzDUBikfc
-         nJalnbk9cEdOc7vbq0ae48gkOM2NS/bNIZsv/pD/6/WerxT0TPBkmWXEQQJquW4aVoeW
-         //mGtn4KDJuRXusMOs5qKor6Wt2OD38RWCU4GYOjs/Tiy/PAbCzvsMD7zwi0gsrWPV0P
-         QLxIhWe3dPY7cJbei4RbwkE9UVXsFw6wnef7F3Yx0pqWQQrxl1lhd2ZHV3P8kLCpmH2x
-         3Sdg==
-ARC-Message-Signature: i=2; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:dkim-signature:delivered-to;
-        bh=p3vo1wc6J3C2AA1kLchReOFQ9IMrR/d6PBa4DE7a/Vs=;
-        fh=v04QiUVcuwj4hU78H6bavRzVPq5VuA7HFyH/DPabRGs=;
-        b=yYiU77qas1WEOl5ku9j7yL6c5YHXKwOuR7WUZTGLuDnNG9iasVoAVob1DDktJTDcyq
-         xah0OH77R+DnqHsIQWUkMY1FUJeWE9utXLqkqb+lEpbq1i/XAZP0OFowBjmN8s3dLBnv
-         Kz1dB8GShmeKnlVQAaTR5ZpxmuGsuY1HaNr6UvKy+xdaEdNMtKF0nhTnYTACPUaTOQn8
-         /KD1PWsv5Dgv1b+xWxQw+mQ10e78PZohvS6CaIXNEpEX5+lTsyEc3wZrWT7783qeURG0
-         Sklrkbb8mxZvEdfwJcMDQZFa6j0AQPMJ38KoPD3diqTVg5Oc1IRIIuuQf0upjtpSwrpI
-         rDqw==;
-        darn=qemfd.net
-ARC-Authentication-Results: i=2; mx.google.com;
-       dkim=pass header.i=@gmail.com header.s=20230601 header.b=b3OZmXHa;
-       spf=pass (google.com: domain of dankamongmen@gmail.com designates 209.85.220.41 as permitted sender) smtp.mailfrom=dankamongmen@gmail.com;
-       dmarc=pass (p=NONE sp=QUARANTINE dis=NONE) header.from=gmail.com
-X-Forwarded-Encrypted: i=2; AJvYcCVgFU6Mms69sz5685lHavyp5V4zSxAzfrzPB3PMB+Fg57STG/qgtDsawx3zicm4C0tr7U5IDnR2DyIqzkYVrA==
-X-Received: by 2002:a17:907:209c:b0:a46:c24f:ddf8 with SMTP id pv28-20020a170907209c00b00a46c24fddf8mr583315ejb.34.1710739568677;
-        Sun, 17 Mar 2024 22:26:08 -0700 (PDT)
-X-Forwarded-To: dank@qemfd.net
-X-Forwarded-For: dankamongmen@gmail.com dank@qemfd.net
-Received: by 2002:a17:906:c8d5:b0:a46:a9c5:d38d with SMTP id gc21csp921850ejb;
-        Sun, 17 Mar 2024 22:26:07 -0700 (PDT)
-X-Received: by 2002:a25:3357:0:b0:dd0:bb34:1e77 with SMTP id z84-20020a253357000000b00dd0bb341e77mr6758682ybz.53.1710739567380;
-        Sun, 17 Mar 2024 22:26:07 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1710739567; cv=none;
-        d=google.com; s=arc-20160816;
-        b=TmZQu1qPKJ6PsQncIqG+pu+ZNyGQ1nBe1wCcUwTzXj4T1AVMn8KDiYpVR/ygrsT5KP
-         ko/XD+rzuSahYktnsz9ZyQTL7qah5EGtaDFgC3c5Y4LnS/rYL+Fx+qXB9vDq3r3G5lhq
-         +JbP3xMvDChaI10nrt6YQbOH/j3KFe6KV99h/7f22/FcVHrd/dEvan2ZwLTwh8JaIbzu
-         rlpsWUw5iMUU/CHZykZD6KOdECKR+jHi/aFkatH0ydhPDtmQRYMDaWlAgoF3odhhi4tU
-         +bfi7BSQXpE4MWHzPJP3UWEXB3fBwFWada2Rlyxu+j6IjNSTtFKdTtZjlIn24NAx08uL
-         GKew==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:dkim-signature;
-        bh=p3vo1wc6J3C2AA1kLchReOFQ9IMrR/d6PBa4DE7a/Vs=;
-        fh=1z2MSwc646+KKXK4Cwhx+L5urR8S2Cq86EFYdYEWC5Q=;
-        b=g1VLT7QUinwLtO4y6/vLbYxtmxyygm/lUkB4wtyBQi8yGkJ8vYorONqzN7gFsvGV9M
-         Zc/zyXGbg2CTCN+Cx6SC8Ny0aYjnBwp5hRc7phW4VfQ03KU6bj4CTZJpejx4wFCHfn/I
-         GTdX3gOaeFwjKk1au02BAHEBjp4oPoWUKFcvDwwMY2RgltumXuKJLP5eG++O/S6oTWyF
-         fnwnrz493v0wVylUskFG+3u4hbyK5VZwaXVZEacEfrlGBcqRYCSkKMMnxvubIEwtbYfc
-         kD0FtCd4+CpHzQ8aL0wbVAQYcMciMP++k+K2AHmv62HuM6F4oS8Wn5TEYRcxgDxJQM7Q
-         vPWQ==;
-        dara=google.com
-ARC-Authentication-Results: i=1; mx.google.com;
-       dkim=pass header.i=@gmail.com header.s=20230601 header.b=b3OZmXHa;
-       spf=pass (google.com: domain of dankamongmen@gmail.com designates 209.85.220.41 as permitted sender) smtp.mailfrom=dankamongmen@gmail.com;
-       dmarc=pass (p=NONE sp=QUARANTINE dis=NONE) header.from=gmail.com
-Received: from mail-sor-f41.google.com (mail-sor-f41.google.com. [209.85.220.41])
-        by mx.google.com with SMTPS id u6-20020a25ab06000000b00dc7012d99fbsor3212819ybi.4.2024.03.17.22.26.07
-        for <dankamongmen@gmail.com>
-        (Google Transport Security);
-        Sun, 17 Mar 2024 22:26:07 -0700 (PDT)
-Received-SPF: pass (google.com: domain of dankamongmen@gmail.com designates 209.85.220.41 as permitted sender) client-ip=209.85.220.41;
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1710739566; x=1711344366; dara=google.com;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=p3vo1wc6J3C2AA1kLchReOFQ9IMrR/d6PBa4DE7a/Vs=;
-        b=b3OZmXHaj0ZOXNqg/E4DBSn2S1/vAxB32kXhPD7PrG8JJiCoRRXdn3AvM7ks9t67er
-         wNtIkMxZ6amTqL/2fmj/ZAv6AiZnwc49yp7nMW0DCo2LXg2nAJM10atDi6mRk0KcKmp0
-         ktPbQVuUE13SuDCvNowKDqdoswezZ5/zqg55bSJ0jx732YRdHKyd7dM04H1wGDjMTInK
-         scqFENDCsHaIEITkjZG4UnNW5OBOJIRzpGnzgW2gPF26Fb7u0/rZhKGKs3nWIUTFH6Vr
-         yoCz8OAaf0cOdPGwPsH6H0Se2w3/PntwJZtr87tvJUIuy+YBnqAiJgLYI8RusgSsuTh4
-         OOEA==
-X-Received: by 2002:a5b:9d0:0:b0:dcc:1a56:597a with SMTP id y16-20020a5b09d0000000b00dcc1a56597amr7740065ybq.36.1710739565943;
-        Sun, 17 Mar 2024 22:26:05 -0700 (PDT)
-Received: from vps.qemfd.net (vps.qemfd.net. [173.230.130.29])
-        by smtp.gmail.com with ESMTPSA id d6-20020a259706000000b00dcc234241c4sm1600217ybo.55.2024.03.17.22.26.04
-        for <dankamongmen@gmail.com>
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 17 Mar 2024 22:26:05 -0700 (PDT)
-Received: from schwarzgerat.orthanc (schwarzgerat.danknet [192.168.128.2])
-	by vps.qemfd.net (Postfix) with ESMTP id AB67B2B354;
-	Mon, 18 Mar 2024 01:26:04 -0400 (EDT)
-Received: by schwarzgerat.orthanc (Postfix, from userid 1000)
-	id 9C25E601E3A; Mon, 18 Mar 2024 01:26:04 -0400 (EDT)
-From: nick black <dankamongmen@gmail.com>
-To: linux-usb@vger.kernel.org
-Cc: nick black <dankamongmen@gmail.com>
-Subject: [PATCH] usb: always print reset/new device message
-Date: Mon, 18 Mar 2024 01:25:23 -0400
-Message-ID: <20240318052600.671908-1-dankamongmen@gmail.com>
-X-Mailer: git-send-email 2.43.0
+	dkim=pass (1024-bit key) header.d=suse.com header.i=@suse.com header.b="NMYbxKjV";
+	dkim=pass (1024-bit key) header.d=suse.com header.i=@suse.com header.b="B8z9YuAR"
+Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org [10.150.64.97])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by smtp-out2.suse.de (Postfix) with ESMTPS id EAE551FC83;
+	Thu, 21 Mar 2024 12:48:01 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.com; s=susede1;
+	t=1711025282; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:  content-transfer-encoding:content-transfer-encoding;
+	bh=gVje2G/MWNXU76aPP5C7g31t/cKVQY55RCzo6eErdoU=;
+	b=NMYbxKjVzVQqSddBaVOYu7ujpvbBArz5B1aY6U+HuybMK/O4wdmPrFCt+mDs3yudNjpFKh
+	qZiuF+I1UgZoxm2cDDmV5So1PsipAfVQJCMej9iuhMRRoINGYrcMo9KM1nc7i92dUGwxTD
+	DHsVciLld0fAjcd2fnhmFtKkMqwedKM=
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.com; s=susede1;
+	t=1711025281; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:  content-transfer-encoding:content-transfer-encoding;
+	bh=gVje2G/MWNXU76aPP5C7g31t/cKVQY55RCzo6eErdoU=;
+	b=B8z9YuARPR1yqmPrxgg9bQI98U1yx3nTKtFsfVmMplhd2KJK/3hs+/NRGTCFQm4VXcHe4g
+	zyXjgI4EzvJ8SafYlgtDSBHNOpfBrmtzPe08zePc26C5LTvouJU5adEPQRtPjqSCwXnYNm
+	4PbLJm/Az1UUZ2zsjYhW2lg612QQ1+U=
+Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 7D666136AD;
+	Thu, 21 Mar 2024 12:48:01 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([10.150.64.162])
+	by imap1.dmz-prg2.suse.org with ESMTPSA
+	id y0NXHIEs/GVCTQAAD6G6ig
+	(envelope-from <oneukum@suse.com>); Thu, 21 Mar 2024 12:48:01 +0000
+From: Oliver Neukum <oneukum@suse.com>
+To: davem@davemloft.net,
+	edumazet@google.com,
+	kuba@kernel.org,
+	pabeni@redhat.com,
+	netdev@vger.kernel.org,
+	linux-usb@vger.kernel.org,
+	linux-kernel@vger.kernel.org
+Cc: Oliver Neukum <oneukum@suse.com>,
+	syzbot+9665bf55b1c828bbcd8a@syzkaller.appspotmail.com
+Subject: [PATCH net-next] usbnet: fix cyclical race on disconnect with work queue
+Date: Thu, 21 Mar 2024 13:46:41 +0100
+Message-ID: <20240321124758.6302-1-oneukum@suse.com>
+X-Mailer: git-send-email 2.44.0
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
@@ -161,37 +67,183 @@ List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
+X-Spam-Score: 2.20
+X-Spamd-Result: default: False [2.20 / 50.00];
+	 ARC_NA(0.00)[];
+	 RCVD_VIA_SMTP_AUTH(0.00)[];
+	 BAYES_HAM(-3.00)[100.00%];
+	 FROM_HAS_DN(0.00)[];
+	 TO_DN_SOME(0.00)[];
+	 R_MISSING_CHARSET(2.50)[];
+	 TO_MATCH_ENVRCPT_ALL(0.00)[];
+	 TAGGED_RCPT(0.00)[9665bf55b1c828bbcd8a];
+	 MIME_GOOD(-0.10)[text/plain];
+	 BROKEN_CONTENT_TYPE(1.50)[];
+	 NEURAL_HAM_LONG(-1.00)[-1.000];
+	 RCVD_COUNT_THREE(0.00)[3];
+	 DKIM_SIGNED(0.00)[suse.com:s=susede1];
+	 NEURAL_HAM_SHORT(-0.20)[-1.000];
+	 RCPT_COUNT_SEVEN(0.00)[9];
+	 MID_CONTAINS_FROM(1.00)[];
+	 DBL_BLOCKED_OPENRESOLVER(0.00)[suse.com:email];
+	 FUZZY_BLOCKED(0.00)[rspamd.com];
+	 FROM_EQ_ENVFROM(0.00)[];
+	 MIME_TRACE(0.00)[0:+];
+	 RCVD_TLS_ALL(0.00)[];
+	 SUSPICIOUS_RECIPS(1.50)[]
+X-Spam-Level: **
+Authentication-Results: smtp-out2.suse.de;
+	none
+X-Spam-Flag: NO
 
-Since usb_speed_string() always returns a valid string
-(invalid speeds turn into "UNKNOWN"), go ahead and
-always print this diagnostic, rather than checking the
-speed here (which wasn't up to date for SPEED_SUPER_PLUS,
-and looks like it had an off-by-one error anyway).
+The work can submit URBs and the URBs can schedule the work.
+This cycle needs to be broken, when a device is to be stopped.
+Use a flag to do so.
 
-Signed-off-by: nick black <dankamongmen@gmail.com>
+Fixes: f29fc259976e9 ("[PATCH] USB: usbnet (1/9) clean up framing")
+Reported-by: syzbot+9665bf55b1c828bbcd8a@syzkaller.appspotmail.com
+Signed-off-by: Oliver Neukum <oneukum@suse.com>
 ---
- drivers/usb/core/hub.c | 9 ++++-----
- 1 file changed, 4 insertions(+), 5 deletions(-)
+ drivers/net/usb/usbnet.c   | 37 ++++++++++++++++++++++++++++---------
+ include/linux/usb/usbnet.h | 18 ++++++++++++++++++
+ 2 files changed, 46 insertions(+), 9 deletions(-)
 
-diff --git a/drivers/usb/core/hub.c b/drivers/usb/core/hub.c
-index e38a4124f610..7325e5420900 100644
---- a/drivers/usb/core/hub.c
-+++ b/drivers/usb/core/hub.c
-@@ -4909,11 +4909,10 @@ hub_port_init(struct usb_hub *hub, struct usb_device *udev, int port1,
- 	else
- 		driver_name = udev->bus->sysdev->driver->name;
+diff --git a/drivers/net/usb/usbnet.c b/drivers/net/usb/usbnet.c
+index e84efa661589..422d91635045 100644
+--- a/drivers/net/usb/usbnet.c
++++ b/drivers/net/usb/usbnet.c
+@@ -467,10 +467,12 @@ static enum skb_state defer_bh(struct usbnet *dev, struct sk_buff *skb,
+ void usbnet_defer_kevent (struct usbnet *dev, int work)
+ {
+ 	set_bit (work, &dev->flags);
+-	if (!schedule_work (&dev->kevent))
+-		netdev_dbg(dev->net, "kevent %s may have been dropped\n", usbnet_event_names[work]);
+-	else
+-		netdev_dbg(dev->net, "kevent %s scheduled\n", usbnet_event_names[work]);
++	if (!usbnet_going_away(dev)) {
++		if (!schedule_work (&dev->kevent))
++			netdev_dbg(dev->net, "kevent %s may have been dropped\n", usbnet_event_names[work]);
++		else
++			netdev_dbg(dev->net, "kevent %s scheduled\n", usbnet_event_names[work]);
++	}
+ }
+ EXPORT_SYMBOL_GPL(usbnet_defer_kevent);
  
--	if (udev->speed < USB_SPEED_SUPER)
--		dev_info(&udev->dev,
--				"%s %s USB device number %d using %s\n",
--				(initial ? "new" : "reset"), speed,
--				devnum, driver_name);
-+	dev_info(&udev->dev,
-+			"%s %s USB device number %d using %s\n",
-+			(initial ? "new" : "reset"), speed,
-+			devnum, driver_name);
+@@ -538,7 +540,8 @@ static int rx_submit (struct usbnet *dev, struct urb *urb, gfp_t flags)
+ 			tasklet_schedule (&dev->bh);
+ 			break;
+ 		case 0:
+-			__usbnet_queue_skb(&dev->rxq, skb, rx_start);
++			if (!usbnet_going_away(dev))
++				__usbnet_queue_skb(&dev->rxq, skb, rx_start);
+ 		}
+ 	} else {
+ 		netif_dbg(dev, ifdown, dev->net, "rx: stopped\n");
+@@ -849,6 +852,16 @@ int usbnet_stop (struct net_device *net)
+ 	del_timer_sync (&dev->delay);
+ 	tasklet_kill (&dev->bh);
+ 	cancel_work_sync(&dev->kevent);
++
++	/*
++	 * we have cyclic dependencies. Those calls are needed
++	 * to break a cycle. We cannot fall into the gaps because
++	 * we have a flag
++	 */
++	tasklet_kill (&dev->bh);
++	del_timer_sync (&dev->delay);
++	cancel_work_sync(&dev->kevent);
++
+ 	if (!pm)
+ 		usb_autopm_put_interface(dev->intf);
  
- 	if (initial) {
- 		/* Set up TT records, if needed  */
+@@ -1174,7 +1187,8 @@ usbnet_deferred_kevent (struct work_struct *work)
+ 					   status);
+ 		} else {
+ 			clear_bit (EVENT_RX_HALT, &dev->flags);
+-			tasklet_schedule (&dev->bh);
++			if (!usbnet_going_away(dev))
++				tasklet_schedule (&dev->bh);
+ 		}
+ 	}
+ 
+@@ -1196,10 +1210,13 @@ usbnet_deferred_kevent (struct work_struct *work)
+ 			}
+ 			if (rx_submit (dev, urb, GFP_KERNEL) == -ENOLINK)
+ 				resched = 0;
+-			usb_autopm_put_interface(dev->intf);
+ fail_lowmem:
+-			if (resched)
++			usb_autopm_put_interface(dev->intf);
++			if (resched) {
++				set_bit (EVENT_RX_MEMORY, &dev->flags);
++
+ 				tasklet_schedule (&dev->bh);
++			}
+ 		}
+ 	}
+ 
+@@ -1212,13 +1229,13 @@ usbnet_deferred_kevent (struct work_struct *work)
+ 		if (status < 0)
+ 			goto skip_reset;
+ 		if(info->link_reset && (retval = info->link_reset(dev)) < 0) {
+-			usb_autopm_put_interface(dev->intf);
+ skip_reset:
+ 			netdev_info(dev->net, "link reset failed (%d) usbnet usb-%s-%s, %s\n",
+ 				    retval,
+ 				    dev->udev->bus->bus_name,
+ 				    dev->udev->devpath,
+ 				    info->description);
++			usb_autopm_put_interface(dev->intf);
+ 		} else {
+ 			usb_autopm_put_interface(dev->intf);
+ 		}
+@@ -1562,6 +1579,7 @@ static void usbnet_bh (struct timer_list *t)
+ 	} else if (netif_running (dev->net) &&
+ 		   netif_device_present (dev->net) &&
+ 		   netif_carrier_ok(dev->net) &&
++		   !usbnet_going_away(dev) &&
+ 		   !timer_pending(&dev->delay) &&
+ 		   !test_bit(EVENT_RX_PAUSED, &dev->flags) &&
+ 		   !test_bit(EVENT_RX_HALT, &dev->flags)) {
+@@ -1609,6 +1627,7 @@ void usbnet_disconnect (struct usb_interface *intf)
+ 	usb_set_intfdata(intf, NULL);
+ 	if (!dev)
+ 		return;
++	usbnet_mark_going_away(dev);
+ 
+ 	xdev = interface_to_usbdev (intf);
+ 
+diff --git a/include/linux/usb/usbnet.h b/include/linux/usb/usbnet.h
+index 9f08a584d707..d26599faab33 100644
+--- a/include/linux/usb/usbnet.h
++++ b/include/linux/usb/usbnet.h
+@@ -76,8 +76,26 @@ struct usbnet {
+ #		define EVENT_LINK_CHANGE	11
+ #		define EVENT_SET_RX_MODE	12
+ #		define EVENT_NO_IP_ALIGN	13
++/*
++ * this one is special, as it indicates that the device is going away
++ * there are cyclic dependencies between tasklet, timer and bh
++ * that must be broken
++ */
++#		define EVENT_UNPLUG		31
+ };
+ 
++static inline bool usbnet_going_away(struct usbnet *ubn)
++{
++	smp_mb__before_atomic();
++	return test_bit(EVENT_UNPLUG, &ubn->flags);
++}
++
++static inline void usbnet_mark_going_away(struct usbnet *ubn)
++{
++	set_bit(EVENT_UNPLUG, &ubn->flags);
++	smp_mb__after_atomic();
++}
++
+ static inline struct usb_driver *driver_of(struct usb_interface *intf)
+ {
+ 	return to_usb_driver(intf->dev.driver);
 -- 
-2.43.0
+2.44.0
+
