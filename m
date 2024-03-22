@@ -1,23 +1,23 @@
 Received: from mx01.omp.ru (mx01.omp.ru [90.154.21.10])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A329417566
-	for <linux-usb@vger.kernel.org>; Fri, 22 Mar 2024 09:49:19 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5469A17566
+	for <linux-usb@vger.kernel.org>; Fri, 22 Mar 2024 09:49:32 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=90.154.21.10
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1711100966; cv=none; b=vDN/Fx+VYvFjwDQew23raxk+k5t3nxnjs/G+hUj897TBeWxDx2oGK9SshFDhZkc/M/tITaDPTpW1MOtmXy9owhFovF1zmxceh0tkW5i83zCu0RhZQHC8NDM6dgwcWiMwQgPgYdmF6KwxGVBlYOqUOIz/LBYLhShdu0p0xX162n0=
+	t=1711100976; cv=none; b=nhEyEke83hV9EVN8GUtk0Scv1zfb2JogLDjOptOgU8mUDb4DlWbwxIKdjyhALc6A7+A1EJmvGSxXzPw+ymsJnDY4wanA+G4F1JyISQdfTwXinLrs0W97tmf0xlXJvaekHQSXe5rtzeTLTIKnHS2xoRmt7KgCN5SghsP0dvwlecg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1711100966; c=relaxed/simple;
-	bh=3buljDP7ISVdORoHtzVZqpf3iccEzwTtOkvVUiftLNk=;
+	s=arc-20240116; t=1711100976; c=relaxed/simple;
+	bh=28Pe8vP8m1PU4RFwoQb/M1OhrhWC9aQ4DMcRlreUo3s=;
 	h=Subject:To:CC:References:From:Message-ID:Date:MIME-Version:
-	 In-Reply-To:Content-Type; b=snvjBxwTyDmeRMupG6FP1uXCVEpYhxHky5BWYvy3BR3S1D3CR4dbesXyL+RL8N/UyXJc9IYnwKBPe7Yb7IuLdF3ltmKMJ7azjuFFFebR5S2hmHRvez+TskgN5FkIYZP7Fp1cCOoVD5TGLlDavU0xU6R5motXZnRnlMa+STqthBo=
+	 In-Reply-To:Content-Type; b=nTULoU8BgIQuI7yAdq3jESyKQTxMueFcp6ziJnp5e3F1i5I6rAVhMy9YP77LwkPQuNzvjYnTijiH9g8EhDoTN9LWIH+TKAWH9Pvv9Drj89R3pJDdeURBUQeFzRov0IJf0xfUUBqv0l0oA3osBFIsnSHV1mJ2R7K9ogwRLstuaX8=
 ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=omp.ru; spf=pass smtp.mailfrom=omp.ru; arc=none smtp.client-ip=90.154.21.10
 Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=omp.ru
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=omp.ru
 Received: from [192.168.1.105] (178.176.73.112) by msexch01.omp.ru
  (10.188.4.12) with Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_256_CBC_SHA384) id 15.2.1258.12; Fri, 22 Mar
- 2024 12:49:11 +0300
+ 2024 12:49:24 +0300
 Subject: Re: [PATCH] usb: storage: isd200: fix sloppy typing in
  isd200_scsi_to_ata()
 To: Alan Stern <stern@rowland.harvard.edu>
@@ -28,8 +28,8 @@ References: <e8c20e3c-3cbe-b5c1-f673-0a7f22566879@omp.ru>
  <4e13319d-30a8-4274-bfa0-36d915b1e1ec@rowland.harvard.edu>
 From: Sergey Shtylyov <s.shtylyov@omp.ru>
 Organization: Open Mobile Platform
-Message-ID: <5ccbb639-10fd-ae7f-1c59-3c6f642275e9@omp.ru>
-Date: Fri, 22 Mar 2024 12:49:10 +0300
+Message-ID: <6425997a-669b-919d-af44-880a7ce28ffc@omp.ru>
+Date: Fri, 22 Mar 2024 12:49:23 +0300
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
  Thunderbird/78.10.1
 Precedence: bulk
@@ -62,7 +62,7 @@ X-KSE-AntiSpam-Info: {SMTP from is not routable}
 X-KSE-AntiSpam-Info: {Found in DNSBL: 178.176.73.112 in (user)
  b.barracudacentral.org}
 X-KSE-AntiSpam-Info:
-	omp.ru:7.1.1;127.0.0.199:7.1.2;d41d8cd98f00b204e9800998ecf8427e.com:7.1.1
+	127.0.0.199:7.1.2;d41d8cd98f00b204e9800998ecf8427e.com:7.1.1;omp.ru:7.1.1
 X-KSE-AntiSpam-Info: ApMailHostAddress: 178.176.73.112
 X-KSE-AntiSpam-Info: {DNS response errors}
 X-KSE-AntiSpam-Info: Rate: 59
@@ -117,8 +117,8 @@ On 3/22/24 3:57 AM, Alan Stern wrote:
 > variable without also changing the types of lba and blockCount at the 
 > start of the routine?
 
-   The resason is simple: Svace didn't complain about those. I'll fix
-them up in v2 if you;re not opposed to this patch...
+   The reason is simple: Svace didn't complain about those. I'll fix
+them up in v2 if you're not opposed to this patch...
 
 > Alan Stern
 
