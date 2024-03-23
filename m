@@ -1,71 +1,72 @@
-Received: from smtp.smtpout.orange.fr (smtp-27.smtpout.orange.fr [80.12.242.27])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 4D06046A0;
-	Sat, 23 Mar 2024 06:58:23 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=80.12.242.27
+Received: from netrider.rowland.org (netrider.rowland.org [192.131.102.5])
+	by smtp.subspace.kernel.org (Postfix) with SMTP id C93AC535A8
+	for <linux-usb@vger.kernel.org>; Sat, 23 Mar 2024 17:58:24 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.131.102.5
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1711177105; cv=none; b=AVgNw+oWW/ga9tPW0tOStXhADjQDdArIuQwgCZSOwVG5vCSM9EVxr3ikpd3ifCynFu4e1GaY0k6Zc07Xf5LJ676yL6cJGSB0Zem/3ne8MDF+DqSXKPSTjhC4ZhyLYlhmoBxJ11P1GHH90SHlWWtVqaGmzyStpQcZxREI1LfJC3g=
+	t=1711216708; cv=none; b=ODe1RI/fZ7FfUhXgT8koJIYoK3LwVrvaiOhQYMlGFzgQJLqV3fb8wQ0RfkNaYAQuhXyFWJwjNI/bw8XcBM05TxI+MCDCx42GK3KSNVb3QHgXa379Z2J0ebUbm7bnCBntEUt+nA/vm4U6deE2EaqgvvGrowP4vMX6ZqGf3lu3v6I=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1711177105; c=relaxed/simple;
-	bh=Schhh1ve6wJUNgn1/lfBoSPo6hj6Yunp8gYcjsPdOuc=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=n6Z0DsjnakPgWCn1mRsgQRvk/QGJwZQ1wt+1AY95vypCBBu6EaITWv0sZB6lOvIAC033CyXJMxa6vM6tV3jiYx2L0tTEF3mu3Dvatn5tdnS0e8DtUL4iHr0hd1Au0I3e7CJuJ9P9rf7naC/FBr1ZR6K2lv35Zd2JzTxnP1RjBHs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=wanadoo.fr; spf=pass smtp.mailfrom=wanadoo.fr; dkim=pass (2048-bit key) header.d=wanadoo.fr header.i=@wanadoo.fr header.b=LV4eFyY8; arc=none smtp.client-ip=80.12.242.27
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=wanadoo.fr
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=wanadoo.fr
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=wanadoo.fr header.i=@wanadoo.fr header.b="LV4eFyY8"
-Received: from fedora.home ([86.243.17.157])
-	by smtp.orange.fr with ESMTPA
-	id nvJZrKeyIixjunvJZrMrek; Sat, 23 Mar 2024 07:57:14 +0100
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=wanadoo.fr;
-	s=t20230301; t=1711177034;
-	bh=zIEiZSYagjBeVyihcNf+XJegMipzYh1x7R7LSTamGZ4=;
-	h=From:To:Subject:Date:Message-ID:MIME-Version;
-	b=LV4eFyY8loUYYNskJclNqY/+asvPjt0rC093GmiXnwldLZOvTY0haDYH9XzPCvI/H
-	 CSmr2WKwsIAb1uCKHOGGerrCuRwOAr1toNrFwWJz/R9fJ64ZL3337GrhvQowDBnd4k
-	 10qKPLMtozpq8UkaFUseVjxrgbuRPI9FIicMFIvzmfybvFQDW55vZQ23/oJUyCpiII
-	 xK3GnY9RxBj1bVsJDzVDXq3kamok5u1rLseZEaKfv66pNuOwrnwzphTmE6S6/b4EE0
-	 HI8uSNZZzOgCagKPIytI8gqqd78GztySDKRpXddwVcgSSOgKUPXLqUyLgaXfBBPURc
-	 G6zKpQKnP+P6w==
-X-ME-Helo: fedora.home
-X-ME-Auth: Y2hyaXN0b3BoZS5qYWlsbGV0QHdhbmFkb28uZnI=
-X-ME-Date: Sat, 23 Mar 2024 07:57:14 +0100
-X-ME-IP: 86.243.17.157
-From: Christophe JAILLET <christophe.jaillet@wanadoo.fr>
-To: gregkh@linuxfoundation.org,
-	jbrunet@baylibre.com,
-	ruslan.bilovol@gmail.com
-Cc: linux-usb@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	kernel-janitors@vger.kernel.org,
-	Christophe JAILLET <christophe.jaillet@wanadoo.fr>
-Subject: [PATCH 0/3] usb: gadget: u_audio:
-Date: Sat, 23 Mar 2024 07:57:02 +0100
-Message-ID: <cover.1711176700.git.christophe.jaillet@wanadoo.fr>
-X-Mailer: git-send-email 2.44.0
+	s=arc-20240116; t=1711216708; c=relaxed/simple;
+	bh=VVP9ALTpJ5W8ZjBOBlZ+323rDesK2QDow0OPQCpYd8w=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=R/15BQ/N9cd4eQ6gDKr0pov/wX31kWDRV7nfO7QfyBOYzSo4k2DA3cRf30iPfbwMPuV2sNro1UKKVtZZL9Tc1tG6vaU70vscnzf7GDe9hcICoFI60ezRGD7TYhWsKWWu7KRJimplH6liJivTBbezHWP3mSjP86ut+H1L7WciGAI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=rowland.harvard.edu; spf=pass smtp.mailfrom=netrider.rowland.org; arc=none smtp.client-ip=192.131.102.5
+Authentication-Results: smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=rowland.harvard.edu
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=netrider.rowland.org
+Received: (qmail 794401 invoked by uid 1000); 23 Mar 2024 13:58:17 -0400
+Date: Sat, 23 Mar 2024 13:58:17 -0400
+From: Alan Stern <stern@rowland.harvard.edu>
+To: nick black <dankamongmen@gmail.com>
+Cc: linux-usb@vger.kernel.org
+Subject: Re: [PATCH] usb: always print reset/new device message
+Message-ID: <4175e097-85e4-48ac-91d3-d78822c2a3b7@rowland.harvard.edu>
+References: <20240318052600.671908-1-dankamongmen@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20240318052600.671908-1-dankamongmen@gmail.com>
 
-The first patch is a fix that has no practital consequences in the real
-world. So I consider it more as a clean-up than as a fix.
+On Mon, Mar 18, 2024 at 01:25:23AM -0400, nick black wrote:
+> Since usb_speed_string() always returns a valid string
+> (invalid speeds turn into "UNKNOWN"), go ahead and
+> always print this diagnostic, rather than checking the
+> speed here (which wasn't up to date for SPEED_SUPER_PLUS,
+> and looks like it had an off-by-one error anyway).
 
-The 2 other patches are just clean-ups to be more consistent with
-string related API usages within this file.
+This change isn't needed.  For speeds >= SPEED_SUPER, the corresponding 
+information is printed in the vicinity of line 5027.
 
-All 3 patches are compile tested only.
+Alan Stern
 
-Christophe JAILLET (3):
-  usb: gadget: u_audio: Fix the size of a buffer in a strscpy() call
-  usb: gadget: u_audio: Use the 2-argument version of strscpy()
-  usb: gadget: u_audio: Use snprintf() instead of sprintf()
-
- drivers/usb/gadget/function/u_audio.c | 11 ++++++-----
- 1 file changed, 6 insertions(+), 5 deletions(-)
-
--- 
-2.44.0
-
+> Signed-off-by: nick black <dankamongmen@gmail.com>
+> ---
+>  drivers/usb/core/hub.c | 9 ++++-----
+>  1 file changed, 4 insertions(+), 5 deletions(-)
+> 
+> diff --git a/drivers/usb/core/hub.c b/drivers/usb/core/hub.c
+> index e38a4124f610..7325e5420900 100644
+> --- a/drivers/usb/core/hub.c
+> +++ b/drivers/usb/core/hub.c
+> @@ -4909,11 +4909,10 @@ hub_port_init(struct usb_hub *hub, struct usb_device *udev, int port1,
+>  	else
+>  		driver_name = udev->bus->sysdev->driver->name;
+>  
+> -	if (udev->speed < USB_SPEED_SUPER)
+> -		dev_info(&udev->dev,
+> -				"%s %s USB device number %d using %s\n",
+> -				(initial ? "new" : "reset"), speed,
+> -				devnum, driver_name);
+> +	dev_info(&udev->dev,
+> +			"%s %s USB device number %d using %s\n",
+> +			(initial ? "new" : "reset"), speed,
+> +			devnum, driver_name);
+>  
+>  	if (initial) {
+>  		/* Set up TT records, if needed  */
+> -- 
+> 2.43.0
+> 
