@@ -1,31 +1,31 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D581617967E;
-	Mon, 25 Mar 2024 07:11:04 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AE1B618181C;
+	Mon, 25 Mar 2024 07:11:31 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1711350665; cv=none; b=DikNhWcuFb0LcCTgZZWyTT90te+ggkWGneAMy7EZxXS11MDijiozNWVTWnl9OQpUzvcpIxPWT6OysXZbjHodBU5xUF/3NO3IxB73VfoXKCZI7IENWJ86YedlfooOnQ8IIic7DuGV05R5pQAPmDIkk+p+z61fmzdlxTRIzd5X0aM=
+	t=1711350691; cv=none; b=S4Ifsmp5eitvzPlFek9BR3aWMbjWjgupr10rwp95eIC6eYghtqc49gcdVzKP37H90HdbM1YGf6Gf3Ene1cVUDkHfBjaegbdjZB8gZtGtEz1oWAv9gJGrH/rOo7ajQFsS/uCuSo4HGf/SpQlNM1eShHBSqj90u8mS9dwvWstwBKg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1711350665; c=relaxed/simple;
-	bh=sTPATJrZxPXDBU2hJVRgbRVp2puDXDGSZp/6Anb2ra0=;
+	s=arc-20240116; t=1711350691; c=relaxed/simple;
+	bh=5yQ78yVVRx+BuSskjbXQyqGSxUtm8XGzf7kDWOz8oig=;
 	h=From:To:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=MExOTKV8rl+dX0cW0wzjGAiEAnFHcfHCAKPbxVz/kDovKkLp8IrMxjDid47qBzInjnVFa2eIVJPhsgLl+3A23hKqfQHS5HAulKAUjArRBTFaRVFJm0YbxV876tIEyHcHPm1RRaCul4PNsqo9YoG1jH+usgUwvNEetxkM6vKJrcI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=JFHyCT7W; arc=none smtp.client-ip=10.30.226.201
+	 MIME-Version; b=TS0canI9pq/hhS29bdYLQ9OGGgY2FYlcdxvwzNgw07fGeyKE0D+SzedaZ5M/JEJ2yfIHW5r2Ns5safa7xrhrwPuXm9b554beF4lc9slME1DkZ5zckkmzzrmyJssnzS2oPHB5L4tODjqTtYU0Pa3BxPbJV6Drep/kbUOIFgMyyiQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=eeMcew6/; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="JFHyCT7W"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 5DB58C433C7;
-	Mon, 25 Mar 2024 07:11:01 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="eeMcew6/"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id F1C3AC43394;
+	Mon, 25 Mar 2024 07:11:27 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1711350664;
-	bh=sTPATJrZxPXDBU2hJVRgbRVp2puDXDGSZp/6Anb2ra0=;
+	s=k20201202; t=1711350691;
+	bh=5yQ78yVVRx+BuSskjbXQyqGSxUtm8XGzf7kDWOz8oig=;
 	h=From:To:Subject:Date:In-Reply-To:References:From;
-	b=JFHyCT7W6X1xUcGVlMTa9iTr+w72NzubImHdd/0DveOX+7NhWajlvvcfrjrxl60sS
-	 KkT921c4aSXDeZslfjxdIPIMprZCkYQPpxVcNU/yL7f/aDwrf4GrjNM9dKSG4W7uf3
-	 fMe50RzV4tc7wWOXO8P9bQbN+3SGEfKS8ayLJFCI50/a9rODs8i3qKiGSlk9MMMkPB
-	 ql92SAegznSMyE4yCvrW46M/kA2pNYT9yKzBJ4gpVUp+bCC5n+ZHDYRggqrf8dTsld
-	 nLGac3hxSgAWlW+LOGDkAuqUhlzjavo07M+c+jV9WprXJ6qpPlWdGjC29JjHhDZ8aR
-	 45GG63jK43Sig==
+	b=eeMcew6/36/+XrXV08/jTwz0Ah2T5VgTl9A7CIaoDpVgORmOu0zoxCnETHOKnyaws
+	 Jk6feyJmSEUva6kk1jBLhr3pFxKXIPS1esND8Y759MGG4528vj/7q3vwm4iP7prfAi
+	 85Lv7BZt8Xpn/MIX/xteBH2QDoK3HsIqofUmCiCCZaZ4b5V9ms5HZsVz1xL4k1C10T
+	 H8qcGuaFQjKd3U1++f+oqYXy4jRB1+cBHKsoY7bijIdbIqu0+clyNcUygZX8SRjMpM
+	 uCERTsbc5H9s0FyGqDeXjwv9/OQCAUdX0ilXktf5p6NMQS7qDGDZ2yXERmZxhsHcjJ
+	 CQRqEat8PcQRQ==
 From: Damien Le Moal <dlemoal@kernel.org>
 To: linux-pci@vger.kernel.org,
 	Bjorn Helgaas <bhelgaas@google.com>,
@@ -49,9 +49,9 @@ To: linux-pci@vger.kernel.org,
 	Eric Dumazet <edumazet@google.com>,
 	netdev@vger.kernel.org,
 	linux-kernel@vger.kernel.org
-Subject: [PATCH 20/28] net wireless; realtec: Use PCI_IRQ_INTX
-Date: Mon, 25 Mar 2024 16:09:31 +0900
-Message-ID: <20240325070944.3600338-21-dlemoal@kernel.org>
+Subject: [PATCH 27/28] scsi: vmw_pvscsi: Do not use PCI_IRQ_LEGACY
+Date: Mon, 25 Mar 2024 16:09:38 +0900
+Message-ID: <20240325070944.3600338-28-dlemoal@kernel.org>
 X-Mailer: git-send-email 2.44.0
 In-Reply-To: <20240325070944.3600338-1-dlemoal@kernel.org>
 References: <20240325070944.3600338-1-dlemoal@kernel.org>
@@ -63,41 +63,28 @@ List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-Use the macro PCI_IRQ_INTX instead of the deprecated PCI_IRQ_LEGACY
+In pvscsi_probe(), initialize the irq_flag variable using
+PCI_IRQ_ALL_TYPES to remove the use of the deprecated PCI_IRQ_LEGACY
 macro.
 
 Signed-off-by: Damien Le Moal <dlemoal@kernel.org>
 ---
- drivers/net/wireless/realtek/rtw88/pci.c | 2 +-
- drivers/net/wireless/realtek/rtw89/pci.c | 2 +-
- 2 files changed, 2 insertions(+), 2 deletions(-)
+ drivers/scsi/vmw_pvscsi.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/drivers/net/wireless/realtek/rtw88/pci.c b/drivers/net/wireless/realtek/rtw88/pci.c
-index 9986a4cb37eb..282f1e5a882e 100644
---- a/drivers/net/wireless/realtek/rtw88/pci.c
-+++ b/drivers/net/wireless/realtek/rtw88/pci.c
-@@ -1612,7 +1612,7 @@ static struct rtw_hci_ops rtw_pci_ops = {
+diff --git a/drivers/scsi/vmw_pvscsi.c b/drivers/scsi/vmw_pvscsi.c
+index f88ecdb93a8a..c4fea077265e 100644
+--- a/drivers/scsi/vmw_pvscsi.c
++++ b/drivers/scsi/vmw_pvscsi.c
+@@ -1346,7 +1346,7 @@ static u32 pvscsi_get_max_targets(struct pvscsi_adapter *adapter)
  
- static int rtw_pci_request_irq(struct rtw_dev *rtwdev, struct pci_dev *pdev)
+ static int pvscsi_probe(struct pci_dev *pdev, const struct pci_device_id *id)
  {
--	unsigned int flags = PCI_IRQ_LEGACY;
-+	unsigned int flags = PCI_IRQ_INTX;
- 	int ret;
- 
- 	if (!rtw_disable_msi)
-diff --git a/drivers/net/wireless/realtek/rtw89/pci.c b/drivers/net/wireless/realtek/rtw89/pci.c
-index 19001130ad94..100549694e53 100644
---- a/drivers/net/wireless/realtek/rtw89/pci.c
-+++ b/drivers/net/wireless/realtek/rtw89/pci.c
-@@ -3547,7 +3547,7 @@ static int rtw89_pci_request_irq(struct rtw89_dev *rtwdev,
- 	unsigned long flags = 0;
- 	int ret;
- 
--	flags |= PCI_IRQ_LEGACY | PCI_IRQ_MSI;
-+	flags |= PCI_IRQ_INTX | PCI_IRQ_MSI;
- 	ret = pci_alloc_irq_vectors(pdev, 1, 1, flags);
- 	if (ret < 0) {
- 		rtw89_err(rtwdev, "failed to alloc irq vectors, ret %d\n", ret);
+-	unsigned int irq_flag = PCI_IRQ_MSIX | PCI_IRQ_MSI | PCI_IRQ_LEGACY;
++	unsigned int irq_flag = PCI_IRQ_ALL_TYPES;
+ 	struct pvscsi_adapter *adapter;
+ 	struct pvscsi_adapter adapter_temp;
+ 	struct Scsi_Host *host = NULL;
 -- 
 2.44.0
 
