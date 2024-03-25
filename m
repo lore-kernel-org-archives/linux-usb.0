@@ -1,89 +1,91 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 73D08180B75;
-	Mon, 25 Mar 2024 07:10:34 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7D77F185F20;
+	Mon, 25 Mar 2024 07:16:59 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1711350634; cv=none; b=njZhWCs73ULcHyjYti8Kk2jTwOr1f8t762NKOXHzwwt/AOuNSIph/e0qyNvqqWr2yJfPCExm+2QXzcc+R4juOmIzzZJjXsRwsAj/qBVCFxrf4f0WCBEeJczkQDkZBtCYYvExCx1LeZnFNFFvFW+tMcfqyBe2Cl6lYIomSuiikHU=
+	t=1711351020; cv=none; b=PQRmOB3pw1MXlg/PS7If05WsAgQ/+Z81DNpuZS5NwJTU7G4te11VIfQ1ujUPYRf9Da+t3trzuIa7pUPZFoGKkRJ2EreemxMAAWXK1Ah+MNdVhuF3fuKFYSfLPg8PwnVVouw9zN9o0uBntIbQvAAkm+4LaDkhfbzLgC5b6uRtAsw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1711350634; c=relaxed/simple;
-	bh=uemYJfVkbVnT3VEbOjmxsh3+mQZRaZbIDtHRW0buzmE=;
-	h=From:To:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=nJm1PEhQNBoOEEm5Tmlzx7bqwKdwHkxnQeDVNzQbMoKCOnrVwAsiVzhWhVD8MH/iNQClUnrUyFAg3xQor2Fd5RSpM+GxvcnXxSZ/FwYBFxVxI8DqnQSjlBv6XNb4XHYtkE1ruMBMVkVUt3o5zyutJG5WGj2tYgpYxOpEpLxnU1g=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=GY1gKPZR; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1711351020; c=relaxed/simple;
+	bh=jRFQXMqk2mr54MVNPz8FLEo+v0iOrBwd2zWx2qG45N4=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=df8X8qHeDZHx4rWfoF0Jp3XpKc5FPLpLugqq1GgYavP8OVe50QUcQCZ7gjHwQWz2eOEky1SCfxLzlOEFl82qL8ILRgsymyPqnkqWYUCtOMU38wrPl0IZAb3AHwQBVqDwypRUsM3LeGAdN5tcE8fWtFJUyPc2wsEV8gj/HXuy/hE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=iSghu8mR; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="GY1gKPZR"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id E78CFC433F1;
-	Mon, 25 Mar 2024 07:10:30 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="iSghu8mR"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 153FEC43390;
+	Mon, 25 Mar 2024 07:16:51 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1711350634;
-	bh=uemYJfVkbVnT3VEbOjmxsh3+mQZRaZbIDtHRW0buzmE=;
-	h=From:To:Subject:Date:In-Reply-To:References:From;
-	b=GY1gKPZRAXf9ZdgQhJHKYAdRIVyaivjhTfAqp0rjm5jEeHUHSkvYbVlX6bCkg2z0G
-	 c+AfouRXSlVFhmHkO6YV5H74VakrPvx3kHO67qBekNDAy/I1EOx3amJUFFlVLpxW9A
-	 c76IJOZ6HPfr+LtRlBjeiHuYE1mBG2CLG9fPOElbSdbifP0BKkmu46Nywi+P9F0ZhG
-	 CvNzPQZ7CnG5ep3oSDqmVuTt1s8tWX/O4INxokpOmZiQSalX7hu80yhARzi7sY/uXh
-	 arsVkP9kmDRd2VzXccrZDKB4BJxc++nAciV6EcNDaVndbDuuf26fyidUYv2Sqf9tL4
-	 6RaZopG6B219A==
-From: Damien Le Moal <dlemoal@kernel.org>
-To: linux-pci@vger.kernel.org,
-	Bjorn Helgaas <bhelgaas@google.com>,
-	Manivannan Sadhasivami <manivannan.sadhasivam@linaro.org>,
-	linux-scsi@vger.kernel.org,
-	"Martin K . Petersen" <martin.petersen@oracle.com>,
-	Jaroslav Kysela <perex@perex.cz>,
-	linux-sound@vger.kernel.org,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	linux-usb@vger.kernel.org,
-	linux-serial@vger.kernel.org,
-	Hans de Goede <hdegoede@redhat.com>,
-	platform-driver-x86@vger.kernel.org,
-	ntb@lists.linux.dev,
-	Lee Jones <lee@kernel.org>,
-	David Airlie <airlied@gmail.com>,
-	amd-gfx@lists.freedesktop.org,
-	Jason Gunthorpe <jgg@ziepe.ca>,
-	linux-rdma@vger.kernel.org,
-	"David S . Miller" <davem@davemloft.net>,
-	Eric Dumazet <edumazet@google.com>,
-	netdev@vger.kernel.org,
-	linux-kernel@vger.kernel.org
-Subject: [PATCH 12/28] infiniband: vmw_pvrdma: Use PCI_IRQ_INTX
-Date: Mon, 25 Mar 2024 16:09:23 +0900
-Message-ID: <20240325070944.3600338-13-dlemoal@kernel.org>
-X-Mailer: git-send-email 2.44.0
-In-Reply-To: <20240325070944.3600338-1-dlemoal@kernel.org>
-References: <20240325070944.3600338-1-dlemoal@kernel.org>
+	s=k20201202; t=1711351018;
+	bh=jRFQXMqk2mr54MVNPz8FLEo+v0iOrBwd2zWx2qG45N4=;
+	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+	b=iSghu8mRQGF5IJ+vZYOrgRCs0MbHfMU1nH/utJwHMeTBTyM/1H1+L/n7V8M1vdgfm
+	 jZYIAt9zw/BGq/gn15hf71O59Pp+daLKFacfmNTnexvB2mDEwsrYzgQ7O2LPJBoNce
+	 ZlbKPLyERP+NpfjrBsU2cFN5FQ4g4ukcMHaqboDPd19LZyVTAE6VI+Jwnmg27PmVXF
+	 1vU1AnJtShxBVRvdo6OpHr1sjw6W1n5w3dziWvrnMQ799B3YYb1GVrRCaQR7BUYyw4
+	 sKOL/yeaYy+4Bhjkbve6hrb0pKKmDBagN+MRg3tASNji/iAqgitihTNp4S5UtDDTvN
+	 ceCqRblm0YWRg==
+Message-ID: <c9070d06-3095-4bc9-8b9e-ce292404362c@kernel.org>
+Date: Mon, 25 Mar 2024 16:16:50 +0900
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH 02/23] bsg: pass queue_limits to bsg_setup_queue
+Content-Language: en-US
+To: Christoph Hellwig <hch@lst.de>, Jens Axboe <axboe@kernel.dk>,
+ "Martin K. Petersen" <martin.petersen@oracle.com>
+Cc: Niklas Cassel <cassel@kernel.org>,
+ Takashi Sakamoto <o-takashi@sakamocchi.jp>,
+ Sathya Prakash <sathya.prakash@broadcom.com>,
+ Sreekanth Reddy <sreekanth.reddy@broadcom.com>,
+ Suganath Prabu Subramani <suganath-prabu.subramani@broadcom.com>,
+ "Juergen E. Fischer" <fischer@norbit.de>,
+ Xiang Chen <chenxiang66@hisilicon.com>,
+ HighPoint Linux Team <linux@highpoint-tech.com>,
+ Tyrel Datwyler <tyreld@linux.ibm.com>, Brian King <brking@us.ibm.com>,
+ Lee Duncan <lduncan@suse.com>, Chris Leech <cleech@redhat.com>,
+ Mike Christie <michael.christie@oracle.com>,
+ John Garry <john.g.garry@oracle.com>, Jason Yan <yanaijie@huawei.com>,
+ Kashyap Desai <kashyap.desai@broadcom.com>,
+ Sumit Saxena <sumit.saxena@broadcom.com>,
+ Shivasharan S <shivasharan.srikanteshwara@broadcom.com>,
+ Chandrakanth patil <chandrakanth.patil@broadcom.com>,
+ Jack Wang <jinpu.wang@cloud.ionos.com>, Nilesh Javali <njavali@marvell.com>,
+ GR-QLogic-Storage-Upstream@marvell.com,
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+ Alim Akhtar <alim.akhtar@samsung.com>, Avri Altman <avri.altman@wdc.com>,
+ Bart Van Assche <bvanassche@acm.org>,
+ Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>,
+ Alan Stern <stern@rowland.harvard.edu>, linux-block@vger.kernel.org,
+ linux-ide@vger.kernel.org, linux1394-devel@lists.sourceforge.net,
+ MPT-FusionLinux.pdl@broadcom.com, linux-scsi@vger.kernel.org,
+ open-iscsi@googlegroups.com, megaraidlinux.pdl@broadcom.com,
+ mpi3mr-linuxdrv.pdl@broadcom.com, linux-samsung-soc@vger.kernel.org,
+ linux-usb@vger.kernel.org, usb-storage@lists.one-eyed-alien.net
+References: <20240324235448.2039074-1-hch@lst.de>
+ <20240324235448.2039074-3-hch@lst.de>
+From: Damien Le Moal <dlemoal@kernel.org>
+Organization: Western Digital Research
+In-Reply-To: <20240324235448.2039074-3-hch@lst.de>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 
-Use the macro PCI_IRQ_INTX instead of the deprecated PCI_IRQ_LEGACY
-macro.
+On 3/25/24 08:54, Christoph Hellwig wrote:
+> This allows bsg_setup_queue to pass them to blk_mq_alloc_queue and thus
+> set up the limits at queue allocation time.
+> 
+> Signed-off-by: Christoph Hellwig <hch@lst.de>
 
-Signed-off-by: Damien Le Moal <dlemoal@kernel.org>
----
- drivers/infiniband/hw/vmw_pvrdma/pvrdma_main.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+Looks OK to me.
 
-diff --git a/drivers/infiniband/hw/vmw_pvrdma/pvrdma_main.c b/drivers/infiniband/hw/vmw_pvrdma/pvrdma_main.c
-index a5e88185171f..768aad364c89 100644
---- a/drivers/infiniband/hw/vmw_pvrdma/pvrdma_main.c
-+++ b/drivers/infiniband/hw/vmw_pvrdma/pvrdma_main.c
-@@ -531,7 +531,7 @@ static int pvrdma_alloc_intrs(struct pvrdma_dev *dev)
- 			PCI_IRQ_MSIX);
- 	if (ret < 0) {
- 		ret = pci_alloc_irq_vectors(pdev, 1, 1,
--				PCI_IRQ_MSI | PCI_IRQ_LEGACY);
-+				PCI_IRQ_MSI | PCI_IRQ_INTX);
- 		if (ret < 0)
- 			return ret;
- 	}
+Reviewed-by: Damien Le Moal <dlemoal@kernel.org>
+
 -- 
-2.44.0
+Damien Le Moal
+Western Digital Research
 
