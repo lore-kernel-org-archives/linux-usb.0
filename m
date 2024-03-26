@@ -1,245 +1,140 @@
-Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com [205.220.168.131])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-yb1-f169.google.com (mail-yb1-f169.google.com [209.85.219.169])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CEACD71722;
-	Tue, 26 Mar 2024 11:34:44 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.168.131
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 16C8B5810C
+	for <linux-usb@vger.kernel.org>; Tue, 26 Mar 2024 11:44:47 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.219.169
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1711452886; cv=none; b=cAoa9k53n8OqEwKdEsylpAvvIDNijrOwQqO17SZUfo9qkOFFWSR8cIz+dgE+oo8jQF2ou4R753yPNAzvl7MqzaMkxnB/4hyeTZCvYDKx5olCq0q7wywhcVqxj6WQEYmB/YT6tJVsoqubUmSISVqKR5oP6AhGvIhvLK1KlMkfWQ8=
+	t=1711453489; cv=none; b=od/oQMjRskL7q67XMzmChnI+2gvpqvRRaqdOudjO4b+M++QZFEobf2Cw8/0+RuLLWbrCp0n7zAjtJy7lBcNYitXXyQQJ1dhWcTpPZZbQdyAcEd2n7PSHsuzSpw3gBGDlTjlszOnlIWyn+74A1mR74i1pc93TLWyiuK2ObuCB2xQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1711452886; c=relaxed/simple;
-	bh=ZSDvGlTYxkKevkDkn5Z97Ng0EKeJvDIdNRcWa558Hi8=;
-	h=From:To:CC:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=nSln2t6hpqznxnpOqnFejXXyAB57CG5jLz9ctwAOZw83sqUj5WrbNDubk4zvTMvgF+79+HEbjwlgXbkpmQRPTgJB2UwJjnqFswq4CB2INrZdV5aU1/tW3U3wXqG6qyfpN2pBFzdQz0YWfb1KfWgC8MRA8aeGSjXTdcCzO4gMUVY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=quicinc.com; spf=pass smtp.mailfrom=quicinc.com; dkim=pass (2048-bit key) header.d=quicinc.com header.i=@quicinc.com header.b=emGF4dzP; arc=none smtp.client-ip=205.220.168.131
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=quicinc.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=quicinc.com
+	s=arc-20240116; t=1711453489; c=relaxed/simple;
+	bh=TPWhwv+KRlzro9i+G8q+7WgX8bFtID9eaqSCRuZ9k0U=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=WZVuHsruRdiiwSPIMglZh2cZyvLtJB9Y+A1KoKzpKHuxDf20OLyMSRime5j32dDu6CiLAl55xdu9RNkNfebwoQB3Y8nIGLyAllW9+7y6K6I6A4jXl+PtSanst/am0tVz5v+qIf6YiORl6Uj5Y6GySoCT2ZNrsioV93Kd4qm9usY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=e/E902rc; arc=none smtp.client-ip=209.85.219.169
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=quicinc.com header.i=@quicinc.com header.b="emGF4dzP"
-Received: from pps.filterd (m0279867.ppops.net [127.0.0.1])
-	by mx0a-0031df01.pphosted.com (8.17.1.24/8.17.1.24) with ESMTP id 42Q7vpEl013241;
-	Tue, 26 Mar 2024 11:34:22 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com; h=
-	from:to:cc:subject:date:message-id:in-reply-to:references
-	:mime-version:content-transfer-encoding:content-type; s=
-	qcppdkim1; bh=fKNyg1fb52c492bqSBVRoiI1D3/Zu8qRsrt5JaBCZNM=; b=em
-	GF4dzPk2Mbl/fAFjZ+mA8K1Eqz8t9yD2UNQ/aH2lNygDi/qE2b5WF9jMR3Dd8+lC
-	yfjw++GzJMiGBBfN+2cu6cDAd8ZF2y0KJX5yOuQEHR8yRszcAIiVk1CNKooSAJbf
-	bWPfhu6nf3FMoId9lILSEK9X7bpWjde5G5bzEYCBDLNQrGkpeeP0SwH7AUfr9XrV
-	3rtAk3OM4iK2l0uP1CN9aIFVpTiuRospQB/Hx4hkWhLG6AZ1zlC0Ss58vvuXkbeP
-	+aHRGr1T0ZrVfVwC1V51Dz9XVrkf6h8hbzqNB68t4JYzMELbt9lkXX4QB72GRpvR
-	4MtQxq4A9LjS2DhqjpyQ==
-Received: from nalasppmta02.qualcomm.com (Global_NAT1.qualcomm.com [129.46.96.20])
-	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 3x3rghrxaf-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Tue, 26 Mar 2024 11:34:22 +0000 (GMT)
-Received: from nalasex01a.na.qualcomm.com (nalasex01a.na.qualcomm.com [10.47.209.196])
-	by NALASPPMTA02.qualcomm.com (8.17.1.5/8.17.1.5) with ESMTPS id 42QBY0Cq021328
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Tue, 26 Mar 2024 11:34:00 GMT
-Received: from hu-kriskura-hyd.qualcomm.com (10.80.80.8) by
- nalasex01a.na.qualcomm.com (10.47.209.196) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.1118.40; Tue, 26 Mar 2024 04:33:55 -0700
-From: Krishna Kurapati <quic_kriskura@quicinc.com>
-To: Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
-        Rob Herring
-	<robh@kernel.org>, Bjorn Andersson <andersson@kernel.org>,
-        Wesley Cheng
-	<quic_wcheng@quicinc.com>,
-        Konrad Dybcio <konrad.dybcio@linaro.org>,
-        "Greg
- Kroah-Hartman" <gregkh@linuxfoundation.org>,
-        Conor Dooley
-	<conor+dt@kernel.org>,
-        Thinh Nguyen <Thinh.Nguyen@synopsys.com>,
-        Felipe Balbi
-	<balbi@kernel.org>, Johan Hovold <johan@kernel.org>
-CC: <devicetree@vger.kernel.org>, <linux-arm-msm@vger.kernel.org>,
-        <linux-usb@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
-        <quic_ppratap@quicinc.com>, <quic_jackp@quicinc.com>,
-        Krishna Kurapati
-	<quic_kriskura@quicinc.com>,
-        Johan Hovold <johan+linaro@kernel.org>
-Subject: [PATCH v18 8/9] usb: dwc3: qcom: Enable wakeup for applicable ports of multiport
-Date: Tue, 26 Mar 2024 17:02:52 +0530
-Message-ID: <20240326113253.3010447-9-quic_kriskura@quicinc.com>
-X-Mailer: git-send-email 2.34.1
-In-Reply-To: <20240326113253.3010447-1-quic_kriskura@quicinc.com>
-References: <20240326113253.3010447-1-quic_kriskura@quicinc.com>
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="e/E902rc"
+Received: by mail-yb1-f169.google.com with SMTP id 3f1490d57ef6-dcc80d6006aso5105710276.0
+        for <linux-usb@vger.kernel.org>; Tue, 26 Mar 2024 04:44:47 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google; t=1711453487; x=1712058287; darn=vger.kernel.org;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:from:to:cc:subject:date:message-id:reply-to;
+        bh=BfBBobQhbSAjaX8cbUm1iPx6XRVWHf0Hxnofb3snX04=;
+        b=e/E902rcoK6lKu76/5fKrq/W/yEWigitVZNzjK6KLES4JbcBg+jH4dTqaYpuyk8b1g
+         bl+mb1KeIpFlVBNzr9Ufkznbo1zERhHC7hLS8HpUfk5X/0Sh681Dblt3Pw7dvtKwShUy
+         k9zeJJGjvj77LKeWW5j6xgN/akL27HLHeKGDrEcscYKKr8KqObit7cNmDkHhIEu8l+FN
+         qpdgcQpgD78hD5GwIPZ8DDRUzpS/ETzEK4m3Fh/tCZOwJJSDffk+M55B3kSxhd14PBlm
+         ExKGFOJUq2upRiGaAURoBO0L3zfTz3NOALakp+baVXYqsm7ZXOSclh7IWmjx1aW3yTuU
+         SpXg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1711453487; x=1712058287;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=BfBBobQhbSAjaX8cbUm1iPx6XRVWHf0Hxnofb3snX04=;
+        b=AmCd+oUzxTf+R7IoIyWr0MgtlmBDO3xGs+6a0YjYSJDUNhDOnKeUviZRFYBLHtwzSg
+         qsj+RqrRujZkmemVNcldfEHrruZZHe++fLR/6FaczRfNcSHU+Ou77cPjqfgO72xn9W6w
+         4k0yHggmI4mXRFBcm+VukjAyRf/7iNzVsZ7Rde16p+vrhHlszfb3avcIsrQ8oBk1WYdu
+         Yw0or2zKeGooPqIAPRZj4onRbIm0x23WOSG/RWJa1cL1r7OJrsTEME9oyVPKNdVk4hnU
+         ambDrPsy45z0J+15eZAsRY8ZVolYx7y6RLXvE+0UpZTPvWQ7IuoTMF8IRa4grCDOA9bG
+         jsYg==
+X-Forwarded-Encrypted: i=1; AJvYcCUUx6U9pc4BHaUlNjHtfajNhIZ1+sU9jX76eMsZJi8ZxfTjDyJSb6ql0ohOruW5tWaePTtO66fxc9l21lfb5Ox3m5v6bAg70v5l
+X-Gm-Message-State: AOJu0Yxiq/XuEJA+ILxeJgvxh8XZPctCctCsJwxWY4ISqBpCqkyzuEpY
+	p4VxVclFHB6m5ZEcQUzPVndTdRh+sykE+sAb+vUUkbUTiI3/70YykU2MKDdjVffh15IeIRdUEiz
+	rdvlj8o/1MHtbnARu0q5ArMc6bV479S2eZUr7Ng==
+X-Google-Smtp-Source: AGHT+IGV/IldNegl7UYglh8OXyeCtrfkDEESctYYnN7ssFWk68NS2pWqE1mYEGrxWJii7Mh94ms6U2padYaxYpTntPM=
+X-Received: by 2002:a25:ac8e:0:b0:dc6:d6f6:cc13 with SMTP id
+ x14-20020a25ac8e000000b00dc6d6f6cc13mr7595962ybi.20.1711453487051; Tue, 26
+ Mar 2024 04:44:47 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-ClientProxiedBy: nasanex01a.na.qualcomm.com (10.52.223.231) To
- nalasex01a.na.qualcomm.com (10.47.209.196)
-X-QCInternal: smtphost
-X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800 signatures=585085
-X-Proofpoint-GUID: nN14PtXXXlpE1qD9GbCwYL5QfDr1CwgJ
-X-Proofpoint-ORIG-GUID: nN14PtXXXlpE1qD9GbCwYL5QfDr1CwgJ
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.272,Aquarius:18.0.1011,Hydra:6.0.619,FMLib:17.11.176.26
- definitions=2024-03-26_05,2024-03-21_02,2023-05-22_02
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 adultscore=0 spamscore=0
- clxscore=1015 phishscore=0 suspectscore=0 bulkscore=0 mlxlogscore=917
- impostorscore=0 malwarescore=0 lowpriorityscore=0 priorityscore=1501
- mlxscore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.19.0-2403210001 definitions=main-2403260080
+References: <20240313-qcom-ucsi-fixes-v1-0-74d90cb48a00@linaro.org>
+ <Zf12vSHvDiFTufLE@hovoldconsulting.com> <CAA8EJprAzy41pn7RMtRgbA-3MO8LoMf8UXQqJ3hD-SzHS_=AOg@mail.gmail.com>
+ <ZgKKPyLUr8qoMi9t@hovoldconsulting.com> <CAA8EJpqwYrskXMLyyYwW_4e-NXPPS0+MGbumEvXXNwj0p1u12A@mail.gmail.com>
+In-Reply-To: <CAA8EJpqwYrskXMLyyYwW_4e-NXPPS0+MGbumEvXXNwj0p1u12A@mail.gmail.com>
+From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+Date: Tue, 26 Mar 2024 13:44:35 +0200
+Message-ID: <CAA8EJpoUwcyEkQJoX2X0tnbXZQ3F=HbcWuhsiyRdSqypyqRHNQ@mail.gmail.com>
+Subject: Re: [PATCH 0/7] usb: typec: ucsi: fix several issues manifesting on
+ Qualcomm platforms
+To: Johan Hovold <johan@kernel.org>
+Cc: Heikki Krogerus <heikki.krogerus@linux.intel.com>, 
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>, Guenter Roeck <linux@roeck-us.net>, 
+	Bjorn Andersson <andersson@kernel.org>, Neil Armstrong <neil.armstrong@linaro.org>, 
+	Konrad Dybcio <konrad.dybcio@linaro.org>, Johan Hovold <johan+linaro@kernel.org>, 
+	linux-usb@vger.kernel.org, linux-arm-msm@vger.kernel.org, 
+	stable@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
 
-DWC3 Qcom wrapper currently supports only wakeup configuration
-for single port controllers. Read speed of each port connected
-to the controller and enable wakeup for each of them accordingly.
+On Tue, 26 Mar 2024 at 12:22, Dmitry Baryshkov
+<dmitry.baryshkov@linaro.org> wrote:
+>
+> On Tue, 26 Mar 2024 at 10:41, Johan Hovold <johan@kernel.org> wrote:
+> >
+> > On Mon, Mar 25, 2024 at 10:56:21PM +0200, Dmitry Baryshkov wrote:
+> > > On Fri, 22 Mar 2024 at 14:16, Johan Hovold <johan@kernel.org> wrote:
+> >
+> > > > I just gave this series a quick spin on my X13s and it seems there are
+> > > > still some issues that needs to be resolved before merging at least the
+> > > > final patch in this series:
+> > > >
+> > > > [    7.786167] ucsi_glink.pmic_glink_ucsi pmic_glink.ucsi.0: unknown error 0
+> > > > [    7.786445] ucsi_glink.pmic_glink_ucsi pmic_glink.ucsi.0: UCSI_GET_PDOS failed (-5)
+> > > > [    7.883493] ucsi_glink.pmic_glink_ucsi pmic_glink.ucsi.0: unknown error 0
+> > > > [    7.883614] ucsi_glink.pmic_glink_ucsi pmic_glink.ucsi.0: UCSI_GET_PDOS failed (-5)
+> > > > [    7.905194] ucsi_glink.pmic_glink_ucsi pmic_glink.ucsi.0: unknown error 0
+> > > > [    7.905295] ucsi_glink.pmic_glink_ucsi pmic_glink.ucsi.0: UCSI_GET_PDOS failed (-5)
+> > > > [    7.913340] ucsi_glink.pmic_glink_ucsi pmic_glink.ucsi.0: unknown error 0
+> > > > [    7.913409] ucsi_glink.pmic_glink_ucsi pmic_glink.ucsi.0: UCSI_GET_PDOS failed (-5)
+> > >
+> > > I have traced what is causing these messages. During UCSI startup the
+> > > ucsi_register_port() function queries for PDOs associated with the
+> > > on-board USB-C port. This is allowed by the spec. Qualcomm firmware
+> > > detects that there is no PD-device connected and instead of returning
+> > > corresponding set of PDOs returns Eerror Indicator set to 1b but then
+> > > it returns zero error status in response to GET_ERROR_STATUS, causing
+> > > "unknown error 0" code. I have checked the PPM, it doesn't even have
+> > > the code to set the error status properly in this case (not to mention
+> > > that asking for device's PDOs should not be an error, unless the
+> > > command is inappropriate for the target.
+> > >
+> > > Thus said, I think the driver is behaving correctly. Granted that
+> > > these messages are harmless, we can ignore them for now. I'll later
+> > > check if we can update PD information for the device's ports when PD
+> > > device is attached. I have verified that once the PD device is
+> > > attached, corresponding GET_PDOS command returns correct set of PD
+> > > objects. Ccurrently the driver registers usb_power_delivery devices,
+> > > but with neither source nor sink set of capabilities.
+> > >
+> > > An alternative option is to drop patches 4 and 5, keeping
+> > > 'NO_PARTNER_PDOS' quirk equivalent to 'don't send GET_PDOS at all'.
+> > > However I'd like to abstain from this option, since it doesn't allow
+> > > us to check PD capabilities of the attached device.
+> > >
+> > > Heikki, Johan, WDYT?
+> >
+> > Whatever you do, you need to suppress those errors above before enabling
+> > anything more on sc8280xp (e.g. even if it means adding a quirk to the
+> > driver).
+>
+> Why? The errors are legitimate.
 
-Signed-off-by: Krishna Kurapati <quic_kriskura@quicinc.com>
-Reviewed-by: Johan Hovold <johan+linaro@kernel.org>
----
- drivers/usb/dwc3/dwc3-qcom.c | 71 +++++++++++++++++++++---------------
- 1 file changed, 41 insertions(+), 30 deletions(-)
+Just to expand my answer. We have the 'driver should be quiet by
+default' policy. Which usually means that there should be no 'foo
+registered' or 'foo bound' messages if everything goes smooth. We do
+not have 'don't warn about manufacturer issues' or 'don't barf if
+firmware returns an error' kind of requirements. We can be nicer and
+skip something if we know that it may return an error. But we don't
+have to.
 
-diff --git a/drivers/usb/dwc3/dwc3-qcom.c b/drivers/usb/dwc3/dwc3-qcom.c
-index 35eb338514bc..12182e0f8f45 100644
---- a/drivers/usb/dwc3/dwc3-qcom.c
-+++ b/drivers/usb/dwc3/dwc3-qcom.c
-@@ -57,6 +57,7 @@ struct dwc3_qcom_port {
- 	int			dp_hs_phy_irq;
- 	int			dm_hs_phy_irq;
- 	int			ss_phy_irq;
-+	enum usb_device_speed	usb2_speed;
- };
- 
- struct dwc3_qcom {
-@@ -68,7 +69,6 @@ struct dwc3_qcom {
- 	struct reset_control	*resets;
- 	struct dwc3_qcom_port	ports[DWC3_MAX_PORTS];
- 	u8			num_ports;
--	enum usb_device_speed	usb2_speed;
- 
- 	struct extcon_dev	*edev;
- 	struct extcon_dev	*host_edev;
-@@ -307,7 +307,7 @@ static bool dwc3_qcom_is_host(struct dwc3_qcom *qcom)
- 	return dwc->xhci;
- }
- 
--static enum usb_device_speed dwc3_qcom_read_usb2_speed(struct dwc3_qcom *qcom)
-+static enum usb_device_speed dwc3_qcom_read_usb2_speed(struct dwc3_qcom *qcom, int port_index)
- {
- 	struct dwc3 *dwc = platform_get_drvdata(qcom->dwc3);
- 	struct usb_device *udev;
-@@ -318,14 +318,8 @@ static enum usb_device_speed dwc3_qcom_read_usb2_speed(struct dwc3_qcom *qcom)
- 	 */
- 	hcd = platform_get_drvdata(dwc->xhci);
- 
--	/*
--	 * It is possible to query the speed of all children of
--	 * USB2.0 root hub via usb_hub_for_each_child(). DWC3 code
--	 * currently supports only 1 port per controller. So
--	 * this is sufficient.
--	 */
- #ifdef CONFIG_USB
--	udev = usb_hub_find_child(hcd->self.root_hub, 1);
-+	udev = usb_hub_find_child(hcd->self.root_hub, port_index + 1);
- #else
- 	udev = NULL;
- #endif
-@@ -356,26 +350,26 @@ static void dwc3_qcom_disable_wakeup_irq(int irq)
- 	disable_irq_nosync(irq);
- }
- 
--static void dwc3_qcom_disable_interrupts(struct dwc3_qcom *qcom)
-+static void dwc3_qcom_disable_port_interrupts(struct dwc3_qcom_port *port)
- {
--	dwc3_qcom_disable_wakeup_irq(qcom->ports[0].qusb2_phy_irq);
-+	dwc3_qcom_disable_wakeup_irq(port->qusb2_phy_irq);
- 
--	if (qcom->usb2_speed == USB_SPEED_LOW) {
--		dwc3_qcom_disable_wakeup_irq(qcom->ports[0].dm_hs_phy_irq);
--	} else if ((qcom->usb2_speed == USB_SPEED_HIGH) ||
--			(qcom->usb2_speed == USB_SPEED_FULL)) {
--		dwc3_qcom_disable_wakeup_irq(qcom->ports[0].dp_hs_phy_irq);
-+	if (port->usb2_speed == USB_SPEED_LOW) {
-+		dwc3_qcom_disable_wakeup_irq(port->dm_hs_phy_irq);
-+	} else if ((port->usb2_speed == USB_SPEED_HIGH) ||
-+			(port->usb2_speed == USB_SPEED_FULL)) {
-+		dwc3_qcom_disable_wakeup_irq(port->dp_hs_phy_irq);
- 	} else {
--		dwc3_qcom_disable_wakeup_irq(qcom->ports[0].dp_hs_phy_irq);
--		dwc3_qcom_disable_wakeup_irq(qcom->ports[0].dm_hs_phy_irq);
-+		dwc3_qcom_disable_wakeup_irq(port->dp_hs_phy_irq);
-+		dwc3_qcom_disable_wakeup_irq(port->dm_hs_phy_irq);
- 	}
- 
--	dwc3_qcom_disable_wakeup_irq(qcom->ports[0].ss_phy_irq);
-+	dwc3_qcom_disable_wakeup_irq(port->ss_phy_irq);
- }
- 
--static void dwc3_qcom_enable_interrupts(struct dwc3_qcom *qcom)
-+static void dwc3_qcom_enable_port_interrupts(struct dwc3_qcom_port *port)
- {
--	dwc3_qcom_enable_wakeup_irq(qcom->ports[0].qusb2_phy_irq, 0);
-+	dwc3_qcom_enable_wakeup_irq(port->qusb2_phy_irq, 0);
- 
- 	/*
- 	 * Configure DP/DM line interrupts based on the USB2 device attached to
-@@ -386,21 +380,37 @@ static void dwc3_qcom_enable_interrupts(struct dwc3_qcom *qcom)
- 	 * DP and DM lines as rising edge to detect HS/HS/LS device connect scenario.
- 	 */
- 
--	if (qcom->usb2_speed == USB_SPEED_LOW) {
--		dwc3_qcom_enable_wakeup_irq(qcom->ports[0].dm_hs_phy_irq,
-+	if (port->usb2_speed == USB_SPEED_LOW) {
-+		dwc3_qcom_enable_wakeup_irq(port->dm_hs_phy_irq,
- 					    IRQ_TYPE_EDGE_FALLING);
--	} else if ((qcom->usb2_speed == USB_SPEED_HIGH) ||
--			(qcom->usb2_speed == USB_SPEED_FULL)) {
--		dwc3_qcom_enable_wakeup_irq(qcom->ports[0].dp_hs_phy_irq,
-+	} else if ((port->usb2_speed == USB_SPEED_HIGH) ||
-+			(port->usb2_speed == USB_SPEED_FULL)) {
-+		dwc3_qcom_enable_wakeup_irq(port->dp_hs_phy_irq,
- 					    IRQ_TYPE_EDGE_FALLING);
- 	} else {
--		dwc3_qcom_enable_wakeup_irq(qcom->ports[0].dp_hs_phy_irq,
-+		dwc3_qcom_enable_wakeup_irq(port->dp_hs_phy_irq,
- 					    IRQ_TYPE_EDGE_RISING);
--		dwc3_qcom_enable_wakeup_irq(qcom->ports[0].dm_hs_phy_irq,
-+		dwc3_qcom_enable_wakeup_irq(port->dm_hs_phy_irq,
- 					    IRQ_TYPE_EDGE_RISING);
- 	}
- 
--	dwc3_qcom_enable_wakeup_irq(qcom->ports[0].ss_phy_irq, 0);
-+	dwc3_qcom_enable_wakeup_irq(port->ss_phy_irq, 0);
-+}
-+
-+static void dwc3_qcom_disable_interrupts(struct dwc3_qcom *qcom)
-+{
-+	int i;
-+
-+	for (i = 0; i < qcom->num_ports; i++)
-+		dwc3_qcom_disable_port_interrupts(&qcom->ports[i]);
-+}
-+
-+static void dwc3_qcom_enable_interrupts(struct dwc3_qcom *qcom)
-+{
-+	int i;
-+
-+	for (i = 0; i < qcom->num_ports; i++)
-+		dwc3_qcom_enable_port_interrupts(&qcom->ports[i]);
- }
- 
- static int dwc3_qcom_suspend(struct dwc3_qcom *qcom, bool wakeup)
-@@ -427,7 +437,8 @@ static int dwc3_qcom_suspend(struct dwc3_qcom *qcom, bool wakeup)
- 	 * freezable workqueue.
- 	 */
- 	if (dwc3_qcom_is_host(qcom) && wakeup) {
--		qcom->usb2_speed = dwc3_qcom_read_usb2_speed(qcom);
-+		for (i = 0; i < qcom->num_ports; i++)
-+			qcom->ports[i].usb2_speed = dwc3_qcom_read_usb2_speed(qcom, i);
- 		dwc3_qcom_enable_interrupts(qcom);
- 	}
- 
--- 
-2.34.1
 
+--
+With best wishes
+Dmitry
