@@ -1,108 +1,133 @@
-Received: from mail-ed1-f44.google.com (mail-ed1-f44.google.com [209.85.208.44])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0BDDE82D8D
-	for <linux-usb@vger.kernel.org>; Wed, 27 Mar 2024 11:33:54 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.44
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AF6B7149C5F;
+	Wed, 27 Mar 2024 12:12:56 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1711539237; cv=none; b=eHBvNRxd/oCMRjWHaCDYMCPbvZBbdOjMf3s/OsVlHOz2xEpnWE41INAWABIIpmwXYx7ztZwact+xGpBpI3ie36UzoWNFFdJA3wnPQU7iurE0TanBEZc5D3Wv/XgY3WdUCqoe/q11ekkOIMj7PxxufDWy2pRluhQ5rgb3+XmPkl8=
+	t=1711541576; cv=none; b=nX4haGnwXIgr4AbMq7C5oGyCb/NZEAVt3iz7b5Uxf+fnNfiOterSumKMMmy2yaTmMKiC8XkA+A/bH9dV46rT36OT4fm8eeew5YqviraFKQypfMUjahFHZi6S5H7oGdu4++HMeA1G16y26mD1349jUfpJ4xYnii3T35Aa8EsRCLo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1711539237; c=relaxed/simple;
-	bh=aDg9VQsZHb2bvkz2wfSvA+6KPQPzORiP4CB60k8cjxo=;
-	h=Message-ID:Date:MIME-Version:To:From:Subject:Content-Type; b=n4qEgJVjSpbwA8LMOV23MXXZFwTJBKFJoK349CGbrM+qAVUM/DUhizUb6A9dL7y7r9KnfnfNPfwVYMZ3FTQkOeHz8FBAeLFfQAWyeH/cl5IZsfU/gcQPhfx9xrjhePFYM2sSTLwPQsQ5T6zSD5K2mMu6K8/84WPbt6EuCZXbSAI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=brixit.nl; spf=none smtp.mailfrom=brixit.nl; dkim=pass (2048-bit key) header.d=brixit-nl.20230601.gappssmtp.com header.i=@brixit-nl.20230601.gappssmtp.com header.b=Kc7gveCy; arc=none smtp.client-ip=209.85.208.44
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=brixit.nl
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=brixit.nl
+	s=arc-20240116; t=1711541576; c=relaxed/simple;
+	bh=G83QTErL8n2Y76MXQwujf0FzfFPIzjjZ6OxjLFGq1kI=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=bwHp2rXNBH08Ep2jJ7buvd++I4Y9n6LAO2Dre0zsFOFMlQw/3JP8y8F+Dt1fCZCokgjzzLH8jE2eL1/6n1AlVkMy6O6qxq7WNmaO3+EjzwD5BJtllBb6EzmKDu4QVYSnkvQ4F5koqd6+q8pA9oGw2+7DBpS1pUWEoh2/+s5hKng=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=flYmHvvP; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=brixit-nl.20230601.gappssmtp.com header.i=@brixit-nl.20230601.gappssmtp.com header.b="Kc7gveCy"
-Received: by mail-ed1-f44.google.com with SMTP id 4fb4d7f45d1cf-55a179f5fa1so8443439a12.0
-        for <linux-usb@vger.kernel.org>; Wed, 27 Mar 2024 04:33:54 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=brixit-nl.20230601.gappssmtp.com; s=20230601; t=1711539233; x=1712144033; darn=vger.kernel.org;
-        h=content-transfer-encoding:subject:from:to:content-language
-         :user-agent:mime-version:date:message-id:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=PZdVzn1VOccM6TAbuNnLSK4C6eC9jetDFNYscga+k5s=;
-        b=Kc7gveCyH5XKkJKWs4SbXYuAlxaO0UTR7SXA8xTxyhcUvswmsWMCP3swPOuHKSFvP+
-         fAqTk2cdxAdFgwMBkpcqR5lc37w2l54a+gGgSxGZ6IlMHAn7YZHRR3Xwp2OP0hxgV1D1
-         9RXnak3GwUC5+uUTiPd05upl615QIBYOqmRagzoSgLO5l9YtfVwhQ49pJvSccpEiJiK7
-         GT1MO+Ydp9gtuUpiOCqC5HzjT8txK14WZY8VXhIEKP3ckdr2N8yVldA/6TPL8OBTznC4
-         rgPpFENG90/4I5fE2h4dds+38RH5yfq7sQ7IL24tIZGoM17UlOVBZBTc094wuc5k/izL
-         YTBA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1711539233; x=1712144033;
-        h=content-transfer-encoding:subject:from:to:content-language
-         :user-agent:mime-version:date:message-id:x-gm-message-state:from:to
-         :cc:subject:date:message-id:reply-to;
-        bh=PZdVzn1VOccM6TAbuNnLSK4C6eC9jetDFNYscga+k5s=;
-        b=DRq28wsPESJ1IJmNt0OmFu55v0UVfJmyTyy9expFb7F7rEWH0efppxItED3kczR26G
-         G4FVN2PFtUu1LLkZ/u7P8UpxrvYcnrC/F2Nphljk3nHlAkJTRiWsGHlGHiPb4Nfm0Nhp
-         Okq8+Ux4S9PgBXqvjskyoQqHLMHjp0WSS+hdikhxfHUwQM/Va5+TTaQZpZhHqYx2bflT
-         hFfq7+Tl3PHbLeaRKNJxv9Fb57piiaXz9U91SRMtzW0JGoo+Yl2Lbwn1rTMD6xECLUyA
-         ZMS8305wN+QQMdCuJ4L0YprntZwJV9kWbqv5ZelaC0Eh3D9Lvvz4/BYuRpRVmFYms2RF
-         eM9g==
-X-Gm-Message-State: AOJu0Yz0R5V5WkguA01bDXR5imb/RdCREkFEp7hoQ2ZZVhh8Hsj/9EHR
-	nAe6vUdJQjSjUaz8LfxJErcghkZdO4cD+w74ra9E8evdk6MZAJh8E9G9X5gfN9jFKf7wdWefkdM
-	Z5qU=
-X-Google-Smtp-Source: AGHT+IHD0cq5C34cn/BBubnt5ebOOH5aH0iskwKyOgX/OGINY84REUT4/Twhj58XP+1ft7pcNHUvAw==
-X-Received: by 2002:a17:906:b4e:b0:a47:61cb:35db with SMTP id v14-20020a1709060b4e00b00a4761cb35dbmr777249ejg.10.1711539233116;
-        Wed, 27 Mar 2024 04:33:53 -0700 (PDT)
-Received: from ?IPV6:2a00:bba0:120c:9f00:7afa:53ac:c867:e339? (2a00-bba0-120c-9f00-7afa-53ac-c867-e339.static6.cust.trined.nl. [2a00:bba0:120c:9f00:7afa:53ac:c867:e339])
-        by smtp.gmail.com with ESMTPSA id ap3-20020a17090735c300b00a48f583bee3sm3635580ejc.30.2024.03.27.04.33.52
-        for <linux-usb@vger.kernel.org>
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Wed, 27 Mar 2024 04:33:52 -0700 (PDT)
-Message-ID: <00c4fd45-dc9f-4197-952e-c7c322b6370c@brixit.nl>
-Date: Wed, 27 Mar 2024 12:33:51 +0100
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="flYmHvvP"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id A5A0AC433F1;
+	Wed, 27 Mar 2024 12:12:55 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1711541576;
+	bh=G83QTErL8n2Y76MXQwujf0FzfFPIzjjZ6OxjLFGq1kI=;
+	h=From:To:Cc:Subject:Date:From;
+	b=flYmHvvPZynlm5lgPXZEH5rKK4nLgRrjVE1Jbz0fDYHevtxgDlOow+NWxVoZbvOOU
+	 NTcNLmPFNGcCtVQX7OKQ/q9mGmUpsZXihLYRRHIZX1Z5vcXT/VhYaaVVOnxrWBV/md
+	 4yBY82npHcodzAe3mLCyhJVcrrdlKWQh0+ypYAj3hyl08LVQ4VjNubb1EfyHSixvYz
+	 3bi8kvgwBZqBzIuuNKBv/spllyj/e5f/77Ss4QwyJu3dglHsA1fvJ3rkgyYefCpX0h
+	 eGsQjTWJvW/KXA8gr93QRC7W7pqPhsKUNr6S1L5Wy6jAh9gI0iCJMhQ3wRqtd5x3aB
+	 uQwHHHWDR2q3Q==
+From: Sasha Levin <sashal@kernel.org>
+To: stable@vger.kernel.org,
+	rogerq@kernel.org
+Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	linux-usb@vger.kernel.org,
+	linux-kernel@vger.kernel.org
+Subject: FAILED: Patch "usb: dwc3-am62: fix module unload/reload behavior" failed to apply to 6.1-stable tree
+Date: Wed, 27 Mar 2024 08:12:54 -0400
+Message-ID: <20240327121254.2829897-1-sashal@kernel.org>
+X-Mailer: git-send-email 2.43.0
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Content-Language: en-US
-To: linux-usb@vger.kernel.org
-From: Martijn Braam <martijn@brixit.nl>
-Subject: Using a composite device with kernel drivers and libusb at the same
- time
-Content-Type: text/plain; charset=UTF-8; format=flowed
+X-Patchwork-Hint: ignore
+X-stable: review
 Content-Transfer-Encoding: 8bit
 
-I hope this is an acceptable place to ask this question. I've spend a 
-bit of time reverse-engineering the USB protocol for a subset of 
-Blackmagic Design video mixers and I have made a userspace 
-implementation to make these devices usable in Linux with libusb. This 
-is working great but the roadblock I have that I can't find a reasonable 
-solution for is that these devices also expose an UVC webcam.
+The patch below does not apply to the 6.1-stable tree.
+If someone wants it applied there, or to any other stable or longterm
+tree, then please email the backport, including the original git commit
+id to <stable@vger.kernel.org>.
 
-While my control software is active it's not possible to use the UVC 
-webcam functionality of the device because with libusb I have to detach 
-the kernel from the interfaces to make my userspace access work. As far 
-as I can find documented online there's no way to have half a composite 
-device handled by kernel drivers and half with userspace drivers in 
-Linux. It seems to me the only solution is to make a kernel driver to 
-bind to the control interface and have that kernel driver pass-through 
-to userspace somehow with a custom protocol? If that is the case would 
-such a driver even be supported in Linux?
+Thanks,
+Sasha
 
-For reference the device I'm working has these looks like this:
+------------------ original commit in Linus's tree ------------------
 
-USB 1-4  [1edb:be55] Blackmagic design Blackmagic Design [serial]
-    Class EF SubClass 02 Protocol 01
-       Interface 0 FF/03/00 Unknown <- Blackmagic USB configuration protocol
-       Interface 1 FF/02/00 Unknown <- Blackmagic USB control protocol 
-(I'm using this with libusb)
-       Interface 2 FF/04/00 Unknown <- Unknown
-       Interface 3 FE/01/01 Unknown <- DFU
-       Interface 4 0E/01/01 Blackmagic Design <- UVC camera
-       Interface 5 0E/02/01 Unknown <- UVC camera
-       Interface 6 01/01/00 Blackmagic Design <- ALSA
-       Interface 7 01/02/00 Unknown <- ALSA
+From 6661befe41009c210efa2c1bcd16a5cc4cff8a06 Mon Sep 17 00:00:00 2001
+From: Roger Quadros <rogerq@kernel.org>
+Date: Tue, 27 Feb 2024 11:23:48 +0200
+Subject: [PATCH] usb: dwc3-am62: fix module unload/reload behavior
 
-If this is not the right place for this question, then where would the 
-right place be?
+As runtime PM is enabled, the module can be runtime
+suspended when .remove() is called.
 
-Greetings,
-Martijn Braam
+Do a pm_runtime_get_sync() to make sure module is active
+before doing any register operations.
+
+Doing a pm_runtime_put_sync() should disable the refclk
+so no need to disable it again.
+
+Fixes the below warning at module removel.
+
+[   39.705310] ------------[ cut here ]------------
+[   39.710004] clk:162:3 already disabled
+[   39.713941] WARNING: CPU: 0 PID: 921 at drivers/clk/clk.c:1090 clk_core_disable+0xb0/0xb8
+
+We called of_platform_populate() in .probe() so call the
+cleanup function of_platform_depopulate() in .remove().
+Get rid of the now unnnecessary dwc3_ti_remove_core().
+Without this, module re-load doesn't work properly.
+
+Fixes: e8784c0aec03 ("drivers: usb: dwc3: Add AM62 USB wrapper driver")
+Cc: stable@vger.kernel.org # v5.19+
+Signed-off-by: Roger Quadros <rogerq@kernel.org>
+Link: https://lore.kernel.org/r/20240227-for-v6-9-am62-usb-errata-3-0-v4-1-0ada8ddb0767@kernel.org
+Signed-off-by: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+---
+ drivers/usb/dwc3/dwc3-am62.c | 12 ++----------
+ 1 file changed, 2 insertions(+), 10 deletions(-)
+
+diff --git a/drivers/usb/dwc3/dwc3-am62.c b/drivers/usb/dwc3/dwc3-am62.c
+index 90a587bc29b74..f85603b7f7c5e 100644
+--- a/drivers/usb/dwc3/dwc3-am62.c
++++ b/drivers/usb/dwc3/dwc3-am62.c
+@@ -267,21 +267,14 @@ static int dwc3_ti_probe(struct platform_device *pdev)
+ 	return ret;
+ }
+ 
+-static int dwc3_ti_remove_core(struct device *dev, void *c)
+-{
+-	struct platform_device *pdev = to_platform_device(dev);
+-
+-	platform_device_unregister(pdev);
+-	return 0;
+-}
+-
+ static void dwc3_ti_remove(struct platform_device *pdev)
+ {
+ 	struct device *dev = &pdev->dev;
+ 	struct dwc3_am62 *am62 = platform_get_drvdata(pdev);
+ 	u32 reg;
+ 
+-	device_for_each_child(dev, NULL, dwc3_ti_remove_core);
++	pm_runtime_get_sync(dev);
++	of_platform_depopulate(dev);
+ 
+ 	/* Clear mode valid bit */
+ 	reg = dwc3_ti_readl(am62, USBSS_MODE_CONTROL);
+@@ -289,7 +282,6 @@ static void dwc3_ti_remove(struct platform_device *pdev)
+ 	dwc3_ti_writel(am62, USBSS_MODE_CONTROL, reg);
+ 
+ 	pm_runtime_put_sync(dev);
+-	clk_disable_unprepare(am62->usb2_refclk);
+ 	pm_runtime_disable(dev);
+ 	pm_runtime_set_suspended(dev);
+ }
+-- 
+2.43.0
+
+
+
 
