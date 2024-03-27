@@ -1,114 +1,87 @@
-Received: from mail-ej1-f48.google.com (mail-ej1-f48.google.com [209.85.218.48])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
-	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7DBEB134CC0
-	for <linux-usb@vger.kernel.org>; Wed, 27 Mar 2024 14:16:27 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.48
+Received: from netrider.rowland.org (netrider.rowland.org [192.131.102.5])
+	by smtp.subspace.kernel.org (Postfix) with SMTP id D34CA1369B8
+	for <linux-usb@vger.kernel.org>; Wed, 27 Mar 2024 14:21:20 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.131.102.5
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1711548989; cv=none; b=luFnuGSNnooGqe1XDvneZu5mfDsKk8dtsmL6ip6ajlEsIAESm1ie1YEJaaUiEiXpXsXJDRopZvTch7pI1jugY/vXaKuwYjVyWMsSCC0eQXSC+U4hELILVkgPf6IIbQtv+WE8xu73FYh+zd1ALkIr6vQGiiOKDHUwYAO1PrySE5I=
+	t=1711549282; cv=none; b=ZAZUz0YyvK9X/O/noE39+MJlyMgJ7m6qF+tBIVw6XbuUjdMJJ9v4f4UCq91ZdE4dB8dFC01c3XPHYwvvV76LanUijLIj665qYmm8NBQBBIOFo98SBsNZ4QkTdPqXO2J/hsxMA3e2mHpK9GVY7FfeNzD3GBVu3yKPpDtt/u+Pweo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1711548989; c=relaxed/simple;
-	bh=3xvi/XKpuu5WKLJaDgStaMmmPwwhtkIL9Muv+GfvCPk=;
-	h=Message-ID:Date:MIME-Version:To:Cc:From:Subject:Content-Type; b=HSPIPECrmkGrtUCydMpUCqupQtytn2C9B3n/WCCvwIzSwZgu22awdH0jn5ilm6+7jFoOkZ/k6RpmMR58/nx3x3Mh8LO4wShJDAIpvn5S7x6HR/gIAgLfJJVICDAUvg1maWjk/u78yABNP8n7+knVjF+vRAPwLKWAwtO/IGCAB5s=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=suse.com; spf=pass smtp.mailfrom=suse.com; dkim=pass (2048-bit key) header.d=suse.com header.i=@suse.com header.b=fCPLqiYV; arc=none smtp.client-ip=209.85.218.48
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=suse.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.com
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=suse.com header.i=@suse.com header.b="fCPLqiYV"
-Received: by mail-ej1-f48.google.com with SMTP id a640c23a62f3a-a4a39ab1a10so461334766b.1
-        for <linux-usb@vger.kernel.org>; Wed, 27 Mar 2024 07:16:27 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=suse.com; s=google; t=1711548986; x=1712153786; darn=vger.kernel.org;
-        h=content-transfer-encoding:subject:from:cc:content-language:to
-         :user-agent:mime-version:date:message-id:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=Ull5TuagLMQHv6DUtRD9GstVCdH2EZOd8vG8mnvtOGU=;
-        b=fCPLqiYVEuXt0Fp9zeprQ7SPa4qe8SyuR2y4q9oVMCnQLCOkxfPsz1BgnpLOrDns3B
-         BY3S2w+IYOcjopfaee6amu1HanXJA9UMZltvdg1hawgJZUdg/0ycJlCbFp2ufS0H7bRP
-         r3Rad5Iq2iNwiCoppDAG2dcqgJhJ5vc+2J31VWSF8C0gE4oVZHkVYgLXIzteEqcCS7W4
-         Q6Yrk3O8BaMZaykDNpTK5cCisznNkiAEDntThPEfjyMkvJKJB8Atrck57NN3Ta2HtW2X
-         GGEbShTtl5tSfjP3fFuYsnpcaD8+4+qIbZYz/w+eAYpMQQ1Eui4k/UCJs0NVYVN3pAEI
-         TP7Q==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1711548986; x=1712153786;
-        h=content-transfer-encoding:subject:from:cc:content-language:to
-         :user-agent:mime-version:date:message-id:x-gm-message-state:from:to
-         :cc:subject:date:message-id:reply-to;
-        bh=Ull5TuagLMQHv6DUtRD9GstVCdH2EZOd8vG8mnvtOGU=;
-        b=kk548q/qrQ14ERwnGoz+gPcGpJQJkUZ4PM4abNY2iexAV8BvroVzMJo54EPCo7ZM74
-         1IBWOEgQrXC/mSVLHjO3Mvsun+QfHTW214WmCVXetTBF48gjpLNtJpb8x+PQ63Os3b2k
-         +xvl2wgmKtvIYlNRY9aSCN7PGC//eOazjzOFBgTUwIM1q0nl51tFNWGBQrwnGgEhu3Pt
-         6Rs4EYqg3t94N6gILjqAkxu/45XIs1omn2MLLgipnVPbsYyj0bwAWvJX3N+yneY1Aybz
-         L+3/RDjjFCOM8JlpH8vHAEFZAcvqYw2uWb0YVqVNZojaQ6zRMNdopgJI8ZvWuurHAO1R
-         cKkg==
-X-Gm-Message-State: AOJu0YxiXy0zCMt5TGtSrEBM1yTwNSB/C3wi7PnEkUyN/F8VM0GF3pDP
-	SqsHniZun6DuJ+Vw2m3I7VfOuPyP7oYAu2Nqckcr5U6acinvraQUw7DOTHUvhUw=
-X-Google-Smtp-Source: AGHT+IFnOlbpEYD32Gn+Tsti41BrFJeUOZH/jXLTC51AuOxXbH59gvYFk1ui5CFlcG5j7kVojPUjCw==
-X-Received: by 2002:a17:906:614:b0:a47:3437:7fe7 with SMTP id s20-20020a170906061400b00a4734377fe7mr1832200ejb.56.1711548985778;
-        Wed, 27 Mar 2024 07:16:25 -0700 (PDT)
-Received: from ?IPV6:2001:a61:1366:6801:b2db:904d:e0b0:46ec? ([2001:a61:1366:6801:b2db:904d:e0b0:46ec])
-        by smtp.gmail.com with ESMTPSA id v8-20020a170906180800b00a46be5169f1sm5473213eje.181.2024.03.27.07.16.25
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Wed, 27 Mar 2024 07:16:25 -0700 (PDT)
-Message-ID: <72aeb263-fe7a-4637-82ec-043a6f9104c7@suse.com>
-Date: Wed, 27 Mar 2024 15:16:24 +0100
+	s=arc-20240116; t=1711549282; c=relaxed/simple;
+	bh=wVZikXz90bRied4WNuk55XjnAyVLku4154DxaB2rEOo=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=nEI+/38KJfphL7kqEIOj4VWmTFXUCvz4Ex3v+3WQ8gHvINmYlNVr3RnloE4IQZdfngyeDA7tRewE0D5885+1OrBTWQZx2ti9PH0vRHij88ImL9wpJyeVn8MMEcD5f6X1k6BC0OyccpPdG/zNT7B1fgHHCSemfCagJRrEaPfds0A=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=rowland.harvard.edu; spf=pass smtp.mailfrom=netrider.rowland.org; arc=none smtp.client-ip=192.131.102.5
+Authentication-Results: smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=rowland.harvard.edu
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=netrider.rowland.org
+Received: (qmail 927408 invoked by uid 1000); 27 Mar 2024 10:21:19 -0400
+Date: Wed, 27 Mar 2024 10:21:19 -0400
+From: Alan Stern <stern@rowland.harvard.edu>
+To: Jan =?utf-8?B?xIxlcm3DoWs=?= <sairon@sairon.cz>
+Cc: Greg KH <gregkh@linuxfoundation.org>, Khazhy Kumykov <khazhy@google.com>,
+  USB mailing list <linux-usb@vger.kernel.org>, regressions@lists.linux.dev
+Subject: Re: [REGRESSION] Re: [PATCH 0/3] USB: core: Don't overwrite device
+ descriptor during reinitialization
+Message-ID: <62a33e61-b202-4af5-bb91-96dc87783eb3@rowland.harvard.edu>
+References: <4c3ab861-0274-409b-aad3-7cfb53dc2308@rowland.harvard.edu>
+ <00f0786b-a9f2-4f73-8d23-3b1fa4c8b77e@sairon.cz>
+ <60def275-5237-48df-b37b-ab886f4ee017@rowland.harvard.edu>
+ <4c2a410b-2997-4a7a-8fd6-2bec819a1c4f@sairon.cz>
+ <4a168b8b-f012-4b36-92bd-83aeb6849410@rowland.harvard.edu>
+ <92d3d802-73df-4ab5-aab4-b2325512e98f@sairon.cz>
+ <8b8e2773-47eb-48f4-b5e8-dcd885ee5c5b@rowland.harvard.edu>
+ <befc1081-e512-4727-a911-f030e1aac626@sairon.cz>
+ <1b2ccaf6-597c-40fe-877a-4ed1fab5261b@rowland.harvard.edu>
+ <3939f491-4890-4a64-9f41-8c3bf738bbc3@sairon.cz>
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-To: Alan Stern <stern@rowland.harvard.edu>
-Content-Language: en-US
-Cc: USB list <linux-usb@vger.kernel.org>
-From: Oliver Neukum <oneukum@suse.com>
-Subject: doubts concerning error handling in usb_parse_interface()
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <3939f491-4890-4a64-9f41-8c3bf738bbc3@sairon.cz>
 
-Hi,
+On Wed, Mar 27, 2024 at 02:24:34PM +0100, Jan Čermák wrote:
+> Hi Alan,
+> 
+> On 19. 03. 24 17:03, Alan Stern wrote:
+> > Change the HUB_DEBOUNCE_TIMEOUT value to 4500, the HUB_DEBOUNCE_STEP
+> > value to 250 and the HUB_DEBOUNCE_STABLE value to 2000.  That just
+> > might give the device enough time to settle down and start working
+> > before the computer tries using it.
+> 
+> sorry for the delay, I only managed to test it today. You are right, with
+> the timeouts adjusted, it enumerates fine after a while, without any
+> descriptor read errors or anything like that:
+> 
+> [  210.957371] usb 1-1.2: new full-speed USB device number 5 using ehci-pci
+> [  211.037728] usb 1-1.2: New USB device found, idVendor=0658,
+> idProduct=0200, bcdDevice= 0.00
+> [  211.037747] usb 1-1.2: New USB device strings: Mfr=0, Product=0,
+> SerialNumber=0
+> [  211.039764] cdc_acm 1-1.2:1.0: ttyACM0: USB ACM device
 
-while looking at this strange CVE
-https://github.com/wanrenmi/a-usb-kernel-bug?tab=readme-ov-file
+Great!
 
-I came to look at usb_parse_interface():
+> If it's worth anything, usbmon trace is attached below. Anyway, do you have
+> any ideas what could be done to make it work without doing any detrimental
+> changes? I was thinking I'll try to reach out to the vendor at this point -
+> they should be aware their device might stop working with recent kernels,
+> and they could explain the quirky behavior, or implement any changes on the
+> firmware side (if it's even possible).
 
-         /* Parse all the endpoint descriptors */
-         n = 0;
-         while (size > 0) {
-                 if (((struct usb_descriptor_header *) buffer)->bDescriptorType
-                      == USB_DT_INTERFACE)
-                         break;
-                 retval = usb_parse_endpoint(ddev, cfgno, config, inum, asnum,
-                                 alt, num_ep, buffer, size);
-                 if (retval < 0)
-                         return retval;
+The ideal solution would be if the vendor updates the firmware to
+prevent the device from turning on its pull-up (thereby telling the
+host computer that it is connected to the bus) until it is ready to
+operate.  There's no good reason to have that > 1-second period during
+which the device claims to be connected but does not work.
 
-If this fails catastrophically, we bail out
+Another possible solution, a lot less attractive, would be to change
+the initialization code in the hub driver so that if it sees the
+device disconnect itself from the bus, it restarts the entire
+procedure from the beginning.  You'd end up getting a bunch of error
+messages during the initial non-working period, just as you do now,
+but afterwards the device should be detected and initialized okay.
 
-                 ++n;
-
-If not, we count the endpoint as success
-
-                 buffer += retval;
-                 size -= retval;
-         }
-
-         if (n != num_ep_orig)
-                 dev_notice(ddev, "config %d interface %d altsetting %d has %d "
-                     "endpoint descriptor%s, different from the interface "
-                     "descriptor's value: %d\n",
-                     cfgno, inum, asnum, n, plural(n), num_ep_orig);
-         return buffer - buffer0;
-
-However, looking at usb_parse_endpoint() no errors are returned.
-Should the check just go or have we dropped something important?
-This code looks quite suspect, as we happily count duplicated endpoints
-and endpoints with invalid addresses as successes.
-
-	Regards
-		Oliver
-
-
-
+Alan Stern
