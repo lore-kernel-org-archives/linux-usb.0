@@ -1,115 +1,114 @@
-Received: from mail-lj1-f173.google.com (mail-lj1-f173.google.com [209.85.208.173])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com [205.220.180.131])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 13C1E481C4
-	for <linux-usb@vger.kernel.org>; Fri, 29 Mar 2024 06:15:50 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.173
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1866739FD8;
+	Fri, 29 Mar 2024 07:20:35 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.180.131
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1711692954; cv=none; b=MvnEeW+B5FiKZgAS+m8kRcsot19vl/h/DgeRPZUsYKD4NNEizSuxmtA0lcSyrUABLa/yvX3jWRdHA85Yvh6WbniafjFzzkukFy/Hy5x0EuaD37BXsgunLb4NIe+CkAZDktrvYcI6v5L7AnnMbUsCHqojYiWSlQgE4ASWPh6xRHs=
+	t=1711696837; cv=none; b=XOqw0K2OviNyHkNYBtrHWr+MCGYWSIUcyzKQ9NJYfENUz1YS08W2xfA2sAfxP99OhWSd/mqL8vkrmPK3GHFa0wzcgSgAcijF+DeW49gISQxGMlLrTssx6sB4eBvPGT7Q8DWlxqSrMYYrrFk13tSYrjFeEDB+1ddWrQkykR1LsuI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1711692954; c=relaxed/simple;
-	bh=vcAN8k/qAhd5AWrkE59lTd3x26sbLY85MvdZDgX2n5U=;
-	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
-	 In-Reply-To:To:Cc; b=PDa76nGdkVCoYzL/wLMugaBGiAGwY5SHQwBKDi8GVPu0EkZ5NyGe9L7USoe+ikhIfGdeni9luDbwkgzAsKAcSu+yLCaaUjoO1MTPwT8Qv1UyOitXVwJdg/eAb1RNU/x2Em2JRzuPncRJJdMETwLT6WwAD1MZsGCw9OVMjYfjqUc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=jXsr+PT6; arc=none smtp.client-ip=209.85.208.173
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
+	s=arc-20240116; t=1711696837; c=relaxed/simple;
+	bh=vzmPmJeJUxq5/BxD3bs1AX/uEs3Ldk2UfdR7q7RIaqM=;
+	h=From:To:CC:Subject:Date:Message-ID:MIME-Version:Content-Type; b=gJ0L6OXSRrHsABe8tvIdE2J4KunnnQ+lWn6FVOCc2HWeVoLmPNb0PuRnfz9kC5AO8Of+X7RiqNRemt9ljy7TkhZ8l5km9FgRNIFjwImOSQJRVs2A92ozkIjgAIVcrGSNzFwi4EsLJ52GiwhF2T+ydCTJWHVj/hsvFxP+Pm20Ua8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=quicinc.com; spf=pass smtp.mailfrom=quicinc.com; dkim=pass (2048-bit key) header.d=quicinc.com header.i=@quicinc.com header.b=Qdb8I3mt; arc=none smtp.client-ip=205.220.180.131
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=quicinc.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=quicinc.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="jXsr+PT6"
-Received: by mail-lj1-f173.google.com with SMTP id 38308e7fff4ca-2d718efedb2so2723441fa.0
-        for <linux-usb@vger.kernel.org>; Thu, 28 Mar 2024 23:15:50 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1711692949; x=1712297749; darn=vger.kernel.org;
-        h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
-         :mime-version:subject:date:from:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=Ic98WBfAimS8nmcOgz85H93UKGeZiY2SCA6nsjQm3Ik=;
-        b=jXsr+PT6yJJwKjqzAVaPewFEHqMUloFH6kaUHfVYZU2SY8+/iXhTkmXtEj7eHXuKCl
-         CtAuu10+cwXr12zpRNF1Nya6PUbU2NmW+lnEIfQRpvarpAHtgWxJQvJ8Y9MK1X+wPkC7
-         Un9R09gl8rk7m6hqmpntmWSwKfHEmKJkutj4CEkRM325Ticnabb0mAWW6o108nfKkf8u
-         UarKhhaPWKMj/HUIWFA3x3xbpn2kQWGx5N7ow/2O76Ulguaz/3FbsXJF7NjpwRTH6uwX
-         qNWhp28o0O2JKXQrGwm66KbMQ1GRI5hinH4x7nl+vcYSB4ofyQcjnqttbwUQUs+vTNQN
-         VV7Q==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1711692949; x=1712297749;
-        h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
-         :mime-version:subject:date:from:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=Ic98WBfAimS8nmcOgz85H93UKGeZiY2SCA6nsjQm3Ik=;
-        b=cPSyxwZ0mWKAeGw0HLiEAEksD9iUlo6xFVCUKlCvcq9bVvRAxEqXsS75V7U+sphlJB
-         DHl3WW89Y2cegxbHVnrsyEDurBAd6Hn2xTcu/MtoFVYDLprw9CKeu3FUnD6K6u5ljWYx
-         Ak4e+4h1bI1s66uCCfcN2dAyCCTdDhNsugeGOZAJg8NH18UqnflD7nNcIEFOaKYGcXz6
-         eH73M9qnQgrDsFzCBcWWU+TyeifvQr6OwLZR1S0cYpSi5pUOH2EBG/KalzfrxalqhSXf
-         yCQX90f33BkXV8ZEd/9xwJILXV0LS4HGn/PD+nAxy3k0P2YJQiZJxqwMbtNML8RmWyCC
-         Xs2Q==
-X-Forwarded-Encrypted: i=1; AJvYcCWkwrve2Zqx/ibrlJ1VBMyFC4YE+LRfojJ1L4xtfo299OsS9bBp1Cjw1C/6Wnyw10NEKrnlc2+eZSLlZR4kAZCfZ3fsxgemfcc6
-X-Gm-Message-State: AOJu0YwI5+cQUVxBVzq3VAitLpN/se73mjyDE1rOryNByDwV7JTi2HaF
-	7DPJTd/FnLf6nKGUJ6rB9+qrRw31+a8kkaXaV0ofal5YJmTxLJnaCvEnQNB71DE=
-X-Google-Smtp-Source: AGHT+IEFYkb4xSCTNgPAqVSPz+PbQkpovAkPslV+zAyYbPg+7kdK5UTIJTQpBnjSZ5o9T3cZPbmXhg==
-X-Received: by 2002:a2e:b904:0:b0:2d4:132b:9f21 with SMTP id b4-20020a2eb904000000b002d4132b9f21mr814571ljb.6.1711692949338;
-        Thu, 28 Mar 2024 23:15:49 -0700 (PDT)
-Received: from umbar.lan ([192.130.178.91])
-        by smtp.gmail.com with ESMTPSA id k17-20020a05651c0a1100b002d6cdee339csm494539ljq.103.2024.03.28.23.15.48
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 28 Mar 2024 23:15:48 -0700 (PDT)
-From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-Date: Fri, 29 Mar 2024 08:15:42 +0200
-Subject: [PATCH v2 10/11] soc: qcom: pmic_glink: reenable UCSI on sc8280xp
+	dkim=pass (2048-bit key) header.d=quicinc.com header.i=@quicinc.com header.b="Qdb8I3mt"
+Received: from pps.filterd (m0279871.ppops.net [127.0.0.1])
+	by mx0a-0031df01.pphosted.com (8.17.1.24/8.17.1.24) with ESMTP id 42T1xp1V019589;
+	Fri, 29 Mar 2024 07:20:05 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com; h=
+	from:to:cc:subject:date:message-id:mime-version
+	:content-transfer-encoding:content-type; s=qcppdkim1; bh=3rUcGkP
+	kSK5xD+ct0f6cwMGcLbiakbm2DQyntW9fjKI=; b=Qdb8I3mtxP427P+750jSECI
+	SnbnwLwBSBtT8wWxwQK0h0uYVa04TuXEN4cfWqXEwIp+Vj52nH+sc1YVr6TK0Vmq
+	h077NuOTEsb/WLYwKPbMCu1yXcQzCyZTUrhWgUm8LjJxCEz72Wr8feFtRGruTszP
+	WP9PvDiGC3LgR/JTNnKrIc1splGW0O+lFOPbrYmI7lo2yVgd57KjPM/OgSPJkL6V
+	ah36JrrI3LUoyKqjTyDlFH/IelkBPU/yX9a04mk0SLsbrR4Lc6g94rQBnQ3dhZw8
+	8tPbnL1ZpRNwN/TRUb7yLLV5Sf5jM6H07qLEvYsoKlaZUH4Xt6SPN3AZgwMxe8Q=
+	=
+Received: from nalasppmta03.qualcomm.com (Global_NAT1.qualcomm.com [129.46.96.20])
+	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 3x5fs895pq-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Fri, 29 Mar 2024 07:20:04 +0000 (GMT)
+Received: from nalasex01a.na.qualcomm.com (nalasex01a.na.qualcomm.com [10.47.209.196])
+	by NALASPPMTA03.qualcomm.com (8.17.1.5/8.17.1.5) with ESMTPS id 42T7K3jK018851
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Fri, 29 Mar 2024 07:20:03 GMT
+Received: from hu-kriskura-hyd.qualcomm.com (10.80.80.8) by
+ nalasex01a.na.qualcomm.com (10.47.209.196) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.1118.40; Fri, 29 Mar 2024 00:19:58 -0700
+From: Krishna Kurapati <quic_kriskura@quicinc.com>
+To: Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+        Rob Herring
+	<robh@kernel.org>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        "Conor
+ Dooley" <conor+dt@kernel.org>,
+        Dmitry Baryshkov
+	<dmitry.baryshkov@linaro.org>,
+        Miquel Raynal <miquel.raynal@bootlin.com>,
+        Guenter Roeck <linux@roeck-us.net>,
+        Bjorn Helgaas <bhelgaas@google.com>, Kyle
+ Tso <kyletso@google.com>,
+        Fabrice Gasnier <fabrice.gasnier@foss.st.com>,
+        "Heikki Krogerus" <heikki.krogerus@linux.intel.com>,
+        <u.kleine-koenig@pengutronix.de>,
+        AngeloGioacchino Del Regno
+	<angelogioacchino.delregno@collabora.com>
+CC: <devicetree@vger.kernel.org>, <linux-usb@vger.kernel.org>,
+        <linux-kernel@vger.kernel.org>, <quic_ppratap@quicinc.com>,
+        <quic_jackp@quicinc.com>, Krishna Kurapati <quic_kriskura@quicinc.com>
+Subject: [RFC PATCH 0/2] Add gpio-usb-c-connector compatible
+Date: Fri, 29 Mar 2024 12:49:46 +0530
+Message-ID: <20240329071948.3101882-1-quic_kriskura@quicinc.com>
+X-Mailer: git-send-email 2.34.1
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-Message-Id: <20240329-qcom-ucsi-fixes-v2-10-0f5d37ed04db@linaro.org>
-References: <20240329-qcom-ucsi-fixes-v2-0-0f5d37ed04db@linaro.org>
-In-Reply-To: <20240329-qcom-ucsi-fixes-v2-0-0f5d37ed04db@linaro.org>
-To: Heikki Krogerus <heikki.krogerus@linux.intel.com>, 
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>, 
- Guenter Roeck <linux@roeck-us.net>, Bjorn Andersson <andersson@kernel.org>, 
- Neil Armstrong <neil.armstrong@linaro.org>, 
- Konrad Dybcio <konrad.dybcio@linaro.org>
-Cc: Johan Hovold <johan+linaro@kernel.org>, linux-usb@vger.kernel.org, 
- linux-arm-msm@vger.kernel.org, 
- Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-X-Mailer: b4 0.13.0
-X-Developer-Signature: v=1; a=openpgp-sha256; l=949;
- i=dmitry.baryshkov@linaro.org; h=from:subject:message-id;
- bh=vcAN8k/qAhd5AWrkE59lTd3x26sbLY85MvdZDgX2n5U=;
- b=owEBbQGS/pANAwAKAYs8ij4CKSjVAcsmYgBmBlyNiO9Qu1rh3SLEC8ik2TgVba7ZgDE8JXX5a
- Zu2Zy/bkPKJATMEAAEKAB0WIQRMcISVXLJjVvC4lX+LPIo+Aiko1QUCZgZcjQAKCRCLPIo+Aiko
- 1V4KCACTpq4/5OhmOM7xLV8GT0LEzymqnCMbTAga9RdLB71GxbIr9PnkzJnio8TdmXzk4rI4Ckd
- oOgkHcXSRxRhiQWMNqQDZVAKLDjiCt0chIB4r8X3NRKjhuSjwYa+WGqDENIDphakc+5eZ2X7iMC
- /LiiMVd7An0FJiI1sZgVgCqi9zGZSvzsWfdEQEOsi7bBWwuvHdF/D1SjHjhA3iuX6e6N8akNpPK
- t3L39Tu4HUxgTDxOxHBc1yD21aTzjJMQG7O/g21wUvL0PcVaWBmIWRrCc/TiLc9Boc3c5g8kOSr
- rcqjbNcc7sh+mvq9qS5AfReVKhM0+E249WTNd6Qenhn0D8tL
-X-Developer-Key: i=dmitry.baryshkov@linaro.org; a=openpgp;
- fpr=8F88381DD5C873E4AE487DA5199BF1243632046A
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+X-ClientProxiedBy: nasanex01a.na.qualcomm.com (10.52.223.231) To
+ nalasex01a.na.qualcomm.com (10.47.209.196)
+X-QCInternal: smtphost
+X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800 signatures=585085
+X-Proofpoint-GUID: BtrgVd0-GHri3_cLMixRc9KjVDQY6PPq
+X-Proofpoint-ORIG-GUID: BtrgVd0-GHri3_cLMixRc9KjVDQY6PPq
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.272,Aquarius:18.0.1011,Hydra:6.0.619,FMLib:17.11.176.26
+ definitions=2024-03-29_06,2024-03-28_01,2023-05-22_02
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 bulkscore=0
+ priorityscore=1501 phishscore=0 mlxlogscore=408 spamscore=0 suspectscore=0
+ mlxscore=0 adultscore=0 malwarescore=0 impostorscore=0 clxscore=1011
+ lowpriorityscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.19.0-2403210001 definitions=main-2403290061
 
-Now as all UCSI issues have been fixed, reenable UCSI subdevice on the
-Qualcomm SC8280XP platform.
+QDU1000 IDP [1] has a Type-c connector and supports USB 3.0.
+However it relies on usb-conn-gpio driver to read the vbus and id
+gpio's and provide role switch. However the driver currently has
+only gpio-b-connector compatible present in ID table. Adding that
+in DT would mean that the device supports Type-B connector and not
+Type-c connector. Thanks to Dmitry Baryshkov for pointing it out [2].
 
-Reviewed-by: Heikki Krogerus <heikki.krogerus@linux.intel.com>
-Signed-off-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
----
- drivers/soc/qcom/pmic_glink.c | 1 -
- 1 file changed, 1 deletion(-)
+This series intends to add that compatible in driver and bindings
+so that it can be used in QDU1000 IDP DT.
 
-diff --git a/drivers/soc/qcom/pmic_glink.c b/drivers/soc/qcom/pmic_glink.c
-index f913e9bd57ed..e5a591733a0f 100644
---- a/drivers/soc/qcom/pmic_glink.c
-+++ b/drivers/soc/qcom/pmic_glink.c
-@@ -343,7 +343,6 @@ static const unsigned long pmic_glink_sm8450_client_mask = BIT(PMIC_GLINK_CLIENT
- 
- static const struct of_device_id pmic_glink_of_match[] = {
- 	{ .compatible = "qcom,sc8180x-pmic-glink", .data = &pmic_glink_sc8180x_client_mask },
--	{ .compatible = "qcom,sc8280xp-pmic-glink", .data = &pmic_glink_sc8180x_client_mask },
- 	{ .compatible = "qcom,pmic-glink", .data = &pmic_glink_sm8450_client_mask },
- 	{}
- };
+[1]: https://lore.kernel.org/all/20240319091020.15137-3-quic_kbajaj@quicinc.com/
+[2]: https://lore.kernel.org/all/CAA8EJprXPvji8TgZu1idH7y4GtHtD4VmQABFBcRt-9BQaCberg@mail.gmail.com/
+
+Krishna Kurapati (2):
+  dt-bindings: connector: Add gpio-usb-c-connector compatible
+  usb: common: usb-conn-gpio: Update ID table to add usb-c connector
+
+ Documentation/devicetree/bindings/connector/usb-connector.yaml | 3 +++
+ drivers/usb/common/usb-conn-gpio.c                             | 1 +
+ 2 files changed, 4 insertions(+)
 
 -- 
-2.39.2
+2.34.1
 
