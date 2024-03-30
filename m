@@ -1,207 +1,485 @@
-Received: from mx0b-0016f401.pphosted.com (mx0b-0016f401.pphosted.com [67.231.156.173])
+Received: from a.mx.secunet.com (a.mx.secunet.com [62.96.220.36])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EFA30290A;
-	Sun, 31 Mar 2024 12:07:47 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=67.231.156.173
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D910014884A;
+	Sun, 31 Mar 2024 16:41:04 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=62.96.220.36
 ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1711886869; cv=fail; b=TRHL7Gf4Esi8/RQlnvt3+kRZGJVQq0hd1Y9kaySJnfDosRnjiKRQmKpSaMrkh5mMw4LMHnh3RzqRZoGhVNxch2yiAUtaltVy6/HzIWy6CbGPkwW8yHwk85DacoW47A9C/wttGXRnL5jWkvMhgXnKaRhlT70MnAqLC7zuwNHq34s=
+	t=1711903267; cv=fail; b=p0J97gS7PxYKZiz7ZeG+hORSCiy3VIH8mN3g7ZT2m8Z9RMGfYOlAabcFoqno74HGkwgvxrBfiUWdl2a/arQ53SxOX3zPoYOGqeYPm6W+RCYM4xO+BJSVZ/EQsx3FV6zhOw6iThiExRLjOS7etMtNle90KH+aahh83QJgnegPc7o=
 ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1711886869; c=relaxed/simple;
-	bh=daogCPqBhWXV63Vka9bV7W+7SXBs/NWzzpJsHSkUpiw=;
-	h=From:To:CC:Subject:Date:Message-ID:References:In-Reply-To:
-	 Content-Type:MIME-Version; b=sPUiPraqaDYtzAYJGMgpbxUKSe7ZsGnOvdBbRJpuRGN1kZi9lxf0ADNkmQXud1qrmnw5upGY3nzAdIrYvPU6OgqqCjYm65RRXxIPTXeOqwIruL0esmKFqJ3JjXUx9eYGWWTdWDNQzoG0ZLQy6Ebge7deFCGKAwChGvWO+Pvt3eI=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=marvell.com; spf=pass smtp.mailfrom=marvell.com; dkim=pass (1024-bit key) header.d=marvell.com header.i=@marvell.com header.b=Y07VpYWF; arc=fail smtp.client-ip=67.231.156.173
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=marvell.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=marvell.com
+	s=arc-20240116; t=1711903267; c=relaxed/simple;
+	bh=O9KnieUX+EFMLqVs5nBZMGQQLdcVb+KLaMpm7Ree5VE=;
+	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:To:Cc; b=LL0RG2OpZHgEn1VPF3O4BI8lDRYBQyB8picLGGDTWan/sSC2qS9AGkrLpPGl8wlGP6Oioq3l+PHzkZecnvZsOP1NINnlD/aaBl50wBZuOlCVQIJn+yDhtAgPGn33HO9FuVdzk/xwbzzFtLc4j+tq0r2ci6J9pzVDuHsOZYea4s8=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=linaro.org; spf=fail smtp.mailfrom=linaro.org; dkim=fail (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=S7jYKe8m reason="signature verification failed"; arc=none smtp.client-ip=209.85.167.54; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; arc=fail smtp.client-ip=62.96.220.36
+Authentication-Results: smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=linaro.org
+Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=linaro.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=marvell.com header.i=@marvell.com header.b="Y07VpYWF"
-Received: from pps.filterd (m0045851.ppops.net [127.0.0.1])
-	by mx0b-0016f401.pphosted.com (8.17.1.24/8.17.1.24) with ESMTP id 42VAgM4q003453;
-	Sun, 31 Mar 2024 05:07:24 -0700
-Received: from nam04-dm6-obe.outbound.protection.outlook.com (mail-dm6nam04lp2040.outbound.protection.outlook.com [104.47.73.40])
-	by mx0b-0016f401.pphosted.com (PPS) with ESMTPS id 3x6j8g25es-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Sun, 31 Mar 2024 05:07:24 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=QuA82HrbFDxffSMMFi6ApSoqUmYWr8QNLTOn5vGd1RNbro+zaYUGsM2hojmdUCK9qitpHnEL2s+RjdnxJqHnH8tfhboKin+gbdCMQtTA3wGyYBEHc1TyKmxX9cK54uzrUdsbGj0zlnyYhkyP80uR88GWB7F4iq9r5ld4txtDTlQGPPRPGG72coP/qeQOrrETbCJMIvV/Dv+gLxP80XfGZG4IA254ctS/lMkSWrgMmBs/1maRgYOPOBxuIfCvYaeXvyOh4HNZkgAudCIGFHPbm2j9g3SyEGjfeFhlFtIfxTvkM/wLgsA6SwK64VIeeyI0SN5awIrqnG+FJHmVCYwaMg==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=daogCPqBhWXV63Vka9bV7W+7SXBs/NWzzpJsHSkUpiw=;
- b=avJ6BocpzwFHEC19cVxwbjpfETeZ3r02nXuokkQf09+wzh/LIFyr6WB/s2w7PyZ5esS27+8zJgvpXLvEf3nmjQF/YoAVlosquGVM0M8Z5Rhf9Fo2y9+7Ncmwd28hzyYZJZnEHSjob779TK35JJxH7D2LIzki7UbnWC1WyMk+HVtbc14Tb8rJDlE+5hvDP7DXIdOaK1ujqahS7RLjqf9q5nVs7XP7ErltudeEutexlE39d/Y6xOgx8suZcMTmZeX4nS6WVU9BKFHhhe71UyOL6vQ0cRuh1Td3fOl+0vrUyscvyAnJdrBD85j5245jGUmix53Gy0Nv96ScBUElcDbtpw==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=marvell.com; dmarc=pass action=none header.from=marvell.com;
- dkim=pass header.d=marvell.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=marvell.com;
- s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=daogCPqBhWXV63Vka9bV7W+7SXBs/NWzzpJsHSkUpiw=;
- b=Y07VpYWF/gD3/cxmVffTN5jubYhke3plJAte/V7gkf+yTof98MAc4zb6M+2mjF2WbQAOnFd0aXlUmZTSe45nAK4ivLR0fySoh5hlFmsHMNwehO7ArRnjKtbGoWidGjWv49UOsc4yVaqXrgRBqMrELNoVmDzJtwuXLSCATmeYWak=
-Received: from BY3PR18MB4707.namprd18.prod.outlook.com (2603:10b6:a03:3ca::23)
- by BN9PR18MB4298.namprd18.prod.outlook.com (2603:10b6:408:11c::22) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7409.45; Sun, 31 Mar
- 2024 12:07:19 +0000
-Received: from BY3PR18MB4707.namprd18.prod.outlook.com
- ([fe80::1f55:2359:3c4d:2c81]) by BY3PR18MB4707.namprd18.prod.outlook.com
- ([fe80::1f55:2359:3c4d:2c81%5]) with mapi id 15.20.7409.042; Sun, 31 Mar 2024
- 12:07:19 +0000
-From: Sai Krishna Gajula <saikrishnag@marvell.com>
-To: Oliver Neukum <oneukum@suse.com>,
-        "davem@davemloft.net"
-	<davem@davemloft.net>,
-        "edumazet@google.com" <edumazet@google.com>,
-        "kuba@kernel.org" <kuba@kernel.org>,
-        "pabeni@redhat.com" <pabeni@redhat.com>,
-        "netdev@vger.kernel.org" <netdev@vger.kernel.org>,
-        "linux-usb@vger.kernel.org" <linux-usb@vger.kernel.org>,
-        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>
-CC: "syzbot+9665bf55b1c828bbcd8a@syzkaller.appspotmail.com"
-	<syzbot+9665bf55b1c828bbcd8a@syzkaller.appspotmail.com>
-Subject: RE: [PATCH net-next] usbnet: fix cyclical race on disconnect with
- work queue
-Thread-Topic: [PATCH net-next] usbnet: fix cyclical race on disconnect with
- work queue
-Thread-Index: AQHag2P6HvS3NH3Sc0u2PISNJphXbg==
-Date: Sun, 31 Mar 2024 12:07:18 +0000
-Message-ID: 
- <BY3PR18MB47078BF3C2AC43AF71D068F9A0382@BY3PR18MB4707.namprd18.prod.outlook.com>
-References: <20240321124758.6302-1-oneukum@suse.com>
- <SA1PR18MB470955BBB332D3A9F9A6F247A0312@SA1PR18MB4709.namprd18.prod.outlook.com>
- <04cfa214-4d45-48b1-87ba-500e3e501977@suse.com>
-In-Reply-To: <04cfa214-4d45-48b1-87ba-500e3e501977@suse.com>
-Accept-Language: en-US
-Content-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-x-ms-publictraffictype: Email
-x-ms-traffictypediagnostic: BY3PR18MB4707:EE_|BN9PR18MB4298:EE_
-x-ms-exchange-senderadcheck: 1
-x-ms-exchange-antispam-relay: 0
-x-microsoft-antispam: BCL:0;
-x-microsoft-antispam-message-info: 
- Q/yHKT5nqubJjI8EKZn/GsL2OnndGW45LBX7hZ2Ucr921sw3a4xT4bAA9/T0ukEsMSZ/rCHJfpVEmdTbFL4VnYh6xhWTfEydezNxifOADM9QdnL4d1feeZ7f5SeL7jdtZ+Gn9oC/WYJh3pp4jCiUYNwweqDNRQFHFQlQ4l9pPEb14m0z7FVJQ5Sh0VeEr1Mv5E+uOD1wGNhE/kXGAGolgbvu/XtOh81pfEsWwWfVUFV2QaqRnh/7bYQmfr7xNu6XE2glI5jraV/d06fcXfRLxoLOyYvqljLlqpzgHmMg5+9THfRao2icoK7efY1DZOuJuDh7IwKAAJnXZJmclRR4WCk95X4uqvfhJAfeal89biLIaFdqlR1uVLJqMivZPAB0CYIe42TyCcQ52+6BMJK/V4qrcwuipkOi7AIbzQ44Y5UdZln/A4HukeEcDJjOR3A23a30YENDpKk31bU/NYQwoD/Z/c1emmHDeJOY+rtjsuwYL4XcDHuVLEhWz6lxBkI/VabXgTE4VFL6hj1we/7GI1A/r41jaInH5CxUleBB33YNmKCTxxMQRaNgkd7pQWk0zI1Ms7iPCe1YW6BPRANoz+uRFqMh4HIvSHoIhe4u0DHUjkf86JiKJnCz5Vr08bThTLhVJoJxGIbLYZGPdATucsOxoTJxyG5vQHjtgrR4iYE=
-x-forefront-antispam-report: 
- CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:BY3PR18MB4707.namprd18.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230031)(366007)(376005)(1800799015);DIR:OUT;SFP:1102;
-x-ms-exchange-antispam-messagedata-chunkcount: 1
-x-ms-exchange-antispam-messagedata-0: 
- =?utf-8?B?eHpiTWJhcXl5Wlg0L3dzeWhGZ0tGaE5RM3BoT1JVdVcyemkrSlpTbE8xckdv?=
- =?utf-8?B?bFJ5TlB3M2xUazBIN1hucVJYWmZHd1pDM0ZkM1ZzakxHMUR4VnFFQzVCaStq?=
- =?utf-8?B?ZzFJZlQzSDVBMjA2M0p0YzQ1YzRXeHFHRHY0bmRRYUhRU0M5QkZ6QXF6dS9z?=
- =?utf-8?B?dXhPY0I5RUxySkZIL1VYWmo5UU9QU2FOWFBuVmdQMVhGdFdGWFFOelFtbS9l?=
- =?utf-8?B?bkEvcEp4QWNuSmEwQ0NHNExqRVZRV3BtRjFMYmJwcThUVEZOWlcyR21zc1ZK?=
- =?utf-8?B?NkNmUVJ5WUs5cmpKaExncUo2V3RCdURWY3pYU3hSV1dEQm9DTXI0a05abzRF?=
- =?utf-8?B?VldkWXJ6QzhPb05ORGViT3JSQndyejJZaGVkOVp1Smt0RFd2ZlRYdjF1K0VI?=
- =?utf-8?B?czFxenljZjFURS9JT3pDcnBadkQvOWZNL2hOek9ObnVQOWh4MnRYQ2xwR3U3?=
- =?utf-8?B?Z3VyN1ZLbm1vRStYQVN5YlBFTWZwa2lWYy9pZUdZY3l0NEk2WTZBUW1kTEg3?=
- =?utf-8?B?VGVCVkNYMksyQ3c0MnpyRCtoVWZmTS8xZlhlbjBnaTVLUjZsSmlXRm5MRngx?=
- =?utf-8?B?VUNWS3oxQzZJVU05Lyt1eTRxdy9YbWJMN0xiT3AxbEkzUEI3Z2FQRytqYlIz?=
- =?utf-8?B?dFRKZWNRbmlnWFhvZTFLeWF5YUx3UUk1WVI0RXlLUDlBM2NLZ2lPaVhiV1ZW?=
- =?utf-8?B?aWtMeHdYYUtaRElBbnZHZmNsUVJ3M0JRYlA3NVRFVjhMSFRYS3R0N3RkRm51?=
- =?utf-8?B?ZjdPQ2Nnd2tzK1dNTTJVM3NNb1BlSFF2YVZxQjVjL3ZCMFdLczJjendET2d2?=
- =?utf-8?B?dEtxOEZUTnRKOEJsUzNTcXZwcWtGRE52VnRyQUZhbStTKzQ1c29KbzFxNXA5?=
- =?utf-8?B?REhaZjVpQldyRHhiSjBCYVROdmlqQ0YvTWVzeUdvMUI4K1FCY0pWMHNVUk5o?=
- =?utf-8?B?ZktTYTdwSGV4WXFBVFhSdVh0RVMrNUFMamhLUE96SWNpR3pIRE0rYmUrUjFp?=
- =?utf-8?B?SEJIL0J3dlRJUTNaVGtHZ3FTVldsSGczN0JJQUVNVm9BaFV6L1dCczRVenBI?=
- =?utf-8?B?TmRjM29XdHV3aW5yaG5yUEdnd3plU1pWMU5YUWM3UXZzM2NZUnBXT1haSEMr?=
- =?utf-8?B?QUlFOEtxaUsxeXN4dUlZZUFRU0cvQVNtVndOK2dGeXZvLzQyZmJhYnlhZE9r?=
- =?utf-8?B?S1pjNnRYd3hNMnhzY3o5Vng1ME4vMVNtNWxMdVpoUG1qVmx0cjZBOUhQYXJK?=
- =?utf-8?B?WDhLTEdYcmtPdjRGSUR0MitLQ1d3MlA0RnZuR3lCOWxRa0h2WWl3STkzU2dF?=
- =?utf-8?B?YzdycENMc1p1cFp6K1BsM2txRld1eUVEUjBTeVNlY2gzTWhtL21RZ29GN3NZ?=
- =?utf-8?B?NUJtOWI2b3N5K1hEOElRa25RQkFTZEpEYjRIVHVncDRESUhPYnNaMWFTL0dO?=
- =?utf-8?B?dkxlV2dtVmd1c2NrSkhpNlZ5VzRiY2pXem1GMW5pcE5wdnlyRDJVS25ITkVi?=
- =?utf-8?B?Sks4OGZydXlqNENpa29FNGZDanY1MkhJdkEvdFM3RW1panhCRDVmZGltOFcz?=
- =?utf-8?B?RWk5TG1DR0dJMUY2eURqWHhuQWkvOU1tVFBuQTVxQ0kwSFE2QWJ1bDFwaCth?=
- =?utf-8?B?dHloa3l2cjZ1VmM5UkhLQm9CQUNGTVFRc0JsUXFYT3A0ZXMvQ1dnRlZzRjlX?=
- =?utf-8?B?WEdRWVpQaU9lbEdlc0EwQk1HTWkyNzJaNjNYOXNLWmdoWFhMZlh3TEVhNThp?=
- =?utf-8?B?K0tDTjdUN3Q5Sm0wV25nU1VhYk9PT3I5TVliaERGQWNFVTFLK3N0djh1WWtI?=
- =?utf-8?B?eWpmSnVjeXZhczY1SVc4VGllOEVPTGhlSG5Uc01YdnVmSThlZ0wxc0E0cWZu?=
- =?utf-8?B?TmpOeE5SNi9sQVhid0lTK3paanFMb1FRYy9Wdi9PZVdFVUhVVjVHK3lMS3Ay?=
- =?utf-8?B?a25CU3BmUzRuOGVtc1RQczVjazNnZE9iekZScldpdmE0azRsYVdqUU8raUlL?=
- =?utf-8?B?Nm1LU3lGTEYrb1EyN0phSjUrejk2c1RreXdIdjFrOWdPWkhCdHYwUW4yNVR0?=
- =?utf-8?B?RWJxMm4rQldpcE1ISTB2QVlGYnFhWTdvTEkyaG9RTkNJSlliZmp3SkxxeU9y?=
- =?utf-8?Q?PyMsgKObEF/aFBdanN6o2RSWI?=
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+	dkim=fail reason="signature verification failed" (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="S7jYKe8m"
+Received: from localhost (localhost [127.0.0.1])
+	by a.mx.secunet.com (Postfix) with ESMTP id 74C522082B;
+	Sun, 31 Mar 2024 18:41:03 +0200 (CEST)
+X-Virus-Scanned: by secunet
+Received: from a.mx.secunet.com ([127.0.0.1])
+	by localhost (a.mx.secunet.com [127.0.0.1]) (amavisd-new, port 10024)
+	with ESMTP id pzxEQxcMC0M8; Sun, 31 Mar 2024 18:41:02 +0200 (CEST)
+Received: from mailout2.secunet.com (mailout2.secunet.com [62.96.220.49])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+	(No client certificate requested)
+	by a.mx.secunet.com (Postfix) with ESMTPS id 2E5F8208D5;
+	Sun, 31 Mar 2024 18:41:00 +0200 (CEST)
+DKIM-Filter: OpenDKIM Filter v2.11.0 a.mx.secunet.com 2E5F8208D5
+Received: from cas-essen-01.secunet.de (unknown [10.53.40.201])
+	by mailout2.secunet.com (Postfix) with ESMTP id 2198980005E;
+	Sun, 31 Mar 2024 18:41:00 +0200 (CEST)
+Received: from mbx-essen-01.secunet.de (10.53.40.197) by
+ cas-essen-01.secunet.de (10.53.40.201) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2507.35; Sun, 31 Mar 2024 18:40:59 +0200
+Received: from Pickup by mbx-essen-01.secunet.de with Microsoft SMTP Server id
+ 15.1.2507.17; Sun, 31 Mar 2024 16:36:24 +0000
+X-sender: <linux-usb+bounces-8672-peter.schumann=secunet.com@vger.kernel.org>
+X-Receiver: <peter.schumann@secunet.com>
+ ORCPT=rfc822;peter.schumann@secunet.com NOTIFY=NEVER;
+ X-ExtendedProps=BQAVABYAAgAAAAUAFAARAJ05ab4WgQhHsqdZ7WUjHykPADUAAABNaWNyb3NvZnQuRXhjaGFuZ2UuVHJhbnNwb3J0LkRpcmVjdG9yeURhdGEuSXNSZXNvdXJjZQIAAAUAagAJAAEAAAAAAAAABQAWAAIAAAUAQwACAAAFAEYABwADAAAABQBHAAIAAAUAEgAPAGAAAAAvbz1zZWN1bmV0L291PUV4Y2hhbmdlIEFkbWluaXN0cmF0aXZlIEdyb3VwIChGWURJQk9IRjIzU1BETFQpL2NuPVJlY2lwaWVudHMvY249UGV0ZXIgU2NodW1hbm41ZTcFAAsAFwC+AAAAQ5IZ35DtBUiRVnd98bETxENOPURCNCxDTj1EYXRhYmFzZXMsQ049RXhjaGFuZ2UgQWRtaW5pc3RyYXRpdmUgR3JvdXAgKEZZRElCT0hGMjNTUERMVCksQ049QWRtaW5pc3RyYXRpdmUgR3JvdXBzLENOPXNlY3VuZXQsQ049TWljcm9zb2Z0IEV4Y2hhbmdlLENOPVNlcnZpY2VzLENOPUNvbmZpZ3VyYXRpb24sREM9c2VjdW5ldCxEQz1kZQUADgARAC7JU/le071Fhs0mWv1VtVsFAB0ADwAMAAAAbWJ4LWVzc2VuLTAxBQA8AAIAAA8ANgAAAE1pY3Jvc29mdC5FeGNoYW5nZS5UcmFuc3BvcnQuTWFpbFJlY2lwaWVudC5EaXNwbGF5TmFtZQ8ADwAAAFNjaHVtYW5uLCBQZXRlcgUADAACAAAFAGwAAgAABQBYABcASAAAAJ05ab4WgQhHsqdZ7WUjHylDTj1TY2h1bWFubiBQZXRlcixPVT1Vc2VycyxPVT1NaWdyYXRpb24sREM9c2VjdW5ldCxEQz1kZQUAJgACAAEFACIADwAxAAAAQXV0b1Jlc3BvbnNlU3VwcHJlc3M6IDANClRyYW5zbWl0SGlzdG9yeTogRmFsc
+	2UNCg8ALwAAAE1pY3Jvc29mdC5FeGNoYW5nZS5UcmFuc3BvcnQuRXhwYW5zaW9uR3JvdXBUeXBlDwAVAAAATWVtYmVyc0dyb3VwRXhwYW5zaW9uBQAjAAIAAQ==
+X-CreatedBy: MSExchange15
+X-HeloDomain: a.mx.secunet.com
+X-ExtendedProps: BQBjAAoAh2UFfe5Q3AgFAGEACAABAAAABQA3AAIAAA8APAAAAE1pY3Jvc29mdC5FeGNoYW5nZS5UcmFuc3BvcnQuTWFpbFJlY2lwaWVudC5Pcmdhbml6YXRpb25TY29wZREAAAAAAAAAAAAAAAAAAAAAAAUASQACAAEFAAQAFCABAAAAGgAAAHBldGVyLnNjaHVtYW5uQHNlY3VuZXQuY29tBQAGAAIAAQUAKQACAAEPAAkAAABDSUF1ZGl0ZWQCAAEFAAIABwABAAAABQADAAcAAAAAAAUABQACAAEFAGIACgAwAAAA5YoAAAUAZAAPAAMAAABIdWI=
+X-Source: SMTP:Default MBX-ESSEN-02
+X-SourceIPAddress: 62.96.220.36
+X-EndOfInjectedXHeaders: 18105
+X-Virus-Scanned: by secunet
+Received-SPF: Pass (sender SPF authorized) identity=mailfrom; client-ip=147.75.199.223; helo=ny.mirrors.kernel.org; envelope-from=linux-usb+bounces-8672-peter.schumann=secunet.com@vger.kernel.org; receiver=peter.schumann@secunet.com 
+DKIM-Filter: OpenDKIM Filter v2.11.0 a.mx.secunet.com 616672053D
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.54
+ARC-Seal: i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1711837280; cv=none; b=bOlE62GR0SoJYhmTHz/vJpV2HfRqrlmQ7lF23NjJX9mA+K/8KdM/8wbVJconEDToIJHrFJ6OsCSko5RMaUgnQzWm/c/Lzd5iBg2Pr5vPPjR+RS9ENEYph1jDS7gRopJb7OdckE9nEz2I00wdJlsKXvxnQCq/xDVkiz/8wHskbaQ=
+ARC-Message-Signature: i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1711837280; c=relaxed/simple;
+	bh=Oc9kcICFBM05I/E/I4AVoBzP2f/9gloPVHobW/2H4Sc=;
+	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:To:Cc; b=YQTKIydBv76w12PvQhQQjI3DwHzqSpM+qMI2Z3QxqmwQdMF3YTDwNH67P4SjyWtoplJqTmpRLxFipCb1aKTSu2Tit/R+ldwYxjHREmtGRyPG1Bu7js/BfhkXMeNEZU+WP2gHR/1YxGBxjv+lG978wlt8TkLWc7IxAoDpLRU/dko=
+ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=S7jYKe8m; arc=none smtp.client-ip=209.85.167.54
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google; t=1711837277; x=1712442077; darn=vger.kernel.org;
+        h=cc:to:message-id:content-transfer-encoding:mime-version:subject
+         :date:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=0XPGOUCDwaV1EzZ064paZOD8RnQFs1ddJgtwbPEEUz4=;
+        b=S7jYKe8msBG0Hsn9CYMRKdMJJSwT1C1KDhNhWuJJHVT+tL8mNXWKFyF+N0xZnPGV7w
+         Bk395XN7yob2caKMRGEHJe6VxJAokee7Kuj72ZuuItUajPwWtTCX/PtXOjRFqsIhxjts
+         WKUR6aB21G3DVDKrpcp8XrK9Cxw26zWJvuIGkjkr16KV03F3awH9lwtKlw4fenCUcdO3
+         LU3p253gOI4kwjlGq6OetGqNdKqLFLukYdPM/lNlK7YfHvzfBF8Z5O570IQA8o7szYfn
+         WLR+DJOlOy6aCjAf/IRfozcLCEQurAHZMiYsp9nOqaxvRboDSJywiCRgfsnf4iyxjfLJ
+         UmHg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1711837277; x=1712442077;
+        h=cc:to:message-id:content-transfer-encoding:mime-version:subject
+         :date:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=0XPGOUCDwaV1EzZ064paZOD8RnQFs1ddJgtwbPEEUz4=;
+        b=mRrp20hY1rE9Eognm9n/d2hAqR5gIU0bP8/gO7Q9JLaPdsA/14nCs8X/QkxAPM3Ub3
+         qVsDygDgxR5+RXxDjcPQX/yoQGu8qZWbJihi4edP+rYPPHjl21pvouSqNf4/huMTO/Y9
+         D3ffQTcBUhqMpnmjMNgNrXUKTO33/F7DCIfno7sA6ACZBZNf3s91j6iDBW2JBRhV3Ab6
+         Jqv44Kwtxc+WLiP3N7hZqvBHL2Lr/4BuhEuCZms4pSm7ECmSq+vWoGfbRxfPNNGSXYeY
+         4ijr1njy8w+gTu+w+Z0jIw98O2YzXtvvKnJMg4fSOWcfG9FEevW3YgNdu/yN53HWG5Ok
+         2Wng==
+X-Forwarded-Encrypted: i=1; AJvYcCXW+7KgZhc0PuOIg0viQolHhZ6s+Nrz3x0rmyN7zGkEM0vp4qkT1Gi5jqpOT0v3/Ho4c67o/Qu9oMk0QetgzAzT656OSeBWx33y
+X-Gm-Message-State: AOJu0Yx+swovtAfODejXPFjSCIANO8diQA0cb8vg6fIOCo6dm6gNlJlm
+	YrUCqh7tm1flbX01gwt9MZ2WM/sGbkSYjcS+L15Uhejq5se8nHRcOrTJp188hqM=
+X-Google-Smtp-Source: AGHT+IF+x3Qdox2g6SjvSt6ZfLOJ3gFe7c5YL+555P/qahnN8Eg7hcDHoGbL+RaMts29GpUddkiBTg==
+X-Received: by 2002:a05:6512:3d1b:b0:516:9f65:fcf with SMTP id d27-20020a0565123d1b00b005169f650fcfmr965650lfv.26.1711837276931;
+        Sat, 30 Mar 2024 15:21:16 -0700 (PDT)
+From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+Date: Sun, 31 Mar 2024 00:21:15 +0200
+Subject: [PATCH v2] dt-bindings: usb: qcom,pmic-typec: update example to
+ follow connector schema
+Precedence: bulk
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-OriginatorOrg: marvell.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-AuthSource: BY3PR18MB4707.namprd18.prod.outlook.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 42d87d66-2ce7-4650-ff2e-08dc517b1d25
-X-MS-Exchange-CrossTenant-originalarrivaltime: 31 Mar 2024 12:07:19.1000
- (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: 70e1fb47-1155-421d-87fc-2e58f638b6e0
-X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: lqqXe+5Ks1aybhAfwfjStDQoO/xSaJWAn8fmF5Lvl5tb2I2bCV5Cfx/0XmNJvI0pta4cZ/Ww79PnklH7FUZA3Q==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: BN9PR18MB4298
-X-Proofpoint-ORIG-GUID: pBHId8Tku4ezlmOC1dxrTzelhSzZSYlB
-X-Proofpoint-GUID: pBHId8Tku4ezlmOC1dxrTzelhSzZSYlB
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.272,Aquarius:18.0.1011,Hydra:6.0.619,FMLib:17.11.176.26
- definitions=2024-03-31_09,2024-03-28_01,2023-05-22_02
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+Message-ID: <20240331-typec-fix-example-v2-1-f56fffe4f37c@linaro.org>
+X-B4-Tracking: v=1; b=H4sIAFqQCGYC/32NSQ6DMBAEv4LmnIm8kIWc8o+Ig7EnMBKxLRshE
+ OLvcXhAjtWtrt4gU2LK8Kg2SDRz5uALqFMFdjC+J2RXGJRQtdBK4bRGsvjmBWkxnzgSatd0kqy
+ 5X7SDsouJSn04X23hgfMU0npczPKX/rPNEgVeOyGtrm+1bOg5sjcpnEPqod33/QuTXSVvswAAA
+ A==
+To: Bjorn Andersson <andersson@kernel.org>, 
+ Konrad Dybcio <konrad.dybcio@linaro.org>, 
+ Bryan O'Donoghue <bryan.odonoghue@linaro.org>, 
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>, 
+ Rob Herring <robh@kernel.org>, 
+ Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>, 
+ Conor Dooley <conor+dt@kernel.org>
+Cc: linux-arm-msm@vger.kernel.org, linux-usb@vger.kernel.org, 
+ devicetree@vger.kernel.org, linux-kernel@vger.kernel.org, 
+ Luca Weiss <luca.weiss@fairphone.com>, 
+ Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+X-Mailer: b4 0.13.0
+X-Developer-Signature: v=1; a=openpgp-sha256; l=3401;
+ i=dmitry.baryshkov@linaro.org; h=from:subject:message-id;
+ bh=Oc9kcICFBM05I/E/I4AVoBzP2f/9gloPVHobW/2H4Sc=;
+ b=owEBbQGS/pANAwAKAYs8ij4CKSjVAcsmYgBmCJBcricaIiHddrBejVu6XApq90lPrz+UyzOaL
+ MmslELd922JATMEAAEKAB0WIQRMcISVXLJjVvC4lX+LPIo+Aiko1QUCZgiQXAAKCRCLPIo+Aiko
+ 1SnyCACjI3jZcyF8lv/PfbC7h7LpkxjJVFoEqIGjQQ0uJNVnplc27e2UQGG1fpyLbbDQgQEUwP3
+ rmurUTUJveKBLHSQJ1fs80Qe9/ZNBZ2YLRBE/vEA5u/RXkKoGSiSgOlSbLk4i2IfXTXWPKHsAyz
+ 84sJQUpm5yIxaBu8NrAeYw0NnaoMBJEVcJsgrDuGpKUUUhB7FW8fApu+0yroEiMyrtN63xcUV2v
+ O2bGuho1A5A6REMw/Xtdr15nkzJC6mbjYg6PxDPL+qy61fuiLlzvN0XxZ/N60JZf39D5ne95O7k
+ euRzdwIcCJFYFyYsOMyDhOhTuzIBm0hasGa5sU32VgH8Umna
+X-Developer-Key: i=dmitry.baryshkov@linaro.org; a=openpgp;
+ fpr=8F88381DD5C873E4AE487DA5199BF1243632046A
+X-EXCLAIMER-MD-CONFIG: 2c86f778-e09b-4440-8b15-867914633a10
+Message-ID: <20240330222115.A39_8tb36Nwj2ZZLXVG9fs7mmULlxyfGx7N_m72UOW4@z>
 
-DQo+IC0tLS0tT3JpZ2luYWwgTWVzc2FnZS0tLS0tDQo+IEZyb206IE9saXZlciBOZXVrdW0gPG9u
-ZXVrdW1Ac3VzZS5jb20+DQo+IFNlbnQ6IFdlZG5lc2RheSwgTWFyY2ggMjcsIDIwMjQgODo0MSBQ
-TQ0KPiBUbzogU2FpIEtyaXNobmEgR2FqdWxhIDxzYWlrcmlzaG5hZ0BtYXJ2ZWxsLmNvbT47IE9s
-aXZlciBOZXVrdW0NCj4gPG9uZXVrdW1Ac3VzZS5jb20+OyBkYXZlbUBkYXZlbWxvZnQubmV0OyBl
-ZHVtYXpldEBnb29nbGUuY29tOw0KPiBrdWJhQGtlcm5lbC5vcmc7IHBhYmVuaUByZWRoYXQuY29t
-OyBuZXRkZXZAdmdlci5rZXJuZWwub3JnOyBsaW51eC0NCj4gdXNiQHZnZXIua2VybmVsLm9yZzsg
-bGludXgta2VybmVsQHZnZXIua2VybmVsLm9yZw0KPiBDYzogc3l6Ym90Kzk2NjViZjU1YjFjODI4
-YmJjZDhhQHN5emthbGxlci5hcHBzcG90bWFpbC5jb20NCj4gU3ViamVjdDogUmU6IFtQQVRDSCBu
-ZXQtbmV4dF0gdXNibmV0OiBmaXggY3ljbGljYWwgcmFjZSBvbg0KPiBkaXNjb25uZWN0IHdpdGgg
-d29yayBxdWV1ZQ0KPiANCj4gDQo+IE9uIDMvMjIvMjQgMTg6NDMsIFNhaSBLcmlzaG5hIEdhanVs
-YSB3cm90ZToNCj4gPg0KPiA+PiAtLS0tLU9yaWdpbmFsIE1lc3NhZ2UtLS0tLQ0KPiA+PiBGcm9t
-OiBPbGl2ZXIgTmV1a3VtIDxvbmV1a3VtQHN1c2UuY29tPg0KPiA+PiBTZW50OiBUaHVyc2RheSwg
-TWFyY2ggMjEsIDIwMjQgNjoxNyBQTQ0KPiA+PiBUbzogZGF2ZW1AZGF2ZW1sb2Z0Lm5ldDsgZWR1
-bWF6ZXRAZ29vZ2xlLmNvbTsga3ViYUBrZXJuZWwub3JnOw0KPiA+PiBwYWJlbmlAcmVkaGF0LmNv
-bTsgbmV0ZGV2QHZnZXIua2VybmVsLm9yZzsgbGludXgtdXNiQHZnZXIua2VybmVsLm9yZzsNCj4g
-Pj4gbGludXgta2VybmVsQHZnZXIua2VybmVsLm9yZw0KPiA+PiBDYzogT2xpdmVyIE5ldWt1bSA8
-b25ldWt1bUBzdXNlLmNvbT47DQo+ID4+IHN5emJvdCs5NjY1YmY1NWIxYzgyOGJiY2Q4YUBzeXpr
-YWxsZXIuYXBwc3BvdG1haWwuY29tDQo+ID4+IFN1YmplY3Q6IFtQQVRDSCBuZXQtbmV4dF0gdXNi
-bmV0OiBmaXggY3ljbGljYWwgcmFjZSBvbiBkaXNjb25uZWN0DQo+ID4+IHdpdGggd29yayBxdWV1
-ZQ0KPiA+DQo+ID4gVGhpcyBwYXRjaCBzZWVtcyB0byBiZSBhIGZpeCwgaW4gdGhhdCBjYXNlIHRo
-ZSBzdWJqZWN0IG5lZWQgdG8gYmUgd2l0aA0KPiA+IFtQQVRDSCBuZXRdDQo+IA0KPiBPSw0KPiA+
-DQo+ID4+DQo+ID4+IFRoZSB3b3JrIGNhbiBzdWJtaXQgVVJCcyBhbmQgdGhlIFVSQnMgY2FuIHNj
-aGVkdWxlIHRoZSB3b3JrLg0KPiA+PiBUaGlzIGN5Y2xlIG5lZWRzIHRvIGJlIGJyb2tlbiwgd2hl
-biBhIGRldmljZSBpcyB0byBiZSBzdG9wcGVkLg0KPiA+PiBVc2UgYSBmbGFnIHRvIGRvIHNvLg0K
-PiA+Pg0KPiA+PiBGaXhlczogZjI5ZmMyNTk5NzZlOSAoIltQQVRDSF0gVVNCOiB1c2JuZXQgKDEv
-OSkgY2xlYW4gdXAgZnJhbWluZyIpDQo+ID4NCj4gPiBQbGVhc2UgdXNlIGNvcnJlY3QgRml4ZXM6
-IHN0eWxlICdGaXhlczogPDEyIGNoYXJzIG9mIHNoYTE+ICgiPHRpdGxlIGxpbmU+IiknIC0gaWU6
-DQo+ICdGaXhlczogZjI5ZmMyNTk5NzZlICgiW1BBVENIXSBVU0I6IHVzYm5ldCAoMS85KSBjbGVh
-biB1cCBmcmFtaW5nIiknDQo+IA0KPiBFaG0sIHdoYXQgZXhhY3RseSBkaWQgSSBkbyBkaWZmZXJl
-bnRseQ0KDQpDaGVja3BhdGNoIHRyaWdnZXJzIHdhcm5pbmcgaWYgd2UgZ2l2ZSBGaXhlcyB0YWco
-ZjI5ZmMyNTk5NzZlIC05LSkgbW9yZSB0aGFuIDEyIGNoYXJzLiBJdCBpcyBhZHZpc2FibGUgdG8g
-Zm9sbG93IHRoZSB1cHN0cmVhbWluZyBwcm9jZXNzIHN0ZXBzIHRvIGhhdmUgdW5pZm9ybWl0eSBh
-Y3Jvc3MgcGF0Y2hlcy4NCg0KPiANCj4gPj4gLS0tIGEvZHJpdmVycy9uZXQvdXNiL3VzYm5ldC5j
-DQo+ID4+ICsrKyBiL2RyaXZlcnMvbmV0L3VzYi91c2JuZXQuYw0KPiA+PiBAQCAtNDY3LDEwICs0
-NjcsMTIgQEAgc3RhdGljIGVudW0gc2tiX3N0YXRlIGRlZmVyX2JoKHN0cnVjdCB1c2JuZXQNCj4g
-Pj4gKmRldiwgc3RydWN0IHNrX2J1ZmYgKnNrYiwgIHZvaWQgdXNibmV0X2RlZmVyX2tldmVudCAo
-c3RydWN0IHVzYm5ldA0KPiA+PiAqZGV2LCBpbnQgd29yaykNCj4gPg0KPiA+IHNwYWNlIHByb2hp
-Yml0ZWQgYmV0d2VlbiBmdW5jdGlvbiBuYW1lIGFuZCBvcGVuIHBhcmVudGhlc2lzICcoJw0KPiAN
-Cj4gSSBhbSBzb3JyeSwgYnV0IHRoaXMgaXMgdGhlIGNvbnRleHQgb2YgdGhlIGRpZmYuIFlvdSBh
-cmUgbm90IHN1Z2dlc3RpbmcgdG8gbWl4DQo+IGdyYXRpdGlvdXMgZm9ybWF0IGNoYW5nZXMgaW50
-byBhIGJ1ZyBmaXgsIGFyZSB5b3U/DQoNCkNoZWNrcGF0Y2ggZG9lcyBhIHByaW1hcnkgY2hlY2sg
-YW5kIHRyaWdnZXJlZCB3YXJuaW5nIGlmIHdlIHVzZSBzcGFjZSBiZXR3ZWVuIGZuIG5hbWUgYW5k
-ICcoJy4gIEl0IGlzIGFkdmlzYWJsZSB0byBmb2xsb3cgdGhlIHVwc3RyZWFtaW5nIHByb2Nlc3Mg
-c3RlcHMoY2xlYW4gY2hlY2twYXRjaCBvdXRwdXQpIHRvIGhhdmUgdW5pZm9ybWl0eSBhY3Jvc3Mg
-cGF0Y2hlcy4gQWxzbyBjaGVjayBjb21tZW50cyBmcm9tIEdyZWdraCBib3QgcmVnYXJkaW5nIHRo
-aXMgcGF0Y2guDQoNCj4gDQo+ID4+IGRpZmYgLS1naXQgYS9pbmNsdWRlL2xpbnV4L3VzYi91c2Ju
-ZXQuaCBiL2luY2x1ZGUvbGludXgvdXNiL3VzYm5ldC5oDQo+ID4+IGluZGV4DQo+ID4+IDlmMDhh
-NTg0ZDcwNy4uZDI2NTk5ZmFhYjMzIDEwMDY0NA0KPiA+PiAtLS0gYS9pbmNsdWRlL2xpbnV4L3Vz
-Yi91c2JuZXQuaA0KPiA+PiArKysgYi9pbmNsdWRlL2xpbnV4L3VzYi91c2JuZXQuaA0KPiA+PiBA
-QCAtNzYsOCArNzYsMjYgQEAgc3RydWN0IHVzYm5ldCB7DQo+ID4+ICAgIwkJZGVmaW5lIEVWRU5U
-X0xJTktfQ0hBTkdFCTExDQo+ID4+ICAgIwkJZGVmaW5lIEVWRU5UX1NFVF9SWF9NT0RFCTEyDQo+
-ID4+ICAgIwkJZGVmaW5lIEVWRU5UX05PX0lQX0FMSUdOCTEzDQo+ID4+ICsvKg0KPiA+PiArICog
-dGhpcyBvbmUgaXMgc3BlY2lhbCwgYXMgaXQgaW5kaWNhdGVzIHRoYXQgdGhlIGRldmljZSBpcyBn
-b2luZw0KPiA+PiArYXdheQ0KPiA+PiArICogdGhlcmUgYXJlIGN5Y2xpYyBkZXBlbmRlbmNpZXMg
-YmV0d2VlbiB0YXNrbGV0LCB0aW1lciBhbmQgYmgNCj4gPj4gKyAqIHRoYXQgbXVzdCBiZSBicm9r
-ZW4NCj4gPj4gKyAqLw0KPiA+DQo+ID4gTmV0d29ya2luZyBibG9jayBjb21tZW50cyBkb24ndCB1
-c2UgYW4gZW1wdHkgLyogbGluZSwgdXNlIC8qIENvbW1lbnQuLi4NCj4gDQo+IE9LDQo+IA0KPiAJ
-UmVnYXJkcw0KPiAJCU9saXZlcg0KDQo=
+Update Qualcomm PMIC Type-C examples to follow the USB-C connector
+schema. The USB-C connector should have three ports (USB HS @0,
+SSTX/RX @1 and SBU @2 lanes). Reorder ports accordingly and add SBU port
+connected to the SBU mux (e.g. FSA4480).
+
+Fixes: 00bb478b829e ("dt-bindings: usb: Add Qualcomm PMIC Type-C")
+Reported-by: Luca Weiss <luca.weiss@fairphone.com>
+Acked-by: Konrad Dybcio <konrad.dybcio@linaro.org>
+Signed-off-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+---
+Update examples to follow usb-c-connector schema wrt. ports definitions.
+---
+Changes in v2:
+- Dropped patch removing the role-switching port. We do not use it, but
+  it can become useful by other designs.
+- Link to v1: https://lore.kernel.org/r/20240322-typec-fix-example-v1-0-6b01c347419e@linaro.org
+---
+ .../devicetree/bindings/usb/qcom,pmic-typec.yaml   | 34 +++++++++++++++++-----
+ 1 file changed, 26 insertions(+), 8 deletions(-)
+
+diff --git a/Documentation/devicetree/bindings/usb/qcom,pmic-typec.yaml b/Documentation/devicetree/bindings/usb/qcom,pmic-typec.yaml
+index d9694570c419..fe757619e535 100644
+--- a/Documentation/devicetree/bindings/usb/qcom,pmic-typec.yaml
++++ b/Documentation/devicetree/bindings/usb/qcom,pmic-typec.yaml
+@@ -192,15 +192,22 @@ examples:
+ 
+                     port@0 {
+                         reg = <0>;
+-                        pmic_typec_mux_out: endpoint {
+-                            remote-endpoint = <&usb_phy_typec_mux_in>;
++                        pmic_typec_hs_in: endpoint {
++                            remote-endpoint = <&usb_hs_out>;
+                         };
+                     };
+ 
+                     port@1 {
+                         reg = <1>;
+-                        pmic_typec_role_switch_out: endpoint {
+-                            remote-endpoint = <&usb_role_switch_in>;
++                        pmic_typec_ss_in: endpoint {
++                            remote-endpoint = <&usb_phy_typec_ss_out>;
++                        };
++                    };
++
++                    port@2 {
++                        reg = <2>;
++                        pmic_typec_sbu: endpoint {
++                            remote-endpoint = <&usb_mux_sbu>;
+                         };
+                     };
+                 };
+@@ -212,8 +219,8 @@ examples:
+         dr_mode = "otg";
+         usb-role-switch;
+         port {
+-            usb_role_switch_in: endpoint {
+-                remote-endpoint = <&pmic_typec_role_switch_out>;
++            usb_hs_out: endpoint {
++                remote-endpoint = <&pmic_typec_hs_in>;
+             };
+         };
+     };
+@@ -221,8 +228,19 @@ examples:
+     usb-phy {
+         orientation-switch;
+         port {
+-            usb_phy_typec_mux_in: endpoint {
+-                remote-endpoint = <&pmic_typec_mux_out>;
++            usb_phy_typec_ss_out: endpoint {
++                remote-endpoint = <&pmic_typec_ss_in>;
++            };
++        };
++    };
++
++    usb-mux {
++        orientation-switch;
++        mode-switch;
++
++        port {
++            usb_mux_sbu: endpoint {
++                remote-endpoint = <&pmic_typec_sbu>;
+             };
+         };
+     };
+
+---
+base-commit: 13ee4a7161b6fd938aef6688ff43b163f6d83e37
+change-id: 20240322-typec-fix-example-3d9b1eca853d
+
+Best regards,
+-- 
+Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+
+
+X-sender: <linux-kernel+bounces-125900-steffen.klassert=secunet.com@vger.kernel.org>
+X-Receiver: <steffen.klassert@secunet.com> ORCPT=rfc822;steffen.klassert@secunet.com
+X-CreatedBy: MSExchange15
+X-HeloDomain: mbx-dresden-01.secunet.de
+X-ExtendedProps: BQBjAAoAlmUFfe5Q3AgFADcAAgAADwA8AAAATWljcm9zb2Z0LkV4Y2hhbmdlLlRyYW5zcG9ydC5NYWlsUmVjaXBpZW50Lk9yZ2FuaXphdGlvblNjb3BlEQAAAAAAAAAAAAAAAAAAAAAADwA/AAAATWljcm9zb2Z0LkV4Y2hhbmdlLlRyYW5zcG9ydC5EaXJlY3RvcnlEYXRhLk1haWxEZWxpdmVyeVByaW9yaXR5DwADAAAATG93
+X-Source: SMTP:Default MBX-ESSEN-02
+X-SourceIPAddress: 10.53.40.199
+X-EndOfInjectedXHeaders: 13579
+Received: from mbx-dresden-01.secunet.de (10.53.40.199) by
+ mbx-essen-02.secunet.de (10.53.40.198) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2507.37; Sat, 30 Mar 2024 23:21:44 +0100
+Received: from b.mx.secunet.com (62.96.220.37) by cas-essen-02.secunet.de
+ (10.53.40.202) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2507.37 via Frontend
+ Transport; Sat, 30 Mar 2024 23:21:43 +0100
+Received: from localhost (localhost [127.0.0.1])
+	by b.mx.secunet.com (Postfix) with ESMTP id ACA1220322
+	for <steffen.klassert@secunet.com>; Sat, 30 Mar 2024 23:21:43 +0100 (CET)
+X-Virus-Scanned: by secunet
+X-Spam-Flag: NO
+X-Spam-Score: -5.051
+X-Spam-Level:
+X-Spam-Status: No, score=-5.051 tagged_above=-999 required=2.1
+	tests=[BAYES_00=-1.9, DKIM_SIGNED=0.1, DKIM_VALID=-0.1,
+	DKIM_VALID_AU=-0.1, HEADER_FROM_DIFFERENT_DOMAINS=0.249,
+	MAILING_LIST_MULTI=-1, RCVD_IN_DNSWL_MED=-2.3, SPF_HELO_NONE=0.001,
+	SPF_PASS=-0.001] autolearn=ham autolearn_force=no
+Authentication-Results: a.mx.secunet.com (amavisd-new);
+	dkim=pass (2048-bit key) header.d=linaro.org
+Received: from b.mx.secunet.com ([127.0.0.1])
+	by localhost (a.mx.secunet.com [127.0.0.1]) (amavisd-new, port 10024)
+	with ESMTP id llastv2nJa3W for <steffen.klassert@secunet.com>;
+	Sat, 30 Mar 2024 23:21:39 +0100 (CET)
+Received-SPF: Pass (sender SPF authorized) identity=mailfrom; client-ip=139.178.88.99; helo=sv.mirrors.kernel.org; envelope-from=linux-kernel+bounces-125900-steffen.klassert=secunet.com@vger.kernel.org; receiver=steffen.klassert@secunet.com 
+DKIM-Filter: OpenDKIM Filter v2.11.0 b.mx.secunet.com F20042025D
+Authentication-Results: b.mx.secunet.com;
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="S7jYKe8m"
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+	(No client certificate requested)
+	by b.mx.secunet.com (Postfix) with ESMTPS id F20042025D
+	for <steffen.klassert@secunet.com>; Sat, 30 Mar 2024 23:21:38 +0100 (CET)
+Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+	(No client certificate requested)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id AB99C282E05
+	for <steffen.klassert@secunet.com>; Sat, 30 Mar 2024 22:21:36 +0000 (UTC)
+Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 44F5851C2B;
+	Sat, 30 Mar 2024 22:21:23 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="S7jYKe8m"
+Received: from mail-lf1-f53.google.com (mail-lf1-f53.google.com [209.85.167.53])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+	(No client certificate requested)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B9CB14AEFE
+	for <linux-kernel@vger.kernel.org>; Sat, 30 Mar 2024 22:21:18 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.53
+ARC-Seal: i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1711837280; cv=none; b=XKrIEzcBkBL/hOcL+PegxyE/vNWdtHdDuwO1xpeEiAC6t4vXH2B0UDw/C3b8f0+NEAgaJlQK5NXB6ryHa+1pQbPePD7rFvyDPFh5CQ1Ppc7cZKOYcoOucML5+ZWoBRZOs4yWFiVG+wg2IF6INfMBNjCHeRkOCCMyDi6yvQOp+h0=
+ARC-Message-Signature: i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1711837280; c=relaxed/simple;
+	bh=Oc9kcICFBM05I/E/I4AVoBzP2f/9gloPVHobW/2H4Sc=;
+	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:To:Cc; b=YQTKIydBv76w12PvQhQQjI3DwHzqSpM+qMI2Z3QxqmwQdMF3YTDwNH67P4SjyWtoplJqTmpRLxFipCb1aKTSu2Tit/R+ldwYxjHREmtGRyPG1Bu7js/BfhkXMeNEZU+WP2gHR/1YxGBxjv+lG978wlt8TkLWc7IxAoDpLRU/dko=
+ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=S7jYKe8m; arc=none smtp.client-ip=209.85.167.53
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
+Received: by mail-lf1-f53.google.com with SMTP id 2adb3069b0e04-515b43b39fdso2560628e87.1
+        for <linux-kernel@vger.kernel.org>; Sat, 30 Mar 2024 15:21:18 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google; t=1711837277; x=1712442077; darn=vger.kernel.org;
+        h=cc:to:message-id:content-transfer-encoding:mime-version:subject
+         :date:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=0XPGOUCDwaV1EzZ064paZOD8RnQFs1ddJgtwbPEEUz4=;
+        b=S7jYKe8msBG0Hsn9CYMRKdMJJSwT1C1KDhNhWuJJHVT+tL8mNXWKFyF+N0xZnPGV7w
+         Bk395XN7yob2caKMRGEHJe6VxJAokee7Kuj72ZuuItUajPwWtTCX/PtXOjRFqsIhxjts
+         WKUR6aB21G3DVDKrpcp8XrK9Cxw26zWJvuIGkjkr16KV03F3awH9lwtKlw4fenCUcdO3
+         LU3p253gOI4kwjlGq6OetGqNdKqLFLukYdPM/lNlK7YfHvzfBF8Z5O570IQA8o7szYfn
+         WLR+DJOlOy6aCjAf/IRfozcLCEQurAHZMiYsp9nOqaxvRboDSJywiCRgfsnf4iyxjfLJ
+         UmHg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1711837277; x=1712442077;
+        h=cc:to:message-id:content-transfer-encoding:mime-version:subject
+         :date:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=0XPGOUCDwaV1EzZ064paZOD8RnQFs1ddJgtwbPEEUz4=;
+        b=xOoYGllKePqUWaEBrRT6/3vclrcBPNz0xLPua3A1z/NguIMM49lSPS3HJ027Quy0MM
+         +r3UsVk94vQ3FBH2XPHpauwRvZwq0wQ6u8uItwHEgu9kclNYDkraRHhzxKWjW/qTTS+Y
+         o634mb1Aig8HS7fy67clvSnFxw8BAz7iNimpw6Ag2FxWTWgAiM+hzApRtRrMWdRpkeIV
+         bWRRRyuiITxiHBVKsF5Aruhuz1YXQIDzNbtEK3Dc8Pesz8Nya5ZTT6TxwMjfeEH7Y1ga
+         UXzqFlwq5OMDBhDT20B/wCmbsj2P8K9e+5uqcuTsaYtxNRGwsqwyc74z51AszgXjh/Vj
+         N3IA==
+X-Forwarded-Encrypted: i=1; AJvYcCX7ya2Zl7cM1YAYRL/4YZRdDSjjSlP4fA8VoE4naRClKtBdM80VOqG8H8JY5gs0uIefefYiFTD3rPwNsGyOgAkHYrdabBIERoDtpR8b
+X-Gm-Message-State: AOJu0YwjeEq9ll8717JTBIAGV56NKsvyka31BH5MCNmxe+l2M/d490bL
+	4O/2boJ7myuJCoVeC293QfGBuDPNY2VtkTZuqtProgqc9L+/Y/G+7eQUnpJV1c0=
+X-Google-Smtp-Source: AGHT+IF+x3Qdox2g6SjvSt6ZfLOJ3gFe7c5YL+555P/qahnN8Eg7hcDHoGbL+RaMts29GpUddkiBTg==
+X-Received: by 2002:a05:6512:3d1b:b0:516:9f65:fcf with SMTP id d27-20020a0565123d1b00b005169f650fcfmr965650lfv.26.1711837276931;
+        Sat, 30 Mar 2024 15:21:16 -0700 (PDT)
+Received: from umbar.lan ([192.130.178.91])
+        by smtp.gmail.com with ESMTPSA id j18-20020a056512399200b00514b6e2fd49sm993992lfu.169.2024.03.30.15.21.16
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sat, 30 Mar 2024 15:21:16 -0700 (PDT)
+From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+Date: Sun, 31 Mar 2024 00:21:15 +0200
+Subject: [PATCH v2] dt-bindings: usb: qcom,pmic-typec: update example to
+ follow connector schema
+Precedence: bulk
+X-Mailing-List: linux-kernel@vger.kernel.org
+List-Id: <linux-kernel.vger.kernel.org>
+List-Subscribe: <mailto:linux-kernel+subscribe@vger.kernel.org>
+List-Unsubscribe: <mailto:linux-kernel+unsubscribe@vger.kernel.org>
+MIME-Version: 1.0
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+Message-Id: <20240331-typec-fix-example-v2-1-f56fffe4f37c@linaro.org>
+X-B4-Tracking: v=1; b=H4sIAFqQCGYC/32NSQ6DMBAEv4LmnIm8kIWc8o+Ig7EnMBKxLRshE
+ OLvcXhAjtWtrt4gU2LK8Kg2SDRz5uALqFMFdjC+J2RXGJRQtdBK4bRGsvjmBWkxnzgSatd0kqy
+ 5X7SDsouJSn04X23hgfMU0npczPKX/rPNEgVeOyGtrm+1bOg5sjcpnEPqod33/QuTXSVvswAAA
+ A==
+To: Bjorn Andersson <andersson@kernel.org>, 
+ Konrad Dybcio <konrad.dybcio@linaro.org>, 
+ Bryan O'Donoghue <bryan.odonoghue@linaro.org>, 
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>, 
+ Rob Herring <robh@kernel.org>, 
+ Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>, 
+ Conor Dooley <conor+dt@kernel.org>
+Cc: linux-arm-msm@vger.kernel.org, linux-usb@vger.kernel.org, 
+ devicetree@vger.kernel.org, linux-kernel@vger.kernel.org, 
+ Luca Weiss <luca.weiss@fairphone.com>, 
+ Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+X-Mailer: b4 0.13.0
+X-Developer-Signature: v=1; a=openpgp-sha256; l=3401;
+ i=dmitry.baryshkov@linaro.org; h=from:subject:message-id;
+ bh=Oc9kcICFBM05I/E/I4AVoBzP2f/9gloPVHobW/2H4Sc=;
+ b=owEBbQGS/pANAwAKAYs8ij4CKSjVAcsmYgBmCJBcricaIiHddrBejVu6XApq90lPrz+UyzOaL
+ MmslELd922JATMEAAEKAB0WIQRMcISVXLJjVvC4lX+LPIo+Aiko1QUCZgiQXAAKCRCLPIo+Aiko
+ 1SnyCACjI3jZcyF8lv/PfbC7h7LpkxjJVFoEqIGjQQ0uJNVnplc27e2UQGG1fpyLbbDQgQEUwP3
+ rmurUTUJveKBLHSQJ1fs80Qe9/ZNBZ2YLRBE/vEA5u/RXkKoGSiSgOlSbLk4i2IfXTXWPKHsAyz
+ 84sJQUpm5yIxaBu8NrAeYw0NnaoMBJEVcJsgrDuGpKUUUhB7FW8fApu+0yroEiMyrtN63xcUV2v
+ O2bGuho1A5A6REMw/Xtdr15nkzJC6mbjYg6PxDPL+qy61fuiLlzvN0XxZ/N60JZf39D5ne95O7k
+ euRzdwIcCJFYFyYsOMyDhOhTuzIBm0hasGa5sU32VgH8Umna
+X-Developer-Key: i=dmitry.baryshkov@linaro.org; a=openpgp;
+ fpr=8F88381DD5C873E4AE487DA5199BF1243632046A
+Return-Path: linux-kernel+bounces-125900-steffen.klassert=secunet.com@vger.kernel.org
+X-MS-Exchange-Organization-OriginalArrivalTime: 30 Mar 2024 22:21:43.8207
+ (UTC)
+X-MS-Exchange-Organization-Network-Message-Id: 201822ae-4eca-4fcf-da6e-08dc5107c7c8
+X-MS-Exchange-Organization-OriginalClientIPAddress: 62.96.220.37
+X-MS-Exchange-Organization-OriginalServerIPAddress: 10.53.40.202
+X-MS-Exchange-Organization-Cross-Premises-Headers-Processed: cas-essen-02.secunet.de
+X-MS-Exchange-Organization-OrderedPrecisionLatencyInProgress: LSRV=cas-essen-02.secunet.de:TOTAL-FE=0.023|SMR=0.023(SMRPI=0.021(SMRPI-FrontendProxyAgent=0.021));2024-03-30T22:21:43.843Z
+X-MS-Exchange-Forest-ArrivalHubServer: mbx-essen-02.secunet.de
+X-MS-Exchange-Organization-AuthSource: cas-essen-02.secunet.de
+X-MS-Exchange-Organization-AuthAs: Anonymous
+X-MS-Exchange-Organization-OriginalSize: 13032
+X-MS-Exchange-Organization-Transport-Properties: DeliveryPriority=Low
+X-MS-Exchange-Organization-Prioritization: 2:ShadowRedundancy
+X-MS-Exchange-Organization-IncludeInSla: False:ShadowRedundancy
+
+Update Qualcomm PMIC Type-C examples to follow the USB-C connector
+schema. The USB-C connector should have three ports (USB HS @0,
+SSTX/RX @1 and SBU @2 lanes). Reorder ports accordingly and add SBU port
+connected to the SBU mux (e.g. FSA4480).
+
+Fixes: 00bb478b829e ("dt-bindings: usb: Add Qualcomm PMIC Type-C")
+Reported-by: Luca Weiss <luca.weiss@fairphone.com>
+Acked-by: Konrad Dybcio <konrad.dybcio@linaro.org>
+Signed-off-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+---
+Update examples to follow usb-c-connector schema wrt. ports definitions.
+---
+Changes in v2:
+- Dropped patch removing the role-switching port. We do not use it, but
+  it can become useful by other designs.
+- Link to v1: https://lore.kernel.org/r/20240322-typec-fix-example-v1-0-6b01c347419e@linaro.org
+---
+ .../devicetree/bindings/usb/qcom,pmic-typec.yaml   | 34 +++++++++++++++++-----
+ 1 file changed, 26 insertions(+), 8 deletions(-)
+
+diff --git a/Documentation/devicetree/bindings/usb/qcom,pmic-typec.yaml b/Documentation/devicetree/bindings/usb/qcom,pmic-typec.yaml
+index d9694570c419..fe757619e535 100644
+--- a/Documentation/devicetree/bindings/usb/qcom,pmic-typec.yaml
++++ b/Documentation/devicetree/bindings/usb/qcom,pmic-typec.yaml
+@@ -192,15 +192,22 @@ examples:
+ 
+                     port@0 {
+                         reg = <0>;
+-                        pmic_typec_mux_out: endpoint {
+-                            remote-endpoint = <&usb_phy_typec_mux_in>;
++                        pmic_typec_hs_in: endpoint {
++                            remote-endpoint = <&usb_hs_out>;
+                         };
+                     };
+ 
+                     port@1 {
+                         reg = <1>;
+-                        pmic_typec_role_switch_out: endpoint {
+-                            remote-endpoint = <&usb_role_switch_in>;
++                        pmic_typec_ss_in: endpoint {
++                            remote-endpoint = <&usb_phy_typec_ss_out>;
++                        };
++                    };
++
++                    port@2 {
++                        reg = <2>;
++                        pmic_typec_sbu: endpoint {
++                            remote-endpoint = <&usb_mux_sbu>;
+                         };
+                     };
+                 };
+@@ -212,8 +219,8 @@ examples:
+         dr_mode = "otg";
+         usb-role-switch;
+         port {
+-            usb_role_switch_in: endpoint {
+-                remote-endpoint = <&pmic_typec_role_switch_out>;
++            usb_hs_out: endpoint {
++                remote-endpoint = <&pmic_typec_hs_in>;
+             };
+         };
+     };
+@@ -221,8 +228,19 @@ examples:
+     usb-phy {
+         orientation-switch;
+         port {
+-            usb_phy_typec_mux_in: endpoint {
+-                remote-endpoint = <&pmic_typec_mux_out>;
++            usb_phy_typec_ss_out: endpoint {
++                remote-endpoint = <&pmic_typec_ss_in>;
++            };
++        };
++    };
++
++    usb-mux {
++        orientation-switch;
++        mode-switch;
++
++        port {
++            usb_mux_sbu: endpoint {
++                remote-endpoint = <&pmic_typec_sbu>;
+             };
+         };
+     };
+
+---
+base-commit: 13ee4a7161b6fd938aef6688ff43b163f6d83e37
+change-id: 20240322-typec-fix-example-3d9b1eca853d
+
+Best regards,
+-- 
+Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+
+
