@@ -1,189 +1,239 @@
-Received: from mx0a-001b2d01.pphosted.com (mx0a-001b2d01.pphosted.com [148.163.156.1])
+Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2FF0C22079;
-	Tue,  2 Apr 2024 12:49:41 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=148.163.156.1
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8F2FE8288A;
+	Tue,  2 Apr 2024 13:07:04 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.137.202.133
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1712062183; cv=none; b=Z7iFFpmAo34fGrPUzj8GB3P7ci2CyzkCbJL+4QJvKPjL75jt35B3D9XjBCTi9vIpw6LBlCy720zbEjh0XbG3BXYikPH4MmxSxwu9eKZ3bTmlmjZrTyry/1K5p/NlwuiUkpr5FKWW4IRf6UXnhrfabyFgvHC5ih3sTeVAeZ5+CRw=
+	t=1712063226; cv=none; b=BWqKVYqzkmJa4AAsq+CuWQheupmsXcl5awj9G0pJ6zS+i82pRQ5WNKB3DeNjswDVEBX5nzEIO8RGymY2PYalQ8juDm7a8CXxQdiYOgGOq9MIrsXoQJVxXfhrRcrAtqZPw7RmDlYUmmIIfGNW1AmWYNNhBHulj+Kk5Ahx3aBFwGQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1712062183; c=relaxed/simple;
-	bh=AfVaTNGQeOUO+KCvOtgnYBzWx3gO68HaZOShlsAKjYo=;
-	h=Message-ID:Date:Subject:To:Cc:References:From:In-Reply-To:
-	 Content-Type:MIME-Version; b=tDXvv4spv4w1zJhwmYLp2AAH7pTjE0J5VKYE+9/trElQUFqN5UYkJMdtmJBTAgwwl5wUc5uaTtyqV29IaPDU+mVfVPy+2WbhbnTjohIiDXcgTIumNTnblIJCHvaJCThDyCMbUu/rzzj7MomH3MhfreuZLNUsPEGQUKM9JuRhTSw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.ibm.com; spf=pass smtp.mailfrom=linux.ibm.com; dkim=pass (2048-bit key) header.d=ibm.com header.i=@ibm.com header.b=pe5Uc6ck; arc=none smtp.client-ip=148.163.156.1
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.ibm.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.ibm.com
+	s=arc-20240116; t=1712063226; c=relaxed/simple;
+	bh=cdA7xq9q4QKBVX4NhlZS97yZMdp+l/+frA4s/zSI0Pc=;
+	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
+	 MIME-Version; b=QDMaz/8p7gZ7d0nCb4yBsguesIxieC7XvjnIyt9kYJ7GiWC8nV6sos6RPxOyx+SNaLvkbua2Av/3ZoHelKiQnuiCUMfSyk7zmiuefa6Ik2rjIDvmHbYkja1TCx4I6dKTSPNsCPf7KFA1mmpxTpXcx1sVtdD49OuLPJg1ymfmfPw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=lst.de; spf=none smtp.mailfrom=bombadil.srs.infradead.org; dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b=1LDi0Lo2; arc=none smtp.client-ip=198.137.202.133
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=lst.de
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=bombadil.srs.infradead.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=ibm.com header.i=@ibm.com header.b="pe5Uc6ck"
-Received: from pps.filterd (m0353729.ppops.net [127.0.0.1])
-	by mx0a-001b2d01.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id 432CTJno003298;
-	Tue, 2 Apr 2024 12:48:23 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com; h=message-id : date :
- subject : to : cc : references : from : in-reply-to : content-type :
- content-transfer-encoding : mime-version; s=pp1;
- bh=cqNk795UztyaS7ZOTqsgy3G6Bzl6LkH6VxOUkSRZDWE=;
- b=pe5Uc6ckRQGoPKRDNGIuCZjvW9CCS78ZFZ5tCAUFKWtooQXGOnFCZ2arOYqT0xeUfP9s
- i4nIUcoggh26pYRIFcstX8a6Q/BDARG/hcAEayONrnB5YNXSAm/JIoNr5SJfcycY16CA
- e9zGUDQN1y8Kyrq8qI+b4dRBsPxOkEEkqpZIwwWRhh8fTIRQZaCqfPV0r8cUA0cmrVx7
- rChB99m0wi/ueQInDYrziML0F+2pBTAHeMDVoXJTZu0mGDrkh2dmIPEKpmb8G6OlEe99
- AzzIa6xN8mX9IAf+/t7s2yww2L54PyTzeX3pEIxkFGiL2TMXRHzkwqUYgFPO+MipSvOa nQ== 
-Received: from pps.reinject (localhost [127.0.0.1])
-	by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 3x8hvx82nc-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Tue, 02 Apr 2024 12:48:22 +0000
-Received: from m0353729.ppops.net (m0353729.ppops.net [127.0.0.1])
-	by pps.reinject (8.17.1.5/8.17.1.5) with ESMTP id 432CmLxL001953;
-	Tue, 2 Apr 2024 12:48:21 GMT
-Received: from ppma12.dal12v.mail.ibm.com (dc.9e.1632.ip4.static.sl-reverse.com [50.22.158.220])
-	by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 3x8hvx82n8-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Tue, 02 Apr 2024 12:48:21 +0000
-Received: from pps.filterd (ppma12.dal12v.mail.ibm.com [127.0.0.1])
-	by ppma12.dal12v.mail.ibm.com (8.17.1.19/8.17.1.19) with ESMTP id 4329nZeD008463;
-	Tue, 2 Apr 2024 12:48:19 GMT
-Received: from smtprelay06.fra02v.mail.ibm.com ([9.218.2.230])
-	by ppma12.dal12v.mail.ibm.com (PPS) with ESMTPS id 3x6w2txsc6-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Tue, 02 Apr 2024 12:48:19 +0000
-Received: from smtpav04.fra02v.mail.ibm.com (smtpav04.fra02v.mail.ibm.com [10.20.54.103])
-	by smtprelay06.fra02v.mail.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id 432CmG0h28967614
-	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
-	Tue, 2 Apr 2024 12:48:18 GMT
-Received: from smtpav04.fra02v.mail.ibm.com (unknown [127.0.0.1])
-	by IMSVA (Postfix) with ESMTP id D8E5A2004D;
-	Tue,  2 Apr 2024 12:48:15 +0000 (GMT)
-Received: from smtpav04.fra02v.mail.ibm.com (unknown [127.0.0.1])
-	by IMSVA (Postfix) with ESMTP id 5982520040;
-	Tue,  2 Apr 2024 12:48:14 +0000 (GMT)
-Received: from [9.152.224.141] (unknown [9.152.224.141])
-	by smtpav04.fra02v.mail.ibm.com (Postfix) with ESMTP;
-	Tue,  2 Apr 2024 12:48:14 +0000 (GMT)
-Message-ID: <ea4ac7a3-13ae-4d22-a3d9-fcb7d9e8d751@linux.ibm.com>
-Date: Tue, 2 Apr 2024 14:48:14 +0200
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 7/9] s390: Convert from tasklet to BH workqueue
-Content-Language: en-US
-To: Allen Pais <apais@linux.microsoft.com>, linux-kernel@vger.kernel.org
-Cc: tj@kernel.org, keescook@chromium.org, vkoul@kernel.org, marcan@marcan.st,
-        sven@svenpeter.dev, florian.fainelli@broadcom.com, rjui@broadcom.com,
-        sbranden@broadcom.com, paul@crapouillou.net,
-        Eugeniy.Paltsev@synopsys.com, manivannan.sadhasivam@linaro.org,
-        vireshk@kernel.org, Frank.Li@nxp.com, leoyang.li@nxp.com,
-        zw@zh-kernel.org, wangzhou1@hisilicon.com, haijie1@huawei.com,
-        shawnguo@kernel.org, s.hauer@pengutronix.de, sean.wang@mediatek.com,
-        matthias.bgg@gmail.com, angelogioacchino.delregno@collabora.com,
-        afaerber@suse.de, logang@deltatee.com, daniel@zonque.org,
-        haojian.zhuang@gmail.com, robert.jarzmik@free.fr, andersson@kernel.org,
-        konrad.dybcio@linaro.org, orsonzhai@gmail.com,
-        baolin.wang@linux.alibaba.com, zhang.lyra@gmail.com,
-        patrice.chotard@foss.st.com, linus.walleij@linaro.org, wens@csie.org,
-        jernej.skrabec@gmail.com, peter.ujfalusi@gmail.com, kys@microsoft.com,
-        haiyangz@microsoft.com, wei.liu@kernel.org, decui@microsoft.com,
-        jassisinghbrar@gmail.com, mchehab@kernel.org,
-        maintainers@bluecherrydvr.com, aubin.constans@microchip.com,
-        ulf.hansson@linaro.org, manuel.lauss@gmail.com,
-        mirq-linux@rere.qmqm.pl, jh80.chung@samsung.com, oakad@yahoo.com,
-        hayashi.kunihiko@socionext.com, mhiramat@kernel.org,
-        brucechang@via.com.tw, HaraldWelte@viatech.com, pierre@ossman.eu,
-        duncan.sands@free.fr, stern@rowland.harvard.edu, oneukum@suse.com,
-        openipmi-developer@lists.sourceforge.net, dmaengine@vger.kernel.org,
-        asahi@lists.linux.dev, linux-arm-kernel@lists.infradead.org,
-        linux-rpi-kernel@lists.infradead.org, linux-mips@vger.kernel.org,
-        imx@lists.linux.dev, linuxppc-dev@lists.ozlabs.org,
-        linux-mediatek@lists.infradead.org, linux-actions@lists.infradead.org,
-        linux-arm-msm@vger.kernel.org, linux-riscv@lists.infradead.org,
-        linux-sunxi@lists.linux.dev, linux-tegra@vger.kernel.org,
-        linux-hyperv@vger.kernel.org, linux-rdma@vger.kernel.org,
-        linux-media@vger.kernel.org, linux-mmc@vger.kernel.org,
-        linux-omap@vger.kernel.org, linux-renesas-soc@vger.kernel.org,
-        linux-s390@vger.kernel.org, netdev@vger.kernel.org,
-        linux-usb@vger.kernel.org
-References: <20240327160314.9982-1-apais@linux.microsoft.com>
- <20240327160314.9982-8-apais@linux.microsoft.com>
-From: Alexandra Winter <wintera@linux.ibm.com>
-In-Reply-To: <20240327160314.9982-8-apais@linux.microsoft.com>
-Content-Type: text/plain; charset=UTF-8
-X-TM-AS-GCONF: 00
-X-Proofpoint-ORIG-GUID: Ku4a1547K_GAebsL_C6x0-P2EehptrTF
-X-Proofpoint-GUID: nppBqWZFDQLnaADD-aCs4ILGDo6MGGqc
-Content-Transfer-Encoding: 7bit
-X-Proofpoint-UnRewURL: 0 URL was un-rewritten
+	dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="1LDi0Lo2"
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+	d=infradead.org; s=bombadil.20210309; h=Content-Transfer-Encoding:
+	MIME-Version:References:In-Reply-To:Message-Id:Date:Subject:Cc:To:From:Sender
+	:Reply-To:Content-Type:Content-ID:Content-Description;
+	bh=lyFay2MEWHGjyJkVgKdY3+4m9YXmReiC41jMUT85tAI=; b=1LDi0Lo2U+Q5RD0oIXU4tFxmok
+	MpGqpVj8dmD2YT1fCyEhnwtlMTuJjPg2B/4My8V6TTEogzr9jlRtDWATw0lx8Lf5Nl7pZnbX69PXf
+	78ooWufQ5fRAM99uOqtJCPUz5V2z7Fq5qrTR2SiIfvFdvjJVbufNZENyKVmJS4QczEIlIcvpZ7Zii
+	M+N0uf83bSfupJDEI3vOg/DfIa5lNhswRKGAhb5zHjsaGbKwNokA59De6rhn6w6wk8XlaW4vyj+sy
+	40bLItnfXcN0xLvB1L209s4SaGijuIKjrmsCWzUpX8qzoTXO+kq2kvge++J7MQu5+sDhwL1nxYWnK
+	bk3OLpkA==;
+Received: from [2001:4bb8:199:60a5:c70:4a89:bc61:2] (helo=localhost)
+	by bombadil.infradead.org with esmtpsa (Exim 4.97.1 #2 (Red Hat Linux))
+	id 1rrdqm-0000000BFJv-2anh;
+	Tue, 02 Apr 2024 13:06:53 +0000
+From: Christoph Hellwig <hch@lst.de>
+To: Jens Axboe <axboe@kernel.dk>,
+	"Martin K. Petersen" <martin.petersen@oracle.com>
+Cc: Damien Le Moal <dlemoal@kernel.org>,
+	Niklas Cassel <cassel@kernel.org>,
+	Takashi Sakamoto <o-takashi@sakamocchi.jp>,
+	Sathya Prakash <sathya.prakash@broadcom.com>,
+	Sreekanth Reddy <sreekanth.reddy@broadcom.com>,
+	Suganath Prabu Subramani <suganath-prabu.subramani@broadcom.com>,
+	"Juergen E. Fischer" <fischer@norbit.de>,
+	Xiang Chen <chenxiang66@hisilicon.com>,
+	HighPoint Linux Team <linux@highpoint-tech.com>,
+	Tyrel Datwyler <tyreld@linux.ibm.com>,
+	Brian King <brking@us.ibm.com>,
+	Lee Duncan <lduncan@suse.com>,
+	Chris Leech <cleech@redhat.com>,
+	Mike Christie <michael.christie@oracle.com>,
+	John Garry <john.g.garry@oracle.com>,
+	Jason Yan <yanaijie@huawei.com>,
+	Kashyap Desai <kashyap.desai@broadcom.com>,
+	Sumit Saxena <sumit.saxena@broadcom.com>,
+	Shivasharan S <shivasharan.srikanteshwara@broadcom.com>,
+	Chandrakanth patil <chandrakanth.patil@broadcom.com>,
+	Jack Wang <jinpu.wang@cloud.ionos.com>,
+	Nilesh Javali <njavali@marvell.com>,
+	GR-QLogic-Storage-Upstream@marvell.com,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	Alim Akhtar <alim.akhtar@samsung.com>,
+	Avri Altman <avri.altman@wdc.com>,
+	Bart Van Assche <bvanassche@acm.org>,
+	Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>,
+	Alan Stern <stern@rowland.harvard.edu>,
+	linux-block@vger.kernel.org,
+	linux-ide@vger.kernel.org,
+	linux1394-devel@lists.sourceforge.net,
+	MPT-FusionLinux.pdl@broadcom.com,
+	linux-scsi@vger.kernel.org,
+	megaraidlinux.pdl@broadcom.com,
+	mpi3mr-linuxdrv.pdl@broadcom.com,
+	linux-samsung-soc@vger.kernel.org,
+	linux-usb@vger.kernel.org,
+	usb-storage@lists.one-eyed-alien.net
+Subject: [PATCH 02/23] bsg: pass queue_limits to bsg_setup_queue
+Date: Tue,  2 Apr 2024 15:06:24 +0200
+Message-Id: <20240402130645.653507-3-hch@lst.de>
+X-Mailer: git-send-email 2.39.2
+In-Reply-To: <20240402130645.653507-1-hch@lst.de>
+References: <20240402130645.653507-1-hch@lst.de>
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.272,Aquarius:18.0.1011,Hydra:6.0.619,FMLib:17.11.176.26
- definitions=2024-04-02_06,2024-04-01_01,2023-05-22_02
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 malwarescore=0 bulkscore=0
- mlxscore=0 suspectscore=0 spamscore=0 mlxlogscore=999 adultscore=0
- clxscore=1011 lowpriorityscore=0 impostorscore=0 phishscore=0
- priorityscore=1501 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.12.0-2403210000 definitions=main-2404020094
+Content-Transfer-Encoding: 8bit
+X-SRS-Rewrite: SMTP reverse-path rewritten from <hch@infradead.org> by bombadil.infradead.org. See http://www.infradead.org/rpr.html
 
+This allows bsg_setup_queue to pass them to blk_mq_alloc_queue and thus
+set up the limits at queue allocation time.
 
+Signed-off-by: Christoph Hellwig <hch@lst.de>
+Reviewed-by: Bart Van Assche <bvanassche@acm.org>
+Reviewed-by: John Garry <john.g.garry@oracle.com>
+Reviewed-by: Damien Le Moal <dlemoal@kernel.org>
+---
+ block/bsg-lib.c                     | 6 ++++--
+ drivers/scsi/mpi3mr/mpi3mr_app.c    | 2 +-
+ drivers/scsi/scsi_transport_fc.c    | 6 +++---
+ drivers/scsi/scsi_transport_iscsi.c | 3 ++-
+ drivers/scsi/scsi_transport_sas.c   | 4 ++--
+ drivers/ufs/core/ufs_bsg.c          | 3 ++-
+ include/linux/bsg-lib.h             | 3 ++-
+ 7 files changed, 16 insertions(+), 11 deletions(-)
 
-On 27.03.24 17:03, Allen Pais wrote:
-> The only generic interface to execute asynchronously in the BH context is
-> tasklet; however, it's marked deprecated and has some design flaws. To
-> replace tasklets, BH workqueue support was recently added. A BH workqueue
-> behaves similarly to regular workqueues except that the queued work items
-> are executed in the BH context.
-> 
-> This patch converts drivers/infiniband/* from tasklet to BH workqueue.
-> 
-> Based on the work done by Tejun Heo <tj@kernel.org>
-> Branch: https://git.kernel.org/pub/scm/linux/kernel/git/tj/wq.git for-6.10
-> 
-> Note: Not tested. Please test/review.
-> 
-> Signed-off-by: Allen Pais <allen.lkml@gmail.com>
-> ---
->  drivers/s390/block/dasd.c              | 42 ++++++++++++------------
->  drivers/s390/block/dasd_int.h          | 10 +++---
->  drivers/s390/char/con3270.c            | 27 ++++++++--------
->  drivers/s390/crypto/ap_bus.c           | 24 +++++++-------
->  drivers/s390/crypto/ap_bus.h           |  2 +-
->  drivers/s390/crypto/zcrypt_msgtype50.c |  2 +-
->  drivers/s390/crypto/zcrypt_msgtype6.c  |  4 +--
->  drivers/s390/net/ctcm_fsms.c           |  4 +--
->  drivers/s390/net/ctcm_main.c           | 15 ++++-----
->  drivers/s390/net/ctcm_main.h           |  5 +--
->  drivers/s390/net/ctcm_mpc.c            | 12 +++----
->  drivers/s390/net/ctcm_mpc.h            |  7 ++--
->  drivers/s390/net/lcs.c                 | 26 +++++++--------
->  drivers/s390/net/lcs.h                 |  2 +-
->  drivers/s390/net/qeth_core_main.c      |  2 +-
->  drivers/s390/scsi/zfcp_qdio.c          | 45 +++++++++++++-------------
->  drivers/s390/scsi/zfcp_qdio.h          |  9 +++---
->  17 files changed, 117 insertions(+), 121 deletions(-)
-> 
-
-
-We're looking into the best way to test this. 
-
-For drivers/s390/net/ctcm* and drivers/s390/net/lcs*:
-Acked-by: Alexandra Winter <wintera@linux.ibm.com>
-
-
-[...]
-> diff --git a/drivers/s390/net/qeth_core_main.c b/drivers/s390/net/qeth_core_main.c
-> index a0cce6872075..10ea95abc753 100644
-> --- a/drivers/s390/net/qeth_core_main.c
-> +++ b/drivers/s390/net/qeth_core_main.c
-> @@ -2911,7 +2911,7 @@ static int qeth_init_input_buffer(struct qeth_card *card,
->  	}
->  
->  	/*
-> -	 * since the buffer is accessed only from the input_tasklet
-> +	 * since the buffer is accessed only from the input_work
->  	 * there shouldn't be a need to synchronize; also, since we use
->  	 * the QETH_IN_BUF_REQUEUE_THRESHOLD we should never run  out off
->  	 * buffers
-
-I propose to delete the whole comment block. There have been many changes and 
-I don't think it is helpful for the current qeth driver.
+diff --git a/block/bsg-lib.c b/block/bsg-lib.c
+index bcc7dee6abced6..ee738d129a9f5e 100644
+--- a/block/bsg-lib.c
++++ b/block/bsg-lib.c
+@@ -354,12 +354,14 @@ static const struct blk_mq_ops bsg_mq_ops = {
+  * bsg_setup_queue - Create and add the bsg hooks so we can receive requests
+  * @dev: device to attach bsg device to
+  * @name: device to give bsg device
++ * @lim: queue limits for the bsg queue
+  * @job_fn: bsg job handler
+  * @timeout: timeout handler function pointer
+  * @dd_job_size: size of LLD data needed for each job
+  */
+ struct request_queue *bsg_setup_queue(struct device *dev, const char *name,
+-		bsg_job_fn *job_fn, bsg_timeout_fn *timeout, int dd_job_size)
++		struct queue_limits *lim, bsg_job_fn *job_fn,
++		bsg_timeout_fn *timeout, int dd_job_size)
+ {
+ 	struct bsg_set *bset;
+ 	struct blk_mq_tag_set *set;
+@@ -383,7 +385,7 @@ struct request_queue *bsg_setup_queue(struct device *dev, const char *name,
+ 	if (blk_mq_alloc_tag_set(set))
+ 		goto out_tag_set;
+ 
+-	q = blk_mq_alloc_queue(set, NULL, NULL);
++	q = blk_mq_alloc_queue(set, lim, NULL);
+ 	if (IS_ERR(q)) {
+ 		ret = PTR_ERR(q);
+ 		goto out_queue;
+diff --git a/drivers/scsi/mpi3mr/mpi3mr_app.c b/drivers/scsi/mpi3mr/mpi3mr_app.c
+index 55d590b919476e..ce5445eb9d0e4e 100644
+--- a/drivers/scsi/mpi3mr/mpi3mr_app.c
++++ b/drivers/scsi/mpi3mr/mpi3mr_app.c
+@@ -1853,7 +1853,7 @@ void mpi3mr_bsg_init(struct mpi3mr_ioc *mrioc)
+ 		return;
+ 	}
+ 
+-	mrioc->bsg_queue = bsg_setup_queue(bsg_dev, dev_name(bsg_dev),
++	mrioc->bsg_queue = bsg_setup_queue(bsg_dev, dev_name(bsg_dev), NULL,
+ 			mpi3mr_bsg_request, NULL, 0);
+ 	if (IS_ERR(mrioc->bsg_queue)) {
+ 		ioc_err(mrioc, "%s: bsg registration failed\n",
+diff --git a/drivers/scsi/scsi_transport_fc.c b/drivers/scsi/scsi_transport_fc.c
+index b04075f19445dc..87b2235b8ece45 100644
+--- a/drivers/scsi/scsi_transport_fc.c
++++ b/drivers/scsi/scsi_transport_fc.c
+@@ -4287,8 +4287,8 @@ fc_bsg_hostadd(struct Scsi_Host *shost, struct fc_host_attrs *fc_host)
+ 	snprintf(bsg_name, sizeof(bsg_name),
+ 		 "fc_host%d", shost->host_no);
+ 
+-	q = bsg_setup_queue(dev, bsg_name, fc_bsg_dispatch, fc_bsg_job_timeout,
+-				i->f->dd_bsg_size);
++	q = bsg_setup_queue(dev, bsg_name, NULL, fc_bsg_dispatch,
++			fc_bsg_job_timeout, i->f->dd_bsg_size);
+ 	if (IS_ERR(q)) {
+ 		dev_err(dev,
+ 			"fc_host%d: bsg interface failed to initialize - setup queue\n",
+@@ -4318,7 +4318,7 @@ fc_bsg_rportadd(struct Scsi_Host *shost, struct fc_rport *rport)
+ 	if (!i->f->bsg_request)
+ 		return -ENOTSUPP;
+ 
+-	q = bsg_setup_queue(dev, dev_name(dev), fc_bsg_dispatch_prep,
++	q = bsg_setup_queue(dev, dev_name(dev), NULL, fc_bsg_dispatch_prep,
+ 				fc_bsg_job_timeout, i->f->dd_bsg_size);
+ 	if (IS_ERR(q)) {
+ 		dev_err(dev, "failed to setup bsg queue\n");
+diff --git a/drivers/scsi/scsi_transport_iscsi.c b/drivers/scsi/scsi_transport_iscsi.c
+index af3ac6346796ba..c131746bf20777 100644
+--- a/drivers/scsi/scsi_transport_iscsi.c
++++ b/drivers/scsi/scsi_transport_iscsi.c
+@@ -1542,7 +1542,8 @@ iscsi_bsg_host_add(struct Scsi_Host *shost, struct iscsi_cls_host *ihost)
+ 		return -ENOTSUPP;
+ 
+ 	snprintf(bsg_name, sizeof(bsg_name), "iscsi_host%d", shost->host_no);
+-	q = bsg_setup_queue(dev, bsg_name, iscsi_bsg_host_dispatch, NULL, 0);
++	q = bsg_setup_queue(dev, bsg_name, NULL, iscsi_bsg_host_dispatch, NULL,
++			0);
+ 	if (IS_ERR(q)) {
+ 		shost_printk(KERN_ERR, shost, "bsg interface failed to "
+ 			     "initialize - no request queue\n");
+diff --git a/drivers/scsi/scsi_transport_sas.c b/drivers/scsi/scsi_transport_sas.c
+index d704c484a251c5..424a89513814b4 100644
+--- a/drivers/scsi/scsi_transport_sas.c
++++ b/drivers/scsi/scsi_transport_sas.c
+@@ -197,7 +197,7 @@ static int sas_bsg_initialize(struct Scsi_Host *shost, struct sas_rphy *rphy)
+ 	}
+ 
+ 	if (rphy) {
+-		q = bsg_setup_queue(&rphy->dev, dev_name(&rphy->dev),
++		q = bsg_setup_queue(&rphy->dev, dev_name(&rphy->dev), NULL,
+ 				sas_smp_dispatch, NULL, 0);
+ 		if (IS_ERR(q))
+ 			return PTR_ERR(q);
+@@ -206,7 +206,7 @@ static int sas_bsg_initialize(struct Scsi_Host *shost, struct sas_rphy *rphy)
+ 		char name[20];
+ 
+ 		snprintf(name, sizeof(name), "sas_host%d", shost->host_no);
+-		q = bsg_setup_queue(&shost->shost_gendev, name,
++		q = bsg_setup_queue(&shost->shost_gendev, name, NULL,
+ 				sas_smp_dispatch, NULL, 0);
+ 		if (IS_ERR(q))
+ 			return PTR_ERR(q);
+diff --git a/drivers/ufs/core/ufs_bsg.c b/drivers/ufs/core/ufs_bsg.c
+index 374e5aae4e7e86..433d0480391ea6 100644
+--- a/drivers/ufs/core/ufs_bsg.c
++++ b/drivers/ufs/core/ufs_bsg.c
+@@ -253,7 +253,8 @@ int ufs_bsg_probe(struct ufs_hba *hba)
+ 	if (ret)
+ 		goto out;
+ 
+-	q = bsg_setup_queue(bsg_dev, dev_name(bsg_dev), ufs_bsg_request, NULL, 0);
++	q = bsg_setup_queue(bsg_dev, dev_name(bsg_dev), NULL, ufs_bsg_request,
++			NULL, 0);
+ 	if (IS_ERR(q)) {
+ 		ret = PTR_ERR(q);
+ 		goto out;
+diff --git a/include/linux/bsg-lib.h b/include/linux/bsg-lib.h
+index 9e97ced2896df2..14fa93268630ed 100644
+--- a/include/linux/bsg-lib.h
++++ b/include/linux/bsg-lib.h
+@@ -65,7 +65,8 @@ struct bsg_job {
+ void bsg_job_done(struct bsg_job *job, int result,
+ 		  unsigned int reply_payload_rcv_len);
+ struct request_queue *bsg_setup_queue(struct device *dev, const char *name,
+-		bsg_job_fn *job_fn, bsg_timeout_fn *timeout, int dd_job_size);
++		struct queue_limits *lim, bsg_job_fn *job_fn,
++		bsg_timeout_fn *timeout, int dd_job_size);
+ void bsg_remove_queue(struct request_queue *q);
+ void bsg_job_put(struct bsg_job *job);
+ int __must_check bsg_job_get(struct bsg_job *job);
+-- 
+2.39.2
 
