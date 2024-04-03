@@ -1,56 +1,57 @@
-Received: from mail-oo1-f50.google.com (mail-oo1-f50.google.com [209.85.161.50])
+Received: from mail-pf1-f175.google.com (mail-pf1-f175.google.com [209.85.210.175])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 473AF1534F1
-	for <linux-usb@vger.kernel.org>; Wed,  3 Apr 2024 17:54:54 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.161.50
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B9546153572
+	for <linux-usb@vger.kernel.org>; Wed,  3 Apr 2024 18:05:25 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.175
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1712166896; cv=none; b=Qr7WehQTdUs73IM8dYO2xrHQAm/k3d4qz5wGfewbwF76iNIuOpqJe7a33D1JceTo2HWzZxluxNHGF62jro0flBwiwcK6KDwajOXng+1NxHNN8ZdaRr8bSbEUrm1juaT04HBgm4PtOxvFQWuHeavkygG5WvUHxPkR6NwDNX7knbc=
+	t=1712167527; cv=none; b=HFiemhwDRNhmX8Nz5pBW6Y8ht4xt5sbkEH5f0p8Hnf2TCIB2XTkb1veMg0cmS5uU6YFWG53EIYrmo6NCYecNz4oDp+5IHBre/bHyr5S1BnYmZ13c+qHEb1fCeeKIm5R4P6Dh5SgOa+E/Q2IfuNK5VmM9VcoWgBLWnwL9gp2Vu5s=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1712166896; c=relaxed/simple;
-	bh=/0XZpuV90cVbdOdKNn9mw9B3D5Yw88DCt0+hoxD1w8c=;
-	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:To:Cc; b=RYcNNcn0X6IVff+IemJ6f4CW3+csQhV1868mNkzuMzc0pRnEEa7OmMRc6qdWvXlRCTqWFkc4yBiTnVRoYldac6uBXOUm4qap6fz/iF1hdzYixEmJ7GJJ3uFKBKC9NDCe0sMCeKQLLkOQ5jZNsU5NApaTTQ6JpouvKWxcIbmBRwQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org; spf=pass smtp.mailfrom=chromium.org; dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b=AKUDUQv2; arc=none smtp.client-ip=209.85.161.50
+	s=arc-20240116; t=1712167527; c=relaxed/simple;
+	bh=qqGF9xLxJC4LQcm92S4IX/hRHYqAmBrg8Pca6o1qles=;
+	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
+	 In-Reply-To:To:Cc; b=Ty5gak8hJb/N6s91Ht2h5ruvE3TO1VfyZb4bFzUt5up2litPIUmVK1jOgKZq6RyeHJgEX0MdyNy+0gSuTJiwNaB+DLSDmxfFpKV5wSlSmXhmNQrIk6uHvFbvC/OFWPOUXM5vZsgD94gwCZg092FSQhraObNccl0pH3oVP6VD8yA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org; spf=pass smtp.mailfrom=chromium.org; dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b=J+Y7l8XR; arc=none smtp.client-ip=209.85.210.175
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=chromium.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b="AKUDUQv2"
-Received: by mail-oo1-f50.google.com with SMTP id 006d021491bc7-5a56a5f597dso85051eaf.2
-        for <linux-usb@vger.kernel.org>; Wed, 03 Apr 2024 10:54:54 -0700 (PDT)
+	dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b="J+Y7l8XR"
+Received: by mail-pf1-f175.google.com with SMTP id d2e1a72fcca58-6ea80de0e97so47298b3a.2
+        for <linux-usb@vger.kernel.org>; Wed, 03 Apr 2024 11:05:25 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=chromium.org; s=google; t=1712166893; x=1712771693; darn=vger.kernel.org;
-        h=cc:to:message-id:content-transfer-encoding:mime-version:subject
-         :date:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=xznWw54FxaWloYVwfy+4qqRxy8SOPUqZEYo49dH5RKo=;
-        b=AKUDUQv2DEOSQIOLriVgSDwFKf0jsor5tQ//ylMHF6LDTWX2CIwYOvCOFGfgtDUa7i
-         D+NJ8wASjGDR25jGsd6+nYHPBvzXTS0dLTL55a+sGsNMhipymEGqXiGljltYLKsqfIdP
-         jr/khxZAYxnTjU3hi44FaxyXoKpDn9QYT6ivQ=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1712166893; x=1712771693;
-        h=cc:to:message-id:content-transfer-encoding:mime-version:subject
-         :date:from:x-gm-message-state:from:to:cc:subject:date:message-id
+        d=chromium.org; s=google; t=1712167525; x=1712772325; darn=vger.kernel.org;
+        h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
+         :mime-version:subject:date:from:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=xznWw54FxaWloYVwfy+4qqRxy8SOPUqZEYo49dH5RKo=;
-        b=niGQwCYfIlD17ec17TD50vUFpIHAOaM1619nyqwmc5jt06L9x31KDLEXDweOqHfhqA
-         hHH1GRmEpuRFKh2wDPGhaHZdmVXZkP80UD03VAJ1N9r0uf8DN47/C/FnBbEVqxfKYrAN
-         MFDM8bb2F8wmIafaPfP6d8IKjnQjIqBygWdju0Kqa+hVySEuLVeeo/8y8wdOJOagEN/g
-         E9Fu1zSyv6oE8TZN7GPvraw2hPO+3LzJZqrwmYajxIKm3gNkl8cdGUaAavq5fHwi8cD/
-         p0oKSVvt3uJUCJTqeENKf26aXPwqrUwjLqZfQ0DMuCFS43TgHRf7+jD4bcz78mdBJADx
-         YoCw==
-X-Gm-Message-State: AOJu0YwxbhnPJ3ASBl6QtW4h8RUVUXe89ELeR5qrB8SClG4wwvMODQa6
-	JpiGmv4m0jm1jf9wuPfiFQGDL7KVdaC66PAiOl55qigHx/F9PF53zrVTvy9oyd5oTg+HQqdqS3Y
-	=
-X-Google-Smtp-Source: AGHT+IEkOvzpB3sS1GOMdYoTNTPrcUJQAqysOJCExlqcM5uAzvObmKgFti8V3JJ6lg7+vtgEa+c+AQ==
-X-Received: by 2002:a05:6359:4c15:b0:183:8bc6:82b with SMTP id kj21-20020a0563594c1500b001838bc6082bmr3498716rwc.28.1712166893093;
-        Wed, 03 Apr 2024 10:54:53 -0700 (PDT)
+        bh=FJlHPBrdTvEXRp/sm58R6lF6ryZ2TinFdRAYOgnph1w=;
+        b=J+Y7l8XR01iEcTEgPlbV4DyD4bhKAEyvrEqV42SBrtzGl6AtuidQdxPr6vPw278ycb
+         xMiUFnyeDWb7hBfhiEaZHKGBJsie3n3e7gtcV6F19LDl6FGxL2a3HMA7bfAbuA1Yzou+
+         AR/T1uOcMMdPPprYydhfC/Y0R7Lq0XtkRomYI=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1712167525; x=1712772325;
+        h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
+         :mime-version:subject:date:from:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=FJlHPBrdTvEXRp/sm58R6lF6ryZ2TinFdRAYOgnph1w=;
+        b=kcnglOCB6z6D6Sc4pvRzoiaolZ4Ks4V3i+GsTaUn+s5I0ADqvB/oJAO2LpeXOpMzPA
+         Y4iTsOBMjX7wWtfMzux0pnK9FSdJuJV3nnwucysg33G0F82dYq5BMvnkDdNq4ZJsxqzS
+         +rMdV/FkBvzbJP6xkW2g00gyc3NYYaMN3obUZARPcUw4OIGBjBG7LmPpodXfXOvA+X78
+         Keat0vC5WpObq0SCcPDnda0uUGeqwM4uRczoEn+/+WWs/W05MzZ/B6qrE4FQHzPBOAWk
+         ZIrPPEU8byiOxRVTRJp9ZcLGGUxLnCYi/4ug35IsajpVHEv1k6/PyQiiL5HLYhP5pB6A
+         taDg==
+X-Forwarded-Encrypted: i=1; AJvYcCUP517MJB16m7RPdM8qDcV9l4Zgz+I7NR38ruvLhW+cA+ZX9pIDJj3xZJ0PpJKvKGM3NlcLyu+xVY3Hz6jAEBGf5oVq6lgc9Qm8
+X-Gm-Message-State: AOJu0YyE6cyjozZa44q4VtD+gGNAp0/DFuEKjS3oxsio1JRy/FmNeBO0
+	hdwXx65BwkWMNNlxZ5X5WnEoPG0krRfSewavcFnnSCa6sBiouAVaA7wwkIhCvA==
+X-Google-Smtp-Source: AGHT+IFofluak2TNyaj7l3kg/C527840RBEHus7enJda2FbDDZHU7/jIXCY5rcY2cES7AC48lbdI3A==
+X-Received: by 2002:a05:6a00:3912:b0:6ea:74d4:a01c with SMTP id fh18-20020a056a00391200b006ea74d4a01cmr310246pfb.14.1712167524934;
+        Wed, 03 Apr 2024 11:05:24 -0700 (PDT)
 Received: from pholla1.c.googlers.com (210.73.125.34.bc.googleusercontent.com. [34.125.73.210])
-        by smtp.gmail.com with ESMTPSA id o13-20020a65520d000000b005d7994a08dcsm10509577pgp.36.2024.04.03.10.54.52
+        by smtp.gmail.com with ESMTPSA id n16-20020aa79850000000b006e64ddfa71asm12359162pfq.170.2024.04.03.11.05.24
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 03 Apr 2024 10:54:52 -0700 (PDT)
+        Wed, 03 Apr 2024 11:05:24 -0700 (PDT)
 From: Pavan Holla <pholla@chromium.org>
-Date: Wed, 03 Apr 2024 17:54:51 +0000
-Subject: [PATCH v2] usb: typec: ucsi: Wait 20ms before reading CCI after a
- reset
+Date: Wed, 03 Apr 2024 18:05:21 +0000
+Subject: [PATCH v3 1/2] platform/chrome: Update ChromeOS EC header for UCSI
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
@@ -59,68 +60,67 @@ List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20240403-ucsi-reset-delay-v2-1-244c175825a4@chromium.org>
-X-B4-Tracking: v=1; b=H4sIAOqXDWYC/32NSw6DMAwFr4K8rqskfPpZ9R4VC0ocYqkQ5AAqQ
- ty9KQfockZ68zaIJEwR7tkGQgtHDkMCc8qg9c3QEbJNDEaZQuWmxLmNjEKRJrT0blZ8WVddtCn
- K0llIs1HI8edIPuvEnuMUZD0eFv2zf2KLRo32Rvqak3KaqkfrJfQ89+cgHdT7vn8Bm2r+m7MAA
- AA=
-To: Heikki Krogerus <heikki.krogerus@linux.intel.com>, 
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-Cc: linux-usb@vger.kernel.org, linux-kernel@vger.kernel.org, 
+Message-Id: <20240403-public-ucsi-h-v3-1-f848e18c8ed2@chromium.org>
+References: <20240403-public-ucsi-h-v3-0-f848e18c8ed2@chromium.org>
+In-Reply-To: <20240403-public-ucsi-h-v3-0-f848e18c8ed2@chromium.org>
+To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>, 
+ Heikki Krogerus <heikki.krogerus@linux.intel.com>, 
+ Benson Leung <bleung@chromium.org>, Tzung-Bi Shih <tzungbi@kernel.org>, 
+ Guenter Roeck <groeck@chromium.org>
+Cc: linux-kernel@vger.kernel.org, linux-usb@vger.kernel.org, 
  Abhishek Pandit-Subedi <abhishekpandit@chromium.org>, 
- Pavan Holla <pholla@chromium.org>
+ chrome-platform@lists.linux.dev, Pavan Holla <pholla@chromium.org>
 X-Mailer: b4 0.12.4
 
-The PPM might take time to process a reset. Allow 20ms for the reset to
-be processed before reading the CCI.
+Add EC host commands for reading and writing UCSI structures
+in the EC. The corresponding kernel driver is cros-ec-ucsi.
+
+Also update PD events supported by the EC.
 
 Signed-off-by: Pavan Holla <pholla@chromium.org>
 ---
-The PPM might take time to process a reset and set the CCI. Give the PPM
-20ms to update it's CCI.
+ include/linux/platform_data/cros_ec_commands.h | 20 ++++++++++++++++++++
+ 1 file changed, 20 insertions(+)
 
-Based on the discussion in v1, this should not slow down existing
-implementations because they would not set any bits in the CCI after a reset,
-and would take a 20ms delay to read the CCI anyway. This change just makes the
-delay explicit, and reduces a CCI read. Based on the spec, the PPM has
-10ms to set busy, so, 20ms seems like a reasonable delay before we read
-the CCI.
----
-Changes in v2:
-- Commit message updated.
-- Link to v1: https://lore.kernel.org/r/20240325-ucsi-reset-delay-v1-1-d9e183e0f1e6@chromium.org
----
- drivers/usb/typec/ucsi/ucsi.c | 4 +++-
- 1 file changed, 3 insertions(+), 1 deletion(-)
-
-diff --git a/drivers/usb/typec/ucsi/ucsi.c b/drivers/usb/typec/ucsi/ucsi.c
-index cf52cb34d285..c0706c40fa64 100644
---- a/drivers/usb/typec/ucsi/ucsi.c
-+++ b/drivers/usb/typec/ucsi/ucsi.c
-@@ -1280,6 +1280,9 @@ static int ucsi_reset_ppm(struct ucsi *ucsi)
- 			goto out;
- 		}
+diff --git a/include/linux/platform_data/cros_ec_commands.h b/include/linux/platform_data/cros_ec_commands.h
+index ecc47d5fe239..c0f6d054a566 100644
+--- a/include/linux/platform_data/cros_ec_commands.h
++++ b/include/linux/platform_data/cros_ec_commands.h
+@@ -4933,6 +4933,8 @@ struct ec_response_pd_status {
+ #define PD_EVENT_POWER_CHANGE      BIT(1)
+ #define PD_EVENT_IDENTITY_RECEIVED BIT(2)
+ #define PD_EVENT_DATA_SWAP         BIT(3)
++#define PD_EVENT_TYPEC             BIT(4)
++#define PD_EVENT_PPM               BIT(5)
+ struct ec_response_host_event_status {
+ 	uint32_t status;      /* PD MCU host event status */
+ } __ec_align4;
+@@ -5994,6 +5996,24 @@ struct ec_response_typec_vdm_response {
  
-+		/* Give the PPM time to process a reset before reading CCI */
-+		msleep(20);
+ #undef VDO_MAX_SIZE
+ 
++/*
++ * Read/write interface for UCSI OPM <-> PPM communication.
++ */
++#define EC_CMD_UCSI_PPM_SET 0x0140
 +
- 		ret = ucsi->ops->read(ucsi, UCSI_CCI, &cci, sizeof(cci));
- 		if (ret)
- 			goto out;
-@@ -1293,7 +1296,6 @@ static int ucsi_reset_ppm(struct ucsi *ucsi)
- 				goto out;
- 		}
++/* The data size is stored in the host command protocol header. */
++struct ec_params_ucsi_ppm_set {
++	uint16_t offset;
++	uint8_t data[];
++} __ec_align2;
++
++#define EC_CMD_UCSI_PPM_GET 0x0141
++
++struct ec_params_ucsi_ppm_get {
++	uint16_t offset;
++	uint8_t size;
++} __ec_align2;
++
+ /*****************************************************************************/
+ /* The command range 0x200-0x2FF is reserved for Rotor. */
  
--		msleep(20);
- 	} while (!(cci & UCSI_CCI_RESET_COMPLETE));
- 
- out:
 
----
-base-commit: 4cece764965020c22cff7665b18a012006359095
-change-id: 20240325-ucsi-reset-delay-bdf6712455fd
-
-Best regards,
 -- 
-Pavan Holla <pholla@chromium.org>
+2.44.0.478.gd926399ef9-goog
 
