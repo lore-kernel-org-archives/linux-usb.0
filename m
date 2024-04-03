@@ -1,44 +1,43 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 91BD0158D95;
-	Wed,  3 Apr 2024 17:18:17 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E3F701591FC;
+	Wed,  3 Apr 2024 17:18:24 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1712164697; cv=none; b=NlgC2weJeoplNp+ilsA0ORNR8RxEm+3DYr439B9M6hUAr8nkVvM+7MUnoaOsGifaaw84/7Bj5ALF5uvRJ3ioWAydvR7qSRRtnqXBFr14OwQabqgzrVBcXMA6OkXfrRB+4RMBFXeEHiByTkcKVZ6cag4kfpcgSONqGwHiGfd6huo=
+	t=1712164705; cv=none; b=kcrmK0uMh8ybYhAabWY3HW3lyWMBBU81TVcjq33rloQiKya7QH+zW+4rP+RmbiI1tR1ubs1IB812RLwdTgBbQs71OJgT88t7F12KXdDzOZAs/O1jKsogjsFzHJebsM+xts8BYDCLNdEFGzf4XtJF1B7odSAAZiult3CV/xpc6qg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1712164697; c=relaxed/simple;
-	bh=eH6n/XrrBzShozVSMmjhzduWadISNU3nrGIZ3CDYUjo=;
+	s=arc-20240116; t=1712164705; c=relaxed/simple;
+	bh=AeKmAdl4pViMytfg9tD4t0EtqD9ZeJOer8TWoZ6U40Y=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=U741qLgSxkKBQn+hnlV42QSQLhFwdIKDpJOeMFfrWzjA4hv5zXwxi+kS/OBbm4cNWxpHKsG988HZDauFIy2fNBAmml9W1iTzjcJM7NRBLGCa1vIR1cYaUuP+hzTAtNmAA3QCjP5iysldYJdnPfS528bTn6Hscu9tkraCVhIwXE8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Ubtzwpn1; arc=none smtp.client-ip=10.30.226.201
+	 MIME-Version; b=SMlEwDkC13wYkm6J3sbx/eFAYUSgFpI6QPj918VrbSymLkN/qL5/Td6QktlifguaFuQIhyv9989aKQqWhTWb7n1oA7wYYoQgD+iDfsb0u515EqVM+YC8vkxJg9xyvn6swNSrocj9QNGLhNAbg8LFQeDXTvBinyUlm3vH4j1mrKM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=cZN/uooR; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Ubtzwpn1"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 78F9BC433A6;
-	Wed,  3 Apr 2024 17:18:16 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="cZN/uooR"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 8C76BC433F1;
+	Wed,  3 Apr 2024 17:18:23 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1712164697;
-	bh=eH6n/XrrBzShozVSMmjhzduWadISNU3nrGIZ3CDYUjo=;
+	s=k20201202; t=1712164704;
+	bh=AeKmAdl4pViMytfg9tD4t0EtqD9ZeJOer8TWoZ6U40Y=;
 	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=Ubtzwpn1CtA4m5ia7l6xnNHoaffaaeehbAo84fE0Dxs5wgfqeT90Het2GXUbQMy/8
-	 nsVgA25Hzk/BfrvCWMv3u8Nf7L4hGU4byQ1aKW4dl7661GSMW6WNyiFKBK3X4i7uam
-	 tzNDndhiHizFxhCL/k1RsdjUcXlcvZGUW+yVszFwdTE0hRH0U0+ZytS6QQ+V3Iay3l
-	 ufFZZuu64deFDdiLCTgmAc7gWcgMNYl/duaDyEY/auf9zpI7bggaPbVB8NekPo+Chn
-	 LIPtiJgNjk/wZoRmw+LDTjgPFlGrjHeofev+DJ9hmC56zCVzeguQMxr5H8VD6j72Wk
-	 XnWEnZGi6qxYw==
+	b=cZN/uooRg2oXjvJhvvTlBvTmcDW7V1EtxPQcPyexRgT9D55kxapqMBGuaq8qicooi
+	 MMRWyEuK/KMJJeGv6eqL9nzG9SZWcvBwYBKzMhIYnV90dm47saTQgGbxxfGKNLNFbF
+	 B6+gQv2Dt6Mp5CprpWzNBdgIrPoIOHPfpyg+C8AQ+l7F8pDIsuS6yn2DhIvq3+oXv8
+	 1tNWsPlPtZea1+dieH0r4fIdslHqpwcoy7xeSZoKgGK4jCeSkTbS2fb4hsprSNe3b+
+	 uVU290Zcphv4RwWXniKDHSV/ibseceftZ1YGx3hLET5AE7uo//rFlH17nczpTy6wal
+	 YM9eeu+g0YGIQ==
 From: Sasha Levin <sashal@kernel.org>
 To: linux-kernel@vger.kernel.org,
 	stable@vger.kernel.org
-Cc: Karina Yankevich <k.yankevich@omp.ru>,
-	Sergey Shtylyov <s.shtylyov@omp.ru>,
-	Alan Stern <stern@rowland.harvard.edu>,
+Cc: Michael Grzeschik <m.grzeschik@pengutronix.de>,
 	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
 	Sasha Levin <sashal@kernel.org>,
-	linux-usb@vger.kernel.org,
-	usb-storage@lists.one-eyed-alien.net
-Subject: [PATCH AUTOSEL 6.6 02/20] usb: storage: sddr55: fix sloppy typing in sddr55_{read|write}_data()
-Date: Wed,  3 Apr 2024 13:17:43 -0400
-Message-ID: <20240403171815.342668-2-sashal@kernel.org>
+	laurent.pinchart@ideasonboard.com,
+	dan.scally@ideasonboard.com,
+	linux-usb@vger.kernel.org
+Subject: [PATCH AUTOSEL 6.6 05/20] usb: gadget: uvc: mark incomplete frames with UVC_STREAM_ERR
+Date: Wed,  3 Apr 2024 13:17:46 -0400
+Message-ID: <20240403171815.342668-5-sashal@kernel.org>
 X-Mailer: git-send-email 2.43.0
 In-Reply-To: <20240403171815.342668-1-sashal@kernel.org>
 References: <20240403171815.342668-1-sashal@kernel.org>
@@ -53,54 +52,37 @@ X-Patchwork-Hint: Ignore
 X-stable-base: Linux 6.6.24
 Content-Transfer-Encoding: 8bit
 
-From: Karina Yankevich <k.yankevich@omp.ru>
+From: Michael Grzeschik <m.grzeschik@pengutronix.de>
 
-[ Upstream commit d6429a3555fb29f380c5841a12f5ac3f7444af03 ]
+[ Upstream commit 2a3b7af120477d0571b815ccb8600cafd5ebf02f ]
 
-In sddr55_{read|write}_data(), the address variables are needlessly typed
-as *unsigned long* -- which is 32-bit type on the 32-bit arches and 64-bit
-type on the 64-bit arches; those variables' value should fit into just 3
-command bytes and consists of 10-bit block # (or at least the max block #
-seems to be 1023) and 4-/5-bit page # within a block, so 32-bit *unsigned*
-*int* type should be more than enough...
+If an frame was transmitted incomplete to the host, we set the
+UVC_STREAM_ERR bit in the header for the last request that is going
+to be queued. This way the host will know that it should drop the
+frame instead of trying to display the corrupted content.
 
-Found by Linux Verification Center (linuxtesting.org) with the Svace static
-analysis tool.
-
-[Sergey: rewrote the patch subject/description]
-
-Signed-off-by: Karina Yankevich <k.yankevich@omp.ru>
-Signed-off-by: Sergey Shtylyov <s.shtylyov@omp.ru>
-Reviewed-by: Alan Stern <stern@rowland.harvard.edu>
-Link: https://lore.kernel.org/r/4c9485f2-0bfc-591b-bfe7-2059289b554e@omp.ru
+Signed-off-by: Michael Grzeschik <m.grzeschik@pengutronix.de>
+Link: https://lore.kernel.org/r/20240214-uvc-error-tag-v1-2-37659a3877fe@pengutronix.de
 Signed-off-by: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
 Signed-off-by: Sasha Levin <sashal@kernel.org>
 ---
- drivers/usb/storage/sddr55.c | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
+ drivers/usb/gadget/function/uvc_video.c | 3 +++
+ 1 file changed, 3 insertions(+)
 
-diff --git a/drivers/usb/storage/sddr55.c b/drivers/usb/storage/sddr55.c
-index 15dc25801cdcc..0aa079405d23c 100644
---- a/drivers/usb/storage/sddr55.c
-+++ b/drivers/usb/storage/sddr55.c
-@@ -196,7 +196,7 @@ static int sddr55_read_data(struct us_data *us,
- 	unsigned char *buffer;
+diff --git a/drivers/usb/gadget/function/uvc_video.c b/drivers/usb/gadget/function/uvc_video.c
+index 91af3b1ef0d41..281e75027b344 100644
+--- a/drivers/usb/gadget/function/uvc_video.c
++++ b/drivers/usb/gadget/function/uvc_video.c
+@@ -35,6 +35,9 @@ uvc_video_encode_header(struct uvc_video *video, struct uvc_buffer *buf,
  
- 	unsigned int pba;
--	unsigned long address;
-+	unsigned int address;
+ 	data[1] = UVC_STREAM_EOH | video->fid;
  
- 	unsigned short pages;
- 	unsigned int len, offset;
-@@ -316,7 +316,7 @@ static int sddr55_write_data(struct us_data *us,
- 
- 	unsigned int pba;
- 	unsigned int new_pba;
--	unsigned long address;
-+	unsigned int address;
- 
- 	unsigned short pages;
- 	int i;
++	if (video->queue.flags & UVC_QUEUE_DROP_INCOMPLETE)
++		data[1] |= UVC_STREAM_ERR;
++
+ 	if (video->queue.buf_used == 0 && ts.tv_sec) {
+ 		/* dwClockFrequency is 48 MHz */
+ 		u32 pts = ((u64)ts.tv_sec * USEC_PER_SEC + ts.tv_nsec / NSEC_PER_USEC) * 48;
 -- 
 2.43.0
 
