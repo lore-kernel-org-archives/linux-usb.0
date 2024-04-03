@@ -1,75 +1,154 @@
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-ot1-f46.google.com (mail-ot1-f46.google.com [209.85.210.46])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9EA7C1482E1
-	for <linux-usb@vger.kernel.org>; Wed,  3 Apr 2024 13:26:51 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.129.124
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C8381149C41;
+	Wed,  3 Apr 2024 13:33:35 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.46
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1712150813; cv=none; b=Je5TUBTbiZwQ9MK0qBHMQKTWI79/CkjdGviegTePb6xQQRaE9YvhxCLSAnhW0lR1wgmYqGAqXqFysgKXoNfx+PZqNhD32/vMAtvEmP0RliZORhsyHuBPxIcCNDJIqm1T4S3wUaDCHX1Rlx9GGGUb5YuCxcrI4dH54spcWQXlKtw=
+	t=1712151217; cv=none; b=r+iHO/4bXut4mVh9wfFKchJ3c6drs51yPxw/QW8QcDmt4QHQNVl0snSpqXj0shSIpzpFRjrZUDoGDdniTMUHbm7zONLRcoc/HeqByGXGKNHSylgdDYTsJWvULMCEi2HVio9NWY5e1UWNlGRmH9DKOEvGxOXQHlGmfxBiwzajXgM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1712150813; c=relaxed/simple;
-	bh=52UmcMJZtoCW9vlBYc/fadTAz/Lbo5LlOCiiSVdCjOQ=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=e3aQYXaRMZpQHVNMetDEXD8AaRd1gBrIBmu72uDodOdqsT817MMgJAHhnBwR5bnIeJnu4bg1kR4L1zwjim6+H7wX0lClmTeS3WNSf+TNzaKYi4DKuDw5i/QVEYR8Rjz6Hg/Fj5bMHdzTfKLsvhR3jNVDNHmlHGlP8+SGxL9gHr8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=MA2LaL7P; arc=none smtp.client-ip=170.10.129.124
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=redhat.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
+	s=arc-20240116; t=1712151217; c=relaxed/simple;
+	bh=Qt01KTjE4NGp5XEomZDf90wNSv9JiA1QkpnnyKlsblA=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=okKQmTJA9V2ou0EcVoPoGoTC20G11Agi2nqNNyDKJ8tTQsnOgKG1LMu1M6Xp6s6oTCGiH7vWSNo1cnufA0hlIGZ+YQcTZL/kg9g5hNJPlhyC1SR+SFZ+Y511y76nUsxaJpHGGVbnU1089qET6rNFvGOndKggCL/MavE3P+l0aEs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=GFrcg6if; arc=none smtp.client-ip=209.85.210.46
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="MA2LaL7P"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1712150810;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=52UmcMJZtoCW9vlBYc/fadTAz/Lbo5LlOCiiSVdCjOQ=;
-	b=MA2LaL7PcaTPz+yaDx40gMfoRwfRJ+MluquJ9L641eyLvtPdsUG0MFgpvQPjfaftbWFf1c
-	XYc8o8PlQ6dSeM2esp7SxjApgxzsFqgMsnj8CsRdbhFdvex7cCMEXKJkZXZeOXBBuwOFCJ
-	z5Jc36kiIhOfe4FwwVP0FTDgkGRlgZY=
-Received: from mimecast-mx02.redhat.com (mx-ext.redhat.com [66.187.233.73])
- by relay.mimecast.com with ESMTP with STARTTLS (version=TLSv1.3,
- cipher=TLS_AES_256_GCM_SHA384) id us-mta-517-59vSHkt8OByb0-iMdjEcZA-1; Wed,
- 03 Apr 2024 09:26:47 -0400
-X-MC-Unique: 59vSHkt8OByb0-iMdjEcZA-1
-Received: from smtp.corp.redhat.com (int-mx10.intmail.prod.int.rdu2.redhat.com [10.11.54.10])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
-	(No client certificate requested)
-	by mimecast-mx02.redhat.com (Postfix) with ESMTPS id A05083816B4C;
-	Wed,  3 Apr 2024 13:26:46 +0000 (UTC)
-Received: from fedora.redhat.com (unknown [10.39.193.197])
-	by smtp.corp.redhat.com (Postfix) with ESMTP id 5C1A1492BD1;
-	Wed,  3 Apr 2024 13:26:44 +0000 (UTC)
-From: Jose Ignacio Tornos Martinez <jtornosm@redhat.com>
-To: kuba@kernel.org
-Cc: davem@davemloft.net,
-	edumazet@google.com,
-	horms@kernel.org,
-	jtornosm@redhat.com,
-	linux-kernel@vger.kernel.org,
-	linux-usb@vger.kernel.org,
-	netdev@vger.kernel.org,
-	pabeni@redhat.com
-Subject: Re: [PATCH net-next v3] net: usb: ax88179_178a: non necessary second random mac address
-Date: Wed,  3 Apr 2024 15:26:35 +0200
-Message-ID: <20240403132639.344958-1-jtornosm@redhat.com>
-In-Reply-To: <20240402183237.2eb8398a@kernel.org>
-References: <20240402183237.2eb8398a@kernel.org>
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="GFrcg6if"
+Received: by mail-ot1-f46.google.com with SMTP id 46e09a7af769-6e9e1a52b74so109541a34.0;
+        Wed, 03 Apr 2024 06:33:35 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1712151215; x=1712756015; darn=vger.kernel.org;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:from:to:cc:subject:date:message-id:reply-to;
+        bh=UfJ432sdibD0Lka67Qj4+39whrzSunQCkb9XAcwEVWQ=;
+        b=GFrcg6ifPUmcvvrEYoC2e/fgnq3m6ynUXwoJW1avVY6MvV8MtWIreHzW8sGg+/Dgtb
+         +z1o1duNbklzWnVoJk6bAsd1lGlStxJqDkSJbsTd303lw/NCevYRZRs2auW6JrY6UC8l
+         Ykbe4uMJU6fRE5F7cS0aXAJMgQ7wf9U8FtznXnnQ0nJtQPNBguh7WC170paMLQNtV9Pc
+         76sO8TjKSQUENsdMu745TLGpx8ahkqAhaVQhC/AYElH6GpweItCj4bbWGDMuoQa3TyU2
+         oKXzfmQWcPrq/jeH/dvjNeNqnYRKHJbifBAzNRSK1DswOtLRgw09DdW/6BSoPyRPUi/e
+         U6zQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1712151215; x=1712756015;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=UfJ432sdibD0Lka67Qj4+39whrzSunQCkb9XAcwEVWQ=;
+        b=kO4xowc508/21GLenfR1n/ijywgGMDAoh34C7NC1/x8VvWeNw065QYnd5fiurnaspW
+         eP4mgmCJKUQ3S4Owsk2c6+3TPRoDcArZ9+2QlBZ94hqGF6a23oIv/0P7Of4McasxMh1O
+         1JOqLhxSPvM0RFgVQlBnw3eXy7eD5VYtKyVq3pHtt6doD2Klq1nLzK/yKmpfvw7hZEVl
+         6lvra/RXlBHacJpIpDkPDvkJNA/1lYZaMOxUJsWq5NhVjnS0TCqPOEYP+4FMnUQCpzIz
+         IBH/1UoIjTqgsKwP5m7E+nLlll7vh3gwEPjh4NBFVXtGI8Zbdoqj46H2Ly3lt7McwVPi
+         MPXw==
+X-Forwarded-Encrypted: i=1; AJvYcCWq/y2WuoLVfYku4/gGat76A4J4eCMNbwKOlTmpU+P1/U1wqGBPETnqCoMmtHfU7Y1jbk6SgAJsYXltYmlW8qYSJ5Bwi1TJCi/KOXG1LWji7veSWe6T8dokathTeNxjpSj3I36+aVLIPHMihgXkW5tuytoS0LCWNIczqMVfvcf3f8vsElQ7OBOlcQnfjyXVN7wuI++P0+DHwmCtSaOR4yrdZUiO4kIpoZ9ciIm0nrjZFWNRG/QhkUzgT5WcyTKHLPAgNcCiaM3PUm027V6fR+8wzw5xK1UDyv8ren/ktAqJBzQUgt6vcUSOzDuBX4XfrkyMp61Do8ofQaOsxVu9JLuhska0UShrxjtA4mtYcm1LazrqHr9Az1MjNmi8iIkib8CwVxTcDPUP9tXJwqu+O5VPhGK3a9nfLoxLTOc8qTDXo8sEz6X/+BR5bOKyZFFbuSK8Qo2ggiB/znPLEEX01EphopPbUGd9dH1mepavTKYaXW5nPXOCucF8G1cuD9m7fiqSXxDeQbb/Sn8UTyHPRWMaBIyAjpDy9KES9YUo98VBZ9QMne8WwdI4gBa5N8Tk+AsBW7zDX+O2oiApbXR9C80=
+X-Gm-Message-State: AOJu0YyAg0bfQn4eSM/nDFsw20mm33qDbjC45uaTrGRfKXWv8pY3m5+G
+	EQFxVkgoAqVTKbiUNFolH2xe5/RQXnXrKlXBCOxXySJ1HRR3QpNzUBLQ3H3QyxKMb4x/IhzW4j3
+	O27XhK+X9guVH61TyCqFhu+ik8dg=
+X-Google-Smtp-Source: AGHT+IFsoYFg4TPJZ/xBylk5B9Nfa55HU119ldFLC4g550cJsZKKSI+Id/ONzGwerMZ8W2tZHWzr/Kf097BxBvAdyL0=
+X-Received: by 2002:a05:6808:181d:b0:3c5:d426:9b87 with SMTP id
+ bh29-20020a056808181d00b003c5d4269b87mr1074785oib.23.1712151214780; Wed, 03
+ Apr 2024 06:33:34 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-X-Scanned-By: MIMEDefang 3.4.1 on 10.11.54.10
+References: <20240327160314.9982-1-apais@linux.microsoft.com>
+ <20240327160314.9982-8-apais@linux.microsoft.com> <ea4ac7a3-13ae-4d22-a3d9-fcb7d9e8d751@linux.ibm.com>
+In-Reply-To: <ea4ac7a3-13ae-4d22-a3d9-fcb7d9e8d751@linux.ibm.com>
+From: Allen <allen.lkml@gmail.com>
+Date: Wed, 3 Apr 2024 06:33:23 -0700
+Message-ID: <CAOMdWS+wH9qZ_08nVSQV1sY0C=uHMC+3NmPuFjwKzBFCgMa7MQ@mail.gmail.com>
+Subject: Re: [PATCH 7/9] s390: Convert from tasklet to BH workqueue
+To: Alexandra Winter <wintera@linux.ibm.com>
+Cc: Allen Pais <apais@linux.microsoft.com>, linux-kernel@vger.kernel.org, tj@kernel.org, 
+	keescook@chromium.org, vkoul@kernel.org, marcan@marcan.st, sven@svenpeter.dev, 
+	florian.fainelli@broadcom.com, rjui@broadcom.com, sbranden@broadcom.com, 
+	paul@crapouillou.net, Eugeniy.Paltsev@synopsys.com, 
+	manivannan.sadhasivam@linaro.org, vireshk@kernel.org, Frank.Li@nxp.com, 
+	leoyang.li@nxp.com, zw@zh-kernel.org, wangzhou1@hisilicon.com, 
+	haijie1@huawei.com, shawnguo@kernel.org, s.hauer@pengutronix.de, 
+	sean.wang@mediatek.com, matthias.bgg@gmail.com, 
+	angelogioacchino.delregno@collabora.com, afaerber@suse.de, 
+	logang@deltatee.com, daniel@zonque.org, haojian.zhuang@gmail.com, 
+	robert.jarzmik@free.fr, andersson@kernel.org, konrad.dybcio@linaro.org, 
+	orsonzhai@gmail.com, baolin.wang@linux.alibaba.com, zhang.lyra@gmail.com, 
+	patrice.chotard@foss.st.com, linus.walleij@linaro.org, wens@csie.org, 
+	jernej.skrabec@gmail.com, peter.ujfalusi@gmail.com, kys@microsoft.com, 
+	haiyangz@microsoft.com, wei.liu@kernel.org, decui@microsoft.com, 
+	jassisinghbrar@gmail.com, mchehab@kernel.org, maintainers@bluecherrydvr.com, 
+	aubin.constans@microchip.com, ulf.hansson@linaro.org, manuel.lauss@gmail.com, 
+	mirq-linux@rere.qmqm.pl, jh80.chung@samsung.com, oakad@yahoo.com, 
+	hayashi.kunihiko@socionext.com, mhiramat@kernel.org, brucechang@via.com.tw, 
+	HaraldWelte@viatech.com, pierre@ossman.eu, duncan.sands@free.fr, 
+	stern@rowland.harvard.edu, oneukum@suse.com, 
+	openipmi-developer@lists.sourceforge.net, dmaengine@vger.kernel.org, 
+	asahi@lists.linux.dev, linux-arm-kernel@lists.infradead.org, 
+	linux-rpi-kernel@lists.infradead.org, linux-mips@vger.kernel.org, 
+	imx@lists.linux.dev, linuxppc-dev@lists.ozlabs.org, 
+	linux-mediatek@lists.infradead.org, linux-actions@lists.infradead.org, 
+	linux-arm-msm@vger.kernel.org, linux-riscv@lists.infradead.org, 
+	linux-sunxi@lists.linux.dev, linux-tegra@vger.kernel.org, 
+	linux-hyperv@vger.kernel.org, linux-rdma@vger.kernel.org, 
+	linux-media@vger.kernel.org, linux-mmc@vger.kernel.org, 
+	linux-omap@vger.kernel.org, linux-renesas-soc@vger.kernel.org, 
+	linux-s390@vger.kernel.org, netdev@vger.kernel.org, linux-usb@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
 
-Understood, I will repost when the other one is merged and with the new
-context diff.
+> >
+> > Signed-off-by: Allen Pais <allen.lkml@gmail.com>
+> > ---
+> >  drivers/s390/block/dasd.c              | 42 ++++++++++++------------
+> >  drivers/s390/block/dasd_int.h          | 10 +++---
+> >  drivers/s390/char/con3270.c            | 27 ++++++++--------
+> >  drivers/s390/crypto/ap_bus.c           | 24 +++++++-------
+> >  drivers/s390/crypto/ap_bus.h           |  2 +-
+> >  drivers/s390/crypto/zcrypt_msgtype50.c |  2 +-
+> >  drivers/s390/crypto/zcrypt_msgtype6.c  |  4 +--
+> >  drivers/s390/net/ctcm_fsms.c           |  4 +--
+> >  drivers/s390/net/ctcm_main.c           | 15 ++++-----
+> >  drivers/s390/net/ctcm_main.h           |  5 +--
+> >  drivers/s390/net/ctcm_mpc.c            | 12 +++----
+> >  drivers/s390/net/ctcm_mpc.h            |  7 ++--
+> >  drivers/s390/net/lcs.c                 | 26 +++++++--------
+> >  drivers/s390/net/lcs.h                 |  2 +-
+> >  drivers/s390/net/qeth_core_main.c      |  2 +-
+> >  drivers/s390/scsi/zfcp_qdio.c          | 45 +++++++++++++-------------
+> >  drivers/s390/scsi/zfcp_qdio.h          |  9 +++---
+> >  17 files changed, 117 insertions(+), 121 deletions(-)
+> >
+>
+>
+> We're looking into the best way to test this.
+>
+> For drivers/s390/net/ctcm* and drivers/s390/net/lcs*:
+> Acked-by: Alexandra Winter <wintera@linux.ibm.com>
 
-Thanks
+ Thank you very much.
 
-Best regards
-José Ignacio
+>
+>
+> [...]
+> > diff --git a/drivers/s390/net/qeth_core_main.c b/drivers/s390/net/qeth_core_main.c
+> > index a0cce6872075..10ea95abc753 100644
+> > --- a/drivers/s390/net/qeth_core_main.c
+> > +++ b/drivers/s390/net/qeth_core_main.c
+> > @@ -2911,7 +2911,7 @@ static int qeth_init_input_buffer(struct qeth_card *card,
+> >       }
+> >
+> >       /*
+> > -      * since the buffer is accessed only from the input_tasklet
+> > +      * since the buffer is accessed only from the input_work
+> >        * there shouldn't be a need to synchronize; also, since we use
+> >        * the QETH_IN_BUF_REQUEUE_THRESHOLD we should never run  out off
+> >        * buffers
+>
+> I propose to delete the whole comment block. There have been many changes and
+> I don't think it is helpful for the current qeth driver.
 
+
+ Sure, I will have it fixed in v2.
+
+- Allen
