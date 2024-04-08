@@ -1,131 +1,124 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.15])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5D1667EEF3;
-	Tue,  9 Apr 2024 08:11:35 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.15
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 090D07EEF0;
+	Tue,  9 Apr 2024 08:28:06 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1712650297; cv=none; b=qo+2WwyekIpKapRgKwUms0RofXYEkDN4HQwLTvSiTK3ACGGa26OVSJ34mN/CTzLAbB62+5Jou+S5btfjiaXQ3qsThzrQLoaRN0OvtOsB435zmo0suS7W9Uz1kTTPbgTtY2yAk1l8J1r19po0ahSEtaN7O9Bf6QQ1lO0Pm17vF0Q=
+	t=1712651287; cv=none; b=bnDRijvZbzsxLS2t9wjHSYlk2lRd24FadDdatAnOYwdyBn80z4yErdDAAoVhfZgwIRtahCc0SiC0yKXDPa/lLLKqFc6YB8BJ4Ie5jikjZOVScx2M4YLuWKSPEIFHPG3BerrHWKK0Lwkh17c/h0XaGcqjHR5JXf5FdagusA4OtLk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1712650297; c=relaxed/simple;
-	bh=uU+FnGbctk6dn7tcOByt4eDdKmXna0RlgB6MAvZx8fo=;
+	s=arc-20240116; t=1712651287; c=relaxed/simple;
+	bh=vXLhv3zRRAGARN7FCvEx72w/juFJMhiiJABz8Y2uhpo=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=I1Kthka7sLh14boXnQAtAYos8vl8bmIJ0y01BpY/y1VP8GEx49SSxJoWZoJhUiZHl8I4yETBdUhTsCMMetU9GJz2iGv+kf/if+QJBC29K+IdAYbfbyGXA2FXclRxin2vqdAe2F9gMkwXbxDXC/ot/VOzRwZfK2ZaNttqzURn7ZI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=none smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=c5+1vN/w; arc=none smtp.client-ip=198.175.65.15
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=linux.intel.com
+	 Content-Type:Content-Disposition:In-Reply-To; b=HATGumx1f/4lsPe/mBhWD/cCwpFUgaLfyZBkOTsO38vLc4/BwE2AA50jzzvZoTvQwTGBcKxEK04LsShxwvzQDV03I+sq86y5bX0QzfVclNfQflyhqE6tHcdDG0fR5kavZLgi/GLvjh+X1m18XeWsZ8KlKJxManLCK5l2o+tlaDw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b=cFSU5Z2q; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="c5+1vN/w"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1712650295; x=1744186295;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=uU+FnGbctk6dn7tcOByt4eDdKmXna0RlgB6MAvZx8fo=;
-  b=c5+1vN/wYGOSB/nIfyueiqKpaCn3q7wjIegdywklHbvfdI0iNpXmsXrm
-   8FSSdakTI9bPFNaWPBhIhEccXVDIdB1oIGo0LQBpS6lGbF5q20JoDBKmL
-   vua/NE7sUnqRT9S5EaSxgyLObUVYhMu/1QGmGwQAtQx9MsoHFn0RZUz2m
-   ZEmX+SyzqLT3H+75+pBRSk7N8RSpZqrSiDeW1P4/qOeQ3191kgSQlHkln
-   FP8RQUPnXf7If4udWTPcNYJfMIFwyRb3MnxsouoXI0R4OxAKCGbme1WTc
-   raUOredHPSlvhtB0zWLDafkDKNBbFJ+sjfvCnyyeYog9v/ZZrVcz5dUQK
-   A==;
-X-CSE-ConnectionGUID: 9xO9fmz0T4+AereoZ5YGHQ==
-X-CSE-MsgGUID: mRgUCmRJT2ybt6w3nkreog==
-X-IronPort-AV: E=McAfee;i="6600,9927,11038"; a="11750435"
-X-IronPort-AV: E=Sophos;i="6.07,189,1708416000"; 
-   d="scan'208";a="11750435"
-Received: from fmsmga001.fm.intel.com ([10.253.24.23])
-  by orvoesa107.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 09 Apr 2024 01:11:35 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,11038"; a="937093186"
-X-IronPort-AV: E=Sophos;i="6.07,189,1708416000"; 
-   d="scan'208";a="937093186"
-Received: from kuha.fi.intel.com ([10.237.72.185])
-  by fmsmga001.fm.intel.com with SMTP; 09 Apr 2024 01:11:32 -0700
-Received: by kuha.fi.intel.com (sSMTP sendmail emulation); Tue, 09 Apr 2024 11:11:31 +0300
-Date: Tue, 9 Apr 2024 11:11:31 +0300
-From: Heikki Krogerus <heikki.krogerus@linux.intel.com>
-To: Pavan Holla <pholla@chromium.org>
-Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	linux-usb@vger.kernel.org, linux-kernel@vger.kernel.org,
+	dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="cFSU5Z2q"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 122C0C433C7;
+	Tue,  9 Apr 2024 08:28:05 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
+	s=korg; t=1712651286;
+	bh=vXLhv3zRRAGARN7FCvEx72w/juFJMhiiJABz8Y2uhpo=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=cFSU5Z2qfdVdK0o/GuxUXrBP2h/PUY8ju+Skd8KKXKk/0KrzHj3fVi3su+QG2p9xx
+	 aznJ/3k9pcJsMJe6HfAePAFoc9RNRMLLMcm2hgp4wJUHRMvWajD9yvztKTRpDHiV8W
+	 ne9M/bKIWuVmvm1hUCJg3x2/Hmq3WvbASQdCwzns=
+Date: Mon, 8 Apr 2024 16:51:57 +0200
+From: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+To: Guenter Roeck <groeck@google.com>
+Cc: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
+	Pavan Holla <pholla@chromium.org>,
+	Heikki Krogerus <heikki.krogerus@linux.intel.com>,
+	Benson Leung <bleung@chromium.org>,
+	Tzung-Bi Shih <tzungbi@kernel.org>,
+	Guenter Roeck <groeck@chromium.org>, linux-kernel@vger.kernel.org,
+	linux-usb@vger.kernel.org,
 	Abhishek Pandit-Subedi <abhishekpandit@chromium.org>,
-	Prashant Malani <pmalani@chromium.org>
-Subject: Re: [PATCH v3] usb: typec: ucsi: Wait 20ms before reading CCI after
- a reset
-Message-ID: <ZhT4MzZ9FriHqoa4@kuha.fi.intel.com>
-References: <20240409-ucsi-reset-delay-v3-1-8440710b012b@chromium.org>
+	chrome-platform@lists.linux.dev
+Subject: Re: [PATCH v3 2/2] usb: typec: ucsi: Implement ChromeOS UCSI driver
+Message-ID: <2024040837-negligee-expert-bc37@gregkh>
+References: <20240403-public-ucsi-h-v3-0-f848e18c8ed2@chromium.org>
+ <20240403-public-ucsi-h-v3-2-f848e18c8ed2@chromium.org>
+ <3ezjocthsigo3t746slmgzffnmpxw7wwf3s535basiaf2qy6io@7ocxva6ndsbt>
+ <2024040449-average-foyer-defa@gregkh>
+ <oi3bwdyvyaezpmyxfdtsbiwwprxi2ufc3hlzoz23d5rxdkperl@cxpd7enatg7h>
+ <2024040422-ripcord-bladder-bdda@gregkh>
+ <CABXOdTeqz5Kza5tYXbCdTyPT66xtezai4C5TFkqmOpQc+1r8Xg@mail.gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <20240409-ucsi-reset-delay-v3-1-8440710b012b@chromium.org>
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <CABXOdTeqz5Kza5tYXbCdTyPT66xtezai4C5TFkqmOpQc+1r8Xg@mail.gmail.com>
 
-On Tue, Apr 09, 2024 at 01:58:57AM +0000, Pavan Holla wrote:
-> The PPM might take time to process a reset. Allow 20ms for the reset to
-> be processed before reading the CCI.
+On Mon, Apr 08, 2024 at 06:04:22AM -0700, Guenter Roeck wrote:
+> On Thu, Apr 4, 2024 at 6:30 AM Greg Kroah-Hartman
+> <gregkh@linuxfoundation.org> wrote:
+> [ ... ]
 > 
-> This should not slow down existing implementations because they would
-> not set any bits in the CCI after a reset, and would take a 20ms delay
-> to read the CCI anyway. This change makes the delay explicit, and
-> reduces a CCI read. Based on the spec, the PPM has 10ms to set busy, so,
-> 20ms seems like a reasonable delay before we read the CCI.
+> > > > > if (WARN_ON_ONCE(val_len > MAX_EC_DATA_SIZE))
+> > > > >   return -EINVAL;
+> > > >
+> > > > So if you trigger this, you just rebooted all boxes that have
+> > > > panic-on-warn enabled (hint, the HUGE majority in quantity of Linux
+> > > > systems out there.)
+> > > >
+> > > > So don't do that, just handle it like this.
+> > >
+> > > Does that mean that we should not use WARN at all? What is the best
+> > > current practice for WARN usage?
+> >
+> > To never use it.  Handle the issue and recover properly.
+> >
+> > > I'm asking because for me this looks like a perfect usecase. If I were
+> > > at the positiion of the driver developer, I'd like to know the whole
+> > > path leading to the bad call, not just the fact that the function was
+> > > called with the buffer being too big.
+> >
+> > Then use ftrace if you are a driver developer, don't crash users boxes
+> > please.
+> >
+> > If you REALLY need a traceback, then provide that, but do NOT use WARN()
+> > for just normal debugging calls that you want to leave around in the
+> > system for users to trip over.
+> >
 > 
-> Signed-off-by: Pavan Holla <pholla@chromium.org>
-> Reviewed-by: Prashant Malani <pmalani@chromium.org>
+> That is not common practice.
+> 
+> $ git grep WARN_ON drivers/gpu | wc
+>    3004   11999  246545
+> $ git grep WARN_ON drivers/net/ | wc
+>    3679   14564  308230
+> $ git grep WARN_ON drivers/net/wireless | wc
+>    1985    8112  166081
+> 
+> We get hundreds of thousands of reports with warning backtraces from
+> Chromebooks in the field _every single day_. Most of those are from
+> drm and wireless subsystems. We even had to scale back the percentage
+> of reported warning backtraces because the large volume overwhelmed
+> the reporting system. When approached about it, developers usually
+> respond with "this backtrace is absolutely necessary", but nothing
+> ever happens to fix the reported problems. In practice, they are just
+> ignored.
 
-Reviewed-by: Heikki Krogerus <heikki.krogerus@linux.intel.com>
+Then push back on the developers please, this isn't ok.  WARN_ON
+triggers so many automated systems it's not funny.  And if a trace back
+is really needed, there is a function for that, but really, just fix the
+issue and handle it properly.
 
-> ---
-> The PPM might take time to process a reset and set the CCI. Give the PPM
-> 20ms to update it's CCI.
-> 
-> Commit message now summarizes discussion in v1.
-> ---
-> Changes in v3:
-> - Commit message updated.
-> - Link to v2: https://lore.kernel.org/r/20240403-ucsi-reset-delay-v2-1-244c175825a4@chromium.org
-> 
-> Changes in v2:
-> - Commit message updated.
-> - Link to v1: https://lore.kernel.org/r/20240325-ucsi-reset-delay-v1-1-d9e183e0f1e6@chromium.org
-> ---
->  drivers/usb/typec/ucsi/ucsi.c | 4 +++-
->  1 file changed, 3 insertions(+), 1 deletion(-)
-> 
-> diff --git a/drivers/usb/typec/ucsi/ucsi.c b/drivers/usb/typec/ucsi/ucsi.c
-> index cf52cb34d285..c0706c40fa64 100644
-> --- a/drivers/usb/typec/ucsi/ucsi.c
-> +++ b/drivers/usb/typec/ucsi/ucsi.c
-> @@ -1280,6 +1280,9 @@ static int ucsi_reset_ppm(struct ucsi *ucsi)
->  			goto out;
->  		}
->  
-> +		/* Give the PPM time to process a reset before reading CCI */
-> +		msleep(20);
-> +
->  		ret = ucsi->ops->read(ucsi, UCSI_CCI, &cci, sizeof(cci));
->  		if (ret)
->  			goto out;
-> @@ -1293,7 +1296,6 @@ static int ucsi_reset_ppm(struct ucsi *ucsi)
->  				goto out;
->  		}
->  
-> -		msleep(20);
->  	} while (!(cci & UCSI_CCI_RESET_COMPLETE));
->  
->  out:
-> 
-> ---
-> base-commit: 4cece764965020c22cff7665b18a012006359095
-> change-id: 20240325-ucsi-reset-delay-bdf6712455fd
-> 
-> Best regards,
-> -- 
-> Pavan Holla <pholla@chromium.org>
+> This means that any system using drm or wireless interfaces just can
+> not really enable panic-on-warn because that would crash the system
+> all the time.
 
--- 
-heikki
+I guess Android doesn't use wireless or drm :)
+
+Again, billions of systems in the world has this enabled, let's learn to
+live with it and fix up our coding practices to not be lazy.
+
+thanks,
+
+greg k-h
