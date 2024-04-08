@@ -1,120 +1,118 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.17])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D9CC76A33B;
-	Mon,  8 Apr 2024 12:14:35 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 094572D638
+	for <linux-usb@vger.kernel.org>; Mon,  8 Apr 2024 12:35:53 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.17
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1712578476; cv=none; b=Zow68kSzT+c/OYyaS4bvFbkEL4AEgtrku76OH4xMjJsrBxPLK89tx5d5fOYOVv3Z+VzCv+WSI5Zlk8fLUlcpsBzWPon4/geVi1oB0iCQJ8/jJLAYAAr0OWaUUhE/akiS4L1qMnUvBWmZAOACQYFZbyOU2RMh7NsTAhNBqaYELzs=
+	t=1712579755; cv=none; b=u5Z6II1PqiLNO5o3VGji834Xn0IeXWv9BhI1vPJDnH5lNyZiMUzL2nrtwmgAhywjRb25e1QW1/mkcYd66akJYoCaepvvGnQZEapPhC/eGXx2mDOu3Dfmkr1GyPBFvtqsCJLuASvgRYx1qA+vTzpdKjMZhDmU01Ouy53BPptLvFo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1712578476; c=relaxed/simple;
-	bh=x+FsxZWRAjPjLs6UXRrQ4jbrSYbaGPFtemQodRNwj0Q=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=QomQLE1AM9x+TbfurQJuR2Kr/ZvQY/H22PmAAhjvpQ+okUMW+FQEN9g7+hPQ5wkRCSBTvDEXWk44iu+8sQqsxn+bW9+VJWTAcW1FXBWxRe53RknSs18V1mGuLxEjAQoVy4yXIK3FCVv5gzxf61oKK8aIPL8mwqQ4GErYFkVfI1c=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=stfBO71f; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1712579755; c=relaxed/simple;
+	bh=onkmaoZvkauW8Q4MGh3eVchFeNAmDaYgmCBvXuFcIGE=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version; b=aHrLILvWDhpOEiyxOQtr6lJiHTO3eCdfX1IXNC337LnDdZ8zWeyVe6hTe/qAygrUWr4VWKra5vOVC+ljsvvTDE+Z7f72geSX3MeSi9E8esNPfYngVYx688YheFCAT9s6t+D5plNPMvZ6Kz4+dmDy1bgdp/oYDoDEWLewQiCRxgc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=none smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=OOp1RuwJ; arc=none smtp.client-ip=192.198.163.17
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=linux.intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="stfBO71f"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 4CE6FC433C7;
-	Mon,  8 Apr 2024 12:14:35 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1712578475;
-	bh=x+FsxZWRAjPjLs6UXRrQ4jbrSYbaGPFtemQodRNwj0Q=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=stfBO71fztxYkHI6vQb0jBV0kkAT+9xNUYlPLhYKidsvrIigy4SLLrRQrckt/8Ovw
-	 /xMaqUilw8ZVL/gTLnwzb+gETQokd2aLRtEJa57lwprg50osIy3lj1OGAeewn24yM3
-	 kom4j8UtMNnJmq2jM1IbJMp4AGA6hx2yDi2WJYp2hHyEBagjcLYSniK1GRc6Uqq67f
-	 1ghx88gA6ywGh94lZdWi03fvYNNtBQKZJiWYIV+tDQFI28zLcnzYDl4yabYGJ8CQWk
-	 iDcJvIv2DlSNv63+RcelicnrMEBP7Y3AfiZFY4czY3UdHyoJRlcJS6/7/mHlcGCjlv
-	 9dAXU6vYEo5hA==
-Received: from johan by xi.lan with local (Exim 4.97.1)
-	(envelope-from <johan@kernel.org>)
-	id 1rtntN-000000002B9-0kG0;
-	Mon, 08 Apr 2024 14:14:29 +0200
-Date: Mon, 8 Apr 2024 14:14:29 +0200
-From: Johan Hovold <johan@kernel.org>
-To: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-Cc: Bryan O'Donoghue <bryan.odonoghue@linaro.org>,
-	Heikki Krogerus <heikki.krogerus@linux.intel.com>,
-	Bjorn Andersson <andersson@kernel.org>,
-	Konrad Dybcio <konrad.dybcio@linaro.org>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	linux-arm-msm@vger.kernel.org, linux-usb@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	Caleb Connolly <caleb.connolly@linaro.org>
-Subject: Re: [PATCH v2] usb: typec: qcom-pmic-typec: split HPD bridge alloc
- and registration
-Message-ID: <ZhPfpaEx9fV61Y_3@hovoldconsulting.com>
-References: <20240408-qc-pmic-typec-hpd-split-v2-1-1704f5321b73@linaro.org>
- <ZhOYpHXz6t0fkzZ2@hovoldconsulting.com>
- <2ejpom6ykci6o7d7luwa2ao4stpm24aoyi66aoncxcqcwgidxz@gcsqvpb3s7nr>
- <ZhPYjXjX3LcCMhyh@hovoldconsulting.com>
- <CAA8EJprJn-sq1Xb9E0bJD814CepKPzsD=xCFAKFeCGjj2Tv9Dg@mail.gmail.com>
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="OOp1RuwJ"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1712579754; x=1744115754;
+  h=from:to:cc:subject:date:message-id:in-reply-to:
+   references:mime-version:content-transfer-encoding;
+  bh=onkmaoZvkauW8Q4MGh3eVchFeNAmDaYgmCBvXuFcIGE=;
+  b=OOp1RuwJCJ810UjFAw24ChtD34xr+4aDAOix8sAz40a7u/cvno7yYOnJ
+   A1CmrsWmwRreOILSFfYp0ocrsqNoCHJrIVWH2kK0qbv7pICX1EZCqWHcO
+   i964kz+/lHPyKZmgpxxoAIUhM5mnfMGZCQ8DJ/NiCIABdAXvPJ67evojQ
+   qPTLiVyT0DORwP0s016PY6wroR7a3OqLDh2oHw+WaeZNNdxFAJ1UScxhl
+   ltU2svUMv6G48K4FwWeLBBsDVsMcm2yS9/WtuH/bzVi5V3gkAt06Jtn+i
+   mWAVVFht1KKEiDkdVi5Y6/cuQO7cEwrrKnc+PLivg9M+u3MO37L2uyXyK
+   w==;
+X-CSE-ConnectionGUID: VKP5oxTTSYOfDaEjONcX3w==
+X-CSE-MsgGUID: C1ndScmGT1KBPboa3jgyXw==
+X-IronPort-AV: E=McAfee;i="6600,9927,11037"; a="7720370"
+X-IronPort-AV: E=Sophos;i="6.07,186,1708416000"; 
+   d="scan'208";a="7720370"
+Received: from fmsmga001.fm.intel.com ([10.253.24.23])
+  by fmvoesa111.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 08 Apr 2024 05:35:53 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,11037"; a="937091336"
+X-IronPort-AV: E=Sophos;i="6.07,186,1708416000"; 
+   d="scan'208";a="937091336"
+Received: from black.fi.intel.com ([10.237.72.28])
+  by fmsmga001.fm.intel.com with ESMTP; 08 Apr 2024 05:35:51 -0700
+Received: by black.fi.intel.com (Postfix, from userid 1001)
+	id 401AD12C; Mon,  8 Apr 2024 15:35:50 +0300 (EEST)
+From: Mika Westerberg <mika.westerberg@linux.intel.com>
+To: Yehezkel Bernat <YehezkelShB@gmail.com>,
+	Michael Jamet <michael.jamet@intel.com>,
+	Lukas Wunner <lukas@wunner.de>,
+	Andreas Noever <andreas.noever@gmail.com>
+Cc: Gil Fine <gil.fine@linux.intel.com>,
+	linux-usb@vger.kernel.org,
+	Mika Westerberg <mika.westerberg@linux.intel.com>
+Subject: [PATCH 2/2] thunderbolt: Fix calculation of consumed USB3 bandwidth on a path
+Date: Mon,  8 Apr 2024 15:35:50 +0300
+Message-ID: <20240408123550.4178338-2-mika.westerberg@linux.intel.com>
+X-Mailer: git-send-email 2.43.0
+In-Reply-To: <20240408123550.4178338-1-mika.westerberg@linux.intel.com>
+References: <20240408123550.4178338-1-mika.westerberg@linux.intel.com>
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <CAA8EJprJn-sq1Xb9E0bJD814CepKPzsD=xCFAKFeCGjj2Tv9Dg@mail.gmail.com>
+Content-Transfer-Encoding: 8bit
 
-On Mon, Apr 08, 2024 at 02:48:44PM +0300, Dmitry Baryshkov wrote:
-> On Mon, 8 Apr 2024 at 14:44, Johan Hovold <johan@kernel.org> wrote:
-> >
-> > On Mon, Apr 08, 2024 at 01:49:48PM +0300, Dmitry Baryshkov wrote:
-> > > On Mon, Apr 08, 2024 at 09:11:32AM +0200, Johan Hovold wrote:
-> > > > On Mon, Apr 08, 2024 at 04:06:40AM +0300, Dmitry Baryshkov wrote:
-> > > > > If a probe function returns -EPROBE_DEFER after creating another device
-> > > > > there is a change of ending up in a probe deferral loop, (see commit
-> > > > > fbc35b45f9f6 ("Add documentation on meaning of -EPROBE_DEFER").
-> > > > >
-> > > > > In order to prevent such probe-defer loops caused by qcom-pmic-typec
-> > > > > driver, use the API added by Johan Hovold and move HPD bridge
-> > > > > registration to the end of the probe function.
-> > > >
-> > > > You should be more specific here: which function called after
-> > > > qcom_pmic_typec_probe() can trigger a probe deferral?
-> > > >
-> > > > I doubt that applies to tcpm->port_start() and tcpm->pdphy_start() in
-> > > > which case the bridge should be added before those calls unless there
-> > > > are other reasons for not doing so, which then also should be mentioned.
-> > > >
-> > > > I suspect the trouble is with tcpm_register_port(), but please spell
-> > > > that out and mention in which scenarios that function may return
-> > > > -EPROBE_DEFER.
-> > >
-> > > The probe loop comes from from tcpm_register_port(), you are right.
-> > > However then putting bridge registration before the _start() functions
-> > > is also incorrect as this will be prone to use-after-free errors that
-> > > you have fixed in pmic-glink.
-> >
-> > You obviously have to mention that in the commit message as that is a
-> > separate change and also one that looks broken as you're now registering
-> > resources after the device has gone "live".
-> 
-> No. I'm registering a child device rather than a resource.
+From: Gil Fine <gil.fine@linux.intel.com>
 
-There's no difference. You're registering a resource for someone else to
-consume.
+Currently, when setup a new USB3 tunnel that is starting from downstream USB3
+adapter of first depth router (or deeper), to upstream USB3 adapter of a second
+depth router (or deeper), we calculate consumed bandwidth. For this calculation
+we take into account first USB3 tunnel consumed bandwidth while we shouldn't,
+because we just recalculating the first USB3 tunnel allocated bandwidth.
 
-And it's not obvious that this does not lead to missed events, etc. in
-this case.
+Fix that, so that more bandwidth is available for the new USB3 tunnel being
+setup.
 
-> > So you also need to explain why you think that is safe, if it should be
-> > done at all. You're essentially just papering over a DRM bug in the
-> > unlikely event that probe fails.
-> 
-> Unfortunately, as pointed out by Reported-by, Caleb has actually hit
-> the probe failure loop.
+While there, fix the kernel-doc to decribe more accurately the purpose of the
+function.
 
-The probe loop is probably real, I don't don't doubt that, but you
-still need to explain when tcpm_register_port() can return
--EPROBE_DEFER.
+Signed-off-by: Gil Fine <gil.fine@linux.intel.com>
+Signed-off-by: Mika Westerberg <mika.westerberg@linux.intel.com>
+---
+ drivers/thunderbolt/tb.c | 9 +++++----
+ 1 file changed, 5 insertions(+), 4 deletions(-)
 
-But the point is, you don't have to register the bridge after *starting*
-the port to fix the probe loop. You're doing that for other,
-questionable reasons and you don't explain why in the commit message so
-that others can evaluate your reasoning.
+diff --git a/drivers/thunderbolt/tb.c b/drivers/thunderbolt/tb.c
+index 3e44c78ac409..10e719dd837c 100644
+--- a/drivers/thunderbolt/tb.c
++++ b/drivers/thunderbolt/tb.c
+@@ -498,8 +498,9 @@ static struct tb_tunnel *tb_find_first_usb3_tunnel(struct tb *tb,
+  * @consumed_down: Consumed downstream bandwidth (Mb/s)
+  *
+  * Calculates consumed USB3 and PCIe bandwidth at @port between path
+- * from @src_port to @dst_port. Does not take tunnel starting from
+- * @src_port and ending from @src_port into account.
++ * from @src_port to @dst_port. Does not take USB3 tunnel starting from
++ * @src_port and ending on @src_port into account because that bandwidth is
++ * already included in as part of the "first hop" USB3 tunnel.
+  */
+ static int tb_consumed_usb3_pcie_bandwidth(struct tb *tb,
+ 					   struct tb_port *src_port,
+@@ -514,8 +515,8 @@ static int tb_consumed_usb3_pcie_bandwidth(struct tb *tb,
+ 	*consumed_up = *consumed_down = 0;
+ 
+ 	tunnel = tb_find_first_usb3_tunnel(tb, src_port, dst_port);
+-	if (tunnel && tunnel->src_port != src_port &&
+-	    tunnel->dst_port != dst_port) {
++	if (tunnel && !tb_port_is_usb3_down(src_port) &&
++	    !tb_port_is_usb3_up(dst_port)) {
+ 		int ret;
+ 
+ 		ret = tb_tunnel_consumed_bandwidth(tunnel, consumed_up,
+-- 
+2.43.0
 
-Johan
