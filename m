@@ -1,191 +1,271 @@
-Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com [205.220.180.131])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 774287EEF2;
-	Mon,  8 Apr 2024 13:47:01 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.180.131
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C75657BB15;
+	Mon,  8 Apr 2024 14:02:17 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1712584023; cv=none; b=F/qc/G2w5fh5mbws5GODJR931X+O74+1W1cK1rdqGRvMEtLedv8IN5KQogowVubcA5vOWtQsv1pmxmSmJEpkXCaPbjdata2ETz+VL3rz+7Rwy835UUKiq42rT6HygtuOiMM5REwcbJHXctrapueHWP/oSPNJ3xqiD2FN2k+f530=
+	t=1712584937; cv=none; b=MSc0IWjNUwL7i9koJPCgC1h5XZUqCSjhQFnaXnYDyyIoO2kPYJdtXwDbmJZc33QhHiqVUzprW9Aa3JjH9Dsi8rA2W6wj6E8iCMvjemPOfZ5S+9YNdtM0suiKIY5X7IIXod0EVsXFKausHNz/jMwtK2bJQUtGdYAmPLRr4DBS+J0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1712584023; c=relaxed/simple;
-	bh=L2xd1aiwTb639zOKYegthEwPMP+na8MbpMyULkrDrpo=;
-	h=Message-ID:Date:MIME-Version:From:Subject:To:CC:References:
-	 In-Reply-To:Content-Type; b=W/o71twOy/E9MDep5V4curhgg8OoM3WEgxuZpooz7/QfXJMIbQxi+ypAhWAToFxW1l6y0AAF3LzRuvkD9Fe6yU6uutSE6fW2mj9jPLcv2SWqP6k4BKqOXKp7oQZBSUl6bzUUPHHwlLSHIDszTq9S5d0oKNCo/1zK1z9NbwutZXU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=quicinc.com; spf=pass smtp.mailfrom=quicinc.com; dkim=pass (2048-bit key) header.d=quicinc.com header.i=@quicinc.com header.b=ZVweTJVT; arc=none smtp.client-ip=205.220.180.131
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=quicinc.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=quicinc.com
+	s=arc-20240116; t=1712584937; c=relaxed/simple;
+	bh=/iO3pfCa9DaPOYswZfHEDY68Art7tG8bb7yGnumGSWE=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version; b=iqH7vBR+4zPdzylBJCktBokuHLxx70UK5BPU++n88e6L8vAYWyjYmYHYRylGOqIXnq1iOS0Rdss6S94b6zlvo/9gkHz1TcIYUWSsWRqp6j1ufNrnc9muiR4u3GZ3Kq/7Q0hmWauwD6VbrZNAhsruygjwf9ppQaJoB/dzt13ed1M=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b=VwoytcoU; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=quicinc.com header.i=@quicinc.com header.b="ZVweTJVT"
-Received: from pps.filterd (m0279869.ppops.net [127.0.0.1])
-	by mx0a-0031df01.pphosted.com (8.17.1.24/8.17.1.24) with ESMTP id 438CuJQn002013;
-	Mon, 8 Apr 2024 13:46:57 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com; h=
-	message-id:date:mime-version:from:subject:to:cc:references
-	:in-reply-to:content-type:content-transfer-encoding; s=
-	qcppdkim1; bh=welPpz4fuPVMQkgSviG18/N0pNIiqnjcj2TKyy5xmkk=; b=ZV
-	weTJVTBQgWzShTFd0czdsiNEXh1Rm/iiK8KUGDfv4VgR1uRsnL+HqW6t7bdD24hN
-	OnV2gELutDQCurZF7Rln1ZBlWKT/TABs22NHvvepU1ILgCatOhpKPi2CYpfYU2T2
-	NFzWIpYPkVkgABfqJLvlZ/H/692/HPpNbqjlHOXDe9ylRD5JZmKK3rl3QA9fC3dn
-	23Nhc8ur29eUhWcGdEGZIxr5AXb5PPRORbZx6ZTDdN4HQCshKgGDogLplagntlpf
-	Kwh4TvhRXjk9fVpDtUlzVnpOSghxQrhzH1+MelheB9YTnfhteqiMQqM2IozmvDxa
-	XzSvZr5bJxYhAuKKOkFw==
-Received: from nalasppmta04.qualcomm.com (Global_NAT1.qualcomm.com [129.46.96.20])
-	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 3xcbg2rwsu-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Mon, 08 Apr 2024 13:46:57 +0000 (GMT)
-Received: from nalasex01a.na.qualcomm.com (nalasex01a.na.qualcomm.com [10.47.209.196])
-	by NALASPPMTA04.qualcomm.com (8.17.1.5/8.17.1.5) with ESMTPS id 438Dkuws030322
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Mon, 8 Apr 2024 13:46:56 GMT
-Received: from [10.216.32.99] (10.80.80.8) by nalasex01a.na.qualcomm.com
- (10.47.209.196) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1544.4; Mon, 8 Apr 2024
- 06:46:53 -0700
-Message-ID: <22d7abd1-139d-405b-984e-e4b57cc989cc@quicinc.com>
-Date: Mon, 8 Apr 2024 19:16:46 +0530
+	dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="VwoytcoU"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 4F631C433F1;
+	Mon,  8 Apr 2024 14:02:17 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
+	s=korg; t=1712584937;
+	bh=/iO3pfCa9DaPOYswZfHEDY68Art7tG8bb7yGnumGSWE=;
+	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
+	b=VwoytcoUiAPJECIga3gEEtZWbZ1ieUnmZeVdwFSRkdbmqr9hfMuORF6UgB4I0V5l6
+	 +uLKTpuDPH8lVfEt085uQfIhfhhiZZrxpjjHsiI/8zZPeRBdTjQGkZ2BDARkdmmLt9
+	 yUsCJPYjOjB4bxtQESWNSo8DMazQYe+Ii4s4BgMA=
+From: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+To: stable@vger.kernel.org
+Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	patches@lists.linux.dev,
+	linux-usb@vger.kernel.org,
+	Johannes Thumshirn <johannes.thumshirn@wdc.com>,
+	Hannes Reinecke <hare@suse.de>,
+	Himanshu Madhani <himanshu.madhani@oracle.com>,
+	Oliver Neukum <oneukum@suse.com>,
+	Bart Van Assche <bvanassche@acm.org>,
+	"Martin K. Petersen" <martin.petersen@oracle.com>,
+	Sasha Levin <sashal@kernel.org>
+Subject: [PATCH 5.15 607/690] scsi: usb: Stop using the SCSI pointer
+Date: Mon,  8 Apr 2024 14:57:53 +0200
+Message-ID: <20240408125421.592860359@linuxfoundation.org>
+X-Mailer: git-send-email 2.44.0
+In-Reply-To: <20240408125359.506372836@linuxfoundation.org>
+References: <20240408125359.506372836@linuxfoundation.org>
+User-Agent: quilt/0.67
+X-stable: review
+X-Patchwork-Hint: ignore
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-From: Krishna Kurapati PSSNV <quic_kriskura@quicinc.com>
-Subject: Re: [PATCH 2/5] usb: typec: ucsi: glink: move GPIO reading into
- connector_status callback
-To: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
-        Heikki Krogerus
-	<heikki.krogerus@linux.intel.com>,
-        Greg Kroah-Hartman
-	<gregkh@linuxfoundation.org>
-CC: Neil Armstrong <neil.armstrong@linaro.org>, <linux-usb@vger.kernel.org>,
-        <linux-arm-msm@vger.kernel.org>, <linux-kernel@vger.kernel.org>
-References: <20240408-ucsi-orient-aware-v1-0-95a74a163a10@linaro.org>
- <20240408-ucsi-orient-aware-v1-2-95a74a163a10@linaro.org>
-Content-Language: en-US
-In-Reply-To: <20240408-ucsi-orient-aware-v1-2-95a74a163a10@linaro.org>
-Content-Type: text/plain; charset="UTF-8"; format=flowed
-Content-Transfer-Encoding: 7bit
-X-ClientProxiedBy: nasanex01b.na.qualcomm.com (10.46.141.250) To
- nalasex01a.na.qualcomm.com (10.47.209.196)
-X-QCInternal: smtphost
-X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800 signatures=585085
-X-Proofpoint-ORIG-GUID: z6eXXlk_uhdoX2ZPcij72Do59dtFt2Jl
-X-Proofpoint-GUID: z6eXXlk_uhdoX2ZPcij72Do59dtFt2Jl
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.272,Aquarius:18.0.1011,Hydra:6.0.619,FMLib:17.11.176.26
- definitions=2024-04-08_12,2024-04-05_02,2023-05-22_02
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 priorityscore=1501
- adultscore=0 spamscore=0 clxscore=1015 lowpriorityscore=0 mlxlogscore=999
- bulkscore=0 impostorscore=0 suspectscore=0 phishscore=0 malwarescore=0
- mlxscore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.19.0-2404010003 definitions=main-2404080104
+Content-Transfer-Encoding: 8bit
+
+5.15-stable review patch.  If anyone has any objections, please let me know.
+
+------------------
+
+From: Bart Van Assche <bvanassche@acm.org>
+
+[ Upstream commit 5dfcf1ad933fe877cb44e9fb7a661dfc22190101 ]
+
+Set scsi_host_template.cmd_size instead of using the SCSI pointer for
+storing driver-private data. Change the type of the argument of
+uas_add_work() from struct uas_cmd_info * into struct scsi_cmnd * because
+it is easier to convert a SCSI command pointer into a uas_cmd_info pointer
+than the other way around.
+
+This patch prepares for removal of the SCSI pointer from struct scsi_cmnd.
+
+Link: https://lore.kernel.org/r/20220218195117.25689-46-bvanassche@acm.org
+Cc: linux-usb@vger.kernel.org
+Reviewed-by: Johannes Thumshirn <johannes.thumshirn@wdc.com>
+Reviewed-by: Hannes Reinecke <hare@suse.de>
+Reviewed-by: Himanshu Madhani <himanshu.madhani@oracle.com>
+Acked-by: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+Acked-by: Oliver Neukum <oneukum@suse.com>
+Signed-off-by: Bart Van Assche <bvanassche@acm.org>
+Signed-off-by: Martin K. Petersen <martin.petersen@oracle.com>
+Stable-dep-of: cd5432c71235 ("USB: UAS: return ENODEV when submit urbs fail with device not attached")
+Signed-off-by: Sasha Levin <sashal@kernel.org>
+---
+ drivers/usb/storage/uas.c | 43 ++++++++++++++++++---------------------
+ 1 file changed, 20 insertions(+), 23 deletions(-)
+
+diff --git a/drivers/usb/storage/uas.c b/drivers/usb/storage/uas.c
+index 774d18907f472..d11a9481f6d00 100644
+--- a/drivers/usb/storage/uas.c
++++ b/drivers/usb/storage/uas.c
+@@ -113,7 +113,7 @@ static void uas_do_work(struct work_struct *work)
+ 			continue;
+ 
+ 		cmnd = devinfo->cmnd[i];
+-		cmdinfo = (void *)&cmnd->SCp;
++		cmdinfo = scsi_cmd_priv(cmnd);
+ 
+ 		if (!(cmdinfo->state & IS_IN_WORK_LIST))
+ 			continue;
+@@ -139,10 +139,9 @@ static void uas_scan_work(struct work_struct *work)
+ 	dev_dbg(&devinfo->intf->dev, "scan complete\n");
+ }
+ 
+-static void uas_add_work(struct uas_cmd_info *cmdinfo)
++static void uas_add_work(struct scsi_cmnd *cmnd)
+ {
+-	struct scsi_pointer *scp = (void *)cmdinfo;
+-	struct scsi_cmnd *cmnd = container_of(scp, struct scsi_cmnd, SCp);
++	struct uas_cmd_info *cmdinfo = scsi_cmd_priv(cmnd);
+ 	struct uas_dev_info *devinfo = cmnd->device->hostdata;
+ 
+ 	lockdep_assert_held(&devinfo->lock);
+@@ -163,7 +162,7 @@ static void uas_zap_pending(struct uas_dev_info *devinfo, int result)
+ 			continue;
+ 
+ 		cmnd = devinfo->cmnd[i];
+-		cmdinfo = (void *)&cmnd->SCp;
++		cmdinfo = scsi_cmd_priv(cmnd);
+ 		uas_log_cmd_state(cmnd, __func__, 0);
+ 		/* Sense urbs were killed, clear COMMAND_INFLIGHT manually */
+ 		cmdinfo->state &= ~COMMAND_INFLIGHT;
+@@ -200,15 +199,14 @@ static void uas_sense(struct urb *urb, struct scsi_cmnd *cmnd)
+ static void uas_log_cmd_state(struct scsi_cmnd *cmnd, const char *prefix,
+ 			      int status)
+ {
+-	struct uas_cmd_info *ci = (void *)&cmnd->SCp;
+-	struct uas_cmd_info *cmdinfo = (void *)&cmnd->SCp;
++	struct uas_cmd_info *ci = scsi_cmd_priv(cmnd);
+ 
+ 	if (status == -ENODEV) /* too late */
+ 		return;
+ 
+ 	scmd_printk(KERN_INFO, cmnd,
+ 		    "%s %d uas-tag %d inflight:%s%s%s%s%s%s%s%s%s%s%s%s ",
+-		    prefix, status, cmdinfo->uas_tag,
++		    prefix, status, ci->uas_tag,
+ 		    (ci->state & SUBMIT_STATUS_URB)     ? " s-st"  : "",
+ 		    (ci->state & ALLOC_DATA_IN_URB)     ? " a-in"  : "",
+ 		    (ci->state & SUBMIT_DATA_IN_URB)    ? " s-in"  : "",
+@@ -231,7 +229,7 @@ static void uas_free_unsubmitted_urbs(struct scsi_cmnd *cmnd)
+ 	if (!cmnd)
+ 		return;
+ 
+-	cmdinfo = (void *)&cmnd->SCp;
++	cmdinfo = scsi_cmd_priv(cmnd);
+ 
+ 	if (cmdinfo->state & SUBMIT_CMD_URB)
+ 		usb_free_urb(cmdinfo->cmd_urb);
+@@ -245,7 +243,7 @@ static void uas_free_unsubmitted_urbs(struct scsi_cmnd *cmnd)
+ 
+ static int uas_try_complete(struct scsi_cmnd *cmnd, const char *caller)
+ {
+-	struct uas_cmd_info *cmdinfo = (void *)&cmnd->SCp;
++	struct uas_cmd_info *cmdinfo = scsi_cmd_priv(cmnd);
+ 	struct uas_dev_info *devinfo = (void *)cmnd->device->hostdata;
+ 
+ 	lockdep_assert_held(&devinfo->lock);
+@@ -263,13 +261,13 @@ static int uas_try_complete(struct scsi_cmnd *cmnd, const char *caller)
+ static void uas_xfer_data(struct urb *urb, struct scsi_cmnd *cmnd,
+ 			  unsigned direction)
+ {
+-	struct uas_cmd_info *cmdinfo = (void *)&cmnd->SCp;
++	struct uas_cmd_info *cmdinfo = scsi_cmd_priv(cmnd);
+ 	int err;
+ 
+ 	cmdinfo->state |= direction | SUBMIT_STATUS_URB;
+ 	err = uas_submit_urbs(cmnd, cmnd->device->hostdata);
+ 	if (err) {
+-		uas_add_work(cmdinfo);
++		uas_add_work(cmnd);
+ 	}
+ }
+ 
+@@ -329,7 +327,7 @@ static void uas_stat_cmplt(struct urb *urb)
+ 	}
+ 
+ 	cmnd = devinfo->cmnd[idx];
+-	cmdinfo = (void *)&cmnd->SCp;
++	cmdinfo = scsi_cmd_priv(cmnd);
+ 
+ 	if (!(cmdinfo->state & COMMAND_INFLIGHT)) {
+ 		uas_log_cmd_state(cmnd, "unexpected status cmplt", 0);
+@@ -394,7 +392,7 @@ static void uas_stat_cmplt(struct urb *urb)
+ static void uas_data_cmplt(struct urb *urb)
+ {
+ 	struct scsi_cmnd *cmnd = urb->context;
+-	struct uas_cmd_info *cmdinfo = (void *)&cmnd->SCp;
++	struct uas_cmd_info *cmdinfo = scsi_cmd_priv(cmnd);
+ 	struct uas_dev_info *devinfo = (void *)cmnd->device->hostdata;
+ 	struct scsi_data_buffer *sdb = &cmnd->sdb;
+ 	unsigned long flags;
+@@ -446,7 +444,7 @@ static struct urb *uas_alloc_data_urb(struct uas_dev_info *devinfo, gfp_t gfp,
+ 				      enum dma_data_direction dir)
+ {
+ 	struct usb_device *udev = devinfo->udev;
+-	struct uas_cmd_info *cmdinfo = (void *)&cmnd->SCp;
++	struct uas_cmd_info *cmdinfo = scsi_cmd_priv(cmnd);
+ 	struct urb *urb = usb_alloc_urb(0, gfp);
+ 	struct scsi_data_buffer *sdb = &cmnd->sdb;
+ 	unsigned int pipe = (dir == DMA_FROM_DEVICE)
+@@ -468,7 +466,7 @@ static struct urb *uas_alloc_sense_urb(struct uas_dev_info *devinfo, gfp_t gfp,
+ 				       struct scsi_cmnd *cmnd)
+ {
+ 	struct usb_device *udev = devinfo->udev;
+-	struct uas_cmd_info *cmdinfo = (void *)&cmnd->SCp;
++	struct uas_cmd_info *cmdinfo = scsi_cmd_priv(cmnd);
+ 	struct urb *urb = usb_alloc_urb(0, gfp);
+ 	struct sense_iu *iu;
+ 
+@@ -496,7 +494,7 @@ static struct urb *uas_alloc_cmd_urb(struct uas_dev_info *devinfo, gfp_t gfp,
+ {
+ 	struct usb_device *udev = devinfo->udev;
+ 	struct scsi_device *sdev = cmnd->device;
+-	struct uas_cmd_info *cmdinfo = (void *)&cmnd->SCp;
++	struct uas_cmd_info *cmdinfo = scsi_cmd_priv(cmnd);
+ 	struct urb *urb = usb_alloc_urb(0, gfp);
+ 	struct command_iu *iu;
+ 	int len;
+@@ -558,7 +556,7 @@ static struct urb *uas_submit_sense_urb(struct scsi_cmnd *cmnd, gfp_t gfp)
+ static int uas_submit_urbs(struct scsi_cmnd *cmnd,
+ 			   struct uas_dev_info *devinfo)
+ {
+-	struct uas_cmd_info *cmdinfo = (void *)&cmnd->SCp;
++	struct uas_cmd_info *cmdinfo = scsi_cmd_priv(cmnd);
+ 	struct urb *urb;
+ 	int err;
+ 
+@@ -638,12 +636,10 @@ static int uas_queuecommand_lck(struct scsi_cmnd *cmnd,
+ {
+ 	struct scsi_device *sdev = cmnd->device;
+ 	struct uas_dev_info *devinfo = sdev->hostdata;
+-	struct uas_cmd_info *cmdinfo = (void *)&cmnd->SCp;
++	struct uas_cmd_info *cmdinfo = scsi_cmd_priv(cmnd);
+ 	unsigned long flags;
+ 	int idx, err;
+ 
+-	BUILD_BUG_ON(sizeof(struct uas_cmd_info) > sizeof(struct scsi_pointer));
+-
+ 	/* Re-check scsi_block_requests now that we've the host-lock */
+ 	if (cmnd->device->host->host_self_blocked)
+ 		return SCSI_MLQUEUE_DEVICE_BUSY;
+@@ -713,7 +709,7 @@ static int uas_queuecommand_lck(struct scsi_cmnd *cmnd,
+ 			spin_unlock_irqrestore(&devinfo->lock, flags);
+ 			return SCSI_MLQUEUE_DEVICE_BUSY;
+ 		}
+-		uas_add_work(cmdinfo);
++		uas_add_work(cmnd);
+ 	}
+ 
+ 	devinfo->cmnd[idx] = cmnd;
+@@ -731,7 +727,7 @@ static DEF_SCSI_QCMD(uas_queuecommand)
+  */
+ static int uas_eh_abort_handler(struct scsi_cmnd *cmnd)
+ {
+-	struct uas_cmd_info *cmdinfo = (void *)&cmnd->SCp;
++	struct uas_cmd_info *cmdinfo = scsi_cmd_priv(cmnd);
+ 	struct uas_dev_info *devinfo = (void *)cmnd->device->hostdata;
+ 	struct urb *data_in_urb = NULL;
+ 	struct urb *data_out_urb = NULL;
+@@ -911,6 +907,7 @@ static struct scsi_host_template uas_host_template = {
+ 	.this_id = -1,
+ 	.skip_settle_delay = 1,
+ 	.dma_boundary = PAGE_SIZE - 1,
++	.cmd_size = sizeof(struct uas_cmd_info),
+ };
+ 
+ #define UNUSUAL_DEV(id_vendor, id_product, bcdDeviceMin, bcdDeviceMax, \
+-- 
+2.43.0
 
 
 
-On 4/8/2024 10:00 AM, Dmitry Baryshkov wrote:
-> To simplify the platform code move Type-C orientation handling into the
-> connector_status callback. As it is called both during connector
-> registration and on connector change events, duplicated code from
-> pmic_glink_ucsi_register() can be dropped.
-> 
-> Also this moves operations that can sleep into a worker thread,
-> removing the only sleeping operation from pmic_glink_ucsi_notify().
-> 
-> Signed-off-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-
-Verified working of device mode (ADB) in SS in both orientations on 
-QCS6490 RB3Gen2.
-
-As an experiment, removed the connector status call being done in 
-ucsi_register_port to see if the issue fixed by [1] would be 
-reproducible or not and it is. So this patch is taking care of proper 
-enumeration in bootup in host mode in reverse orientation as well.
-
-Tested-by: Krishna Kurapati <quic_kriskura@quicinc.com>
-
-[1]: 
-https://lore.kernel.org/all/20240301040914.458492-1-quic_kriskura@quicinc.com/
-
-> ---
->   drivers/usb/typec/ucsi/ucsi_glink.c | 48 ++++++++++++++++---------------------
->   1 file changed, 20 insertions(+), 28 deletions(-)
-> 
-> diff --git a/drivers/usb/typec/ucsi/ucsi_glink.c b/drivers/usb/typec/ucsi/ucsi_glink.c
-> index b91d2d15d7d9..d21f8cd2fe35 100644
-> --- a/drivers/usb/typec/ucsi/ucsi_glink.c
-> +++ b/drivers/usb/typec/ucsi/ucsi_glink.c
-> @@ -187,10 +187,28 @@ static int pmic_glink_ucsi_sync_write(struct ucsi *__ucsi, unsigned int offset,
->   	return ret;
->   }
->   
-> +static void pmic_glink_ucsi_connector_status(struct ucsi_connector *con)
-> +{
-> +	struct pmic_glink_ucsi *ucsi = ucsi_get_drvdata(con->ucsi);
-> +	int orientation;
-> +
-> +	if (con->num >= PMIC_GLINK_MAX_PORTS ||
-> +	    !ucsi->port_orientation[con->num - 1])
-> +		return;
-> +
-> +	orientation = gpiod_get_value(ucsi->port_orientation[con->num - 1]);
-> +	if (orientation >= 0) {
-> +		typec_switch_set(ucsi->port_switch[con->num - 1],
-> +				 orientation ? TYPEC_ORIENTATION_REVERSE
-> +				 : TYPEC_ORIENTATION_NORMAL);
-> +	}
-> +}
-> +
->   static const struct ucsi_operations pmic_glink_ucsi_ops = {
->   	.read = pmic_glink_ucsi_read,
->   	.sync_write = pmic_glink_ucsi_sync_write,
-> -	.async_write = pmic_glink_ucsi_async_write
-> +	.async_write = pmic_glink_ucsi_async_write,
-> +	.connector_status = pmic_glink_ucsi_connector_status,
->   };
->   
->   static void pmic_glink_ucsi_read_ack(struct pmic_glink_ucsi *ucsi, const void *data, int len)
-> @@ -229,20 +247,8 @@ static void pmic_glink_ucsi_notify(struct work_struct *work)
->   	}
->   
->   	con_num = UCSI_CCI_CONNECTOR(cci);
-> -	if (con_num) {
-> -		if (con_num <= PMIC_GLINK_MAX_PORTS &&
-> -		    ucsi->port_orientation[con_num - 1]) {
-> -			int orientation = gpiod_get_value(ucsi->port_orientation[con_num - 1]);
-> -
-> -			if (orientation >= 0) {
-> -				typec_switch_set(ucsi->port_switch[con_num - 1],
-> -						 orientation ? TYPEC_ORIENTATION_REVERSE
-> -							     : TYPEC_ORIENTATION_NORMAL);
-> -			}
-> -		}
-> -
-> +	if (con_num)
->   		ucsi_connector_change(ucsi->ucsi, con_num);
-> -	}
->   
->   	if (ucsi->sync_pending &&
->   		   (cci & (UCSI_CCI_ACK_COMPLETE | UCSI_CCI_COMMAND_COMPLETE))) {
-> @@ -253,20 +259,6 @@ static void pmic_glink_ucsi_notify(struct work_struct *work)
->   static void pmic_glink_ucsi_register(struct work_struct *work)
->   {
->   	struct pmic_glink_ucsi *ucsi = container_of(work, struct pmic_glink_ucsi, register_work);
-> -	int orientation;
-> -	int i;
-> -
-> -	for (i = 0; i < PMIC_GLINK_MAX_PORTS; i++) {
-> -		if (!ucsi->port_orientation[i])
-> -			continue;
-> -		orientation = gpiod_get_value(ucsi->port_orientation[i]);
-> -
-> -		if (orientation >= 0) {
-> -			typec_switch_set(ucsi->port_switch[i],
-> -					 orientation ? TYPEC_ORIENTATION_REVERSE
-> -					     : TYPEC_ORIENTATION_NORMAL);
-> -		}
-> -	}
->   
->   	ucsi_register(ucsi->ucsi);
->   }
-> 
