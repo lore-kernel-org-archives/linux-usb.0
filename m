@@ -1,97 +1,115 @@
-Received: from mail-io1-f69.google.com (mail-io1-f69.google.com [209.85.166.69])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.12])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 54E656A348
-	for <linux-usb@vger.kernel.org>; Mon,  8 Apr 2024 12:51:46 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.166.69
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 867F36CDA8
+	for <linux-usb@vger.kernel.org>; Mon,  8 Apr 2024 13:01:26 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.12
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1712580707; cv=none; b=kFBHPKjdtOo1w1e2dZdxRTMdWW36myMAHONFEpwxTylxENKOSNqC+nOsQmZPH37WOdG39vuzVQcHptV6dKLyDz3T5PPu6OK59NdXtr7Om/WWs1mPUTl1wo6NPdaJG1ugs4FxQMxvHvKy2DF0sSbH1jf9C49ngtoqTAKjWCRw3C8=
+	t=1712581288; cv=none; b=YOkbMWmg1kLs4IqiJ7YlIYvRY+UbjaR6qrBSjpzw1KOU0yQ5dGJMip+U50DwB30UJwsmAfedVe4suU5YGQdLATeOT06pNGVWvks3u+BmYD8bYqidmYxhtn2EREZjskNjCt+2GFu9/xPl+Or/KzcUIGuwC0VI0PtieCMOxzMWoSI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1712580707; c=relaxed/simple;
-	bh=UlDn3u++VeRTZAzlozVhYrVIfqq8x5y6K4ftZAsXbmk=;
-	h=MIME-Version:Date:Message-ID:Subject:From:To:Content-Type; b=bHxVX15t6F2DbW8/jYdNXBwkTdPlgqpMaSka9Tnsf9fDUcqosRPiDaDe8yf1smVdjD/gOrZTKWl7y990v4QzbLITzitVoVjPIpG+D9xc5AOtA+9k5S+fZAN5i3+djxUwJ/aLnuPnbp8HrpVLXtFvfDVkUHYDi6RO71rm1JyIcjw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=syzkaller.appspotmail.com; spf=pass smtp.mailfrom=M3KW2WVRGUFZ5GODRSRYTGD7.apphosting.bounces.google.com; arc=none smtp.client-ip=209.85.166.69
-Authentication-Results: smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=syzkaller.appspotmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=M3KW2WVRGUFZ5GODRSRYTGD7.apphosting.bounces.google.com
-Received: by mail-io1-f69.google.com with SMTP id ca18e2360f4ac-7c7f57fa5eeso360053739f.1
-        for <linux-usb@vger.kernel.org>; Mon, 08 Apr 2024 05:51:46 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1712580705; x=1713185505;
-        h=to:from:subject:message-id:date:mime-version:x-gm-message-state
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=7h8z+6KiyxOrExyagXtxcsJEsWxSoMptUt8KwlryBoo=;
-        b=lkNyXeF2aLJt1a1ypfnTQNL7/aRNnrb5kNh4/U9dJ7aHze8klsI7it8j228mzMq0A7
-         Lqc9EkTezVaNXEBMdY3LyG1Wo+22F0wD+ijFifESviRNF/rDnI692DGaLu/ExbhRtSmx
-         qTibXpccECGdgnhzgG3/bm9y0Wrh3Dp7LyjkcEMwEfzdoMnRMrA9YM+J2li5Cdyxs64B
-         M/EYcqJL4YmWolR6lEz/yBksvGl4ceShAalOwaNPjBaE5d8lZ4mJgHWeJTdQwmFVTArC
-         svPYXk77l+ZalmznRtQyZU7iWskk4CX8jYvzKRAgyrPZvQojU7sdxE9OSVyisQDKWRsx
-         SVKQ==
-X-Forwarded-Encrypted: i=1; AJvYcCV3XKUUzLuPuElKkrllAFbLWMWe5Fa+nbal4Xg6WAKGfM3MHhVpU7Dmrh+E1GnwNmNh1ux5yqvImJBYhV0lXi0Hx6ROGvAnKaXY
-X-Gm-Message-State: AOJu0YwE4cbsnMQq9T33ZGiVZQAIqDyBkXuG6lrQ0tj6+KFpCF3p56zi
-	qG1a8I8s+6HWkal4D0bYqO3byzocoimYoF/3zn306PDFQ0tWuRH08Z3pqa1LSvswVg9kOlM5Zxy
-	zKMG6mMrKmR+D+Cp/X8Gd7MGHXkRSVsWViorNPMlZ72rzN6sJ9rZjvww=
-X-Google-Smtp-Source: AGHT+IG3RXDgu1mZrMGeacXrivnfLnJeUxeVWoc6ktafOUWjoHbP13kwuCJYGVN0ahs8jANM22OwW6DLXaUcyHwM8k8ppKipmGoE
+	s=arc-20240116; t=1712581288; c=relaxed/simple;
+	bh=onkmaoZvkauW8Q4MGh3eVchFeNAmDaYgmCBvXuFcIGE=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=KHmSI3ArpHRhtuKgkphw59u24t6/cCgZUtx5nVGMZZJZ8v6cQ7n+j2QRut0bFotl+KTPLhETuO0t6ZhfOVFh/YGKJXD15ecjuDNT86OOcELMpvCZ+PZpFNr14ylCdbky7neGIIJq5V6cijuHZ6i+kgbt+lhBMFq5JJcUO8fLu2M=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=none smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=DmsY9/4P; arc=none smtp.client-ip=192.198.163.12
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=linux.intel.com
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="DmsY9/4P"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1712581286; x=1744117286;
+  h=from:to:cc:subject:date:message-id:mime-version:
+   content-transfer-encoding;
+  bh=onkmaoZvkauW8Q4MGh3eVchFeNAmDaYgmCBvXuFcIGE=;
+  b=DmsY9/4PUeBnv9CqrC3OJolvsHdFiwvpyAkX7PLM4eXaMS1s6qCKftmN
+   vNK1X81BiN9/FClkUNRWBcBcchLuyDjng4CJl9iCwZzeKPEcthmKh8+ww
+   3GTFpds+xTkRBxX1pgLDh6LO2AV7liFYTLelfAKQI9Jl0JPtDhglTVrw/
+   sgDg6e7p3eYJ6eL6BlUxh/5njEp+IT5U75qKSsmviuVGMObau4l3LlEgI
+   9kBePzGmt2BJryupQN2WSR3odupaR3QLmdRocKNsuqobhi1FyOVz7Nfap
+   KqciKI7UJjX6mVeofoUwgilhz28iwaKFS2GEeuYkCuJAg7GwYxzzVojDU
+   g==;
+X-CSE-ConnectionGUID: MUS65IcYRHW87DwxT/fu+w==
+X-CSE-MsgGUID: p8dRn+lCT9mAGwf2iPy0Yg==
+X-IronPort-AV: E=McAfee;i="6600,9927,11038"; a="11630688"
+X-IronPort-AV: E=Sophos;i="6.07,186,1708416000"; 
+   d="scan'208";a="11630688"
+Received: from fmsmga001.fm.intel.com ([10.253.24.23])
+  by fmvoesa106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 08 Apr 2024 06:00:35 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,11037"; a="937091483"
+X-IronPort-AV: E=Sophos;i="6.07,186,1708416000"; 
+   d="scan'208";a="937091483"
+Received: from black.fi.intel.com ([10.237.72.28])
+  by fmsmga001.fm.intel.com with ESMTP; 08 Apr 2024 06:00:32 -0700
+Received: by black.fi.intel.com (Postfix, from userid 1001)
+	id CF6B924D; Mon,  8 Apr 2024 16:00:31 +0300 (EEST)
+From: Mika Westerberg <mika.westerberg@linux.intel.com>
+To: Yehezkel Bernat <YehezkelShB@gmail.com>,
+	Michael Jamet <michael.jamet@intel.com>,
+	Lukas Wunner <lukas@wunner.de>,
+	Andreas Noever <andreas.noever@gmail.com>
+Cc: Gil Fine <gil.fine@linux.intel.com>,
+	linux-usb@vger.kernel.org,
+	Mika Westerberg <mika.westerberg@linux.intel.com>
+Subject: [PATCH 1/2] thunderbolt: Fix calculation of consumed USB3 bandwidth on a path
+Date: Mon,  8 Apr 2024 16:00:30 +0300
+Message-ID: <20240408130031.51616-1-mika.westerberg@linux.intel.com>
+X-Mailer: git-send-email 2.43.0
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-Received: by 2002:a05:6e02:2488:b0:36a:20a2:e493 with SMTP id
- bt8-20020a056e02248800b0036a20a2e493mr335683ilb.6.1712580705601; Mon, 08 Apr
- 2024 05:51:45 -0700 (PDT)
-Date: Mon, 08 Apr 2024 05:51:45 -0700
-X-Google-Appengine-App-Id: s~syzkaller
-X-Google-Appengine-App-Id-Alias: syzkaller
-Message-ID: <0000000000009b56fe06159544a4@google.com>
-Subject: [syzbot] Monthly usb report (Apr 2024)
-From: syzbot <syzbot+list56b350aa6b0ae73ad4c4@syzkaller.appspotmail.com>
-To: linux-kernel@vger.kernel.org, linux-usb@vger.kernel.org, 
-	syzkaller-bugs@googlegroups.com
-Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8bit
 
-Hello usb maintainers/developers,
+From: Gil Fine <gil.fine@linux.intel.com>
 
-This is a 31-day syzbot report for the usb subsystem.
-All related reports/information can be found at:
-https://syzkaller.appspot.com/upstream/s/usb
+Currently, when setup a new USB3 tunnel that is starting from downstream USB3
+adapter of first depth router (or deeper), to upstream USB3 adapter of a second
+depth router (or deeper), we calculate consumed bandwidth. For this calculation
+we take into account first USB3 tunnel consumed bandwidth while we shouldn't,
+because we just recalculating the first USB3 tunnel allocated bandwidth.
 
-During the period, 4 new issues were detected and 0 were fixed.
-In total, 72 issues are still open and 332 have been fixed so far.
+Fix that, so that more bandwidth is available for the new USB3 tunnel being
+setup.
 
-Some of the still happening issues:
+While there, fix the kernel-doc to decribe more accurately the purpose of the
+function.
 
-Ref  Crashes Repro Title
-<1>  3410    Yes   WARNING in firmware_fallback_sysfs
-                   https://syzkaller.appspot.com/bug?extid=95f2e2439b97575ec3c0
-<2>  2870    Yes   KMSAN: uninit-value in dib3000mb_attach (2)
-                   https://syzkaller.appspot.com/bug?extid=c88fc0ebe0d5935c70da
-<3>  866     Yes   general protection fault in ir_raw_event_store_with_filter
-                   https://syzkaller.appspot.com/bug?extid=34008406ee9a31b13c73
-<4>  621     Yes   INFO: task hung in usbdev_open (2)
-                   https://syzkaller.appspot.com/bug?extid=b73659f5bb96fac34820
-<5>  401     Yes   INFO: task hung in r871xu_dev_remove
-                   https://syzkaller.appspot.com/bug?extid=f39c1dad0b7db49ca4a8
-<6>  304     Yes   KASAN: use-after-free Read in v4l2_fh_init
-                   https://syzkaller.appspot.com/bug?extid=c025d34b8eaa54c571b8
-<7>  274     No    INFO: task hung in hub_event (3)
-                   https://syzkaller.appspot.com/bug?extid=a7edecbf389d11a369d4
-<8>  225     Yes   INFO: rcu detected stall in hub_event
-                   https://syzkaller.appspot.com/bug?extid=ec5f884c4a135aa0dbb9
-<9>  195     Yes   WARNING in cm109_urb_irq_callback/usb_submit_urb
-                   https://syzkaller.appspot.com/bug?extid=2d6d691af5ab4b7e66df
-<10> 189     Yes   INFO: rcu detected stall in syscall_exit_to_user_mode (2)
-                   https://syzkaller.appspot.com/bug?extid=a68ef3b1f46bc3aced5c
-
+Signed-off-by: Gil Fine <gil.fine@linux.intel.com>
+Signed-off-by: Mika Westerberg <mika.westerberg@linux.intel.com>
 ---
-This report is generated by a bot. It may contain errors.
-See https://goo.gl/tpsmEJ for more information about syzbot.
-syzbot engineers can be reached at syzkaller@googlegroups.com.
+ drivers/thunderbolt/tb.c | 9 +++++----
+ 1 file changed, 5 insertions(+), 4 deletions(-)
 
-To disable reminders for individual bugs, reply with the following command:
-#syz set <Ref> no-reminders
+diff --git a/drivers/thunderbolt/tb.c b/drivers/thunderbolt/tb.c
+index 3e44c78ac409..10e719dd837c 100644
+--- a/drivers/thunderbolt/tb.c
++++ b/drivers/thunderbolt/tb.c
+@@ -498,8 +498,9 @@ static struct tb_tunnel *tb_find_first_usb3_tunnel(struct tb *tb,
+  * @consumed_down: Consumed downstream bandwidth (Mb/s)
+  *
+  * Calculates consumed USB3 and PCIe bandwidth at @port between path
+- * from @src_port to @dst_port. Does not take tunnel starting from
+- * @src_port and ending from @src_port into account.
++ * from @src_port to @dst_port. Does not take USB3 tunnel starting from
++ * @src_port and ending on @src_port into account because that bandwidth is
++ * already included in as part of the "first hop" USB3 tunnel.
+  */
+ static int tb_consumed_usb3_pcie_bandwidth(struct tb *tb,
+ 					   struct tb_port *src_port,
+@@ -514,8 +515,8 @@ static int tb_consumed_usb3_pcie_bandwidth(struct tb *tb,
+ 	*consumed_up = *consumed_down = 0;
+ 
+ 	tunnel = tb_find_first_usb3_tunnel(tb, src_port, dst_port);
+-	if (tunnel && tunnel->src_port != src_port &&
+-	    tunnel->dst_port != dst_port) {
++	if (tunnel && !tb_port_is_usb3_down(src_port) &&
++	    !tb_port_is_usb3_up(dst_port)) {
+ 		int ret;
+ 
+ 		ret = tb_tunnel_consumed_bandwidth(tunnel, consumed_up,
+-- 
+2.43.0
 
-To change bug's subsystems, reply with:
-#syz set <Ref> subsystems: new-subsystem
-
-You may send multiple commands in a single email message.
