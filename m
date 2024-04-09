@@ -1,99 +1,58 @@
-Received: from metis.whiteo.stw.pengutronix.de (metis.whiteo.stw.pengutronix.de [185.203.201.7])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C2D53158A02
-	for <linux-usb@vger.kernel.org>; Tue,  9 Apr 2024 21:25:02 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.203.201.7
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5B6E3158A09;
+	Tue,  9 Apr 2024 21:42:05 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1712697906; cv=none; b=ZgbjfJYOlXyRlsdMz1R5ZO6YaxxgPJz2HyWybpwdPMB54ZeFFNHArI21bQNO8YGM4TcbxEQBAuzq4bJTtvK8rYxP0SjGCPDHMtc/sKdUAl4nWTnmz9HDHLYDx9ogWamiMtZZ+zxTq1hAWjKa+0alomN0VJr064NIKiPMp06HSNk=
+	t=1712698926; cv=none; b=S6ziQvZwSYySoOKHHs0eV9UzdVJLYk0Cz2DW4XcZtMOv1dcjQcKiP1PNsq4eJYRElbqcPdB0wEg2TrVNzJcqPdP+Bv+g5rIkiBby4th/Bq+YRXAYkiE/USeajJo2aRbFkIHuPi6MZLX4dB9Xg9texltS1Tyz0BDIH2i2RTf70ow=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1712697906; c=relaxed/simple;
-	bh=BXSDolwWzU5tAWjmREDmfTdkudqshVOcwopesXpiiLw=;
-	h=From:Subject:Date:Message-Id:MIME-Version:Content-Type:To:Cc; b=XPcSZpthHi+q4DQeDHRG1vukNyu0AYeTr0xQCOpiD+h0Aaao8+VYXDCfeTtKV65W4Tn3J6xCxMKX8KyxgIOEUSptl62ImWlTJmCGHU1COONjRjlHCkKGPmG1FBZSMPFB8hMjoyk7hXe/8Wqxv7aDwkA7kVWDaXPzoQ2Tq4GkrwI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=pengutronix.de; spf=pass smtp.mailfrom=pengutronix.de; arc=none smtp.client-ip=185.203.201.7
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=pengutronix.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=pengutronix.de
-Received: from drehscheibe.grey.stw.pengutronix.de ([2a0a:edc0:0:c01:1d::a2])
-	by metis.whiteo.stw.pengutronix.de with esmtps (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
-	(Exim 4.92)
-	(envelope-from <m.grzeschik@pengutronix.de>)
-	id 1ruIxf-00081b-FR; Tue, 09 Apr 2024 23:24:59 +0200
-Received: from [2a0a:edc0:0:1101:1d::ac] (helo=dude04.red.stw.pengutronix.de)
-	by drehscheibe.grey.stw.pengutronix.de with esmtps  (TLS1.3) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
-	(Exim 4.94.2)
-	(envelope-from <m.grzeschik@pengutronix.de>)
-	id 1ruIxe-00BNAf-R4; Tue, 09 Apr 2024 23:24:58 +0200
-Received: from localhost ([::1] helo=dude04.red.stw.pengutronix.de)
-	by dude04.red.stw.pengutronix.de with esmtp (Exim 4.96)
-	(envelope-from <m.grzeschik@pengutronix.de>)
-	id 1ruIxe-00FQKu-2R;
-	Tue, 09 Apr 2024 23:24:58 +0200
-From: Michael Grzeschik <m.grzeschik@pengutronix.de>
-Subject: [PATCH 0/3] usb: gadget: uvc: allocate requests based on frame
- interval length and buffersize
-Date: Tue, 09 Apr 2024 23:24:56 +0200
-Message-Id: <20240403-uvc_request_length_by_interval-v1-0-9436c4716233@pengutronix.de>
+	s=arc-20240116; t=1712698926; c=relaxed/simple;
+	bh=5I1KP0MI3m2b78fWq623tWUuBU2WB1RVyh5tQpUvABU=;
+	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=YMr+gSgIqomYrUtQj0MEA0bHAvzJWne4nryAsFj0zNeRTRvu/u+XqMN7nkcFS0P9MJgXM3t1LpU5X8oqYwfA0ie1dDItpUjK+vFx8W+iyCy65XCOAW581DMDAlNPFpyjI98JF7uaFTE0gMM415UwWrCWTwEfGRDlrzgIHMZkBX4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=j8oIrGlv; arc=none smtp.client-ip=10.30.226.201
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="j8oIrGlv"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 5CDA6C433F1;
+	Tue,  9 Apr 2024 21:42:05 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1712698925;
+	bh=5I1KP0MI3m2b78fWq623tWUuBU2WB1RVyh5tQpUvABU=;
+	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
+	b=j8oIrGlvoDxbi3j/516Cm5YFo5s1GnfkJb2iZ5gV5X0luxOT0mDFAkkJ6A6SGne37
+	 VRsGjGqN2tLqC/uOIioWPZ1od9drdbGbuxES53flCNRPlL4+3RIEvcF3v8OcL5dZa+
+	 7DKfuXDL/CBiQ3C6aqOTbzLRtmeIGVjzmJYd4Qqk0611B9yw8PFWuBjblVahoQzpqa
+	 uIiqA10UlwOQVhQF7QV+6GKHxfKgWyGhKI3YvpeQL0GjJ9EgKFD+1xgUyxnnynfGjR
+	 W35hiPfk8M/x5RCdtlGiZbEi/38cdXV6uVmAlDYQvd7SLba4U+ikLKFPQ1wmu5OsVU
+	 23MrTtMBmhFxw==
+Date: Tue, 9 Apr 2024 14:42:04 -0700
+From: Jakub Kicinski <kuba@kernel.org>
+To: Uwe =?UTF-8?B?S2xlaW5lLUvDtm5pZw==?= <u.kleine-koenig@pengutronix.de>
+Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>, Li Yang
+ <leoyang.li@nxp.com>, Shawn Guo <shawnguo@kernel.org>,
+ linux-arm-kernel@lists.infradead.org, Zhang Wei <zw@zh-kernel.org>,
+ linuxppc-dev@lists.ozlabs.org, netdev@vger.kernel.org,
+ linux-usb@vger.kernel.org, kernel@pengutronix.de
+Subject: Re: [PATCH] MAINTAINERS: Drop Li Yang as their email address
+ stopped working
+Message-ID: <20240409144204.00cc76ce@kernel.org>
+In-Reply-To: <20240405072042.697182-2-u.kleine-koenig@pengutronix.de>
+References: <20240405072042.697182-2-u.kleine-koenig@pengutronix.de>
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-X-B4-Tracking: v=1; b=H4sIACiyFWYC/x2NywrCMBAAf6Xs2UBsq1V/RSTksW0XwqqbB0rpv
- xs8zhxmNkgohAlu3QaClRI9ucHx0IFfLS+oKDSGXvejHvWgSvVG8F0wZRORl7wa9zXEGaXaqOy
- EczhdpnA9D9AiziZUTiz7tWW4xNjkS3Cmz/96f+z7D/EVBJKFAAAA
-To: Laurent Pinchart <laurent.pinchart@ideasonboard.com>, 
- Daniel Scally <dan.scally@ideasonboard.com>, 
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-Cc: linux-usb@vger.kernel.org, linux-kernel@vger.kernel.org, 
- Michael Grzeschik <m.grzeschik@pengutronix.de>
-X-Mailer: b4 0.12.0
-X-Developer-Signature: v=1; a=openpgp-sha256; l=1061;
- i=m.grzeschik@pengutronix.de; h=from:subject:message-id;
- bh=BXSDolwWzU5tAWjmREDmfTdkudqshVOcwopesXpiiLw=;
- b=owEBbQKS/ZANAwAKAb9pWET5cfSrAcsmYgBmFbIpHaFNod1WQlhnldeCskg5hmmieH2EkxFzp
- FyRMtNS/2WJAjMEAAEKAB0WIQQV2+2Fpbqd6fvv0Gi/aVhE+XH0qwUCZhWyKQAKCRC/aVhE+XH0
- qzIAEADCiH8P3Z9MDcX2+X8cFt7JEd/bYDEkkmp6aDKGKge65CvUKi5XCy/3B3N45610qbSNWlD
- uAgYUOGeyARI165tSAc61FRS2jyMApjjdh5qPBMOyKFzzLcfk9XwAvysSWUDGc7oGDOxvTANRxW
- sCZw944vxOd9nMDPIQzioOhhtScIhwyva1m8fqe8HMln5NKUfp9j1yrmGtPXlCfXca0jzgz+fw6
- juYtOhpQHv76+2tsVbv7bbs4GuJ0V6n+g0DPIi7U5cdOb9WLvDOlF+KNVvKAFLeoQ0KptpcsQbZ
- wrGi463NMgH91ikBStP03B5vtmtwB+7OLk+Chm3UNw6dPEkrmxbFHRCcl4JSO2e/+smw+HiCMlQ
- PO/mErKCtNXCBvxvZDZoQ9TvzIKGfo1XcNrpcDqMZZ3cHpGTdU6QKm1ipmUJjRgdp0O6JVgH+YP
- 6GgeJe3FASut5Qk04RcKVcGD1h31gImlhDLLBP1CR/44ryG3Mnmx8+/ZkESpx1FEOhxKwYWTUHH
- qAjRfy4iIl58bMdKqD/dnxBsgBShPwbAw33NEiJrDbSBAoNxTPHT1wwnwFQPSurFPUdCowfUstp
- WF9tpEyRAI49W4s7SBLsS9jRAVeSTo8HrbqWzAYFyrYPhT68eoL8CsujBM5braGaxY3/+gMBclv
- nM5Knp1ysIkDPAA==
-X-Developer-Key: i=m.grzeschik@pengutronix.de; a=openpgp;
- fpr=957BC452CE953D7EA60CF4FC0BE9E3157A1E2C64
-X-SA-Exim-Connect-IP: 2a0a:edc0:0:c01:1d::a2
-X-SA-Exim-Mail-From: m.grzeschik@pengutronix.de
-X-SA-Exim-Scanned: No (on metis.whiteo.stw.pengutronix.de); SAEximRunCond expanded to false
-X-PTX-Original-Recipient: linux-usb@vger.kernel.org
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
 
-This patch series is improving the size calculation and allocation
-of the uvc requests. Using the currenlty setup frame duration of the
-stream it is possible to calculate the number of requests based on the
-interval length.
+On Fri,  5 Apr 2024 09:20:41 +0200 Uwe Kleine-K=C3=B6nig wrote:
+> When sending a patch to (among others) Li Yang the nxp MTA replied that
+> the address doesn't exist and so the mail couldn't be delivered. The
+> error code was 550, so at least technically that's not a temporal issue.
+>=20
+> Signed-off-by: Uwe Kleine-K=C3=B6nig <u.kleine-koenig@pengutronix.de>
 
-Signed-off-by: Michael Grzeschik <m.grzeschik@pengutronix.de>
----
-Michael Grzeschik (3):
-      usb: gadget: function: uvc: set req_size once when the vb2 queue is calculated
-      usb: gadget: uvc: add g_parm and s_parm for frame interval
-      usb: gadget: uvc: set req_size and n_requests based on the frame interval
-
- drivers/usb/gadget/function/uvc.h       |  1 +
- drivers/usb/gadget/function/uvc_queue.c | 30 ++++++++++++++-----
- drivers/usb/gadget/function/uvc_v4l2.c  | 52 +++++++++++++++++++++++++++++++++
- drivers/usb/gadget/function/uvc_video.c | 17 ++---------
- 4 files changed, 79 insertions(+), 21 deletions(-)
----
-base-commit: 3295f1b866bfbcabd625511968e8a5c541f9ab32
-change-id: 20240403-uvc_request_length_by_interval-a7efd587d963
-
-Best regards,
--- 
-Michael Grzeschik <m.grzeschik@pengutronix.de>
-
+FWIW it's eaac25d026a1 in net, thanks!
