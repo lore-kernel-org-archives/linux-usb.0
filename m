@@ -1,208 +1,141 @@
-Received: from mail-lj1-f181.google.com (mail-lj1-f181.google.com [209.85.208.181])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2A73C131E38
-	for <linux-usb@vger.kernel.org>; Tue,  9 Apr 2024 13:49:06 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.181
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CB3922D781;
+	Tue,  9 Apr 2024 14:38:10 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.137.202.133
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1712670549; cv=none; b=N9jLyVucR8fm7xrRQnviG9eee/V67LdBCT0mQN/J79kEt+nIpiOxfYDnVL//deJzLnfJRR6vsxSj7rBV/sfLsUgAoUidtZTsGdMAMzKNIsUmaz7ZqMINMDWuKedARTgpSfpTXuAF15+edizRVjLR6hq0ZxzO+8efxo4fHTDD/Os=
+	t=1712673492; cv=none; b=kt2QrPBUJSqNDnX9dM//y37/PyRMQIRX0k7Mz8lopQ2VYPVhpWsHjxR592/Os8s1Os0j7IDuvFbReaKVqHAdLCASNR9VZkHKXcAnPiF4phLfUb8ukaFErnufzXCunNZIV9FKt+Gj/Eo7TQHUSRlXQrhZFhe1227iLIrzVNFE10E=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1712670549; c=relaxed/simple;
-	bh=wM6peVVvl7MgVpdlk7gWiYguSw06x4u1k5dwUnp3dxM=;
-	h=Content-Type:Message-ID:Date:MIME-Version:To:Cc:From:Subject; b=XAMlVp5ZKv5FKrb0LK/W32GKA9PetVlsJ+AANAwR/qT/nJQQo9o5hVLuVTFwPQ45Z3EvIrB+Z/JHXXyVF2/abQGcGJ+q/3Cm/McAZFuZW1S0taB0BSVvm7aQHCkHJ6JAU/qUkHrbEJHFgqNc0wtKHDONxoi7GNcKgni64zMFp+A=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=suse.com; spf=pass smtp.mailfrom=suse.com; dkim=pass (2048-bit key) header.d=suse.com header.i=@suse.com header.b=BzGslrMt; arc=none smtp.client-ip=209.85.208.181
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=suse.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.com
+	s=arc-20240116; t=1712673492; c=relaxed/simple;
+	bh=WWYKPGj9czOqLTO0oX9N/l4w+cm5zbzGbk+M3GLZboE=;
+	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
+	 MIME-Version; b=CXVjGFBfz8bj0v5g6TFgpb/+bZHHFjAgSUioLZuYqvMtTniFuiwjov3wn8SRMXMqs8au1z/ocd8TtfXWVke4+ekf5T+vM6ENVHcGSBAsOUdhAnU2x7ymAR5B8HGNHmIjLItukNkbHFEWKVrqFPq5umDIRX1ylBbzuu39TG5pZ80=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=lst.de; spf=none smtp.mailfrom=bombadil.srs.infradead.org; dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b=fLPg523d; arc=none smtp.client-ip=198.137.202.133
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=lst.de
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=bombadil.srs.infradead.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=suse.com header.i=@suse.com header.b="BzGslrMt"
-Received: by mail-lj1-f181.google.com with SMTP id 38308e7fff4ca-2d8b194341eso4406181fa.3
-        for <linux-usb@vger.kernel.org>; Tue, 09 Apr 2024 06:49:06 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=suse.com; s=google; t=1712670545; x=1713275345; darn=vger.kernel.org;
-        h=subject:from:cc:to:content-language:user-agent:mime-version:date
-         :message-id:from:to:cc:subject:date:message-id:reply-to;
-        bh=V0NJEcLtlxRNFaRk4UQ8IVwgUEJW0pWbdYZuVQzaD1s=;
-        b=BzGslrMtQD2pzODZmsyxNHvZPD6kaE5ox5F+h6I5AqY9NOK25RVtFmgqaLgEvQrBVq
-         24L3gJsCy/3d4HOfacojTQUYRDi8xSGdn5rwaqAlyIJznUJ6e8lbE8bNIhiknHxu3Pmo
-         WnsRpx/qKNG4xWZahAyINpWu0dn3IbBwLxLHRA9m2Ncux/EciMKJTp2U81EIgIFy0s3l
-         PV4D6iR2+zriI/frUUFMt0koKNRoubT6zpU114aHlDowqBtw5/fP6EYEYPOHLTO5IY6r
-         J0xjo003Fcw9S3MVpP3IX7XuWFoIIahBvLjXn/IYc1u8YbhWFNi9tyUbvFrkATRJhIOS
-         7bDg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1712670545; x=1713275345;
-        h=subject:from:cc:to:content-language:user-agent:mime-version:date
-         :message-id:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=V0NJEcLtlxRNFaRk4UQ8IVwgUEJW0pWbdYZuVQzaD1s=;
-        b=l3OB8DWRz9WyZnbqwdvgnG9y3XB1WUDHmvp0LRJjdU+IQBFfLQbTkiq62SjmqN9cWh
-         S5V6AR9weDOrKVAdhjcoNbWEFu5bXB76XPPRAsCPOVED1FFA7ue8HZFNUvp0juYNPJWO
-         89oNZespmgYS4Fbh+O97lzwJ/gUa8VBFKODvLhPdtCgPJyLGZUn3wrVn526XJvTFJzqC
-         C9mOg7z2BATHsc4pv+z8rnuB17yeztWwnLlgfHZvvDzuON2u81odSY7GcHzZHE6KoxcB
-         75r2axCKutsBelYRUeDUIUKF6V8i5M9ORZHJ5qwsuo1RmojPY7oB4WwuA2qvyOIpH4/r
-         J1fg==
-X-Gm-Message-State: AOJu0Yx8SXstCpspj8hbUzKsbzanO1wam1XJ3yf6WN+OJt0ygsAOJeNB
-	I4TxYytNVhshGay8BYtltaeUHvJoU0eUkoT1IWMHKNB65uHWgIt5XNaFJ0O6fvsxBCtKrYYmt8H
-	6
-X-Google-Smtp-Source: AGHT+IGhMBhegzK8ej6WlLGgirhZaTbzdK1mDDoErDXtnHJcH5Ma8DcYThDg7os8PT39O1mmHwfaUw==
-X-Received: by 2002:a05:6512:ac5:b0:516:d280:f588 with SMTP id n5-20020a0565120ac500b00516d280f588mr9888256lfu.42.1712670544847;
-        Tue, 09 Apr 2024 06:49:04 -0700 (PDT)
-Received: from ?IPV6:2001:a61:1366:6801:b2db:904d:e0b0:46ec? ([2001:a61:1366:6801:b2db:904d:e0b0:46ec])
-        by smtp.gmail.com with ESMTPSA id o9-20020aa7c509000000b0056bf6287f32sm5209052edq.26.2024.04.09.06.49.03
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 09 Apr 2024 06:49:04 -0700 (PDT)
-Content-Type: multipart/mixed; boundary="------------VzikJjLr21pqMg9wAXeW5TeF"
-Message-ID: <9efbd569-7059-4575-983f-0ea30df41871@suse.com>
-Date: Tue, 9 Apr 2024 15:49:01 +0200
+	dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="fLPg523d"
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+	d=infradead.org; s=bombadil.20210309; h=Content-Transfer-Encoding:
+	MIME-Version:References:In-Reply-To:Message-Id:Date:Subject:Cc:To:From:Sender
+	:Reply-To:Content-Type:Content-ID:Content-Description;
+	bh=X+gXVF78AgUh7bwzkprwZK7b92TFqgltEgDLxNaodqo=; b=fLPg523dfnH0RTzcadCtiXmfuu
+	AJH/gG+ptmJmZHKCEDqSG4SN+IAs+DHm499u3i6VeUPBonHNomz5fUMtA9Z8ylPOpN9fwVRuVKf1w
+	2b5XQs7VUdF64Zaltfk76I9JRy5AxhWAQhuxxPW8Z9xR6IvDn3I7H3QWyeKlzj65fMjiSDMv3tBIq
+	x8KSxddyfEAwixu/wczVt9qaK782OeQj1fFFeh1zjF68xdtS2Fa6i3sHLdh+ouKXMgJs7JN/pD6gl
+	Kv7by94ZotET5HGuW04HYxEc4PWci+vslRktdteqryi4T+CXtjXuVHW8IGoHwDjCHqitv3d5kVl8a
+	sro5b6bQ==;
+Received: from 2a02-8389-2341-5b80-39d3-4735-9a3c-88d8.cable.dynamic.v6.surfer.at ([2a02:8389:2341:5b80:39d3:4735:9a3c:88d8] helo=localhost)
+	by bombadil.infradead.org with esmtpsa (Exim 4.97.1 #2 (Red Hat Linux))
+	id 1ruCbn-00000002Ruc-1TRV;
+	Tue, 09 Apr 2024 14:37:59 +0000
+From: Christoph Hellwig <hch@lst.de>
+To: Jens Axboe <axboe@kernel.dk>,
+	"Martin K. Petersen" <martin.petersen@oracle.com>
+Cc: Damien Le Moal <dlemoal@kernel.org>,
+	Niklas Cassel <cassel@kernel.org>,
+	Takashi Sakamoto <o-takashi@sakamocchi.jp>,
+	Sathya Prakash <sathya.prakash@broadcom.com>,
+	Sreekanth Reddy <sreekanth.reddy@broadcom.com>,
+	Suganath Prabu Subramani <suganath-prabu.subramani@broadcom.com>,
+	"Juergen E. Fischer" <fischer@norbit.de>,
+	Xiang Chen <chenxiang66@hisilicon.com>,
+	HighPoint Linux Team <linux@highpoint-tech.com>,
+	Tyrel Datwyler <tyreld@linux.ibm.com>,
+	Brian King <brking@us.ibm.com>,
+	Lee Duncan <lduncan@suse.com>,
+	Chris Leech <cleech@redhat.com>,
+	Mike Christie <michael.christie@oracle.com>,
+	John Garry <john.g.garry@oracle.com>,
+	Jason Yan <yanaijie@huawei.com>,
+	Kashyap Desai <kashyap.desai@broadcom.com>,
+	Sumit Saxena <sumit.saxena@broadcom.com>,
+	Shivasharan S <shivasharan.srikanteshwara@broadcom.com>,
+	Chandrakanth patil <chandrakanth.patil@broadcom.com>,
+	Jack Wang <jinpu.wang@cloud.ionos.com>,
+	Nilesh Javali <njavali@marvell.com>,
+	GR-QLogic-Storage-Upstream@marvell.com,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	Alim Akhtar <alim.akhtar@samsung.com>,
+	Avri Altman <avri.altman@wdc.com>,
+	Bart Van Assche <bvanassche@acm.org>,
+	Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>,
+	Alan Stern <stern@rowland.harvard.edu>,
+	linux-block@vger.kernel.org,
+	linux-ide@vger.kernel.org,
+	linux1394-devel@lists.sourceforge.net,
+	MPT-FusionLinux.pdl@broadcom.com,
+	linux-scsi@vger.kernel.org,
+	megaraidlinux.pdl@broadcom.com,
+	mpi3mr-linuxdrv.pdl@broadcom.com,
+	linux-samsung-soc@vger.kernel.org,
+	linux-usb@vger.kernel.org,
+	usb-storage@lists.one-eyed-alien.net,
+	Hannes Reinecke <hare@suse.de>
+Subject: [PATCH 03/23] mpi3mr: pass queue_limits to bsg_setup_queue
+Date: Tue,  9 Apr 2024 16:37:28 +0200
+Message-Id: <20240409143748.980206-4-hch@lst.de>
+X-Mailer: git-send-email 2.39.2
+In-Reply-To: <20240409143748.980206-1-hch@lst.de>
+References: <20240409143748.980206-1-hch@lst.de>
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Content-Language: en-US
-To: Alan Stern <stern@rowland.harvard.edu>
-Cc: USB list <linux-usb@vger.kernel.org>, Takashi Iwai <tiwai@suse.de>
-From: Oliver Neukum <oneukum@suse.com>
-Subject: Regression due to 59cf44575456 ("USB: core: Fix oversight in
- SuperSpeed initialization")
+Content-Transfer-Encoding: 8bit
+X-SRS-Rewrite: SMTP reverse-path rewritten from <hch@infradead.org> by bombadil.infradead.org. See http://www.infradead.org/rpr.html
 
-This is a multi-part message in MIME format.
---------------VzikJjLr21pqMg9wAXeW5TeF
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Pass the limits to bsg_setup_queue instead of setting them up on the live
+queue.
 
-Hi,
+Signed-off-by: Christoph Hellwig <hch@lst.de>
+Reviewed-by: John Garry <john.g.garry@oracle.com>
+Reviewed-by: Damien Le Moal <dlemoal@kernel.org>
+Reviewed-by: Hannes Reinecke <hare@suse.de>
+---
+ drivers/scsi/mpi3mr/mpi3mr_app.c | 12 +++++-------
+ 1 file changed, 5 insertions(+), 7 deletions(-)
 
-with the following device:
+diff --git a/drivers/scsi/mpi3mr/mpi3mr_app.c b/drivers/scsi/mpi3mr/mpi3mr_app.c
+index a45406fae2629b..3c309e8c3a2bc8 100644
+--- a/drivers/scsi/mpi3mr/mpi3mr_app.c
++++ b/drivers/scsi/mpi3mr/mpi3mr_app.c
+@@ -1845,6 +1845,10 @@ void mpi3mr_bsg_init(struct mpi3mr_ioc *mrioc)
+ {
+ 	struct device *bsg_dev = &mrioc->bsg_dev;
+ 	struct device *parent = &mrioc->shost->shost_gendev;
++	struct queue_limits lim = {
++		.max_hw_sectors		= MPI3MR_MAX_APP_XFER_SECTORS,
++		.max_segments		= MPI3MR_MAX_APP_XFER_SEGMENTS,
++	};
+ 
+ 	device_initialize(bsg_dev);
+ 
+@@ -1860,20 +1864,14 @@ void mpi3mr_bsg_init(struct mpi3mr_ioc *mrioc)
+ 		return;
+ 	}
+ 
+-	mrioc->bsg_queue = bsg_setup_queue(bsg_dev, dev_name(bsg_dev), NULL,
++	mrioc->bsg_queue = bsg_setup_queue(bsg_dev, dev_name(bsg_dev), &lim,
+ 			mpi3mr_bsg_request, NULL, 0);
+ 	if (IS_ERR(mrioc->bsg_queue)) {
+ 		ioc_err(mrioc, "%s: bsg registration failed\n",
+ 		    dev_name(bsg_dev));
+ 		device_del(bsg_dev);
+ 		put_device(bsg_dev);
+-		return;
+ 	}
+-
+-	blk_queue_max_segments(mrioc->bsg_queue, MPI3MR_MAX_APP_XFER_SEGMENTS);
+-	blk_queue_max_hw_sectors(mrioc->bsg_queue, MPI3MR_MAX_APP_XFER_SECTORS);
+-
+-	return;
+ }
+ 
+ /**
+-- 
+2.39.2
 
-Bus 002 Device 002: ID fb5d:0001 BHYVE HID Tablet
-Device Descriptor:
-   bLength                18
-   bDescriptorType         1
-   bcdUSB               3.00
-   bDeviceClass            0
-   bDeviceSubClass         0
-   bDeviceProtocol         0
-   bMaxPacketSize0         8
-   idVendor           0xfb5d
-   idProduct          0x0001
-   bcdDevice            0.00
-   iManufacturer           1 BHYVE
-   iProduct                2 HID Tablet
-   iSerial                 3 01
-   bNumConfigurations      1
-   Configuration Descriptor:
-     bLength                 9
-     bDescriptorType         2
-     wTotalLength       0x0028
-     bNumInterfaces          1
-     bConfigurationValue     1
-     iConfiguration          4 HID Tablet Device
-     bmAttributes         0xa0
-       (Bus Powered)
-       Remote Wakeup
-     MaxPower                0mA
-     Interface Descriptor:
-       bLength                 9
-       bDescriptorType         4
-       bInterfaceNumber        0
-       bAlternateSetting       0
-       bNumEndpoints           1
-       bInterfaceClass         3 Human Interface Device
-       bInterfaceSubClass      1 Boot Interface Subclass
-       bInterfaceProtocol      2 Mouse
-       iInterface              0
-         HID Device Descriptor:
-           bLength                 9
-           bDescriptorType        33
-           bcdHID              10.01
-           bCountryCode            0 Not supported
-           bNumDescriptors         1
-           bDescriptorType        34 Report
-           wDescriptorLength      74
-          Report Descriptors:
-            ** UNAVAILABLE **
-       Endpoint Descriptor:
-         bLength                 7
-         bDescriptorType         5
-         bEndpointAddress     0x81  EP 1 IN
-         bmAttributes            3
-           Transfer Type            Interrupt
-           Synch Type               None
-           Usage Type               Data
-         wMaxPacketSize     0x0008  1x 8 bytes
-         bInterval              10
-         bMaxBurst               0
-Binary Object Store Descriptor:
-   bLength                 5
-   bDescriptorType        15
-   wTotalLength       0x000f
-   bNumDeviceCaps          1
-   SuperSpeed USB Device Capability:
-     bLength                10
-     bDescriptorType        16
-     bDevCapabilityType      3
-     bmAttributes         0x00
-     wSpeedsSupported   0x0008
-       Device can operate at SuperSpeed (5Gbps)
-     bFunctionalitySupport   3
-       Lowest fully-functional device speed is SuperSpeed (5Gbps)
-     bU1DevExitLat          10 micro seconds
-     bU2DevExitLat          32 micro seconds
-Device Status:     0x0000
-   (Bus Powered)
-
-we are getting a regression on enumeration. It used to work with the
-code prior to your patch. Takashi is proposing the attached fixed.
-It looks like we are a bit too restrictive and should just try.
-
-	Regards
-		Oliver
---------------VzikJjLr21pqMg9wAXeW5TeF
-Content-Type: text/x-patch; charset=UTF-8;
- name="0001-USB-hub-Workaround-for-buggy-max-packet-size-with-su.patch"
-Content-Disposition: attachment;
- filename*0="0001-USB-hub-Workaround-for-buggy-max-packet-size-with-su.pa";
- filename*1="tch"
-Content-Transfer-Encoding: base64
-
-RnJvbTogVGFrYXNoaSBJd2FpIDx0aXdhaUBzdXNlLmRlPgpTdWJqZWN0OiBbUEFUQ0hdIFVT
-QjogaHViOiBXb3JrYXJvdW5kIGZvciBidWdneSBtYXggcGFja2V0IHNpemUgd2l0aCBzdXBl
-cgogc3BlZWQKUGF0Y2gtbWFpbmxpbmU6IE5vdCB5ZXQsIHRlc3RpbmcKUmVmZXJlbmNlczog
-YnNjIzEyMjA1NjkKClNpZ25lZC1vZmYtYnk6IFRha2FzaGkgSXdhaSA8dGl3YWlAc3VzZS5k
-ZT4KCi0tLQogZHJpdmVycy91c2IvY29yZS9odWIuYyB8IDEzICsrKysrKysrKystLS0KIDEg
-ZmlsZSBjaGFuZ2VkLCAxMCBpbnNlcnRpb25zKCspLCAzIGRlbGV0aW9ucygtKQoKZGlmZiAt
-LWdpdCBhL2RyaXZlcnMvdXNiL2NvcmUvaHViLmMgYi9kcml2ZXJzL3VzYi9jb3JlL2h1Yi5j
-CmluZGV4IGUzOGE0MTI0ZjYxMC4uNjQxOTNlZmZjNDU2IDEwMDY0NAotLS0gYS9kcml2ZXJz
-L3VzYi9jb3JlL2h1Yi5jCisrKyBiL2RyaXZlcnMvdXNiL2NvcmUvaHViLmMKQEAgLTQ4MzAs
-NyArNDgzMCw3IEBAIGh1Yl9wb3J0X2luaXQoc3RydWN0IHVzYl9odWIgKmh1Yiwgc3RydWN0
-IHVzYl9kZXZpY2UgKnVkZXYsIGludCBwb3J0MSwKIAljb25zdCBjaGFyCQkqZHJpdmVyX25h
-bWU7CiAJYm9vbAkJCWRvX25ld19zY2hlbWU7CiAJY29uc3QgYm9vbAkJaW5pdGlhbCA9ICFk
-ZXZfZGVzY3I7Ci0JaW50CQkJbWF4cDA7CisJaW50CQkJbWF4cDAsIGVwMF9tYXhwOwogCXN0
-cnVjdCB1c2JfZGV2aWNlX2Rlc2NyaXB0b3IJKmJ1ZiwgKmRlc2NyOwogCiAJYnVmID0ga21h
-bGxvYyhHRVRfREVTQ1JJUFRPUl9CVUZTSVpFLCBHRlBfTk9JTyk7CkBAIC01MDcwLDcgKzUw
-NzAsOCBAQCBodWJfcG9ydF9pbml0KHN0cnVjdCB1c2JfaHViICpodWIsIHN0cnVjdCB1c2Jf
-ZGV2aWNlICp1ZGV2LCBpbnQgcG9ydDEsCiAJCWVsc2UKIAkJCWkgPSAwOwkJLyogSW52YWxp
-ZCAqLwogCX0KLQlpZiAodXNiX2VuZHBvaW50X21heHAoJnVkZXYtPmVwMC5kZXNjKSA9PSBp
-KSB7CisJZXAwX21heHAgPSB1c2JfZW5kcG9pbnRfbWF4cCgmdWRldi0+ZXAwLmRlc2MpOwor
-CWlmIChlcDBfbWF4cCA9PSBpKSB7CiAJCTsJLyogSW5pdGlhbCBlcDAgbWF4cGFja2V0IGd1
-ZXNzIGlzIHJpZ2h0ICovCiAJfSBlbHNlIGlmICgodWRldi0+c3BlZWQgPT0gVVNCX1NQRUVE
-X0ZVTEwgfHwKIAkJCQl1ZGV2LT5zcGVlZCA9PSBVU0JfU1BFRURfSElHSCkgJiYKQEAgLTUw
-ODIsOSArNTA4MywxNSBAQCBodWJfcG9ydF9pbml0KHN0cnVjdCB1c2JfaHViICpodWIsIHN0
-cnVjdCB1c2JfZGV2aWNlICp1ZGV2LCBpbnQgcG9ydDEsCiAJCQlkZXZfd2FybigmdWRldi0+
-ZGV2LCAiVXNpbmcgZXAwIG1heHBhY2tldDogJWRcbiIsIGkpOwogCQl1ZGV2LT5lcDAuZGVz
-Yy53TWF4UGFja2V0U2l6ZSA9IGNwdV90b19sZTE2KGkpOwogCQl1c2JfZXAwX3JlaW5pdCh1
-ZGV2KTsKKwl9IGVsc2UgaWYgKHVkZXYtPnNwZWVkID49IFVTQl9TUEVFRF9TVVBFUiAmJiBp
-bml0aWFsKSB7CisJCS8qIEZJWE1FOiBzaG91bGQgYmUgbW9yZSByZXN0cmljdGl2ZT8gKi8K
-KwkJLyogSW5pdGlhbCBndWVzcyBpcyB3cm9uZzsgdXNlIHRoZSBkZXNjcmlwdG9yJ3MgdmFs
-dWUgKi8KKwkJZGV2X3dhcm4oJnVkZXYtPmRldiwgIlVzaW5nIGVwMCBtYXhwYWNrZXQ6ICVk
-XG4iLCBpKTsKKwkJdWRldi0+ZXAwLmRlc2Mud01heFBhY2tldFNpemUgPSBjcHVfdG9fbGUx
-NihpKTsKKwkJdXNiX2VwMF9yZWluaXQodWRldik7CiAJfSBlbHNlIHsKIAkJLyogSW5pdGlh
-bCBndWVzcyBpcyB3cm9uZyBhbmQgZGVzY3JpcHRvcidzIHZhbHVlIGlzIGludmFsaWQgKi8K
-LQkJZGV2X2VycigmdWRldi0+ZGV2LCAiSW52YWxpZCBlcDAgbWF4cGFja2V0OiAlZFxuIiwg
-bWF4cDApOworCQlkZXZfZXJyKCZ1ZGV2LT5kZXYsICJJbnZhbGlkIGVwMCBtYXhwYWNrZXQ6
-ICVkLCBleHBlY3RlZCAlZFxuIiwgbWF4cDAsIGVwMF9tYXhwKTsKIAkJcmV0dmFsID0gLUVN
-U0dTSVpFOwogCQlnb3RvIGZhaWw7CiAJfQotLSAKMi4zNS4zCgo=
-
---------------VzikJjLr21pqMg9wAXeW5TeF--
