@@ -1,124 +1,170 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 090D07EEF0;
-	Tue,  9 Apr 2024 08:28:06 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 90E507EEF6
+	for <linux-usb@vger.kernel.org>; Tue,  9 Apr 2024 08:57:39 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.133.124
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1712651287; cv=none; b=bnDRijvZbzsxLS2t9wjHSYlk2lRd24FadDdatAnOYwdyBn80z4yErdDAAoVhfZgwIRtahCc0SiC0yKXDPa/lLLKqFc6YB8BJ4Ie5jikjZOVScx2M4YLuWKSPEIFHPG3BerrHWKK0Lwkh17c/h0XaGcqjHR5JXf5FdagusA4OtLk=
+	t=1712653061; cv=none; b=KoK1WVw0hLTXHvoXcGmBsZ00GJwAl9XcycZn9UNlKi6k1IFpvLAiASeoEHw/9as6yMa6W1d7u//nOCCSxlqey4ZfyxtTz/P0FwVdeKkYk/MCMVgW1Jih+hXTwVOzODWS6Wl0LjtgfRnJOdfxCrsEyLA771WQbiTb3HRD37e/d38=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1712651287; c=relaxed/simple;
-	bh=vXLhv3zRRAGARN7FCvEx72w/juFJMhiiJABz8Y2uhpo=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=HATGumx1f/4lsPe/mBhWD/cCwpFUgaLfyZBkOTsO38vLc4/BwE2AA50jzzvZoTvQwTGBcKxEK04LsShxwvzQDV03I+sq86y5bX0QzfVclNfQflyhqE6tHcdDG0fR5kavZLgi/GLvjh+X1m18XeWsZ8KlKJxManLCK5l2o+tlaDw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b=cFSU5Z2q; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1712653061; c=relaxed/simple;
+	bh=CxCGe2NjYljVhclTe67VbksuAnNNFNM3JgkjmmKKa2g=;
+	h=Message-ID:Subject:From:To:Cc:Date:In-Reply-To:References:
+	 Content-Type:MIME-Version; b=Jv5oGaMniCkCBVnGXLC49nPsDvTpdDYGGdk2ntpMFu7JwEdkIsBsTKYUoaaatAGJgcJHhVaLGmDUNglG62a+HVUU+qsbQ/kRN/CXpNxDT3eDQoGZFNbYaMaOG3RWYar/BMrTgAj1pXP5cGr6Vzds3qDDrGtFrq0+IWpN6mXQVT4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=XVasyAs4; arc=none smtp.client-ip=170.10.133.124
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=redhat.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="cFSU5Z2q"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 122C0C433C7;
-	Tue,  9 Apr 2024 08:28:05 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
-	s=korg; t=1712651286;
-	bh=vXLhv3zRRAGARN7FCvEx72w/juFJMhiiJABz8Y2uhpo=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=cFSU5Z2qfdVdK0o/GuxUXrBP2h/PUY8ju+Skd8KKXKk/0KrzHj3fVi3su+QG2p9xx
-	 aznJ/3k9pcJsMJe6HfAePAFoc9RNRMLLMcm2hgp4wJUHRMvWajD9yvztKTRpDHiV8W
-	 ne9M/bKIWuVmvm1hUCJg3x2/Hmq3WvbASQdCwzns=
-Date: Mon, 8 Apr 2024 16:51:57 +0200
-From: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-To: Guenter Roeck <groeck@google.com>
-Cc: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
-	Pavan Holla <pholla@chromium.org>,
-	Heikki Krogerus <heikki.krogerus@linux.intel.com>,
-	Benson Leung <bleung@chromium.org>,
-	Tzung-Bi Shih <tzungbi@kernel.org>,
-	Guenter Roeck <groeck@chromium.org>, linux-kernel@vger.kernel.org,
-	linux-usb@vger.kernel.org,
-	Abhishek Pandit-Subedi <abhishekpandit@chromium.org>,
-	chrome-platform@lists.linux.dev
-Subject: Re: [PATCH v3 2/2] usb: typec: ucsi: Implement ChromeOS UCSI driver
-Message-ID: <2024040837-negligee-expert-bc37@gregkh>
-References: <20240403-public-ucsi-h-v3-0-f848e18c8ed2@chromium.org>
- <20240403-public-ucsi-h-v3-2-f848e18c8ed2@chromium.org>
- <3ezjocthsigo3t746slmgzffnmpxw7wwf3s535basiaf2qy6io@7ocxva6ndsbt>
- <2024040449-average-foyer-defa@gregkh>
- <oi3bwdyvyaezpmyxfdtsbiwwprxi2ufc3hlzoz23d5rxdkperl@cxpd7enatg7h>
- <2024040422-ripcord-bladder-bdda@gregkh>
- <CABXOdTeqz5Kza5tYXbCdTyPT66xtezai4C5TFkqmOpQc+1r8Xg@mail.gmail.com>
+	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="XVasyAs4"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+	s=mimecast20190719; t=1712653058;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
+	bh=OxG++9ua1DJsCcQ+aybgr3Iv1qrzsmtXRd0e50eFDVs=;
+	b=XVasyAs4wdwRqBLZTW+R/kDtYsosSIw+JE3dr8VOFfQbz+ZoZKw7SqTBLnh36ydo8S/5GC
+	nq9rYq3dVMDr0KVU8h8bzJ/wCl5PhpsWhhfu/v1AwhvADTHg8fG57Tg/lIxxWx8GPlMLbN
+	VEsd3H0N4pJ8lYoRMCJtAXHpdzv8QC0=
+Received: from mail-lj1-f197.google.com (mail-lj1-f197.google.com
+ [209.85.208.197]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
+ us-mta-86-Mo8YgQloPiWloKqjhVJwAA-1; Tue, 09 Apr 2024 04:57:28 -0400
+X-MC-Unique: Mo8YgQloPiWloKqjhVJwAA-1
+Received: by mail-lj1-f197.google.com with SMTP id 38308e7fff4ca-2d6f0d9db70so15694321fa.1
+        for <linux-usb@vger.kernel.org>; Tue, 09 Apr 2024 01:57:28 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1712653047; x=1713257847;
+        h=mime-version:user-agent:content-transfer-encoding:autocrypt
+         :references:in-reply-to:date:cc:to:from:subject:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=OxG++9ua1DJsCcQ+aybgr3Iv1qrzsmtXRd0e50eFDVs=;
+        b=PRwL/0ID8bfSsFEBCVzLlKRN3CrKkZPyWIqaKegt2Idf1gs7dYUXXvQLJEG5hO424L
+         Sc1QvP6TjLhGrkvDd27zcZFb6MdKjYYdWDraAQ3khOPpxqAa+npyCX+FgKevh7JHe245
+         PrE/lbxBe/I7Hsv7L1mY/6sYta0eVl/xifmsEhxSsqJXU/y0DE9ZJAOKVi7Hh8TKPczN
+         4jghWl28ff8tLzX8N11luuB5sHhZXy5HEwQARX3x3aUUMbqzry6rj8zxKeGNQiIxbxlF
+         hBouPSDL3xWgjP5zhS+03IDzpZxO0aDN/ucyoJUShmObsiqkx/QBq665/IeNYPIkmvpU
+         ebOA==
+X-Gm-Message-State: AOJu0Yz4eZmv8UZ3YIpa3WOy/UFVSB3cmiXdra2n04Hu0GwTiHl1itLD
+	sGPPAAJOyUB9yobSE3VOQOJAOljTe3GoOUe0eKllSjsdO6Z9YEn/HWAuXiz6Ook9Ceiod+UiuYh
+	f+gI3CoNEt7S1JIfgXL3QZrQKw0B0ZdnAF8aL7dOVnoI2RoEUNiZC4y5x3g==
+X-Received: by 2002:a2e:9ed0:0:b0:2d8:9656:8137 with SMTP id h16-20020a2e9ed0000000b002d896568137mr2554040ljk.4.1712653047489;
+        Tue, 09 Apr 2024 01:57:27 -0700 (PDT)
+X-Google-Smtp-Source: AGHT+IHHXWKjF7l3Lh2FtRQ2nKK1SBArCUjP6TTbtSP1/GvJj2QqxmnLuZ/axnPvPW5ZJ2iIAZ8kxA==
+X-Received: by 2002:a2e:9ed0:0:b0:2d8:9656:8137 with SMTP id h16-20020a2e9ed0000000b002d896568137mr2554025ljk.4.1712653047022;
+        Tue, 09 Apr 2024 01:57:27 -0700 (PDT)
+Received: from gerbillo.redhat.com (146-241-244-144.dyn.eolo.it. [146.241.244.144])
+        by smtp.gmail.com with ESMTPSA id p4-20020a05600c1d8400b00416b74deaf0sm156675wms.33.2024.04.09.01.57.25
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 09 Apr 2024 01:57:26 -0700 (PDT)
+Message-ID: <e6bc6f826aa59e8023e18892276ec875f4fc3bda.camel@redhat.com>
+Subject: Re: [PATCH net 2/2] net: usb: asix: Replace the direct return with
+ goto statement
+From: Paolo Abeni <pabeni@redhat.com>
+To: Yi Yang <yiyang13@huawei.com>, horms@kernel.org, davem@davemloft.net, 
+	edumazet@google.com, kuba@kernel.org, nichen@iscas.ac.cn
+Cc: linux-usb@vger.kernel.org, netdev@vger.kernel.org,
+ stable@vger.kernel.org,  wangweiyang2@huawei.com
+Date: Tue, 09 Apr 2024 10:57:25 +0200
+In-Reply-To: <20240407075513.923435-3-yiyang13@huawei.com>
+References: <20240407075513.923435-1-yiyang13@huawei.com>
+	 <20240407075513.923435-3-yiyang13@huawei.com>
+Autocrypt: addr=pabeni@redhat.com; prefer-encrypt=mutual; keydata=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
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+User-Agent: Evolution 3.50.4 (3.50.4-1.fc39) 
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <CABXOdTeqz5Kza5tYXbCdTyPT66xtezai4C5TFkqmOpQc+1r8Xg@mail.gmail.com>
 
-On Mon, Apr 08, 2024 at 06:04:22AM -0700, Guenter Roeck wrote:
-> On Thu, Apr 4, 2024 at 6:30 AM Greg Kroah-Hartman
-> <gregkh@linuxfoundation.org> wrote:
-> [ ... ]
-> 
-> > > > > if (WARN_ON_ONCE(val_len > MAX_EC_DATA_SIZE))
-> > > > >   return -EINVAL;
-> > > >
-> > > > So if you trigger this, you just rebooted all boxes that have
-> > > > panic-on-warn enabled (hint, the HUGE majority in quantity of Linux
-> > > > systems out there.)
-> > > >
-> > > > So don't do that, just handle it like this.
-> > >
-> > > Does that mean that we should not use WARN at all? What is the best
-> > > current practice for WARN usage?
-> >
-> > To never use it.  Handle the issue and recover properly.
-> >
-> > > I'm asking because for me this looks like a perfect usecase. If I were
-> > > at the positiion of the driver developer, I'd like to know the whole
-> > > path leading to the bad call, not just the fact that the function was
-> > > called with the buffer being too big.
-> >
-> > Then use ftrace if you are a driver developer, don't crash users boxes
-> > please.
-> >
-> > If you REALLY need a traceback, then provide that, but do NOT use WARN()
-> > for just normal debugging calls that you want to leave around in the
-> > system for users to trip over.
-> >
-> 
-> That is not common practice.
-> 
-> $ git grep WARN_ON drivers/gpu | wc
->    3004   11999  246545
-> $ git grep WARN_ON drivers/net/ | wc
->    3679   14564  308230
-> $ git grep WARN_ON drivers/net/wireless | wc
->    1985    8112  166081
-> 
-> We get hundreds of thousands of reports with warning backtraces from
-> Chromebooks in the field _every single day_. Most of those are from
-> drm and wireless subsystems. We even had to scale back the percentage
-> of reported warning backtraces because the large volume overwhelmed
-> the reporting system. When approached about it, developers usually
-> respond with "this backtrace is absolutely necessary", but nothing
-> ever happens to fix the reported problems. In practice, they are just
-> ignored.
+On Sun, 2024-04-07 at 07:55 +0000, Yi Yang wrote:
+> Replace the direct return statement in ax88772_bind() with goto, to adher=
+e
+> to the kernel coding style.
+>=20
+> Signed-off-by: Yi Yang <yiyang13@huawei.com>
+> ---
+>  drivers/net/usb/asix_devices.c | 10 +++++-----
+>  1 file changed, 5 insertions(+), 5 deletions(-)
+>=20
+> diff --git a/drivers/net/usb/asix_devices.c b/drivers/net/usb/asix_device=
+s.c
+> index d8f86bafad6a..11417ed86d9e 100644
+> --- a/drivers/net/usb/asix_devices.c
+> +++ b/drivers/net/usb/asix_devices.c
+> @@ -838,7 +838,7 @@ static int ax88772_bind(struct usbnet *dev, struct us=
+b_interface *intf)
+> =20
+>  	ret =3D usbnet_get_endpoints(dev, intf);
+>  	if (ret)
+> -		return ret;
+> +		goto mdio_err;
+> =20
+>  	/* Maybe the boot loader passed the MAC address via device tree */
+>  	if (!eth_platform_get_mac_address(&dev->udev->dev, buf)) {
+> @@ -862,7 +862,7 @@ static int ax88772_bind(struct usbnet *dev, struct us=
+b_interface *intf)
+>  		if (ret < 0) {
+>  			netdev_dbg(dev->net, "Failed to read MAC address: %d\n",
+>  				   ret);
+> -			return ret;
+> +			goto mdio_err;
+>  		}
+>  	}
+> =20
+> @@ -875,7 +875,7 @@ static int ax88772_bind(struct usbnet *dev, struct us=
+b_interface *intf)
+> =20
+>  	ret =3D asix_read_phy_addr(dev, true);
+>  	if (ret < 0)
+> -		return ret;
+> +		goto mdio_err;
+> =20
+>  	priv->phy_addr =3D ret;
+>  	priv->embd_phy =3D ((priv->phy_addr & 0x1f) =3D=3D AX_EMBD_PHY_ADDR);
+> @@ -884,7 +884,7 @@ static int ax88772_bind(struct usbnet *dev, struct us=
+b_interface *intf)
+>  			    &priv->chipcode, 0);
+>  	if (ret < 0) {
+>  		netdev_dbg(dev->net, "Failed to read STATMNGSTS_REG: %d\n", ret);
+> -		return ret;
+> +		goto mdio_err;
+>  	}
+> =20
+>  	priv->chipcode &=3D AX_CHIPCODE_MASK;
+> @@ -899,7 +899,7 @@ static int ax88772_bind(struct usbnet *dev, struct us=
+b_interface *intf)
+>  	ret =3D priv->reset(dev, 0);
+>  	if (ret < 0) {
+>  		netdev_dbg(dev->net, "Failed to reset AX88772: %d\n", ret);
+> -		return ret;
+> +		goto mdio_err;
+>  	}
+> =20
+>  	/* Asix framing packs multiple eth frames into a 2K usb bulk transfer *=
+/
 
-Then push back on the developers please, this isn't ok.  WARN_ON
-triggers so many automated systems it's not funny.  And if a trace back
-is really needed, there is a function for that, but really, just fix the
-issue and handle it properly.
+As noted by Simon in the previous submission, this kind of change
+should target the 'net-next' tree, you can't bundle it in a 'net'
+series. You have to submit the 'net' patch, get it merged, wait until
+'net' is merged back into 'net-next' and then submit the 'net-next'
+follow-up.
 
-> This means that any system using drm or wireless interfaces just can
-> not really enable panic-on-warn because that would crash the system
-> all the time.
+Please read Documentation/process/maintainer-netdev.rst for the gory
+details.
 
-I guess Android doesn't use wireless or drm :)
+Additionally, I would also suggest to drop instead the 'mdio_err'
+label: there is little/no gain replacing a return statement with jump
+to a return statement.
 
-Again, billions of systems in the world has this enabled, let's learn to
-live with it and fix up our coding practices to not be lazy.
+Cheers,
 
-thanks,
+Paolo
 
-greg k-h
+
