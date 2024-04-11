@@ -1,64 +1,64 @@
 Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.223.131])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 59BA0145FE6
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4AD57143C76
 	for <linux-usb@vger.kernel.org>; Thu, 11 Apr 2024 12:47:28 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.131
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1712839650; cv=none; b=ClrIUSc9BLGqSin5G0DAbj3WYvdT/Ki3WnOkSW5OzqXfdI8G15+i9azjQwVCknI2AQh3FEzslxmBdFfVnYrtPRPz/lG+TpVsmHy/U/Jdp5IA1TngmOZtFxFbf7dlome2faA61JU2LlYXtatKMZbL+9MFo2S/1QmvPfsjpYHzGkA=
+	t=1712839650; cv=none; b=ZFCaXtWutbYaWt6WArsutdoWMdwIawkCuGPN0mzo6qbJ4rQJ2C5en2ysVt35dmi/GMuU3plEWh286M4buxl5TnIaVrOFSAlEqRiCWwATTnvVu8cbU/hzlNed1CGS7HPnMm1pnWk6Q96eLKDlbk4eWf6k8jfmo+8uf5coLCnqUjw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
 	s=arc-20240116; t=1712839650; c=relaxed/simple;
-	bh=nfYDCQZTBswamJ4EEmrHq7URaY7nSfhEMZ+Rcg//E/A=;
+	bh=CiQIDEFIWB5VZzFPPLfc88TyYabppV8vqrgcnm6xAds=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=CPzyEcN5muVYpbpZF60dqQmT4nReePF4KAzm8Sxwpqoo8VRb/IMvcGfr5N2JNCGJOO9hVyQKHbz/yIkDAHbXK+QgopVl6ycLKXDaL18c8xFEVv4vtuzkA0qbNHjEC/c1XU70BZTNiDK/4h0JZSxnPJyETjbPmlAe4lqkZUFcdH8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=suse.com; spf=pass smtp.mailfrom=suse.com; dkim=pass (1024-bit key) header.d=suse.com header.i=@suse.com header.b=k3R/q/rZ; dkim=pass (1024-bit key) header.d=suse.com header.i=@suse.com header.b=k3R/q/rZ; arc=none smtp.client-ip=195.135.223.131
+	 MIME-Version; b=UWQC/QUhq2HyrAMFGT/1snIhrV9BjSRhJSQ0nyvIK3vdcI1RZueHKUkoMg8FCiIevfcOJmEFSeRoN9VoH2Lj96vBECGXgwO0ox9tEuGV2ojwJ4FvSUYFw/z2spEXRYVnb3/4MOibKp+bx5DDlVbnf/HdTeNHoVg9207tnsrz82A=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=suse.com; spf=pass smtp.mailfrom=suse.com; dkim=pass (1024-bit key) header.d=suse.com header.i=@suse.com header.b=okRqMagY; dkim=pass (1024-bit key) header.d=suse.com header.i=@suse.com header.b=okRqMagY; arc=none smtp.client-ip=195.135.223.131
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=suse.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=suse.com header.i=@suse.com header.b="k3R/q/rZ";
-	dkim=pass (1024-bit key) header.d=suse.com header.i=@suse.com header.b="k3R/q/rZ"
-Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org [IPv6:2a07:de40:b281:104:10:150:64:97])
+	dkim=pass (1024-bit key) header.d=suse.com header.i=@suse.com header.b="okRqMagY";
+	dkim=pass (1024-bit key) header.d=suse.com header.i=@suse.com header.b="okRqMagY"
+Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org [10.150.64.97])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
 	(No client certificate requested)
-	by smtp-out2.suse.de (Postfix) with ESMTPS id A8FCE5C6DA;
+	by smtp-out2.suse.de (Postfix) with ESMTPS id 421E55C6BE;
 	Thu, 11 Apr 2024 12:47:26 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.com; s=susede1;
 	t=1712839646; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
 	 mime-version:mime-version:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=hbI1S2oSXk3aYsiAEv2KZUE1zXbtjU8K5JsiwlTZMHs=;
-	b=k3R/q/rZO9tzB8lwk6ZaZ3RKcSbThi2QtA7PNmqvq/FsYwVFOEulsWH071EldHHWP+YC1u
-	NaafRElSHsSwZq6gehEOxJMWlcMlUjK/G2jUIe0XqxIfBbji0+XXdd3ziCVNtkrmisEViW
-	r4DBmbPaQ/sdGLW0WpsRrxiMTN+8Esg=
+	bh=dPfnNf5yVNNLb1kwQ5v5wCznZ0z7XRP2KzVLldzXKT0=;
+	b=okRqMagYAqAXLE1LSYuKjh5yK6D7RR/GGtI68cBwcT/ZTBE9AATbOg7dYiS3uFM1WA7C+M
+	OWFQ8uiOwTwZ9ogqZc+SQGKurLZWpHQZuJw5l7a2EPqq3HppwVIqlJj0vVb4wGax88wbX/
+	yj64RKj7jDFUPl08rbuN3U08kgGEex8=
 Authentication-Results: smtp-out2.suse.de;
-	dkim=pass header.d=suse.com header.s=susede1 header.b="k3R/q/rZ"
+	none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.com; s=susede1;
 	t=1712839646; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
 	 mime-version:mime-version:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=hbI1S2oSXk3aYsiAEv2KZUE1zXbtjU8K5JsiwlTZMHs=;
-	b=k3R/q/rZO9tzB8lwk6ZaZ3RKcSbThi2QtA7PNmqvq/FsYwVFOEulsWH071EldHHWP+YC1u
-	NaafRElSHsSwZq6gehEOxJMWlcMlUjK/G2jUIe0XqxIfBbji0+XXdd3ziCVNtkrmisEViW
-	r4DBmbPaQ/sdGLW0WpsRrxiMTN+8Esg=
+	bh=dPfnNf5yVNNLb1kwQ5v5wCznZ0z7XRP2KzVLldzXKT0=;
+	b=okRqMagYAqAXLE1LSYuKjh5yK6D7RR/GGtI68cBwcT/ZTBE9AATbOg7dYiS3uFM1WA7C+M
+	OWFQ8uiOwTwZ9ogqZc+SQGKurLZWpHQZuJw5l7a2EPqq3HppwVIqlJj0vVb4wGax88wbX/
+	yj64RKj7jDFUPl08rbuN3U08kgGEex8=
 Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
 	(No client certificate requested)
-	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 81C1A13A22;
+	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 1802C13A1F;
 	Thu, 11 Apr 2024 12:47:26 +0000 (UTC)
 Received: from dovecot-director2.suse.de ([10.150.64.162])
 	by imap1.dmz-prg2.suse.org with ESMTPSA
-	id kG6JHd7bF2brIQAAD6G6ig
+	id sM26A97bF2brIQAAD6G6ig
 	(envelope-from <oneukum@suse.com>); Thu, 11 Apr 2024 12:47:26 +0000
 From: Oliver Neukum <oneukum@suse.com>
 To: linux-usb@vger.kernel.org
 Cc: Oliver Neukum <oneukum@suse.com>
-Subject: [RFC 6/6] usb: config: find_next_descriptor can overflow buffer
-Date: Thu, 11 Apr 2024 14:43:04 +0200
-Message-ID: <20240411124722.17343-7-oneukum@suse.com>
+Subject: [RFC 4/6] usb: usb_parse_endpoint guard against an incromprehensible preamble
+Date: Thu, 11 Apr 2024 14:43:02 +0200
+Message-ID: <20240411124722.17343-5-oneukum@suse.com>
 X-Mailer: git-send-email 2.44.0
 In-Reply-To: <20240411124722.17343-1-oneukum@suse.com>
 References: <20240411124722.17343-1-oneukum@suse.com>
@@ -70,60 +70,52 @@ List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-Spam-Level: 
-X-Spamd-Result: default: False [-0.01 / 50.00];
-	NEURAL_HAM_LONG(-1.00)[-1.000];
+X-Spamd-Result: default: False [0.19 / 50.00];
 	MID_CONTAINS_FROM(1.00)[];
+	NEURAL_HAM_LONG(-1.00)[-1.000];
 	R_MISSING_CHARSET(0.50)[];
-	R_DKIM_ALLOW(-0.20)[suse.com:s=susede1];
 	NEURAL_HAM_SHORT(-0.20)[-1.000];
 	MIME_GOOD(-0.10)[text/plain];
-	MX_GOOD(-0.01)[];
-	BAYES_HAM(-0.00)[32.26%];
+	BAYES_HAM(-0.01)[47.77%];
 	ARC_NA(0.00)[];
-	FUZZY_BLOCKED(0.00)[rspamd.com];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
-	TO_DN_SOME(0.00)[];
-	MIME_TRACE(0.00)[0:+];
-	RBL_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:104:10:150:64:97:from];
-	RCPT_COUNT_TWO(0.00)[2];
 	DKIM_SIGNED(0.00)[suse.com:s=susede1];
-	FROM_EQ_ENVFROM(0.00)[];
-	FROM_HAS_DN(0.00)[];
-	SPAMHAUS_XBL(0.00)[2a07:de40:b281:104:10:150:64:97:from];
-	RCVD_TLS_ALL(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[imap1.dmz-prg2.suse.org:helo,imap1.dmz-prg2.suse.org:rdns,suse.com:dkim,suse.com:email];
-	RCVD_COUNT_TWO(0.00)[2];
+	MIME_TRACE(0.00)[0:+];
+	RCPT_COUNT_TWO(0.00)[2];
+	FUZZY_BLOCKED(0.00)[rspamd.com];
 	TO_MATCH_ENVRCPT_ALL(0.00)[];
-	DKIM_TRACE(0.00)[suse.com:+]
+	FROM_HAS_DN(0.00)[];
+	TO_DN_SOME(0.00)[];
+	RCVD_COUNT_TWO(0.00)[2];
+	FROM_EQ_ENVFROM(0.00)[];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	RCVD_TLS_ALL(0.00)[];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[suse.com:email,imap1.dmz-prg2.suse.org:helo,imap1.dmz-prg2.suse.org:rdns]
+X-Spam-Score: 0.19
 X-Spam-Flag: NO
-X-Spam-Score: -0.01
-X-Spamd-Bar: /
-X-Rspamd-Queue-Id: A8FCE5C6DA
-X-Rspamd-Server: rspamd2.dmz-prg2.suse.org
-X-Rspamd-Action: no action
 
-If you parse a data structure you cannot
-just test whether the remainder of your buffer holds
-data. It needs to hold a full data structure.
+usb_parse_endpoint processes an endpoint descriptor and then
+advances the parser to the next endpoint descriptor.
+However, a malicious device could feature something other than
+an endpoint descriptor after the interface descriptor
 
 Signed-off-by: Oliver Neukum <oneukum@suse.com>
 ---
- drivers/usb/core/config.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ drivers/usb/core/config.c | 2 ++
+ 1 file changed, 2 insertions(+)
 
 diff --git a/drivers/usb/core/config.c b/drivers/usb/core/config.c
-index 50acc9021247..43c5ed256e6e 100644
+index 050cd5066ccf..055910fc6b19 100644
 --- a/drivers/usb/core/config.c
 +++ b/drivers/usb/core/config.c
-@@ -32,7 +32,7 @@ static int find_next_descriptor(unsigned char *buffer, int size,
- 	unsigned char *buffer0 = buffer;
+@@ -271,6 +271,8 @@ static int usb_parse_endpoint(struct device *ddev, int cfgno,
+ 	buffer += d->bLength;
+ 	size -= d->bLength;
  
- 	/* Find the next descriptor of type dt1 or dt2 */
--	while (size > 0) {
-+	while (size >= sizeof(struct usb_descriptor_header)) {
- 		h = (struct usb_descriptor_header *) buffer;
- 		if (h->bDescriptorType == dt1 || h->bDescriptorType == dt2)
- 			break;
++	if (d->bDescriptorType != USB_DT_ENDPOINT)
++		goto skip_to_next_endpoint_or_interface_descriptor;
+ 	if (d->bLength >= USB_DT_ENDPOINT_AUDIO_SIZE)
+ 		n = USB_DT_ENDPOINT_AUDIO_SIZE;
+ 	else if (d->bLength >= USB_DT_ENDPOINT_SIZE)
 -- 
 2.44.0
 
