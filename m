@@ -1,117 +1,198 @@
-Received: from netrider.rowland.org (netrider.rowland.org [192.131.102.5])
-	by smtp.subspace.kernel.org (Postfix) with SMTP id 8CD2613FF6
-	for <linux-usb@vger.kernel.org>; Thu, 11 Apr 2024 15:31:21 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.131.102.5
+Received: from mout-p-103.mailbox.org (mout-p-103.mailbox.org [80.241.56.161])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+	(No client certificate requested)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 553522BCF6;
+	Thu, 11 Apr 2024 15:31:42 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=80.241.56.161
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1712849483; cv=none; b=PkDw33Oz3wJsp/SqkITHG5VuxixNVflc3VeKw8e75AXJ2X72kzw1Bcuzkczw9oKE5RZGS+yPHRiBANGKadaYPMiXL0ABbx26ITo6JC4Ar4ZD7ms+ibfmuaDm46rBz+hWsty0W1qIKs4D8dqoxfWm2MIcxIq2ce6Kw1ywyoaVCXs=
+	t=1712849504; cv=none; b=mgJaVzgkKvCrYU3k8JHUOb3WC7T+dfJs8eTE8BNnuipyqJwFkHi9YpgwzGr2kzTcRZhEYH12IeNpx4UrPA/nsc9OJRUCMQNCOv9GpD3SKv0gMYm6U18eDM3E9UJkqwDcrnkVTi76lmR0kiFgXFWVsI7NAIpOhGsZiumhOAX5yBs=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1712849483; c=relaxed/simple;
-	bh=LV3XxHklggyH1m5MNwe1hhpT3rkIrYb8jHihU8HACXM=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=Pn3FY8W/rajX4kBBfTyf2RMG1gNKoQ5ISrBYRksb6HS9b9pjadJgvfRs4mchrtzMviFycJSgZvLdjQTyI577mbhWDsfsdQ34H+WCc3MDe2aylekrL/uSULoXCMrFdFgFVdIWWNAnuEjUckeI+zi5QX3VDScfxwFA8JfW1JXe23o=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=rowland.harvard.edu; spf=pass smtp.mailfrom=netrider.rowland.org; arc=none smtp.client-ip=192.131.102.5
-Authentication-Results: smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=rowland.harvard.edu
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=netrider.rowland.org
-Received: (qmail 248476 invoked by uid 1000); 11 Apr 2024 11:24:39 -0400
-Date: Thu, 11 Apr 2024 11:24:39 -0400
-From: Alan Stern <stern@rowland.harvard.edu>
-To: Sam Sun <samsun1006219@gmail.com>
-Cc: linux-kernel@vger.kernel.org, linux-usb@vger.kernel.org,
-  Greg KH <gregkh@linuxfoundation.org>, swboyd@chromium.org,
-  ricardo@marliere.net, hkallweit1@gmail.com, heikki.krogerus@linux.intel.com,
-  mathias.nyman@linux.intel.com, royluo@google.com,
-  syzkaller-bugs@googlegroups.com, xrivendell7@gmail.com
-Subject: Re: [Linux kernel bug] general protection fault in disable_store
-Message-ID: <92fe8e95-bc01-4d7d-9678-8cfc55cc4a7b@rowland.harvard.edu>
-References: <CAEkJfYON+ry7xPx=AiLR9jzUNT+i_Va68ACajOC3HoacOfL1ig@mail.gmail.com>
+	s=arc-20240116; t=1712849504; c=relaxed/simple;
+	bh=tbZsr0sSGSCxXMIDvmmKVl5pXk4Bjcijff8HHwfeNhY=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version; b=ElSwteQOTIHTELI5Ljl5A6ncUrcTOFL8P0nGgblm+oNiH3cibQ7abAu5yxvJYfoN4b2i8v44Xa5szKmjvWQTfyrqcEwkRcR1Bed3BSW2TUS7lsiGjXMYiMqkc2y1nLw7PrufT0oVVufbWq3LbfcuJiXc3VSQ4UF8Q87QY7T/h5c=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=sylv.io; spf=pass smtp.mailfrom=sylv.io; dkim=pass (2048-bit key) header.d=sylv.io header.i=@sylv.io header.b=UACaogNa; arc=none smtp.client-ip=80.241.56.161
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=sylv.io
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=sylv.io
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=sylv.io header.i=@sylv.io header.b="UACaogNa"
+Received: from smtp1.mailbox.org (smtp1.mailbox.org [10.196.197.1])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by mout-p-103.mailbox.org (Postfix) with ESMTPS id 4VFk3G2nd8z9scY;
+	Thu, 11 Apr 2024 17:22:50 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=sylv.io; s=MBO0001;
+	t=1712848970;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=KwqedZ54CZtZon3qVCNXRRs4jtBdEtTfdznuqHMNeLk=;
+	b=UACaogNaDNFa9u/9pXHrT5EB5/wcUyBLPaCzojGFh0mSjyQgDFsYOW2V/Kz6tIK6aeVqTP
+	nzAH25k4TITgEKYNKmCp8vsgXQk895XA+HjUqRKfCO5FTLow3p+vuloPYqEvZYGHbdwDjl
+	t4MFl47IjSKwnUeO8k4XMiJ8eTcS+DbE/oJ6O279gRQnqd6Jrc5NaOReJDB85YVsblIADS
+	vsQFcoop7F3DjMvhbgTa21CRvCeOFNVF8VCOyIXBIWNa+wKIZ7GhaDPxRUyjL0887EAPsd
+	Me5Oq7+UAasXWy5fps8CfUH77PqdXhVE7O+4DyEsswSgyXbqTK/mszWpscaKAQ==
+From: Marcello Sylvester Bauer <sylv@sylv.io>
+To: linux-kernel@vger.kernel.org,
+	linux-usb@vger.kernel.org,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+Cc: Marcello Sylvester Bauer <marcello.bauer@9elements.com>,
+	Matthias Stoeckl <matthias.stoeckl@secunet.com>,
+	Uwe Kleine-Koenig <u.kleine-koenig@pengutronix.de>,
+	Marcello Sylvester Bauer <sylv@sylv.io>
+Subject: [PATCH v1 1/2] usb: gadget: dummy_hcd: Switch to hrtimer transfer scheduler
+Date: Thu, 11 Apr 2024 17:22:10 +0200
+Message-ID: <57a1c2180ff74661600e010c234d1dbaba1d0d46.1712843963.git.sylv@sylv.io>
+In-Reply-To: <cover.1712843963.git.sylv@sylv.io>
+References: <cover.1712843963.git.sylv@sylv.io>
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <CAEkJfYON+ry7xPx=AiLR9jzUNT+i_Va68ACajOC3HoacOfL1ig@mail.gmail.com>
+Content-Transfer-Encoding: 8bit
+Message-ID: <20240411152210.zJj03LGtB0nqclR-hl2oCV3NN_RSek86oZ_Op4d-tNU@z>
 
-On Thu, Apr 11, 2024 at 02:52:27PM +0800, Sam Sun wrote:
-> Dear developers and maintainers,
-> 
-> We encountered a general protection fault in function disable_store.
-> It is tested against the latest upstream linux (tag 6.9-rc3). C repro
-> and kernel config are attached to this email. Kernel crash log is
-> listed below.
-> ```
-> general protection fault, probably for non-canonical address
-> 0xdffffc0000000000: 0000 [#1] PREEMPT SMP KASAN
-> KASAN: null-ptr-deref in range [0x0000000000000000-0x0000000000000007]
-> CPU: 1 PID: 9459 Comm: syz-executor414 Not tainted 6.7.0-rc7 #2
-> Hardware name: QEMU Standard PC (i440FX + PIIX, 1996), BIOS 1.15.0-1 04/01/2014
-> RIP: 0010:disable_store+0xd0/0x3d0 drivers/usb/core/port.c:88
-> Code: 02 00 00 4c 8b 75 40 4d 8d be 58 ff ff ff 4c 89 ff e8 a4 20 fa
-> ff 48 89 c2 48 89 c5 48 b8 00 00 00 00 00 fc ff df 48 c1 ea 03 <80> 3c
-> 02 00 0f 85 b0 02 00 00 48 8b 45 00 48 8d bb 34 05 00 00 48
-> RSP: 0018:ffffc90006e3fc08 EFLAGS: 00010246
-> RAX: dffffc0000000000 RBX: ffff88801d4d4008 RCX: ffffffff86706be8
-> RDX: 0000000000000000 RSI: ffffffff86706c4d RDI: 0000000000000005
-> RBP: 0000000000000000 R08: 0000000000000005 R09: 0000000000000000
-> R10: 0000000000000000 R11: 0000000000000000 R12: 1ffff92000dc7f85
-> R13: ffff88810f4bfb18 R14: ffff88801d4d10a8 R15: ffff88801d4d1000
-> FS:  00007fa0af71b640(0000) GS:ffff888135c00000(0000) knlGS:0000000000000000
-> CS:  0010 DS: 0000 ES: 0000 CR0: 0000000080050033
-> CR2: 00007fa0af71a4b8 CR3: 0000000022f5f000 CR4: 0000000000750ef0
-> DR0: 0000000000000000 DR1: 0000000000000000 DR2: 0000000000000000
-> DR3: 0000000000000000 DR6: 00000000fffe0ff0 DR7: 0000000000000400
-> PKRU: 55555554
+The dummy_hcd transfer scheduler assumes that the internal kernel timer
+frequency is set to 1000Hz to give a polling interval of 1ms. Reducing
+the timer frequency will result in an anti-proportional reduction in
+transfer performance. Switch to a hrtimer to decouple this association.
 
-> ----------------
-> Code disassembly (best guess):
->    0:    02 00                    add    (%rax),%al
->    2:    00 4c 8b 75              add    %cl,0x75(%rbx,%rcx,4)
->    6:    40                       rex
->    7:    4d 8d be 58 ff ff ff     lea    -0xa8(%r14),%r15
->    e:    4c 89 ff                 mov    %r15,%rdi
->   11:    e8 a4 20 fa ff           call   0xfffa20ba
->   16:    48 89 c2                 mov    %rax,%rdx
->   19:    48 89 c5                 mov    %rax,%rbp
->   1c:    48 b8 00 00 00 00 00     movabs $0xdffffc0000000000,%rax
->   23:    fc ff df
->   26:    48 c1 ea 03              shr    $0x3,%rdx
-> * 2a:    80 3c 02 00              cmpb   $0x0,(%rdx,%rax,1) <--
-> trapping instruction
->   2e:    0f 85 b0 02 00 00        jne    0x2e4
->   34:    48 8b 45 00              mov    0x0(%rbp),%rax
->   38:    48 8d bb 34 05 00 00     lea    0x534(%rbx),%rdi
->   3f:    48                       rex.W
-> ```
-> We analyzed the root cause of this bug. When calling disable_store()
-> in drivers/usb/core/port.c, if function authorized_store() is calling
-> usb_deauthorized_device() concurrently, the usb_interface will be
-> removed by usb_disable_device. However, in function disable_store,
-> usb_hub_to_struct_hub() would try to deref interface, causing
-> nullptr-deref. We also tested other functions in
-> drivers/usb/core/port.c. So far we haven't found a similar problem.
+Signed-off-by: Marcello Sylvester Bauer <marcello.bauer@9elements.com>
+Signed-off-by: Marcello Sylvester Bauer <sylv@sylv.io>
+---
+ drivers/usb/gadget/udc/dummy_hcd.c | 35 +++++++++++++++++-------------
+ 1 file changed, 20 insertions(+), 15 deletions(-)
 
-I don't see how this explanation could be correct.  disable_store() is a 
-sysfs attribute file for the port device, so when it is called the port 
-device structure must still be registered.  The interface structure 
-doesn't get removed until after usb_disable_device() calls device_del(), 
-which won't return until hub_disconnect() returns, which won't happen 
-until after the port devices are unregistered, which doesn't happen 
-until disable_store() calls sysfs_break_active_protection(), which is 
-after the call to usb_hub_to_struct_hub().
+diff --git a/drivers/usb/gadget/udc/dummy_hcd.c b/drivers/usb/gadget/udc/dummy_hcd.c
+index 0953e1b5c030..dab559d8ee8c 100644
+--- a/drivers/usb/gadget/udc/dummy_hcd.c
++++ b/drivers/usb/gadget/udc/dummy_hcd.c
+@@ -30,7 +30,7 @@
+ #include <linux/slab.h>
+ #include <linux/errno.h>
+ #include <linux/init.h>
+-#include <linux/timer.h>
++#include <linux/hrtimer.h>
+ #include <linux/list.h>
+ #include <linux/interrupt.h>
+ #include <linux/platform_device.h>
+@@ -240,7 +240,7 @@ enum dummy_rh_state {
+ struct dummy_hcd {
+ 	struct dummy			*dum;
+ 	enum dummy_rh_state		rh_state;
+-	struct timer_list		timer;
++	struct hrtimer			timer;
+ 	u32				port_status;
+ 	u32				old_status;
+ 	unsigned long			re_timeout;
+@@ -1301,8 +1301,8 @@ static int dummy_urb_enqueue(
+ 		urb->error_count = 1;		/* mark as a new urb */
+ 
+ 	/* kick the scheduler, it'll do the rest */
+-	if (!timer_pending(&dum_hcd->timer))
+-		mod_timer(&dum_hcd->timer, jiffies + 1);
++	if (!hrtimer_active(&dum_hcd->timer))
++		hrtimer_start(&dum_hcd->timer, ms_to_ktime(1), HRTIMER_MODE_REL);
+ 
+  done:
+ 	spin_unlock_irqrestore(&dum_hcd->dum->lock, flags);
+@@ -1323,7 +1323,7 @@ static int dummy_urb_dequeue(struct usb_hcd *hcd, struct urb *urb, int status)
+ 	rc = usb_hcd_check_unlink_urb(hcd, urb, status);
+ 	if (!rc && dum_hcd->rh_state != DUMMY_RH_RUNNING &&
+ 			!list_empty(&dum_hcd->urbp_list))
+-		mod_timer(&dum_hcd->timer, jiffies);
++		hrtimer_start(&dum_hcd->timer, ns_to_ktime(0), HRTIMER_MODE_REL);
+ 
+ 	spin_unlock_irqrestore(&dum_hcd->dum->lock, flags);
+ 	return rc;
+@@ -1777,7 +1777,7 @@ static int handle_control_request(struct dummy_hcd *dum_hcd, struct urb *urb,
+  * drivers except that the callbacks are invoked from soft interrupt
+  * context.
+  */
+-static void dummy_timer(struct timer_list *t)
++static enum hrtimer_restart dummy_timer(struct hrtimer *t)
+ {
+ 	struct dummy_hcd	*dum_hcd = from_timer(dum_hcd, t, timer);
+ 	struct dummy		*dum = dum_hcd->dum;
+@@ -1808,8 +1808,6 @@ static void dummy_timer(struct timer_list *t)
+ 		break;
+ 	}
+ 
+-	/* FIXME if HZ != 1000 this will probably misbehave ... */
+-
+ 	/* look at each urb queued by the host side driver */
+ 	spin_lock_irqsave(&dum->lock, flags);
+ 
+@@ -1817,7 +1815,7 @@ static void dummy_timer(struct timer_list *t)
+ 		dev_err(dummy_dev(dum_hcd),
+ 				"timer fired with no URBs pending?\n");
+ 		spin_unlock_irqrestore(&dum->lock, flags);
+-		return;
++		return HRTIMER_NORESTART;
+ 	}
+ 	dum_hcd->next_frame_urbp = NULL;
+ 
+@@ -1995,10 +1993,12 @@ static void dummy_timer(struct timer_list *t)
+ 		dum_hcd->udev = NULL;
+ 	} else if (dum_hcd->rh_state == DUMMY_RH_RUNNING) {
+ 		/* want a 1 msec delay here */
+-		mod_timer(&dum_hcd->timer, jiffies + msecs_to_jiffies(1));
++		hrtimer_start(&dum_hcd->timer, ms_to_ktime(1), HRTIMER_MODE_REL);
+ 	}
+ 
+ 	spin_unlock_irqrestore(&dum->lock, flags);
++
++	return HRTIMER_NORESTART;
+ }
+ 
+ /*-------------------------------------------------------------------------*/
+@@ -2387,7 +2387,7 @@ static int dummy_bus_resume(struct usb_hcd *hcd)
+ 		dum_hcd->rh_state = DUMMY_RH_RUNNING;
+ 		set_link_state(dum_hcd);
+ 		if (!list_empty(&dum_hcd->urbp_list))
+-			mod_timer(&dum_hcd->timer, jiffies);
++			hrtimer_start(&dum_hcd->timer, ns_to_ktime(0), HRTIMER_MODE_REL);
+ 		hcd->state = HC_STATE_RUNNING;
+ 	}
+ 	spin_unlock_irq(&dum_hcd->dum->lock);
+@@ -2465,7 +2465,8 @@ static DEVICE_ATTR_RO(urbs);
+ 
+ static int dummy_start_ss(struct dummy_hcd *dum_hcd)
+ {
+-	timer_setup(&dum_hcd->timer, dummy_timer, 0);
++	hrtimer_init(&dum_hcd->timer, CLOCK_MONOTONIC, HRTIMER_MODE_REL);
++	dum_hcd->timer.function = dummy_timer;
+ 	dum_hcd->rh_state = DUMMY_RH_RUNNING;
+ 	dum_hcd->stream_en_ep = 0;
+ 	INIT_LIST_HEAD(&dum_hcd->urbp_list);
+@@ -2494,7 +2495,8 @@ static int dummy_start(struct usb_hcd *hcd)
+ 		return dummy_start_ss(dum_hcd);
+ 
+ 	spin_lock_init(&dum_hcd->dum->lock);
+-	timer_setup(&dum_hcd->timer, dummy_timer, 0);
++	hrtimer_init(&dum_hcd->timer, CLOCK_MONOTONIC, HRTIMER_MODE_REL);
++	dum_hcd->timer.function = dummy_timer;
+ 	dum_hcd->rh_state = DUMMY_RH_RUNNING;
+ 
+ 	INIT_LIST_HEAD(&dum_hcd->urbp_list);
+@@ -2513,8 +2515,11 @@ static int dummy_start(struct usb_hcd *hcd)
+ 
+ static void dummy_stop(struct usb_hcd *hcd)
+ {
+-	device_remove_file(dummy_dev(hcd_to_dummy_hcd(hcd)), &dev_attr_urbs);
+-	dev_info(dummy_dev(hcd_to_dummy_hcd(hcd)), "stopped\n");
++	struct dummy_hcd	*dum_hcd = hcd_to_dummy_hcd(hcd);
++
++	hrtimer_cancel(&dum_hcd->timer);
++	device_remove_file(dummy_dev(dum_hcd), &dev_attr_urbs);
++	dev_info(dummy_dev(dum_hcd), "stopped\n");
+ }
+ 
+ /*-------------------------------------------------------------------------*/
+-- 
+2.44.0
 
-Can you do a little extra debugging to find out exactly which C 
-statement causes the trap?  The disassembly above indicates the trap 
-happens during a compare against 0 inside disable_store() -- not inside 
-usb_hub_to_struct_hub().  Can you figure out which comparison that is?
-
-Alan Stern
-
-> If you have any questions, please contact us.
-> 
-> Reported by Yue Sun <samsun1006219@gmail.com>
-> Reported by xingwei lee <xrivendell7@gmail.com>
-> 
-> Best Regards,
-> Yue
