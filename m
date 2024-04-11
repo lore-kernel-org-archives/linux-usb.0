@@ -1,125 +1,125 @@
-Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.223.131])
+Received: from mail-ed1-f53.google.com (mail-ed1-f53.google.com [209.85.208.53])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4AD0013E88B
-	for <linux-usb@vger.kernel.org>; Thu, 11 Apr 2024 12:47:28 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.131
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CBFD71EB26
+	for <linux-usb@vger.kernel.org>; Thu, 11 Apr 2024 13:20:28 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.53
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1712839651; cv=none; b=ptxXr6N53nx5Udto39jf10405a33v8Vji5o2dUCsUq48R1SLjpY82xU9ObB1xs2Pk5oLXCZnd3h/Gv+P0nUZwPOtfQK4v1Oh7lHqFA+wUI+3RKmFcCXAcx3257Ug3yRhTfYr9vRaHwKzj2k5NGeHYOL0uE7ULC6w+okkzbRcIss=
+	t=1712841630; cv=none; b=Jxr/IGF6PazkmegftnuiiPsTFQ9Bci6EXl60zLKGQSI5KSOyDL/fdgzy+7zz+seBNMXpaVIsDeii1aIAiB39cJp+NXojEJbWOTJWCrCr59rSbNkbUuEtOCcBrDc6vjBjyBFVkyROJXCzoP1nQDyHaSrr0E3TcP1XosDd3b3+r+k=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1712839651; c=relaxed/simple;
-	bh=Fn8OtNhZ8WCWH0zzyi2PApZIAVDfRsFGEHVMvqMcYTg=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=M+83L359fyZJwv2YqkszmYv2joAUEQyEN+xV1T+Ti2rrm+kaQGvs5yMAf63YErRGqQ+4awiFBFhLXcSqxPXFZhloe2Ik5+ZiqgO5IKnoVidVB5fC42Rl589u0BEgA92fbO1nEJ6IrVq8ZQajtbUVWQlqtq/mr7VNjpiFZRE60CQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=suse.com; spf=pass smtp.mailfrom=suse.com; dkim=pass (1024-bit key) header.d=suse.com header.i=@suse.com header.b=XqfUH3ng; dkim=pass (1024-bit key) header.d=suse.com header.i=@suse.com header.b=Y6uWnMXQ; arc=none smtp.client-ip=195.135.223.131
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=suse.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.com
+	s=arc-20240116; t=1712841630; c=relaxed/simple;
+	bh=8au3oQJ858ItFh+zdIxrBMOfM2TfZ9/8pgF19vMlTjo=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=H/1/j4Ixbxy1b9IQ2O5pNbj5iNdM9+UewTWLlOUWGLWkCb3wSHhTY5Oho2THwf+BYDnPXzIFFvol+PjEABYUjVSGq+Vo2T1GxD4deX+1o23gADII8Z147J0ba/92ZXlnKzywMNJWr9rLizXHdOLsHtBwalP3mzwy4SWkVUH9QYk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=oKlvk86K; arc=none smtp.client-ip=209.85.208.53
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=suse.com header.i=@suse.com header.b="XqfUH3ng";
-	dkim=pass (1024-bit key) header.d=suse.com header.i=@suse.com header.b="Y6uWnMXQ"
-Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org [10.150.64.97])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by smtp-out2.suse.de (Postfix) with ESMTPS id 9A4625C6D0;
-	Thu, 11 Apr 2024 12:47:25 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.com; s=susede1;
-	t=1712839646; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=hasFfz2pcPB7nP7rzG7sl792Sg2ffR5b4jZpzagtiZQ=;
-	b=XqfUH3ng+c7fTy3LrlG7iHgy1LhM6W/UjW5yyYAqfEmkjr/2hnK7osBwUamfvXzs5iL5w4
-	/vsEdkrJpi1mNZtdELUUOgE41wPXLdJjYGxYbGAULU5zZnyN/8gkOI/ljddXqYtSMWGw3V
-	EV3nbE9wae0EKLzUC1C/sh3rpoZkDwo=
-Authentication-Results: smtp-out2.suse.de;
-	none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.com; s=susede1;
-	t=1712839645; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=hasFfz2pcPB7nP7rzG7sl792Sg2ffR5b4jZpzagtiZQ=;
-	b=Y6uWnMXQ5XDGTN05f80/iXg+QeBEW+d5mN5NovcqnWA0AzaNOkflu2Dlgk4HQfISnqAfJH
-	qMXznrTqwiChBlogFTLA0goKiWPpWJET+qEkCqzk+7WmQVgdZyWKecWcAzDZho5INaETz2
-	wyKzXoJZtJPw9f2N3V6nRbMQksEz/nA=
-Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 6CB92139E2;
-	Thu, 11 Apr 2024 12:47:25 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([10.150.64.162])
-	by imap1.dmz-prg2.suse.org with ESMTPSA
-	id ELV8GN3bF2brIQAAD6G6ig
-	(envelope-from <oneukum@suse.com>); Thu, 11 Apr 2024 12:47:25 +0000
-From: Oliver Neukum <oneukum@suse.com>
-To: linux-usb@vger.kernel.org
-Cc: Oliver Neukum <oneukum@suse.com>
-Subject: [RFC 1/6] usb: usb_parse_endpoint ignore reserved bits
-Date: Thu, 11 Apr 2024 14:42:59 +0200
-Message-ID: <20240411124722.17343-2-oneukum@suse.com>
-X-Mailer: git-send-email 2.44.0
-In-Reply-To: <20240411124722.17343-1-oneukum@suse.com>
-References: <20240411124722.17343-1-oneukum@suse.com>
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="oKlvk86K"
+Received: by mail-ed1-f53.google.com with SMTP id 4fb4d7f45d1cf-56e2ac1c16aso8223784a12.0
+        for <linux-usb@vger.kernel.org>; Thu, 11 Apr 2024 06:20:28 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google; t=1712841627; x=1713446427; darn=vger.kernel.org;
+        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=UzR5shJg8wxSKtkVGP/DnnOPVxnHo+i1v7EiJkPittA=;
+        b=oKlvk86KaTJyqAOYMfkJMLh4qSfRza36xhV590YyXuMDr5AU9SAIbgb274odlsWaiH
+         HRgHnTVOeBM1g5xHrDVOdYTjUrr24OFGEC+RiqUUhp2PwTTI6nhmtWy40u1C1dEOq+lj
+         wH70Xa2+F/IXmR8+qENcQfm2oQm+ZH4zV2VWl2ONqc+iTVHF5iCmEeLdm5XVTgwUBsA0
+         qP/kI3wCpZk/7r06G+tMayFRX1uTo0PE8FdfX7POn8xWrNib2PMoqX1IQt938dM9vvS1
+         hLE18bbUGVYj/MHL3aQe578Gu4W/pj6WetKPeeVGhwUjuEf8I2wr7M1ozHmWnZeP5fqv
+         PH7Q==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1712841627; x=1713446427;
+        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=UzR5shJg8wxSKtkVGP/DnnOPVxnHo+i1v7EiJkPittA=;
+        b=IfUfu8c+j8OsCJizIGEo4DPX+rg65g7aEKTU5c1QV6S2MmAuEQrV+YSUO/NqV36jVJ
+         FU85TORZnenqOcFr83njl8Bnf9RPwkZIwubGX+disznrWBJwjcNKkXfEE9E5X7jtbUwt
+         Fw6s0XALDLYMyPqqhnv4zhNMG3gtp/U5tuQ2izvImZNDAoX6eYEOPRoKGl1v6k05cAS1
+         +zKg0SNEPIjPSGxpNQyDBlR+86ps7m7bwCI1O4/V9LWHtK/cNQ2jl5D2tOyZKl5rR9en
+         vZJiHVbd+kJionHwCClQQoDG1jPPZ2LbVoeOAxUm45/MbaRdNn4PPyFghl7I+ttZfCxr
+         I3bw==
+X-Gm-Message-State: AOJu0Yz5GFs8lZcAmyQwnOUgDSxlArbbLYPINuZoPrUAdcJbppMqOme1
+	4HmNJlt5l0qKBSIrKIsgqkIHc80bL8NjNQB1+EJ8d1BScJat32s/m6QV2ETaXry6PgTPVa8eDsF
+	S
+X-Google-Smtp-Source: AGHT+IHfMdJGmev72k1C5rzR4el32LWz0YeoBWqQaEgEKo6aiwWetGTpSnb3TjKcYnPg9iMNL0jxeA==
+X-Received: by 2002:a50:bb07:0:b0:56e:6aa:c7c4 with SMTP id y7-20020a50bb07000000b0056e06aac7c4mr3429935ede.42.1712841626994;
+        Thu, 11 Apr 2024 06:20:26 -0700 (PDT)
+Received: from localhost ([102.222.70.76])
+        by smtp.gmail.com with ESMTPSA id v19-20020aa7d653000000b0056fd85df9ccsm695052edr.47.2024.04.11.06.20.25
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 11 Apr 2024 06:20:26 -0700 (PDT)
+Date: Thu, 11 Apr 2024 16:20:22 +0300
+From: Dan Carpenter <dan.carpenter@linaro.org>
+To: dmitry.baryshkov@linaro.org
+Cc: linux-usb@vger.kernel.org
+Subject: [bug report] usb: typec: ucsi: extract code to read PD caps
+Message-ID: <a3a2799c-04b3-4b8a-b808-5a118b330619@moroto.mountain>
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Spam-Flag: NO
-X-Spam-Score: 0.16
-X-Spam-Level: 
-X-Spamd-Result: default: False [0.16 / 50.00];
-	MID_CONTAINS_FROM(1.00)[];
-	NEURAL_HAM_LONG(-1.00)[-1.000];
-	R_MISSING_CHARSET(0.50)[];
-	NEURAL_HAM_SHORT(-0.20)[-1.000];
-	MIME_GOOD(-0.10)[text/plain];
-	BAYES_HAM(-0.04)[59.07%];
-	ARC_NA(0.00)[];
-	DKIM_SIGNED(0.00)[suse.com:s=susede1];
-	MIME_TRACE(0.00)[0:+];
-	RCPT_COUNT_TWO(0.00)[2];
-	FUZZY_BLOCKED(0.00)[rspamd.com];
-	TO_MATCH_ENVRCPT_ALL(0.00)[];
-	FROM_HAS_DN(0.00)[];
-	TO_DN_SOME(0.00)[];
-	RCVD_COUNT_TWO(0.00)[2];
-	FROM_EQ_ENVFROM(0.00)[];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
-	RCVD_TLS_ALL(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[suse.com:email,imap1.dmz-prg2.suse.org:helo,imap1.dmz-prg2.suse.org:rdns]
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
-We have to ignore the higher bits in bEndpointAddress
+Hello Dmitry Baryshkov,
 
-Signed-off-by: Oliver Neukum <oneukum@suse.com>
----
- drivers/usb/core/config.c | 8 ++++----
- 1 file changed, 4 insertions(+), 4 deletions(-)
+Commit ad4bc68bef3e ("usb: typec: ucsi: extract code to read PD
+caps") from Mar 29, 2024 (linux-next), leads to the following Smatch
+static checker warning:
 
-diff --git a/drivers/usb/core/config.c b/drivers/usb/core/config.c
-index 7f8d33f92ddb..c7056b123d46 100644
---- a/drivers/usb/core/config.c
-+++ b/drivers/usb/core/config.c
-@@ -279,11 +279,11 @@ static int usb_parse_endpoint(struct device *ddev, int cfgno,
- 		goto skip_to_next_endpoint_or_interface_descriptor;
- 	}
+	drivers/usb/typec/ucsi/ucsi.c:689 ucsi_get_pd_caps()
+	warn: passing zero to 'ERR_PTR'
+
+drivers/usb/typec/ucsi/ucsi.c
+    680 static struct usb_power_delivery_capabilities *ucsi_get_pd_caps(struct ucsi_connector *con,
+    681                                                                 enum typec_role role,
+    682                                                                 bool is_partner)
+    683 {
+    684         struct usb_power_delivery_capabilities_desc pd_caps;
+    685         int ret;
+    686 
+    687         ret = ucsi_get_pdos(con, role, is_partner, pd_caps.pdo);
+    688         if (ret <= 0)
+--> 689                 return ERR_PTR(ret);
+
+This is returns NULL if ucsi_get_pdos() returns zero.  It's really hard
+to say if this is intentional or not...  Originally, we treated error
+codes and zero the same but we didn't report errors back to the user,
+the code just continued silently.  Now it's reporting errors but just
+continuing along if ucsi_get_pdos() returns zero.
+
+My instinct says that we should modify ucsi_get_pdos() to not return
+zero but I don't know the code...
+
+diff --git a/drivers/usb/typec/ucsi/ucsi.c b/drivers/usb/typec/ucsi/ucsi.c
+index 8abde8db6bcf..427b7610a074 100644
+--- a/drivers/usb/typec/ucsi/ucsi.c
++++ b/drivers/usb/typec/ucsi/ucsi.c
+@@ -650,6 +650,8 @@ static int ucsi_get_pdos(struct ucsi_connector *con, enum typec_role role,
+ 		return ret;
  
--	i = d->bEndpointAddress & ~USB_ENDPOINT_DIR_MASK;
--	if (i >= 16 || i == 0) {
-+	i = d->bEndpointAddress & 0x0f;
-+	if (i == 0) {
- 		dev_notice(ddev, "config %d interface %d altsetting %d has an "
--		    "invalid endpoint with address 0x%X, skipping\n",
--		    cfgno, inum, asnum, d->bEndpointAddress);
-+		    "invalid descriptor for the common control endpoint, skipping\n",
-+		    cfgno, inum, asnum);
- 		goto skip_to_next_endpoint_or_interface_descriptor;
- 	}
+ 	num_pdos = ret / sizeof(u32); /* number of bytes to 32-bit PDOs */
++	if (num_pdos == 0)
++		return -EINVAL;
+ 	if (num_pdos < UCSI_MAX_PDOS)
+ 		return num_pdos;
  
--- 
-2.44.0
+Or, if returning NULL is intentional then it would be nice to add a
+comment.
 
+    690 
+    691         if (ret < PDO_MAX_OBJECTS)
+    692                 pd_caps.pdo[ret] = 0;
+    693 
+    694         pd_caps.role = role;
+    695 
+    696         return usb_power_delivery_register_capabilities(is_partner ? con->partner_pd : con->pd,
+    697                                                         &pd_caps);
+    698 }
+
+regards,
+dan carpenter
