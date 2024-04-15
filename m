@@ -1,43 +1,58 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.14])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CE77D200DE;
-	Mon, 15 Apr 2024 06:46:14 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8F9DF1EB30;
+	Mon, 15 Apr 2024 06:53:14 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.14
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1713163574; cv=none; b=r1LWcXUvC9WeLPXHSQ1Tu61G42SSOjHC0cNBuxGLZbIE+cXCBJq/APN7qxNzPvTnjLCcrjSvLGG1z0BjjO4VwMRhYGeHndZs3QY5dgW0OwZzw7rvOwaCHEE7YPMqiSbLA+sIEbi2bFhfAkQ/YxGEynhEifbG5uaaZSSjK60Ma4I=
+	t=1713163996; cv=none; b=UKXrZZSbiMrzY6WdzlzO85VDdhpwszv6HjdF+Rem8A7W7+FLhPoQa9dMjIE+K16iex2fJLpCNWwYoDrtHBYxcNXPQYuclFTUmgmcnCK55AcWzoUmW51tOs6n/yPTw4O4fXRaK3jqG1XEsG41sOHBXCkbXJvMrhVzZIdd6N/uRdE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1713163574; c=relaxed/simple;
-	bh=M3E5v9WIUoK8ZPJWrgQ5BaTLENMbot55qcTTTIDrCOQ=;
+	s=arc-20240116; t=1713163996; c=relaxed/simple;
+	bh=9Soc2Qo07sCZ8eMWp3+CQGUdGqKuLqNVP7Qq79vmnQc=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=NwA5L7GvHoQ7ZxwQrqgXFnTLHNTY57o0mUKnv01lqIWX2mMaftrLI9Ud1Sml2tERRXMgOK/b4bHLsLRGxrDkSantP9POufaZxAkdMyZnJrqfGFnjgKJWpHqQfkTOUDsDgtbnzv6qCTyJUiFV2pmS8awCeOodkQ78uSuvU+DdY4E=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=bmTPhJVd; arc=none smtp.client-ip=10.30.226.201
+	 Content-Type:Content-Disposition:In-Reply-To; b=alhRzQM6lLIOAQe5oiGpcctAOebSVF+l5yOFrseyguBvtSKx9/w7iHHK1EmDxsLNU4eXw21pjxjL/cqmHcg4Ts7LKGLmgKNkbTA1kgMd+HDPnM/5xt/Avrzbn3BzbZU4iJef7cXsU69cAGeQZ/MQDvFDCYWHUq2Rj3Mvoc/DMr4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=none smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=YtJZCmX4; arc=none smtp.client-ip=198.175.65.14
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=linux.intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="bmTPhJVd"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 694CEC113CC;
-	Mon, 15 Apr 2024 06:46:14 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1713163574;
-	bh=M3E5v9WIUoK8ZPJWrgQ5BaTLENMbot55qcTTTIDrCOQ=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=bmTPhJVdPaJsXIsEAlxGSSn5tY8tggYoQnpA9Jsr6n6hVeOLdqW8/HiMObdriwyG+
-	 0R0MCOPz1CZ7nY4gpQsFY2Ay62MOJRUeHC/XgBAzPJFFJ45ZacHWJ0VJPUIrE1Wjt9
-	 D6Zt/wxaMefOwY0QJPnvkaWgZkkAcxNDrrz4827kfyumERAOelQGL7NBnnVesap4s2
-	 aAok9xfs5ac4k1TSibuXtS18AQn38hMtTEIcOKcXRiOSzgBodT8BO/D7syj7P2UWPI
-	 cp5T5H8dbTXXthsJXq8cydXx7ZvQEiMYuNxGoU6grIDEX62MxTcCdKOTKNY6RuTKPF
-	 1nQkkLXZoIm1A==
-Received: from johan by xi.lan with local (Exim 4.97.1)
-	(envelope-from <johan@kernel.org>)
-	id 1rwG6V-000000004dk-481f;
-	Mon, 15 Apr 2024 08:46:12 +0200
-Date: Mon, 15 Apr 2024 08:46:11 +0200
-From: Johan Hovold <johan@kernel.org>
-To: Chuanhong Guo <gch981213@gmail.com>
-Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>, stable@vger.kernel.org,
-	linux-usb@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] USB: serial: option: add support for Fibocom FM650/FG650
-Message-ID: <ZhzNM_zouHPLdvBz@hovoldconsulting.com>
-References: <20240312062913.12723-1-gch981213@gmail.com>
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="YtJZCmX4"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1713163995; x=1744699995;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=9Soc2Qo07sCZ8eMWp3+CQGUdGqKuLqNVP7Qq79vmnQc=;
+  b=YtJZCmX4C8CJQPQBheS28pbm/Y9dyKCKu2a+8QSchXozREGlLDolMoNi
+   8FBjhNRiYMv/b6TFH5Jq1Hv5hNnugHan2XyddeRVPM4m6ooLMmNKLmpZu
+   PabeFRz+7cc0ljcspQVU9jpoN9iw929f2ovVSOa138sgyIw8SLedLp/Xf
+   Q6g4dQ93M+5ldIN9A6wl2ZcMuzoApbK/nPXWOdY7Gs11rD3floPe3XDbn
+   eBUvGHGitmVDLmFmdlm13nppDcT2bMGQj2zS/hU2nC43pZLG6T4mmfRDp
+   VJ4cJJ+2fP7wFIoDD4zDXJDiYr2kCFysw/14H3e+oDsOriOC+czvt8n39
+   w==;
+X-CSE-ConnectionGUID: Nd36ad9VQXGT2c+VE8af1A==
+X-CSE-MsgGUID: h/iqeO82SjmlMH5ubC7T0Q==
+X-IronPort-AV: E=McAfee;i="6600,9927,11044"; a="12381350"
+X-IronPort-AV: E=Sophos;i="6.07,202,1708416000"; 
+   d="scan'208";a="12381350"
+Received: from fmviesa010.fm.intel.com ([10.60.135.150])
+  by orvoesa106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 14 Apr 2024 23:53:15 -0700
+X-CSE-ConnectionGUID: fLzT8YWXS2e79o7jH8xqmQ==
+X-CSE-MsgGUID: pkQyKVBiSoKT56q5LbaPYw==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.07,202,1708416000"; 
+   d="scan'208";a="21806539"
+Received: from kuha.fi.intel.com ([10.237.72.185])
+  by fmviesa010.fm.intel.com with SMTP; 14 Apr 2024 23:53:12 -0700
+Received: by kuha.fi.intel.com (sSMTP sendmail emulation); Mon, 15 Apr 2024 09:53:10 +0300
+Date: Mon, 15 Apr 2024 09:53:10 +0300
+From: Heikki Krogerus <heikki.krogerus@linux.intel.com>
+To: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
+Cc: gregkh@linuxfoundation.org, dmitry.baryshkov@linaro.org,
+	linux-usb@vger.kernel.org, linux-kernel@vger.kernel.org,
+	kernel@collabora.com
+Subject: Re: [PATCH] usb: typec: mux: it5205: Fix ChipID value typo
+Message-ID: <ZhzOx2oQZMnyTgb/@kuha.fi.intel.com>
+References: <20240409113646.305105-1-angelogioacchino.delregno@collabora.com>
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
@@ -46,13 +61,36 @@ List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20240312062913.12723-1-gch981213@gmail.com>
+In-Reply-To: <20240409113646.305105-1-angelogioacchino.delregno@collabora.com>
 
-On Tue, Mar 12, 2024 at 02:29:12PM +0800, Chuanhong Guo wrote:
-> Fibocom FM650/FG650 are 5G modems with ECM/NCM/RNDIS/MBIM modes.
-> This patch adds support to all 4 modes.
+On Tue, Apr 09, 2024 at 01:36:46PM +0200, AngeloGioacchino Del Regno wrote:
+> The ChipID bytes are read in inverse order: invert the ChipID value
+> defined as IT5205FN_CHIP_ID and used for validating the same.
+> 
+> Fixes: 41fe9ea1696c ("usb: typec: mux: Add ITE IT5205 Alternate Mode Passive MUX driver")
+> Signed-off-by: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
 
-Can you please say something here about what each port (in each mode) is
-used for?
+Acked-by: Heikki Krogerus <heikki.krogerus@linux.intel.com>
 
-Johan
+> ---
+>  drivers/usb/typec/mux/it5205.c | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
+> 
+> diff --git a/drivers/usb/typec/mux/it5205.c b/drivers/usb/typec/mux/it5205.c
+> index 5535932e42cd..4357cc67a867 100644
+> --- a/drivers/usb/typec/mux/it5205.c
+> +++ b/drivers/usb/typec/mux/it5205.c
+> @@ -22,7 +22,7 @@
+>  #include <linux/usb/typec_mux.h>
+>  
+>  #define IT5205_REG_CHIP_ID(x)	(0x4 + (x))
+> -#define IT5205FN_CHIP_ID	0x35323035 /* "5205" */
+> +#define IT5205FN_CHIP_ID	0x35303235 /* "5025" -> "5205" */
+>  
+>  /* MUX power down register */
+>  #define IT5205_REG_MUXPDR        0x10
+> -- 
+> 2.44.0
+
+-- 
+heikki
