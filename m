@@ -1,109 +1,170 @@
-Received: from dilbert.mork.no (dilbert.mork.no [65.108.154.246])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 45D8E1EB5E;
-	Mon, 15 Apr 2024 06:58:05 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=65.108.154.246
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4E829208D0;
+	Mon, 15 Apr 2024 06:58:43 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1713164293; cv=none; b=K3dCU8LaIDgWHf6M9sIHWYi4EHMmFK/smduol/wDDyncY/G2KGWYTU3ebD3DxtDb/+Lp5TBODqDY4197t79djYxOgpmb9ce0Qg3rwE/F7zbeLXGoLVEFsyBSVLIcA1o8/cUNjb5ArWnsU7vJciPhT1P1M/toGzdsU4/TX4ZinyM=
+	t=1713164324; cv=none; b=u/Z2TjprkZ0HQzgIKzggDBmR1PxWLnFih1+pdeinNxn/13SHhcrwO8p998pBwOeOot+DqnLG+RGz+5JlZ0m+et47pHUBKAJ3uuDZ0cZiYQPubPUk6cO5/lwA0XgL295PoPhaRGmW/XEStMgePOickmlDc0PFJEhD+t+guGlyZ34=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1713164293; c=relaxed/simple;
-	bh=5dQYE555WyWLOIGjnlUIwdBPsURAhH1u3CUIqS7Bd6I=;
-	h=From:To:Cc:Subject:References:Date:In-Reply-To:Message-ID:
-	 MIME-Version:Content-Type; b=rOneibs6YXWWZ4y354xHIn3It2FW49vtmnDk8wB/RnX2zgg0w4AWSaVpW6VHEKyxeLFx3S4niRnQ2eXX0/teYXFoEW1k64MCxbgQlzQ1vgP9VOMBqsVSoy8fKXfX5l8TLEsPbJKwTRpdh7OaOoAHGq8we2yNyWDyoLt03NRpqPQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=mork.no; spf=pass smtp.mailfrom=miraculix.mork.no; dkim=pass (1024-bit key) header.d=mork.no header.i=@mork.no header.b=JQknEPZT; arc=none smtp.client-ip=65.108.154.246
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=mork.no
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=miraculix.mork.no
+	s=arc-20240116; t=1713164324; c=relaxed/simple;
+	bh=zfww0Wo2P7sSM8KWNzZdQqLcfyZOloB9r7adpSfjsko=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=oKZiOoPUMA7g2TmZDd9YNv3Ly6fxUR44crPSgzeJP7mk4fSmOn8RtgRAqeHe1re324iiaEU9l2ScU858gvhWi7D4XcalN6vYOFlKAPMZwFCZOdO+cUHgjjfGx9L2B77lYiOelm4iKujlBDPhigRn9YtS8LYBjywE1zhNdqyZvFY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=none smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=NAgybvLs; arc=none smtp.client-ip=192.198.163.18
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=linux.intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=mork.no header.i=@mork.no header.b="JQknEPZT"
-Received: from canardo.dyn.mork.no ([IPv6:2a01:799:10da:6900:0:0:0:1])
-	(authenticated bits=0)
-	by dilbert.mork.no (8.17.1.9/8.17.1.9) with ESMTPSA id 43F6lJGr265481
-	(version=TLSv1.3 cipher=TLS_AES_256_GCM_SHA384 bits=256 verify=OK);
-	Mon, 15 Apr 2024 07:47:21 +0100
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=mork.no; s=b;
-	t=1713163639; bh=ptLbaXHFz1SjMcJUxVZ1MKPDLiUChee6AAW1Ax7maBk=;
-	h=From:To:Cc:Subject:References:Date:Message-ID:From;
-	b=JQknEPZTeGKCD2KEeFUG9yDA2PEETWkDp9Ntu7+q6E1u0TzswuRdN3XgTIhipVnA6
-	 QW2Ld+vLwa/dFtImLTm4CN4QB8mucwg/Yt6d4Yc9vf5HVbwpxqHAEiNWrlLNVIdt6e
-	 a9quzffcyP60fDXlYkxUBpD/36Hfg0+7jTsjU6LA=
-Received: from miraculix.mork.no ([IPv6:2a01:799:10da:690a:d43d:737:5289:b66f])
-	(authenticated bits=0)
-	by canardo.dyn.mork.no (8.17.1.9/8.17.1.9) with ESMTPSA id 43F6lJwZ367339
-	(version=TLSv1.3 cipher=TLS_AES_256_GCM_SHA384 bits=256 verify=OK);
-	Mon, 15 Apr 2024 08:47:19 +0200
-Received: (nullmailer pid 17569 invoked by uid 1000);
-	Mon, 15 Apr 2024 06:47:19 -0000
-From: =?utf-8?Q?Bj=C3=B8rn_Mork?= <bjorn@mork.no>
-To: Aleksander Morgado <aleksandermj@chromium.org>
-Cc: oneukum@suse.com, linux-usb@vger.kernel.org, gregkh@linuxfoundation.org,
-        linux@roeck-us.net, linux-kernel@vger.kernel.org,
-        ejcaruso@chromium.org
-Subject: Re: [PATCH] usb: cdc-wdm: close race between read and workqueue
-Organization: m
-References: <385a3519-b45d-48c5-a6fd-a3fdb6bec92f@chromium.org>
-Date: Mon, 15 Apr 2024 08:47:19 +0200
-In-Reply-To: <385a3519-b45d-48c5-a6fd-a3fdb6bec92f@chromium.org> (Aleksander
-	Morgado's message of "Mon, 15 Apr 2024 05:42:06 +0000")
-Message-ID: <87mspvi0lk.fsf@miraculix.mork.no>
-User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/28.2 (gnu/linux)
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="NAgybvLs"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1713164324; x=1744700324;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=zfww0Wo2P7sSM8KWNzZdQqLcfyZOloB9r7adpSfjsko=;
+  b=NAgybvLsiBH+P5YS6FcnFsnN2UTqNJgGhc4cvYcptP5vAgoQQ4m/LWfu
+   8ecutUvHTvaPzX5iYAsenYmEvdTOGJctfuVPlpPMlOLf4lepP9XyeqD9g
+   7TCsqPWVpoCg+q0x6DKf2HCgiYernpFk83VaOlfRXi6JFEO6OmK/utlDm
+   m/hPF0NH1K31eI/uw7CWsjpXngm9vr9DLypy/kitLhqcQBMQIbFRLSjXT
+   eFaEg3TYYFbGmxBML1Q9ysMRYk1xPuIAx03WIYenU9z1V0uH1EqopE/Fu
+   19MXan4csmdjRAqjEGeg8zuMtYFvxSnQN4si8WNAbFKFCaP6wm3yQpMTN
+   w==;
+X-CSE-ConnectionGUID: U6Q9E9ZuT2K7Z1QKeB/WCQ==
+X-CSE-MsgGUID: 7arF35L4Q2u5xPUgIK3/Qw==
+X-IronPort-AV: E=McAfee;i="6600,9927,11044"; a="8393078"
+X-IronPort-AV: E=Sophos;i="6.07,202,1708416000"; 
+   d="scan'208";a="8393078"
+Received: from orviesa003.jf.intel.com ([10.64.159.143])
+  by fmvoesa112.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 14 Apr 2024 23:58:43 -0700
+X-CSE-ConnectionGUID: LFv7NqOrS8+x5/7bu+fpaw==
+X-CSE-MsgGUID: zoJdnraxStG3XzXTvNfKNA==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.07,202,1708416000"; 
+   d="scan'208";a="26494139"
+Received: from kuha.fi.intel.com ([10.237.72.185])
+  by orviesa003.jf.intel.com with SMTP; 14 Apr 2024 23:58:39 -0700
+Received: by kuha.fi.intel.com (sSMTP sendmail emulation); Mon, 15 Apr 2024 09:58:38 +0300
+Date: Mon, 15 Apr 2024 09:58:38 +0300
+From: Heikki Krogerus <heikki.krogerus@linux.intel.com>
+To: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	Neil Armstrong <neil.armstrong@linaro.org>,
+	linux-usb@vger.kernel.org, linux-arm-msm@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	Krishna Kurapati <quic_kriskura@quicinc.com>
+Subject: Re: [PATCH v2 2/5] usb: typec: ucsi: glink: move GPIO reading into
+ connector_status callback
+Message-ID: <ZhzQHoJLJzska3fd@kuha.fi.intel.com>
+References: <20240411-ucsi-orient-aware-v2-0-d4b1cb22a33f@linaro.org>
+ <20240411-ucsi-orient-aware-v2-2-d4b1cb22a33f@linaro.org>
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
-X-Virus-Scanned: clamav-milter 1.0.3 at canardo
-X-Virus-Status: Clean
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20240411-ucsi-orient-aware-v2-2-d4b1cb22a33f@linaro.org>
 
-Aleksander Morgado <aleksandermj@chromium.org> writes:
-> On 3/14/24 11:50, Oliver Neukum wrote:
->> wdm_read() cannot race with itself. However, in
->> service_outstanding_interrupt() it can race with the
->> workqueue, which can be triggered by error handling.
->> Hence we need to make sure that the WDM_RESPONDING
->> flag is not just only set but tested.
->> Fixes: afba937e540c9 ("USB: CDC WDM driver")
->> Signed-off-by: Oliver Neukum <oneukum@suse.com>
->
-> We are not aware of all the details involved in this patch, but we had
-> to revert it in all the different ChromeOS kernel versions where we
-> had it cherry-picked, because it broke the MBIM communication with the
-> Intel XMM based Fibocomm L850 modem. Other modems shipped in
-> Chromebooks like the QC based Fibocomm FM101 don't seem to be
-> affected.
->
-> Attached is an example output of mbimcli talking directly to the
-> cdc-wdm port (i.e. without ModemManager or the mbim-proxy). In the
-> example, we are receiving a bunch of different messages from previous
-> mbimcli runs. Looking at the timestamps, it looks as if we only
-> receive a message right after we have sent one, e.g. after each "open
-> request" we end up receiving responses for requests sent in earlier
-> runs; or something along those lines.
->
-> Is this bad behavior of this specific modem chipset, and if so, how
-> can we workaround it? If you need any additional information or help
-> to test new patches, let us know.
+On Thu, Apr 11, 2024 at 07:49:54AM +0300, Dmitry Baryshkov wrote:
+> To simplify the platform code move Type-C orientation handling into the
+> connector_status callback. As it is called both during connector
+> registration and on connector change events, duplicated code from
+> pmic_glink_ucsi_register() can be dropped.
+> 
+> Also this moves operations that can sleep into a worker thread,
+> removing the only sleeping operation from pmic_glink_ucsi_notify().
+> 
+> Tested-by: Krishna Kurapati <quic_kriskura@quicinc.com>
+> Signed-off-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
 
-I'm not sure I understand what problem that patch is supposed to fix.
-Which means that everything I write could be completely wrong...
+Reviewed-by: Heikki Krogerus <heikki.krogeurs@linux.intel.com>
 
-But to me it looks like the described issue is exactly what you should
-expect if that change ever triggers.  I believe we must resubmit the
-urb from service_outstanding_interrupt(). That's why it was added. See
-the explanation Robert wrote when introducing it:
-https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/commit/d=
-rivers/usb/class/cdc-wdm.c?id=3Dc1da59dad0ebd3f9bd238f3fff82b1f7ffda7829
+> ---
+>  drivers/usb/typec/ucsi/ucsi_glink.c | 48 ++++++++++++++++---------------------
+>  1 file changed, 20 insertions(+), 28 deletions(-)
+> 
+> diff --git a/drivers/usb/typec/ucsi/ucsi_glink.c b/drivers/usb/typec/ucsi/ucsi_glink.c
+> index b91d2d15d7d9..d21f8cd2fe35 100644
+> --- a/drivers/usb/typec/ucsi/ucsi_glink.c
+> +++ b/drivers/usb/typec/ucsi/ucsi_glink.c
+> @@ -187,10 +187,28 @@ static int pmic_glink_ucsi_sync_write(struct ucsi *__ucsi, unsigned int offset,
+>  	return ret;
+>  }
+>  
+> +static void pmic_glink_ucsi_connector_status(struct ucsi_connector *con)
+> +{
+> +	struct pmic_glink_ucsi *ucsi = ucsi_get_drvdata(con->ucsi);
+> +	int orientation;
+> +
+> +	if (con->num >= PMIC_GLINK_MAX_PORTS ||
+> +	    !ucsi->port_orientation[con->num - 1])
+> +		return;
+> +
+> +	orientation = gpiod_get_value(ucsi->port_orientation[con->num - 1]);
+> +	if (orientation >= 0) {
+> +		typec_switch_set(ucsi->port_switch[con->num - 1],
+> +				 orientation ? TYPEC_ORIENTATION_REVERSE
+> +				 : TYPEC_ORIENTATION_NORMAL);
+> +	}
+> +}
+> +
+>  static const struct ucsi_operations pmic_glink_ucsi_ops = {
+>  	.read = pmic_glink_ucsi_read,
+>  	.sync_write = pmic_glink_ucsi_sync_write,
+> -	.async_write = pmic_glink_ucsi_async_write
+> +	.async_write = pmic_glink_ucsi_async_write,
+> +	.connector_status = pmic_glink_ucsi_connector_status,
+>  };
+>  
+>  static void pmic_glink_ucsi_read_ack(struct pmic_glink_ucsi *ucsi, const void *data, int len)
+> @@ -229,20 +247,8 @@ static void pmic_glink_ucsi_notify(struct work_struct *work)
+>  	}
+>  
+>  	con_num = UCSI_CCI_CONNECTOR(cci);
+> -	if (con_num) {
+> -		if (con_num <= PMIC_GLINK_MAX_PORTS &&
+> -		    ucsi->port_orientation[con_num - 1]) {
+> -			int orientation = gpiod_get_value(ucsi->port_orientation[con_num - 1]);
+> -
+> -			if (orientation >= 0) {
+> -				typec_switch_set(ucsi->port_switch[con_num - 1],
+> -						 orientation ? TYPEC_ORIENTATION_REVERSE
+> -							     : TYPEC_ORIENTATION_NORMAL);
+> -			}
+> -		}
+> -
+> +	if (con_num)
+>  		ucsi_connector_change(ucsi->ucsi, con_num);
+> -	}
+>  
+>  	if (ucsi->sync_pending &&
+>  		   (cci & (UCSI_CCI_ACK_COMPLETE | UCSI_CCI_COMMAND_COMPLETE))) {
+> @@ -253,20 +259,6 @@ static void pmic_glink_ucsi_notify(struct work_struct *work)
+>  static void pmic_glink_ucsi_register(struct work_struct *work)
+>  {
+>  	struct pmic_glink_ucsi *ucsi = container_of(work, struct pmic_glink_ucsi, register_work);
+> -	int orientation;
+> -	int i;
+> -
+> -	for (i = 0; i < PMIC_GLINK_MAX_PORTS; i++) {
+> -		if (!ucsi->port_orientation[i])
+> -			continue;
+> -		orientation = gpiod_get_value(ucsi->port_orientation[i]);
+> -
+> -		if (orientation >= 0) {
+> -			typec_switch_set(ucsi->port_switch[i],
+> -					 orientation ? TYPEC_ORIENTATION_REVERSE
+> -					     : TYPEC_ORIENTATION_NORMAL);
+> -		}
+> -	}
+>  
+>  	ucsi_register(ucsi->ucsi);
+>  }
+> 
+> -- 
+> 2.39.2
 
-As for the XMM behaviour: it's been a long time since I tried any of
-those, but AFAIR one the major differences compared to Qualcomm was the
-strict queue handling in the firmware.  This caused a number of problems
-where the cdc-wdm driver wanted to skip a message for some reason.  So
-I'm not surprised that a bug like this is triggered by one of those
-modems. That's probably the only thing they are good for :-)
-
-
-
-Bj=C3=B8rn
+-- 
+heikki
