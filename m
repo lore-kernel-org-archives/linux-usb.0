@@ -1,59 +1,60 @@
-Received: from mail-lj1-f177.google.com (mail-lj1-f177.google.com [209.85.208.177])
+Received: from mail-lf1-f52.google.com (mail-lf1-f52.google.com [209.85.167.52])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4C8A8210EC
-	for <linux-usb@vger.kernel.org>; Tue, 16 Apr 2024 02:21:00 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.177
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B631A38FAD
+	for <linux-usb@vger.kernel.org>; Tue, 16 Apr 2024 02:21:01 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.52
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1713234062; cv=none; b=gfTgEjPaaC2Qs0zZBD8KeTKjfKzfNaEbnOhUBHq5JITu2ef8GMbtqLSQ/r+QSn6CZriZtn11RNUf3U3TUTUquJV1zHi4+limKbVSO/SiSdnE6Cj6YraPB+Geh5XhlHajamUk8mwIvmj/xjCcXQivCiVRi1Zw/Aovjuiq+yG9/S8=
+	t=1713234065; cv=none; b=PKYjNr+1BMtsuu/wtW8CrMRojF/JBwA6xHxSupaao/V1NYgMZpzIQifu76nlKPJNCg0s3rfxA/+RwQW+xrLwwt5pa3Lv4Tya1AfWgKV4lwWOq8Xy0OW+8FMCgJBF/R0O6tJcjW653wr5xUlkecthzhfnpTCsBdj9KoViXsMJPt0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1713234062; c=relaxed/simple;
-	bh=SToAHymtfQGBKZLpbR0Oic69HFLPWamTvWh5j26sXtY=;
+	s=arc-20240116; t=1713234065; c=relaxed/simple;
+	bh=AfSx2w3/c0hCJlrKpU+5864hNOPEGMqvFqOcHBDjtXs=;
 	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
-	 In-Reply-To:To:Cc; b=VZIGTVaFMxf6EXWqzyn96PGC6cYpD2LW+TOCXyN2NcKOMNyEjHRAqW2gsce6n/H1nGnYI5nflSjWITomftFz3gPxFnv/BiVAg28EA3f3bxKSNkAu6m9SATzkFoW6ZeaWquy3881HBNL041nQcmHhSuvJTy19e1FBkCfsVsj8x48=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=x+/HNUs8; arc=none smtp.client-ip=209.85.208.177
+	 In-Reply-To:To:Cc; b=kZxgXawWMwnE/f9RnJAeL9Ub3U6itBVhzFe//5N469BHFijRjUySz4GBmWbBJuRMIvuxdrSZETyXAVUWOVf30w5S3URgGTiHjR79ma5i0uCV9r82vxMpyjfN4eL4bEx2nDPWHMFnW3xGcXbV2FVnZBZBAkw2NykM0z72xAXlLgw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=A016eNl2; arc=none smtp.client-ip=209.85.167.52
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="x+/HNUs8"
-Received: by mail-lj1-f177.google.com with SMTP id 38308e7fff4ca-2da88833109so22605441fa.0
-        for <linux-usb@vger.kernel.org>; Mon, 15 Apr 2024 19:21:00 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="A016eNl2"
+Received: by mail-lf1-f52.google.com with SMTP id 2adb3069b0e04-516d2600569so4885807e87.0
+        for <linux-usb@vger.kernel.org>; Mon, 15 Apr 2024 19:21:01 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1713234058; x=1713838858; darn=vger.kernel.org;
+        d=linaro.org; s=google; t=1713234060; x=1713838860; darn=vger.kernel.org;
         h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
          :mime-version:subject:date:from:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=WU7kkHqmeD8WLGIOtmqDI6a+4uwK8HkBVPKBTEJy0EU=;
-        b=x+/HNUs8dqMsD5di6b2GsS+M2svZJIXiS8gmeHeEw3+FPOrOy6Z0jjEdxiukxkTkYp
-         p7XpH+tDD+3rJ1YDAdCGJsZPG0IMXTIguKrmr6xz6AR9LU3ikW0Knwo/IqFwL4OLqIj0
-         h9J+4IfzuMS/0bSl/ycr3OYQnA/9eFKWRUE0K+nZt1kNYjCM9a5t7jKqTDl2gNUyDsbU
-         jF0YbDgeqUBLftO0fT2Te5P7PLUWvaNJz0Uv1GrQlVvyoGK/kAhHUQTdxqro4VV/whZU
-         nbApmUj/WeyBVVRlYaIfuNyJlnbjsHTO6PDS+iCDUYm8xt0tAzgMsCLG48BV8w6x7nuX
-         jlzQ==
+        bh=9V8cEgal1TbWwyBmW+Q6Q9L+VvqZVNAIU21myUFXfYc=;
+        b=A016eNl224UmKON4ECEOPkNCnZZ9QgX0NtGgTaLpyL+G65Duh+aEY5sOimsgxPIUTl
+         4VibizLFCiGAv810fYysB5y4Lg1B1ICpm0toq0U/Th02AgYu/6PRye8hOzvPBxp0Af3t
+         5wuBeDeKHjT9gxApcp8i0mkBndUEP820e/EyAdn0dsIE+itjjNVCYmpj/pA4hWeY9x9s
+         eG+mEbkZu0YSqjS9/IdrI6HUmHYOwKlFVLN74S7kVpgPdzt0xv2qu9LsXyWA3ZG8tRxu
+         lDWiYovh/om5bXSWVr4p9yZdyGlBwQ97oPXd/AYm2nqLVyNI9kMeOvPdVI8YkoOO0sOc
+         az6w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1713234058; x=1713838858;
+        d=1e100.net; s=20230601; t=1713234060; x=1713838860;
         h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
          :mime-version:subject:date:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=WU7kkHqmeD8WLGIOtmqDI6a+4uwK8HkBVPKBTEJy0EU=;
-        b=KUlkULtavVy3xuiXmXfZsWjvULrM8fWPe3n7fR3Brrb7ky1WstYlLPc1KnFvuuSpxZ
-         a3ZkezAmXRfGLIVP8eixGOTS/XLMUmgJIxYsvgqgx3rq5P+dypAMKO5B9dkULvh4ctNt
-         uz6Ae+XeiUmdjg2CY0TGOgS9vyfABuEjTxnYktxIbtLRHPrI7e2Q/HCPEVrJxcY+aacL
-         m6wbgLHcJCYTEej3EG0IAZ+lgGqHOz4GhEYWEAZPMv8nbylnI843FdAJ1K3BwfjqpXgc
-         zQllVi8c+XcfU2DLYn/atuN75kbgIDPm6anibNbRskpGLfB6jSl0bJ85HUoNfsd6sk55
-         wqpA==
-X-Gm-Message-State: AOJu0YxKvd+MnM5Xb/hil1oeSy1pDmupOdYXqdnTq0Mt2OvhHVcYrs9i
-	OKUPu07mja6sy/Y8Rr+GO1uvjWaWb2qAzbvp143ACs3YF67Sj2Bihvdw4GoNvPg=
-X-Google-Smtp-Source: AGHT+IHOVwyxCsFGxzMB7VCkX79Ri++G8vkHqYJkw7PDN/FaNvbEMg6uvmiAAxAardy8Z0daJuJWcQ==
-X-Received: by 2002:ac2:5931:0:b0:515:99f6:2ca4 with SMTP id v17-20020ac25931000000b0051599f62ca4mr7434912lfi.36.1713234058533;
-        Mon, 15 Apr 2024 19:20:58 -0700 (PDT)
+        bh=9V8cEgal1TbWwyBmW+Q6Q9L+VvqZVNAIU21myUFXfYc=;
+        b=m3sp1m+HI8ABVXDf94bQqJHTrEMz+/IRgbA6jwwy5Ccm26wB3pHTWAs518P11t45pg
+         q05hF4obGFUM8BPCp6NGz0yoFqVHbe6xHTpZcdyUa04e/LmAw+ZjfKZ3rsIJ9F9Yect4
+         Hi6VuxodUN2exF8+QC/xj7t+Uz+oT7TZYGdYa7e1dPdYCQWm7ZCMo/dhlhYQ8zgLm7Ba
+         pA36kSb4WXNONO/RhhimOEET/2U5Z6crswLqlaTfAZ2WQCmnLeEU7isTGmnhWpOHPyDE
+         xfG2tuzxie4233hlAsZZKDUm5w8x62vG3Gw6uSIlrYDmzXuR0ssrS/MCGrFSPYrL7o4c
+         xAQg==
+X-Gm-Message-State: AOJu0YxHKi1j2d6ny7P4GeI0kHX6r/pG3LwkQyDY8lzy+gNTDzHZGlRq
+	c8Gqzr71fd1gLH+7jyQhrQ8mgz6T8xTTL70/tW4skiOj0Tb0NQWFF3c3wFuTb5k=
+X-Google-Smtp-Source: AGHT+IGyQaYS8RevNllQyrP0oEooS7X5J8syFdRpTCB0kNcCSxzdhD34x/6DyY1adfOW1ao9Ciw98g==
+X-Received: by 2002:ac2:4c43:0:b0:513:cbde:8764 with SMTP id o3-20020ac24c43000000b00513cbde8764mr9833393lfk.57.1713234060112;
+        Mon, 15 Apr 2024 19:21:00 -0700 (PDT)
 Received: from umbar.lan ([192.130.178.91])
-        by smtp.gmail.com with ESMTPSA id bi30-20020a0565120e9e00b0051925dd92dbsm27716lfb.214.2024.04.15.19.20.57
+        by smtp.gmail.com with ESMTPSA id bi30-20020a0565120e9e00b0051925dd92dbsm27716lfb.214.2024.04.15.19.20.59
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 15 Apr 2024 19:20:58 -0700 (PDT)
+        Mon, 15 Apr 2024 19:20:59 -0700 (PDT)
 From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-Date: Tue, 16 Apr 2024 05:20:55 +0300
-Subject: [PATCH 6/8] usb: typec: ucsi: add ucsi_registered() callback
+Date: Tue, 16 Apr 2024 05:20:57 +0300
+Subject: [PATCH 8/8] soc: qcom: pmic-glink: drop separate altmode driver
+ support
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
@@ -62,7 +63,7 @@ List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20240416-ucsi-glink-altmode-v1-6-890db00877ac@linaro.org>
+Message-Id: <20240416-ucsi-glink-altmode-v1-8-890db00877ac@linaro.org>
 References: <20240416-ucsi-glink-altmode-v1-0-890db00877ac@linaro.org>
 In-Reply-To: <20240416-ucsi-glink-altmode-v1-0-890db00877ac@linaro.org>
 To: Heikki Krogerus <heikki.krogerus@linux.intel.com>, 
@@ -74,64 +75,92 @@ Cc: linux-usb@vger.kernel.org, linux-kernel@vger.kernel.org,
  linux-arm-msm@vger.kernel.org, 
  Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
 X-Mailer: b4 0.13.0
-X-Developer-Signature: v=1; a=openpgp-sha256; l=1914;
+X-Developer-Signature: v=1; a=openpgp-sha256; l=2705;
  i=dmitry.baryshkov@linaro.org; h=from:subject:message-id;
- bh=SToAHymtfQGBKZLpbR0Oic69HFLPWamTvWh5j26sXtY=;
- b=owEBbQGS/pANAwAKAYs8ij4CKSjVAcsmYgBmHeCEZyNdqdYdy5k8fktQr8KpTHz9ht3CfWxcR
- qepO/zIpF6JATMEAAEKAB0WIQRMcISVXLJjVvC4lX+LPIo+Aiko1QUCZh3ghAAKCRCLPIo+Aiko
- 1ZrzB/0ZMtTNXuCJ9qcQq7KFdJhCrQYMdE0BtbgFMtTDhBe7lE42wRn06wEkhA43KUWPV6YgyV8
- E0Ov94SXw2ICzurfz+SU3dkMOIMiIBcDdWw6eUcHL2TbrKs43knPvLabUVty+8z55DIH0OtK/bX
- cpLQrX+TWz29PzjS+Cg4qWtLqZInpCRmAZhgQLKWMtU0/5yJMViLXok0OlHg8NQBAvRcxtWngB1
- eV74DpLPKHikHjbUdMZjKGBEQ39pwslBTFyScRt6FxKZ0meiZt87PeQnmaev7LT2VKyaMQ1AJHf
- POyvzEWkd5XEcFYrzRTudraH9xZXQW3PUgVojHbLLGm6TG5O
+ bh=AfSx2w3/c0hCJlrKpU+5864hNOPEGMqvFqOcHBDjtXs=;
+ b=owEBbQGS/pANAwAKAYs8ij4CKSjVAcsmYgBmHeCEEss+ANOz+iQrw9s6j825uZfQsAt0vUk87
+ qnuuNlshTeJATMEAAEKAB0WIQRMcISVXLJjVvC4lX+LPIo+Aiko1QUCZh3ghAAKCRCLPIo+Aiko
+ 1SYKB/0R6aLKQQv9hD+ukgqzQ1mpJSGht/9kepyQCSuzhgLG9Pqljx3agzN3UzPOthxCUB7cQAJ
+ 6Y9NihCH/JfwcNmYKxN1NEYm2erHlXwMq4IrImYdI4AM77Iiefv+K2JOGHDuauLWtIu36JinMev
+ NjeQQp/kdb3UU7BPkfbs4VARFN8j1uhm0jtcTSQJq5HjsOlTZMGcUI26zbUPzZeR5yzYUcVbHRh
+ Ek7X4/RhfzUeYhwGaelz8btV1b5VLhlLxvOnSA2NFX7SnvZULtxjIEqxjNpilYj/Odq5KhvmNOT
+ 7lMCtZEavKoNO6URqDZStsR5TKQvs6VlUFqUrP0XlQp/Q1IB
 X-Developer-Key: i=dmitry.baryshkov@linaro.org; a=openpgp;
  fpr=8F88381DD5C873E4AE487DA5199BF1243632046A
 
-As the registration of the UCSI device is performed from the scheduled
-worker, the glue driver isn't notified when the UCSI registration
-succeeds. The ucsi_glink driver needs this event to be able to manually
-register DisplayPort altmodes.
+As the separate pmic_glink_altmode driver has been merged to the
+UCSI glink glue driver and the UCSI is now enabled on all platforms,
+drop separate altmode device support in the pmic_glink driver.
 
 Signed-off-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
 ---
- drivers/usb/typec/ucsi/ucsi.c | 3 +++
- drivers/usb/typec/ucsi/ucsi.h | 2 ++
- 2 files changed, 5 insertions(+)
+ drivers/soc/qcom/pmic_glink.c | 15 +--------------
+ 1 file changed, 1 insertion(+), 14 deletions(-)
 
-diff --git a/drivers/usb/typec/ucsi/ucsi.c b/drivers/usb/typec/ucsi/ucsi.c
-index cb52e7b0a2c5..ae89c4c8341d 100644
---- a/drivers/usb/typec/ucsi/ucsi.c
-+++ b/drivers/usb/typec/ucsi/ucsi.c
-@@ -1755,6 +1755,9 @@ static int ucsi_init(struct ucsi *ucsi)
- 	if (UCSI_CCI_CONNECTOR(cci))
- 		ucsi_connector_change(ucsi, UCSI_CCI_CONNECTOR(cci));
+diff --git a/drivers/soc/qcom/pmic_glink.c b/drivers/soc/qcom/pmic_glink.c
+index dcea33f93fae..680954334b7f 100644
+--- a/drivers/soc/qcom/pmic_glink.c
++++ b/drivers/soc/qcom/pmic_glink.c
+@@ -14,7 +14,6 @@
  
-+	if (ucsi->ops->ucsi_registered)
-+		ucsi->ops->ucsi_registered(ucsi);
-+
- 	return 0;
- 
- err_unregister:
-diff --git a/drivers/usb/typec/ucsi/ucsi.h b/drivers/usb/typec/ucsi/ucsi.h
-index c4d103db9d0f..37ee1b1d8c31 100644
---- a/drivers/usb/typec/ucsi/ucsi.h
-+++ b/drivers/usb/typec/ucsi/ucsi.h
-@@ -62,6 +62,7 @@ struct dentry;
-  * @update_altmodes: Squashes duplicate DP altmodes
-  * @update_connector: Update connector capabilities before registering
-  * @connector_status: Updates connector status, called holding connector lock
-+ * @ucsi_registered: notify host driver when the UCSI interface is registered
-  *
-  * Read and write routines for UCSI interface. @sync_write must wait for the
-  * Command Completion Event from the PPM before returning, and @async_write must
-@@ -78,6 +79,7 @@ struct ucsi_operations {
- 				struct ucsi_altmode *updated);
- 	void (*update_connector)(struct ucsi_connector *con);
- 	void (*connector_status)(struct ucsi_connector *con);
-+	void (*ucsi_registered)(struct ucsi *ucsi);
+ enum {
+ 	PMIC_GLINK_CLIENT_BATT = 0,
+-	PMIC_GLINK_CLIENT_ALTMODE,
+ 	PMIC_GLINK_CLIENT_UCSI,
  };
  
- struct ucsi *ucsi_create(struct device *dev, const struct ucsi_operations *ops);
+@@ -26,7 +25,6 @@ struct pmic_glink {
+ 
+ 	unsigned long client_mask;
+ 
+-	struct auxiliary_device altmode_aux;
+ 	struct auxiliary_device ps_aux;
+ 	struct auxiliary_device ucsi_aux;
+ 
+@@ -294,15 +292,10 @@ static int pmic_glink_probe(struct platform_device *pdev)
+ 		if (ret)
+ 			goto out_release_pdr_handle;
+ 	}
+-	if (pg->client_mask & BIT(PMIC_GLINK_CLIENT_ALTMODE)) {
+-		ret = pmic_glink_add_aux_device(pg, &pg->altmode_aux, "altmode");
+-		if (ret)
+-			goto out_release_ucsi_aux;
+-	}
+ 	if (pg->client_mask & BIT(PMIC_GLINK_CLIENT_BATT)) {
+ 		ret = pmic_glink_add_aux_device(pg, &pg->ps_aux, "power-supply");
+ 		if (ret)
+-			goto out_release_altmode_aux;
++			goto out_release_ucsi_aux;
+ 	}
+ 
+ 	service = pdr_add_lookup(pg->pdr, "tms/servreg", "msm/adsp/charger_pd");
+@@ -321,9 +314,6 @@ static int pmic_glink_probe(struct platform_device *pdev)
+ out_release_aux_devices:
+ 	if (pg->client_mask & BIT(PMIC_GLINK_CLIENT_BATT))
+ 		pmic_glink_del_aux_device(pg, &pg->ps_aux);
+-out_release_altmode_aux:
+-	if (pg->client_mask & BIT(PMIC_GLINK_CLIENT_ALTMODE))
+-		pmic_glink_del_aux_device(pg, &pg->altmode_aux);
+ out_release_ucsi_aux:
+ 	if (pg->client_mask & BIT(PMIC_GLINK_CLIENT_UCSI))
+ 		pmic_glink_del_aux_device(pg, &pg->ucsi_aux);
+@@ -341,8 +331,6 @@ static void pmic_glink_remove(struct platform_device *pdev)
+ 
+ 	if (pg->client_mask & BIT(PMIC_GLINK_CLIENT_BATT))
+ 		pmic_glink_del_aux_device(pg, &pg->ps_aux);
+-	if (pg->client_mask & BIT(PMIC_GLINK_CLIENT_ALTMODE))
+-		pmic_glink_del_aux_device(pg, &pg->altmode_aux);
+ 	if (pg->client_mask & BIT(PMIC_GLINK_CLIENT_UCSI))
+ 		pmic_glink_del_aux_device(pg, &pg->ucsi_aux);
+ 
+@@ -352,7 +340,6 @@ static void pmic_glink_remove(struct platform_device *pdev)
+ }
+ 
+ static const unsigned long pmic_glink_sm8450_client_mask = BIT(PMIC_GLINK_CLIENT_BATT) |
+-							   BIT(PMIC_GLINK_CLIENT_ALTMODE) |
+ 							   BIT(PMIC_GLINK_CLIENT_UCSI);
+ 
+ static const struct of_device_id pmic_glink_of_match[] = {
 
 -- 
 2.39.2
