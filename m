@@ -1,138 +1,92 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.16])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-lf1-f44.google.com (mail-lf1-f44.google.com [209.85.167.44])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6768812BF2A;
-	Tue, 16 Apr 2024 13:48:39 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.16
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BF21182D9D
+	for <linux-usb@vger.kernel.org>; Tue, 16 Apr 2024 14:30:39 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.44
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1713275321; cv=none; b=Chc+6ZnfsYFLuW8hj1U7zVnSdgbS7n+Sph4hFtAlp7RcK/LHy6HutOgsNzLwhcWBrizml0J+t2Hek9n8WhkP3Dgl2ntHWhRo6nZ/AsetULjy1aKpzRmh+O/6z2tRk1K/LlXFuh9fspvEVpR8QfFq2fpR5l6PVn0Y4bJjkhFv70E=
+	t=1713277841; cv=none; b=Y3T5FlMxHwy/RSKc9kFZcLuX4+XsISlyMYxJOFtJJt7XOYf6vyU0hNgH9T1buWekYA9EVQQOjuCluZwrVgeJPqleKja47Thcfu7b2aGeUKCrjgDwAaJh9JHOf8jfiYVbus+DpabhLe4vL7mrji1EB6yDQpSt37y5tDhhnC3gTeY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1713275321; c=relaxed/simple;
-	bh=Oip3+4PrV0FMvAgVwYG7/089d61ifwAWxkR30pZ6edY=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=QKg618ksre6d9I5p5WIH+ZFJlUwpa95HaDwhHDCoHbhaMM93lIui2aGkerxzZ0eaLAE/sUpMOCM+bFzCopjo7kCNNwNG0QigwVtg+nFSO2urAa1Z1cVWi8FwzDwKbmWHDNWpxRuHrv3l/CgB4BgnsK0d/Np34D3yDDgooSRTOHg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=f/qWE53G; arc=none smtp.client-ip=198.175.65.16
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	s=arc-20240116; t=1713277841; c=relaxed/simple;
+	bh=CAARwFVs3yKtCFYh6SSnNVSgkeqkGD+D2UB4mgMiryI=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=G2zZWScykXymYeGyH8p7k/7wYhpSZruR4p8JDmEV1c0jmjuzAot8E+BZ005QIhPXF0PR+VAM75AJUayzYrnF6+jdDMyOXkyW4C+KGrr2ek92Sl8Ej+ccdaCLPBjGepOkB7SLGY5Y2twaBB0s0KmACfuMSz0EQLD9Boy8o29Wd4c=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=Ca2BeV89; arc=none smtp.client-ip=209.85.167.44
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="f/qWE53G"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1713275320; x=1744811320;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:content-transfer-encoding:in-reply-to;
-  bh=Oip3+4PrV0FMvAgVwYG7/089d61ifwAWxkR30pZ6edY=;
-  b=f/qWE53GG4LM/Wz9rT0xVBBw97QnqzuREfIMadU1gkDpltWAI7rDEffa
-   e5Q7HFVYrIHjBBdvv0phMIMigRenBbqTn+d0qfnH05uwI8+Qu2YQu0tFE
-   SXUwX9ye7djt/wSbaPLIZSAl1zw23CakDLgSONL/ejLEj0+Si4oZIQ9Zy
-   hPPyA/ln+uIrwwWCgeLmUHsd6kOzQvJYrl4m8tsNCPv3Fz0DSVrsDG/Zo
-   5W6jx2YV7egrypl1gBEHK1eCtx2yR+hK9Q7QArFNoLOVTUCWI7zJkxh/C
-   4c9U0HcpChUGE1U04vPC7Zq+NYwe4ytJtSdl23FtBSeWnEqzIkhuzJ8Lu
-   A==;
-X-CSE-ConnectionGUID: KO7/Yg9URuS2xb10rfkG5A==
-X-CSE-MsgGUID: lnhd2FcaQdagmezp8qEubQ==
-X-IronPort-AV: E=McAfee;i="6600,9927,11046"; a="8838455"
-X-IronPort-AV: E=Sophos;i="6.07,206,1708416000"; 
-   d="scan'208";a="8838455"
-Received: from fmviesa001.fm.intel.com ([10.60.135.141])
-  by orvoesa108.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 16 Apr 2024 06:48:39 -0700
-X-CSE-ConnectionGUID: rDgqA8g5SjaGFC/H2FdqcA==
-X-CSE-MsgGUID: zEFE+wLAQ6S0aqY9WueuoQ==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.07,206,1708416000"; 
-   d="scan'208";a="53445503"
-Received: from smile.fi.intel.com ([10.237.72.54])
-  by fmviesa001.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 16 Apr 2024 06:48:35 -0700
-Received: from andy by smile.fi.intel.com with local (Exim 4.97)
-	(envelope-from <andriy.shevchenko@intel.com>)
-	id 1rwjAn-00000004i6e-19hx;
-	Tue, 16 Apr 2024 16:48:33 +0300
-Date: Tue, 16 Apr 2024 16:48:32 +0300
-From: Andy Shevchenko <andriy.shevchenko@intel.com>
-To: Ferry Toth <fntoth@gmail.com>
-Cc: Hardik Gajjar <hgajjar@de.adit-jv.com>, gregkh@linuxfoundation.org,
-	s.hauer@pengutronix.de, jonathanh@nvidia.com,
-	linux-usb@vger.kernel.org, linux-kernel@vger.kernel.org,
-	quic_linyyuan@quicinc.com, paul@crapouillou.net,
-	quic_eserrao@quicinc.com, erosca@de.adit-jv.com
-Subject: Re: [PATCH v4] usb: gadget: u_ether: Replace netif_stop_queue with
- netif_device_detach
-Message-ID: <Zh6BsK8F3gCzGJfE@smile.fi.intel.com>
-References: <ZaQS5x-XK08Jre6I@smile.fi.intel.com>
- <20240115132720.GA98840@vmlxhi-118.adit-jv.com>
- <f25283fc-4550-4725-960b-2ea783fd62e1@gmail.com>
- <aeee83d8-dee3-42ed-b705-988b17800721@gmail.com>
- <20240405113855.GA121923@vmlxhi-118.adit-jv.com>
- <321e908e-0d10-4e36-8dc4-6997c73fe2eb@gmail.com>
- <ZhbOZsp-XHemVhQz@smile.fi.intel.com>
- <20240411142637.GA110162@vmlxhi-118.adit-jv.com>
- <ZhgSPCq6sVejRjbj@smile.fi.intel.com>
- <be8904bd-71ea-4ae1-b0bc-9170461fd0d9@gmail.com>
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="Ca2BeV89"
+Received: by mail-lf1-f44.google.com with SMTP id 2adb3069b0e04-516d4d80d00so5492662e87.0
+        for <linux-usb@vger.kernel.org>; Tue, 16 Apr 2024 07:30:39 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google; t=1713277838; x=1713882638; darn=vger.kernel.org;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=qtlZKHIIRTPrmMPlNl8Y4g3IVRv6I4I2Gd41GRQ6SNE=;
+        b=Ca2BeV89Guy6F32bAlZwvBBu+IIfV9BGYU2y4i2dQl3lcI+5qbmD84jaxX5KpcSc5k
+         tw6ZHUXgC8zpmojotXgwUYTQT8LZ3gMoQDTEASVUrYA4nKmxepySJvtt/4dbjomCkt9t
+         tfgtGdjDaNpiUI/U4XaihQ7rYx8C5pZL0hQGQIweCzekCP8nTRNG0RIqr6wfVepq0D5L
+         kzjxS97DpHp3RpV+bQer2ymb5G5EJygtAbBaLheE0W6qnAVUg7cv6bdEP+DmInLWUiSg
+         QUqCBjwcJqw5B+YpiiVG8Xpr68C+HhhVmem4O6tA0T3yBnxgZG5qbAocng2SjDDGdlv8
+         O03g==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1713277838; x=1713882638;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=qtlZKHIIRTPrmMPlNl8Y4g3IVRv6I4I2Gd41GRQ6SNE=;
+        b=Ldj/T9bAO9KhqpkuLXL3RtWFsxx32raeRyuo97d3j0PFT5whUv+kJIgAEsXMPeUEKD
+         C7TOwbWoSf7Kk0rRiJ3xKb4/Xit2dCLPKaVv/8c2jB0/ifnDmKGvqG/fBe2EUxrUSxRA
+         nZFhZqAiNQ4VbThyStNmLDZFW4psqbApuZXr/p+1zKlOILo/PI7vx6vgKHoq/h0vCJ0x
+         9w8qtkhD46xNfZL8/PAOg4sEHqwcE2gmTpKjzO+Smt6N3jGxH5Z2Y3uK0iTynFK3JT0y
+         asyTDHOKtBz369DOnwP9v/suH4i6GBv6OB/q0HL27kRSzIDu/Wv0VtM9tZwlhtYGE/Td
+         aDgw==
+X-Gm-Message-State: AOJu0YwVvxyJWjktmyakQpUnvEtjBDQbJLLRW/++jYVRtzd8DQrjLAI9
+	M8BrJ0qT+7U8xYGkwO/p3UQFfKteKC36jW5yqM8wCfNJnLvtxH0NzMPfYaYOj/vEq3rcZAJtEXO
+	E/7o=
+X-Google-Smtp-Source: AGHT+IEMK3ToPpFre8TBGqqiH04egFU2RIZe5ZOa5Ve6c3up7Osw5BJsl/VXC/ZDiEBh5lIfs2bIVQ==
+X-Received: by 2002:a05:6512:280a:b0:518:e249:c10d with SMTP id cf10-20020a056512280a00b00518e249c10dmr5163603lfb.37.1713277838030;
+        Tue, 16 Apr 2024 07:30:38 -0700 (PDT)
+Received: from [172.30.205.49] (UNUSED.212-182-62-129.lubman.net.pl. [212.182.62.129])
+        by smtp.gmail.com with ESMTPSA id g8-20020a19e048000000b00516d2c05b3dsm1633547lfj.299.2024.04.16.07.30.36
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Tue, 16 Apr 2024 07:30:37 -0700 (PDT)
+Message-ID: <548f4b0e-b765-4184-8b90-eec7fe0e7f69@linaro.org>
+Date: Tue, 16 Apr 2024 16:30:36 +0200
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <be8904bd-71ea-4ae1-b0bc-9170461fd0d9@gmail.com>
-Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
-
-On Thu, Apr 11, 2024 at 10:52:36PM +0200, Ferry Toth wrote:
-> Op 11-04-2024 om 18:39 schreef Andy Shevchenko:
-> > On Thu, Apr 11, 2024 at 04:26:37PM +0200, Hardik Gajjar wrote:
-> > > On Wed, Apr 10, 2024 at 08:37:42PM +0300, Andy Shevchenko wrote:
-> > > > On Sun, Apr 07, 2024 at 10:51:51PM +0200, Ferry Toth wrote:
-> > > > > Op 05-04-2024 om 13:38 schreef Hardik Gajjar:
-
-...
-
-> > > > > Exactly. And this didn't happen before the 2 patches.
-> > > > > 
-> > > > > To be precise: /sys/class/net/usb0 is not removed and it is a link, the link
-> > > > > target /sys/devices/pci0000:00/0000:00:11.0/dwc3.0.auto/gadget.0/net/usb0 no
-> > > > > longer exists
-> > > So, it means that the /sys/class/net/usb0 is present, but the symlink is
-> > > broken. In that case, the dwc3 driver should recreate the device, and the
-> > > symlink should become active again
-> 
-> Yes, on first enabling gadget (when device mode is activated):
-> 
-> root@yuna:~# ls /sys/devices/pci0000:00/0000:00:11.0/dwc3.0.auto/gadget.0/
-> driver  net  power  sound  subsystem  suspended  uevent
-> 
-> Then switching to host mode:
-> 
-> root@yuna:~# ls /sys/devices/pci0000:00/0000:00:11.0/dwc3.0.auto/gadget.0/
-> ls: cannot access
-> '/sys/devices/pci0000:00/0000:00:11.0/dwc3.0.auto/gadget.0/': No such file
-> or directory
-> 
-> Then back to device mode:
-> 
-> root@yuna:~# ls /sys/devices/pci0000:00/0000:00:11.0/dwc3.0.auto/gadget.0/
-> driver  power  sound  subsystem  suspended  uevent
-> 
-> net is missing. But, network functions:
-> 
-> root@yuna:~# ping 10.42.0.1
-> PING 10.42.0.1 (10.42.0.1): 56 data bytes
-> 
-> Mass storage device is created and removed each time as expected.
-
-So, what's the conclusion? Shall we move towards revert of those two changes?
-
-> > > I have the dwc3 IP base usb controller, Let me check with this patch and
-> > > share result here.  May be we need some fix in dwc3
-> Would have been nice if someone could test on other controller as well. But
-> another instance of dwc3 is also very welcome.
-> > It's quite possible, please test on your side.
-> > We are happy to test any fixes if you come up with.
-
--- 
-With Best Regards,
-Andy Shevchenko
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH 1/8] usb: typec: Handle retimers in typec_set_mode()
+To: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
+ Heikki Krogerus <heikki.krogerus@linux.intel.com>,
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+ Neil Armstrong <neil.armstrong@linaro.org>,
+ Bjorn Andersson <andersson@kernel.org>
+Cc: linux-usb@vger.kernel.org, linux-kernel@vger.kernel.org,
+ linux-arm-msm@vger.kernel.org
+References: <20240416-ucsi-glink-altmode-v1-0-890db00877ac@linaro.org>
+ <20240416-ucsi-glink-altmode-v1-1-890db00877ac@linaro.org>
+Content-Language: en-US
+From: Konrad Dybcio <konrad.dybcio@linaro.org>
+In-Reply-To: <20240416-ucsi-glink-altmode-v1-1-890db00877ac@linaro.org>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 
 
+
+On 4/16/24 04:20, Dmitry Baryshkov wrote:
+> Make typec_set_mode() also handle retimers in addition to muxes. Setting
+> the USB mode requires retimers to be configured in addition to just
+> switching the mux configuration.
+> 
+> Signed-off-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+> ---
+
+Reviewed-by: Konrad Dybcio <konrad.dybcio@linaro.org>
+
+Konrad
