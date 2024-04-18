@@ -1,166 +1,190 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.9])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-lf1-f42.google.com (mail-lf1-f42.google.com [209.85.167.42])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D77125427E
-	for <linux-usb@vger.kernel.org>; Thu, 18 Apr 2024 05:06:26 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.9
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8A7452375B
+	for <linux-usb@vger.kernel.org>; Thu, 18 Apr 2024 06:38:40 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.42
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1713416789; cv=none; b=ZjdfbEtRL0HMKeR6wvhtGtWwenabnDVtQYDpJgw2AYt9/PhG6HDJLw0nFnsGwSYcFp7z4X5rsbMZc5qJ5hLL0Co3mRiuDqhzRZ9+tHnfTJopG9l1VE9fmeRAQrCrnBTBtCa+QYyBNMpn8zYkeiBOqqJXWzBlG4BP9CvzEKdY03M=
+	t=1713422323; cv=none; b=cPsN+Kaxm9TuBXU+7nlstinoTUNoqWSDaswjb9gh6MuDFfHL54redMFyBbZU8DymzeNYGW+K1a6UtO2aYTbAkRxwud6mQZ6QbsbU71Pnqn/ZwJx+fzxjlb82uMUYuRISFCp9tDE65RRX8zkG7J+Ks/ZxG7SILszWbXmRasCG0Ts=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1713416789; c=relaxed/simple;
-	bh=k7sOzYq4y47gWLgnPqxcEn2QUD9VvaVnnIrGbCNQ80A=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=BMbVMLOkjrxpAvMzHdokmGQm1EUixX1ZTqjQ8VghF+E0X9xmT9Lezvf8JZ+8I6aYZtzor2ZIqZmmLBDJ4p3Nmzmx2uGtSxf5sfTvHzV8Bmbsa268SkqSn+yu2HSIpLYqyJ2Mmm/2EWXnNlPSKujio+H7to8k9qHKoyUDQ4XsnYU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=none smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=F4OTfPIe; arc=none smtp.client-ip=198.175.65.9
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=linux.intel.com
+	s=arc-20240116; t=1713422323; c=relaxed/simple;
+	bh=Qyzrud7crPo74pZD8E9P8dWXUAXZm54kyHXrDz6cx78=;
+	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:To:Cc; b=AF05kuXLSd5jBoTAScvk7X9ADDV7ipw8OT1T9RGxGyU4Qr2nmzYkokQM3R2i2gune7UNICNvYY3deWS3kioP8pdZKT6IyjwjPuAk7hrpLjSqXfSspfB2wg6UH3pdKPIw3LRW8ay+TEgJ411sYCwHui0Qsdshu+H2cQLhveWEtYU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=Jv9VtSF6; arc=none smtp.client-ip=209.85.167.42
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="F4OTfPIe"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1713416787; x=1744952787;
-  h=from:to:cc:subject:date:message-id:mime-version:
-   content-transfer-encoding;
-  bh=k7sOzYq4y47gWLgnPqxcEn2QUD9VvaVnnIrGbCNQ80A=;
-  b=F4OTfPIeWu9MHO6z70LXPFDty4Ixj8CrISGrNI4+SfaFs+rrRf3w7Nvs
-   2hD8BxlnQM9Do58rNWF2UIDbhMMQishPM/w3Y/8qpNVijsfFN/fdB4W+H
-   MsS1ZH5inQvIb76Q+OtRCRhgE8nuVF1d5vTQHB3J6opKECx9eOdZghpvb
-   7WaNgXi38uDDILrzgKhNDAioYxKNupcsqbKPCJfu5saIUmYJWJVGwVvk+
-   D1UVbsjNFnW+Q/0aIA3PNya3MLmCYsBnBMsss6wZp/vRqzkMZI9p1uZvT
-   8PJbVbcyYA7xbGA8464oT+7dded1OAGDkSJzRvUb0CgQ26o3FGK5v67sG
-   A==;
-X-CSE-ConnectionGUID: kKkQWrzMT/G9ZLT01hgxhw==
-X-CSE-MsgGUID: NZWKFEGWRZOwaiQcZ+rHqg==
-X-IronPort-AV: E=McAfee;i="6600,9927,11047"; a="31418885"
-X-IronPort-AV: E=Sophos;i="6.07,211,1708416000"; 
-   d="scan'208";a="31418885"
-Received: from fmviesa007.fm.intel.com ([10.60.135.147])
-  by orvoesa101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 17 Apr 2024 22:06:26 -0700
-X-CSE-ConnectionGUID: 0ivulxC/TJm4ry4aufKorQ==
-X-CSE-MsgGUID: RBa9REyeQj6EcG4sgBN4/A==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.07,211,1708416000"; 
-   d="scan'208";a="22947403"
-Received: from black.fi.intel.com ([10.237.72.28])
-  by fmviesa007.fm.intel.com with ESMTP; 17 Apr 2024 22:06:24 -0700
-Received: by black.fi.intel.com (Postfix, from userid 1001)
-	id 212D624D; Thu, 18 Apr 2024 08:06:23 +0300 (EEST)
-From: Mika Westerberg <mika.westerberg@linux.intel.com>
-To: linux-usb@vger.kernel.org
-Cc: Yehezkel Bernat <YehezkelShB@gmail.com>,
-	Michael Jamet <michael.jamet@intel.com>,
-	Lukas Wunner <lukas@wunner.de>,
-	Andreas Noever <andreas.noever@gmail.com>,
-	Mika Westerberg <mika.westerberg@linux.intel.com>
-Subject: [PATCH 1/2] thunderbolt: Increase sideband access polling delay
-Date: Thu, 18 Apr 2024 08:06:21 +0300
-Message-ID: <20240418050623.3157002-1-mika.westerberg@linux.intel.com>
-X-Mailer: git-send-email 2.43.0
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="Jv9VtSF6"
+Received: by mail-lf1-f42.google.com with SMTP id 2adb3069b0e04-516d3776334so529221e87.1
+        for <linux-usb@vger.kernel.org>; Wed, 17 Apr 2024 23:38:40 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google; t=1713422319; x=1714027119; darn=vger.kernel.org;
+        h=cc:to:message-id:content-transfer-encoding:mime-version:subject
+         :date:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=5mz+oQAakD3CTuuZK4gdHTXA/bAuX31xNREQB78SAO4=;
+        b=Jv9VtSF6uMticxFRzBbYiyV8MDNQUO1il9qawbJBQQhMiqfqjBOcVISX24rv+9xYFF
+         B+T2hzXIWSMyTj7pbS4bSR+fwzyr/2kzP2kLPcyGlnrbXG4JdOtgKYgtiNq4626GPBiO
+         zwY6yJ0v74fD11BD0xoPhB5ZLyq0tutLof4qSzub7vxR2ONXNxbfMF9/7uE7QqcsNRFu
+         hCPJj0WTMptRHA43PstALzvn9wHKptqNzJl0EqERL6JH7SztG0l9Yd2XyGOMImIwA3sI
+         dO4pvC254o7ZtOS1Ez90/zqL86JvAVUZtZgiXZEQPIIN0xXMesptisnAiiDPQDu0kvv8
+         7Hkg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1713422319; x=1714027119;
+        h=cc:to:message-id:content-transfer-encoding:mime-version:subject
+         :date:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=5mz+oQAakD3CTuuZK4gdHTXA/bAuX31xNREQB78SAO4=;
+        b=iJgkopP6GuOqCpTJ1tvro5H4oifg03DpM5zViUsXxH8NOZb6J7kP/+YdJYbTZyI33D
+         2MnAWKb7sCuxgFOfV/HoysKuXEfd22Yn7j+JyY2xPhPXQMvTISJSfOs1D7+zi+zBo7e1
+         CRbvylBZIMXkiD/aAvHtZAaM6rWYE9mZZlEIsoLHGljA4omyimWIab75fl7KIrib8nD/
+         OEeFbs66cU4eXRLVdNs44yRA97y2yTdPxtBjp/X/Z06W8esRvKBHmw9YgGP9/8annk77
+         ErIvURli0zxJ2VlCyA7X+HytwMbeyxDUGnRmT3cWmZEs3d3UABl/paYBTeCnI7r86Ku5
+         sGLQ==
+X-Forwarded-Encrypted: i=1; AJvYcCVa06vvIpyEU4tQk9P0gCXwipxAp3R4q6cBl9lkUZlbwq/1tiO+Dms9mJKzYp7X3rQkQZlvMhAjeA9ndvO9DlPPnrZpXly/xQJw
+X-Gm-Message-State: AOJu0Yw4HqNQIAGlEdC6wCJQByzWeT9WVwNK2HWOPE74T8nfZwm3f59a
+	AZidNNEEVJREk1BLPdVf6/1NZQR/FrywWcZPxCcvvYYn5y1UfBBFJKMkata7Cvw=
+X-Google-Smtp-Source: AGHT+IHM13hChlrjutediaXInDHIF891c7FIjmXCaxwsPSDoGNbpaLs6INPbnOEWcQQt9WV+VyF/Xw==
+X-Received: by 2002:a19:7506:0:b0:516:d0d5:6f60 with SMTP id y6-20020a197506000000b00516d0d56f60mr805542lfe.38.1713422318695;
+        Wed, 17 Apr 2024 23:38:38 -0700 (PDT)
+Received: from umbar.lan ([192.130.178.91])
+        by smtp.gmail.com with ESMTPSA id x11-20020ac2488b000000b0051593cfb556sm121213lfc.239.2024.04.17.23.38.38
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 17 Apr 2024 23:38:38 -0700 (PDT)
+From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+Date: Thu, 18 Apr 2024 09:38:35 +0300
+Subject: [PATCH v3] dt-bindings: usb: qcom,pmic-typec: update example to
+ follow connector schema
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+Message-Id: <20240418-typec-fix-example-v3-1-08f649b6f368@linaro.org>
+X-B4-Tracking: v=1; b=H4sIAOq/IGYC/33NSwqDMBCA4atI1p2Sl1pd9R6lixgnGrBGEgmKe
+ PdGVy2ULv8Z5puNBPQWA6mzjXiMNlg3phCXjOhejR2CbVMTTrmkgnOY1wk1GLsALuo1DQiirRq
+ GWt1y0ZJ0N3lM69N8PFP3NszOr+eLyI7pPy0yoFA0lGkhS8kqvA92VN5dne/IwUX+QQj2i+DAw
+ OSFMQalEaX+IvZ9fwOjHTTn9gAAAA==
+To: Bjorn Andersson <andersson@kernel.org>, 
+ Konrad Dybcio <konrad.dybcio@linaro.org>, 
+ Bryan O'Donoghue <bryan.odonoghue@linaro.org>, 
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>, 
+ Rob Herring <robh@kernel.org>, 
+ Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>, 
+ Conor Dooley <conor+dt@kernel.org>
+Cc: linux-arm-msm@vger.kernel.org, linux-usb@vger.kernel.org, 
+ devicetree@vger.kernel.org, linux-kernel@vger.kernel.org, 
+ Luca Weiss <luca.weiss@fairphone.com>, 
+ Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+X-Mailer: b4 0.13.0
+X-Developer-Signature: v=1; a=openpgp-sha256; l=3487;
+ i=dmitry.baryshkov@linaro.org; h=from:subject:message-id;
+ bh=Qyzrud7crPo74pZD8E9P8dWXUAXZm54kyHXrDz6cx78=;
+ b=owEBbQGS/pANAwAKAYs8ij4CKSjVAcsmYgBmIL/tVs+hlgiNVLSZTiNSJ8YafMnzmEbBk/GoD
+ Tz5JBgdCxKJATMEAAEKAB0WIQRMcISVXLJjVvC4lX+LPIo+Aiko1QUCZiC/7QAKCRCLPIo+Aiko
+ 1fgzB/0ZlfzlK7/uyjO++WeyRA6F5z/Yw4DB3zB4MQnFjXrVubshik+vl8x2DwF5efpEQhoETGx
+ 0TGbJxMnz1vPcvYagG374q/hMLZpgTiVWKwTmDQxAYBaBhWTbmK5Zk7vtbak87W/aB75sb6QLOO
+ pg9PtfTHzyruRKZ3oaxpGj6V28RHOl38ft1iqBD//KkbQHrpnZA7DNi/VISmZsj5gPaEJlXA2Tw
+ zud4dJch98iBsl2c8Njxp4D2Zo2m7cyY7pTwHUbNvzcl9YvG+zumYYp1FLGODS00NP52Iaazrz8
+ qqVOLycPVCO3qAIPBy2DVJazZJz8evMHtbNWRRjG2Go/+XMb
+X-Developer-Key: i=dmitry.baryshkov@linaro.org; a=openpgp;
+ fpr=8F88381DD5C873E4AE487DA5199BF1243632046A
 
-The USB4 sideband access is slow compared to the high-speed link and the
-access timing parameters are tens of milliseconds according the spec. To
-avoid too much unnecessary polling for the sideband pass the wait delay
-to usb4_port_wait_for_bit() and use larger (5ms) value compared to the
-high-speed access.
+Update Qualcomm PMIC Type-C examples to follow the USB-C connector
+schema. The USB-C connector should have three ports (USB HS @0,
+SSTX/RX @1 and SBU @2 lanes). Reorder ports accordingly and add SBU port
+connected to the SBU mux (e.g. FSA4480).
 
-Signed-off-by: Mika Westerberg <mika.westerberg@linux.intel.com>
+Reported-by: Luca Weiss <luca.weiss@fairphone.com>
+Acked-by: Konrad Dybcio <konrad.dybcio@linaro.org>
+Signed-off-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
 ---
- drivers/thunderbolt/usb4.c | 22 +++++++++++++++-------
- 1 file changed, 15 insertions(+), 7 deletions(-)
+Update examples to follow usb-c-connector schema wrt. ports definitions.
+---
+Changes in v3:
+- Dropped the Fixes tag (Greg, Conor)
+- Link to v2: https://lore.kernel.org/r/20240331-typec-fix-example-v2-1-f56fffe4f37c@linaro.org
 
-diff --git a/drivers/thunderbolt/usb4.c b/drivers/thunderbolt/usb4.c
-index 78b06e922fda..de480bf2a53d 100644
---- a/drivers/thunderbolt/usb4.c
-+++ b/drivers/thunderbolt/usb4.c
-@@ -52,6 +52,10 @@ enum usb4_ba_index {
- #define USB4_BA_VALUE_MASK		GENMASK(31, 16)
- #define USB4_BA_VALUE_SHIFT		16
+Changes in v2:
+- Dropped patch removing the role-switching port. We do not use it, but
+  it can become useful by other designs.
+- Link to v1: https://lore.kernel.org/r/20240322-typec-fix-example-v1-0-6b01c347419e@linaro.org
+---
+ .../devicetree/bindings/usb/qcom,pmic-typec.yaml   | 34 +++++++++++++++++-----
+ 1 file changed, 26 insertions(+), 8 deletions(-)
+
+diff --git a/Documentation/devicetree/bindings/usb/qcom,pmic-typec.yaml b/Documentation/devicetree/bindings/usb/qcom,pmic-typec.yaml
+index 0cdc60b76fbd..6d3ef364672e 100644
+--- a/Documentation/devicetree/bindings/usb/qcom,pmic-typec.yaml
++++ b/Documentation/devicetree/bindings/usb/qcom,pmic-typec.yaml
+@@ -193,15 +193,22 @@ examples:
  
-+/* Delays in us used with usb4_port_wait_for_bit() */
-+#define USB4_PORT_DELAY			50
-+#define USB4_PORT_SB_DELAY		5000
+                     port@0 {
+                         reg = <0>;
+-                        pmic_typec_mux_out: endpoint {
+-                            remote-endpoint = <&usb_phy_typec_mux_in>;
++                        pmic_typec_hs_in: endpoint {
++                            remote-endpoint = <&usb_hs_out>;
+                         };
+                     };
+ 
+                     port@1 {
+                         reg = <1>;
+-                        pmic_typec_role_switch_out: endpoint {
+-                            remote-endpoint = <&usb_role_switch_in>;
++                        pmic_typec_ss_in: endpoint {
++                            remote-endpoint = <&usb_phy_typec_ss_out>;
++                        };
++                    };
 +
- static int usb4_native_switch_op(struct tb_switch *sw, u16 opcode,
- 				 u32 *metadata, u8 *status,
- 				 const void *tx_data, size_t tx_dwords,
-@@ -1245,7 +1249,7 @@ void usb4_port_unconfigure_xdomain(struct tb_port *port)
- }
- 
- static int usb4_port_wait_for_bit(struct tb_port *port, u32 offset, u32 bit,
--				  u32 value, int timeout_msec)
-+			  u32 value, int timeout_msec, unsigned long delay_usec)
- {
- 	ktime_t timeout = ktime_add_ms(ktime_get(), timeout_msec);
- 
-@@ -1260,7 +1264,7 @@ static int usb4_port_wait_for_bit(struct tb_port *port, u32 offset, u32 bit,
- 		if ((val & bit) == value)
- 			return 0;
- 
--		usleep_range(50, 100);
-+		fsleep(delay_usec);
- 	} while (ktime_before(ktime_get(), timeout));
- 
- 	return -ETIMEDOUT;
-@@ -1308,7 +1312,7 @@ static int usb4_port_sb_read(struct tb_port *port, enum usb4_sb_target target,
- 		return ret;
- 
- 	ret = usb4_port_wait_for_bit(port, port->cap_usb4 + PORT_CS_1,
--				     PORT_CS_1_PND, 0, 500);
-+				     PORT_CS_1_PND, 0, 500, USB4_PORT_SB_DELAY);
- 	if (ret)
- 		return ret;
- 
-@@ -1355,7 +1359,7 @@ static int usb4_port_sb_write(struct tb_port *port, enum usb4_sb_target target,
- 		return ret;
- 
- 	ret = usb4_port_wait_for_bit(port, port->cap_usb4 + PORT_CS_1,
--				     PORT_CS_1_PND, 0, 500);
-+				     PORT_CS_1_PND, 0, 500, USB4_PORT_SB_DELAY);
- 	if (ret)
- 		return ret;
- 
-@@ -1410,6 +1414,8 @@ static int usb4_port_sb_op(struct tb_port *port, enum usb4_sb_target target,
- 
- 		if (val != opcode)
- 			return usb4_port_sb_opcode_err_to_errno(val);
++                    port@2 {
++                        reg = <2>;
++                        pmic_typec_sbu: endpoint {
++                            remote-endpoint = <&usb_mux_sbu>;
+                         };
+                     };
+                 };
+@@ -213,8 +220,8 @@ examples:
+         dr_mode = "otg";
+         usb-role-switch;
+         port {
+-            usb_role_switch_in: endpoint {
+-                remote-endpoint = <&pmic_typec_role_switch_out>;
++            usb_hs_out: endpoint {
++                remote-endpoint = <&pmic_typec_hs_in>;
+             };
+         };
+     };
+@@ -222,8 +229,19 @@ examples:
+     usb-phy {
+         orientation-switch;
+         port {
+-            usb_phy_typec_mux_in: endpoint {
+-                remote-endpoint = <&pmic_typec_mux_out>;
++            usb_phy_typec_ss_out: endpoint {
++                remote-endpoint = <&pmic_typec_ss_in>;
++            };
++        };
++    };
 +
-+		fsleep(USB4_PORT_SB_DELAY);
- 	} while (ktime_before(ktime_get(), timeout));
- 
- 	return -ETIMEDOUT;
-@@ -1591,13 +1597,14 @@ int usb4_port_asym_start(struct tb_port *port)
- 	 * port started the symmetry transition.
- 	 */
- 	ret = usb4_port_wait_for_bit(port, port->cap_usb4 + PORT_CS_19,
--				     PORT_CS_19_START_ASYM, 0, 1000);
-+				     PORT_CS_19_START_ASYM, 0, 1000,
-+				     USB4_PORT_DELAY);
- 	if (ret)
- 		return ret;
- 
- 	/* Then wait for the transtion to be completed */
- 	return usb4_port_wait_for_bit(port, port->cap_usb4 + PORT_CS_18,
--				      PORT_CS_18_TIP, 0, 5000);
-+				      PORT_CS_18_TIP, 0, 5000, USB4_PORT_DELAY);
- }
- 
- /**
-@@ -2123,7 +2130,8 @@ static int usb4_usb3_port_cm_request(struct tb_port *port, bool request)
- 	 */
- 	val &= ADP_USB3_CS_2_CMR;
- 	return usb4_port_wait_for_bit(port, port->cap_adap + ADP_USB3_CS_1,
--				      ADP_USB3_CS_1_HCA, val, 1500);
-+				      ADP_USB3_CS_1_HCA, val, 1500,
-+				      USB4_PORT_DELAY);
- }
- 
- static inline int usb4_usb3_port_set_cm_request(struct tb_port *port)
++    usb-mux {
++        orientation-switch;
++        mode-switch;
++
++        port {
++            usb_mux_sbu: endpoint {
++                remote-endpoint = <&pmic_typec_sbu>;
+             };
+         };
+     };
+
+---
+base-commit: 4eab358930711bbeb85bf5ee267d0d42d3394c2c
+change-id: 20240322-typec-fix-example-3d9b1eca853d
+
+Best regards,
 -- 
-2.43.0
+Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
 
