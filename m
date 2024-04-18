@@ -1,35 +1,63 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.15])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9A8253A1B6;
-	Thu, 18 Apr 2024 02:10:28 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CEE382E62C
+	for <linux-usb@vger.kernel.org>; Thu, 18 Apr 2024 05:06:26 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.15
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1713406228; cv=none; b=WnKatNzlkuSQNWeeXEkgeku6pfpI1Ji3dPcOItbmpmxtCbHyFQ0bHq9X1A5VPs8xAI7hEk8ygrdK50kX0abjWGjDpdXXLIxE4kN/+jEEK7S+Nyl7X5+I95tSV4YpW2MSo2HhmWCQmWQchRO07JXo/g69hd5F3Ey86hNuyo9RzK0=
+	t=1713416788; cv=none; b=DB2MfUFBP6VmFfXyJSeoWLpZY3cakUEaaAmNfiao6E1riz/8KozbScFsGebLcizFctA9cGLADKrDXWFTI/bM0+mDbpdHK2jRihkLq7rvye4zq5XWgKfnLbcDRm/8K3RnaYIcOv8M+zZmiOOr3o7OcOFZ+59Zx9sWqKU2XlHO5Oc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1713406228; c=relaxed/simple;
-	bh=1NyEoWFlnIZwCKkRFjuPR5qYJO8RuWrIDtqwc7X6idA=;
-	h=Content-Type:MIME-Version:Subject:From:Message-Id:Date:References:
-	 In-Reply-To:To:Cc; b=YpgyB/hXcbKDpnvhFVADNfJhZaluX0vZJ8NFeb3+FDbju6YpQhMjrNnN/DpGo3vNnhcMeXUijGZra7pEJjyg3DJqdsbxYgybSHVasa0TG/huArCd00pjzZJg6xZfVDAs8erwX8X46hYCXu1mwFD14koVS1o6VmHyWGmS0a1+TLo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=pQfN4635; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1713416788; c=relaxed/simple;
+	bh=hJWZUGOENnOzFEF7zWRtTo5qryPDnOfTmDK+xXAHgSg=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version; b=cuDt9hOtFWnPtInqoeD0fLprcswVjqGkrtjL267y1IpySx/5ivm/CegUBDgvZ45cBo40a/C2hka4JiyXZi3JYHA6RxRDlO3ASW/qq2MWvmWucjxLnlP1j8aWShU5HocZdbvDDPj4kJznjkcedwtwRTJ8mIJ60XrvKIui97+B/uI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=none smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=ibw5hbC/; arc=none smtp.client-ip=192.198.163.15
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=linux.intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="pQfN4635"
-Received: by smtp.kernel.org (Postfix) with ESMTPS id 43580C32781;
-	Thu, 18 Apr 2024 02:10:28 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1713406228;
-	bh=1NyEoWFlnIZwCKkRFjuPR5qYJO8RuWrIDtqwc7X6idA=;
-	h=Subject:From:Date:References:In-Reply-To:To:Cc:From;
-	b=pQfN4635WdxeOrE8SpYLCKp9+Kkm+SSt3bxqVS/xIMAjfzULXu4K3xi7aldjH6dJe
-	 NbOBlRnRamq88p+gh5OgwJfTeudhOELvcdK95AAwxX/cUIPMXx+gMBckxkBbMcdR5e
-	 lVEkoO/GyE6c3e/AJOFxb1IbkNvgT0LLw5Trf2gla1bIbankZ7Xxe4zl7LE+pX5d4T
-	 DI2oPLUWzGCeTMzK8rBw/HB3LoaXwks//dhrMDo47UESj4+xi80uEhF4CFCeORuBHd
-	 TAgsSscOy5O86JM7Gyy4M8yB6S/scigQrWw7UWlOIcZq28VSVZCHgFe5IchwVGuS+6
-	 qtL693ATrSEKQ==
-Received: from aws-us-west-2-korg-oddjob-1.ci.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by aws-us-west-2-korg-oddjob-1.ci.codeaurora.org (Postfix) with ESMTP id 3224FC4361A;
-	Thu, 18 Apr 2024 02:10:28 +0000 (UTC)
-Content-Type: text/plain; charset="utf-8"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="ibw5hbC/"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1713416787; x=1744952787;
+  h=from:to:cc:subject:date:message-id:in-reply-to:
+   references:mime-version:content-transfer-encoding;
+  bh=hJWZUGOENnOzFEF7zWRtTo5qryPDnOfTmDK+xXAHgSg=;
+  b=ibw5hbC/7vecEjBpVKlHeZWAR46a5t5BZ2+2t8BuLtqIxal18X1wlN2H
+   zlHJojWw0ULPfWF2lXeeP1YKGQwL7McxXPDiLANSwZOi82/1CaPmMJjka
+   UqEfgxibARrgImALRrw8DDifAxEFCctcbz+A6PFFJJ9ZyrHzCWN33Vm/N
+   w5epj8p5sJEnBgs3voYTic0LUWJUSm8Woozgt8GVgZ7V8vElUoW9nVN46
+   NNacguVQkkzFhp6xBY+iOwsyE3ka74766evfnfbKWk64YUc0NOVHWv+IU
+   Y2uVzMMalxMNsCR8JZfqrhdvjm2/lRnvWglkElhd2zoIkeW+7gocp/BEr
+   Q==;
+X-CSE-ConnectionGUID: Q7iOCCWeSHi+9+UWGLdz9w==
+X-CSE-MsgGUID: 2j0gd9tzSvSoOB+t5ZrOCA==
+X-IronPort-AV: E=McAfee;i="6600,9927,11047"; a="9108480"
+X-IronPort-AV: E=Sophos;i="6.07,211,1708416000"; 
+   d="scan'208";a="9108480"
+Received: from orviesa001.jf.intel.com ([10.64.159.141])
+  by fmvoesa109.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 17 Apr 2024 22:06:26 -0700
+X-CSE-ConnectionGUID: /yMy2JagQ6WVHSuOK60ITA==
+X-CSE-MsgGUID: 2WAKd+laS1OF5bm7HmMhEg==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.07,211,1708416000"; 
+   d="scan'208";a="60285962"
+Received: from black.fi.intel.com ([10.237.72.28])
+  by orviesa001.jf.intel.com with ESMTP; 17 Apr 2024 22:06:25 -0700
+Received: by black.fi.intel.com (Postfix, from userid 1001)
+	id 2CE6086; Thu, 18 Apr 2024 08:06:23 +0300 (EEST)
+From: Mika Westerberg <mika.westerberg@linux.intel.com>
+To: linux-usb@vger.kernel.org
+Cc: Yehezkel Bernat <YehezkelShB@gmail.com>,
+	Michael Jamet <michael.jamet@intel.com>,
+	Lukas Wunner <lukas@wunner.de>,
+	Andreas Noever <andreas.noever@gmail.com>,
+	Mika Westerberg <mika.westerberg@linux.intel.com>
+Subject: [PATCH 2/2] thunderbolt: No need to loop over all retimers if access fails
+Date: Thu, 18 Apr 2024 08:06:22 +0300
+Message-ID: <20240418050623.3157002-2-mika.westerberg@linux.intel.com>
+X-Mailer: git-send-email 2.43.0
+In-Reply-To: <20240418050623.3157002-1-mika.westerberg@linux.intel.com>
+References: <20240418050623.3157002-1-mika.westerberg@linux.intel.com>
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
@@ -37,40 +65,47 @@ List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Subject: Re: [PATCH] net:usb:qmi_wwan: support Rolling modules
-From: patchwork-bot+netdevbpf@kernel.org
-Message-Id: 
- <171340622820.10413.13640952951998586061.git-patchwork-notify@kernel.org>
-Date: Thu, 18 Apr 2024 02:10:28 +0000
-References: <20240416120713.24777-1-vanillanwang@163.com>
-In-Reply-To: <20240416120713.24777-1-vanillanwang@163.com>
-To: Vanillan Wang <vanillanwang@163.com>
-Cc: bjorn@mork.no, davem@davemloft.net, kuba@kernel.org,
- netdev@vger.kernel.org, linux-usb@vger.kernel.org,
- linux-kernel@vger.kernel.org
 
-Hello:
+When we read the NVM authentication status or unsetting the inbound SBTX
+there is no point to continue the loop after first access to a retimer
+fails because there won't be any more retimers after this anyway so bail
+out from the loops early.
 
-This patch was applied to netdev/net.git (main)
-by Jakub Kicinski <kuba@kernel.org>:
+Signed-off-by: Mika Westerberg <mika.westerberg@linux.intel.com>
+---
+ drivers/thunderbolt/retimer.c | 12 ++++++++----
+ 1 file changed, 8 insertions(+), 4 deletions(-)
 
-On Tue, 16 Apr 2024 20:07:13 +0800 you wrote:
-> Update the qmi_wwan driver support for the Rolling
-> LTE modules.
-> 
-> - VID:PID 33f8:0104, RW101-GL for laptop debug M.2 cards(with RMNET
-> interface for /Linux/Chrome OS)
-> 0x0104: RMNET, diag, at, pipe
-> 
-> [...]
-
-Here is the summary with links:
-  - net:usb:qmi_wwan: support Rolling modules
-    https://git.kernel.org/netdev/net/c/d362046021ea
-
-You are awesome, thank you!
+diff --git a/drivers/thunderbolt/retimer.c b/drivers/thunderbolt/retimer.c
+index 6bb49bdcd6c1..6eaaa5074ce8 100644
+--- a/drivers/thunderbolt/retimer.c
++++ b/drivers/thunderbolt/retimer.c
+@@ -199,8 +199,10 @@ static void tb_retimer_nvm_authenticate_status(struct tb_port *port, u32 *status
+ 	 * If the retimer has it set, store it for the new retimer
+ 	 * device instance.
+ 	 */
+-	for (i = 1; i <= TB_MAX_RETIMER_INDEX; i++)
+-		usb4_port_retimer_nvm_authenticate_status(port, i, &status[i]);
++	for (i = 1; i <= TB_MAX_RETIMER_INDEX; i++) {
++		if (usb4_port_retimer_nvm_authenticate_status(port, i, &status[i]))
++			break;
++	}
+ }
+ 
+ static void tb_retimer_set_inbound_sbtx(struct tb_port *port)
+@@ -234,8 +236,10 @@ static void tb_retimer_unset_inbound_sbtx(struct tb_port *port)
+ 
+ 	tb_port_dbg(port, "disabling sideband transactions\n");
+ 
+-	for (i = TB_MAX_RETIMER_INDEX; i >= 1; i--)
+-		usb4_port_retimer_unset_inbound_sbtx(port, i);
++	for (i = TB_MAX_RETIMER_INDEX; i >= 1; i--) {
++		if (usb4_port_retimer_unset_inbound_sbtx(port, i))
++			break;
++	}
+ }
+ 
+ static ssize_t nvm_authenticate_store(struct device *dev,
 -- 
-Deet-doot-dot, I am a bot.
-https://korg.docs.kernel.org/patchwork/pwbot.html
-
+2.43.0
 
