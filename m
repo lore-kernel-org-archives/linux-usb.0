@@ -1,114 +1,154 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com [205.220.168.131])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 79629153831
-	for <linux-usb@vger.kernel.org>; Mon, 22 Apr 2024 19:34:18 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 29D2A1401C;
+	Mon, 22 Apr 2024 22:49:58 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.168.131
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1713814458; cv=none; b=VuzBMCLUuus9C9S6JrH0vTsPh9VONKpmTb65nw8lW8EazWwys2Lez8X1cVZW63QMx7AIpAxHA+0vw7a6LOsY0vkkMM+pxtDNYNQdIUZFDxiZ/ilooLH4COs3RYDWhBNDUHkcXpIPXaq2vAFGFuFh49dQA4PRfg4NvYAq0hLD0D0=
+	t=1713826200; cv=none; b=FGq6LzbNRLxW9NnUhoZ4rfJ6vugOLnY4E6BoJB4+X26YZ2ZQRbQZuOqMgWO13UfQNDX3IY70Ct3s1nZm5RxuVMggePEtmSYYexcTnAG63h7k8DNzldG93CsdcZYZd43HmP3c3ywOBrErw2L41zqdzg6Yn6OkVsviBDLD4Ph2W5E=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1713814458; c=relaxed/simple;
-	bh=Oa/zWSuPNK/HAuLl3vilEdIb3kXOcGTxGsPDxL8xjvA=;
-	h=From:To:Subject:Date:Message-ID:Content-Type:MIME-Version; b=ex3pS1gR8n7OL8BnaejsO18jY0lh7VKZaqvzzqWZuLKUgBJ4OcKPRCFotznEeAbHPpCMGHNKs4CODWMrZjY5dm/bEXNGJSU4Yes+wK941TEXXf++gYNGL7UVqCmzwsTo9VGdkfIUg99YHU9E1UdNKtFC27APut5VyiAZ7vaCM4I=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=GQ9galps; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1713826200; c=relaxed/simple;
+	bh=nCfaXQKjVF52n+UdvJaBQMLni4Yc4r7EoaITJoVMs3E=;
+	h=From:To:CC:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=Fd5ovheIV/IlniySJw6llLbQpDdE1ZdYTJn/+cc2c6FzfImvvI4cnnMnQl1SJGCwct5aTwramdDcmmAxy9vCSKkWVvc4Znkil/7QWtN7LzL1WZSxu0wE3FWniYycNevW3llb9z2kkjXJsLFUqB45cQXNxeACDMKKRf9g/t1HnJ8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=quicinc.com; spf=pass smtp.mailfrom=quicinc.com; dkim=pass (2048-bit key) header.d=quicinc.com header.i=@quicinc.com header.b=aKpEOALS; arc=none smtp.client-ip=205.220.168.131
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=quicinc.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=quicinc.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="GQ9galps"
-Received: by smtp.kernel.org (Postfix) with ESMTPS id 11E6AC113CC
-	for <linux-usb@vger.kernel.org>; Mon, 22 Apr 2024 19:34:18 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1713814458;
-	bh=Oa/zWSuPNK/HAuLl3vilEdIb3kXOcGTxGsPDxL8xjvA=;
-	h=From:To:Subject:Date:From;
-	b=GQ9galpshShNubaRR3ESeZ5hIpEDB5gUwFRCGvIdIpI2KaMrIIpz38GEV15V9KMTf
-	 gWh86unyYUBW1BTiAK2kvMib7vhYR91/IvCTWeOYydgB5vrGRHLfPizHsMbu3FwlJ4
-	 HtlV6P5sfmiHIdm5e8azn8tLQDDbBpZ6qKSpCAsj7DoR2dphDAsmYgJphLP0S6GjDw
-	 m0sUNf6wmcIMbnPeYPc///GJ9jNq+dYgK3UiRpG+6aCooyb3FQGaAXVB1NsoCSsJJh
-	 IVnUDGoXFp0J09ej2z1CCxob8PBgN+nOTxVy1rqmX8tKNRnA+y+fZgkONUJKSKHr/x
-	 q17nP5Z8nSpuQ==
-Received: by aws-us-west-2-korg-bugzilla-1.web.codeaurora.org (Postfix, from userid 48)
-	id EE005C433E2; Mon, 22 Apr 2024 19:34:17 +0000 (UTC)
-From: bugzilla-daemon@kernel.org
-To: linux-usb@vger.kernel.org
-Subject: [Bug 218762] New: USB string order in dmesg
-Date: Mon, 22 Apr 2024 19:34:17 +0000
-X-Bugzilla-Reason: None
-X-Bugzilla-Type: new
-X-Bugzilla-Watch-Reason: AssignedTo drivers_usb@kernel-bugs.kernel.org
-X-Bugzilla-Product: Drivers
-X-Bugzilla-Component: USB
-X-Bugzilla-Version: 2.5
-X-Bugzilla-Keywords: 
-X-Bugzilla-Severity: enhancement
-X-Bugzilla-Who: ddtpvtxm@gmail.com
-X-Bugzilla-Status: NEW
-X-Bugzilla-Resolution: 
-X-Bugzilla-Priority: P3
-X-Bugzilla-Assigned-To: drivers_usb@kernel-bugs.kernel.org
-X-Bugzilla-Flags: 
-X-Bugzilla-Changed-Fields: bug_id short_desc product version rep_platform
- op_sys bug_status bug_severity priority component assigned_to reporter
- cf_regression
-Message-ID: <bug-218762-208809@https.bugzilla.kernel.org/>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-X-Bugzilla-URL: https://bugzilla.kernel.org/
-Auto-Submitted: auto-generated
+	dkim=pass (2048-bit key) header.d=quicinc.com header.i=@quicinc.com header.b="aKpEOALS"
+Received: from pps.filterd (m0279867.ppops.net [127.0.0.1])
+	by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 43MLpS3m032402;
+	Mon, 22 Apr 2024 22:49:43 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com; h=
+	from:to:cc:subject:date:message-id:in-reply-to:references
+	:mime-version:content-type; s=qcppdkim1; bh=mL1d9of0fYQNr1X8ZHr/
+	nFQmz8o9xxbVoHzFoYQwCnU=; b=aKpEOALSB5guIs5AYL/FOGT/L4pVcsRz51oE
+	8dbNJXWVhTLvfWShLuO5mxe5CeEma+lf3NfjTIHUtqJR9TIsIzREQ61L6p+1Pk+B
+	Gu5bEdmnj5xEIJn0DkRMbA2QjsoYwF3Dm1kA6EHQQx0WM8ilGoFFFgrRmG1MbfVw
+	70xJ7HK0c5tHr3l5qMRax0MF54N5Qu6GcALEXYlKx+HBY+jK7YPd3bZZt4gKYxOf
+	1lRIDAkbve19AefTTd2IOEqs/6Gwc3OLLhb+QokR1VD9gf26xXIIXtb1dxABZfKQ
+	0ezjdTn1cpFEhrj7OSencpJiHfoT7vWZz7jnJOWAFFft09qIqQ==
+Received: from nalasppmta01.qualcomm.com (Global_NAT1.qualcomm.com [129.46.96.20])
+	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 3xnn82ssju-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Mon, 22 Apr 2024 22:49:42 +0000 (GMT)
+Received: from nalasex01b.na.qualcomm.com (nalasex01b.na.qualcomm.com [10.47.209.197])
+	by NALASPPMTA01.qualcomm.com (8.17.1.5/8.17.1.5) with ESMTPS id 43MMnQp4027791
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Mon, 22 Apr 2024 22:49:26 GMT
+Received: from hu-wcheng-lv.qualcomm.com (10.49.16.6) by
+ nalasex01b.na.qualcomm.com (10.47.209.197) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.1544.9; Mon, 22 Apr 2024 15:49:26 -0700
+From: Wesley Cheng <quic_wcheng@quicinc.com>
+To: <srinivas.kandagatla@linaro.org>, <mathias.nyman@intel.com>,
+        <perex@perex.cz>, <conor+dt@kernel.org>, <corbet@lwn.net>,
+        <lgirdwood@gmail.com>, <andersson@kernel.org>,
+        <krzysztof.kozlowski+dt@linaro.org>, <gregkh@linuxfoundation.org>,
+        <Thinh.Nguyen@synopsys.com>, <broonie@kernel.org>,
+        <bgoswami@quicinc.com>, <tiwai@suse.com>, <robh@kernel.org>,
+        <konrad.dybcio@linaro.org>
+CC: <linux-kernel@vger.kernel.org>, <devicetree@vger.kernel.org>,
+        <linux-sound@vger.kernel.org>, <linux-usb@vger.kernel.org>,
+        <linux-arm-msm@vger.kernel.org>, <linux-doc@vger.kernel.org>,
+        <alsa-devel@alsa-project.org>, Wesley Cheng <quic_wcheng@quicinc.com>
+Subject: [PATCH v19 37/41] ALSA: usb-audio: Allow for rediscovery of connected USB SND devices
+Date: Mon, 22 Apr 2024 15:49:02 -0700
+Message-ID: <20240422224906.15868-38-quic_wcheng@quicinc.com>
+X-Mailer: git-send-email 2.17.1
+In-Reply-To: <20240422224906.15868-1-quic_wcheng@quicinc.com>
+References: <20240422224906.15868-1-quic_wcheng@quicinc.com>
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
+Content-Type: text/plain
+X-ClientProxiedBy: nalasex01b.na.qualcomm.com (10.47.209.197) To
+ nalasex01b.na.qualcomm.com (10.47.209.197)
+X-QCInternal: smtphost
+X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800 signatures=585085
+X-Proofpoint-GUID: hYdksnXCrP5YWzGxiDGZNk1NSF57dNxz
+X-Proofpoint-ORIG-GUID: hYdksnXCrP5YWzGxiDGZNk1NSF57dNxz
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1011,Hydra:6.0.619,FMLib:17.11.176.26
+ definitions=2024-04-22_16,2024-04-22_01,2023-05-22_02
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 mlxscore=0 lowpriorityscore=0
+ suspectscore=0 adultscore=0 clxscore=1015 bulkscore=0 malwarescore=0
+ spamscore=0 impostorscore=0 priorityscore=1501 mlxlogscore=999
+ phishscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.19.0-2404010003 definitions=main-2404220096
 
-https://bugzilla.kernel.org/show_bug.cgi?id=3D218762
+In case of notifying SND platform drivers of connection events, some of
+these use cases, such as offloading, require an ASoC USB backend device to
+be initialized before the events can be handled.  If the USB backend device
+has not yet been probed, this leads to missing initial USB audio device
+connection events.
 
-            Bug ID: 218762
-           Summary: USB string order in dmesg
-           Product: Drivers
-           Version: 2.5
-          Hardware: All
-                OS: Linux
-            Status: NEW
-          Severity: enhancement
-          Priority: P3
-         Component: USB
-          Assignee: drivers_usb@kernel-bugs.kernel.org
-          Reporter: ddtpvtxm@gmail.com
-        Regression: No
+Expose an API that traverses the usb_chip array for connected devices, and
+to call the respective connection callback registered to the SND platform
+driver.
 
-Hi,
+Signed-off-by: Wesley Cheng <quic_wcheng@quicinc.com>
+---
+ sound/usb/card.c                  | 21 +++++++++++++++++++++
+ sound/usb/card.h                  |  1 +
+ sound/usb/qcom/qc_audio_offload.c |  2 ++
+ 3 files changed, 24 insertions(+)
 
-Is there any good reason why the code
-https://github.com/torvalds/linux/blob/c85af715cac0a951eea97393378e84bb4938=
-4734/drivers/usb/core/hub.c#L2361
-is declaring string (show_string) values in a different order than they are
-specified in dev_info?
-
-        dev_info(&udev->dev,
-                "New USB device strings: Mfr=3D%d, Product=3D%d,
-SerialNumber=3D%d\n",
-                udev->descriptor.iManufacturer,
-                udev->descriptor.iProduct,
-                udev->descriptor.iSerialNumber);
-        show_string(udev, "Product", udev->product);
-        show_string(udev, "Manufacturer", udev->manufacturer);
-        show_string(udev, "SerialNumber", udev->serial);
-
-
-Now
-usb 4-1: New USB device strings: Mfr=3D1, Product=3D2, SerialNumber=3D3
-usb 4-1: Product: BM5100ADW series
-usb 4-1: Manufacturer: Pantum
-usb 4-1: SerialNumber: CK1A8823765
-
-Expected
-usb 4-1: New USB device strings: Mfr=3D1, Product=3D2, SerialNumber=3D3
-usb 4-1: Manufacturer: Pantum
-usb 4-1: Product: BM5100ADW series
-usb 4-1: SerialNumber: CK1A8823765
-
---=20
-You may reply to this email to add a comment.
-
-You are receiving this mail because:
-You are watching the assignee of the bug.=
+diff --git a/sound/usb/card.c b/sound/usb/card.c
+index 1ad99a462038..8364c5b8fbbf 100644
+--- a/sound/usb/card.c
++++ b/sound/usb/card.c
+@@ -186,6 +186,27 @@ struct snd_usb_stream *snd_usb_find_suppported_substream(int card_idx,
+ }
+ EXPORT_SYMBOL_GPL(snd_usb_find_suppported_substream);
+ 
++/*
++ * in case the platform driver was not ready at the time of USB SND
++ * device connect, expose an API to discover all connected USB devices
++ * so it can populate any dependent resources/structures.
++ */
++void snd_usb_rediscover_devices(void)
++{
++	int i;
++
++	guard(mutex)(&register_mutex);
++
++	if (!platform_ops || !platform_ops->connect_cb)
++		return;
++
++	for (i = 0; i < SNDRV_CARDS; i++) {
++		if (usb_chip[i])
++			platform_ops->connect_cb(usb_chip[i]);
++	}
++}
++EXPORT_SYMBOL_GPL(snd_usb_rediscover_devices);
++
+ /*
+  * disconnect streams
+  * called from usb_audio_disconnect()
+diff --git a/sound/usb/card.h b/sound/usb/card.h
+index 3c900e5afbce..140928dd9d63 100644
+--- a/sound/usb/card.h
++++ b/sound/usb/card.h
+@@ -221,4 +221,5 @@ int snd_usb_unregister_platform_ops(void);
+ 
+ struct snd_usb_stream *snd_usb_find_suppported_substream(int card_idx,
+ 				struct snd_pcm_hw_params *params, int direction);
++void snd_usb_rediscover_devices(void);
+ #endif /* __USBAUDIO_CARD_H */
+diff --git a/sound/usb/qcom/qc_audio_offload.c b/sound/usb/qcom/qc_audio_offload.c
+index 6a25a390f8ae..9695bf0ac1cd 100644
+--- a/sound/usb/qcom/qc_audio_offload.c
++++ b/sound/usb/qcom/qc_audio_offload.c
+@@ -1879,6 +1879,8 @@ static int __init qc_usb_audio_offload_init(void)
+ 	if (ret < 0)
+ 		goto release_qmi;
+ 
++	snd_usb_rediscover_devices();
++
+ 	return 0;
+ 
+ release_qmi:
