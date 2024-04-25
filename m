@@ -1,267 +1,112 @@
-Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com [205.220.168.131])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.9])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BD6E9181CE3;
-	Thu, 25 Apr 2024 21:52:21 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.168.131
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E516E155A39
+	for <linux-usb@vger.kernel.org>; Thu, 25 Apr 2024 23:21:19 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.9
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1714081945; cv=none; b=n/TsGWiOYK7PjpHBKqhJDHTKGjp9tII/3P8GZ3pDle7pxmwxYnzi6JOTRnj8Ci+4I85Ls/Tk9OeURVJJJiQJ8cQrltVYgzAo+2wdPlkX0mSCYR1nJ+NrhyUrZ9DnQOc9pXSVVyFSRNl7A4LPo7UfoNKPML4dacLuDUdCNKX50jY=
+	t=1714087281; cv=none; b=rVCr75LOI+YCc1VM3FzQFdeErv8mBxp0OILvQJ3Lam/OlBh/5AznePZOI6rP3D47KkH9Yh5HBjuWfoOXW4VOfffF+tI2+pNaOYLhB96UKm/k39Ob5hoZ20APXoZlyT0z5ec64mix+eP91CEmqAKJCIce4glVkZzX5rIF/5us7OQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1714081945; c=relaxed/simple;
-	bh=hk7In+ww81z4Qk7+BraCCdvs1dyXyuUDvjG/d3CCxYY=;
-	h=From:To:CC:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=r9bc42lyIthdLkPqGfxOFRDya0km9KHeqLo9nSw1VBnZisP+LOFHKXmNQXSef/4vjMcEpZzKZOFNuS0Mrkskdfgdbb1rD+f1BYXKzU3+ggHTfs/p2eY1OiPMqRjMp1AnB4IlOVf5swspZs1q3iWQpr8HmOofTM9njooSjr+qJ4A=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=quicinc.com; spf=pass smtp.mailfrom=quicinc.com; dkim=pass (2048-bit key) header.d=quicinc.com header.i=@quicinc.com header.b=ACgKy3er; arc=none smtp.client-ip=205.220.168.131
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=quicinc.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=quicinc.com
+	s=arc-20240116; t=1714087281; c=relaxed/simple;
+	bh=plBdQxWauJB5nvfeYEdktBF4kErm8NCxZwS3BpG64hw=;
+	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=Z02jjYXozq/OCH1OBqrThz9Z0QQaXX+9OwfRUUUgPjd6kZ5qO4zDMIGEuT90AbO+CFNr9olu/jpwPY5i5XvuQHpDbFAK9tghoZ+IZDWPenSUXYNu3Kce111oSexYKg/rXtys3Asq6zA/3nodWhK0RBNxLObKjTRghG7b0/kAdpo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=none smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=T/mVHu53; arc=none smtp.client-ip=198.175.65.9
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=linux.intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=quicinc.com header.i=@quicinc.com header.b="ACgKy3er"
-Received: from pps.filterd (m0279863.ppops.net [127.0.0.1])
-	by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 43PLoerw018846;
-	Thu, 25 Apr 2024 21:51:47 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com; h=
-	from:to:cc:subject:date:message-id:in-reply-to:references
-	:mime-version:content-type; s=qcppdkim1; bh=8WSJ8FulDBKQfYgUGO7D
-	0IPBKMSABhMchwkTts6ZjaY=; b=ACgKy3erZHi7GNdryjDiEwSuIgABQQCAJeHt
-	nZvSQU0KW2kJa+o+3hiWyI9tsHpXeffi2pF+SPRLdxO9kj2bbBRb/cb2IuCptGRF
-	1JtmtgIVRANl7JNQVAsOsqZdaeTDYsrEMznwrtT3Iow1wffOr5IQF5l8uW62xAt+
-	MJ6cR/sZDElioqS4rchKq5rU99EuE0enfgpa5Ba6OIYtr3ujY2SGz+EbNc2p0pS9
-	AD17lhbmzTsPkTcn1qArGM/Jo+iY7zml3wdO5dnBE1aVp07aKg3sDu5wx4EhCAy2
-	YkCB40cS+WAL6sSd6UpVEkL3UPsgOY9E4tjojJkRtvIZmS+Kzw==
-Received: from nalasppmta02.qualcomm.com (Global_NAT1.qualcomm.com [129.46.96.20])
-	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 3xqengktb6-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Thu, 25 Apr 2024 21:51:46 +0000 (GMT)
-Received: from nalasex01b.na.qualcomm.com (nalasex01b.na.qualcomm.com [10.47.209.197])
-	by NALASPPMTA02.qualcomm.com (8.17.1.5/8.17.1.5) with ESMTPS id 43PLpj0L015484
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Thu, 25 Apr 2024 21:51:45 GMT
-Received: from hu-wcheng-lv.qualcomm.com (10.49.16.6) by
- nalasex01b.na.qualcomm.com (10.47.209.197) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.1544.9; Thu, 25 Apr 2024 14:51:44 -0700
-From: Wesley Cheng <quic_wcheng@quicinc.com>
-To: <srinivas.kandagatla@linaro.org>, <mathias.nyman@intel.com>,
-        <perex@perex.cz>, <conor+dt@kernel.org>, <corbet@lwn.net>,
-        <lgirdwood@gmail.com>, <andersson@kernel.org>,
-        <krzysztof.kozlowski+dt@linaro.org>, <gregkh@linuxfoundation.org>,
-        <Thinh.Nguyen@synopsys.com>, <broonie@kernel.org>,
-        <bgoswami@quicinc.com>, <tiwai@suse.com>, <robh@kernel.org>,
-        <konrad.dybcio@linaro.org>
-CC: <linux-kernel@vger.kernel.org>, <devicetree@vger.kernel.org>,
-        <linux-sound@vger.kernel.org>, <linux-usb@vger.kernel.org>,
-        <linux-arm-msm@vger.kernel.org>, <linux-doc@vger.kernel.org>,
-        <alsa-devel@alsa-project.org>, Wesley Cheng <quic_wcheng@quicinc.com>
-Subject: [PATCH v20 30/41] ASoC: qcom: qdsp6: Add SOC USB offload select get/put callbacks
-Date: Thu, 25 Apr 2024 14:51:14 -0700
-Message-ID: <20240425215125.29761-31-quic_wcheng@quicinc.com>
-X-Mailer: git-send-email 2.17.1
-In-Reply-To: <20240425215125.29761-1-quic_wcheng@quicinc.com>
-References: <20240425215125.29761-1-quic_wcheng@quicinc.com>
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="T/mVHu53"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1714087280; x=1745623280;
+  h=from:to:cc:subject:date:message-id:mime-version:
+   content-transfer-encoding;
+  bh=plBdQxWauJB5nvfeYEdktBF4kErm8NCxZwS3BpG64hw=;
+  b=T/mVHu53O5/T7JdmqWaJkUrvdqTLPj7g6YUKhIXe6bnoxpBr3xfn2Z77
+   3e6HUGg66GrqNyooPQN3gg17nOWi610YdJKGa3tfCoVJp4fSvV7P0surf
+   a6uTQC6pQRd4MbvVXOxKMJyhFs5PKiGPzHr9/+Z/TZnAf6ptXYN7i17gR
+   sgFpfI4n164xIUpSpmeIkYoecWvnAGh8OMTAUSUOVk/Gcaqh9z3igXn5t
+   BoSaFOiQ8lXwYfdJE4avrnalyD/+bRDgpFxmjvPZzB7rqpO/djBzeCNP/
+   5CQYc0NviNQgJzELRahjbqVHaZcdXsRI6yIO/QVya4x+IEbkytCDoBlTf
+   Q==;
+X-CSE-ConnectionGUID: EpcMuL0ZSFibzF0W/bxelA==
+X-CSE-MsgGUID: lmC4CPOaQ4ukaxEzb5egEA==
+X-IronPort-AV: E=McAfee;i="6600,9927,11055"; a="32307460"
+X-IronPort-AV: E=Sophos;i="6.07,230,1708416000"; 
+   d="scan'208";a="32307460"
+Received: from fmviesa008.fm.intel.com ([10.60.135.148])
+  by orvoesa101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 25 Apr 2024 16:21:20 -0700
+X-CSE-ConnectionGUID: siIjjif5Tsy10wO1oBKq8A==
+X-CSE-MsgGUID: yWqKlxquTZuagsRpXZHXbQ==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.07,230,1708416000"; 
+   d="scan'208";a="25284334"
+Received: from ccdjpclinux26.jer.intel.com ([10.12.48.253])
+  by fmviesa008.fm.intel.com with ESMTP; 25 Apr 2024 16:21:16 -0700
+From: Gil Fine <gil.fine@linux.intel.com>
+To: andreas.noever@gmail.com,
+	michael.jamet@intel.com,
+	mika.westerberg@linux.intel.com,
+	YehezkelShB@gmail.com
+Cc: gil.fine@intel.com,
+	linux-usb@vger.kernel.org,
+	lukas@wunner.de,
+	Gil Fine <gil.fine@linux.intel.com>,
+	Dan Carpenter <dan.carpenter@linaro.org>
+Subject: [PATCH] thunderbolt: Fix uninitialized variable in tb_tunnel_alloc_usb3()
+Date: Fri, 26 Apr 2024 02:24:17 +0300
+Message-Id: <20240425232417.3509833-1-gil.fine@linux.intel.com>
+X-Mailer: git-send-email 2.25.1
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain
-X-ClientProxiedBy: nalasex01a.na.qualcomm.com (10.47.209.196) To
- nalasex01b.na.qualcomm.com (10.47.209.197)
-X-QCInternal: smtphost
-X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800 signatures=585085
-X-Proofpoint-GUID: UhouxcAK6wJlRz4HGuUJByOFiGohZ_AS
-X-Proofpoint-ORIG-GUID: UhouxcAK6wJlRz4HGuUJByOFiGohZ_AS
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1011,Hydra:6.0.650,FMLib:17.11.176.26
- definitions=2024-04-25_21,2024-04-25_01,2023-05-22_02
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 spamscore=0 bulkscore=0
- mlxlogscore=999 phishscore=0 malwarescore=0 mlxscore=0 impostorscore=0
- lowpriorityscore=0 adultscore=0 priorityscore=1501 clxscore=1015
- suspectscore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.19.0-2404010003 definitions=main-2404250159
+Content-Transfer-Encoding: 8bit
 
-In order for device selection to be supported, the Q6USB backend DAI link
-will need to be notified about the device to start the offloading session
-on. Device selection is made possible by setting the Q6AFE device token.
-The audio DSP utilizes this parameter, and will pass this field back to
-the USB offload driver within the QMI stream requests.
+Currently in case of no bandwidth available for USB3 tunnel, we are left with
+uninitialized variable that can lead to huge negative allocated bandwidth.
 
-Signed-off-by: Wesley Cheng <quic_wcheng@quicinc.com>
+Fix this by initializing the variable to zero.
+While there, fix the kernel-doc to describe more accurately the purpose of the
+function tb_tunnel_alloc_usb3().
+
+Reported-by: Dan Carpenter <dan.carpenter@linaro.org>
+Closes: https://lore.kernel.org/linux-usb/6289898b-cd63-4fb8-906a-1b6977321af9@moroto.mountain/
+Fixes: 7e227d09f80d ("thunderbolt: Allow USB3 bandwidth to be lower than maximum supported")
+Signed-off-by: Gil Fine <gil.fine@linux.intel.com>
 ---
- sound/soc/qcom/qdsp6/q6usb.c | 115 +++++++++++++++++++++++++++++++++--
- 1 file changed, 111 insertions(+), 4 deletions(-)
+ drivers/thunderbolt/tunnel.c | 10 +++++-----
+ 1 file changed, 5 insertions(+), 5 deletions(-)
 
-diff --git a/sound/soc/qcom/qdsp6/q6usb.c b/sound/soc/qcom/qdsp6/q6usb.c
-index e539b411c35e..72ec7d45f916 100644
---- a/sound/soc/qcom/qdsp6/q6usb.c
-+++ b/sound/soc/qcom/qdsp6/q6usb.c
-@@ -36,9 +36,12 @@ struct q6usb_port_data {
- 	struct q6afe_usb_cfg usb_cfg;
- 	struct snd_soc_usb *usb;
- 	struct q6usb_offload priv;
--	int active_usb_chip_idx;
-+	struct mutex mutex;
- 	unsigned long available_card_slot;
- 	struct q6usb_status status[SNDRV_CARDS];
-+	bool idx_valid;
-+	int sel_card_idx;
-+	int sel_pcm_idx;
- };
- 
- static const struct snd_soc_dapm_widget q6usb_dai_widgets[] = {
-@@ -54,10 +57,34 @@ static int q6usb_hw_params(struct snd_pcm_substream *substream,
- 			   struct snd_soc_dai *dai)
+diff --git a/drivers/thunderbolt/tunnel.c b/drivers/thunderbolt/tunnel.c
+index fdc5e8e12ca8..1a3b197001da 100644
+--- a/drivers/thunderbolt/tunnel.c
++++ b/drivers/thunderbolt/tunnel.c
+@@ -2048,10 +2048,10 @@ struct tb_tunnel *tb_tunnel_discover_usb3(struct tb *tb, struct tb_port *down,
+  * @tb: Pointer to the domain structure
+  * @up: USB3 upstream adapter port
+  * @down: USB3 downstream adapter port
+- * @max_up: Maximum available upstream bandwidth for the USB3 tunnel (%0
+- *	    if not limited).
+- * @max_down: Maximum available downstream bandwidth for the USB3 tunnel
+- *	      (%0 if not limited).
++ * @max_up: Maximum available upstream bandwidth for the USB3 tunnel.
++ *	    %0 if no available bandwidth.
++ * @max_down: Maximum available downstream bandwidth for the USB3 tunnel.
++ *	      %0 if no available bandwidth.
+  *
+  * Allocate an USB3 tunnel. The ports must be of type @TB_TYPE_USB3_UP and
+  * @TB_TYPE_USB3_DOWN.
+@@ -2064,7 +2064,7 @@ struct tb_tunnel *tb_tunnel_alloc_usb3(struct tb *tb, struct tb_port *up,
  {
- 	struct q6usb_port_data *data = dev_get_drvdata(dai->dev);
-+	struct snd_soc_pcm_runtime *rtd = substream->private_data;
-+	struct snd_soc_dai *cpu_dai = snd_soc_rtd_to_cpu(rtd, 0);
-+	struct q6afe_port *q6usb_afe;
- 	int direction = substream->stream;
-+	int chip_idx;
-+	int ret;
-+
-+	mutex_lock(&data->mutex);
-+	chip_idx = data->status[data->sel_card_idx].sdev->chip_idx;
-+
-+	ret = snd_soc_usb_find_format(chip_idx, params, direction);
-+	if (ret < 0)
-+		goto out;
-+
-+	q6usb_afe = q6afe_port_get_from_id(cpu_dai->dev, USB_RX);
-+	if (IS_ERR(q6usb_afe))
-+		goto out;
+ 	struct tb_tunnel *tunnel;
+ 	struct tb_path *path;
+-	int max_rate;
++	int max_rate = 0;
  
--	return snd_soc_usb_find_format(data->active_usb_chip_idx, params,
--					direction);
-+	ret = afe_port_send_usb_dev_param(q6usb_afe, data->sel_card_idx,
-+						data->sel_pcm_idx);
-+	if (ret < 0)
-+		goto out;
-+
-+	data->status[data->sel_card_idx].pcm_index = data->sel_pcm_idx;
-+out:
-+	mutex_unlock(&data->mutex);
-+
-+	return ret;
- }
- 
- static const struct snd_soc_dai_ops q6usb_ops = {
-@@ -88,6 +115,70 @@ static struct snd_soc_dai_driver q6usb_be_dais[] = {
- 	},
- };
- 
-+static int q6usb_get_offload_dev(struct snd_kcontrol *kcontrol,
-+				 struct snd_ctl_elem_value *ucontrol,
-+				 enum snd_soc_usb_kctl type)
-+{
-+	struct snd_soc_component *component = snd_kcontrol_chip(kcontrol);
-+	struct q6usb_port_data *data = dev_get_drvdata(component->dev);
-+	int idx;
-+
-+	mutex_lock(&data->mutex);
-+
-+	if (!data->available_card_slot) {
-+		idx = -1;
-+	} else {
-+		if (type == SND_SOC_USB_KCTL_CARD_ROUTE)
-+			idx = data->sel_card_idx;
-+		else
-+			idx = data->sel_pcm_idx;
-+	}
-+
-+	ucontrol->value.integer.value[0] = idx;
-+	mutex_unlock(&data->mutex);
-+
-+	return 0;
-+}
-+
-+static int q6usb_put_offload_dev(struct snd_kcontrol *kcontrol,
-+				 struct snd_ctl_elem_value *ucontrol,
-+				 enum snd_soc_usb_kctl type)
-+{
-+	struct snd_soc_component *component = snd_kcontrol_chip(kcontrol);
-+	struct q6usb_port_data *data = dev_get_drvdata(component->dev);
-+	int changed = 0;
-+	int idx;
-+
-+	idx = ucontrol->value.integer.value[0];
-+
-+	mutex_lock(&data->mutex);
-+	switch (type) {
-+	case SND_SOC_USB_KCTL_CARD_ROUTE:
-+		if (idx >= 0 && test_bit(idx, &data->available_card_slot)) {
-+			data->sel_card_idx = idx;
-+			changed = 1;
-+		}
-+		break;
-+	case SND_SOC_USB_KCTL_PCM_ROUTE:
-+		if (idx >= 0 && data->sel_card_idx >= 0 &&
-+		    idx < data->status[data->sel_card_idx].sdev->num_playback) {
-+			data->sel_pcm_idx = idx;
-+			changed = 1;
-+		}
-+		break;
-+	default:
-+		break;
-+	}
-+
-+	if (changed)
-+		data->idx_valid = true;
-+
-+out:
-+	mutex_unlock(&data->mutex);
-+
-+	return changed;
-+}
-+
- static int q6usb_audio_ports_of_xlate_dai_name(struct snd_soc_component *component,
- 					const struct of_phandle_args *args,
- 					const char **dai_name)
-@@ -117,16 +208,28 @@ static int q6usb_alsa_connection_cb(struct snd_soc_usb *usb,
- 
- 	data = dev_get_drvdata(usb->component->dev);
- 
-+	mutex_lock(&data->mutex);
- 	if (connected) {
- 		/* We only track the latest USB headset plugged in */
--		data->active_usb_chip_idx = sdev->card_idx;
-+		if (!data->idx_valid) {
-+			data->sel_card_idx = sdev->card_idx;
-+			data->sel_pcm_idx = 0;
-+		}
- 
- 		set_bit(sdev->card_idx, &data->available_card_slot);
- 		data->status[sdev->card_idx].sdev = sdev;
- 	} else {
- 		clear_bit(sdev->card_idx, &data->available_card_slot);
- 		data->status[sdev->card_idx].sdev = NULL;
-+
-+		if (data->sel_card_idx == sdev->card_idx) {
-+			data->idx_valid = false;
-+			data->sel_card_idx = data->available_card_slot ?
-+					ffs(data->available_card_slot) - 1 : 0;
-+			data->sel_pcm_idx = 0;
-+		}
- 	}
-+	mutex_unlock(&data->mutex);
- 
- 	return 0;
- }
-@@ -142,6 +245,8 @@ static int q6usb_component_probe(struct snd_soc_component *component)
- 		return -ENOMEM;
- 
- 	usb->connection_status_cb = q6usb_alsa_connection_cb;
-+	usb->put_offload_dev = q6usb_put_offload_dev;
-+	usb->get_offload_dev = q6usb_get_offload_dev;
- 
- 	ret = snd_soc_usb_add_port(usb);
- 	if (ret < 0) {
-@@ -205,6 +310,8 @@ static int q6usb_dai_dev_probe(struct platform_device *pdev)
- 
- 	data->priv.domain = iommu_get_domain_for_dev(&pdev->dev);
- 
-+	mutex_init(&data->mutex);
-+
- 	data->priv.dev = dev;
- 	dev_set_drvdata(dev, data);
- 
+ 	if (!tb_route(down->sw) && (max_up > 0 || max_down > 0)) {
+ 		/*
+-- 
+2.25.1
+
