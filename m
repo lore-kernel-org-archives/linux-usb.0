@@ -1,38 +1,38 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7E3D122F19
-	for <linux-usb@vger.kernel.org>; Mon, 29 Apr 2024 09:41:02 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 287C33FBA3
+	for <linux-usb@vger.kernel.org>; Mon, 29 Apr 2024 11:24:08 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1714383662; cv=none; b=N9Pe1tKzb3zDpGq1g4zdUFcLoh3Qsjp7qzd6EW9n3FjOzD2xIeMy3rhsxsoVAvUjatAiG2H7ZyFRST5UEwjmb760RL243e5F960cusg02PySeWRC0MJUF1mMQhFjhr3tilTUulWRDCTfEcedLdiUlMUFs74Qb9/7g88LxeQYErQ=
+	t=1714389849; cv=none; b=Tpekz1r1/t4M9Dr23ZrP9CezgozBvmu7HJhELVHjJkCTdafSIxqMqnZykHnqsWIDI3JV2mNGx9INMgWhLRu3E34zV4YLPjTrgqWKKVeG/ak82i9K0mB94mgUl3bTX491Ndo1Z70h5ZWXlPA4p7OD1MfFPb8310c8H/9YR+bFzIY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1714383662; c=relaxed/simple;
-	bh=vOsn7KOcZYhjQYtgArvaCxOuYDoC2Hl9onDF3RgG6aw=;
+	s=arc-20240116; t=1714389849; c=relaxed/simple;
+	bh=F2DQY0rTibaDptZDvLdCTBPwoDdzIiypgHdrEeiTHIg=;
 	h=From:To:Subject:Date:Message-ID:In-Reply-To:References:
-	 Content-Type:MIME-Version; b=hwKgA3D0BoY01PlQVrLZBFAtZMGcAuUAMG7k1P3Ks2uhNWzUoH8hc1SOqJaTEUZQqjzCwKhXyMmwnkT453CBUT/QsRW7YhLR12uGxMy5hk8yY1gdO1gunkbMhbwiShzsVQtfUMQA/Lh6vv8K6SaHjES6OyYQgh0zT8UL+yXOWE4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=GTgv859D; arc=none smtp.client-ip=10.30.226.201
+	 Content-Type:MIME-Version; b=D5mSx+EWL+pJnezsF+3quvyhbcSIS2zbjIKhTrMYAUrldJUIWjdedDzEHynfhF9Hb4AH3fRumODnrBVLxDeehM1Iwii+h4q3G3aHIap3NkCCC8zAiZctynY/ybSP+dGOiwugjV5zQBqrpRyHa939XFXkyaVylB+KJBju7jaBhrk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=iOSuJoec; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="GTgv859D"
-Received: by smtp.kernel.org (Postfix) with ESMTPS id 2BBCDC4AF19
-	for <linux-usb@vger.kernel.org>; Mon, 29 Apr 2024 09:41:02 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="iOSuJoec"
+Received: by smtp.kernel.org (Postfix) with ESMTPS id C0765C116B1
+	for <linux-usb@vger.kernel.org>; Mon, 29 Apr 2024 11:24:08 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1714383662;
-	bh=vOsn7KOcZYhjQYtgArvaCxOuYDoC2Hl9onDF3RgG6aw=;
+	s=k20201202; t=1714389848;
+	bh=F2DQY0rTibaDptZDvLdCTBPwoDdzIiypgHdrEeiTHIg=;
 	h=From:To:Subject:Date:In-Reply-To:References:From;
-	b=GTgv859Diq9vcz3uItHw1/F9RgOnI/UgBCRkFR+6TulFIUWG06NcjbsW6yBE6be4G
-	 ah1aZfbKRJ/sOGxqbdEJXxVWWpykhiF1xbJvwIItFFNoRXWhrd0sIGcW3787e5hm3b
-	 8piKUOYBqS5crNDJYqQUnghq51E06plXgilhKC7zS7Q7uzUhFDlwGLRvgCKW5tWMVf
-	 L1MCsQKRsUO1ZbAf0ELiorCr6zlFttaPK5SpQKuiQnCF+XnBCyQBVUzq47pcYh0rVb
-	 e5/RmtC9LJd7ELpJGwaaPdsMHVjCtHfmipnVyimHtwNPfcPaagH8Rv7vQHzqay166p
-	 JgenwohKp/xag==
+	b=iOSuJoechH0IaMqwrbXU+ZzDdC5q+ztgm4pkPOGmzEgjOC5bBIIzavsgLX1GhMQJC
+	 24RFIdKZRdHkb+PrDm7cOKb+gzHL+rlxBNqJwHlHmWaJUm2A1V2HodPswVcQPNji5k
+	 98eQwTk/8/6MkdcB7GUGY1v+ifAtb3ZqzfgXrWZ+xvaSJp0pw+x/A3pFvYRIYzBp+9
+	 3llw8EUG2RTlG2BWLm10K6l+fRLnXBch4Bfax0As4PIFbcW1UQ7wYtMRR6vaMJeQKR
+	 4AKZBIpYEbS3GK1M/kCkryLc1SEPKM2YJtlkoxNqpeZeZQKg56PTtV1aIo8Xlcmfa9
+	 LAVz+d+09fmhw==
 Received: by aws-us-west-2-korg-bugzilla-1.web.codeaurora.org (Postfix, from userid 48)
-	id 22284C433E5; Mon, 29 Apr 2024 09:41:02 +0000 (UTC)
+	id B23F9C16A72; Mon, 29 Apr 2024 11:24:08 +0000 (UTC)
 From: bugzilla-daemon@kernel.org
 To: linux-usb@vger.kernel.org
 Subject: [Bug 218789] ucsi_acpi USBC000:00: ucsi_acpi_dsm: failed to evaluate
  _DSM 2 in logs
-Date: Mon, 29 Apr 2024 09:41:01 +0000
+Date: Mon, 29 Apr 2024 11:24:08 +0000
 X-Bugzilla-Reason: None
 X-Bugzilla-Type: changed
 X-Bugzilla-Watch-Reason: AssignedTo drivers_usb@kernel-bugs.kernel.org
@@ -41,14 +41,14 @@ X-Bugzilla-Component: USB
 X-Bugzilla-Version: 2.5
 X-Bugzilla-Keywords: 
 X-Bugzilla-Severity: normal
-X-Bugzilla-Who: aros@gmx.com
+X-Bugzilla-Who: heikki.krogerus@linux.intel.com
 X-Bugzilla-Status: NEW
 X-Bugzilla-Resolution: 
 X-Bugzilla-Priority: P3
 X-Bugzilla-Assigned-To: drivers_usb@kernel-bugs.kernel.org
 X-Bugzilla-Flags: 
-X-Bugzilla-Changed-Fields: 
-Message-ID: <bug-218789-208809-pMpoDAkXxr@https.bugzilla.kernel.org/>
+X-Bugzilla-Changed-Fields: cc
+Message-ID: <bug-218789-208809-HJ9ApbJ8qv@https.bugzilla.kernel.org/>
 In-Reply-To: <bug-218789-208809@https.bugzilla.kernel.org/>
 References: <bug-218789-208809@https.bugzilla.kernel.org/>
 Content-Type: text/plain; charset="UTF-8"
@@ -64,8 +64,47 @@ MIME-Version: 1.0
 
 https://bugzilla.kernel.org/show_bug.cgi?id=3D218789
 
---- Comment #3 from Artem S. Tashkinov (aros@gmx.com) ---
-*** Bug 218788 has been marked as a duplicate of this bug. ***
+Heikki Krogerus (heikki.krogerus@linux.intel.com) changed:
+
+           What    |Removed                     |Added
+----------------------------------------------------------------------------
+                 CC|                            |heikki.krogerus@linux.intel
+                   |                            |.com
+
+--- Comment #4 from Heikki Krogerus (heikki.krogerus@linux.intel.com) ---
+This looks like a symptom caused by an issue in the EC driver. The complete
+error in your dmesg:
+
+...
+[   12.563832] ACPI Error: No handler for Region [ECSI] (000000007b8176ee)
+[EmbeddedControl] (20230628/evregion-130)
+[   12.564906] ACPI Error: Region EmbeddedControl (ID=3D3) has no handler
+(20230628/exfldio-261)
+[   12.566187] ACPI Error: Aborting method \_SB.UBTC.ECRD due to previous e=
+rror
+(AE_NOT_EXIST) (20230628/psparse-529)
+[   12.567909] ACPI Error: Aborting method \_SB.UBTC._DSM due to previous e=
+rror
+(AE_NOT_EXIST) (20230628/psparse-529)
+[   12.569254] ACPI: \_SB_.UBTC: failed to evaluate _DSM
+c298836f-a47c-e411-ad36-631042b5008f (0x6)
+[   12.569259] ucsi_acpi USBC000:00: ucsi_acpi_dsm: failed to evaluate _DSM=
+ 2
+...
+
+The handler for the EC operation region is missing, which is very odd, beca=
+use
+the EC driver (drivers/acpi/ec.c) has clearly been loaded successfully base=
+d on
+your the same dmesg output.
+
+Can you also attach the acpidump output:
+
+ % acpidump -o my_acpi.dump
+
+The ACPI guys should take a look at this. I think this is to core issue her=
+e:
+"ACPI Error: Region EmbeddedControl (ID=3D3) has no handler"
 
 --=20
 You may reply to this email to add a comment.
