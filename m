@@ -1,200 +1,110 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.18])
+Received: from eu-smtp-delivery-151.mimecast.com (eu-smtp-delivery-151.mimecast.com [185.58.85.151])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9862D7C6C8
-	for <linux-usb@vger.kernel.org>; Mon, 29 Apr 2024 14:01:27 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C0C907580B
+	for <linux-usb@vger.kernel.org>; Mon, 29 Apr 2024 14:01:46 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.58.85.151
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1714399289; cv=none; b=bxai18ZoMcNl8GXTBw2bxF6PmGnarLZgW6nEmkkS3ujx2KHegbaFRFaOvQui408WuFcrbxGBHhP9PhnXuaj3nzLAXm5uMFXjV6PTb+nL48C8/OxoJwnNoEvsD6dSMVOa8NF5RZgyL9SAzAoS5kGYqG8rPxEMqQeqRFDI+QFPsqI=
+	t=1714399308; cv=none; b=VvmZ0WA31EM6+IwdSKMG+ROn9UK84iXwhbG4XWoSZOxAbBTQm2P5MJqslbgoXlnIPiLgU6EZ8VfyoUgDhXnDk1eQ/ULAJhGCpABqJ//u+x12bDmfR0tzkJp9Q5vuZPR3W0tXRCECL8XlO561C4mDmOj2dqUdVj3yy15pTnL2ZjE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1714399289; c=relaxed/simple;
-	bh=wJH0Mxm6yA9D40pR2pcIKMVid7B8zIpkjtcCxZdlAlw=;
-	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
-	 MIME-Version; b=aowueoYZo53D8d9UPmLy/e3iLGg0adqwWdmqo3YhVyuIh34j9HBE51BHZmFOXc6fK9MZlfV3aDvhc5dJqPOt+vIwBgps0XplRgWOl3IqjLu6RoLDP9p9BL+6a6Mnb6cYRWYvD7XrszOZk4Am1fej6q+rqWyuiofwHyM9qsUu20k=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=none smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=KMMJ13e9; arc=none smtp.client-ip=192.198.163.18
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=linux.intel.com
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="KMMJ13e9"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1714399287; x=1745935287;
-  h=from:to:cc:subject:date:message-id:in-reply-to:
-   references:mime-version:content-transfer-encoding;
-  bh=wJH0Mxm6yA9D40pR2pcIKMVid7B8zIpkjtcCxZdlAlw=;
-  b=KMMJ13e9xQwgvG3upOXGzg05kasLj4uv1FKaGouAQkGOQvUTjYAx9Hmz
-   F4FJyMkIGBk0cjwQAFgIjBqRBcaVWlTRaoxZBlpZpCFdjb1P6HTFeIUhM
-   M51TQgk7EXMPT8ZtIkitp4l1EKoAMnVzb4eOr0Py0fmSWF+A3oU/OsrX+
-   ocqvRRo6mwxBiuQbhAhCDwmHMCULIEQkNA+cMTEpIBb5cBB2sN5RnMjJQ
-   QsK1Kr8GbqWnjff0H4EHd7w04/9eAtMwRuWHF8DQR+KwOevlFN/OBZkz0
-   OubZ7RZl0u4V5DtbrRpglvFTaeh46ICR3gcw2l0eZKvBaVE6AGEXSU62J
-   g==;
-X-CSE-ConnectionGUID: 2BUuQKT1TwO5oATKP+xwvA==
-X-CSE-MsgGUID: Pa3kqLwJTp2izYVgKis6nA==
-X-IronPort-AV: E=McAfee;i="6600,9927,11059"; a="9911558"
-X-IronPort-AV: E=Sophos;i="6.07,239,1708416000"; 
-   d="scan'208";a="9911558"
-Received: from orviesa006.jf.intel.com ([10.64.159.146])
-  by fmvoesa112.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 29 Apr 2024 07:01:27 -0700
-X-CSE-ConnectionGUID: K/EY4BO9RUyvH4CFCBahfw==
-X-CSE-MsgGUID: SyRLAqrFTa+Nw1t1Yfu2GA==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.07,239,1708416000"; 
-   d="scan'208";a="26521955"
-Received: from mattu-haswell.fi.intel.com ([10.237.72.199])
-  by orviesa006.jf.intel.com with ESMTP; 29 Apr 2024 07:01:25 -0700
-From: Mathias Nyman <mathias.nyman@linux.intel.com>
-To: <gregkh@linuxfoundation.org>
-Cc: <linux-usb@vger.kernel.org>,
-	Niklas Neronin <niklas.neronin@linux.intel.com>,
-	Mathias Nyman <mathias.nyman@linux.intel.com>
-Subject: [PATCH 18/18] usb: xhci: compact 'trb_in_td()' arguments
-Date: Mon, 29 Apr 2024 17:02:45 +0300
-Message-Id: <20240429140245.3955523-19-mathias.nyman@linux.intel.com>
-X-Mailer: git-send-email 2.25.1
-In-Reply-To: <20240429140245.3955523-1-mathias.nyman@linux.intel.com>
-References: <20240429140245.3955523-1-mathias.nyman@linux.intel.com>
+	s=arc-20240116; t=1714399308; c=relaxed/simple;
+	bh=e7TvlrPSQc0/eqYkNg6fTM7yLvokY898/4tGaAFSoIE=;
+	h=From:To:CC:Subject:Date:Message-ID:References:In-Reply-To:
+	 MIME-Version:Content-Type; b=OcPxQdu4BsfO5fPzLP1X1r3tAqQN28aruSdP09/bpxYYtf/5F5o927DDbnT8+JgUwZCYg8Xu6aNRRdh9Z01iGYWIjY8HzwpPlIrc908BfPpT5fISDJo8TGHvfZVBlQCzGOoyIzheoKFURrARmy78RB3AGXjQMRrnRQ34Wwg1ZpY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ACULAB.COM; spf=pass smtp.mailfrom=aculab.com; arc=none smtp.client-ip=185.58.85.151
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ACULAB.COM
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=aculab.com
+Received: from AcuMS.aculab.com (156.67.243.121 [156.67.243.121]) by
+ relay.mimecast.com with ESMTP with both STARTTLS and AUTH (version=TLSv1.2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_CBC_SHA384) id
+ uk-mtapsc-8-sgBWM_xkPBOQpufxJtdRhg-1; Mon, 29 Apr 2024 15:01:38 +0100
+X-MC-Unique: sgBWM_xkPBOQpufxJtdRhg-1
+Received: from AcuMS.Aculab.com (10.202.163.6) by AcuMS.aculab.com
+ (10.202.163.6) with Microsoft SMTP Server (TLS) id 15.0.1497.48; Mon, 29 Apr
+ 2024 15:01:00 +0100
+Received: from AcuMS.Aculab.com ([::1]) by AcuMS.aculab.com ([::1]) with mapi
+ id 15.00.1497.048; Mon, 29 Apr 2024 15:01:00 +0100
+From: David Laight <David.Laight@ACULAB.COM>
+To: 'Guenter Roeck' <linux@roeck-us.net>, Gerd Hoffmann <kraxel@redhat.com>
+CC: Alan Stern <stern@rowland.harvard.edu>, Greg Kroah-Hartman
+	<gregkh@linuxfoundation.org>, "linux-usb@vger.kernel.org"
+	<linux-usb@vger.kernel.org>, "linux-kernel@vger.kernel.org"
+	<linux-kernel@vger.kernel.org>
+Subject: RE: [PATCH v2] usb: ohci: Prevent missed ohci interrupts
+Thread-Topic: [PATCH v2] usb: ohci: Prevent missed ohci interrupts
+Thread-Index: AQHaloHtuZ6Ib4ELhkipVPWjjF4HNLF8nf2wgAKopXeAAANcoA==
+Date: Mon, 29 Apr 2024 14:01:00 +0000
+Message-ID: <2adc91aebb3a433997e13bd479d4b4b3@AcuMS.aculab.com>
+References: <20240424195951.3749388-1-linux@roeck-us.net>
+ <a1b4bac14c6a4334969cc7d671f3a8eb@AcuMS.aculab.com>
+ <d434c88a-6575-4d45-ab3e-e27ac7684b07@roeck-us.net>
+ <ef23ykui3axiwfkr4wi24abbuklvejx5r5wqem5cr4lq36x7py@kkxvsi3ibtbi>
+ <eafc8fb6-cecc-48c8-a053-cd00f094e781@roeck-us.net>
+In-Reply-To: <eafc8fb6-cecc-48c8-a053-cd00f094e781@roeck-us.net>
+Accept-Language: en-GB, en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+x-ms-exchange-transport-fromentityheader: Hosted
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: aculab.com
+Content-Language: en-US
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: base64
 
-From: Niklas Neronin <niklas.neronin@linux.intel.com>
-
-Pass pointer to the TD (struct xhci_td *) directly, instead of its
-components separately.
-
-Signed-off-by: Niklas Neronin <niklas.neronin@linux.intel.com>
-Signed-off-by: Mathias Nyman <mathias.nyman@linux.intel.com>
----
- drivers/usb/host/xhci-ring.c | 38 +++++++++++++-----------------------
- drivers/usb/host/xhci.h      |  5 ++---
- 2 files changed, 16 insertions(+), 27 deletions(-)
-
-diff --git a/drivers/usb/host/xhci-ring.c b/drivers/usb/host/xhci-ring.c
-index a7423ed992ee..9e90d2952760 100644
---- a/drivers/usb/host/xhci-ring.c
-+++ b/drivers/usb/host/xhci-ring.c
-@@ -1024,8 +1024,7 @@ static int xhci_invalidate_cancelled_tds(struct xhci_virt_ep *ep)
- 					 td->urb->stream_id);
- 		hw_deq &= ~0xf;
- 
--		if (td->cancel_status == TD_HALTED ||
--		    trb_in_td(xhci, td->start_seg, td->first_trb, td->last_trb, hw_deq, false)) {
-+		if (td->cancel_status == TD_HALTED || trb_in_td(xhci, td, hw_deq, false)) {
- 			switch (td->cancel_status) {
- 			case TD_CLEARED: /* TD is already no-op */
- 			case TD_CLEARING_CACHE: /* set TR deq command already queued */
-@@ -1082,8 +1081,7 @@ static struct xhci_td *find_halted_td(struct xhci_virt_ep *ep)
- 		hw_deq = xhci_get_hw_deq(ep->xhci, ep->vdev, ep->ep_index, 0);
- 		hw_deq &= ~0xf;
- 		td = list_first_entry(&ep->ring->td_list, struct xhci_td, td_list);
--		if (trb_in_td(ep->xhci, td->start_seg, td->first_trb,
--				td->last_trb, hw_deq, false))
-+		if (trb_in_td(ep->xhci, td, hw_deq, false))
- 			return td;
- 	}
- 	return NULL;
-@@ -2049,25 +2047,19 @@ static void handle_port_status(struct xhci_hcd *xhci,
- }
- 
- /*
-- * This TD is defined by the TRBs starting at start_trb in start_seg and ending
-- * at end_trb, which may be in another segment.  If the suspect DMA address is a
-- * TRB in this TD, this function returns that TRB's segment.  Otherwise it
-- * returns 0.
-+ * If the suspect DMA address is a TRB in this TD, this function returns that
-+ * TRB's segment. Otherwise it returns 0.
-  */
--struct xhci_segment *trb_in_td(struct xhci_hcd *xhci,
--		struct xhci_segment *start_seg,
--		union xhci_trb	*start_trb,
--		union xhci_trb	*end_trb,
--		dma_addr_t	suspect_dma,
--		bool		debug)
-+struct xhci_segment *trb_in_td(struct xhci_hcd *xhci, struct xhci_td *td, dma_addr_t suspect_dma,
-+			       bool debug)
- {
- 	dma_addr_t start_dma;
- 	dma_addr_t end_seg_dma;
- 	dma_addr_t end_trb_dma;
- 	struct xhci_segment *cur_seg;
- 
--	start_dma = xhci_trb_virt_to_dma(start_seg, start_trb);
--	cur_seg = start_seg;
-+	start_dma = xhci_trb_virt_to_dma(td->start_seg, td->first_trb);
-+	cur_seg = td->start_seg;
- 
- 	do {
- 		if (start_dma == 0)
-@@ -2076,7 +2068,7 @@ struct xhci_segment *trb_in_td(struct xhci_hcd *xhci,
- 		end_seg_dma = xhci_trb_virt_to_dma(cur_seg,
- 				&cur_seg->trbs[TRBS_PER_SEGMENT - 1]);
- 		/* If the end TRB isn't in this segment, this is set to 0 */
--		end_trb_dma = xhci_trb_virt_to_dma(cur_seg, end_trb);
-+		end_trb_dma = xhci_trb_virt_to_dma(cur_seg, td->last_trb);
- 
- 		if (debug)
- 			xhci_warn(xhci,
-@@ -2110,7 +2102,7 @@ struct xhci_segment *trb_in_td(struct xhci_hcd *xhci,
- 		}
- 		cur_seg = cur_seg->next;
- 		start_dma = xhci_trb_virt_to_dma(cur_seg, &cur_seg->trbs[0]);
--	} while (cur_seg != start_seg);
-+	} while (cur_seg != td->start_seg);
- 
- 	return NULL;
- }
-@@ -2822,8 +2814,7 @@ static int handle_tx_event(struct xhci_hcd *xhci,
- 			td_num--;
- 
- 		/* Is this a TRB in the currently executing TD? */
--		ep_seg = trb_in_td(xhci, td->start_seg, td->first_trb,
--				td->last_trb, ep_trb_dma, false);
-+		ep_seg = trb_in_td(xhci, td, ep_trb_dma, false);
- 
- 		/*
- 		 * Skip the Force Stopped Event. The event_trb(event_dma) of FSE
-@@ -2870,8 +2861,7 @@ static int handle_tx_event(struct xhci_hcd *xhci,
- 			    !list_is_last(&td->td_list, &ep_ring->td_list)) {
- 				struct xhci_td *td_next = list_next_entry(td, td_list);
- 
--				ep_seg = trb_in_td(xhci, td_next->start_seg, td_next->first_trb,
--						   td_next->last_trb, ep_trb_dma, false);
-+				ep_seg = trb_in_td(xhci, td_next, ep_trb_dma, false);
- 				if (ep_seg) {
- 					/* give back previous TD, start handling new */
- 					xhci_dbg(xhci, "Missing TD completion event after mid TD error\n");
-@@ -2890,8 +2880,8 @@ static int handle_tx_event(struct xhci_hcd *xhci,
- 					"part of current TD ep_index %d "
- 					"comp_code %u\n", ep_index,
- 					trb_comp_code);
--				trb_in_td(xhci, td->start_seg, td->first_trb,
--					  td->last_trb, ep_trb_dma, true);
-+				trb_in_td(xhci, td, ep_trb_dma, true);
-+
- 				return -ESHUTDOWN;
- 			}
- 		}
-diff --git a/drivers/usb/host/xhci.h b/drivers/usb/host/xhci.h
-index 933f8a296014..30415158ed3c 100644
---- a/drivers/usb/host/xhci.h
-+++ b/drivers/usb/host/xhci.h
-@@ -1870,9 +1870,8 @@ int xhci_alloc_tt_info(struct xhci_hcd *xhci,
- 
- /* xHCI ring, segment, TRB, and TD functions */
- dma_addr_t xhci_trb_virt_to_dma(struct xhci_segment *seg, union xhci_trb *trb);
--struct xhci_segment *trb_in_td(struct xhci_hcd *xhci,
--		struct xhci_segment *start_seg, union xhci_trb *start_trb,
--		union xhci_trb *end_trb, dma_addr_t suspect_dma, bool debug);
-+struct xhci_segment *trb_in_td(struct xhci_hcd *xhci, struct xhci_td *td,
-+			       dma_addr_t suspect_dma, bool debug);
- int xhci_is_vendor_info_code(struct xhci_hcd *xhci, unsigned int trb_comp_code);
- void xhci_ring_cmd_db(struct xhci_hcd *xhci);
- int xhci_queue_slot_control(struct xhci_hcd *xhci, struct xhci_command *cmd,
--- 
-2.25.1
+RnJvbTogR3VlbnRlciBSb2Vjaw0KPiBTZW50OiAyOSBBcHJpbCAyMDI0IDE0OjM0DQo+IA0KPiBP
+biA0LzI4LzI0IDIzOjQ5LCBHZXJkIEhvZmZtYW5uIHdyb3RlOg0KPiA+ICAgIEhpLA0KPiA+DQo+
+ID4+Pj4gKwkvKiByZXBlYXQgdW50aWwgYWxsIGVuYWJsZWQgaW50ZXJydXB0cyBhcmUgaGFuZGxl
+ZCAqLw0KPiA+Pj4+ICsJaWYgKG9oY2ktPnJoX3N0YXRlICE9IE9IQ0lfUkhfSEFMVEVEKSB7DQo+
+ID4+Pj4gKwkJaW50cyA9IG9oY2lfcmVhZGwob2hjaSwgJnJlZ3MtPmludHJzdGF0dXMpOw0KPiA+
+Pj4+ICsJCWlmIChpbnRzICYgb2hjaV9yZWFkbChvaGNpLCAmcmVncy0+aW50cmVuYWJsZSkpDQo+
+ID4+Pg0KPiA+Pj4gRG9lc24ndCB0aGUgZHJpdmVyIGtub3cgd2hpY2ggaW50ZXJydXB0cyBhcmUg
+ZW5hYmxlZD8NCj4gPj4+IFNvIGl0IHNob3VsZCBiZSBhYmxlIHRvIGF2b2lkIGRvaW5nIHR3byAo
+bGlrZWx5KSBzbG93IGlvIHJlYWRzPw0KPiA+Pj4gKFBDSWUgcmVhZHMgYXJlIHByZXR0eSBtdWNo
+IGd1YXJhbnRlZWQgdG8gYmUgaGlnaCBsYXRlbmN5LikNCj4gPj4NCj4gPj4gTm8sIHRoZSBkcml2
+ZXIgZG9lcyBub3QgY2FjaGUgaW50cmVuYWJsZS4NCj4gPg0KPiA+IERvZXMgdGhlIGRyaXZlciBl
+dmVyIGNoYW5nZSBpbnRyZW5hYmxlIGFmdGVyIGluaXRpYWxpemF0aW9uPw0KPiA+DQo+IA0KPiAk
+IGdpdCBncmVwIC1lIGludHJlbmFibGUgLWUgaW50cmRpc2FibGUgZHJpdmVycy91c2IvaG9zdC8q
+b2hjaSpjIHwgZ3JlcCBvaGNpX3dyaXRlbA0KPiBkcml2ZXJzL3VzYi9ob3N0L29oY2ktaGNkLmM6
+CW9oY2lfd3JpdGVsKG9oY2ksICh1MzIpIH4wLCAmb2hjaS0+cmVncy0+aW50cmRpc2FibGUpOw0K
+PiBkcml2ZXJzL3VzYi9ob3N0L29oY2ktaGNkLmM6CQlvaGNpX3dyaXRlbCAob2hjaSwgT0hDSV9J
+TlRSX09DLCAmb2hjaS0+cmVncy0+aW50cmVuYWJsZSk7DQo+IGRyaXZlcnMvdXNiL2hvc3Qvb2hj
+aS1oY2QuYzoJb2hjaV93cml0ZWwgKG9oY2ksIE9IQ0lfSU5UUl9NSUUsICZvaGNpLT5yZWdzLT5p
+bnRyZGlzYWJsZSk7DQo+IGRyaXZlcnMvdXNiL2hvc3Qvb2hjaS1oY2QuYzoJb2hjaV93cml0ZWwg
+KG9oY2ksIG1hc2ssICZvaGNpLT5yZWdzLT5pbnRyZW5hYmxlKTsNCj4gZHJpdmVycy91c2IvaG9z
+dC9vaGNpLWhjZC5jOgkJCW9oY2lfd3JpdGVsIChvaGNpLCBPSENJX0lOVFJfVUUsICZyZWdzLT5p
+bnRyZGlzYWJsZSk7DQo+IGRyaXZlcnMvdXNiL2hvc3Qvb2hjaS1oY2QuYzoJCW9oY2lfd3JpdGVs
+KG9oY2ksIE9IQ0lfSU5UUl9SSFNDLCAmcmVncy0+aW50cmRpc2FibGUpOw0KPiBkcml2ZXJzL3Vz
+Yi9ob3N0L29oY2ktaGNkLmM6CQlvaGNpX3dyaXRlbCAob2hjaSwgT0hDSV9JTlRSX1NGLCAmcmVn
+cy0+aW50cmRpc2FibGUpOw0KPiBkcml2ZXJzL3VzYi9ob3N0L29oY2ktaGNkLmM6CQlvaGNpX3dy
+aXRlbCAob2hjaSwgT0hDSV9JTlRSX01JRSwgJnJlZ3MtPmludHJlbmFibGUpOw0KPiBkcml2ZXJz
+L3VzYi9ob3N0L29oY2ktaGNkLmM6CW9oY2lfd3JpdGVsIChvaGNpLCBPSENJX0lOVFJfTUlFLCAm
+b2hjaS0+cmVncy0+aW50cmRpc2FibGUpOw0KPiBkcml2ZXJzL3VzYi9ob3N0L29oY2ktaGNkLmM6
+CW9oY2lfd3JpdGVsKG9oY2ksIE9IQ0lfSU5UUl9NSUUsICZvaGNpLT5yZWdzLT5pbnRyZGlzYWJs
+ZSk7DQo+IGRyaXZlcnMvdXNiL2hvc3Qvb2hjaS1oY2QuYzoJCW9oY2lfd3JpdGVsKG9oY2ksIE9I
+Q0lfSU5UUl9NSUUsICZvaGNpLT5yZWdzLT5pbnRyZW5hYmxlKTsNCj4gZHJpdmVycy91c2IvaG9z
+dC9vaGNpLWh1Yi5jOglvaGNpX3dyaXRlbChvaGNpLCBPSENJX0lOVFJfU0YsICZvaGNpLT5yZWdz
+LT5pbnRyZGlzYWJsZSk7DQo+IGRyaXZlcnMvdXNiL2hvc3Qvb2hjaS1odWIuYzoJb2hjaV93cml0
+ZWwgKG9oY2ksIE9IQ0lfSU5UUl9JTklULCAmb2hjaS0+cmVncy0+aW50cmVuYWJsZSk7DQo+IGRy
+aXZlcnMvdXNiL2hvc3Qvb2hjaS1odWIuYzoJCW9oY2lfd3JpdGVsIChvaGNpLCBPSENJX0lOVFJf
+U0YsICZvaGNpLT5yZWdzLT5pbnRyZW5hYmxlKTsNCj4gZHJpdmVycy91c2IvaG9zdC9vaGNpLWh1
+Yi5jOgkJCW9oY2lfd3JpdGVsKG9oY2ksIHJoc2NfZW5hYmxlLCAmb2hjaS0+cmVncy0+aW50cmVu
+YWJsZSk7DQo+IGRyaXZlcnMvdXNiL2hvc3Qvb2hjaS1odWIuYzoJb2hjaV93cml0ZWwob2hjaSwg
+T0hDSV9JTlRSX1JIU0MsICZvaGNpLT5yZWdzLT5pbnRyZW5hYmxlKTsNCj4gZHJpdmVycy91c2Iv
+aG9zdC9vaGNpLXEuYzoJb2hjaV93cml0ZWwgKG9oY2ksIE9IQ0lfSU5UUl9TRiwgJm9oY2ktPnJl
+Z3MtPmludHJlbmFibGUpOw0KDQpBdCBsZWFzdCB0aGUgaGFyZHdhcmUgaGFzIHNlcGFyYXRlIGVu
+YWJsZS9kaXNhYmxlIHJlZ2lzdGVycw0Kc28gdGhlIGRyaXZlciBpc24ndCBkb2luZyBSTVcgY3lj
+bGVzLg0KDQpJJ2QgZ3Vlc3MgdGhhdCB0aGUgbm9ybWFsIGNvbmRpdGlvbiBpcyB0aGF0IG5vIGlu
+dGVycnVwdHMgYXJlIHBlbmRpbmcuDQpTbyBpdCBjYW4gYmUgaGVsZCB0byBvbmUgKHNsb3cpIHJl
+YWQgYnkgY2hlY2tpbmc6DQoJaWYgKGludHMgJiYgKGludHMgJiBvaGNpX3JlYWRsKG9oY2ksICZy
+ZWdzLT5pbnRyZW5hYmxlKSkpDQpBbHRob3VnaCBtYXliZSB0aGVyZSBhcmUgc29tZSAnbmV2ZXIg
+ZW5hYmxlZCcgaW50ZXJydXB0cyB0aGF0DQptaWdodCBuZWVkIG1hc2tpbmc/DQoNCglEYXZpZA0K
+DQotDQpSZWdpc3RlcmVkIEFkZHJlc3MgTGFrZXNpZGUsIEJyYW1sZXkgUm9hZCwgTW91bnQgRmFy
+bSwgTWlsdG9uIEtleW5lcywgTUsxIDFQVCwgVUsNClJlZ2lzdHJhdGlvbiBObzogMTM5NzM4NiAo
+V2FsZXMpDQo=
 
