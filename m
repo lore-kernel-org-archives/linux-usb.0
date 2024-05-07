@@ -1,122 +1,103 @@
-Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com [205.220.168.131])
+Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com [205.220.180.131])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 99B3D14EC5F;
-	Tue,  7 May 2024 18:57:48 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.168.131
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CBE2716C860;
+	Tue,  7 May 2024 19:51:50 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.180.131
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1715108270; cv=none; b=JAQuKQGfAGHyEPWSzz0wWE3kyGpeiaVI4FXIhA5RHMWFCzJHqg8RKTHHZ4HE/jO8Rji3dcRLDtDUbtc9aNRBc/0IATM4ym8uV8ojdFpaxrqfOFQwBrRevy74C/cvNM46jZ+jaJCOl4J36gJBFnypDoqa1OiCwzxYdkdaPo6Ormg=
+	t=1715111512; cv=none; b=SHMfBxMcLjX5DsZfIBxvy7rOkhq4jwZMi+WUlgqHbXD78SiAtRs8bTlSq5CCsJPRQXVsRTEqkj3hq3daYDX5x6MYo4/PQJ4Ao6wTb2gqywVBmE9VOCUzIVuoB1ph3ORjmgfgjg5KZCSP2We1LaMFFPIETHvXloF3i4r+/wufj3w=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1715108270; c=relaxed/simple;
-	bh=tNOdKmg7Xx1blxwo8VN7+j2M0OCqSHxIvoDIUgjRaTY=;
-	h=Message-ID:Date:MIME-Version:Subject:To:CC:References:From:
-	 In-Reply-To:Content-Type; b=mGhEt9UI2MZvfYnskVVc9s4uAAwOhhcTLu20vWpBkHVRn8bTaUL0c/oDb2O6pdHecviiGPqizLwgwZoym1Z7tsvAfs8qhY2KoVZSHiS+1NeEdfo/eqxnNdMXzdVIFoj/BV0wYgxoYzWtV0pIkSuAE07Jy2FCRYAtJrCaHSVtt7U=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=quicinc.com; spf=pass smtp.mailfrom=quicinc.com; dkim=pass (2048-bit key) header.d=quicinc.com header.i=@quicinc.com header.b=V9RoUkwg; arc=none smtp.client-ip=205.220.168.131
+	s=arc-20240116; t=1715111512; c=relaxed/simple;
+	bh=2TQXo2YMYhg/mBJxKuqafaOEZef1g+SCKODQN1pqdkU=;
+	h=From:To:CC:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=u/9wiE5mGMQHgEIknYpgqHRlfLVBFtDkVX3w1NO+H3dkyJJzqcOuisBJxKehA/Z3EijBQwEbeoY4zADFEFwx+5fsJta+7SDSeh0Dz7PzWRd3vbtBWd5ZlggWzLwv468EtlvdzsN6h4SRt7LRT4Sd/fXfMfVdobdZdKKDwPwSO2Y=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=quicinc.com; spf=pass smtp.mailfrom=quicinc.com; dkim=pass (2048-bit key) header.d=quicinc.com header.i=@quicinc.com header.b=VDKS6/cm; arc=none smtp.client-ip=205.220.180.131
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=quicinc.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=quicinc.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=quicinc.com header.i=@quicinc.com header.b="V9RoUkwg"
-Received: from pps.filterd (m0279864.ppops.net [127.0.0.1])
-	by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 447ILYs2014925;
-	Tue, 7 May 2024 18:57:42 GMT
+	dkim=pass (2048-bit key) header.d=quicinc.com header.i=@quicinc.com header.b="VDKS6/cm"
+Received: from pps.filterd (m0279869.ppops.net [127.0.0.1])
+	by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 447Ia4bd013325;
+	Tue, 7 May 2024 19:51:31 GMT
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com; h=
-	message-id:date:mime-version:subject:to:cc:references:from
-	:in-reply-to:content-type:content-transfer-encoding; s=
-	qcppdkim1; bh=iGvhz58MppoipnV7yjkVm9lgEZdDmugeunZltlfL36c=; b=V9
-	RoUkwgETbPUNkI45ve7kOOXp640GIULbDSqgSIdv3PjZeqkrHvZ0XxyVsEu1SxzU
-	AoMt9RVGrGTr6EcfB1m1vApLJDASO4tbRDiElEZ8MnpWXEWRJc+1TXCOPUw7I//K
-	6+7G6SLKXJdeyzXpsTs0nrb4Fxf+AvAPMcksgzaB/9udT0hRdBCgzINkp5wGYfoS
-	F5d1/5z3SoIb1TahxUWZYDZcTKrojhX/kPaNeVkFu8dPAv8SgftMRbcco+kY8M+P
-	NKM7Yp0wJXzqtiSXHqPFaLsxYSUdwZLV6coObeQqDnzzFk432RarE/18vSf6L50J
-	T9rTwIQ5eg2HQRtPuBUA==
-Received: from nalasppmta05.qualcomm.com (Global_NAT1.qualcomm.com [129.46.96.20])
-	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 3xysgc82t3-1
+	from:to:cc:subject:date:message-id:in-reply-to:references
+	:mime-version:content-type; s=qcppdkim1; bh=/ZM8SPXr7udKkYr/SDUm
+	noP1IOgbHf5SfkdSPWJ27XA=; b=VDKS6/cmdhWxzbvZ1QMvOO12LZMuqGbvDwaz
+	OOLBS7VfKlksuSlIKsLl6Zt3pW9fLJIXryYBgQhhES0MmXeyQDQGq0JA6ca1CDSz
+	WRJel6X07Rmn+yThom+4+tJzKgpBEjLwyI50f+kTMq9GeCH5mWYyZUFS5FEentNB
+	94/hyK2PUcdoU/6tGmaZrXEwWZID0JVeTrcXYhd0garroyMv5x2hMADTIZC436CE
+	cHRK/aGEXosln3hvHeIYRujgmS6gNquHoGDJSkwVT6RcrAGFwx3Z2/07GevoZ/aw
+	4KCg4k6ztkM92UJG0yQ0USovSxunf8epheZT4hwHDiI7kCQhWQ==
+Received: from nalasppmta01.qualcomm.com (Global_NAT1.qualcomm.com [129.46.96.20])
+	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 3xysprr4f3-1
 	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Tue, 07 May 2024 18:57:42 +0000 (GMT)
+	Tue, 07 May 2024 19:51:30 +0000 (GMT)
 Received: from nalasex01b.na.qualcomm.com (nalasex01b.na.qualcomm.com [10.47.209.197])
-	by NALASPPMTA05.qualcomm.com (8.17.1.5/8.17.1.5) with ESMTPS id 447IvfZI007564
+	by NALASPPMTA01.qualcomm.com (8.17.1.5/8.17.1.5) with ESMTPS id 447JpT5D007172
 	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Tue, 7 May 2024 18:57:41 GMT
-Received: from [10.71.112.114] (10.80.80.8) by nalasex01b.na.qualcomm.com
- (10.47.209.197) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1544.9; Tue, 7 May 2024
- 11:57:40 -0700
-Message-ID: <518a046b-1056-287b-f505-149958ad9c9c@quicinc.com>
-Date: Tue, 7 May 2024 11:57:36 -0700
+	Tue, 7 May 2024 19:51:29 GMT
+Received: from hu-wcheng-lv.qualcomm.com (10.49.16.6) by
+ nalasex01b.na.qualcomm.com (10.47.209.197) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.1544.9; Tue, 7 May 2024 12:51:29 -0700
+From: Wesley Cheng <quic_wcheng@quicinc.com>
+To: <srinivas.kandagatla@linaro.org>, <mathias.nyman@intel.com>,
+        <perex@perex.cz>, <conor+dt@kernel.org>, <corbet@lwn.net>,
+        <lgirdwood@gmail.com>, <andersson@kernel.org>, <krzk+dt@kernel.org>,
+        <gregkh@linuxfoundation.org>, <Thinh.Nguyen@synopsys.com>,
+        <broonie@kernel.org>, <bgoswami@quicinc.com>, <tiwai@suse.com>,
+        <bagasdotme@gmail.com>, <robh@kernel.org>, <konrad.dybcio@linaro.org>
+CC: <linux-kernel@vger.kernel.org>, <devicetree@vger.kernel.org>,
+        <linux-sound@vger.kernel.org>, <linux-usb@vger.kernel.org>,
+        <linux-arm-msm@vger.kernel.org>, <linux-doc@vger.kernel.org>,
+        <alsa-devel@alsa-project.org>, Wesley Cheng <quic_wcheng@quicinc.com>
+Subject: [PATCH v21 08/39] ASoC: dt-bindings: qcom,q6dsp-lpass-ports: Add USB_RX port
+Date: Tue, 7 May 2024 12:50:45 -0700
+Message-ID: <20240507195116.9464-9-quic_wcheng@quicinc.com>
+X-Mailer: git-send-email 2.17.1
+In-Reply-To: <20240507195116.9464-1-quic_wcheng@quicinc.com>
+References: <20240507195116.9464-1-quic_wcheng@quicinc.com>
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:102.0) Gecko/20100101
- Thunderbird/102.15.1
-Subject: Re: [PATCH] usb: dwc3: gadget: create per ep interrupts
-To: Michael Grzeschik <m.grzeschik@pengutronix.de>,
-        Thinh Nguyen
-	<Thinh.Nguyen@synopsys.com>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-CC: <michael.riesch@wolfvision.net>, <kernel@pengutronix.de>,
-        <linux-usb@vger.kernel.org>, <linux-kernel@vger.kernel.org>
-References: <20240507-dwc3_per_ep_irqthread-v1-1-f14dec6de19f@pengutronix.de>
-Content-Language: en-US
-From: Wesley Cheng <quic_wcheng@quicinc.com>
-In-Reply-To: <20240507-dwc3_per_ep_irqthread-v1-1-f14dec6de19f@pengutronix.de>
-Content-Type: text/plain; charset="UTF-8"; format=flowed
-Content-Transfer-Encoding: 7bit
-X-ClientProxiedBy: nasanex01b.na.qualcomm.com (10.46.141.250) To
+Content-Type: text/plain
+X-ClientProxiedBy: nalasex01a.na.qualcomm.com (10.47.209.196) To
  nalasex01b.na.qualcomm.com (10.47.209.197)
 X-QCInternal: smtphost
 X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800 signatures=585085
-X-Proofpoint-GUID: YWCxCUKrPKzorRXLBQXvxvY1q6OHF7hq
-X-Proofpoint-ORIG-GUID: YWCxCUKrPKzorRXLBQXvxvY1q6OHF7hq
+X-Proofpoint-GUID: BWMy_sVse0W-Cb2h8I7AAZLQHSFJ1OMf
+X-Proofpoint-ORIG-GUID: BWMy_sVse0W-Cb2h8I7AAZLQHSFJ1OMf
 X-Proofpoint-Virus-Version: vendor=baseguard
  engine=ICAP:2.0.293,Aquarius:18.0.1039,Hydra:6.0.650,FMLib:17.11.176.26
- definitions=2024-05-07_11,2024-05-06_02,2023-05-22_02
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 phishscore=0
- priorityscore=1501 impostorscore=0 adultscore=0 bulkscore=0 suspectscore=0
- spamscore=0 mlxlogscore=564 mlxscore=0 lowpriorityscore=0 malwarescore=0
- clxscore=1011 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.19.0-2405010000 definitions=main-2405070133
+ definitions=2024-05-07_12,2024-05-06_02,2023-05-22_02
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 clxscore=1015 adultscore=0
+ suspectscore=0 spamscore=0 phishscore=0 mlxscore=0 mlxlogscore=999
+ bulkscore=0 malwarescore=0 priorityscore=1501 lowpriorityscore=0
+ impostorscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.19.0-2405010000 definitions=main-2405070138
 
-Hi Michael,
+Q6DSP supports handling of USB playback audio data if USB audio offloading
+is enabled.  Add a new definition for the USB_RX AFE port, which is
+referenced when the AFE port is started.
 
-On 5/6/2024 4:06 PM, Michael Grzeschik wrote:
-> This patch is splitting up the interrupt event handling from one
-> interrupt thread to separate per endpoint interrupt threads.
-> 
+Acked-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+Signed-off-by: Wesley Cheng <quic_wcheng@quicinc.com>
+---
+ include/dt-bindings/sound/qcom,q6dsp-lpass-ports.h | 1 +
+ 1 file changed, 1 insertion(+)
 
-I assume that the incentive from doing this is to improve overall 
-throughput numbers.  Would you be able to share some data on the 
-benefits of moving to per EP event management?
-
-> To achieve this we create a new dwc3 interrupt domain in which
-> we map all claimed interrupts to individual interrupt threads.
-> 
-> Although the gadget layer is preparing the claimed parameter
-> of each usb_ep which could be checked if the endpoint is
-> to used or not, the claimed value was 0 for each ep in gadget_start.
-> This was tested when describing some composite gadget using configfs.
-> 
-
-yeah... the claimed flag is cleared by the USB gadget, ie USB configfs 
-(not sure if you're using this) whenever it adds a USB config.  This is 
-to handle multi config situations, so subsequent USB configs can be 
-assigned (resuse) endpoints, since only one config is active at a time 
-for a USB device.
-
-This was a struggle for me as well when adding the TXFIFO resizing 
-logic.  We won't actually know which EPs are going to be used until the 
-host issues the set configuration packet to select a config, and the 
-set_alt() callback issues usb_ep_enable().  So the implementation 
-(TXFIFO resizing) is currently based on the maximum potential endpoints 
-used by any USB configuration.
-
-Not sure if having 31 (potentially) different IRQ entries would be ok, 
-but maybe it would be simpler to just to request IRQ for dwc->num_eps 
-always?
-
-Have you tried this on a multi config device?
-
-Thanks
-Wesley Cheng
+diff --git a/include/dt-bindings/sound/qcom,q6dsp-lpass-ports.h b/include/dt-bindings/sound/qcom,q6dsp-lpass-ports.h
+index 39f203256c4f..6d1ce7f5da51 100644
+--- a/include/dt-bindings/sound/qcom,q6dsp-lpass-ports.h
++++ b/include/dt-bindings/sound/qcom,q6dsp-lpass-ports.h
+@@ -139,6 +139,7 @@
+ #define DISPLAY_PORT_RX_5	133
+ #define DISPLAY_PORT_RX_6	134
+ #define DISPLAY_PORT_RX_7	135
++#define USB_RX			136
+ 
+ #define LPASS_CLK_ID_PRI_MI2S_IBIT	1
+ #define LPASS_CLK_ID_PRI_MI2S_EBIT	2
