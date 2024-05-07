@@ -1,45 +1,45 @@
-Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com [205.220.168.131])
+Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com [205.220.180.131])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3B85716F296;
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5DD2D1BF6F9;
 	Tue,  7 May 2024 19:51:59 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.168.131
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.180.131
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1715111521; cv=none; b=owLDT7jpg1RLEHL7r3PMY9ZQrBZje48w/R79WSCl9RQg6d2wG6bi57ndDiCOvlfaiYMsm3qedpJ5BxZ85nafH70dSNWJN5akoPVE938c7a7tv1gBCIDvLqp3tpupAz/VWQs4m9CpGyX+B6V80JTdrWlzYxveOS5G7pzdEn0Z12w=
+	t=1715111521; cv=none; b=rnzNUPq0aFmdU2kqtY4CiSo3EMKHAhmTuXLoexQktz6kSchZ3wkH4MydMmelp83YF4V39fi0U6SXaJsc4gBrdeCv9JhO4xACc+jPOQU2C/3aPROTjNbRD4r43OeJmG3GpRJU1cRL0y1ynz3B9LdzKStApAgc8SnMyYeIPBFCMGE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
 	s=arc-20240116; t=1715111521; c=relaxed/simple;
-	bh=vTcLhZf2R8paXkJQUxSXklktGwb+rhfT7p4hKA16e8Q=;
+	bh=ltXX8jP7pn8uVpu5KSPpn79cIYm5HfBGTiCUp+UHg9k=;
 	h=From:To:CC:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=ty7M8uSGwHFqvwgghe81HZFWWdB0uDThuv+jc1Ag7Nh5cKczUvanHxtu9EyHvy+c0aw8SUlq6yL9R/7T02O9ariENFauUlB9Mx+3b8MFoMKw2BGmzfAPbO4saw57qyjR6LCZe6nNNxtZFoNPVv9Atk744RRkGmFHxPl2tA4EYH0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=quicinc.com; spf=pass smtp.mailfrom=quicinc.com; dkim=pass (2048-bit key) header.d=quicinc.com header.i=@quicinc.com header.b=cCcHvOIX; arc=none smtp.client-ip=205.220.168.131
+	 MIME-Version:Content-Type; b=j+hcBBHPD0fZxurP2YnaYi5oiyExQs21h3JUKmoo9KhoPgyLqz/FdQjAphPO99zI4UNUNEAfJS95F/7a8CZi8tJAHiqbjO9eZLQjMBNB7wUeFzW9v8hnzw/AygdfvvZ7SWKro3PB//ZzdiokJishYbKCTyKVu/O77b1LNAH5cHM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=quicinc.com; spf=pass smtp.mailfrom=quicinc.com; dkim=pass (2048-bit key) header.d=quicinc.com header.i=@quicinc.com header.b=hGs2ZB44; arc=none smtp.client-ip=205.220.180.131
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=quicinc.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=quicinc.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=quicinc.com header.i=@quicinc.com header.b="cCcHvOIX"
-Received: from pps.filterd (m0279867.ppops.net [127.0.0.1])
-	by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 447IK5O5001412;
-	Tue, 7 May 2024 19:51:32 GMT
+	dkim=pass (2048-bit key) header.d=quicinc.com header.i=@quicinc.com header.b="hGs2ZB44"
+Received: from pps.filterd (m0279870.ppops.net [127.0.0.1])
+	by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 447JpY2e001074;
+	Tue, 7 May 2024 19:51:34 GMT
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com; h=
 	from:to:cc:subject:date:message-id:in-reply-to:references
-	:mime-version:content-type; s=qcppdkim1; bh=uyF8k4GY10EkPruZFkeC
-	0IFOj0f++wkbH8Kw38rv/5Y=; b=cCcHvOIXLSADStHXDFsJzrs8UY4ObpJ01QVx
-	V069xQY2bbcJPnV2KQvoTsA7UESxzCkOVBp9YLAHdTV/EQRuAx/AgihUF9DiPiqw
-	VMzuqk0m6MInS2yNum3Dc8d1lJT+NqvF1IG55Lhhe+bXa3I2/4eAa5tcJsqamCqp
-	cVEqoYj1nw8IiBIFNj9byJjXZqwAiBMRDQUWkXi3xIdMSOInjqOq8JukiC+aXbGq
-	XuJIsNqjtMyl2B3pG2NdkV1ywXLVe72bO1+KxtpKgLM6wPbSQIrZceELRciWws+U
-	jLWVigF2TNEAwwAvAM9sKWZnkXqwUyPNFo7oN7Q9fgYkEEDhHg==
-Received: from nalasppmta04.qualcomm.com (Global_NAT1.qualcomm.com [129.46.96.20])
-	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 3xysg405v0-1
+	:mime-version:content-type; s=qcppdkim1; bh=AN6ZcvMWlqNjOXpEc6Fd
+	iWAhkqYqJERCJ3muWeL5xeM=; b=hGs2ZB442V6gb2Ha5owN12aF4CU4DZFglYFL
+	m19eUjTW9fukMhJfpJdjv75h0TitLZu9hWVD2HH+Vv9yfXeGHerJTFeHiZig6pLy
+	5pNhITXNWma1EvUyGXZs0uT+J2d416yciYWyfFSYNYRsrFWTqVmQ+8Sez6TxDHGc
+	eEPR3Xbyl6n4S7QZkI73MGBJOepmOG57nVQadcRiwFk7sAvf651mJxa+Q4ZRp2UB
+	A9MPpNF+m8w9WohyDOA8w/6P+c815qfIkzv3yV0pvX4H7hDW8Q88pf4AtqwR8R0K
+	dUja0Gto4xLQ9PPEQMZJLw4n+fQ2hW8kbnjJhbGk2y98RaoA1Q==
+Received: from nalasppmta01.qualcomm.com (Global_NAT1.qualcomm.com [129.46.96.20])
+	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 3xyspgg4np-1
 	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Tue, 07 May 2024 19:51:32 +0000 (GMT)
+	Tue, 07 May 2024 19:51:34 +0000 (GMT)
 Received: from nalasex01b.na.qualcomm.com (nalasex01b.na.qualcomm.com [10.47.209.197])
-	by NALASPPMTA04.qualcomm.com (8.17.1.5/8.17.1.5) with ESMTPS id 447JpVXM019775
+	by NALASPPMTA01.qualcomm.com (8.17.1.5/8.17.1.5) with ESMTPS id 447JpWqt007186
 	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Tue, 7 May 2024 19:51:31 GMT
+	Tue, 7 May 2024 19:51:32 GMT
 Received: from hu-wcheng-lv.qualcomm.com (10.49.16.6) by
  nalasex01b.na.qualcomm.com (10.47.209.197) with Microsoft SMTP Server
  (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.1544.9; Tue, 7 May 2024 12:51:30 -0700
+ 15.2.1544.9; Tue, 7 May 2024 12:51:31 -0700
 From: Wesley Cheng <quic_wcheng@quicinc.com>
 To: <srinivas.kandagatla@linaro.org>, <mathias.nyman@intel.com>,
         <perex@perex.cz>, <conor+dt@kernel.org>, <corbet@lwn.net>,
@@ -51,9 +51,9 @@ CC: <linux-kernel@vger.kernel.org>, <devicetree@vger.kernel.org>,
         <linux-sound@vger.kernel.org>, <linux-usb@vger.kernel.org>,
         <linux-arm-msm@vger.kernel.org>, <linux-doc@vger.kernel.org>,
         <alsa-devel@alsa-project.org>, Wesley Cheng <quic_wcheng@quicinc.com>
-Subject: [PATCH v21 14/39] ALSA: usb-audio: Save UAC sample size information
-Date: Tue, 7 May 2024 12:50:51 -0700
-Message-ID: <20240507195116.9464-15-quic_wcheng@quicinc.com>
+Subject: [PATCH v21 16/39] usb: host: xhci-plat: Set XHCI max interrupters if property is present
+Date: Tue, 7 May 2024 12:50:53 -0700
+Message-ID: <20240507195116.9464-17-quic_wcheng@quicinc.com>
 X-Mailer: git-send-email 2.17.1
 In-Reply-To: <20240507195116.9464-1-quic_wcheng@quicinc.com>
 References: <20240507195116.9464-1-quic_wcheng@quicinc.com>
@@ -68,52 +68,36 @@ X-ClientProxiedBy: nalasex01a.na.qualcomm.com (10.47.209.196) To
  nalasex01b.na.qualcomm.com (10.47.209.197)
 X-QCInternal: smtphost
 X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800 signatures=585085
-X-Proofpoint-GUID: 6vFSVgnmZIantFQd2JoyLgDahztFJ6hp
-X-Proofpoint-ORIG-GUID: 6vFSVgnmZIantFQd2JoyLgDahztFJ6hp
+X-Proofpoint-GUID: cTrXuICcTRJtH0-s2paja7c2I8JlY1-s
+X-Proofpoint-ORIG-GUID: cTrXuICcTRJtH0-s2paja7c2I8JlY1-s
 X-Proofpoint-Virus-Version: vendor=baseguard
  engine=ICAP:2.0.293,Aquarius:18.0.1039,Hydra:6.0.650,FMLib:17.11.176.26
  definitions=2024-05-07_12,2024-05-06_02,2023-05-22_02
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 adultscore=0 phishscore=0
- spamscore=0 mlxlogscore=999 impostorscore=0 mlxscore=0 lowpriorityscore=0
- clxscore=1015 malwarescore=0 priorityscore=1501 suspectscore=0 bulkscore=0
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 mlxscore=0 lowpriorityscore=0
+ phishscore=0 suspectscore=0 clxscore=1015 bulkscore=0 mlxlogscore=999
+ adultscore=0 spamscore=0 priorityscore=1501 impostorscore=0 malwarescore=0
  classifier=spam adjust=0 reason=mlx scancount=1 engine=8.19.0-2405010000
  definitions=main-2405070138
 
-Within the UAC descriptor, there is information describing the size of a
-sample (bSubframeSize/bSubslotSize) and the number of relevant bits
-(bBitResolution).  Currently, fmt_bits carries only the bit resolution,
-however, some offloading entities may also require the overall size of the
-sample.  Save this information in a separate parameter, as depending on the
-UAC format type, the sample size can not easily be decoded from other
-exisiting parameters.
+Some platforms may want to limit the number of XHCI interrupters allocated.
+This is passed to xhci-plat as a device property.  Ensure that this is read
+and the max_interrupters field is set.
 
 Signed-off-by: Wesley Cheng <quic_wcheng@quicinc.com>
 ---
- sound/usb/card.h   | 1 +
- sound/usb/format.c | 1 +
- 2 files changed, 2 insertions(+)
+ drivers/usb/host/xhci-plat.c | 2 ++
+ 1 file changed, 2 insertions(+)
 
-diff --git a/sound/usb/card.h b/sound/usb/card.h
-index 2884912adc96..02e4ea898db5 100644
---- a/sound/usb/card.h
-+++ b/sound/usb/card.h
-@@ -15,6 +15,7 @@ struct audioformat {
- 	unsigned int channels;		/* # channels */
- 	unsigned int fmt_type;		/* USB audio format type (1-3) */
- 	unsigned int fmt_bits;		/* number of significant bits */
-+	unsigned int fmt_sz;		/* overall audio sub frame/slot size */
- 	unsigned int frame_size;	/* samples per frame for non-audio */
- 	unsigned char iface;		/* interface number */
- 	unsigned char altsetting;	/* corresponding alternate setting */
-diff --git a/sound/usb/format.c b/sound/usb/format.c
-index 3b45d0ee7693..5fde543536a8 100644
---- a/sound/usb/format.c
-+++ b/sound/usb/format.c
-@@ -80,6 +80,7 @@ static u64 parse_audio_format_i_type(struct snd_usb_audio *chip,
+diff --git a/drivers/usb/host/xhci-plat.c b/drivers/usb/host/xhci-plat.c
+index 3d071b875308..1c12cadc02a1 100644
+--- a/drivers/usb/host/xhci-plat.c
++++ b/drivers/usb/host/xhci-plat.c
+@@ -258,6 +258,8 @@ int xhci_plat_probe(struct platform_device *pdev, struct device *sysdev, const s
+ 
+ 		device_property_read_u32(tmpdev, "imod-interval-ns",
+ 					 &xhci->imod_interval);
++		device_property_read_u16(tmpdev, "num-hc-interrupters",
++					 &xhci->max_interrupters);
  	}
  
- 	fp->fmt_bits = sample_width;
-+	fp->fmt_sz = sample_bytes;
- 
- 	if ((pcm_formats == 0) &&
- 	    (format == 0 || format == (1 << UAC_FORMAT_TYPE_I_UNDEFINED))) {
+ 	/*
