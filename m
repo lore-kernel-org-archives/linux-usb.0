@@ -1,28 +1,28 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9C6A084D23;
-	Tue, 14 May 2024 10:48:08 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8AE476311D;
+	Tue, 14 May 2024 11:24:47 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1715683688; cv=none; b=jATgp7Y99BErp05o/0Qur5pQlqOTrm+T1KcaUZdLTND/z6FzZk913VW69o8Ndm7GGH7Snk1bxp7Pd8uHjZr4lbSL/8aENL+DvYsh32Lex6STsZsrYBogiKFnUZxNptgcZQ768N1aYHGo4JhksJmJhfRuDYZexgfb/KuouL4WPqc=
+	t=1715685887; cv=none; b=Kg5mrSPcsVmIL5IFnWo/7kMivs55IsHaZ0nEJjGeN1/6mcEyP7UMxreWIyhB+dOWLHkn8w9nW5dl6oDhm7I4srKy/aKSD1v5TLgUmLGGE1613KnJU/MMYf0uSm+r1pLw0mmdVlfqyTzyqaVtixv1TDpT/LIG/k8BMdi618H4+E8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1715683688; c=relaxed/simple;
-	bh=JMWo4w7F3EPtehsG03RW5xqidd/t+WrU1yoW/MymqBY=;
+	s=arc-20240116; t=1715685887; c=relaxed/simple;
+	bh=LXV+ZjnuDjyDDleo0LoYyUv1WccqMEPwcst/tiipykM=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=gSaReuWDqN1LbXEPECn+0lIl59lLRxDXM8rYrRQGqjzVuNDrLuodX34h5bc5LOYiJEw1EBs8Y0+VDWxNfMUfHfiuaB1K1JG/VJAdTmhVmwpnDlOixuFVo7TLiXy4n0nCOpkl2btxbM/gAaOu/i6xzFTuHFi80zyV9nA01el5ARI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b=rz3kHAwf; arc=none smtp.client-ip=10.30.226.201
+	 MIME-Version; b=sxRcOq7skZLep//GTP1VXR7Mt8oePyxA0IWsB88u7BkSiY1caCAIf9QcS03x6Rjk+LLl1QW5gV4gsoF/NNABj18mTFjb8kcS1iBK2VIh0WU6UG/pz2IbaaIt/Tzhn+9XYjVvdWqa8qByZmkvPrfyAO4+PcfitKwioAwFOkHVCMU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b=A12suBtl; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="rz3kHAwf"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 088D3C2BD10;
-	Tue, 14 May 2024 10:48:07 +0000 (UTC)
+	dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="A12suBtl"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id E4BDEC2BD10;
+	Tue, 14 May 2024 11:24:46 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
-	s=korg; t=1715683688;
-	bh=JMWo4w7F3EPtehsG03RW5xqidd/t+WrU1yoW/MymqBY=;
+	s=korg; t=1715685887;
+	bh=LXV+ZjnuDjyDDleo0LoYyUv1WccqMEPwcst/tiipykM=;
 	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=rz3kHAwfhkM9UgplMJjEe9pocJBKwlRlU4wgit50v1T6BZ8e9C+SxTNaq3k4rXDno
-	 5sgAGu/HCfzjvk+ZnmnYaZARhV+44mgXz/XM0R3/IFtKZ8vTwaKmltBEEYSfkLZTcr
-	 XeXmGnsUGqHPjiJt/ZSFxoxXWtq8R05LeaqITjbk=
+	b=A12suBtlmZTpHrD5Azhe/DLDCkKtPsgttPoXSRecc/ZB5xfAEnZL2NCO/eXdddrXz
+	 iWTdBvQA6ulwZ07uIT01j5FkOSypdzbB8l5ZdT9Lo8FBvPATfVFXG+aYdIlxXFR8vL
+	 bZtWRnS9XqmE31pl9FX++BB2SSupZv6j4kjWF+po=
 From: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
 To: stable@vger.kernel.org
 Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
@@ -32,12 +32,12 @@ Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
 	Mark Brown <broonie@kernel.org>,
 	Amit Sunil Dhamne <amitsd@google.com>,
 	Heikki Krogerus <heikki.krogerus@linux.intel.com>
-Subject: [PATCH 6.8 257/336] usb: typec: tcpm: unregister existing source caps before re-registration
-Date: Tue, 14 May 2024 12:17:41 +0200
-Message-ID: <20240514101048.319410880@linuxfoundation.org>
+Subject: [PATCH 6.6 237/301] usb: typec: tcpm: unregister existing source caps before re-registration
+Date: Tue, 14 May 2024 12:18:28 +0200
+Message-ID: <20240514101041.202661931@linuxfoundation.org>
 X-Mailer: git-send-email 2.45.0
-In-Reply-To: <20240514101038.595152603@linuxfoundation.org>
-References: <20240514101038.595152603@linuxfoundation.org>
+In-Reply-To: <20240514101032.219857983@linuxfoundation.org>
+References: <20240514101032.219857983@linuxfoundation.org>
 User-Agent: quilt/0.67
 X-stable: review
 X-Patchwork-Hint: ignore
@@ -49,7 +49,7 @@ List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-6.8-stable review patch.  If anyone has any objections, please let me know.
+6.6-stable review patch.  If anyone has any objections, please let me know.
 
 ------------------
 
@@ -95,7 +95,7 @@ Signed-off-by: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
 
 --- a/drivers/usb/typec/tcpm/tcpm.c
 +++ b/drivers/usb/typec/tcpm/tcpm.c
-@@ -2435,7 +2435,7 @@ static int tcpm_register_sink_caps(struc
+@@ -2422,7 +2422,7 @@ static int tcpm_register_sink_caps(struc
  {
  	struct usb_power_delivery_desc desc = { port->negotiated_rev };
  	struct usb_power_delivery_capabilities_desc caps = { };
@@ -104,7 +104,7 @@ Signed-off-by: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
  
  	if (!port->partner_pd)
  		port->partner_pd = usb_power_delivery_register(NULL, &desc);
-@@ -2445,6 +2445,9 @@ static int tcpm_register_sink_caps(struc
+@@ -2432,6 +2432,9 @@ static int tcpm_register_sink_caps(struc
  	memcpy(caps.pdo, port->sink_caps, sizeof(u32) * port->nr_sink_caps);
  	caps.role = TYPEC_SINK;
  
