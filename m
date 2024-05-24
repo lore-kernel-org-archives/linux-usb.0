@@ -1,184 +1,117 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.13])
+Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com [205.220.180.131])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 62C3C18E
-	for <linux-usb@vger.kernel.org>; Fri, 24 May 2024 00:08:56 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.13
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1140B800;
+	Fri, 24 May 2024 00:11:17 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.180.131
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1716509338; cv=none; b=UihHzQWeJduA4Ddk3rrMTMJhaqk6Nx/Twc/ioAVUKptjLP53cN3GpYOgbwL6UjsYrkTFQFLA4NzTXmpqxrNdFXvYOIEqzmzp146cal69yj4A8ruVkLJF49K3cTVI6v+Wjq90GPtR5HUHLN50baPDw8IJNsyPkNNsEosUWQgqUYY=
+	t=1716509479; cv=none; b=mNw6jXzh0EoSulrBdK35jB9J8kzarpMTgc5kWo6WBg9j98QewMz5PWvgqa3JYevKfK/8CrCcHCMwKsWcbf/x9MrkDc8zmA11N3x9cYXkM/8/d+BEHDIIxYDlB2wQ0jurab2m/rKIedvXvaiHfBoaa6keAXSui80N6+CTnexRSZw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1716509338; c=relaxed/simple;
-	bh=vWlvDbu2/BogYNh1I30dtyW+IAWMVGiLvbzJWYX5yac=;
-	h=Date:From:To:Cc:Subject:Message-ID; b=PVCDf0h4mSbY8O1MC7Q4+LA22aLoxaZk6jprZCRIugEAeGT6ChX9EIlQiHnER0JntMNsOVZesy66cGlKRsuCiTCLWvVglLsfjIe6bXSje824/4wb3AiNLiUDkI/VUNltpAi3kr0uEsdA9jO5B3xpMVmc3LPPTm7dvskLyie6FUU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=CBRNp7cR; arc=none smtp.client-ip=198.175.65.13
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	s=arc-20240116; t=1716509479; c=relaxed/simple;
+	bh=izD+DbozS8oGydYFz+5Vb7dIzvHhxa3xSOkF47CTxH8=;
+	h=From:To:CC:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=AVRjXSceRvWQeSaW97RVpVsFeUdVbnnsRlQ7VBz+SiTTJi0hTiqYSg/SN8RvS11X1qY8DfqsHYfKQuFUoJ3kHVKXaxVMXgHFg1SZ5dY4nPoODkQ9m8Tylvf8z55Xcf8WIqkM74G1KPPT6A+oZG1LpY6iNP/L52n44F6yndbrp7M=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=quicinc.com; spf=pass smtp.mailfrom=quicinc.com; dkim=pass (2048-bit key) header.d=quicinc.com header.i=@quicinc.com header.b=cJw9pbi1; arc=none smtp.client-ip=205.220.180.131
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=quicinc.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=quicinc.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="CBRNp7cR"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1716509336; x=1748045336;
-  h=date:from:to:cc:subject:message-id;
-  bh=vWlvDbu2/BogYNh1I30dtyW+IAWMVGiLvbzJWYX5yac=;
-  b=CBRNp7cRSlH5hGfkWDq4PgD0Sb3COEOtNT3GYVgGtwHHt9mt9YeSq2F8
-   7ZqK9vJkbtax9UTbHpFQFwfVIgV7NJJvSEvmRAc5S87z7K+UaMvRMADO9
-   CPsWpYXoqfO+mCNTOE7C9Lo9YcL2ItF7B3Hv3Ul3ui8veKs3XJ/17c36i
-   Rdbv5Ow3salKPVfyy0SS2vm2pBbZWfgmNdA1KjyNeC3Pit8zBuBeupkWE
-   fbe9ysYulsVFSEKQUDnh5QZK4T3DQmOrdgu1xCIn0vxu0H7eEH2KRfft6
-   QgTuO11isQ/OGOpjgds94qikus24sP54BzG3pqqfV+CadRqW+0GcfALb9
-   w==;
-X-CSE-ConnectionGUID: 9YgGR6oKQLuX2Y3AtF7jzg==
-X-CSE-MsgGUID: ESHgtdSDSWausmkDes9QfQ==
-X-IronPort-AV: E=McAfee;i="6600,9927,11081"; a="24000265"
-X-IronPort-AV: E=Sophos;i="6.08,183,1712646000"; 
-   d="scan'208";a="24000265"
-Received: from fmviesa008.fm.intel.com ([10.60.135.148])
-  by orvoesa105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 23 May 2024 17:08:56 -0700
-X-CSE-ConnectionGUID: 3p+ALXQ0T8+8AI+E4EEesg==
-X-CSE-MsgGUID: RCARRpOZR8a33VIjhE8Ypw==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.08,183,1712646000"; 
-   d="scan'208";a="33825167"
-Received: from unknown (HELO 0610945e7d16) ([10.239.97.151])
-  by fmviesa008.fm.intel.com with ESMTP; 23 May 2024 17:08:55 -0700
-Received: from kbuild by 0610945e7d16 with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1sAIUO-0003dx-0O;
-	Fri, 24 May 2024 00:08:52 +0000
-Date: Fri, 24 May 2024 08:08:40 +0800
-From: kernel test robot <lkp@intel.com>
-To: "Greg Kroah-Hartman" <gregkh@linuxfoundation.org>
-Cc: linux-usb@vger.kernel.org
-Subject: [usb:rndis-removal] BUILD SUCCESS
- afea32d7702fbf7c03a704a230cd95430b41fe1a
-Message-ID: <202405240838.5MbvvXzi-lkp@intel.com>
-User-Agent: s-nail v14.9.24
+	dkim=pass (2048-bit key) header.d=quicinc.com header.i=@quicinc.com header.b="cJw9pbi1"
+Received: from pps.filterd (m0279869.ppops.net [127.0.0.1])
+	by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 44NNPIt5004407;
+	Fri, 24 May 2024 00:11:03 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com; h=
+	cc:content-type:date:from:in-reply-to:message-id:mime-version
+	:references:subject:to; s=qcppdkim1; bh=DYLWwo/G+1Jgv2CP4pXZ8GM4
+	oRunCFe5DUVQ7F3XSlY=; b=cJw9pbi1LCo1pbTtp3K45wCyJZqvK5DsgxVCzzg+
+	2S0E3Lv9/lshdwm+oKYZht+cYCA7PilVPDUNTvYPkbndKxA8Y1fjG2vIyac84k/6
+	HkFQHVbakY8aNBAXbUNzzf0boVB9ciRIuQgl2Huv9VVpbztXHZWo37UqW0rfcSIi
+	CJK93BPwJWa9BzUncHpkAauwjzfF/w4p2ZJcX3lRTZKFREi5WBpVdmGuaGqa1wiN
+	+IqZ1rS/kfZI67SCIW78AVQQv3ixvYAqUp+dqOrO2m1M4twq1BWXHZiS+H+Ft6gX
+	M1xqp+JGgYuRt9sJP6/GCl4gJFPy7pdWUcp/oPJkg74a3w==
+Received: from nalasppmta05.qualcomm.com (Global_NAT1.qualcomm.com [129.46.96.20])
+	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 3yaabq0q42-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Fri, 24 May 2024 00:11:02 +0000 (GMT)
+Received: from nalasex01b.na.qualcomm.com (nalasex01b.na.qualcomm.com [10.47.209.197])
+	by NALASPPMTA05.qualcomm.com (8.17.1.5/8.17.1.5) with ESMTPS id 44O0B1Vv020592
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Fri, 24 May 2024 00:11:01 GMT
+Received: from hu-wcheng-lv.qualcomm.com (10.49.16.6) by
+ nalasex01b.na.qualcomm.com (10.47.209.197) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.1544.9; Thu, 23 May 2024 17:11:01 -0700
+From: Wesley Cheng <quic_wcheng@quicinc.com>
+To: <srinivas.kandagatla@linaro.org>, <mathias.nyman@intel.com>,
+        <perex@perex.cz>, <conor+dt@kernel.org>, <corbet@lwn.net>,
+        <lgirdwood@gmail.com>, <tiwai@suse.com>, <krzk+dt@kernel.org>,
+        <Thinh.Nguyen@synopsys.com>, <broonie@kernel.org>,
+        <bgoswami@quicinc.com>, <robh@kernel.org>,
+        <gregkh@linuxfoundation.org>
+CC: <linux-kernel@vger.kernel.org>, <devicetree@vger.kernel.org>,
+        <linux-sound@vger.kernel.org>, <linux-usb@vger.kernel.org>,
+        <linux-arm-msm@vger.kernel.org>, <linux-doc@vger.kernel.org>,
+        <alsa-devel@alsa-project.org>, Wesley Cheng <quic_wcheng@quicinc.com>
+Subject: [PATCH v22 24/38] ASoC: dt-bindings: Update example for enabling USB offload on SM8250
+Date: Thu, 23 May 2024 17:10:29 -0700
+Message-ID: <20240524001043.10141-25-quic_wcheng@quicinc.com>
+X-Mailer: git-send-email 2.17.1
+In-Reply-To: <20240524001043.10141-1-quic_wcheng@quicinc.com>
+References: <20240524001043.10141-1-quic_wcheng@quicinc.com>
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
+MIME-Version: 1.0
+Content-Type: text/plain
+X-ClientProxiedBy: nalasex01b.na.qualcomm.com (10.47.209.197) To
+ nalasex01b.na.qualcomm.com (10.47.209.197)
+X-QCInternal: smtphost
+X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800 signatures=585085
+X-Proofpoint-GUID: N3bNc8KdRkXQjqmkxKRIR2YJ_BAFLheH
+X-Proofpoint-ORIG-GUID: N3bNc8KdRkXQjqmkxKRIR2YJ_BAFLheH
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1039,Hydra:6.0.650,FMLib:17.12.28.16
+ definitions=2024-05-23_13,2024-05-23_01,2024-05-17_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 mlxscore=0 mlxlogscore=999
+ adultscore=0 suspectscore=0 bulkscore=0 impostorscore=0 malwarescore=0
+ spamscore=0 phishscore=0 clxscore=1015 lowpriorityscore=0
+ priorityscore=1501 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.19.0-2405170001 definitions=main-2405230166
 
-tree/branch: https://git.kernel.org/pub/scm/linux/kernel/git/gregkh/usb.git rndis-removal
-branch HEAD: afea32d7702fbf7c03a704a230cd95430b41fe1a  USB: disable all RNDIS protocol drivers
+Add an example on enabling of USB offload for the Q6DSP.  The routing can
+be done by the mixer, which can pass the multimedia stream to the USB
+backend.
 
-elapsed time: 1026m
+Acked-by: Rob Herring <robh@kernel.org>
+Signed-off-by: Wesley Cheng <quic_wcheng@quicinc.com>
+---
+ .../devicetree/bindings/sound/qcom,sm8250.yaml    | 15 +++++++++++++++
+ 1 file changed, 15 insertions(+)
 
-configs tested: 107
-configs skipped: 3
-
-The following configs have been built successfully.
-More configs may be tested in the coming days.
-
-tested configs:
-alpha                             allnoconfig   gcc  
-alpha                            allyesconfig   gcc  
-alpha                               defconfig   gcc  
-arc                              allmodconfig   gcc  
-arc                               allnoconfig   gcc  
-arc                              allyesconfig   gcc  
-arc                                 defconfig   gcc  
-arm                              allmodconfig   gcc  
-arm                               allnoconfig   clang
-arm                              allyesconfig   gcc  
-arm                                 defconfig   clang
-arm64                            allmodconfig   clang
-arm64                             allnoconfig   gcc  
-arm64                               defconfig   gcc  
-csky                             allmodconfig   gcc  
-csky                              allnoconfig   gcc  
-csky                             allyesconfig   gcc  
-csky                                defconfig   gcc  
-hexagon                          allmodconfig   clang
-hexagon                           allnoconfig   clang
-hexagon                          allyesconfig   clang
-hexagon                             defconfig   clang
-i386                             allmodconfig   gcc  
-i386                              allnoconfig   gcc  
-i386                             allyesconfig   gcc  
-i386         buildonly-randconfig-001-20240523   clang
-i386         buildonly-randconfig-002-20240523   gcc  
-i386         buildonly-randconfig-003-20240523   clang
-i386         buildonly-randconfig-004-20240523   clang
-i386         buildonly-randconfig-005-20240523   clang
-i386         buildonly-randconfig-006-20240523   gcc  
-i386                                defconfig   clang
-i386                  randconfig-001-20240523   gcc  
-i386                  randconfig-002-20240523   clang
-i386                  randconfig-003-20240523   clang
-i386                  randconfig-004-20240523   clang
-i386                  randconfig-005-20240523   gcc  
-i386                  randconfig-006-20240523   clang
-i386                  randconfig-011-20240523   gcc  
-i386                  randconfig-012-20240523   clang
-i386                  randconfig-013-20240523   clang
-i386                  randconfig-014-20240523   gcc  
-i386                  randconfig-015-20240523   gcc  
-i386                  randconfig-016-20240523   gcc  
-loongarch                        allmodconfig   gcc  
-loongarch                         allnoconfig   gcc  
-loongarch                           defconfig   gcc  
-m68k                             allmodconfig   gcc  
-m68k                              allnoconfig   gcc  
-m68k                             allyesconfig   gcc  
-m68k                                defconfig   gcc  
-microblaze                       allmodconfig   gcc  
-microblaze                        allnoconfig   gcc  
-microblaze                       allyesconfig   gcc  
-microblaze                          defconfig   gcc  
-mips                              allnoconfig   gcc  
-mips                             allyesconfig   gcc  
-nios2                            allmodconfig   gcc  
-nios2                             allnoconfig   gcc  
-nios2                            allyesconfig   gcc  
-nios2                               defconfig   gcc  
-openrisc                          allnoconfig   gcc  
-openrisc                         allyesconfig   gcc  
-openrisc                            defconfig   gcc  
-parisc                           allmodconfig   gcc  
-parisc                            allnoconfig   gcc  
-parisc                           allyesconfig   gcc  
-parisc                              defconfig   gcc  
-parisc64                            defconfig   gcc  
-powerpc                          allmodconfig   gcc  
-powerpc                           allnoconfig   gcc  
-powerpc                          allyesconfig   clang
-riscv                            allmodconfig   clang
-riscv                             allnoconfig   gcc  
-riscv                            allyesconfig   clang
-riscv                               defconfig   clang
-s390                             allmodconfig   clang
-s390                              allnoconfig   clang
-s390                             allyesconfig   gcc  
-s390                                defconfig   clang
-sh                               allmodconfig   gcc  
-sh                                allnoconfig   gcc  
-sh                               allyesconfig   gcc  
-sh                                  defconfig   gcc  
-sparc                            allmodconfig   gcc  
-sparc                             allnoconfig   gcc  
-sparc                               defconfig   gcc  
-sparc64                          allmodconfig   gcc  
-sparc64                          allyesconfig   gcc  
-sparc64                             defconfig   gcc  
-um                               allmodconfig   clang
-um                                allnoconfig   clang
-um                               allyesconfig   gcc  
-um                                  defconfig   clang
-um                             i386_defconfig   gcc  
-um                           x86_64_defconfig   clang
-x86_64                            allnoconfig   clang
-x86_64                           allyesconfig   clang
-x86_64       buildonly-randconfig-001-20240524   gcc  
-x86_64       buildonly-randconfig-002-20240524   gcc  
-x86_64       buildonly-randconfig-003-20240524   clang
-x86_64       buildonly-randconfig-004-20240524   gcc  
-x86_64       buildonly-randconfig-005-20240524   gcc  
-x86_64       buildonly-randconfig-006-20240524   gcc  
-x86_64                              defconfig   gcc  
-x86_64                          rhel-8.3-rust   clang
-xtensa                            allnoconfig   gcc  
-
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+diff --git a/Documentation/devicetree/bindings/sound/qcom,sm8250.yaml b/Documentation/devicetree/bindings/sound/qcom,sm8250.yaml
+index b2e15ebbd1bc..f2d708f899bf 100644
+--- a/Documentation/devicetree/bindings/sound/qcom,sm8250.yaml
++++ b/Documentation/devicetree/bindings/sound/qcom,sm8250.yaml
+@@ -229,6 +229,21 @@ examples:
+                 sound-dai = <&vamacro 0>;
+             };
+         };
++
++        usb-dai-link {
++            link-name = "USB Playback";
++            cpu {
++                sound-dai = <&q6afedai USB_RX>;
++            };
++
++            codec {
++                sound-dai = <&usbdai USB_RX>;
++            };
++
++            platform {
++                sound-dai = <&q6routing>;
++            };
++        };
+     };
+ 
+   - |
