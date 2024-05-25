@@ -1,84 +1,95 @@
-Received: from mout.web.de (mout.web.de [212.227.15.4])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-lj1-f176.google.com (mail-lj1-f176.google.com [209.85.208.176])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A2188F9F8;
-	Sat, 25 May 2024 18:00:32 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=212.227.15.4
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2E6CB12838A
+	for <linux-usb@vger.kernel.org>; Sat, 25 May 2024 20:12:46 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.176
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1716660035; cv=none; b=AnneYvQ9BWxaE3v8Ybabzxw0oLOWxlnWBn6oL5zt8BEq112cw62lH6K2C9gKWO50m3iq94N7c/kBuYRAccYA0Ft+/sGS6Pw3Ex/7czjd/B2eq+X3J0WPjo4RzOTEBbtaqPcaPDDa9iYWLi1fh/Ox4gDTtYNl6b/LX55j7cS988Q=
+	t=1716667968; cv=none; b=pUSN3ZJHr5bVdABPChGq2bgvLPDsf99GsMTMVn1w0OHhpUY74FyIRrMloBOwjnT5dQjTnecUswHZ29bKGoUh18pA/wREQVwhosEzIU8O+d/2vlaRs35fnM86sqR/5TDOlnoL1V2xa2B7SEUk832eV6gBP4pNM/yw0Ymabscv4CM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1716660035; c=relaxed/simple;
-	bh=4p+EeENtrNBhk+BdqQn7xAY7/P5w0W1qsA3OlgQYGGA=;
-	h=Message-ID:Date:MIME-Version:To:Cc:References:Subject:From:
-	 In-Reply-To:Content-Type; b=hU/efklqHsXUASGyRlH8PjKT8i3gm23/7qA+YxDlf4urFFdq83/cxrHvKRVqWYoqHQkbV5nWRgJHJ6h6nsOuDqkr8olJIRN+ZmXJCIfGv78mNFOUaz2EN7u2VU9Jp03k4KN52iRbsIrdn0wwn8lU+uPfEyub8t7omtiUZ21S5XY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=web.de; spf=pass smtp.mailfrom=web.de; dkim=pass (2048-bit key) header.d=web.de header.i=markus.elfring@web.de header.b=NOOxKcKh; arc=none smtp.client-ip=212.227.15.4
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=web.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=web.de
+	s=arc-20240116; t=1716667968; c=relaxed/simple;
+	bh=eY5NFdEB4BLrmrsCDSSMoBVFvT1TeVGAQqzQJjG9lgs=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=foFoaABUGCqF5/0MYQulq4mJXOmkNjDSuYc3g/REfP8kBwQhhrRKHkmlkImy4fLa7szTL+etmzia4U6oSu6mAUoLAMpFzp5s3EVFzzoJb+Go5WiYaKhM4MyxyJxw0td4rgoQ5hlmN3CWvzVFyhDLL7dJWLXKuCcBifJ0yRZZqFY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=iOFvn8tR; arc=none smtp.client-ip=209.85.208.176
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=web.de header.i=markus.elfring@web.de header.b="NOOxKcKh"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=web.de;
-	s=s29768273; t=1716660028; x=1717264828; i=markus.elfring@web.de;
-	bh=4p+EeENtrNBhk+BdqQn7xAY7/P5w0W1qsA3OlgQYGGA=;
-	h=X-UI-Sender-Class:Message-ID:Date:MIME-Version:To:Cc:References:
-	 Subject:From:In-Reply-To:Content-Type:Content-Transfer-Encoding:
-	 cc:content-transfer-encoding:content-type:date:from:message-id:
-	 mime-version:reply-to:subject:to;
-	b=NOOxKcKh7hMBGZYJhXb0JttxmWERmptV2LsfYdRIWIGNDbOBDeolIFnUaLxyV6KP
-	 NxVtLZIpyNp3trpwyL4ImjjQ5Md31M7Gu3iS56JNkfFBYUFjYDVlV7EAByfK2WgvO
-	 qgTTKPzswqNvVQTyv2eCx/Q8UMJpTXrC/b6FAJ6WAB8QswcDeHMecTFSuVnDDsdHt
-	 UNQR0gGEgNEo6Q7z2ikxnw4ScKMCm84+3xZEqNh3yuY8LLtZwMJTrf36MEyF9hQkZ
-	 wbFdwdiRrPDLJ7bguCUuo3sBNy6L3uWUY8v0n09vYcqizb6uufqAxtdN9cu/qV9Cl
-	 VSeMDCN6A4JYE/2jLg==
-X-UI-Sender-Class: 814a7b36-bfc1-4dae-8640-3722d8ec6cd6
-Received: from [192.168.178.21] ([94.31.83.95]) by smtp.web.de (mrweb006
- [213.165.67.108]) with ESMTPSA (Nemesis) id 1MgRMB-1siuOJ0G9n-00hjap; Sat, 25
- May 2024 20:00:28 +0200
-Message-ID: <7721c32f-06ea-4e8c-894b-cdfb4f6270b4@web.de>
-Date: Sat, 25 May 2024 20:00:20 +0200
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="iOFvn8tR"
+Received: by mail-lj1-f176.google.com with SMTP id 38308e7fff4ca-2e95a60dfcdso24504511fa.1
+        for <linux-usb@vger.kernel.org>; Sat, 25 May 2024 13:12:46 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google; t=1716667965; x=1717272765; darn=vger.kernel.org;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=w6YKAF3uOaRvvdDSRLqD9z7t3ncxonB3HE3QHJTs1EU=;
+        b=iOFvn8tR64bqOAW4wLh408BIkhTt9uzBiLrcTFbLo/d97uhLd94dsGZQ8it6r7sos1
+         tWkONJ54pSdJtxwS4Ha2xYeLWlGvZwRRz0deUGHuKURCCzXAkFUuKvmQ9UiOOME665yT
+         naV0PVRxOwrCxtbEqGbbpJ6X+ZqRtKVOC0yJJHpeqdQWduP/ExMJhoFRvCDmelF1kGcD
+         aQeYrEsp3GLeuPRcDKqF6c0XvOdaNbOZIuDnWaAjYTslgGdhiTWEr9/sD+huEvH3UyZz
+         rYxDp9za9mgdptSrcAQHFgWTHuQR3tQijxxaoEY7HGXd62NfcpYCb/YEdwvjDNnPQb77
+         O0pw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1716667965; x=1717272765;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=w6YKAF3uOaRvvdDSRLqD9z7t3ncxonB3HE3QHJTs1EU=;
+        b=vQqjuRnF6OsX1BB0EOOxCMVIt66YsphqHPU6zM05MmFR/1kjjOr2mA3O5jDYzvAFEg
+         P5fcJLbuqKf3o3fJ2gO3PDL8zebOnx0d3CoiW/poutiWzWiyMZfa7bpJwEu6nYJJonEC
+         t1kFcDgLHml6WEWyQgy9/Qwrg0dke47+TteaOmiICTb9D0saCM/FEgLis9UzhkzylOFR
+         /2loW1qNyJsNTR23O6j+pWeotldRpmJAtihvvGhkeQfJ+7YE9ez5ZxGvzjwLcuWr2PB/
+         JKgSyoPbqjBpRsFYGN6M1vmQFWOO+m+0cwDaihAIL6a1pE4ucxAbq4UQ5KbRRhmp6uWx
+         0c+w==
+X-Forwarded-Encrypted: i=1; AJvYcCWubAcL+azz7brGi6QCn+7b4BeHai1xDBvW30fUDVkwEyAidvvTJo45p1pKwxb66Q8WMQXbeA3ckWzpp+mvfJNfm873rizbbQ2h
+X-Gm-Message-State: AOJu0YwB6y6NWKgZJJIuDWgnW1eVfVnuLQEd9YfdZPrm+tO+ICi+NHU6
+	vuJ8ktf5iypV5yu6q7r2PkzL/pjlofAfqRDXUlCqiW18t+dGjuCSVC1seXoss1A=
+X-Google-Smtp-Source: AGHT+IHJDobPY5xFq5dvnmXXHNOJaX/jRN/ri7kcyQYhHMcDJUmJpMFwZSjdDHIOoZ0wzgcLMXKknQ==
+X-Received: by 2002:a2e:bc08:0:b0:2e9:570e:1cf with SMTP id 38308e7fff4ca-2e95b3089d9mr38786341fa.52.1716667965322;
+        Sat, 25 May 2024 13:12:45 -0700 (PDT)
+Received: from eriador.lumag.spb.ru (dzdbxzyyyyyyyyyyyykxt-3.rev.dnainternet.fi. [2001:14ba:a0c3:3a00::227])
+        by smtp.gmail.com with ESMTPSA id 38308e7fff4ca-2e95bdd152dsm8775351fa.81.2024.05.25.13.12.44
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sat, 25 May 2024 13:12:44 -0700 (PDT)
+Date: Sat, 25 May 2024 23:12:43 +0300
+From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+To: Bjorn Andersson <andersson@kernel.org>
+Cc: Vinod Koul <vkoul@kernel.org>, 
+	Kishon Vijay Abraham I <kishon@kernel.org>, Rob Herring <robh@kernel.org>, 
+	Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, 
+	Michael Turquette <mturquette@baylibre.com>, Stephen Boyd <sboyd@kernel.org>, 
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>, Wesley Cheng <quic_wcheng@quicinc.com>, 
+	Konrad Dybcio <konrad.dybcio@linaro.org>, linux-arm-msm@vger.kernel.org, linux-phy@lists.infradead.org, 
+	devicetree@vger.kernel.org, linux-kernel@vger.kernel.org, linux-clk@vger.kernel.org, 
+	linux-usb@vger.kernel.org, Bjorn Andersson <quic_bjorande@quicinc.com>
+Subject: Re: [PATCH 02/10] phy: qcom-qmp-usb: Add sc8180x USB UNIPHY
+Message-ID: <ynokoy2fh4fwespzfdgo7mpklmy2n76syfyb73bm4m2hp4cftp@am5nldqvj65z>
+References: <20240525-sc8180x-usb-mp-v1-0-60a904392438@quicinc.com>
+ <20240525-sc8180x-usb-mp-v1-2-60a904392438@quicinc.com>
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-To: Shichao Lai <shichaorai@gmail.com>, usb-storage@lists.one-eyed-alien.net,
- linux-usb@vger.kernel.org, kernel-janitors@vger.kernel.org,
- Alan Stern <stern@rowland.harvard.edu>,
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-Cc: LKML <linux-kernel@vger.kernel.org>, Oliver Neukum <oneukum@suse.com>,
- Xingwei Lee <xrivendell7@gmail.com>, Yue Sun <samsun1006219@gmail.com>
-References: <20240525141020.2520942-1-shichaorai@gmail.com>
-Subject: Re: [PATCH v5] usb-storage: Check whether the media is initialized
- successfully
-Content-Language: en-GB
-From: Markus Elfring <Markus.Elfring@web.de>
-In-Reply-To: <20240525141020.2520942-1-shichaorai@gmail.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
-X-Provags-ID: V03:K1:Q2jtdCbdvwkFxXuO0488+GAQQIdetaKP637x3VlWViN3e+5OOgB
- w66bNNcVqgIm0sFx+N0lIc5D6/qZ7Ib0UVrIZ2KA5JQ5RwS6WLVz4ax7m8ynj5f7Gk+hyvo
- YnN/nn0ESPBQTP9BwZ+lknUROPvztDI2cAyH/iG4FMA8vkNr7LXtVHM4YfsvJaEvyif3etA
- s0tK6mcv9r4d8HoIHrvHg==
-X-Spam-Flag: NO
-UI-OutboundReport: notjunk:1;M01:P0:lDKllwEVkwk=;V4laeXtw9iFysfIld77f31ySKbk
- IaJwFmlUVUQFce6bkVWJNwW+pUZhYzir4QyPcjye4LMympoV7sJYWURhOzB2KsiWNtLPlk+fO
- +MCfDz/LUT73j+EcS+5aasejPDf+OzCIwUIN0yp59vFTYueHZQbovS/zBg4IUxjhEhaVVhhr/
- QuA1p2hoeVpOJHeH+u+bfFgU6b0urLQ8UBeSt2rwxk82TYosX5ok35YU7icDhIGsr+kr1oujK
- FLUkhyKsuxNeOFTLw/PITM+6VdqloH5dqRNxYe2CnBrHSmLfWSspIl1YzSiD4+0buTQhskSrx
- VVG4d+4s+ofBxbk1yN73mxXiEkIGJefOi5OSO6rjg20zKEOGAofw1qIlFzg153cWYBP/usUio
- ota0pug/hcgCniNrHRuvl+KzAHCVRTCl/6JyGjaDA1sT3YVrGLRk4x2vHzbV8DqxMGy/vbMZg
- R5z5Eg0G6FIbLfRojMxaFLQ3Mc20xUBN3OX2Xw6xtMpDsx4U1qANviktLG+pbWO8jMIhm9VwO
- kUwVW3w5CokYVWZhO0WiUUT5rjBqAyC6THCZ5ixGOQK75DF9FeT2OiuYPlRhzgcOMqaG6Z3cu
- /6tCxckN4OHGocohWpwMZRB+iVCta4fXXVuyYCW7UnL5AJ2Qb7BxDBA8wainRpUh3ORcwyxZg
- D7U8ZJMNMBEFD+2g9OsfJRiBjAklD89EQbZlvqjMD4Q5Z2bot9+CGm//94PJNKk8wuQ1s9csX
- 9nx/OcDuwnhiUPDp1sw9QKd331+tIYRV+BCTMbe1b/Cj0aau1LMXQrrQaf/ZRt3fEMpND+jBu
- EswABUsVrCVte8AzNZ0OLTEf/v+08RCO8/mdhvrax7Bbs=
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20240525-sc8180x-usb-mp-v1-2-60a904392438@quicinc.com>
 
-=E2=80=A6
-> - Add an error check for the return value of alauda_init_media().
+On Sat, May 25, 2024 at 11:03:55AM -0700, Bjorn Andersson wrote:
+> From: Bjorn Andersson <quic_bjorande@quicinc.com>
+> 
+> The SC8180X platform has two UNIPHY blocks, add support for these in the
+> QMP driver.
+> 
+> Signed-off-by: Bjorn Andersson <quic_bjorande@quicinc.com>
+> ---
+>  drivers/phy/qualcomm/phy-qcom-qmp-usb.c | 3 +++
+>  1 file changed, 3 insertions(+)
+> 
 
-Does such information indicate a need for the tag =E2=80=9CFixes=E2=80=9D?
+Reviewed-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
 
-Regards,
-Markus
+-- 
+With best wishes
+Dmitry
