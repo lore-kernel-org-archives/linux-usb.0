@@ -1,92 +1,111 @@
-Received: from netrider.rowland.org (netrider.rowland.org [192.131.102.5])
-	by smtp.subspace.kernel.org (Postfix) with SMTP id 2CBB44F1EE
-	for <linux-usb@vger.kernel.org>; Sat, 25 May 2024 14:18:26 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.131.102.5
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+	(No client certificate requested)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 71F723A1C9;
+	Sat, 25 May 2024 17:59:09 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1716646709; cv=none; b=MfYFJUF8UL/E9H00iluDKNg+3UQNSSEA8m0vEY0IGNQ10BdW45doM+koCEXBjDGeE2IoyD0dwNoS+PiNWdEYVB5BDcWc97HqZa4Jd1dYO3QLfnpIYDyKglBvkGEREOGHd2ICu3uxMur8bOerqmsnwt3omjs6hjbbpEYkXJ+5wMI=
+	t=1716659949; cv=none; b=nTBVflWTdt2adyUvNoFwROJmGMzGkszoPMHvNVgCmZ9pxvjjbNi+/gd38siY59fjieSEbALbK7gzIgNfI1ps8A/g7ZX+keQdpYN4BoduWMk896U8vwX2/y1KjHIMewc5+725m1I7LYz7gqiz3gsFk/yVXRgGfDQV8hhcqYDgmNU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1716646709; c=relaxed/simple;
-	bh=wbrXg/b1lNy7sgScKy9Bm4Ynn5Glx/YJGDrRYEX3l7Q=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=Pds5dwE1rNiC+PZmiaYw/VUDUcHW1m6gN4RSJfF0GcrjL39haSxj60K3C4A0Wmx9lGH9Kia+VlaVHSgQlTw89xMxqkTusP+M2XJgX7jcjVohtcIbHs5jkOGXh1iN+FscC92o0gSizVo4DEOJ5KkYcesOZzZ4JFH/E37HurHHYyQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=rowland.harvard.edu; spf=pass smtp.mailfrom=netrider.rowland.org; arc=none smtp.client-ip=192.131.102.5
-Authentication-Results: smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=rowland.harvard.edu
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=netrider.rowland.org
-Received: (qmail 607144 invoked by uid 1000); 25 May 2024 10:18:25 -0400
-Date: Sat, 25 May 2024 10:18:25 -0400
-From: Alan Stern <stern@rowland.harvard.edu>
-To: Shichao Lai <shichaorai@gmail.com>
-Cc: gregkh@linuxfoundation.org, oneukum@suse.com, linux-usb@vger.kernel.org,
-  usb-storage@lists.one-eyed-alien.net, linux-kernel@vger.kernel.org,
-  xingwei lee <xrivendell7@gmail.com>, yue sun <samsun1006219@gmail.com>
-Subject: Re: [PATCH v5] usb-storage: Check whether the media is initialized
- successfully
-Message-ID: <a32fb17f-aa58-4975-9f67-3509928ca249@rowland.harvard.edu>
-References: <20240525141020.2520942-1-shichaorai@gmail.com>
+	s=arc-20240116; t=1716659949; c=relaxed/simple;
+	bh=D+M5uC/gLzRtwYP8kRKD2zieRkaDxcHiXzI6VKM923E=;
+	h=From:Subject:Date:Message-Id:MIME-Version:Content-Type:To:Cc; b=hmc74j4RnrYGzCTp67hsnWPaCcQtW1mflPFNfFKAi4ql9Iy3BjBT7/D48qgVaVXLXdWLzRwreKwhpi3EClvvJSLRdbxPqUO5X9KSYF0blcy96raMfnDwihCKE2mV12IkJS8Fb68E3HBCApFEc4nm3sX9jKuNcImGoKEaasML7p4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=QBmneknL; arc=none smtp.client-ip=10.30.226.201
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="QBmneknL"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id A9CC9C2BD11;
+	Sat, 25 May 2024 17:59:07 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1716659948;
+	bh=D+M5uC/gLzRtwYP8kRKD2zieRkaDxcHiXzI6VKM923E=;
+	h=From:Subject:Date:To:Cc:From;
+	b=QBmneknLLtl4Pb9C54CyKSYirsSIUkfWLTaivAUcgoKnCROBDNg1dJV6qTnb3GJJG
+	 SnROZcHiP4KWR/7zgp+01Lq5ftBjJFmEfbmcJorQUdQRwDVdCdiGqrkTQsyN5aynkF
+	 l5a7gOCCCmn4BRDnVoOqf9tG7BrIWSgyJJG0ogKYTQkGyQodQGDmxnEoKQZJlR7RY9
+	 EXJRiLeXIKL/XamFQGW2GF2ZDg+1yMRiiPMt7SP9LFeiQ5GjgLLAHllfJc4UJh8C8f
+	 YB99eKZGKnQyZRgSRHTtfzS8WxRQ1q9H8vCJ3Wc9XrMNoeNJNmGx1grJPQYw3qR/Ym
+	 v4KG3hRSHe0nw==
+From: Bjorn Andersson <andersson@kernel.org>
+Subject: [PATCH 00/10] arm64: dts: qcom: sc8180x: Enable the USB multiport
+ controller
+Date: Sat, 25 May 2024 11:03:53 -0700
+Message-Id: <20240525-sc8180x-usb-mp-v1-0-60a904392438@quicinc.com>
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20240525141020.2520942-1-shichaorai@gmail.com>
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+X-B4-Tracking: v=1; b=H4sIAAkoUmYC/6tWKk4tykwtVrJSqFYqSi3LLM7MzwNyDHUUlJIzE
+ vPSU3UzU4B8JSMDIxMDUyMT3eJkC0MLgwrd0uIk3dwCXZPUJCNzi5Q089Q0QyWgpoKi1LTMCrC
+ B0bG1tQD35vd1YAAAAA==
+To: Vinod Koul <vkoul@kernel.org>, 
+ Kishon Vijay Abraham I <kishon@kernel.org>, Rob Herring <robh@kernel.org>, 
+ Krzysztof Kozlowski <krzk+dt@kernel.org>, 
+ Conor Dooley <conor+dt@kernel.org>, Bjorn Andersson <andersson@kernel.org>, 
+ Michael Turquette <mturquette@baylibre.com>, 
+ Stephen Boyd <sboyd@kernel.org>, 
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>, 
+ Wesley Cheng <quic_wcheng@quicinc.com>, 
+ Konrad Dybcio <konrad.dybcio@linaro.org>
+Cc: linux-arm-msm@vger.kernel.org, linux-phy@lists.infradead.org, 
+ devicetree@vger.kernel.org, linux-kernel@vger.kernel.org, 
+ linux-clk@vger.kernel.org, linux-usb@vger.kernel.org, 
+ Bjorn Andersson <quic_bjorande@quicinc.com>
+X-Mailer: b4 0.12.4
+X-Developer-Signature: v=1; a=openpgp-sha256; l=1715;
+ i=quic_bjorande@quicinc.com; h=from:subject:message-id;
+ bh=D+M5uC/gLzRtwYP8kRKD2zieRkaDxcHiXzI6VKM923E=;
+ b=owEBgwJ8/ZANAwAIAQsfOT8Nma3FAcsmYgBmUigMuXpF5bHXK2P2/HJqaYU/pcjYTCVfnLLc8
+ 1gUlADCE2SJAkkEAAEIADMWIQQF3gPMXzXqTwlm1SULHzk/DZmtxQUCZlIoDBUcYW5kZXJzc29u
+ QGtlcm5lbC5vcmcACgkQCx85Pw2ZrcWE1BAAipMBeEOeI+AJ7au7JeaOu0DBn7s4jXiS84x5qzv
+ CPSqza4RbM3FtKrwSQs23BfOJFV9S/ZLrjO+zW4daRJJ5XOAKRCywrgcuhct2Arf/ZzNnd29kvz
+ 4e2LJAmPSh6oyESHvPHNz+MO9ZVvARzysIdk0JUvMmkyUJdryS+yxD17Y/1QCwUQQeful+fWV3f
+ WJNw1s4qDi+9zaKnuOG54Gx1Ead/QdOko02hME3OONx9iicRjXMHA64Hy9RKn+TWBpTwC3B52Jb
+ qL8+R0ku/W43FDuM3VHyidN2i3hKSZlOiMOc9fZa5AHZRRYzVr6hZLX/EgrMHmfoAtW+P03fDAY
+ ub3chdOWDzHt8OAbyujHu+6e6dYJ49FpiEb2h8sMWC3xaWHBbmrgSQhblXpCw88jRSG5yfBMen3
+ rpZWhZNs3j06tD+R7GnqyFmSBd9McbGbmY7dzRCNGwXmEnZi9qp6SjWC4GCjHLEbJzCydyA+ugy
+ dMC2NtNU1oLwa3znMUp+P8/GyOzKp6dc9IT9NyWrODwr3XF1ej8TtzE4LwBwRM0mK8KSU1LH/12
+ Iw+8e3DPp6yOOUPdwq4CCn3/30LDbz5oCGTO6ef2z1orwIhsDSU6y00Ub3+pmGFhG0rBFIN6XqU
+ uqX9+hycBFYnLrUYkCAG/dZb9bcg+NY9yH8Bm17094KM=
+X-Developer-Key: i=quic_bjorande@quicinc.com; a=openpgp;
+ fpr=05DE03CC5F35EA4F0966D5250B1F393F0D99ADC5
 
-On Sat, May 25, 2024 at 10:10:20PM +0800, Shichao Lai wrote:
-> The member "uzonesize" of struct alauda_info will remain 0
-> if alauda_init_media() fails, potentially causing divide errors
-> in alauda_read_data() and alauda_write_lba().
-> - Add a member "media_initialized" to struct alauda_info.
-> - Change a condition in alauda_check_media() to ensure the
->   first initialization.
-> - Add an error check for the return value of alauda_init_media().
-> 
-> Reported-by: xingwei lee <xrivendell7@gmail.com>
-> Reported-by: yue sun <samsun1006219@gmail.com>
-> Signed-off-by: Shichao Lai <shichaorai@gmail.com>
-> ---
-> Changes since v1:
+The USB multiport controller found in SC8180X is used to driver the
+camera in the Lenovo Flex 5G, and a couple of additional USB ports on
+the Primus AUX board.
 
-You mean changes since v4.  Regardless:
+Signed-off-by: Bjorn Andersson <quic_bjorande@quicinc.com>
+---
+Bjorn Andersson (10):
+      dt-bindings: phy: qcom,sc8280xp-qmp-usb3-uni: Add sc8180x USB3 compatible
+      phy: qcom-qmp-usb: Add sc8180x USB UNIPHY
+      dt-bindings: clock: qcom: Add missing USB MP resets
+      clk: qcom: gcc-sc8180x: Add missing USB MP resets
+      dt-bindings: usb: qcom,dwc3: Add SC8180X compatibles
+      arm64: dts: qcom: sc8180x-pmics: Add second PMC8180 GPIO
+      arm64: dts: qcom: sc8180x: Align USB nodes with binding
+      arm64: dts: qcom: sc8180x: Add USB MP controller and phys
+      arm64: dts: qcom: sc8180x-primus: Enable the two MP USB ports
+      arm64: dts: qcom: sc8180x-lenovo-flex-5g: Enable USB multiport controller
 
-Reviewed-by: Alan Stern <stern@rowland.harvard.edu>
+ .../phy/qcom,sc8280xp-qmp-usb3-uni-phy.yaml        |   3 +
+ .../devicetree/bindings/usb/qcom,dwc3.yaml         |  29 ++++
+ .../arm64/boot/dts/qcom/sc8180x-lenovo-flex-5g.dts |  32 ++++
+ arch/arm64/boot/dts/qcom/sc8180x-pmics.dtsi        |  16 +-
+ arch/arm64/boot/dts/qcom/sc8180x-primus.dts        |  60 +++++++
+ arch/arm64/boot/dts/qcom/sc8180x.dtsi              | 175 +++++++++++++++++++--
+ drivers/clk/qcom/gcc-sc8180x.c                     |   4 +
+ drivers/phy/qualcomm/phy-qcom-qmp-usb.c            |   3 +
+ include/dt-bindings/clock/qcom,gcc-sc8180x.h       |   4 +
+ 9 files changed, 312 insertions(+), 14 deletions(-)
+---
+base-commit: 3689b0ef08b70e4e03b82ebd37730a03a672853a
+change-id: 20240524-sc8180x-usb-mp-4eb278df7ef1
 
-> - Check the initialization of alauda_check_media()
->   which is the root cause.
-> 
->  drivers/usb/storage/alauda.c | 9 ++++++---
->  1 file changed, 6 insertions(+), 3 deletions(-)
-> 
-> diff --git a/drivers/usb/storage/alauda.c b/drivers/usb/storage/alauda.c
-> index 115f05a6201a..40d34cc28344 100644
-> --- a/drivers/usb/storage/alauda.c
-> +++ b/drivers/usb/storage/alauda.c
-> @@ -105,6 +105,8 @@ struct alauda_info {
->  	unsigned char sense_key;
->  	unsigned long sense_asc;	/* additional sense code */
->  	unsigned long sense_ascq;	/* additional sense code qualifier */
-> +
-> +	bool media_initialized;
->  };
->  
->  #define short_pack(lsb,msb) ( ((u16)(lsb)) | ( ((u16)(msb))<<8 ) )
-> @@ -476,11 +478,12 @@ static int alauda_check_media(struct us_data *us)
->  	}
->  
->  	/* Check for media change */
-> -	if (status[0] & 0x08) {
-> +	if (status[0] & 0x08 || !info->media_initialized) {
->  		usb_stor_dbg(us, "Media change detected\n");
->  		alauda_free_maps(&MEDIA_INFO(us));
-> -		alauda_init_media(us);
-> -
-> +		rc = alauda_init_media(us);
-> +		if (rc == USB_STOR_TRANSPORT_GOOD)
-> +			info->media_initialized = true;
->  		info->sense_key = UNIT_ATTENTION;
->  		info->sense_asc = 0x28;
->  		info->sense_ascq = 0x00;
-> -- 
-> 2.34.1
-> 
+Best regards,
+-- 
+Bjorn Andersson <quic_bjorande@quicinc.com>
+
