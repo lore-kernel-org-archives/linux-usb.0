@@ -1,96 +1,99 @@
-Received: from relay1-d.mail.gandi.net (relay1-d.mail.gandi.net [217.70.183.193])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-lj1-f172.google.com (mail-lj1-f172.google.com [209.85.208.172])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AE84215E96;
-	Tue, 28 May 2024 10:20:34 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.70.183.193
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2495C16D4EB
+	for <linux-usb@vger.kernel.org>; Tue, 28 May 2024 12:39:35 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.172
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1716891637; cv=none; b=NfKTf+VxNnOhGLe6XidrT3QveavZOo8z2/YjEVq8QhXyhF9DaasgKY5oQSz9ReHd22/kKLmsA86Vnj3RaTXd/YWVmlD4kUyYyDmbfAQNm2k2s6vkq2Tgk8R6XdWOoSa2ql/Z2K0H47A+HY6AdewtinhwpFKI0lrqOJHPwD3cMlA=
+	t=1716899977; cv=none; b=fCCPQodeSyo7TvKuwNZq/8gYMoiuZTOLLtGsLxYuYREvaF4qEQHCEL6o7Noap4eU7IOp3/rLdRFMsQnas844FcGSrHMHiZdrRNIgrZoPgw6XdIdGZPzL8blDPVMybVcN35j/IcISOPooDIwwwcMbwzbZdjj4YCbs0yZsQit/46E=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1716891637; c=relaxed/simple;
-	bh=3dxmjc0gq9Z1RscHVzOk2xvMOJ97HgvGI8PshdBRcow=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=hTAkGV4v3P0ZlIPic26bYlLTBxy30auCd0tGaBMMP72L1CKpIQlaA/V2dy2d09pfgVVpvIQ2oSb6WSAlil6EF5RIubWiokCjv6m8lltdU0W+T68maDRyMXdpEsJT3/0nCO/K65XskCSSCRtym4vM/H41NZ++oNfBIdhvUJII5io=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com; spf=pass smtp.mailfrom=bootlin.com; dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b=evJjvDLs; arc=none smtp.client-ip=217.70.183.193
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=bootlin.com
+	s=arc-20240116; t=1716899977; c=relaxed/simple;
+	bh=3QD4cHZEvBkjeUTn2VP7Mro8lis+DUXvuC0yPXY2hVA=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=GqDCgU1rTeOAsmZz1fCC0bn59wH/pHa7D+NBGkvz+c1aI7LyTnR0PGXyEyXbsAuJWfRdwcjPJdPmRnwRu0yqr6NIskLff7zcudBq+Lzy/hQuAZ5DGk2vRHZ2Hwqx9f2wAZRmZNSKWVvOXmnJUoYNsjmbN1R8XFSzUQLVUjA+tXY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=s1r17Z99; arc=none smtp.client-ip=209.85.208.172
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b="evJjvDLs"
-Received: by mail.gandi.net (Postfix) with ESMTPA id 7156F24000D;
-	Tue, 28 May 2024 10:20:31 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=gm1;
-	t=1716891632;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=GTwcLrJlkxUwGcPOIejW240WhGdaw9D79sS7IYE/LmE=;
-	b=evJjvDLsjaOsXLEPIROckcqKHLfMvST0zu/ozGJRnQ200CWCKNLpgPEt6wTC18UUEV30Mg
-	Ot0zq+pucWx4rB4J/ejdlfGgU+0pH90LXn4CgL6NmTzKnE00aK28RxPmikOMLG66GvVGWB
-	yfMfAXI/nVD/TVhXTPXpk9ONwNSvyRIef0T6FgHwr2VHcf2GfjvkIijtstXL0Thq3jNiQ/
-	ydCAZHkL2GN2Ur55tpFEmPCHMqV27jt8nXsG7tbeAzju4fAOx3IijPxlV+YcCiMACu+bLA
-	jydYKNs7qkSs/QPbrrz15AXz6INa9AnVKFUpUTaWqwoJpKeZx7ArZVB2xjJ11w==
-From: Bastien Curutchet <bastien.curutchet@bootlin.com>
-To: Vinod Koul <vkoul@kernel.org>,
-	Kishon Vijay Abraham I <kishon@kernel.org>,
-	Bin Liu <b-liu@ti.com>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-Cc: linux-phy@lists.infradead.org,
-	linux-kernel@vger.kernel.org,
-	linux-usb@vger.kernel.org,
-	Thomas Petazzoni <thomas.petazzoni@bootlin.com>,
-	herve.codina@bootlin.com,
-	christophercordahi@nanometrics.ca,
-	Bastien Curutchet <bastien.curutchet@bootlin.com>
-Subject: [PATCH 2/4] Revert "usb: musb: da8xx: Set phy in OTG mode by default"
-Date: Tue, 28 May 2024 12:20:24 +0200
-Message-ID: <20240528102026.40136-3-bastien.curutchet@bootlin.com>
-X-Mailer: git-send-email 2.44.0
-In-Reply-To: <20240528102026.40136-1-bastien.curutchet@bootlin.com>
-References: <20240528102026.40136-1-bastien.curutchet@bootlin.com>
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="s1r17Z99"
+Received: by mail-lj1-f172.google.com with SMTP id 38308e7fff4ca-2e719bab882so7710371fa.3
+        for <linux-usb@vger.kernel.org>; Tue, 28 May 2024 05:39:35 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google; t=1716899974; x=1717504774; darn=vger.kernel.org;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=MyyZ1avD99OZmFrk135FGzfKRiqqWoc5X9qTav7HvZ0=;
+        b=s1r17Z99h2ngAtEyxx7p7I4dcguGQ4x4HEUC2U2mTFqgfZWoXI5T6+Fh9B/zk0UviU
+         iNrRGGzBcs/2MfFiuurQ9fsNIUlVCq9Huw9j/rB/OCGQx7kE2hTjN+cMK48ZVX7k4gQ7
+         EgaRLj0ACU9cCjJexiKZgTXeyE9uRa3A0Knnza3ngfNS72ZYgsyvvxvrhhUqxMb2rRw2
+         obLN1bXliyeLOPgI36+b9cx+6ngSPxnh9GVHe3MmsnloV1e8RheIRVob8JoAEdaTgPwc
+         asqWsh5h6/eRNOqVyeKoBzXhpIWP/SMoshAfrP5/ZZxxeDqlxvYpa9ejgHGOveQ/mS8s
+         tRKw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1716899974; x=1717504774;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=MyyZ1avD99OZmFrk135FGzfKRiqqWoc5X9qTav7HvZ0=;
+        b=tLbjPVXf7UmhkUuYiP8/JKu5rDW8mcVKGkT6UJlIBnR9/YzBHKfZBLYTh4rgZnwyHA
+         c3RPq3CPwNcPZH85hThPYo2k9TFutx/PXxFIwHA1Hboqc2ZXkKLYOM+NdF8ernTTItf9
+         l/E5p+7vZu7KSC+Y1zZP1KqghMzFALBGaUFCxTQXnbTDuDZxE8y50q6XIAsrMd1shP6C
+         kNSK0fy54rII3E6bBHsNoHXZQL6lmn8SEWchXb8pDhwW+dQUYpR2TAMeor1Z6B4ZztEs
+         D63sq3ZXffNxTIJTnwqfsvzrSnIa4tZMBe2NmL8bDiFn7GgpdHMOaqPhxOvIIC/QfbAs
+         DQQQ==
+X-Forwarded-Encrypted: i=1; AJvYcCUbn+ONhS17bkPjGlO2hu8lgFmdYgjXrpi094dqoo+Kb2EiWrYfAoKnmZ4JsP1rV2KvjeCzWNZz577pQdyI5KZlMTzorQXKxe6T
+X-Gm-Message-State: AOJu0YyT6hlGLmggkkDQzbHxNhtAbQyo9FC6uA2+e4MZnZV6SVV0p7M7
+	HkfbIoTXpF3GzQFVOG3mAm7iv6z8uL+vxYHgc5iMPUK82h0CHMWhvnW8mFyZals=
+X-Google-Smtp-Source: AGHT+IEuLhZJv7qeXezlx8kfsTgFOdfKulgrE/pHZmC8bjKegp4bpVB1CU8ydw/L2kKkl+X6jB3iKQ==
+X-Received: by 2002:a2e:2c16:0:b0:2e5:8720:50d2 with SMTP id 38308e7fff4ca-2e95af3493dmr78535451fa.0.1716899974195;
+        Tue, 28 May 2024 05:39:34 -0700 (PDT)
+Received: from ?IPV6:2a00:f41:c97:23a9:35bc:df2e:d894:2c76? ([2a00:f41:c97:23a9:35bc:df2e:d894:2c76])
+        by smtp.gmail.com with ESMTPSA id 38308e7fff4ca-2e98817eab1sm1386381fa.55.2024.05.28.05.39.31
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Tue, 28 May 2024 05:39:33 -0700 (PDT)
+Message-ID: <a205c018-2181-405a-a4f4-4211b1113c7a@linaro.org>
+Date: Tue, 28 May 2024 14:39:29 +0200
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-GND-Sasl: bastien.curutchet@bootlin.com
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH 04/10] clk: qcom: gcc-sc8180x: Add missing USB MP resets
+To: Bjorn Andersson <andersson@kernel.org>, Vinod Koul <vkoul@kernel.org>,
+ Kishon Vijay Abraham I <kishon@kernel.org>, Rob Herring <robh@kernel.org>,
+ Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley
+ <conor+dt@kernel.org>, Michael Turquette <mturquette@baylibre.com>,
+ Stephen Boyd <sboyd@kernel.org>,
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+ Wesley Cheng <quic_wcheng@quicinc.com>
+Cc: linux-arm-msm@vger.kernel.org, linux-phy@lists.infradead.org,
+ devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
+ linux-clk@vger.kernel.org, linux-usb@vger.kernel.org,
+ Bjorn Andersson <quic_bjorande@quicinc.com>
+References: <20240525-sc8180x-usb-mp-v1-0-60a904392438@quicinc.com>
+ <20240525-sc8180x-usb-mp-v1-4-60a904392438@quicinc.com>
+Content-Language: en-US
+From: Konrad Dybcio <konrad.dybcio@linaro.org>
+In-Reply-To: <20240525-sc8180x-usb-mp-v1-4-60a904392438@quicinc.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 
-This reverts commit 7ccf62941a38701ec9a42b4a0fa2868af456e96a.
 
-da8xx_musb_set_mode() forces OTG mode regardless the selected mode even
-if the property 'dr_mode = "host"' is present in device-tree. This
-causes an unrecoverable error when VBUS supply is shut down : plugged
-gadgets are no longer detected once VBUS supply is back.
 
-Reverting it allows to have a selected mode coherent with device-tree's
-description. IMO, this shouldn't cause regression because OTG mode is
-the default selection when 'dr_mode' property is not set.
+On 5/25/24 20:03, Bjorn Andersson wrote:
+> From: Bjorn Andersson <quic_bjorande@quicinc.com>
+> 
+> The USB multiport controller needs a few additional resets, add these to
+> the driver.
+> 
+> Signed-off-by: Bjorn Andersson <quic_bjorande@quicinc.com>
+> ---
 
-Signed-off-by: Bastien Curutchet <bastien.curutchet@bootlin.com>
----
- drivers/usb/musb/da8xx.c | 7 -------
- 1 file changed, 7 deletions(-)
+The numbers look good
 
-diff --git a/drivers/usb/musb/da8xx.c b/drivers/usb/musb/da8xx.c
-index 8abf3a567e30..1681f9fba3da 100644
---- a/drivers/usb/musb/da8xx.c
-+++ b/drivers/usb/musb/da8xx.c
-@@ -328,13 +328,6 @@ static int da8xx_musb_set_mode(struct musb *musb, u8 musb_mode)
- 	struct da8xx_glue *glue = dev_get_drvdata(musb->controller->parent);
- 	enum phy_mode phy_mode;
- 
--	/*
--	 * The PHY has some issues when it is forced in device or host mode.
--	 * Unless the user request another mode, configure the PHY in OTG mode.
--	 */
--	if (!musb->is_initialized)
--		return phy_set_mode(glue->phy, PHY_MODE_USB_OTG);
--
- 	switch (musb_mode) {
- 	case MUSB_HOST:		/* Force VBUS valid, ID = 0 */
- 		phy_mode = PHY_MODE_USB_HOST;
--- 
-2.44.0
+Reviewed-by: Konrad Dybcio <konrad.dybcio@linaro.org>
 
+Konrad
