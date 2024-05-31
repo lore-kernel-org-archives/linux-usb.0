@@ -1,58 +1,58 @@
-Received: from mailout1.samsung.com (mailout1.samsung.com [203.254.224.24])
+Received: from mailout4.samsung.com (mailout4.samsung.com [203.254.224.34])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9DAF77E101
-	for <linux-usb@vger.kernel.org>; Fri, 31 May 2024 06:07:34 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=203.254.224.24
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0EE2380604
+	for <linux-usb@vger.kernel.org>; Fri, 31 May 2024 06:07:37 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=203.254.224.34
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1717135657; cv=none; b=RJFt4kAB8RnaGbgrb5d1g9QskqAoSuljX56fgHc+sSd3bMy5UUTryKCxPu5QGc1NeRr1G2CtQGMjMv0kn5jmj30ORyRbmvhskEeY2HFqS9wJWAT/Rdl79robrBA+7fKkf0KoxKBvZacVxL9p+kU+DaQam4MM7L5V7uWoTb69GSI=
+	t=1717135659; cv=none; b=Spulo6//xfewH5zDkiJ7g+uk3Pr0pZNHQihwgNyVZtWk08wR/gN8BRQ6FwXFXQOJi23QyU71fXhjT1sQNY2C2agwEa8UgI8FZJI+CSGY4IHxNXzIGOpzPGXl5oSV6I5PKZbcd4EKRFBuuCmfKgosm2pNEyBEmEAi3d+Y0zGHBnM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1717135657; c=relaxed/simple;
-	bh=+3BZx419ZAMcAUTTU97c9t/HNAedUfsPXdqO69drvVo=;
+	s=arc-20240116; t=1717135659; c=relaxed/simple;
+	bh=B+HMoOSjpZ2Cd2n5g3X3jsppClYLzAV4iMVq8sBS/70=;
 	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:Content-Type:
-	 References; b=or7qMLkZwTew2gU5Ja17EGAf/8CzIbyIpOci3D6fkWtsplwafyVHuXae3sqeCpF4ur8nsM952OKgi9WJIVO8+LL6cQHocNPcb+Pfle+9x5h9dhj3EB77wZwbd+hRXNqFpwjHETS2NyFus/Ks/NxiJCyFpNFFjGb9EygZgUxtuCM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=samsung.com; spf=pass smtp.mailfrom=samsung.com; dkim=pass (1024-bit key) header.d=samsung.com header.i=@samsung.com header.b=oisY3DK8; arc=none smtp.client-ip=203.254.224.24
+	 References; b=DO6qiMn/GtBI8fkLSDfql1OxsmEm7anr908iQj5bie6zkGdPLviYBDrmVXag0qI+8un3cMkMdPieSPnekmBVoBGAQM49Gglf6NZdXtdrWCCdPc6ABazsqFmAMwdO+WfP7BRSDqEHbnGbzLTC76Sp93j1Q5DyupnjvxH6LGe7VjI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=samsung.com; spf=pass smtp.mailfrom=samsung.com; dkim=pass (1024-bit key) header.d=samsung.com header.i=@samsung.com header.b=EIjvHOTT; arc=none smtp.client-ip=203.254.224.34
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=samsung.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=samsung.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=samsung.com header.i=@samsung.com header.b="oisY3DK8"
-Received: from epcas2p4.samsung.com (unknown [182.195.41.56])
-	by mailout1.samsung.com (KnoxPortal) with ESMTP id 20240531060733epoutp01956ef5c44d9fff1e1e44387d6d19a753~UfcdW-bkA2201922019epoutp01L
-	for <linux-usb@vger.kernel.org>; Fri, 31 May 2024 06:07:33 +0000 (GMT)
-DKIM-Filter: OpenDKIM Filter v2.11.0 mailout1.samsung.com 20240531060733epoutp01956ef5c44d9fff1e1e44387d6d19a753~UfcdW-bkA2201922019epoutp01L
+	dkim=pass (1024-bit key) header.d=samsung.com header.i=@samsung.com header.b="EIjvHOTT"
+Received: from epcas2p3.samsung.com (unknown [182.195.41.55])
+	by mailout4.samsung.com (KnoxPortal) with ESMTP id 20240531060731epoutp04e7344f9f36ea141e3e2004f5497eaab5~UfcbzFFDW0512105121epoutp044
+	for <linux-usb@vger.kernel.org>; Fri, 31 May 2024 06:07:31 +0000 (GMT)
+DKIM-Filter: OpenDKIM Filter v2.11.0 mailout4.samsung.com 20240531060731epoutp04e7344f9f36ea141e3e2004f5497eaab5~UfcbzFFDW0512105121epoutp044
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=samsung.com;
-	s=mail20170921; t=1717135653;
-	bh=PRvIg4Zw3iG8OrJ9EiBqGy+QtBxM3pliyzg3yqVWZb8=;
+	s=mail20170921; t=1717135651;
+	bh=FKza/P/zEeDaPaOYo5ayIu0cB3aav5Gew0qnwy2epQk=;
 	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=oisY3DK8MZQnFDBaRa0VYOlt6PTRwybsl0A2KNSL36KyWhNjBxC8Fa4Z4YDIa8O9I
-	 lM5+mnvYBi/RvW0Eyt57BS04BGUeoKMq5IZEhsXNXWaBqeguwMCLS9VEsX3PW8CTL/
-	 pv+0G7xOr5AyylcKsxG/HOxyfIrbzk36CiKQzp8Q=
+	b=EIjvHOTTIesI5PLdU862zOm7bcCMk9TlZzF73o+HG7bxFsU23PCWm5XJBp0dzPmI1
+	 cAo74YDtGpFKBE3qLV7vV9ruAvF2vfoM/kGfl2KqwrOy6ySalgqrZ5Al3he0eogWsv
+	 Wd6UFZs3FTU3/FlrfUFxxDKIhAWT+DqzaMur8eAE=
 Received: from epsnrtp1.localdomain (unknown [182.195.42.162]) by
-	epcas2p3.samsung.com (KnoxPortal) with ESMTP id
-	20240531060732epcas2p302e1af9507bd5af4044a1f27fb2a2d58~Ufcc9On681346913469epcas2p3t;
-	Fri, 31 May 2024 06:07:32 +0000 (GMT)
-Received: from epsmges2p4.samsung.com (unknown [182.195.36.99]) by
-	epsnrtp1.localdomain (Postfix) with ESMTP id 4VrCMS1fw8z4x9QJ; Fri, 31 May
-	2024 06:07:32 +0000 (GMT)
-Received: from epcas2p3.samsung.com ( [182.195.41.55]) by
-	epsmges2p4.samsung.com (Symantec Messaging Gateway) with SMTP id
-	D2.C2.09479.42969566; Fri, 31 May 2024 15:07:32 +0900 (KST)
+	epcas2p1.samsung.com (KnoxPortal) with ESMTP id
+	20240531060730epcas2p169b9046d9a796599d8ddf2f712fcd379~UfcbWizH50815908159epcas2p1B;
+	Fri, 31 May 2024 06:07:30 +0000 (GMT)
+Received: from epsmgec2p1.samsung.com (unknown [182.195.36.70]) by
+	epsnrtp1.localdomain (Postfix) with ESMTP id 4VrCMQ1JRdz4x9Q5; Fri, 31 May
+	2024 06:07:30 +0000 (GMT)
+Received: from epcas2p4.samsung.com ( [182.195.41.56]) by
+	epsmgec2p1.samsung.com (Symantec Messaging Gateway) with SMTP id
+	62.56.08613.22969566; Fri, 31 May 2024 15:07:30 +0900 (KST)
 Received: from epsmtrp2.samsung.com (unknown [182.195.40.14]) by
-	epcas2p4.samsung.com (KnoxPortal) with ESMTPA id
-	20240531060731epcas2p4f14afae9f00a7e71e6bd3863f0a51441~UfccICfaO0345403454epcas2p4V;
-	Fri, 31 May 2024 06:07:31 +0000 (GMT)
-Received: from epsmgmc1p1new.samsung.com (unknown [182.195.42.40]) by
+	epcas2p1.samsung.com (KnoxPortal) with ESMTPA id
+	20240531060729epcas2p1df12dd3b14c5fa2fa0716f72010b3dbd~UfcabB6en0815908159epcas2p1A;
+	Fri, 31 May 2024 06:07:29 +0000 (GMT)
+Received: from epsmgms1p1new.samsung.com (unknown [182.195.42.41]) by
 	epsmtrp2.samsung.com (KnoxPortal) with ESMTP id
-	20240531060731epsmtrp2715f377978b120b5f5025b1fa85798e0~UfccHQ3GS3247032470epsmtrp2G;
-	Fri, 31 May 2024 06:07:31 +0000 (GMT)
-X-AuditID: b6c32a48-ea7ff70000002507-e4-665969248bf9
+	20240531060729epsmtrp2b55c2448305d8fe183a749804524f9b1~UfcaZ5-bD3252232522epsmtrp2E;
+	Fri, 31 May 2024 06:07:29 +0000 (GMT)
+X-AuditID: b6c32a43-d51fa700000021a5-f6-66596922e3a5
 Received: from epsmtip1.samsung.com ( [182.195.34.30]) by
-	epsmgmc1p1new.samsung.com (Symantec Messaging Gateway) with SMTP id
-	54.6F.07412.32969566; Fri, 31 May 2024 15:07:31 +0900 (KST)
+	epsmgms1p1new.samsung.com (Symantec Messaging Gateway) with SMTP id
+	69.A1.08336.12969566; Fri, 31 May 2024 15:07:29 +0900 (KST)
 Received: from ubuntu.dsn.sec.samsung.com (unknown [10.229.95.128]) by
 	epsmtip1.samsung.com (KnoxPortal) with ESMTPA id
-	20240531060731epsmtip15254132b4de1938a865da1396dad6bdd~Ufcb7193e0186201862epsmtip1L;
-	Fri, 31 May 2024 06:07:31 +0000 (GMT)
+	20240531060729epsmtip1f97c9e7d3f461e3e70d20f23acfd54d6~UfcaMRun90051000510epsmtip1K;
+	Fri, 31 May 2024 06:07:29 +0000 (GMT)
 From: Daehwan Jung <dh10.jung@samsung.com>
 To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>, Rob Herring
 	<robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley
@@ -62,81 +62,86 @@ Cc: linux-usb@vger.kernel.org (open list:USB SUBSYSTEM),
 	devicetree@vger.kernel.org (open list:OPEN FIRMWARE AND FLATTENED DEVICE
 	TREE BINDINGS), linux-kernel@vger.kernel.org (open list), Daehwan Jung
 	<dh10.jung@samsung.com>
-Subject: [PATCH v2 5/5] usb: host: xhci-plat: Add support for
- XHCI_WRITE_64_HI_LO_QUIRK
-Date: Fri, 31 May 2024 15:07:37 +0900
-Message-Id: <1717135657-120818-6-git-send-email-dh10.jung@samsung.com>
+Subject: [PATCH v2 3/5] dt-bindings: usb: xhci: Add 'write-64-hi-lo-quirk'
+ quirk
+Date: Fri, 31 May 2024 15:07:35 +0900
+Message-Id: <1717135657-120818-4-git-send-email-dh10.jung@samsung.com>
 X-Mailer: git-send-email 2.7.4
 In-Reply-To: <1717135657-120818-1-git-send-email-dh10.jung@samsung.com>
-X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFvrKKsWRmVeSWpSXmKPExsWy7bCmua5KZmSawcrtnBbH2p6wW6zZe47J
+X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFvrKKsWRmVeSWpSXmKPExsWy7bCmha5SZmSawaQPbBbH2p6wW6zZe47J
 	Yv6Rc6wWdxZMY7JoXryezeLlrHtsFpd3zWGzWLSsldmiedMUVov/e3awW6xacIDdgdtj8Z6X
 	TB6bVnWyeeyfu4bdo2/LKkaPLfs/M3p83iQXwBaVbZORmpiSWqSQmpecn5KZl26r5B0c7xxv
 	amZgqGtoaWGupJCXmJtqq+TiE6DrlpkDdJ+SQlliTilQKCCxuFhJ386mKL+0JFUhI7+4xFYp
-	tSAlp8C8QK84Mbe4NC9dLy+1xMrQwMDIFKgwITtjwfQljAX72CqunXjJ2sB4kLWLkZNDQsBE
-	4sTHaWxdjFwcQgI7GCUm3PvADpIQEvjEKHH5LzeE/Y1R4mJ7AkzDjllHWSEa9jJK3F+7ixnC
-	+cEoMeXgWaYuRg4ONgEtie8LGUHiIgKzmCQezbkL5jALPGOUWP/nPBPIKGGBSInZ7yYwgtgs
-	AqoSJz+1MoPYvAJuEquf/YO6T07i5rlOsDingLvEgznnWEAGSQh8ZJfYde0lVJGLxKP1i5gg
-	bGGJV8e3sEPYUhKf3+1lg7CLJW49f8YM0dzCKLHiVQszRMJYYtazdkaQs5kFNCXW79IHMSUE
-	lCWO3GIBqWAW4JPoOPyXHSLMK9HRJgTRqCwx/fIEqAskJQ6+Pgc10EPi0vXZ0CCdxSgx6+Jd
-	xgmMcrMQFixgZFzFKJZaUJybnlpsVGACj7Hk/NxNjOD0p+Wxg3H22w96hxiZOBgPMUpwMCuJ
-	8P5Kj0gT4k1JrKxKLcqPLyrNSS0+xGgKDLyJzFKiyfnABJxXEm9oYmlgYmZmaG5kamCuJM57
-	r3VuipBAemJJanZqakFqEUwfEwenVANTa9Yzh8BZzq8dLu/8efjB7h28lfLvH+2c4lL8c/Lu
-	C83Mxr1PeH//C4jgWZq25P7h9wdLxA432ExduzPZSKpI9unl7Xstvv4q7d561XpT/LOSY+cn
-	7djF3NJ0c8L/3elfJOdMupp1aQbTvrvxDmrXUr762hx7s8H5kSWz9NJH9yv9i/YJehoGyx2T
-	TVs8Q93vtJlzG4P3o/7oe0+XVLBJx00odG4KCn36dcdyFs93Rf+fZ6qrn9C5JKibFne0mttN
-	5bvPwqoK7/+Mc82WPVnMtlmszXUHW3beVdaPE/1eFZw6PKvcgCshu8DhwEPV7MTALI4la9+p
-	FieaSXqXJu7m229lHN7n2vzj4Dyftm1cSizFGYmGWsxFxYkAkSrJhAgEAAA=
-X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFtrALMWRmVeSWpSXmKPExsWy7bCSnK5yZmSaQUeXhsWxtifsFmv2nmOy
-	mH/kHKvFnQXTmCyaF69ns3g56x6bxeVdc9gsFi1rZbZo3jSF1eL/nh3sFqsWHGB34PZYvOcl
-	k8emVZ1sHvvnrmH36NuyitFjy/7PjB6fN8kFsEVx2aSk5mSWpRbp2yVwZSyYvoSxYB9bxbUT
-	L1kbGA+ydjFyckgImEjsmHUUyObiEBLYzSjxsH89I0RCUmLp3BvsELawxP2WI1BF3xgl+r5P
-	Zeli5OBgE9CS+L6QESQuIrCASeLatNvsIA6zwDNGiXsPWlhBioQFwiU+H40HGcQioCpx8lMr
-	M4jNK+AmsfrZP6gr5CRunusEi3MKuEs8mHOOBcQWAqrZdekA+wRGvgWMDKsYJVMLinPTc5MN
-	CwzzUsv1ihNzi0vz0vWS83M3MYIDVUtjB+O9+f/0DjEycTAeYpTgYFYS4f2VHpEmxJuSWFmV
-	WpQfX1Sak1p8iFGag0VJnNdwxuwUIYH0xJLU7NTUgtQimCwTB6dUA5PXxzWxQsr7NT6LPe2J
-	WGtgEFpxjOXpZObfnu/Or6xNeM4odFRWUC8nROTdLX3TCBeNzIPiC3pTcsriVzSzL36kmWnM
-	GC17WK3flOWgnVru0dWHe1anX3Qos5jPvc/l9C6BZxttJop7zph47+2fjg1h3TtSZdgOrd+y
-	0+aFVugFpRORP6NDjD9Ufzqm06hsu2GKTKue1qk/2gf169acuXbqbkIfY13uRZ/XWkrsd5YF
-	Stn7qLrv6xEwP6Nhf+vC/MCXx9jm7l6meOsGK1fPd8HVjY1FHeHMNdN3HjoVdEvhiZu1y4vT
-	6zcaOutJMe4/NeWjh3RM8uevwVOtjoguSDPbXXTzwLz9k/cxiazz/KvEUpyRaKjFXFScCAA+
-	KGNdwwIAAA==
-X-CMS-MailID: 20240531060731epcas2p4f14afae9f00a7e71e6bd3863f0a51441
+	tSAlp8C8QK84Mbe4NC9dLy+1xMrQwMDIFKgwITtj4dqJrAV9HBVXfvaxNjDeZ+ti5OSQEDCR
+	2P3hHWMXIxeHkMAORon+SRvYIZxPjBINH88zQzjfGCUuvn3NCtNy49A2qMReRomek2+gWn4w
+	Sky+fxIow8HBJqAl8X0h2FwRgVlMEo/m3AVzmAWeMUqs/3OeCWSUsECQxPZLnUwgDSwCqhKL
+	Z2eAmLwCbhI3LohDLJOTuHmukxnE5hRwl3gw5xwLyBgJgY/sEm9e9LJAFLlI7G9+AHWdsMSr
+	41vYIWwpic/v9kI9Wixx6/kzZojmFkaJFa9amCESxhKznrUzgixmFtCUWL9LH8SUEFCWOHIL
+	bDyzAJ9Ex+G/7BBhXomONiGIRmWJ6ZcnQG2VlDj4+hzUQA+J5k0NLJAgmcUocXXCOtYJjHKz
+	EBYsYGRcxSiWWlCcm56abFRgCI+x5PzcTYzg9KflvIPxyvx/eocYmTgYDzFKcDArifD+So9I
+	E+JNSaysSi3Kjy8qzUktPsRoCgy6icxSosn5wAScVxJvaGJpYGJmZmhuZGpgriTOe691boqQ
+	QHpiSWp2ampBahFMHxMHp1QDk8eMI3s6fm+X0OJ5k/43eF3/4u4VbV3/k2xfTJfaGbIky0In
+	v8Nyj1tH24PZRTrnLJ4xtf56ZtRcuM1mGef8sxsdS5n5JN8dWrqQPbfhyNX0FyrBm7+Hu6ba
+	sr9ZUfyNbYGVv/GXzwV5E/63NPf1yYqa9jvnTuSZMKuZ9c6G2m8f5yQt9a17PM39xL/l7vKZ
+	c3ab/ZU99rTquMQOJWFJ3sk5l/xCimavLyzRezht5uWM2nWCr83Wx52M+Xmh2iS4rMn+eO6U
+	7RXPtF+m3wtYnLp6ktfGLGGppzt/vPhkqB/fsHWzoFJOzccV195ka1xkvzyFfdGJUAGuZTcq
+	LppcWzA59M6KL9ve/Q+6e9FtPoMSS3FGoqEWc1FxIgAwJuJrCAQAAA==
+X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFlrHLMWRmVeSWpSXmKPExsWy7bCSnK5iZmSawe1eA4tjbU/YLdbsPcdk
+	Mf/IOVaLOwumMVk0L17PZvFy1j02i8u75rBZLFrWymzRvGkKq8X/PTvYLVYtOMDuwO2xeM9L
+	Jo9NqzrZPPbPXcPu0bdlFaPHlv2fGT0+b5ILYIvisklJzcksSy3St0vgyli4diJrQR9HxZWf
+	fawNjPfZuhg5OSQETCRuHNrG3MXIxSEksJtR4s/7dewQCUmJpXNvQNnCEvdbjrCC2EIC3xgl
+	/v+o62Lk4GAT0JL4vpARpFdEYAGTxLVpt9lBHGaBZ4wS9x60gDUICwRIfG17yArSwCKgKrF4
+	dgaIySvgJnHjgjjEeDmJm+c6mUFsTgF3iQdzzrFArHKT2HXpAPsERr4FjAyrGCVTC4pz03OL
+	DQsM81LL9YoTc4tL89L1kvNzNzGCg1RLcwfj9lUf9A4xMnEwHmKU4GBWEuH9lR6RJsSbklhZ
+	lVqUH19UmpNafIhRmoNFSZxX/EVvipBAemJJanZqakFqEUyWiYNTqoEpVb1q+9ct/9tsJrXb
+	+Hj+fnn2Mf+hLDmlPX+qfE9V6J75KHXOxOLOoVePY7V0Jm6T5zPvSf/ZHWhnFbHz0NRjlcuV
+	og/KL/8eYSXV79XbMv3HsoOzitcs3JA9/VTzPxbGH3GOcofO7dsVlzn9+2fG+1d2zJufkNm0
+	52HNs+7yxbkGsyXem3N6dHzam/VAYXbq9bB1F6SfXG5PVBP68jN/sYDc8hWCa9JKX6aZXLlU
+	tkUt/OlUqRMWeqW3KmRFPwSeVfF8/uu457KCeWE1G4q6tsrufNNinH3s0Ipew4P6pQtX6hyx
+	W7D7slrbvtkqDSkb0q+IOCsfXLLCVD5wfQajfG9Uib23Q+AD1UsyoclvlFiKMxINtZiLihMB
+	6V4TOsECAAA=
+X-CMS-MailID: 20240531060729epcas2p1df12dd3b14c5fa2fa0716f72010b3dbd
 X-Msg-Generator: CA
 Content-Type: text/plain; charset="utf-8"
 X-Sendblock-Type: AUTO_CONFIDENTIAL
 CMS-TYPE: 102P
 DLP-Filter: Pass
 X-CFilter-Loop: Reflected
-X-CMS-RootMailID: 20240531060731epcas2p4f14afae9f00a7e71e6bd3863f0a51441
+X-CMS-RootMailID: 20240531060729epcas2p1df12dd3b14c5fa2fa0716f72010b3dbd
 References: <1717135657-120818-1-git-send-email-dh10.jung@samsung.com>
-	<CGME20240531060731epcas2p4f14afae9f00a7e71e6bd3863f0a51441@epcas2p4.samsung.com>
+	<CGME20240531060729epcas2p1df12dd3b14c5fa2fa0716f72010b3dbd@epcas2p1.samsung.com>
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 
-This is set by dwc3 parent node to support writing high-low order.
+xHCI specification 5.1 "Register Conventions" states that 64 bit
+registers should be written in low-high order. All writing operations
+in xhci is done low-high order following the spec.
+
+Add a new quirk to support workaround for high-low order.
 
 Signed-off-by: Daehwan Jung <dh10.jung@samsung.com>
 ---
- drivers/usb/host/xhci-plat.c | 3 +++
- 1 file changed, 3 insertions(+)
+ Documentation/devicetree/bindings/usb/usb-xhci.yaml | 4 ++++
+ 1 file changed, 4 insertions(+)
 
-diff --git a/drivers/usb/host/xhci-plat.c b/drivers/usb/host/xhci-plat.c
-index 3d071b8..31bdfa5 100644
---- a/drivers/usb/host/xhci-plat.c
-+++ b/drivers/usb/host/xhci-plat.c
-@@ -256,6 +256,9 @@ int xhci_plat_probe(struct platform_device *pdev, struct device *sysdev, const s
- 		if (device_property_read_bool(tmpdev, "xhci-sg-trb-cache-size-quirk"))
- 			xhci->quirks |= XHCI_SG_TRB_CACHE_SIZE_QUIRK;
+diff --git a/Documentation/devicetree/bindings/usb/usb-xhci.yaml b/Documentation/devicetree/bindings/usb/usb-xhci.yaml
+index 4238ae8..447d331 100644
+--- a/Documentation/devicetree/bindings/usb/usb-xhci.yaml
++++ b/Documentation/devicetree/bindings/usb/usb-xhci.yaml
+@@ -25,6 +25,10 @@ properties:
+     description: Set if the controller has broken port disable mechanism
+     type: boolean
  
-+		if (device_property_read_bool(tmpdev, "write-64-hi-lo-quirk"))
-+			xhci->quirks |= XHCI_WRITE_64_HI_LO;
++  write-64-hi-lo-quirk:
++    description: Set if the controller has a limitation of high-low order
++    type: boolean
 +
- 		device_property_read_u32(tmpdev, "imod-interval-ns",
- 					 &xhci->imod_interval);
- 	}
+   imod-interval-ns:
+     description: Interrupt moderation interval
+     default: 5000
 -- 
 2.7.4
 
