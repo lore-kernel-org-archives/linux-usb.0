@@ -1,548 +1,169 @@
-Received: from mail-lf1-f47.google.com (mail-lf1-f47.google.com [209.85.167.47])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from EUR04-HE1-obe.outbound.protection.outlook.com (mail-he1eur04on2064.outbound.protection.outlook.com [40.107.7.64])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 635CC80632
-	for <linux-usb@vger.kernel.org>; Sun,  2 Jun 2024 23:25:02 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.47
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1717370705; cv=none; b=aFL2+dWzF5pEV/zfhfYjjcvQTsPiO75qlhyiF9mPS9FQhnTzJz1jl35k0zDk6XImyBZ+/TbJV/Y1oF/stOmE/FUHwmyrNRHcAqce6E5+Hj80lE2eKHoPKzDlFw9bgvkECN13+/XMW8123eWf5hlGjfhWwUNqB6H0H8EftKEUd5o=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1717370705; c=relaxed/simple;
-	bh=xsVlzflUb/Qp1trYi1IqtQRk3wSvC2VlMHb1s/cNflQ=;
-	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
-	 In-Reply-To:To:Cc; b=ivnKUFAG/WWqsmxrn4v6L59g3ddWdmqVLsXjkDdzkP3TVY5fHAGwiaVZrWtjVgcKsnkT9tvA04ymq/6UUEj3C92YephH4i0ZELT5IUZ/jRYwwrOuyRd+7j9HWUSxJl7sVHdJP+N0HS4eKFx0nLlfOTbDh5dOZxmZdDgqIcEJxHU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=uPxRVO+l; arc=none smtp.client-ip=209.85.167.47
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 39BE1B642;
+	Mon,  3 Jun 2024 01:47:07 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=40.107.7.64
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1717379232; cv=fail; b=S1FgmqQH5F1fav1Q2z4qRnKo+dRWRvFVPX086yUBogSn1J2uF7ltb2Jb8p8McjYl5HD+S9P2vNbL6uMUsn4NyTuGmdGwXer/eB5t8xI3qa5hwLTlJFCigFqbamARh4Ri4yTdxnijK8YNeU4BLZVDa1f9Ez0qQkCF6LnsVOzp0Yw=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1717379232; c=relaxed/simple;
+	bh=Sq7yDLIk4uB6ew9/igF0qfD7kf2JJ4+2w6fYr5hA7wU=;
+	h=From:To:CC:Subject:Date:Message-ID:References:In-Reply-To:
+	 Content-Type:MIME-Version; b=FpkTlXopek9o/gBccg7eSgYH3qurotoRcjNsl2VRvqetvs+jeEgve9/qYBsCtEDib3x/UEYkuX+xlK1dZ5m1KanSnLxuuPNAGiAnUQ55j9sZcbDJ+YeRtlq2Eirsyv0aG8EAvbEFPMDfZJI2gPL7wqf46CCTLOIQOhE5ZqJgibo=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=nokia-sbell.com; spf=pass smtp.mailfrom=nokia-sbell.com; dkim=pass (2048-bit key) header.d=nokia-sbell.com header.i=@nokia-sbell.com header.b=EeEbp9iv; arc=fail smtp.client-ip=40.107.7.64
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=nokia-sbell.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=nokia-sbell.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="uPxRVO+l"
-Received: by mail-lf1-f47.google.com with SMTP id 2adb3069b0e04-52b88740a93so2652378e87.3
-        for <linux-usb@vger.kernel.org>; Sun, 02 Jun 2024 16:25:02 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1717370701; x=1717975501; darn=vger.kernel.org;
-        h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
-         :mime-version:subject:date:from:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=fLTVeDBunzWZL7NXj62dRVbdmskQ6vEkyJgavqsHljg=;
-        b=uPxRVO+lniez5ZVbPpE/X6n+QNn05/FaRWhTv5Ff+leZ21Eu62D+hi4Vr2ICldGEu7
-         UevGXut9+nuWQWmq07gvD71Pr9NfvgPPIiGGFVLUORlZ/zUm9eKuG8KKPF+U1r0hmTk+
-         Xao7kaGzxcTRkUHNwz3N0KT1078iGmlqRYFdis+nlsYYsilucmtY2bQao1Rias7XnMeb
-         Mu2XI1kR8U9eXoSQWO9UHZmn5qJfAu55snDTtz9B9Es+8augVHWR4VZVulwNtWws1v0T
-         mzERSW+C1TNYc0AFuuaJgtoJyQxFcJ+d7YYGyku6sGOrqXfHw5SGEfEFf5gzwYKhDAxt
-         FTPw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1717370701; x=1717975501;
-        h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
-         :mime-version:subject:date:from:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=fLTVeDBunzWZL7NXj62dRVbdmskQ6vEkyJgavqsHljg=;
-        b=GkA1rtu+DcJaotBQ7JPj6y/C7/PA9072hvmqOMrhJjYQqGSnTKbcS3fL21a31NBCZg
-         TdoYRTYwdCpmFVMPgGRvDaEn12/EsfJUVnViyuVvhaUb5xEuaSFsEQ9CzKqPY2py+dkB
-         uNnHhI4s8+ASR9lxJA/eiKpvm4zS9Bq7ijyp0Z6f/RLiOCEnY6LE5kL5MU91Vjf+Vram
-         ZG422De4JS47FW9J1VBEkdDI60w+lfzbnw8uyEku43xuxZ3hxxg4xzL/qMvweAuYbLbg
-         8vwAYXSBHYFSms4NaLB2L7O70FI3iY5by3CRD4e+45C/4q1x3bY4IFtzgEZ1Gz6w/RwV
-         FSCQ==
-X-Forwarded-Encrypted: i=1; AJvYcCXqrko+itx35vgCzE6L4I2wDjL/fnYf7qAKiZ4s2s1sp4UCxaiKvxDez5BvTqmaZw/ukDPs/q6x9UAmjZi9Okek0EjqV/ecQhf1
-X-Gm-Message-State: AOJu0Yy99NNQBdHhrqqM4szXNaKyBs97h1a4aXVefuyWnpKbFHsuKX5p
-	O/Y5Iqxe/PBzfLBuN5Zl5OiKe30G6mC15NJleL8CU3wVLapGuM/DUYIkQ8ADk2w=
-X-Google-Smtp-Source: AGHT+IHY6hl3fA/aTU7/5Qs5jHutGO3eYNynfRaMh7gFJxG/9+xPnjuSt6dd6ciGptalIyviyk3Uvw==
-X-Received: by 2002:a05:6512:1152:b0:52b:9c8a:735a with SMTP id 2adb3069b0e04-52b9c8a74fcmr205388e87.40.1717370700848;
-        Sun, 02 Jun 2024 16:25:00 -0700 (PDT)
-Received: from umbar.lan ([192.130.178.91])
-        by smtp.gmail.com with ESMTPSA id 2adb3069b0e04-52b959008aasm392369e87.269.2024.06.02.16.25.00
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 02 Jun 2024 16:25:00 -0700 (PDT)
-From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-Date: Mon, 03 Jun 2024 02:24:59 +0300
-Subject: [PATCH RFC 6/7] usb: typec: ucsi: extract common code for command
- handling
+	dkim=pass (2048-bit key) header.d=nokia-sbell.com header.i=@nokia-sbell.com header.b="EeEbp9iv"
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=RIeIAqfnY+DQJmrZBkV9ZGhY1E8xFNbfRljZ1bK1mmmVFIJVk8srWkiO037v+dXqQ8KIGGv5RxYqVY8HZdIEzqXiGiUHWEeBNC7fNkTCYYNYdOtYqEnOWLWaes9WpLbNPky6fVDbO0tc9j1H3+M948Vmtlkk6gwQNDcJxXCpudBBWU0aj5/T/t/GAnVuwMl9qKAADx68kZofd1bHhEoOfT3sEZfW0WJwcB6JNHnXCXUKxGhLVnjspzx7+9jO3jyOWOGuv7wRUAuws4zBqWNybDIXiWmtHbuxzyXEnapB/57mYIY+UPg92Y48umyuHFHDVuNY3sJThsCU40eVBd9r5g==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=3f5l3jyuUgkJyW0jPm2QZBJLMIq7NSzIo2nuxrTDNq8=;
+ b=eucjbDuQdHOjCEFbjlSUOPdkmbr7wNKUGwt+9pCvDARZxalZxQ0gwj5UINBKK4ifo1Oe6WjNbZ2xDIpPmECi2/vVR5yion/IeS7VVKi8rWoIwZHuy5O2tPgZx4xPM0AbZvxGTs+9Gw5xuvGNrAHYfitCQUvsaoWDHsV0np9pyXgFZDGr2VDrljWrJfBvRrNTm2aax9UqGkeACfUrEXZH8rR5e91++buKsnDeGRsVs8M+Lig5Qj62ckLXLP4JOV0c9Kt2+kB8RwDBBDKZltJCeNvH59sCrnglJu8fjFBIPT06CECVMQ14yVYeU3oaqzuteWTqjS/0ML8YsldyjPtzKQ==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=nokia-sbell.com; dmarc=pass action=none
+ header.from=nokia-sbell.com; dkim=pass header.d=nokia-sbell.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nokia-sbell.com;
+ s=selector2;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=3f5l3jyuUgkJyW0jPm2QZBJLMIq7NSzIo2nuxrTDNq8=;
+ b=EeEbp9ivsJTD8TKa1WTlkqB6vWPmeU8iLnoAT+tzvftgwteTkxgtP+KbwtCmGIXqfkF4Iy8mdCbXJACwijA9/f+IAD9RJ8aWBGpGUtimXkkxkKrLIgIufpF55DXSYI6xsYycATBOsr+L1WQZ6eQRiSt6DIr7sDs52rICTQKVcDtm9H6NoT5R91dovabQ1NkOEy4v92lLeijmUjvAMg+MhsdShADO2QEzptzMziyKlSgT7iOo8U54+G86+IroTVbtPs4KOW1dXQpsdysXqdyWZxZaji7dGM4RitIWupBcO2Mf6/CbrTmKKfWX3X4wM2Qbdou8GxtFhDZohlEW9ZfB5g==
+Received: from HE1PR07MB4169.eurprd07.prod.outlook.com (2603:10a6:7:9d::25) by
+ PA4PR07MB8390.eurprd07.prod.outlook.com (2603:10a6:102:2a1::12) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7633.21; Mon, 3 Jun
+ 2024 01:46:52 +0000
+Received: from HE1PR07MB4169.eurprd07.prod.outlook.com
+ ([fe80::93cb:c23a:3cda:4fa1]) by HE1PR07MB4169.eurprd07.prod.outlook.com
+ ([fe80::93cb:c23a:3cda:4fa1%4]) with mapi id 15.20.7633.018; Mon, 3 Jun 2024
+ 01:46:50 +0000
+From: "Qianbin Zheng (NSB)" <qianbin.zheng@nokia-sbell.com>
+To: "gregkh@linuxfoundation.org" <gregkh@linuxfoundation.org>
+CC: "u.kleine-koenig@pengutronix.de" <u.kleine-koenig@pengutronix.de>,
+	"linux-usb@vger.kernel.org" <linux-usb@vger.kernel.org>,
+	"linuxppc-dev@lists.ozlabs.org" <linuxppc-dev@lists.ozlabs.org>,
+	"linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>
+Subject: [PATCH] usb: gadget: fsl: Enable usb snoop on PPC64
+Thread-Topic: [PATCH] usb: gadget: fsl: Enable usb snoop on PPC64
+Thread-Index: AQHaszupw160VnAcEUi+I4pyUMNTnrGxERVQ
+Date: Mon, 3 Jun 2024 01:46:50 +0000
+Message-ID:
+ <HE1PR07MB4169B7A47CC7105A9FC3E993ACFF2@HE1PR07MB4169.eurprd07.prod.outlook.com>
+References: <20240531091926.3324847-1-qianbin.zheng@nokia-sbell.com>
+In-Reply-To: <20240531091926.3324847-1-qianbin.zheng@nokia-sbell.com>
+Accept-Language: en-US
+Content-Language: en-US
+X-MS-Has-Attach:
+X-MS-TNEF-Correlator:
+authentication-results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=nokia-sbell.com;
+x-ms-publictraffictype: Email
+x-ms-traffictypediagnostic: HE1PR07MB4169:EE_|PA4PR07MB8390:EE_
+x-ms-office365-filtering-correlation-id: 7b78c9c9-b7f4-4b06-6035-08dc836f0984
+x-ms-exchange-senderadcheck: 1
+x-ms-exchange-antispam-relay: 0
+x-microsoft-antispam: BCL:0;ARA:13230031|376005|366007|1800799015|38070700009;
+x-microsoft-antispam-message-info:
+ =?us-ascii?Q?Fu1Zx73sQFZQdLJ1HsrC/1M+FqXhYsaWZOZvdPlRjDWKvNZkgDW0dxvNlaql?=
+ =?us-ascii?Q?PApalWmz+niY7/kqfTwnpvuGTQgzd1LbVYQlmSl9K5X9OCPsUiuaxtL+ys9a?=
+ =?us-ascii?Q?hjLunjrTEL+qYm2ANa3LtvpEQdz0PISqKug3pgmuTKqS/EYeE367r1Fq+01U?=
+ =?us-ascii?Q?AKTMNiVT3/d4cqFyYQe+sUKg+kYWX1Ntnlb9HJWdjSwxXnhYPB4AIxhtJAr0?=
+ =?us-ascii?Q?M3VCadfADsThDwXZ4aBqWd+JEBfJh9B11k1+K7P1FyQOd3gJO5pq4vhOCa5Z?=
+ =?us-ascii?Q?/z14YFsUbNa2VnGgC3jrc3IU+hSiKZrdBuEx93sAYDoglWnpl4n3hHVmn0jm?=
+ =?us-ascii?Q?UeHMC5fbUTKKNQcJxlDbQcWK/TLJpbXNV6PxC0RRiO6/VDHOD+91Vt1ea9te?=
+ =?us-ascii?Q?nMHd3LTDjGJbptI2ppLPdgp3Zpb8Di5bhGlZcN5ACaXu1IGGtd6cCML+FFO7?=
+ =?us-ascii?Q?v+foVP1k6rcZdc9RZlDTgXh5RI9/Temu8gePd0EINE+uF5TTl+rtHhVj5Jiz?=
+ =?us-ascii?Q?z1Z9FlUAgm8rEgWOzjGxy5sqL63CGeq2reG/ux0zCfXkFPVLOctzwvqoYQey?=
+ =?us-ascii?Q?uOc4H+GoLOfnAEY5EUVFkl/pYb9XFbN46MKj30zcl/KNdRKcSUjBFHIFMfkh?=
+ =?us-ascii?Q?WdFxVRwdvNCBYn6trUs6YLxjXlE87UsrObZgUnh/SQIC54Uchvy5guIvem7T?=
+ =?us-ascii?Q?Eph6LBwdJULNOukVGz/lc+W/N27o3jTu7NPxo+OLA58486l/ac9lYUdLKkIj?=
+ =?us-ascii?Q?+GiwGUko7WQbJkBS5JU0FOQsxRWoOY5Qv40Q5AUdZ8FYEXYKtNl/jHD19GEU?=
+ =?us-ascii?Q?vnNbbIZv6hipIg3lImtBYT/Ww/ZtsoIMlQACTNtXasbOkqPwmn9sxWiLOdNg?=
+ =?us-ascii?Q?bR+gwJQUhhX1ddBHHIJAjeUdz0hFRvIUE+hrItlrkJKeDgUQDBe+ad5M8+IT?=
+ =?us-ascii?Q?iQBqJ9rzjF4qJ1J8XFH8Ce4L8K8WVHfCVsaC0/6Zc+hvNvg5djztmVseyMZY?=
+ =?us-ascii?Q?UvKrXuALvDlmORkxgHmLSRVDswmK+K48xHu7ZzVL9vT9+PswmOUgGmO+wK7L?=
+ =?us-ascii?Q?qtpLhdH1TreFaiTbVxuzZfBFCVEfmiNmn+DWlfCGpKBdMPA+qcvZszZJM640?=
+ =?us-ascii?Q?uiwj2/FZB2SNxGRkrSifAUR1rcUXJb9I0vM7fGb9yxfKc3Bpen5l+bi5J5xQ?=
+ =?us-ascii?Q?34sygJsq0U7vIFiwxW5/20M8+/AhvzrlWUY35Z+N0UcjkaQVDThv8iy3WxIm?=
+ =?us-ascii?Q?Z+PVfi7MlN7QPSxfeCPmD0uzxjXfFf0tVqwHMAYsCvyPvb2lh0g1i3vaLlBV?=
+ =?us-ascii?Q?Hjg+T6JQkOkN0xYV5Q4JeyUFvBwRhiI8HciuE73DOKx5kQ=3D=3D?=
+x-forefront-antispam-report:
+ CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:HE1PR07MB4169.eurprd07.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230031)(376005)(366007)(1800799015)(38070700009);DIR:OUT;SFP:1101;
+x-ms-exchange-antispam-messagedata-chunkcount: 1
+x-ms-exchange-antispam-messagedata-0:
+ =?us-ascii?Q?c5lMwK3fen+A2UX2JMH0loPTqUh2UgOysh6y/2yf/ZZqcTOQ1hvCXtFmHbDS?=
+ =?us-ascii?Q?DTX9XxRTevTvaqjmsK0QthnLEb7yK5uT7zyynjfCIB5WW5WAktBmMP6B+Xy0?=
+ =?us-ascii?Q?rvSBoCHWwMOGahMduU5BgMy1hGIE1DyZuKEGknr6ZIZ9VLr5esiowVeqRHwY?=
+ =?us-ascii?Q?ayEVRMWL3ODpgxTZRRQ/dELflemXL4jmW4zY4RYEPOcpFXj2hXDpCkvu8p7c?=
+ =?us-ascii?Q?JlNPlgpo15n0lW5SCk77BpenPv2iDpsqmNwpQfMm/3U/sOaaFJPVHLUTpMXp?=
+ =?us-ascii?Q?CQCKSnRR/5/giN31FetVkHPNuH661OgqitQPykpW7uuQsFQCpO5fuvcP6+Lk?=
+ =?us-ascii?Q?b+ictMtU3Xt8/nDppUBdHD7hj4YTVaXRw/FmJ2QTivFtgUBjePsemU8nbqSs?=
+ =?us-ascii?Q?lGgd7MMaFesOjE2nu6WO8mrwXn12N9dlSoHmGDBtMQnqvGG0sLs0UQUGgU1i?=
+ =?us-ascii?Q?cbW5LWDCn17jf9A9w1B4wNARkqHDeU4bmHeZuLlRAF2CACX8NwW3tSVuKGqu?=
+ =?us-ascii?Q?irrLyd6xceXb1POjZlQsQHJZthKQ0RhWdH1smtTcthexJic2dMxx8a057Gj7?=
+ =?us-ascii?Q?/gDU9hXugEzvtkUAk+UcQ4EybnPhh9ZeTqa8D6lSYKUOXnsw0k5OWWdS4ocM?=
+ =?us-ascii?Q?pHlvJClftFvkahpvbib4TRjp+bLZs/gpMcgdiKFJ5fDyWbuYovrQthLaQf2R?=
+ =?us-ascii?Q?Ca7wy/XBXUpiZuBFhKQqIn6Lra3i3Hnh2h13JnyUjoryTdQ9bMjhxUC5IdSd?=
+ =?us-ascii?Q?Lse/sFDJUFpnjnOD6Zmnju9eUSe8VsbeTeIhpOBIiIDAqdcqGkMZBSBCwRde?=
+ =?us-ascii?Q?KXpnrs5BYQfddosZTVNpj1fj1jI6RvzZkhpNekVHO7ZALtbsh+2SBloem1At?=
+ =?us-ascii?Q?SW466bWhwXpYRBf5Rdfv9UlZnx1DYS5o2UD70c5CE0dfyw69+kZyMN70BAO3?=
+ =?us-ascii?Q?qZ+hvNYI0PdjX06hRrLAt3jeiE6G4pcMYoic1mtlwjsLuXq8rUSJu7cdvzHv?=
+ =?us-ascii?Q?mDRGQ311o64MjpfmVTi2HHcD4k0YhzlOpjZW+bOpXY2POy5a+E2ZUbKVwRJ1?=
+ =?us-ascii?Q?JvrbEI0ZQCulq9mF+egq6F7jnwhbx3ZWzTI1XN87O4UoXtB7OiFqgA73nUlb?=
+ =?us-ascii?Q?QxmEalHwbZfBEtJyGGi4u5HhvoxmG1b7xPcEdQh92Ruy2mnqU3y9Pe9wU9G/?=
+ =?us-ascii?Q?TPDkoHg5/yvJZ9NAY87cusDDOeeaOLUR+SiZWv1s6Hyqg6oynjwgTnleqzR0?=
+ =?us-ascii?Q?ZF2okyQciGpTrDYFUShsJRVaSdedAqiV5lNpVy7lwMRpCgV7T5cu3oeYWfIT?=
+ =?us-ascii?Q?Q5N1cJEVMD7ZU5YzEgfZ1PEZUZ7izYK3fb3cgBujAgmAnF9r6NL5GLcZkIcn?=
+ =?us-ascii?Q?D61H6wdmnJ9fxwlZYvqeDfvC/wjWprZCsnWUFLyDCZK82F8+7Eycgjq5Fq0z?=
+ =?us-ascii?Q?K9BGnSVdsrnLaiHKQrPqDRI/TVwgH3f05nM5wpCGC2mEFgAIcvaG4IiSZdfb?=
+ =?us-ascii?Q?gBpyM5IVlBPBn9hJ19H5p0IzPavtnG9VOsx2NBSocbwbrRI9wu9PAwrmXvGp?=
+ =?us-ascii?Q?+9hF+gqsAi3Y87wPaUeahsLEmkwCo8Waezj+UKRSPKPrpspWKl1El2UoWyOh?=
+ =?us-ascii?Q?5g=3D=3D?=
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: quoted-printable
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-Message-Id: <20240603-ucsi-rework-interface-v1-6-99a6d544cec8@linaro.org>
-References: <20240603-ucsi-rework-interface-v1-0-99a6d544cec8@linaro.org>
-In-Reply-To: <20240603-ucsi-rework-interface-v1-0-99a6d544cec8@linaro.org>
-To: Heikki Krogerus <heikki.krogerus@linux.intel.com>, 
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>, 
- Maxime Coquelin <mcoquelin.stm32@gmail.com>, 
- Alexandre Torgue <alexandre.torgue@foss.st.com>
-Cc: Nikita Travkin <nikita@trvn.ru>, 
- Neil Armstrong <neil.armstrong@linaro.org>, linux-usb@vger.kernel.org, 
- linux-kernel@vger.kernel.org, linux-stm32@st-md-mailman.stormreply.com, 
- linux-arm-kernel@lists.infradead.org
-X-Mailer: b4 0.13.0
-X-Developer-Signature: v=1; a=openpgp-sha256; l=14654;
- i=dmitry.baryshkov@linaro.org; h=from:subject:message-id;
- bh=xsVlzflUb/Qp1trYi1IqtQRk3wSvC2VlMHb1s/cNflQ=;
- b=owGbwMvMwMXYbdNlx6SpcZXxtFoSQ1rMf3fZKVbMvl/MvA4YZCjfVVleW3U9nju+f0XV2tjJe
- 17ZW27rZDRmYWDkYpAVU2TxKWiZGrMpOezDjqn1MINYmUCmMHBxCsBEFHdxMMyLKbipKsrvU3b1
- XdwubZecG8LTp9RNfLIn4AHP2+7vP63uPZD5J8+cyiOrxngkznOJWV1RumBn6NeZf1ezipzkfb1
- HnHftHiWnLc4PdVXFVwhs1P0t92qflabtpI37/VimvE80fLrGfHuDn72PfbJNb4e/6h/v566PGf
- 23Bh3fossgZrVWLD80J39fr0Ju6u34vy31dU9sD8dzZ0gt3HPDqsFb606YXsSX7bZ+Dd8dG76Jz
- TcyXSRgzWBk3F56Y01K8fR16ayKhmKl+afNzVdctzqm8W2L+6P/1xp+7T7Oocx7+5X/e50i///7
- vk07cmS/f1uWe9mxh1qqEXph7wp3sYRmds50cnz1zkoTAA==
-X-Developer-Key: i=dmitry.baryshkov@linaro.org; a=openpgp;
- fpr=8F88381DD5C873E4AE487DA5199BF1243632046A
+X-OriginatorOrg: nokia-sbell.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-AuthSource: HE1PR07MB4169.eurprd07.prod.outlook.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 7b78c9c9-b7f4-4b06-6035-08dc836f0984
+X-MS-Exchange-CrossTenant-originalarrivaltime: 03 Jun 2024 01:46:50.3665
+ (UTC)
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-id: 5d471751-9675-428d-917b-70f44f9630b0
+X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
+X-MS-Exchange-CrossTenant-userprincipalname: vXKvjukFJarVPRHJMY6x7wf3N82j4rR2djMptYIyWtzzyDTaXDexUQ0b0Yegc68GaPLuzOtGN7+ZgqR9aqDbPgAXCrPibtM3drO8UwrD2xo=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: PA4PR07MB8390
 
-Extract common functions to handle command sending and to handle events
-from UCSI. This ensures that all UCSI glue drivers handle the ACKs in
-the same way.
+Turn on usb snooping on PPC64.
 
-The CCG driver used DEV_CMD_PENDING both for internal
-firmware-related commands and for UCSI control handling. Leave the
-former use case intact.
-
-Signed-off-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+Signed-off-by: Qianbin Zheng <qianbin.zheng@nokia-sbell.com>
 ---
- drivers/usb/typec/ucsi/ucsi.c         | 43 ++++++++++++++++++++++++++++++++
- drivers/usb/typec/ucsi/ucsi.h         |  7 ++++++
- drivers/usb/typec/ucsi/ucsi_acpi.c    | 46 +++-------------------------------
- drivers/usb/typec/ucsi/ucsi_ccg.c     | 21 +++-------------
- drivers/usb/typec/ucsi/ucsi_glink.c   | 47 ++---------------------------------
- drivers/usb/typec/ucsi/ucsi_stm32g0.c | 44 ++------------------------------
- 6 files changed, 60 insertions(+), 148 deletions(-)
+ drivers/usb/gadget/udc/fsl_udc_core.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/drivers/usb/typec/ucsi/ucsi.c b/drivers/usb/typec/ucsi/ucsi.c
-index ac4bd86b3fae..4d36a04dc63b 100644
---- a/drivers/usb/typec/ucsi/ucsi.c
-+++ b/drivers/usb/typec/ucsi/ucsi.c
-@@ -36,6 +36,48 @@
-  */
- #define UCSI_SWAP_TIMEOUT_MS	5000
- 
-+void ucsi_notify_common(struct ucsi *ucsi, u32 cci)
-+{
-+	if (UCSI_CCI_CONNECTOR(cci))
-+		ucsi_connector_change(ucsi, UCSI_CCI_CONNECTOR(cci));
-+
-+	if (cci & UCSI_CCI_ACK_COMPLETE &&
-+	    test_bit(ACK_PENDING, &ucsi->flags))
-+		complete(&ucsi->complete);
-+
-+	if (cci & UCSI_CCI_COMMAND_COMPLETE &&
-+	    test_bit(COMMAND_PENDING, &ucsi->flags))
-+		complete(&ucsi->complete);
-+}
-+EXPORT_SYMBOL_GPL(ucsi_notify_common);
-+
-+int ucsi_sync_control_common(struct ucsi *ucsi, u64 command)
-+{
-+	bool ack = UCSI_COMMAND(command) == UCSI_ACK_CC_CI;
-+	int ret;
-+
-+	if (ack)
-+		set_bit(ACK_PENDING, &ucsi->flags);
-+	else
-+		set_bit(COMMAND_PENDING, &ucsi->flags);
-+
-+	ret = ucsi->ops->async_control(ucsi, command);
-+	if (ret)
-+		goto out_clear_bit;
-+
-+	if (!wait_for_completion_timeout(&ucsi->complete, 5 * HZ))
-+		ret = -ETIMEDOUT;
-+
-+out_clear_bit:
-+	if (ack)
-+		clear_bit(ACK_PENDING, &ucsi->flags);
-+	else
-+		clear_bit(COMMAND_PENDING, &ucsi->flags);
-+
-+	return ret;
-+}
-+EXPORT_SYMBOL_GPL(ucsi_sync_control_common);
-+
- static int ucsi_acknowledge(struct ucsi *ucsi, bool conn_ack)
- {
- 	u64 ctrl;
-@@ -1858,6 +1900,7 @@ struct ucsi *ucsi_create(struct device *dev, const struct ucsi_operations *ops)
- 	INIT_WORK(&ucsi->resume_work, ucsi_resume_work);
- 	INIT_DELAYED_WORK(&ucsi->work, ucsi_init_work);
- 	mutex_init(&ucsi->ppm_lock);
-+	init_completion(&ucsi->complete);
- 	ucsi->dev = dev;
- 	ucsi->ops = ops;
- 
-diff --git a/drivers/usb/typec/ucsi/ucsi.h b/drivers/usb/typec/ucsi/ucsi.h
-index f770e1070424..b08393417fa9 100644
---- a/drivers/usb/typec/ucsi/ucsi.h
-+++ b/drivers/usb/typec/ucsi/ucsi.h
-@@ -4,6 +4,7 @@
- #define __DRIVER_USB_TYPEC_UCSI_H
- 
- #include <linux/bitops.h>
-+#include <linux/completion.h>
- #include <linux/device.h>
- #include <linux/power_supply.h>
- #include <linux/types.h>
-@@ -409,6 +410,9 @@ struct ucsi {
- 	/* PPM communication flags */
- 	unsigned long flags;
- #define EVENT_PENDING	0
-+#define COMMAND_PENDING	1
-+#define ACK_PENDING	2
-+	struct completion complete;
- 
- 	unsigned long quirks;
- #define UCSI_NO_PARTNER_PDOS	BIT(0)	/* Don't read partner's PDOs */
-@@ -473,6 +477,9 @@ int ucsi_send_command(struct ucsi *ucsi, u64 command,
- void ucsi_altmode_update_active(struct ucsi_connector *con);
- int ucsi_resume(struct ucsi *ucsi);
- 
-+void ucsi_notify_common(struct ucsi *ucsi, u32 cci);
-+int ucsi_sync_control_common(struct ucsi *ucsi, u64 command);
-+
- #if IS_ENABLED(CONFIG_POWER_SUPPLY)
- int ucsi_register_port_psy(struct ucsi_connector *con);
- void ucsi_unregister_port_psy(struct ucsi_connector *con);
-diff --git a/drivers/usb/typec/ucsi/ucsi_acpi.c b/drivers/usb/typec/ucsi/ucsi_acpi.c
-index 61dd28dae3a4..e8402fac70c8 100644
---- a/drivers/usb/typec/ucsi/ucsi_acpi.c
-+++ b/drivers/usb/typec/ucsi/ucsi_acpi.c
-@@ -21,10 +21,6 @@ struct ucsi_acpi {
- 	struct device *dev;
- 	struct ucsi *ucsi;
- 	void *base;
--	struct completion complete;
--	unsigned long flags;
--#define UCSI_ACPI_COMMAND_PENDING	1
--#define UCSI_ACPI_ACK_PENDING		2
- 	guid_t guid;
- 	u64 cmd;
- };
-@@ -97,38 +93,11 @@ static int ucsi_acpi_async_control(struct ucsi *ucsi, u64 command)
- 	return ucsi_acpi_dsm(ua, UCSI_DSM_FUNC_WRITE);
- }
- 
--static int ucsi_acpi_sync_control(struct ucsi *ucsi, u64 command)
--{
--	struct ucsi_acpi *ua = ucsi_get_drvdata(ucsi);
--	bool ack = UCSI_COMMAND(command) == UCSI_ACK_CC_CI;
--	int ret;
--
--	if (ack)
--		set_bit(UCSI_ACPI_ACK_PENDING, &ua->flags);
--	else
--		set_bit(UCSI_ACPI_COMMAND_PENDING, &ua->flags);
--
--	ret = ucsi_acpi_async_control(ucsi, command);
--	if (ret)
--		goto out_clear_bit;
--
--	if (!wait_for_completion_timeout(&ua->complete, 5 * HZ))
--		ret = -ETIMEDOUT;
--
--out_clear_bit:
--	if (ack)
--		clear_bit(UCSI_ACPI_ACK_PENDING, &ua->flags);
--	else
--		clear_bit(UCSI_ACPI_COMMAND_PENDING, &ua->flags);
--
--	return ret;
--}
--
- static const struct ucsi_operations ucsi_acpi_ops = {
- 	.read_version = ucsi_acpi_read_version,
- 	.read_cci = ucsi_acpi_read_cci,
- 	.read_message_in = ucsi_acpi_read_message_in,
--	.sync_control = ucsi_acpi_sync_control,
-+	.sync_control = ucsi_sync_control_common,
- 	.async_control = ucsi_acpi_async_control
- };
- 
-@@ -164,7 +133,7 @@ static const struct ucsi_operations ucsi_zenbook_ops = {
- 	.read_version = ucsi_acpi_read_version,
- 	.read_cci = ucsi_zenbook_read_cci,
- 	.read_message_in = ucsi_zenbook_read_message_in,
--	.sync_control = ucsi_acpi_sync_control,
-+	.sync_control = ucsi_sync_control_common,
- 	.async_control = ucsi_acpi_async_control
- };
- 
-@@ -189,15 +158,7 @@ static void ucsi_acpi_notify(acpi_handle handle, u32 event, void *data)
- 	if (ret)
- 		return;
- 
--	if (UCSI_CCI_CONNECTOR(cci))
--		ucsi_connector_change(ua->ucsi, UCSI_CCI_CONNECTOR(cci));
--
--	if (cci & UCSI_CCI_ACK_COMPLETE &&
--	    test_bit(UCSI_ACPI_ACK_PENDING, &ua->flags))
--		complete(&ua->complete);
--	if (cci & UCSI_CCI_COMMAND_COMPLETE &&
--	    test_bit(UCSI_ACPI_COMMAND_PENDING, &ua->flags))
--		complete(&ua->complete);
-+	ucsi_notify_common(ua->ucsi, cci);
- }
- 
- static int ucsi_acpi_probe(struct platform_device *pdev)
-@@ -231,7 +192,6 @@ static int ucsi_acpi_probe(struct platform_device *pdev)
- 	if (ret)
- 		return ret;
- 
--	init_completion(&ua->complete);
- 	ua->dev = &pdev->dev;
- 
- 	id = dmi_first_match(ucsi_acpi_quirks);
-diff --git a/drivers/usb/typec/ucsi/ucsi_ccg.c b/drivers/usb/typec/ucsi/ucsi_ccg.c
-index 6ccc394f268e..ba4db2310a05 100644
---- a/drivers/usb/typec/ucsi/ucsi_ccg.c
-+++ b/drivers/usb/typec/ucsi/ucsi_ccg.c
-@@ -222,8 +222,6 @@ struct ucsi_ccg {
- 	u16 fw_build;
- 	struct work_struct pm_work;
- 
--	struct completion complete;
--
- 	u64 last_cmd_sent;
- 	bool has_multiple_dp;
- 	struct ucsi_ccg_altmode orig[UCSI_MAX_ALTMODES];
-@@ -637,7 +635,6 @@ static int ucsi_ccg_sync_control(struct ucsi *ucsi, u64 command)
- 
- 	mutex_lock(&uc->lock);
- 	pm_runtime_get_sync(uc->dev);
--	set_bit(DEV_CMD_PENDING, &uc->flags);
- 
- 	uc->last_cmd_sent = command;
- 
-@@ -649,15 +646,8 @@ static int ucsi_ccg_sync_control(struct ucsi *ucsi, u64 command)
- 		ucsi_ccg_update_set_new_cam_cmd(uc, con, &command);
+diff --git a/drivers/usb/gadget/udc/fsl_udc_core.c b/drivers/usb/gadget/udc=
+/fsl_udc_core.c
+index 3432ebfae978..a0f3498086d5 100644
+--- a/drivers/usb/gadget/udc/fsl_udc_core.c
++++ b/drivers/usb/gadget/udc/fsl_udc_core.c
+@@ -328,7 +328,7 @@ static int dr_controller_setup(struct fsl_udc *udc)
+ 		__raw_writel(ctrl, &usb_sys_regs->control);
  	}
- 
--	ret = ucsi_ccg_async_control(ucsi, command);
--	if (ret)
--		goto err_clear_bit;
--
--	if (!wait_for_completion_timeout(&uc->complete, msecs_to_jiffies(5000)))
--		ret = -ETIMEDOUT;
-+	ret = ucsi_sync_control_common(ucsi, command);
- 
--err_clear_bit:
--	clear_bit(DEV_CMD_PENDING, &uc->flags);
- 	pm_runtime_put_sync(uc->dev);
- 	mutex_unlock(&uc->lock);
- 
-@@ -694,9 +684,6 @@ static irqreturn_t ccg_irq_handler(int irq, void *data)
- 	if (ret)
- 		goto err_clear_irq;
- 
--	if (UCSI_CCI_CONNECTOR(cci))
--		ucsi_connector_change(uc->ucsi, UCSI_CCI_CONNECTOR(cci));
--
- 	/*
- 	 * As per CCGx UCSI interface guide, copy CCI and MESSAGE_IN
- 	 * to the OpRegion before clear the UCSI interrupt
-@@ -708,9 +695,8 @@ static irqreturn_t ccg_irq_handler(int irq, void *data)
- err_clear_irq:
- 	ccg_write(uc, CCGX_RAB_INTR_REG, &intr_reg, sizeof(intr_reg));
- 
--	if (!ret && test_bit(DEV_CMD_PENDING, &uc->flags) &&
--	    cci & (UCSI_CCI_ACK_COMPLETE | UCSI_CCI_COMMAND_COMPLETE))
--		complete(&uc->complete);
-+	if (!ret)
-+		ucsi_notify_common(uc->ucsi, cci);
- 
- 	return IRQ_HANDLED;
- }
-@@ -1429,7 +1415,6 @@ static int ucsi_ccg_probe(struct i2c_client *client)
- 	uc->client = client;
- 	uc->irq = client->irq;
- 	mutex_init(&uc->lock);
--	init_completion(&uc->complete);
- 	INIT_WORK(&uc->work, ccg_update_firmware);
- 	INIT_WORK(&uc->pm_work, ccg_pm_workaround_work);
- 
-diff --git a/drivers/usb/typec/ucsi/ucsi_glink.c b/drivers/usb/typec/ucsi/ucsi_glink.c
-index 7f6a48624ee5..8b74da38d283 100644
---- a/drivers/usb/typec/ucsi/ucsi_glink.c
-+++ b/drivers/usb/typec/ucsi/ucsi_glink.c
-@@ -64,12 +64,8 @@ struct pmic_glink_ucsi {
- 	struct ucsi *ucsi;
- 	struct completion read_ack;
- 	struct completion write_ack;
--	struct completion sync_ack;
--	bool sync_pending;
- 	struct mutex lock;	/* protects concurrent access to PMIC Glink interface */
- 
--	int sync_val;
--
- 	struct work_struct notify_work;
- 	struct work_struct register_work;
- 
-@@ -170,35 +166,6 @@ static int pmic_glink_ucsi_async_control(struct ucsi *__ucsi, u64 command)
- 	return ret;
- }
- 
--static int pmic_glink_ucsi_sync_control(struct ucsi *__ucsi, u64 command)
--{
--	struct pmic_glink_ucsi *ucsi = ucsi_get_drvdata(__ucsi);
--	unsigned long left;
--	int ret;
--
--	/* TOFIX: Downstream forces recipient to CON when UCSI_GET_ALTERNATE_MODES command */
--
--	mutex_lock(&ucsi->lock);
--	ucsi->sync_val = 0;
--	reinit_completion(&ucsi->sync_ack);
--	ucsi->sync_pending = true;
--	ret = pmic_glink_ucsi_locked_write(ucsi, UCSI_CONTROL, &command, sizeof(command));
--	mutex_unlock(&ucsi->lock);
--
--	left = wait_for_completion_timeout(&ucsi->sync_ack, 5 * HZ);
--	if (!left) {
--		dev_err(ucsi->dev, "timeout waiting for UCSI sync write response\n");
--		/* return 0 here and let core UCSI code handle the CCI_BUSY */
--		ret = 0;
--	} else if (ucsi->sync_val) {
--		dev_err(ucsi->dev, "sync write returned: %d\n", ucsi->sync_val);
--	}
--
--	ucsi->sync_pending = false;
--
--	return ret;
--}
--
- static void pmic_glink_ucsi_update_connector(struct ucsi_connector *con)
- {
- 	struct pmic_glink_ucsi *ucsi = ucsi_get_drvdata(con->ucsi);
-@@ -232,7 +199,7 @@ static const struct ucsi_operations pmic_glink_ucsi_ops = {
- 	.read_version = pmic_glink_ucsi_read_version,
- 	.read_cci = pmic_glink_ucsi_read_cci,
- 	.read_message_in = pmic_glink_ucsi_read_message_in,
--	.sync_control = pmic_glink_ucsi_sync_control,
-+	.sync_control = ucsi_sync_control_common,
- 	.async_control = pmic_glink_ucsi_async_control,
- 	.update_connector = pmic_glink_ucsi_update_connector,
- 	.connector_status = pmic_glink_ucsi_connector_status,
-@@ -256,14 +223,12 @@ static void pmic_glink_ucsi_write_ack(struct pmic_glink_ucsi *ucsi, const void *
- 	if (resp->ret_code)
- 		return;
- 
--	ucsi->sync_val = resp->ret_code;
- 	complete(&ucsi->write_ack);
- }
- 
- static void pmic_glink_ucsi_notify(struct work_struct *work)
- {
- 	struct pmic_glink_ucsi *ucsi = container_of(work, struct pmic_glink_ucsi, notify_work);
--	unsigned int con_num;
- 	u32 cci;
- 	int ret;
- 
-@@ -273,14 +238,7 @@ static void pmic_glink_ucsi_notify(struct work_struct *work)
- 		return;
- 	}
- 
--	con_num = UCSI_CCI_CONNECTOR(cci);
--	if (con_num)
--		ucsi_connector_change(ucsi->ucsi, con_num);
--
--	if (ucsi->sync_pending &&
--		   (cci & (UCSI_CCI_ACK_COMPLETE | UCSI_CCI_COMMAND_COMPLETE))) {
--		complete(&ucsi->sync_ack);
--	}
-+	ucsi_notify_common(ucsi->ucsi, cci);
- }
- 
- static void pmic_glink_ucsi_register(struct work_struct *work)
-@@ -362,7 +320,6 @@ static int pmic_glink_ucsi_probe(struct auxiliary_device *adev,
- 	INIT_WORK(&ucsi->register_work, pmic_glink_ucsi_register);
- 	init_completion(&ucsi->read_ack);
- 	init_completion(&ucsi->write_ack);
--	init_completion(&ucsi->sync_ack);
- 	mutex_init(&ucsi->lock);
- 
- 	ucsi->ucsi = ucsi_create(dev, &pmic_glink_ucsi_ops);
-diff --git a/drivers/usb/typec/ucsi/ucsi_stm32g0.c b/drivers/usb/typec/ucsi/ucsi_stm32g0.c
-index e3cfcb258e43..d948c3f579e1 100644
---- a/drivers/usb/typec/ucsi/ucsi_stm32g0.c
-+++ b/drivers/usb/typec/ucsi/ucsi_stm32g0.c
-@@ -61,11 +61,7 @@ struct ucsi_stm32g0 {
- 	struct i2c_client *i2c_bl;
- 	bool in_bootloader;
- 	u8 bl_version;
--	struct completion complete;
- 	struct device *dev;
--	unsigned long flags;
--#define COMMAND_PENDING	1
--#define ACK_PENDING 2
- 	const char *fw_name;
- 	struct ucsi *ucsi;
- 	bool suspended;
-@@ -407,35 +403,6 @@ static int ucsi_stm32g0_async_control(struct ucsi *ucsi, u64 command)
- 	return 0;
- }
- 
--static int ucsi_stm32g0_sync_control(struct ucsi *ucsi, u64 command)
--{
--	struct ucsi_stm32g0 *g0 = ucsi_get_drvdata(ucsi);
--	bool ack = UCSI_COMMAND(command) == UCSI_ACK_CC_CI;
--	int ret;
--
--	if (ack)
--		set_bit(ACK_PENDING, &g0->flags);
--	else
--		set_bit(COMMAND_PENDING, &g0->flags);
--
--	ret = ucsi_stm32g0_async_control(ucsi, command);
--	if (ret)
--		goto out_clear_bit;
--
--	if (!wait_for_completion_timeout(&g0->complete, msecs_to_jiffies(5000)))
--		ret = -ETIMEDOUT;
--	else
--		return 0;
--
--out_clear_bit:
--	if (ack)
--		clear_bit(ACK_PENDING, &g0->flags);
--	else
--		clear_bit(COMMAND_PENDING, &g0->flags);
--
--	return ret;
--}
--
- static irqreturn_t ucsi_stm32g0_irq_handler(int irq, void *data)
- {
- 	struct ucsi_stm32g0 *g0 = data;
-@@ -449,13 +416,7 @@ static irqreturn_t ucsi_stm32g0_irq_handler(int irq, void *data)
- 	if (ret)
- 		return IRQ_NONE;
- 
--	if (UCSI_CCI_CONNECTOR(cci))
--		ucsi_connector_change(g0->ucsi, UCSI_CCI_CONNECTOR(cci));
--
--	if (cci & UCSI_CCI_ACK_COMPLETE && test_and_clear_bit(ACK_PENDING, &g0->flags))
--		complete(&g0->complete);
--	if (cci & UCSI_CCI_COMMAND_COMPLETE && test_and_clear_bit(COMMAND_PENDING, &g0->flags))
--		complete(&g0->complete);
-+	ucsi_notify_common(g0->ucsi, cci);
- 
- 	return IRQ_HANDLED;
- }
-@@ -464,7 +425,7 @@ static const struct ucsi_operations ucsi_stm32g0_ops = {
- 	.read_version = ucsi_stm32g0_read_version,
- 	.read_cci = ucsi_stm32g0_read_cci,
- 	.read_message_in = ucsi_stm32g0_read_message_in,
--	.sync_control = ucsi_stm32g0_sync_control,
-+	.sync_control = ucsi_sync_control_common,
- 	.async_control = ucsi_stm32g0_async_control,
- };
- 
-@@ -665,7 +626,6 @@ static int ucsi_stm32g0_probe(struct i2c_client *client)
- 
- 	g0->dev = dev;
- 	g0->client = client;
--	init_completion(&g0->complete);
- 	i2c_set_clientdata(client, g0);
- 
- 	g0->ucsi = ucsi_create(dev, &ucsi_stm32g0_ops);
-
--- 
-2.39.2
+=20
+-#if defined(CONFIG_PPC32) && !defined(CONFIG_NOT_COHERENT_CACHE)
++#if (defined(CONFIG_PPC32) || (defined(CONFIG_PPC64))) && !defined(CONFIG_=
+NOT_COHERENT_CACHE)
+ 	/* Turn on cache snooping hardware, since some PowerPC platforms
+ 	 * wholly rely on hardware to deal with cache coherent. */
+=20
+--=20
+2.31.1
 
