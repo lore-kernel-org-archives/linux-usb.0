@@ -1,222 +1,243 @@
-Received: from mail-ej1-f45.google.com (mail-ej1-f45.google.com [209.85.218.45])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from metis.whiteo.stw.pengutronix.de (metis.whiteo.stw.pengutronix.de [185.203.201.7])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1F7631AED29
-	for <linux-usb@vger.kernel.org>; Wed,  5 Jun 2024 12:13:55 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.45
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8D353188CBD
+	for <linux-usb@vger.kernel.org>; Wed,  5 Jun 2024 13:33:27 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.203.201.7
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1717589638; cv=none; b=AC+uTkBmn80QY2KpjiAFTWmBJ7jYzYJKgtCwmNjBhskBpYF5FTQNw50EBw1ithM03kuKZNFacN+1zepPUc3oxVsmHsJBg3raKstYxJnKrqVeCVFJEWYGqRYj/eu2LHZ3rfDE1VEmWRdMJCfLgUMSetKOEBT5Hswjov7yr3JHuq4=
+	t=1717594409; cv=none; b=PCHjqViYiV94RIO3Vphm5Wf7OyIiQLpAJal0jyV9nH8SQc+gh5Y9d7LAsOeSARwv35gA7e+JG4csJejJlr3MaKN9IdOBX+VyV2K/x3w+288EclWXxTAmf1wQ8qa+jknXdYoxn4WVzf0rddr97MGls9RQ/7rBZyxWbf/xjC+vfeQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1717589638; c=relaxed/simple;
-	bh=hlWPMVk018+YWZw4dsn86sAQC1xQTkWSS/OIH5W/7LU=;
-	h=Content-Type:Message-ID:Date:MIME-Version:Subject:To:Cc:
-	 References:From:In-Reply-To; b=Lefo5kdomSETNJxxRdjpX0Sgy/OtwDtyz8M0OUK0hDzQiCgQWbsk7eNDdLBG8PxYYlHYJnfA3n/FgTI0ndQzZoxAhki3SFf7zdlAVuQhVQV7qUaIepWGQqCP/pmPPTNL/ixfmakZOeSwpAGadQdeMJtUErJ/+yftRXFGa5jswUo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=suse.com; spf=pass smtp.mailfrom=suse.com; dkim=pass (2048-bit key) header.d=suse.com header.i=@suse.com header.b=greITLfj; arc=none smtp.client-ip=209.85.218.45
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=suse.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.com
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=suse.com header.i=@suse.com header.b="greITLfj"
-Received: by mail-ej1-f45.google.com with SMTP id a640c23a62f3a-a696cde86a4so184049266b.1
-        for <linux-usb@vger.kernel.org>; Wed, 05 Jun 2024 05:13:55 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=suse.com; s=google; t=1717589634; x=1718194434; darn=vger.kernel.org;
-        h=in-reply-to:from:content-language:references:cc:to:subject
-         :user-agent:mime-version:date:message-id:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=eb48j68aV1VEmgC0WdZicHVLTqyI/M1SXgckejTIYNQ=;
-        b=greITLfjOyDVh3NaVDIY2m9tRg6OEGgILHb3V5uXdBuz6oTCp1Dhtt1ZPPfqt0VOgN
-         w7cRVlA6Y7ozm6chal/hqCn/00B8WCwoMA6wfKBNvKJqjguhyUnPXmPaiMxArWIrO5Ig
-         tRh4glcuTraZ/N+5hoQbe6Var2Er8s98AcVRlfwJSC2ZdSpshtmkHvLG80Ao5Bj7rBI8
-         SG0RniAnRuL4g1RmDg8cmk5P5rZL9P8OpfQt7BH3dNdxd2MpuJy4vA8RdFOOyD/k9NYu
-         kwiag8G4OTlGrpXCV6kpx1qksjVAIjfs5BApmtZIt+VruMMxcn2M8ofsmWyf9+5ADlfv
-         Xf0Q==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1717589634; x=1718194434;
-        h=in-reply-to:from:content-language:references:cc:to:subject
-         :user-agent:mime-version:date:message-id:x-gm-message-state:from:to
-         :cc:subject:date:message-id:reply-to;
-        bh=eb48j68aV1VEmgC0WdZicHVLTqyI/M1SXgckejTIYNQ=;
-        b=WqvFjO/Bm1VSnIQrdGRQgmeEuBC2pYo37cusCaz7VHlodHw1gErjELUgcZFGaAlB47
-         19VkQc5PLJ7uiPTtfywjGh0SY8M1wmebQH6PokgYW8aqVJbjNoQj4fnp4VBMNd8qVmmg
-         8KKfmaa4blIRtJooRrHt2uqW1TRAd6D4ZUfSQSxFuwnD+JZ4GN3yaTvQtkTpxkXZ5LFr
-         53Ge5Jfrv9fcsPdGnXNoAQCfHps9jTI0iu7+QgDvuq57gYeBpDREPX61ZcoKnrU5f21X
-         uQVU4hvuru7C9aPEcLf9D33eOy8FIN5xbUEul5yyZcO28Dz3RbYCjk5OdV3lAzj+hrRG
-         ZTnw==
-X-Forwarded-Encrypted: i=1; AJvYcCVzdqAV4Y/z3SA1abI5A4/K86scNrN0YlyJbj/waUE/m0bpO9ePgt3AAaYT+psxRcQxTSuJU4wahI72CXinQR6VlWh3JDRadDJo
-X-Gm-Message-State: AOJu0YxlGyOyXwlEzup0kw/4etloqOE7842ePHKLNg92IJ/vHtBqzdxg
-	I70pJEZQd3IuKRM+Dl0Wh9vCwCmqokoJx8Jc681vT1loSBY6p7olmyS+MGHKe00=
-X-Google-Smtp-Source: AGHT+IGcvEVUuygqJE5SU86F5k3RRUcYRKV+fqyRp5aGJ5spXac8kBddnI+eeL5r/kXrH6Y5RqPC9Q==
-X-Received: by 2002:a17:906:f11a:b0:a6c:70c6:85aa with SMTP id a640c23a62f3a-a6c70c68badmr29903766b.62.1717589634263;
-        Wed, 05 Jun 2024 05:13:54 -0700 (PDT)
-Received: from ?IPV6:2001:a61:139b:bf01:c0fa:2aad:468a:2d84? ([2001:a61:139b:bf01:c0fa:2aad:468a:2d84])
-        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-a68c4e7e560sm601923566b.36.2024.06.05.05.13.53
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Wed, 05 Jun 2024 05:13:53 -0700 (PDT)
-Content-Type: multipart/mixed; boundary="------------w2IsZgmAGFUN0bCeDbsxw5B7"
-Message-ID: <cf45b50d-9cbc-4408-a618-16d10054d25a@suse.com>
-Date: Wed, 5 Jun 2024 14:13:52 +0200
+	s=arc-20240116; t=1717594409; c=relaxed/simple;
+	bh=nzwOUB/3TfUa5izLjCVVEoWwp/ZvfHPS0VQi2npBz0k=;
+	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
+	 In-Reply-To:To:Cc; b=oVtIw8xqDUnEYGPjk7i200U4OWMQzrrLUCG02NISHR9pbrl45cvYM1Q5KM7hgA88ffEsEjm5WXz1xTX50UJ78CyQMRCNPt1uiyvIKxfCMPHhRVRspMAWzjinGWP7Q0NVUcDeLjFo87bOm0gG10AmLDtwUUWXExH7feQtjg0GL1Q=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=pengutronix.de; spf=pass smtp.mailfrom=pengutronix.de; arc=none smtp.client-ip=185.203.201.7
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=pengutronix.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=pengutronix.de
+Received: from drehscheibe.grey.stw.pengutronix.de ([2a0a:edc0:0:c01:1d::a2])
+	by metis.whiteo.stw.pengutronix.de with esmtps (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
+	(Exim 4.92)
+	(envelope-from <m.grzeschik@pengutronix.de>)
+	id 1sEql4-0006Vf-Br; Wed, 05 Jun 2024 15:32:54 +0200
+Received: from [2a0a:edc0:0:1101:1d::ac] (helo=dude04.red.stw.pengutronix.de)
+	by drehscheibe.grey.stw.pengutronix.de with esmtps  (TLS1.3) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
+	(Exim 4.94.2)
+	(envelope-from <m.grzeschik@pengutronix.de>)
+	id 1sEql3-000LFf-78; Wed, 05 Jun 2024 15:32:53 +0200
+Received: from localhost ([::1] helo=dude04.red.stw.pengutronix.de)
+	by dude04.red.stw.pengutronix.de with esmtp (Exim 4.96)
+	(envelope-from <m.grzeschik@pengutronix.de>)
+	id 1sEql3-00FRCH-26;
+	Wed, 05 Jun 2024 15:32:53 +0200
+From: Michael Grzeschik <m.grzeschik@pengutronix.de>
+Date: Wed, 05 Jun 2024 15:32:47 +0200
+Subject: [PATCH v6 1/3] usb: gadget: function: move u_f.h to
+ include/linux/usb/func_utils.h
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 1/1] usb: serial: Fix mos7840 resume from standby
-To: Dmitry <d.smirnov@inbox.lv>, linux-usb@vger.kernel.org
-Cc: Dmitry <dimonija@gmail.com>
-References: <20240604225507.6801-1-d.smirnov@inbox.lv>
- <20240604225507.6801-2-d.smirnov@inbox.lv>
-Content-Language: en-US
-From: Oliver Neukum <oneukum@suse.com>
-In-Reply-To: <20240604225507.6801-2-d.smirnov@inbox.lv>
-
-This is a multi-part message in MIME format.
---------------w2IsZgmAGFUN0bCeDbsxw5B7
-Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
+Message-Id: <20240116-ml-topic-u9p-v6-1-695977d76dff@pengutronix.de>
+References: <20240116-ml-topic-u9p-v6-0-695977d76dff@pengutronix.de>
+In-Reply-To: <20240116-ml-topic-u9p-v6-0-695977d76dff@pengutronix.de>
+To: Eric Van Hensbergen <ericvh@kernel.org>, 
+ Latchesar Ionkov <lucho@ionkov.net>, 
+ Dominique Martinet <asmadeus@codewreck.org>, 
+ Christian Schoenebeck <linux_oss@crudebyte.com>, 
+ Jonathan Corbet <corbet@lwn.net>, 
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+Cc: v9fs@lists.linux.dev, linux-doc@vger.kernel.org, 
+ linux-kernel@vger.kernel.org, linux-usb@vger.kernel.org, 
+ kernel@pengutronix.de, Michael Grzeschik <m.grzeschik@pengutronix.de>
+X-Mailer: b4 0.12.0
+X-Developer-Signature: v=1; a=openpgp-sha256; l=5265;
+ i=m.grzeschik@pengutronix.de; h=from:subject:message-id;
+ bh=nzwOUB/3TfUa5izLjCVVEoWwp/ZvfHPS0VQi2npBz0k=;
+ b=owEBbQKS/ZANAwAKAb9pWET5cfSrAcsmYgBmYGkES+Cnx1r/Z7uC2hBt8HbcZtItSw0pCWJOP
+ rWRliYB0aOJAjMEAAEKAB0WIQQV2+2Fpbqd6fvv0Gi/aVhE+XH0qwUCZmBpBAAKCRC/aVhE+XH0
+ q9EwEAC93heI/w7IRqMFTQ2VNUq9zrD1/hL8xpRAJeg+0hK+OtNG55Nv8rAwuqh+EddOizqYSeG
+ Tn5i6b2FP1Ql9PaSDcuAXxCZyhfMUawcszPp56tIs+5JFtQuDgcAjfyO1svGIBCwmbeKkD/OO8V
+ 07oMQNnUM/qMhRm+7ZlrSFhyrEMabteLhU1QFD6dIfcCxCuIhyvlII9QYJx52QG7LJQFlVF/UaI
+ PXn2h49EJ1S0uLDqnEW/4KRlG49zKCV31JQTUMsyh/VoUnFdbPVv0HwYSXpf/Ek9UpxbRhiC5rt
+ SWBklp90WO3Z7sRYKdb1RLPV1kvo7Waws7m4cGofmigbCluX3JiinuRycKy6R4V4EZRUlr6v2rr
+ xYP4ZmqjMIgLDTygBy0ImQMymUpGY/KmHtVwICyF8rbHgs7ADwFKL3Q5W7hfyu8VdgRAVVY/6IF
+ P7vbUTOKoiKUKzuqkikCOAcrrmC2G2OfyKqIFEhEm/uiPh0K5z3WVftuA40/z9zgOB1pDWtSYg4
+ XCPWAdX/iEpgyn/iPG4K2KjZibAJraHA9cg2zURAVDGD4QPk3lC7G3oWYOoyF4GGn6cl6ouoq9C
+ sK+93gc/XPZQ9j0KUqGQwWEzuQTKAy7qGtdv6bpzekTVmyGQQQ/3ghFiNo3Q0deR5G5UOunVKxn
+ UZLHy92f7cQsjoQ==
+X-Developer-Key: i=m.grzeschik@pengutronix.de; a=openpgp;
+ fpr=957BC452CE953D7EA60CF4FC0BE9E3157A1E2C64
+X-SA-Exim-Connect-IP: 2a0a:edc0:0:c01:1d::a2
+X-SA-Exim-Mail-From: m.grzeschik@pengutronix.de
+X-SA-Exim-Scanned: No (on metis.whiteo.stw.pengutronix.de); SAEximRunCond expanded to false
+X-PTX-Original-Recipient: linux-usb@vger.kernel.org
 
-On 05.06.24 00:55, Dmitry wrote:
-> From: Dmitry <dimonija@gmail.com>
+We move the func_utils.h header to include/linux/usb to be
+able to compile function drivers outside of the
+drivers/usb/gadget/function directory.
 
-Sorry,
+Signed-off-by: Michael Grzeschik <m.grzeschik@pengutronix.de>
 
-first thank you for the patch. It is good to see patches,
-but that is a NACK.
+---
+v5 -> v6: -
+v4 -> v5:
+  - renamed to func_utils.h
+v3 -> v4: -
+v2 -> v3: -
+v1 -> v2:
+  - new introduced patch
+---
+ drivers/usb/gadget/configfs.c                              | 2 +-
+ drivers/usb/gadget/function/f_fs.c                         | 2 +-
+ drivers/usb/gadget/function/f_hid.c                        | 2 +-
+ drivers/usb/gadget/function/f_loopback.c                   | 2 +-
+ drivers/usb/gadget/function/f_midi.c                       | 2 +-
+ drivers/usb/gadget/function/f_midi2.c                      | 2 +-
+ drivers/usb/gadget/function/f_sourcesink.c                 | 2 +-
+ drivers/usb/gadget/u_f.c                                   | 2 +-
+ drivers/usb/gadget/u_f.h => include/linux/usb/func_utils.h | 2 +-
+ 9 files changed, 9 insertions(+), 9 deletions(-)
 
-Let me explain.
+diff --git a/drivers/usb/gadget/configfs.c b/drivers/usb/gadget/configfs.c
+index ce3cfa1f36f51..e3cda6e0cd0d2 100644
+--- a/drivers/usb/gadget/configfs.c
++++ b/drivers/usb/gadget/configfs.c
+@@ -8,8 +8,8 @@
+ #include <linux/usb/composite.h>
+ #include <linux/usb/gadget_configfs.h>
+ #include <linux/usb/webusb.h>
++#include <linux/usb/func_utils.h>
+ #include "configfs.h"
+-#include "u_f.h"
+ #include "u_os_desc.h"
+ 
+ int check_user_usb_string(const char *name,
+diff --git a/drivers/usb/gadget/function/f_fs.c b/drivers/usb/gadget/function/f_fs.c
+index 1f21459b1188c..f06e6c4974a6a 100644
+--- a/drivers/usb/gadget/function/f_fs.c
++++ b/drivers/usb/gadget/function/f_fs.c
+@@ -33,6 +33,7 @@
+ #include <linux/usb/ccid.h>
+ #include <linux/usb/composite.h>
+ #include <linux/usb/functionfs.h>
++#include <linux/usb/func_utils.h>
+ 
+ #include <linux/aio.h>
+ #include <linux/kthread.h>
+@@ -40,7 +41,6 @@
+ #include <linux/eventfd.h>
+ 
+ #include "u_fs.h"
+-#include "u_f.h"
+ #include "u_os_desc.h"
+ #include "configfs.h"
+ 
+diff --git a/drivers/usb/gadget/function/f_hid.c b/drivers/usb/gadget/function/f_hid.c
+index 2db01e03bfbf0..0b7684c4a5b8b 100644
+--- a/drivers/usb/gadget/function/f_hid.c
++++ b/drivers/usb/gadget/function/f_hid.c
+@@ -16,8 +16,8 @@
+ #include <linux/wait.h>
+ #include <linux/sched.h>
+ #include <linux/usb/g_hid.h>
++#include <linux/usb/func_utils.h>
+ 
+-#include "u_f.h"
+ #include "u_hid.h"
+ 
+ #define HIDG_MINORS	4
+diff --git a/drivers/usb/gadget/function/f_loopback.c b/drivers/usb/gadget/function/f_loopback.c
+index 17ac6ace0cffa..8fce2c2fd18f7 100644
+--- a/drivers/usb/gadget/function/f_loopback.c
++++ b/drivers/usb/gadget/function/f_loopback.c
+@@ -14,9 +14,9 @@
+ #include <linux/module.h>
+ #include <linux/err.h>
+ #include <linux/usb/composite.h>
++#include <linux/usb/func_utils.h>
+ 
+ #include "g_zero.h"
+-#include "u_f.h"
+ 
+ /*
+  * LOOPBACK FUNCTION ... a testing vehicle for USB peripherals,
+diff --git a/drivers/usb/gadget/function/f_midi.c b/drivers/usb/gadget/function/f_midi.c
+index 20c6fbd94f32d..9f8f3a334b579 100644
+--- a/drivers/usb/gadget/function/f_midi.c
++++ b/drivers/usb/gadget/function/f_midi.c
+@@ -33,8 +33,8 @@
+ #include <linux/usb/gadget.h>
+ #include <linux/usb/audio.h>
+ #include <linux/usb/midi.h>
++#include <linux/usb/func_utils.h>
+ 
+-#include "u_f.h"
+ #include "u_midi.h"
+ 
+ MODULE_AUTHOR("Ben Williamson");
+diff --git a/drivers/usb/gadget/function/f_midi2.c b/drivers/usb/gadget/function/f_midi2.c
+index ec8cd7c7bbfc1..830aa075c130f 100644
+--- a/drivers/usb/gadget/function/f_midi2.c
++++ b/drivers/usb/gadget/function/f_midi2.c
+@@ -18,8 +18,8 @@
+ #include <linux/usb/gadget.h>
+ #include <linux/usb/audio.h>
+ #include <linux/usb/midi-v2.h>
++#include <linux/usb/func_utils.h>
+ 
+-#include "u_f.h"
+ #include "u_midi2.h"
+ 
+ struct f_midi2;
+diff --git a/drivers/usb/gadget/function/f_sourcesink.c b/drivers/usb/gadget/function/f_sourcesink.c
+index 2edbd9b510d60..c9f38f24a92aa 100644
+--- a/drivers/usb/gadget/function/f_sourcesink.c
++++ b/drivers/usb/gadget/function/f_sourcesink.c
+@@ -13,10 +13,10 @@
+ #include <linux/device.h>
+ #include <linux/module.h>
+ #include <linux/usb/composite.h>
++#include <linux/usb/func_utils.h>
+ #include <linux/err.h>
+ 
+ #include "g_zero.h"
+-#include "u_f.h"
+ 
+ /*
+  * SOURCE/SINK FUNCTION ... a primary testing vehicle for USB peripheral
+diff --git a/drivers/usb/gadget/u_f.c b/drivers/usb/gadget/u_f.c
+index 6aea1ecb39999..9f90665827945 100644
+--- a/drivers/usb/gadget/u_f.c
++++ b/drivers/usb/gadget/u_f.c
+@@ -8,7 +8,7 @@
+  * Author: Andrzej Pietrasiewicz <andrzejtp2010@gmail.com>
+  */
+ 
+-#include "u_f.h"
++#include <linux/usb/func_utils.h>
+ #include <linux/usb/ch9.h>
+ 
+ struct usb_request *alloc_ep_req(struct usb_ep *ep, size_t len)
+diff --git a/drivers/usb/gadget/u_f.h b/include/linux/usb/func_utils.h
+similarity index 99%
+rename from drivers/usb/gadget/u_f.h
+rename to include/linux/usb/func_utils.h
+index e313c3b8dcb19..9f2a32c765260 100644
+--- a/drivers/usb/gadget/u_f.h
++++ b/include/linux/usb/func_utils.h
+@@ -1,6 +1,6 @@
+ // SPDX-License-Identifier: GPL-2.0
+ /*
+- * u_f.h
++ * usbf_utils.h
+  *
+  * Utility definitions for USB functions
+  *
 
-> ---
->   drivers/usb/serial/mos7840.c | 34 ++++++++++++++++++++++++++++++++++
->   1 file changed, 34 insertions(+)
-> 
-> diff --git a/drivers/usb/serial/mos7840.c b/drivers/usb/serial/mos7840.c
-> index 8b0308d84270..7443d2f018b4 100644
-> --- a/drivers/usb/serial/mos7840.c
-> +++ b/drivers/usb/serial/mos7840.c
-> @@ -770,6 +770,7 @@ static void mos7840_close(struct usb_serial_port *port)
->   		if (mos7840_port->write_urb_pool[j]) {
->   			kfree(mos7840_port->write_urb_pool[j]->transfer_buffer);
->   			usb_free_urb(mos7840_port->write_urb_pool[j]);
-> +			mos7840_port->write_urb_pool[j] = NULL;
+-- 
+2.39.2
 
-Why is that needed? It is a good idea, but is it needed?
-
->   		}
->   	}
->   
-> @@ -1737,6 +1738,37 @@ static void mos7840_port_remove(struct usb_serial_port *port)
->   	kfree(mos7840_port);
->   }
->   
-> +static int mos7840_suspend(struct usb_serial *serial, pm_message_t message)
-> +{
-> +    dev_dbg(&serial->interface->dev, "mos7840_suspend\n");
-> +
-> +    return 0;
-> +}
-
-You are providing a suspend() method that does nothing.
-
-If we look at usbserial:
-
-int usb_serial_suspend(struct usb_interface *intf, pm_message_t message)
-{
-         struct usb_serial *serial = usb_get_intfdata(intf);
-         int i, r;
-
-         /* suspend when called for first sibling interface */
-         if (serial->suspend_count++)
-                 return 0;
-
-         /*
-          * serial->type->suspend() MUST return 0 in system sleep context,
-          * otherwise, the resume callback has to recover device from
-          * previous suspend failure.
-          */
-         if (serial->type->suspend) {
-                 r = serial->type->suspend(serial, message);
-                 if (r < 0) {
-                         serial->suspend_count--;
-                         return r;
-                 }
-         }
-
-         for (i = 0; i < serial->num_ports; ++i)
-                 usb_serial_port_poison_urbs(serial->port[i]);
-
-         return 0;
-}
-EXPORT_SYMBOL(usb_serial_suspend);
-
-There is no point in doing so.
-
-
-> +static int mos7840_resume(struct usb_serial *serial)
-> +{
-> +	struct moschip_port *mos7840_port;
-> +	struct usb_serial_port *port;
-> +	int i;
-> +	dev_dbg(&serial->interface->dev, "mos7840_resume\n");
-> +
-> +	for (i = 0; i < serial->num_ports; ++i) {
-> +		port = serial->port[i];
-> +		if (!tty_port_initialized(&port->port))
-> +			continue;
-> +
-> +		mos7840_port = usb_get_serial_port_data(port);
-> +
-> +		if (port->bulk_in_size)
-> +			usb_submit_urb(mos7840_port->read_urb, GFP_NOIO);
-This can fail.
-And much worse, if this is necessary, the generic usbserial code does not handle
-the resubmission of the read URB. If that is the case, it will not be killed if
-the system suspends. That means if the suspend run fails further down the chain,
-you will resubmit a running URB.
-
-And, worse, there will be IO to a suspended device, which is very bad
-and can corrupt memory with S4.
-If you need to manage the URB in the individual driver you need to handle
-it both upon suspend() and resume(). Hence you need some like the attached
-patch in addition to your patch.
-
-	Regards
-		Oliver
---------------w2IsZgmAGFUN0bCeDbsxw5B7
-Content-Type: text/x-patch; charset=UTF-8;
- name="0001-usb-serial-Implement-suspend-for-mos7840.patch"
-Content-Disposition: attachment;
- filename="0001-usb-serial-Implement-suspend-for-mos7840.patch"
-Content-Transfer-Encoding: base64
-
-RnJvbSA0OGI5ZThjYWM0OTc2MDg3N2IxNTNhMmIwYmVkYjBjMzRhMDQ2MGZhIE1vbiBTZXAg
-MTcgMDA6MDA6MDAgMjAwMQpGcm9tOiBPbGl2ZXIgTmV1a3VtIDxvbmV1a3VtQHN1c2UuY29t
-PgpEYXRlOiBXZWQsIDUgSnVuIDIwMjQgMTQ6MTE6NDkgKzAyMDAKU3ViamVjdDogW1BBVENI
-XSB1c2I6IHNlcmlhbDogSW1wbGVtZW50IHN1c3BlbmQgZm9yIG1vczc4NDAKClRoZSByZWFk
-IFVSQiBuZWVkcyB0byBiZSBraWxsZWQgYmVmb3JlIHdlIHN1c3BlbmQuCgpTaWduZWQtb2Zm
-LWJ5OiBPbGl2ZXIgTmV1a3VtIDxvbmV1a3VtQHN1c2UuY29tPgotLS0KIGRyaXZlcnMvdXNi
-L3NlcmlhbC9tb3M3ODQwLmMgfCAxOCArKysrKysrKysrKysrKystLS0KIDEgZmlsZSBjaGFu
-Z2VkLCAxNSBpbnNlcnRpb25zKCspLCAzIGRlbGV0aW9ucygtKQoKZGlmZiAtLWdpdCBhL2Ry
-aXZlcnMvdXNiL3NlcmlhbC9tb3M3ODQwLmMgYi9kcml2ZXJzL3VzYi9zZXJpYWwvbW9zNzg0
-MC5jCmluZGV4IDc0NDNkMmYwMThiNC4uNzVjZjMzZGViMDJhIDEwMDY0NAotLS0gYS9kcml2
-ZXJzL3VzYi9zZXJpYWwvbW9zNzg0MC5jCisrKyBiL2RyaXZlcnMvdXNiL3NlcmlhbC9tb3M3
-ODQwLmMKQEAgLTE3NDAsOSArMTc0MCwyMSBAQCBzdGF0aWMgdm9pZCBtb3M3ODQwX3BvcnRf
-cmVtb3ZlKHN0cnVjdCB1c2Jfc2VyaWFsX3BvcnQgKnBvcnQpCiAKIHN0YXRpYyBpbnQgbW9z
-Nzg0MF9zdXNwZW5kKHN0cnVjdCB1c2Jfc2VyaWFsICpzZXJpYWwsIHBtX21lc3NhZ2VfdCBt
-ZXNzYWdlKQogewotICAgIGRldl9kYmcoJnNlcmlhbC0+aW50ZXJmYWNlLT5kZXYsICJtb3M3
-ODQwX3N1c3BlbmRcbiIpOworCWludCBpOworCXN0cnVjdCBtb3NjaGlwX3BvcnQgKm1vczc4
-NDBfcG9ydDsKKwlzdHJ1Y3QgdXNiX3NlcmlhbF9wb3J0ICpwb3J0OworCWRldl9kYmcoJnNl
-cmlhbC0+aW50ZXJmYWNlLT5kZXYsICJtb3M3ODQwX3N1c3BlbmRcbiIpOwogCi0gICAgcmV0
-dXJuIDA7CisJZm9yIChpID0gMDsgaSA8IHNlcmlhbC0+bnVtX3BvcnRzOyArK2kpIHsKKwkJ
-cG9ydCA9IHNlcmlhbC0+cG9ydFtpXTsKKwkJaWYgKCF0dHlfcG9ydF9pbml0aWFsaXplZCgm
-cG9ydC0+cG9ydCkpCisJCQljb250aW51ZTsKKwkKKwkJbW9zNzg0MF9wb3J0ID0gdXNiX2dl
-dF9zZXJpYWxfcG9ydF9kYXRhKHBvcnQpOworCisJCXVzYl9raWxsX3VyYihtb3M3ODQwX3Bv
-cnQtPnJlYWRfdXJiKTsKKwl9CisJIHJldHVybiAwOwogfQogCiBzdGF0aWMgaW50IG1vczc4
-NDBfcmVzdW1lKHN0cnVjdCB1c2Jfc2VyaWFsICpzZXJpYWwpCkBAIC0xNzY2LDcgKzE3Nzgs
-NyBAQCBzdGF0aWMgaW50IG1vczc4NDBfcmVzdW1lKHN0cnVjdCB1c2Jfc2VyaWFsICpzZXJp
-YWwpCiAJCQl1c2Jfc3VibWl0X3VyYihtb3M3ODQwX3BvcnQtPnJlYWRfdXJiLCBHRlBfQVRP
-TUlDKTsqLwogCX0KIAotICAgIHJldHVybiAwOworCXJldHVybiAwOwogfQogCiBzdGF0aWMg
-c3RydWN0IHVzYl9zZXJpYWxfZHJpdmVyIG1vc2NoaXA3ODQwXzRwb3J0X2RldmljZSA9IHsK
-LS0gCjIuNDUuMQoK
-
---------------w2IsZgmAGFUN0bCeDbsxw5B7--
