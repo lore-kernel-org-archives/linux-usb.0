@@ -1,147 +1,84 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7B33F1B1408;
-	Wed,  5 Jun 2024 11:54:01 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9360E19752E;
+	Wed,  5 Jun 2024 11:54:11 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1717588441; cv=none; b=X44m1LnhFAckDVSePHtJh9nfg5ECp48ChIsSPQa3oedyiFRCe7hR/Xz8+vASs6FR5pXd3kFX+uWQaoVDs8Kwu+/8RY5FJOgbuUJ6q7zHXzUm+F3WXfVtG0i6m71wBK05GOHqEfuzS41zb3e+Q+ylwnz2FYy1KkZfMtuzPEWXEH4=
+	t=1717588451; cv=none; b=LpCdSDChPyw8E43ViABFO3nhvEFkoLV9e2GzndljjNGHAiWtDZZ326ppLKG831QcxM3uurjYF9OJNfbW92sClFeNQWtZ19ITsCbGPrY6rUw3e9YXnV2ai5VPkmBlNBRYUmiZdQSKmEFptfX9ByMWHmEs+ndJZkGn6P88ms0MVxw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1717588441; c=relaxed/simple;
-	bh=I1cLYhMYobYuzz+f5gJeRK0PZzYtjFyd+VHC04L27oU=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=FvQyFQJhaoePFu2XWdR1BG9Q8hUgVE9537Tm0gcVTwaZtFGXisLQJ3S0W7Ag4nEArWDpswSM1mtdDO4NLctx7N4AChAjDU+gJ9aqeeDVIdBPqX3HJMyErXHTIrkdsMbiDRXOPtBsosw2sUooRBRYKwcYbY/ekOOw/ybWEV5ZRrI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=H0QC5DyF; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1717588451; c=relaxed/simple;
+	bh=2OM9RluI5P3tgT/FuEMdv4m5T8LO/7Z+ZcmeBnkHodo=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=YEgPAi5H0gC65tA6zvlYsiGniPcFxg3nnTL3+f4VAzwiTY/rF7EpSyw86UY2288aGxEp6hwGzxWJ0erOmmQ8cXm8HYOy7dLeQCLIqQY/cMZFVBqIO2+Qc/45lQf5eSdCGdXxhjZJ7HpF3AMGJGbyH9NfJx0inP7rkjQALNAO2RM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=NCt5y84X; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="H0QC5DyF"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 5E577C3277B;
-	Wed,  5 Jun 2024 11:54:00 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="NCt5y84X"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 254A5C32781;
+	Wed,  5 Jun 2024 11:54:11 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1717588441;
-	bh=I1cLYhMYobYuzz+f5gJeRK0PZzYtjFyd+VHC04L27oU=;
-	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=H0QC5DyFFnWe4tt3QAYuMa0bJleOl8W1cIm/fkkK5MzAbJf0d5VI2l2D+QZgSVIMb
-	 BoaGNhwGMeaNXnCBNDiRVLa25FtCOg/BsvtWyuNkCEiVxWFD+6phoY2nUfLo7Iw9ZM
-	 maDpYQBO8ypVxpqmhSTqerkniAtiwARd7UeOy+TWwGoFs3k2tUHA5Xp3kEQN/fn3bD
-	 mEXOJSOy2uMh/I9ZxVtI5mzl8sThEICpagrgaVfH61rIy++aWfpfShSlM5s6Yv+GXV
-	 RaH6lLERwjx5rx8A0YRFp1OpsLbwue4ZrjUQBSF+n+s9qVvUdJoP+RbExTuFvS+Ldv
-	 IjXE1Sl1J6kvA==
-From: Sasha Levin <sashal@kernel.org>
-To: linux-kernel@vger.kernel.org,
-	stable@vger.kernel.org
-Cc: Christophe JAILLET <christophe.jaillet@wanadoo.fr>,
+	s=k20201202; t=1717588451;
+	bh=2OM9RluI5P3tgT/FuEMdv4m5T8LO/7Z+ZcmeBnkHodo=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=NCt5y84XkRxyoqsCOCZDpELqR+/dN4Kf17tPK4590lu6zwwQoq2oeKH0msFFBu0pj
+	 DoVpIylycE9kJPHJpDkw4MsInUK6VvL1MWovx+vEe+ueA1iFI7U+HnyqanrKZPvcdN
+	 R0IRVQkhulaiBb9nnMVI6FG9/rQbIKSSjcWlAfF8Gz4kmCIdFv4LL/ZuG1r5Q6xjpe
+	 bXh9X0GooJkyF+UoFkLZf2GI9n1e8vXzbeu6wxs1QdTErXAbMfu54ir6LbhH7gcT7n
+	 sMuGDwYJX2TD0ihz4qgtZEhtxXRFhdlGSSEMe4cGnBCxmQDH6aSx3tmniBqs3bTeqs
+	 DKoM4JdxA1E5A==
+Received: from johan by xi.lan with local (Exim 4.97.1)
+	(envelope-from <johan@kernel.org>)
+	id 1sEpDY-000000000x0-2U9q;
+	Wed, 05 Jun 2024 13:54:12 +0200
+Date: Wed, 5 Jun 2024 13:54:12 +0200
+From: Johan Hovold <johan@kernel.org>
+To: Sasha Levin <sashal@kernel.org>
+Cc: linux-kernel@vger.kernel.org, stable@vger.kernel.org,
+	Krishna Kurapati <quic_kriskura@quicinc.com>,
+	Bjorn Andersson <quic_bjorande@quicinc.com>,
+	Thinh Nguyen <Thinh.Nguyen@synopsys.com>,
+	Johan Hovold <johan+linaro@kernel.org>,
 	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	Sasha Levin <sashal@kernel.org>,
-	aladyshev22@gmail.com,
-	ivan.orlov0322@gmail.com,
-	azeemshaikh38@gmail.com,
 	linux-usb@vger.kernel.org
-Subject: [PATCH AUTOSEL 6.1 10/12] usb: gadget: function: Remove usage of the deprecated ida_simple_xx() API
-Date: Wed,  5 Jun 2024 07:53:15 -0400
-Message-ID: <20240605115334.2963803-10-sashal@kernel.org>
-X-Mailer: git-send-email 2.43.0
-In-Reply-To: <20240605115334.2963803-1-sashal@kernel.org>
-References: <20240605115334.2963803-1-sashal@kernel.org>
+Subject: Re: [PATCH AUTOSEL 6.8 15/24] usb: dwc3: core: Access XHCI address
+ space temporarily to read port info
+Message-ID: <ZmBR5I_TQ-219IEq@hovoldconsulting.com>
+References: <20240605115101.2962372-1-sashal@kernel.org>
+ <20240605115101.2962372-15-sashal@kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-stable: review
-X-Patchwork-Hint: Ignore
-X-stable-base: Linux 6.1.92
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20240605115101.2962372-15-sashal@kernel.org>
 
-From: Christophe JAILLET <christophe.jaillet@wanadoo.fr>
+On Wed, Jun 05, 2024 at 07:50:25AM -0400, Sasha Levin wrote:
+> From: Krishna Kurapati <quic_kriskura@quicinc.com>
+> 
+> [ Upstream commit 921e109c6200741499ad0136e41cca9d16431c92 ]
+> 
+> All DWC3 Multi Port controllers that exist today only support host mode.
+> Temporarily map XHCI address space for host-only controllers and parse
+> XHCI Extended Capabilities registers to read number of usb2 ports and
+> usb3 ports present on multiport controller. Each USB Port is at least HS
+> capable.
+> 
+> The port info for usb2 and usb3 phy are identified as num_usb2_ports
+> and num_usb3_ports and these are used as iterators for phy operations
+> and for modifying GUSB2PHYCFG/ GUSB3PIPECTL registers accordingly.
+> 
+> Signed-off-by: Krishna Kurapati <quic_kriskura@quicinc.com>
+> Reviewed-by: Bjorn Andersson <quic_bjorande@quicinc.com>
+> Acked-by: Thinh Nguyen <Thinh.Nguyen@synopsys.com>
+> Reviewed-by: Johan Hovold <johan+linaro@kernel.org>
+> Tested-by: Johan Hovold <johan+linaro@kernel.org>
+> Link: https://lore.kernel.org/r/20240420044901.884098-3-quic_kriskura@quicinc.com
+> Signed-off-by: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+> Signed-off-by: Sasha Levin <sashal@kernel.org>
 
-[ Upstream commit 920e7522e3bab5ebc2fb0cc1a034f4470c87fa97 ]
+Same here. Not a fix. Please drop.
 
-ida_alloc() and ida_free() should be preferred to the deprecated
-ida_simple_get() and ida_simple_remove().
-
-Note that the upper limit of ida_simple_get() is exclusive, but the one of
-ida_alloc_max() is inclusive. So a -1 has been added when needed.
-
-Signed-off-by: Christophe JAILLET <christophe.jaillet@wanadoo.fr>
-Link: https://lore.kernel.org/r/7cd361e2b377a5373968fa7deee4169229992a1e.1713107386.git.christophe.jaillet@wanadoo.fr
-Signed-off-by: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-Signed-off-by: Sasha Levin <sashal@kernel.org>
----
- drivers/usb/gadget/function/f_hid.c     | 6 +++---
- drivers/usb/gadget/function/f_printer.c | 6 +++---
- drivers/usb/gadget/function/rndis.c     | 4 ++--
- 3 files changed, 8 insertions(+), 8 deletions(-)
-
-diff --git a/drivers/usb/gadget/function/f_hid.c b/drivers/usb/gadget/function/f_hid.c
-index f1ca9250cad96..bb558a575cb15 100644
---- a/drivers/usb/gadget/function/f_hid.c
-+++ b/drivers/usb/gadget/function/f_hid.c
-@@ -1025,9 +1025,9 @@ static inline int hidg_get_minor(void)
- {
- 	int ret;
- 
--	ret = ida_simple_get(&hidg_ida, 0, 0, GFP_KERNEL);
-+	ret = ida_alloc(&hidg_ida, GFP_KERNEL);
- 	if (ret >= HIDG_MINORS) {
--		ida_simple_remove(&hidg_ida, ret);
-+		ida_free(&hidg_ida, ret);
- 		ret = -ENODEV;
- 	}
- 
-@@ -1172,7 +1172,7 @@ static const struct config_item_type hid_func_type = {
- 
- static inline void hidg_put_minor(int minor)
- {
--	ida_simple_remove(&hidg_ida, minor);
-+	ida_free(&hidg_ida, minor);
- }
- 
- static void hidg_free_inst(struct usb_function_instance *f)
-diff --git a/drivers/usb/gadget/function/f_printer.c b/drivers/usb/gadget/function/f_printer.c
-index a881c69b1f2bf..8545656419c71 100644
---- a/drivers/usb/gadget/function/f_printer.c
-+++ b/drivers/usb/gadget/function/f_printer.c
-@@ -1316,9 +1316,9 @@ static inline int gprinter_get_minor(void)
- {
- 	int ret;
- 
--	ret = ida_simple_get(&printer_ida, 0, 0, GFP_KERNEL);
-+	ret = ida_alloc(&printer_ida, GFP_KERNEL);
- 	if (ret >= PRINTER_MINORS) {
--		ida_simple_remove(&printer_ida, ret);
-+		ida_free(&printer_ida, ret);
- 		ret = -ENODEV;
- 	}
- 
-@@ -1327,7 +1327,7 @@ static inline int gprinter_get_minor(void)
- 
- static inline void gprinter_put_minor(int minor)
- {
--	ida_simple_remove(&printer_ida, minor);
-+	ida_free(&printer_ida, minor);
- }
- 
- static int gprinter_setup(int);
-diff --git a/drivers/usb/gadget/function/rndis.c b/drivers/usb/gadget/function/rndis.c
-index 29bf8664bf582..12c5d9cf450c1 100644
---- a/drivers/usb/gadget/function/rndis.c
-+++ b/drivers/usb/gadget/function/rndis.c
-@@ -869,12 +869,12 @@ EXPORT_SYMBOL_GPL(rndis_msg_parser);
- 
- static inline int rndis_get_nr(void)
- {
--	return ida_simple_get(&rndis_ida, 0, 1000, GFP_KERNEL);
-+	return ida_alloc_max(&rndis_ida, 999, GFP_KERNEL);
- }
- 
- static inline void rndis_put_nr(int nr)
- {
--	ida_simple_remove(&rndis_ida, nr);
-+	ida_free(&rndis_ida, nr);
- }
- 
- struct rndis_params *rndis_register(void (*resp_avail)(void *v), void *v)
--- 
-2.43.0
-
+Johan
