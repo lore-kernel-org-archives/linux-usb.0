@@ -1,171 +1,196 @@
-Received: from mail-lj1-f180.google.com (mail-lj1-f180.google.com [209.85.208.180])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from EUR05-AM6-obe.outbound.protection.outlook.com (mail-am6eur05on2137.outbound.protection.outlook.com [40.107.22.137])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A24281DDF5
-	for <linux-usb@vger.kernel.org>; Thu,  6 Jun 2024 08:41:52 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.180
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1717663315; cv=none; b=c8T7TNyI8h7UeMHPeAtYAXlH9SFud8ObjE7/zFz8GnCtTSvromp2uR1/Jj8oZ5rbAwYnL4ylDQlyj5kdvKeuNx0/fyaehY4eZ4yQ4aR/WxMMXuFYBlzobecsc+qyI5bOykcZiT96gDOKAyDhklsh1B3gk3BwjmfN74IPbwnGQ04=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1717663315; c=relaxed/simple;
-	bh=Tnid5tfB5kBNwDescW1YCizAMVKFdBOYhN6ibNA8jrc=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=Ix3UBR3aspThUoBjfOyQx+o17KyKzYbmFSCk/AJReid5iknvu/QFHXkaRhpMTDjXY6e0MktWkqC6hOfbeNxlCT8TsVQJEMUjFBsLpHq+GcSE6SDXoHM6S0ZnFJAxclfYvPkPqQJhrT9Lu9iHvEuewqRmwZaLYx07qdD0nCLPrJk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=BV2vGp8+; arc=none smtp.client-ip=209.85.208.180
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9371A13E8BE;
+	Thu,  6 Jun 2024 09:04:07 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=40.107.22.137
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1717664649; cv=fail; b=GCOGV3rxQC8u5a7iWwM14hSNZeATTI8SkmIpZ8AuT3I55FutLno3d2vlDNOfNvbyHNcWkI63Z4d4O8H7xclVNyu0ObGIpbXctmeusp8OLeFNdq3RpgGMo0U7r0160F1LxzSeWoO2nXqZ1fvl4Bb5FV9oLge3LnV51j+wpZF6hFU=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1717664649; c=relaxed/simple;
+	bh=aoQGd5ZliRw15hKnZTHa2KKfY2LRQ+HHwl3dLCuDzEo=;
+	h=From:Date:Subject:Content-Type:Message-Id:References:In-Reply-To:
+	 To:Cc:MIME-Version; b=LL8SYLrR7owQ3EUZ1fXXyXKndyg02ZXVv8arYHKmO9KhqJRU8gSffzyzprJPcusjGHLMjsA4JUdSJKAVHAhhdWra6lgWO0PUuQ2X4B1TgkSmO6jRnTlMt2gO4h2Dc0cPJaTdN+QVEENsjjPooczPU6kkcbLIpbsIEqZunbUfdbM=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=wolfvision.net; spf=pass smtp.mailfrom=wolfvision.net; dkim=pass (1024-bit key) header.d=wolfvision.net header.i=@wolfvision.net header.b=xJnOkgDR; arc=fail smtp.client-ip=40.107.22.137
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=wolfvision.net
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=wolfvision.net
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="BV2vGp8+"
-Received: by mail-lj1-f180.google.com with SMTP id 38308e7fff4ca-2eacd7e7b38so7658551fa.2
-        for <linux-usb@vger.kernel.org>; Thu, 06 Jun 2024 01:41:52 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1717663311; x=1718268111; darn=vger.kernel.org;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=lboqGDLkSlZiXGaj/uzeRuz104hFq0ngZ+Ud/fj/+Ag=;
-        b=BV2vGp8+YXaLnNH1waaAKaquOhikkhb2BWhRfWW9k7Va0KXcavSwNjREuP+jVgWRLC
-         kQjGxdFGcqbd3zvl+gqz8Fcghyrx9Aqpzn8lyrBSJ9rmmgboMhMwFpY+R6FTTemamxUb
-         PbXk39YVIv3VUg2MAlbkHP7QqLUdeLPq3vtviteGDSYQHqH7bQgBr/VAbAWwIIMLzhuN
-         YcGS76bZiWWFKOLnJYMQphXg0yszLXxR6NDzfzXgAL9h+t0MVo3CJYxGmVpc/W2KPPTn
-         muuE/nh3uL5T+aX4GON7WzoiUjwUSH5rMSA8ZdSKRljIlkkcqCFN2kwr3VKScvrdNGRX
-         OKCQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1717663311; x=1718268111;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=lboqGDLkSlZiXGaj/uzeRuz104hFq0ngZ+Ud/fj/+Ag=;
-        b=lfBbz6RUvipd6BZe/khr28jcUJRQ0F1p5TZJVS8M0fm36o7CtPYAd5mVIpflvjHEMs
-         66FWmmaDgb7Kj894GuGTDrbzKTFVNud/fMOWdh4bL7IaNMyK/ww3zPiPFMSbO+Gn/pt4
-         D7pJQIHYeDU96MNBgcGNRfpyJqJYQ5+M27zajGhdFTuoYUS5BtnGZMU5iK6MiY6zI1dt
-         MV6ZP7SMcopqfwGFGdEd1XQKgBUnh56OKy97mB+CoHJ2kmWrHYOs6febhMpeZ8KZTKx0
-         53YmPurlFHXXaODq3JvuaUnrocXSRULteMkeqEqHT8HCvCK0YbbzAlUervO7mAAXiAqW
-         u4vw==
-X-Forwarded-Encrypted: i=1; AJvYcCV3Rgh109XBAG0YKvifEqtfdxK0vbX3+RpRimDL8l4+56cyXssEXPzhMSpcJ3ko1Bujx6lOeAj44XhVrLmBFU+M+IYICPzecgt9
-X-Gm-Message-State: AOJu0YwxbULb6x3J8WbfsGWqxcvlyrHwX9QZ1aJqjNRopeUyPXlIev26
-	4GZ4LtmP83rBLlVeXwLB7H10msZ7FUNf93LHLnoLYBwp9Ccmpicv/UA4roUAgu4=
-X-Google-Smtp-Source: AGHT+IEzdn9+piYZ1x5EsTOIWqi/J/85mLEB4Nr/4e4HHjN18eVZC+5BHKwFvsEHZndySpOVd4em4g==
-X-Received: by 2002:a2e:8550:0:b0:2e6:d1fb:4470 with SMTP id 38308e7fff4ca-2eac7a832dbmr34173771fa.42.1717663310478;
-        Thu, 06 Jun 2024 01:41:50 -0700 (PDT)
-Received: from localhost ([102.222.70.76])
-        by smtp.gmail.com with ESMTPSA id 4fb4d7f45d1cf-57aadf9d8ddsm715207a12.1.2024.06.06.01.41.49
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 06 Jun 2024 01:41:50 -0700 (PDT)
-Date: Thu, 6 Jun 2024 11:41:45 +0300
-From: Dan Carpenter <dan.carpenter@linaro.org>
-To: Joy Chakraborty <joychakr@google.com>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-Cc: Srinivas Kandagatla <srinivas.kandagatla@linaro.org>,
-	AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
-	Lars-Peter Clausen <lars@metafoo.de>,
-	Sakari Ailus <sakari.ailus@linux.intel.com>,
-	Bingbu Cao <bingbu.cao@intel.com>,
-	Zhihao Cheng <chengzhihao1@huawei.com>,
-	Jerome Brunet <jbrunet@baylibre.com>,
-	Martin Blumenstingl <martin.blumenstingl@googlemail.com>,
-	linux-hwmon@vger.kernel.org, linux-kernel@vger.kernel.org,
-	linux-iio@vger.kernel.org, linux-media@vger.kernel.org,
-	linux-i2c@vger.kernel.org, linux-gpio@vger.kernel.org,
-	linux-mtd@lists.infradead.org, linux-rtc@vger.kernel.org,
-	linux-arm-kernel@lists.infradead.org,
-	linux-amlogic@lists.infradead.org, linux-sunxi@lists.linux.dev,
-	linux-tegra@vger.kernel.org, linux-usb@vger.kernel.org,
-	manugautam@google.com
-Subject: Re: [PATCH v1 07/17] misc: eeprom: at25: Change nvmem reg_read/write
- return type
-Message-ID: <f98a1d8f-e936-4798-8447-c642e8fe11d5@moroto.mountain>
-References: <20240605175953.2613260-1-joychakr@google.com>
- <20240605175953.2613260-8-joychakr@google.com>
+	dkim=pass (1024-bit key) header.d=wolfvision.net header.i=@wolfvision.net header.b="xJnOkgDR"
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=VIFHoQhVJIh1gUvFbUPv/BsQOSCAvful93BDyDkmWn6Hk5nhAA89oz8tv/wIf4/XbtYfYposVgwVOfa+SEdE0lzNr6eMODWwPI2b9z1mgbT9XmqpcnC47tTHJQNwVi7aCyYknJcvgDydHjlHJTMyL4lCcsG00cGhnT7jRsWXBJ8hlzotrlw+waSc+vTPD9272Hgd265ZGAlWlqfjeItdcnGjr5eqkE3T4HRYOidykzOBHhHuFOjtwLF4gnq71hO3VlJ1piMm8L3izRfAXaTgnF+li21fN+j7sQlCIM+Gf6djZm+lXQgNqK2rXkfmyMjx+KbKzR/PKuwTYHJjSQT+Ow==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=vAB2FzZBvrU7LxEpBzwymNV0PbYDBiDtlljYTeMWBt8=;
+ b=iFSyJWdqGKFINUu9ECY5uA2u2AEn6BP9ujlizlHnIh/5Yj74ZETn5hevXxkKNcNQpczA76IAN19sQ4dTZ3xr12XakcMi8RUH7N4Q7Yzx4acOb+BsoWGkwe4wXAZZV2cWESXj4t5qbJP43J0iiX4vKig50D0FydBfqHlGrKeE10yRu8+75PxyVr2xINTPD/CGL/2E/Bl9Ut3R+SPVJ2klRit7Hwprk7fru23P/rd9tM7BMVZ40+YD7Xnum07PhYK7VoJypYWpdG/Kwg0UfVDZqJ9h6DZ+WEabtcJicc2xrMJwOFRNqR/D3MNr/gO9h8Ym45eP/+lDHxmjuNAkwBSd+w==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=wolfvision.net; dmarc=pass action=none
+ header.from=wolfvision.net; dkim=pass header.d=wolfvision.net; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=wolfvision.net;
+ s=selector2;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=vAB2FzZBvrU7LxEpBzwymNV0PbYDBiDtlljYTeMWBt8=;
+ b=xJnOkgDRqJYcZIW47xe0Ru0JeIfIwGx3QZubukBR7bt8lNxr0Crz7I1ZBik3EIxTPKKa/JzExabr9sQoN3ppjwx/y4QY3KW0IpqAvvICqXMc8P9RYoforqAeMOnmPc8zcm5ZM5nP8CG12YWNujiCqQ2gRW4lhE2d4aSzxuSjZzc=
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=wolfvision.net;
+Received: from VE1PR08MB4974.eurprd08.prod.outlook.com (2603:10a6:803:111::15)
+ by DB9PR08MB9513.eurprd08.prod.outlook.com (2603:10a6:10:459::15) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7633.31; Thu, 6 Jun
+ 2024 09:04:04 +0000
+Received: from VE1PR08MB4974.eurprd08.prod.outlook.com
+ ([fe80::a08:11be:8709:f5e1]) by VE1PR08MB4974.eurprd08.prod.outlook.com
+ ([fe80::a08:11be:8709:f5e1%4]) with mapi id 15.20.7633.033; Thu, 6 Jun 2024
+ 09:04:04 +0000
+From: Javier Carrasco <javier.carrasco@wolfvision.net>
+Date: Thu, 06 Jun 2024 11:03:56 +0200
+Subject: [PATCH 2/3] usb: typec: tipd: add error log to provide firmware
+ name and size
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+Message-Id: <20240606-tps6598x_fw_update_log-v1-2-2b5b8369a0ba@wolfvision.net>
+References: <20240606-tps6598x_fw_update_log-v1-0-2b5b8369a0ba@wolfvision.net>
+In-Reply-To: <20240606-tps6598x_fw_update_log-v1-0-2b5b8369a0ba@wolfvision.net>
+To: Heikki Krogerus <heikki.krogerus@linux.intel.com>, 
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+Cc: linux-usb@vger.kernel.org, linux-kernel@vger.kernel.org, 
+ Javier Carrasco <javier.carrasco@wolfvision.net>
+X-Mailer: b4 0.14-dev
+X-Developer-Signature: v=1; a=ed25519-sha256; t=1717664643; l=918;
+ i=javier.carrasco@wolfvision.net; s=20240320; h=from:subject:message-id;
+ bh=aoQGd5ZliRw15hKnZTHa2KKfY2LRQ+HHwl3dLCuDzEo=;
+ b=KqpqGvn1uyKtq2if0MePRVBfvfyMu9hlH2Q5e2y7WBhrV84kmnAVYFPdC8AnYdRjrBjDckOiC
+ 3cSuon7ILc7CycDQN5XEQ0tBIiX15GwD8SCCMcoAnnIrFaeSSkAw8nn
+X-Developer-Key: i=javier.carrasco@wolfvision.net; a=ed25519;
+ pk=Vxk2/0sGIxM8rsKnceszFuSuHVfQwa1Yo8+is7BX2nY=
+X-ClientProxiedBy: VI1PR07CA0310.eurprd07.prod.outlook.com
+ (2603:10a6:800:130::38) To VE1PR08MB4974.eurprd08.prod.outlook.com
+ (2603:10a6:803:111::15)
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20240605175953.2613260-8-joychakr@google.com>
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: VE1PR08MB4974:EE_|DB9PR08MB9513:EE_
+X-MS-Office365-Filtering-Correlation-Id: 7501ae53-f733-4cd1-069b-08dc86079d2d
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam:
+	BCL:0;ARA:13230031|376005|366007|1800799015|52116005|38350700005;
+X-Microsoft-Antispam-Message-Info:
+	=?utf-8?B?UmZSSElETEFrekczQ3RjdjZSZWpoRFNkOHhydXNMUjk4cFlxbnVzZDlnNnhQ?=
+ =?utf-8?B?RGFiVkdlOVNFbFBCNGdTNE5UT0NrRGxsaG5FNVd1NzIrcWxMdEhER3FUZTRM?=
+ =?utf-8?B?WkdnT1A1SHEyaVNUWGlTZVVQVmVWb0RUdUxlbXFHVER0QWdiT2pGMDlrQ2dL?=
+ =?utf-8?B?c0FqTVVTWlNNekNlK1RaSEg0cE1aMnMrQ1RXcFFpanFkcW5sWTQzN0tkeVYw?=
+ =?utf-8?B?dzRlSGFob1VoQzI5OWpWSU9YdWdRWnFwQkZJYmswQzJVeUhjUVZDd3JPRVFY?=
+ =?utf-8?B?S2plb1gwRlg0S3ExcWU0N0tuQ0RqbGpPL2g3c2VtS3B2a1RnNHVWN2M3cWVI?=
+ =?utf-8?B?UEdRQmxxV2tiSFExMG85NUZLT3N4ZnpRWFlXMVI3YTVUTUpOUGMyV2pLWWdu?=
+ =?utf-8?B?V1lob2V1TVMrTWF2bFhuQkVUUXFPNlJzUXhKYWhjeGtoSmpjTERXVzBISmE2?=
+ =?utf-8?B?WmdDdTFjcVNiZTRQOFZTa1JqdmR6dXR1amVrYk9mRTVza3lWZC83akRJK2FF?=
+ =?utf-8?B?dlN6NnZKMEQrdXphZ3oxR0JjaXBsQStjNW5OaFdDUnBSZlozNTBwVWxZNWM1?=
+ =?utf-8?B?RUdMak53WGNneW1VUEN5Q2dFRjc0NlRzdDZxdXhtS0YzbDdLbGFDVGJEMzA4?=
+ =?utf-8?B?UVUxZFpwWkFCNWhBd1BXUXJtNkVlMjYvaEhUUUkvZHhHRW5JYVM2NTd4ZFVH?=
+ =?utf-8?B?cW1PR3JjWllPTHB1LzI5dytsdHVBTHBHMjJ1NllabmRpYmcrMkgxSW5aaUxT?=
+ =?utf-8?B?YndDamlXUVFSMm1vL1hwVTZ6K3ZJVFlYM0Y1b3NTalJkQXJVb0Vzb1d5WFZI?=
+ =?utf-8?B?aEs2YmE2MGMrQlpQRmNDNFhTSmxYVFZmSytDOHFBemRiZ1lkdEMxU2x6TWZw?=
+ =?utf-8?B?TC82VllwYzZTVnloTFJBc09SSm05Q0hXQ096UTRQKzR4QXh0OVU5bWxucUtr?=
+ =?utf-8?B?WHpweXdiZTdPcGx6REhWQ21qVTRnaU93VlBUOE9DTEx2dE1IRTNrVlFtRlRm?=
+ =?utf-8?B?SUxnSWQxLzlBS3dRcXV1LzlVNUFLR3lXYWRHaFhDdlgzZXljRG1mejlYVFBE?=
+ =?utf-8?B?U1kwb3BGR2owNXNLQnN5WVhXakw3QnFIb0RQa3l1T0F6QlNPL2pQSVhqZDRX?=
+ =?utf-8?B?QmxIQWRjaExyTVg5Zlgxd05yckFGcUxOMDcycXhySnhSSTNjaWNORmdUK01M?=
+ =?utf-8?B?S0NWaEExVWhhVzUxTThITStuNmpqVkpoK3ZnbU5Tdk1PZDM2OFRVcUptNVAy?=
+ =?utf-8?B?c29BOTVqd29BU3JZcUl3c1FPODhUTG9QQTh5dUxZdXIyWmxCTDhVS3BZOVFE?=
+ =?utf-8?B?Zlk4cDZVaXk0eXErd29mWUllbnVzVXFEQXRkWDIvUm5hWnZqMElVK1QxY3JR?=
+ =?utf-8?B?dWpucGovbFNTdUNzdE1id0ZqUDRhc1ptaGhsVEFzN2NxQWtBTzBSQ1JqVk9P?=
+ =?utf-8?B?RXdPbzEvTGdnZzBnMTlnVHZaN1NPS093VG9laGh6bS9SU2xhRG9MYktZcUVx?=
+ =?utf-8?B?Wnl5Rm9Gb2RnQTY2bWRtdG1MMzZFaXhKSnZPekhEQ1dickZkVFVCdGo1WkxD?=
+ =?utf-8?B?UnVTSG9tb2lJcU5XbDU2QW56WHVnMWxHZERCTmlMM21NMkZBMVhucnRxemIr?=
+ =?utf-8?B?NnovdHNRVTFqR3RmaXR2aTNCYUVnL2NaMlNaUGlmanAwemlTUEtadUIzbGtN?=
+ =?utf-8?B?dUJ1OENBM2ZUQVpvcndGV0FTdTVTd3ZXSnVNMVI4UVJMdjdaeEErWkNLOVRH?=
+ =?utf-8?B?OFZUVHRtSGdXYmVkL050MWlqYmo4KzM1OWhGblRUTlAzNllXVEs4UWJCVUhl?=
+ =?utf-8?Q?NksnzsoXiQBtSE1Tm3Cig6z+Aaj/gbj38zrs0=3D?=
+X-Forefront-Antispam-Report:
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:VE1PR08MB4974.eurprd08.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230031)(376005)(366007)(1800799015)(52116005)(38350700005);DIR:OUT;SFP:1102;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0:
+	=?utf-8?B?TzhlVkVDUC9mS1VYbTZVY2tHLzd3TVhKWXhoUE94anBSZk51TGlYKzdNekFV?=
+ =?utf-8?B?QWNaRm5UdkdZLzdpT1l2SSttTzB0NVgzV056NmpqMzJINDhqdFN4MVAzNnV3?=
+ =?utf-8?B?UnBlM1F4WGxuL2J3OWY1ZmJjNktaa3pIdXBPY2szNU1FUGRaWHAyWU01WTdW?=
+ =?utf-8?B?dzFTc1NrS29lYjlHVTBvS3B4OUNWUGVaaTEvVnRuTExtYVh6MG9JNEZ3eEQ1?=
+ =?utf-8?B?YVlQbWhYSURZZWJ4dGREc2dSbnBzQlJydUVQRG5heFFJU2duVGVycHFzUTMr?=
+ =?utf-8?B?SXB0WkpUVEQwRFB4R2ljQm50aHZUYUM4amtZNndYaVg2WGJmOG9xWFhSSFdj?=
+ =?utf-8?B?OTZvaWZaQzFDdDV5UFJZVVJ6ZTRZbWhhODFINmppTFVTaXhMMHhodmthR3l1?=
+ =?utf-8?B?SUorODZLcnFsUWpUVUo1TGVFUmN1WmNoYnJOdXdNU0F0aW9ETnNxZHRoTUdI?=
+ =?utf-8?B?K0QzVUFNMWdscGJiQzVSamNidUc4ei9WVnphKzM3NzA0THlaUG9tNkZSRFVM?=
+ =?utf-8?B?WlBlZ1hzcCtRTjF1SU5rM2IzeUhHaG5yWTczbjJlYm5ycVV5a21IWllsZmkv?=
+ =?utf-8?B?TFNyMXozUzJsbDRINlJmUUFDMFN3VVZyL3l6NkRJQ2w3WFlUK056d1lTYkRq?=
+ =?utf-8?B?TUlFbVRpbjdRL1hBK3hxWkdrNWZjOVJmdjZXVVo0NE5tRk9xdjV4bFdWdHZR?=
+ =?utf-8?B?LzNLUUxWVlJGWTJ1d2F4Qkd2TElacWdwZERpZElIYThyazFpRUV4eVpYbGQy?=
+ =?utf-8?B?M2htc1A2QkQzbmlQSkxMdW9LV3ZRU2ZVMEFXZmpTMlA4SGZLS3Y3QUpyNWhP?=
+ =?utf-8?B?akpqeU42L3F2MEUzdE5qdk5ocjZVbUJIU3gyTmlpNzFjYVNHQ0FYWGRlRDBU?=
+ =?utf-8?B?bUNKYU1OSTJ4SXpZOGIycVM4Qk11eVA4ZC9PZVpYcEJuanFTb21ObUltTGZE?=
+ =?utf-8?B?bitFYjJnWDBwaFpyb3RpZWxWVUxSWE4vb3ZhU1pHQkZFUnRKMERuSWdyYXpS?=
+ =?utf-8?B?QnBPOEhDQ293dGhleHYrUEk1ekt2Q2p1QXptbmZOV21BSkI3NU1kbWsxYktm?=
+ =?utf-8?B?dUFHSnM2UWZhcHBUb1RwNVp1Q1cxUEs3YTdlNVJpLy96RFdjempIYXVHM1ZY?=
+ =?utf-8?B?WXVUZzZieUV4T2E2SXg4a01WYmRHZk5NWFRmaHJBd0tiLzVDTExXSEEvU2pP?=
+ =?utf-8?B?MHZQM0JLelR1WEY0L0M1UXRTR1JNcW1DMmZYNXVQdGhRY3FvMllUUjdzeG9o?=
+ =?utf-8?B?QUxuNk9xVUkrcjI2V1d0WnU1eXJDY1hDTHJGNUFPMWx6MnJnd0JjdStDbS9l?=
+ =?utf-8?B?Y2lWdURmU3Z0OWloQlRtaTE0MnNrOEdPL3I0a0Ira21pZmJIL3R1QkNFNFpi?=
+ =?utf-8?B?cWVDUjNqdEhFR3BpYWh5MWhNME5OdWg1TTRtWFNQTEJnd2ZndldKUGN5aXR1?=
+ =?utf-8?B?RUdQQWhRc3JWMWQ3eUFLU2JMZzlLMVNOOW56R2xETk00aStvdkx2dlhBdmRa?=
+ =?utf-8?B?aWp1amdSNnArUnRZM0ZjMUdCbWE0SS8xQTFmQVI4NlJtbUdiQmJ3K0JFS2px?=
+ =?utf-8?B?aE54WWRLdXFtOVRjUFM3MjZWRmNGc2lwTWtkLzN4TzdQZFpvbzdOLytiSWE1?=
+ =?utf-8?B?YURBUHVYQ05YVDltRlRoN0F4Um1UaGN2b2pydzJTWEtjWmVaQ2J1OEdtSnNN?=
+ =?utf-8?B?Y2hRK0hGTkVJYnRFSENGUktHd3NYYzNMTmtvK1JkNVYxQ1B1ek9qQU1zVnpO?=
+ =?utf-8?B?OTNtTUdWNXVPYWFqdG5rUGp3dlB2cjdubUV1elN2NVQ0QzV4TkFnQ0ZpcWpS?=
+ =?utf-8?B?Qk9xY3R5bE9IWlVGTmNkenZnUFhzWm13WnBWYk1jS3VmQWV3ZGdRd0FnUXJZ?=
+ =?utf-8?B?L3JvUlNqUk9PVFJxSlVYbkxNejUwVXhtZGhQUDdud2hOUmgyNWk1NVhzSUVL?=
+ =?utf-8?B?TW56RjltUjRrYTdkclpMaUs3MFhXamxoTEhuUndiZFFSUG1IMGIzaVN1aG5a?=
+ =?utf-8?B?dkVGQ0w3ZmJkUmNoU29NdUhUa1JZWWw1eVdYWTRhR01KaHVNMmNJSFgvZnY0?=
+ =?utf-8?B?QnAreFREczdOYmwzd1JjYVhLaHBZUFdkZ0tZckk3bE9MVVJ6aTdHL3VBV3Vq?=
+ =?utf-8?B?Sy93MUR0QjNQVXhPMXdNY1p3WERoRm5jU1hKTXRSU2FYZjZjRkVDZGFwakhs?=
+ =?utf-8?Q?1DAoF3OIBVhVGmjtPU3Wl4o=3D?=
+X-OriginatorOrg: wolfvision.net
+X-MS-Exchange-CrossTenant-Network-Message-Id: 7501ae53-f733-4cd1-069b-08dc86079d2d
+X-MS-Exchange-CrossTenant-AuthSource: VE1PR08MB4974.eurprd08.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 06 Jun 2024 09:04:04.0570
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: e94ec9da-9183-471e-83b3-51baa8eb804f
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: QnupOk8Y7g0SqtjlwufvtXey6sqeZSIKO+sM6wVBdMBd3tQV8PWvQFgta1vVS8nAIy3XrksKnwkItSqK0nYDoIBYj0vHu8NI/epQ/ZWnTz8=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: DB9PR08MB9513
 
-On Wed, Jun 05, 2024 at 05:59:51PM +0000, Joy Chakraborty wrote:
-> @@ -195,10 +195,11 @@ static struct attribute *sernum_attrs[] = {
->  };
->  ATTRIBUTE_GROUPS(sernum);
->  
-> -static int at25_ee_write(void *priv, unsigned int off, void *val, size_t count)
-> +static ssize_t at25_ee_write(void *priv, unsigned int off, void *val, size_t count)
->  {
->  	struct at25_data *at25 = priv;
->  	size_t maxsz = spi_max_transfer_size(at25->spi);
-> +	size_t bytes_written = count;
->  	const char *buf = val;
->  	int			status = 0;
->  	unsigned		buf_size;
-> @@ -313,7 +314,7 @@ static int at25_ee_write(void *priv, unsigned int off, void *val, size_t count)
->  	mutex_unlock(&at25->lock);
->  
->  	kfree(bounce);
-> -	return status;
-> +	return status < 0 ? status : bytes_written;
->  }
+The current error logs do not show the firmware name and size for the
+tps6598x. On the other hand, this information is provided for the
+tps25750. Both implementations have access to that information, and the
+existing message for the tps25750 can be used for the tps6598x without
+extra modifications.
 
-So the original bug was that rmem_read() is returning positive values
-on success instead of zero[1].  That started a discussion about partial
-reads which resulted in changing the API to support partial reads[2].
-That patchset broke the build.  This patchset is trying to fix the
-build breakage.
+Signed-off-by: Javier Carrasco <javier.carrasco@wolfvision.net>
+---
+ drivers/usb/typec/tipd/core.c | 4 ++++
+ 1 file changed, 4 insertions(+)
 
-[1] https://lore.kernel.org/all/20240206042408.224138-1-joychakr@google.com/
-[2] https://lore.kernel.org/all/20240510082929.3792559-2-joychakr@google.com/
+diff --git a/drivers/usb/typec/tipd/core.c b/drivers/usb/typec/tipd/core.c
+index 851b0d02727a..58f6eeffd070 100644
+--- a/drivers/usb/typec/tipd/core.c
++++ b/drivers/usb/typec/tipd/core.c
+@@ -1195,6 +1195,10 @@ static int tps6598x_apply_patch(struct tps6598x *tps)
+ 
+ release_fw:
+ 	release_firmware(fw);
++	if (ret) {
++		dev_err(tps->dev, "Failed to write patch %s of %zu bytes\n",
++			firmware_name, fw->size);
++	}
+ 
+ 	return ret;
+ };
 
-The bug in rmem_read() is still not fixed.  That needs to be fixed as
-a stand alone patch.  We can discuss re-writing the API separately.
+-- 
+2.40.1
 
-These functions are used internally and exported to the user through
-sysfs via bin_attr_nvmem_read/write().  For internal users partial reads
-should be treated as failure.  What are we supposed to do with a partial
-read?  I don't think anyone has asked for partial reads to be supported
-from sysfs either except Greg was wondering about it while reading the
-code.
-
-Currently, a lot of drivers return -EINVAL for partial read/writes but
-some return success.  It is a bit messy.  But this patchset doesn't
-really improve anything.  In at24_read() we check if it's going to be a
-partial read and return -EINVAL.  Below we report a partial read as a
-full read.  It's just a more complicated way of doing exactly what we
-were doing before.
-
-drivers/misc/eeprom/at25.c
-   198  static int at25_ee_write(void *priv, unsigned int off, void *val, size_t count)
-   199  {
-   200          struct at25_data *at25 = priv;
-   201          size_t maxsz = spi_max_transfer_size(at25->spi);
-New:            size_t bytes_written = count;
-                       ^^^^^^^^^^^^^^^^^^^^^
-This is not the number of bytes written.
-
-   202          const char *buf = val;
-   203          int                     status = 0;
-   204          unsigned                buf_size;
-   205          u8                      *bounce;
-   206  
-   207          if (unlikely(off >= at25->chip.byte_len))
-   208                  return -EFBIG;
-   209          if ((off + count) > at25->chip.byte_len)
-   210                  count = at25->chip.byte_len - off;
-                        ^^^^^
-This is.
-
-   211          if (unlikely(!count))
-   212                  return -EINVAL;
-   213  
-   214          /* Temp buffer starts with command and address */
-   215          buf_size = at25->chip.page_size;
-   216          if (buf_size > io_limit)
-   217                  buf_size = io_limit;
-   218          bounce = kmalloc(buf_size + at25->addrlen + 1, GFP_KERNEL);
-   219          if (!bounce)
-   220                  return -ENOMEM;
-   221  
-
-regards,
-dan carpenter
