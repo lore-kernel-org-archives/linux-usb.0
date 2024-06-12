@@ -1,122 +1,87 @@
-Received: from 008.lax.mailroute.net (008.lax.mailroute.net [199.89.1.11])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9A825181BAB;
-	Wed, 12 Jun 2024 16:53:24 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=199.89.1.11
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D16EF3209;
+	Wed, 12 Jun 2024 17:04:31 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1718211207; cv=none; b=snJj9ZXC7jsSk5x5XpzGM2egSskaCyrfSjDBWrRoMEda1v8zsGGxQvZBT5vijCKgESqcXPm+uwznikzQcHnwMw0oh3o8QiwY1N01WwTQ6T+htNlmMLY4GunRJOdckeODwBL0iHr8BhPbb6Y/PRdH+VnoH+aU+4vCgDS3EKb3fDg=
+	t=1718211873; cv=none; b=jelJr2Uh/z28vv0FrwmhQ/meSNCsghjfxhRM6GxE0AvAGl/pDl1KS/VfORIL037pJnOT38Halxu+sNJBnSyhItKowuZgHz8vxjN+cwyHgMB3bTqe73KukaJyxBKHA+h/xTEe+5tqTbjxWi0ok0nWBO1yzosxqX7w0OBK0Yf+clg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1718211207; c=relaxed/simple;
-	bh=qVdsce9kI7phLWSg6H8f1oBYl958AVtUymwUn2irbvs=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=Q5lXF5alz7GCITu1a6hM7nj+i5118zmR9uzkTHmIQoahGRW8JEcQiLQK+NGbcKSbZS1IdPAXi+qyz1ke5GPRePVnuQh1wHp8mHIdF1hYbC1XR21TwW05JfBpvHI5wWAEZ9bJPPA+55vb967BK5KQA1vrKF/MPwRuUPvtbOOp2f8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=acm.org; spf=pass smtp.mailfrom=acm.org; dkim=pass (2048-bit key) header.d=acm.org header.i=@acm.org header.b=k0afUE6r; arc=none smtp.client-ip=199.89.1.11
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=acm.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=acm.org
+	s=arc-20240116; t=1718211873; c=relaxed/simple;
+	bh=eEu/LTyHBMSJnYyryiF1HaWA39LlejyWxovQ41ErphI=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=r5IdG6E3SMnsLafOHbZDLTbCOkphiePLnLN7H6UXgqIF9KsIcHiYKP2iP7rqS7OF0uvKINfYCbCqmSFPGaYfBDqDxGDaxx+tLyDEp8ALo5ra490xpEBJMbH6d00UO20fXcZ6ctM86KKWCuuvQX5gKhTKP0ep7zFucJ3AB/+bupI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b=Ojw/f4YF; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=acm.org header.i=@acm.org header.b="k0afUE6r"
-Received: from localhost (localhost [127.0.0.1])
-	by 008.lax.mailroute.net (Postfix) with ESMTP id 4Vzs720TxKz6Cnk8t;
-	Wed, 12 Jun 2024 16:53:18 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=acm.org; h=
-	content-transfer-encoding:mime-version:references:in-reply-to
-	:x-mailer:message-id:date:date:subject:subject:from:from
-	:received:received; s=mr01; t=1718211193; x=1720803194; bh=yEYek
-	9bgEzYOmdogb2Tp0iSUExccUecXfH9k7dVFWHc=; b=k0afUE6rL2twrqKfTMT7q
-	7HTZ4ZRm5GA09ocoi/y82YPA0JOPT035Qcn6Wy3zN6LfRDdOuRigmiCTMR1MW6DW
-	VkakGL1aNm5s9CDFI7/4ClFCAlmRJl0WKDAPDuk7rcmas/hz3s6tVG4NWdFfNLh9
-	LU+KcmmdV7k9JlK28zwzeSCSgjychtGBjMl3xNGIQKPdaccQNlLCZbQzQcKOUfME
-	qQFib6xaEsuCN/AJIds67nALZEhjXakgbpA/hqs9C7jcitSfbGI3NPraQlkG06Bu
-	1Nv4TWOhQ5Zwq9qym+04Iol1xXbGYNFKiCYyoMJENXpy3W8YQ84LOWBXNgBWtVtu
-	g==
-X-Virus-Scanned: by MailRoute
-Received: from 008.lax.mailroute.net ([127.0.0.1])
- by localhost (008.lax [127.0.0.1]) (mroute_mailscanner, port 10029) with LMTP
- id Uje01OWT_d2e; Wed, 12 Jun 2024 16:53:13 +0000 (UTC)
-Received: from bvanassche.mtv.corp.google.com (unknown [104.132.0.90])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
-	(No client certificate requested)
-	(Authenticated sender: bvanassche@acm.org)
-	by 008.lax.mailroute.net (Postfix) with ESMTPSA id 4Vzs6w14JRz6Cnv3Q;
-	Wed, 12 Jun 2024 16:53:12 +0000 (UTC)
-From: Bart Van Assche <bvanassche@acm.org>
-To: "Martin K . Petersen" <martin.petersen@oracle.com>
-Cc: Alan Stern <stern@rowland.harvard.edu>,
-	linux-scsi@vger.kernel.org,
-	linux-usb@vger.kernel.org,
-	Bart Van Assche <bvanassche@acm.org>,
-	Joao Machado <jocrismachado@gmail.com>,
-	Andy Shevchenko <andy.shevchenko@gmail.com>,
-	Christian Heusel <christian@heusel.eu>,
-	stable@vger.kernel.org,
-	"James E.J. Bottomley" <James.Bottomley@HansenPartnership.com>
-Subject: [PATCH 1/2] scsi: core: Introduce the BLIST_SKIP_IO_HINTS flag
-Date: Wed, 12 Jun 2024 09:52:48 -0700
-Message-ID: <20240612165249.2671204-2-bvanassche@acm.org>
-X-Mailer: git-send-email 2.45.2.505.gda0bf45e8d-goog
-In-Reply-To: <20240612165249.2671204-1-bvanassche@acm.org>
-References: <20240612165249.2671204-1-bvanassche@acm.org>
+	dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="Ojw/f4YF"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id E7620C116B1;
+	Wed, 12 Jun 2024 17:04:30 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
+	s=korg; t=1718211871;
+	bh=eEu/LTyHBMSJnYyryiF1HaWA39LlejyWxovQ41ErphI=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=Ojw/f4YFFfn8ti2URmerLmHvdi+FsAGtnkbE/lQrqZXJm/SbIsD7WopUV6eReBtD9
+	 JlEtgMLAAZuNd5e3w68x+N3Q/selcIn5kqmyt+xycM7McXFg8CGEZFC87awfhYEV9b
+	 NZEsEAOg7x8Ob+D4pZEEmUoLgfp8fV5xtquElgWY=
+Date: Wed, 12 Jun 2024 19:04:28 +0200
+From: Greg KH <gregkh@linuxfoundation.org>
+To: joswang <joswang1221@gmail.com>
+Cc: Thinh.Nguyen@synopsys.com, linux-usb@vger.kernel.org,
+	linux-kernel@vger.kernel.org, stable@vger.kernel.org,
+	Jos Wang <joswang@lenovo.com>
+Subject: Re: [PATCH v4, 3/3] usb: dwc3: core: Workaround for CSR read timeout
+Message-ID: <2024061203-good-sneeze-f118@gregkh>
+References: <20240601092646.52139-1-joswang1221@gmail.com>
+ <20240612153922.2531-1-joswang1221@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20240612153922.2531-1-joswang1221@gmail.com>
 
-Prepare for skipping reading the IO hints VPD page for USB storage device=
-s.
+On Wed, Jun 12, 2024 at 11:39:22PM +0800, joswang wrote:
+> From: Jos Wang <joswang@lenovo.com>
+> 
+> This is a workaround for STAR 4846132, which only affects
+> DWC_usb31 version2.00a operating in host mode.
+> 
+> There is a problem in DWC_usb31 version 2.00a operating
+> in host mode that would cause a CSR read timeout When CSR
+> read coincides with RAM Clock Gating Entry. By disable
+> Clock Gating, sacrificing power consumption for normal
+> operation.
+> 
+> Cc: stable@vger.kernel.org
+> Signed-off-by: Jos Wang <joswang@lenovo.com>
+> ---
+> v1 -> v2:
+> - add "dt-bindings: usb: dwc3: Add snps,p2p3tranok quirk" patch,
+>   this patch does not make any changes
+> v2 -> v3:
+> - code refactor
+> - modify comment, add STAR number, workaround applied in host mode
+> - modify commit message, add STAR number, workaround applied in host mode
+> - modify Author Jos Wang
+> v3 -> v4:
+> - modify commit message, add Cc: stable@vger.kernel.org
 
-Cc: Alan Stern <stern@rowland.harvard.edu>
-Cc: Joao Machado <jocrismachado@gmail.com>
-Cc: Andy Shevchenko <andy.shevchenko@gmail.com>
-Cc: Christian Heusel <christian@heusel.eu>
-Cc: stable@vger.kernel.org
-Fixes: 4f53138fffc2 ("scsi: sd: Translate data lifetime information")
-Signed-off-by: Bart Van Assche <bvanassche@acm.org>
----
- drivers/scsi/sd.c           | 4 ++++
- include/scsi/scsi_devinfo.h | 4 +++-
- 2 files changed, 7 insertions(+), 1 deletion(-)
+This thread is crazy, look at:
+	https://lore.kernel.org/all/20240612153922.2531-1-joswang1221@gmail.com/
+for how it looks.  How do I pick out the proper patches to review/apply
+there at all?  What would you do if you were in my position except just
+delete the whole thing?
 
-diff --git a/drivers/scsi/sd.c b/drivers/scsi/sd.c
-index 3a43e2209751..fcf3d7730466 100644
---- a/drivers/scsi/sd.c
-+++ b/drivers/scsi/sd.c
-@@ -63,6 +63,7 @@
- #include <scsi/scsi_cmnd.h>
- #include <scsi/scsi_dbg.h>
- #include <scsi/scsi_device.h>
-+#include <scsi/scsi_devinfo.h>
- #include <scsi/scsi_driver.h>
- #include <scsi/scsi_eh.h>
- #include <scsi/scsi_host.h>
-@@ -3117,6 +3118,9 @@ static void sd_read_io_hints(struct scsi_disk *sdkp=
-, unsigned char *buffer)
- 	struct scsi_mode_data data;
- 	int res;
-=20
-+	if (sdp->sdev_bflags & BLIST_SKIP_IO_HINTS)
-+		return;
-+
- 	res =3D scsi_mode_sense(sdp, /*dbd=3D*/0x8, /*modepage=3D*/0x0a,
- 			      /*subpage=3D*/0x05, buffer, SD_BUF_SIZE, SD_TIMEOUT,
- 			      sdkp->max_retries, &data, &sshdr);
-diff --git a/include/scsi/scsi_devinfo.h b/include/scsi/scsi_devinfo.h
-index 6b548dc2c496..fa8721e49dec 100644
---- a/include/scsi/scsi_devinfo.h
-+++ b/include/scsi/scsi_devinfo.h
-@@ -69,8 +69,10 @@
- #define BLIST_RETRY_ITF		((__force blist_flags_t)(1ULL << 32))
- /* Always retry ABORTED_COMMAND with ASC 0xc1 */
- #define BLIST_RETRY_ASC_C1	((__force blist_flags_t)(1ULL << 33))
-+/* Do not read the I/O hints mode page */
-+#define BLIST_SKIP_IO_HINTS	((__force blist_flags_t)(1ULL << 34))
-=20
--#define __BLIST_LAST_USED BLIST_RETRY_ASC_C1
-+#define __BLIST_LAST_USED BLIST_SKIP_IO_HINTS
-=20
- #define __BLIST_HIGH_UNUSED (~(__BLIST_LAST_USED | \
- 			       (__force blist_flags_t) \
+Just properly submit new versions of patches (hint, without the ','), as
+the documentation file says to, as new threads each time, with all
+commits, and all should be fine.
+
+We even have tools that can do this for you semi-automatically, why not
+use them?
+
+thanks,
+
+greg k-h
