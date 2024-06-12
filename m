@@ -1,185 +1,124 @@
-Received: from smtp1.tecnico.ulisboa.pt (smtp1.tecnico.ulisboa.pt [193.136.128.21])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-ej1-f46.google.com (mail-ej1-f46.google.com [209.85.218.46])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8C9D0153BFA;
-	Wed, 12 Jun 2024 13:23:06 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=193.136.128.21
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B25E217083D;
+	Wed, 12 Jun 2024 13:40:01 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.46
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1718198591; cv=none; b=oYTjdZauACT8HMRayMgQgk8So39EZoNNO2hzRZh5CUATvjGlYdOugg/6Bh+/VgvL+8bMZtHL1M+DzI6NTWzkDU0IsIDpraJnhpFYV10g8KKJfyaehQ73BTOt+6HHJuuUwq59G5kbMarsSGRfPPRp1gRWXRTFAeTHisWwYTcGbfI=
+	t=1718199603; cv=none; b=Gy/80djEoTzwljEGX7J4N1GUWo07BJYdedYx2xhgbatLeZqUjLBks7bKhecrBFEr3g8rQLM2QH4mOul3BPwnzUGS3jVchLreF1M1UqtwzWID6P2d4T46ho9oZUsHLOFuCZ2hil2dr1L2u6g6BqsPOQ7e2Z/ACj4xPCcdCRXTpu4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1718198591; c=relaxed/simple;
-	bh=LU4Ex0c19yd2n5aDC24lwUC4E3uI/9CYV2LjGKS7R7Q=;
-	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:To:Cc; b=nGcE8UMoV4VtLiMS+gxoni73Hs0LV84BqwqXbzwg4VBvCUz458kVmGPrKrhW/Zw2yCt9iEnXA42QjNnvE2SFEQ+wmuYjCFJmPyxJFomap6XnpB3S1NYSbTLVKwgfdcDPipyBVXv+ZpDc+9A112zEEWmqrbJdCiKQBBt6oJxRKbo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=tecnico.ulisboa.pt; spf=pass smtp.mailfrom=tecnico.ulisboa.pt; dkim=pass (1024-bit key) header.d=tecnico.ulisboa.pt header.i=@tecnico.ulisboa.pt header.b=qG+md0Fp; arc=none smtp.client-ip=193.136.128.21
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=tecnico.ulisboa.pt
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=tecnico.ulisboa.pt
+	s=arc-20240116; t=1718199603; c=relaxed/simple;
+	bh=qofywMV5/uv8Sye/afC+Jj1O5QoX0nVKMe+D3Ox+mH8=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=a2K2eDde9cIAqDKfDZALnhDA5dQELar6Wf30+wjkIpwkiuzdsSkDqh7dvav640FESXxqLQuPjgKCJa16kaJGHde3X0S7YZpo/wnYHBYYVxDzvMfE4yn6vmusTrJDMGaUke2AygUtZvkTR5vVxcj0fr8LCCpIDIDxUI9QPa9Q56Y=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=HdxnY/DA; arc=none smtp.client-ip=209.85.218.46
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=tecnico.ulisboa.pt header.i=@tecnico.ulisboa.pt header.b="qG+md0Fp"
-Received: from localhost (localhost.localdomain [127.0.0.1])
-	by smtp1.tecnico.ulisboa.pt (Postfix) with ESMTP id 82C8E6000871;
-	Wed, 12 Jun 2024 14:13:27 +0100 (WEST)
-X-Virus-Scanned: by amavis-2.13.0 (20230106) (Debian) at tecnico.ulisboa.pt
-Received: from smtp1.tecnico.ulisboa.pt ([127.0.0.1])
- by localhost (smtp1.tecnico.ulisboa.pt [127.0.0.1]) (amavis, port 10025)
- with LMTP id D5TUq_B7VFPf; Wed, 12 Jun 2024 14:13:25 +0100 (WEST)
-Received: from mail1.tecnico.ulisboa.pt (mail1.ist.utl.pt [IPv6:2001:690:2100:1::b3dd:b9ac])
-	by smtp1.tecnico.ulisboa.pt (Postfix) with ESMTPS id 3CCD360022EC;
-	Wed, 12 Jun 2024 14:13:25 +0100 (WEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=tecnico.ulisboa.pt;
-	s=mail; t=1718198005;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding;
-	bh=EndnLYNCiF0bEFLBj6ypoVHvLGji1T/luzXJeq0p5iE=;
-	b=qG+md0Fpy20B8uhbJptDViyIXNwDVgtTYVz+LFHvUlhRZnkexGMGA+76Br9V+eHITRMCKP
-	1zyzaPKB37gZEbM9cbgWeizndZFLFESPJiXBvriHnT2HfemtDAD54e/ovBCRhtUbvVSLJE
-	2iVzbkQUm36NsLvZ34CvihFT0pehI4g=
-Received: from [192.168.1.53] (unknown [IPv6:2a01:14:8073:1e10:c362:ff08:aa85:54c6])
-	(Authenticated sender: ist187313)
-	by mail1.tecnico.ulisboa.pt (Postfix) with ESMTPSA id E0AEA36008D;
-	Wed, 12 Jun 2024 14:13:24 +0100 (WEST)
-From: Diogo Ivo <diogo.ivo@tecnico.ulisboa.pt>
-Date: Wed, 12 Jun 2024 14:13:10 +0100
-Subject: [PATCH] usb: typec: ucsi_acpi: Add LG Gram quirk
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="HdxnY/DA"
+Received: by mail-ej1-f46.google.com with SMTP id a640c23a62f3a-a6f0dc80ab9so316006466b.2;
+        Wed, 12 Jun 2024 06:40:01 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1718199600; x=1718804400; darn=vger.kernel.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=PxSRp9AgxyNNYPtlrdSJYTaRP0/nzbJTU1dqjCUg+7Y=;
+        b=HdxnY/DA+J/Vqk6R4tj61q6ThNXffWnEf3Hvzm0h+7DhMqI/Peuot4JUxHUbovNAXE
+         Bqpnz+icPHYUJExrNjhZgumswyx3JyA1O2RfGGL5wh6QFgFjex89TvKly9uJ+cd/hqRu
+         /bc951X3gyl/r7BC9+wLhfnUK1TF5/SLJqd7uZtCyTey0j6f+lh7ij6IUYOIUdxvQVXd
+         P9UK+vfBi37VjnAmMLE80tgIVM11QkURjSuHDLBG9LMmxSkrHJcfdnoJAFjpl1gzc69K
+         q8p325grvVhLSlGqbOHglgjhTdpdETOz9eJe14vVa3/o40LltZZO4Mb7Ec8f8tStG9Cs
+         oYiw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1718199600; x=1718804400;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=PxSRp9AgxyNNYPtlrdSJYTaRP0/nzbJTU1dqjCUg+7Y=;
+        b=OVsqjhdzXDCdKdY5x+J8m496BSsPWKi7Jm+zuh+PfxQvAMfrCRMbvv/2aB0Y4FG73N
+         lm4kw7cGMv5AfwUjw6LUltDr+eLJFYqDDn/gReDts8dEuTxjz3Og5U/g9Y3i+7mtNp3Q
+         sRz2YuaNXrK4cKsCm+eyhTaGM3tSo3bp5MJ4D4vo/M3XTW4SFMdrYKVcVhD2u6ekZ83j
+         NMB3hRP0hivNi4U/PMUEqiJyURzZ8n84JjoBcqan5iFd0BMtbxrpgW34FsqWeJ7LjOW6
+         USgod/wBa90L/qERg9qiXrfHBTJuMBvnK7ntN6l5w7ThwD4K5bIQ77v3uoe6f9Z/rvAw
+         hZ/w==
+X-Forwarded-Encrypted: i=1; AJvYcCUBWCaCeBELvc94RBXArtFCjKQ2bIUljCAX3zLVSMRlZJow8UnTPj3Cn03qydTa4QYBX2N4ngioUdm+wP79KiAXs6PioKfnMgsJq6wQjAH56TwuE8xgTfcQWrtDbqb52gjf4LdYRBLr
+X-Gm-Message-State: AOJu0Ywzy+Ka6b1v9Y2T9t+AxfFxXNzosV798zSd2NdttQj8RtaUsiSF
+	zDAaZsOcCjfLj8jFkrHT6sLeqAZv8CIxT1CRsLLXwlbU6iSkTrsQ3o0rJ5NW22te6Ry+27AhUyo
+	hcGtZzkD6mcqFz5ESexcOfBbfKLZyvEoPanOcWLtk
+X-Google-Smtp-Source: AGHT+IFORC6nwYwsG9+can2YBbSr+OG9w7Qx4gXZTETrgSbBDvaGHpxaOFL34klylO1pz109avkjnc/23nimkdxALkE=
+X-Received: by 2002:a17:906:f582:b0:a6f:13f0:c8e9 with SMTP id
+ a640c23a62f3a-a6f47d3b89cmr133183666b.53.1718199599430; Wed, 12 Jun 2024
+ 06:39:59 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-Message-Id: <20240612-gram_quirk-v1-1-52b0ff0e1546@tecnico.ulisboa.pt>
-X-B4-Tracking: v=1; b=H4sIAOWeaWYC/6tWKk4tykwtVrJSqFYqSi3LLM7MzwNyDHUUlJIzE
- vPSU3UzU4B8JSMDIxMDM0Mj3fSixNz4wtLMomzdxGRDUwMjU/NkE0NTJaCGgqLUtMwKsGHRsbW
- 1AMstTy9cAAAA
-To: Heikki Krogerus <heikki.krogerus@linux.intel.com>, 
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-Cc: linux-usb@vger.kernel.org, linux-kernel@vger.kernel.org, 
- Diogo Ivo <diogo.ivo@tecnico.ulisboa.pt>
-X-Mailer: b4 0.13.0
-X-Developer-Signature: v=1; a=ed25519-sha256; t=1718198004; l=3786;
- i=diogo.ivo@tecnico.ulisboa.pt; s=20240529; h=from:subject:message-id;
- bh=LU4Ex0c19yd2n5aDC24lwUC4E3uI/9CYV2LjGKS7R7Q=;
- b=/wMoBUlbLnYhsYGDdmkVrhiAKN1jd11Kcbxd6ww1WqLjHCITUpALS5Zf3rr7khf6My1ycL/qw
- HblFxMpznxOCNg53rrzOd8zIC9VKAE+Pqsh9Y1xeOp7k45vNQJCtktU
-X-Developer-Key: i=diogo.ivo@tecnico.ulisboa.pt; a=ed25519;
- pk=BRGXhMh1q5KDlZ9y2B8SodFFY8FGupal+NMtJPwRpUQ=
+References: <20240601092646.52139-1-joswang1221@gmail.com> <20240611142953.12057-1-joswang1221@gmail.com>
+ <2024061219-reroute-strike-7230@gregkh> <CAMtoTm2tUDD-CCs4wqigx9ZNqHjWUCA_F080i+v55vubu8wtmQ@mail.gmail.com>
+ <2024061254-oval-womb-a6c1@gregkh>
+In-Reply-To: <2024061254-oval-womb-a6c1@gregkh>
+From: joswang <joswang1221@gmail.com>
+Date: Wed, 12 Jun 2024 21:39:47 +0800
+Message-ID: <CAMtoTm0DtH=pi_20UibBjea1P5OkfKP3eY3G5s_Ta4pks0M3Lw@mail.gmail.com>
+Subject: Re: [PATCH v3, 3/3] usb: dwc3: core: Workaround for CSR read timeout
+To: Greg KH <gregkh@linuxfoundation.org>
+Cc: Thinh.Nguyen@synopsys.com, linux-usb@vger.kernel.org, 
+	linux-kernel@vger.kernel.org, Jos Wang <joswang@lenovo.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-Some LG Gram laptops report a bogus connector change event after a
-GET_PDOS command for the partner's source PDOs, which disappears from
-the CCI after acknowledging the command. However, the subsequent
-GET_CONNECTOR_STATUS in ucsi_handle_connector_change() still reports
-this bogus change in bits 5 and 6, leading to the UCSI core re-checking
-the partner's source PDOs and thus to an infinite loop.
+On Wed, Jun 12, 2024 at 8:56=E2=80=AFPM Greg KH <gregkh@linuxfoundation.org=
+> wrote:
+>
+> On Wed, Jun 12, 2024 at 08:47:31PM +0800, joswang wrote:
+> > On Wed, Jun 12, 2024 at 3:58=E2=80=AFPM Greg KH <gregkh@linuxfoundation=
+.org> wrote:
+> > >
+> > > On Tue, Jun 11, 2024 at 10:29:53PM +0800, joswang wrote:
+> > > > From: Jos Wang <joswang@lenovo.com>
+> > > >
+> > > > This is a workaround for STAR 4846132, which only affects
+> > > > DWC_usb31 version2.00a operating in host mode.
+> > > >
+> > > > There is a problem in DWC_usb31 version 2.00a operating
+> > > > in host mode that would cause a CSR read timeout When CSR
+> > > > read coincides with RAM Clock Gating Entry. By disable
+> > > > Clock Gating, sacrificing power consumption for normal
+> > > > operation.
+> > > >
+> > > > Signed-off-by: Jos Wang <joswang@lenovo.com>
+> > > > ---
+> > > > v1 -> v2:
+> > > > - add "dt-bindings: usb: dwc3: Add snps,p2p3tranok quirk" patch
+> > > > v2 -> v3:
+> > > > - code refactor
+> > > > - modify comment, add STAR number, workaround applied in host mode
+> > > > - modify commit message, add STAR number, workaround applied in hos=
+t mode
+> > > > - modify Author Jos Wang
+> > > > ---
+> > > >  drivers/usb/dwc3/core.c | 20 +++++++++++++++++++-
+> > > >  1 file changed, 19 insertions(+), 1 deletion(-)
+> > >
+> > > Where are patches 1/3 and 2/3 of this series?
+> > >
+> > > thanks,
+> > >
+> > > greg k-h
+> >
+> > Patches 1/3 and 2/3 are other cases. The maintainer is reviewing them
+> > and has no accurate conclusion yet, so only patches 3/3 are submitted.
+>
+> How are we supposed to know this?  A patch series should be taken all at
+> once, right?
+>
+> confused,
+>
+> greg k-h
 
-Fix this by adding a quirk that signals when a potentially buggy GET_PDOS
-command is used, checks the status change report and clears it if it is a
-bogus event before sending it to the UCSI core.
-
-Signed-off-by: Diogo Ivo <diogo.ivo@tecnico.ulisboa.pt>
----
-The models affected by this bug have been reported to be of several forms:
-1xZ90Q, 1xZD90Q, 1xZB90Q, x = {5, 6, 7}, and as such this patch matches
-only on the final 90Q as well as the product family since the "90Q" string
-may collide with other LG models by being too short. If there are other
-better ways of achieving this match I would be happy to hear about them.
----
- drivers/usb/typec/ucsi/ucsi_acpi.c | 61 ++++++++++++++++++++++++++++++++++++++
- 1 file changed, 61 insertions(+)
-
-diff --git a/drivers/usb/typec/ucsi/ucsi_acpi.c b/drivers/usb/typec/ucsi/ucsi_acpi.c
-index 8d112c3edae5..adf32ca0f761 100644
---- a/drivers/usb/typec/ucsi/ucsi_acpi.c
-+++ b/drivers/usb/typec/ucsi/ucsi_acpi.c
-@@ -25,6 +25,7 @@ struct ucsi_acpi {
- 	unsigned long flags;
- #define UCSI_ACPI_COMMAND_PENDING	1
- #define UCSI_ACPI_ACK_PENDING		2
-+#define UCSI_ACPI_CHECK_BOGUS_EVENT	3
- 	guid_t guid;
- 	u64 cmd;
- };
-@@ -128,6 +129,58 @@ static const struct ucsi_operations ucsi_zenbook_ops = {
- 	.async_write = ucsi_acpi_async_write
- };
- 
-+static int ucsi_gram_read(struct ucsi *ucsi, unsigned int offset,
-+			  void *val, size_t val_len)
-+{
-+	u16 bogus_change = UCSI_CONSTAT_POWER_LEVEL_CHANGE |
-+			   UCSI_CONSTAT_PDOS_CHANGE;
-+	struct ucsi_acpi *ua = ucsi_get_drvdata(ucsi);
-+	struct ucsi_connector_status *status;
-+	int ret;
-+
-+	ret = ucsi_acpi_read(ucsi, offset, val, val_len);
-+	if (ret < 0)
-+		return ret;
-+
-+	if (UCSI_COMMAND(ua->cmd) == UCSI_GET_CONNECTOR_STATUS &&
-+	    test_bit(UCSI_ACPI_CHECK_BOGUS_EVENT, &ua->flags) &&
-+	    offset == UCSI_MESSAGE_IN) {
-+		status = (struct ucsi_connector_status *)val;
-+
-+		/* Clear the bogus change */
-+		if (status->change == bogus_change)
-+			status->change = 0;
-+
-+		clear_bit(UCSI_ACPI_CHECK_BOGUS_EVENT, &ua->flags);
-+	}
-+
-+	return ret;
-+}
-+
-+static int ucsi_gram_sync_write(struct ucsi *ucsi, unsigned int offset,
-+				const void *val, size_t val_len)
-+{
-+	struct ucsi_acpi *ua = ucsi_get_drvdata(ucsi);
-+	int ret;
-+
-+	ret = ucsi_acpi_sync_write(ucsi, offset, val, val_len);
-+	if (ret < 0)
-+		return ret;
-+
-+	if (UCSI_COMMAND(ua->cmd) == UCSI_GET_PDOS &&
-+	    ua->cmd & UCSI_GET_PDOS_PARTNER_PDO(1) &&
-+	    ua->cmd & UCSI_GET_PDOS_SRC_PDOS)
-+		set_bit(UCSI_ACPI_CHECK_BOGUS_EVENT, &ua->flags);
-+
-+	return ret;
-+}
-+
-+static const struct ucsi_operations ucsi_gram_ops = {
-+	.read = ucsi_gram_read,
-+	.sync_write = ucsi_gram_sync_write,
-+	.async_write = ucsi_acpi_async_write
-+};
-+
- static const struct dmi_system_id ucsi_acpi_quirks[] = {
- 	{
- 		.matches = {
-@@ -136,6 +189,14 @@ static const struct dmi_system_id ucsi_acpi_quirks[] = {
- 		},
- 		.driver_data = (void *)&ucsi_zenbook_ops,
- 	},
-+	{
-+		.matches = {
-+			DMI_MATCH(DMI_SYS_VENDOR, "LG Electronics"),
-+			DMI_MATCH(DMI_PRODUCT_FAMILY, "LG gram PC"),
-+			DMI_MATCH(DMI_PRODUCT_NAME, "90Q"),
-+		},
-+		.driver_data = (void *)&ucsi_gram_ops,
-+	},
- 	{ }
- };
- 
-
----
-base-commit: 5821bf2dffbe18fe1f097dbb027415fa15a38e9a
-change-id: 20240612-gram_quirk-ac150257c415
-
-Best regards,
--- 
-Diogo Ivo <diogo.ivo@tecnico.ulisboa.pt>
-
+I am very sorry, I misunderstood the patch series before. How should I
+deal with this patch now? Should Patches 1/3 and 2/3 also be
+submitted?
