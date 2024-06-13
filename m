@@ -1,74 +1,201 @@
-Received: from mail-io1-f71.google.com (mail-io1-f71.google.com [209.85.166.71])
+Received: from mail-lf1-f41.google.com (mail-lf1-f41.google.com [209.85.167.41])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8582A131E33
-	for <linux-usb@vger.kernel.org>; Thu, 13 Jun 2024 23:25:03 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.166.71
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9489514E2E7
+	for <linux-usb@vger.kernel.org>; Thu, 13 Jun 2024 23:43:45 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.41
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1718321105; cv=none; b=aYK7bOlurzs03N8oC59HNc6NCiA7olY4IWhdlyA/EC5t+o7cSXrisSre3EShx6qh8VzCjXEcxNT6+rlMPCWSYzKLvFyqwNsxadv//8Us+CSi4OYuzM9RGxTaNSSkCc4dikbIReXDsSXJQTy0N0pJx0qzGvDqAkYEyjOlAnbAZ4k=
+	t=1718322227; cv=none; b=OfBn7DdPNMK4aABXcsYUPK0/JYGXjRlXgpFStNmgygwd4NSbnnq9NPlSguFWHZPkFWzLARD2RurhKsUNpMxIi/K7NxVjmTZIKV88eJrCZBgWuv5svajlG6ARZgTfHAgycK8bPo4tPb8rKhZoLCwVoqdgwTxOQB1YM+4MymUBWHc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1718321105; c=relaxed/simple;
-	bh=kRSIYh+IYVsXXlkBrcyb1CecN7b4j+1hi+u7PUdG9pU=;
-	h=MIME-Version:Date:In-Reply-To:Message-ID:Subject:From:To:
-	 Content-Type; b=tY8m2m4H0//Nn2DfiQ46p7Kp/H9I2EVmgkhXqNgGtl9X1EEeMHyc/5gA4LtAQTfMNBMjPcf2tuy68QMrEr/sUCkmczJ0q4Y7xDzjEY2CK6qgZOwIYHlSLf0y/6qgCe67foLSOF7EkUG70QxZX+d1KU9Dh6e2q9oYK6kB4YkWaE0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=syzkaller.appspotmail.com; spf=pass smtp.mailfrom=M3KW2WVRGUFZ5GODRSRYTGD7.apphosting.bounces.google.com; arc=none smtp.client-ip=209.85.166.71
-Authentication-Results: smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=syzkaller.appspotmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=M3KW2WVRGUFZ5GODRSRYTGD7.apphosting.bounces.google.com
-Received: by mail-io1-f71.google.com with SMTP id ca18e2360f4ac-7e20341b122so141784339f.1
-        for <linux-usb@vger.kernel.org>; Thu, 13 Jun 2024 16:25:03 -0700 (PDT)
+	s=arc-20240116; t=1718322227; c=relaxed/simple;
+	bh=lzuWmQsRHevIFSOU8fqsv8TO85dYE8vzaNEi5gArVS8=;
+	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
+	 In-Reply-To:To:Cc; b=bF5jYrUF0g8A2fyN0f8FIzg6uhY0oHRJHXZOqkovwP+Mmatj+tMceBTjnTTUkTSEHjmnhByJwlbxy7Pi4UzmD6kQ9RA6gSknNDZCsWyK3CgJsiwb0QVjpAD6ABJBZFy3D4rtC08FuDGMIY5VLwE9gMtAefdZ+7P73rnr/6rpc3g=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=aXeQyaTH; arc=none smtp.client-ip=209.85.167.41
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="aXeQyaTH"
+Received: by mail-lf1-f41.google.com with SMTP id 2adb3069b0e04-52c32d934c2so1778990e87.2
+        for <linux-usb@vger.kernel.org>; Thu, 13 Jun 2024 16:43:45 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google; t=1718322224; x=1718927024; darn=vger.kernel.org;
+        h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
+         :mime-version:subject:date:from:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=sp42j2u8rigijiuxzVvZ7hagCwbbwAjC3ss3o2b1CDw=;
+        b=aXeQyaTHc5z4J94m+eXou/tb8xOx2sI+5xBW5vKxze0dSMu6RTl0KE4DTB9rvFm6AV
+         ja//TkoaEZUxIAKY0IGMmkIH+3E5oI1HmzbNpCGsZ1wqePH4QzQ/AZ5LQ7UxzrHj9j0Y
+         IAXaLgBQjaX6eJEvakM1amgwtLnaaBERJMcr8nx6SnweA99QIxLH7AvhoQ+cbT+enZOu
+         mfVCYslscSgK5etBmp6baZi0ZuoXlXoSnIVQLrMpOX2R0xhFuSq+eAO8tT3Ve9vmBtku
+         HGpRLIYK8/rRMIBV/tNFgUfA/XsjIn0PttX2D7c5+fArB5L15IVasE+u90E9v1FcnVHx
+         qPcA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1718321103; x=1718925903;
-        h=to:from:subject:message-id:in-reply-to:date:mime-version
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=qG6e0f6B6AAWAv+NDZols4qYfUhB6B8cdTbTKaoc4lY=;
-        b=VqB3o7qqCjKznIrLIJZ1w0caaKYmxdUJ5XB96KkMX/gw8f1tvyCupQAKCLWh9JR0FD
-         5blZxUx7ykmVoDKcMrFER/PJtEDTXdWbUVVjcShOfTDNLCtB89YyGkSey+V1xpnwyMa0
-         XnfEjX3xInUNAGDJv23ZVaqrhoel+I9a80kbYXgFjrAV0dTv5rDQc1EFW/LjntQY/28d
-         YY+2biNpaPu84EEQqe/pPLwQBFscbpP3ggaiTQIExHFkSmjhcwF4Ym77EQI0OvQcgFPK
-         s19waYx8zh4+1xy6gAiTsXdccKWCs5p/YWIaA3D+q7U1uF03jPl8e+z72Oc1HP0DH+si
-         +yog==
-X-Forwarded-Encrypted: i=1; AJvYcCWiOff8OUOgbXdca8TLWbALbsXPz5fLx7QBCSgOiq9ytpCye8md7/q9eEaN+66+4Zbrw4AlDcP7p4RYi7jFJO0iBSJ7ik1QeR03
-X-Gm-Message-State: AOJu0Yz3nmRwrXNsOkrZFACW4Dm8Qz3Y6+IUKfLZ/2YR7kEXuC/U78FN
-	uNc1IVW2X2CmEbOi1QOCfKgjAwjw6aYLqhIL0Lx3CZPD38trqPnq1pff8GygQ2/VfFcAk4+73WK
-	4BbVeds6TDA4QjLxuPVInLT6JKJ7W4qHVlM3xuCQJM+yZU9puRG1MV2s=
-X-Google-Smtp-Source: AGHT+IEhDJvAgrT7IU1f8Os5C1RPrBKRLzz2lQBbD8T5VpaHGB5z5lOjl4EfW2O2KasgHQP6Kj4s1zW3ckdJhh2SdkGJz5NJZnVa
+        d=1e100.net; s=20230601; t=1718322224; x=1718927024;
+        h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
+         :mime-version:subject:date:from:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=sp42j2u8rigijiuxzVvZ7hagCwbbwAjC3ss3o2b1CDw=;
+        b=J8ESd0V6L1kWHR+sQ+hdch+0DTUiOTT/Qc3eTH1u9z4L7fN+n1h2GqHXahwhuMOU2P
+         kOV3ULdmYPFRtUfr9zft+sfsYHERyVPXXyovHdRaN8jEkdSt5CZz3VD/1wRqTh9p1DVT
+         /Yi48jmTrHJjukEvyGy77CWtgVEnr4HAyCtSepvMLxEpz3fz6vq066knS8c0l3C+jnOB
+         pMp2FykFj1ioZOF684KfqjQzGvW/Hu5AxvcqgEAwZkEfjNkIi44oe2AUHKc9x/oQUY6Y
+         +LJP52C055ufPsVai4s7a3b1Z5P2QIgeAcON6aOtbh7YdQskUopFKfQSlRVcQxjxy1af
+         /RYA==
+X-Forwarded-Encrypted: i=1; AJvYcCUC8WKMdGq3uQedQaxceW2rk8mH0VnhbIj80zSNgHDeT9uk6mx0ixTd2tgJJD51MizYf1n/AXHnMgbcguq9/BsHT9o7acwHnScw
+X-Gm-Message-State: AOJu0YzXCbEBr8RHPB0Pd6OZnQZq36Ck+vTaBwHTLtVVlZKR1lXD5LL/
+	jlOA+AUWnshet3G0A4VL3HlUNTukNe8I4XAvci+hJkTuUqfSZfdFeLn/I9JnUWs=
+X-Google-Smtp-Source: AGHT+IEuNwbJD7OzTca/dZTlJpYpULKGk9SL5E9qN7fs6pIOTgq/C1WAMUXhyOWFRGuJtdtCWtntrQ==
+X-Received: by 2002:a05:6512:114a:b0:52c:a809:62e9 with SMTP id 2adb3069b0e04-52ca80963f5mr537317e87.0.1718322223573;
+        Thu, 13 Jun 2024 16:43:43 -0700 (PDT)
+Received: from umbar.lan ([192.130.178.91])
+        by smtp.gmail.com with ESMTPSA id 2adb3069b0e04-52ca2872260sm359298e87.142.2024.06.13.16.43.42
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 13 Jun 2024 16:43:43 -0700 (PDT)
+From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+Date: Fri, 14 Jun 2024 02:43:38 +0300
+Subject: [PATCH v7 1/6] dt-bindings: platform: Add Lenovo Yoga C630 EC
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-Received: by 2002:a05:6638:14ca:b0:4b9:23bf:6fd5 with SMTP id
- 8926c6da1cb9f-4b96420b2c4mr11353173.6.1718321102775; Thu, 13 Jun 2024
- 16:25:02 -0700 (PDT)
-Date: Thu, 13 Jun 2024 16:25:02 -0700
-In-Reply-To: <4e155544-60df-42d2-89ea-924ebc9f7057@rowland.harvard.edu>
-X-Google-Appengine-App-Id: s~syzkaller
-X-Google-Appengine-App-Id-Alias: syzkaller
-Message-ID: <000000000000f0fa5e061acdce6a@google.com>
-Subject: Re: [syzbot] [bluetooth?] [usb?] BUG: soft lockup in hci_cmd_timeout
-From: syzbot <syzbot+1b2abad17596ad03dcff@syzkaller.appspotmail.com>
-To: johan.hedberg@gmail.com, linux-bluetooth@vger.kernel.org, 
-	linux-kernel@vger.kernel.org, linux-usb@vger.kernel.org, luiz.dentz@gmail.com, 
-	marcel@holtmann.org, stern@rowland.harvard.edu, 
-	syzkaller-bugs@googlegroups.com
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+Message-Id: <20240614-yoga-ec-driver-v7-1-9f0b9b40ae76@linaro.org>
+References: <20240614-yoga-ec-driver-v7-0-9f0b9b40ae76@linaro.org>
+In-Reply-To: <20240614-yoga-ec-driver-v7-0-9f0b9b40ae76@linaro.org>
+To: Sebastian Reichel <sre@kernel.org>, Rob Herring <robh@kernel.org>, 
+ Krzysztof Kozlowski <krzk+dt@kernel.org>, 
+ Conor Dooley <conor+dt@kernel.org>, Bjorn Andersson <andersson@kernel.org>, 
+ Hans de Goede <hdegoede@redhat.com>, 
+ =?utf-8?q?Ilpo_J=C3=A4rvinen?= <ilpo.jarvinen@linux.intel.com>, 
+ Bryan O'Donoghue <bryan.odonoghue@linaro.org>, 
+ Heikki Krogerus <heikki.krogerus@linux.intel.com>, 
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>, 
+ Konrad Dybcio <konrad.dybcio@linaro.org>
+Cc: linux-pm@vger.kernel.org, devicetree@vger.kernel.org, 
+ linux-kernel@vger.kernel.org, platform-driver-x86@vger.kernel.org, 
+ linux-usb@vger.kernel.org, linux-arm-msm@vger.kernel.org, 
+ Nikita Travkin <nikita@trvn.ru>, 
+ Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+X-Mailer: b4 0.13.0
+X-Developer-Signature: v=1; a=openpgp-sha256; l=2676;
+ i=dmitry.baryshkov@linaro.org; h=from:subject:message-id;
+ bh=C9Lg3cE1aC1zyYeo+0Q2DO6EQOTcK4wvIXQyDKOKakY=;
+ b=owGbwMvMwMXYbdNlx6SpcZXxtFoSQ1p2i0420+5arVd6Bh9/Lpy954vINjbmUwln425MNlZZy
+ rzcsP95J6MxCwMjF4OsmCKLT0HL1JhNyWEfdkythxnEygQyhYGLUwAmUj+Jg6Ghrj3c5+JCjXM6
+ OeuDvrO1Zl1ZKcsSKpKxar9XYFfUY7a6i6mCiqo+aTUXdG4bf7yQFc85a8L3sB/lWVynmsIf3Tt
+ ZOv1Jv2USx91uhxbzkLWnH62oKD3r9enySZavEnldwVPW1D6RVnins7GG/Y3j88PZP1jaX5SnLF
+ yeKyH8u+FU8mYBgYmOJQXc1jc55UzuWh5Z/CPFJmfezCe8yS774gS/T/R82JyqyC/fJfBd3+utz
+ Zd3r57Gyl6c+MIz7/yqY4J8cTtYtvaWCO+Ldc2a5JosWxzaG3+aN6zDltFR3aml74xV3noDLpWD
+ jBO3uyduYJv1doqXsF9zq+jh554b54uxNV9Nnz9jzs9NAA==
+X-Developer-Key: i=dmitry.baryshkov@linaro.org; a=openpgp;
+ fpr=8F88381DD5C873E4AE487DA5199BF1243632046A
 
-Hello,
+From: Bjorn Andersson <andersson@kernel.org>
 
-syzbot has tested the proposed patch and the reproducer did not trigger any issue:
+Add binding for the Embedded Controller found in the Qualcomm
+Snapdragon-based Lenovo Yoga C630.
 
-Reported-and-tested-by: syzbot+1b2abad17596ad03dcff@syzkaller.appspotmail.com
+Signed-off-by: Bjorn Andersson <andersson@kernel.org>
+Reviewed-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+Signed-off-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+---
+ .../bindings/platform/lenovo,yoga-c630-ec.yaml     | 83 ++++++++++++++++++++++
+ 1 file changed, 83 insertions(+)
 
-Tested on:
+diff --git a/Documentation/devicetree/bindings/platform/lenovo,yoga-c630-ec.yaml b/Documentation/devicetree/bindings/platform/lenovo,yoga-c630-ec.yaml
+new file mode 100644
+index 000000000000..3180ce1a22d4
+--- /dev/null
++++ b/Documentation/devicetree/bindings/platform/lenovo,yoga-c630-ec.yaml
+@@ -0,0 +1,83 @@
++# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
++%YAML 1.2
++---
++$id: http://devicetree.org/schemas/platform/lenovo,yoga-c630-ec.yaml#
++$schema: http://devicetree.org/meta-schemas/core.yaml#
++
++title: Lenovo Yoga C630 Embedded Controller.
++
++maintainers:
++  - Bjorn Andersson <andersson@kernel.org>
++
++description:
++  The Qualcomm Snapdragon-based Lenovo Yoga C630 has an Embedded Controller
++  (EC) which handles things such as battery and USB Type-C. This binding
++  describes the interface, on an I2C bus, to this EC.
++
++properties:
++  compatible:
++    const: lenovo,yoga-c630-ec
++
++  reg:
++    const: 0x70
++
++  '#address-cells':
++    const: 1
++
++  '#size-cells':
++    const: 0
++
++  interrupts:
++    maxItems: 1
++
++patternProperties:
++  '^connector@[01]$':
++    $ref: /schemas/connector/usb-connector.yaml#
++
++    properties:
++      reg:
++        maxItems: 1
++
++    unevaluatedProperties: false
++
++required:
++  - compatible
++  - reg
++  - interrupts
++
++additionalProperties: false
++
++examples:
++  - |+
++    #include <dt-bindings/interrupt-controller/irq.h>
++    i2c1 {
++        clock-frequency = <400000>;
++
++        #address-cells = <1>;
++        #size-cells = <0>;
++
++        embedded-controller@70 {
++            compatible = "lenovo,yoga-c630-ec";
++            reg = <0x70>;
++
++            interrupts-extended = <&tlmm 20 IRQ_TYPE_LEVEL_HIGH>;
++
++            #address-cells = <1>;
++            #size-cells = <0>;
++
++            connector@0 {
++                compatible = "usb-c-connector";
++                reg = <0>;
++                power-role = "source";
++                data-role = "host";
++            };
++
++            connector@1 {
++                compatible = "usb-c-connector";
++                reg = <1>;
++                power-role = "source";
++                data-role = "host";
++            };
++        };
++    };
++...
 
-commit:         8867bbd4 mm: arm64: Fix the out-of-bounds issue in con..
-git tree:       git://git.kernel.org/pub/scm/linux/kernel/git/arm64/linux.git
-console output: https://syzkaller.appspot.com/x/log.txt?x=1258bf6a980000
-kernel config:  https://syzkaller.appspot.com/x/.config?x=3b4350cf56c61c80
-dashboard link: https://syzkaller.appspot.com/bug?extid=1b2abad17596ad03dcff
-compiler:       Debian clang version 15.0.6, GNU ld (GNU Binutils for Debian) 2.40
-userspace arch: arm64
-patch:          https://syzkaller.appspot.com/x/patch.diff?x=137d960e980000
+-- 
+2.39.2
 
-Note: testing is done by a robot and is best-effort only.
