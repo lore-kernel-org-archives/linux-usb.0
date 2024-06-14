@@ -1,50 +1,49 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.14])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.15])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B4371192B8D
-	for <linux-usb@vger.kernel.org>; Fri, 14 Jun 2024 12:15:15 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.14
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A819319645D
+	for <linux-usb@vger.kernel.org>; Fri, 14 Jun 2024 12:15:17 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.15
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1718367318; cv=none; b=eGplULALr4D3AU8hJbC4rG60ZLDm5JhQ5Bbf33tLDqhe/V+1+AxvcKl8VNA3ET6He0LQbwAM/7r5u2+k1tKMRpZtQPOR3yH7yBHlAagGHmxsTkm16NymojhZi6zHLy0eH636flqIVFVnSfVX7XyvwDhOumIg7Af/XH6y5dBSzbE=
+	t=1718367319; cv=none; b=AYYfuvlqJMMiqDdqGcsBdw289r//TJ0HUDSpxehdA44u/CgzvCOi6NvzL78RKry49REXbHBtdVznNvCyo/RXrbZCQZUwOhHiOwpJqonfAyuVauqkGD7Q1KGk0Ijzhwga6dRM6i+duVp/IfIM+m4048JV/xXUEx3D2JPCKFcdCGM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1718367318; c=relaxed/simple;
-	bh=Vz2121hFWeiAZQbxA1mQvE73ahYRvughEi2muzf4l98=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=pHYZvRTGBYJAxRi/odxvGZ4PNUp2ih9+BLNS++bZupEwqzywDkL2pwImY6QdrswTz6ZvVUIdBFIph4cZCorvCyBQDeH1JPEYxM3QjurGq4bnRtZadIQsSAG2ZlEURKEn4LN8Wz5p503z5Ak8Rb9MK/FpkIkJsxtrDmxnGQT/Y/M=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=none smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=YtIm8YsL; arc=none smtp.client-ip=198.175.65.14
+	s=arc-20240116; t=1718367319; c=relaxed/simple;
+	bh=XiF/vloqKfo0Kyint1zueDJmGzvyOLwJqkW499Ggbpc=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=MOE84bDLTODCFwtmFx8WmYoWgCjIlaE2U2d3XGOMLB0lSp6GMbWZS9k7F1O4Gcsnqu+sAkDqgCX9Qs4O5+Otf2q91w4aPHlDTRXpfd2SZotoE9nGmuLlRxgcEkx4qtaVFngBHbhVeq0dM8IUi8YjZWehYkTJKwLNLlhnsmvdlUo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=none smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=LnoEXgWK; arc=none smtp.client-ip=192.198.163.15
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=linux.intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="YtIm8YsL"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="LnoEXgWK"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1718367316; x=1749903316;
-  h=from:to:cc:subject:date:message-id:in-reply-to:
-   references:mime-version:content-transfer-encoding;
-  bh=Vz2121hFWeiAZQbxA1mQvE73ahYRvughEi2muzf4l98=;
-  b=YtIm8YsLH49znWiuPmZylCg95OV+QVoh0S5KW9NogbG9CjDBAsQntDvE
-   WdfJeBvPsqeS671gxJgtlmH0lNFFscARdgjTAyi1sEJsH1UAlXa0amgOU
-   tMbG0TkAvi11fEhJecQ4bG0eXitEsubsVh1rM/iZP9PNODOwaAKTAEA0/
-   IVeOXQHHjIQuK3kO6nIsu/+Z6GhPrmKsss9kmn73wVrf/2DH0QMwdhhqr
-   DG+7I4NxQXPgKVqqMjSswyod8Q/TzEXDXX8DOUzrnAlPjrvZ+7Gwf9eRe
-   Iv4ebVZifpOBG559UAXBc8yCcGvf1smmILm9ECn3hWw1QKnNw/S5laCBg
-   A==;
-X-CSE-ConnectionGUID: XcRfl0X0RiiM1237VYt5iQ==
-X-CSE-MsgGUID: pr0mmpJrQgmWLCozLalblA==
-X-IronPort-AV: E=McAfee;i="6700,10204,11102"; a="19070910"
+  t=1718367317; x=1749903317;
+  h=from:to:cc:subject:date:message-id:mime-version:
+   content-transfer-encoding;
+  bh=XiF/vloqKfo0Kyint1zueDJmGzvyOLwJqkW499Ggbpc=;
+  b=LnoEXgWKOZmG6jA0EsLMGWk7jpVMOCSSBv0QfZIAdQU19jZflhWKsJNo
+   Iaro9/2IrIoYObln7KkeEKmn29BPbNehrpX1GL8x6/wO0hv6AJ795cm2L
+   2nGobwGutMoI5Y6ap2FV5IkOQU5TzO668HFZ+8fSScGOfGtXX+OSvE8hl
+   XgjU6WkpCCrSCgz8ZmreVJE+SAN1BnzoPdH5gDfXwDsZUlB0GG4j1nFvx
+   SbwvK+wwZG+nAR47d9036CUpVBjnfQ4K+6ma9IBNwu+dtdZgPwwYPxKzf
+   yQ69G5g9smwxn0zJBq+VgvxnMa53P7HwR2v2pkLJa/991hijtHlvvGSbT
+   w==;
+X-CSE-ConnectionGUID: l+JQc4/hSS6gLaecfWmcSA==
+X-CSE-MsgGUID: EKlkqY12QweuZTCYFNhdRg==
+X-IronPort-AV: E=McAfee;i="6700,10204,11102"; a="15409997"
 X-IronPort-AV: E=Sophos;i="6.08,237,1712646000"; 
-   d="scan'208";a="19070910"
-Received: from orviesa006.jf.intel.com ([10.64.159.146])
-  by orvoesa106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 14 Jun 2024 05:15:15 -0700
-X-CSE-ConnectionGUID: RcEUsw69RRys3ZyU2Lzp/w==
-X-CSE-MsgGUID: WFAzWT3QSMWfBRP4pUGCQQ==
+   d="scan'208";a="15409997"
+Received: from orviesa005.jf.intel.com ([10.64.159.145])
+  by fmvoesa109.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 14 Jun 2024 05:15:15 -0700
+X-CSE-ConnectionGUID: rhGH7UvlTIOlNQ0D+ISvkA==
+X-CSE-MsgGUID: 4JIFJY4jRIiIDroUSaGCvA==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.08,237,1712646000"; 
-   d="scan'208";a="40992151"
+   d="scan'208";a="45437709"
 Received: from black.fi.intel.com ([10.237.72.28])
-  by orviesa006.jf.intel.com with ESMTP; 14 Jun 2024 05:15:13 -0700
+  by orviesa005.jf.intel.com with ESMTP; 14 Jun 2024 05:15:13 -0700
 Received: by black.fi.intel.com (Postfix, from userid 1001)
-	id 685A7297; Fri, 14 Jun 2024 15:15:12 +0300 (EEST)
+	id 413A11C8; Fri, 14 Jun 2024 15:15:12 +0300 (EEST)
 From: Mika Westerberg <mika.westerberg@linux.intel.com>
 To: Yehezkel Bernat <YehezkelShB@gmail.com>,
 	Michael Jamet <michael.jamet@intel.com>,
@@ -53,12 +52,10 @@ To: Yehezkel Bernat <YehezkelShB@gmail.com>,
 Cc: linux-usb@vger.kernel.org,
 	Greg KH <gregkh@linuxfoundation.org>,
 	Mika Westerberg <mika.westerberg@linux.intel.com>
-Subject: [PATCH v2 3/6] thunderbolt: Add sideband register access to debugfs
-Date: Fri, 14 Jun 2024 15:15:09 +0300
-Message-ID: <20240614121512.1361184-4-mika.westerberg@linux.intel.com>
+Subject: [PATCH v2 0/6] thunderbolt: Sideband access and retimer lane margining support
+Date: Fri, 14 Jun 2024 15:15:06 +0300
+Message-ID: <20240614121512.1361184-1-mika.westerberg@linux.intel.com>
 X-Mailer: git-send-email 2.43.0
-In-Reply-To: <20240614121512.1361184-1-mika.westerberg@linux.intel.com>
-References: <20240614121512.1361184-1-mika.westerberg@linux.intel.com>
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
@@ -67,422 +64,29 @@ List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-This makes it possible to read and write USB4 port and retimer sideband
-registers through debugfs which is useful for debugging and manufacturing
-purposes. We add "sb_regs" debugfs attribute under each USB4 port and
-retimer that is used to access the sideband.
+Hi all,
 
-Signed-off-by: Mika Westerberg <mika.westerberg@linux.intel.com>
----
- drivers/thunderbolt/debugfs.c | 293 ++++++++++++++++++++++++++++++++++
- drivers/thunderbolt/retimer.c |   2 +
- drivers/thunderbolt/sb_regs.h |   8 +
- drivers/thunderbolt/tb.h      |   4 +
- 4 files changed, 307 insertions(+)
+This series adds USB4 link sideband access through debugfs. This can be
+used to run port operations etc. from userspace usable for example in
+manufacturing. The other feature is receiver lane margining support for
+retimers with similar use case.
 
-diff --git a/drivers/thunderbolt/debugfs.c b/drivers/thunderbolt/debugfs.c
-index 70b52aac3d97..5196ece2ded7 100644
---- a/drivers/thunderbolt/debugfs.c
-+++ b/drivers/thunderbolt/debugfs.c
-@@ -33,6 +33,44 @@
- 
- #define COUNTER_SET_LEN		3
- 
-+/* Sideband registers and their sizes as defined in the USB4 spec */
-+struct sb_reg {
-+	unsigned int reg;
-+	unsigned int size;
-+};
-+
-+#define SB_MAX_SIZE		64
-+
-+/* Sideband registers for router */
-+static const struct sb_reg port_sb_regs[] = {
-+	{ USB4_SB_VENDOR_ID, 4 },
-+	{ USB4_SB_PRODUCT_ID, 4 },
-+	{ USB4_SB_DEBUG_CONF, 4 },
-+	{ USB4_SB_DEBUG, 54 },
-+	{ USB4_SB_LRD_TUNING, 4 },
-+	{ USB4_SB_OPCODE, 4 },
-+	{ USB4_SB_METADATA, 4 },
-+	{ USB4_SB_LINK_CONF, 3 },
-+	{ USB4_SB_GEN23_TXFFE, 4 },
-+	{ USB4_SB_GEN4_TXFFE, 4 },
-+	{ USB4_SB_VERSION, 4 },
-+	{ USB4_SB_DATA, 64 },
-+};
-+
-+/* Sideband registers for retimer */
-+static const struct sb_reg retimer_sb_regs[] = {
-+	{ USB4_SB_VENDOR_ID, 4 },
-+	{ USB4_SB_PRODUCT_ID, 4 },
-+	{ USB4_SB_FW_VERSION, 4 },
-+	{ USB4_SB_LRD_TUNING, 4 },
-+	{ USB4_SB_OPCODE, 4 },
-+	{ USB4_SB_METADATA, 4 },
-+	{ USB4_SB_GEN23_TXFFE, 4 },
-+	{ USB4_SB_GEN4_TXFFE, 4 },
-+	{ USB4_SB_VERSION, 4 },
-+	{ USB4_SB_DATA, 64 },
-+};
-+
- #define DEBUGFS_ATTR(__space, __write)					\
- static int __space ## _open(struct inode *inode, struct file *file)	\
- {									\
-@@ -184,10 +222,157 @@ static ssize_t switch_regs_write(struct file *file, const char __user *user_buf,
- 
- 	return regs_write(sw, NULL, user_buf, count, ppos);
- }
-+
-+static bool parse_sb_line(char **line, u8 *reg, u8 *data, size_t data_size,
-+			  size_t *bytes_read)
-+{
-+	char *field, *token;
-+	int i;
-+
-+	token = strsep(line, "\n");
-+	if (!token)
-+		return false;
-+
-+	/* Parse the register first */
-+	field = strsep(&token, " ");
-+	if (!field)
-+		return false;
-+	if (kstrtou8(field, 0, reg))
-+		return false;
-+
-+	/* Then the values for the register, up to data_size */
-+	for (i = 0; i < data_size; i++) {
-+		field = strsep(&token, " ");
-+		if (!field)
-+			break;
-+		if (kstrtou8(field, 0, &data[i]))
-+			return false;
-+	}
-+
-+	*bytes_read = i;
-+	return true;
-+}
-+
-+static ssize_t sb_regs_write(struct tb_port *port, const struct sb_reg *sb_regs,
-+			     size_t size, enum usb4_sb_target target, u8 index,
-+			     char *buf, size_t count, loff_t *ppos)
-+{
-+	u8 reg, data[SB_MAX_SIZE];
-+	size_t bytes_read;
-+	char *line = buf;
-+
-+	/* User did hardware changes behind the driver's back */
-+	add_taint(TAINT_USER, LOCKDEP_STILL_OK);
-+
-+	/*
-+	 * For sideband registers we accept:
-+	 * reg b0 b1 b2...\n
-+	 *
-+	 * Here "reg" is the byte offset of the sideband register and "b0"..
-+	 * are the byte values. There can be less byte values than the register
-+	 * size. The leftovers will not be overwritten.
-+	 */
-+	while (parse_sb_line(&line, &reg, data, ARRAY_SIZE(data), &bytes_read)) {
-+		const struct sb_reg *sb_reg;
-+		int ret;
-+
-+		/* At least one byte must be passed */
-+		if (bytes_read < 1)
-+			return -EINVAL;
-+
-+		/* Find the register */
-+		sb_reg = NULL;
-+		for (int i = 0; i < size; i++) {
-+			if (sb_regs[i].reg == reg) {
-+				sb_reg = &sb_regs[i];
-+				break;
-+			}
-+		}
-+
-+		if (!sb_reg)
-+			return -EINVAL;
-+
-+		if (bytes_read > sb_regs->size)
-+			return -E2BIG;
-+
-+		ret = usb4_port_sb_write(port, target, index, sb_reg->reg, data,
-+					 bytes_read);
-+		if (ret)
-+			return ret;
-+	}
-+
-+	return 0;
-+}
-+
-+static ssize_t port_sb_regs_write(struct file *file, const char __user *user_buf,
-+				  size_t count, loff_t *ppos)
-+{
-+	struct seq_file *s = file->private_data;
-+	struct tb_port *port = s->private;
-+	struct tb_switch *sw = port->sw;
-+	struct tb *tb = sw->tb;
-+	char *buf;
-+	int ret;
-+
-+	buf = validate_and_copy_from_user(user_buf, &count);
-+	if (IS_ERR(buf))
-+		return PTR_ERR(buf);
-+
-+	pm_runtime_get_sync(&sw->dev);
-+
-+	if (mutex_lock_interruptible(&tb->lock)) {
-+		ret = -ERESTARTSYS;
-+		goto out_rpm_put;
-+	}
-+
-+	ret = sb_regs_write(port, port_sb_regs, ARRAY_SIZE(port_sb_regs),
-+			    USB4_SB_TARGET_ROUTER, 0, buf, count, ppos);
-+
-+	mutex_unlock(&tb->lock);
-+out_rpm_put:
-+	pm_runtime_mark_last_busy(&sw->dev);
-+	pm_runtime_put_autosuspend(&sw->dev);
-+
-+	return ret < 0 ? ret : count;
-+}
-+
-+static ssize_t retimer_sb_regs_write(struct file *file,
-+				     const char __user *user_buf,
-+				     size_t count, loff_t *ppos)
-+{
-+	struct seq_file *s = file->private_data;
-+	struct tb_retimer *rt = s->private;
-+	struct tb *tb = rt->tb;
-+	char *buf;
-+	int ret;
-+
-+	buf = validate_and_copy_from_user(user_buf, &count);
-+	if (IS_ERR(buf))
-+		return PTR_ERR(buf);
-+
-+	pm_runtime_get_sync(&rt->dev);
-+
-+	if (mutex_lock_interruptible(&tb->lock)) {
-+		ret = -ERESTARTSYS;
-+		goto out_rpm_put;
-+	}
-+
-+	ret = sb_regs_write(rt->port, retimer_sb_regs, ARRAY_SIZE(retimer_sb_regs),
-+			    USB4_SB_TARGET_RETIMER, rt->index, buf, count, ppos);
-+
-+	mutex_unlock(&tb->lock);
-+out_rpm_put:
-+	pm_runtime_mark_last_busy(&rt->dev);
-+	pm_runtime_put_autosuspend(&rt->dev);
-+
-+	return ret < 0 ? ret : count;
-+}
- #define DEBUGFS_MODE		0600
- #else
- #define port_regs_write		NULL
- #define switch_regs_write	NULL
-+#define port_sb_regs_write	NULL
-+#define retimer_sb_regs_write	NULL
- #define DEBUGFS_MODE		0400
- #endif
- 
-@@ -1505,6 +1690,60 @@ static int counters_show(struct seq_file *s, void *not_used)
- }
- DEBUGFS_ATTR_RW(counters);
- 
-+static int sb_regs_show(struct tb_port *port, const struct sb_reg *sb_regs,
-+			size_t size, enum usb4_sb_target target, u8 index,
-+			struct seq_file *s)
-+{
-+	int ret, i;
-+
-+	seq_puts(s, "# register value\n");
-+
-+	for (i = 0; i < size; i++) {
-+		const struct sb_reg *regs = &sb_regs[i];
-+		u8 data[64];
-+		int j;
-+
-+		memset(data, 0, sizeof(data));
-+		ret = usb4_port_sb_read(port, target, index, regs->reg, data,
-+					regs->size);
-+		if (ret)
-+			return ret;
-+
-+		seq_printf(s, "0x%02x", regs->reg);
-+		for (j = 0; j < regs->size; j++)
-+			seq_printf(s, " 0x%02x", data[j]);
-+		seq_puts(s, "\n");
-+	}
-+
-+	return 0;
-+}
-+
-+static int port_sb_regs_show(struct seq_file *s, void *not_used)
-+{
-+	struct tb_port *port = s->private;
-+	struct tb_switch *sw = port->sw;
-+	struct tb *tb = sw->tb;
-+	int ret;
-+
-+	pm_runtime_get_sync(&sw->dev);
-+
-+	if (mutex_lock_interruptible(&tb->lock)) {
-+		ret = -ERESTARTSYS;
-+		goto out_rpm_put;
-+	}
-+
-+	ret = sb_regs_show(port, port_sb_regs, ARRAY_SIZE(port_sb_regs),
-+			   USB4_SB_TARGET_ROUTER, 0, s);
-+
-+	mutex_unlock(&tb->lock);
-+out_rpm_put:
-+	pm_runtime_mark_last_busy(&sw->dev);
-+	pm_runtime_put_autosuspend(&sw->dev);
-+
-+	return ret;
-+}
-+DEBUGFS_ATTR_RW(port_sb_regs);
-+
- /**
-  * tb_switch_debugfs_init() - Add debugfs entries for router
-  * @sw: Pointer to the router
-@@ -1539,6 +1778,9 @@ void tb_switch_debugfs_init(struct tb_switch *sw)
- 		if (port->config.counters_support)
- 			debugfs_create_file("counters", 0600, debugfs_dir, port,
- 					    &counters_fops);
-+		if (port->usb4)
-+			debugfs_create_file("sb_regs", DEBUGFS_MODE, debugfs_dir,
-+					    port, &port_sb_regs_fops);
- 	}
- 
- 	margining_switch_init(sw);
-@@ -1590,6 +1832,57 @@ void tb_service_debugfs_remove(struct tb_service *svc)
- 	svc->debugfs_dir = NULL;
- }
- 
-+static int retimer_sb_regs_show(struct seq_file *s, void *not_used)
-+{
-+	struct tb_retimer *rt = s->private;
-+	struct tb *tb = rt->tb;
-+	int ret;
-+
-+	pm_runtime_get_sync(&rt->dev);
-+
-+	if (mutex_lock_interruptible(&tb->lock)) {
-+		ret = -ERESTARTSYS;
-+		goto out_rpm_put;
-+	}
-+
-+	ret = sb_regs_show(rt->port, retimer_sb_regs, ARRAY_SIZE(retimer_sb_regs),
-+			   USB4_SB_TARGET_RETIMER, rt->index, s);
-+
-+	mutex_unlock(&tb->lock);
-+out_rpm_put:
-+	pm_runtime_mark_last_busy(&rt->dev);
-+	pm_runtime_put_autosuspend(&rt->dev);
-+
-+	return ret;
-+}
-+DEBUGFS_ATTR_RW(retimer_sb_regs);
-+
-+/**
-+ * tb_retimer_debugfs_init() - Add debugfs directory for retimer
-+ * @rt: Pointer to retimer structure
-+ *
-+ * Adds and populates retimer debugfs directory.
-+ */
-+void tb_retimer_debugfs_init(struct tb_retimer *rt)
-+{
-+	struct dentry *debugfs_dir;
-+
-+	debugfs_dir = debugfs_create_dir(dev_name(&rt->dev), tb_debugfs_root);
-+	debugfs_create_file("sb_regs", DEBUGFS_MODE, debugfs_dir, rt,
-+			    &retimer_sb_regs_fops);
-+}
-+
-+/**
-+ * tb_retimer_debugfs_remove() - Remove retimer debugfs directory
-+ * @rt: Pointer to retimer structure
-+ *
-+ * Removes the retimer debugfs directory along with its contents.
-+ */
-+void tb_retimer_debugfs_remove(struct tb_retimer *rt)
-+{
-+	debugfs_lookup_and_remove(dev_name(&rt->dev), tb_debugfs_root);
-+}
-+
- void tb_debugfs_init(void)
- {
- 	tb_debugfs_root = debugfs_create_dir("thunderbolt", NULL);
-diff --git a/drivers/thunderbolt/retimer.c b/drivers/thunderbolt/retimer.c
-index 9b66bff98f7e..8ce1dc7bbfad 100644
---- a/drivers/thunderbolt/retimer.c
-+++ b/drivers/thunderbolt/retimer.c
-@@ -437,12 +437,14 @@ static int tb_retimer_add(struct tb_port *port, u8 index, u32 auth_status)
- 	pm_runtime_mark_last_busy(&rt->dev);
- 	pm_runtime_use_autosuspend(&rt->dev);
- 
-+	tb_retimer_debugfs_init(rt);
- 	return 0;
- }
- 
- static void tb_retimer_remove(struct tb_retimer *rt)
- {
- 	dev_info(&rt->dev, "retimer disconnected\n");
-+	tb_retimer_debugfs_remove(rt);
- 	tb_nvm_free(rt->nvm);
- 	device_unregister(&rt->dev);
- }
-diff --git a/drivers/thunderbolt/sb_regs.h b/drivers/thunderbolt/sb_regs.h
-index f37a4320f10a..b2a6add82161 100644
---- a/drivers/thunderbolt/sb_regs.h
-+++ b/drivers/thunderbolt/sb_regs.h
-@@ -12,6 +12,10 @@
- 
- #define USB4_SB_VENDOR_ID			0x00
- #define USB4_SB_PRODUCT_ID			0x01
-+#define USB4_SB_FW_VERSION			0x02
-+#define USB4_SB_DEBUG_CONF			0x05
-+#define USB4_SB_DEBUG				0x06
-+#define USB4_SB_LRD_TUNING			0x07
- #define USB4_SB_OPCODE				0x08
- 
- enum usb4_sb_opcode {
-@@ -35,6 +39,10 @@ enum usb4_sb_opcode {
- 
- #define USB4_SB_METADATA			0x09
- #define USB4_SB_METADATA_NVM_AUTH_WRITE_MASK	GENMASK(5, 0)
-+#define USB4_SB_LINK_CONF			0x0c
-+#define USB4_SB_GEN23_TXFFE			0x0d
-+#define USB4_SB_GEN4_TXFFE			0x0e
-+#define USB4_SB_VERSION				0x0f
- #define USB4_SB_DATA				0x12
- 
- /* USB4_SB_OPCODE_READ_LANE_MARGINING_CAP */
-diff --git a/drivers/thunderbolt/tb.h b/drivers/thunderbolt/tb.h
-index ab3366fcb0a3..1a53d18223d9 100644
---- a/drivers/thunderbolt/tb.h
-+++ b/drivers/thunderbolt/tb.h
-@@ -1458,6 +1458,8 @@ void tb_xdomain_debugfs_init(struct tb_xdomain *xd);
- void tb_xdomain_debugfs_remove(struct tb_xdomain *xd);
- void tb_service_debugfs_init(struct tb_service *svc);
- void tb_service_debugfs_remove(struct tb_service *svc);
-+void tb_retimer_debugfs_init(struct tb_retimer *rt);
-+void tb_retimer_debugfs_remove(struct tb_retimer *rt);
- #else
- static inline void tb_debugfs_init(void) { }
- static inline void tb_debugfs_exit(void) { }
-@@ -1467,6 +1469,8 @@ static inline void tb_xdomain_debugfs_init(struct tb_xdomain *xd) { }
- static inline void tb_xdomain_debugfs_remove(struct tb_xdomain *xd) { }
- static inline void tb_service_debugfs_init(struct tb_service *svc) { }
- static inline void tb_service_debugfs_remove(struct tb_service *svc) { }
-+static inline void tb_retimer_debugfs_init(struct tb_retimer *rt) { }
-+static inline void tb_retimer_debugfs_remove(struct tb_retimer *rt) { }
- #endif
- 
- #endif
+Mika Westerberg (6):
+  thunderbolt: Move usb4_port_margining_caps() declaration into correct place
+  thunderbolt: Make usb4_port_sb_read/write() available outside of usb4.c
+  thunderbolt: Add sideband register access to debugfs
+  thunderbolt: Split out margining from USB4 port
+  thunderbolt: Make margining functions accept target and retimer index
+  thunderbolt: Add receiver lane margining support for retimers
+
+ drivers/thunderbolt/Kconfig   |  11 +-
+ drivers/thunderbolt/debugfs.c | 623 ++++++++++++++++++++++++++--------
+ drivers/thunderbolt/retimer.c |  53 +--
+ drivers/thunderbolt/sb_regs.h |   9 +
+ drivers/thunderbolt/tb.h      |  45 ++-
+ drivers/thunderbolt/usb4.c    | 183 +++++-----
+ 6 files changed, 655 insertions(+), 269 deletions(-)
+
 -- 
 2.43.0
 
