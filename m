@@ -1,117 +1,125 @@
-Received: from mail-lf1-f47.google.com (mail-lf1-f47.google.com [209.85.167.47])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B94C01922DF
-	for <linux-usb@vger.kernel.org>; Fri, 14 Jun 2024 10:24:52 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.47
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0827E192B98;
+	Fri, 14 Jun 2024 12:11:56 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1718360695; cv=none; b=sNobIQ9R5qtmKUvgzBcN2s+3YlMLgQ3WB4DY9iEaQau1WgwR5eLCsLqgqrX5RqH5KYl1rh5M9ypT6xDMt2P6hdBYpTw1+AWW8cnRdNrX7LZ6cRQy6ibFC2caGGh76KWnevl6Yz9RIQjlLvJZm5on9gQrMJAvic+xhTMfPTg1drU=
+	t=1718367117; cv=none; b=tXVD/7zdXPt1qreZyZV+yfTVSroF0ZDzqv6cMVUPN1WLErRUMvMRYD5C+R6Q31BAf+69zaM1dd8+UdLuxJM1BumAErbQBuBtiZLEBYB1n/zw+R6Iz8CW3WAMIjliafSCpKYkrL5YPvCbl6R/bRMOxphmkpLqqvxbY+f3wznlCtU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1718360695; c=relaxed/simple;
-	bh=ZuwSgi9zLIoNZp877URK5FteNaoBqxpCKd2FeYdrG38=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=qFfuDeE6JDJazSWw7E5uTABDXxkKJQiPscMmsEDPKJL3h3NDreeAU0acaVvGzZBpgH1yqYrHg5u8ofWVkwNKhaKHB4O0NBjtUOpNNVczz8UmfoEAM4QWXy7JeUkSGNQ36KKCDR32tuCGMRo5WxtZgkX/FJmBXTXj2BgfrxAWPsY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=ZVZqrN1b; arc=none smtp.client-ip=209.85.167.47
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
+	s=arc-20240116; t=1718367117; c=relaxed/simple;
+	bh=aWCY1aJm0OUGDkP3er9YqI5eYDuhfcLrTmx6H7rZDmk=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version; b=YFzPycnDCUTQSjgd/HF9/hyliC1k+8dUo77q/4Q8IyZ1ncQr1Y6kwxtHTvA4MpNav2VztEHV6s3JCHHDrtvlj0Afb0mve3dRejXFm3ybpIDY7DEuwAlgcafnxhO+014I9OaI9rGcUI1a7CkdwwWaLiK6SWi4TGqIEeThFooZKbo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b=segs75tm; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="ZVZqrN1b"
-Received: by mail-lf1-f47.google.com with SMTP id 2adb3069b0e04-52c8c0d73d3so2224114e87.1
-        for <linux-usb@vger.kernel.org>; Fri, 14 Jun 2024 03:24:52 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1718360691; x=1718965491; darn=vger.kernel.org;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=efnhjpqQgsmtdaUVLcqkEj44nSpt4V5RfvjPWerlFZk=;
-        b=ZVZqrN1bcVkscnqRfkObQYXi2bS6sEMRFe0GFJamipcs+6ukeqxE86Hgc/RVZfOKa/
-         ZCv4KAN3DAJwAH+Zigx4dimz5aDoBUIhFlkzXZWcZ1zCypnt10DmANYns33SxLm4omOg
-         eiCEMrgV1MHxZvbMcZ9li2buyyvPzmR+4NYXV0z+UVGCFK7hvImpwiSj0SCboHZ5wpTo
-         idF2fQyVdX4wiliiqvet9M+WVQX204+OcpE4EZW/hYEPnoUpwAd2wnJ5yNCjhVK5t8nj
-         V+x9FxyJDLpCvhEQ/iRZmKTYpU4S4ralN62CFSp6uZHs9olw4kfJvGfuZ098ZVF4D0ac
-         zm/g==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1718360691; x=1718965491;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=efnhjpqQgsmtdaUVLcqkEj44nSpt4V5RfvjPWerlFZk=;
-        b=Yh3MmmiZknZeobsKiff11DbSN60mmjoN6EHQ01UDkDOV5XkUVUC7FF5CxNK5/N2+MP
-         a7WEnuGUGETOuRAgYSRLCg1LjevGaDY3SnmxYKmf6UFk6unMBdXNCCKUg3IzxXxdrUgq
-         w5E++x0EBgSn9Gs5sS2hwRaXwa27b3m/lZcSxgGmFkP+/zaNcM+mQDOnsOipEDVnW+mw
-         gp/mcaOpbVpBNQUN5/EnjaGL8J6J/A45dGDAVTyX9A5ygkLTlhWyyuALyhyqRkjH5AL0
-         sWEsCPp120mk6OH/TiLYQq28heWKmtt/5083VXU41rsUp3IKuzwzq11pFdC6raxVqjMA
-         5unQ==
-X-Forwarded-Encrypted: i=1; AJvYcCUtGDTdzWSL8JbFIDcRlAJthisLz3xK5HuLayCnhN+ehc012Vy3wlVt3soRH31p8b1lrEXAIIrKZkKbBXGLBdc3uYhxirh4wpNl
-X-Gm-Message-State: AOJu0YwIuNs6oyPOJTGWtKOPt6ld07jT3R2KC6LR3Ss3xbKKuD1x686i
-	4BzR57pVeR+ZBDmy3H0YNI75X0Fo5LixuW01QVd/MpZg4CXH9Z0n0PZtBmYfh0U=
-X-Google-Smtp-Source: AGHT+IEWORdeTtr6fZukAQJ2f/JpYbjWtk3eAvDeBEJR863+Icr9nb85v00/m9s9du9B/uAO5LpWzA==
-X-Received: by 2002:a19:914d:0:b0:52c:8a4e:f4bf with SMTP id 2adb3069b0e04-52ca6e90db1mr1229088e87.51.1718360690961;
-        Fri, 14 Jun 2024 03:24:50 -0700 (PDT)
-Received: from eriador.lumag.spb.ru (dzdbxzyyyyyyyyyyybrhy-3.rev.dnainternet.fi. [2001:14ba:a0c3:3a00::b8c])
-        by smtp.gmail.com with ESMTPSA id 2adb3069b0e04-52ca886e23asm168540e87.270.2024.06.14.03.24.50
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 14 Jun 2024 03:24:50 -0700 (PDT)
-Date: Fri, 14 Jun 2024 13:24:49 +0300
-From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-To: Sebastian Reichel <sebastian.reichel@collabora.com>
-Cc: Rob Herring <robh@kernel.org>, 
-	Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, 
-	Bjorn Andersson <andersson@kernel.org>, Hans de Goede <hdegoede@redhat.com>, 
-	Ilpo =?utf-8?B?SsOkcnZpbmVu?= <ilpo.jarvinen@linux.intel.com>, Bryan O'Donoghue <bryan.odonoghue@linaro.org>, 
-	Heikki Krogerus <heikki.krogerus@linux.intel.com>, Greg Kroah-Hartman <gregkh@linuxfoundation.org>, 
-	Konrad Dybcio <konrad.dybcio@linaro.org>, linux-pm@vger.kernel.org, devicetree@vger.kernel.org, 
-	linux-kernel@vger.kernel.org, platform-driver-x86@vger.kernel.org, linux-usb@vger.kernel.org, 
-	linux-arm-msm@vger.kernel.org, Nikita Travkin <nikita@trvn.ru>
-Subject: Re: [PATCH v6 4/6] power: supply: lenovo_yoga_c630_battery: add
- Lenovo C630 driver
-Message-ID: <s5ykyyczxrn7pblzbiu7st6barn47zrtjr6yn5shbeo7lwqkfk@hdctgjwpqu55>
-References: <20240612-yoga-ec-driver-v6-0-8e76ba060439@linaro.org>
- <20240612-yoga-ec-driver-v6-4-8e76ba060439@linaro.org>
- <r5wjdxqdechzxbyqwbyz7ou6nbxqewb6bruvklvcek2dhspixf@ujavcd3ky7n7>
+	dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="segs75tm"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 4821EC2BD10;
+	Fri, 14 Jun 2024 12:11:56 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
+	s=korg; t=1718367116;
+	bh=aWCY1aJm0OUGDkP3er9YqI5eYDuhfcLrTmx6H7rZDmk=;
+	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
+	b=segs75tmF9EF+LZW2AFx0a9S+eT01AUO3Z+ErLo2XbWAag8FvWZEeN4a5FpyzHbMH
+	 BXfYDQ8l1jntuMlg4X+23878dMlpDuh9ApmU0llX/NUvLefKCAkvHMBzsR+kcLij4E
+	 5yDRqEqJpI3pi+EE4nYHldNHHh7RNJ3dTnOczpzk=
+From: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+To: linux-usb@vger.kernel.org
+Cc: linux-kernel@vger.kernel.org,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	Johan Hovold <johan@kernel.org>,
+	Alan Stern <stern@rowland.harvard.edu>,
+	Grant Grundler <grundler@chromium.org>,
+	Yajun Deng <yajun.deng@linux.dev>,
+	Oliver Neukum <oneukum@suse.com>,
+	Douglas Anderson <dianders@chromium.org>
+Subject: [PATCH 2/4] USB: make to_usb_device_driver() use container_of_const()
+Date: Fri, 14 Jun 2024 14:11:50 +0200
+Message-ID: <2024061451-deviator-scabbed-2131@gregkh>
+X-Mailer: git-send-email 2.45.2
+In-Reply-To: <2024061448-manly-universal-00ad@gregkh>
+References: <2024061448-manly-universal-00ad@gregkh>
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <r5wjdxqdechzxbyqwbyz7ou6nbxqewb6bruvklvcek2dhspixf@ujavcd3ky7n7>
+X-Developer-Signature: v=1; a=openpgp-sha256; l=3081; i=gregkh@linuxfoundation.org; h=from:subject:message-id; bh=aWCY1aJm0OUGDkP3er9YqI5eYDuhfcLrTmx6H7rZDmk=; b=owGbwMvMwCRo6H6F97bub03G02pJDGk5xu13V/+JfWdVM39B6YH57j5+pevlzsj+//N+Xdb1G Wd9PxWs64hlYRBkYpAVU2T5so3n6P6KQ4pehranYeawMoEMYeDiFICJVPxhmKco9/hL0CXH80f5 +UMFxJbd/jp1x1uGOZzfiiZ9m8W+mn9Sx3PGJrtdxo8ufwAA
+X-Developer-Key: i=gregkh@linuxfoundation.org; a=openpgp; fpr=F4B60CC5BF78C2214A313DCB3147D40DDB2DFB29
+Content-Transfer-Encoding: 8bit
 
-On Fri, Jun 14, 2024 at 03:35:25AM GMT, Sebastian Reichel wrote:
-> Hi,
-> 
-> On Wed, Jun 12, 2024 at 12:59:35PM GMT, Dmitry Baryshkov wrote:
-> > On the Lenovo Yoga C630 WOS laptop the EC provides access to the adapter
-> > and battery status. Add the driver to read power supply status on the
-> > laptop.
-> > 
-> > Signed-off-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-> > ---
-> >  drivers/power/supply/Kconfig                    |   9 +
-> >  drivers/power/supply/Makefile                   |   1 +
-> >  drivers/power/supply/lenovo_yoga_c630_battery.c | 500 ++++++++++++++++++++++++
-> >  3 files changed, 510 insertions(+)
-> > 
-> > diff --git a/drivers/power/supply/Kconfig b/drivers/power/supply/Kconfig
-> > index 3e31375491d5..55ab8e90747d 100644
-> > --- a/drivers/power/supply/Kconfig
-> > +++ b/drivers/power/supply/Kconfig
-> > @@ -167,6 +167,15 @@ config BATTERY_LEGO_EV3
-> >  	help
-> >  	  Say Y here to enable support for the LEGO MINDSTORMS EV3 battery.
-> >  
-> > +config BATTERY_LENOVO_YOGA_C630
-> > +	tristate "Lenovo Yoga C630 battery"
-> > +	depends on OF && EC_LENOVO_YOGA_C630
-> 
-> The driver should no longer depend on OF. Otherwise LGTM.
-> Thanks for reworking it.
+Turns out that we have some const pointers being passed to
+to_usb_device_driver() but were not catching this.  Change the macro to
+properly propagate the const-ness of the pointer so that we will notice
+when we try to write to memory that we shouldn't be writing to.
 
-Ack, I'll post a fixed version once Ilpo announces an immutable branch.
+This requires fixing up the usb_driver_applicable() function as well,
+because it can handle a const * to struct usb_driver.
 
+Cc: Johan Hovold <johan@kernel.org>
+Cc: Alan Stern <stern@rowland.harvard.edu>
+Cc: Grant Grundler <grundler@chromium.org>
+Cc: Yajun Deng <yajun.deng@linux.dev>
+Cc: Oliver Neukum <oneukum@suse.com>
+Cc: Douglas Anderson <dianders@chromium.org>
+Cc: linux-usb@vger.kernel.org
+Signed-off-by: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+---
+ drivers/usb/core/driver.c | 4 ++--
+ drivers/usb/core/usb.h    | 2 +-
+ include/linux/usb.h       | 3 +--
+ 3 files changed, 4 insertions(+), 5 deletions(-)
 
-
+diff --git a/drivers/usb/core/driver.c b/drivers/usb/core/driver.c
+index c985a272e552..d0fb2f315d65 100644
+--- a/drivers/usb/core/driver.c
++++ b/drivers/usb/core/driver.c
+@@ -840,7 +840,7 @@ const struct usb_device_id *usb_device_match_id(struct usb_device *udev,
+ EXPORT_SYMBOL_GPL(usb_device_match_id);
+ 
+ bool usb_driver_applicable(struct usb_device *udev,
+-			   struct usb_device_driver *udrv)
++			   const struct usb_device_driver *udrv)
+ {
+ 	if (udrv->id_table && udrv->match)
+ 		return usb_device_match_id(udev, udrv->id_table) != NULL &&
+@@ -860,7 +860,7 @@ static int usb_device_match(struct device *dev, const struct device_driver *drv)
+ 	/* devices and interfaces are handled separately */
+ 	if (is_usb_device(dev)) {
+ 		struct usb_device *udev;
+-		struct usb_device_driver *udrv;
++		const struct usb_device_driver *udrv;
+ 
+ 		/* interface drivers never match devices */
+ 		if (!is_usb_device_driver(drv))
+diff --git a/drivers/usb/core/usb.h b/drivers/usb/core/usb.h
+index b8324ea05b20..a9b37aeb515b 100644
+--- a/drivers/usb/core/usb.h
++++ b/drivers/usb/core/usb.h
+@@ -75,7 +75,7 @@ extern int usb_match_device(struct usb_device *dev,
+ extern const struct usb_device_id *usb_device_match_id(struct usb_device *udev,
+ 				const struct usb_device_id *id);
+ extern bool usb_driver_applicable(struct usb_device *udev,
+-				  struct usb_device_driver *udrv);
++				  const struct usb_device_driver *udrv);
+ extern void usb_forced_unbind_intf(struct usb_interface *intf);
+ extern void usb_unbind_and_rebind_marked_interfaces(struct usb_device *udev);
+ 
+diff --git a/include/linux/usb.h b/include/linux/usb.h
+index 4390426973f4..5c619e8240fe 100644
+--- a/include/linux/usb.h
++++ b/include/linux/usb.h
+@@ -1283,8 +1283,7 @@ struct usb_device_driver {
+ 	unsigned int supports_autosuspend:1;
+ 	unsigned int generic_subclass:1;
+ };
+-#define	to_usb_device_driver(d) container_of(d, struct usb_device_driver, \
+-		driver)
++#define	to_usb_device_driver(d) container_of_const(d, struct usb_device_driver, driver)
+ 
+ /**
+  * struct usb_class_driver - identifies a USB driver that wants to use the USB major number
 -- 
-With best wishes
-Dmitry
+2.45.2
+
