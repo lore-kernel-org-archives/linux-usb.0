@@ -1,121 +1,173 @@
-Received: from mail-wr1-f46.google.com (mail-wr1-f46.google.com [209.85.221.46])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from madrid.collaboradmins.com (madrid.collaboradmins.com [46.235.227.194])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1D8E3194A43
-	for <linux-usb@vger.kernel.org>; Mon, 17 Jun 2024 13:30:11 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.46
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 084E9155C85
+	for <linux-usb@vger.kernel.org>; Mon, 17 Jun 2024 14:28:55 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=46.235.227.194
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1718631013; cv=none; b=BF8FJpW/Dy7Lar6zauxLomdzgSmW2ILR2xorAmVPJJVpiH1B8HBrS2fQjmUn7pRCL19w5gTpIaNAIw+IJaWxdD/Y/o0bDnn1EUhpuQu5ZC6NP6Fa1BEo/Yv9V4JkF2WFCrngYkICvdcjMLTPzc7F8dKvBNLu6umrUMfYE0dwvt0=
+	t=1718634537; cv=none; b=lpKGOEn5CXRXfo3tYcYZpUWCYq6EiDnthxJRikwiyV1koAUH0qnZZBVHoSFtXu+rIDWBORt5DTwecuqObYWxS18uzyom0LnR9KOKGC2Yt7w9H6pKqR1SFfbhuBB6qD9Figi404WcysndKRaCUVZ++PNqlc+Na3YdSP4ptFAskAE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1718631013; c=relaxed/simple;
-	bh=mSADwJ94zBloYHJDm5C7zD/b04tsB1y+mhicFNXi0TY=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=LNn5pxOQq9ystV4yfBtGoU16tD0j+ucePQESaHZKtAMSy316o6ehkKDzuuvjyg7M9q/9jkTXmYMcwQin6VhQnpYc8Ev+MVVhmYVhhj+2WibSgnzH0nKAMFLuEjXodD6pw8XDLakp/oUnexBWIeNPswblGVAqZjTMenqB6X0B2rA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=uoVhawU9; arc=none smtp.client-ip=209.85.221.46
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
+	s=arc-20240116; t=1718634537; c=relaxed/simple;
+	bh=IvAzEYSqjp955nxuHYqD3GwR+NTLpNNY0SVZEjurZrM=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=plJG/yf9Dyc+AhOlS5/ltyApXRJb4mqK+yFoeUC3pixjFMrJ/LtSjKh3TvZE+tOyMonyLAXmjk8+IFR1INt+wvigudQcQSJLw8Pq/h0GYO+8wzXfkYlKaXYUIr90ok+sW4uzzYwbzZ9IbIB/YrSZRdasfa2pTqL2/xkGGR3u2H8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=collabora.com; spf=pass smtp.mailfrom=collabora.com; dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b=GMKN27UH; arc=none smtp.client-ip=46.235.227.194
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=collabora.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=collabora.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="uoVhawU9"
-Received: by mail-wr1-f46.google.com with SMTP id ffacd0b85a97d-35f1c209893so4654193f8f.2
-        for <linux-usb@vger.kernel.org>; Mon, 17 Jun 2024 06:30:11 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1718631010; x=1719235810; darn=vger.kernel.org;
-        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=g/xvsBn58w29gfFOc3XEQwg0vQMc0MnMYz8ijXyukkQ=;
-        b=uoVhawU90yn7EfpG6YqKQWLWNL1vmvFClPQ5YxSgBD2HzdLixLA+gMELX/eF2oMqZv
-         79wEHe5O8LMVEgsO/ej8Nd08lqscRyjHvse3OEp3Yl60rcSqjKQutVe4Oga8CZ2vl02s
-         UcMwig1yZoy8JUG5PoJw9EO8+JEgcemktwtgjDwPknXdBWHms7N/0eTJI/iTdGDm4bKt
-         xjmkQtCcMr2473I0QtXabGpT+7eDROpg3HaYY/Wjdhyigwyug8S38Gibq7XPlRMg4uk/
-         4fcpKwERIrYwSGHXm0fZ0CD9LIKS9uUN4qkJSbCtMSHimdnfhSE6IqbYJgLwBAm77Ibo
-         Yniw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1718631010; x=1719235810;
-        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=g/xvsBn58w29gfFOc3XEQwg0vQMc0MnMYz8ijXyukkQ=;
-        b=CVurLxbMyWTL1V6ZOTLQs6oVr77NHOe0xCE3FE/ZqgYbqkBxpvpipQ9XcTwIsRvPNu
-         b6/UyNvhWoy0kP7VOh/jI2w9zUw3ILKagkkyNwkE2oO6WQ8nDc/qCNMYC5qnNAuiFhPx
-         mUlqVjuYQQANMyrkj1vKYe43JOxSFxV66KceO2mg0Z+IdIQRNqXMNWkepvNDXw+p14h7
-         SKz2P1+pdNjB2C2bxgbTlEKlq/iTDv5lESA7kjRNI7sx90U7YEIC/YN6uIAKzJL8EEfL
-         QZDkpm0K5//7zSomAUDQ+3Us3VN6K5wp+722IP8rxvgCcvcsUF3d1vVZiG7vZHclydVv
-         6ddw==
-X-Gm-Message-State: AOJu0Yzc/R6aKn5csSisLGdoXfAHIZRURvYUV2TA0l265Pv6I12vCuVz
-	gi2oIDqcYUaW9sGLB952F0ehhJovjoZSup5ItCxXb4BGk2qhDfLgxIiE+iffNwOhbAh2Tk1Z5H/
-	k
-X-Google-Smtp-Source: AGHT+IFglTmwytlkXUoaUMjfulAac2Y9KFaxN7/kCw61UQY7ZSDLDRyJjIr1hN8x/l3QLYFzOH/asg==
-X-Received: by 2002:adf:f308:0:b0:360:6fc3:5676 with SMTP id ffacd0b85a97d-3607a7833f7mr7210821f8f.50.1718631010082;
-        Mon, 17 Jun 2024 06:30:10 -0700 (PDT)
-Received: from localhost ([102.222.70.76])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-36079d78ce2sm10617549f8f.19.2024.06.17.06.30.09
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 17 Jun 2024 06:30:09 -0700 (PDT)
-Date: Mon, 17 Jun 2024 16:30:04 +0300
-From: Dan Carpenter <dan.carpenter@linaro.org>
-To: Badhri Jagan Sridharan <badhri@google.com>
-Cc: linux-usb@vger.kernel.org
-Subject: [bug report] usb: typec: tcpm: Add callbacks to mitigate wakeups due
- to contaminant
-Message-ID: <1d6a5eea-2f87-48ce-8176-b50153b27c09@moroto.mountain>
+	dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b="GMKN27UH"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
+	s=mail; t=1718634534;
+	bh=IvAzEYSqjp955nxuHYqD3GwR+NTLpNNY0SVZEjurZrM=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=GMKN27UHcD81efpg0WI3EtyXpuI0XMFlIuhaBwuMeAAjW2YY2nCkH/8iXpZemXMTI
+	 X8JDNuT4MSeZK/uikrbaUqvSluRVCJYLbQftm6JOPcAksnL84qX07mS8h/1jdlC6Pd
+	 +wxk9zatQa7orEbKinA8/ADKCBOzLyfAG/J4Y7RgToQSFPiXI2lwT8tRW5QpzqrK/j
+	 IJODBABhONBmvZiS4wflH9Hs737hhQpChZGd/s11VInp+wRsj+lcE1kxDJFeVCPOPZ
+	 MCrDTE3HSF0JqZ6a8QVj78LWK9PZ67tib4ksQlBFJnsEqBC540GObe/tLzoqdc00wX
+	 1MX8tDR47NoFA==
+Received: from mercury (cola.collaboradmins.com [195.201.22.229])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	(Authenticated sender: sre)
+	by madrid.collaboradmins.com (Postfix) with ESMTPSA id 260DA37812FD;
+	Mon, 17 Jun 2024 14:28:54 +0000 (UTC)
+Received: by mercury (Postfix, from userid 1000)
+	id BC7C01060734; Mon, 17 Jun 2024 16:28:53 +0200 (CEST)
+Date: Mon, 17 Jun 2024 16:28:53 +0200
+From: Sebastian Reichel <sebastian.reichel@collabora.com>
+To: Heikki Krogerus <heikki.krogerus@linux.intel.com>
+Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>, 
+	Mario Limonciello <mario.limonciello@amd.com>, linux-usb@vger.kernel.org
+Subject: Re: [PATCH] usb: typec: ucsi: psy: Expose the charge-type property
+Message-ID: <3qqzailo3ewq53ozmpnarlcb5zqhi2afeivb4ptszwhtygq3bd@l3jyosbcekxk>
+References: <20240617105554.1677285-1-heikki.krogerus@linux.intel.com>
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
+Content-Type: multipart/signed; micalg=pgp-sha512;
+	protocol="application/pgp-signature"; boundary="cnv6rlkh26lqzka2"
+Content-Disposition: inline
+In-Reply-To: <20240617105554.1677285-1-heikki.krogerus@linux.intel.com>
+
+
+--cnv6rlkh26lqzka2
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-Hello Badhri Jagan Sridharan,
+Hi,
 
-Commit 599f008c257d ("usb: typec: tcpm: Add callbacks to mitigate
-wakeups due to contaminant") from Jan 14, 2023 (linux-next), leads to
-the following Smatch static checker warning:
+On Mon, Jun 17, 2024 at 01:55:54PM GMT, Heikki Krogerus wrote:
+> UCSI has this information in the Battery Charging Capability
+> Status, so making it available for the user.
+>=20
+> Signed-off-by: Heikki Krogerus <heikki.krogerus@linux.intel.com>
+> ---
 
-	drivers/usb/typec/tcpm/tcpm.c:4620 run_state_machine()
-	error: we previously assumed 'port->tcpc->check_contaminant' could be null (see line 4607)
+Reviewed-by: Sebastian Reichel <sebastian.reichel@collabora.com>
 
-drivers/usb/typec/tcpm/tcpm.c
-    4600 static void run_state_machine(struct tcpm_port *port)
-    4601 {
-    4602         int ret;
-    4603         enum typec_pwr_opmode opmode;
-    4604         unsigned int msecs;
-    4605         enum tcpm_state upcoming_state;
-    4606 
-    4607         if (port->tcpc->check_contaminant && port->state != CHECK_CONTAMINANT)
+-- Sebastian
 
-Assume that ->check_contaminant is NULL and port->state == CHECK_CONTAMINANT
+>  drivers/usb/typec/ucsi/psy.c  | 27 +++++++++++++++++++++++++++
+>  drivers/usb/typec/ucsi/ucsi.c |  3 +++
+>  2 files changed, 30 insertions(+)
+>=20
+> diff --git a/drivers/usb/typec/ucsi/psy.c b/drivers/usb/typec/ucsi/psy.c
+> index b35c6e07911e..b3910f37e171 100644
+> --- a/drivers/usb/typec/ucsi/psy.c
+> +++ b/drivers/usb/typec/ucsi/psy.c
+> @@ -20,6 +20,7 @@ enum ucsi_psy_online_states {
+>  };
+> =20
+>  static enum power_supply_property ucsi_psy_props[] =3D {
+> +	POWER_SUPPLY_PROP_CHARGE_TYPE,
+>  	POWER_SUPPLY_PROP_USB_TYPE,
+>  	POWER_SUPPLY_PROP_ONLINE,
+>  	POWER_SUPPLY_PROP_VOLTAGE_MIN,
+> @@ -194,6 +195,30 @@ static int ucsi_psy_get_usb_type(struct ucsi_connect=
+or *con,
+>  	return 0;
+>  }
+> =20
+> +static int ucsi_psy_get_charge_type(struct ucsi_connector *con, union po=
+wer_supply_propval *val)
+> +{
+> +	if (!(con->status.flags & UCSI_CONSTAT_CONNECTED) ||
+> +	    (con->status.flags & UCSI_CONSTAT_PWR_DIR) !=3D TYPEC_SINK) {
+> +		val->intval =3D POWER_SUPPLY_CHARGE_TYPE_NONE;
+> +		return 0;
+> +	}
+> +
+> +	switch (UCSI_CONSTAT_BC_STATUS(con->status.pwr_status)) {
+> +	case UCSI_CONSTAT_BC_NOMINAL_CHARGING:
+> +		val->intval =3D POWER_SUPPLY_CHARGE_TYPE_STANDARD;
+> +		break;
+> +	case UCSI_CONSTAT_BC_SLOW_CHARGING:
+> +	case UCSI_CONSTAT_BC_TRICKLE_CHARGING:
+> +		val->intval =3D POWER_SUPPLY_CHARGE_TYPE_TRICKLE;
+> +		break;
+> +	default:
+> +		val->intval =3D POWER_SUPPLY_CHARGE_TYPE_NONE;
+> +		break;
+> +	}
+> +
+> +	return 0;
+> +}
+> +
+>  static int ucsi_psy_get_prop(struct power_supply *psy,
+>  			     enum power_supply_property psp,
+>  			     union power_supply_propval *val)
+> @@ -201,6 +226,8 @@ static int ucsi_psy_get_prop(struct power_supply *psy,
+>  	struct ucsi_connector *con =3D power_supply_get_drvdata(psy);
+> =20
+>  	switch (psp) {
+> +	case POWER_SUPPLY_PROP_CHARGE_TYPE:
+> +		return ucsi_psy_get_charge_type(con, val);
+>  	case POWER_SUPPLY_PROP_USB_TYPE:
+>  		return ucsi_psy_get_usb_type(con, val);
+>  	case POWER_SUPPLY_PROP_ONLINE:
+> diff --git a/drivers/usb/typec/ucsi/ucsi.c b/drivers/usb/typec/ucsi/ucsi.c
+> index 6bbaad4b89a5..51135e3502cf 100644
+> --- a/drivers/usb/typec/ucsi/ucsi.c
+> +++ b/drivers/usb/typec/ucsi/ucsi.c
+> @@ -1257,6 +1257,9 @@ static void ucsi_handle_connector_change(struct wor=
+k_struct *work)
+>  	if (con->status.change & UCSI_CONSTAT_CAM_CHANGE)
+>  		ucsi_partner_task(con, ucsi_check_altmodes, 1, HZ);
+> =20
+> +	if (con->status.change & UCSI_CONSTAT_BC_CHANGE)
+> +		ucsi_port_psy_changed(con);
+> +
+>  out_unlock:
+>  	mutex_unlock(&con->lock);
+>  }
+> --=20
+> 2.43.0
+>=20
 
-    4608                 port->potential_contaminant = ((port->enter_state == SRC_ATTACH_WAIT &&
-    4609                                                 port->state == SRC_UNATTACHED) ||
-    4610                                                (port->enter_state == SNK_ATTACH_WAIT &&
-    4611                                                 port->state == SNK_UNATTACHED) ||
-    4612                                                (port->enter_state == SNK_DEBOUNCED &&
-    4613                                                 port->state == SNK_UNATTACHED));
-    4614 
-    4615         port->enter_state = port->state;
-    4616         switch (port->state) {
-    4617         case TOGGLING:
-    4618                 break;
-    4619         case CHECK_CONTAMINANT:
---> 4620                 port->tcpc->check_contaminant(port->tcpc);
+--cnv6rlkh26lqzka2
+Content-Type: application/pgp-signature; name="signature.asc"
 
-then we're in case CHECK_CONTAMINANT and the function pointer is NULL.
+-----BEGIN PGP SIGNATURE-----
 
-    4621                 break;
-    4622         /* SRC states */
-    4623         case SRC_UNATTACHED:
-    4624                 if (!port->non_pd_role_swap)
-    4625                         tcpm_swap_complete(port, -ENOTCONN);
-    4626                 tcpm_src_detach(port);
-    4627                 if (port->potential_contaminant) {
-    4628                         tcpm_set_state(port, CHECK_CONTAMINANT, 0);
-    4629                         break;
-    4630                 }
-    4631                 if (tcpm_start_toggling(port, tcpm_rp_cc(port))) {
-    4632                         tcpm_set_state(port, TOGGLING, 0);
-    4633                         break;
+iQIzBAABCgAdFiEE72YNB0Y/i3JqeVQT2O7X88g7+poFAmZwSB0ACgkQ2O7X88g7
++poH5A//VGQdyBS1/E8UtvZeJcUW8nZsdHtosjVrTabhd/byiRcxk4LxwAfMycQh
+PicL7RA4LfRKL1gmbhyhTbglLu5VvaCHBBqaAC4moINWN/iIqtpl/gsyrfCykkNr
+Toz8aw+FbbgpOHPbkX+VIYv5PXWbDP2E2pdiNcUN7kLVkY4vFAMyzb4d/v8ixIhY
+19cowlsPRovR9CUs8hxNTs1mJE/satg8aD/rq8NdPlsafXFrUtuZV1o/X8iKUn4J
+1IkiHMB/nFYDwpyl2BndHGoE8d8qsFSqL8sojGYPp4qv0/ujrYpBPDapkZoEJGaE
+AOWLrVezPMLeLsb3yQZ7plXX0vnHuTEc7jppEyCoG2Cv0Ttq+9iLX9sKOBJFa3zZ
+OZ54oohBUfg3DyqVb+OpXdcUUv+U5aoolYcgbE+DlXmrgBeRwamyaN9soLYng046
+e72r7ivbPjCL8dpaS6q0xXmrz9XKy4cD7zIB2e0zxIRbCmXxBQMf/7lr3cUAcqHD
+q0povLZIXXOwv0u9motAU7Es/nS4jlz2RK0Rs7DLkFSh6QGFwiXOkTEksaN5XcML
+5iuQdk4d4iNevlDOeiFMy47XuODMgcjaskrbktFYj+0W4hZMgMPdyNGZ6611xLu3
+2ykhiLy2vgxNeQBQNgUFAU8y+lwwGNxAtViuDtGS/yTu0pA4SaY=
+=WKtl
+-----END PGP SIGNATURE-----
 
-regards,
-dan carpenter
+--cnv6rlkh26lqzka2--
