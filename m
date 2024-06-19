@@ -1,145 +1,128 @@
-Received: from mail-ej1-f53.google.com (mail-ej1-f53.google.com [209.85.218.53])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from omta34.uswest2.a.cloudfilter.net (omta34.uswest2.a.cloudfilter.net [35.89.44.33])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 12B531D52B
-	for <linux-usb@vger.kernel.org>; Wed, 19 Jun 2024 19:44:24 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.53
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5034954FAD
+	for <linux-usb@vger.kernel.org>; Wed, 19 Jun 2024 19:56:21 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=35.89.44.33
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1718826268; cv=none; b=O9vbosu37ky87PvUdHOK3HxSoCBexwF/Qz9cPzsOKTj/WuONBjzbsORc1k4FPLfwl4BcyA3XTBfpEuGB+Gnk/8X3pXP3sm/JW8iv4ICDQHRuCcS3Za9pAtu/QZNeuRw3tw01+tHbabWEMzQD7kEXsR2k21Hk8ucbp0123QnWgy4=
+	t=1718826982; cv=none; b=VAh0i72r7YBJ84XKFpmZajPRD934mEA/abKsH4TBRkthUDIJVNoN9jjYw1TC2oThPnvnHVakSmxEmoF0xRVzUr+re09lD8Sh5sSO/O8LRPoJVNbRWRFS9GpbfE7xSfcLTTAhlBsQo531hL8PpjpKsr7kJHz1EwMgDS+SfcSXOVM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1718826268; c=relaxed/simple;
-	bh=9oTPB6T8QXZWeuhJqr7A2ukk5D26tPebi73iJ9qj9+A=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version:Content-Type; b=rvgYajH3Lgf4b5TxD+OmptXKOdko7n99Z0ikSNMWODm7unUP8TzWq1YsBGFMEhCO+T5dmaPGhG5irSWqQmD2vI9azrlm6RUR1WjQi5mMEEsy5V6TjMzvLDduMnUCl8Pd9twtyPpgbFekS3nWvivKdrwjMrhkaz7ixuwjICWqgC8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=baylibre.com; spf=pass smtp.mailfrom=baylibre.com; dkim=pass (2048-bit key) header.d=baylibre-com.20230601.gappssmtp.com header.i=@baylibre-com.20230601.gappssmtp.com header.b=Da6Fk/dS; arc=none smtp.client-ip=209.85.218.53
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=baylibre.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=baylibre.com
+	s=arc-20240116; t=1718826982; c=relaxed/simple;
+	bh=7CwnBP+4cGwZQuJJW8YWaPRddYGkYIrG+c5Kwn0f9Kc=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=QPTCEV8jXml5obN5GcHPKDDaWYKAhcdIfIZTOYCmOpmMSWtLS2DiiOZWhjoCnaBBJSr2TS40wYbzeGIgd/vJqInvdjBN8WoVc+wJue+W0PxaDcrNRscO8pWIbIVtmXGbqfrZJDTAV13Klwo1jqvEN+O805m1DaVQyu6yzclI9EI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=embeddedor.com; spf=pass smtp.mailfrom=embeddedor.com; dkim=pass (2048-bit key) header.d=embeddedor.com header.i=@embeddedor.com header.b=cUMIEkC5; arc=none smtp.client-ip=35.89.44.33
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=embeddedor.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=embeddedor.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=baylibre-com.20230601.gappssmtp.com header.i=@baylibre-com.20230601.gappssmtp.com header.b="Da6Fk/dS"
-Received: by mail-ej1-f53.google.com with SMTP id a640c23a62f3a-a6f09b457fdso10723466b.2
-        for <linux-usb@vger.kernel.org>; Wed, 19 Jun 2024 12:44:24 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=baylibre-com.20230601.gappssmtp.com; s=20230601; t=1718826263; x=1719431063; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=KpEQyE+YkRv+2nXwcyWiwvRSRvDzznXlscaTbbfcZos=;
-        b=Da6Fk/dSbH8f6vQwTmkh1KsfHgXWKof5uOW/29mhIOaawk76Lbf3l/97kEhOVq+8vh
-         uNF5ASYRQ86Fn3gxIAeUGxVOqLnktvfXt0p7GGy6ed0KwJ4c2lnsurqozLaX/X+/XbSI
-         ataYR1tY1AlXeQYeR8xW1Xz2zyQhKUJBzKLG7O8Pi+Zz3LEtT6upvAA/q4Wzp2IPiv2g
-         CGeOPdOdIxQ99hhdrWruThJeJaYNUqS0qsWGLcGhWH35oNnZ+MdVCtFXKc3xwfHB//9C
-         x5VX8RFC1kp9C3FDwjPE4bPIuuBdEv26JFQN2gfoGEpbx3uWLQd0F4GhvFxhItOqOcLM
-         42QA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1718826263; x=1719431063;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=KpEQyE+YkRv+2nXwcyWiwvRSRvDzznXlscaTbbfcZos=;
-        b=nMzvtrGAeV3cJp4nAoawNEQ9z4BJIPsxOqdEUPnXuYlgObEjAE/Y/E3BV5pYn2vmhB
-         RnRhcyrL1ZWnraTHEGpxphAtICrDWwzJsQHtIkkSs7VH0zVDvHCbvK/YnzhVXdiFJ3XC
-         ZbnY0B2gxXdHalvoe7dJXjN4MLzyrlrGJKKJbY03PVZrSrBhAf7ZRIe2EY862hfFs9Or
-         wattW6YS2fBTFoy8SCzOeqVdbWryQB1pLmaMWg1rfzhqgd0fYNhxM3K2aVbanyhHk0HM
-         xnPUJv7vtuWPuoic7HO74b9erCe7/QxwqUCHey66M4QJnLkUR8dgxvRzHD2bIxfZzFCq
-         9MHQ==
-X-Forwarded-Encrypted: i=1; AJvYcCVDoi0LZ6q41FtwyHuXJc6DUfFLY+9RtK2CYWVU4VOIpdd7kWBP9jkY/mi5wt1sDyZhzVceOZ3lCx26twDMjdawfzHxILc4c6Bf
-X-Gm-Message-State: AOJu0YzNbzuAOBS8rHgao/DjMk7A+meZuLkp5vXjTTX6dT1XoUm3hxa+
-	Rz1+AKcXq06rgh+ETnUBbty7OwvtCXUL4aM8qsfqo0uXi2g5fQKF/EGCdN+BsY0=
-X-Google-Smtp-Source: AGHT+IFPh4M1XYnhwbMXy3dRhojxqiaMc7D2I4f7qCcPECo/AP2mlLLLPmc4l4fJa6vX4QTjPlD82w==
-X-Received: by 2002:a17:907:9158:b0:a6f:7834:d3fa with SMTP id a640c23a62f3a-a6fab617a0dmr178164066b.18.1718826263247;
-        Wed, 19 Jun 2024 12:44:23 -0700 (PDT)
-Received: from localhost ([2a02:8071:b783:6940:36f3:9aff:fec2:7e46])
-        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-a6f56da3faasm691619466b.5.2024.06.19.12.44.22
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 19 Jun 2024 12:44:22 -0700 (PDT)
-From: =?UTF-8?q?Uwe=20Kleine-K=C3=B6nig?= <u.kleine-koenig@baylibre.com>
-To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-Cc: Richard Leitner <richard.leitner@linux.dev>,
-	linux-usb@vger.kernel.org
-Subject: [PATCH] usb: misc: Drop explicit initialization of struct i2c_device_id::driver_data to 0
-Date: Wed, 19 Jun 2024 21:44:13 +0200
-Message-ID: <20240619194413.2544537-2-u.kleine-koenig@baylibre.com>
-X-Mailer: git-send-email 2.43.0
+	dkim=pass (2048-bit key) header.d=embeddedor.com header.i=@embeddedor.com header.b="cUMIEkC5"
+Received: from eig-obgw-5008a.ext.cloudfilter.net ([10.0.29.246])
+	by cmsmtp with ESMTPS
+	id JvawsJEOTkQe8K1PpsQcet; Wed, 19 Jun 2024 19:56:21 +0000
+Received: from gator4166.hostgator.com ([108.167.133.22])
+	by cmsmtp with ESMTPS
+	id K1PosTwCkibL1K1PostafE; Wed, 19 Jun 2024 19:56:20 +0000
+X-Authority-Analysis: v=2.4 cv=acFnnwot c=1 sm=1 tr=0 ts=667337e4
+ a=1YbLdUo/zbTtOZ3uB5T3HA==:117 a=frY+GlAHrI6frpeK1MvySw==:17
+ a=IkcTkHD0fZMA:10 a=T1WGqf2p2xoA:10 a=wYkD_t78qR0A:10 a=VwQbUJbxAAAA:8
+ a=pGLkceISAAAA:8 a=KW3gg0Ai8grSkJK8CL4A:9 a=QEXdDO2ut3YA:10
+ a=AjGcO6oz07-iQ99wixmX:22
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+	d=embeddedor.com; s=default; h=Content-Transfer-Encoding:Content-Type:
+	In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:Message-ID:Sender
+	:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
+	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:
+	List-Unsubscribe:List-Subscribe:List-Post:List-Owner:List-Archive;
+	bh=eaO3vrXA39/v4UfFM5hBURpZQ31SpLg2lD0Yrk2pD1U=; b=cUMIEkC5zHTWZZXiy0tXc7hYzi
+	OWyMSq9Scd1Ksz9HwbsYhLsOQNK/EcnsZgXSyY38ZGdg67fnNGp3gBYYzjPZhM9r/s1Dm0iZP8afv
+	uBXklAcALPZKj8P0TB1+YA6Fl/S+ZI7b5UnsBDmd4jseLOvwh9X+vYpN2lnP9U87OEi0e89IhV0/N
+	381JtgxVJjsvJfde3UYI0pgoAV0ExYNgaH8QI9IG7X4DZYrlyMsbc8olXLkJ8bznehXyeDwcSFy+T
+	gJ5pnjUe8OIZe6vF3tGFjOUx12XcmxPU9SniQBMTDhhLWEHINNsOCAjMNVqN5Ndogndnukp7EsQ24
+	zHcfqa6Q==;
+Received: from [201.172.173.139] (port=46726 helo=[192.168.15.14])
+	by gator4166.hostgator.com with esmtpsa  (TLS1.2) tls TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256
+	(Exim 4.96.2)
+	(envelope-from <gustavo@embeddedor.com>)
+	id 1sK1Pn-000y00-0f;
+	Wed, 19 Jun 2024 14:56:19 -0500
+Message-ID: <62ab07f5-3d09-4f84-b917-f7e16fdfd32d@embeddedor.com>
+Date: Wed, 19 Jun 2024 13:56:17 -0600
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-X-Developer-Signature: v=1; a=openpgp-sha256; l=2358; i=u.kleine-koenig@baylibre.com; h=from:subject; bh=9oTPB6T8QXZWeuhJqr7A2ukk5D26tPebi73iJ9qj9+A=; b=owEBbQGS/pANAwAKAY+A+1h9Ev5OAcsmYgBmczUOesjN3jMxNuYpplObeVdslHmj0ojDOBWMv Yk92kt783qJATMEAAEKAB0WIQQ/gaxpOnoeWYmt/tOPgPtYfRL+TgUCZnM1DgAKCRCPgPtYfRL+ Tu92CACyNSY+7E+i1J3JnsfDV1yGIqMNCRjciZyne08vV7Wp1udzO7irFCr4sZexv3584n3jR9D bgPw/tpNNr6POmOTDH6RtepstSOAmB48OXHYEpTe6xCPGHkizZso+sfvYYn9KEUWVhBgYxl7DHm 5HsdTG+J5SY80UQ4ORmxiMnHI3npLXCkeIboqYWzxtuMgYmr93JiWFyVN3Jq+yB9yMonjIp0xPb ybpZEtmI4Zt2uL1v2JNehHQxW9hH5cNfHDn+3hNx0g5l5Zf4N87TbOzq2j99nYfDCWdwM/tym7Z 63P2VETZhwNRBu06b4uNtQOe1IlNtOsa4geqymw0yF7WWUz3
-X-Developer-Key: i=u.kleine-koenig@baylibre.com; a=openpgp; fpr=0D2511F322BFAB1C1580266BE2DCDD9132669BD6
-Content-Transfer-Encoding: 8bit
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v2 1/2] USB: serial: garmin_gps: annotate struct
+ garmin_packet with __counted_by
+To: Javier Carrasco <javier.carrasco.cruz@gmail.com>,
+ Johan Hovold <johan@kernel.org>,
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>, Kees Cook
+ <kees@kernel.org>, "Gustavo A. R. Silva" <gustavoars@kernel.org>,
+ Nathan Chancellor <nathan@kernel.org>,
+ Nick Desaulniers <ndesaulniers@google.com>, Bill Wendling
+ <morbo@google.com>, Justin Stitt <justinstitt@google.com>
+Cc: linux-usb@vger.kernel.org, linux-kernel@vger.kernel.org,
+ linux-hardening@vger.kernel.org, llvm@lists.linux.dev
+References: <20240619-garmin_gps_counted_by-v2-0-f82f10ebbf28@gmail.com>
+ <20240619-garmin_gps_counted_by-v2-1-f82f10ebbf28@gmail.com>
+Content-Language: en-US
+From: "Gustavo A. R. Silva" <gustavo@embeddedor.com>
+In-Reply-To: <20240619-garmin_gps_counted_by-v2-1-f82f10ebbf28@gmail.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+X-AntiAbuse: This header was added to track abuse, please include it with any abuse report
+X-AntiAbuse: Primary Hostname - gator4166.hostgator.com
+X-AntiAbuse: Original Domain - vger.kernel.org
+X-AntiAbuse: Originator/Caller UID/GID - [47 12] / [47 12]
+X-AntiAbuse: Sender Address Domain - embeddedor.com
+X-BWhitelist: no
+X-Source-IP: 201.172.173.139
+X-Source-L: No
+X-Exim-ID: 1sK1Pn-000y00-0f
+X-Source: 
+X-Source-Args: 
+X-Source-Dir: 
+X-Source-Sender: ([192.168.15.14]) [201.172.173.139]:46726
+X-Source-Auth: gustavo@embeddedor.com
+X-Email-Count: 17
+X-Org: HG=hgshared;ORG=hostgator;
+X-Source-Cap: Z3V6aWRpbmU7Z3V6aWRpbmU7Z2F0b3I0MTY2Lmhvc3RnYXRvci5jb20=
+X-Local-Domain: yes
+X-CMAE-Envelope: MS4xfJL5KusgMSSH7wTv/QfhKL4URlO25+0USx7QoT9ZNWp5kfd72prCIoXFCt/aVj2/6u6kt/KidlrBxfd9syOR+qdLTSQvBfy9+sc6itdruX6Unb3AdteT
+ 90Vlm6Mh9XqxRc50ZpzyzPppTDCEdIzclyqvjt91LgfxJ9D//2qTWt8GVNQ04+hU9lNfZSXJiT54PqUkkY0uBf0RXLWhHX4oW/M=
 
-These drivers don't use the driver_data member of struct i2c_device_id,
-so don't explicitly initialize this member.
 
-This prepares putting driver_data in an anonymous union which requires
-either no initialization or named designators. But it's also a nice
-cleanup on its own.
 
-Signed-off-by: Uwe Kleine-König <u.kleine-koenig@baylibre.com>
----
- drivers/usb/misc/usb251xb.c | 18 +++++++++---------
- drivers/usb/misc/usb3503.c  |  2 +-
- drivers/usb/misc/usb4604.c  |  2 +-
- 3 files changed, 11 insertions(+), 11 deletions(-)
+On 19/06/24 21:42, Javier Carrasco wrote:
+> Use the __counted_by compiler attribute for the data[] flexible array
+> member to improve the results of array bound sanitizers.
+> 
+> Reviewed-by: Nathan Chancellor <nathan@kernel.org>
+> Signed-off-by: Javier Carrasco <javier.carrasco.cruz@gmail.com>
 
-diff --git a/drivers/usb/misc/usb251xb.c b/drivers/usb/misc/usb251xb.c
-index 7da404f55a6d..b98cda1cef73 100644
---- a/drivers/usb/misc/usb251xb.c
-+++ b/drivers/usb/misc/usb251xb.c
-@@ -726,15 +726,15 @@ static int __maybe_unused usb251xb_resume(struct device *dev)
- static SIMPLE_DEV_PM_OPS(usb251xb_pm_ops, usb251xb_suspend, usb251xb_resume);
- 
- static const struct i2c_device_id usb251xb_id[] = {
--	{ "usb2422", 0 },
--	{ "usb2512b", 0 },
--	{ "usb2512bi", 0 },
--	{ "usb2513b", 0 },
--	{ "usb2513bi", 0 },
--	{ "usb2514b", 0 },
--	{ "usb2514bi", 0 },
--	{ "usb2517", 0 },
--	{ "usb2517i", 0 },
-+	{ "usb2422" },
-+	{ "usb2512b" },
-+	{ "usb2512bi" },
-+	{ "usb2513b" },
-+	{ "usb2513bi" },
-+	{ "usb2514b" },
-+	{ "usb2514bi" },
-+	{ "usb2517" },
-+	{ "usb2517i" },
- 	{ /* sentinel */ }
- };
- MODULE_DEVICE_TABLE(i2c, usb251xb_id);
-diff --git a/drivers/usb/misc/usb3503.c b/drivers/usb/misc/usb3503.c
-index 72765077932c..3b33e4878c60 100644
---- a/drivers/usb/misc/usb3503.c
-+++ b/drivers/usb/misc/usb3503.c
-@@ -390,7 +390,7 @@ static SIMPLE_DEV_PM_OPS(usb3503_platform_pm_ops, usb3503_platform_suspend,
- 		usb3503_platform_resume);
- 
- static const struct i2c_device_id usb3503_id[] = {
--	{ USB3503_I2C_NAME, 0 },
-+	{ USB3503_I2C_NAME },
- 	{ }
- };
- MODULE_DEVICE_TABLE(i2c, usb3503_id);
-diff --git a/drivers/usb/misc/usb4604.c b/drivers/usb/misc/usb4604.c
-index 065e269ba4e3..c9a2fb3518ae 100644
---- a/drivers/usb/misc/usb4604.c
-+++ b/drivers/usb/misc/usb4604.c
-@@ -135,7 +135,7 @@ static SIMPLE_DEV_PM_OPS(usb4604_i2c_pm_ops, usb4604_i2c_suspend,
- 		usb4604_i2c_resume);
- 
- static const struct i2c_device_id usb4604_id[] = {
--	{ "usb4604", 0 },
-+	{ "usb4604" },
- 	{ }
- };
- MODULE_DEVICE_TABLE(i2c, usb4604_id);
+Reviewed-by: Gustavo A. R. Silva <gustavoars@kernel.org>
 
-base-commit: 2102cb0d050d34d50b9642a3a50861787527e922
--- 
-2.43.0
+Thanks
+--
+Gustavo
 
+> ---
+>   drivers/usb/serial/garmin_gps.c | 2 +-
+>   1 file changed, 1 insertion(+), 1 deletion(-)
+> 
+> diff --git a/drivers/usb/serial/garmin_gps.c b/drivers/usb/serial/garmin_gps.c
+> index 670e942fdaaa..57df6ad183ff 100644
+> --- a/drivers/usb/serial/garmin_gps.c
+> +++ b/drivers/usb/serial/garmin_gps.c
+> @@ -104,7 +104,7 @@ struct garmin_packet {
+>   	int               seq;
+>   	/* the real size of the data array, always > 0 */
+>   	int               size;
+> -	__u8              data[];
+> +	__u8              data[] __counted_by(size);
+>   };
+>   
+>   /* structure used to keep the current state of the driver */
+> 
