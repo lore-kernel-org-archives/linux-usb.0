@@ -1,61 +1,61 @@
-Received: from mail-lj1-f172.google.com (mail-lj1-f172.google.com [209.85.208.172])
+Received: from mail-lj1-f175.google.com (mail-lj1-f175.google.com [209.85.208.175])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4FDD414388C
-	for <linux-usb@vger.kernel.org>; Thu, 20 Jun 2024 22:55:28 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.172
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BEFF314F9C8
+	for <linux-usb@vger.kernel.org>; Thu, 20 Jun 2024 22:55:29 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.175
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1718924130; cv=none; b=FphWFPDHPF07h0jbmND/knITa/NimuZwZ+keZKApIThvm7Hg/XGIl247UX5e/VngIZCFYSFkilNHdJ/3Jwn4kUoBXsuy0RIOaSqOFtm4o8/LtmOBOAVJGfJJ4NcRXdIPeRaiMNldzPOH2qyUbjvw8XvyQNZ6fkT1gs6k10Ck5M0=
+	t=1718924131; cv=none; b=LnaaQQjdDZcbBZYd0Fq+0A7ThZgw0+Coz2gnGkqVIvpsGhxTnYb10fpMseLLKmUAhlBJKhE8OaSFVmWCqBIkBuuhdMlAR+ETOjmoMxEiJ38C7m9dUMciZd0XWxm//j54tSQPKsWxiWL9KWNfZMYdo8UWFWscnSaLJJ6QEaBh3N4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1718924130; c=relaxed/simple;
-	bh=5JJ0FuTmJ51m3GFnw66fokeLW92y7ep22LnE63sLqV4=;
+	s=arc-20240116; t=1718924131; c=relaxed/simple;
+	bh=LOWb+Vw9/QmbxNoLHa2MHXOU60Fguix3lqbyVHzGXkk=;
 	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
-	 In-Reply-To:To:Cc; b=Nn1qKGoven7LUOYf5PgHQ3JUw0zdCEXAIj4IzIp0azubl+H/RxceH2a3ZQgER6i/x80UiHiZtysgPXq/3LmoC6znO3t9rd1F3AtiLhMk7hDeg6v0Xh5uByMPZV2kwRgiu5VO4TT0Znqw1vtj1vZIXWIitURktgBWc5HS14jI0Wg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=N80MIUB5; arc=none smtp.client-ip=209.85.208.172
+	 In-Reply-To:To:Cc; b=Und/DVCaY+6j3dMqZd7zXK4Q9xebJL+xQelHXP8pr/NyKBPP3soVs+txF38ehD3BHtx8n0r7a+eGwk2x82hC3PAbbdrjHycu9iLPIyq18WLlI6KHyOdME4lockZFrUyJw+ttQ/s9LJkCDK1pr+2nJxV6hxy3f0Eiu9Wl6uSMcUY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=VQDyLY6S; arc=none smtp.client-ip=209.85.208.175
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="N80MIUB5"
-Received: by mail-lj1-f172.google.com with SMTP id 38308e7fff4ca-2ebe40673e8so14239591fa.3
-        for <linux-usb@vger.kernel.org>; Thu, 20 Jun 2024 15:55:28 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="VQDyLY6S"
+Received: by mail-lj1-f175.google.com with SMTP id 38308e7fff4ca-2ec10324791so15746561fa.1
+        for <linux-usb@vger.kernel.org>; Thu, 20 Jun 2024 15:55:29 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1718924126; x=1719528926; darn=vger.kernel.org;
+        d=linaro.org; s=google; t=1718924128; x=1719528928; darn=vger.kernel.org;
         h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
          :mime-version:subject:date:from:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=EQohNPpaTb5KYVE0BZu3/ef4lat3R4WjEfszMMJQNKU=;
-        b=N80MIUB5+2q6R87c4+soEPY0/k1hd/AyuaiX4oyMjRurtONCYTe8WCzgZtGpBA0MEv
-         LmvtQPhLZZDFaJoEhpG6+lqnWrNKoUYaK50U4nIe6pnm0BpCAGU8om5PQ1PFAK3xp5tY
-         XyLS+jwwaCQHNM5U9PPw2ViFag1XLpmTEsLHuIhRj86rpecR46TFIgjzHqf9L0DHIzT9
-         n2BfR2hPmqOdvXyg3SM8poo5kDXLcK7DyQ+6cskHXQHZcRHR+axLp2riFAUC0CSINgor
-         BvlF3ZKlhLoNk2n5ixCYDcpX+8GfbS8a0vsn7H3RpAMa9RMQqoJrvIFFV2x45+lxRvYo
-         FaCg==
+        bh=IR6olVBcDJAiFqvRlmHubkR26Doy6VX5UC/TUKocw0g=;
+        b=VQDyLY6S880rP9ai6A+rWtNfymv2Pclt8h6KKcUdOD4GGtoZqsX2WtH686ez6FqlVH
+         UU5iSrhVHo8q3DZs244TcdRmsMJCsFHESb1Xrp3sefX4BjME2iCXLHP1EWsYxAYy5xcI
+         t3otpUwkfWlcByIIiZT9zyk7tXNJxcgMj80t6bI+N5UaHCrtTw7pLgx/NfoKyIga8yg8
+         jqCaJAjbZm6TtH5v2q0tAvRa8fgIdnvv/nmGx+hllE/Lrd04js/EP9xs34pEEQ1/1iPf
+         qRtV/+tG8V5nxNb4p0l8A4qDHqjlikRMCxiB/9wEidutut5xGppHq2v83R4SERcCXHSW
+         IS8w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1718924126; x=1719528926;
+        d=1e100.net; s=20230601; t=1718924128; x=1719528928;
         h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
          :mime-version:subject:date:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=EQohNPpaTb5KYVE0BZu3/ef4lat3R4WjEfszMMJQNKU=;
-        b=Z+Xq+2yRvjyI2td7pADdWSkCncE4hRvOUzW9Ea43za9QIZJaeTtsn5rc6y/cgpeq7x
-         vOwrIN4MNpt+zlfGFWY4vqcQhYBaKxNLTaC5gVEseF7U4J78uoi5Wm6rcKV0rwUhU4Ky
-         3HbpD4OZj3QurP1E5zbaTBaAy7BTrbd7AE+AGeU3f3ukiafpEBBKOkHvQibJlmImNGJW
-         yqeXnpo0yJ365/+JY5m35reA5Cry5ZllX3x4IoO4dTaLkhfmBN3eJ9qXC29C2K8gZ6xu
-         1mbSer+p54U0TtyJVsN+ELO1yw1OTidE4t9uI+chCa2olXv/UIYEx1VbHcU9yCMbI+m6
-         5+mw==
-X-Forwarded-Encrypted: i=1; AJvYcCWjzscbVvbg2c+6qR23Ntx9DUvRW3jzzZMuXimrQeva2WXTx7A7vwIuNsLIQ7N/YCd5V2ViwH8dvaa4nXogkYS8/emNcMn2oaMV
-X-Gm-Message-State: AOJu0YyZL6qQbWvUh3pE/vNZsMT+mOPGgo6sR/jo5q4BVntjeyrQ7gc7
-	/e4PNeAa3p4QT/U8NBpEA4fZ4lMv/Q4Lr786KoaJrQS+/CWrAe2xjMxVVknyT8/dbYk2o85n34n
-	sOz8=
-X-Google-Smtp-Source: AGHT+IHiX4zKNBalbolTrJjjqJsWAjc1/tOmVInlXcwDg2oe43Um4+0q1bXe0brVi/wRnLVylxIuGA==
-X-Received: by 2002:a2e:9e16:0:b0:2ea:e98e:4399 with SMTP id 38308e7fff4ca-2ec3cfd74b1mr42903741fa.36.1718924126551;
-        Thu, 20 Jun 2024 15:55:26 -0700 (PDT)
+        bh=IR6olVBcDJAiFqvRlmHubkR26Doy6VX5UC/TUKocw0g=;
+        b=f3kFEjwDBX0mRU2l3EDwIXf3osXE9eQorGMATYJTQs9Zb+BriADsHNlRmb/ulETWNO
+         iLxiC75XdfJQcW5AKoQY1SvphpxSWskAAmV2scjUTpX1NOiSTIgEwnztDDI3hVyusMGm
+         pjG3LzB76zsb+c5kqt8OPbEytXuf20S0bPa6qLZRYWYe7pqVFidh9RobJUCubfaLa2/j
+         9j8hx5EWbMROknoP6bsTkTQjGjwcc8O/rCDfTpdkg7C4Tpcc6qa5pc2L8yuw2hHSXEmb
+         R1nIRjNYUOWPalfX9C/CbZOokxry+CihF0YmcSx2z2Mwok+aHssqjLdAt6cwmWgMuxiA
+         ligQ==
+X-Forwarded-Encrypted: i=1; AJvYcCXdYT9UP/lUUuOkUtGkoh0leFxL5GdtckvbMDe0/UazMqw8zDPps5tT/DUP83KASGZCelCNlHhYk9Y22yTPdPxX3pPVwUmbOuUO
+X-Gm-Message-State: AOJu0Yw0SjzkC6OBoAYZpW6wQV8inPy5enVaEH3j5HqEif4x27JHU7rb
+	N/3JJKGfWONsVvaogHKIM3JaCDKZkBsJfyJMILm9D0cwVz4z8Fs2mF9FabsFRB4=
+X-Google-Smtp-Source: AGHT+IHoxm/6bBTyOgi+zBFIRiNRkYizZyitnEFBjNxxc70xWD6BEN8Wul1ZDUIcnnkKkMaGcgzZdA==
+X-Received: by 2002:a05:651c:b26:b0:2ec:4086:ea6d with SMTP id 38308e7fff4ca-2ec4086ec1emr49099931fa.4.1718924127943;
+        Thu, 20 Jun 2024 15:55:27 -0700 (PDT)
 Received: from umbar.lan ([192.130.178.91])
-        by smtp.gmail.com with ESMTPSA id 38308e7fff4ca-2ec4d60126fsm510461fa.20.2024.06.20.15.55.26
+        by smtp.gmail.com with ESMTPSA id 38308e7fff4ca-2ec4d60126fsm510461fa.20.2024.06.20.15.55.27
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 20 Jun 2024 15:55:26 -0700 (PDT)
+        Thu, 20 Jun 2024 15:55:27 -0700 (PDT)
 From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-Date: Fri, 21 Jun 2024 01:55:24 +0300
-Subject: [PATCH v2 5/7] usb: typec: ucsi: inline ucsi_read_message_in
+Date: Fri, 21 Jun 2024 01:55:26 +0300
+Subject: [PATCH v2 7/7] usb: typec: ucsi: reorder operations in
+ ucsi_run_command()
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
@@ -64,7 +64,7 @@ List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20240621-ucsi-rework-interface-v2-5-a399ff96bf88@linaro.org>
+Message-Id: <20240621-ucsi-rework-interface-v2-7-a399ff96bf88@linaro.org>
 References: <20240621-ucsi-rework-interface-v2-0-a399ff96bf88@linaro.org>
 In-Reply-To: <20240621-ucsi-rework-interface-v2-0-a399ff96bf88@linaro.org>
 To: Heikki Krogerus <heikki.krogerus@linux.intel.com>, 
@@ -76,74 +76,87 @@ Cc: Nikita Travkin <nikita@trvn.ru>,
  linux-kernel@vger.kernel.org, linux-stm32@st-md-mailman.stormreply.com, 
  linux-arm-kernel@lists.infradead.org
 X-Mailer: b4 0.13.0
-X-Developer-Signature: v=1; a=openpgp-sha256; l=1606;
+X-Developer-Signature: v=1; a=openpgp-sha256; l=2070;
  i=dmitry.baryshkov@linaro.org; h=from:subject:message-id;
- bh=5JJ0FuTmJ51m3GFnw66fokeLW92y7ep22LnE63sLqV4=;
- b=owEBbQGS/pANAwAKAYs8ij4CKSjVAcsmYgBmdLNaDofb3amsRcu0qvjDc9UZGAvmIhod3B7mD
- g3oylyO/0iJATMEAAEKAB0WIQRMcISVXLJjVvC4lX+LPIo+Aiko1QUCZnSzWgAKCRCLPIo+Aiko
- 1QtNCACdBMXW0rp0duCVy1o696WTIt9Z8/8Fok4J2crdv8mHpLp/GVcEY0Ukoxe3RlnwPD/5UVu
- kxoogwkMVQAh4Dr1qvYAFY/Kte2dVgLzhY1tvMt+mBGza88/7dXk0fuXBKuqQooTBylLFIV/j3l
- LOozQbRYT9JrdTJ7epm7qs1OjKBfmG9qrKZ5hIf2Y6mhXA43e40xiBqBY+fwfjpWaJn+uUQTcpe
- jMIL3J/BU7/NkWKmtt9ADgm+4sxLJaPHfAwIAJQA5sMmD0kssmK79YxPf6lZNt3mI8OYZUkNC67
- Luoqk+ml0bImb8JxFgJ+JbQXLrTnXwVtQgWJD25MA+/Nbgkv
+ bh=LOWb+Vw9/QmbxNoLHa2MHXOU60Fguix3lqbyVHzGXkk=;
+ b=owEBbQGS/pANAwAKAYs8ij4CKSjVAcsmYgBmdLNaauNrup2m6YbsM/7Td6FdrCda5Pnyu6yKM
+ KQfN812DcyJATMEAAEKAB0WIQRMcISVXLJjVvC4lX+LPIo+Aiko1QUCZnSzWgAKCRCLPIo+Aiko
+ 1WJVCACp9pu/iAzSt7ocCbeRjeF2QNEs+jrrsHD/b2EUMTwZj+CrEmvEUlQDxQXC7zXAd2CyulU
+ 2CHiKhJzIcdW+ivIcX1VN4T+ZHDRrmbijLRu1P6gOHjj+tVsNuagPseUbs7eBe9OE8H3zUTaYYo
+ 8uWyen4Q2yXas5QQ9lh5S2uxKHY2V0U7x3S+6KfUNySztOw7idFWM3qpd90cVLeq0MYDpC7Q0wN
+ SdAXBNRai83HlLbWOV8IcsDtk8dTU+XqBv/pw1L8OveVRH3KmRlMU8fEY05haSv39zYydoJzZZL
+ 9sN9Gt9sVPpd8Uy2e/m9rG9PTHHXSLm+lHzaIslA0nG/PqPf
 X-Developer-Key: i=dmitry.baryshkov@linaro.org; a=openpgp;
  fpr=8F88381DD5C873E4AE487DA5199BF1243632046A
 
-There is no need to have a separate wrapper for reading MESSAGE_IN data,
-inline it to ucsi_run_command().
+Streamline control stream of ucsi_run_command(). Reorder operations so
+that there is only one call to ucsi_acknowledge(), making sure that all
+complete commands are acknowledged. This also makes sure that the
+command is acknowledged even if reading MESSAGE_IN data returns an
+error.
 
 Signed-off-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
 ---
- drivers/usb/typec/ucsi/ucsi.c | 22 ++++++++--------------
- 1 file changed, 8 insertions(+), 14 deletions(-)
+ drivers/usb/typec/ucsi/ucsi.c | 34 ++++++++++++++--------------------
+ 1 file changed, 14 insertions(+), 20 deletions(-)
 
 diff --git a/drivers/usb/typec/ucsi/ucsi.c b/drivers/usb/typec/ucsi/ucsi.c
-index 58d9602bd752..4ba22323dbf9 100644
+index 691ee0c4ef87..02d7f745acad 100644
 --- a/drivers/usb/typec/ucsi/ucsi.c
 +++ b/drivers/usb/typec/ucsi/ucsi.c
-@@ -36,19 +36,6 @@
-  */
- #define UCSI_SWAP_TIMEOUT_MS	5000
- 
--static int ucsi_read_message_in(struct ucsi *ucsi, void *buf,
--					  size_t buf_size)
--{
--	/*
--	 * Below UCSI 2.0, MESSAGE_IN was limited to 16 bytes. Truncate the
--	 * reads here.
--	 */
--	if (ucsi->version <= UCSI_VERSION_1_2)
--		buf_size = clamp(buf_size, 0, 16);
--
--	return ucsi->ops->read_message_in(ucsi, buf, buf_size);
--}
--
- static int ucsi_acknowledge(struct ucsi *ucsi, bool conn_ack)
+@@ -95,7 +95,7 @@ static int ucsi_acknowledge(struct ucsi *ucsi, bool conn_ack)
+ static int ucsi_run_command(struct ucsi *ucsi, u64 command, u32 *cci,
+ 			    void *data, size_t size, bool conn_ack)
  {
- 	u64 ctrl;
-@@ -70,6 +57,13 @@ static int ucsi_run_command(struct ucsi *ucsi, u64 command, u32 *cci,
+-	int ret;
++	int ret, err;
  
  	*cci = 0;
  
+@@ -120,30 +120,24 @@ static int ucsi_run_command(struct ucsi *ucsi, u64 command, u32 *cci,
+ 	if (!(*cci & UCSI_CCI_COMMAND_COMPLETE))
+ 		return -EIO;
+ 
+-	if (*cci & UCSI_CCI_NOT_SUPPORTED) {
+-		if (ucsi_acknowledge(ucsi, false) < 0)
+-			dev_err(ucsi->dev,
+-				"ACK of unsupported command failed\n");
+-		return -EOPNOTSUPP;
+-	}
+-
+-	if (*cci & UCSI_CCI_ERROR) {
+-		/* Acknowledge the command that failed */
+-		ret = ucsi_acknowledge(ucsi, false);
+-		return ret ? ret : -EIO;
+-	}
++	if (*cci & UCSI_CCI_NOT_SUPPORTED)
++		err = -EOPNOTSUPP;
++	else if (*cci & UCSI_CCI_ERROR)
++		err = -EIO;
++	else
++		err = 0;
+ 
+-	if (data) {
+-		ret = ucsi->ops->read_message_in(ucsi, data, size);
+-		if (ret)
+-			return ret;
+-	}
++	if (!err && data && UCSI_CCI_LENGTH(*cci))
++		err = ucsi->ops->read_message_in(ucsi, data, size);
+ 
+-	ret = ucsi_acknowledge(ucsi, conn_ack);
 +	/*
-+	 * Below UCSI 2.0, MESSAGE_IN was limited to 16 bytes. Truncate the
-+	 * reads here.
++	 * Don't ACK connection change if there was an error.
 +	 */
-+	if (ucsi->version <= UCSI_VERSION_1_2)
-+		size = clamp(size, 0, 16);
-+
- 	ret = ucsi->ops->sync_control(ucsi, command);
++	ret = ucsi_acknowledge(ucsi, err ? false : conn_ack);
  	if (ret)
  		return ret;
-@@ -98,7 +92,7 @@ static int ucsi_run_command(struct ucsi *ucsi, u64 command, u32 *cci,
- 	}
  
- 	if (data) {
--		ret = ucsi_read_message_in(ucsi, data, size);
-+		ret = ucsi->ops->read_message_in(ucsi, data, size);
- 		if (ret)
- 			return ret;
- 	}
+-	return 0;
++	return err;
+ }
+ 
+ static int ucsi_read_error(struct ucsi *ucsi)
 
 -- 
 2.39.2
