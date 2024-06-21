@@ -1,640 +1,104 @@
-Received: from mail-lj1-f175.google.com (mail-lj1-f175.google.com [209.85.208.175])
+Received: from mail-ej1-f54.google.com (mail-ej1-f54.google.com [209.85.218.54])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 42AFD14EC6B
-	for <linux-usb@vger.kernel.org>; Thu, 20 Jun 2024 22:55:29 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.175
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C8D7E823C3;
+	Fri, 21 Jun 2024 01:40:23 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.54
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1718924133; cv=none; b=t2d94JaL5oJdQu8UcOoI0QbqJ1myWCSaCAgL4CD/R0hxv9kUP6Hl+A/c6by05NHvgPxbe77Xec4mfVJHp/8hb1iLjSdQoRARFFpkNGfGP/Colm5/eOftNFrxXpeGmkqTEDcIibX8IMbeajmnT6rVfd0/nS2snghG0FU3uF7omZM=
+	t=1718934025; cv=none; b=s2XQudOV55omwJq+PEddMPcYK5PJLNlkGe5OEJErFC7R5gtGBH2cneSRojG9A0dBJ7i2WF7JwdpYYb5TPf4ql9GCuW+B6ZkWahMRp437PUJTOvX84WIZ6qC5yiNblRgt2RMi153wcH7+3iPGnQwnNrfgNbyT1MWaCieE1TvfaBc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1718924133; c=relaxed/simple;
-	bh=h08MXKhYJwgVcw5jf3rZEspBt6Ktk0dGLtkODJ0HI60=;
-	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
-	 In-Reply-To:To:Cc; b=AVxx5ON8B61D+QnCQsRF75fF2dGmEXf2nZSzrH1MG7bVxlK8fW4kg/25Odv9NIWTPShGV2bjbiHwVekskp5U4Zdn0QCXPM5l97zVxYpj4aOAy7S83CIvp5JOaWy749nw62gjgFGqYf/O+xS7yXkjU/L6GBjX+M3+8IBJWhdMxIg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=zHd3i3ui; arc=none smtp.client-ip=209.85.208.175
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
+	s=arc-20240116; t=1718934025; c=relaxed/simple;
+	bh=1Z+1pSECJCcJNFpchITMfwuTw//Gxxq9YXpt6KsYM9M=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=L+2EnU6TO+9vVt6Y/iS6hsiawlNhagSSWoCZ3X7zXuTHB8oOCvK/2UlEw8JekYHb0nXEmtoVngTmZKB2102ze/2orTORDrV9yKWs4CK7IDHGabfUe4r0bsWW0OW6GFSgopUa+0SvekHkjyJXuE+jz57Gp3MI1fobcgfq4WNuzsc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=hwUAdP6e; arc=none smtp.client-ip=209.85.218.54
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="zHd3i3ui"
-Received: by mail-lj1-f175.google.com with SMTP id 38308e7fff4ca-2ec4a35baa7so6748221fa.1
-        for <linux-usb@vger.kernel.org>; Thu, 20 Jun 2024 15:55:29 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="hwUAdP6e"
+Received: by mail-ej1-f54.google.com with SMTP id a640c23a62f3a-a6ef64b092cso167450966b.1;
+        Thu, 20 Jun 2024 18:40:23 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1718924127; x=1719528927; darn=vger.kernel.org;
-        h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
-         :mime-version:subject:date:from:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=IhIWSFu3KL8FQFaNNsaJys043+45WO3iphZ/TCyhan0=;
-        b=zHd3i3uiSzii44ykhea4NFsR4ivcPufXOIdpoBIDwsI86Rvc8R6OhnDcIXfrGG375z
-         S5zI4+hD2sthFYAKFmuJTfeto9Bdjibn0tdV8oZeAyCi6Z77TG3Q6fHKvASjSPcSU8P9
-         W0IeiCdj6zFf97LrWoZAmY4V67YJ5AyXIq1o/ycJgITZyPf3yWkSipvtqnmO1c/kgaT/
-         +7vpWoij1LQTHlcjOe3JP4krXID02WyvPpe53qllUDMarf7x19JCi7nI/jfmj67PHrTP
-         Y0KVDJLoiuXEtuvBz3Kfqeh16JE6yILwm8gIr2lC6WBPZDO8PFI25gfTdo6qlBDkT81B
-         96iA==
+        d=gmail.com; s=20230601; t=1718934022; x=1719538822; darn=vger.kernel.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=XGQtzgqEz5YLBdkBn3WvUxx0bdndpPW+TjQwMlI5mWU=;
+        b=hwUAdP6essCYtjUU/iW/jEjS+qXcWsMBcV6TJ1xDJijadzfZLHHiQJVjPAtmUXWxE8
+         XvSI2qHhj/+Ny8o7XxFd5sew0yKr+v38aklhR8zVwXRp0ndJruHlnoy0ZSecVuCQ/1K9
+         jO5hge9nxTyBLMaNT5R0lrck+EDcMHGBBjmLJbA4i4f43pbqaaYYfnkk+f08S4DHyEsv
+         ldWC7ZW3hy310fuSLGTvh0igSFiawTXOaHznvbvS1R0W9TfT6VACas86U3fUKgdwXEg8
+         NChcnvM3NJsr3TM2dt5rOEOCiyy9YUnwYC28+sF7+OCsy+wtt9/F6OV0anxrUBCqqBAn
+         RBCw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1718924127; x=1719528927;
-        h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
-         :mime-version:subject:date:from:x-gm-message-state:from:to:cc
+        d=1e100.net; s=20230601; t=1718934022; x=1719538822;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=IhIWSFu3KL8FQFaNNsaJys043+45WO3iphZ/TCyhan0=;
-        b=cNoLK5JZkHdnKOqLTrk4fe1zcFT5j/elwllO1geCGP9yJJdNMAxSxLbBJeWbmG7H+k
-         zR7PtHqbJVnqmGOXmsigRO0RWBdMzL/dvRTbPAIcY/ysJf8sHZJ6OsKUyW3+0uNoUUp/
-         OzzaCc8nP27lXxcrhHv2/j3NV5L2mgvKYYqCEJGQtIHuKGBDNfgi1VOoh1USq48WXm2Z
-         eyqThMiy/ZguuLT8RdXcIH6cOKYYsZ0lJzhpKhDc5FURpQfOcIH6F9zxXIlAY1cHFnGi
-         nY0zO755vPGLNlYuSwg/fKneMfgLs+byf8pzMlyMh25G3icBlAC2OWlN/HkdqTk1+h2I
-         P/Ug==
-X-Forwarded-Encrypted: i=1; AJvYcCVdEplo/7xxj3avOAI5TXB01XXAGi5a22wj876BUV7UBEZsgWSjXYL1iDatsMkOidEaUCAUnYk3ZmW6a+CqgdKIbKMjGlHpwC7K
-X-Gm-Message-State: AOJu0Yxh9x3vquY8qE9j06AMkhFLOcP4bbL72i0E0uc13IGsT/m3vVW3
-	Cj0hx805psuCRUMuxoambQH34WnOOelTU2pygkt9XpnVMM3Z+8z9fhyZLcuHw4s=
-X-Google-Smtp-Source: AGHT+IFm99Slgt1LIpyLXT+Wo6l94e8VBfmHLr5VRGBHvf1DVTQlimSBnYvZUVnyRT9O2EVPLyG4xw==
-X-Received: by 2002:a2e:9257:0:b0:2eb:fcea:2f18 with SMTP id 38308e7fff4ca-2ec3ce7dfdbmr21801041fa.2.1718924127311;
-        Thu, 20 Jun 2024 15:55:27 -0700 (PDT)
-Received: from umbar.lan ([192.130.178.91])
-        by smtp.gmail.com with ESMTPSA id 38308e7fff4ca-2ec4d60126fsm510461fa.20.2024.06.20.15.55.26
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 20 Jun 2024 15:55:26 -0700 (PDT)
-From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-Date: Fri, 21 Jun 2024 01:55:25 +0300
-Subject: [PATCH v2 6/7] usb: typec: ucsi: extract common code for command
- handling
+        bh=XGQtzgqEz5YLBdkBn3WvUxx0bdndpPW+TjQwMlI5mWU=;
+        b=YNQ8Na8HcCnUMuqjfQDb4FcmPuxgWC4ZQorItgdMYNXpp521TUYEpcjM4Cx14woZE1
+         6Z0tz7BntQ9/MgFX8wHZw1LuVp9DNR+v2Nqips5H11i8L51043I9zyeprt9HOt5A9miA
+         UuUElGnrhJyjRrtrB74BZ34pkFDatA/HzsCqO0/W2w2wnM2/mBSOKcuO1gKozJ/tc/1h
+         GeopUsHfTJIAVzTxg8Jq0DE+rgtBLarU26kp8IZ/HFjNzX+5fEV9mm3bnMtIZH9m0E2t
+         8U76rG+8jIw9KRcCMY9xYGSb40o8DvNhd5UIW1j6WAZVtMDTceFZqtZAg4RCj/chUfpo
+         SwXQ==
+X-Forwarded-Encrypted: i=1; AJvYcCWYj/e/wwzDHHWaRaZEbDo9yamHCtdIfvaY8/sastekJol5YNzWcIsCyKHgk2Bdgd1AZPZZ2Tn1VCo1pu7wraAu1S+q9oyWXGxzQyl3qhEwePFFxfNUMLhjTZB3maOOqBN1lcxA
+X-Gm-Message-State: AOJu0YySqWfScicadYTa3IEKDISSjv1Mio80K3cl4HG8FYUoVsqIHoty
+	kNqesSOn46ECLbkcNk85/nDvYDPvnZnVjU8o1UVGmleXOI+Qc5Y8dn1ZL2bWdZF8sfvpl88ZGk2
+	i0t2+cQjuAdlSpNRkHvsi/wlWgwM=
+X-Google-Smtp-Source: AGHT+IFaIC7bIusgiaQh44+XU4MNDVuFgkfJ2qcxkgIRa505tpICKdxUNzPrkgHC4ujUZEfh2+JsCIzv42UYpZ+bN/E=
+X-Received: by 2002:a17:907:175e:b0:a6f:80ff:4050 with SMTP id
+ a640c23a62f3a-a6fab62f501mr405848466b.25.1718934021813; Thu, 20 Jun 2024
+ 18:40:21 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-Message-Id: <20240621-ucsi-rework-interface-v2-6-a399ff96bf88@linaro.org>
-References: <20240621-ucsi-rework-interface-v2-0-a399ff96bf88@linaro.org>
-In-Reply-To: <20240621-ucsi-rework-interface-v2-0-a399ff96bf88@linaro.org>
-To: Heikki Krogerus <heikki.krogerus@linux.intel.com>, 
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>, 
- Maxime Coquelin <mcoquelin.stm32@gmail.com>, 
- Alexandre Torgue <alexandre.torgue@foss.st.com>
-Cc: Nikita Travkin <nikita@trvn.ru>, 
- Neil Armstrong <neil.armstrong@linaro.org>, linux-usb@vger.kernel.org, 
- linux-kernel@vger.kernel.org, linux-stm32@st-md-mailman.stormreply.com, 
- linux-arm-kernel@lists.infradead.org
-X-Mailer: b4 0.13.0
-X-Developer-Signature: v=1; a=openpgp-sha256; l=17503;
- i=dmitry.baryshkov@linaro.org; h=from:subject:message-id;
- bh=h08MXKhYJwgVcw5jf3rZEspBt6Ktk0dGLtkODJ0HI60=;
- b=owEBbQGS/pANAwAKAYs8ij4CKSjVAcsmYgBmdLNa9F8EZmmrxXHX2OGQWiA0kFKEVf8EycVc1
- vAJml19hOyJATMEAAEKAB0WIQRMcISVXLJjVvC4lX+LPIo+Aiko1QUCZnSzWgAKCRCLPIo+Aiko
- 1QrPB/9fGCjbzUkxiIkCd9gr9KBAo+DLUQFGfy4MIKOiFYjRp7mK91fiaAZN5WmzgOj+9FmGuiT
- +0K6V/0utyULT3lVKdey+QEYHS2MWxSdFkAW4jidzu+XBgxgAKc+rHMvQQCZz3aeR98V8wSba+h
- tgLb6EpLwTCM8mmZVgHPFgk6Erqab0xw6KgI9O0kuAoANC3tIUqFxYb6wa13GH2Ot7+c6VwqSPM
- 8+4H+PL/N5J15nt7UVMmOIqVQXc9MMTCFS6wgHkLkTuynpIPeS+1ght/ig8ZnSw7VutnK7NX3qg
- RKomTUpSVKdgECUYTzj35yXA3qI7xNysTZ6gm33NlfkCwHuf
-X-Developer-Key: i=dmitry.baryshkov@linaro.org; a=openpgp;
- fpr=8F88381DD5C873E4AE487DA5199BF1243632046A
+References: <20240619114529.3441-1-joswang1221@gmail.com> <2024062051-washtub-sufferer-d756@gregkh>
+In-Reply-To: <2024062051-washtub-sufferer-d756@gregkh>
+From: joswang <joswang1221@gmail.com>
+Date: Fri, 21 Jun 2024 09:40:10 +0800
+Message-ID: <CAMtoTm06MTJ_Gc4NvenycvWRxhLSaPptT1DLvBRs4RWVZO9Y_g@mail.gmail.com>
+Subject: Re: [PATCH v7] usb: dwc3: core: Workaround for CSR read timeout
+To: Greg KH <gregkh@linuxfoundation.org>, Thinh Nguyen <Thinh.Nguyen@synopsys.com>
+Cc: linux-usb@vger.kernel.org, linux-kernel@vger.kernel.org, 
+	stable@vger.kernel.org, Jos Wang <joswang@lenovo.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-Extract common functions to handle command sending and to handle events
-from UCSI. This ensures that all UCSI glue drivers handle the ACKs in
-the same way.
+On Fri, Jun 21, 2024 at 1:16=E2=80=AFAM Greg KH <gregkh@linuxfoundation.org=
+> wrote:
+>
+> On Wed, Jun 19, 2024 at 07:45:29PM +0800, joswang wrote:
+> > From: Jos Wang <joswang@lenovo.com>
+> >
+> > This is a workaround for STAR 4846132, which only affects
+> > DWC_usb31 version2.00a operating in host mode.
+> >
+> > There is a problem in DWC_usb31 version 2.00a operating
+> > in host mode that would cause a CSR read timeout When CSR
+> > read coincides with RAM Clock Gating Entry. By disable
+> > Clock Gating, sacrificing power consumption for normal
+> > operation.
+> >
+> > Cc: stable@vger.kernel.org
+> > Signed-off-by: Jos Wang <joswang@lenovo.com>
+>
+> What commit id does this fix?  How far back should it be backported in
+> the stable releases?
+>
+> thanks,
+>
+> greg k-h
 
-The CCG driver used DEV_CMD_PENDING both for internal
-firmware-related commands and for UCSI control handling. Leave the
-former use case intact.
+Hello Greg Thinh
 
-Signed-off-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
----
- drivers/usb/typec/ucsi/ucsi.c           | 43 +++++++++++++++++++++++++++
- drivers/usb/typec/ucsi/ucsi.h           |  7 +++++
- drivers/usb/typec/ucsi/ucsi_acpi.c      | 46 ++---------------------------
- drivers/usb/typec/ucsi/ucsi_ccg.c       | 21 ++-----------
- drivers/usb/typec/ucsi/ucsi_glink.c     | 47 ++---------------------------
- drivers/usb/typec/ucsi/ucsi_stm32g0.c   | 44 ++--------------------------
- drivers/usb/typec/ucsi/ucsi_yoga_c630.c | 52 ++-------------------------------
- 7 files changed, 62 insertions(+), 198 deletions(-)
+It seems first begin from the commit 1e43c86d84fb ("usb: dwc3: core:
+Add DWC31 version 2.00a controller")
+in 6.8.0-rc6 branch ?
 
-diff --git a/drivers/usb/typec/ucsi/ucsi.c b/drivers/usb/typec/ucsi/ucsi.c
-index 4ba22323dbf9..691ee0c4ef87 100644
---- a/drivers/usb/typec/ucsi/ucsi.c
-+++ b/drivers/usb/typec/ucsi/ucsi.c
-@@ -36,6 +36,48 @@
-  */
- #define UCSI_SWAP_TIMEOUT_MS	5000
- 
-+void ucsi_notify_common(struct ucsi *ucsi, u32 cci)
-+{
-+	if (UCSI_CCI_CONNECTOR(cci))
-+		ucsi_connector_change(ucsi, UCSI_CCI_CONNECTOR(cci));
-+
-+	if (cci & UCSI_CCI_ACK_COMPLETE &&
-+	    test_bit(ACK_PENDING, &ucsi->flags))
-+		complete(&ucsi->complete);
-+
-+	if (cci & UCSI_CCI_COMMAND_COMPLETE &&
-+	    test_bit(COMMAND_PENDING, &ucsi->flags))
-+		complete(&ucsi->complete);
-+}
-+EXPORT_SYMBOL_GPL(ucsi_notify_common);
-+
-+int ucsi_sync_control_common(struct ucsi *ucsi, u64 command)
-+{
-+	bool ack = UCSI_COMMAND(command) == UCSI_ACK_CC_CI;
-+	int ret;
-+
-+	if (ack)
-+		set_bit(ACK_PENDING, &ucsi->flags);
-+	else
-+		set_bit(COMMAND_PENDING, &ucsi->flags);
-+
-+	ret = ucsi->ops->async_control(ucsi, command);
-+	if (ret)
-+		goto out_clear_bit;
-+
-+	if (!wait_for_completion_timeout(&ucsi->complete, 5 * HZ))
-+		ret = -ETIMEDOUT;
-+
-+out_clear_bit:
-+	if (ack)
-+		clear_bit(ACK_PENDING, &ucsi->flags);
-+	else
-+		clear_bit(COMMAND_PENDING, &ucsi->flags);
-+
-+	return ret;
-+}
-+EXPORT_SYMBOL_GPL(ucsi_sync_control_common);
-+
- static int ucsi_acknowledge(struct ucsi *ucsi, bool conn_ack)
- {
- 	u64 ctrl;
-@@ -1883,6 +1925,7 @@ struct ucsi *ucsi_create(struct device *dev, const struct ucsi_operations *ops)
- 	INIT_WORK(&ucsi->resume_work, ucsi_resume_work);
- 	INIT_DELAYED_WORK(&ucsi->work, ucsi_init_work);
- 	mutex_init(&ucsi->ppm_lock);
-+	init_completion(&ucsi->complete);
- 	ucsi->dev = dev;
- 	ucsi->ops = ops;
- 
-diff --git a/drivers/usb/typec/ucsi/ucsi.h b/drivers/usb/typec/ucsi/ucsi.h
-index 0cf550cc9b5d..676fa9db9ba8 100644
---- a/drivers/usb/typec/ucsi/ucsi.h
-+++ b/drivers/usb/typec/ucsi/ucsi.h
-@@ -4,6 +4,7 @@
- #define __DRIVER_USB_TYPEC_UCSI_H
- 
- #include <linux/bitops.h>
-+#include <linux/completion.h>
- #include <linux/device.h>
- #include <linux/power_supply.h>
- #include <linux/types.h>
-@@ -420,6 +421,9 @@ struct ucsi {
- 	/* PPM communication flags */
- 	unsigned long flags;
- #define EVENT_PENDING	0
-+#define COMMAND_PENDING	1
-+#define ACK_PENDING	2
-+	struct completion complete;
- 
- 	unsigned long quirks;
- #define UCSI_NO_PARTNER_PDOS	BIT(0)	/* Don't read partner's PDOs */
-@@ -484,6 +488,9 @@ int ucsi_send_command(struct ucsi *ucsi, u64 command,
- void ucsi_altmode_update_active(struct ucsi_connector *con);
- int ucsi_resume(struct ucsi *ucsi);
- 
-+void ucsi_notify_common(struct ucsi *ucsi, u32 cci);
-+int ucsi_sync_control_common(struct ucsi *ucsi, u64 command);
-+
- #if IS_ENABLED(CONFIG_POWER_SUPPLY)
- int ucsi_register_port_psy(struct ucsi_connector *con);
- void ucsi_unregister_port_psy(struct ucsi_connector *con);
-diff --git a/drivers/usb/typec/ucsi/ucsi_acpi.c b/drivers/usb/typec/ucsi/ucsi_acpi.c
-index 61dd28dae3a4..e8402fac70c8 100644
---- a/drivers/usb/typec/ucsi/ucsi_acpi.c
-+++ b/drivers/usb/typec/ucsi/ucsi_acpi.c
-@@ -21,10 +21,6 @@ struct ucsi_acpi {
- 	struct device *dev;
- 	struct ucsi *ucsi;
- 	void *base;
--	struct completion complete;
--	unsigned long flags;
--#define UCSI_ACPI_COMMAND_PENDING	1
--#define UCSI_ACPI_ACK_PENDING		2
- 	guid_t guid;
- 	u64 cmd;
- };
-@@ -97,38 +93,11 @@ static int ucsi_acpi_async_control(struct ucsi *ucsi, u64 command)
- 	return ucsi_acpi_dsm(ua, UCSI_DSM_FUNC_WRITE);
- }
- 
--static int ucsi_acpi_sync_control(struct ucsi *ucsi, u64 command)
--{
--	struct ucsi_acpi *ua = ucsi_get_drvdata(ucsi);
--	bool ack = UCSI_COMMAND(command) == UCSI_ACK_CC_CI;
--	int ret;
--
--	if (ack)
--		set_bit(UCSI_ACPI_ACK_PENDING, &ua->flags);
--	else
--		set_bit(UCSI_ACPI_COMMAND_PENDING, &ua->flags);
--
--	ret = ucsi_acpi_async_control(ucsi, command);
--	if (ret)
--		goto out_clear_bit;
--
--	if (!wait_for_completion_timeout(&ua->complete, 5 * HZ))
--		ret = -ETIMEDOUT;
--
--out_clear_bit:
--	if (ack)
--		clear_bit(UCSI_ACPI_ACK_PENDING, &ua->flags);
--	else
--		clear_bit(UCSI_ACPI_COMMAND_PENDING, &ua->flags);
--
--	return ret;
--}
--
- static const struct ucsi_operations ucsi_acpi_ops = {
- 	.read_version = ucsi_acpi_read_version,
- 	.read_cci = ucsi_acpi_read_cci,
- 	.read_message_in = ucsi_acpi_read_message_in,
--	.sync_control = ucsi_acpi_sync_control,
-+	.sync_control = ucsi_sync_control_common,
- 	.async_control = ucsi_acpi_async_control
- };
- 
-@@ -164,7 +133,7 @@ static const struct ucsi_operations ucsi_zenbook_ops = {
- 	.read_version = ucsi_acpi_read_version,
- 	.read_cci = ucsi_zenbook_read_cci,
- 	.read_message_in = ucsi_zenbook_read_message_in,
--	.sync_control = ucsi_acpi_sync_control,
-+	.sync_control = ucsi_sync_control_common,
- 	.async_control = ucsi_acpi_async_control
- };
- 
-@@ -189,15 +158,7 @@ static void ucsi_acpi_notify(acpi_handle handle, u32 event, void *data)
- 	if (ret)
- 		return;
- 
--	if (UCSI_CCI_CONNECTOR(cci))
--		ucsi_connector_change(ua->ucsi, UCSI_CCI_CONNECTOR(cci));
--
--	if (cci & UCSI_CCI_ACK_COMPLETE &&
--	    test_bit(UCSI_ACPI_ACK_PENDING, &ua->flags))
--		complete(&ua->complete);
--	if (cci & UCSI_CCI_COMMAND_COMPLETE &&
--	    test_bit(UCSI_ACPI_COMMAND_PENDING, &ua->flags))
--		complete(&ua->complete);
-+	ucsi_notify_common(ua->ucsi, cci);
- }
- 
- static int ucsi_acpi_probe(struct platform_device *pdev)
-@@ -231,7 +192,6 @@ static int ucsi_acpi_probe(struct platform_device *pdev)
- 	if (ret)
- 		return ret;
- 
--	init_completion(&ua->complete);
- 	ua->dev = &pdev->dev;
- 
- 	id = dmi_first_match(ucsi_acpi_quirks);
-diff --git a/drivers/usb/typec/ucsi/ucsi_ccg.c b/drivers/usb/typec/ucsi/ucsi_ccg.c
-index 6ccc394f268e..ba4db2310a05 100644
---- a/drivers/usb/typec/ucsi/ucsi_ccg.c
-+++ b/drivers/usb/typec/ucsi/ucsi_ccg.c
-@@ -222,8 +222,6 @@ struct ucsi_ccg {
- 	u16 fw_build;
- 	struct work_struct pm_work;
- 
--	struct completion complete;
--
- 	u64 last_cmd_sent;
- 	bool has_multiple_dp;
- 	struct ucsi_ccg_altmode orig[UCSI_MAX_ALTMODES];
-@@ -637,7 +635,6 @@ static int ucsi_ccg_sync_control(struct ucsi *ucsi, u64 command)
- 
- 	mutex_lock(&uc->lock);
- 	pm_runtime_get_sync(uc->dev);
--	set_bit(DEV_CMD_PENDING, &uc->flags);
- 
- 	uc->last_cmd_sent = command;
- 
-@@ -649,15 +646,8 @@ static int ucsi_ccg_sync_control(struct ucsi *ucsi, u64 command)
- 		ucsi_ccg_update_set_new_cam_cmd(uc, con, &command);
- 	}
- 
--	ret = ucsi_ccg_async_control(ucsi, command);
--	if (ret)
--		goto err_clear_bit;
--
--	if (!wait_for_completion_timeout(&uc->complete, msecs_to_jiffies(5000)))
--		ret = -ETIMEDOUT;
-+	ret = ucsi_sync_control_common(ucsi, command);
- 
--err_clear_bit:
--	clear_bit(DEV_CMD_PENDING, &uc->flags);
- 	pm_runtime_put_sync(uc->dev);
- 	mutex_unlock(&uc->lock);
- 
-@@ -694,9 +684,6 @@ static irqreturn_t ccg_irq_handler(int irq, void *data)
- 	if (ret)
- 		goto err_clear_irq;
- 
--	if (UCSI_CCI_CONNECTOR(cci))
--		ucsi_connector_change(uc->ucsi, UCSI_CCI_CONNECTOR(cci));
--
- 	/*
- 	 * As per CCGx UCSI interface guide, copy CCI and MESSAGE_IN
- 	 * to the OpRegion before clear the UCSI interrupt
-@@ -708,9 +695,8 @@ static irqreturn_t ccg_irq_handler(int irq, void *data)
- err_clear_irq:
- 	ccg_write(uc, CCGX_RAB_INTR_REG, &intr_reg, sizeof(intr_reg));
- 
--	if (!ret && test_bit(DEV_CMD_PENDING, &uc->flags) &&
--	    cci & (UCSI_CCI_ACK_COMPLETE | UCSI_CCI_COMMAND_COMPLETE))
--		complete(&uc->complete);
-+	if (!ret)
-+		ucsi_notify_common(uc->ucsi, cci);
- 
- 	return IRQ_HANDLED;
- }
-@@ -1429,7 +1415,6 @@ static int ucsi_ccg_probe(struct i2c_client *client)
- 	uc->client = client;
- 	uc->irq = client->irq;
- 	mutex_init(&uc->lock);
--	init_completion(&uc->complete);
- 	INIT_WORK(&uc->work, ccg_update_firmware);
- 	INIT_WORK(&uc->pm_work, ccg_pm_workaround_work);
- 
-diff --git a/drivers/usb/typec/ucsi/ucsi_glink.c b/drivers/usb/typec/ucsi/ucsi_glink.c
-index 62a3a192e076..57bc9540fc36 100644
---- a/drivers/usb/typec/ucsi/ucsi_glink.c
-+++ b/drivers/usb/typec/ucsi/ucsi_glink.c
-@@ -64,12 +64,8 @@ struct pmic_glink_ucsi {
- 	struct ucsi *ucsi;
- 	struct completion read_ack;
- 	struct completion write_ack;
--	struct completion sync_ack;
--	bool sync_pending;
- 	struct mutex lock;	/* protects concurrent access to PMIC Glink interface */
- 
--	int sync_val;
--
- 	struct work_struct notify_work;
- 	struct work_struct register_work;
- 
-@@ -170,35 +166,6 @@ static int pmic_glink_ucsi_async_control(struct ucsi *__ucsi, u64 command)
- 	return ret;
- }
- 
--static int pmic_glink_ucsi_sync_control(struct ucsi *__ucsi, u64 command)
--{
--	struct pmic_glink_ucsi *ucsi = ucsi_get_drvdata(__ucsi);
--	unsigned long left;
--	int ret;
--
--	/* TOFIX: Downstream forces recipient to CON when UCSI_GET_ALTERNATE_MODES command */
--
--	mutex_lock(&ucsi->lock);
--	ucsi->sync_val = 0;
--	reinit_completion(&ucsi->sync_ack);
--	ucsi->sync_pending = true;
--	ret = pmic_glink_ucsi_locked_write(ucsi, UCSI_CONTROL, &command, sizeof(command));
--	mutex_unlock(&ucsi->lock);
--
--	left = wait_for_completion_timeout(&ucsi->sync_ack, 5 * HZ);
--	if (!left) {
--		dev_err(ucsi->dev, "timeout waiting for UCSI sync write response\n");
--		/* return 0 here and let core UCSI code handle the CCI_BUSY */
--		ret = 0;
--	} else if (ucsi->sync_val) {
--		dev_err(ucsi->dev, "sync write returned: %d\n", ucsi->sync_val);
--	}
--
--	ucsi->sync_pending = false;
--
--	return ret;
--}
--
- static void pmic_glink_ucsi_update_connector(struct ucsi_connector *con)
- {
- 	struct pmic_glink_ucsi *ucsi = ucsi_get_drvdata(con->ucsi);
-@@ -232,7 +199,7 @@ static const struct ucsi_operations pmic_glink_ucsi_ops = {
- 	.read_version = pmic_glink_ucsi_read_version,
- 	.read_cci = pmic_glink_ucsi_read_cci,
- 	.read_message_in = pmic_glink_ucsi_read_message_in,
--	.sync_control = pmic_glink_ucsi_sync_control,
-+	.sync_control = ucsi_sync_control_common,
- 	.async_control = pmic_glink_ucsi_async_control,
- 	.update_connector = pmic_glink_ucsi_update_connector,
- 	.connector_status = pmic_glink_ucsi_connector_status,
-@@ -256,14 +223,12 @@ static void pmic_glink_ucsi_write_ack(struct pmic_glink_ucsi *ucsi, const void *
- 	if (resp->ret_code)
- 		return;
- 
--	ucsi->sync_val = resp->ret_code;
- 	complete(&ucsi->write_ack);
- }
- 
- static void pmic_glink_ucsi_notify(struct work_struct *work)
- {
- 	struct pmic_glink_ucsi *ucsi = container_of(work, struct pmic_glink_ucsi, notify_work);
--	unsigned int con_num;
- 	u32 cci;
- 	int ret;
- 
-@@ -273,14 +238,7 @@ static void pmic_glink_ucsi_notify(struct work_struct *work)
- 		return;
- 	}
- 
--	con_num = UCSI_CCI_CONNECTOR(cci);
--	if (con_num)
--		ucsi_connector_change(ucsi->ucsi, con_num);
--
--	if (ucsi->sync_pending &&
--		   (cci & (UCSI_CCI_ACK_COMPLETE | UCSI_CCI_COMMAND_COMPLETE))) {
--		complete(&ucsi->sync_ack);
--	}
-+	ucsi_notify_common(ucsi->ucsi, cci);
- }
- 
- static void pmic_glink_ucsi_register(struct work_struct *work)
-@@ -362,7 +320,6 @@ static int pmic_glink_ucsi_probe(struct auxiliary_device *adev,
- 	INIT_WORK(&ucsi->register_work, pmic_glink_ucsi_register);
- 	init_completion(&ucsi->read_ack);
- 	init_completion(&ucsi->write_ack);
--	init_completion(&ucsi->sync_ack);
- 	mutex_init(&ucsi->lock);
- 
- 	ucsi->ucsi = ucsi_create(dev, &pmic_glink_ucsi_ops);
-diff --git a/drivers/usb/typec/ucsi/ucsi_stm32g0.c b/drivers/usb/typec/ucsi/ucsi_stm32g0.c
-index 14737ca3724c..d948c3f579e1 100644
---- a/drivers/usb/typec/ucsi/ucsi_stm32g0.c
-+++ b/drivers/usb/typec/ucsi/ucsi_stm32g0.c
-@@ -61,11 +61,7 @@ struct ucsi_stm32g0 {
- 	struct i2c_client *i2c_bl;
- 	bool in_bootloader;
- 	u8 bl_version;
--	struct completion complete;
- 	struct device *dev;
--	unsigned long flags;
--#define COMMAND_PENDING	1
--#define ACK_PENDING	2
- 	const char *fw_name;
- 	struct ucsi *ucsi;
- 	bool suspended;
-@@ -407,35 +403,6 @@ static int ucsi_stm32g0_async_control(struct ucsi *ucsi, u64 command)
- 	return 0;
- }
- 
--static int ucsi_stm32g0_sync_control(struct ucsi *ucsi, u64 command)
--{
--	struct ucsi_stm32g0 *g0 = ucsi_get_drvdata(ucsi);
--	bool ack = UCSI_COMMAND(command) == UCSI_ACK_CC_CI;
--	int ret;
--
--	if (ack)
--		set_bit(ACK_PENDING, &g0->flags);
--	else
--		set_bit(COMMAND_PENDING, &g0->flags);
--
--	ret = ucsi_stm32g0_async_control(ucsi, command);
--	if (ret)
--		goto out_clear_bit;
--
--	if (!wait_for_completion_timeout(&g0->complete, msecs_to_jiffies(5000)))
--		ret = -ETIMEDOUT;
--	else
--		return 0;
--
--out_clear_bit:
--	if (ack)
--		clear_bit(ACK_PENDING, &g0->flags);
--	else
--		clear_bit(COMMAND_PENDING, &g0->flags);
--
--	return ret;
--}
--
- static irqreturn_t ucsi_stm32g0_irq_handler(int irq, void *data)
- {
- 	struct ucsi_stm32g0 *g0 = data;
-@@ -449,13 +416,7 @@ static irqreturn_t ucsi_stm32g0_irq_handler(int irq, void *data)
- 	if (ret)
- 		return IRQ_NONE;
- 
--	if (UCSI_CCI_CONNECTOR(cci))
--		ucsi_connector_change(g0->ucsi, UCSI_CCI_CONNECTOR(cci));
--
--	if (cci & UCSI_CCI_ACK_COMPLETE && test_and_clear_bit(ACK_PENDING, &g0->flags))
--		complete(&g0->complete);
--	if (cci & UCSI_CCI_COMMAND_COMPLETE && test_and_clear_bit(COMMAND_PENDING, &g0->flags))
--		complete(&g0->complete);
-+	ucsi_notify_common(g0->ucsi, cci);
- 
- 	return IRQ_HANDLED;
- }
-@@ -464,7 +425,7 @@ static const struct ucsi_operations ucsi_stm32g0_ops = {
- 	.read_version = ucsi_stm32g0_read_version,
- 	.read_cci = ucsi_stm32g0_read_cci,
- 	.read_message_in = ucsi_stm32g0_read_message_in,
--	.sync_control = ucsi_stm32g0_sync_control,
-+	.sync_control = ucsi_sync_control_common,
- 	.async_control = ucsi_stm32g0_async_control,
- };
- 
-@@ -665,7 +626,6 @@ static int ucsi_stm32g0_probe(struct i2c_client *client)
- 
- 	g0->dev = dev;
- 	g0->client = client;
--	init_completion(&g0->complete);
- 	i2c_set_clientdata(client, g0);
- 
- 	g0->ucsi = ucsi_create(dev, &ucsi_stm32g0_ops);
-diff --git a/drivers/usb/typec/ucsi/ucsi_yoga_c630.c b/drivers/usb/typec/ucsi/ucsi_yoga_c630.c
-index 95a333ad5496..f3a5e24ea84d 100644
---- a/drivers/usb/typec/ucsi/ucsi_yoga_c630.c
-+++ b/drivers/usb/typec/ucsi/ucsi_yoga_c630.c
-@@ -20,10 +20,6 @@ struct yoga_c630_ucsi {
- 	struct yoga_c630_ec *ec;
- 	struct ucsi *ucsi;
- 	struct notifier_block nb;
--	struct completion complete;
--	unsigned long flags;
--#define UCSI_C630_COMMAND_PENDING	0
--#define UCSI_C630_ACK_PENDING		1
- 	u16 version;
- };
- 
-@@ -75,57 +71,14 @@ static int yoga_c630_ucsi_async_control(struct ucsi *ucsi, u64 command)
- 	return yoga_c630_ec_ucsi_write(uec->ec, (u8*)&command);
- }
- 
--static int yoga_c630_ucsi_sync_control(struct ucsi *ucsi, u64 command)
--{
--	struct yoga_c630_ucsi *uec = ucsi_get_drvdata(ucsi);
--	bool ack = UCSI_COMMAND(command) == UCSI_ACK_CC_CI;
--	int ret;
--
--	if (ack)
--		set_bit(UCSI_C630_ACK_PENDING, &uec->flags);
--	else
--		set_bit(UCSI_C630_COMMAND_PENDING, &uec->flags);
--
--	reinit_completion(&uec->complete);
--
--	ret = yoga_c630_ucsi_async_control(ucsi, command);
--	if (ret)
--		goto out_clear_bit;
--
--	if (!wait_for_completion_timeout(&uec->complete, 5 * HZ))
--		ret = -ETIMEDOUT;
--
--out_clear_bit:
--	if (ack)
--		clear_bit(UCSI_C630_ACK_PENDING, &uec->flags);
--	else
--		clear_bit(UCSI_C630_COMMAND_PENDING, &uec->flags);
--
--	return ret;
--}
--
- const struct ucsi_operations yoga_c630_ucsi_ops = {
- 	.read_version = yoga_c630_ucsi_read_version,
- 	.read_cci = yoga_c630_ucsi_read_cci,
- 	.read_message_in = yoga_c630_ucsi_read_message_in,
--	.sync_control = yoga_c630_ucsi_sync_control,
-+	.sync_control = ucsi_sync_control_common,
- 	.async_control = yoga_c630_ucsi_async_control,
- };
- 
--static void yoga_c630_ucsi_notify_ucsi(struct yoga_c630_ucsi *uec, u32 cci)
--{
--	if (UCSI_CCI_CONNECTOR(cci))
--		ucsi_connector_change(uec->ucsi, UCSI_CCI_CONNECTOR(cci));
--
--	if (cci & UCSI_CCI_ACK_COMPLETE &&
--	    test_bit(UCSI_C630_ACK_PENDING, &uec->flags))
--		complete(&uec->complete);
--
--	if (cci & UCSI_CCI_COMMAND_COMPLETE &&
--	    test_bit(UCSI_C630_COMMAND_PENDING, &uec->flags))
--		complete(&uec->complete);
--}
--
- static int yoga_c630_ucsi_notify(struct notifier_block *nb,
- 				 unsigned long action, void *data)
- {
-@@ -144,7 +97,7 @@ static int yoga_c630_ucsi_notify(struct notifier_block *nb,
- 		if (ret)
- 			return NOTIFY_DONE;
- 
--		yoga_c630_ucsi_notify_ucsi(uec, cci);
-+		ucsi_notify_common(uec->ucsi, cci);
- 
- 		return NOTIFY_OK;
- 
-@@ -165,7 +118,6 @@ static int yoga_c630_ucsi_probe(struct auxiliary_device *adev,
- 		return -ENOMEM;
- 
- 	uec->ec = ec;
--	init_completion(&uec->complete);
- 	uec->nb.notifier_call = yoga_c630_ucsi_notify;
- 
- 	uec->ucsi = ucsi_create(&adev->dev, &yoga_c630_ucsi_ops);
+Thanks
 
--- 
-2.39.2
-
+Jos Wang
