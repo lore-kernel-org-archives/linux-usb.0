@@ -1,95 +1,161 @@
-Received: from mail-pl1-f177.google.com (mail-pl1-f177.google.com [209.85.214.177])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from metis.whiteo.stw.pengutronix.de (metis.whiteo.stw.pengutronix.de [185.203.201.7])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CF54717BD9;
-	Sat, 22 Jun 2024 19:00:29 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.177
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 02B65129E94
+	for <linux-usb@vger.kernel.org>; Sat, 22 Jun 2024 23:48:42 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.203.201.7
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1719082831; cv=none; b=d5RaHMI2N2tU+XYNB0PvnYFkKzf0eb0iLPI0Mp4dajBOV/IssimzOTwK+q9avdSr/aX4qC/dCXIGT6aOj6prIok1CIhaqGeHHTZwwJNPuJuwYp6N0LrutSKMRNWDUOMEEuzAed2czkh9INCkoG0pb8bECpPhTqNx8QgixKZbGJE=
+	t=1719100126; cv=none; b=p2nmjEvwdsb5qffNm+Ty4+Brn0FqfBmU9ZrD36LRF9dVrz1vcZSvv0StFoe2+HSKRoOxtOa6ukOx+IgF2eyEV5QaSlUE2MHx2oZP3BCjdD28MvlwWXYghfm8+WSp5qB0BWMb6VJV0m9BbUgZnvbNoflz7wFwxZlDIkXn8oW3iBw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1719082831; c=relaxed/simple;
-	bh=Jzv0/Wz5JQ9TZ///bIDGcWuO9vF0bg91xvMB0LraRAc=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=BfedcXCibDnRvEpzv4brTEnEkqHDiYvF7bZHr6KoNFRNeZHL2+3v975zEEg2/mizigWBgEqAACH8lUIOJfKmHissJeF1CgOTDHCq5QiCF5MLmv0Bz4afd4hnpn9UbwS1eTWx4+NilfwpH9RctItXXR1KSlHYBCK2eH9zZYDAQlU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=googlemail.com; spf=pass smtp.mailfrom=googlemail.com; dkim=pass (2048-bit key) header.d=googlemail.com header.i=@googlemail.com header.b=NeK3mTs1; arc=none smtp.client-ip=209.85.214.177
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=googlemail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=googlemail.com
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=googlemail.com header.i=@googlemail.com header.b="NeK3mTs1"
-Received: by mail-pl1-f177.google.com with SMTP id d9443c01a7336-1f47f07acd3so25696315ad.0;
-        Sat, 22 Jun 2024 12:00:29 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=googlemail.com; s=20230601; t=1719082829; x=1719687629; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=Jzv0/Wz5JQ9TZ///bIDGcWuO9vF0bg91xvMB0LraRAc=;
-        b=NeK3mTs1aI1uSoorvafseeb5tZ5ztU2TUWBjMw1mx5WSZsFRrsJ016CKnGSvJwxLtT
-         2oNlUHzctg3WMaM93YWgJ+oT8twWCWWJhq6Sz3R/tDaKrHmwzHXz+Bgtc/XpgpY68hZ4
-         /hGaGGqA+O/v775nubq3Q0VoimO6ry/eqMjadJ0jBoaYJdFpbYkalTrQA4AWftwghSP5
-         aG5sYlYkyvh30EMtXTxAYf13k3EItWSDwP7SOWs275RiRRo/3bnLQRUChSeIzmDGLNvm
-         0vW6uRB70+TughjTIea25cFNKNb+cTAV6XY9VtWepuBdNDrHpoHkCUWOWPpOenRoPzeC
-         tQEw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1719082829; x=1719687629;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=Jzv0/Wz5JQ9TZ///bIDGcWuO9vF0bg91xvMB0LraRAc=;
-        b=tCUg2LpZoij4ilQ1IPFRRU7DVC6bHFsiCWncNFFJHe3EDwiJkvrONy2Hl2Y9Y3eie+
-         MKE8HpF5RDJzv+g2CMRXK2dwYBx/7o6OwYUQRov+DYaXReZU0S3I5Hiy3Xysq3QkgokF
-         k9AX35qdJoF3d/snzNwbvf0m8isXtm52UCGg4svmwIrnTzfntNd5ltuBwSl3v4Cq7ibl
-         kftq3zvRI18DM4TtmT6tF9EPAQiQCUJfQ7mzOP2Y8IIq5FJ9OwcOp/TzlIsO0nNj2u4F
-         pBajdAqQec/5zWuWGxLPC/m6h/pGmRAIVRdnWmxTxS9i/Eg9ZVudKVMTfArixPCH924Y
-         Mn6g==
-X-Forwarded-Encrypted: i=1; AJvYcCUwmXLaOjhmUbRdBoY7A0CHETruZSbMF5vRAqkQpIqa491FFnd0pNhKHVAtP5VAi58JMjlCaFDIMJXZ7h+G+jkGAIdz8hA/kpzCw/HFg6DOz6H/gn3jWx9sOcu/rD2lZPVbP1HCA8IH
-X-Gm-Message-State: AOJu0Ywh8SZVLaJ3oDlbv3LIJKgbDjK3CJCbzWHHk0eNy8v5cdVRrZWJ
-	3a3H38Sg1ni7y9ddtYOge3/tpFbFz901AbJRvdroGzbL8xCfRdDw1HmwAun39DEjhm+6rGLExiM
-	BucZuUMZkPE164lPG6GgaOBraVbFdFA==
-X-Google-Smtp-Source: AGHT+IFuSCy9jhe6LZG/UOLv7mToAkkSDK8bSG1QPp68NQt/k8OjtuXhSEhsjcloI7rLySiidT7m5XouBTLO9thR1jE=
-X-Received: by 2002:a17:903:1cf:b0:1fa:feb:c835 with SMTP id
- d9443c01a7336-1fa1d3de5c7mr14078745ad.7.1719082828933; Sat, 22 Jun 2024
- 12:00:28 -0700 (PDT)
+	s=arc-20240116; t=1719100126; c=relaxed/simple;
+	bh=G7Bdwm2LgSzcu8hKez+YkvaF4kB0cS8V8sK1sTJqTBo=;
+	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
+	 In-Reply-To:To:Cc; b=sMs0uicR7+RzKJ1/FHTGUOsggfUtIi97YTfLhv9Q1cR93nVjrLX+Hs+xQU2DL4B4e2MmrgLVjts3Qazvxyu3p9ZOP6EOdXjjxLHr9QqBQLbxXISYXWty8YStqswlFvRW+zkWqHnUkDJqfb3aTWztjpfT6WCcBcAqLVFuLbqkcgs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=pengutronix.de; spf=pass smtp.mailfrom=pengutronix.de; arc=none smtp.client-ip=185.203.201.7
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=pengutronix.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=pengutronix.de
+Received: from drehscheibe.grey.stw.pengutronix.de ([2a0a:edc0:0:c01:1d::a2])
+	by metis.whiteo.stw.pengutronix.de with esmtps (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
+	(Exim 4.92)
+	(envelope-from <m.grzeschik@pengutronix.de>)
+	id 1sLATD-0002cg-5F; Sun, 23 Jun 2024 01:48:35 +0200
+Received: from [2a0a:edc0:0:1101:1d::ac] (helo=dude04.red.stw.pengutronix.de)
+	by drehscheibe.grey.stw.pengutronix.de with esmtps  (TLS1.3) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
+	(Exim 4.94.2)
+	(envelope-from <m.grzeschik@pengutronix.de>)
+	id 1sLATC-004Hke-HQ; Sun, 23 Jun 2024 01:48:34 +0200
+Received: from localhost ([::1] helo=dude04.red.stw.pengutronix.de)
+	by dude04.red.stw.pengutronix.de with esmtp (Exim 4.96)
+	(envelope-from <m.grzeschik@pengutronix.de>)
+	id 1sLATC-000IWx-37;
+	Sun, 23 Jun 2024 01:48:34 +0200
+From: Michael Grzeschik <m.grzeschik@pengutronix.de>
+Date: Sun, 23 Jun 2024 01:48:31 +0200
+Subject: [PATCH v2 3/3] usb: gadget: uvc: set req_size and n_requests based
+ on the frame interval
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20240507131522.3546113-1-clabbe@baylibre.com> <20240507131522.3546113-2-clabbe@baylibre.com>
- <A4B2BDF4-263F-4879-A0C3-399D8A1BF3FE@aparcar.org>
-In-Reply-To: <A4B2BDF4-263F-4879-A0C3-399D8A1BF3FE@aparcar.org>
-From: Martin Blumenstingl <martin.blumenstingl@googlemail.com>
-Date: Sat, 22 Jun 2024 21:00:17 +0200
-Message-ID: <CAFBinCBwCCKUS1k0Qb0GttucF3_Nn6CJUTe090RV5AD4CDM-NQ@mail.gmail.com>
-Subject: Re: [PATCH 1/1 v7] usb: serial: add support for CH348
-To: Paul Spooren <mail@aparcar.org>, johan@kernel.org
-Cc: Corentin Labbe <clabbe@baylibre.com>, gregkh@linuxfoundation.org, 
-	linux-kernel <linux-kernel@vger.kernel.org>, linux-usb@vger.kernel.org, david@ixit.cz
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+Message-Id: <20240403-uvc_request_length_by_interval-v2-3-12690f7a2eff@pengutronix.de>
+References: <20240403-uvc_request_length_by_interval-v2-0-12690f7a2eff@pengutronix.de>
+In-Reply-To: <20240403-uvc_request_length_by_interval-v2-0-12690f7a2eff@pengutronix.de>
+To: Laurent Pinchart <laurent.pinchart@ideasonboard.com>, 
+ Daniel Scally <dan.scally@ideasonboard.com>, 
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>, 
+ Avichal Rakesh <arakesh@google.com>
+Cc: linux-usb@vger.kernel.org, linux-kernel@vger.kernel.org, 
+ Michael Grzeschik <m.grzeschik@pengutronix.de>
+X-Mailer: b4 0.12.0
+X-Developer-Signature: v=1; a=openpgp-sha256; l=3182;
+ i=m.grzeschik@pengutronix.de; h=from:subject:message-id;
+ bh=G7Bdwm2LgSzcu8hKez+YkvaF4kB0cS8V8sK1sTJqTBo=;
+ b=owEBbQKS/ZANAwAKAb9pWET5cfSrAcsmYgBmd2LSvQDIFbhZh1nGSdlJ6iKp1YiKTCaR4Flr/
+ XaLR/EK/lKJAjMEAAEKAB0WIQQV2+2Fpbqd6fvv0Gi/aVhE+XH0qwUCZndi0gAKCRC/aVhE+XH0
+ q9YFEADCdz7a9ExUObvtVWFP8ta1exn5yyW8RaWwyUPA0FbvgczUKbvDUSTkzLnSBXi1Sx/Vqgu
+ WLmzqGVZCEzJfrbYKNSduz9Rz0MyM1Pp5hE2zVqdp/4H3mxbHXSmfmfweHymsY8jdj7zSdrNSJr
+ y+j0/8Y7HU1bFyBlDzPtMDCSotGQ42VowD5JyFyxn/xvvTy2nXeJCBsaD0Ykyy5GqcLMfXIxbOR
+ dcrcWVaow/cOumdeQ3orgODjhQd5kE1nCUlrOsE46HfK+TyCBdsiTYUvH7vlg+gthsjFrgNruJZ
+ Z3WE53ZsZNkHy3oQTuiv5FzIaLqZs8bh91hX5Rhm9NIZ3vtbJGDjIgnmbSH8uavFDV1uucnZyzu
+ GziduKL0c37gx7CY0h6uVOh2XGUoyosqtP0M2VbtEyAj7BOeuWjfTDduDsoDYEB4pn0h4zABvLv
+ BNbh0kMg963Kazdl7eqQONd0fdHq/K7/N6mqFjtaPCA5M3FhZPXiNN/DScerhpFaTRchkbUqbdN
+ utQd3mcf8d7SJqNmMi8vF3OS9yKIxuPjcFvbEefwf62dAKKJB23nMNQRD8Q18kLr1yOTajAhYDp
+ FhIkw90X3Eb0JGL+Orgauu9xJeqwdbRtbcJjfxi6LMlWvWe5ZFFa9QN8zw3ZtAOfxBKjDDQmdF0
+ VqDx5VgtNsypwxg==
+X-Developer-Key: i=m.grzeschik@pengutronix.de; a=openpgp;
+ fpr=957BC452CE953D7EA60CF4FC0BE9E3157A1E2C64
+X-SA-Exim-Connect-IP: 2a0a:edc0:0:c01:1d::a2
+X-SA-Exim-Mail-From: m.grzeschik@pengutronix.de
+X-SA-Exim-Scanned: No (on metis.whiteo.stw.pengutronix.de); SAEximRunCond expanded to false
+X-PTX-Original-Recipient: linux-usb@vger.kernel.org
 
-Hi Paul, Hi Johan,
+With the information of the interval frame length it is now possible to
+calculate the number of usb requests by the frame duration. Based on the
+request size and the imagesize we calculate the actual size per request.
+This has calculation has the benefit that the frame data is equally
+distributed over all allocated requests.
 
-On Wed, Jun 19, 2024 at 3:35=E2=80=AFPM Paul Spooren <mail@aparcar.org> wro=
-te:
-> > On 7. May 2024, at 15:15, Corentin Labbe <clabbe@baylibre.com> wrote:
-> >
-> > The CH348 is an USB octo port serial adapter.
-> > The device multiplexes all 8 ports in the same pair of Bulk endpoints.
-> > Since there is no public datasheet, unfortunately it remains some magic=
- values
-> >
-> > Signed-off-by: Corentin Labbe <clabbe@baylibre.com>
-> Tested-by: Paul Spooren <mail@aparcar.org <mailto:mail@aparcar.org>>
-Thanks Paul!
-Johan, is the Tested-by something that you can fix up while applying?
+We keep the current req_size calculation as a fallback, if the interval
+callbacks did not set the interval property.
 
-Speaking of applying this patch, it would be great to have it queued
-for Linux 6.11.
-If you have any questions or review comments then please let Corentin
-and me know.
+Signed-off-by: Michael Grzeschik <m.grzeschik@pengutronix.de>
 
+---
+v1 -> v2: - add headersize per request into calculation
+---
+ drivers/usb/gadget/function/uvc_queue.c | 30 +++++++++++++++++++++++-------
+ drivers/usb/gadget/function/uvc_video.c |  2 +-
+ 2 files changed, 24 insertions(+), 8 deletions(-)
 
-Best regards,
-Martin
+diff --git a/drivers/usb/gadget/function/uvc_queue.c b/drivers/usb/gadget/function/uvc_queue.c
+index ce51643fc4639..141e52e34c610 100644
+--- a/drivers/usb/gadget/function/uvc_queue.c
++++ b/drivers/usb/gadget/function/uvc_queue.c
+@@ -44,7 +44,7 @@ static int uvc_queue_setup(struct vb2_queue *vq,
+ {
+ 	struct uvc_video_queue *queue = vb2_get_drv_priv(vq);
+ 	struct uvc_video *video = container_of(queue, struct uvc_video, queue);
+-	unsigned int req_size;
++	unsigned int req_size, max_req_size, header_size;
+ 	unsigned int nreq;
+ 
+ 	if (*nbuffers > UVC_MAX_VIDEO_BUFFERS)
+@@ -54,15 +54,31 @@ static int uvc_queue_setup(struct vb2_queue *vq,
+ 
+ 	sizes[0] = video->imagesize;
+ 
+-	req_size = video->ep->maxpacket
++	nreq = DIV_ROUND_UP(video->interval, video->ep->desc->bInterval * 1250);
++
++	header_size = nreq * UVCG_REQUEST_HEADER_LEN;
++
++	req_size = DIV_ROUND_UP(video->imagesize + header_size, nreq);
++
++	max_req_size = video->ep->maxpacket
+ 		 * max_t(unsigned int, video->ep->maxburst, 1)
+ 		 * (video->ep->mult);
+ 
+-	/* We divide by two, to increase the chance to run
+-	 * into fewer requests for smaller framesizes.
+-	 */
+-	nreq = DIV_ROUND_UP(DIV_ROUND_UP(sizes[0], 2), req_size);
+-	nreq = clamp(nreq, 4U, 64U);
++	if (!req_size) {
++		req_size = max_req_size;
++
++		/* We divide by two, to increase the chance to run
++		 * into fewer requests for smaller framesizes.
++		 */
++		nreq = DIV_ROUND_UP(DIV_ROUND_UP(sizes[0], 2), req_size);
++		nreq = clamp(nreq, 4U, 64U);
++	} else if (req_size > max_req_size) {
++		/* The prepared interval length and expected buffer size
++		 * is not possible to stream with the currently configured
++		 * isoc bandwidth
++		 */
++		return -EINVAL;
++	}
+ 
+ 	video->req_size = req_size;
+ 	video->uvc_num_requests = nreq;
+diff --git a/drivers/usb/gadget/function/uvc_video.c b/drivers/usb/gadget/function/uvc_video.c
+index 95bb64e16f3da..d197c46e93fb4 100644
+--- a/drivers/usb/gadget/function/uvc_video.c
++++ b/drivers/usb/gadget/function/uvc_video.c
+@@ -304,7 +304,7 @@ static int uvcg_video_usb_req_queue(struct uvc_video *video,
+ 		 */
+ 		if (list_empty(&video->req_free) || ureq->last_buf ||
+ 			!(video->req_int_count %
+-			DIV_ROUND_UP(video->uvc_num_requests, 4))) {
++			clamp(DIV_ROUND_UP(video->uvc_num_requests, 4), 4U, 16U))) {
+ 			video->req_int_count = 0;
+ 			req->no_interrupt = 0;
+ 		} else {
+
+-- 
+2.39.2
+
