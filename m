@@ -1,238 +1,113 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.21])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.16])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9523219D8A8
-	for <linux-usb@vger.kernel.org>; Mon, 24 Jun 2024 16:23:16 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.21
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1B4EA19E7E2;
+	Mon, 24 Jun 2024 16:25:05 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.16
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1719246198; cv=none; b=Jv7/yplhz2jz8ooIpmBggsG6oT6s4u84422L8VstLWiKcEC6iHvjtMwoBlxSwwUIS1kRge2b/1X7oTpR17zRP9HUTAt1I/SDt8ZzLk1kGznD3AjhbPlgtJ30YnLsi5wK88Df03OVPAb3bGmleawMsKlky2XTrWQPEwnXAYjsN90=
+	t=1719246307; cv=none; b=A5ip511682hN8wehktsJlI6K+K1xo/8oG6Cd4+SlR8BSkEhNHB52nkLVa0OOigE7FUT6r+dLlCF2XV53v2Xko/t0BLx97l8f/uMdS8jm6dZiVB0zVkGWYpCeI2Wq1CYQtAtf/FdIMZfxlRdv1u7+GXmvqYQyVc5up9dIND1uOUo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1719246198; c=relaxed/simple;
-	bh=hlQJ0CAErf+1laomT//C4i+GHQ3Zz1nhxE3++61CZBo=;
-	h=Date:From:To:Cc:Subject:Message-ID; b=l/l4ueTUOBFESno6VkFKHDO5AoUwZEQmo0ESGlRcXRAnOEbTX2YHNaWDj4B25Gn8GwOVNY4HHuf3+Oju3WrqkugqDDTU1FQuWQjpHNKOCJiA2QN5vOVLRlaFLzuxm2JRngwxBxg/gDIgC7rv/e1vlL4xAUIOehAnL5UPOIhPHo8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=WrIRuOo/; arc=none smtp.client-ip=198.175.65.21
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	s=arc-20240116; t=1719246307; c=relaxed/simple;
+	bh=fbCoAVw5u4SsXGsY9Q4TwtAMZSfeZ8xtbvxJxzRDzEQ=;
+	h=From:Date:To:cc:Subject:Message-ID:MIME-Version:Content-Type; b=AGbJnL3xsktQvlZNW8g6Ppcx3g3JCGgEWyhjKlo8dNKj2KBo+IIGlD/6aLTZaHquL4EkkpzODjGLLd2Xzz7TY7xVzeu3o73Wiu4EypZnaP3+IAUcr2mRhOl12ipk8MFx96BNpb3o/kIy1lDhYXLD5UqqNxFPpDcPtRWDIMfHzwE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=none smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Zez7tI6q; arc=none smtp.client-ip=198.175.65.16
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=linux.intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="WrIRuOo/"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Zez7tI6q"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1719246196; x=1750782196;
-  h=date:from:to:cc:subject:message-id;
-  bh=hlQJ0CAErf+1laomT//C4i+GHQ3Zz1nhxE3++61CZBo=;
-  b=WrIRuOo/RdBu2RoT0BShEChjCjJQa+4gQuymo/QmUGbz/KZTr4cMK6qO
-   z0wXaCC2xh2C90IDbuR6JrzrJKI4q6jp0fcko8pyFgjYPXPuD9HtgOxhn
-   PuFXtdvop372j4qd3yQz9N7UPXD7KgX+lzCIJFN8wmIP1Mlv6uYdw51g/
-   ZATwlZSw3LrsYeEbcCYmTEXekOboyOX/OKYEPzy/TilrkJfeSMQRcM6oY
-   NIkWY8no+guHh+uuxwyj9bP0E7xiIzfIIJOW9VJB5enTQCmJ3HsLwyhcZ
-   bRWI1Yxt8Ujn/V/zHhth6gxvOSkaW9C+kGnCx7YKFhRNMcopreX2M29Yy
-   A==;
-X-CSE-ConnectionGUID: h67rtK2ETBWuE6zKRfbsgQ==
-X-CSE-MsgGUID: JVVaIiBuRmibPpaPzXPTIw==
-X-IronPort-AV: E=McAfee;i="6700,10204,11113"; a="16191783"
+  t=1719246306; x=1750782306;
+  h=from:date:to:cc:subject:message-id:mime-version;
+  bh=fbCoAVw5u4SsXGsY9Q4TwtAMZSfeZ8xtbvxJxzRDzEQ=;
+  b=Zez7tI6qo7n3L2ZjSbUbAi3SEDZQ3M/KSo7HG9UmNBxHKJ2hvOU8NlZo
+   95yJO/a1SmzqJOThzaSJqGshwcBu9Gw0X2vSpaS2V5+/JamaoKKSBCk0S
+   dAKMpndlu54k5eWYpwRh0BYI/VHpB3VFMQUkSnltXmd/mHmZ1RG1UxP+3
+   u4yzJyk7wGP5KFW7NdtD5+D4hwkWlMVwqh2Lx6zKWInBlCxwxA/3TTSb4
+   GKiuIlKRxODQgBidnT5xt759xBc+a2oCGsSUJXhobvvMsh4mkufG62G1V
+   7vG6yYSRRa/mg6mhmJOhUPQ2Akk5vB2l/01/7cfFX5QvMLQ3BXFgijCZS
+   w==;
+X-CSE-ConnectionGUID: 0c8P+Sn9QjieRCW7DaNIVA==
+X-CSE-MsgGUID: 6LIcOikfSwazQoxZ6v868g==
+X-IronPort-AV: E=McAfee;i="6700,10204,11113"; a="16356537"
 X-IronPort-AV: E=Sophos;i="6.08,262,1712646000"; 
-   d="scan'208";a="16191783"
-Received: from fmviesa004.fm.intel.com ([10.60.135.144])
-  by orvoesa113.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 24 Jun 2024 09:23:16 -0700
-X-CSE-ConnectionGUID: m18MzlvkQICW4Nwv21HanQ==
-X-CSE-MsgGUID: 1ZwpluOfTQaMv/qJJVyVSg==
+   d="scan'208";a="16356537"
+Received: from orviesa004.jf.intel.com ([10.64.159.144])
+  by orvoesa108.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 24 Jun 2024 09:25:05 -0700
+X-CSE-ConnectionGUID: g4niJvsaQbGtyeXmdH28uw==
+X-CSE-MsgGUID: hqDaBJICQkeSfs4KYI8E2g==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.08,262,1712646000"; 
-   d="scan'208";a="47884055"
-Received: from lkp-server01.sh.intel.com (HELO 68891e0c336b) ([10.239.97.150])
-  by fmviesa004.fm.intel.com with ESMTP; 24 Jun 2024 09:23:15 -0700
-Received: from kbuild by 68891e0c336b with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1sLmTI-000DVs-2j;
-	Mon, 24 Jun 2024 16:23:12 +0000
-Date: Tue, 25 Jun 2024 00:22:26 +0800
-From: kernel test robot <lkp@intel.com>
-To: "Greg Kroah-Hartman" <gregkh@linuxfoundation.org>
-Cc: linux-usb@vger.kernel.org
-Subject: [usb:usb-testing] BUILD SUCCESS WITH WARNING
- 819984a0dd3606b7c46fe156cd56a0dc0d604788
-Message-ID: <202406250024.i8XBhszX-lkp@intel.com>
-User-Agent: s-nail v14.9.24
+   d="scan'208";a="48520499"
+Received: from ijarvine-desk1.ger.corp.intel.com (HELO localhost) ([10.245.247.61])
+  by orviesa004-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 24 Jun 2024 09:25:00 -0700
+From: =?UTF-8?q?Ilpo=20J=C3=A4rvinen?= <ilpo.jarvinen@linux.intel.com>
+Date: Mon, 24 Jun 2024 19:24:55 +0300 (EEST)
+To: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>, 
+    Sebastian Reichel <sre@kernel.org>, 
+    Heikki Krogerus <heikki.krogerus@linux.intel.com>, 
+    Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+cc: Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>, 
+    Conor Dooley <conor+dt@kernel.org>, Bjorn Andersson <andersson@kernel.org>, 
+    Hans de Goede <hdegoede@redhat.com>, 
+    Bryan O'Donoghue <bryan.odonoghue@linaro.org>, 
+    Konrad Dybcio <konrad.dybcio@linaro.org>, linux-pm@vger.kernel.org, 
+    devicetree@vger.kernel.org, LKML <linux-kernel@vger.kernel.org>, 
+    platform-driver-x86@vger.kernel.org, linux-usb@vger.kernel.org, 
+    linux-arm-msm@vger.kernel.org, Nikita Travkin <nikita@trvn.ru>, 
+    Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+Subject: [GIT PULL RESEND] Immutable branch between pdx86 lenovo c630 branch,
+ power/supply and USB
+Message-ID: <e42fb2e9-81d4-4e40-ff3a-f9d6a46d03f9@linux.intel.com>
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=US-ASCII
 
-tree/branch: https://git.kernel.org/pub/scm/linux/kernel/git/gregkh/usb.git usb-testing
-branch HEAD: 819984a0dd3606b7c46fe156cd56a0dc0d604788  kselftest: devices: Add of-fullname-regex property
+Hi,
 
-Warning reports:
+This is v2 of the lenovo c630 IB branch with the build fix for non-ARM64 
+platforms (built on top of the commits in the previous IB PR). Resent with 
+full Subject line.
 
-https://lore.kernel.org/oe-kbuild-all/202406230117.PmWeGRVI-lkp@intel.com
+The following changes since commit 1613e604df0cd359cf2a7fbd9be7a0bcfacfabd0:
 
-Warning: (recently discovered and may have been fixed)
+  Linux 6.10-rc1 (2024-05-26 15:20:12 -0700)
 
-arch/arm64/boot/dts/qcom/sc8180x-lenovo-flex-5g.dtb: usb@a6f8800: interrupt-names: ['hs_phy_irq', 'ss_phy_irq', 'dm_hs_phy_irq', 'dp_hs_phy_irq'] is too short
-arch/arm64/boot/dts/qcom/sc8180x-lenovo-flex-5g.dtb: usb@a6f8800: interrupt-names:1: 'hs_phy_irq' was expected
-arch/arm64/boot/dts/qcom/sc8180x-lenovo-flex-5g.dtb: usb@a6f8800: interrupt-names:2: 'dp_hs_phy_irq' was expected
-arch/arm64/boot/dts/qcom/sc8180x-lenovo-flex-5g.dtb: usb@a6f8800: interrupt-names:3: 'dm_hs_phy_irq' was expected
-arch/arm64/boot/dts/qcom/sc8180x-lenovo-flex-5g.dtb: usb@a8f8800: interrupt-names: ['hs_phy_irq', 'ss_phy_irq', 'dm_hs_phy_irq', 'dp_hs_phy_irq'] is too short
-arch/arm64/boot/dts/qcom/sc8180x-lenovo-flex-5g.dtb: usb@a8f8800: interrupt-names:1: 'hs_phy_irq' was expected
-arch/arm64/boot/dts/qcom/sc8180x-lenovo-flex-5g.dtb: usb@a8f8800: interrupt-names:2: 'dp_hs_phy_irq' was expected
-arch/arm64/boot/dts/qcom/sc8180x-lenovo-flex-5g.dtb: usb@a8f8800: interrupt-names:3: 'dm_hs_phy_irq' was expected
-arch/arm64/boot/dts/qcom/sc8180x-primus.dtb: usb@a6f8800: interrupt-names: ['hs_phy_irq', 'ss_phy_irq', 'dm_hs_phy_irq', 'dp_hs_phy_irq'] is too short
-arch/arm64/boot/dts/qcom/sc8180x-primus.dtb: usb@a6f8800: interrupt-names:1: 'hs_phy_irq' was expected
-arch/arm64/boot/dts/qcom/sc8180x-primus.dtb: usb@a6f8800: interrupt-names:2: 'dp_hs_phy_irq' was expected
-arch/arm64/boot/dts/qcom/sc8180x-primus.dtb: usb@a6f8800: interrupt-names:3: 'dm_hs_phy_irq' was expected
-arch/arm64/boot/dts/qcom/sc8180x-primus.dtb: usb@a8f8800: interrupt-names: ['hs_phy_irq', 'ss_phy_irq', 'dm_hs_phy_irq', 'dp_hs_phy_irq'] is too short
-arch/arm64/boot/dts/qcom/sc8180x-primus.dtb: usb@a8f8800: interrupt-names:1: 'hs_phy_irq' was expected
-arch/arm64/boot/dts/qcom/sc8180x-primus.dtb: usb@a8f8800: interrupt-names:2: 'dp_hs_phy_irq' was expected
-arch/arm64/boot/dts/qcom/sc8180x-primus.dtb: usb@a8f8800: interrupt-names:3: 'dm_hs_phy_irq' was expected
+are available in the Git repository at:
 
-Warning ids grouped by kconfigs:
+  https://git.kernel.org/pub/scm/linux/kernel/git/pdx86/platform-drivers-x86.git tags/platform-drivers-x86-ib-lenovo-c630-v6.11-2
 
-gcc_recent_errors
-`-- arm64-randconfig-051-20240622
-    |-- arch-arm64-boot-dts-qcom-sc818-lenovo-flex-5g.dtb:usb-a6f8800:interrupt-names:dm_hs_phy_irq-was-expected
-    |-- arch-arm64-boot-dts-qcom-sc818-lenovo-flex-5g.dtb:usb-a6f8800:interrupt-names:dp_hs_phy_irq-was-expected
-    |-- arch-arm64-boot-dts-qcom-sc818-lenovo-flex-5g.dtb:usb-a6f8800:interrupt-names:hs_phy_irq-ss_phy_irq-dm_hs_phy_irq-dp_hs_phy_irq-is-too-short
-    |-- arch-arm64-boot-dts-qcom-sc818-lenovo-flex-5g.dtb:usb-a6f8800:interrupt-names:hs_phy_irq-was-expected
-    |-- arch-arm64-boot-dts-qcom-sc818-lenovo-flex-5g.dtb:usb-a8f8800:interrupt-names:dm_hs_phy_irq-was-expected
-    |-- arch-arm64-boot-dts-qcom-sc818-lenovo-flex-5g.dtb:usb-a8f8800:interrupt-names:dp_hs_phy_irq-was-expected
-    |-- arch-arm64-boot-dts-qcom-sc818-lenovo-flex-5g.dtb:usb-a8f8800:interrupt-names:hs_phy_irq-ss_phy_irq-dm_hs_phy_irq-dp_hs_phy_irq-is-too-short
-    |-- arch-arm64-boot-dts-qcom-sc818-lenovo-flex-5g.dtb:usb-a8f8800:interrupt-names:hs_phy_irq-was-expected
-    |-- arch-arm64-boot-dts-qcom-sc818-primus.dtb:usb-a6f8800:interrupt-names:dm_hs_phy_irq-was-expected
-    |-- arch-arm64-boot-dts-qcom-sc818-primus.dtb:usb-a6f8800:interrupt-names:dp_hs_phy_irq-was-expected
-    |-- arch-arm64-boot-dts-qcom-sc818-primus.dtb:usb-a6f8800:interrupt-names:hs_phy_irq-ss_phy_irq-dm_hs_phy_irq-dp_hs_phy_irq-is-too-short
-    |-- arch-arm64-boot-dts-qcom-sc818-primus.dtb:usb-a6f8800:interrupt-names:hs_phy_irq-was-expected
-    |-- arch-arm64-boot-dts-qcom-sc818-primus.dtb:usb-a8f8800:interrupt-names:dm_hs_phy_irq-was-expected
-    |-- arch-arm64-boot-dts-qcom-sc818-primus.dtb:usb-a8f8800:interrupt-names:dp_hs_phy_irq-was-expected
-    |-- arch-arm64-boot-dts-qcom-sc818-primus.dtb:usb-a8f8800:interrupt-names:hs_phy_irq-ss_phy_irq-dm_hs_phy_irq-dp_hs_phy_irq-is-too-short
-    `-- arch-arm64-boot-dts-qcom-sc818-primus.dtb:usb-a8f8800:interrupt-names:hs_phy_irq-was-expected
+for you to fetch changes up to 13bbe1c83bc401c2538c758228d27b4042b08341:
 
-elapsed time: 5650m
+  platform/arm64: build drivers even on non-ARM64 platforms (2024-06-24 18:22:15 +0300)
 
-configs tested: 120
-configs skipped: 1
+----------------------------------------------------------------
+Immutable branch between pdx86 lenovo c630 branch, power/supply and USB
+subsystems due for the v6.11 merge window.
 
-tested configs:
-alpha                             allnoconfig   gcc-13.2.0
-arc                               allnoconfig   gcc-13.2.0
-arc                   randconfig-001-20240621   gcc-13.2.0
-arc                   randconfig-001-20240624   gcc-13.2.0
-arc                   randconfig-002-20240621   gcc-13.2.0
-arc                   randconfig-002-20240624   gcc-13.2.0
-arc                    vdk_hs38_smp_defconfig   gcc-13.2.0
-arm                               allnoconfig   clang-19
-arm                   randconfig-001-20240621   gcc-13.2.0
-arm                   randconfig-001-20240624   clang-17
-arm                   randconfig-002-20240621   gcc-13.2.0
-arm                   randconfig-002-20240624   gcc-13.2.0
-arm                   randconfig-003-20240621   clang-19
-arm                   randconfig-003-20240624   gcc-13.2.0
-arm                   randconfig-004-20240621   gcc-13.2.0
-arm                           tegra_defconfig   gcc-13.2.0
-arm64                             allnoconfig   gcc-13.2.0
-arm64                 randconfig-001-20240621   clang-15
-arm64                 randconfig-002-20240621   clang-19
-arm64                 randconfig-003-20240621   gcc-13.2.0
-arm64                 randconfig-004-20240621   clang-19
-csky                              allnoconfig   gcc-13.2.0
-csky                  randconfig-001-20240621   gcc-13.2.0
-csky                  randconfig-002-20240621   gcc-13.2.0
-hexagon                           allnoconfig   clang-19
-hexagon               randconfig-001-20240621   clang-17
-hexagon               randconfig-002-20240621   clang-16
-i386         buildonly-randconfig-001-20240624   gcc-8
-i386         buildonly-randconfig-002-20240624   gcc-13
-i386         buildonly-randconfig-003-20240624   clang-18
-i386         buildonly-randconfig-004-20240624   gcc-10
-i386         buildonly-randconfig-005-20240624   clang-18
-loongarch                         allnoconfig   gcc-13.2.0
-loongarch             randconfig-001-20240621   gcc-13.2.0
-loongarch             randconfig-002-20240621   gcc-13.2.0
-m68k                              allnoconfig   gcc-13.2.0
-m68k                        m5407c3_defconfig   gcc-13.2.0
-m68k                       m5475evb_defconfig   gcc-13.2.0
-microblaze                        allnoconfig   gcc-13.2.0
-mips                              allnoconfig   gcc-13.2.0
-mips                      maltasmvp_defconfig   gcc-13.2.0
-nios2                             allnoconfig   gcc-13.2.0
-nios2                 randconfig-001-20240621   gcc-13.2.0
-nios2                 randconfig-002-20240621   gcc-13.2.0
-openrisc                          allnoconfig   gcc-13.2.0
-openrisc                            defconfig   gcc-13.2.0
-parisc                            allnoconfig   gcc-13.2.0
-parisc                              defconfig   gcc-13.2.0
-parisc                randconfig-001-20240621   gcc-13.2.0
-parisc                randconfig-002-20240621   gcc-13.2.0
-parisc64                         alldefconfig   gcc-13.2.0
-parisc64                            defconfig   gcc-13.2.0
-powerpc                           allnoconfig   gcc-13.2.0
-powerpc                    ge_imp3a_defconfig   gcc-13.2.0
-powerpc                   microwatt_defconfig   gcc-13.2.0
-powerpc                   motionpro_defconfig   clang-17
-powerpc                      pmac32_defconfig   clang-19
-powerpc               randconfig-001-20240621   clang-15
-powerpc               randconfig-002-20240621   clang-19
-powerpc               randconfig-003-20240621   clang-19
-powerpc64             randconfig-001-20240621   clang-19
-powerpc64             randconfig-002-20240621   clang-19
-powerpc64             randconfig-003-20240621   clang-19
-riscv                             allnoconfig   gcc-13.2.0
-riscv                               defconfig   clang-19
-riscv                 randconfig-001-20240621   gcc-13.2.0
-riscv                 randconfig-002-20240621   clang-19
-s390                              allnoconfig   clang-19
-s390                                defconfig   clang-19
-s390                  randconfig-001-20240621   gcc-13.2.0
-s390                  randconfig-002-20240621   gcc-13.2.0
-sh                                allnoconfig   gcc-13.2.0
-sh                                  defconfig   gcc-13.2.0
-sh                         ecovec24_defconfig   gcc-13.2.0
-sh                               j2_defconfig   gcc-13.2.0
-sh                          polaris_defconfig   gcc-13.2.0
-sh                    randconfig-001-20240621   gcc-13.2.0
-sh                    randconfig-002-20240621   gcc-13.2.0
-sh                           se7712_defconfig   gcc-13.2.0
-sparc                             allnoconfig   gcc-13.2.0
-sparc                               defconfig   gcc-13.2.0
-sparc64                             defconfig   gcc-13.2.0
-sparc64               randconfig-001-20240621   gcc-13.2.0
-sparc64               randconfig-002-20240621   gcc-13.2.0
-um                                allnoconfig   clang-17
-um                    randconfig-001-20240621   gcc-13
-um                    randconfig-002-20240621   gcc-9
-x86_64       buildonly-randconfig-001-20240621   clang-18
-x86_64       buildonly-randconfig-001-20240624   gcc-13
-x86_64       buildonly-randconfig-002-20240621   gcc-11
-x86_64       buildonly-randconfig-002-20240624   gcc-13
-x86_64       buildonly-randconfig-003-20240621   gcc-11
-x86_64       buildonly-randconfig-003-20240624   clang-18
-x86_64       buildonly-randconfig-004-20240621   clang-18
-x86_64       buildonly-randconfig-004-20240624   clang-18
-x86_64       buildonly-randconfig-005-20240621   gcc-11
-x86_64       buildonly-randconfig-005-20240624   clang-18
-x86_64       buildonly-randconfig-006-20240621   clang-18
-x86_64       buildonly-randconfig-006-20240624   clang-18
-x86_64                randconfig-001-20240621   gcc-12
-x86_64                randconfig-002-20240621   gcc-13
-x86_64                randconfig-003-20240621   clang-18
-x86_64                randconfig-004-20240621   gcc-13
-x86_64                randconfig-005-20240621   gcc-13
-x86_64                randconfig-006-20240621   clang-18
-x86_64                randconfig-011-20240621   clang-18
-x86_64                randconfig-012-20240621   gcc-13
-x86_64                randconfig-013-20240621   clang-18
-x86_64                randconfig-014-20240621   gcc-13
-x86_64                randconfig-015-20240621   gcc-11
-x86_64                randconfig-016-20240621   clang-18
-x86_64                randconfig-071-20240621   gcc-13
-x86_64                randconfig-072-20240621   gcc-13
-x86_64                randconfig-073-20240621   clang-18
-x86_64                randconfig-074-20240621   clang-18
-x86_64                randconfig-075-20240621   clang-18
-x86_64                randconfig-076-20240621   clang-18
-xtensa                            allnoconfig   gcc-13.2.0
-xtensa                randconfig-001-20240621   gcc-13.2.0
-xtensa                randconfig-002-20240621   gcc-13.2.0
+platform-drivers-x86-ib-lenovo-c630-v6.11-2:
+  v6.10-rc1 + platform-drivers-x86-lenovo-c630
+for merging into the power/supply and USB subsystems for v6.11.
 
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+----------------------------------------------------------------
+Bjorn Andersson (1):
+      dt-bindings: platform: Add Lenovo Yoga C630 EC
+
+Dmitry Baryshkov (2):
+      platform: arm64: add Lenovo Yoga C630 WOS EC driver
+      platform/arm64: build drivers even on non-ARM64 platforms
+
+ .../bindings/platform/lenovo,yoga-c630-ec.yaml     |  83 ++++++
+ drivers/platform/Makefile                          |   2 +-
+ drivers/platform/arm64/Kconfig                     |  14 +
+ drivers/platform/arm64/Makefile                    |   1 +
+ drivers/platform/arm64/lenovo-yoga-c630.c          | 291 +++++++++++++++++++++
+ include/linux/platform_data/lenovo-yoga-c630.h     |  44 ++++
+ 6 files changed, 434 insertions(+), 1 deletion(-)
+ create mode 100644 Documentation/devicetree/bindings/platform/lenovo,yoga-c630-ec.yaml
+ create mode 100644 drivers/platform/arm64/lenovo-yoga-c630.c
+ create mode 100644 include/linux/platform_data/lenovo-yoga-c630.h
