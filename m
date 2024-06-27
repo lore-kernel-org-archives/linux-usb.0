@@ -1,88 +1,80 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 98AB719645E;
-	Thu, 27 Jun 2024 14:54:50 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 74CDB13DBBC
+	for <linux-usb@vger.kernel.org>; Thu, 27 Jun 2024 14:56:21 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1719500090; cv=none; b=O7zTUFoBNkrSssTupU0jeUyi/wGv+sARH+CsthALqPgc//aG70pw7BE9lCbokzykWsv0PTRQlGz9Dc3LYBakonInfS6bqDQleYohlvIZQ9K0MMznt9X+ue5CYjdHjS9t9QqXSiug+6ey8JsGkka+JvOUzTgvdA+uUzh9kkaU0jE=
+	t=1719500181; cv=none; b=h6DzymJlxq9/ogbcjFkAokmWm5Z+x9GLc/Ik8MH14l34LM46A7LRHvsh6hZswxxs4GT1R+l+PZkD7cIIGXXAmNHSzY7Q3y1/76pDN+zF9HVDF7wD+z0xFlPDJhaEGGN7C+2aUADdpz4R8gYHYgo71oDEkMWHwI2yeIcv/qKpKMM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1719500090; c=relaxed/simple;
-	bh=SsmqDpFLU55wekfIzIylJo3ky20eatPOkukJ2Xq2Rl4=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=ZgNhHV+EBqSB1CkfbgOOHrEaytASaoqlW8fkfoWN/nRcotlEF0le5Ou5ox7qywdYqe7sExVi7TCp0BrJkreDzFaoBMR32efOvEQxScch3yl2F0Od+O8Ket/5vFD9MQoJ/vjUwN+TVKRoFlPbNctqmHNu6BGJ9YoWXIFTuGvPpDY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b=KXOSHtQ4; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1719500181; c=relaxed/simple;
+	bh=FrQ1JHDj1JPz4oAtaTDr9fUvJWUcg8TPY5zWcjy8tRQ=;
+	h=From:To:Subject:Date:Message-ID:In-Reply-To:References:
+	 Content-Type:MIME-Version; b=trsnTsrMVIwLcINfXw4RikLI2iQ8ruxDJ2KFnSdKhgyxsnHhQ0rG8TTtfKIcjsM//BhDOqhJjqgS5Tvz9rhFSvYd0OQe+3TvGP2QqO3eTWkzqW+5R6qkEC55CkjXte9rkrClhavvqUVmbZQ+G3gtN2gQpaMPhq/nb9GgP8RLASU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=uj4K38Sz; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="KXOSHtQ4"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id C4102C2BBFC;
-	Thu, 27 Jun 2024 14:54:49 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
-	s=korg; t=1719500090;
-	bh=SsmqDpFLU55wekfIzIylJo3ky20eatPOkukJ2Xq2Rl4=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=KXOSHtQ4EWS38UWNcRRQyjhJnAi9rpP0qW0jNqA7dL72G7YAYA3L+aptgh3xz8UYe
-	 V5n2D24xeyagwRH7XxvRwycF/e+YUvCtn/MNk6uS+V4kSgmRn2jD8cxV8mv1/N4eQx
-	 kEbe9mFMfPfav0OXxPQVHL7kzEgcSJL/0c1q23To=
-Date: Thu, 27 Jun 2024 16:54:47 +0200
-From: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-To: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-Cc: Heikki Krogerus <heikki.krogerus@linux.intel.com>,
-	Maxime Coquelin <mcoquelin.stm32@gmail.com>,
-	Alexandre Torgue <alexandre.torgue@foss.st.com>,
-	Nikita Travkin <nikita@trvn.ru>,
-	Neil Armstrong <neil.armstrong@linaro.org>,
-	linux-usb@vger.kernel.org, linux-kernel@vger.kernel.org,
-	linux-stm32@st-md-mailman.stormreply.com,
-	linux-arm-kernel@lists.infradead.org
-Subject: Re: [PATCH v4 0/7] usb: typec: ucsi: rework glue driver interface
-Message-ID: <2024062717-foster-document-eb2f@gregkh>
-References: <20240627-ucsi-rework-interface-v4-0-289ddc6874c7@linaro.org>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="uj4K38Sz"
+Received: by smtp.kernel.org (Postfix) with ESMTPS id 4D6C0C2BBFC
+	for <linux-usb@vger.kernel.org>; Thu, 27 Jun 2024 14:56:21 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1719500181;
+	bh=FrQ1JHDj1JPz4oAtaTDr9fUvJWUcg8TPY5zWcjy8tRQ=;
+	h=From:To:Subject:Date:In-Reply-To:References:From;
+	b=uj4K38SzPc8BFn3HREd9gRL38TEdK2/mXuEMHExyzRN9Oh/cHwgkvAm8YO6jtQIdQ
+	 XEbSK9cnm6mdQ75cVproKGUPgg4N4IzfMXVVeNg0lvkEvbg6sxogEP9tXf3TVWSNi/
+	 QOvhpwKu8Z8Wpn/r+e+6XVvr4/UIRfpCfX37v/jVAcGNnwVBbNkRDbmonbQWPlPYWa
+	 tfJqj9vHzTroNEBz1NmYbzXIz/UvsU2eBDloKRg9pMAFRuVgZ/vv9MOarqyUl7UXUt
+	 dXXgKm5DuVSfmqbJGf7lcoFFJ8DAOs3fRRhAysh5/yrsJlPSCaRtK7EgwU2wFBqMX4
+	 7/nGORHXknZlA==
+Received: by aws-us-west-2-korg-bugzilla-1.web.codeaurora.org (Postfix, from userid 48)
+	id 21BEBC53B50; Thu, 27 Jun 2024 14:56:21 +0000 (UTC)
+From: bugzilla-daemon@kernel.org
+To: linux-usb@vger.kernel.org
+Subject: [Bug 218987] USB devices are not detected after Save/Restore error
+ on Intel xHC
+Date: Thu, 27 Jun 2024 14:56:20 +0000
+X-Bugzilla-Reason: None
+X-Bugzilla-Type: changed
+X-Bugzilla-Watch-Reason: AssignedTo drivers_usb@kernel-bugs.kernel.org
+X-Bugzilla-Product: Drivers
+X-Bugzilla-Component: USB
+X-Bugzilla-Version: 2.5
+X-Bugzilla-Keywords: 
+X-Bugzilla-Severity: normal
+X-Bugzilla-Who: mathias.nyman@linux.intel.com
+X-Bugzilla-Status: NEW
+X-Bugzilla-Resolution: 
+X-Bugzilla-Priority: P3
+X-Bugzilla-Assigned-To: drivers_usb@kernel-bugs.kernel.org
+X-Bugzilla-Flags: 
+X-Bugzilla-Changed-Fields: 
+Message-ID: <bug-218987-208809-UaBdJJP9tK@https.bugzilla.kernel.org/>
+In-Reply-To: <bug-218987-208809@https.bugzilla.kernel.org/>
+References: <bug-218987-208809@https.bugzilla.kernel.org/>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+X-Bugzilla-URL: https://bugzilla.kernel.org/
+Auto-Submitted: auto-generated
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20240627-ucsi-rework-interface-v4-0-289ddc6874c7@linaro.org>
 
-On Thu, Jun 27, 2024 at 05:44:39PM +0300, Dmitry Baryshkov wrote:
-> The interface between UCSI and the glue driver is very low-level. It
-> allows reading the UCSI data from any offset (but in reality the UCSI
-> driver reads only VERSION, CCI an MESSAGE_IN data). All event handling
-> is to be done by the glue driver (which already resulted in several
-> similar-but-slightly different implementations). It leaves no place to
-> optimize the write-read-read sequence for the command execution (which
-> might be beneficial for some of the drivers), etc.
-> 
-> The patchseries attempts to restructure the UCSI glue driver interface
-> in order to provide sensible operations instead of a low-level read /
-> write calls.
-> 
-> If this approach is found to be acceptable, I plan to further rework the
-> command interface, moving reading CCI and MESSAGE_IN to the common
-> control code, which should simplify driver's implementation and remove
-> necessity to split quirks between sync_control and read_message_in e.g.
-> as implemented in the ucsi_ccg.c.
-> 
-> Note, the series was tested only on the ucsi_glink platforms. Further
-> testing is appreciated.
-> 
-> Depends: [1], [2]
-> 
-> [1] https://lore.kernel.org/linux-usb/20240612124656.2305603-1-fabrice.gasnier@foss.st.com/
-> 
-> [2] https://lore.kernel.org/linux-usb/20240621-ucsi-yoga-ec-driver-v8-1-e03f3536b8c6@linaro.org/
-> 
-> Signed-off-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-> ---
-> Changes in v4:
-> - Rebased on top of Greg's tree to resolve conflicts.
+https://bugzilla.kernel.org/show_bug.cgi?id=3D218987
 
-Nope, still got conflicts, are you sure you updated properly?  Patch 1
-applied, but #2 did not.
+--- Comment #8 from Mathias Nyman (mathias.nyman@linux.intel.com) ---
+(In reply to Remi Pommarel from comment #7)
+> Yes this works thanks.
+> Just a typo in the commit message s/Restore Errer/Restore Error/.
 
-thanks,
+Thanks, patch with fixed commit message (typo, tags etc) sent.
+https://lore.kernel.org/linux-usb/20240627145523.1453155-2-mathias.nyman@li=
+nux.intel.com/
 
-greg k-h
+--=20
+You may reply to this email to add a comment.
+
+You are receiving this mail because:
+You are watching the assignee of the bug.=
