@@ -1,113 +1,149 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from mout.gmx.net (mout.gmx.net [212.227.15.19])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B3CFD1474B4;
-	Sun, 30 Jun 2024 14:11:54 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 85256282F1;
+	Sun, 30 Jun 2024 15:37:50 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=212.227.15.19
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1719756714; cv=none; b=ZhvXicXl2lcLV6ZryktV+miBYjP0e3gT67rKRodXOM0ko/yF08m2sY2EqoUe9HmsI1DAeZOjMJWC2a07B4ns6jPaRtJNCkJvZOpVWPvb5jSpHTI01a0aKE4GTgrLhfIW7QaHevywpDrM0LOV53QlsgCB1tfixBfUfIAItUhZOjM=
+	t=1719761872; cv=none; b=cPLbruhGvrVQoF2KhFcDoX+Wa5kK/EHj1YT5fGcIubYGps4RMwdAN4n4BP7dQpG+9EWDcz7wwigDC1ds8DlyVuhBXy8JVN8CgMDaHi7bDjVd14X06lSOj6jagTZ8OeF3JlBA6MrrUuzsxglgyydiUUYTnhfXkYLU55rNPt9HTWc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1719756714; c=relaxed/simple;
-	bh=00tTz6jiapt35L8jKidRiTBV5oh83sFn0omMIT1H/yM=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=JNcPSJB45LJYTL22QhpiX9qBKqVxPmRLLFkw8Lo2y3g79tbKfhcYQgPQN++sI4Go7BNuipNPskbUDITesd2JE9AM0SURhyHqX1nH0GjXQ9T4ud0U7g5A33HPxS1KiIH0x2O74BQ/nQM+CQqYhDBbjh8r75fdX+4Olj6XVaWuSvQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b=axmNJQY9; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1719761872; c=relaxed/simple;
+	bh=BSj48tqmwm05Ljg1q373LCH2MRpwkN2xpcXLoYF9JBk=;
+	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
+	 MIME-Version; b=iGv5urRlkNl1iYh/pCpv1y4uHXh3xe+37yDWRzpBXcQBSLsAMT6SKmyYBiY15A1uNJmeOJMIKB6RNNfX/9pPSwsUftsnxwxdX3OpO+KNlAB77pqPvxfouoFEzMQ0BoYCaJUeXqQf7Ljrrs/4VIHihfB0CUl2Lt3gVF6jEXCcNQg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=gmx.net; spf=pass smtp.mailfrom=gmx.net; dkim=pass (2048-bit key) header.d=gmx.net header.i=wahrenst@gmx.net header.b=QvvW/ybf; arc=none smtp.client-ip=212.227.15.19
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=gmx.net
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmx.net
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="axmNJQY9"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id C80D6C2BD10;
-	Sun, 30 Jun 2024 14:11:53 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
-	s=korg; t=1719756714;
-	bh=00tTz6jiapt35L8jKidRiTBV5oh83sFn0omMIT1H/yM=;
-	h=Date:From:To:Cc:Subject:From;
-	b=axmNJQY9Bm3D6yzxa1VNUUNUQUHgKLWGP94U3NFljpAsk8M4dvYEXnoKGFOa4HZqH
-	 EE86DIqaC2yj6kaVdpTogMA8AYa9HIhkLApLtgCjifL6JxOLPGRcEmWYUXgm3+FrWO
-	 KZQO0qMe0RfDSuxoIVnqUUIhipkR6CWg8aGm5rKY=
-Date: Sun, 30 Jun 2024 16:11:46 +0200
-From: Greg KH <gregkh@linuxfoundation.org>
-To: Linus Torvalds <torvalds@linux-foundation.org>
-Cc: Andrew Morton <akpm@linux-foundation.org>, linux-kernel@vger.kernel.org,
-	linux-usb@vger.kernel.org
-Subject: [GIT PULL] USB driver fixes for 6.10-rc6
-Message-ID: <ZoFnokzotlrCPKfs@kroah.com>
+	dkim=pass (2048-bit key) header.d=gmx.net header.i=wahrenst@gmx.net header.b="QvvW/ybf"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmx.net;
+	s=s31663417; t=1719761840; x=1720366640; i=wahrenst@gmx.net;
+	bh=y0qOLaYt6Eo8pJE0miDoGlJ+NVS4slEP6icBdDJRzuc=;
+	h=X-UI-Sender-Class:From:To:Cc:Subject:Date:Message-Id:In-Reply-To:
+	 References:MIME-Version:Content-Transfer-Encoding:cc:
+	 content-transfer-encoding:content-type:date:from:message-id:
+	 mime-version:reply-to:subject:to;
+	b=QvvW/ybf2mOaJVc47VoFjn+kLT6bKRPFOjLl0FDbezZaLxxyN6lLxLjXyQ07vuCi
+	 DCfeBS1pvGZLmG0PpLkxBjT9CpN+nxV0h0FdKJya1xZ/EMjYi9fGZUmowOW7NAkvJ
+	 JlYImhGuYqgtad8Zro9iUE2ZkUrdglkWXry3b5D43cbUDnmlrQW02s24sRulFc6NC
+	 IeRs47HrkkjFhVuAeae4bh0cpndAzSjpM6wLcRDXnFuguJDvI+MkF/mKPPFQmABqN
+	 mI9ve3qe/83QzeNqggYw7sdX+mNht9ysFqdkbdvpivRv+xwAvX4Kf30xzjynSLN/S
+	 38Q+ymP3RWGOTWT1UQ==
+X-UI-Sender-Class: 724b4f7f-cbec-4199-ad4e-598c01a50d3a
+Received: from stefanw-SCHENKER ([37.4.248.43]) by mail.gmx.net (mrgmx004
+ [212.227.17.190]) with ESMTPSA (Nemesis) id 1MbirE-1rsj7x3VPS-00bUUz; Sun, 30
+ Jun 2024 17:37:19 +0200
+From: Stefan Wahren <wahrenst@gmx.net>
+To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	Florian Fainelli <florian.fainelli@broadcom.com>,
+	Ray Jui <rjui@broadcom.com>,
+	Scott Branden <sbranden@broadcom.com>,
+	Maxime Ripard <mripard@kernel.org>,
+	Thomas Gleixner <tglx@linutronix.de>,
+	Jassi Brar <jassisinghbrar@gmail.com>,
+	Ulf Hansson <ulf.hansson@linaro.org>,
+	Jiri Slaby <jirislaby@kernel.org>,
+	Minas Harutyunyan <hminas@synopsys.com>
+Cc: Dave Stevenson <dave.stevenson@raspberrypi.com>,
+	Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+	Thomas Zimmermann <tzimmermann@suse.de>,
+	David Airlie <airlied@gmail.com>,
+	Daniel Vetter <daniel@ffwll.ch>,
+	Lukas Wunner <lukas@wunner.de>,
+	Peter Robinson <pbrobinson@gmail.com>,
+	dri-devel@lists.freedesktop.org,
+	bcm-kernel-feedback-list@broadcom.com,
+	linux-pm@vger.kernel.org,
+	linux-serial@vger.kernel.org,
+	linux-usb@vger.kernel.org,
+	linux-arm-kernel@lists.infradead.org,
+	kernel-list@raspberrypi.com,
+	Stefan Wahren <wahrenst@gmx.net>
+Subject: [PATCH 03/11] pmdomain: raspberrypi-power: Adjust packet definition
+Date: Sun, 30 Jun 2024 17:36:44 +0200
+Message-Id: <20240630153652.318882-4-wahrenst@gmx.net>
+X-Mailer: git-send-email 2.34.1
+In-Reply-To: <20240630153652.318882-1-wahrenst@gmx.net>
+References: <20240630153652.318882-1-wahrenst@gmx.net>
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
+X-Provags-ID: V03:K1:QqYv8SsOHT/MdLbf9Bg/MkzNBJG3Ti02c5AdTTzhzh8KgfY/TO6
+ 3GFk7ubmP9O8Y4OUQ9hmMPTYH1NRskbpJDnJPWbArtxybb4hoSw1mpWG+0YoPbMXehp9GeM
+ FWTieW1h9rm3rwusEyK+2Xp4MZ9ZriuTi1lrNJ9r3ybTnlFX/yDh1vNGShEmg5ofsX/3WLN
+ ARP1dJaV7XPPYz/YxVdBA==
+X-Spam-Flag: NO
+UI-OutboundReport: notjunk:1;M01:P0:NDh8fTVKp4k=;hNyq0VO06cMK9NCcVctv1X4zGj1
+ Lsa76eLuUXzK+u19YqKuQtSsZ9kqIVkE8/Npmfc/Cdl9bkk3QYcpzkivL5eYKfSUPcSeP2p24
+ 73kDPH82x8Dbj1Vvev/dzZgGZAgE3A1DAC7Nf0+liOt3Hubi9kVQY9J89swAXtoc35WhbEG5e
+ tSw7SI386FITof9+BS1m1D0HA0Q4tMRrIhLsWCcWgBOHQ9EZhodD87sSXzD84+TPbROMh9wv9
+ xoFkqGdj4s4rjaEhMp1lZFJZ+JysTPugwKRUzLD0lJQW4ru8Z6VZfzZ+PejfrwzmEXZRkrD0m
+ Jimeo8Qr7/SWJS2lRRW8lHcKhYAVe0gxnYC+tqerlwyF+I9TXVPuNeSqAVKKj02gZ6lXcbAT1
+ w6iLzP9fdp7VAsLEROx041KZeIeFKnvA1ZeFc1PLpvTf3ts1gj59fDp0pEW5Iy0e8yISqEFSY
+ mQsi3m3HPqgZZkzQeX8tkILdQaTznSz9KHL/3eupcNFHA2zXZL/5p8IZGvBvZFn61IBvp+3V1
+ QEMbECsb688qUCD5tqoM2ouE7sHKc4g8QjSSBwDmnxjQ2/41yeabJR3cVd5eeqHV1g7duEfMe
+ q/N7QBkoUFpnIbRzMUatQ1DQvd7oB8DjSpVzPuXQ83C6bkZcvwXRJ6kJGH45f3fP3ih7Ur0L4
+ XNwTSK/DzBhqL1fm6BBvmNjfQ/7AYoFfKBqZYB/mly47QGbA9gw5sPxTYojuGMxIrn/Bi/v/i
+ IyE3eCsF5M1wieNgX3WDPueQ8ReTfa0NS96c8YbHD0wjUAktGze0O2eGVMiU0i/eVBmrIqIdX
+ bUCT9+V4eIVDB7MCPndCD9+T82xuMpVvtwNnoODyJupVQ=
 
-The following changes since commit 6ba59ff4227927d3a8530fc2973b80e94b54d58f:
+According to the official Mailbox property interface the second part
+of RPI_FIRMWARE_SET_POWER_STATE ( and so on ...) is named state because
+it represent u32 flags and just the lowest bit is for on/off. So rename it
+to align with documentation and prepare the driver for further changes.
 
-  Linux 6.10-rc4 (2024-06-16 13:40:16 -0700)
+Link: https://github.com/raspberrypi/firmware/wiki/Mailbox-property-interf=
+ace
+Signed-off-by: Stefan Wahren <wahrenst@gmx.net>
+=2D--
+ drivers/pmdomain/bcm/raspberrypi-power.c | 8 ++++----
+ 1 file changed, 4 insertions(+), 4 deletions(-)
 
-are available in the Git repository at:
+diff --git a/drivers/pmdomain/bcm/raspberrypi-power.c b/drivers/pmdomain/b=
+cm/raspberrypi-power.c
+index 06196ebfe03b..39d9a52200c3 100644
+=2D-- a/drivers/pmdomain/bcm/raspberrypi-power.c
++++ b/drivers/pmdomain/bcm/raspberrypi-power.c
+@@ -41,7 +41,7 @@ struct rpi_power_domains {
+  */
+ struct rpi_power_domain_packet {
+ 	u32 domain;
+-	u32 on;
++	u32 state;
+ };
 
-  git://git.kernel.org/pub/scm/linux/kernel/git/gregkh/usb.git tags/usb-6.10-rc6
+ /*
+@@ -53,7 +53,7 @@ static int rpi_firmware_set_power(struct rpi_power_domai=
+n *rpi_domain, bool on)
+ 	struct rpi_power_domain_packet packet;
 
-for you to fetch changes up to fc1d1a712b517bbcb383b1f1f7ef478e7d0579f2:
+ 	packet.domain =3D rpi_domain->domain;
+-	packet.on =3D on;
++	packet.state =3D on;
+ 	return rpi_firmware_property(rpi_domain->fw,
+ 				     rpi_domain->old_interface ?
+ 				     RPI_FIRMWARE_SET_POWER_STATE :
+@@ -142,13 +142,13 @@ rpi_has_new_domain_support(struct rpi_power_domains =
+*rpi_domains)
+ 	int ret;
 
-  usb: dwc3: core: Workaround for CSR read timeout (2024-06-27 16:25:38 +0200)
+ 	packet.domain =3D RPI_POWER_DOMAIN_ARM;
+-	packet.on =3D ~0;
++	packet.state =3D ~0;
 
-----------------------------------------------------------------
-USB fixes for 6.10-rc6
+ 	ret =3D rpi_firmware_property(rpi_domains->fw,
+ 				    RPI_FIRMWARE_GET_DOMAIN_STATE,
+ 				    &packet, sizeof(packet));
 
-Here are a handful of small USB driver fixes for 6.10-rc6 to resolve
-some reported issues.  Included in here are:
-  - typec driver bugfixes
-  - usb gadget driver reverts for commits that were reported to have
-    problems
-  - resource leak bugfix
-  - gadget driver bugfixes
-  - dwc3 driver bugfixes
-  - usb atm driver bugfix for when syzbot got loose on it
+-	return ret =3D=3D 0 && packet.on !=3D ~0;
++	return ret =3D=3D 0 && packet.state !=3D ~0;
+ }
 
-All of these have been in linux-next this week with no reported issues.
+ static int rpi_power_probe(struct platform_device *pdev)
+=2D-
+2.34.1
 
-Signed-off-by: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-
-----------------------------------------------------------------
-Dan Carpenter (1):
-      usb: musb: da8xx: fix a resource leak in probe()
-
-Diogo Ivo (1):
-      usb: typec: ucsi_acpi: Add LG Gram quirk
-
-Fabrice Gasnier (1):
-      usb: ucsi: stm32: fix command completion handling
-
-Ferry Toth (2):
-      Revert "usb: gadget: u_ether: Re-attach netif device to mirror detachment"
-      Revert "usb: gadget: u_ether: Replace netif_stop_queue with netif_device_detach"
-
-Javier Carrasco (1):
-      usb: typec: ucsi: glink: fix child node release in probe function
-
-Jeremy Kerr (1):
-      usb: gadget: aspeed_udc: fix device address configuration
-
-Jos Wang (1):
-      usb: dwc3: core: Workaround for CSR read timeout
-
-Meng Li (1):
-      usb: dwc3: core: remove lock of otg mode during gadget suspend/resume to avoid deadlock
-
-Nikita Zhandarovich (1):
-      usb: atm: cxacru: fix endpoint checking in cxacru_bind()
-
-Oliver Neukum (2):
-      usb: gadget: printer: SS+ support
-      usb: gadget: printer: fix races against disable
-
- drivers/usb/atm/cxacru.c                | 14 ++++++++
- drivers/usb/dwc3/core.c                 | 26 ++++++++++----
- drivers/usb/gadget/function/f_printer.c | 40 +++++++++++++++------
- drivers/usb/gadget/function/u_ether.c   |  4 +--
- drivers/usb/gadget/udc/aspeed_udc.c     |  4 +--
- drivers/usb/musb/da8xx.c                |  8 +++--
- drivers/usb/typec/ucsi/ucsi_acpi.c      | 61 +++++++++++++++++++++++++++++++++
- drivers/usb/typec/ucsi/ucsi_glink.c     |  5 ++-
- drivers/usb/typec/ucsi/ucsi_stm32g0.c   | 19 +++++++---
- 9 files changed, 152 insertions(+), 29 deletions(-)
