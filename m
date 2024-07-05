@@ -1,60 +1,99 @@
-Received: from m16.mail.163.com (m16.mail.163.com [117.135.210.2])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 5E9BC14659D;
-	Fri,  5 Jul 2024 09:11:46 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=117.135.210.2
+Received: from mail-ed1-f46.google.com (mail-ed1-f46.google.com [209.85.208.46])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+	(No client certificate requested)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BFEF23A8CB
+	for <linux-usb@vger.kernel.org>; Fri,  5 Jul 2024 09:19:10 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.46
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1720170710; cv=none; b=sw4MIABavMSRZI2ireWkmiBFT+X7DH9DCkd839X+mD7wchygLG0TUSjV4ezr1oqWUJgNeD7CDmz+3xbesszFIMFTQYeYDMzNWGF9Vt4CsJDbZGn1j2ty6+/yWxWEFoxMQykwvf+sPSAnH4+vNyBkzLdB7Mvw2ao4doQWgCVeIWg=
+	t=1720171152; cv=none; b=H7sYd69r8KwAVqPvXS48tMJNCKwQM/vUocjBwrFEB8Px7jA80dO3kRwfwCgJlwysjrUefIHcTBYKd7X6LivPElExDdnFDG5vuzdHV395yxgIZo+SjCu0bnxz2lF5MSa1qCWKF3tVPAAlM5QGeQa8bFrGoJeL56ygzdYpk8NI5oo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1720170710; c=relaxed/simple;
-	bh=ZxOkMPLLO4TWWVtV0zDTV13SIp/eIXM0dGLkQvxSFN4=;
-	h=Date:From:To:Cc:Subject:In-Reply-To:References:Content-Type:
-	 MIME-Version:Message-ID; b=Y1AhI9tPrvup4UXxC8Q6bCdWvJkFcmD2NMLk5V/NhCu/VJT54dS5mCHmphcI+JKqh4Rn64QSFrMIHFaJwvyqbQh7o44PtOQaM6C84cSwdyCSKEe3v5ZGvV3SwlUgzp7fbNNRQ7Je6TgmgcbBgEjia6lbevdc9iUBt436vJIPaeg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=163.com; spf=pass smtp.mailfrom=163.com; dkim=fail (1024-bit key) header.d=163.com header.i=@163.com header.b=HeJfC9Uh reason="signature verification failed"; arc=none smtp.client-ip=117.135.210.2
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=163.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=163.com
+	s=arc-20240116; t=1720171152; c=relaxed/simple;
+	bh=Oqk8V9K6PqOXK0GzY8MkpfUtRmEMGl3IHQNk8YchvrQ=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version:Content-Type; b=JnOZ99qK762d4Ow4I6tQh+FatdxtduX4QhGa5d2lssI1ByaJfz/fDz6h75LoOi5oUoakv4YPDyJw1YO2EPhvIfK9RtOSRIZMehkD9oRK5QfV/ojQaN6SRtqoaHspbl6cq14ri81/qwfOSGMnL3XDCgFsR14WW7bvibHhCYzZZOY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org; spf=pass smtp.mailfrom=chromium.org; dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b=lkgKPWW0; arc=none smtp.client-ip=209.85.208.46
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=chromium.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=fail reason="signature verification failed" (1024-bit key) header.d=163.com header.i=@163.com header.b="HeJfC9Uh"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=163.com;
-	s=s110527; h=Date:From:Subject:Content-Type:MIME-Version:
-	Message-ID; bh=Nw8Y/d4fbRo5a9YCTwvqTSz2Pd/J8LfElH2weiOPuv8=; b=H
-	eJfC9UhSb2PC+0t5FQctqlhhDZLstB+SAaTzB+genXBO7lqZPiysxfpoMRxZZf8Y
-	OJP6wqCC1L1EhmbruNX0YVwWPNDWZqxcpNNlth5WngGlbwZYC8bVpNoT2aTj+saz
-	q+QDfIMBI2NN/1V1Pbt15netWcZlW3PuWudRgsHuwI=
-Received: from slark_xiao$163.com ( [223.104.68.157] ) by
- ajax-webmail-wmsvr-40-111 (Coremail) ; Fri, 5 Jul 2024 17:11:22 +0800 (CST)
-Date: Fri, 5 Jul 2024 17:11:22 +0800 (CST)
-From: "Slark Xiao" <slark_xiao@163.com>
-To: "Johan Hovold" <johan@kernel.org>
-Cc: gregkh@linuxfoundation.org, linux-usb@vger.kernel.org, 
-	linux-kernel@vger.kernel.org
-Subject: Re:Re: [PATCH] USB: serial: option: add support for Foxconn T99W651
-X-Priority: 3
-X-Mailer: Coremail Webmail Server Version XT5.0.14 build 20230109(dcb5de15)
- Copyright (c) 2002-2024 www.mailtech.cn 163com
-In-Reply-To: <Zoe3qBwWG33AZaU9@hovoldconsulting.com>
-References: <20240705081709.105496-1-slark_xiao@163.com>
- <Zoe3qBwWG33AZaU9@hovoldconsulting.com>
-X-NTES-SC: AL_Qu2ZAv2cv04j5CGYZOkfmk8Sg+84W8K3v/0v1YVQOpF8jDjp+j0MYERlA2nE9/KtDiu+jT6xbAlu2slFYrRcX6QNh9WsPIF2YjLRd0MMcCBMIA==
-Content-Transfer-Encoding: base64
-Content-Type: text/plain; charset=GBK
+	dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b="lkgKPWW0"
+Received: by mail-ed1-f46.google.com with SMTP id 4fb4d7f45d1cf-58bac81f3f9so1898774a12.2
+        for <linux-usb@vger.kernel.org>; Fri, 05 Jul 2024 02:19:10 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=chromium.org; s=google; t=1720171149; x=1720775949; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=mvrzYVWaCV49RK2aNH0vmYg1ydT7xzKbRY6MIWC1fmk=;
+        b=lkgKPWW0OVDcM0/UTma49rwGe5RkPZ/BNXmzwqNoTAquhncjgbLQz6JR948F7xTWBF
+         w6wZdiIYCT3rwqhANORNvGdV2ZiGj+ElRn9NVMJOHX5rpclrvOPL+XKTzr5RnfbML6l5
+         u5XFknAwO1Gd5nJDFzm25QLfOBDWsW+Rq8vHI=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1720171149; x=1720775949;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=mvrzYVWaCV49RK2aNH0vmYg1ydT7xzKbRY6MIWC1fmk=;
+        b=Q22F5BXhU/LeLotjaWWhZAT2GR9ttJsRjH+nTPyZDvKUJseNpIuKyNqUovVemwP1V/
+         2ouYIp0C3+PmMDzd7jXMVz/aZXr0b05eCeciIutoag2J2WRqyFMKioGkyfiOXh4SvjfX
+         Myv1T2iRo5LtkbMzO+jxvD+Pnc6zn+NcO5kxjmt0lg7QYKFXEzd7o7oGp1GeZN5eiGeL
+         j61Yo1mOh1DonuqeH3zr54l8D5mcUz22UcjJUGIHDezBxHtrQKIZfXqSe8cyquweOaDU
+         mxz12K8diFq22tJxDCnOjB42vbJWGjMX7rh37JGAA5qk1LggWWpg45iT8HgabRrkt2tG
+         VIYw==
+X-Gm-Message-State: AOJu0YzM3v5Jk3fyC/agjeM88Jv9nspf9wF3kx+CWvRXzKc73lWl7kfG
+	Ng1tiT6o3UWQ28pku2eh4TryOI0vobu5Y1I0I07sfR6JWeq9tL4z1+CPCd88
+X-Google-Smtp-Source: AGHT+IF24wz2N7yERLG2TwGRCzniWnc4OFT6s2Q+xPpsp1WURYwBDQ82I6DERRgHypsV3ss2Qzhpyw==
+X-Received: by 2002:a17:907:77d6:b0:a77:c080:11fc with SMTP id a640c23a62f3a-a77c080128cmr200683866b.36.1720171148992;
+        Fri, 05 Jul 2024 02:19:08 -0700 (PDT)
+Received: from ukaszb-ng.c.googlers.com.com (61.134.90.34.bc.googleusercontent.com. [34.90.134.61])
+        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-a72ab08d0f8sm667456266b.178.2024.07.05.02.19.08
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 05 Jul 2024 02:19:08 -0700 (PDT)
+From: =?UTF-8?q?=C5=81ukasz=20Bartosik?= <ukaszb@chromium.org>
+To: Valentina Manea <valentina.manea.m@gmail.com>,
+	Shuah Khan <shuah@kernel.org>,
+	Hongren Zheng <i@zenithal.me>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+Cc: linux-usb@vger.kernel.org
+Subject: [PATCH v1] usbip: Add USB_SPEED_SUPER_PLUS as valid arg
+Date: Fri,  5 Jul 2024 09:19:02 +0000
+Message-ID: <20240705091902.789643-1-ukaszb@chromium.org>
+X-Mailer: git-send-email 2.45.2.803.g4e1b14247a-goog
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Message-ID: <5b098485.965d.190822996fc.Coremail.slark_xiao@163.com>
-X-Coremail-Locale: zh_CN
-X-CM-TRANSID:_____wD3_766uIdmZWQoAA--.26909W
-X-CM-SenderInfo: xvod2y5b0lt0i6rwjhhfrp/1tbiow0TZGVOEPiVBAACsJ
-X-Coremail-Antispam: 1U5529EdanIXcx71UUUUU7vcSsGvfC2KfnxnUU==
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 
-CkF0IDIwMjQtMDctMDUgMTc6MDY6NDgsICJKb2hhbiBIb3ZvbGQiIDxqb2hhbkBrZXJuZWwub3Jn
-PiB3cm90ZToKPk9uIEZyaSwgSnVsIDA1LCAyMDI0IGF0IDA0OjE3OjA5UE0gKzA4MDAsIFNsYXJr
-IFhpYW8gd3JvdGU6Cj4+IFQ5OVc2NTEgaXMgYSBSTkRJUyBiYXNlZCBtb2RlbSBkZXZpY2UuIFRo
-ZXJlIGFyZSAzIHNlcmlhbCBwb3J0cwo+PiBuZWVkIHRvIGJlIGVudW1lcmF0ZWQ6IERpYWcsIE5N
-RUEgYW5kIEFULgo+Cj4+IFNpZ25lZC1vZmYtYnk6IFNsYXJrIFhpYW8gPHNsYXJrX3hpYW9AMTYz
-LmNvbT4KPgo+QXBwbGllZCwgdGhhbmtzLgo+Cj5Kb2hhbgpIaSBKb2hhbiwKSSBoYXZlIGEgY29u
-Y2VybiBhYm91dCB0aGUgdGVzdCByZXN1bHQgb2YgInVzYi1kZXZpY2VzIiBpbiBVYnVudHUKMjIu
-MDQuIERvIHlvdSBrbm93IHdoeSBpdCB3b3VsZG4ndCBzaG93IG91ciBkZXZpY2VzIGFueSBtb3Jl
-PyAK
+Add USB_SPEED_SUPER_PLUS as valid argument to allow
+to attach USB SuperSpeed+ devices.
+
+Signed-off-by: Łukasz Bartosik <ukaszb@chromium.org>
+---
+ drivers/usb/usbip/vhci_sysfs.c | 3 ++-
+ 1 file changed, 2 insertions(+), 1 deletion(-)
+
+diff --git a/drivers/usb/usbip/vhci_sysfs.c b/drivers/usb/usbip/vhci_sysfs.c
+index e2847cd3e6e3..d5865460e82d 100644
+--- a/drivers/usb/usbip/vhci_sysfs.c
++++ b/drivers/usb/usbip/vhci_sysfs.c
+@@ -283,6 +283,7 @@ static int valid_args(__u32 *pdev_nr, __u32 *rhport,
+ 	case USB_SPEED_HIGH:
+ 	case USB_SPEED_WIRELESS:
+ 	case USB_SPEED_SUPER:
++	case USB_SPEED_SUPER_PLUS:
+ 		break;
+ 	default:
+ 		pr_err("Failed attach request for unsupported USB speed: %s\n",
+@@ -349,7 +350,7 @@ static ssize_t attach_store(struct device *dev, struct device_attribute *attr,
+ 	vhci_hcd = hcd_to_vhci_hcd(hcd);
+ 	vhci = vhci_hcd->vhci;
+ 
+-	if (speed == USB_SPEED_SUPER)
++	if (speed >= USB_SPEED_SUPER)
+ 		vdev = &vhci->vhci_hcd_ss->vdev[rhport];
+ 	else
+ 		vdev = &vhci->vhci_hcd_hs->vdev[rhport];
+-- 
+2.45.2.803.g4e1b14247a-goog
+
