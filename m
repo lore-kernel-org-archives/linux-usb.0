@@ -1,183 +1,163 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from out-178.mta1.migadu.com (out-178.mta1.migadu.com [95.215.58.178])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2FFCB1946F;
-	Mon,  8 Jul 2024 07:31:41 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AC9B537160
+	for <linux-usb@vger.kernel.org>; Mon,  8 Jul 2024 07:45:48 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=95.215.58.178
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1720423902; cv=none; b=L4lvWAw5sqTc/S9ODSgfysCd738Egw+czvME2sfF7cK7vBGiGYPO0bvA4KmBkevvFTKRoVdwpCD0Iw40nfurmGU3DLI3TG8bguxfwYzcxI3R9FwpUjckKLoMSc4QgpFg+DP47ppYvLh8Lwc4bPRcJGT4/DJn9X3uhavTfIWgmCY=
+	t=1720424751; cv=none; b=amNJiH4IQlH0MIJJqV05m4P1yzFloORIUVDDJB2DYGmaRiugUsSrPSvZBREprmxTcjxx0lYw7a+CecCCHcOSY1l1FNSxyHxvPRFGjKMyvFry0S1gTzomNX8r+y8lyHuW23dRv4TAVvk6ZefvNEh1bKsIwCbWYtSrP1RqETC0Ifg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1720423902; c=relaxed/simple;
-	bh=b686QiTKvy8ZMExM84K9kzUt3iG3OHu8RvGNrJ3LUPU=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=gVlq2AqxV9YhN/gjIr8zpsE2coYr7ahNKSzBiFQM8nKD2elY2DwOL+wRvmucqfd0AUjcBlU7XW33M4LInnuv0GihRKzCo9jFsQ9yqBMDkvo2/u0Ihtc9Il+r4BP/cKDZwOieZ8eN5qNdKeuNKNYDL52rESSLHcfdQgwtV/dbNDs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=W2NDqntp; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1720424751; c=relaxed/simple;
+	bh=Ctg0u/mGa+VwyDSlNuzK+P613udK8Frsp14C56Ebnqw=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=TbP6hyI/QQQbLT9teY/NfeqvbXFC/anF9m6+aJK9170O8ByfpinMGBiCwYUaMdI6y2YkpUSml1+Dz+32xgBhqo3DcB0r387zaMjZ1YpY3KnSgapw6BK9UnFDL26Ed6N/Qa69hDxvBa2iPDwS+uWqHttWTgTmQHsh8ywf8+KeIek=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev; spf=pass smtp.mailfrom=linux.dev; dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b=gh9N9Uw0; arc=none smtp.client-ip=95.215.58.178
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.dev
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="W2NDqntp"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 5E3BBC116B1;
-	Mon,  8 Jul 2024 07:31:14 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1720423901;
-	bh=b686QiTKvy8ZMExM84K9kzUt3iG3OHu8RvGNrJ3LUPU=;
-	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-	b=W2NDqntp1Ulgp8VAPtW9t6MUVRBg2m24WUTXj6PfM3FSPT6WnvnROZIOHULWUqOgT
-	 aWqsNEhpd+JKiouZTJGp7zJZg+KEggH+2wFwNf9Jvcbyr/tjpShaShqhdXl2lVlj49
-	 qjscpyLwq1KwbCmSwqT+Jqat5Y2n7bIV8a/ZPwwr4+gFyY0o1Cs3AUeHCYUskKypQI
-	 Jis8m+kGIeU9LqBdsmcbTFufx5GqCPgZXGDZPzEh5McNcju/zyfQSj/Xf2sKw+pDti
-	 hHmWLNmFSVBozoY7HjZbCxHNC2jlqlgeXUMur4A392g6iSujvhXKe4jHoSKmcPYE0x
-	 RD+heg8f8EMGQ==
-Message-ID: <f8d17f99-cb76-427a-a23c-6777ab8f4370@kernel.org>
-Date: Mon, 8 Jul 2024 09:31:11 +0200
+	dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b="gh9N9Uw0"
+X-Envelope-To: luca.ceresoli@bootlin.com
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.dev; s=key1;
+	t=1720424745;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=6r0t4bqCeyTcKMQipHqJ13XIJ0M/NNLgBRa8TFFkq0k=;
+	b=gh9N9Uw0u8C6T2INQwENuJbySC4x56TU/bCYId7J19tXTNv2leS8YvS59ZHGfqV5iEcc2W
+	giRbXLJT0kVM9blL6cZF0eI0W/NaGwdLwsoCYd+qWtWL+ssOTOGgYIaHoZkEp8DXV+BDKD
+	QBEscHkTSbtdZ0QzmCUfJBvJe1gdrAw=
+X-Envelope-To: ojeda@kernel.org
+X-Envelope-To: robh@kernel.org
+X-Envelope-To: saravanak@google.com
+X-Envelope-To: nathan@kernel.org
+X-Envelope-To: mturquette@baylibre.com
+X-Envelope-To: sboyd@kernel.org
+X-Envelope-To: tony@atomide.com
+X-Envelope-To: andersson@kernel.org
+X-Envelope-To: emilio@elopez.com.ar
+X-Envelope-To: wens@csie.org
+X-Envelope-To: jernej.skrabec@gmail.com
+X-Envelope-To: samuel@sholland.org
+X-Envelope-To: krzk@kernel.org
+X-Envelope-To: daniel.lezcano@linaro.org
+X-Envelope-To: tglx@linutronix.de
+X-Envelope-To: florian.fainelli@broadcom.com
+X-Envelope-To: bcm-kernel-feedback-list@broadcom.com
+X-Envelope-To: linus.walleij@linaro.org
+X-Envelope-To: brgl@bgdev.pl
+X-Envelope-To: jic23@kernel.org
+X-Envelope-To: lee@kernel.org
+X-Envelope-To: shawnguo@kernel.org
+X-Envelope-To: kernel@pengutronix.de
+X-Envelope-To: ukleinek@kernel.org
+X-Envelope-To: gregkh@linuxfoundation.org
+X-Envelope-To: jirislaby@kernel.org
+X-Envelope-To: lgirdwood@gmail.com
+X-Envelope-To: broonie@kernel.org
+X-Envelope-To: nicolas.ferre@microchip.com
+X-Envelope-To: mpe@ellerman.id.au
+X-Envelope-To: npiggin@gmail.com
+X-Envelope-To: christophe.leroy@csgroup.eu
+X-Envelope-To: naveen.n.rao@linux.ibm.com
+X-Envelope-To: dlemoal@kernel.org
+X-Envelope-To: peng.fan@oss.nxp.com
+X-Envelope-To: thomas.petazzoni@bootlin.com
+X-Envelope-To: linux-kernel@vger.kernel.org
+X-Envelope-To: devicetree@vger.kernel.org
+X-Envelope-To: llvm@lists.linux.dev
+X-Envelope-To: linux-clk@vger.kernel.org
+X-Envelope-To: linux-omap@vger.kernel.org
+X-Envelope-To: linux-arm-msm@vger.kernel.org
+X-Envelope-To: linux-arm-kernel@lists.infradead.org
+X-Envelope-To: linux-sunxi@lists.linux.dev
+X-Envelope-To: linux-samsung-soc@vger.kernel.org
+X-Envelope-To: linux-gpio@vger.kernel.org
+X-Envelope-To: linux-iio@vger.kernel.org
+X-Envelope-To: linux-pwm@vger.kernel.org
+X-Envelope-To: linux-serial@vger.kernel.org
+X-Envelope-To: linux-usb@vger.kernel.org
+X-Envelope-To: patches@opensource.cirrus.com
+X-Envelope-To: linux-sound@vger.kernel.org
+X-Envelope-To: linuxppc-dev@lists.ozlabs.org
+X-Envelope-To: linux-riscv@lists.infradead.org
+Date: Mon, 8 Jul 2024 09:45:39 +0200
+X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and include these headers.
+From: Richard Leitner <richard.leitner@linux.dev>
+To: Luca Ceresoli <luca.ceresoli@bootlin.com>
+Cc: Miguel Ojeda <ojeda@kernel.org>, Rob Herring <robh@kernel.org>, 
+	Saravana Kannan <saravanak@google.com>, Nathan Chancellor <nathan@kernel.org>, 
+	Michael Turquette <mturquette@baylibre.com>, Stephen Boyd <sboyd@kernel.org>, 
+	Tony Lindgren <tony@atomide.com>, Bjorn Andersson <andersson@kernel.org>, 
+	Emilio =?utf-8?B?TMOzcGV6?= <emilio@elopez.com.ar>, Chen-Yu Tsai <wens@csie.org>, 
+	Jernej Skrabec <jernej.skrabec@gmail.com>, Samuel Holland <samuel@sholland.org>, 
+	Krzysztof Kozlowski <krzk@kernel.org>, Daniel Lezcano <daniel.lezcano@linaro.org>, 
+	Thomas Gleixner <tglx@linutronix.de>, Florian Fainelli <florian.fainelli@broadcom.com>, 
+	Broadcom internal kernel review list <bcm-kernel-feedback-list@broadcom.com>, Linus Walleij <linus.walleij@linaro.org>, 
+	Bartosz Golaszewski <brgl@bgdev.pl>, Jonathan Cameron <jic23@kernel.org>, Lee Jones <lee@kernel.org>, 
+	Shawn Guo <shawnguo@kernel.org>, Pengutronix Kernel Team <kernel@pengutronix.de>, 
+	Uwe =?utf-8?Q?Kleine-K=C3=B6nig?= <ukleinek@kernel.org>, Greg Kroah-Hartman <gregkh@linuxfoundation.org>, 
+	Jiri Slaby <jirislaby@kernel.org>, Liam Girdwood <lgirdwood@gmail.com>, 
+	Mark Brown <broonie@kernel.org>, Nicolas Ferre <nicolas.ferre@microchip.com>, 
+	Michael Ellerman <mpe@ellerman.id.au>, Nicholas Piggin <npiggin@gmail.com>, 
+	Christophe Leroy <christophe.leroy@csgroup.eu>, "Naveen N. Rao" <naveen.n.rao@linux.ibm.com>, 
+	Damien Le Moal <dlemoal@kernel.org>, "Peng Fan (OSS)" <peng.fan@oss.nxp.com>, 
+	Thomas Petazzoni <thomas.petazzoni@bootlin.com>, linux-kernel@vger.kernel.org, devicetree@vger.kernel.org, 
+	llvm@lists.linux.dev, linux-clk@vger.kernel.org, linux-omap@vger.kernel.org, 
+	linux-arm-msm@vger.kernel.org, linux-arm-kernel@lists.infradead.org, 
+	linux-sunxi@lists.linux.dev, linux-samsung-soc@vger.kernel.org, linux-gpio@vger.kernel.org, 
+	linux-iio@vger.kernel.org, linux-pwm@vger.kernel.org, linux-serial@vger.kernel.org, 
+	linux-usb@vger.kernel.org, patches@opensource.cirrus.com, linux-sound@vger.kernel.org, 
+	linuxppc-dev@lists.ozlabs.org, linux-riscv@lists.infradead.org
+Subject: Re: [PATCH 15/20] usb: usb251xb: convert to
+ of_property_for_each_u32_new()
+Message-ID: <34bbebxag4neccfkb4isi4bx5uvi2dk446bqqmfmtru4vwbehk@hp7vufvfyon4>
+References: <20240703-of_property_for_each_u32-v1-0-42c1fc0b82aa@bootlin.com>
+ <20240703-of_property_for_each_u32-v1-15-42c1fc0b82aa@bootlin.com>
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 01/47] dt-bindings: arm: qcom: Document QCS9100 SoC and
- RIDE board
-To: "Aiqun Yu (Maria)" <quic_aiquny@quicinc.com>,
- Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>,
- Tengfei Fan <quic_tengfan@quicinc.com>, andersson@kernel.org,
- konrad.dybcio@linaro.org, robh@kernel.org, krzk+dt@kernel.org,
- conor+dt@kernel.org, djakov@kernel.org, mturquette@baylibre.com,
- sboyd@kernel.org, jassisinghbrar@gmail.com, herbert@gondor.apana.org.au,
- davem@davemloft.net, manivannan.sadhasivam@linaro.org, will@kernel.org,
- joro@8bytes.org, conor@kernel.org, tglx@linutronix.de, amitk@kernel.org,
- thara.gopinath@gmail.com, linus.walleij@linaro.org, wim@linux-watchdog.org,
- linux@roeck-us.net, rafael@kernel.org, viresh.kumar@linaro.org,
- vkoul@kernel.org, edumazet@google.com, kuba@kernel.org, pabeni@redhat.com,
- mcoquelin.stm32@gmail.com
-Cc: robimarko@gmail.com, bartosz.golaszewski@linaro.org, kishon@kernel.org,
- quic_wcheng@quicinc.com, alim.akhtar@samsung.com, avri.altman@wdc.com,
- bvanassche@acm.org, agross@kernel.org, gregkh@linuxfoundation.org,
- quic_tdas@quicinc.com, robin.murphy@arm.com, daniel.lezcano@linaro.org,
- rui.zhang@intel.com, lukasz.luba@arm.com, quic_rjendra@quicinc.com,
- ulf.hansson@linaro.org, quic_sibis@quicinc.com, otto.pflueger@abscue.de,
- luca@z3ntu.xyz, neil.armstrong@linaro.org, abel.vesa@linaro.org,
- bhupesh.sharma@linaro.org, alexandre.torgue@foss.st.com,
- peppe.cavallaro@st.com, joabreu@synopsys.com, netdev@vger.kernel.org,
- lpieralisi@kernel.org, kw@linux.com, bhelgaas@google.com,
- ahalaney@redhat.com, u.kleine-koenig@pengutronix.de,
- dmitry.baryshkov@linaro.org, quic_cang@quicinc.com, danila@jiaxyga.com,
- quic_nitirawa@quicinc.com, mantas@8devices.com, athierry@redhat.com,
- quic_kbajaj@quicinc.com, quic_bjorande@quicinc.com,
- quic_msarkar@quicinc.com, quic_devipriy@quicinc.com, quic_tsoni@quicinc.com,
- quic_rgottimu@quicinc.com, quic_shashim@quicinc.com,
- quic_kaushalk@quicinc.com, quic_tingweiz@quicinc.com,
- srinivas.kandagatla@linaro.org, linux-arm-msm@vger.kernel.org,
- devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
- linux-pm@vger.kernel.org, linux-clk@vger.kernel.org,
- linux-phy@lists.infradead.org, linux-crypto@vger.kernel.org,
- linux-scsi@vger.kernel.org, linux-usb@vger.kernel.org,
- linux-arm-kernel@lists.infradead.org, iommu@lists.linux.dev,
- linux-riscv@lists.infradead.org, linux-gpio@vger.kernel.org,
- linux-watchdog@vger.kernel.org, linux-pci@vger.kernel.org,
- linux-stm32@st-md-mailman.stormreply.com, kernel@quicinc.com
-References: <20240703025850.2172008-1-quic_tengfan@quicinc.com>
- <20240703025850.2172008-2-quic_tengfan@quicinc.com>
- <665f6c8c-4f43-4d20-90e9-9e037a942066@kernel.org>
- <fbeb5969-0b3a-455e-88eb-b83734bf2c50@quicinc.com>
- <97c9484b-e257-4163-a104-3457d59bc69b@kernel.org>
- <63eb3f58-d4a4-4a27-b78c-f4cb83e62c63@quicinc.com>
- <f8f3c4d4-bf24-4195-a7b0-eec95cd64b57@linaro.org>
- <c9822569-896c-4d5f-b917-2826bf414e67@quicinc.com>
-From: Krzysztof Kozlowski <krzk@kernel.org>
-Content-Language: en-US
-Autocrypt: addr=krzk@kernel.org; keydata=
- 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 fv0=
-In-Reply-To: <c9822569-896c-4d5f-b917-2826bf414e67@quicinc.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20240703-of_property_for_each_u32-v1-15-42c1fc0b82aa@bootlin.com>
+X-Migadu-Flow: FLOW_OUT
 
-On 08/07/2024 09:13, Aiqun Yu (Maria) wrote:
-> 
-> 
-> On 7/8/2024 2:07 PM, Krzysztof Kozlowski wrote:
->> On 08/07/2024 06:45, Aiqun Yu (Maria) wrote:
->>>
->>>
->>> On 7/3/2024 5:33 PM, Krzysztof Kozlowski wrote:
->>>> On 03/07/2024 11:21, Tengfei Fan wrote:
->>>>>>>         - items:
->>>>>>>             - enum:
->>>>>>> +              - qcom,qcs9100-ride
->>>>>>>                 - qcom,sa8775p-ride
->>>>>>> +          - const: qcom,qcs9100
->>>>>>
->>>>>> This changes existing compatible for sa8775p without any explanation in
->>>>>> commit msg.
->>>>>>
->>>>>> Best regards,
->>>>>> Krzysztof
->>>>>>
->>>>>
->>>>> In the next verion patch series, I will provide relevant explanatory 
->>>>> information in this patch commit message.
->>>>
->>>> TBH, I cannot think of any reasonable explanation for this, especially
->>>> considering rest of the patchset which does not fix resulting dtbs_check
->>>> warning.
->>>
->>> The existing compatible "sa8775p" warning can only be addressed When
->>> @Nikunj's "sa8775p" changes merged.
->>>
->>> Let me know if you have other suggestions for this.
->>
->> I don't have, because I don't understand why do you want/need to change
->> existing board compatible.
-> 
-> We can left the current existing sa8775p board compatible as it is. And
-> have a brand new qcs9100 and qcs9100-board item for current non-scmi
-> resources compatible.
-> 
-> Will that be more reasonable from your end?
+Hi Luca,
 
-Yes, this is what I would expect. If you choose any other way - just
-like I wrote - you need to explain why you are doing this.
+On Wed, Jul 03, 2024 at 12:36:59PM GMT, Luca Ceresoli wrote:
+> Simplify code using of_property_for_each_u32_new() as the two additional
+> parameters in of_property_for_each_u32() are not used here.
+> 
+> Signed-off-by: Luca Ceresoli <luca.ceresoli@bootlin.com>
 
-Best regards,
-Krzysztof
+please feel free to add:
+
+Acked-by: Richard Leitner <richard.leitner@linux.dev>
+
+> ---
+>  drivers/usb/misc/usb251xb.c | 4 +---
+>  1 file changed, 1 insertion(+), 3 deletions(-)
+> 
+> diff --git a/drivers/usb/misc/usb251xb.c b/drivers/usb/misc/usb251xb.c
+> index 7da404f55a6d..490004dbb9d8 100644
+> --- a/drivers/usb/misc/usb251xb.c
+> +++ b/drivers/usb/misc/usb251xb.c
+> @@ -382,11 +382,9 @@ static void usb251xb_get_ports_field(struct usb251xb *hub,
+>  				    bool ds_only, u8 *fld)
+>  {
+>  	struct device *dev = hub->dev;
+> -	struct property *prop;
+> -	const __be32 *p;
+>  	u32 port;
+>  
+> -	of_property_for_each_u32(dev->of_node, prop_name, prop, p, port) {
+> +	of_property_for_each_u32_new(dev->of_node, prop_name, port) {
+>  		if ((port >= ds_only ? 1 : 0) && (port <= port_cnt))
+>  			*fld |= BIT(port);
+>  		else
+> 
+> -- 
+> 2.34.1
 
