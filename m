@@ -1,345 +1,218 @@
-Received: from EUR05-AM6-obe.outbound.protection.outlook.com (mail-am6eur05on2062.outbound.protection.outlook.com [40.107.22.62])
+Received: from mx0b-00230701.pphosted.com (mx0b-00230701.pphosted.com [148.163.158.9])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D0B0817B02B;
-	Tue,  9 Jul 2024 20:07:31 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=40.107.22.62
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 646841B86D6
+	for <linux-usb@vger.kernel.org>; Tue,  9 Jul 2024 22:20:10 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=148.163.158.9
 ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1720555654; cv=fail; b=LuBsDl+cEh9JS1seQZ/HYG9Inql6BQjLXigqof4nNBisd7E4lXdWEC/rL2oh/NIe9OML2UVYCE+WhvGwoVM7fXIXH53QqBiRcSfZKUuzrFXwgHQEL8X8UuuJd5kpeuR3T22KYna8TctYOm7BIzOzzCxbvVueElX2PSuciF5bauk=
+	t=1720563612; cv=fail; b=T0Vy8IuBYOwmuxyCY3jmCk6TyXrZ6/B/zXQkrFwdr8jluSzPXDlz4AeXfIRGdAN4IkF8NWSnGzXL9bsDKU4bHrupiKzsXJca675xji8seZ1tJI8v96ZWnO9pduak8hOFC15fTdg3rtDRw0OWzCdyoricPnK4vuULUoALnqvQdb8=
 ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1720555654; c=relaxed/simple;
-	bh=X3WeZxT/C1FfjBYnj10KAlslgaTAJGWVXBTxoQXV014=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:Content-Type:
-	 Content-Disposition:In-Reply-To:MIME-Version; b=TFMrgXD+PI5yBYQCtKxIfpmTqkXIyaweAarhTMijClQL9YKuRwacc2xejaUIOFxG8ZIkY5RK3i3jXYrXtsFXZo1IqXrzxWtTXqoWrIiC3fp51VikdggvJy8VEWsxyeHu4CoTKEQUz7se9tTelmNksJ6YaCUNhgVo2KrA1C+GlOk=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=nxp.com; spf=pass smtp.mailfrom=nxp.com; dkim=pass (1024-bit key) header.d=nxp.com header.i=@nxp.com header.b=lQGhtty6; arc=fail smtp.client-ip=40.107.22.62
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=nxp.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=nxp.com
+	s=arc-20240116; t=1720563612; c=relaxed/simple;
+	bh=0h0nbIn3W8GRdCrmxZKKhapt/b4sFm9+xxuQ0/MIgRw=;
+	h=From:To:CC:Subject:Date:Message-ID:Content-Type:MIME-Version; b=fUao/O1Oyy3fCucubsaW295+ggJNOk0XgOI7vyAmhM5MdNM2cFW0LJCre0zbDqeKQIS9EJmUF3CnQsZoCNW2bkSQvy3gu7fttXbDfqM5oMqObv4sB7xuAnLirgrAuU7ycPJZtiMaszD92DWVxCI0GU6yy0PmznSl3CKsdqTo7ls=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=synopsys.com; spf=pass smtp.mailfrom=synopsys.com; dkim=pass (2048-bit key) header.d=synopsys.com header.i=@synopsys.com header.b=vChbSG+l; dkim=pass (2048-bit key) header.d=synopsys.com header.i=@synopsys.com header.b=Ye5I2qwW; dkim=fail (1024-bit key) header.d=synopsys.com header.i=@synopsys.com header.b=bWZQS8uZ reason="signature verification failed"; arc=fail smtp.client-ip=148.163.158.9
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=synopsys.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=synopsys.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=nxp.com header.i=@nxp.com header.b="lQGhtty6"
+	dkim=pass (2048-bit key) header.d=synopsys.com header.i=@synopsys.com header.b="vChbSG+l";
+	dkim=pass (2048-bit key) header.d=synopsys.com header.i=@synopsys.com header.b="Ye5I2qwW";
+	dkim=fail reason="signature verification failed" (1024-bit key) header.d=synopsys.com header.i=@synopsys.com header.b="bWZQS8uZ"
+Received: from pps.filterd (m0098572.ppops.net [127.0.0.1])
+	by mx0b-00230701.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 469LWKAS016885;
+	Tue, 9 Jul 2024 15:20:08 -0700
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=synopsys.com; h=
+	cc:content-id:content-transfer-encoding:content-type:date:from
+	:message-id:mime-version:subject:to; s=pfptdkimsnps; bh=0h0nbIn3
+	W8GRdCrmxZKKhapt/b4sFm9+xxuQ0/MIgRw=; b=vChbSG+lY2KvQDVwhMYbUMHY
+	GDkIsNX6YgQoC3M5UlM7ec5UdLH/CgVFoM0N6J0/BTa7dhQaovavQ0U7AJX6dw7y
+	sKwW3vOHGOkKIARK+Kv2RYxCeNnQS/j9NV5mKM8iUbn7oIZhV5uBdwiCPFqn4qLF
+	B+/XVF1kJnuLMwChFW/l+t3mLNamYP1ibCWwsRrEkJD96SZK7Ws/Mu1gTfuF+oVZ
+	D9JLclSa8oBJUD/6FDT1kjKdlR7eTrFP4YwfFYE2l0OVMT4BJj++eppRr5XNhccs
+	elHTEtE2QqFgFPZaHL3DXxBSuPBl4D6UFXGVszlCH/cjQPtPa/+Y3W/G6gtVug==
+Received: from smtprelay-out1.synopsys.com (smtprelay-out1.synopsys.com [149.117.73.133])
+	by mx0b-00230701.pphosted.com (PPS) with ESMTPS id 4074jcpks2-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Tue, 09 Jul 2024 15:20:08 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=synopsys.com; s=mail;
+	t=1720563607; bh=0h0nbIn3W8GRdCrmxZKKhapt/b4sFm9+xxuQ0/MIgRw=;
+	h=From:To:CC:Subject:Date:From;
+	b=Ye5I2qwWS9IHB2vSiVtj6DWVImgf/IdC/m+Hd5YDwKb6P00UxUsh+NhZunrHoy/rm
+	 f2LU716EwV++9nCoi0t6fB5laBmB0Q4NdtHVCUySZ9K7COheEo4g5e1IaDtu1Ba5Om
+	 ZUgr3S/6Qs4vIQm3tRG2yrMlY7EsBbtvLh2UWodqgmMq2phPZaUy+btOZOIB5dpK6G
+	 4pO3ESvBKM3Ru7Vn9xm9jqwKuycfsGRA2/g9PQc4BqHTlKJQB0cOJ6bUoSCK516GCe
+	 lO03gD8SvdMiczuuKcNWu0NaWmUYSJ2nh60xTcPxCdqHrqp7USyDhnTnNLBZFIl0Jn
+	 sEX28B9Bl9JvQ==
+Received: from mailhost.synopsys.com (us03-mailhost2.synopsys.com [10.4.17.18])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (2048 bits)
+	 client-signature RSA-PSS (2048 bits))
+	(Client CN "mailhost.synopsys.com", Issuer "SNPSica2" (verified OK))
+	by smtprelay-out1.synopsys.com (Postfix) with ESMTPS id 47E0040408;
+	Tue,  9 Jul 2024 22:20:07 +0000 (UTC)
+Received: from o365relay-in.synopsys.com (sv2-o365relay1.synopsys.com [10.202.1.137])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits))
+	(Client CN "o365relay-in.synopsys.com", Issuer "Entrust Certification Authority - L1K" (verified OK))
+	by mailhost.synopsys.com (Postfix) with ESMTPS id C3E14A0084;
+	Tue,  9 Jul 2024 22:20:06 +0000 (UTC)
+Authentication-Results: o365relay-in.synopsys.com; dmarc=pass (p=reject dis=none) header.from=synopsys.com
+Authentication-Results: o365relay-in.synopsys.com; spf=pass smtp.mailfrom=synopsys.com
+Authentication-Results: o365relay-in.synopsys.com;
+	dkim=pass (1024-bit key; unprotected) header.d=synopsys.com header.i=@synopsys.com header.a=rsa-sha256 header.s=selector1 header.b=bWZQS8uZ;
+	dkim-atps=neutral
+Received: from NAM04-DM6-obe.outbound.protection.outlook.com (mail-dm6nam04lp2041.outbound.protection.outlook.com [104.47.73.41])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+	(Client CN "mail.protection.outlook.com", Issuer "DigiCert Cloud Services CA-1" (verified OK))
+	by o365relay-in.synopsys.com (Postfix) with ESMTPS id 85DAA4056C;
+	Tue,  9 Jul 2024 22:20:05 +0000 (UTC)
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=ng6c28akdCFXjWVcXTr5XkvCp5hiih3cZEOgznoAjrTkO62TEHUjUKSpmQIN4/F+y3egyIgTlrEYUsMILWqjIJvMDpQuNuaZXdaDydleIPIUdL1q/coZH3mmh87Csg545isvz+m2Wc95n5zR1IbjxO0yNgbZbJryBSCtbyVNK7E/+JdiTIyYWJ7Xb8+aYfW2aZByq7DafOuz/AFiRnqpkszktJK79CWSZ1IPdpgrI+0NCya8dcTu5awpUnmOKcOh/a7VFQJor9IZ60KQ4MmuTwo1VTDRV+Fjg6Vp7wg4F7ZUJ/q1icF2nr5X/VcLr4rVyyBLKJHXOF8kPkKODw0Jsw==
+ b=dq8eE13d2GAmCcNuhkoT68tCgtrGclIm9d50jtr3xClMgMO/cSaek7UiNg+NWzC4ITALK71s/AZ8KHqcJpNUzqLHNq/VnsUaESisN2PuOpxdtx2/ZQ0And6OhdXJOw0YVV6dUMe9R71RuDBJjCRC81Lr2sJ7fEfxa4LSIsBcwl9R3utdhTP8v1qPRdm3WXqZlE1OacfGdqFrlErL1zx6t5cCaFGa054B2Dj4fJlWNucisTh+vJLh70S1zoHVT/1+rJq5ASiH6drIw2Fg4/EfNpWpBlhVpbXO0xkOQYHFxWn1ya8a776Q1384NuHLKpMey0L6myMWw+kH4e8LgTwNBQ==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
  s=arcselector9901;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=ENPgg11//1AN/z9y87D6odIfpt42dpJM9pyqwMvK+uw=;
- b=AftmdDSKwX9AJYIG+jShKuH6OU2wiTy9D6k+Typb0e4p2g2Qk/5e7oZFDD20mS/TXOJ30HIv0lwZEYLm5+BfrJfSKV/Yhw1UnASHV5EHjCMBOM5ExgLaFzYe+vjphUmSh99PzZnBaz83eVn8UbxaU6+sraa6+xISAZHtsuGS9D4JAroD3AT95zrk0BoExzAAuJb8xthfME+rt+CK3O/X911mdzPvPKvrtyUm7LFURGXh1adT9A0aZ8FWUASD5cO9I8lcnHKYXcuBUeGrIHJbUC0tS1VmYmk7TvnLmnWsgK+kDOg8xTZrBfUyIyKFAU/faeOWueDlqN7oONAmVFZoIg==
+ bh=0h0nbIn3W8GRdCrmxZKKhapt/b4sFm9+xxuQ0/MIgRw=;
+ b=c3805/1dJLoZWxy0Srbp6ilkhviOwmRGIYngZp4hr+7o/DabZd+162UfTgiEW8H6hMirletcC8lgUs63Etc7+7p6ojcJMKdujRmaGWG6lzbE27vwlhBJjBLQ0Clv8A5DAnV3ibDBc18VNBe6Dd/BcmUE+LoXs731SPIbuu4AcePjXH+IQNsKXZcQ7+P+U129j1AKpUjQDp8+nmLzwDf0o7gvFrGzMY1tHpeeY8gzAyXy1VrrYfGmGGaQe/mMUHHE/eIgoYc+PUIdfKjkWPjtWcvgeudV1WZJRgkNhS7XpapdiMtV0rGyk8G4WTjTzFT1+Mzw89KMQVMSgw4TM0ZnFQ==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=nxp.com; dmarc=pass action=none header.from=nxp.com; dkim=pass
- header.d=nxp.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nxp.com; s=selector2;
+ smtp.mailfrom=synopsys.com; dmarc=pass action=none header.from=synopsys.com;
+ dkim=pass header.d=synopsys.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=synopsys.com;
+ s=selector1;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=ENPgg11//1AN/z9y87D6odIfpt42dpJM9pyqwMvK+uw=;
- b=lQGhtty6Efph0HyvY9/DEbSH76VegCj9L7AwnzMWzNWd7P0QYynVx+6+L6wG4lnISYhoWRwde8c6wfszPX+mVdOzWHWqC0CR4yVLZECK5tz9yQxZAz3IUbZYqyneqE7sDoFnTch2J0O7wnsY6xW9iFGyZMV3roT9KcDfQbKQnD0=
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=nxp.com;
-Received: from PAXPR04MB9642.eurprd04.prod.outlook.com (2603:10a6:102:240::14)
- by GVXPR04MB10248.eurprd04.prod.outlook.com (2603:10a6:150:1c1::10) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7741.35; Tue, 9 Jul
- 2024 20:07:28 +0000
-Received: from PAXPR04MB9642.eurprd04.prod.outlook.com
- ([fe80::9126:a61e:341d:4b06]) by PAXPR04MB9642.eurprd04.prod.outlook.com
- ([fe80::9126:a61e:341d:4b06%2]) with mapi id 15.20.7741.033; Tue, 9 Jul 2024
- 20:07:28 +0000
-Date: Tue, 9 Jul 2024 16:07:20 -0400
-From: Frank Li <Frank.li@nxp.com>
-To: Radhey Shyam Pandey <radhey.shyam.pandey@amd.com>
-Cc: Thinh.Nguyen@synopsys.com, gregkh@linuxfoundation.org,
-	michal.simek@amd.com, krzysztof.kozlowski@linaro.org,
-	linux-usb@vger.kernel.org, linux-kernel@vger.kernel.org,
-	git@amd.com
-Subject: Re: [PATCH v5] usb: dwc3: enable CCI support for AMD-xilinx DWC3
- controller
-Message-ID: <Zo2YeE+HTfWKq8jW@lizhi-Precision-Tower-5810>
-References: <1720548651-726412-1-git-send-email-radhey.shyam.pandey@amd.com>
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <1720548651-726412-1-git-send-email-radhey.shyam.pandey@amd.com>
-X-ClientProxiedBy: BYAPR07CA0048.namprd07.prod.outlook.com
- (2603:10b6:a03:60::25) To PAXPR04MB9642.eurprd04.prod.outlook.com
- (2603:10a6:102:240::14)
+ bh=0h0nbIn3W8GRdCrmxZKKhapt/b4sFm9+xxuQ0/MIgRw=;
+ b=bWZQS8uZpfA9YSjgwuUKruzxhjreLXUNfNSvBB75U6mCXlaM/n3pVk0bt5M9i8jUBqVkn6Wi9FwPwWHMLX5ZyGdaQgtkpiaynzFlig50+rpndN6Od/lEQloQcVtgxaY/l2C2ys1lGZ0MNaMrE7Brn83fmXBBqoq8ymtc75LB798=
+Received: from DS7PR12MB5984.namprd12.prod.outlook.com (2603:10b6:8:7f::18) by
+ CH2PR12MB4232.namprd12.prod.outlook.com (2603:10b6:610:a4::21) with Microsoft
+ SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.20.7741.35; Tue, 9 Jul 2024 22:19:57 +0000
+Received: from DS7PR12MB5984.namprd12.prod.outlook.com
+ ([fe80::e2e0:bc6d:711f:eeb]) by DS7PR12MB5984.namprd12.prod.outlook.com
+ ([fe80::e2e0:bc6d:711f:eeb%4]) with mapi id 15.20.7741.033; Tue, 9 Jul 2024
+ 22:19:57 +0000
+X-SNPS-Relay: synopsys.com
+From: Thinh Nguyen <Thinh.Nguyen@synopsys.com>
+To: Greg KH <gregkh@linuxfoundation.org>
+CC: "linux-usb@vger.kernel.org" <linux-usb@vger.kernel.org>
+Subject: dwc3 maintainer will be back in 2 weeks
+Thread-Topic: dwc3 maintainer will be back in 2 weeks
+Thread-Index: AQHa0k4hkz02to0tyUyoQNW5n8FEqw==
+Date: Tue, 9 Jul 2024 22:19:57 +0000
+Message-ID: <20240709221953.wcxtlyc76kjlzc46@synopsys.com>
+Accept-Language: en-US
+Content-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+x-ms-publictraffictype: Email
+x-ms-traffictypediagnostic: DS7PR12MB5984:EE_|CH2PR12MB4232:EE_
+x-ms-office365-filtering-correlation-id: 11319d02-ee5d-4e4c-72b0-08dca0654407
+x-ms-exchange-senderadcheck: 1
+x-ms-exchange-antispam-relay: 0
+x-microsoft-antispam: BCL:0;ARA:13230040|1800799024|376014|366016|38070700018;
+x-microsoft-antispam-message-info: 
+ =?utf-8?B?UkphZmRtSVMxdmZEOGd1RlZEelZvd2hqMStvSWtwKzIyKzFNZFdPRVJqY1Jp?=
+ =?utf-8?B?dGEwY1kvYUwwN01JSW5xUnRLZ3liaDJRSjFCVDArSWpPaWlNc1U2ckYvbDRa?=
+ =?utf-8?B?bklJNSttQ2pFY2o3L0RXQjUvaEFqUVhKcUlrSDdNV0x4VVFwN056WEREWTVN?=
+ =?utf-8?B?S0dJa01DbVJPTlA3SkZxelk3VVJUdWNvdnNad01aTTFJNFBNRGFhL1ladkdv?=
+ =?utf-8?B?N1laWWJGOEVvVEVPOHNxZXg3b01mT3FRTmhEK3lKM25zc1NQUWVrdVllVjRw?=
+ =?utf-8?B?Qmw1cnByRExzN1hPT1hEVVVHMzBKcFdHNlorMWlCOFdQTGRNdHh1clY2aXhL?=
+ =?utf-8?B?amZQWXNEdTZ1NGxXNG41RTgrYngvU0Y3NlRWRG1Yd3BNZlBZYkhhYndOaFRp?=
+ =?utf-8?B?d3pOYnd2enFlb0JXQ1Q5MVV4YkwvUDRrZW1ESjAyZFhxVUF0SGIxWWJ5TTk1?=
+ =?utf-8?B?dmRpMlo5bklwMGk0MzRqSXFhSmxDN2pOdGg3b2xHNklCQ1BhTXNjcHRHNGlI?=
+ =?utf-8?B?VnlrNDNKZ0xRNnZVWmpOZUhOajRCMkZ2MHFsanNBYldoSmpLcE5UaTJjemR0?=
+ =?utf-8?B?ZlZ5R3hTN25BRUcyeXorWURTMm4vczYrVEJ1ZFNsWlFiL3liRksvR1JybEJI?=
+ =?utf-8?B?TW5rL0NPS2lGRFRzVm1kUE5OMG16USt3NkdtU2crZTQ4d2NtSXZZNWsvSDZZ?=
+ =?utf-8?B?K2dDVHpNVFhDL1l6TXBZV0JMUC9vVllTeXlSRW52SE4wbUpQUnZyTm91d2gz?=
+ =?utf-8?B?ZFZXMUxZZU5kVHh1TDllUnZTcFBzeld6ais5Z1J5bG1RRy8wVjBmek1Vanoy?=
+ =?utf-8?B?djcrUUUydFZ1eUFhWmtZS3BBZzFXYnRHdUg1bTVrWUZFMEZDNHQ0MFAyWFhq?=
+ =?utf-8?B?THdETkxEY2lHYVVuNC8zWTM0ZlJDamRXREM5REVyMDVtLzh4Rzd3cUpSZkt5?=
+ =?utf-8?B?bHNPdyt0OUUrWHpMbVd2ME1ZSDNzMlN0SndhQy9ZOVpJM3pNOFhPOFhreEgv?=
+ =?utf-8?B?QVVabURkQmE4TVUrWWx0aVl5aWptWUtZS2ZzMkpNSUlXNStGNWdOL2hmS0xk?=
+ =?utf-8?B?Y0krTUYyVEc1bjFvc0VlVElmemFaTFNhckhnUDB2WDNaaFY2ZTRjMUsvMC9X?=
+ =?utf-8?B?ekRQdGJrVEtYNG5VUG1mMXpuelRTVTQrWnloY3J5Y1VSQy96TWpHWjRQOEhF?=
+ =?utf-8?B?ZVp4aVh4bTFoKzVPMHRxWEUzMnVoaCt1QXpUR2hDMVRJaWRVVWFlU3ZqN0lB?=
+ =?utf-8?B?UDZwQURrRU9oTnBwWFRZV216SVMySGU2R2NTRGF5SWx0SUNrOXVzOGdJVldE?=
+ =?utf-8?B?dzQzRlExS2daUkdSKzRxdGkwelM1OUlLemw3VzRFSUl2bkZqMExUV1FBUHRl?=
+ =?utf-8?B?azY5Ym5HQlR6a3IyMENnZWg4cnJ0OGR5bkNoQmJoZDBtcitQaVRFbmF4b1o1?=
+ =?utf-8?B?SlQ3UHF1UG02MnRuT0ZaYkkrcUxENXZHRUV4MGQzN3pCN3dwYnZ3ZjZKL1Vu?=
+ =?utf-8?B?ZDV2WnpUcVViNGNkcFpmTXlnQnh2TkU1SU1WUXpCRmJvbkJjbU55NE96bGx6?=
+ =?utf-8?B?U3V6WEdET1VFOFU3aFJnVUNiaVZvMytBUnpSL1UyU2ZMTExXejVZcmVlZ0V2?=
+ =?utf-8?B?cmYvTWNtK2hXMk1VTzBDcVR2bVA2OCtnWWZURjdydmpyZnFWWkpoSEdwVkly?=
+ =?utf-8?B?WXU2ZENFUGFlK3hZZGJQa29TL3FDMHgvNXZBVUszUG11TTUvSGVUVFlqMXNW?=
+ =?utf-8?B?U2k3L3hwWnNqM3hWU2dWZ1o3bm5BRm1MUkhJOXJrcVNRVGVhOHRvR2d5RTJB?=
+ =?utf-8?B?ZStYbnA1RmY5dGlhNXNxa3o2ZTlKOWZtd0kydHZ2TDV6UGo1QjExa1hGNEM0?=
+ =?utf-8?B?c25kWnZtOWVtNFZBS1FITlhWR2hhajdZcklaT2FjOVVEUXc9PQ==?=
+x-forefront-antispam-report: 
+ CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:DS7PR12MB5984.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(1800799024)(376014)(366016)(38070700018);DIR:OUT;SFP:1101;
+x-ms-exchange-antispam-messagedata-chunkcount: 1
+x-ms-exchange-antispam-messagedata-0: 
+ =?utf-8?B?T25OMkhxRGFEcCsvVHNnOHRrM29QN1hMZHNYZGs4cTN2ajRPS0RrK0IybHB0?=
+ =?utf-8?B?UFpzc09ia2R1dWR3V1V2TDNaaGFuSnJYVlg4ZTRpUUtBSDFkMUFyM0M2SnVX?=
+ =?utf-8?B?eDEzVE1pTm53dkd2djJrYnFjRG9uWEJEZDZIaFk1ZTVpZlBIRVBlMS9ZRHdl?=
+ =?utf-8?B?eDFuMlNoQWt2THFCNmp4Z1YrVW91ajl3S2l5UmVNNHRwOGRjdzhJbjM1ZmJZ?=
+ =?utf-8?B?QU95NGVIeHhKYkZQam0yV2wyd1hJT3BuZ2pWRzBUMjJNTW5HZjB2OWRHNkVE?=
+ =?utf-8?B?WHVaZTh2Y0htdEM2aUZEREtBN3FvOEhFTnBvbjZQcGt5cDRpWjloQndYVi9R?=
+ =?utf-8?B?VUhIbEExRUV6aGR2dXYxL0RRL0s5RW1DUlBCbXoxR0sxL2JSMHN5Z040ZmlL?=
+ =?utf-8?B?ODhlTUF5YkQvUmRUZVR6Y1VzdDR1Qnp2RGNaTExHWWp1UEg5MXVFKzVrRGJj?=
+ =?utf-8?B?ZWdOSEx2V2FRUnplcStaWVIwRWxweitycUVoNkxjdkhXbktmNi9HSktTaEwr?=
+ =?utf-8?B?cVFIRkN5UmdBK0k2MmdGTmtsQ3QrMDRDZGljSjZJbzNhRnZzazFqYnRMalB1?=
+ =?utf-8?B?MnUvbG12SHdaVy8ybDRsRk1xSWtLSnU3a0l1a3MybFRpbHhhd2hoWTgxelpB?=
+ =?utf-8?B?MGc4eDBoblVBd1lYZ1hnZWplTWNXSE9CQk9wVFp1czM2TXd2dFFlMWJwcGto?=
+ =?utf-8?B?dURwRFk5TDRtRldnT05iaitxN3BKaVhpMHFSN0pGbmJtaEQ0a3lja1NXZGN1?=
+ =?utf-8?B?aGoycDVxVUExMmtYdTFyWDJzZ1VUR0lMTzVIMUtDaFo0RFhxakxITStnNWJt?=
+ =?utf-8?B?RjVyWmVvUWNuQXN1NzVERDRMcG5wRFBqNFpYN0c3aUpyWGE0L3RaY2NDOE1s?=
+ =?utf-8?B?M0JLaEQzWUFoWkxGMkRwVEZ0UW9wSnd1alJqbXdGVjdNK2JWR1d4U1VnTTRN?=
+ =?utf-8?B?SUVqVEJ0cTNTb2dzeFVmMWVyT0RHU0hvOTg2TW8yQm4wOGxFR1BCbEVBejZZ?=
+ =?utf-8?B?S2hhZzgxZHNIcy9IaHNQbGZmRzdpMzhONFUxZ25SZ2dHS1E1WnVBemRkVFo4?=
+ =?utf-8?B?ZzF4c01wckhWcVFOWUMwVGxoMitQcHNhTTBSU1dqZGdFUzRPRUU4UHNCY1RM?=
+ =?utf-8?B?Mm11OFlPMXlsajNuWTI4ZnRqTGx5RlhoeCtNZ2VDeFhPTG1kL2Z5a2dZUDZC?=
+ =?utf-8?B?d3JHSlpTdnJER2VuUzdZL0xWV1kzSng4R3R1M29HdFRjZjhHTmgzMkpzWXVY?=
+ =?utf-8?B?RlRraThCdlUxUGhkem04elBHQjFicVk4ZnZuZ05vM0VadnY1V3ZQZFJBNDBG?=
+ =?utf-8?B?YVFIbG9pdnEvNWdUN1JoOHpsYjU1WXlhM1dYcG1oRjd3QnJVZ2FmR0dHdjdr?=
+ =?utf-8?B?YlF5dDRtSTdIZXlQZTFkYVJVQ2pETkxaNXY0NFB6VndSUUZqbGI3T0paTVZo?=
+ =?utf-8?B?RDZGdkhmZ1phMHVGUVNFNnBodVBwZHdFd1o0UDhOMkRiSXF5Q0ZhbFV4ZC9w?=
+ =?utf-8?B?NkhTZmxPU3JFZWM5NDFwZlBNWXNqSHlsdHoveWtLb3ZlUitMU0RzbzJodkl1?=
+ =?utf-8?B?KzVLY3pEOTZOU0hSSDNEaDdnK08xY0ZwWnlUdUkyamlSZlpIcXZmejdmdFBx?=
+ =?utf-8?B?bThWUUxSR0drSy9UZE5qQzhnYjk4bGlxWVo5TWhmMkRPc2pDUEhKS0R0a2x5?=
+ =?utf-8?B?bms0Q2d2bVpLT2tPc3duL0d3cWdFbGpJRUZrUE1DTGF0cWp6TmZQSHdKUXN5?=
+ =?utf-8?B?UVk1bEcyUk1rNmpEVTZZR0xiZWE2amNybjJGdjZwb0N2bkthVjNOUGVhS3pp?=
+ =?utf-8?B?MXRGRTdTSmw1Ujloelh0a09YTE1ETHYwRVhwdlg4NFMwOTNoekw4N0FQY2lr?=
+ =?utf-8?B?R0pLb1JIbmlhK0wzT2dJUERJekprY01pMFdVbEhWYk1ncXI4VFFBS3k3amM2?=
+ =?utf-8?B?TjdaeUtZMVBCSG04dzhTalhWNkpHOEpHTFljeEtaY1JwYlI3ZWhCMHcvNm55?=
+ =?utf-8?B?Y1J2VXE3NTA0dXBud2EzdmljNXQxdHZBcFpVMXhkRlVHbWJiSmtNMy8zNzdk?=
+ =?utf-8?B?RWpTSWJDWThrR1Z1MTA1STBwY05aSXBWYkdYdHBoZFdDeEdzRTdJcFo2UllN?=
+ =?utf-8?B?ZkNsOVJldDNMODd5KzVndjBDNlNwa21HL1J0K1pYb2VwV3B2TGhkRG8zNUtl?=
+ =?utf-8?B?OVE9PQ==?=
+Content-Type: text/plain; charset="utf-8"
+Content-ID: <50B5F00D623B2841B016B50BB9A0480E@namprd12.prod.outlook.com>
+Content-Transfer-Encoding: base64
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: PAXPR04MB9642:EE_|GVXPR04MB10248:EE_
-X-MS-Office365-Filtering-Correlation-Id: aa95b375-8716-4ad6-0f10-08dca052c23f
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam:
-	BCL:0;ARA:13230040|1800799024|52116014|376014|366016|38350700014;
-X-Microsoft-Antispam-Message-Info:
-	=?us-ascii?Q?F8NHfT/i754/UrukpiwtTc/o2pJ/TE272GqHeWE/jRDf6+uj1bbDwrq708Vw?=
- =?us-ascii?Q?WhuqDIGjekwKoGrfd26pc5H6/mZmAobzRHrAXRouuHplwNsHZrUl6CYPaglQ?=
- =?us-ascii?Q?lAvRpgb5kLqvyS6s1iXUI/VuC01/5Tf+HOnRFUQSJXUi23bzdKkS488uNPuA?=
- =?us-ascii?Q?O5+Pc7kTGj8xvSETBNoBHx5pg5Q88JfUgUT0WBao/9ZyddCiSNlmnC4ywV51?=
- =?us-ascii?Q?I/LQFGvM/e8ilJ/oicVqzxIiygZLNnnUtdw2h/CIsSPDfhu/IB3vvQ6zVHrW?=
- =?us-ascii?Q?z11DvopAAplIxbsR/AURsJDra/YYQnXmInGNsFshQMGdbwUiojywGnXKAuIF?=
- =?us-ascii?Q?WYCBGb0xBEo7U2tr7GZUEoqDzHshd5zs1IC+TwHqj0cUkca3P/xCQ/Ujk8tM?=
- =?us-ascii?Q?IrDJEqS8Igb0qePVPaEgxeMXCu3do33jYypcuFB20mfs6ZCmGx/fV1BMypuo?=
- =?us-ascii?Q?LhBy0vOb57A77GR8prPzi0QglnOml6sy0Wi+u+nqb26kULICj54nBxLM3TSI?=
- =?us-ascii?Q?RsNtL09taeyAVoH5zNwU4J1Gms/D3YR5EkSrR7TxBytblig4jn6bUNiFKoED?=
- =?us-ascii?Q?naMwcKMLp+VfG3aI/BCBm7AdAii6eblLpbQybbhUdIks0mWOzjW0ltKOwJze?=
- =?us-ascii?Q?UgDzyKYL1ISrZGTTCm5bl9Ql3pyY4WfSXobx1PV6Yt5uqK0RbrbgmzYMzwCd?=
- =?us-ascii?Q?4DMfIKIIUNnenkJ6h97CD7Cw+kWy0CaMPDbnxLVHF6CklQWToB9roofUxyrq?=
- =?us-ascii?Q?d7Ifdh64cCoZyWO0ECxFIbuPpc/B86TLNpmANnMSX6Lg6t1VrHfDgYKQFIUp?=
- =?us-ascii?Q?W8rTVLmTHTjxwDtT7HVqRdRvthgVhOrg+CgC02n+l6sr1e3S6cEUTUtCooMS?=
- =?us-ascii?Q?3ogoiqG2jSBg5jwekCg+0Bi1wgTYOJuGGS+WuHkGj8Zh/VMhDnVuDC4jp9Uy?=
- =?us-ascii?Q?5WdYT5rn3eTtzd/iCsie99fWQt6uBj3BGMJ3vEBYvbp+1iZ3JANh3yVnVMIj?=
- =?us-ascii?Q?dfKfMR6kVbrCmlTTZdZ61TUHWFsv7PPwR0cBIa32/JoLzLJhwIF68H4GY3el?=
- =?us-ascii?Q?KmoeMlr/oHkXCp4pT0K+ptf1GKgqB++XIYuaJHdQ7YHqQInWzr0vNT3ZJoV9?=
- =?us-ascii?Q?XNqlMYaV6N2VwUpOzVTrDUTFcb/XyS/bkjRI/hsu0+Y8LIRz0lZKRObc4bxh?=
- =?us-ascii?Q?hwUgcXq0u5LYDuNZcco/pvOOAbDmPzG/MDrgTK05VT1LdWjFM7muu5iicqWZ?=
- =?us-ascii?Q?p7fGuKbTV+W7CZtBp+uwLyWSkzlemIjU9GOMBl89Fz/aEAT2YUSYuCetkpTw?=
- =?us-ascii?Q?oo8La1VJv9L6bx+IiL9Sl3GAUZyFYXqJTc2myo5Euh06TI+vTBb6CbnaMfxL?=
- =?us-ascii?Q?gIjmjzo=3D?=
-X-Forefront-Antispam-Report:
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:PAXPR04MB9642.eurprd04.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(1800799024)(52116014)(376014)(366016)(38350700014);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0:
-	=?us-ascii?Q?8Zy3vTyYsEev+MBNQj4gvdVFo5eYwieX0XplDxhczlJJ5MOLU9kLKdHusEFC?=
- =?us-ascii?Q?Qgcqg+r1vpFIlVErLFixUx8Yr0qmbH+DqWU4rqoIEmaNSdfIWo4WiKioTfdq?=
- =?us-ascii?Q?lKofcArv/fzeN45tYAFUQUCxxP7pLyDFPqzMhJl1WX2+BZP4Lw0wij3MCN5O?=
- =?us-ascii?Q?l7Kv0lJUkMt1YHTXFzLfA9c4v0rBMyxm1Hf8R/ISYVOzhSD5aWCz4mTCpmds?=
- =?us-ascii?Q?lsj6Wp5y3JLfLcFY33INMRhw6BGwxj8RqrNkH9P3fwKbVLs/1pT+YR4qphog?=
- =?us-ascii?Q?cKeRvJBsJdDMYzZS4JrYb+HcNGY95fjpI5ATmhe7a341/DBcF4HboNJjaZiT?=
- =?us-ascii?Q?h3szhNxl3NX1lCDnPcS0jyHhbc/08WEGLyVNiRA9m7s/R11Qh83q1DXW95gm?=
- =?us-ascii?Q?RwQvobn/5ovBfC8ZtZViuCRw0JMO+DXwuHYbP6gdxBrPlKBrDrnPNB4AlZI8?=
- =?us-ascii?Q?ZLRE58/c9+yrJGLo0fPRlBeZT6nTY/rfPnsNvbxEvZqCuVJ3nsXfmAiD+JpR?=
- =?us-ascii?Q?0uCYtIZZy81smPVA5E9Dk1AwNj96rbbrm08LIsl3WEIY+83Aab1vRKzeadEy?=
- =?us-ascii?Q?yhzDgshrFEdLVtf6TcFf+/Gz+LPpqfCh5JK8fjQxguHAJx8PHmPJqJQz8J9c?=
- =?us-ascii?Q?hmJV8XeUqcqtxtNrA+nevI5IvErgJ56VeGiAuoHPwIkUHh9lFlKWd/gx9140?=
- =?us-ascii?Q?sOPvr63dcN2AQkHNaC39adxlMEYRRq2PyXExEDU225J549CfCN5yHP9S8BSc?=
- =?us-ascii?Q?PvCuoKieFpO1npIKS9kcPAr16PaG5aNTvCYnxi1Dh4ls1pqe8oWre00m7u27?=
- =?us-ascii?Q?c8wDbwJx6iZYLzmcJBgg+cdei26/Ql2OdIBvN9p0ginI9duKQb47h2jMZqhu?=
- =?us-ascii?Q?5EwkPCuZ+Ogaw6oTSke/eK/TqtVQU1Jx4cFW7feJQ86LFUKnFQiiwbXFz56G?=
- =?us-ascii?Q?y0DbCV2raePiWAO18+ZnRUPLlVqizWXzHTAdaJD9IV02BFCbDMT+99D3INI4?=
- =?us-ascii?Q?jrVUmoxn5B1l5DeVP/XB3ulOtbVAUlZlv8Q8Ae00i3nhpRFeaQFym7AfE13t?=
- =?us-ascii?Q?F1/RBEMv23IxJ1v7QEh0uzNj31YLstqfpNpWlSY6cp+Mj5V4tB9C87huaHHe?=
- =?us-ascii?Q?EeW8G0HcIc0Iir0xHB2mxFEYO8pYn3hIhLWp3TDQ5+mOHHlEBZsoHM0i239I?=
- =?us-ascii?Q?ijNP2lp3+SA6X95iD1OTIm9sPy3wVUTcDE3oyJdsTYS7hbLZI8Qio3iKJ8H8?=
- =?us-ascii?Q?Cvc7Nljod6Ta0TU2ThlNGKAhRU3hCxTKiyyc+cbSmOFx9p1lHzorgqSnst0M?=
- =?us-ascii?Q?fvl8fgIS9Wpgey+9V7S8qScyT4jpZABmsXLJnAdbFbUbug7xacd/06tiZw/T?=
- =?us-ascii?Q?8PxIfkXAP8HtdiyahDRUJs3l1YtI3ONgJSTapxowuNV/u3FdLNuN2lfqMKQT?=
- =?us-ascii?Q?LSt9D4R6zyqf+FAGYsH5vE1ZyB0N/T9ixnVrUWzErz0JZyKNX2wPYXFqKi2t?=
- =?us-ascii?Q?mOEssp8qdIXL1XsuxAF1CkJSMW87j2x4sFj0u2yFWGeioiNgJB5s8T/6WbFK?=
- =?us-ascii?Q?6od3/xcq8nNQfwqOuIqHfkc+9k8o7yMJNuHO93Wb?=
-X-OriginatorOrg: nxp.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: aa95b375-8716-4ad6-0f10-08dca052c23f
-X-MS-Exchange-CrossTenant-AuthSource: PAXPR04MB9642.eurprd04.prod.outlook.com
+X-MS-Exchange-AntiSpam-ExternalHop-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-ExternalHop-MessageData-0: 
+	jZW3dIiD4BrlDZcAA93OPj0MAt1aFwElMk2vpggDACwfXMHRMIiP3lQB2/XiqicbPaM5wSiI+YwEaObA6/RgV5HFuWMI0cfu5DbW7GG/opAqfPN7a1l+t4T2xiZGmt5GS91e4kqvZTfkM8Zgu7ieepdWWiW7Ba1SQJyQpqD7r+NXKTTpQ7jGWB14aDo1aCgLN2MPi1hFu2ACPlLefLXv6hNEKpAFxK/4psh2g9K9cenMbqDOic8i/4IOhVJdcO97qEL3HNh1eOslzC6YHUl3ZJ3oK0Eox2yeEwBpQMngSM65bviGXfx6mzmou5kkr8dxGO6OYXc8o0iDnqzXWSZ4e3MA7ebv6ZM1lCmzwSlgCYUCR/zPQgN0xIkHuri8AmryU9NTrsV7Rjc0p7jImGMWIXKtGjMlz4xSfb+xUpWkQ+xXreKldSlKbltZAsXo6EWobS+Wl2eBx+p6DSFyqPFAIJit1oy9KSle9JT5A6+tgbZ2NER0Vzy06ImEze9Dg0ialblsZ96+wCAdiYUQGpDmfI7+E+WwYwqq+kNYAPWzv+OQtr68ZS+87DeEmk+o65U8MiuS/SAP2c51sp43WdYYx758abYH4HH3Vb3AykE2iRuNYAA4Eu4JJAoeIEl6CabedazhoKaA6bXoZb/Fuhez7w==
+X-OriginatorOrg: synopsys.com
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 09 Jul 2024 20:07:28.7954
+X-MS-Exchange-CrossTenant-AuthSource: DS7PR12MB5984.namprd12.prod.outlook.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 11319d02-ee5d-4e4c-72b0-08dca0654407
+X-MS-Exchange-CrossTenant-originalarrivaltime: 09 Jul 2024 22:19:57.2960
  (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 686ea1d3-bc2b-4c6f-a92c-d99c5c301635
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: 9pMdRBQFzoevb1rrnrr0J4WvsLwc2SJahsWk6sb+tlXQjlqtOkTC1fEmv1BpXqnr5wltVU00MUqYAAmHG7ZinA==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: GVXPR04MB10248
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-id: c33c9f88-1eb7-4099-9700-16013fd9e8aa
+X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
+X-MS-Exchange-CrossTenant-userprincipalname: UXJTHwOufofShU+8uw0cq2RG2p9Xd4OKRNx3hWJ+S+GVrvtxdoSNHEYxPpO0+lvMq5EYj0ydgCGaUjMqazz1yQ==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: CH2PR12MB4232
+X-Proofpoint-GUID: Yp6HGVFAaY2l3ZF305tEuN1CUvTy6pQt
+X-Proofpoint-ORIG-GUID: Yp6HGVFAaY2l3ZF305tEuN1CUvTy6pQt
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1039,Hydra:6.0.680,FMLib:17.12.28.16
+ definitions=2024-07-09_10,2024-07-09_01,2024-05-17_01
+X-Proofpoint-Spam-Details: rule=outbound_active_cloned_notspam policy=outbound_active_cloned score=0
+ bulkscore=0 suspectscore=0 spamscore=0 mlxlogscore=429 clxscore=1015
+ lowpriorityscore=0 impostorscore=0 adultscore=0 malwarescore=0 mlxscore=0
+ priorityscore=1501 phishscore=0 classifier=spam adjust=0 reason=mlx
+ scancount=1 engine=8.19.0-2406140001 definitions=main-2407090151
 
-On Tue, Jul 09, 2024 at 11:40:51PM +0530, Radhey Shyam Pandey wrote:
-> The GSBUSCFG0 register bits [31:16] are used to configure the cache type
-> settings of the descriptor and data write/read transfers (Cacheable,
-> Bufferable/Posted). When CCI is enabled in the design, DWC3 core GSBUSCFG0
-> cache bits must be updated to support CCI enabled transfers in USB.
-> 
-> To program GSBUSCFG0 cache bits create a software node property
-> in AMD-xilinx dwc3 glue driver and pass it to dwc3 core. The core
-> then reads this property value and configures it in dwc3_core_init()
-> sequence.
-> 
-> Signed-off-by: Radhey Shyam Pandey <radhey.shyam.pandey@amd.com>
-
-Reviewed-by: Frank Li <Frank.Li@nxp.com>
-
-> ---
-> Changes for v5:
-> - Remove linux/of_address.h include from core.c
-> - Move dwc3_get_properties() implementation above dwc3_get_properties().
-> - Rename DWC3_GSBUSCFG0_REQINFO_UNSPECIFIED.
-> 
-> Changes for v4:
-> - Pass swnode GSBUSCFG0 cache property from glue driver based on
->   dma-coherent flag.
-> - Introduce function dwc3_get_software_properties().
-> - Rename DWC3_GSBUSCFG0_REQINFO_MASK.
-> - Use DWC3_GSBUSCFG0_REQINFO(n) and get rid of mask shift define.
-> - Rename dwc3 member gsbuscfg0_reqinfo and change it type to u32
->   and define 0xffffffff as unspecified.
-> - In comment dwc3_get_software_properties() description also mention
->   "non-DT (non-ABI) properties".
-> 
-> Changes for v3:
-> - In v2 review as suggested by Thinh Nguyen, switch to swnode
->   implementation for passing GSBUSCFG0 cache bits from AMD-xilinx
->   dwc3 glue driver to core driver.
-> 
-> Changes for v2:
-> - Make GSBUSCFG0 configuration specific to AMD-xilinx platform.
->   Taken reference from existing commit ec5eb43813a4 ("usb: dwc3: core:
->   add support for realtek SoCs custom's global register start address")
-> 
-> v1 link:
->   https://lore.kernel.org/all/20231013053448.11056-1-piyush.mehta@amd.com
-> ---
->  drivers/usb/dwc3/core.c        | 37 ++++++++++++++++++++++++++++++++++
->  drivers/usb/dwc3/core.h        |  8 ++++++++
->  drivers/usb/dwc3/dwc3-xilinx.c | 29 ++++++++++++++++++++++++++
->  3 files changed, 74 insertions(+)
-> 
-> diff --git a/drivers/usb/dwc3/core.c b/drivers/usb/dwc3/core.c
-> index cb82557678dd..ebb3f6eb191f 100644
-> --- a/drivers/usb/dwc3/core.c
-> +++ b/drivers/usb/dwc3/core.c
-> @@ -599,6 +599,18 @@ static void dwc3_cache_hwparams(struct dwc3 *dwc)
->  		parms->hwparams9 = dwc3_readl(dwc->regs, DWC3_GHWPARAMS9);
->  }
->  
-> +static void dwc3_config_soc_bus(struct dwc3 *dwc)
-> +{
-> +	if (dwc->gsbuscfg0_reqinfo != DWC3_GSBUSCFG0_REQINFO_UNSPECIFIED) {
-> +		u32 reg;
-> +
-> +		reg = dwc3_readl(dwc->regs, DWC3_GSBUSCFG0);
-> +		reg &= ~DWC3_GSBUSCFG0_REQINFO(~0);
-> +		reg |= DWC3_GSBUSCFG0_REQINFO(dwc->gsbuscfg0_reqinfo);
-> +		dwc3_writel(dwc->regs, DWC3_GSBUSCFG0, reg);
-> +	}
-> +}
-> +
->  static int dwc3_core_ulpi_init(struct dwc3 *dwc)
->  {
->  	int intf;
-> @@ -1338,6 +1350,8 @@ static int dwc3_core_init(struct dwc3 *dwc)
->  
->  	dwc3_set_incr_burst_type(dwc);
->  
-> +	dwc3_config_soc_bus(dwc);
-> +
->  	ret = dwc3_phy_power_on(dwc);
->  	if (ret)
->  		goto err_exit_phy;
-> @@ -1576,6 +1590,27 @@ static void dwc3_core_exit_mode(struct dwc3 *dwc)
->  	dwc3_set_prtcap(dwc, DWC3_GCTL_PRTCAP_DEVICE);
->  }
->  
-> +static void dwc3_get_software_properties(struct dwc3 *dwc)
-> +{
-> +	struct device *tmpdev;
-> +	u16 gsbuscfg0_reqinfo;
-> +	int ret;
-> +
-> +	dwc->gsbuscfg0_reqinfo = DWC3_GSBUSCFG0_REQINFO_UNSPECIFIED;
-> +
-> +	/*
-> +	 * Iterate over all parent nodes for finding swnode properties
-> +	 * and non-DT (non-ABI) properties.
-> +	 */
-> +	for (tmpdev = dwc->dev; tmpdev; tmpdev = tmpdev->parent) {
-> +		ret = device_property_read_u16(tmpdev,
-> +					       "snps,gsbuscfg0-reqinfo",
-> +					       &gsbuscfg0_reqinfo);
-> +		if (!ret)
-> +			dwc->gsbuscfg0_reqinfo = gsbuscfg0_reqinfo;
-> +	}
-> +}
-> +
->  static void dwc3_get_properties(struct dwc3 *dwc)
->  {
->  	struct device		*dev = dwc->dev;
-> @@ -2090,6 +2125,8 @@ static int dwc3_probe(struct platform_device *pdev)
->  
->  	dwc3_get_properties(dwc);
->  
-> +	dwc3_get_software_properties(dwc);
-> +
->  	dwc->reset = devm_reset_control_array_get_optional_shared(dev);
->  	if (IS_ERR(dwc->reset)) {
->  		ret = PTR_ERR(dwc->reset);
-> diff --git a/drivers/usb/dwc3/core.h b/drivers/usb/dwc3/core.h
-> index 3781c736c1a1..1e561fd8b86e 100644
-> --- a/drivers/usb/dwc3/core.h
-> +++ b/drivers/usb/dwc3/core.h
-> @@ -194,6 +194,10 @@
->  #define DWC3_GSBUSCFG0_INCRBRSTENA	(1 << 0) /* undefined length enable */
->  #define DWC3_GSBUSCFG0_INCRBRST_MASK	0xff
->  
-> +/* Global SoC Bus Configuration Register: AHB-prot/AXI-cache/OCP-ReqInfo */
-> +#define DWC3_GSBUSCFG0_REQINFO(n)	(((n) & 0xffff) << 16)
-> +#define DWC3_GSBUSCFG0_REQINFO_UNSPECIFIED	0xffffffff
-> +
->  /* Global Debug LSP MUX Select */
->  #define DWC3_GDBGLSPMUX_ENDBC		BIT(15)	/* Host only */
->  #define DWC3_GDBGLSPMUX_HOSTSELECT(n)	((n) & 0x3fff)
-> @@ -1153,6 +1157,9 @@ struct dwc3_scratchpad_array {
->   * @num_ep_resized: carries the current number endpoints which have had its tx
->   *		    fifo resized.
->   * @debug_root: root debugfs directory for this device to put its files in.
-> + * @gsbuscfg0_reqinfo: store GSBUSCFG0.DATRDREQINFO, DESRDREQINFO,
-> + *		       DATWRREQINFO, and DESWRREQINFO value passed from
-> + *		       glue driver.
->   */
->  struct dwc3 {
->  	struct work_struct	drd_work;
-> @@ -1380,6 +1387,7 @@ struct dwc3 {
->  	int			last_fifo_depth;
->  	int			num_ep_resized;
->  	struct dentry		*debug_root;
-> +	u32			gsbuscfg0_reqinfo;
->  };
->  
->  #define INCRX_BURST_MODE 0
-> diff --git a/drivers/usb/dwc3/dwc3-xilinx.c b/drivers/usb/dwc3/dwc3-xilinx.c
-> index 6095f4dee6ce..bb4d894c16e9 100644
-> --- a/drivers/usb/dwc3/dwc3-xilinx.c
-> +++ b/drivers/usb/dwc3/dwc3-xilinx.c
-> @@ -246,6 +246,31 @@ static const struct of_device_id dwc3_xlnx_of_match[] = {
->  };
->  MODULE_DEVICE_TABLE(of, dwc3_xlnx_of_match);
->  
-> +static int dwc3_set_swnode(struct device *dev)
-> +{
-> +	struct device_node *np = dev->of_node, *dwc3_np;
-> +	struct property_entry props[2];
-> +	int prop_idx = 0, ret = 0;
-> +
-> +	dwc3_np = of_get_compatible_child(np, "snps,dwc3");
-> +	if (!dwc3_np) {
-> +		ret = -ENODEV;
-> +		dev_err(dev, "failed to find dwc3 core child\n");
-> +		return ret;
-> +	}
-> +
-> +	memset(props, 0, sizeof(struct property_entry) * ARRAY_SIZE(props));
-> +	if (of_dma_is_coherent(dwc3_np))
-> +		props[prop_idx++] = PROPERTY_ENTRY_U16("snps,gsbuscfg0-reqinfo",
-> +						       0xffff);
-> +	of_node_put(dwc3_np);
-> +
-> +	if (prop_idx)
-> +		ret = device_create_managed_software_node(dev, props, NULL);
-> +
-> +	return ret;
-> +}
-> +
->  static int dwc3_xlnx_probe(struct platform_device *pdev)
->  {
->  	struct dwc3_xlnx		*priv_data;
-> @@ -288,6 +313,10 @@ static int dwc3_xlnx_probe(struct platform_device *pdev)
->  	if (ret)
->  		goto err_clk_put;
->  
-> +	ret = dwc3_set_swnode(dev);
-> +	if (ret)
-> +		goto err_clk_put;
-> +
->  	ret = of_platform_populate(np, NULL, NULL, dev);
->  	if (ret)
->  		goto err_clk_put;
-> 
-> base-commit: 34afb82a3c67f869267a26f593b6f8fc6bf35905
-> -- 
-> 2.34.1
-> 
+SGkgR3JlZywNCg0KSSdsbCBiZSBiYWNrIGluIDIgd2Vla3MuIE15IHJlc3BvbnNlIG1heSBiZSBk
+ZWxheWVkLg0KDQpCUiwNClRoaW5o
