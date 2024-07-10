@@ -1,132 +1,170 @@
-Received: from mail-ej1-f46.google.com (mail-ej1-f46.google.com [209.85.218.46])
+Received: from mail-lf1-f53.google.com (mail-lf1-f53.google.com [209.85.167.53])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8FB2D18EFF9
-	for <linux-usb@vger.kernel.org>; Wed, 10 Jul 2024 10:36:31 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.46
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1CF9619048B
+	for <linux-usb@vger.kernel.org>; Wed, 10 Jul 2024 10:50:23 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.53
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1720607795; cv=none; b=GQSQ1VEdhNa1fsyd8HToY3QxQqzi5WZeJ37HzSc8rJHHUBEVVXMNs7z0NHKZDUWELNhlFZG409WGPu01R5DG04BfJ1sPvT2GgnpWRBbNBE/KE8zPesVRjO8Zdn1hoROMkW3UNQsQT3dkTw7rofnmlwpc+2c5vZ34tB1cGAUBw7Y=
+	t=1720608626; cv=none; b=jHEQlfYU5tiN9S9vfzo6hS5R88fzSZe6CG1qPiIV3UBHQSjL1vvge14Akn7UicQijzav+WWiv5K70GUNae3qEfm0758RS95dCrWargSWXuUClRkd3Xww1QJTiEMxnln9H76buzMl4wtPr1q8XMvJXuIvUB1Ghyc8IEFT4/VeTxw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1720607795; c=relaxed/simple;
-	bh=5yRLOBbpIkonyEMF2zlkIakdxYmFf6q9yRfJ8EyXCI0=;
-	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
-	 In-Reply-To:To:Cc; b=oK3vYLS5jOWgyr0+lYzcZdu+adS4fMZhsglwKUmCRGbs/j9dE/8o8Pfg8OF15CH3oWs+LdqHeJokRjmRoW5Op2QAJGQGr5ctLZJMcjCPwmPMEfaONmyXZOy65vGEUOI1EAiac62xNFlTodlY0z0XzUbNAXAM7GPF4SWItPyIdDk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=t2iuUmxu; arc=none smtp.client-ip=209.85.218.46
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
+	s=arc-20240116; t=1720608626; c=relaxed/simple;
+	bh=i7CSWNQWSBb5QVaqACvy6fhXtiishbPOrh0hdBypJnI=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=DkVIffWjMUHDQOD7haaiziZ4lWfCuqddgll9qfZBUM9uS2H/PPL+27Ainic58ccGhucmIiI2tvWqGx64eMQY8so+JsqRrqGZv9eZa/ePbMxrQC6d2n0OjA0R28DQEcj5J0Zyh1fudow9Ac/Mat7KoKuwyHlz/uFzIfwSAkDS0HQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org; spf=pass smtp.mailfrom=chromium.org; dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b=nV8xyR/C; arc=none smtp.client-ip=209.85.167.53
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=chromium.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="t2iuUmxu"
-Received: by mail-ej1-f46.google.com with SMTP id a640c23a62f3a-a77dc08db60so568207266b.1
-        for <linux-usb@vger.kernel.org>; Wed, 10 Jul 2024 03:36:31 -0700 (PDT)
+	dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b="nV8xyR/C"
+Received: by mail-lf1-f53.google.com with SMTP id 2adb3069b0e04-52ea7bdde68so5538712e87.0
+        for <linux-usb@vger.kernel.org>; Wed, 10 Jul 2024 03:50:23 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1720607790; x=1721212590; darn=vger.kernel.org;
-        h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
-         :mime-version:subject:date:from:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=kYMGxlVQPX5oebPOJL95p63LDeiB2wZboyKuWqi62pM=;
-        b=t2iuUmxu/JD0RJmUdNdUC6/sahYaSXdMd9idXe/zvL6WBe2JddU1mNjG1j5O0A3jTH
-         7R3zxhioJLND98IyPN38hf2sPQh/l1m2NS5tzeD6LBMy6sN0fBMXnBzaS+3lUgPIMNVh
-         wpWqCQIlcTDtdJMCnT5NGOcRa4VOMmvhXD9hqfcdDL43mcIZRZQNMKaV7LtOGz+B3j1l
-         rpgySzBrU0MpzyIKJ/i3Lg6zxS9LXwPN70qF2j05Sg187ph2/b7eMGTlVUwzlKda2qo6
-         cek+H56/A6WZFZg9sUlYjgig5cipxBuGBub/H1WEXtzwcp4SSk1MEy2QCs4RgMohx77b
-         v+Zg==
+        d=chromium.org; s=google; t=1720608622; x=1721213422; darn=vger.kernel.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=9rAwS+UQr65lkvj2GXDyVuos1V01g26GHnUtj2lCW+8=;
+        b=nV8xyR/CUErO0uOmz95WKm1xzrAntIGFuPUVONKWDQhwXHqADSqEXyUaaF2ANNX+if
+         lVE85fW+R7EG5pHExH8D/ngiDVbu+MNIGZf3iaQnIDKOu2D1gr/LGNLCC+7dp759K9yL
+         KUjwL/Eed1qfJXYBjY5c860R9iGRBZTjp2WBQ=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1720607790; x=1721212590;
-        h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
-         :mime-version:subject:date:from:x-gm-message-state:from:to:cc
+        d=1e100.net; s=20230601; t=1720608622; x=1721213422;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=kYMGxlVQPX5oebPOJL95p63LDeiB2wZboyKuWqi62pM=;
-        b=Bp7ug27DDZaPOvgpo3u/yy0ceUbrl2HNQHdaDJ/fMDas8eiklHAgzJapbMiDqalJvC
-         89p9AL1R8ovUmhM8wdG6lE9uhR0kqz8yUFl2MNjadd3YyFrbVjJAgh0ghX96m6oesHfm
-         o5cIEFQeWhR1Gn4SK3Etr73M3u+clDMvCQG+PB45OBcjzLSUbQFnzRghwWaYKBJBOwyo
-         K8J0qDo7PSU+ywXmjRXXYs0ynq0XsKU+E7+MfvjPYQyMptxudchXnU47945sGXajsrDF
-         SPui+ec29POppeSMpCLCv/6jG1Pzi7AeNFtvTR8rUpCWHJgn13AVqGVvklH9lEGNeDiH
-         85uA==
-X-Forwarded-Encrypted: i=1; AJvYcCWCUrNe20Cm7jpaCIy3UiRLhj24PDESipCyF6Vrf3l2rQ61VpPTeu6ITW0DFVIJ/4gI+oF5eVL2foCh8r9KM5CF2wm+GjyZ7cqb
-X-Gm-Message-State: AOJu0YwGCiUmVUZ/Z9bUKtqFQGgPDguvmtkPUGYVrE14NURrilWSWezN
-	NFtNoVXKWlggDji83zGM2KxUXJqIGvlarU4CU943gHBS2B2OBmp3W7FHSVtQzkI=
-X-Google-Smtp-Source: AGHT+IF1B0nCfAGt+fXGX3owUMA0Hi5Y5naIp5/iV6A4WHwQy1qFb0eKndiXPEm0xY4mUwcKTmld6A==
-X-Received: by 2002:a17:906:1610:b0:a72:aeff:dfed with SMTP id a640c23a62f3a-a780b8826b7mr381618866b.53.1720607789980;
-        Wed, 10 Jul 2024 03:36:29 -0700 (PDT)
-Received: from puffmais.c.googlers.com (8.239.204.35.bc.googleusercontent.com. [35.204.239.8])
-        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-a780a6dc77dsm146576966b.52.2024.07.10.03.36.29
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 10 Jul 2024 03:36:29 -0700 (PDT)
-From: =?utf-8?q?Andr=C3=A9_Draszik?= <andre.draszik@linaro.org>
-Date: Wed, 10 Jul 2024 11:36:20 +0100
-Subject: [PATCH 13/15] usb: typec: tcpm/tcpci_maxim: use GENMASK() for
- TCPC_VENDOR_ADC_CTRL1 register
+        bh=9rAwS+UQr65lkvj2GXDyVuos1V01g26GHnUtj2lCW+8=;
+        b=NeV83Vao8ofZnu7/gRCC2X5cmo2vryY8XX8LHfUAbVAKMlY89SP0hV/k6T+MpAK+s9
+         g14/eIQ/kevviCGfvVw6lvkKET/y421hWw8fDwJ5hz3q+A0DFx9GYvItADEXBgPYMbCW
+         SYzFDJ3iy2jMBx/Rtf1MxvTLZevchFkYT1G2AF7LUpUnWPv8QDhuBGKPJgwn9A+DM2Hw
+         ck85vjQchEpPrv0d7FXwnUOzC7V/ggWCA+H/UjpwQV9WfkI4E1aTX8Hq8k2JKLZdS5O3
+         XKsrdaK4lZ2ceMNIl7y77PByU1LmHR7i8lep5I350VvjjjubjDWAF5CZTle3aHFZwOVM
+         G97Q==
+X-Forwarded-Encrypted: i=1; AJvYcCVVOmRuXhNhQK8rabCc3EF60H5dWcB0oM4Y9wBrEYIQCWHSQYI/T96Qa8cVSM3IFzYEADbG7jIGiIA3U+hHJA6Hjgr+nJK7kVOz
+X-Gm-Message-State: AOJu0YyiWSI/uDcXFkc2YEwRTOH4vJhITiUv86hByt1QgAVqiw8NRShr
+	edzmPrKzjACVKkm6S53VEZYzy/G8oF+JNiwpzhI5W0Pd2Xw5Cf3NQVVfBi6g+2VhBj/2C3Nvijv
+	9+CvdrdjLkKPBfXbnpXh+kNyCY74qdFAFVh4=
+X-Google-Smtp-Source: AGHT+IHSCdDzJwMkWu4MZg08gC5bLfQUtPN0L/W6NIS2hI6xWeefEu1yS0wys6kJBEPf8RpK2ohSibYzpPMUrH8xjmw=
+X-Received: by 2002:a05:6512:3191:b0:52e:767a:ada7 with SMTP id
+ 2adb3069b0e04-52eb99d1644mr3383291e87.50.1720608622129; Wed, 10 Jul 2024
+ 03:50:22 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 8bit
-Message-Id: <20240710-tcpc-cleanup-v1-13-0ec1f41f4263@linaro.org>
-References: <20240710-tcpc-cleanup-v1-0-0ec1f41f4263@linaro.org>
-In-Reply-To: <20240710-tcpc-cleanup-v1-0-0ec1f41f4263@linaro.org>
-To: Heikki Krogerus <heikki.krogerus@linux.intel.com>, 
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-Cc: Peter Griffin <peter.griffin@linaro.org>, 
- Tudor Ambarus <tudor.ambarus@linaro.org>, 
- Will McVicker <willmcvicker@google.com>, 
- Badhri Jagan Sridharan <badhri@google.com>, kernel-team@android.com, 
- linux-usb@vger.kernel.org, linux-kernel@vger.kernel.org, 
- =?utf-8?q?Andr=C3=A9_Draszik?= <andre.draszik@linaro.org>
-X-Mailer: b4 0.13.0
+References: <20240705091902.789643-1-ukaszb@chromium.org> <2024070534-sculpture-spooky-daa6@gregkh>
+ <CALwA+Nakqb1re4H8YO8FnaYGOKP-jWLhvtnkvYAvdkRato-cRw@mail.gmail.com> <5cea8570-318d-47af-a669-cc89253de803@linuxfoundation.org>
+In-Reply-To: <5cea8570-318d-47af-a669-cc89253de803@linuxfoundation.org>
+From: =?UTF-8?Q?=C5=81ukasz_Bartosik?= <ukaszb@chromium.org>
+Date: Wed, 10 Jul 2024 12:50:10 +0200
+Message-ID: <CALwA+NYjE3REBAJR6y+UMdZC2otozBtrFZ_eFY4yN2DjOboP1Q@mail.gmail.com>
+Subject: Re: [PATCH v1] usbip: Add USB_SPEED_SUPER_PLUS as valid arg
+To: Shuah Khan <skhan@linuxfoundation.org>
+Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>, 
+	Valentina Manea <valentina.manea.m@gmail.com>, Shuah Khan <shuah@kernel.org>, 
+	Hongren Zheng <i@zenithal.me>, linux-usb@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-Convert register TCPC_VENDOR_ADC_CTRL1 to using GENMASK() and
-FIELD_PREP() so as to keep using a similar approach throughout the code
-base and make it arguably easier to read.
+On Tue, Jul 9, 2024 at 9:27=E2=80=AFPM Shuah Khan <skhan@linuxfoundation.or=
+g> wrote:
+>
+> On 7/5/24 04:43, =C5=81ukasz Bartosik wrote:
+> > On Fri, Jul 5, 2024 at 11:40=E2=80=AFAM Greg Kroah-Hartman
+> > <gregkh@linuxfoundation.org> wrote:
+> >>
+> >> On Fri, Jul 05, 2024 at 09:19:02AM +0000, =C5=81ukasz Bartosik wrote:
+> >>> Add USB_SPEED_SUPER_PLUS as valid argument to allow
+> >>> to attach USB SuperSpeed+ devices.
+> >>>
+> >>> Signed-off-by: =C5=81ukasz Bartosik <ukaszb@chromium.org>
+> >>> ---
+> >>>   drivers/usb/usbip/vhci_sysfs.c | 3 ++-
+> >>>   1 file changed, 2 insertions(+), 1 deletion(-)
+> >>>
+> >>> diff --git a/drivers/usb/usbip/vhci_sysfs.c b/drivers/usb/usbip/vhci_=
+sysfs.c
+> >>> index e2847cd3e6e3..d5865460e82d 100644
+> >>> --- a/drivers/usb/usbip/vhci_sysfs.c
+> >>> +++ b/drivers/usb/usbip/vhci_sysfs.c
+> >>> @@ -283,6 +283,7 @@ static int valid_args(__u32 *pdev_nr, __u32 *rhpo=
+rt,
+> >>>        case USB_SPEED_HIGH:
+> >>>        case USB_SPEED_WIRELESS:
+> >>>        case USB_SPEED_SUPER:
+> >>> +     case USB_SPEED_SUPER_PLUS:
+> >>>                break;
+> >>>        default:
+> >>>                pr_err("Failed attach request for unsupported USB spee=
+d: %s\n",
+> >>> @@ -349,7 +350,7 @@ static ssize_t attach_store(struct device *dev, s=
+truct device_attribute *attr,
+> >>>        vhci_hcd =3D hcd_to_vhci_hcd(hcd);
+> >>>        vhci =3D vhci_hcd->vhci;
+> >>>
+> >>> -     if (speed =3D=3D USB_SPEED_SUPER)
+> >>> +     if (speed >=3D USB_SPEED_SUPER)
+> >>
+> >> It's an enum, are you sure this will work?
+> >>
+> >
+> > Gcc (gcc (Debian 13.2.0-13) 13.2.0) which I used to compile the patch
+> > does not complain about this change at all:
+> >    make
+> >    ...
+> >    CC [M]  drivers/usb/usbip/vhci_sysfs.o
+> >    LD [M]  drivers/usb/usbip/vhci-hcd.o
+> >
+> >
+> >
+> > Without the patch I was getting the following error when trying to
+> > attach a device:
+> > vhci_hcd: Failed attach request for unsupported USB speed: super-speed-=
+plus
+> >
+> > With the patch USB SS+ device attaches successfully:
+> > [248223.654445] vhci_hcd vhci_hcd.0: pdev(0) rhport(0) sockfd(3)
+> > [248223.660701] vhci_hcd vhci_hcd.0: devid(65538) speed(6)
+> > speed_str(super-speed-plus)
+> > [248223.668540] vhci_hcd vhci_hcd.0: Device attached
+> > [248223.936363] usb 2-1: SetAddress Request (2) to port 0
+> > [248223.941698] usb 2-1: new SuperSpeed USB device number 2 using vhci_=
+hcd
+> > [248224.138020] usb 2-1: LPM exit latency is zeroed, disabling LPM.
+> > [248224.331984] usb 2-1: New USB device found, idVendor=3D18d1,
+> > idProduct=3D0010, bcdDevice=3D 0.10
+> > [248224.340416] usb 2-1: New USB device strings: Mfr=3D1, Product=3D2,
+> > SerialNumber=3D3
+> > [248224.347805] usb 2-1: Product: Linux USB Debug Target
+> > [248224.352984] usb 2-1: Manufacturer: Linux Foundation
+> > [248224.358162] usb 2-1: SerialNumber: 0001
+> >
+> > I hope this will resolve your doubts.
+> >
+>
+> What about the other places that check for USB_SPEED_SUPER?
+> take a look at attach_store() that checks for USB_SPEED_SUPER
+> and picks the correct vdev.
+>
 
-Signed-off-by: André Draszik <andre.draszik@linaro.org>
----
- drivers/usb/typec/tcpm/maxim_contaminant.c | 7 ++++---
- drivers/usb/typec/tcpm/tcpci_maxim.h       | 3 +--
- 2 files changed, 5 insertions(+), 5 deletions(-)
+This patch already updates attach_store() to select the correct vdev.
+Please see lines:
+-     if (speed =3D=3D USB_SPEED_SUPER)
++     if (speed >=3D USB_SPEED_SUPER)
 
-diff --git a/drivers/usb/typec/tcpm/maxim_contaminant.c b/drivers/usb/typec/tcpm/maxim_contaminant.c
-index cf9887de96c9..7bfec45e8f4f 100644
---- a/drivers/usb/typec/tcpm/maxim_contaminant.c
-+++ b/drivers/usb/typec/tcpm/maxim_contaminant.c
-@@ -76,8 +76,8 @@ static int max_contaminant_read_adc_mv(struct max_tcpci_chip *chip, enum fladc_s
- 	int ret;
- 
- 	/* Channel & scale select */
--	ret = regmap_update_bits(regmap, TCPC_VENDOR_ADC_CTRL1, ADCINSEL_MASK,
--				 channel << ADC_CHANNEL_OFFSET);
-+	ret = regmap_update_bits(regmap, TCPC_VENDOR_ADC_CTRL1, ADCINSEL,
-+				 FIELD_PREP(ADCINSEL, channel));
- 	if (ret < 0)
- 		return ret;
- 
-@@ -96,7 +96,8 @@ static int max_contaminant_read_adc_mv(struct max_tcpci_chip *chip, enum fladc_s
- 	if (ret < 0)
- 		return ret;
- 
--	ret = regmap_update_bits(regmap, TCPC_VENDOR_ADC_CTRL1, ADCINSEL_MASK, 0);
-+	ret = regmap_update_bits(regmap, TCPC_VENDOR_ADC_CTRL1, ADCINSEL,
-+				 FIELD_PREP(ADCINSEL, 0));
- 	if (ret < 0)
- 		return ret;
- 
-diff --git a/drivers/usb/typec/tcpm/tcpci_maxim.h b/drivers/usb/typec/tcpm/tcpci_maxim.h
-index 34076069444f..a41ca9e7ad08 100644
---- a/drivers/usb/typec/tcpm/tcpci_maxim.h
-+++ b/drivers/usb/typec/tcpm/tcpci_maxim.h
-@@ -37,8 +37,7 @@
- #define WTRCYCLE_4_8_S                          1
- 
- #define TCPC_VENDOR_ADC_CTRL1                   0x91
--#define ADCINSEL_MASK                           GENMASK(7, 5)
--#define ADC_CHANNEL_OFFSET                      5
-+#define ADCINSEL                                GENMASK(7, 5)
- #define ADCEN                                   BIT(0)
- 
- enum contamiant_state {
+Also there are two other places where USB_SPEED_SUPER is used:
+1) vhci_hcd.c:1158: hcd->self.root_hub->speed =3D USB_SPEED_SUPER - IMHO
+no need for a change as it is ok to attach USB3.1 device (taking into
+account it is backwards compatible) to USB3.0 HC
+2) vudc_transfer.c:34: case USB_SPEED_SUPER - this seems to be
+unrelated to this patch
 
--- 
-2.45.2.803.g4e1b14247a-goog
+Thanks,
+Lukasz
 
+> This change is incomplete and will break things.
+>
+> thanks,
+> -- Shuah
+>
