@@ -1,156 +1,112 @@
-Received: from mailout3.samsung.com (mailout3.samsung.com [203.254.224.33])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wm1-f45.google.com (mail-wm1-f45.google.com [209.85.128.45])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 318C9C2FD
-	for <linux-usb@vger.kernel.org>; Mon, 22 Jul 2024 16:59:09 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=203.254.224.33
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 921AFC2FD;
+	Mon, 22 Jul 2024 17:11:14 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.45
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1721667554; cv=none; b=LKj8BTN4u1u2uc7xgQvIKdVITuCaCj3FDOLE0ld8rQArvDaWBW97lpoHdb278ZtZzyWCsaM3Pi1UMQJKvqxaHteN0dSPxuGykDdQ+pAqtMQhlMS0rtFVa9nMeWxQZOz/jyGkcx0gERzZ/Zb/BXru+smRiZKVTfohKbUgeygp+Vc=
+	t=1721668276; cv=none; b=ldblnqcweoUdM14YwSaSySRvVMnLr3X+8qRT5I2T0sm0vCF4n2H8Ri45ylucpNJJhCh78/5GdizEf1hYbO77SV8w4whk7jYChuoXbUIG4+mac/Ye0ZsSydFOJlBLrB0MzWd2nhIiJPnSVk+qR499gstminIHunBLYAyFPGQ7gnw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1721667554; c=relaxed/simple;
-	bh=Hl160DELcfUJEMLYmH3MiMDfdMOe+YcPvKAceU+mZZM=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version:Content-Type:
-	 References; b=lA0JxzKJOpEzA/mWf9KuyaWG+hhEhyN3G6Wxe7XGyijsNOByF/34SJ9hQHV90TLVmAJN3uIR2MDg4SNll+Sa/8E4wiv9qRA+rkp2yYE1q8NgJ/0Z85GTg2r9PDZIbRIDrYdhcYMjpNOAewizq/8utDy/6KXemwMgwykyX7BPF2Y=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=samsung.com; spf=pass smtp.mailfrom=samsung.com; dkim=pass (1024-bit key) header.d=samsung.com header.i=@samsung.com header.b=I6IWtWxw; arc=none smtp.client-ip=203.254.224.33
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=samsung.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=samsung.com
+	s=arc-20240116; t=1721668276; c=relaxed/simple;
+	bh=CXBh8LFTmCrFo3O3jXXkAATuZ9qWv5yVnqNpJJjcWcE=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=bmHXodHwWEmiJCIp1CQIH40LFEjViMaHgQ7XYgB4uTJFHHOlBcvcqMLrTlNF1zKPMI9skPLz6w1sCJmljt47cr4UnjPmzpACNOlBXf7AF6B1nQohL8cZg/OpRe1seg27LngSN18SYTzLQzS42l2zSqIPTj3KmZx1R3u+sAYS5+g=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=mL5mRUL4; arc=none smtp.client-ip=209.85.128.45
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=samsung.com header.i=@samsung.com header.b="I6IWtWxw"
-Received: from epcas5p1.samsung.com (unknown [182.195.41.39])
-	by mailout3.samsung.com (KnoxPortal) with ESMTP id 20240722165902epoutp0395cf6c28137737595a883c383e7ec861~kl4H3jnfW0915209152epoutp03z
-	for <linux-usb@vger.kernel.org>; Mon, 22 Jul 2024 16:59:02 +0000 (GMT)
-DKIM-Filter: OpenDKIM Filter v2.11.0 mailout3.samsung.com 20240722165902epoutp0395cf6c28137737595a883c383e7ec861~kl4H3jnfW0915209152epoutp03z
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=samsung.com;
-	s=mail20170921; t=1721667542;
-	bh=ZPVHrwf5yEWr0C7HjWIjCbt24ZYiSE/6yR1KmtOSSR4=;
-	h=From:To:Cc:Subject:Date:References:From;
-	b=I6IWtWxwy+Gaf5jZcOc7gfJI9+Yyr/nZVvJ/U/QQz9v9X1wF9fy4nLYCeQTAa0QPF
-	 ZqYsjWrbNSKYcgaVVaF+nYQrAFybtoRKxwVoZ+LPQvWrl8S11V3lj1S2WjO88eryh5
-	 QbcqOuDdiGpXqekiJ1O7JVo9aYch6Z7B+1ZZVAO0=
-Received: from epsnrtp1.localdomain (unknown [182.195.42.162]) by
-	epcas5p1.samsung.com (KnoxPortal) with ESMTP id
-	20240722165900epcas5p1df85433a84fd194e6df9a77c10e3251c~kl4GiL7BG1862018620epcas5p1F;
-	Mon, 22 Jul 2024 16:59:00 +0000 (GMT)
-Received: from epsmges5p3new.samsung.com (unknown [182.195.38.175]) by
-	epsnrtp1.localdomain (Postfix) with ESMTP id 4WSRM65K3Jz4x9Pp; Mon, 22 Jul
-	2024 16:58:58 +0000 (GMT)
-Received: from epcas5p2.samsung.com ( [182.195.41.40]) by
-	epsmges5p3new.samsung.com (Symantec Messaging Gateway) with SMTP id
-	7C.E0.09642.2DF8E966; Tue, 23 Jul 2024 01:58:58 +0900 (KST)
-Received: from epsmtrp2.samsung.com (unknown [182.195.40.14]) by
-	epcas5p3.samsung.com (KnoxPortal) with ESMTPA id
-	20240722145728epcas5p38f8ecf57278b4a89c0b09430518c8599~kkN-kLqeV3092130921epcas5p31;
-	Mon, 22 Jul 2024 14:57:28 +0000 (GMT)
-Received: from epsmgmcp1.samsung.com (unknown [182.195.42.82]) by
-	epsmtrp2.samsung.com (KnoxPortal) with ESMTP id
-	20240722145728epsmtrp2a58776e0d6700da884b32054091e25dd~kkN-jZWFR3128031280epsmtrp2a;
-	Mon, 22 Jul 2024 14:57:28 +0000 (GMT)
-X-AuditID: b6c32a4b-613ff700000025aa-a9-669e8fd23886
-Received: from epsmtip2.samsung.com ( [182.195.34.31]) by
-	epsmgmcp1.samsung.com (Symantec Messaging Gateway) with SMTP id
-	09.DE.19367.8537E966; Mon, 22 Jul 2024 23:57:28 +0900 (KST)
-Received: from INBRO002811.samsungds.net (unknown [107.122.5.126]) by
-	epsmtip2.samsung.com (KnoxPortal) with ESMTPA id
-	20240722145726epsmtip2d6aa1846f9d2ae5955431a91ef56fb52~kkN9e6Mo20575605756epsmtip2E;
-	Mon, 22 Jul 2024 14:57:26 +0000 (GMT)
-From: Selvarasu Ganesan <selvarasu.g@samsung.com>
-To: Thinh.Nguyen@synopsys.com, gregkh@linuxfoundation.org,
-	linux-usb@vger.kernel.org, linux-kernel@vger.kernel.org
-Cc: jh0801.jung@samsung.com, dh10.jung@samsung.com, naushad@samsung.com,
-	akash.m5@samsung.com, rc93.raju@samsung.com, taehyun.cho@samsung.com,
-	hongpooh.kim@samsung.com, eomji.oh@samsung.com, shijie.cai@samsung.com,
-	Selvarasu Ganesan <selvarasu.g@samsung.com>
-Subject: [PATCH] usb: dwc3: core: Prevent USB core invalid event buffer
- address access
-Date: Mon, 22 Jul 2024 20:26:09 +0530
-Message-ID: <20240722145617.537-1-selvarasu.g@samsung.com>
-X-Mailer: git-send-email 2.45.2.windows.1
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="mL5mRUL4"
+Received: by mail-wm1-f45.google.com with SMTP id 5b1f17b1804b1-4279c10a40eso33298825e9.3;
+        Mon, 22 Jul 2024 10:11:14 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1721668273; x=1722273073; darn=vger.kernel.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=rfBt7EurseGXYsoA5Am2BgLzNyvZGNlVYktkOB++CV8=;
+        b=mL5mRUL4qYVhdaSN8SmtgCpMFXALrTbXx1aA+cRdBRjROhybWQhsiZ5FNUwNnLipOI
+         R//BYJ2YVE0g3brT0AElAj+F5hU7vvd+Itk0a79QfvLvHr6ArZ+iKtmt2W7XnAUxCvHF
+         4vC1H/FjPxKfQPgNaabkkfk90lEfiv+wci9dX31kvXf4JD65szM2SvnCIddxBPi3oz5y
+         PUrPvFAeH0RVS0AYK82IdFXwBdeVGXj7hyGKDu7eHC5PZSj+rm4LItBWXEbSxbmlqI1O
+         5DVZQRDwfvnKDpGu/IrlS087SJfoVWrR3u8ofRv590QMn17iMnFVvSfNNkOKQTv34+E8
+         8Njw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1721668273; x=1722273073;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=rfBt7EurseGXYsoA5Am2BgLzNyvZGNlVYktkOB++CV8=;
+        b=KI1yVEi3x593o+p0E4mr3oNubtDZp6OcW57XIBb047Xg1jsr/AoyxGsMPdIc14nXSk
+         c37a84L6uqhbR6RJw6cezMF2VMSjBxWTkCR0YbH4qkFFIyUL5SJNEbw9JgDhYnJb7IrZ
+         AYMMKFc6BLW6RSkwXE9ENmCYFQmFkpwMY3Ptq+ni0mBdqoJ8a8IC1ZqYo0nCzETcVjR5
+         gg2eCSBkSTsKqUaKiFv2LIBUxZ8dCIRou9tuNBGiDZzex1amx6c273ZVF/1eFwCeTUXS
+         l9Nt3eq6D0b6DHwcE27vpKLTaVuxkVJiK8lcQwL18ofs4OsEB2U6IobJ1d6e8NUyHHlm
+         WD4w==
+X-Forwarded-Encrypted: i=1; AJvYcCVL0Qfp4TXTG1DTPzgH0j+zCZC7by7Msa7h6jeW5NUjHr1h5/GKW239kz2BQOCDPgo/4LXxzOd1xoXsY/seo38qI5ZLTkHYIElpIGngBNCXmpOER3HECBIreeoVYpUPmxqhZEx6
+X-Gm-Message-State: AOJu0YyQTUtyXhVm617ZsATsiNt6LHHfM54m27dn6zA2sUnHGTlkodwP
+	0RvZa7OHYvgPvsaS5pekYLlhjI2q8R3JHFY4pX8/ra1x7eRL+RZmOZHEroQF7l6/V9uJ6lPUklz
+	BhQ4WT68l2yUHa7BBWYRK8hrATrE=
+X-Google-Smtp-Source: AGHT+IGTzxUv/FX5sa6ydbtvPdM8kuzOuT/RSsIxMbrBNtwenw401mF1FVn9AiDPUcfG3bAbS96SPPuKAfI2rcyJTd4=
+X-Received: by 2002:a05:600c:470b:b0:426:6e95:78d6 with SMTP id
+ 5b1f17b1804b1-427dc516017mr48785615e9.4.1721668272647; Mon, 22 Jul 2024
+ 10:11:12 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFprHJsWRmVeSWpSXmKPExsWy7bCmhu6l/nlpBrtmqFu8ubqK1eLOgmlM
-	FqeWL2SyaF68ns1i0p6tLBZ3H/5gsbi8aw6bxaJlrcwWn47+Z7VY1TmHxeLI8o9MFpe/72S2
-	mHRQ1GLVggPsDnwe++euYffo27KK0WPL/s+MHp83yQWwRGXbZKQmpqQWKaTmJeenZOal2yp5
-	B8c7x5uaGRjqGlpamCsp5CXmptoqufgE6Lpl5gDdqKRQlphTChQKSCwuVtK3synKLy1JVcjI
-	Ly6xVUotSMkpMCnQK07MLS7NS9fLSy2xMjQwMDIFKkzIzpjxMrrgEHfF300JDYxbObsYOTkk
-	BEwkdjcfZexi5OIQEtjNKPF/1z4mkISQwCdGiQMXC+HsbUeFYRo2d12CatjJKHHywF0o5zuj
-	xKk7z9i7GDk42AQMJZ6dsAFpEBEokbj0diMTSA2zQAeTROeyB6wgCWGBCIlXs76B2SwCqhLP
-	jjxmBLF5Bawk/t16zA6xTVPiz4q9LBBxQYmTM5+A2cwC8hLNW2czgwyVEPjILjHvUi9Ug4tE
-	x+r5ULawxKvjW6BsKYnP7/ayQdjVEqvvfGSDaG5hlDj85BtUkb3E46OPmEE+YAbavH6XPkRY
-	VmLqqXVMEIv5JHp/P2GCiPNK7JgHY6tKnGq8DDVfWuLekmusELaHxMrlx1kgwRgr8e/oa5YJ
-	jPKzkPwzC8k/sxA2L2BkXsUomVpQnJueWmxaYJyXWg6P1uT83E2M4ISq5b2D8dGDD3qHGJk4
-	GA8xSnAwK4nwPnk1N02INyWxsiq1KD++qDQntfgQoykwkCcyS4km5wNTel5JvKGJpYGJmZmZ
-	iaWxmaGSOO/r1rkpQgLpiSWp2ampBalFMH1MHJxSDUznpv1M+7v3ocjhB1IyEkdyfY9+DKhn
-	b/6oPnWPwYkrCm9dXa4836zPd6tO0788te+hx3y2s+0uxy00vsyf+EollYsjW3T3Bf1n885o
-	W0y/wK0cuVctqotfef537Vs7362c+Zzt9OoXNiujLH+pZWgc5BT6fVk4tF5NyyPNPVXf8bfO
-	q2zhkLCAT1K//or9uuscG9MdsrzFN/h+e6TPMeEf6Tv4m7p+XT8rwPv511+Dzgxbf/XaFVl3
-	P6wx0ffiYIzuVril47vB0PqYPevqjak8TovFq7fe5z67r0FFSK5hjvG2cKV5fct+zPjOw27L
-	oT5PaVlKp6aStuvxzVnVUxycDn6QYeltCUr4/6D5oRJLcUaioRZzUXEiAHUKVjcxBAAA
-X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFjrGLMWRmVeSWpSXmKPExsWy7bCSvG5E8bw0g1WTtC3eXF3FanFnwTQm
-	i1PLFzJZNC9ez2Yxac9WFou7D3+wWFzeNYfNYtGyVmaLT0f/s1qs6pzDYnFk+Ucmi8vfdzJb
-	TDooarFqwQF2Bz6P/XPXsHv0bVnF6LFl/2dGj8+b5AJYorhsUlJzMstSi/TtErgyZryMLjjE
-	XfF3U0ID41bOLkZODgkBE4nNXZcYuxi5OIQEtjNK3Nr0ixEiIS3xelYXlC0ssfLfc3aIoq+M
-	Eje6OoEcDg42AUOJZydsQGpEBCokHi+cwQJSwywwhUliwbSDLCAJYYEwiZ1bIAaxCKhKPDvy
-	GMzmFbCS+HfrMTvEAk2JPyv2skDEBSVOznwCZjMLyEs0b53NPIGRbxaS1CwkqQWMTKsYRVML
-	inPTc5MLDPWKE3OLS/PS9ZLzczcxgoNaK2gH47L1f/UOMTJxMB5ilOBgVhLhffJqbpoQb0pi
-	ZVVqUX58UWlOavEhRmkOFiVxXuWczhQhgfTEktTs1NSC1CKYLBMHp1QDU/jtuW+DtNvsjKbM
-	d5wq+lXIWyuNt8LCrt60yivzfYnAx9uO8nIciw4nx3+8+Gt2+e/4GTP/CP5is++bvVbQe+Lb
-	aw8m8XepTfIKfXagfn/Npo6GwjU/L5barZKed/5CYZ/DykmXvr56vGj9zBspzN4nXzresEmw
-	kbVrPDU9qM330nSPZva6lSp/gra/CvxlI7a1/MMRd9OnV/iL3r2+MeWRaunBb8EG4lycLGLJ
-	nbM1NGVyGFSXerucsf9oaiqQ/oStdnq/yebS71/8Hp4Sa7OzSqksN599+sTu2l2RCnoZRu8j
-	mBw599vK1D4oNb7Quj1k2sZFa3y4liuue5BQ87WsfNq31TnPXkd5mW6NV2Ipzkg01GIuKk4E
-	ANPHnL7ZAgAA
-X-CMS-MailID: 20240722145728epcas5p38f8ecf57278b4a89c0b09430518c8599
-X-Msg-Generator: CA
-Content-Type: text/plain; charset="utf-8"
-X-Sendblock-Type: REQ_APPROVE
-CMS-TYPE: 105P
-DLP-Filter: Pass
-X-CFilter-Loop: Reflected
-X-CMS-RootMailID: 20240722145728epcas5p38f8ecf57278b4a89c0b09430518c8599
-References: <CGME20240722145728epcas5p38f8ecf57278b4a89c0b09430518c8599@epcas5p3.samsung.com>
+References: <20240721192048.3530097-2-crwulff@gmail.com> <29bc21ae-1f8a-47fd-b361-c761564f483a@rowland.harvard.edu>
+ <CAB0kiBJYm9F4w5H8+9=dcmoCecgCwe6rTDM+=Ch1x-4mXEqB5A@mail.gmail.com> <b35e043d-a371-4cf9-b414-34ba72df1ccc@rowland.harvard.edu>
+In-Reply-To: <b35e043d-a371-4cf9-b414-34ba72df1ccc@rowland.harvard.edu>
+From: Chris Wulff <crwulff@gmail.com>
+Date: Mon, 22 Jul 2024 13:11:01 -0400
+Message-ID: <CAB0kiBKDB=1kF4YRXckph4QG7tQbDdBMsOtcQh9+p1jtyokdPw@mail.gmail.com>
+Subject: Re: [PATCH] usb: gadget: core: Check for unset descriptor
+To: Alan Stern <stern@rowland.harvard.edu>
+Cc: linux-usb@vger.kernel.org, Greg Kroah-Hartman <gregkh@linuxfoundation.org>, 
+	Roy Luo <royluo@google.com>, Krishna Kurapati <quic_kriskura@quicinc.com>, 
+	Michael Grzeschik <m.grzeschik@pengutronix.de>, yuan linyu <yuanlinyu@hihonor.com>, 
+	Paul Cercueil <paul@crapouillou.net>, Felipe Balbi <balbi@kernel.org>, linux-kernel@vger.kernel.org, 
+	stable@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-This commit addresses an issue where the USB core could access an
-invalid event buffer address during runtime suspend, potentially causing
-SMMU faults and other memory issues. The problem arises from the
-following sequence.
-	1. In dwc3_gadget_suspend, there is a chance of a timeout when
-	moving the USB core to the halt state after clearing the
-	run/stop bit by software.
-	2. In dwc3_core_exit, the event buffer is cleared regardless of
-	the USB core's status, which may lead to an SMMU faults and
-	other memory issues. if the USB core tries to access the event
-	buffer address.
+On Mon, Jul 22, 2024 at 9:38=E2=80=AFAM Alan Stern <stern@rowland.harvard.e=
+du> wrote:
+>
+> On Mon, Jul 22, 2024 at 09:00:07AM -0400, Chris Wulff wrote:
+> > On Sun, Jul 21, 2024 at 9:07=E2=80=AFPM Alan Stern <stern@rowland.harva=
+rd.edu> wrote:
+> > >
+> > > On Sun, Jul 21, 2024 at 03:20:49PM -0400, crwulff@gmail.com wrote:
+> > > > From: Chris Wulff <crwulff@gmail.com>
+...
+> > The previous check was also hiding the error, and introduced a panic.
+> > I could add a printk to that error case, though it would be unassociate=
+d
+> > with the gadget that caused the problem. This function does also return
+> > an error code when it fails, so the calling function can check that and
+> > print an error.
+>
+> Okay.  It wouldn't hurt to print out an error message, even if there's
+> no way to tell which gadget it refers to.  A dump_stack() would help in
+> that regard, but it won't be needed if the guilty party will always be
+> pretty obvious.
+>
+> By the way, how did you manage to trigger this error?  None of the
+> in-kernel gadget drivers are known to have this bug, and both the
+> gadgetfs and raw_gadget drivers prevent userspace from doing it.  Were
+> you testing a gadget driver that was under development?
 
-To prevent this issue, this commit ensures that the event buffer address
-is not cleared by software  when the USB core is active during runtime
-suspend by checking its status before clearing the buffer address.
+I am working on adding alternate settings to UAC1/2 gadgets, so this really
+was a case of trying to make the failure in development easier to deal with=
+.
+I don't believe there are any problems with existing gadgets causing this.
 
-Signed-off-by: Selvarasu Ganesan <selvarasu.g@samsung.com>
----
- drivers/usb/dwc3/core.c | 4 +++-
- 1 file changed, 3 insertions(+), 1 deletion(-)
+I will add an error message and submit a new version. Perhaps
+WARN_ON_ONCE would be appropriate here to get that backtrace
+instead of a printk?
 
-diff --git a/drivers/usb/dwc3/core.c b/drivers/usb/dwc3/core.c
-index cb82557678dd..c7c1a253862e 100644
---- a/drivers/usb/dwc3/core.c
-+++ b/drivers/usb/dwc3/core.c
-@@ -559,8 +559,10 @@ int dwc3_event_buffers_setup(struct dwc3 *dwc)
- void dwc3_event_buffers_cleanup(struct dwc3 *dwc)
- {
- 	struct dwc3_event_buffer	*evt;
-+	u32				reg;
- 
--	if (!dwc->ev_buf)
-+	reg = dwc3_readl(dwc->regs, DWC3_DSTS);
-+	if (!dwc->ev_buf || !(reg & DWC3_DSTS_DEVCTRLHLT))
- 		return;
- 
- 	evt = dwc->ev_buf;
--- 
-2.17.1
-
+>
+> Alan Stern
