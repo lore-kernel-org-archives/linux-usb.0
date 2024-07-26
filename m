@@ -1,39 +1,38 @@
 Received: from relay6-d.mail.gandi.net (relay6-d.mail.gandi.net [217.70.183.198])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 20C667347D;
-	Fri, 26 Jul 2024 18:18:04 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 517021494C4;
+	Fri, 26 Jul 2024 18:18:06 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.70.183.198
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1722017888; cv=none; b=Kh5z4IkcHyoknRacLuDnlGKQi5pOJ5D2XjhoHEwIPdwZGTj4KbcUdupIXqEqjoHAGvPMYdSqVUxxBxfKAEO5paVafmdnN/HPfkxrQXh2akfmwhTYNwV1V3zyaBXEFJpC5IxvoYaR5aPXLcVCke5wIY5WSbb9WwtLsBBPFZ1xCQ4=
+	t=1722017888; cv=none; b=rPksxPzbhO/x7ebE8WOZujRqI873oKN8vnuFmThbETVLkYyPsnkvm37OdIJSUuf9A0BuOqDl/FAnlrYdfU/243sCjK85ZA2/3h4vH2T2SS11vQ0oIDRttRR+TciAENZN6FTKB1Wtq7Q/4hUfqp6ZJru/IOzN7T3Lzv3rNtOlb74=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
 	s=arc-20240116; t=1722017888; c=relaxed/simple;
-	bh=95rG1YZ2UtrC8XMcpAiWyTjy7YQj9bjkJ0w9oWd8hII=;
+	bh=WjEYjyDPZ04uHH112vUG09pL2xgwPjzyI56gEphZaJ8=;
 	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
-	 In-Reply-To:To:Cc; b=cEoZmYfJlASzWpKwzeB/l1yllSEo5cGwIOmqVih2ITIR1yOzgYpPKH2v5l6xC3jnzbyTyE/HtsVryKmj4D2mlq4kcB0DIicMDe8SiPkrKGIlmlEccqxBDfLuwsNfVR5WhKrYX7AFr+lLAQ8semeYDl3zd+gUpWrsqWteIb+Oa7k=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com; spf=pass smtp.mailfrom=bootlin.com; dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b=kfbw/Q+Q; arc=none smtp.client-ip=217.70.183.198
+	 In-Reply-To:To:Cc; b=fBZPcOTi+ZYkI+2cjdEI5WG4xVBX8S7Z4G0S0I72VpqJ5w3rz5Nhnh7C8ywbb7k6M93nSJNu9UvzuxBjvzDhD0F9c6ont6uDEplXBVaNmiQvzjcoGvGG13JFapGTE6hGCg+8j2rPzvVt6C32TG5ZvNsytGi4dRJfaPkW6tJ/Lro=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com; spf=pass smtp.mailfrom=bootlin.com; dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b=V4plbe+J; arc=none smtp.client-ip=217.70.183.198
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=bootlin.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b="kfbw/Q+Q"
-Received: by mail.gandi.net (Postfix) with ESMTPSA id 43B4CC000E;
-	Fri, 26 Jul 2024 18:18:02 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b="V4plbe+J"
+Received: by mail.gandi.net (Postfix) with ESMTPSA id 2DEEDC0008;
+	Fri, 26 Jul 2024 18:17:58 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=gm1;
-	t=1722017883;
+	t=1722017878;
 	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
 	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=ih+kvx1EySeuO8rTTlNvuYdd21gOB8JWUrmwahT1dOc=;
-	b=kfbw/Q+QBan9UTaP6HuJ77llt2vFWlvZpOKS3Av1JequqWPDFAHbb2QOk8eZazcs4Hv+03
-	R4xPpHj6knTcAUImEbRK6i8YNuqymlar61qVlryTH+DMasExG35Zv2WALwLZnqUzbxwP++
-	OJKRhGH4Mvr3lvIBxyhpglPe13jxK/Rvirs4rviwk2iVoiZNfwa/AR8py6n4kL5tpuc2Hs
-	R608HRMzfXRiNujGDZbh4k3UaUQTAkcHdtU1g73dVG/YVFLb/eNt/XuC4Yb6S8Uv0sTX5t
-	R7QThnoWYn/qXLSF2/kUexkcCiSmmywqI3Pb+BYTGJOnwbodqZqtBVN19urgZw==
+	bh=UB2yJwdnYb2P4da/POGQoMfTHp7V1lBWEjlzymwP8HU=;
+	b=V4plbe+JHBZ+BcsSSbMU3fD9SNLkG2/Xq0mSl2tN4CoE9T1+Fk2dKc/FeXqPhuq/Gfqg+Z
+	BEbxnR4Yp5WUThk2P4kv8TLW7wQqzZzt5/7AS0URzoSC36hPZw2Pwb/fQ7p9/Dk2Sbe7ON
+	leZ94Xgyf4TmW4TUTz3oCbP8pqEUzSbXP5TS9I3kOq4jqCZfzC72c0rDIcIp01+0uGjuoa
+	rSSpA543jj9t5RR86KhDTafRh4mArEVIrU1fst/yc+vqFCr/UxVL8VM63SicJbDIRmy3yr
+	eQKC3u7loCRRXtMu5uiJ94GuLUm7UNlMIkaQg5HyoxHO6xl/0Lxs6W+ddyj9cg==
 From: =?utf-8?q?Th=C3=A9o_Lebrun?= <theo.lebrun@bootlin.com>
-Date: Fri, 26 Jul 2024 20:17:59 +0200
-Subject: [PATCH v5 11/12] arm64: dts: ti: k3-j7200: use J7200-specific USB
- compatible
+Date: Fri, 26 Jul 2024 20:17:54 +0200
+Subject: [PATCH v5 06/12] usb: cdns3-ti: grab auxdata from match data
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
@@ -42,7 +41,7 @@ List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 8bit
-Message-Id: <20240726-s2r-cdns-v5-11-8664bfb032ac@bootlin.com>
+Message-Id: <20240726-s2r-cdns-v5-6-8664bfb032ac@bootlin.com>
 References: <20240726-s2r-cdns-v5-0-8664bfb032ac@bootlin.com>
 In-Reply-To: <20240726-s2r-cdns-v5-0-8664bfb032ac@bootlin.com>
 To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>, 
@@ -60,28 +59,83 @@ Cc: linux-usb@vger.kernel.org, devicetree@vger.kernel.org,
 X-Mailer: b4 0.14.0
 X-GND-Sasl: theo.lebrun@bootlin.com
 
-On our platform, suspend-to-idle or suspend-to-RAM turn the controller
-off. This compatible triggers reset-on-resume behavior to reconfigure
-the hardware.
+Current code uses the global `cdns_ti_auxdata` variable as auxiliary
+data passed to of_platform_populate(). Use match data to store a
+pointer to auxdata.
+
+Current behavior is not changed; it allows future compatibles to provide
+different auxiliary data.
 
 Signed-off-by: Théo Lebrun <theo.lebrun@bootlin.com>
 ---
- arch/arm64/boot/dts/ti/k3-j7200-main.dtsi | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ drivers/usb/cdns3/cdns3-ti.c | 32 +++++++++++++++++---------------
+ 1 file changed, 17 insertions(+), 15 deletions(-)
 
-diff --git a/arch/arm64/boot/dts/ti/k3-j7200-main.dtsi b/arch/arm64/boot/dts/ti/k3-j7200-main.dtsi
-index 9386bf3ef9f6..6b8e8672b386 100644
---- a/arch/arm64/boot/dts/ti/k3-j7200-main.dtsi
-+++ b/arch/arm64/boot/dts/ti/k3-j7200-main.dtsi
-@@ -766,7 +766,7 @@ pcie1_rc: pcie@2910000 {
- 	};
+diff --git a/drivers/usb/cdns3/cdns3-ti.c b/drivers/usb/cdns3/cdns3-ti.c
+index 618fba5fa2bb..159814dfc856 100644
+--- a/drivers/usb/cdns3/cdns3-ti.c
++++ b/drivers/usb/cdns3/cdns3-ti.c
+@@ -87,18 +87,6 @@ static inline void cdns_ti_writel(struct cdns_ti *data, u32 offset, u32 value)
+ 	writel(value, data->usbss + offset);
+ }
  
- 	usbss0: cdns-usb@4104000 {
--		compatible = "ti,j721e-usb";
-+		compatible = "ti,j7200-usb", "ti,j721e-usb";
- 		reg = <0x00 0x4104000 0x00 0x100>;
- 		dma-coherent;
- 		power-domains = <&k3_pds 288 TI_SCI_PD_EXCLUSIVE>;
+-static struct cdns3_platform_data cdns_ti_pdata = {
+-	.quirks = CDNS3_DRD_SUSPEND_RESIDENCY_ENABLE,   /* Errata i2409 */
+-};
+-
+-static const struct of_dev_auxdata cdns_ti_auxdata[] = {
+-	{
+-		.compatible = "cdns,usb3",
+-		.platform_data = &cdns_ti_pdata,
+-	},
+-	{},
+-};
+-
+ static void cdns_ti_reset_and_init_hw(struct cdns_ti *data)
+ {
+ 	u32 reg;
+@@ -142,6 +130,7 @@ static int cdns_ti_probe(struct platform_device *pdev)
+ {
+ 	struct device *dev = &pdev->dev;
+ 	struct device_node *node = pdev->dev.of_node;
++	const struct of_dev_auxdata *auxdata;
+ 	struct cdns_ti *data;
+ 	unsigned long rate;
+ 	int error, i;
+@@ -203,7 +192,8 @@ static int cdns_ti_probe(struct platform_device *pdev)
+ 		goto err;
+ 	}
+ 
+-	error = of_platform_populate(node, NULL, cdns_ti_auxdata, dev);
++	auxdata = device_get_match_data(dev);
++	error = of_platform_populate(node, NULL, auxdata, dev);
+ 	if (error) {
+ 		dev_err(dev, "failed to create children: %d\n", error);
+ 		goto err;
+@@ -256,9 +246,21 @@ static const struct dev_pm_ops cdns_ti_pm_ops = {
+ 	SYSTEM_SLEEP_PM_OPS(pm_runtime_force_suspend, pm_runtime_force_resume)
+ };
+ 
++static struct cdns3_platform_data cdns_ti_pdata = {
++	.quirks = CDNS3_DRD_SUSPEND_RESIDENCY_ENABLE,   /* Errata i2409 */
++};
++
++static const struct of_dev_auxdata cdns_ti_auxdata[] = {
++	{
++		.compatible = "cdns,usb3",
++		.platform_data = &cdns_ti_pdata,
++	},
++	{},
++};
++
+ static const struct of_device_id cdns_ti_of_match[] = {
+-	{ .compatible = "ti,j721e-usb", },
+-	{ .compatible = "ti,am64-usb", },
++	{ .compatible = "ti,j721e-usb", .data = cdns_ti_auxdata },
++	{ .compatible = "ti,am64-usb", .data = cdns_ti_auxdata },
+ 	{},
+ };
+ MODULE_DEVICE_TABLE(of, cdns_ti_of_match);
 
 -- 
 2.45.2
