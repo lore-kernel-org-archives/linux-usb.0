@@ -1,38 +1,39 @@
 Received: from relay6-d.mail.gandi.net (relay6-d.mail.gandi.net [217.70.183.198])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D7C763BBC0;
-	Fri, 26 Jul 2024 18:18:02 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 27C9038FAD;
+	Fri, 26 Jul 2024 18:18:01 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.70.183.198
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1722017885; cv=none; b=I9iVKhLX3jogwmyLpC1LEQRfBetDGlE93/z19u3s7io/cFMkYxkaA4A+XEMtZhVAjKMBiRb5nYIaglfZGIZhdqD9vNMFIjo0Wc1qmRR4en/HQtOEcdWpe4DTgW1wyyLdJJNRzqf4GFYbVhEcAO+KPz2qL1HLFS3s0Tl6cNkOxfQ=
+	t=1722017885; cv=none; b=libSq3W/HW2bX+7FIY1fk/gtbzsb8nEWo7VOhPDTZi5u35n35WoNKSvAmWFSflJUZLa+AYv/M/gbG2t2ewnVoyYCYHpmqeNyOVe5P0p4yC/scM15nHxahO0RN6X/CbOCdUDei3n2ul2oYQwM/EFaLGKGYWRMXBRmVWnfqxC9kDk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
 	s=arc-20240116; t=1722017885; c=relaxed/simple;
-	bh=L9WuGK3/+JBnFAYDNw+LiekWRfrj2s7kyJZfovAMN50=;
+	bh=M8kT7XTM54d+VqSVtR7ra8gjgpddLbn1IZokTOD5/D4=;
 	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
-	 In-Reply-To:To:Cc; b=e0J5uBQLjptXmG3f2RvslB4IbQJi+FFqF/9jnCZAnGYxtGSQiay6pUkIHatz1gCwufr3W3HnXdzb8D6Lz9FTK14xwrB6NR/Fy4MK/9shjOjkA5kbbeUvVGeHvuRhJwn9keZr3GEjcXrtUgK4OIKoeHRcexNT5+zLpSjrXoqqz4g=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com; spf=pass smtp.mailfrom=bootlin.com; dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b=YISZNTAS; arc=none smtp.client-ip=217.70.183.198
+	 In-Reply-To:To:Cc; b=ij39RbyV8gq6GTszmfnwqtIXqGegzcbu83rNoD804uQoYS1rIXBG2yZRAlz7PD64uApwBOLIAXDYOZiHDhForCWdqv8X5U/3L6KbDd9WClxvxQvf/6ubyAq6k9je0vWLNYE+D56AObvpqhRtchwo+//8PT7f1Abr6oGx796rNZI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com; spf=pass smtp.mailfrom=bootlin.com; dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b=J4/6+VLe; arc=none smtp.client-ip=217.70.183.198
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=bootlin.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b="YISZNTAS"
-Received: by mail.gandi.net (Postfix) with ESMTPSA id 95BDCC0009;
-	Fri, 26 Jul 2024 18:18:00 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b="J4/6+VLe"
+Received: by mail.gandi.net (Postfix) with ESMTPSA id 02AC0C0003;
+	Fri, 26 Jul 2024 18:17:53 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=gm1;
-	t=1722017881;
+	t=1722017874;
 	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
 	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=wZYia7FGurB9of6IzHnVjgaTJVQiLrxPMBa0JK9qcOU=;
-	b=YISZNTASZcu9lL4M+MHFMKTHcQtXdc/AEFh0XrKSLydZP3UUmXSCJOMXkGLnVzUf2h4hhR
-	cRTZwaTCyGUiUPTanbVXyq4AS4ucXZblnM4ZfludQbknbf0L51ZwxGz4T59bNwMbO2/6lI
-	jWsnuAtyyuvG9uIdMk/trfGZWv68HiwENG7boPnhQnpVQ/Sn32GnyA4g9JTOTknZr2/tOp
-	1JCF6C4aLPetxME1h5Bni6uWpgmVUUVZMybB8LsFex272FPRGBQtQHNKZKFEzvPwiwUrZ+
-	1Ssg8B1gwrH4UbjZ9WLnLdGX+TOzw07OXu3ok1zShDm2WaFurfCq3CqaYQECKA==
+	bh=6hlY/jskfFjLvf2CkYp2cXADUxnfZgmP+k1J65XVhjQ=;
+	b=J4/6+VLeoBY7oJ1KT8elG55jruOUf7u4wlH+m+huKtpF7fvSHgd0BTXZsSU+xkK42AzJzE
+	W4lARncevLveoRibHvSQxNz7HwccX9G9EaCAD/P3noX1SjjO36pDx53y7O3Ib2zeuv11HR
+	l/zptPpvGHWmm7+9iQKYuTkTZqQwMd3RH1plH/t5n7q0J07dIGXU6QLcm9d/VFG4aSp0P7
+	bHrhBHja9AQL7D7KlElfEaTQ2Q69SY31OuGX7qP01+4pvN/NT0z/c4uEuP+v3BK87e0By9
+	SxpFy4Kt2GY8vBa5lfuaOCqp92i6J/36bDOWVp+3kNBimCJYLi5VUcdObrVjVQ==
 From: =?utf-8?q?Th=C3=A9o_Lebrun?= <theo.lebrun@bootlin.com>
-Date: Fri, 26 Jul 2024 20:17:57 +0200
-Subject: [PATCH v5 09/12] xhci: introduce xhci->lost_power flag
+Date: Fri, 26 Jul 2024 20:17:49 +0200
+Subject: [PATCH v5 01/12] dt-bindings: usb: ti,j721e-usb: fix compatible
+ list
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
@@ -41,7 +42,7 @@ List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 8bit
-Message-Id: <20240726-s2r-cdns-v5-9-8664bfb032ac@bootlin.com>
+Message-Id: <20240726-s2r-cdns-v5-1-8664bfb032ac@bootlin.com>
 References: <20240726-s2r-cdns-v5-0-8664bfb032ac@bootlin.com>
 In-Reply-To: <20240726-s2r-cdns-v5-0-8664bfb032ac@bootlin.com>
 To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>, 
@@ -55,76 +56,37 @@ Cc: linux-usb@vger.kernel.org, devicetree@vger.kernel.org,
  Kevin Hilman <khilman@kernel.org>, 
  =?utf-8?q?Gr=C3=A9gory_Clement?= <gregory.clement@bootlin.com>, 
  Thomas Petazzoni <thomas.petazzoni@bootlin.com>, 
- =?utf-8?q?Th=C3=A9o_Lebrun?= <theo.lebrun@bootlin.com>
+ =?utf-8?q?Th=C3=A9o_Lebrun?= <theo.lebrun@bootlin.com>, 
+ Conor Dooley <conor.dooley@microchip.com>
 X-Mailer: b4 0.14.0
 X-GND-Sasl: theo.lebrun@bootlin.com
 
-The XHCI_RESET_ON_RESUME quirk allows wrappers to signal that they
-expect a reset after resume. It is also used by some to enforce a XHCI
-reset on resume (see needs-reset-on-resume DT prop).
+Compatible can be A or B+A, not A or B or A+B. B got added afterwards,
+we want B+A not A+B. A=ti,j721e-usb and B=ti,am64-usb.
 
-Some wrappers are unsure beforehands if they will reset. Add a mechanism
-to signal *at resume* if power has been lost. Parent devices can set
-this flag, that defaults to the XHCI_RESET_ON_RESUME value.
-
-The XHCI_RESET_ON_RESUME quirk still triggers a runtime_pm_get() on the
-controller. This is required as we do not know if a suspend will
-trigger a reset, so the best guess is to avoid runtime PM.
-
-Reset the xhci->lost_power value each time in xhci_resume(), making it
-safe for devices to only set lost_power on some resumes.
-
+Reviewed-by: Rob Herring <robh@kernel.org>
+Reviewed-by: Conor Dooley <conor.dooley@microchip.com>
 Signed-off-by: Théo Lebrun <theo.lebrun@bootlin.com>
 ---
- drivers/usb/host/xhci.c | 8 +++++++-
- drivers/usb/host/xhci.h | 6 ++++++
- 2 files changed, 13 insertions(+), 1 deletion(-)
+ Documentation/devicetree/bindings/usb/ti,j721e-usb.yaml | 3 +--
+ 1 file changed, 1 insertion(+), 2 deletions(-)
 
-diff --git a/drivers/usb/host/xhci.c b/drivers/usb/host/xhci.c
-index 0a8cf6c17f82..2c9b32d339f9 100644
---- a/drivers/usb/host/xhci.c
-+++ b/drivers/usb/host/xhci.c
-@@ -1029,9 +1029,12 @@ int xhci_resume(struct xhci_hcd *xhci, pm_message_t msg)
+diff --git a/Documentation/devicetree/bindings/usb/ti,j721e-usb.yaml b/Documentation/devicetree/bindings/usb/ti,j721e-usb.yaml
+index 95ff9791baea..653a89586f4e 100644
+--- a/Documentation/devicetree/bindings/usb/ti,j721e-usb.yaml
++++ b/Documentation/devicetree/bindings/usb/ti,j721e-usb.yaml
+@@ -13,10 +13,9 @@ properties:
+   compatible:
+     oneOf:
+       - const: ti,j721e-usb
+-      - const: ti,am64-usb
+       - items:
+-          - const: ti,j721e-usb
+           - const: ti,am64-usb
++          - const: ti,j721e-usb
  
- 	spin_lock_irq(&xhci->lock);
- 
--	if (hibernated || xhci->quirks & XHCI_RESET_ON_RESUME || xhci->broken_suspend)
-+	if (hibernated || xhci->lost_power || xhci->broken_suspend)
- 		reinit_xhc = true;
- 
-+	/* Reset to default value, parent devices might correct it at next resume. */
-+	xhci->lost_power = !!(xhci->quirks & XHCI_RESET_ON_RESUME);
-+
- 	if (!reinit_xhc) {
- 		/*
- 		 * Some controllers might lose power during suspend, so wait
-@@ -5228,6 +5231,9 @@ int xhci_gen_setup(struct usb_hcd *hcd, xhci_get_quirks_t get_quirks)
- 	if (get_quirks)
- 		get_quirks(dev, xhci);
- 
-+	/* Default value, that can be corrected at resume. */
-+	xhci->lost_power = !!(xhci->quirks & XHCI_RESET_ON_RESUME);
-+
- 	/* In xhci controllers which follow xhci 1.0 spec gives a spurious
- 	 * success event after a short transfer. This quirk will ignore such
- 	 * spurious event.
-diff --git a/drivers/usb/host/xhci.h b/drivers/usb/host/xhci.h
-index ebd0afd59a60..ec7c6061363f 100644
---- a/drivers/usb/host/xhci.h
-+++ b/drivers/usb/host/xhci.h
-@@ -1640,6 +1640,12 @@ struct xhci_hcd {
- 	unsigned		broken_suspend:1;
- 	/* Indicates that omitting hcd is supported if root hub has no ports */
- 	unsigned		allow_single_roothub:1;
-+	/*
-+	 * Signal from upper stacks that we lost power during system-wide
-+	 * suspend. Its default value is based on XHCI_RESET_ON_RESUME, meaning
-+	 * it is safe for wrappers to not modify lost_power at resume.
-+	 */
-+	unsigned                lost_power:1;
- 	/* cached extended protocol port capabilities */
- 	struct xhci_port_cap	*port_caps;
- 	unsigned int		num_port_caps;
+   reg:
+     maxItems: 1
 
 -- 
 2.45.2
