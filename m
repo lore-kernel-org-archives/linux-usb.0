@@ -1,60 +1,60 @@
-Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com [205.220.168.131])
+Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com [205.220.180.131])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D38FA190070;
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0F389190473;
 	Tue, 30 Jul 2024 22:24:48 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.168.131
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.180.131
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1722378290; cv=none; b=cqfWVc5r2iO08AQLU756lFzOhNBQAQ294pHtKPinfXv7t/vtgTDkSWypx4xdnMbH8BhieK2oVUfmbNzJ94Lrc9EVb7iFb6U/927ygGhrPgzLV0eHyN5KpeJa/kTEmP05W0bAexSUkKoOcvThTOut7zw0QJnCiswAz1x8xCBfBVE=
+	t=1722378290; cv=none; b=poNh84Y8c8YluctE345DTkxTA4dCUUWVZ55G9sQkze2VlWnMMgFMMFQ3wLiU2uPTrqBJlNSw6mnL2WAvoYuFxu7moIwUgdV+65c6ROdugZUBkb7lrzQSmRqvG8/bpPem67+G504GFOE/UnIgOM2D8ldFhF2UdcY1CTlA4rHx3Mw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
 	s=arc-20240116; t=1722378290; c=relaxed/simple;
-	bh=8l4pBPQquRhwMwnmHwkyb672h240ETwBgX5y6K/wTLA=;
-	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References; b=mvtrRj8OPEsptgbfs4U0yiT6WX6uxtEUvxn3k44g+0E8UGNvgQB+HZQjuhixzvw96MzU5anhZh26e2LrajfaHCSkGb0QVOeoui7KMrqHRpyrfB/gHnqtfVovC7gsqjXASlgwHin7bGrKewfrnTjGKJH/Rc6uRFK0kGAV3Z1RZy4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=quicinc.com; spf=pass smtp.mailfrom=qualcomm.com; dkim=pass (2048-bit key) header.d=quicinc.com header.i=@quicinc.com header.b=l8dZ93u6; arc=none smtp.client-ip=205.220.168.131
+	bh=0Gj6H1jOlOfU5UVOS1YT+FMw9OJ5sKI01pvc4Z2DW1s=;
+	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References; b=AenDpqOBpDbeiSu2+AY5Jiscr7EdNU8qQjyx48KyKTv2/lvcEyZKRPgjv/1a+nd1RYWCesiRGyqDHNBWAMILk2vIlGQopij39j4URZA36yjUdB2bLkfoRoRx3cnr71fhcDoD0mN4rGal2uWSl7NB/HL9FJULYZ7jzZ8j1PlzO10=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=quicinc.com; spf=pass smtp.mailfrom=qualcomm.com; dkim=pass (2048-bit key) header.d=quicinc.com header.i=@quicinc.com header.b=YE2Wx0hv; arc=none smtp.client-ip=205.220.180.131
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=quicinc.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=qualcomm.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=quicinc.com header.i=@quicinc.com header.b="l8dZ93u6"
-Received: from pps.filterd (m0279862.ppops.net [127.0.0.1])
-	by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 46UIWqbp024039;
+	dkim=pass (2048-bit key) header.d=quicinc.com header.i=@quicinc.com header.b="YE2Wx0hv"
+Received: from pps.filterd (m0279868.ppops.net [127.0.0.1])
+	by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 46UG4rMp030486;
 	Tue, 30 Jul 2024 22:24:44 GMT
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com; h=
 	cc:date:from:in-reply-to:message-id:references:subject:to; s=
-	qcppdkim1; bh=bhbA5ahdZU1ATvTTG9MJalCJi7yPT3Xm50vK7mY+rys=; b=l8
-	dZ93u6/h5et7ozKCkH7j0hXiMGivG62xpihRnXc37q4rE2Y/OSnC9lhr8cjOOYP9
-	Qnu76zxjVk2aL2wW9UVpoBZuZ+814x8Ss6ihx/lb35beMdK4RxL120b6D1AEnH/a
-	02RbWVs6qPl8cLp85ObDxRsw4niLe/53EkKP2YhQlaWTKxjrG+OtXSadpS9VVhyx
-	6wWNnux3TAPfCGAo2txiqmnJxWvHAHUqDxHLsDXzrgeaje9Vwf5vF0GFKVZbJA8x
-	kMzy5i42TDEPqaHszezI+7jqC7/TCEgTry3e9A1b3MVLy6pRx5gw6u/QvO5QoH5K
-	HVskvIcfXTwNLhh5eONA==
+	qcppdkim1; bh=xDPdkuyTGvyNl4qFhebrGhY4p1c5X1GNl439JhdPb9U=; b=YE
+	2Wx0hvtp4lrGg0sjKNBQwNBn43ko0Aal1m79sNXDE94EAPFqguHCNXazNH8SJt16
+	z6eSP6bIHlJeuzRlXk5Ww2fSaHTu2sqg6TmR0BuDCkGHD32R6L4MHgdOzHLHKyVL
+	mDB7qFnHyNSY6CB/y8FxEXkUIxp0Q8Ehd8XWkFr150v+1rcDohB20E+inUEbtxAL
+	Z7vNGcVZVK5pxIb7Cmmv0tqzDr6xrBPxsg1SJKcKgZ2BXUROYVZGfhTOydDibVNV
+	pwM02AKlUtlEToQ76Ro39Zc9a0/BcMyGph/eFuppOkT4lT8Bny8NRLO77rQlDstD
+	Q2ETpfk0giIRu+uEBLOw==
 Received: from nalasppmta03.qualcomm.com (Global_NAT1.qualcomm.com [129.46.96.20])
-	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 40msne8xhs-1
+	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 40pw442bm5-1
 	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Tue, 30 Jul 2024 22:24:43 +0000 (GMT)
+	Tue, 30 Jul 2024 22:24:44 +0000 (GMT)
 Received: from pps.filterd (NALASPPMTA03.qualcomm.com [127.0.0.1])
-	by NALASPPMTA03.qualcomm.com (8.17.1.19/8.17.1.19) with ESMTP id 46UMOg3g025870;
+	by NALASPPMTA03.qualcomm.com (8.17.1.19/8.17.1.19) with ESMTP id 46UMIaQY016176;
 	Tue, 30 Jul 2024 22:24:42 GMT
 Received: from pps.reinject (localhost [127.0.0.1])
-	by NALASPPMTA03.qualcomm.com (PPS) with ESMTPS id 40pghqm6yt-1
+	by NALASPPMTA03.qualcomm.com (PPS) with ESMTPS id 40pghqm6yu-1
 	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NO);
 	Tue, 30 Jul 2024 22:24:42 +0000
 Received: from NALASPPMTA03.qualcomm.com (NALASPPMTA03.qualcomm.com [127.0.0.1])
-	by pps.reinject (8.17.1.5/8.17.1.5) with ESMTP id 46UMOgMH025850;
+	by pps.reinject (8.17.1.5/8.17.1.5) with ESMTP id 46UMOgj1025851;
 	Tue, 30 Jul 2024 22:24:42 GMT
 Received: from hu-devc-lv-u18-c.qualcomm.com (hu-eserrao-lv.qualcomm.com [10.47.235.27])
-	by NALASPPMTA03.qualcomm.com (PPS) with ESMTP id 46UMOgeQ025847;
+	by NALASPPMTA03.qualcomm.com (PPS) with ESMTP id 46UMOg6l025849;
 	Tue, 30 Jul 2024 22:24:42 +0000
 Received: by hu-devc-lv-u18-c.qualcomm.com (Postfix, from userid 464172)
-	id B7BD9500198; Tue, 30 Jul 2024 15:24:41 -0700 (PDT)
+	id BE36E500592; Tue, 30 Jul 2024 15:24:41 -0700 (PDT)
 From: Elson Roy Serrao <quic_eserrao@quicinc.com>
 To: andersson@kernel.org, konrad.dybcio@linaro.org, robh@kernel.org,
         krzk+dt@kernel.org, conor+dt@kernel.org, gregkh@linuxfoundation.org
 Cc: linux-arm-msm@vger.kernel.org, devicetree@vger.kernel.org,
         linux-kernel@vger.kernel.org, linux-usb@vger.kernel.org,
         Elson Roy Serrao <quic_eserrao@quicinc.com>
-Subject: [PATCH 6/8] usb: misc: eud: Add High-Speed Phy control for EUD operations
-Date: Tue, 30 Jul 2024 15:24:37 -0700
-Message-Id: <20240730222439.3469-7-quic_eserrao@quicinc.com>
+Subject: [PATCH 8/8] usb: misc: eud: Add compatible for sm8450
+Date: Tue, 30 Jul 2024 15:24:39 -0700
+Message-Id: <20240730222439.3469-9-quic_eserrao@quicinc.com>
 X-Mailer: git-send-email 2.17.1
 In-Reply-To: <20240730222439.3469-1-quic_eserrao@quicinc.com>
 References: <20240730222439.3469-1-quic_eserrao@quicinc.com>
@@ -62,14 +62,14 @@ X-QCInternal: smtphost
 X-QCInternal: smtphost
 X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800 signatures=585085
 X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800 signatures=585085
-X-Proofpoint-GUID: Z45UKuvCHbIpVLggytp-x-SX_p8_Vahy
-X-Proofpoint-ORIG-GUID: Z45UKuvCHbIpVLggytp-x-SX_p8_Vahy
+X-Proofpoint-GUID: 3P7LFDZQ8AEaOxgFE5-A4N2y2gNvjRfN
+X-Proofpoint-ORIG-GUID: 3P7LFDZQ8AEaOxgFE5-A4N2y2gNvjRfN
 X-Proofpoint-Virus-Version: vendor=baseguard
  engine=ICAP:2.0.293,Aquarius:18.0.1039,Hydra:6.0.680,FMLib:17.12.28.16
  definitions=2024-07-30_18,2024-07-30_01,2024-05-17_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 adultscore=0 phishscore=0
- lowpriorityscore=0 mlxlogscore=999 priorityscore=1501 clxscore=1015
- spamscore=0 mlxscore=0 bulkscore=0 suspectscore=0 impostorscore=0
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 phishscore=0 mlxscore=0
+ priorityscore=1501 adultscore=0 mlxlogscore=950 clxscore=1015
+ impostorscore=0 spamscore=0 lowpriorityscore=0 bulkscore=0 suspectscore=0
  malwarescore=0 classifier=spam adjust=0 reason=mlx scancount=1
  engine=8.19.0-2407110000 definitions=main-2407300154
 Precedence: bulk
@@ -78,94 +78,25 @@ List-Id: <linux-usb.vger.kernel.org>
 List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 
-The Embedded USB Debugger(EUD) is a HS-USB on-chip hub to support the
-debug and trace capabilities on Qualcomm devices. It is physically
-present in between the usb connector and the usb controller. Being a
-HS USB hub, it relies on HS Phy for its functionality. Add HS phy
-support in the eud driver and control the phy during eud enable/disable
-operations.
+Add compatible string to enable EUD on sm8450 SoC.
 
 Signed-off-by: Elson Roy Serrao <quic_eserrao@quicinc.com>
 ---
- drivers/usb/misc/qcom_eud.c | 35 +++++++++++++++++++++++++++++++++++
- 1 file changed, 35 insertions(+)
+ drivers/usb/misc/qcom_eud.c | 1 +
+ 1 file changed, 1 insertion(+)
 
 diff --git a/drivers/usb/misc/qcom_eud.c b/drivers/usb/misc/qcom_eud.c
-index 26e9b8749d8a..3de7d465912c 100644
+index 9a49c934e8cf..465d57c05c3c 100644
 --- a/drivers/usb/misc/qcom_eud.c
 +++ b/drivers/usb/misc/qcom_eud.c
-@@ -11,6 +11,7 @@
- #include <linux/kernel.h>
- #include <linux/module.h>
- #include <linux/of.h>
-+#include <linux/phy/phy.h>
- #include <linux/platform_device.h>
- #include <linux/slab.h>
- #include <linux/sysfs.h>
-@@ -33,6 +34,7 @@
- struct eud_chip {
- 	struct device			*dev;
- 	struct usb_role_switch		*role_sw;
-+	struct phy			*usb2_phy;
- 	void __iomem			*base;
- 	void __iomem			*mode_mgr;
- 	unsigned int			int_status;
-@@ -41,8 +43,35 @@ struct eud_chip {
- 	bool				usb_attached;
+@@ -315,6 +315,7 @@ static void eud_remove(struct platform_device *pdev)
+ 
+ static const struct of_device_id eud_dt_match[] = {
+ 	{ .compatible = "qcom,sc7280-eud" },
++	{ .compatible = "qcom,sm8450-eud" },
+ 	{ }
  };
- 
-+static int eud_phy_enable(struct eud_chip *chip)
-+{
-+	int ret;
-+
-+	ret = phy_init(chip->usb2_phy);
-+	if (ret)
-+		return ret;
-+
-+	ret = phy_power_on(chip->usb2_phy);
-+	if (ret)
-+		phy_exit(chip->usb2_phy);
-+
-+	return ret;
-+}
-+
-+static void eud_phy_disable(struct eud_chip *chip)
-+{
-+	phy_power_off(chip->usb2_phy);
-+	phy_exit(chip->usb2_phy);
-+}
-+
- static int enable_eud(struct eud_chip *priv)
- {
-+	int ret;
-+
-+	ret = eud_phy_enable(priv);
-+	if (ret)
-+		return ret;
-+
- 	writel(EUD_ENABLE, priv->base + EUD_REG_CSR_EUD_EN);
- 	writel(EUD_INT_VBUS | EUD_INT_SAFE_MODE,
- 			priv->base + EUD_REG_INT1_EN_MASK);
-@@ -55,6 +84,7 @@ static void disable_eud(struct eud_chip *priv)
- {
- 	writel(0, priv->base + EUD_REG_CSR_EUD_EN);
- 	writel(0, priv->mode_mgr + EUD_REG_EUD_EN2);
-+	eud_phy_disable(priv);
- }
- 
- static ssize_t enable_show(struct device *dev,
-@@ -186,6 +216,11 @@ static int eud_probe(struct platform_device *pdev)
- 
- 	chip->dev = &pdev->dev;
- 
-+	chip->usb2_phy = devm_phy_get(chip->dev, "usb2-phy");
-+	if (IS_ERR(chip->usb2_phy))
-+		return dev_err_probe(chip->dev, PTR_ERR(chip->usb2_phy),
-+				     "no usb2 phy configured\n");
-+
- 	chip->role_sw = usb_role_switch_get(&pdev->dev);
- 	if (IS_ERR(chip->role_sw))
- 		return dev_err_probe(chip->dev, PTR_ERR(chip->role_sw),
+ MODULE_DEVICE_TABLE(of, eud_dt_match);
 -- 
 2.17.1
 
