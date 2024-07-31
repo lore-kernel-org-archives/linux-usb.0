@@ -1,127 +1,141 @@
-Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com [205.220.180.131])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2C09919149E;
-	Tue, 30 Jul 2024 22:24:49 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.180.131
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9186C5464A;
+	Wed, 31 Jul 2024 05:33:48 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1722378292; cv=none; b=GCX+CEyShhi1mtSSf25IXX0fvKRAgWMXUyrhh/nxptK91PrrNfsVZ4ZnzYuwd3iEKpMERnqB+GyM5vLJVpgwwfFRutlTA33ftTGJ/TEKdZmNeHw4VAxNA5jtQ4hxJ8idN2hHmAt7l9gzC7ddyrbLvRNGAYwRh/qQCiRnqsTid5E=
+	t=1722404028; cv=none; b=h7dRAkB+QgFDXeRQ3bHVbLa+aw8pdDscCwEXrHuojiP6Zmh6DoYtB8E1Rn8+tdDcxjrkM1UJ0HwoI4Y5tbEPhIHKXyNuNozkYtM8zAiibDa4aqHO1m4FK5F4fTX7241QSECPun1NK3SAfyS5EcLYX2dMroJPS9HmXWNOPlzF01k=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1722378292; c=relaxed/simple;
-	bh=pS6Ey9bhNKiQA3t32Zsli8Caeal+MQPTqL4xfGMznJA=;
-	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References; b=t+PpvJews2zWSuFwtsI2iSdmbu/EguwHqNyZVBYdNsWclZf0gFw1fXAF5A1wrfKfrm9jjdACnauLG/OloAH0x6co+gY3c5+t3RFiTeeIrMOZg06DRPId2NY69xUF/Xrc8brUAbkibiO2JBdG8hlka2hUln6+2b9X8KTgzkcoplQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=quicinc.com; spf=pass smtp.mailfrom=qualcomm.com; dkim=pass (2048-bit key) header.d=quicinc.com header.i=@quicinc.com header.b=ljotRODX; arc=none smtp.client-ip=205.220.180.131
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=quicinc.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=qualcomm.com
+	s=arc-20240116; t=1722404028; c=relaxed/simple;
+	bh=5u+EinhdB9b6/nYjsUPtYkZPrkKBMixxBO6GoOekOTE=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=LZSb9x++zr0qUpVVj9xqs7ZFkdS2OU7BqAib+2FZ9zYUVEIH0CZwMqSUteBXAoCVEmqQmb0By8OA4tC4lG2M7pjyRK0IanrJYdXqNkYLsn7U8/KPv/qWWHVx+LyMFRpIu/m1phona+TU2vNrQlvW5gKoqb2xFZ+4ndB6ViFJdGk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=I067pFtu; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=quicinc.com header.i=@quicinc.com header.b="ljotRODX"
-Received: from pps.filterd (m0279871.ppops.net [127.0.0.1])
-	by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 46UGNOKQ024782;
-	Tue, 30 Jul 2024 22:24:44 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com; h=
-	cc:date:from:in-reply-to:message-id:references:subject:to; s=
-	qcppdkim1; bh=ixibcXR9BhrUG9gq4/lt98K3QjbAREWv2QumpQoSWlA=; b=lj
-	otRODXJArtXlZsQId/yUDqkcezQGJfu6ilu2A1bfIqZDAzoudVo53irsj70zubdK
-	Pj4ymSXeb9+TMFIFILL+EZkAwxlvrCT/xFq4Ag7SnukWr+KC6xAJjvJ/DldE+h65
-	VsIBagvkXrapcdxmlZlF+KFp4GjTGlYD14I50sSzmBHLVKHbfHgx8oOwuhTKb/A/
-	K6YYEZobZZ7IJ+bByFO7uSbI6zd0XQu6jblgD/X8zC2TUY08gmgYyLfWiqgaYCXh
-	Dz4/56p9sNdPtiFX98vOFJYVyJm1k8QlyoVPXcVAJk/6sIWE7fq0FT3AKtNPTWGR
-	eql8JFghbVfGwywzJrWw==
-Received: from nalasppmta04.qualcomm.com (Global_NAT1.qualcomm.com [129.46.96.20])
-	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 40pw452bww-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Tue, 30 Jul 2024 22:24:44 +0000 (GMT)
-Received: from pps.filterd (NALASPPMTA04.qualcomm.com [127.0.0.1])
-	by NALASPPMTA04.qualcomm.com (8.17.1.19/8.17.1.19) with ESMTP id 46UMKRov028627;
-	Tue, 30 Jul 2024 22:24:42 GMT
-Received: from pps.reinject (localhost [127.0.0.1])
-	by NALASPPMTA04.qualcomm.com (PPS) with ESMTPS id 40petpw353-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NO);
-	Tue, 30 Jul 2024 22:24:42 +0000
-Received: from NALASPPMTA04.qualcomm.com (NALASPPMTA04.qualcomm.com [127.0.0.1])
-	by pps.reinject (8.17.1.5/8.17.1.5) with ESMTP id 46UMK1Rw028111;
-	Tue, 30 Jul 2024 22:24:42 GMT
-Received: from hu-devc-lv-u18-c.qualcomm.com (hu-eserrao-lv.qualcomm.com [10.47.235.27])
-	by NALASPPMTA04.qualcomm.com (PPS) with ESMTP id 46UMOg9a003287;
-	Tue, 30 Jul 2024 22:24:42 +0000
-Received: by hu-devc-lv-u18-c.qualcomm.com (Postfix, from userid 464172)
-	id B5039500197; Tue, 30 Jul 2024 15:24:41 -0700 (PDT)
-From: Elson Roy Serrao <quic_eserrao@quicinc.com>
-To: andersson@kernel.org, konrad.dybcio@linaro.org, robh@kernel.org,
-        krzk+dt@kernel.org, conor+dt@kernel.org, gregkh@linuxfoundation.org
-Cc: linux-arm-msm@vger.kernel.org, devicetree@vger.kernel.org,
-        linux-kernel@vger.kernel.org, linux-usb@vger.kernel.org,
-        Elson Roy Serrao <quic_eserrao@quicinc.com>
-Subject: [PATCH 5/8] arm64: dts: qcom: Enable EUD on sm8450 hdk
-Date: Tue, 30 Jul 2024 15:24:36 -0700
-Message-Id: <20240730222439.3469-6-quic_eserrao@quicinc.com>
-X-Mailer: git-send-email 2.17.1
-In-Reply-To: <20240730222439.3469-1-quic_eserrao@quicinc.com>
-References: <20240730222439.3469-1-quic_eserrao@quicinc.com>
-X-QCInternal: smtphost
-X-QCInternal: smtphost
-X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800 signatures=585085
-X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800 signatures=585085
-X-Proofpoint-GUID: 64iy_pY49jrc0wdWVWeJfXAz6jPaf87b
-X-Proofpoint-ORIG-GUID: 64iy_pY49jrc0wdWVWeJfXAz6jPaf87b
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1039,Hydra:6.0.680,FMLib:17.12.28.16
- definitions=2024-07-30_18,2024-07-30_01,2024-05-17_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 mlxscore=0 priorityscore=1501
- suspectscore=0 adultscore=0 clxscore=1015 impostorscore=0 malwarescore=0
- lowpriorityscore=0 mlxlogscore=599 phishscore=0 bulkscore=0 spamscore=0
- classifier=spam adjust=0 reason=mlx scancount=1 engine=8.19.0-2407110000
- definitions=main-2407300155
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="I067pFtu"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 4A3DBC116B1;
+	Wed, 31 Jul 2024 05:33:44 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1722404028;
+	bh=5u+EinhdB9b6/nYjsUPtYkZPrkKBMixxBO6GoOekOTE=;
+	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+	b=I067pFtuSkDMorXm5LuTEpDWkNEchym7Oh+pAlj5D6N7a71lDTpG24u6280HA5m6T
+	 FwHGovJdOa6kbALo9yeUpunM4u/TT3/8sIxBvmo2Ck2W6kRs6xp5lTJWbGhMnGTTIJ
+	 fmUohiIIsUWqXZ8tJ/Km8gi68G0SmSuhQ82opgqUwq/O0BVs763ImVPht7oY1A+Tp/
+	 xasWADBM4xCbVDmOhkTxr9u1vj7+gb9WByEynPkbmxmKPSEaT5JODmb8VO27HPcccK
+	 O1wO88FISAkObjH2ZEx+Fqb+/f3yJyGu4xbP3RP9nGI0lQl7Q0DNnjsiN/ML200y3u
+	 t1cjLKzZWARig==
+Message-ID: <63cf3198-fb79-466f-b80a-024e970e400a@kernel.org>
+Date: Wed, 31 Jul 2024 07:33:41 +0200
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
+MIME-Version: 1.0
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH 1/8] dt-bindings: soc: qcom: eud: Add phy related bindings
+To: Elson Roy Serrao <quic_eserrao@quicinc.com>, andersson@kernel.org,
+ konrad.dybcio@linaro.org, robh@kernel.org, krzk+dt@kernel.org,
+ conor+dt@kernel.org, gregkh@linuxfoundation.org
+Cc: linux-arm-msm@vger.kernel.org, devicetree@vger.kernel.org,
+ linux-kernel@vger.kernel.org, linux-usb@vger.kernel.org
+References: <20240730222439.3469-1-quic_eserrao@quicinc.com>
+ <20240730222439.3469-2-quic_eserrao@quicinc.com>
+From: Krzysztof Kozlowski <krzk@kernel.org>
+Content-Language: en-US
+Autocrypt: addr=krzk@kernel.org; keydata=
+ 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 fv0=
+In-Reply-To: <20240730222439.3469-2-quic_eserrao@quicinc.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 
-Enable EUD on sm8450 hdk and route the role switch endpoints
-accordingly.
+On 31/07/2024 00:24, Elson Roy Serrao wrote:
+> Embedded USB Debugger(EUD) being a High-Speed USB  hub needs
+> HS-Phy support for it's operation. Hence document phy bindings
+> to support this.
+> 
+> Signed-off-by: Elson Roy Serrao <quic_eserrao@quicinc.com>
 
-Signed-off-by: Elson Roy Serrao <quic_eserrao@quicinc.com>
----
- arch/arm64/boot/dts/qcom/sm8450-hdk.dts | 15 ++++++++++++++-
- 1 file changed, 14 insertions(+), 1 deletion(-)
+A nit, subject: drop second/last, redundant "bindings". The
+"dt-bindings" prefix is already stating that these are bindings.
+See also:
+https://elixir.bootlin.com/linux/v6.7-rc8/source/Documentation/devicetree/bindings/submitting-patches.rst#L18
 
-diff --git a/arch/arm64/boot/dts/qcom/sm8450-hdk.dts b/arch/arm64/boot/dts/qcom/sm8450-hdk.dts
-index a754b8fe9167..21a63ad81aac 100644
---- a/arch/arm64/boot/dts/qcom/sm8450-hdk.dts
-+++ b/arch/arm64/boot/dts/qcom/sm8450-hdk.dts
-@@ -111,7 +111,7 @@
- 					reg = <0>;
- 
- 					pmic_glink_hs_in: endpoint {
--						remote-endpoint = <&usb_1_dwc3_hs>;
-+						remote-endpoint = <&eud_con>;
- 					};
- 				};
- 
-@@ -1102,9 +1102,22 @@
- };
- 
- &usb_1_dwc3_hs {
-+	remote-endpoint = <&eud_ep>;
-+};
-+
-+&eud {
-+	status = "okay";
-+	usb-role-switch;
-+};
-+
-+&eud_con {
- 	remote-endpoint = <&pmic_glink_hs_in>;
- };
- 
-+&eud_ep {
-+	remote-endpoint = <&usb_1_dwc3_hs>;
-+};
-+
- &usb_1_hsphy {
- 	status = "okay";
- 
--- 
-2.17.1
+> ---
+>  .../devicetree/bindings/soc/qcom/qcom,eud.yaml       | 12 ++++++++++++
+>  1 file changed, 12 insertions(+)
+> 
+> diff --git a/Documentation/devicetree/bindings/soc/qcom/qcom,eud.yaml b/Documentation/devicetree/bindings/soc/qcom/qcom,eud.yaml
+> index f2c5ec7e6437..fca5b608ec63 100644
+> --- a/Documentation/devicetree/bindings/soc/qcom/qcom,eud.yaml
+> +++ b/Documentation/devicetree/bindings/soc/qcom/qcom,eud.yaml
+> @@ -29,6 +29,14 @@ properties:
+>      description: EUD interrupt
+>      maxItems: 1
+>  
+> +  phys:
+> +    items:
+> +      - description: USB2/HS PHY needed for EUD functionality
+> +
+> +  phy-names:
+> +    items:
+> +      - const: usb2-phy
+> +
+>    ports:
+>      $ref: /schemas/graph.yaml#/properties/ports
+>      description:
+> @@ -48,6 +56,8 @@ properties:
+>  required:
+>    - compatible
+>    - reg
+> +  - phys
+> +  - phy-names
+
+That's an ABI break and nothing in commit msg justified it.
+
+Best regards,
+Krzysztof
 
