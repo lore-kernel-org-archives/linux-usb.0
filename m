@@ -1,98 +1,95 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C6B0D1B95B
-	for <linux-usb@vger.kernel.org>; Wed, 31 Jul 2024 08:45:18 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 55C511A8BF7;
+	Wed, 31 Jul 2024 08:57:09 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1722415518; cv=none; b=ryqhyBlfxdOCiZPIRx11fdhn4M0lWWAjn2ZcynoEqutkFQS/p7U+GpDjzZ/7A5qR4MjjwEscD4cX0uC6ejBkRvEsLZGNdaqP2W+ORq65BRFSLJ6tpsmIy5LWwjqVqatf2IoDkOJtmv6E9mDiWkyTlxsBkSJ/nSokI3G5K0AGpSU=
+	t=1722416229; cv=none; b=ppVY/TRGzraRWLbpHizvCPtXxyNl8jS52tsVkYr5GF632eos6zz4PV2hOGG6GAN1LQP7CsJ7WcwcGpJNLa/qQZJKt6bO9EJEvKReYOp+hJAbEHYA3lNBT0HOkTxuO9VYe9zC8kJBDHS5fWBC6oSPu4rRMpfQkje7Qz9jRZZK6Ug=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1722415518; c=relaxed/simple;
-	bh=T0hgZzxcbycjDKArSUhUrQawZWOQS7uVUzRD35sHWog=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=Ikw7NEs4Nf2U4BFXYyU68Oinxfwk2TyKUWhT3RO2+N2jXUiLeraXt5sg1mQgsANIBxVApY0Wci1RpPDjH+ysBJDLMGpRv3XL5svycJbRHrpTMEkYawd3TdL7vBlFTRgSgiI3cPP2oQS71FxVeHW12crgNcIYgqBpPNkv6L7muQs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b=wMQtgiPN; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1722416229; c=relaxed/simple;
+	bh=WuX9Hh+nd6fFDxrD3P7RjEZtEtMoWKCvvFiRe3dKksM=;
+	h=Content-Type:Date:Message-Id:From:To:Subject:Cc:References:
+	 In-Reply-To; b=Zt/r6yL/026ZLYKqvBUmgxnobsxe7lrLxNe4S90s4JwJX3FJAOjpgkh6GjBGgozF8LraA/kVk8VZL0aVo2+8vMXh0KJbyqZBl95ipHJwZg543X8nNRcohnJx+T0bhqfa13KbBwBq9OTJg/yi5VviukX3p4ZDA4EDoU+dCpE7C6g=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=F58miuXf; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="wMQtgiPN"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id EC33CC4AF09;
-	Wed, 31 Jul 2024 08:45:17 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
-	s=korg; t=1722415518;
-	bh=T0hgZzxcbycjDKArSUhUrQawZWOQS7uVUzRD35sHWog=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=wMQtgiPNwxbQ6Slz2sxTBQwHHytdI1i3h+MBNR5Pm7esOlkP5ypmCLS0lSGZO5XKT
-	 B4ZibOe/M/hwb5QwQzma7M47fVbGa+8e+ImpZzdv5Q84KceTeYbjN8FLwvph6B7P1p
-	 hvtI34dYTfiR7BMycNTXuMX1EYGEDjcjJD2wXcP0=
-Date: Wed, 31 Jul 2024 10:45:15 +0200
-From: Greg KH <gregkh@linuxfoundation.org>
-To: Ben Hutchings <ben@decadent.org.uk>
-Cc: Mathias Nyman <mathias.nyman@intel.com>, linux-usb@vger.kernel.org,
-	Cyril Brulebois <kibi@debian.org>
-Subject: Re: [PATCH] xhci-pci: Make xhci-pci-renesas a proper modular driver
-Message-ID: <2024073145-curdle-bronco-b9ca@gregkh>
-References: <ZqGeehVxETDl57eT@decadent.org.uk>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="F58miuXf"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id D6C35C116B1;
+	Wed, 31 Jul 2024 08:57:08 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1722416229;
+	bh=WuX9Hh+nd6fFDxrD3P7RjEZtEtMoWKCvvFiRe3dKksM=;
+	h=Date:From:To:Subject:Cc:References:In-Reply-To:From;
+	b=F58miuXfPdH3ZgBcRfjit0jAxCWO/JV+4VZLxm0DgRajGQN2/P0t0bdrRTIxVtSN2
+	 guZE2f+PO9NWo4/paz0trEGBrJw0c84ZjfmUrpp6CjEOrDNfCJlVYNE44Cvtxm3RLV
+	 Aa8rKBC3jWlL+O2y4qSldOa9NKi17FolGduLYbf7rgX0pfoAv6MDRU3BX6007EaRFO
+	 jpfgHF8cF0fTjtFmC0bicHCoO4pWJBLh0lBC2RBrN0T4dfY4QoarjJSRkqEsh1PwHA
+	 Mhr3wvu6c6OHMQHLoa7URtfdxGAmXW0NVbjqt9Qc6hoSTeXHHbZGxJYlWZ6oN97maV
+	 zshxuhgfxvTIQ==
+Content-Type: multipart/signed;
+ boundary=a278cb899e5ffd9b3580bbe7a8320b9336286ac50c0dd6fece958aadcd6a;
+ micalg=pgp-sha384; protocol="application/pgp-signature"
+Date: Wed, 31 Jul 2024 10:57:04 +0200
+Message-Id: <D33LLE6K8QGH.1BCZM42INRVEX@kernel.org>
+From: "Michael Walle" <mwalle@kernel.org>
+To: "Greg Kroah-Hartman" <gregkh@linuxfoundation.org>
+Subject: Re: [PATCH] usb: gadget: f_acm: make bInterfaceProtocol
+ configurable
+Cc: <linux-usb@vger.kernel.org>, <linux-kernel@vger.kernel.org>
+X-Mailer: aerc 0.16.0
+References: <20240730194337.2583784-1-mwalle@kernel.org>
+ <2024073151-violator-unskilled-6866@gregkh>
+In-Reply-To: <2024073151-violator-unskilled-6866@gregkh>
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <ZqGeehVxETDl57eT@decadent.org.uk>
 
-On Thu, Jul 25, 2024 at 02:38:18AM +0200, Ben Hutchings wrote:
-> If CONFIG_USB_XHCI_PCI_RENESAS is enabled, xhci-pci conditionally
-> calls into the xhci-pci-renesas module, which means both modules must
-> be loaded to use any xHCI PCI controller.
-> 
-> The MODULE_FIRMWARE declaration in the base xhci-pci module causes
-> initramfs-tools to check for and warn about missing firmware for the
-> Renesas xHCI controllers, when any xHCI PCI controller is present.
-> And because of the previous oddity, simply moving this declaration to
-> xhci-pci-renesas wouldn't help.
-> 
-> To fix this, reverse the relationship between the modules:
-> 
-> - Remove the quirk for the Renesas xHCIs, and the driver_data
->   structure used only for them
-> - In xhci-pci:
->   - Rename xhci_pci_probe() to xhci_pci_common_probe()
->   - Export xhci_pci_common_probe() and xhci_pci_remove()
->   - Use a new probe function that rejects the Renesas xHCIs and then
->     calls the common probe function
-> - In xhci-pci-renesas:
->   - Stop exporting renesas_xhci_check_request_fw()
->   - Add a probe function that calls renesas_xhci_check_request_fw()
->     followed by xhci_pci_common_probe()
->   - Add and register a new pci_driver matching only the Renesas xHCIs
->     and using its own probe function, but with other operations the
->     same as in xhci-pci
-> - Make CONFIG_USB_XHCI_PCI_RENESAS depend on CONFIG_USB_XHCI_PCI,
->   not the other way around
-> 
-> Finally, move the MODULE_FIRMWARE declaration to xhci-pci-renesas.
-> 
-> Signed-off-by: Ben Hutchings <ben@decadent.org.uk>
-> ---
->  drivers/usb/host/Kconfig            |  2 +-
->  drivers/usb/host/xhci-pci-renesas.c | 47 +++++++++++++++++++++---
->  drivers/usb/host/xhci-pci.c         | 57 ++++++++++-------------------
->  drivers/usb/host/xhci-pci.h         | 19 +---------
->  drivers/usb/host/xhci.h             |  2 +-
->  5 files changed, 64 insertions(+), 63 deletions(-)
-> 
+--a278cb899e5ffd9b3580bbe7a8320b9336286ac50c0dd6fece958aadcd6a
+Mime-Version: 1.0
+Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=UTF-8
 
-I get the following error when building:
+Hi Greg,
 
-drivers/usb/host/xhci-pci.c:646:5: error: no previous prototype for ‘xhci_pci_probe’ [-Werror=missing-prototypes]
-  646 | int xhci_pci_probe(struct pci_dev *dev, const struct pci_device_id *id)
-      |     ^~~~~~~~~~~~~~
-cc1: all warnings being treated as errors
+On Wed Jul 31, 2024 at 10:32 AM CEST, Greg Kroah-Hartman wrote:
+> On Tue, Jul 30, 2024 at 09:43:37PM +0200, Michael Walle wrote:
+> >  struct f_serial_opts {
+> >  	struct usb_function_instance func_inst;
+> >  	u8 port_num;
+> > +	u8 protocol;
+> > +
+> > +	struct mutex lock;
+> > +	int refcnt;
+>
+> Attempting to "roll your own" reference count is almost never a good
+> idea.  If you really need one, please use the proper in-kernel apis for
+> this.  But you need to justify it as well, I didn't see why this was
+> needed at all.
 
-Can you rebase against 6.11-rc1 and fix up and resend?
+Honestly, I couldn't grok all that usb gadget magic, so I've looked
+at similar gadgets and took that from there:
+  grep refcnt drivers/usb/gadget/function/ -r
 
-thanks,
+They are all doing the same, so maybe that code is old or didn't use
+the proper APIs back then.
 
-greg k-h
+The refcnt will prevent changing the options (the protocol here)
+while a gadget is still in use/bound.
+
+-michael
+
+--a278cb899e5ffd9b3580bbe7a8320b9336286ac50c0dd6fece958aadcd6a
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iKgEABMJADAWIQTIVZIcOo5wfU/AngkSJzzuPgIf+AUCZqn8YRIcbXdhbGxlQGtl
+cm5lbC5vcmcACgkQEic87j4CH/h1tAF+OTXTi9KQMmLqtPm8xGWK616McmKTMRUM
+i7dFuk3aHdKr/IyBXnGxlaqnLLj3n7ecAX94j2sIOIxhJXk5f3oqB+W9PXIhCExp
++L9hITypnd0thm4LfsZvB+VuLLDJkbMLM8c=
+=USbP
+-----END PGP SIGNATURE-----
+
+--a278cb899e5ffd9b3580bbe7a8320b9336286ac50c0dd6fece958aadcd6a--
