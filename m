@@ -1,130 +1,160 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-lf1-f41.google.com (mail-lf1-f41.google.com [209.85.167.41])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 864AE19478;
-	Thu,  1 Aug 2024 07:55:38 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 495DD16C87B
+	for <linux-usb@vger.kernel.org>; Thu,  1 Aug 2024 08:19:32 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.41
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1722498938; cv=none; b=Xiaw3Lc3vzXDkPSQMNsAVR28X5KwygH4pU/Pet4oo2CyCyKSE0m51ftpcWPYULTBkFmJUSYl+iKjA72idsvj0q1iAu8lp5tVwuUUGNaNxgmZp1cuGgd322pTQsjgVix4Ch39Z9u5C1LqNFpMX7vyfzb8+q8AfYEB1JBMhi7O2UQ=
+	t=1722500374; cv=none; b=PwTgLWpxvMHc7sxfJGe8VB3UW8au4Zu7Kar15gdfDy1lJANwRiXttW3e2kOv9wDMBzDbcugbYaFNfKlO+4CSYLrpW4atiDuh+DoEhLDE+sPPUo3BqfVcTU34z0GFaz677KZo9rCWAwuZ6klWcw4Je+hAv0Wyiteqwt0LzJDsJqE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1722498938; c=relaxed/simple;
-	bh=oHsKddBumXQe2GlEI9c6/XDB5ivTgd7edUCnfNg4qBk=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=QNbgP5ynXfyXDRYEFOxzbOhOQMxFuFVWcmK02J+MSrtyIv/GxnKjpYxtqUPRjrGveUVZDGuaM/wHFf6wRPsNpqpeF4xok+OL6q3xYpxxDDGF0KhD2nkDXNoZ7qb6/tw6pf1H1KBW+v0zS0rC2AMrQwT162zwJKi9xf2W/GavZkY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=IrUME9yR; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1722500374; c=relaxed/simple;
+	bh=sO5RzlUWFQWyLYtQT51QAOWQdgDxj1VtrkS2YOt8ONs=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=AWem+TbfTFsNJTtbH1RsI2nD6iHwpLuyv+xVB2j1UIObBaE8tCPkRKR5L8C9/Oy14djXoDiGjvKB4lD1V/z4YAj/C1qMCXITBOMNdbGqJaKdMCxsiWnW02pv6urA6v27uwWBi10WPhURFidFGSK78wQZL6YIQuNvTeeNYsI/61c=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=pGeZCFcj; arc=none smtp.client-ip=209.85.167.41
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="IrUME9yR"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 0AD6AC4AF0A;
-	Thu,  1 Aug 2024 07:55:33 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1722498938;
-	bh=oHsKddBumXQe2GlEI9c6/XDB5ivTgd7edUCnfNg4qBk=;
-	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-	b=IrUME9yRh9ELjslkXcV2vx2VPCi3ogRZYL+VXDQqHPPXwbuaKlgk5xAfS7HIbaoqt
-	 VvTL/uicSYtnZQQ9Nq93azzE83oJ5P1tcUKrnRznWnvCCsgIhAOH29v6njIv34mKIe
-	 dVC9DcH1+XE3v6eb3oHYYbpVoJrNveu9WZcvBk2maWb9BLkzmT5B1kC1CESQWN9h/V
-	 xJyMs4siR09MFcO3adU8VmrUiIcYG+0RSX+HMIHWGS9Ci1mFeBVAAkI/JrPJcRTh5T
-	 lFE7/FPhrvBWa3HtxYk1EhUpdQ/w+gEHhiv6OcDxPuLghdbTF/DSDF2VETWqo6Zu6d
-	 Jthl5mwcUxZZA==
-Message-ID: <1fcace72-a886-49bc-a30a-fde5a1de7a25@kernel.org>
-Date: Thu, 1 Aug 2024 09:55:31 +0200
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="pGeZCFcj"
+Received: by mail-lf1-f41.google.com with SMTP id 2adb3069b0e04-52ef95ec938so8020909e87.3
+        for <linux-usb@vger.kernel.org>; Thu, 01 Aug 2024 01:19:32 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google; t=1722500370; x=1723105170; darn=vger.kernel.org;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=HieJqVdMzMx3NEhnjcblA0j7rcIYuxfissUP0SJYQIQ=;
+        b=pGeZCFcjSj6k1tNYxHnvtN8D6ooWNflm19CCduv3KMEdjGOYk9inrf7hvyRWfbFUkl
+         sbJBUIjokHos1QUHnkC4rnIuCO2dTooM+NqbmmxAD35GOjJpWO7+r/iaTnWilo2nEfdw
+         4Q9m/ucCNxlW7YWuEkBXy/fBkPVXVyv93ECBiX+6+l5voaa2rTZVvZp1c0E2nlWG3wFf
+         RS/ELp8mVfhM5m/TaWGkB56SkRPco+pLtNakWiWJ32dpnKy9JuFAUHupU8z4rHs7OWdl
+         MICXK79hNhhG6Nq5TO9wnY/vPP3D1iOdiDmRaiT790K1X+zMfV5qsfCtTxKHVx66Lal0
+         S0NQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1722500370; x=1723105170;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=HieJqVdMzMx3NEhnjcblA0j7rcIYuxfissUP0SJYQIQ=;
+        b=C6Pff7E4R5TyHmXs9CyuF74ej/rrBKO+I6BjA5dFYHoRFYrEWO4e66CEyl2ksxielB
+         TXYUyqDZNvKwFUqLASaPlMnLeBYlyjbV/iddddp9Lr/4GRNaSjNfQR5FOcAoCL/SvQAq
+         arpJ3FlLo2jpv7bQ7YlqzfdmnNL2MrI8XsSuGVUk40UpbIwQhRWiAAcEy59XJI7FT3s2
+         pJKCrBZlTAzX5sEPCRMWsZvnx/lJ1TdBOdcS4zRA3M76vaOYQky+fmZWme4FQFVBcApi
+         d49VKGE+2mRKZhHwZWrntC9fawRNGkArZsD7BjGaTZtXY+GB9DxC270aUIef3N6Z0adA
+         h07w==
+X-Forwarded-Encrypted: i=1; AJvYcCXPRIuRFkkRYEyqP7Jh24lXuxZ8RoN/n3hw1taWPOuwL5uScVsD7KgbLLXb/hGRlraesxh3oOqFLQfC2zqYwH97315eox5j7CmE
+X-Gm-Message-State: AOJu0Yxs3Y2JUd4L2+kjWmmLMimhKpXCU/Cl9vwR9q6CFgl4f8t0FCoW
+	mRGKkk6NWYrQTmZ1k9Tbvds5jMra3ftxYZmor9GxoGc7l7fIG0Ph23kiBEJHz7Q=
+X-Google-Smtp-Source: AGHT+IHxwDRo4bANeGwuRF2uqlCxOH1WiG0myhUGRgNk9KvigLXA58tyO2IFTgWT4iS9vwJonFHhhA==
+X-Received: by 2002:a19:ca1b:0:b0:52c:d5b3:1a6a with SMTP id 2adb3069b0e04-530b61bc63dmr789459e87.28.1722500370111;
+        Thu, 01 Aug 2024 01:19:30 -0700 (PDT)
+Received: from eriador.lumag.spb.ru (dzdbxzyyyyyyyyyyybrhy-3.rev.dnainternet.fi. [2001:14ba:a0c3:3a00::b8c])
+        by smtp.gmail.com with ESMTPSA id 2adb3069b0e04-52fd5bc4331sm2522097e87.21.2024.08.01.01.19.29
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 01 Aug 2024 01:19:29 -0700 (PDT)
+Date: Thu, 1 Aug 2024 11:19:28 +0300
+From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+To: Elson Serrao <quic_eserrao@quicinc.com>
+Cc: andersson@kernel.org, konrad.dybcio@linaro.org, robh@kernel.org, 
+	krzk+dt@kernel.org, conor+dt@kernel.org, gregkh@linuxfoundation.org, 
+	linux-arm-msm@vger.kernel.org, devicetree@vger.kernel.org, linux-kernel@vger.kernel.org, 
+	linux-usb@vger.kernel.org
+Subject: Re: [PATCH 7/8] usb: misc: eud: Handle usb role switch notifications
+Message-ID: <dhdxb4kiwsnsyqjhcfj2iglwwlubf5wajg4jggu35zq7hxm54p@tj2snlcnejdg>
+References: <20240730222439.3469-1-quic_eserrao@quicinc.com>
+ <20240730222439.3469-8-quic_eserrao@quicinc.com>
+ <5nsextq3khhku3xfdwwj74wmx5ajyqhjyarfpnpa6i2tjx76ix@z7lpip6pi6re>
+ <0c769a55-0fb7-4734-86b1-9469b4cc7b8c@quicinc.com>
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 0/8] Enable EUD on Qualcomm sm8450 SoC
-To: Caleb Connolly <caleb.connolly@linaro.org>,
- Elson Roy Serrao <quic_eserrao@quicinc.com>, andersson@kernel.org,
- konrad.dybcio@linaro.org, robh@kernel.org, krzk+dt@kernel.org,
- conor+dt@kernel.org, gregkh@linuxfoundation.org
-Cc: linux-arm-msm@vger.kernel.org, devicetree@vger.kernel.org,
- linux-kernel@vger.kernel.org, linux-usb@vger.kernel.org
-References: <20240730222439.3469-1-quic_eserrao@quicinc.com>
- <023d4ea8-635d-435f-bae2-87284f70123b@linaro.org>
-From: Krzysztof Kozlowski <krzk@kernel.org>
-Content-Language: en-US
-Autocrypt: addr=krzk@kernel.org; keydata=
- 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 fv0=
-In-Reply-To: <023d4ea8-635d-435f-bae2-87284f70123b@linaro.org>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <0c769a55-0fb7-4734-86b1-9469b4cc7b8c@quicinc.com>
 
-On 31/07/2024 13:13, Caleb Connolly wrote:
-> Hi,
+On Wed, Jul 31, 2024 at 05:51:17PM GMT, Elson Serrao wrote:
 > 
-> On 31/07/2024 00:24, Elson Roy Serrao wrote:
->> The Embedded USB Debugger (EUD) is a mini High-Speed USB on-chip hub to
->> support the USB-based debug and trace capabilities on Qualcomm devices.
->> The current implementation lacks in below aspects that are needed for
->> proper EUD functionality.
->>
->> 1.) HS-Phy control: EUD being a HS hub needs HS-Phy support for it's
->>      operation. Hence EUD module should enable/disable HS-phy
->>      accordingly.
->> 	
->> 2.) Proper routing of USB role switch notifications: EUD hub is physically
->>      present in between the USB connector and the USB controller. So the
->>      usb role switch notifications originating from the connector should
->>      route through EUD. EUD also relies on role switch notifications to
->>      communicate with the USB, regarding EUD attach/detach events.
->>
->> This series aims at implementing the above aspects to enable EUD on
->> Qualcomm sm8450 SoC.
 > 
-> Are there any plans to make this feature available for folks outside of 
-> Qualcomm / an NDA?
+> On 7/31/2024 6:06 AM, Dmitry Baryshkov wrote:
+> > On Tue, Jul 30, 2024 at 03:24:38PM GMT, Elson Roy Serrao wrote:
+> >> Since EUD is physically present between the USB connector and
+> >> the USB controller, it should relay the usb role notifications
+> >> from the connector. Hence register a role switch handler to
+> >> process and relay these roles to the USB controller. This results
+> >> in a common framework to send both connector related events
+> >> and eud attach/detach events to the USB controller.
+> >>
+> >> Signed-off-by: Elson Roy Serrao <quic_eserrao@quicinc.com>
+> >> ---
+> >>  drivers/usb/misc/qcom_eud.c | 91 ++++++++++++++++++++++++++++---------
+> >>  1 file changed, 69 insertions(+), 22 deletions(-)
+> >>
+> >> diff --git a/drivers/usb/misc/qcom_eud.c b/drivers/usb/misc/qcom_eud.c
+> >> index 3de7d465912c..9a49c934e8cf 100644
+> >> --- a/drivers/usb/misc/qcom_eud.c
+> >> +++ b/drivers/usb/misc/qcom_eud.c
+> >> @@ -10,6 +10,7 @@
+> >>  #include <linux/iopoll.h>
+> >>  #include <linux/kernel.h>
+> >>  #include <linux/module.h>
+> >> +#include <linux/mutex.h>
+> >>  #include <linux/of.h>
+> >>  #include <linux/phy/phy.h>
+> >>  #include <linux/platform_device.h>
+> >> @@ -35,12 +36,16 @@ struct eud_chip {
+> >>  	struct device			*dev;
+> >>  	struct usb_role_switch		*role_sw;
+> >>  	struct phy			*usb2_phy;
+> >> +
+> >> +	/* mode lock */
+> >> +	struct mutex			mutex;
+> >>  	void __iomem			*base;
+> >>  	void __iomem			*mode_mgr;
+> >>  	unsigned int			int_status;
+> >>  	int				irq;
+> >>  	bool				enabled;
+> >>  	bool				usb_attached;
+> >> +	enum usb_role			current_role;
+> >>  };
+> >>  
+> >>  static int eud_phy_enable(struct eud_chip *chip)
+> >> @@ -64,6 +69,38 @@ static void eud_phy_disable(struct eud_chip *chip)
+> >>  	phy_exit(chip->usb2_phy);
+> >>  }
+> >>  
+> >> +static int eud_usb_role_set(struct eud_chip *chip, enum usb_role role)
+> >> +{
+> >> +	struct usb_role_switch *sw;
+> >> +	int ret = 0;
+> >> +
+> >> +	mutex_lock(&chip->mutex);
+> >> +
+> >> +	/* Avoid duplicate role handling */
+> >> +	if (role == chip->current_role)
+> >> +		goto err;
+> >> +
+> >> +	sw = usb_role_switch_get(chip->dev);
+> > 
+> > Why isn't chip->role_sw good enough? Why do you need to get it each
+> > time?
+> >
 > 
-> There is an openOCD fork on CodeLinaro but it still requires some 
-> proprietary library which is only available to folks with a quicinc 
-> email as I understand it.
+> Hi Dmitry
+> 
+> chip->role_sw is the eud role switch handler to receive role switch notifications from the
+> USB connector. The 'sw' I am getting above is the role switch handler of the USB controller.
+> As per this design, EUD receives role switch notification from the connector 
+> (via chip->role_sw) and then relays it to the 'sw' switch handler of the USB controller.
 
-Are you saying that there is no fully open and available user-space
-which is necessary to use EUD?
+The fact that you have repurposed existing structure field is not a
+waiver for the inefficiency.
 
-Best regards,
-Krzysztof
+So what about keeping chip->role_sw as is and adding _new_ field for the
+self-provided role switch?
 
+
+-- 
+With best wishes
+Dmitry
