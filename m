@@ -1,45 +1,45 @@
-Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com [205.220.168.131])
+Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com [205.220.180.131])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EF79E1586CD;
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1842C158860;
 	Thu,  1 Aug 2024 01:18:36 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.168.131
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.180.131
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1722475119; cv=none; b=YZwGPo5epuBjRLglwTcMbHaOI282SlSLnV9wACltVw6Nkk0BHLZdm0ft0OyBB/x6Y5tu7sF9FO6coJrub20fFHNZdpN2Bb57H0PxCN/pKqUngCAoS7z2cjdt2rEC5l5gPJp5GDrY7RsBT9ddcQ421ppNkNBRLnkGtDQ7GsKWnWo=
+	t=1722475120; cv=none; b=kmI633P5f2UiP4LDgezB11P26PwIcUeaXXfHsEQirxnvPst1dcKZE/31nZ9pqrBStDnvsz9Vy2DHfzaIKSJPxUMmed+Ln0ph3l/omrJ1hUmhSlpNOKOXVLHYPOcqT/sIVmUViOVYEnSoF+NNHmNXqf1M+QNFZ8H2SIvszzTwogQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1722475119; c=relaxed/simple;
-	bh=cUtHOLNf0R5GOdviTZVOeP6thiX8pbViVYJ0ZvcMhT0=;
+	s=arc-20240116; t=1722475120; c=relaxed/simple;
+	bh=HZooWyjcRTJHzNxR3BoM3J4scbZn1Pe8IJtWKfTTaTk=;
 	h=From:To:CC:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=D4hsu9QVMC3kGToj81gSVQUumzKF3o0HXbZ4CEzTHVhv6uo57uOvUXSB2VbvDzZ2+MYZeoYQnRbcB2ezK3rTgquSQ3ueo+waHTDsdoZNi6IZuJhjVdP93f1CwWT+I4tMrvcQwQJbReh8fqzxfpMF2Icj3Ho1VvPGkEnoRQpg5LI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=quicinc.com; spf=pass smtp.mailfrom=quicinc.com; dkim=pass (2048-bit key) header.d=quicinc.com header.i=@quicinc.com header.b=fUV3t+8G; arc=none smtp.client-ip=205.220.168.131
+	 MIME-Version:Content-Type; b=MHulWnmOgL64IaXHjJp7ib6I8A8TChzD2cQoj1IFOCm7Sat9yzQyp5axRoSCaRRh9BJ8+d5ENJru/LBdeJqYJzvoart2zETmK/fJbegez/VHoYNuVLiv355fUx2h10KGFjnst/5FRbswrUBYd+hR3Xg7jOXtcgK/1Zl8ThWaf9s=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=quicinc.com; spf=pass smtp.mailfrom=quicinc.com; dkim=pass (2048-bit key) header.d=quicinc.com header.i=@quicinc.com header.b=E022ZRoW; arc=none smtp.client-ip=205.220.180.131
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=quicinc.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=quicinc.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=quicinc.com header.i=@quicinc.com header.b="fUV3t+8G"
-Received: from pps.filterd (m0279863.ppops.net [127.0.0.1])
-	by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 46VGDclB024192;
-	Thu, 1 Aug 2024 01:17:43 GMT
+	dkim=pass (2048-bit key) header.d=quicinc.com header.i=@quicinc.com header.b="E022ZRoW"
+Received: from pps.filterd (m0279873.ppops.net [127.0.0.1])
+	by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 46VJUsV0011518;
+	Thu, 1 Aug 2024 01:17:44 GMT
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com; h=
 	cc:content-type:date:from:in-reply-to:message-id:mime-version
-	:references:subject:to; s=qcppdkim1; bh=db1DiRDPnPzv2WrnCumz0mnC
-	v8rXyp8CcEMm0K1v/Ns=; b=fUV3t+8GgWjAldffE18vsDBAowSCmE9WxLH1C79M
-	l6O7DIwrKzmTQUAKMaWRaLjgsh8kjZQ5AH0vFM26cYSmCnaJC86satoyhXJDLeZ/
-	xyV6BRF1FssbvK5F5THx3hpzNq1EtfeM11xxRc5FB5e0CCc0o9a8Fs50ICtZZJag
-	qcW+RtG3KCliCzR9TJF2FF50caDnPAZhR4r5hj60eSZZYYAZ91140KVBi6nAVLxY
-	ap0YRUffjAbC3ahfbbzoNOx3/Zp2UA1KpnKgLTxxlw+n/hilIK633Y3LGVrN0Iq2
-	4batYyPIQ52ZD0KT7/o2AtCCrg1pqh1j8yhfuQuq9AUy4w==
-Received: from nalasppmta05.qualcomm.com (Global_NAT1.qualcomm.com [129.46.96.20])
-	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 40ms43d1sn-1
+	:references:subject:to; s=qcppdkim1; bh=8wY5tYBCGiXkcM+KfUXAuguh
+	YoX1cuJtyZ+PwFdif7c=; b=E022ZRoWjuEZOqVQAAm6+ugDkTBSEG02kCGSbfAc
+	gjxj5BF0o1aenObskFskEm1huLFATrjoNM0QDsP5f5vmhVOFB2FvuuwPJ0bXTedi
+	5DRc97dG0SgrlodlluNmxv6FGYsjPsZ7FlnkB+0DCtFKI9U+eR7Lfyr8fOpfujBz
+	s7JHS8Z9TEoIvXPlaffMwNkWaRrdbSyJsLNMQBpIRQ6Ti/21dZA5GQtNHx6vplNn
+	cT0NzCdVQb3/Gvksh1Zdcu0OHDG4eJmQqujR5qDBLirf7IsBYmpOXEF1W1rih0DH
+	3oH9sbnr73vXTD0fm/Xkz90Vsamb5wIhYgYlK40i62k9wg==
+Received: from nalasppmta02.qualcomm.com (Global_NAT1.qualcomm.com [129.46.96.20])
+	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 40qugagqw7-1
 	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Thu, 01 Aug 2024 01:17:43 +0000 (GMT)
+	Thu, 01 Aug 2024 01:17:44 +0000 (GMT)
 Received: from nalasex01b.na.qualcomm.com (nalasex01b.na.qualcomm.com [10.47.209.197])
-	by NALASPPMTA05.qualcomm.com (8.17.1.19/8.17.1.19) with ESMTPS id 4711HgZ0030334
+	by NALASPPMTA02.qualcomm.com (8.17.1.19/8.17.1.19) with ESMTPS id 4711HgYG012369
 	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
 	Thu, 1 Aug 2024 01:17:42 GMT
 Received: from hu-wcheng-lv.qualcomm.com (10.49.16.6) by
  nalasex01b.na.qualcomm.com (10.47.209.197) with Microsoft SMTP Server
  (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.1544.9; Wed, 31 Jul 2024 18:17:41 -0700
+ 15.2.1544.9; Wed, 31 Jul 2024 18:17:42 -0700
 From: Wesley Cheng <quic_wcheng@quicinc.com>
 To: <srinivas.kandagatla@linaro.org>, <mathias.nyman@intel.com>,
         <perex@perex.cz>, <conor+dt@kernel.org>, <corbet@lwn.net>,
@@ -50,9 +50,9 @@ CC: <linux-kernel@vger.kernel.org>, <devicetree@vger.kernel.org>,
         <linux-sound@vger.kernel.org>, <linux-usb@vger.kernel.org>,
         <linux-arm-msm@vger.kernel.org>, <linux-doc@vger.kernel.org>,
         <alsa-devel@alsa-project.org>, Wesley Cheng <quic_wcheng@quicinc.com>
-Subject: [PATCH v24 02/34] usb: host: xhci: Repurpose event handler for skipping interrupter events
-Date: Wed, 31 Jul 2024 18:16:58 -0700
-Message-ID: <20240801011730.4797-3-quic_wcheng@quicinc.com>
+Subject: [PATCH v24 04/34] usb: xhci: Allow for secondary interrupter to set IMOD
+Date: Wed, 31 Jul 2024 18:17:00 -0700
+Message-ID: <20240801011730.4797-5-quic_wcheng@quicinc.com>
 X-Mailer: git-send-email 2.17.1
 In-Reply-To: <20240801011730.4797-1-quic_wcheng@quicinc.com>
 References: <20240801011730.4797-1-quic_wcheng@quicinc.com>
@@ -67,78 +67,120 @@ X-ClientProxiedBy: nalasex01b.na.qualcomm.com (10.47.209.197) To
  nalasex01b.na.qualcomm.com (10.47.209.197)
 X-QCInternal: smtphost
 X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800 signatures=585085
-X-Proofpoint-GUID: Ys5foNK6LHAaqNr8SWorc9dVpDIidomw
-X-Proofpoint-ORIG-GUID: Ys5foNK6LHAaqNr8SWorc9dVpDIidomw
+X-Proofpoint-GUID: x_k-Kuf9uEC0WOcchgFFzvmziOB8tL5P
+X-Proofpoint-ORIG-GUID: x_k-Kuf9uEC0WOcchgFFzvmziOB8tL5P
 X-Proofpoint-Virus-Version: vendor=baseguard
  engine=ICAP:2.0.293,Aquarius:18.0.1039,Hydra:6.0.680,FMLib:17.12.28.16
  definitions=2024-07-31_11,2024-07-31_01,2024-05-17_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 malwarescore=0
- impostorscore=0 spamscore=0 bulkscore=0 lowpriorityscore=0 adultscore=0
- mlxlogscore=896 suspectscore=0 phishscore=0 priorityscore=1501
- clxscore=1015 mlxscore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.19.0-2407110000 definitions=main-2408010004
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 clxscore=1015
+ lowpriorityscore=0 priorityscore=1501 bulkscore=0 suspectscore=0
+ impostorscore=0 mlxscore=0 spamscore=0 malwarescore=0 phishscore=0
+ mlxlogscore=700 adultscore=0 classifier=spam adjust=0 reason=mlx
+ scancount=1 engine=8.19.0-2407110000 definitions=main-2408010005
 
-Depending on the interrupter use case, the OS may only be used to handle
-the interrupter event ring clean up.  In these scenarios, event TRBs don't
-need to be handled by the OS, so introduce an xhci interrupter flag to tag
-if the events from an interrupter needs to be handled or not.
+When creating a secondary interrupter, add an argument for XHCI sideband
+clients to specify an interrupt moderation value for the interrupter
+context.
 
 Signed-off-by: Wesley Cheng <quic_wcheng@quicinc.com>
 ---
- drivers/usb/host/xhci-ring.c | 17 +++++++++++++----
- drivers/usb/host/xhci.h      |  1 +
- 2 files changed, 14 insertions(+), 4 deletions(-)
+ drivers/usb/host/xhci-mem.c       | 4 +++-
+ drivers/usb/host/xhci-sideband.c  | 4 ++--
+ drivers/usb/host/xhci.c           | 2 +-
+ drivers/usb/host/xhci.h           | 5 ++++-
+ include/linux/usb/xhci-sideband.h | 2 +-
+ 5 files changed, 11 insertions(+), 6 deletions(-)
 
-diff --git a/drivers/usb/host/xhci-ring.c b/drivers/usb/host/xhci-ring.c
-index 9e90d2952760..80dca780317a 100644
---- a/drivers/usb/host/xhci-ring.c
-+++ b/drivers/usb/host/xhci-ring.c
-@@ -2951,14 +2951,22 @@ static int handle_tx_event(struct xhci_hcd *xhci,
+diff --git a/drivers/usb/host/xhci-mem.c b/drivers/usb/host/xhci-mem.c
+index 3100219d6496..2ca5937b73f4 100644
+--- a/drivers/usb/host/xhci-mem.c
++++ b/drivers/usb/host/xhci-mem.c
+@@ -2334,7 +2334,8 @@ xhci_add_interrupter(struct xhci_hcd *xhci, struct xhci_interrupter *ir,
  }
  
- /*
-- * This function handles one OS-owned event on the event ring. It may drop
-- * xhci->lock between event processing (e.g. to pass up port status changes).
-+ * This function handles one OS-owned event on the event ring, or ignores one event
-+ * on interrupters which are non-OS owned. It may drop xhci->lock between event
-+ * processing (e.g. to pass up port status changes).
-  */
- static int xhci_handle_event_trb(struct xhci_hcd *xhci, struct xhci_interrupter *ir,
- 				 union xhci_trb *event)
+ struct xhci_interrupter *
+-xhci_create_secondary_interrupter(struct usb_hcd *hcd, unsigned int segs)
++xhci_create_secondary_interrupter(struct usb_hcd *hcd, unsigned int segs,
++					u32 imod_interval)
  {
- 	u32 trb_type;
+ 	struct xhci_hcd *xhci = hcd_to_xhci(hcd);
+ 	struct xhci_interrupter *ir;
+@@ -2367,6 +2368,7 @@ xhci_create_secondary_interrupter(struct usb_hcd *hcd, unsigned int segs)
+ 		return NULL;
+ 	}
  
-+	/*
-+	 * Some interrupters do not need to handle event TRBs, as they may be
-+	 * managed by another entity, but rely on the OS to clean up.
-+	 */
-+	if (ir->skip_events)
-+		return 0;
-+
- 	trace_xhci_handle_event(ir->event_ring, &event->generic);
++	xhci_set_interrupter_moderation(ir, imod_interval);
+ 	xhci_dbg(xhci, "Add secondary interrupter %d, max interrupters %d\n",
+ 		 i, xhci->max_interrupters);
  
- 	/*
-@@ -3047,8 +3055,9 @@ static void xhci_clear_interrupt_pending(struct xhci_hcd *xhci,
+diff --git a/drivers/usb/host/xhci-sideband.c b/drivers/usb/host/xhci-sideband.c
+index 8e1f13fd07f7..40058bd68dff 100644
+--- a/drivers/usb/host/xhci-sideband.c
++++ b/drivers/usb/host/xhci-sideband.c
+@@ -254,7 +254,7 @@ EXPORT_SYMBOL_GPL(xhci_sideband_get_event_buffer);
+  */
+ int
+ xhci_sideband_create_interrupter(struct xhci_sideband *sb, int num_seg,
+-				 bool ip_autoclear)
++				 bool ip_autoclear, u32 imod_interval)
+ {
+ 	int ret = 0;
+ 
+@@ -268,7 +268,7 @@ xhci_sideband_create_interrupter(struct xhci_sideband *sb, int num_seg,
+ 	}
+ 
+ 	sb->ir = xhci_create_secondary_interrupter(xhci_to_hcd(sb->xhci),
+-			num_seg);
++			num_seg, imod_interval);
+ 	if (!sb->ir) {
+ 		ret = -ENOMEM;
+ 		goto out;
+diff --git a/drivers/usb/host/xhci.c b/drivers/usb/host/xhci.c
+index 3a051ed32907..0b22342bbff1 100644
+--- a/drivers/usb/host/xhci.c
++++ b/drivers/usb/host/xhci.c
+@@ -347,7 +347,7 @@ static int xhci_disable_interrupter(struct xhci_interrupter *ir)
  }
  
- /*
-- * Handle all OS-owned events on an interrupter event ring. It may drop
-- * and reaquire xhci->lock between event processing.
-+ * Handle all OS-owned events on an interrupter event ring, or skip pending events
-+ * for non OS owned interrupter event ring. It may drop and reaquire xhci->lock
-+ * between event processing.
-  */
- static int xhci_handle_events(struct xhci_hcd *xhci, struct xhci_interrupter *ir)
+ /* interrupt moderation interval imod_interval in nanoseconds */
+-static int xhci_set_interrupter_moderation(struct xhci_interrupter *ir,
++int xhci_set_interrupter_moderation(struct xhci_interrupter *ir,
+ 					   u32 imod_interval)
  {
+ 	u32 imod;
 diff --git a/drivers/usb/host/xhci.h b/drivers/usb/host/xhci.h
-index 1c6126ed55b0..efbd1f651da4 100644
+index 9232c53d204a..eb1d1f946cdb 100644
 --- a/drivers/usb/host/xhci.h
 +++ b/drivers/usb/host/xhci.h
-@@ -1430,6 +1430,7 @@ struct xhci_interrupter {
- 	struct xhci_intr_reg __iomem *ir_set;
- 	unsigned int		intr_num;
- 	bool			ip_autoclear;
-+	bool			skip_events;
- 	u32			isoc_bei_interval;
- 	/* For interrupter registers save and restore over suspend/resume */
- 	u32	s3_irq_pending;
+@@ -1832,7 +1832,8 @@ struct xhci_container_ctx *xhci_alloc_container_ctx(struct xhci_hcd *xhci,
+ void xhci_free_container_ctx(struct xhci_hcd *xhci,
+ 		struct xhci_container_ctx *ctx);
+ struct xhci_interrupter *
+-xhci_create_secondary_interrupter(struct usb_hcd *hcd, unsigned int segs);
++xhci_create_secondary_interrupter(struct usb_hcd *hcd, unsigned int segs,
++					u32 imod_interval);
+ void xhci_remove_secondary_interrupter(struct usb_hcd
+ 				       *hcd, struct xhci_interrupter *ir);
+ 
+@@ -1872,6 +1873,8 @@ int xhci_alloc_tt_info(struct xhci_hcd *xhci,
+ 		struct xhci_virt_device *virt_dev,
+ 		struct usb_device *hdev,
+ 		struct usb_tt *tt, gfp_t mem_flags);
++int xhci_set_interrupter_moderation(struct xhci_interrupter *ir,
++					   u32 imod_interval);
+ 
+ /* xHCI ring, segment, TRB, and TD functions */
+ dma_addr_t xhci_trb_virt_to_dma(struct xhci_segment *seg, union xhci_trb *trb);
+diff --git a/include/linux/usb/xhci-sideband.h b/include/linux/usb/xhci-sideband.h
+index 1035dae43cee..5fc95dd499aa 100644
+--- a/include/linux/usb/xhci-sideband.h
++++ b/include/linux/usb/xhci-sideband.h
+@@ -56,7 +56,7 @@ xhci_sideband_get_event_buffer(struct xhci_sideband *sb);
+ 
+ int
+ xhci_sideband_create_interrupter(struct xhci_sideband *sb, int num_seg,
+-				 bool ip_autoclear);
++				 bool ip_autoclear, u32 imod_interval);
+ 
+ void
+ xhci_sideband_remove_interrupter(struct xhci_sideband *sb);
