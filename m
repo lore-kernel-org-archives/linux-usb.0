@@ -1,31 +1,31 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B06891C230A;
-	Thu,  1 Aug 2024 00:17:11 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A35191C9DE1;
+	Thu,  1 Aug 2024 00:25:30 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1722471431; cv=none; b=EcvEbJnWPaTWEqQZjuVovxa5NxodKakcjHg3jaUC/i7qKjTe+ER3uQGxrWnpNxzgBIWeQbTQftdVh1wW76ivfefMy8QMqsWtIh85TQdsUMCypxUaYyhfpW+5NDD5DwukKJaHvlWHVBSiPXl6sGMcR1vGGRTJzDWh7qoDMsE0Zc0=
+	t=1722471930; cv=none; b=IILYEyRMr99cfhhGEXpZnNdePBy8Bd9L7/iTt4PLyZxXHFD3fzjHmS8PDqrxIWNm6ZeuW7P50VIQQMM1mKGuvvWjdd8s0qMOj3ofq0X7Z2VN4+CBUn3qO2en6HMHZr/gdDIcfE8dDe+tDutdvMw8f7JyWvdq5ztRbegDMuggls8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1722471431; c=relaxed/simple;
-	bh=CNNF/6ywk2hpMzWfvqOQwk8sZAMv5WzoKzHP9LesKEc=;
+	s=arc-20240116; t=1722471930; c=relaxed/simple;
+	bh=v3ZmhvwoRxOca8R0n0ipeDTKy50TAw5w+XASHSJRXDk=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=tRzyf3sC04NuWT4pkMklMtxcaumBAoRVZ6/8lm8Xcm7fQLka5+vy4Rn1zdlZ1p0QguLrMBu+uQrub9ybpXW1f2Hl9Y1WpPuX51N+31JcudeU3Zu9QafvzkDyy3q9CJC8U7FysTxLMLYN3DZTpPy/unI48gsVd8xxanZXao1ARpA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=P8e5OJzI; arc=none smtp.client-ip=10.30.226.201
+	 MIME-Version; b=WewFIpv/PzScHHM7k+tdm8iVC2I5j44DonhpBG13FhMD6ApkSUVhJI2PD561CFRg0uK0aeBAMd5pyZcOE0UYQ24Ep7se9NJjeJAfsouJ7ok8s7MJysuto2BzbrCBx49DebjJVwMssF8F2ovPrpeLEXSi0eImvvdpcNm94b6pGzQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=NV1Wj4CQ; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="P8e5OJzI"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id DF4C2C116B1;
-	Thu,  1 Aug 2024 00:17:09 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="NV1Wj4CQ"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 53498C4AF0C;
+	Thu,  1 Aug 2024 00:25:29 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1722471431;
-	bh=CNNF/6ywk2hpMzWfvqOQwk8sZAMv5WzoKzHP9LesKEc=;
+	s=k20201202; t=1722471930;
+	bh=v3ZmhvwoRxOca8R0n0ipeDTKy50TAw5w+XASHSJRXDk=;
 	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=P8e5OJzIPB2pIQNg/GSCi4O6xQSoEwQWT/gdvyu/Ng9yPkO/2sSPUVuH5k71vFo9t
-	 UIx+8uU2cinWnA0f8ZBwXuvuqw6Oggv22t6boaUDkNsisMP8UekM51aToj39XsI0bj
-	 K2N6s0dpl0/ontZtprQF1EkP/u7pTE/jBOxkkfdXBtZYhFcbo/zlhGKI1lelIlcu4q
-	 Dawpr5L/fhAcr48CC0ECkqdkzIK7Hy5bGSBI8T4wyzzoPK8x6ZvLKsafQfQTVZ00dT
-	 E3dJztFEEBLDa9rA8wwosU3s4bSJiQVFm6PxkpG3ZOiXMJhvlfvtaKNnJtA/t/WUEW
-	 7pcJAx9VNK6mQ==
+	b=NV1Wj4CQDqT32CcfdGaMMwglLCyp6PvNZdW5uCL1oImKvQTTwYoJST+zy+FqUrXKu
+	 MjQ5eSPsLYcCQje2FC8gk+tBhIVI5/sDg1JCp68nivFkGAoGIFDaKJlf6OMlO8vU8Z
+	 1dmeITgAVcZCb/wxHu8TmzVohtLnOXqebUg4/ypLvShsWnI6p38UmYWpogsMs+sLS5
+	 952XCzOPIaTsYvx1w225yMAJqULYNdxsKH1LRAGRnx70DfCqDfSzLcQzuX6/0NCpO/
+	 DW9lxfafM/px08GcY0PRrnjGrnoPrjCjd05U2+JPSgKTnvxZdDyGspCXbEvrEfozMl
+	 ORPsnEe+KrQ4w==
 From: Sasha Levin <sashal@kernel.org>
 To: linux-kernel@vger.kernel.org,
 	stable@vger.kernel.org
@@ -37,12 +37,12 @@ Cc: Shantanu Goel <sgoel01@yahoo.com>,
 	linux-usb@vger.kernel.org,
 	linux-scsi@vger.kernel.org,
 	usb-storage@lists.one-eyed-alien.net
-Subject: [PATCH AUTOSEL 6.10 096/121] usb: uas: set host status byte on data completion error
-Date: Wed, 31 Jul 2024 20:00:34 -0400
-Message-ID: <20240801000834.3930818-96-sashal@kernel.org>
+Subject: [PATCH AUTOSEL 6.6 66/83] usb: uas: set host status byte on data completion error
+Date: Wed, 31 Jul 2024 20:18:21 -0400
+Message-ID: <20240801002107.3934037-66-sashal@kernel.org>
 X-Mailer: git-send-email 2.43.0
-In-Reply-To: <20240801000834.3930818-1-sashal@kernel.org>
-References: <20240801000834.3930818-1-sashal@kernel.org>
+In-Reply-To: <20240801002107.3934037-1-sashal@kernel.org>
+References: <20240801002107.3934037-1-sashal@kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
@@ -51,7 +51,7 @@ List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 X-stable: review
 X-Patchwork-Hint: Ignore
-X-stable-base: Linux 6.10.2
+X-stable-base: Linux 6.6.43
 Content-Transfer-Encoding: 8bit
 
 From: Shantanu Goel <sgoel01@yahoo.com>
@@ -76,10 +76,10 @@ Signed-off-by: Sasha Levin <sashal@kernel.org>
  1 file changed, 1 insertion(+)
 
 diff --git a/drivers/usb/storage/uas.c b/drivers/usb/storage/uas.c
-index b610a2de4ae5d..a04b4cb1382d5 100644
+index 451d9569163a7..f794cb39cc313 100644
 --- a/drivers/usb/storage/uas.c
 +++ b/drivers/usb/storage/uas.c
-@@ -423,6 +423,7 @@ static void uas_data_cmplt(struct urb *urb)
+@@ -422,6 +422,7 @@ static void uas_data_cmplt(struct urb *urb)
  			uas_log_cmd_state(cmnd, "data cmplt err", status);
  		/* error: no data transfered */
  		scsi_set_resid(cmnd, sdb->length);
