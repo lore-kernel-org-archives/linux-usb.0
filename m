@@ -1,50 +1,50 @@
 Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.21])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CEB62188015;
-	Thu,  1 Aug 2024 09:12:02 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C25DB18951C;
+	Thu,  1 Aug 2024 09:12:03 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.21
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1722503524; cv=none; b=oaLpcpQNXv/4DQJY+bXGZlp4+dXW76u/B/lKRI1CjOpWBhewYzumqA+u1zu+AjrkYZ1qi0T2nxzhKVGZQ3q6U4EKZKvFZ/LgTHFeJL5g2f6+7058j8jJc0qvYMFGjiOm8yo9OJQD9EdAkRpf9ogiwXABAgDl3oe9LRw6nK+O+go=
+	t=1722503526; cv=none; b=nI1+bPRURalqMwRLBwu9diT+jchLZKGqP6WiC7P3xdc9g+5t4HyEZsDqNLT13Ahn4bTpEY3M/TSp3spYDrX6yoeH2b+f5we1w/CySew0H3HEIWdAFZhIk8g++YDJsaJSEzCe8zTFeIfBZ96dGz9KjgdP7fy0VITj2Gd3lIuOOcg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1722503524; c=relaxed/simple;
-	bh=SOc8glK77E54IHi0aYmi1becvJHvdKsCHlBtpj4BVg4=;
+	s=arc-20240116; t=1722503526; c=relaxed/simple;
+	bh=OziTlghW/wlMQZK0K9+wYZg1uMjzZ8EsjYPZDOViGlo=;
 	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=TKOTKo0CcD4T/dN6ycOxp5qiaUI33VlgADHAx0IzoTftW3G+nZmxCgQsghpRKMDVfZPy0UxK1milyosFRogHRnT5YiIFQmApyvDfQwEsWLzbHEDayiphgKX3ETOGhk6LgW4ssjTygQClG3dBgIfbz4/wUxO2fQGDU6pPD5TM+1A=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=none smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=XDEZAyHz; arc=none smtp.client-ip=198.175.65.21
+	 In-Reply-To:Content-Type; b=QadoQ+S7XtZzWQ9gw+iujkDFQG5Clo5xAo8y0FP9qDIejNIhW6JpSrkwApIAfZGiw7EiIOKgIlogEkwtW0RKnRmvCUF/ixRdmO5hakKGPu/HaB5stnO9lsLzzfhLHvX/VEAjhJCP/lCNPx3s1zr5ux3XSsEXijwz2o+DjHvVPDM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=none smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Zgz2dlHr; arc=none smtp.client-ip=198.175.65.21
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=linux.intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="XDEZAyHz"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Zgz2dlHr"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1722503524; x=1754039524;
+  t=1722503525; x=1754039525;
   h=message-id:date:mime-version:subject:to:cc:references:
    from:in-reply-to:content-transfer-encoding;
-  bh=SOc8glK77E54IHi0aYmi1becvJHvdKsCHlBtpj4BVg4=;
-  b=XDEZAyHz+U1OzWJjrf/uz6lLh0kxEu1LzZ1+NisO6C3fZo7VVCtG1Ut7
-   e0FvpvxrvJWAJa2jhrylUkXZD/rCrxMp7aR42X1SBgGcMvrx/0Ev6CRUQ
-   w4XeGCbBXLAsCf0fXoL0zEXxe8B5vOlFf3VhHDfioQdHd9b93sBGpvs+8
-   OApxiP2DUyOqKLkMb3pSO5qt2+JwoOadCjuJLWBNYNf6CvRpKrzohCD1C
-   pGTBTi6wWmt6c6dxu7Azzd+i973m11CGUB4Aja5a4Xx9ozAP7eVEcTPTd
-   Lx/RZu0Rdad9MIf1vmmmwgPBF4nmhGKX2sqX3hULjJGUceCq7iFwrS/aM
-   A==;
-X-CSE-ConnectionGUID: OXG1RadZRayaCcV9XaIeOw==
-X-CSE-MsgGUID: FJHr1kMcSYyGD+PoMqLv6w==
-X-IronPort-AV: E=McAfee;i="6700,10204,11150"; a="20383558"
+  bh=OziTlghW/wlMQZK0K9+wYZg1uMjzZ8EsjYPZDOViGlo=;
+  b=Zgz2dlHrdoWS3aE0aJhPmuHk7fkclfHoFk4GyMnJK/VW4ceQ69A5jYKq
+   QJnN5RYw4j2Wz8zpqvfxFREyAhRvoMo7HxzHhe1XqTXe+RhuXodna4Wzp
+   jKJFhBVHlbac/ahGL/dj4dfINr+RS9MMxhP/WtoG8h/79RMnErDNh8qQG
+   37wO/ftf3ptWFokCb56vQqY7jdsfeVHOdV5acdvT4jR+y0B4+WK4X/Z/X
+   TfINh3HrMRvd9yej+TXs9s2gJNm+L180IE1YEisJLCqU9GGfqnTo2Iu8O
+   0NF5Kqbb+H/5EF+s51E2Lu8JlnLcI2Dp6TBwqPS10X+oVqNLPr+p0EKzw
+   w==;
+X-CSE-ConnectionGUID: dtHe+PwnTgCqtZ7Wweu3cw==
+X-CSE-MsgGUID: Lhyx2c0rQTCQSxf6zwYOew==
+X-IronPort-AV: E=McAfee;i="6700,10204,11150"; a="20383575"
 X-IronPort-AV: E=Sophos;i="6.09,254,1716274800"; 
-   d="scan'208";a="20383558"
+   d="scan'208";a="20383575"
 Received: from fmviesa003.fm.intel.com ([10.60.135.143])
   by orvoesa113.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 01 Aug 2024 02:11:50 -0700
-X-CSE-ConnectionGUID: 5bTR/KBmSv+7VMJZROiJzw==
-X-CSE-MsgGUID: W4mT9NNxSUOjFGSViYJGBA==
+X-CSE-ConnectionGUID: BHajjV1SQTOmkqgtPprL1g==
+X-CSE-MsgGUID: wBaSr/dKTH29cbTi2Z2zog==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.09,254,1716274800"; 
-   d="scan'208";a="59089923"
+   d="scan'208";a="59089939"
 Received: from lfiedoro-mobl.ger.corp.intel.com (HELO [10.245.246.220]) ([10.245.246.220])
-  by fmviesa003-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 01 Aug 2024 02:11:36 -0700
-Message-ID: <abc9f2b9-06c6-4df7-8db8-c2c6e8aaee59@linux.intel.com>
-Date: Thu, 1 Aug 2024 10:33:08 +0200
+  by fmviesa003-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 01 Aug 2024 02:11:43 -0700
+Message-ID: <5f37c04d-f564-40b9-a9f3-d071ea0a6f19@linux.intel.com>
+Date: Thu, 1 Aug 2024 10:40:20 +0200
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
@@ -52,7 +52,8 @@ List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v24 16/34] ASoC: qcom: qdsp6: q6afe: Increase APR timeout
+Subject: Re: [PATCH v24 17/34] ASoC: qcom: qdsp6: Add USB backend ASoC driver
+ for Q6
 To: Wesley Cheng <quic_wcheng@quicinc.com>, srinivas.kandagatla@linaro.org,
  mathias.nyman@intel.com, perex@perex.cz, conor+dt@kernel.org,
  corbet@lwn.net, broonie@kernel.org, lgirdwood@gmail.com, krzk+dt@kernel.org,
@@ -63,45 +64,60 @@ Cc: linux-kernel@vger.kernel.org, devicetree@vger.kernel.org,
  linux-arm-msm@vger.kernel.org, linux-doc@vger.kernel.org,
  alsa-devel@alsa-project.org
 References: <20240801011730.4797-1-quic_wcheng@quicinc.com>
- <20240801011730.4797-17-quic_wcheng@quicinc.com>
+ <20240801011730.4797-18-quic_wcheng@quicinc.com>
 Content-Language: en-US
 From: Pierre-Louis Bossart <pierre-louis.bossart@linux.intel.com>
-In-Reply-To: <20240801011730.4797-17-quic_wcheng@quicinc.com>
+In-Reply-To: <20240801011730.4797-18-quic_wcheng@quicinc.com>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
 
 
 
-On 8/1/24 03:17, Wesley Cheng wrote:
-> For USB offloading situations, the AFE port start command will result in a
-> QMI handshake between the Q6DSP and the main processor.  Depending on if
-> the USB bus is suspended, this routine would require more time to complete,
-> as resuming the USB bus has some overhead associated with it.  Increase the
-> timeout to 3s to allow for sufficient time for the USB QMI stream enable
-> handshake to complete.
-> 
-> Reviewed-by: Srinivas Kandagatla <srinivas.kandagatla@linaro.org>
-> Signed-off-by: Wesley Cheng <quic_wcheng@quicinc.com>
-> ---
->  sound/soc/qcom/qdsp6/q6afe.c | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
-> 
-> diff --git a/sound/soc/qcom/qdsp6/q6afe.c b/sound/soc/qcom/qdsp6/q6afe.c
-> index 948007955934..452d7e8b9b30 100644
-> --- a/sound/soc/qcom/qdsp6/q6afe.c
-> +++ b/sound/soc/qcom/qdsp6/q6afe.c
-> @@ -366,7 +366,7 @@
->  #define AFE_API_VERSION_SLOT_MAPPING_CONFIG	1
->  #define AFE_API_VERSION_CODEC_DMA_CONFIG	1
->  
-> -#define TIMEOUT_MS 1000
-> +#define TIMEOUT_MS 3000
 
-Surprising that 1s is not enough to resume a bus, and conversely is 3s
-enough then if the overhead is so significant?
-It looks like either too much or too little...
+> +static int q6usb_hw_params(struct snd_pcm_substream *substream,
+> +			   struct snd_pcm_hw_params *params,
+> +			   struct snd_soc_dai *dai)
+> +{
+> +	struct q6usb_port_data *data = dev_get_drvdata(dai->dev);
+> +	struct snd_soc_pcm_runtime *rtd = substream->private_data;
+> +	struct snd_soc_dai *cpu_dai = snd_soc_rtd_to_cpu(rtd, 0);
+> +	struct q6afe_port *q6usb_afe;
+> +	struct snd_soc_usb_device *sdev;
+> +	int ret;
+> +
+> +	/* No active chip index */
+> +	if (list_empty(&data->devices))
+> +		return -EINVAL;
+> +
+> +	mutex_lock(&data->mutex);
+> +	sdev = list_last_entry(&data->devices, struct snd_soc_usb_device, list);
+> +
+> +	q6usb_afe = q6afe_port_get_from_id(cpu_dai->dev, USB_RX);
+> +	if (IS_ERR(q6usb_afe))
+> +		goto out;
+> +
+> +	/* Notify audio DSP about the devices being offloaded */
+> +	ret = afe_port_send_usb_dev_param(q6usb_afe, sdev->card_idx,
+> +						sdev->pcm_idx);
+> +
+> +out:
+> +	mutex_unlock(&data->mutex);
+> +
+> +	return ret;
+> +}
 
->  #define AFE_CMD_RESP_AVAIL	0
->  #define AFE_CMD_RESP_NONE	1
->  #define AFE_CLK_TOKEN		1024
+Humm, multiple questions here
+
+a) is this intentional that the params are not used in a hw_params routine?
+
+b) if yes, could this be replaced by a .prepare callback
+
+c) along the same lines as b), is suspend-resume during playback
+supported? Usually this is handled with a .prepare callback to restore
+connections.
+> +
+> +static const struct snd_soc_dai_ops q6usb_ops = {
+> +	.hw_params = q6usb_hw_params,
+> +};
+
 
