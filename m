@@ -1,160 +1,209 @@
-Received: from mail-lf1-f41.google.com (mail-lf1-f41.google.com [209.85.167.41])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.15])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 495DD16C87B
-	for <linux-usb@vger.kernel.org>; Thu,  1 Aug 2024 08:19:32 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.41
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 78A8316E86E;
+	Thu,  1 Aug 2024 08:35:31 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.15
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1722500374; cv=none; b=PwTgLWpxvMHc7sxfJGe8VB3UW8au4Zu7Kar15gdfDy1lJANwRiXttW3e2kOv9wDMBzDbcugbYaFNfKlO+4CSYLrpW4atiDuh+DoEhLDE+sPPUo3BqfVcTU34z0GFaz677KZo9rCWAwuZ6klWcw4Je+hAv0Wyiteqwt0LzJDsJqE=
+	t=1722501333; cv=none; b=kAf4s2sd2lsmeo+4kd2LRp9QQ2B298rfP3bEw1tBUgHLlYdQTN1UgntPk0+SoZFcAWJ6zwxTcBCPT/0gT4EqlBNXN78qCWBKJMKE3NydVqbmQiC/IDP0goxH8SyPPkXUSEBS9JvjgU1GG9F2SoNf+XBo3zcLrL6sLw4ns3nZTE4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1722500374; c=relaxed/simple;
-	bh=sO5RzlUWFQWyLYtQT51QAOWQdgDxj1VtrkS2YOt8ONs=;
+	s=arc-20240116; t=1722501333; c=relaxed/simple;
+	bh=eYp09Enzo5RdanBOF4Cu0/t6tpG469XR13eaMGptRHM=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=AWem+TbfTFsNJTtbH1RsI2nD6iHwpLuyv+xVB2j1UIObBaE8tCPkRKR5L8C9/Oy14djXoDiGjvKB4lD1V/z4YAj/C1qMCXITBOMNdbGqJaKdMCxsiWnW02pv6urA6v27uwWBi10WPhURFidFGSK78wQZL6YIQuNvTeeNYsI/61c=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=pGeZCFcj; arc=none smtp.client-ip=209.85.167.41
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
+	 Content-Type:Content-Disposition:In-Reply-To; b=bxESR7k046DbHoF0JTcIoqXQLpvbjDuCVESk0VGlsceTIDgDjBXA2CqYwIgcKjzzkby/oQuj7M/U3+LIZgkyaGn22OB/mjNIsfsR3zILJpqVI9ZESy5NJxDpc4QvMRBMMtYSB9J7oEKhZunHw77prwpUIKrPNTY+yEgP1laHxZ0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=none smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=haQEDJOg; arc=none smtp.client-ip=198.175.65.15
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=linux.intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="pGeZCFcj"
-Received: by mail-lf1-f41.google.com with SMTP id 2adb3069b0e04-52ef95ec938so8020909e87.3
-        for <linux-usb@vger.kernel.org>; Thu, 01 Aug 2024 01:19:32 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1722500370; x=1723105170; darn=vger.kernel.org;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=HieJqVdMzMx3NEhnjcblA0j7rcIYuxfissUP0SJYQIQ=;
-        b=pGeZCFcjSj6k1tNYxHnvtN8D6ooWNflm19CCduv3KMEdjGOYk9inrf7hvyRWfbFUkl
-         sbJBUIjokHos1QUHnkC4rnIuCO2dTooM+NqbmmxAD35GOjJpWO7+r/iaTnWilo2nEfdw
-         4Q9m/ucCNxlW7YWuEkBXy/fBkPVXVyv93ECBiX+6+l5voaa2rTZVvZp1c0E2nlWG3wFf
-         RS/ELp8mVfhM5m/TaWGkB56SkRPco+pLtNakWiWJ32dpnKy9JuFAUHupU8z4rHs7OWdl
-         MICXK79hNhhG6Nq5TO9wnY/vPP3D1iOdiDmRaiT790K1X+zMfV5qsfCtTxKHVx66Lal0
-         S0NQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1722500370; x=1723105170;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=HieJqVdMzMx3NEhnjcblA0j7rcIYuxfissUP0SJYQIQ=;
-        b=C6Pff7E4R5TyHmXs9CyuF74ej/rrBKO+I6BjA5dFYHoRFYrEWO4e66CEyl2ksxielB
-         TXYUyqDZNvKwFUqLASaPlMnLeBYlyjbV/iddddp9Lr/4GRNaSjNfQR5FOcAoCL/SvQAq
-         arpJ3FlLo2jpv7bQ7YlqzfdmnNL2MrI8XsSuGVUk40UpbIwQhRWiAAcEy59XJI7FT3s2
-         pJKCrBZlTAzX5sEPCRMWsZvnx/lJ1TdBOdcS4zRA3M76vaOYQky+fmZWme4FQFVBcApi
-         d49VKGE+2mRKZhHwZWrntC9fawRNGkArZsD7BjGaTZtXY+GB9DxC270aUIef3N6Z0adA
-         h07w==
-X-Forwarded-Encrypted: i=1; AJvYcCXPRIuRFkkRYEyqP7Jh24lXuxZ8RoN/n3hw1taWPOuwL5uScVsD7KgbLLXb/hGRlraesxh3oOqFLQfC2zqYwH97315eox5j7CmE
-X-Gm-Message-State: AOJu0Yxs3Y2JUd4L2+kjWmmLMimhKpXCU/Cl9vwR9q6CFgl4f8t0FCoW
-	mRGKkk6NWYrQTmZ1k9Tbvds5jMra3ftxYZmor9GxoGc7l7fIG0Ph23kiBEJHz7Q=
-X-Google-Smtp-Source: AGHT+IHxwDRo4bANeGwuRF2uqlCxOH1WiG0myhUGRgNk9KvigLXA58tyO2IFTgWT4iS9vwJonFHhhA==
-X-Received: by 2002:a19:ca1b:0:b0:52c:d5b3:1a6a with SMTP id 2adb3069b0e04-530b61bc63dmr789459e87.28.1722500370111;
-        Thu, 01 Aug 2024 01:19:30 -0700 (PDT)
-Received: from eriador.lumag.spb.ru (dzdbxzyyyyyyyyyyybrhy-3.rev.dnainternet.fi. [2001:14ba:a0c3:3a00::b8c])
-        by smtp.gmail.com with ESMTPSA id 2adb3069b0e04-52fd5bc4331sm2522097e87.21.2024.08.01.01.19.29
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 01 Aug 2024 01:19:29 -0700 (PDT)
-Date: Thu, 1 Aug 2024 11:19:28 +0300
-From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-To: Elson Serrao <quic_eserrao@quicinc.com>
-Cc: andersson@kernel.org, konrad.dybcio@linaro.org, robh@kernel.org, 
-	krzk+dt@kernel.org, conor+dt@kernel.org, gregkh@linuxfoundation.org, 
-	linux-arm-msm@vger.kernel.org, devicetree@vger.kernel.org, linux-kernel@vger.kernel.org, 
-	linux-usb@vger.kernel.org
-Subject: Re: [PATCH 7/8] usb: misc: eud: Handle usb role switch notifications
-Message-ID: <dhdxb4kiwsnsyqjhcfj2iglwwlubf5wajg4jggu35zq7hxm54p@tj2snlcnejdg>
-References: <20240730222439.3469-1-quic_eserrao@quicinc.com>
- <20240730222439.3469-8-quic_eserrao@quicinc.com>
- <5nsextq3khhku3xfdwwj74wmx5ajyqhjyarfpnpa6i2tjx76ix@z7lpip6pi6re>
- <0c769a55-0fb7-4734-86b1-9469b4cc7b8c@quicinc.com>
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="haQEDJOg"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1722501332; x=1754037332;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:content-transfer-encoding:in-reply-to;
+  bh=eYp09Enzo5RdanBOF4Cu0/t6tpG469XR13eaMGptRHM=;
+  b=haQEDJOg6b+lX/9hh/Xh1l6ZBWlbIw8mc4blpe3OebjEaAYX0XIdu7+E
+   pZcu7jdhsGEdpGSX24dPfiUYj6J0g19ROI85bcuGERtagxYOLvrnPP43K
+   5ArvvIwAf80S1IXxIfqZBDlJnKjWyi1t/bQkv1zlgkqIFQJ2R9oIFzBSb
+   1JSzDwFZbG6SK4B93vtNVnfaCZWtrUe6hBsy9X/8rKSNfIC7NWyxxU+zG
+   0uOZCmaA9y87hu3Zyp3XLWPiGZcxvTpGFrVVrs/9PBgEUihZAb+osBgBx
+   LSAmPNWZVvCjrO3dVqQq9kyra4Thc0WrkSngRgoAwPf5MBrC+GUCYr9lf
+   A==;
+X-CSE-ConnectionGUID: 8CDw//LPQ4u5padJdLZvyg==
+X-CSE-MsgGUID: Ws/Aj1XNStucVMHZNwCNqw==
+X-IronPort-AV: E=McAfee;i="6700,10204,11150"; a="24202505"
+X-IronPort-AV: E=Sophos;i="6.09,254,1716274800"; 
+   d="scan'208";a="24202505"
+Received: from fmviesa005.fm.intel.com ([10.60.135.145])
+  by orvoesa107.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 01 Aug 2024 01:35:31 -0700
+X-CSE-ConnectionGUID: mfGR6wxpQ4+QXFhjc+0XbA==
+X-CSE-MsgGUID: 8KDhH2y9RJ+dGPlwuyVuEw==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.09,254,1716274800"; 
+   d="scan'208";a="59287697"
+Received: from kuha.fi.intel.com ([10.237.72.185])
+  by fmviesa005.fm.intel.com with SMTP; 01 Aug 2024 01:35:27 -0700
+Received: by kuha.fi.intel.com (sSMTP sendmail emulation); Thu, 01 Aug 2024 11:35:26 +0300
+Date: Thu, 1 Aug 2024 11:35:26 +0300
+From: Heikki Krogerus <heikki.krogerus@linux.intel.com>
+To: =?iso-8859-1?Q?Andr=E9?= Draszik <andre.draszik@linaro.org>
+Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	Peter Griffin <peter.griffin@linaro.org>,
+	Tudor Ambarus <tudor.ambarus@linaro.org>,
+	Will McVicker <willmcvicker@google.com>, kernel-team@android.com,
+	RD Babiera <rdbabiera@google.com>,
+	Badhri Jagan Sridharan <badhri@google.com>,
+	linux-usb@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH] usb: typec: tcpm/tcpci_maxim: fix non-contaminant CC
+ handling
+Message-ID: <ZqtIztzIS/M+duYT@kuha.fi.intel.com>
+References: <20240710-max33359-toggling-v1-1-f6dc123f3a0a@linaro.org>
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=iso-8859-1
 Content-Disposition: inline
-In-Reply-To: <0c769a55-0fb7-4734-86b1-9469b4cc7b8c@quicinc.com>
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <20240710-max33359-toggling-v1-1-f6dc123f3a0a@linaro.org>
 
-On Wed, Jul 31, 2024 at 05:51:17PM GMT, Elson Serrao wrote:
-> 
-> 
-> On 7/31/2024 6:06 AM, Dmitry Baryshkov wrote:
-> > On Tue, Jul 30, 2024 at 03:24:38PM GMT, Elson Roy Serrao wrote:
-> >> Since EUD is physically present between the USB connector and
-> >> the USB controller, it should relay the usb role notifications
-> >> from the connector. Hence register a role switch handler to
-> >> process and relay these roles to the USB controller. This results
-> >> in a common framework to send both connector related events
-> >> and eud attach/detach events to the USB controller.
-> >>
-> >> Signed-off-by: Elson Roy Serrao <quic_eserrao@quicinc.com>
-> >> ---
-> >>  drivers/usb/misc/qcom_eud.c | 91 ++++++++++++++++++++++++++++---------
-> >>  1 file changed, 69 insertions(+), 22 deletions(-)
-> >>
-> >> diff --git a/drivers/usb/misc/qcom_eud.c b/drivers/usb/misc/qcom_eud.c
-> >> index 3de7d465912c..9a49c934e8cf 100644
-> >> --- a/drivers/usb/misc/qcom_eud.c
-> >> +++ b/drivers/usb/misc/qcom_eud.c
-> >> @@ -10,6 +10,7 @@
-> >>  #include <linux/iopoll.h>
-> >>  #include <linux/kernel.h>
-> >>  #include <linux/module.h>
-> >> +#include <linux/mutex.h>
-> >>  #include <linux/of.h>
-> >>  #include <linux/phy/phy.h>
-> >>  #include <linux/platform_device.h>
-> >> @@ -35,12 +36,16 @@ struct eud_chip {
-> >>  	struct device			*dev;
-> >>  	struct usb_role_switch		*role_sw;
-> >>  	struct phy			*usb2_phy;
-> >> +
-> >> +	/* mode lock */
-> >> +	struct mutex			mutex;
-> >>  	void __iomem			*base;
-> >>  	void __iomem			*mode_mgr;
-> >>  	unsigned int			int_status;
-> >>  	int				irq;
-> >>  	bool				enabled;
-> >>  	bool				usb_attached;
-> >> +	enum usb_role			current_role;
-> >>  };
-> >>  
-> >>  static int eud_phy_enable(struct eud_chip *chip)
-> >> @@ -64,6 +69,38 @@ static void eud_phy_disable(struct eud_chip *chip)
-> >>  	phy_exit(chip->usb2_phy);
-> >>  }
-> >>  
-> >> +static int eud_usb_role_set(struct eud_chip *chip, enum usb_role role)
-> >> +{
-> >> +	struct usb_role_switch *sw;
-> >> +	int ret = 0;
-> >> +
-> >> +	mutex_lock(&chip->mutex);
-> >> +
-> >> +	/* Avoid duplicate role handling */
-> >> +	if (role == chip->current_role)
-> >> +		goto err;
-> >> +
-> >> +	sw = usb_role_switch_get(chip->dev);
-> > 
-> > Why isn't chip->role_sw good enough? Why do you need to get it each
-> > time?
-> >
-> 
-> Hi Dmitry
-> 
-> chip->role_sw is the eud role switch handler to receive role switch notifications from the
-> USB connector. The 'sw' I am getting above is the role switch handler of the USB controller.
-> As per this design, EUD receives role switch notification from the connector 
-> (via chip->role_sw) and then relays it to the 'sw' switch handler of the USB controller.
+Hi André,
 
-The fact that you have repurposed existing structure field is not a
-waiver for the inefficiency.
+On Wed, Jul 10, 2024 at 07:28:32AM +0100, André Draszik wrote:
+> tcpci_maxim currently never triggers the TCPM state machine when CC
+> status has not changed due to a contaminant but due to a real
+> connection event, i.e. a genuine plug event, meaning the system will
+> stay idle and not notify any subscribers.
+> 
+> The reason is that the initial state of the port is 'toggling', which
+> causes _max_tcpci_irq() to only drive the contamination part of the
+> TCPM state machine (via tcpm_port_clean()).
+> 
+> What should happen instead is that if no contamination was detected,
+> the TCPM should be notified of the CC change in this case.
+> 
+> To fix this, we update ...is_contaminant() to also allow its caller to
+> determine if more CC processing is required and then call into the TCPM
+> as required.
+> 
+> While at it, add a kernel-doc for max_contaminant_is_contaminant().
+> 
+> Note: the code has an issue where I2C errors during contaminant
+> detection also cause the TCPM state machine to not be updated. This
+> commit doesn't change this behaviour and should be addressed by
+> follow-up commit(s).
 
-So what about keeping chip->role_sw as is and adding _new_ field for the
-self-provided role switch?
+This looks okay to me, but just in case, let's wait for comments from
+Badhri, or maybe RD can take a look at this. One nitpick below.
 
+> Signed-off-by: André Draszik <andre.draszik@linaro.org>
+> ---
+>  drivers/usb/typec/tcpm/maxim_contaminant.c |  7 +++++--
+>  drivers/usb/typec/tcpm/tcpci_maxim.h       | 15 ++++++++++++++-
+>  drivers/usb/typec/tcpm/tcpci_maxim_core.c  | 12 ++++++++----
+>  3 files changed, 27 insertions(+), 7 deletions(-)
+> 
+> diff --git a/drivers/usb/typec/tcpm/maxim_contaminant.c b/drivers/usb/typec/tcpm/maxim_contaminant.c
+> index f8504a90da26..e7fa3e36f8ae 100644
+> --- a/drivers/usb/typec/tcpm/maxim_contaminant.c
+> +++ b/drivers/usb/typec/tcpm/maxim_contaminant.c
+> @@ -322,11 +322,14 @@ static int max_contaminant_enable_dry_detection(struct max_tcpci_chip *chip)
+>  	return 0;
+>  }
+>  
+> -bool max_contaminant_is_contaminant(struct max_tcpci_chip *chip, bool disconnect_while_debounce)
+> +bool max_contaminant_is_contaminant(struct max_tcpci_chip *chip, bool disconnect_while_debounce,
+> +				    bool *cc_handled)
+>  {
+>  	u8 cc_status, pwr_cntl;
+>  	int ret;
+>  
+> +	*cc_handled = true;
+> +
+>  	ret = max_tcpci_read8(chip, TCPC_CC_STATUS, &cc_status);
+>  	if (ret < 0)
+>  		return false;
+> @@ -368,7 +371,6 @@ bool max_contaminant_is_contaminant(struct max_tcpci_chip *chip, bool disconnect
+>  				return true;
+>  			}
+>  		}
+> -		return false;
+>  	} else if (chip->contaminant_state == DETECTED) {
+>  		if (STATUS_CHECK(cc_status, TCPC_CC_STATUS_TOGGLING, 0)) {
+>  			chip->contaminant_state = max_contaminant_detect_contaminant(chip);
+> @@ -379,6 +381,7 @@ bool max_contaminant_is_contaminant(struct max_tcpci_chip *chip, bool disconnect
+>  		}
+>  	}
+>  
+> +	*cc_handled = false;
+>  	return false;
+>  }
+>  
+> diff --git a/drivers/usb/typec/tcpm/tcpci_maxim.h b/drivers/usb/typec/tcpm/tcpci_maxim.h
+> index 78ff3b73ee7e..9c7f714d2c21 100644
+> --- a/drivers/usb/typec/tcpm/tcpci_maxim.h
+> +++ b/drivers/usb/typec/tcpm/tcpci_maxim.h
+> @@ -85,6 +85,19 @@ static inline int max_tcpci_write8(struct max_tcpci_chip *chip, unsigned int reg
+>  	return regmap_raw_write(chip->data.regmap, reg, &val, sizeof(u8));
+>  }
+>  
+> -bool max_contaminant_is_contaminant(struct max_tcpci_chip *chip, bool disconnect_while_debounce);
+> +/**
+> + * max_contaminant_is_contaminant - Test if CC was toggled due to contaminant
+> + *
+> + * @chip: Handle to a struct max_tcpci_chip
+> + * @disconnect_while_debounce: Whether or not to sleep as debouncing measure
+> + * @cc_handled: Returns whether or not CC toggling was handled here
+> + *
+> + * Determine if a contaminant was detected.
+> + *
+> + * Returns: true if a contaminant was detected, false otherwise. cc_handled
+> + * is updated to reflect whether or not further CC handling is required.
+> + */
+> +bool max_contaminant_is_contaminant(struct max_tcpci_chip *chip, bool disconnect_while_debounce,
+> +				    bool *cc_handled);
+>  
+>  #endif  // TCPCI_MAXIM_H_
+> diff --git a/drivers/usb/typec/tcpm/tcpci_maxim_core.c b/drivers/usb/typec/tcpm/tcpci_maxim_core.c
+> index eec3bcec119c..55d931672ecd 100644
+> --- a/drivers/usb/typec/tcpm/tcpci_maxim_core.c
+> +++ b/drivers/usb/typec/tcpm/tcpci_maxim_core.c
+> @@ -357,12 +357,15 @@ static irqreturn_t _max_tcpci_irq(struct max_tcpci_chip *chip, u16 status)
+>  		tcpm_vbus_change(chip->port);
+>  
+>  	if (status & TCPC_ALERT_CC_STATUS) {
+> +		bool cc_handled = false; /* CC toggle handled by contaminant detection */
+> +
+>  		if (chip->contaminant_state == DETECTED || tcpm_port_is_toggling(chip->port)) {
+> -			if (!max_contaminant_is_contaminant(chip, false))
+> +			if (!max_contaminant_is_contaminant(chip, false,
+> +							    &cc_handled))
+
+One line is enough for that.
+
+>  				tcpm_port_clean(chip->port);
+> -		} else {
+> -			tcpm_cc_change(chip->port);
+>  		}
+> +		if (!cc_handled)
+> +			tcpm_cc_change(chip->port);
+>  	}
+>  
+>  	if (status & TCPC_ALERT_POWER_STATUS)
+> @@ -455,8 +458,9 @@ static int tcpci_init(struct tcpci *tcpci, struct tcpci_data *data)
+>  static void max_tcpci_check_contaminant(struct tcpci *tcpci, struct tcpci_data *tdata)
+>  {
+>  	struct max_tcpci_chip *chip = tdata_to_max_tcpci(tdata);
+> +	bool cc_handled;
+>  
+> -	if (!max_contaminant_is_contaminant(chip, true))
+> +	if (!max_contaminant_is_contaminant(chip, true, &cc_handled))
+>  		tcpm_port_clean(chip->port);
+>  }
+
+thanks,
 
 -- 
-With best wishes
-Dmitry
+heikki
