@@ -1,201 +1,319 @@
-Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com [205.220.168.131])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.8])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9D9D118D64E;
-	Tue,  6 Aug 2024 19:53:10 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.168.131
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DE42F3FE55
+	for <linux-usb@vger.kernel.org>; Tue,  6 Aug 2024 22:30:56 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.8
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1722973992; cv=none; b=Jl7fXXKfFziZX7IUz2QTzLoSZO+T3h/g3G/eX9Ygk+hSOnuoy3J7E4x1E/PMStd20MLjzG65JNePWMcLfIWpYtx3Q1booBehNrBEBVTGgi7hgF+1gOYvZlqnpHxcbkeSuTgTN3pEammO4131lymZnSggjmj+ZTnFS80bux2JHwc=
+	t=1722983459; cv=none; b=VkT3lhZHUF72kI/rzyad+rQoWSL/39NVu5jxl3zVP9mR5+Bd/gOMxUMMgJuKo1nnl236hxYcK0+iOOaOSLOuUkBtgWzrxnMa8pYvAksMb5u9S1kRl1OSTBVRFDJ65k4yu93Hde6m9ROnRQnzuPIXab1RTQkZCzxhPy8JMSyQxMc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1722973992; c=relaxed/simple;
-	bh=OQLJiIkny94KECYHJtVp+i8bZZ1zlTH93kKv+2o8Aig=;
-	h=Message-ID:Date:MIME-Version:Subject:To:CC:References:From:
-	 In-Reply-To:Content-Type; b=PowfxNnI//xHbNT+DNX2HzHZcbhyNMQUbIBKw1qmnYuOg9t5yOD0iTs1023LrHDWy3qGiWtt5kXx2plKYreFtSpR4vFbwFrqtjhDKPGJk4CmXNQyPP459eXSAoqyScx3Ak0wbRtym6V8YAeKb8/UXeCe0xhhd6Mz+YGNmzizVtI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=quicinc.com; spf=pass smtp.mailfrom=quicinc.com; dkim=pass (2048-bit key) header.d=quicinc.com header.i=@quicinc.com header.b=MDl3p4rP; arc=none smtp.client-ip=205.220.168.131
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=quicinc.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=quicinc.com
+	s=arc-20240116; t=1722983459; c=relaxed/simple;
+	bh=aYFPRQmj3wkt77qZve8YDOI9YcX+3nlHF3Ct1oFnltU=;
+	h=Date:From:To:Cc:Subject:Message-ID; b=SaglDoQwZaXwNYzT2PV+MoG45HbzxzoYjnAtDOpNDoP8m81dSaHBZ8wigkFqdWQ1jv6hY4HHKzh9YeOy6aCqNxyNk89l7r7GoAxkN/KOKC0MuC9ZI8Vm/ZyfRisKuOOvUrrlL9oc/S2hXLqUTQ0S1qvuMdP4rgaEgH0PKkh2GOM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=MDTji2sJ; arc=none smtp.client-ip=192.198.163.8
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=quicinc.com header.i=@quicinc.com header.b="MDl3p4rP"
-Received: from pps.filterd (m0279865.ppops.net [127.0.0.1])
-	by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 476H6Pju021361;
-	Tue, 6 Aug 2024 19:52:47 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com; h=
-	cc:content-transfer-encoding:content-type:date:from:in-reply-to
-	:message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
-	70Lq7orQebnxRFnaTzLwJ4HqQh/eJyGl2eF5/RFh48I=; b=MDl3p4rPzpT7t6iw
-	4Y8C7wRhe+/61+PIUUI+i8pI9ObxhFjvGAmP1rYwJQLkkUetmVMn1+potifLH05r
-	EyMO5QC+7L5sMbDh7WZbc2d8iryifpM20un7z4ND7uCISeNb3r6Xv9GtQFW5TLUY
-	Gv33Igscf2adDMF1BGY7DPW5qBSh6B4ucntiRZknXovtol3qZ0cyGo1GB1JAv1ng
-	Zwq81MA/haqAW1P6V3/QOUl6o0r+dXy/uPk5YaI5fIgHU1gz59IEqL2tyQYICn+/
-	S5yLbNy7K+/nMba+yoZMzrCBOS34bKMk1zOmXfEYgQy4AvGA4qaZiqBoDfHcyg5m
-	iXdIAQ==
-Received: from nalasppmta01.qualcomm.com (Global_NAT1.qualcomm.com [129.46.96.20])
-	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 40sbgs0jks-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Tue, 06 Aug 2024 19:52:46 +0000 (GMT)
-Received: from nalasex01b.na.qualcomm.com (nalasex01b.na.qualcomm.com [10.47.209.197])
-	by NALASPPMTA01.qualcomm.com (8.17.1.19/8.17.1.19) with ESMTPS id 476JqjB0008058
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Tue, 6 Aug 2024 19:52:45 GMT
-Received: from [10.71.113.127] (10.80.80.8) by nalasex01b.na.qualcomm.com
- (10.47.209.197) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1544.9; Tue, 6 Aug 2024
- 12:52:44 -0700
-Message-ID: <b323a813-b02e-488b-86f9-06796f9bbf50@quicinc.com>
-Date: Tue, 6 Aug 2024 12:52:44 -0700
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="MDTji2sJ"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1722983457; x=1754519457;
+  h=date:from:to:cc:subject:message-id;
+  bh=aYFPRQmj3wkt77qZve8YDOI9YcX+3nlHF3Ct1oFnltU=;
+  b=MDTji2sJkLA+rpb8RoHY+LsQkCfjF6+/4K7c6p8EygSTXspz+HwqwndV
+   L0j6pumj9xx+EDQTALn2XT12aRrhmKk1KLnkrhI/vO5x7Q8/+8UgqMREy
+   iGYMlxRN/MBG5SYvbcoz5EdEi2OGAiU8xOjTXPm2csWwg4YGb945dINxb
+   7RPNO8zVHFVgZDV12O0a+MJpc+rwdpGMmJX2ApakQ2FJy3eENmuGAMw51
+   3csxgYgXyLUCWwJ+SQVW2/S6FWOboNpB8EHpqiaFkI7h//Ek+WQ6dNlhD
+   BT17NU8JD95bqhv1RYqKU2HLN9zQt7S+PSNYD9MxiVXFAP8/NQrAnKhAg
+   Q==;
+X-CSE-ConnectionGUID: PhWZjyfcRbiJnHImp3/gsg==
+X-CSE-MsgGUID: PRBP0OLtRsSLBjoChr8dKg==
+X-IronPort-AV: E=McAfee;i="6700,10204,11156"; a="38537841"
+X-IronPort-AV: E=Sophos;i="6.09,268,1716274800"; 
+   d="scan'208";a="38537841"
+Received: from orviesa003.jf.intel.com ([10.64.159.143])
+  by fmvoesa102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 06 Aug 2024 15:30:56 -0700
+X-CSE-ConnectionGUID: EFHBmtbAQ6yLDu5tHaYnvw==
+X-CSE-MsgGUID: tHXTtaWASQ+vVUbxiGjwYw==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.09,268,1716274800"; 
+   d="scan'208";a="61473124"
+Received: from unknown (HELO b6bf6c95bbab) ([10.239.97.151])
+  by orviesa003.jf.intel.com with ESMTP; 06 Aug 2024 15:30:56 -0700
+Received: from kbuild by b6bf6c95bbab with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1sbShg-0004sk-2M;
+	Tue, 06 Aug 2024 22:30:52 +0000
+Date: Wed, 07 Aug 2024 06:30:24 +0800
+From: kernel test robot <lkp@intel.com>
+To: Mika Westerberg <mika.westerberg@linux.intel.com>
+Cc: linux-usb@vger.kernel.org
+Subject: [westeri-thunderbolt:fixes] BUILD SUCCESS
+ e2006140ad2e01a02ed0aff49cc2ae3ceeb11f8d
+Message-ID: <202408070621.V5YwfJw4-lkp@intel.com>
+User-Agent: s-nail v14.9.24
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v24 09/34] ASoC: Add SOC USB APIs for adding an USB
- backend
-To: Pierre-Louis Bossart <pierre-louis.bossart@linux.intel.com>,
-        <srinivas.kandagatla@linaro.org>, <mathias.nyman@intel.com>,
-        <perex@perex.cz>, <conor+dt@kernel.org>, <corbet@lwn.net>,
-        <broonie@kernel.org>, <lgirdwood@gmail.com>, <krzk+dt@kernel.org>,
-        <Thinh.Nguyen@synopsys.com>, <bgoswami@quicinc.com>, <tiwai@suse.com>,
-        <gregkh@linuxfoundation.org>, <robh@kernel.org>
-CC: <linux-kernel@vger.kernel.org>, <devicetree@vger.kernel.org>,
-        <linux-sound@vger.kernel.org>, <linux-usb@vger.kernel.org>,
-        <linux-arm-msm@vger.kernel.org>, <linux-doc@vger.kernel.org>,
-        <alsa-devel@alsa-project.org>
-References: <20240801011730.4797-1-quic_wcheng@quicinc.com>
- <20240801011730.4797-10-quic_wcheng@quicinc.com>
- <09fde4e6-c3be-484d-a7a5-bd653dc42094@linux.intel.com>
- <f761530c-a49b-4dd5-b01c-97d08931e0ab@quicinc.com>
- <acf4de1d-d551-4539-8353-3c85aa3d965c@linux.intel.com>
-Content-Language: en-US
-From: Wesley Cheng <quic_wcheng@quicinc.com>
-In-Reply-To: <acf4de1d-d551-4539-8353-3c85aa3d965c@linux.intel.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 8bit
-X-ClientProxiedBy: nasanex01b.na.qualcomm.com (10.46.141.250) To
- nalasex01b.na.qualcomm.com (10.47.209.197)
-X-QCInternal: smtphost
-X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800 signatures=585085
-X-Proofpoint-ORIG-GUID: yYw0m-dlgfRq1_xa_E0JOK1i5VwHIAdk
-X-Proofpoint-GUID: yYw0m-dlgfRq1_xa_E0JOK1i5VwHIAdk
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1039,Hydra:6.0.680,FMLib:17.12.28.16
- definitions=2024-08-06_16,2024-08-06_01,2024-05-17_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 mlxlogscore=999
- impostorscore=0 malwarescore=0 suspectscore=0 phishscore=0 mlxscore=0
- priorityscore=1501 lowpriorityscore=0 bulkscore=0 adultscore=0 spamscore=0
- clxscore=1015 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.19.0-2407110000 definitions=main-2408060140
 
-Hi Pierre,
+tree/branch: https://git.kernel.org/pub/scm/linux/kernel/git/westeri/thunderbolt.git fixes
+branch HEAD: e2006140ad2e01a02ed0aff49cc2ae3ceeb11f8d  thunderbolt: Mark XDomain as unplugged when router is removed
 
-On 8/1/2024 11:26 PM, Pierre-Louis Bossart wrote:
->
-> On 8/1/24 23:43, Wesley Cheng wrote:
->> Hi Pierre,
->>
->> On 8/1/2024 1:02 AM, Pierre-Louis Bossart wrote:
->>>
->>>> +/**
->>>> + * struct snd_soc_usb_device
->>>> + * @card_idx - sound card index associated with USB device
->>>> + * @pcm_idx - PCM device index associated with USB device
->>>> + * @chip_idx - USB sound chip array index
->>>> + * @num_playback - number of playback streams
->>>> + * @num_capture - number of capture streams
->>> so here we have a clear separation between playback and capture...
->> Thanks for the quick review of the series, I know that its a lot of work, so its much appreciated.
->>
->> I guess in the past revisions there was some discussions that highlighted on the fact that, currently, in our QC USB offload implementation we're supporting playback only, and maybe it should be considered to also expand on the capture path.  I went ahead and added some sprinkles of that throughout the SOC USB layer, since its vendor agnostic, and some vendors may potentially have that type of support.  Is it safe to assume that this is the right thinking?  If so, I will go and review some of the spots that may need to consider both playback and capture paths ONLY for soc-usb. (as you highlighted one below)  Else, I can note an assumption somewhere that soc-usb supports playback only and add the capture path when implemented.
-> I don't think it's as simple as playback only or playback+capture. If
-> there is no support for capture, then there is also no support for
-> devices with implicit feedback - which uses the capture path. So you
-> gradually start drawing a jagged boundary of what is supported and what
-> isn't.
->
-> My preference would be to add capture in APIs where we can, with TODOs
-> added to make sure no one us under any illusion that the code is fully
-> tested. But at least some of the basic plumbing will be in place.
->
-> Takashi should chime in on this...
->
->>>> + * @list - list head for SoC USB devices
->>>> + **/
->>>> +struct snd_soc_usb_device {
->>>> +	int card_idx;
->>>> +	int pcm_idx;
->>>> +	int chip_idx;
->>>> +	int num_playback;
->>>> +	int num_capture;
->>>> +	struct list_head list;
->>>> +};
->>>> +
->>>> +/**
->>>> + * struct snd_soc_usb
->>>> + * @list - list head for SND SOC struct list
->>>> + * @component - reference to ASoC component
->>>> + * @num_supported_streams - number of supported concurrent sessions
->>> ... but here we don't. And it's not clear what the working 'sessions'
->>> means in the comment.
->>>
->>>> + * @connection_status_cb - callback to notify connection events
->>>> + * @priv_data - driver data
->>>> + **/
->>>> +struct snd_soc_usb {
->>>> +	struct list_head list;
->>>> +	struct snd_soc_component *component;
->>>> +	unsigned int num_supported_streams;
->>>> +	int (*connection_status_cb)(struct snd_soc_usb *usb,
->>>> +			struct snd_soc_usb_device *sdev, bool connected);
->>>> +	void *priv_data;
->>>> +};
->>>> +/**
->>>> + * snd_soc_usb_allocate_port() - allocate a SOC USB device
->>> USB port?
->> Noted, refer to the last comment.
->>>> + * @component: USB DPCM backend DAI component
->>>> + * @num_streams: number of offloading sessions supported
->>> same comment, is this direction-specific or not?
->> Depending on what you think about my first comment above, I'll also fix or remove the concept of direction entirely.
->>>> + * @data: private data
->>>> + *
->>>> + * Allocate and initialize a SOC USB device.  This will populate parameters that
->>>> + * are used in subsequent sequences.
->>>> + *
->>>> + */
->>>> +struct snd_soc_usb *snd_soc_usb_allocate_port(struct snd_soc_component *component,
->>>> +					      int num_streams, void *data)
->>>> +{
->>>> +	struct snd_soc_usb *usb;
->>>> +
->>>> +	usb = kzalloc(sizeof(*usb), GFP_KERNEL);
->>>> +	if (!usb)
->>>> +		return ERR_PTR(-ENOMEM);
->>>> +
->>>> +	usb->component = component;
->>>> +	usb->priv_data = data;
->>>> +	usb->num_supported_streams = num_streams;
->>>> +
->>>> +	return usb;
->>>> +}
->>>> +EXPORT_SYMBOL_GPL(snd_soc_usb_allocate_port);
->>>> +
->>>> +/**
->>>> + * snd_soc_usb_free_port() - free a SOC USB device
->>>> + * @usb: allocated SOC USB device
->>>> +
->>>> + * Free and remove the SOC USB device from the available list of devices.
->>> Now I am lost again on the device:port relationship. I am sure you've
->>> explained this before but I forget things and the code isn't
->>> self-explanatory.
->>>
->> Ok, I think the problem is that I'm interchanging the port and device terminology, because from the USB perspective its one device connected to a USB port, so its a one-to-one relation.  Removing that mindset, I think the proper term here would still be "port," because in the end SOC USB is always only servicing a port.  If this is the case, do you have any objections using this terminology in the Q6AFE as well as ASoC?  I will use consistent wording throughout SOC USB if so.
-> I am not sure USB uses 'port' at all. If by 'port' you meant 'connector'
-> it's not quite right, USB audio works across hubs.
->
-Remember, this is technically the term used to explain the channel created for ASoC to communicate w/ USB.  If we use a term like "device," USB devices come and go, but this ASoC path won't be unallocated along with the USB device, since it does service/know about all the available USB devices connected to the system. (ie through usb hubs)
+elapsed time: 1046m
 
-Thanks
+configs tested: 242
+configs skipped: 7
 
-Wesley Cheng
+The following configs have been built successfully.
+More configs may be tested in the coming days.
 
+tested configs:
+alpha                             allnoconfig   gcc-13.2.0
+alpha                            allyesconfig   gcc-13.3.0
+alpha                               defconfig   gcc-13.2.0
+arc                              allmodconfig   gcc-13.2.0
+arc                               allnoconfig   gcc-13.2.0
+arc                              allyesconfig   gcc-13.2.0
+arc                                 defconfig   gcc-13.2.0
+arc                        nsim_700_defconfig   gcc-13.2.0
+arc                        nsimosci_defconfig   gcc-13.2.0
+arc                 nsimosci_hs_smp_defconfig   gcc-13.2.0
+arc                   randconfig-001-20240806   gcc-13.2.0
+arc                   randconfig-002-20240806   gcc-13.2.0
+arm                              allmodconfig   gcc-13.2.0
+arm                              allmodconfig   gcc-14.1.0
+arm                               allnoconfig   gcc-13.2.0
+arm                              allyesconfig   gcc-13.2.0
+arm                              allyesconfig   gcc-14.1.0
+arm                         at91_dt_defconfig   gcc-13.2.0
+arm                                 defconfig   gcc-13.2.0
+arm                            dove_defconfig   gcc-13.2.0
+arm                          ep93xx_defconfig   gcc-13.2.0
+arm                         mv78xx0_defconfig   gcc-13.2.0
+arm                         orion5x_defconfig   gcc-13.2.0
+arm                            qcom_defconfig   gcc-13.2.0
+arm                   randconfig-001-20240806   clang-20
+arm                   randconfig-001-20240806   gcc-13.2.0
+arm                   randconfig-002-20240806   gcc-13.2.0
+arm                   randconfig-002-20240806   gcc-14.1.0
+arm                   randconfig-003-20240806   gcc-13.2.0
+arm                   randconfig-003-20240806   gcc-14.1.0
+arm                   randconfig-004-20240806   gcc-13.2.0
+arm                   randconfig-004-20240806   gcc-14.1.0
+arm                             rpc_defconfig   gcc-13.2.0
+arm                         s5pv210_defconfig   gcc-13.2.0
+arm64                            allmodconfig   clang-20
+arm64                            allmodconfig   gcc-13.2.0
+arm64                             allnoconfig   gcc-13.2.0
+arm64                               defconfig   gcc-13.2.0
+arm64                 randconfig-001-20240806   clang-20
+arm64                 randconfig-001-20240806   gcc-13.2.0
+arm64                 randconfig-002-20240806   clang-20
+arm64                 randconfig-002-20240806   gcc-13.2.0
+arm64                 randconfig-003-20240806   clang-14
+arm64                 randconfig-003-20240806   gcc-13.2.0
+arm64                 randconfig-004-20240806   gcc-13.2.0
+arm64                 randconfig-004-20240806   gcc-14.1.0
+csky                             alldefconfig   gcc-13.2.0
+csky                              allnoconfig   gcc-13.2.0
+csky                                defconfig   gcc-13.2.0
+csky                  randconfig-001-20240806   gcc-13.2.0
+csky                  randconfig-001-20240806   gcc-14.1.0
+csky                  randconfig-002-20240806   gcc-13.2.0
+csky                  randconfig-002-20240806   gcc-14.1.0
+hexagon                          allmodconfig   clang-20
+hexagon                          allyesconfig   clang-20
+hexagon               randconfig-001-20240806   clang-20
+hexagon               randconfig-002-20240806   clang-17
+i386                             allmodconfig   clang-18
+i386                             allmodconfig   gcc-12
+i386                              allnoconfig   clang-18
+i386                              allnoconfig   gcc-12
+i386                             allyesconfig   clang-18
+i386                             allyesconfig   gcc-12
+i386         buildonly-randconfig-001-20240806   gcc-11
+i386         buildonly-randconfig-002-20240806   gcc-11
+i386         buildonly-randconfig-003-20240806   gcc-11
+i386         buildonly-randconfig-004-20240806   gcc-11
+i386         buildonly-randconfig-005-20240806   gcc-11
+i386         buildonly-randconfig-006-20240806   gcc-11
+i386                                defconfig   clang-18
+i386                  randconfig-001-20240806   gcc-11
+i386                  randconfig-002-20240806   gcc-11
+i386                  randconfig-003-20240806   gcc-11
+i386                  randconfig-004-20240806   gcc-11
+i386                  randconfig-005-20240806   gcc-11
+i386                  randconfig-006-20240806   gcc-11
+i386                  randconfig-011-20240806   gcc-11
+i386                  randconfig-012-20240806   gcc-11
+i386                  randconfig-013-20240806   gcc-11
+i386                  randconfig-014-20240806   gcc-11
+i386                  randconfig-015-20240806   gcc-11
+i386                  randconfig-016-20240806   gcc-11
+loongarch                        allmodconfig   gcc-14.1.0
+loongarch                         allnoconfig   gcc-13.2.0
+loongarch                           defconfig   gcc-13.2.0
+loongarch                 loongson3_defconfig   gcc-13.2.0
+loongarch             randconfig-001-20240806   gcc-13.2.0
+loongarch             randconfig-001-20240806   gcc-14.1.0
+loongarch             randconfig-002-20240806   gcc-13.2.0
+loongarch             randconfig-002-20240806   gcc-14.1.0
+m68k                             allmodconfig   gcc-14.1.0
+m68k                              allnoconfig   gcc-13.2.0
+m68k                             allyesconfig   gcc-14.1.0
+m68k                                defconfig   gcc-13.2.0
+m68k                        m5407c3_defconfig   gcc-13.2.0
+m68k                        stmark2_defconfig   gcc-13.2.0
+m68k                           virt_defconfig   gcc-13.2.0
+microblaze                       allmodconfig   gcc-14.1.0
+microblaze                        allnoconfig   gcc-13.2.0
+microblaze                       allyesconfig   gcc-14.1.0
+microblaze                          defconfig   gcc-13.2.0
+mips                              allnoconfig   gcc-13.2.0
+mips                       bmips_be_defconfig   gcc-13.2.0
+mips                     cu1830-neo_defconfig   gcc-13.2.0
+mips                         db1xxx_defconfig   gcc-13.2.0
+mips                          eyeq6_defconfig   gcc-13.2.0
+mips                           ip22_defconfig   gcc-13.2.0
+mips                           ip28_defconfig   gcc-13.2.0
+mips                        vocore2_defconfig   gcc-13.2.0
+nios2                         10m50_defconfig   gcc-13.2.0
+nios2                             allnoconfig   gcc-13.2.0
+nios2                               defconfig   gcc-13.2.0
+nios2                 randconfig-001-20240806   gcc-13.2.0
+nios2                 randconfig-001-20240806   gcc-14.1.0
+nios2                 randconfig-002-20240806   gcc-13.2.0
+nios2                 randconfig-002-20240806   gcc-14.1.0
+openrisc                          allnoconfig   gcc-14.1.0
+openrisc                         allyesconfig   gcc-14.1.0
+openrisc                            defconfig   gcc-14.1.0
+openrisc                       virt_defconfig   gcc-13.2.0
+parisc                           allmodconfig   gcc-14.1.0
+parisc                            allnoconfig   gcc-14.1.0
+parisc                           allyesconfig   gcc-14.1.0
+parisc                              defconfig   gcc-14.1.0
+parisc                generic-64bit_defconfig   gcc-13.2.0
+parisc                randconfig-001-20240806   gcc-13.2.0
+parisc                randconfig-001-20240806   gcc-14.1.0
+parisc                randconfig-002-20240806   gcc-13.2.0
+parisc                randconfig-002-20240806   gcc-14.1.0
+parisc64                            defconfig   gcc-13.2.0
+powerpc                          allmodconfig   gcc-14.1.0
+powerpc                           allnoconfig   gcc-14.1.0
+powerpc                          allyesconfig   clang-20
+powerpc                          allyesconfig   gcc-14.1.0
+powerpc                     asp8347_defconfig   gcc-13.2.0
+powerpc                       ebony_defconfig   gcc-13.2.0
+powerpc                 mpc837x_rdb_defconfig   gcc-13.2.0
+powerpc                  mpc866_ads_defconfig   gcc-13.2.0
+powerpc                  mpc885_ads_defconfig   gcc-13.2.0
+powerpc               randconfig-001-20240806   gcc-13.2.0
+powerpc               randconfig-001-20240806   gcc-14.1.0
+powerpc               randconfig-003-20240806   clang-20
+powerpc               randconfig-003-20240806   gcc-13.2.0
+powerpc                     tqm5200_defconfig   gcc-13.2.0
+powerpc                     tqm8540_defconfig   gcc-13.2.0
+powerpc                     tqm8555_defconfig   gcc-13.2.0
+powerpc64             randconfig-001-20240806   gcc-13.2.0
+powerpc64             randconfig-001-20240806   gcc-14.1.0
+powerpc64             randconfig-002-20240806   clang-16
+powerpc64             randconfig-002-20240806   gcc-13.2.0
+powerpc64             randconfig-003-20240806   gcc-13.2.0
+riscv                            allmodconfig   clang-20
+riscv                            allmodconfig   gcc-14.1.0
+riscv                             allnoconfig   gcc-14.1.0
+riscv                            allyesconfig   clang-20
+riscv                            allyesconfig   gcc-14.1.0
+riscv                               defconfig   gcc-14.1.0
+riscv                 randconfig-001-20240806   gcc-13.2.0
+riscv                 randconfig-001-20240806   gcc-14.1.0
+riscv                 randconfig-002-20240806   clang-20
+riscv                 randconfig-002-20240806   gcc-13.2.0
+s390                             alldefconfig   gcc-13.2.0
+s390                             allmodconfig   clang-20
+s390                              allnoconfig   clang-20
+s390                             allyesconfig   clang-20
+s390                             allyesconfig   gcc-14.1.0
+s390                                defconfig   gcc-14.1.0
+s390                  randconfig-001-20240806   clang-20
+s390                  randconfig-001-20240806   gcc-13.2.0
+s390                  randconfig-002-20240806   clang-20
+s390                  randconfig-002-20240806   gcc-13.2.0
+sh                               allmodconfig   gcc-14.1.0
+sh                                allnoconfig   gcc-13.2.0
+sh                               allyesconfig   gcc-14.1.0
+sh                         ap325rxa_defconfig   gcc-13.2.0
+sh                                  defconfig   gcc-14.1.0
+sh                               j2_defconfig   gcc-13.2.0
+sh                    randconfig-001-20240806   gcc-13.2.0
+sh                    randconfig-001-20240806   gcc-14.1.0
+sh                    randconfig-002-20240806   gcc-13.2.0
+sh                    randconfig-002-20240806   gcc-14.1.0
+sh                          rsk7269_defconfig   gcc-13.2.0
+sh                           se7343_defconfig   gcc-13.2.0
+sh                  sh7785lcr_32bit_defconfig   gcc-13.2.0
+sparc                            allmodconfig   gcc-14.1.0
+sparc                       sparc32_defconfig   gcc-13.2.0
+sparc64                             defconfig   gcc-14.1.0
+sparc64               randconfig-001-20240806   gcc-13.2.0
+sparc64               randconfig-001-20240806   gcc-14.1.0
+sparc64               randconfig-002-20240806   gcc-13.2.0
+sparc64               randconfig-002-20240806   gcc-14.1.0
+um                               allmodconfig   clang-20
+um                               allmodconfig   gcc-13.3.0
+um                                allnoconfig   clang-17
+um                               allyesconfig   gcc-12
+um                               allyesconfig   gcc-13.3.0
+um                                  defconfig   gcc-14.1.0
+um                             i386_defconfig   gcc-14.1.0
+um                    randconfig-001-20240806   clang-20
+um                    randconfig-001-20240806   gcc-13.2.0
+um                    randconfig-002-20240806   gcc-12
+um                    randconfig-002-20240806   gcc-13.2.0
+um                           x86_64_defconfig   gcc-14.1.0
+x86_64                            allnoconfig   clang-18
+x86_64                           allyesconfig   clang-18
+x86_64       buildonly-randconfig-001-20240806   clang-18
+x86_64       buildonly-randconfig-002-20240806   clang-18
+x86_64       buildonly-randconfig-003-20240806   clang-18
+x86_64       buildonly-randconfig-004-20240806   clang-18
+x86_64       buildonly-randconfig-005-20240806   clang-18
+x86_64       buildonly-randconfig-006-20240806   clang-18
+x86_64                              defconfig   clang-18
+x86_64                              defconfig   gcc-11
+x86_64                randconfig-001-20240806   clang-18
+x86_64                randconfig-002-20240806   clang-18
+x86_64                randconfig-003-20240806   clang-18
+x86_64                randconfig-004-20240806   clang-18
+x86_64                randconfig-005-20240806   clang-18
+x86_64                randconfig-006-20240806   clang-18
+x86_64                randconfig-011-20240806   clang-18
+x86_64                randconfig-012-20240806   clang-18
+x86_64                randconfig-013-20240806   clang-18
+x86_64                randconfig-014-20240806   clang-18
+x86_64                randconfig-015-20240806   clang-18
+x86_64                randconfig-016-20240806   clang-18
+x86_64                randconfig-071-20240806   clang-18
+x86_64                randconfig-072-20240806   clang-18
+x86_64                randconfig-073-20240806   clang-18
+x86_64                randconfig-074-20240806   clang-18
+x86_64                randconfig-075-20240806   clang-18
+x86_64                randconfig-076-20240806   clang-18
+x86_64                          rhel-8.3-rust   clang-18
+xtensa                           alldefconfig   gcc-13.2.0
+xtensa                            allnoconfig   gcc-13.2.0
+xtensa                generic_kc705_defconfig   gcc-13.2.0
+xtensa                          iss_defconfig   gcc-13.2.0
+xtensa                randconfig-001-20240806   gcc-13.2.0
+xtensa                randconfig-001-20240806   gcc-14.1.0
+xtensa                randconfig-002-20240806   gcc-13.2.0
+xtensa                randconfig-002-20240806   gcc-14.1.0
+xtensa                    smp_lx200_defconfig   gcc-13.2.0
+xtensa                         virt_defconfig   gcc-13.2.0
+
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
