@@ -1,37 +1,37 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1C9E11C9DD6
-	for <linux-usb@vger.kernel.org>; Wed,  7 Aug 2024 12:28:01 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 98FB41E2101
+	for <linux-usb@vger.kernel.org>; Wed,  7 Aug 2024 12:29:02 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1723033681; cv=none; b=dDi3NYqTjfKdApDv9/ZMjd5TxVjX4mpuSG5CZvz3K97RcOEeB4inWz4xzeM3Yf4VAUqXIfVGJ9kmvKmDbi77qtRGjW6YDAkOVfQaWcnn70AxlDsEKvsURp6jfecTrRDS8FWS7sCgMs755XHz3LipudmXKFE1N+Pc/zA2qVMQd2k=
+	t=1723033742; cv=none; b=JBH1RiU6M1PR5f28HtfSA0valku7ayyUZC+78wMKKsHnszIS9JBlM2gF3tb78nhMP41KNaslUH2bL9KeBd95P/SPtKq6amRwnpMQyL8wOVrEpDIwF/2xrpp8Vb/u2b+IJazr/YK7k6d3F26v4CtY4ykiGB3DCWkvFJOeO/CWFQg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1723033681; c=relaxed/simple;
-	bh=2c86oVu0v5/T41rbnSlSKPtc+eDbHpCSaUeDb82MM9Q=;
+	s=arc-20240116; t=1723033742; c=relaxed/simple;
+	bh=3kXrLnMJ+JmkHv7qikzyFQL11ZZXdf16hOkgvoYz3rE=;
 	h=From:To:Subject:Date:Message-ID:In-Reply-To:References:
-	 Content-Type:MIME-Version; b=e9K8kg/+Bjd7SGlbDxR6XjoHxv2H3HT2qaC6ZMYwDYUuxbmBBDF0eSTi65QOb68rYTbwR9JhqFdov1HLczMqcFISettKmmnmePRCNCECC8prOHBryZbBVpkrNDsubjB5PBPfY53aZ2ejtltkQ9JBsQ5fvhT0pjIKx8xiogY4CXw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Mgof+KZ4; arc=none smtp.client-ip=10.30.226.201
+	 Content-Type:MIME-Version; b=mQo8I/UHTOSVO88lUxZci+1VU22KH1Wag9IbosCG07Ndbqs5dtoKc2tsI/5BrvmNHjHTZJdRYxsn4n4X2o2OtFgYaUoL3xR0oIZoykbeHfCp7wsogaYAjdj9Y80V/2ovRcbSxRfhgqSAvC9beiqnamo0BeG+BzOP+NKANnqQGWc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=p9K8iHeF; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Mgof+KZ4"
-Received: by smtp.kernel.org (Postfix) with ESMTPS id E57E8C32782
-	for <linux-usb@vger.kernel.org>; Wed,  7 Aug 2024 12:28:00 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="p9K8iHeF"
+Received: by smtp.kernel.org (Postfix) with ESMTPS id 6C07AC32782
+	for <linux-usb@vger.kernel.org>; Wed,  7 Aug 2024 12:29:02 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1723033680;
-	bh=2c86oVu0v5/T41rbnSlSKPtc+eDbHpCSaUeDb82MM9Q=;
+	s=k20201202; t=1723033742;
+	bh=3kXrLnMJ+JmkHv7qikzyFQL11ZZXdf16hOkgvoYz3rE=;
 	h=From:To:Subject:Date:In-Reply-To:References:From;
-	b=Mgof+KZ4S+FmmYRFx3bgwVm/eQ3bsp7vCRbQZ+ve1VxlPBSPVgKSoUSidpDPN2JBR
-	 8tmQybFDQyXTESwARP5AWs7d5ul0elkjXTIqbxQP6UdMPADSAFBDnYTNMzsQIRuPds
-	 zNIB3EoXud8H+M6V2Tatx0JOBjh6pU1G6aOQ0bT5mvilt2FXgvI1qGuIAOn9ImvpKa
-	 +dGlyn9AU1ZEKvKl5USHDSYrxZOoLxqX5RHkpo30sw9a8T8jIZmhr+RvS/GzhKdmqn
-	 8B1piLkyxb8B12xKN8Ao4tZvwgNQP2Xyy+An5K2uSSIkuboq3un5pZ7Uac/qDMbxPH
-	 yr34AEnbTEGqw==
+	b=p9K8iHeFRSvNfvhSqu6Q+fpiLlJoCVp24aQhsuLgU1UHyJfS2CUsZUsxo+ba2pJ7u
+	 UuWu1CCcq6/ODzI1KMUbhO4MDdsAks1YlwfClN3ysXU+0n6y/e1vcZORxJSSfgN9Sy
+	 F7ucJ2chYZOwhiYEcatgI+x/3vhlv89ZwlGGggDwCC/tqO3zWUeRhFGwx4IB7hdtRX
+	 RMc0zrKFusGlrEs1HcItB49yM0bBYQCYWY2x1SdpKLh3l0CLnUP7JRr9vbQaUJsvwN
+	 oSKNgfFU4eaDIT7naAqJ193uSpgQM3//8vuIIZw3PakStLZ3M25pnywTUtY1qpAtA+
+	 hAxkNmsnZaBdg==
 Received: by aws-us-west-2-korg-bugzilla-1.web.codeaurora.org (Postfix, from userid 48)
-	id CC84BC53B73; Wed,  7 Aug 2024 12:28:00 +0000 (UTC)
+	id 5EDC5C53B73; Wed,  7 Aug 2024 12:29:02 +0000 (UTC)
 From: bugzilla-daemon@kernel.org
 To: linux-usb@vger.kernel.org
 Subject: [Bug 219111] Xone:23C mixer not recognized as a 2in/2out device
-Date: Wed, 07 Aug 2024 12:28:00 +0000
+Date: Wed, 07 Aug 2024 12:29:02 +0000
 X-Bugzilla-Reason: None
 X-Bugzilla-Type: changed
 X-Bugzilla-Watch-Reason: AssignedTo drivers_usb@kernel-bugs.kernel.org
@@ -46,8 +46,8 @@ X-Bugzilla-Resolution:
 X-Bugzilla-Priority: P3
 X-Bugzilla-Assigned-To: drivers_usb@kernel-bugs.kernel.org
 X-Bugzilla-Flags: 
-X-Bugzilla-Changed-Fields: attachments.created
-Message-ID: <bug-219111-208809-ZPcpgaVeUe@https.bugzilla.kernel.org/>
+X-Bugzilla-Changed-Fields: 
+Message-ID: <bug-219111-208809-XXG4lHDZWH@https.bugzilla.kernel.org/>
 In-Reply-To: <bug-219111-208809@https.bugzilla.kernel.org/>
 References: <bug-219111-208809@https.bugzilla.kernel.org/>
 Content-Type: text/plain; charset="UTF-8"
@@ -63,10 +63,10 @@ MIME-Version: 1.0
 
 https://bugzilla.kernel.org/show_bug.cgi?id=3D219111
 
---- Comment #32 from CH (com+bugzilla-kernel@c-henry.fr) ---
-Created attachment 306682
-  --> https://bugzilla.kernel.org/attachment.cgi?id=3D306682&action=3Dedit
-Xone 23C Wireshark capture with audio passing through USB
+--- Comment #33 from CH (com+bugzilla-kernel@c-henry.fr) ---
+Here it is. I hope it help. Otherwise I guess I'll have to ship you the dev=
+ice.
+Is it doable?
 
 --=20
 You may reply to this email to add a comment.
