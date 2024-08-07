@@ -1,75 +1,69 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from metis.whiteo.stw.pengutronix.de (metis.whiteo.stw.pengutronix.de [185.203.201.7])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 98FB41E2101
-	for <linux-usb@vger.kernel.org>; Wed,  7 Aug 2024 12:29:02 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1509938DF9
+	for <linux-usb@vger.kernel.org>; Wed,  7 Aug 2024 14:08:58 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.203.201.7
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1723033742; cv=none; b=JBH1RiU6M1PR5f28HtfSA0valku7ayyUZC+78wMKKsHnszIS9JBlM2gF3tb78nhMP41KNaslUH2bL9KeBd95P/SPtKq6amRwnpMQyL8wOVrEpDIwF/2xrpp8Vb/u2b+IJazr/YK7k6d3F26v4CtY4ykiGB3DCWkvFJOeO/CWFQg=
+	t=1723039740; cv=none; b=NAGYivJOZtK8207j4NBYB/iV8FtpqjdMgfizym2x9lSOUr0oJvaFbvwuP9Z9664PoCNCmFmoLnaI+Hv0sgmBrRZVg4S3Mv94GajjVpKnBxL14ki99KTdZDJgXPTsD/MykHq/WB7rk8ROTF0A1gL0Pl9yfghmmUc+ixAuGq78gvs=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1723033742; c=relaxed/simple;
-	bh=3kXrLnMJ+JmkHv7qikzyFQL11ZZXdf16hOkgvoYz3rE=;
-	h=From:To:Subject:Date:Message-ID:In-Reply-To:References:
-	 Content-Type:MIME-Version; b=mQo8I/UHTOSVO88lUxZci+1VU22KH1Wag9IbosCG07Ndbqs5dtoKc2tsI/5BrvmNHjHTZJdRYxsn4n4X2o2OtFgYaUoL3xR0oIZoykbeHfCp7wsogaYAjdj9Y80V/2ovRcbSxRfhgqSAvC9beiqnamo0BeG+BzOP+NKANnqQGWc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=p9K8iHeF; arc=none smtp.client-ip=10.30.226.201
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="p9K8iHeF"
-Received: by smtp.kernel.org (Postfix) with ESMTPS id 6C07AC32782
-	for <linux-usb@vger.kernel.org>; Wed,  7 Aug 2024 12:29:02 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1723033742;
-	bh=3kXrLnMJ+JmkHv7qikzyFQL11ZZXdf16hOkgvoYz3rE=;
-	h=From:To:Subject:Date:In-Reply-To:References:From;
-	b=p9K8iHeFRSvNfvhSqu6Q+fpiLlJoCVp24aQhsuLgU1UHyJfS2CUsZUsxo+ba2pJ7u
-	 UuWu1CCcq6/ODzI1KMUbhO4MDdsAks1YlwfClN3ysXU+0n6y/e1vcZORxJSSfgN9Sy
-	 F7ucJ2chYZOwhiYEcatgI+x/3vhlv89ZwlGGggDwCC/tqO3zWUeRhFGwx4IB7hdtRX
-	 RMc0zrKFusGlrEs1HcItB49yM0bBYQCYWY2x1SdpKLh3l0CLnUP7JRr9vbQaUJsvwN
-	 oSKNgfFU4eaDIT7naAqJ193uSpgQM3//8vuIIZw3PakStLZ3M25pnywTUtY1qpAtA+
-	 hAxkNmsnZaBdg==
-Received: by aws-us-west-2-korg-bugzilla-1.web.codeaurora.org (Postfix, from userid 48)
-	id 5EDC5C53B73; Wed,  7 Aug 2024 12:29:02 +0000 (UTC)
-From: bugzilla-daemon@kernel.org
-To: linux-usb@vger.kernel.org
-Subject: [Bug 219111] Xone:23C mixer not recognized as a 2in/2out device
-Date: Wed, 07 Aug 2024 12:29:02 +0000
-X-Bugzilla-Reason: None
-X-Bugzilla-Type: changed
-X-Bugzilla-Watch-Reason: AssignedTo drivers_usb@kernel-bugs.kernel.org
-X-Bugzilla-Product: Drivers
-X-Bugzilla-Component: USB
-X-Bugzilla-Version: 2.5
-X-Bugzilla-Keywords: 
-X-Bugzilla-Severity: normal
-X-Bugzilla-Who: com+bugzilla-kernel@c-henry.fr
-X-Bugzilla-Status: NEW
-X-Bugzilla-Resolution: 
-X-Bugzilla-Priority: P3
-X-Bugzilla-Assigned-To: drivers_usb@kernel-bugs.kernel.org
-X-Bugzilla-Flags: 
-X-Bugzilla-Changed-Fields: 
-Message-ID: <bug-219111-208809-XXG4lHDZWH@https.bugzilla.kernel.org/>
-In-Reply-To: <bug-219111-208809@https.bugzilla.kernel.org/>
-References: <bug-219111-208809@https.bugzilla.kernel.org/>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-X-Bugzilla-URL: https://bugzilla.kernel.org/
-Auto-Submitted: auto-generated
+	s=arc-20240116; t=1723039740; c=relaxed/simple;
+	bh=9hXhq6Gzs+DxBDizJYR+Z6DeOqGq51BP6C6316J+VqU=;
+	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
+	 In-Reply-To:To:Cc; b=rm571x/H7gQl4l4EvVB0bxyNj1dMJ7txoKHg7e97YqJo392L8PYF7T+Dt4JjuWp/KSsWSrRNqbZ2VLC/JCgzBX/xSAexjeMHkkbSp2lBDHj3rc6xR6LrOTahjUPtZCa79NVCDpw5dpHbqFBMeboJmOobiY0skfnnmY3cmGam/VQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=pengutronix.de; spf=pass smtp.mailfrom=pengutronix.de; arc=none smtp.client-ip=185.203.201.7
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=pengutronix.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=pengutronix.de
+Received: from dude02.red.stw.pengutronix.de ([2a0a:edc0:0:1101:1d::28])
+	by metis.whiteo.stw.pengutronix.de with esmtp (Exim 4.92)
+	(envelope-from <m.felsch@pengutronix.de>)
+	id 1sbhLQ-0002E5-Re; Wed, 07 Aug 2024 16:08:52 +0200
+From: Marco Felsch <m.felsch@pengutronix.de>
+Date: Wed, 07 Aug 2024 16:08:49 +0200
+Subject: [PATCH 2/3] USB: serial: cosmetic cleanup <space><tab> mix
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+Message-Id: <20240807-v6-10-topic-usb-serial-serdev-v1-2-ed2cc5da591f@pengutronix.de>
+References: <20240807-v6-10-topic-usb-serial-serdev-v1-0-ed2cc5da591f@pengutronix.de>
+In-Reply-To: <20240807-v6-10-topic-usb-serial-serdev-v1-0-ed2cc5da591f@pengutronix.de>
+To: Rob Herring <robh@kernel.org>, 
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>, 
+ Jiri Slaby <jirislaby@kernel.org>, Johan Hovold <johan@kernel.org>
+Cc: linux-serial@vger.kernel.org, linux-kernel@vger.kernel.org, 
+ linux-usb@vger.kernel.org, Marco Felsch <m.felsch@pengutronix.de>
+X-Mailer: b4 0.14.0
+X-SA-Exim-Connect-IP: 2a0a:edc0:0:1101:1d::28
+X-SA-Exim-Mail-From: m.felsch@pengutronix.de
+X-SA-Exim-Scanned: No (on metis.whiteo.stw.pengutronix.de); SAEximRunCond expanded to false
+X-PTX-Original-Recipient: linux-usb@vger.kernel.org
 
-https://bugzilla.kernel.org/show_bug.cgi?id=3D219111
+Cosmetic cleanup: replace <space><tab> mix with <tab> only.
 
---- Comment #33 from CH (com+bugzilla-kernel@c-henry.fr) ---
-Here it is. I hope it help. Otherwise I guess I'll have to ship you the dev=
-ice.
-Is it doable?
+Signed-off-by: Marco Felsch <m.felsch@pengutronix.de>
+---
+ drivers/usb/serial/bus.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
---=20
-You may reply to this email to add a comment.
+diff --git a/drivers/usb/serial/bus.c b/drivers/usb/serial/bus.c
+index 6c812d01b37d..df0196a30f33 100644
+--- a/drivers/usb/serial/bus.c
++++ b/drivers/usb/serial/bus.c
+@@ -149,7 +149,7 @@ const struct bus_type usb_serial_bus_type = {
+ 	.match =	usb_serial_device_match,
+ 	.probe =	usb_serial_device_probe,
+ 	.remove =	usb_serial_device_remove,
+-	.drv_groups = 	usb_serial_drv_groups,
++	.drv_groups =	usb_serial_drv_groups,
+ };
+ 
+ int usb_serial_bus_register(struct usb_serial_driver *driver)
 
-You are receiving this mail because:
-You are watching the assignee of the bug.=
+-- 
+2.39.2
+
