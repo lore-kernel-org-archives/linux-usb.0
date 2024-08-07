@@ -1,54 +1,75 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8B2E21B8EA8;
-	Wed,  7 Aug 2024 10:48:59 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1C9E11C9DD6
+	for <linux-usb@vger.kernel.org>; Wed,  7 Aug 2024 12:28:01 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1723027739; cv=none; b=TwegzNE++BEjVZssRH3HVATefFLwkx2zSVAnBW/d+K9M7uAEVKqDDI3uuaIw4ui5nEEglXpyOKGNoRmE1S/StNFE5lBrphJwzGcUpujU+3GSTzxNbcSt9rdgYRK7SsGuvOHggu/oBAWkDxDU4A1/FnczAEYsrQfIQdbZYhevM5w=
+	t=1723033681; cv=none; b=dDi3NYqTjfKdApDv9/ZMjd5TxVjX4mpuSG5CZvz3K97RcOEeB4inWz4xzeM3Yf4VAUqXIfVGJ9kmvKmDbi77qtRGjW6YDAkOVfQaWcnn70AxlDsEKvsURp6jfecTrRDS8FWS7sCgMs755XHz3LipudmXKFE1N+Pc/zA2qVMQd2k=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1723027739; c=relaxed/simple;
-	bh=0nJiNsMtRqtiZBkFoOne0DiY/XfVAZ4pWQwMn8S5eCw=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=VxjMnC1OIvU8NEFd9DfKVj3Y8ALvBry8vy1hFkAsyRVEu5UcJViz//aDKMkoAsks54YtA9tmJeg3MnCCfmD66q48wxFEsZ1bJZLCx6rksvfxI9m+HaPK0wGjmv3iICcth3YBUOZJYo6DuTczZDH1amHVs7jUnuhS/AMCPMboO64=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b=bFSKkPmJ; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1723033681; c=relaxed/simple;
+	bh=2c86oVu0v5/T41rbnSlSKPtc+eDbHpCSaUeDb82MM9Q=;
+	h=From:To:Subject:Date:Message-ID:In-Reply-To:References:
+	 Content-Type:MIME-Version; b=e9K8kg/+Bjd7SGlbDxR6XjoHxv2H3HT2qaC6ZMYwDYUuxbmBBDF0eSTi65QOb68rYTbwR9JhqFdov1HLczMqcFISettKmmnmePRCNCECC8prOHBryZbBVpkrNDsubjB5PBPfY53aZ2ejtltkQ9JBsQ5fvhT0pjIKx8xiogY4CXw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Mgof+KZ4; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="bFSKkPmJ"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 8C05CC32782;
-	Wed,  7 Aug 2024 10:48:58 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
-	s=korg; t=1723027738;
-	bh=0nJiNsMtRqtiZBkFoOne0DiY/XfVAZ4pWQwMn8S5eCw=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=bFSKkPmJJ/qURXcxgl6DLV6isriSh8HL/ESfL+M3Nmh7ZqnLI8ECAotUeA5TuIyq9
-	 g30E5eptVOqvfhq3Evxjh917Ihr9ocZ8mQzpZwpHNPtM6Wk+ZLI1xUih4xSbZDjRQO
-	 kI7UmHG1/8EQTFmcXJ8vowsTJAmfHR2hx8OG2hNY=
-Date: Wed, 7 Aug 2024 12:48:56 +0200
-From: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-To: Johan Hovold <johan@kernel.org>
-Cc: linux-usb@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: Re: [GIT PULL] USB-serial fix for 6.11-rc2
-Message-ID: <2024080749-corrode-displace-d9bd@gregkh>
-References: <Zqzlq_8Cg8KnUwL_@hovoldconsulting.com>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Mgof+KZ4"
+Received: by smtp.kernel.org (Postfix) with ESMTPS id E57E8C32782
+	for <linux-usb@vger.kernel.org>; Wed,  7 Aug 2024 12:28:00 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1723033680;
+	bh=2c86oVu0v5/T41rbnSlSKPtc+eDbHpCSaUeDb82MM9Q=;
+	h=From:To:Subject:Date:In-Reply-To:References:From;
+	b=Mgof+KZ4S+FmmYRFx3bgwVm/eQ3bsp7vCRbQZ+ve1VxlPBSPVgKSoUSidpDPN2JBR
+	 8tmQybFDQyXTESwARP5AWs7d5ul0elkjXTIqbxQP6UdMPADSAFBDnYTNMzsQIRuPds
+	 zNIB3EoXud8H+M6V2Tatx0JOBjh6pU1G6aOQ0bT5mvilt2FXgvI1qGuIAOn9ImvpKa
+	 +dGlyn9AU1ZEKvKl5USHDSYrxZOoLxqX5RHkpo30sw9a8T8jIZmhr+RvS/GzhKdmqn
+	 8B1piLkyxb8B12xKN8Ao4tZvwgNQP2Xyy+An5K2uSSIkuboq3un5pZ7Uac/qDMbxPH
+	 yr34AEnbTEGqw==
+Received: by aws-us-west-2-korg-bugzilla-1.web.codeaurora.org (Postfix, from userid 48)
+	id CC84BC53B73; Wed,  7 Aug 2024 12:28:00 +0000 (UTC)
+From: bugzilla-daemon@kernel.org
+To: linux-usb@vger.kernel.org
+Subject: [Bug 219111] Xone:23C mixer not recognized as a 2in/2out device
+Date: Wed, 07 Aug 2024 12:28:00 +0000
+X-Bugzilla-Reason: None
+X-Bugzilla-Type: changed
+X-Bugzilla-Watch-Reason: AssignedTo drivers_usb@kernel-bugs.kernel.org
+X-Bugzilla-Product: Drivers
+X-Bugzilla-Component: USB
+X-Bugzilla-Version: 2.5
+X-Bugzilla-Keywords: 
+X-Bugzilla-Severity: normal
+X-Bugzilla-Who: com+bugzilla-kernel@c-henry.fr
+X-Bugzilla-Status: NEW
+X-Bugzilla-Resolution: 
+X-Bugzilla-Priority: P3
+X-Bugzilla-Assigned-To: drivers_usb@kernel-bugs.kernel.org
+X-Bugzilla-Flags: 
+X-Bugzilla-Changed-Fields: attachments.created
+Message-ID: <bug-219111-208809-ZPcpgaVeUe@https.bugzilla.kernel.org/>
+In-Reply-To: <bug-219111-208809@https.bugzilla.kernel.org/>
+References: <bug-219111-208809@https.bugzilla.kernel.org/>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+X-Bugzilla-URL: https://bugzilla.kernel.org/
+Auto-Submitted: auto-generated
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <Zqzlq_8Cg8KnUwL_@hovoldconsulting.com>
 
-On Fri, Aug 02, 2024 at 03:56:59PM +0200, Johan Hovold wrote:
-> The following changes since commit 8400291e289ee6b2bf9779ff1c83a291501f017b:
-> 
->   Linux 6.11-rc1 (2024-07-28 14:19:55 -0700)
-> 
-> are available in the Git repository at:
-> 
->   https://git.kernel.org/pub/scm/linux/kernel/git/johan/usb-serial.git tags/usb-serial-6.11-rc2
+https://bugzilla.kernel.org/show_bug.cgi?id=3D219111
 
-Pulled and pushed out, thanks.
+--- Comment #32 from CH (com+bugzilla-kernel@c-henry.fr) ---
+Created attachment 306682
+  --> https://bugzilla.kernel.org/attachment.cgi?id=3D306682&action=3Dedit
+Xone 23C Wireshark capture with audio passing through USB
 
-greg k-h
+--=20
+You may reply to this email to add a comment.
+
+You are receiving this mail because:
+You are watching the assignee of the bug.=
