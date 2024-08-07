@@ -1,27 +1,27 @@
 Received: from metis.whiteo.stw.pengutronix.de (metis.whiteo.stw.pengutronix.de [185.203.201.7])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 141DE84A27
-	for <linux-usb@vger.kernel.org>; Wed,  7 Aug 2024 14:37:10 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 89B7084A3E
+	for <linux-usb@vger.kernel.org>; Wed,  7 Aug 2024 14:37:11 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.203.201.7
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1723041432; cv=none; b=jlycO8X/BCBknPVj6tRghQE9I9CeTIpGDPXRWWtT/d0v7PGAFDjcu6Cff1LvBypn1+SQ7hOzYlxwy10HzMN8PpHU/a0XyCmvKLjwyN5UN6j385WKX2U2IIuCG6/hyG/l/wvKFq2Mmye259btT5MdFAjDso5x4ISuA0+1P87Yt38=
+	t=1723041432; cv=none; b=XgD+F7tfpEXwX5kfUwbYQraWBmyLhuMKjFS/fh2hO9AnsvNQYpYEpUoGFdgB6jh3OCuRPPoMe7W7vPJRXNez3hCx1LA53c4MuQIHJljvMsPMZdg2/dAQUOYbq8CiMm8LbKvJaS3vrV9nFNBry4Iqp9StMJiE/otXEgixIr29W0k=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
 	s=arc-20240116; t=1723041432; c=relaxed/simple;
-	bh=/ShUO5gWWyQPEk/n/IYfO27GTJqaZHpFeEF6y5w9DLs=;
-	h=From:Subject:Date:Message-Id:MIME-Version:Content-Type:To:Cc; b=knDNUeEl15/BBByuCKF4R6y97nNwQePXsLNyqhqZaymkZQ1QFynF0mVO4ob/3bW+MHz+HKuQmwR7Z5sTLsgzT+AJxizIqRixKWiBl8OwzVrDULsPfeD7uyu+vn5jM4kqj1MRJu76fzTfKS6Fjnxmnb8166PBBC5Zpcv22un+mMk=
+	bh=CWu6UEBdQE6dgCfX+/gjSRxyG/gDmW37Og5SPgZMvRc=;
+	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
+	 In-Reply-To:To:Cc; b=jVHL0VFGaPNl9wusqw3mVZQVMrx0ngHMN+/Ss6XQzs7m7llt0xREzch95Dwk2IFO5WZWgQCDLt+/Qt85Rxlfy4GD6ONiK6LhtL4nPcqCgzL1zlTksAjv4y055WEB3H9bwErOGxxvvpds31NLDKiz0h1eg3REW0Euj7pKjE5/m2E=
 ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=pengutronix.de; spf=pass smtp.mailfrom=pengutronix.de; arc=none smtp.client-ip=185.203.201.7
 Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=pengutronix.de
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=pengutronix.de
 Received: from dude02.red.stw.pengutronix.de ([2a0a:edc0:0:1101:1d::28])
 	by metis.whiteo.stw.pengutronix.de with esmtp (Exim 4.92)
 	(envelope-from <m.felsch@pengutronix.de>)
-	id 1sbhme-0004Iv-G5; Wed, 07 Aug 2024 16:37:00 +0200
+	id 1sbhme-0004Iv-LG; Wed, 07 Aug 2024 16:37:00 +0200
 From: Marco Felsch <m.felsch@pengutronix.de>
-Subject: [PATCH 0/3] External VBUS port power handling for onboard USB
- devices
-Date: Wed, 07 Aug 2024 16:36:50 +0200
-Message-Id: <20240807-b4-v6-10-topic-usb-onboard-dev-v1-0-f33ce21353c9@pengutronix.de>
+Date: Wed, 07 Aug 2024 16:36:52 +0200
+Subject: [PATCH 2/3] dt-bindings: usb: microchip,usb2514: add support for
+ port vbus-supply
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
@@ -30,9 +30,9 @@ List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-X-B4-Tracking: v=1; b=H4sIAIOGs2YC/x3NywqDMBBG4VeRWfvDGIKXvkpxYczYziaRRENBf
- PcGl9/mnIuyJJVMr+aiJEWzxlDRtQ2t3yV8BOqrybCxPPIAZ1F6dIwj7rrizA4xuLgkDy8FdmL
- Lw2i82SaqkT3Jpr9n8J7v+w/z3qe+cAAAAA==
+Message-Id: <20240807-b4-v6-10-topic-usb-onboard-dev-v1-2-f33ce21353c9@pengutronix.de>
+References: <20240807-b4-v6-10-topic-usb-onboard-dev-v1-0-f33ce21353c9@pengutronix.de>
+In-Reply-To: <20240807-b4-v6-10-topic-usb-onboard-dev-v1-0-f33ce21353c9@pengutronix.de>
 To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>, 
  Matthias Kaehlcke <mka@chromium.org>, Rob Herring <robh@kernel.org>, 
  Krzysztof Kozlowski <krzk+dt@kernel.org>, 
@@ -47,37 +47,34 @@ X-SA-Exim-Mail-From: m.felsch@pengutronix.de
 X-SA-Exim-Scanned: No (on metis.whiteo.stw.pengutronix.de); SAEximRunCond expanded to false
 X-PTX-Original-Recipient: linux-usb@vger.kernel.org
 
-Hi,
-
-some PCB designs don't connect the USB hub port power line to the
-dedicated hub port power pin. Instead they use a host controllable GPIO
-line to enable the VBUS power.
-
-This patchset addresses this use-case by hooking into the
-usb_clear/set_port_feature() function and call the usb-onboard-dev hook
-if available. The usb-onboard-dev driver is taking care of the rest.
-
-Regards,
-  Marco
+Some PCB designs don't connect the USB hub port power control GPIO and
+instead make use of an host controllable regulator. Add support for this
+use-case by introducing an portX-vbus-supply property.
 
 Signed-off-by: Marco Felsch <m.felsch@pengutronix.de>
 ---
-Marco Felsch (3):
-      usb: hub: add infrastructure to pass onboard_dev port features
-      dt-bindings: usb: microchip,usb2514: add support for port vbus-supply
-      usb: misc: onboard_dev: add ext-vbus-supply handling
+ Documentation/devicetree/bindings/usb/microchip,usb2514.yaml | 7 +++++++
+ 1 file changed, 7 insertions(+)
 
- .../devicetree/bindings/usb/microchip,usb2514.yaml |  7 ++
- drivers/usb/core/hub.c                             | 22 ++++++-
- drivers/usb/misc/onboard_usb_dev.c                 | 76 ++++++++++++++++++++++
- drivers/usb/misc/onboard_usb_dev.h                 |  2 +
- include/linux/usb/onboard_dev.h                    |  6 ++
- 5 files changed, 111 insertions(+), 2 deletions(-)
----
-base-commit: 0c3836482481200ead7b416ca80c68a29cfdaabd
-change-id: 20240807-b4-v6-10-topic-usb-onboard-dev-49040782d2f9
+diff --git a/Documentation/devicetree/bindings/usb/microchip,usb2514.yaml b/Documentation/devicetree/bindings/usb/microchip,usb2514.yaml
+index 783c27591e56..51d02c4b8f2d 100644
+--- a/Documentation/devicetree/bindings/usb/microchip,usb2514.yaml
++++ b/Documentation/devicetree/bindings/usb/microchip,usb2514.yaml
+@@ -35,6 +35,13 @@ required:
+   - compatible
+   - reg
+ 
++patternProperties:
++  "^port[1-7]-vbus-supply$"
++    type: object
++    description:
++      Regulator controlling the USB VBUS on portX. Only required if the host
++      controls the portX VBUS.
++
+ unevaluatedProperties: false
+ 
+ examples:
 
-Best regards,
 -- 
-Marco Felsch <m.felsch@pengutronix.de>
+2.39.2
 
