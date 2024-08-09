@@ -1,60 +1,35 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.12])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5395E194A5A
-	for <linux-usb@vger.kernel.org>; Fri,  9 Aug 2024 12:42:30 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.12
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CD4CD17BBF;
+	Fri,  9 Aug 2024 13:00:41 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1723207351; cv=none; b=CZvgZ+WtrgImtuYAOhBDsqKTu3SuQlx6L8C7e5lcay+jiArB3eyavp1h7udKb3YnxQeKt0X8dQHzkRVmeep1UISP5IUlHOJSMwmKI5sWar7c8P6kerxHT0VZGU2UDIHascxbU46KzKTryPp5X6jqIv7Xpp1ePNKyiVXUAmlThf8=
+	t=1723208441; cv=none; b=RP2vEw2nYF33jx4oy00tU6U/RKacgKbiSRKQThv+ShP2Nn6sHGXLdibaQePnTSa+LGf+woiPCxpTfKfBui37kECNvjSQ1G9Ye5kGf3e563gACS2822nqDVTssf+wsbGUQN3v4UKl2w+sn5hZPgYnLbPdzkd9JNQ6QlMMXIqJm84=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1723207351; c=relaxed/simple;
-	bh=/tgxg9Rz9lLOKJNNeC9Ad+nzDvDpm+GDVGMfJrFQD/g=;
-	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
-	 MIME-Version; b=g7giYSDPaZDyCqoikF53HN8Ta2SsNUV7aY/HBrPskcRDPfmzpM4UBbZSDKvQvh+j+Bb57/jc7gr+kQpNd2IQlzP58YsufVNvjRrPw3c9K4zxLwC+aJ3bTtCaAT2lkeAdJqkioA7aNdztnQ/gmoqezENQLpwrXlFxPoaKCXVd3H4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=none smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=duY3yw7Y; arc=none smtp.client-ip=198.175.65.12
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=linux.intel.com
+	s=arc-20240116; t=1723208441; c=relaxed/simple;
+	bh=21VXCce4FRAD2HtdIALdsNGQGA+8k5cDrPR7TjMlA94=;
+	h=Content-Type:MIME-Version:Subject:From:Message-Id:Date:References:
+	 In-Reply-To:To:Cc; b=GDC4WPEI6J0SKwA0si39RMvMDNJjxf0M5r2kb7Imotj8t7s6TsfvPIr9kFOxhgIxPhPhLxOPLT5/3vgUPDzDU3e04yDPp2+EuPVZtW05t1md5VHy4JOqLpXzWBrakVwDPeIkgPJPiNDLlUahWSweYwTT5cOXFUfvMcqXRlYNAKs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=dviP5eN6; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="duY3yw7Y"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1723207350; x=1754743350;
-  h=from:to:cc:subject:date:message-id:in-reply-to:
-   references:mime-version:content-transfer-encoding;
-  bh=/tgxg9Rz9lLOKJNNeC9Ad+nzDvDpm+GDVGMfJrFQD/g=;
-  b=duY3yw7YD0AaMhnkDNMrOwZu6sRgsx+tr2Qxee5qDSv2RoXE+H1/2ltX
-   xUu4P/U2U4mUof6ix0uU8wWQNaQTewz1K8v60sy4p9Gr1vWU8Cx78a1Le
-   ttttC87pE7jEBT1vgsO0K73KIIlVHh/sCQrvnAj16VB2ZfkPrW8w0G8KP
-   uQOK+gkCz21RrwlxPTagIJ+gtK+X1bR9EYah9S9+nqUvzfkGQiUN1aYds
-   T622o/KD7Ak6iN7Y+IKnexSTE5gBNDbx06ydl/mwUgopmXjwbI7JRQpzI
-   8PKu3qMqm0M1RSZTtYyS8stWjM1ytPPghyxU+aO4CAsIR3C57ksTfgVJ5
-   w==;
-X-CSE-ConnectionGUID: V1Y1B3GWTzaL8szVcS83QQ==
-X-CSE-MsgGUID: SzzLCzCIQdKMhPsp0ybuiA==
-X-IronPort-AV: E=McAfee;i="6700,10204,11158"; a="32768618"
-X-IronPort-AV: E=Sophos;i="6.09,276,1716274800"; 
-   d="scan'208";a="32768618"
-Received: from orviesa009.jf.intel.com ([10.64.159.149])
-  by orvoesa104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 09 Aug 2024 05:42:30 -0700
-X-CSE-ConnectionGUID: IWus64/sSousJdgDTUkFkw==
-X-CSE-MsgGUID: eV9iidRrSeehjq79aCd5Zw==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.09,276,1716274800"; 
-   d="scan'208";a="57473989"
-Received: from mattu-haswell.fi.intel.com ([10.237.72.199])
-  by orviesa009.jf.intel.com with ESMTP; 09 Aug 2024 05:42:28 -0700
-From: Mathias Nyman <mathias.nyman@linux.intel.com>
-To: <gregkh@linuxfoundation.org>
-Cc: <linux-usb@vger.kernel.org>,
-	Niklas Neronin <niklas.neronin@linux.intel.com>,
-	Michal Pecio <michal.pecio@gmail.com>,
-	Mathias Nyman <mathias.nyman@linux.intel.com>
-Subject: [PATCH 2/2] usb: xhci: fix duplicate stall handling in handle_tx_event()
-Date: Fri,  9 Aug 2024 15:44:08 +0300
-Message-Id: <20240809124408.505786-3-mathias.nyman@linux.intel.com>
-X-Mailer: git-send-email 2.25.1
-In-Reply-To: <20240809124408.505786-1-mathias.nyman@linux.intel.com>
-References: <20240809124408.505786-1-mathias.nyman@linux.intel.com>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="dviP5eN6"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 4D957C32782;
+	Fri,  9 Aug 2024 13:00:41 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1723208441;
+	bh=21VXCce4FRAD2HtdIALdsNGQGA+8k5cDrPR7TjMlA94=;
+	h=Subject:From:Date:References:In-Reply-To:To:Cc:From;
+	b=dviP5eN699ugLTjmIE0ZjJ9dyMQchKlK5TW2rxvPnnmW4c/7Yz9RT9paPU9b4KK4u
+	 wMq15niT073Zan6buPaTlXKkL9RLE4/p+fzapGKXlOQr93Ht3CKDbWmkGSxGHB01Mi
+	 hl+X/WmJCkv4xXXXMQ6PK53e4MNoQK0ZpjF3JcXMYlf9aXAyZqnaJTBYOdQoK+UfDR
+	 L1biV78RARx8IdkwHn9gapMpU5O8TsDxa+s1YUHqrXT3r+3aZQnfLM+I1DGRIibe5J
+	 r4/cxd8tpJEMhINIJmKCbO2aOhlo7ldB8ODGZONHO3hGlZbKjIP4lrtmcoY/Jjqn8e
+	 J/szlDEAssMvQ==
+Received: from [10.30.226.235] (localhost [IPv6:::1])
+	by aws-us-west-2-korg-oddjob-rhel9-1.codeaurora.org (Postfix) with ESMTP id 71594382333D;
+	Fri,  9 Aug 2024 13:00:41 +0000 (UTC)
+Content-Type: text/plain; charset="utf-8"
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
@@ -62,34 +37,50 @@ List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
+Subject: Re: [PATCH net-next 1/5] usbnet: ipheth: race between ipheth_close and
+ error handling
+From: patchwork-bot+netdevbpf@kernel.org
+Message-Id: 
+ <172320844026.3782387.2037318141249570355.git-patchwork-notify@kernel.org>
+Date: Fri, 09 Aug 2024 13:00:40 +0000
+References: <20240806172809.675044-1-forst@pen.gy>
+In-Reply-To: <20240806172809.675044-1-forst@pen.gy>
+To: Foster Snowhill <forst@pen.gy>
+Cc: davem@davemloft.net, edumazet@google.com, kuba@kernel.org,
+ pabeni@redhat.com, gvalkov@gmail.com, oneukum@suse.com,
+ netdev@vger.kernel.org, linux-usb@vger.kernel.org
 
-From: Niklas Neronin <niklas.neronin@linux.intel.com>
+Hello:
 
-Stall handling is managed in the 'process_*' functions, which are called
-right before the 'goto' stall handling code snippet. Thus, there should
-be a return after the 'process_*' functions. Otherwise, the stall code may
-run twice.
+This series was applied to netdev/net.git (main)
+by David S. Miller <davem@davemloft.net>:
 
-Fixes: 1b349f214ac7 ("usb: xhci: add 'goto' for halted endpoint check in handle_tx_event()")
-Reported-by: Michal Pecio <michal.pecio@gmail.com>
-Signed-off-by: Niklas Neronin <niklas.neronin@linux.intel.com>
-Signed-off-by: Mathias Nyman <mathias.nyman@linux.intel.com>
----
- drivers/usb/host/xhci-ring.c | 1 +
- 1 file changed, 1 insertion(+)
+On Tue,  6 Aug 2024 19:28:05 +0200 you wrote:
+> From: Oliver Neukum <oneukum@suse.com>
+> 
+> ipheth_sndbulk_callback() can submit carrier_work
+> as a part of its error handling. That means that
+> the driver must make sure that the work is cancelled
+> after it has made sure that no more URB can terminate
+> with an error condition.
+> 
+> [...]
 
-diff --git a/drivers/usb/host/xhci-ring.c b/drivers/usb/host/xhci-ring.c
-index b7517c3c8059..4ea2c3e072a9 100644
---- a/drivers/usb/host/xhci-ring.c
-+++ b/drivers/usb/host/xhci-ring.c
-@@ -2910,6 +2910,7 @@ static int handle_tx_event(struct xhci_hcd *xhci,
- 		process_isoc_td(xhci, ep, ep_ring, td, ep_trb, event);
- 	else
- 		process_bulk_intr_td(xhci, ep, ep_ring, td, ep_trb, event);
-+	return 0;
- 
- check_endpoint_halted:
- 	if (xhci_halted_host_endpoint(ep_ctx, trb_comp_code))
+Here is the summary with links:
+  - [net-next,1/5] usbnet: ipheth: race between ipheth_close and error handling
+    https://git.kernel.org/netdev/net/c/e5876b088ba0
+  - [net-next,2/5] usbnet: ipheth: remove extraneous rx URB length check
+    https://git.kernel.org/netdev/net/c/655b46d7a39a
+  - [net-next,3/5] usbnet: ipheth: drop RX URBs with no payload
+    https://git.kernel.org/netdev/net/c/94d7eeb6c0ef
+  - [net-next,4/5] usbnet: ipheth: do not stop RX on failing RX callback
+    https://git.kernel.org/netdev/net/c/74efed51e0a4
+  - [net-next,5/5] usbnet: ipheth: fix carrier detection in modes 1 and 4
+    https://git.kernel.org/netdev/net/c/67927a1b255d
+
+You are awesome, thank you!
 -- 
-2.25.1
+Deet-doot-dot, I am a bot.
+https://korg.docs.kernel.org/patchwork/pwbot.html
+
 
