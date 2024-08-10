@@ -1,37 +1,37 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9C4A81366
-	for <linux-usb@vger.kernel.org>; Sat, 10 Aug 2024 17:10:07 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E997D1CAAC
+	for <linux-usb@vger.kernel.org>; Sat, 10 Aug 2024 17:19:37 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1723309807; cv=none; b=F43AmVaOv0MiAQvNYI1YCezv+VLstzo96oGi/hW479dKMlEI5HW9ut2toCVcAuGEfZmDTadi+rmtrJ5nEvF4bR5VYplS4ANVXXRF6ROW8xP7cH9py0hCszOhLvQffBDPt4QHtNx75UpLnafh5+tBZKQx0lJJ+PY0r9e46eB7SMg=
+	t=1723310378; cv=none; b=RK0Y5HtZEp+LtvascQgF3Ei1DsmUyBa+9tBI3zYJ/DkflS38LlMOfpcLz8/d+R95CU4WCQWgOubBT6bmzEQo0Egu8oc2VTcljSj4fLTq+8iau/uH542uGPuQR1W+Tz9dSbZegSn8gq74XAdsew5q5qRam9lSGfqkxSb5JjGk9FI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1723309807; c=relaxed/simple;
-	bh=y5K2NGEASZdpj/OpvYGsRrjDbYlBIfyRz2RQ7hjkQZI=;
+	s=arc-20240116; t=1723310378; c=relaxed/simple;
+	bh=TFdUwH6v3yaRScRkj2MpHmr+y6tIVMSgSSL7ABU3Nhc=;
 	h=From:To:Subject:Date:Message-ID:In-Reply-To:References:
-	 Content-Type:MIME-Version; b=AjbFJnrQB3tVngW//S54To3HnI2/zZBiYRO6IygORjKhuG8KHG+8hT+e0WDtZCIir7IHYPb9f3XG8DJqjrmuLMs/zbNOeCM5y0j64GQ3PEAqIsMvO1QNe3dYpLztLbMb+VnAOZ0I1HMohbCe2oGul0gabwqyAbgjX4wg10L2P84=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=P5waRhzr; arc=none smtp.client-ip=10.30.226.201
+	 Content-Type:MIME-Version; b=d+7afgU+3og3KHYklkHfp//H97mETv/BZoHGcP4JtJ/0zshzARang15Yk+UlUSEI8wbLWrENn64m+X2m+SHTxgueHzVAcP1uvR2P7OGnofjF+ANJRy+K3XljvZz+8O+ht0LFtLdvfxaSEtQu57TvOPJ6np6ZzEJA8VYPGdqBEUA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Ybl2hXWA; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="P5waRhzr"
-Received: by smtp.kernel.org (Postfix) with ESMTPS id 1271AC32781
-	for <linux-usb@vger.kernel.org>; Sat, 10 Aug 2024 17:10:07 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Ybl2hXWA"
+Received: by smtp.kernel.org (Postfix) with ESMTPS id 7266BC32781
+	for <linux-usb@vger.kernel.org>; Sat, 10 Aug 2024 17:19:37 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1723309807;
-	bh=y5K2NGEASZdpj/OpvYGsRrjDbYlBIfyRz2RQ7hjkQZI=;
+	s=k20201202; t=1723310377;
+	bh=TFdUwH6v3yaRScRkj2MpHmr+y6tIVMSgSSL7ABU3Nhc=;
 	h=From:To:Subject:Date:In-Reply-To:References:From;
-	b=P5waRhzr9GajD5ABtnwGOidd61ahhEBO6LMT6TTy6FkGAat/ua8ZSxiev8o4XpHcP
-	 ZXPsbbrkVmpp587dq1Jn1BsMl7I2PtBAHodtxOJta1DYoez3ryH6QurKYzzCwqe7AM
-	 r4NzD6b8aWWldmzIMTEmMNa8eCmtWnywDbN5siaYLwqKpF3ZEDKVDAeErs0xkBh/DK
-	 OPiPjBsj1QC1F2YfUw9f+W7Dlh+hrbipXkPuFzh8mheXSidRTDha1Iwi8/HMJQNOtH
-	 zJPG+8pvrJk+hBwgMK99ulbSpldHjeL/H4rDI7EnbqScRJc9FehYrjZFtOfS2NzGjM
-	 3vcEjImWjZOzg==
+	b=Ybl2hXWA04LDA6csqOrfsZa26V6fPxJiW/niXYUfdbeDtOKlKDi9vhJSt58sZvPPQ
+	 twtb8iJly51BfdTD7/g+EHqFHkdlGZlQzL7KZXORuWByxEGyoQEMHnLLUWbmMcyXkC
+	 mtljJvlJEUUrFRY/f21bfEI8m25J1cyFxkwBcYhmlFV9kFzaV0UlgBmGxgXPEEM2ce
+	 YGvzpHFJaKFv5CWUYw/SBnbRo2Lb3nXdsDW83vhkigeraBqzOrWZ0hBhAwLQdgfoUH
+	 W+mjDEUMwOm8PlGRPY/6ydSQJEW4Dq15Bt7ucHOHs+HTrvVvTT4zy9NH5LqWHPzuPv
+	 UiXpEoo69hrsQ==
 Received: by aws-us-west-2-korg-bugzilla-1.web.codeaurora.org (Postfix, from userid 48)
-	id 0AA4DC53B50; Sat, 10 Aug 2024 17:10:07 +0000 (UTC)
+	id 6225EC53B73; Sat, 10 Aug 2024 17:19:37 +0000 (UTC)
 From: bugzilla-daemon@kernel.org
 To: linux-usb@vger.kernel.org
 Subject: [Bug 219111] Xone:23C mixer not recognized as a 2in/2out device
-Date: Sat, 10 Aug 2024 17:10:06 +0000
+Date: Sat, 10 Aug 2024 17:19:37 +0000
 X-Bugzilla-Reason: None
 X-Bugzilla-Type: changed
 X-Bugzilla-Watch-Reason: AssignedTo drivers_usb@kernel-bugs.kernel.org
@@ -46,8 +46,8 @@ X-Bugzilla-Resolution:
 X-Bugzilla-Priority: P3
 X-Bugzilla-Assigned-To: drivers_usb@kernel-bugs.kernel.org
 X-Bugzilla-Flags: 
-X-Bugzilla-Changed-Fields: attachments.created
-Message-ID: <bug-219111-208809-i6RAfrSjR0@https.bugzilla.kernel.org/>
+X-Bugzilla-Changed-Fields: 
+Message-ID: <bug-219111-208809-Yk8zRmvOw6@https.bugzilla.kernel.org/>
 In-Reply-To: <bug-219111-208809@https.bugzilla.kernel.org/>
 References: <bug-219111-208809@https.bugzilla.kernel.org/>
 Content-Type: text/plain; charset="UTF-8"
@@ -63,15 +63,12 @@ MIME-Version: 1.0
 
 https://bugzilla.kernel.org/show_bug.cgi?id=3D219111
 
---- Comment #53 from CH (com+bugzilla-kernel@c-henry.fr) ---
-Created attachment 306709
-  --> https://bugzilla.kernel.org/attachment.cgi?id=3D306709&action=3Dedit
-Second try to capture USB packets on Windows with Wireshark
-
-Ok, I really think I messed up the first Wireshark capture and I captured
-something else. This capture seems to make much more sense as I can see the
-device identify itself as an Allen&Heath product. Tell me if t provides more
-useful informations.
+--- Comment #54 from CH (com+bugzilla-kernel@c-henry.fr) ---
+I think I can see from this capture that it still declares
+`bConfigurationValue` =3D=3D 1 but also declares several interfaces in the =
+GET
+DESCRIPTOR Response CONFIRURATION packet of size 322. What does it declare
+here?
 
 --=20
 You may reply to this email to add a comment.
