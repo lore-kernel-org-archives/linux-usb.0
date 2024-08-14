@@ -1,168 +1,189 @@
-Received: from DUZPR83CU001.outbound.protection.outlook.com (mail-northeuropeazon11013030.outbound.protection.outlook.com [52.101.67.30])
+Received: from mx07-00178001.pphosted.com (mx07-00178001.pphosted.com [185.132.182.106])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2CAC31B580C;
-	Wed, 14 Aug 2024 15:44:47 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=52.101.67.30
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1723650290; cv=fail; b=fzXEgYfHAo5CAeamKaNZaL3kY86oYDS8qKnUSCUHjbTovpSeVj02kNHWfkf2SQd7rlCM3UTc0V7W/6XjxZqiaPAJu1mkTdxtVkywkI+J/FOUCRnqlTn7a0e6jNvDvjw+Zf/ndNlCKzqnyGzTEJ/FF53DmyX1k+Y21ytWSCz3Tq4=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1723650290; c=relaxed/simple;
-	bh=woZSqDmjJQx7PoyfnCcDpVIGsXLmHOfOPJ3r+fk5RvQ=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:Content-Type:
-	 Content-Disposition:In-Reply-To:MIME-Version; b=eBIp4M+9lsSfqFMwwHo9AB9V27D4EtCCw33NMMm0J60Iok2Pkyb/RFd8MVHDxsWouKsTy03WkGMwvb6mnEBdRa0eppKwVgCHlpoPl1iJi2FBgQ+thd5RLiK5I2p9hCkNebZhGbZuOwdskS8dLAKlcjHAzJdskge0W5L1COWPnzA=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=nxp.com; spf=pass smtp.mailfrom=nxp.com; dkim=pass (2048-bit key) header.d=nxp.com header.i=@nxp.com header.b=hjkFdZMq; arc=fail smtp.client-ip=52.101.67.30
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=nxp.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=nxp.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F0FE81B86C5;
+	Wed, 14 Aug 2024 15:45:16 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.132.182.106
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1723650319; cv=none; b=JUI2DrEmxKKerxfHd0IACJ8cDoffuIsVY7SlGoi2kCvnVZ/cvK5euLOVxJR6bEgrJ4LoZH3AAV7v2E5wc4I3kakd7nag7b0mEHdtq4gKQPaS9lqMRx3eJvcOdUez5mEDGDgVDpqDU88Lb9qJrXhnuSc385uRIIcyF+RbCg2TeRk=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1723650319; c=relaxed/simple;
+	bh=VOK51rQInaRB+8P56heJmMpjr/oOkpHVbtHNs07n7Vo=;
+	h=Message-ID:Date:MIME-Version:Subject:To:CC:References:From:
+	 In-Reply-To:Content-Type; b=HKpxbEVjr/DHWQOEDlkOlgeEVOsqDRF7FERc4by2H1Jz1MzOs2jcBNNyDc8GVQAlNiOkpK1ULlwbFMkq9JeeIgoisC9753mfb7g3H605PDJlEHgZx7IkxhQZ/8qWbEFDVuWzqVeZkuJPwRerTEmMJ316m46ArwsvgQ5aLoW4fSk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=foss.st.com; spf=pass smtp.mailfrom=foss.st.com; dkim=pass (2048-bit key) header.d=foss.st.com header.i=@foss.st.com header.b=KjfGOq4W; arc=none smtp.client-ip=185.132.182.106
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=foss.st.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=foss.st.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=nxp.com header.i=@nxp.com header.b="hjkFdZMq"
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=aL8cf9aQMH9uQYEhD5SY0UePy5B3mCD4dnvqZnpEPEiHRTjN5PpzzYc2ifUg3ZGTyiBo+9u/EB1RKrgB6LkF/cAkICy5ZSB6A2XM31s28LlJHSFWf9Z9D5Bjm//j8q4Ggy7o9xxiUuihWOuBQQzrZi9YRF1ke0L2J8ePpIt/uQX2b3HpqS+JuYrXGtMYwv694DOmBNB64r22FRDeZ5sQ6nDsuXWTa6O4OIDRnUE4317NQoF5bKWlwQIYDQbNAjzrzyrTvP1Txev+AgCSNI9cunX0nmK4z2BaMEBaAZE8il1oe1fmj8wyD7FzlR9a2j3V5TJ6CPgadRtXNgYHzxTOxg==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=z66tAmdqhaXuA/F1sFsQJ+tV0ETa593Ad+mpRYypsIo=;
- b=qpo7cdHLhmPwgxCYaU88GcP9Y1DIdM171DgQfOJCgdsNk9n/upq4zZlbWisQzMqVdDLE493DuBI+A3pqSCEynNj4Ai0k2f8/UQUD+xavJxgxpmeCxfpul+waByW5lff3kWxM/q/XVysYBAYO86vyDz98J1TnazBPzeQrtRxCPtHBopUnuPAoWAm+ESmnEfcVQB3yZXojlve76IzQ8BB2fMESqWSMk+6o4pLopKHYkC0+XhF7Ff2T96j7uMJWnTmFOxI97J/1dAhRYwRb6wL3MSYNBP5S1Tqe9jSgYfyVCB8XmNC9YW8IzmMMjiQuh+iVYu2ZxrQuPGpdxNEN5wzIog==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=nxp.com; dmarc=pass action=none header.from=nxp.com; dkim=pass
- header.d=nxp.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nxp.com; s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=z66tAmdqhaXuA/F1sFsQJ+tV0ETa593Ad+mpRYypsIo=;
- b=hjkFdZMqw88GhvhEqdx70PYW5kU2fcj0ZJFyobj64jJxtcjeJpzx/NoGpsusaWn+6ua/bA6IvXbahyXQLnbC0a3UnUUCeGU6eEjvinxygEsc8eaTXXmDlh/tvHcX1BoPMrwKFBp8C8HzDJ0TBngPIcV2Q4Zli1S15i5acU2srYGOxIzbTRl8bE54nTMN1eVvvJ7cYDULVN6ju4hbPNKuJ05lMsMFwyVRG3QV2iIJLU1EIuoXulalH7IUHgo/1xrw1POb8156G698vAFGCdsDFCIvYG/XFm52bBAQbM9ndSKv9nXWG1Yhe0FDSXyO0yGXUdh8q6h02Uj2yA4ukITrHA==
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=nxp.com;
-Received: from PAXPR04MB9642.eurprd04.prod.outlook.com (2603:10a6:102:240::14)
- by DU2PR04MB8534.eurprd04.prod.outlook.com (2603:10a6:10:2d5::14) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7849.22; Wed, 14 Aug
- 2024 15:44:45 +0000
-Received: from PAXPR04MB9642.eurprd04.prod.outlook.com
- ([fe80::9126:a61e:341d:4b06]) by PAXPR04MB9642.eurprd04.prod.outlook.com
- ([fe80::9126:a61e:341d:4b06%3]) with mapi id 15.20.7875.016; Wed, 14 Aug 2024
- 15:44:45 +0000
-Date: Wed, 14 Aug 2024 11:44:36 -0400
-From: Frank Li <Frank.li@nxp.com>
-To: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-Cc: Patrice Chotard <patrice.chotard@foss.st.com>,
-	Thinh Nguyen <Thinh.Nguyen@synopsys.com>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	Shawn Guo <shawnguo@kernel.org>,
-	Sascha Hauer <s.hauer@pengutronix.de>,
-	Pengutronix Kernel Team <kernel@pengutronix.de>,
-	Fabio Estevam <festevam@gmail.com>,
-	Michal Simek <michal.simek@amd.com>,
-	linux-arm-kernel@lists.infradead.org, linux-usb@vger.kernel.org,
-	linux-kernel@vger.kernel.org, imx@lists.linux.dev,
-	linux-arm-msm@vger.kernel.org
-Subject: Re: [PATCH 05/11] usb: dwc3: imx8mp: simplify with dev_err_probe
-Message-ID: <ZrzQ5DQyiD5ytioA@lizhi-Precision-Tower-5810>
-References: <20240814-b4-cleanup-h-of-node-put-usb-v1-0-95481b9682bc@linaro.org>
- <20240814-b4-cleanup-h-of-node-put-usb-v1-5-95481b9682bc@linaro.org>
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20240814-b4-cleanup-h-of-node-put-usb-v1-5-95481b9682bc@linaro.org>
-X-ClientProxiedBy: BYAPR01CA0025.prod.exchangelabs.com (2603:10b6:a02:80::38)
- To PAXPR04MB9642.eurprd04.prod.outlook.com (2603:10a6:102:240::14)
+	dkim=pass (2048-bit key) header.d=foss.st.com header.i=@foss.st.com header.b="KjfGOq4W"
+Received: from pps.filterd (m0241204.ppops.net [127.0.0.1])
+	by mx07-00178001.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 47EDPrk8020431;
+	Wed, 14 Aug 2024 17:44:53 +0200
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=foss.st.com; h=
+	cc:content-transfer-encoding:content-type:date:from:in-reply-to
+	:message-id:mime-version:references:subject:to; s=selector1; bh=
+	qjfOVlwnl6c9puil2K/fu2bDwoc6uOtbnIO/ocPkwzo=; b=KjfGOq4WatLlU4BD
+	H+YEdfM++/JpfcC3zpVH/esTjZ78ngfSRbdGRbFMCSIc9DAgv4F0T5hcJst5ctiA
+	/j34KpULjvu9DnZ7VcjOkakNGvLAk0AHN+yQplXWW4Axe2HGSUoahj+JxJpAwess
+	juCI4NYgGyABtXVE9zH4oXC1TsMIuPsgRHeyWr6SO9qdNqsYeJg2zjhhtk5sDLQJ
+	PKTS4s4ZquGopr68j+urrc25DX79yC/tJAUZacNDOooDPVVPeuTMqAXgrq2jitNR
+	HVIkZN3SyFPnIFXaFeNEzZbNcUByyvNHv2JC8fE/2cHQHBwSFF2OcEyPrM6MKVIj
+	dimr7g==
+Received: from beta.dmz-ap.st.com (beta.dmz-ap.st.com [138.198.100.35])
+	by mx07-00178001.pphosted.com (PPS) with ESMTPS id 40x18mqpxb-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Wed, 14 Aug 2024 17:44:53 +0200 (MEST)
+Received: from euls16034.sgp.st.com (euls16034.sgp.st.com [10.75.44.20])
+	by beta.dmz-ap.st.com (STMicroelectronics) with ESMTP id E719340045;
+	Wed, 14 Aug 2024 17:44:47 +0200 (CEST)
+Received: from Webmail-eu.st.com (shfdag1node1.st.com [10.75.129.69])
+	by euls16034.sgp.st.com (STMicroelectronics) with ESMTP id 5423627E282;
+	Wed, 14 Aug 2024 17:43:55 +0200 (CEST)
+Received: from [10.48.87.62] (10.48.87.62) by SHFDAG1NODE1.st.com
+ (10.75.129.69) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2507.37; Wed, 14 Aug
+ 2024 17:43:54 +0200
+Message-ID: <1ed80a6d-3453-43bc-a008-b4ad21d6d639@foss.st.com>
+Date: Wed, 14 Aug 2024 17:43:53 +0200
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: PAXPR04MB9642:EE_|DU2PR04MB8534:EE_
-X-MS-Office365-Filtering-Correlation-Id: 9289e8d4-0005-4fb7-5280-08dcbc780594
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam:
-	BCL:0;ARA:13230040|366016|1800799024|52116014|376014|7416014|38350700014;
-X-Microsoft-Antispam-Message-Info:
-	bp6uoVWaAJd7O9Oau5w2hoACtpeOcu5zDwl4uRHbWU46m7fQ+i5fYQVTGRhxcisOnTepiOi3q6nD6i/l2ae8xByCwGJ8YHxMsLAZg00Jb6emHw6SRZwJo8LN3tLYs55bhFmjUn7ZkrgQF2qeFAVWYNuXDDBK8lFRuzkrrDEXmWpzW1DNMkEaELGtdVbO1JnirnTXUUdb005n7xJyMNW3N2WM8bK1EGLZ5MVgdsyvyQBAFxHfL7IbRv64lMIy5dLUbYASApwS2tiOkZPiCHCapfqIWo4ylFHh0M1Q+62unfPif/cXDEmEmSroXXThXcpFOTNb7s6MUVBlkz8BiyuQ2iA+edqltMWKvUtsLdakuWzPW63UrMjGlVBdRiYerunCs4s0BPcpG/idx4dK6iDTsiZ15DYlodBg6QJo0VgTxz/VyY5ZfDI2UQYcPZcsurvNF5Or/t7NLy3dbSZ3Yx7lhnPEJjMHCDEc5SJzaZ18rP4xnM9ZISgxwjA6as5nSTKWKYOblKqv8AWTN01YTkXKF5O4qkAAByncbtQcjjcyc6Zm/5Pkw0bNtdoNUGY9A7yJGWI/2vbIHltALiLJqRFhrNuVbnsCvJ8qSU5c/7w4szd7Pvw6Llx/OjWiQJbsDfmgYfWZqZ5qwSvKMkQ9KcnGOktLPzqqcyyP6dhaAchQTrIRzcXByrGkbumOEeiUNk42yfxA8XwTI7zBfYDu01Fz61qJXDe3Gus1rRCJJxZ6RLY=
-X-Forefront-Antispam-Report:
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:PAXPR04MB9642.eurprd04.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(366016)(1800799024)(52116014)(376014)(7416014)(38350700014);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0:
-	=?us-ascii?Q?6BHCXuKo8yibfAyPG97+S0EE430JgYizfhr/T4PLsz1PctK+Bog8CvOIKPJM?=
- =?us-ascii?Q?8vDrYKvq9vDzd+jOLzyZsZLsPr2wQDkJbEDUHGSIQqr4Eo/PG2ix87mkPv5a?=
- =?us-ascii?Q?Z1BjIztRbVZFR261gEwb9fr5TYGgG0kzrsfQqqMnQSmQVgoa7qL5HE3BmEXz?=
- =?us-ascii?Q?YD7VI9ybF+75eYWFbijfms12B+Bzmox1oK2hly8irKH1GP49oc9/uoQ1mtlt?=
- =?us-ascii?Q?MgyTLL43jHXgbTJYpivayHBlOnd6R33wbM9ZV/t/M4h1MUzr67ZNY+9RkMTZ?=
- =?us-ascii?Q?2E3WBgPYJ/Agglep0wKSSTKm2loTv4QF7ZDUlKPwJ7pdgyfGU/hZiz5C1cw6?=
- =?us-ascii?Q?wWGsmLsxTeYtz1OJN18wCBGr3C932ZS0qjFE6wSSDtviICwMb9BQUE3/KHaT?=
- =?us-ascii?Q?zMwWSg76ykRGROf/nsl92IgjhlX8jciQ+WzcSfjHrMG28MpuWcUoIWItMWAC?=
- =?us-ascii?Q?3B3921P8rI2kBY/AWH7q8/oFK8BbMo/Zp+/hBr5ANfixSQdzEE/RCEcII2n0?=
- =?us-ascii?Q?Uo6rYGDNz8miLX7Yp6WfqsMTieeSP5TmXZgtJXOk+Ry3gZOk5yp2du5XNIX3?=
- =?us-ascii?Q?f9qnMOQenNnRS/N7kXb2+LSCBM/s8GyS646Kr3spXdTgERAn4kk6QMotlcO+?=
- =?us-ascii?Q?BzGM49l9qdxHU+ewrU+U+PZ873NvvYUeq/fE9qtxHu2WrxzlNaNDq3yiAR+Q?=
- =?us-ascii?Q?y1DGtWVLK/YF23Sa/NArBdFhYPD2LcEYKQOVp5Bz00oLKI5wGrw70vji3Lm0?=
- =?us-ascii?Q?EkNH8OPT1Km9plKxXoFU5ZiRjKkEl4MO9ez3ZQK8t6Rx/8aDLmLBJstqpFJt?=
- =?us-ascii?Q?+yWV14DszLXvmJuzHTkfEFWvG72+ftw+0vYWCGFQlvwR4jRH0Ptnc4/49q/v?=
- =?us-ascii?Q?Hc8RW6Yl6XEBDMDkfJDjsbbNTwuwCq8+SORLMLGU77sBSBRp44WNL79yidf3?=
- =?us-ascii?Q?GXB7klOhdVcG61TsUdPehjtf7ZzIvEq8ogZzOlO/8c+0Wra3H+YwRJkAgYhG?=
- =?us-ascii?Q?aBiJoTVvHKJXOsWmbq2RzkeOAWqjlJVtxhz5b0H6PJ36xNVgtVbkEuaHtpr6?=
- =?us-ascii?Q?B0oi+36W3vS6IR80HdJS1GVD/CRSQSxw0R8vLnb2CE3DSjotNsW0AetNZdHe?=
- =?us-ascii?Q?XoRqnynfrPiqPXZcNpX2s9yRzV5nFgkP+hzNlIXP2QgZjA6MiWzKQUDRv598?=
- =?us-ascii?Q?VJwv+y1et6XxEJ17MNBGGwUfHhe4SCIalVVfYlCu5QSV+vwTgcGBDmyioqys?=
- =?us-ascii?Q?fCcQHZ/c9uad+ce17t3Jb1ZNXwDQASa/V4vke7nr3TR6go7lguc9u80HXcZv?=
- =?us-ascii?Q?16iPX+HhkrF2jSQgRENgLp9UcSgfBxc2SACIjMtpmvtJn6mZ+MWI7Z5VIzfJ?=
- =?us-ascii?Q?3Ghz7vA4lqFFXHcZbcnqh9R5U7nrdRbsR4FnWKyFwzWh5r1L+WAc0BjrbLO0?=
- =?us-ascii?Q?wEZUV8ouqj1x9k0h/qarZxRO+cPcOol9WIDnJ7TxUoma5w1OxpptNHz60Er4?=
- =?us-ascii?Q?UXEdptUOsK6TPQJFEqJ7P5kbeCMNr3oFJGh1p28krrzkzn5jKrQnPnJmS4oD?=
- =?us-ascii?Q?1fgFHVpSPh3gyQLzNulHMAfn9ngW/XIvqPehC5p3?=
-X-OriginatorOrg: nxp.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 9289e8d4-0005-4fb7-5280-08dcbc780594
-X-MS-Exchange-CrossTenant-AuthSource: PAXPR04MB9642.eurprd04.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 14 Aug 2024 15:44:45.6815
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 686ea1d3-bc2b-4c6f-a92c-d99c5c301635
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: bxmJSDQYqy0xNlTvRKBKoODUHb+ghOtBVFYstWCU3A/MWfE6SnQM2GF5FVOEg9ezVAE8fl2MgK89N1jmFVgonA==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: DU2PR04MB8534
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH 01/11] usb: dwc3: st: use scoped device node handling to
+ simplify error paths
+To: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>,
+        Thinh Nguyen
+	<Thinh.Nguyen@synopsys.com>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Shawn Guo <shawnguo@kernel.org>, Sascha Hauer <s.hauer@pengutronix.de>,
+        Pengutronix Kernel Team <kernel@pengutronix.de>,
+        Fabio Estevam
+	<festevam@gmail.com>,
+        Michal Simek <michal.simek@amd.com>
+CC: <linux-arm-kernel@lists.infradead.org>, <linux-usb@vger.kernel.org>,
+        <linux-kernel@vger.kernel.org>, <imx@lists.linux.dev>,
+        <linux-arm-msm@vger.kernel.org>
+References: <20240814-b4-cleanup-h-of-node-put-usb-v1-0-95481b9682bc@linaro.org>
+ <20240814-b4-cleanup-h-of-node-put-usb-v1-1-95481b9682bc@linaro.org>
+Content-Language: en-US
+From: Patrice CHOTARD <patrice.chotard@foss.st.com>
+In-Reply-To: <20240814-b4-cleanup-h-of-node-put-usb-v1-1-95481b9682bc@linaro.org>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
+X-ClientProxiedBy: SHFCAS1NODE1.st.com (10.75.129.72) To SHFDAG1NODE1.st.com
+ (10.75.129.69)
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1039,Hydra:6.0.680,FMLib:17.12.28.16
+ definitions=2024-08-14_11,2024-08-13_02,2024-05-17_01
 
-On Wed, Aug 14, 2024 at 12:35:41PM +0200, Krzysztof Kozlowski wrote:
-> Use dev_err_probe() to make the error paths a bit simpler.
->
+
+
+On 8/14/24 12:35, Krzysztof Kozlowski wrote:
+> Obtain the device node reference with scoped/cleanup.h to reduce error
+> handling and make the code a bit simpler.  Scoped/cleanup.h coding style
+> expects variable declaration with initialization, so the
+> of_get_compatible_child() call has to be moved earlier, before any goto
+> jumps happen.
+> 
 > Signed-off-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-
-Reviewed-by: Frank Li <Frank.Li@nxp.com>
-
+> 
 > ---
->  drivers/usb/dwc3/dwc3-imx8mp.c | 16 ++++++----------
->  1 file changed, 6 insertions(+), 10 deletions(-)
->
-> diff --git a/drivers/usb/dwc3/dwc3-imx8mp.c b/drivers/usb/dwc3/dwc3-imx8mp.c
-> index 8c91e595d3b9..869b5e7c15ed 100644
-> --- a/drivers/usb/dwc3/dwc3-imx8mp.c
-> +++ b/drivers/usb/dwc3/dwc3-imx8mp.c
-> @@ -179,18 +179,14 @@ static int dwc3_imx8mp_probe(struct platform_device *pdev)
+> 
+> This depends on my earlier fix:
+> https://lore.kernel.org/all/20240814093957.37940-2-krzysztof.kozlowski@linaro.org/
+> ---
+>  drivers/usb/dwc3/dwc3-st.c | 25 +++++++++++--------------
+>  1 file changed, 11 insertions(+), 14 deletions(-)
+> 
+> diff --git a/drivers/usb/dwc3/dwc3-st.c b/drivers/usb/dwc3/dwc3-st.c
+> index c8c7cd0c1796..98f43d7082d7 100644
+> --- a/drivers/usb/dwc3/dwc3-st.c
+> +++ b/drivers/usb/dwc3/dwc3-st.c
+> @@ -14,6 +14,7 @@
+>   * Inspired by dwc3-omap.c and dwc3-exynos.c.
+>   */
+>  
+> +#include <linux/cleanup.h>
+>  #include <linux/delay.h>
+>  #include <linux/interrupt.h>
+>  #include <linux/io.h>
+> @@ -197,7 +198,7 @@ static int st_dwc3_probe(struct platform_device *pdev)
+>  	struct st_dwc3 *dwc3_data;
+>  	struct resource *res;
+>  	struct device *dev = &pdev->dev;
+> -	struct device_node *node = dev->of_node, *child;
+> +	struct device_node *node = dev->of_node;
+>  	struct platform_device *child_pdev;
+>  	struct regmap *regmap;
+>  	int ret;
+> @@ -227,6 +228,13 @@ static int st_dwc3_probe(struct platform_device *pdev)
+>  	dev_vdbg(&pdev->dev, "glue-logic addr 0x%pK, syscfg-reg offset 0x%x\n",
+>  		 dwc3_data->glue_base, dwc3_data->syscfg_reg_off);
+>  
+> +	struct device_node *child __free(device_node) = of_get_compatible_child(node,
+> +										"snps,dwc3");
+> +	if (!child) {
+> +		dev_err(&pdev->dev, "failed to find dwc3 core node\n");
+> +		return -ENODEV;
+> +	}
+> +
+>  	dwc3_data->rstc_pwrdn =
+>  		devm_reset_control_get_exclusive(dev, "powerdown");
+>  	if (IS_ERR(dwc3_data->rstc_pwrdn)) {
+> @@ -248,18 +256,11 @@ static int st_dwc3_probe(struct platform_device *pdev)
+>  	/* Manage SoftReset */
+>  	reset_control_deassert(dwc3_data->rstc_rst);
+>  
+> -	child = of_get_compatible_child(node, "snps,dwc3");
+> -	if (!child) {
+> -		dev_err(&pdev->dev, "failed to find dwc3 core node\n");
+> -		ret = -ENODEV;
+> -		goto err_node_put;
+> -	}
+> -
+>  	/* Allocate and initialize the core */
+>  	ret = of_platform_populate(node, NULL, NULL, dev);
+>  	if (ret) {
+>  		dev_err(dev, "failed to add dwc3 core\n");
+> -		goto err_node_put;
+> +		goto undo_softreset;
 >  	}
->
->  	dwc3_imx->hsio_clk = devm_clk_get_enabled(dev, "hsio");
-> -	if (IS_ERR(dwc3_imx->hsio_clk)) {
-> -		err = PTR_ERR(dwc3_imx->hsio_clk);
-> -		dev_err(dev, "Failed to get hsio clk, err=%d\n", err);
-> -		return err;
-> -	}
-> +	if (IS_ERR(dwc3_imx->hsio_clk))
-> +		return dev_err_probe(dev, PTR_ERR(dwc3_imx->hsio_clk),
-> +				     "Failed to get hsio clk\n");
->
->  	dwc3_imx->suspend_clk = devm_clk_get_enabled(dev, "suspend");
-> -	if (IS_ERR(dwc3_imx->suspend_clk)) {
-> -		err = PTR_ERR(dwc3_imx->suspend_clk);
-> -		dev_err(dev, "Failed to get suspend clk, err=%d\n", err);
-> -		return err;
-> -	}
-> +	if (IS_ERR(dwc3_imx->suspend_clk))
-> +		return dev_err_probe(dev, PTR_ERR(dwc3_imx->suspend_clk),
-> +				     "Failed to get suspend clk\n");
->
->  	irq = platform_get_irq(pdev, 0);
->  	if (irq < 0)
->
-> --
-> 2.43.0
->
+>  
+>  	child_pdev = of_find_device_by_node(child);
+> @@ -270,7 +271,6 @@ static int st_dwc3_probe(struct platform_device *pdev)
+>  	}
+>  
+>  	dwc3_data->dr_mode = usb_get_dr_mode(&child_pdev->dev);
+> -	of_node_put(child);
+>  	platform_device_put(child_pdev);
+>  
+>  	/*
+> @@ -282,8 +282,7 @@ static int st_dwc3_probe(struct platform_device *pdev)
+>  	ret = st_dwc3_drd_init(dwc3_data);
+>  	if (ret) {
+>  		dev_err(dev, "drd initialisation failed\n");
+> -		of_platform_depopulate(dev);
+> -		goto undo_softreset;
+> +		goto depopulate;
+>  	}
+>  
+>  	/* ST glue logic init */
+> @@ -294,8 +293,6 @@ static int st_dwc3_probe(struct platform_device *pdev)
+>  
+>  depopulate:
+>  	of_platform_depopulate(dev);
+> -err_node_put:
+> -	of_node_put(child);
+>  undo_softreset:
+>  	reset_control_assert(dwc3_data->rstc_rst);
+>  undo_powerdown:
+> 
+
+
+Reviewed-by: Patrice Chotard <patrice.chotard@foss.st.com>
+
+Thanks
+Patrice
