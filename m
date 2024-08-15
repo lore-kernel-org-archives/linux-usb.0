@@ -1,93 +1,83 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.17])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EEF751C9EB7
-	for <linux-usb@vger.kernel.org>; Thu, 15 Aug 2024 08:57:40 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.17
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C9E731BBBF0;
+	Thu, 15 Aug 2024 09:20:29 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1723712262; cv=none; b=jkxe8d4MMmaLFKAfCGqOyBgjA733Hk3ryTINzrSe7JKDgqn2iP7+XERHo1wJr8NJ2+Pp6fXuNJQOeENkbHi5xKzND58MUp98pQB+5dNTH2XaKAvwgdYXiGO91+w4ak4ZIIIuzveXkej9pnS7MYhjRsY0w5GaUo167t0akHSZ8oA=
+	t=1723713630; cv=none; b=gM75Pi3c1o7EF6LWvLsRd8UM69loZniw2xIh39C0hORzk+978AOm66uKovUX0wN4DZI+f1GVyYZ+xoQetEY0qjrKyKg4ecUrkCzR1L8Xv5SffIZg5X0+JeUlUaeZbwWc1aUiZxAN2HaKvolNpQeZPhEU3uGvQrKqSwKdYePS9iY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1723712262; c=relaxed/simple;
-	bh=G2lurmo+k3UCRLAgigooeszpiMhc7Uh1WD01LPPpFNA=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=JA84Wrnr89mJ214Cm29yYvjEsTP8RqmnkmrYyohevOOd/EbN00kIJZlA1hXMh/npFkrweQ43XGZ/1GoMJIoeooc5vhgZPaTjlRP81YaBR7Rvgg8XTzsN/MX7tzkv5jHy1be5lkPdps62yVryaaKofberSrg+ksdfAY5ij0jl6/Y=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=none smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=B2yPGx0L; arc=none smtp.client-ip=198.175.65.17
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=linux.intel.com
+	s=arc-20240116; t=1723713630; c=relaxed/simple;
+	bh=fCPEKdvZte72nEo47KA/kZnx4XIPsFUVSnD634fu6gQ=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=OT4LvnyLeNqRG9PJS+3AoSv7F3RdiNCpQNAl+iaARzFIzCKy1YF5ymvfFZMeqnUyDjKt9NoSq3vg/5Yem+bK0sUl5CUjIWFsetImqSKa+KJ4mF6XzFbhfWswIQf07umF1001D9Fi4m2EKSx8boBPWuDVOpypYnV56TbX+F/QjJg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b=zcq6hIT0; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="B2yPGx0L"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1723712261; x=1755248261;
-  h=from:to:cc:subject:date:message-id:in-reply-to:
-   references:mime-version:content-transfer-encoding;
-  bh=G2lurmo+k3UCRLAgigooeszpiMhc7Uh1WD01LPPpFNA=;
-  b=B2yPGx0LVSsVUj7Ud1v7W4AD6fWFSKaPkrcd9DfFMPTihIY0ltssy6UO
-   39ygq5M8XXFPR4AAlDU6HFbEuqjh4UQs6UOxJeXT7eefmWpBBrkL/ONCW
-   cPSj2lyIZ7k9pqHU4XltmLkV81mTmQ0hpqrV2IeOLgvsYdIV+gfKtqgNZ
-   949TY4SmFOk4Ey1oez5c2fi9XFElh2qR60QxHML0tpJ5yMSIpOU5vFlSS
-   +5lduBqYWhe4jpG9kd15oeE4owSGdxcIRFcRfu+y4VcYvcaA//uCoXOXG
-   LIdVnRqJDz9EIWROXIhC4NdLOb9FcIHylHGp94sW3cI4Vzp2Vw2RTC7a6
-   A==;
-X-CSE-ConnectionGUID: CTqxkxtNTjuwGwoxKNj8nQ==
-X-CSE-MsgGUID: ZIkGqT6ASaW57AHGM3UKyQ==
-X-IronPort-AV: E=McAfee;i="6700,10204,11164"; a="22094650"
-X-IronPort-AV: E=Sophos;i="6.10,148,1719903600"; 
-   d="scan'208";a="22094650"
-Received: from orviesa001.jf.intel.com ([10.64.159.141])
-  by orvoesa109.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 15 Aug 2024 01:57:41 -0700
-X-CSE-ConnectionGUID: UsisgDi4TvabopBEekV2/Q==
-X-CSE-MsgGUID: HhJpaF1oQp+W+hcdzkTh0A==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.10,148,1719903600"; 
-   d="scan'208";a="96816966"
-Received: from black.fi.intel.com (HELO black.fi.intel.com.) ([10.237.72.28])
-  by orviesa001.jf.intel.com with ESMTP; 15 Aug 2024 01:57:39 -0700
-From: Heikki Krogerus <heikki.krogerus@linux.intel.com>
-To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-Cc: Jameson Thies <jthies@google.com>,
-	Benson Leung <bleung@chromium.org>,
-	Prashant Malani <pmalani@chromium.org>,
-	Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
-	linux-usb@vger.kernel.org
-Subject: [PATCH 5/5] usb: typec: ucsi: Remove useless error check from ucsi_read_error()
-Date: Thu, 15 Aug 2024 11:57:26 +0300
-Message-ID: <20240815085726.2865482-6-heikki.krogerus@linux.intel.com>
-X-Mailer: git-send-email 2.43.0
-In-Reply-To: <20240815085726.2865482-1-heikki.krogerus@linux.intel.com>
-References: <20240815085726.2865482-1-heikki.krogerus@linux.intel.com>
+	dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="zcq6hIT0"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 9EE69C32786;
+	Thu, 15 Aug 2024 09:20:28 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
+	s=korg; t=1723713629;
+	bh=fCPEKdvZte72nEo47KA/kZnx4XIPsFUVSnD634fu6gQ=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=zcq6hIT0G/Kulf+4TPYAmpBxlcytmgbiXR5YQ0pz6wQoLX1H/jq70wYR0M2o3vNGO
+	 X1Jm6qIATKY+ivVIO1qwYCb15KpnjvLh58WdHSXVnIJsgfRvrJE8mWMPAHbLP41gog
+	 e6QX2U6qCxQBaDsacN/3vYeRpJg6p/YFZdb28bPM=
+Date: Thu, 15 Aug 2024 11:20:26 +0200
+From: Greg KH <gregkh@linuxfoundation.org>
+To: Abhishek Tamboli <abhishektamboli9@gmail.com>
+Cc: dan.scally@ideasonboard.com, laurent.pinchart@ideasonboard.com,
+	dan.carpenter@linaro.org, linux-usb@vger.kernel.org,
+	skhan@linuxfoundation.org, rbmarliere@gmail.com,
+	linux-kernel-mentees@lists.linuxfoundation.org,
+	linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v2] usb: gadget: uvc: Fix ERR_PTR dereference in
+ uvc_v4l2.c
+Message-ID: <2024081501-pried-rewire-e229@gregkh>
+References: <20240815071416.585559-1-abhishektamboli9@gmail.com>
+ <2024081518-fracture-thousand-c20e@gregkh>
+ <Zr3B9Sccu+1FHW2z@embed-PC.myguest.virtualbox.org>
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <Zr3B9Sccu+1FHW2z@embed-PC.myguest.virtualbox.org>
 
-If the GET_ERROR_STATUS command fails, ucsi_read_error() can
-not reach the condition where the CCI error bit is checked,
-because ucsi_run_command() has already checked that bit and
-returned an error.
+On Thu, Aug 15, 2024 at 02:23:09PM +0530, Abhishek Tamboli wrote:
+> On Thu, Aug 15, 2024 at 09:59:35AM +0200, Greg KH wrote:
+> > On Thu, Aug 15, 2024 at 12:44:16PM +0530, Abhishek Tamboli wrote:
+> > > Fix potential dereferencing of ERR_PTR() in find_format_by_pix()
+> > > and uvc_v4l2_enum_format().
+> > > 
+> > > Fix the following smatch errors:
+> > > 
+> > > drivers/usb/gadget/function/uvc_v4l2.c:124 find_format_by_pix()
+> > > error: 'fmtdesc' dereferencing possible ERR_PTR()
+> > > 
+> > > drivers/usb/gadget/function/uvc_v4l2.c:392 uvc_v4l2_enum_format()
+> > > error: 'fmtdesc' dereferencing possible ERR_PTR()
+> > > 
+> > > Also, fix similar issue in uvc_v4l2_try_format() for potential
+> > > dereferencing of ERR_PTR().
+> > > 
+> > > Fixes: 588b9e85609b ("usb: gadget: uvc: add v4l2 enumeration api calls")
+> > > Fixes: e219a712bc06 ("usb: gadget: uvc: add v4l2 try_format api call")
+> > > Signed-off-by: Abhishek Tamboli <abhishektamboli9@gmail.com>
+> > > ---
+> > > Changes in v2:
+> > > - Add check for dereferencing of ERR_PTR() in uvc_v4l2_try_format()
+> > 
+> > You sent 2 copies of this, which is the correct one?
+> Sorry about that. Actually, I forgot to add the maintainer: Laurent Pinchart 
+> in my first Patch v2 mail.
 
-Signed-off-by: Heikki Krogerus <heikki.krogerus@linux.intel.com>
----
- drivers/usb/typec/ucsi/ucsi.c | 3 ---
- 1 file changed, 3 deletions(-)
+Ok, then that would be a v3, right?  Please remember we get hundreds of
+patches a day and keeping them all straight is important :)
 
-diff --git a/drivers/usb/typec/ucsi/ucsi.c b/drivers/usb/typec/ucsi/ucsi.c
-index 64fe59e05b4f..927007230cb8 100644
---- a/drivers/usb/typec/ucsi/ucsi.c
-+++ b/drivers/usb/typec/ucsi/ucsi.c
-@@ -148,9 +148,6 @@ static int ucsi_read_error(struct ucsi *ucsi, u8 connector_num)
- 	if (ret < 0)
- 		return ret;
- 
--	if (cci & UCSI_CCI_ERROR)
--		return -EIO;
--
- 	switch (error) {
- 	case UCSI_ERROR_INCOMPATIBLE_PARTNER:
- 		return -EOPNOTSUPP;
--- 
-2.43.0
+thanks,
 
+greg k-h
