@@ -1,153 +1,177 @@
-Received: from mail-ed1-f51.google.com (mail-ed1-f51.google.com [209.85.208.51])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mailout3.samsung.com (mailout3.samsung.com [203.254.224.33])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B9A2812CDA5
-	for <linux-usb@vger.kernel.org>; Fri, 16 Aug 2024 09:38:33 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.51
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 94A381684A8
+	for <linux-usb@vger.kernel.org>; Fri, 16 Aug 2024 09:45:30 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=203.254.224.33
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1723801116; cv=none; b=K0zxYfli+hSBb8aXxOdtvPIaicB4RgkBsBYaHjL3C8FFQiVaUX6FqUA3FafSPv6SgOjrZNmlq6obD6son0eT5ZT51aSy3gQvttMYuYsvv1TbAN8NwJ7G1uPjNBl3ps+7bvux7v3iz8wGRlxMpuWPsoZLLEfgBI7Gx1AfllNzlM8=
+	t=1723801533; cv=none; b=LZYVMqol3ddgBz3ZReS2z9PTPbO86ltCbLD48q23uxJiXUu8809ye9357c+YnuOLGoew1CWP/rL2JTR2MKbAFI96auR56+cKlvdVgCNxq/XlHNj9jBIqM26zY5a4NPBa5gzVThFNTbBfWhQNPU3C1l+9lQw4e4Z7okVUXKs+jpA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1723801116; c=relaxed/simple;
-	bh=XOoTxRjVtRGFsPK5EWELKkL1XdqOplIH7QBBako0xHQ=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition:In-Reply-To; b=U6t1ABqq2V0chsXneEeZv7fLhsHCboZAhMN8KSsnncc10gliXIxPg/q/+psLB5OOzctcEQ/gC/VieW7cqPDCrYNPcYEXNpkrBTtY5a7X3WhgCpm5p5xR7V8epzTdIjhQho4jI+QVZC4xxVWygOW+ZyjPTv4GGx0vlLWKsqQvmzc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=GaaRf/rS; arc=none smtp.client-ip=209.85.208.51
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
+	s=arc-20240116; t=1723801533; c=relaxed/simple;
+	bh=NlqRd+YnQZBm5VFL+HzJ4ijReg9PePdpkBX+nO/ztJY=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version:Content-Type:
+	 References; b=red9W2u6QyQ0qkE5uxGJzGO3Q0hNTTEfqoFCkOdZoKvhC3Rp00fKnYv4RghhJAdxpgPyj9ntYZaErXsmfm4dI1QKfehWJw+z027mgE34cnEhXwLZrPeV/8byPkJb/p9BV2Nunvgjd6TH4JPZPlln4Ozt9YA3irzGrlh/3ZcYreU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=samsung.com; spf=pass smtp.mailfrom=samsung.com; dkim=pass (1024-bit key) header.d=samsung.com header.i=@samsung.com header.b=ZNvnTymD; arc=none smtp.client-ip=203.254.224.33
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=samsung.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=samsung.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="GaaRf/rS"
-Received: by mail-ed1-f51.google.com with SMTP id 4fb4d7f45d1cf-5bec4fc82b0so2118609a12.1
-        for <linux-usb@vger.kernel.org>; Fri, 16 Aug 2024 02:38:33 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1723801112; x=1724405912; darn=vger.kernel.org;
-        h=in-reply-to:content-disposition:mime-version:message-id:subject:cc
-         :to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=ALCyVUvADEycqvBmVWJgnXOAnW1UV6OFc1I2ge5Btys=;
-        b=GaaRf/rSMx0nMmUiDSg7iTjw0uQgoMebq1hfQTgij5dTkc3Tf+JE07Tri55E/8DDGL
-         9oiGoxIGKX4DTBTl1IEHAs/Se9sDY5Nv70UfBRmvOZwoi77CkZg3aZ2Ecy7WBzJ2V5aI
-         g4rcGQCYmc/5NVbdSQpIT/FtELKj9er8NWoSh1swAimWJv+l6HrVTy4eRatjEf98rUcq
-         Mrl4EW0X+h64UxOZDp0L7bMskYOO+9bleSD4aKclhHpS442/KmWvE3xP+/jkWD9xOeUb
-         BAXTatdLpkMAKET8lJEbBikGp+cv4HOtw7fHDhcm2vZh2mVEdv4522O4HP4kqJPA+T3S
-         rc+Q==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1723801112; x=1724405912;
-        h=in-reply-to:content-disposition:mime-version:message-id:subject:cc
-         :to:from:date:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=ALCyVUvADEycqvBmVWJgnXOAnW1UV6OFc1I2ge5Btys=;
-        b=lPKEwynIZmQbMvQXeF4evnPt2k4xckXTZb7YXP4zwEZMuyZHKuPTcCd4vQYwylJ+Ms
-         YhvF8OgLDgkHWZozCeHvTS9MBCnuMfgvAUXWsApclkE2SEvsWaHYzEDYQjEk9154IHDL
-         ji02MTfdp8UQs0L3mtFlK2uPdnxH+hMtQ8y5bOF5cmNPEcR4XcqCQzUlzmOatHDURspn
-         xh70hCZL0AaRcVb/NJ1+AFKqvbYzpBOd7e68ac+mVF8UCrKBMX3EyUUPe9kAdJOD63JB
-         9SGArISoHRBWKdh9pkK1u45hIX9I8pecvEOU1QHoM9OIJQPM6JwNTz2F+s0tCTGfibpt
-         yYvQ==
-X-Forwarded-Encrypted: i=1; AJvYcCWVEIJbbN6p/3B5SW7xdcSjWIYQU7heAdKureygqGna9Avbia9B/ou/uKE9MlQCuJF6kPrKoox4+Gcm1DNR0vTUrQ7pILl0A6mi
-X-Gm-Message-State: AOJu0YzcP3iv/Qevh0x9dtT+FI/4JOHPkUyC8AEjOIIceeNK18e4oz0Y
-	YNQv22XVDu1uc9NwSbFvRJ1WmKv8HsA4jrADTv50NBLEdcVo8N0pgMjlzPm89zI=
-X-Google-Smtp-Source: AGHT+IE7OStDoG/vZludgrbKFErHeWmhqvPlg8I1Vlpj3pe30rqCybr7fVWmCvcjiGtFHUGfWMMu+Q==
-X-Received: by 2002:a17:907:94d4:b0:a7a:8a38:9d99 with SMTP id a640c23a62f3a-a83951c5bb5mr144031666b.35.1723801111976;
-        Fri, 16 Aug 2024 02:38:31 -0700 (PDT)
-Received: from localhost ([196.207.164.177])
-        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-a83838cf03csm227699566b.50.2024.08.16.02.38.30
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 16 Aug 2024 02:38:31 -0700 (PDT)
-Date: Fri, 16 Aug 2024 12:38:26 +0300
-From: Dan Carpenter <dan.carpenter@linaro.org>
-To: oe-kbuild@lists.linux.dev,
-	Mika Westerberg <mika.westerberg@linux.intel.com>,
-	Yehezkel Bernat <YehezkelShB@gmail.com>,
-	Michael Jamet <michael.jamet@intel.com>,
-	Lukas Wunner <lukas@wunner.de>,
-	Andreas Noever <andreas.noever@gmail.com>
-Cc: lkp@intel.com, oe-kbuild-all@lists.linux.dev, linux-usb@vger.kernel.org,
-	Aapo Vienamo <aapo.vienamo@linux.intel.com>,
-	Rene Sapiens <rene.sapiens@intel.com>,
-	R Kannappan <r.kannappan@intel.com>,
-	Mika Westerberg <mika.westerberg@linux.intel.com>
-Subject: Re: [PATCH 4/4] thunderbolt: Improve software receiver lane margining
-Message-ID: <2ae5c18e-9f43-47d6-9bc4-63da8d3d3da3@stanley.mountain>
+	dkim=pass (1024-bit key) header.d=samsung.com header.i=@samsung.com header.b="ZNvnTymD"
+Received: from epcas5p4.samsung.com (unknown [182.195.41.42])
+	by mailout3.samsung.com (KnoxPortal) with ESMTP id 20240816094522epoutp032b282b482a89392a4a6224a0b65638f8~sLFoHeRqR0287002870epoutp03N
+	for <linux-usb@vger.kernel.org>; Fri, 16 Aug 2024 09:45:22 +0000 (GMT)
+DKIM-Filter: OpenDKIM Filter v2.11.0 mailout3.samsung.com 20240816094522epoutp032b282b482a89392a4a6224a0b65638f8~sLFoHeRqR0287002870epoutp03N
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=samsung.com;
+	s=mail20170921; t=1723801522;
+	bh=hak/V2qJ7HDVRDcAmIQFiOQebTO2H9ff6Prfs4qNVZY=;
+	h=From:To:Cc:Subject:Date:References:From;
+	b=ZNvnTymDw0SwWCOWe+HbREMYeCpU+OE9N56qCQsL95GH3cMTr5Zxkv1SGtMgiK1kC
+	 DJxWwG2p3KWzMSPBGi4yNXbGSa3JqL5yDQ5vVZ2Pn7oSDklnxkVIS19KjM4a0X3v7d
+	 +31h5/Yo4ObYHVVrmmiIPdDqoSMc+drG7TJmZ62c=
+Received: from epsnrtp3.localdomain (unknown [182.195.42.164]) by
+	epcas5p3.samsung.com (KnoxPortal) with ESMTP id
+	20240816094522epcas5p3595f7328b75f5c04a9e33a95ae56c68c~sLFnnHN7E1754617546epcas5p3z;
+	Fri, 16 Aug 2024 09:45:22 +0000 (GMT)
+Received: from epsmgec5p1new.samsung.com (unknown [182.195.38.182]) by
+	epsnrtp3.localdomain (Postfix) with ESMTP id 4WlcYD2Gncz4x9Px; Fri, 16 Aug
+	2024 09:45:20 +0000 (GMT)
+Received: from epcas5p4.samsung.com ( [182.195.41.42]) by
+	epsmgec5p1new.samsung.com (Symantec Messaging Gateway) with SMTP id
+	87.06.08855.0BF1FB66; Fri, 16 Aug 2024 18:45:20 +0900 (KST)
+Received: from epsmtrp2.samsung.com (unknown [182.195.40.14]) by
+	epcas5p1.samsung.com (KnoxPortal) with ESMTPA id
+	20240815064918epcas5p1248e4f9084d33fdb11a25fa34e66cdbe~r1CnBfAMC2853628536epcas5p1O;
+	Thu, 15 Aug 2024 06:49:18 +0000 (GMT)
+Received: from epsmgmc1p1new.samsung.com (unknown [182.195.42.40]) by
+	epsmtrp2.samsung.com (KnoxPortal) with ESMTP id
+	20240815064918epsmtrp2cc81b8f6a6468629cfbe31c1f0123a4c~r1CnAq4tO2421924219epsmtrp2B;
+	Thu, 15 Aug 2024 06:49:18 +0000 (GMT)
+X-AuditID: b6c32a44-15fb870000002297-45-66bf1fb0b967
+Received: from epsmtip2.samsung.com ( [182.195.34.31]) by
+	epsmgmc1p1new.samsung.com (Symantec Messaging Gateway) with SMTP id
+	35.B1.07567.EE4ADB66; Thu, 15 Aug 2024 15:49:18 +0900 (KST)
+Received: from INBRO002811.samsungds.net (unknown [107.122.5.126]) by
+	epsmtip2.samsung.com (KnoxPortal) with ESMTPA id
+	20240815064915epsmtip2fa8f4ace9ad84201fcccdb71d46d4e65~r1Ck3ILTv2148721487epsmtip2M;
+	Thu, 15 Aug 2024 06:49:15 +0000 (GMT)
+From: Selvarasu Ganesan <selvarasu.g@samsung.com>
+To: Thinh.Nguyen@synopsys.com, gregkh@linuxfoundation.org,
+	linux-usb@vger.kernel.org, linux-kernel@vger.kernel.org
+Cc: jh0801.jung@samsung.com, dh10.jung@samsung.com, naushad@samsung.com,
+	akash.m5@samsung.com, rc93.raju@samsung.com, taehyun.cho@samsung.com,
+	hongpooh.kim@samsung.com, eomji.oh@samsung.com, shijie.cai@samsung.com,
+	Selvarasu Ganesan <selvarasu.g@samsung.com>, stable@vger.kernel.org
+Subject: [PATCH v3] usb: dwc3: core: Prevent USB core invalid event buffer
+ address access
+Date: Thu, 15 Aug 2024 12:18:31 +0530
+Message-ID: <20240815064836.1491-1-selvarasu.g@samsung.com>
+X-Mailer: git-send-email 2.46.0.windows.1
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20240813110135.2178900-5-mika.westerberg@linux.intel.com>
+Content-Transfer-Encoding: 8bit
+X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFlrKJsWRmVeSWpSXmKPExsWy7bCmlu4G+f1pBmvmcVu8ubqK1eLOgmlM
+	FqeWL2SyaF68ns1i0p6tLBZ3H/5gsbi8aw6bxaJlrcwWn47+Z7VY1TmHxeLI8o9MFpe/72S2
+	WLDxEaPFpIOiFqsWHGB34PfYP3cNu0ffllWMHlv2f2b0+LxJLoAlKtsmIzUxJbVIITUvOT8l
+	My/dVsk7ON453tTMwFDX0NLCXEkhLzE31VbJxSdA1y0zB+hQJYWyxJxSoFBAYnGxkr6dTVF+
+	aUmqQkZ+cYmtUmpBSk6BSYFecWJucWleul5eaomVoYGBkSlQYUJ2xu7HX1kK5glW3Fuwk62B
+	8SFvFyMnh4SAicSZHc+Yuhi5OIQEdjNK3Nv1kxnC+cQocbPxFFTmG6PEtpVb2GFaLt3dww6R
+	2MsocffOdkYI5zujxM8Ju9m6GDk42AQMJZ6dsAFpEBEokbj0diMTiM0ssIBJonW2NogtLBAt
+	MbGniw3EZhFQlbhzbBMriM0rYC2xoreJDWKZpsTavXuYIOKCEidnPmGBmCMv0bx1NtipEgKt
+	HBK9t88wg+yVEHCR+LVSFqJXWOLVcZijpSQ+v9sLNbNaYvWdj2wQvS2MEoeffIMqspd4fPQR
+	2BxmoMXrd+lDhGUlpp5aB3U/n0Tv7ydMEHFeiR3zYGxViVONl6HmS0vcW3KNFcL2kJj8Ygsz
+	iC0kECux9OIRpgmM8rOQvDMLyTuzEDYvYGRexSiZWlCcm56abFpgmJdaDo/Y5PzcTYzg9Krl
+	soPxxvx/eocYmTgYDzFKcDArifA+/bI3TYg3JbGyKrUoP76oNCe1+BCjKTCMJzJLiSbnAxN8
+	Xkm8oYmlgYmZmZmJpbGZoZI47+vWuSlCAumJJanZqakFqUUwfUwcnFINTDNOr9mz+ITYH+Wl
+	1t2sk1rW/zdXOn8173NFwMtPTdLvPLsZfqe8j/vq0ixbuOF1l4Zm6+rHpXpx6/sazV5ZVn9M
+	2sJ82O+fZkxIoPkK7fNaKXNf10vLlH664+3SfEyEITZ61qzVdhElVw+buLSdf9QmeTHv2bsf
+	rMs5uNY/zJ38c2LcUtszrPcYZz8UXeSk8j8g+FRLxu+1BfmR7lr/JmeVxhTqzpJx2cR8p/ry
+	Xr/rwqeereH4uDA+ZbXH1a77hZ2RqkdTfXi7d2/y3XR62T+BlNtBcUXyxtaa3FtL2u/PNr5/
+	bfI6PjWGn8X/z3wPNA4TvlN4J7oq1MFn2Vm3q22fJ2y+U3D0XYLhRwWzKUosxRmJhlrMRcWJ
+	AKInNfY4BAAA
+X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFrrALMWRmVeSWpSXmKPExsWy7bCSvO67JXvTDH48ZLd4c3UVq8WdBdOY
+	LE4tX8hk0bx4PZvFpD1bWSzuPvzBYnF51xw2i0XLWpktPh39z2qxqnMOi8WR5R+ZLC5/38ls
+	sWDjI0aLSQdFLVYtOMDuwO+xf+4ado++LasYPbbs/8zo8XmTXABLFJdNSmpOZllqkb5dAlfG
+	7sdfWQrmCVbcW7CTrYHxIW8XIyeHhICJxKW7e9hBbCGB3YwS5055QcSlJV7P6mKEsIUlVv57
+	DlTDBVTzlVHi08rXLF2MHBxsAoYSz07YgNSICFRIPF44gwWkhllgHZPE7ONPmEESwgKREtNO
+	fQKzWQRUJe4c28QKYvMKWEus6G1ig1igKbF27x4miLigxMmZT1hAbGYBeYnmrbOZJzDyzUKS
+	moUktYCRaRWjZGpBcW56brJhgWFearlecWJucWleul5yfu4mRnCga2nsYLw3/5/eIUYmDsZD
+	jBIczEoivIEmu9KEeFMSK6tSi/Lji0pzUosPMUpzsCiJ8xrOmJ0iJJCeWJKanZpakFoEk2Xi
+	4JRqYEp8GKrxKEncQ5XVVW3FrTrmpPZXyuGnnAV71ravW+PdsqqjWPKC0HstX6UIly2/n6xt
+	YlM+vnf76jNcE+z5O8PsVuX/Fv9+ifG7c1+Q1j+d6MQFB/5NPhhixZRxnPHTBaZ5wv0d/9mk
+	Z74P//kkSMtlc1jrk/Caw4eXXti2VfhG+57Ls5MPdu9Z2OLZUrHl5Fl/b73ALVM/3Vvd97Lr
+	b84P5uQagV06py73FQYzCWl2HTf4zn/1/f4s56tZv5YJKB4N+sH7dYLctOoNPFpccVe/cOtE
+	vZ4ZP0mHef//pOyqxZ/lZ3AbZVw3lnvC6v1I4+v1RQwPlngxyUYIMAvUB3Oe/P1XbUKSkW78
+	MdeLa5RYijMSDbWYi4oTAblUv1zjAgAA
+X-CMS-MailID: 20240815064918epcas5p1248e4f9084d33fdb11a25fa34e66cdbe
+X-Msg-Generator: CA
+Content-Type: text/plain; charset="utf-8"
+X-Sendblock-Type: REQ_APPROVE
+CMS-TYPE: 105P
+DLP-Filter: Pass
+X-CFilter-Loop: Reflected
+X-CMS-RootMailID: 20240815064918epcas5p1248e4f9084d33fdb11a25fa34e66cdbe
+References: <CGME20240815064918epcas5p1248e4f9084d33fdb11a25fa34e66cdbe@epcas5p1.samsung.com>
 
-Hi Mika,
+This commit addresses an issue where the USB core could access an
+invalid event buffer address during runtime suspend, potentially causing
+SMMU faults and other memory issues in Exynos platforms. The problem
+arises from the following sequence.
+        1. In dwc3_gadget_suspend, there is a chance of a timeout when
+        moving the USB core to the halt state after clearing the
+        run/stop bit by software.
+        2. In dwc3_core_exit, the event buffer is cleared regardless of
+        the USB core's status, which may lead to an SMMU faults and
+        other memory issues. if the USB core tries to access the event
+        buffer address.
 
-kernel test robot noticed the following build warnings:
+To prevent this hardware quirk on Exynos platforms, this commit ensures
+that the event buffer address is not cleared by software  when the USB
+core is active during runtime suspend by checking its status before
+clearing the buffer address.
 
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
+Cc: stable@vger.kernel.org # v6.1+
+Signed-off-by: Selvarasu Ganesan <selvarasu.g@samsung.com>
+---
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Mika-Westerberg/thunderbolt-Add-missing-usb4_port_sb_read-to-usb4_port_sw_margin/20240815-001205
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/westeri/thunderbolt.git next
-patch link:    https://lore.kernel.org/r/20240813110135.2178900-5-mika.westerberg%40linux.intel.com
-patch subject: [PATCH 4/4] thunderbolt: Improve software receiver lane margining
-config: i386-randconfig-141-20240815 (https://download.01.org/0day-ci/archive/20240816/202408161041.jjzazHm4-lkp@intel.com/config)
-compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
+Changes in v3:
+- Added comment on why we need this fix.
+- Included platform name in commit message.
+- Removed Fixes tag as no issue on the previous commits, and updated Cc tag.
+- Link to v2: https://lore.kernel.org/lkml/20240808120507.1464-1-selvarasu.g@samsung.com/
 
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Reported-by: Dan Carpenter <dan.carpenter@linaro.org>
-| Closes: https://lore.kernel.org/r/202408161041.jjzazHm4-lkp@intel.com/
+Changes in v2:
+- Added separate check for USB controller status before cleaning the
+  event buffer.
+- Link to v1: https://lore.kernel.org/lkml/20240722145617.537-1-selvarasu.g@samsung.com/
+---
+ drivers/usb/dwc3/core.c | 8 ++++++++
+ 1 file changed, 8 insertions(+)
 
-smatch warnings:
-drivers/thunderbolt/debugfs.c:1014 margining_run_sw() error: uninitialized symbol 'errors'.
-
-vim +/errors +1014 drivers/thunderbolt/debugfs.c
-
-c0188291a5471b R Kannappan     2024-08-13   986  static int margining_run_sw(struct tb_margining *margining,
-c0188291a5471b R Kannappan     2024-08-13   987  			    struct usb4_port_margining_params *params)
-c0188291a5471b R Kannappan     2024-08-13   988  {
-c0188291a5471b R Kannappan     2024-08-13   989  	u32 nsamples = margining->dwell_time / DWELL_SAMPLE_INTERVAL;
-c0188291a5471b R Kannappan     2024-08-13   990  	u32 errors;
-c0188291a5471b R Kannappan     2024-08-13   991  	int ret, i;
-c0188291a5471b R Kannappan     2024-08-13   992  
-c0188291a5471b R Kannappan     2024-08-13   993  	ret = usb4_port_sw_margin(margining->port, margining->target, margining->index,
-c0188291a5471b R Kannappan     2024-08-13   994  				  params, margining->results);
-c0188291a5471b R Kannappan     2024-08-13   995  	if (ret)
-c0188291a5471b R Kannappan     2024-08-13   996  		goto out_stop;
-c0188291a5471b R Kannappan     2024-08-13   997  
-c0188291a5471b R Kannappan     2024-08-13   998  	for (i = 0; i <= nsamples; i++) {
-c0188291a5471b R Kannappan     2024-08-13   999  		ret = usb4_port_sw_margin_errors(margining->port, margining->target,
-c0188291a5471b R Kannappan     2024-08-13  1000  						 margining->index, &margining->results[1]);
-c0188291a5471b R Kannappan     2024-08-13  1001  		if (ret)
-c0188291a5471b R Kannappan     2024-08-13  1002  			break;
-c0188291a5471b R Kannappan     2024-08-13  1003  
-c0188291a5471b R Kannappan     2024-08-13  1004  		if (margining->lanes == USB4_MARGIN_SW_LANE_0)
-c0188291a5471b R Kannappan     2024-08-13  1005  			errors = FIELD_GET(USB4_MARGIN_SW_ERR_COUNTER_LANE_0_MASK,
-c0188291a5471b R Kannappan     2024-08-13  1006  					   margining->results[1]);
-c0188291a5471b R Kannappan     2024-08-13  1007  		else if (margining->lanes == USB4_MARGIN_SW_LANE_1)
-c0188291a5471b R Kannappan     2024-08-13  1008  			errors = FIELD_GET(USB4_MARGIN_SW_ERR_COUNTER_LANE_1_MASK,
-c0188291a5471b R Kannappan     2024-08-13  1009  					   margining->results[1]);
-c0188291a5471b R Kannappan     2024-08-13  1010  		else if (margining->lanes == USB4_MARGIN_SW_ALL_LANES)
-c0188291a5471b R Kannappan     2024-08-13  1011  			errors = margining->results[1];
-
-The static checker wants an else statement.
-
-c0188291a5471b R Kannappan     2024-08-13  1012  
-c0188291a5471b R Kannappan     2024-08-13  1013  		/* Any errors stop the test */
-c0188291a5471b R Kannappan     2024-08-13 @1014  		if (errors)
-c0188291a5471b R Kannappan     2024-08-13  1015  			break;
-c0188291a5471b R Kannappan     2024-08-13  1016  
-c0188291a5471b R Kannappan     2024-08-13  1017  		fsleep(DWELL_SAMPLE_INTERVAL * USEC_PER_MSEC);
-c0188291a5471b R Kannappan     2024-08-13  1018  	}
-c0188291a5471b R Kannappan     2024-08-13  1019  
-c0188291a5471b R Kannappan     2024-08-13  1020  out_stop:
-c0188291a5471b R Kannappan     2024-08-13  1021  	/*
-c0188291a5471b R Kannappan     2024-08-13  1022  	 * Stop the counters but don't clear them to allow the
-c0188291a5471b R Kannappan     2024-08-13  1023  	 * different error counter configurations.
-c0188291a5471b R Kannappan     2024-08-13  1024  	 */
-c0188291a5471b R Kannappan     2024-08-13  1025  	margining_modify_error_counter(margining, margining->lanes,
-c0188291a5471b R Kannappan     2024-08-13  1026  				       USB4_MARGIN_SW_ERROR_COUNTER_STOP);
-c0188291a5471b R Kannappan     2024-08-13  1027  	return ret;
-c0188291a5471b R Kannappan     2024-08-13  1028  }
-
+diff --git a/drivers/usb/dwc3/core.c b/drivers/usb/dwc3/core.c
+index 734de2a8bd21..ccc3895dbd7f 100644
+--- a/drivers/usb/dwc3/core.c
++++ b/drivers/usb/dwc3/core.c
+@@ -564,9 +564,17 @@ int dwc3_event_buffers_setup(struct dwc3 *dwc)
+ void dwc3_event_buffers_cleanup(struct dwc3 *dwc)
+ {
+ 	struct dwc3_event_buffer	*evt;
++	u32				reg;
+ 
+ 	if (!dwc->ev_buf)
+ 		return;
++	/*
++	 * Exynos platforms may not be able to access event buffer if the
++	 * controller failed to halt on dwc3_core_exit().
++	 */
++	reg = dwc3_readl(dwc->regs, DWC3_DSTS);
++	if (!(reg & DWC3_DSTS_DEVCTRLHLT))
++		return;
+ 
+ 	evt = dwc->ev_buf;
+ 
 -- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+2.17.1
 
