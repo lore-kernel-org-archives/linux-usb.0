@@ -1,123 +1,57 @@
-Received: from mail-wm1-f47.google.com (mail-wm1-f47.google.com [209.85.128.47])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mail-4322.protonmail.ch (mail-4322.protonmail.ch [185.70.43.22])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1F2FB84A32
-	for <linux-usb@vger.kernel.org>; Fri, 16 Aug 2024 07:54:16 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.47
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F171225622
+	for <linux-usb@vger.kernel.org>; Fri, 16 Aug 2024 08:31:46 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.70.43.22
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1723794858; cv=none; b=VlRqAdSv7TmzVnUPENGBiX49SLLNxd6rA1XZzkgPZE0V8oRZTPahz5+G4OmC7dNQEsY2gBoiuz2jBJxKVa4LaLElOU6nPO1q003Qb9h6xEoJp0kB8irlgE4QnPrOJPRqiItTR4yKwTe+vECpbgpsbZXVZ7a+uR1yvP/0r2bWKvI=
+	t=1723797109; cv=none; b=TgfMmwMNyiwVMUcP9It11J/0VdZmqiIIS8bbzVW5c2yFi2RbEp+jm+5xiHQOl256JxGkY0O8LdKJMwlUIsWmVbs9H9yKMWZPpbdLaxazABGzszJirJ85tUpMqJiJC+mWA4iy7b9UM8N549sDeeUxK62YcyHW3qs9csvviflUTbo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1723794858; c=relaxed/simple;
-	bh=fRFrl2xxLajW7BRlASDFQqs8x0H30DLVpH4SEKpcKME=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=krQSMAOJf8OVtppEMU8znr0vmCaqeKhE3z6iOQ/K4VYeg0VF0cdrfWujJIcbuiX5ebcrdUYBRig9j5otDLsarXUwAXZOxHwJ36YrjGNe/V/wX+SIWeQkQb5Mjb8fSR9mTIxoH5Il/HydfRwma3tE5Pxo6suBv4sfO66bi71Ib5E=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=mQsA+kPI; arc=none smtp.client-ip=209.85.128.47
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
+	s=arc-20240116; t=1723797109; c=relaxed/simple;
+	bh=bXufV9Xq8VRmofxrsCXZeIbBO/S5/ycSostBk2CJwQI=;
+	h=Date:To:From:Cc:Subject:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=mRHtfutFxba7YuadI8flPc/wDGhqQF03v1ufCd/cTpS00ivavizKw35BSMxz4S1GTktccDIiGsZh1g+hrLaUq39/43NanI5SBFa/8iYNf0KYC9NQNN1xPNp+WEtcYIhqEd19mCa+mjuVmq15YY4D0GP57QbsZhKyBUPO7jTF5Us=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=proton.me; spf=pass smtp.mailfrom=proton.me; dkim=pass (2048-bit key) header.d=proton.me header.i=@proton.me header.b=G3/zQf1l; arc=none smtp.client-ip=185.70.43.22
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=proton.me
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=proton.me
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="mQsA+kPI"
-Received: by mail-wm1-f47.google.com with SMTP id 5b1f17b1804b1-42819654737so11420995e9.1
-        for <linux-usb@vger.kernel.org>; Fri, 16 Aug 2024 00:54:16 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1723794855; x=1724399655; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=R3rfqVHruVOGC2FYVz0rFlsxOciO54KGc2d/kghQsw0=;
-        b=mQsA+kPI13RKBFLvR2K94Sea9cG9BePP8h6T3TdgDXuqxAi100wlm4+ixEsEkpk/cf
-         l/zUU+JSnKgOtn15WiFfNQ6F0u6ZPZx4csdoWnSPAMwVg5UFI9eLpl1L6y49ZuBdV/zp
-         iTMGkXzRhOHMcS2Rx1mwX9zy4TaoCRV4f1Z/UysAkt+fRmPTbrBDznOTCv/Isz5mWpwC
-         cBpyswdLOlakwPJ+aZ/fI6yCb/cA2wMHnFqVm5CDaVwlIeRZFi42m94oWT8Bn+3Ihb0+
-         JIzHNiUEqiX4U7Xfvo0jsqIDvZSyKV+4Xi3BW2bV2rKI2oL6I7vvi6K2GR5Cm8pL3UXN
-         hkBg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1723794855; x=1724399655;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=R3rfqVHruVOGC2FYVz0rFlsxOciO54KGc2d/kghQsw0=;
-        b=ZJFA6oyLJCjXXAosYIYXj54ioi7zxuxg0yQWN50RuTM54VsPA/JWk1S2fEdG+1Hq0d
-         pfrxcyv1kzRjI4t4fqlaEKkeezuN67LKZPh7PpshRKszcvAYB3q8adNO9hwLVGgN1tmc
-         wjxZez5OYF6n3ru2Qj19msK77/K8qPRtItwubuHARLBOKflIGh0Aj7mAKZyV4Q2ceWvw
-         4lODOCykxd5znGC8AlSvkx9z5Q7ga0xibp5+rlADk1zcUaxZra2wJv3gHcPU983KDW+T
-         Xn/lefCJNGkk4B0NgUNoOl0YO2KHWqTu2zhWt3lhcVLta5atF9HuD/2YZ8edRDKq+waX
-         n2fQ==
-X-Forwarded-Encrypted: i=1; AJvYcCVDE9RXDNdOzeFFDQQl1JyZ/Q0lzs2BGvIBmnu4eWLFKsQICyFaMpAoUupgNZqE1RxlMwsfsVscTfQCnKTJRvtYiYymKfVf6Q0b
-X-Gm-Message-State: AOJu0YxfGdk11T8hHGm5UIljtNSoEZEj+emI70ls4KRZgEYA6L6EPdb7
-	gFkFY9aqAnEGJFXc3hVZCy8DI2U/O0r1svTFNvhSj5wAA+gK0IK2XKuxTJUoX7A=
-X-Google-Smtp-Source: AGHT+IELJsEIdJrzfxRlYTFmph//NPsFzW/KOkCn+6qANqNPjCBjFgoONw7BALUdqn6MkGE37+0afA==
-X-Received: by 2002:a05:6000:dc4:b0:364:6c08:b9b2 with SMTP id ffacd0b85a97d-371946a3dabmr1036836f8f.45.1723794855161;
-        Fri, 16 Aug 2024 00:54:15 -0700 (PDT)
-Received: from krzk-bin.. ([178.197.215.209])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-37189863109sm3049587f8f.65.2024.08.16.00.54.13
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 16 Aug 2024 00:54:14 -0700 (PDT)
-From: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-To: Thinh Nguyen <Thinh.Nguyen@synopsys.com>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	Michal Simek <michal.simek@amd.com>,
-	Vignesh R <vigneshr@ti.com>,
-	Felipe Balbi <felipe.balbi@linux.intel.com>,
-	Grygorii Strashko <grygorii.strashko@ti.com>,
-	Piyush Mehta <piyush.mehta@amd.com>,
-	Radhey Shyam Pandey <radhey.shyam.pandey@amd.com>,
-	linux-usb@vger.kernel.org,
-	linux-omap@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	linux-arm-kernel@lists.infradead.org
-Cc: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>,
-	stable@vger.kernel.org
-Subject: [PATCH v2 2/2] usb: dwc3: xilinx: add missing depopulate in probe error path
-Date: Fri, 16 Aug 2024 09:54:09 +0200
-Message-ID: <20240816075409.23080-2-krzysztof.kozlowski@linaro.org>
-X-Mailer: git-send-email 2.43.0
-In-Reply-To: <20240816075409.23080-1-krzysztof.kozlowski@linaro.org>
-References: <20240816075409.23080-1-krzysztof.kozlowski@linaro.org>
+	dkim=pass (2048-bit key) header.d=proton.me header.i=@proton.me header.b="G3/zQf1l"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=proton.me;
+	s=protonmail; t=1723797105; x=1724056305;
+	bh=bXufV9Xq8VRmofxrsCXZeIbBO/S5/ycSostBk2CJwQI=;
+	h=Date:To:From:Cc:Subject:Message-ID:In-Reply-To:References:
+	 Feedback-ID:From:To:Cc:Date:Subject:Reply-To:Feedback-ID:
+	 Message-ID:BIMI-Selector;
+	b=G3/zQf1llIqFike9a45mHN4bnu+ZZb5xIOUqEeqnGZ77buJ/k240F9QPioaHcbAsj
+	 b0ulL4wTBj5+7Wd5IOH/AVCFrkRW9/c0f0DEKUqekBHlL7lzWCi1K7tl5P/kLot1Gb
+	 jR+Smnsin3wiY+Ygdph7gnkgv0uDvA6TeiV4rYI7I4H8EEqPowZag1TNknhNd6ITiB
+	 +sCTlYwbWRhmJmJ/BKhq+oDsrrw7v8qE2wJvkj8/BoF9YYURpj6brp4h3pr8RehNPM
+	 c7yiGv4X8tqtPaoZppr+vxAkjD2u+Lf/g5KDAS7betqQffYMdjYqhPR8fl0H49nNIW
+	 YhTmbcoHjaL/Q==
+Date: Fri, 16 Aug 2024 08:31:40 +0000
+To: krzk@kernel.org
+From: omasanori@proton.me
+Cc: gregkh@linuxfoundation.org, linux-kernel@vger.kernel.org, linux-usb@vger.kernel.org, mogino@acm.org
+Subject: Re: [PATCH] Documentation: msm-hsusb.txt: remove
+Message-ID: <20240816083136.76079-1-omasanori@proton.me>
+In-Reply-To: <a6e566fb-b695-4711-94ca-04447dfb8937@kernel.org>
+References: <20240815111107.10561-1-omasanori@proton.me> <a6e566fb-b695-4711-94ca-04447dfb8937@kernel.org>
+Feedback-ID: 82490182:user:proton
+X-Pm-Message-ID: 1db0cca7cdea50f6ab8d49d6ba9038c0a2d852f4
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
 
-Depopulate device in probe error paths to fix leak of children
-resources.
+Hi Krzysztof,
 
-Fixes: 53b5ff83d893 ("usb: dwc3: xilinx: improve error handling for PM APIs")
-Cc: stable@vger.kernel.org
-Reviewed-by: Radhey Shyam Pandey <radhey.shyam.pandey@amd.com>
-Signed-off-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+Thank you for your guidance, I will do for sure and sorry for my
+laziness.
 
----
-
-Changes in v2:
-1. Add goto also on pm_runtime_resume_and_get() failure (Thinh)
-2. Add Rb tag.
----
- drivers/usb/dwc3/dwc3-xilinx.c | 7 ++++++-
- 1 file changed, 6 insertions(+), 1 deletion(-)
-
-diff --git a/drivers/usb/dwc3/dwc3-xilinx.c b/drivers/usb/dwc3/dwc3-xilinx.c
-index bb4d894c16e9..f1298b1b4f84 100644
---- a/drivers/usb/dwc3/dwc3-xilinx.c
-+++ b/drivers/usb/dwc3/dwc3-xilinx.c
-@@ -327,9 +327,14 @@ static int dwc3_xlnx_probe(struct platform_device *pdev)
- 		goto err_pm_set_suspended;
- 
- 	pm_suspend_ignore_children(dev, false);
--	return pm_runtime_resume_and_get(dev);
-+	ret = pm_runtime_resume_and_get(dev);
-+	if (ret < 0)
-+		goto err_pm_set_suspended;
-+
-+	return 0;
- 
- err_pm_set_suspended:
-+	of_platform_depopulate(dev);
- 	pm_runtime_set_suspended(dev);
- 
- err_clk_put:
--- 
-2.43.0
+Best,
+Masanori
 
