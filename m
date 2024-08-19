@@ -1,136 +1,95 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.14])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9906314AD3D;
-	Mon, 19 Aug 2024 07:41:56 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.14
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5EB5D158538;
+	Mon, 19 Aug 2024 08:15:17 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1724053318; cv=none; b=k12Tsk0OTnwhn4LHxqWVBKAjWxzUlVmOsBDdnzIdJmlsim0W968adgQsur0kk1RuRFl9TtKX9SoBbJjLSlO7BO2QWzjY4uVg8oH3AOl54STdtJ0ZvCSSyU5KtX2izdsMHyPJve3lDw/Yw51oOwwDxwASPs1CmX5QFFbzYUmYVns=
+	t=1724055317; cv=none; b=fVG4y65zwJlhVEhwMiXKwVw2izEubCRF4dUwoTJejUGUXk3Na8TyuuGCXPbsk5RCjhWfVo8uJVDiyFJyQBFirnXpTk9cwnaMoUSFTthIWCvN7X5hloelsOv0cV+EI9jHT1YT4zRDD9F/nYH3ZEKNeZOErOzZVxcjpLUKsBkLwNE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1724053318; c=relaxed/simple;
-	bh=0K840/msskRjT2q+9Xr4aH29i04ioHV2zfboFzqrkHE=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=TNRj873UOuBsPkJEUMpkshnAXae/vLlPGOdXLxvtc1u/Hckk3JabSiM/Dlxvugs9CMJ1w6xY8+GrbIIIvE4oQCP3NeKimRXnTHomhQqGX4cXBZpmxHYXceXVxm5ylxKq/QuSQNj6WQkGB6rPQh6dis2f/eu34q1BHrLufdJsVkE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=none smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=OjRFd5pl; arc=none smtp.client-ip=198.175.65.14
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=linux.intel.com
+	s=arc-20240116; t=1724055317; c=relaxed/simple;
+	bh=uUjOUhqNuYQkT3tijVkTub3u4TjTMOVy0LCez1Ku3fY=;
+	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=b3otyARxehfbvaJ/z2g3sw9iv5b2A1/V133/HXf0CeQKD1e7tIDaQEmKjec1NnvW7+/Y7Hq+n0lN4J6rW0wBT9c/cSOlDc67Vku6rwOX1WfMTfVnn4Z+aeIDjojNglaiO7wH9UcOx5EPhMqpC7sqw6sl2CpcPdlP4x27DjDJjgM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Jr/xWu/4; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="OjRFd5pl"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1724053317; x=1755589317;
-  h=message-id:date:mime-version:subject:to:cc:references:
-   from:in-reply-to:content-transfer-encoding;
-  bh=0K840/msskRjT2q+9Xr4aH29i04ioHV2zfboFzqrkHE=;
-  b=OjRFd5pl68oeHoeCBvSn01zk+P/MieofPJi7T4bm1QHesxvSwPqj50oL
-   pPGTrz4wom6F9NBzywkp/uYdSL0oCn3xDNLTrNPxh9A2W8F7shPg/gNJ9
-   H96JSKiK8rDp0SUhFv/PNnqzdZXgpY/nH3El21apv6dbgOKihO11CD6Q/
-   BmUi3ghRiRwOQs43AMOXRmGMqhbGtAwo0lE4YKI4V9yssPW191mc8+29R
-   1vSfIjsHYNfAN/35f+6yNr7dHwWCAcmvZKxCPIuGQdTX4TlimJ+KUX9VH
-   OgPqAW9HIutVi6alAM5NEijo+BH01OTfkbuydS4ak2Ddq39qPha0Y4nd1
-   A==;
-X-CSE-ConnectionGUID: 2g3fdWJrRRqjeihwhkk3IQ==
-X-CSE-MsgGUID: H6Uf4sbsQG2t5vHdf8qJ8g==
-X-IronPort-AV: E=McAfee;i="6700,10204,11168"; a="26079133"
-X-IronPort-AV: E=Sophos;i="6.10,158,1719903600"; 
-   d="scan'208";a="26079133"
-Received: from fmviesa005.fm.intel.com ([10.60.135.145])
-  by orvoesa106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 19 Aug 2024 00:41:56 -0700
-X-CSE-ConnectionGUID: gqcRluUbTbiWOIuL2nGreg==
-X-CSE-MsgGUID: L+FfEV28SeaeQ1SqYz+WhQ==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.10,158,1719903600"; 
-   d="scan'208";a="64677103"
-Received: from slindbla-desk.ger.corp.intel.com (HELO [10.245.246.57]) ([10.245.246.57])
-  by fmviesa005-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 19 Aug 2024 00:41:50 -0700
-Message-ID: <5695d0ec-af07-4d8e-993f-d435537ea503@linux.intel.com>
-Date: Mon, 19 Aug 2024 08:26:17 +0200
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Jr/xWu/4"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id EC9D5C32782;
+	Mon, 19 Aug 2024 08:15:14 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1724055316;
+	bh=uUjOUhqNuYQkT3tijVkTub3u4TjTMOVy0LCez1Ku3fY=;
+	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
+	b=Jr/xWu/4BSgH7i41+5/IDArM500AJbEw5UKqKN7F4WwZRBAlUrN4pVNqYW4reJSF2
+	 rAl/TWDnpULY4JvtTPRipAY6OUv+IThFFX0FfLFRJACJqje/Kqqrw4oJnmdX/7ly+4
+	 +P8lnwS8s7sJ1SG7sovGX5KM/fWZOOVIWaNpY+4T3D2+W54/Lm4asxhS2Nh6DLKVMq
+	 9qj351TTO5xb05bG7RFRec0GfZLfSPdHfaszFPHUQoIKiH+mgjE7utq1JLwWRd2HpZ
+	 C73r+tjtMBAvla3bjh1LAvvthGIZS4aLrNy/UBJpuJ2TV3gCN/OAhYaDqt/YivXbUE
+	 Pv+Qd1vaSTpbg==
+Date: Mon, 19 Aug 2024 10:15:11 +0200
+From: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
+To: Greg KH <gregkh@linuxfoundation.org>
+Cc: Alan Stern <stern@rowland.harvard.edu>, Mauro Carvalho Chehab
+ <mchehab@kernel.org>, syzbot
+ <syzbot+85e3ddbf0ddbfbc85f1e@syzkaller.appspotmail.com>,
+ linux-kernel@vger.kernel.org, linux-media@vger.kernel.org,
+ linux-usb@vger.kernel.org, syzkaller-bugs@googlegroups.com
+Subject: Re: [PATCH] media/usb/siano: Fix endpoint type checking in smsusb
+Message-ID: <20240819101358.77aea582@foz.lan>
+In-Reply-To: <2024081909-afar-trolling-2a67@gregkh>
+References: <4442a354-87f1-4f7c-a2b0-96fbb29191d1@rowland.harvard.edu>
+	<0000000000009f6f85061e684e92@google.com>
+	<51b854da-f031-4a25-a19f-dac442d7bee2@rowland.harvard.edu>
+	<1959a4fb-8bf2-456b-83b8-ea28d517debf@rowland.harvard.edu>
+	<2024081909-afar-trolling-2a67@gregkh>
+X-Mailer: Claws Mail 4.3.0 (GTK 3.24.43; x86_64-redhat-linux-gnu)
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v24 09/34] ASoC: Add SOC USB APIs for adding an USB
- backend
-To: Wesley Cheng <quic_wcheng@quicinc.com>, srinivas.kandagatla@linaro.org,
- mathias.nyman@intel.com, perex@perex.cz, conor+dt@kernel.org,
- corbet@lwn.net, broonie@kernel.org, lgirdwood@gmail.com, krzk+dt@kernel.org,
- Thinh.Nguyen@synopsys.com, bgoswami@quicinc.com, tiwai@suse.com,
- gregkh@linuxfoundation.org, robh@kernel.org
-Cc: linux-kernel@vger.kernel.org, devicetree@vger.kernel.org,
- linux-sound@vger.kernel.org, linux-usb@vger.kernel.org,
- linux-arm-msm@vger.kernel.org, linux-doc@vger.kernel.org,
- alsa-devel@alsa-project.org
-References: <20240801011730.4797-1-quic_wcheng@quicinc.com>
- <20240801011730.4797-10-quic_wcheng@quicinc.com>
- <09fde4e6-c3be-484d-a7a5-bd653dc42094@linux.intel.com>
- <f761530c-a49b-4dd5-b01c-97d08931e0ab@quicinc.com>
- <acf4de1d-d551-4539-8353-3c85aa3d965c@linux.intel.com>
- <b323a813-b02e-488b-86f9-06796f9bbf50@quicinc.com>
- <e6e7533c-5665-458e-ba60-7cb843eb27e1@quicinc.com>
-Content-Language: en-US
-From: Pierre-Louis Bossart <pierre-louis.bossart@linux.intel.com>
-In-Reply-To: <e6e7533c-5665-458e-ba60-7cb843eb27e1@quicinc.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
 
+Em Mon, 19 Aug 2024 05:11:47 +0200
+Greg KH <gregkh@linuxfoundation.org> escreveu:
 
->>>>>> +/**
->>>>>> + * snd_soc_usb_allocate_port() - allocate a SOC USB device
->>>>> USB port?
->>>> Noted, refer to the last comment.
->>>>>> + * @component: USB DPCM backend DAI component
->>>>>> + * @num_streams: number of offloading sessions supported
->>>>> same comment, is this direction-specific or not?
->>>> Depending on what you think about my first comment above, I'll also fix or remove the concept of direction entirely.
->>>>>> + * @data: private data
->>>>>> + *
->>>>>> + * Allocate and initialize a SOC USB device.  This will populate parameters that
->>>>>> + * are used in subsequent sequences.
->>>>>> + *
->>>>>> + */
->>>>>> +struct snd_soc_usb *snd_soc_usb_allocate_port(struct snd_soc_component *component,
->>>>>> +					      int num_streams, void *data)
->>>>>> +{
->>>>>> +	struct snd_soc_usb *usb;
->>>>>> +
->>>>>> +	usb = kzalloc(sizeof(*usb), GFP_KERNEL);
->>>>>> +	if (!usb)
->>>>>> +		return ERR_PTR(-ENOMEM);
->>>>>> +
->>>>>> +	usb->component = component;
->>>>>> +	usb->priv_data = data;
->>>>>> +	usb->num_supported_streams = num_streams;
->>>>>> +
->>>>>> +	return usb;
->>>>>> +}
->>>>>> +EXPORT_SYMBOL_GPL(snd_soc_usb_allocate_port);
->>>>>> +
->>>>>> +/**
->>>>>> + * snd_soc_usb_free_port() - free a SOC USB device
->>>>>> + * @usb: allocated SOC USB device
->>>>>> +
->>>>>> + * Free and remove the SOC USB device from the available list of devices.
->>>>> Now I am lost again on the device:port relationship. I am sure you've
->>>>> explained this before but I forget things and the code isn't
->>>>> self-explanatory.
->>>>>
->>>> Ok, I think the problem is that I'm interchanging the port and device terminology, because from the USB perspective its one device connected to a USB port, so its a one-to-one relation.  Removing that mindset, I think the proper term here would still be "port," because in the end SOC USB is always only servicing a port.  If this is the case, do you have any objections using this terminology in the Q6AFE as well as ASoC?  I will use consistent wording throughout SOC USB if so.
->>> I am not sure USB uses 'port' at all. If by 'port' you meant 'connector'
->>> it's not quite right, USB audio works across hubs.
->>>
->> Remember, this is technically the term used to explain the channel created for ASoC to communicate w/ USB.  If we use a term like "device," USB devices come and go, but this ASoC path won't be unallocated along with the USB device, since it does service/know about all the available USB devices connected to the system. (ie through usb hubs)
->>
-> How about snd_soc_usb_allocate_link()? This is technically allocating the soc-usb structure which is the entity that connects the ASoC to ALSA.
+> On Sun, Aug 18, 2024 at 02:20:44PM -0400, Alan Stern wrote:
+> > Greg and Mauro:
+> > 
+> > Was this patch ever applied?  It doesn't appear in the current -rc 
+> > kernel.  Was there some confusion about which tree it should be merged 
+> > through?
+> > 
+> > Here's a link to the original submission:
+> > 
+> > https://lore.kernel.org/all/51b854da-f031-4a25-a19f-dac442d7bee2@rowland.harvard.edu/  
+> 
+> I never took it as it was touching a file that I'm not the maintainer
+> of.  But I will be glad to do so if Mauro doesn't want to take it
+> through his tree, just let me know.
 
-oh, so if this has nothing to do with a USB device proper, it'd be fine
-to use 'port', but explain it in the comments, e.g. something along
-those lines:
+This patch is duplicated of this one:
 
-snd_soc_usb_allocate_port() - allocate a soc-usb port for offload support.
+https://patchwork.linuxtv.org/project/linux-media/patch/20240409143634.33230-1-n.zhandarovich@fintech.ru/
 
-The soc-usb port may be used to stream data with ASoC support to
-different connected USB devices. Plug-unplug events are signaled with a
-notification but don't directly impact the soc-usb alloc/free.
+The part I didn't like with such approach is that it checks only for
+bulk endpoints. Most media devices have also isoc. Now, I'm not sure
+about Siano devices. There are 3 different major chipsets supported
+by this driver (sm1000, sm11xx, sm2xxx). Among them, sm1000 has one
+USB ID for cold boot, and, once firmware is loaded, it gains another
+USB ID for a a warm boot.
+
+Your patch and the previously submitted one are not only checking
+for the direction, but it is also discarding isoc endpoints.
+Applying a change like that without testing with real hardware of
+those three types just to make fuzz testing happy, sounded a little 
+bit risky to my taste.
+
+I would be more willing to pick it if the check would either be
+tested on real hardware or if the logic would be changed to
+accept either bulk or isoc endpoints, just like the current code.
+
+Thanks,
+Mauro
