@@ -1,171 +1,162 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.12])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CB1531662E5
-	for <linux-usb@vger.kernel.org>; Mon, 19 Aug 2024 11:11:18 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.12
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id ABBB92209F;
+	Mon, 19 Aug 2024 11:12:31 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1724065880; cv=none; b=c4dC+wQ5HvYLHQ7Cgbz1BNA8xAd/QDNxfCgZ4Rus4AzwWwuizTajqeVt3C1U/epau8QoI8SHgvIxjQJAamSOyP02R+BRKsxDw1nmlQE3/H2TU9y5aV00jpKxnGFI+os/OhspqpktD79Je7+uvuS+GhcXN0E7+za1GaX1p2zdimc=
+	t=1724065953; cv=none; b=QaLdTjYFVU3+Hi3/KdEDNo60BJxqBRBanIYn+5B/78FY+TitsKZ+EmvZWYzssNRyguEgmohz7qw0hq3KmNg1XSk7pTHqVqtxB93Hr5yKlo4CecUgmKG9hZGurBoiJFQ5TVHZYllWBNvJV8uMUQBFSYrkxhb58KjHqT1wFEvDCTw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1724065880; c=relaxed/simple;
-	bh=ms3udCEx1G1PsdNR2ldsCJfbBlMrOq2WuSZq4F3T7jo=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=k398YJmSnP5OM8fdGUskapqnvuUk5u0GSBGBxPf+zLp9Zr3cnwd1fmTPVdckOS0vmiJHaoaNWf6t1vNEwSOFi+NPrUf82EccAAJeGnO7rrsfL7ey7o0B4e0/Y4jzcX5uY+5qHus1PDgxSIiWJBVgml00Hl5LkeFwCAVmnmA1ZkA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=none smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=hWbSFn6Q; arc=none smtp.client-ip=192.198.163.12
+	s=arc-20240116; t=1724065953; c=relaxed/simple;
+	bh=8HuoTN5MdHjN9NU9GzNhlvLaR0T3eo7+6aLGi+ufCPc=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=Xi8Cra9Oz/mk1ZJmwNonvYu60g+1fsXCt2MhndfLuXj+ci0kFfsj5/MK0br0VazPyf3dlWabXdnpCmvQJEfyu9+/RzDjCpD1/nt44CpAtSC0mhcEEwZfNPooyYyFSsj1aqvoN2ZZiwTTHDTvsF3lGcV+ch21Vb+82q3lToKLJls=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=none smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=JlvzDAHU; arc=none smtp.client-ip=198.175.65.18
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=linux.intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="hWbSFn6Q"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="JlvzDAHU"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1724065879; x=1755601879;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:content-transfer-encoding:in-reply-to;
-  bh=ms3udCEx1G1PsdNR2ldsCJfbBlMrOq2WuSZq4F3T7jo=;
-  b=hWbSFn6QajdYfH5miNLOdUDJMTUJiSGa6jUzO3bECu3cseFHp0hNHWvR
-   /R5gwkEy1fkq67b2ensUDRdQvpWx5dJTNqhiuu5CH0WK7vCyV7hWkYQak
-   QCKtRDFYjV5cgbHVs54gnyJPakP88PHmocFytsGUE5dXXlsZiOBDytl6l
-   n3+xgfJ4YSPc0a7AnZPUcr6FzTDmiW4Md5z99+Ru8EEuAF9m13LCWOPzB
-   NCsBCxnJNXF7RhqMuXtqrAP1SjnteD6MGGzf/hLugMNiR47AlEO6h7jvN
-   moBLTv9WU4K+xFnIrTWt6ogiLx3fkOVeDFgKLJLPTSbr/T+FsM7d2BkM3
-   w==;
-X-CSE-ConnectionGUID: 0QTcVKClQwqIr6qkrF5qRg==
-X-CSE-MsgGUID: bO9ukZ3+RGGJDZAwjTMVag==
-X-IronPort-AV: E=McAfee;i="6700,10204,11168"; a="26172632"
+  t=1724065952; x=1755601952;
+  h=message-id:date:mime-version:subject:to:cc:references:
+   from:in-reply-to:content-transfer-encoding;
+  bh=8HuoTN5MdHjN9NU9GzNhlvLaR0T3eo7+6aLGi+ufCPc=;
+  b=JlvzDAHUT/5XhXoU+xnXkN8/0Nt239XCb5974dOqpJLgAe8/BavGIz/0
+   ERBAUrw/IcS4gVpU+zL3dCICkIF+D5HzbF7ZXPO/OkdgMOrKTM+IgNwpV
+   lAdtqMTbgAgt5mEeAIJBH8Ywr90d6vXE2Gfn3SQHWZs8vGWfSftcTMSm3
+   rI2Zu7hU+rvyUB8ASbhPrtGXXTTK7DpursczqaJladnaDdQoOHRRit7Gb
+   ejoDAiKG1sNZPjCkIekoUTjGAwjGFtqTkNkd2lwfXYzgo53Ls2JV+75tp
+   v89q/SR0MtMkb1JM0G3Hu4AVxSX6J8Is5OTGmqvNlqUdXEAhT2WeqbxIQ
+   A==;
+X-CSE-ConnectionGUID: Fny+sqcVS+2H/kSVyTzsKQ==
+X-CSE-MsgGUID: gI+piSTETluKmfoXdZ//hw==
+X-IronPort-AV: E=McAfee;i="6700,10204,11168"; a="22448832"
 X-IronPort-AV: E=Sophos;i="6.10,158,1719903600"; 
-   d="scan'208";a="26172632"
-Received: from orviesa010.jf.intel.com ([10.64.159.150])
-  by fmvoesa106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 19 Aug 2024 04:11:18 -0700
-X-CSE-ConnectionGUID: UMaNn2KAS3+b3K+rf3Impw==
-X-CSE-MsgGUID: ObYQbGfRQT6q7jk7gs4s2g==
+   d="scan'208";a="22448832"
+Received: from fmviesa007.fm.intel.com ([10.60.135.147])
+  by orvoesa110.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 19 Aug 2024 04:12:32 -0700
+X-CSE-ConnectionGUID: fWIWIV1oTNeMir2OHbdmfg==
+X-CSE-MsgGUID: 8UlRE1S+S9OQ52EPST7Yeg==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.10,158,1719903600"; 
-   d="scan'208";a="60181041"
-Received: from kuha.fi.intel.com ([10.237.72.185])
-  by orviesa010.jf.intel.com with SMTP; 19 Aug 2024 04:11:15 -0700
-Received: by kuha.fi.intel.com (sSMTP sendmail emulation); Mon, 19 Aug 2024 14:11:13 +0300
-Date: Mon, 19 Aug 2024 14:11:13 +0300
-From: Heikki Krogerus <heikki.krogerus@linux.intel.com>
-To: Abhishek Pandit-Subedi <abhishekpandit@chromium.org>
-Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	Jameson Thies <jthies@google.com>,
-	Benson Leung <bleung@chromium.org>,
-	Prashant Malani <pmalani@chromium.org>,
-	Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
-	linux-usb@vger.kernel.org,
-	"Pilla, Siva sai kumar" <siva.sai.kumar.pilla@intel.com>,
-	Abhishek Pandit-Subedi <abhishekpandit@google.com>,
-	Bartosz Szpila <bszpila@google.com>
-Subject: Re: [PATCH v2 1/6] usb: typec: ucsi: Remove unused fields from
- struct ucsi_connector_status
-Message-ID: <ZsMoUWSMtaxteBBf@kuha.fi.intel.com>
-References: <20240816135859.3499351-1-heikki.krogerus@linux.intel.com>
- <20240816135859.3499351-2-heikki.krogerus@linux.intel.com>
- <CANFp7mUDm9Ya9Gjv9Bv_neL22SuDocmz_8HCGVbnd8y-0gd7tA@mail.gmail.com>
+   d="scan'208";a="60042820"
+Received: from mattu-haswell.fi.intel.com (HELO [10.237.72.199]) ([10.237.72.199])
+  by fmviesa007.fm.intel.com with ESMTP; 19 Aug 2024 04:12:29 -0700
+Message-ID: <bb592346-7a71-436c-ab68-62701e38015d@linux.intel.com>
+Date: Mon, 19 Aug 2024 14:14:33 +0300
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <CANFp7mUDm9Ya9Gjv9Bv_neL22SuDocmz_8HCGVbnd8y-0gd7tA@mail.gmail.com>
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH] usb: xhci: fixes lost of data for xHCI Cadence
+ Controllers
+To: Pawel Laszczak <pawell@cadence.com>,
+ "mathias.nyman@intel.com" <mathias.nyman@intel.com>
+Cc: "gregkh@linuxfoundation.org" <gregkh@linuxfoundation.org>,
+ "peter.chen@kernel.org" <peter.chen@kernel.org>,
+ "linux-usb@vger.kernel.org" <linux-usb@vger.kernel.org>,
+ "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+ "stable@vger.kernel.org" <stable@vger.kernel.org>
+References: <20240819045449.41237-1-pawell@cadence.com>
+ <PH7PR07MB9538B91A187B4EB8654BB2EBDD8C2@PH7PR07MB9538.namprd07.prod.outlook.com>
+Content-Language: en-US
+From: Mathias Nyman <mathias.nyman@linux.intel.com>
+In-Reply-To: <PH7PR07MB9538B91A187B4EB8654BB2EBDD8C2@PH7PR07MB9538.namprd07.prod.outlook.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 
-Hi Abhishek,
-
-On Sun, Aug 18, 2024 at 05:02:28PM -0700, Abhishek Pandit-Subedi wrote:
-> On Fri, Aug 16, 2024 at 6:59 AM Heikki Krogerus
-> <heikki.krogerus@linux.intel.com> wrote:
-> >
-> > The new fields are valid only with the new UCSI versions.
-> > They are at offsets that go beyond the MAX_DATA_LENGTH (16
-> > bytes) with the older UCSI versions. That has not caused any
-> > problems before because nothing uses those new fields yet.
-> > Because they are not used yet, dropping them for now.
-> >
-> > Signed-off-by: Heikki Krogerus <heikki.krogerus@linux.intel.com>
-> > ---
-> >  drivers/usb/typec/ucsi/ucsi.h | 27 ++-------------------------
-> >  1 file changed, 2 insertions(+), 25 deletions(-)
-> >
-> > diff --git a/drivers/usb/typec/ucsi/ucsi.h b/drivers/usb/typec/ucsi/ucsi.h
-> > index 57129f3c0814..7bc132b59027 100644
-> > --- a/drivers/usb/typec/ucsi/ucsi.h
-> > +++ b/drivers/usb/typec/ucsi/ucsi.h
-> > @@ -344,35 +344,12 @@ struct ucsi_connector_status {
-> >  #define   UCSI_CONSTAT_PARTNER_TYPE_AUDIO      6
-> >         u32 request_data_obj;
-> >
-> > -       u8 pwr_status[3];
-> > -#define UCSI_CONSTAT_BC_STATUS(_p_)            ((_p_[0]) & GENMASK(1, 0))
-> > +       u8 pwr_status;
-> > +#define UCSI_CONSTAT_BC_STATUS(_p_)            ((_p_) & GENMASK(1, 0))
-> >  #define   UCSI_CONSTAT_BC_NOT_CHARGING         0
-> >  #define   UCSI_CONSTAT_BC_NOMINAL_CHARGING     1
-> >  #define   UCSI_CONSTAT_BC_SLOW_CHARGING                2
-> >  #define   UCSI_CONSTAT_BC_TRICKLE_CHARGING     3
-> > -#define UCSI_CONSTAT_PROVIDER_CAP_LIMIT(_p_)   (((_p_[0]) & GENMASK(5, 2)) >> 2)
-> > -#define   UCSI_CONSTAT_CAP_PWR_LOWERED         0
-> > -#define   UCSI_CONSTAT_CAP_PWR_BUDGET_LIMIT    1
-> > -#define UCSI_CONSTAT_PROVIDER_PD_VERSION_OPER_MODE(_p_)        \
-> > -       ((get_unaligned_le32(_p_) & GENMASK(21, 6)) >> 6)
-> > -#define UCSI_CONSTAT_ORIENTATION(_p_)          (((_p_[2]) & GENMASK(6, 6)) >> 6)
-> > -#define   UCSI_CONSTAT_ORIENTATION_DIRECT      0
-> > -#define   UCSI_CONSTAT_ORIENTATION_FLIPPED     1
-> > -#define UCSI_CONSTAT_SINK_PATH_STATUS(_p_)     (((_p_[2]) & GENMASK(7, 7)) >> 7)
-> > -#define   UCSI_CONSTAT_SINK_PATH_DISABLED      0
-> > -#define   UCSI_CONSTAT_SINK_PATH_ENABLED       1
-> > -       u8 pwr_readings[9];
-> > -#define UCSI_CONSTAT_REV_CURR_PROT_STATUS(_p_) ((_p_[0]) & 0x1)
-> > -#define UCSI_CONSTAT_PWR_READING_VALID(_p_)    (((_p_[0]) & GENMASK(1, 1)) >> 1)
-> > -#define UCSI_CONSTAT_CURRENT_SCALE(_p_)                (((_p_[0]) & GENMASK(4, 2)) >> 2)
-> > -#define UCSI_CONSTAT_PEAK_CURRENT(_p_) \
-> > -       ((get_unaligned_le32(_p_) & GENMASK(20, 5)) >> 5)
-> > -#define UCSI_CONSTAT_AVG_CURRENT(_p_) \
-> > -       ((get_unaligned_le32(&(_p_)[2]) & GENMASK(20, 5)) >> 5)
-> > -#define UCSI_CONSTAT_VOLTAGE_SCALE(_p_) \
-> > -       ((get_unaligned_le16(&(_p_)[4]) & GENMASK(8, 5)) >> 5)
-> > -#define UCSI_CONSTAT_VOLTAGE_READING(_p_) \
-> > -       ((get_unaligned_le32(&(_p_)[5]) & GENMASK(16, 1)) >> 1)
-> >  } __packed;
-> >
-> >  /*
-> > --
-> > 2.43.0
-> >
-> >
+On 19.8.2024 7.58, Pawel Laszczak wrote:
+> Stream endpoint can skip part of TD during next transfer initialization
+> after beginning stopped during active stream data transfer.
+> The Set TR Dequeue Pointer command does not clear all internal
+> transfer-related variables that position stream endpoint on transfer ring.
 > 
-> I'm working on a patch series that depends on the sink path status so
-> I would prefer we don't remove it:
-> https://chromium-review.googlesource.com/c/chromiumos/third_party/kernel/+/5784952
+> USB Controller stores all endpoint state information within RsvdO fields
+> inside endpoint context structure. For stream endpoints, all relevant
+> information regarding particular StreamID is stored within corresponding
+> Stream Endpoint context.
+> Whenever driver wants to stop stream endpoint traffic, it invokes
+> Stop Endpoint command which forces the controller to dump all endpoint
+> state-related variables into RsvdO spaces into endpoint context and stream
+> endpoint context. Whenever driver wants to reinitialize endpoint starting
+> point on Transfer Ring, it uses the Set TR Dequeue Pointer command
+> to update dequeue pointer for particular stream in Stream Endpoint
+> Context. When stream endpoint is forced to stop active transfer in the
+> middle of TD, it dumps an information about TRB bytes left in RsvdO fields
+> in Stream Endpoint Context which will be used in next transfer
+> initialization to designate starting point for XDMA. This field is not
+> cleared during Set TR Dequeue Pointer command which causes XDMA to skip
+> over transfer ring and leads to data loss on stream pipe.
+
+xHC should clear the EDTLA field when processing a Set TR Dequeue Pointer command:
+
+xhci spec v1.2, section 4.6.10 Set TR Dequeue Pointer:
+"The xHC shall perform the following operations when setting a ring address:
+  ...
+Clear any prior transfer state, e.g. setting the EDTLA to 0, clearing any partially
+completed USB2 split transactions, etc."
+
 > 
-> Since GET_CONNECTOR_STATUS is the only command that exceeds 16 bytes
-> for MESSAGE_IN, can we just add a wrapper that checks the UCSI version
-> for that command only and limits the size sent to ucsi_run_command?
+> Patch fixes this by clearing out all RsvdO fields before initializing new
+> transfer via that StreamID.
 
-It's always "just this one command" :). It's actually not only the
-GET_CONNECTOR_STATUS command in this case - at least GET_PD_MESSAGE
-can also exceed 16 bytes - but even if it was, it would still not be
-okay to simply guard the read. You would also have to check the
-version with every access of those extended fields, and that's where
-it's basically guaranteed to fail. Somebody will access those extended
-fields unconditionally without anybody noticing sooner or later, and
-that's why they can't be part of this data structure.
+Looks like patch also writes edtl back to ctx->reserved[0], is there a reason for this?
 
-So there needs to be a completely separate data structure for the
-extended version.
+> 
+> Field Rsvd0 is reserved field, so patch should not have impact for other
+> xHCI controllers.
+> 
+> Fixes: 3d82904559f4 ("usb: cdnsp: cdns3 Add main part of Cadence USBSSP DRD Driver")
+> cc: <stable@vger.kernel.org>
+> Signed-off-by: Pawel Laszczak <pawell@cadence.com>
+> ---
+>   drivers/usb/host/xhci-ring.c | 13 +++++++++++++
+>   1 file changed, 13 insertions(+)
+> 
+> diff --git a/drivers/usb/host/xhci-ring.c b/drivers/usb/host/xhci-ring.c
+> index 1dde53f6eb31..7fc1c4efcae2 100644
+> --- a/drivers/usb/host/xhci-ring.c
+> +++ b/drivers/usb/host/xhci-ring.c
+> @@ -1385,7 +1385,20 @@ static void xhci_handle_cmd_set_deq(struct xhci_hcd *xhci, int slot_id,
+>   		if (ep->ep_state & EP_HAS_STREAMS) {
+>   			struct xhci_stream_ctx *ctx =
+>   				&ep->stream_info->stream_ctx_array[stream_id];
+> +			u32 edtl;
+> +
+>   			deq = le64_to_cpu(ctx->stream_ring) & SCTX_DEQ_MASK;
+> +			edtl = EVENT_TRB_LEN(le32_to_cpu(ctx->reserved[1]));
 
-struct ucsi_connector_status_extended {
-        u8 status[16];
-        u8 extended[3];
-} __packed;
+Isn't edtl in reserved[0], not in reserved[1]?
 
-Something like that. But that of course should not be introduced
-before there is an actual user for it.
+Also unclear why we read it at all, it should be set to 0 by controller, right?
 
-thanks,
+> +
+> +			/*
+> +			 * Existing Cadence xHCI controllers store some endpoint state information
+> +			 * within Rsvd0 fields of Stream Endpoint context. This field is not
 
--- 
-heikki
+Aren't these fields RsvdO (Reserved and Opaque)?
+Driver shouldn't normally touch these fields, they are used by xHC as temporary workspace.
+
+> +			 * cleared during Set TR Dequeue Pointer command which causes XDMA to skip
+> +			 * over transfer ring and leads to data loss on stream pipe.
+> +			 * To fix this issue driver must clear Rsvd0 field.
+> +			 */
+> +			ctx->reserved[1] = 0;
+> +			ctx->reserved[0] = cpu_to_le32(edtl);
+
+why are we writing back edtl?, also note that it's read from ctx->reserved[1] above, and now
+written to back to ctx->reserved[0].
+
+I understood that issue was those RsvdO fields needs to be cleared manually for this host as
+hardware fails to clear them during a "Set TR Dequeue Pointer" command.
+
+Am I misunderstanding something?
+
+Thanks
+Mathias
+
