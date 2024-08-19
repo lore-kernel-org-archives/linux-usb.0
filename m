@@ -1,122 +1,102 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.20])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.12])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D4ED715B995;
-	Mon, 19 Aug 2024 11:14:03 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.20
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E9AD614A4F7
+	for <linux-usb@vger.kernel.org>; Mon, 19 Aug 2024 11:40:58 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.12
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1724066045; cv=none; b=rfycDWiWU/uRQtVmxsXeVrGTaXbRnp7jP0vhVWiPXuVka8jYm4ZtTJYVvrRJOzsrGx5Z/byTnwj403CTLlNn+YC09Uk81HWpVhLR5XL+GLrfZYXS5YCOfgd6xlVXaYUvP7+/sI+SEQwy7KuJoKo30sPIVKO0fXeCo+mtvdhhWh8=
+	t=1724067660; cv=none; b=t3rZojoJ6ckqYRBXkvxeooHvY3DStLWLFAIfhcygaaICaIE9NPOCUueTNir48K2YGCAkxXH0EZ3v7k/lgE67Xn8ZT2+tmljP72J8dEixzHe8eWScZNqgY0S7L4Pkw0wC8EjudnWTszJUAppUzfVHW9WCqhr7le9G9Eud4ylC5zg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1724066045; c=relaxed/simple;
-	bh=wqivuAtMCQV/XAC/sCYbD+dHR6ZzqWzi5UCasd6w21w=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=rvmBQL4qZTNkQk4TBRBbh1cHFiXm5Issv9sNS0xQrzQ3uI54T6zr4V42tUaqIOJ5refsIiwkulspKtYXzbpD7jHLpxYqV0RAHBUKSiDbmPcGp6NL1p4r6Mkz6qtkE3nf/nj0rZv3rBVSDGdW0yANZDKC2lnp/K9nX5R0AwYTq/o=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=none smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=EYq4SbkH; arc=none smtp.client-ip=198.175.65.20
+	s=arc-20240116; t=1724067660; c=relaxed/simple;
+	bh=kCiMUZshM22Yfrn1jBXCXMYCRvUeOA+R3PkG4vk6BFg=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=XsVB7NSoJNSShu26VOH0Hr8RzymyWtlrKIj02udC4RfT4YCgeRKqtxNuIE7sd06Ruhv/3Jbwja9ryIffZNQdwqFH0vEWv3/wGtGYRKr+qSI2J9lTvr9RO6pAlJNJRmZ9mGCWBFqXuDD+Sd9oItPDyYIbLRR21tGtaVk0L0HszpQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=none smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=XRQznldw; arc=none smtp.client-ip=198.175.65.12
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=linux.intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="EYq4SbkH"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="XRQznldw"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1724066044; x=1755602044;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=wqivuAtMCQV/XAC/sCYbD+dHR6ZzqWzi5UCasd6w21w=;
-  b=EYq4SbkHcuxCzbZ8PfjWvNkdH1K3ekW/r6OoBLqG+OF7GD2O2zKg1Uxi
-   YsO/ltDu93M2tZbUTYEnIANyXRKBVdm34C1I6xGPfhVXfzQKa2W5swT9x
-   0vfNxwIF8hms03WoSIfvtA1lFmhbzY9agxqQ+nQVyCyw3Gx+AuZKpC7rs
-   xeoqdBY33D3NgNO2Yb7OFI4kONuUs3czMYfSd49orbbDHlTiTKc4afA5I
-   EyN7yZFkmy1irBB3VXyDcs8o1Tn8DjpjUOX4j8xHgzFGsb7LjHLpoojYk
-   1ZWIUp7YHKWURrVL4YehzPoNR1hQSKdDdSOExdgwmVdde2V1wb1MuLrJB
+  t=1724067660; x=1755603660;
+  h=from:to:cc:subject:date:message-id:mime-version:
+   content-transfer-encoding;
+  bh=kCiMUZshM22Yfrn1jBXCXMYCRvUeOA+R3PkG4vk6BFg=;
+  b=XRQznldwmOnSRvUUIqdFAYWeiMqWvqRpU27qyNvMkeTOEVX3W8mTwu1r
+   cq6hIBwX04XPfvOlduH0fsIeV+4ONtPaJXzcqMYxIZBJjboyIu+5blyls
+   itdpHQmz/DUGh/O6lwcMtLfdv+c7m0CfGYtGXleW2XErl7dsM83ka3y69
+   Pslp52OFcZt442Bk5oWsrNEQlVZGnLFMI+gltCfO9dutQIntBMxgoB4Z4
+   DY4gPnsYFBibAxjdBy7IfH+bl3glvB+SuyG12LbzONh1S1DVS0m2crnR7
+   kv4UCr6PA0WybTj4Ejv5hy0R3oLNZ2PU41VUEKBpzvp/aM9La8da+WPjm
    Q==;
-X-CSE-ConnectionGUID: tsLUPSMLQnydc9o9LPQx5Q==
-X-CSE-MsgGUID: BXUN3QJGS0KEOmM5WXVRxw==
-X-IronPort-AV: E=McAfee;i="6700,10204,11168"; a="22121708"
-X-IronPort-AV: E=Sophos;i="6.10,158,1719903600"; 
-   d="scan'208";a="22121708"
-Received: from orviesa003.jf.intel.com ([10.64.159.143])
-  by orvoesa112.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 19 Aug 2024 04:14:04 -0700
-X-CSE-ConnectionGUID: xq145QvITm+zArgykmlpzQ==
-X-CSE-MsgGUID: jkVcxC44TX23GqI2nLmI8A==
+X-CSE-ConnectionGUID: KRYIxvSUQoqeJ/tnw4l/tQ==
+X-CSE-MsgGUID: e604UkypTV+ueDdcCHEg4g==
+X-IronPort-AV: E=McAfee;i="6700,10204,11168"; a="33688819"
+X-IronPort-AV: E=Sophos;i="6.10,159,1719903600"; 
+   d="scan'208";a="33688819"
+Received: from fmviesa002.fm.intel.com ([10.60.135.142])
+  by orvoesa104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 19 Aug 2024 04:40:59 -0700
+X-CSE-ConnectionGUID: o/JMLDl3SdiufouWhYaHcw==
+X-CSE-MsgGUID: MnnyiB6vRuu5GXmVNWd/nQ==
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.10,158,1719903600"; 
-   d="scan'208";a="65173107"
-Received: from kuha.fi.intel.com ([10.237.72.185])
-  by orviesa003.jf.intel.com with SMTP; 19 Aug 2024 04:14:00 -0700
-Received: by kuha.fi.intel.com (sSMTP sendmail emulation); Mon, 19 Aug 2024 14:13:59 +0300
-Date: Mon, 19 Aug 2024 14:13:59 +0300
-From: Heikki Krogerus <heikki.krogerus@linux.intel.com>
-To: Wadim Egorov <w.egorov@phytec.de>
-Cc: linux-kernel@vger.kernel.org, linux-usb@vger.kernel.org,
-	upstream@lists.phytec.de, gregkh@linuxfoundation.org,
-	javier.carrasco@wolfvision.net, abdelalkuor@geotab.com,
-	harshit.m.mogalapalli@oracle.com
-Subject: Re: [PATCH] usb: typec: tipd: Free IRQ only if it was requested
- before
-Message-ID: <ZsMo9/sqiQ8kHhZj@kuha.fi.intel.com>
-References: <20240816124150.608125-1-w.egorov@phytec.de>
+X-IronPort-AV: E=Sophos;i="6.10,159,1719903600"; 
+   d="scan'208";a="83566109"
+Received: from black.fi.intel.com ([10.237.72.28])
+  by fmviesa002.fm.intel.com with ESMTP; 19 Aug 2024 04:40:55 -0700
+Received: by black.fi.intel.com (Postfix, from userid 1001)
+	id 854FF2D8; Mon, 19 Aug 2024 14:40:54 +0300 (EEST)
+From: Mika Westerberg <mika.westerberg@linux.intel.com>
+To: Yehezkel Bernat <YehezkelShB@gmail.com>,
+	Michael Jamet <michael.jamet@intel.com>,
+	Lukas Wunner <lukas@wunner.de>,
+	Andreas Noever <andreas.noever@gmail.com>
+Cc: linux-usb@vger.kernel.org,
+	Aapo Vienamo <aapo.vienamo@linux.intel.com>,
+	Rene Sapiens <rene.sapiens@intel.com>,
+	R Kannappan <r.kannappan@intel.com>,
+	Dan Carpenter <dan.carpenter@linaro.org>,
+	Mika Westerberg <mika.westerberg@linux.intel.com>
+Subject: [PATCH v2 0/4] thunderbolt: Improve software receiver lane margining
+Date: Mon, 19 Aug 2024 14:40:50 +0300
+Message-ID: <20240819114054.4139941-1-mika.westerberg@linux.intel.com>
+X-Mailer: git-send-email 2.43.0
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20240816124150.608125-1-w.egorov@phytec.de>
+Content-Transfer-Encoding: 8bit
 
-On Fri, Aug 16, 2024 at 02:41:50PM +0200, Wadim Egorov wrote:
-> In polling mode, if no IRQ was requested there is no need to free it.
-> Call devm_free_irq() only if client->irq is set. This fixes the warning
-> caused by the tps6598x module removal:
-> 
-> WARNING: CPU: 2 PID: 333 at kernel/irq/devres.c:144 devm_free_irq+0x80/0x8c
-> ...
-> ...
-> Call trace:
->   devm_free_irq+0x80/0x8c
->   tps6598x_remove+0x28/0x88 [tps6598x]
->   i2c_device_remove+0x2c/0x9c
->   device_remove+0x4c/0x80
->   device_release_driver_internal+0x1cc/0x228
->   driver_detach+0x50/0x98
->   bus_remove_driver+0x6c/0xbc
->   driver_unregister+0x30/0x60
->   i2c_del_driver+0x54/0x64
->   tps6598x_i2c_driver_exit+0x18/0xc3c [tps6598x]
->   __arm64_sys_delete_module+0x184/0x264
->   invoke_syscall+0x48/0x110
->   el0_svc_common.constprop.0+0xc8/0xe8
->   do_el0_svc+0x20/0x2c
->   el0_svc+0x28/0x98
->   el0t_64_sync_handler+0x13c/0x158
->   el0t_64_sync+0x190/0x194
-> 
-> Signed-off-by: Wadim Egorov <w.egorov@phytec.de>
+Hi all,
 
-Reviewed-by: Heikki Krogerus <heikki.krogerus@linux.intel.com>
+This series improves the software receiver lane margining support in
+debugfs so that it should be more usable now.
 
-> ---
->  drivers/usb/typec/tipd/core.c | 3 ++-
->  1 file changed, 2 insertions(+), 1 deletion(-)
-> 
-> diff --git a/drivers/usb/typec/tipd/core.c b/drivers/usb/typec/tipd/core.c
-> index dd51a25480bf..256b0c054e9a 100644
-> --- a/drivers/usb/typec/tipd/core.c
-> +++ b/drivers/usb/typec/tipd/core.c
-> @@ -1465,8 +1465,9 @@ static void tps6598x_remove(struct i2c_client *client)
->  
->  	if (!client->irq)
->  		cancel_delayed_work_sync(&tps->wq_poll);
-> +	else
-> +		devm_free_irq(tps->dev, client->irq, tps);
->  
-> -	devm_free_irq(tps->dev, client->irq, tps);
->  	tps6598x_disconnect(tps, 0);
->  	typec_unregister_port(tps->port);
->  	usb_role_switch_put(tps->role_sw);
-> -- 
-> 2.34.1
+Changes from the previous version:
+
+  - Initialize 'errors' in margining_run_sw() as pointed out by Dan
+    Carpenter.
+
+Previous version of the patch can be found:
+
+  https://lore.kernel.org/linux-usb/20240813110135.2178900-2-mika.westerberg@linux.intel.com/
+
+Aapo Vienamo (1):
+  thunderbolt: Add missing usb4_port_sb_read() to usb4_port_sw_margin()
+
+R Kannappan (1):
+  thunderbolt: Improve software receiver lane margining
+
+Rene Sapiens (2):
+  thunderbolt: Consolidate margining parameters into a structure
+  thunderbolt: Add optional voltage offset range for receiver lane margining
+
+ drivers/thunderbolt/debugfs.c | 382 ++++++++++++++++++++++++++++++++--
+ drivers/thunderbolt/sb_regs.h |  18 +-
+ drivers/thunderbolt/tb.h      |  42 +++-
+ drivers/thunderbolt/usb4.c    |  62 +++---
+ 4 files changed, 452 insertions(+), 52 deletions(-)
 
 -- 
-heikki
+2.43.0
+
