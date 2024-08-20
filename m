@@ -1,57 +1,53 @@
-Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com [205.220.168.131])
+Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com [205.220.180.131])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0107118B48D;
-	Tue, 20 Aug 2024 12:15:31 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.168.131
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 81A1418C014;
+	Tue, 20 Aug 2024 12:15:32 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.180.131
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1724156133; cv=none; b=PY8teVmEw0tnPyhtIUXtocGR8eMhS58Y5HTEhfc/wSM5wgxh/OU3TtDcdoKlXIX7N3Gkleje/h4YE+b6thvRJ01NkAOK+X0uG9JPRn4MSr0vxQ5RVcPlzOFfmgGoWbwLJM22xnYkodPXeuYHG9ThrCoNF+nL/OAXq4CYqZpr+Cw=
+	t=1724156134; cv=none; b=ov9gQtGltlD8FV7xKKq0WjoTFxUxkXWE2v5ms+F3XaCMLVE1cFppl2rXHoXnMbSj9VuFC/loTlg6PbvSsgm8YPYAuJaZR5tpgcBjL19pYfy583i4PkpEFaYvreW2d1K9cf/sipWtQLt52nsvxU3L3RAUTklJ4+vjCUecmqQb10c=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1724156133; c=relaxed/simple;
-	bh=Z4xe6jEfZ5KTh4rfWb/uoY/IdUUslSwwWSaZcLRO2+s=;
-	h=From:To:CC:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=ta8twJTrE+5xByKRu6G7SKduud9j3H1w0BNfCAdW5Cs6r2kBk1m5a2+iDKHM+Z4YWBvcjjR+ZSvqxVy/eH68XoSw/ca5n2skPSrrehDbrxmUIHKVnqZ44oC/zTa85pwxZdwPNM+Jc5zpknllHXJQDGb1YQO2POgNSp6ynBs/NjA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=quicinc.com; spf=pass smtp.mailfrom=quicinc.com; dkim=pass (2048-bit key) header.d=quicinc.com header.i=@quicinc.com header.b=ouWqtsTe; arc=none smtp.client-ip=205.220.168.131
+	s=arc-20240116; t=1724156134; c=relaxed/simple;
+	bh=QH5c3NuhwizcJBe68p55a13P6p0ggigL3dsCF2BspwU=;
+	h=From:To:CC:Subject:Date:Message-ID:MIME-Version:Content-Type; b=ShGOlmYThhCJANmS+c6Egwsxd9RL1DfuxIuLq3aa9KfVKnyyPLKWXTby5KrEnS5GH/h/8Se9AOhnF18zAQcoglsWdOrhwKpsFqvqwfOD9tIP8XeCLS92BgsFMExsSk3h2sXG4rOI6bjbXYOwD/FsYry+uaOOgjb5SFIGbuYDyok=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=quicinc.com; spf=pass smtp.mailfrom=quicinc.com; dkim=pass (2048-bit key) header.d=quicinc.com header.i=@quicinc.com header.b=duOGKV0i; arc=none smtp.client-ip=205.220.180.131
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=quicinc.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=quicinc.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=quicinc.com header.i=@quicinc.com header.b="ouWqtsTe"
-Received: from pps.filterd (m0279865.ppops.net [127.0.0.1])
-	by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 47K8vs5m001126;
-	Tue, 20 Aug 2024 12:15:27 GMT
+	dkim=pass (2048-bit key) header.d=quicinc.com header.i=@quicinc.com header.b="duOGKV0i"
+Received: from pps.filterd (m0279872.ppops.net [127.0.0.1])
+	by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 47K72r6Q022736;
+	Tue, 20 Aug 2024 12:15:28 GMT
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com; h=
-	cc:content-transfer-encoding:content-type:date:from:in-reply-to
-	:message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
-	k/GEw8BgJg/67/FhttEOkHwMmg1WkEY4jXTADC+q3qc=; b=ouWqtsTeCWdLWMcm
-	ZKVVML3XRAWcMsS2RH0/X3mlJvAKFj5AZex98vMcAAzwSlAW4+ScQoyEVs/paLmp
-	tSLXCBVP6WBaGV81aBlEVnhQ5Q2088Ust8brMBcn707Z3kyLxd7IrI4uqd/d6WMO
-	2nxm85dbmN7cnH7AO4oUK2Pp1zABdLI27gfA2IMNWHNtGRo4hGIzeVCxmNXns/L/
-	PW2lekaV3MLgdJfurogerayx2asH8aSOktSGrSc9SWyqBWSv4UMh+FwsuLe4L1Tg
-	NMdv42sjOVCv6O1KVjqulJ4AehfPRob7BT8TEeTLAciKozNBrZvQrEiHTW/QGzQ6
-	1ERFQQ==
+	cc:content-transfer-encoding:content-type:date:from:message-id
+	:mime-version:subject:to; s=qcppdkim1; bh=EudIPUzh6TaSFlWzs9Fh9d
+	xgTheI7QSqwJSMWY/Ngxc=; b=duOGKV0ircaT5b299A9+i1eyBxqDYmj918TwnA
+	HmqFdRMCjDhSRSlGqp3p6lHfYdTVc9L7HYUbl/yU9S0TI/I0+y7PhVSldds6ymQ2
+	h2F5ckb2ZkB3WA+zz2pVrafFxnCnfLZIldEgsvhLmQz+UgT9qh/gb7NZz/wJ2zEj
+	Q97oq+zWS5JiBczNnm2VDd1i3Anc0PUNQVV2eH0Bq2No6R2eYYl7ByoGT0YsNqB3
+	Y7OkPoPI1v8Y+GJUrpn+sKasljGAkwdFrQ+rGtBX9dKd74hr0OaX/z5SyZTOjglD
+	HEtKflchkEOfu294/X7PNGkm4A4Pggc0qdGNr2qhP2QDu39A==
 Received: from nasanppmta04.qualcomm.com (i-global254.qualcomm.com [199.106.103.254])
-	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 412jtryr6d-1
+	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 414pdm8xed-1
 	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Tue, 20 Aug 2024 12:15:26 +0000 (GMT)
+	Tue, 20 Aug 2024 12:15:28 +0000 (GMT)
 Received: from nasanex01c.na.qualcomm.com (nasanex01c.na.qualcomm.com [10.45.79.139])
-	by NASANPPMTA04.qualcomm.com (8.18.1.2/8.18.1.2) with ESMTPS id 47KCFORn009427
+	by NASANPPMTA04.qualcomm.com (8.18.1.2/8.18.1.2) with ESMTPS id 47KCFKWU009324
 	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Tue, 20 Aug 2024 12:15:24 GMT
+	Tue, 20 Aug 2024 12:15:20 GMT
 Received: from zhonhan-gv.qualcomm.com (10.80.80.8) by
  nasanex01c.na.qualcomm.com (10.45.79.139) with Microsoft SMTP Server
  (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.1544.9; Tue, 20 Aug 2024 05:15:22 -0700
+ 15.2.1544.9; Tue, 20 Aug 2024 05:15:18 -0700
 From: Zhongqiu Han <quic_zhonhan@quicinc.com>
 To: <Thinh.Nguyen@synopsys.com>, <gregkh@linuxfoundation.org>,
         <mathias.nyman@intel.com>
 CC: <linux-usb@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
         <quic_zhonhan@quicinc.com>
-Subject: [PATCH 2/2] usb: xhci: ext-caps: Use cpu_relax() when polling registers
-Date: Tue, 20 Aug 2024 20:15:01 +0800
-Message-ID: <20240820121501.3593245-3-quic_zhonhan@quicinc.com>
+Subject: [PATCH 0/2] usb: Call cpu_relax() when polling registers
+Date: Tue, 20 Aug 2024 20:14:59 +0800
+Message-ID: <20240820121501.3593245-1-quic_zhonhan@quicinc.com>
 X-Mailer: git-send-email 2.25.1
-In-Reply-To: <20240820121501.3593245-1-quic_zhonhan@quicinc.com>
-References: <20240820121501.3593245-1-quic_zhonhan@quicinc.com>
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
@@ -64,41 +60,32 @@ X-ClientProxiedBy: nasanex01a.na.qualcomm.com (10.52.223.231) To
  nasanex01c.na.qualcomm.com (10.45.79.139)
 X-QCInternal: smtphost
 X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800 signatures=585085
-X-Proofpoint-ORIG-GUID: otxIxkeyCTZiGiB6Kk47urf640p35LmK
-X-Proofpoint-GUID: otxIxkeyCTZiGiB6Kk47urf640p35LmK
+X-Proofpoint-GUID: JUhxY_dHm463WsXoiUlcodfpkFpjR1xP
+X-Proofpoint-ORIG-GUID: JUhxY_dHm463WsXoiUlcodfpkFpjR1xP
 X-Proofpoint-Virus-Version: vendor=baseguard
  engine=ICAP:2.0.293,Aquarius:18.0.1039,Hydra:6.0.680,FMLib:17.12.28.16
  definitions=2024-08-20_09,2024-08-19_03,2024-05-17_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 spamscore=0 clxscore=1011
- suspectscore=0 bulkscore=0 mlxlogscore=506 mlxscore=0 impostorscore=0
- malwarescore=0 lowpriorityscore=0 adultscore=0 priorityscore=1501
- phishscore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.19.0-2407110000 definitions=main-2408200091
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 mlxlogscore=273 spamscore=0
+ suspectscore=0 malwarescore=0 phishscore=0 priorityscore=1501 mlxscore=0
+ impostorscore=0 bulkscore=0 lowpriorityscore=0 adultscore=0 clxscore=1015
+ classifier=spam adjust=0 reason=mlx scancount=1 engine=8.19.0-2407110000
+ definitions=main-2408200091
 
-It is considered good practice to call cpu_relax() in busy loops, see
-Documentation/process/volatile-considered-harmful.rst. This can lower
-CPU power consumption or yield to a hyperthreaded twin processor and
-also serve as a compiler barrier. In addition, if something goes wrong
-in the busy loop at least it can prevent things from getting worse.
+This series adds cpu_relax() in registers polling busy loops and
+it is a well-known idiom in the kernel.
 
 Signed-off-by: Zhongqiu Han <quic_zhonhan@quicinc.com>
 ---
- drivers/usb/host/xhci-ext-caps.h | 2 ++
- 1 file changed, 2 insertions(+)
+Zhongqiu Han (2):
+  usb: dwc3: core: Call cpu_relax() in registers polling busy loops
+  usb: xhci: ext-caps: Use cpu_relax() when polling registers
 
-diff --git a/drivers/usb/host/xhci-ext-caps.h b/drivers/usb/host/xhci-ext-caps.h
-index 96eb36a58738..25d148d60ab0 100644
---- a/drivers/usb/host/xhci-ext-caps.h
-+++ b/drivers/usb/host/xhci-ext-caps.h
-@@ -144,6 +144,8 @@ static inline int xhci_find_next_ext_cap(void __iomem *base, u32 start, int id)
- 		if (offset != start && (id == 0 || XHCI_EXT_CAPS_ID(val) == id))
- 			return offset;
- 
-+		cpu_relax();
-+
- 		next = XHCI_EXT_CAPS_NEXT(val);
- 		offset += next << 2;
- 	} while (next);
+ drivers/usb/dwc3/core.c          | 2 ++
+ drivers/usb/host/xhci-ext-caps.h | 2 ++
+ 2 files changed, 4 insertions(+)
+
+
+base-commit: 469f1bad3c1c6e268059f78c0eec7e9552b3894c
 -- 
 2.25.1
 
