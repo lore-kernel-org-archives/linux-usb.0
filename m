@@ -1,57 +1,55 @@
-Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com [205.220.180.131])
+Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com [205.220.168.131])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 45E5518E76E;
-	Tue, 20 Aug 2024 12:15:39 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.180.131
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4BD2318FC9D;
+	Tue, 20 Aug 2024 12:15:48 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.168.131
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1724156141; cv=none; b=pBkW5/ePPh5WVVw6UtHMDcSFeop5tlapIG5jiIPfy8Y41dirb2NsQKF15hmqkhBJWae36orSHgWVDcEmApALTs6gZKGPD7DI2q4whMHDb3yjZA3pPP7FZNc8BTSVd2PBxyMe1IYMT3zCEJyH6cTMeH2TjF5NsyRt4DLCugRKmhA=
+	t=1724156149; cv=none; b=ShF1DMNzMagF8sK5I0lxO7j7IeG6sRFvI/t3DokASlqGFSlJC9tIuUVNORP1pY7yvT8G472LpUTn8G1ALorRTsWK9CgE+g7EBoP+pmIIxPSf/J0ooCY0bGD8OHH/9+FA+k33xbT+io81fCnzTzBaIHGKb7GHmgnahUGnZZ3qZ50=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1724156141; c=relaxed/simple;
-	bh=8zJhHVbMjE3Xkm9dt/qt0GiFzBTzwByZQAz6eCkn4HU=;
-	h=From:To:CC:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=CIivjJuYa7BVozps1m4geayDrGK4GreZAYP8+5/9sN2LHIiIX5JKIwGZPjKliBZZ4kiv2s6XEINBzPp3ajFtowTDuV649m7eIYD9Gs5J64G9h0NAdyZydCkoPVwJkDhb0oP1w/F0T471sWoR1GGEvqHVgfE1Uli27QRksp6xD9U=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=quicinc.com; spf=pass smtp.mailfrom=quicinc.com; dkim=pass (2048-bit key) header.d=quicinc.com header.i=@quicinc.com header.b=QclY7f9j; arc=none smtp.client-ip=205.220.180.131
+	s=arc-20240116; t=1724156149; c=relaxed/simple;
+	bh=E8GL/aqCh5O1CsiCNm6aKgAsh+4+sSOKXFJjkFpdfrw=;
+	h=From:To:CC:Subject:Date:Message-ID:MIME-Version:Content-Type; b=nztXC+W8/+klTmmyhISow70cY0NsebnxCneNqXg5JUCD03Qpwk6QuPY4dblxZRqXEEqRAj5kxeWvSMFc8V1togcLec+iDMvqUM8Bkvs1sjC+eDihkjJPWrAsDqnduKgn2WXlY/h5qvqV4GMF6+tJkFK3EbVGu7RhEqVF22dJS7I=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=quicinc.com; spf=pass smtp.mailfrom=quicinc.com; dkim=pass (2048-bit key) header.d=quicinc.com header.i=@quicinc.com header.b=XWRDMqKH; arc=none smtp.client-ip=205.220.168.131
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=quicinc.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=quicinc.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=quicinc.com header.i=@quicinc.com header.b="QclY7f9j"
-Received: from pps.filterd (m0279868.ppops.net [127.0.0.1])
-	by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 47K74Pp8013240;
-	Tue, 20 Aug 2024 12:15:37 GMT
+	dkim=pass (2048-bit key) header.d=quicinc.com header.i=@quicinc.com header.b="XWRDMqKH"
+Received: from pps.filterd (m0279863.ppops.net [127.0.0.1])
+	by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 47K9EHap019635;
+	Tue, 20 Aug 2024 12:15:45 GMT
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com; h=
-	cc:content-transfer-encoding:content-type:date:from:in-reply-to
-	:message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
-	aP5KX24UJ/vW0xetZirucPnqfr8HBBYCQbmFG+U/ZlY=; b=QclY7f9jKoqADfxE
-	UG1376jrcfeYZnn1UkbUtw1ujQiiVzsvIFvivNZQUOD16eFR2xsjunYW7n1eVXvM
-	Y5L2+sqHiXhd6tyFpca3MCyfH0DJWTJnvoPrbr6Z6wKNEXuzFjyGu31d5J9u+SvG
-	9trVeoo9utlS6vwwoZRMu7zO9esDtmwvVWN0Cy7RR0l7+1gFo7D76B7AzhM5JMHI
-	/xD49opVnltEtANBwE7gEjAx1LSFkLLgQqiBm0iIiPM6iMwCBX6sj23baVdqlDWX
-	EzeezzhXNrkF3sHfs7JaumEuE2+9JizsrgKlCrg9EM24eoiFsIqx5o45GAwnkBL8
-	HHSdSw==
-Received: from nasanppmta04.qualcomm.com (i-global254.qualcomm.com [199.106.103.254])
-	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 414pe5gxdk-1
+	cc:content-transfer-encoding:content-type:date:from:message-id
+	:mime-version:subject:to; s=qcppdkim1; bh=ZFLDc/m7PT3C3d+KxaBTQK
+	APMhFH4U00e8Mb6tWMps4=; b=XWRDMqKHovkuGWdrQSC8QGHmuZz8VSovXD55sa
+	/o6VcuItEUIxqocTLIXvtRjuhyn6jtDrZbUK1EeZQsjT3RX0/38SaP/Ep6dHd5nK
+	eKB2eCiaLlrhd/lTkLGdjJ4qu9t80wyZ4aRLnLR0cRCdQhm4TRPt9NYPPAZ744Xs
+	QHENNOn8pLJCxZQUaDdmbnZ99CwG3lUj1zvtMNsc5xIJVYP+Xk3x4m+4w/iuDCqm
+	6QZf75lruLU0WPMDPJxvLkDodEIVbUsFUU1cRWJKZM7J1Xdp0rq1PoscrW9orYIX
+	w44LynB/uM4E39znxws2n871U5mBbOZp5+tp/gLBQyrGZplw==
+Received: from nalasppmta02.qualcomm.com (Global_NAT1.qualcomm.com [129.46.96.20])
+	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 412m32qqg9-1
 	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Tue, 20 Aug 2024 12:15:36 +0000 (GMT)
-Received: from nasanex01c.na.qualcomm.com (nasanex01c.na.qualcomm.com [10.45.79.139])
-	by NASANPPMTA04.qualcomm.com (8.18.1.2/8.18.1.2) with ESMTPS id 47KCFLQN009369
+	Tue, 20 Aug 2024 12:15:44 +0000 (GMT)
+Received: from nalasex01a.na.qualcomm.com (nalasex01a.na.qualcomm.com [10.47.209.196])
+	by NALASPPMTA02.qualcomm.com (8.18.1.2/8.18.1.2) with ESMTPS id 47KCFhSi000797
 	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Tue, 20 Aug 2024 12:15:22 GMT
-Received: from zhonhan-gv.qualcomm.com (10.80.80.8) by
- nasanex01c.na.qualcomm.com (10.45.79.139) with Microsoft SMTP Server
+	Tue, 20 Aug 2024 12:15:43 GMT
+Received: from hu-prashk-hyd.qualcomm.com (10.80.80.8) by
+ nalasex01a.na.qualcomm.com (10.47.209.196) with Microsoft SMTP Server
  (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.1544.9; Tue, 20 Aug 2024 05:15:20 -0700
-From: Zhongqiu Han <quic_zhonhan@quicinc.com>
-To: <Thinh.Nguyen@synopsys.com>, <gregkh@linuxfoundation.org>,
-        <mathias.nyman@intel.com>
-CC: <linux-usb@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
-        <quic_zhonhan@quicinc.com>
-Subject: [PATCH 1/2] usb: dwc3: core: Call cpu_relax() in registers polling busy loops
-Date: Tue, 20 Aug 2024 20:15:00 +0800
-Message-ID: <20240820121501.3593245-2-quic_zhonhan@quicinc.com>
+ 15.2.1544.9; Tue, 20 Aug 2024 05:15:41 -0700
+From: Prashanth K <quic_prashk@quicinc.com>
+To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Thinh Nguyen
+	<Thinh.Nguyen@synopsys.com>
+CC: <linux-kernel@vger.kernel.org>, <linux-usb@vger.kernel.org>,
+        Prashanth K
+	<quic_prashk@quicinc.com>, <stable@vger.kernel.org>
+Subject: [v3] usb: dwc3: Avoid waking up gadget during startxfer
+Date: Tue, 20 Aug 2024 17:45:24 +0530
+Message-ID: <20240820121524.1084983-1-quic_prashk@quicinc.com>
 X-Mailer: git-send-email 2.25.1
-In-Reply-To: <20240820121501.3593245-1-quic_zhonhan@quicinc.com>
-References: <20240820121501.3593245-1-quic_zhonhan@quicinc.com>
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
@@ -61,45 +59,89 @@ MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 Content-Type: text/plain
 X-ClientProxiedBy: nasanex01a.na.qualcomm.com (10.52.223.231) To
- nasanex01c.na.qualcomm.com (10.45.79.139)
+ nalasex01a.na.qualcomm.com (10.47.209.196)
 X-QCInternal: smtphost
 X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800 signatures=585085
-X-Proofpoint-ORIG-GUID: YHhRBb7PrubpZgOHvQg7EzUJPFXSHZv5
-X-Proofpoint-GUID: YHhRBb7PrubpZgOHvQg7EzUJPFXSHZv5
+X-Proofpoint-GUID: jgTIpnwW84HZFp_fK_rUHGNczyWr2Hcb
+X-Proofpoint-ORIG-GUID: jgTIpnwW84HZFp_fK_rUHGNczyWr2Hcb
 X-Proofpoint-Virus-Version: vendor=baseguard
  engine=ICAP:2.0.293,Aquarius:18.0.1039,Hydra:6.0.680,FMLib:17.12.28.16
  definitions=2024-08-20_09,2024-08-19_03,2024-05-17_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 malwarescore=0 suspectscore=0
- mlxscore=0 lowpriorityscore=0 adultscore=0 priorityscore=1501
- impostorscore=0 clxscore=1015 spamscore=0 mlxlogscore=688 phishscore=0
- bulkscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 malwarescore=0 mlxscore=0
+ suspectscore=0 priorityscore=1501 phishscore=0 bulkscore=0
+ lowpriorityscore=0 impostorscore=0 clxscore=1015 mlxlogscore=534
+ spamscore=0 adultscore=0 classifier=spam adjust=0 reason=mlx scancount=1
  engine=8.19.0-2407110000 definitions=main-2408200091
 
-Busy loops that poll on a register should call cpu_relax(). On some
-architectures, it can lower CPU power consumption or yield to a
-hyperthreaded twin processor. It also serves as a compiler barrier,
-see Documentation/process/volatile-considered-harmful.rst. In addition,
-if something goes wrong in the busy loop at least it can prevent things
-from getting worse.
+When operating in High-Speed, it is observed that DSTS[USBLNKST] doesn't
+update link state immediately after receiving the wakeup interrupt. Since
+wakeup event handler calls the resume callbacks, there is a chance that
+function drivers can perform an ep queue, which in turn tries to perform
+remote wakeup from send_gadget_ep_cmd(STARTXFER). This happens because
+DSTS[[21:18] wasn't updated to U0 yet, it's observed that the latency of
+DSTS can be in order of milli-seconds. Hence avoid calling gadget_wakeup
+during startxfer to prevent unnecessarily issuing remote wakeup to host.
 
-Signed-off-by: Zhongqiu Han <quic_zhonhan@quicinc.com>
+Fixes: c36d8e947a56 ("usb: dwc3: gadget: put link to U0 before Start Transfer")
+Cc: <stable@vger.kernel.org>
+Suggested-by: Thinh Nguyen <Thinh.Nguyen@synopsys.com>
+Signed-off-by: Prashanth K <quic_prashk@quicinc.com>
 ---
- drivers/usb/dwc3/core.c | 2 ++
- 1 file changed, 2 insertions(+)
+v3: Added notes on top the function definition.
+v2: Refactored the patch as suggested in v1 discussion.
 
-diff --git a/drivers/usb/dwc3/core.c b/drivers/usb/dwc3/core.c
-index 734de2a8bd21..498f08dbbdb5 100644
---- a/drivers/usb/dwc3/core.c
-+++ b/drivers/usb/dwc3/core.c
-@@ -2050,6 +2050,8 @@ static int dwc3_get_num_ports(struct dwc3 *dwc)
- 		if (!offset)
- 			break;
+ drivers/usb/dwc3/gadget.c | 31 +++++++------------------------
+ 1 file changed, 7 insertions(+), 24 deletions(-)
+
+diff --git a/drivers/usb/dwc3/gadget.c b/drivers/usb/dwc3/gadget.c
+index 89fc690fdf34..d4f2f0e1f031 100644
+--- a/drivers/usb/dwc3/gadget.c
++++ b/drivers/usb/dwc3/gadget.c
+@@ -287,6 +287,13 @@ static int __dwc3_gadget_wakeup(struct dwc3 *dwc, bool async);
+  *
+  * Caller should handle locking. This function will issue @cmd with given
+  * @params to @dep and wait for its completion.
++ *
++ * According to databook, if the link is in L1/L2/U3 while issuing StartXfer command,
++ * software must bring the link back to L0/U0 by performing remote wakeup. But we don't
++ * expect ep_queue to trigger a remote wakeup; instead it should be done by wakeup ops.
++ *
++ * After receiving wakeup event, device should no longer be in U3, and any link
++ * transition afterwards needs to be adressed with wakeup ops.
+  */
+ int dwc3_send_gadget_ep_cmd(struct dwc3_ep *dep, unsigned int cmd,
+ 		struct dwc3_gadget_ep_cmd_params *params)
+@@ -327,30 +334,6 @@ int dwc3_send_gadget_ep_cmd(struct dwc3_ep *dep, unsigned int cmd,
+ 			dwc3_writel(dwc->regs, DWC3_GUSB2PHYCFG(0), reg);
+ 	}
  
-+		cpu_relax();
-+
- 		val = readl(base + offset);
- 		major_revision = XHCI_EXT_PORT_MAJOR(val);
- 
+-	if (DWC3_DEPCMD_CMD(cmd) == DWC3_DEPCMD_STARTTRANSFER) {
+-		int link_state;
+-
+-		/*
+-		 * Initiate remote wakeup if the link state is in U3 when
+-		 * operating in SS/SSP or L1/L2 when operating in HS/FS. If the
+-		 * link state is in U1/U2, no remote wakeup is needed. The Start
+-		 * Transfer command will initiate the link recovery.
+-		 */
+-		link_state = dwc3_gadget_get_link_state(dwc);
+-		switch (link_state) {
+-		case DWC3_LINK_STATE_U2:
+-			if (dwc->gadget->speed >= USB_SPEED_SUPER)
+-				break;
+-
+-			fallthrough;
+-		case DWC3_LINK_STATE_U3:
+-			ret = __dwc3_gadget_wakeup(dwc, false);
+-			dev_WARN_ONCE(dwc->dev, ret, "wakeup failed --> %d\n",
+-					ret);
+-			break;
+-		}
+-	}
+-
+ 	/*
+ 	 * For some commands such as Update Transfer command, DEPCMDPARn
+ 	 * registers are reserved. Since the driver often sends Update Transfer
 -- 
 2.25.1
 
