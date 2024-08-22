@@ -1,119 +1,135 @@
-Received: from mail-wm1-f48.google.com (mail-wm1-f48.google.com [209.85.128.48])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 86DE81D1F43
-	for <linux-usb@vger.kernel.org>; Thu, 22 Aug 2024 15:28:51 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.48
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A45671D130F;
+	Thu, 22 Aug 2024 16:43:04 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1724340532; cv=none; b=XySXtbBTOq7K4m2M469aTYcpOxNCJuZBRTgPBSo7ju/Sx3yPdCpzyoMSv21kLuupgdnnvy3kLPQWtbNq7bC/iQM7j7AIFF54QE4MnctboxdbjeyD4Qtac+W/cJUAbJNBsRku4zztlr491q83uVh+EN+VGMroSQnJYjTU7+YeNhU=
+	t=1724344984; cv=none; b=Pfj1SuGzZxprrLQ2eKERHPOniowqbI6IT4NlzvhDi7t8h4cCyQ5EjkvP/E72sDtkKk4BsnxL7OHk8aRKToqMueV+cn5oRLPcbBC55rb4FFrQP//ROJbMgaWUdPNtQS5kfXFny+T7dtI9bT0S0VJroqWSjk/O2etOKupFOlfFiiY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1724340532; c=relaxed/simple;
-	bh=EuKZSKvEQCXDCZNoMj0d43yKeS+Y83/X3kJnCx6rqMY=;
-	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
-	 MIME-Version; b=BKlL1nflk7wQFLnqYy99KxFzCS7mRZLH+MVYj2LmfrtaKQB6nKbCMph3oE2rUe3Qa/LAJ9ERK1hR1+IrGOHlkYeRZDAaFf6hu72btVkHfJUpzFXNmNIQe2ewar/VuSKGp6ZIO4Cmwuvuv/Bts4O+WQSSh++p00HOnbCAOcqJ24M=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=tuxon.dev; spf=pass smtp.mailfrom=tuxon.dev; dkim=pass (2048-bit key) header.d=tuxon.dev header.i=@tuxon.dev header.b=eNET13nc; arc=none smtp.client-ip=209.85.128.48
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=tuxon.dev
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=tuxon.dev
+	s=arc-20240116; t=1724344984; c=relaxed/simple;
+	bh=CjdcfSha03gUsdXzKaVNu7Ok/Rz/zO7wQYl59L9ABII=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=B23NHoEiRk6RQkOqOT4jx05gj7vo/6X9K5R2ylsKXxz/5wkgPQrzjeMyX44o87WdcCHUga8ytIazb32jyam0+jDEe0im/BoPDBL6qSiMv6+so4aBStMdYXNUMgcEQgPlCNMRyCawO6lo6oKU0wUPWGp0PWk1jObzROxhR8LnEPc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=UXoQ8Yfs; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=tuxon.dev header.i=@tuxon.dev header.b="eNET13nc"
-Received: by mail-wm1-f48.google.com with SMTP id 5b1f17b1804b1-42ab99fb45dso9504755e9.1
-        for <linux-usb@vger.kernel.org>; Thu, 22 Aug 2024 08:28:51 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=tuxon.dev; s=google; t=1724340530; x=1724945330; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=YzzVJZseYqmAj3uluQhRMecpWI1dTsj4zEH1FZKD0d4=;
-        b=eNET13ncH98OLgbcdG0m6G74QdeBkl8ixJZo/ljhZqeBccGQmKVF2xjxOfTCK9JqF6
-         jskjXJaLSX7pARiTsCNZstW3xjf2GH+X03ldyAeJjGcAc5nUkmOy/mBnGw1utLurYAkS
-         du7Rt4CBkpic6xozXZ6BCihFhHIHyfzVGS2u3PZghi9I7RI9OUHy8hAxENHmVmwZFFNC
-         wpCTHMj97ffi4DP6tpXp34qtdAke1+gnCtc88qDa+74iGJCcSqaXI32t/7PDWlkTJIaG
-         Qt2Px8RBAoaWVk72CUoWckj5vp6z5z0m1AE37fhec+fuSEdOy8R8oTCIfy31Tb/bF1Kw
-         3uFw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1724340530; x=1724945330;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=YzzVJZseYqmAj3uluQhRMecpWI1dTsj4zEH1FZKD0d4=;
-        b=LIhgASNorjzYhxM4pTuSMWHJWzIzXyAn7861cakrmXMYzV16NTvPrPsqilx1EzzAys
-         VBrUD+2+UcYBRhYu+WV7XnxQE0BAI9CEliAFxpzO0r7vNc9JDncFJc1Dm6ZBHYgVzdUl
-         Qxv/1iAXPXl54nCzVYIKhCJe+5bJEW2pOEhP0lmBWvYmj6y/AwvV4vAPJklzsgS2zIxu
-         XQB4+EhzFY+oomizMB0pG8zlKwNx+0Dg55ypkcS5vJkQNROLX+h/G7j7/fqA0IIu2eog
-         v3B6mKUEor8brczSS7lrqasT+g3iuWqadOKUU+dgVKEKHhu90SHmOOY5FkE/y9UzoeJn
-         JisA==
-X-Forwarded-Encrypted: i=1; AJvYcCWYJYzPWu918dr1mf4H5L83mAHK4ZlRWwLwDk/kO3FtryzhksPqMBwqRhi2k7euJwBCqZYFRR0N7k8=@vger.kernel.org
-X-Gm-Message-State: AOJu0YzzXTiNpS35KbMkjMZ83bOgreQbxPf3gCwdNV06wTyTT0RfpJjP
-	aKyElKvVdN6e4JiKoIl2/E5xYDsnVkX/m1IUqERZFpzV1pYjKMrDxhILhxxeVL8=
-X-Google-Smtp-Source: AGHT+IHCUCn+biQIAnOUlxWOCjXAVeKX8ey9d7uY1NWlOsuugSxvOZNpC2pcgsn0KfGk8KOYuf8lZQ==
-X-Received: by 2002:adf:a416:0:b0:36b:3395:5363 with SMTP id ffacd0b85a97d-37308c1826emr1937317f8f.16.1724340529907;
-        Thu, 22 Aug 2024 08:28:49 -0700 (PDT)
-Received: from claudiu-X670E-Pro-RS.. ([82.78.167.177])
-        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-a868f484dc5sm134189166b.171.2024.08.22.08.28.47
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 22 Aug 2024 08:28:49 -0700 (PDT)
-From: Claudiu <claudiu.beznea@tuxon.dev>
-X-Google-Original-From: Claudiu <claudiu.beznea.uj@bp.renesas.com>
-To: vkoul@kernel.org,
-	kishon@kernel.org,
-	robh@kernel.org,
-	krzk+dt@kernel.org,
-	conor+dt@kernel.org,
-	p.zabel@pengutronix.de,
-	geert+renesas@glider.be,
-	magnus.damm@gmail.com,
-	gregkh@linuxfoundation.org,
-	mturquette@baylibre.com,
-	sboyd@kernel.org,
-	yoshihiro.shimoda.uh@renesas.com,
-	biju.das.jz@bp.renesas.com,
-	ulf.hansson@linaro.org
-Cc: linux-phy@lists.infradead.org,
-	devicetree@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	linux-renesas-soc@vger.kernel.org,
-	linux-usb@vger.kernel.org,
-	linux-arm-kernel@lists.infradead.org,
-	linux-clk@vger.kernel.org,
-	linux-pm@vger.kernel.org,
-	claudiu.beznea@tuxon.dev,
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="UXoQ8Yfs"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id C278EC32782;
+	Thu, 22 Aug 2024 16:42:59 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1724344984;
+	bh=CjdcfSha03gUsdXzKaVNu7Ok/Rz/zO7wQYl59L9ABII=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=UXoQ8Yfs3CT80lVoiRhul5z9oCS6RuUDcyv8omH1omHh5JsQgAipxUsAHTIY4CpKA
+	 QpFuaANfnW70UuyqF3hvLA4mLZ+umOcJOkoVk9l6wl0jddxJT+31Lq0RwThN1wh44+
+	 sAX41d3uGWyg1RQP/z4UMH+HlO0D2Mi1cbwx6+9L+QBvuPwc52IqQSh0AAeEabBjrW
+	 L07GVExqw6oGub71BTQwDzndDS/vZnEoV4dyTkV9Q3KCAaQP61LHovEQ+hXr2XYeq3
+	 JDnOWENKTgeaYif8Jz/GGK45CF3wPZnwK2TTk62zNGI9hJcd1oILbl5wFfGoDMbx5l
+	 aYdH8uwKcNRDQ==
+Date: Thu, 22 Aug 2024 17:42:57 +0100
+From: Conor Dooley <conor@kernel.org>
+To: Claudiu <claudiu.beznea@tuxon.dev>
+Cc: vkoul@kernel.org, kishon@kernel.org, robh@kernel.org,
+	krzk+dt@kernel.org, conor+dt@kernel.org, p.zabel@pengutronix.de,
+	geert+renesas@glider.be, magnus.damm@gmail.com,
+	gregkh@linuxfoundation.org, mturquette@baylibre.com,
+	sboyd@kernel.org, yoshihiro.shimoda.uh@renesas.com,
+	biju.das.jz@bp.renesas.com, ulf.hansson@linaro.org,
+	linux-phy@lists.infradead.org, devicetree@vger.kernel.org,
+	linux-kernel@vger.kernel.org, linux-renesas-soc@vger.kernel.org,
+	linux-usb@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+	linux-clk@vger.kernel.org, linux-pm@vger.kernel.org,
 	Claudiu Beznea <claudiu.beznea.uj@bp.renesas.com>
-Subject: [PATCH 16/16] arm64: defconfig: Enable RZ/G3S SYSC reset driver
-Date: Thu, 22 Aug 2024 18:28:01 +0300
-Message-Id: <20240822152801.602318-17-claudiu.beznea.uj@bp.renesas.com>
-X-Mailer: git-send-email 2.39.2
-In-Reply-To: <20240822152801.602318-1-claudiu.beznea.uj@bp.renesas.com>
+Subject: Re: [PATCH 02/16] dt-bindings: soc: renesas: renesas,rzg2l-sysc: Add
+ #reset-cells for RZ/G3S
+Message-ID: <20240822-vanilla-enigmatic-f0b05ecca4b6@spud>
 References: <20240822152801.602318-1-claudiu.beznea.uj@bp.renesas.com>
+ <20240822152801.602318-3-claudiu.beznea.uj@bp.renesas.com>
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: multipart/signed; micalg=pgp-sha256;
+	protocol="application/pgp-signature"; boundary="R5kWhI8jYXMnqXnv"
+Content-Disposition: inline
+In-Reply-To: <20240822152801.602318-3-claudiu.beznea.uj@bp.renesas.com>
 
-From: Claudiu Beznea <claudiu.beznea.uj@bp.renesas.com>
 
-Enable RZ/G3S SYSC reset driver. This exports the control to 2 signals
-(one for USB, one for PCI).
+--R5kWhI8jYXMnqXnv
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-Signed-off-by: Claudiu Beznea <claudiu.beznea.uj@bp.renesas.com>
----
- arch/arm64/configs/defconfig | 1 +
- 1 file changed, 1 insertion(+)
+On Thu, Aug 22, 2024 at 06:27:47PM +0300, Claudiu wrote:
+> From: Claudiu Beznea <claudiu.beznea.uj@bp.renesas.com>
+>=20
+> The RZ/G3S System controller has registers to control signals that need
+> to be de-asserted/asserted before/after different SoC areas are power
+> on/off. This signals are implemented as reset signals. For this document
+> the #reset-cells property.
+>=20
+> Signed-off-by: Claudiu Beznea <claudiu.beznea.uj@bp.renesas.com>
+> ---
+>  .../bindings/soc/renesas/renesas,rzg2l-sysc.yaml | 16 ++++++++++++++++
+>  1 file changed, 16 insertions(+)
+>=20
+> diff --git a/Documentation/devicetree/bindings/soc/renesas/renesas,rzg2l-=
+sysc.yaml b/Documentation/devicetree/bindings/soc/renesas/renesas,rzg2l-sys=
+c.yaml
+> index 4386b2c3fa4d..6b0bb34485d9 100644
+> --- a/Documentation/devicetree/bindings/soc/renesas/renesas,rzg2l-sysc.ya=
+ml
+> +++ b/Documentation/devicetree/bindings/soc/renesas/renesas,rzg2l-sysc.ya=
+ml
+> @@ -42,12 +42,28 @@ properties:
+>        - const: cm33stbyr_int
+>        - const: ca55_deny
+> =20
+> +  "#reset-cells":
+> +    const: 1
+> +
+>  required:
+>    - compatible
+>    - reg
+> =20
+>  additionalProperties: false
+> =20
+> +allOf:
+> +  - if:
+> +      properties:
+> +        compatible:
+> +          contains:
+> +            const: renesas,r9a08g045-sysc
+> +    then:
+> +      required:
+> +        - "#reset-cells"
 
-diff --git a/arch/arm64/configs/defconfig b/arch/arm64/configs/defconfig
-index 7d32fca64996..4720367a41ea 100644
---- a/arch/arm64/configs/defconfig
-+++ b/arch/arm64/configs/defconfig
-@@ -1510,6 +1510,7 @@ CONFIG_RESET_IMX7=y
- CONFIG_RESET_QCOM_AOSS=y
- CONFIG_RESET_QCOM_PDC=m
- CONFIG_RESET_RZG2L_USBPHY_CTRL=y
-+CONFIG_RESET_RZG3S_SYSC=y
- CONFIG_RESET_TI_SCI=y
- CONFIG_PHY_XGENE=y
- CONFIG_PHY_CAN_TRANSCEIVER=m
--- 
-2.39.2
+Given this is new required property on an existing platform, I'd expect
+some mention of why it used to be okay to not have this but is now
+required. Did firmware or a bootloader stage take things out of reset?
 
+> +    else:
+> +      properties:
+> +        "#reset-cells": false
+> +
+>  examples:
+>    - |
+>      #include <dt-bindings/interrupt-controller/arm-gic.h>
+> --=20
+> 2.39.2
+>=20
+
+--R5kWhI8jYXMnqXnv
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iHUEABYIAB0WIQRh246EGq/8RLhDjO14tDGHoIJi0gUCZsdqkQAKCRB4tDGHoIJi
+0i+AAPoDjYo2y6uMTzLRLfoCjkrx4XlkdvzoEZtEObZg6r8d8AEAiMY9x4dGGNYn
+rLsR+BgKd4cwAM4fW7FwAGCLjJOHbQI=
+=N0Us
+-----END PGP SIGNATURE-----
+
+--R5kWhI8jYXMnqXnv--
