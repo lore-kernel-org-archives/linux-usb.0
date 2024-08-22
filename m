@@ -1,176 +1,344 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.21])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.13])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9D111181B87
-	for <linux-usb@vger.kernel.org>; Thu, 22 Aug 2024 12:48:04 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.21
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 04AD81C9422
+	for <linux-usb@vger.kernel.org>; Thu, 22 Aug 2024 13:00:24 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.13
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1724330886; cv=none; b=rxgkA89aoJ7vdIhKsI0dL3O0k6XI4y1+8W0dwAYdZakvRZgY0LavVwJmmqYTEAQTzPXyTSD2zePjhDD9DnX0hhBSj3gTMIV5YXq4VLQBlehUkHCfZPE2zvSf46OduhiZIjYC+4rNiY98nsDD1mvtRYA9WhCDyWgKbKCFYW/JnfY=
+	t=1724331627; cv=none; b=FENaorxPblkOM06Z6pR8FI8qbWy4rGDRVdWrF/6dH1OS6Nte/CRKZBwCZVPvH/rOyA0zYCaZ7UUibIx4sWq9/2bXo2uqZ6kNfZhNQoNktHaS9rEhUBkfqRKHx0lpxuOX2D0LFu7VOsI0ga5ObPFtI2+SFzM3t5YTo6vLFcUbjXk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1724330886; c=relaxed/simple;
-	bh=BZiB5Pc3cQCV3Mu3+qQ12ezr664u0/maNCQCu9F8nQM=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=mNzWkHd2aTBppcdzaLqu27FOyGCcz507MkQw2IqAGj5f5+Rb3vMeof6C+Im1XlKq6LBIyx6YCAX5gRzfflBEiiyFZ9BAi49kH44RH6UficJaBnTAsASOAATT9THQKVEMCJDM2E/rg6ZTd9o6O1KQv4YUHZZtxFZZd4+pEKSwWR0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=none smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Otn0M57H; arc=none smtp.client-ip=198.175.65.21
+	s=arc-20240116; t=1724331627; c=relaxed/simple;
+	bh=x6tpBjT3zuBO4IZBygMb/B37cYCC9l/O4Mhp7Y53qGE=;
+	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version:Content-Type; b=qyuTV7pAGY3iLto3IfJcnbScXDOGYptiC6P8xFTngLnPYg4b/9zQ9hanDm25xewSK6C7fqRU1wiEL/XSpCHQQHdvMljcs/BPSWkUXGvFzIl5lWndnqAQIXX0fZMujbA5MrGkjvx2zQSdBD12mDhFdJ5RRWJ5y4j1qCgFy5Sy3V4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=none smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=V9Q5csLT; arc=none smtp.client-ip=198.175.65.13
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=linux.intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Otn0M57H"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="V9Q5csLT"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1724330885; x=1755866885;
-  h=message-id:date:mime-version:subject:to:cc:references:
-   from:in-reply-to:content-transfer-encoding;
-  bh=BZiB5Pc3cQCV3Mu3+qQ12ezr664u0/maNCQCu9F8nQM=;
-  b=Otn0M57HynjkKXrdQophirVnZs+GAveu8qYpUpA1LOUlbbCnkbW7eTiB
-   /u8mcQcrZqgUKPRi7yQkInlrGYWNMks4GjKoW4Z2ewmb79gNOoH9kAMe/
-   Kkrjv2bglQpPiD0vt6TS8DWPu3T0JMjv8f0zWA/Zc7NePNNeaSUqflNXO
-   11UbtBd2hDoCVFh/hnqUsP34G0uJphOYTbDLGwSCTq/iTJ73rclhPVGIh
-   fwQWyvwHFaY1Mxnl6UfQd2ApRTXOnfp5R/qlHHWVGQMcxr+3yDuy7ogth
-   L31OQxZBey8RKKOhJy83uuC6OwnJQctHCdFxsj7OIPurM8PHuBx+csvnP
-   g==;
-X-CSE-ConnectionGUID: +XopvFJXSlmn2fkcO816CA==
-X-CSE-MsgGUID: oqcvFIaWQOK0c1cmd5OFgQ==
-X-IronPort-AV: E=McAfee;i="6700,10204,11172"; a="22708460"
+  t=1724331625; x=1755867625;
+  h=from:to:cc:subject:date:message-id:mime-version:
+   content-transfer-encoding;
+  bh=x6tpBjT3zuBO4IZBygMb/B37cYCC9l/O4Mhp7Y53qGE=;
+  b=V9Q5csLTf5anYZKD+7KSuy5CoBkuN4gj9gtjlARjA/yNFRgvmWib9thS
+   QTeUq40my4f7DvMmL8LnJe0QH/K7om/sxlyeJc+bDSxxwm6Vq6zItPX//
+   btsxgsGBMn21QIFp94MfvpuiavrP+1dSg/+n2VwIw0jvsEVG+XiviI/uP
+   F6hJfTG7tHDcVcd7y40sHwb+GvRTEjuZRlnKglJ4pTAVYykvoaGovtikJ
+   JxfsiYEbe0UOK6KMa9cOKgElLYGHklLmLGt3/dSr1PB0u4+NpZnEEt5S5
+   YZ0QTbfhd/2DCsu0Jc59aKKCGpUDRgyeukoKRj0ENdhJnGrzYyFdJ7BmU
+   Q==;
+X-CSE-ConnectionGUID: KLLgHXa/RraspsKOU532Kw==
+X-CSE-MsgGUID: XeTRtivYRwaidGGxhx4gow==
+X-IronPort-AV: E=McAfee;i="6700,10204,11172"; a="33894890"
 X-IronPort-AV: E=Sophos;i="6.10,167,1719903600"; 
-   d="scan'208";a="22708460"
-Received: from orviesa003.jf.intel.com ([10.64.159.143])
-  by orvoesa113.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 22 Aug 2024 05:48:04 -0700
-X-CSE-ConnectionGUID: 6fYf48tmR0Sp62qhAiPTMQ==
-X-CSE-MsgGUID: eIvWq4KwQcyt/nKzxui0Ug==
+   d="scan'208";a="33894890"
+Received: from orviesa002.jf.intel.com ([10.64.159.142])
+  by orvoesa105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 22 Aug 2024 06:00:24 -0700
+X-CSE-ConnectionGUID: 6U2q7iQKQJiRJa6MSVIQig==
+X-CSE-MsgGUID: JIo+o0/USn6l0jwdNBFqfg==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.10,167,1719903600"; 
-   d="scan'208";a="66258251"
-Received: from mattu-haswell.fi.intel.com (HELO [10.237.72.199]) ([10.237.72.199])
-  by orviesa003.jf.intel.com with ESMTP; 22 Aug 2024 05:48:01 -0700
-Message-ID: <9373388b-01e1-49b1-8fab-7724aa6454ab@linux.intel.com>
-Date: Thu, 22 Aug 2024 15:50:06 +0300
+   d="scan'208";a="92178914"
+Received: from mattu-haswell.fi.intel.com ([10.237.72.199])
+  by orviesa002.jf.intel.com with ESMTP; 22 Aug 2024 06:00:24 -0700
+From: Mathias Nyman <mathias.nyman@linux.intel.com>
+To: <linux-usb@vger.kernel.org>,
+	ukaszb@chromium.org
+Cc: Mathias Nyman <mathias.nyman@linux.intel.com>
+Subject: [RFT PATCH] xhci: dbc: Fix STALL transfer event handling
+Date: Thu, 22 Aug 2024 16:02:24 +0300
+Message-Id: <20240822130224.962015-1-mathias.nyman@linux.intel.com>
+X-Mailer: git-send-email 2.25.1
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v2] xhci: dbc: fix handling ClearFeature Halt requests
-To: =?UTF-8?Q?=C5=81ukasz_Bartosik?= <ukaszb@chromium.org>
-Cc: Mathias Nyman <mathias.nyman@intel.com>,
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
- Lu Baolu <baolu.lu@linux.intel.com>, linux-usb@vger.kernel.org
-References: <20240725074857.623299-1-ukaszb@chromium.org>
- <121d85fe-976a-43c4-95d2-1a066234a758@linux.intel.com>
- <CALwA+Na218B0PK3QG20_XFovJMfB4ud7B9Z=4kX=xwu8bjAvHA@mail.gmail.com>
- <115eb4be-e336-4a29-84d2-bdafb84a0f9f@linux.intel.com>
- <CALwA+NbLsg2qfmaHagMNimN0mvU6vNP-rsY31O-9X6oZovAOJQ@mail.gmail.com>
- <8cc19d0a-80f3-48a4-9fd2-0cc42b8ed1f4@linux.intel.com>
- <CALwA+Na_SORXHFr-GZJtPu_HySd9dwo+UAUsv0sYanrH501o4Q@mail.gmail.com>
- <CALwA+NbUJowv3yKnSoY5e4MBi1kZg=ezE0btB5xnTC=k9+VaQg@mail.gmail.com>
- <CALwA+NbLZ7cm_pSc7Bgh-q7YOr3Ez5_AsG-dyqSzoDyOF=E_JQ@mail.gmail.com>
- <f803fe92-5b52-4c11-a35b-8cc4759f9a7e@linux.intel.com>
- <0f1a54a6-7a7c-429e-8134-88ea3e1e67ec@linux.intel.com>
- <CALwA+NaH7VC5SjnbQRyXt2NXugZkXyZJa70u9Cw7vdPYe53KqQ@mail.gmail.com>
-Content-Language: en-US
-From: Mathias Nyman <mathias.nyman@linux.intel.com>
-In-Reply-To: <CALwA+NaH7VC5SjnbQRyXt2NXugZkXyZJa70u9Cw7vdPYe53KqQ@mail.gmail.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 
-On 22.8.2024 6.35, Łukasz Bartosik wrote:
-> On Mon, Aug 5, 2024 at 5:50 PM Mathias Nyman
-> <mathias.nyman@linux.intel.com> wrote:
->>
->> On 5.8.2024 9.49, Mathias Nyman wrote:
->>> On 4.8.2024 0.51, Łukasz Bartosik wrote:
->>>> On Thu, Aug 1, 2024 at 5:02 PM Łukasz Bartosik <ukaszb@chromium.org> wrote:
->>>>>
->>>>> [  103.707882] xhci_hcd 0000:00:0d.0: Stall error at bulk TRB
->>>>> 1943ad000, remaining 1024, ep deq 1943ad001
->>>>>
->>>>>
->>>>>> DbC should respond with STALL packets to host if HIT or HOT is set.
->>>>>> Host side should react to this by sending a ClearFeature(HALT) request to DbC,
->>>>>> which should clear the halted endpoint and HIT/HOT flags.
->>>>>>
->>>>>
->>>>> I would like to ask you about it again because I wonder when the DbC
->>>>> endpoint is not halted and it
->>>>> receives the ClearFeature(Halt) request whether this is correct
->>>>> behavior for the DbC endpoint to report a
->>>>> STALL error in such a case ?
->>>>>
->>>
->>> Ok, Setup was unclear to me, I assumed the STALL transfer error was due to an
->>> actual transfer issue on a bulk endpoint.
->>>
->>> I don't think xHCI DbC should send STALL error transfer events for non existing
->>> bulk transfers as a response to ClearFeature(ENDPOINT_HALT) control request.
->>>
->>> Especially as it seems not a single byte was transferred on either bulk endpoint.
->>>
->>> But we need to handle it in the driver properly
->>>
->>>
->>>>> Thanks,
->>>>> Lukasz
->>>>>
->>>>
->>>> Hi Mathias,
->>>>
->>>> One more thing which I would like to add to the previous is the observation
->>>> which I made during debugging the issue. Looking at the above trace
->>>> there is stall
->>>> on IN endpoint:
->>>> xhci_dbc_handle_event: EVENT: TRB 00000001943ad000 status 'Stall
->>>> Error' len 1024 slot 1 ep 3 type 'Transfer Event' flags e:C
->>>>
->>>> And then when 24 bytes packet arrives
->>>> xhci_dbc_handle_event: EVENT: TRB 00000001943ad000 status 'Short
->>>> Packet' len 1000 slot 1 ep 3 type 'Transfer Event' flags e:C
->>>>
->>>> the same TRB is being used 00000001943ad000 but the DbC driver already
->>>> moved forward and the IN endpoint's pending list does not include a
->>>> dbc_request pointing
->>>> to the TRB 00000001943ad000 which results in "no matched request"
->>>> error and dropping
->>>> of the packet.
->>>>
->>>
->>> I noticed yes, this is why the patch compared the TRB pointed to by the
->>> STALL transfer event with the one in the endpoint context.
->>> If they match the patch attempts to turn that TRB to no-op, forcing xHC
->>> hardware to move to the next TRB.
->>>
->>> The check did however not work as it didn't mask out the cycle bit.
->>> Lops show we compare  1943ad000 with 1943ad001
->>>
->>> [  103.707882] xhci_hcd 0000:00:0d.0: Stall error at bulk TRB 1943ad000, remaining 1024, ep deq 1943ad001
->>>
->>> Code in patch:
->>> +if (ep_ctx->deq == event->trans_event.buffer) { // FIXME do we need to worry about cycle bit?
->>> +            dev_warn(dbc->dev, "Stall error TRB matches ep_ctx->deq, clear it\n");
->>> +            trb_to_noop(req->trb);
->>>
->>> With the new information that the STALL transfer event can be completely
->>> spurious and not related to any actual bytes being transmitted on bulk
->>> endpoints I think we shouldn't give back he transfer req in those cases.
->>>
->>> I'll make another patch
->>
->> New patch ready for testing:
->> https://git.kernel.org/pub/scm/linux/kernel/git/mnyman/xhci.git/commit/?h=fix_dbc_halted_ep&id=96cd909cc8115b3d2dff1bdcf265171bb0fdab18
->>
-> 
-> Hi Mathias,
-> 
-> I finally tested your latest patch 96cd909cc8115b3d2dff1bdcf265171bb0fdab18.
-> It resolves the issue.
+Don't flush all pending DbC data requests when an endpoint halts.
 
-Thanks for testing.
+An endpoint may halt and xHC DbC trigger a STALL error event if there's an
+issue with a bulk data transfer. The transfer should restart once xHC DbC
+receives a ClearFeature(ENDPOINT_HALT) request from the host.
 
-I did some minor additional cleanups to it.
-I'll post it as a proper patch. can I ask you to give it one last run,
-just to make sure everything still works.
+Once xHC DbC restarts it will start from the TRB pointed to by dequeue
+field in the endpoint context, which might be the same TRB we got the
+STALL event for. Turn the TRB to a no-op in this case to make sure xHC
+DbC doesn't reuse and tries to retransmit this same TRB after we already
+handled it, and gave its corresponding data request back.
 
-Thanks
-Mathias
+Other STALL events might be completely bogus.
+Lukasz Bartosik discovered that xHC DbC might issue spurious STALL events
+if hosts sends a ClearFeature(ENDPOINT_HALT) request to non-halted
+endpoints even without any active bulk tranfers.
+
+Assume STALL event is spurious if it reports 0 bytes tranferred, and
+the endpoint stopped on the STALLED TRB.
+Don't give back the data request corresponding to the TRB in this case.
+
+The halted status is per endpoint. Track it with a per endpoint flag
+instead of the driver invented DbC wide DS_STALLED state.
+DbC remains in DbC-Configured state even if endpoints halt. There is no
+Stalled state in the DbC Port state Machine (xhci section 7.6.6)
+
+Reported-by: Łukasz Bartosik <ukaszb@chromium.org>
+Closes: https://lore.kernel.org/linux-usb/20240725074857.623299-1-ukaszb@chromium.org/
+Signed-off-by: Mathias Nyman <mathias.nyman@linux.intel.com>
+---
+ drivers/usb/host/xhci-dbgcap.c | 133 ++++++++++++++++++++-------------
+ drivers/usb/host/xhci-dbgcap.h |   2 +-
+ 2 files changed, 83 insertions(+), 52 deletions(-)
+
+diff --git a/drivers/usb/host/xhci-dbgcap.c b/drivers/usb/host/xhci-dbgcap.c
+index 161c09953c4e..241d7aa1fbc2 100644
+--- a/drivers/usb/host/xhci-dbgcap.c
++++ b/drivers/usb/host/xhci-dbgcap.c
+@@ -173,16 +173,18 @@ static void xhci_dbc_giveback(struct dbc_request *req, int status)
+ 	spin_lock(&dbc->lock);
+ }
+ 
+-static void xhci_dbc_flush_single_request(struct dbc_request *req)
++static void trb_to_noop(union xhci_trb *trb)
+ {
+-	union xhci_trb	*trb = req->trb;
+-
+ 	trb->generic.field[0]	= 0;
+ 	trb->generic.field[1]	= 0;
+ 	trb->generic.field[2]	= 0;
+ 	trb->generic.field[3]	&= cpu_to_le32(TRB_CYCLE);
+ 	trb->generic.field[3]	|= cpu_to_le32(TRB_TYPE(TRB_TR_NOOP));
++}
+ 
++static void xhci_dbc_flush_single_request(struct dbc_request *req)
++{
++	trb_to_noop(req->trb);
+ 	xhci_dbc_giveback(req, -ESHUTDOWN);
+ }
+ 
+@@ -649,7 +651,6 @@ static void xhci_dbc_stop(struct xhci_dbc *dbc)
+ 	case DS_DISABLED:
+ 		return;
+ 	case DS_CONFIGURED:
+-	case DS_STALLED:
+ 		if (dbc->driver->disconnect)
+ 			dbc->driver->disconnect(dbc);
+ 		break;
+@@ -669,6 +670,23 @@ static void xhci_dbc_stop(struct xhci_dbc *dbc)
+ 	pm_runtime_put_sync(dbc->dev); /* note, was self.controller */
+ }
+ 
++static void
++handle_ep_halt_changes(struct xhci_dbc *dbc, struct dbc_ep *dep, bool halted)
++{
++	if (halted) {
++		dev_info(dbc->dev, "DbC Endpoint halted\n");
++		dep->halted = 1;
++
++	} else if (dep->halted) {
++		dev_info(dbc->dev, "DbC Endpoint halt cleared\n");
++		dep->halted = 0;
++
++		if (!list_empty(&dep->list_pending))
++			writel(DBC_DOOR_BELL_TARGET(dep->direction),
++			       &dbc->regs->doorbell);
++	}
++}
++
+ static void
+ dbc_handle_port_status(struct xhci_dbc *dbc, union xhci_trb *event)
+ {
+@@ -697,6 +715,7 @@ static void dbc_handle_xfer_event(struct xhci_dbc *dbc, union xhci_trb *event)
+ 	struct xhci_ring	*ring;
+ 	int			ep_id;
+ 	int			status;
++	struct xhci_ep_ctx	*ep_ctx;
+ 	u32			comp_code;
+ 	size_t			remain_length;
+ 	struct dbc_request	*req = NULL, *r;
+@@ -706,8 +725,30 @@ static void dbc_handle_xfer_event(struct xhci_dbc *dbc, union xhci_trb *event)
+ 	ep_id		= TRB_TO_EP_ID(le32_to_cpu(event->generic.field[3]));
+ 	dep		= (ep_id == EPID_OUT) ?
+ 				get_out_ep(dbc) : get_in_ep(dbc);
++	ep_ctx		= (ep_id == EPID_OUT) ?
++				dbc_bulkout_ctx(dbc) : dbc_bulkin_ctx(dbc);
+ 	ring		= dep->ring;
+ 
++	/* Match the pending request: */
++	list_for_each_entry(r, &dep->list_pending, list_pending) {
++		if (r->trb_dma == event->trans_event.buffer) {
++			req = r;
++			break;
++		}
++		if (r->status == -COMP_STALL_ERROR) {
++			dev_warn(dbc->dev, "Give back stale stalled req\n");
++			ring->num_trbs_free++;
++			xhci_dbc_giveback(r, 0);
++		}
++	}
++
++	if (!req) {
++		dev_warn(dbc->dev, "no matched request\n");
++		return;
++	}
++
++	trace_xhci_dbc_handle_transfer(ring, &req->trb->generic);
++
+ 	switch (comp_code) {
+ 	case COMP_SUCCESS:
+ 		remain_length = 0;
+@@ -718,31 +759,49 @@ static void dbc_handle_xfer_event(struct xhci_dbc *dbc, union xhci_trb *event)
+ 	case COMP_TRB_ERROR:
+ 	case COMP_BABBLE_DETECTED_ERROR:
+ 	case COMP_USB_TRANSACTION_ERROR:
+-	case COMP_STALL_ERROR:
+ 		dev_warn(dbc->dev, "tx error %d detected\n", comp_code);
+ 		status = -comp_code;
+ 		break;
++	case COMP_STALL_ERROR:
++		dev_warn(dbc->dev, "Stall error at bulk TRB %llx, remaining %zu, ep deq %llx\n",
++			 event->trans_event.buffer, remain_length, ep_ctx->deq);
++		status = 0;
++		dep->halted = 1;
++
++		/*
++		 * xHC DbC may trigger a STALL bulk xfer event when host sends a
++		 * ClearFeature(ENDPOINT_HALT) request even if there wasn't an
++		 * active bulk transfer.
++		 *
++		 * Don't give back this transfer request as hardware will later
++		 * start processing TRBs starting from this 'STALLED' TRB,
++		 * causing TRBs and requests to be out of sync.
++		 *
++		 * If STALL event shows some bytes were transferred then assume
++		 * it's an actual transfer issue and give back the request.
++		 * In this case mark the TRB as No-Op to avoid hw from using the
++		 * TRB again.
++		 */
++
++		if ((ep_ctx->deq & ~TRB_CYCLE) == event->trans_event.buffer) {
++			dev_dbg(dbc->dev, "Ep stopped on Stalled TRB\n");
++			if (remain_length == req->length) {
++				dev_dbg(dbc->dev, "Spurious stall event, keep req\n");
++				req->status = -COMP_STALL_ERROR;
++				req->actual = 0;
++				return;
++			}
++			dev_dbg(dbc->dev, "Give back stalled req, but turn TRB to No-op\n");
++			trb_to_noop(req->trb);
++		}
++		break;
++
+ 	default:
+ 		dev_err(dbc->dev, "unknown tx error %d\n", comp_code);
+ 		status = -comp_code;
+ 		break;
+ 	}
+ 
+-	/* Match the pending request: */
+-	list_for_each_entry(r, &dep->list_pending, list_pending) {
+-		if (r->trb_dma == event->trans_event.buffer) {
+-			req = r;
+-			break;
+-		}
+-	}
+-
+-	if (!req) {
+-		dev_warn(dbc->dev, "no matched request\n");
+-		return;
+-	}
+-
+-	trace_xhci_dbc_handle_transfer(ring, &req->trb->generic);
+-
+ 	ring->num_trbs_free++;
+ 	req->actual = req->length - remain_length;
+ 	xhci_dbc_giveback(req, status);
+@@ -762,7 +821,6 @@ static void inc_evt_deq(struct xhci_ring *ring)
+ static enum evtreturn xhci_dbc_do_handle_events(struct xhci_dbc *dbc)
+ {
+ 	dma_addr_t		deq;
+-	struct dbc_ep		*dep;
+ 	union xhci_trb		*evt;
+ 	u32			ctrl, portsc;
+ 	bool			update_erdp = false;
+@@ -814,43 +872,17 @@ static enum evtreturn xhci_dbc_do_handle_events(struct xhci_dbc *dbc)
+ 			return EVT_DISC;
+ 		}
+ 
+-		/* Handle endpoint stall event: */
++		/* Check and handle changes in endpoint halt status */
+ 		ctrl = readl(&dbc->regs->control);
+-		if ((ctrl & DBC_CTRL_HALT_IN_TR) ||
+-		    (ctrl & DBC_CTRL_HALT_OUT_TR)) {
+-			dev_info(dbc->dev, "DbC Endpoint stall\n");
+-			dbc->state = DS_STALLED;
+-
+-			if (ctrl & DBC_CTRL_HALT_IN_TR) {
+-				dep = get_in_ep(dbc);
+-				xhci_dbc_flush_endpoint_requests(dep);
+-			}
+-
+-			if (ctrl & DBC_CTRL_HALT_OUT_TR) {
+-				dep = get_out_ep(dbc);
+-				xhci_dbc_flush_endpoint_requests(dep);
+-			}
+-
+-			return EVT_DONE;
+-		}
++		handle_ep_halt_changes(dbc, get_in_ep(dbc), ctrl & DBC_CTRL_HALT_IN_TR);
++		handle_ep_halt_changes(dbc, get_out_ep(dbc), ctrl & DBC_CTRL_HALT_OUT_TR);
+ 
+ 		/* Clear DbC run change bit: */
+ 		if (ctrl & DBC_CTRL_DBC_RUN_CHANGE) {
+ 			writel(ctrl, &dbc->regs->control);
+ 			ctrl = readl(&dbc->regs->control);
+ 		}
+-
+ 		break;
+-	case DS_STALLED:
+-		ctrl = readl(&dbc->regs->control);
+-		if (!(ctrl & DBC_CTRL_HALT_IN_TR) &&
+-		    !(ctrl & DBC_CTRL_HALT_OUT_TR) &&
+-		    (ctrl & DBC_CTRL_DBC_RUN)) {
+-			dbc->state = DS_CONFIGURED;
+-			break;
+-		}
+-
+-		return EVT_DONE;
+ 	default:
+ 		dev_err(dbc->dev, "Unknown DbC state %d\n", dbc->state);
+ 		break;
+@@ -939,7 +971,6 @@ static const char * const dbc_state_strings[DS_MAX] = {
+ 	[DS_ENABLED] = "enabled",
+ 	[DS_CONNECTED] = "connected",
+ 	[DS_CONFIGURED] = "configured",
+-	[DS_STALLED] = "stalled",
+ };
+ 
+ static ssize_t dbc_show(struct device *dev,
+diff --git a/drivers/usb/host/xhci-dbgcap.h b/drivers/usb/host/xhci-dbgcap.h
+index 0118c6288a3c..97c5dc290138 100644
+--- a/drivers/usb/host/xhci-dbgcap.h
++++ b/drivers/usb/host/xhci-dbgcap.h
+@@ -81,7 +81,6 @@ enum dbc_state {
+ 	DS_ENABLED,
+ 	DS_CONNECTED,
+ 	DS_CONFIGURED,
+-	DS_STALLED,
+ 	DS_MAX
+ };
+ 
+@@ -90,6 +89,7 @@ struct dbc_ep {
+ 	struct list_head		list_pending;
+ 	struct xhci_ring		*ring;
+ 	unsigned int			direction:1;
++	unsigned int			halted:1;
+ };
+ 
+ #define DBC_QUEUE_SIZE			16
+-- 
+2.25.1
 
