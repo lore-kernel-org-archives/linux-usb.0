@@ -1,38 +1,38 @@
-Received: from szxga03-in.huawei.com (szxga03-in.huawei.com [45.249.212.189])
+Received: from szxga04-in.huawei.com (szxga04-in.huawei.com [45.249.212.190])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A912B1C9DCF;
-	Thu, 22 Aug 2024 13:09:21 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=45.249.212.189
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B25A91C9ED2;
+	Thu, 22 Aug 2024 13:09:22 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=45.249.212.190
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1724332163; cv=none; b=eC2jIficPiTXcRYmt11RZ3/Rgk4wdyHqY17tc/qL8PPhC44puBYveJSmukf+RguB31c0u2brhSMJRv1bOD2m8A66GlGn/d0jcku8bTHni9Km3ZVXoSZIoz3R2EwfQ3POuLGIv6inczwjfLWj+p4uw5uBJ9fEM9dIOJqtyikQljI=
+	t=1724332164; cv=none; b=GcYG0wybnFUJu+c3t0txHPQIJJFwN9RzQBcp4+L1z34d2ajN38cKpbK3GX7wZwdfncV3xUN1QKk/P2LTKEFt3fv3+3aEnrox3JbG5LYEICzFWoI7Exibq9Odm2I6UK4Ev3Pj/bBbW+4Voi+Jfdb+Mo6ECAGpy7+R7sO/3CzQFP0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1724332163; c=relaxed/simple;
-	bh=fH3w72nY5fA9CMZhrk/oeUUB1Q6HiXo45T87f9KunIE=;
+	s=arc-20240116; t=1724332164; c=relaxed/simple;
+	bh=AGd/cLuQb4A5E0Wiu65Gk84qJp4FBAjx4CHw2Lnfb8k=;
 	h=From:To:CC:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=C5oms+HMllVGpSJ3VuICLZhhzuTgs3snb/gk9TLWkh+miVE54jaW8RVVm5vC+GMR8KUQEIzCtD6daHJx+McSdrttD9Mt+fcNS88C+e5XJzhA0p38647iS4UhzXSw6FiA3YXVhuG7uO15v/rzz2D0Pgi86tH0s0fWmwmuPVSg1bA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=huawei.com; spf=pass smtp.mailfrom=huawei.com; arc=none smtp.client-ip=45.249.212.189
+	 MIME-Version:Content-Type; b=R+hkdf1kV59PkexmvL4myhPRbYpL3T9nkKsE+KjdEWoE5+5qab88FjvIYOWCBLEdfrkN/1Dt1m7oSku6crCobU+Pg5eQ7eiO57UmI3KuO9Ln00mFRxJTDue6jg8gvi/bMlzdPaWtoatuCD9Ug60kyTFMHU2JaIA4qhW8kgDWb08=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=huawei.com; spf=pass smtp.mailfrom=huawei.com; arc=none smtp.client-ip=45.249.212.190
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=huawei.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=huawei.com
-Received: from mail.maildlp.com (unknown [172.19.162.254])
-	by szxga03-in.huawei.com (SkyGuard) with ESMTP id 4WqNhL6gb8z69Nl;
-	Thu, 22 Aug 2024 21:04:34 +0800 (CST)
+Received: from mail.maildlp.com (unknown [172.19.163.17])
+	by szxga04-in.huawei.com (SkyGuard) with ESMTP id 4WqNhM0HBfz20mJ1;
+	Thu, 22 Aug 2024 21:04:35 +0800 (CST)
 Received: from dggpemm500020.china.huawei.com (unknown [7.185.36.49])
-	by mail.maildlp.com (Postfix) with ESMTPS id 3E09F1800FF;
-	Thu, 22 Aug 2024 21:09:18 +0800 (CST)
+	by mail.maildlp.com (Postfix) with ESMTPS id E110C1A0188;
+	Thu, 22 Aug 2024 21:09:17 +0800 (CST)
 Received: from huawei.com (10.67.174.77) by dggpemm500020.china.huawei.com
  (7.185.36.49) with Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.1.2507.39; Thu, 22 Aug
- 2024 21:09:18 +0800
+ 2024 21:09:17 +0800
 From: Liao Chen <liaochen4@huawei.com>
 To: <linux-usb@vger.kernel.org>
 CC: <linux-kernel@vger.kernel.org>, <gregkh@linuxfoundation.org>,
 	<alcooperx@gmail.com>, <bcm-kernel-feedback-list@broadcom.com>,
 	<heikki.krogerus@linux.intel.com>, <stern@rowland.harvard.edu>,
 	<justin.chen@broadcom.com>
-Subject: [PATCH -next 3/4] usb: typec: fix module autoloading
-Date: Thu, 22 Aug 2024 13:01:12 +0000
-Message-ID: <20240822130113.164644-4-liaochen4@huawei.com>
+Subject: [PATCH -next 1/4] usb: phy: phy-gpio-vbus-usb: fix module autoloading
+Date: Thu, 22 Aug 2024 13:01:10 +0000
+Message-ID: <20240822130113.164644-2-liaochen4@huawei.com>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <20240822130113.164644-1-liaochen4@huawei.com>
 References: <20240822130113.164644-1-liaochen4@huawei.com>
@@ -52,20 +52,20 @@ based on the alias from of_device_id table.
 
 Signed-off-by: Liao Chen <liaochen4@huawei.com>
 ---
- drivers/usb/typec/anx7411.c | 1 +
+ drivers/usb/phy/phy-gpio-vbus-usb.c | 1 +
  1 file changed, 1 insertion(+)
 
-diff --git a/drivers/usb/typec/anx7411.c b/drivers/usb/typec/anx7411.c
-index 5a5bf3532ad7..33ff301b918f 100644
---- a/drivers/usb/typec/anx7411.c
-+++ b/drivers/usb/typec/anx7411.c
-@@ -1576,6 +1576,7 @@ static const struct of_device_id anx_match_table[] = {
- 	{.compatible = "analogix,anx7411",},
+diff --git a/drivers/usb/phy/phy-gpio-vbus-usb.c b/drivers/usb/phy/phy-gpio-vbus-usb.c
+index 817c242a76ca..5428b2b67de1 100644
+--- a/drivers/usb/phy/phy-gpio-vbus-usb.c
++++ b/drivers/usb/phy/phy-gpio-vbus-usb.c
+@@ -374,6 +374,7 @@ static const struct of_device_id gpio_vbus_of_match[] = {
+ 	},
  	{},
  };
-+MODULE_DEVICE_TABLE(of, anx_match_table);
++MODULE_DEVICE_TABLE(of, gpio_vbus_of_match);
  
- static struct i2c_driver anx7411_driver = {
+ static struct platform_driver gpio_vbus_driver = {
  	.driver = {
 -- 
 2.34.1
