@@ -1,99 +1,129 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.11])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8DAA21CBEB8;
-	Thu, 22 Aug 2024 14:37:14 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 153E418EAB;
+	Thu, 22 Aug 2024 15:26:31 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.11
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1724337434; cv=none; b=YkbbjtZ3cyemqz5Hse/+rpKP2ddrm5PekYgvbzwo7IvDa3ugAizzJUf/g2AmckbK4bGWPTN7rCXRRXU9gDY6VFdX1DQvg233m+F2rZBCztNYA2OBEGYBo/nK3g6QkRUobs6LlrBOolXnZLEzCvmrxkWmt8S5b4laM+HEu8HF+U4=
+	t=1724340393; cv=none; b=kukZJScfFjZJ1v7lNs46wNxTsGs3ZiCxVM/dpdocgiIVnKOkACaOa07ILGuSk4b0pR9/2wCGtnhILyuoPp55mt/O58QCpb7E00Uo06bjhBB3qFDI3ti1/khrmnhP8h4nttja9Q1U+4QddhpclyPLOva0avk+y4Cfh+YA1NmRMzk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1724337434; c=relaxed/simple;
-	bh=ZkpJaD0BSKB4PQoNUPxvvmFUzWqr/hvDqpY1MhGCy+0=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=faJyZ6h31GaFoU1CAN6zSc0d5iG1n6wvNw+lknGLsQINBDQOo53wMr8tcmhOiIO8VAmEAkZYbzB98mNeCzLbAufvezXLpTg9H2Ornq0hv2hLDqazOePbBMa0EYxVGnt9X7CuMAM397GCaiJWoJw4JHOGO50vNkhhgcNGmrcIeKA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=ctOmC7Y9; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1724340393; c=relaxed/simple;
+	bh=6YjPGB/euod+io2A3d4H4RTlTfhzeuaae2zluY6iaf8=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=uFCNe2SIA0SYBG9ZkGv8GrjypIZ6UTul6WCo+PuhYwVs9a1FmzRP5om9HJD5WNRjX9jufavqWLfXTb3dJtkRoTckbnDG5n+ksL+bp+jikIRChmYvUhNQZfAlNxxvMVK+GSIoOC61+aQX2iAR6V48LGZKLhfGs+Vkxfv7qAranTU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=none smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=gtI1o/sG; arc=none smtp.client-ip=198.175.65.11
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=linux.intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="ctOmC7Y9"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 72AA8C32782;
-	Thu, 22 Aug 2024 14:37:07 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1724337434;
-	bh=ZkpJaD0BSKB4PQoNUPxvvmFUzWqr/hvDqpY1MhGCy+0=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=ctOmC7Y9I5pctjwa+bfvcuJQnPKxeiOldkSiZey7L8AQjTgSHSocZlA+zCq72uwB3
-	 LWVTnaND1yi3ccNgiiz9wrc3Cals3TBSy4p7BVwYX94vzhmWuOJzOP3jmenujcCNcS
-	 bW5GDiO9y7HxNnxU5wTD9Dn/akgxr6wDJaGfWz0YZ3L12Hl+VyO7DwR2FVy+V8+pLs
-	 9P4wbYXFM3++q8YqIGml3T1hkx8NQfayBQw3YkMI4GniXfzrHxowf/b6Lci3uYP1Mh
-	 dw+8t2cS+cRA4FyWfmgXtOO3RiS5Gfx7MvRajOXarKVShQF4RViDrSa5HuO1tMNfId
-	 i19liD/cvcqFg==
-Date: Thu, 22 Aug 2024 22:37:05 +0800
-From: Tzung-Bi Shih <tzungbi@kernel.org>
-To: Stephen Boyd <swboyd@chromium.org>
-Cc: chrome-platform@lists.linux.dev, linux-kernel@vger.kernel.org,
-	patches@lists.linux.dev, devicetree@vger.kernel.org,
-	Douglas Anderson <dianders@chromium.org>,
-	Pin-yen Lin <treapking@chromium.org>,
-	Andrzej Hajda <andrzej.hajda@intel.com>,
-	Benson Leung <bleung@chromium.org>,
-	Conor Dooley <conor+dt@kernel.org>, Daniel Vetter <daniel@ffwll.ch>,
-	David Airlie <airlied@gmail.com>,
-	Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
-	dri-devel@lists.freedesktop.org,
-	Guenter Roeck <groeck@chromium.org>,
-	Jernej Skrabec <jernej.skrabec@gmail.com>,
-	Jonas Karlman <jonas@kwiboo.se>,
-	Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
-	Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
-	Lee Jones <lee@kernel.org>,
-	Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
-	Maxime Ripard <mripard@kernel.org>,
-	Neil Armstrong <neil.armstrong@linaro.org>,
-	Prashant Malani <pmalani@chromium.org>,
-	Robert Foss <rfoss@kernel.org>, Rob Herring <robh+dt@kernel.org>,
-	Thomas Zimmermann <tzimmermann@suse.de>,
-	Alexandre Belloni <alexandre.belloni@bootlin.com>,
-	Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
-	Daniel Scally <djrscally@gmail.com>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	Heikki Krogerus <heikki.krogerus@linux.intel.com>,
-	Ivan Orlov <ivan.orlov0322@gmail.com>, linux-acpi@vger.kernel.org,
-	linux-usb@vger.kernel.org,
-	Mika Westerberg <mika.westerberg@linux.intel.com>,
-	"Rafael J . Wysocki" <rafael.j.wysocki@intel.com>,
-	Sakari Ailus <sakari.ailus@linux.intel.com>,
-	Vinod Koul <vkoul@kernel.org>
-Subject: Re: [PATCH v3 16/17] platform/chrome: cros_ec_typec: Support DP
- muxing
-Message-ID: <ZsdNEWX-eeLiokZl@tzungbi-laptop>
-References: <20240819223834.2049862-1-swboyd@chromium.org>
- <20240819223834.2049862-17-swboyd@chromium.org>
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="gtI1o/sG"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1724340393; x=1755876393;
+  h=message-id:date:mime-version:subject:to:cc:references:
+   from:in-reply-to:content-transfer-encoding;
+  bh=6YjPGB/euod+io2A3d4H4RTlTfhzeuaae2zluY6iaf8=;
+  b=gtI1o/sGknWTkgzgp4a7fqQifYzUEjcBGdgVTqFV+dvaa+m4YFUyiUbu
+   sWEk2VLOEeczMbI8tNS8BHLvTKOzHSbrTEGsatAVb8xmgiBMHDfaFKosk
+   lXCmlvEdEh5hRU+ohePcIUUUAeWfZVUBUZq//TBhlUoFTuxlBsLsRDL7w
+   0VDXhZT8fjRM+mwSQQzWfND5gsFgxBvhToDFrYAyZ0Qi99syKcFcyxEX4
+   K7KrIwsd00ZXqaLeb4wG4a4L33ISHgN4zhUX87IgjEvj6qyDt5vQu9/8x
+   mdZ04/qWk1I7lhwIYyjezLA+Pj6t80mIRnzfAlmbFyS0MV0qgAoFdAa8r
+   A==;
+X-CSE-ConnectionGUID: /lj4CKjXRtS6cTogn5EOyg==
+X-CSE-MsgGUID: UBor0OTkQCqKECIK15x/tw==
+X-IronPort-AV: E=McAfee;i="6700,10204,11172"; a="33332873"
+X-IronPort-AV: E=Sophos;i="6.10,167,1719903600"; 
+   d="scan'208";a="33332873"
+Received: from orviesa008.jf.intel.com ([10.64.159.148])
+  by orvoesa103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 22 Aug 2024 08:26:32 -0700
+X-CSE-ConnectionGUID: TzgC5e1IS1KLlqME+k1zHw==
+X-CSE-MsgGUID: Usd3LV/9TnKpmTgPKrYQMg==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.10,167,1719903600"; 
+   d="scan'208";a="62187114"
+Received: from mattu-haswell.fi.intel.com (HELO [10.237.72.199]) ([10.237.72.199])
+  by orviesa008.jf.intel.com with ESMTP; 22 Aug 2024 08:26:29 -0700
+Message-ID: <060bf2de-d231-4ed6-b7cc-cda40bfd397a@linux.intel.com>
+Date: Thu, 22 Aug 2024 18:28:33 +0300
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20240819223834.2049862-17-swboyd@chromium.org>
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH 2/2] xhci: pci: Put XHCI controllers into D3hot at
+ shutdown
+To: superm1@kernel.org, Mathias Nyman <mathias.nyman@intel.com>,
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+Cc: "open list:USB XHCI DRIVER" <linux-usb@vger.kernel.org>,
+ open list <linux-kernel@vger.kernel.org>,
+ Kai-Heng Feng <kai.heng.feng@canonical.com>,
+ mika.westerberg@linux.intel.com,
+ Mario Limonciello <mario.limonciello@amd.com>
+References: <20240712185418.937087-1-superm1@kernel.org>
+ <20240712185418.937087-3-superm1@kernel.org>
+Content-Language: en-US
+From: Mathias Nyman <mathias.nyman@linux.intel.com>
+In-Reply-To: <20240712185418.937087-3-superm1@kernel.org>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 
-On Mon, Aug 19, 2024 at 03:38:30PM -0700, Stephen Boyd wrote:
-> @@ -671,6 +674,20 @@ static int cros_typec_configure_mux(struct cros_typec_data *typec, int port_num,
->  	if (port->mux_flags == resp.flags && port->role == pd_ctrl->role)
->  		return 0;
->  
-> +	dp_enabled = resp.flags & USB_PD_MUX_DP_ENABLED;
-> +	hpd_asserted = resp.flags & USB_PD_MUX_HPD_LVL;
-> +	/*
-> +	 * Assume the first port to have HPD asserted is the one muxed to DP
-> +	 * (i.e. active_port). When there's only one port this delays setting
-> +	 * the active_port until HPD is asserted, but before that the
-> +	 * drm_connector looks disconnected so active_port doesn't need to be
-> +	 * set.
-> +	 */
-> +	if (dp_bridge && hpd_asserted && !dp_bridge->active_port)
-> +		dp_bridge->active_port = port;
-> +
-> +	is_active_port = !dp_bridge || dp_bridge->active_port == port;
+On 12.7.2024 21.54, superm1@kernel.org wrote:
+> From: Mario Limonciello <mario.limonciello@amd.com>
+> 
+> A workaround was put in place for Haswell systems with spurious events
+> to put XHCI controllers into D3hot at shutdown.  This solution actually
+> makes sense for all XHCI controllers though because XHCI controllers
+> left in D0 by the OS may remain in D0 when the SoC goes into S5.
+> 
+> Explicitly put all XHCI controllers into D3hot at shutdown and when
+> module is unloaded.
+> 
+> Signed-off-by: Mario Limonciello <mario.limonciello@amd.com>
+> ---
+>   drivers/usb/host/xhci-pci.c | 8 ++------
+>   1 file changed, 2 insertions(+), 6 deletions(-)
+> 
+> diff --git a/drivers/usb/host/xhci-pci.c b/drivers/usb/host/xhci-pci.c
+> index 4408d4caf66d2..dde5e4a210719 100644
+> --- a/drivers/usb/host/xhci-pci.c
+> +++ b/drivers/usb/host/xhci-pci.c
+> @@ -667,9 +667,7 @@ static void xhci_pci_remove(struct pci_dev *dev)
+>   		xhci->shared_hcd = NULL;
+>   	}
+>   
+> -	/* Workaround for spurious wakeups at shutdown with HSW */
+> -	if (xhci->quirks & XHCI_SPURIOUS_WAKEUP)
+> -		pci_set_power_state(dev, PCI_D3hot);
+> +	pci_set_power_state(dev, PCI_D3hot);
+>   
+>   	usb_hcd_pci_remove(dev);
 
-Why `!dp_bridge`?  When will `dp_bridge` be NULL?
+Just noticed these have been the wrong way around for a while (impacting HSW).
+
+We should first call usb_hcd_pci_remove() and then pci_set_power_state(D3),
+otherwise we force a fully running xHC into D3.
+
+Note, with this change we end up first calling
+pci_disable_device(), then pci_set_power_state(D3)
+
+>   }
+> @@ -882,9 +880,7 @@ static void xhci_pci_shutdown(struct usb_hcd *hcd)
+>   	xhci_shutdown(hcd);
+>   	xhci_cleanup_msix(xhci);
+>   
+> -	/* Yet another workaround for spurious wakeups at shutdown with HSW */
+> -	if (xhci->quirks & XHCI_SPURIOUS_WAKEUP)
+> -		pci_set_power_state(pdev, PCI_D3hot);
+> +	pci_set_power_state(pdev, PCI_D3hot);
+
+Looks good
+
+Note that we now end up first calling pci_set_power_state(D3) and then
+pci_disable_device(). The other way around than the remove case above.
+I don't know if it matters.
+
+Thanks
+Mathias
+
