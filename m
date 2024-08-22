@@ -1,129 +1,169 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.11])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-lf1-f41.google.com (mail-lf1-f41.google.com [209.85.167.41])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 153E418EAB;
-	Thu, 22 Aug 2024 15:26:31 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.11
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 245CC1CB146
+	for <linux-usb@vger.kernel.org>; Thu, 22 Aug 2024 15:28:17 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.41
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1724340393; cv=none; b=kukZJScfFjZJ1v7lNs46wNxTsGs3ZiCxVM/dpdocgiIVnKOkACaOa07ILGuSk4b0pR9/2wCGtnhILyuoPp55mt/O58QCpb7E00Uo06bjhBB3qFDI3ti1/khrmnhP8h4nttja9Q1U+4QddhpclyPLOva0avk+y4Cfh+YA1NmRMzk=
+	t=1724340501; cv=none; b=bbnVBOpaT/OqKo0EZTXcwvShB1XHUc+bvVyn1yjHSC75qkyE6KHPGUuDkYUOg6iPTls3i09x+SnAmQj4JXN1XDLXLrLVh5vl39Y22lh7aRs7UzGoylijYn2jOZ3ElYIeY9JG2jb5/CVmWyHMYhJ1o1dOjnCJ60IZEpOQy/eeq7c=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1724340393; c=relaxed/simple;
-	bh=6YjPGB/euod+io2A3d4H4RTlTfhzeuaae2zluY6iaf8=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=uFCNe2SIA0SYBG9ZkGv8GrjypIZ6UTul6WCo+PuhYwVs9a1FmzRP5om9HJD5WNRjX9jufavqWLfXTb3dJtkRoTckbnDG5n+ksL+bp+jikIRChmYvUhNQZfAlNxxvMVK+GSIoOC61+aQX2iAR6V48LGZKLhfGs+Vkxfv7qAranTU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=none smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=gtI1o/sG; arc=none smtp.client-ip=198.175.65.11
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=linux.intel.com
+	s=arc-20240116; t=1724340501; c=relaxed/simple;
+	bh=LBFFDsm/zfrS0rd8SU927JaSUE2tzSc1L6UBcRcd76I=;
+	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=az+c3z8DprAG85/AOFGaIros9U8welS8/Ap/7ZwdsJthwrnXgOktyvrLPBJwneA/NWz3EfmHtVkRPWNxMfpfgOATPZIb85NRmM+eFG4+lXvtPN7bWxpguU3ThSoMoTrBhjuoxIMivN7gAGrhiSU1NgwyS3t5V3BY+TH/3Nrws7Y=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=tuxon.dev; spf=pass smtp.mailfrom=tuxon.dev; dkim=pass (2048-bit key) header.d=tuxon.dev header.i=@tuxon.dev header.b=OdoExPkz; arc=none smtp.client-ip=209.85.167.41
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=tuxon.dev
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=tuxon.dev
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="gtI1o/sG"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1724340393; x=1755876393;
-  h=message-id:date:mime-version:subject:to:cc:references:
-   from:in-reply-to:content-transfer-encoding;
-  bh=6YjPGB/euod+io2A3d4H4RTlTfhzeuaae2zluY6iaf8=;
-  b=gtI1o/sGknWTkgzgp4a7fqQifYzUEjcBGdgVTqFV+dvaa+m4YFUyiUbu
-   sWEk2VLOEeczMbI8tNS8BHLvTKOzHSbrTEGsatAVb8xmgiBMHDfaFKosk
-   lXCmlvEdEh5hRU+ohePcIUUUAeWfZVUBUZq//TBhlUoFTuxlBsLsRDL7w
-   0VDXhZT8fjRM+mwSQQzWfND5gsFgxBvhToDFrYAyZ0Qi99syKcFcyxEX4
-   K7KrIwsd00ZXqaLeb4wG4a4L33ISHgN4zhUX87IgjEvj6qyDt5vQu9/8x
-   mdZ04/qWk1I7lhwIYyjezLA+Pj6t80mIRnzfAlmbFyS0MV0qgAoFdAa8r
-   A==;
-X-CSE-ConnectionGUID: /lj4CKjXRtS6cTogn5EOyg==
-X-CSE-MsgGUID: UBor0OTkQCqKECIK15x/tw==
-X-IronPort-AV: E=McAfee;i="6700,10204,11172"; a="33332873"
-X-IronPort-AV: E=Sophos;i="6.10,167,1719903600"; 
-   d="scan'208";a="33332873"
-Received: from orviesa008.jf.intel.com ([10.64.159.148])
-  by orvoesa103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 22 Aug 2024 08:26:32 -0700
-X-CSE-ConnectionGUID: TzgC5e1IS1KLlqME+k1zHw==
-X-CSE-MsgGUID: Usd3LV/9TnKpmTgPKrYQMg==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.10,167,1719903600"; 
-   d="scan'208";a="62187114"
-Received: from mattu-haswell.fi.intel.com (HELO [10.237.72.199]) ([10.237.72.199])
-  by orviesa008.jf.intel.com with ESMTP; 22 Aug 2024 08:26:29 -0700
-Message-ID: <060bf2de-d231-4ed6-b7cc-cda40bfd397a@linux.intel.com>
-Date: Thu, 22 Aug 2024 18:28:33 +0300
+	dkim=pass (2048-bit key) header.d=tuxon.dev header.i=@tuxon.dev header.b="OdoExPkz"
+Received: by mail-lf1-f41.google.com with SMTP id 2adb3069b0e04-533488ffaddso1330423e87.1
+        for <linux-usb@vger.kernel.org>; Thu, 22 Aug 2024 08:28:17 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=tuxon.dev; s=google; t=1724340496; x=1724945296; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=oG0PQto83btnEL28K6haZsLSn7p7+BWVYeK6+IqQicQ=;
+        b=OdoExPkzWUcU34Q/UVxriUD2ai3wD+qWxIX8I2iEkUM04fWwxnHQBaMxhJrMTGpV88
+         cl4GNXLI50ETCaIMBgh9qvsYYtEeBgwqID3MFf8G9xlx8+yYmSOE94ewnKhfZIkiWSyQ
+         +q6AwJNbg8pw5MewjBiaxZi/F1SASSr1C5mhUEvpyDGi828JaMqG5B5cGO8AyXh5T04J
+         bYOYASXIIyVDT81OztW6FSgWcrdArywa36PWmDX8OoCmu5x5Ysl151h7stIIdOuf+67r
+         HQFqqFwO4FjCzjMfT+BEwz4EteMmtm434rB46liZwhCUS7Pnt7BdsTMB64Ag3euhKLfP
+         P6ZQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1724340496; x=1724945296;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=oG0PQto83btnEL28K6haZsLSn7p7+BWVYeK6+IqQicQ=;
+        b=qMVQEBs576WPh1vAHky9y3vVULWz97hDsGx+h93AgWMSxMblB1bFDDgyC41vqS2Ur9
+         EcO1hAknqUt4eit0w8VLB0UPvh02ddXwELwU4C4dXqCM8LRZgm8ZGnOZ8zV+NQ3f8rGp
+         7/nl9KHvczQG4Vuf4hZSA2Dbqd7/Fs+2pD3e0y0OI9Ptlhmt73+AjigEyVhQuP9hv65/
+         14jFKRSu6LzNRQ+94mb69ooHlVUdLw37AcKN0Wa0A0lgtigfEV2saidEoAnttlRuEmnB
+         PN7cVOUa7zYBmNcNa8yji6erLTP3/zjyn2/NJlneobppN4o1HmmMsh7STxyLbi7VBQ+G
+         wDQA==
+X-Forwarded-Encrypted: i=1; AJvYcCX5ozVWhQE93rkQfSompszSU6hcXOJiGN8gRJyOwKxXB1eqd5wzh8KF97pGrfdX2wMzcrJr0KLU8bo=@vger.kernel.org
+X-Gm-Message-State: AOJu0YxKYKDYD7VPus35Yfvr4y/OT7eH1mumbXpNWchBEGd66N3ZHZLC
+	JvLCg30+geDsqP0fIWGRGrGpWg+/vOm8PnMLMFpTK1Sa1DOQ9OI+Jtmp5uYDE2E=
+X-Google-Smtp-Source: AGHT+IHF2HEzRj6RLICHJMj0My+kwTWQOaRUjHy9OJ1aWJK8tooH9yYqAZuBr0m26WtCehY9rsGeRw==
+X-Received: by 2002:ac2:4c46:0:b0:52e:9b92:4990 with SMTP id 2adb3069b0e04-53348562455mr4098402e87.32.1724340495855;
+        Thu, 22 Aug 2024 08:28:15 -0700 (PDT)
+Received: from claudiu-X670E-Pro-RS.. ([82.78.167.177])
+        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-a868f484dc5sm134189166b.171.2024.08.22.08.28.13
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 22 Aug 2024 08:28:15 -0700 (PDT)
+From: Claudiu <claudiu.beznea@tuxon.dev>
+X-Google-Original-From: Claudiu <claudiu.beznea.uj@bp.renesas.com>
+To: vkoul@kernel.org,
+	kishon@kernel.org,
+	robh@kernel.org,
+	krzk+dt@kernel.org,
+	conor+dt@kernel.org,
+	p.zabel@pengutronix.de,
+	geert+renesas@glider.be,
+	magnus.damm@gmail.com,
+	gregkh@linuxfoundation.org,
+	mturquette@baylibre.com,
+	sboyd@kernel.org,
+	yoshihiro.shimoda.uh@renesas.com,
+	biju.das.jz@bp.renesas.com,
+	ulf.hansson@linaro.org
+Cc: linux-phy@lists.infradead.org,
+	devicetree@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	linux-renesas-soc@vger.kernel.org,
+	linux-usb@vger.kernel.org,
+	linux-arm-kernel@lists.infradead.org,
+	linux-clk@vger.kernel.org,
+	linux-pm@vger.kernel.org,
+	claudiu.beznea@tuxon.dev,
+	Claudiu Beznea <claudiu.beznea.uj@bp.renesas.com>
+Subject: [PATCH 00/16] Add initial USB support for the Renesas RZ/G3S SoC
+Date: Thu, 22 Aug 2024 18:27:45 +0300
+Message-Id: <20240822152801.602318-1-claudiu.beznea.uj@bp.renesas.com>
+X-Mailer: git-send-email 2.39.2
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 2/2] xhci: pci: Put XHCI controllers into D3hot at
- shutdown
-To: superm1@kernel.org, Mathias Nyman <mathias.nyman@intel.com>,
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-Cc: "open list:USB XHCI DRIVER" <linux-usb@vger.kernel.org>,
- open list <linux-kernel@vger.kernel.org>,
- Kai-Heng Feng <kai.heng.feng@canonical.com>,
- mika.westerberg@linux.intel.com,
- Mario Limonciello <mario.limonciello@amd.com>
-References: <20240712185418.937087-1-superm1@kernel.org>
- <20240712185418.937087-3-superm1@kernel.org>
-Content-Language: en-US
-From: Mathias Nyman <mathias.nyman@linux.intel.com>
-In-Reply-To: <20240712185418.937087-3-superm1@kernel.org>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
 
-On 12.7.2024 21.54, superm1@kernel.org wrote:
-> From: Mario Limonciello <mario.limonciello@amd.com>
-> 
-> A workaround was put in place for Haswell systems with spurious events
-> to put XHCI controllers into D3hot at shutdown.  This solution actually
-> makes sense for all XHCI controllers though because XHCI controllers
-> left in D0 by the OS may remain in D0 when the SoC goes into S5.
-> 
-> Explicitly put all XHCI controllers into D3hot at shutdown and when
-> module is unloaded.
-> 
-> Signed-off-by: Mario Limonciello <mario.limonciello@amd.com>
-> ---
->   drivers/usb/host/xhci-pci.c | 8 ++------
->   1 file changed, 2 insertions(+), 6 deletions(-)
-> 
-> diff --git a/drivers/usb/host/xhci-pci.c b/drivers/usb/host/xhci-pci.c
-> index 4408d4caf66d2..dde5e4a210719 100644
-> --- a/drivers/usb/host/xhci-pci.c
-> +++ b/drivers/usb/host/xhci-pci.c
-> @@ -667,9 +667,7 @@ static void xhci_pci_remove(struct pci_dev *dev)
->   		xhci->shared_hcd = NULL;
->   	}
->   
-> -	/* Workaround for spurious wakeups at shutdown with HSW */
-> -	if (xhci->quirks & XHCI_SPURIOUS_WAKEUP)
-> -		pci_set_power_state(dev, PCI_D3hot);
-> +	pci_set_power_state(dev, PCI_D3hot);
->   
->   	usb_hcd_pci_remove(dev);
+From: Claudiu Beznea <claudiu.beznea.uj@bp.renesas.com>
 
-Just noticed these have been the wrong way around for a while (impacting HSW).
+Hi,
 
-We should first call usb_hcd_pci_remove() and then pci_set_power_state(D3),
-otherwise we force a fully running xHC into D3.
+Series adds initial USB support for the Renesas RZ/G3S SoC.
 
-Note, with this change we end up first calling
-pci_disable_device(), then pci_set_power_state(D3)
+Series is split as follows:
 
->   }
-> @@ -882,9 +880,7 @@ static void xhci_pci_shutdown(struct usb_hcd *hcd)
->   	xhci_shutdown(hcd);
->   	xhci_cleanup_msix(xhci);
->   
-> -	/* Yet another workaround for spurious wakeups at shutdown with HSW */
-> -	if (xhci->quirks & XHCI_SPURIOUS_WAKEUP)
-> -		pci_set_power_state(pdev, PCI_D3hot);
-> +	pci_set_power_state(pdev, PCI_D3hot);
+- patch 01/16		- add clock reset and power domain support for USB
+- patch 02-04/16	- add reset control support for a USB signal
+			  that need to be controlled before/after
+			  the power to USB area is turned on/off.
+			  
+			  Philipp, Ulf, Geert, all,
+			  
+			  I detailed my approach for this in patch
+			  04/16, please have a look and let me know
+			  your input.
+			  
+			  Thank you!
 
-Looks good
+- patch 05/16		- moves SoC identification to SYSC driver
+- patch 06-08/16	- updates USB PHY control driver for USB
+			  support
+- patch 09/16		- update documentation for USBHS
+- patch 10-12/16	- updates the USB PHY driver for USB support
+- patch 13-15/16	- updates the device tree with USB support
+- patch 16/16		- enables the reset control driver
 
-Note that we now end up first calling pci_set_power_state(D3) and then
-pci_disable_device(). The other way around than the remove case above.
-I don't know if it matters.
+Thank you,
+Claudiu Beznea
 
-Thanks
-Mathias
+Claudiu Beznea (16):
+  clk: renesas: r9a08g045: Add clocks, resets and power domains for USB
+  dt-bindings: soc: renesas: renesas,rzg2l-sysc: Add #reset-cells for
+    RZ/G3S
+  dt-bindings: reset: renesas,r9a08g045-sysc: Add reset IDs for RZ/G3S
+    SYSC reset
+  soc: renesas: Add SYSC driver for Renesas RZ/G3S
+  soc: renesas: sysc: Move RZ/G3S SoC detection on SYSC driver
+  dt-bindings: reset: renesas,rzg2l-usbphy-ctrl: Document RZ/G3S SoC
+  reset: rzg2l-usbphy-ctrl: Get reset control array
+  reset: rzg2l-usbphy-ctrl: Add support for RZ/G3S
+  dt-bindings: usb: renesas,usbhs: Document RZ/G3S SoC
+  phy: renesas: rcar-gen3-usb2: Add support to initialize the bus
+  dt-bindings: phy: renesas,usb2-phy: Document RZ/G3S phy bindings
+  phy: renesas: rcar-gen3-usb2: Add support for the RZ/G3S SoC
+  arm64: dts: renesas: Add #reset-cells to system controller node
+  arm64: dts: renesas: r9a08g045: Add USB support
+  arm64: dts: renesas: rzg3s-smarc: Enable USB support
+  arm64: defconfig: Enable RZ/G3S SYSC reset driver
+
+ .../bindings/phy/renesas,usb2-phy.yaml        |   4 +-
+ .../reset/renesas,rzg2l-usbphy-ctrl.yaml      |  35 +++-
+ .../soc/renesas/renesas,rzg2l-sysc.yaml       |  16 ++
+ .../bindings/usb/renesas,usbhs.yaml           |   2 +
+ arch/arm64/boot/dts/renesas/r9a08g045.dtsi    | 120 +++++++++++++
+ arch/arm64/boot/dts/renesas/rzg3s-smarc.dtsi  |  61 +++++++
+ arch/arm64/configs/defconfig                  |   1 +
+ drivers/clk/renesas/r9a08g045-cpg.c           |  17 ++
+ drivers/phy/renesas/phy-rcar-gen3-usb2.c      |  60 ++++++-
+ drivers/reset/Kconfig                         |   7 +
+ drivers/reset/Makefile                        |   1 +
+ drivers/reset/reset-rzg2l-usbphy-ctrl.c       |   3 +-
+ drivers/reset/reset-rzg3s-sysc.c              | 140 ++++++++++++++++
+ drivers/soc/renesas/Makefile                  |   1 +
+ drivers/soc/renesas/renesas-soc.c             |  12 --
+ drivers/soc/renesas/rzg3s-sysc.c              | 158 ++++++++++++++++++
+ .../reset/renesas,r9a08g045-sysc.h            |  10 ++
+ include/linux/soc/renesas/rzg3s-sysc-reset.h  |  24 +++
+ 18 files changed, 648 insertions(+), 24 deletions(-)
+ create mode 100644 drivers/reset/reset-rzg3s-sysc.c
+ create mode 100644 drivers/soc/renesas/rzg3s-sysc.c
+ create mode 100644 include/dt-bindings/reset/renesas,r9a08g045-sysc.h
+ create mode 100644 include/linux/soc/renesas/rzg3s-sysc-reset.h
+
+-- 
+2.39.2
 
