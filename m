@@ -1,78 +1,93 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9EB4FB66C
-	for <linux-usb@vger.kernel.org>; Mon, 26 Aug 2024 11:17:32 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A17C01422C7;
+	Mon, 26 Aug 2024 11:25:32 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1724671052; cv=none; b=aIDlkrljvCq4UFruTiL5KHrQaUEPHHjhdLvwZtUmZly/NlGybHErMspfEJA8cS4J3JYDXHW1vBj18thawFPiHKz3ifB0Z9Abv8N+Wo1o+ZZpzKvaLreEKJjy+keWFgRycir585g+FAtkEMn7AY2lFI6BiDIBLgKdhh2VwQVpQB4=
+	t=1724671532; cv=none; b=H2yLus3nxi/3z5w5jpsl4KJnu9PV5cG6jqB2Ipen5o1SfEhMRbnYGC6p8FJv5yb6OKx1viR2JejYKXLRWFQpD7tNw7etoB8j2Deh51Xc7Ya83Q98Tr3mIVttRtTiDj9C7TPVFseSqeLkrzRSK5Av6pJCGAjC/MAP/jrN6xarpEA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1724671052; c=relaxed/simple;
-	bh=9eVi4ecVpVK13q+tN1LTz91NaHCOHduGiwe+K3AkIIg=;
-	h=From:To:Subject:Date:Message-ID:In-Reply-To:References:
-	 Content-Type:MIME-Version; b=fEh07rsCubrZvXpuqJaVZ62jRkHZQlUEjbuIaDTYLP6sGXCqKlE96HwKstxq+nq5TXNCtJz96y5gN6ObFQXYzpV2nEv8WdD1AUMP/MniN+peCnltdocBqPZ/uqP8cZq2QsKuM0fr87wkeXjfryYG6cEXvfoWD4CC0SLGZk4msnA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=O1RsLY06; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1724671532; c=relaxed/simple;
+	bh=fdmNamvb7WRQZZurBMRVslYpPIn9FgkX3MlvAPG4GxI=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=UFgl39/G4m971Een2Cm7xaPD5c/xIAHR+0bTbwXduxdPQk1v4ZkDfLFbHU747TWpfJRduCG5QlRE9GajYu45ZVI5q0Y4uFSP8geTubq0q3z+1Hh8GtqLRDdB6FBQAOvgDuPl9HpOuwlhhlJawuBpGCzd4+8HbBbjKibvnjUjoC4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b=GH8Xap1m; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="O1RsLY06"
-Received: by smtp.kernel.org (Postfix) with ESMTPS id 325F1C51402
-	for <linux-usb@vger.kernel.org>; Mon, 26 Aug 2024 11:17:32 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1724671052;
-	bh=9eVi4ecVpVK13q+tN1LTz91NaHCOHduGiwe+K3AkIIg=;
-	h=From:To:Subject:Date:In-Reply-To:References:From;
-	b=O1RsLY06Dc6V3urN5NqxdSB669BXBRMn7kM6cFNimcDZn1hknteY2EcwfVUir6LY6
-	 Sfl4SLzSRp50eMeVHOp/4SyUHVebOTcPtVvCKLX40n8rObHUFetNp9RyOlILJAR/wF
-	 x4Dx73qv1zYiP/zr9fm0Lg4xhWITnIKb7uABxCUp3HDseUaX/PqInTzRi0To+AXYEI
-	 f290cMsAkEhtZZjrPTJoCSnLA1WnyobpDSW+34Dp0jp1XKmTnTLinmjaQ0M6ZRt9pp
-	 392VDCPtDX7SZexw7NM+K8/j808bN17HozQ55/DKvpfrozQPImgoafh8VGbApYqnne
-	 LTACL0WPWN7WA==
-Received: by aws-us-west-2-korg-bugzilla-1.web.codeaurora.org (Postfix, from userid 48)
-	id 1E6CBC53B73; Mon, 26 Aug 2024 11:17:32 +0000 (UTC)
-From: bugzilla-daemon@kernel.org
-To: linux-usb@vger.kernel.org
-Subject: [Bug 219198] usb on Dell WD19TB Thunderbolt Dock stop working
-Date: Mon, 26 Aug 2024 11:17:31 +0000
-X-Bugzilla-Reason: None
-X-Bugzilla-Type: changed
-X-Bugzilla-Watch-Reason: AssignedTo drivers_usb@kernel-bugs.kernel.org
-X-Bugzilla-Product: Drivers
-X-Bugzilla-Component: USB
-X-Bugzilla-Version: 2.5
-X-Bugzilla-Keywords: 
-X-Bugzilla-Severity: normal
-X-Bugzilla-Who: maggu2810@gmail.com
-X-Bugzilla-Status: NEW
-X-Bugzilla-Resolution: 
-X-Bugzilla-Priority: P3
-X-Bugzilla-Assigned-To: drivers_usb@kernel-bugs.kernel.org
-X-Bugzilla-Flags: 
-X-Bugzilla-Changed-Fields: attachments.created
-Message-ID: <bug-219198-208809-RJqOMzoIct@https.bugzilla.kernel.org/>
-In-Reply-To: <bug-219198-208809@https.bugzilla.kernel.org/>
-References: <bug-219198-208809@https.bugzilla.kernel.org/>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-X-Bugzilla-URL: https://bugzilla.kernel.org/
-Auto-Submitted: auto-generated
+	dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="GH8Xap1m"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 70935C4FF15;
+	Mon, 26 Aug 2024 11:25:31 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
+	s=korg; t=1724671532;
+	bh=fdmNamvb7WRQZZurBMRVslYpPIn9FgkX3MlvAPG4GxI=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=GH8Xap1mEm7hWQK5XayIFE1GX73L4wwqPF52Pcof26sHaM73hmF6pgcIyW+3mapDz
+	 q93hxYV3qYFJEk+gpGCfJCPjlHdci5GnE/YVytHOiw3m+YUtgWHNPTPvEb1CNSHt57
+	 0Fp5f8+CIvEqlx0zSohmB3cHJjLTtQDi9P12zV1o=
+Date: Mon, 26 Aug 2024 13:25:28 +0200
+From: Greg KH <gregkh@linuxfoundation.org>
+To: Edward Adam Davis <eadavis@qq.com>
+Cc: kvalo@kernel.org, linux-kernel@vger.kernel.org,
+	linux-usb@vger.kernel.org, linux-wireless@vger.kernel.org,
+	netdev@vger.kernel.org, sergei.shtylyov@gmail.com,
+	syzbot+92c6dd14aaa230be6855@syzkaller.appspotmail.com,
+	syzkaller-bugs@googlegroups.com
+Subject: Re: [PATCH V3] wifi: ath6kl: Replace ath6kl_usb_submit_ctrl_in with
+ usb_control_msg_recv
+Message-ID: <2024082642-heave-fanning-2600@gregkh>
+References: <tencent_2C2C336C9E441B294BB21B6A2558BA34BB08@qq.com>
+ <tencent_AAA2EDEACE4478EA6C9C2CA96E8095DCE80A@qq.com>
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <tencent_AAA2EDEACE4478EA6C9C2CA96E8095DCE80A@qq.com>
 
-https://bugzilla.kernel.org/show_bug.cgi?id=3D219198
+On Mon, Aug 26, 2024 at 07:19:09PM +0800, Edward Adam Davis wrote:
+> ath6kl_usb_submit_ctrl_in() did not take into account the situation where
+> the length of the data read from the device is not equal to the len, and
+> such missing judgments will result in subsequent code using incorrect data.
+> 
+> usb_control_msg_recv() handles the abnormal length of the returned data,
+> so using it directly can fix this warning.
+> 
+> Reported-by: syzbot+92c6dd14aaa230be6855@syzkaller.appspotmail.com
+> Signed-off-by: Edward Adam Davis <eadavis@qq.com>
+> ---
+> V2 -> V3: Adjust indentation style
+> 
+>  drivers/net/wireless/ath/ath6kl/usb.c | 8 +++++---
+>  1 file changed, 5 insertions(+), 3 deletions(-)
+> 
+> diff --git a/drivers/net/wireless/ath/ath6kl/usb.c b/drivers/net/wireless/ath/ath6kl/usb.c
+> index 5220809841a6..5b1ce4f9ed54 100644
+> --- a/drivers/net/wireless/ath/ath6kl/usb.c
+> +++ b/drivers/net/wireless/ath/ath6kl/usb.c
+> @@ -1027,9 +1027,11 @@ static int ath6kl_usb_bmi_read(struct ath6kl *ar, u8 *buf, u32 len)
+>  	int ret;
+>  
+>  	/* get response */
+> -	ret = ath6kl_usb_submit_ctrl_in(ar_usb,
+> -					ATH6KL_USB_CONTROL_REQ_RECV_BMI_RESP,
+> -					0, 0, buf, len);
+> +	ret = usb_control_msg_recv(ar_usb->udev, 0,
+> +				ATH6KL_USB_CONTROL_REQ_RECV_BMI_RESP,
+> +				USB_DIR_IN | USB_TYPE_VENDOR |
+> +				USB_RECIP_DEVICE, 0, 0, buf, len, 2000,
+> +				GFP_KERNEL);
 
---- Comment #3 from Markus Rathgeb (maggu2810@gmail.com) ---
-Created attachment 306779
-  --> https://bugzilla.kernel.org/attachment.cgi?id=3D306779&action=3Dedit
-kernel log 6.11.0-0.rc0.20240716gitd67978318827.2.fc41.x86_64
+This should be:
 
-On Fedora kernel 6.11.0-0.rc0.20240716gitd67978318827.2.fc41.x86_64 USB is
-still working.
+	ret = usb_control_msg_recv(ar_usb->udev, 0,
+				ATH6KL_USB_CONTROL_REQ_RECV_BMI_RESP,
+				USB_DIR_IN | USB_TYPE_VENDOR | USB_RECIP_DEVICE,
+				0, 0, buf, len, 2000, GFP_KERNEL);
 
---=20
-You may reply to this email to add a comment.
+right?  Keep the | values on the same line.
 
-You are receiving this mail because:
-You are watching the assignee of the bug.=
+thanks,
+
+greg k-h
