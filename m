@@ -1,85 +1,165 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3323A140394
-	for <linux-usb@vger.kernel.org>; Mon, 26 Aug 2024 09:12:57 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3F02929A2;
+	Mon, 26 Aug 2024 09:30:16 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1724663577; cv=none; b=fwj0a0IxW4StTlL43DJshUdY0wwyy1IGaujIX2zt1YDxadiHTlbqsJImkD9Lpqs05OUta4VcJ3ZbVzx4LR6qcdG1/2/3EJn/65+Luvg0H7v6w6xufvjczx6ZKlhfKMY3RsWfdbl1JdsiwKo3rarsX8cL7MOo2BwQ/Q6gyDES7EQ=
+	t=1724664617; cv=none; b=ir4M2B5TphtD0vs1CayM6ww50lWWNZrB6UK7XQjj59JbxIs3zp4Od3XuLkcPyF7n7M08zwYUlYd9VHtkswL3r/ASUWBcIRC++hCoiInIi4COHYSCSsr6nNtLVbtu31L1V4+DwQHgrMtu0hf+Hb4iZcsY66mDLuH3sPf7L5OzGIo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1724663577; c=relaxed/simple;
-	bh=EQibc0HQMGxXpSjgmDf8VMYU8sLWzJGhQFMp282d7xQ=;
-	h=From:To:Subject:Date:Message-ID:In-Reply-To:References:
-	 Content-Type:MIME-Version; b=InBrAfRIRhi3gdXsW/mRa+XtlsWIBITtiekeRGhxiKX82dAQ6ruxwfskHmd0q0gbBzFcAG6x3D1jI6OyvbfOHaWY0uZHQvfDaHbijpUljvjkCT5g3weHyaJgEAbAgr/bf7PqMDOpdoKjsXQzAdA7HEgvh5qVEvoaQjz1Fr4TW+8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=XBGvfSZW; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1724664617; c=relaxed/simple;
+	bh=AzKOmmYCYDiPvUMVeA6PO+2K0vfVzN1yaPtjZCfT+8k=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=JQStJXZT3WYBKHOC4Z644dNOTP43BBo0uEjQQrrcSkGI4Reuiwf4aF53E79DgfeK0giKcEsWL/Fad6Gp+u24NVzZPmmazXPOXNX8vBgy1VEjeS6nPZaTw5ehz5FnW8DMP9GWlyC0OB1wsXo1lf2TPiPlcm0LB9rcSjd/0e119aE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b=sj+qabaA; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="XBGvfSZW"
-Received: by smtp.kernel.org (Postfix) with ESMTPS id 01CCBC4DDEF
-	for <linux-usb@vger.kernel.org>; Mon, 26 Aug 2024 09:12:56 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1724663577;
-	bh=EQibc0HQMGxXpSjgmDf8VMYU8sLWzJGhQFMp282d7xQ=;
-	h=From:To:Subject:Date:In-Reply-To:References:From;
-	b=XBGvfSZW6XQ9Gx2QjA1vBdzqCatGsIU3Zf4mFI/to+UOWiWmGZdbpptcJ2EzSqY4Z
-	 Ue2x0euNbo9rQ4eo5wO6wXiqGgWWnz9mR/iFOmgi0/CTnooInxgJQCH9ag/RWKqoYj
-	 4aouaSa22fzEryVeQDSO2aET5hcOEwKTP0IEjnDvoA251RfdnFq3uZJCTTXH/ZfQ5g
-	 yOH/AcqQtYnybH681ah7wN5dzkPZXYGQ1bb7mN5dM6DL1yzd+0mqmPVkvRR3xW3ijY
-	 InvRCxJvJntbfEit2RJoo56iL3fDOdmjVgRdfB58vQXIpuVRec2jKIAJbVzgi3/Ekc
-	 NC+Ks9/AnCprg==
-Received: by aws-us-west-2-korg-bugzilla-1.web.codeaurora.org (Postfix, from userid 48)
-	id E353FC53B7E; Mon, 26 Aug 2024 09:12:56 +0000 (UTC)
-From: bugzilla-daemon@kernel.org
-To: linux-usb@vger.kernel.org
-Subject: [Bug 219198] usb on Dell WD19TB Thunderbolt Dock stop working
-Date: Mon, 26 Aug 2024 09:12:56 +0000
-X-Bugzilla-Reason: None
-X-Bugzilla-Type: changed
-X-Bugzilla-Watch-Reason: AssignedTo drivers_usb@kernel-bugs.kernel.org
-X-Bugzilla-Product: Drivers
-X-Bugzilla-Component: USB
-X-Bugzilla-Version: 2.5
-X-Bugzilla-Keywords: 
-X-Bugzilla-Severity: normal
-X-Bugzilla-Who: maggu2810@gmail.com
-X-Bugzilla-Status: NEW
-X-Bugzilla-Resolution: 
-X-Bugzilla-Priority: P3
-X-Bugzilla-Assigned-To: drivers_usb@kernel-bugs.kernel.org
-X-Bugzilla-Flags: 
-X-Bugzilla-Changed-Fields: attachments.created
-Message-ID: <bug-219198-208809-FODahH1xr4@https.bugzilla.kernel.org/>
-In-Reply-To: <bug-219198-208809@https.bugzilla.kernel.org/>
-References: <bug-219198-208809@https.bugzilla.kernel.org/>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-X-Bugzilla-URL: https://bugzilla.kernel.org/
-Auto-Submitted: auto-generated
+	dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="sj+qabaA"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 156F9C8B4E8;
+	Mon, 26 Aug 2024 09:30:16 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
+	s=korg; t=1724664616;
+	bh=AzKOmmYCYDiPvUMVeA6PO+2K0vfVzN1yaPtjZCfT+8k=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=sj+qabaAeuSWZSKBAS6wzi7JExk+b753ReocbXaPPFGYWhWzGXGvKtnkitWHah+2K
+	 CXcOg7+UYp01N6mwTUo8MhPAejYM43ZK3uRhPZqF8XCtlXKyCGDv2UH79mWbbWU1KL
+	 g5dZax/Hg7CZ0xZ26ZSR1MBRUj8rMsfgv5zDjhwk=
+Date: Mon, 26 Aug 2024 11:30:14 +0200
+From: Greg KH <gregkh@linuxfoundation.org>
+To: WangYuli <wangyuli@uniontech.com>
+Cc: leoliu-oc@zhaoxin.com, dlemoal@kernel.org, arnd@kernel.org,
+	schnelle@linux.ibm.com, WeitaoWang-oc@zhaoxin.com,
+	linux-usb@vger.kernel.org, linux-kernel@vger.kernel.org,
+	mathias.nyman@linux.intel.com, ulf.hansson@linaro.org,
+	vkoul@kernel.org, hslester96@gmail.com, Carsten_Schmid@mentor.com,
+	efremov@linux.com, tonywwang@zhaoxin.com, weitaowang@zhaoxin.com,
+	CobeChen@zhaoxin.com, TimGuo@zhaoxin.com, wwt8723@163.com,
+	stern@rowland.harvard.edu, alex.williamson@redhat.com,
+	guanwentao@uniontech.com, xuerpeng@uniontech.com
+Subject: Re: [PATCH v2] USB: Fix kernel NULL pointer when unbind UHCI form
+ vfio-pci
+Message-ID: <2024082631-resort-stays-b065@gregkh>
+References: <42A38D045199FD79+20240826085455.1525536-1-wangyuli@uniontech.com>
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <42A38D045199FD79+20240826085455.1525536-1-wangyuli@uniontech.com>
 
-https://bugzilla.kernel.org/show_bug.cgi?id=3D219198
+On Mon, Aug 26, 2024 at 04:54:55PM +0800, WangYuli wrote:
+> From: leoliu-oc <leoliu-oc@zhaoxin.com>
+> 
+> This bug is found in Zhaoxin platform, but it's a commom code bug.
 
---- Comment #2 from Markus Rathgeb (maggu2810@gmail.com) ---
-Created attachment 306777
-  --> https://bugzilla.kernel.org/attachment.cgi?id=3D306777&action=3Dedit
-kernel log 6.11.0-0.rc5.43.fc41
+To be fair, this is not a normal "common" code path at all :)
 
-Problem still exists with fedora kernel 6.11.0-0.rc5.43
+> 
+> Fail sequence:
+> step1: Unbind UHCI controller from native driver;
 
-On rc4 the dock has been connected on boot up and I disconnected it and
-attached the log while reconnect it againn.
+First off, you all know this is really an "unsupported" thing to do.  I
+love it how the vfio people abuse this interface for their main code
+path, but remember that is NEVER what it was designed for at all.  The
+fact that it could possibly work at all is a miracle and everyone gets
+lucky if nothing dies when they attempt to manually do the gyrations you
+are doing here.
 
-On this log the dock has not been connected on boot up. I had to connect it,
-unplug it and connect it again (first I received an "failed to initial" and=
- no
-more).
+> step2: Bind UHCI controller to vfio-pci, which will put UHCI controller in
+> 	   one vfio group's device list and set UHCI's dev->driver_data to
+> 	   struct vfio-pci(for UHCI)
 
---=20
-You may reply to this email to add a comment.
+Who sets the driver_data here?
 
-You are receiving this mail because:
-You are watching the assignee of the bug.=
+> step3: Unbind EHCI controller from native driver, will try to tell UHCI
+> 	   native driver that "I'm removed by set
+> 	   companion_hcd->self.hs_companion to NULL. However, companion_hcd
+> 	   get from UHCI's dev->driver_data that has modified by vfio-pci
+> 	   already. So, the vfio-pci structure will be damaged!
+
+Damaged how?  Attempting to assign random PCI drivers to the vfio-pci
+driver is again, really really not supported (despite what the vfio
+authors think), so again, it's amazing this works, as you are finding
+out.
+
+> step4: Bind EHCI controller to vfio-pci driver, which will put EHCI
+> 	   controller in the same vfio group as UHCI controller;
+>        ... ...
+> step5: Unbind UHCI controller from vfio-pci, which will delete UHCI from
+> 	   vfio group device list that has been damaged in step 3. So, delete
+> 	   operation can random result into a NULL pointer dereference with
+> 	   the below stack dump.
+> step6: Bind UHCI controller to native driver;
+> step7: Unbind EHCI controller from vfio-pci, which will try to remove EHCI
+> 	   controller from the vfio group;
+> step8: Bind EHCI controller to native driver;
+
+That's crazy, why would you be doing all of that in the first place?  Is
+it common to add host controller drivers to virtual machines like this?
+Why not just use usbip instead?
+
+> [  929.114641] uhci_hcd 0000:00:10.0: remove, state 1
+> [  929.114652] usb usb1: USB disconnect, device number 1
+> [  929.114655] usb 1-1: USB disconnect, device number 2
+> [  929.270313] usb 1-2: USB disconnect, device number 3
+> [  929.318404] uhci_hcd 0000:00:10.0: USB bus 1 deregistered
+> [  929.343029] uhci_hcd 0000:00:10.1: remove, state 4
+> [  929.343045] usb usb3: USB disconnect, device number 1
+> [  929.343685] uhci_hcd 0000:00:10.1: USB bus 3 deregistered
+> [  929.369087] ehci-pci 0000:00:10.7: remove, state 4
+> [  929.369102] usb usb4: USB disconnect, device number 1
+> [  929.370325] ehci-pci 0000:00:10.7: USB bus 4 deregistered
+> [  932.398494] BUG: unable to handle kernel NULL pointer dereference at 0000000000000000
+> [  932.398496] PGD 42a67d067 P4D 42a67d067 PUD 42a65f067 PMD 0
+> [  932.398502] Oops: 0002 [#2] SMP NOPTI
+> [  932.398505] CPU: 2 PID: 7824 Comm: vfio_unbind.sh Tainted: P   D  4.19.65-2020051917-rainos #1
+
+Note, this is a very old kernel, and one that has closed source in it
+making it such that none of us can debug it at all.
+
+And are you sure this happens on 6.10?
+
+> diff --git a/drivers/usb/core/hcd-pci.c b/drivers/usb/core/hcd-pci.c
+> index a08f3f228e6d..5a63d7a772ae 100644
+> --- a/drivers/usb/core/hcd-pci.c
+> +++ b/drivers/usb/core/hcd-pci.c
+> @@ -48,6 +48,7 @@ static void for_each_companion(struct pci_dev *pdev, struct usb_hcd *hcd,
+>  	struct pci_dev		*companion;
+>  	struct usb_hcd		*companion_hcd;
+>  	unsigned int		slot = PCI_SLOT(pdev->devfn);
+> +	struct pci_driver	*drv;
+>  
+>  	/*
+>  	 * Iterate through other PCI functions in the same slot.
+> @@ -60,6 +61,13 @@ static void for_each_companion(struct pci_dev *pdev, struct usb_hcd *hcd,
+>  				PCI_SLOT(companion->devfn) != slot)
+>  			continue;
+>  
+> +		drv = companion->driver;
+> +		if (drv &&
+> +		    strncmp(drv->name, "uhci_hcd", sizeof("uhci_hcd") - 1) &&
+> +		    strncmp(drv->name, "ohci-pci", sizeof("ohci-pci") - 1) &&
+> +		    strncmp(drv->name, "ehci-pci", sizeof("ehci-pci") - 1))
+
+Attempting to rely on kernel module names within kernel code just is not
+going to work, sorry.
+
+What exactly are you trying to do here?  Please at least comment it.
+
+> +			continue;
+
+Do you just want to fail the binding?  If so, why?  And what is
+precenting a driver to be bound after you do the check?
+
+> +
+>  		/*
+>  		 * Companion device should be either UHCI,OHCI or EHCI host
+>  		 * controller, otherwise skip.
+
+Why doesn't this check suffice?
+
+thanks,
+
+greg k-h
