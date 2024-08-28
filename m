@@ -1,180 +1,112 @@
-Received: from mailout2.samsung.com (mailout2.samsung.com [203.254.224.25])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4E1803D96A
-	for <linux-usb@vger.kernel.org>; Wed, 28 Aug 2024 04:12:24 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=203.254.224.25
+Received: from cae.in-ulm.de (cae.in-ulm.de [217.10.14.231])
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id B82D3374F1;
+	Wed, 28 Aug 2024 06:39:20 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.10.14.231
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1724818346; cv=none; b=qICi0LrTj7z26YLwKSgAnG0qSXS/4l0X4EiKW6tgdKOB4EA4SyI4+s1pOWy3nK61lik8wCvF6/fN3BwAm9qdjMQVrtZazeBBciq6hQpfnj4rsWuSCr8Lu8M4O4JO6fXGD0AokWGVrMzWlbbanQP7nSS3MevcqYjzsvaJsItMPMU=
+	t=1724827165; cv=none; b=jcRtZkLvheTADkh1PHuBhLmUiewHmGF3dLzXDnvIA1hMwM0i878fB7FWIZdUO5pmCYWceK/pkRj/IVTFiZj1kfKadsBuaZVfT/y7Iqaz9FstgAOE4LAZ0KlaZlGc0FC0Jk82Ich2tT2DqNTehEQB6EirIV3f4pLLGhvFKw+fcAM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1724818346; c=relaxed/simple;
-	bh=XTt1glJu0rUb8owyLnA57AYtub8xBCVVnILF+wSZyrU=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:From:In-Reply-To:
-	 Content-Type:References; b=hhkumqjlrFMx8AoQhGS34Al35ynZPoOzBUgbs9raV6vMQz5d+6rXGPZBxeBvwu/LstXyNmUPtT5aMZppASkAl34DL8PWgHyIIA0+Iv0OHtT0wnaznFEwtfiqdYdo34o36EPtMC9FIaY8p+cqoPJ65PykuQ7GQtGWVBDdh5OjkOU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=samsung.com; spf=pass smtp.mailfrom=samsung.com; dkim=pass (1024-bit key) header.d=samsung.com header.i=@samsung.com header.b=FjXnBwht; arc=none smtp.client-ip=203.254.224.25
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=samsung.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=samsung.com
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=samsung.com header.i=@samsung.com header.b="FjXnBwht"
-Received: from epcas5p3.samsung.com (unknown [182.195.41.41])
-	by mailout2.samsung.com (KnoxPortal) with ESMTP id 20240828041222epoutp021d818476a4d193ef86f7dbe146ab917a~vySTLxSyv0913109131epoutp02N
-	for <linux-usb@vger.kernel.org>; Wed, 28 Aug 2024 04:12:22 +0000 (GMT)
-DKIM-Filter: OpenDKIM Filter v2.11.0 mailout2.samsung.com 20240828041222epoutp021d818476a4d193ef86f7dbe146ab917a~vySTLxSyv0913109131epoutp02N
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=samsung.com;
-	s=mail20170921; t=1724818342;
-	bh=xY/5bssFJz3c4MH21yr5Lg7t97Fz6p4kSqYdRPCosQw=;
-	h=Date:Subject:To:Cc:From:In-Reply-To:References:From;
-	b=FjXnBwhto2WPTiS849OiIrbg4gMm+x9EVOJZy0js0bKRhXnP6xmgHbMZl5h0+lyq8
-	 LU1hSokl8UKYWskiXQXysLdcgHaOh88ebbEpVjUOmrrtHv4CBmLfBIla0j3zt+9h6U
-	 Fxt0D4dUdgWVTTIHlksVsQ4W2ZqbgaLQAi24hOrM=
-Received: from epsnrtp2.localdomain (unknown [182.195.42.163]) by
-	epcas5p2.samsung.com (KnoxPortal) with ESMTP id
-	20240828041221epcas5p25eab363bd19fbe63bb5ccfff560e2c82~vySSsN48v2954929549epcas5p22;
-	Wed, 28 Aug 2024 04:12:21 +0000 (GMT)
-Received: from epsmges5p1new.samsung.com (unknown [182.195.38.181]) by
-	epsnrtp2.localdomain (Postfix) with ESMTP id 4WtrbR1tMPz4x9Pt; Wed, 28 Aug
-	2024 04:12:19 +0000 (GMT)
-Received: from epcas5p3.samsung.com ( [182.195.41.41]) by
-	epsmges5p1new.samsung.com (Symantec Messaging Gateway) with SMTP id
-	0F.05.09640.3A3AEC66; Wed, 28 Aug 2024 13:12:19 +0900 (KST)
-Received: from epsmtrp1.samsung.com (unknown [182.195.40.13]) by
-	epcas5p4.samsung.com (KnoxPortal) with ESMTPA id
-	20240828040823epcas5p47149c92b86596bd5f39a52cededabe29~vyO0saBr01187911879epcas5p4a;
-	Wed, 28 Aug 2024 04:08:23 +0000 (GMT)
-Received: from epsmgms1p1new.samsung.com (unknown [182.195.42.41]) by
-	epsmtrp1.samsung.com (KnoxPortal) with ESMTP id
-	20240828040823epsmtrp12462cee2a5aaf9c562f3e23b21d0b366~vyO0rhHJb2266022660epsmtrp1m;
-	Wed, 28 Aug 2024 04:08:23 +0000 (GMT)
-X-AuditID: b6c32a49-a57ff700000025a8-30-66cea3a3e29e
-Received: from epsmtip1.samsung.com ( [182.195.34.30]) by
-	epsmgms1p1new.samsung.com (Symantec Messaging Gateway) with SMTP id
-	9A.79.08964.7B2AEC66; Wed, 28 Aug 2024 13:08:23 +0900 (KST)
-Received: from [107.122.5.126] (unknown [107.122.5.126]) by
-	epsmtip1.samsung.com (KnoxPortal) with ESMTPA id
-	20240828040820epsmtip18742cfc0b437319cebc3c73ebe4cabb8~vyOyKE1c72270122701epsmtip1j;
-	Wed, 28 Aug 2024 04:08:20 +0000 (GMT)
-Message-ID: <3beb7209-9ed4-4155-bea8-c31dc0d5f017@samsung.com>
-Date: Wed, 28 Aug 2024 09:38:18 +0530
+	s=arc-20240116; t=1724827165; c=relaxed/simple;
+	bh=5v+VbaGlCErZl9BBZ85FCldssbuliKuV9zDO0Ube/Mk=;
+	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=QbDbW/21jg/OUiKdz1qXW57mm1ImsAiKRvX6sdGht8KYyldNDEACKAU+I1eMW5g5LZUtJUWyV/4vdsfCPj189ydFxIoHUOxX0L0758KRE1Hgimsbv+0bBT8ikdZNSmy19zzGAIhiVs2C7zRwkH9K2/Wp0EJJu2hxXXNuBnfabRE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=c--e.de; spf=pass smtp.mailfrom=c--e.de; arc=none smtp.client-ip=217.10.14.231
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=c--e.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=c--e.de
+Received: by cae.in-ulm.de (Postfix, from userid 1000)
+	id EA7F71403C1; Wed, 28 Aug 2024 08:33:47 +0200 (CEST)
+From: "Christian A. Ehrhardt" <lk@c--e.de>
+To: linux-usb@vger.kernel.org (open list:USB TYPEC CLASS),
+	linux-kernel@vger.kernel.org (open list)
+Cc: "Christian A. Ehrhardt" <lk@c--e.de>,
+	Anurag Bijea <icaliberdev@gmail.com>,
+	Christian Heusel <christian@heusel.eu>,
+	Heikki Krogerus <heikki.krogerus@linux.intel.com>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
+	Jameson Thies <jthies@google.com>,
+	Abhishek Pandit-Subedi <abhishekpandit@chromium.org>
+Subject: [PATCH] usb: typec: ucsi: Fix busy loop on ASUS VivoBooks
+Date: Wed, 28 Aug 2024 08:33:13 +0200
+Message-Id: <20240828063314.552278-1-lk@c--e.de>
+X-Mailer: git-send-email 2.30.2
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v3] usb: dwc3: core: Prevent USB core invalid event
- buffer address access
-To: Greg KH <gregkh@linuxfoundation.org>
-Cc: Thinh.Nguyen@synopsys.com, linux-usb@vger.kernel.org,
-	linux-kernel@vger.kernel.org, jh0801.jung@samsung.com,
-	dh10.jung@samsung.com, naushad@samsung.com, akash.m5@samsung.com,
-	rc93.raju@samsung.com, taehyun.cho@samsung.com, hongpooh.kim@samsung.com,
-	eomji.oh@samsung.com, shijie.cai@samsung.com, stable@vger.kernel.org
-Content-Language: en-US
-From: Selvarasu Ganesan <selvarasu.g@samsung.com>
-In-Reply-To: <2024082212-copper-oversight-f84f@gregkh>
-Content-Transfer-Encoding: 7bit
-X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFtrJJsWRmVeSWpSXmKPExsWy7bCmpu7ixefSDG5uYbd4c3UVq8WdBdOY
-	LE4tX8hk0bx4PZvFpD1bWSzuPvzBYnF51xw2i0XLWpktPh39z2qxqnMOUOz7TmaLBRsfMVpM
-	OihqsWrBAXYHPo/9c9ewe/RtWcXosWX/Z0aPz5vkAliism0yUhNTUosUUvOS81My89JtlbyD
-	453jTc0MDHUNLS3MlRTyEnNTbZVcfAJ03TJzgG5UUihLzCkFCgUkFhcr6dvZFOWXlqQqZOQX
-	l9gqpRak5BSYFOgVJ+YWl+al6+WlllgZGhgYmQIVJmRnzH35k7Vgo3BFR8cjpgbGHv4uRk4O
-	CQETib0vvjF3MXJxCAnsZpTYN2EXO4TziVFi3qcvjBDON0aJhatmM8K0HFzYwA5iCwnsZZQ4
-	PjsBougto8SMviY2kASvgJ3EkfaTrCA2i4CqxJPNH6HighInZz5hAbFFBeQl7t+aATZIWCBe
-	4sjtpWD1IgIaEi+P3mIBGcoscJJJ4urSZUwgCWYBcYlbT+YD2RwcbAKGEs9O2ICEOQXMJD6d
-	eM8GUSIvsf3tHLB/JAT2cEhcuvGeHeJqF4m78/4wQ9jCEq+Ob4GKS0m87G+DsqslVt8BORSk
-	uYVR4vCTb1AJe4nHRx8xgyxmFtCUWL9LHyIsKzH11Dqo2/gken8/YYKI80rsmAdjq0qcarzM
-	BmFLS9xbco0VwvaQmPxiC/MERsVZSOEyC8mbs5D8Mwth8wJGllWMkqkFxbnpqcWmBYZ5qeXw
-	GE/Oz93ECE7DWp47GO8++KB3iJGJg/EQowQHs5II74njZ9OEeFMSK6tSi/Lji0pzUosPMZoC
-	I2gis5Rocj4wE+SVxBuaWBqYmJmZmVgamxkqifO+bp2bIiSQnliSmp2aWpBaBNPHxMEp1cBU
-	v3vGs8xNB3R61ziXJEkvCPwSc0jxvFqPTHDm9jUaK39c77W/rj/9+7PeQy1HP2SvCks04sv3
-	6v68ZVmj+5MPzovu7he7ZrNnb0bmjXNT/wr8n/f9+PwErzgbtcdrHB7uqZA/fDzH0CkgKuDH
-	xKKjfYZ7Vjb3Sl4RmRCUG7fXdXdOx4U7Bod+5PLJ+Pkzs4iFel5YorNsj6MFdy7Hso3tVU3N
-	emb/T67kuLNs8pR9v/RmMDZfuLz88R6XhfeuVuxdZ6x1oOHAvOv6h1l1p4bMv//MwVFp5728
-	3OvfH1U8ri3aGmYnOu/fsb+uz5mNZF5f+nLz76RNa1Ibwyfkhy9UPKFkV3k9529w8K3/fQpf
-	jimxFGckGmoxFxUnAgCodfrATAQAAA==
-X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFprKIsWRmVeSWpSXmKPExsWy7bCSnO72RefSDC6d5bJ4c3UVq8WdBdOY
-	LE4tX8hk0bx4PZvFpD1bWSzuPvzBYnF51xw2i0XLWpktPh39z2qxqnMOUOz7TmaLBRsfMVpM
-	OihqsWrBAXYHPo/9c9ewe/RtWcXosWX/Z0aPz5vkAliiuGxSUnMyy1KL9O0SuDLmvvzJWrBR
-	uKKj4xFTA2MPfxcjJ4eEgInEwYUN7F2MXBxCArsZJXZ+fcwKkZCWeD2rixHCFpZY+e85VNFr
-	RoneDxfZQRK8AnYSR9pPgjWwCKhKPNn8kQ0iLihxcuYTFhBbVEBe4v6tGWD1wgLxEs2T9zOB
-	2CICGhIvj95iARnKLHCSSWLflT5miA2/mSSWPbkO1s0sIC5x68l8oA4ODjYBQ4lnJ2xAwpwC
-	ZhKfTrxngygxk+jaCnEpM9Cy7W/nME9gFJqF5I5ZSCbNQtIyC0nLAkaWVYySqQXFuem5xYYF
-	hnmp5XrFibnFpXnpesn5uZsYwTGnpbmDcfuqD3qHGJk4GA8xSnAwK4nwnjh+Nk2INyWxsiq1
-	KD++qDQntfgQozQHi5I4r/iL3hQhgfTEktTs1NSC1CKYLBMHp1QDk5P6q3X/pl9VFbilacb/
-	4eN7PccEu5jJamVHLmyP+l6ypcNTbQe/13Orvfan1rH7rd4XefDk3cltmpP/vLDoe1UtpOIc
-	/tf/O5f65INbF29u3Hx+wVr9gEPNT3Tv+Zl55e6s3X0r+M/i/XO99ySYPTGPZGF8y2JReP3L
-	cduAc3O/bv1kE5iaWcy5uDphI4P4646vq57qHt5x4pjYnKuPd3v2mMbtZm5sF0ro1J43+3DP
-	i6dFtnwTrXv7qm/axArnX/zNuU+w9lD46r1fF+m94S32Oi8/9ci/2+3cuVkihjseNNTyci+9
-	aGF8e9/8JcfmP/lypvLdg0u5839p3Pnj6bvjxMHuqq4WTzanWT1TGmYqsRRnJBpqMRcVJwIA
-	AJ8iCigDAAA=
-X-CMS-MailID: 20240828040823epcas5p47149c92b86596bd5f39a52cededabe29
-X-Msg-Generator: CA
-Content-Type: text/plain; charset="utf-8"
-X-Sendblock-Type: REQ_APPROVE
-CMS-TYPE: 105P
-DLP-Filter: Pass
-X-CFilter-Loop: Reflected
-X-CMS-RootMailID: 20240815064918epcas5p1248e4f9084d33fdb11a25fa34e66cdbe
-References: <CGME20240815064918epcas5p1248e4f9084d33fdb11a25fa34e66cdbe@epcas5p1.samsung.com>
-	<20240815064836.1491-1-selvarasu.g@samsung.com>
-	<2024081618-singing-marlin-2b05@gregkh>
-	<4f286780-89a2-496d-9007-d35559f26a21@samsung.com>
-	<2024081700-skittle-lethargy-9567@gregkh>
-	<c477fdb2-a92a-4551-b6c8-38ada06914c6@samsung.com>
-	<2024082212-copper-oversight-f84f@gregkh>
+Content-Transfer-Encoding: 8bit
 
+If the busy indicator is set, all other fields in CCI should be
+clear according to the spec. However, some UCSI implementations do
+not follow this rule and report bogus data in CCI along with the
+busy indicator. Ignore the contents of CCI if the busy indicator is
+set.
 
-On 8/22/2024 1:29 PM, Greg KH wrote:
-> On Sat, Aug 17, 2024 at 07:13:53PM +0530, Selvarasu Ganesan wrote:
->> On 8/17/2024 10:47 AM, Greg KH wrote:
->>> On Fri, Aug 16, 2024 at 09:13:09PM +0530, Selvarasu Ganesan wrote:
->>>> On 8/16/2024 3:25 PM, Greg KH wrote:
->>>>> On Thu, Aug 15, 2024 at 12:18:31PM +0530, Selvarasu Ganesan wrote:
->>>>>> This commit addresses an issue where the USB core could access an
->>>>>> invalid event buffer address during runtime suspend, potentially causing
->>>>>> SMMU faults and other memory issues in Exynos platforms. The problem
->>>>>> arises from the following sequence.
->>>>>>            1. In dwc3_gadget_suspend, there is a chance of a timeout when
->>>>>>            moving the USB core to the halt state after clearing the
->>>>>>            run/stop bit by software.
->>>>>>            2. In dwc3_core_exit, the event buffer is cleared regardless of
->>>>>>            the USB core's status, which may lead to an SMMU faults and
->>>>>>            other memory issues. if the USB core tries to access the event
->>>>>>            buffer address.
->>>>>>
->>>>>> To prevent this hardware quirk on Exynos platforms, this commit ensures
->>>>>> that the event buffer address is not cleared by software  when the USB
->>>>>> core is active during runtime suspend by checking its status before
->>>>>> clearing the buffer address.
->>>>>>
->>>>>> Cc: stable@vger.kernel.org # v6.1+
->>>>> Any hint as to what commit id this fixes?
->>>>>
->>>>> thanks,
->>>>>
->>>>> greg k-h
->>>> Hi Greg,
->>>>
->>>> This issue is not related to any particular commit. The given fix is
->>>> address a hardware quirk on the Exynos platform. And we require it to be
->>>> backported on stable kernel 6.1 and above all stable kernel.
->>> If it's a hardware quirk issue, why are you restricting it to a specific
->>> kernel release and not a specific kernel commit?  Why not 5.15?  5.4?
->> Hi Greg,
->>
->> I mentioned a specific kernel because our platform is set to be tested
->> and functioning with kernels 6.1 and above, and the issue was reported
->> with these kernel versions. However, we would be fine if all stable
->> kernels, such as 5.4 and 5.15, were backported. In this case, if you
->> need a new patch version to update the Cc tag for all stable kernels,
->> please suggest the Cc tag to avoid confusion in next version.
-> I'll fix it up when applying it, thanks.
+If a command timeout is hit it is possible that the EVENT_PENDING
+bit is cleared while connector work is still scheduled which can
+cause the EVENT_PENDING bit to go out of sync with scheduled connector
+work. Check and set the EVENT_PENDING bit on entry to
+ucsi_handle_connector_change() to fix this.
 
-Thank you for the support!!.
+Finally, the quirk for some ASUS zenbook models is required for
+ASUS VivoBooks as well. Apply the quirk to these as well.
 
-Thanks,
-Selva
->
-> greg k-h
->
+Reported-by: Anurag Bijea <icaliberdev@gmail.com>
+Closes: https://bugzilla.kernel.org/show_bug.cgi?id=219108
+Bisected-by: Christian Heusel <christian@heusel.eu>
+Tested-by: Anurag Bijea <icaliberdev@gmail.com>
+Fixes: de52aca4d9d5 ("usb: typec: ucsi: Never send a lone connector change ack")
+Cc: stable@vger.kernel.org
+Signed-off-by: Christian A. Ehrhardt <lk@c--e.de>
+---
+ drivers/usb/typec/ucsi/ucsi.c      | 8 ++++++++
+ drivers/usb/typec/ucsi/ucsi_acpi.c | 7 +++++++
+ 2 files changed, 15 insertions(+)
+
+diff --git a/drivers/usb/typec/ucsi/ucsi.c b/drivers/usb/typec/ucsi/ucsi.c
+index 4039851551c1..540cb1d2822c 100644
+--- a/drivers/usb/typec/ucsi/ucsi.c
++++ b/drivers/usb/typec/ucsi/ucsi.c
+@@ -38,6 +38,10 @@
+ 
+ void ucsi_notify_common(struct ucsi *ucsi, u32 cci)
+ {
++	/* Ignore bogus data in CCI if busy indicator is set. */
++	if (cci & UCSI_CCI_BUSY)
++		return;
++
+ 	if (UCSI_CCI_CONNECTOR(cci))
+ 		ucsi_connector_change(ucsi, UCSI_CCI_CONNECTOR(cci));
+ 
+@@ -1249,6 +1253,10 @@ static void ucsi_handle_connector_change(struct work_struct *work)
+ 
+ 	mutex_lock(&con->lock);
+ 
++	if (!test_and_set_bit(EVENT_PENDING, &ucsi->flags))
++		dev_err_once(ucsi->dev, "%s entered without EVENT_PENDING\n",
++			     __func__);
++
+ 	command = UCSI_GET_CONNECTOR_STATUS | UCSI_CONNECTOR_NUMBER(con->num);
+ 
+ 	ret = ucsi_send_command_common(ucsi, command, &con->status,
+diff --git a/drivers/usb/typec/ucsi/ucsi_acpi.c b/drivers/usb/typec/ucsi/ucsi_acpi.c
+index 7a5dff8d9cc6..aa586525ab4c 100644
+--- a/drivers/usb/typec/ucsi/ucsi_acpi.c
++++ b/drivers/usb/typec/ucsi/ucsi_acpi.c
+@@ -197,6 +197,13 @@ static const struct dmi_system_id ucsi_acpi_quirks[] = {
+ 		},
+ 		.driver_data = (void *)&ucsi_zenbook_ops,
+ 	},
++	{
++		.matches = {
++			DMI_MATCH(DMI_SYS_VENDOR, "ASUSTeK COMPUTER INC."),
++			DMI_MATCH(DMI_PRODUCT_NAME, "VivoBook_ASUSLaptop"),
++		},
++		.driver_data = (void *)&ucsi_zenbook_ops,
++	},
+ 	{
+ 		.matches = {
+ 			DMI_MATCH(DMI_SYS_VENDOR, "LG Electronics"),
+-- 
+2.43.0
+
