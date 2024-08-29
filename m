@@ -1,65 +1,72 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wm1-f54.google.com (mail-wm1-f54.google.com [209.85.128.54])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6B83518C331;
-	Thu, 29 Aug 2024 16:51:26 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2C02C1B5EC2
+	for <linux-usb@vger.kernel.org>; Thu, 29 Aug 2024 17:05:21 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.54
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1724950286; cv=none; b=lgnHID7DTqnvdalPJCUH5nyd/vCgjOBDe6KD0QAFsBhYXXgctC5wrrzt477GnqpP6/1GqOHHfaXWm9QDmXcCVkO7SEMJTgxnrjZQn8zgIeLvQxL1hYCMHZTsEJyJ/3uuXi/yDhxZwKhDGFOYCTwe8tq16oDC1I1SRTxuPt65C7w=
+	t=1724951122; cv=none; b=Hlg9Ya2wWcdJdqQGlxZrbEjho+1JrL/lL+TZak9dCx+nrnibCBtqwC3OPv652I+FSv0m4rqZ4HuuMXw2qx/GddqEhO73MnuAG7dMf47KZ7m/lgzQePM64DIFNlXqDzIRLs+ITeuKU4x3P5yW4qCq6Dme2eTcnWnIVqKF1D8WfSA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1724950286; c=relaxed/simple;
-	bh=VHEUvglnJc7OOAt4hBIE5an9rfbpzsV2UAGYEkqJGvQ=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition:In-Reply-To; b=sIyrkLxkHRmdGN1ul6LFSs4PG2rQJnKBY50HI73jYoylhiR/u2/vWo5L08Nnd9+Fvk0le29y+3i+4oiYM9DZPvX9HGJmRk0gtKo1y8VWdqWSi1PdYqfIW3DUS4GX4L+20t0SRY81yuuSVGUII8SHufQgSefjyG9S9B57LFAP46M=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=pffm/He+; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1724951122; c=relaxed/simple;
+	bh=47DEQpj8HBSa+/TImW+5JCeuQeRkm5NMpJWZG3hSuFU=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=n3NiquS4MsSyhCCLb41w6gCrs9DGnxd/OI4iaYFVyjpDDVBMQr0eaYVqhMcQ7HBSYU8+CMmnTGCvZ/g7JwfWsjoEMRXiSPG251L+KAnrqOeY6jds/degQjYYFnGBAgzbMXlq7GH2yxStOiL1aB6TPqR4FrK/kav2z3cx0CXN9a8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=ROhFhDPO; arc=none smtp.client-ip=209.85.128.54
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=google.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="pffm/He+"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 0D144C4CEC8;
-	Thu, 29 Aug 2024 16:51:25 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1724950286;
-	bh=VHEUvglnJc7OOAt4hBIE5an9rfbpzsV2UAGYEkqJGvQ=;
-	h=Date:From:To:Cc:Subject:In-Reply-To:From;
-	b=pffm/He+fX4OTon9jN6Dv1qXOc9vrQZJDCTuzyY18nPEcDRviXFyafje/fAg1sogG
-	 pMd2G69XA2v+NvGI94C+4tlmJMDNHW+odCivkusXydpzPDMR10PaAUA9kf7IMF8bdt
-	 4W9rCSNhsZfWl8YVLqhkpHjq5hRZuDAlzykucre6u+MHBnV71KyEYKqSNg1IaHG9ND
-	 vOsE9PZ7SyukQrI4qjA0ZrkibYVT3bJZnHOEx2DwvB758Nj0fLpmMcanzYwV6gzhsh
-	 KwAWNK3EQGc/Fp1xouWnrvGDcbh5jwdUTtJ70aPFPO82FPkIWMvMuDXwZvwvmoDdTL
-	 Ma46qKZlKQpLg==
-Date: Thu, 29 Aug 2024 11:51:24 -0500
-From: Bjorn Helgaas <helgaas@kernel.org>
-To: Sergei Shtylyov <sergei.shtylyov@gmail.com>
-Cc: WangYuli <wangyuli@uniontech.com>, mathias.nyman@intel.com,
-	gregkh@linuxfoundation.org, bhelgaas@google.com,
-	linux-usb@vger.kernel.org, linux-kernel@vger.kernel.org,
-	linux-pci@vger.kernel.org, guanwentao@uniontech.com,
-	zhanjun@uniontech.com, Chen Baozi <chenbaozi@phytium.com.cn>,
-	Wang Zhimin <wangzhimin1179@phytium.com.cn>,
-	Chen Zhenhua <chenzhenhua@phytium.com.cn>,
-	Wang Yinfeng <wangyinfeng@phytium.com.cn>,
-	Jiakun Shuai <shuaijiakun1288@phytium.com.cn>
-Subject: Re: [PATCH] usb: xHCI: add XHCI_RESET_ON_RESUME quirk for Phytium
- xHCI host
-Message-ID: <20240829165124.GA66576@bhelgaas>
+	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="ROhFhDPO"
+Received: by mail-wm1-f54.google.com with SMTP id 5b1f17b1804b1-42817d3ecfeso115e9.1
+        for <linux-usb@vger.kernel.org>; Thu, 29 Aug 2024 10:05:20 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=google.com; s=20230601; t=1724951119; x=1725555919; darn=vger.kernel.org;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:from:to:cc:subject:date:message-id:reply-to;
+        bh=47DEQpj8HBSa+/TImW+5JCeuQeRkm5NMpJWZG3hSuFU=;
+        b=ROhFhDPO9Ll9pWySk8+1RNzrFAIkqvOHeAt76Sekt/2Nq2RgyGnHOrg06nVAwJTbbx
+         zAi0uJwwJP0jqEYMfTHLkWaLJ2gekVim0k8G/dT0p2KPEwnnDBxr8vGAEIAbWGgwydbJ
+         27gRXfuhbdNIvrexgxiNmeLdRC7iD8eL/W8DICUJu+ZkoPpVwFJIzZtULYynfRQ7WJSf
+         hf3JckSyM3mS9++wZHTI426vRojfg3E4bT5gEo9V8aflq0OYneGz+LtgkdyczysS1TMQ
+         xYqLj5Joab5nUxH9a9uJl41/gt6GcyBRtoMAcugUPwyUekYoCs3c/38EOqb5F/7yf3PF
+         4aQg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1724951119; x=1725555919;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=47DEQpj8HBSa+/TImW+5JCeuQeRkm5NMpJWZG3hSuFU=;
+        b=BrCdw3u0SC7tJGiNHP8tIufbE3e1k2Up0z0u9pptugxQiYtXzXOZnv7So74ByAYYmU
+         fDoH5az6CzoMXLLY1NJ+YhppuoUAOGuleScm7wKlQNAYe0GuuRNB2vgaw1Bm8dR1Chfx
+         D4iFvguSKWIVC/cbXG48g3DGrdBc7/u0MgIu+4XjXr1Y2ikQxIki4WwR4h2q5lED5a5I
+         vtkBvnwsJfYubU5RTv20Mn3Jpj50HnVtX8Er8euG1/W2CO7JYkbqjpGR85NikcDsOlx3
+         CK6/bRsyV3h4vgyqh4/OuKWOLdOPTITJG84aw7K7AQA+JM5loalDzZovWESk6bw4gvFg
+         Wzxw==
+X-Forwarded-Encrypted: i=1; AJvYcCVwNxCYQxBZUyKT/gEij7o/+3J9j8bGzZWhchY3rwkgiFENNw1PkhO5qtwqZnRPG0sWVygku8UPKHY=@vger.kernel.org
+X-Gm-Message-State: AOJu0YyGYBgtC1feIeUbLbli8UvJ3IuAMh4DNNeJDBxtpRJMfFXQvJfn
+	E7wJ7z9FY0b2TegPZLu2wA9BbQDv+K5ptelLdtXQ2EVOKRAOqrkLKeSPA5cN0CvSTDpnG/nHT2k
+	mtaK41rj2/aT2YOtOlDjh6m62HiRn2Cx08dY=
+X-Gm-Gg: AV9I1ZQLq4LSbLzUubatkD27dzAa2clZWJZJTSlnboLOFLPcp3J8qbB7RZ4k68RCb/3
+	AVi273nBotCQYTDZEOckddrh9TT1FhcmGD8+NySWeyxE4Db6a4nQkSw14GU8=
+X-Google-Smtp-Source: AGHT+IF8ncbv3hPX6txBwjD+mljfVJFZjCz8WD9pS5r0ChWeEb3HcbLEeUEQAMuL4Kr+bb+8RiZA/+ov4ZUA9UxFSLs=
+X-Received: by 2002:a05:600c:6d12:b0:424:a2ae:8d1d with SMTP id
+ 5b1f17b1804b1-42bba2d4b89mr12755e9.2.1724951118768; Thu, 29 Aug 2024 10:05:18
+ -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <99754b01-51a0-29d3-6022-4e25130ff36a@gmail.com>
+References: <CAFs7P=jk=wfo0nbHzqd1NrGX3NKpOezD4-u=nAMqzq7mq4Lidg@mail.gmail.com>
+In-Reply-To: <CAFs7P=jk=wfo0nbHzqd1NrGX3NKpOezD4-u=nAMqzq7mq4Lidg@mail.gmail.com>
+From: Joshua Pius <joshuapius@google.com>
+Date: Thu, 29 Aug 2024 13:04:40 -0400
+Message-ID: <CAFs7P=jPqv2Zr6Fnw584TKhj5joBRt7X7gMidE4MiK1ABAMiRQ@mail.gmail.com>
+Subject: Re: [PATCH] ALSA: Add logitech Audio profile quirk
+To: linux-kernel@vger.kernel.org, linux-media@vger.kernel.org
+Cc: devicetree@vger.kernel.org, linux-sound@vger.kernel.org, 
+	linux-usb@vger.kernel.org, linux-arm-msm@vger.kernel.org, 
+	linux-doc@vger.kernel.org, alsa-devel@alsa-project.org
+Content-Type: text/plain; charset="UTF-8"
 
-On Thu, Aug 29, 2024 at 12:38:58PM +0300, Sergei Shtylyov wrote:
-> On 8/29/24 10:30 AM, WangYuli wrote:
-> > +	if (pdev->vendor == PCI_VENDOR_ID_PHYTIUM ||
-> 
->    Hm, ||, not &&?
-> 
-> > +	    pdev->device == PCI_DEVICE_ID_PHYTIUM_XHCI)
-> > +		xhci->quirks |= XHCI_RESET_ON_RESUME;
 
-Definitely a bug, thanks for spotting it!  Must check both Vendor
-*and* Device ID.  There are likely unrelated devices from other
-vendors using the PCI_DEVICE_ID_PHYTIUM_XHCI Device ID value.
