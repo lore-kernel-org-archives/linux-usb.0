@@ -1,71 +1,83 @@
-Received: from pasta.tip.net.au (pasta.tip.net.au [203.10.76.2])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0003F1D1312
-	for <linux-usb@vger.kernel.org>; Fri, 30 Aug 2024 12:20:39 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=203.10.76.2
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D4DBD56440
+	for <linux-usb@vger.kernel.org>; Fri, 30 Aug 2024 12:32:18 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1725020445; cv=none; b=F6GCDxxJNtl4jI9gFhSmOKa82b2RCtaITeGi4vnn5nrjBCKHo2N+ax03fsIRhvkp4z5LBxsSPuY9Nz+GSe9ee66Fk9wC6Up3uqy6c8HcuPrSsXPJW7ZY/mm4qosPjRObuIFQIy7fn3eVU8soVGz2mZTpvIig2h3iSmL6XneN+zI=
+	t=1725021139; cv=none; b=oOEKw/aKEMSPNIhfvDL4l8k11PRgzTwFp+Ln8ZIUMqUd0tHRtJ4afbBjyhJP4qvlglkhE2AY3PzNyl/qabAPC2zlC8jSEhQcUtLl3b8E/EL+esJpEb3xcBNJA4lotLfXmiUqpfWKe9p1VZVJsEkf6ozEk6xnQxVV4t/RnLC3u2Q=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1725020445; c=relaxed/simple;
-	bh=s/9UPoJ2Hcm0QdRM+ifFEI5a4KOIEVGWJ9WYxoYi2YE=;
-	h=Message-ID:Date:MIME-Version:To:From:Subject:Content-Type; b=nIB11HK06o/KD24lmkq3rEqhWmmXem93gHEQbv2bIgLd6I6DWZjlnL331y1MgGzQWzpDRzdUDbazwxH5uq++Pr+R6cC8FCTlbRXSSkRa56NhCEYSskRRXz3HwJCiBRZVGuO6/QcPM2YU0zU+OMn+A17IRy2ewG1PjGneK84D7s0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=eyal.emu.id.au; spf=pass smtp.mailfrom=eyal.emu.id.au; arc=none smtp.client-ip=203.10.76.2
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=eyal.emu.id.au
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=eyal.emu.id.au
-Received: from [192.168.2.7] (unknown [101.115.81.153])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
-	(No client certificate requested)
-	by mailhost.tip.net.au (Postfix) with ESMTPSA id 4WwHBr3y6pz9RKG
-	for <linux-usb@vger.kernel.org>; Fri, 30 Aug 2024 22:14:28 +1000 (AEST)
-Message-ID: <63d4782a-1d83-4252-a0ca-a9b50e6074f0@eyal.emu.id.au>
-Date: Fri, 30 Aug 2024 22:14:20 +1000
+	s=arc-20240116; t=1725021139; c=relaxed/simple;
+	bh=dTr4R7Y/6pfCQtUaVEHZxYBTMm7UG3cMLTqOe+sWlKM=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=ViNa60IY1NMUipXBBVWbOV03WHX+sZKrkKd94fcOAsgTRoGFxvVQMIAGHJ70N0Jb1n6Q0XUM9UTLOx6hYvW7NSQVv9PogivypL5bRwcqWr6BMGaCW3kCfH/9GBe1FoDTJAzmdOdM+JK2ZWh1T9ZuHrCM9hDNt8asAyeVl/DKA3w=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b=a/5dX5XK; arc=none smtp.client-ip=10.30.226.201
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="a/5dX5XK"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 2B97EC4CEC7;
+	Fri, 30 Aug 2024 12:32:17 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
+	s=korg; t=1725021138;
+	bh=dTr4R7Y/6pfCQtUaVEHZxYBTMm7UG3cMLTqOe+sWlKM=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=a/5dX5XKFGHFY4KEFElkULkYPqI0F9fd+c10NYy35oCOzQc0qgSQeHrKyK/icD6rM
+	 HLpPEmX6yfWRMfwrfASLktQI0/GE9qP44SxCeRplXRZiCqFWh92k01HFhGcw0iilSS
+	 oUC0i7pnOkZcF98PfPn965ggXmey6Ik5iRN66Dg0=
+Date: Fri, 30 Aug 2024 14:32:15 +0200
+From: Greg KH <gregkh@linuxfoundation.org>
+To: Eyal Lebedinsky <eyal@eyal.emu.id.au>
+Cc: linux-usb@vger.kernel.org
+Subject: Re: Understanding 'lsusb -t'
+Message-ID: <2024083057-charger-lustrous-d434@gregkh>
+References: <63d4782a-1d83-4252-a0ca-a9b50e6074f0@eyal.emu.id.au>
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-To: linux-usb@vger.kernel.org
-Reply-To: eyal@eyal.emu.id.au
-Content-Language: en-US
-From: Eyal Lebedinsky <eyal@eyal.emu.id.au>
-Subject: Understanding 'lsusb -t'
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <63d4782a-1d83-4252-a0ca-a9b50e6074f0@eyal.emu.id.au>
 
-I assume that the generated list is a tree, so each leaf (Device/If) is on only one point.
+On Fri, Aug 30, 2024 at 10:14:20PM +1000, Eyal Lebedinsky wrote:
+> I assume that the generated list is a tree, so each leaf (Device/If) is on only one point.
+> 
+> I note this output:
+> 
+> $ lsusb -tv
+> /:  Bus 001.Port 001: Dev 001, Class=root_hub, Driver=xhci_hcd/16p, 480M
+>     ID 1d6b:0002 Linux Foundation 2.0 root hub
+> [trimmed]
+>     |__ Port 004: Dev 004, If 0, Class=Hub, Driver=hub/4p, 480M
+> [trimmed]
+>     |__ Port 005: Dev 006, If 0, Class=Hub, Driver=hub/4p, 480M
+> [trimmed]
+>     |__ Port 006: Dev 019, If 0, Class=Hub, Driver=hub/4p, 480M
+>         ID 2109:2817 VIA Labs, Inc.
+> /:  Bus 002.Port 001: Dev 001, Class=root_hub, Driver=xhci_hcd/10p, 10000M
+> [trimmed]
+>     |__ Port 006: Dev 006, If 0, Class=Hub, Driver=hub/4p, 5000M
+>         ID 2109:0817 VIA Labs, Inc.
+> 
+> I removed some content that is not relevant to my question.
+> 
+> Note the Bus 001.Port 006 and Bus 002.Port 006 entries.
+> 
+> I verified that both are for the same (one) device. They do not show when I disconnect it.
+> The device is an external 4-port USB3.0 hub. It is listed once as 480M and once as 5000M.
+> Nothing is plugged into any of the four ports.
+> 
+> Is this correct? Why does this device show twice in the list?
 
-I note this output:
+That's odd, as the same device shouldn't be on multiple busses.  Busses
+are a "root port" on the system (i.e. a new PCI controller device), so
+are you sure you just don't have multiple devices with the same
+device/vendor id?
 
-$ lsusb -tv
-/:  Bus 001.Port 001: Dev 001, Class=root_hub, Driver=xhci_hcd/16p, 480M
-     ID 1d6b:0002 Linux Foundation 2.0 root hub
-[trimmed]
-     |__ Port 004: Dev 004, If 0, Class=Hub, Driver=hub/4p, 480M
-[trimmed]
-     |__ Port 005: Dev 006, If 0, Class=Hub, Driver=hub/4p, 480M
-[trimmed]
-     |__ Port 006: Dev 019, If 0, Class=Hub, Driver=hub/4p, 480M
-         ID 2109:2817 VIA Labs, Inc.
-/:  Bus 002.Port 001: Dev 001, Class=root_hub, Driver=xhci_hcd/10p, 10000M
-[trimmed]
-     |__ Port 006: Dev 006, If 0, Class=Hub, Driver=hub/4p, 5000M
-         ID 2109:0817 VIA Labs, Inc.
+What is the diff between running the command before and after removing a
+single device?
 
-I removed some content that is not relevant to my question.
+thanks,
 
-Note the Bus 001.Port 006 and Bus 002.Port 006 entries.
-
-I verified that both are for the same (one) device. They do not show when I disconnect it.
-The device is an external 4-port USB3.0 hub. It is listed once as 480M and once as 5000M.
-Nothing is plugged into any of the four ports.
-
-Is this correct? Why does this device show twice in the list?
-
-TIA
-
--- 
-Eyal at Home (eyal@eyal.emu.id.au)
+greg k-h
