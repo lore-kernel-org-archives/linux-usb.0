@@ -1,177 +1,165 @@
-Received: from mail-wm1-f52.google.com (mail-wm1-f52.google.com [209.85.128.52])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.15])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3D1F9168C33
-	for <linux-usb@vger.kernel.org>; Fri, 30 Aug 2024 08:22:46 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.52
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DFFA3166F3F
+	for <linux-usb@vger.kernel.org>; Fri, 30 Aug 2024 08:24:44 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.15
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1725006167; cv=none; b=eXHdeYu+EZ3Hi05zR+GwRcz+4ni6zkeE938+i/vdVvqEAqbBt7KUs0PREMLKvXFjK0OnwGphi/RCLkR2TV0YPZIvv8JakA4X1iczCsCr9f+IKdfz0VaTwVu4w3K/ZTk2P84QQbSRm/zmXeGbbq55xic1BW7N06/OWDS8Cu/JDIo=
+	t=1725006286; cv=none; b=tW0nUsjKiAAuQOrsb07hYNjbnK5ikqdNxV2p8MyzGHdVGMA2sqpfvjHjI8gz1CyR2eJewaNBpSpNE+MNlGXw6wuIqAV5gCN1nBrjhkd0hne2uf/sA106Ngg8KQ58s620wK0sx8m98WWRxxyNzHKnql+mYDqQswCtFoSUGE4g2Ao=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1725006167; c=relaxed/simple;
-	bh=lg2a5Or0gfd5Bku8PfxGPt1GgB3ed0TVDFLBpQJIMg4=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=eCPTz9EB27cyssNhrpvVQBbEDINCI8sg0vXWmNjSnZzUEZXCNcs0BFcWgI9eZo0L99Mqy4KQsc5XKED4FOlhSnioui6n66e/qwmdHuDEhD/ZidRjzaQ5LSuAuhItw4M52EatgZfXjUsNx7hwbotuloS1a5joZCtEH5OsUR1j/UU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=tuxon.dev; spf=pass smtp.mailfrom=tuxon.dev; dkim=pass (2048-bit key) header.d=tuxon.dev header.i=@tuxon.dev header.b=PdX55yCj; arc=none smtp.client-ip=209.85.128.52
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=tuxon.dev
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=tuxon.dev
+	s=arc-20240116; t=1725006286; c=relaxed/simple;
+	bh=N2YGQNk0YoOAUKenKKpF0Bh5urPA5WunZeZsyjyVnqw=;
+	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=aZ5JKaXrnGxYAH9uaQZZvRcSyLbdNo7fiysirJFMJrorcbp1EIuz0iRsbGBrkA798LBgMzfL4ojJPJVVldBFathSfQiVEUlftMkdCeo996/WVmQ8L6ulm3osP9hbttRyyySEROSAGVAYNUaLeipInkGC/djuiuyO2+mf0rdbfwI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=al5AkR7t; arc=none smtp.client-ip=192.198.163.15
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=tuxon.dev header.i=@tuxon.dev header.b="PdX55yCj"
-Received: by mail-wm1-f52.google.com with SMTP id 5b1f17b1804b1-429da8b5feaso17043925e9.2
-        for <linux-usb@vger.kernel.org>; Fri, 30 Aug 2024 01:22:46 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=tuxon.dev; s=google; t=1725006164; x=1725610964; darn=vger.kernel.org;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=zchK+tZfRdJr/B0VNKRrEBtLoJmeJfsr2YpFzQ08IdE=;
-        b=PdX55yCjayxLU3a0HuryCmcojZbcsP1de6j68M6ebp45drf94iA8NvQ3vsQjHDYp5n
-         P8yVFUuidLKGgIn94toZdJ8Hez/KX4ijJvG3obykwA8N6EFCXEfuV0jL5hfAVLH9n2FT
-         JDgtvtEv2wNPr5PRcw7s1+jaMBUU/ydxJV/5vXjkSb4A6Hx/WLesh7ismzSRiwg1c8oU
-         hs4k49jr+zfamjjjl1mOB2Jsvq2B1n/itmC73c4rO1JTg7oZOIHiq05+A5mpJ6OPVLqD
-         zUantHtRV6mHWHqKBVgjPqry3UzYkH1R5EeiZOey60NAit5f9lGIWVAf7MkpNyPle08y
-         M+fQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1725006164; x=1725610964;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=zchK+tZfRdJr/B0VNKRrEBtLoJmeJfsr2YpFzQ08IdE=;
-        b=ivEejmOvoARpj1V5hL8MsMZP1WXSxf7+dhUDl92zbPjinnr1o2CmL1YBB7oytWB1o4
-         eD6Vlk6LgwO+y3ui5etpvWLtEIWQYJ+zZr+0vA0JPQv/B9UF1+jN5bmpcmeiRqa4taCg
-         /1xm43CWjFtGv6Nel3o36uDt/KmpSZ58RBenXx20jiQ+sXtAjt8GjxwljWGu9o954zsW
-         omRujyJNNq5zCxfWps5i4vZK/jnsfNByqN2D4K+H1RHgx1JatBwm40/QQ4T4q03U4Cpg
-         BUwrP/oghtfRq2kDiN8OpazMCkMspUaOfy8suBYldLs1uGgCxY1fMNbI8d3H7elDWpz+
-         R2eQ==
-X-Forwarded-Encrypted: i=1; AJvYcCWbpfRVE9H7nLooP2WfsDVLv+9judiD4PwBxYjrJDq1R2gvYd290uvNO8BfAXtRlEXnQnqYNg/05Ho=@vger.kernel.org
-X-Gm-Message-State: AOJu0YwnQA4k16/TYWAeAfyP2O9Qud520bgaw1nty+gmUgHmDX6q80As
-	KEhln1UBj8oMTMHuUJBh2aA3i2WZRSDNtvrlsd4kRTN7OyhNZwqUfgUwVAJh7YI=
-X-Google-Smtp-Source: AGHT+IF8ZkJGKUmuglZKyShKgzTB0GuKfWBu6xay0mGYscvHuYinOaW5h5J83vGVNlCFB6KS0zIxvQ==
-X-Received: by 2002:a05:600c:3ca2:b0:426:5520:b835 with SMTP id 5b1f17b1804b1-42bb01ae206mr53646705e9.5.1725006164296;
-        Fri, 30 Aug 2024 01:22:44 -0700 (PDT)
-Received: from [192.168.50.4] ([82.78.167.144])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-42bb87f7fccsm31864805e9.46.2024.08.30.01.22.42
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Fri, 30 Aug 2024 01:22:43 -0700 (PDT)
-Message-ID: <99bef301-9f6c-4797-b47e-c83e56dfbda9@tuxon.dev>
-Date: Fri, 30 Aug 2024 11:22:41 +0300
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="al5AkR7t"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1725006285; x=1756542285;
+  h=from:to:cc:subject:date:message-id:mime-version:
+   content-transfer-encoding;
+  bh=N2YGQNk0YoOAUKenKKpF0Bh5urPA5WunZeZsyjyVnqw=;
+  b=al5AkR7tPzrruBvodisIUU1ligV+mQbhqPlt1BRtVShV0Jx93bfx95RP
+   VLKW5Jkju91327z/R/tj0RWFeYzpXECSnA91b4jDxfgK/N1TBPtNdos3L
+   /xPFUtHxbYckLQYqmrYddFvIEYgdMLJDtz2mSwY3/cwv/JMf+kTsVbE+J
+   L9knyZ1K24+iRhu1bl3T0bUyd6YX6dhURHc2O4YJZ/SLfuceOIUynr5SX
+   1O4u53lK+PJTCUQ5nvjHtUe+XSCNjEY5KH1ToXAQumaEM6K1+WwiC13t7
+   cCt3fJlB1pgtt0hsu2O3GhkguO/uzTLgRA5xT3jK8Vp2dZwGCnRDBw0LW
+   Q==;
+X-CSE-ConnectionGUID: 5p1+vm9QSqeXZBAQwsoFPg==
+X-CSE-MsgGUID: EQfyilaDQ8mdaCRkyr05SA==
+X-IronPort-AV: E=McAfee;i="6700,10204,11179"; a="23803733"
+X-IronPort-AV: E=Sophos;i="6.10,188,1719903600"; 
+   d="scan'208";a="23803733"
+Received: from fmviesa005.fm.intel.com ([10.60.135.145])
+  by fmvoesa109.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 30 Aug 2024 01:24:44 -0700
+X-CSE-ConnectionGUID: nguJVXm4TTK/VhoTZBvgOQ==
+X-CSE-MsgGUID: gJLBvfZTQAatj4vyna7/qA==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.10,188,1719903600"; 
+   d="scan'208";a="68231364"
+Received: from senthil-nuc10i7fnh.iind.intel.com ([10.223.163.83])
+  by fmviesa005.fm.intel.com with ESMTP; 30 Aug 2024 01:24:42 -0700
+From: Saranya Gopal <saranya.gopal@intel.com>
+To: linux-usb@vger.kernel.org
+Cc: gregkh@linuxfoundation.org,
+	rajaram.regupathy@intel.com,
+	Saranya Gopal <saranya.gopal@intel.com>,
+	Heikki Krogerus <heikki.krogerus@linux.intel.com>
+Subject: [PATCH] usb: typec: ucsi: Do not call ACPI _DSM method for UCSI read operations
+Date: Fri, 30 Aug 2024 14:13:42 +0530
+Message-Id: <20240830084342.460109-1-saranya.gopal@intel.com>
+X-Mailer: git-send-email 2.34.1
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 00/16] Add initial USB support for the Renesas RZ/G3S SoC
-Content-Language: en-US
-To: Ulf Hansson <ulf.hansson@linaro.org>
-Cc: vkoul@kernel.org, kishon@kernel.org, robh@kernel.org, krzk+dt@kernel.org,
- conor+dt@kernel.org, p.zabel@pengutronix.de, geert+renesas@glider.be,
- magnus.damm@gmail.com, gregkh@linuxfoundation.org, mturquette@baylibre.com,
- sboyd@kernel.org, yoshihiro.shimoda.uh@renesas.com,
- biju.das.jz@bp.renesas.com, linux-phy@lists.infradead.org,
- devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
- linux-renesas-soc@vger.kernel.org, linux-usb@vger.kernel.org,
- linux-arm-kernel@lists.infradead.org, linux-clk@vger.kernel.org,
- linux-pm@vger.kernel.org, Claudiu Beznea <claudiu.beznea.uj@bp.renesas.com>
-References: <20240822152801.602318-1-claudiu.beznea.uj@bp.renesas.com>
- <CAPDyKFrS4Dhd7DZa2zz=oPro1TiTJFix0awzzzp8Qatm-8Z2Ug@mail.gmail.com>
-From: claudiu beznea <claudiu.beznea@tuxon.dev>
-In-Reply-To: <CAPDyKFrS4Dhd7DZa2zz=oPro1TiTJFix0awzzzp8Qatm-8Z2Ug@mail.gmail.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
 
-Hi, Ulf,
+ACPI _DSM methods are needed only for UCSI write operations and for reading
+CCI during RESET_PPM operation. So, remove _DSM calls from other places.
+While there, remove the Zenbook quirk also since the default behavior
+now aligns with the Zenbook quirk. With this change, GET_CONNECTOR_STATUS
+returns at least 6 seconds faster than before in Arrowlake-S platforms.
 
-On 29.08.2024 18:26, Ulf Hansson wrote:
-> On Thu, 22 Aug 2024 at 17:28, Claudiu <claudiu.beznea@tuxon.dev> wrote:
->>
->> From: Claudiu Beznea <claudiu.beznea.uj@bp.renesas.com>
->>
->> Hi,
->>
->> Series adds initial USB support for the Renesas RZ/G3S SoC.
->>
->> Series is split as follows:
->>
->> - patch 01/16           - add clock reset and power domain support for USB
->> - patch 02-04/16        - add reset control support for a USB signal
->>                           that need to be controlled before/after
->>                           the power to USB area is turned on/off.
->>
->>                           Philipp, Ulf, Geert, all,
->>
->>                           I detailed my approach for this in patch
->>                           04/16, please have a look and let me know
->>                           your input.
-> 
-> I have looked briefly. Your suggested approach may work, but I have a
-> few thoughts, see below.
-> 
-> If I understand correctly, it is the consumer driver for the device
-> that is attached to the USB power domain that becomes responsible for
-> asserting/de-asserting this new signal. Right?
+Reviewed-by: Heikki Krogerus <heikki.krogerus@linux.intel.com>
+Signed-off-by: Saranya Gopal <saranya.gopal@intel.com>
+---
+ drivers/usb/typec/ucsi/ucsi_acpi.c | 56 +++---------------------------
+ 1 file changed, 5 insertions(+), 51 deletions(-)
 
-Right!
+diff --git a/drivers/usb/typec/ucsi/ucsi_acpi.c b/drivers/usb/typec/ucsi/ucsi_acpi.c
+index 7a5dff8d9cc6..accf15ff1306 100644
+--- a/drivers/usb/typec/ucsi/ucsi_acpi.c
++++ b/drivers/usb/typec/ucsi/ucsi_acpi.c
+@@ -61,9 +61,11 @@ static int ucsi_acpi_read_cci(struct ucsi *ucsi, u32 *cci)
+ 	struct ucsi_acpi *ua = ucsi_get_drvdata(ucsi);
+ 	int ret;
+ 
+-	ret = ucsi_acpi_dsm(ua, UCSI_DSM_FUNC_READ);
+-	if (ret)
+-		return ret;
++	if (UCSI_COMMAND(ua->cmd) == UCSI_PPM_RESET) {
++		ret = ucsi_acpi_dsm(ua, UCSI_DSM_FUNC_READ);
++		if (ret)
++			return ret;
++	}
+ 
+ 	memcpy(cci, ua->base + UCSI_CCI, sizeof(*cci));
+ 
+@@ -73,11 +75,6 @@ static int ucsi_acpi_read_cci(struct ucsi *ucsi, u32 *cci)
+ static int ucsi_acpi_read_message_in(struct ucsi *ucsi, void *val, size_t val_len)
+ {
+ 	struct ucsi_acpi *ua = ucsi_get_drvdata(ucsi);
+-	int ret;
+-
+-	ret = ucsi_acpi_dsm(ua, UCSI_DSM_FUNC_READ);
+-	if (ret)
+-		return ret;
+ 
+ 	memcpy(val, ua->base + UCSI_MESSAGE_IN, val_len);
+ 
+@@ -102,42 +99,6 @@ static const struct ucsi_operations ucsi_acpi_ops = {
+ 	.async_control = ucsi_acpi_async_control
+ };
+ 
+-static int
+-ucsi_zenbook_read_cci(struct ucsi *ucsi, u32 *cci)
+-{
+-	struct ucsi_acpi *ua = ucsi_get_drvdata(ucsi);
+-	int ret;
+-
+-	if (UCSI_COMMAND(ua->cmd) == UCSI_PPM_RESET) {
+-		ret = ucsi_acpi_dsm(ua, UCSI_DSM_FUNC_READ);
+-		if (ret)
+-			return ret;
+-	}
+-
+-	memcpy(cci, ua->base + UCSI_CCI, sizeof(*cci));
+-
+-	return 0;
+-}
+-
+-static int
+-ucsi_zenbook_read_message_in(struct ucsi *ucsi, void *val, size_t val_len)
+-{
+-	struct ucsi_acpi *ua = ucsi_get_drvdata(ucsi);
+-
+-	/* UCSI_MESSAGE_IN is never read for PPM_RESET, return stored data */
+-	memcpy(val, ua->base + UCSI_MESSAGE_IN, val_len);
+-
+-	return 0;
+-}
+-
+-static const struct ucsi_operations ucsi_zenbook_ops = {
+-	.read_version = ucsi_acpi_read_version,
+-	.read_cci = ucsi_zenbook_read_cci,
+-	.read_message_in = ucsi_zenbook_read_message_in,
+-	.sync_control = ucsi_sync_control_common,
+-	.async_control = ucsi_acpi_async_control
+-};
+-
+ static int ucsi_gram_read_message_in(struct ucsi *ucsi, void *val, size_t val_len)
+ {
+ 	u16 bogus_change = UCSI_CONSTAT_POWER_LEVEL_CHANGE |
+@@ -190,13 +151,6 @@ static const struct ucsi_operations ucsi_gram_ops = {
+ };
+ 
+ static const struct dmi_system_id ucsi_acpi_quirks[] = {
+-	{
+-		.matches = {
+-			DMI_MATCH(DMI_SYS_VENDOR, "ASUSTeK COMPUTER INC."),
+-			DMI_MATCH(DMI_PRODUCT_NAME, "ZenBook UX325UA_UM325UA"),
+-		},
+-		.driver_data = (void *)&ucsi_zenbook_ops,
+-	},
+ 	{
+ 		.matches = {
+ 			DMI_MATCH(DMI_SYS_VENDOR, "LG Electronics"),
+-- 
+2.34.1
 
-> 
-> In this regard, please note that the consumer driver doesn't really
-> know when the power domain really gets powered-on/off. Calling
-> pm_runtime_get|put*() is dealing with the reference counting. For
-> example, a call to pm_runtime_get*() just makes sure that the PM
-> domain gets-or-remains powered-on. Could this be a problem from the
-> reset-signal point of view?
-
-It should be safe. From the HW manual I understand the hardware block is
-something like the following:
-
-
-                  USB area
-         +-------------------------+
-         |                         |
-         | PHY --->USB controller  |
-SYSC --> |  ^                      |
-         |  |                      |
-         | PHY reset               |
-         +-------------------------+
-
-Where:
-- SYSC is the system controller that controls the new signal for which
-  I'm requesting opinions in this series
-- PHY reset: is the block controlling the PHYs
-- PHY: is the block controlling the USB PHYs
-- USB controller: is the USB controller
-
-Currently, I passed the SYSC signal handling to the PHY reset driver; w/o
-PHY reset the rest of the USB logic cannot work (neither PHY block nor USB
-controller).
-
-Currently, the PHY reset driver call pm_runtime_resume_and_get() in probe
-and pm_runtime_put() in remove. The struct reset_control_ops::{assert,
-deassert} only set specific bits in registers (no pm_runtime* calls).
-
-The PHY driver is taking its PHY reset in probe and release it in remove().
-With this approach the newly introduced SYSC signal will be
-de-asserted/asserted only in the PHY reset probe/remove (either if it is
-handled though PM domain or reset control signal).
-
-If the SYSC signal would be passed to all the blocks in the USB area (and
-it would be handled though PM domains) it should be no problem either,
-AFAICT, because of reference counting the pm_runtime_get|put*() is taking
-care of. As the PHY reset is the root node the in the devices node tree for
-USB the reference counting should work, too (I may miss something though,
-please correct me if I'm wrong).
-
-If the SYSC signal would be handled though a reset control driver (as
-proposed in this series) and we want to pass this reference to all the
-blocks in the USB area then we can request the reset signal as shared and,
-AFAIK, this is also reference counted. The devices node tree should help
-with the order, too, if I'm not wrong.
-
-Thank you for looking at this,
-Claudiu Beznea
-
-> 
-> [...]
-> 
-> Kind regards
-> Uffe
