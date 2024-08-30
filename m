@@ -1,210 +1,180 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.19])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.11])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B005D16726E
-	for <linux-usb@vger.kernel.org>; Fri, 30 Aug 2024 08:37:40 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.19
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F2B6816F0DB
+	for <linux-usb@vger.kernel.org>; Fri, 30 Aug 2024 08:45:44 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.11
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1725007062; cv=none; b=lEtQlQxQoGJj459SaJPONdvUqJkAj7k5JXHZvt9rvUkh9w25gNDimVafAwCorYSfbXBlx5yckd4jod66PDcR4c9WdVlhzPlTKC797OWA50TKWUyRQd7y723pC+6STIVp6HxVBWSmpQ06HKeOTMnV5HWIhxRDdoA/Lgw1ArGtSeE=
+	t=1725007546; cv=none; b=k7mx5uHMCZMmCZFW8HowLuyOkdj3S+GbxUgJdcowUZyiWzhLX3qVdKDDHRZtFhw349bmyh9kpW6JiHN4tsNk9frAP0CbnZzmBWxLdI+9+QjDn3PcVXUMkxq0lNIir1S02zAxiS11rIz3TbDy1KmnUA8EA68UC58JXdt1LI+Jfmw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1725007062; c=relaxed/simple;
-	bh=tOu74Qj9fj+19ujJXGbfRqOvvSk0lkYcYq4MkctFWIY=;
+	s=arc-20240116; t=1725007546; c=relaxed/simple;
+	bh=xTYrRpNPdqXbZHwHfi0vj/wL8/ingS47xsDc142HZhQ=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=Apftnrr2ge1pQfe/eT//+5749VTGeq5ipInSLXSrW56f0+NWCwLLE40yB5xUI8BIrbbNQcqv6QgpgiKWlCJR4CYLvi8ETlzdnIK285u99g2/TRZDkZ6FoWBQE4mKl6XflWrm0ZuOQNqyqMJc2f3lyLv2TV3t8x45gpWdOT6FLaE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=none smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=GA1C2aol; arc=none smtp.client-ip=192.198.163.19
+	 Content-Type:Content-Disposition:In-Reply-To; b=oX261qh68FR6HwGvOFaMWjEd3HBbeez+bsHedbzshJGHiGV1rUsWrUYfWc4OKdeBm9WZQ32rfL2rkDR0t6uafQctFtH63KxeFNb8gT07FeCAbNlRn8BlG3sQGQCc04shfkRyVwr3FutKP5VawuTxr9uJ8n3c7AZmnxwbWXGOl6g=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=none smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=WOh77aJh; arc=none smtp.client-ip=198.175.65.11
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=linux.intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="GA1C2aol"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="WOh77aJh"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1725007061; x=1756543061;
+  t=1725007545; x=1756543545;
   h=date:from:to:cc:subject:message-id:references:
-   mime-version:content-transfer-encoding:in-reply-to;
-  bh=tOu74Qj9fj+19ujJXGbfRqOvvSk0lkYcYq4MkctFWIY=;
-  b=GA1C2aol4f7T73xIYBlfyln1g7FHbPWqyjVno9Al4bBjiv3ftZJCY7/i
-   QvUuYtfYMzEi/aHKdB8OTawjUbXGMEWdwVeR2Blhvdykl0vmQNBEKkE+F
-   zzW5ASjX4OYkyhonBFBxDAxWHxrSwOIDE03o8KS3882KsdOOwomFrO16u
-   QC73lTl0p1DhYMfbWkwdxJhiiu2wCE6SsJyBuzuqbpEU16tf1GgRm3EeT
-   VCY8V2UgLXqf7DUk4se9Hap0wPUtBBEGTmC/M5ZUYUgrUP0t5mLpF13wW
-   uqd5VwzFyK4/B4c4iFBaJnVEwUQtP3Gzs/JMk3OD829NignDHntCQQtbi
+   mime-version:in-reply-to;
+  bh=xTYrRpNPdqXbZHwHfi0vj/wL8/ingS47xsDc142HZhQ=;
+  b=WOh77aJheADVSPudvzdjZDtb84x7YA4WDqT9jv9mrjogkBeGDUrOSwR0
+   HtmOKgIVeUX5eR9W1YKkxKSshycEEY5t6yHcQUUbM7X2HYBYv5RvXRBpo
+   91UlvQsUMbY6phEjcGn0HVQCqu3dMOUiS+5fGtbv8A+VhwBhCYIJVgeHG
+   nfms4AgfN8VFLouO70aBlSUaqaAZLsYweSn8cbQvA7/g46lxjtr3hubVF
+   51fuEuII6V083XmuJbm51/DcBaG4i4+MnNMe2ZWODbknW1JTSDIO2qjHX
+   6cle14NK3ahQFCvtrbOcS0dmH4F+d02+ih5Kui87P4ThcpQw3ru5j8UF/
    g==;
-X-CSE-ConnectionGUID: eCIY5EfYSVuawqvKpHA80w==
-X-CSE-MsgGUID: m5Zf8KTiRi+Y3JPi0XSyjQ==
-X-IronPort-AV: E=McAfee;i="6700,10204,11179"; a="23206743"
+X-CSE-ConnectionGUID: ZX4fNZvFTg2ScfcV+F/ijQ==
+X-CSE-MsgGUID: n59v0w0YQ2ebq/WDGHoamw==
+X-IronPort-AV: E=McAfee;i="6700,10204,11179"; a="34210660"
 X-IronPort-AV: E=Sophos;i="6.10,188,1719903600"; 
-   d="scan'208";a="23206743"
-Received: from fmviesa008.fm.intel.com ([10.60.135.148])
-  by fmvoesa113.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 30 Aug 2024 01:37:40 -0700
-X-CSE-ConnectionGUID: Su368qiyRWKHR9PMiaPNcw==
-X-CSE-MsgGUID: Kh+dqlvESNSSSryukIDw9Q==
+   d="scan'208";a="34210660"
+Received: from orviesa008.jf.intel.com ([10.64.159.148])
+  by orvoesa103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 30 Aug 2024 01:44:37 -0700
+X-CSE-ConnectionGUID: nJCl+4TWTYmqHTe0gqUxJA==
+X-CSE-MsgGUID: UT4E8C8EQ2u9riABCpLifg==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.10,188,1719903600"; 
-   d="scan'208";a="63829817"
+   d="scan'208";a="64577610"
 Received: from kuha.fi.intel.com ([10.237.72.185])
-  by fmviesa008.fm.intel.com with SMTP; 30 Aug 2024 01:37:37 -0700
-Received: by kuha.fi.intel.com (sSMTP sendmail emulation); Fri, 30 Aug 2024 11:37:36 +0300
-Date: Fri, 30 Aug 2024 11:37:36 +0300
+  by orviesa008.jf.intel.com with SMTP; 30 Aug 2024 01:44:35 -0700
+Received: by kuha.fi.intel.com (sSMTP sendmail emulation); Fri, 30 Aug 2024 11:44:33 +0300
+Date: Fri, 30 Aug 2024 11:44:33 +0300
 From: Heikki Krogerus <heikki.krogerus@linux.intel.com>
-To: Abhishek Pandit-Subedi <abhishekpandit@chromium.org>
-Cc: Jameson Thies <jthies@google.com>, Benson Leung <bleung@chromium.org>,
-	Bartosz Szpila <bszpila@google.com>,
-	"Pilla, Siva sai kumar" <siva.sai.kumar.pilla@intel.com>,
-	linux-usb@vger.kernel.org
-Subject: Re: [RFC PATCH 3/3] usb: typec: ucsi: Helpers for new
- GET_CONNECTOR_STATUS fields
-Message-ID: <ZtGE0H0lgMxzMb8m@kuha.fi.intel.com>
-References: <20240828161502.2774996-1-heikki.krogerus@linux.intel.com>
- <20240828161502.2774996-4-heikki.krogerus@linux.intel.com>
- <CANFp7mUHTNMA8XS+1K_jEstTrt8C6AcmizPChF0PVBifkzJPiA@mail.gmail.com>
+To: Saranya Gopal <saranya.gopal@intel.com>,
+	"Christian A. Ehrhardt" <lk@c--e.de>
+Cc: linux-usb@vger.kernel.org, gregkh@linuxfoundation.org,
+	rajaram.regupathy@intel.com
+Subject: Re: [PATCH] usb: typec: ucsi: Do not call ACPI _DSM method for UCSI
+ read operations
+Message-ID: <ZtGGcRpavSITFai7@kuha.fi.intel.com>
+References: <20240830084342.460109-1-saranya.gopal@intel.com>
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <CANFp7mUHTNMA8XS+1K_jEstTrt8C6AcmizPChF0PVBifkzJPiA@mail.gmail.com>
+In-Reply-To: <20240830084342.460109-1-saranya.gopal@intel.com>
 
-On Thu, Aug 29, 2024 at 02:49:34PM -0700, Abhishek Pandit-Subedi wrote:
-> On Wed, Aug 28, 2024 at 9:15 AM Heikki Krogerus
-> <heikki.krogerus@linux.intel.com> wrote:
-> >
-> > UCSI v2 introduced new fields to GET_CONNECTOR_STATUS.
-> > Adding a helper for each field. The helpers check that the
-> > UCSI version is v2 or above.
-> >
-> > Signed-off-by: Heikki Krogerus <heikki.krogerus@linux.intel.com>
-> > ---
-> >  drivers/usb/typec/ucsi/ucsi.h | 66 +++++++++++++++++++++++++++++++++++
-> >  1 file changed, 66 insertions(+)
-> >
-> > diff --git a/drivers/usb/typec/ucsi/ucsi.h b/drivers/usb/typec/ucsi/ucsi.h
-> > index dfbc0f6c1b9b..adcbfc96dfcf 100644
-> > --- a/drivers/usb/typec/ucsi/ucsi.h
-> > +++ b/drivers/usb/typec/ucsi/ucsi.h
-> > @@ -524,4 +524,70 @@ static inline void ucsi_debugfs_unregister(struct ucsi *ucsi) { }
-> >  #define USB_TYPEC_NVIDIA_VLINK_DP_VDO  0x1
-> >  #define USB_TYPEC_NVIDIA_VLINK_DBG_VDO 0x3
-> >
-> > +/* -------------------------------------------------------------------------- */
-> > +
-> > +static inline enum typec_orientation ucsi_orientation(struct ucsi_connector *con)
-> > +{
-> > +       if (WARN_ON(con->ucsi->version < UCSI_VERSION_2_0))
-> > +               return TYPEC_ORIENTATION_NONE;
-> > +       return UCSI_FIELD(con->status, 86, 1) ? TYPEC_ORIENTATION_REVERSE :
-> > +                                               TYPEC_ORIENTATION_NORMAL;
-> > +}
-> > +
-> > +static inline int ucsi_sink_path_status(struct ucsi_connector *con)
-> > +{
-> > +       if (WARN_ON(con->ucsi->version < UCSI_VERSION_2_0))
-> > +               return -EINVAL;
-> > +       return UCSI_FIELD(con->status, 87, 1);
-> > +}
-> > +
-> > +static inline int ucsi_reverse_current_protection_status(struct ucsi_connector *con)
-> > +{
-> > +       if (WARN_ON(con->ucsi->version < UCSI_VERSION_2_0))
-> > +               return -EINVAL;
-> > +       return UCSI_FIELD(con->status, 88, 1);
-> > +}
-> > +
-> > +static inline int ucsi_power_reading_ready(struct ucsi_connector *con)
-> > +{
-> > +       if (WARN_ON(con->ucsi->version < UCSI_VERSION_2_0))
-> > +               return -EINVAL;
-> > +       return UCSI_FIELD(con->status, 89, 1);
-> > +}
-> > +
-> > +static inline int ucsi_current_scale(struct ucsi_connector *con)
-> > +{
-> > +       if (WARN_ON(con->ucsi->version < UCSI_VERSION_2_0))
-> > +               return -EINVAL;
-> > +       return UCSI_FIELD(con->status, 90, 3) * 5; /* mA */
-> > +}
-> > +
-> > +static inline int ucsi_peak_current(struct ucsi_connector *con)
-> > +{
-> > +       if (WARN_ON(con->ucsi->version < UCSI_VERSION_2_0))
-> > +               return -EINVAL;
-> > +       return UCSI_FIELD(con->status, 93, 16);
-> > +}
-> > +
-> > +static inline int ucsi_average_current(struct ucsi_connector *con)
-> > +{
-> > +       if (WARN_ON(con->ucsi->version < UCSI_VERSION_2_0))
-> > +               return -EINVAL;
-> > +       return UCSI_FIELD(con->status, 109, 16);
-> > +}
-> > +
-> > +static inline int ucsi_voltage_scale(struct ucsi_connector *con)
-> > +{
-> > +       if (WARN_ON(con->ucsi->version < UCSI_VERSION_2_0))
-> > +               return -EINVAL;
-> > +       return UCSI_FIELD(con->status, 125, 4) * 5; /* mV */
-> > +}
-> > +
-> > +static inline int ucsi_voltage_reading(struct ucsi_connector *con)
-> > +{
-> > +       if (WARN_ON(con->ucsi->version < UCSI_VERSION_2_0))
-> > +               return -EINVAL;
-> > +       return UCSI_FIELD(con->status, 129, 16);
-> > +}
-> > +
-> >  #endif /* __DRIVER_USB_TYPEC_UCSI_H */
-> > --
-> > 2.45.2
-> >
+On Fri, Aug 30, 2024 at 02:13:42PM +0530, Saranya Gopal wrote:
+> ACPI _DSM methods are needed only for UCSI write operations and for reading
+> CCI during RESET_PPM operation. So, remove _DSM calls from other places.
+> While there, remove the Zenbook quirk also since the default behavior
+> now aligns with the Zenbook quirk. With this change, GET_CONNECTOR_STATUS
+> returns at least 6 seconds faster than before in Arrowlake-S platforms.
 > 
-> I think it would be nice to be able to declare what version a field
-> was added when we describe the data structure rather than having to
-> add helper functions for every single access of it.
+> Reviewed-by: Heikki Krogerus <heikki.krogerus@linux.intel.com>
+> Signed-off-by: Saranya Gopal <saranya.gopal@intel.com>
+
+Maybe this should be marked as a fix. I think this covers:
+https://lore.kernel.org/linux-usb/20240829100109.562429-2-lk@c--e.de/
+
+Christian, can you check this?
+
+thanks,
+
+> ---
+>  drivers/usb/typec/ucsi/ucsi_acpi.c | 56 +++---------------------------
+>  1 file changed, 5 insertions(+), 51 deletions(-)
 > 
-> Using the patch I had previously attempted as reference here too:
-> https://chromium-review.googlesource.com/c/chromiumos/third_party/kernel/+/5274219
-> 
-> We could add a minimum version to each field definition like so:
-> 
-> #define UCSI_CONSTAT_SINK_PATH_STATUS \
->     UCSI_FIELD_FOR(/*struct=*/ucsi_connector_status,
-> /*min_version=*/UCSI_2_0, /*offset=*/87, /*size=*/1)
-> 
-> These can default to WARN_ON + return -EINVAL when the minimum version
-> doesn't match.
-> 
-> Pros: Minimum versions are alongside the field definitions, easier to
-> keep track of and enforce.
-> Cons:
->   - WARN may not easily identify which field is failing to access.
-> This could be fixable.
->   - Version check for every field (and not just ones that need it).
-
-I agree that the helpers are not very good in the end, and yes, the
-macro needs to check the version for every field.
-
-Yesterday I actually already reworked that macro to do exactly that.
-It does not really need to do anything else - bitmap_read() does the
-rest.
-
-Structures I don't see any use with these. We should use data
-structures if we could still use bitfields, but since they had to be
-dropped, structures only make things difficult.
-
-I'll send v2 today, or at least try to. There was an internal report
-about bogus data in sysfs. I found one issues with the pd_revision
-attribute file that is actually caused by the problem at hand - the
-Partner PD Revision field in GET_CONNECTOR_CAPABILITY even when it's
-not supported. I need to fix that at least, but there may be some
-other problems too.
-
-So I will in any case convert also struct ucsi_connector_capability to
-bitmap while at it in v2. Let's continue the discussion from there.
-
-Br,
+> diff --git a/drivers/usb/typec/ucsi/ucsi_acpi.c b/drivers/usb/typec/ucsi/ucsi_acpi.c
+> index 7a5dff8d9cc6..accf15ff1306 100644
+> --- a/drivers/usb/typec/ucsi/ucsi_acpi.c
+> +++ b/drivers/usb/typec/ucsi/ucsi_acpi.c
+> @@ -61,9 +61,11 @@ static int ucsi_acpi_read_cci(struct ucsi *ucsi, u32 *cci)
+>  	struct ucsi_acpi *ua = ucsi_get_drvdata(ucsi);
+>  	int ret;
+>  
+> -	ret = ucsi_acpi_dsm(ua, UCSI_DSM_FUNC_READ);
+> -	if (ret)
+> -		return ret;
+> +	if (UCSI_COMMAND(ua->cmd) == UCSI_PPM_RESET) {
+> +		ret = ucsi_acpi_dsm(ua, UCSI_DSM_FUNC_READ);
+> +		if (ret)
+> +			return ret;
+> +	}
+>  
+>  	memcpy(cci, ua->base + UCSI_CCI, sizeof(*cci));
+>  
+> @@ -73,11 +75,6 @@ static int ucsi_acpi_read_cci(struct ucsi *ucsi, u32 *cci)
+>  static int ucsi_acpi_read_message_in(struct ucsi *ucsi, void *val, size_t val_len)
+>  {
+>  	struct ucsi_acpi *ua = ucsi_get_drvdata(ucsi);
+> -	int ret;
+> -
+> -	ret = ucsi_acpi_dsm(ua, UCSI_DSM_FUNC_READ);
+> -	if (ret)
+> -		return ret;
+>  
+>  	memcpy(val, ua->base + UCSI_MESSAGE_IN, val_len);
+>  
+> @@ -102,42 +99,6 @@ static const struct ucsi_operations ucsi_acpi_ops = {
+>  	.async_control = ucsi_acpi_async_control
+>  };
+>  
+> -static int
+> -ucsi_zenbook_read_cci(struct ucsi *ucsi, u32 *cci)
+> -{
+> -	struct ucsi_acpi *ua = ucsi_get_drvdata(ucsi);
+> -	int ret;
+> -
+> -	if (UCSI_COMMAND(ua->cmd) == UCSI_PPM_RESET) {
+> -		ret = ucsi_acpi_dsm(ua, UCSI_DSM_FUNC_READ);
+> -		if (ret)
+> -			return ret;
+> -	}
+> -
+> -	memcpy(cci, ua->base + UCSI_CCI, sizeof(*cci));
+> -
+> -	return 0;
+> -}
+> -
+> -static int
+> -ucsi_zenbook_read_message_in(struct ucsi *ucsi, void *val, size_t val_len)
+> -{
+> -	struct ucsi_acpi *ua = ucsi_get_drvdata(ucsi);
+> -
+> -	/* UCSI_MESSAGE_IN is never read for PPM_RESET, return stored data */
+> -	memcpy(val, ua->base + UCSI_MESSAGE_IN, val_len);
+> -
+> -	return 0;
+> -}
+> -
+> -static const struct ucsi_operations ucsi_zenbook_ops = {
+> -	.read_version = ucsi_acpi_read_version,
+> -	.read_cci = ucsi_zenbook_read_cci,
+> -	.read_message_in = ucsi_zenbook_read_message_in,
+> -	.sync_control = ucsi_sync_control_common,
+> -	.async_control = ucsi_acpi_async_control
+> -};
+> -
+>  static int ucsi_gram_read_message_in(struct ucsi *ucsi, void *val, size_t val_len)
+>  {
+>  	u16 bogus_change = UCSI_CONSTAT_POWER_LEVEL_CHANGE |
+> @@ -190,13 +151,6 @@ static const struct ucsi_operations ucsi_gram_ops = {
+>  };
+>  
+>  static const struct dmi_system_id ucsi_acpi_quirks[] = {
+> -	{
+> -		.matches = {
+> -			DMI_MATCH(DMI_SYS_VENDOR, "ASUSTeK COMPUTER INC."),
+> -			DMI_MATCH(DMI_PRODUCT_NAME, "ZenBook UX325UA_UM325UA"),
+> -		},
+> -		.driver_data = (void *)&ucsi_zenbook_ops,
+> -	},
+>  	{
+>  		.matches = {
+>  			DMI_MATCH(DMI_SYS_VENDOR, "LG Electronics"),
+> -- 
+> 2.34.1
 
 -- 
 heikki
