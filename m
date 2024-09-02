@@ -1,139 +1,75 @@
-Received: from szxga07-in.huawei.com (szxga07-in.huawei.com [45.249.212.35])
+Received: from szxga05-in.huawei.com (szxga05-in.huawei.com [45.249.212.191])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E571619E99E
-	for <linux-usb@vger.kernel.org>; Mon,  2 Sep 2024 12:43:53 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=45.249.212.35
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E194113CFB7
+	for <linux-usb@vger.kernel.org>; Mon,  2 Sep 2024 13:22:01 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=45.249.212.191
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1725281037; cv=none; b=HoavboztK+JB432BFeB82qQIqOwFUp2Y3JHy2GoI4uJVqNgGII5gh9p/jCh1hT1w4XOIhoxHh/pZVnK8SKKwo8zPsrMTRBE20hLbtA71pbALF6X3anohvDDocfYjjjTO1BPqPq0bIfEIzs3xrf7o9ZfCxzPxNtm0S1/H0QYfWLo=
+	t=1725283325; cv=none; b=qGMzp+03LbHiujZg4QHnhWOnsAqj3D2vjiaPKK3o792Jt8wI1ty72CkpOtq+zxOWQD0CxIr863SUjLvGq88lRxR2PNzGQRkmxGL5hxXPt0CZadJQUxwRx+sO5bnJ2cYVVUYk+00pRnWBQ/bYnAUK1C2uWdlT1lwv7i85hDt3REw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1725281037; c=relaxed/simple;
-	bh=uUQs0mIm8KPoC+2KXI/xnjHUKBQgLz9t0to3ezHib4Q=;
-	h=From:To:CC:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=YAaKA6vHUhlbCnCdLu92lQRlLNPIsBvwC1LFBX/+Splqh0eRgroNaxdsyQMx8+613sw4PsYaBOvBW9T7NOx/b0J5r8XWre8Nx+Ajr0YLg3dNCWC0ZcUdp9WgF1xgSXGRTsAGB/y+AzuxASy8YTvDWtYNypT67n3vEvMEruYMGP4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=huawei.com; spf=pass smtp.mailfrom=huawei.com; arc=none smtp.client-ip=45.249.212.35
+	s=arc-20240116; t=1725283325; c=relaxed/simple;
+	bh=vHQhynVreLEhBvFxW7ILeNfaXFRSvpYjsD2ETBVYXY0=;
+	h=From:To:CC:Subject:Date:Message-ID:MIME-Version:Content-Type; b=pkweRVHoZcW34CK8hKUYqqoOOEVELYOC5oPNfI9WzSfLsvCM+hsr2T3gZ3K4CUnx813kX+A8JYhpRjhDYkXCVXOHtUbAtHXvzbDti0GRXHAAh/uQYU/SrFto4ysSOU3EKf+ICqgOYOxiuxeEPdiIZQrEb1wHDcfdvzuzV5dmFyI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=huawei.com; spf=pass smtp.mailfrom=huawei.com; arc=none smtp.client-ip=45.249.212.191
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=huawei.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=huawei.com
-Received: from mail.maildlp.com (unknown [172.19.163.44])
-	by szxga07-in.huawei.com (SkyGuard) with ESMTP id 4Wy7j02wbBz1S9WN;
-	Mon,  2 Sep 2024 20:43:32 +0800 (CST)
-Received: from kwepemf500003.china.huawei.com (unknown [7.202.181.241])
-	by mail.maildlp.com (Postfix) with ESMTPS id D45801400D4;
-	Mon,  2 Sep 2024 20:43:50 +0800 (CST)
-Received: from huawei.com (10.175.112.208) by kwepemf500003.china.huawei.com
- (7.202.181.241) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1544.11; Mon, 2 Sep
- 2024 20:43:49 +0800
-From: Zhang Zekun <zhangzekun11@huawei.com>
-To: <patchwork@huawei.com>, <Thinh.Nguyen@synopsys.com>,
-	<gregkh@linuxfoundation.org>, <shawnguo@kernel.org>,
-	<s.hauer@pengutronix.de>, <kernel@pengutronix.de>, <festevam@gmail.com>,
-	<linux-usb@vger.kernel.org>, <vz@mleia.com>, <stern@rowland.harvard.edu>
-CC: <zhangzekun11@huawei.com>
-Subject: [PATCH 1/2] usb: dwc3: Use helper function devm_clk_get_enabled()
-Date: Mon, 2 Sep 2024 20:30:19 +0800
-Message-ID: <20240902123020.29267-2-zhangzekun11@huawei.com>
-X-Mailer: git-send-email 2.17.1
-In-Reply-To: <20240902123020.29267-1-zhangzekun11@huawei.com>
-References: <20240902123020.29267-1-zhangzekun11@huawei.com>
+Received: from mail.maildlp.com (unknown [172.19.88.234])
+	by szxga05-in.huawei.com (SkyGuard) with ESMTP id 4Wy8Y13yTkz1j81V;
+	Mon,  2 Sep 2024 21:21:41 +0800 (CST)
+Received: from dggpeml500022.china.huawei.com (unknown [7.185.36.66])
+	by mail.maildlp.com (Postfix) with ESMTPS id 48ACA140360;
+	Mon,  2 Sep 2024 21:21:59 +0800 (CST)
+Received: from huawei.com (10.90.53.73) by dggpeml500022.china.huawei.com
+ (7.185.36.66) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.1.2507.39; Mon, 2 Sep
+ 2024 21:21:59 +0800
+From: Hongbo Li <lihongbo22@huawei.com>
+To: <gregkh@linuxfoundation.org>
+CC: <linux-usb@vger.kernel.org>, <lihongbo22@huawei.com>
+Subject: [PATCH -next] usb: f_mass_storage: Make use of the helper macro kthread_run()
+Date: Mon, 2 Sep 2024 21:30:24 +0800
+Message-ID: <20240902133024.3089400-1-lihongbo22@huawei.com>
+X-Mailer: git-send-email 2.34.1
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
 Content-Type: text/plain
-X-ClientProxiedBy: dggems703-chm.china.huawei.com (10.3.19.180) To
- kwepemf500003.china.huawei.com (7.202.181.241)
+X-ClientProxiedBy: dggems705-chm.china.huawei.com (10.3.19.182) To
+ dggpeml500022.china.huawei.com (7.185.36.66)
 
-devm_clk_get() and clk_prepare_enable() can be replaced by helper
-function devm_clk_get_enabled(). Let's use devm_clk_get_enabled() to
-simplify code and avoid calling clk_disable_unprepare().
+Repalce kthread_create/wake_up_process() with kthread_run()
+to simplify the code.
 
-Signed-off-by: Zhang Zekun <zhangzekun11@huawei.com>
+Signed-off-by: Hongbo Li <lihongbo22@huawei.com>
 ---
- drivers/usb/dwc3/dwc3-imx8mp.c | 47 ++++++++--------------------------
- 1 file changed, 11 insertions(+), 36 deletions(-)
+ drivers/usb/gadget/function/f_mass_storage.c | 3 +--
+ 1 file changed, 1 insertion(+), 2 deletions(-)
 
-diff --git a/drivers/usb/dwc3/dwc3-imx8mp.c b/drivers/usb/dwc3/dwc3-imx8mp.c
-index 392fa1232788..a7e5ee797ae7 100644
---- a/drivers/usb/dwc3/dwc3-imx8mp.c
-+++ b/drivers/usb/dwc3/dwc3-imx8mp.c
-@@ -178,37 +178,20 @@ static int dwc3_imx8mp_probe(struct platform_device *pdev)
- 			return PTR_ERR(dwc3_imx->glue_base);
+diff --git a/drivers/usb/gadget/function/f_mass_storage.c b/drivers/usb/gadget/function/f_mass_storage.c
+index cfd712fd7452..e11d8c0edf06 100644
+--- a/drivers/usb/gadget/function/f_mass_storage.c
++++ b/drivers/usb/gadget/function/f_mass_storage.c
+@@ -3050,7 +3050,7 @@ static int fsg_bind(struct usb_configuration *c, struct usb_function *f)
+ 	if (!common->thread_task) {
+ 		common->state = FSG_STATE_NORMAL;
+ 		common->thread_task =
+-			kthread_create(fsg_main_thread, common, "file-storage");
++			kthread_run(fsg_main_thread, common, "file-storage");
+ 		if (IS_ERR(common->thread_task)) {
+ 			ret = PTR_ERR(common->thread_task);
+ 			common->thread_task = NULL;
+@@ -3059,7 +3059,6 @@ static int fsg_bind(struct usb_configuration *c, struct usb_function *f)
+ 		}
+ 		DBG(common, "I/O thread pid: %d\n",
+ 		    task_pid_nr(common->thread_task));
+-		wake_up_process(common->thread_task);
  	}
  
--	dwc3_imx->hsio_clk = devm_clk_get(dev, "hsio");
--	if (IS_ERR(dwc3_imx->hsio_clk)) {
--		err = PTR_ERR(dwc3_imx->hsio_clk);
--		dev_err(dev, "Failed to get hsio clk, err=%d\n", err);
--		return err;
--	}
-+	dwc3_imx->hsio_clk = devm_clk_get_enabled(dev, "hsio");
-+	if (IS_ERR(dwc3_imx->hsio_clk))
-+		return dev_err_probe(dev, PTR_ERR(dwc3_imx->hsio_clk),
-+				     "Failed to get and enable hsio clk\n");
- 
--	err = clk_prepare_enable(dwc3_imx->hsio_clk);
--	if (err) {
--		dev_err(dev, "Failed to enable hsio clk, err=%d\n", err);
--		return err;
--	}
--
--	dwc3_imx->suspend_clk = devm_clk_get(dev, "suspend");
--	if (IS_ERR(dwc3_imx->suspend_clk)) {
--		err = PTR_ERR(dwc3_imx->suspend_clk);
--		dev_err(dev, "Failed to get suspend clk, err=%d\n", err);
--		goto disable_hsio_clk;
--	}
--
--	err = clk_prepare_enable(dwc3_imx->suspend_clk);
--	if (err) {
--		dev_err(dev, "Failed to enable suspend clk, err=%d\n", err);
--		goto disable_hsio_clk;
--	}
-+	dwc3_imx->suspend_clk = devm_clk_get_enabled(dev, "suspend");
-+	if (IS_ERR(dwc3_imx->suspend_clk))
-+		return dev_err_probe(dev, PTR_ERR(dwc3_imx->suspend_clk),
-+				     "Failed to get and enable suspend clk\n");
- 
- 	irq = platform_get_irq(pdev, 0);
--	if (irq < 0) {
--		err = irq;
--		goto disable_clks;
--	}
-+	if (irq < 0)
-+		return irq;
-+
- 	dwc3_imx->irq = irq;
- 
- 	imx8mp_configure_glue(dwc3_imx);
-@@ -259,25 +242,17 @@ static int dwc3_imx8mp_probe(struct platform_device *pdev)
- disable_rpm:
- 	pm_runtime_disable(dev);
- 	pm_runtime_put_noidle(dev);
--disable_clks:
--	clk_disable_unprepare(dwc3_imx->suspend_clk);
--disable_hsio_clk:
--	clk_disable_unprepare(dwc3_imx->hsio_clk);
- 
- 	return err;
- }
- 
- static void dwc3_imx8mp_remove(struct platform_device *pdev)
- {
--	struct dwc3_imx8mp *dwc3_imx = platform_get_drvdata(pdev);
- 	struct device *dev = &pdev->dev;
- 
- 	pm_runtime_get_sync(dev);
- 	of_platform_depopulate(dev);
- 
--	clk_disable_unprepare(dwc3_imx->suspend_clk);
--	clk_disable_unprepare(dwc3_imx->hsio_clk);
--
- 	pm_runtime_disable(dev);
- 	pm_runtime_put_noidle(dev);
- }
+ 	fsg->gadget = gadget;
 -- 
-2.17.1
+2.34.1
 
