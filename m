@@ -1,233 +1,321 @@
-Received: from mx0a-0014ca01.pphosted.com (mx0b-0014ca01.pphosted.com [208.86.201.193])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.16])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 06A8A185924;
-	Mon,  2 Sep 2024 11:29:24 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=208.86.201.193
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1725276568; cv=fail; b=ZYPKq76sTy2QCmbQQ0BcIORAs6JBfMgoUIm5NbObJkSiLjnPUlGe1biiPPUxyG0ZPd0lVTJxenILLVjrMnhfswrYlrEMpbqZzIVPrYgpguDJR/lAA7MgsonlSHnfDhOikNZVeXm8fDGtoU4+anKcUjllgYfXRkcCeqKQm3AFUrc=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1725276568; c=relaxed/simple;
-	bh=CJBlChoTJ2PUiU6NULQuXWht8p4fxDkKlSMwGynbCck=;
-	h=From:To:CC:Subject:Date:Message-ID:References:In-Reply-To:
-	 Content-Type:MIME-Version; b=DVzuUBfC5QyaQD2wuIvpV9GDDJot48jPQKcxyfX1BXlfxXZIfcieicOBv8avdPsqm1NfxZ6kxaQ8+qktnBVVjI1PqZT5BnXKE+60jbA5/q9G4F+xmQcz9M76wWigFrPjdqR66y5tj7VQSLgU+9ZgEPJLsG/W7kRwu+1K29AFXRA=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=cadence.com; spf=pass smtp.mailfrom=cadence.com; dkim=pass (2048-bit key) header.d=cadence.com header.i=@cadence.com header.b=XL0T/xV/; dkim=pass (1024-bit key) header.d=cadence.com header.i=@cadence.com header.b=ERbO4eiX; arc=fail smtp.client-ip=208.86.201.193
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=cadence.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=cadence.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F2DA313B59B;
+	Mon,  2 Sep 2024 11:35:58 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.16
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1725276960; cv=none; b=WeVdR8c3C6iqcPZcrHlUM2CToYCYPi2ROMDadpOeeNslx2SZTijh7xMpvB7TlaNBVLiMlXSs49hzBy/M3mcU0Xr8s2cUns6mmANLz+ZVKcWqjg45U645SnNyJqHVyCCTZBDlVz6/fda2o5x7rW0k7ZGsGDAeTs9RVJ8tt5hTJPs=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1725276960; c=relaxed/simple;
+	bh=ijLYhyyOfFYUMsUXfR6J6D9+QxK+paVNZEW3dTYB+HQ=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=VkDJhhlTncWb6FaUAh2Zb+fcVpSYz5Np6cicl8t3WotolUljQNZm+1GWnMF8jjf2O/9K3LlChh5cPqidpcRQh6tPNocqnMC+igKspAYSJe/PYQ/jVq2vj3jAJqDa9aIaiNFgVUY2pBrCNIEzkDV0sneW8P4EN2JjyXUNWFIeHdI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=none smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=RpVnQEAj; arc=none smtp.client-ip=192.198.163.16
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=linux.intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=cadence.com header.i=@cadence.com header.b="XL0T/xV/";
-	dkim=pass (1024-bit key) header.d=cadence.com header.i=@cadence.com header.b="ERbO4eiX"
-Received: from pps.filterd (m0042333.ppops.net [127.0.0.1])
-	by mx0b-0014ca01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 482AqM61002876;
-	Mon, 2 Sep 2024 04:09:20 -0700
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cadence.com; h=
-	cc:content-transfer-encoding:content-type:date:from:in-reply-to
-	:message-id:mime-version:references:subject:to; s=proofpoint;
-	 bh=CJBlChoTJ2PUiU6NULQuXWht8p4fxDkKlSMwGynbCck=; b=XL0T/xV/98aY
-	NhRjlB41KX5a+2jwbdOSULLvacz4XrX99fYyNwTpMhb7q0gLG/a7I/EVBXlcmiaK
-	RsOLNMNcKcUV3KuC3EvynjOCbomYHQUbM/bPbw6fDg8VNNb+qvDMP6rr8MaG0jpp
-	nF71jaB3BRgBMq/NHD6TVyrd97q39hnmg1O6Ey8Sx6/nYz9Xd1nEWXK0Qae4UFPP
-	DfOfrSdod3NEYvoR64k0PeXGmT9hQd1jENa9CnuXuvBg549BU/4tAi1nWTQp5G15
-	dXiVsk3HDHrgBuSjTc9xD9KnBwe3PiSroJ2/ZsU2jhqOoiPXzkT54Sv5sVgd6dqm
-	/jmw7j6bZA==
-Received: from nam02-dm3-obe.outbound.protection.outlook.com (mail-dm3nam02lp2044.outbound.protection.outlook.com [104.47.56.44])
-	by mx0b-0014ca01.pphosted.com (PPS) with ESMTPS id 41bxrv4r18-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Mon, 02 Sep 2024 04:09:20 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=j1133TNz9oR+lmO+tO1CXpTpdnoAI0KWsyFGDh9zZlofy1yciJgkJe5edPZjl8YpPH5HRJFOaWseGuD+O6GGU8ojNt7cNNSbj9TGA22Ca4xTUaz7Y4uzv/gcB1ZZeKdhCH1qjGcL7fd+J30YN7m0gzy8P+N0J8fwsGPz0dI9OxJYc2Hlz1K3BThVRsU42gniJrwx7pAv/MMA0ioHAUL6YHV8VxD4dt89hDdWpfB4nLMM4ng09Wg0RVStsmPoZGoSJceOSbTKzqeAKo83oCLENJ4ZDAMOwgYn9Kd4LIGK03kopQ1D6Dw0pL7eOh8Pu/x3wJm7iDyIcyGZFfvh7wsQrQ==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=CJBlChoTJ2PUiU6NULQuXWht8p4fxDkKlSMwGynbCck=;
- b=QvsOwWkuTlEny4ZldTrPAYsfkLJYMWtMK8jHmiJ3Zlo116NELLzks/IBF5yVnNQ2tUwmmLdw6noSwiLwHnxKGswuhm0DZ9UrLWe8RCeNNBuJnIsXG6143a17AxAzXXpMwlc6xNiy9kMYRMTpJoJnIokykWIditywzYqVJFHwH8lo5hHDdvIn1roZtpDIBkpuQ4nB0QK5rdwyQ/WzijeWtmXLNKlurABst2zjhLcBjF0OgMU9YM8RYD6fcJZpKHhzElzqORPkpq4Dz8QCHH28cbxiECQotEG0K0N0uv8rBStJWTPB4xLsix5Nrdz9sirC8+khqEr84Bq/FeWW2sSgSQ==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=cadence.com; dmarc=pass action=none header.from=cadence.com;
- dkim=pass header.d=cadence.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cadence.com;
- s=selector2;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=CJBlChoTJ2PUiU6NULQuXWht8p4fxDkKlSMwGynbCck=;
- b=ERbO4eiXFbl+byXPLimYMghpcRZwh6eoZAZCtiTrG6AHtodvsQDrllB7kRfLRDSqugHYenJTvo3PAGxioHweDLFYO4XFaOkjyRgIN0aGSL46jTEXmLskm+I8UW+3JS650sXA85G1nUrBnF04ubJ7HhU+YVcN/FN1mi41bSftZWQ=
-Received: from PH7PR07MB9538.namprd07.prod.outlook.com (2603:10b6:510:203::19)
- by BL4PR07MB10452.namprd07.prod.outlook.com (2603:10b6:208:4de::16) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7918.22; Mon, 2 Sep
- 2024 11:09:17 +0000
-Received: from PH7PR07MB9538.namprd07.prod.outlook.com
- ([fe80::5dbd:49e3:4dc:ccc7]) by PH7PR07MB9538.namprd07.prod.outlook.com
- ([fe80::5dbd:49e3:4dc:ccc7%4]) with mapi id 15.20.7918.024; Mon, 2 Sep 2024
- 11:09:16 +0000
-From: Pawel Laszczak <pawell@cadence.com>
-To: "gregkh@linuxfoundation.org" <gregkh@linuxfoundation.org>
-CC: "linux-usb@vger.kernel.org" <linux-usb@vger.kernel.org>,
-        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
-        "stable@vger.kernel.org" <stable@vger.kernel.org>,
-        Pawel Laszczak
-	<pawell@cadence.com>
-Subject: [PATCH] usb: cdns2: Fix controller reset issue
-Thread-Topic: [PATCH] usb: cdns2: Fix controller reset issue
-Thread-Index: AQHa/Sf9GoZsP2bLJ0yREBk1yvkY8rJEVeVA
-Date: Mon, 2 Sep 2024 11:09:16 +0000
-Message-ID:
- <PH7PR07MB9538D56D75F1F399D0BB96F0DD922@PH7PR07MB9538.namprd07.prod.outlook.com>
-References: <20240902110422.157569-1-pawell@cadence.com>
-In-Reply-To: <20240902110422.157569-1-pawell@cadence.com>
-Accept-Language: en-US
-Content-Language: en-US
-X-MS-Has-Attach:
-X-MS-TNEF-Correlator:
-x-dg-ref:
- PG1ldGE+PGF0IGFpPSIwIiBubT0iYm9keS50eHQiIHA9ImM6XHVzZXJzXHBhd2VsbFxhcHBkYXRhXHJvYW1pbmdcMDlkODQ5YjYtMzJkMy00YTQwLTg1ZWUtNmI4NGJhMjllMzViXG1zZ3NcbXNnLWM5ODQ3OGRkLTY5MWItMTFlZi1hOGI0LTYwYTVlMjViOTZhM1xhbWUtdGVzdFxjOTg0NzhkZi02OTFiLTExZWYtYThiNC02MGE1ZTI1Yjk2YTNib2R5LnR4dCIgc3o9IjQ4NDAiIHQ9IjEzMzY5NzQ4OTU0Nzg0NzIyMCIgaD0iSGRsc2FTWUNjbXo5azZTQktqUHNDT1o3WlVjPSIgaWQ9IiIgYmw9IjAiIGJvPSIxIi8+PC9tZXRhPg==
-x-dg-rorf: true
-x-ms-publictraffictype: Email
-x-ms-traffictypediagnostic: PH7PR07MB9538:EE_|BL4PR07MB10452:EE_
-x-ms-office365-filtering-correlation-id: 1a577e9d-7b58-4b73-1397-08dccb3faf5f
-x-ms-exchange-senderadcheck: 1
-x-ms-exchange-antispam-relay: 0
-x-microsoft-antispam: BCL:0;ARA:13230040|376014|366016|1800799024|38070700018;
-x-microsoft-antispam-message-info:
- =?utf-8?B?c20wdUpqTXhCeTRQOWhKT1o5SHU4clFzcURLdUpjWjhORGlmbXQrS3UzYmFG?=
- =?utf-8?B?M0lPbmdlU29EQWhmM3JwYmZIUW4xS3dLZy9Tcjdmd01mOGlIOThiZ2VLQWVw?=
- =?utf-8?B?b0pDSWRtYlM5YzlBc2NZZHZDZEZHb3Q2UW4zTURKT3hjejBhaGgxbTZxZ01H?=
- =?utf-8?B?b0t4dE02RVdRYk5JNGZ3Tnd3RS9STTg1VUVjc0hmd3RrSVdzWTRvanZrVk9k?=
- =?utf-8?B?M2cvQ0NNZlVLZEZwb2pZWWlzREFMT0h4REhkYnVNR2dJODQvQXJsQmpwNDUy?=
- =?utf-8?B?cHNFUmJTeXRRWUk3UjhHS1llc05lTnJVNmVEQnlIdHFXaTE4VW9WRjZyeDIr?=
- =?utf-8?B?V0VYcUUyR0t2SXhSNTUzSnd0YlhzZ3FzczlrdXVpL0NWMHZDaTc2SWFuazB1?=
- =?utf-8?B?bTM5YmMzU3BLWlJ2bm9qdWJDLzFzaDd6bFlBd0V2YWpPaVZIdGVuNk12bWM4?=
- =?utf-8?B?WWx4R3RXMW93ZUNQbi95cDhSVzJNRzNreTB3ZEk0V1JWdlQ1MEgvVktxQWsr?=
- =?utf-8?B?aEk2blQ2emc3M0VLcGRFUXQzNjE5eS9KN0l6eGFHV0RUV2RyZXVva3h3MkJu?=
- =?utf-8?B?UHRHMnZ0LzNNOHp1VDJIR0wrL3pHdFhoWkRXNDY0cktVNUlPRWxhNFJ6QjFk?=
- =?utf-8?B?MnRkR3RDZnNjaGFmNStTQkIwcUJCYzZ2ZUg5Y3IvMXc5b2MrSTU5K1BDZkd4?=
- =?utf-8?B?OS9xTXdKcFdET05MM3pBTm9oNFNSTWcweDBrYjRyV2hRckZYQytQcVFid0g5?=
- =?utf-8?B?S2lsaGdjZVFiYXlERG5RTWJZWmVqOWwzTUorTHRINllZUU05VjRUaW53Uk1X?=
- =?utf-8?B?U20wT0VMbWNYMjVWSXEwUERFRTdqdTk1amlkbXBGRXJnWDJnNmxvcHdRSWZq?=
- =?utf-8?B?TVh0a2I1Z3lGM3R4R2JjTE05RWdkbkRjblZRL3FVd0hmeHNsbFFnUjYzVHZ0?=
- =?utf-8?B?bTlhTk1WRGJzNlZ2MXRhd3dFNzh4VHJFd3JzVnZnTjRRcVQ5emR4MVlTdXdN?=
- =?utf-8?B?cTdLVmNNalhLWHRvdXBQSm5SUVkwQTFQU3g1Vkk4RzA1ajZzb0tiTkxRanpW?=
- =?utf-8?B?K1Q3bTBYT1FBb3k0WHY4QTNPcEJtM0NqT29UemJqYXFuTjdUSTNtMDA4K2li?=
- =?utf-8?B?RnBPeCsvaGxwMjJtUFdlYUgzaEJ0RFhuS0tHMUc0dU84ZEJELy9temtyS0do?=
- =?utf-8?B?US94OWljM1ZkdlBVa2Y5WlBVRlNWTThZZFBCZzRkUy83bDNBcFp6V0xtdHlB?=
- =?utf-8?B?M09zM1pxUTRpM204cjlVRXFQNDJ4OFVkYzg0OVFkL0xNMEJ1czVLb2o3RlRM?=
- =?utf-8?B?bkZwWXBvRjVCVzg3Sy9jR1pGL1hVVEgyOXI3UmM1TEVZeVNYODVjQ3lKTjlO?=
- =?utf-8?B?QU0zbE5vOHVpWTY1eC9sVTdMWWVSUnBGTUZ5T1IrSWtaMEtFK01COXJRdXd5?=
- =?utf-8?B?WGdmeGVZTWZDQkhmeXJqTXhwQ2t4UWFzVFBCaGJQU3ZoWFlsYnNCSmdhUUxj?=
- =?utf-8?B?SXZ0QUxFQUVvNDAvKzhEVk43dkNnQjh0dTJybW9jampmREZlczdXaGdwd2lE?=
- =?utf-8?B?U2YrdThFY0FKZnpzTzZ5RjhlaS9JRTh5MFAyd2JsQmlFZDUyZ24rOGhZaG9S?=
- =?utf-8?B?blF1bGozZzROeXd5N3RNa3ZnbUVWeWNOV0JLNTBKQldFK3loV1JJdHo0VnRs?=
- =?utf-8?B?MVFjRlBzTGYrdUZmaEo0OFROQjVtY0VYY3BVbEV2MlVEOVBUS0UrejcrNjE5?=
- =?utf-8?B?NXI2V0lJT0t3dll2cTc2TElXWHF3WFN1enk2RTNIMjRJdURUQ3ZBSDhvY1Fj?=
- =?utf-8?B?bHd5UWJaR2JXcVMzWWFmcEhNWWdqaTZBc0VJMWtzTjRDYjRwdzJ1TldkYVlz?=
- =?utf-8?B?Q0M3Sk9PUkFzUFlTZURmQzBoVHM5L2hCL1VYVXdPcUxpdHc9PQ==?=
-x-forefront-antispam-report:
- CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:PH7PR07MB9538.namprd07.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(376014)(366016)(1800799024)(38070700018);DIR:OUT;SFP:1101;
-x-ms-exchange-antispam-messagedata-chunkcount: 1
-x-ms-exchange-antispam-messagedata-0:
- =?utf-8?B?aGJ2YWZQcDVZVDBhUWJPTE1KdWpBLzdYNjJ5dTU4YmZuMk5Za21VS1RyN2sr?=
- =?utf-8?B?MngyUWNpTDdWRXNwVFlrWGhoRDYvbnM2anVxVUdaQU1tdlpKdmRVbDlJM09I?=
- =?utf-8?B?OFBOd2EwMTFlODVkeER6YkgvdVcxVlpQUnRsS1NEOU8rRndXT1BianE0TUdD?=
- =?utf-8?B?Z2JkeWQ0Z1JyUlU2VWpFa0Z0RUozOGVjYlU3SCtoSGRzcWJhOTF0NWZKcEZS?=
- =?utf-8?B?bWlPVkVMMWhNem9yS3VhRWtzN29ubEVOaW1CTkhXcmU4Q0lHZ0IzOS9NOGdV?=
- =?utf-8?B?UURweDJPM1ZkcDFWTExacDVoUUNhd3cvSm02U2F1WDl6WnBtY3dDcDZ0RHdu?=
- =?utf-8?B?RHNXMDJRcnZ4bkNsalRlTjk4cDlUMGtWZUJ2UHB4SkQxOGIyTFY2TkJxVzZB?=
- =?utf-8?B?VHhVL3NGa1VkT2F1N3htaFFEQk02ZEVibzlEQU9ML1QrcEJocVVUa1ZsSVZu?=
- =?utf-8?B?bDlkVDBJR2xOOG5wdGo2YW0yS3FBUXRDRHV6aFVsVVA1WWE4dTJWT0NDNzhV?=
- =?utf-8?B?d3JpZ3IwTkhiV0hxYUVXUUk5REI2MXJJMUczRE91V2FwcFNNcEJkUC8wU3Ez?=
- =?utf-8?B?TTRXenBSOXRXdHhqRktYalZ4LzFnVVovY0xmWWQ3THE0eS92bXV5YXhnOHlw?=
- =?utf-8?B?Z09NbDcxTThiV2VqOGYxUjZJSUJNK0p0TThkeFYzeDRMbTNNK2FlVkN5SUhS?=
- =?utf-8?B?aDlvNVdIREZaRUFldDZZdVl2RkVUclJRaGNDUTk3bklNMU5HK2JsUzNzRHFs?=
- =?utf-8?B?MTBva24wR0hFUFlsTmY4QW83OHBKVUJJbFNXVFRjUzRRclhxYmdDZTlFbTQ5?=
- =?utf-8?B?Z1FhbTZLYjFRelBFQlNSWVR3UjZsSVdROHVYK01KYi9YbzVJc0ZBWW9IUkp1?=
- =?utf-8?B?MFVhUGxveDBobWduekxQUnJXaGF2ZzZUT3Y5TDQyTGQ1Y3NENVVXN09vUGVk?=
- =?utf-8?B?MnhuWkI5eFlHSHhXWXNwUFlvY0hLdk8ydnk4YWdtV052azlEODI3N045d09z?=
- =?utf-8?B?MG9XMUxtM1k1a1VrMktiZkUvckZaeXk0ZFBlSkNCTkhuTUJpb29ScU5GU1N4?=
- =?utf-8?B?UVM5U1BuaDV0S3lQajZucDZhQkVBTmlvV1F2Ly9nOHMraHBlMEczeXdXeUNN?=
- =?utf-8?B?bUNGbG1WdGNzNE9reXpJVHA4ZmNISkFFOTU1RUpPSXBFOUxwQ1hCbFFDeEVD?=
- =?utf-8?B?TnNlZzlFNTg4MTRIeEdidDdFYm82WHNLdy9US2ltaWZrQWU5RWNKS0p5dXpk?=
- =?utf-8?B?amZWdzFXRjk2NlRTb3BuUXF2TUgrV3FobWJBWXVKM1dIS2ZWZjJUTmVCaVZv?=
- =?utf-8?B?Y0ZrWnBiOGM2dFhWRC94V0dFajhSNTVWVVZ4OFVlT3dMTFMrblczR2lzWGhj?=
- =?utf-8?B?QlhRM0J5bFVsT2F2cXpuZnFWZGxkN21mNzBGQjluNU5FdFQzZW1OOTFZZDN1?=
- =?utf-8?B?M0IzZ1I2WW90SGNRUmp6WUwyNEdHbUM3UlRaVlhmQy92MFNxR1VYKzdMM1E5?=
- =?utf-8?B?Y0NXVnBteWs2S2xmV3NnNjlwSFRqY1pjdzJkMkEzb1ZYaEtCa1dIbzAyTjJ2?=
- =?utf-8?B?QkpVRHRnY2VRY3hKcEZSU2JQU1lIc2w2RTFwOG55ck9ISHB4K1lTdnZJUDd3?=
- =?utf-8?B?Z2VkSGg4OU5CRktpY09rakx0bVduNjhRRVYrS041ODRyMU82UEZSUnNUSFpy?=
- =?utf-8?B?dm92NXNiWFp3VHZ2bmVHbTlna0l5WldPclU0eVJOR2c3UWhzaTZWdW50MThu?=
- =?utf-8?B?Wnh5VDJaSThBZHF4UDdBZTFMeUZmYkdCa0RzU2lTZ3crd3QwaFBEOFg2OGlU?=
- =?utf-8?B?dE1TUWVjUFpvZTJFakQ0TXU1V2xDb0R3RVZIRlg2dGNyWnZHaHhZR2FSR3Nu?=
- =?utf-8?B?SFlrMTNGckNFS1EwOU85RGxTd1pvenBvMy9QUGlNd1dEek9BejBlZklPVEcy?=
- =?utf-8?B?cXdtUmJacjJoSHVzOXJKQy9YZ3RJMGNjZmVWQ3d5MEJoTzVMOERYMXNIR0gw?=
- =?utf-8?B?Zndva0lIalhBbERCRDdEZlk2SnNJNHRGYUhzVEZobGZhZDJSeHhlL3R3MVN5?=
- =?utf-8?B?Q1pFb3B4L2JISE5hWVc0eDdCaG1vdk5xVnM0UlhwQ0I1a3F0ZGFZWVVkRG5V?=
- =?utf-8?Q?ImySWu5u+kEJqe2g0wI8snhzg?=
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="RpVnQEAj"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1725276959; x=1756812959;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=ijLYhyyOfFYUMsUXfR6J6D9+QxK+paVNZEW3dTYB+HQ=;
+  b=RpVnQEAj4w5UJw1wGZkb5N9sJw+c5SRYB7bkS8VkEJmql6IPmtbTekyS
+   gyRpSAx4c6663hiTWSJAs8t+JxmU865hL1k0XrBjiwRFoR6bLNONWKpiu
+   2boMaRjkMYrnX4dZGOeOp0+J4ssJY1R0jvA7Alzwzxh0DJmMmRePegKr/
+   AXOndQbgIbKvI7k/SSujr1DwMbDHXyuNNq6yOe9keTyqyB0GHKRYLUYh6
+   fR0XQxhfD20zCbvZlMTkSI3VVvmtCWCPCjV8xCCai+JSNc9hV/Q0UMGFg
+   QfyGVQhyCDgcCfUCoWX9xBknAL0Nb8fGKEGh7jRnTHMGAaCfU/oYX4VDJ
+   w==;
+X-CSE-ConnectionGUID: 4B/dOr4BTQKNjnaRrMm++w==
+X-CSE-MsgGUID: uIHTK2r9RZ+OYCVaMpd0OQ==
+X-IronPort-AV: E=McAfee;i="6700,10204,11182"; a="13329088"
+X-IronPort-AV: E=Sophos;i="6.10,195,1719903600"; 
+   d="scan'208";a="13329088"
+Received: from fmviesa004.fm.intel.com ([10.60.135.144])
+  by fmvoesa110.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 02 Sep 2024 04:35:58 -0700
+X-CSE-ConnectionGUID: dYg4LNV0Tgayw6N9btAGjg==
+X-CSE-MsgGUID: JiwWAzMER72Z6q3Er8BeYg==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.10,195,1719903600"; 
+   d="scan'208";a="69207807"
+Received: from smile.fi.intel.com ([10.237.72.54])
+  by fmviesa004.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 02 Sep 2024 04:35:50 -0700
+Received: from andy by smile.fi.intel.com with local (Exim 4.98)
+	(envelope-from <andriy.shevchenko@linux.intel.com>)
+	id 1sl5LW-00000004LMj-1ywK;
+	Mon, 02 Sep 2024 14:35:46 +0300
+Date: Mon, 2 Sep 2024 14:35:46 +0300
+From: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
+To: Stephen Boyd <swboyd@chromium.org>
+Cc: chrome-platform@lists.linux.dev, linux-kernel@vger.kernel.org,
+	patches@lists.linux.dev, devicetree@vger.kernel.org,
+	Douglas Anderson <dianders@chromium.org>,
+	Pin-yen Lin <treapking@chromium.org>,
+	Andrzej Hajda <andrzej.hajda@intel.com>,
+	Benson Leung <bleung@chromium.org>,
+	Conor Dooley <conor+dt@kernel.org>, Daniel Vetter <daniel@ffwll.ch>,
+	David Airlie <airlied@gmail.com>,
+	Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
+	dri-devel@lists.freedesktop.org,
+	Guenter Roeck <groeck@chromium.org>,
+	Jernej Skrabec <jernej.skrabec@gmail.com>,
+	Jonas Karlman <jonas@kwiboo.se>,
+	Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+	Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
+	Lee Jones <lee@kernel.org>,
+	Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+	Maxime Ripard <mripard@kernel.org>,
+	Neil Armstrong <neil.armstrong@linaro.org>,
+	Prashant Malani <pmalani@chromium.org>,
+	Robert Foss <rfoss@kernel.org>, Rob Herring <robh+dt@kernel.org>,
+	Thomas Zimmermann <tzimmermann@suse.de>,
+	Tzung-Bi Shih <tzungbi@kernel.org>,
+	Alexandre Belloni <alexandre.belloni@bootlin.com>,
+	Daniel Scally <djrscally@gmail.com>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	Heikki Krogerus <heikki.krogerus@linux.intel.com>,
+	Ivan Orlov <ivan.orlov0322@gmail.com>, linux-acpi@vger.kernel.org,
+	linux-usb@vger.kernel.org,
+	Mika Westerberg <mika.westerberg@linux.intel.com>,
+	"Rafael J . Wysocki" <rafael.j.wysocki@intel.com>,
+	Sakari Ailus <sakari.ailus@linux.intel.com>,
+	Vinod Koul <vkoul@kernel.org>
+Subject: Re: [PATCH v4 06/18] drm/bridge: aux-hpd: Support USB Type-C DP
+ altmodes via DRM lane assignment
+Message-ID: <ZtWjEudmlR51zkU9@smile.fi.intel.com>
+References: <20240901040658.157425-1-swboyd@chromium.org>
+ <20240901040658.157425-7-swboyd@chromium.org>
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-OriginatorOrg: cadence.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-AuthSource: PH7PR07MB9538.namprd07.prod.outlook.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 1a577e9d-7b58-4b73-1397-08dccb3faf5f
-X-MS-Exchange-CrossTenant-originalarrivaltime: 02 Sep 2024 11:09:16.4904
- (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: d36035c5-6ce6-4662-a3dc-e762e61ae4c9
-X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: 25peatHR878TT45zZ5ZVifECbKW3aow3JOAVkP9l3e4HXSHKfZCVltQWGk5rl+aOZwetgoCzCL/3Qzs3gxvqIZv/rT2m2mdUelD7JYvlrFQ=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: BL4PR07MB10452
-X-Proofpoint-ORIG-GUID: HPgo6-44D6NLfut-tcb6I6yukxAt5OWU
-X-Proofpoint-GUID: HPgo6-44D6NLfut-tcb6I6yukxAt5OWU
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1039,Hydra:6.0.680,FMLib:17.12.28.16
- definitions=2024-09-02_02,2024-09-02_01,2024-05-17_01
-X-Proofpoint-Spam-Details: rule=outbound_check_notspam policy=outbound_check score=0 spamscore=0
- adultscore=0 clxscore=1015 malwarescore=0 priorityscore=1501
- suspectscore=0 phishscore=0 bulkscore=0 mlxlogscore=406 mlxscore=0
- lowpriorityscore=0 impostorscore=0 classifier=spam adjust=0 reason=mlx
- scancount=1 engine=8.19.0-2407110000 definitions=main-2409020090
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20240901040658.157425-7-swboyd@chromium.org>
+Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
 
-UGF0Y2ggZml4ZXMgdGhlIHByb2NlZHVyZSBvZiByZXNldHRpbmcgY29udHJvbGxlci4NClRoZSBD
-UFVDVFJMIHJlZ2lzdGVyIGlzIHdyaXRlIG9ubHkgYW5kIHJlYWRpbmcgcmV0dXJucyAwLg0KV2Fp
-dGluZyBmb3IgcmVzZXQgdG8gY29tcGxpdGUgaXMgaW5jb3JyZWN0Lg0KDQpGaXhlczogM2ViMWYx
-ZWZlMjA0ICgidXNiOiBjZG5zMjogQWRkIG1haW4gcGFydCBvZiBDYWRlbmNlIFVTQkhTIGRyaXZl
-ciIpDQpjYzogPHN0YWJsZUB2Z2VyLmtlcm5lbC5vcmc+DQpTaWduZWQtb2ZmLWJ5OiBQYXdlbCBM
-YXN6Y3phayA8cGF3ZWxsQGNhZGVuY2UuY29tPg0KLS0tDQogZHJpdmVycy91c2IvZ2FkZ2V0L3Vk
-Yy9jZG5zMi9jZG5zMi1nYWRnZXQuYyB8IDEyICsrKy0tLS0tLS0tLQ0KIGRyaXZlcnMvdXNiL2dh
-ZGdldC91ZGMvY2RuczIvY2RuczItZ2FkZ2V0LmggfCAgOSArKysrKysrKysNCiAyIGZpbGVzIGNo
-YW5nZWQsIDEyIGluc2VydGlvbnMoKyksIDkgZGVsZXRpb25zKC0pDQoNCmRpZmYgLS1naXQgYS9k
-cml2ZXJzL3VzYi9nYWRnZXQvdWRjL2NkbnMyL2NkbnMyLWdhZGdldC5jIGIvZHJpdmVycy91c2Iv
-Z2FkZ2V0L3VkYy9jZG5zMi9jZG5zMi1nYWRnZXQuYw0KaW5kZXggMGVlZDBlMDM4NDJjLi5kMzk0
-YWZmYjcwNzIgMTAwNjQ0DQotLS0gYS9kcml2ZXJzL3VzYi9nYWRnZXQvdWRjL2NkbnMyL2NkbnMy
-LWdhZGdldC5jDQorKysgYi9kcml2ZXJzL3VzYi9nYWRnZXQvdWRjL2NkbnMyL2NkbnMyLWdhZGdl
-dC5jDQpAQCAtMjI1MSw3ICsyMjUxLDYgQEAgc3RhdGljIGludCBjZG5zMl9nYWRnZXRfc3RhcnQo
-c3RydWN0IGNkbnMyX2RldmljZSAqcGRldikNCiB7DQogCXUzMiBtYXhfc3BlZWQ7DQogCXZvaWQg
-KmJ1ZjsNCi0JaW50IHZhbDsNCiAJaW50IHJldDsNCiANCiAJcGRldi0+dXNiX3JlZ3MgPSBwZGV2
-LT5yZWdzOw0KQEAgLTIyNjEsMTQgKzIyNjAsOSBAQCBzdGF0aWMgaW50IGNkbnMyX2dhZGdldF9z
-dGFydChzdHJ1Y3QgY2RuczJfZGV2aWNlICpwZGV2KQ0KIAlwZGV2LT5hZG1hX3JlZ3MgPSBwZGV2
-LT5yZWdzICsgQ0ROUzJfQURNQV9SRUdTX09GRlNFVDsNCiANCiAJLyogUmVzZXQgY29udHJvbGxl
-ci4gKi8NCi0Jc2V0X3JlZ19iaXRfOCgmcGRldi0+dXNiX3JlZ3MtPmNwdWN0cmwsIENQVUNUUkxf
-U1dfUlNUKTsNCi0NCi0JcmV0ID0gcmVhZGxfcG9sbF90aW1lb3V0X2F0b21pYygmcGRldi0+dXNi
-X3JlZ3MtPmNwdWN0cmwsIHZhbCwNCi0JCQkJCSEodmFsICYgQ1BVQ1RSTF9TV19SU1QpLCAxLCAx
-MDAwMCk7DQotCWlmIChyZXQpIHsNCi0JCWRldl9lcnIocGRldi0+ZGV2LCAiRXJyb3I6IHJlc2V0
-IGNvbnRyb2xsZXIgdGltZW91dFxuIik7DQotCQlyZXR1cm4gLUVJTlZBTDsNCi0JfQ0KKwl3cml0
-ZWIoQ1BVQ1RSTF9TV19SU1QgfCBDUFVDVFJMX1VQQ0xLIHwgQ1BVQ1RSTF9XVUVOLA0KKwkgICAg
-ICAgJnBkZXYtPnVzYl9yZWdzLT5jcHVjdHJsKTsNCisJdXNsZWVwX3JhbmdlKDUsIDEwKTsNCiAN
-CiAJdXNiX2luaXRpYWxpemVfZ2FkZ2V0KHBkZXYtPmRldiwgJnBkZXYtPmdhZGdldCwgTlVMTCk7
-DQogDQpkaWZmIC0tZ2l0IGEvZHJpdmVycy91c2IvZ2FkZ2V0L3VkYy9jZG5zMi9jZG5zMi1nYWRn
-ZXQuaCBiL2RyaXZlcnMvdXNiL2dhZGdldC91ZGMvY2RuczIvY2RuczItZ2FkZ2V0LmgNCmluZGV4
-IDcxZTJmNjJkNjUzYS4uYjVkNWVjMTJlOTg2IDEwMDY0NA0KLS0tIGEvZHJpdmVycy91c2IvZ2Fk
-Z2V0L3VkYy9jZG5zMi9jZG5zMi1nYWRnZXQuaA0KKysrIGIvZHJpdmVycy91c2IvZ2FkZ2V0L3Vk
-Yy9jZG5zMi9jZG5zMi1nYWRnZXQuaA0KQEAgLTI5Miw4ICsyOTIsMTcgQEAgc3RydWN0IGNkbnMy
-X3VzYl9yZWdzIHsNCiAjZGVmaW5lIFNQRUVEQ1RSTF9IU0RJU0FCTEUJQklUKDcpDQogDQogLyog
-Q1BVQ1RSTC0gYml0bWFza3MuICovDQorLyogVVAgY2xvY2sgZW5hYmxlICovDQorI2RlZmluZSBD
-UFVDVFJMX1VQQ0xLCQlCSVQoMCkNCiAvKiBDb250cm9sbGVyIHJlc2V0IGJpdC4gKi8NCiAjZGVm
-aW5lIENQVUNUUkxfU1dfUlNUCQlCSVQoMSkNCisvKioNCisgKiBJZiB0aGUgd3VlbiBiaXQgaXMg
-4oCYMeKAmSwgdGhlIHVwY2xrZW4gaXMgYXV0b21hdGljYWxseSBzZXQgdG8g4oCYMeKAmSBhZnRl
-cg0KKyAqIGRldGVjdGluZyByaXNpbmcgZWRnZSBvZiB3dWludGVyZXEgaW50ZXJydXB0LiBJZiB0
-aGUgd3VlbiBiaXQgaXMg4oCYMOKAmSwNCisgKiB0aGUgd3VpbnRlcmVxIGludGVycnVwdCBpcyBp
-Z25vcmVkLg0KKyAqLw0KKyNkZWZpbmUgQ1BVQ1RSTF9XVUVOCQlCSVQoNykNCisNCiANCiAvKioN
-CiAgKiBzdHJ1Y3QgY2RuczJfYWRtYV9yZWdzIC0gQURNQSBjb250cm9sbGVyIHJlZ2lzdGVycy4N
-Ci0tIA0KMi40My4wDQoNCg==
+On Sat, Aug 31, 2024 at 09:06:44PM -0700, Stephen Boyd wrote:
+> Extend the aux-hpd bridge driver to support assigning DP lanes to USB
+> type-c pins based on typec mux state entry. Existing users of this
+> driver only need the HPD signaling support, so leave that in place and
+> wrap the code with a variant that supports more features of USB type-c
+
+Isn't the proper spelling "USB Type-C"?
+
+> DP altmode, i.e. pin configurations. Prefix that code with
+> 'drm_dp_typec_bridge' to differentiate it from the existing
+> 'drm_aux_hpd_bridge' code.
+> 
+> Parse the struct typec_mux_state members to determine if DP altmode has
+> been entered and if HPD is asserted or not. Signal HPD to the drm bridge
+> chain when HPD is asserted. Similarly, parse the pin assignment and map
+> the DP lanes to the usb-c output lanes, taking into account any lane
+> remapping from the data-lanes endpoint property. Pass that lane mapping
+> to the previous drm_bridge in the bridge chain during the atomic check
+> phase.
+
+...
+
+> +static inline struct drm_dp_typec_bridge_data *
+> +hpd_bridge_to_typec_bridge_data(struct drm_aux_hpd_bridge_data *hpd_data)
+> +{
+> +	return container_of(hpd_data, struct drm_dp_typec_bridge_data, hpd_bridge);
+
++ container_of.h ?
+
+With that said, can the argument be const here?
+
+> +}
+
+...
+
+Ditto for the two more helpers, added in this change.
+
+...
+
+> +static void drm_dp_typec_bridge_release(struct device *dev)
+> +{
+> +	struct drm_dp_typec_bridge_dev *typec_bridge_dev;
+> +	struct auxiliary_device *adev;
+> +
+> +	typec_bridge_dev = to_drm_dp_typec_bridge_dev(dev);
+> +	adev = &typec_bridge_dev->adev;
+> +
+> +	ida_free(&drm_aux_hpd_bridge_ida, adev->id);
+
+> +	of_node_put(adev->dev.platform_data);
+> +	of_node_put(adev->dev.of_node);
+
+I'm wondering why it's not made fwnode to begin with...
+From the file / function names it's not obvious that it's OF-only code. Neither
+there is no explanations why this must be OF-only code (among all fwnode types
+supported).
+
+> +	kfree(typec_bridge_dev);
+> +}
+
+...
+
+> +		return ERR_PTR(dev_err_probe(parent, -ENODEV, "Missing typec endpoint(s) port@0\n"));
+
+We have a new helper for such cases.
+
+...
+
+> +	adev->dev.of_node = of_node_get(parent->of_node);
+
+device_set_node() ?
+
+...
+
+> +	ret = auxiliary_device_init(adev);
+> +	if (ret) {
+> +		of_node_put(adev->dev.platform_data);
+> +		of_node_put(adev->dev.of_node);
+> +		ida_free(&drm_aux_hpd_bridge_ida, adev->id);
+> +		kfree(adev);
+> +		return ERR_PTR(ret);
+
+Can cleanup.h be utilised here and in other error paths in this function?
+
+> +	}
+
+> +	ret = devm_add_action_or_reset(parent, drm_aux_hpd_bridge_free_adev, adev);
+> +	if (ret)
+> +		return ERR_PTR(ret);
+> +
+> +	return typec_bridge_dev;
+> +}
+
+...
+
+> +static int dp_lane_to_typec_lane(enum dp_lane lane)
+> +{
+> +	switch (lane) {
+> +	case DP_ML0:
+> +		return USB_SSTX2;
+> +	case DP_ML1:
+> +		return USB_SSRX2;
+> +	case DP_ML2:
+> +		return USB_SSTX1;
+> +	case DP_ML3:
+> +		return USB_SSRX1;
+> +	}
+
+> +	return -EINVAL;
+
+Hmm... This can be simply made as default case.
+
+> +}
+> +
+> +static int typec_to_dp_lane(enum usb_ss_lane lane)
+> +{
+> +	switch (lane) {
+> +	case USB_SSRX1:
+> +		return DP_ML3;
+> +	case USB_SSTX1:
+> +		return DP_ML2;
+> +	case USB_SSTX2:
+> +		return DP_ML0;
+> +	case USB_SSRX2:
+> +		return DP_ML1;
+> +	}
+> +
+> +	return -EINVAL;
+
+Ditto.
+
+> +}
+
+...
+
+> +	for (i = 0; i < num_lanes; i++) {
+> +		/* Get physical type-c lane for DP lane */
+> +		typec_lane = dp_lane_to_typec_lane(i);
+> +		if (typec_lane < 0) {
+> +			dev_err(&adev->dev, "Invalid type-c lane configuration at DP_ML%d\n", i);
+> +			return -EINVAL;
+
+Most likely typec_lane contains an error code here. If yes, it would be rather
+
+			return typec_lane;
+
+If no, why not make that happen?
+
+> +		}
+> +
+> +		/* Map physical to logical type-c lane */
+> +		typec_lane = lane_mapping[typec_lane];
+> +
+> +		/* Map logical type-c lane to logical DP lane */
+> +		dp_lanes[i] = typec_to_dp_lane(typec_lane);
+> +	}
+
+...
+
+> +static int drm_dp_typec_bridge_atomic_check(struct drm_bridge *bridge,
+> +					   struct drm_bridge_state *bridge_state,
+> +					   struct drm_crtc_state *crtc_state,
+> +					   struct drm_connector_state *conn_state)
+> +{
+> +	struct drm_dp_typec_bridge_data *data;
+> +	struct drm_lane_cfg *in_lanes;
+> +	u8 *dp_lanes;
+> +	size_t num_lanes;
+
+> +	int i;
+
+Does it need to be signed? Can it theoretically overflow as num_lanes defined
+as size_t?
+
+> +	data = to_drm_dp_typec_bridge_data(bridge);
+> +	num_lanes = data->num_lanes;
+> +	if (!num_lanes)
+> +		return 0;
+> +	dp_lanes = data->dp_lanes;
+> +
+> +	in_lanes = kcalloc(num_lanes, sizeof(*in_lanes), GFP_KERNEL);
+> +	if (!in_lanes)
+> +		return -ENOMEM;
+> +
+> +	bridge_state->input_bus_cfg.lanes = in_lanes;
+> +	bridge_state->input_bus_cfg.num_lanes = num_lanes;
+> +
+> +	for (i = 0; i < num_lanes; i++)
+> +		in_lanes[i].logical = dp_lanes[i];
+> +
+> +	return 0;
+> +}
+
+...
+
+> +		port->typec_data = typec_data;
+> +		if (of_property_read_u32_array(ep.local_node, "data-lanes",
+> +					       port->lane_mapping,
+> +					       ARRAY_SIZE(port->lane_mapping))) {
+
+> +			memcpy(port->lane_mapping, mapping, sizeof(mapping));
+
+Hmm... I'm wondering if direct assignment will save a few .text bytes
+
+		port->lane_mapping = ...;
+		of_property_read_u32_array(ep.local_node, "data-lanes",
+					   port->lane_mapping,
+					   ARRAY_SIZE(port->lane_mapping));
+
+Also note that conditional is not needed in this case.
+
+(And again, why OF-centric code?)
+
+> +		}
+
+-- 
+With Best Regards,
+Andy Shevchenko
+
+
