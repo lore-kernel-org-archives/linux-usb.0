@@ -1,233 +1,117 @@
-Received: from mail-lj1-f174.google.com (mail-lj1-f174.google.com [209.85.208.174])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2BA4C1A0BD1
-	for <linux-usb@vger.kernel.org>; Tue,  3 Sep 2024 10:25:26 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.174
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 245F81A0BD1;
+	Tue,  3 Sep 2024 10:26:15 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1725359127; cv=none; b=IF7O0/u/oK0K+CsPaxspm9m2mTP6GQXIREnldY3+b2Px1c4W8NEWg1Nh4U9V70Bd0lRTauiUdGNRI2SxPWSjiA3JKazArCAFxQydonixVStcu22/FJWiLx0Y9+Ale+BAsYQQp92oJ8nZAWq/Bo4mMd5C912Gs0fChNRMX0FDvSY=
+	t=1725359176; cv=none; b=AI7ftoJBIZWBOUiE7Tb5swpLBK4Jz7ilFGBGiG7cyZc0ZYIoFmHiIDjlsYWueDB19aXV01FiuxrGErbFpg9izHSGKTp7WTosok+sM7XGa9e6MZCVrS4nisBokuQRvgP5Eu2OvsoPcdvx8rR6g9xkU87BhIewB7ZETTEag2vZJAw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1725359127; c=relaxed/simple;
-	bh=Fgey+hZ4JPGo/6NiaNfA8JYGY/v0Tm7r20mcUahfiu8=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=f04BwtpmdR5fQBYep1vVK/JMpWkjx9m3vh68kT63qoeKhmR/F/p0onQ80JkHjK2DqhrFKo/9nFG0xyqMKx/CWfEkz1xl6B6RUj+J4ogv83nU+yTAPeShPwVxoKPEayvhH4sLYp3AmZy23utK2I9WyUveoe/pZ8GV3H60VUw7ipY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=tuxon.dev; spf=pass smtp.mailfrom=tuxon.dev; dkim=pass (2048-bit key) header.d=tuxon.dev header.i=@tuxon.dev header.b=hbe4FiQ9; arc=none smtp.client-ip=209.85.208.174
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=tuxon.dev
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=tuxon.dev
+	s=arc-20240116; t=1725359176; c=relaxed/simple;
+	bh=KFfEcd9sdOhQ4aHFnW8EF3qln14oCQyW4WEyjUQlYZQ=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=f11dcQHDsJ/h0pzCPRGT39YqsctfPtw8VDxqub2NfDzgNiT3zED0n63+XNiwx2S9cj7r+0Sx0WotL6EJvg99ssA3xOUIc8oCZTfDx9YGnzu8FW/RoW9YG4S7vVL4WPXwuC7/xFPenao8v3DrSgIdNYZmAMGS1m7Uw8wc4UnZ01s=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b=FBiIxbEA; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=tuxon.dev header.i=@tuxon.dev header.b="hbe4FiQ9"
-Received: by mail-lj1-f174.google.com with SMTP id 38308e7fff4ca-2f3f90295a9so58350481fa.0
-        for <linux-usb@vger.kernel.org>; Tue, 03 Sep 2024 03:25:25 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=tuxon.dev; s=google; t=1725359124; x=1725963924; darn=vger.kernel.org;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=YuTSwIl9q9JUC3i2aYAeogOmWxwYrrJ9+YxLTjByK44=;
-        b=hbe4FiQ9klHOilXrX7mh+mXhcPY1cGxE1rpEZafYKlD7W6Sbkh1bGtjOtdEc0j1gPh
-         b8VyG+QWJD4YKjEsdA7Lp9xOJckJKzS0xIPR5sWcrUe77wtHDf0vlIOSzua/eiHwjNFM
-         E55l5Yxe6KSsgP568SCnnwo7M4lLhiXQGLighnLozMjVmlA3aqLR68ZrIhMzUhP/Dh4M
-         jmmtDZyG5PqwKmnGcLRO1MUv9moasVN4FY0stM3PA1P9lmru1R38qAP43Hy4L3ti2yTC
-         KTPPnBua+1Mfx54XrMoJsqw/87ERYSHv64l3YsFY4uQP/iHTZICssshLuhOhbVAuHfaJ
-         Mfwg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1725359124; x=1725963924;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=YuTSwIl9q9JUC3i2aYAeogOmWxwYrrJ9+YxLTjByK44=;
-        b=foAypDOvZb6EbR+gFkq3d4MpYe4gTgzfVjQTEBEpkAf05ccjUSc/OueSJkMhiyZs9o
-         LPEd9PvlyTFcALXSZrPl41rTzQbjw2FjNRGIpW5ebahaaa8mGHVdK1X7oZQ5hxANoSs5
-         +UJwFVb8n7i9ySUSTzjlO1OU34OsbHcf5MppLpe1XSAJcikUb/Z3TW3ufJ1Bp060LLGM
-         lvFqJXBkpn9+9aBn9BaMJ2s1jvYJ4KFLq+wGJ9UQ4S/v2zhmMaZrzjJG5fH3O8ly9MBL
-         qBdusFBWZ57m5UNH9YqyrMv/0+CjvMuG2mAxirLyIgEg4dztGvDlZeMNqv4i1lnDOhRZ
-         LbzQ==
-X-Forwarded-Encrypted: i=1; AJvYcCXPz9rI45Tr6EcLpWRDxkhvh5R5g5p0TsZ+MpeV9sW1lLvFEf0FXbZmA6x0TBmYTsoivvVRaUqMA+s=@vger.kernel.org
-X-Gm-Message-State: AOJu0YwY9lrF0rtJkmh3vE+x7RAtKpCzL8DXJXmsUcDGAb6zhH7gCEs+
-	JO8dqLWpwho8Paggr8YaVQdFCLU4IpAT+/KU/Zz/ifV3d8mFlBurmZbW3jccJgk=
-X-Google-Smtp-Source: AGHT+IGZWwpSEYRg2qH2RqcYvPMCJJySduQWh9YhT7sAL+Iohwe2+AkwTjRfrV7dO20ThLaUEJ4qCQ==
-X-Received: by 2002:a2e:a7c1:0:b0:2f3:d82b:1955 with SMTP id 38308e7fff4ca-2f636a2be54mr41394781fa.25.1725359124125;
-        Tue, 03 Sep 2024 03:25:24 -0700 (PDT)
-Received: from [192.168.50.4] ([82.78.167.144])
-        by smtp.gmail.com with ESMTPSA id 4fb4d7f45d1cf-5c226cd4bcbsm6343668a12.74.2024.09.03.03.25.21
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 03 Sep 2024 03:25:23 -0700 (PDT)
-Message-ID: <fbfa9179-2f52-429f-8b69-f7f4064e796b@tuxon.dev>
-Date: Tue, 3 Sep 2024 13:25:21 +0300
+	dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="FBiIxbEA"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 4D650C4CEC4;
+	Tue,  3 Sep 2024 10:26:15 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
+	s=korg; t=1725359175;
+	bh=KFfEcd9sdOhQ4aHFnW8EF3qln14oCQyW4WEyjUQlYZQ=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=FBiIxbEA8IZiHv/uMiO3cZUWEA4Cu+eB5sV6BSbQEhWXk2HXLWgkjYxfm7WdxWYv1
+	 +bw+IPmKeL6yqE6jgQ5Kij65f+aZZEdArXO6RpmxDAH5kAxvH/Ps8jQL6wICqXNnKo
+	 kEc35pajVzR75umBCUD+h4y3NJJLzHIKSsZ6EGWk=
+Date: Tue, 3 Sep 2024 12:00:45 +0200
+From: Greg KH <gregkh@linuxfoundation.org>
+To: Tomas Marek <tomas.marek@elrest.cz>
+Cc: hminas@synopsys.com, Arthur.Petrosyan@synopsys.com,
+	linux-usb@vger.kernel.org, linux-kernel@vger.kernel.org,
+	oleg.karfich@wago.com
+Subject: Re: [PATCH] usb: dwc2: drd: fix clock gating on USB role switch
+Message-ID: <2024090336-unpaid-freckled-4b94@gregkh>
+References: <20240903094156.6516-1-tomas.marek@elrest.cz>
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 00/16] Add initial USB support for the Renesas RZ/G3S SoC
-Content-Language: en-US
-To: Biju Das <biju.das.jz@bp.renesas.com>,
- Ulf Hansson <ulf.hansson@linaro.org>
-Cc: "vkoul@kernel.org" <vkoul@kernel.org>,
- "kishon@kernel.org" <kishon@kernel.org>, "robh@kernel.org"
- <robh@kernel.org>, "krzk+dt@kernel.org" <krzk+dt@kernel.org>,
- "conor+dt@kernel.org" <conor+dt@kernel.org>,
- "p.zabel@pengutronix.de" <p.zabel@pengutronix.de>,
- "geert+renesas@glider.be" <geert+renesas@glider.be>,
- "magnus.damm@gmail.com" <magnus.damm@gmail.com>,
- "gregkh@linuxfoundation.org" <gregkh@linuxfoundation.org>,
- "mturquette@baylibre.com" <mturquette@baylibre.com>,
- "sboyd@kernel.org" <sboyd@kernel.org>,
- Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>,
- "linux-phy@lists.infradead.org" <linux-phy@lists.infradead.org>,
- "devicetree@vger.kernel.org" <devicetree@vger.kernel.org>,
- "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
- "linux-renesas-soc@vger.kernel.org" <linux-renesas-soc@vger.kernel.org>,
- "linux-usb@vger.kernel.org" <linux-usb@vger.kernel.org>,
- "linux-arm-kernel@lists.infradead.org"
- <linux-arm-kernel@lists.infradead.org>,
- "linux-clk@vger.kernel.org" <linux-clk@vger.kernel.org>,
- "linux-pm@vger.kernel.org" <linux-pm@vger.kernel.org>,
- Claudiu Beznea <claudiu.beznea.uj@bp.renesas.com>
-References: <20240822152801.602318-1-claudiu.beznea.uj@bp.renesas.com>
- <CAPDyKFrS4Dhd7DZa2zz=oPro1TiTJFix0awzzzp8Qatm-8Z2Ug@mail.gmail.com>
- <99bef301-9f6c-4797-b47e-c83e56dfbda9@tuxon.dev>
- <TY3PR01MB1134652F9587CFA0ADE851CA486902@TY3PR01MB11346.jpnprd01.prod.outlook.com>
- <TY3PR01MB113467275C519B729FCAB1ACB86922@TY3PR01MB11346.jpnprd01.prod.outlook.com>
- <5556d176-cca7-492c-ba21-48256d5d6338@tuxon.dev>
- <TY3PR01MB113464D53083F4C8A5DBBA36586922@TY3PR01MB11346.jpnprd01.prod.outlook.com>
- <590a4fb2-24b2-432b-92db-534c5a52ed0b@tuxon.dev>
- <TY3PR01MB11346505565B81AD2894E035586922@TY3PR01MB11346.jpnprd01.prod.outlook.com>
- <35dc7414-f5bd-4ed4-bfa1-f723f4f0078c@tuxon.dev>
- <TY3PR01MB11346A4814F83FE296A1DED8886922@TY3PR01MB11346.jpnprd01.prod.outlook.com>
- <TY3PR01MB1134648BF51F1B52BFE34DD6D86932@TY3PR01MB11346.jpnprd01.prod.outlook.com>
-From: claudiu beznea <claudiu.beznea@tuxon.dev>
-In-Reply-To: <TY3PR01MB1134648BF51F1B52BFE34DD6D86932@TY3PR01MB11346.jpnprd01.prod.outlook.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20240903094156.6516-1-tomas.marek@elrest.cz>
 
+On Tue, Sep 03, 2024 at 11:41:56AM +0200, Tomas Marek wrote:
+> The dwc2_handle_usb_suspend_intr() function disables gadget clocks in USB
+> peripheral mode when no other power-down mode is available (introduced by
+> commit 0112b7ce68ea ("usb: dwc2: Update dwc2_handle_usb_suspend_intr function.")).
+> However, the dwc2_drd_role_sw_set() USB role update handler attempts to
+> read DWC2 registers if the USB role has changed while the USB is in suspend
+> mode (when the clocks are gated). This causes the system to hang.
+> 
+> Release gadget clocks before handling the USB role update.
+> 
+> Fixes: 0112b7ce68ea ("usb: dwc2: Update dwc2_handle_usb_suspend_intr function.")
+> 
+> Signed-off-by: Tomas Marek <tomas.marek@elrest.cz>
+> ---
+>  drivers/usb/dwc2/drd.c | 12 ++++++++++++
+>  1 file changed, 12 insertions(+)
+> 
+> diff --git a/drivers/usb/dwc2/drd.c b/drivers/usb/dwc2/drd.c
+> index a8605b02115b..ccb33cd1f04b 100644
+> --- a/drivers/usb/dwc2/drd.c
+> +++ b/drivers/usb/dwc2/drd.c
+> @@ -127,6 +127,18 @@ static int dwc2_drd_role_sw_set(struct usb_role_switch *sw, enum usb_role role)
+>  			role = USB_ROLE_DEVICE;
+>  	}
+>  
+> +#if IS_ENABLED(CONFIG_USB_DWC2_PERIPHERAL) || \
+> +	IS_ENABLED(CONFIG_USB_DWC2_DUAL_ROLE)
+> +	if (dwc2_is_device_mode(hsotg)) {
+> +		if (hsotg->lx_state == DWC2_L2) {
+> +			if (hsotg->params.power_down ==
+> +			    DWC2_POWER_DOWN_PARAM_NONE && hsotg->bus_suspended &&
+> +			    !hsotg->params.no_clock_gating)
+> +				dwc2_gadget_exit_clock_gating(hsotg, 0);
+> +		}
+> +	}
+> +#endif
+> +
+>  	if (role == USB_ROLE_HOST) {
+>  		already = dwc2_ovr_avalid(hsotg, true);
+>  	} else if (role == USB_ROLE_DEVICE) {
+> -- 
+> 2.25.1
+> 
 
+Hi,
 
-On 03.09.2024 10:18, Biju Das wrote:
-> Hi Claudiu,
-> 
->> -----Original Message-----
->> From: Biju Das
->> Sent: Monday, September 2, 2024 11:48 AM
->> Subject: RE: [PATCH 00/16] Add initial USB support for the Renesas RZ/G3S SoC
->>
->> Hi Claudiu,
->>
->>> -----Original Message-----
->>> From: claudiu beznea <claudiu.beznea@tuxon.dev>
->>> Sent: Monday, September 2, 2024 11:41 AM
->>> Subject: Re: [PATCH 00/16] Add initial USB support for the Renesas
->>> RZ/G3S SoC
->>>
->>>
->>>
->>> On 02.09.2024 12:18, Biju Das wrote:
->>>>>>>> Do you have any plan to control this power transitions(ALL_ON to AWO and vice versa) in linux?
->>>>>>> As you know, the RZ/G3S USB PM code is already prepared. This is
->>>>>>> also configuring these signals when going to suspend/exiting from resume.
->>>>>>> W/o configuring properly these signals the USB is not working after a suspend/resume cycle.
->>>>>> One option is to handle SYSC USB PWRRDY signal in TF-A, if you
->>>>>> plan to handle system transitions
->>>>> there??
->>>>>
->>>>> As I mentioned, the settings in these registers may be changed by
->>>>> intermediary booting
->>> applications.
->>>>> Depending on that, Linux need to control it also on probe for USB
->>>>> to work (it should be the same with PCIe, these signals seems similar from HW manual
->> description).
->>>> You mean system transition settings will be override by U-boot, so Linux needs to restore it
->> back??
->>>
->>> It was talking about booting...
->>
->> I am also referring to boot. Boot starts with TF-A and it has a system state.
->>
->>>
->>> You proposed to handle SYSC signals from TF-A in a discussion about system power transitions:
->>>
->>> "One option is to handle SYSC USB PWRRDY signal in TF-A,  if you plan to handle system transitions"
->>>
->>> (I was guessing the "system transition" statement there refers to
->>> power states transitions, ALL_ON <->
->>> AWO/VBAT)
->>
->> That is correct.
->>
->>>
->>> and I gave the booting process as a counter example: if we handle it
->>> in TF-A it may not be enough as these signals might be changed by intermediary booting applications
->> (e.g., U-Boot).
->>
->> Why should U-boot override, system state signals such as USB PWRREADY? Can you please give an example.
->>
->>>
->>> To conclude, there are 3 scenarios I see where these signals need to
->>> be
->>> handled:
->>> 1/ booting
->>> 2/ suspend to RAM
->>> 3/ driver unbind/bind
->>
->> --> It should be OK as linux is not handling USB PWRREADY signal.
->>
->>>
->>> In case of booting: if we have TF-A to set signals there might be
->>> intermediary booting applications (e.g. U-Boot) that set these signals
->>> also. If it leaves it in improper state and Linux wants to use USB then the USB will not work (if
->> Linux doesn't handle it).
->>
->> That is the problem of U-boot. U-boot should not override system state signals such as USB PWRREADY.
->>
->>>
->>> In case of suspend to RAM: as TF-A is the only application in the
->>> suspend to RAM chain, it should work handling it in TF-A.
->>
->> That is correct, TF-A should handle based on system state.
->>
->>>
->>> In case of unbind/bind: currently we don't know if these signals
->>> introduces any kind of power saving so asserting/de-asserting them in Linux may be useful from this
->> perspective, if any.
->>
->> These are system signals, according to me should not be used in unbind/bind.
->>
->> I may be wrong.
-> 
-> Just to add the below are the 4 system states (power mode) for this LSI.
-> 
-> If I understand correctly, we need to configure USB PWRRDY signal
-> only when there is a transition from ALL_ON to AWO mode and vice versa.
-> as you see on AWO mode only CM-33 is active.
-> 
-> • ALL_OFF mode: All CPUs and peripheral modules can not be worked.
-> • ALL_ON mode: All CPUs and peripheral modules can be worked.
-> • AWO mode: Cortex-M33 and peripheral modules in PD_VCC and PD_VBATT domain can be worked.
-> • VBATT mode: Only RTC, tamper detection and backup registers can be worked.
-> 
-> System manager which is controlling both CA-55 and CM-33, will set USB PWRRDY signal
-> based on system state.
-> 
-> Since we don't have system manager for controlling both CA-55 and CM-33
-> Probably from CA-55 perspective, TF-A should be sufficient.
-> 
-> During boot clr USB PWR READY signal in TF-A.
-> STR case, suspend set USB PWR READY signal in TF-A.
-> STR case, resume clr USB PWR READY signal in TF-A.
+This is the friendly patch-bot of Greg Kroah-Hartman.  You have sent him
+a patch that has triggered this response.  He used to manually respond
+to these common problems, but in order to save his sanity (he kept
+writing the same thing over and over, yet to different people), I was
+created.  Hopefully you will not take offence and will fix the problem
+in your patch and resubmit it so that it can be accepted into the Linux
+kernel tree.
 
-As I said previously, it can be done in different ways. My point was to let
-Linux set what it needs for all it's devices to work. I think the way to go
-forward is a maintainer decision.
+You are receiving this message because of the following common error(s)
+as indicated below:
 
-Thank you,
-Claudiu Beznea
+- You have marked a patch with a "Fixes:" tag for a commit that is in an
+  older released kernel, yet you do not have a cc: stable line in the
+  signed-off-by area at all, which means that the patch will not be
+  applied to any older kernel releases.  To properly fix this, please
+  follow the documented rules in the
+  Documentation/process/stable-kernel-rules.rst file for how to resolve
+  this.
 
-> 
-> I am not expert in this area. I may be wrong.
-> 
-> Maybe we need to get an opinion from Power experts in Linux.
-> 
-> Cheers,
-> Biju
+If you wish to discuss this problem further, or you have questions about
+how to resolve this issue, please feel free to respond to this email and
+Greg will reply once he has dug out from the pending patches received
+from other developers.
+
+thanks,
+
+greg k-h's patch email bot
