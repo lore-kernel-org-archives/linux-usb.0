@@ -1,166 +1,99 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.12])
+Received: from shakotay.alphanet.ch (shakotay.alphanet.ch [46.140.72.222])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D61491CA6B7;
-	Tue,  3 Sep 2024 13:09:48 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.12
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9ADAD1A724E
+	for <linux-usb@vger.kernel.org>; Tue,  3 Sep 2024 13:15:43 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=46.140.72.222
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1725368991; cv=none; b=ssdYQxiMvIk9C6suYrpCjblfM2zK6CeqKv6p68af8kxeyGsNFJxanaUkMBmXaxveztO4sPxt1j7BJ26vygHXaC+7mCpcat2NyMxbOWdcTI+qc/bQ5wHWyOXyhA0d02Izta1cE7D4l6GvD5TjNoxRLOkIzuWC6/gGygn6YmgMZ9o=
+	t=1725369346; cv=none; b=niu0+J58iN0lgF3NBtMCQnPqcW/wmk1yuO2mpIb2P1UGTDfNeprWGn5AosjVoIpyRc9e5JvZC04rJxwcLcDr3SeFDna2K7KAKvRS6CF6qD7PGIhGutlLMlAmsIChM/4MPyRAmmuHxaIHpPi31XTC0+5q8rkKwcJneZ0h/em8dsg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1725368991; c=relaxed/simple;
-	bh=8mw08bfGNoVPR6V3tmRj81krcv15qI2aaad6jNL/UlM=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=EZtXayvTvt+WSSY0iVSeLpkZqe3DWJPiUeXYPOCNz91UYh2YHxnnG5oQ3q2WejuHF6t9weuEk96dMMBq0s9sDiUlsO36hPrxjIwbjf7yEp4pDdeuexfoXrJpM3BxwA2hIfEjaqEuSnljPbpemFk1BajUmf+SQoqhEfa+6RHCARQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=none smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=koi3WWFJ; arc=none smtp.client-ip=192.198.163.12
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=linux.intel.com
+	s=arc-20240116; t=1725369346; c=relaxed/simple;
+	bh=2bX9QdNqrwSreDs8XbF2Us9EWS5ZQkEk6/gaORACny0=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=Klxp4rmjubQKFCLTC+w00xBLxXOms7NKFV4uq/sxyJeuV/40M31Za1TDNHwjs8gF51L4FAstnGTM74e6OMRyLQgqLHM0i6CcT0Zx96LBhFXINXUeAEBs92fRgWX/f78yNkHAYPbdlKynvxu93y7hXPfYcpNyWs9tfW5ETvTXBqQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=alphanet.ch; spf=pass smtp.mailfrom=alphanet.ch; dkim=pass (2048-bit key) header.d=alphanet.ch header.i=@alphanet.ch header.b=Bpv76PVY; arc=none smtp.client-ip=46.140.72.222
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=alphanet.ch
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=alphanet.ch
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="koi3WWFJ"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1725368989; x=1756904989;
-  h=from:to:cc:subject:date:message-id:mime-version:
-   content-transfer-encoding;
-  bh=8mw08bfGNoVPR6V3tmRj81krcv15qI2aaad6jNL/UlM=;
-  b=koi3WWFJqBxxvVXeN0hVKaAmKnG96IBjTv9JB0ib/Xy1F+8bMLPAyBuf
-   C25P7htYLkSmabu08X+mo+4Z4HleqKejm1nAQrrRuxZnGO9fwa/jpVaI1
-   +G4XcrHCTGEuYbbFAqA76y2KRkEhwc62aOg6tVcZ2Z0CD88sAnq0IOZf1
-   rOMrhq/R3xksuDzBT6/7QMbndiWuGskrJfYWwXCkKsvRBdnGC++Tcb2nC
-   CKSuI+Nu76//VE3ZwiWHVwB1+92wgmNxQ4yjSGup2sc/g/j5jI0rb5kn3
-   ksLIc76vX7lug6fPqtYAg1ente+CKpYXU2lGmp0THhvUEftDWCbJt5HeV
-   g==;
-X-CSE-ConnectionGUID: XPV2Y4+kSyyjVjtsTeYw3A==
-X-CSE-MsgGUID: mly3dnSjS0qnQy0vxZXfCA==
-X-IronPort-AV: E=McAfee;i="6700,10204,11184"; a="27845620"
-X-IronPort-AV: E=Sophos;i="6.10,198,1719903600"; 
-   d="scan'208";a="27845620"
-Received: from orviesa001.jf.intel.com ([10.64.159.141])
-  by fmvoesa106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 03 Sep 2024 06:09:48 -0700
-X-CSE-ConnectionGUID: 8aB2M8G7SV+BIySESXT8XQ==
-X-CSE-MsgGUID: emqfdTatSmi/rn4cL1xskA==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.10,198,1719903600"; 
-   d="scan'208";a="102322883"
-Received: from black.fi.intel.com (HELO black.fi.intel.com.) ([10.237.72.28])
-  by orviesa001.jf.intel.com with ESMTP; 03 Sep 2024 06:09:46 -0700
-From: Heikki Krogerus <heikki.krogerus@linux.intel.com>
-To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-Cc: Benson Leung <bleung@chromium.org>,
-	Jameson Thies <jthies@google.com>,
-	Abhishek Pandit-Subedi <abhishekpandit@chromium.org>,
-	linux-usb@vger.kernel.org,
-	stable@vger.kernel.org
-Subject: [PATCH v2] usb: typec: ucsi: Fix cable registration
-Date: Tue,  3 Sep 2024 16:09:44 +0300
-Message-ID: <20240903130945.3395291-1-heikki.krogerus@linux.intel.com>
-X-Mailer: git-send-email 2.45.2
+	dkim=pass (2048-bit key) header.d=alphanet.ch header.i=@alphanet.ch header.b="Bpv76PVY"
+Received: by shakotay.alphanet.ch (Postfix, from userid 1022)
+	id BA37112443B5; Tue,  3 Sep 2024 14:55:36 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=alphanet.ch; s=mail;
+	t=1725368136; bh=2bX9QdNqrwSreDs8XbF2Us9EWS5ZQkEk6/gaORACny0=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=Bpv76PVYyMPBe9Mymzz8vUx4BJl5JUISQiHTXnu/TJJTXZaMxhXXTmdiI5cTyIxVI
+	 tdIfccuri3NKllwR6BKGO1vf26ZQCGP+rAGy65vj56OYzeOy3Xaf4DbIcF+UsJzttz
+	 k83NC9UbbKbhbw4Rx5Usf0O8TX+v4ecT379iusyUqm9mgYgaVrNvMrLX/PRb1ukgNu
+	 TlI0d8vvOR2KWeQrLx00C1yUc022VPDDcR6vy89YtbIyhbnzWZmpohwelRk2Wocgun
+	 n3zWRmUUGPhZbIJ/0m4A97oC05UPe3FCGaUg/gEj/rgXHWRziCeW843wMdja0XGaPR
+	 h8ftYGgOZEWXQ==
+Received: from reliant.alphanet.ch (reliant.alphanet.ch [192.168.1.30])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+	(No client certificate requested)
+	by shakotay.alphanet.ch (Postfix) with ESMTPS id 7C31612410E8;
+	Tue,  3 Sep 2024 14:55:22 +0200 (CEST)
+Received: by reliant.alphanet.ch (Postfix, from userid 1000)
+	id 6365076D139; Tue,  3 Sep 2024 14:55:22 +0200 (CEST)
+Date: Tue, 3 Sep 2024 14:55:22 +0200
+From: Marc SCHAEFER <schaefer@alphanet.ch>
+To: Micha?? Pecio <michal.pecio@gmail.com>
+Cc: linux-usb@vger.kernel.org
+Subject: Re: Strange issues with UAS URB cancellation
+Message-ID: <ZtcHOlqlQMMD4LzY@alphanet.ch>
+References: <ZswP0+cLIqkTF0D/@alphanet.ch>
+ <20240903094822.3ae297cb@foxbook>
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20240903094822.3ae297cb@foxbook>
 
-The Cable PD Revision field in GET_CABLE_PROPERTY was
-introduced in UCSI v2.1, so adding check for that.
+Hello,
 
-The cable properties are also not used anywhere after the
-cable is registered, so removing the cable_prop member
-from struct ucsi_connector while at it.
 
-Fixes: 38ca416597b0 ("usb: typec: ucsi: Register cables based on GET_CABLE_PROPERTY")
-Cc: stable@vger.kernel.org
-Signed-off-by: Heikki Krogerus <heikki.krogerus@linux.intel.com>
----
-Hi Greg,
+On Tue, Sep 03, 2024 at 09:48:22AM +0200, Micha?? Pecio wrote:
+> [ I changed the title a little. And please use "reply to all" when
 
-This version is for your usb-linus branch. The original [1] should
-apply on top of your usb-next branch.
+I hope it now works like you want it.
 
-thanks,
+> I can offer this patch for testing (on 6.11-rc5), which tries to:
 
-[1] https://lore.kernel.org/linux-usb/20240830130217.2155774-1-heikki.krogerus@linux.intel.com/
+Thank you, I applied + recompiled.  After a while (~1 hour), I got a lot of
+messages in dmesg, slowing down the md raidcheck to a crawl.
 
----
- drivers/usb/typec/ucsi/ucsi.c | 30 +++++++++++++++---------------
- drivers/usb/typec/ucsi/ucsi.h |  1 -
- 2 files changed, 15 insertions(+), 16 deletions(-)
+So, after about two hours of md raidcheck of the array at ~330 MByte/s:
 
-diff --git a/drivers/usb/typec/ucsi/ucsi.c b/drivers/usb/typec/ucsi/ucsi.c
-index 9a799637754c..17155ed17fdf 100644
---- a/drivers/usb/typec/ucsi/ucsi.c
-+++ b/drivers/usb/typec/ucsi/ucsi.c
-@@ -965,10 +965,20 @@ static void ucsi_unregister_plug(struct ucsi_connector *con)
- 
- static int ucsi_register_cable(struct ucsi_connector *con)
- {
-+	struct ucsi_cable_property cable_prop;
- 	struct typec_cable *cable;
- 	struct typec_cable_desc desc = {};
-+	u64 command;
-+	int ret;
-+
-+	command = UCSI_GET_CABLE_PROPERTY | UCSI_CONNECTOR_NUMBER(con->num);
-+	ret = ucsi_send_command(con->ucsi, command, &cable_prop, sizeof(cable_prop));
-+	if (ret < 0) {
-+		dev_err(con->ucsi->dev, "GET_CABLE_PROPERTY failed (%d)\n", ret);
-+		return ret;
-+	}
- 
--	switch (UCSI_CABLE_PROP_FLAG_PLUG_TYPE(con->cable_prop.flags)) {
-+	switch (UCSI_CABLE_PROP_FLAG_PLUG_TYPE(cable_prop.flags)) {
- 	case UCSI_CABLE_PROPERTY_PLUG_TYPE_A:
- 		desc.type = USB_PLUG_TYPE_A;
- 		break;
-@@ -984,10 +994,10 @@ static int ucsi_register_cable(struct ucsi_connector *con)
- 	}
- 
- 	desc.identity = &con->cable_identity;
--	desc.active = !!(UCSI_CABLE_PROP_FLAG_ACTIVE_CABLE &
--			 con->cable_prop.flags);
--	desc.pd_revision = UCSI_CABLE_PROP_FLAG_PD_MAJOR_REV_AS_BCD(
--	    con->cable_prop.flags);
-+	desc.active = !!(UCSI_CABLE_PROP_FLAG_ACTIVE_CABLE & cable_prop.flags);
-+
-+	if (con->ucsi->version >= UCSI_VERSION_2_1)
-+		desc.pd_revision = UCSI_CABLE_PROP_FLAG_PD_MAJOR_REV_AS_BCD(cable_prop.flags);
- 
- 	cable = typec_register_cable(con->port, &desc);
- 	if (IS_ERR(cable)) {
-@@ -1193,21 +1203,11 @@ static int ucsi_check_connection(struct ucsi_connector *con)
- 
- static int ucsi_check_cable(struct ucsi_connector *con)
- {
--	u64 command;
- 	int ret, num_plug_am;
- 
- 	if (con->cable)
- 		return 0;
- 
--	command = UCSI_GET_CABLE_PROPERTY | UCSI_CONNECTOR_NUMBER(con->num);
--	ret = ucsi_send_command(con->ucsi, command, &con->cable_prop,
--				sizeof(con->cable_prop));
--	if (ret < 0) {
--		dev_err(con->ucsi->dev, "GET_CABLE_PROPERTY failed (%d)\n",
--			ret);
--		return ret;
--	}
--
- 	ret = ucsi_register_cable(con);
- 	if (ret < 0)
- 		return ret;
-diff --git a/drivers/usb/typec/ucsi/ucsi.h b/drivers/usb/typec/ucsi/ucsi.h
-index 57129f3c0814..5a3481d36d7a 100644
---- a/drivers/usb/typec/ucsi/ucsi.h
-+++ b/drivers/usb/typec/ucsi/ucsi.h
-@@ -465,7 +465,6 @@ struct ucsi_connector {
- 
- 	struct ucsi_connector_status status;
- 	struct ucsi_connector_capability cap;
--	struct ucsi_cable_property cable_prop;
- 	struct power_supply *psy;
- 	struct power_supply_desc psy_desc;
- 	u32 rdo;
--- 
-2.45.2
+Sep  3 13:53:43 video kernel: [ 7193.705199] xhci_hcd 0000:01:00.0: Stop Endpoint Context Error & Stopped on slot 12 ep 10
+Sep  3 13:53:43 video kernel: [ 7193.705209] xhci_hcd 0000:01:00.0: Stop ep completion ctx error, ep is running
+Sep  3 13:53:43 video kernel: [ 7193.705461] xhci_hcd 0000:01:00.0: Stop Endpoint Context Error & Stopped on slot 12 ep 10
+Sep  3 13:53:43 video kernel: [ 7193.705469] xhci_hcd 0000:01:00.0: Stop ep completion ctx error, ep is running
+Sep  3 13:53:43 video kernel: [ 7193.705754] xhci_hcd 0000:01:00.0: Stop Endpoint Context Error & Stopped on slot 12 ep 10
+Sep  3 13:53:43 video kernel: [ 7193.705759] xhci_hcd 0000:01:00.0: Stop ep completion ctx error, ep is running
 
+[ ... and many like this ... ]
+
+then it gets more interesting:
+
+Sep  3 13:53:55 video kernel: [ 7205.983631] sd 18:0:0:0: [sde] tag#5 uas_eh_abort_handler 0 uas-tag 6 inflight: CMD IN 
+Sep  3 13:53:55 video kernel: [ 7205.983635] sd 18:0:0:0: [sde] tag#5 CDB: Read(16) 88 00 00 00 00 00 8c cf e4 00 00 00 04 00 00 00
+Sep  3 13:54:21 video kernel: [ 7232.213557] usb 3-1.1.4: stat urb: no pending cmd for uas-tag 6
+
+then the kernel complains about:
+
+Sep  3 13:56:41 video kernel: [ 7371.838240] INFO: task smartd:906 blocked for more than 120 seconds.
+Sep  3 13:56:41 video kernel: [ 7371.838246]       Tainted: G            E      6.11.0-rc5 #2
+Sep  3 13:56:41 video kernel: [ 7371.838248] "echo 0 > /proc/sys/kernel/hung_task_timeout_secs" disables this message.
+Sep  3 13:56:41 video kernel: [ 7371.838249] task:smartd          state:D stack:0     pid:906   tgid:906   ppid:1      flags:0x00000000
+
+(and a few other utility programs, including the md0_resync kernel task)
+
+then:
+
+Sep  3 14:00:42 video kernel: [ 7613.502312] Future hung task reports are suppressed, see sysctl kernel.hung_task_warnings
+
+Thank you :)
