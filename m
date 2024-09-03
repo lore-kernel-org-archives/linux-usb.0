@@ -1,54 +1,54 @@
-Received: from mail-ej1-f53.google.com (mail-ej1-f53.google.com [209.85.218.53])
+Received: from mail-ed1-f46.google.com (mail-ed1-f46.google.com [209.85.208.46])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C66051885AF
-	for <linux-usb@vger.kernel.org>; Tue,  3 Sep 2024 16:30:39 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.53
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 52BD918BC1D
+	for <linux-usb@vger.kernel.org>; Tue,  3 Sep 2024 16:30:43 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.46
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1725381042; cv=none; b=NLQ9UVtRoKTY82Y5ms5J6OE4gCKdIbdfM/cWNmeYnQD2s7pwY6/BQgZCY9t2vTV5O60qwFaYsuDix7rffITrzxVcSCmRgl8R6z0novSWOQTNMHqiGEmWcypZExChpBxvJczgVUOri/mACbqe25T57/o56L0IQRdFiBmkCL3Ls9I=
+	t=1725381044; cv=none; b=ebI9nTETTMh2g5gLG3LxzRakk5fpMeTYM4LdosD0w0XMdIId0SsX+6teVgj+eiLRLe/KnRpTEh+RNMAfl2xZzQOmOL13Y9tQgPuhc2bWVAtmLvoDgikG+rhR1C0E6GTeXYglJT/lZ4RrXwaRF1K/Q5S/V5CWmh8H1o8u8o0OVME=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1725381042; c=relaxed/simple;
-	bh=YoYRUae+dYQ0d52pIU8556BecxqaS32GRkSA+SJ61gE=;
+	s=arc-20240116; t=1725381044; c=relaxed/simple;
+	bh=NcRnI43j/32UrWwYS5V8VP4i4dLvb1AxJbQbRzMkl6I=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=a/hrhfwK60h5VTAMZhVwDXk1+chhwF8Avw6wW/bC8a8ME6eU+V8MWUL6ft2dLs91c79YEm+r2Olrzlj0PS13GRY+oEDTdX64NWFhow1/QZhFEIZS60YG+kTwhiPTN0v6Mpzr6+aa+Y7X02xkRoRqznujORl6ojOZ+ym2foTTuww=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org; spf=pass smtp.mailfrom=chromium.org; dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b=ZyLEmtWb; arc=none smtp.client-ip=209.85.218.53
+	 MIME-Version; b=cHtvHTGRX5bVXWR7vx5J+XZPm22Az7aaO+QN+XS6fD8VcEpZPGEW4FQsx3LpPPcOv/+u0hyBsMj7b4N8xTq5CNmdHTGd8y8prgY02M1K9xjnvRF1Z8ex2IoBn+uYW8n+xeu0Jz/90WB9/oXFSbKa+wQY0DXzlGsgEwlhcIa/Zrk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org; spf=pass smtp.mailfrom=chromium.org; dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b=WyeQftBq; arc=none smtp.client-ip=209.85.208.46
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=chromium.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b="ZyLEmtWb"
-Received: by mail-ej1-f53.google.com with SMTP id a640c23a62f3a-a86abbd68ffso921347466b.0
-        for <linux-usb@vger.kernel.org>; Tue, 03 Sep 2024 09:30:39 -0700 (PDT)
+	dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b="WyeQftBq"
+Received: by mail-ed1-f46.google.com with SMTP id 4fb4d7f45d1cf-5bf01bdaff0so5195234a12.3
+        for <linux-usb@vger.kernel.org>; Tue, 03 Sep 2024 09:30:43 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=chromium.org; s=google; t=1725381038; x=1725985838; darn=vger.kernel.org;
+        d=chromium.org; s=google; t=1725381042; x=1725985842; darn=vger.kernel.org;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=+TIEYy+uyd2jXHZkwyaKTeT93BGHARFcg0AcutZlTKg=;
-        b=ZyLEmtWbOR81W5x0c7oHltmSDlIbKv8U9AF0W987+NBIfZONk7+TbhRatOm4EsYxk6
-         pHRICIvCjXB+Osal3NhZBRddXHW3ic6t+ZBWOhJHxJdBpKxUfXSWfWLxFLrQ3SO+QIkb
-         2dUneqcIUmdkXhey2yRkxwc3d13aSAwWJ15Ag=
+        bh=Ch/nQk7xshZBBT85KVmRAI7T7THUEBQ92ebPsEv0TVI=;
+        b=WyeQftBqWryvhch54aBzoZZygIYZn1xa+ueEP4ZjlbSAUGVs5pxJeEBxJDWlK6mllM
+         vfR261xXsp1okmQKauaemKpLt87D55N5YqO5LEq1Y80w6SQ2OBKDdiDhamZxvvNO/OD+
+         84tY6i5cO21HXFu19dmu1gDmF3By5OmuVs8XQ=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1725381038; x=1725985838;
+        d=1e100.net; s=20230601; t=1725381042; x=1725985842;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=+TIEYy+uyd2jXHZkwyaKTeT93BGHARFcg0AcutZlTKg=;
-        b=u14l7SC1MM0rDUXA67cEyI7yNGopGXLP1GhjFuW5CdkVavfIxmJEoo4llLAC80VfAh
-         TDWEYWJNAEbC1wKWWxfR3IZXdwNAnR3DnW7mj4jO/MVUTSAiTEz4MpCUgaffmu2e9HLt
-         7Wp12eaaG62EvHpAjaUCdHB06sfrPPpOCxq2uD1Mig3rvq6HA1KAMAPhgk44a2vHaubJ
-         uUnYb9DfhWaBc503lueimL8MXTvlLfalLUGdtH4ivEijjGdHA+h3T5qmAdCU55rlTn28
-         xX3fZ1HRxQ/k2XoYXbuXii5xrksH6p7dMSFyKjp5aQToeqLk3ENHz1fsnRqhzV5k9Hox
-         RO1g==
-X-Forwarded-Encrypted: i=1; AJvYcCWU/SLgLWDKxlGdc1q4YISlFeUI1kApXB40JixDMh7eGAe88xqBV/9+5Vr6Cb8Qj6OnqYz2Sbar+dM=@vger.kernel.org
-X-Gm-Message-State: AOJu0Yw4GZVmCVGCV0SbH2if+sCJSGiQFEQMHyLeHJCMMZ7GYaTVSA/V
-	WZiqNfO7rwy9E9HtxmIlobyGIDTgfWm6vGAyLzFuoW+dpS75eQy+ua31gBDY
-X-Google-Smtp-Source: AGHT+IEKzUEnyVSCRCC18/H9KWxWbNBNtHfr6WvIUVO7/ZCeHwJZ9cd+GxR/nFZmj5QvFglMz/D6zw==
-X-Received: by 2002:a17:907:e292:b0:a6e:f869:d718 with SMTP id a640c23a62f3a-a89a2927ae1mr1377312166b.21.1725381037341;
-        Tue, 03 Sep 2024 09:30:37 -0700 (PDT)
+        bh=Ch/nQk7xshZBBT85KVmRAI7T7THUEBQ92ebPsEv0TVI=;
+        b=k7OZPumWc6FXRxzr4BbBbhQcAOZH+bzYDv11fba5HmeppLkiqQ+uiQMGej6Y3Kh3Wz
+         8rp1lXQPDs8Ctq/QyIlaMsyn8A089dZIu+cNFRHMif74vKrnhCBQ/UNeRRah5COdR2yc
+         LX5hj6tLQSeL3YfsipJQTqrF8TgxqfXnfQ7+6O4lxwo074iWhylBwIl4dZ0bPwDmw7qa
+         dRu10QQbl+Z1I4ctajLI0KX+Dj+2T0qTjDdTlcngvXjru/mpFu49/FLbusc0rQm5vhdL
+         JgYNlNCf+VCltbXMvh3wPB75qO6fG0EBIAHVFz+9C9vIZhSfRPnUyvVm+CGy3UuSTpGQ
+         +ZGg==
+X-Forwarded-Encrypted: i=1; AJvYcCVxR4QfYbZOBP604FU4YUK+ipKU0EzqoBBzua7GopXNglUBcZHwfccKyPWz9phNW1KTedzswOap+dE=@vger.kernel.org
+X-Gm-Message-State: AOJu0YzLgygBvgmEDU6CvcaIHgkso9IhT9fLZovGEfFCDz6DzdDjwMuy
+	hwMiMgifEFiKg9Iec58Pa20QFpGRNyfJJf2vmSi6IeV24KMsvL1hmDRfDHVj
+X-Google-Smtp-Source: AGHT+IHPa9Qvf/PS48YGwqnSZBUWQ/hXpFMaONG1d+Jtps88oT2k5Dw5JhWbGgaxI5p+BF5VuNzo6g==
+X-Received: by 2002:a17:907:9813:b0:a6f:593f:d336 with SMTP id a640c23a62f3a-a897f77ea6amr1213890066b.11.1725381041378;
+        Tue, 03 Sep 2024 09:30:41 -0700 (PDT)
 Received: from ukaszb-ng.c.googlers.com.com (140.20.91.34.bc.googleusercontent.com. [34.91.20.140])
-        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-a8989196bc4sm700685866b.125.2024.09.03.09.30.36
+        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-a8989196bc4sm700685866b.125.2024.09.03.09.30.40
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 03 Sep 2024 09:30:36 -0700 (PDT)
+        Tue, 03 Sep 2024 09:30:40 -0700 (PDT)
 From: =?UTF-8?q?=C5=81ukasz=20Bartosik?= <ukaszb@chromium.org>
 To: Heikki Krogerus <heikki.krogerus@linux.intel.com>,
 	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
@@ -60,9 +60,9 @@ Cc: Abhishek Pandit-Subedi <abhishekpandit@chromium.org>,
 	Tzung-Bi Shih <tzungbi@kernel.org>,
 	linux-usb@vger.kernel.org,
 	chrome-platform@lists.linux.dev
-Subject: [PATCH v5 1/8] platform/chrome: Update ChromeOS EC header for UCSI
-Date: Tue,  3 Sep 2024 16:30:26 +0000
-Message-ID: <20240903163033.3170815-2-ukaszb@chromium.org>
+Subject: [PATCH v5 4/8] usb: typec: cros_ec_ucsi: Use complete instead of resume
+Date: Tue,  3 Sep 2024 16:30:29 +0000
+Message-ID: <20240903163033.3170815-5-ukaszb@chromium.org>
 X-Mailer: git-send-email 2.46.0.469.g59c65b2a67-goog
 In-Reply-To: <20240903163033.3170815-1-ukaszb@chromium.org>
 References: <20240903163033.3170815-1-ukaszb@chromium.org>
@@ -74,59 +74,45 @@ List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-From: Pavan Holla <pholla@chromium.org>
+From: Abhishek Pandit-Subedi <abhishekpandit@chromium.org>
 
-Add EC host commands for reading and writing UCSI structures
-in the EC. The corresponding kernel driver is cros-ec-ucsi.
+On platforms using cros_ec_lpc, resume is split into .resume_early and
+.complete. To avoid missing EC events, use .complete to schedule work
+when resuming.
 
-Also update PD events supported by the EC.
-
-Signed-off-by: Pavan Holla <pholla@chromium.org>
+Signed-off-by: Abhishek Pandit-Subedi <abhishekpandit@chromium.org>
 ---
- .../linux/platform_data/cros_ec_commands.h    | 22 ++++++++++++++++++-
- 1 file changed, 21 insertions(+), 1 deletion(-)
+ drivers/usb/typec/ucsi/cros_ec_ucsi.c | 13 ++++++++-----
+ 1 file changed, 8 insertions(+), 5 deletions(-)
 
-diff --git a/include/linux/platform_data/cros_ec_commands.h b/include/linux/platform_data/cros_ec_commands.h
-index e574b790be6f..08b6c98ed890 100644
---- a/include/linux/platform_data/cros_ec_commands.h
-+++ b/include/linux/platform_data/cros_ec_commands.h
-@@ -5012,8 +5012,10 @@ struct ec_response_pd_status {
- #define PD_EVENT_POWER_CHANGE      BIT(1)
- #define PD_EVENT_IDENTITY_RECEIVED BIT(2)
- #define PD_EVENT_DATA_SWAP         BIT(3)
-+#define PD_EVENT_TYPEC             BIT(4)
-+#define PD_EVENT_PPM               BIT(5)
- struct ec_response_host_event_status {
--	uint32_t status;      /* PD MCU host event status */
-+	u32 status;      /* PD MCU host event status */
- } __ec_align4;
+diff --git a/drivers/usb/typec/ucsi/cros_ec_ucsi.c b/drivers/usb/typec/ucsi/cros_ec_ucsi.c
+index 6b9dc05a4960..4a3369c649bf 100644
+--- a/drivers/usb/typec/ucsi/cros_ec_ucsi.c
++++ b/drivers/usb/typec/ucsi/cros_ec_ucsi.c
+@@ -246,15 +246,18 @@ static int __maybe_unused cros_ucsi_suspend(struct device *dev)
+ 	return 0;
+ }
  
- /* Set USB type-C port role and muxes */
-@@ -6073,6 +6075,24 @@ struct ec_response_typec_vdm_response {
+-static int __maybe_unused cros_ucsi_resume(struct device *dev)
++static void __maybe_unused cros_ucsi_complete(struct device *dev)
+ {
+ 	struct cros_ucsi_data *udata = dev_get_drvdata(dev);
+-
+-	return ucsi_resume(udata->ucsi);
++	ucsi_resume(udata->ucsi);
+ }
  
- #undef VDO_MAX_SIZE
+-static SIMPLE_DEV_PM_OPS(cros_ucsi_pm_ops, cros_ucsi_suspend,
+-			 cros_ucsi_resume);
++static const struct dev_pm_ops cros_ucsi_pm_ops = {
++#ifdef CONFIG_PM_SLEEP
++	.suspend = cros_ucsi_suspend,
++	.complete = cros_ucsi_complete,
++#endif
++};
  
-+/*
-+ * Read/write interface for UCSI OPM <-> PPM communication.
-+ */
-+#define EC_CMD_UCSI_PPM_SET 0x0140
-+
-+/* The data size is stored in the host command protocol header. */
-+struct ec_params_ucsi_ppm_set {
-+	u16 offset;
-+	u8 data[];
-+} __ec_align2;
-+
-+#define EC_CMD_UCSI_PPM_GET 0x0141
-+
-+struct ec_params_ucsi_ppm_get {
-+	u16 offset;
-+	u8 size;
-+} __ec_align2;
-+
- /*****************************************************************************/
- /* The command range 0x200-0x2FF is reserved for Rotor. */
- 
+ static const struct platform_device_id cros_ucsi_id[] = {
+ 	{ KBUILD_MODNAME, 0 },
 -- 
 2.46.0.469.g59c65b2a67-goog
 
