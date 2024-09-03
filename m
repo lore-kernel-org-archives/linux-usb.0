@@ -1,93 +1,200 @@
-Received: from smtp.cesky-hosting.cz (smtp.cesky-hosting.cz [91.239.200.238])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-lf1-f42.google.com (mail-lf1-f42.google.com [209.85.167.42])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BBD181A0BC7;
-	Tue,  3 Sep 2024 09:52:30 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=91.239.200.238
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AE81D19F431
+	for <linux-usb@vger.kernel.org>; Tue,  3 Sep 2024 10:19:48 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.42
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1725357157; cv=none; b=jHtxHfmjrN6gIVFwp8K1ou8R4HIPctOg0zZewzrCf5X4mlg9106XUJBt8FXwGSjrC004C4B+shJpdPFc945HL5T2GzTU7ZjTgD0Vxj8jl0BVP3nAAaBvDbMTO6XJEf65suTrpHmjNNoKQPL0XUpHhehwxGuNbU4CE96g+9H3dho=
+	t=1725358790; cv=none; b=ExPLTTC36NNHZ665aD5loPXN/atCZfBr8kV1nkhTn9YewNqB1kOG7Lqmj4mqAPi9+cvvORf2hdXvDcWkjeInDfslax0aEq4dv14EhUKKSqp8UOok5Ae8MDfAQ1diYf4r8hRFxq5OUn8jr69Wmr70vInH9c9D57HJl2hlEOkW/XE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1725357157; c=relaxed/simple;
-	bh=ptodtkKagi9GVZPcHmohXhYM5PL23nadgiXtCIZaBWY=;
-	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=UT77JCcLZiWO7l8qzsJFMK0KWO1AGYNdwgbktvzX0Y7BkHdx3DDCGvAlTEeC4KSyrpTvUmpCRBfBalMcjYH64fucgippP1C6e2c0rs7o+WwQrLcfkTQA/SRb5soWDyeNe98LK6+pW1EpNLq1rkbeioJAv/Ra88gdszqOPv9zSSI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=elrest.cz; spf=pass smtp.mailfrom=elrest.cz; dkim=pass (2048-bit key) header.d=elrest.cz header.i=@elrest.cz header.b=B+zqkUzI; arc=none smtp.client-ip=91.239.200.238
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=elrest.cz
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=elrest.cz
+	s=arc-20240116; t=1725358790; c=relaxed/simple;
+	bh=C8KF0NATt/6MEKo6hjD8oYxBGb+BnkEDDEBROE2tMCg=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=hkCQGToe5YYtDgnibE3R5l6jj/QsGtWoNmQzbXQzLk2m9oWXRVcaOxaSQLHP6TrSPz0i1W6OHhTTFkg0CfGGKi+G3xG9qA92VEAwVzQdO6OWu8OwGR3pVJfu1kChdUIO36jXVhnB0/DnMtNpEmewKz37WntSDPiK9kdlKXY2ZvA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=tuxon.dev; spf=pass smtp.mailfrom=tuxon.dev; dkim=pass (2048-bit key) header.d=tuxon.dev header.i=@tuxon.dev header.b=OFxJCAnc; arc=none smtp.client-ip=209.85.167.42
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=tuxon.dev
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=tuxon.dev
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=elrest.cz header.i=@elrest.cz header.b="B+zqkUzI"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=elrest.cz;
-	s=rampa2-202408; t=1725356549;
-	bh=ptodtkKagi9GVZPcHmohXhYM5PL23nadgiXtCIZaBWY=;
-	h=From:To:Cc:Subject:Date:From;
-	b=B+zqkUzIj4dl1sBQA6XLFQRTMSojYkiE3o54FVqroAyUpWC6lQw7pGC6oJKUnPS77
-	 iWMV39Zwm6jty2zz6/nyn/pp32LtUyIzdQ4A3M1VGY/qrDqh7x6cLHkvkVaDI8IbXf
-	 6BOVEbU2CXFAf7meLCjeruXzU1ebS+q0ISqcOiJ+D4H6vSo0u88SlgQ/jx2W0I4blc
-	 T+6tOUxEBxJ3CcDv9DnIy/CHFIHj4Vy7NaDMruK4dNsShsRSTxnaFpE6f2MDCggtLM
-	 ttTevh0+mIrd53tPDviAe/McPda81JsB8IGeSHlhGm5/wGeZbGkZYpb4ayrjb1uqAi
-	 E1BgaL7Q++wRA==
-X-Virus-Scanned: Debian amavis at smtp.cesky-hosting.cz
-Received: from localhost.localdomain (unknown [185.63.98.16])
-	(Authenticated sender: tomas.marek@elrest.cz)
-	by smtp.cesky-hosting.cz (Postfix) with ESMTPSA id 4Wygdc3PS2z3Nw;
-	Tue,  3 Sep 2024 11:42:28 +0200 (CEST)
-From: Tomas Marek <tomas.marek@elrest.cz>
-To: hminas@synopsys.com,
-	gregkh@linuxfoundation.org
-Cc: Arthur.Petrosyan@synopsys.com,
-	linux-usb@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	oleg.karfich@wago.com
-Subject: [PATCH] usb: dwc2: drd: fix clock gating on USB role switch
-Date: Tue,  3 Sep 2024 11:41:56 +0200
-Message-Id: <20240903094156.6516-1-tomas.marek@elrest.cz>
-X-Mailer: git-send-email 2.25.1
+	dkim=pass (2048-bit key) header.d=tuxon.dev header.i=@tuxon.dev header.b="OFxJCAnc"
+Received: by mail-lf1-f42.google.com with SMTP id 2adb3069b0e04-533488ffaebso6145206e87.0
+        for <linux-usb@vger.kernel.org>; Tue, 03 Sep 2024 03:19:48 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=tuxon.dev; s=google; t=1725358787; x=1725963587; darn=vger.kernel.org;
+        h=content-transfer-encoding:in-reply-to:from:references:cc:to
+         :content-language:subject:user-agent:mime-version:date:message-id
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=iJS4mKwDt71f+czvCGcc6KmwF1qHOE0EcsdjnmVJivo=;
+        b=OFxJCAncAWZH82ldEgVo3pSwlwXgGZ6kPzJIcnSj0b2oRNk4qg46x0VhvupnrCk97w
+         LmIOT0HFm4ZDSTe7IIKcY5rlfUfgTjggUqQLU1IObU8a3uZSgnTOTZwAra0kwd17wyqx
+         Hnb4PDBG3NWND+zyFG/j0eaUHKmabelAToIS1nT57HQga7sPC/jSccWAG5gAkT5XjFz7
+         m1dQl6Oef4O+40Tqu+mjNXTqOhZcQHvcGJtxy4mTadb6kMsxxGdf5YHWrmANnhmNUDyF
+         eGFXbgaywzYAvuEr3bwjQ1jWejN6QWR6BzlaWBRFGG80dRYbQeKEYTNqhStI/mLzTwJd
+         uJhA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1725358787; x=1725963587;
+        h=content-transfer-encoding:in-reply-to:from:references:cc:to
+         :content-language:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=iJS4mKwDt71f+czvCGcc6KmwF1qHOE0EcsdjnmVJivo=;
+        b=bk+FvjjbnYdIkb9vPmJsydOCYL8ch9L2zWj7IXR+YiBWGZ94EXjJp996vNaoH4TNSd
+         lFFQqN6OXhxh35kKeUbl8x7pQtNyL1AlxT9OHGoXzonRnZpc141j89aIcHYU2QAnCy7x
+         4FH3RckSRRNxLVNCP3lZTAp8jKihnX5WyR9eDAYiIDNxjHPq6+sLWkGW/F/ej5+fHDjR
+         O6MUvYT1RWIkg33QmRiXZC3sQJWd/5+hpRW0e0iXMoOS8v0WxQZVKdTWuUZzTjt8LWIT
+         2SKR1xuujVd8xKa8HTM2KG9pyep63tjdVYsyGJTWbd3W8udhx1ZE+qQdxVODer7XFF7j
+         6HLg==
+X-Forwarded-Encrypted: i=1; AJvYcCWkSK1c8/4AcbGUyBEny9Av4PMrZbGFvSzxgtZQsSAh7Gfok9txfHTpR9jrb6ivR996fCRFnQH/er4=@vger.kernel.org
+X-Gm-Message-State: AOJu0YzXUt+v8Lm8maQ3Y3ChY/eFEYCAQ8B1XsUL9+ootjYiIeRHSWuW
+	q06+iUznGwgHVylUQAVuJn4hmH95V+HEngq+lzLX03kJ7TD2xrjcqPsUJTQYAUs=
+X-Google-Smtp-Source: AGHT+IEls7cIQ+6hQSbZxyc8bV5YfWpE5Og0ZDGcEK0Z3VxswtkW6lt0WU0csWHFdZCyWxXy9FAPkw==
+X-Received: by 2002:a05:6512:108c:b0:52e:7125:c70a with SMTP id 2adb3069b0e04-53546b93fd9mr8417306e87.47.1725358786595;
+        Tue, 03 Sep 2024 03:19:46 -0700 (PDT)
+Received: from [192.168.50.4] ([82.78.167.144])
+        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-a8988feb0e5sm675067666b.12.2024.09.03.03.19.44
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Tue, 03 Sep 2024 03:19:46 -0700 (PDT)
+Message-ID: <4cb2f788-1ba6-40f6-a48d-1fd2e5293aa8@tuxon.dev>
+Date: Tue, 3 Sep 2024 13:19:44 +0300
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH 00/16] Add initial USB support for the Renesas RZ/G3S SoC
+Content-Language: en-US
+To: Biju Das <biju.das.jz@bp.renesas.com>,
+ Ulf Hansson <ulf.hansson@linaro.org>
+Cc: "vkoul@kernel.org" <vkoul@kernel.org>,
+ "kishon@kernel.org" <kishon@kernel.org>, "robh@kernel.org"
+ <robh@kernel.org>, "krzk+dt@kernel.org" <krzk+dt@kernel.org>,
+ "conor+dt@kernel.org" <conor+dt@kernel.org>,
+ "p.zabel@pengutronix.de" <p.zabel@pengutronix.de>,
+ "geert+renesas@glider.be" <geert+renesas@glider.be>,
+ "magnus.damm@gmail.com" <magnus.damm@gmail.com>,
+ "gregkh@linuxfoundation.org" <gregkh@linuxfoundation.org>,
+ "mturquette@baylibre.com" <mturquette@baylibre.com>,
+ "sboyd@kernel.org" <sboyd@kernel.org>,
+ Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>,
+ "linux-phy@lists.infradead.org" <linux-phy@lists.infradead.org>,
+ "devicetree@vger.kernel.org" <devicetree@vger.kernel.org>,
+ "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+ "linux-renesas-soc@vger.kernel.org" <linux-renesas-soc@vger.kernel.org>,
+ "linux-usb@vger.kernel.org" <linux-usb@vger.kernel.org>,
+ "linux-arm-kernel@lists.infradead.org"
+ <linux-arm-kernel@lists.infradead.org>,
+ "linux-clk@vger.kernel.org" <linux-clk@vger.kernel.org>,
+ "linux-pm@vger.kernel.org" <linux-pm@vger.kernel.org>,
+ Claudiu Beznea <claudiu.beznea.uj@bp.renesas.com>
+References: <20240822152801.602318-1-claudiu.beznea.uj@bp.renesas.com>
+ <CAPDyKFrS4Dhd7DZa2zz=oPro1TiTJFix0awzzzp8Qatm-8Z2Ug@mail.gmail.com>
+ <99bef301-9f6c-4797-b47e-c83e56dfbda9@tuxon.dev>
+ <TY3PR01MB1134652F9587CFA0ADE851CA486902@TY3PR01MB11346.jpnprd01.prod.outlook.com>
+ <TY3PR01MB113467275C519B729FCAB1ACB86922@TY3PR01MB11346.jpnprd01.prod.outlook.com>
+ <5556d176-cca7-492c-ba21-48256d5d6338@tuxon.dev>
+ <TY3PR01MB113464D53083F4C8A5DBBA36586922@TY3PR01MB11346.jpnprd01.prod.outlook.com>
+ <590a4fb2-24b2-432b-92db-534c5a52ed0b@tuxon.dev>
+ <TY3PR01MB11346505565B81AD2894E035586922@TY3PR01MB11346.jpnprd01.prod.outlook.com>
+ <35dc7414-f5bd-4ed4-bfa1-f723f4f0078c@tuxon.dev>
+ <TY3PR01MB11346A4814F83FE296A1DED8886922@TY3PR01MB11346.jpnprd01.prod.outlook.com>
+From: claudiu beznea <claudiu.beznea@tuxon.dev>
+In-Reply-To: <TY3PR01MB11346A4814F83FE296A1DED8886922@TY3PR01MB11346.jpnprd01.prod.outlook.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 
-The dwc2_handle_usb_suspend_intr() function disables gadget clocks in USB
-peripheral mode when no other power-down mode is available (introduced by
-commit 0112b7ce68ea ("usb: dwc2: Update dwc2_handle_usb_suspend_intr function.")).
-However, the dwc2_drd_role_sw_set() USB role update handler attempts to
-read DWC2 registers if the USB role has changed while the USB is in suspend
-mode (when the clocks are gated). This causes the system to hang.
 
-Release gadget clocks before handling the USB role update.
 
-Fixes: 0112b7ce68ea ("usb: dwc2: Update dwc2_handle_usb_suspend_intr function.")
+On 02.09.2024 13:47, Biju Das wrote:
+> Hi Claudiu,
+> 
+>> -----Original Message-----
+>> From: claudiu beznea <claudiu.beznea@tuxon.dev>
+>> Sent: Monday, September 2, 2024 11:41 AM
+>> Subject: Re: [PATCH 00/16] Add initial USB support for the Renesas RZ/G3S SoC
+>>
+>>
+>>
+>> On 02.09.2024 12:18, Biju Das wrote:
+>>>>>>> Do you have any plan to control this power transitions(ALL_ON to AWO and vice versa) in linux?
+>>>>>> As you know, the RZ/G3S USB PM code is already prepared. This is
+>>>>>> also configuring these signals when going to suspend/exiting from resume.
+>>>>>> W/o configuring properly these signals the USB is not working after a suspend/resume cycle.
+>>>>> One option is to handle SYSC USB PWRRDY signal in TF-A, if you plan
+>>>>> to handle system transitions
+>>>> there??
+>>>>
+>>>> As I mentioned, the settings in these registers may be changed by intermediary booting
+>> applications.
+>>>> Depending on that, Linux need to control it also on probe for USB to
+>>>> work (it should be the same with PCIe, these signals seems similar from HW manual description).
+>>> You mean system transition settings will be override by U-boot, so Linux needs to restore it back??
+>>
+>> It was talking about booting...
+> 
+> I am also referring to boot. Boot starts with TF-A and it has a system state.
+> 
+>>
+>> You proposed to handle SYSC signals from TF-A in a discussion about system power transitions:
+>>
+>> "One option is to handle SYSC USB PWRRDY signal in TF-A,  if you plan to handle system transitions"
+>>
+>> (I was guessing the "system transition" statement there refers to power states transitions, ALL_ON <->
+>> AWO/VBAT)
+> 
+> That is correct.
+> 
+>>
+>> and I gave the booting process as a counter example: if we handle it in TF-A it may not be enough as
+>> these signals might be changed by intermediary booting applications (e.g., U-Boot).
+> 
+> Why should U-boot override, system state signals such as USB PWRREADY? Can you please give an example.
 
-Signed-off-by: Tomas Marek <tomas.marek@elrest.cz>
----
- drivers/usb/dwc2/drd.c | 12 ++++++++++++
- 1 file changed, 12 insertions(+)
+I didn't say *should* but *might* and I was referring to a hypothetical
+situation where any used application (bootloader) might trigger this signal
+for whatever reason. My point was to let Linux to handle all the settings
+that it can do for a particular functionality. The resisters in SYSC
+address space controlling these signals are accessible to normal world
+compared to others in the SYSC address spaces.
 
-diff --git a/drivers/usb/dwc2/drd.c b/drivers/usb/dwc2/drd.c
-index a8605b02115b..ccb33cd1f04b 100644
---- a/drivers/usb/dwc2/drd.c
-+++ b/drivers/usb/dwc2/drd.c
-@@ -127,6 +127,18 @@ static int dwc2_drd_role_sw_set(struct usb_role_switch *sw, enum usb_role role)
- 			role = USB_ROLE_DEVICE;
- 	}
- 
-+#if IS_ENABLED(CONFIG_USB_DWC2_PERIPHERAL) || \
-+	IS_ENABLED(CONFIG_USB_DWC2_DUAL_ROLE)
-+	if (dwc2_is_device_mode(hsotg)) {
-+		if (hsotg->lx_state == DWC2_L2) {
-+			if (hsotg->params.power_down ==
-+			    DWC2_POWER_DOWN_PARAM_NONE && hsotg->bus_suspended &&
-+			    !hsotg->params.no_clock_gating)
-+				dwc2_gadget_exit_clock_gating(hsotg, 0);
-+		}
-+	}
-+#endif
-+
- 	if (role == USB_ROLE_HOST) {
- 		already = dwc2_ovr_avalid(hsotg, true);
- 	} else if (role == USB_ROLE_DEVICE) {
--- 
-2.25.1
+> 
+>>
+>> To conclude, there are 3 scenarios I see where these signals need to be
+>> handled:
+>> 1/ booting 
+>> 2/ suspend to RAM
+>> 3/ driver unbind/bind
+> 
+> --> It should be OK as linux is not handling USB PWRREADY signal.
+> 
+>>
+>> In case of booting: if we have TF-A to set signals there might be intermediary booting applications
+>> (e.g. U-Boot) that set these signals also. If it leaves it in improper state and Linux wants to use
+>> USB then the USB will not work (if Linux doesn't handle it).
+> 
+> That is the problem of U-boot. U-boot should not override system state signals such as USB PWRREADY.
 
+U-Boot can also use USB as well.
+
+> 
+>>
+>> In case of suspend to RAM: as TF-A is the only application in the suspend to RAM chain, it should work
+>> handling it in TF-A.
+> 
+> That is correct, TF-A should handle based on system state.
+> 
+>>
+>> In case of unbind/bind: currently we don't know if these signals introduces any kind of power saving
+>> so asserting/de-asserting them in Linux may be useful from this perspective, if any.
+> 
+> These are system signals, according to me should not be used in unbind/bind.
+
+It can be done whatever way. I would just prefer to work for all scenarios.
+
+Thank you,
+Claudiu Beznea
+
+> 
+> I may be wrong.
+> 
+> Cheers,
+> Biju
