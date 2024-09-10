@@ -1,203 +1,95 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.10])
+Received: from mx3.molgen.mpg.de (mx3.molgen.mpg.de [141.14.17.11])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AA13F17BEBD
-	for <linux-usb@vger.kernel.org>; Tue, 10 Sep 2024 07:09:51 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.10
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B21C8176FAC;
+	Tue, 10 Sep 2024 07:31:18 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=141.14.17.11
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1725952193; cv=none; b=swYG91zmaI99d49b3ZxbuqgHDbVFywaMTlout6niAzV7xSmqGAT8iX5b2lA2yT60i1Npl1dNANFsKTtVr76sFX+wANT8myjQViZRE2x7xgYQjKkKYSHRVrkAQvKpuerNHmfbtI0Sl7TAFAu78DRDqq5+kBASD2uaYIS51wu7RNo=
+	t=1725953481; cv=none; b=N5roEd5aq8iY4JT9WNquRCg7HU9OR1GXpfUQaQXQ4d20yTofpM+0K9fUNwc/PCuxISS2EHd4vSix8VZQRgaZm93Snijo+gNxqyXDYwLf6pYT+n+b2dmdaWNpm3pNuw95M1xHoMguoelk7KCgLP8vCllLpBkwP+7tMbRQWaOf7Ns=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1725952193; c=relaxed/simple;
-	bh=LZeMNTVWgwpuBjsLeCFAEeISGcQ0CfYWhGNJpZ+WcNg=;
-	h=Date:From:To:Cc:Subject:Message-ID; b=tmuTtRmiwaMUyN3WBIg76rzAhYzKshGBS8rUF5v27ZPTC9AKlsy8Vx9NiouBo7zHdAQLCo9nRSi/W/cRBbhanG53Bg0SYGqWvuNE08seRtMucwkmCIZMsrlcoc0a8uQc0La9TT6eiOOD79fV1/riHVQseJYSkfB06JqtgnIXzmQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Mk61IJMe; arc=none smtp.client-ip=192.198.163.10
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Mk61IJMe"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1725952191; x=1757488191;
-  h=date:from:to:cc:subject:message-id;
-  bh=LZeMNTVWgwpuBjsLeCFAEeISGcQ0CfYWhGNJpZ+WcNg=;
-  b=Mk61IJMeCxgMv73596+N0HbF7Sxizk3R68ru7nOPR72eW8agxHklf5FJ
-   RUplSq0L+BTXQYPWajgOjYN+kkDY2SqqRuRB4L64VYuaWnUAF/148eMmY
-   DEuLBXYS9tk9hyc0vr8yApcFIIdPAktCokPxMyGr1DzVvKCuCqh63p8k3
-   YbmMjFala6znl1838pMjHHxqrZYhWFZtOzjW+bzmEeOyBpSkL+1STzrIu
-   ZP0mV6yBlzkDVvBzOOal7WESvwLc7h9ZI+xsQ604Kb+sgEbq0mV16iLhM
-   bte9/+C4pA9AgTU3fjxfHRAZj1Aw/9NGYLF80gNUoEnObXllbUOgE8bbG
-   w==;
-X-CSE-ConnectionGUID: S/TLSWTNTZ2Xnxx1Q/HTyQ==
-X-CSE-MsgGUID: 206YEte+TbSlKTBIYo0dZg==
-X-IronPort-AV: E=McAfee;i="6700,10204,11190"; a="36062106"
-X-IronPort-AV: E=Sophos;i="6.10,216,1719903600"; 
-   d="scan'208";a="36062106"
-Received: from fmviesa005.fm.intel.com ([10.60.135.145])
-  by fmvoesa104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 10 Sep 2024 00:09:51 -0700
-X-CSE-ConnectionGUID: uhsJH983RkyXbr/Ms5HuvQ==
-X-CSE-MsgGUID: CqdUEOqXQauEYxFupJibKA==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.10,216,1719903600"; 
-   d="scan'208";a="71338800"
-Received: from lkp-server01.sh.intel.com (HELO 53e96f405c61) ([10.239.97.150])
-  by fmviesa005.fm.intel.com with ESMTP; 10 Sep 2024 00:09:49 -0700
-Received: from kbuild by 53e96f405c61 with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1snv0V-0000Ck-2D;
-	Tue, 10 Sep 2024 07:09:47 +0000
-Date: Tue, 10 Sep 2024 15:08:58 +0800
-From: kernel test robot <lkp@intel.com>
-To: "Greg Kroah-Hartman" <gregkh@linuxfoundation.org>
-Cc: linux-usb@vger.kernel.org
-Subject: [usb:usb-testing] BUILD SUCCESS
- f299cd11f7539482e87b2d2d527968a26b33f0ec
-Message-ID: <202409101556.olmfXS1O-lkp@intel.com>
-User-Agent: s-nail v14.9.24
+	s=arc-20240116; t=1725953481; c=relaxed/simple;
+	bh=vsENJtQxSNfJwmUEDsr6Qasi3X0eOWGN4uKDgjXBL9g=;
+	h=Message-ID:Date:MIME-Version:Subject:To:References:Cc:From:
+	 In-Reply-To:Content-Type; b=FiNZHC02X/Qm5y8fpMhEI3OWqJ7Gco/OORAOnjZxoZnhObYXNCDlZkJmceIQQGS6U4+P73YOmviPskz4kkdJHn7JJL9XZAi9+l16gPBndoKmqunhYQGCbwVu1/8YCfxoC6nWmcffjgnpaDq676aRXxJm0dmsqf09gGpCa9gfAIM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=molgen.mpg.de; spf=pass smtp.mailfrom=molgen.mpg.de; arc=none smtp.client-ip=141.14.17.11
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=molgen.mpg.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=molgen.mpg.de
+Received: from [141.14.12.127] (g127.RadioFreeInternet.molgen.mpg.de [141.14.12.127])
+	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
+	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+	(No client certificate requested)
+	(Authenticated sender: pmenzel)
+	by mx.molgen.mpg.de (Postfix) with ESMTPSA id F22E361E5FE07;
+	Tue, 10 Sep 2024 09:31:13 +0200 (CEST)
+Message-ID: <1a2b267a-8d9f-44e6-880d-2383f8b5369b@molgen.mpg.de>
+Date: Tue, 10 Sep 2024 09:31:13 +0200
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
+MIME-Version: 1.0
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v1] Bluetooth: btusb: Fix not handling ZPL/short-transfer
+To: Luiz Augusto von Dentz <luiz.dentz@gmail.com>
+References: <20240909205152.2397337-1-luiz.dentz@gmail.com>
+Content-Language: en-US
+Cc: linux-bluetooth@vger.kernel.org, linux-usb@vger.kernel.org
+From: Paul Menzel <pmenzel@molgen.mpg.de>
+In-Reply-To: <20240909205152.2397337-1-luiz.dentz@gmail.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 
-tree/branch: https://git.kernel.org/pub/scm/linux/kernel/git/gregkh/usb.git usb-testing
-branch HEAD: f299cd11f7539482e87b2d2d527968a26b33f0ec  Merge 6.11-rc7 into usb-next
+Dear Luiz,
 
-elapsed time: 1449m
 
-configs tested: 126
-configs skipped: 3
+Thank you for your patch.
 
-The following configs have been built successfully.
-More configs may be tested in the coming days.
+Am 09.09.24 um 22:51 schrieb Luiz Augusto von Dentz:
+> From: Luiz Augusto von Dentz <luiz.von.dentz@intel.com>
+> 
+> Requesting transfers of the exact same size of wMaxPacketSize may result
+> in ZPL/short-transfer since the USB stack cannot handle it as we are
+> limiting the buffer size to be the same as wMaxPacketSize.
+> 
+> Also, in terms of throughput this change has the same effect to
+> interrupt endpoint as 290ba200815f "Bluetooth: Improve USB driver throughput
 
-tested configs:
-alpha                             allnoconfig   gcc-14.1.0
-alpha                            allyesconfig   clang-20
-alpha                            allyesconfig   gcc-13.3.0
-alpha                               defconfig   gcc-14.1.0
-arc                              allmodconfig   clang-20
-arc                              allmodconfig   gcc-13.2.0
-arc                               allnoconfig   gcc-14.1.0
-arc                              allyesconfig   clang-20
-arc                              allyesconfig   gcc-13.2.0
-arc                                 defconfig   gcc-14.1.0
-arm                              allmodconfig   clang-20
-arm                              allmodconfig   gcc-14.1.0
-arm                               allnoconfig   gcc-14.1.0
-arm                              allyesconfig   clang-20
-arm                              allyesconfig   gcc-14.1.0
-arm                                 defconfig   gcc-14.1.0
-arm                       imx_v4_v5_defconfig   gcc-14.1.0
-arm                       spear13xx_defconfig   gcc-14.1.0
-arm                        spear6xx_defconfig   gcc-14.1.0
-arm64                            allmodconfig   clang-20
-arm64                             allnoconfig   gcc-14.1.0
-arm64                               defconfig   gcc-14.1.0
-csky                              allnoconfig   gcc-14.1.0
-csky                                defconfig   gcc-14.1.0
-hexagon                          allmodconfig   clang-20
-hexagon                           allnoconfig   gcc-14.1.0
-hexagon                          allyesconfig   clang-20
-hexagon                             defconfig   gcc-14.1.0
-i386                             allmodconfig   clang-18
-i386                             allmodconfig   gcc-12
-i386                              allnoconfig   clang-18
-i386                              allnoconfig   gcc-12
-i386                             allyesconfig   clang-18
-i386                             allyesconfig   gcc-12
-i386         buildonly-randconfig-001-20240909   clang-18
-i386         buildonly-randconfig-002-20240909   gcc-12
-i386         buildonly-randconfig-003-20240909   gcc-12
-i386         buildonly-randconfig-004-20240909   gcc-12
-i386         buildonly-randconfig-005-20240909   clang-18
-i386         buildonly-randconfig-006-20240909   gcc-12
-i386                                defconfig   clang-18
-i386                  randconfig-001-20240909   clang-18
-i386                  randconfig-002-20240909   gcc-12
-i386                  randconfig-003-20240909   clang-18
-i386                  randconfig-004-20240909   gcc-12
-i386                  randconfig-005-20240909   clang-18
-i386                  randconfig-006-20240909   clang-18
-i386                  randconfig-011-20240909   clang-18
-i386                  randconfig-012-20240909   clang-18
-i386                  randconfig-013-20240909   gcc-12
-i386                  randconfig-014-20240909   clang-18
-i386                  randconfig-015-20240909   clang-18
-i386                  randconfig-016-20240909   gcc-12
-loongarch                        allmodconfig   gcc-14.1.0
-loongarch                         allnoconfig   gcc-14.1.0
-loongarch                           defconfig   gcc-14.1.0
-m68k                             allmodconfig   gcc-14.1.0
-m68k                              allnoconfig   gcc-14.1.0
-m68k                             allyesconfig   gcc-14.1.0
-m68k                                defconfig   gcc-14.1.0
-microblaze                       allmodconfig   gcc-14.1.0
-microblaze                        allnoconfig   gcc-14.1.0
-microblaze                       allyesconfig   gcc-14.1.0
-microblaze                          defconfig   gcc-14.1.0
-mips                              allnoconfig   gcc-14.1.0
-mips                        bcm47xx_defconfig   gcc-14.1.0
-mips                           ip27_defconfig   gcc-14.1.0
-mips                      loongson3_defconfig   gcc-14.1.0
-nios2                             allnoconfig   gcc-14.1.0
-nios2                               defconfig   gcc-14.1.0
-openrisc                          allnoconfig   clang-20
-openrisc                          allnoconfig   gcc-14.1.0
-openrisc                         allyesconfig   gcc-14.1.0
-openrisc                            defconfig   gcc-12
-parisc                           allmodconfig   gcc-14.1.0
-parisc                            allnoconfig   clang-20
-parisc                            allnoconfig   gcc-14.1.0
-parisc                           allyesconfig   gcc-14.1.0
-parisc                              defconfig   gcc-12
-parisc64                         alldefconfig   gcc-14.1.0
-parisc64                            defconfig   gcc-14.1.0
-powerpc                     akebono_defconfig   gcc-14.1.0
-powerpc                          allmodconfig   gcc-14.1.0
-powerpc                           allnoconfig   clang-20
-powerpc                           allnoconfig   gcc-14.1.0
-powerpc                          allyesconfig   clang-20
-powerpc                          allyesconfig   gcc-14.1.0
-powerpc                          g5_defconfig   gcc-14.1.0
-powerpc                  iss476-smp_defconfig   gcc-14.1.0
-powerpc                      pasemi_defconfig   gcc-14.1.0
-powerpc                     tqm8548_defconfig   gcc-14.1.0
-riscv                            allmodconfig   clang-20
-riscv                            allmodconfig   gcc-14.1.0
-riscv                             allnoconfig   clang-20
-riscv                             allnoconfig   gcc-14.1.0
-riscv                            allyesconfig   clang-20
-riscv                            allyesconfig   gcc-14.1.0
-riscv                               defconfig   gcc-12
-s390                             allmodconfig   gcc-14.1.0
-s390                              allnoconfig   clang-20
-s390                             allyesconfig   gcc-14.1.0
-s390                                defconfig   gcc-12
-sh                               allmodconfig   gcc-14.1.0
-sh                                allnoconfig   gcc-14.1.0
-sh                               allyesconfig   gcc-14.1.0
-sh                                  defconfig   gcc-12
-sh                          kfr2r09_defconfig   gcc-14.1.0
-sh                          rsk7269_defconfig   gcc-14.1.0
-sparc                            allmodconfig   gcc-14.1.0
-sparc64                             defconfig   gcc-12
-um                               allmodconfig   clang-20
-um                                allnoconfig   clang-17
-um                                allnoconfig   clang-20
-um                               allyesconfig   clang-20
-um                               allyesconfig   gcc-12
-um                                  defconfig   gcc-12
-um                             i386_defconfig   gcc-12
-um                           x86_64_defconfig   gcc-12
-um                           x86_64_defconfig   gcc-14.1.0
-x86_64                            allnoconfig   clang-18
-x86_64                           allyesconfig   clang-18
-x86_64                              defconfig   clang-18
-x86_64                              defconfig   gcc-11
-x86_64                          rhel-8.3-rust   clang-18
-xtensa                            allnoconfig   gcc-14.1.0
-xtensa                  nommu_kc705_defconfig   gcc-14.1.0
+(*interrupt* would fit on the line above.)
 
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+> by increasing the frame size" had for the bulk endpoint, so users of the
+> advertisement bearer (e.g. BT Mesh) may benefit from this change.
+
+Do you have a benchmark script, that can be run?
+
+> Fixes: 5e23b923da03 ("[Bluetooth] Add generic driver for Bluetooth USB devices")
+> Signed-off-by: Luiz Augusto von Dentz <luiz.von.dentz@intel.com>
+> ---
+>   drivers/bluetooth/btusb.c | 5 ++++-
+>   1 file changed, 4 insertions(+), 1 deletion(-)
+> 
+> diff --git a/drivers/bluetooth/btusb.c b/drivers/bluetooth/btusb.c
+> index 36a869a57910..83df387aea92 100644
+> --- a/drivers/bluetooth/btusb.c
+> +++ b/drivers/bluetooth/btusb.c
+> @@ -1341,7 +1341,10 @@ static int btusb_submit_intr_urb(struct hci_dev *hdev, gfp_t mem_flags)
+>   	if (!urb)
+>   		return -ENOMEM;
+>   
+> -	size = le16_to_cpu(data->intr_ep->wMaxPacketSize);
+> +	/* Use maximum HCI Event size so the USB stack handles
+> +	 * ZPL/short-transfer automatically.
+> +	 */
+> +	size = HCI_MAX_EVENT_SIZE;
+>   
+>   	buf = kmalloc(size, mem_flags);
+>   	if (!buf) {
+
+
+Kind regards,
+
+Paul
+
+Kind regards,
+
+Paul
