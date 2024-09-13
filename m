@@ -1,114 +1,115 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.8])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-lf1-f53.google.com (mail-lf1-f53.google.com [209.85.167.53])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B3C091D67BB;
-	Fri, 13 Sep 2024 08:44:16 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.8
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9F0651714CD;
+	Fri, 13 Sep 2024 08:51:53 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.53
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1726217058; cv=none; b=eIr9TlMv8rz9lk7cJe1qOHsWjPMchT+Zg+FFpKEqd6lycJbl5DOj5ttii0cXrrTUK9V4vP4p7SSPOSAlRRqk9U9ODyxzze7AfVYhdAG5NGlzyEicKcA2PmdAKquLsAOYnxiG+QxeDjCpz5QlSfX0qWolqozza0cSN3/AvpkiycQ=
+	t=1726217515; cv=none; b=TdAzkJsZhl3d0nTxKQUjR/QONGTfVik2s89/ykkey1abe15d5sV9CPOiR00X7AqdVy79LWqEh6IuSQc1WTaGIpTJ4VJmWxKoZyshUUVk3vOexPyUguD7Wc7L5++EO3wyA08BiOUw/y1ui9Zae9tltqvRUw3S0YvwUDFeWcTUn8k=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1726217058; c=relaxed/simple;
-	bh=VZv+g4ycb9SHp8LMXT/zOQuWQNIYLK7wWpgcqBz2fm8=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=EQFiOg3j6mbKb6SpJU+ckCuO/3GcJYGQpN6rbJM2qLrBnMJMGxLGmHlikF5nWSHAcw0fbdn1LAOcB7TPi7F0p7zMqYr3aUF6O1DYkRa/C+bbJr5IXDhvip340QrK4S6Wuyf/Xqygat6lBw9+60OUWBPk193uRpIzGzuEBUwl8JA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=none smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=dQo35OAg; arc=none smtp.client-ip=192.198.163.8
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=linux.intel.com
+	s=arc-20240116; t=1726217515; c=relaxed/simple;
+	bh=NTzttWqrbCGcePhblw3/n6xG8yRKJoBHaeMA4ZzQAYk=;
+	h=Subject:To:Cc:References:From:Message-ID:Date:MIME-Version:
+	 In-Reply-To:Content-Type; b=F9kxCB5UhxxuGVxpvzLJnUQjqMeovl7bvEfSl9SC25zWOe2mg0ujKvYBv+5MvYa5C/aBkWH9RfWM5S+KTBZNf8nlyV2Na7TsuKm6ozzrBOchXv12WmH0uh/GA68k1ztzgeAcn+hudM6+TlQn5nKp1j8FAylk9FzzCQcB3T9dfec=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=D3MpF1HH; arc=none smtp.client-ip=209.85.167.53
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="dQo35OAg"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1726217056; x=1757753056;
-  h=from:to:cc:subject:date:message-id:in-reply-to:
-   references:mime-version:content-transfer-encoding;
-  bh=VZv+g4ycb9SHp8LMXT/zOQuWQNIYLK7wWpgcqBz2fm8=;
-  b=dQo35OAgSDkeHF1z+DVjLrxKxB0AgNL+R1qPaOXv7T+/d5j4JS5psbe0
-   DhUZrtHgPrgCriAuuqZazbtdA9HFKRCxzgGN9VNa45uX2tqDBZu60XQV0
-   2Kdt5OSGT/ar+UCLEnWdYOiLursC5/1DAd5M2JRP/UVdaYa8CS/8YAJOc
-   A3rFi0snfmAVXt8MxIqviqslcF7xRHQsRi/hjK72sQhGWNE5o+UsCft69
-   e9EkJhwcUZrBsmfK+QQsNEM7HIJEufHgTyIRRTaI3ksrG4GzCKdqIquiI
-   rChpvSU4av4f/cX6xmIR9kvziCmltmq4uRabH56286X+TIk2boj5IVNfb
-   w==;
-X-CSE-ConnectionGUID: cEJYyF/sROOjPH4Xvci/TQ==
-X-CSE-MsgGUID: RKHbab2UQ3uGGYCO/A4m+A==
-X-IronPort-AV: E=McAfee;i="6700,10204,11193"; a="42618548"
-X-IronPort-AV: E=Sophos;i="6.10,225,1719903600"; 
-   d="scan'208";a="42618548"
-Received: from fmviesa009.fm.intel.com ([10.60.135.149])
-  by fmvoesa102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 13 Sep 2024 01:44:14 -0700
-X-CSE-ConnectionGUID: OIyMSdHnRlCbVaZRLPZJ2A==
-X-CSE-MsgGUID: Ebf6Jc+dSfeuffh9Iwkd8w==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.10,225,1719903600"; 
-   d="scan'208";a="67953669"
-Received: from black.fi.intel.com ([10.237.72.28])
-  by fmviesa009.fm.intel.com with ESMTP; 13 Sep 2024 01:44:13 -0700
-Received: by black.fi.intel.com (Postfix, from userid 1003)
-	id 83C5E32A; Fri, 13 Sep 2024 11:44:11 +0300 (EEST)
-From: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
-To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	Mathias Nyman <mathias.nyman@linux.intel.com>,
-	linux-usb@vger.kernel.org,
-	linux-kernel@vger.kernel.org
-Cc: Mathias Nyman <mathias.nyman@intel.com>,
-	Andy Shevchenko <andriy.shevchenko@linux.intel.com>
-Subject: [PATCH v1 1/2] xhci: pci: Use standard pattern for device IDs
-Date: Fri, 13 Sep 2024 11:43:37 +0300
-Message-ID: <20240913084411.3309911-2-andriy.shevchenko@linux.intel.com>
-X-Mailer: git-send-email 2.43.0.rc1.1336.g36b5255a03ac
-In-Reply-To: <20240913084411.3309911-1-andriy.shevchenko@linux.intel.com>
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="D3MpF1HH"
+Received: by mail-lf1-f53.google.com with SMTP id 2adb3069b0e04-53659867cbdso1034623e87.3;
+        Fri, 13 Sep 2024 01:51:53 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1726217512; x=1726822312; darn=vger.kernel.org;
+        h=content-transfer-encoding:content-language:in-reply-to:mime-version
+         :user-agent:date:message-id:from:references:cc:to:subject:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=Xk0E6BCm30g0GxBtlyK/KF5VtT4XzwvZU2m9YT6pjqo=;
+        b=D3MpF1HHIEL8cgDCTUNXQ10Pg/3EVDEN4o5wxAVKozaW8p2DSQw3qwBBxhSn9G12QH
+         QTgLJ0JByO+Hl6jXrGAGP4c9sD3Mad1v8hIe/iBHJlnfuGtHOs5N14XWftvsYtl0HpTF
+         cUD0AwWvcZ4kkTDwa7B6qfuErWe7PlVN/6xEl9Jyu+LFqJsCTqvy4ASPzXjSzLZ7hpj7
+         KtPDTelPaxOkhjTaHfbxYREhXIWxJgQrXouBsCifjTtgAIpyspx45rbys7ksl+QzpRD/
+         Ea/frCWxQ3fR/oe01hzhyT2w0pH6MZy2sfVmdpvL+6bfOt292Xjs6oaL2Ky4X8O5qzLI
+         7iKw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1726217512; x=1726822312;
+        h=content-transfer-encoding:content-language:in-reply-to:mime-version
+         :user-agent:date:message-id:from:references:cc:to:subject
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=Xk0E6BCm30g0GxBtlyK/KF5VtT4XzwvZU2m9YT6pjqo=;
+        b=JXvi/Z+e8bWB8aJ3c+JG4laeSAMfLvFx5pue3PxGIJU9jmeRZo3rF9LGKr4kuJ86JN
+         nbWvBToGvoF/xSMplVJ8ttJsSHelppuSTifMswBToRHOSFon+qPnlO1GRUMxjhIBjOUt
+         4jOw5Epresl79ppnNq2QS2rHm2x11IuxuMA3bD15iKtsjiRNbZYzTrxpQQ5c1b1RKo3i
+         0YBdGTbvB4AsKBSLohgTGbeYM27FAHWXC/JAZkFW1fa43Pii1OO0bbyLDPrLSBvnHk0R
+         tk2fgDFZVbMijbWBCCBNoqgsdlHA2vMh+0/+boFc5nADAELckMdjdJYsFtOhOao32cDk
+         q4dg==
+X-Forwarded-Encrypted: i=1; AJvYcCVCdoV+Px8m6tOKlaCKFndTXIJZvIID9SC2dSuDDaZKacGCPWHKahPdWzWSwQopl6lx5DKJhSW3hxhj2v4=@vger.kernel.org, AJvYcCVxoTrxwJ+dBxbjiBN2sZ8wnb88zBI4DTIcNa4rbEcXfGyKYYwoEzG6PcwnlQvksO3pmiu+I+bRmvX0@vger.kernel.org
+X-Gm-Message-State: AOJu0YwVqgWU5fJQqLDd37wgt4tyJ+JRh1acLvoDuL4/SWjo74pU6yED
+	r/4DdhvJUJOgtvZti47A1NuHd6jwTCQbK8nhea82rVz+ssOXAu5yOCU35A==
+X-Google-Smtp-Source: AGHT+IGxNi/eksmtDF9xNgBpBumKlvsbz3pMNR6bhHQfTmiKOxvcJ675AwKH3vEM2OB16uqxa+kP0g==
+X-Received: by 2002:a05:6512:224e:b0:52c:e119:7f1 with SMTP id 2adb3069b0e04-5367ff329ccmr1750424e87.51.1726217510618;
+        Fri, 13 Sep 2024 01:51:50 -0700 (PDT)
+Received: from [192.168.1.106] ([31.173.86.0])
+        by smtp.gmail.com with ESMTPSA id 2adb3069b0e04-5367ae68509sm511807e87.89.2024.09.13.01.51.49
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Fri, 13 Sep 2024 01:51:50 -0700 (PDT)
+Subject: Re: [PATCH v1 1/2] xhci: pci: Use standard pattern for device IDs
+To: Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+ Mathias Nyman <mathias.nyman@linux.intel.com>, linux-usb@vger.kernel.org,
+ linux-kernel@vger.kernel.org
+Cc: Mathias Nyman <mathias.nyman@intel.com>
 References: <20240913084411.3309911-1-andriy.shevchenko@linux.intel.com>
+ <20240913084411.3309911-2-andriy.shevchenko@linux.intel.com>
+From: Sergei Shtylyov <sergei.shtylyov@gmail.com>
+Message-ID: <9ccea075-5724-3a9c-738f-03eb2d519c45@gmail.com>
+Date: Fri, 13 Sep 2024 11:51:48 +0300
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.10.1
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
+In-Reply-To: <20240913084411.3309911-2-andriy.shevchenko@linux.intel.com>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
 Content-Transfer-Encoding: 8bit
 
-The definitions of vendor IDs are follow the pattern
-PCI_VENDOR_ID_#vendor, while device IDs — PCI_DEVICE_ID_#vendor_#device.
+On 9/13/24 11:43 AM, Andy Shevchenko wrote:
 
-Update the ETRON device IDs to follow the above mentioned pattern.
+> The definitions of vendor IDs are follow the pattern
 
-Signed-off-by: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
----
- drivers/usb/host/xhci-pci.c | 10 +++++-----
- 1 file changed, 5 insertions(+), 5 deletions(-)
+   s/are//?
 
-diff --git a/drivers/usb/host/xhci-pci.c b/drivers/usb/host/xhci-pci.c
-index de50f5ba60df..6d9eb2b031e2 100644
---- a/drivers/usb/host/xhci-pci.c
-+++ b/drivers/usb/host/xhci-pci.c
-@@ -34,9 +34,9 @@
- #define PCI_DEVICE_ID_FRESCO_LOGIC_FL1100	0x1100
- #define PCI_DEVICE_ID_FRESCO_LOGIC_FL1400	0x1400
- 
--#define PCI_VENDOR_ID_ETRON		0x1b6f
--#define PCI_DEVICE_ID_EJ168		0x7023
--#define PCI_DEVICE_ID_EJ188		0x7052
-+#define PCI_VENDOR_ID_ETRON			0x1b6f
-+#define PCI_DEVICE_ID_ETRON_EJ168		0x7023
-+#define PCI_DEVICE_ID_ETRON_EJ188		0x7052
- 
- #define PCI_DEVICE_ID_INTEL_LYNXPOINT_XHCI	0x8c31
- #define PCI_DEVICE_ID_INTEL_LYNXPOINT_LP_XHCI	0x9c31
-@@ -388,12 +388,12 @@ static void xhci_pci_quirks(struct device *dev, struct xhci_hcd *xhci)
- 		xhci->quirks |= XHCI_DEFAULT_PM_RUNTIME_ALLOW;
- 
- 	if (pdev->vendor == PCI_VENDOR_ID_ETRON &&
--			pdev->device == PCI_DEVICE_ID_EJ168) {
-+	    pdev->device == PCI_DEVICE_ID_ETRON_EJ168) {
- 		xhci->quirks |= XHCI_RESET_ON_RESUME;
- 		xhci->quirks |= XHCI_BROKEN_STREAMS;
- 	}
- 	if (pdev->vendor == PCI_VENDOR_ID_ETRON &&
--			pdev->device == PCI_DEVICE_ID_EJ188) {
-+	    pdev->device == PCI_DEVICE_ID_ETRON_EJ188) {
- 		xhci->quirks |= XHCI_RESET_ON_RESUME;
- 		xhci->quirks |= XHCI_BROKEN_STREAMS;
- 	}
--- 
-2.43.0.rc1.1336.g36b5255a03ac
+> PCI_VENDOR_ID_#vendor, while device IDs — PCI_DEVICE_ID_#vendor_#device.
+> 
+> Update the ETRON device IDs to follow the above mentioned pattern.
+> 
+> Signed-off-by: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
+[...]
 
+> diff --git a/drivers/usb/host/xhci-pci.c b/drivers/usb/host/xhci-pci.c
+> index de50f5ba60df..6d9eb2b031e2 100644
+> --- a/drivers/usb/host/xhci-pci.c
+> +++ b/drivers/usb/host/xhci-pci.c
+[...]
+> @@ -388,12 +388,12 @@ static void xhci_pci_quirks(struct device *dev, struct xhci_hcd *xhci)
+>  		xhci->quirks |= XHCI_DEFAULT_PM_RUNTIME_ALLOW;
+>  
+>  	if (pdev->vendor == PCI_VENDOR_ID_ETRON &&
+> -			pdev->device == PCI_DEVICE_ID_EJ168) {
+> +	    pdev->device == PCI_DEVICE_ID_ETRON_EJ168) {
+>  		xhci->quirks |= XHCI_RESET_ON_RESUME;
+>  		xhci->quirks |= XHCI_BROKEN_STREAMS;
+>  	}
+>  	if (pdev->vendor == PCI_VENDOR_ID_ETRON &&
+> -			pdev->device == PCI_DEVICE_ID_EJ188) {
+> +	    pdev->device == PCI_DEVICE_ID_ETRON_EJ188) {
+>  		xhci->quirks |= XHCI_RESET_ON_RESUME;
+>  		xhci->quirks |= XHCI_BROKEN_STREAMS;
+>  	
+
+   Hm, these 2 *if*s seem mergeable?
+
+MBR, Sergey
