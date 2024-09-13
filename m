@@ -1,128 +1,98 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.9])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wm1-f48.google.com (mail-wm1-f48.google.com [209.85.128.48])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A0EEE77107;
-	Fri, 13 Sep 2024 07:24:01 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.9
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CEC7A1BD510;
+	Fri, 13 Sep 2024 08:32:45 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.48
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1726212243; cv=none; b=AD9kmmjHOkTv6RdCwlSw0JfC/gKDsP4e5ZvhV1le5R2yKJkuc4ewyj+Z/QJ42UmTH6jLUjrSxJS4SUuR1Ug+XOsJk32fBoTxyq9yMV0aogb7eOeBXGwB3dBJyginjZG1gETkPETiqN9AY18Mh1YgpvkyUOyvA+kZt3LiO+JgeKU=
+	t=1726216368; cv=none; b=GB4Z6Ja+NmWQG1gQi6BwOnJuJJ07Q/bBCha60r2WMom1HcrXzXg7QHfOi2dJahpK6tQv8z4IqYnJVoDNRKwNyBeDHIp8JnYPXMe+aIpwDBmv6Yhu5DSieO9EqSeZbqeceCLlYjO8TZneZ2zJN9OMGa3hH5rHMh64dhSzIDOjG3w=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1726212243; c=relaxed/simple;
-	bh=iPvd+9z6NuPIzam4+usKWHP3bX8Hx0aJk/Uu79HF2cQ=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=S8A1gyKFn1ssX2IKgYOXgfF+6faZfDCtPTfjb8Q2w7ixBAQCvaxKoIAGSbTNKX6Zz0N+GN7YVVkJqZgEyvfcPYNkyKyk6pMF2oC1OcSNJV43ExcAswF0lbLt1zTrPXv7EBgimIgSK18DaM/j+gZ9+lXM4aGS3G2bsO3zYwBKHf4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=none smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=CElDnCGe; arc=none smtp.client-ip=198.175.65.9
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=linux.intel.com
+	s=arc-20240116; t=1726216368; c=relaxed/simple;
+	bh=DmD/oFS9ztHwN6LHCihrKLQc89zTH//9v3d7Pudf0gE=;
+	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:MIME-Version:
+	 Content-Type; b=ExR9PH9Cx3NzViorSwBLe9VVppdJWLLsAavJ8abUytViDxbY5D8f3gUr1irXBN5vLR5TZLGcDs/YpnUi+F/vyjz0HxlUSWzp1qcyo1Sjvd4K4HQbK4qJgY+hl5qW8SDVf+xGJK2OcoLdc/NcuhNamr8KwR7gDrGR/BrlVvTDZ68=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=Jhx/fTcJ; arc=none smtp.client-ip=209.85.128.48
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="CElDnCGe"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1726212242; x=1757748242;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=iPvd+9z6NuPIzam4+usKWHP3bX8Hx0aJk/Uu79HF2cQ=;
-  b=CElDnCGeCEIJDuWLjrrSJT9s/4bj3VfPIsJSZ07npCeoIiAhNSMR3e+H
-   cUEfcGAQv12dxckwnxa/IotHwdVLek7KvDt7UxqWVbbbPc5zXmR2xIxlJ
-   khtb+AnCuGMz1QEW2ekpR4jICXtg3YI0JfD7caQ0uPCjLp8/K+nYzPpts
-   Mi30Li6RQ5IBzjEUKo96EpwiCU0HfoBIj+nwRqV9Yu8nkjq2AlchGkK9j
-   j/vgEWf36lWFYdGDlkSCjC7pNkYhidI49cpLjef6eWMIuL1eFSEgKuNSK
-   gYQcW7Dg2VzAqvdJB1u8/bVDp78exnQqe3itMcV7mZGXcWC7b5JFV1lpf
-   A==;
-X-CSE-ConnectionGUID: lUUAcCy3T9ygMX7e+UBLEw==
-X-CSE-MsgGUID: lse/c7hXSwyspobCD9AAcg==
-X-IronPort-AV: E=McAfee;i="6700,10204,11193"; a="47618229"
-X-IronPort-AV: E=Sophos;i="6.10,225,1719903600"; 
-   d="scan'208";a="47618229"
-Received: from orviesa001.jf.intel.com ([10.64.159.141])
-  by orvoesa101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 13 Sep 2024 00:24:01 -0700
-X-CSE-ConnectionGUID: oHG4PVODQ7GpA5DverliGg==
-X-CSE-MsgGUID: LJV4th+PRpCy+8quuV7LfA==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.10,225,1719903600"; 
-   d="scan'208";a="105429499"
-Received: from black.fi.intel.com ([10.237.72.28])
-  by orviesa001.jf.intel.com with ESMTP; 13 Sep 2024 00:23:58 -0700
-Received: by black.fi.intel.com (Postfix, from userid 1001)
-	id DCA0732A; Fri, 13 Sep 2024 10:23:56 +0300 (EEST)
-Date: Fri, 13 Sep 2024 10:23:56 +0300
-From: Mika Westerberg <mika.westerberg@linux.intel.com>
-To: Mario Limonciello <mario.limonciello@amd.com>
-Cc: Bjorn Helgaas <helgaas@kernel.org>, Gary Li <Gary.Li@amd.com>,
-	Mario Limonciello <superm1@kernel.org>,
-	Bjorn Helgaas <bhelgaas@google.com>,
-	Mathias Nyman <mathias.nyman@intel.com>,
-	"open list : PCI SUBSYSTEM" <linux-pci@vger.kernel.org>,
-	open list <linux-kernel@vger.kernel.org>,
-	"open list : USB XHCI DRIVER" <linux-usb@vger.kernel.org>,
-	Daniel Drake <drake@endlessos.org>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	Ilpo =?utf-8?B?SsOkcnZpbmVu?= <ilpo.jarvinen@linux.intel.com>
-Subject: Re: [PATCH v5 2/5] PCI: Check PCI_PM_CTRL instead of PCI_COMMAND in
- pci_dev_wait()
-Message-ID: <20240913072356.GO275077@black.fi.intel.com>
-References: <20240903182509.GA260253@bhelgaas>
- <525214d1-793e-412c-b3b2-b7e20645b9cf@amd.com>
- <20240904120545.GF1532424@black.fi.intel.com>
- <2bf715fb-509b-4b00-a28d-1cc83c0bb588@amd.com>
- <20240905093325.GJ1532424@black.fi.intel.com>
- <b4237bef-809f-4d78-8a70-d962e7eb467b@amd.com>
- <20240910091329.GI275077@black.fi.intel.com>
- <66019fa3-2f02-4b03-9eb7-7b0bed0fd044@amd.com>
- <20240913045807.GM275077@black.fi.intel.com>
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Jhx/fTcJ"
+Received: by mail-wm1-f48.google.com with SMTP id 5b1f17b1804b1-42bb7298bdeso8398455e9.1;
+        Fri, 13 Sep 2024 01:32:45 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1726216364; x=1726821164; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:in-reply-to:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=Wp9Y737ViR4EfOInl3nplGoJAcdlB+yuFRrQ0BSzktk=;
+        b=Jhx/fTcJPNndRUuB9lLIkr6H2oVl3Y3IgpPLrXQ+E1a0nBioMhXnID93eZbuFyCWts
+         mG7zgAbtomkavBn8aZdut71HWvmuL0jnSka1+IgbriASbZudnlAihbnT7Ee10MBQhr0Z
+         fRCKmBjgb+G0rmPAnt7Cs0mXneVLBEyyumOOLwsYDOWS14TWfcQBoTK+MrSGbHKTdpF2
+         1xrXWzDvsn7t3SdZovQQVffRdpTFRoJsmyWqc7JS3svST+2mGmIdJUU6iP1fK+E7FEks
+         Q2ytItjS5b7uf5IYPjjdKMwtO/ltg8YmuXiqyEOoTI5+R7uDRewheb9X4LQuraJi8ogO
+         q9YA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1726216364; x=1726821164;
+        h=content-transfer-encoding:mime-version:in-reply-to:message-id
+         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=Wp9Y737ViR4EfOInl3nplGoJAcdlB+yuFRrQ0BSzktk=;
+        b=CC2kPq0NMpoQlyvwwQGJ5vEUO0TSKAQH1rh87lfmxyC95t99ic+JyaUzFove18EiD+
+         ZUyzw1cHZlmVFGc7x6gbOmzgPTvDP/EnhsnvP+DNeg3Xn+xyKYj+Ro8j1nkgK3EU0rVp
+         C4SDNyGL8cQBThaF115qzW7tr8DHYBlwhrCrnAIf9qsCOj0zvnrTq9jklqmXSD3cfBfK
+         BaQLmiwTbppqxkyALFKkBp86519C7zGjephYCDFMSUc1C03UMhUnPVSVtnbulhY6DcqP
+         9S3X1PNxNmeclJ9WZv88hOhncNnkITcT+XTlV1x5JM46e0hwrgilXFOQ00UKpC/7+0PA
+         jkZQ==
+X-Forwarded-Encrypted: i=1; AJvYcCVIlyw8Iqifmi6QO3W27gpL5Yps4Umbel6VfeHenqDICDkRCf4GOEb5uZgUTuXPvp+AdepMo5MD8tdKs01X@vger.kernel.org, AJvYcCVZhtCsE7fBQBoh9sEfBVptj41j3+fAbDhSJe69+D2YXrCjgfEVEgROnTtaxZyDNBxarIHYQ4f+7LQZ@vger.kernel.org, AJvYcCVgwjQVBFTp3C5NMyVk9yyRFMN8JuC3KojXOZIvdBAxBWLGLDQNGbcRHi3Fjtwb47nMOEXeHi16dQul@vger.kernel.org, AJvYcCWZm4I9Psi60SeNFjWZ7cFwDORxH+zRMM849RkJ8171oHYqXKjV7ZSjQ6wSq5YhvKr4SNlbtOdOLc+cYk9ARQ==@vger.kernel.org, AJvYcCWwEPwpvI3d+Q/A5RLV9L0UySQGRUzvaMqHrlJ0ym9jM6Ep1BoL81xWty5bwfnyezFEOd6CYJW9Fp5Y@vger.kernel.org, AJvYcCXAtFR1aRpti65x7wjtc1ykiku5SrqYe8c1YRRpzkbgBxjqBHUipS9Y+EHuE2LCcneUSH5O4X5pKln/IJs=@vger.kernel.org, AJvYcCXQ9Zm3YR3Wdqj/qTd4FAKG4E3bCHA0bxcdZfdJXQP/IXADUeyzUvVnJVBsWXLy7IjpiHW3p/rMzMXDHgg=@vger.kernel.org
+X-Gm-Message-State: AOJu0YxoXlD9a7RE+14evReJdk7rJUMOEwqyQ5v3PaDxvLSfJe+SEOkd
+	Z3TnVu8LxefjBRrXOnnvBAyqaMlT9ZIRmNXhcySWedeVszspEWFq
+X-Google-Smtp-Source: AGHT+IE2Ku5Yqa7DnoqdH5xDY5dD9ozv14FV0pNO09UH2LmGbvbqmw1nTSHM8AvIojolJCXpaHwH8w==
+X-Received: by 2002:a5d:5150:0:b0:374:bd48:fae8 with SMTP id ffacd0b85a97d-378d61f090fmr1570895f8f.25.1726216363746;
+        Fri, 13 Sep 2024 01:32:43 -0700 (PDT)
+Received: from foxbook (bio60.neoplus.adsl.tpnet.pl. [83.28.130.60])
+        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-a8d25cf03ccsm846921566b.183.2024.09.13.01.32.41
+        (version=TLS1_2 cipher=AES128-SHA bits=128/128);
+        Fri, 13 Sep 2024 01:32:43 -0700 (PDT)
+Date: Fri, 13 Sep 2024 10:32:37 +0200
+From: =?UTF-8?B?TWljaGHFgg==?= Pecio <michal.pecio@gmail.com>
+To: quic_wcheng@quicinc.com, mathias.nyman@linux.intel.com
+Cc: Thinh.Nguyen@synopsys.com, alsa-devel@alsa-project.org,
+ bgoswami@quicinc.com, broonie@kernel.org, conor+dt@kernel.org,
+ corbet@lwn.net, devicetree@vger.kernel.org, dmitry.torokhov@gmail.com,
+ gregkh@linuxfoundation.org, krzk+dt@kernel.org, lgirdwood@gmail.com,
+ linux-arm-msm@vger.kernel.org, linux-doc@vger.kernel.org,
+ linux-input@vger.kernel.org, linux-kernel@vger.kernel.org,
+ linux-sound@vger.kernel.org, linux-usb@vger.kernel.org,
+ mathias.nyman@intel.com, perex@perex.cz,
+ pierre-louis.bossart@linux.intel.com, robh@kernel.org,
+ srinivas.kandagatla@linaro.org, tiwai@suse.com
+Subject: Re: [PATCH v27 01/32] xhci: add helper to stop endpoint and wait
+ for completion
+Message-ID: <20240913103237.2f5dc796@foxbook>
+In-Reply-To: <20240912193935.1916426-2-quic_wcheng@quicinc.com>
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <20240913045807.GM275077@black.fi.intel.com>
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
 
-Hi again,
+Hi,
 
-On Fri, Sep 13, 2024 at 07:58:07AM +0300, Mika Westerberg wrote:
-> Yeah, I agree now. It does not look like the methods are messing each
-> other here. We don't see the GPE handler being run but I don't think it
-> matters here. For some reason the device just is not yet ready when it
-> is supposed to be in D0.
-> 
-> Sorry for wasting your time with these suspects.
+> Expose xhci_stop_endpoint_sync() which is a synchronous variant of
+> xhci_queue_stop_endpoint().  This is useful for client drivers that are
+> using the secondary interrupters, and need to stop/clean up the current
+> session.  The stop endpoint command handler will also take care of
+> cleaning up the ring.
 
-One more suggestion though ;-) I realized that my hack patch to disable
-I/O and MMIO did not actually do that because it looks like we don't
-clear those bits ever. I wonder if you could still check if the below
-changes anything? At least it should now "disable" the device to follow
-the spec.
+I'm not entirely sure what you meant by "cleaning up the ring" (maybe a
+comment would be in order?), but I see nothing being done here after the
+command completes and FYI xhci-ring.c will not run the default handler if
+the command is queued with a completion, like here.
 
-diff --git a/drivers/pci/pci-driver.c b/drivers/pci/pci-driver.c
-index f412ef73a6e4..79a566376301 100644
---- a/drivers/pci/pci-driver.c
-+++ b/drivers/pci/pci-driver.c
-@@ -1332,6 +1332,7 @@ static int pci_pm_runtime_suspend(struct device *dev)
- 
- 	if (!pci_dev->state_saved) {
- 		pci_save_state(pci_dev);
-+		pci_pm_default_suspend(pci_dev);
- 		pci_finish_runtime_suspend(pci_dev);
- 	}
- 
-diff --git a/drivers/pci/pci.c b/drivers/pci/pci.c
-index ffaaca0978cb..91f4e7a03c94 100644
---- a/drivers/pci/pci.c
-+++ b/drivers/pci/pci.c
-@@ -2218,6 +2218,13 @@ static void do_pci_disable_device(struct pci_dev *dev)
- 		pci_command &= ~PCI_COMMAND_MASTER;
- 		pci_write_config_word(dev, PCI_COMMAND, pci_command);
- 	}
-+	/*
-+	 * PCI PM 1.2 sec 8.2.2 says that when a function is put into D3
-+	 * the OS needs to disable I/O and MMIO space in addition to bus
-+	 * mastering so do that here.
-+	 */
-+	pci_command &= ~(PCI_COMMAND_IO | PCI_COMMAND_MEMORY);
-+	pci_write_config_word(dev, PCI_COMMAND, pci_command);
- 
- 	pcibios_disable_device(dev);
- }
+At least that's the case for certain command types and there is probably
+a story behind each of them. I know that xhci_stop_device() queues a
+Stop EP with completion (and also a few without(?)). Maybe it's a bug...
+
+Regards,
+Michal
