@@ -1,206 +1,118 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.15])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.12])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B84E21D6C7D
-	for <linux-usb@vger.kernel.org>; Fri, 13 Sep 2024 08:52:46 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.15
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8463215443F;
+	Fri, 13 Sep 2024 08:59:26 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.12
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1726217568; cv=none; b=rS0QHO9A91Weq8/foTiKAhWgevy/1FjmbXexrXgWelCyCWTaxcTv/JUDbyLbOOLe2rBbtkOUqPf8omQK8PzlmdvZroin+bNA331eXe73pLlYH0y52gN0ViwASY7FtK//f4BRQg0h0KmwFhXfd1o30uqETkoU3IfQ9QFJ6jCj5Ao=
+	t=1726217968; cv=none; b=ebQqz1mXgi2eklQ6154+J3HwDHzvCNc6gvDIR2weqih7s+ewFRFHbB9Vi8qiQX+cPJJA2QMWTC2dt0hFtO9RCjkGH5rpe+8+RJFq9ixoMwFkIlYnkB6ocAP1CI/eqZNO9UAc4dJyyi7lvHoXfFLjFNQ7U8sGFyZ36nFwfoiOHqQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1726217568; c=relaxed/simple;
-	bh=epwSFAKDSaStUHIjblgAOMkjDpYmFrV7d1+0vVVYD5I=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=lIL1DYTYUsoP7dLaMMveUsunHDgYbAjmBybdp0WJYC/t+bqy3j22k6Yy211mmiXv+daGdpPc4c3kZFgH2mYgUN7q18ve31q28F3pqRqA2/LsMSqxt+zdSu0tshSbSUOCXYVu9SCrTpxgKaw6yOgF49CfUzy5alpQ1YAudaw/9ns=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=mAZOBPrR; arc=none smtp.client-ip=192.198.163.15
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	s=arc-20240116; t=1726217968; c=relaxed/simple;
+	bh=zRkh1Ji+XJM1QVnhjaVembi9RZTPeDYx7ZVLPItSeJ4=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=NKlcynR2bmAqe170SJ8RDCTwUleyWkKFATugTlVRcmk3UhKFZwhOHwDzgR+TKfvc0c2Ss+1wvm5uTIfnxZKB5Rt51bwheLlVVIxfKhpDbr4v81A4pBz1sgpNouGJtjlODlvei5Gb7DqrxuRXRtdBTwrIfKbe4cZbLDAKJaJkFJA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=none smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=frq4NGj3; arc=none smtp.client-ip=192.198.163.12
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=linux.intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="mAZOBPrR"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="frq4NGj3"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1726217567; x=1757753567;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=epwSFAKDSaStUHIjblgAOMkjDpYmFrV7d1+0vVVYD5I=;
-  b=mAZOBPrRbE4uxHj1GnbnM66KvxbSRZQYSV9AA5xM2573Puw5CtgVVD1Q
-   /X50MKu3MGKZAq3ntNMU7dOu3LmBlFVZnyiKsR+To+ldlsTZ3rjynpYfx
-   MglVwEwRwzXhKk+kZTknRZ44onA1A8vengiUHpx77chvmZU6DITlPYa3A
-   Cg/JQ/h3NtVyVa/2OlSwpu7utAS2X4mNYuEY04wRCsdGUdd+wM2JIJhKW
-   pF4bncsx0Xw+3aTNbPRDd/pcA97Xuh37P94inMfOOjJhFcSGOo2+uS9QE
-   b1CDK+JSLVWIjVk9KHlVxvSw1+FgTXvcZCC3YioNk2ann+QSf+GhEqD8k
-   w==;
-X-CSE-ConnectionGUID: aExP6/YBQN2RRkxQNvsPcg==
-X-CSE-MsgGUID: KxSDo6hNSiKq2YOvqGWj1w==
-X-IronPort-AV: E=McAfee;i="6700,10204,11193"; a="25263081"
+  t=1726217966; x=1757753966;
+  h=message-id:date:mime-version:subject:to:cc:references:
+   from:in-reply-to:content-transfer-encoding;
+  bh=zRkh1Ji+XJM1QVnhjaVembi9RZTPeDYx7ZVLPItSeJ4=;
+  b=frq4NGj3b4BLxL/1iT7p6kWX2qr00W4qu6VqdUXeV+EJkjm3OCO+r378
+   hy1m2yMP23g3k4IbSjpvRH+JZ070V3fWp/PmMiA553icPQP5cIy+KQyL/
+   a7HW+Lsw3/Gh74+70NWK28JiW5h6KictKo6p5Cq0eB00lUhuycFvRMkgL
+   XXsjr5iHpx2mIpAFP0tVkWfcGkn5bMWY82BVztYzM7XWf7vq/hXSFbxqk
+   GD6pGzJnmAnMBTaNYKbKDDJWC5/1f6Iq7cq+SR3cqMt4dzzYjU9GyK/Bi
+   WekFNkJ4vHoJyg5slbjKc1U6RLw3ZSbE+UZS8qQFhh87nSC5YHyFLebBs
+   Q==;
+X-CSE-ConnectionGUID: qUaf1PLWQQSQv/knTwHUHw==
+X-CSE-MsgGUID: F1IfLTdhR9CQqmJ0AlSLvg==
+X-IronPort-AV: E=McAfee;i="6700,10204,11193"; a="29004358"
 X-IronPort-AV: E=Sophos;i="6.10,225,1719903600"; 
-   d="scan'208";a="25263081"
-Received: from fmviesa008.fm.intel.com ([10.60.135.148])
-  by fmvoesa109.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 13 Sep 2024 01:52:46 -0700
-X-CSE-ConnectionGUID: sOgoTaJnTZSYEMjsyelMqg==
-X-CSE-MsgGUID: bHgAgPzrTPOYihILYLoZrQ==
+   d="scan'208";a="29004358"
+Received: from orviesa010.jf.intel.com ([10.64.159.150])
+  by fmvoesa106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 13 Sep 2024 01:59:25 -0700
+X-CSE-ConnectionGUID: RWGsGADGS/aa0PhV8zUxIw==
+X-CSE-MsgGUID: j/LSU4Q5QsKg8MOzQAm9/Q==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.10,225,1719903600"; 
-   d="scan'208";a="68073184"
-Received: from lkp-server01.sh.intel.com (HELO 53e96f405c61) ([10.239.97.150])
-  by fmviesa008.fm.intel.com with ESMTP; 13 Sep 2024 01:52:44 -0700
-Received: from kbuild by 53e96f405c61 with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1sp22j-0006G4-29;
-	Fri, 13 Sep 2024 08:52:41 +0000
-Date: Fri, 13 Sep 2024 16:51:42 +0800
-From: kernel test robot <lkp@intel.com>
-To: Xu Yang <xu.yang_2@nxp.com>, peter.chen@kernel.org,
-	gregkh@linuxfoundation.org
-Cc: oe-kbuild-all@lists.linux.dev, linux-usb@vger.kernel.org,
-	imx@lists.linux.dev, jun.li@nxp.com
-Subject: Re: [PATCH 2/3] usb: chipidea: udc: improve dTD link logic
-Message-ID: <202409131638.TJCPmqQZ-lkp@intel.com>
-References: <20240912033551.910337-2-xu.yang_2@nxp.com>
+   d="scan'208";a="67834021"
+Received: from mattu-haswell.fi.intel.com (HELO [10.237.72.199]) ([10.237.72.199])
+  by orviesa010.jf.intel.com with ESMTP; 13 Sep 2024 01:59:24 -0700
+Message-ID: <7e73a66f-e853-4da5-bb95-f28c75d993f2@linux.intel.com>
+Date: Fri, 13 Sep 2024 12:01:30 +0300
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20240912033551.910337-2-xu.yang_2@nxp.com>
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH] usb: xhci: fix loss of data on Cadence xHC
+To: Andy Shevchenko <andy.shevchenko@gmail.com>,
+ Pawel Laszczak <pawell@cadence.com>
+Cc: "mathias.nyman@intel.com" <mathias.nyman@intel.com>,
+ "gregkh@linuxfoundation.org" <gregkh@linuxfoundation.org>,
+ "peter.chen@kernel.org" <peter.chen@kernel.org>,
+ "linux-usb@vger.kernel.org" <linux-usb@vger.kernel.org>,
+ "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+ "stable@vger.kernel.org" <stable@vger.kernel.org>
+References: <20240905065716.305332-1-pawell@cadence.com>
+ <PH7PR07MB9538584F3C0AD11119403F11DD9D2@PH7PR07MB9538.namprd07.prod.outlook.com>
+ <PH7PR07MB9538734A9BC4FA56E34998EEDD9D2@PH7PR07MB9538.namprd07.prod.outlook.com>
+ <ZuMOfHp9j_6_3-WC@surfacebook.localdomain>
+Content-Language: en-US
+From: Mathias Nyman <mathias.nyman@linux.intel.com>
+In-Reply-To: <ZuMOfHp9j_6_3-WC@surfacebook.localdomain>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 
-Hi Xu,
+On 12.9.2024 18.53, Andy Shevchenko wrote:
+> Thu, Sep 05, 2024 at 07:06:48AM +0000, Pawel Laszczak kirjoitti:
+>> Please ignore this patch. I send it again with correct version in subject.
+> 
+> It seems it's in Mathias' tree, never the less, see also below.
+> 
+> ...
+> 
+>>> +#define PCI_DEVICE_ID_CADENCE				0x17CD
+> 
+> First of all this is misleadig as this is VENDOR_ID, second, there is official
+> ID constant for Cadence in pci_ids.h.
+> 
+> #define PCI_VENDOR_ID_CDNS              0x17cd
+> 
 
-kernel test robot noticed the following build warnings:
+Thanks, fixed and rebased.
 
-[auto build test WARNING on usb/usb-testing]
-[also build test WARNING on usb/usb-next usb/usb-linus linus/master v6.11-rc7 next-20240912]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
+Changes:
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Xu-Yang/usb-chipidea-udc-improve-dTD-link-logic/20240912-113632
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/gregkh/usb.git usb-testing
-patch link:    https://lore.kernel.org/r/20240912033551.910337-2-xu.yang_2%40nxp.com
-patch subject: [PATCH 2/3] usb: chipidea: udc: improve dTD link logic
-config: i386-randconfig-061-20240913 (https://download.01.org/0day-ci/archive/20240913/202409131638.TJCPmqQZ-lkp@intel.com/config)
-compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240913/202409131638.TJCPmqQZ-lkp@intel.com/reproduce)
+diff --git a/drivers/usb/host/xhci-pci.c b/drivers/usb/host/xhci-pci.c
+index 5e7747f80762..4bc6ee57ec42 100644
+--- a/drivers/usb/host/xhci-pci.c
++++ b/drivers/usb/host/xhci-pci.c
+@@ -78,8 +78,7 @@
+  #define PCI_DEVICE_ID_ASMEDIA_2142_XHCI                        0x2142
+  #define PCI_DEVICE_ID_ASMEDIA_3242_XHCI                        0x3242
+  
+-#define PCI_DEVICE_ID_CADENCE                          0x17CD
+-#define PCI_DEVICE_ID_CADENCE_SSP                      0x0200
++#define PCI_DEVICE_ID_CDNS_SSP                         0x0200
+  
+  static const char hcd_name[] = "xhci_hcd";
+  
+@@ -470,8 +469,8 @@ static void xhci_pci_quirks(struct device *dev, struct xhci_hcd *xhci)
+                         xhci->quirks |= XHCI_ZHAOXIN_TRB_FETCH;
+         }
+  
+-       if (pdev->vendor == PCI_DEVICE_ID_CADENCE &&
+-           pdev->device == PCI_DEVICE_ID_CADENCE_SSP)
++       if (pdev->vendor == PCI_VENDOR_ID_CDNS &&
++           pdev->device == PCI_DEVICE_ID_CDNS_SSP)
+                 xhci->quirks |= XHCI_CDNS_SCTX_QUIRK;
+-Mathias
 
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202409131638.TJCPmqQZ-lkp@intel.com/
-
-sparse warnings: (new ones prefixed by >>)
->> drivers/usb/chipidea/udc.c:624:33: sparse: sparse: restricted __le32 degrades to integer
-
-vim +624 drivers/usb/chipidea/udc.c
-
-   542	
-   543	/**
-   544	 * _hardware_enqueue: configures a request at hardware level
-   545	 * @hwep:   endpoint
-   546	 * @hwreq:  request
-   547	 *
-   548	 * This function returns an error code
-   549	 */
-   550	static int _hardware_enqueue(struct ci_hw_ep *hwep, struct ci_hw_req *hwreq)
-   551	{
-   552		struct ci_hdrc *ci = hwep->ci;
-   553		int ret = 0;
-   554		struct td_node *firstnode, *lastnode;
-   555	
-   556		/* don't queue twice */
-   557		if (hwreq->req.status == -EALREADY)
-   558			return -EALREADY;
-   559	
-   560		hwreq->req.status = -EALREADY;
-   561	
-   562		ret = usb_gadget_map_request_by_dev(ci->dev->parent,
-   563						    &hwreq->req, hwep->dir);
-   564		if (ret)
-   565			return ret;
-   566	
-   567		if (hwreq->req.num_mapped_sgs)
-   568			ret = prepare_td_for_sg(hwep, hwreq);
-   569		else
-   570			ret = prepare_td_for_non_sg(hwep, hwreq);
-   571	
-   572		if (ret)
-   573			return ret;
-   574	
-   575		lastnode = list_entry(hwreq->tds.prev,
-   576			struct td_node, td);
-   577	
-   578		lastnode->ptr->next = cpu_to_le32(TD_TERMINATE);
-   579		if (!hwreq->req.no_interrupt)
-   580			lastnode->ptr->token |= cpu_to_le32(TD_IOC);
-   581	
-   582		list_for_each_entry_safe(firstnode, lastnode, &hwreq->tds, td)
-   583			trace_ci_prepare_td(hwep, hwreq, firstnode);
-   584	
-   585		firstnode = list_first_entry(&hwreq->tds, struct td_node, td);
-   586	
-   587		wmb();
-   588	
-   589		hwreq->req.actual = 0;
-   590		if (!list_empty(&hwep->qh.queue)) {
-   591			struct ci_hw_req *hwreqprev;
-   592			int n = hw_ep_bit(hwep->num, hwep->dir);
-   593			int tmp_stat;
-   594			struct td_node *prevlastnode;
-   595			u32 next = firstnode->dma & TD_ADDR_MASK;
-   596	
-   597			hwreqprev = list_entry(hwep->qh.queue.prev,
-   598					struct ci_hw_req, queue);
-   599			prevlastnode = list_entry(hwreqprev->tds.prev,
-   600					struct td_node, td);
-   601	
-   602			prevlastnode->ptr->next = cpu_to_le32(next);
-   603			wmb();
-   604	
-   605			if (ci->rev == CI_REVISION_22) {
-   606				if (!hw_read(ci, OP_ENDPTSTAT, BIT(n)))
-   607					reprime_dtd(ci, hwep, prevlastnode);
-   608			}
-   609	
-   610			if (hw_read(ci, OP_ENDPTPRIME, BIT(n)))
-   611				goto done;
-   612			do {
-   613				hw_write(ci, OP_USBCMD, USBCMD_ATDTW, USBCMD_ATDTW);
-   614				tmp_stat = hw_read(ci, OP_ENDPTSTAT, BIT(n));
-   615			} while (!hw_read(ci, OP_USBCMD, USBCMD_ATDTW) && tmp_stat);
-   616			hw_write(ci, OP_USBCMD, USBCMD_ATDTW, 0);
-   617			if (tmp_stat)
-   618				goto done;
-   619	
-   620			/* In case of error, ENDPTSTAT will also turn into 0, then
-   621			 * don't push this dTD to dQH head if current dTD pointer
-   622			 * is not the last dTD in previous request.
-   623			 */
- > 624			if (hwep->qh.ptr->curr != prevlastnode->dma)
-   625				goto done;
-   626		}
-   627	
-   628		/*  QH configuration */
-   629		hwep->qh.ptr->td.next = cpu_to_le32(firstnode->dma);
-   630		hwep->qh.ptr->td.token &=
-   631			cpu_to_le32(~(TD_STATUS_HALTED|TD_STATUS_ACTIVE));
-   632	
-   633		if (hwep->type == USB_ENDPOINT_XFER_ISOC && hwep->dir == RX) {
-   634			u32 mul = hwreq->req.length / hwep->ep.maxpacket;
-   635	
-   636			if (hwreq->req.length == 0
-   637					|| hwreq->req.length % hwep->ep.maxpacket)
-   638				mul++;
-   639			hwep->qh.ptr->cap |= cpu_to_le32(mul << __ffs(QH_MULT));
-   640		}
-   641	
-   642		ret = hw_ep_prime(ci, hwep->num, hwep->dir,
-   643				   hwep->type == USB_ENDPOINT_XFER_CONTROL);
-   644	done:
-   645		return ret;
-   646	}
-   647	
-
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
