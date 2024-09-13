@@ -1,50 +1,49 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.8])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.7])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A0C61185925;
-	Fri, 13 Sep 2024 08:44:14 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.8
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8ACD41BC075;
+	Fri, 13 Sep 2024 08:44:15 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.7
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1726217056; cv=none; b=qrKN6Pdqy6VYm0ljoJHAKQEBke338BJDqJvz7TRrmE/TGz4wh81ASIbw9xpqQadnZpNx9JAkEmQhCcw1+eFeiHy0xULRGuMyeuiw/pyV5PsnZgBHl4NucaKaPPBQKBq3Tu6gekKWR76m9u16Z68PmUsIY7vI92erZ29vV4EJH4Y=
+	t=1726217057; cv=none; b=MX+ala42fh7kmwgw3AgzuvH7aHSeJ3C/GsLbZSUZUsWuRJBO61GO1K8dF9TIcY5u+hVSjQM9JnWfdcO4eM7Lv+jncp9dsVDHcYla2LLBCMNc1bwEjuwUGPMiyf4EQ3+m8BlDON6FxJ8bF6+Tpm3yzjIWI1WTHKmLSlgVBhHKKlQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1726217056; c=relaxed/simple;
-	bh=+jAaPwab1GS9UNp1Ia34ZEvBHBb4SGKdmT76WYDP7yI=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=qNpuPXbllylJSTLuIVa5rBfmVbEAo1nA3aM1z17kXrxmUmOqqbdaK5EPWyWbnQrstORq3ILAk+aOEOtaR5+GpL5xv8yPEh68q4JGtff2olbdbVNsmkqjodvUzVYVx9cjrAgAhtqegTmfUSq1PS40Ktr2GMJbsTGNS5aYkEQ2X70=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=none smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=nF/+XLzk; arc=none smtp.client-ip=192.198.163.8
+	s=arc-20240116; t=1726217057; c=relaxed/simple;
+	bh=SlHr7gBadzFaExcdwqHHjO9/LRdWJ/0pSFefJXmWUlQ=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version:Content-Type; b=I1wFfuk3es/ypABQ3ntD+V/5plfOmfW4iwC9nnsHd9mkWCr0p0QECQf1Su7NYgvXEs0jS/XTYXqKfqDw5MiQDR01SECHT1sjQOV7U/dI3sBcaa3YRf6M0GDxlHPW1bwl14+u2AvDZcLqYrALQjmz3+JifBd5znrNERaGHcEy1g4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=none smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=CqRBYqiX; arc=none smtp.client-ip=192.198.163.7
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=linux.intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="nF/+XLzk"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="CqRBYqiX"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1726217054; x=1757753054;
-  h=from:to:cc:subject:date:message-id:in-reply-to:
-   references:mime-version:content-transfer-encoding;
-  bh=+jAaPwab1GS9UNp1Ia34ZEvBHBb4SGKdmT76WYDP7yI=;
-  b=nF/+XLzk6KYEv+SOHXfO6jZULebXLo4A1X4CVBUElUcOsa1p6m+V1HED
-   7OJOKUYeIGTAyyJTMzIUlq+kEuUj+VhCOxod+IxWD8mhKs+TE7C4TLpNd
-   K4myE10XuKnisPjml7dULBciTlKMD1uz3lKr4bJySZg9vxur6/mlcgFaR
-   2a4pEi65qJRu7Sg4bIR8owfynYJwauwaERpe+GBBgRqoByd/63RZvTyFh
-   jHUxg/RXm29ymiCZHVHQ/0gUzv9zMlbTSA5sn7XrysVxWGLaY4a7+9kAK
-   +jNAWvqXOs0r8YxC5XxzfTj+SnTWev/oExgf9lCx6OaT02O0rl4qy9/4D
+  t=1726217056; x=1757753056;
+  h=from:to:cc:subject:date:message-id:mime-version:
+   content-transfer-encoding;
+  bh=SlHr7gBadzFaExcdwqHHjO9/LRdWJ/0pSFefJXmWUlQ=;
+  b=CqRBYqiXAbZ/y7ccllB0RCvB1LpCpORFkStSeikAop0xOcp/7V7KA8aP
+   4KcvBHth1zsPt4wtRJABtY92mZnM5Vyk2a3QgGfRWf/AAaiWJOkmFxH/o
+   kML9YVYymj9JwqgwTP4txYK7s88nmnd6q7FayHKYARFMw/qmQa6Mcqgru
+   n9US7hxLXiA79XrAFvVpZu4bDUEjKw2we7FBXuKSKvdGE7weFsnlkav91
+   yXfNrSmwui7ReOoBjoUinxrI/UZmjwcdp13mSddkKW1RdPdyGmZL74/64
+   p+UgAAydceW7CuXGDrcGTfBNL4Ag5SEU9mzaFB4srdHERfUZJqLClecuh
    A==;
-X-CSE-ConnectionGUID: JXh1i9OPSiKSGsx1yCWpEw==
-X-CSE-MsgGUID: ZMQa5VS/R2eKJmkYYg4y0g==
-X-IronPort-AV: E=McAfee;i="6700,10204,11193"; a="42618546"
+X-CSE-ConnectionGUID: noq7EyIMQ2eJEY+EBQgjHw==
+X-CSE-MsgGUID: tCVaTeTTS2iYY1lL4i4vcA==
+X-IronPort-AV: E=McAfee;i="6700,10204,11193"; a="50523445"
 X-IronPort-AV: E=Sophos;i="6.10,225,1719903600"; 
-   d="scan'208";a="42618546"
-Received: from fmviesa009.fm.intel.com ([10.60.135.149])
-  by fmvoesa102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 13 Sep 2024 01:44:14 -0700
-X-CSE-ConnectionGUID: oTZRt37oTtG3dIvdw9O9SQ==
-X-CSE-MsgGUID: 5HwujQJVRoSO+7CnT+ZHrw==
+   d="scan'208";a="50523445"
+Received: from orviesa004.jf.intel.com ([10.64.159.144])
+  by fmvoesa101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 13 Sep 2024 01:44:15 -0700
+X-CSE-ConnectionGUID: XPIf3vyGQoqG+0eyBVTYFg==
+X-CSE-MsgGUID: f9njAnDXStmIhcNgdMtB3A==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.10,225,1719903600"; 
-   d="scan'208";a="67953667"
+   d="scan'208";a="72979093"
 Received: from black.fi.intel.com ([10.237.72.28])
-  by fmviesa009.fm.intel.com with ESMTP; 13 Sep 2024 01:44:12 -0700
+  by orviesa004.jf.intel.com with ESMTP; 13 Sep 2024 01:44:12 -0700
 Received: by black.fi.intel.com (Postfix, from userid 1003)
-	id 89A20387; Fri, 13 Sep 2024 11:44:11 +0300 (EEST)
+	id 73CD0334; Fri, 13 Sep 2024 11:44:11 +0300 (EEST)
 From: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
 To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
 	Mathias Nyman <mathias.nyman@linux.intel.com>,
@@ -52,53 +51,28 @@ To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
 	linux-kernel@vger.kernel.org
 Cc: Mathias Nyman <mathias.nyman@intel.com>,
 	Andy Shevchenko <andriy.shevchenko@linux.intel.com>
-Subject: [PATCH v1 2/2] xhci: pci: Fix indentation in the PCI device ID definitions
-Date: Fri, 13 Sep 2024 11:43:38 +0300
-Message-ID: <20240913084411.3309911-3-andriy.shevchenko@linux.intel.com>
+Subject: [PATCH v1 0/2] xhci: pci: Amend definitions of PCI device IDs
+Date: Fri, 13 Sep 2024 11:43:36 +0300
+Message-ID: <20240913084411.3309911-1-andriy.shevchenko@linux.intel.com>
 X-Mailer: git-send-email 2.43.0.rc1.1336.g36b5255a03ac
-In-Reply-To: <20240913084411.3309911-1-andriy.shevchenko@linux.intel.com>
-References: <20240913084411.3309911-1-andriy.shevchenko@linux.intel.com>
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 
-Some of the definitions are missing the one TAB, add it to them.
+Amend the definitions of PCI device IDs.
 
-Signed-off-by: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
----
- drivers/usb/host/xhci-pci.c | 8 ++++----
- 1 file changed, 4 insertions(+), 4 deletions(-)
+Andy Shevchenko (2):
+  xhci: pci: Use standard pattern for device IDs
+  xhci: pci: Fix indentation in the PCI device ID definitions
 
-diff --git a/drivers/usb/host/xhci-pci.c b/drivers/usb/host/xhci-pci.c
-index 6d9eb2b031e2..cbbee5175547 100644
---- a/drivers/usb/host/xhci-pci.c
-+++ b/drivers/usb/host/xhci-pci.c
-@@ -28,8 +28,8 @@
- #define SPARSE_CNTL_ENABLE	0xC12C
- 
- /* Device for a quirk */
--#define PCI_VENDOR_ID_FRESCO_LOGIC	0x1b73
--#define PCI_DEVICE_ID_FRESCO_LOGIC_PDK	0x1000
-+#define PCI_VENDOR_ID_FRESCO_LOGIC		0x1b73
-+#define PCI_DEVICE_ID_FRESCO_LOGIC_PDK		0x1000
- #define PCI_DEVICE_ID_FRESCO_LOGIC_FL1009	0x1009
- #define PCI_DEVICE_ID_FRESCO_LOGIC_FL1100	0x1100
- #define PCI_DEVICE_ID_FRESCO_LOGIC_FL1400	0x1400
-@@ -38,8 +38,8 @@
- #define PCI_DEVICE_ID_ETRON_EJ168		0x7023
- #define PCI_DEVICE_ID_ETRON_EJ188		0x7052
- 
--#define PCI_DEVICE_ID_INTEL_LYNXPOINT_XHCI	0x8c31
--#define PCI_DEVICE_ID_INTEL_LYNXPOINT_LP_XHCI	0x9c31
-+#define PCI_DEVICE_ID_INTEL_LYNXPOINT_XHCI		0x8c31
-+#define PCI_DEVICE_ID_INTEL_LYNXPOINT_LP_XHCI		0x9c31
- #define PCI_DEVICE_ID_INTEL_WILDCATPOINT_LP_XHCI	0x9cb1
- #define PCI_DEVICE_ID_INTEL_CHERRYVIEW_XHCI		0x22b5
- #define PCI_DEVICE_ID_INTEL_SUNRISEPOINT_H_XHCI		0xa12f
+ drivers/usb/host/xhci-pci.c | 18 +++++++++---------
+ 1 file changed, 9 insertions(+), 9 deletions(-)
+
 -- 
 2.43.0.rc1.1336.g36b5255a03ac
 
