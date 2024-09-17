@@ -1,186 +1,249 @@
-Received: from mail-pj1-f52.google.com (mail-pj1-f52.google.com [209.85.216.52])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.13])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AA4CE3B1A2;
-	Tue, 17 Sep 2024 16:48:36 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.216.52
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 81FAA185B52;
+	Tue, 17 Sep 2024 16:55:29 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.13
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1726591718; cv=none; b=twM+DxU26cXE4lffLK8vpy0wyWakxcPhV0HWpZHfEYfvnGm9qms7mRuAX75lPojkxctttWN9946Z/hWLUYiGToDMshvpbNLpSV3iKqFSm/PNEMXDy6xiRkJEo3r1IxU2xB9FISkiFBhaW/qW3HiZgYEJKnZYfU/MIZSxMDqK3cY=
+	t=1726592132; cv=none; b=MfctsWsnCuCi5KlQXh/pgQBBmDJ0vCtznW0WOPDTbsMxkqN1R7gajs2ogZLlVH+xZ6PNDIp5y0SRJhCg4NiOgTbep9TpA8HAZjGMrqSPrSZIj5oWim7ww1JJmXVOFBZ0fkLwD8AfULXc+Yoc9a0kRUqXnYKdNN8Sd4O2XfsZapI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1726591718; c=relaxed/simple;
-	bh=fH3plaBt0O+m/Vc13Tt0/wRtia4okRWIxHD+zFt0LHM=;
-	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=d2k/utU+lexPrxBjb3YFErhfuN0fN93X4CxI4Bpvq/lTv2PcLHxL19WlLbWG1O5CA72Q21YxFOiRIodjcIpCh/cDTIfvk2aSizzRurpu+uoU18179mZxjn+p/4nCqzBfvAdm1gdd6wjJGWu/GdY95dQKJVKxgPMGDvhk+8qW+C4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=hYwdv2dJ; arc=none smtp.client-ip=209.85.216.52
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1726592132; c=relaxed/simple;
+	bh=lP9S9e+EzwnDZQH6Bj/Kq/7vJZU9JrPQw578263Kois=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=KvRg1qZOQY8aDtq+V6cd8aloNMMtGrCrcRipx3FSLu0hM5ug8yF3I9AqP3vUH1JDg1tHITCY1mN+C5nE02ZLwQ5jXj+va2ULQ/GG0B7PBjWC2VMsP3h2WgwYov+gfGupt66BaCemP8too1IdtC58ymIkDEzQ4oIDMSnxeEk7Dxs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=R3G8Z0wd; arc=none smtp.client-ip=198.175.65.13
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="hYwdv2dJ"
-Received: by mail-pj1-f52.google.com with SMTP id 98e67ed59e1d1-2d885019558so4016569a91.2;
-        Tue, 17 Sep 2024 09:48:36 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1726591716; x=1727196516; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=L8Nl24p1XGq2gNfzD83xHLfViuR+0yvfPZUWWcKsgR0=;
-        b=hYwdv2dJm72zUw8s4Dy0gsY1xHukoTsiLJtxqTq6RX+sKbvoI3yoVHQCBCVIemvanb
-         ugcfAkZQC0vB5st6+y5UHtaJ2jlxlSlivrIsoXnbbnKjUYwCySGdZ0I/O5COHcRzj45p
-         7Iip9tMjAZFhuZH2tHArtxy2z9h2f7mssPCq/jnd3zbb3/iaHItEFXUW7oMuMAzmzjV+
-         /S4TBnnH91wDF7p1DuLlmZq6uWYhVQQqa/bJ6FgyLDlMyZucMImti5F7ydlg4QQbdoG8
-         YDrRw3i6zFEXIuP4Bd+zsnguD1Q0VcF0AQCEGQ61O3deahAeTwnSvQtT9jJWb37nxbaq
-         BViQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1726591716; x=1727196516;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=L8Nl24p1XGq2gNfzD83xHLfViuR+0yvfPZUWWcKsgR0=;
-        b=hiZve44yDc1Eqdqj2CjtOyI/fZ5cUpZ6MUaIn/O5Oa0Pm8H1agP14SUDKj1MG92dDe
-         NMhMmlutp8uYmdU/uJ45zy5/OnwjwfXpDqF9Q6MT/rgYQpXnU8Hk1hLvGFyKvsTZDaw6
-         RJGy6a7+L1GkGOFwvQOV31tfgbLjtch3RUXu0YHUg9IXzxavjYnydXiogOyv+NL3x+q6
-         QloVlXZvuFdUGT1yFyVNCU/acguSHtPV4v77RdTfevARFDyF6lTaZw53PMowLVtuwfm1
-         po/5oixCOwumkO9Xo7kyZ0AVU4EV6oNPRPSyHu1XjSOFT+4hSXDtk4AjKPX1ZOXEcoal
-         z2dg==
-X-Forwarded-Encrypted: i=1; AJvYcCUA8rdCvv+YHnlgBvVLrODpDix1hd1YBJbAaxiYi0rEAyUdMnGznqFGrxvcoBGevVzpWJEcK5p9TVL0LH4=@vger.kernel.org, AJvYcCWyYNSkhGhsC5nj9qgRo0xU+tJsyC8Id6N4dU6UW7bH5BucQdoFVxYbSGy2k2FRa72yhZtUp5ysd6qC@vger.kernel.org
-X-Gm-Message-State: AOJu0Yw70KU7EU3NRdWruzS68ijxBEsW1pDQAEjIdaZfWScJAoFEb8uM
-	7l6jENc+mAQ3hwyUeDUdIDwqu+fwk7VPiog7lTFO7SjwadAoksW+
-X-Google-Smtp-Source: AGHT+IEW1mfraWGIQ2l6x9WAabgd0zKN/ED+ZiVRPXKH9n+oj6g96LWnoy24+nOgYLDWS3p9az/ABA==
-X-Received: by 2002:a17:90a:d34c:b0:2d8:87d3:903b with SMTP id 98e67ed59e1d1-2dba0083863mr20529172a91.35.1726591715702;
-        Tue, 17 Sep 2024 09:48:35 -0700 (PDT)
-Received: from kernelexploit-virtual-machine.localdomain ([121.185.186.233])
-        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-2dd52e3171fsm755569a91.1.2024.09.17.09.48.33
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 17 Sep 2024 09:48:35 -0700 (PDT)
-From: Jeongjun Park <aha310510@gmail.com>
-To: gregkh@linuxfoundation.org,
-	oneukum@suse.com
-Cc: colin.i.king@gmail.com,
-	aha310510@gmail.com,
-	linux-usb@vger.kernel.org,
-	linux-kernel@vger.kernel.org
-Subject: [PATCH] usb: using mutex lock and supporting O_NONBLOCK flag in iowarrior_read()
-Date: Wed, 18 Sep 2024 01:48:20 +0900
-Message-Id: <20240917164820.143197-1-aha310510@gmail.com>
-X-Mailer: git-send-email 2.34.1
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="R3G8Z0wd"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1726592130; x=1758128130;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=lP9S9e+EzwnDZQH6Bj/Kq/7vJZU9JrPQw578263Kois=;
+  b=R3G8Z0wdsur2eL6ETRtca0gc0Gq/5LlTdZwA2FsKaNEGgc1HE/e9vBSP
+   M/BG9PkoSJUPYhjWlhpzGA96+PqKobA8g0kUcALC2B6TYd3A4zqUgOJxS
+   KnosSILVO/r9+HXRqPhbdp+Z3gpQQj5GKmfYyo4BHTAS8q5M48DZJWQwC
+   VKl4JWuMKLiZM7JGJZRi5w9E5DWS1SfLBvZFPm0kuhTg/fbPwns4qrm5S
+   WQMRK4AvKDbEGn2DnyPm8pU8EG2mKtW5xyX0OX1G5NR8t6d+i1sZLTwyv
+   gFcHuJToIOlOtqpISGAcL9DiTLSY2PXHJNWgGVIAp5BIzdhdrLr5iWojU
+   A==;
+X-CSE-ConnectionGUID: o/jSAKIPTwye9Lve/UlfbA==
+X-CSE-MsgGUID: IOkqT6PvQly9jOxUzAO7cQ==
+X-IronPort-AV: E=McAfee;i="6700,10204,11198"; a="36598794"
+X-IronPort-AV: E=Sophos;i="6.10,235,1719903600"; 
+   d="scan'208";a="36598794"
+Received: from fmviesa010.fm.intel.com ([10.60.135.150])
+  by orvoesa105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 17 Sep 2024 09:55:29 -0700
+X-CSE-ConnectionGUID: GMrVelZQTHy0ufxFJv8/TA==
+X-CSE-MsgGUID: JWsbMOPAR1K+WwmzPQIFbg==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.10,235,1719903600"; 
+   d="scan'208";a="69467773"
+Received: from lkp-server01.sh.intel.com (HELO 53e96f405c61) ([10.239.97.150])
+  by fmviesa010.fm.intel.com with ESMTP; 17 Sep 2024 09:55:26 -0700
+Received: from kbuild by 53e96f405c61 with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1sqbU3-000BLs-35;
+	Tue, 17 Sep 2024 16:55:23 +0000
+Date: Wed, 18 Sep 2024 00:55:16 +0800
+From: kernel test robot <lkp@intel.com>
+To: Mikhail Arkhipov <m.arhipov@rosa.ru>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
+	Mikhail Arkhipov <m.arhipov@rosa.ru>,
+	Uwe =?iso-8859-1?Q?Kleine-K=F6nig?= <u.kleine-koenig@pengutronix.de>,
+	Felipe Balbi <balbi@ti.com>, Ben Dooks <ben.dooks@codethink.co.uk>,
+	Sebastian Andrzej Siewior <bigeasy@linutronix.de>,
+	linux-usb@vger.kernel.org, linux-kernel@vger.kernel.org,
+	lvc-project@linuxtesting.org
+Subject: Re: [PATCH] usb: gadget: r8a66597-udc: Fix double free in
+ r8a66597_probe
+Message-ID: <202409180041.GEhgD6dC-lkp@intel.com>
+References: <20240916222937.12878-1-m.arhipov@rosa.ru>
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20240916222937.12878-1-m.arhipov@rosa.ru>
 
-iowarrior_read() uses the iowarrior dev structure, but does not use any 
-lock on the structure. This can cause various bugs including data-races,
-so it is more appropriate to use a mutex lock to safely protect the 
-iowarrior dev structure. When using a mutex lock, you should split the
-branch to prevent blocking when the O_NONBLOCK flag is set.
+Hi Mikhail,
 
-In addition, it is unnecessary to check for NULL on the iowarrior dev 
-structure obtained by reading file->private_data. Therefore, it is 
-better to remove the check.
+kernel test robot noticed the following build warnings:
 
-Fixes: 946b960d13c1 ("USB: add driver for iowarrior devices.")
-Signed-off-by: Jeongjun Park <aha310510@gmail.com>
----
- drivers/usb/misc/iowarrior.c | 46 ++++++++++++++++++++++++++++--------
- 1 file changed, 36 insertions(+), 10 deletions(-)
+[auto build test WARNING on usb/usb-testing]
+[also build test WARNING on usb/usb-next usb/usb-linus linus/master v6.11 next-20240917]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
 
-diff --git a/drivers/usb/misc/iowarrior.c b/drivers/usb/misc/iowarrior.c
-index 6d28467ce352..a513766b4985 100644
---- a/drivers/usb/misc/iowarrior.c
-+++ b/drivers/usb/misc/iowarrior.c
-@@ -277,28 +277,45 @@ static ssize_t iowarrior_read(struct file *file, char __user *buffer,
- 	struct iowarrior *dev;
- 	int read_idx;
- 	int offset;
-+	int retval;
- 
- 	dev = file->private_data;
- 
-+	if (file->f_flags & O_NONBLOCK) {
-+		retval = mutex_trylock(&dev->mutex);
-+		if (!retval)
-+			return -EAGAIN;
-+	} else {
-+		retval = mutex_lock_interruptible(&dev->mutex);
-+		if (retval)
-+			return -ERESTARTSYS;
-+	}
-+
- 	/* verify that the device wasn't unplugged */
--	if (!dev || !dev->present)
--		return -ENODEV;
-+	if (!dev->present) {
-+		retval = -ENODEV;
-+		goto exit;
-+	}
- 
- 	dev_dbg(&dev->interface->dev, "minor %d, count = %zd\n",
- 		dev->minor, count);
- 
- 	/* read count must be packet size (+ time stamp) */
- 	if ((count != dev->report_size)
--	    && (count != (dev->report_size + 1)))
--		return -EINVAL;
-+	    && (count != (dev->report_size + 1))) {
-+		retval = -EINVAL;
-+		goto exit;
-+	}
- 
- 	/* repeat until no buffer overrun in callback handler occur */
- 	do {
- 		atomic_set(&dev->overflow_flag, 0);
- 		if ((read_idx = read_index(dev)) == -1) {
- 			/* queue empty */
--			if (file->f_flags & O_NONBLOCK)
--				return -EAGAIN;
-+			if (file->f_flags & O_NONBLOCK) {
-+				retval = -EAGAIN;
-+				goto exit;
-+			}
- 			else {
- 				//next line will return when there is either new data, or the device is unplugged
- 				int r = wait_event_interruptible(dev->read_wait,
-@@ -309,28 +326,37 @@ static ssize_t iowarrior_read(struct file *file, char __user *buffer,
- 								  -1));
- 				if (r) {
- 					//we were interrupted by a signal
--					return -ERESTART;
-+					retval = -ERESTART;
-+					goto exit;
- 				}
- 				if (!dev->present) {
- 					//The device was unplugged
--					return -ENODEV;
-+					retval = -ENODEV;
-+					goto exit;
- 				}
- 				if (read_idx == -1) {
- 					// Can this happen ???
--					return 0;
-+					retval = 0;
-+					goto exit;
- 				}
- 			}
- 		}
- 
- 		offset = read_idx * (dev->report_size + 1);
- 		if (copy_to_user(buffer, dev->read_queue + offset, count)) {
--			return -EFAULT;
-+			retval = -EFAULT;
-+			goto exit;
- 		}
- 	} while (atomic_read(&dev->overflow_flag));
- 
- 	read_idx = ++read_idx == MAX_INTERRUPT_BUFFER ? 0 : read_idx;
- 	atomic_set(&dev->read_idx, read_idx);
-+	mutex_unlock(&dev->mutex);
- 	return count;
-+
-+exit:
-+	mutex_unlock(&dev->mutex);
-+	return retval;
- }
- 
- /*
---
+url:    https://github.com/intel-lab-lkp/linux/commits/Mikhail-Arkhipov/usb-gadget-r8a66597-udc-Fix-double-free-in-r8a66597_probe/20240917-063133
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/gregkh/usb.git usb-testing
+patch link:    https://lore.kernel.org/r/20240916222937.12878-1-m.arhipov%40rosa.ru
+patch subject: [PATCH] usb: gadget: r8a66597-udc: Fix double free in r8a66597_probe
+config: i386-buildonly-randconfig-001-20240917 (https://download.01.org/0day-ci/archive/20240918/202409180041.GEhgD6dC-lkp@intel.com/config)
+compiler: clang version 18.1.8 (https://github.com/llvm/llvm-project 3b5b5c1ec4a3095ab096dd780e84d7ab81f3d7ff)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240918/202409180041.GEhgD6dC-lkp@intel.com/reproduce)
+
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202409180041.GEhgD6dC-lkp@intel.com/
+
+All warnings (new ones prefixed by >>):
+
+>> drivers/usb/gadget/udc/r8a66597-udc.c:1962:3: warning: misleading indentation; statement is not part of the previous 'if' [-Wmisleading-indentation]
+    1962 |                 r8a66597->ep0_req = NULL;
+         |                 ^
+   drivers/usb/gadget/udc/r8a66597-udc.c:1960:2: note: previous statement is here
+    1960 |         if (r8a66597->ep0_req)
+         |         ^
+   1 warning generated.
+
+
+vim +/if +1962 drivers/usb/gadget/udc/r8a66597-udc.c
+
+  1832	
+  1833	static int r8a66597_probe(struct platform_device *pdev)
+  1834	{
+  1835		struct device *dev = &pdev->dev;
+  1836		char clk_name[8];
+  1837		struct resource *ires;
+  1838		int irq;
+  1839		void __iomem *reg = NULL;
+  1840		struct r8a66597 *r8a66597 = NULL;
+  1841		int ret = 0;
+  1842		int i;
+  1843		unsigned long irq_trigger;
+  1844	
+  1845		reg = devm_platform_ioremap_resource(pdev, 0);
+  1846		if (IS_ERR(reg))
+  1847			return PTR_ERR(reg);
+  1848	
+  1849		ires = platform_get_resource(pdev, IORESOURCE_IRQ, 0);
+  1850		if (!ires)
+  1851			return -EINVAL;
+  1852		irq = ires->start;
+  1853		irq_trigger = ires->flags & IRQF_TRIGGER_MASK;
+  1854	
+  1855		if (irq < 0) {
+  1856			dev_err(dev, "platform_get_irq error.\n");
+  1857			return -ENODEV;
+  1858		}
+  1859	
+  1860		/* initialize ucd */
+  1861		r8a66597 = devm_kzalloc(dev, sizeof(struct r8a66597), GFP_KERNEL);
+  1862		if (r8a66597 == NULL)
+  1863			return -ENOMEM;
+  1864	
+  1865		spin_lock_init(&r8a66597->lock);
+  1866		platform_set_drvdata(pdev, r8a66597);
+  1867		r8a66597->pdata = dev_get_platdata(dev);
+  1868		r8a66597->irq_sense_low = irq_trigger == IRQF_TRIGGER_LOW;
+  1869	
+  1870		r8a66597->gadget.ops = &r8a66597_gadget_ops;
+  1871		r8a66597->gadget.max_speed = USB_SPEED_HIGH;
+  1872		r8a66597->gadget.name = udc_name;
+  1873	
+  1874		timer_setup(&r8a66597->timer, r8a66597_timer, 0);
+  1875		r8a66597->reg = reg;
+  1876	
+  1877		if (r8a66597->pdata->on_chip) {
+  1878			snprintf(clk_name, sizeof(clk_name), "usb%d", pdev->id);
+  1879			r8a66597->clk = devm_clk_get(dev, clk_name);
+  1880			if (IS_ERR(r8a66597->clk)) {
+  1881				dev_err(dev, "cannot get clock \"%s\"\n", clk_name);
+  1882				return PTR_ERR(r8a66597->clk);
+  1883			}
+  1884			clk_prepare_enable(r8a66597->clk);
+  1885		}
+  1886	
+  1887		if (r8a66597->pdata->sudmac) {
+  1888			ret = r8a66597_sudmac_ioremap(r8a66597, pdev);
+  1889			if (ret < 0)
+  1890				goto clean_up2;
+  1891		}
+  1892	
+  1893		disable_controller(r8a66597); /* make sure controller is disabled */
+  1894	
+  1895		ret = devm_request_irq(dev, irq, r8a66597_irq, IRQF_SHARED,
+  1896				       udc_name, r8a66597);
+  1897		if (ret < 0) {
+  1898			dev_err(dev, "request_irq error (%d)\n", ret);
+  1899			goto clean_up2;
+  1900		}
+  1901	
+  1902		INIT_LIST_HEAD(&r8a66597->gadget.ep_list);
+  1903		r8a66597->gadget.ep0 = &r8a66597->ep[0].ep;
+  1904		INIT_LIST_HEAD(&r8a66597->gadget.ep0->ep_list);
+  1905		for (i = 0; i < R8A66597_MAX_NUM_PIPE; i++) {
+  1906			struct r8a66597_ep *ep = &r8a66597->ep[i];
+  1907	
+  1908			if (i != 0) {
+  1909				INIT_LIST_HEAD(&r8a66597->ep[i].ep.ep_list);
+  1910				list_add_tail(&r8a66597->ep[i].ep.ep_list,
+  1911						&r8a66597->gadget.ep_list);
+  1912			}
+  1913			ep->r8a66597 = r8a66597;
+  1914			INIT_LIST_HEAD(&ep->queue);
+  1915			ep->ep.name = r8a66597_ep_name[i];
+  1916			ep->ep.ops = &r8a66597_ep_ops;
+  1917			usb_ep_set_maxpacket_limit(&ep->ep, 512);
+  1918	
+  1919			if (i == 0) {
+  1920				ep->ep.caps.type_control = true;
+  1921			} else {
+  1922				ep->ep.caps.type_iso = true;
+  1923				ep->ep.caps.type_bulk = true;
+  1924				ep->ep.caps.type_int = true;
+  1925			}
+  1926			ep->ep.caps.dir_in = true;
+  1927			ep->ep.caps.dir_out = true;
+  1928		}
+  1929		usb_ep_set_maxpacket_limit(&r8a66597->ep[0].ep, 64);
+  1930		r8a66597->ep[0].pipenum = 0;
+  1931		r8a66597->ep[0].fifoaddr = CFIFO;
+  1932		r8a66597->ep[0].fifosel = CFIFOSEL;
+  1933		r8a66597->ep[0].fifoctr = CFIFOCTR;
+  1934		r8a66597->ep[0].pipectr = get_pipectr_addr(0);
+  1935		r8a66597->pipenum2ep[0] = &r8a66597->ep[0];
+  1936		r8a66597->epaddr2ep[0] = &r8a66597->ep[0];
+  1937	
+  1938		r8a66597->ep0_req = r8a66597_alloc_request(&r8a66597->ep[0].ep,
+  1939								GFP_KERNEL);
+  1940		if (r8a66597->ep0_req == NULL) {
+  1941			ret = -ENOMEM;
+  1942			goto clean_up2;
+  1943		}
+  1944		r8a66597->ep0_req->complete = nop_completion;
+  1945	
+  1946		ret = usb_add_gadget_udc(dev, &r8a66597->gadget);
+  1947		if (ret)
+  1948			goto err_add_udc;
+  1949	
+  1950		dev_info(dev, "version %s\n", DRIVER_VERSION);
+  1951		return 0;
+  1952	
+  1953	err_add_udc:
+  1954		r8a66597_free_request(&r8a66597->ep[0].ep, r8a66597->ep0_req);
+  1955		r8a66597->ep0_req = NULL;
+  1956	clean_up2:
+  1957		if (r8a66597->pdata->on_chip)
+  1958			clk_disable_unprepare(r8a66597->clk);
+  1959	
+  1960		if (r8a66597->ep0_req)
+  1961			r8a66597_free_request(&r8a66597->ep[0].ep, r8a66597->ep0_req);
+> 1962			r8a66597->ep0_req = NULL;
+  1963	
+  1964		return ret;
+  1965	}
+  1966	
+
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
