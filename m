@@ -1,143 +1,92 @@
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-lf1-f46.google.com (mail-lf1-f46.google.com [209.85.167.46])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D0CF9194C79
-	for <linux-usb@vger.kernel.org>; Thu, 19 Sep 2024 08:05:48 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.133.124
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9C8A416D30B
+	for <linux-usb@vger.kernel.org>; Thu, 19 Sep 2024 08:47:39 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.46
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1726733150; cv=none; b=Ov31aseZW9Yhj7/1BWmSIZUzH8egq+n8F8faux9xH38SHRGRZhKxFFj7CqZGJQ1tbbGg9e1CZVAqwWI/koTZmC1Q5EXyRDneYfQKYhB27otO3HQpW12iU07So4NfxgtO00XHOyyn7Nt2Y7e0vY7qRMTqM7inUOtFyq4uHdB1Ktc=
+	t=1726735661; cv=none; b=O9d9m7n33XbjZJE+mNmtqC7XalYZbjXRUdu9bnXz666zZi9QGsY1aDk1GPYSMH8K9TzJKzkjnaF6eWAnFOUItEKy7SKRWbkhcDUDn76ugvwTH0N6lOLFJiLzxv6k7vtAmxmmyOMfsZClfbNV1HlEMMwrsvQCE4kY7/YNszSyei8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1726733150; c=relaxed/simple;
-	bh=D6orOs9XWZcSb2c958q3cTArR1KhoQmCev6MFYcT+hw=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=VqSyMUadVqyOXVVkCwbzUuG+Am78VJVhWo7syqVchc1xgHp8BQtX/TvQtW5XxPeLYD+zwaNfF6EQJvMhYMODz8/fFQQK2Fcaz7yTNe238RyfOWc3Ct5Wq+AjCTY/9ezgHzhY/aBRZXJolD7iJV8I3ug7yVP87ikz1aBrBHZlVmM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=UJ5f3riU; arc=none smtp.client-ip=170.10.133.124
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=redhat.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
+	s=arc-20240116; t=1726735661; c=relaxed/simple;
+	bh=+FD7P1RjeKfnXr/F49snqK2IMqcMU2TVYlAGvnt+2RE=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=UtfO8+O390D7x6yNuJAfizfj9ILDV1lh+FOA9EelnDLS2KYI+CW7P/ELU4C5VDedCnfvvCiMhvabTdiVjP49rzLYvFUx//ducOZGIadWXYjHq+8oT9gI22NgYwh20q0rRqInPufT3akHAI5W4BoStpj2tvIIwY2/TcOSNbukIBk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=bBb3xMYj; arc=none smtp.client-ip=209.85.167.46
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="UJ5f3riU"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1726733148;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=IZEA0msBMHgpwLmqmZ6+VgQjF1gCi6aA86BugJBjbeQ=;
-	b=UJ5f3riUhqG7dk6F+ZwWH53jMZghntpMHXU2/iYqLAKPNJ2eD0OGYA07EjQr/+eyzLcsK+
-	j5D2xbUsh3SGNM7Y1cfp021oaweLHLB1QW/gFvfHT4MCwehchyhpxTedo5h/qLpATI6KAn
-	GPlcv39k25HIzwqe/7hsYr7Sqc183fM=
-Received: from mail-wm1-f71.google.com (mail-wm1-f71.google.com
- [209.85.128.71]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-634-zRTs0vf1NtCnKdfXbGCLSA-1; Thu, 19 Sep 2024 04:05:46 -0400
-X-MC-Unique: zRTs0vf1NtCnKdfXbGCLSA-1
-Received: by mail-wm1-f71.google.com with SMTP id 5b1f17b1804b1-42caf073db8so4420695e9.3
-        for <linux-usb@vger.kernel.org>; Thu, 19 Sep 2024 01:05:46 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="bBb3xMYj"
+Received: by mail-lf1-f46.google.com with SMTP id 2adb3069b0e04-5369f1c7cb8so728275e87.1
+        for <linux-usb@vger.kernel.org>; Thu, 19 Sep 2024 01:47:39 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google; t=1726735658; x=1727340458; darn=vger.kernel.org;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=jq2tX2ECC3NUmAnqbQ+Yt1rqokfE1U1W8AO/4Bkj5WQ=;
+        b=bBb3xMYjSku9FBmd4laRiWh7cGGJ3jzIak86emoyHHAFPCwMg8oW+eOS70JtGuprkf
+         J1MkVCMxrnDfOyBuJOokn3TnJ6EteGBKQUSNsrUmlcTk10/gm7Vx4EQ7A4HkCBL8TYIl
+         GOx/JTiOgLJ5HrV/sls/RopfUQBDLkvx8KYnPmSMo1cKdZWh9AONzYKaYT9M7XPnphHz
+         FFemXxsqADAV07JToS+Qh6JcINIQTbSRmN5JdX1dpCf2bmzjPNIykOLqePs1ZQ1BWnON
+         XIJZ3+YpzmKM3C47hwEI9vzIuaqT6tmJbko9zOrHnjT+z3yIIgesi8AFjPryUdPaeNTG
+         TfjQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1726733145; x=1727337945;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=IZEA0msBMHgpwLmqmZ6+VgQjF1gCi6aA86BugJBjbeQ=;
-        b=Kdie9D48j8TyzrUWUrG9CoE1Z/r5cvGZ+3C2AdfXifG7L5EFrYCTKHDidGxEZVpdiD
-         qhzrR/FrWK4M9RAxhjAhumdDSFp40PTfzZ0S/DiQXTuQ3pypbXP0/hSyI/TkVf2VhNRB
-         cP+U564g3pYt9LJu5M1N20uRmUUeXwiHlp9hCCAviBi2+4WWT7lOsVqYzzy7XlZYtThf
-         /jzTJaHBZca0TipknwS7HjK7wrIy/oaB6UKg7eiVD1wnB63ImtjKYrm6Bx2bligWiERL
-         6xAq0OY+6Hy3KHbnxwBh6m/DZ85YZlofziffoAkiQQktRcvqKivAr+wsMkTUSXceT1aH
-         A0QQ==
-X-Forwarded-Encrypted: i=1; AJvYcCXQBaNxCmSj6W09SpeNMFQ8aaBKznd7kBrm9Z6hVl1XMo3FVKul8ysuecjkwDCXUns/K0y/vUDJVK0=@vger.kernel.org
-X-Gm-Message-State: AOJu0Yw98KdPd6rgBwXOGDv1eNfHoFY1P3NI63oRJFb4QcqxMsGNP1rX
-	kDv/+uUhe/pNn3r7PpgWa6O0v432bDnjf+6ShIsTRbXfX22/NxyX45a4pGiCUSa3puDaKhFYFkB
-	HNqHAIK0E1xHSQkkPauJq2UhOcvFBz9NvZmjQJjDkY/YMGo/TZ/xjpwbe4A==
-X-Received: by 2002:a05:600c:1c8f:b0:42c:b905:2bf9 with SMTP id 5b1f17b1804b1-42cdb54077bmr242423355e9.16.1726733145310;
-        Thu, 19 Sep 2024 01:05:45 -0700 (PDT)
-X-Google-Smtp-Source: AGHT+IE928BYAUOD5B5pdo3lSpWnLvjkNA+3j8DdssqX65JtDEky2vLakwAopjnNk3X2+1VGPnqHTg==
-X-Received: by 2002:a05:600c:1c8f:b0:42c:b905:2bf9 with SMTP id 5b1f17b1804b1-42cdb54077bmr242422995e9.16.1726733144861;
-        Thu, 19 Sep 2024 01:05:44 -0700 (PDT)
-Received: from [192.168.88.100] (146-241-67-136.dyn.eolo.it. [146.241.67.136])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-42e7543f3f4sm15139815e9.16.2024.09.19.01.05.43
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Thu, 19 Sep 2024 01:05:44 -0700 (PDT)
-Message-ID: <fa3b39c4-8509-49ca-91cf-1536059b79d5@redhat.com>
-Date: Thu, 19 Sep 2024 10:05:42 +0200
+        d=1e100.net; s=20230601; t=1726735658; x=1727340458;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=jq2tX2ECC3NUmAnqbQ+Yt1rqokfE1U1W8AO/4Bkj5WQ=;
+        b=ciMpEs2QKjjb+Q0p2E3Tz6Ct0MWyTHA7wbTy7JZaVG7cy3teRQJ4HtD0qs9IYNLe86
+         rxWGBGQ4s3LzZ1A2l2friXRGLhuNSHbG9xrNYsU4IAJ2B0Yx7ltvlgBHodO0Uo+Ht/rc
+         CiI1mYb6FWWYsC/YMdkpYRhCwIXy/9UwefU8LmEtqZ6b+pmeaFedQbcBNcZ1BuNyQi8o
+         AiU9lnV5Tc6sKyWFc5hlGWSofPVaIW38DJJcFvOQDBhISpnpnXfL9FyQdI0wlu6F46LS
+         tLx+dkbhPmCBA2xp4iu0px9i9ErEB6/wMw7NCQlTX1ebVMA5f2iXNxNFDz4dZTzOsqGG
+         BoJg==
+X-Forwarded-Encrypted: i=1; AJvYcCWswbuitma+IOv+P1o+XgevhP85omcKp16NtvuXIkij1zKkPqtcVsY6ghcPNlVUjX3tyYfnyhBVIbs=@vger.kernel.org
+X-Gm-Message-State: AOJu0Yyd010qoebic3K/I/v875aluTK7r6QUc0g+ygs1tlRXpm81JyM1
+	QvLdGYc8JOk+6sW+L9H0f8NE+7EHDkvzAJQB6vchXUiLYbB6KqwYuLDTmeU2zJ8=
+X-Google-Smtp-Source: AGHT+IEI2GKBKE7AgPotBnnyM1lctw7YMycpN6Tti5HLjDEBxozLBz3+JepnDw3k1so/zp3SU4r3ew==
+X-Received: by 2002:a05:6512:a88:b0:533:4722:ebbe with SMTP id 2adb3069b0e04-5367fee45a2mr12651689e87.26.1726735657700;
+        Thu, 19 Sep 2024 01:47:37 -0700 (PDT)
+Received: from eriador.lumag.spb.ru (2001-14ba-a0c3-3a00--7a1.rev.dnainternet.fi. [2001:14ba:a0c3:3a00::7a1])
+        by smtp.gmail.com with ESMTPSA id 2adb3069b0e04-5368704685esm1766668e87.27.2024.09.19.01.47.36
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 19 Sep 2024 01:47:37 -0700 (PDT)
+Date: Thu, 19 Sep 2024 11:47:34 +0300
+From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+To: Yu Jiaoliang <yujiaoliang@vivo.com>
+Cc: Heikki Krogerus <heikki.krogerus@linux.intel.com>, 
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>, RD Babiera <rdbabiera@google.com>, 
+	Guenter Roeck <linux@roeck-us.net>, Badhri Jagan Sridharan <badhri@google.com>, 
+	Kyle Tso <kyletso@google.com>, Xu Yang <xu.yang_2@nxp.com>, linux-usb@vger.kernel.org, 
+	linux-kernel@vger.kernel.org, opensource.kernel@vivo.com
+Subject: Re: [PATCH v1] usb: typec: Fix typo in comment
+Message-ID: <ofyvc72hsjebsnfiwg7qkehyy4flqfeffzc3gyupgeikfutkbj@g5m7x7xum25q>
+References: <20240919014646.1635774-1-yujiaoliang@vivo.com>
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH net-next v2] usbnet: ipheth: prevent OoB reads of NDP16
-To: Foster Snowhill <forst@pen.gy>, "David S. Miller" <davem@davemloft.net>,
- Eric Dumazet <edumazet@google.com>, Jakub Kicinski <kuba@kernel.org>
-Cc: Georgi Valkov <gvalkov@gmail.com>, Simon Horman <horms@kernel.org>,
- Oliver Neukum <oneukum@suse.com>, netdev@vger.kernel.org,
- linux-usb@vger.kernel.org
-References: <20240912211817.1707844-1-forst@pen.gy>
-Content-Language: en-US
-From: Paolo Abeni <pabeni@redhat.com>
-In-Reply-To: <20240912211817.1707844-1-forst@pen.gy>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20240919014646.1635774-1-yujiaoliang@vivo.com>
 
-On 9/12/24 23:18, Foster Snowhill wrote:
-> In "NCM mode", the iOS device encapsulates RX (phone->computer) traffic
-> in NCM Transfer Blocks (similarly to CDC NCM). However, unlike reverse
-> tethering (handled by the `cdc_ncm` driver), regular tethering is not
-> compliant with the CDC NCM spec, as the device is missing the necessary
-> descriptors, and TX (computer->phone) traffic is not encapsulated
-> at all. Thus `ipheth` implements a very limited subset of the spec with
-> the sole purpose of parsing RX URBs.
+On Thu, Sep 19, 2024 at 09:46:26AM GMT, Yu Jiaoliang wrote:
+> Fix typos:
+> reseet->reset,
+> reaach->reach,
+> compatiple->compatible.
 > 
-> In the first iteration of the NCM mode implementation, there were a few
-> potential out of bounds reads when processing malformed URBs received
-> from a connected device:
-> 
-> * Only the start of NDP16 (wNdpIndex) was checked to fit in the URB
->    buffer.
-> * Datagram length check as part of DPEs could overflow.
-> * DPEs could be read past the end of NDP16 and even end of URB buffer
->    if a trailer DPE wasn't encountered.
-> 
-> The above is not expected to happen in normal device operation.
-> 
-> To address the above issues for iOS devices in NCM mode, rely on
-> and check for a specific fixed format of incoming URBs expected from
-> an iOS device:
-> 
-> * 12-byte NTH16
-> * 96-byte NDP16, allowing up to 22 DPEs (up to 21 datagrams + trailer)
-> 
-> On iOS, NDP16 directly follows NTH16, and its length is constant
-> regardless of the DPE count.
-> 
-> Adapt the driver to use the fixed URB format. Set an upper bound for
-> the DPE count based on the expected header size. Always expect a null
-> trailer DPE.
-> 
-> The minimal URB length of 108 bytes (IPHETH_NCM_HEADER_SIZE) in NCM mode
-> is already enforced in ipheth since introduction of NCM mode support.
-> 
-> Signed-off-by: Foster Snowhill <forst@pen.gy>
-> Tested-by: Georgi Valkov <gvalkov@gmail.com>
+> Signed-off-by: Yu Jiaoliang <yujiaoliang@vivo.com>
 > ---
-> v2: No code changes. Update commit message to further clarify that
->      `ipheth` is not and does not aim to be a complete or spec-compliant
->      CDC NCM implementation.
-> v1: https://lore.kernel.org/netdev/20240907230108.978355-1-forst@pen.gy/
+>  drivers/usb/typec/altmodes/displayport.c | 2 +-
+>  drivers/usb/typec/tcpm/tcpm.c            | 4 ++--
+>  2 files changed, 3 insertions(+), 3 deletions(-)
 > 
-> This should perhaps go into "net" rather than "net-next"? I submitted
-> the previous patch series to "net-next", but it got merged into "net"
-> [1]. However it's quite late in the 6.11-rc cycle, so not sure.
 
-This indeed looks like a fix. I suggest to post it for the net tree 
-including a suitable fixes tag.
+Reviewed-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
 
-Additionally since it looks like the patch addressed several issues, it 
-would be probably better to split it in a small series, each patch 
-addressing a single issue - and each patch with it's own fixed tag.
-
-Thanks,
-
-Paolo
-
+-- 
+With best wishes
+Dmitry
