@@ -1,77 +1,100 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.13])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1621D194C8D;
-	Thu, 19 Sep 2024 09:02:51 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7705219D072
+	for <linux-usb@vger.kernel.org>; Thu, 19 Sep 2024 09:38:14 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.13
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1726736572; cv=none; b=lki5Edm70ijBa+VJL74E8ilvFMBuf6icExKAdVyDLEV4UOexk+NxL8bw/CMO1r1GtQOxn1a1dRbkOYbkm35BZtw5G7B34PwuIGIhNnYmWuinRL3n+IjIjYnoF9HqLvVDryvk8Hkg7pQJm0D54kMcT9nWERBqPbx04275OId4Rws=
+	t=1726738708; cv=none; b=pzKWJmo/UI3uBTHtsjJbPLkCYalFqhJ5XhWCzRmGaaqn4TpqPFZrK4yX8wv72eCzGIckR3PqxkkcbsltPwZYs2g29uqrpPe7qvvty4XlwigKOxyPRyuL/hi+SIOroqJHls940CX3lmM05kofiUeFLf0Vlt0M71xz0IA4HBn8rro=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1726736572; c=relaxed/simple;
-	bh=6HLRjJlhRM4me2Z49OQZVyGYqUmiHotQzHvDOlEVWsM=;
+	s=arc-20240116; t=1726738708; c=relaxed/simple;
+	bh=6zgIlf2g4FasRB9SZXjDti0mnh5q9PH51K4Miuw73eA=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=CxyKRDzApY5yHq30MjXY/4a0mbOpAsR4Ft2ckBap/aJH7CMo9Kduv/J38wr8nihyVQHeP76O/RJh8O3FG+q1cz/m2dus75HkxF142nFd4Fi3mugPcTOhVbVkaamMwyo+o/zqlCaonxwkfng/jPt+exg/hlwaleFAbT9XjBKLt8A=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b=CesDA7wB; arc=none smtp.client-ip=10.30.226.201
+	 Content-Type:Content-Disposition:In-Reply-To; b=lLAqw+cUUvd8Uy6mK0C1RWFoBB2Mw4O7sYBot+E/VgMzmdpBMBz0wvI7RB5PZqP4XNNZyJ5yQysO/fjjlKJiedH+QmbAQ3Qk3LCXOQRf+fKIqG7rBRuRIvpu5nirX3BaJ/tOyBBXiyUP8g91WTa+jJ3bHlcEdilwCrajPcwJAM4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=none smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=l4HshIq3; arc=none smtp.client-ip=198.175.65.13
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=linux.intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="CesDA7wB"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 46F3FC4CEC5;
-	Thu, 19 Sep 2024 09:02:51 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
-	s=korg; t=1726736571;
-	bh=6HLRjJlhRM4me2Z49OQZVyGYqUmiHotQzHvDOlEVWsM=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=CesDA7wBUH09mO5BJRtrFuL2pNLTqmRTOxVZIlxyl/I/H4RHQGs7ld4ILbBJYpHs9
-	 UWAMfZsdQ8siq4tYOEp4v95nliNhvCU9r8YAu8qJhS7Uq77oYGTbwSa+c+9BskoYYr
-	 rkFA2RzWsxoDq+ufxv0Etx/GwRvIikVzw9D3B7Ro=
-Date: Thu, 19 Sep 2024 10:11:37 +0200
-From: Greg KH <gregkh@linuxfoundation.org>
-To: Amit Sunil Dhamne <amitsd@google.com>
-Cc: heikki.krogerus@linux.intel.com, badhri@google.com, kyletso@google.com,
-	rdbabiera@google.com, linux-kernel@vger.kernel.org,
-	linux-usb@vger.kernel.org, stable@vger.kernel.org
-Subject: Re: [PATCH v1] usb: typec: Fix arg check for
- usb_power_delivery_unregister_capabilities
-Message-ID: <2024091956-premiere-given-c496@gregkh>
-References: <20240919075815.332017-1-amitsd@google.com>
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="l4HshIq3"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1726738695; x=1758274695;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:content-transfer-encoding:in-reply-to;
+  bh=6zgIlf2g4FasRB9SZXjDti0mnh5q9PH51K4Miuw73eA=;
+  b=l4HshIq3ENTAALapfannG6xUsw3KhWk+p1ggfnVv2ASZRwA7BXnA4kOG
+   CEmrraYFNvcssSG4WbiWrp1v6uxdG3tJYh35UnKv8qkwE8Ektkpgu5x5g
+   QOEUYezMZE6Ht9s6K3KFD3Lo7+OOe8n83xrgfi4+98G+LfQ1+jYl+z1v4
+   HL2uXf8DI7rolCnNgDRpAaDZ3zMt7LyA6hRYXgGjvBBbp2E4v1KsO8EHk
+   AC9ORLOGArMOSExDQ7UB0Nu6PR+O/myIUbjmgt+cGsMdljomY1EjcLLIt
+   2r1Uh2TtEeeQbhBflwiOhGDwAx18117fqdS7tGFp8V3VY/6gGg4SCvbnP
+   w==;
+X-CSE-ConnectionGUID: F3tSyI+OTgSSEmJSghVvyQ==
+X-CSE-MsgGUID: elgHhSX+SGSR5N2sPXik9Q==
+X-IronPort-AV: E=McAfee;i="6700,10204,11199"; a="36819144"
+X-IronPort-AV: E=Sophos;i="6.10,241,1719903600"; 
+   d="scan'208";a="36819144"
+Received: from orviesa004.jf.intel.com ([10.64.159.144])
+  by orvoesa105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 19 Sep 2024 02:38:14 -0700
+X-CSE-ConnectionGUID: ldBceI2yT+upVN9vD1az3A==
+X-CSE-MsgGUID: u8/7oFQkSsutQR0x0zrhGg==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.10,241,1719903600"; 
+   d="scan'208";a="74855169"
+Received: from kuha.fi.intel.com ([10.237.72.185])
+  by orviesa004.jf.intel.com with SMTP; 19 Sep 2024 02:38:11 -0700
+Received: by kuha.fi.intel.com (sSMTP sendmail emulation); Thu, 19 Sep 2024 12:38:09 +0300
+Date: Thu, 19 Sep 2024 12:38:09 +0300
+From: Heikki Krogerus <heikki.krogerus@linux.intel.com>
+To: =?utf-8?Q?=C5=81ukasz?= Bartosik <ukaszb@chromium.org>
+Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	Lee Jones <lee@kernel.org>, Benson Leung <bleung@chromium.org>,
+	Guenter Roeck <groeck@chromium.org>,
+	Abhishek Pandit-Subedi <abhishekpandit@chromium.org>,
+	Pavan Holla <pholla@chromium.org>,
+	Tzung-Bi Shih <tzungbi@kernel.org>, linux-usb@vger.kernel.org,
+	chrome-platform@lists.linux.dev
+Subject: Re: [PATCH v6 6/8] usb: typec: cros_ec_ucsi: Add netlink
+Message-ID: <ZuvxAQmMsnIYZMTP@kuha.fi.intel.com>
+References: <20240910101527.603452-1-ukaszb@chromium.org>
+ <20240910101527.603452-7-ukaszb@chromium.org>
+ <ZuGkMiE3sHOpo/Ci@kuha.fi.intel.com>
+ <CALwA+Nb6zWe-WOgcu8-ni5OCx9XxerVhi76fZze2KP_kmFVonA@mail.gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <20240919075815.332017-1-amitsd@google.com>
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <CALwA+Nb6zWe-WOgcu8-ni5OCx9XxerVhi76fZze2KP_kmFVonA@mail.gmail.com>
 
-On Thu, Sep 19, 2024 at 12:58:12AM -0700, Amit Sunil Dhamne wrote:
-> usb_power_delivery_register_capabilities() returns ERR_PTR in case of
-> failure. usb_power_delivery_unregister_capabilities() we only check
-> argument ("cap") for NULL. A more robust check would be checking for
-> ERR_PTR as well.
+On Sun, Sep 15, 2024 at 12:08:45AM +0200, Łukasz Bartosik wrote:
+> On Wed, Sep 11, 2024 at 4:09 PM Heikki Krogerus
+> <heikki.krogerus@linux.intel.com> wrote:
+> >
+> > Hi,
+> >
+> > On Tue, Sep 10, 2024 at 10:15:25AM +0000, Łukasz Bartosik wrote:
+> > > Add netlink to ChromeOS UCSI driver to allow forwarding
+> > > of UCSI messages to userspace for debugging and testing
+> > > purposes.
+> >
+> > Why does this need to be cros_ec specific?
+> >
 > 
-> Cc: stable@vger.kernel.org
-> Fixes: 662a60102c12 ("usb: typec: Separate USB Power Delivery from USB Type-C")
-> Signed-off-by: Amit Sunil Dhamne <amitsd@google.com>
-> Reviewed-by: Badhri Jagan Sridharan <badhri@google.com>
-> ---
->  drivers/usb/typec/pd.c | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
-> 
-> diff --git a/drivers/usb/typec/pd.c b/drivers/usb/typec/pd.c
-> index d78c04a421bc..761fe4dddf1b 100644
-> --- a/drivers/usb/typec/pd.c
-> +++ b/drivers/usb/typec/pd.c
-> @@ -519,7 +519,7 @@ EXPORT_SYMBOL_GPL(usb_power_delivery_register_capabilities);
->   */
->  void usb_power_delivery_unregister_capabilities(struct usb_power_delivery_capabilities *cap)
->  {
-> -	if (!cap)
-> +	if (IS_ERR_OR_NULL(cap))
+> You're right. Netlink does not have to be cros_ec_ucsi specific.
+> Would you like to have netlink in typec_ucsi ?
 
-This feels like there's a wrong caller, why would this be called with an
-error value in the first place?  Why not fix that?  And why would this
-be called with NULL as well in the first place?
+Does it need to be netlink? We would then have tracepoints, the
+custom debugfs interface, and this netlink interface.
 
-thanks,
+I think this information could be exposed via trancepoints (unless I'm
+missing something).
 
-greg k-h
+Br,
+
+-- 
+heikki
