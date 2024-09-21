@@ -1,117 +1,89 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.13])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-lf1-f51.google.com (mail-lf1-f51.google.com [209.85.167.51])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 25CD538F9C
-	for <linux-usb@vger.kernel.org>; Sat, 21 Sep 2024 07:11:34 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.13
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D1B5C137E;
+	Sat, 21 Sep 2024 12:24:44 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.51
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1726902698; cv=none; b=bdcOdukJMF2TR8ySpeQtjgMUUMmkdaZIUu53uQ9w+YzLVxOxqFCK//+X5A4/9kjEsryhermiHaeqx56MeB2c5cFv11UyhNX15AwfrjULWAP8cN06Jfcg6GUC6/CbrjdRNNMLkCeB06sCCg+FDvc5DX+z2XHoXMiHI6UgviifVrE=
+	t=1726921486; cv=none; b=i91rTtbXo5BU3YBSzBjyT1609miwD1hg0JVcyRIQZ8K7bggYthQ3xH8FXzwO59ZeD7OhcxEi0DU45pyzGfCnecXY0OkVbm6si2BERRnrfnrCHmWdEd91TaVJqybkp/KqIyqNhMGW93RrOXb8CgLWxz1Ps4SxBIkTdHkImJGYdZc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1726902698; c=relaxed/simple;
-	bh=hH41RHYKw4lqHr7XX6POAThxUbZ8bCohv68dNVoXk5I=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=nTRD9Lb4zG7Zr8pJzzTlYb4KvqXOKF6Sr+Kd/wV0MZDDBWZeDd5B86G26lGu8rIT9BUoSXKmlnlYr/1D+GdX7OZ9ZVgbwcBGdtyCsgsFl7YLNI4qP7AOSZEIB7hwefnM+m53KyW3WoLnlVxPnqpNkh44oo7mCsvmKT8C6mdF+hI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=k2AEDzg7; arc=none smtp.client-ip=198.175.65.13
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	s=arc-20240116; t=1726921486; c=relaxed/simple;
+	bh=Lm5wT3nctgKw603dwlAmokov0gKbgWJJS54F9VbU9Wc=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=o05dQ8RHLcN+doF+etaPIqx02wf6RU5XTNozjJBaAEQr/3yyr7Pz0Q5sskMlGKvBSmjAa8ZhttbfYRWS3vDPO0ss8zLjxXEapQ2BjpMCGYeHksoOneBmT9DT5pfRAm1+o/QvP+KqvD0dnZi/zLvu4QNIX5T4PNXMRgNFq+Ex9i0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=aEn4sQhD; arc=none smtp.client-ip=209.85.167.51
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="k2AEDzg7"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1726902695; x=1758438695;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:content-transfer-encoding:in-reply-to;
-  bh=hH41RHYKw4lqHr7XX6POAThxUbZ8bCohv68dNVoXk5I=;
-  b=k2AEDzg7Hm7JvZtAfqeFlNhVDMl2FKXbk889soEJfmA+HNoN6/uFPunV
-   0fjw3X98c2tkhGlt+Tk455nM7Y4xYAszZRo+u4LWEysDQkBeFG8n1/InE
-   2nmBjnqrvPTgB1pLcLKFSqg6qxrOU4JndwMjnwaVqYGNzV6t55bBzh9vH
-   RyyD8nRwMkHgc72/xMHwzZn7lYHaHDoYF5DPqJcuRP7FObwe+78vOWmko
-   Hi0SfIHkRlKZhXUllPKPZQbk6KVOJb6Jqqj6hI+FaYDeuQ+4cpgFeC6M2
-   UVm5WlSznm5+MCKGaKTzfPUG/GqCa/d6uNL+Ep2T6pDCXwcv2vth7leWP
-   w==;
-X-CSE-ConnectionGUID: +5Xoj8OjTrG+ObNU5aWGvA==
-X-CSE-MsgGUID: IMdsF2qRTMe07VDHTa0nwg==
-X-IronPort-AV: E=McAfee;i="6700,10204,11201"; a="37048611"
-X-IronPort-AV: E=Sophos;i="6.10,246,1719903600"; 
-   d="scan'208";a="37048611"
-Received: from fmviesa008.fm.intel.com ([10.60.135.148])
-  by orvoesa105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 21 Sep 2024 00:11:34 -0700
-X-CSE-ConnectionGUID: LW2f+v8+QbK2TXDTZwLecw==
-X-CSE-MsgGUID: 0cus1x7xSPqo0v/a888WbA==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.10,246,1719903600"; 
-   d="scan'208";a="70682292"
-Received: from lkp-server01.sh.intel.com (HELO 53e96f405c61) ([10.239.97.150])
-  by fmviesa008.fm.intel.com with ESMTP; 21 Sep 2024 00:11:31 -0700
-Received: from kbuild by 53e96f405c61 with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1sruHA-000FBb-2d;
-	Sat, 21 Sep 2024 07:11:28 +0000
-Date: Sat, 21 Sep 2024 15:11:16 +0800
-From: kernel test robot <lkp@intel.com>
-To: =?utf-8?Q?=C5=81ukasz?= Bartosik <ukaszb@chromium.org>,
-	Heikki Krogerus <heikki.krogerus@linux.intel.com>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	Lee Jones <lee@kernel.org>, Benson Leung <bleung@chromium.org>,
-	Guenter Roeck <groeck@chromium.org>
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
-	Abhishek Pandit-Subedi <abhishekpandit@chromium.org>,
-	Pavan Holla <pholla@chromium.org>,
-	Tzung-Bi Shih <tzungbi@kernel.org>, linux-usb@vger.kernel.org,
-	chrome-platform@lists.linux.dev
-Subject: Re: [PATCH v6 6/8] usb: typec: cros_ec_ucsi: Add netlink
-Message-ID: <202409211431.LpvxyX25-lkp@intel.com>
-References: <20240910101527.603452-7-ukaszb@chromium.org>
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="aEn4sQhD"
+Received: by mail-lf1-f51.google.com with SMTP id 2adb3069b0e04-53654dbde59so3781633e87.1;
+        Sat, 21 Sep 2024 05:24:44 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1726921483; x=1727526283; darn=vger.kernel.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=BnV4AAkppYdl3VxpkVdBWhDkeq1tyHDu6V34X7mplIs=;
+        b=aEn4sQhD8vkSZF6exOfNB1HXli4naG8OE8uXoFsZRFVKnw5rUknwATcooGRC/MlqHQ
+         jNjwjR7qnNM00GFgNigRAbF9Q6RWtBCnMFDzXn3uWUrJLv/jgTDJnG0vQhjcvMhfITrf
+         iKsICk8VpjxEFQjKAKQf4Ux2M7fqG0l5hGN+3WQxgeq1diQb9S4cazCnmgtxzODTkVjn
+         du6WEsILsUfk1/4hczT5SrKb7jikrmmyR43IgEPa3PrXVl4g7phXGSEsNIV90YI50rs5
+         74JTa3amWeQSLEayTD+u10tsw7lFEibBel1DefjN81VToeHU6QHCjksIaVFlf6/i6IaA
+         H8Ig==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1726921483; x=1727526283;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=BnV4AAkppYdl3VxpkVdBWhDkeq1tyHDu6V34X7mplIs=;
+        b=CPCHZ2O22Zkdxw3r/d1Ero5s/z6ltdlt+cv68K/DOt3KlHRvmvHuOBbNXwErncT5nk
+         MyLDBvOLyQE9M2SiUL+EbUGxcFE5PBJW2h/OUwR775gQhPNx5tUyEtd6fOOVLImLoZsN
+         R48jYJlrOm9UWBZC6TzywPsQ0d4IkMaSXfQqk1o7gP0iou8Bm593tuQeiXh2FOeKm5C4
+         pHhT0j4uCHXJ2G4o7BZzVDGMajE3xYCIKtTrmdfJrssz3GSbbIB+GWCcsXUB2R0HoKqU
+         ILYgARU5U5GTL0YdLUmaJIwqHtCXpsrJCY2YNovdtZwnAla6psU4vPaS8s1R0iuF/OXo
+         GJlA==
+X-Forwarded-Encrypted: i=1; AJvYcCUHBxmL/S0Fu2EU1krEaOUQtWURZDR32p8Aza1GVGOsySEUMuNzLrRlJoT+V3MzCHptnH5EHVq8XZtsCvyG@vger.kernel.org, AJvYcCVW4p+PzxWvgZ1i1TqWlB51BU25Dg/Hu4FAnux+jnWAcIINwFkaatfAbPlzyI4YdDe6jqVCdWIoBP2+@vger.kernel.org, AJvYcCXCb3uqtYJeKBC+4FQHhzOCVY3/c6VwcBEmkERNWT7RIZhV/HK7GOgYmlFtGgbrb0dKDbwanaJrruBz@vger.kernel.org
+X-Gm-Message-State: AOJu0Yyg8ooDKa1EPe9/AX01H5ml/qSCTKVbjnNHrqTLvYM5WhM5k+rO
+	fme/9l7hvc2vjv9z7oPxZ8a+rEDPMeIw8RBWyhkcBcYzxNsdfabTmFn3rJVd4hZ1dDscq/YDsrq
+	1jxDpGMBAafgAoIfsn6dBykh6zp6Sss7u
+X-Google-Smtp-Source: AGHT+IHoWHrGLBUT8JY+piHvjihWgo99vAImbbX2yX9mk8Be7SSOMzH323JpYw94nPlLuAepPzXyxgM4onEBHNSwyKg=
+X-Received: by 2002:a05:6512:a8d:b0:533:3fc8:43fb with SMTP id
+ 2adb3069b0e04-536ab7c7c4emr2435107e87.0.1726921482619; Sat, 21 Sep 2024
+ 05:24:42 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <20240910101527.603452-7-ukaszb@chromium.org>
+References: <20240920080154.1595808-1-michal.vokac@ysoft.com> <20240920080154.1595808-3-michal.vokac@ysoft.com>
+In-Reply-To: <20240920080154.1595808-3-michal.vokac@ysoft.com>
+From: Fabio Estevam <festevam@gmail.com>
+Date: Sat, 21 Sep 2024 09:24:31 -0300
+Message-ID: <CAOMZO5BrmuWdiEo6xi8ChT01jfLMaLAb88iUhS1kt6qqr_h7pQ@mail.gmail.com>
+Subject: Re: [PATCH v2 2/4] arm64: dts: imx: Add imx8mp-iota2-lumpy board
+To: =?UTF-8?B?TWljaGFsIFZva8OhxI0=?= <michal.vokac@ysoft.com>
+Cc: Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>, 
+	Conor Dooley <conor+dt@kernel.org>, Greg Kroah-Hartman <gregkh@linuxfoundation.org>, 
+	Shawn Guo <shawnguo@kernel.org>, Petr Benes <petr.benes@ysoft.com>, 
+	Sascha Hauer <s.hauer@pengutronix.de>, Pengutronix Kernel Team <kernel@pengutronix.de>, 
+	Herburger <gregor.herburger@ew.tq-group.com>, 
+	Hiago De Franco <hiago.franco@toradex.com>, Hugo Villeneuve <hvilleneuve@dimonoff.com>, 
+	Joao Paulo Goncalves <joao.goncalves@toradex.com>, Michael Walle <mwalle@kernel.org>, 
+	Alexander Stein <alexander.stein@ew.tq-group.com>, Mathieu Othacehe <m.othacehe@gmail.com>, 
+	devicetree@vger.kernel.org, linux-kernel@vger.kernel.org, 
+	linux-usb@vger.kernel.org, imx@lists.linux.dev, 
+	linux-arm-kernel@lists.infradead.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-Hi Łukasz,
+Hi Michal,
 
-kernel test robot noticed the following build errors:
+On Fri, Sep 20, 2024 at 5:02=E2=80=AFAM Michal Vok=C3=A1=C4=8D <michal.voka=
+c@ysoft.com> wrote:
 
-[auto build test ERROR on usb/usb-testing]
-[also build test ERROR on usb/usb-next usb/usb-linus lee-mfd/for-mfd-next driver-core/driver-core-testing driver-core/driver-core-next driver-core/driver-core-linus linus/master v6.11 next-20240920]
-[cannot apply to lee-mfd/for-mfd-fixes]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
+> +&usb_dwc3_1 {
+> +       dr_mode =3D "host";
+> +       pinctrl-names =3D "default";
 
-url:    https://github.com/intel-lab-lkp/linux/commits/ukasz-Bartosik/platform-chrome-Update-ChromeOS-EC-header-for-UCSI/20240910-182729
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/gregkh/usb.git usb-testing
-patch link:    https://lore.kernel.org/r/20240910101527.603452-7-ukaszb%40chromium.org
-patch subject: [PATCH v6 6/8] usb: typec: cros_ec_ucsi: Add netlink
-config: x86_64-buildonly-randconfig-005-20240921 (https://download.01.org/0day-ci/archive/20240921/202409211431.LpvxyX25-lkp@intel.com/config)
-compiler: clang version 18.1.8 (https://github.com/llvm/llvm-project 3b5b5c1ec4a3095ab096dd780e84d7ab81f3d7ff)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240921/202409211431.LpvxyX25-lkp@intel.com/reproduce)
-
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202409211431.LpvxyX25-lkp@intel.com/
-
-All errors (new ones prefixed by >>, old ones prefixed by <<):
-
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/fpga/tests/fpga-mgr-test.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/fpga/tests/fpga-bridge-test.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/fpga/tests/fpga-region-test.o
->> ERROR: modpost: "genl_register_family" [drivers/usb/typec/ucsi/cros_ec_ucsi.ko] undefined!
->> ERROR: modpost: "genl_unregister_family" [drivers/usb/typec/ucsi/cros_ec_ucsi.ko] undefined!
->> ERROR: modpost: "__alloc_skb" [drivers/usb/typec/ucsi/cros_ec_ucsi.ko] undefined!
->> ERROR: modpost: "genlmsg_put" [drivers/usb/typec/ucsi/cros_ec_ucsi.ko] undefined!
->> ERROR: modpost: "nla_put" [drivers/usb/typec/ucsi/cros_ec_ucsi.ko] undefined!
->> ERROR: modpost: "skb_trim" [drivers/usb/typec/ucsi/cros_ec_ucsi.ko] undefined!
->> ERROR: modpost: "sk_skb_reason_drop" [drivers/usb/typec/ucsi/cros_ec_ucsi.ko] undefined!
->> ERROR: modpost: "init_net" [drivers/usb/typec/ucsi/cros_ec_ucsi.ko] undefined!
->> ERROR: modpost: "netlink_broadcast_filtered" [drivers/usb/typec/ucsi/cros_ec_ucsi.ko] undefined!
-
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+Per Rob's robot message, this pinctrl-names entry should be removed.
