@@ -1,159 +1,124 @@
-Received: from mail.rosalinux.ru (mail.rosalinux.ru [195.19.76.54])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 37D8638DE1;
-	Sat, 21 Sep 2024 16:04:27 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.19.76.54
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E8E7A3A1DB;
+	Sat, 21 Sep 2024 18:28:05 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1726934677; cv=none; b=GNjNyrv8070egu3uSZOrvepFskSIh2an3HzyIRtdmnpxjQtFac2B0fEgsVI01pTPHzumH5V+Gs3oXgSu5qdBaG6SWWg0wd6tAyMN4hGz999fj8Z7J+nsJA5WA6QT7143mgi3y86b440k87gi5uwU+qfo1WySjWfOJJMw5d6S8zE=
+	t=1726943286; cv=none; b=FaOOGiwlUjkDVDF3X8EMURl6vyl1RrUrokUvhWpjpDTOhl3DAt4M7Uw6W+sFHDOQ2BpNZHdiGfu3G+5qVI4QscPKv34YhycIgyMV2S3l8M3zEjS2DHOGyR8Y6Z83lrbN2ygIvM5+fkuZM/0HopwGafJCvsq6F+5LyAroBX+WAKM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1726934677; c=relaxed/simple;
-	bh=H5F90rB58uGzcWaFnaZV/LE4qBTOYOpGICqjNo/uK20=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=aTq4Sgpf2nmBfWzApp4bK1x2zbNgOOVskaW+IC3IhwcNwsaaqVVb4RMKzhvxx/UdnJF0wcZnU6Txi5EvCO4FvCzwjQ0n+6FV5MoAbIt+NrYVnzl23YIy4apB5ox0PfRYlO55ClmPQXhe78dBHJfDmxnHvLoZEavRQKMa8jx5NdU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=rosalinux.ru; spf=pass smtp.mailfrom=rosalinux.ru; dkim=pass (2048-bit key) header.d=rosalinux.ru header.i=@rosalinux.ru header.b=ElKmbHez; arc=none smtp.client-ip=195.19.76.54
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=rosalinux.ru
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=rosalinux.ru
+	s=arc-20240116; t=1726943286; c=relaxed/simple;
+	bh=6hOWPfd3ZYHL+xDZpgc0KUbDKKurxsi3+lzwJ5nnlQk=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=qUZco5l/iAbM08dq9UK8mCETmwvlvWVYGzuYAVdWT7gTboGMjDzciG8OwDWMx9s56wxi7u6oZ4DY6a8mvkx5ktoMe5vDlyyowq2F+lbhvR4DJrolmDRGFqQtbJKoc8z9iYPhrHTD0ysrD2BqWW9ZlMWxW30WXcEQYAlhrJnRgj8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=E8bTlHye; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=rosalinux.ru header.i=@rosalinux.ru header.b="ElKmbHez"
-Received: from localhost (localhost [127.0.0.1])
-	by mail.rosalinux.ru (Postfix) with ESMTP id 62215FC20D6C5;
-	Sat, 21 Sep 2024 19:04:18 +0300 (MSK)
-Received: from mail.rosalinux.ru ([127.0.0.1])
-	by localhost (mail.rosalinux.ru [127.0.0.1]) (amavisd-new, port 10032)
-	with ESMTP id j-VzKUJ4tFvU; Sat, 21 Sep 2024 19:04:18 +0300 (MSK)
-Received: from localhost (localhost [127.0.0.1])
-	by mail.rosalinux.ru (Postfix) with ESMTP id 2E6E31F0C6EF;
-	Sat, 21 Sep 2024 19:04:18 +0300 (MSK)
-DKIM-Filter: OpenDKIM Filter v2.10.3 mail.rosalinux.ru 2E6E31F0C6EF
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=rosalinux.ru;
-	s=1D4BB666-A0F1-11EB-A1A2-F53579C7F503; t=1726934658;
-	bh=ssdv2fMp3zp3i+dXzmOSC1VQ7A/1Z1y2ZcLf3tqNFl8=;
-	h=From:To:Date:Message-ID:MIME-Version;
-	b=ElKmbHez+sOVcTWiazVaAXZLkhfoXA8uTxs+i1RDUi7cbPq/zAGGMY7Uaw/QSkOYS
-	 NUUDGmGFFVb/B+ci9a7RJ1f+kygaVfk/94Rtv1qxfSGpmJPF1WifpmawfOjrj7JUOG
-	 /WT02xFLPUdAnuYTcBoZ39MoXKpbVEgptjvA1PL4AQPcLms5XmzQ076nTaOkMC0vyl
-	 6CaVQiOxiVVUmOTxiVkXOSdEwF2UAH9hZtFCw13ximRL7YZAxU9M8XYfYo5gTZOR5u
-	 rlhOoxKrKb5f8626OiDeKdtTvN/UxVFHG7Kd9lwmJqF9T1gwJxYbPWkPXqUyCYK2Vn
-	 KsX8UwCl3y6HA==
-X-Virus-Scanned: amavisd-new at rosalinux.ru
-Received: from mail.rosalinux.ru ([127.0.0.1])
-	by localhost (mail.rosalinux.ru [127.0.0.1]) (amavisd-new, port 10026)
-	with ESMTP id 95v4ZdzvCY0P; Sat, 21 Sep 2024 19:04:18 +0300 (MSK)
-Received: from localhost.localdomain (unknown [89.169.48.235])
-	by mail.rosalinux.ru (Postfix) with ESMTPSA id 06375FC20D6C5;
-	Sat, 21 Sep 2024 19:04:16 +0300 (MSK)
-From: Mikhail Lobanov <m.lobanov@rosalinux.ru>
-To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-Cc: Mikhail Lobanov <m.lobanov@rosalinux.ru>,
-	"Dr. David Alan Gilbert" <linux@treblig.org>,
-	Rodolfo Giometti <giometti@linux.it>,
-	linux-usb@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	lvc-project@linuxtesting.org
-Subject: [PATCH v2] usb: oxu210hp-hcd: Fix double locking of oxu->mem_lock spinlock
-Date: Sat, 21 Sep 2024 07:49:12 -0400
-Message-ID: <20240921114914.8802-1-m.lobanov@rosalinux.ru>
-X-Mailer: git-send-email 2.43.0
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="E8bTlHye"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 282FFC4CEC2;
+	Sat, 21 Sep 2024 18:27:58 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1726943285;
+	bh=6hOWPfd3ZYHL+xDZpgc0KUbDKKurxsi3+lzwJ5nnlQk=;
+	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+	b=E8bTlHyelV5EBBhpdfxwYEsROsir6GfWsjs6xiayN5utVw1LWK+L2ZyLbkPUDpX39
+	 Zx5l0UYv56uIcsMH5zHfByQngcjhWqE8zj1lrpuSr4hG3y9J3SYT3qc79mvkR3cm0Z
+	 Ica9E79CfxsE9+tvAM5/aDmp889JC+qoK/A8ySmL7rsu9moQT6Ycs85gLpQvNZfGQ5
+	 yancqoQzOZ1MXbxM2XBQOrfHOFE5474MggGkUVNtxq9vJdk009T8X7rWFd4ygZVKW+
+	 G2Nj/Wo8P2kxiGmO4NBG4B9B5q8qwoPSFDi0gsR+OF+RQdAJNE908Hdy3oaXLVaK1f
+	 cmG8YOzXyE/Yw==
+Message-ID: <d9fcd8dd-ae50-43d9-bc86-af23f5823891@kernel.org>
+Date: Sat, 21 Sep 2024 20:27:56 +0200
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v2 3/4] dt-bindings: usb: Add Diodes Incorporated
+ PI5USB30213A Type-C Controller
+To: =?UTF-8?B?TWljaGFsIFZva8OhxI0=?= <michal.vokac@ysoft.com>,
+ Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>,
+ Conor Dooley <conor+dt@kernel.org>,
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+ Shawn Guo <shawnguo@kernel.org>, Petr Benes <petr.benes@ysoft.com>
+Cc: Sascha Hauer <s.hauer@pengutronix.de>,
+ Pengutronix Kernel Team <kernel@pengutronix.de>,
+ Fabio Estevam <festevam@gmail.com>,
+ Herburger <gregor.herburger@ew.tq-group.com>,
+ Hiago De Franco <hiago.franco@toradex.com>,
+ Hugo Villeneuve <hvilleneuve@dimonoff.com>,
+ Joao Paulo Goncalves <joao.goncalves@toradex.com>,
+ Michael Walle <mwalle@kernel.org>,
+ Alexander Stein <alexander.stein@ew.tq-group.com>,
+ Mathieu Othacehe <m.othacehe@gmail.com>, devicetree@vger.kernel.org,
+ linux-kernel@vger.kernel.org, linux-usb@vger.kernel.org,
+ imx@lists.linux.dev, linux-arm-kernel@lists.infradead.org
+References: <20240920080154.1595808-1-michal.vokac@ysoft.com>
+ <20240920080154.1595808-4-michal.vokac@ysoft.com>
+From: Krzysztof Kozlowski <krzk@kernel.org>
+Content-Language: en-US
+Autocrypt: addr=krzk@kernel.org; keydata=
+ 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 fv0=
+In-Reply-To: <20240920080154.1595808-4-michal.vokac@ysoft.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 
-Initially, the function oxu_qh_alloc() acquired the spinlock oxu->mem_loc=
-k,
-and then called the function ehci_qtd_alloc(), which also attempted
-to acquire the same spinlock. This would lead to a deadlock.
+On 20/09/2024 10:01, Michal Vokáč wrote:
+> From: Petr Benes <petr.benes@ysoft.com>
+> 
+> Diodes Incorporated PI5USB30213A Type-C Controller supports host,
+> device, and dual-role mode based on voltage levels detected on CC
+> pin. Supports dual differential channel, 2:1 USB 3.0 Mux/Demux,
+> USB Type-C specification 1.1.
+> 
+> Signed-off-by: Petr Benes <petr.benes@ysoft.com>
+> Signed-off-by: Michal Vokáč <michal.vokac@ysoft.com>
 
-Remove the locking from the function ehci_qtd_alloc(). Now, oxu_qh_alloc(=
-)
-can call ehci_qtd_alloc() without causing double locking. In all other
-cases where ehci_qtd_alloc() is called, acquire the spinlock before the
-call, maintaining spinlock locking as in the previous implementation.
 
-Found by Linux Verification Center (linuxtesting.org) with SVACE.
+Reviewed-by: Krzysztof Kozlowski <krzk@kernel.org>
 
-Fixes: b92a78e582b1 ("usb host: Oxford OXU210HP HCD driver.")
-Signed-off-by: Mikhail Lobanov <m.lobanov@rosalinux.ru>
----
-v1->v2: remove bogus mutex mentioning from commit description and update
-the commit message to use spinlock.
-link to v1: https://lore.kernel.org/lkml/20240916174326.118495-1-m.lobano=
-v@rosalinux.ru/
+Best regards,
+Krzysztof
 
- drivers/usb/host/oxu210hp-hcd.c | 12 ++++++++----
- 1 file changed, 8 insertions(+), 4 deletions(-)
-
-diff --git a/drivers/usb/host/oxu210hp-hcd.c b/drivers/usb/host/oxu210hp-=
-hcd.c
-index 3f871fe62b90..fa24cf89dadb 100644
---- a/drivers/usb/host/oxu210hp-hcd.c
-+++ b/drivers/usb/host/oxu210hp-hcd.c
-@@ -977,8 +977,6 @@ static struct ehci_qtd *ehci_qtd_alloc(struct oxu_hcd=
- *oxu)
- 	int i;
- 	struct ehci_qtd *qtd =3D NULL;
-=20
--	spin_lock(&oxu->mem_lock);
--
- 	for (i =3D 0; i < QTD_NUM; i++)
- 		if (!oxu->qtd_used[i])
- 			break;
-@@ -997,8 +995,6 @@ static struct ehci_qtd *ehci_qtd_alloc(struct oxu_hcd=
- *oxu)
- 		oxu->qtd_used[i] =3D 1;
- 	}
-=20
--	spin_unlock(&oxu->mem_lock);
--
- 	return qtd;
- }
-=20
-@@ -1601,7 +1597,9 @@ static struct list_head *qh_urb_transaction(struct =
-oxu_hcd *oxu,
- 	/*
- 	 * URBs map to sequences of QTDs: one logical transaction
- 	 */
-+	spin_lock(&oxu->mem_lock);
- 	qtd =3D ehci_qtd_alloc(oxu);
-+	spin_unlock(&oxu->mem_lock);
- 	if (unlikely(!qtd))
- 		return NULL;
- 	list_add_tail(&qtd->qtd_list, head);
-@@ -1630,7 +1628,9 @@ static struct list_head *qh_urb_transaction(struct =
-oxu_hcd *oxu,
- 		/* ... and always at least one more pid */
- 		token ^=3D QTD_TOGGLE;
- 		qtd_prev =3D qtd;
-+		spin_lock(&oxu->mem_lock);
- 		qtd =3D ehci_qtd_alloc(oxu);
-+		spin_unlock(&oxu->mem_lock);
- 		if (unlikely(!qtd))
- 			goto cleanup;
- 		qtd->urb =3D urb;
-@@ -1686,7 +1686,9 @@ static struct list_head *qh_urb_transaction(struct =
-oxu_hcd *oxu,
- 			break;
-=20
- 		qtd_prev =3D qtd;
-+		spin_lock(&oxu->mem_lock);
- 		qtd =3D ehci_qtd_alloc(oxu);
-+		spin_unlock(&oxu->mem_lock);
- 		if (unlikely(!qtd))
- 			goto cleanup;
- 		if (likely(len > 0)) {
-@@ -1724,7 +1726,9 @@ static struct list_head *qh_urb_transaction(struct =
-oxu_hcd *oxu,
- 		}
- 		if (one_more) {
- 			qtd_prev =3D qtd;
-+			spin_lock(&oxu->mem_lock);
- 			qtd =3D ehci_qtd_alloc(oxu);
-+			spin_unlock(&oxu->mem_lock);
- 			if (unlikely(!qtd))
- 				goto cleanup;
- 			qtd->urb =3D urb;
---=20
-2.43.0
