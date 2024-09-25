@@ -1,93 +1,124 @@
-Received: from l2mail1.panix.com (l2mail1.panix.com [166.84.1.75])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-yw1-f181.google.com (mail-yw1-f181.google.com [209.85.128.181])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AC095134BD;
-	Wed, 25 Sep 2024 17:14:44 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=166.84.1.75
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 825281EEE9
+	for <linux-usb@vger.kernel.org>; Wed, 25 Sep 2024 17:20:26 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.181
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1727284487; cv=none; b=cr4PmVaoeigCym/UyOSnjrNBwxBLF7FnytZoP52YSWZZ5QwiuRQeyEeG3mt7vI6G5IyZtnCTAUzPRLm/9M6DkNc7bSWOa8JrY3qyNymG/R1nNKVK/Mss5aYZYkkrBX3aYNkWzaI34P3u8gjI2szhekhntvMvESwYAOQTY+gxWoY=
+	t=1727284828; cv=none; b=sht591uJUTm5m4qSOgcINfvYIluYziNqavFjciD8qMclqDRB0zAVQSdiUPHg5C3YhlQ6zh8u1J3tMnCpER24ju5d3V1ShwimOgz34lSMY1Lqn/u2vfguFt8+TAsk2f+WOSXcap20pou0Yvr/ILqv61NfrZKCPjwoOgL3pyt0tGE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1727284487; c=relaxed/simple;
-	bh=aIW1QfRYwvuDJbIY3ZHeD9wGhOVohwX859RGPoS1nQs=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=dywOxllQSWM8XJMKuBsp6rfNmdPmmxfUZzvTEHlC4haTMlL6F2On/0MkyxcpMrUqxaY3fTIwNl718yw6L2nwwIlrbAm1baBYmejDYxzcn3dny2QZRgUw9yN/06pNa12pUbSkirJQfAFYAIu85uwaIwggVigyE8uqzwNoxJwrNos=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=panix.com; spf=pass smtp.mailfrom=panix.com; dkim=pass (1024-bit key) header.d=panix.com header.i=@panix.com header.b=RH94mpxk; arc=none smtp.client-ip=166.84.1.75
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=panix.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=panix.com
+	s=arc-20240116; t=1727284828; c=relaxed/simple;
+	bh=hQ6Mhx7JIWYkKXo1pfm6XkI5thrxHDL7hWgwl7eQsKM=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=SnwFcfLSFIIxb2ZIpnNz3LriTIxHr/912VdkJ3K+0vfuZCvuvJC4CbvObc/s5uFS9gbEpheK9uSsAYv54GqU6OE3hU11ELYxumsJrI208hZF8wHzyIesLGswLOgr2QMG74t1rDP+uf0YYvDUoYWD9WU0SqVtkniTRJGxWHF6rhI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org; spf=pass smtp.mailfrom=chromium.org; dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b=QSdzqXCw; arc=none smtp.client-ip=209.85.128.181
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=chromium.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=panix.com header.i=@panix.com header.b="RH94mpxk"
-Received: from mailbackend.panix.com (mailbackend.panix.com [166.84.1.89])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (1024 bits) server-digest SHA256)
-	(No client certificate requested)
-	by l2mail1.panix.com (Postfix) with ESMTPS id 4XDNCF2nF7zDQj;
-	Wed, 25 Sep 2024 12:55:37 -0400 (EDT)
-Received: from [192.168.80.67] (unknown [207.7.121.250])
-	by mailbackend.panix.com (Postfix) with ESMTPSA id 4XDNC55w34zl2J;
-	Wed, 25 Sep 2024 12:55:29 -0400 (EDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple; d=panix.com; s=panix;
-	t=1727283330; bh=aIW1QfRYwvuDJbIY3ZHeD9wGhOVohwX859RGPoS1nQs=;
-	h=Date:Subject:To:Cc:References:From:In-Reply-To;
-	b=RH94mpxk3EVikiQBZ1bjTttZbakCa8GRtM46BdWBji+xmCV9HMcCnb9vv83DEjwca
-	 fl1W/jyqYBWNmmw7RlpXdEIW/qQ6/sOgA2YAVXrHf/gOa/E2YD241Cuc4hv472ZfDq
-	 q7GRkY2Q8ZhpPmGrhhgNuksq8nQhzXTg2IP1ujdM=
-Message-ID: <985893c0-ade3-4b23-b452-6f416e7ff2a1@panix.com>
-Date: Wed, 25 Sep 2024 09:55:28 -0700
+	dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b="QSdzqXCw"
+Received: by mail-yw1-f181.google.com with SMTP id 00721157ae682-6b747f2e2b7so1114587b3.3
+        for <linux-usb@vger.kernel.org>; Wed, 25 Sep 2024 10:20:26 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=chromium.org; s=google; t=1727284825; x=1727889625; darn=vger.kernel.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=PafzcKiIYdF6wysKKVXDWlev4TmPRalpGq31nVBCo8A=;
+        b=QSdzqXCwQzAOb4nvUmNnzqvGmagJH003yTDo0t1v6nyXeaBNRW4E2Ys7hvqAKTGEDn
+         0Bd3lkIf33hdv1vZVb0X4lI5WxboQ2V8GRv17YgR0l//iy4mb4D7fclaoilgThE2IF2L
+         /D4A/mypEBIiLMMBQT8zH4UVU7LgE7y26Ywbc=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1727284825; x=1727889625;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=PafzcKiIYdF6wysKKVXDWlev4TmPRalpGq31nVBCo8A=;
+        b=PvdJK/ymQd8JZht3AFQcYlbqhGE8MVLg+a7iDha+lWdPWVI7JN2tXI+mJXjGy2xVeU
+         rQ33Tbw0zufWrk3POxsp/qAnsvw54mvjXmcOX+zZ+QIGF3vlqLoKz7uF9I4CbPVVcW15
+         xtQbXRSxTWqEiDkoecQkVpfd6IUTaq7269bPxkkA/uHyU84/rVDvIlWNZoJiA4KWvcUL
+         WOzETylx4E4BGZguxveueMTH13VJEC130HVcpcbBrLu/Pgm29SFsumIMzhgq48KPVEIP
+         oCkJbZn5rfsYPbgz6zeACR+l4usS5BVzqXns+8+nBh7yzX3kPCy/lX+LRMsFhHVV1meJ
+         0Gzw==
+X-Forwarded-Encrypted: i=1; AJvYcCV9YvRm6eaJcitmuOthcSRTJWR4FOaHWRfDNcozYFouqcDBA/EtKfBBtejj2aNfZQoGmUadMQ1HgpE=@vger.kernel.org
+X-Gm-Message-State: AOJu0YwTO3o0h/37VI7dJ3H8rPNB7oxygE2CRporvXSEfLIMWe1DhiZu
+	RLkzIXpNA6fdOgzWBR4AvxId3M/JHSKCky0nIxNf9vgaQ78ZgJLkmYCrhnBRXcCeadk74/wX6oS
+	BKSompsfEYhh/89c7Q+4AkCDlCAg5X5egEglo
+X-Google-Smtp-Source: AGHT+IFjmckSuZuIgDBXmTJDYZfvAetoI6vwE8y2Iqb2LxyaCa3iZ6YcdfrQOslLC71B/t87NgCAsOdDnccL5zxJrrM=
+X-Received: by 2002:a05:690c:f10:b0:6be:54e1:f1f3 with SMTP id
+ 00721157ae682-6e21d0cea24mr38881507b3.0.1727284825475; Wed, 25 Sep 2024
+ 10:20:25 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: My Dell XPS-9320 (kernel 6.10.x, et al.) doesn't detect
- Thunderbolt additions when coming out of suspend or hibernate
-To: Mika Westerberg <mika.westerberg@linux.intel.com>, Me <kenny@panix.com>
-Cc: Lukas Wunner <lukas@wunner.de>, linux-usb@vger.kernel.org,
- "linux-pm@vger.kernel.org" <linux-pm@vger.kernel.org>,
- linux-pci@vger.kernel.org
-References: <c9feac08-a1fd-4e03-a708-1046793443db@panix.com>
- <ZsvxR-dQAZtwNi0g@wunner.de> <6322b3f1-c5d9-4291-96da-72b85248dea0@panix.com>
- <5e7183c8-1843-4390-aef1-1772e538a359@panix.com>
- <20240904122835.GG1532424@black.fi.intel.com>
- <98c3c35d-c694-4fcd-b8b4-6101c4764ae4@panix.com>
- <0e5168df-894e-4e35-8785-6c48328f8782@panix.com>
- <20240913052540.GN275077@black.fi.intel.com>
- <7ac9a400-fdb2-4d78-bacf-2e502c7338e8@panix.com>
- <ad0458ee-b75c-46f9-a012-1e0615aecf53@panix.com>
- <b29b8750-5235-4097-a880-d8620da2520a@panix.com>
-Content-Language: en-US
-From: Kenneth Crudup <kenny@panix.com>
-In-Reply-To: <b29b8750-5235-4097-a880-d8620da2520a@panix.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+References: <20240925162513.435177-1-abhishekpandit@chromium.org> <6flxq7m7fdcpajdg5sthar6xlnpn2b3nzzwgp55jlqrjw5ubge@kdym7c2kv5fm>
+In-Reply-To: <6flxq7m7fdcpajdg5sthar6xlnpn2b3nzzwgp55jlqrjw5ubge@kdym7c2kv5fm>
+From: Abhishek Pandit-Subedi <abhishekpandit@chromium.org>
+Date: Wed, 25 Sep 2024 10:20:11 -0700
+Message-ID: <CANFp7mU8d4LfXD9p4dbdNs0CGPeYnrQdtLheh_LWD2VwT2Vt9w@mail.gmail.com>
+Subject: Re: [PATCH 0/8] Thunderbolt and DP altmode support for cros-ec-typec
+To: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+Cc: heikki.krogerus@linux.intel.com, tzungbi@kernel.org, jthies@google.com, 
+	pmalani@chromium.org, akuchynski@google.com, 
+	Benson Leung <bleung@chromium.org>, Greg Kroah-Hartman <gregkh@linuxfoundation.org>, 
+	Guenter Roeck <groeck@chromium.org>, chrome-platform@lists.linux.dev, 
+	linux-kernel@vger.kernel.org, linux-usb@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
+On Wed, Sep 25, 2024 at 10:12=E2=80=AFAM Dmitry Baryshkov
+<dmitry.baryshkov@linaro.org> wrote:
+>
+> On Wed, Sep 25, 2024 at 09:25:01AM GMT, Abhishek Pandit-Subedi wrote:
+> >
+> > Hi Heikki, Tzung-Bi et al,
+> >
+> > This patch series adds support for alternate mode entry for the
+> > cros-ec-typec driver for Displayport and Thunderbolt.
+> >
+> > Thunderbolt support is added by adapting an RFC Heikki had posted
+> > previously:
+> >
+> > https://lore.kernel.org/linux-usb/20191230152857.43917-1-heikki.krogeru=
+s@linux.intel.com/
+> >
+> > A few comments on the series:
+> >
+> > * The cros-ec interface will not accept any VDOs/VDMs so we simply
+> >   ignore any configurations we are passed (i.e. DPConfigure). This mean=
+s
+> >   the sysfs control of DP lanes won't work.
+> > * ChromeOS has two modes of operation for alt-modes: entirely EC driven
+> >   or AP-driven from userspace (via the typec daemon). Thus, we never
+> >   expect the kernel alt-mode drivers to auto-enter modes.
+> >
+> > This was tested on kernel 6.6 with a ChromeOS Brya device and compile
+> > tested against linux-usb (with allmodconfig).
+>
+> Please test on top of the linux-usb or linux-next. 6.6 is nine months
+> old kernel.
 
+Ack -- I'm going to try to load the upstream kernel on my ChromeOS
+device + test.
 
-On 9/15/24 17:14, Kenneth Crudup wrote:
+>
+> Also for v2 please consider CC'ing both lists for all patches. Otherwise
+> it's hard to follow the changes.
 
-> ... and it turns out that my crashes on the CalDigit TB4 dock are 
-> probably related to a Thunderbolt-to-NVMe enclosure that was always 
-> plugged into to the dock; apparently when resuming "something" was 
-> waiting for the now-disconnected NVMe drive to come back, leading to the 
-> hangs. Disconnecting the enclosure from the dock seems to prevent the 
-> resume crashes.
-> 
-> I may try and root-cause that issue later, if I have time.
+Really sorry about that. I'm using patman to send patches and didn't
+realize it would split the patch series between the two. v2 will send
+all 8 patches to both lists.
 
-So I've determined this problem happened somewhere between 6.10.8 and 
-6.10.9; I don't always have the affected hardware so it'll take me a 
-couple of days to bisect the issue, but at least I have an idea on where 
-the problem is.
-
-What's interesting is testing using the NVMe-to-TB adaptor directly into 
-the laptop isn't enough to trigger the crashes, it has to be plugged 
-into the CalDigit TB4 dock at suspend time to trigger a hang on resume 
-if the CalDigit dock is disconnected in between.
-
--Kenny
-
--- 
-Kenneth R. Crudup / Sr. SW Engineer, Scott County Consulting, Orange 
-County CA
-
+>
+> >
+> > Thanks,
+> > Abhishek
+> >
+> >
+> >
+>
+> --
+> With best wishes
+> Dmitry
