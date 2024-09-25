@@ -1,101 +1,102 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from uho.ysoft.cz (uho.ysoft.cz [81.19.3.130])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7939A19D89A;
-	Wed, 25 Sep 2024 12:47:13 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B5D591A2866;
+	Wed, 25 Sep 2024 12:49:36 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=81.19.3.130
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1727268433; cv=none; b=EdN9h0tysT6HoBHtc0GPA/znneROs6DsU3EWm4cLAaCpPEdHiwAdsHo5yaqpdIACek22DWauO/QBojaH9BPeM0nFTdMv3bp67ofBjcPBAHz7cDHB4N7aLGT1FLckM4V0rDGc0WFhoZZsEdToTbfo/XtMnCQwoKj3fPP+x1//6dU=
+	t=1727268578; cv=none; b=JuP6diImsoh22uw8ejvW7QL0FmNfHmKBXS43Lsej8O52ZNXpbrhaypzE1HxZbNAbQUEwM+yNIsYp0vGugHAJfXZqbpRt1kukdwZytsyVZ8nAIid6hMRv8kXnSUj2hx/JZFNp5DfUDPtKsgcKW38qNVgoMjnJlojxzApoZSzfR1M=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1727268433; c=relaxed/simple;
-	bh=SQKmlKEVeMIW0DNzMah6ZdkWwB+KPOT8RQV4GwZIwOo=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=V/fHrusS5J7FQNWxrCXuwDTH/yEJI7ywCd6gpTlf3xdQ64Y605a8c2a3Kt9oqdmX4Cn5wS2LnIb5I7bHGmRUZKwtIo2BYKt8rs1YoxMhqDwdCWp4DgSak/mhCBA96yv7M9QaRN8Wu/Kh07x7w52pY1a4h/NXbfQIfbgL90N7hUQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=tMEDrnbY; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1727268578; c=relaxed/simple;
+	bh=pOpCdNDWE7AOs2h//XUIygbEAbG/8yJofHY4Quh7DXU=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=BviSPRRLLcmqiBxHogL99GmfdUCQbPdpWVEUbiouerSuNyBVJf2+1Wv04t6pjdK2c/8gMjxlbOsJoziU9YzmQJ0AS8zl1RWkLRYrO75VUY3ltnGpvM4DMszOcCQnDaNGRUzrsKIB5SnJ6Hk1efoUpvr6IpsEpaXHywPVAvGydYY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=ysoft.com; spf=pass smtp.mailfrom=ysoft.com; dkim=pass (1024-bit key) header.d=ysoft.com header.i=@ysoft.com header.b=dDFrbvLr; arc=none smtp.client-ip=81.19.3.130
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=ysoft.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ysoft.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="tMEDrnbY"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 07906C4CEC3;
-	Wed, 25 Sep 2024 12:47:11 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1727268433;
-	bh=SQKmlKEVeMIW0DNzMah6ZdkWwB+KPOT8RQV4GwZIwOo=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=tMEDrnbY/gOQL9Mt78N2Z6K5amfL3b7uVFL16e4Yq6FB+z6PLRBnFw47PS9SSeOBC
-	 6Rjbt1baopYM1H7x1h24i9P0iw5kCDuiUXP6bFG4MeriS8gca+KbZEoQ7jVEgmmb16
-	 HWE7Z7BmEmpDvah9LJ2I0Xk1aU6PoQo42baoi8bwbVYPjMxWmPmRnAZAMasnchUJd4
-	 jbpBziYRV2Dngtc+K9S/tgLl2gpbfGo7guqqg9pIkh1V42d/l6I5hc/bhc7n/ue9It
-	 xAWmzd0SgpMMgN215ntZ3AHX/eWc3GsoPrGbnL6IdrzP42SKSqK/I+keYTdJYxtvTI
-	 VNIZ9m6kMkMUA==
-Date: Wed, 25 Sep 2024 20:47:06 +0800
-From: Peter Chen <peter.chen@kernel.org>
-To: Xu Yang <xu.yang_2@nxp.com>
-Cc: gregkh@linuxfoundation.org, linux-usb@vger.kernel.org,
-	imx@lists.linux.dev, jun.li@nxp.com
-Subject: Re: [PATCH v2 2/3] usb: chipidea: udc: limit usb request length to
- max 16KB
-Message-ID: <20240925124706.GE417263@nchen-desktop>
-References: <20240923081203.2851768-1-xu.yang_2@nxp.com>
- <20240923081203.2851768-2-xu.yang_2@nxp.com>
+	dkim=pass (1024-bit key) header.d=ysoft.com header.i=@ysoft.com header.b="dDFrbvLr"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ysoft.com;
+	s=20160406-ysoft-com; t=1727268574;
+	bh=ZNoWTEQsqc34AgTnGl6LHBfTCISxnDjwkPLJBXG2qA0=;
+	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
+	b=dDFrbvLrElO5T5DTtm3e6uAMU+pJf36qke0NzDKSiHyQxVP/4LdB59Wjyww5SP0Es
+	 Xg0SofsmJlXstfAr030jQT9aRXy7SrrbVJAlmTzivBgx2EQr3IAupH+45TywQBA/Je
+	 etNYa8jyeXGfDzo/+nLiG9G2Bvdb3DIkkWiZiQpw=
+Received: from vokac-nb.ysoft.local (unknown [10.1.8.111])
+	by uho.ysoft.cz (Postfix) with ESMTP id 94FF8A055B;
+	Wed, 25 Sep 2024 14:49:34 +0200 (CEST)
+From: =?UTF-8?q?Michal=20Vok=C3=A1=C4=8D?= <michal.vokac@ysoft.com>
+To: Shawn Guo <shawnguo@kernel.org>,
+	Petr Benes <petr.benes@ysoft.com>,
+	Marco Felsch <m.felsch@pengutronix.de>
+Cc: Rob Herring <robh@kernel.org>,
+	Krzysztof Kozlowski <krzk+dt@kernel.org>,
+	Conor Dooley <conor+dt@kernel.org>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	Sascha Hauer <s.hauer@pengutronix.de>,
+	Pengutronix Kernel Team <kernel@pengutronix.de>,
+	Fabio Estevam <festevam@gmail.com>,
+	Herburger <gregor.herburger@ew.tq-group.com>,
+	Hiago De Franco <hiago.franco@toradex.com>,
+	Hugo Villeneuve <hvilleneuve@dimonoff.com>,
+	Joao Paulo Goncalves <joao.goncalves@toradex.com>,
+	Michael Walle <mwalle@kernel.org>,
+	Alexander Stein <alexander.stein@ew.tq-group.com>,
+	Mathieu Othacehe <m.othacehe@gmail.com>,
+	devicetree@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	linux-usb@vger.kernel.org,
+	imx@lists.linux.dev,
+	linux-arm-kernel@lists.infradead.org,
+	=?UTF-8?q?Michal=20Vok=C3=A1=C4=8D?= <michal.vokac@ysoft.com>,
+	Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+Subject: [PATCH v5 1/2] dt-bindings: arm: Add i.MX8MP IOTA2 Lumpy board
+Date: Wed, 25 Sep 2024 14:49:02 +0200
+Message-ID: <20240925124903.1837869-2-michal.vokac@ysoft.com>
+X-Mailer: git-send-email 2.43.0
+In-Reply-To: <20240925124903.1837869-1-michal.vokac@ysoft.com>
+References: <20240925124903.1837869-1-michal.vokac@ysoft.com>
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20240923081203.2851768-2-xu.yang_2@nxp.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 
-On 24-09-23 16:12:02, Xu Yang wrote:
-> To let the device controller work properly on short packet limitations,
-> one usb request should only correspond to one dTD. Then every dTD will
-> set IOC. In theory, each dTD support up to 20KB data transfer if the
-> offset is 0. Due to we cannot predetermine the offset, this will limit
-> the usb request length to max 16KB. This should be fine since most of
-> the user transfer data based on this size policy.
-> 
-> Signed-off-by: Xu Yang <xu.yang_2@nxp.com>
+Add new board from the Y Soft IOTA family. This one is based on the i.MX8MP
+SoC. It is basically a stripped-down clone of the EVK board with some minor
+additions.
 
-Acked-by: Peter Chen <peter.chen@kernel.org>
-> 
-> ---
-> Changes in v2:
->  - limit request length only when ci->has_short_pkt_limit set
->  - modify commit message
-> ---
->  drivers/usb/chipidea/ci.h  | 1 +
->  drivers/usb/chipidea/udc.c | 6 ++++++
->  2 files changed, 7 insertions(+)
-> 
-> diff --git a/drivers/usb/chipidea/ci.h b/drivers/usb/chipidea/ci.h
-> index e4b003d060c2..97437de52ef6 100644
-> --- a/drivers/usb/chipidea/ci.h
-> +++ b/drivers/usb/chipidea/ci.h
-> @@ -25,6 +25,7 @@
->  #define TD_PAGE_COUNT      5
->  #define CI_HDRC_PAGE_SIZE  4096ul /* page size for TD's */
->  #define ENDPT_MAX          32
-> +#define CI_MAX_REQ_SIZE	(4 * CI_HDRC_PAGE_SIZE)
->  #define CI_MAX_BUF_SIZE	(TD_PAGE_COUNT * CI_HDRC_PAGE_SIZE)
->  
->  /******************************************************************************
-> diff --git a/drivers/usb/chipidea/udc.c b/drivers/usb/chipidea/udc.c
-> index 18c1882cf088..5badb39cb2bf 100644
-> --- a/drivers/usb/chipidea/udc.c
-> +++ b/drivers/usb/chipidea/udc.c
-> @@ -972,6 +972,12 @@ static int _ep_queue(struct usb_ep *ep, struct usb_request *req,
->  		return -EMSGSIZE;
->  	}
->  
-> +	if (ci->has_short_pkt_limit &&
-> +		hwreq->req.length > CI_MAX_REQ_SIZE) {
-> +		dev_err(hwep->ci->dev, "request length too big (max 16KB)\n");
-> +		return -EMSGSIZE;
-> +	}
-> +
->  	/* first nuke then test link, e.g. previous status has not sent */
->  	if (!list_empty(&hwreq->queue)) {
->  		dev_err(hwep->ci->dev, "request already in queue\n");
-> -- 
-> 2.34.1
-> 
+Acked-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+Signed-off-by: Michal Vokáč <michal.vokac@ysoft.com>
+---
+v5:
+- none
+v4:
+- none
+v3:
+- none
+v2:
+- Added tag from Krzysztof.
+
+ Documentation/devicetree/bindings/arm/fsl.yaml | 1 +
+ 1 file changed, 1 insertion(+)
+
+diff --git a/Documentation/devicetree/bindings/arm/fsl.yaml b/Documentation/devicetree/bindings/arm/fsl.yaml
+index b39a7e031177..a3389f2d06e6 100644
+--- a/Documentation/devicetree/bindings/arm/fsl.yaml
++++ b/Documentation/devicetree/bindings/arm/fsl.yaml
+@@ -1088,6 +1088,7 @@ properties:
+               - toradex,verdin-imx8mp     # Verdin iMX8M Plus Modules
+               - toradex,verdin-imx8mp-nonwifi  # Verdin iMX8M Plus Modules without Wi-Fi / BT
+               - toradex,verdin-imx8mp-wifi  # Verdin iMX8M Plus Wi-Fi / BT Modules
++              - ysoft,imx8mp-iota2-lumpy  # Y Soft i.MX8MP IOTA2 Lumpy Board
+           - const: fsl,imx8mp
+ 
+       - description: Avnet (MSC Branded) Boards with SM2S i.MX8M Plus Modules
+-- 
+2.43.0
+
