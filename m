@@ -1,16 +1,16 @@
 Received: from metis.whiteo.stw.pengutronix.de (metis.whiteo.stw.pengutronix.de [185.203.201.7])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C860D1B07B9
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C3A461B07B2
 	for <linux-usb@vger.kernel.org>; Thu, 26 Sep 2024 23:37:50 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.203.201.7
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1727393874; cv=none; b=Fz61ryfJumx2heD9Yzep4kGuQMrIMT1alX1gqtvsylhaOlGW2qQIHRCXJHOQCLm6iN4mf92fKyn26Np7K1sThsKMWpJcRJEOu9Q1FpN5EJo1LW3UwBRQLm8XPpqdxYWKR1uRCvMRD4ZrBy3dINhCfIEL6Y+Xk3x7nQD5+1ZVh20=
+	t=1727393875; cv=none; b=LP0tvp2l8bjIopz8rBNtsk6ZI9SLkP9iYboQrwFl0oItx5FkmlkzxdNEOWs3ADb87En8J8IE4/s7+te/COhkelyYfui3bXITReUTqh8TkT1Yo6//FrLvdZR1QuXsmfscejc6YCCFUAlsAukREKZfcpeoTxnuquOhPd6Ia9IT1AM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1727393874; c=relaxed/simple;
-	bh=VlRem29ucC+ZWWE+AHehS7FAtKKyvZ57k+KTI5b6wDg=;
+	s=arc-20240116; t=1727393875; c=relaxed/simple;
+	bh=TQh5etl5nIijawyn7zhFuQ1u9gYq3NJFYxbxyXSOgDQ=;
 	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
-	 In-Reply-To:To:Cc; b=nz2hqB1gHc7j9JkB0+mrq/DJ6xUgQt43T57Zq/rS4EhJpxNXe7ISBso2AEnXfrqGiUv+bgsencnOUPYzxwtG3keHF7d86ujc5xgm1wEhbfch2TQseJ7JhkQfXzgv1judcjp0yhLnfM4zBw+9m6l+WVRxiUSm/ak7QsL3ubTNJ40=
+	 In-Reply-To:To:Cc; b=KU9HHjQo+VgOyygk8SSC7tDYSpbvBHFTy8k4v/ZBpJakLK/KxTpfTr/ZeIxTOZgqRudQAatS9CL2A+52dmaS/Tq8KaBQv26zeszEdVuWJi04GBO9oSzk+Nnw70fEthcGCvEdZ6hqXs4ousCkg1qVBpuE1V3WYI1MPWxIr4jFmtQ=
 ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=pengutronix.de; spf=pass smtp.mailfrom=pengutronix.de; arc=none smtp.client-ip=185.203.201.7
 Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=pengutronix.de
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=pengutronix.de
@@ -18,21 +18,21 @@ Received: from drehscheibe.grey.stw.pengutronix.de ([2a0a:edc0:0:c01:1d::a2])
 	by metis.whiteo.stw.pengutronix.de with esmtps (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
 	(Exim 4.92)
 	(envelope-from <m.grzeschik@pengutronix.de>)
-	id 1sty3N-0007WQ-5C; Fri, 27 Sep 2024 01:37:45 +0200
+	id 1sty3N-0007WK-0F; Fri, 27 Sep 2024 01:37:45 +0200
 Received: from [2a0a:edc0:0:1101:1d::ac] (helo=dude04.red.stw.pengutronix.de)
 	by drehscheibe.grey.stw.pengutronix.de with esmtps  (TLS1.3) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
 	(Exim 4.94.2)
 	(envelope-from <m.grzeschik@pengutronix.de>)
-	id 1sty3M-001nOZ-F4; Fri, 27 Sep 2024 01:37:44 +0200
+	id 1sty3M-001nOT-Dx; Fri, 27 Sep 2024 01:37:44 +0200
 Received: from localhost ([::1] helo=dude04.red.stw.pengutronix.de)
 	by dude04.red.stw.pengutronix.de with esmtp (Exim 4.96)
 	(envelope-from <m.grzeschik@pengutronix.de>)
-	id 1sty3L-005IAz-2z;
+	id 1sty3L-005IAz-2t;
 	Fri, 27 Sep 2024 01:37:44 +0200
 From: Michael Grzeschik <m.grzeschik@pengutronix.de>
-Date: Fri, 27 Sep 2024 01:37:47 +0200
-Subject: [PATCH v5 8/9] usb: gadget: uvc: add trace of enqueued and
- completed requests
+Date: Fri, 27 Sep 2024 01:37:41 +0200
+Subject: [PATCH v5 2/9] usb: gadget: uvc: only enqueue zero length requests
+ in potential underrun
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
@@ -41,7 +41,7 @@ List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20240403-uvc_request_length_by_interval-v5-8-2de78794365c@pengutronix.de>
+Message-Id: <20240403-uvc_request_length_by_interval-v5-2-2de78794365c@pengutronix.de>
 References: <20240403-uvc_request_length_by_interval-v5-0-2de78794365c@pengutronix.de>
 In-Reply-To: <20240403-uvc_request_length_by_interval-v5-0-2de78794365c@pengutronix.de>
 To: Laurent Pinchart <laurent.pinchart@ideasonboard.com>, 
@@ -52,21 +52,21 @@ To: Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
 Cc: linux-usb@vger.kernel.org, linux-kernel@vger.kernel.org, 
  Michael Grzeschik <m.grzeschik@pengutronix.de>
 X-Mailer: b4 0.12.0
-X-Developer-Signature: v=1; a=openpgp-sha256; l=4417;
+X-Developer-Signature: v=1; a=openpgp-sha256; l=4015;
  i=m.grzeschik@pengutronix.de; h=from:subject:message-id;
- bh=VlRem29ucC+ZWWE+AHehS7FAtKKyvZ57k+KTI5b6wDg=;
- b=owEBbQKS/ZANAwAKAb9pWET5cfSrAcsmYgBm9fBHDQXHElrvv/5Z4Ckfoxzv2S0Lc53+rO3on
- m9GF92+S6uJAjMEAAEKAB0WIQQV2+2Fpbqd6fvv0Gi/aVhE+XH0qwUCZvXwRwAKCRC/aVhE+XH0
- q8MUD/0aO99vLHJlXPsRlCXFwFFg9kge+w17rxzW8sCT8p61UaQTccYRVEA3MGJjEA33ywaFXiQ
- zT2t0DstAVsCeEoxXRmzolHOXjaPdU8UbvqGT50RxwPo5Ymuskj3tyFo5THB6CLZD6oE7K7AG1a
- 4+jbQOuhXXjWUdOFm4CCZy4eb0Pxw6onDFwI/25V2RAaE5Wf2bQ15kKysyLIcgRQB3bIs9sxy2Q
- oFi3YVqmoSFqJLxxUmiOMecw6CF6bC6DoyYE8av4UUfHP6PuWc5wQfCUc9eu+2PbWyVocS+qQyz
- Vo10W1JD8zxRjxosRTGVvv0FbkQaALqr1wBHuIaBZkB36iF/fIwObYGLFnj8HkirVxXMCXKeByV
- 7fMioJGaSuYCtzdcWAEbspkxGWjH5SSQB52Hdu1LIqp6VbXbOmAnLtsxmjmCUCfJ3ucEbYwpaBB
- hwPVKbVKKlgbzCAdApygS+QMWal0HpeKX7To4B0weL6EmqU7+ZsdJFVYLpiGwCE371epTn9OiU8
- GVQ7TB/L135nVzunOHZvbeXrCscUZEeZyteMWOBZIIthDNBKKE6CjTQGpYYfM6QXwIrA5neer/C
- RkX3N68LRsaUfM2VXVoDdoGxgGUvnyMyIRepBilFxSobTJYo33jessTbnhIdRIMX0SSNv4DbTNS
- 47r2PFsBHfHApJQ==
+ bh=TQh5etl5nIijawyn7zhFuQ1u9gYq3NJFYxbxyXSOgDQ=;
+ b=owEBbQKS/ZANAwAKAb9pWET5cfSrAcsmYgBm9fBF//QA6EV7T8iUSotsdn91e8fIxWUibO7lj
+ 1soIvjgwDKJAjMEAAEKAB0WIQQV2+2Fpbqd6fvv0Gi/aVhE+XH0qwUCZvXwRQAKCRC/aVhE+XH0
+ qxkZD/wLxyxVSrFO3Wslyn000Cra4ZoFDxksNZVrd3l0Tr72bg4FWjk49o9vhnADGcJZs1nqv5Y
+ L8iZi6dXHh2c7u2FPvRmYgpNAHGePxwYGYueIBgDHgGHxz0kdTHAdCmGfTVm+eKzfLLsaZfvwrE
+ OieSB4lFNFjTWTE8YZDn+VviS7w6M20tEpSbmKfS47WkHB5+QUJPu5K7Py7YNiP23SiOVbUTqwL
+ 1QXBKAoCohv0PDAk3TMafiN3Avz+4Vh87Y5vcgNxQjTLRh7fFPNOLyj5apkf4bcMXBUR6yHkjIO
+ RqQMCv7eCQZ6//65GtMwAYCJp160vp0wR1DAuGVpmIJBhPeQ4hktEKOVWmgbsVgA68ZXWoHy+7l
+ YS0MmZ+6W/Y48OlAROWgKCYItVWzLH5hsyOJCF+fgBnrfRol4h46L7DINSttN0Olito6jCiYcEm
+ FuIWwyHg6fm1W+qqn2lUgoNoH32RfBnMNYGkRDSCjurCQdgvUUf6EERfBi7mvbFDWB/NqYMvq7U
+ /Ns3oDSlHxUITddAVWIUqwMVjOlL07fuUIbNEhwRV5f1MUM69QBHBBzLPZrp4/sX3V4jjQDTPVk
+ vH8X2Mu2H46hT+3r8PJVPHEUS6N4YurbUWvTATpFsYrnk/j2a95SNQzAF9a0WFjhPqMXESYUd5B
+ vbG1f94I2o+Ka2w==
 X-Developer-Key: i=m.grzeschik@pengutronix.de; a=openpgp;
  fpr=957BC452CE953D7EA60CF4FC0BE9E3157A1E2C64
 X-SA-Exim-Connect-IP: 2a0a:edc0:0:c01:1d::a2
@@ -74,151 +74,118 @@ X-SA-Exim-Mail-From: m.grzeschik@pengutronix.de
 X-SA-Exim-Scanned: No (on metis.whiteo.stw.pengutronix.de); SAEximRunCond expanded to false
 X-PTX-Original-Recipient: linux-usb@vger.kernel.org
 
-This patch is adding trace events for each request that is being
-enqueued into the hw and will be completed. This way it is possible
-to track the fill status of the gadget hardware and find potential
-issues.
+The complete handler will at least be called after 16 requests have
+completed, but will still handle all finisher requests. Since we have
+to maintain a costant filling in the isoc queue we ensure this by
+adding zero length requests.
+
+By counting the amount enqueued requests we can ensure that the queue is
+never underrun and only need to get active if the queue is running
+critical. This patch is setting 32 as the critical level, which
+is twice the request amount that is needed to create interrupts.
+
+To properly solve the amount of zero length requests that needs to
+be held in the hardware after one interrupt needs to be measured
+and depends on the runtime of the first enqueue run after the interrupt
+triggered. For now we just use twice the amount of requests between an
+interrupt.
 
 Signed-off-by: Michael Grzeschik <m.grzeschik@pengutronix.de>
 
 ---
-v1 -> v5: - new patch
+v4 -> v5: -
+ - using min to limit for UVCG_REQ_MAX_INT_COUNT as the interrupt boundary
+ - using atomic_inc, atomic_dec on one variable to avoid rollover
+ - reordered this patch in the series
+ - added UVCG_REQ_MAX_ZERO_COUNT to set the threshold of zero length
+   requests in the hw
+ - added UVCG_REQ_MAX_INT_COUNT as quantifier for the
+   highest amount of request between an interrupt
+v1 -> v4: -
 ---
- drivers/usb/gadget/function/Makefile    |  5 +++
- drivers/usb/gadget/function/uvc_trace.c | 11 ++++++
- drivers/usb/gadget/function/uvc_trace.h | 60 +++++++++++++++++++++++++++++++++
- drivers/usb/gadget/function/uvc_video.c |  5 +++
- 4 files changed, 81 insertions(+)
+ drivers/usb/gadget/function/uvc.h       |  5 +++++
+ drivers/usb/gadget/function/uvc_video.c | 17 ++++++++++++++++-
+ 2 files changed, 21 insertions(+), 1 deletion(-)
 
-diff --git a/drivers/usb/gadget/function/Makefile b/drivers/usb/gadget/function/Makefile
-index 87917a7d4a9be..99b2bab4cc32f 100644
---- a/drivers/usb/gadget/function/Makefile
-+++ b/drivers/usb/gadget/function/Makefile
-@@ -42,6 +42,11 @@ usb_f_uac2-y			:= f_uac2.o
- obj-$(CONFIG_USB_F_UAC2)	+= usb_f_uac2.o
- usb_f_uvc-y			:= f_uvc.o uvc_queue.o uvc_v4l2.o uvc_video.o uvc_configfs.o
- obj-$(CONFIG_USB_F_UVC)		+= usb_f_uvc.o
-+ifeq ($(CONFIG_USB_F_UVC),y)
-+  ifneq ($(CONFIG_TRACING),)
-+    obj-$(CONFIG_USB_F_UVC)	+= uvc_trace.o
-+  endif
-+endif
- usb_f_midi-y			:= f_midi.o
- obj-$(CONFIG_USB_F_MIDI)	+= usb_f_midi.o
- usb_f_midi2-y			:= f_midi2.o
-diff --git a/drivers/usb/gadget/function/uvc_trace.c b/drivers/usb/gadget/function/uvc_trace.c
-new file mode 100644
-index 0000000000000..d384f6d8221a5
---- /dev/null
-+++ b/drivers/usb/gadget/function/uvc_trace.c
-@@ -0,0 +1,11 @@
-+// SPDX-License-Identifier: GPL-2.0
-+/*
-+ * trace.c - USB UVC Gadget Trace Support
-+ *
-+ * Copyright (C) 2024 Pengutronix e.K.
-+ *
-+ * Author: Michael Grzeschik <m.grzeschik@pengutronix.de>
-+ */
+diff --git a/drivers/usb/gadget/function/uvc.h b/drivers/usb/gadget/function/uvc.h
+index cb35687b11e7e..55d796f5f5e8d 100644
+--- a/drivers/usb/gadget/function/uvc.h
++++ b/drivers/usb/gadget/function/uvc.h
+@@ -71,6 +71,9 @@ extern unsigned int uvc_gadget_trace_param;
+ 
+ #define UVCG_REQUEST_HEADER_LEN			12
+ 
++#define UVCG_REQ_MAX_INT_COUNT			16
++#define UVCG_REQ_MAX_ZERO_COUNT			(2 * UVCG_REQ_MAX_INT_COUNT)
 +
-+#define CREATE_TRACE_POINTS
-+#include "uvc_trace.h"
-diff --git a/drivers/usb/gadget/function/uvc_trace.h b/drivers/usb/gadget/function/uvc_trace.h
-new file mode 100644
-index 0000000000000..43b9544d56550
---- /dev/null
-+++ b/drivers/usb/gadget/function/uvc_trace.h
-@@ -0,0 +1,60 @@
-+/* SPDX-License-Identifier: GPL-2.0 */
-+/*
-+ * trace.h - USB UVC Gadget Trace Support
-+ *
-+ * Copyright (C) 2024 Pengutronix e.K.
-+ *
-+ * Author: Michael Grzeschik <m.grzeschik@pengutronix.de>
-+ */
+ /* ------------------------------------------------------------------------
+  * Structures
+  */
+@@ -91,6 +94,8 @@ struct uvc_video {
+ 	struct work_struct pump;
+ 	struct workqueue_struct *async_wq;
+ 
++	atomic_t queued;
 +
-+#undef TRACE_SYSTEM
-+#define TRACE_SYSTEM uvcg
-+
-+#if !defined(__UVCG_TRACE_H) || defined(TRACE_HEADER_MULTI_READ)
-+#define __UVCG_TRACE_H
-+
-+#include <linux/types.h>
-+#include <linux/tracepoint.h>
-+#include <asm/byteorder.h>
-+#include <linux/usb/gadget.h>
-+
-+DECLARE_EVENT_CLASS(uvcg_video_req,
-+	TP_PROTO(struct usb_request *req, u32 queued),
-+	TP_ARGS(req, queued),
-+	TP_STRUCT__entry(
-+		__field(struct usb_request *, req)
-+		__field(u32, length)
-+		__field(u32, queued)
-+	),
-+	TP_fast_assign(
-+		__entry->req = req;
-+		__entry->length = req->length;
-+		__entry->queued = queued;
-+	),
-+	TP_printk("req %p length %u queued %u",
-+		__entry->req,
-+		__entry->length,
-+		__entry->queued)
-+);
-+
-+DEFINE_EVENT(uvcg_video_req, uvcg_video_complete,
-+	TP_PROTO(struct usb_request *req, u32 queued),
-+	TP_ARGS(req, queued)
-+);
-+
-+DEFINE_EVENT(uvcg_video_req, uvcg_video_queue,
-+	TP_PROTO(struct usb_request *req, u32 queued),
-+	TP_ARGS(req, queued)
-+);
-+
-+#endif /* __UVCG_TRACE_H */
-+
-+/* this part has to be here */
-+
-+#undef TRACE_INCLUDE_PATH
-+#define TRACE_INCLUDE_PATH .
-+
-+#undef TRACE_INCLUDE_FILE
-+#define TRACE_INCLUDE_FILE uvc_trace
-+
-+#include <trace/define_trace.h>
+ 	/* Frame parameters */
+ 	u8 bpp;
+ 	u32 fcc;
 diff --git a/drivers/usb/gadget/function/uvc_video.c b/drivers/usb/gadget/function/uvc_video.c
-index 0287a56fa50ad..115524b79ebd7 100644
+index 48fd8d3c50b0c..eb82aaed6ba13 100644
 --- a/drivers/usb/gadget/function/uvc_video.c
 +++ b/drivers/usb/gadget/function/uvc_video.c
-@@ -19,6 +19,7 @@
- #include "uvc.h"
- #include "uvc_queue.h"
- #include "uvc_video.h"
-+#include "uvc_trace.h"
+@@ -269,6 +269,8 @@ static int uvcg_video_ep_queue(struct uvc_video *video, struct usb_request *req)
+ 		}
+ 	}
  
- /* --------------------------------------------------------------------------
-  * Video codecs
-@@ -271,6 +272,8 @@ static int uvcg_video_ep_queue(struct uvc_video *video, struct usb_request *req)
- 
- 	atomic_inc(&video->queued);
- 
-+	trace_uvcg_video_queue(req, atomic_read(&video->queued));
++	atomic_inc(&video->queued);
 +
  	return ret;
  }
  
-@@ -408,6 +411,8 @@ uvc_video_complete(struct usb_ep *ep, struct usb_request *req)
- 	 */
+@@ -304,7 +306,7 @@ static int uvcg_video_usb_req_queue(struct uvc_video *video,
+ 		 */
+ 		if (list_empty(&video->req_free) || ureq->last_buf ||
+ 			!(video->req_int_count %
+-			DIV_ROUND_UP(video->uvc_num_requests, 4))) {
++			min(DIV_ROUND_UP(video->uvc_num_requests, 4), UVCG_REQ_MAX_INT_COUNT))) {
+ 			video->req_int_count = 0;
+ 			req->no_interrupt = 0;
+ 		} else {
+@@ -379,6 +381,7 @@ uvc_video_complete(struct usb_ep *ep, struct usb_request *req)
+ 	int ret = 0;
+ 
+ 	spin_lock_irqsave(&video->req_lock, flags);
++	atomic_dec(&video->queued);
+ 	if (!video->is_enabled) {
+ 		/*
+ 		 * When is_enabled is false, uvcg_video_disable() ensures
+@@ -466,6 +469,16 @@ uvc_video_complete(struct usb_ep *ep, struct usb_request *req)
+ 		 * happen.
+ 		 */
+ 		queue_work(video->async_wq, &video->pump);
++	} else if (atomic_read(&video->queued) > UVCG_REQ_MAX_ZERO_COUNT) {
++		list_add_tail(&to_queue->list, &video->req_free);
++		/*
++		 * There is a new free request - wake up the pump.
++		 */
++		queue_work(video->async_wq, &video->pump);
++
++		spin_unlock_irqrestore(&video->req_lock, flags);
++
++		return;
+ 	}
+ 	/*
+ 	 * Queue to the endpoint. The actual queueing to ep will
+@@ -756,6 +769,8 @@ int uvcg_video_enable(struct uvc_video *video)
+ 
+ 	video->req_int_count = 0;
+ 
++	atomic_set(&video->queued, 0);
++
+ 	uvc_video_ep_queue_initial_requests(video);
  	queue_work(video->async_wq, &video->pump);
  
-+	trace_uvcg_video_complete(req, atomic_read(&video->queued));
-+
- 	spin_unlock_irqrestore(&video->req_lock, flags);
- 
- 	kthread_queue_work(video->kworker, &video->hw_submit);
 
 -- 
 2.39.5
