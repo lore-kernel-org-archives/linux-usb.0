@@ -1,15 +1,16 @@
 Received: from metis.whiteo.stw.pengutronix.de (metis.whiteo.stw.pengutronix.de [185.203.201.7])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 47D851B0113
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 47D311AFB28
 	for <linux-usb@vger.kernel.org>; Thu, 26 Sep 2024 23:37:49 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.203.201.7
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1727393873; cv=none; b=PZ6Y4hcL5zJkxvcuZHR+F+vPeRAAWuvdGT/78eTrRa7qLlPjnlTnm3XF6GeNSLNcTnM2du56ZpqAf4bnY6WlfpxIXzdj78gqVsajAdzK6ZXL4xlAlbdbJNsgutwUI6X7Lv9WsZjRUSAhYoQKEChhdKEAQPmmdZ8XMKgaoTtEQkw=
+	t=1727393873; cv=none; b=DPc9+5MveEIniqjeDKhuXjFEt2GHqAMCz4TYbKfzqXxvV2khXQ9tRf9p392pOtuzN57bYmyQVu2IMs0O0EP45msS6qnMVtUnazvTAS9X8WI9PJOQHD2rgL9NjMi5M7uGbyfsRjJTp4wU9ct8AS9vNfsHeXPfyXrgv3z7WKCD69Y=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
 	s=arc-20240116; t=1727393873; c=relaxed/simple;
-	bh=GlxGAsd23VV3lUatm50JekhYbc4Lb1uZFg1dGAKjLpM=;
-	h=From:Subject:Date:Message-Id:MIME-Version:Content-Type:To:Cc; b=oYf8Zt+IggviZVUVzO8O7rCXT1KqGyC0oqJRzgVYgbnkKH/K69RpcVnmhFb1A98qTALcc45dy2kAbdCRWKjb/LHTBi9qm1VqmafUZXHhV7KtezEIqcX7zz+EedKogC45sQuF2UcusoLnA2UOhkmpWfEtGyzAKIIvAS7gapSAe7c=
+	bh=KCJzkVrbX4p9KesPyrZo5pncQyB+kG1CpQ7sBxu5iMs=;
+	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
+	 In-Reply-To:To:Cc; b=eZGG++aGbEwz8P8upnpLM8aBz8FdUgReOkt/jeMVkePKZpqJKMfUZgOKSHg5Mj3ez2J/G335Fzb2TClV1S0t6otc0zAdxohwP7xGI6MnTrIKGKIEJh3fwPJbD/IaE8onj/p4ZTg73UOEYqWvx4VitvZu2Hsla2kzQYJLzP3tlnw=
 ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=pengutronix.de; spf=pass smtp.mailfrom=pengutronix.de; arc=none smtp.client-ip=185.203.201.7
 Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=pengutronix.de
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=pengutronix.de
@@ -17,22 +18,21 @@ Received: from drehscheibe.grey.stw.pengutronix.de ([2a0a:edc0:0:c01:1d::a2])
 	by metis.whiteo.stw.pengutronix.de with esmtps (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
 	(Exim 4.92)
 	(envelope-from <m.grzeschik@pengutronix.de>)
-	id 1sty3M-0007WG-WA; Fri, 27 Sep 2024 01:37:45 +0200
+	id 1sty3N-0007WO-4J; Fri, 27 Sep 2024 01:37:45 +0200
 Received: from [2a0a:edc0:0:1101:1d::ac] (helo=dude04.red.stw.pengutronix.de)
 	by drehscheibe.grey.stw.pengutronix.de with esmtps  (TLS1.3) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
 	(Exim 4.94.2)
 	(envelope-from <m.grzeschik@pengutronix.de>)
-	id 1sty3M-001nOR-Bw; Fri, 27 Sep 2024 01:37:44 +0200
+	id 1sty3M-001nOW-EF; Fri, 27 Sep 2024 01:37:44 +0200
 Received: from localhost ([::1] helo=dude04.red.stw.pengutronix.de)
 	by dude04.red.stw.pengutronix.de with esmtp (Exim 4.96)
 	(envelope-from <m.grzeschik@pengutronix.de>)
-	id 1sty3L-005IAz-2r;
+	id 1sty3L-005IAz-2w;
 	Fri, 27 Sep 2024 01:37:44 +0200
 From: Michael Grzeschik <m.grzeschik@pengutronix.de>
-Subject: [PATCH v5 0/9] usb: gadget: uvc: effectively fill the udc isoc
- pipeline with available video buffers and fixes
-Date: Fri, 27 Sep 2024 01:37:39 +0200
-Message-Id: <20240403-uvc_request_length_by_interval-v5-0-2de78794365c@pengutronix.de>
+Date: Fri, 27 Sep 2024 01:37:44 +0200
+Subject: [PATCH v5 5/9] usb: gadget: uvc: set req_size and n_requests based
+ on the frame interval
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
@@ -41,11 +41,9 @@ List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-X-B4-Tracking: v=1; b=H4sIAEPw9WYC/5XOQW7DIBAF0KtErEuFZ4ixu+o9qsjCMMRIFk4Bo
- 0SR7x6SbbOol/9r9P7cWaLoKbGvw51FKj75JdRw/DgwM+lwJu5tzQwESCEF8rWYIdLvSikPM4V
- znobxNviQKRY9c63I2WOnbN8iq8ioE/Ex6mCmyoR1nmt5ieT89bX6c6p58ikv8fZ6ojTP9t97p
- eGC9xJbI1XTAuL3pR6tOS7BXz8tsadfYJ8J1Wyg7YVTGsi5tybuM7Ga0molEK2VXffWlPtMWU2
- jARyiBGjpj7lt2wNpzBZS4gEAAA==
+Message-Id: <20240403-uvc_request_length_by_interval-v5-5-2de78794365c@pengutronix.de>
+References: <20240403-uvc_request_length_by_interval-v5-0-2de78794365c@pengutronix.de>
+In-Reply-To: <20240403-uvc_request_length_by_interval-v5-0-2de78794365c@pengutronix.de>
 To: Laurent Pinchart <laurent.pinchart@ideasonboard.com>, 
  Daniel Scally <dan.scally@ideasonboard.com>, 
  Greg Kroah-Hartman <gregkh@linuxfoundation.org>, 
@@ -54,21 +52,21 @@ To: Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
 Cc: linux-usb@vger.kernel.org, linux-kernel@vger.kernel.org, 
  Michael Grzeschik <m.grzeschik@pengutronix.de>
 X-Mailer: b4 0.12.0
-X-Developer-Signature: v=1; a=openpgp-sha256; l=3740;
+X-Developer-Signature: v=1; a=openpgp-sha256; l=6408;
  i=m.grzeschik@pengutronix.de; h=from:subject:message-id;
- bh=GlxGAsd23VV3lUatm50JekhYbc4Lb1uZFg1dGAKjLpM=;
- b=owEBbQKS/ZANAwAKAb9pWET5cfSrAcsmYgBm9fBElV8xAqHyzYu7qi70YDMg8PlNRKx/wNvpK
- ols7x1TVOGJAjMEAAEKAB0WIQQV2+2Fpbqd6fvv0Gi/aVhE+XH0qwUCZvXwRAAKCRC/aVhE+XH0
- q5mQD/0TR7UGdUVUyrruEl8g5Qe+9mpCYh02ntGclBOuMIP4JdtihGQ3ol4rgUo/OxyQecByjF3
- wC/bGOUQcwBnJpQ7uYXg+QPsaIAs9IEgI76W/x1Zr5tsyWS4R/+0w2V2qu9WziwZI4AVBXSor6s
- T+M/5mmEP/yAFh4WAt7eb8FbukZkfxFREF4KBTk+i+b2rM8GK+mriUjwI00zlVnoYIG2+qDUohw
- cNjmqXi1hE2uomDpwCmc2rFoqCe0K7WosWl/RD8cT8Gc/dpHkMq95tmXesBzO3Pq7L7O9cDx0jS
- 4cT9kjc/p1gCIbADlTWQwd5wa20YwvBJorCz4Dh2XIZ5d0pIeQ8PoWT2ta56q1nb2ZXKW3bVFaq
- s6NS9a3SygaYAuX+L1eNbv7S+1AsHBItD+kLJfeoJS7BUxHdEY3yQwcfVoxuOorxg9WaDJ9Z++X
- yZOyKHxx2e1DicCdqe4QZ5OrAEPG57d0o735EqYY/nVQtveWggETWQPpPByX4owTlPnSqpqEZCF
- p6Dkhq/avGkWnjCzyzN2iMfB/PHDXtK7YuOETTDFpSRPR+9huScojXOCPUtf5fxp+Pz2yj5x+sf
- MK30h8AFaSqkJsE2fIFP0UPjsaOBXOsqhR4HNdr1y1JOVJRFaw3OJGV1E3lqLH1tUD3nezTxC0w
- bl9YB/5QlQ67xSw==
+ bh=KCJzkVrbX4p9KesPyrZo5pncQyB+kG1CpQ7sBxu5iMs=;
+ b=owEBbQKS/ZANAwAKAb9pWET5cfSrAcsmYgBm9fBGFy4t+EJHFvImBrY+QlhgY+LhIhazRHzIz
+ Npc8Dk9vVCJAjMEAAEKAB0WIQQV2+2Fpbqd6fvv0Gi/aVhE+XH0qwUCZvXwRgAKCRC/aVhE+XH0
+ q7dOD/9yOmHDiZh+OFpzfvBlSwcjTvaeisRmpyMbTIkFJ9SYLzs7FRXNpO4g5ipcXxQKTtpZuui
+ AeaUVptm8ckzAu11iZabQ8eTS0i6mpaX5yF38rmqoTJFpKtK8D03I/p0AYBs2cmyrUuZbGIORy3
+ lic4g4PWT0Q/xuvvd4URIcQ62tA95oQui7PLgN5M8q76oqC022z2JgMUaHtZLiFHqsVMZNSrg6o
+ Jzprc5uVAf00FGCg1X5jplTqyrlUSDK4AOVDh3DUU5YERjoqPT3NECp66sncgC98SdoR1qbUAaT
+ 6LHsJDahxRrEXUIE+gRtsBs3Kuihh8LwHnNd2QRAVCvdBBTOvWd4rE5UvTfoSzWINT45Tb5R58V
+ E1RbNgQxqDvRcMqnCs6suz5FySjcbiRQj8B2XCdekHiKH8/OquY48EKn/4pTBfPMX5hceZBalsz
+ 2UMwgudML9Q+SSxSzhu6VvHEgxjZoX0XWijF40pFdr4daRtmUHnC7zAE6v5DOs4znbA068UmkFV
+ wjTuP+sE2eJ8OrbaB4ShzGXhFz8ui8KMloVSGQiBtemzSJaT/Jnf7oUT0CLZJa1ntRi5PRiKOME
+ znNUmi4OkJv8PLiYsBmCCcAen+uAOl1b1Jp6XCw6D7xMSh8NvtB/N+AS06F9a9lo1aRxiC2WYQG
+ U/Zm6uV/VTfD09Q==
 X-Developer-Key: i=m.grzeschik@pengutronix.de; a=openpgp;
  fpr=957BC452CE953D7EA60CF4FC0BE9E3157A1E2C64
 X-SA-Exim-Connect-IP: 2a0a:edc0:0:c01:1d::a2
@@ -76,73 +74,191 @@ X-SA-Exim-Mail-From: m.grzeschik@pengutronix.de
 X-SA-Exim-Scanned: No (on metis.whiteo.stw.pengutronix.de); SAEximRunCond expanded to false
 X-PTX-Original-Recipient: linux-usb@vger.kernel.org
 
-This patch series is improving the size calculation and allocation of
-the uvc requests. Using the selected frame duration of the stream it is
-possible to calculate the number of requests based on the interval
-length.
+This patch is removing the initial imprecise and limited calculation of
+requests needed to be used from the queue_setup callback. It instead
+introduces the uvc_video_prep_requests function which is called
+immediately before the request allocation.
 
-It also precalculates the request length based on the actual per frame
-size for compressed formats.
+With the information of the usb frame interval length it is possible to
+calculate the number of requests needed during one frame duration.
 
-For this calculations to work it was needed to rework the request
-queueing by moving the encoding to one extra thread (in this case we
-chose the qbuf) context.
+Based on the calculated number of requests and the imagesize we
+calculate the actual size per request. This calculation has the benefit
+that the frame data is equally distributed over all allocated requests.
 
-Next it was needed to move the actual request enqueueing to one extra
-thread which is kept busy to fill the isoc queue in the udc.
+When the req_size is not in the range for the actually configured
+max_req_size configured for the overall bandwidth we fallback
+to use the max_req_size instead.
+
+Since this calculations are only important for isoc transfers we just
+use max_request_size for bulk and skip it.
+
+As video->req_size will be recalculated on every video_enable resetting
+it to 0 is not necessary anymore.
 
 Signed-off-by: Michael Grzeschik <m.grzeschik@pengutronix.de>
----
-Changes in v5:
-- dropped: ('usb: gadget: uvc: remove pump worker and enqueue all buffers per frame in qbuf')
-- squashed ('usb: gadget: uvc: rework to enqueue in pump worker from encoded queue') and ('usb: gadget: uvc: remove uvc_video_ep_queue_initial_requests'))
-- squashed ('usb: gadget: uvc: set req_size once when the vb2 queue is calculated') and ('usb: gadget: uvc: set req_size and n_requests based on the frame interval')
-- replaced ('usb: gadget: uvc: add min g_ctrl vidioc and set min buffs to 4') with ('usb: gadget: uvc: set nbuffers to minimum STREAMING_MIN_BUFFERS in uvc_queue_setup')
-- added ('usb: gadget: uvc: wake pump everytime we update the free list')
-- added ('usb: gadget: uvc: add trace of enqueued and completed requests')
-- added ('usb: gadget: uvc: dont call usb_composite_setup_continue when not streamin')
-- some patch reordering
-- Link to v4: https://lore.kernel.org/r/20240403-uvc_request_length_by_interval-v4-0-ca22f334226e@pengutronix.de
-
-Changes in v4:
-- fixed exit path in uvc_enqueue_buffer on loop break
-- Link to v3: https://lore.kernel.org/r/20240403-uvc_request_length_by_interval-v3-0-4da7033dd488@pengutronix.de
-
-Changes in v3:
-- Added more patches necessary to properly rework the request queueing
-- Link to v2: https://lore.kernel.org/r/20240403-uvc_request_length_by_interval-v2-0-12690f7a2eff@pengutronix.de
-
-Changes in v2:
-- added header size into calculation of request size
-- Link to v1: https://lore.kernel.org/r/20240403-uvc_request_length_by_interval-v1-0-9436c4716233@pengutronix.de
 
 ---
-Michael Grzeschik (9):
-      usb: gadget: uvc: wake pump everytime we update the free list
-      usb: gadget: uvc: only enqueue zero length requests in potential underrun
-      usb: gadget: uvc: rework to enqueue in pump worker from encoded queue
-      usb: gadget: uvc: add g_parm and s_parm for frame interval
-      usb: gadget: uvc: set req_size and n_requests based on the frame interval
-      usb: gadget: uvc: set req_length based on payload by nreqs instead of req_size
-      usb: gadget: uvc: set nbuffers to minimum STREAMING_MIN_BUFFERS in uvc_queue_setup
-      usb: gadget: uvc: add trace of enqueued and completed requests
-      usb: gadget: uvc: dont call usb_composite_setup_continue when not streaming
-
- drivers/usb/gadget/function/Makefile    |   5 +
- drivers/usb/gadget/function/f_uvc.c     |   2 +
- drivers/usb/gadget/function/uvc.h       |  13 ++
- drivers/usb/gadget/function/uvc_queue.c |  26 ++--
- drivers/usb/gadget/function/uvc_queue.h |   2 +
- drivers/usb/gadget/function/uvc_trace.c |  11 ++
- drivers/usb/gadget/function/uvc_trace.h |  60 ++++++++
- drivers/usb/gadget/function/uvc_v4l2.c  |  55 +++++++
- drivers/usb/gadget/function/uvc_video.c | 264 +++++++++++++++++++-------------
- 9 files changed, 318 insertions(+), 120 deletions(-)
+v4 -> v5:
+ - reordered this patch in the series
+ - merging previous extra patch: ('usb: gadget: uvc: set req_size once when the vb2 queue is calculated')
+ - moved the overall request size calculation to one seperate function
+ - only calculating once before enabling the video ep
+v3 -> v4: -
+v2 -> v3:
+ - added the frame duration for full-speed devices into calculation
+v1 -> v2:
+ - add headersize per request into calculation
 ---
-base-commit: 68d4209158f43a558c5553ea95ab0c8975eab18c
-change-id: 20240403-uvc_request_length_by_interval-a7efd587d963
+ drivers/usb/gadget/function/uvc_queue.c | 13 -------
+ drivers/usb/gadget/function/uvc_video.c | 68 +++++++++++++++++++++++++++------
+ 2 files changed, 56 insertions(+), 25 deletions(-)
 
-Best regards,
+diff --git a/drivers/usb/gadget/function/uvc_queue.c b/drivers/usb/gadget/function/uvc_queue.c
+index 0aa3d7e1f3cc3..731e3b9d21acc 100644
+--- a/drivers/usb/gadget/function/uvc_queue.c
++++ b/drivers/usb/gadget/function/uvc_queue.c
+@@ -44,8 +44,6 @@ static int uvc_queue_setup(struct vb2_queue *vq,
+ {
+ 	struct uvc_video_queue *queue = vb2_get_drv_priv(vq);
+ 	struct uvc_video *video = container_of(queue, struct uvc_video, queue);
+-	unsigned int req_size;
+-	unsigned int nreq;
+ 
+ 	if (*nbuffers > UVC_MAX_VIDEO_BUFFERS)
+ 		*nbuffers = UVC_MAX_VIDEO_BUFFERS;
+@@ -54,17 +52,6 @@ static int uvc_queue_setup(struct vb2_queue *vq,
+ 
+ 	sizes[0] = video->imagesize;
+ 
+-	req_size = video->ep->maxpacket
+-		 * max_t(unsigned int, video->ep->maxburst, 1)
+-		 * (video->ep->mult);
+-
+-	/* We divide by two, to increase the chance to run
+-	 * into fewer requests for smaller framesizes.
+-	 */
+-	nreq = DIV_ROUND_UP(DIV_ROUND_UP(sizes[0], 2), req_size);
+-	nreq = clamp(nreq, 4U, 64U);
+-	video->uvc_num_requests = nreq;
+-
+ 	return 0;
+ }
+ 
+diff --git a/drivers/usb/gadget/function/uvc_video.c b/drivers/usb/gadget/function/uvc_video.c
+index 19ba18d5a42fb..4efd7585d7541 100644
+--- a/drivers/usb/gadget/function/uvc_video.c
++++ b/drivers/usb/gadget/function/uvc_video.c
+@@ -486,23 +486,70 @@ uvc_video_free_requests(struct uvc_video *video)
+ 	INIT_LIST_HEAD(&video->ureqs);
+ 	INIT_LIST_HEAD(&video->req_free);
+ 	INIT_LIST_HEAD(&video->req_ready);
+-	video->req_size = 0;
+ 	return 0;
+ }
+ 
++static void
++uvc_video_prep_requests(struct uvc_video *video)
++{
++	struct uvc_device *uvc = container_of(video, struct uvc_device, video);
++	struct usb_composite_dev *cdev = uvc->func.config->cdev;
++	unsigned int interval_duration = video->ep->desc->bInterval * 1250;
++	unsigned int max_req_size, req_size, header_size;
++	unsigned int nreq;
++
++	max_req_size = video->ep->maxpacket
++		 * max_t(unsigned int, video->ep->maxburst, 1)
++		 * (video->ep->mult);
++
++	if (!usb_endpoint_xfer_isoc(video->ep->desc)) {
++		video->req_size = max_req_size;
++		video->uvc_num_requests =
++			DIV_ROUND_UP(video->imagesize, max_req_size);
++
++		return;
++	}
++
++	if (cdev->gadget->speed < USB_SPEED_HIGH)
++		interval_duration = video->ep->desc->bInterval * 10000;
++
++	nreq = DIV_ROUND_UP(video->interval, interval_duration);
++
++	header_size = nreq * UVCG_REQUEST_HEADER_LEN;
++
++	req_size = DIV_ROUND_UP(video->imagesize + header_size, nreq);
++
++	if (req_size > max_req_size) {
++		/* The prepared interval length and expected buffer size
++		 * is not possible to stream with the currently configured
++		 * isoc bandwidth. Fallback to the maximum.
++		 */
++		req_size = max_req_size;
++	}
++	video->req_size = req_size;
++
++	/* We need to compensate the amount of requests to be
++	 * allocated with the maximum amount of zero length requests.
++	 * Since it is possible that hw_submit will initially
++	 * enqueue some zero length requests and we then will not be
++	 * able to fully encode one frame.
++	 */
++	video->uvc_num_requests = nreq + UVCG_REQ_MAX_ZERO_COUNT;
++}
++
+ static int
+ uvc_video_alloc_requests(struct uvc_video *video)
+ {
+ 	struct uvc_request *ureq;
+-	unsigned int req_size;
+ 	unsigned int i;
+ 	int ret = -ENOMEM;
+ 
+-	BUG_ON(video->req_size);
+-
+-	req_size = video->ep->maxpacket
+-		 * max_t(unsigned int, video->ep->maxburst, 1)
+-		 * (video->ep->mult);
++	/*
++	 * calculate in uvc_video_prep_requests
++	 * - video->uvc_num_requests
++	 * - video->req_size
++	 */
++	uvc_video_prep_requests(video);
+ 
+ 	for (i = 0; i < video->uvc_num_requests; i++) {
+ 		ureq = kzalloc(sizeof(struct uvc_request), GFP_KERNEL);
+@@ -513,7 +560,7 @@ uvc_video_alloc_requests(struct uvc_video *video)
+ 
+ 		list_add_tail(&ureq->list, &video->ureqs);
+ 
+-		ureq->req_buffer = kmalloc(req_size, GFP_KERNEL);
++		ureq->req_buffer = kmalloc(video->req_size, GFP_KERNEL);
+ 		if (ureq->req_buffer == NULL)
+ 			goto error;
+ 
+@@ -531,12 +578,10 @@ uvc_video_alloc_requests(struct uvc_video *video)
+ 		list_add_tail(&ureq->req->list, &video->req_free);
+ 		/* req_size/PAGE_SIZE + 1 for overruns and + 1 for header */
+ 		sg_alloc_table(&ureq->sgt,
+-			       DIV_ROUND_UP(req_size - UVCG_REQUEST_HEADER_LEN,
++			       DIV_ROUND_UP(video->req_size - UVCG_REQUEST_HEADER_LEN,
+ 					    PAGE_SIZE) + 2, GFP_KERNEL);
+ 	}
+ 
+-	video->req_size = req_size;
+-
+ 	return 0;
+ 
+ error:
+@@ -689,7 +734,6 @@ uvcg_video_disable(struct uvc_video *video)
+ 	INIT_LIST_HEAD(&video->ureqs);
+ 	INIT_LIST_HEAD(&video->req_free);
+ 	INIT_LIST_HEAD(&video->req_ready);
+-	video->req_size = 0;
+ 	spin_unlock_irqrestore(&video->req_lock, flags);
+ 
+ 	/*
+
 -- 
-Michael Grzeschik <m.grzeschik@pengutronix.de>
+2.39.5
 
