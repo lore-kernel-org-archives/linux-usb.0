@@ -1,193 +1,64 @@
-Received: from metis.whiteo.stw.pengutronix.de (metis.whiteo.stw.pengutronix.de [185.203.201.7])
+Received: from codeconstruct.com.au (pi.codeconstruct.com.au [203.29.241.158])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AC27D6F2FE
-	for <linux-usb@vger.kernel.org>; Sun, 29 Sep 2024 18:59:37 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.203.201.7
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 55EAB17E00B;
+	Sun, 29 Sep 2024 23:29:43 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=203.29.241.158
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1727636383; cv=none; b=JPtScmUMDZxHjzQ1HZRMM3LXDnAgL0NZO7+e2aRQYGKXuB64FxdXrN+Nz59EKSOdaII1f92atuzt0v0xsCOQ/7MDRbXmoopofDev7WZkVLQC/qBCFwMpOd2QKq2YAtccoTAJM0YazKv3V3qUafF3SqTTv+zQp9R/XMoDYfmI6Z0=
+	t=1727652587; cv=none; b=EY9EpRapf17vwbokUdrbTSK5rs+nO8ASais7XzXo65WWFJ53JaPxVaewaf77/e4XHGEHWMpg28wel3j7HTMawUjl5b6yKdjxAlEkh7Sco9tQVfXyqlUV4qBcWX0zl/txD8pAe33rtRN0dQwN+bMRF9Ct3A/vQ9eJmaObUhabCPg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1727636383; c=relaxed/simple;
-	bh=CBqNSqIk0ltXBdmgW8Ti/RSg2E6v/8JTXpUdBmbQDJI=;
-	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
-	 In-Reply-To:To:Cc; b=LCpsn8xciPqnWGtBlr9uuM8sT5gLgwqCkQ5A5MRDDJkfZwX2tOowER0CKxMw5gUJesklpr/aSgSfJiANIp6FZokaTbr1npU6qW/zd9VBWVjeZ3CcKGaktLmb11+EDGTCYdoBR3+9/6tAdZNr4RKbZV4zO5EuwEgZxkDmpLlJH+o=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=pengutronix.de; spf=pass smtp.mailfrom=pengutronix.de; arc=none smtp.client-ip=185.203.201.7
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=pengutronix.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=pengutronix.de
-Received: from drehscheibe.grey.stw.pengutronix.de ([2a0a:edc0:0:c01:1d::a2])
-	by metis.whiteo.stw.pengutronix.de with esmtps (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
-	(Exim 4.92)
-	(envelope-from <m.grzeschik@pengutronix.de>)
-	id 1suz8l-00053n-KK; Sun, 29 Sep 2024 20:59:31 +0200
-Received: from [2a0a:edc0:0:1101:1d::ac] (helo=dude04.red.stw.pengutronix.de)
-	by drehscheibe.grey.stw.pengutronix.de with esmtps  (TLS1.3) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
-	(Exim 4.94.2)
-	(envelope-from <m.grzeschik@pengutronix.de>)
-	id 1suz8k-002Ro4-WD; Sun, 29 Sep 2024 20:59:31 +0200
-Received: from localhost ([::1] helo=dude04.red.stw.pengutronix.de)
-	by dude04.red.stw.pengutronix.de with esmtp (Exim 4.96)
-	(envelope-from <m.grzeschik@pengutronix.de>)
-	id 1suz8k-0029Vj-2w;
-	Sun, 29 Sep 2024 20:59:30 +0200
-From: Michael Grzeschik <m.grzeschik@pengutronix.de>
-Date: Sun, 29 Sep 2024 20:59:22 +0200
-Subject: [PATCH v6 2/9] usb: gadget: uvc: only enqueue zero length requests
- in potential underrun
+	s=arc-20240116; t=1727652587; c=relaxed/simple;
+	bh=xSpe1d7cQVMTNSIqoym1nDp/5/hAhTRAAuBR8M6wIKA=;
+	h=Message-ID:Subject:From:To:Cc:Date:In-Reply-To:References:
+	 Content-Type:MIME-Version; b=rAbN/c8RwIzsoLC2tOoHNu9Bpwu8sMb+naI3BG4XwHZ763qeQqdqNuxiqB8T3l/TBkDWCANikbcDrPhkvLWM59pKjncSjz4AW4N/DUrTW0AEvPBDc3qzvSJ8Zj4gG1r/7Ln/x3VmW5w6aQYgBIyuZhlAEI1KY3Aqoi1kNEpuiBA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=codeconstruct.com.au; spf=pass smtp.mailfrom=codeconstruct.com.au; dkim=pass (2048-bit key) header.d=codeconstruct.com.au header.i=@codeconstruct.com.au header.b=CTj3BBL2; arc=none smtp.client-ip=203.29.241.158
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=codeconstruct.com.au
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=codeconstruct.com.au
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=codeconstruct.com.au header.i=@codeconstruct.com.au header.b="CTj3BBL2"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=codeconstruct.com.au; s=2022a; t=1727652575;
+	bh=xSpe1d7cQVMTNSIqoym1nDp/5/hAhTRAAuBR8M6wIKA=;
+	h=Subject:From:To:Cc:Date:In-Reply-To:References;
+	b=CTj3BBL2f55wdDTXiZktnMK3dqSnOUZ7VnxaXoVQw6BD/HL8Q+Youfoqf29Dgn0XR
+	 y8eYvQ2Yh8uZ59+02zUkYEhOcrdYtshyUcQ3xPm2hPaCFN0reqapLHKDwo3Uvgx36M
+	 6LzMUte85tIRNiMS8rB86VYj/4quaCYpOjN6Zu84V5efLu8eVx8iyqeg/AdVyMB71m
+	 vw7PxLGyzBKRRIH+j6gIlQ1Mt+C02diAf/KE3Ar1jyVvg1e7lXoRqlX39sq2V0Yxms
+	 J4nmphqq9ZBoNWsP/g2Z9X9kWJgL1eaj9OX2zhCsU2EkAUvhGwvg/4xfy2R7Q8hLgi
+	 CUy+mifxz5qeQ==
+Received: from [192.168.68.112] (ppp118-210-187-56.adl-adc-lon-bras34.tpg.internode.on.net [118.210.187.56])
+	by mail.codeconstruct.com.au (Postfix) with ESMTPSA id A1CC06511E;
+	Mon, 30 Sep 2024 07:29:32 +0800 (AWST)
+Message-ID: <d63ce770e3f633292b771b46a45ffb46a70e5521.camel@codeconstruct.com.au>
+Subject: Re: [PATCH] usb: gadget: Add check devm_kasprintf() returned value
+From: Andrew Jeffery <andrew@codeconstruct.com.au>
+To: Charles Han <hanchunchao@inspur.com>, benh@kernel.crashing.org, 
+	gregkh@linuxfoundation.org, joel@jms.id.au
+Cc: felipe.balbi@linux.intel.com, linux-usb@vger.kernel.org, 
+	linux-arm-kernel@lists.infradead.org, linux-aspeed@lists.ozlabs.org, 
+	linux-kernel@vger.kernel.org
+Date: Mon, 30 Sep 2024 08:59:31 +0930
+In-Reply-To: <20240929031423.40630-1-hanchunchao@inspur.com>
+References: <20240929031423.40630-1-hanchunchao@inspur.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+User-Agent: Evolution 3.46.4-2 
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-Message-Id: <20240403-uvc_request_length_by_interval-v6-2-08c05522e1f5@pengutronix.de>
-References: <20240403-uvc_request_length_by_interval-v6-0-08c05522e1f5@pengutronix.de>
-In-Reply-To: <20240403-uvc_request_length_by_interval-v6-0-08c05522e1f5@pengutronix.de>
-To: Laurent Pinchart <laurent.pinchart@ideasonboard.com>, 
- Daniel Scally <dan.scally@ideasonboard.com>, 
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>, 
- Avichal Rakesh <arakesh@google.com>, 
- Jayant Chowdhary <jchowdhary@google.com>
-Cc: linux-usb@vger.kernel.org, linux-kernel@vger.kernel.org, 
- kernel@pengutronix.de, Michael Grzeschik <m.grzeschik@pengutronix.de>
-X-Mailer: b4 0.12.0
-X-Developer-Signature: v=1; a=openpgp-sha256; l=4026;
- i=m.grzeschik@pengutronix.de; h=from:subject:message-id;
- bh=CBqNSqIk0ltXBdmgW8Ti/RSg2E6v/8JTXpUdBmbQDJI=;
- b=owEBbQKS/ZANAwAKAb9pWET5cfSrAcsmYgBm+aOQzPRqkwpM/eo56AIi8qjiJ5NPtmopQvtX1
- vFAO/Yx9HmJAjMEAAEKAB0WIQQV2+2Fpbqd6fvv0Gi/aVhE+XH0qwUCZvmjkAAKCRC/aVhE+XH0
- qzcfD/4kqh9sEHV8sQpWOsgPGbYKBN+vbucilNyg3NtkqfzfEuh0OMDVIv4siMC52DhFomcZvUT
- iRtfrSRC2cYfLY8T8ZeA8wfjvINtATcfxfTFzzRK9+/56XF1PAdRJVUFCFnUYHQE8zwLROJhEdY
- 94gRGbze6Tc4WkdF1/vBWChlsPdmo4J51aL2kuTcMOqlXUJAfnxF+EpfXc+/MtClZBy3HIvkt4J
- wd9/cNflx1AA3CiswCLnG9VWoPjTxev+QDZCBi3xdVOg3PKqnyAl+v4CyolYivb6+rGiizQagZk
- DidZRN1cXpqrRHbfvMba8KyDyk92prMMo2jSGpCGSuXwUmxuLkOFJ88FZFD9gOHUcMWxrp7aa1C
- EvuO93SwPlSaSRDuSEYrjKmQOpSKkZTFsGlQ8/IhNutTaZOXsQsxbkHOvgYVtNV/eDEWE2BoDRS
- IVJBUYlDuAumvYO03vxIXgpjFxTV+K81RHvjT9DaUVuD9dP8Fjn4goNVr5wuEw1VGf8o9zWaUdN
- 99Wab8aAN9yNWoCp529TiayxzbNvjIq8QtZQydEve7sMdIquFt5LHWzs3EnyhAKk5I5LokIs7z3
- 5q+oFCIC+16NN9FZF/huLgvRNVlZWo1M+DMD/Wu1VlB0TmMzb7eyNCv0HzeRNuBxp3jJ0pJ0pRm
- gL/XNN1JIsw7Fvg==
-X-Developer-Key: i=m.grzeschik@pengutronix.de; a=openpgp;
- fpr=957BC452CE953D7EA60CF4FC0BE9E3157A1E2C64
-X-SA-Exim-Connect-IP: 2a0a:edc0:0:c01:1d::a2
-X-SA-Exim-Mail-From: m.grzeschik@pengutronix.de
-X-SA-Exim-Scanned: No (on metis.whiteo.stw.pengutronix.de); SAEximRunCond expanded to false
-X-PTX-Original-Recipient: linux-usb@vger.kernel.org
 
-The complete handler will at least be called after 16 requests have
-completed, but will still handle all finisher requests. Since we have
-to maintain a costant filling in the isoc queue we ensure this by
-adding zero length requests.
+On Sun, 2024-09-29 at 11:14 +0800, Charles Han wrote:
+> devm_kasprintf() can return a NULL pointer on failure but this
+> returned value in ast_vhub_init_dev() is not checked.
+>=20
+> Fixes: 7ecca2a4080c ("usb/gadget: Add driver for Aspeed SoC virtual hub")
+> Signed-off-by: Charles Han <hanchunchao@inspur.com>
 
-By counting the amount enqueued requests we can ensure that the queue is
-never underrun and only need to get active if the queue is running
-critical. This patch is setting 32 as the critical level, which
-is twice the request amount that is needed to create interrupts.
+You should consider Greg's bot's reply to your other patch here also:
 
-To properly solve the amount of zero length requests that needs to
-be held in the hardware after one interrupt needs to be measured
-and depends on the runtime of the first enqueue run after the interrupt
-triggered. For now we just use twice the amount of requests between an
-interrupt.
+https://lore.kernel.org/all/2024092910-mobility-waking-758f@gregkh/
 
-Signed-off-by: Michael Grzeschik <m.grzeschik@pengutronix.de>
-
----
-v5 -> v6: -
-v4 -> v5:
- - using min to limit for UVCG_REQ_MAX_INT_COUNT as the interrupt boundary
- - using atomic_inc, atomic_dec on one variable to avoid rollover
- - reordered this patch in the series
- - added UVCG_REQ_MAX_ZERO_COUNT to set the threshold of zero length
-   requests in the hw
- - added UVCG_REQ_MAX_INT_COUNT as quantifier for the
-   highest amount of request between an interrupt
-v1 -> v4: -
----
- drivers/usb/gadget/function/uvc.h       |  5 +++++
- drivers/usb/gadget/function/uvc_video.c | 17 ++++++++++++++++-
- 2 files changed, 21 insertions(+), 1 deletion(-)
-
-diff --git a/drivers/usb/gadget/function/uvc.h b/drivers/usb/gadget/function/uvc.h
-index cb35687b11e7e..55d796f5f5e8d 100644
---- a/drivers/usb/gadget/function/uvc.h
-+++ b/drivers/usb/gadget/function/uvc.h
-@@ -71,6 +71,9 @@ extern unsigned int uvc_gadget_trace_param;
- 
- #define UVCG_REQUEST_HEADER_LEN			12
- 
-+#define UVCG_REQ_MAX_INT_COUNT			16
-+#define UVCG_REQ_MAX_ZERO_COUNT			(2 * UVCG_REQ_MAX_INT_COUNT)
-+
- /* ------------------------------------------------------------------------
-  * Structures
-  */
-@@ -91,6 +94,8 @@ struct uvc_video {
- 	struct work_struct pump;
- 	struct workqueue_struct *async_wq;
- 
-+	atomic_t queued;
-+
- 	/* Frame parameters */
- 	u8 bpp;
- 	u32 fcc;
-diff --git a/drivers/usb/gadget/function/uvc_video.c b/drivers/usb/gadget/function/uvc_video.c
-index 48fd8d3c50b0c..eb82aaed6ba13 100644
---- a/drivers/usb/gadget/function/uvc_video.c
-+++ b/drivers/usb/gadget/function/uvc_video.c
-@@ -269,6 +269,8 @@ static int uvcg_video_ep_queue(struct uvc_video *video, struct usb_request *req)
- 		}
- 	}
- 
-+	atomic_inc(&video->queued);
-+
- 	return ret;
- }
- 
-@@ -304,7 +306,7 @@ static int uvcg_video_usb_req_queue(struct uvc_video *video,
- 		 */
- 		if (list_empty(&video->req_free) || ureq->last_buf ||
- 			!(video->req_int_count %
--			DIV_ROUND_UP(video->uvc_num_requests, 4))) {
-+			min(DIV_ROUND_UP(video->uvc_num_requests, 4), UVCG_REQ_MAX_INT_COUNT))) {
- 			video->req_int_count = 0;
- 			req->no_interrupt = 0;
- 		} else {
-@@ -379,6 +381,7 @@ uvc_video_complete(struct usb_ep *ep, struct usb_request *req)
- 	int ret = 0;
- 
- 	spin_lock_irqsave(&video->req_lock, flags);
-+	atomic_dec(&video->queued);
- 	if (!video->is_enabled) {
- 		/*
- 		 * When is_enabled is false, uvcg_video_disable() ensures
-@@ -466,6 +469,16 @@ uvc_video_complete(struct usb_ep *ep, struct usb_request *req)
- 		 * happen.
- 		 */
- 		queue_work(video->async_wq, &video->pump);
-+	} else if (atomic_read(&video->queued) > UVCG_REQ_MAX_ZERO_COUNT) {
-+		list_add_tail(&to_queue->list, &video->req_free);
-+		/*
-+		 * There is a new free request - wake up the pump.
-+		 */
-+		queue_work(video->async_wq, &video->pump);
-+
-+		spin_unlock_irqrestore(&video->req_lock, flags);
-+
-+		return;
- 	}
- 	/*
- 	 * Queue to the endpoint. The actual queueing to ep will
-@@ -756,6 +769,8 @@ int uvcg_video_enable(struct uvc_video *video)
- 
- 	video->req_int_count = 0;
- 
-+	atomic_set(&video->queued, 0);
-+
- 	uvc_video_ep_queue_initial_requests(video);
- 	queue_work(video->async_wq, &video->pump);
- 
-
--- 
-2.39.5
-
+Andrew
