@@ -1,49 +1,70 @@
-Received: from mail11.truemail.it (mail11.truemail.it [217.194.8.81])
+Received: from mail-wr1-f43.google.com (mail-wr1-f43.google.com [209.85.221.43])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1A7531D61AD;
-	Fri,  4 Oct 2024 12:45:34 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.194.8.81
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B013720FA97;
+	Fri,  4 Oct 2024 12:54:41 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.43
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1728045940; cv=none; b=NmrLyqScF/0ymWMRzjwBWUQDrIPtzAOaScCkDnCvqRs6IRgpac1gzAgbxYmn6EQAhbK2kf8qGnJbFeAKvJSH2hQVTZSubyxxi5en86AYAGVwuWrneQEXOJDCymGwIn7deWbIQBbBmBvv1tOsgXzfXUd1MCj7cF/isd9/AMHsDpE=
+	t=1728046483; cv=none; b=a//cDA1RhMuz2ukBvPD6GNnJtvxryolmDKZSDOPIICYkbrTNgut4vuxSbAcRpB+hSsknbeorseJxDqz2wjYrj8UGso6k3nl6FIb+1p6v8Xn8i4FUpYkZUv3d/1TmkcxKIwCSmRmVkCFEnP6sJ74bOaCg6wkU+scQ1xXH305ye2Y=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1728045940; c=relaxed/simple;
-	bh=uWsZNGe3pqxzZr79023FPOo8NHWjPAJAYWxwLX8dIJE=;
-	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
-	 MIME-Version; b=TuGaPKyRetAEJWyvOeGAB/umk7PneijBT44sJJEyp1b/pNVcHvvuTv/gXuT6W7x6+JVeCzMdwOJhpE9ux5yY6hIX+bpM/9vp7O24lrLj4lQjV8fKz0UXe1s8g6toHAQVOYO0V8WUlQKKASuV+ZBsRKxeECFgUPXoC+0CtBXkmLs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=dolcini.it; spf=pass smtp.mailfrom=dolcini.it; dkim=pass (2048-bit key) header.d=dolcini.it header.i=@dolcini.it header.b=g8m/PlFu; arc=none smtp.client-ip=217.194.8.81
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=dolcini.it
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=dolcini.it
+	s=arc-20240116; t=1728046483; c=relaxed/simple;
+	bh=0U1a7ytQetwFDZmn1eRmqFKEgdBTT6oczK1GfeCK7js=;
+	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=tHF7hrmW+aPdpuwKbkg1aa2Dt0ACSh/LLZBDPXpIyuXjb8v/IrNGc4TfgsYvop54hu5hLgWJ/WDbhFXaMGuc3YzrQn813n4Xoxj06Fij2X7ynm270fh3QyOACiFy/6Pvb6Yp3lhlbMX6MuWSN4/xFSIw3r4CloAkYd3eK6Pm4q4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=PJPCktoO; arc=none smtp.client-ip=209.85.221.43
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=dolcini.it header.i=@dolcini.it header.b="g8m/PlFu"
-Received: from francesco-nb.pivistrello.it (93-49-2-63.ip317.fastwebnet.it [93.49.2.63])
-	by mail11.truemail.it (Postfix) with ESMTPA id 087E520B3E;
-	Fri,  4 Oct 2024 14:45:27 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=dolcini.it;
-	s=default; t=1728045927;
-	bh=kYBsUjE2mHIzazcKSvxnMOQn0HZCyzCwd7IP56x1zOo=; h=From:To:Subject;
-	b=g8m/PlFuZIimr/+DitGPyh4kPiMpJnYZVG8WuI10t0C41SNx+n+NTLI84QZ9480YH
-	 q67ScRwBzzDDdYcn+zfBh9iIgUHDq+ptc3z+IT/tu9oIO1k6ULk8A+VrlWo8UezAxS
-	 aZZzKvDWgsLeP1kRpHQuUmJH/9z6t/FOU0YPjqOUSmxLgz0jrIKNLdG/tScSLa88ns
-	 2eNTEEoVi4PDqAUmdRBVa0EzR+KBPy8kvx9akhkE+RiM5SEO1BHOr9OueHTNkYg6A9
-	 DOH0mtQ+wGdKhcLDINFKXJIGZHrYHBDQRWRrMcAxXEUigBF4vknfkV47hwwfdCgYDh
-	 t0vug5Hyfyvuw==
-From: Francesco Dolcini <francesco@dolcini.it>
-To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	Rob Herring <robh@kernel.org>,
-	Krzysztof Kozlowski <krzk+dt@kernel.org>,
-	Conor Dooley <conor+dt@kernel.org>,
-	Francesco Dolcini <francesco.dolcini@toradex.com>
-Cc: Parth Pancholi <parth.pancholi@toradex.com>,
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="PJPCktoO"
+Received: by mail-wr1-f43.google.com with SMTP id ffacd0b85a97d-37cfa129074so1550213f8f.1;
+        Fri, 04 Oct 2024 05:54:41 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1728046480; x=1728651280; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=tEtwbGJWzjjcwHlZhLNUe/4B9xrOLVa1OuIkllfknSA=;
+        b=PJPCktoOi0tJ96sVtIgU50HeU1DyTDw0Je8BRPKtCnXusEYxMjiRd/NL1CFUD/ujjf
+         D9g2BwtlqJZ6+gQRrU5S6i54mf4qCeoel0YU2LmPToq3AvnDusDzQiIBUV1lOrkUSSBb
+         vY7Orc972BuMKLsjciOCybYk9afsRYVbSJWPyHKvLgvGHYzf6f5Lb5UQNL3DOt+Uy+j5
+         SshE/UYtsBib/DhGBeMwbOYGfjqVM0JUK6wcWj1BpQW18Rx5wxdP9ckdtRsJ3wqXUgPM
+         m64+BTt0UhUnC4KOGYH3u0QjJlBTjdViprGzTSd2nwYvPTacyH/OskVrNxynT11IIbZX
+         WmMQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1728046480; x=1728651280;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=tEtwbGJWzjjcwHlZhLNUe/4B9xrOLVa1OuIkllfknSA=;
+        b=hMqQkRSSPG8Na6ioCerP3Krcv2LGwqIoyNAXfRuFFV8mE+gM3J1XfOrdDldG0QE2Sz
+         40+Asa3AyznaZCssdtlIujfKnaqbnwSzz2leT1Yjr6BRgjYUI6uGJorie0sLn6vzvFRF
+         HsomjCYc7ejQT/BANoJTdPwusMRTLO2bWwIwNhxmwyrUs+iwf2aa/kcV2JzL0UlJsFpk
+         l1eoXMyRukOi86r7lzvT8bGbN+XQCh6aBbQ0/vudbuYNgV3LTlDLtzS59Bhwfeg2xpra
+         Jlo6f4qi0utv8us3E6AN1EjTzY9nWYBxQGf+CpLUbyLIYzJhFfGyLRRSpuF11UXziiLK
+         ZT5A==
+X-Forwarded-Encrypted: i=1; AJvYcCU4noyWMN3QFloAUq/jtrRMRl6MjCeZrWRO7IQcHkCb8u7Y5M/1YZkbsp44DW8X3XTz5LZkp4eYOyrdD94=@vger.kernel.org, AJvYcCUCT03fbFH+LcegexRmV9QimNRvrKs3MvtqPc2ie5/jUQUqJFmfRlbY9r9H2gn4OaItX8ojygq9GK0b@vger.kernel.org, AJvYcCV5DVgEpymajFuYqRPy6vUFl9o5BSmd956/jtRN0AO3twSFwzOAT3CyTD92X7iaZAMdS1EMd+tB@vger.kernel.org
+X-Gm-Message-State: AOJu0YwzvEPzk9oYjRHEGKqwOrGY20ga9KS5DYcGv4mrph0X8n6ULf7J
+	sZmkcARzKZ5h0ajx+2VwFy5kKr8wTqKMMK8CbS0s6DtJJBXlVH0r
+X-Google-Smtp-Source: AGHT+IHnOdMJHl3HwzWhTEJvKpf3dSZq+Uhm0xsVKW24QNQcoxzFSUdXsLbFp0rh+KNccq0XMA8oEQ==
+X-Received: by 2002:a05:6000:400b:b0:378:89be:1825 with SMTP id ffacd0b85a97d-37d0e8f4bcemr2132793f8f.49.1728046479785;
+        Fri, 04 Oct 2024 05:54:39 -0700 (PDT)
+Received: from ubuntu-20.04.myguest.virtualbox.org ([77.137.66.252])
+        by smtp.googlemail.com with ESMTPSA id 5b1f17b1804b1-42f86b4a371sm14936055e9.42.2024.10.04.05.54.38
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 04 Oct 2024 05:54:39 -0700 (PDT)
+From: Liel Harel <liel.harel@gmail.com>
+To: Steve Glendinning <steve.glendinning@shawell.net>,
+	UNGLinuxDriver@microchip.com,
+	"David S. Miller" <davem@davemloft.net>,
+	Eric Dumazet <edumazet@google.com>,
+	Jakub Kicinski <kuba@kernel.org>,
+	Paolo Abeni <pabeni@redhat.com>,
+	netdev@vger.kernel.org,
 	linux-usb@vger.kernel.org,
-	devicetree@vger.kernel.org,
 	linux-kernel@vger.kernel.org
-Subject: [PATCH v1 1/2] dt-bindings: usb: add TUSB73x0 PCIe
-Date: Fri,  4 Oct 2024 14:45:20 +0200
-Message-Id: <20241004124521.53442-2-francesco@dolcini.it>
-X-Mailer: git-send-email 2.39.5
-In-Reply-To: <20241004124521.53442-1-francesco@dolcini.it>
-References: <20241004124521.53442-1-francesco@dolcini.it>
+Cc: liel.harel@gmail.com
+Subject: [PATCH v2] smsc95xx: Add implementation for set_pauseparam for enabling to pause RX path.
+Date: Fri,  4 Oct 2024 15:54:30 +0300
+Message-Id: <20241004125431.428657-1-liel.harel@gmail.com>
+X-Mailer: git-send-email 2.25.1
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
@@ -52,90 +73,174 @@ List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-From: Parth Pancholi <parth.pancholi@toradex.com>
+Enable userspace applications to pause RX path by IOCTL.
+The function write to MAC control and status register for pausing RX path.
 
-Add device tree bindings for TI's TUSB73x0 PCIe-to-USB 3.0 xHCI
-host controller. The controller supports software configuration
-through PCIe registers, such as controlling the PWRONx polarity
-via the USB control register (E0h).
-
-Similar generic PCIe-based bindings can be found as qcom,ath11k-pci.yaml
-as an example.
-
-Datasheet: https://www.ti.com/lit/ds/symlink/tusb7320.pdf
-Signed-off-by: Parth Pancholi <parth.pancholi@toradex.com>
-Signed-off-by: Francesco Dolcini <francesco.dolcini@toradex.com>
+Signed-off-by: Liel Harel <liel.harel@gmail.com>
 ---
- .../bindings/usb/ti,tusb73x0-pci.yaml         | 60 +++++++++++++++++++
- 1 file changed, 60 insertions(+)
- create mode 100644 Documentation/devicetree/bindings/usb/ti,tusb73x0-pci.yaml
+ drivers/net/usb/smsc95xx.c | 79 ++++++++++++++++++++++++++------------
+ 1 file changed, 55 insertions(+), 24 deletions(-)
 
-diff --git a/Documentation/devicetree/bindings/usb/ti,tusb73x0-pci.yaml b/Documentation/devicetree/bindings/usb/ti,tusb73x0-pci.yaml
-new file mode 100644
-index 000000000000..bcb619b08ad3
---- /dev/null
-+++ b/Documentation/devicetree/bindings/usb/ti,tusb73x0-pci.yaml
-@@ -0,0 +1,60 @@
-+# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
-+%YAML 1.2
-+---
-+$id: http://devicetree.org/schemas/usb/ti,tusb73x0-pci.yaml#
-+$schema: http://devicetree.org/meta-schemas/core.yaml#
+diff --git a/drivers/net/usb/smsc95xx.c b/drivers/net/usb/smsc95xx.c
+index 8e82184be..bc65cac47 100644
+--- a/drivers/net/usb/smsc95xx.c
++++ b/drivers/net/usb/smsc95xx.c
+@@ -137,7 +137,8 @@ static int __must_check smsc95xx_write_reg(struct usbnet *dev, u32 index,
+ }
+ 
+ /* Loop until the read is completed with timeout
+- * called with phy_mutex held */
++ * called with phy_mutex held
++ */
+ static int __must_check smsc95xx_phy_wait_not_busy(struct usbnet *dev)
+ {
+ 	unsigned long start_time = jiffies;
+@@ -470,7 +471,8 @@ static int __must_check smsc95xx_write_reg_async(struct usbnet *dev, u16 index,
+ 
+ /* returns hash bit number for given MAC address
+  * example:
+- * 01 00 5E 00 00 01 -> returns bit number 31 */
++ * 01 00 5E 00 00 01 -> returns bit number 31
++ */
+ static unsigned int smsc95xx_hash(char addr[ETH_ALEN])
+ {
+ 	return (ether_crc(ETH_ALEN, addr) >> 26) & 0x3f;
+@@ -772,6 +774,45 @@ static int smsc95xx_ethtool_get_sset_count(struct net_device *ndev, int sset)
+ 	}
+ }
+ 
++/* Starts the Receive path */
++static int smsc95xx_start_rx_path(struct usbnet *dev)
++{
++	struct smsc95xx_priv *pdata = dev->driver_priv;
++	unsigned long flags;
 +
-+title: TUSB73x0 USB 3.0 xHCI Host Controller (PCIe)
++	spin_lock_irqsave(&pdata->mac_cr_lock, flags);
++	pdata->mac_cr |= MAC_CR_RXEN_;
++	spin_unlock_irqrestore(&pdata->mac_cr_lock, flags);
 +
-+maintainers:
-+  - Francesco Dolcini <francesco.dolcini@toradex.com>
++	return smsc95xx_write_reg(dev, MAC_CR, pdata->mac_cr);
++}
 +
-+description:
-+  TUSB73x0 USB 3.0 xHCI Host Controller via PCIe x1 Gen2 interface.
-+  The TUSB7320 supports up to two downstream ports, the TUSB7340 supports up
-+  to four downstream ports.
++/* Stops the Receive path */
++static int smsc95xx_stop_rx_path(struct usbnet *dev)
++{
++	struct smsc95xx_priv *pdata = dev->driver_priv;
++	unsigned long flags;
 +
-+properties:
-+  compatible:
-+    const: pci104C,8241
++	spin_lock_irqsave(&pdata->mac_cr_lock, flags);
++	pdata->mac_cr &= ~MAC_CR_RXEN_;
++	spin_unlock_irqrestore(&pdata->mac_cr_lock, flags);
 +
-+  reg:
-+    maxItems: 1
++	return smsc95xx_write_reg(dev, MAC_CR, pdata->mac_cr);
++}
 +
-+  ti,tusb7320-pwron-polarity-invert:
-+    type: boolean
-+    description:
-+      Configure the polarity of the PWRONx# signals. When this is false, the PWRONx#
-+      pins are active low and their internal pull-down resistors are enabled.
-+      When this is true, the PWRONx# pins are active high and their internal pull-down
-+      resistors are disabled.
++static int smsc95xx_ethtool_set_pauseparam(struct net_device *netdev,
++		struct ethtool_pauseparam *pause)
++{
++	struct usbnet *dev = netdev_priv(netdev);
 +
-+required:
-+  - compatible
-+  - reg
++	if (!pause->tx_pause || !pause->autoneg)
++		return -EINVAL;
 +
-+additionalProperties: false
++	if (pause->rx_pause)
++		return smsc95xx_start_rx_path(dev);
++	return smsc95xx_stop_rx_path(dev);
++}
 +
-+examples:
-+  - |
-+    pcie {
-+        #address-cells = <3>;
-+        #size-cells = <2>;
-+
-+        pcie@0 {
-+            device_type = "pci";
-+            reg = <0x0 0x0 0x0 0x0 0x0>;
-+            bus-range = <0x01 0xff>;
-+
-+            #address-cells = <3>;
-+            #size-cells = <2>;
-+            ranges;
-+
-+            usb@0 {
-+                  compatible = "pci104C,8241";
-+                  reg = <0x10000 0x0 0x0 0x0 0x0>;
-+
-+                  ti,tusb7320-pwron-polarity-invert;
-+            };
-+        };
-+    };
+ static const struct ethtool_ops smsc95xx_ethtool_ops = {
+ 	.get_link	= smsc95xx_get_link,
+ 	.nway_reset	= phy_ethtool_nway_reset,
+@@ -791,6 +832,7 @@ static const struct ethtool_ops smsc95xx_ethtool_ops = {
+ 	.self_test	= net_selftest,
+ 	.get_strings	= smsc95xx_ethtool_get_strings,
+ 	.get_sset_count	= smsc95xx_ethtool_get_sset_count,
++	.set_pauseparam = smsc95xx_ethtool_set_pauseparam,
+ };
+ 
+ static int smsc95xx_ioctl(struct net_device *netdev, struct ifreq *rq, int cmd)
+@@ -863,26 +905,13 @@ static int smsc95xx_start_tx_path(struct usbnet *dev)
+ 	return smsc95xx_write_reg(dev, TX_CFG, TX_CFG_ON_);
+ }
+ 
+-/* Starts the Receive path */
+-static int smsc95xx_start_rx_path(struct usbnet *dev)
+-{
+-	struct smsc95xx_priv *pdata = dev->driver_priv;
+-	unsigned long flags;
+-
+-	spin_lock_irqsave(&pdata->mac_cr_lock, flags);
+-	pdata->mac_cr |= MAC_CR_RXEN_;
+-	spin_unlock_irqrestore(&pdata->mac_cr_lock, flags);
+-
+-	return smsc95xx_write_reg(dev, MAC_CR, pdata->mac_cr);
+-}
+-
+ static int smsc95xx_reset(struct usbnet *dev)
+ {
+ 	struct smsc95xx_priv *pdata = dev->driver_priv;
+ 	u32 read_buf, burst_cap;
+ 	int ret = 0, timeout;
+ 
+-	netif_dbg(dev, ifup, dev->net, "entering smsc95xx_reset\n");
++	netif_dbg(dev, ifup, dev->net, "entering %s\n", __func__);
+ 
+ 	ret = smsc95xx_write_reg(dev, HW_CFG, HW_CFG_LRST_);
+ 	if (ret < 0)
+@@ -1065,7 +1094,7 @@ static int smsc95xx_reset(struct usbnet *dev)
+ 		return ret;
+ 	}
+ 
+-	netif_dbg(dev, ifup, dev->net, "smsc95xx_reset, return 0\n");
++	netif_dbg(dev, ifup, dev->net, "%s, return 0\n", __func__);
+ 	return 0;
+ }
+ 
+@@ -1076,7 +1105,7 @@ static const struct net_device_ops smsc95xx_netdev_ops = {
+ 	.ndo_tx_timeout		= usbnet_tx_timeout,
+ 	.ndo_change_mtu		= usbnet_change_mtu,
+ 	.ndo_get_stats64	= dev_get_tstats64,
+-	.ndo_set_mac_address 	= eth_mac_addr,
++	.ndo_set_mac_address = eth_mac_addr,
+ 	.ndo_validate_addr	= eth_validate_addr,
+ 	.ndo_eth_ioctl		= smsc95xx_ioctl,
+ 	.ndo_set_rx_mode	= smsc95xx_set_multicast,
+@@ -1471,7 +1500,8 @@ static int smsc95xx_autosuspend(struct usbnet *dev, u32 link_up)
+ 		/* link is down so enter EDPD mode, but only if device can
+ 		 * reliably resume from it.  This check should be redundant
+ 		 * as current FEATURE_REMOTE_WAKEUP parts also support
+-		 * FEATURE_PHY_NLP_CROSSOVER but it's included for clarity */
++		 * FEATURE_PHY_NLP_CROSSOVER but it's included for clarity
++		 */
+ 		if (!(pdata->features & FEATURE_PHY_NLP_CROSSOVER)) {
+ 			netdev_warn(dev->net, "EDPD not supported\n");
+ 			return -EBUSY;
+@@ -1922,11 +1952,11 @@ static u32 smsc95xx_calc_csum_preamble(struct sk_buff *skb)
+  */
+ static bool smsc95xx_can_tx_checksum(struct sk_buff *skb)
+ {
+-       unsigned int len = skb->len - skb_checksum_start_offset(skb);
++	unsigned int len = skb->len - skb_checksum_start_offset(skb);
+ 
+-       if (skb->len <= 45)
+-	       return false;
+-       return skb->csum_offset < (len - (4 + 1));
++	if (skb->len <= 45)
++		return false;
++	return skb->csum_offset < (len - (4 + 1));
+ }
+ 
+ static struct sk_buff *smsc95xx_tx_fixup(struct usbnet *dev,
+@@ -1955,7 +1985,8 @@ static struct sk_buff *smsc95xx_tx_fixup(struct usbnet *dev,
+ 	if (csum) {
+ 		if (!smsc95xx_can_tx_checksum(skb)) {
+ 			/* workaround - hardware tx checksum does not work
+-			 * properly with extremely small packets */
++			 * properly with extremely small packets
++			 */
+ 			long csstart = skb_checksum_start_offset(skb);
+ 			__wsum calc = csum_partial(skb->data + csstart,
+ 				skb->len - csstart, 0);
 -- 
-2.39.5
+2.25.1
 
