@@ -1,60 +1,60 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.9])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.19])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 88E95142E6F;
-	Sat,  5 Oct 2024 09:51:10 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.9
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 81106136337;
+	Sat,  5 Oct 2024 10:12:11 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.19
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1728121872; cv=none; b=bY2zVrFPJEtxNYFvgfgeAAzT5b9eA444beItTc591YNXlXV98s0WRCa+F/4LKtObCvmpxiuRwEJaRtFmPF2cPna+CAeiC2wbJArlvoCaMPeM071sFPwhILFM2Id9Tcqkqfo7VUTItCvetpywP9MPAokmnwXcKhcpUFLqgsgEToU=
+	t=1728123133; cv=none; b=urxa0I4dqINCMAzNfmMU904sdFWROmA3zd5w12GmPfvI4QFYsqrfxK1/pLyDM4q0JAjGZTGdr61n2bjayP/4umwncHdj43lMd0xIyKbfwBEjj72HRsoxd+a0W5RAgDbtbB2KLYoMBKBDieSIA/V1dVjcyOgxnFfpkigGeORTzbI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1728121872; c=relaxed/simple;
-	bh=kLA0odstNUX+dbcYfoPiylpV9R0J+7jb1qHYbUsBU68=;
+	s=arc-20240116; t=1728123133; c=relaxed/simple;
+	bh=CI77kQewLme6kjpyKd7vY6uErzaYvE1Weu1JnMCLcaA=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=BAsmzEUYjLFQZA2cLVn/0rElzIE+L3rSfDqqvZfh9bnLuEXqNdrlRjnfAO646x47oe5ZCPg1UBKuq/kz9o5AwUVSZXdo71mumrmdpIDgVWGFE+ajQrsjIgZqZqO+bnh3p7Z31F+TXYLF4NDlpVnv2AXRPoL4cK3zb9tOOs4U7nc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=X9kPhDbh; arc=none smtp.client-ip=192.198.163.9
+	 Content-Type:Content-Disposition:In-Reply-To; b=JttpZKtrFLqnLrUOA9hYnjrEYpC7sln0uQMMSXm9APO4stpK5lxyLLgN+vqLCw2Gd0cvgtLTle3fUj/zUDWjAFWqxS8x2XkxyLlrTVMU3DMPQ1tnSCaNJ6+ULHpAKZNTotD0XlyQvzE8qqCjwGTE4GJzkFIimPhJmyZARqEg2ng=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=HUllVojR; arc=none smtp.client-ip=192.198.163.19
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="X9kPhDbh"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="HUllVojR"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1728121870; x=1759657870;
+  t=1728123132; x=1759659132;
   h=date:from:to:cc:subject:message-id:references:
    mime-version:in-reply-to;
-  bh=kLA0odstNUX+dbcYfoPiylpV9R0J+7jb1qHYbUsBU68=;
-  b=X9kPhDbhz5l+BFTy3WYEZFAgavloQKi8PM9jai1PkRR4u5XHPtQwSI+D
-   efUtJ7PLDf0oX3LPeWte9HhKD09xplmBHTYQn6x3kccUL5OCW/RRlePTR
-   73U8+jAawWXHDw3PcrPgjTGENHB80CT7NbZ+kOLgWG+c9C9I6k/LxRvPS
-   NZBlhoK05dSWlKO9JDXwn2+JfNi8uYodUbuTHhCWozYlS+eYKyKlnzHPM
-   Z0F7mKEBdMBLXdl56RShgtrRUf2yXVAixGOKy2roaJUgOJwXHu3/e2Ns9
-   2DF8CAE+2k6By13zSvDaTvte74ZiST4Q3Wzfd1NecxcV+eVDRzt150xmd
-   Q==;
-X-CSE-ConnectionGUID: M++QQdq7SVyPNztuwcO09w==
-X-CSE-MsgGUID: 6WBDTsFgRBe0ulGgqtk5mg==
-X-IronPort-AV: E=McAfee;i="6700,10204,11215"; a="37992121"
+  bh=CI77kQewLme6kjpyKd7vY6uErzaYvE1Weu1JnMCLcaA=;
+  b=HUllVojRhi+Aq9U5hD0oq2ZsLgCdpdk1T2gg8O7FXoqyQVWl0JoU+KPX
+   B0gEOVvWqYOfQgBL6zVdaF/aoraFF6JTTKyn20RSH6REBX33BoJiNktXJ
+   BRWiOvQH7eoclH8HmH6bnRYBLPIwMziagx1UCWjorkzmzAfzyzTcERaj0
+   93K+vGx9CxoaQgdZEpQpwS7syBYp9+q7ssNhk1gx8SlsOoss2CkZicPOJ
+   uHC3MEw/U3qsW5dOsiydo3YgB6radR6CS74QABvWJMzqaHZuRJXwO+sD4
+   qqbMDDwFSV40+1au+8dCu0KzCqTcx7Qh5/slWUrqx3f1EVA4jjIz/SVLt
+   w==;
+X-CSE-ConnectionGUID: 6+UT7GU6TS6bB+d7DLlYmQ==
+X-CSE-MsgGUID: vj5ZVkYBTOi5BtiapUW2Fg==
+X-IronPort-AV: E=McAfee;i="6700,10204,11215"; a="26839746"
 X-IronPort-AV: E=Sophos;i="6.11,180,1725346800"; 
-   d="scan'208";a="37992121"
-Received: from fmviesa010.fm.intel.com ([10.60.135.150])
-  by fmvoesa103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 05 Oct 2024 02:51:06 -0700
-X-CSE-ConnectionGUID: iU31nSlSRWOU/KBA++aXuw==
-X-CSE-MsgGUID: S2GH+0ENR1C/8cw/wIa4HQ==
+   d="scan'208";a="26839746"
+Received: from orviesa002.jf.intel.com ([10.64.159.142])
+  by fmvoesa113.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 05 Oct 2024 03:12:08 -0700
+X-CSE-ConnectionGUID: upDFbmVVSIGjMBpB0M290w==
+X-CSE-MsgGUID: tgCoEkRuRhSz7ooS5kCXfA==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.11,180,1725346800"; 
-   d="scan'208";a="75280981"
+   d="scan'208";a="105801602"
 Received: from lkp-server01.sh.intel.com (HELO a48cf1aa22e8) ([10.239.97.150])
-  by fmviesa010.fm.intel.com with ESMTP; 05 Oct 2024 02:51:05 -0700
+  by orviesa002.jf.intel.com with ESMTP; 05 Oct 2024 03:12:05 -0700
 Received: from kbuild by a48cf1aa22e8 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1sx1RG-0002pK-2q;
-	Sat, 05 Oct 2024 09:51:02 +0000
-Date: Sat, 5 Oct 2024 17:50:33 +0800
+	id 1sx1lb-0002qO-13;
+	Sat, 05 Oct 2024 10:12:03 +0000
+Date: Sat, 5 Oct 2024 18:11:22 +0800
 From: kernel test robot <lkp@intel.com>
 To: Manuel Quintero F <sakunix@yahoo.com>, duncan.sands@free.fr
-Cc: oe-kbuild-all@lists.linux.dev, gregkh@linuxfoundation.org,
-	linux-usb@vger.kernel.org, linux-kernel@vger.kernel.org,
-	Manuel Quintero F <sakunix@yahoo.com>
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
+	gregkh@linuxfoundation.org, linux-usb@vger.kernel.org,
+	linux-kernel@vger.kernel.org, Manuel Quintero F <sakunix@yahoo.com>
 Subject: Re: [PATCH] USB: atm: speedtch: do not use assignment in if condition
-Message-ID: <202410051738.GFfOxDuk-lkp@intel.com>
+Message-ID: <202410051833.7M7dq3rD-lkp@intel.com>
 References: <20241004030512.2036-1-sakunix@yahoo.com>
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
@@ -80,137 +80,106 @@ url:    https://github.com/intel-lab-lkp/linux/commits/Manuel-Quintero-F/USB-atm
 base:   https://git.kernel.org/pub/scm/linux/kernel/git/gregkh/usb.git usb-testing
 patch link:    https://lore.kernel.org/r/20241004030512.2036-1-sakunix%40yahoo.com
 patch subject: [PATCH] USB: atm: speedtch: do not use assignment in if condition
-config: alpha-allyesconfig (https://download.01.org/0day-ci/archive/20241005/202410051738.GFfOxDuk-lkp@intel.com/config)
-compiler: alpha-linux-gcc (GCC) 13.3.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20241005/202410051738.GFfOxDuk-lkp@intel.com/reproduce)
+config: hexagon-allmodconfig (https://download.01.org/0day-ci/archive/20241005/202410051833.7M7dq3rD-lkp@intel.com/config)
+compiler: clang version 20.0.0git (https://github.com/llvm/llvm-project fef3566a25ff0e34fb87339ba5e13eca17cec00f)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20241005/202410051833.7M7dq3rD-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202410051738.GFfOxDuk-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202410051833.7M7dq3rD-lkp@intel.com/
 
-All error/warnings (new ones prefixed by >>):
+All errors (new ones prefixed by >>):
 
-   drivers/usb/atm/speedtch.c: In function 'speedtch_upload_firmware':
->> drivers/usb/atm/speedtch.c:327:85: error: expected ')' before 'if'
-     327 |         ret = usb_set_interface(usb_dev, INTERFACE_DATA, instance->params.altsetting
-         |                                ~                                                    ^
-         |                                                                                     )
-     328 | 
+   In file included from drivers/usb/atm/speedtch.c:26:
+   In file included from drivers/usb/atm/usbatm.h:14:
+   In file included from include/linux/atmdev.h:9:
+   In file included from include/linux/net.h:24:
+   In file included from include/linux/mm.h:2213:
+   include/linux/vmstat.h:518:36: warning: arithmetic between different enumeration types ('enum node_stat_item' and 'enum lru_list') [-Wenum-enum-conversion]
+     518 |         return node_stat_name(NR_LRU_BASE + lru) + 3; // skip "nr_"
+         |                               ~~~~~~~~~~~ ^ ~~~
+   In file included from drivers/usb/atm/speedtch.c:26:
+   In file included from drivers/usb/atm/usbatm.h:14:
+   In file included from include/linux/atmdev.h:11:
+   In file included from include/linux/skbuff.h:17:
+   In file included from include/linux/bvec.h:10:
+   In file included from include/linux/highmem.h:12:
+   In file included from include/linux/hardirq.h:11:
+   In file included from ./arch/hexagon/include/generated/asm/hardirq.h:1:
+   In file included from include/asm-generic/hardirq.h:17:
+   In file included from include/linux/irq.h:20:
+   In file included from include/linux/io.h:14:
+   In file included from arch/hexagon/include/asm/io.h:328:
+   include/asm-generic/io.h:548:31: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+     548 |         val = __raw_readb(PCI_IOBASE + addr);
+         |                           ~~~~~~~~~~ ^
+   include/asm-generic/io.h:561:61: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+     561 |         val = __le16_to_cpu((__le16 __force)__raw_readw(PCI_IOBASE + addr));
+         |                                                         ~~~~~~~~~~ ^
+   include/uapi/linux/byteorder/little_endian.h:37:51: note: expanded from macro '__le16_to_cpu'
+      37 | #define __le16_to_cpu(x) ((__force __u16)(__le16)(x))
+         |                                                   ^
+   In file included from drivers/usb/atm/speedtch.c:26:
+   In file included from drivers/usb/atm/usbatm.h:14:
+   In file included from include/linux/atmdev.h:11:
+   In file included from include/linux/skbuff.h:17:
+   In file included from include/linux/bvec.h:10:
+   In file included from include/linux/highmem.h:12:
+   In file included from include/linux/hardirq.h:11:
+   In file included from ./arch/hexagon/include/generated/asm/hardirq.h:1:
+   In file included from include/asm-generic/hardirq.h:17:
+   In file included from include/linux/irq.h:20:
+   In file included from include/linux/io.h:14:
+   In file included from arch/hexagon/include/asm/io.h:328:
+   include/asm-generic/io.h:574:61: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+     574 |         val = __le32_to_cpu((__le32 __force)__raw_readl(PCI_IOBASE + addr));
+         |                                                         ~~~~~~~~~~ ^
+   include/uapi/linux/byteorder/little_endian.h:35:51: note: expanded from macro '__le32_to_cpu'
+      35 | #define __le32_to_cpu(x) ((__force __u32)(__le32)(x))
+         |                                                   ^
+   In file included from drivers/usb/atm/speedtch.c:26:
+   In file included from drivers/usb/atm/usbatm.h:14:
+   In file included from include/linux/atmdev.h:11:
+   In file included from include/linux/skbuff.h:17:
+   In file included from include/linux/bvec.h:10:
+   In file included from include/linux/highmem.h:12:
+   In file included from include/linux/hardirq.h:11:
+   In file included from ./arch/hexagon/include/generated/asm/hardirq.h:1:
+   In file included from include/asm-generic/hardirq.h:17:
+   In file included from include/linux/irq.h:20:
+   In file included from include/linux/io.h:14:
+   In file included from arch/hexagon/include/asm/io.h:328:
+   include/asm-generic/io.h:585:33: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+     585 |         __raw_writeb(value, PCI_IOBASE + addr);
+         |                             ~~~~~~~~~~ ^
+   include/asm-generic/io.h:595:59: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+     595 |         __raw_writew((u16 __force)cpu_to_le16(value), PCI_IOBASE + addr);
+         |                                                       ~~~~~~~~~~ ^
+   include/asm-generic/io.h:605:59: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+     605 |         __raw_writel((u32 __force)cpu_to_le32(value), PCI_IOBASE + addr);
+         |                                                       ~~~~~~~~~~ ^
+>> drivers/usb/atm/speedtch.c:329:2: error: expected ')'
      329 |         if (ret < 0) {
-         |         ~~                                                                           
->> drivers/usb/atm/speedtch.c:346:20: error: expected ';' before '}' token
-     346 |         return ret;
-         |                    ^
-         |                    ;
-     347 | }
-         | ~                   
->> drivers/usb/atm/speedtch.c:317:17: error: label 'out_free' used but not defined
-     317 |                 goto out_free;
-         |                 ^~~~
->> drivers/usb/atm/speedtch.c:247:17: error: label 'out' used but not defined
-     247 |                 goto out;
-         |                 ^~~~
->> drivers/usb/atm/speedtch.c:347:1: warning: no return statement in function returning non-void [-Wreturn-type]
-     347 | }
-         | ^
-   drivers/usb/atm/speedtch.c: At top level:
->> drivers/usb/atm/speedtch.c:160:13: warning: 'speedtch_test_sequence' defined but not used [-Wunused-function]
-     160 | static void speedtch_test_sequence(struct speedtch_instance_data *instance)
-         |             ^~~~~~~~~~~~~~~~~~~~~~
->> drivers/usb/atm/speedtch.c:144:13: warning: 'speedtch_set_swbuff' defined but not used [-Wunused-function]
-     144 | static void speedtch_set_swbuff(struct speedtch_instance_data *instance, int state)
-         |             ^~~~~~~~~~~~~~~~~~~
+         |         ^
+   drivers/usb/atm/speedtch.c:327:25: note: to match this '('
+     327 |         ret = usb_set_interface(usb_dev, INTERFACE_DATA, instance->params.altsetting
+         |                                ^
+   7 warnings and 1 error generated.
+
+Kconfig warnings: (for reference only)
+   WARNING: unmet direct dependencies detected for MODVERSIONS
+   Depends on [n]: MODULES [=y] && !COMPILE_TEST [=y]
+   Selected by [y]:
+   - RANDSTRUCT_FULL [=y] && (CC_HAS_RANDSTRUCT [=y] || GCC_PLUGINS [=n]) && MODULES [=y]
+   WARNING: unmet direct dependencies detected for GET_FREE_REGION
+   Depends on [n]: SPARSEMEM [=n]
+   Selected by [m]:
+   - RESOURCE_KUNIT_TEST [=m] && RUNTIME_TESTING_MENU [=y] && KUNIT [=m]
 
 
-vim +327 drivers/usb/atm/speedtch.c
+vim +329 drivers/usb/atm/speedtch.c
 
-   143	
- > 144	static void speedtch_set_swbuff(struct speedtch_instance_data *instance, int state)
-   145	{
-   146		struct usbatm_data *usbatm = instance->usbatm;
-   147		struct usb_device *usb_dev = usbatm->usb_dev;
-   148		int ret;
-   149	
-   150		ret = usb_control_msg(usb_dev, usb_sndctrlpipe(usb_dev, 0),
-   151				      0x32, 0x40, state ? 0x01 : 0x00, 0x00, NULL, 0, CTRL_TIMEOUT);
-   152		if (ret < 0)
-   153			usb_warn(usbatm,
-   154				 "%sabling SW buffering: usb_control_msg returned %d\n",
-   155				 state ? "En" : "Dis", ret);
-   156		else
-   157			usb_dbg(usbatm, "speedtch_set_swbuff: %sbled SW buffering\n", state ? "En" : "Dis");
-   158	}
-   159	
- > 160	static void speedtch_test_sequence(struct speedtch_instance_data *instance)
-   161	{
-   162		struct usbatm_data *usbatm = instance->usbatm;
-   163		struct usb_device *usb_dev = usbatm->usb_dev;
-   164		unsigned char *buf = instance->scratch_buffer;
-   165		int ret;
-   166	
-   167		/* URB 147 */
-   168		buf[0] = 0x1c;
-   169		buf[1] = 0x50;
-   170		ret = usb_control_msg(usb_dev, usb_sndctrlpipe(usb_dev, 0),
-   171				      0x01, 0x40, 0x0b, 0x00, buf, 2, CTRL_TIMEOUT);
-   172		if (ret < 0)
-   173			usb_warn(usbatm, "%s failed on URB147: %d\n", __func__, ret);
-   174	
-   175		/* URB 148 */
-   176		buf[0] = 0x32;
-   177		buf[1] = 0x00;
-   178		ret = usb_control_msg(usb_dev, usb_sndctrlpipe(usb_dev, 0),
-   179				      0x01, 0x40, 0x02, 0x00, buf, 2, CTRL_TIMEOUT);
-   180		if (ret < 0)
-   181			usb_warn(usbatm, "%s failed on URB148: %d\n", __func__, ret);
-   182	
-   183		/* URB 149 */
-   184		buf[0] = 0x01;
-   185		buf[1] = 0x00;
-   186		buf[2] = 0x01;
-   187		ret = usb_control_msg(usb_dev, usb_sndctrlpipe(usb_dev, 0),
-   188				      0x01, 0x40, 0x03, 0x00, buf, 3, CTRL_TIMEOUT);
-   189		if (ret < 0)
-   190			usb_warn(usbatm, "%s failed on URB149: %d\n", __func__, ret);
-   191	
-   192		/* URB 150 */
-   193		buf[0] = 0x01;
-   194		buf[1] = 0x00;
-   195		buf[2] = 0x01;
-   196		ret = usb_control_msg(usb_dev, usb_sndctrlpipe(usb_dev, 0),
-   197				      0x01, 0x40, 0x04, 0x00, buf, 3, CTRL_TIMEOUT);
-   198		if (ret < 0)
-   199			usb_warn(usbatm, "%s failed on URB150: %d\n", __func__, ret);
-   200	
-   201		/* Extra initialisation in recent drivers - gives higher speeds */
-   202	
-   203		/* URBext1 */
-   204		buf[0] = instance->params.ModemMode;
-   205		ret = usb_control_msg(usb_dev, usb_sndctrlpipe(usb_dev, 0),
-   206				      0x01, 0x40, 0x11, 0x00, buf, 1, CTRL_TIMEOUT);
-   207		if (ret < 0)
-   208			usb_warn(usbatm, "%s failed on URBext1: %d\n", __func__, ret);
-   209	
-   210		/* URBext2 */
-   211		/* This seems to be the one which actually triggers the higher sync
-   212		   rate -- it does require the new firmware too, although it works OK
-   213		   with older firmware */
-   214		ret = usb_control_msg(usb_dev, usb_sndctrlpipe(usb_dev, 0),
-   215				      0x01, 0x40, 0x14, 0x00,
-   216				      instance->params.ModemOption,
-   217				      MODEM_OPTION_LENGTH, CTRL_TIMEOUT);
-   218		if (ret < 0)
-   219			usb_warn(usbatm, "%s failed on URBext2: %d\n", __func__, ret);
-   220	
-   221		/* URBext3 */
-   222		buf[0] = instance->params.BMaxDSL & 0xff;
-   223		buf[1] = instance->params.BMaxDSL >> 8;
-   224		ret = usb_control_msg(usb_dev, usb_sndctrlpipe(usb_dev, 0),
-   225				      0x01, 0x40, 0x12, 0x00, buf, 2, CTRL_TIMEOUT);
-   226		if (ret < 0)
-   227			usb_warn(usbatm, "%s failed on URBext3: %d\n", __func__, ret);
-   228	}
    229	
    230	static int speedtch_upload_firmware(struct speedtch_instance_data *instance,
    231					     const struct firmware *fw1,
@@ -229,7 +198,7 @@ vim +327 drivers/usb/atm/speedtch.c
    244		if (!buffer) {
    245			ret = -ENOMEM;
    246			usb_dbg(usbatm, "%s: no memory for buffer!\n", __func__);
- > 247			goto out;
+   247			goto out;
    248		}
    249	
    250		if (!usb_ifnum_to_if(usb_dev, 2)) {
@@ -299,7 +268,7 @@ vim +327 drivers/usb/atm/speedtch.c
    314	
    315		if (ret < 0) {
    316			usb_err(usbatm, "%s: read BLOCK4 from modem failed (%d)!\n", __func__, ret);
- > 317			goto out_free;
+   317			goto out_free;
    318		}
    319	
    320		/* success */
@@ -309,9 +278,9 @@ vim +327 drivers/usb/atm/speedtch.c
    324		   because we're in our own kernel thread anyway. */
    325		msleep_interruptible(1000);
    326	
- > 327		ret = usb_set_interface(usb_dev, INTERFACE_DATA, instance->params.altsetting
+   327		ret = usb_set_interface(usb_dev, INTERFACE_DATA, instance->params.altsetting
    328	
-   329		if (ret < 0) {
+ > 329		if (ret < 0) {
    330			usb_err(usbatm, "%s: setting interface to %d failed (%d)!\n", __func__, instance->params.altsetting, ret);
    331			goto out_free;
    332		}
@@ -328,8 +297,8 @@ vim +327 drivers/usb/atm/speedtch.c
    343	out_free:
    344		free_page((unsigned long)buffer);
    345	out:
- > 346		return ret;
- > 347	}
+   346		return ret;
+   347	}
    348	
 
 -- 
