@@ -1,50 +1,69 @@
-Received: from mail11.truemail.it (mail11.truemail.it [217.194.8.81])
+Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.223.131])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 902DF18DF6C;
-	Mon,  7 Oct 2024 09:32:21 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.194.8.81
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4908718F2F2
+	for <linux-usb@vger.kernel.org>; Mon,  7 Oct 2024 09:40:08 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.131
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1728293545; cv=none; b=RUyDk3xle8GZSv8gIySbutheHwnVYN/cf4GzKcgK26rymoNLBoCDMtCXiSzCmU0dOnbRbu15+N9Ptj4GqYVK9x6fiqnPU3HjRd1macDq6zyTgHiQLpL9yoc32EeoVwGDrbDiki6b741Mm8gphvypvCfya4BafOK444H1WqeOAr4=
+	t=1728294010; cv=none; b=GZ2NT211ay5JYdqXyvSMhC1iX3owJbMfb68wsvq40QfvtDb+4CQc6mx1ZmUoz4cgWh1W0OLLOQeajuO9S1Lt36COkG4UveeExRjmAFaJezAmrCACwTOLnGtFnETuVewfHeN9dNe+cHRqmokzrbke4i6F4n57CPvmGi7W8Eo7KbA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1728293545; c=relaxed/simple;
-	bh=Q6ow7GUqAzWy9Gsj22wYbT3r7EnlqIllFyUxMnG3duM=;
-	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
-	 MIME-Version; b=p0nfYmuvx3W98RXy5g0TNQcFsP0R8YvKZKatkijfjcecbxkueAvu6v/YsAOqCNbkBbzJXKJv0ElUldmmMGWXMqtBBfDLjHaJLnJjuHBQ48xkKhBjhJ/44CQX8R/IWm0X7CFs5QnL8vQukpq88nb1xKf5rncGsuMAZ6zptnMz66Y=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=dolcini.it; spf=pass smtp.mailfrom=dolcini.it; dkim=pass (2048-bit key) header.d=dolcini.it header.i=@dolcini.it header.b=k0cXll59; arc=none smtp.client-ip=217.194.8.81
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=dolcini.it
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=dolcini.it
+	s=arc-20240116; t=1728294010; c=relaxed/simple;
+	bh=gEfjT9H38Rr+dw6Ij8VeTWpkA1l9FFkTyu5IS3/jp0s=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version; b=Qx1tOKCyFLmOIrKDU8BzeGSnmR/Zj0yn/Fj53raOXV8My+D0CWd7lcqPmEIBgdgDRS2VtnrUCTQZUuJj7T6pMbgFtJvDzZY86hkd2RGb0UHV2qHwWCWQ1UF8gzYL3pW+MYLEV8uHaoomojYvr9XEohzBNRvvfNrj8+wPhdApHyM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=suse.com; spf=pass smtp.mailfrom=suse.com; dkim=pass (1024-bit key) header.d=suse.com header.i=@suse.com header.b=hF7njYMC; dkim=pass (1024-bit key) header.d=suse.com header.i=@suse.com header.b=hF7njYMC; arc=none smtp.client-ip=195.135.223.131
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=suse.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=dolcini.it header.i=@dolcini.it header.b="k0cXll59"
-Received: from francesco-nb.pivistrello.it (93-49-2-63.ip317.fastwebnet.it [93.49.2.63])
-	by mail11.truemail.it (Postfix) with ESMTPA id 746EA207B5;
-	Mon,  7 Oct 2024 11:32:19 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=dolcini.it;
-	s=default; t=1728293539;
-	bh=8CrAR/TdXELsDDoNgcW8TShChrJK9EkSXn/tY38DJaE=; h=From:To:Subject;
-	b=k0cXll59hbdc0Pa2ajq57jg6Z7wYjeith+qFEhYDpr4DrLenItQ5UjP7NApBcn3/Q
-	 /XliHTik6PUDKCZavpAVEoUnFdkYkU8Y9wt0xYlYNvdfXnXu32TOq0M5Xeh57wKd5m
-	 wBSeeAjXP84MCkm90RJwGfsFWmzCTEOo3J6j5ZJWCtc3BCdrwHWWGs+lsmL7l9kKHV
-	 PNjLTIRvBiqfc8xZ8kCf9psHsSI5wgF6b/m8EkuavZU1EVt+rR8ZcjcRDm6VPjxDSx
-	 B95CGBVdDtV4NeCWUo42GpbjHGxMo9W/g7s7Mt9BVW3kLO8iXAISZ193qTDS98nzRe
-	 HQO9qbQQGbQHQ==
-From: Francesco Dolcini <francesco@dolcini.it>
-To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	Rob Herring <robh@kernel.org>,
-	Krzysztof Kozlowski <krzk+dt@kernel.org>,
-	Conor Dooley <conor+dt@kernel.org>,
-	Mathias Nyman <mathias.nyman@intel.com>,
-	Francesco Dolcini <francesco.dolcini@toradex.com>
-Cc: Parth Pancholi <parth.pancholi@toradex.com>,
-	linux-usb@vger.kernel.org,
-	devicetree@vger.kernel.org,
-	linux-kernel@vger.kernel.org
-Subject: [PATCH v2 1/2] dt-bindings: usb: add TUSB73x0 PCIe
-Date: Mon,  7 Oct 2024 11:32:04 +0200
-Message-Id: <20241007093205.27130-2-francesco@dolcini.it>
-X-Mailer: git-send-email 2.39.5
-In-Reply-To: <20241007093205.27130-1-francesco@dolcini.it>
-References: <20241007093205.27130-1-francesco@dolcini.it>
+	dkim=pass (1024-bit key) header.d=suse.com header.i=@suse.com header.b="hF7njYMC";
+	dkim=pass (1024-bit key) header.d=suse.com header.i=@suse.com header.b="hF7njYMC"
+Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org [IPv6:2a07:de40:b281:104:10:150:64:97])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by smtp-out2.suse.de (Postfix) with ESMTPS id 8E20D1F86A;
+	Mon,  7 Oct 2024 09:40:06 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.com; s=susede1;
+	t=1728294006; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=vDxbjobpGfZCYyZ64HjOHiywlASQ2w8L1QwAR5hYkM8=;
+	b=hF7njYMC4u0irSgRd9ZAFMqssjaaeKJ/UwjEs8LhLKYk1sjqUWE0xzY1nujMglnZnEftk5
+	rHKfwT91ICuC4uZzdDU20VdzcGz1lMLYZkLYvV3F8x/vqmm+1AUOrQxAdBCNWsX6CUnrx/
+	i1zHncu72wxw6F7w/kHvqKwdoebxh7M=
+Authentication-Results: smtp-out2.suse.de;
+	dkim=pass header.d=suse.com header.s=susede1 header.b=hF7njYMC
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.com; s=susede1;
+	t=1728294006; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=vDxbjobpGfZCYyZ64HjOHiywlASQ2w8L1QwAR5hYkM8=;
+	b=hF7njYMC4u0irSgRd9ZAFMqssjaaeKJ/UwjEs8LhLKYk1sjqUWE0xzY1nujMglnZnEftk5
+	rHKfwT91ICuC4uZzdDU20VdzcGz1lMLYZkLYvV3F8x/vqmm+1AUOrQxAdBCNWsX6CUnrx/
+	i1zHncu72wxw6F7w/kHvqKwdoebxh7M=
+Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 50A2313A55;
+	Mon,  7 Oct 2024 09:40:06 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
+	by imap1.dmz-prg2.suse.org with ESMTPSA
+	id GLZvEnasA2c8GAAAD6G6ig
+	(envelope-from <oneukum@suse.com>); Mon, 07 Oct 2024 09:40:06 +0000
+From: Oliver Neukum <oneukum@suse.com>
+To: gregkh@linuxfoundation.org,
+	lee@kernel.org,
+	linux-usb@vger.kernel.org
+Cc: Oliver Neukum <oneukum@suse.com>
+Subject: [PATCH 2/2] USB: yurex: kill needless initialization in yurex_read
+Date: Mon,  7 Oct 2024 11:39:48 +0200
+Message-ID: <20241007094004.242122-2-oneukum@suse.com>
+X-Mailer: git-send-email 2.46.1
+In-Reply-To: <20241007094004.242122-1-oneukum@suse.com>
+References: <20241007094004.242122-1-oneukum@suse.com>
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
@@ -52,93 +71,60 @@ List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
+X-Rspamd-Queue-Id: 8E20D1F86A
+X-Spam-Level: 
+X-Spamd-Result: default: False [-3.01 / 50.00];
+	BAYES_HAM(-3.00)[99.99%];
+	NEURAL_HAM_LONG(-1.00)[-1.000];
+	MID_CONTAINS_FROM(1.00)[];
+	R_MISSING_CHARSET(0.50)[];
+	R_DKIM_ALLOW(-0.20)[suse.com:s=susede1];
+	NEURAL_HAM_SHORT(-0.20)[-1.000];
+	MIME_GOOD(-0.10)[text/plain];
+	MX_GOOD(-0.01)[];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	ARC_NA(0.00)[];
+	RCVD_COUNT_TWO(0.00)[2];
+	MIME_TRACE(0.00)[0:+];
+	RBL_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:104:10:150:64:97:from];
+	SPAMHAUS_XBL(0.00)[2a07:de40:b281:104:10:150:64:97:from];
+	TO_DN_SOME(0.00)[];
+	RECEIVED_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:106:10:150:64:167:received];
+	FUZZY_BLOCKED(0.00)[rspamd.com];
+	FROM_HAS_DN(0.00)[];
+	TO_MATCH_ENVRCPT_ALL(0.00)[];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[imap1.dmz-prg2.suse.org:helo,imap1.dmz-prg2.suse.org:rdns,suse.com:email,suse.com:dkim,suse.com:mid];
+	RCVD_TLS_ALL(0.00)[];
+	FROM_EQ_ENVFROM(0.00)[];
+	RCPT_COUNT_THREE(0.00)[4];
+	DKIM_SIGNED(0.00)[suse.com:s=susede1];
+	DKIM_TRACE(0.00)[suse.com:+]
+X-Rspamd-Server: rspamd2.dmz-prg2.suse.org
+X-Rspamd-Action: no action
+X-Spam-Score: -3.01
+X-Spam-Flag: NO
 
-From: Parth Pancholi <parth.pancholi@toradex.com>
+This prevented the compiler from catching the patch
+that broke the driver.
 
-Add device tree bindings for TI's TUSB73x0 PCIe-to-USB 3.0 xHCI
-host controller. The controller supports software configuration
-through PCIe registers, such as controlling the PWRONx polarity
-via the USB control register (E0h).
-
-Similar generic PCIe-based bindings can be found as qcom,ath11k-pci.yaml
-as an example.
-
-Datasheet: https://www.ti.com/lit/ds/symlink/tusb7320.pdf
-Signed-off-by: Parth Pancholi <parth.pancholi@toradex.com>
-Signed-off-by: Francesco Dolcini <francesco.dolcini@toradex.com>
+Signed-off-by: Oliver Neukum <oneukum@suse.com>
 ---
-v2: rename property to ti,tusb7320-pwron-active-high and change type to flag
----
- .../bindings/usb/ti,tusb73x0-pci.yaml         | 60 +++++++++++++++++++
- 1 file changed, 60 insertions(+)
- create mode 100644 Documentation/devicetree/bindings/usb/ti,tusb73x0-pci.yaml
+ drivers/usb/misc/yurex.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/Documentation/devicetree/bindings/usb/ti,tusb73x0-pci.yaml b/Documentation/devicetree/bindings/usb/ti,tusb73x0-pci.yaml
-new file mode 100644
-index 000000000000..67a691dc03de
---- /dev/null
-+++ b/Documentation/devicetree/bindings/usb/ti,tusb73x0-pci.yaml
-@@ -0,0 +1,60 @@
-+# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
-+%YAML 1.2
-+---
-+$id: http://devicetree.org/schemas/usb/ti,tusb73x0-pci.yaml#
-+$schema: http://devicetree.org/meta-schemas/core.yaml#
-+
-+title: TUSB73x0 USB 3.0 xHCI Host Controller (PCIe)
-+
-+maintainers:
-+  - Francesco Dolcini <francesco.dolcini@toradex.com>
-+
-+description:
-+  TUSB73x0 USB 3.0 xHCI Host Controller via PCIe x1 Gen2 interface.
-+  The TUSB7320 supports up to two downstream ports, the TUSB7340 supports up
-+  to four downstream ports.
-+
-+properties:
-+  compatible:
-+    const: pci104C,8241
-+
-+  reg:
-+    maxItems: 1
-+
-+  ti,tusb7320-pwron-active-high:
-+    $ref: /schemas/types.yaml#/definitions/flag
-+    description:
-+      Configure the polarity of the PWRONx# signals. When this is present, the PWRONx#
-+      pins are active high and their internal pull-down resistors are disabled.
-+      When this is absent, the PWRONx# pins are active low (default) and their internal
-+      pull-down resistors are enabled.
-+
-+required:
-+  - compatible
-+  - reg
-+
-+additionalProperties: false
-+
-+examples:
-+  - |
-+    pcie {
-+        #address-cells = <3>;
-+        #size-cells = <2>;
-+
-+        pcie@0 {
-+            device_type = "pci";
-+            reg = <0x0 0x0 0x0 0x0 0x0>;
-+            bus-range = <0x01 0xff>;
-+
-+            #address-cells = <3>;
-+            #size-cells = <2>;
-+            ranges;
-+
-+            usb@0 {
-+                  compatible = "pci104C,8241";
-+                  reg = <0x10000 0x0 0x0 0x0 0x0>;
-+
-+                  ti,tusb7320-pwron-active-high;
-+            };
-+        };
-+    };
+diff --git a/drivers/usb/misc/yurex.c b/drivers/usb/misc/yurex.c
+index bd94bf078de3..70dff0db5354 100644
+--- a/drivers/usb/misc/yurex.c
++++ b/drivers/usb/misc/yurex.c
+@@ -400,7 +400,7 @@ static ssize_t yurex_read(struct file *file, char __user *buffer, size_t count,
+ 			  loff_t *ppos)
+ {
+ 	struct usb_yurex *dev;
+-	int len = 0;
++	int len;
+ 	char in_buffer[20];
+ 	unsigned long flags;
+ 
 -- 
-2.39.5
+2.46.1
 
