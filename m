@@ -1,108 +1,91 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.16])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail11.truemail.it (mail11.truemail.it [217.194.8.81])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AF61E189BAA
-	for <linux-usb@vger.kernel.org>; Mon,  7 Oct 2024 08:33:14 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.16
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5AD9618BC2D;
+	Mon,  7 Oct 2024 09:32:22 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.194.8.81
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1728289996; cv=none; b=Zg9QiLYsHm02Llmy0pfxY5z2Qnxyi223Sveb8/kse+U+6gWx9jTvMmMFOsYbnILS4UMpass2bMXqD9Rpk6YmDz/jpxWbRoTS0YUPcE9bSW6DViawXOBr7PM3sE1bnB8ZnGOARBLJAMoFi8ShNe4nWGffDx0otFnjj328TT983No=
+	t=1728293544; cv=none; b=t+PyaEa9iQguhC435t2QuyQ8DN4E9W1q8oSQx201RDi9e8I6PZP+4M/pZckyJXiksxQL1WUsKTZfmCLRTyr37SnzmCwmnOSkioK0AuaE9IFfyrYT6Ssdg9PJf1JslLcBLQTVNHSx1xeszz4929a7A1lb/KOqjch080nyiPdBHG4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1728289996; c=relaxed/simple;
-	bh=uOochachISimjQ39OOWUzc9V/CCdGqt8u0xJZpbV59w=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=dN97lCGi5Orgroj5VZFy9+Ey4VLE1P9gNrpixgJs5GWZU3LENrfqv6C0KbtHbdP6GFjxYwIDaQhNoj6vog3KjTzlslSAiEwsydQqvJWcTGmQamlNAGM/YNuC5Z3jkl9h8eYlKJzebjo+IBKiPtV53q330YGby+wYKGkPQv5fj1Y=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=none smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Zmb+JFKl; arc=none smtp.client-ip=192.198.163.16
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=linux.intel.com
+	s=arc-20240116; t=1728293544; c=relaxed/simple;
+	bh=6u07R4RIZtY2VJTqZEFqHhxEjSJmD31RTu+iKtt9lPw=;
+	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
+	 MIME-Version; b=cwHKfhV9lBW6wDc5EexSoxILrDbRRtbcOA0t/S6K0Y2RKFNCOSS7Jp0bhNxcCNOE1saO2DUv6IobYqQf8c2rG3DJUaudnMcz8keUYBgzVodH0ye0a6xSBBz8yLKy7CmB/0VBh9ejuaWaR2UOvViNyjMHAbjLZFFfk4vShEYQen4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=dolcini.it; spf=pass smtp.mailfrom=dolcini.it; dkim=pass (2048-bit key) header.d=dolcini.it header.i=@dolcini.it header.b=gudthhh5; arc=none smtp.client-ip=217.194.8.81
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=dolcini.it
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=dolcini.it
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Zmb+JFKl"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1728289994; x=1759825994;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=uOochachISimjQ39OOWUzc9V/CCdGqt8u0xJZpbV59w=;
-  b=Zmb+JFKl5XfOubYLmVCIKkbTCfCF+9uAGDChTJ7wusHqbJs3EWNATpfj
-   TPLzHCoMJwzGXU9je3tKzkHQXZpqnhyrEesl5aANzA69ZQ1UN6AxoqVJ2
-   CREYtZgCDe4CY8y9/SvAgy2EMlqus+IyjOIDqYzcol/LME9dKSu4xRQBt
-   CxJrgraas3kCNDcidQsG0dDaECh05WtDkalfn5KTvUKOLc4kBVpzbX+5o
-   xwXV0phPR24ks4Iw8EALp5dLxjfh6q10x4KeBrFrD+GRWgU9PMqUAjZIj
-   u0luYZGhw4W4aRAKBjxAhG2xAg0LcVEmTdkC2j1tEq3ym+8Mpx+N1u4TD
-   A==;
-X-CSE-ConnectionGUID: HKIedSDyQ9Ox6ASkZux/RA==
-X-CSE-MsgGUID: lURlbljISBu6pL4iV3aDkw==
-X-IronPort-AV: E=McAfee;i="6700,10204,11217"; a="15045552"
-X-IronPort-AV: E=Sophos;i="6.11,183,1725346800"; 
-   d="scan'208";a="15045552"
-Received: from fmviesa010.fm.intel.com ([10.60.135.150])
-  by fmvoesa110.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 07 Oct 2024 01:33:12 -0700
-X-CSE-ConnectionGUID: 24uNg1ZSSiGaBwFSXZK+xQ==
-X-CSE-MsgGUID: pL9ZppH1RRiAORRO4c/LkQ==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.11,183,1725346800"; 
-   d="scan'208";a="75741132"
-Received: from kuha.fi.intel.com ([10.237.72.152])
-  by fmviesa010.fm.intel.com with SMTP; 07 Oct 2024 01:33:10 -0700
-Received: by kuha.fi.intel.com (sSMTP sendmail emulation); Mon, 07 Oct 2024 11:33:09 +0300
-Date: Mon, 7 Oct 2024 11:33:09 +0300
-From: Heikki Krogerus <heikki.krogerus@linux.intel.com>
-To: Thadeu Lima de Souza Cascardo <cascardo@igalia.com>
-Cc: linux-usb@vger.kernel.org,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	kernel-dev@igalia.com
-Subject: Re: [PATCH] usb: typec: altmode should keep reference to parent
-Message-ID: <ZwOcxWOftFJxpMbo@kuha.fi.intel.com>
-References: <20241004123738.2964524-1-cascardo@igalia.com>
- <Zv_23J-1U5pZ6rgT@kuha.fi.intel.com>
- <Zv/43ewc3n5aSEUO@quatroqueijos.cascardo.eti.br>
+	dkim=pass (2048-bit key) header.d=dolcini.it header.i=@dolcini.it header.b="gudthhh5"
+Received: from francesco-nb.pivistrello.it (93-49-2-63.ip317.fastwebnet.it [93.49.2.63])
+	by mail11.truemail.it (Postfix) with ESMTPA id F3F2E20B33;
+	Mon,  7 Oct 2024 11:32:19 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=dolcini.it;
+	s=default; t=1728293540;
+	bh=RrIkTi/ymDfvWUGLsl95l01h7JrOaCRIN8ELPQBuWlk=; h=From:To:Subject;
+	b=gudthhh5D4g0eZlVDnzqAeGJ+hIwQyhrOBt+/q5SEtpzcoAvcfYV6n4wM9yiIdVM0
+	 DARMZKtQSl0shN+eEeSkTG742xASL3maQ90KunG//USDrrgj0+ssEnckMvOfrqU7F5
+	 EcWQUBhwFD7bFrnbYushg5HF9fXZoIgxBDM8yRPBDyyoMytx3ZpkJSjeqDlT28gO2M
+	 EEKFIoBW2rJoX3s3ElvbVWq7q4gHhnl2r0VW5nG7h5aIDpv5qBOWVuOfrQiWR5PmTX
+	 dbVj4CAy17Esugy31oWO4dpwhjtbzDUBfZYyMhkb6R9BMOFEf6cuZBCIvt31cn7nxg
+	 1/u1C8H0DpT1w==
+From: Francesco Dolcini <francesco@dolcini.it>
+To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	Rob Herring <robh@kernel.org>,
+	Krzysztof Kozlowski <krzk+dt@kernel.org>,
+	Conor Dooley <conor+dt@kernel.org>,
+	Mathias Nyman <mathias.nyman@intel.com>,
+	Francesco Dolcini <francesco.dolcini@toradex.com>
+Cc: Parth Pancholi <parth.pancholi@toradex.com>,
+	linux-usb@vger.kernel.org,
+	devicetree@vger.kernel.org,
+	linux-kernel@vger.kernel.org
+Subject: [PATCH v2 2/2] USB: xhci: add support for PWRON active high
+Date: Mon,  7 Oct 2024 11:32:05 +0200
+Message-Id: <20241007093205.27130-3-francesco@dolcini.it>
+X-Mailer: git-send-email 2.39.5
+In-Reply-To: <20241007093205.27130-1-francesco@dolcini.it>
+References: <20241007093205.27130-1-francesco@dolcini.it>
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <Zv/43ewc3n5aSEUO@quatroqueijos.cascardo.eti.br>
+Content-Transfer-Encoding: 8bit
 
-Hi,
+From: Parth Pancholi <parth.pancholi@toradex.com>
 
-On Fri, Oct 04, 2024 at 11:17:01AM -0300, Thadeu Lima de Souza Cascardo wrote:
-> On Fri, Oct 04, 2024 at 05:08:28PM +0300, Heikki Krogerus wrote:
-> > On Fri, Oct 04, 2024 at 09:37:38AM -0300, Thadeu Lima de Souza Cascardo wrote:
-> > > The altmode device release refers to its parent device, but without keeping
-> > > a reference to it.
-> > > 
-> > > When registering the altmode, get a reference to the parent and put it in
-> > > the release function.
-> > > 
-> > > Before this fix, when using CONFIG_DEBUG_KOBJECT_RELEASE, we see issues
-> > > like this:
-> > 
-> > Let me study what's going on in the drivers code. The children should
-> > _not_ be cleaned first before the parent. I'll have to come back to
-> > this on Monday.
-> > 
-> > This really should not be necessary.
-> > 
-> 
-> Well, they are likely not. But driver core API states that either way, you
-> should keep such references. And one way to test it is using
-> CONFIG_DEBUG_KOBJECT_RELEASE. That delays the actual release/cleanup of the
-> struct device, so:
+Some PCIe-to-USB controllers such as TI's TUSB73x0 3.0 xHCI host
+controller supports controlling the PWRONx polarity via the USB
+control register (E0h). Add support for device tree property
+ti,tusb7320-pwron-active-high which indicates PWRONx to be
+active high and configure the E0h register accordingly.
+This enables the software control for the TUSB73x0's PWRONx
+outputs with an inverted polarity from the default configuration
+which could be used as USB EN signals for the other hubs or devices.
 
-What I want to understand is, what is the rationale for this behaviour
-in the core. If this is something that the drivers can do, then why is
-the core not doing it for everything? Why is the core decrementing the
-parent reference count already in device_del() instead of
-device_release()?
+Signed-off-by: Parth Pancholi <parth.pancholi@toradex.com>
+Signed-off-by: Francesco Dolcini <francesco.dolcini@toradex.com>
+---
+v2: s/polarity-invert/active-high
+---
+ drivers/usb/host/xhci-pci.c | 3 +++
+ 1 file changed, 3 insertions(+)
 
-I'm probable missing something, but I really want to understand this.
-There are other drivers also need resources from their parent, so if
-there is nothing preventing this from being handled in the core, then
-that's where it really should be handled.
-
-thanks,
-
+diff --git a/drivers/usb/host/xhci-pci.c b/drivers/usb/host/xhci-pci.c
+index 91dccd25a551..4bdef01735eb 100644
+--- a/drivers/usb/host/xhci-pci.c
++++ b/drivers/usb/host/xhci-pci.c
+@@ -641,6 +641,9 @@ int xhci_pci_common_probe(struct pci_dev *dev, const struct pci_device_id *id)
+ 
+ 	dma_set_max_seg_size(&dev->dev, UINT_MAX);
+ 
++	if (device_property_read_bool(&dev->dev, "ti,tusb7320-pwron-active-high"))
++		pci_clear_and_set_config_dword(dev, 0xE0, 0, 1 << 22);
++
+ 	return 0;
+ 
+ put_usb3_hcd:
 -- 
-heikki
+2.39.5
+
