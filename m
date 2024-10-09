@@ -1,65 +1,83 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id ADE43198A2C;
-	Wed,  9 Oct 2024 12:48:01 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B37FC194C6B
+	for <linux-usb@vger.kernel.org>; Wed,  9 Oct 2024 12:54:16 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1728478081; cv=none; b=eNZxB3ndaOCkgs58jX0bcAkjUqVGQoDChM2EBeNdmHIqENUJXjLQ81RQpXcie82hD9Ms3lMb0BbCfCqK1jvgE9j/AWr1lOiJwIDotHv+KiS8JGjdI9OTL8d9pl9TKTyK9DGuRWg9p5A82KB3hgoTs8o5eqaxTzGaP5QKW9drezw=
+	t=1728478456; cv=none; b=d2oMqNBjNFjGc5N0PTKP0n4CtILXGPv2bxAleldkd9lAihtJ5euSHVtF8LzYRwC8TGgdlLULVDMeVts2wycOL8oHMeSMl5gNV2jhF42byR3sFB53auuq4zU7+/EnaYmSXy+khEP+vlKSDDb/QY0XPq+vZWICgRCxrzs3hhgBAME=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1728478081; c=relaxed/simple;
-	bh=+HguAvEf1eo7PO/l+X4lhcbN9ZQ2VAGHrjY78y4xrYQ=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=Yk0nxTqkAjBIjqLzrp6qDE2cky5+COBIvqS7Pf0gQ4OAHYV+37FuWwidTVuyqJohwqYhTKTlPcRaYUjcjOGxtG+/0im1uVgnWedJC16xioMad+evCrSsCLVLY5aWT+Bh2iNherm5njljDCQklMjPK9xIQNxV55Uw1d5gsUE1PYc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b=PLThz6j6; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1728478456; c=relaxed/simple;
+	bh=XvYoU/Op0wxRoEhqCltyRmTK7/NvXWjwkz256pDtWIk=;
+	h=From:To:Subject:Date:Message-ID:In-Reply-To:References:
+	 Content-Type:MIME-Version; b=BzL926hxqSxBO9kpwJNe6W6kTz2ZAnZJfcWgSXdny6fUYytgcaXfVWpG1yd3AGrPUbfVVog0jD8DQrLHiF0j9vl+Fwv0C8ySFUic25fdmp5nuI9D/mJzjASf+th8VNqAQaaXWdIxOeRKVOWL5w5+E9iRMvePmJPL+ZtjsTUh4aE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=oPYEJDDt; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="PLThz6j6"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id D6948C4CECD;
-	Wed,  9 Oct 2024 12:48:00 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
-	s=korg; t=1728478081;
-	bh=+HguAvEf1eo7PO/l+X4lhcbN9ZQ2VAGHrjY78y4xrYQ=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=PLThz6j6AVgANqQ7xmjefYsemRF10hj1Jts9voUxI6z9gTF1FNOBv1ALmFl2Z0Nbd
-	 yWvLKeWyNriF452ndnVH4wJRHExPsTcPqCj9BWKRn4eopSopLnwg55PgMnsALmSWOe
-	 AJTCdWQXqWcJDUc/X6LbfF3F3awm4iomXWylrptQ=
-Date: Wed, 9 Oct 2024 14:47:53 +0200
-From: Greg KH <gregkh@linuxfoundation.org>
-To: Guan-Yu Lin <guanyulin@google.com>
-Cc: Thinh.Nguyen@synopsys.com, mathias.nyman@intel.com,
-	stern@rowland.harvard.edu, elder@kernel.org, oneukum@suse.com,
-	yajun.deng@linux.dev, dianders@chromium.org, kekrby@gmail.com,
-	perex@perex.cz, tiwai@suse.com, tj@kernel.org,
-	stanley_chang@realtek.com, andreyknvl@gmail.com,
-	christophe.jaillet@wanadoo.fr, quic_jjohnson@quicinc.com,
-	ricardo@marliere.net, grundler@chromium.org, niko.mauno@vaisala.com,
-	linux-usb@vger.kernel.org, linux-kernel@vger.kernel.org,
-	linux-sound@vger.kernel.org, badhri@google.com,
-	albertccwang@google.com, quic_wcheng@quicinc.com,
-	pumahsu@google.com
-Subject: Re: [PATCH v4 4/5] xhci: sideband: add api to trace sideband usage
-Message-ID: <2024100935-resonate-aneurism-b330@gregkh>
-References: <20241009054429.3970438-1-guanyulin@google.com>
- <20241009054429.3970438-5-guanyulin@google.com>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="oPYEJDDt"
+Received: by smtp.kernel.org (Postfix) with ESMTPS id 4375CC4CEC5
+	for <linux-usb@vger.kernel.org>; Wed,  9 Oct 2024 12:54:16 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1728478456;
+	bh=XvYoU/Op0wxRoEhqCltyRmTK7/NvXWjwkz256pDtWIk=;
+	h=From:To:Subject:Date:In-Reply-To:References:From;
+	b=oPYEJDDtxXypb9NsEOH2DVNHLCiGcXjP/Qg5QICU0LBLMp7SaSk93vtzJQABq2jO/
+	 H/XsxOEh3TATD+YnfgMqwYGyweJ67WnMvJQLLnwS5eMCHTgviiPkcR8oux6/B+CdPa
+	 Qknsnsoet5PlOtSwoZWVxNcnZKSCY42vTwANmHlDuqZzJCQ8firajqVXW3+MR4/XFs
+	 Zv0ZWThwXpK4FiRnz4ayzdX0q98vm2XQyOygip08Elbrr+r93M8DSP/ys1baU22Iku
+	 ddgmS/5tmD8ZZxh+7JtPP2wDOYKWRshPoByigJNDyOBzZy21tjrNLrGXwb3F95/SLL
+	 IN1SSs/qKKvzA==
+Received: by aws-us-west-2-korg-bugzilla-1.web.codeaurora.org (Postfix, from userid 48)
+	id 2D3AEC53BBF; Wed,  9 Oct 2024 12:54:16 +0000 (UTC)
+From: bugzilla-daemon@kernel.org
+To: linux-usb@vger.kernel.org
+Subject: [Bug 219362] USB SATA does not correctly shutdown the SSD upon
+ poweroff causing data loss
+Date: Wed, 09 Oct 2024 12:54:16 +0000
+X-Bugzilla-Reason: None
+X-Bugzilla-Type: changed
+X-Bugzilla-Watch-Reason: AssignedTo drivers_usb@kernel-bugs.kernel.org
+X-Bugzilla-Product: IO/Storage
+X-Bugzilla-Component: SCSI
+X-Bugzilla-Version: 2.5
+X-Bugzilla-Keywords: 
+X-Bugzilla-Severity: normal
+X-Bugzilla-Who: harviecz@gmail.com
+X-Bugzilla-Status: NEW
+X-Bugzilla-Resolution: 
+X-Bugzilla-Priority: P3
+X-Bugzilla-Assigned-To: drivers_usb@kernel-bugs.kernel.org
+X-Bugzilla-Flags: 
+X-Bugzilla-Changed-Fields: 
+Message-ID: <bug-219362-208809-Qc39n2EOls@https.bugzilla.kernel.org/>
+In-Reply-To: <bug-219362-208809@https.bugzilla.kernel.org/>
+References: <bug-219362-208809@https.bugzilla.kernel.org/>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+X-Bugzilla-URL: https://bugzilla.kernel.org/
+Auto-Submitted: auto-generated
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20241009054429.3970438-5-guanyulin@google.com>
 
-On Wed, Oct 09, 2024 at 05:42:58AM +0000, Guan-Yu Lin wrote:
-> --- a/include/linux/usb/hcd.h
-> +++ b/include/linux/usb/hcd.h
-> @@ -84,6 +84,10 @@ struct usb_hcd {
->  	struct urb		*status_urb;	/* the current status urb */
->  #ifdef CONFIG_PM
->  	struct work_struct	wakeup_work;	/* for remote wakeup */
-> +#ifdef CONFIG_USB_XHCI_SIDEBAND
-> +	/* Number of active sideband accessing the host controller. */
-> +	atomic_t		sb_usage_count;
+https://bugzilla.kernel.org/show_bug.cgi?id=3D219362
 
-It's a reference count, use refcount_t please.
+--- Comment #14 from Tomas Mudrunka (harviecz@gmail.com) ---
+Also weird thing is that when i do following:
+
+echo s > /proc/sysrq-trigger
+echo u > /proc/sysrq-trigger
+echo o > /proc/sysrq-trigger
+
+i see message printed by watchdog driver .shutdown callback. which means
+devices are shut down after all... unless there is some special case that o=
+nly
+shuts down watchdog drivers during sysrq poweroff...
+
+--=20
+You may reply to this email to add a comment.
+
+You are receiving this mail because:
+You are watching the assignee of the bug.=
