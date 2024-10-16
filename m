@@ -1,119 +1,85 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.11])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.15])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C63801E531
-	for <linux-usb@vger.kernel.org>; Wed, 16 Oct 2024 13:18:48 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.11
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 575A2207206
+	for <linux-usb@vger.kernel.org>; Wed, 16 Oct 2024 13:57:58 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.15
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1729084730; cv=none; b=sqCvo661fCXt7htqNHXUZpH27q+/QUouiT3z/1mbohiZ8jORvJo2RFvFzUoLiUGOcF4OdvQDx+H5olTDimB/QCYC9xEXAAWoCDUuXBbaqFSbf5kx8ZralM8jQ7O9CSYia7kls6tFB1RDfFk8GOaYziQrnAko0OkktKlKMz1JRD0=
+	t=1729087079; cv=none; b=eiJr2acJLCt+CvCTS44TmKDAzmNfpnT3T6CrtjVbe/APqiSM5SeWgTI1MUIoiwQDju2daHm35OvNj+F8Agw4s05hq3te0VwAdH0xw2eJE4REOsnZrPgtxQDd/AozpqM+k6zHRXH2GmrVaIFmx5jRCFPlGo02TJJy2U9IaU9nIc8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1729084730; c=relaxed/simple;
-	bh=dO8g9ixPaMF2jgMFKZZ3RTSWwWZrl40eQCsC0/xbLYs=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=M6lIhLJV+9Bp/Bpy5HaFXh8eBIKwsALu2vCd5aLF6bmzOYDKZwY0LRxm74yTi30zC6j6DJhJAVJ5mRXWnW0EIiGbKBu26l021Tw6gWxbMoK1rB/Q4dM8qD/zRFLX1zCFfpHh+/IwnqqDq5A25HhGxN3WhUR4NYVU8MiwEAk9pn8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=none smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=P1uSC2Em; arc=none smtp.client-ip=198.175.65.11
+	s=arc-20240116; t=1729087079; c=relaxed/simple;
+	bh=ky3+SIK38F6Q6hFBQ0d3wKL9RYQvTKuHpEqpuGpwDpA=;
+	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version:Content-Type; b=eRWU1pN6K+gS5k/KDIG5sw5Oybhxs5+JafBv5WN53HHtbxyUks+jT8YdPWipMZnw6/xAKuxrfhp1NwUgmMdjK2u5eIb3bwIUBd0kgFd1jsbcy7KSY3lEd6ZxFlPSfXbEEN+06VPnC5tXJNxTZaowme/nwvMZGYKdG21aE7TG5RQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=none smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=mApjr1eB; arc=none smtp.client-ip=192.198.163.15
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=linux.intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="P1uSC2Em"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="mApjr1eB"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1729084729; x=1760620729;
-  h=from:to:cc:subject:date:message-id:in-reply-to:
-   references:mime-version:content-transfer-encoding;
-  bh=dO8g9ixPaMF2jgMFKZZ3RTSWwWZrl40eQCsC0/xbLYs=;
-  b=P1uSC2EmjD+euH+WDE55zNZz9+Pzt/gEwnFzFGuaGo3AXzGJrkucHZi+
-   YdpsEXCBnDSuj1pbzGtKrv+X17L4LYJL/GbaiWwZTXjVkS0KzjFdefrkD
-   Y5SBEN5ys6c/9eQX4trQ4bpJOLyiEW+5wSktp7AMpt3ZhXn14XpoUmiNY
-   93uOnNr3YleNxXzTfPCeTyzftOFxEEkJu+SJFoPuARkgqRTnlDSlwHbdM
-   juBsLBxc+uqPP065rXdnxHSikvLSOtGH5mCPmvK2c2PuHezUn31yR7Lwh
-   9queWMJBBNOiSiNXXmCpFeKa6nVmG7lThXUEzKbmMB8keXvCrXhfFR88e
-   g==;
-X-CSE-ConnectionGUID: Q/rTAImjS3KHktkoOhJj0w==
-X-CSE-MsgGUID: aWEGNZ7wQM+NpuxULN5F4A==
-X-IronPort-AV: E=McAfee;i="6700,10204,11222"; a="39077781"
-X-IronPort-AV: E=Sophos;i="6.11,199,1725346800"; 
-   d="scan'208";a="39077781"
-Received: from orviesa004.jf.intel.com ([10.64.159.144])
-  by orvoesa103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 16 Oct 2024 06:18:49 -0700
-X-CSE-ConnectionGUID: aLmgwwCpTQKyds1pgMlLHw==
-X-CSE-MsgGUID: W9nPKXGZTXWwAumaiATmTg==
+  t=1729087078; x=1760623078;
+  h=from:to:cc:subject:date:message-id:mime-version:
+   content-transfer-encoding;
+  bh=ky3+SIK38F6Q6hFBQ0d3wKL9RYQvTKuHpEqpuGpwDpA=;
+  b=mApjr1eBlsR3arVCmItxGxP8j2b5wCcSvHCDT+N2NuH0v0Mr6PjnQiG0
+   oyZ2Y7J7BSa0G1HkTCz5ECVLdWRNKnuMEwL+Mf4mk/LeIjqWx3J5jjJ02
+   vMQvDpYxDCucJMIHwRvClPrRuDBuAGfhO3MOW3nYUrWyDAMLPMJcJoKXs
+   l/9vyXiBzV1Qno4x6SBu/kIXUSNhvwZxOOBovm+n090jSgFuVeg30TDQ1
+   1nMYOeUBv2FL51+fSX0jC28UcHc4d9n1ZkI0WoF1k/0l1L/d0Kx5m+YlQ
+   8rvYIay78fVBvGEgDMCWI3TXqu4G93e1lnzrUTtHN5P9YgT8dU/mZwVyG
+   Q==;
+X-CSE-ConnectionGUID: P8NXg7L8RxieMMezbe5UDw==
+X-CSE-MsgGUID: iWFSNdPzRk2O6LINy+CSAw==
+X-IronPort-AV: E=McAfee;i="6700,10204,11226"; a="28664015"
+X-IronPort-AV: E=Sophos;i="6.11,208,1725346800"; 
+   d="scan'208";a="28664015"
+Received: from fmviesa005.fm.intel.com ([10.60.135.145])
+  by fmvoesa109.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 16 Oct 2024 06:57:58 -0700
+X-CSE-ConnectionGUID: IvjPGxQMQWqc4qmqbf7MjQ==
+X-CSE-MsgGUID: sOgMFUkBQBmm0/OsmeaH/w==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.11,208,1725346800"; 
-   d="scan'208";a="83300102"
-Received: from black.fi.intel.com (HELO black.fi.intel.com.) ([10.237.72.28])
-  by orviesa004.jf.intel.com with ESMTP; 16 Oct 2024 06:18:47 -0700
-From: Heikki Krogerus <heikki.krogerus@linux.intel.com>
-To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-Cc: Abhishek Pandit-Subedi <abhishekpandit@chromium.org>,
-	Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
-	=?UTF-8?q?=C5=81ukasz=20Bartosik?= <ukaszb@chromium.org>,
-	Benson Leung <bleung@chromium.org>,
-	Jameson Thies <jthies@google.com>,
-	linux-usb@vger.kernel.org
-Subject: [PATCH v4 4/4] usb: typec: ucsi: Add support for the partner USB Modes
-Date: Wed, 16 Oct 2024 16:18:34 +0300
-Message-ID: <20241016131834.898599-5-heikki.krogerus@linux.intel.com>
-X-Mailer: git-send-email 2.45.2
-In-Reply-To: <20241016131834.898599-1-heikki.krogerus@linux.intel.com>
-References: <20241016131834.898599-1-heikki.krogerus@linux.intel.com>
+   d="scan'208";a="82776214"
+Received: from mattu-haswell.fi.intel.com ([10.237.72.199])
+  by fmviesa005.fm.intel.com with ESMTP; 16 Oct 2024 06:57:56 -0700
+From: Mathias Nyman <mathias.nyman@linux.intel.com>
+To: <gregkh@linuxfoundation.org>
+Cc: <linux-usb@vger.kernel.org>,
+	Mathias Nyman <mathias.nyman@linux.intel.com>
+Subject: [PATCH 0/4] xhci fixes for usb-linus
+Date: Wed, 16 Oct 2024 16:59:56 +0300
+Message-Id: <20241016140000.783905-1-mathias.nyman@linux.intel.com>
+X-Mailer: git-send-email 2.25.1
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 
-UCSI does not share the contents of the Enter_USB Message
-that was used, so the active mode still has to be always
-determined from the enumerated USB device. However, after
-UCSI v2.0 it is possible to check separately is USB4 the
-active mode.
+Hi Greg
 
-So with USB2 and USB3 the mode is always determined from the
-result of the USB enumeration, and when USB4 USB Mode is
-active, UCSI driver can assign the mode directly.
+A few xhci fixes for usb-linus to better handle errors during transfer
+events and URB cancel.
+Also fixes an issue in how DbC might squash data inteded to be separate
+bulk transfers into one single transfer.
 
-Signed-off-by: Heikki Krogerus <heikki.krogerus@linux.intel.com>
----
- drivers/usb/typec/ucsi/ucsi.c | 9 +++++++++
- drivers/usb/typec/ucsi/ucsi.h | 2 ++
- 2 files changed, 11 insertions(+)
+Mathias Nyman (3):
+  xhci: Fix incorrect stream context type macro
+  xhci: Mitigate failed set dequeue pointer commands
+  xhci: dbc: honor usb transfer size boundaries.
 
-diff --git a/drivers/usb/typec/ucsi/ucsi.c b/drivers/usb/typec/ucsi/ucsi.c
-index 13c739d334c4..d03f04556ab7 100644
---- a/drivers/usb/typec/ucsi/ucsi.c
-+++ b/drivers/usb/typec/ucsi/ucsi.c
-@@ -1057,6 +1057,15 @@ static int ucsi_register_partner(struct ucsi_connector *con)
- 
- 	con->partner = partner;
- 
-+	if ((con->ucsi->version >= UCSI_VERSION_3_0) &&
-+	    (UCSI_CONSTAT_PARTNER_FLAGS(con->status.flags) &
-+	     UCSI_CONSTAT_PARTNER_FLAG_USB4_GEN4))
-+		typec_partner_set_usb_mode(partner, USB_MODE_USB4);
-+	else if ((con->ucsi->version >= UCSI_VERSION_2_0) &&
-+		 (UCSI_CONSTAT_PARTNER_FLAGS(con->status.flags) &
-+		  UCSI_CONSTAT_PARTNER_FLAG_USB4_GEN3))
-+		typec_partner_set_usb_mode(partner, USB_MODE_USB4);
-+
- 	return 0;
- }
- 
-diff --git a/drivers/usb/typec/ucsi/ucsi.h b/drivers/usb/typec/ucsi/ucsi.h
-index a1f4b9b568c8..d850073e8d0a 100644
---- a/drivers/usb/typec/ucsi/ucsi.h
-+++ b/drivers/usb/typec/ucsi/ucsi.h
-@@ -346,6 +346,8 @@ struct ucsi_connector_status {
- #define UCSI_CONSTAT_PARTNER_FLAGS(_f_)		(((_f_) & GENMASK(12, 5)) >> 5)
- #define   UCSI_CONSTAT_PARTNER_FLAG_USB		1
- #define   UCSI_CONSTAT_PARTNER_FLAG_ALT_MODE	2
-+#define   UCSI_CONSTAT_PARTNER_FLAG_USB4_GEN3	4
-+#define   UCSI_CONSTAT_PARTNER_FLAG_USB4_GEN4	8
- #define UCSI_CONSTAT_PARTNER_TYPE(_f_)		(((_f_) & GENMASK(15, 13)) >> 13)
- #define   UCSI_CONSTAT_PARTNER_TYPE_DFP		1
- #define   UCSI_CONSTAT_PARTNER_TYPE_UFP		2
+Michal Pecio (1):
+  usb: xhci: Fix handling errors mid TD followed by other errors
+
+ drivers/usb/host/xhci-dbgcap.h |  1 +
+ drivers/usb/host/xhci-dbgtty.c | 55 ++++++++++++++++++++++++---
+ drivers/usb/host/xhci-ring.c   | 68 +++++++++++++++-------------------
+ drivers/usb/host/xhci.h        |  2 +-
+ 4 files changed, 82 insertions(+), 44 deletions(-)
+
 -- 
-2.45.2
+2.25.1
 
