@@ -1,16 +1,16 @@
 Received: from metis.whiteo.stw.pengutronix.de (metis.whiteo.stw.pengutronix.de [185.203.201.7])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 67BBD20E022
-	for <linux-usb@vger.kernel.org>; Wed, 16 Oct 2024 13:58:28 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2283E20F5A4
+	for <linux-usb@vger.kernel.org>; Wed, 16 Oct 2024 13:58:27 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.203.201.7
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1729087110; cv=none; b=SJHaOPSJ3d8XmLVJ11Mz0PWCneJShgQZf7EisfHasv07m/pJG6vDJJIYe0FOujWp/Ot9iHClJOlVJDoKXgCI349HYQpz9+VhtZkUuMd/zclC1+23cJ+R+jW/bxi/DTvA/BgL6TzE2E73EZ1KCZZ2WxIRIXXf3vFC1TAldVILjyk=
+	t=1729087110; cv=none; b=szKDvI56Dzc1aMFgIIwx73YavnRQbCxnWVp/qL0cnJmWWAO/R8bUsgx9iuFZ6c381eEVWYxDPLNaSUN7+NE4yRI0DCFjVNZmCcCKdT2I4rVb3iS7ZHst/Ni4pgJVN5mjpUGXNTZAMqa0Y7mEGPhk57M76vUTx+NQ3r0qtoJESAk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
 	s=arc-20240116; t=1729087110; c=relaxed/simple;
-	bh=lxMrwpZ77rgZrCcv4E5I3U8EaQhP4MIcvyniUzUZWhA=;
+	bh=SCnB0IVoVu6QPaJhJtJ6/MNhWTj2P5Lgsxjj60AYCOE=;
 	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
-	 In-Reply-To:To:Cc; b=RH//vlSWStabpQGjx1i51FVXyi6OK863UKp9rteIl5VoZowBr2Li+JgEWvdrevq4zI9GUl1vqPv56uFilNE6sVWqZrMENAe8UyKYrU81Y5sP6APCyqBHCEuGpUGAKJWJi77do8TlSf4HqebWygdanjQ0UQKxpv4MQz1LliYI2p8=
+	 In-Reply-To:To:Cc; b=n0fb/0XKuCWu0I8iZDsFjLUV9N0MoDZwi4OZ6TnU8rNn9Gz4GNw0SxEzhuSicCH80coQ5+uKzvteMJgi2EwJLakJxbPkAZ81k7pBlN94LeUJxshPvlQCI05gu2Tt3rerGfvRaQBXioCZIIUoa8hTc2zbuRNBMQd+U9wCRzW31B0=
 ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=pengutronix.de; spf=pass smtp.mailfrom=pengutronix.de; arc=none smtp.client-ip=185.203.201.7
 Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=pengutronix.de
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=pengutronix.de
@@ -18,21 +18,21 @@ Received: from drehscheibe.grey.stw.pengutronix.de ([2a0a:edc0:0:c01:1d::a2])
 	by metis.whiteo.stw.pengutronix.de with esmtps (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
 	(Exim 4.92)
 	(envelope-from <m.grzeschik@pengutronix.de>)
-	id 1t14Xd-0003H4-O8; Wed, 16 Oct 2024 15:58:21 +0200
+	id 1t14Xd-0003H7-O8; Wed, 16 Oct 2024 15:58:21 +0200
 Received: from [2a0a:edc0:0:1101:1d::ac] (helo=dude04.red.stw.pengutronix.de)
 	by drehscheibe.grey.stw.pengutronix.de with esmtps  (TLS1.3) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
 	(Exim 4.94.2)
 	(envelope-from <m.grzeschik@pengutronix.de>)
-	id 1t14Xd-002HjI-3L; Wed, 16 Oct 2024 15:58:21 +0200
+	id 1t14Xd-002HjF-3Q; Wed, 16 Oct 2024 15:58:21 +0200
 Received: from localhost ([::1] helo=dude04.red.stw.pengutronix.de)
 	by dude04.red.stw.pengutronix.de with esmtp (Exim 4.96)
 	(envelope-from <m.grzeschik@pengutronix.de>)
-	id 1t14Xd-00BU5S-01;
-	Wed, 16 Oct 2024 15:58:21 +0200
+	id 1t14Xc-00BU5S-3C;
+	Wed, 16 Oct 2024 15:58:20 +0200
 From: Michael Grzeschik <m.grzeschik@pengutronix.de>
-Date: Wed, 16 Oct 2024 15:58:14 +0200
-Subject: [PATCH v7 9/9] usb: gadget: uvc: dont call
- usb_composite_setup_continue when not streaming
+Date: Wed, 16 Oct 2024 15:58:11 +0200
+Subject: [PATCH v7 6/9] usb: gadget: uvc: set req_length based on payload
+ by nreqs instead of req_size
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
@@ -41,7 +41,7 @@ List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20240403-uvc_request_length_by_interval-v7-9-e224bb1035f0@pengutronix.de>
+Message-Id: <20240403-uvc_request_length_by_interval-v7-6-e224bb1035f0@pengutronix.de>
 References: <20240403-uvc_request_length_by_interval-v7-0-e224bb1035f0@pengutronix.de>
 In-Reply-To: <20240403-uvc_request_length_by_interval-v7-0-e224bb1035f0@pengutronix.de>
 To: Laurent Pinchart <laurent.pinchart@ideasonboard.com>, 
@@ -52,21 +52,21 @@ To: Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
 Cc: linux-usb@vger.kernel.org, linux-kernel@vger.kernel.org, 
  kernel@pengutronix.de, Michael Grzeschik <m.grzeschik@pengutronix.de>
 X-Mailer: b4 0.12.0
-X-Developer-Signature: v=1; a=openpgp-sha256; l=1116;
+X-Developer-Signature: v=1; a=openpgp-sha256; l=5699;
  i=m.grzeschik@pengutronix.de; h=from:subject:message-id;
- bh=lxMrwpZ77rgZrCcv4E5I3U8EaQhP4MIcvyniUzUZWhA=;
- b=owEBbQKS/ZANAwAKAb9pWET5cfSrAcsmYgBnD8Z88gJtVaxHj75VmfrPgW5ryXP6R57oHQ4T8
- QMXUsyvSD2JAjMEAAEKAB0WIQQV2+2Fpbqd6fvv0Gi/aVhE+XH0qwUCZw/GfAAKCRC/aVhE+XH0
- qzZeD/9LNNHzSWIZRPjbyAcnY5lTswVMrMdcGtoylDHPnrj1xoxad4+5W9s9ZA1tUHIm4txVDdF
- Fen1nYlDehldlyn68Ca2h8oVcr5ZQdQhnwGteFYw9/LwXIqOpO8pRSBy5Sq0YPo5pJcB7HDvoJA
- CFJ7uIV8gmu5PQAy619EgSnbRWMm0k/qzrAkcUUioed24lWB/8AoA5nCNX0RtfVpA1CGnGwBDen
- Q7dETeO7OxWiXZfx7PLaC4/KHGD2C6qvLrKnCd4ua1/bcAC3icYsqlzhnlSslmgo27IhPcIAFSd
- pyWGd1qFRp2X5s9BbpaTy8bQ8KkwHWMGXZiE12uxUGYAKkZ8Xd/+MdvItMMT7SNeu69d00tISWP
- q/4X9Fhi6x1vAuOMPxelGUGgUS0iPVP6HuGDgaFS6+jMD2v9a8Ak6pta5f/NaVNKKr72lFQuSlA
- GlvZdTujNFvORsVb9zMiAXqiY9IeZjCYuBTybWtjv71Ww2ajIQdxU3C1G+OYEML8j6yPwJFlWv2
- nYsLnxpec9vEuEejNfG5aH7nyg3MEoRcp727ge4CUdz18jiRGtArhS8An+q3LhgxC0huG4I36Ej
- Kaj0bDsWQOU2ekmUxJLn+IFcl958dEbUYFJ9Gp2ipKO3N6TQbb0Px/Y4PAju7LAtgY70KmgMKPN
- OO+6VMxkQQVT2oQ==
+ bh=SCnB0IVoVu6QPaJhJtJ6/MNhWTj2P5Lgsxjj60AYCOE=;
+ b=owEBbQKS/ZANAwAKAb9pWET5cfSrAcsmYgBnD8Z7MDvY04M2QbiBFOOaXdzGsMMTnhd8RJmsh
+ qenuA+BN2eJAjMEAAEKAB0WIQQV2+2Fpbqd6fvv0Gi/aVhE+XH0qwUCZw/GewAKCRC/aVhE+XH0
+ q6t6EACKyNRQC6z87LfLnC259TWATLnFXQErAbbTEuexdWnS4BIjk6gHq0rweeXu6G6NHKJr/DW
+ KJEgKCHGuOZnoMq12skmYYJ97Wut5OFn+sw2yCm+w3WtU6UVy+Wdw5n9RFi0Vkum786lZirVehS
+ xpiT31mmjoEdX521TSVhQSO9koofBoKm37fAkfVH1aWRjlHdMJ1kLaVt4CsO8Vj4DopdkbBis66
+ Vg0AL47O+5dQc4a5FAeV7h2ia5yoJNEmQO29a2dhVp6+dtCL/wL0EIy9RcvjoqLpKAHKHsBsP26
+ ZghFoWwZ5vaO5OBMaE6t+eFijnULzCYXjUNrfsn0okFrY69aQ0NSlIowEbLq13Nr+ckjISOQnfl
+ PVNOg4igB0CFEcKWlXyIWrHAmZsAy9njMmgkqgUoIAZyVBOOrZ0aNGo/REUk8DvI128nO0iCI4R
+ faBa40YVp8ycWWRTkyMgOLn353tx1srrSiVMaveBi2/vN0nZmkOqHyyUN0UziSXMHtJDymhmdIQ
+ aUNRFhF9otcxa9WKGPe8kkeany0JVOKOZdD3dpDHlqkAIYhwfVEI4bK2/JOJtr+nhE3sfrYFtbK
+ emCM9OLESvxYpRBjel1zO5Cc01DOfwtpXXQ/aR8dj+yKAU/PEmbsn8ZRoOMMTBiQ0Icp1zd+N4T
+ xTmOKOzz+0vV+IA==
 X-Developer-Key: i=m.grzeschik@pengutronix.de; a=openpgp;
  fpr=957BC452CE953D7EA60CF4FC0BE9E3157A1E2C64
 X-SA-Exim-Connect-IP: 2a0a:edc0:0:c01:1d::a2
@@ -74,39 +74,158 @@ X-SA-Exim-Mail-From: m.grzeschik@pengutronix.de
 X-SA-Exim-Scanned: No (on metis.whiteo.stw.pengutronix.de); SAEximRunCond expanded to false
 X-PTX-Original-Recipient: linux-usb@vger.kernel.org
 
-If the streamoff call was triggered by some previous disconnect
-or userspace application shutdown the uvc_function_setup_continue
-should not be called and the state should not be overwritten.
+Compressed formats generate content depending amount of data that is set
+in the vb2 buffer by the payload_size. When streaming those formats it
+is better to scatter that smaller data over all requests. This patch is
+doing that by introducing the calculated req_payload_size which is
+updated by each frame. It the uses this amount of data to fill the
+isoc requests instead of the video->req_size.
 
-For this situation the set_alt(0) was never called and the streaming ep
-has no USB_GADGET_DELAYED_STATUS pending.
-
-Since the state then was already updated before we also omit the state
-update.
+For uncompressed formats it will not make a difference since the payload
+size will be equal to the imagesize. Therefore the code will have no
+effecta as req_payload_size will be equal to req_size.
 
 Signed-off-by: Michael Grzeschik <m.grzeschik@pengutronix.de>
 
 ---
 v5 -> v7: -
-v1 -> v5: - new patch
+v4 -> v5:
+ - keep using req_size instead of len in encode_isoc_sg to be more
+   explicit
+ - using new initialized variable reqs_per_frame instead of two
+   calculations
+ - reordered this patch in the series
+v1 -> v4: -
 ---
- drivers/usb/gadget/function/uvc_v4l2.c | 3 +++
- 1 file changed, 3 insertions(+)
+ drivers/usb/gadget/function/uvc.h       |  2 ++
+ drivers/usb/gadget/function/uvc_queue.c | 10 ++++++++--
+ drivers/usb/gadget/function/uvc_queue.h |  2 ++
+ drivers/usb/gadget/function/uvc_video.c | 15 ++++++++-------
+ 4 files changed, 20 insertions(+), 9 deletions(-)
 
-diff --git a/drivers/usb/gadget/function/uvc_v4l2.c b/drivers/usb/gadget/function/uvc_v4l2.c
-index ab89f1630acb0..3492855f0fb29 100644
---- a/drivers/usb/gadget/function/uvc_v4l2.c
-+++ b/drivers/usb/gadget/function/uvc_v4l2.c
-@@ -546,6 +546,9 @@ uvc_v4l2_streamoff(struct file *file, void *fh, enum v4l2_buf_type type)
- 	if (ret < 0)
- 		return ret;
+diff --git a/drivers/usb/gadget/function/uvc.h b/drivers/usb/gadget/function/uvc.h
+index 099038f1088ef..bedb4ef42864f 100644
+--- a/drivers/usb/gadget/function/uvc.h
++++ b/drivers/usb/gadget/function/uvc.h
+@@ -110,6 +110,8 @@ struct uvc_video {
  
-+	if (uvc->state != UVC_STATE_STREAMING)
-+		return 0;
+ 	unsigned int uvc_num_requests;
+ 
++	unsigned int reqs_per_frame;
 +
- 	uvc->state = UVC_STATE_CONNECTED;
- 	uvc_function_setup_continue(uvc, 1);
+ 	/* Requests */
+ 	bool is_enabled; /* tracks whether video stream is enabled */
+ 	unsigned int req_size;
+diff --git a/drivers/usb/gadget/function/uvc_queue.c b/drivers/usb/gadget/function/uvc_queue.c
+index 731e3b9d21acc..6757a4e25a743 100644
+--- a/drivers/usb/gadget/function/uvc_queue.c
++++ b/drivers/usb/gadget/function/uvc_queue.c
+@@ -58,6 +58,7 @@ static int uvc_queue_setup(struct vb2_queue *vq,
+ static int uvc_buffer_prepare(struct vb2_buffer *vb)
+ {
+ 	struct uvc_video_queue *queue = vb2_get_drv_priv(vb->vb2_queue);
++	struct uvc_video *video = container_of(queue, struct uvc_video, queue);
+ 	struct vb2_v4l2_buffer *vbuf = to_vb2_v4l2_buffer(vb);
+ 	struct uvc_buffer *buf = container_of(vbuf, struct uvc_buffer, buf);
+ 
+@@ -78,10 +79,15 @@ static int uvc_buffer_prepare(struct vb2_buffer *vb)
+ 		buf->mem = vb2_plane_vaddr(vb, 0);
+ 	}
+ 	buf->length = vb2_plane_size(vb, 0);
+-	if (vb->type == V4L2_BUF_TYPE_VIDEO_CAPTURE)
++	if (vb->type == V4L2_BUF_TYPE_VIDEO_CAPTURE) {
+ 		buf->bytesused = 0;
+-	else
++	} else {
+ 		buf->bytesused = vb2_get_plane_payload(vb, 0);
++		buf->req_payload_size =
++			  DIV_ROUND_UP(buf->bytesused +
++				       (video->reqs_per_frame * UVCG_REQUEST_HEADER_LEN),
++				       video->reqs_per_frame);
++	}
+ 
  	return 0;
+ }
+diff --git a/drivers/usb/gadget/function/uvc_queue.h b/drivers/usb/gadget/function/uvc_queue.h
+index 41f87b917f6bc..b54becc570a38 100644
+--- a/drivers/usb/gadget/function/uvc_queue.h
++++ b/drivers/usb/gadget/function/uvc_queue.h
+@@ -39,6 +39,8 @@ struct uvc_buffer {
+ 	unsigned int offset;
+ 	unsigned int length;
+ 	unsigned int bytesused;
++	/* req_payload_size: only used with isoc */
++	unsigned int req_payload_size;
+ };
+ 
+ #define UVC_QUEUE_DISCONNECTED		(1 << 0)
+diff --git a/drivers/usb/gadget/function/uvc_video.c b/drivers/usb/gadget/function/uvc_video.c
+index ecb32a3e03760..677eaf5b7e4d0 100644
+--- a/drivers/usb/gadget/function/uvc_video.c
++++ b/drivers/usb/gadget/function/uvc_video.c
+@@ -136,7 +136,7 @@ uvc_video_encode_isoc_sg(struct usb_request *req, struct uvc_video *video,
+ 	unsigned int pending = buf->bytesused - video->queue.buf_used;
+ 	struct uvc_request *ureq = req->context;
+ 	struct scatterlist *sg, *iter;
+-	unsigned int len = video->req_size;
++	unsigned int len = buf->req_payload_size;
+ 	unsigned int sg_left, part = 0;
+ 	unsigned int i;
+ 	int header_len;
+@@ -146,15 +146,15 @@ uvc_video_encode_isoc_sg(struct usb_request *req, struct uvc_video *video,
+ 
+ 	/* Init the header. */
+ 	header_len = uvc_video_encode_header(video, buf, ureq->header,
+-				      video->req_size);
++					     buf->req_payload_size);
+ 	sg_set_buf(sg, ureq->header, header_len);
+ 	len -= header_len;
+ 
+ 	if (pending <= len)
+ 		len = pending;
+ 
+-	req->length = (len == pending) ?
+-		len + header_len : video->req_size;
++	req->length = (len == pending) ? len + header_len :
++		buf->req_payload_size;
+ 
+ 	/* Init the pending sgs with payload */
+ 	sg = sg_next(sg);
+@@ -202,7 +202,7 @@ uvc_video_encode_isoc(struct usb_request *req, struct uvc_video *video,
+ {
+ 	void *mem = req->buf;
+ 	struct uvc_request *ureq = req->context;
+-	int len = video->req_size;
++	int len = buf->req_payload_size;
+ 	int ret;
+ 
+ 	/* Add the header. */
+@@ -214,7 +214,7 @@ uvc_video_encode_isoc(struct usb_request *req, struct uvc_video *video,
+ 	ret = uvc_video_encode_data(video, buf, mem, len);
+ 	len -= ret;
+ 
+-	req->length = video->req_size - len;
++	req->length = buf->req_payload_size - len;
+ 
+ 	if (buf->bytesused == video->queue.buf_used ||
+ 			video->queue.flags & UVC_QUEUE_DROP_INCOMPLETE) {
+@@ -504,7 +504,7 @@ uvc_video_prep_requests(struct uvc_video *video)
+ 
+ 	if (!usb_endpoint_xfer_isoc(video->ep->desc)) {
+ 		video->req_size = max_req_size;
+-		video->uvc_num_requests =
++		video->reqs_per_frame = video->uvc_num_requests =
+ 			DIV_ROUND_UP(video->imagesize, max_req_size);
+ 
+ 		return;
+@@ -535,6 +535,7 @@ uvc_video_prep_requests(struct uvc_video *video)
+ 	 * able to fully encode one frame.
+ 	 */
+ 	video->uvc_num_requests = nreq + UVCG_REQ_MAX_ZERO_COUNT;
++	video->reqs_per_frame = nreq;
+ }
+ 
+ static int
 
 -- 
 2.39.5
