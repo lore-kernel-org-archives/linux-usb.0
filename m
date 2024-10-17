@@ -1,60 +1,71 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.14])
+Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com [205.220.168.131])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 309F61DDC23
-	for <linux-usb@vger.kernel.org>; Thu, 17 Oct 2024 13:07:26 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.14
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2FCEC1D5164;
+	Thu, 17 Oct 2024 13:07:43 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.168.131
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1729170449; cv=none; b=Bfl7v10yHCnilCai7L+MOQq+7BQMBv2foh/aKd0PCExYo9zgDuA0BmlLAHYPZMH6h1/J74GGRaGI/t4KSLkMle7gMGBLRFIkXXgCv7Ssz4XxmAEL49SShI6/npwvYynC4J/2e/+tjvFF1Vsf8eRcwBdWRen9BC7ZaYnXd/66EH8=
+	t=1729170466; cv=none; b=MLKnYne5cZ38iX1GTPFuVFL7zKPIJV1nJKgSCKE5ml3wXvmOxvgigMK5ezqgc4IrvD/C4DBwGRSxp+IGBQnQXB3jEldpJwDuVJuiGnjhJB/NQfjIBzYpUotV67WS32y4cW4e2guIgxbyTrLnmHwEWcVr1AiHrN+agwBeUccAJbU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1729170449; c=relaxed/simple;
-	bh=+yKwzp8zmeEWPUGogpPmzgX6GaQlsSAaDknlIJFpnUU=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=BKqEZG/VsrCRm5YpE4GaHxpOMFX5W8d8cHSH1ZAkHlSPtjIDG59gt44nIgpNeAU7FNqIF5GpBwKvo3lcQhu56v2x8yfYtZA91M10qa6OWEEGWPh68TMt4L1LsMLIT/1J5AC9E7FCRUGRvOnPPEvYFKdZo0C9E8dT9HSUGO5l2A0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=none smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Uvc+MswO; arc=none smtp.client-ip=198.175.65.14
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=linux.intel.com
+	s=arc-20240116; t=1729170466; c=relaxed/simple;
+	bh=FslpvGll83PLzooS0/m3X1SqhtA2ZqwHhT6hv4U82P4=;
+	h=From:To:CC:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=cUaiBcpgiraC+FbcWZ/Ca5VuhKF/U7tmV9+8NLxAkvn/ZHgJW229U6vAAplbNEYDr5+3NJNC3eepP6PCSK8byB1Plp2eBSh/RdZBdnRwlEugYMJXELGAomPsQi8ewYsSagVRHFuiwoV64VcnaGcsbS8kejECxGhQcQh6ML9UiBY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=quicinc.com; spf=pass smtp.mailfrom=quicinc.com; dkim=pass (2048-bit key) header.d=quicinc.com header.i=@quicinc.com header.b=Wxaar+cV; arc=none smtp.client-ip=205.220.168.131
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=quicinc.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=quicinc.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Uvc+MswO"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1729170446; x=1760706446;
-  h=from:to:cc:subject:date:message-id:in-reply-to:
-   references:mime-version:content-transfer-encoding;
-  bh=+yKwzp8zmeEWPUGogpPmzgX6GaQlsSAaDknlIJFpnUU=;
-  b=Uvc+MswOiogyxc0d428NXQV2+5xqXzco/vd93YBmrpMJgbQNg3KGgj2R
-   tMGPT/5d9QgQJdYlKYUpYOZ7nvw0hPeqSbX9V53eNz2QazFqXsv7rRhaQ
-   nVzdrAFTnSoprD8YRrcER4TCcwzuTWqEQ6VzDKMqcrFh/mCnAv5pRLxcq
-   TwFrQ3UAMhdN0Oh1T0cvCC7NE4K1AD0Jtw5hqyHyR9expiROT0oV1wWdu
-   vySRas4HBuXfKEM0uyH0JYF7Co2EoRVnOl0wXqnCVYSnrsu13FUb1B8mq
-   9IoMpVSf2mjK9qwwI5A2+bzFvgxUG4vBtiROLVYgK1y2JhqZGiebmguJs
-   Q==;
-X-CSE-ConnectionGUID: RI4X1te2RVOqCfN1+Pcygg==
-X-CSE-MsgGUID: klFI0tZ1TZ68mAsDzBjwpQ==
-X-IronPort-AV: E=McAfee;i="6700,10204,11227"; a="32452112"
-X-IronPort-AV: E=Sophos;i="6.11,210,1725346800"; 
-   d="scan'208";a="32452112"
-Received: from orviesa002.jf.intel.com ([10.64.159.142])
-  by orvoesa106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 17 Oct 2024 06:07:24 -0700
-X-CSE-ConnectionGUID: Z0mKS/RHQ3Orh4BiBgELQA==
-X-CSE-MsgGUID: PoeRRwekSw+8JOqc5OH71g==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.11,210,1725346800"; 
-   d="scan'208";a="109354610"
-Received: from black.fi.intel.com ([10.237.72.28])
-  by orviesa002.jf.intel.com with ESMTP; 17 Oct 2024 06:07:23 -0700
-Received: by black.fi.intel.com (Postfix, from userid 1058)
-	id 46B3B3D2; Thu, 17 Oct 2024 16:07:22 +0300 (EEST)
-From: Niklas Neronin <niklas.neronin@linux.intel.com>
-To: mathias.nyman@linux.intel.com
-Cc: linux-usb@vger.kernel.org,
-	Niklas Neronin <niklas.neronin@linux.intel.com>
-Subject: [PATCH 6/8] usb: xhci: refactor xhci_td_cleanup() to return void
-Date: Thu, 17 Oct 2024 16:05:06 +0300
-Message-ID: <20241017130508.1293021-7-niklas.neronin@linux.intel.com>
-X-Mailer: git-send-email 2.45.2
-In-Reply-To: <20241017130508.1293021-1-niklas.neronin@linux.intel.com>
-References: <20241017130508.1293021-1-niklas.neronin@linux.intel.com>
+	dkim=pass (2048-bit key) header.d=quicinc.com header.i=@quicinc.com header.b="Wxaar+cV"
+Received: from pps.filterd (m0279863.ppops.net [127.0.0.1])
+	by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 49HBATiH010224;
+	Thu, 17 Oct 2024 13:07:28 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com; h=
+	cc:content-transfer-encoding:content-type:date:from:in-reply-to
+	:message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
+	1UAFcd3ZD4uQoF/6HAQ0Vrw1Sa1r3AOt4zxqXgD1Ueg=; b=Wxaar+cVZ4JUeBMw
+	Rv8nSN/1N8oGhnzqB1faii1d5pV6H/nsd2jZ2ZIDNxlJ8ZdwKIH/XjjKMWm5oZmu
+	axkq6ur5C53crW7L6GRf58jZq/tnzHEJlknIRlntWlZkSKyxIaIfuSMxefhDeTNg
+	HxZLwMEnhtY6KjS+7QfPzLrjM/dsEJ2ZmGGEgzZI+ZFZPFiCurZ4p4on1V48jdKR
+	dlF0wOX/QcUeJHwkd3avxR+B8x1so6DcEdpMLS6eFsaUMVfKVaJouDyLraPUNoLx
+	MQvGshk4eape4OF5h9Ayc/+uAUE6vnk7azw2LZNel5Ewe4/P2UyqDUinRqv/zKFG
+	FHaDDg==
+Received: from nalasppmta03.qualcomm.com (Global_NAT1.qualcomm.com [129.46.96.20])
+	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 42ar051ut5-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Thu, 17 Oct 2024 13:07:27 +0000 (GMT)
+Received: from nalasex01a.na.qualcomm.com (nalasex01a.na.qualcomm.com [10.47.209.196])
+	by NALASPPMTA03.qualcomm.com (8.18.1.2/8.18.1.2) with ESMTPS id 49HD7Pxo011575
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Thu, 17 Oct 2024 13:07:25 GMT
+Received: from hu-kriskura-hyd.qualcomm.com (10.80.80.8) by
+ nalasex01a.na.qualcomm.com (10.47.209.196) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.1544.9; Thu, 17 Oct 2024 06:07:19 -0700
+From: Krishna Kurapati <quic_kriskura@quicinc.com>
+To: Vinod Koul <vkoul@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>,
+        Rob Herring <robh@kernel.org>,
+        Kishon Vijay Abraham I <kishon@kernel.org>,
+        Bjorn Andersson <quic_bjorande@quicinc.com>,
+        Wesley Cheng
+	<quic_wcheng@quicinc.com>,
+        Konrad Dybcio <konradybcio@kernel.org>,
+        "Dmitry
+ Baryshkov" <dmitry.baryshkov@linaro.org>,
+        Conor Dooley <conor+dt@kernel.org>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Manivannan Sadhasivam
+	<manivannan.sadhasivam@linaro.org>
+CC: <linux-usb@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
+        <linux-arm-msm@vger.kernel.org>, <devicetree@vger.kernel.org>,
+        <linux-phy@lists.infradead.org>, <quic_ppratap@quicinc.com>,
+        <quic_jackp@quicinc.com>, Krishna Kurapati <quic_kriskura@quicinc.com>,
+        Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+Subject: [PATCH v2 1/5] dt-bindings: usb: qcom,dwc3: Add QCS615 to USB DWC3 bindings
+Date: Thu, 17 Oct 2024 18:36:57 +0530
+Message-ID: <20241017130701.3301785-2-quic_kriskura@quicinc.com>
+X-Mailer: git-send-email 2.34.1
+In-Reply-To: <20241017130701.3301785-1-quic_kriskura@quicinc.com>
+References: <20241017130701.3301785-1-quic_kriskura@quicinc.com>
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
@@ -62,202 +73,63 @@ List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+X-ClientProxiedBy: nasanex01a.na.qualcomm.com (10.52.223.231) To
+ nalasex01a.na.qualcomm.com (10.47.209.196)
+X-QCInternal: smtphost
+X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800 signatures=585085
+X-Proofpoint-GUID: BN_IYxA2mIEWP4Yk7N4Gp7-f9KFAVBms
+X-Proofpoint-ORIG-GUID: BN_IYxA2mIEWP4Yk7N4Gp7-f9KFAVBms
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1039,Hydra:6.0.680,FMLib:17.12.60.29
+ definitions=2024-09-06_09,2024-09-06_01,2024-09-02_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 phishscore=0 mlxlogscore=555
+ clxscore=1015 spamscore=0 suspectscore=0 bulkscore=0 adultscore=0
+ priorityscore=1501 mlxscore=0 lowpriorityscore=0 malwarescore=0
+ impostorscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.19.0-2409260000 definitions=main-2410170090
 
-The function is modified to return 'void' instead of an integer since it
-invariably returns '0'. Additionally, multiple functions which only
-return xhci_td_cleanup() are also refactored to return void.
+Update dt-bindings to add primary controller of QCS615 to USB
+DWC3 controller list.
 
-This change eliminates the need for callers to handle a return value that
-does not convey meaningful information and improve code readability, as it
-becomes immediately clear that the function does not produce a significant
-output.
+Although this controller has a QUSB2 Phy, it belongs to a
+generation of SoCs like SDM670/SDM845/SM6350 where DP/DM is
+used for wakeup instead of qusb2_phy interrupt.
 
-Signed-off-by: Niklas Neronin <niklas.neronin@linux.intel.com>
+Signed-off-by: Krishna Kurapati <quic_kriskura@quicinc.com>
+Reviewed-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
 ---
- drivers/usb/host/xhci-ring.c | 59 +++++++++++++++++-------------------
- 1 file changed, 28 insertions(+), 31 deletions(-)
+ Documentation/devicetree/bindings/usb/qcom,dwc3.yaml | 3 +++
+ 1 file changed, 3 insertions(+)
 
-diff --git a/drivers/usb/host/xhci-ring.c b/drivers/usb/host/xhci-ring.c
-index e2e20ae424ad..13eadee89839 100644
---- a/drivers/usb/host/xhci-ring.c
-+++ b/drivers/usb/host/xhci-ring.c
-@@ -813,8 +813,8 @@ static void xhci_unmap_td_bounce_buffer(struct xhci_hcd *xhci,
- 	seg->bounce_offs = 0;
- }
- 
--static int xhci_td_cleanup(struct xhci_hcd *xhci, struct xhci_td *td,
--			   struct xhci_ring *ep_ring, int status)
-+static void xhci_td_cleanup(struct xhci_hcd *xhci, struct xhci_td *td,
-+			    struct xhci_ring *ep_ring, int status)
- {
- 	struct urb *urb = NULL;
- 
-@@ -857,8 +857,6 @@ static int xhci_td_cleanup(struct xhci_hcd *xhci, struct xhci_td *td,
- 			status = 0;
- 		xhci_giveback_urb_in_irq(xhci, td, status);
- 	}
--
--	return 0;
- }
- 
- 
-@@ -2187,9 +2185,9 @@ int xhci_is_vendor_info_code(struct xhci_hcd *xhci, unsigned int trb_comp_code)
- 	return 0;
- }
- 
--static int finish_td(struct xhci_hcd *xhci, struct xhci_virt_ep *ep,
--		     struct xhci_ring *ep_ring, struct xhci_td *td,
--		     u32 trb_comp_code)
-+static void finish_td(struct xhci_hcd *xhci, struct xhci_virt_ep *ep,
-+		      struct xhci_ring *ep_ring, struct xhci_td *td,
-+		      u32 trb_comp_code)
- {
- 	struct xhci_ep_ctx *ep_ctx;
- 
-@@ -2204,7 +2202,7 @@ static int finish_td(struct xhci_hcd *xhci, struct xhci_virt_ep *ep,
- 		 * stopped TDs. A stopped TD may be restarted, so don't update
- 		 * the ring dequeue pointer or take this TD off any lists yet.
- 		 */
--		return 0;
-+		return;
- 	case COMP_USB_TRANSACTION_ERROR:
- 	case COMP_BABBLE_DETECTED_ERROR:
- 	case COMP_SPLIT_TRANSACTION_ERROR:
-@@ -2230,7 +2228,7 @@ static int finish_td(struct xhci_hcd *xhci, struct xhci_virt_ep *ep,
- 				xhci_dbg(xhci, "Already resolving halted ep for 0x%llx\n",
- 					 (unsigned long long)xhci_trb_virt_to_dma(
- 						 td->start_seg, td->start_trb));
--				return 0;
-+				return;
- 			}
- 			/* endpoint not halted, don't reset it */
- 			break;
-@@ -2238,7 +2236,7 @@ static int finish_td(struct xhci_hcd *xhci, struct xhci_virt_ep *ep,
- 		/* Almost same procedure as for STALL_ERROR below */
- 		xhci_clear_hub_tt_buffer(xhci, td, ep);
- 		xhci_handle_halted_endpoint(xhci, ep, td, EP_HARD_RESET);
--		return 0;
-+		return;
- 	case COMP_STALL_ERROR:
- 		/*
- 		 * xhci internal endpoint state will go to a "halt" state for
-@@ -2255,7 +2253,7 @@ static int finish_td(struct xhci_hcd *xhci, struct xhci_virt_ep *ep,
- 
- 		xhci_handle_halted_endpoint(xhci, ep, td, EP_HARD_RESET);
- 
--		return 0; /* xhci_handle_halted_endpoint marked td cancelled */
-+		return; /* xhci_handle_halted_endpoint marked td cancelled */
- 	default:
- 		break;
- 	}
-@@ -2265,7 +2263,7 @@ static int finish_td(struct xhci_hcd *xhci, struct xhci_virt_ep *ep,
- 	ep_ring->deq_seg = td->end_seg;
- 	inc_deq(xhci, ep_ring);
- 
--	return xhci_td_cleanup(xhci, td, ep_ring, td->status);
-+	xhci_td_cleanup(xhci, td, ep_ring, td->status);
- }
- 
- /* sum trb lengths from the first trb up to stop_trb, _excluding_ stop_trb */
-@@ -2285,9 +2283,9 @@ static u32 sum_trb_lengths(struct xhci_td *td, union xhci_trb *stop_trb)
- /*
-  * Process control tds, update urb status and actual_length.
-  */
--static int process_ctrl_td(struct xhci_hcd *xhci, struct xhci_virt_ep *ep,
--		struct xhci_ring *ep_ring,  struct xhci_td *td,
--			   union xhci_trb *ep_trb, struct xhci_transfer_event *event)
-+static void process_ctrl_td(struct xhci_hcd *xhci, struct xhci_virt_ep *ep,
-+			    struct xhci_ring *ep_ring,  struct xhci_td *td,
-+			    union xhci_trb *ep_trb, struct xhci_transfer_event *event)
- {
- 	struct xhci_ep_ctx *ep_ctx;
- 	u32 trb_comp_code;
-@@ -2366,7 +2364,7 @@ static int process_ctrl_td(struct xhci_hcd *xhci, struct xhci_virt_ep *ep,
- 		td->urb_length_set = true;
- 		td->urb->actual_length = requested - remaining;
- 		xhci_dbg(xhci, "Waiting for status stage event\n");
--		return 0;
-+		return;
- 	}
- 
- 	/* at status stage */
-@@ -2374,15 +2372,15 @@ static int process_ctrl_td(struct xhci_hcd *xhci, struct xhci_virt_ep *ep,
- 		td->urb->actual_length = requested;
- 
- finish_td:
--	return finish_td(xhci, ep, ep_ring, td, trb_comp_code);
-+	finish_td(xhci, ep, ep_ring, td, trb_comp_code);
- }
- 
- /*
-  * Process isochronous tds, update urb packet status and actual_length.
-  */
--static int process_isoc_td(struct xhci_hcd *xhci, struct xhci_virt_ep *ep,
--		struct xhci_ring *ep_ring, struct xhci_td *td,
--		union xhci_trb *ep_trb, struct xhci_transfer_event *event)
-+static void process_isoc_td(struct xhci_hcd *xhci, struct xhci_virt_ep *ep,
-+			    struct xhci_ring *ep_ring, struct xhci_td *td,
-+			    union xhci_trb *ep_trb, struct xhci_transfer_event *event)
- {
- 	struct urb_priv *urb_priv;
- 	int idx;
-@@ -2476,14 +2474,13 @@ static int process_isoc_td(struct xhci_hcd *xhci, struct xhci_virt_ep *ep,
- 	if (td->error_mid_td && ep_trb != td->end_trb) {
- 		xhci_dbg(xhci, "Error mid isoc TD, wait for final completion event\n");
- 		td->urb_length_set = true;
--		return 0;
-+		return;
- 	}
--
--	return finish_td(xhci, ep, ep_ring, td, trb_comp_code);
-+	finish_td(xhci, ep, ep_ring, td, trb_comp_code);
- }
- 
--static int skip_isoc_td(struct xhci_hcd *xhci, struct xhci_td *td,
--			struct xhci_virt_ep *ep, int status)
-+static void skip_isoc_td(struct xhci_hcd *xhci, struct xhci_td *td,
-+			 struct xhci_virt_ep *ep, int status)
- {
- 	struct urb_priv *urb_priv;
- 	struct usb_iso_packet_descriptor *frame;
-@@ -2504,15 +2501,15 @@ static int skip_isoc_td(struct xhci_hcd *xhci, struct xhci_td *td,
- 	ep->ring->deq_seg = td->end_seg;
- 	inc_deq(xhci, ep->ring);
- 
--	return xhci_td_cleanup(xhci, td, ep->ring, status);
-+	xhci_td_cleanup(xhci, td, ep->ring, status);
- }
- 
- /*
-  * Process bulk and interrupt tds, update urb status and actual_length.
-  */
--static int process_bulk_intr_td(struct xhci_hcd *xhci, struct xhci_virt_ep *ep,
--		struct xhci_ring *ep_ring, struct xhci_td *td,
--		union xhci_trb *ep_trb, struct xhci_transfer_event *event)
-+static void process_bulk_intr_td(struct xhci_hcd *xhci, struct xhci_virt_ep *ep,
-+				 struct xhci_ring *ep_ring, struct xhci_td *td,
-+				 union xhci_trb *ep_trb, struct xhci_transfer_event *event)
- {
- 	struct xhci_slot_ctx *slot_ctx;
- 	u32 trb_comp_code;
-@@ -2555,7 +2552,7 @@ static int process_bulk_intr_td(struct xhci_hcd *xhci, struct xhci_virt_ep *ep,
- 		td->status = 0;
- 
- 		xhci_handle_halted_endpoint(xhci, ep, td, EP_SOFT_RESET);
--		return 0;
-+		return;
- 	default:
- 		/* do nothing */
- 		break;
-@@ -2574,7 +2571,7 @@ static int process_bulk_intr_td(struct xhci_hcd *xhci, struct xhci_virt_ep *ep,
- 		td->urb->actual_length = 0;
- 	}
- 
--	return finish_td(xhci, ep, ep_ring, td, trb_comp_code);
-+	finish_td(xhci, ep, ep_ring, td, trb_comp_code);
- }
- 
- /* Transfer events which don't point to a transfer TRB, see xhci 4.17.4 */
+diff --git a/Documentation/devicetree/bindings/usb/qcom,dwc3.yaml b/Documentation/devicetree/bindings/usb/qcom,dwc3.yaml
+index f7be05641930..76f78ed6ac9b 100644
+--- a/Documentation/devicetree/bindings/usb/qcom,dwc3.yaml
++++ b/Documentation/devicetree/bindings/usb/qcom,dwc3.yaml
+@@ -26,6 +26,7 @@ properties:
+           - qcom,msm8998-dwc3
+           - qcom,qcm2290-dwc3
+           - qcom,qcs404-dwc3
++          - qcom,qcs615-dwc3
+           - qcom,qcs8300-dwc3
+           - qcom,qdu1000-dwc3
+           - qcom,sa8775p-dwc3
+@@ -340,6 +341,7 @@ allOf:
+           contains:
+             enum:
+               - qcom,qcm2290-dwc3
++              - qcom,qcs615-dwc3
+               - qcom,sc8180x-dwc3
+               - qcom,sc8180x-dwc3-mp
+               - qcom,sm6115-dwc3
+@@ -467,6 +469,7 @@ allOf:
+               - qcom,ipq4019-dwc3
+               - qcom,ipq8064-dwc3
+               - qcom,msm8994-dwc3
++              - qcom,qcs615-dwc3
+               - qcom,qcs8300-dwc3
+               - qcom,qdu1000-dwc3
+               - qcom,sa8775p-dwc3
 -- 
-2.45.2
+2.34.1
 
