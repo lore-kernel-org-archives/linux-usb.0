@@ -1,57 +1,60 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.15])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.9])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 770FC1DA112
-	for <linux-usb@vger.kernel.org>; Thu, 17 Oct 2024 13:07:00 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.15
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 159AB1DA112
+	for <linux-usb@vger.kernel.org>; Thu, 17 Oct 2024 13:07:21 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.9
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1729170421; cv=none; b=TFTRbN5MJJ/vNFZkEXo/vlODZ3obAR73mlU3A6aWv69/cdWgR5asQcVMIsveugCxGRtbmK27plqA3RC0zCRMlqIw91qBYWEWBBQYy9ELAAsXSH+yb5V3MaY+H4rl3FbT4WMPpKlFaVnBA4qW5nOTa0lpcdHmjqwl9e/QN59MEMg=
+	t=1729170445; cv=none; b=suhmLMFlm6xLdMH3T0LXTFP6gfUTQEG+O2jnsN52F9Ekku9pSvThX9OtHoWe1y9pkpkuiuQZmg75KrMPCy53Ut90vT+GOvHkA92Ci6zagRuFe5HkRy6erBV4IgX/VYydh6TUw1vESp5F4QaL5507rnsMutlQvFBNgCz6hWFaSLQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1729170421; c=relaxed/simple;
-	bh=hkiX9y1UxUZS/mDg9Fke8Wvf4bRY+zYbQiuGgRlth8w=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=VSpzZvM+E0wLf1ylbqR9Ej2LtYSVzcMrJmzrE9AFQhCsAF0gqvqFjxhdsYIxnFCRQgk3RZie948MGf5O8XxLktZUWhvPKNbMcq4ezI9XQkw/E5wN+McbsZGA6G+ovxOplOA8egbf5O15kTusQgqYN2fxj1J4gNTrbEQiI3F+im0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=none smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=m/Nxg0bf; arc=none smtp.client-ip=198.175.65.15
+	s=arc-20240116; t=1729170445; c=relaxed/simple;
+	bh=PHY+ynLY4Pol3ilfxu0YZN9SWjBQw/9NqodcGpCdFfQ=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version; b=MJ6c5w8D6qaCD41/uz9vpQaKES8OtaeG1UY6rEc29nPHdrTnBn/QNopfiXjCJwuYL9UbTgwzZabvGApBq4lA7WAp/kH3YwA+EHRxOU5A/hwmL3a3nYsRRTZtv+t7S9MeFP/GRKUnvB198X+TfzyFnIO9d08eJ3uUBn44hZ7uJn4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=none smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=UataWYxO; arc=none smtp.client-ip=192.198.163.9
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=linux.intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="m/Nxg0bf"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="UataWYxO"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1729170420; x=1760706420;
-  h=from:to:cc:subject:date:message-id:mime-version:
-   content-transfer-encoding;
-  bh=hkiX9y1UxUZS/mDg9Fke8Wvf4bRY+zYbQiuGgRlth8w=;
-  b=m/Nxg0bfz134SEwSgtpTIwyL7/IVblYiW3bGMcZOhfuelMpe4Ki0OFkx
-   o7yGVdUD66sLWjW88NsCavMB9Yl04XJmbxa5yLFElmYc3YbDqumxXJ5Km
-   +9PfwqxLBVrCgmjRVUb8mnkTs9LGFJOb+w+p5PiF/GptiPj/2LOSGpkpc
-   u/lQezbs9biuaibAg4Ktseu5jyLa5SeBCyeQISM5GIO7i8ajckgN+TFij
-   TYBznQjJxACpyNQ6iDmtcP5hf1fNCxPPoI4kRlGdABtDjXA1qaZuaO37i
-   fRh6v7kRkWLn/VWzyzDud8hfm6immgGCOGB/773Zz5Z+Szgd+Fbe+HEiv
-   A==;
-X-CSE-ConnectionGUID: t8bHNNB+QhGXLhCS3jyRWw==
-X-CSE-MsgGUID: agHEh1SFSF6wn51qDnddpQ==
-X-IronPort-AV: E=McAfee;i="6700,10204,11222"; a="32337627"
-X-IronPort-AV: E=Sophos;i="6.11,199,1725346800"; 
-   d="scan'208";a="32337627"
-Received: from fmviesa006.fm.intel.com ([10.60.135.146])
-  by orvoesa107.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 17 Oct 2024 06:07:00 -0700
-X-CSE-ConnectionGUID: eG8Fty52QVePohlrc/Yh5g==
-X-CSE-MsgGUID: 4C2ge3utQV65Yn4G1hOv3Q==
+  t=1729170442; x=1760706442;
+  h=from:to:cc:subject:date:message-id:in-reply-to:
+   references:mime-version:content-transfer-encoding;
+  bh=PHY+ynLY4Pol3ilfxu0YZN9SWjBQw/9NqodcGpCdFfQ=;
+  b=UataWYxOdLrnoUjdr+FU37DCuuse/+Ypfkeya0XIuoDFdyUX0cYPFVij
+   xgrB1PJxzy8HejG3ZeB26XKbinbuVHzGrW67Q3QpHT6q+dmZiP1rJ4Hgl
+   3wIwVvFO6FqdjchQ1sPtBNwxlRjWMiuffeC/2TfAJ4zOZaiMaKa41ob5+
+   2LQfoPZix15ohvCExfr8T3VNffqup0gWl34T98Ko1kWvGMXwxpBbWfX91
+   s8dNAfJPuEh+tYN68nabkKpxUvYgQdPlceQWurjFLx4pEigmuiRCxIcI8
+   Hz8ZsX6E1bo7fL8tF3Wz5W1rOLOMCfXYF7M0k8VM1Jus+Ex/jQOcDRl3M
+   Q==;
+X-CSE-ConnectionGUID: 1yJ4Ua08RKu0B25C1yE4OQ==
+X-CSE-MsgGUID: 68l5lSTuTkaYpGPBKc4+LQ==
+X-IronPort-AV: E=McAfee;i="6700,10204,11227"; a="39290389"
+X-IronPort-AV: E=Sophos;i="6.11,210,1725346800"; 
+   d="scan'208";a="39290389"
+Received: from fmviesa010.fm.intel.com ([10.60.135.150])
+  by fmvoesa103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 17 Oct 2024 06:07:21 -0700
+X-CSE-ConnectionGUID: 9nzdVpSKS326X5TQRy3gxg==
+X-CSE-MsgGUID: YDy438w9RMC139wNejlcZQ==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.11,210,1725346800"; 
-   d="scan'208";a="78151110"
+   d="scan'208";a="78882302"
 Received: from black.fi.intel.com ([10.237.72.28])
-  by fmviesa006.fm.intel.com with ESMTP; 17 Oct 2024 06:06:44 -0700
+  by fmviesa010.fm.intel.com with ESMTP; 17 Oct 2024 06:07:20 -0700
 Received: by black.fi.intel.com (Postfix, from userid 1058)
-	id 99504256; Thu, 17 Oct 2024 16:06:43 +0300 (EEST)
+	id 5A3CD297; Thu, 17 Oct 2024 16:07:19 +0300 (EEST)
 From: Niklas Neronin <niklas.neronin@linux.intel.com>
 To: mathias.nyman@linux.intel.com
 Cc: linux-usb@vger.kernel.org,
 	Niklas Neronin <niklas.neronin@linux.intel.com>
-Subject: [PATCH 0/8] usb: xhci: various xhci cleanups and improvements
-Date: Thu, 17 Oct 2024 16:05:00 +0300
-Message-ID: <20241017130508.1293021-1-niklas.neronin@linux.intel.com>
+Subject: [PATCH 2/8] usb: xhci: move link TRB quirk to xhci_gen_setup()
+Date: Thu, 17 Oct 2024 16:05:02 +0300
+Message-ID: <20241017130508.1293021-3-niklas.neronin@linux.intel.com>
 X-Mailer: git-send-email 2.45.2
+In-Reply-To: <20241017130508.1293021-1-niklas.neronin@linux.intel.com>
+References: <20241017130508.1293021-1-niklas.neronin@linux.intel.com>
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
@@ -60,26 +63,48 @@ List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-Here's a handful cleanups and improvements for the xHCI driver.
+This quirk is old and seldom seen, as a result the trace is changed
+to debug message and only printed when the quirk is set.
 
-Niklas Neronin (8):
-  usb: xhci: simplify TDs start and end naming scheme in struct
-    'xhci_td'
-  usb: xhci: move link TRB quirk to xhci_gen_setup()
-  usb: xhci: request MSI/-X according to requested amount
-  usb: xhci: improve xhci_clear_command_ring()
-  usb: xhci: remove unused arguments from td_to_noop()
-  usb: xhci: refactor xhci_td_cleanup() to return void
-  usb: xhci: add help function xhci_dequeue_td()
-  usb: xhci: remove irrelevant comment
+Move it into xhci_gen_setup() where the majority of quirks are set.
 
- drivers/usb/host/xhci-mem.c  |   5 --
- drivers/usb/host/xhci-pci.c  |  11 +--
- drivers/usb/host/xhci-ring.c | 153 +++++++++++++++++------------------
- drivers/usb/host/xhci.c      |  20 ++---
- drivers/usb/host/xhci.h      |   6 +-
- 5 files changed, 88 insertions(+), 107 deletions(-)
+Signed-off-by: Niklas Neronin <niklas.neronin@linux.intel.com>
+---
+ drivers/usb/host/xhci.c | 14 ++++++--------
+ 1 file changed, 6 insertions(+), 8 deletions(-)
 
+diff --git a/drivers/usb/host/xhci.c b/drivers/usb/host/xhci.c
+index 4edd850e6328..62c2fd301456 100644
+--- a/drivers/usb/host/xhci.c
++++ b/drivers/usb/host/xhci.c
+@@ -473,14 +473,7 @@ static int xhci_init(struct usb_hcd *hcd)
+ 
+ 	xhci_dbg_trace(xhci, trace_xhci_dbg_init, "xhci_init");
+ 	spin_lock_init(&xhci->lock);
+-	if (xhci->hci_version == 0x95 && link_quirk) {
+-		xhci_dbg_trace(xhci, trace_xhci_dbg_quirks,
+-				"QUIRK: Not clearing Link TRB chain bits.");
+-		xhci->quirks |= XHCI_LINK_TRB_QUIRK;
+-	} else {
+-		xhci_dbg_trace(xhci, trace_xhci_dbg_init,
+-				"xHCI doesn't need link TRB QUIRK");
+-	}
++
+ 	retval = xhci_mem_init(xhci, GFP_KERNEL);
+ 	xhci_dbg_trace(xhci, trace_xhci_dbg_init, "Finished xhci_init");
+ 
+@@ -5247,6 +5240,11 @@ int xhci_gen_setup(struct usb_hcd *hcd, xhci_get_quirks_t get_quirks)
+ 	if (xhci->hci_version > 0x96)
+ 		xhci->quirks |= XHCI_SPURIOUS_SUCCESS;
+ 
++	if (xhci->hci_version == 0x95 && link_quirk) {
++		xhci_dbg(xhci, "QUIRK: Not clearing Link TRB chain bits");
++		xhci->quirks |= XHCI_LINK_TRB_QUIRK;
++	}
++
+ 	/* Make sure the HC is halted. */
+ 	retval = xhci_halt(xhci);
+ 	if (retval)
 -- 
 2.45.2
 
