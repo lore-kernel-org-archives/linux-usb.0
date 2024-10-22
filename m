@@ -1,73 +1,197 @@
-Received: from m16.mail.163.com (m16.mail.163.com [220.197.31.4])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 0ADC1C8FE;
-	Tue, 22 Oct 2024 06:50:01 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=220.197.31.4
+Received: from mail-wr1-f48.google.com (mail-wr1-f48.google.com [209.85.221.48])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+	(No client certificate requested)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 414EAECF
+	for <linux-usb@vger.kernel.org>; Tue, 22 Oct 2024 07:02:24 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.48
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1729579805; cv=none; b=ADO6GjRJc+msX6iP+XGDM+sI+ok629Q4m0gUKCQCTfpcf6MJlIVHGnSOCGsmgBk4zKEqwxyg8e/fL9dUpUflVjJzdyqDSeikKj6nSOt5Gi2cMM0M+zQk/2A/NoM2f8kKCPfqXCVIGfZj2lAoAceaduQa7hJJeYYC7Qyp8artfFk=
+	t=1729580546; cv=none; b=gxyXdFR+Vu6ID8i0WzXq1RDvQOopeeJ5HrTibv19PsmqyPDrKOUaZTjxN+JYKMmQ7WOo5s6G8Mg9CeI+XiOjxHFCyd+qvgAA/liUFE4IzS0lJu6sI7WQDVj8fBM/A2wXh+JZW+2O2LAnicB4vOwVIca+Tqgo1zF0nUvmqLdZTh8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1729579805; c=relaxed/simple;
-	bh=gAgxmfdP2jyUpNQG51UsfINhavCuMPmSuDngPIlM+gw=;
-	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=UPkVEdJC+i10bISmerS2JggG04QHDwwtiO1iOT7aiWrGZw2jSbwcpaiQPmweqFKuIPk27XcDKx2QG2gZ15UgMdoEsVRkeHbofzMxuf5zVtkMyH/dmBZiqYaHwHSbcxffvrhXhY1bCDSrsj3CIHAIIbf+WdGhgBSNddHGsblQHZQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=163.com; spf=pass smtp.mailfrom=163.com; dkim=pass (1024-bit key) header.d=163.com header.i=@163.com header.b=jVu2CFeb; arc=none smtp.client-ip=220.197.31.4
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=163.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=163.com
+	s=arc-20240116; t=1729580546; c=relaxed/simple;
+	bh=4yE8s5Gg/D7Mg1mfXzs4xFsiwPIVCKqduCQJUZDhtGg=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=X55WGadUGtQe2l6Whc9K7dDlu9xddoaEhQjRZENOzGRvd4CvffTdVUQVtqZjGz6+LLRhDG50tD2fpVD378Gt728+ThLgQITlMsFN9OpOyD7RpX02AR6A2AdkQEFcc1uuh5VdE7XjUUa27W0rRPUhnH+0Uyz5a4Nb+HNdpzqGhJQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=UtB/SN+6; arc=none smtp.client-ip=209.85.221.48
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=163.com header.i=@163.com header.b="jVu2CFeb"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=163.com;
-	s=s110527; h=From:Subject:Date:Message-Id:MIME-Version; bh=t9HfF
-	lGMV6vlGQ1vROC5AV/hdJqyGhuWNLp4zGqDEtY=; b=jVu2CFebWN+DE5i3o7GQS
-	CXXfaj31+L9n9FHtQUZ6SuFl5BvlBVSw1jgXoZmL7d20PtVOzgh92simUpv9JBGt
-	CAgEP+Ar+6MHJ/0IWn8sPKPWKrPiJ7jviGsut55yz0HgwdskVS/ls8k27OHVeLdB
-	Zbo0DLgiSVMqfAF1fwv6ec=
-Received: from thinkpadx13gen2i.. (unknown [111.48.58.12])
-	by gzsmtp1 (Coremail) with SMTP id PCgvCgBHhy4CSxdnVG+dAw--.41336S2;
-	Tue, 22 Oct 2024 14:49:39 +0800 (CST)
-From: Zongmin Zhou <min_halo@163.com>
-To: valentina.manea.m@gmail.com,
-	shuah@kernel.org,
-	i@zenithal.me
-Cc: linux-usb@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	Zongmin Zhou <zhouzongmin@kylinos.cn>
-Subject: [PATCH] usbip: tools: update return status when failed
-Date: Tue, 22 Oct 2024 14:48:56 +0800
-Message-Id: <20241022064856.4098350-1-min_halo@163.com>
-X-Mailer: git-send-email 2.34.1
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="UtB/SN+6"
+Received: by mail-wr1-f48.google.com with SMTP id ffacd0b85a97d-37d58377339so5691513f8f.1
+        for <linux-usb@vger.kernel.org>; Tue, 22 Oct 2024 00:02:24 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google; t=1729580543; x=1730185343; darn=vger.kernel.org;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=Zo0xOmZ3bF1XOgnsXVyn+rFyT/PuDvUbKaYAetJa4ms=;
+        b=UtB/SN+6Aqhrz6c63vBySYEAqogw7sBk/gBj9MhWxQofZXnmprhmpdzI0mUp1eJpk5
+         c1C22idsUoMAt++oxTy3kFXXuz9q3dmomzII2e3ad4FJ90boRX++XCRf8pd49uEc/mjR
+         8FycVbZY9OTtwe7FkD3sLAFbChmiz7mZOad8+53NRP/1CzOt7V9DpSV9+fdjHRYalu6c
+         q/9l55AoNBc67kgboiJv+kRjLaeWnccllyBQYfihWBc31rJ2j7OpTWwI4xV7ecgvpd4n
+         2UcdWBYZ3n+g3NOV9F8QfXhAT7s6O3OJLlL9Zfxg9y/DjN0/PUkY+RNFgCckgF5lAI3t
+         yFqQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1729580543; x=1730185343;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=Zo0xOmZ3bF1XOgnsXVyn+rFyT/PuDvUbKaYAetJa4ms=;
+        b=hCnUMLN6uRZq/RKJoLmABuSwa0OmyEcAn2xmsh+yiY2T+YwM9fb9U8yb7aQ3oxjWNR
+         xTPNSeVquU0sNvJCpmX9p04O8Z/0NZCdmjAvTeRS8Chk6dNpxsh8X+dXSYrLPr06XlM6
+         wzGdbIhJxf6GkMk2mATTcj5unWb/nqAx4Bof4qqkhEfiDYw5x2a3qFhRhqWVnGe9pllU
+         lm/f5hwjz5uGHdKYXKTvXvvn0NUqXLDLbMA33TN459ENxybkT8W/4b/2dyGo3MbrFGnl
+         PDnCAqDsacSsP5TwQeePeIx+fDmXfudHwIFECRlA7CC+Ro6RnV0ekvGRDhKdiZ3XYUG8
+         bf+Q==
+X-Forwarded-Encrypted: i=1; AJvYcCWzTlNQXBW8niic1LNMtqwtiVR/cgTSFNJuJBSSSEXkUEXwxAJcKzVfZQtfzujlemLic9qIlT3byRc=@vger.kernel.org
+X-Gm-Message-State: AOJu0YxYUhknwlh38+ujhVodbmtw4ogLiaKtkJ4U+RbgeB4eNvNMx8LY
+	A54qsbTUi5E6XnoqfMU5pngV3x8RKyLse1aThFNkPubisoY64TjBzBruJxq1ed8=
+X-Google-Smtp-Source: AGHT+IEb/90ZLK03pt7rWCnU1U7KPmd5ONg5GXEb+jncfPIGAWGKj/2uCiifR3O1/uN1UB+cMvzzSA==
+X-Received: by 2002:a5d:4e0e:0:b0:37d:61aa:67de with SMTP id ffacd0b85a97d-37eab7555a4mr11958766f8f.42.1729580542648;
+        Tue, 22 Oct 2024 00:02:22 -0700 (PDT)
+Received: from linaro.org ([82.76.168.176])
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-37ee0b93f92sm5881454f8f.76.2024.10.22.00.02.21
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 22 Oct 2024 00:02:22 -0700 (PDT)
+Date: Tue, 22 Oct 2024 10:02:20 +0300
+From: Abel Vesa <abel.vesa@linaro.org>
+To: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+Cc: Heikki Krogerus <heikki.krogerus@linux.intel.com>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	Rob Herring <robh@kernel.org>,
+	Krzysztof Kozlowski <krzk+dt@kernel.org>,
+	Conor Dooley <conor+dt@kernel.org>, linux-arm-msm@vger.kernel.org,
+	Bjorn Andersson <andersson@kernel.org>,
+	Konrad Dybcio <konradybcio@kernel.org>,
+	Rajendra Nayak <quic_rjendra@quicinc.com>,
+	Sibi Sankar <quic_sibis@quicinc.com>,
+	Johan Hovold <johan@kernel.org>,
+	Trilok Soni <quic_tsoni@quicinc.com>, linux-kernel@vger.kernel.org,
+	linux-usb@vger.kernel.org, devicetree@vger.kernel.org
+Subject: Re: [PATCH v2 1/2] dt-bindings: usb: Add Parade PS8830 Type-C
+ retimer bindings
+Message-ID: <ZxdN/Kr5ej2YFv9T@linaro.org>
+References: <20241004-x1e80100-ps8830-v2-0-5cd8008c8c40@linaro.org>
+ <20241004-x1e80100-ps8830-v2-1-5cd8008c8c40@linaro.org>
+ <657a2qb727tm5ndz2wokxb5aiyqysppufm7evtwfbplu34yzmp@mlm4k775zm7a>
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-CM-TRANSID:PCgvCgBHhy4CSxdnVG+dAw--.41336S2
-X-Coremail-Antispam: 1Uf129KBjvdXoWrtry3XFy7ur4xur1DuFy8Zrb_yoWxCrc_C3
-	y5Wr4kWrWYka45KF1DGFy8Cryrt3Z8WrZ8Ja1UKr1fG3Wqywn5JFyDA397CF18ur1qqFnx
-	twn0qwn8uan5ujkaLaAFLSUrUUUUjb8apTn2vfkv8UJUUUU8Yxn0WfASr-VFAUDa7-sFnT
-	9fnUUvcSsGvfC2KfnxnUUI43ZEXa7IU8x-BtUUUUU==
-X-CM-SenderInfo: pplqsxxdorqiywtou0bp/1tbixxqAq2cXQVKpZwABsa
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <657a2qb727tm5ndz2wokxb5aiyqysppufm7evtwfbplu34yzmp@mlm4k775zm7a>
 
-From: Zongmin Zhou <zhouzongmin@kylinos.cn>
+On 24-10-06 18:28:52, Dmitry Baryshkov wrote:
+> On Fri, Oct 04, 2024 at 04:57:37PM GMT, Abel Vesa wrote:
+> > Document bindings for the Parade PS8830 Type-C retimer. This retimer is
+> > currently found on all boards featuring Qualcomm Snapdragon X Elite SoCs
+> > and it is needed to provide altmode muxing between DP and USB, but also
+> > connector orientation handling between.
+> > 
+> > Signed-off-by: Abel Vesa <abel.vesa@linaro.org>
+> > ---
+> >  .../devicetree/bindings/usb/parade,ps8830.yaml     | 129 +++++++++++++++++++++
+> >  1 file changed, 129 insertions(+)
+> > 
+> > diff --git a/Documentation/devicetree/bindings/usb/parade,ps8830.yaml b/Documentation/devicetree/bindings/usb/parade,ps8830.yaml
+> > new file mode 100644
+> > index 0000000000000000000000000000000000000000..f6721d6eee26c6d4590a12c19791b3d47a8145f3
+> > --- /dev/null
+> > +++ b/Documentation/devicetree/bindings/usb/parade,ps8830.yaml
+> > @@ -0,0 +1,129 @@
+> > +# SPDX-License-Identifier: GPL-2.0-only OR BSD-2-Clause
+> > +%YAML 1.2
+> > +---
+> > +$id: http://devicetree.org/schemas/usb/parade,ps8830.yaml#
+> > +$schema: http://devicetree.org/meta-schemas/core.yaml#
+> > +
+> > +title: Parade PS8830 USB and DisplayPort Retimer
+> > +
+> > +maintainers:
+> > +  - Abel Vesa <abel.vesa@linaro.org>
+> > +
+> > +properties:
+> > +  compatible:
+> > +    enum:
+> > +      - parade,ps8830
+> > +
+> > +  reg:
+> > +    maxItems: 1
+> > +
+> > +  clocks:
+> > +    items:
+> > +      - description: XO Clock
+> > +
+> > +  clock-names:
+> > +    items:
+> > +      - const: xo
+> > +
+> > +  reset-gpios:
+> > +    maxItems: 1
+> > +
+> > +  vdd-supply:
+> > +    description: power supply (1.07V)
+> > +
+> > +  vdd33-supply:
+> > +    description: power supply (3.3V)
+> > +
+> > +  vdd33-cap-supply:
+> > +    description: power supply (3.3V)
+> > +
+> > +  vddar-supply:
+> > +    description: power supply (1.07V)
+> > +
+> > +  vddat-supply:
+> > +    description: power supply (1.07V)
+> 
+> Any additional details?
 
-Have to set "ret" before return when found a invalid port.
+Documentation doesn't say anything more than this.
 
-Signed-off-by: Zongmin Zhou <zhouzongmin@kylinos.cn>
----
- tools/usb/usbip/src/usbip_detach.c | 1 +
- 1 file changed, 1 insertion(+)
+> 
+> > +
+> > +  vddio-supply:
+> > +    description: power supply (1.2V or 1.8V)
+> > +
+> > +  orientation-switch: true
+> > +  retimer-switch: true
+> > +
+> > +  ports:
+> > +    $ref: /schemas/graph.yaml#/properties/ports
+> > +    properties:
+> > +      port@0:
+> > +        $ref: /schemas/graph.yaml#/properties/port
+> > +        description: Super Speed (SS) Output endpoint to the Type-C connector
+> > +
+> > +      port@1:
+> > +        $ref: /schemas/graph.yaml#/$defs/port-base
+> > +        description: Super Speed (SS) Input endpoint from the Super-Speed PHY
+> 
+> or from another SS signal source, which can be a mux, a switch or
+> anything else. I'd say, just 'Input Super Speed (SS)'
 
-diff --git a/tools/usb/usbip/src/usbip_detach.c b/tools/usb/usbip/src/usbip_detach.c
-index b29101986b5a..6b78d4a81e95 100644
---- a/tools/usb/usbip/src/usbip_detach.c
-+++ b/tools/usb/usbip/src/usbip_detach.c
-@@ -68,6 +68,7 @@ static int detach_port(char *port)
- 	}
- 
- 	if (!found) {
-+		ret = -1;
- 		err("Invalid port %s > maxports %d",
- 			port, vhci_driver->nports);
- 		goto call_driver_close;
--- 
-2.34.1
+Will use that.
 
+> 
+> > +        unevaluatedProperties: false
+> > +
+> > +      port@2:
+> > +        $ref: /schemas/graph.yaml#/properties/port
+> > +        description:
+> > +          Sideband Use (SBU) AUX lines endpoint to the Type-C connector for the purpose of
+> > +          handling altmode muxing and orientation switching.
+> > +
+> > +required:
+> > +  - compatible
+> > +  - reg
+> > +
+> > +allOf:
+> > +  - $ref: usb-switch.yaml#
+> > +
+> > +additionalProperties: false
+> > +
+> 
+> -- 
+> With best wishes
+> Dmitry
