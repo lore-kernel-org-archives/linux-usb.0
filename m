@@ -1,198 +1,191 @@
-Received: from mailgw02.mediatek.com (unknown [210.61.82.184])
+Received: from mailgw.kylinos.cn (mailgw.kylinos.cn [124.126.103.232])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 30E8C153BD7;
-	Wed, 23 Oct 2024 08:09:22 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=210.61.82.184
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7F4271C2BD;
+	Wed, 23 Oct 2024 08:12:35 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=124.126.103.232
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1729670966; cv=none; b=WSDwQuNQVT2/8TFq0rRVV2vVZRe5QXuhEd3wuhDWtyQP5i8k260FVPINx0muX3j2/GaLpTVOTNqumPbE9/1lfVRSwUMZwoX4VYrr9dNXopmjQkwmjN1SLXcxYUbLul962Gnw3Xtt3j2vUaZZulZ8ESPTbcUTMCfcdh8DwayLLNs=
+	t=1729671161; cv=none; b=q6elvAbk4WmwvmrknjZuPlhViubYHK9YKNDG30s3hQBhT/1YYO+9ydN5qj7SjOSHKfiU51nMSNujnosZYAhQhsAHfMHeSiAmyL9JmfxIB7F0ICnjLNwEP+PuYpROJ2NxElXbnr19jzUm+sYaLxNqCQvksanJGe6uZ+gGg39qUQA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1729670966; c=relaxed/simple;
-	bh=b9rIGqkwFiF+b1e6pMCLITJkoINEPLKpPW+O+tiLKek=;
-	h=From:To:CC:Subject:Date:Message-ID:MIME-Version:Content-Type; b=OOYAW+BTKb224rpa8sa/Yibkj6gZ3EJYi6ia5TuJnC8zYE6SDuKci1BCkQ48mTP7+Y6NhCTfyfPbqixb+W5oS0kaIZrGgLk50XyREfHZwQwIDt0YB1t5J/65nckkxwme0grT6zTUMVE3NhOszotA8YyAulDvJa9n4IqQCP/BkR0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=mediatek.com; spf=pass smtp.mailfrom=mediatek.com; dkim=pass (1024-bit key) header.d=mediatek.com header.i=@mediatek.com header.b=uosTkOjU; arc=none smtp.client-ip=210.61.82.184
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=mediatek.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=mediatek.com
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=mediatek.com header.i=@mediatek.com header.b="uosTkOjU"
-X-UUID: 194a1daa911611efbd192953cf12861f-20241023
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=mediatek.com; s=dk;
-	h=Content-Type:Content-Transfer-Encoding:MIME-Version:Message-ID:Date:Subject:CC:To:From; bh=1DC0MZ+8RliOZSB75DH8kd3TwbqOFjqN7QSkI/xXet0=;
-	b=uosTkOjUXhPoqgTtjWERjY2QR2OyU/MiBpFbPwKaLpVMLbnTpTCZP9CP3zXlVTSAhxxBETdo1VbApwRqTOehxrZWmz5RhqK/seci/NPTUtymRZp/rch1fQM8Yo28NPm+yx62oAPWy3UYAfsaDA2rVOCaXLzoNg3/JuosUZe+IIc=;
+	s=arc-20240116; t=1729671161; c=relaxed/simple;
+	bh=Ov3tGUEtS22P6qXPo42rF4eR4kaaLgxJ5X5EIsh9g/Y=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=OSSWnJnKKyZHoF6rk57vqnwx/JN37llZAYZOTUundcbztJylnVxazPFec/SwAUtpEkIvipUcVYHxCgD2gL6+IQEfplrUGT5M61+QMnXB5hCY61FKRANl3TqL7QzXi+PsTqd4ZLHaQIn6IdWIDr9zMh+A+kwyvV+OF6/7WfHCke0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=kylinos.cn; spf=pass smtp.mailfrom=kylinos.cn; arc=none smtp.client-ip=124.126.103.232
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=kylinos.cn
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=kylinos.cn
+X-UUID: 8c90631e911611efa216b1d71e6e1362-20241023
+X-CID-CACHE: Type:Local,Time:202410231524+08,HitQuantity:1
 X-CID-P-RULE: Release_Ham
-X-CID-O-INFO: VERSION:1.1.42,REQID:fb9f2bc7-c86c-4add-9659-62c70111ea83,IP:0,U
-	RL:0,TC:0,Content:0,EDM:0,RT:0,SF:0,FILE:0,BULK:0,RULE:Release_Ham,ACTION:
-	release,TS:0
-X-CID-META: VersionHash:b0fcdc3,CLOUDID:3e04b441-8751-41b2-98dd-475503d45150,B
-	ulkID:nil,BulkQuantity:0,Recheck:0,SF:102,TC:nil,Content:0,EDM:-3,IP:nil,U
-	RL:0,File:nil,RT:nil,Bulk:nil,QS:nil,BEC:nil,COL:0,OSI:0,OSA:0,AV:0,LES:1,
-	SPR:NO,DKR:0,DKP:0,BRR:0,BRE:0,ARC:0
+X-CID-O-INFO: VERSION:1.1.38,REQID:3c29d85a-8015-4ade-ab91-b0dddc7d3215,IP:0,U
+	RL:0,TC:0,Content:-25,EDM:-25,RT:0,SF:0,FILE:0,BULK:0,RULE:Release_Ham,ACT
+	ION:release,TS:-50
+X-CID-META: VersionHash:82c5f88,CLOUDID:6cf6a58cf1939cde1e9cd929ab6835ca,BulkI
+	D:nil,BulkQuantity:0,Recheck:0,SF:102,TC:nil,Content:0,EDM:1,IP:nil,URL:0,
+	File:nil,RT:nil,Bulk:nil,QS:nil,BEC:nil,COL:0,OSI:0,OSA:0,AV:0,LES:1,SPR:N
+	O,DKR:0,DKP:0,BRR:0,BRE:0
 X-CID-BVR: 0
 X-CID-BAS: 0,_,0,_
 X-CID-FACTOR: TF_CID_SPAM_SNR
-X-UUID: 194a1daa911611efbd192953cf12861f-20241023
-Received: from mtkmbs10n1.mediatek.inc [(172.21.101.34)] by mailgw02.mediatek.com
-	(envelope-from <macpaul.lin@mediatek.com>)
-	(Generic MTA with TLSv1.2 ECDHE-RSA-AES256-GCM-SHA384 256/256)
-	with ESMTP id 1632562414; Wed, 23 Oct 2024 16:09:17 +0800
-Received: from mtkmbs11n2.mediatek.inc (172.21.101.187) by
- MTKMBS14N1.mediatek.inc (172.21.101.75) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.1118.26; Wed, 23 Oct 2024 16:09:15 +0800
-Received: from mtksdccf07.mediatek.inc (172.21.84.99) by
- mtkmbs11n2.mediatek.inc (172.21.101.73) with Microsoft SMTP Server id
- 15.2.1118.26 via Frontend Transport; Wed, 23 Oct 2024 16:09:15 +0800
-From: Macpaul Lin <macpaul.lin@mediatek.com>
-To: Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>,
-	Conor Dooley <conor+dt@kernel.org>, Matthias Brugger
-	<matthias.bgg@gmail.com>, AngeloGioacchino Del Regno
-	<angelogioacchino.delregno@collabora.com>, <devicetree@vger.kernel.org>,
-	<linux-kernel@vger.kernel.org>, <linux-arm-kernel@lists.infradead.org>,
-	<linux-mediatek@lists.infradead.org>, Alexandre Mergnat
-	<amergnat@baylibre.com>
-CC: Bear Wang <bear.wang@mediatek.com>, Pablo Sun <pablo.sun@mediatek.com>,
-	Macpaul Lin <macpaul.lin@mediatek.com>, Macpaul Lin <macpaul@gmail.com>,
-	<Project_Global_Chrome_Upstream_Group@mediatek.com>,
-	<linux-usb@vger.kernel.org>, Chris-qj chen <chris-qj.chen@mediatek.com>,
-	Fabien Parent <fparent@baylibre.com>, Yow-Shin Liou
-	<yow-shin.liou@mediatek.com>, Simon Sun <simon.sun@yunjingtech.com>
-Subject: [PATCH v3 1/2] arm64: dts: mediatek: mt8395-genio-1200-evk: add support for TCPC port
-Date: Wed, 23 Oct 2024 16:09:11 +0800
-Message-ID: <20241023080912.15349-1-macpaul.lin@mediatek.com>
-X-Mailer: git-send-email 2.18.0
+X-UUID: 8c90631e911611efa216b1d71e6e1362-20241023
+Received: from node4.com.cn [(10.44.16.170)] by mailgw.kylinos.cn
+	(envelope-from <lijiayi@kylinos.cn>)
+	(Generic MTA)
+	with ESMTP id 1346884670; Wed, 23 Oct 2024 16:12:30 +0800
+Received: from node4.com.cn (localhost [127.0.0.1])
+	by node4.com.cn (NSMail) with SMTP id 212F216002082;
+	Wed, 23 Oct 2024 16:12:30 +0800 (CST)
+X-ns-mid: postfix-6718AFED-9678747262
+Received: from kylin-pc.. (unknown [172.25.130.133])
+	by node4.com.cn (NSMail) with ESMTPA id 6FEC316002082;
+	Wed, 23 Oct 2024 08:12:28 +0000 (UTC)
+From: Jiayi Li <lijiayi@kylinos.cn>
+To: gregkh@linuxfoundation.org,
+	stern@rowland.harvard.edu,
+	linux-usb@vger.kernel.org,
+	linux-kernel@vger.kernel.org
+Cc: lijiayi@kylinos.cn
+Subject: [PATCH v1] usb: core: use sysfs_emit() instead of sprintf()
+Date: Wed, 23 Oct 2024 16:12:08 +0800
+Message-ID: <20241023081208.2425876-1-lijiayi@kylinos.cn>
+X-Mailer: git-send-email 2.45.2
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-TM-AS-Product-Ver: SMEX-14.0.0.3152-9.1.1006-23728.005
-X-TM-AS-Result: No-10--4.063000-8.000000
-X-TMASE-MatchedRID: jrpkWNovQHLL05PW1HuK4hcqpH7D1rtQE21NSmBqEKdeARTvhomDCuHM
-	eGIgxik9FU2rnI3D77gOHPadhy5U4iUyFVKm+WpVMZ8cIdf+aBRhBfGxmdHCgvHFoBcOsKezmQJ
-	6sUxppuIriEKQi78d2EIIZCwYBulFL0W1btd8e55H4a2iJdV4MdiK7AdEh6lNi093rJhkH8DeSC
-	fd3mLQsdz6+jdXWZjHIUmX+V9fKhLSuXLpNqOJSQ2HDswcCnIjFk73i4rVVIEL7naABknk8qPFj
-	JEFr+olwXCBO/GKkVqOhzOa6g8KrUejv7saCNrxDkDf5XgSMVjSgRuPc0nbfBQdxtQMtuV3bTJk
-	Ocw4jjZoosmzpgSGI9wd5pmRNJ9i6cN15/z/mmzyzY8c1oKYwOLDq7G+Ik/yv22xKJRyIGVDnOx
-	ozmpp1r+WvXJiKHRLMw/B2eF7ydmUTGVAhB5EbQ==
-X-TM-AS-User-Approved-Sender: No
-X-TM-AS-User-Blocked-Sender: No
-X-TMASE-Result: 10--4.063000-8.000000
-X-TMASE-Version: SMEX-14.0.0.3152-9.1.1006-23728.005
-X-TM-SNTS-SMTP:
-	29A60159753BBF7D539EB962A6F99A9AA4213D7938370545EF29296C4B93CDEB2000:8
-X-MTK: N
+Content-Transfer-Encoding: quoted-printable
 
-From: Fabien Parent <fparent@baylibre.com>
+Follow the advice in Documentation/filesystems/sysfs.rst:
+show() should only use sysfs_emit() or sysfs_emit_at() when formatting
+the value to be returned to user space.
 
-Enable USB Type-C support on MediaTek MT8395 Genio 1200 EVK by adding
-configuration for TCPC Port, USB-C connector, and related settings.
-
-Configure dual role switch capability, set up PD (Power Delivery) profiles,
-and establish endpoints for SSUSB (SuperSpeed USB).
-
-Update pinctrl configurations for U3 P0 VBus default pins and set dr_mode
-to "otg" for OTG (On-The-Go) mode operation.
-
-Signed-off-by: Fabien Parent <fparent@baylibre.com>
-Signed-off-by: Yow-Shin Liou <yow-shin.liou@mediatek.com>
-Signed-off-by: Simon Sun <simon.sun@yunjingtech.com>
-Signed-off-by: Macpaul Lin <macpaul.lin@mediatek.com>
+Signed-off-by: Jiayi Li <lijiayi@kylinos.cn>
 ---
- .../dts/mediatek/mt8395-genio-1200-evk.dts    | 54 +++++++++++++++++++
- 1 file changed, 54 insertions(+)
+ drivers/usb/core/endpoint.c        | 10 +++++-----
+ drivers/usb/core/ledtrig-usbport.c |  2 +-
+ drivers/usb/core/port.c            | 10 +++++-----
+ 3 files changed, 11 insertions(+), 11 deletions(-)
 
-Changes for v2:
- - Drop the no need '1/2' DT Schema update patch in the 1st version.  
- - Fix intent for 'ports' node, it should under the 'connector' node.
- - Correct the index for 'port@0' and 'port@1' node.
-
-Changes for v3:
- - Correct the order between new added nodes.
-
-diff --git a/arch/arm64/boot/dts/mediatek/mt8395-genio-1200-evk.dts b/arch/arm64/boot/dts/mediatek/mt8395-genio-1200-evk.dts
-index 5f16fb820580..83d520226302 100644
---- a/arch/arm64/boot/dts/mediatek/mt8395-genio-1200-evk.dts
-+++ b/arch/arm64/boot/dts/mediatek/mt8395-genio-1200-evk.dts
-@@ -335,6 +335,43 @@ mt6360_ldo7: ldo7 {
- 				regulator-always-on;
- 			};
- 		};
-+
-+		tcpc {
-+			compatible = "mediatek,mt6360-tcpc";
-+			interrupts-extended = <&pio 17 IRQ_TYPE_LEVEL_LOW>;
-+			interrupt-names = "PD_IRQB";
-+
-+			connector {
-+				compatible = "usb-c-connector";
-+				label = "USB-C";
-+				data-role = "dual";
-+				power-role = "dual";
-+				try-power-role = "sink";
-+				source-pdos = <PDO_FIXED(5000, 1000, \
-+					       PDO_FIXED_DUAL_ROLE | \
-+					       PDO_FIXED_DATA_SWAP)>;
-+				sink-pdos = <PDO_FIXED(5000, 2000, \
-+					     PDO_FIXED_DUAL_ROLE | \
-+					     PDO_FIXED_DATA_SWAP)>;
-+				op-sink-microwatt = <10000000>;
-+
-+				ports {
-+					#address-cells = <1>;
-+					#size-cells = <0>;
-+
-+					port@0 {
-+						reg = <0>;
-+					};
-+
-+					port@1 {
-+						reg = <1>;
-+						mt6360_ssusb_ep: endpoint {
-+							remote-endpoint = <&ssusb_ep>;
-+						};
-+					};
-+				};
-+			};
-+		};
- 	};
- };
- 
-@@ -770,6 +807,13 @@ pins-reset {
- 		};
- 	};
- 
-+	u3_p0_vbus: u3-p0-vbus-default-pins {
-+		pins-cmd-dat {
-+			pinmux = <PINMUX_GPIO63__FUNC_VBUSVALID>;
-+			input-enable;
-+		};
-+	};
-+
- 	uart0_pins: uart0-pins {
- 		pins {
- 			pinmux = <PINMUX_GPIO98__FUNC_UTXD0>,
-@@ -900,8 +944,18 @@ &ufsphy {
- };
- 
- &ssusb0 {
-+	dr_mode = "otg";
-+	pinctrl-names = "default";
-+	pinctrl-0 = <&u3_p0_vbus>;
-+	usb-role-switch;
- 	vusb33-supply = <&mt6359_vusb_ldo_reg>;
- 	status = "okay";
-+
-+	port {
-+		ssusb_ep: endpoint {
-+			remote-endpoint = <&mt6360_ssusb_ep>;
-+		};
-+	};
- };
- 
- &ssusb2 {
--- 
+diff --git a/drivers/usb/core/endpoint.c b/drivers/usb/core/endpoint.c
+index 4b38b87a1343..1baf88a093eb 100644
+--- a/drivers/usb/core/endpoint.c
++++ b/drivers/usb/core/endpoint.c
+@@ -39,7 +39,7 @@ static ssize_t field##_show(struct device *dev,			\
+ 			       char *buf)			\
+ {								\
+ 	struct ep_device *ep =3D to_ep_device(dev);		\
+-	return sprintf(buf, format_string, ep->desc->field);	\
++	return sysfs_emit(buf, format_string, ep->desc->field);	\
+ }								\
+ static DEVICE_ATTR_RO(field)
+=20
+@@ -52,7 +52,7 @@ static ssize_t wMaxPacketSize_show(struct device *dev,
+ 				   struct device_attribute *attr, char *buf)
+ {
+ 	struct ep_device *ep =3D to_ep_device(dev);
+-	return sprintf(buf, "%04x\n", usb_endpoint_maxp(ep->desc));
++	return sysfs_emit(buf, "%04x\n", usb_endpoint_maxp(ep->desc));
+ }
+ static DEVICE_ATTR_RO(wMaxPacketSize);
+=20
+@@ -76,7 +76,7 @@ static ssize_t type_show(struct device *dev, struct dev=
+ice_attribute *attr,
+ 		type =3D "Interrupt";
+ 		break;
+ 	}
+-	return sprintf(buf, "%s\n", type);
++	return sysfs_emit(buf, "%s\n", type);
+ }
+ static DEVICE_ATTR_RO(type);
+=20
+@@ -95,7 +95,7 @@ static ssize_t interval_show(struct device *dev, struct=
+ device_attribute *attr,
+ 		interval /=3D 1000;
+ 	}
+=20
+-	return sprintf(buf, "%d%cs\n", interval, unit);
++	return sysfs_emit(buf, "%d%cs\n", interval, unit);
+ }
+ static DEVICE_ATTR_RO(interval);
+=20
+@@ -111,7 +111,7 @@ static ssize_t direction_show(struct device *dev, str=
+uct device_attribute *attr,
+ 		direction =3D "in";
+ 	else
+ 		direction =3D "out";
+-	return sprintf(buf, "%s\n", direction);
++	return sysfs_emit(buf, "%s\n", direction);
+ }
+ static DEVICE_ATTR_RO(direction);
+=20
+diff --git a/drivers/usb/core/ledtrig-usbport.c b/drivers/usb/core/ledtri=
+g-usbport.c
+index 85c999f71ad7..3d36f72ce38b 100644
+--- a/drivers/usb/core/ledtrig-usbport.c
++++ b/drivers/usb/core/ledtrig-usbport.c
+@@ -87,7 +87,7 @@ static ssize_t usbport_trig_port_show(struct device *de=
+v,
+ 						      struct usbport_trig_port,
+ 						      attr);
+=20
+-	return sprintf(buf, "%d\n", port->observed) + 1;
++	return sysfs_emit(buf, "%d\n", port->observed) + 1;
+ }
+=20
+ static ssize_t usbport_trig_port_store(struct device *dev,
+diff --git a/drivers/usb/core/port.c b/drivers/usb/core/port.c
+index e7da2fca11a4..a9f035f59f22 100644
+--- a/drivers/usb/core/port.c
++++ b/drivers/usb/core/port.c
+@@ -166,7 +166,7 @@ static ssize_t location_show(struct device *dev,
+ {
+ 	struct usb_port *port_dev =3D to_usb_port(dev);
+=20
+-	return sprintf(buf, "0x%08x\n", port_dev->location);
++	return sysfs_emit(buf, "0x%08x\n", port_dev->location);
+ }
+ static DEVICE_ATTR_RO(location);
+=20
+@@ -191,7 +191,7 @@ static ssize_t connect_type_show(struct device *dev,
+ 		break;
+ 	}
+=20
+-	return sprintf(buf, "%s\n", result);
++	return sysfs_emit(buf, "%s\n", result);
+ }
+ static DEVICE_ATTR_RO(connect_type);
+=20
+@@ -210,7 +210,7 @@ static ssize_t over_current_count_show(struct device =
+*dev,
+ {
+ 	struct usb_port *port_dev =3D to_usb_port(dev);
+=20
+-	return sprintf(buf, "%u\n", port_dev->over_current_count);
++	return sysfs_emit(buf, "%u\n", port_dev->over_current_count);
+ }
+ static DEVICE_ATTR_RO(over_current_count);
+=20
+@@ -219,7 +219,7 @@ static ssize_t quirks_show(struct device *dev,
+ {
+ 	struct usb_port *port_dev =3D to_usb_port(dev);
+=20
+-	return sprintf(buf, "%08x\n", port_dev->quirks);
++	return sysfs_emit(buf, "%08x\n", port_dev->quirks);
+ }
+=20
+ static ssize_t quirks_store(struct device *dev, struct device_attribute =
+*attr,
+@@ -254,7 +254,7 @@ static ssize_t usb3_lpm_permit_show(struct device *de=
+v,
+ 			p =3D "0";
+ 	}
+=20
+-	return sprintf(buf, "%s\n", p);
++	return sysfs_emit(buf, "%s\n", p);
+ }
+=20
+ static ssize_t usb3_lpm_permit_store(struct device *dev,
+--=20
 2.45.2
 
