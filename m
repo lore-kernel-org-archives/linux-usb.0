@@ -1,50 +1,50 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.13])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.17])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 596E91A0BE0
-	for <linux-usb@vger.kernel.org>; Wed, 23 Oct 2024 10:11:16 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.13
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7DB0519F438
+	for <linux-usb@vger.kernel.org>; Wed, 23 Oct 2024 10:11:17 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.17
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1729678278; cv=none; b=NP1lwIo50yPOQQzMLiiPAtedAt8bKilxdJm844LQDJ8pkoxLlvyfhXQD/hDzv+iJDGo8SvQZ/mTpMj5FgRgdmzFevZwwrgO4l69ptCpZuqIqJ7FDxBM/Gn1mvulW6r3B2EWreCtAiVlEzqfR3h4bHTh+3xQ8f0w0EycAn8IgE20=
+	t=1729678279; cv=none; b=AqVt9qh6i9igp5y+z2CoI4/6JhOPN1V9Mn92M1lVOZULpT0dHDfJjrKP2ZCq/1QJROPo6LKDFKcV+L06w+yGkXoSaGW3Q9dLteq6hwIREVyIBWS8tEfDp5liFjyHYTq+ibVtFCOUoPrseuddGVbKm4BeJVf9XWIL/cnNrJk1pjo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1729678278; c=relaxed/simple;
-	bh=cwrZYMyff+gycsnPDS3QFfLN8eDPTvJ6uNgN4Xcbn04=;
+	s=arc-20240116; t=1729678279; c=relaxed/simple;
+	bh=tqGAXK2Jg7SLUZO+dTZt1sfym7dfAI1q4koqUg2dC6I=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=Egir8smZoaHyQg7lsPVhr3APnthh4BizP2gnmz9Uyp/VunHAs01C8Qo+HPgf6LePcRRYdq9cGdo1COJeAFjssUlrfR06wTyBq5nXiP0kJTZSk8Q9Z68bwpUMakCzqtUHJ40xoLjI/O8btwc6KSshR5ekknAAfykfkHNMaQ8BrZc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=none smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=J0CcLpXY; arc=none smtp.client-ip=192.198.163.13
+	 MIME-Version; b=SGeUUKHyAp+TXr/U9bgFp3CiGKtJoBWsqHF9oohIaqsBQ2Q8ezfVIz0SuEE2kj9bRVRkgN0hCitF+2oT+XHK+w+sWvbDGC/U4kgd3U4+c2BH0XJ1XgH32HiXMAFVAzUMflicYdkF9BRCJpzfC77jj60gAwR8QoxLnAV1E4ujXbc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=none smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=e6FiTYa9; arc=none smtp.client-ip=192.198.163.17
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=linux.intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="J0CcLpXY"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="e6FiTYa9"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1729678277; x=1761214277;
+  t=1729678278; x=1761214278;
   h=from:to:cc:subject:date:message-id:in-reply-to:
    references:mime-version:content-transfer-encoding;
-  bh=cwrZYMyff+gycsnPDS3QFfLN8eDPTvJ6uNgN4Xcbn04=;
-  b=J0CcLpXYl8e9aFGtslwPGV6p12y7uZ/533DRoRDUp8IOxonHBcLZpeau
-   rFCJu78Vcow05iv6ruGTnFOGS0hVKF+g+BJ/9pYusxDW503JoYP6lhmIJ
-   ZKfKseQbL0sepnHkpIgP5SeL+tyh+FMEQ58wwOa94KFJj3PSfzhpRANdH
-   ZPr5U6hNcLyqqz/qrhI3RJAy69K1Hn77kYk4dLGk0p/cIuTzeyroVHbv9
-   fXTd21rvsRo4BKvPBQNn3R6YjIwD7KWtlMM8tZ5XScd6m+LkEGqk1E3o2
-   vxOIaOa3CkRT4bIeGGlK3r7+C+4ntTBzhFWw9rq87M3h3TxkoZVbDwRRg
-   w==;
-X-CSE-ConnectionGUID: 7wKQwTAiTQCcyKFYlEh8Ng==
-X-CSE-MsgGUID: CwKitazWT1K2lZx2u70fyg==
-X-IronPort-AV: E=McAfee;i="6700,10204,11233"; a="32116757"
+  bh=tqGAXK2Jg7SLUZO+dTZt1sfym7dfAI1q4koqUg2dC6I=;
+  b=e6FiTYa9TZmZh6/n50i9SQZKQudLlHD+dIFK2ebdLYb2tPuyLhxUd3kN
+   jIN+OlTpf1CJqpyX6IVuvJWGDgo6y9bpNrmRBgxH/U/QWalMJenr28T/O
+   m3uCN+saQph/6f8YBmCGfFfm+D2cqnycV7LBfIBhy0gxGMbgwb3PgDslV
+   NzGewzd+3+qUTTd08PwajbvkyKDK6OV0WCyNeGw1IeImWQsOnHwEEL0pT
+   +s2tx4KEF5Muu02ig4DROnfTGQ1feUOkyyRYUvjKmmsFXvhQ3XXW0hIqT
+   AmZpA1/5CWISp/JzkbGfB3gVCIkxPlNBkSQWR5XfGBfCNSZadPjxnfSCl
+   Q==;
+X-CSE-ConnectionGUID: z2VB6IFqR7mKOo87GlfscA==
+X-CSE-MsgGUID: GnI2X22hTfSCftvffqpZIQ==
+X-IronPort-AV: E=McAfee;i="6700,10204,11233"; a="29149605"
 X-IronPort-AV: E=Sophos;i="6.11,225,1725346800"; 
-   d="scan'208";a="32116757"
-Received: from orviesa010.jf.intel.com ([10.64.159.150])
-  by fmvoesa107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 23 Oct 2024 03:11:16 -0700
-X-CSE-ConnectionGUID: MYn7MCycQ6yq9CB0lWaPkw==
-X-CSE-MsgGUID: MRFzJQ9OR36IoNojBK48eA==
+   d="scan'208";a="29149605"
+Received: from orviesa005.jf.intel.com ([10.64.159.145])
+  by fmvoesa111.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 23 Oct 2024 03:11:15 -0700
+X-CSE-ConnectionGUID: UalW/7uTRx+Shxo4EQKCOA==
+X-CSE-MsgGUID: kSztRxHGTa6a4852/mb+Jg==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.11,225,1725346800"; 
-   d="scan'208";a="80084195"
+   d="scan'208";a="84954600"
 Received: from black.fi.intel.com ([10.237.72.28])
-  by orviesa010.jf.intel.com with ESMTP; 23 Oct 2024 03:11:13 -0700
+  by orviesa005.jf.intel.com with ESMTP; 23 Oct 2024 03:11:14 -0700
 Received: by black.fi.intel.com (Postfix, from userid 1001)
-	id 143E2301; Wed, 23 Oct 2024 13:11:12 +0300 (EEST)
+	id 364614FD; Wed, 23 Oct 2024 13:11:12 +0300 (EEST)
 From: Mika Westerberg <mika.westerberg@linux.intel.com>
 To: linux-usb@vger.kernel.org
 Cc: Yehezkel Bernat <YehezkelShB@gmail.com>,
@@ -53,9 +53,9 @@ Cc: Yehezkel Bernat <YehezkelShB@gmail.com>,
 	Andreas Noever <andreas.noever@gmail.com>,
 	Aapo Vienamo <aapo.vienamo@iki.fi>,
 	Mika Westerberg <mika.westerberg@linux.intel.com>
-Subject: [PATCH 1/8] thunderbolt: Don't hardcode margining capabilities size
-Date: Wed, 23 Oct 2024 13:11:04 +0300
-Message-ID: <20241023101111.3418311-2-mika.westerberg@linux.intel.com>
+Subject: [PATCH 4/8] thunderbolt: debugfs: Replace "both lanes" with "all lanes"
+Date: Wed, 23 Oct 2024 13:11:07 +0300
+Message-ID: <20241023101111.3418311-5-mika.westerberg@linux.intel.com>
 X-Mailer: git-send-email 2.45.2
 In-Reply-To: <20241023101111.3418311-1-mika.westerberg@linux.intel.com>
 References: <20241023101111.3418311-1-mika.westerberg@linux.intel.com>
@@ -69,108 +69,76 @@ Content-Transfer-Encoding: 8bit
 
 From: Aapo Vienamo <aapo.vienamo@iki.fi>
 
-Use or pass ARRAY_SIZE() of the capabilities array instead of hardcoding
-it. USB4 Gen 4 introduces an additional data word, which requires
-expanding the capabilities array.
+With USB4 Gen 4, the link can be configured into an asymmetric mode,
+where there are three receivers and only one transmitter. The USB4
+specification also uses the "all lanes" nomenclature instead of "both
+lanes".
 
 Signed-off-by: Aapo Vienamo <aapo.vienamo@iki.fi>
 Signed-off-by: Mika Westerberg <mika.westerberg@linux.intel.com>
 ---
- drivers/thunderbolt/debugfs.c | 13 ++++++-------
- drivers/thunderbolt/tb.h      |  2 +-
- drivers/thunderbolt/usb4.c    |  5 +++--
- 3 files changed, 10 insertions(+), 10 deletions(-)
+ drivers/thunderbolt/debugfs.c | 12 ++++++------
+ drivers/thunderbolt/sb_regs.h |  2 +-
+ 2 files changed, 7 insertions(+), 7 deletions(-)
 
 diff --git a/drivers/thunderbolt/debugfs.c b/drivers/thunderbolt/debugfs.c
-index 350310bd0fee..972f1948725f 100644
+index 699e1632e3f5..5f9f8babeae2 100644
 --- a/drivers/thunderbolt/debugfs.c
 +++ b/drivers/thunderbolt/debugfs.c
-@@ -7,6 +7,7 @@
-  *	    Mika Westerberg <mika.westerberg@linux.intel.com>
-  */
- 
-+#include <linux/array_size.h>
- #include <linux/bitfield.h>
- #include <linux/debugfs.h>
- #include <linux/delay.h>
-@@ -570,16 +571,13 @@ static int margining_caps_show(struct seq_file *s, void *not_used)
- {
- 	struct tb_margining *margining = s->private;
- 	struct tb *tb = margining->port->sw->tb;
--	u32 cap0, cap1;
- 
- 	if (mutex_lock_interruptible(&tb->lock))
- 		return -ERESTARTSYS;
- 
- 	/* Dump the raw caps first */
--	cap0 = margining->caps[0];
--	seq_printf(s, "0x%08x\n", cap0);
--	cap1 = margining->caps[1];
--	seq_printf(s, "0x%08x\n", cap1);
-+	for (int i = 0; i < ARRAY_SIZE(margining->caps); i++)
-+		seq_printf(s, "0x%08x\n", margining->caps[i]);
- 
- 	seq_printf(s, "# software margining: %s\n",
- 		   supports_software(margining) ? "yes" : "no");
-@@ -623,7 +621,7 @@ static int margining_caps_show(struct seq_file *s, void *not_used)
- 	if (supports_time(margining)) {
- 		seq_puts(s, "# time margining: yes\n");
- 		seq_printf(s, "# time margining is destructive: %s\n",
--			   cap1 & USB4_MARGIN_CAP_1_TIME_DESTR ? "yes" : "no");
-+			   str_yes_no(margining->caps[1] & USB4_MARGIN_CAP_1_TIME_DESTR));
- 
- 		switch (independent_time_margins(margining)) {
- 		case USB4_MARGIN_CAP_1_TIME_MIN:
-@@ -1401,7 +1399,8 @@ static struct tb_margining *margining_alloc(struct tb_port *port,
- 	margining->index = index;
- 	margining->dev = dev;
- 
--	ret = usb4_port_margining_caps(port, target, index, margining->caps);
-+	ret = usb4_port_margining_caps(port, target, index, margining->caps,
-+				       ARRAY_SIZE(margining->caps));
- 	if (ret) {
- 		kfree(margining);
- 		return NULL;
-diff --git a/drivers/thunderbolt/tb.h b/drivers/thunderbolt/tb.h
-index 6737188f2581..fa7fc9bba70f 100644
---- a/drivers/thunderbolt/tb.h
-+++ b/drivers/thunderbolt/tb.h
-@@ -1388,7 +1388,7 @@ struct usb4_port_margining_params {
- };
- 
- int usb4_port_margining_caps(struct tb_port *port, enum usb4_sb_target target,
--			     u8 index, u32 *caps);
-+			     u8 index, u32 *caps, size_t ncaps);
- int usb4_port_hw_margin(struct tb_port *port, enum usb4_sb_target target,
- 			u8 index, const struct usb4_port_margining_params *params,
- 			u32 *results);
-diff --git a/drivers/thunderbolt/usb4.c b/drivers/thunderbolt/usb4.c
-index 0a9b4aeb3fa1..1fb72ff1268e 100644
---- a/drivers/thunderbolt/usb4.c
-+++ b/drivers/thunderbolt/usb4.c
-@@ -1631,11 +1631,12 @@ int usb4_port_asym_start(struct tb_port *port)
-  * @target: Sideband target
-  * @index: Retimer index if taget is %USB4_SB_TARGET_RETIMER
-  * @caps: Array with at least two elements to hold the results
-+ * @ncaps: Number of elements in the caps array
-  *
-  * Reads the USB4 port lane margining capabilities into @caps.
-  */
- int usb4_port_margining_caps(struct tb_port *port, enum usb4_sb_target target,
--			     u8 index, u32 *caps)
-+			     u8 index, u32 *caps, size_t ncaps)
- {
- 	int ret;
- 
-@@ -1645,7 +1646,7 @@ int usb4_port_margining_caps(struct tb_port *port, enum usb4_sb_target target,
- 		return ret;
- 
- 	return usb4_port_sb_read(port, target, index, USB4_SB_DATA, caps,
--				 sizeof(*caps) * 2);
-+				 sizeof(*caps) * ncaps);
+@@ -499,9 +499,9 @@ static bool supports_hardware(const struct tb_margining *margining)
+ 	return margining->caps[2] & USB4_MARGIN_CAP_2_MODES_HW;
  }
  
- /**
+-static bool both_lanes(const struct tb_margining *margining)
++static bool all_lanes(const struct tb_margining *margining)
+ {
+-	return margining->caps[0] & USB4_MARGIN_CAP_0_2_LANES;
++	return margining->caps[0] & USB4_MARGIN_CAP_0_ALL_LANES;
+ }
+ 
+ static enum usb4_margin_cap_voltage_indp
+@@ -655,8 +655,8 @@ static int margining_caps_show(struct seq_file *s, void *not_used)
+ 		seq_puts(s, "# hardware margining: no\n");
+ 	}
+ 
+-	seq_printf(s, "# both lanes simultaneously: %s\n",
+-		  both_lanes(margining) ? "yes" : "no");
++	seq_printf(s, "# all lanes simultaneously: %s\n",
++		  str_yes_no(all_lanes(margining)));
+ 	seq_printf(s, "# voltage margin steps: %u\n",
+ 		   margining->voltage_steps);
+ 	seq_printf(s, "# maximum voltage offset: %u mV\n",
+@@ -762,7 +762,7 @@ margining_lanes_write(struct file *file, const char __user *user_buf,
+ 		margining->lanes = 1;
+ 	} else if (!strcmp(buf, "all")) {
+ 		/* Needs to be supported */
+-		if (both_lanes(margining))
++		if (all_lanes(margining))
+ 			margining->lanes = 7;
+ 		else
+ 			ret = -EINVAL;
+@@ -787,7 +787,7 @@ static int margining_lanes_show(struct seq_file *s, void *not_used)
+ 		return -ERESTARTSYS;
+ 
+ 	lanes = margining->lanes;
+-	if (both_lanes(margining)) {
++	if (all_lanes(margining)) {
+ 		if (!lanes)
+ 			seq_puts(s, "[0] 1 all\n");
+ 		else if (lanes == 1)
+diff --git a/drivers/thunderbolt/sb_regs.h b/drivers/thunderbolt/sb_regs.h
+index b7e91b99fefe..a3652b9cb246 100644
+--- a/drivers/thunderbolt/sb_regs.h
++++ b/drivers/thunderbolt/sb_regs.h
+@@ -49,7 +49,7 @@ enum usb4_sb_opcode {
+ /* USB4_SB_OPCODE_READ_LANE_MARGINING_CAP */
+ #define USB4_MARGIN_CAP_0_MODES_HW		BIT(0)
+ #define USB4_MARGIN_CAP_0_MODES_SW		BIT(1)
+-#define USB4_MARGIN_CAP_0_2_LANES		BIT(2)
++#define USB4_MARGIN_CAP_0_ALL_LANES		BIT(2)
+ #define USB4_MARGIN_CAP_0_VOLTAGE_INDP_MASK	GENMASK(4, 3)
+ #define USB4_MARGIN_CAP_0_VOLTAGE_MIN		0x0
+ #define USB4_MARGIN_CAP_0_VOLTAGE_HL		0x1
 -- 
 2.45.2
 
