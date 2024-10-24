@@ -1,85 +1,97 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from thales.epochal.quest (thales.epochal.quest [51.222.15.28])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 29C091F81B2;
-	Thu, 24 Oct 2024 16:34:31 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B6992167DAC;
+	Thu, 24 Oct 2024 17:09:48 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=51.222.15.28
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1729787672; cv=none; b=YY/K9FW6zFOuluTWPg/Z6t3jwd8W3qZhw+Ve0bXSWGzNuT+9pMAd+q7fP0BnFjhVecaiVf7tZ7y7Cldb3yYNGkgBOAA+JCrHRx5Wq6WxM6CgBXHh+Z7DTqOlkJ4+s8YmLZwQ2h264DREmcB7buTYCmo4mKpxiNqYk0L7ll2fYxk=
+	t=1729789790; cv=none; b=CrGKvW5QDl9olOG8h2Bz71STbJpmB4tfVlfLILvUlPLK5yYbLcQqZyMy35/0WcbwFtiHvKQia95yIBzyV+xu2sTQR038F8QmqyPNXO9f+UJ5+5qPzYKm8m3f7v3kZ6zJRB62KVNbsUUNywkvMNJ4OZ84Fy9Jv+Wo/GgsoFiAt90=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1729787672; c=relaxed/simple;
-	bh=mXsRP0QURTXN2spewue/9HY90nPBosT7LhadWuOXHCk=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=GgZcyN6ptTXVtBGLT844AQrbSbGAJv2LXiwqPcQj0itPKYyMnTjg8vFDybfA0YVT4h5XBhS1Ts4U74t8uLAS33EGd0gwhqCEFCvf5brRGVw4g657OFt1lAOVFEzWA+I3R6Isu4n0z8rgbfdvgGnTFpG6Iuz52qgMU1vFgZA/98I=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Le1LiewZ; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1729789790; c=relaxed/simple;
+	bh=LIXJN7WyqZbUIo6zFt/nMh6Am1vcombr30b63lmOUnw=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version; b=GHDRWe/UDHTmU8d2y5B9YKkqkuMHo7W6bPe7GwiHXt/kBowBHu2Rq/b0biza49gm/TVfsq9M7G4qokglkJ+3V5lhlRN10lEVgW6rTUTSSAq3o0TnRzz91kGKQyq7PLJa147Yi5kncFkr+eksslpLkjdyP3uDyDBvCSskOgveXD8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=epochal.quest; spf=pass smtp.mailfrom=epochal.quest; dkim=pass (2048-bit key) header.d=epochal.quest header.i=@epochal.quest header.b=jpK+LRwA; arc=none smtp.client-ip=51.222.15.28
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=epochal.quest
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=epochal.quest
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Le1LiewZ"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id A954AC4CEC7;
-	Thu, 24 Oct 2024 16:34:29 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1729787671;
-	bh=mXsRP0QURTXN2spewue/9HY90nPBosT7LhadWuOXHCk=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=Le1LiewZ3qiFd9CaqiMoRqCJGHOZK7EgFzWCJcO3VR7bGJkuHxoD6gCnciWAh+iil
-	 UMzPTD1LbKy6ZFGGyFsfYGh6bAYFYpu/HPR8kdHXoEY75/Ql74p4iJKFG4tg9kdv2g
-	 n+/tBC0RIkWbEPCwrim0NF7kSdSLPOFz+YFIv7hoFvkIzl3h/S93G0PE77eaLxWveQ
-	 DMtVGJAndGoEYaAT1isRDjOP889pOBCuB4D1aqkhICKy4OatlNhHP19UKEXI4OyKPO
-	 xLsAG7ti6QI5KnU7D5AysdQ8OA4EtnktHwkX7dHfNu+/UtiBnbq+LegR5irfmTuUrf
-	 O4zw3pwKDDnAQ==
-Date: Thu, 24 Oct 2024 17:34:27 +0100
-From: Simon Horman <horms@kernel.org>
-To: =?utf-8?Q?Beno=C3=AEt?= Monin <benoit.monin@gmx.fr>
-Cc: =?utf-8?B?QmrDuHJu?= Mork <bjorn@mork.no>,
-	Andrew Lunn <andrew+netdev@lunn.ch>,
-	"David S. Miller" <davem@davemloft.net>,
-	Eric Dumazet <edumazet@google.com>,
-	Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>,
-	netdev@vger.kernel.org, linux-usb@vger.kernel.org,
-	linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] net: usb: qmi_wwan: add Quectel RG650V
-Message-ID: <20241024163427.GD1202098@kernel.org>
-References: <20241024151113.53203-1-benoit.monin@gmx.fr>
+	dkim=pass (2048-bit key) header.d=epochal.quest header.i=@epochal.quest header.b="jpK+LRwA"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=epochal.quest;
+	s=default; t=1729789783;
+	bh=LIXJN7WyqZbUIo6zFt/nMh6Am1vcombr30b63lmOUnw=;
+	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
+	b=jpK+LRwAyINXIUY2QUYqrQYDafODoy+OCx/WIRluz3+tup0nE0CF9Vavkfw+vt6AH
+	 dsEFQB1U0j7su8mzUmoj2G9otG40x41feD/OkfJwR1J6y7B9PPdY/zGxFaAKDCIrp2
+	 w8DCkw7P8fKCBcx512aZvLtJuPL0gT97cXESWCBOw56LuDaxMpU4dQipwgjP2tKq7o
+	 uPQTnoQUdPLdm9nfnMscbLsGl7bScPLf2Rei4En/Iu/VVGTFaZP386i1pTBZzqnTDA
+	 cilvq2WgrzIMe3Fa9tS5lEO9a49NHDtahB5aBG/1jKjXqKC5MsHb5rDH98JHBUc2/G
+	 kvA0Fc+KlyKOw==
+X-Virus-Scanned: by epochal.quest
+From: Cody Eksal <masterr3c0rd@epochal.quest>
+To: linux-pm@vger.kernel.org,
+	devicetree@vger.kernel.org,
+	linux-arm-kernel@lists.infradead.org,
+	linux-sunxi@lists.linux.dev,
+	linux-kernel@vger.kernel.org,
+	linux-phy@lists.infradead.org,
+	linux-usb@vger.kernel.org,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	Rob Herring <robh@kernel.org>,
+	Krzysztof Kozlowski <krzk+dt@kernel.org>,
+	Conor Dooley <conor+dt@kernel.org>,
+	Chen-Yu Tsai <wens@csie.org>,
+	Jernej Skrabec <jernej.skrabec@gmail.com>,
+	Samuel Holland <samuel@sholland.org>,
+	Maxime Ripard <mripard@kernel.org>
+Cc: Cody Eksal <masterr3c0rd@epochal.quest>,
+	Andre Przywara <andre.przywara@arm.com>,
+	Parthiban <parthiban@linumiz.com>,
+	Yangtao Li <frank@allwinnertech.com>,
+	Florian Fainelli <florian.fainelli@broadcom.com>,
+	Vinod Koul <vkoul@kernel.org>,
+	Linus Walleij <linus.walleij@linaro.org>,
+	Thierry Reding <treding@nvidia.com>,
+	Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>,
+	Yangtao Li <tiny.windzz@gmail.com>,
+	Viresh Kumar <vireshk@kernel.org>,
+	Nishanth Menon <nm@ti.com>,
+	Stephen Boyd <sboyd@kernel.org>,
+	Kishon Vijay Abraham I <kishon@kernel.org>,
+	"Rafael J. Wysocki" <rafael@kernel.org>
+Subject: [PATCH 05/13] dt-bindings: usb: sunxi-musb: Add A100 compatible string
+Date: Thu, 24 Oct 2024 14:05:23 -0300
+Message-ID: <20241024170540.2721307-6-masterr3c0rd@epochal.quest>
+X-Mailer: git-send-email 2.47.0
+In-Reply-To: <20241024170540.2721307-1-masterr3c0rd@epochal.quest>
+References: <20241024170540.2721307-1-masterr3c0rd@epochal.quest>
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <20241024151113.53203-1-benoit.monin@gmx.fr>
 
-On Thu, Oct 24, 2024 at 05:11:13PM +0200, Benoît Monin wrote:
-> Add support for Quectel RG650V which is based on Qualcomm SDX65 chip.
-> The composition is DIAG / NMEA / AT / AT / QMI.
-> 
-> T:  Bus=02 Lev=01 Prnt=01 Port=03 Cnt=01 Dev#=  4 Spd=5000 MxCh= 0
-> D:  Ver= 3.20 Cls=00(>ifc ) Sub=00 Prot=00 MxPS= 9 #Cfgs=  1
-> P:  Vendor=2c7c ProdID=0122 Rev=05.15
-> S:  Manufacturer=Quectel
-> S:  Product=RG650V-EU
-> S:  SerialNumber=xxxxxxx
-> C:  #Ifs= 5 Cfg#= 1 Atr=a0 MxPwr=896mA
-> I:  If#= 0 Alt= 0 #EPs= 2 Cls=ff(vend.) Sub=ff Prot=30 Driver=option
-> E:  Ad=01(O) Atr=02(Bulk) MxPS=1024 Ivl=0ms
-> E:  Ad=81(I) Atr=02(Bulk) MxPS=1024 Ivl=0ms
-> I:  If#= 1 Alt= 0 #EPs= 2 Cls=ff(vend.) Sub=00 Prot=00 Driver=option
-> E:  Ad=02(O) Atr=02(Bulk) MxPS=1024 Ivl=0ms
-> E:  Ad=82(I) Atr=02(Bulk) MxPS=1024 Ivl=0ms
-> I:  If#= 2 Alt= 0 #EPs= 3 Cls=ff(vend.) Sub=00 Prot=00 Driver=option
-> E:  Ad=03(O) Atr=02(Bulk) MxPS=1024 Ivl=0ms
-> E:  Ad=83(I) Atr=02(Bulk) MxPS=1024 Ivl=0ms
-> E:  Ad=84(I) Atr=03(Int.) MxPS=  10 Ivl=9ms
-> I:  If#= 3 Alt= 0 #EPs= 3 Cls=ff(vend.) Sub=00 Prot=00 Driver=option
-> E:  Ad=04(O) Atr=02(Bulk) MxPS=1024 Ivl=0ms
-> E:  Ad=85(I) Atr=02(Bulk) MxPS=1024 Ivl=0ms
-> E:  Ad=86(I) Atr=03(Int.) MxPS=  10 Ivl=9ms
-> I:  If#= 4 Alt= 0 #EPs= 3 Cls=ff(vend.) Sub=ff Prot=ff Driver=qmi_wwan
-> E:  Ad=05(O) Atr=02(Bulk) MxPS=1024 Ivl=0ms
-> E:  Ad=87(I) Atr=02(Bulk) MxPS=1024 Ivl=0ms
-> E:  Ad=88(I) Atr=03(Int.) MxPS=   8 Ivl=9ms
-> Signed-off-by: Benoît Monin <benoit.monin@gmx.fr>
+The A100 MUSB peripheral has 10 endpoints, and thus is compatible with
+the A33 version.
 
-Reviewed-by: Simon Horman <horms@kernel.org>
+Signed-off-by: Cody Eksal <masterr3c0rd@epochal.quest>
+---
+ .../devicetree/bindings/usb/allwinner,sun4i-a10-musb.yaml        | 1 +
+ 1 file changed, 1 insertion(+)
+
+diff --git a/Documentation/devicetree/bindings/usb/allwinner,sun4i-a10-musb.yaml b/Documentation/devicetree/bindings/usb/allwinner,sun4i-a10-musb.yaml
+index f972ce976e86..d4993336a29b 100644
+--- a/Documentation/devicetree/bindings/usb/allwinner,sun4i-a10-musb.yaml
++++ b/Documentation/devicetree/bindings/usb/allwinner,sun4i-a10-musb.yaml
+@@ -24,6 +24,7 @@ properties:
+               - allwinner,sun8i-a83t-musb
+               - allwinner,sun20i-d1-musb
+               - allwinner,sun50i-h6-musb
++              - allwinner,sun50i-a100-musb
+           - const: allwinner,sun8i-a33-musb
+       - items:
+           - const: allwinner,sun50i-h616-musb
+-- 
+2.47.0
 
