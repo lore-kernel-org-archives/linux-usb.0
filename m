@@ -1,144 +1,184 @@
-Received: from mail-lf1-f44.google.com (mail-lf1-f44.google.com [209.85.167.44])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mout.gmx.net (mout.gmx.net [212.227.17.21])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 531A11F76B9
-	for <linux-usb@vger.kernel.org>; Fri, 25 Oct 2024 10:29:33 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.44
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7848C1D54C7;
+	Fri, 25 Oct 2024 10:36:51 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=212.227.17.21
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1729852175; cv=none; b=sgVpYH6E3D5yoHChPP3E3ESHdaOxOuagFdSfz0q51tiygrdruooIPpHRKwvej7YjPTjLz933NB7j/Fja14eVp0HzjvW1PczbzCR7Rjysd2j0ziZ9ks9QXcbX0kQJE/haLJoqkw0DCWeTViRZi53FJPCC9d4vNhmzcQeV9mMGtzc=
+	t=1729852613; cv=none; b=M0LD5ShFUKpM5IVvFaSqd774KiBHBNA3vRNf2klaqbMQprSQX8SMjLxBCHgca+VaW2BviSoF8zLB8hz1duAhRhbJYTl04/JnzfA0Szbz5yJQQ4DOt4Fa5+TervVRVIVSppgUrX74RMHitLNEtNn0kO32rBrhx4SQchiqfkEq0So=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1729852175; c=relaxed/simple;
-	bh=JrhgYyCLZPRkzVtp6DPiijk9umn+b9KZQOEJa44TuPw=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=CqwHljYUrGfYhg+mfE517Rwnnd51kZY1bZKG4+au+qOkVf942nP2lrgN6/9BIOjIUt+aiMl5QBNnJgbQ3Ue5ZLm5j2TcvbXgosgeNl1nV4LeHqkPVciZVBCNyY2ndCaN0iCLqnAuG2ly4aWmvDDZUtgX15Lz7lJ+rC7FbUcrxYk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=xZ+TIgAT; arc=none smtp.client-ip=209.85.167.44
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
+	s=arc-20240116; t=1729852613; c=relaxed/simple;
+	bh=W/Eol3PGqBkVJnzoyfSd/OIVp/8l/BiqcbjtDTzoD5A=;
+	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
+	 MIME-Version; b=tMQ8Nius3mjtDtM8c7Udn3Bp05de4fnwgbG+HkRMy2eNdB7dyB3NcVYNtphQAAe2IQyFBZvrhX4aQfpdbvDnxW6niJfkD5PyB7lrnGnU4281gPziU8ovMOZ2TSE4ON2z481Wt8+iEe0p3dm+sob2R8A1uILnuqX3xZelExqWkDQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=gmx.net; spf=pass smtp.mailfrom=gmx.net; dkim=pass (2048-bit key) header.d=gmx.net header.i=wahrenst@gmx.net header.b=tbVyV4xm; arc=none smtp.client-ip=212.227.17.21
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=gmx.net
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmx.net
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="xZ+TIgAT"
-Received: by mail-lf1-f44.google.com with SMTP id 2adb3069b0e04-539eb97f26aso1969245e87.2
-        for <linux-usb@vger.kernel.org>; Fri, 25 Oct 2024 03:29:33 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1729852171; x=1730456971; darn=vger.kernel.org;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=34AFLX+8EUxNZJyoQVRqIR0gBUDLnEgGQ40+m4GQ6vk=;
-        b=xZ+TIgATcpuW+Q511gtpS0Vi97laUIoQOBFWQeAcMFaW9MWmD4l5PA5NMgZX4xSRB7
-         q1teHHasmzVjm8u8BnyVnrqPgdZ5yJylIUI+L55sAHLw82riItdDXNSjcVkck0Qo7ty2
-         A2GZr6A3vvzjg69ZzJO36U+HiIfmDrKsOQpSrX5o9MhKq2YY6l8q0uN1/ixybryVnF89
-         MYzoRWs18JCVdceu9h50zYa4vdc3dJ4/paI1T2ZLPllOc4Y4TF/XaISS8992QQ0zEPJz
-         89k2WL1UodykKMel3d7/LfENjE57Unzdn9LMjR5Urtf8fsbCYsVRoGmLEMezo/c1dvV2
-         5hQg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1729852171; x=1730456971;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=34AFLX+8EUxNZJyoQVRqIR0gBUDLnEgGQ40+m4GQ6vk=;
-        b=pprdCMlyX4of4f15U/rhFPCYl2WbDlYEJWvNYpLTDCIo523z+q/x/2zhb83hjd0avQ
-         lCpQAi32lxGZaPHcn/rQq/Kg2iAY1zRHsmZ0F3BfN4a3SdpYorPRErQV0+wfgvSOkvyn
-         PwpUZYN5Al8rjBkr1X5tv9NgHJOybwTICYOTv3sLLU2Ns6bc4b69SqdF1XnTvFzrgEDT
-         jk/i0lyt4SDj5BrAdl4TlfAVVEcFAsDXdpdM4adbkYhBXGFYGMR4O/JzgMFs8sR0uKRQ
-         1wLnXwWFBxsLRPhm+W5CNH0glHEoaP4E41SKvtvvFfCZULcDS4uawB3Pdkx7GRDoC1hG
-         xbeg==
-X-Forwarded-Encrypted: i=1; AJvYcCXMJv6thkZ1RcjgRIcDbGXByeqIfQToWBWryYgSaliSuuQTQ3pmH65BcnfWunRTBUKZBbL8n94w4Go=@vger.kernel.org
-X-Gm-Message-State: AOJu0Yzg0UPd5v+0T0P3HQTFeE7MhSgrKhzJy78lhimQACrga69k4sFK
-	Qb+vutclFVwV6uKxIk5NV4kf6jBnoIfaLF7GwQuwbsYiudN2LlUe/g/LNDI1kWY=
-X-Google-Smtp-Source: AGHT+IHiOOHVRpO8y8qGLFlmzCh/E8Yp3SeJuucuj4wXFVOr7ySKWOU7EQg0Jo4Lql2r7Oi1J5Wv8g==
-X-Received: by 2002:a05:6512:e89:b0:539:da76:4832 with SMTP id 2adb3069b0e04-53b1a36c4b4mr5705398e87.37.1729852171435;
-        Fri, 25 Oct 2024 03:29:31 -0700 (PDT)
-Received: from eriador.lumag.spb.ru (2001-14ba-a0c3-3a00--7a1.rev.dnainternet.fi. [2001:14ba:a0c3:3a00::7a1])
-        by smtp.gmail.com with ESMTPSA id 2adb3069b0e04-53b2e1f4315sm127924e87.300.2024.10.25.03.29.29
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 25 Oct 2024 03:29:30 -0700 (PDT)
-Date: Fri, 25 Oct 2024 13:29:28 +0300
-From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-To: Romain Gantois <romain.gantois@bootlin.com>
-Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>, 
-	Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>, 
-	Conor Dooley <conor+dt@kernel.org>, Heikki Krogerus <heikki.krogerus@linux.intel.com>, 
-	Thomas Petazzoni <thomas.petazzoni@bootlin.com>, linux-usb@vger.kernel.org, devicetree@vger.kernel.org, 
-	linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v2 2/2] usb: typec: mux: Add support for the TUSB1046
- crosspoint switch
-Message-ID: <5cpa5e4mqq55gdkom3ug6ieocmbi2qaguwiaype6jijgzpuoij@ttukpn6mfsab>
-References: <20241024-tusb1046-v2-0-d031b1a43e6d@bootlin.com>
- <20241024-tusb1046-v2-2-d031b1a43e6d@bootlin.com>
- <bgqmq4kehejgud2eymcwusbu6ks4jnaeasr6ad735czxxazyht@ppzrbmce5mog>
- <1945710.vURJNgTSzn@fw-rgant>
+	dkim=pass (2048-bit key) header.d=gmx.net header.i=wahrenst@gmx.net header.b="tbVyV4xm"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmx.net;
+	s=s31663417; t=1729852593; x=1730457393; i=wahrenst@gmx.net;
+	bh=TppAUiDXkUFwSrv2A2knMxXHQkH96XkM3sjE1E2labc=;
+	h=X-UI-Sender-Class:From:To:Cc:Subject:Date:Message-Id:In-Reply-To:
+	 References:MIME-Version:Content-Transfer-Encoding:cc:
+	 content-transfer-encoding:content-type:date:from:message-id:
+	 mime-version:reply-to:subject:to;
+	b=tbVyV4xmtEPMhA3DvUpg0Jw/N1a4F2X2KKzCpHgsSj0xDUxTLDBFMKCSfoFwlIy2
+	 vDtGZgSHpvDtOK2dL6OcZ2ICIUzLZeS+ljjRJxsTp/AqOLKTqNE/FuiPB6mwlSd8X
+	 HCGBwNca9R2fvYbyEyZz2OSkz/thjqc9bkz5kZ2FabEcJi3OiQ73vgLOZRIkRvb0j
+	 njph056umZyVHkLBcYHnalBxHNPvnKKsOtqhNla1xaT308YMVXCQGJQiYtcyBtyLM
+	 NHqJcaC6UqMoWjYsvgNwd9KWRgtpG143MovBAzOMrNOTzAkWv0Q+cBP3NsW4sWrf7
+	 hy13a76cRP4mUQ1UOA==
+X-UI-Sender-Class: 724b4f7f-cbec-4199-ad4e-598c01a50d3a
+Received: from stefanw-SCHENKER ([37.4.248.43]) by mail.gmx.net (mrgmx104
+ [212.227.17.168]) with ESMTPSA (Nemesis) id 1MXXyJ-1tOFGY0ryZ-00POCJ; Fri, 25
+ Oct 2024 12:36:33 +0200
+From: Stefan Wahren <wahrenst@gmx.net>
+To: Russell King <linux@armlinux.org.uk>,
+	Florian Fainelli <florian.fainelli@broadcom.com>,
+	Ray Jui <rjui@broadcom.com>,
+	Scott Branden <sbranden@broadcom.com>,
+	Vinod Koul <vkoul@kernel.org>,
+	Ulf Hansson <ulf.hansson@linaro.org>,
+	Minas Harutyunyan <hminas@synopsys.com>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+Cc: Lukas Wunner <lukas@wunner.de>,
+	Peter Robinson <pbrobinson@gmail.com>,
+	"Ivan T . Ivanov" <iivanov@suse.de>,
+	linux-arm-kernel@lists.infradead.org,
+	kernel-list@raspberrypi.com,
+	bcm-kernel-feedback-list@broadcom.com,
+	dmaengine@vger.kernel.org,
+	linux-mmc@vger.kernel.org,
+	linux-usb@vger.kernel.org,
+	Stefan Wahren <wahrenst@gmx.net>
+Subject: [PATCH V5 4/9] mmc: bcm2835: Introduce proper clock handling
+Date: Fri, 25 Oct 2024 12:36:16 +0200
+Message-Id: <20241025103621.4780-5-wahrenst@gmx.net>
+X-Mailer: git-send-email 2.34.1
+In-Reply-To: <20241025103621.4780-1-wahrenst@gmx.net>
+References: <20241025103621.4780-1-wahrenst@gmx.net>
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <1945710.vURJNgTSzn@fw-rgant>
+Content-Transfer-Encoding: quoted-printable
+X-Provags-ID: V03:K1:+Di2pOcsa3c3E/0JQDbVqLTw7ySipdBClQ9F/jLlbeQzzRxZ232
+ yDWxEVys72iA6MJRo1mUc7mW//tb7EZO5x8R8vS4QVuCdF0xUENqvAZX4ThVdfxDA3kMxg9
+ FgzpKa9DTwgbt9nE3gAkaOXKsz/MQTt48lCSrId6nhTj+44oURFGsMXI8iN3zDfQMu/LewP
+ k6bEWQhIR5AMhkuISMu9w==
+X-Spam-Flag: NO
+UI-OutboundReport: notjunk:1;M01:P0:DeStJdH3WkU=;dl+pokVxqHve1DeFpO1IWkIos7B
+ NL9bIHQWsfHyBrcFpODuMX0BfcrTLC7ylSEQegr93PrtNRzhiY+MwDnff6soAJEJP5FpBad+L
+ pRil+1xmSn80iEi64hXM2iCFi65CBDZItjTqanf5RnArzPLSveAWnecA81mJUmh6fHaIuLojr
+ +8SA8vURLGQdQP124dyYLb9QtMkGctEm5YIPtNrHqfWKAqS4EbbIYwZseS2QCb8NFH0rQ7+sH
+ M/kJ/ndEZ3qiaXS3TKkvn8jCO/1Sn+4+eBLr7Ajr1BOAaO2xpsLdCIC7gH3wPWwPAYzXwnyPT
+ Ov7v/THpazrlFXYtaXkX07A5acBWslOtgsnxjuxtl4hxvhy+s5TESFBj8qEp7cHdlf3EyHSqV
+ FATAFz576Yx9HSFppvyiXxeakkKG8VY3D0F4eLUOFq5R3gFMKPLU5DwSbhMubgK+uui+26Wwr
+ VQvQ5QIgALtjOeP36fbaA88gXg9Ih1jasBRmTQKDK8oS3bOdN6+yCKW8ohe3Gwy3r3XAft9bm
+ F0goiucGyEl2zhm8LRQ1Tn0FFMvPJ/umMvzXd9Mz3c5X5TilrxG0rHvxBU8HUIIbRTmHkVtZr
+ 2nkh9jLlZfzbRLer9knyKe2VEkJXO67GIXWOlvcD63JusVA2TdWLSsqIqvUstRkdQGAuPdH4x
+ AGThr7nrm1d2DmyZmLW77dpB24ODzdUWze3TNtSh8SDEI5IqBdDxqK9HWnL24sYOEV9Ehlmu7
+ g9hU9CblYCC15244Tmksr3wK3f2NFBP4MmlFNXwK4zBn2HJu4BSTZngZBaCor9wJYgS6So2jo
+ RpN6WurQEWJSd0Ob16hmls8A==
 
-On Fri, Oct 25, 2024 at 09:09:11AM +0200, Romain Gantois wrote:
-> Hello Dmitry,
-> 
-> On vendredi 25 octobre 2024 08:39:54 UTC+2 Dmitry Baryshkov wrote:
-> > On Thu, Oct 24, 2024 at 10:54:17AM +0200, Romain Gantois wrote:
-> ...
-> > > +
-> > > +static int tusb1046_mux_set(struct typec_mux_dev *mux,
-> > > +			    struct typec_mux_state *state)
-> > > +{
-> > > +	struct tusb1046_priv *priv = typec_mux_get_drvdata(mux);
-> > > +	struct i2c_client *client = priv->client;
-> > > +	struct device *dev = &client->dev;
-> > > +	int mode, val, ret = 0;
-> > > +
-> > > +	if (state->mode >= TYPEC_STATE_MODAL &&
-> > > +	    state->alt->svid != USB_TYPEC_DP_SID)
-> > > +		return -EINVAL;
-> > > +
-> > > +	dev_dbg(dev, "mux mode requested: %lu\n", state->mode);
-> > > +
-> > > +	mutex_lock(&priv->general_reg_lock);
-> > > +
-> > > +	val = i2c_smbus_read_byte_data(client, TUSB1046_REG_GENERAL);
-> > > +	if (val < 0) {
-> > > +		dev_err(dev, "failed to read ctlsel status, err %d\n", val);
-> > > +		ret = val;
-> > > +		goto out_unlock;
-> > > +	}
-> > > +
-> > > +	switch (state->mode) {
-> > > +	case TYPEC_STATE_USB:
-> > > +		mode = TUSB1046_CTLSEL_USB3;
-> > > +		break;
-> > 
-> > > +	case TYPEC_DP_STATE_C:
-> > These are only valid if you have checked that altmode SVID is a
-> > DisplayPort SVID.
-> 
-> I did check it near the beginning of the function didn't I?
-> 
-> > > +	if (state->mode >= TYPEC_STATE_MODAL &&
-> > > +	    state->alt->svid != USB_TYPEC_DP_SID)
-> > > +		return -EINVAL;
-> 
-> Or is there something I'm missing?
+The custom sdhost controller on BCM2835 is feed by the critical VPU clock.
+In preparation for PM suspend/resume support, add a proper clock handling
+to the driver like in the other clock consumers (e.g. I2C).
 
-Indeed, excuse me. I missed it.
+Move the clock handling behind mmc_of_parse(), because it could return
+with -EPROBE_DEFER and we want to minimize potential clock operation durin=
+g
+boot phase.
 
-Reviewed-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+Signed-off-by: Stefan Wahren <wahrenst@gmx.net>
+=2D--
+ drivers/mmc/host/bcm2835.c | 29 ++++++++++++++++++-----------
+ 1 file changed, 18 insertions(+), 11 deletions(-)
 
+diff --git a/drivers/mmc/host/bcm2835.c b/drivers/mmc/host/bcm2835.c
+index 3d3eda5a337c..107666b7c1c8 100644
+=2D-- a/drivers/mmc/host/bcm2835.c
++++ b/drivers/mmc/host/bcm2835.c
+@@ -148,6 +148,7 @@ struct bcm2835_host {
+ 	void __iomem		*ioaddr;
+ 	u32			phys_addr;
 
-> 
-> Thanks for the review,
-> 
-> -- 
-> Romain Gantois, Bootlin
-> Embedded Linux and Kernel engineering
-> https://bootlin.com
-> 
-> 
-> 
++	struct clk		*clk;
+ 	struct platform_device	*pdev;
 
--- 
-With best wishes
-Dmitry
+ 	unsigned int		clock;		/* Current clock speed */
+@@ -1345,7 +1346,6 @@ static int bcm2835_add_host(struct bcm2835_host *hos=
+t)
+ static int bcm2835_probe(struct platform_device *pdev)
+ {
+ 	struct device *dev =3D &pdev->dev;
+-	struct clk *clk;
+ 	struct bcm2835_host *host;
+ 	struct mmc_host *mmc;
+ 	const __be32 *regaddr_p;
+@@ -1393,15 +1393,6 @@ static int bcm2835_probe(struct platform_device *pd=
+ev)
+ 		/* Ignore errors to fall back to PIO mode */
+ 	}
+
+-
+-	clk =3D devm_clk_get(dev, NULL);
+-	if (IS_ERR(clk)) {
+-		ret =3D dev_err_probe(dev, PTR_ERR(clk), "could not get clk\n");
+-		goto err;
+-	}
+-
+-	host->max_clk =3D clk_get_rate(clk);
+-
+ 	host->irq =3D platform_get_irq(pdev, 0);
+ 	if (host->irq < 0) {
+ 		ret =3D host->irq;
+@@ -1412,16 +1403,30 @@ static int bcm2835_probe(struct platform_device *p=
+dev)
+ 	if (ret)
+ 		goto err;
+
+-	ret =3D bcm2835_add_host(host);
++	host->clk =3D devm_clk_get(dev, NULL);
++	if (IS_ERR(host->clk)) {
++		ret =3D dev_err_probe(dev, PTR_ERR(host->clk), "could not get clk\n");
++		goto err;
++	}
++
++	ret =3D clk_prepare_enable(host->clk);
+ 	if (ret)
+ 		goto err;
+
++	host->max_clk =3D clk_get_rate(host->clk);
++
++	ret =3D bcm2835_add_host(host);
++	if (ret)
++		goto err_clk;
++
+ 	platform_set_drvdata(pdev, host);
+
+ 	dev_dbg(dev, "%s -> OK\n", __func__);
+
+ 	return 0;
+
++err_clk:
++	clk_disable_unprepare(host->clk);
+ err:
+ 	dev_dbg(dev, "%s -> err %d\n", __func__, ret);
+ 	if (host->dma_chan_rxtx)
+@@ -1445,6 +1450,8 @@ static void bcm2835_remove(struct platform_device *p=
+dev)
+ 	cancel_work_sync(&host->dma_work);
+ 	cancel_delayed_work_sync(&host->timeout_work);
+
++	clk_disable_unprepare(host->clk);
++
+ 	if (host->dma_chan_rxtx)
+ 		dma_release_channel(host->dma_chan_rxtx);
+
+=2D-
+2.34.1
+
