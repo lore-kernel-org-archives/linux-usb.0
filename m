@@ -1,110 +1,93 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail11.truemail.it (mail11.truemail.it [217.194.8.81])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E88C3204F60;
-	Mon, 28 Oct 2024 10:53:50 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DEBDA1DC1B2;
+	Mon, 28 Oct 2024 10:54:30 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.194.8.81
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1730112831; cv=none; b=fcNP7JXlDd3oGrbY8nN+S309hv+JQ83GHWR072Enl/GjpAZf7IChcrTdOWIeBlHney9Xt1Ufeit8IZdb3NzbA2l+vWcaoRetvqeaYXn7o8sGsFcrwd68uKLtaWG7IZrylzAjq97Er79ZTIFj58LGPKgE7JPTG9Sf9zkiNk/1VKQ=
+	t=1730112873; cv=none; b=CtvTEtT3W5NB3O5AYwYFbKRFIcf/68i0mYNujPd99foP/37mU1x8U0/fC7JScN3B5pFriNAMri4wdhIE3TF+FjpqrQNwQso2qGwUTkznqT+D6ogJe+gpn/Ciktd9OmlPmOGAVZQKiuIt0klAMhne6ElxdDIUkJQUzfC4FvgmrXI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1730112831; c=relaxed/simple;
-	bh=ZBaiIXAge1eRzAuLUtF2KWCeJNV3ALSenv4EqDuYlzw=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=V4wZtceM559CH98yczRPVNFPPlpvhgGiF8yG/8cfGiBUJtLcZ3psudoae4XEyfUE53tTES5QZDCDxNknAGMrQVN32EGZxlfIl8UF52rZABh5ssBI0zr9GzbsnDJDVGH7aJppcz+VfWJ6QieyVNyh+ESju+t5ajFyhKD6i6p7Ouc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=rORnD3pF; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1730112873; c=relaxed/simple;
+	bh=WWM5j4iyr5uf9zwNqp3cN4Hkp2o454JK/QH2zlUNTck=;
+	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
+	 MIME-Version; b=c8zr6+8f69Zo2Q+C/3IB6sVxa8ibqzF1A2jO+NqGSvpwx2IPrImD8KWAjHZB6A8etZBDZAgaaMFwp8BlMLVAhtZjvNrMq51wikJifw9gr6Th4udHiNPX+T1QWyUSqKBLaVVcwcsIXpWz4n0bPfmVn0+Bge5V+bMJEC6Gd4Egpuw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=dolcini.it; spf=pass smtp.mailfrom=dolcini.it; dkim=pass (2048-bit key) header.d=dolcini.it header.i=@dolcini.it header.b=tUI/dh5U; arc=none smtp.client-ip=217.194.8.81
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=dolcini.it
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=dolcini.it
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="rORnD3pF"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 28119C4CEE7;
-	Mon, 28 Oct 2024 10:53:49 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1730112830;
-	bh=ZBaiIXAge1eRzAuLUtF2KWCeJNV3ALSenv4EqDuYlzw=;
-	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=rORnD3pF3nO0o7oF84+QczhjmacOhybhV8Tq0nshwOv1TUMa526QJpG97KboQm8Tk
-	 ihuAkGDFAPswqwIYb01/jYpNHKVl558JxOVvufP1DEI+HN5TsJVYkq4H0ua3vWxUEj
-	 5Pqofq0C9uvQAK6BQLcSRVd8yT5u6Idca4LM9l7tCmnAm9WHKMocjYxtkaNWGhmAHY
-	 /nsw7AgRLSPa5n9tVUnw087cKIsrRdrdG8ozU4linaXxtS4EagqCZyrER3IxuXzxkv
-	 EwO+hFXmucZsCL7oOf594SFqk2E7uAuTMdiczttEDPJ1JiB6AHX/+Ajo9hxD8XEDeb
-	 w19FKESuEkt1w==
-From: Sasha Levin <sashal@kernel.org>
-To: linux-kernel@vger.kernel.org,
-	stable@vger.kernel.org
-Cc: Reinhard Speyerer <rspmn@arcor.de>,
-	Paolo Abeni <pabeni@redhat.com>,
-	Sasha Levin <sashal@kernel.org>,
-	bjorn@mork.no,
-	andrew+netdev@lunn.ch,
-	davem@davemloft.net,
-	edumazet@google.com,
-	kuba@kernel.org,
-	netdev@vger.kernel.org,
-	linux-usb@vger.kernel.org
-Subject: [PATCH AUTOSEL 4.19 3/3] net: usb: qmi_wwan: add Fibocom FG132 0x0112 composition
-Date: Mon, 28 Oct 2024 06:53:43 -0400
-Message-ID: <20241028105343.3560809-3-sashal@kernel.org>
-X-Mailer: git-send-email 2.43.0
-In-Reply-To: <20241028105343.3560809-1-sashal@kernel.org>
-References: <20241028105343.3560809-1-sashal@kernel.org>
+	dkim=pass (2048-bit key) header.d=dolcini.it header.i=@dolcini.it header.b="tUI/dh5U"
+Received: from francesco-nb.pivistrello.it (93-49-2-63.ip317.fastwebnet.it [93.49.2.63])
+	by mail11.truemail.it (Postfix) with ESMTPA id 621741F935;
+	Mon, 28 Oct 2024 11:54:22 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=dolcini.it;
+	s=default; t=1730112862;
+	bh=Lh7fePJXXUmxKfVX2o4rq/UZ/vQBYBldJd5mNKxr/A4=; h=From:To:Subject;
+	b=tUI/dh5UrbTqI2w3m+gLhHOZd859Cft13v5ayaFkLG1GfnG3el/n/axi81YVHqjOy
+	 xio154WS2x1vP57HxbpUNcSogGVK7qQrpvmDHG/i8WgNRFdaaqEH//Jeowo9qwa91T
+	 YicDv8HBKZE3kexeJ83vknWpgsNZgvYE//XRi87tW2kV2h6RfpWgcYaqyNSLv4rJxx
+	 RhI0BlNhGB4tpYDl0sUjF1eESatdAsvXIMZcH5V2L+VAxUEVJ4rgcUd6wleqUTpWCd
+	 mRD70dwd2xNHH+udP2WGgiFir9QsJ+r/LsmYLGJlI9fyv55OqVbeFnEO/7RlkOko0i
+	 rafToiE6WxLEA==
+From: Francesco Dolcini <francesco@dolcini.it>
+To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	Rob Herring <robh@kernel.org>,
+	Krzysztof Kozlowski <krzk+dt@kernel.org>,
+	Conor Dooley <conor+dt@kernel.org>,
+	Mathias Nyman <mathias.nyman@intel.com>,
+	Francesco Dolcini <francesco.dolcini@toradex.com>
+Cc: Parth Pancholi <parth.pancholi@toradex.com>,
+	linux-usb@vger.kernel.org,
+	devicetree@vger.kernel.org,
+	linux-kernel@vger.kernel.org
+Subject: [PATCH v4 2/2] USB: xhci: add support for PWRON active high
+Date: Mon, 28 Oct 2024 11:54:13 +0100
+Message-Id: <20241028105413.146510-3-francesco@dolcini.it>
+X-Mailer: git-send-email 2.39.5
+In-Reply-To: <20241028105413.146510-1-francesco@dolcini.it>
+References: <20241028105413.146510-1-francesco@dolcini.it>
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-stable: review
-X-Patchwork-Hint: Ignore
-X-stable-base: Linux 4.19.322
 Content-Transfer-Encoding: 8bit
 
-From: Reinhard Speyerer <rspmn@arcor.de>
+From: Parth Pancholi <parth.pancholi@toradex.com>
 
-[ Upstream commit 64761c980cbf71fb7a532a8c7299907ea972a88c ]
+Some PCIe-to-USB controllers such as TI's TUSB73x0 3.0 xHCI host
+controller supports controlling the PWRONx polarity via the USB
+control register (E0h). Add support for device tree property
+ti,tusb7320-pwron-active-high which indicates PWRONx to be
+active high and configure the E0h register accordingly.
+This enables the software control for the TUSB73x0's PWRONx
+outputs with an inverted polarity from the default configuration
+which could be used as USB EN signals for the other hubs or devices.
 
-Add Fibocom FG132 0x0112 composition:
-
-T:  Bus=03 Lev=02 Prnt=06 Port=01 Cnt=02 Dev#= 10 Spd=12   MxCh= 0
-D:  Ver= 2.01 Cls=00(>ifc ) Sub=00 Prot=00 MxPS=64 #Cfgs=  1
-P:  Vendor=2cb7 ProdID=0112 Rev= 5.15
-S:  Manufacturer=Fibocom Wireless Inc.
-S:  Product=Fibocom Module
-S:  SerialNumber=xxxxxxxx
-C:* #Ifs= 4 Cfg#= 1 Atr=a0 MxPwr=500mA
-I:* If#= 0 Alt= 0 #EPs= 3 Cls=ff(vend.) Sub=ff Prot=50 Driver=qmi_wwan
-E:  Ad=82(I) Atr=03(Int.) MxPS=   8 Ivl=32ms
-E:  Ad=81(I) Atr=02(Bulk) MxPS=  64 Ivl=0ms
-E:  Ad=01(O) Atr=02(Bulk) MxPS=  64 Ivl=0ms
-I:* If#= 1 Alt= 0 #EPs= 2 Cls=ff(vend.) Sub=ff Prot=30 Driver=option
-E:  Ad=02(O) Atr=02(Bulk) MxPS=  64 Ivl=0ms
-E:  Ad=83(I) Atr=02(Bulk) MxPS=  64 Ivl=0ms
-I:* If#= 2 Alt= 0 #EPs= 3 Cls=ff(vend.) Sub=ff Prot=40 Driver=option
-E:  Ad=85(I) Atr=03(Int.) MxPS=  10 Ivl=32ms
-E:  Ad=84(I) Atr=02(Bulk) MxPS=  64 Ivl=0ms
-E:  Ad=03(O) Atr=02(Bulk) MxPS=  64 Ivl=0ms
-I:* If#= 3 Alt= 0 #EPs= 2 Cls=ff(vend.) Sub=00 Prot=00 Driver=option
-E:  Ad=86(I) Atr=02(Bulk) MxPS=  64 Ivl=0ms
-E:  Ad=04(O) Atr=02(Bulk) MxPS=  64 Ivl=0ms
-
-Signed-off-by: Reinhard Speyerer <rspmn@arcor.de>
-
-Link: https://patch.msgid.link/ZxLKp5YZDy-OM0-e@arcor.de
-Signed-off-by: Paolo Abeni <pabeni@redhat.com>
-Signed-off-by: Sasha Levin <sashal@kernel.org>
+Signed-off-by: Parth Pancholi <parth.pancholi@toradex.com>
+Signed-off-by: Francesco Dolcini <francesco.dolcini@toradex.com>
 ---
- drivers/net/usb/qmi_wwan.c | 1 +
- 1 file changed, 1 insertion(+)
+v4: no changes
+v3: no changes
+v2: s/polarity-invert/active-high
+---
+ drivers/usb/host/xhci-pci.c | 3 +++
+ 1 file changed, 3 insertions(+)
 
-diff --git a/drivers/net/usb/qmi_wwan.c b/drivers/net/usb/qmi_wwan.c
-index bbd5183e5e635..57ccbc8a6c059 100644
---- a/drivers/net/usb/qmi_wwan.c
-+++ b/drivers/net/usb/qmi_wwan.c
-@@ -1385,6 +1385,7 @@ static const struct usb_device_id products[] = {
- 	{QMI_FIXED_INTF(0x2c7c, 0x0296, 4)},	/* Quectel BG96 */
- 	{QMI_QUIRK_SET_DTR(0x2c7c, 0x030e, 4)},	/* Quectel EM05GV2 */
- 	{QMI_QUIRK_SET_DTR(0x2cb7, 0x0104, 4)},	/* Fibocom NL678 series */
-+	{QMI_QUIRK_SET_DTR(0x2cb7, 0x0112, 0)},	/* Fibocom FG132 */
- 	{QMI_FIXED_INTF(0x0489, 0xe0b4, 0)},	/* Foxconn T77W968 LTE */
- 	{QMI_FIXED_INTF(0x0489, 0xe0b5, 0)},	/* Foxconn T77W968 LTE with eSIM support*/
- 	{QMI_FIXED_INTF(0x2692, 0x9025, 4)},    /* Cellient MPL200 (rebranded Qualcomm 05c6:9025) */
+diff --git a/drivers/usb/host/xhci-pci.c b/drivers/usb/host/xhci-pci.c
+index 91dccd25a551..4bdef01735eb 100644
+--- a/drivers/usb/host/xhci-pci.c
++++ b/drivers/usb/host/xhci-pci.c
+@@ -641,6 +641,9 @@ int xhci_pci_common_probe(struct pci_dev *dev, const struct pci_device_id *id)
+ 
+ 	dma_set_max_seg_size(&dev->dev, UINT_MAX);
+ 
++	if (device_property_read_bool(&dev->dev, "ti,tusb7320-pwron-active-high"))
++		pci_clear_and_set_config_dword(dev, 0xE0, 0, 1 << 22);
++
+ 	return 0;
+ 
+ put_usb3_hcd:
 -- 
-2.43.0
+2.39.5
 
