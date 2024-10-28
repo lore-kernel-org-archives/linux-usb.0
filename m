@@ -1,28 +1,28 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 18D2B18DF68;
-	Mon, 28 Oct 2024 06:34:39 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 506DE15B10D;
+	Mon, 28 Oct 2024 06:41:36 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1730097280; cv=none; b=EI+VIb6pwTSV9IM33TWBnoFf2fEXOaXM1fZ68taEQ+3+i1ltdfcGpxkJaG0iM6z2w6yTO14FtCtjfbEuXmhIpP9XSQ4avyI3PWjcDJSbJavAsZQvRbtD2SVILc3+CvmsmqQYzgXdn7o+smXny4b7mjEt6XgfaT0gAjpbGAmlC+c=
+	t=1730097696; cv=none; b=GASmBNTNY3S+xO/Yvj3ilrHJPNWgF49zfwdvFM9AcCYIenZ5IqrvW8DjUmSW7KyIkEnnJyHbe45R+AeipdJa3GSqy78ksnNb3mTiNjf8DRH1pVk2iDrEGd2QczL6MuaCWHw6F/T1obvXUr80RzO6/kGQ3Ib8CHSKBEfGEGfR/Jk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1730097280; c=relaxed/simple;
-	bh=Rrymf5zQOUBFty0BEm2djDn3PdL6HOy7GHz+12bCLHw=;
+	s=arc-20240116; t=1730097696; c=relaxed/simple;
+	bh=Bcx5vrtubHsJSZKsJ6QFfLuaip7w7moM0PTTYyZYtao=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=cxgRMOSnQkP9LermHfeX3NLwqaX+GegDbPFB91J0Rrsq8nlrAmeCY1SeZFLxg/+L4G38B+zf2Qxxu3DftWWBVUys+Eg4n99x3+AH7OWSFYxV9cCQuUxAY+cWKaZB3WM2/HUL9bnR7nm4YyJ6tFmo7imNdxJ8/aoI0rCj61ur6oo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b=Y3hDl35f; arc=none smtp.client-ip=10.30.226.201
+	 MIME-Version; b=AFpr3tdK+Oqus0uUpEC5sXYvweAjjgXM2c0JX9KU7wmucZOowiet9Pgb1q9Q8alLK7gUvsLso5rCQUX87Qzobi3Qyv7k67iZyU6eYLeqJ/KGy8O1oOL+c5sZx+m5oKvvYdoDtnoBBZ13HZO6lg/ZWCv5LWTswO5busVJ9GyHDV0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b=FkmVeF+5; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="Y3hDl35f"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 4C403C4CEC3;
-	Mon, 28 Oct 2024 06:34:39 +0000 (UTC)
+	dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="FkmVeF+5"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id E53ABC4CEC3;
+	Mon, 28 Oct 2024 06:41:35 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
-	s=korg; t=1730097279;
-	bh=Rrymf5zQOUBFty0BEm2djDn3PdL6HOy7GHz+12bCLHw=;
+	s=korg; t=1730097696;
+	bh=Bcx5vrtubHsJSZKsJ6QFfLuaip7w7moM0PTTYyZYtao=;
 	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=Y3hDl35fzWZVLzxxfkoMc71WiaRFWb+zMMnch6Eh7GFpQTBY24LlP5p6yJTs8lN5w
-	 yYRLxS+ru4Lv4tU46eCa2V0w3dC7rU9m8FF1LXjEoWrVUbJERsxuO2gjwdMvC7AkwH
-	 LcWRUHeiEWLgFxD2gsaURQBotE6Ekivdw+498xKE=
+	b=FkmVeF+57PWa+EWqtgorQlAhF16oOdSNAJ/FrFH9fO08WdwIhJB/D0LxuhMve0nK7
+	 dX1dCnIOYqp+8oyNVPZTMA+LIuOuq2XWX0dT9YyAJK9Hl8kxdtVNFDH2AaRXV1MR35
+	 iyGfFT2HJv2JK7SKh7RBHRI6oZj+OnnDqbF8D/ZQ=
 From: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
 To: stable@vger.kernel.org
 Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
@@ -31,12 +31,12 @@ Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
 	Mathias Nyman <mathias.nyman@intel.com>,
 	linux-usb@vger.kernel.org,
 	Sasha Levin <sashal@kernel.org>
-Subject: [PATCH 6.1 060/137] xhci: dbgtty: use kfifo from tty_port struct
-Date: Mon, 28 Oct 2024 07:24:57 +0100
-Message-ID: <20241028062300.412532952@linuxfoundation.org>
+Subject: [PATCH 6.6 100/208] xhci: dbgtty: use kfifo from tty_port struct
+Date: Mon, 28 Oct 2024 07:24:40 +0100
+Message-ID: <20241028062309.121888362@linuxfoundation.org>
 X-Mailer: git-send-email 2.47.0
-In-Reply-To: <20241028062258.708872330@linuxfoundation.org>
-References: <20241028062258.708872330@linuxfoundation.org>
+In-Reply-To: <20241028062306.649733554@linuxfoundation.org>
+References: <20241028062306.649733554@linuxfoundation.org>
 User-Agent: quilt/0.67
 X-stable: review
 X-Patchwork-Hint: ignore
@@ -48,7 +48,7 @@ List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-6.1-stable review patch.  If anyone has any objections, please let me know.
+6.6-stable review patch.  If anyone has any objections, please let me know.
 
 ------------------
 
@@ -73,7 +73,7 @@ Signed-off-by: Sasha Levin <sashal@kernel.org>
  2 files changed, 9 insertions(+), 9 deletions(-)
 
 diff --git a/drivers/usb/host/xhci-dbgcap.h b/drivers/usb/host/xhci-dbgcap.h
-index ca04192fdab1d..0d4d60758af97 100644
+index 51a7ab3ba0cac..54fafebb7bd1f 100644
 --- a/drivers/usb/host/xhci-dbgcap.h
 +++ b/drivers/usb/host/xhci-dbgcap.h
 @@ -108,7 +108,6 @@ struct dbc_port {
@@ -85,7 +85,7 @@ index ca04192fdab1d..0d4d60758af97 100644
  	bool				registered;
  };
 diff --git a/drivers/usb/host/xhci-dbgtty.c b/drivers/usb/host/xhci-dbgtty.c
-index 43d3c95eb8ddb..f6e25a1cec115 100644
+index 64ea964949975..881f5a7e6e0e1 100644
 --- a/drivers/usb/host/xhci-dbgtty.c
 +++ b/drivers/usb/host/xhci-dbgtty.c
 @@ -36,7 +36,7 @@ static int dbc_start_tx(struct dbc_port *port)
@@ -97,7 +97,7 @@ index 43d3c95eb8ddb..f6e25a1cec115 100644
  		if (len == 0)
  			break;
  		do_tty_wake = true;
-@@ -204,7 +204,7 @@ static int dbc_tty_write(struct tty_struct *tty,
+@@ -203,7 +203,7 @@ static ssize_t dbc_tty_write(struct tty_struct *tty, const u8 *buf,
  
  	spin_lock_irqsave(&port->port_lock, flags);
  	if (count)
@@ -106,7 +106,7 @@ index 43d3c95eb8ddb..f6e25a1cec115 100644
  	dbc_start_tx(port);
  	spin_unlock_irqrestore(&port->port_lock, flags);
  
-@@ -218,7 +218,7 @@ static int dbc_tty_put_char(struct tty_struct *tty, unsigned char ch)
+@@ -217,7 +217,7 @@ static int dbc_tty_put_char(struct tty_struct *tty, u8 ch)
  	int			status;
  
  	spin_lock_irqsave(&port->port_lock, flags);
@@ -115,7 +115,7 @@ index 43d3c95eb8ddb..f6e25a1cec115 100644
  	spin_unlock_irqrestore(&port->port_lock, flags);
  
  	return status;
-@@ -241,7 +241,7 @@ static unsigned int dbc_tty_write_room(struct tty_struct *tty)
+@@ -240,7 +240,7 @@ static unsigned int dbc_tty_write_room(struct tty_struct *tty)
  	unsigned int		room;
  
  	spin_lock_irqsave(&port->port_lock, flags);
@@ -124,7 +124,7 @@ index 43d3c95eb8ddb..f6e25a1cec115 100644
  	spin_unlock_irqrestore(&port->port_lock, flags);
  
  	return room;
-@@ -254,7 +254,7 @@ static unsigned int dbc_tty_chars_in_buffer(struct tty_struct *tty)
+@@ -253,7 +253,7 @@ static unsigned int dbc_tty_chars_in_buffer(struct tty_struct *tty)
  	unsigned int		chars;
  
  	spin_lock_irqsave(&port->port_lock, flags);
@@ -133,7 +133,7 @@ index 43d3c95eb8ddb..f6e25a1cec115 100644
  	spin_unlock_irqrestore(&port->port_lock, flags);
  
  	return chars;
-@@ -412,7 +412,8 @@ static int xhci_dbc_tty_register_device(struct xhci_dbc *dbc)
+@@ -411,7 +411,8 @@ static int xhci_dbc_tty_register_device(struct xhci_dbc *dbc)
  		goto err_idr;
  	}
  
@@ -143,7 +143,7 @@ index 43d3c95eb8ddb..f6e25a1cec115 100644
  	if (ret)
  		goto err_exit_port;
  
-@@ -441,7 +442,7 @@ static int xhci_dbc_tty_register_device(struct xhci_dbc *dbc)
+@@ -440,7 +441,7 @@ static int xhci_dbc_tty_register_device(struct xhci_dbc *dbc)
  	xhci_dbc_free_requests(&port->read_pool);
  	xhci_dbc_free_requests(&port->write_pool);
  err_free_fifo:
@@ -152,7 +152,7 @@ index 43d3c95eb8ddb..f6e25a1cec115 100644
  err_exit_port:
  	idr_remove(&dbc_tty_minors, port->minor);
  err_idr:
-@@ -466,7 +467,7 @@ static void xhci_dbc_tty_unregister_device(struct xhci_dbc *dbc)
+@@ -465,7 +466,7 @@ static void xhci_dbc_tty_unregister_device(struct xhci_dbc *dbc)
  	idr_remove(&dbc_tty_minors, port->minor);
  	mutex_unlock(&dbc_tty_minors_lock);
  
