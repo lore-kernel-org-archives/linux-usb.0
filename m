@@ -1,109 +1,106 @@
-Received: from mail-lf1-f47.google.com (mail-lf1-f47.google.com [209.85.167.47])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.19])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 10A5618FDA5;
-	Mon, 28 Oct 2024 09:54:58 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.47
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4049D1DB55D
+	for <linux-usb@vger.kernel.org>; Mon, 28 Oct 2024 10:51:24 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.19
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1730109301; cv=none; b=mwTeKC0skb6ket352wtHTc6iLHIHcLxIEEenswmLRTkDGQoC6aQPfbaWLt0zwEjWJvdT68iatX/1LuZTFwuWQnkZuB3ezl03ScOU02ENjCguUBo714sYGNhRr6lSmFXXfhGQ2lqqtkSn0hL9aAkM3/HY8IATUCosg26MVkvmdBc=
+	t=1730112687; cv=none; b=ZrEVqz3VQ8WcXqIK2Cmpd63AhY2wMkgKiZe8WYnFxS9jkxEM60PG9AS11O78Z9270M+uvTicfV/0pId5LUFiZBI8XXK3/dinI889awRDLsqrhAwKz2RrZFNi/fcpY6MdGfTmPw8xiqIpoKLH6yDVhTkcvBL1Uo214xfAhWy1JFo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1730109301; c=relaxed/simple;
-	bh=P36JkBYQDHEqLeT+pG8XWk/w3Yl0a7/KZ5gLE/mf5c8=;
-	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:MIME-Version:
-	 Content-Type; b=pyIJdkYVmJA3dX9UVCekL7aihHK/VHJE+9zoHLGQbbtmpuhesnE6tu4Z0NtMAvMgjC871tLsBY1d2r4xTbjHAFvi8HI85fmzNB7VAfLjRe7HuFHa+mbP6l5HXkmHCQJDuvfO9NRWLHgKalr9oys4sid70gDOggVv3xVTD9sPZSQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=NpDKFW4X; arc=none smtp.client-ip=209.85.167.47
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1730112687; c=relaxed/simple;
+	bh=gwVAMevbkL0Stc2Xr9IM2fmz4rzb7obvYOlk0ViRWWo=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=WOT/qRwy1zSa1cd0PgeacH92eZXA05vq/OUEgv2uCnBOTaLDQumNlZZWrdha/TKsmUKctplNEVFg/yiME55lGxLRgkAuDw8h07Nyd3c07u7VzVolUtI7JXYG6+CSgAUaJyc27sxDcMe6LAQ4DpGNnQqY2HWAgeQXAKBUi8kA8hM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=none smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=joLvFsR4; arc=none smtp.client-ip=192.198.163.19
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=linux.intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="NpDKFW4X"
-Received: by mail-lf1-f47.google.com with SMTP id 2adb3069b0e04-539e5c15fd3so3547370e87.3;
-        Mon, 28 Oct 2024 02:54:58 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1730109297; x=1730714097; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:in-reply-to:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=P36JkBYQDHEqLeT+pG8XWk/w3Yl0a7/KZ5gLE/mf5c8=;
-        b=NpDKFW4Xo6EuCdbMtbo8W4Tf4fZ1dLd8yHBT5B8ljz9R1i67FldXvnExK+kzWxSolr
-         i3sMuytRoSw4Kn933U7ioCBeqsYOxKXsnw8795iuRDQgQ+QLxf3Ht6uASrMsZhPd6jiB
-         +RMsF4Z0iEyxYyjF7ClF4tpEh9MA289t4S+Ft9fnzF8vQSo6jpRQjbXtFnSotyNgEVDj
-         0pgJ3II0S0mhdornGS+1pC+cQB00Bchg87HIaCbahqh3VVbNkDhy9tx+PftmUUQj2Mwm
-         Drl2r37IX3KDLlPIgks/ODQJDbSLB29a9bYvgc4O1q7RZ5CUtZ3jYoJKvuuZAMNk/pMi
-         JQQQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1730109297; x=1730714097;
-        h=content-transfer-encoding:mime-version:in-reply-to:message-id
-         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=P36JkBYQDHEqLeT+pG8XWk/w3Yl0a7/KZ5gLE/mf5c8=;
-        b=Pvjj8NlHFwDIwlU3pdYBI2UvxL+9/kdmWEbijwEL7woM8hTbY+FY5/Ky5Ldy8Gh0Y0
-         giXE4SPkxC+fz+/1/nuyLz988ps7QOZd1kIXVqkO40byrWmscq5A38a+6RuakBE+PGYN
-         3LAHi9FSx2x4gtPhELVzRo7uPUOXRU2fGEIfOc0/LkHEvGkDqU8I/QVOg2eMphuxYGk7
-         Ei8+PsKsIUFiy8Dnie9zkNz/HYwSerrMsSXIdcsNfPTUR1dlBHU9Qk3BVl0q5wdL4dA4
-         oDQxabnz7dxGxJXMdEOdeWdW0xWvrF1i3Gbe2uvwSSrqcJ3Ijbr8Qs0jK8uQVL3b2LMr
-         Ztbg==
-X-Forwarded-Encrypted: i=1; AJvYcCVzrDKB5IZhm99g8KugRaKXPM/u5R4sHETF2vx2U6ppH8GoaQY2yzVFx/nAr+W8biEXytLenYOiJ+BlMJQ=@vger.kernel.org, AJvYcCXFRESYQIkcJ8kdcRu+ODFmODv9hbwZCBMEdnZp1QY1tH6GyeQ2TD9zhvlVj0b5cAkzbsATnf9u3Mtf@vger.kernel.org
-X-Gm-Message-State: AOJu0YwMQUZXQBOu3OzdP76NYRUF4BlZ5/KahwRApje14x4b6SlaibXM
-	94n9pzzHDe5AnSw5NoTu+dZ09j2jMJ8SiFylaDzFh3UEb0dB2ZnE
-X-Google-Smtp-Source: AGHT+IGZrleTIdqaBkZyctSCWmO/L2jXA+IF+uqKtfLWnenY7xRCCz9dC1JfC7k8oOJ1a9ZzCJw9Cw==
-X-Received: by 2002:a05:6512:3c90:b0:539:ea54:8d22 with SMTP id 2adb3069b0e04-53b348d2696mr2835654e87.18.1730109296730;
-        Mon, 28 Oct 2024 02:54:56 -0700 (PDT)
-Received: from foxbook (bhd254.neoplus.adsl.tpnet.pl. [83.28.93.254])
-        by smtp.gmail.com with ESMTPSA id 2adb3069b0e04-53b2e12452fsm1035465e87.73.2024.10.28.02.54.55
-        (version=TLS1_2 cipher=AES128-SHA bits=128/128);
-        Mon, 28 Oct 2024 02:54:56 -0700 (PDT)
-Date: Mon, 28 Oct 2024 10:54:51 +0100
-From: =?UTF-8?B?TWljaGHFgg==?= Pecio <michal.pecio@gmail.com>
-To: ki.chiang65@gmail.com
-Cc: gregkh@linuxfoundation.org, linux-kernel@vger.kernel.org,
- linux-usb@vger.kernel.org, mathias.nyman@intel.com
-Subject: Re: [PATCH v2 5/5] xhci: Correct handling of one-TRB isoc TD on
- Etron xHCI host
-Message-ID: <20241028105451.0e2e92a7@foxbook>
-In-Reply-To: <20241028025337.6372-6-ki.chiang65@gmail.com>
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="joLvFsR4"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1730112685; x=1761648685;
+  h=from:to:cc:subject:date:message-id:mime-version:
+   content-transfer-encoding;
+  bh=gwVAMevbkL0Stc2Xr9IM2fmz4rzb7obvYOlk0ViRWWo=;
+  b=joLvFsR4gOJEAPBfmFqfQdmEsUlqcUW699daVLBSBWFTRM3X/YAeImwm
+   Twed6u5z0WUT40Rxetw3cPzIJohGrZOYMRqGakTKtIoCm5qcYqAQ4Mf/K
+   VEao4jTcuc344x0zG43oevhpzHu4J6PZFvxdIeIS85y5rAdK/0WH+C3QF
+   /EJhxFrJpmYxylYKFRUKkLcjmz5qVc1aPcbvtkq0Ttr+KhArZ/gWqmWdQ
+   35o/Ruufgv9foRMxhJ/hKJWGA0bo80quLiWbj6nYhcXY2qq/1NbTj0tU7
+   jJopHXfFufvccBD7yktev4t1nqZOZo7InCA2mnEgGxVaObYr/hrYLvIKS
+   w==;
+X-CSE-ConnectionGUID: gUKmZq9PSryqIouvd5uL8w==
+X-CSE-MsgGUID: TT8LMVhfTZWBGy6GFUv6PA==
+X-IronPort-AV: E=McAfee;i="6700,10204,11238"; a="29164352"
+X-IronPort-AV: E=Sophos;i="6.11,239,1725346800"; 
+   d="scan'208";a="29164352"
+Received: from fmviesa002.fm.intel.com ([10.60.135.142])
+  by fmvoesa113.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 28 Oct 2024 03:51:24 -0700
+X-CSE-ConnectionGUID: iCzlk+6YRq+wq0qUZFUlFQ==
+X-CSE-MsgGUID: Q/agizfIRfC54QC0bvv7jg==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.11,239,1725346800"; 
+   d="scan'208";a="104899459"
+Received: from black.fi.intel.com ([10.237.72.28])
+  by fmviesa002.fm.intel.com with ESMTP; 28 Oct 2024 03:51:22 -0700
+Received: by black.fi.intel.com (Postfix, from userid 1001)
+	id 6957F13E; Mon, 28 Oct 2024 12:51:21 +0200 (EET)
+From: Mika Westerberg <mika.westerberg@linux.intel.com>
+To: linux-usb@vger.kernel.org
+Cc: Yehezkel Bernat <YehezkelShB@gmail.com>,
+	Michael Jamet <michael.jamet@intel.com>,
+	Lukas Wunner <lukas@wunner.de>,
+	Andreas Noever <andreas.noever@gmail.com>,
+	AceLan Kao <acelan.kao@canonical.com>,
+	Mika Westerberg <mika.westerberg@linux.intel.com>
+Subject: [PATCH] thunderbolt: Add only on-board retimers when !CONFIG_USB4_DEBUGFS_MARGINING
+Date: Mon, 28 Oct 2024 12:51:21 +0200
+Message-ID: <20241028105121.894978-1-mika.westerberg@linux.intel.com>
+X-Mailer: git-send-email 2.45.2
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
 
-Hi,
+Normally there is no need to enumerate retimers on the other side of the
+cable. This is only needed in special cases where user wants to run
+receiver lane margining against the downstream facing port of a retimer.
+Furthermore this might confuse the userspace tools such as fwupd because
+it cannot read the information it expects from these retimers.
 
-That's a bug I'm familiar with.
+Fix this by changing the retimer enumeration code to add only on-board
+retimers when CONFIG_USB4_DEBUGFS_MARGINING is not enabled.
 
-> Unplugging a USB3.0 webcam while streaming results in errors
-> like this
+Reported-by: AceLan Kao <acelan.kao@canonical.com>
+Closes: https://bugzilla.kernel.org/show_bug.cgi?id=219420
+Cc: stable@vger.kernel.org
+Fixes: ff6ab055e070 ("thunderbolt: Add receiver lane margining support for retimers")
+Signed-off-by: Mika Westerberg <mika.westerberg@linux.intel.com>
+---
+Hi AceLan,
 
-Not only unplugging but also any random error due to EMI or bad cable.
+I changed the patch slightly. I wonder if you could try it again?
 
-> If an error is detected while processing an one-TRB isoc TD,
-> the Etron xHC generates two transfer events for the TRB that
-> the error was detected on. The first event is "USB Transcation
-> Error", and the second event is "Success".
+Thanks!
 
-IIRC, it wasn't just Transaction Errors but any sort of error, like
-Babble or Bandwidth Overrun. But not sure about Missed Service, etc.
+ drivers/thunderbolt/retimer.c | 2 ++
+ 1 file changed, 2 insertions(+)
 
-And IIRC I confirmed that it was *not* the case on Short Packet.
+diff --git a/drivers/thunderbolt/retimer.c b/drivers/thunderbolt/retimer.c
+index 7db9869a9f3f..89d2919d0193 100644
+--- a/drivers/thunderbolt/retimer.c
++++ b/drivers/thunderbolt/retimer.c
+@@ -532,6 +532,8 @@ int tb_retimer_scan(struct tb_port *port, bool add)
+ 	}
+ 
+ 	ret = 0;
++	if (!IS_ENABLED(CONFIG_USB4_DEBUGFS_MARGINING))
++		max = min(last_idx, max);
+ 
+ 	/* Add retimers if they do not exist already */
+ 	for (i = 1; i <= max; i++) {
+-- 
+2.45.2
 
-Also, I'm 99% sure the problem is not limited to one-TRB TDs, but
-it occurs every time there is an error on the last TRB of any TD.
-
-> As a solution, we can set the flag after the first error event
-> and don't print the error message after the second event if the
-> flag is set.
-
-Yes, but I think it would be better to use error_mid_td instead of
-last_td_was_short, so that the TD is only freed on the final event,
-not on the first one.
-
-The spec is clear that we should only free TRBs when the xHC is done
-with them. Maybe it wouldn't be a problem in this case, and it surely
-wouldn't be worse than what happens with Etron today, but IMO it could
-be a real (even if rare) problem in other cases when this flag is used,
-so I would rather remove the flag and handle short packets as per spec.
-
-Regards,
-Michal
