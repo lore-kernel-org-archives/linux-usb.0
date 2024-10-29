@@ -1,88 +1,89 @@
 Received: from mail11.truemail.it (mail11.truemail.it [217.194.8.81])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D40622022D9;
-	Tue, 29 Oct 2024 07:24:51 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3A03E1D7994;
+	Tue, 29 Oct 2024 07:28:09 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.194.8.81
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1730186696; cv=none; b=XL5akUWsvgHZN34IVQNBjWHyVVJPJ3j6TVsSAXaouwdTY9B4xUxgWkWlNYbD3qGpxUZY7wsrh0VJ6qppq0E7VTXozVbsX+lkT4tgyojA2cIST5H7gal5MIeWX5k90Z/htGhUVRsVCYeAVu3qon4rAaIe3VSyA4Ft1ZNntmD8itw=
+	t=1730186891; cv=none; b=VcHg5j+vGPK8atE1qHVHsDuz5Gtq/NNJpcdptS/XrEn0JHNjlVlwwx/GKC4jHhl7uRF9N2nIW/kpxc9z9FpaH5KdtLwPF365Tl40XSmDaNFSekp6TrcLYIEcPjbkH+eezNcXFf+UoSu4GSiDa9cJ2sAOQ2hBfsDCxnbYYIHbYtQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1730186696; c=relaxed/simple;
-	bh=SsSlpUpEv76nMrEJCbfiVmYermONdCXH6UiHOCjsCfc=;
-	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=BJ+L1AiWPO0qCG9oPtsu6pjHhCm9Cu1btHid5Tyt2AMASGzaofjbMirZx/YZ7DAQuw4ELG4iccdvasMKcia9XnxB0Sk10incTrHNq7D8XhLRe0hvfFAGMVHmWNs8JDeFKS83A4wUEfwb47a565+N9HP01evTwGYcvqOIldutBjg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=dolcini.it; spf=pass smtp.mailfrom=dolcini.it; dkim=pass (2048-bit key) header.d=dolcini.it header.i=@dolcini.it header.b=Gh9mufD9; arc=none smtp.client-ip=217.194.8.81
+	s=arc-20240116; t=1730186891; c=relaxed/simple;
+	bh=Yzxop2L77+KWklUFpNEehjWzOsFs0+Hmq86r7axLw+I=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=V2YYVd3mgDbHaM+TwxeJiLXeDeW2K2RmOxCGwp68q8i6wKmOHcLYwU8alT1+LD77ZACEy8NhEB+NgGN/9opiBasz8nimuJaiwBcuqq7aKobF31VAS5GO+aSYkpMHfI+W0UxgNIHcWOUYjILKVrh9hlevEDENyzs6iM6zwSdGuOY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=dolcini.it; spf=pass smtp.mailfrom=dolcini.it; dkim=pass (2048-bit key) header.d=dolcini.it header.i=@dolcini.it header.b=mMdmV75C; arc=none smtp.client-ip=217.194.8.81
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=dolcini.it
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=dolcini.it
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=dolcini.it header.i=@dolcini.it header.b="Gh9mufD9"
-Received: from francesco-nb.pivistrello.it (93-49-2-63.ip317.fastwebnet.it [93.49.2.63])
-	by mail11.truemail.it (Postfix) with ESMTPA id E59371F994;
-	Tue, 29 Oct 2024 08:24:48 +0100 (CET)
+	dkim=pass (2048-bit key) header.d=dolcini.it header.i=@dolcini.it header.b="mMdmV75C"
+Received: from gaggiata.pivistrello.it (93-49-2-63.ip317.fastwebnet.it [93.49.2.63])
+	by mail11.truemail.it (Postfix) with ESMTPA id 103DF1F994;
+	Tue, 29 Oct 2024 08:28:07 +0100 (CET)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=dolcini.it;
-	s=default; t=1730186689;
-	bh=0msPWt501zLWNCU+SV3sGc8fEv6GGOoWNeA5Ni4Teuk=; h=From:To:Subject;
-	b=Gh9mufD96V2apbjGEGjJGm2+99AyWb0ClbXSXI32ep5gRWWecLICMlZjTjiFRtCem
-	 2FbQ6XyBjsJtKEcmpZsGYR2LDcnbg2+MF5AaFc3qW124/xybGW6fg5iDNlMC8FS7az
-	 aW+WS6+ZxVyYuo8pTquJz8MkJcOmDZnowMCyU7PUK8NreUjr85sv3ieKttkf3+/+DS
-	 MJ4jOp2xf0HTBMIKeSy6YxwJsl19VffCUm9mF8xzH9g9oq+MMy5DimdnwOFdbUgiv6
-	 M6T0KJv4X5wdrLAixG5j+vRDOYgCiN8X3nM0ZMxwbKhcHI5rX01V+Mk4WViB8WkYvY
-	 IrsF+Tm1j6GrQ==
+	s=default; t=1730186887;
+	bh=mA5XxeKvU7TmfDLIa3NriSYNjVYlBgpHYfJmSINY+qI=;
+	h=Received:From:To:Subject;
+	b=mMdmV75C8XCAC+MpB5S34JYy2/oky1g5p9DE0svE3FKLHq32iqQR+qGgD8+5SQPCh
+	 LWFmryUxxx1C95sfIzEMu8EKosPvhuJCiEMKwrT1Dz6yGN5sI6M2TI3EieyEPHUJbf
+	 DXWKRINsGcjJuVWrDoBQHk/GELYqFkimUVAb6/S3Pgx+mLVwe8YMke96esC0VplxGB
+	 kw9TjhcZwCC0MmIbf7rYu2rqyFU69seEhzgCxGpVB6FjuXXt8t4XP5HfGFRY1sJWAv
+	 L8QbhqJG2c9sLxLyOl6RtIDifWgYq1GMp30ejkLd4g3zrXwxXSMg9vfgrerzUoUgeK
+	 maUGQo3PXWwmA==
+Received: by gaggiata.pivistrello.it (Postfix, from userid 1000)
+	id 697597F95F; Tue, 29 Oct 2024 08:28:06 +0100 (CET)
+Date: Tue, 29 Oct 2024 08:28:06 +0100
 From: Francesco Dolcini <francesco@dolcini.it>
-To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+To: Krzysztof Kozlowski <krzk@kernel.org>
+Cc: Francesco Dolcini <francesco@dolcini.it>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
 	Rob Herring <robh@kernel.org>,
 	Krzysztof Kozlowski <krzk+dt@kernel.org>,
 	Conor Dooley <conor+dt@kernel.org>,
 	Mathias Nyman <mathias.nyman@intel.com>,
-	Francesco Dolcini <francesco.dolcini@toradex.com>
-Cc: linux-usb@vger.kernel.org,
-	devicetree@vger.kernel.org,
+	Francesco Dolcini <francesco.dolcini@toradex.com>,
+	Parth Pancholi <parth.pancholi@toradex.com>,
+	linux-usb@vger.kernel.org, devicetree@vger.kernel.org,
 	linux-kernel@vger.kernel.org
-Subject: [PATCH v5 0/2] USB: xhci: add support for PWRON polarity invert (TI TUSB73x0)
-Date: Tue, 29 Oct 2024 08:24:42 +0100
-Message-Id: <20241029072444.8827-1-francesco@dolcini.it>
-X-Mailer: git-send-email 2.39.5
+Subject: Re: [PATCH v4 1/2] dt-bindings: usb: add TUSB73x0 PCIe
+Message-ID: <ZyCOhkM4PXTLiFRm@gaggiata.pivistrello.it>
+References: <20241028105413.146510-1-francesco@dolcini.it>
+ <20241028105413.146510-2-francesco@dolcini.it>
+ <j3a76pyolo66bcqemeo4o3gwzfnftcfjc6grg3v33u7ipztwiq@donxxbveypjk>
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <j3a76pyolo66bcqemeo4o3gwzfnftcfjc6grg3v33u7ipztwiq@donxxbveypjk>
 
-From: Francesco Dolcini <francesco.dolcini@toradex.com>
+Hello Krzysztof,
 
-The TUSB73x0 is a USB 3.0 xHCI Host Controller Hub using a PCIe x1 Gen2
-interface. The TUSB7320 supports up to two downstream ports, and the
-TUSB7340 supports up to four. It includes a feature to configure the
-polarity of the PWRONx# signals, which are used to control other peripherals.
-In some systems, the default polarity needs to be inverted, which is
-supported by the hardware through software configuration. This patch
-series introduces TUSB73x0 PCIe device tree bindings and modifies the
-USB XHCI PCI driver to handle PWRONx# polarity via a device tree property.
+On Tue, Oct 29, 2024 at 08:08:09AM +0100, Krzysztof Kozlowski wrote:
+> On Mon, Oct 28, 2024 at 11:54:12AM +0100, Francesco Dolcini wrote:
+> > From: Parth Pancholi <parth.pancholi@toradex.com>
+> > 
+> > Add device tree bindings for TI's TUSB73x0 PCIe-to-USB 3.0 xHCI
+> > host controller. The controller supports software configuration
+> > through PCIe registers, such as controlling the PWRONx polarity
+> > via the USB control register (E0h).
+> > 
+> > Datasheet: https://www.ti.com/lit/ds/symlink/tusb7320.pdf
+> > Signed-off-by: Parth Pancholi <parth.pancholi@toradex.com>
+> > Signed-off-by: Francesco Dolcini <francesco.dolcini@toradex.com>
 
-TUSB73x0 datasheet: https://www.ti.com/lit/ds/symlink/tusb7320.pdf
+...
 
-v4:
- - DT binding: revise example, add $ref: usb-xhci.yaml
+> > +  ti,tusb7320-pwron-active-high:
+> 
+> Drop tusb7320. There is never device name in property name, because it
+> is redundant and makes it completely not-reusable.
 
-v3: https://lore.kernel.org/all/20241018105505.28005-1-francesco@dolcini.it/
- - Correct the compatible string as "pci104c,8241" (uppercase hex to lowercase)
+Whoops :/
 
-v2: https://lore.kernel.org/all/20241007093205.27130-1-francesco@dolcini.it/
- - Change the property type from bool to flag
- - Rename the property as ti,tusb7320-pwron-active-high
+Rob already wrote this in the previous version and I forgot about it.
 
-v1: https://lore.kernel.org/all/20241004124521.53442-1-francesco@dolcini.it/
-
-Parth Pancholi (2):
-  dt-bindings: usb: add TUSB73x0 PCIe
-  USB: xhci: add support for PWRON active high
-
- .../bindings/usb/ti,tusb73x0-pci.yaml         | 55 +++++++++++++++++++
- drivers/usb/host/xhci-pci.c                   |  3 +
- 2 files changed, 58 insertions(+)
- create mode 100644 Documentation/devicetree/bindings/usb/ti,tusb73x0-pci.yaml
-
--- 
-2.39.5
+Thanks!
 
