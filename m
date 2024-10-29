@@ -1,61 +1,57 @@
-Received: from ukraine.onlinesales.wheatseed.shop (mx.ukraine.onlinesales.wheatseed.shop [205.185.126.254])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-SHA384 (256/256 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8CB0D190486
-	for <linux-usb@vger.kernel.org>; Tue, 29 Oct 2024 02:26:26 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.185.126.254
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6807FEEC5;
+	Tue, 29 Oct 2024 02:30:51 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1730168790; cv=none; b=klQh1GMzbrSbmeSxfRs+OxJ2tEtYNnp4Ur2ldhb7IHXG0qGeTK2rNPUsOvbbrR5achcrlLr+JmHFGnep0C5GFhkECM3cG4uExeRBPC8FRutMN11ykN3jVZpLI7N3IhFNHAwROwFSCJc4UWL++lP0fslvoWHJr8rxy6NvOqS5T7M=
+	t=1730169051; cv=none; b=DMqNCsPo7FLYkpLzlLR7TNjJncieHCDlKOFs9UCNVjCYJxtTmTBVagHtrH2udUAxwzquNZek4tRxdoB8+cOrou95OpxlK6tqiFiI/LjUNBsL5GQkyvErAmH7d3HY5MANLNLDrgvttsrInkKx6wI3ejiMfQaF2vVlBZEcFPoS15s=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1730168790; c=relaxed/simple;
-	bh=+5vh7IMjqeg3OgZBQNuRDxCjJXPgdVT6rqCrcGbGT80=;
-	h=Content-Type:MIME-Version:Subject:To:From:Date:Message-ID; b=BpXidzP9dC6B+s/AKxusxBp2KKO0awedJUi4aesYbqqphxngX3S9HVZNoxjk6wO+hCHXaf+eyVzAWpV72OLOmVFgreWzJAAoikAYR3yRlxTFS08nbKFoeS8KXecbGtBOq71rFmWizwsabyQaFDJBa1eymNb9ClYkGEGmxxzgDlU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=ukraine.onlinesales.wheatseed.shop; spf=pass smtp.mailfrom=ukraine.onlinesales.wheatseed.shop; arc=none smtp.client-ip=205.185.126.254
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=ukraine.onlinesales.wheatseed.shop
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ukraine.onlinesales.wheatseed.shop
-Received: from [205.185.126.254] ([127.0.0.1]) by ukraine.onlinesales.wheatseed.shop with Microsoft SMTPSVC(8.5.9600.16384);
-	 Mon, 28 Oct 2024 19:25:53 -0700
-Content-Type: text/plain; charset="iso-8859-1"
+	s=arc-20240116; t=1730169051; c=relaxed/simple;
+	bh=1kmTNFnha+cuoLiKpSVYFt8MLtaGK8hGfImP5zTdy4M=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=or1fIGihUZSNNBNxZqr557AIRKQjDvpUqegzQIOfXg8X/P5HJyMmnz85BUSAAhoNVSqq53uxLJRcOw/dUVKtiriW0bukVsfLOP5t4QXqySgwacFwaxB0gytGgSUuR8bBdHHtnO0MJFaHGj0uK8GdMdjNYOFx0/lSUa8zbc+99IY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b=YWnQ2jN1; arc=none smtp.client-ip=10.30.226.201
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="YWnQ2jN1"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id AA916C4CEC3;
+	Tue, 29 Oct 2024 02:30:50 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
+	s=korg; t=1730169050;
+	bh=1kmTNFnha+cuoLiKpSVYFt8MLtaGK8hGfImP5zTdy4M=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=YWnQ2jN10Bc6MRI2Z+gtH4OXgjXgryXTrLN1EOe2flM6tviQQjWeXCNjGkKTyH427
+	 wCrTJEjPNtFdhwJLrbgvlAByLaeayPopDiseGeIO6eUk6C1RK3F9ghtNhEV3hQJKoy
+	 Zd8P2rJCSpVWgoVClI6E4PWRuACljrSzDzXT/gVQ=
+Date: Tue, 29 Oct 2024 03:30:38 +0100
+From: Greg KH <gregkh@linuxfoundation.org>
+To: Rex Nie <rex.nie@jaguarmicro.com>
+Cc: bryan.odonoghue@linaro.org, heikki.krogerus@linux.intel.com,
+	linux-arm-msm@vger.kernel.org, linux-usb@vger.kernel.org,
+	linux-kernel@vger.kernel.org, angus.chen@jaguarmicro.com
+Subject: Re: [PATCH] usb: typec: qcom-pmic: fix uninitialized value hdr_len
+ and txbuf_len
+Message-ID: <2024102927-colossal-shore-0f46@gregkh>
+References: <20241029021823.1978-1-rex.nie@jaguarmicro.com>
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
-Content-Description: Mail message body
-Subject: Re: Dear Respectable, I wait for your response to this my message
-To: linux-usb@vger.kernel.org
-From: "Evan Bohdan" <evanbohdan@ukraine.onlinesales.wheatseed.shop>
-Date: Mon, 28 Oct 2024 19:25:52 -0700
-Reply-To: evanbohdan@gmail.com
-Message-ID: <WINDOWS-UO5E16Exgia00032e98@ukraine.onlinesales.wheatseed.shop>
-X-OriginalArrivalTime: 29 Oct 2024 02:25:53.0075 (UTC) FILETIME=[E0878030:01DB29A9]
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20241029021823.1978-1-rex.nie@jaguarmicro.com>
 
-Good day,
+On Tue, Oct 29, 2024 at 10:18:23AM +0800, Rex Nie wrote:
+> If the read of USB_PDPHY_RX_ACKNOWLEDGE_REG failed, then hdr_len and
+> txbuf_len are uninitialized. It makes no sense to print message header
+> and payload. It is also not safe to print uninitialized length of ram.
+> 
+> Signed-off-by: Rex Nie <rex.nie@jaguarmicro.com>
 
-My name is Evan from Ukraine.I have tried to reach you but find it difficul=
-t due to internet scarcity here in this town.
-I am contacting you because I want to come over to your country,I have some=
- huge funds I plan to invest in your country because I want to relocate my =
-Late Father business due to ongoing war in my country Ukraine and visit you=
-r country to set up new investment business you may advice profitable in yo=
-ur area.
-I also have some millions of dollars belonging to my late father that i wan=
-t to invest and 995kg of 24+carat 99.9% purity gold I want to ship to your =
-country and establish gold jewelry manufacturing company.
+What commit id does this fix?
 
-I will offer you good monetary rewards for your help,due to how russian dro=
-ne bombards this town frequently,internet network is disrupted because of a=
-ttacks on network installations,please for fast discussion, you can add me =
-on whatsapp and let's talk faster as i want to leave this war zone as soon =
-as possible,this is my whatsapp number below.
-+380-672575220
-Email:evanbohdan@gmail.com
+thanks,
 
-I wait for your earliest response.
-
-Regards,
-Evan
-Whatsapp/Tel:+380-672575220
-Email:evanbohdan@gmail.com
+greg k-h
