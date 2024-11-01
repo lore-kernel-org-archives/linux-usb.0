@@ -1,586 +1,198 @@
-Received: from mail-lf1-f46.google.com (mail-lf1-f46.google.com [209.85.167.46])
+Received: from mail-yw1-f178.google.com (mail-yw1-f178.google.com [209.85.128.178])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9BA1F14830A
-	for <linux-usb@vger.kernel.org>; Fri,  1 Nov 2024 16:30:05 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.46
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4E7901CA81
+	for <linux-usb@vger.kernel.org>; Fri,  1 Nov 2024 16:53:27 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.178
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1730478611; cv=none; b=hDj+X97T92+B9vGLxRSy53Y5DZNyAeBLKw1VaHS0Cnb28BsjOkUG277hfIFH+qxk5X+vTM6zvC+aXe8Yb7sGHMJCiOzak6r9vfyWRjOYBgnhtiE+BcLhQziIp2ckhjWYguMPHYsazdUJMnPBWexarXAhO5AyMVUzWmMWwnS1J8c=
+	t=1730480010; cv=none; b=lYqMdIDu3soFGfksOY/e/cm17p0OOJnI5+P3519N1DxJFtTbq9a1yEYJuui9M6S7H/uAN06p4r+5rKjE0GqWRIiKyNaAwPzpf3SrthC50qWVgIvVXkH4An1ZgmbUP6/7Y8SlcCP7CiIjdLKRIdg6cpW/Oa5DF4rN97L0gvAPTSk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1730478611; c=relaxed/simple;
-	bh=3xRslzas26y3QTwNS7QcGuFPCnAXHVwX911AU3DnbH0=;
-	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
-	 In-Reply-To:To:Cc; b=MV9PKYNx5670YWUcYsgJeGTDdQpTlfdB3O5Rqe8kckL/rmNkuUxFy5d9mdLC59qw5ZMiT2EtmHBK46u3ri/5Fci3Z4HxFubd9f+ZmvDtMfG6uekKJCurzU1XGy7rI9HW61w7eJlu2S85cQbcMmhpaOujFn6S2d+r3/Fe73iwmbM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=GhqCtCuA; arc=none smtp.client-ip=209.85.167.46
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
+	s=arc-20240116; t=1730480010; c=relaxed/simple;
+	bh=Ufi+EirpxHF3TSrm2RDFRetSaCHdlTKAwnj01Jl20Xk=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=ohEid0Hn6OdUySYKOldOhrvYNoVIx2yVLzrBjJGtq1HE4MygMaAZNkmB6ZHO2Yrh0E/qVwOnzwnN3mIAwsS5AOo7Of6eIW5eTyeDiB+16dGMpkaxCP3vo+1XqdJ0qQwZJ7df9KP1+K/fY7F50NmWElLorf4J7exQzGjCSk571jo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org; spf=pass smtp.mailfrom=chromium.org; dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b=L3rx9ciO; arc=none smtp.client-ip=209.85.128.178
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=chromium.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="GhqCtCuA"
-Received: by mail-lf1-f46.google.com with SMTP id 2adb3069b0e04-53c779ef19cso2616205e87.3
-        for <linux-usb@vger.kernel.org>; Fri, 01 Nov 2024 09:30:05 -0700 (PDT)
+	dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b="L3rx9ciO"
+Received: by mail-yw1-f178.google.com with SMTP id 00721157ae682-6e38fc62b9fso18787877b3.2
+        for <linux-usb@vger.kernel.org>; Fri, 01 Nov 2024 09:53:27 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1730478604; x=1731083404; darn=vger.kernel.org;
-        h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
-         :mime-version:subject:date:from:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=VBIrPNuNwft7tjOqJXlD1Jeu8KmYSVfVuxFU0QFdkio=;
-        b=GhqCtCuAcMdqqgZsKyYx6oFYEwUnF6jnsJc9TDWIX1GhHmOcIhCGTakDpSGxTLg66Z
-         uYYik1txTyt98U5dyrgd3NoWzsF8kI0O+JdKNN2oPVvQIIMEzm7xDkYnDnQTRMinkNW4
-         6chtFobEjnx1EYjfGl8M/iVoaGI2pXWuCP4NAlyqC8bnhziGfCajNRPaz81o7R8jW+va
-         8d8zlNNjBaoo3/SILBVwPkxXEGE35eA4K3k1zKLf3zPwwuLMEwGLe3NapOVu+vE4GD2l
-         rrfn4zZlHosp9UtkDQJUKr+9zd5FxphlRNa3nZ3lP4vC0BcCtpp/x3eO/Kt0EJFGE0BF
-         mqHQ==
+        d=chromium.org; s=google; t=1730480006; x=1731084806; darn=vger.kernel.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=9cFxvqyiL9v0JsNOQQhuvM2t8UzauKp6cuL3aW7mXNY=;
+        b=L3rx9ciO5LuILwOsXpxUX26Xh8NCM3ehhxBPltvkmIJqZrRdHGG3jdGsFvaa2uulwP
+         d1ndIaLUaNnHLeL1BJrbM32CgauAHWpuWboxds9Gb1wpu29/7C06ZQ+pM7bYEnCu6E6j
+         4ilV6YYI8JBem1Gz5uiWjPbq2QPpp+gpA6BZ8=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1730478604; x=1731083404;
-        h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
-         :mime-version:subject:date:from:x-gm-message-state:from:to:cc
+        d=1e100.net; s=20230601; t=1730480006; x=1731084806;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=VBIrPNuNwft7tjOqJXlD1Jeu8KmYSVfVuxFU0QFdkio=;
-        b=tMq0WR801RSn++q2BoWA0xqPXJLmaIkyM9VbxxCA60fPfLB+nKRA0wtXsPWG5XKfdA
-         B249g67/KfZQVq8EaJ5x4684ibsPIoVRrs2yEoVpxiYxmm9ItwI1cg0arsLBOpEBrywr
-         /nag9W5AZMBTd2ETHOpbt3kxWKBdEWUWzaEudfB+Ja6g9j/CWZqj253mshHYDuxboOyF
-         QcsMkoEsn35IBfdH1OgzNsblaXXAmYeJFPRPmwqq5A+LmL+bFDKdTi4E7m3mQtIXgcE0
-         ND6wUB5WuxN8Spf2+7srIL2cBw/igZjVjAxkvWJLhqKmUtDpSsd+w+ZnYUOCODz7AmiA
-         m2GA==
-X-Forwarded-Encrypted: i=1; AJvYcCU/WScSQ0nViV3hJyBw+WiFQUOPJL1F6GO1Tb5I4Ve/rDIQTHnVQZNziPIhAAYxO2PCDxss7eNe/gY=@vger.kernel.org
-X-Gm-Message-State: AOJu0YzznBELiPMHKQqxLFsSpoVjWLEQGeB+miBNmIDgx8o5O+YYgIDF
-	Xp1jKcD3blnRoVlEvLuhZUwJcGgj7n3AsijckKbLdRuFFiLm58icZVmtHx6WUG0=
-X-Google-Smtp-Source: AGHT+IGV7q9TfT2byS8f3k/vv/HG0HcWomVAY9s+/+XZM1o7Nd0s7ddZVLK8PWliSLyFlXiCeF5b7w==
-X-Received: by 2002:a05:6512:3d16:b0:539:f763:789d with SMTP id 2adb3069b0e04-53c79e91262mr4361035e87.43.1730478603662;
-        Fri, 01 Nov 2024 09:30:03 -0700 (PDT)
-Received: from [127.0.1.1] ([82.76.168.176])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-4327d69845csm66697555e9.47.2024.11.01.09.30.02
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 01 Nov 2024 09:30:03 -0700 (PDT)
-From: Abel Vesa <abel.vesa@linaro.org>
-Date: Fri, 01 Nov 2024 18:29:40 +0200
-Subject: [PATCH v4 2/4] usb: typec: Add support for Parade PS8830 Type-C
- Retimer
+        bh=9cFxvqyiL9v0JsNOQQhuvM2t8UzauKp6cuL3aW7mXNY=;
+        b=lNuFSIF4BMzqWlXDiGTYJebxS92XHYLKfZm+7tXMkdiUXeU+YPk+Kf8wnkLpXMhq6K
+         SW4obhDEIreMGrfEOHtGouCTLxVxHe7Vh/cK4bPihlrVEkVMqzAu0cg/Ufw8OuL60Cqw
+         RiSN9o5KnrezXxkrzFGYG8+q5dSboZVQ2wfBHCOqVtYM21pGj5QZjoYbb9skz3agmHVf
+         de8VXnHIzPvQmr/eXF3MxBywr7dY0BGcHIc0sJGmTa0EFinnEhX5YgjMXnuR5Z49MZaz
+         FMzWlj+5ep17HzQt8qG0IN9wT3Xg9m1dXBVk0Q3vuOgJ6oGQeQWBPwnK7fEAW9ldySTL
+         8FXA==
+X-Forwarded-Encrypted: i=1; AJvYcCXORO5XYcZYM34wJdvw73uOydiIC+X5kZEDv1qkOv4A1qgV3gtai0zndepSUfj3GFDPyIhvGkd3gLc=@vger.kernel.org
+X-Gm-Message-State: AOJu0YxHkc+wc2q+Btl3Iu7icXU8r7Ku0tde3xwUWQKCQ/zhlqK4nMkY
+	RFQpIB33Oq45F8ICQb/0I8u73rh3tAS0PAXKJBrAhWw2kBw5ssVr/wHdou6mwfTfKu5gAIrKhxV
+	5tPhOf867Eic8DRfWluF0VT5f3Ip0Wd6UA448
+X-Google-Smtp-Source: AGHT+IFzApWOAHaMRLiMX928VZb3EEaKQZhz/P+VrQMbvxUftOjxTrNpjkGV033um8Yqj9SuXcwKZI0UTOlzqnKQDdw=
+X-Received: by 2002:a05:690c:4b13:b0:6e2:446f:422c with SMTP id
+ 00721157ae682-6ea64b0f91fmr50088847b3.21.1730480006237; Fri, 01 Nov 2024
+ 09:53:26 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-Message-Id: <20241101-x1e80100-ps8830-v4-2-f0f7518b263e@linaro.org>
-References: <20241101-x1e80100-ps8830-v4-0-f0f7518b263e@linaro.org>
-In-Reply-To: <20241101-x1e80100-ps8830-v4-0-f0f7518b263e@linaro.org>
-To: Heikki Krogerus <heikki.krogerus@linux.intel.com>, 
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>, 
- Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>, 
- Conor Dooley <conor+dt@kernel.org>
-Cc: linux-arm-msm@vger.kernel.org, Bjorn Andersson <andersson@kernel.org>, 
- Konrad Dybcio <konradybcio@kernel.org>, 
- Rajendra Nayak <quic_rjendra@quicinc.com>, 
- Sibi Sankar <quic_sibis@quicinc.com>, Johan Hovold <johan@kernel.org>, 
- Dmitry Baryshkov <dmitry.baryshkov@linaro.org>, 
- Trilok Soni <quic_tsoni@quicinc.com>, linux-kernel@vger.kernel.org, 
- linux-usb@vger.kernel.org, devicetree@vger.kernel.org, 
- Abel Vesa <abel.vesa@linaro.org>
-X-Mailer: b4 0.15-dev-dedf8
-X-Developer-Signature: v=1; a=openpgp-sha256; l=13913; i=abel.vesa@linaro.org;
- h=from:subject:message-id; bh=3xRslzas26y3QTwNS7QcGuFPCnAXHVwX911AU3DnbH0=;
- b=owEBbQKS/ZANAwAKARtfRMkAlRVWAcsmYgBnJQIAjqPcONprsfWqlNxOTddupluA+i+wZ7i0W
- K9oaj7kLSeJAjMEAAEKAB0WIQRO8+4RTnqPKsqn0bgbX0TJAJUVVgUCZyUCAAAKCRAbX0TJAJUV
- VpQlD/9/zdWV4fJfmZWPeU0oN1/8EDD6IO95j78jFMaekfKIvi1bzzNZB3xkkoXY4KKasGtRZzh
- 15Es/D22YL294dkzOdFZf8VIrbWnpJiqijl4KnGrDWbdgpqlYNP5qGOuXSV3j8LX6VAWbzMIyDx
- ZNgja+W4mdb0b2Oaud4ViO2F7ebCwJpP6ZxyUi2oXW3WqFYAJclNUx+Vz5EdxBYb4OnDtY8Lqjw
- oRcM0bAsgyk+uaVqVIP7HnN9fP+axKKmvN0F2j8ACqtgwxftX42ofMQ5k1cWdFWFRRrAk0lbsAN
- j8QbYLDpG2M7gV3iQ2CX40eqhkOQI1X8FcZPCef5n3j/UVd2r/3qHutW6th4eB8rEbkJvFfD4/F
- ofH2u4/SS0oFMPAHaFX7k93Yrw36my91vmpsOywji/WEEhZlNe7Qg7P1MCGSdgd0Sr5OISnDHQb
- HNJq+KctVPHtXwpRkVzDvRDrreQ9T31cYaNcnCY5BuuQK4iLjJ2/t/uFSL0UwrPzpoqozChUd5g
- o07n3aef1tQ1dNhxDUE/eMsdWhCOuH40vDCOdsYPYUhvN5Eb4KOtJHJOSrVziefSNMJ1Rwl2fB8
- ZLhdQ21P7RKL8Iy4gfO+rudnICPTkW16UNBHS69DRJ5qC0Jx/NR28gcSRp7LlNXz/0Oyj3sdaaS
- IlncEvi8eDSauWA==
-X-Developer-Key: i=abel.vesa@linaro.org; a=openpgp;
- fpr=6AFF162D57F4223A8770EF5AF7BF214136F41FAE
+References: <20241030212854.998318-1-abhishekpandit@chromium.org>
+ <20241030142833.v2.3.I439cffc7bf76d94f5850eb85980f1197c4f9154c@changeid>
+ <ZyOVIKGlrlj7kc9-@kuha.fi.intel.com> <CANFp7mX-DkyFqwoaq_4V1XEDBqK7bj6-nz2aJi7idM=Q2TT49w@mail.gmail.com>
+ <ZyTesZ3gCmYDmrA6@kuha.fi.intel.com>
+In-Reply-To: <ZyTesZ3gCmYDmrA6@kuha.fi.intel.com>
+From: Abhishek Pandit-Subedi <abhishekpandit@chromium.org>
+Date: Fri, 1 Nov 2024 09:53:14 -0700
+Message-ID: <CANFp7mWim9VH+KLH3A+RJ5YFuvrVwDUgU2q8_qvDM3=jzYd6xg@mail.gmail.com>
+Subject: Re: [PATCH v2 3/7] usb: typec: Auto enter control for alternate modes
+To: Heikki Krogerus <heikki.krogerus@linux.intel.com>
+Cc: tzungbi@kernel.org, linux-usb@vger.kernel.org, 
+	chrome-platform@lists.linux.dev, dmitry.baryshkov@linaro.org, 
+	jthies@google.com, akuchynski@google.com, pmalani@chromium.org, 
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>, linux-kernel@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-The Parade PS8830 is a USB4, DisplayPort and Thunderbolt 4 retimer,
-controlled over I2C. It usually sits between a USB/DisplayPort PHY
-and the Type-C connector, and provides orientation and altmode handling.
+On Fri, Nov 1, 2024 at 6:59=E2=80=AFAM Heikki Krogerus
+<heikki.krogerus@linux.intel.com> wrote:
+>
+> On Thu, Oct 31, 2024 at 03:48:45PM -0700, Abhishek Pandit-Subedi wrote:
+> > On Thu, Oct 31, 2024 at 7:33=E2=80=AFAM Heikki Krogerus
+> > <heikki.krogerus@linux.intel.com> wrote:
+> > >
+> > > On Wed, Oct 30, 2024 at 02:28:34PM -0700, Abhishek Pandit-Subedi wrot=
+e:
+> > > > Add controls for whether an alternate mode is automatically entered=
+ when
+> > > > a partner connects. The auto_enter control is only available on por=
+ts
+> > > > and applies immediately after a partner connects. The default behav=
+ior
+> > > > is to enable auto enter and drivers must explicitly disable it.
+> > > >
+> > > > Signed-off-by: Abhishek Pandit-Subedi <abhishekpandit@chromium.org>
+> > > > ---
+> > > >
+> > > > (no changes since v1)
+> > > >
+> > > >  Documentation/ABI/testing/sysfs-bus-typec |  9 +++++++
+> > > >  drivers/usb/typec/altmodes/displayport.c  |  6 +++--
+> > > >  drivers/usb/typec/altmodes/thunderbolt.c  |  3 ++-
+> > > >  drivers/usb/typec/class.c                 | 31 +++++++++++++++++++=
+++++
+> > > >  include/linux/usb/typec.h                 |  2 ++
+> > > >  include/linux/usb/typec_altmode.h         |  2 ++
+> > > >  6 files changed, 50 insertions(+), 3 deletions(-)
+> > > >
+> > > > diff --git a/Documentation/ABI/testing/sysfs-bus-typec b/Documentat=
+ion/ABI/testing/sysfs-bus-typec
+> > > > index 205d9c91e2e1..f09d05727b82 100644
+> > > > --- a/Documentation/ABI/testing/sysfs-bus-typec
+> > > > +++ b/Documentation/ABI/testing/sysfs-bus-typec
+> > > > @@ -12,6 +12,15 @@ Description:
+> > > >
+> > > >               Valid values are boolean.
+> > > >
+> > > > +What:                /sys/bus/typec/devices/.../auto_enter
+> > > > +Date:                September 2024
+> > > > +Contact:     Heikki Krogerus <heikki.krogerus@linux.intel.com>
+> > > > +Description:
+> > > > +             Controls whether a mode will be automatically entered=
+ when a partner is
+> > > > +             connected.
+> > > > +
+> > > > +             This field is only valid and displayed on a port. Val=
+id values are boolean.
+> > >
+> > > So, why can't this be controlled with the "active" property of the
+> > > port altmode instead? That's why it's there.
+> > >
+> > > Sorry if I missed something in v1 related to this question.
+> >
+> > There was a bit of discussion around this in another patch in v1:
+> > https://patchwork.kernel.org/project/chrome-platform/patch/202409250925=
+05.8.Ic14738918e3d026fa2d85e95fb68f8e07a0828d0@changeid/
+> > And this patch is probably a good place to continue that discussion.
+> >
+> > With the way altmodes drivers currently work, they will auto-enter
+> > when probed. So if you have a partner that supports both displayport
+> > and thunderbolt, they will both attempt to auto-enter on probe. I
+> > think I could use the `active` field instead so that the port altmode
+> > blocks entry until userspace enables it -- this would avoid the need
+> > to add one more sysfs ABI. I'll actually go ahead and do this for the
+> > next patch series I send up.
+> >
+> > However, the underlying problem I'm trying to solve still exists: how
+> > do you choose a specific altmode to enter if there are multiple to
+> > choose from? I tried to implement a method that first tries USB4 and
+> > then Thunderbolt and then DP but I realized that the altmode drivers
+> > don't necessarily bind immediately after a partner altmode is
+> > registered so I can't just call `activate` (since no ops are attached
+> > to the partner altmode yet). Do you have any thoughts about how to
+> > handle multiple modes as well as how to handle fallback mode entry
+> > (i.e. thunderbolt fails so you try DPAM next)?
+>
+> If the user space needs to take over control of the entry order, then
+> can't it just de-activate all port alt modes by default, and then
+> activate the one that needs to enter? The port driver probable needs
+> to implent the "activate" callback for this.
+>
+> The user space can see when the driver is bound to a device by
+> monitoring the uevents, no?
 
-The boards that use this retimer are the ones featuring the Qualcomm
-Snapdragon X Elite SoCs.
+This requires userspace intervention to do the correct thing. Let's
+take a real world example:
 
-Add a driver with support for the following modes:
- - DisplayPort 4-lanes
- - DisplayPort 2-lanes + USB3
- - USB3
+I have a TBT4 dock that supports DPAM (svid 0xff01), TBT (svid 0x8087)
+and also USB4.
 
-There is another variant of this retimer which is called PS8833. It seems
-to be really similar to the PS8830, so future-proof this driver by
-naming it ps883x.
+* When I plug in the dock, it enumerates and registers the partner
+altmodes. The altmode bus matches typec_displayport and
+typec_thunderbolt and loads the drivers for them. By default, both
+drivers will try to activate their altmode on probe(). Having a
+userspace daemon disable the altmode on the ports and enable them on
+connection will probably work here.
+* If I boot with the dock connected, the same thing happens but my
+userspace daemon may not be running yet. What should the default
+kernel behavior be to enter alt-modes then? When you throw USB4 into
+the mix, this becomes another can of worms since you probably don't
+want to downgrade from USB4 to DPAM.
 
-Signed-off-by: Abel Vesa <abel.vesa@linaro.org>
----
- drivers/usb/typec/mux/Kconfig  |  10 +
- drivers/usb/typec/mux/Makefile |   1 +
- drivers/usb/typec/mux/ps883x.c | 422 +++++++++++++++++++++++++++++++++++++++++
- 3 files changed, 433 insertions(+)
+On ChromeOS, prior to this patch series, our userspace daemon (typecd)
+could handle all of this in userspace since it could just wait for
+`num_alt_modes` to be filled on partner-attach before trying to enter
+the right mode (via a side-band channel to the EC). After this change,
+typecd will be in a similar bind -- it will have to wait until all
+attached partner SVIDs have drivers attached (if available).
 
-diff --git a/drivers/usb/typec/mux/Kconfig b/drivers/usb/typec/mux/Kconfig
-index ce7db6ad30572a0a74890f5f11944fb3ff07f635..10c3464324dd7226e0c7304a99d6a558d3743553 100644
---- a/drivers/usb/typec/mux/Kconfig
-+++ b/drivers/usb/typec/mux/Kconfig
-@@ -56,6 +56,16 @@ config TYPEC_MUX_NB7VPQ904M
- 	  Say Y or M if your system has a On Semiconductor NB7VPQ904M Type-C
- 	  redriver chip found on some devices with a Type-C port.
- 
-+config TYPEC_MUX_PS883X
-+	tristate "Parade PS883x Type-C retimer driver"
-+	depends on I2C
-+	depends on DRM || DRM=n
-+	select DRM_AUX_BRIDGE if DRM_BRIDGE && OF
-+	select REGMAP_I2C
-+	help
-+	  Say Y or M if your system has a Parade PS883x Type-C retimer chip
-+	  found on some devices with a Type-C port.
-+
- config TYPEC_MUX_PTN36502
- 	tristate "NXP PTN36502 Type-C redriver driver"
- 	depends on I2C
-diff --git a/drivers/usb/typec/mux/Makefile b/drivers/usb/typec/mux/Makefile
-index bb96f30267af05b33b9277dcf1cc0e1527d2dcdd..732aded5f0590b21d45deb07bb9751d807c115f7 100644
---- a/drivers/usb/typec/mux/Makefile
-+++ b/drivers/usb/typec/mux/Makefile
-@@ -6,5 +6,6 @@ obj-$(CONFIG_TYPEC_MUX_PI3USB30532)	+= pi3usb30532.o
- obj-$(CONFIG_TYPEC_MUX_INTEL_PMC)	+= intel_pmc_mux.o
- obj-$(CONFIG_TYPEC_MUX_IT5205)		+= it5205.o
- obj-$(CONFIG_TYPEC_MUX_NB7VPQ904M)	+= nb7vpq904m.o
-+obj-$(CONFIG_TYPEC_MUX_PS883X)		+= ps883x.o
- obj-$(CONFIG_TYPEC_MUX_PTN36502)	+= ptn36502.o
- obj-$(CONFIG_TYPEC_MUX_WCD939X_USBSS)	+= wcd939x-usbss.o
-diff --git a/drivers/usb/typec/mux/ps883x.c b/drivers/usb/typec/mux/ps883x.c
-new file mode 100644
-index 0000000000000000000000000000000000000000..101e3dc3a867601f13385f55935af5a9701e7ec3
---- /dev/null
-+++ b/drivers/usb/typec/mux/ps883x.c
-@@ -0,0 +1,422 @@
-+// SPDX-License-Identifier: GPL-2.0+
-+/*
-+ * Parade ps883x usb retimer driver
-+ *
-+ * Copyright (C) 2024 Linaro Ltd.
-+ */
-+
-+#include <drm/bridge/aux-bridge.h>
-+#include <linux/clk.h>
-+#include <linux/gpio/consumer.h>
-+#include <linux/i2c.h>
-+#include <linux/kernel.h>
-+#include <linux/module.h>
-+#include <linux/mutex.h>
-+#include <linux/regmap.h>
-+#include <linux/regulator/consumer.h>
-+#include <linux/usb/typec_altmode.h>
-+#include <linux/usb/typec_dp.h>
-+#include <linux/usb/typec_mux.h>
-+#include <linux/usb/typec_retimer.h>
-+
-+struct ps883x_retimer {
-+	struct i2c_client *client;
-+	struct gpio_desc *reset_gpio;
-+	struct regmap *regmap;
-+	struct typec_switch_dev *sw;
-+	struct typec_retimer *retimer;
-+	struct clk *xo_clk;
-+	struct regulator *vdd_supply;
-+	struct regulator *vdd33_supply;
-+	struct regulator *vdd33_cap_supply;
-+	struct regulator *vddat_supply;
-+	struct regulator *vddar_supply;
-+	struct regulator *vddio_supply;
-+
-+	struct typec_switch *typec_switch;
-+	struct typec_mux *typec_mux;
-+
-+	struct mutex lock; /* protect non-concurrent retimer & switch */
-+
-+	enum typec_orientation orientation;
-+	unsigned long mode;
-+	unsigned int svid;
-+};
-+
-+static void ps883x_configure(struct ps883x_retimer *retimer, int cfg0, int cfg1, int cfg2)
-+{
-+	regmap_write(retimer->regmap, 0x0, cfg0);
-+	regmap_write(retimer->regmap, 0x1, cfg1);
-+	regmap_write(retimer->regmap, 0x2, cfg2);
-+}
-+
-+static int ps883x_set(struct ps883x_retimer *retimer)
-+{
-+	int cfg0 = 0x00;
-+	int cfg1 = 0x00;
-+	int cfg2 = 0x00;
-+
-+	if (retimer->orientation == TYPEC_ORIENTATION_NONE ||
-+	    retimer->mode == TYPEC_STATE_SAFE) {
-+		ps883x_configure(retimer, 0x1, 0x0, 0x0);
-+		return 0;
-+	}
-+
-+	if (retimer->mode != TYPEC_STATE_USB && retimer->svid != USB_TYPEC_DP_SID)
-+		return -EINVAL;
-+
-+	if (retimer->orientation == TYPEC_ORIENTATION_NORMAL)
-+		cfg0 = 0x01;
-+	else
-+		cfg0 = 0x03;
-+
-+	switch (retimer->mode) {
-+	case TYPEC_STATE_USB:
-+		cfg0 |= 0x20;
-+		break;
-+
-+	case TYPEC_DP_STATE_C:
-+		cfg1 = 0x85;
-+		break;
-+
-+	case TYPEC_DP_STATE_D:
-+		cfg0 |= 0x20;
-+		cfg1 = 0x85;
-+		break;
-+
-+	case TYPEC_DP_STATE_E:
-+		cfg1 = 0x81;
-+		break;
-+
-+	default:
-+		return -EOPNOTSUPP;
-+	}
-+
-+	ps883x_configure(retimer, cfg0, cfg1, cfg2);
-+
-+	return 0;
-+}
-+
-+static int ps883x_sw_set(struct typec_switch_dev *sw,
-+			 enum typec_orientation orientation)
-+{
-+	struct ps883x_retimer *retimer = typec_switch_get_drvdata(sw);
-+	int ret = 0;
-+
-+	ret = typec_switch_set(retimer->typec_switch, orientation);
-+	if (ret)
-+		return ret;
-+
-+	mutex_lock(&retimer->lock);
-+
-+	if (retimer->orientation != orientation) {
-+		retimer->orientation = orientation;
-+
-+		ret = ps883x_set(retimer);
-+	}
-+
-+	mutex_unlock(&retimer->lock);
-+
-+	return ret;
-+}
-+
-+static int ps883x_retimer_set(struct typec_retimer *rtmr,
-+			      struct typec_retimer_state *state)
-+{
-+	struct ps883x_retimer *retimer = typec_retimer_get_drvdata(rtmr);
-+	struct typec_mux_state mux_state;
-+	int ret = 0;
-+
-+	mutex_lock(&retimer->lock);
-+
-+	if (state->mode != retimer->mode) {
-+		retimer->mode = state->mode;
-+
-+		if (state->alt)
-+			retimer->svid = state->alt->svid;
-+		else
-+			retimer->svid = 0; // No SVID
-+
-+		ret = ps883x_set(retimer);
-+	}
-+
-+	mutex_unlock(&retimer->lock);
-+
-+	if (ret)
-+		return ret;
-+
-+	mux_state.alt = state->alt;
-+	mux_state.data = state->data;
-+	mux_state.mode = state->mode;
-+
-+	return typec_mux_set(retimer->typec_mux, &mux_state);
-+}
-+
-+static int ps883x_enable_vregs(struct ps883x_retimer *retimer)
-+{
-+	struct device *dev = &retimer->client->dev;
-+	int ret;
-+
-+	ret = regulator_enable(retimer->vdd33_supply);
-+	if (ret) {
-+		dev_err(dev, "cannot enable VDD 3.3V regulator: %d\n", ret);
-+		return ret;
-+	}
-+
-+	ret = regulator_enable(retimer->vdd33_cap_supply);
-+	if (ret) {
-+		dev_err(dev, "cannot enable VDD 3.3V CAP regulator: %d\n", ret);
-+		goto err_vdd33_disable;
-+	}
-+
-+	usleep_range(4000, 10000);
-+
-+	ret = regulator_enable(retimer->vdd_supply);
-+	if (ret) {
-+		dev_err(dev, "cannot enable VDD regulator: %d\n", ret);
-+		goto err_vdd33_cap_disable;
-+	}
-+
-+	ret = regulator_enable(retimer->vddar_supply);
-+	if (ret) {
-+		dev_err(dev, "cannot enable VDD AR regulator: %d\n", ret);
-+		goto err_vdd_disable;
-+	}
-+
-+	ret = regulator_enable(retimer->vddat_supply);
-+	if (ret) {
-+		dev_err(dev, "cannot enable VDD AT regulator: %d\n", ret);
-+		goto err_vddar_disable;
-+	}
-+
-+	ret = regulator_enable(retimer->vddio_supply);
-+	if (ret) {
-+		dev_err(dev, "cannot enable VDD IO regulator: %d\n", ret);
-+		goto err_vddat_disable;
-+	}
-+
-+	return 0;
-+
-+err_vddat_disable:
-+	regulator_disable(retimer->vddat_supply);
-+err_vddar_disable:
-+	regulator_disable(retimer->vddar_supply);
-+err_vdd_disable:
-+	regulator_disable(retimer->vdd_supply);
-+err_vdd33_cap_disable:
-+	regulator_disable(retimer->vdd33_cap_supply);
-+err_vdd33_disable:
-+	regulator_disable(retimer->vdd33_supply);
-+
-+	return ret;
-+}
-+
-+static void ps883x_disable_vregs(struct ps883x_retimer *retimer)
-+{
-+	regulator_disable(retimer->vddio_supply);
-+	regulator_disable(retimer->vddat_supply);
-+	regulator_disable(retimer->vddar_supply);
-+	regulator_disable(retimer->vdd_supply);
-+	regulator_disable(retimer->vdd33_cap_supply);
-+	regulator_disable(retimer->vdd33_supply);
-+}
-+
-+static int ps883x_get_vregs(struct ps883x_retimer *retimer)
-+{
-+	struct device *dev = &retimer->client->dev;
-+
-+	retimer->vdd_supply = devm_regulator_get(dev, "vdd");
-+	if (IS_ERR(retimer->vdd_supply))
-+		return dev_err_probe(dev, PTR_ERR(retimer->vdd_supply),
-+				     "failed to get VDD\n");
-+
-+	retimer->vdd33_supply = devm_regulator_get(dev, "vdd33");
-+	if (IS_ERR(retimer->vdd33_supply))
-+		return dev_err_probe(dev, PTR_ERR(retimer->vdd33_supply),
-+				     "failed to get VDD 3.3V\n");
-+
-+	retimer->vdd33_cap_supply = devm_regulator_get(dev, "vdd33-cap");
-+	if (IS_ERR(retimer->vdd33_cap_supply))
-+		return dev_err_probe(dev, PTR_ERR(retimer->vdd33_cap_supply),
-+				     "failed to get VDD CAP 3.3V\n");
-+
-+	retimer->vddat_supply = devm_regulator_get(dev, "vddat");
-+	if (IS_ERR(retimer->vddat_supply))
-+		return dev_err_probe(dev, PTR_ERR(retimer->vddat_supply),
-+				     "failed to get VDD AT\n");
-+
-+	retimer->vddar_supply = devm_regulator_get(dev, "vddar");
-+	if (IS_ERR(retimer->vddar_supply))
-+		return dev_err_probe(dev, PTR_ERR(retimer->vddar_supply),
-+				     "failed to get VDD AR\n");
-+
-+	retimer->vddio_supply = devm_regulator_get(dev, "vddio");
-+	if (IS_ERR(retimer->vddio_supply))
-+		return dev_err_probe(dev, PTR_ERR(retimer->vddio_supply),
-+				     "failed to get VDD IO\n");
-+
-+	return 0;
-+}
-+
-+static const struct regmap_config ps883x_retimer_regmap = {
-+	.max_register = 0x1f,
-+	.reg_bits = 8,
-+	.val_bits = 8,
-+};
-+
-+static int ps883x_retimer_probe(struct i2c_client *client)
-+{
-+	struct device *dev = &client->dev;
-+	struct typec_switch_desc sw_desc = { };
-+	struct typec_retimer_desc rtmr_desc = { };
-+	struct ps883x_retimer *retimer;
-+	int ret;
-+
-+	retimer = devm_kzalloc(dev, sizeof(*retimer), GFP_KERNEL);
-+	if (!retimer)
-+		return -ENOMEM;
-+
-+	retimer->client = client;
-+
-+	mutex_init(&retimer->lock);
-+
-+	retimer->regmap = devm_regmap_init_i2c(client, &ps883x_retimer_regmap);
-+	if (IS_ERR(retimer->regmap)) {
-+		ret = PTR_ERR(retimer->regmap);
-+		dev_err(dev, "failed to allocate register map: %d\n", ret);
-+		return ret;
-+	}
-+
-+	ret = ps883x_get_vregs(retimer);
-+	if (ret)
-+		return ret;
-+
-+	retimer->xo_clk = devm_clk_get(dev, NULL);
-+	if (IS_ERR(retimer->xo_clk))
-+		return dev_err_probe(dev, PTR_ERR(retimer->xo_clk),
-+				     "failed to get xo clock\n");
-+
-+	retimer->reset_gpio = devm_gpiod_get(dev, "reset", GPIOD_ASIS);
-+	if (IS_ERR(retimer->reset_gpio))
-+		return dev_err_probe(dev, PTR_ERR(retimer->reset_gpio),
-+				     "failed to get reset gpio\n");
-+
-+	retimer->typec_switch = typec_switch_get(dev);
-+	if (IS_ERR(retimer->typec_switch))
-+		return dev_err_probe(dev, PTR_ERR(retimer->typec_switch),
-+				     "failed to acquire orientation-switch\n");
-+
-+	retimer->typec_mux = typec_mux_get(dev);
-+	if (IS_ERR(retimer->typec_mux)) {
-+		ret = dev_err_probe(dev, PTR_ERR(retimer->typec_mux),
-+				    "failed to acquire mode-mux\n");
-+		goto err_switch_put;
-+	}
-+
-+	ret = drm_aux_bridge_register(dev);
-+	if (ret)
-+		goto err_mux_put;
-+
-+	ret = clk_prepare_enable(retimer->xo_clk);
-+	if (ret) {
-+		dev_err(dev, "failed to enable XO: %d\n", ret);
-+		goto err_mux_put;
-+	}
-+
-+	ret = ps883x_enable_vregs(retimer);
-+	if (ret)
-+		goto err_clk_disable;
-+
-+	sw_desc.drvdata = retimer;
-+	sw_desc.fwnode = dev_fwnode(dev);
-+	sw_desc.set = ps883x_sw_set;
-+
-+	retimer->sw = typec_switch_register(dev, &sw_desc);
-+	if (IS_ERR(retimer->sw)) {
-+		ret = PTR_ERR(retimer->sw);
-+		dev_err(dev, "failed to register typec switch: %d\n", ret);
-+		goto err_vregs_disable;
-+	}
-+
-+	rtmr_desc.drvdata = retimer;
-+	rtmr_desc.fwnode = dev_fwnode(dev);
-+	rtmr_desc.set = ps883x_retimer_set;
-+
-+	retimer->retimer = typec_retimer_register(dev, &rtmr_desc);
-+	if (IS_ERR(retimer->retimer)) {
-+		ret = PTR_ERR(retimer->retimer);
-+		dev_err(dev, "failed to register typec retimer: %d\n", ret);
-+		goto err_switch_unregister;
-+	}
-+
-+	/* skip resetting if already configured */
-+	if (regmap_test_bits(retimer->regmap, 0x00, BIT(0)))
-+		return 0;
-+
-+	gpiod_direction_output(retimer->reset_gpio, 1);
-+
-+	/* VDD IO supply enable to reset release delay */
-+	usleep_range(4000, 14000);
-+
-+	gpiod_set_value(retimer->reset_gpio, 0);
-+
-+	/* firmware initialization delay */
-+	msleep(60);
-+
-+	return 0;
-+
-+err_switch_unregister:
-+	typec_switch_unregister(retimer->sw);
-+err_vregs_disable:
-+	ps883x_disable_vregs(retimer);
-+err_clk_disable:
-+	clk_disable_unprepare(retimer->xo_clk);
-+err_mux_put:
-+	typec_mux_put(retimer->typec_mux);
-+err_switch_put:
-+	typec_switch_put(retimer->typec_switch);
-+
-+	return ret;
-+}
-+
-+static void ps883x_retimer_remove(struct i2c_client *client)
-+{
-+	struct ps883x_retimer *retimer = i2c_get_clientdata(client);
-+
-+	typec_retimer_unregister(retimer->retimer);
-+	typec_switch_unregister(retimer->sw);
-+
-+	gpiod_set_value(retimer->reset_gpio, 1);
-+
-+	regulator_disable(retimer->vddio_supply);
-+	regulator_disable(retimer->vddat_supply);
-+	regulator_disable(retimer->vddar_supply);
-+	regulator_disable(retimer->vdd_supply);
-+	regulator_disable(retimer->vdd33_cap_supply);
-+	regulator_disable(retimer->vdd33_supply);
-+
-+	clk_disable_unprepare(retimer->xo_clk);
-+
-+	typec_mux_put(retimer->typec_mux);
-+	typec_switch_put(retimer->typec_switch);
-+}
-+
-+static const struct of_device_id ps883x_retimer_of_table[] = {
-+	{ .compatible = "parade,ps8830" },
-+	{ }
-+};
-+MODULE_DEVICE_TABLE(of, ps883x_retimer_of_table);
-+
-+static struct i2c_driver ps883x_retimer_driver = {
-+	.driver = {
-+		.name = "ps883x_retimer",
-+		.of_match_table = ps883x_retimer_of_table,
-+	},
-+	.probe		= ps883x_retimer_probe,
-+	.remove		= ps883x_retimer_remove,
-+};
-+
-+module_i2c_driver(ps883x_retimer_driver);
-+
-+MODULE_DESCRIPTION("Parade ps883x Type-C Retimer driver");
-+MODULE_LICENSE("GPL");
+Underlying all this, I guess the real need here is for some sort of
+signal that says: All partner modes are registered, any necessary
+drivers for these modes are bound and you are ready to make a decision
+on which mode to enter. Then, we could iteratively try to enter the
+best mode (USB4 > TBT > DP) and report failure conditions on why it
+couldn't be entered (i.e. Cable speed, partner problem / link
+training, etc). This could be done in kernel or userspace depending on
+the system.
 
--- 
-2.34.1
-
+>
+> thanks,
+>
+> --
+> heikki
