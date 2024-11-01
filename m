@@ -1,61 +1,61 @@
-Received: from mail-wr1-f42.google.com (mail-wr1-f42.google.com [209.85.221.42])
+Received: from mail-wm1-f53.google.com (mail-wm1-f53.google.com [209.85.128.53])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8A51E1C7B82
-	for <linux-usb@vger.kernel.org>; Fri,  1 Nov 2024 16:30:03 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.42
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 06F371CB330
+	for <linux-usb@vger.kernel.org>; Fri,  1 Nov 2024 16:30:06 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.53
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1730478605; cv=none; b=O95Hah8/ikEnQshU2X6e3D3DUpvmmAvfTFJdQTT+5Z/lUSZ9hksOr1MLq9eC3IvSisxZuOja06lmaCWi8F3LBU+Z2k226EF44pJKN3Z3yEmnpAftp4i+sLglGyGrvi9a9TfD5RdWiZ8Nojbdu5WcD4hiq7Vir6GzMkL1S2Y3Cts=
+	t=1730478611; cv=none; b=mKjrlLF0yRu41J3ude1HrK2bt9naao9Dg91+KNIbB735LHsF9sduGSJ0bN72KUogGn/J8I9sYcneoyn7ft2Ggw4/jl543AFoLNVWsDDhPTj1aEBwyCHwohGyowmU74y5QVUq3v4nE6+6Nux31bhXz6JOySmmiPE6jWZrtWoKcdQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1730478605; c=relaxed/simple;
-	bh=K9iMqgN+waI8uGOPXNsJWOxwYzCG83bdA7bAnBjFZjs=;
+	s=arc-20240116; t=1730478611; c=relaxed/simple;
+	bh=fvqRWCnhqTWRYR0qCfEtiUKEvFK2Xv3m1iHGeOgjG6I=;
 	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
-	 In-Reply-To:To:Cc; b=kAfi4nXhj3EAbTbrQ48tMC0ibw8qkDgLWKoPnQ0VePv2Cux3T4H7hfuVx1zkHcL7UKw7XKUgA0mzJ+gOe0iwYy/d2xK4yrvJcT/IHBeMV5tsHMrQu0Nwsl6nRVXSIslzRP+GB0rtSWcCBWOwtbxTE4JyE5JH85+ht9K7LG+BluI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=r/g0/hGB; arc=none smtp.client-ip=209.85.221.42
+	 In-Reply-To:To:Cc; b=i1OjupJw5f/2/eTSQPAAFv0lVNE3AcgGHjbxzIdSOOlBrxQrnX/LKNnDvYrohViFD5Y0j7iQSi+qxXUXAoRWVYCOWpcqqcoSly+BF8gH8Q3c/oktWQ0d96dE0oqG+ZJN55/6FRueMsZaro/iK07UIkewiBW9MvnisaDl8NVPZls=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=D1FpjEci; arc=none smtp.client-ip=209.85.128.53
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="r/g0/hGB"
-Received: by mail-wr1-f42.google.com with SMTP id ffacd0b85a97d-37d43a9bc03so1306561f8f.2
-        for <linux-usb@vger.kernel.org>; Fri, 01 Nov 2024 09:30:03 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="D1FpjEci"
+Received: by mail-wm1-f53.google.com with SMTP id 5b1f17b1804b1-431688d5127so16870565e9.0
+        for <linux-usb@vger.kernel.org>; Fri, 01 Nov 2024 09:30:06 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1730478602; x=1731083402; darn=vger.kernel.org;
+        d=linaro.org; s=google; t=1730478605; x=1731083405; darn=vger.kernel.org;
         h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
          :mime-version:subject:date:from:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=fFcyZJs9jyFHU/kR7jvKoaA/Sdtv4OFx7L9iEZ8oM20=;
-        b=r/g0/hGB9GRDJ+opmfi77dyd262JBxSIItaMn8j4Ilue/C4vm7deJecvSayCoukPR2
-         zEA6EKhTDCo3eDY3Gye1i8qg7k/IjeSTZSfq/ZIwcyib2HfVdpWnhiocFqg/Hr/+wULd
-         1tpJ84n4Wvu6QgEjAQOsEo4niVDpiT3A2vqOfNlkG/4dNZKYTXnt2tp0D8RNtl1lkztB
-         tySpqhxNAr7QYtGVq+mkqjG67DKTLlN6Y7mooWngV3nM0b7pBbJub2q/N+LjcV8rReAm
-         hcdzoYUux4aASJFDBG2A6vm6mg3NXvcRe5NrbmpDjIGtZg8b7QXZdeO1PU5QXQzY6ctl
-         AI+g==
+        bh=PpSG0KbFWIwPxeEfiKRS/i3AtHJBvLnd/ul+P4U8Wnw=;
+        b=D1FpjEciuNWqia7RGt/em9jXL+EY6ChjXKN1fWvHQxrvI64p7MacN54TQQ6bgF0e2E
+         4OaKnOapCGFRcSlURZA3APXLSPsAr/1rDodibmZ7dmjCYBS49+nTnoQjNSLTombw16L9
+         cWF7pXp84LWxq+j0LfWLAZnrgXete103sTNfmJ6yHvIr5xrLV0oyYfSfgb7oxL+GZE3G
+         cI+duCGg5u1BDgZArgUpH6ZmQRvyUatDKdbeOF7pRLURudOUkzqWJsa4bl8hsP8Jua0E
+         ClgYTwFhZT1mVbZ8Nx1vtwwO/dNSvgt+faqWEWjzu4UiLNvVvyhCIwwnsw7nqyz1eg53
+         vnBQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1730478602; x=1731083402;
+        d=1e100.net; s=20230601; t=1730478605; x=1731083405;
         h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
          :mime-version:subject:date:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=fFcyZJs9jyFHU/kR7jvKoaA/Sdtv4OFx7L9iEZ8oM20=;
-        b=LPX8ekXGX3UJ8si05rsZL3iis2f/kg/IGWNPSAhyHNufA4CZplgfeuvtp9BAeyFH/H
-         r6A5vFXQSVdRMVVeML9gxVh27uFiWpqiT60U8Xc3yYXCrKvSuvI75g1fw2d/FMI8TH4a
-         jJaFuw2f4zO5hjeF/GnqrE6Kvvxu6YoH8Kgh2oLCGukt0vvDRnlMEscHyw53aUwyTy3Z
-         tFbtjEo9+8NiaAUJyvAb5VqPVo2sETLVLx7Fm12N4GGj4AEoTjPc/Uz+Nnu+JeUM0Rii
-         lGLretL7WqCyZGN0zL36NW2tTRkOgAz7eh+aXNk69R7PvY98RqUXZR7R2pKAMH9O8tL7
-         Zv/w==
-X-Forwarded-Encrypted: i=1; AJvYcCUFM817ozZXuAHcWUNe4iWl6ICkv3jkUk4pwjC5iJx7zGJVRzaxLH8NDmKhngShMupentBbooMZTHM=@vger.kernel.org
-X-Gm-Message-State: AOJu0YyGrARdwC9JPg8MdhKeFBItl99GiNRms8qLqYh00jFNWkL31CDy
-	wNc/XnNvOznzGGid0z3gOuEr+u7MQbsKbscLCcTm9brpNB9fpVxQfPloTiwB+7M=
-X-Google-Smtp-Source: AGHT+IH32+1k+frdIm7aiM64e/1MaxzisiGIw7xkJFsBSZtKK/H83BvobquHfpCOdNQBFfFM+DEXqw==
-X-Received: by 2002:a05:6000:2a1:b0:37d:5257:41bd with SMTP id ffacd0b85a97d-381c7a47c08mr3444805f8f.3.1730478601909;
-        Fri, 01 Nov 2024 09:30:01 -0700 (PDT)
+        bh=PpSG0KbFWIwPxeEfiKRS/i3AtHJBvLnd/ul+P4U8Wnw=;
+        b=oacpy33lYgx//bkgdEsOXrz8zi5dH0dvsZV2UmML5DJ1D2wQZdp9c0kiF2etoh6CnP
+         6IFFksUsm0yehE9wYPdziEZAvSU8VdaJq6N/RJ68IP61cpCUHAxncIU5OJqWx29nRF2b
+         BfTI/xPU4dnMrYlhWxP31PTJAcKD2A/ayInYLbwnM0YqbdNMKRRddsFIckM5CDdCWoG2
+         qywrS8kReCVj2uhgPj4XUZIOXUCit4Qmex2mp3GrvJaRrsbP25A4a7YvIoNqV6xUi/G9
+         oH40gPNoK2vD+NCWyhuid6ZMAZ4JCMl+Dvt3xdIlygHBtMb6YBT5ucP0xHRjd1oxf9Se
+         WCGg==
+X-Forwarded-Encrypted: i=1; AJvYcCW5/sDkIC9Xz0VmfB+L5GFxGy87vRGvGYk7wMKM/V1sbL/b4jO4LP8ZDhNybWhHDrlj0+YM8cjNsGU=@vger.kernel.org
+X-Gm-Message-State: AOJu0Yzq99Hzlg3AAuEKir24ftgA+UV5ErKgNmbwm5gxNgnJC8xsyCKm
+	l36mEdfzT/Nj5egnqFdpietGlYgg3eyNiqd2oJBZj2npaxbvxg3wsDFLb8Oz9to=
+X-Google-Smtp-Source: AGHT+IGcK10nlslb6n1eh9n6HETGgFQjuP75q0+mHaMB3bYJX82tRBsdIRBW+ZykoBpZfn3pIJbtPg==
+X-Received: by 2002:a05:600c:4eca:b0:431:5c1c:71b6 with SMTP id 5b1f17b1804b1-4319acad842mr255121995e9.17.1730478605386;
+        Fri, 01 Nov 2024 09:30:05 -0700 (PDT)
 Received: from [127.0.1.1] ([82.76.168.176])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-4327d69845csm66697555e9.47.2024.11.01.09.30.00
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-4327d69845csm66697555e9.47.2024.11.01.09.30.03
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 01 Nov 2024 09:30:01 -0700 (PDT)
+        Fri, 01 Nov 2024 09:30:04 -0700 (PDT)
 From: Abel Vesa <abel.vesa@linaro.org>
-Date: Fri, 01 Nov 2024 18:29:39 +0200
-Subject: [PATCH v4 1/4] dt-bindings: usb: Add Parade PS8830 Type-C retimer
- bindings
+Date: Fri, 01 Nov 2024 18:29:41 +0200
+Subject: [PATCH v4 3/4] arm64: dts: qcom: x1e80100-crd: Describe the Parade
+ PS8830 retimers
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
@@ -64,7 +64,7 @@ List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20241101-x1e80100-ps8830-v4-1-f0f7518b263e@linaro.org>
+Message-Id: <20241101-x1e80100-ps8830-v4-3-f0f7518b263e@linaro.org>
 References: <20241101-x1e80100-ps8830-v4-0-f0f7518b263e@linaro.org>
 In-Reply-To: <20241101-x1e80100-ps8830-v4-0-f0f7518b263e@linaro.org>
 To: Heikki Krogerus <heikki.krogerus@linux.intel.com>, 
@@ -80,167 +80,555 @@ Cc: linux-arm-msm@vger.kernel.org, Bjorn Andersson <andersson@kernel.org>,
  linux-usb@vger.kernel.org, devicetree@vger.kernel.org, 
  Abel Vesa <abel.vesa@linaro.org>
 X-Mailer: b4 0.15-dev-dedf8
-X-Developer-Signature: v=1; a=openpgp-sha256; l=3684; i=abel.vesa@linaro.org;
- h=from:subject:message-id; bh=K9iMqgN+waI8uGOPXNsJWOxwYzCG83bdA7bAnBjFZjs=;
- b=owEBbQKS/ZANAwAKARtfRMkAlRVWAcsmYgBnJQH9mR9SIi8lpmcuumrIAKlX7H50esFslgOox
- Nl44Va7mSqJAjMEAAEKAB0WIQRO8+4RTnqPKsqn0bgbX0TJAJUVVgUCZyUB/QAKCRAbX0TJAJUV
- VrDCEACyKtOUVHZdN4SB+TsmgI9wjH7vc9Mp5UpgCC0Up8S0xF3mmxo09rRvB55sUXcZz3kIzYq
- gennokKMey9xy1e5L1nXHCz4FjgQ8qnBFmEs2NY3l/ViCzk/Ch9uHs5P5VidCcHyVgs1yDed/mc
- dMkeLBcXa6fBnen1D0FRo6CYIE7FQQRmVZ8txQy5dPMOP9+Ue8FD6DqWMu39eZvpCU+sKyK8GEw
- OekriBn6v0rZ3edb8lH4HxXA/3cgKrIFVc4SOJOJ5ZQe5g/8B0kmTjd17fkRx3H/GnmZ8LasiW8
- fRPd4SDCqOsZdlqiBEdSJ3n+17Td81ShEOXsZddnbFxgnIS6Tf8Q7TjC9LmdNvgr46x+ADM8LL/
- /k9cWuTYELjnpy2HYrvlStNNm6vte/o8X9b98a4GMxmkF47qyRtwpcFAFLcDNOZBUBrJxs1DhYq
- DwjYnggIK4dGYMk7+KGor0I+CJgMiNnttgA5juDr3gjL58fhoB973/Uo01xUu5yKemmL2Ygyl8z
- WTbaydOCVmRmYQjdIr2y8CL8vlO7RDFiVSkQpO9/M4PzMRZTzFpFw1g20IrjIh9y8torprQI7zz
- YU9SdZKVoCQtaOJzIsVszrJTSlqcqdWbaeq8EKOiBuVsN05MXaTIejDprf7T4YpZ3a3rLPlXQK2
- C2zxkRnM0s9PjCw==
+X-Developer-Signature: v=1; a=openpgp-sha256; l=11877; i=abel.vesa@linaro.org;
+ h=from:subject:message-id; bh=fvqRWCnhqTWRYR0qCfEtiUKEvFK2Xv3m1iHGeOgjG6I=;
+ b=owEBbQKS/ZANAwAKARtfRMkAlRVWAcsmYgBnJQICLY8TkS70HaIhxlBKYI3Ka1QS7pFaal6tS
+ NnEdLiB9MGJAjMEAAEKAB0WIQRO8+4RTnqPKsqn0bgbX0TJAJUVVgUCZyUCAgAKCRAbX0TJAJUV
+ VuXEEAC3wB4jrc5s0uITI41hfZXZv+1KxdlMYsZ5U3HHZpIvQ+Gvy51avgPEEsN1Pc/WOYSN1aU
+ iLeYGjfqcRPGeLRXD2XaTRJLeNZzoq5ebnHkpEiKLAX3SX2VcX+/G2p1T9DyzkrHic8sXzomNDX
+ gaUYvjxR/a5PigBsvrJ7mtrsz4cM1dZJdIg0rHXcqbDUayQBEVfwELq9Z8YiSTFlWWejJw1r5B6
+ OoOkLmOGwLD9v7XxrPhS2ApApfyy+0c/DH4Ug1EImptddtateEDSkPx6pEiuKbX1GOc/y2meLq9
+ VH3N7Seg6rVBMw96xPRkjoqs/rzhZWMNJ5+mmSTXIgyHA+u19Y9i33BPk63wr82w6JAq5/4XSAF
+ aWbHFNtYORBOdExSCGrHUJoYZTmHLo5NC1aRunytnhHKw1cHJZo8XS9tWfWiBwqFYR6FTdXawR9
+ OFcIdPpY0IbGVcMMzn9SnbFlEZT18UJbVQkK1QJhs2bpURW0Sc8MCqBM08r1oDu2rjdFNbZts/s
+ JWMhmUYgZBFT4h+OO0FV4mlTRXnR+wVGFhYtKQ1arn0iDOUSA9lCFlFArOVHgsIKG2ndOg0fNS9
+ ph1iXqfTjI1dDy4/kpDv2tn2jFnmVngmS1fFX+L6YRQC0QfZ2nxOtAycusda1ME8YMR35AEKMWH
+ 0GUAsqC+1yLuA1A==
 X-Developer-Key: i=abel.vesa@linaro.org; a=openpgp;
  fpr=6AFF162D57F4223A8770EF5AF7BF214136F41FAE
 
-The Parade PS8830 is a USB4, DisplayPort and Thunderbolt 4 retimer,
-controlled over I2C. It usually sits between a USB/DisplayPort PHY and the
-Type-C connector, and provides orientation and altmode handling.
+The X Elite CRD board comes with 3 Parade PS8830 retimers, one for each
+Type-C port. These handle the orientation and altmode switching and are
+controlled over I2C. In the connection chain, they sit between the
+USB/DisplayPort combo PHY and the Type-C connector.
 
-Currently, it is found on all boards featuring the Qualcomm Snapdragon
-X Elite SoCs.
-
-Document bindings for its new driver. Future-proof the schema for the
-PS8833 variant, which seems to be similar to PS8830.
+Describe the retimers and all gpio controlled voltage regulators used by
+each retimer. Also, modify the pmic glink graph to include the retimers in
+between the SuperSpeed/Sideband in endpoints and the QMP PHY out endpoints.
 
 Signed-off-by: Abel Vesa <abel.vesa@linaro.org>
 ---
- .../devicetree/bindings/usb/parade,ps883x.yaml     | 123 +++++++++++++++++++++
- 1 file changed, 123 insertions(+)
+ arch/arm64/boot/dts/qcom/x1e80100-crd.dts | 439 +++++++++++++++++++++++++++++-
+ 1 file changed, 433 insertions(+), 6 deletions(-)
 
-diff --git a/Documentation/devicetree/bindings/usb/parade,ps883x.yaml b/Documentation/devicetree/bindings/usb/parade,ps883x.yaml
-new file mode 100644
-index 0000000000000000000000000000000000000000..4045714e487a43681336c961143b27264c081856
---- /dev/null
-+++ b/Documentation/devicetree/bindings/usb/parade,ps883x.yaml
-@@ -0,0 +1,123 @@
-+# SPDX-License-Identifier: GPL-2.0-only OR BSD-2-Clause
-+%YAML 1.2
-+---
-+$id: http://devicetree.org/schemas/usb/parade,ps883x.yaml#
-+$schema: http://devicetree.org/meta-schemas/core.yaml#
+diff --git a/arch/arm64/boot/dts/qcom/x1e80100-crd.dts b/arch/arm64/boot/dts/qcom/x1e80100-crd.dts
+index 279697f2c72890a6d379aa0c153171960e44bd63..6e1b9e1d227ce0a3607af708e2438be33424eec5 100644
+--- a/arch/arm64/boot/dts/qcom/x1e80100-crd.dts
++++ b/arch/arm64/boot/dts/qcom/x1e80100-crd.dts
+@@ -99,7 +99,15 @@ port@1 {
+ 					reg = <1>;
+ 
+ 					pmic_glink_ss0_ss_in: endpoint {
+-						remote-endpoint = <&usb_1_ss0_qmpphy_out>;
++						remote-endpoint = <&retimer_ss0_ss_out>;
++					};
++				};
 +
-+title: Parade PS883x USB and DisplayPort Retimer
++				port@2 {
++					reg = <2>;
 +
-+maintainers:
-+  - Abel Vesa <abel.vesa@linaro.org>
++					pmic_glink_ss0_con_sbu_in: endpoint {
++						remote-endpoint = <&retimer_ss0_con_sbu_out>;
+ 					};
+ 				};
+ 			};
+@@ -128,7 +136,15 @@ port@1 {
+ 					reg = <1>;
+ 
+ 					pmic_glink_ss1_ss_in: endpoint {
+-						remote-endpoint = <&usb_1_ss1_qmpphy_out>;
++						remote-endpoint = <&retimer_ss1_ss_out>;
++					};
++				};
 +
-+properties:
-+  compatible:
-+    enum:
-+      - parade,ps8830
++				port@2 {
++					reg = <2>;
 +
-+  reg:
-+    maxItems: 1
++					pmic_glink_ss1_con_sbu_in: endpoint {
++						remote-endpoint = <&retimer_ss1_con_sbu_out>;
+ 					};
+ 				};
+ 			};
+@@ -157,7 +173,15 @@ port@1 {
+ 					reg = <1>;
+ 
+ 					pmic_glink_ss2_ss_in: endpoint {
+-						remote-endpoint = <&usb_1_ss2_qmpphy_out>;
++						remote-endpoint = <&retimer_ss2_ss_out>;
++					};
++				};
 +
-+  clocks:
-+    items:
-+      - description: XO Clock
++				port@2 {
++					reg = <2>;
 +
-+  ps8830,boot-on:
-+    description: Left enabled at boot, so skip resetting
-+    type: boolean
++					pmic_glink_ss2_con_sbu_in: endpoint {
++						remote-endpoint = <&retimer_ss2_con_sbu_out>;
+ 					};
+ 				};
+ 			};
+@@ -293,6 +317,150 @@ vreg_nvme: regulator-nvme {
+ 		regulator-boot-on;
+ 	};
+ 
++	vreg_rtmr0_1p15: regulator-rtmr0-1p15 {
++		compatible = "regulator-fixed";
 +
-+  reset-gpios:
-+    maxItems: 1
++		regulator-name = "VREG_RTMR0_1P15";
++		regulator-min-microvolt = <1150000>;
++		regulator-max-microvolt = <1150000>;
 +
-+  vdd-supply:
-+    description: power supply (1.07V)
++		gpio = <&pmc8380_5_gpios 8 GPIO_ACTIVE_HIGH>;
++		enable-active-high;
 +
-+  vdd33-supply:
-+    description: power supply (3.3V)
++		pinctrl-0 = <&usb0_pwr_1p15_reg_en>;
++		pinctrl-names = "default";
 +
-+  vdd33-cap-supply:
-+    description: power supply (3.3V)
++		regulator-boot-on;
++	};
 +
-+  vddar-supply:
-+    description: power supply (1.07V)
++	vreg_rtmr0_1p8: regulator-rtmr0-1p8 {
++		compatible = "regulator-fixed";
 +
-+  vddat-supply:
-+    description: power supply (1.07V)
++		regulator-name = "VREG_RTMR0_1P8";
++		regulator-min-microvolt = <1800000>;
++		regulator-max-microvolt = <1800000>;
 +
-+  vddio-supply:
-+    description: power supply (1.2V or 1.8V)
++		gpio = <&pm8550ve_9_gpios 8 GPIO_ACTIVE_HIGH>;
++		enable-active-high;
 +
-+required:
-+  - compatible
-+  - reg
-+  - clocks
-+  - reset-gpios
-+  - vdd-supply
-+  - vdd33-supply
-+  - vdd33-cap-supply
-+  - vddat-supply
-+  - vddio-supply
-+  - orientation-switch
-+  - retimer-switch
++		pinctrl-0 = <&usb0_1p8_reg_en>;
++		pinctrl-names = "default";
 +
-+allOf:
-+  - $ref: usb-switch.yaml#
++		regulator-boot-on;
++	};
 +
-+unevaluatedProperties: false
++	vreg_rtmr0_3p3: regulator-rtmr0-3p3 {
++		compatible = "regulator-fixed";
 +
-+examples:
-+  - |
-+    #include <dt-bindings/gpio/gpio.h>
++		regulator-name = "VREG_RTMR0_3P3";
++		regulator-min-microvolt = <3300000>;
++		regulator-max-microvolt = <3300000>;
 +
-+    i2c {
-+        #address-cells = <1>;
-+        #size-cells = <0>;
++		gpio = <&pm8550_gpios 11 GPIO_ACTIVE_HIGH>;
++		enable-active-high;
 +
-+        typec-mux@8 {
-+            compatible = "parade,ps8830";
-+            reg = <0x8>;
++		pinctrl-0 = <&usb0_3p3_reg_en>;
++		pinctrl-names = "default";
 +
-+            clocks = <&clk_rtmr_xo>;
++		regulator-boot-on;
++	};
 +
-+            vdd-supply = <&vreg_rtmr_1p15>;
-+            vdd33-supply = <&vreg_rtmr_3p3>;
-+            vdd33-cap-supply = <&vreg_rtmr_3p3>;
-+            vddar-supply = <&vreg_rtmr_1p15>;
-+            vddat-supply = <&vreg_rtmr_1p15>;
-+            vddio-supply = <&vreg_rtmr_1p8>;
++	vreg_rtmr1_1p15: regulator-rtmr1-1p15 {
++		compatible = "regulator-fixed";
 +
-+            reset-gpios = <&tlmm 10 GPIO_ACTIVE_LOW>;
++		regulator-name = "VREG_RTMR1_1P15";
++		regulator-min-microvolt = <1150000>;
++		regulator-max-microvolt = <1150000>;
 +
-+            retimer-switch;
-+            orientation-switch;
++		gpio = <&tlmm 188 GPIO_ACTIVE_HIGH>;
++		enable-active-high;
 +
-+            ports {
-+                #address-cells = <1>;
-+                #size-cells = <0>;
++		pinctrl-0 = <&usb1_pwr_1p15_reg_en>;
++		pinctrl-names = "default";
 +
-+                port@0 {
-+                    reg = <0>;
++		regulator-boot-on;
++	};
 +
-+                    endpoint {
-+                        remote-endpoint = <&typec_con_ss>;
-+                    };
-+                };
++	vreg_rtmr1_1p8: regulator-rtmr1-1p8 {
++		compatible = "regulator-fixed";
 +
-+                port@1 {
-+                    reg = <1>;
++		regulator-name = "VREG_RTMR1_1P8";
++		regulator-min-microvolt = <1800000>;
++		regulator-max-microvolt = <1800000>;
 +
-+                    endpoint {
-+                        remote-endpoint = <&usb_phy_ss>;
-+                    };
-+                };
++		gpio = <&tlmm 175 GPIO_ACTIVE_HIGH>;
++		enable-active-high;
 +
-+                port@2 {
-+                    reg = <2>;
++		pinctrl-0 = <&usb1_pwr_1p8_reg_en>;
++		pinctrl-names = "default";
 +
-+                    endpoint {
-+                        remote-endpoint = <&typec_dp_aux>;
-+                    };
-+                };
-+            };
-+        };
-+    };
-+...
++		regulator-boot-on;
++	};
++
++	vreg_rtmr1_3p3: regulator-rtmr1-3p3 {
++		compatible = "regulator-fixed";
++
++		regulator-name = "VREG_RTMR1_3P3";
++		regulator-min-microvolt = <3300000>;
++		regulator-max-microvolt = <3300000>;
++
++		gpio = <&tlmm 186 GPIO_ACTIVE_HIGH>;
++		enable-active-high;
++
++		pinctrl-0 = <&usb1_pwr_3p3_reg_en>;
++		pinctrl-names = "default";
++
++		regulator-boot-on;
++	};
++
++	vreg_rtmr2_1p15: regulator-rtmr2-1p15 {
++		compatible = "regulator-fixed";
++
++		regulator-name = "VREG_RTMR2_1P15";
++		regulator-min-microvolt = <1150000>;
++		regulator-max-microvolt = <1150000>;
++
++		gpio = <&tlmm 189 GPIO_ACTIVE_HIGH>;
++		enable-active-high;
++
++		pinctrl-0 = <&usb2_pwr_1p15_reg_en>;
++		pinctrl-names = "default";
++
++		regulator-boot-on;
++	};
++
++	vreg_rtmr2_1p8: regulator-rtmr2-1p8 {
++		compatible = "regulator-fixed";
++
++		regulator-name = "VREG_RTMR2_1P8";
++		regulator-min-microvolt = <1800000>;
++		regulator-max-microvolt = <1800000>;
++
++		gpio = <&tlmm 126 GPIO_ACTIVE_HIGH>;
++		enable-active-high;
++
++		pinctrl-0 = <&usb2_pwr_1p8_reg_en>;
++		pinctrl-names = "default";
++
++		regulator-boot-on;
++	};
++
++	vreg_rtmr2_3p3: regulator-rtmr2-3p3 {
++		compatible = "regulator-fixed";
++
++		regulator-name = "VREG_RTMR2_3P3";
++		regulator-min-microvolt = <3300000>;
++		regulator-max-microvolt = <3300000>;
++
++		gpio = <&tlmm 187 GPIO_ACTIVE_HIGH>;
++		enable-active-high;
++
++		pinctrl-0 = <&usb2_pwr_3p3_reg_en>;
++		pinctrl-names = "default";
++
++		regulator-boot-on;
++	};
++
+ 	vph_pwr: regulator-vph-pwr {
+ 		compatible = "regulator-fixed";
+ 
+@@ -711,6 +879,178 @@ keyboard@3a {
+ 	};
+ };
+ 
++&i2c1 {
++	clock-frequency = <400000>;
++
++	status = "okay";
++
++	typec-mux@8 {
++		compatible = "parade,ps8830";
++		reg = <0x08>;
++
++		clocks = <&rpmhcc RPMH_RF_CLK5>;
++
++		vdd-supply = <&vreg_rtmr2_1p15>;
++		vdd33-supply = <&vreg_rtmr2_3p3>;
++		vdd33-cap-supply = <&vreg_rtmr2_3p3>;
++		vddar-supply = <&vreg_rtmr2_1p15>;
++		vddat-supply = <&vreg_rtmr2_1p15>;
++		vddio-supply = <&vreg_rtmr2_1p8>;
++
++		reset-gpios = <&tlmm 185 GPIO_ACTIVE_LOW>;
++
++		pinctrl-0 = <&rtmr2_default>;
++		pinctrl-names = "default";
++
++		orientation-switch;
++		retimer-switch;
++
++		ports {
++			#address-cells = <1>;
++			#size-cells = <0>;
++
++			port@0 {
++				reg = <0>;
++
++				retimer_ss2_ss_out: endpoint {
++					remote-endpoint = <&pmic_glink_ss2_ss_in>;
++				};
++			};
++
++			port@1 {
++				reg = <1>;
++
++				retimer_ss2_ss_in: endpoint {
++					remote-endpoint = <&usb_1_ss2_qmpphy_out>;
++				};
++			};
++
++			port@2 {
++				reg = <2>;
++
++				retimer_ss2_con_sbu_out: endpoint {
++					remote-endpoint = <&pmic_glink_ss2_con_sbu_in>;
++				};
++			};
++		};
++	};
++};
++
++&i2c3 {
++	clock-frequency = <400000>;
++
++	status = "okay";
++
++	typec-mux@8 {
++		compatible = "parade,ps8830";
++		reg = <0x08>;
++
++		clocks = <&rpmhcc RPMH_RF_CLK3>;
++
++		vdd-supply = <&vreg_rtmr0_1p15>;
++		vdd33-supply = <&vreg_rtmr0_3p3>;
++		vdd33-cap-supply = <&vreg_rtmr0_3p3>;
++		vddar-supply = <&vreg_rtmr0_1p15>;
++		vddat-supply = <&vreg_rtmr0_1p15>;
++		vddio-supply = <&vreg_rtmr0_1p8>;
++
++		reset-gpios = <&pm8550_gpios 10 GPIO_ACTIVE_LOW>;
++
++		pinctrl-0 = <&rtmr0_default>;
++		pinctrl-names = "default";
++
++		retimer-switch;
++		orientation-switch;
++
++		ports {
++			#address-cells = <1>;
++			#size-cells = <0>;
++
++			port@0 {
++				reg = <0>;
++
++				retimer_ss0_ss_out: endpoint {
++					remote-endpoint = <&pmic_glink_ss0_ss_in>;
++				};
++			};
++
++			port@1 {
++				reg = <1>;
++
++				retimer_ss0_ss_in: endpoint {
++					remote-endpoint = <&usb_1_ss0_qmpphy_out>;
++				};
++			};
++
++			port@2 {
++				reg = <2>;
++
++				retimer_ss0_con_sbu_out: endpoint {
++					remote-endpoint = <&pmic_glink_ss0_con_sbu_in>;
++				};
++			};
++		};
++	};
++};
++
++&i2c7 {
++	clock-frequency = <400000>;
++
++	status = "okay";
++
++	typec-mux@8 {
++		compatible = "parade,ps8830";
++		reg = <0x8>;
++
++		clocks = <&rpmhcc RPMH_RF_CLK4>;
++
++		vdd-supply = <&vreg_rtmr1_1p15>;
++		vdd33-supply = <&vreg_rtmr1_3p3>;
++		vdd33-cap-supply = <&vreg_rtmr1_3p3>;
++		vddar-supply = <&vreg_rtmr1_1p15>;
++		vddat-supply = <&vreg_rtmr1_1p15>;
++		vddio-supply = <&vreg_rtmr1_1p8>;
++
++		reset-gpios = <&tlmm 176 GPIO_ACTIVE_LOW>;
++
++		pinctrl-0 = <&rtmr1_default>;
++		pinctrl-names = "default";
++
++		retimer-switch;
++		orientation-switch;
++
++		ports {
++			#address-cells = <1>;
++			#size-cells = <0>;
++
++			port@0 {
++				reg = <0>;
++
++				retimer_ss1_ss_out: endpoint {
++					remote-endpoint = <&pmic_glink_ss1_ss_in>;
++				};
++			};
++
++			port@1 {
++				reg = <1>;
++
++				retimer_ss1_ss_in: endpoint {
++					remote-endpoint = <&usb_1_ss1_qmpphy_out>;
++				};
++			};
++
++			port@2 {
++				reg = <2>;
++
++				retimer_ss1_con_sbu_out: endpoint {
++					remote-endpoint = <&pmic_glink_ss1_con_sbu_in>;
++				};
++			};
++
++		};
++	};
++};
++
+ &i2c8 {
+ 	clock-frequency = <400000>;
+ 
+@@ -856,6 +1196,28 @@ &pcie6a_phy {
+ 	status = "okay";
+ };
+ 
++&pm8550_gpios {
++	rtmr0_default: rtmr0-reset-n-active-state {
++		pins = "gpio10";
++		function = "normal";
++		power-source = <1>; /* 1.8V */
++	};
++
++	usb0_3p3_reg_en: usb0-3p3-reg-en-state {
++		pins = "gpio11";
++		function = "normal";
++		power-source = <1>; /* 1.8V */
++	};
++};
++
++&pm8550ve_9_gpios {
++	usb0_1p8_reg_en: usb0-1p8-reg-en-state {
++		pins = "gpio8";
++		function = "normal";
++		power-source = <1>; /* 1.8V */
++	};
++};
++
+ &pmc8380_3_gpios {
+ 	edp_bl_en: edp-bl-en-state {
+ 		pins = "gpio4";
+@@ -866,6 +1228,15 @@ edp_bl_en: edp-bl-en-state {
+ 	};
+ };
+ 
++&pmc8380_5_gpios {
++	usb0_pwr_1p15_reg_en: usb0-pwr-1p15-reg-en-state {
++		pins = "gpio8";
++		function = "normal";
++		power-source = <1>; /* 1.8V */
++		bias-disable;
++	};
++};
++
+ &qupv3_0 {
+ 	status = "okay";
+ };
+@@ -1095,6 +1466,62 @@ wake-n-pins {
+ 		};
+ 	};
+ 
++	usb1_pwr_1p15_reg_en: usb1-pwr-1p15-reg-en-state {
++		pins = "gpio188";
++		function = "gpio";
++		drive-strength = <2>;
++		bias-disable;
++	};
++
++	usb1_pwr_1p8_reg_en: usb1-pwr-1p8-reg-en-state {
++		pins = "gpio175";
++		function = "gpio";
++		drive-strength = <2>;
++		bias-disable;
++	};
++
++	usb1_pwr_3p3_reg_en: usb1-pwr-3p3-reg-en-state {
++		pins = "gpio186";
++		function = "gpio";
++		drive-strength = <2>;
++		bias-disable;
++	};
++
++	rtmr1_default: rtmr1-reset-n-active-state {
++		pins = "gpio176";
++		function = "gpio";
++		drive-strength = <2>;
++		bias-disable;
++	};
++
++	usb2_pwr_1p15_reg_en: usb2-pwr-1p15-reg-en-state {
++		pins = "gpio189";
++		function = "gpio";
++		drive-strength = <2>;
++		bias-disable;
++	};
++
++	usb2_pwr_1p8_reg_en: usb2-pwr-1p8-reg-en-state {
++		pins = "gpio126";
++		function = "gpio";
++		drive-strength = <2>;
++		bias-disable;
++	};
++
++	usb2_pwr_3p3_reg_en: usb2-pwr-3p3-reg-en-state {
++		pins = "gpio187";
++		function = "gpio";
++		drive-strength = <2>;
++		bias-disable;
++	};
++
++	rtmr2_default: rtmr2-reset-n-active-state {
++		pins = "gpio185";
++		function = "gpio";
++		drive-strength = <2>;
++		bias-disable;
++	};
++
+ 	tpad_default: tpad-default-state {
+ 		pins = "gpio3";
+ 		function = "gpio";
+@@ -1162,7 +1589,7 @@ &usb_1_ss0_dwc3_hs {
+ };
+ 
+ &usb_1_ss0_qmpphy_out {
+-	remote-endpoint = <&pmic_glink_ss0_ss_in>;
++	remote-endpoint = <&retimer_ss0_ss_in>;
+ };
+ 
+ &usb_1_ss1_hsphy {
+@@ -1190,7 +1617,7 @@ &usb_1_ss1_dwc3_hs {
+ };
+ 
+ &usb_1_ss1_qmpphy_out {
+-	remote-endpoint = <&pmic_glink_ss1_ss_in>;
++	remote-endpoint = <&retimer_ss1_ss_in>;
+ };
+ 
+ &usb_1_ss2_hsphy {
+@@ -1218,5 +1645,5 @@ &usb_1_ss2_dwc3_hs {
+ };
+ 
+ &usb_1_ss2_qmpphy_out {
+-	remote-endpoint = <&pmic_glink_ss2_ss_in>;
++	remote-endpoint = <&retimer_ss2_ss_in>;
+ };
 
 -- 
 2.34.1
