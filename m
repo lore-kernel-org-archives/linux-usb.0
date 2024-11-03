@@ -1,119 +1,136 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from todd.t-8ch.de (todd.t-8ch.de [159.69.126.157])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 71A031632DF;
-	Sun,  3 Nov 2024 12:02:25 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 62E5617A597;
+	Sun,  3 Nov 2024 17:04:40 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=159.69.126.157
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1730635345; cv=none; b=E/+alLZEo6rNGvgPZdwzKWJ0TvYGLMfgN1djCWLcV4baumEBcCjNK2nycMf22p+UP0rSDOusxS8DvEU4GxIfyIlO0vC2yy+Nvn5NccLUEBgnMDKpm1MWzrwkslz7l/eHL2JVj+u2tHDaXXtCgMZ1XwpBjuH8tayH+chJFBvkzzc=
+	t=1730653482; cv=none; b=sRUeK3jaPUB1yaKtyEd4UaInJR2R0507nMGvDWHRaMxv+peVyN2n6N7+B2sSr2a2a7ocovRHun/tQ8UjSBghp9gCYHOBfqHMm12BNXQO5ZMosdKocGHW56zLjeFcZMYrH7/Ayri9/3ECmoInHpxilawOxjBv4bnnydLfjIYmlGc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1730635345; c=relaxed/simple;
-	bh=Y4qG3SXaAVQ+YzeZZ3XeJ6pdiwxgT2z0KZ92aiDC474=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=kD5Z1xvwNoJdaZUfkcYReXMwkt48vkq8SyG9nkD01+nY7OLJ/75qLKt0IJXnHuTndfwIbqLUllW4Dx+rVl08EvXcBU17BgedbplxONfeXipzJlcg5608AZYnsWrV1D2cwICXKntfioClGrcPiCQ3oRanji99zghYkSPj/eynLiA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b=GwBfeXi/; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1730653482; c=relaxed/simple;
+	bh=zDhPVchfMys7HnsVtwZsrXjRXhl5fZsRZ1XGARPtegE=;
+	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
+	 In-Reply-To:To:Cc; b=rfgqPLxWN0c81iG+Gt15h0UpdJGuJh6IRYvzzXjuX6CS09rcT3jb4fWBwbXho35KEYUmsn+pC+r7fa8qYrymOefJFhLcLuc+YRPeBMfKt4I5TZROGQNhkYOtScgeLhgpPNeUT+qSdLwYAKzd289p+Wp+Yj4IQwzn3DFEaLso3Bw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=weissschuh.net; spf=pass smtp.mailfrom=weissschuh.net; dkim=pass (1024-bit key) header.d=weissschuh.net header.i=@weissschuh.net header.b=nF+i3TO1; arc=none smtp.client-ip=159.69.126.157
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=weissschuh.net
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=weissschuh.net
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="GwBfeXi/"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id D2E5DC4CECD;
-	Sun,  3 Nov 2024 12:02:24 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
-	s=korg; t=1730635345;
-	bh=Y4qG3SXaAVQ+YzeZZ3XeJ6pdiwxgT2z0KZ92aiDC474=;
-	h=Date:From:To:Cc:Subject:From;
-	b=GwBfeXi/XPHHNDMheuWWCahNMr0fBVdXoYo2Jw2DP5wEhhoF1otuvwcCSXzgHfR27
-	 2ksiFISJX2KzrAcn7gaEKZJtXri07tLrJHxOReqT6d9yYI0es639Z4/Qt3gFCiFAge
-	 5YsETtcLETaYHVCW7UCDKI8Htz+UB+GpKSc9gADI=
-Date: Sun, 3 Nov 2024 13:02:09 +0100
-From: Greg KH <gregkh@linuxfoundation.org>
-To: Linus Torvalds <torvalds@linux-foundation.org>
-Cc: Andrew Morton <akpm@linux-foundation.org>, linux-kernel@vger.kernel.org,
-	linux-usb@vger.kernel.org
-Subject: [GIT PULL] USB fixes for 6.12-rc6
-Message-ID: <ZydmQblqRdfE3dZ5@kroah.com>
+	dkim=pass (1024-bit key) header.d=weissschuh.net header.i=@weissschuh.net header.b="nF+i3TO1"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=weissschuh.net;
+	s=mail; t=1730653478;
+	bh=zDhPVchfMys7HnsVtwZsrXjRXhl5fZsRZ1XGARPtegE=;
+	h=From:Date:Subject:References:In-Reply-To:To:Cc:From;
+	b=nF+i3TO19zkqViLZBPElPKvX/TvhJJeS1cvvIzeKcupp4M59PZzI/dmxNU82/FOOD
+	 b1PHpxxOeHOMATRE4iVFCkW9eR13J9JRa9AZRjbs61ruzxDt43px/4jqbxYk0GryTq
+	 17bNoP+ivw6mKFg334qDOC+P5FikSoHeR2wGq+Bo=
+From: =?utf-8?q?Thomas_Wei=C3=9Fschuh?= <linux@weissschuh.net>
+Date: Sun, 03 Nov 2024 17:03:33 +0000
+Subject: [PATCH v2 04/10] nvmem: core: calculate bin_attribute size through
+ bin_size()
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 8bit
+Message-Id: <20241103-sysfs-const-bin_attr-v2-4-71110628844c@weissschuh.net>
+References: <20241103-sysfs-const-bin_attr-v2-0-71110628844c@weissschuh.net>
+In-Reply-To: <20241103-sysfs-const-bin_attr-v2-0-71110628844c@weissschuh.net>
+To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>, 
+ "Rafael J. Wysocki" <rafael@kernel.org>, 
+ Bjorn Helgaas <bhelgaas@google.com>, 
+ Srinivas Kandagatla <srinivas.kandagatla@linaro.org>, 
+ Davidlohr Bueso <dave@stgolabs.net>, 
+ Jonathan Cameron <jonathan.cameron@huawei.com>, 
+ Dave Jiang <dave.jiang@intel.com>, 
+ Alison Schofield <alison.schofield@intel.com>, 
+ Vishal Verma <vishal.l.verma@intel.com>, Ira Weiny <ira.weiny@intel.com>, 
+ Alex Deucher <alexander.deucher@amd.com>, 
+ =?utf-8?q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>, 
+ Xinhui Pan <Xinhui.Pan@amd.com>, David Airlie <airlied@gmail.com>, 
+ Simona Vetter <simona@ffwll.ch>, 
+ Dennis Dalessandro <dennis.dalessandro@cornelisnetworks.com>, 
+ Jason Gunthorpe <jgg@ziepe.ca>, Leon Romanovsky <leon@kernel.org>, 
+ Tudor Ambarus <tudor.ambarus@linaro.org>, 
+ Pratyush Yadav <pratyush@kernel.org>, Michael Walle <mwalle@kernel.org>, 
+ Miquel Raynal <miquel.raynal@bootlin.com>, 
+ Richard Weinberger <richard@nod.at>, Vignesh Raghavendra <vigneshr@ti.com>, 
+ Naveen Krishna Chatradhi <naveenkrishna.chatradhi@amd.com>, 
+ Carlos Bilbao <carlos.bilbao.osdev@gmail.com>, 
+ Hans de Goede <hdegoede@redhat.com>, 
+ =?utf-8?q?Ilpo_J=C3=A4rvinen?= <ilpo.jarvinen@linux.intel.com>, 
+ "David E. Box" <david.e.box@linux.intel.com>, 
+ "James E.J. Bottomley" <James.Bottomley@HansenPartnership.com>, 
+ "Martin K. Petersen" <martin.petersen@oracle.com>, 
+ Richard Henderson <richard.henderson@linaro.org>, 
+ Matt Turner <mattst88@gmail.com>, Frederic Barrat <fbarrat@linux.ibm.com>, 
+ Andrew Donnellan <ajd@linux.ibm.com>, Arnd Bergmann <arnd@arndb.de>, 
+ Logan Gunthorpe <logang@deltatee.com>, 
+ "K. Y. Srinivasan" <kys@microsoft.com>, 
+ Haiyang Zhang <haiyangz@microsoft.com>, Wei Liu <wei.liu@kernel.org>, 
+ Dexuan Cui <decui@microsoft.com>
+Cc: Dan Williams <dan.j.williams@intel.com>, linux-kernel@vger.kernel.org, 
+ linux-pci@vger.kernel.org, linux-cxl@vger.kernel.org, 
+ amd-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org, 
+ linux-rdma@vger.kernel.org, linux-mtd@lists.infradead.org, 
+ platform-driver-x86@vger.kernel.org, linux-scsi@vger.kernel.org, 
+ linux-usb@vger.kernel.org, linux-alpha@vger.kernel.org, 
+ linuxppc-dev@lists.ozlabs.org, linux-hyperv@vger.kernel.org, 
+ =?utf-8?q?Thomas_Wei=C3=9Fschuh?= <linux@weissschuh.net>
+X-Mailer: b4 0.14.2
+X-Developer-Signature: v=1; a=ed25519-sha256; t=1730653468; l=1407;
+ i=linux@weissschuh.net; s=20221212; h=from:subject:message-id;
+ bh=zDhPVchfMys7HnsVtwZsrXjRXhl5fZsRZ1XGARPtegE=;
+ b=LIJoZnee0F8KxWypgifoxx5C03UWzUsfKRD3mTuXEg8GZQDzU4bKngbG7gE6mho+vvHyDPpYb
+ T0csHWK0CZAA7NKHFKir+h35XqhjNK7+x/o8Rk9YXpQi/8Q7SU3s9Ua
+X-Developer-Key: i=linux@weissschuh.net; a=ed25519;
+ pk=KcycQgFPX2wGR5azS7RhpBqedglOZVgRPfdFSPB1LNw=
 
-The following changes since commit 42f7652d3eb527d03665b09edac47f85fb600924:
+Stop abusing the is_bin_visible() callback to calculate the attribute
+size. Instead use the new, dedicated bin_size() one.
 
-  Linux 6.12-rc4 (2024-10-20 15:19:38 -0700)
+Signed-off-by: Thomas Weißschuh <linux@weissschuh.net>
+---
+ drivers/nvmem/core.c | 13 +++++++++++--
+ 1 file changed, 11 insertions(+), 2 deletions(-)
 
-are available in the Git repository at:
+diff --git a/drivers/nvmem/core.c b/drivers/nvmem/core.c
+index 33ffa2aa4c1152398ec66b8dd7b30384c5346a6e..63370c76394ee9b8d514da074779617cef67c311 100644
+--- a/drivers/nvmem/core.c
++++ b/drivers/nvmem/core.c
+@@ -303,11 +303,19 @@ static umode_t nvmem_bin_attr_is_visible(struct kobject *kobj,
+ 	struct device *dev = kobj_to_dev(kobj);
+ 	struct nvmem_device *nvmem = to_nvmem_device(dev);
+ 
+-	attr->size = nvmem->size;
+-
+ 	return nvmem_bin_attr_get_umode(nvmem);
+ }
+ 
++static size_t nvmem_bin_attr_size(struct kobject *kobj,
++				  const struct bin_attribute *attr,
++				  int i)
++{
++	struct device *dev = kobj_to_dev(kobj);
++	struct nvmem_device *nvmem = to_nvmem_device(dev);
++
++	return nvmem->size;
++}
++
+ static umode_t nvmem_attr_is_visible(struct kobject *kobj,
+ 				     struct attribute *attr, int i)
+ {
+@@ -383,6 +391,7 @@ static const struct attribute_group nvmem_bin_group = {
+ 	.bin_attrs	= nvmem_bin_attributes,
+ 	.attrs		= nvmem_attrs,
+ 	.is_bin_visible = nvmem_bin_attr_is_visible,
++	.bin_size	= nvmem_bin_attr_size,
+ 	.is_visible	= nvmem_attr_is_visible,
+ };
+ 
 
-  git://git.kernel.org/pub/scm/linux/kernel/git/gregkh/usb.git tags/usb-6.12-rc6
+-- 
+2.47.0
 
-for you to fetch changes up to afb92ad8733ef0a2843cc229e4d96aead80bc429:
-
-  usb: typec: tcpm: restrict SNK_WAIT_CAPABILITIES_TIMEOUT transitions to non self-powered devices (2024-10-29 04:38:00 +0100)
-
-----------------------------------------------------------------
-USB / Thunderbolt fixes for 6.12-rc6
-
-Here are some small USB and Thunderbolt driver fixes for 6.12-rc6 that
-have been sitting in my tree this week.  Included in here are the
-following:
-  - thunderbolt driver fixes for reported issues
-  - USB typec driver fixes
-  - xhci driver fixes for reported problems
-  - dwc2 driver revert for a broken change
-  - usb phy driver fix
-  - usbip tool fix
-
-All of these have been in linux-next this week with no reported issues.
-
-Signed-off-by: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-
-----------------------------------------------------------------
-Amit Sunil Dhamne (1):
-      usb: typec: tcpm: restrict SNK_WAIT_CAPABILITIES_TIMEOUT transitions to non self-powered devices
-
-Basavaraj Natikar (1):
-      xhci: Use pm_runtime_get to prevent RPM on unsupported systems
-
-Faisal Hassan (1):
-      xhci: Fix Link TRB DMA in command ring stopped completion event
-
-Gil Fine (1):
-      thunderbolt: Honor TMU requirements in the domain when setting TMU mode
-
-Greg Kroah-Hartman (1):
-      Merge tag 'thunderbolt-for-v6.12-rc5' of ssh://gitolite.kernel.org/pub/scm/linux/kernel/git/westeri/thunderbolt into usb-linus
-
-Javier Carrasco (4):
-      usb: typec: qcom-pmic-typec: use fwnode_handle_put() to release fwnodes
-      usb: typec: qcom-pmic-typec: fix missing fwnode removal in error path
-      usb: typec: fix unreleased fwnode_handle in typec_port_register_altmodes()
-      usb: typec: use cleanup facility for 'altmodes_node'
-
-Mathias Nyman (1):
-      usb: acpi: fix boot hang due to early incorrect 'tunneled' USB3 device links
-
-Mika Westerberg (1):
-      thunderbolt: Fix KASAN reported stack out-of-bounds read in tb_retimer_scan()
-
-Stefan Wahren (1):
-      Revert "usb: dwc2: Skip clock gating on Broadcom SoCs"
-
-Zijun Hu (1):
-      usb: phy: Fix API devm_usb_put_phy() can not release the phy
-
-Zongmin Zhou (1):
-      usbip: tools: Fix detach_port() invalid port error path
-
- drivers/thunderbolt/retimer.c                 |  5 +--
- drivers/thunderbolt/tb.c                      | 48 +++++++++++++++++++++++----
- drivers/usb/core/usb-acpi.c                   |  4 +--
- drivers/usb/dwc2/params.c                     |  1 -
- drivers/usb/host/xhci-pci.c                   |  6 ++--
- drivers/usb/host/xhci-ring.c                  | 16 ++++-----
- drivers/usb/phy/phy.c                         |  2 +-
- drivers/usb/typec/class.c                     |  6 ++--
- drivers/usb/typec/tcpm/qcom/qcom_pmic_typec.c | 10 +++---
- drivers/usb/typec/tcpm/tcpm.c                 | 10 ++++--
- tools/usb/usbip/src/usbip_detach.c            |  1 +
- 11 files changed, 78 insertions(+), 31 deletions(-)
