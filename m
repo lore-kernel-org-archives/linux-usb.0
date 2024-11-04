@@ -1,63 +1,63 @@
-Received: from mail-lf1-f47.google.com (mail-lf1-f47.google.com [209.85.167.47])
+Received: from mail-lf1-f43.google.com (mail-lf1-f43.google.com [209.85.167.43])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A29F96FC5
-	for <linux-usb@vger.kernel.org>; Mon,  4 Nov 2024 09:33:58 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.47
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 15A4A6FC5
+	for <linux-usb@vger.kernel.org>; Mon,  4 Nov 2024 09:34:45 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.43
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1730712840; cv=none; b=Vb/ngv9ZP8vuAcUk2xiXFvbOhHeTQpkRa+T4eG7Jaam2mNIw/jDy6UkKxtdA+/WRLW033B0ma71gwH06Bwd51qaH7kY76qNcvtX+3yuDjQIbXj3P/CLH2ZrN1LTiipix0fLQddRbmLnhziaa+F7E0BBJBYbHgJlrUm4GpXLfxWQ=
+	t=1730712887; cv=none; b=Pl7QrGC9jUn9dSkDOUBk0uLDMhbP8xWxXUewcUeCIK2I/tK3dPi2xRhcfDcp5hcs5AEeNd+WjtIir0t13IQKG4rakgfyPZNDO8pgwbRdkudcq64YEc4Jyga3mjRAsz1VI+ScotRPgDDo9AJARaHp6KpiZSApkruYh65v4kszcvU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1730712840; c=relaxed/simple;
-	bh=7gy2UshydHRIp1IWzckGJjEYIpKZqVXcPwL73r8hRQ0=;
+	s=arc-20240116; t=1730712887; c=relaxed/simple;
+	bh=SwBw0u2oB9YWmUAWvLcSrdIztuafapwkYZlH6X3wVW4=;
 	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=cGASHuiCHJBvyac45ayNUhKINMv/esjtxFeWVB19qQly1Nwy1ZULvKFLkPBYYYQnYOH5OqGyZfXf6qklO7LVycAVrhs3ap1XPKpXbZAoI5xOfRPkBJZFRewDb/isdm4+WWHly/jxsBtCOI/vjuQCcS810/oP40+eOKZ2jmaAFTw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=B/0O6qgu; arc=none smtp.client-ip=209.85.167.47
+	 MIME-Version:Content-Type; b=U20ny6ZVIWZBMbIcbgLWeEW0vdDxXLREhpavwdNiq2NnRwdLlxFrG3oQPgZfJrPmOZ24HU1iC7tWrRIaixoqJKsP0bQFPnwZBId3b+0qgpX+ofzrfk+8eMkEEZ3QXELoYhiRTNg1xdO8YnbmvZA6lljhQ5g2AnnhXxT7/uETnfY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=IKmFPnTd; arc=none smtp.client-ip=209.85.167.43
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="B/0O6qgu"
-Received: by mail-lf1-f47.google.com with SMTP id 2adb3069b0e04-53b13ea6b78so6016649e87.2
-        for <linux-usb@vger.kernel.org>; Mon, 04 Nov 2024 01:33:58 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="IKmFPnTd"
+Received: by mail-lf1-f43.google.com with SMTP id 2adb3069b0e04-539e6c754bdso3829614e87.2
+        for <linux-usb@vger.kernel.org>; Mon, 04 Nov 2024 01:34:45 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1730712837; x=1731317637; darn=vger.kernel.org;
+        d=gmail.com; s=20230601; t=1730712884; x=1731317684; darn=vger.kernel.org;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:subject:cc:to:from:date:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=9xOBLG3kSV0OpgvB1+z4iz5n0HRqbxwmvzGC6YunFdg=;
-        b=B/0O6qguQATlyONt+MOM28Zq6UznrpssYUZgtX7fqHtexPFqM9jW286dwzZu0zDqzt
-         Mf4raqWV54ZE1spzfA35q+KHufYNRP279G9hL7YCH74hjKcZ27dHlqho/XqfAcu0ODJB
-         +vK4iv1ZL0pGPGONFZSK1sebHLuyk9UuYZlIjxJMYKWuo+PzStnIY9apUhSh2QFgKGYW
-         linAIgXaXvmxJcx5766RtAPCkLJrJlPkKb0mqRefrqSLlk4Wrq4cR48wFUN8ydWMxVvA
-         /t9MNRMW+4eXMgqkv+NsVPuFLByVveKEPQ1RbLvWGQjjGzA8jLTI+8W272bH9n3uxTBk
-         EwLA==
+        bh=IglvRZ5385zU0mmHh62rTw1JW5g8sQ0kUxTBvIPUQZQ=;
+        b=IKmFPnTdKDPgtddijxNfW60cZQYy8aDh/tdcO7ThKpK/7K20leVx0UyvWrQYvap2YI
+         PdD1h6Hm7z09vvn9erThc9ByV9HvVNfBgQ+0jbR2nUJ1Znk0YVer9ujIrythPuw3Xe/g
+         pOSxJXSXqFfHXs0LxBkEc8afiP9Agb6UjSYj4CwDytWSJ4Z23HIyvLQHBLIes/HDvI/5
+         7SdEJeWKcMVVm8V3Z1NmlhlO0hIklztptXyyKRoppRJv7iMYcvAhjmMUPUNCtf2UdTJi
+         MSuSbpa0uXj/xyRUhvtMKsKpzqjsSa1IqMyoDyQvSxOcierxNlf0Q1oPhBsRfe65PVzQ
+         RdPw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1730712837; x=1731317637;
+        d=1e100.net; s=20230601; t=1730712884; x=1731317684;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:subject:cc:to:from:date:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=9xOBLG3kSV0OpgvB1+z4iz5n0HRqbxwmvzGC6YunFdg=;
-        b=d1mtC7m5ODz/1DJhUNExPpIzugDRsYscfVfsXLphnqAs4fFOydoOhsTPdy2EbkD/OO
-         uLIMP61Q5jXD5oP8rZLjN5xxi8bHIjYrwga7kwq6dyrxWalagWYdy7DDSvdpzYEHDnW9
-         lvAE2zwLRusDXTuFWFnsX4wO2NUktalC31DDTd1NnkCxmkiPbmgcRNBmSHo11ULVkUqA
-         BxVoXgr5FH/gEGkGZQs/l02Joo79GZFI4wpidcv1s+96y0AQ0Y+NxvogDPuvAdFnAtp7
-         BVflsnLaSZ3X0nQFy8KTY7fQtb3gH7AxlNnHiZVhm7JOV7UOOzdFMs+Cl+A2yNF3Qnu9
-         MRzg==
-X-Gm-Message-State: AOJu0YyVacLdpup5whrXALNIEmcfrbITrTZ8Q3NzUHv6xhNiKRQgq1oS
-	i4g1LPEsuIvI5UYoS7y9qQOgA7P1rcGee3CFEyRv1lscVx+r3E3t
-X-Google-Smtp-Source: AGHT+IG21533qzrsUbvlm/PvMq54d+MRB/3bMDzliQN4RQaFo5NgER2ZfAXq2smuuQJWABdMIM3gkg==
-X-Received: by 2002:a05:6512:689:b0:536:a4f1:d214 with SMTP id 2adb3069b0e04-53d65de561cmr7909023e87.19.1730712836649;
-        Mon, 04 Nov 2024 01:33:56 -0800 (PST)
+        bh=IglvRZ5385zU0mmHh62rTw1JW5g8sQ0kUxTBvIPUQZQ=;
+        b=rc1Q5N/Jo2hvJgSKOAndwBRmsIAWGHQnOFti1b890HACNQ85LbTIaWnW1qSjByzw9E
+         LEcmjx4wj08JZlY16BMsTRAdON4lx3cxt5m+cH2XKoCTrSdAKdhVHtJ9H4v8ijjeDvb8
+         aRkcaAxvjiuVT/uqqGGU/ISrkI+CD85aVFBxMi1xzYg/XXETt1n3SJbYB3d0WoQA3tfm
+         vj4kmAYkRUcW1OgwpuMu37ziSduHmRMM87s3X7NOBrZcw6PU9PDpcgviuJblT2QCJwB9
+         f5bkcRQl1+i3TLrbUavszK1a4WsTKEZcXzby97q2t9ZQtbH6wqTAObue39ye6vH46ki5
+         Qosw==
+X-Gm-Message-State: AOJu0YxeOHq4wFjkmCPsI1wgDpKNlmWdcn7Rf4tA1EyKpIjRQZokeWl7
+	H44p+nrQnno3qOYxg/6lUQa7tqm1uP3pPOF3zWywijGDb5upCWHYcV6DTg==
+X-Google-Smtp-Source: AGHT+IGwAGtiWux+yHuACaJpEIpd+psYaQwWzsCCXOB4ath7tF+0e+6+46ZPtRZ38I6mTV0UFceqlA==
+X-Received: by 2002:a05:6512:68d:b0:535:699b:b076 with SMTP id 2adb3069b0e04-53c79e2fdb7mr6578023e87.16.1730712883905;
+        Mon, 04 Nov 2024 01:34:43 -0800 (PST)
 Received: from foxbook (bhf124.neoplus.adsl.tpnet.pl. [83.28.95.124])
-        by smtp.gmail.com with ESMTPSA id 2adb3069b0e04-53c7bc9c7c4sm1584776e87.115.2024.11.04.01.33.55
+        by smtp.gmail.com with ESMTPSA id 2adb3069b0e04-53c7bde08c4sm1582637e87.253.2024.11.04.01.34.40
         (version=TLS1_2 cipher=AES128-SHA bits=128/128);
-        Mon, 04 Nov 2024 01:33:56 -0800 (PST)
-Date: Mon, 4 Nov 2024 10:33:53 +0100
+        Mon, 04 Nov 2024 01:34:42 -0800 (PST)
+Date: Mon, 4 Nov 2024 10:34:38 +0100
 From: Michal Pecio <michal.pecio@gmail.com>
 To: Mathias Nyman <mathias.nyman@intel.com>
 Cc: linux-usb@vger.kernel.org
-Subject: [PATCH v4 2/3] usb: xhci: Fix TD invalidation under pending Set TR
- Dequeue
-Message-ID: <20241104103353.33ff4d98@foxbook>
+Subject: [PATCH v4 3/3] usb: xhci: Avoid queuing redundant Stop Endpoint
+ commands
+Message-ID: <20241104103438.14b07877@foxbook>
 In-Reply-To: <20241104103200.533fe1fb@foxbook>
 References: <20241104103200.533fe1fb@foxbook>
 Precedence: bulk
@@ -69,98 +69,111 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=US-ASCII
 Content-Transfer-Encoding: 7bit
 
-xhci_invalidate_cancelled_tds() may not work correctly if the hardware
-is modifying endpoint or stream contexts at the same time by executing
-a Set TR Dequeue command. And even if it worked, it would be unable to
-queue Set TR Dequeue for the next stream, failing to clear xHC cache.
+Stop Endpoint command on an already stopped endpoint fails and may be
+misinterpreted as a known hardware bug by the completion handler. This
+results in an unnecessary delay with repeated retries of the command.
 
-On stream endpoints, a chain of Set TR Dequeue commands may take some
-time to execute and we may want to cancel more TDs during this time.
-Currently this leads to Stop Endpoint completion handler calling this
-function without testing for SET_DEQ_PENDING, which will trigger the
-aforementioned problems when it happens.
+Avoid queuing this command when endpoint state flags indicate that it's
+stopped or halted and the command will fail. If commands are pending on
+the endpoint, their completion handlers will process cancelled TDs so
+it's done. In case of waiting for external operations like clearing TT
+buffer, the endpoint is stopped and cancelled TDs can be processed now.
 
-On all endpoints, a halt condition causes Reset Endpoint to be queued
-and an error status given to the class driver, which may unlink more
-URBs in response. Stop Endpoint is queued and its handler may execute
-concurrently with Set TR Dequeue queued by Reset Endpoint handler.
+This eliminates practically all unnecessary retries because an endpoint
+with pending URBs is maintained in Running state by the driver, unless
+aforementioned commands or other operations are pending on it. This is
+guaranteed by xhci_ring_ep_doorbell() and by the fact that it is called
+every time any of those operations completes.
 
-(Reset Endpoint handler calls this function too, but there seems to
-be no possibility of it running concurrently with Set TR Dequeue).
+The only known exceptions are hardware bugs (the endpoint never starts
+at all) and Stream Protocol errors not associated with any TRB, which
+cause an endpoint reset not followed by restart. Sounds like a bug.
 
-Fix xhci_invalidate_cancelled_tds() to work correctly under a pending
-Set TR Dequeue. Bail out of the function when SET_DEQ_PENDING is set,
-then make the completion handler call the function again and also call
-xhci_giveback_invalidated_tds(), which needs to be called next.
+Generally, these retries are only expected to happen when the endpoint
+fails to start for unknown/no reason, which is a worse problem itself,
+and fixing the bug eliminates the retries too.
 
-This seems to fix another potential bug, where the handler would call
-xhci_invalidate_cancelled_tds(), which may clear some deferred TDs if
-a sanity check fails, and the TDs wouldn't be given back promptly.
+All cases were tested and found to work as expected. SET_DEQ_PENDING
+was produced by patching uvcvideo to unlink URBs in 100us intervals,
+which then runs into this case very often. EP_HALTED was produced by
+restarting 'cat /dev/ttyUSB0' on a serial dongle with broken cable.
+EP_CLEARING_TT by the same, with the dongle on an external hub.
 
-Said sanity check seems to be wrong and prone to false positives when
-the endpoint halts, but fixing it is beyond the scope of this change,
-besides ensuring that cleared TDs are given back properly.
-
-Fixes: 5ceac4402f5d ("xhci: Handle TD clearing for multiple streams case")
+Fixes: fd9d55d190c0 ("xhci: retry Stop Endpoint on buggy NEC controllers")
 CC: stable@vger.kernel.org
 Signed-off-by: Michal Pecio <michal.pecio@gmail.com>
 ---
- drivers/usb/host/xhci-ring.c | 18 +++++++++++++-----
- 1 file changed, 13 insertions(+), 5 deletions(-)
+ drivers/usb/host/xhci-ring.c | 13 +++++++++++++
+ drivers/usb/host/xhci.c      | 19 +++++++++++++++----
+ drivers/usb/host/xhci.h      |  1 +
+ 3 files changed, 29 insertions(+), 4 deletions(-)
 
 diff --git a/drivers/usb/host/xhci-ring.c b/drivers/usb/host/xhci-ring.c
-index 98e12267bbf6..30b392715f1e 100644
+index 30b392715f1e..92f9b6c468c6 100644
 --- a/drivers/usb/host/xhci-ring.c
 +++ b/drivers/usb/host/xhci-ring.c
-@@ -973,6 +973,13 @@ static int xhci_invalidate_cancelled_tds(struct xhci_virt_ep *ep)
- 	unsigned int		slot_id = ep->vdev->slot_id;
- 	int			err;
+@@ -1069,6 +1069,19 @@ static int xhci_invalidate_cancelled_tds(struct xhci_virt_ep *ep)
+ 	return 0;
+ }
  
-+	/*
-+	 * This is not going to work if the hardware is changing its dequeue
-+	 * pointers as we look at them. Completion handler will call us later.
-+	 */
-+	if (ep->ep_state & SET_DEQ_PENDING)
-+		return 0;
++/*
++ * Erase queued TDs from transfer ring(s) and give back those the xHC didn't
++ * stop on. If necessary, queue commands to move the xHC off cancelled TDs it
++ * stopped on. Those will be given back later when the commands complete.
++ *
++ * Call under xhci->lock on a stopped endpoint.
++ */
++void xhci_process_cancelled_tds(struct xhci_virt_ep *ep)
++{
++	xhci_invalidate_cancelled_tds(ep);
++	xhci_giveback_invalidated_tds(ep);
++}
 +
- 	xhci = ep->xhci;
+ /*
+  * Returns the TD the endpoint ring halted on.
+  * Only call for non-running rings without streams.
+diff --git a/drivers/usb/host/xhci.c b/drivers/usb/host/xhci.c
+index 1ed4dce7eeb7..695e29b0946c 100644
+--- a/drivers/usb/host/xhci.c
++++ b/drivers/usb/host/xhci.c
+@@ -1769,10 +1769,21 @@ static int xhci_urb_dequeue(struct usb_hcd *hcd, struct urb *urb, int status)
+ 		}
+ 	}
  
- 	list_for_each_entry_safe(td, tmp_td, &ep->cancelled_td_list, cancelled_td_list) {
-@@ -1359,7 +1366,6 @@ static void xhci_handle_cmd_set_deq(struct xhci_hcd *xhci, int slot_id,
- 	struct xhci_ep_ctx *ep_ctx;
- 	struct xhci_slot_ctx *slot_ctx;
- 	struct xhci_td *td, *tmp_td;
--	bool deferred = false;
+-	/* Queue a stop endpoint command, but only if this is
+-	 * the first cancellation to be handled.
+-	 */
+-	if (!(ep->ep_state & EP_STOP_CMD_PENDING)) {
++	/* These completion handlers will sort out cancelled TDs for us */
++	if (ep->ep_state & (EP_STOP_CMD_PENDING | EP_HALTED | SET_DEQ_PENDING)) {
++		xhci_dbg(xhci, "Not queuing Stop Endpoint on slot %d ep %d in state 0x%x\n",
++				urb->dev->slot_id, ep_index, ep->ep_state);
++		goto done;
++	}
++
++	/* In this case no commands are pending but the endpoint is stopped */
++	if (ep->ep_state & EP_CLEARING_TT) {
++		/* and cancelled TDs can be given back right away */
++		xhci_dbg(xhci, "Invalidating TDs instantly on slot %d ep %d in state 0x%x\n",
++				urb->dev->slot_id, ep_index, ep->ep_state);
++		xhci_process_cancelled_tds(ep);
++	} else {
++		/* Otherwise, queue a new Stop Endpoint command */
+ 		command = xhci_alloc_command(xhci, false, GFP_ATOMIC);
+ 		if (!command) {
+ 			ret = -ENOMEM;
+diff --git a/drivers/usb/host/xhci.h b/drivers/usb/host/xhci.h
+index 0bef6c8b51cf..33e57f408e86 100644
+--- a/drivers/usb/host/xhci.h
++++ b/drivers/usb/host/xhci.h
+@@ -1914,6 +1914,7 @@ void xhci_ring_doorbell_for_active_rings(struct xhci_hcd *xhci,
+ void xhci_cleanup_command_queue(struct xhci_hcd *xhci);
+ void inc_deq(struct xhci_hcd *xhci, struct xhci_ring *ring);
+ unsigned int count_trbs(u64 addr, u64 len);
++void xhci_process_cancelled_tds(struct xhci_virt_ep *ep);
  
- 	ep_index = TRB_TO_EP_INDEX(le32_to_cpu(trb->generic.field[3]));
- 	stream_id = TRB_TO_STREAM_ID(le32_to_cpu(trb->generic.field[2]));
-@@ -1460,8 +1466,6 @@ static void xhci_handle_cmd_set_deq(struct xhci_hcd *xhci, int slot_id,
- 			xhci_dbg(ep->xhci, "%s: Giveback cancelled URB %p TD\n",
- 				 __func__, td->urb);
- 			xhci_td_cleanup(ep->xhci, td, ep_ring, td->status);
--		} else if (td->cancel_status == TD_CLEARING_CACHE_DEFERRED) {
--			deferred = true;
- 		} else {
- 			xhci_dbg(ep->xhci, "%s: Keep cancelled URB %p TD as cancel_status is %d\n",
- 				 __func__, td->urb, td->cancel_status);
-@@ -1472,11 +1476,15 @@ static void xhci_handle_cmd_set_deq(struct xhci_hcd *xhci, int slot_id,
- 	ep->queued_deq_seg = NULL;
- 	ep->queued_deq_ptr = NULL;
- 
--	if (deferred) {
--		/* We have more streams to clear */
-+	/* Check for deferred or newly cancelled TDs */
-+	if (!list_empty(&ep->cancelled_td_list)) {
- 		xhci_dbg(ep->xhci, "%s: Pending TDs to clear, continuing with invalidation\n",
- 			 __func__);
- 		xhci_invalidate_cancelled_tds(ep);
-+		/* Try to restart the endpoint if all is done */
-+		ring_doorbell_for_active_rings(xhci, slot_id, ep_index);
-+		/* Start giving back any TDs invalidated above */
-+		xhci_giveback_invalidated_tds(ep);
- 	} else {
- 		/* Restart any rings with pending URBs */
- 		xhci_dbg(ep->xhci, "%s: All TDs cleared, ring doorbell\n", __func__);
+ /* xHCI roothub code */
+ void xhci_set_link_state(struct xhci_hcd *xhci, struct xhci_port *port,
 -- 
 2.43.0
 
