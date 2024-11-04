@@ -1,118 +1,121 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.14])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-lf1-f49.google.com (mail-lf1-f49.google.com [209.85.167.49])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id ACA701AE01F;
-	Mon,  4 Nov 2024 09:36:28 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.14
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 843701AC88A
+	for <linux-usb@vger.kernel.org>; Mon,  4 Nov 2024 09:43:17 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.49
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1730712990; cv=none; b=Cljt9+64fMosPCc+cZqC6q+4YjJhTy3Blza5ignzo6YeMlKT5DrkbcWvnBJ6jsM1SNaJgCX52U3TM0lHChDZFlOHN7ClA9U5fg4+KxWH3B/imzQ7JNmy2So4sexh5KfCT0ZdZ2gdeFRdWhhqjalp1VJJ4CRCWfGyXM1U7Jq0/MI=
+	t=1730713399; cv=none; b=qKANVW9ftXj6lLkiZko1dee3PS/pxtl+rBYwxuJKrTmA7b9Xigg72mEl0CW5svYBVYj8hd6g6fLALpHV38DBdBCdU/Q+/c7MozJRHjvXXfpejBprCKebm482UTYRhPn9V/3b6+na24VQP1bo7/8Atees9ooPZJGNkxHpxmI22zk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1730712990; c=relaxed/simple;
-	bh=Sc+eqveINCgjfeZ/XCA8LOsWGvrDOO3Z75MHxHV6gP0=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=mt+RPlEdvCZsyLcedYLWecW1tqWl4Unb0QTaHpo6LVY2MBYXq+g/UWw9gFthakmBjcDBSW6LQBQai2XenkMd/jYj2HJQkC9W1B/ZDtZA7wwZExRtelWTeqaI5LOeX6OoSw5bdhZXfxJUnUQbfn6a+gku6MkdfMGr4+WmQeyv9Zc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=none smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=cmsGN5d0; arc=none smtp.client-ip=192.198.163.14
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=linux.intel.com
+	s=arc-20240116; t=1730713399; c=relaxed/simple;
+	bh=0d/NfMB4b1QcLo9nsHOt7+HcZFqe0RM7698ATZ0IIto=;
+	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=QAmtp5+PHx2OUc0Y/X+OUMXRginVC124a9tpP9w7+07PvywqgUxEgczIYIBzAikxGiQxS8nIr2S9lfnY5HFHkTh0rnSMldBlqiPbN5Ukk6YgYEMunbXORIcEICnsLASeCg+dPwij+VSUmSdSQtZSjUFU0uSGhgM14qUTC1XB3xA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=hO3QELrt; arc=none smtp.client-ip=209.85.167.49
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="cmsGN5d0"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1730712989; x=1762248989;
-  h=from:to:cc:subject:date:message-id:in-reply-to:
-   references:mime-version:content-transfer-encoding;
-  bh=Sc+eqveINCgjfeZ/XCA8LOsWGvrDOO3Z75MHxHV6gP0=;
-  b=cmsGN5d0H45SlHE2iorkOF4oDGsx0dkzWCvZqWymjaX6giruS7iDSnAt
-   CLQeiOMSud5hKCG4ejQ1CoV7brTpn+ImUgZ1LFZzc1B3oDIhFN2yK1XCL
-   Tfq0Uk1CkFTzQCYjg3gKgzUaTKLhXoFMpy/uiOKvXph4YsEsW6uVlN08L
-   P7rYVvL2ERf+KTF7dhEtFYCJ9amvHXn4qQoZIT1tlAMmJ+KFCpjGGbfmh
-   zV9TEK++pm0l+8YuU82ygtvMYhptdflipxeQl7PP38Ug2ZjIXbUI2UgtB
-   zAP02g5A7uR3Fwxvb8Na1wDPxf/+J/wnf2B4TJpqPJDGAtOR1tKk9ii4M
-   g==;
-X-CSE-ConnectionGUID: fCGnczMRShubdAUWnlhnBA==
-X-CSE-MsgGUID: tuH0gCZQQwWibhfRlgAwSA==
-X-IronPort-AV: E=McAfee;i="6700,10204,11245"; a="30620092"
-X-IronPort-AV: E=Sophos;i="6.11,256,1725346800"; 
-   d="scan'208";a="30620092"
-Received: from fmviesa006.fm.intel.com ([10.60.135.146])
-  by fmvoesa108.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 04 Nov 2024 01:36:21 -0800
-X-CSE-ConnectionGUID: Ah+BKPYZTaqhFdk5MbXoWg==
-X-CSE-MsgGUID: 7yc422SjSi6VFqbnsmzs9g==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.11,256,1725346800"; 
-   d="scan'208";a="83127064"
-Received: from black.fi.intel.com ([10.237.72.28])
-  by fmviesa006.fm.intel.com with ESMTP; 04 Nov 2024 01:36:16 -0800
-Received: by black.fi.intel.com (Postfix, from userid 1003)
-	id D17216CE; Mon, 04 Nov 2024 11:36:10 +0200 (EET)
-From: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
-To: Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
-	Bartosz Golaszewski <bartosz.golaszewski@linaro.org>,
-	Dmitry Torokhov <dmitry.torokhov@gmail.com>,
-	Tony Lindgren <tony@atomide.com>,
-	Lee Jones <lee@kernel.org>,
-	linux-gpio@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	linux-input@vger.kernel.org,
-	linux-leds@vger.kernel.org,
-	linux-arm-kernel@lists.infradead.org,
-	linux-usb@vger.kernel.org
-Cc: Linus Walleij <linus.walleij@linaro.org>,
-	Bartosz Golaszewski <brgl@bgdev.pl>,
-	Pavel Machek <pavel@ucw.cz>,
-	Dominik Brodowski <linux@dominikbrodowski.net>,
-	Daniel Mack <daniel@zonque.org>,
-	Haojian Zhuang <haojian.zhuang@gmail.com>,
-	Robert Jarzmik <robert.jarzmik@free.fr>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-Subject: [PATCH v1 5/6] USB: gadget: pxa27x_udc: Avoid using GPIOF_ACTIVE_LOW
-Date: Mon,  4 Nov 2024 11:34:23 +0200
-Message-ID: <20241104093609.156059-6-andriy.shevchenko@linux.intel.com>
-X-Mailer: git-send-email 2.43.0.rc1.1336.g36b5255a03ac
-In-Reply-To: <20241104093609.156059-1-andriy.shevchenko@linux.intel.com>
-References: <20241104093609.156059-1-andriy.shevchenko@linux.intel.com>
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="hO3QELrt"
+Received: by mail-lf1-f49.google.com with SMTP id 2adb3069b0e04-539e3f35268so4884203e87.3
+        for <linux-usb@vger.kernel.org>; Mon, 04 Nov 2024 01:43:17 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1730713396; x=1731318196; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:subject:cc:to:from:date:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=RfPViAgHbKoGxrTwast7r1fPYWh+BDE+c7Cew6L/kHk=;
+        b=hO3QELrtoEB/BFm9p7G5uBYecT1ltCqPwMepyEisEUanThTV9b+ZdLhJnnt0TP7ZxO
+         Rkfja3CSHtuE/RV8KbEU1bS2HfTETqqe++vLOeUd/LsClZSd+Rri6bgjY1/uVyxt7kIJ
+         Ski7lyPXOHL4c0U4PSa/4iNAqMHGf0dRot0LRfjugf+kz8SdIj51912ukCpLKtB3PLSf
+         Yu8F8G+vq9Xe2PKiRx/7gI85VochWSN9qQVNr/1yCV8u/czw40Mr33Id+sishy03GjYz
+         CvUHuYdXwVKgEgZNNs3qP61lBibGlj/QzGzBtOi2ABLP8MTL9E77qtUx7+n5YvZmjeLX
+         q1lw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1730713396; x=1731318196;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:subject:cc:to:from:date:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=RfPViAgHbKoGxrTwast7r1fPYWh+BDE+c7Cew6L/kHk=;
+        b=LJYUDH+ytJFBaenqMZHD3PUuoRG/jE03klrMJs/sYbIifgosod+6fmiwwA/vBAKYzw
+         K2zSVcVqWSrzb2pdwZq6JFgLrkIdOutXDrrX7nDhyiCBMrTqs7ktQWZ6gu58luBTpnVk
+         AxyyhZsatujdbeXDkyXD5WJX8PotL3IkSaQd7/kxx25UNlFpZvExvJ3/V0GSJFlC2l6Z
+         naB0JHdq1zkvmBMOdui6m2/YPZ9nPM3+uktlGexV6lgyPBmDc3kSU5+YuiRGHWO8KTUS
+         rlG7rXyExkLReXhOhmJnvzbZeo9Pz27EwEs1M4UQfvG5Y/sdkn6+RUMWHzJI9HKGoNoV
+         pcvg==
+X-Gm-Message-State: AOJu0YyhXD3zPL0n6mPRib7VwhqxJdhi6vAb99VBa6J6+0z949Rqt0d8
+	+hI8iy2hPYisLLfaijc3aOE8a3iT4DbMc1Ewy3HLSEHVj81W8ScM
+X-Google-Smtp-Source: AGHT+IEJX8BxoV5BQSepEfvstiQ7F0uiOAQ4O8OH54TBEh6F5fT90KlTe4khIEXaL26s/KbMSWgLrA==
+X-Received: by 2002:ac2:5187:0:b0:53d:6a13:2931 with SMTP id 2adb3069b0e04-53d6a13376bmr2591081e87.43.1730713395462;
+        Mon, 04 Nov 2024 01:43:15 -0800 (PST)
+Received: from foxbook (bhf124.neoplus.adsl.tpnet.pl. [83.28.95.124])
+        by smtp.gmail.com with ESMTPSA id 2adb3069b0e04-53c7bde02f7sm1611232e87.246.2024.11.04.01.43.13
+        (version=TLS1_2 cipher=AES128-SHA bits=128/128);
+        Mon, 04 Nov 2024 01:43:15 -0800 (PST)
+Date: Mon, 4 Nov 2024 10:43:10 +0100
+From: =?UTF-8?B?TWljaGHFgg==?= Pecio <michal.pecio@gmail.com>
+To: Mathias Nyman <mathias.nyman@intel.com>
+Cc: linux-usb@vger.kernel.org
+Subject: Re: [PATCH v3 2/3] usb: xhci: Fix TD invalidation under pending Set
+ TR Dequeue
+Message-ID: <20241104104310.4316bad9@foxbook>
+In-Reply-To: <e2570c87-17c4-4d3c-af9a-ca45cd20f02f@intel.com>
+References: <20241031104159.25f9ff70@foxbook>
+	<20241031104401.22a80b14@foxbook>
+	<e2570c87-17c4-4d3c-af9a-ca45cd20f02f@intel.com>
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
 
-Avoid using GPIOF_ACTIVE_LOW as it's deprecated and subject to remove.
-
-Signed-off-by: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
----
- drivers/usb/gadget/udc/pxa27x_udc.c | 7 ++++---
- 1 file changed, 4 insertions(+), 3 deletions(-)
-
-diff --git a/drivers/usb/gadget/udc/pxa27x_udc.c b/drivers/usb/gadget/udc/pxa27x_udc.c
-index 7d3a8a5f3796..f9a55d4f189f 100644
---- a/drivers/usb/gadget/udc/pxa27x_udc.c
-+++ b/drivers/usb/gadget/udc/pxa27x_udc.c
-@@ -2355,18 +2355,19 @@ static int pxa_udc_probe(struct platform_device *pdev)
- 	struct pxa_udc *udc = &memory;
- 	int retval = 0, gpio;
- 	struct pxa2xx_udc_mach_info *mach = dev_get_platdata(&pdev->dev);
--	unsigned long gpio_flags;
+On Thu, 31 Oct 2024 15:57:16 +0200, Mathias Nyman wrote:
+> On 31.10.2024 11.44, Michal Pecio wrote:
+> > +			case TD_CLEARING_CACHE: /* set TR deq command completed */
+> > +				td->cancel_status = TD_CLEARED;  
+> 
+> This should only happen if 'Set TR Deq' fails as in success cases the
+> hw_deq is moved past this TD. when it fails the cache may not be
+> cleared. i.e. rd is not TD_CLEARED
+Thanks, that was a bug, completely unintended. I should have placed
+this line elsewhere.
  
- 	if (mach) {
--		gpio_flags = mach->gpio_pullup_inverted ? GPIOF_ACTIVE_LOW : 0;
- 		gpio = mach->gpio_pullup;
- 		if (gpio_is_valid(gpio)) {
- 			retval = devm_gpio_request_one(&pdev->dev, gpio,
--						       gpio_flags,
-+						       GPIOF_OUT_INIT_LOW,
- 						       "USB D+ pullup");
- 			if (retval)
- 				return retval;
- 			udc->gpiod = gpio_to_desc(mach->gpio_pullup);
-+
-+			if (mach->gpio_pullup_inverted ^ gpiod_is_active_low(udc->gpiod))
-+				gpiod_toggle_active_low(udc->gpiod);
- 		}
- 		udc->udc_command = mach->udc_command;
- 	} else {
--- 
-2.43.0.rc1.1336.g36b5255a03ac
+> We do have the same problem in current code, but moving it here makes
+> that even harder to fix.
+Right, I will no longer try to move this code at all.
 
+> xhci_invalidate_cancelled_tds() will now also perform some extra work
+> on each already cleared td that is still in the ep->cancelled_td_list
+I think this shouldn't be a problem, because every call to invalidate()
+is now followed by a call to giveback(), so a future invalidate() should
+never seen stale cleared TDs left by a past invalidate().
+
+> I think its clearer to run though the cancelled td list above, and
+> only call xhci_invalidate_cancelled_tds() if needed.
+> 
+> i.e.
+> 
+> list_for_each_entry_safe(td, tmp_td, &ep->cancelled_td_list,
+> cancelled_td_list) { switch (td->cancel_status) {
+> 	case TD_CLEARING_CACHE:
+> 		td->cancel_status = TD_CLEARED;
+> 		break;
+> 	case TD_CLEARING_CACHE_DEFERRED:
+> 	case TD_DIRTY:
+> 		pending_td_cancels = true;
+> 		break;
+> 	default:
+> 		break;
+> 	}
+> }
+> ...
+> if (pending_td_cancels)
+> 	xhci_invalidate_cancelled_tds(ep);
+I have done something similar, but without an extra bool. Simply test
+for unempty cancelled_td_list.
+
+
+Regards,
+Michal
