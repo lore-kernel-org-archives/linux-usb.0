@@ -1,139 +1,94 @@
-Received: from mail-ej1-f50.google.com (mail-ej1-f50.google.com [209.85.218.50])
+Received: from mail-ej1-f49.google.com (mail-ej1-f49.google.com [209.85.218.49])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C6AEB1BF804
-	for <linux-usb@vger.kernel.org>; Mon,  4 Nov 2024 15:43:36 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.50
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EF6E51C232B;
+	Mon,  4 Nov 2024 16:54:00 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.49
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1730735018; cv=none; b=IrxnMgtMZ2Uks0X822hh80fxhYeXvjUIR/4ZKuvTDckA104PBxVIDdVSvUWhm+NvPeRhOEPrSQid4VIDs41RPG/M7h+o/OOmsW65v6YBlX27h85T2+UJ0V4v/yD5HpRakLwJQNrzkMcBXdCFT7emhJLfGcVbVYi/ZI13k4bPROE=
+	t=1730739242; cv=none; b=YZrdK7Ly1zrJgRgCzGae1tRMNzBdOJA7HgPZeCE/NUfdVvQS2YVN4EvFNKj0jFlUTdAlsN9Bxna0WUXwEZo7YzNRdFWWGwXxLKZYxHZhkjkMDxd3jvjjy3R/q38XYhGn71VAm5Jca6GglcARd8HkkAZ1OR25cKbNo/kwpEgrhjg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1730735018; c=relaxed/simple;
-	bh=fp0YEPYwGjJLAhpgB+UUosfugQrJWX9Urb1XcuSwqvg=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version:Content-Type; b=D8CY2xwZgLJWdEQpdXa3x84WaFzZDUKn//lxThwx+km8Yo9AOzy8SimcyHZ2DxjwKTthGDYU4DTHnrO4mltt9cFu2L/spYNsvHrByFOHHUb7JHkZP++BdSKlwGEjrW3Yx7M+n6SXdXPSEScJP609z2WC9W+bxJwTWTwAtrM6qsM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org; spf=pass smtp.mailfrom=chromium.org; dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b=Lan3FGje; arc=none smtp.client-ip=209.85.218.50
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=chromium.org
+	s=arc-20240116; t=1730739242; c=relaxed/simple;
+	bh=YOB8n4D/He926EhIDMQcEt5yNMscrw6BO60Ek5hqPyI=;
+	h=Message-ID:Date:MIME-Version:Subject:To:References:From:
+	 In-Reply-To:Content-Type; b=haB/zivyreCSswvObAzl11Kos4XjPLFg9NBWL2sfDbj3FqjAuBHEY1YMu0CK8E+pWjoe6fL7/Xq8KqUX/JYmaxCtFAALLT7Pczaz3tmmx62AzACBn1tYEdvPy5mDrmW5lM5A4qmODyS36iUV4EcngLadWzga2ot8lonjx3Almg0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=H34XPcFN; arc=none smtp.client-ip=209.85.218.49
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b="Lan3FGje"
-Received: by mail-ej1-f50.google.com with SMTP id a640c23a62f3a-a99f1fd20c4so574594666b.0
-        for <linux-usb@vger.kernel.org>; Mon, 04 Nov 2024 07:43:36 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="H34XPcFN"
+Received: by mail-ej1-f49.google.com with SMTP id a640c23a62f3a-a9a0c40849cso797704966b.3;
+        Mon, 04 Nov 2024 08:54:00 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=chromium.org; s=google; t=1730735015; x=1731339815; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=WIkerbplFMR1RplSxBpHFK5IGgrO9YeD2ArdYO9Rppo=;
-        b=Lan3FGjeHqj/UNCGg86yiWCfMY7SNfS2Zy2QRqJ8pA3gcjhCeSC/b/+8c+MANilB7B
-         0BWtE0wF8NhL3J99XCY22CVXpyZrZ3sdyuNNvszow736oD24bQfrB71J+7GUIzruV1+b
-         tB9PNmEvJttk+uL7fRHac5s8+rr7hbcD6g8eY=
+        d=gmail.com; s=20230601; t=1730739239; x=1731344039; darn=vger.kernel.org;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:to:subject:user-agent:mime-version:date:message-id:from
+         :to:cc:subject:date:message-id:reply-to;
+        bh=+7nRYR/2twlj2QlRClikfFGq0XOQg6xUVkylrGyMp54=;
+        b=H34XPcFNxoaG01vM1wohfCNklsKRyaXTdQGO8iwhoWLSzrvvjfU9flGug/sI/Mj/c/
+         gsx30leu+xXqJajCjzXUFQPFNaZphjFt2FwRHkPLkGkRmZoVgF7X/vIyStk1REyEpVRt
+         +K7/BYDpmgHlk++9evWXmlxZ2eMNRUyRPUJaCGhRijHuJ50i+vNsmmxxQ1qyZ51Hwehy
+         NfX3OWDcLCC4ccaLVrlSt2H+E+20xT8QJZxvm97bNxMyqan4Xl3ULxIPo9pytppSYSTs
+         vSuy4FAqSaNNUUjgKeUo3R2l9AbN36lCvhzeIT9FhF/m3aHV3f+Fu+uSZDzmh7zFEBAU
+         S7Ng==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1730735015; x=1731339815;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=WIkerbplFMR1RplSxBpHFK5IGgrO9YeD2ArdYO9Rppo=;
-        b=WokWRw3lwtylk+ThX/BjWhW2rpScnY5LDh9fhqhqWXpphRW1790eRaZkoXsvmeNl5O
-         gH5Wa6bm4ydjrY9hvj0+xjVopaACWDjfRPCpMOb09QkKCA6wISBnVNrMIWDGPb4o3/XR
-         yR3DUmKn1Yoc59+9j/Kexi0+I4nu5diB1I3XMQUU2mGyyA0Tehgqe7dCyTqY6CX66Vlr
-         BdjC39i8i/8V/iUdtvrJPzFujyyvqMcphVRWTry1LP4ZN4y/mh9DumrEKQAum3bq+WnN
-         I35zYjKZ7D/Bf6DB7dNuTlacXALcjsKxDRI+zeD7d+FJlFByORVqgwK8YSMMtVR8ZJFs
-         kwzQ==
-X-Forwarded-Encrypted: i=1; AJvYcCWcTxm5xSIwdDgGGX0c0R2oU2vVo6xbxo5/vA96z3dPNY0jImJsJlFRNRhsVSpVH/sytCqOr4H7dTg=@vger.kernel.org
-X-Gm-Message-State: AOJu0YxxjjMljV55jtWdnpZktWFFx5fdnis7kqK3sr1NbjDnN+mF+LXO
-	hFNK6jzomTvjgjSyxq8izpKed/6SqVpjXNqlTkvnqlnK1fdaOmKw/DgCnzKa
-X-Google-Smtp-Source: AGHT+IGy/uj9RNWEnEbEX3eDDHGESv3IAzwMLj2fK+/jHp8/V1k2EhfogN4oCQNK4S64k1Vz0bazYQ==
-X-Received: by 2002:a17:907:e8d:b0:a9a:1437:3175 with SMTP id a640c23a62f3a-a9e50b56a1emr1553396366b.51.1730735015026;
-        Mon, 04 Nov 2024 07:43:35 -0800 (PST)
-Received: from ukaszb-ng.c.googlers.com.com (103.45.147.34.bc.googleusercontent.com. [34.147.45.103])
-        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-a9e56643609sm564173266b.155.2024.11.04.07.43.34
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 04 Nov 2024 07:43:34 -0800 (PST)
-From: =?UTF-8?q?=C5=81ukasz=20Bartosik?= <ukaszb@chromium.org>
-To: Heikki Krogerus <heikki.krogerus@linux.intel.com>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-Cc: Abhishek Pandit-Subedi <abhishekpandit@chromium.org>,
-	Benson Leung <bleung@chromium.org>,
-	Jameson Thies <jthies@google.com>,
-	linux-usb@vger.kernel.org,
-	stable@vger.kernel.org
-Subject: [PATCH v1] usb: typec: ucsi: Fix completion notifications
-Date: Mon,  4 Nov 2024 15:42:52 +0000
-Message-ID: <20241104154252.1463188-1-ukaszb@chromium.org>
-X-Mailer: git-send-email 2.47.0.199.ga7371fff76-goog
+        d=1e100.net; s=20230601; t=1730739239; x=1731344039;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:to:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=+7nRYR/2twlj2QlRClikfFGq0XOQg6xUVkylrGyMp54=;
+        b=ek0Mi114YBhIlzvroCOqjCR89TlZRy3vv6fv20DdMoKGLDJNqJGmTsLLge+FZbaAhx
+         bj8gASBONNxYzEKUTfDchlYnn6pT+wbALZ9zeESHWCdvQwJTtVpwxRfHOb/s5Y7hPlw4
+         qnrXsT5mhm/KQfoOdBH4O4gIM8vu+JVuOjRGrJvZ6HgZj9y/TYwd/Fg8Kvna8HSGH7oh
+         X0W0SBt3ppNl3cyKEZhX5E8L4PgdLz6ggAA9FQJEIk5YsPqQ/hzf4jNVWMWC0TACJr3z
+         44nL/N/Te+NSJGBTc3BfYE2V2q7dLy9MjjioCa/MrvZ2By/fBXQaEEsXBGV7mV65O30N
+         vXVQ==
+X-Forwarded-Encrypted: i=1; AJvYcCU0z0KECVOe3LnXFnJ6FQ9fHZ4chcsENpDmxCvCllhaBdyOHFZs0dhA9VboevoKPUotbOEXWS+NYM17@vger.kernel.org, AJvYcCUQr/dtpKkKwgS5SzTWIk/+J1eqt4jU+9Z9CSP0t3ryaabsGXvkWfMGm9A1q1+uL1gou4Fto2+z0A==@vger.kernel.org, AJvYcCVLWvOAT8C4Tav3Z+LngG8pmIj+aatVwkjmfAh4ZbL65cuBujtLXuFuA713RyUhrvU91teuhS1WzshQE0Ld@vger.kernel.org
+X-Gm-Message-State: AOJu0YyBu8j5GPJMmiPdzgmsjGhhZlclGJv7Of7ssdj+DavxsQsqGJYN
+	mRI6RqrNgBu1/OdnFCMqr06FwkFk7yhcP7Rk9wGhwwcbwPQa8XOt
+X-Google-Smtp-Source: AGHT+IEYPdDn43d8xifNgZC0HZIApp23fKzpF1IK9yBHhD8L7WCiQY/joNPOetwS2383jK7J7zAT9A==
+X-Received: by 2002:a17:907:d851:b0:a9e:b08e:3de1 with SMTP id a640c23a62f3a-a9eb08e4023mr28483666b.36.1730739238761;
+        Mon, 04 Nov 2024 08:53:58 -0800 (PST)
+Received: from [192.168.42.71] ([163.114.131.193])
+        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-a9eb17cf8e3sm4303566b.124.2024.11.04.08.53.58
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Mon, 04 Nov 2024 08:53:58 -0800 (PST)
+Message-ID: <09b7008b-b8c1-4368-9d04-a3bdb96ab26d@gmail.com>
+Date: Mon, 4 Nov 2024 16:54:04 +0000
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+User-Agent: Mozilla Thunderbird
+Subject: Re: [syzbot] [io-uring?] [usb?] WARNING in io_get_cqe_overflow (2)
+To: Jens Axboe <axboe@kernel.dk>,
+ syzbot <syzbot+e333341d3d985e5173b2@syzkaller.appspotmail.com>,
+ io-uring@vger.kernel.org, linux-kernel@vger.kernel.org,
+ linux-usb@vger.kernel.org, syzkaller-bugs@googlegroups.com
+References: <6728b077.050a0220.35b515.01ba.GAE@google.com>
+ <13da163a-d088-4b4d-8ad1-dbf609b03228@gmail.com>
+ <b29d2635-d640-4b8e-ad43-1aa25c20d7c8@kernel.dk>
+ <965a473d-596a-4cf4-8ec2-a8626c4c73f6@gmail.com>
+ <16f43422-91aa-4c6d-b36c-3e9cb52b1ff2@gmail.com>
+ <e003c787-71b5-4373-ac53-c98b6b260e04@kernel.dk>
+Content-Language: en-US
+From: Pavel Begunkov <asml.silence@gmail.com>
+In-Reply-To: <e003c787-71b5-4373-ac53-c98b6b260e04@kernel.dk>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 
-OPM                         PPM                         LPM
- |        1.send cmd         |                           |
- |-------------------------->|                           |
- |                           |--                         |
- |                           |  | 2.set busy bit in CCI  |
- |                           |<-                         |
- |      3.notify the OPM     |                           |
- |<--------------------------|                           |
- |                           | 4.send cmd to be executed |
- |                           |-------------------------->|
- |                           |                           |
- |                           |      5.cmd completed      |
- |                           |<--------------------------|
- |                           |                           |
- |                           |--                         |
- |                           |  | 6.set cmd completed    |
- |                           |<-       bit in CCI        |
- |                           |                           |
- |   7.handle notification   |                           |
- |   from point 3, read CCI  |                           |
- |<--------------------------|                           |
- |                           |                           |
- |     8.notify the OPM      |                           |
- |<--------------------------|                           |
- |                           |                           |
+On 11/4/24 15:43, Jens Axboe wrote:
+> On 11/4/24 8:34 AM, Pavel Begunkov wrote:
+>> On 11/4/24 15:27, Pavel Begunkov wrote:
+...
+>> Regardless, the rule with sth like that should be simpler,
+>> i.e. a ctx is getting killed => everything is run from fallback/kthread.
+> 
+> I like it, and now there's another reason to do it. Can you out the
+> patch?
 
-When the PPM receives command from the OPM (p.1) it sets the busy bit
-in the CCI (p.2), sends notification to the OPM (p.3) and forwards the
-command to be executed by the LPM (p.4). When the PPM receives command
-completion from the LPM (p.5) it sets command completion bit in the CCI
-(p.6) and sends notification to the OPM (p.8). If command execution by
-the LPM is fast enough then when the OPM starts handling the notification
-from p.3 in p.7 and reads the CCI value it will see command completion bit
-and will call complete(). Then complete() might be called again when the
-OPM handles notification from p.8.
+Let's see if it works, hopefully will try today.
 
-This fix replaces test_bit() with test_and_clear_bit()
-in ucsi_notify_common() in order to call complete() only
-once per request.
-
-Fixes: 584e8df58942 ("usb: typec: ucsi: extract common code for command handling")
-Cc: stable@vger.kernel.org
-Signed-off-by: Łukasz Bartosik <ukaszb@chromium.org>
----
- drivers/usb/typec/ucsi/ucsi.c | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
-
-diff --git a/drivers/usb/typec/ucsi/ucsi.c b/drivers/usb/typec/ucsi/ucsi.c
-index e0f3925e401b..7a9b987ea80c 100644
---- a/drivers/usb/typec/ucsi/ucsi.c
-+++ b/drivers/usb/typec/ucsi/ucsi.c
-@@ -46,11 +46,11 @@ void ucsi_notify_common(struct ucsi *ucsi, u32 cci)
- 		ucsi_connector_change(ucsi, UCSI_CCI_CONNECTOR(cci));
- 
- 	if (cci & UCSI_CCI_ACK_COMPLETE &&
--	    test_bit(ACK_PENDING, &ucsi->flags))
-+	    test_and_clear_bit(ACK_PENDING, &ucsi->flags))
- 		complete(&ucsi->complete);
- 
- 	if (cci & UCSI_CCI_COMMAND_COMPLETE &&
--	    test_bit(COMMAND_PENDING, &ucsi->flags))
-+	    test_and_clear_bit(COMMAND_PENDING, &ucsi->flags))
- 		complete(&ucsi->complete);
- }
- EXPORT_SYMBOL_GPL(ucsi_notify_common);
 -- 
-2.47.0.199.ga7371fff76-goog
-
+Pavel Begunkov
