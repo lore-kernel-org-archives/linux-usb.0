@@ -1,143 +1,139 @@
-Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com [205.220.180.131])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.15])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 45418192D7E;
-	Thu,  7 Nov 2024 06:17:40 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.180.131
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1B1A61993B5
+	for <linux-usb@vger.kernel.org>; Thu,  7 Nov 2024 07:37:25 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.15
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1730960262; cv=none; b=SR/s+Gz5Q4tO3nGnY7dPLs6nLXbtzr1R/B2rOTVaOaJQSadqcUaNlv1VgSs+1ri9AyJeryFDMf7ieEiQHVZ9qaPQGxKW7OKPWXEPfUotf69RI9gBGDh9lLJsdLt6Dpz5EA/4edkq+1JPDufAtciLjm24E6bobPfoxNaRfDQjqlw=
+	t=1730965048; cv=none; b=fdNe2CSK7N3Ex0jDjFQm4LULCYEEQx5lbQWjUGO9YCkWSIld7TCWQhEu7sQHjvGlMtKzOrhegemtN37s57YRHlehHlRaLBDStyxH+4zBAcckMw/NPGyN1RHGFqaLFMZJhry1N/cyF82ckZtJ52OWNsS5buvJYld32bgKXLKuMyE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1730960262; c=relaxed/simple;
-	bh=Lcd87M6/Gc7wKV0eGqeEbc5b8cege8gnv1IKK0N4DKw=;
-	h=Message-ID:Date:MIME-Version:Subject:To:CC:References:From:
-	 In-Reply-To:Content-Type; b=bJcFvFZwnsay/lWC4wFnrANB+ex49hsbN5hpQm61DHIwmZRA5hFji1Sz71MzOrrvPewhn/7NIo45XwppQgF4EoC+iby1HdyXkf9dy8PZh9dAeSqC6JgxZcwsiGTos66vuWvru2ZvZdzBoBk34qUM8adt/FRKe+tKVRyhNDLelQ0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=quicinc.com; spf=pass smtp.mailfrom=quicinc.com; dkim=pass (2048-bit key) header.d=quicinc.com header.i=@quicinc.com header.b=lkuNCTVM; arc=none smtp.client-ip=205.220.180.131
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=quicinc.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=quicinc.com
+	s=arc-20240116; t=1730965048; c=relaxed/simple;
+	bh=zLJkrERlnm3UH2W5JevIYMtRjMm03F4UqbP7LYv5JPM=;
+	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
+	 MIME-Version; b=ZTyZ52lMIF2dp43lD7jMRNX1Cu4r9ilzU+cyVYDiUUiXDEyUFFjGdWp9FVlNiJ9Xm2dTWpBNsKpc2GWDHujXHLkN3Z6i4g3sX+P91WfY+cwonGkXRmPRBx8BXeaZ6C4Du13Z0qaWtBCUnvdLcj5rCp91caQoNlIj9cNnyIOkJJ8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=none smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Qjx/dnEW; arc=none smtp.client-ip=198.175.65.15
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=linux.intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=quicinc.com header.i=@quicinc.com header.b="lkuNCTVM"
-Received: from pps.filterd (m0279873.ppops.net [127.0.0.1])
-	by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 4A6G9DRd028492;
-	Thu, 7 Nov 2024 06:17:34 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com; h=
-	cc:content-transfer-encoding:content-type:date:from:in-reply-to
-	:message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
-	pt8i0eEfIpkL9Duhpru2rPlJlEJZ2RbBvR99uKTgRko=; b=lkuNCTVMRq3bSeqM
-	j0QF9gkl3Ns+DTepZKy3oExNwtu73GAZand7Z2bwvNm+MJY8vsLl/Wxi8lNJQGeN
-	CLt8RzXTYYGsVyR0B+wvnxkiMy8jS+csAlbz7WP06+X6otRUYbepFdzr0eyAmtIq
-	J+TMgHPS4a7qO0MWrob0woAMjYFhFYjXWaOzUkV81aUNLBM9DAonOZF9MABtvntW
-	XTpR1BknDFMpjp3aYhxun1kSwumqBUHdLjYJPQJp6S8eOGVnkNbi/g6fpgIAdutj
-	uBeIY866jSmI70jg7XCeKHR9RITT08h8/Jxpp+M+rt5Px1nX9ZifukR8bRnrc0Dy
-	jDaRag==
-Received: from nalasppmta03.qualcomm.com (Global_NAT1.qualcomm.com [129.46.96.20])
-	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 42r3c1bbd0-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Thu, 07 Nov 2024 06:17:33 +0000 (GMT)
-Received: from nalasex01a.na.qualcomm.com (nalasex01a.na.qualcomm.com [10.47.209.196])
-	by NALASPPMTA03.qualcomm.com (8.18.1.2/8.18.1.2) with ESMTPS id 4A76HWiB029074
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Thu, 7 Nov 2024 06:17:32 GMT
-Received: from [10.216.63.45] (10.80.80.8) by nalasex01a.na.qualcomm.com
- (10.47.209.196) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1544.9; Wed, 6 Nov 2024
- 22:17:22 -0800
-Message-ID: <1129e0a7-6bd0-416e-8c56-6b8d75600c4e@quicinc.com>
-Date: Thu, 7 Nov 2024 11:47:11 +0530
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Qjx/dnEW"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1730965047; x=1762501047;
+  h=from:to:cc:subject:date:message-id:in-reply-to:
+   references:mime-version:content-transfer-encoding;
+  bh=zLJkrERlnm3UH2W5JevIYMtRjMm03F4UqbP7LYv5JPM=;
+  b=Qjx/dnEWeoikHkg2lvM1IXYyKkZVkyVsCnSYJoP2yStN8UwAPnV7qXCX
+   eQ/oWId1Og3J2TBDt9Xk7e2BlwFrSiYd1IMySb4OpAtRl5ZoUk6d7wgJ/
+   fgHQ0otsum3Sh//ZrEjWC4NBsz9it8AoxXmWNoqO0aiY17bZLvdC3i3c1
+   Qylq1eXItz8U6bY/U1hggLuWxKLbxUfL3GCeDHCITwlGNb8agXhLft6be
+   kVplWWcALfZ0Il6KXetmbuGKvKMoJ5DUPIClqxbJMZgq8XFpy/wwQZD99
+   MXtSYMZil3VFxzVUyWCW9hHCitLSMHT84TsrxlA3dcoaBzuLHaInHtXUu
+   w==;
+X-CSE-ConnectionGUID: 74UYpB6bRbOfEqqKk3LZPA==
+X-CSE-MsgGUID: I6umDBXiRBejTMxO/3+1Ag==
+X-IronPort-AV: E=McAfee;i="6700,10204,11222"; a="34490727"
+X-IronPort-AV: E=Sophos;i="6.11,199,1725346800"; 
+   d="scan'208";a="34490727"
+Received: from orviesa001.jf.intel.com ([10.64.159.141])
+  by orvoesa107.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 06 Nov 2024 23:37:26 -0800
+X-CSE-ConnectionGUID: 4IO9WX7fQoOB9EwkszwtKQ==
+X-CSE-MsgGUID: ums8omIjSD6YZDBI6zNTsA==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.11,265,1725346800"; 
+   d="scan'208";a="122477427"
+Received: from sgruszka-mobl.ger.corp.intel.com (HELO localhost) ([10.245.83.36])
+  by smtpauth.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 06 Nov 2024 23:37:25 -0800
+From: Stanislaw Gruszka <stanislaw.gruszka@linux.intel.com>
+To: linux-usb@vger.kernel.org
+Cc: Wentong Wu <wentong.wu@intel.com>,
+	Sakari Ailus <sakari.ailus@linux.intel.com>
+Subject: [PATCH v3 2/3] usb: misc: ljca: set small runtime autosuspend delay
+Date: Thu,  7 Nov 2024 08:37:17 +0100
+Message-Id: <20241107073718.405208-2-stanislaw.gruszka@linux.intel.com>
+X-Mailer: git-send-email 2.34.1
+In-Reply-To: <20241107073718.405208-1-stanislaw.gruszka@linux.intel.com>
+References: <20241107073718.405208-1-stanislaw.gruszka@linux.intel.com>
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v2 1/2] dt-bindings: usb: snps,dwc3: Add
- snps,filter-se0-fsls-eop quirk
-To: Krzysztof Kozlowski <krzk@kernel.org>,
-        Uttkarsh Aggarwal
-	<quic_uaggarwa@quicinc.com>
-CC: Krzysztof Kozlowski <krzk+dt@kernel.org>, Rob Herring <robh@kernel.org>,
-        Conor Dooley <conor+dt@kernel.org>,
-        Greg Kroah-Hartman
-	<gregkh@linuxfoundation.org>,
-        Felipe Balbi <balbi@kernel.org>,
-        Thinh Nguyen
-	<Thinh.Nguyen@synopsys.com>, <linux-usb@vger.kernel.org>,
-        <linux-kernel@vger.kernel.org>, <devicetree@vger.kernel.org>,
-        <quic_ppratap@quicinc.com>, <quic_jackp@quicinc.com>
-References: <20241017114055.13971-1-quic_uaggarwa@quicinc.com>
- <20241017114055.13971-2-quic_uaggarwa@quicinc.com>
- <gclvciv5cmrcut6qvo3kh3ycutqt5sot5k4i2nwics6myhuxvq@cf6ajwflxdlc>
-Content-Language: en-US
-From: Krishna Kurapati <quic_kriskura@quicinc.com>
-In-Reply-To: <gclvciv5cmrcut6qvo3kh3ycutqt5sot5k4i2nwics6myhuxvq@cf6ajwflxdlc>
-Content-Type: text/plain; charset="UTF-8"; format=flowed
-Content-Transfer-Encoding: 7bit
-X-ClientProxiedBy: nasanex01a.na.qualcomm.com (10.52.223.231) To
- nalasex01a.na.qualcomm.com (10.47.209.196)
-X-QCInternal: smtphost
-X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800 signatures=585085
-X-Proofpoint-GUID: BcZeyWLFOw1xxl1s6ucnZCO6c25cRzE-
-X-Proofpoint-ORIG-GUID: BcZeyWLFOw1xxl1s6ucnZCO6c25cRzE-
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1039,Hydra:6.0.680,FMLib:17.12.60.29
- definitions=2024-09-06_09,2024-09-06_01,2024-09-02_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 mlxscore=0 suspectscore=0
- lowpriorityscore=0 impostorscore=0 mlxlogscore=944 clxscore=1011
- spamscore=0 phishscore=0 priorityscore=1501 adultscore=0 malwarescore=0
- bulkscore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.19.0-2409260000 definitions=main-2411070046
+Content-Transfer-Encoding: 8bit
 
+On some Lenovo platforms, the patch workarounds problems with ov2740
+sensor initialization, which manifest themself like below:
 
+[    4.540476] ov2740 i2c-INT3474:01: error -EIO: failed to find sensor
+[    4.542066] ov2740 i2c-INT3474:01: probe with driver ov2740 failed with error -5
 
-On 10/18/2024 11:57 AM, Krzysztof Kozlowski wrote:
-> On Thu, Oct 17, 2024 at 05:10:54PM +0530, Uttkarsh Aggarwal wrote:
->> Adding a new 'snps,filter-se0-fsls-eop quirk' DT quirk to dwc3 core to set
->> GUCTL1 BIT 29. When set, controller will ignore single SE0 glitch on the
->> linestate during transmission. Only two or more SE0 is considered as
->> valid EOP on FS/LS port. This bit is applicable only in FS in device mode
->> and FS/LS mode of operation in host mode.
-> 
-> Why this is not device/compatible specific? Just like all other quirks
-> pushed last one year.
+or
 
-Hi Krzysztof,
+[    7.742633] ov2740 i2c-INT3474:01: chip id mismatch: 2740 != 0
+[    7.742638] ov2740 i2c-INT3474:01: error -ENXIO: failed to find sensor
 
-  Apologies for a late reply from our end.
+and also by random failures of video stream start.
 
-  In DWC3 core/dwc3-qcom atleast, there have been no compatible specific 
-quirks added. Also since this is a property of the Synopsys controller 
-hardware and not QC specific one, can we add it in bindings itself. 
-Because this is a property other vendors might also use and adding it 
-via compatible might not be appropriate.
+Issue can be reproduced by this script:
 
-  Let us know your thoughts on this.
+n=0
+k=0
+while [ $n -lt 50 ] ; do
+	sudo modprobe -r ov2740
+	sleep `expr $RANDOM % 5`
+	sudo modprobe ov2740
+	if media-ctl -p  | grep -q ov2740 ; then
+		let k++
+	fi
+	let n++
+done
+echo Success rate $k/$n
 
-Regards,
-Krishna,
+Without the patch, success rate is approximately 15 or 50 tries.
+With the patch it does not fail.
 
-> 
->>
->> Signed-off-by: Uttkarsh Aggarwal <quic_uaggarwa@quicinc.com>
->> ---
->>   Documentation/devicetree/bindings/usb/snps,dwc3.yaml | 6 ++++++
->>   1 file changed, 6 insertions(+)
->>
->> diff --git a/Documentation/devicetree/bindings/usb/snps,dwc3.yaml b/Documentation/devicetree/bindings/usb/snps,dwc3.yaml
->> index 1cd0ca90127d..d9e813bbcd80 100644
->> --- a/Documentation/devicetree/bindings/usb/snps,dwc3.yaml
->> +++ b/Documentation/devicetree/bindings/usb/snps,dwc3.yaml
->> @@ -180,6 +180,12 @@ properties:
->>       description: When set core will set Tx de-emphasis value
->>       type: boolean
->>   
->> +  snps,filter-se0-fsls-eop-quirk:
->> +    description:
->> +      When set controller will ignore single SE0 glitch on the linestate during transmit
-> 
-> Does not look like wrapped according to coding style (checkpatch is not
-> a coding style document).
-> 
-> Best regards,
-> Krzysztof
-> 
-> 
+This problem is some hardware or firmware malfunction, that can not be
+easy debug and fix. While setting small autosuspend delay is not perfect
+workaround as user can configure it to any value, it will prevent
+the failures by default.
+
+Additionally setting small autosuspend delay should have positive effect
+on power consumption as for most ljca workloads device is used for just
+a few milliseconds flowed by long periods of at least 100ms of inactivity
+(usually more).
+
+Fixes: acd6199f195d ("usb: Add support for Intel LJCA device")
+Cc: stable@vger.kernel.org
+Reviewed-by: Hans de Goede <hdegoede@redhat.com>
+Tested-by: Hans de Goede <hdegoede@redhat.com> # ThinkPad X1 Yoga Gen 8, ov2740
+Acked-by: Sakari Ailus <sakari.ailus@linux.intel.com>
+Signed-off-by: Stanislaw Gruszka <stanislaw.gruszka@linux.intel.com>
+---
+v2: add R-b, T-b tags from Hans
+v3: add A-b tag from Sakari
+
+ drivers/usb/misc/usb-ljca.c | 8 ++++++++
+ 1 file changed, 8 insertions(+)
+
+diff --git a/drivers/usb/misc/usb-ljca.c b/drivers/usb/misc/usb-ljca.c
+index 8056c65e4548..d9c21f783055 100644
+--- a/drivers/usb/misc/usb-ljca.c
++++ b/drivers/usb/misc/usb-ljca.c
+@@ -811,6 +811,14 @@ static int ljca_probe(struct usb_interface *interface,
+ 	if (ret)
+ 		goto err_free;
+ 
++	/*
++	 * This works around problems with ov2740 initialization on some
++	 * Lenovo platforms. The autosuspend delay, has to be smaller than
++	 * the delay after setting the reset_gpio line in ov2740_resume().
++	 * Otherwise the sensor randomly fails to initialize.
++	 */
++	pm_runtime_set_autosuspend_delay(&usb_dev->dev, 10);
++
+ 	usb_enable_autosuspend(usb_dev);
+ 
+ 	return 0;
+-- 
+2.34.1
+
