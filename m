@@ -1,89 +1,60 @@
-Received: from isilmar-4.linta.de (isilmar-4.linta.de [136.243.71.142])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 36EC046447;
-	Sat,  9 Nov 2024 06:47:43 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=136.243.71.142
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0326838DF9;
+	Sat,  9 Nov 2024 06:59:33 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1731134866; cv=none; b=IBT/QyegqlluWfpRLe/XhGNNVOATm5YyiKAdVF3heE98QuaGBheaVxKX8SM7ob9hgOhnLqXhlLOs447PIk8svf/MikZ4YB/QJKRCj3A0/cpuce7eg5nzECgEl8vcuW4iSiGJgedtBRXPHL53YkCzp9S2+fs3xLb/e9sT+g4hMDQ=
+	t=1731135574; cv=none; b=m2iBjNGU/O0Px0MKO1P6iu8dueGSumSiqNiXNb3Gze9DZ7/2MWTGtzVOmKLB4wCItnEvSmZLDSzA7NBiLf1phKoWiNUIqmQsu4kVtZq44cIJXeewll/BbooWuSV6jzuH/zpu8WCJTakuSNflRJvr02v/A96T+5/FkSbN/hVAaVk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1731134866; c=relaxed/simple;
-	bh=m68XOFghE54ivU2dcmIYLk882k+HwPd8s6RJ2NuvOUg=;
+	s=arc-20240116; t=1731135574; c=relaxed/simple;
+	bh=+UkhUQ6mDDW3zbQ7VzXhosBO5S5lCqMQHb8ZTPWyO38=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=lkqOAWdSI+s2tqRO1b2QkOlFXPTvY7kZ2JT4EdgsQboqNe2Hrc1xJQVnn+wOlxefeEWUE+28guflX8FX0vO6fzgySABl5F3emDQtlUO9FqW3Ws7uWvQZ+daaXTKXwfkhOzKsKTBtHf7GzL1SdJtC7ZR3Bgc4PdXqtbhlKvyOBs0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=dominikbrodowski.net; spf=pass smtp.mailfrom=dominikbrodowski.net; dkim=pass (2048-bit key) header.d=dominikbrodowski.net header.i=@dominikbrodowski.net header.b=m0Ck6tLN; arc=none smtp.client-ip=136.243.71.142
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=dominikbrodowski.net
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=dominikbrodowski.net
+	 Content-Type:Content-Disposition:In-Reply-To; b=sIpEHmuWD5jtq4hJy7Ccq0M88apiCWxZS3AiXH5yzERRTN0degR2J7N1ulQb4+QLKfevvYkdXlhUUrva+Ce7TT9RfioJw11+u9Q3pRuZ2BFfbnsOjfV0IQxKbjD/ZaE9ZuZS06iQ7YE32MtPLmc+9th1nxWITOuzKmFbSk4rewk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b=GLoe4MAI; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=dominikbrodowski.net header.i=@dominikbrodowski.net header.b="m0Ck6tLN"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=dominikbrodowski.net;
-	s=k10.isilmar-4; t=1731134425;
-	bh=m68XOFghE54ivU2dcmIYLk882k+HwPd8s6RJ2NuvOUg=;
+	dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="GLoe4MAI"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 2DB41C4CEC6;
+	Sat,  9 Nov 2024 06:59:32 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
+	s=korg; t=1731135573;
+	bh=+UkhUQ6mDDW3zbQ7VzXhosBO5S5lCqMQHb8ZTPWyO38=;
 	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=m0Ck6tLN37f+wQFu3UsQKdc+QFgC4L455vHgvRwEu/CVsrintIaqw0BGGgBpyMvdW
-	 3KihegNFT/LSWiBGJHrh2x4bq2Tw/x8qpX2tSqHkcHUtNaZ4IJ2gQGC4GnUZTUiCLQ
-	 r56r2k3qqEKDP0FwBJlQPXH7YxXcxu81/eip498VpxpX7p3tYsQfg0wB+5KyAZvFv+
-	 5cuD7F/DteExPqXttlt9JrilrD6jrYzfKLgGkoZpUZzbqFgWkNrjt5d36ItgqB3Xx/
-	 ncV2XBUlHYtqXvveXkMXoNho0jTuTbMH4TEpAUqHdct6wbuMCY+YILmbceORQa2Unv
-	 BubNYu8gN0QBA==
-Received: from shine.dominikbrodowski.net (shine.brodo.linta [10.2.0.112])
-	by isilmar-4.linta.de (Postfix) with ESMTPSA id 03AE8200602;
-	Sat,  9 Nov 2024 06:40:24 +0000 (UTC)
-Received: by shine.dominikbrodowski.net (Postfix, from userid 1000)
-	id B3D61A006B; Sat, 09 Nov 2024 07:40:15 +0100 (CET)
-Date: Sat, 9 Nov 2024 07:40:15 +0100
-From: Dominik Brodowski <linux@dominikbrodowski.net>
-To: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
-Cc: Linus Walleij <linus.walleij@linaro.org>,
-	Bartosz Golaszewski <bartosz.golaszewski@linaro.org>,
-	Dmitry Torokhov <dmitry.torokhov@gmail.com>,
-	Tony Lindgren <tony@atomide.com>, Lee Jones <lee@kernel.org>,
-	linux-gpio@vger.kernel.org, linux-kernel@vger.kernel.org,
-	linux-input@vger.kernel.org, linux-leds@vger.kernel.org,
-	linux-arm-kernel@lists.infradead.org, linux-usb@vger.kernel.org,
-	Bartosz Golaszewski <brgl@bgdev.pl>, Pavel Machek <pavel@ucw.cz>,
-	Daniel Mack <daniel@zonque.org>,
-	Haojian Zhuang <haojian.zhuang@gmail.com>,
-	Robert Jarzmik <robert.jarzmik@free.fr>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-Subject: Re: [PATCH v1 4/6] pcmcia: soc_common: Avoid using GPIOF_ACTIVE_LOW
-Message-ID: <Zy8Dz7v2cGdGOPLj@shine.dominikbrodowski.net>
-References: <20241104093609.156059-1-andriy.shevchenko@linux.intel.com>
- <20241104093609.156059-5-andriy.shevchenko@linux.intel.com>
- <CACRpkdYF-_6vb3SsJ9EHh1mCbqeW5=qoYkLF7Re+XyGq36OJSg@mail.gmail.com>
- <Zy3NXXFFw4l-vfvr@smile.fi.intel.com>
+	b=GLoe4MAIBGhGQfnGUsveUnFJ/6dVaeyGYEuOF6agadwzcjGb0zBgxkIT6+ZUeTT1/
+	 imjohGvYvqNtFXK5J14O8lsGQf2mEwIFvGXpAMGKFtCJ4pIFnwOXdIE9crflOptSNj
+	 TxRwRNNjJhW547ktyyJBWmRzHvseKSfBFoD1ynNQ=
+Date: Sat, 9 Nov 2024 07:59:12 +0100
+From: Greg KH <gregkh@linuxfoundation.org>
+To: Rex Nie <rex.nie@jaguarmicro.com>
+Cc: linux-usb@vger.kernel.org, linux-kernel@vger.kernel.org,
+	angus.chen@jaguarmicro.com, stable@vger.kernel.org
+Subject: Re: [PATCH v2] USB: core: remove dead code in do_proc_bulk()
+Message-ID: <2024110947-umpire-unwell-ac00@gregkh>
+References: <20241109021140.2174-1-rex.nie@jaguarmicro.com>
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <Zy3NXXFFw4l-vfvr@smile.fi.intel.com>
+In-Reply-To: <20241109021140.2174-1-rex.nie@jaguarmicro.com>
 
-Am Fri, Nov 08, 2024 at 10:35:41AM +0200 schrieb Andy Shevchenko:
-> On Fri, Nov 08, 2024 at 09:28:19AM +0100, Linus Walleij wrote:
-> > On Mon, Nov 4, 2024 at 10:36 AM Andy Shevchenko
-> > <andriy.shevchenko@linux.intel.com> wrote:
-> > 
-> > > Avoid using GPIOF_ACTIVE_LOW as it's deprecated and subject to remove.
-> > >
-> > > Signed-off-by: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
-> > 
-> > Looks right to me, some testing would be even better
-> > because I never trust these flags to get right.
+On Sat, Nov 09, 2024 at 10:11:41AM +0800, Rex Nie wrote:
+> Since len1 is unsigned int, len1 < 0 always false. Remove it keep code
+> simple.
 > 
-> I also would like to have this, but seems the only odd fixer was active ca.
-> 2023 last time, I'm not sure we may hear from Dominik in time, otherwise the
-> series will be postponed for unknown period of time, which I do not prefer,
-> rather I will fix any regressions later (but I doubt there are here).
+> Cc: stable@vger.kernel.org
+> Fixes: ae8709b296d8 ("USB: core: Make do_proc_control() and do_proc_bulk() killable")
+> Signed-off-by: Rex Nie <rex.nie@jaguarmicro.com>
+> ---
+> changes in v2:
+> - Add "Cc: stable@vger.kernel.org" (kernel test robot)
 
-As I don't have such hardware, I cannot help with testing, but from the
-PCMCIA point of view:
+Why is this relevant for the stable kernels?  What bug is being fixed
+that users would hit that this is needed to resolve?
 
-	Acked-by: Dominik Brodowski <linux@dominikbrodowski.net>
+thanks,
 
-Thanks,
-	Dominik
+greg k-h
