@@ -1,90 +1,65 @@
-Received: from relay1-d.mail.gandi.net (relay1-d.mail.gandi.net [217.70.183.193])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7AA9E1F77A7;
-	Tue, 12 Nov 2024 11:01:30 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.70.183.193
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 98624230981
+	for <linux-usb@vger.kernel.org>; Tue, 12 Nov 2024 11:07:53 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1731409293; cv=none; b=hYqgRMS0iqQxydKRQ58aLloY6SQI9RVCyAryIeZ7aWEtpJ4i8+YTRGgMilxg7SsV4zX8gQX1yvhEZp/JnQwh4VH7PLxZh2lnHEntSn/cRHaZgW6AgTo1k/gbfGOzpqJgK+t5AT2HuECAf9c9in8Ilh2XYze5RURDqoIrGK71fx8=
+	t=1731409673; cv=none; b=Ox8T24PIa5TJxrfqEJNW0rgIAExfqn2Zs/oDRg0oK02eUoCy6CCefR8Up6BuR9OPbYy9CD+81EtqHTNyXudFU34RniDR7nDYZP33qmQAVMzRfR2ggIGigH7EzwwFiPx/3vqcHYUnxESWMwYydU9M+diB1xKSgmjRbRxuxeATBjY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1731409293; c=relaxed/simple;
-	bh=A/1yp0LaJZZY/+agPEY0mYZ96StMCvDdlakH86oaiKE=;
-	h=From:To:Cc:Subject:In-Reply-To:References:Date:Message-ID:
-	 MIME-Version:Content-Type; b=JOuCvYc7L8tD2npllVgSSviJ2HC3BsOFZlTipq/bihF7yN3uc1KrCzQC31Z5sv74k7ONNm9FudBNUsomQB6WTpP6STJUwSvy0Y+v7sFfmcfTdK6nQToK6FoQqcCt8GQ1IcG0zm5MRff2wvJWMaDXm7y/E1GfOYglff6BfzyQ1/I=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com; spf=pass smtp.mailfrom=bootlin.com; dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b=CUyFtoHF; arc=none smtp.client-ip=217.70.183.193
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=bootlin.com
+	s=arc-20240116; t=1731409673; c=relaxed/simple;
+	bh=jZrO83ey7MPCI1/2RZN76YejmSOeO6vSxBcnlq6ZNbw=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=svz9cN1D/UFvPxCimJb9PCb0o36X7gW2jTHFusNB1ZG7TjDhneSOvHCug9Q2ThYsG5b2/w5VmnxiclhgmBfrMe9umgF5ofo84tfZPinZoDmx3tO3RSrKC1TQ2dCT1uvhkmxClP1lvKX9DmFKn72gzUM2rOVI2iYDUejxPRY1qC4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b=IWuFDsLT; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b="CUyFtoHF"
-Received: by mail.gandi.net (Postfix) with ESMTPSA id 38001240011;
-	Tue, 12 Nov 2024 11:01:21 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=gm1;
-	t=1731409283;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=osagrrumfDGl8S19V6hpWE8fnqHAIqSNeF5380MEu3w=;
-	b=CUyFtoHF/08sM1eEggzqP7IJe6O8R0TkpW63Bs9QPbEdltpEwqx575feeKDvJIgjExRxu3
-	S58bXqI/Fj8kpAt8YxV2ziwbVUsg4FlPj0VGcqr7rlpTal2QUPme2eDLdB9kA7cURMN91e
-	QE5SagNWrT2yPA7s6OpZS+2GegGVlbaiawgxOYKVCvHX3RkOa5drKDAwjcIsIjpej1LcXp
-	mZcddRk18xaXwz269r4UdXdckjewdoNEExtNIHl50eu0UCwTkrTkTHKj7E3TleHq+VTeYF
-	AWYg+8wZTVjqZz1phg+9KSXGxV8QsyY1eheqFBVjP4mC4by7oORFMmrW9gBXrg==
-From: Miquel Raynal <miquel.raynal@bootlin.com>
-To: Lizhi Xu <lizhi.xu@windriver.com>
-Cc: <alex.aring@gmail.com>,  <davem@davemloft.net>,  <dmantipov@yandex.ru>,
-  <edumazet@google.com>,  <horms@kernel.org>,  <kuba@kernel.org>,
-  <linux-kernel@vger.kernel.org>,  <linux-usb@vger.kernel.org>,
-  <linux-wpan@vger.kernel.org>,  <netdev@vger.kernel.org>,
-  <pabeni@redhat.com>,  <stefan@datenfreihafen.org>,
-  <syzbot+985f827280dc3a6e7e92@syzkaller.appspotmail.com>,
-  <syzkaller-bugs@googlegroups.com>
-Subject: Re: [PATCH] mac802154: add a check for slave data list before delete
-In-Reply-To: <20241112002134.2003089-1-lizhi.xu@windriver.com> (Lizhi Xu's
-	message of "Tue, 12 Nov 2024 08:21:33 +0800")
-References: <87msi5pn7y.fsf@bootlin.com>
-	<20241112002134.2003089-1-lizhi.xu@windriver.com>
-User-Agent: mu4e 1.12.1; emacs 29.4
-Date: Tue, 12 Nov 2024 12:01:21 +0100
-Message-ID: <87a5e4u35q.fsf@bootlin.com>
+	dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="IWuFDsLT"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id CCB61C4CECD;
+	Tue, 12 Nov 2024 11:07:52 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
+	s=korg; t=1731409673;
+	bh=jZrO83ey7MPCI1/2RZN76YejmSOeO6vSxBcnlq6ZNbw=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=IWuFDsLTC/fFJzuk8Tty17i9OsMfpL+BJ035OTmRiLwp2JwjlWkd5FAxFem4jweXV
+	 dD0l3mLgzAuPUP7y167twD3+hjVfYWPvDlnmcISFTfW14ojcbMYUGIm7ZljBw1aoif
+	 po+43760QYoaxUGG/7bSKDuvg88Q9FcSYqbf9a6A=
+Date: Tue, 12 Nov 2024 11:33:29 +0100
+From: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+To: Hans de Goede <hdegoede@redhat.com>
+Cc: Stanislaw Gruszka <stanislaw.gruszka@linux.intel.com>,
+	linux-usb@vger.kernel.org, Wentong Wu <wentong.wu@intel.com>,
+	Sakari Ailus <sakari.ailus@linux.intel.com>
+Subject: Re: [PATCH v4 1/3] usb: misc: ljca: move usb_autopm_put_interface()
+ after wait for response
+Message-ID: <2024111245-ardently-proven-02a5@gregkh>
+References: <20241112075514.680712-1-stanislaw.gruszka@linux.intel.com>
+ <48a4d4c6-0c85-4daa-952a-808829a6cfc7@redhat.com>
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
-X-GND-Sasl: miquel.raynal@bootlin.com
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <48a4d4c6-0c85-4daa-952a-808829a6cfc7@redhat.com>
 
-On 12/11/2024 at 08:21:33 +08, Lizhi Xu <lizhi.xu@windriver.com> wrote:
+On Tue, Nov 12, 2024 at 11:13:55AM +0100, Hans de Goede wrote:
+> Greg,
+> 
+> This patch 1/3 + patch 2/3 together fix an issue causing the camera to not
+> work on quite a few ThinkPad models.
+> 
+> Can you maybe pick up patch 1/3 + patch 2/3 already, while
+> Stanislaw works on fixing 3/3 ?
 
-> On Mon, 11 Nov 2024 20:46:57 +0100, Miquel Raynal wrote:
->> On 08/11/2024 at 22:54:20 +08, Lizhi Xu <lizhi.xu@windriver.com> wrote:
->>=20
->> > syzkaller reported a corrupted list in ieee802154_if_remove. [1]
->> >
->> > Remove an IEEE 802.15.4 network interface after unregister an IEEE 802=
-.15.4
->> > hardware device from the system.
->> >
->> > CPU0					CPU1
->> > =3D=3D=3D=3D					=3D=3D=3D=3D
->> > genl_family_rcv_msg_doit		ieee802154_unregister_hw
->> > ieee802154_del_iface			ieee802154_remove_interfaces
->> > rdev_del_virtual_intf_deprecated	list_del(&sdata->list)
->> > ieee802154_if_remove
->> > list_del_rcu
->>=20
->> FYI this is a "duplicate" but with a different approach than:
->> https://lore.kernel.org/linux-wpan/87v7wtpngj.fsf@bootlin.com/T/#m02cebe=
-86ec0171fc4d3350676bbdd4a7e3827077
-> No, my patch was the first to fix it, someone else copied my
-> patch. Here is my patch:
+Yes, I'll do that later today, good idea.
 
-Ok, so same question as to the other contributor, why not enclosing the
-remaining list_del_rcu() within mutex protection? Can we avoid the
-creation of the LISTDONE state bit?
+Mixing new feaures and bug fixes shouldn't be in the same patch series,
+again, Intel developers should know better if this were to actually pass
+their internal review process (which seems to keep being ignored
+here...)
 
-Thanks,
-Miqu=C3=A8l
+thanks,
+
+greg k-h
