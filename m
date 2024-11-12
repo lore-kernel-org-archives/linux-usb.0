@@ -1,111 +1,286 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.8])
+Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com [205.220.168.131])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B4EBD1BCA11;
-	Tue, 12 Nov 2024 11:51:44 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.8
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1506323099E;
+	Tue, 12 Nov 2024 12:05:32 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.168.131
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1731412306; cv=none; b=Bh+q2ohESEFYTVyCHZSxaefol2gbyiLOL6rBK0YEOrezBaBZwI+0DGqY6Q9+qZsWrfTQYU5Do2U3w7UaJAwre+qzWi566QpCcAgRyhbbzqhlYSxkRRS6qWX43+JccK1XapWWUmI4p6hXeA6awjRLNN6w4BqkDrNzMZq73d+i8vg=
+	t=1731413134; cv=none; b=UbOEsuDGBKO+RB+tgFS/qYe/UQDSaq2eLmLMKzbgrBsdflDXe65Ik7Kjsb1K/PX5GShoov6MS5BVmn2haGI+8PD+npizTYoIXzq9P36IcPMIjJjxauaKas1t1pw1G7bM0go97foyCeLJPqfH918JZ1GkxlXjjjjNIkiqkC3N50M=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1731412306; c=relaxed/simple;
-	bh=IDSB+0NIZbf11fpgWGAanQLivWHIwGk+LTEmDiC46GQ=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=N02LH9p7/3oaR7zpHab9SpAzw5jWAqeZ5uaLDEovzvG2VVG1qcBymjhdq5p4lkRNW11+JoMoHPM3fK5D5Do0w0pTJo6THj5/2h84XBIjfWqO8UfsPBgX30l6o1GVQ7P6CXuDVR43Yfo1EynKABCmFmpzbeJ4UystNl90VdSSBxQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=none smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=iE5MbN0N; arc=none smtp.client-ip=192.198.163.8
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=linux.intel.com
+	s=arc-20240116; t=1731413134; c=relaxed/simple;
+	bh=oPJQqBdF+gAf9KZ7l2LNFNFZDDmOFvI4Q1I+Hi1ayOE=;
+	h=Date:From:To:CC:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=uJPaa9MX1vnStP2ebt91fGr6CbxmSDcEPqngERvxdviBdVb27lmDYEpAqkmRm2NsEiPJBxDKbBpK4FObUlfOvNhiHQW8morLfT5YCboLDlbfhHRDRJzFSQdwd/Aylgla82IS5LtESPPviMt1df0XCLr6uWnklfTb6lVUdj0yx6Q=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=quicinc.com; spf=pass smtp.mailfrom=quicinc.com; dkim=pass (2048-bit key) header.d=quicinc.com header.i=@quicinc.com header.b=kl+6hk3O; arc=none smtp.client-ip=205.220.168.131
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=quicinc.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=quicinc.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="iE5MbN0N"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1731412304; x=1762948304;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=IDSB+0NIZbf11fpgWGAanQLivWHIwGk+LTEmDiC46GQ=;
-  b=iE5MbN0NpUque0HCqJlL4wD4UAbP1ILCwQ3pYUCvhw4Jk+LKModqP+at
-   qkIkqx7X1GEfEFus6SomOP+72LjcvgaRqpr8YMwdrYGRoo4+uNbl4fb+C
-   QkfvmDcLLwP0DXsLvUkzeN+Ob/wZzZSNvvq2Q/sAtYIdtBn2628+sB206
-   Q6h57AmPrQWTlpFESak5VX6ACsmEwhVK7/14+mRs2NfjCvh6VutnA/77c
-   fjHf5pMfrWEEp8gW1ZJeaeGO1qE+8mMWujNlotjLiATlCoz+lF+Ho3M5P
-   PmdotqKH8pMM15egpv2hkWJDPPL2IRHx8cuJE7uvZUBRKdT4UhAd+FMDv
-   Q==;
-X-CSE-ConnectionGUID: dkEPb0/TT9KegDGW3GwRWg==
-X-CSE-MsgGUID: pzanGsajQwm+dwdouTChHw==
-X-IronPort-AV: E=McAfee;i="6700,10204,11253"; a="48752980"
-X-IronPort-AV: E=Sophos;i="6.12,147,1728975600"; 
-   d="scan'208";a="48752980"
-Received: from fmviesa004.fm.intel.com ([10.60.135.144])
-  by fmvoesa102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 12 Nov 2024 03:51:43 -0800
-X-CSE-ConnectionGUID: mdq+nGRcQum9P7XzQZawtQ==
-X-CSE-MsgGUID: UqsmfTzNT/6N6P1an5K7tw==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.12,147,1728975600"; 
-   d="scan'208";a="92196326"
-Received: from kuha.fi.intel.com ([10.237.72.152])
-  by fmviesa004.fm.intel.com with SMTP; 12 Nov 2024 03:51:40 -0800
-Received: by kuha.fi.intel.com (sSMTP sendmail emulation); Tue, 12 Nov 2024 13:51:39 +0200
-Date: Tue, 12 Nov 2024 13:51:39 +0200
-From: Heikki Krogerus <heikki.krogerus@linux.intel.com>
-To: Dan Carpenter <dan.carpenter@linaro.org>
-Cc: Ajay Gupta <ajayg@nvidia.com>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
-	Uwe =?iso-8859-1?Q?Kleine-K=F6nig?= <u.kleine-koenig@baylibre.com>,
-	Haotien Hsu <haotienh@nvidia.com>, linux-usb@vger.kernel.org,
-	linux-kernel@vger.kernel.org, kernel-janitors@vger.kernel.org
-Subject: Re: [PATCH] usb: typec: fix potential array underflow in
- ucsi_ccg_sync_control()
-Message-ID: <ZzNBS4M9c0tjSmX1@kuha.fi.intel.com>
-References: <c69ef0b3-61b0-4dde-98dd-97b97f81d912@stanley.mountain>
+	dkim=pass (2048-bit key) header.d=quicinc.com header.i=@quicinc.com header.b="kl+6hk3O"
+Received: from pps.filterd (m0279867.ppops.net [127.0.0.1])
+	by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 4AC6Acrc004274;
+	Tue, 12 Nov 2024 12:05:24 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com; h=
+	cc:content-type:date:from:in-reply-to:message-id:mime-version
+	:references:subject:to; s=qcppdkim1; bh=P9IA0tXkQgTIxZ2yNSyLEIYk
+	BOY5DaCdT6jVBJAyRyQ=; b=kl+6hk3OnXACXXaTmFpzMneMv7W8+wNFL+8qOZRE
+	/jqocrkCkgw0sc456tjEoXDVVeDdzbX70Lbnq/8zZ5xmqz3mOI6+xQgGqOoxJjKw
+	5EJXQ2Jh8lGg0vSKL20pA9cg5DifZbqVpHfJmOFVEH1J2n04g5iSaXTTR5whpjng
+	3lmev6SjUK1ACWS217kZmjklhYNJv7FoTjc5Z9+00v7Kjm970LmflAMYjaIbCZfY
+	0k13WMEUdLG/9ZxPG9QDC9mM+91ZTrqgXUxRCKg0toFcymMbbgh5lqM7tKLlhbCJ
+	K3fgV86iC5NzJIr7DCPYOE93uYsZyj1pzYXsc+9Z7KDKRw==
+Received: from nasanppmta02.qualcomm.com (i-global254.qualcomm.com [199.106.103.254])
+	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 42v1h6guqd-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Tue, 12 Nov 2024 12:05:23 +0000 (GMT)
+Received: from nasanex01b.na.qualcomm.com (nasanex01b.na.qualcomm.com [10.46.141.250])
+	by NASANPPMTA02.qualcomm.com (8.18.1.2/8.18.1.2) with ESMTPS id 4ACC5MEE032531
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Tue, 12 Nov 2024 12:05:22 GMT
+Received: from hu-varada-blr.qualcomm.com (10.80.80.8) by
+ nasanex01b.na.qualcomm.com (10.46.141.250) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.1544.9; Tue, 12 Nov 2024 04:05:17 -0800
+Date: Tue, 12 Nov 2024 17:35:13 +0530
+From: Varadarajan Narayanan <quic_varada@quicinc.com>
+To: Krishna Kurapati <quic_kriskura@quicinc.com>
+CC: <krzk+dt@kernel.org>, <conor+dt@kernel.org>, <gregkh@linuxfoundation.org>,
+        <robh@kernel.org>, <abel.vesa@linaro.org>, <johan+linaro@kernel.org>,
+        <dmitry.baryshkov@linaro.org>, <mantas@8devices.com>,
+        <linux-arm-msm@vger.kernel.org>, <linux-phy@lists.infradead.org>,
+        <devicetree@vger.kernel.org>, <quic_kbajaj@quicinc.com>,
+        <linux-kernel@vger.kernel.org>, <quic_wcheng@quicinc.com>,
+        <vkoul@kernel.org>, <linux-usb@vger.kernel.org>,
+        <andersson@kernel.org>, <kishon@kernel.org>, <konradybcio@kernel.org>
+Subject: Re: [PATCH v1 6/6] arm64: dts: qcom: Add USB controller and phy
+ nodes for IPQ5424
+Message-ID: <ZzNEecwbh63soh5J@hu-varada-blr.qualcomm.com>
+References: <20241112091355.2028018-1-quic_varada@quicinc.com>
+ <20241112091355.2028018-7-quic_varada@quicinc.com>
+ <e541fd10-7037-4cbf-b07a-6cac8a7a9452@quicinc.com>
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset="us-ascii"
 Content-Disposition: inline
-In-Reply-To: <c69ef0b3-61b0-4dde-98dd-97b97f81d912@stanley.mountain>
+In-Reply-To: <e541fd10-7037-4cbf-b07a-6cac8a7a9452@quicinc.com>
+X-ClientProxiedBy: nasanex01b.na.qualcomm.com (10.46.141.250) To
+ nasanex01b.na.qualcomm.com (10.46.141.250)
+X-QCInternal: smtphost
+X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800 signatures=585085
+X-Proofpoint-ORIG-GUID: V9tPQDxUXlWAnv9eSwNZL-bNjImDrGYd
+X-Proofpoint-GUID: V9tPQDxUXlWAnv9eSwNZL-bNjImDrGYd
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1039,Hydra:6.0.680,FMLib:17.12.60.29
+ definitions=2024-09-06_09,2024-09-06_01,2024-09-02_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 malwarescore=0 bulkscore=0
+ phishscore=0 adultscore=0 priorityscore=1501 mlxscore=0 clxscore=1015
+ lowpriorityscore=0 impostorscore=0 spamscore=0 mlxlogscore=867
+ suspectscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.19.0-2409260000 definitions=main-2411120097
 
-On Mon, Nov 11, 2024 at 02:08:06PM +0300, Dan Carpenter wrote:
-> The "command" variable can be controlled by the user via debugfs.  The
-> worry is that if con_index is zero then "&uc->ucsi->connector[con_index
-> - 1]" would be an array underflow.
-> 
-> Fixes: 170a6726d0e2 ("usb: typec: ucsi: add support for separate DP altmode devices")
-> Signed-off-by: Dan Carpenter <dan.carpenter@linaro.org>
+On Tue, Nov 12, 2024 at 03:05:57PM +0530, Krishna Kurapati wrote:
+>
+>
+> On 11/12/2024 2:43 PM, Varadarajan Narayanan wrote:
+> > The IPQ5424 SoC has both USB2.0 and USB3.0 controllers. The USB3.0
+> > can connect to either of USB2.0 or USB3.0 phy and operate in the
+> > respective mode.
+> >
+> > Signed-off-by: Varadarajan Narayanan <quic_varada@quicinc.com>
+> > ---
+> >   arch/arm64/boot/dts/qcom/ipq5424-rdp466.dts |  67 +++++++++
+> >   arch/arm64/boot/dts/qcom/ipq5424.dtsi       | 153 ++++++++++++++++++++
+> >   2 files changed, 220 insertions(+)
+> >
+>
+> [...]
+>
+> > diff --git a/arch/arm64/boot/dts/qcom/ipq5424.dtsi b/arch/arm64/boot/dts/qcom/ipq5424.dtsi
+> > index 5e219f900412..d8c045a311c2 100644
+> > --- a/arch/arm64/boot/dts/qcom/ipq5424.dtsi
+> > +++ b/arch/arm64/boot/dts/qcom/ipq5424.dtsi
+> > @@ -233,6 +233,159 @@ intc: interrupt-controller@f200000 {
+> >   			msi-controller;
+> >   		};
+> > +		qusb_phy_1: phy@71000 {
+> > +			compatible = "qcom,ipq5424-qusb2-phy";
+> > +			reg = <0 0x00071000 0 0x180>;
+> > +			#phy-cells = <0>;
+> > +
+> > +			clocks = <&gcc GCC_USB1_PHY_CFG_AHB_CLK>,
+> > +				<&xo_board>;
+> > +			clock-names = "cfg_ahb", "ref";
+> > +
+> > +			resets = <&gcc GCC_QUSB2_1_PHY_BCR>;
+> > +			status = "disabled";
+> > +		};
+> > +
+> > +		usb2: usb2@1e00000 {
+> > +			compatible = "qcom,ipq5424-dwc3", "qcom,dwc3";
+> > +			reg = <0 0x01ef8800 0 0x400>;
+> > +			#address-cells = <2>;
+> > +			#size-cells = <2>;
+> > +			ranges;
+> > +
+> > +			clocks = <&gcc GCC_USB1_MASTER_CLK>,
+> > +				 <&gcc GCC_USB1_SLEEP_CLK>,
+> > +				 <&gcc GCC_USB1_MOCK_UTMI_CLK>,
+> > +				 <&gcc GCC_USB1_PHY_CFG_AHB_CLK>,
+> > +				 <&gcc GCC_CNOC_USB_CLK>;
+> > +
+> > +			clock-names = "core",
+> > +				      "sleep",
+> > +				      "mock_utmi",
+> > +				      "iface",
+> > +				      "cfg_noc";
+> > +
+> > +			assigned-clocks = <&gcc GCC_USB1_MASTER_CLK>,
+> > +					  <&gcc GCC_USB1_MOCK_UTMI_CLK>;
+> > +			assigned-clock-rates = <200000000>,
+> > +					       <24000000>; > +
+>
+> Shouldn't this be 19.2MHz ?
 
-Reviewed-by: Heikki Krogerus <heikki.krogerus@linux.intel.com>
+XO is 24MHz in this SoC.
 
-> ---
->  drivers/usb/typec/ucsi/ucsi_ccg.c | 5 +++++
->  1 file changed, 5 insertions(+)
-> 
-> diff --git a/drivers/usb/typec/ucsi/ucsi_ccg.c b/drivers/usb/typec/ucsi/ucsi_ccg.c
-> index bccfc03b5986..fcb8e61136cf 100644
-> --- a/drivers/usb/typec/ucsi/ucsi_ccg.c
-> +++ b/drivers/usb/typec/ucsi/ucsi_ccg.c
-> @@ -644,6 +644,10 @@ static int ucsi_ccg_sync_control(struct ucsi *ucsi, u64 command)
->  	    uc->has_multiple_dp) {
->  		con_index = (uc->last_cmd_sent >> 16) &
->  			UCSI_CMD_CONNECTOR_MASK;
-> +		if (con_index == 0) {
-> +			ret = -EINVAL;
-> +			goto unlock;
-> +		}
->  		con = &uc->ucsi->connector[con_index - 1];
->  		ucsi_ccg_update_set_new_cam_cmd(uc, con, &command);
->  	}
-> @@ -651,6 +655,7 @@ static int ucsi_ccg_sync_control(struct ucsi *ucsi, u64 command)
->  	ret = ucsi_sync_control_common(ucsi, command);
->  
->  	pm_runtime_put_sync(uc->dev);
-> +unlock:
->  	mutex_unlock(&uc->lock);
->  
->  	return ret;
-> -- 
-> 2.45.2
+> > +			interrupts-extended = <&intc GIC_SPI 395 IRQ_TYPE_LEVEL_HIGH>,
+> > +					      <&intc GIC_SPI 397 IRQ_TYPE_LEVEL_HIGH>,
+> > +					      <&intc GIC_SPI 387 IRQ_TYPE_LEVEL_HIGH>,
+> > +					      <&intc GIC_SPI 388 IRQ_TYPE_LEVEL_HIGH>;
+> > +			interrupt-names = "pwr_event",
+> > +					  "qusb2_phy",
+> > +					  "dm_hs_phy_irq",
+> > +					  "dp_hs_phy_irq";
+> > +
+>
+> Please check the hs_phy_irq as well and add it if its present.
 
--- 
-heikki
+Will add.
+
+> > +			resets = <&gcc GCC_USB1_BCR>;
+> > +			qcom,select-utmi-as-pipe-clk;
+> > +			status = "disabled";
+> > +
+> > +			dwc_1: usb@1e00000 {
+> > +				compatible = "snps,dwc3";
+> > +				reg = <0 0x01e00000 0 0xe000>;
+> > +				clocks = <&gcc GCC_USB1_MOCK_UTMI_CLK>;
+> > +				clock-names = "ref";
+>
+> Another clock in dwc3 node ?
+>
+> > +				interrupts = <GIC_SPI 396 IRQ_TYPE_LEVEL_HIGH>;
+> > +				phys = <&qusb_phy_1>;
+> > +				phy-names = "usb2-phy";
+> > +				tx-fifo-resize;
+> > +				snps,is-utmi-l1-suspend;
+> > +				snps,hird-threshold = /bits/ 8 <0x0>;
+> > +				snps,dis_u2_susphy_quirk;
+> > +				snps,dis_u3_susphy_quirk;
+> > +			};
+> > +		};
+> > +
+> > +		qusb_phy_0: phy@7b000 {
+> > +			compatible = "qcom,ipq5424-qusb2-phy";
+> > +			reg = <0 0x0007b000 0 0x180>;
+> > +			#phy-cells = <0>;
+> > +
+> > +			clocks = <&gcc GCC_USB0_PHY_CFG_AHB_CLK>,
+> > +				<&xo_board>;
+> > +			clock-names = "cfg_ahb", "ref";
+> > +
+> > +			resets = <&gcc GCC_QUSB2_0_PHY_BCR>;
+> > +			status = "disabled";
+> > +		};
+> > +
+> > +		ssphy_0: phy@7d000 {
+> > +			compatible = "qcom,ipq5424-qmp-usb3-phy";
+> > +			reg = <0 0x0007d000 0 0xa00>;
+> > +			#phy-cells = <0>;
+> > +
+> > +			clocks = <&gcc GCC_USB0_AUX_CLK>,
+> > +				 <&xo_board>,
+> > +				 <&gcc GCC_USB0_PHY_CFG_AHB_CLK>,
+> > +				 <&gcc GCC_USB0_PIPE_CLK>;
+> > +			clock-names = "aux",
+> > +				      "ref",
+> > +				      "cfg_ahb",
+> > +				      "pipe";
+> > +
+> > +			resets = <&gcc GCC_USB0_PHY_BCR>,
+> > +				 <&gcc GCC_USB3PHY_0_PHY_BCR>;
+> > +			reset-names = "phy",
+> > +				      "phy_phy";
+> > +
+> > +			#clock-cells = <0>;
+> > +			clock-output-names = "usb0_pipe_clk";
+> > +
+> > +			status = "disabled";
+> > +		};
+> > +
+> > +		usb3: usb3@8a00000 {
+> > +			compatible = "qcom,ipq5424-dwc3", "qcom,dwc3";
+> > +			reg = <0 0x08af8800 0 0x400>;
+> > +
+> > +			#address-cells = <2>;
+> > +			#size-cells = <2>;
+> > +			ranges;
+> > +
+> > +			clocks = <&gcc GCC_USB0_MASTER_CLK>,
+> > +				 <&gcc GCC_USB0_SLEEP_CLK>,
+> > +				 <&gcc GCC_USB0_MOCK_UTMI_CLK>,
+> > +				 <&gcc GCC_USB0_PHY_CFG_AHB_CLK>,
+> > +				 <&gcc GCC_CNOC_USB_CLK>;
+> > +
+> > +			clock-names = "core",
+> > +				      "sleep",
+> > +				      "mock_utmi",
+> > +				      "iface",
+> > +				      "cfg_noc";
+> > +
+> > +			assigned-clocks = <&gcc GCC_USB0_MASTER_CLK>,
+> > +					  <&gcc GCC_USB0_MOCK_UTMI_CLK>;
+> > +			assigned-clock-rates = <200000000>,
+> > +					       <24000000>;
+> > +
+>
+> same comment as above, isn't this supposed to be 19.2MHz ?
+
+XO is 24MHz in this SoC.
+
+> > +			interrupts-extended = <&intc GIC_SPI 412 IRQ_TYPE_LEVEL_HIGH>,
+> > +					      <&intc GIC_SPI 414 IRQ_TYPE_LEVEL_HIGH>;
+> > +			interrupt-names = "pwr_event",
+> > +					  "qusb2_phy";
+> > +
+>
+> DP/ DM interrupts ?
+
+Will add.
+
+> > +			resets = <&gcc GCC_USB_BCR>;
+> > +			status = "disabled";
+> > +
+> > +			dwc_0: usb@8a00000 {
+> > +				compatible = "snps,dwc3";
+> > +				reg = <0 0x08a00000 0 0xcd00>;
+> > +				clocks = <&gcc GCC_USB0_MOCK_UTMI_CLK>;
+> > +				clock-names = "ref";
+> > +				interrupts = <GIC_SPI 409 IRQ_TYPE_LEVEL_HIGH>;
+> > +				phys = <&qusb_phy_0>, <&ssphy_0>;
+> > +				phy-names = "usb2-phy", "usb3-phy";
+> > +				tx-fifo-resize;
+> > +				snps,is-utmi-l1-suspend;
+> > +				snps,hird-threshold = /bits/ 8 <0x0>;
+> > +				snps,dis_u2_susphy_quirk;
+> > +				snps,dis_u3_susphy_quirk;
+>
+> Disable u1/u2 entry as well please.
+
+Will add.
+
+Thanks
+Varada
