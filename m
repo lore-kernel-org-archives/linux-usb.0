@@ -1,173 +1,106 @@
-Received: from HK2PR02CU002.outbound.protection.outlook.com (mail-eastasiaazon11020109.outbound.protection.outlook.com [52.101.128.109])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-yw1-f170.google.com (mail-yw1-f170.google.com [209.85.128.170])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E38191FF046;
-	Tue, 12 Nov 2024 15:21:07 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=52.101.128.109
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1731424872; cv=fail; b=a+083PP+eBSQxDNRfpetdToccxNarkmHpGVlMaP6zOmfpQDsPBOJJhSrz4k1T1c8hJRhQppb+mqTR6WHNlbMafsT4Dek/kt7Mg5hWTgo3WA7p8d0RkGUa1VuxnM7RyWA8UoiWI2qyMqx3AgIGTBAk/eNvrfYqD/ecj5kauk4WHE=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1731424872; c=relaxed/simple;
-	bh=jCSVyD+n0Guhs8C3czX+o2DFCS0eGYXaLv70YxWVi2U=;
-	h=From:To:Cc:Subject:Date:Message-Id:Content-Type:MIME-Version; b=gLYYjzvptE24pyAOAkcEZRPr+cJAwSJdsMLGnSlrT9lzzMnjUKKzP8RQa/Ifzd4+LmgsMlDvclsGJPSDmeBoPwT0WkzybG/doITFXjz4i60Imc1BQwpAXqsG2YZUd6GlXFGfgm7zq6WPVd6XO2chGO5i3WkUPOIC5Id7qcY0seE=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=jaguarmicro.com; spf=pass smtp.mailfrom=jaguarmicro.com; dkim=pass (2048-bit key) header.d=jaguarmicro.com header.i=@jaguarmicro.com header.b=NXAqkSJY; arc=fail smtp.client-ip=52.101.128.109
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=jaguarmicro.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=jaguarmicro.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9EA7520111A
+	for <linux-usb@vger.kernel.org>; Tue, 12 Nov 2024 15:38:18 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.170
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1731425900; cv=none; b=e+4DGxcysmYd5t5DnitqrWsB9WITs2g27zI5Y9RNI5uo6vWI//C59KvFOGeC2cuyHiV4tRP3QW+sjwLjNl/bD8Yoi/QoKr63bljnGEUNtC4twDOFCeFS/kxQchHRrHhCbxrDjDekVWWvf6JlwdxyWbpMnE80bkVWy4SawLLI1gk=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1731425900; c=relaxed/simple;
+	bh=sdhx8TvevQPzP9rwHjeBQ0WqXkaUKN2RtRj7mimst3U=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=SUxX+e/o2C/hDP0t7Y46a26BKgi/2e39gQ4b4K1m55gTlwQRW9Gq1O8sz9MfDV8XO3DsG/Ouval/JOwwhXmkzphWhyoeyaw5iqsNVWyAnsdpq91YdBX3fgVdoH4qZ7JFLrbQXVJxg+/SIPnUqeh4aWM/aZT/sRbG5v04JTNH9Cc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=rowland.harvard.edu; spf=fail smtp.mailfrom=g.harvard.edu; dkim=pass (2048-bit key) header.d=rowland.harvard.edu header.i=@rowland.harvard.edu header.b=F1icZC7u; arc=none smtp.client-ip=209.85.128.170
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=rowland.harvard.edu
+Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=g.harvard.edu
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=jaguarmicro.com header.i=@jaguarmicro.com header.b="NXAqkSJY"
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=ou6QQxRgUyA9PrtL5h9e31yswH6r69owoPTfLhN/Im4wsGURvg0yJyNatmWbsNRH3otUvv9Q2884xt8KIma3HUrekA1dRYSKVdwYgvAaw8EGPafBw7ElxyiWvtWKjMfgLlVvUEHhYRHP94aGRpMauYqyWO22bOYEW5YMlzv4InoBSsKwSazf2wbk8M6pzdpAbhK6Sw7ejNqQhJ7MpZNEYP4vSUex1W8QlS1cODsu/vfAZ+3EzJOoiXT10sHMIQjDTTRxh4Ht15M1/EhX+zj20TtXRcDJl4H1Kq8vJokCxmfecCgUkfVmN/33HHB451ihIeFGxc6EkeZ/UxEBV78tDg==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=a6aGulGMj02SVDXTaC2yN7koGXgxyzZecOebZgktKq8=;
- b=A6XZiFN5uQqZQW7Oi6grLpi2a0toExFi7H/PC7yTJi1t8dPD9Qf1CBVKpiMJadcm55mraL/GQaggxUM5iT3oJTdaBz1u7JwmYDTV8RCRnRGI6Rwimcl3o5Eul/uBZc4Btv7Ffkpwu1JV1TAc4OX+gCZchDkOM41AGNtO0iUJhfNnsALW4FYqjqRVgJR5pOGLZS6uNhmmjvtZWrBGAAu/VAMPcmOA/3j5ul9fDwVDPF/cLHdK1LKGt8FhbijzirKxlS6O80g9HvxDk2ObUt2gS44CxtNiDRqUuUAVPamisSesnvuo2sX9sVyybBJJypP91xAtiFC2UJBdAc+VC97RRw==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=jaguarmicro.com; dmarc=pass action=none
- header.from=jaguarmicro.com; dkim=pass header.d=jaguarmicro.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=jaguarmicro.com;
- s=selector2;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=a6aGulGMj02SVDXTaC2yN7koGXgxyzZecOebZgktKq8=;
- b=NXAqkSJYZF0+uJmJ+ev7ONlHDMPyhV4Cm1HS/ZGQxzx0ZupInnft8hvFmlAYdtwhiZ2TeAqzoeSZldSgfzJdNQnOzljcCWpmq+UlvJQSj4TBuJpvNYIl6GkwWUQD+hV0F1WewJMXREnOJyWYpSygQNggF5NKGAjfXU6/xTEdYFugHyuSPHsKDlTjG647/t9J6q6AkT88DxrbBHLEj59fAKh9NRe8RtN9FdOwgZWqbp2oZTl73Rh1xbgOZZQ/hL54gY8sMBF+BgPB7UdZXfEeHoPNkPHGSU6HWwXh0GSfgvIcgw3hUCJsdge2+nqG3+MY8fH4M/uHSn8VVUTD7RAFnw==
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=jaguarmicro.com;
-Received: from KL1PR0601MB5773.apcprd06.prod.outlook.com
- (2603:1096:820:b1::13) by SEYPR06MB6360.apcprd06.prod.outlook.com
- (2603:1096:101:13f::10) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8158.14; Tue, 12 Nov
- 2024 15:21:01 +0000
-Received: from KL1PR0601MB5773.apcprd06.prod.outlook.com
- ([fe80::b56a:3ef:aa9d:c82]) by KL1PR0601MB5773.apcprd06.prod.outlook.com
- ([fe80::b56a:3ef:aa9d:c82%4]) with mapi id 15.20.8137.018; Tue, 12 Nov 2024
- 15:21:00 +0000
-From: Rex Nie <rex.nie@jaguarmicro.com>
-To: gregkh@linuxfoundation.org,
-	stern@rowland.harvard.edu
-Cc: linux-kernel@vger.kernel.org,
-	linux-usb@vger.kernel.org,
-	angus.chen@jaguarmicro.com,
-	Rex Nie <rex.nie@jaguarmicro.com>
-Subject: [PATCH v3] USB: core: remove dead code in do_proc_bulk()
-Date: Tue, 12 Nov 2024 23:20:22 +0800
-Message-Id: <20241112152021.2236-1-rex.nie@jaguarmicro.com>
-X-Mailer: git-send-email 2.39.0.windows.2
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-ClientProxiedBy: SGXP274CA0004.SGPP274.PROD.OUTLOOK.COM (2603:1096:4:b8::16)
- To KL1PR0601MB5773.apcprd06.prod.outlook.com (2603:1096:820:b1::13)
+	dkim=pass (2048-bit key) header.d=rowland.harvard.edu header.i=@rowland.harvard.edu header.b="F1icZC7u"
+Received: by mail-yw1-f170.google.com with SMTP id 00721157ae682-6ecaa45af7bso6948057b3.3
+        for <linux-usb@vger.kernel.org>; Tue, 12 Nov 2024 07:38:18 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=rowland.harvard.edu; s=google; t=1731425897; x=1732030697; darn=vger.kernel.org;
+        h=in-reply-to:content-transfer-encoding:content-disposition
+         :mime-version:references:message-id:subject:cc:to:from:date:from:to
+         :cc:subject:date:message-id:reply-to;
+        bh=wgr2G18lvm+aKu8E73YpOcAkoG1t4AtxA2QHpWS3/f8=;
+        b=F1icZC7uprmZWuH5USgXIZI6JzHhuCaCsUIkYzVryfu6s+StZ/RqkSkopNme7sUiFj
+         sPNWrdSA72RBCFXdVuXzxCSV7bnNkMjLX4fsCyFf844845wBrAWOO8lFQ6x6/Jhez/wj
+         ysYHmLX+asibAbvPMlp6vJWlfBG0GWPqXMlqkafrKKIw1FAQB0LEVDYDs0wCPaowBuDg
+         Iwnk5qWYMRn3ORDzXn5yQKX7tV7seTn+OTDk0+mLTKQfFMUwAMhul0Bzhh3Yi87kU/mr
+         hhJsoae5DYE8NrsfGDfYspUfCBcQXI643edAocRGwyv1AvBvbAtJwM2Rl3ZMehCDCYXH
+         9+Mg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1731425897; x=1732030697;
+        h=in-reply-to:content-transfer-encoding:content-disposition
+         :mime-version:references:message-id:subject:cc:to:from:date
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=wgr2G18lvm+aKu8E73YpOcAkoG1t4AtxA2QHpWS3/f8=;
+        b=Vcn0eevQq6aRD5C2tubflMN3sTbiAPfyijw7YDACpB5UfTcQCxVZFHbrRPCpe6VwJk
+         bw1VkJ3tMpPjb9qJkZzb4yuZUBqDauFXuep77W9WhcUKihNWgNXfiCyKWb1+4J2vjKZC
+         jQA6R4+Ka5ommOxFcSkI6rSd2zoM375T+yiGewVNopViVozTN7w054Dnvghhyp0s4Bw8
+         Xg+hsSgVP4QqkCVFHKsMFzTvHpwsB8qkUOX+s5DUW7ZMIjpi6uHp8j5WkDENYAR7fM+j
+         zVvlTl5/OzERmGEqgMRv1XxONUDw4Z5+p+Vg9dV0ENWFBTwaW6FXb5r0t6NvKMdD0TqS
+         eEoQ==
+X-Forwarded-Encrypted: i=1; AJvYcCXF5g/2tk59ZyoPJ2KCVZ84qfekR9w+VpeLeNMMtaArF881jaJSkpjDbK3yZSRP5AJ3R2/URKLlsQY=@vger.kernel.org
+X-Gm-Message-State: AOJu0YzQuQoh7Omgz92PojJBORyr89a2g1YSWQnrLDDy16uEnwxcBIqX
+	/+mGaetVH1EMN3kIKpAsC6qUuUs4GkUcEuo6q/oIvglze4V85iIi2NEetBiDMg==
+X-Google-Smtp-Source: AGHT+IEvx8kjGI3x0PUBktGzbHj8Jxk6e0Ogjux8k1tUZhjwc7mbhV3SJD13bOyQRf9GiQ7DNvsx+A==
+X-Received: by 2002:a0d:c907:0:b0:6ea:4d3f:df7c with SMTP id 00721157ae682-6eaddd72e88mr114617417b3.9.1731425897546;
+        Tue, 12 Nov 2024 07:38:17 -0800 (PST)
+Received: from rowland.harvard.edu ([140.247.12.5])
+        by smtp.gmail.com with ESMTPSA id 6a1803df08f44-6d39643b377sm72819876d6.79.2024.11.12.07.38.16
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 12 Nov 2024 07:38:17 -0800 (PST)
+Date: Tue, 12 Nov 2024 10:38:15 -0500
+From: Alan Stern <stern@rowland.harvard.edu>
+To: Sabyrzhan Tasbolatov <snovitoll@gmail.com>
+Cc: Oliver Neukum <oneukum@suse.com>,
+	syzbot+9760fbbd535cee131f81@syzkaller.appspotmail.com,
+	gregkh@linuxfoundation.org, linux-kernel@vger.kernel.org,
+	linux-usb@vger.kernel.org, syzkaller-bugs@googlegroups.com
+Subject: Re: [PATCH] usb/cdc-wdm: fix memory leak of wdm_device
+Message-ID: <7b25946e-265a-4939-98dc-d31555e143bb@rowland.harvard.edu>
+References: <000000000000e875fa0620253803@google.com>
+ <20241109152821.3476218-1-snovitoll@gmail.com>
+ <825be5e2-31b2-4cd6-a283-05935ea6161f@suse.com>
+ <9447f943-5172-4386-b159-f6b37735fe13@rowland.harvard.edu>
+ <CACzwLxht_ACYD4QdDqSWfYkZ7+0a+z8DWMt15KhGCF4E1g9-Lw@mail.gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: KL1PR0601MB5773:EE_|SEYPR06MB6360:EE_
-X-MS-Office365-Filtering-Correlation-Id: f7bc8338-7e06-4122-6ebe-08dd032d9d49
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam:
-	BCL:0;ARA:13230040|376014|366016|1800799024|52116014|38350700014;
-X-Microsoft-Antispam-Message-Info:
-	=?us-ascii?Q?qkxh0hCCqbEA46Bf0P8BjAvE+nn2QsZTbTDaeYyJIfmqqQdejZdvS5dWZIo6?=
- =?us-ascii?Q?6aQ0XKC9VeruqMNBaVkIs4sU2mbwcYESWpKWQH0ppYsr8IKj5Ont6eiHFVCM?=
- =?us-ascii?Q?RPAmmp8ttngN/dsPoYTQBnMWOCOFAdxVGFJrqYfry6e+z5yhY1kcgMUogqUs?=
- =?us-ascii?Q?54jle6OyNaEqKL91b8R5praSTEJXHw5YHvO4cMrbbQiqGDd/QvSbbxzb+ldR?=
- =?us-ascii?Q?EkNrJ2fkSh+Afe3c1mGz+qyoV3wAu0P7l6RielVr8X4hXpbomnIVWmuQvGed?=
- =?us-ascii?Q?atZ/OTKNH2pmkueGztOF7haV3xTWZEPzmJ6QUu7r/+pzizI9aOOiB82WKvBK?=
- =?us-ascii?Q?eLJl3ckpqNaP39FLgiTsgTt8HITUs7IrB/aTWHElECil8CXWgqHv3TNAtTgR?=
- =?us-ascii?Q?l2hORvznzrdlOyDODIAWfK4SjedGNY5yEaTFw4yHtU8PCtWC/J2wCUMYGTWo?=
- =?us-ascii?Q?nBrj7fAF0hdDJmmfADnVsixJnrkT9mQWN9LdFCGVUCMKXy6oRsQ4frMJw7q1?=
- =?us-ascii?Q?it48d07rbxKzn8/mGiiwhzvzlhpSI8wcohq0Kpsd8ViGVIxR6w5bwp3NbvmK?=
- =?us-ascii?Q?NQiWAj3C79jtDrBDYon0bUcfC6kNBipvPRfdV69k4E4QhTNkw13B7VMQNG0E?=
- =?us-ascii?Q?eAxZQEaLToFQUsOHpQS4d5SnDlGvnILM54V6LTvcJT9+SZX1vCCn2gc96mVx?=
- =?us-ascii?Q?S6uNODvDWTWNfxfB72cGSoS/9a+rYeDq+uzbvqfWWFa6Ycl2vX0Jw5sfKUZt?=
- =?us-ascii?Q?hmPfrrDxVu3pevvCmF3OTggBR5N1bBEAw5M0wj9xHwmVOJmRh/D3VRdvvPoj?=
- =?us-ascii?Q?W7VppUF1aggd92PaH/4KOwuKLdGsTYtcMQ8zLQ6e5ydnmoMRmTWwT9f4YUGQ?=
- =?us-ascii?Q?+pHSHfnVrrmeviyPYG/3kR9gcMNwPRcsGK+2fY+yyDubcx0MXuO5vwWM7+pH?=
- =?us-ascii?Q?KO/HarGjpOxGolWsUFTbvsvLD/MSLmlldWOpgOVAqt8UV9Hr+HLOmFg/PfTP?=
- =?us-ascii?Q?9qXDL2bDbPWmYhpzicTGvz9zvR2Ji7kkfxVFQN+P80yyTKmAWMgulbPnLw/e?=
- =?us-ascii?Q?G/OLR6gdO+h6b5L8CyU7/LVYTeQe9VxNF3cIexKaCbFBrMqgv2Q3kI+u3G34?=
- =?us-ascii?Q?9ing2e/5m9ph+3UijlfFpH2+ylmDHO8kaWnMXOYJJr+df1nBUrTVAekZ6Z8F?=
- =?us-ascii?Q?SUGXhM/n2Vpr8rgyMqcTASuPXSQM1vJSgDhyJPluajS1EeuewY3RX6LvNs5U?=
- =?us-ascii?Q?Tt4gjAHhJKtMwqUNyylunRpmUo/a+Ei0TeZGr+J/XBHhCFVw1FWdoGHKzicB?=
- =?us-ascii?Q?Hc4sIZeF/jm8C+ZlirVeolCBP1lsZwlQ8BqOrvD3//t/Cr3Ps/PQHC7DJUSE?=
- =?us-ascii?Q?kvfwOcIQD5I01i0v6uE7nopsTryB?=
-X-Forefront-Antispam-Report:
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:KL1PR0601MB5773.apcprd06.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(376014)(366016)(1800799024)(52116014)(38350700014);DIR:OUT;SFP:1102;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0:
-	=?us-ascii?Q?4tHxuGTzPyBZ+SKLTr9h72q77HmWRfylBfn4EkJk9juk00DUEoLkXIVjyzVI?=
- =?us-ascii?Q?QHbnFxuBCyxizp/m9vWkmgAOhvxNrs8A6GrOoaB+e+FB/V3c+kj3LLsyqg0U?=
- =?us-ascii?Q?XdgLxTvwsAcgcYEOxhjrLaoKqPN15OK8R5M82R6LATfGHkmMNDLF/A0znRe5?=
- =?us-ascii?Q?Jl2nmYpexabb1HNGyfz8LumU7flgCTM627MOmlU99QgDj5zLka8uiPpZM9p2?=
- =?us-ascii?Q?21Ea1iYlQ202RlbjygsSRKPI3mESRl0DQih70+PDZsPAPYWFZTCIdESwPWbF?=
- =?us-ascii?Q?V+AHYm93NtRgcj7Ogd0Q69S3Q5jU6/nSnhTSbYigDFC3Qz4vl6Lf5Tqm0q1V?=
- =?us-ascii?Q?oQgW98O8im0w+EJd8aKotEYZ41tSrRbjOS5zx43OPW2pPUyGqbPbBKLcM7o7?=
- =?us-ascii?Q?pYNu9/B3OW8uhdjwlpTLZvKvhhJumjCQVvirLIPWV1X8uVZABZWAKm8MGVIP?=
- =?us-ascii?Q?NB+gB3MPGt46emSNUhQQHutUhXGFkrPJgw37kwAtXLiTqeEkIu6vAlN2kfTc?=
- =?us-ascii?Q?24XbJbMOOsqYIN0rO4Gv3rmZswoMyOEQu5glSXa4PHmP0+HCtVK7woIt65z0?=
- =?us-ascii?Q?OM2/vBrJJ206gonYXffWW9FZqgj2QhqNPfJGioJrk6PlQ99HOsR+ZttCZnl3?=
- =?us-ascii?Q?IaxokcQLZQFE7zx260O+i2GJABPrXepVBylWGUd/DMEmTS7yZvEbvmmhdWeC?=
- =?us-ascii?Q?zFJ/1u7DfMdXN41cBnu8kWrjJIHiIc2aiDxnGn2wSabY9zhE6ECunuyMdHOf?=
- =?us-ascii?Q?5/axDPQNJeujwKZ6NObDPppgsN0cyjgUV/2gXLnxDdKWud0IuLwPKP+54ksO?=
- =?us-ascii?Q?4Ucj/QLY4EFdwb9BD5nZxi75ab9YG4bidsaerzTQMpStS/sd5IuC8PcdnZfl?=
- =?us-ascii?Q?ZWL8XzZDRkGYmCr9Qf2TWleF3XzADY9rKGal88hNsAKcAt3aMXVu5iXXchis?=
- =?us-ascii?Q?03jLXbLA4OBG6lcaRVB2Vm/rdqjrEDalz9tzyMXiAMyS0/D9X5clHD2OH7DU?=
- =?us-ascii?Q?Nky467ep14GGDKyLo9XCqd4FkK/vA2OUhkNpN3A4cZBfVP+2RfowXA08/s26?=
- =?us-ascii?Q?WZj01eYRQ5oUsYezp8ivbDWXPTC4CfDd6Ee+m1b4bHv+HdDGmRzlkvrTG7Ks?=
- =?us-ascii?Q?XCedoyC46JlS1sdti355yVUnUIxMbKRuGdeg7J07DXuE/4O8PujdwQpB1ppY?=
- =?us-ascii?Q?wVlDrPG+Q8/yNox2TxDSZqgEmjtzkWVO3EHRNc7DRDw3keEpY/Xaw6Oe8hUa?=
- =?us-ascii?Q?x2q+FUoiSyr0BKAX6j6+I8mR3IMkbjuwIqmaqiwVUrQ8EyHX0UndrMdcMUx7?=
- =?us-ascii?Q?+0emNb35V6t6FPs4iAwTAU5d6ck2QtzxlyhWI9hArStTj0oKPEoNuVoq8/kT?=
- =?us-ascii?Q?gJzJtmhaq49icOr7JCyv3ItmTvJ3WWzzS4pO/qfDEnXkT8BDLJL/+3ESSdwW?=
- =?us-ascii?Q?ICe2pQiPbXTTaTcahkZ1NZvGr2f9vLcE4D5+5Q8xbhBuWJeMntdbt675o0cW?=
- =?us-ascii?Q?V/gwg7PBRpI3vRWQN1DVlPHS1XSNRwLuIaNVx2vtPx2t2bY1urV11XnwgpRc?=
- =?us-ascii?Q?J944hVweoj+AFOii5bSV/p27zkInI959S7DTvu2f?=
-X-OriginatorOrg: jaguarmicro.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: f7bc8338-7e06-4122-6ebe-08dd032d9d49
-X-MS-Exchange-CrossTenant-AuthSource: KL1PR0601MB5773.apcprd06.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 12 Nov 2024 15:21:00.5639
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 1e45a5c2-d3e1-46b3-a0e6-c5ebf6d8ba7b
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: ns5K4EZNcYYyDY9RBveGRKRjsNWsC49u+cAH8weVQZDJHv7xHir4A0T+azJZQwichOsDZRZVn32q+VoAVG+wXA==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: SEYPR06MB6360
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <CACzwLxht_ACYD4QdDqSWfYkZ7+0a+z8DWMt15KhGCF4E1g9-Lw@mail.gmail.com>
 
-Since len1 is unsigned int, len1 < 0 always false. Remove it keep code
-simple.
+On Tue, Nov 12, 2024 at 02:34:13PM +0500, Sabyrzhan Tasbolatov wrote:
+> On Mon, Nov 11, 2024 at 7:29 PM Alan Stern <stern@rowland.harvard.edu> wrote:
+> > I don't understand your analysis.  As you said, cntr is initially set to
+> > the amount in the buffer:
+> >
+> >         If cntr <= count then cntr isn't changed, so the amount of data
+> >         copied to the user is the same as what is in the buffer.
+> >
+> >         Otherwise, if cntr > count, then cntr is decreased so that the
+> >         amount copied to the user is no larger than what the user asked
+> >         for -- but then it's obviously smaller than what's in the buffer.
+> >
+> > In neither case does the code copy more data than the buffer contains.
+> 
+> Hello,
+> I've sent the v3 patch [1] per Oliver's explanation if I interpreted
+> it correctly.
+> I don't have the reproducer to verify if the patch solves the problem.
+> If the analysis or patch is not right, please let me know.
 
-Signed-off-by: Rex Nie <rex.nie@jaguarmicro.com>
----
-changelog:
-v3:
-- do not CC stable kernel (thanks greg k-h)
-- Remove Fixes tag
-- Link to v2:https://lore.kernel.org/all/2024111249-stifle-mundane-dbfc@gregkh/
-v2:
-- Add CC stable kernel tag (kernel test robot)
-- Add Fixes tag
-- Link to v1: https://lore.kernel.org/all/160ed4e4-0b8b-4424-9b3c-7aa159b8c735@rowland.harvard.edu/
----
- drivers/usb/core/devio.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+The analysis is not right.
 
-diff --git a/drivers/usb/core/devio.c b/drivers/usb/core/devio.c
-index 3beb6a862e80..712e290bab04 100644
---- a/drivers/usb/core/devio.c
-+++ b/drivers/usb/core/devio.c
-@@ -1295,7 +1295,7 @@ static int do_proc_bulk(struct usb_dev_state *ps,
- 		return ret;
- 
- 	len1 = bulk->len;
--	if (len1 < 0 || len1 >= (INT_MAX - sizeof(struct urb)))
-+	if (len1 >= (INT_MAX - sizeof(struct urb)))
- 		return -EINVAL;
- 
- 	if (bulk->ep & USB_DIR_IN)
--- 
-2.17.1
+The patch is also not right, because it doesn't change the meaning of 
+the code (except for one respect, in which it is wrong).  I'll send 
+another email responding to the patch itself.
 
+Alan Stern
