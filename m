@@ -1,106 +1,137 @@
-Received: from mail-yw1-f170.google.com (mail-yw1-f170.google.com [209.85.128.170])
+Received: from mail-qt1-f182.google.com (mail-qt1-f182.google.com [209.85.160.182])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9EA7520111A
-	for <linux-usb@vger.kernel.org>; Tue, 12 Nov 2024 15:38:18 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.170
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 91AD1204F8F
+	for <linux-usb@vger.kernel.org>; Tue, 12 Nov 2024 15:52:34 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.160.182
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1731425900; cv=none; b=e+4DGxcysmYd5t5DnitqrWsB9WITs2g27zI5Y9RNI5uo6vWI//C59KvFOGeC2cuyHiV4tRP3QW+sjwLjNl/bD8Yoi/QoKr63bljnGEUNtC4twDOFCeFS/kxQchHRrHhCbxrDjDekVWWvf6JlwdxyWbpMnE80bkVWy4SawLLI1gk=
+	t=1731426756; cv=none; b=f+e/MKaT+MmOdc5S71971xHQPA90kfnQvxGHXfrjU5uwBDlxZ0BpPTH7urCaoklgNy6uCTHpgBQiXQ3oMnadFmJDeVhv6AppUt8LI9RV/1/A7ZSpnU4thCR6A80WSoG18KuOzDp9B2IYwTQzUZn/FZzzz7breGNQ+l/XJFyl0AQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1731425900; c=relaxed/simple;
-	bh=sdhx8TvevQPzP9rwHjeBQ0WqXkaUKN2RtRj7mimst3U=;
+	s=arc-20240116; t=1731426756; c=relaxed/simple;
+	bh=Tl1x5Bk+jUwBokslkn6nOHImIaTZVlEvg+0B1tgEYwU=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=SUxX+e/o2C/hDP0t7Y46a26BKgi/2e39gQ4b4K1m55gTlwQRW9Gq1O8sz9MfDV8XO3DsG/Ouval/JOwwhXmkzphWhyoeyaw5iqsNVWyAnsdpq91YdBX3fgVdoH4qZ7JFLrbQXVJxg+/SIPnUqeh4aWM/aZT/sRbG5v04JTNH9Cc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=rowland.harvard.edu; spf=fail smtp.mailfrom=g.harvard.edu; dkim=pass (2048-bit key) header.d=rowland.harvard.edu header.i=@rowland.harvard.edu header.b=F1icZC7u; arc=none smtp.client-ip=209.85.128.170
+	 Content-Type:Content-Disposition:In-Reply-To; b=hmIujtkDrF3v0gTOpP4Yb61IliZUMOgIH9jjgmv+8sqT09KR4nG3C/srUMyZKG2tK+MGJec2g4B5CZg5G63MYKY1Yb2vg2YpZKmMTR0OGGySl3KGDxvzqu4ugFN9Lzh+uLulNOiRMccM4CdZG/jOwp2ulbKSzRUrLwOS7zyoDxs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=rowland.harvard.edu; spf=fail smtp.mailfrom=g.harvard.edu; dkim=pass (2048-bit key) header.d=rowland.harvard.edu header.i=@rowland.harvard.edu header.b=A/tPLfXD; arc=none smtp.client-ip=209.85.160.182
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=rowland.harvard.edu
 Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=g.harvard.edu
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=rowland.harvard.edu header.i=@rowland.harvard.edu header.b="F1icZC7u"
-Received: by mail-yw1-f170.google.com with SMTP id 00721157ae682-6ecaa45af7bso6948057b3.3
-        for <linux-usb@vger.kernel.org>; Tue, 12 Nov 2024 07:38:18 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=rowland.harvard.edu header.i=@rowland.harvard.edu header.b="A/tPLfXD"
+Received: by mail-qt1-f182.google.com with SMTP id d75a77b69052e-460b16d4534so33688291cf.3
+        for <linux-usb@vger.kernel.org>; Tue, 12 Nov 2024 07:52:34 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=rowland.harvard.edu; s=google; t=1731425897; x=1732030697; darn=vger.kernel.org;
-        h=in-reply-to:content-transfer-encoding:content-disposition
-         :mime-version:references:message-id:subject:cc:to:from:date:from:to
-         :cc:subject:date:message-id:reply-to;
-        bh=wgr2G18lvm+aKu8E73YpOcAkoG1t4AtxA2QHpWS3/f8=;
-        b=F1icZC7uprmZWuH5USgXIZI6JzHhuCaCsUIkYzVryfu6s+StZ/RqkSkopNme7sUiFj
-         sPNWrdSA72RBCFXdVuXzxCSV7bnNkMjLX4fsCyFf844845wBrAWOO8lFQ6x6/Jhez/wj
-         ysYHmLX+asibAbvPMlp6vJWlfBG0GWPqXMlqkafrKKIw1FAQB0LEVDYDs0wCPaowBuDg
-         Iwnk5qWYMRn3ORDzXn5yQKX7tV7seTn+OTDk0+mLTKQfFMUwAMhul0Bzhh3Yi87kU/mr
-         hhJsoae5DYE8NrsfGDfYspUfCBcQXI643edAocRGwyv1AvBvbAtJwM2Rl3ZMehCDCYXH
-         9+Mg==
+        d=rowland.harvard.edu; s=google; t=1731426753; x=1732031553; darn=vger.kernel.org;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=1XEndPtU5GDkMHoEO1w7O3RQK19ymAjkNoxM3jg4QLk=;
+        b=A/tPLfXDJwRPCJBs9Gz3OdJLtmImtfMPu+JWHpbDzwwkf8EH770c7/eLM/35mpa7Wu
+         3yCkskezdXfn+p+E+4fgcl7DMe4Xvv5yfgpNBqQNCVcZFe0YzxK01ovacFsPiD1saoqo
+         yJ3OsbfX6DEijrCxRlNtsgZgr2pMnM4mS+wXfKOguQDJJ6KYuq9U/JDrOIQ36zxtCPyh
+         ZL4QeSebS5JOCwczM/yd/fY7yRM73xEAKxYGoDzfekyX6NMxWTwDphO0ZLuRnu00yggY
+         39kVcLdMVZ0NqyVKbC3+dcAzz8EAojbQ1X1kiwjnulwi6mpxzQAivy0PdwuIxSH5W8Yg
+         ZPgA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1731425897; x=1732030697;
-        h=in-reply-to:content-transfer-encoding:content-disposition
-         :mime-version:references:message-id:subject:cc:to:from:date
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=wgr2G18lvm+aKu8E73YpOcAkoG1t4AtxA2QHpWS3/f8=;
-        b=Vcn0eevQq6aRD5C2tubflMN3sTbiAPfyijw7YDACpB5UfTcQCxVZFHbrRPCpe6VwJk
-         bw1VkJ3tMpPjb9qJkZzb4yuZUBqDauFXuep77W9WhcUKihNWgNXfiCyKWb1+4J2vjKZC
-         jQA6R4+Ka5ommOxFcSkI6rSd2zoM375T+yiGewVNopViVozTN7w054Dnvghhyp0s4Bw8
-         Xg+hsSgVP4QqkCVFHKsMFzTvHpwsB8qkUOX+s5DUW7ZMIjpi6uHp8j5WkDENYAR7fM+j
-         zVvlTl5/OzERmGEqgMRv1XxONUDw4Z5+p+Vg9dV0ENWFBTwaW6FXb5r0t6NvKMdD0TqS
-         eEoQ==
-X-Forwarded-Encrypted: i=1; AJvYcCXF5g/2tk59ZyoPJ2KCVZ84qfekR9w+VpeLeNMMtaArF881jaJSkpjDbK3yZSRP5AJ3R2/URKLlsQY=@vger.kernel.org
-X-Gm-Message-State: AOJu0YzQuQoh7Omgz92PojJBORyr89a2g1YSWQnrLDDy16uEnwxcBIqX
-	/+mGaetVH1EMN3kIKpAsC6qUuUs4GkUcEuo6q/oIvglze4V85iIi2NEetBiDMg==
-X-Google-Smtp-Source: AGHT+IEvx8kjGI3x0PUBktGzbHj8Jxk6e0Ogjux8k1tUZhjwc7mbhV3SJD13bOyQRf9GiQ7DNvsx+A==
-X-Received: by 2002:a0d:c907:0:b0:6ea:4d3f:df7c with SMTP id 00721157ae682-6eaddd72e88mr114617417b3.9.1731425897546;
-        Tue, 12 Nov 2024 07:38:17 -0800 (PST)
+        d=1e100.net; s=20230601; t=1731426753; x=1732031553;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=1XEndPtU5GDkMHoEO1w7O3RQK19ymAjkNoxM3jg4QLk=;
+        b=pNgwwDZH6/T+KTTBKqe7RMJX0NkFq2vKIGY7XplFwUGMnk9DWZaBhDL+MmIH6/YPJc
+         q//cntZWDP4b9PFi/IIb0Crpb/WZYcaceEUxCPX5ncneXd7T+pLTL/54GqlUOyYfNyLe
+         vWLdTAmEid0ki8wxfvpwWY+fuFdFbX/Xw7dzRnPHT27B3azTvXML5UBPE5H12RQKR9FE
+         WysNtRy9GjQHjDvYMYQMJWt+MuN/Wd51gXCfdidfYGBY7aCWW7fm+fZPn7JfuCVP/1YN
+         1YBqbmNcpJXx+CI3K76zCdRpLOpYZ36P0U4Gqvknff3NQbubMqA2WP1TCpRtSTfgJrhK
+         qVFA==
+X-Forwarded-Encrypted: i=1; AJvYcCX1adbnHslC+1iVzd+WvwmmtVXywbXLgLNk/Oc3AQE57bc3wYQUctjQbjsdc2ESyFCGeckZy434AqY=@vger.kernel.org
+X-Gm-Message-State: AOJu0YynVFHGAYWaBkSE43vDbb10hcRtDlj+kEOuuVt05pLG3aigCGA5
+	1LpSY3L1EGsCak3NR0g8NAm3byln3kwub14gqugA9gufokDamb8RFNVOs+kxoQ==
+X-Google-Smtp-Source: AGHT+IGx09QnY+a4QJcLEf4HugOufvp4qILo6Oon7AWW2cEFrH62MxQ9c2KHoGuxelT2bD8VHWHiRQ==
+X-Received: by 2002:a05:622a:1901:b0:45f:bca0:b8d2 with SMTP id d75a77b69052e-4630932b3efmr232082961cf.20.1731426753453;
+        Tue, 12 Nov 2024 07:52:33 -0800 (PST)
 Received: from rowland.harvard.edu ([140.247.12.5])
-        by smtp.gmail.com with ESMTPSA id 6a1803df08f44-6d39643b377sm72819876d6.79.2024.11.12.07.38.16
+        by smtp.gmail.com with ESMTPSA id d75a77b69052e-462ff46d293sm76541571cf.47.2024.11.12.07.52.32
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 12 Nov 2024 07:38:17 -0800 (PST)
-Date: Tue, 12 Nov 2024 10:38:15 -0500
+        Tue, 12 Nov 2024 07:52:32 -0800 (PST)
+Date: Tue, 12 Nov 2024 10:52:30 -0500
 From: Alan Stern <stern@rowland.harvard.edu>
 To: Sabyrzhan Tasbolatov <snovitoll@gmail.com>
-Cc: Oliver Neukum <oneukum@suse.com>,
+Cc: gregkh@linuxfoundation.org, oneukum@suse.com,
+	linux-kernel@vger.kernel.org, linux-usb@vger.kernel.org,
 	syzbot+9760fbbd535cee131f81@syzkaller.appspotmail.com,
-	gregkh@linuxfoundation.org, linux-kernel@vger.kernel.org,
-	linux-usb@vger.kernel.org, syzkaller-bugs@googlegroups.com
-Subject: Re: [PATCH] usb/cdc-wdm: fix memory leak of wdm_device
-Message-ID: <7b25946e-265a-4939-98dc-d31555e143bb@rowland.harvard.edu>
-References: <000000000000e875fa0620253803@google.com>
- <20241109152821.3476218-1-snovitoll@gmail.com>
- <825be5e2-31b2-4cd6-a283-05935ea6161f@suse.com>
- <9447f943-5172-4386-b159-f6b37735fe13@rowland.harvard.edu>
- <CACzwLxht_ACYD4QdDqSWfYkZ7+0a+z8DWMt15KhGCF4E1g9-Lw@mail.gmail.com>
+	syzkaller-bugs@googlegroups.com
+Subject: Re: [PATCH v4] usb/cdc-wdm: fix memory info leak in wdm_read
+Message-ID: <824e839d-ee72-4923-bc88-e9cc58201b07@rowland.harvard.edu>
+References: <2024111232-relative-bottom-4995@gregkh>
+ <20241112132931.3504749-1-snovitoll@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <CACzwLxht_ACYD4QdDqSWfYkZ7+0a+z8DWMt15KhGCF4E1g9-Lw@mail.gmail.com>
+In-Reply-To: <20241112132931.3504749-1-snovitoll@gmail.com>
 
-On Tue, Nov 12, 2024 at 02:34:13PM +0500, Sabyrzhan Tasbolatov wrote:
-> On Mon, Nov 11, 2024 at 7:29 PM Alan Stern <stern@rowland.harvard.edu> wrote:
-> > I don't understand your analysis.  As you said, cntr is initially set to
-> > the amount in the buffer:
-> >
-> >         If cntr <= count then cntr isn't changed, so the amount of data
-> >         copied to the user is the same as what is in the buffer.
-> >
-> >         Otherwise, if cntr > count, then cntr is decreased so that the
-> >         amount copied to the user is no larger than what the user asked
-> >         for -- but then it's obviously smaller than what's in the buffer.
-> >
-> > In neither case does the code copy more data than the buffer contains.
+On Tue, Nov 12, 2024 at 06:29:31PM +0500, Sabyrzhan Tasbolatov wrote:
+> syzbot reported "KMSAN: kernel-infoleak in wdm_read", though there is no
+> reproducer and the only report for this issue.
 > 
-> Hello,
-> I've sent the v3 patch [1] per Oliver's explanation if I interpreted
-> it correctly.
-> I don't have the reproducer to verify if the patch solves the problem.
-> If the analysis or patch is not right, please let me know.
+> The check:
+> 
+> 	if (cntr > count)
+> 		cntr = count;
+> 
+> only limits `cntr` to `count` (the number of bytes requested by
+> userspace), but it doesn't verify that `desc->ubuf` actually has `count`
+> bytes. This oversight can lead to situations where `copy_to_user` reads
+> uninitialized data from `desc->ubuf`.
+> 
+> This patch makes sure `cntr` respects` both the `desc->length` and the
+> `count` requested by userspace, preventing any uninitialized memory from
+> leaking into userspace.
 
-The analysis is not right.
+> ---
+>  drivers/usb/class/cdc-wdm.c | 5 +++--
+>  1 file changed, 3 insertions(+), 2 deletions(-)
+> 
+> diff --git a/drivers/usb/class/cdc-wdm.c b/drivers/usb/class/cdc-wdm.c
+> index 86ee39db013f..5a500973b463 100644
+> --- a/drivers/usb/class/cdc-wdm.c
+> +++ b/drivers/usb/class/cdc-wdm.c
+> @@ -598,8 +598,9 @@ static ssize_t wdm_read
+>  		spin_unlock_irq(&desc->iuspin);
+>  	}
 
-The patch is also not right, because it doesn't change the meaning of 
-the code (except for one respect, in which it is wrong).  I'll send 
-another email responding to the patch itself.
+Note that the code immediately before the "if" statement which ends here 
+does:
+
+	cntr = READ_ONCE(desc->length);
+
+And the code at the end of the "if" block does:
+
+		cntr = desc->length;
+
+(while holding the spinlock).  Thus it is guaranteed that either way, 
+cntr is equal to desc->length when we reach this point.
+
+>  
+> -	if (cntr > count)
+> -		cntr = count;
+> +	/* Ensure cntr does not exceed available data in ubuf. */
+> +	cntr = min_t(size_t, count, desc->length);
+
+And therefore this line does exactly the same computation as the code 
+you removed.  Except for one thing: At this point the spinlock is not 
+held, and your new code does not call READ_ONCE().  That is an 
+oversight.
+
+Since the new code does the same thing as the old code, it cannot 
+possibly fix any bugs.
+
+(Actually there is one other thing to watch out for: the difference 
+between signed and unsigned values.  Here cntr and desc->length are 
+signed whereas count is unsigned.  In theory that could cause problems 
+-- it might even be related to the cause of the original bug report.  
+Can you prove that desc->length will never be negative?)
 
 Alan Stern
