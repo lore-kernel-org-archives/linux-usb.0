@@ -1,132 +1,218 @@
-Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com [205.220.168.131])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wr1-f54.google.com (mail-wr1-f54.google.com [209.85.221.54])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 431F12144DD;
-	Tue, 12 Nov 2024 18:20:40 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.168.131
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 84E902003DD;
+	Tue, 12 Nov 2024 19:30:22 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.54
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1731435641; cv=none; b=q3zPfrXEKAeDDsysYL9BJduqDyX8ANE3YEucc3IIXj48U9kF9sg0+Q1dKoXwv2NLINc1+BcrS2W2j6Olxyln4gpqzIG/IAgKNxmTMRrXJzI3uW25n7tfu1zolSkuw3Z7yZte7XBSx0AxaX2fUAuYdx98YrZH8Hc22Pd4F3VNMuk=
+	t=1731439824; cv=none; b=A84xQTZPH1NnuABUcHJCHqRm9V/tU734aQ45exzrHCvkuprT5v5ORXB6FWq45E8U53teUZsPTAWq5c9FrE+ub9dDLy3wh80BOcfXXObxRELsv+W6L4Ye7yZij+vzpvMRievzuAsth2UivAY90g4i7c6cX3wwE19QCltnLPqwouY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1731435641; c=relaxed/simple;
-	bh=b2U5OCtPn243qzcSw8tXDTqbUUCT3bK/gESUj9nSDJY=;
-	h=From:To:CC:Subject:Date:Message-ID:MIME-Version:Content-Type; b=F85l8EMtTd35oqQU/AHWvdI7XfVnttcz0A7hdZIERDd+7OFxW/2MdrEHwaxvLostqXOSZYRlrp+RQQhJPojnXDlX72TQ8MxyYqnUTQg2e5o9q8E3jvPPjAgMMtulw6rtHbVipAJ2/DUPu5OxI8pHxE4tlMpoB0m5dylLUuK/gZA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=quicinc.com; spf=pass smtp.mailfrom=quicinc.com; dkim=pass (2048-bit key) header.d=quicinc.com header.i=@quicinc.com header.b=JRR969yy; arc=none smtp.client-ip=205.220.168.131
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=quicinc.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=quicinc.com
+	s=arc-20240116; t=1731439824; c=relaxed/simple;
+	bh=fgE12BIwlMY7+KjyhOKwQsf0m/eIuliOwPbr2ir8Rl4=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=iyh423wfdk/IsQaChvNE1P+VrEDjnvQmF7l6WnUj7r8YsvPWR+atf3S4ckDQS34UoNs3n2h9SVVKG8Ja6yOvI03pbETpw6Az0QKQFm/ab0UVMm0ZlCggKT8nJLP0Z2rI0HuNAkn8M141pjmSDA7owDKuIQef+HEn7ubURm7zj00=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=DRctDRDp; arc=none smtp.client-ip=209.85.221.54
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=quicinc.com header.i=@quicinc.com header.b="JRR969yy"
-Received: from pps.filterd (m0279863.ppops.net [127.0.0.1])
-	by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 4ACIKUtL025930;
-	Tue, 12 Nov 2024 18:20:37 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com; h=
-	cc:content-transfer-encoding:content-type:date:from:message-id
-	:mime-version:subject:to; s=qcppdkim1; bh=KTk+4n3XFtqzo27e40D42y
-	x3XCpHUbe/GUT3YGxz1aU=; b=JRR969yyNeetp5qHcy5s2WHBIH32BocDaOSOgc
-	ft/y99m4F8XoOKRJeu/Z+haZc34uzDAh1QFoh6oDB5tHDGNR3Cyh0Zg7ysADTkrm
-	tE64KoriaZK0auOu418GOdN0pHzRrIFQ0d5x7EgtL+QEVf/AyLBCQloYqIYx9Myu
-	W8k5ktySo92n4FKAkzMa7fMJZyFmQ9PA91Smzr8/ri7n0snNB8+lK18TfEDGK8Ck
-	jqIfdJOt3exwOZCMPO2M8zWUCRUor9fenOcGyqLvDV3Yg443+QxAAz227GA3ryGK
-	3FsFQngz1Pv9sJ19DQYBTrVFxblWMbRmAmXCHZKcxt4XHxTA==
-Received: from nalasppmta01.qualcomm.com (Global_NAT1.qualcomm.com [129.46.96.20])
-	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 42v4kqsgjb-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Tue, 12 Nov 2024 18:20:37 +0000 (GMT)
-Received: from nalasex01a.na.qualcomm.com (nalasex01a.na.qualcomm.com [10.47.209.196])
-	by NALASPPMTA01.qualcomm.com (8.18.1.2/8.18.1.2) with ESMTPS id 4ACIKa19013701
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Tue, 12 Nov 2024 18:20:36 GMT
-Received: from hu-kriskura-hyd.qualcomm.com (10.80.80.8) by
- nalasex01a.na.qualcomm.com (10.47.209.196) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.1544.9; Tue, 12 Nov 2024 10:20:33 -0800
-From: Krishna Kurapati <quic_kriskura@quicinc.com>
-To: Thinh Nguyen <Thinh.Nguyen@synopsys.com>,
-        Greg Kroah-Hartman
-	<gregkh@linuxfoundation.org>
-CC: <linux-kernel@vger.kernel.org>, <linux-usb@vger.kernel.org>,
-        <quic_ppratap@quicinc.com>, <quic_jackp@quicinc.com>,
-        Krishna Kurapati
-	<quic_kriskura@quicinc.com>
-Subject: [PATCH] usb: dwc3: core: Set force_gen1 bit for all applicable SuperSpeed ports
-Date: Tue, 12 Nov 2024 23:50:18 +0530
-Message-ID: <20241112182018.199392-1-quic_kriskura@quicinc.com>
-X-Mailer: git-send-email 2.34.1
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="DRctDRDp"
+Received: by mail-wr1-f54.google.com with SMTP id ffacd0b85a97d-37d47eff9acso3687971f8f.3;
+        Tue, 12 Nov 2024 11:30:22 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1731439821; x=1732044621; darn=vger.kernel.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=l16f6QkdDHbu8NPQbi3zmZKB+rCbrufL1Zvvzn8jeo4=;
+        b=DRctDRDpp1nMiyaSvtYQo+Qm5Vyo7PD9lOFLaA7oG6DVt9TlBc9dT4w9lPAvrwufkF
+         I0jhBeRKcFfdSZ6LFKQNyxWkrXUO5Yhgaq5m3ffQMa23kQ4VBhHrElZDxM66tExpb5vD
+         bIUblk/FxhrdnHGLi4QXRPVig/iXE/KekENDSm+K5ki40yCBejo/hLoQHoQ9Lxp/13N/
+         fnfgMjSxuEh1nGtmwkD3ZVQh4YEzcZtQP0MYy10Tg2el7U+km8itJOzoL+kf6ebGlvE3
+         unmtGq/F7OF9ljvGlWSJh66NxFa0Xk2oOCD3YR2vGuO6HSsXJJARFnTIwyJMsYSq2L5V
+         z0KA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1731439821; x=1732044621;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=l16f6QkdDHbu8NPQbi3zmZKB+rCbrufL1Zvvzn8jeo4=;
+        b=xJJ49kMk03DtYC2qpU0aaK38xiOoQinC64xCWSGzabZpvOlAcCjYZYqIH2yeV9RH+v
+         bQbFpCu6chbNEY8DhFJCOU/VoYfhlvr5XR/a2NKYdWIrw5cfNbd7pG5G//ifIFIbTbO8
+         3YzuL6jcjxV4XEerwabmtUb0cKMBQneDRCdSK2te90hYEguLQiMlC3/tGxfJ23jHISmG
+         bvj8NIb9fgf9A57SCTdtTjI1uzWEZClhL2tpKARqa54VH8kgtFH0EJHgBp4doy1VYnuO
+         RoIBj8coUxTZPnzBL42bs7YLcJHhjUKnPdVFyF+MdAuvnUlJe9XcYBcPsAe64v9Qwoir
+         xHgg==
+X-Forwarded-Encrypted: i=1; AJvYcCU3BTUg4MMdtkYgRXKS1UZgAOHQWysShPOc6vETlhP/tZGwMeO6+Q2RYPxPBVyy5KDrjxSbNEJKtDu1Cik=@vger.kernel.org, AJvYcCXhnZVVY6o9aGOGBErcRI9X5QOJfY02Dv9HSnPzPnt+gwhkPiyRAQ4fBxJ3D5BhJVJo8p3DQX+HFnwZ@vger.kernel.org
+X-Gm-Message-State: AOJu0YxxcjV+9acU/m+zpNF1LxEJQDZGj4voZKtn8EsjRtLcCVjMJ2GR
+	REXT3sLIEt3jYWG+4lOPNGY9mGKZThxnOxsPyRo2weLDjiXv/HbgKTYzz3MMTRYPbPPx8sSioz1
+	irE3Jn/2rKmcngaE6lPkb3pJWGGU=
+X-Google-Smtp-Source: AGHT+IFwjFIsgpZQKzg8L4z2NM2FpJthfQ7fgjGpHDUe7iTEaYDD6h81rM9zbdkLpcHXF5PhFDanTHZv28KSbawmqYw=
+X-Received: by 2002:a5d:5f42:0:b0:37d:4436:4505 with SMTP id
+ ffacd0b85a97d-381f186ccdemr14970057f8f.32.1731439820582; Tue, 12 Nov 2024
+ 11:30:20 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-ClientProxiedBy: nasanex01a.na.qualcomm.com (10.52.223.231) To
- nalasex01a.na.qualcomm.com (10.47.209.196)
-X-QCInternal: smtphost
-X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800 signatures=585085
-X-Proofpoint-ORIG-GUID: tJ3mDsj8LH6jJGDcBM4RDNfYQ74BAmCz
-X-Proofpoint-GUID: tJ3mDsj8LH6jJGDcBM4RDNfYQ74BAmCz
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1039,Hydra:6.0.680,FMLib:17.12.60.29
- definitions=2024-09-06_09,2024-09-06_01,2024-09-02_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 bulkscore=0 impostorscore=0
- adultscore=0 priorityscore=1501 lowpriorityscore=0 phishscore=0
- malwarescore=0 spamscore=0 clxscore=1015 mlxscore=0 mlxlogscore=873
- suspectscore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.19.0-2409260000 definitions=main-2411120146
+References: <2024111232-relative-bottom-4995@gregkh> <20241112132931.3504749-1-snovitoll@gmail.com>
+ <824e839d-ee72-4923-bc88-e9cc58201b07@rowland.harvard.edu>
+In-Reply-To: <824e839d-ee72-4923-bc88-e9cc58201b07@rowland.harvard.edu>
+From: Sabyrzhan Tasbolatov <snovitoll@gmail.com>
+Date: Wed, 13 Nov 2024 00:30:08 +0500
+Message-ID: <CACzwLxgVJ2jROr8RWHXv++2m2tD9fvskp_MqTL7VhCPr-Eeeiw@mail.gmail.com>
+Subject: Re: [PATCH v4] usb/cdc-wdm: fix memory info leak in wdm_read
+To: Alan Stern <stern@rowland.harvard.edu>, oneukum@suse.com
+Cc: gregkh@linuxfoundation.org, linux-kernel@vger.kernel.org, 
+	linux-usb@vger.kernel.org, 
+	syzbot+9760fbbd535cee131f81@syzkaller.appspotmail.com, 
+	syzkaller-bugs@googlegroups.com
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-Currently if the maximum-speed is set to Super Speed for a 3.1 Gen2
-capable controller, the FORCE_GEN1 bit of LLUCTL register is set only
-for one SuperSpeed port (or the first port) present. Modify the logic
-to set the FORCE_GEN1 bit for all ports if speed is being limited to
-Gen-1.
+On Tue, Nov 12, 2024 at 8:52=E2=80=AFPM Alan Stern <stern@rowland.harvard.e=
+du> wrote:
+>
+> On Tue, Nov 12, 2024 at 06:29:31PM +0500, Sabyrzhan Tasbolatov wrote:
+> > syzbot reported "KMSAN: kernel-infoleak in wdm_read", though there is n=
+o
+> > reproducer and the only report for this issue.
+> >
+> > The check:
+> >
+> >       if (cntr > count)
+> >               cntr =3D count;
+> >
+> > only limits `cntr` to `count` (the number of bytes requested by
+> > userspace), but it doesn't verify that `desc->ubuf` actually has `count=
+`
+> > bytes. This oversight can lead to situations where `copy_to_user` reads
+> > uninitialized data from `desc->ubuf`.
+> >
+> > This patch makes sure `cntr` respects` both the `desc->length` and the
+> > `count` requested by userspace, preventing any uninitialized memory fro=
+m
+> > leaking into userspace.
+>
+> > ---
+> >  drivers/usb/class/cdc-wdm.c | 5 +++--
+> >  1 file changed, 3 insertions(+), 2 deletions(-)
+> >
+> > diff --git a/drivers/usb/class/cdc-wdm.c b/drivers/usb/class/cdc-wdm.c
+> > index 86ee39db013f..5a500973b463 100644
+> > --- a/drivers/usb/class/cdc-wdm.c
+> > +++ b/drivers/usb/class/cdc-wdm.c
+> > @@ -598,8 +598,9 @@ static ssize_t wdm_read
+> >               spin_unlock_irq(&desc->iuspin);
+> >       }
+>
+> Note that the code immediately before the "if" statement which ends here
+> does:
+>
+>         cntr =3D READ_ONCE(desc->length);
+>
+> And the code at the end of the "if" block does:
+>
+>                 cntr =3D desc->length;
+>
+> (while holding the spinlock).  Thus it is guaranteed that either way,
+> cntr is equal to desc->length when we reach this point.
+>
+> >
+> > -     if (cntr > count)
+> > -             cntr =3D count;
+> > +     /* Ensure cntr does not exceed available data in ubuf. */
+> > +     cntr =3D min_t(size_t, count, desc->length);
+>
+> And therefore this line does exactly the same computation as the code
+> you removed.  Except for one thing: At this point the spinlock is not
+> held, and your new code does not call READ_ONCE().  That is an
+> oversight.
 
-Suggested-by: Thinh Nguyen <Thinh.Nguyen@synopsys.com>
-Signed-off-by: Krishna Kurapati <quic_kriskura@quicinc.com>
----
-Suggestion provided for the same at:
-https://lore.kernel.org/all/20230517003037.i7hsg6k5fn4eyvgf@synopsys.com/
+I've re-read your and Oliver's comments and come up with this diff,
+which is the same as v4 except it is within a spinlock.
 
-This patch has only been compile tested due to unavailability of
-hardware at the moment.
+diff --git a/drivers/usb/class/cdc-wdm.c b/drivers/usb/class/cdc-wdm.c
+index 86ee39db013f..47b299e03e11 100644
+--- a/drivers/usb/class/cdc-wdm.c
++++ b/drivers/usb/class/cdc-wdm.c
+@@ -598,8 +598,11 @@ static ssize_t wdm_read
+                spin_unlock_irq(&desc->iuspin);
+        }
 
- drivers/usb/dwc3/core.c | 10 +++++++---
- drivers/usb/dwc3/core.h |  2 +-
- 2 files changed, 8 insertions(+), 4 deletions(-)
-
-diff --git a/drivers/usb/dwc3/core.c b/drivers/usb/dwc3/core.c
-index 9b888d33e64d..67aefdbe1d5f 100644
---- a/drivers/usb/dwc3/core.c
-+++ b/drivers/usb/dwc3/core.c
-@@ -1470,9 +1470,13 @@ static int dwc3_core_init(struct dwc3 *dwc)
- 	if (hw_mode != DWC3_GHWPARAMS0_MODE_GADGET &&
- 	    (DWC3_IP_IS(DWC31)) &&
- 	    dwc->maximum_speed == USB_SPEED_SUPER) {
--		reg = dwc3_readl(dwc->regs, DWC3_LLUCTL);
--		reg |= DWC3_LLUCTL_FORCE_GEN1;
--		dwc3_writel(dwc->regs, DWC3_LLUCTL, reg);
-+		int i;
+-       if (cntr > count)
+-               cntr =3D count;
++       spin_lock_irq(&desc->iuspin);
++       /* Ensure cntr does not exceed available data in ubuf. */
++       cntr =3D min_t(size_t, count, desc->length);
++       spin_unlock_irq(&desc->iuspin);
 +
-+		for (i = 0; i < dwc->num_usb3_ports; i++) {
-+			reg = dwc3_readl(dwc->regs, DWC3_LLUCTL(i));
-+			reg |= DWC3_LLUCTL_FORCE_GEN1;
-+			dwc3_writel(dwc->regs, DWC3_LLUCTL(i), reg);
-+		}
- 	}
- 
- 	return 0;
-diff --git a/drivers/usb/dwc3/core.h b/drivers/usb/dwc3/core.h
-index eaa55c0cf62f..296cbe85a494 100644
---- a/drivers/usb/dwc3/core.h
-+++ b/drivers/usb/dwc3/core.h
-@@ -179,7 +179,7 @@
- #define DWC3_OEVTEN		0xcc0C
- #define DWC3_OSTS		0xcc10
- 
--#define DWC3_LLUCTL		0xd024
-+#define DWC3_LLUCTL(n)		(0xd024 + ((n) * 0x80))
- 
- /* Bit fields */
- 
--- 
-2.34.1
+        rv =3D copy_to_user(buffer, desc->ubuf, cntr);
+        if (rv > 0) {
+                rv =3D -EFAULT;
 
+>
+> Since the new code does the same thing as the old code, it cannot
+> possibly fix any bugs.
+
+Without the reproducer I can not confirm that this fixes the hypothetical b=
+ug,
+however here is my understand how the diff above can fix the memory info le=
+ak:
+
+static ssize_t wdm_read() {
+        cntr =3D READ_ONCE(desc->length);
+        if (cntr =3D=3D 0) {
+                spin_lock_irq(&desc->iuspin);
+
+                /* can remain 0 if not increased in wdm_in_callback() */
+                cntr =3D desc->length;
+
+                spin_unlock_irq(&desc->iuspin);
+        }
+
+        spin_lock_irq(&desc->iuspin);
+        /* take the minimum of whatever user requests `count` and
+desc->length =3D 0 */
+        cntr =3D min_t(size_t, count, desc->length);
+        spin_lock_irq(&desc->iuspin);
+
+        /* cntr is 0, nothing to copy to the user space. */
+        rv =3D copy_to_user(buffer, desc->ubuf, cntr);
+
+>
+> (Actually there is one other thing to watch out for: the difference
+> between signed and unsigned values.  Here cntr and desc->length are
+> signed whereas count is unsigned.  In theory that could cause problems
+> -- it might even be related to the cause of the original bug report.
+> Can you prove that desc->length will never be negative?)
+
+desc->length can not be negative if I understand the following correctly:
+
+static void wdm_in_callback(struct urb *urb)
+{
+        ...
+        int length =3D urb->actual_length;
+       ...
+       if (length + desc->length > desc->wMaxCommand) {
+              /* The buffer would overflow */
+             ...
+       } else {
+              /* we may already be in overflow */
+              if (!test_bit(WDM_OVERFLOW, &desc->flags)) {
+                     ...
+                     desc->length +=3D length;
+                     desc->reslength =3D length;
+       }
+}
+
+urb->actual_length is u32, actually, need to change `int length` to
+`u32 length` though.
+
+>
+> Alan Stern
+
+Please let me know if the diff makes sense and I will proceed with v5.
+
+Thanks
