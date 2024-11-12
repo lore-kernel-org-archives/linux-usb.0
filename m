@@ -1,57 +1,57 @@
-Received: from mail-wm1-f53.google.com (mail-wm1-f53.google.com [209.85.128.53])
+Received: from mail-wr1-f49.google.com (mail-wr1-f49.google.com [209.85.221.49])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 23A8620720E;
-	Tue, 12 Nov 2024 15:58:40 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.53
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 88FC22076BC;
+	Tue, 12 Nov 2024 15:58:43 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.49
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1731427122; cv=none; b=E7NSMQQXtG2g5Mr2tXuggAyewLA/aaRQs1dBIAUJ3Flkb5GrUP1Ip0po7qRsixOHy8DlJ4F+4CZf/OLC6tdGWJTCEsAEnfqh6xfFDdsjCP9fnRMZPlpwx6P8s3zmzpQRn53qsAM3DpJzxZpAv2Y4UN6UC0ARc6NJjJDI+PiK6J0=
+	t=1731427125; cv=none; b=dII9gbDq8/di/coZnjMULhZLc1a0sve4GeTcSsQKxnm/EgP+NcaTTB7ZpBL8gcpeAckjKXJ5mj5+TWBk7tCS8g3wdE2uNSgCbe394ZSWBN20YPVfYjHM5D6pV+DpQ+mnSJUC7oX/s/fYhcXJ0qBvOyWCqJTLQkGsxefiIjroeDw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1731427122; c=relaxed/simple;
-	bh=WzQuvL1qaXh0RlfWv8D0x8WAvSbMA0OdN3Q2Ejhekms=;
+	s=arc-20240116; t=1731427125; c=relaxed/simple;
+	bh=xYrNNORV/XYxgedcM6FRYBpcFd78+3NGOiIjPUINCKo=;
 	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
-	 MIME-Version; b=i4GZ20WD0/yHWCFvJoyhdxbvD163WnsKFcGebNP35oGAVDyOon4llPSHIM+IHXHNfRAwao7pvWnyFJVzFVNqVNtu/AAdbCaRsBh/Q4pVP/gkvsazFaGCsS7UTQhev6yvQ35iFcjgwerZ6EbXdqFZcClJfxApoaHFI2W/k/8rSug=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=XDey1Oft; arc=none smtp.client-ip=209.85.128.53
+	 MIME-Version; b=tm8tmnEn5gBjkm+nGNz1dLMxbMSHdZwgBbPXZwgogyYg3mPmQxCGHodhmXmxr6WywpTms0EDPTWrd34LbUMYOuh0l8nzr5DD8r7xb7BHNK3fUNCRUF14Bjwxmvk1PW8XcoFkKDZnL2e+N8rpZXt7tsbjCjZIbPMAd8R3B+x2LWM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=L6vvqgMJ; arc=none smtp.client-ip=209.85.221.49
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="XDey1Oft"
-Received: by mail-wm1-f53.google.com with SMTP id 5b1f17b1804b1-4315e9e9642so49136885e9.0;
-        Tue, 12 Nov 2024 07:58:40 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="L6vvqgMJ"
+Received: by mail-wr1-f49.google.com with SMTP id ffacd0b85a97d-37d808ae924so3625044f8f.0;
+        Tue, 12 Nov 2024 07:58:43 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1731427119; x=1732031919; darn=vger.kernel.org;
+        d=gmail.com; s=20230601; t=1731427122; x=1732031922; darn=vger.kernel.org;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=/a3ScA4GKVwMKEp5bNwzhgLvy/jMX4sk0gqCJ9bcam4=;
-        b=XDey1OftcG3JqSn+PdZ4QJueC5CatfC6Wk2YoifNsqrtjru9sdf7jmRsHEWBSSi+89
-         fGqMl4q8PlHKwb8Ri3fV6L9fWw3OQYhecwqCx6yqGFveY/98q65vRwJIyNbcmlHz+aHh
-         v7HLdVABCmh2DWDCnK5g5b0bZBRFKB8icKBAMw18r4aKRSFpmjhpoNEZoXYzEmo5GPXT
-         Idd8fIkIcg2DfLANCUXrhgunPnTvxBaTJ/pGMu8l9V1J+4OjUgX6pTKWcaTCDO4NNBhy
-         sUm18PknimbkSTUPmMnBhXbkfv4DDLrqADF5Tnfr4CcwhgESY5avVa5FBRFnu7mOOjKR
-         v+LA==
+        bh=/MKCUUUxJD/2v5EQc5z8RrUear+TyL1L5ShZEVqt3HE=;
+        b=L6vvqgMJ7Y4N3MhvjDcweBGvWBPNO3Kn6PstDX2SenbaOq+c/a3Ojla/O8wYt06vRn
+         u6ad3O0l+W0AOby1dkLfW/0vnKXkhxGNL32LaaEVuK53wXjyeEVvrTrcxPsZs1vMGpOY
+         SyDhrfD/OI1KYlSLBP6ZpVzVHz3F8dTZXVi7gTqCEBaGc/QMYW+394rtiTUKjkzjduW3
+         S5YsIofz5UieJDF3Zueron3IOZAJypN2am7C/o2ApelqrWOC6U5+tNexB3WXUtoqiaWH
+         WPQ3TCUfLkMtgL+2GsJI8i+TzLI619EOufiqvo836Xf/mAHp5DR5UFhKupCheJE1J2vO
+         SbXg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1731427119; x=1732031919;
+        d=1e100.net; s=20230601; t=1731427122; x=1732031922;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=/a3ScA4GKVwMKEp5bNwzhgLvy/jMX4sk0gqCJ9bcam4=;
-        b=HU+Un16dzMmfD7Z4vplZt6O3QhPDge4IwLU5w0ELt/+w7rJM63b2lwzcuyTiRYoqLz
-         xgu/JZE4Aje09gYTiANX4Z0a/8ZPcGkrjZHva4EcOms3fF0Rd9iQlQexkx+V6XVzeqJx
-         Hd058PLx+HdeFzchiaIV8TRo7rqSCcN7NtEN1AJ84zma61GNvNQlh9eFTwJUwGNqyRmf
-         0kef9mMk8GXpiF3Qvf21aBKN9mq6pSqbFl9P/fhJwQRLGkqErn7vKNgn/6CTbE5F5EOE
-         zJSn2pLxi5+PZ+c70Qd0MCQoRd9gPBO4BmXBqKT5Bjl7bWAIDvgmReumMfkaABrlr+jo
-         3o6A==
-X-Forwarded-Encrypted: i=1; AJvYcCVoG+J+fNIBb1vuNDs2NJP+HeIN5P0XxRyQVoeDd8+6XNDv89E411D50EuWpr/yujQR4Nv8duXpQxE=@vger.kernel.org
-X-Gm-Message-State: AOJu0YwDMg+MCf182BQuSc0wR8g+q3YvBytI27njgz1ZSi8fzMt7UNY+
-	biAGc3Ups8NBahKfQhnkvF7NR8FWbHjAsR5x+tKhrH4L3FFkHbTZ
-X-Google-Smtp-Source: AGHT+IGKhg0idjgcZB7nZV/8fQC70huh7z1KhT3us97vMBFd4YuUTyplBPiFYDRAuAdW3/aRHr0ETQ==
-X-Received: by 2002:a05:6000:2a1:b0:381:cffc:d419 with SMTP id ffacd0b85a97d-381f183f682mr14837750f8f.36.1731427119405;
-        Tue, 12 Nov 2024 07:58:39 -0800 (PST)
+        bh=/MKCUUUxJD/2v5EQc5z8RrUear+TyL1L5ShZEVqt3HE=;
+        b=jQwaaS0sIvANgNlmkuT85aXUEaENDuYR/0bHF0xnOKLN/D9azZl7CizuVOqNqa6lLH
+         bfxJweGMoK7wxGs3a8UVILvFJ0TQk+5y0ruEheQJck4hgqUWxfipy67VBXX68ftRjfKw
+         0SA++1Xn32mTj0euLOFDBXFsyGm3a4/WJ65LBhT+y/03EBhSBo7bRg4uS5MDNnaGuw4Y
+         vWlEIz5rTCQY9Hml71wrEKCnfMQOZa761b3lLkomJ4UgJlZxe/cQGMW5JNVttOnUKr2w
+         e1UIJ/YKDTSlG4p4+b3ljteNTrB6cMmsW5sNFtLx93/VHZqJ7UlXID6gbwBZ3au5NyLm
+         4KYA==
+X-Forwarded-Encrypted: i=1; AJvYcCW5/5O3iklo0YycxsqGeCARZg3LTnkp/cOt/5QmV7a6VThXrz/pGgOj6wQ6yCla0NHSHKQtkNgy5zM=@vger.kernel.org
+X-Gm-Message-State: AOJu0Yz7dRRKB4EZZ/ctDLmMKTXqYIJb0ps7ozOXC8C0nCHeOs7Zxtxo
+	D5XRkIOQZ6dlSx7/wcL3wTysgdH3tQXZudLEfTaGREmff8CsBPp/bjRwoexdKpI=
+X-Google-Smtp-Source: AGHT+IEajO2qYrPwbD2tIZK1Vgen3l8STSY7cu7vIlq85YMMKzVkH1SjjAa0k8mT+T5zrhdk31a1gQ==
+X-Received: by 2002:a5d:64c5:0:b0:37d:52e3:e3f0 with SMTP id ffacd0b85a97d-381f1883da1mr14716985f8f.44.1731427121902;
+        Tue, 12 Nov 2024 07:58:41 -0800 (PST)
 Received: from work.. (2.133.25.254.dynamic.telecom.kz. [2.133.25.254])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-381edc1104asm15991136f8f.88.2024.11.12.07.58.37
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-381edc1104asm15991136f8f.88.2024.11.12.07.58.40
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 12 Nov 2024 07:58:39 -0800 (PST)
+        Tue, 12 Nov 2024 07:58:41 -0800 (PST)
 From: Sabyrzhan Tasbolatov <snovitoll@gmail.com>
 To: gregkh@linuxfoundation.org,
 	andreyknvl@gmail.com,
@@ -63,9 +63,9 @@ Cc: linux-kernel@vger.kernel.org,
 	linux-usb@vger.kernel.org,
 	snovitoll@gmail.com,
 	usb-storage@lists.one-eyed-alien.net
-Subject: [PATCH v2 5/8] drivers/usb/mon: refactor min with min_t
-Date: Tue, 12 Nov 2024 20:58:14 +0500
-Message-Id: <20241112155817.3512577-6-snovitoll@gmail.com>
+Subject: [PATCH v2 6/8] drivers/usb/musb: refactor min/max with min_t/max_t
+Date: Tue, 12 Nov 2024 20:58:15 +0500
+Message-Id: <20241112155817.3512577-7-snovitoll@gmail.com>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <20241112155817.3512577-1-snovitoll@gmail.com>
 References: <2024111251-spill-hatchback-72da@gregkh>
@@ -78,26 +78,58 @@ List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-Ensure type safety by using min_t() instead of casted min().
+Ensure type safety by using min_t()/max_t() instead of casted min()/max().
 
 Signed-off-by: Sabyrzhan Tasbolatov <snovitoll@gmail.com>
 ---
- drivers/usb/mon/mon_bin.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ drivers/usb/musb/musb_core.c       | 2 +-
+ drivers/usb/musb/musb_gadget_ep0.c | 2 +-
+ drivers/usb/musb/musb_host.c       | 5 ++---
+ 3 files changed, 4 insertions(+), 5 deletions(-)
 
-diff --git a/drivers/usb/mon/mon_bin.c b/drivers/usb/mon/mon_bin.c
-index afb71c18415d..c93b43f5bc46 100644
---- a/drivers/usb/mon/mon_bin.c
-+++ b/drivers/usb/mon/mon_bin.c
-@@ -823,7 +823,7 @@ static ssize_t mon_bin_read(struct file *file, char __user *buf,
- 	ep = MON_OFF2HDR(rp, rp->b_out);
+diff --git a/drivers/usb/musb/musb_core.c b/drivers/usb/musb/musb_core.c
+index b24adb5b399f..61f3aee7b72e 100644
+--- a/drivers/usb/musb/musb_core.c
++++ b/drivers/usb/musb/musb_core.c
+@@ -1387,7 +1387,7 @@ fifo_setup(struct musb *musb, struct musb_hw_ep  *hw_ep,
  
- 	if (rp->b_read < hdrbytes) {
--		step_len = min(nbytes, (size_t)(hdrbytes - rp->b_read));
-+		step_len = min_t(size_t, nbytes, hdrbytes - rp->b_read);
- 		ptr = ((char *)ep) + rp->b_read;
- 		if (step_len && copy_to_user(buf, ptr, step_len)) {
- 			mutex_unlock(&rp->fetch_lock);
+ 	/* expect hw_ep has already been zero-initialized */
+ 
+-	size = ffs(max(maxpacket, (u16) 8)) - 1;
++	size = ffs(max_t(u16, maxpacket, 8)) - 1;
+ 	maxpacket = 1 << size;
+ 
+ 	c_size = size - 3;
+diff --git a/drivers/usb/musb/musb_gadget_ep0.c b/drivers/usb/musb/musb_gadget_ep0.c
+index 6d7336727388..f0786f8fbb25 100644
+--- a/drivers/usb/musb/musb_gadget_ep0.c
++++ b/drivers/usb/musb/musb_gadget_ep0.c
+@@ -533,7 +533,7 @@ static void ep0_txstate(struct musb *musb)
+ 
+ 	/* load the data */
+ 	fifo_src = (u8 *) request->buf + request->actual;
+-	fifo_count = min((unsigned) MUSB_EP0_FIFOSIZE,
++	fifo_count = min_t(unsigned, MUSB_EP0_FIFOSIZE,
+ 		request->length - request->actual);
+ 	musb_write_fifo(&musb->endpoints[0], fifo_count, fifo_src);
+ 	request->actual += fifo_count;
+diff --git a/drivers/usb/musb/musb_host.c b/drivers/usb/musb/musb_host.c
+index bc4507781167..732ba981e607 100644
+--- a/drivers/usb/musb/musb_host.c
++++ b/drivers/usb/musb/musb_host.c
+@@ -798,10 +798,9 @@ static void musb_ep_program(struct musb *musb, u8 epnum,
+ 		}
+ 
+ 		if (can_bulk_split(musb, qh->type))
+-			load_count = min((u32) hw_ep->max_packet_sz_tx,
+-						len);
++			load_count = min_t(u32, hw_ep->max_packet_sz_tx, len);
+ 		else
+-			load_count = min((u32) packet_sz, len);
++			load_count = min_t(u32, packet_sz, len);
+ 
+ 		if (dma_channel && musb_tx_dma_program(dma_controller,
+ 					hw_ep, qh, urb, offset, len))
 -- 
 2.34.1
 
