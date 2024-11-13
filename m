@@ -1,75 +1,76 @@
-Received: from out203-205-221-233.mail.qq.com (out203-205-221-233.mail.qq.com [203.205.221.233])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DBA7D1C695;
-	Wed, 13 Nov 2024 15:01:27 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=203.205.221.233
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6822C13CFBD;
+	Wed, 13 Nov 2024 18:11:41 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1731510094; cv=none; b=EZ5xWnwjD246pCz2GCRO/UQVZiaTMdzaLHqFZtElBLHOOo5P6iIPwg01oVw3BQX+hzlOeOpQQcC2W8OFgqvJzVFuSWPBmSblWJ9Ro2CKwzyqfuNb9e6ARmkvpc5PE/FV4+Po85c+umX9kSPARi+aIED8GsiMYyzDE1NFEavatqs=
+	t=1731521502; cv=none; b=kbg2ORf0/A8q4jmC/xR2dI7qM5+rJZtg4OMnA2VJPX2QVlMB5tA+Mf54oTMoX6C+D4MPwFfivCpGQL0h4xH1VLvERtiLYGy/v3UdGvDid2EE6SSNoMcPWx3qI6g4fOfFUiFSAMTFLxCjB9T326agaeEvqkFF2jTbTPnvWH5fw18=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1731510094; c=relaxed/simple;
-	bh=kNfBfrpv+RMFQKJp/cs7yD+wTK29G7PJUIoh/Mw9tFk=;
-	h=Message-ID:From:To:Cc:Subject:Date:In-Reply-To:References:
-	 MIME-Version; b=pWLQl4O7fandd4H7Wzu/1wAaB1gWAsKlpeNdZnodh6fEik9ZuBigE1PZsjLHK1EVa6gk3lnLpaAGmuS/H5cKG4BTvaQ2AXKwWi6BMVyCIZ6H4mJjck67bsqdMNMKgkv6kQ3/tF0tn2ZmJgILWsqK6Quo/CfFaN1zNgtlG0bJk+8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=foxmail.com; spf=pass smtp.mailfrom=foxmail.com; dkim=pass (1024-bit key) header.d=foxmail.com header.i=@foxmail.com header.b=Qa7xk9HC; arc=none smtp.client-ip=203.205.221.233
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=foxmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=foxmail.com
+	s=arc-20240116; t=1731521502; c=relaxed/simple;
+	bh=fujGutBZp/9h60ZjqyqAyU+r1u3fFTWP8gNIzYxYXF8=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=u+fsr03Ce08v2yQrrXVE2LX0SEvIXGOAbqLeJ8KpEJQsKRn4Exas8EQmWUdHFGVR7Cb5RWjXEovSNtGXPrSrnHMBR/8Vv1+av0oiqyTCvPqOJoMFpScwhP/6Q1mzc9ZNsKGVWQ5boRnnInnM+Xxd85T617ev4Y0rkzXVmRKWGuc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=EvEgU1c4; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=foxmail.com header.i=@foxmail.com header.b="Qa7xk9HC"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=foxmail.com;
-	s=s201512; t=1731510079;
-	bh=ZqibbowZ3xqsN65J9BXl90mVsJZElGVT3wkPqqzm0NA=;
-	h=From:To:Cc:Subject:Date:In-Reply-To:References;
-	b=Qa7xk9HCiDys+9lce2A+lA6oiInFlYMTXML+ixQ/UwLgd3FjaaRBL/euXO2yJl186
-	 6b4J+aiw+vun1pLDE31XpnMbn6+BHzOOfisqYSQHZgMtQ/hFwchweRgX4e31i1UiSG
-	 IiHPBDZl0cGm2W+BnAGqwzy50MXfo+aAKEmst3FY=
-Received: from xp-virtual-machine.. ([119.39.76.12])
-	by newxmesmtplogicsvrszb16-1.qq.com (NewEsmtp) with SMTP
-	id EF497EEA; Wed, 13 Nov 2024 22:59:52 +0800
-X-QQ-mid: xmsmtpt1731509992tmizo1w9j
-Message-ID: <tencent_E8A1B94A44CC713F5139410A79159CC4CD0A@qq.com>
-X-QQ-XMAILINFO: NRN3UPsLzYKVUC0sdpESWOKDTSKXbPXm0pR8FNPDLt2CTVCa1FwKY86btYlXLB
-	 YJmYMugcNtSUGSS1y+EzXwPAcsWFjsYUzFCzUHPA2pj0uzIy2LrP74m/TVjzlMshwx87gHPS85Cz
-	 ROV4ZcUMk1+dTeMmW2bUZMfNqQIQzh3MpHZqQEdy7jdWCP5cu7VsDtiiB2ZRdepRwJORzeDLKOkw
-	 7z0T8rdgZjsF7REcbWT6/GKQI2jWcwci/7lrWd8DnHgyJJ1gN8O1cFSfZLLf2G+nYqn0DyJEMJec
-	 I4U3SA+AVECI0OX5KFB7EzalKoylCTPKbTx8u+TWJw8S9t8JL5H1jfK+ydFVY5Jm3ThIMiTLRx2m
-	 Gq/4wW+GFAkPs39Tbur7StGUIssdu5e9W5t4GG7g8Pu4bggmR8eXnSgOsQAlqN64U6VBbRgtS2u2
-	 YbGDj3tfOZ2fO5XC9HMhwP9aGsTvVZiC5yOm76B+N6G4XSvDcOat4GfJNaAmyfqXwwuX3UhlCLgm
-	 CXTM91X6ZUdqm4iWz5XGtSaI6vn+aow6fEnfFBnsRhoXx603jAOI2ODiu4l6gLtLv1QYpqfJTYpL
-	 eOJMeEubP8tSKi3r5RpDzTWDbHBezzmG5zCG6YrSM/OJgmvUP1muvJEJFqDv+B7qssEqnDwHdIOp
-	 tj0CFNmJVk3MEm9HwUUCIUWObgpkbYETaGNeIghn2E5felV56Rr1Fx7Un5pT3luEmfNobOdB3bQF
-	 jGC0xNohf2gzRq42c/IbVLa4Fvb3BjK9HhUP0gttLGmB5hhn0xsLDANJU+lenI0y2/i4m70ewCO2
-	 KyyNeLch7wEF+1M4BRf9NEY2Q6TYxow+1iJHAQ2obHqsg/JueTMDxSihUWqVEuspu9utCf3O6ldT
-	 VD5qsmyHzK3QVRTcKkNgb/VyFJDdymdhzZjGBOVcY7yss+A4yalbSYVmmODFywldBdKBU7SJ9XIp
-	 8mXKx3s0f/zekN/H5XQvtkg7yGZNNoUvP8lINtJE8=
-X-QQ-XMRINFO: OWPUhxQsoeAVDbp3OJHYyFg=
-From: xiaopeitux@foxmail.com
-To: syzbot+3fa2af55f15bd21cada9@syzkaller.appspotmail.com
-Cc: bentiss@kernel.org,
-	jikos@kernel.org,
-	linux-input@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	linux-usb@vger.kernel.org,
-	syzkaller-bugs@googlegroups.com,
-	xiaopeitux@foxmail.com,
-	xiaopei01@kylinos.cn
-Subject: Re: [syzbot] [input?] [usb?] UBSAN: shift-out-of-bounds in s32ton
-Date: Wed, 13 Nov 2024 22:59:52 +0800
-X-OQ-MSGID: <20241113145952.27197-1-xiaopeitux@foxmail.com>
-X-Mailer: git-send-email 2.34.1
-In-Reply-To: <67321ded.050a0220.a83d0.0016.GAE@google.com>
-References: <67321ded.050a0220.a83d0.0016.GAE@google.com>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="EvEgU1c4"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id A2694C4CEC3;
+	Wed, 13 Nov 2024 18:11:40 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1731521500;
+	bh=fujGutBZp/9h60ZjqyqAyU+r1u3fFTWP8gNIzYxYXF8=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=EvEgU1c4XeLEl4tM1nBnAJKfew+cCYyosddh3FVACqg1LvKag0LOQNC6wrJWurQdN
+	 OtqRufZ0Ii3nSM7M/7CTJXf+O3LPP1CUc2ciI2QQ2ELw2TkgUEw530Zbc2ZOWDmeQd
+	 nuFgV2I2jxOVN1yad45n2NwOhKG1EmCZvP+oM90uhbqz5dYfVFF5VwdXuqtbA/6/rK
+	 mvQsxzwCX3oduGiMERauuj47XlLN4iRjQExcPUCSS3VehlrBRKVjJPjD5xxRzy7IeT
+	 X+wPkphC0cymvvG4UNhUJijEnKly14hRP3TXoJh61De8RlmIwOLleWapkVYRE9aq5s
+	 BN+YYj3Mi2CoQ==
+Date: Wed, 13 Nov 2024 12:11:38 -0600
+From: Rob Herring <robh@kernel.org>
+To: Johan Hovold <johan@kernel.org>
+Cc: Varadarajan Narayanan <quic_varada@quicinc.com>, vkoul@kernel.org,
+	kishon@kernel.org, krzk+dt@kernel.org, conor+dt@kernel.org,
+	gregkh@linuxfoundation.org, andersson@kernel.org,
+	konradybcio@kernel.org, dmitry.baryshkov@linaro.org,
+	mantas@8devices.com, quic_rohiagar@quicinc.com,
+	quic_kriskura@quicinc.com, manivannan.sadhasivam@linaro.org,
+	abel.vesa@linaro.org, quic_kbajaj@quicinc.com,
+	quic_wcheng@quicinc.com, linux-arm-msm@vger.kernel.org,
+	linux-phy@lists.infradead.org, devicetree@vger.kernel.org,
+	linux-kernel@vger.kernel.org, linux-usb@vger.kernel.org
+Subject: Re: [PATCH v2 6/6] arm64: dts: qcom: Add USB controller and phy
+ nodes for IPQ5424
+Message-ID: <20241113181138.GA1011553-robh@kernel.org>
+References: <20241113072316.2829050-1-quic_varada@quicinc.com>
+ <20241113072316.2829050-7-quic_varada@quicinc.com>
+ <ZzSYU61pmFTcPf5_@hovoldconsulting.com>
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <ZzSYU61pmFTcPf5_@hovoldconsulting.com>
 
-Thanks!
+On Wed, Nov 13, 2024 at 01:15:15PM +0100, Johan Hovold wrote:
+> On Wed, Nov 13, 2024 at 12:53:16PM +0530, Varadarajan Narayanan wrote:
+> 
+> > --- a/arch/arm64/boot/dts/qcom/ipq5424-rdp466.dts
+> > +++ b/arch/arm64/boot/dts/qcom/ipq5424-rdp466.dts
+> > @@ -16,12 +16,71 @@ / {
+> >  	aliases {
+> >  		serial0 = &uart1;
+> >  	};
+> > +
+> > +	regulator_fixed_3p3: s3300 {
+> 
+> Fixed regulator nodes should have a "regulator-" prefix in their name.
 
-patch[1]: https://lore.kernel.org/all/f74754f0d7d870ac8301eb8f5760d473bdd0270b.1731492709.git.xiaopei01@kylinos.cn/
+Specifically, regulator-<voltage> is preferred. So "regulator-3300000"
 
- 
+Not enforced because there are some exceptions.
 
+Rob
