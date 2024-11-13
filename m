@@ -1,109 +1,95 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-lf1-f51.google.com (mail-lf1-f51.google.com [209.85.167.51])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 486901F4FC6;
-	Wed, 13 Nov 2024 14:04:49 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0188C1DF978
+	for <linux-usb@vger.kernel.org>; Wed, 13 Nov 2024 14:44:33 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.51
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1731506690; cv=none; b=ifRFFqk9vZIq9f4HcWeBfNRkqAkgULK0wzL320LKhlR2X6kmjhOrQNJizLCgCI6gOsgh5Tf6s1TYAD2pAFIhp9VTzKG1Kfy8Y1TdiU5jEKxSToLsmbKQEQi7SHlY6oxQbEcjRYjXvaVFAUvqC80IsErPn4Lv+/kNlyKnAGcEyng=
+	t=1731509076; cv=none; b=fT5WG3+UfYWuXCimmF5Tba1RhZe2RUt6wAJVHRJd+MK0R4X9rjs2Re/MTMlqAIfwb4ukWb5LMLV3uBGou8LwgHlxpIT90etkEGgTzXirEVpo38jVW4PdhTfX5GciiYvvwESBVVNP2uExQUWcMQrZLyeofCbPaJswUisMiwrdQPc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1731506690; c=relaxed/simple;
-	bh=xEIsm82Us/2uPAaz8oc2KoXxc6pXZstnJKLajTBWF3w=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=KVgSI7NoQ/u9gIlgLD6Yc6kjI6KtLQwf5flopE12JIzkpKJrMqT3UUyN+JI0gXEnK2/kcIszxkYfh9vDOdl+fEiHel8eEwjBN7Rb+FqbB0m2+eqPs6cXQ3UTndV0OPVO2PFkOsjHvFLCA2YeuRAkJnNWM5YPXKJk0Ib1qqu8xlM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b=uOvyWuzG; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1731509076; c=relaxed/simple;
+	bh=HeZeCSsJu84FolYvJGFPv741kcE6UC0oMqQJcpwtCIQ=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=PSlmpzmBPA7MT2AF0YunIdAjfowtE08kUQE05ftsFEp2Rq9KiM9A+5i66uUY+Em8aqMtEuASzLMhK/MsabJZtOqE81tcvMY/JWriHLNWGCWZmrPLRQZL6uHGmn/VayXqR48ZRBqgOgq623fdU/Sp/36DAtwZoWX4V9rRQy9CzMM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=kbWijaMq; arc=none smtp.client-ip=209.85.167.51
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="uOvyWuzG"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 6CFE6C4CED2;
-	Wed, 13 Nov 2024 14:04:49 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
-	s=korg; t=1731506689;
-	bh=xEIsm82Us/2uPAaz8oc2KoXxc6pXZstnJKLajTBWF3w=;
-	h=From:To:Cc:Subject:Date:From;
-	b=uOvyWuzGRZMZ3v8WO8IC97opH+xrf2NHI3nX2a9dd8qxplPBFinZD231V7lqkN7OB
-	 j6/SSUqK2XWYSKmnPrpxfKp9x4juyh7zXg+WNdGmtgOZnALVKD1TaLFXtqe+TqnBbi
-	 YAZ5QiwQ5L2zHXf3SilNlwgptxSYActnR2rr/H+A=
-From: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-To: linux-usb@vger.kernel.org
-Cc: stern@rowland.harvard.edu,
-	gregkh@linuxfoundation.org,
-	linux-kernel@vger.kernel.org,
-	Johan Hovold <johan@kernel.org>,
-	Grant Grundler <grundler@chromium.org>,
-	Yajun Deng <yajun.deng@linux.dev>,
-	Oliver Neukum <oneukum@suse.com>,
-	Douglas Anderson <dianders@chromium.org>
-Subject: [PATCH v2 1/2] USB: make to_usb_driver() use container_of_const()
-Date: Wed, 13 Nov 2024 15:04:40 +0100
-Message-ID: <2024111339-shaky-goldsmith-b233@gregkh>
-X-Mailer: git-send-email 2.47.0
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="kbWijaMq"
+Received: by mail-lf1-f51.google.com with SMTP id 2adb3069b0e04-539f84907caso7923891e87.3
+        for <linux-usb@vger.kernel.org>; Wed, 13 Nov 2024 06:44:33 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google; t=1731509072; x=1732113872; darn=vger.kernel.org;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=HQPpB0phrSoegtCutG0hX/vUb4mF3xNnw+0tCeNiRNA=;
+        b=kbWijaMqRvF0FLAsiyzDHAJHnHyM53T+CoAxKl2gQJ9VoCJqrAP26ArAEtpAHmbWGo
+         FSHwzIwFMKwLv/ipvlvPRNjTp3CuQNATdwRdvHoJkO7f8p23e2TfBUYS1OgQeKh8Pwl3
+         44CbROgyogDntTLw8c05wXfi/2Qssb4NQ1XQxl8lb12xHRBlFnaA0VjOTZc/1U6pXRXq
+         sYaD1XfX8di+KVnFDmvprJ8TXudfuE7qfpm+PbTwC7KAZdNtv4z7ReG1pGHUbs8bb+YC
+         geb438Pwjgt1OVFUUy8vd1O0aUCAgIGlC1p/H55E2su8FW4tHR9GOclQEmclMtNYlJO7
+         lPUQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1731509072; x=1732113872;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=HQPpB0phrSoegtCutG0hX/vUb4mF3xNnw+0tCeNiRNA=;
+        b=RTWfwuiCHQQAoj8k0E0AZwo13KaJwR9OYBD+DY2hx2oW+3SEhPPKLXLC8o9FgVXBlA
+         ZEdY019QgZdDa5OyxiiiyM/Z2DhUx/t0iCv7zZBfFsaIhZq9uolR42yonEvrYI9iuVeT
+         zupwbAJo2KxiZsb0zkx1XM+b0/SSRnOk5zUCdnkHcjNfG8KkCfXmNbwytj/42JLEiO/4
+         VDPQGl5UK0Y0LSk3t72lZa6NpDwTghrA3NPYb4nFNE1WmLcK6iAJES40vZ/JmYCIBIYp
+         rdbcwlvnOQ9lrCR7LbpGFQlt/nJgjZNiUTOU+z2DMGlALXo9cSyq+OEBHseIACk8CRun
+         CzbQ==
+X-Forwarded-Encrypted: i=1; AJvYcCX754U82Yzmfe9uBukDoSMoKdjc81Jtl4aFBc6TQfKKN3xL7FbyzX9W1UVLJ0IwTqg5RwSaaViX3OU=@vger.kernel.org
+X-Gm-Message-State: AOJu0YxJTcdtMmct/6PkrroJ4XqWAGO4Nxih6gVuJXzHF0xoXV2F3WOs
+	PlcSs1zFnUZ7oA627UH8sqn6z1vvCK7nJE1c1fYtAvTIHcCDeh2Cf52LQ02atOM=
+X-Google-Smtp-Source: AGHT+IEI48XdiEjcdWrwwdwFWY3xjuTvfVBcKE/hPSJ/8GcfhyVPGSydhhwXBFZEyJFFyvXiYAdR6g==
+X-Received: by 2002:a05:6512:687:b0:539:f696:777c with SMTP id 2adb3069b0e04-53d862cb2e1mr10285422e87.29.1731509071994;
+        Wed, 13 Nov 2024 06:44:31 -0800 (PST)
+Received: from eriador.lumag.spb.ru (2001-14ba-a0c3-3a00--7a1.rev.dnainternet.fi. [2001:14ba:a0c3:3a00::7a1])
+        by smtp.gmail.com with ESMTPSA id 2adb3069b0e04-53d826787ddsm2224961e87.18.2024.11.13.06.44.30
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 13 Nov 2024 06:44:30 -0800 (PST)
+Date: Wed, 13 Nov 2024 16:44:29 +0200
+From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+To: Varadarajan Narayanan <quic_varada@quicinc.com>
+Cc: vkoul@kernel.org, kishon@kernel.org, robh@kernel.org, 
+	krzk+dt@kernel.org, conor+dt@kernel.org, gregkh@linuxfoundation.org, 
+	andersson@kernel.org, konradybcio@kernel.org, mantas@8devices.com, 
+	quic_rohiagar@quicinc.com, quic_kriskura@quicinc.com, manivannan.sadhasivam@linaro.org, 
+	abel.vesa@linaro.org, quic_kbajaj@quicinc.com, quic_wcheng@quicinc.com, 
+	linux-arm-msm@vger.kernel.org, linux-phy@lists.infradead.org, devicetree@vger.kernel.org, 
+	linux-kernel@vger.kernel.org, linux-usb@vger.kernel.org
+Subject: Re: [PATCH v2 2/6] phy: qcom-qusb2: add QUSB2 support for IPQ5424
+Message-ID: <3wacyipnmxdjdgp6rrpfwreh53zjlimjkpadpxqrclu2tdtjj4@enwogkt6wq2e>
+References: <20241113072316.2829050-1-quic_varada@quicinc.com>
+ <20241113072316.2829050-3-quic_varada@quicinc.com>
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-Developer-Signature: v=1; a=openpgp-sha256; l=2292; i=gregkh@linuxfoundation.org; h=from:subject:message-id; bh=xEIsm82Us/2uPAaz8oc2KoXxc6pXZstnJKLajTBWF3w=; b=owGbwMvMwCRo6H6F97bub03G02pJDOkmG7+z/Tt2R0tJ+FKhXnzxCbMHB7Z8lJb+JTLTKcd8g 7hKSuOVjlgWBkEmBlkxRZYv23iO7q84pOhlaHsaZg4rE8gQBi5OAZgIFwfD/OhtkttPJP65/eS8 p8qOWTb19rk5Sxjml/8+VfPrwuok9W9mD+b2Mj+vSPDnAgA=
-X-Developer-Key: i=gregkh@linuxfoundation.org; a=openpgp; fpr=F4B60CC5BF78C2214A313DCB3147D40DDB2DFB29
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20241113072316.2829050-3-quic_varada@quicinc.com>
 
-Turns out that we have some const pointers being passed to
-to_usb_driver() but were not catching this.  Change the macro to
-properly propagate the const-ness of the pointer so that we will notice
-when we try to write to memory that we shouldn't be writing to.
+On Wed, Nov 13, 2024 at 12:53:12PM +0530, Varadarajan Narayanan wrote:
+> Add the phy init sequence for the Super Speed ports found
+> on IPQ5424.
+> 
+> Signed-off-by: Varadarajan Narayanan <quic_varada@quicinc.com>
+> ---
+> v2: Change uppercase hexdigits to lowercase
+> ---
+>  drivers/phy/qualcomm/phy-qcom-qusb2.c | 28 +++++++++++++++++++++++++++
+>  1 file changed, 28 insertions(+)
 
-This requires fixing up the usb_match_dynamic_id() function as well,
-because it can handle a const * to struct usb_driver.
+Reviewed-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
 
-Cc: Johan Hovold <johan@kernel.org>
-Cc: Alan Stern <stern@rowland.harvard.edu>
-Cc: Grant Grundler <grundler@chromium.org>
-Cc: Yajun Deng <yajun.deng@linux.dev>
-Cc: Oliver Neukum <oneukum@suse.com>
-Cc: Douglas Anderson <dianders@chromium.org>
-Cc: linux-usb@vger.kernel.org
-Signed-off-by: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
----
-v2: reordered patches, goes on top of series submitted at https://lore.kernel.org/r/2024111322-kindly-finalist-d247@gregkh
 
- drivers/usb/core/driver.c | 4 ++--
- include/linux/usb.h       | 2 +-
- 2 files changed, 3 insertions(+), 3 deletions(-)
 
-diff --git a/drivers/usb/core/driver.c b/drivers/usb/core/driver.c
-index 9ea955a3d115..bc5c561bdbd5 100644
---- a/drivers/usb/core/driver.c
-+++ b/drivers/usb/core/driver.c
-@@ -228,7 +228,7 @@ static void usb_free_dynids(struct usb_driver *usb_drv)
- }
- 
- static const struct usb_device_id *usb_match_dynamic_id(struct usb_interface *intf,
--							struct usb_driver *drv)
-+							const struct usb_driver *drv)
- {
- 	struct usb_dynid *dynid;
- 
-@@ -890,7 +890,7 @@ static int usb_device_match(struct device *dev, const struct device_driver *drv)
- 
- 	} else if (is_usb_interface(dev)) {
- 		struct usb_interface *intf;
--		struct usb_driver *usb_drv;
-+		const struct usb_driver *usb_drv;
- 		const struct usb_device_id *id;
- 
- 		/* device drivers never match interfaces */
-diff --git a/include/linux/usb.h b/include/linux/usb.h
-index b66b1af3e439..7a9e96f9d886 100644
---- a/include/linux/usb.h
-+++ b/include/linux/usb.h
-@@ -1243,7 +1243,7 @@ struct usb_driver {
- 	unsigned int disable_hub_initiated_lpm:1;
- 	unsigned int soft_unbind:1;
- };
--#define	to_usb_driver(d) container_of(d, struct usb_driver, driver)
-+#define	to_usb_driver(d) container_of_const(d, struct usb_driver, driver)
- 
- /**
-  * struct usb_device_driver - identifies USB device driver to usbcore
 -- 
-2.47.0
-
+With best wishes
+Dmitry
