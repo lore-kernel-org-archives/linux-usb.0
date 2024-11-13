@@ -1,55 +1,75 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B5FAC17085A;
-	Wed, 13 Nov 2024 06:18:15 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1E9D92C9A;
+	Wed, 13 Nov 2024 06:49:28 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1731478695; cv=none; b=lTIfZgcI5MXH4XqGuUpQWNulUP36TOsDKsW7otPn6L4Q4F60N19JvbysCRqMjDzJoom6S0SYvSpGY1L7ZFdIOutnkJDXZW5giH7X7bjCiuRqGebUnXDwHhtzqUZh1zY0/MySOol8tvcSbH84mrCBQfJUF0tHaM71UCowInA5SGg=
+	t=1731480569; cv=none; b=FIJ92WgMRI+Q/6w+AYXbdDCMWq2fqBh9M50T2IyV4omVi8hzJ0KJztyaNEBlQDaDqhtim4lce/CoZ0rK8dLFcjCwJQ8JcGbgbPtQBcw21+C+Tr+kJZtnaSbWzp8idnoegp5KmrSyfANQG+a+BY1RUuXF7gf1KFQiBSM68kfdgp4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1731478695; c=relaxed/simple;
-	bh=zDxCVgumsYdvuBJYwURAZWWIMOmORpTsX8/yd6J0rko=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=NzNULO8ijHCGicnhyaKmmfTNotFa9N3jaOcmoT0DLF0gNS45iPqx0lgfkwm9OsTfz8bqUGIpXplGwHLPXD7vP3+OkY6etXJ6Z5qQfUNzR5LAe2936HJBONO81vaIkvLW2/cf1UThrrd1+ijCuwx93eBV4H/nEZ7oUw9+SI3wli4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b=Vl3BS6kn; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1731480569; c=relaxed/simple;
+	bh=vViNnuiwAtSi3uAv82vBeSDQgkaNqoZeWaQlsnzDNvM=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version; b=mJPwbdGIlEdgJxuvXiROjhgQFhegms1ip555dnxW+Ar9+0sataAkwcZdtAOp+7SvKS4pzNExg8nx6Y/W9p1wQBS4RlWjpVlDBGTn8GWHnRNLlsZqknYlnvN0fNLa3t0WmpD5oNcjNu3kwakBN4IOlvfCTHqbInem/03GlPxBtOM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b=tFE39T5S; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="Vl3BS6kn"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id C5BF1C4CECD;
-	Wed, 13 Nov 2024 06:18:14 +0000 (UTC)
+	dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="tFE39T5S"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 24F68C4CED7;
+	Wed, 13 Nov 2024 06:49:27 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
-	s=korg; t=1731478695;
-	bh=zDxCVgumsYdvuBJYwURAZWWIMOmORpTsX8/yd6J0rko=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=Vl3BS6knAEmeN4lA5Yr1YLMsmHn8Q+3Zwk+zvchIarPaxy6WlU91TGYUpzQX8QAlp
-	 0FwBd1OV8dDy2JtJMjwIX0rwvlOrEdS4ySUOOXUa+Qsjh/0vCDGqFAzvxQMpSOp0CF
-	 xxTLbs3R21Y6VH2Ahse3h/wKtsOaqyqwfB608Szc=
-Date: Wed, 13 Nov 2024 07:18:12 +0100
-From: Greg KH <gregkh@linuxfoundation.org>
-To: Jason fab <siliconfab@gmail.com>
-Cc: linux-usb@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: Re: VTIO support on USB
-Message-ID: <2024111339-monogram-refried-f189@gregkh>
-References: <CAHXL5pfQjhpANBxNY1YjURhWwU17WD9gX4rDqi4ezYOKeFs=gQ@mail.gmail.com>
+	s=korg; t=1731480568;
+	bh=vViNnuiwAtSi3uAv82vBeSDQgkaNqoZeWaQlsnzDNvM=;
+	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
+	b=tFE39T5SAveICCnZvwIu57J8dciLEJe78hpFhvsPmXFOvNCwZD8Ek0YWWB4JaRuf0
+	 q9ayFlZgq/ijrrZIGPFyN+RSyeWBxWmNbatreTjUb+9FqQ7S3qQgwUgnh34PGjjlUp
+	 f9VrDXY8FS9+ScfTISdiwegQOzpXbeGMjanekrnc=
+From: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+To: linux-usb@vger.kernel.org
+Cc: stern@rowland.harvard.edu,
+	gregkh@linuxfoundation.org,
+	linux-kernel@vger.kernel.org
+Subject: [PATCH v2 2/2] USB: properly lock dynamic id list when showing an id
+Date: Wed, 13 Nov 2024 07:49:23 +0100
+Message-ID: <2024111324-tubby-facecloth-d4a0@gregkh>
+X-Mailer: git-send-email 2.47.0
+In-Reply-To: <2024111322-kindly-finalist-d247@gregkh>
+References: <2024111322-kindly-finalist-d247@gregkh>
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <CAHXL5pfQjhpANBxNY1YjURhWwU17WD9gX4rDqi4ezYOKeFs=gQ@mail.gmail.com>
+X-Developer-Signature: v=1; a=openpgp-sha256; l=1045; i=gregkh@linuxfoundation.org; h=from:subject:message-id; bh=vViNnuiwAtSi3uAv82vBeSDQgkaNqoZeWaQlsnzDNvM=; b=owGbwMvMwCRo6H6F97bub03G02pJDOkm3l8E6v0+brj9pVFg58o3vf3cOjVaz3Vnf70ef4ovz WpL0aX7HbEsDIJMDLJiiixftvEc3V9xSNHL0PY0zBxWJpAhDFycAjCRmd0M80yXR5bfvBy0xqj0 xG+7P6+/xIS03GZYsP140uy29ZV8seUe++0Wsu1hfNUyHwA=
+X-Developer-Key: i=gregkh@linuxfoundation.org; a=openpgp; fpr=F4B60CC5BF78C2214A313DCB3147D40DDB2DFB29
+Content-Transfer-Encoding: 8bit
 
-On Wed, Nov 13, 2024 at 11:27:47AM +0530, Jason fab wrote:
-> Hello,
-> 
-> I would like to know if the linux kernel usb subsystem supports
-> Virtualization based Trusted IO Management (USB VTIO)?
+When walking the list of dynamic ids for a driver, no lock was being
+held, which meant that an id could be removed or added while the list
+was being iterated.  Fix this up by properly grabing the lock while we
+walk the list.
 
-What exactly is that, I can't seem to search for it and have not heard
-of it before.  Do you have a link to it somewhere?  Is there a USB.org
-specification published for it?
+Reported-by: Alan Stern <stern@rowland.harvard.edu>
+Cc: linux-usb@vger.kernel.org
+Signed-off-by: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+---
+v2. - new patch in v2, not in v1 series, based on review of v1.
 
-thanks,
+ drivers/usb/core/driver.c | 1 +
+ 1 file changed, 1 insertion(+)
 
-greg k-h
+diff --git a/drivers/usb/core/driver.c b/drivers/usb/core/driver.c
+index bc3c00580238..9ea955a3d115 100644
+--- a/drivers/usb/core/driver.c
++++ b/drivers/usb/core/driver.c
+@@ -116,6 +116,7 @@ ssize_t usb_show_dynids(struct usb_dynids *dynids, char *buf)
+ 	struct usb_dynid *dynid;
+ 	size_t count = 0;
+ 
++	guard(mutex)(&usb_dynids_lock);
+ 	list_for_each_entry(dynid, &dynids->list, node)
+ 		if (dynid->id.bInterfaceClass != 0)
+ 			count += scnprintf(&buf[count], PAGE_SIZE - count, "%04x %04x %02x\n",
+-- 
+2.47.0
+
