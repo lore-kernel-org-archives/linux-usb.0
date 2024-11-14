@@ -1,24 +1,24 @@
 Received: from smtp.ps-zuehlke.com (smtp.ps-zuehlke.com [193.135.254.84])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 90C331F585B;
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 90B1D13CA99;
 	Thu, 14 Nov 2024 08:10:04 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=193.135.254.84
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1731571808; cv=none; b=unNmE9s23pkZIAa+nSXmgyZzCjpzepFy6OC9MXUVXhqTqfdJNvO75Nm2vInoXIWxaQvgLgUzFxTjRv8PQ5oReoi2UG3nf72g0wUE/THYzrjucdBPbi6VUlfD4XtfCb7VYDh65sH/N/w3bHdAjq73zBGvVLMfiZuyj0im3c6dQy8=
+	t=1731571808; cv=none; b=W7fWuhxA83Qf1NmBBDLZs+WrjgAt3zR2mgnho3+ovfHsWjeY57uDviTe+pJEz8rFftxaG5KN+jygtQdykhQLrYtFd9vtFe6iADhhwV+53xh7iQdAnDvYqLvCk5T0RvjaPMtI7vtDhRJ7tCJf5spWOWNSWo1JkOn0OZoKOdyoYBg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
 	s=arc-20240116; t=1731571808; c=relaxed/simple;
-	bh=xQEWItvO4K2hmgsVC5C+clRiGDX0sc04fruShxWbObY=;
+	bh=xO9l0nLfli08W2OYf5c3unKKB7iAHPMUKyhuLnOgTpY=;
 	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
-	 In-Reply-To:To:Cc; b=DykQVfUzhlhxSPjZf7EabkcVLvcSw3sVqR6iRO3yhRCeeqmcLl77utQqTSqyFeOEzmJt3DkDjLJJ5tocWPmmailSZ1Og4Efu6uwD5tlV/B2boMoYQlWcVlx+FPlIKISFqshLAkqmOc7RrssRQtP2SYU6DbzF/yxxYLrWpjD4OTc=
+	 In-Reply-To:To:Cc; b=u1VbFMbZcwt62rSQVJqBgrrD1LnsTfO7vuKtHHqougnW/diwRO5WAI5eZMZnQV++YXkpYpy4DnDzE0ALX4ZE3OSUygesU/riN8cq90ww3y3GsTrteIFN21tdnDkJ0zTQjWOezTpx/ScVz3MVCLRkZqqX12KR5Uwo8B7gbGWi49I=
 ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=zuehlke.com; spf=pass smtp.mailfrom=zuehlke.com; arc=none smtp.client-ip=193.135.254.84
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=zuehlke.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=zuehlke.com
 Received: from ZUEN49445. (unknown [10.192.66.22])
-	by smtp.ps-zuehlke.com (Postfix) with ESMTP id 6A591125;
+	by smtp.ps-zuehlke.com (Postfix) with ESMTP id 8AFC512E;
 	Thu, 14 Nov 2024 09:02:22 +0100 (CET)
 From: Oliver Facklam <oliver.facklam@zuehlke.com>
-Date: Thu, 14 Nov 2024 09:02:06 +0100
-Subject: [PATCH v2 1/4] usb: typec: hd3ss3220: configure advertised power
- opmode based on fwnode property
+Date: Thu, 14 Nov 2024 09:02:09 +0100
+Subject: [PATCH v2 4/4] usb: typec: hd3ss3220: support configuring role
+ preference based on fwnode property and typec_operation
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
@@ -27,7 +27,7 @@ List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20241114-usb-typec-controller-enhancements-v2-1-362376856aea@zuehlke.com>
+Message-Id: <20241114-usb-typec-controller-enhancements-v2-4-362376856aea@zuehlke.com>
 References: <20241114-usb-typec-controller-enhancements-v2-0-362376856aea@zuehlke.com>
 In-Reply-To: <20241114-usb-typec-controller-enhancements-v2-0-362376856aea@zuehlke.com>
 To: Heikki Krogerus <heikki.krogerus@linux.intel.com>, 
@@ -39,115 +39,132 @@ Cc: linux-usb@vger.kernel.org, linux-kernel@vger.kernel.org,
  Michael Glettig <michael.glettig@zuehlke.com>, 
  Oliver Facklam <oliver.facklam@zuehlke.com>
 X-Mailer: b4 0.14.2
-X-Developer-Signature: v=1; a=ed25519-sha256; t=1731571341; l=3492;
+X-Developer-Signature: v=1; a=ed25519-sha256; t=1731571341; l=4351;
  i=oliver.facklam@zuehlke.com; s=20241107; h=from:subject:message-id;
- bh=xQEWItvO4K2hmgsVC5C+clRiGDX0sc04fruShxWbObY=;
- b=HvVCPl5uvDhWEKRy2xR7rnyd/4v1VTPmR59H8YR95Mo8LP9O3Q3eZF607y8RAWA8Py+TZBeDn
- vTizckKK1p0CT/ymSi9KSfkQmxwYZkXnP7bjOQk7F9FJxHwSbo6vV3W
+ bh=xO9l0nLfli08W2OYf5c3unKKB7iAHPMUKyhuLnOgTpY=;
+ b=Kcb57uEEl7mkDiGjvoRPZfkCmC0ZqKj2NW6arCgOh5SviGRuSPsY1J2FU4I+bQn+OAjY4fG8Y
+ B/mDQ8GvsyhDKiYl5Z/tUpJ1UbKOEbe6FnnaLsDzoWGlal9QTDdHl9i
 X-Developer-Key: i=oliver.facklam@zuehlke.com; a=ed25519;
  pk=bMlB+nko+ewJHQJLwq2t26VDbmRmNDPr/1woleqp7Lw=
 
-The TI HD3SS3220 Type-C controller supports configuring its advertised
-power operation mode over I2C using the CURRENT_MODE_ADVERTISE field
-of the Connection Status Register.
+The TI HD3SS3220 Type-C controller supports configuring
+its role preference when operating as a dual-role port
+through the SOURCE_PREF field of the General Control Register.
 
-Configure this power mode based on the existing (optional) property
-"typec-power-opmode" of /schemas/connector/usb-connector.yaml
+The previous driver behavior was to set the role preference
+based on the dr_set typec_operation.
+However, the controller does not support swapping the data role
+on an active connection due to its lack of Power Delivery support.
+
+Remove previous dr_set typec_operation, and support setting
+the role preference based on the corresponding fwnode property,
+as well as the try_role typec_operation.
 
 Signed-off-by: Oliver Facklam <oliver.facklam@zuehlke.com>
 ---
- drivers/usb/typec/hd3ss3220.c | 53 +++++++++++++++++++++++++++++++++++++++++++
- 1 file changed, 53 insertions(+)
+ drivers/usb/typec/hd3ss3220.c | 50 +++++++++++++++++++++----------------------
+ 1 file changed, 25 insertions(+), 25 deletions(-)
 
 diff --git a/drivers/usb/typec/hd3ss3220.c b/drivers/usb/typec/hd3ss3220.c
-index fb1242e82ffdc64a9a3330f50155bb8f0fe45685..56f74bf70895ca701083bde44a5bbe0b691551e1 100644
+index e3e9b1597e3b09b82f0726a01f311fb60b4284da..666bf15f88a2adb778f14efd982c0803424512bd 100644
 --- a/drivers/usb/typec/hd3ss3220.c
 +++ b/drivers/usb/typec/hd3ss3220.c
-@@ -16,10 +16,17 @@
- #include <linux/delay.h>
- #include <linux/workqueue.h>
+@@ -127,8 +127,25 @@ static int hd3ss3220_set_port_type(struct hd3ss3220 *hd3ss3220, int type)
+ 	return err;
+ }
  
-+#define HD3SS3220_REG_CN_STAT		0x08
- #define HD3SS3220_REG_CN_STAT_CTRL	0x09
- #define HD3SS3220_REG_GEN_CTRL		0x0A
- #define HD3SS3220_REG_DEV_REV		0xA0
- 
-+/* Register HD3SS3220_REG_CN_STAT */
-+#define HD3SS3220_REG_CN_STAT_CURRENT_MODE_MASK		(BIT(7) | BIT(6))
-+#define HD3SS3220_REG_CN_STAT_CURRENT_MODE_DEFAULT	0x00
-+#define HD3SS3220_REG_CN_STAT_CURRENT_MODE_MID		BIT(6)
-+#define HD3SS3220_REG_CN_STAT_CURRENT_MODE_HIGH		BIT(7)
+-static int hd3ss3220_set_source_pref(struct hd3ss3220 *hd3ss3220, int src_pref)
++static int hd3ss3220_set_source_pref(struct hd3ss3220 *hd3ss3220, int prefer_role)
+ {
++	int src_pref;
 +
- /* Register HD3SS3220_REG_CN_STAT_CTRL*/
- #define HD3SS3220_REG_CN_STAT_CTRL_ATTACHED_STATE_MASK	(BIT(7) | BIT(6))
- #define HD3SS3220_REG_CN_STAT_CTRL_AS_DFP		BIT(6)
-@@ -43,6 +50,31 @@ struct hd3ss3220 {
- 	bool poll;
- };
- 
-+static int hd3ss3220_set_power_opmode(struct hd3ss3220 *hd3ss3220, int power_opmode)
-+{
-+	int current_mode;
-+
-+	switch (power_opmode) {
-+	case TYPEC_PWR_MODE_USB:
-+		current_mode = HD3SS3220_REG_CN_STAT_CURRENT_MODE_DEFAULT;
++	switch (prefer_role) {
++	case TYPEC_NO_PREFERRED_ROLE:
++		src_pref = HD3SS3220_REG_GEN_CTRL_SRC_PREF_DRP_DEFAULT;
 +		break;
-+	case TYPEC_PWR_MODE_1_5A:
-+		current_mode = HD3SS3220_REG_CN_STAT_CURRENT_MODE_MID;
++	case TYPEC_SINK:
++		src_pref = HD3SS3220_REG_GEN_CTRL_SRC_PREF_DRP_TRY_SNK;
 +		break;
-+	case TYPEC_PWR_MODE_3_0A:
-+		current_mode = HD3SS3220_REG_CN_STAT_CURRENT_MODE_HIGH;
++	case TYPEC_SOURCE:
++		src_pref = HD3SS3220_REG_GEN_CTRL_SRC_PREF_DRP_TRY_SRC;
 +		break;
-+	case TYPEC_PWR_MODE_PD: /* Power delivery not supported */
 +	default:
-+		dev_err(hd3ss3220->dev, "bad power operation mode: %d\n", power_opmode);
++		dev_err(hd3ss3220->dev, "bad role preference: %d\n", prefer_role);
 +		return -EINVAL;
 +	}
 +
-+	return regmap_update_bits(hd3ss3220->regmap, HD3SS3220_REG_CN_STAT,
-+				  HD3SS3220_REG_CN_STAT_CURRENT_MODE_MASK,
-+				  current_mode);
-+}
-+
- static int hd3ss3220_set_source_pref(struct hd3ss3220 *hd3ss3220, int src_pref)
- {
  	return regmap_update_bits(hd3ss3220->regmap, HD3SS3220_REG_GEN_CTRL,
-@@ -162,6 +194,23 @@ static irqreturn_t hd3ss3220_irq_handler(int irq, void *data)
- 	return hd3ss3220_irq(hd3ss3220);
+ 				  HD3SS3220_REG_GEN_CTRL_SRC_PREF_MASK,
+ 				  src_pref);
+@@ -160,27 +177,11 @@ static enum usb_role hd3ss3220_get_attached_state(struct hd3ss3220 *hd3ss3220)
+ 	return attached_state;
  }
  
-+static int hd3ss3220_configure_power_opmode(struct hd3ss3220 *hd3ss3220,
-+					    struct fwnode_handle *connector)
-+{
-+	/*
-+	 * Supported power operation mode can be configured through device tree
-+	 */
-+	const char *cap_str;
-+	int ret, power_opmode;
-+
-+	ret = fwnode_property_read_string(connector, "typec-power-opmode", &cap_str);
-+	if (ret)
-+		return 0;
-+
-+	power_opmode = typec_find_pwr_opmode(cap_str);
-+	return hd3ss3220_set_power_opmode(hd3ss3220, power_opmode);
-+}
-+
- static const struct regmap_config config = {
- 	.reg_bits = 8,
- 	.val_bits = 8,
-@@ -223,6 +272,10 @@ static int hd3ss3220_probe(struct i2c_client *client)
- 		goto err_put_role;
- 	}
+-static int hd3ss3220_dr_set(struct typec_port *port, enum typec_data_role role)
++static int hd3ss3220_try_role(struct typec_port *port, int role)
+ {
+ 	struct hd3ss3220 *hd3ss3220 = typec_get_drvdata(port);
+-	enum usb_role role_val;
+-	int pref, ret = 0;
  
-+	ret = hd3ss3220_configure_power_opmode(hd3ss3220, connector);
+-	if (role == TYPEC_HOST) {
+-		role_val = USB_ROLE_HOST;
+-		pref = HD3SS3220_REG_GEN_CTRL_SRC_PREF_DRP_TRY_SRC;
+-	} else {
+-		role_val = USB_ROLE_DEVICE;
+-		pref = HD3SS3220_REG_GEN_CTRL_SRC_PREF_DRP_TRY_SNK;
+-	}
+-
+-	ret = hd3ss3220_set_source_pref(hd3ss3220, pref);
+-	usleep_range(10, 100);
+-
+-	usb_role_switch_set_role(hd3ss3220->role_sw, role_val);
+-	typec_set_data_role(hd3ss3220->port, role);
+-
+-	return ret;
++	return hd3ss3220_set_source_pref(hd3ss3220, role);
+ }
+ 
+ static int hd3ss3220_port_type_set(struct typec_port *port, enum typec_port_type type)
+@@ -191,7 +192,7 @@ static int hd3ss3220_port_type_set(struct typec_port *port, enum typec_port_type
+ }
+ 
+ static const struct typec_operations hd3ss3220_ops = {
+-	.dr_set = hd3ss3220_dr_set,
++	.try_role = hd3ss3220_try_role,
+ 	.port_type_set = hd3ss3220_port_type_set,
+ };
+ 
+@@ -200,9 +201,6 @@ static void hd3ss3220_set_role(struct hd3ss3220 *hd3ss3220)
+ 	enum usb_role role_state = hd3ss3220_get_attached_state(hd3ss3220);
+ 
+ 	usb_role_switch_set_role(hd3ss3220->role_sw, role_state);
+-	if (role_state == USB_ROLE_NONE)
+-		hd3ss3220_set_source_pref(hd3ss3220,
+-				HD3SS3220_REG_GEN_CTRL_SRC_PREF_DRP_DEFAULT);
+ 
+ 	switch (role_state) {
+ 	case USB_ROLE_HOST:
+@@ -297,8 +295,6 @@ static int hd3ss3220_probe(struct i2c_client *client)
+ 	if (IS_ERR(hd3ss3220->regmap))
+ 		return PTR_ERR(hd3ss3220->regmap);
+ 
+-	hd3ss3220_set_source_pref(hd3ss3220,
+-				  HD3SS3220_REG_GEN_CTRL_SRC_PREF_DRP_DEFAULT);
+ 	/* For backward compatibility check the connector child node first */
+ 	connector = device_get_named_child_node(hd3ss3220->dev, "connector");
+ 	if (connector) {
+@@ -333,6 +329,10 @@ static int hd3ss3220_probe(struct i2c_client *client)
+ 	if (ret != 0 && ret != -EINVAL && ret != -ENXIO)
+ 		goto err_put_role;
+ 
++	ret = hd3ss3220_set_source_pref(hd3ss3220, typec_cap.prefer_role);
 +	if (ret < 0)
-+		goto err_unreg_port;
++		goto err_put_role;
 +
- 	hd3ss3220_set_role(hd3ss3220);
- 	ret = regmap_read(hd3ss3220->regmap, HD3SS3220_REG_CN_STAT_CTRL, &data);
+ 	ret = hd3ss3220_set_port_type(hd3ss3220, typec_cap.type);
  	if (ret < 0)
+ 		goto err_put_role;
 
 -- 
 2.34.1
