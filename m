@@ -1,203 +1,111 @@
-Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com [205.220.180.131])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-lj1-f182.google.com (mail-lj1-f182.google.com [209.85.208.182])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 44744188717;
-	Wed, 20 Nov 2024 22:36:48 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.180.131
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 907D342048
+	for <linux-usb@vger.kernel.org>; Wed, 20 Nov 2024 23:11:46 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.182
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1732142211; cv=none; b=A/ufDZiCFTDIOg9Jdkm6V7hVWMvofmw/2Sh99SJflxhwgBxMDrKDq8rj9pQS0r2/zOiV3CIoW2v/6Sh0kiTwU66NTj25fCn+iaEBDQWFt7bmI19KCWm1iIhP9DNVCu/RvaI9Id+3p/agcUTRhh113+wu6TvThyBVASrLqbexdWU=
+	t=1732144308; cv=none; b=kqo17QNpXOyYvs6iWW8R8T+fFfIbN4yph8rfof8hJXL3n//r5haecwj+C/jK77WevU12AdYPHDrwJeQsTGVJtxkhBgH9aqwNUx9raJ/iNefb20wbkc8G1N2PWZxpjzpyKbQvMPWuptUXVx+Mm5OBSMLyR0vZu9pKYXZhRW+t6FM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1732142211; c=relaxed/simple;
-	bh=2Cp5aaXjkP+a168HGxSLsBZhGl2+scjhbt48AyM8k80=;
-	h=Message-ID:Date:MIME-Version:Subject:To:CC:References:From:
-	 In-Reply-To:Content-Type; b=Qhr9JcHpZEsc0WCPYftHknVKCudJ5yMhb2Jm6ekdXVMj5jbjc7BXgoVAwv61GaQdxeDJFAW0JBK6j4s8IxiyeR/BitRbLUObQe5RFF29td+JzP0ABhGfhMLK7WQ9BvuZLl/fQq7LFNw5nXNLejgWGKXzZBdcyOEfMcE7vGyYvbg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=quicinc.com; spf=pass smtp.mailfrom=quicinc.com; dkim=pass (2048-bit key) header.d=quicinc.com header.i=@quicinc.com header.b=HfGTMpzk; arc=none smtp.client-ip=205.220.180.131
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=quicinc.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=quicinc.com
+	s=arc-20240116; t=1732144308; c=relaxed/simple;
+	bh=UTH/6KkcvTnJs+HdFV8VOkwtBex5NbX5E7rNfCG5THo=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type; b=G9SCOTAYyQMFpEXO9wuwIWOXtrmv82FvRxrGYDsQ67pCEu2IukL1T8GvF75zExQl2uicTxTX7Sj3Rl8WJOIz55odLrURr1TThPpNeSSBRmbxQCk+Dn32OzGi2Xawkou/Q0GKtGOEORW3Qy9+oI2h5ji4C3PYBYsj93t7fAYhzDI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=LpqYN3xu; arc=none smtp.client-ip=209.85.208.182
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=quicinc.com header.i=@quicinc.com header.b="HfGTMpzk"
-Received: from pps.filterd (m0279871.ppops.net [127.0.0.1])
-	by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 4AKJn2dx025955;
-	Wed, 20 Nov 2024 22:36:32 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com; h=
-	cc:content-transfer-encoding:content-type:date:from:in-reply-to
-	:message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
-	lUU8Tt86LNQJ0csNs06y2W4/lu/ueaR7HRud2/xtk6Y=; b=HfGTMpzkwigxCuQq
-	ewzf9kMNpccplf6sNLzhFq4qtqXH+wzWMzyKeKgJHvv+RPI7Fm0gg5wU0zZof8up
-	KNDodGyYRu8bBJCAOYcBTXfd3a/3L3kgFJkXbPpgriEXVyUVzlhamDWh5c6kg32W
-	W0o3JOLyS4BEvXKhFWmg5qxftCiW2PIJ5hjvrC6PrtlGoGRuucFLFTWEw1yN6PL1
-	XjL2GSUvSwPiiPItVj2xw5Z0ko7Nb//rfB3IHqIzNCWoOmQTnfYtft9Wxl+2fSLT
-	moOv/sSJzaqBCRuKrPYuCgn8/yInL5M6q4FdJvo21OXNKNYgLyl/mMoaQJ+rxV+i
-	JnOQVg==
-Received: from nalasppmta04.qualcomm.com (Global_NAT1.qualcomm.com [129.46.96.20])
-	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 431byjj4vv-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Wed, 20 Nov 2024 22:36:32 +0000 (GMT)
-Received: from nalasex01b.na.qualcomm.com (nalasex01b.na.qualcomm.com [10.47.209.197])
-	by NALASPPMTA04.qualcomm.com (8.18.1.2/8.18.1.2) with ESMTPS id 4AKMaUmn016740
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Wed, 20 Nov 2024 22:36:30 GMT
-Received: from [10.110.30.192] (10.80.80.8) by nalasex01b.na.qualcomm.com
- (10.47.209.197) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1544.9; Wed, 20 Nov
- 2024 14:36:30 -0800
-Message-ID: <28302a54-d33a-45eb-be73-fcf3bfe45f90@quicinc.com>
-Date: Wed, 20 Nov 2024 14:36:29 -0800
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="LpqYN3xu"
+Received: by mail-lj1-f182.google.com with SMTP id 38308e7fff4ca-2fb3c3d5513so3306171fa.1
+        for <linux-usb@vger.kernel.org>; Wed, 20 Nov 2024 15:11:46 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1732144305; x=1732749105; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:subject:cc:to
+         :from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=UTH/6KkcvTnJs+HdFV8VOkwtBex5NbX5E7rNfCG5THo=;
+        b=LpqYN3xuM1bVSHy/z+4DkiqlvAMYXscgI1DuTTqkSr2E4SxBWKJi+0bj0t9jshmsRL
+         15dCcRcqMkaRMcxdmfWRpLQ5d4LHxgy7kRoIf00oMyjvXObqF2uhvzwXhEVYB+6TCQDQ
+         o3GIntLDBJqkGrdRHkIw4Gsd6MO3j7cXenazhuQUCjRuU/ZnViNIvLJmOnwUnjM3rjfU
+         8rizT1sy6YrL6T6Ky5uxM/Hrau6K5xY8fdlXvvebLOyysfV2EKaEzskqaasW0ddElLQE
+         KoqbDeugTpiSD+lNWBonI9iWHumNzMv4ZMD/unpKJAJ9NTAqj4rkCHcVHih7r4J6kPw+
+         xTOQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1732144305; x=1732749105;
+        h=content-transfer-encoding:mime-version:message-id:subject:cc:to
+         :from:date:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=UTH/6KkcvTnJs+HdFV8VOkwtBex5NbX5E7rNfCG5THo=;
+        b=Pir/1Kqd9GhW8EJVMNBCCiDtMMk8CnCdBggV4N1omwtPm1FKLPy/stDuPJCQxi+97p
+         JqjHrpoWJSts5eedvrTRn/RIVZC2Fci1dIbtmv+cX5iya2WTi87ACxBtOz0XlkvHKdta
+         6DG+6QTbQnUTtTJJsTp0fepWuQmCen+RNXUUB98YB8D40JSyi2QJuuvZX9fENe4NWi5h
+         TPsarGQY2GRbT8kdRGHQmpsv5kAjWiNdbcgnXCiq6QVMaUPEXBvCptx6hSdPRh/4Xov+
+         SV0Ye7P5h+tuoMsW79xURNriBCXI38jjNDHe9J9IjPXHZ65JjTFYQ6ZwOhIW5lyHwxfZ
+         uODQ==
+X-Gm-Message-State: AOJu0Yyn4gusd4JkTJMUMpry+MLd5+K38iOcEBFRRP62uuDV9bbz4Q5I
+	x4h/iJMfsdhfy5aLHsEIEWxD0F+4JxkT93CqYfQieQJS0j+9pIO0nH340g==
+X-Google-Smtp-Source: AGHT+IF8S9WfGWTCSweWq9NTEPXzQgHd8LvPnlA6Mqb4yatgDJ5Gu+0bD2MKlIl6hmieKQ8ZAeCWwg==
+X-Received: by 2002:a05:651c:1542:b0:2ff:5b2c:3cc8 with SMTP id 38308e7fff4ca-2ff8dc62367mr34951041fa.32.1732144304330;
+        Wed, 20 Nov 2024 15:11:44 -0800 (PST)
+Received: from foxbook (bfh193.neoplus.adsl.tpnet.pl. [83.28.45.193])
+        by smtp.gmail.com with ESMTPSA id 38308e7fff4ca-2ff698517cesm16734231fa.4.2024.11.20.15.11.42
+        (version=TLS1_2 cipher=AES128-SHA bits=128/128);
+        Wed, 20 Nov 2024 15:11:42 -0800 (PST)
+Date: Thu, 21 Nov 2024 00:11:38 +0100
+From: =?UTF-8?B?TWljaGHFgg==?= Pecio <michal.pecio@gmail.com>
+To: <linux-usb@vger.kernel.org>
+Cc: Mathias Nyman <mathias.nyman@linux.intel.com>
+Subject: How are halted endpoints supposed to be handled in Linux?
+Message-ID: <20241121001138.23a45f6c@foxbook>
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v30 15/30] ASoC: usb: Fetch ASoC card and pcm device
- information
-To: Takashi Iwai <tiwai@suse.de>
-CC: <srinivas.kandagatla@linaro.org>, <mathias.nyman@intel.com>,
-        <perex@perex.cz>, <conor+dt@kernel.org>, <dmitry.torokhov@gmail.com>,
-        <corbet@lwn.net>, <broonie@kernel.org>, <lgirdwood@gmail.com>,
-        <krzk+dt@kernel.org>, <pierre-louis.bossart@linux.intel.com>,
-        <Thinh.Nguyen@synopsys.com>, <tiwai@suse.com>, <robh@kernel.org>,
-        <gregkh@linuxfoundation.org>, <linux-kernel@vger.kernel.org>,
-        <devicetree@vger.kernel.org>, <linux-sound@vger.kernel.org>,
-        <linux-usb@vger.kernel.org>, <linux-input@vger.kernel.org>,
-        <linux-arm-msm@vger.kernel.org>, <linux-doc@vger.kernel.org>
-References: <20241106193413.1730413-1-quic_wcheng@quicinc.com>
- <20241106193413.1730413-16-quic_wcheng@quicinc.com>
- <878qte3xgo.wl-tiwai@suse.de>
-Content-Language: en-US
-From: Wesley Cheng <quic_wcheng@quicinc.com>
-In-Reply-To: <878qte3xgo.wl-tiwai@suse.de>
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=US-ASCII
 Content-Transfer-Encoding: 7bit
-X-ClientProxiedBy: nasanex01b.na.qualcomm.com (10.46.141.250) To
- nalasex01b.na.qualcomm.com (10.47.209.197)
-X-QCInternal: smtphost
-X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800 signatures=585085
-X-Proofpoint-GUID: O7wmN2mmlr7Akp3bt07XtRk4PbPO3_Os
-X-Proofpoint-ORIG-GUID: O7wmN2mmlr7Akp3bt07XtRk4PbPO3_Os
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1039,Hydra:6.0.680,FMLib:17.12.60.29
- definitions=2024-09-06_09,2024-09-06_01,2024-09-02_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 spamscore=0 clxscore=1015
- suspectscore=0 phishscore=0 lowpriorityscore=0 impostorscore=0
- malwarescore=0 priorityscore=1501 bulkscore=0 adultscore=0 mlxlogscore=999
- mlxscore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.19.0-2409260000 definitions=main-2411200161
 
-Hi Takashi,
+Hi,
 
-On 11/20/2024 4:23 AM, Takashi Iwai wrote:
-> On Wed, 06 Nov 2024 20:33:58 +0100,
-> Wesley Cheng wrote:
->> USB SND needs to know how the USB offload path is being routed.  This would
->> allow for applications to open the corresponding sound card and pcm device
->> when it wants to take the audio offload path.  This callback should return
->> the mapped indexes based on the USB SND device information.
->>
->> Reviewed-by: Pierre-Louis Bossart <pierre-louis.bossart@linux.intel.com>
->> Signed-off-by: Wesley Cheng <quic_wcheng@quicinc.com>
->> ---
->>  include/sound/soc-usb.h | 16 ++++++++++++++++
->>  sound/soc/soc-usb.c     | 34 ++++++++++++++++++++++++++++++++++
->>  2 files changed, 50 insertions(+)
->>
->> diff --git a/include/sound/soc-usb.h b/include/sound/soc-usb.h
->> index 587ea07a8cf5..c3d3e8d62ac5 100644
->> --- a/include/sound/soc-usb.h
->> +++ b/include/sound/soc-usb.h
->> @@ -36,6 +36,11 @@ struct snd_soc_usb_device {
->>   * @list - list head for SND SOC struct list
->>   * @component - reference to ASoC component
->>   * @connection_status_cb - callback to notify connection events
->> + * @update_offload_route_info - callback to fetch mapped ASoC card and pcm
->> + *				device pair.  This is unrelated to the concept
->> + *				of DAPM route.  The "route" argument carries
->> + *				an array used for a kcontrol output and should
->> + *				contain two integers, card and pcm device index
->>   * @priv_data - driver data
->>   **/
->>  struct snd_soc_usb {
->> @@ -44,6 +49,9 @@ struct snd_soc_usb {
->>  	int (*connection_status_cb)(struct snd_soc_usb *usb,
->>  				    struct snd_soc_usb_device *sdev,
->>  				    bool connected);
->> +	int (*update_offload_route_info)(struct snd_soc_component *component,
->> +					 int card, int pcm, int direction,
->> +					 long *route);
->>  	void *priv_data;
->>  };
->>  
->> @@ -61,6 +69,8 @@ int snd_soc_usb_setup_offload_jack(struct snd_soc_component *component,
->>  int snd_soc_usb_disable_offload_jack(struct snd_soc_component *component);
->>  int snd_soc_usb_enable_offload_jack(struct snd_soc_component *component,
->>  				    struct snd_soc_jack *jack);
->> +int snd_soc_usb_update_offload_route(struct device *dev, int card, int pcm,
->> +				     int direction, long *route);
->>  
->>  struct snd_soc_usb *snd_soc_usb_allocate_port(struct snd_soc_component *component,
->>  					      void *data);
->> @@ -109,6 +119,12 @@ static inline int snd_soc_usb_enable_offload_jack(struct snd_soc_component *comp
->>  	return 0;
->>  }
->>  
->> +static int snd_soc_usb_update_offload_route(struct device *dev, int card, int pcm,
->> +					    int direction, long *route)
->> +{
->> +	return -ENODEV;
->> +}
->> +
->>  static inline struct snd_soc_usb *
->>  snd_soc_usb_allocate_port(struct snd_soc_component *component, void *data)
->>  {
->> diff --git a/sound/soc/soc-usb.c b/sound/soc/soc-usb.c
->> index ab914878e101..e56826f1df71 100644
->> --- a/sound/soc/soc-usb.c
->> +++ b/sound/soc/soc-usb.c
->> @@ -145,6 +145,40 @@ int snd_soc_usb_enable_offload_jack(struct snd_soc_component *component,
->>  }
->>  EXPORT_SYMBOL_GPL(snd_soc_usb_enable_offload_jack);
->>  
->> +/**
->> + * snd_soc_usb_update_offload_route - Find active USB offload path
->> + * @dev - USB device to get offload status
->> + * @card - USB card index
->> + * @pcm - USB PCM device index
->> + * @direction - playback or capture direction
->> + * @route - pointer to route output array
->> + *
->> + * Fetch the current status for the USB SND card and PCM device indexes
->> + * specified.  The "route" argument should be an array of integers being
->> + * used for a kcontrol output.  The first element should have the selected
->> + * card index, and the second element should have the selected pcm device
->> + * index.
->> + */
->> +int snd_soc_usb_update_offload_route(struct device *dev, int card, int pcm,
->> +				     int direction, long *route)
->> +{
->> +	struct snd_soc_usb *ctx;
->> +	int ret = -EINVAL;
->> +
->> +	ctx = snd_soc_find_usb_ctx(dev);
->> +	if (!ctx)
->> +		return -ENODEV;
->> +
->> +	mutex_lock(&ctx_mutex);
->> +	if (ctx && ctx->update_offload_route_info)
->> +		ret = ctx->update_offload_route_info(ctx->component, card, pcm,
->> +						     direction, route);
->> +	mutex_unlock(&ctx_mutex);
-> The second ctx check is redundant.  And the locking scheme looks
-> dubious -- as ctx isn't protected by ctx_mutex after its retrieval via
-> snd_soc_find_usb_ctx(), even if you reacquire ctx_mutex, it may point
-> to an already released object (in theory).
->
-> IOW, for a safer protection, you'd need to cover the whole
-> find-and-exec procedure via a single ctx_mutex lock action.
->
-That's fair, will make the change to move the mutexes around.
+I have been wondering about it after seeing how it's done in xhci_hcd,
+which looks wrong to me.
 
-Thanks
+USB 2.0 spec 5.7.5/5.8.5 states that halt condition due to either STALL
+handshake or "transmission error" should cause both the device and host
+endpoints to be reset. I presume "transmission error" means any error
+detected by the HC which causes it to halt, various examples exist.
 
-Wesley Cheng
+USB 3.0 just refers to USB 2.0.
 
+Linux appears to ignore this part and only reset on STALL handshake, as
+advised in Documentation/driver-api/usb/error-codes.rst and practiced
+by drivers - they don't seem to bother with usb_clear_halt() on -EPROTO.
+This wouldn't necessarily be bad in itself, but:
+
+On the HCD side, xHCI will:
+- give back the current URB with -EPROTO/-EPIPE status
+- reset the host side endpoint, clearing its toggle state
+- point the HC at the next URB if one exist
+- restart the endpoint without waiting for hcd->endpoint_reset()
+- ignore one subsequent call to hcd->endpoint_reset()
+
+For STALL, I think it's a little awkward, but acceptable. The ultimate
+result appears to be that all pending URBs are given back with -EPIPE
+and things start moving again after usb_clear_halt().
+
+But if the device isn't stalled, the next URB may execute right away if
+the failure was transient. This makes it impossible to ensure in-order
+delivery on bulk OUT pipes, because one URB is skipped and the driver
+has no reliable way to retry it before some later ones may get executed.
+
+This behavior also creates an opportunity for toggle mismatch, and as
+far as I understand, the hardware will resolve it by silently dropping
+one packet. Another could be dropped if usb_clear_halt() were called.
+
+
+Either I'm missing something, or it seems quite broken?
+
+I wonder what other HCDs are doing in this case, and what's the idea
+behind it all?
+
+Regards,
+Michal
