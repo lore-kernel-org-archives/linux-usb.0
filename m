@@ -1,38 +1,37 @@
-Received: from mout.gmx.net (mout.gmx.net [212.227.15.18])
+Received: from mout.gmx.net (mout.gmx.net [212.227.15.19])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EE5334A08
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D0EBB4A01
 	for <linux-usb@vger.kernel.org>; Mon,  2 Dec 2024 00:16:52 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=212.227.15.18
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=212.227.15.19
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1733098615; cv=none; b=jCw64IWOTj9XrARh3YNHIlVr2J5u5yySpsO94zgQzo8nXixDfVL2/5qb/LmVXaAsVlSSZe2gU8L7QxvAN7I6x0Y0S11QXtrWlZMD2SOz1WfW/54nIlHNoZh4IVh7Ff+G1TK7QG8BohWbzA4lTbDBf4uSLQxYHFu/T4VRIYn/QsY=
+	t=1733098615; cv=none; b=fiFKvceXK+6VOm4OPgUEGU/TQUoHLExHALnDpHxqcVEb1KNfX/2qY/S2/7ojbTN3FTRVSJu/6Q42IA2VTP/7j+ZFyfMEjCfltF9+l5dJAgGvLD+NWURbUox4SsnDhPzh3DCPcnFUHbnE1M3REgwkxT5apZqU/E2Nm4c7g2sPvxQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
 	s=arc-20240116; t=1733098615; c=relaxed/simple;
-	bh=x3yz/DFTuNPJjqVZxiw0kfbfBDJ78/CfuR9eJ2d7E58=;
-	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
-	 MIME-Version; b=g1xizp4nrT30NSbuMx8EynrcZXBQcfVXU+qjK4a8SA1Q0b9GJMTMwbNcbXxM7dG17DnrN5aGyMSr5o84OGFv6UAIjheIo4XzPa0+/adjM64qjmpVSoxKibFOQUh4pqu4RBdkZSBDxh2vgGcoblW/O0OYsTJguvo6QJoUTYvbUD4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=gmx.net; spf=pass smtp.mailfrom=gmx.net; dkim=pass (2048-bit key) header.d=gmx.net header.i=wahrenst@gmx.net header.b=ayYhCXWS; arc=none smtp.client-ip=212.227.15.18
+	bh=450luPz+W2htBwK6D18AcbLFM508RCXa1JvCxPcBVwo=;
+	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=lswXHaFml5500JmZhefkC6CZPoFLxPtGRPJZ3hvM8rHZqkMYVR+XOJqpOBA9LWi1YkQsOc4JIjgaOWDJtNl0cK8f91bgW+tkccRj3bXGWRPasTKvvg3fVUL5peyqbpjhM45s66EaKsnk9bhMI84XkYTQMAS9szporHAYb23XGCk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=gmx.net; spf=pass smtp.mailfrom=gmx.net; dkim=pass (2048-bit key) header.d=gmx.net header.i=wahrenst@gmx.net header.b=rsIAOXCD; arc=none smtp.client-ip=212.227.15.19
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=gmx.net
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmx.net
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmx.net header.i=wahrenst@gmx.net header.b="ayYhCXWS"
+	dkim=pass (2048-bit key) header.d=gmx.net header.i=wahrenst@gmx.net header.b="rsIAOXCD"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmx.net;
-	s=s31663417; t=1733098599; x=1733703399; i=wahrenst@gmx.net;
-	bh=savipbmLhTx7LIXVXD8Lvdul953yNxuStkQ1uEsHqYI=;
-	h=X-UI-Sender-Class:From:To:Cc:Subject:Date:Message-Id:In-Reply-To:
-	 References:MIME-Version:Content-Transfer-Encoding:cc:
+	s=s31663417; t=1733098598; x=1733703398; i=wahrenst@gmx.net;
+	bh=LsLrPVxdPPM88Lsuw9W4JxVinjdPLNWv/2GSWcv7fHg=;
+	h=X-UI-Sender-Class:From:To:Cc:Subject:Date:Message-Id:
+	 MIME-Version:Content-Transfer-Encoding:cc:
 	 content-transfer-encoding:content-type:date:from:message-id:
 	 mime-version:reply-to:subject:to;
-	b=ayYhCXWS5ZLEfAi3WGziZTsJQ/215rBdef6+V03rVoal2obkKLt5UkVDuo1R5SxO
-	 u+4DtO2ku5sjUrKNpEDKuvsLQUai9mA3bxgZKPyLZxmfbEZPHtnDtRO7CWI6P3sVP
-	 AkpUwZeYHsj5vWTCjyuh6QhSptGA4CICllCe7s/wCaKY/AlQSqzN3ToEAL44p5P3O
-	 LKl0IVE8vLjbt+dK3MA854EhTvDLzppHkd6knlBWiK798ZvEpP6SlEq/pJmuhPGBQ
-	 ncMRIsWq8YzYd1tQqk7o3xoqnmzlmHeHHsd6/3S3rhGEsLE1i3ke1dfhCALB3qE+m
-	 A4bhGEwDfcMfXpO2kQ==
+	b=rsIAOXCD6SDPCPzhyuNo3WnPYNEMxC4P0mbPErZ8sIpuz2GbjfwIb8OVKD2SAXA0
+	 fA6WQoidaMIhSQRGVWnVyrZFt16NSYEf1kR27THkT48ADSxqriUiqOSLLjTwqfYfX
+	 WzJzgebEy2z6bq24cqifpasfPyDB8y3ZbX6sQluWeooCMM6w5J0RjoT1931N+buYy
+	 +QfVEBRPpzY9K9nKqh/o7GTt4T2D47i0mFnTDzKQaubAKpeNNvFOtEEJvvGGpyNf8
+	 hnhIGNSGnwLmJBY/a8dbKoXS6wqHJpCaCY6d94RSfBCxRZPXebLVGwCEz26izLitP
+	 jtGqHdFK5W5dE14wzw==
 X-UI-Sender-Class: 724b4f7f-cbec-4199-ad4e-598c01a50d3a
 Received: from stefanw-SCHENKER ([37.4.251.153]) by mail.gmx.net (mrgmx004
- [212.227.17.190]) with ESMTPSA (Nemesis) id 1MQvCv-1t4LJI1LbL-00VigD; Mon, 02
- Dec 2024 01:16:39 +0100
+ [212.227.17.190]) with ESMTPSA (Nemesis) id 1MOzOw-1t1J2g1slg-00X5KM; Mon, 02
+ Dec 2024 01:16:38 +0100
 From: Stefan Wahren <wahrenst@gmx.net>
 To: Minas Harutyunyan <hminas@synopsys.com>,
 	Greg Kroah-Hartman <gregkh@linuxfoundation.org>
@@ -45,12 +44,10 @@ Cc: Thinh Nguyen <Thinh.Nguyen@synopsys.com>,
 	linux-arm-kernel@lists.infradead.org,
 	linux-usb@vger.kernel.org,
 	Stefan Wahren <wahrenst@gmx.net>
-Subject: [PATCH 2/3] usb: dwc2: hcd: Fix GetPortStatus & SetPortFeature
-Date: Mon,  2 Dec 2024 01:16:30 +0100
-Message-Id: <20241202001631.75473-3-wahrenst@gmx.net>
+Subject: [PATCH 0/3] usb: dwc2: Fix HCD issues on Raspberry Pi
+Date: Mon,  2 Dec 2024 01:16:28 +0100
+Message-Id: <20241202001631.75473-1-wahrenst@gmx.net>
 X-Mailer: git-send-email 2.34.1
-In-Reply-To: <20241202001631.75473-1-wahrenst@gmx.net>
-References: <20241202001631.75473-1-wahrenst@gmx.net>
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
@@ -58,89 +55,39 @@ List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
-X-Provags-ID: V03:K1:ylSSHTQV4E3SYFVCQAPBWkD1qDiPe7LExFSl1jmro7feAr/+Sc5
- +0YnKiEhUDvpY6eNY14d0ikeRLclOaCCWE1c6QNTJKv5EhR2HvrC4R1y+PoEAGJXyle5kMM
- ATotZgnL6/dm6UL8QKUnK3mxC1ju2PuFknzjBnzHYMV3/1Wcetr/dlUCxghU+iVOlzHvPue
- QE6OxNil1CqpZg+ArZfEw==
+X-Provags-ID: V03:K1:GZb6XypkJ2trclZRcE3wdoCOXnsMwh7WXxoEQxLIUWyrxO0MvCq
+ bbgRMP8ZPXPAYJNI8f8LvtlECdnkhnfOSVC+lu3u+TDL2EcJcPOSHh4fwhbHiEy1AV93+yN
+ vLlTKX4O1IT6MT5csY6GtTqyHz3ISXeOLsG8uJ6x7l4zm+gNXydx3GKtZnD1MYTky4OyqOa
+ yVhNUZeGSdiTAMnIRqNkQ==
 X-Spam-Flag: NO
-UI-OutboundReport: notjunk:1;M01:P0:pAVUCQoHj+Q=;MJtKgxIBAAnPdvLH0ezLsSJ5Mmm
- cvrqqz300fi4igVC6+R9KaeXs1tokNTDCaLZyuDzSXHeZcNcv3jWCw0uxN3VwXVQY5yfr7Pow
- z9LHGF3X8WI9cufyudtb429YCgQdcMJZ4wqy57mIdWiuhUqoGF1QRDvYhM+BHEDUqkMcq1yjV
- q7VxcJNfihWYLStzJCrffOSnGOHRzYySGtfEVBEKSeu2DBqy+IzdsftKfSmVVWtHvHqQ0yuiz
- 38DUJHcAmdqrpwmQ0B2U3c5csFgGFlzRpPUyPz8Cf7nh/GeIgR7D57MHaGP8oEDjrrvynxoji
- 6npC8BfxaSpKW2iK5f2NmuYap2citvZzKJtIwwqBPRd+hD4wnBtKhIB64LLFxlzdWzpnIZNW7
- qMCMsx97cFtNPW6yJ+9ChPEIxU+feDpgCL2efikPdwqFJVMvmrkH++Y7FEF1XVrH4XePXiPd+
- 769XXupriYDK0yVbcq4DwBFnM4Ki03z+KN3PSNBKDL/05sGe/+5chIwgOZLh63ifs6TNdrCvo
- fkw23V52cqyOZGyIkHMp/jFsBsBnT7glJsle0jBz4DgHVinNKOlwN49+KywzjhsfLmAwZ/L+3
- cudxflBnzMLDXKbeVhfngpGm7kufF2tz3ZhnAw2DVMSGEasI1fc5B7Mmoug0M/4Qvg6u5R7wv
- CGT+E3qGn8yFzkb5+zihFRL0XYVf8czRCj98UbYElI6/mpl2Tww2VU9/rZCaj0ztCUL9Bx1BX
- LRSR+1s7OJEN0xhVJGCxwOFA++kRvIHVjRGhuaAjxCqWCZ1jiluVhZk6Uu4MqW0tXouI54XCl
- uz7w2OTfgULEIPhrJmhYQCGX7G2bNd/IDTIJ6QICOoPV1EjIIf05IAt7vGlN6ueewnvFWO12c
- XgRsU+FCGvBlC4CqrpFN3FIzXh8ZW8Gn8bJGm8kMrLSmEVJehLb/y4HFPJ4NNhH6RNH9SJiWb
- Go3O/2QuQT2GZ7P17eUx1Me0ufuiQw4Cy2XFDTR3Xd2+fBhkkgO8z8790RFIVBBFWjEZ1xHhW
- oO14qKHNeoJBNIUTFmlP+O24PGB9DTxdUkSxJRjSoOrozlCx2FTqSEoVWFy4VIKZgizcnKK7C
- v1MCmexkx4W0BIerrQKLgiNtauwaIZ
+UI-OutboundReport: notjunk:1;M01:P0:W0K37wS3vf0=;g5CYaqlhzi9kxXOEWJ1H9fA9+lV
+ vaRSCnM0UKe9y0osLlWumG1BlrTmv8DwQr1Bzi798Pmu/ogV9OucrjLDLC7LQ1T2uclWO4Q5s
+ wckyS1si1QIDbuivsckUL6nErbstyAr2s53gOXrliCLSXHg9B1pdpfcYj6JrSpT5qzayty2hX
+ 9PFfxCXt9tM+lt7VT2zs1YTlMCQHF2k94yYH+JblGMcvg1g1JeiEe0sMaAiUYfrw6THs4fLtm
+ kXApuhaunKbpQGsLdlBMPvVBlsw4At49ZvhF1wRTxvugkQp4JMaDTd1SoMeun9Btw5l7zlRn3
+ LgkEeMpSTn8YMAljhLKrBMieCDNs1hrBYwGV+Pci3I/QwOvr4X+Zjm9JiIRG9PzSfmVgbvtUr
+ RtYtsKXYFvdk0n8KqtxPCympxH9l87dHUt99S6iJ+fwf4YNkLgA5nkLzw4PJ/zEontK8kTZIy
+ z2BzEqYKPlJjL5pYXayZjt2SRypzHRkXxxU5gOGn0EcEOlSOSBExJ9Y9cFQImJIlyj6RA5Jlq
+ niIgHasz1aDO/elf/FAS5RBYJN60BAEBCVdALTWQaiP5TljgGN3VSYU8pc9XQW6r2XhZHBd4a
+ 18zvRCBe88KrTh4S5f34Li2LON1qyPrI89mnUEvcI8ZdwkqjdTQc6yKVJ0413gwryop2gFNF8
+ sbKih5HY92Fr4lGxhicOoGRsrSzM8xbTkMAbtJqS4GEMhj102s2MR0LH+sr6dd2M5ZML7Z+vt
+ 5UwjRxoyTYRF0Kt5rbhx//ZCqoYyFjFkGMeYbqeOy+iaZSD+orGsIKLsXrj9ijIHM6I3RYt4O
+ 7NtaVZGEtiDnjm0iVl+Wi0ei/U21wPJvvg3j15/6eUNIg+Ua/kGR4GTvqSsvj6K4sRhYHFp25
+ DYPPQ4KKhIziZEfAlt4vZfkSIqT9AGW2NvVEDG8CRzsjVyVCXCRjl65xG928UDk/zADZVR5A3
+ agE2Ij/p6QRl25tQYY4kOKxlQWuxxxTfra+2EXP0LUarZJXXzU/AME32STLZAWkQsgsSLSWeR
+ g8yNQzdKe3t4Uky2WnwHu6rpnxApRqKCi0VVd1W3qFbk7wkNOa2Wp+ist4Fso9UXv8kVL1Qo7
+ ypmOZr6Xwo8G3rBMdfwuDi8i+ybc98
 
-On Rasperry Pis without onboard USB hub the power cycle during
-power connect init only disable the port but never enabled it again:
+This series address some serious HCD issues on the Raspberry Pi.
 
-  usb usb1-port1: attempt power cycle
+Stefan Wahren (3):
+  usb: dwc2: Fix HCD resume
+  usb: dwc2: hcd: Fix GetPortStatus & SetPortFeature
+  usb: dwc2: Fix HCD port connection race
 
-The port relevant part in dwc2_hcd_hub_control() is skipped in case
-port_connect_status =3D 0 under the assumption the core is or will be soon
-in device mode. But this assumption is wrong, because after ClearPortFeatu=
-re
-USB_PORT_FEAT_POWER the port_connect_status will also be 0 and
-SetPortFeature (incl. USB_PORT_FEAT_POWER) will be a no-op.
+ drivers/usb/dwc2/hcd.c | 19 ++++++++-----------
+ 1 file changed, 8 insertions(+), 11 deletions(-)
 
-Fix the behavior of dwc2_hcd_hub_control() by replacing the
-port_connect_status check with dwc2_is_device_mode().
-
-Link: https://github.com/raspberrypi/linux/issues/6247
-Fixes: 7359d482eb4d ("staging: HCD files for the DWC2 driver")
-Signed-off-by: Stefan Wahren <wahrenst@gmx.net>
-=2D--
- drivers/usb/dwc2/hcd.c | 16 ++++++----------
- 1 file changed, 6 insertions(+), 10 deletions(-)
-
-diff --git a/drivers/usb/dwc2/hcd.c b/drivers/usb/dwc2/hcd.c
-index 26a320c1979a..fb4fbd8c43df 100644
-=2D-- a/drivers/usb/dwc2/hcd.c
-+++ b/drivers/usb/dwc2/hcd.c
-@@ -3546,11 +3546,9 @@ static int dwc2_hcd_hub_control(struct dwc2_hsotg *=
-hsotg, u16 typereq,
- 			port_status |=3D USB_PORT_STAT_C_OVERCURRENT << 16;
- 		}
-
--		if (!hsotg->flags.b.port_connect_status) {
-+		if (dwc2_is_device_mode(hsotg)) {
- 			/*
--			 * The port is disconnected, which means the core is
--			 * either in device mode or it soon will be. Just
--			 * return 0's for the remainder of the port status
-+			 * Just return 0's for the remainder of the port status
- 			 * since the port register can't be read if the core
- 			 * is in device mode.
- 			 */
-@@ -3620,13 +3618,11 @@ static int dwc2_hcd_hub_control(struct dwc2_hsotg =
-*hsotg, u16 typereq,
- 		if (wvalue !=3D USB_PORT_FEAT_TEST && (!windex || windex > 1))
- 			goto error;
-
--		if (!hsotg->flags.b.port_connect_status) {
-+		if (dwc2_is_device_mode(hsotg)) {
- 			/*
--			 * The port is disconnected, which means the core is
--			 * either in device mode or it soon will be. Just
--			 * return without doing anything since the port
--			 * register can't be written if the core is in device
--			 * mode.
-+			 * Just return 0's for the remainder of the port status
-+			 * since the port register can't be read if the core
-+			 * is in device mode.
- 			 */
- 			break;
- 		}
 =2D-
 2.34.1
 
