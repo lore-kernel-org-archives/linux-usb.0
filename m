@@ -1,83 +1,42 @@
-Received: from mail-wm1-f66.google.com (mail-wm1-f66.google.com [209.85.128.66])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1CB151FBCA3
-	for <linux-usb@vger.kernel.org>; Tue,  3 Dec 2024 15:11:28 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.66
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1D5B81FA27C;
+	Tue,  3 Dec 2024 15:34:16 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1733238691; cv=none; b=ti5LZJCe5qAJiJNpHFGTXVDtPaO3+8KfCn61bNDAz7/Dcit1cshogShf5p7IxgZ+xh/J8yEqwcG/6N1lZMoCvhSiBNsWf0gtvSaYsjYlElN/VEcnwUB5yK5naWJfUIgtHf8RTUn4PHwz5zVRxN+PF9Ymw50F4p2V0bk7gWKJ+o4=
+	t=1733240056; cv=none; b=JE0aeA/D50a9gyLOipOT+Wial1t8O3HadrQNwZnvqFYl6VOvUyu9JMTM0z5N4xA/O23CdVZXDlOLPuUbyrF73vL05ff0GAgkpL3WeM0FlFNgwut37hsxtYREmDbF+fPbxLjPAlGYM7j9G5nRVqNGxRq6XvUdLAZRob15+p912/o=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1733238691; c=relaxed/simple;
-	bh=Uei6j24yL3vgxy4vncTGsY2siuJb0kM1VOXijaR88jw=;
+	s=arc-20240116; t=1733240056; c=relaxed/simple;
+	bh=JkY+5fOV9qIOnxsCxpI9LuFE3gW4OY/AYWWLkZk6dT8=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=D+aXlBLzlhG1CeUArKYGGPEmlVzOYLd7yhWDQLWZn0bxDUpkRwHA2aRM0UXM+eYoKE7f5FjRe3L7Z0Mok7wOPEO1CVlBk9RW3Hjvze/m/BY4OoUCuLM6Z/0JR6bd1uOaYyBTPFr2ed1rHHbMxgsrcWX5lx6Po7lzOzWEXf6KqYM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=TTNZgXCU; arc=none smtp.client-ip=209.85.128.66
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
+	 Content-Type:Content-Disposition:In-Reply-To; b=uyGhDYywNgXcVhXiT9iaRIflXP3wrP0nbu/Xs+5gveU+cILHl7BJe8VrxCw6BT0Ed6SsyxZPp2N03gKtGP0YldXovpdorKtO+jl/4pJyVLISHpptUOPCZx8jnSigo+hoE57ZiqW8XDQk79cr4QKVU65DGtu736YHGzzC/qrMEFw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b=cw+tBO6K; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="TTNZgXCU"
-Received: by mail-wm1-f66.google.com with SMTP id 5b1f17b1804b1-434a1fe2b43so50911955e9.2
-        for <linux-usb@vger.kernel.org>; Tue, 03 Dec 2024 07:11:28 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1733238687; x=1733843487; darn=vger.kernel.org;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=zREpKid1FijkM8w3fvUJYYcepCZqPc1/enXnI+QFhQI=;
-        b=TTNZgXCU8vVl158hgBSDkr+Zx0cG0tZLufC86xognLJ6Os3DvGbcuG4ssB2k14dKOv
-         l4yUZDM6ysHGjQNU5QPfapoDS07SEnjfz364PZyazpVkxUtfJLJh1heBO9UcmWMUVNdf
-         dBKB92KSnfVJiWQXDgOTSEc7VFmrF2KiJ21wh7yQTAhr+ReXLBTksV2Jl9l1JJSC20+h
-         4ZBxnZIA1LSaKiK/nTEF/sCjoLEMpgzNfbKiDr61GPfiWssx8EW/zy4aSy3Q+kN8P7aA
-         rr2FmXe1Wl0YLiI6D1smAnXDypdol8MCbuS9ZaUzsvxt0FlG+8AkYDHJcTasoCVZeOAW
-         nusQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1733238687; x=1733843487;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=zREpKid1FijkM8w3fvUJYYcepCZqPc1/enXnI+QFhQI=;
-        b=nOWsyZCRiDW1TCa7qYVbcYj4dlRrAhk8dbSDIOI4vRQkSVT44aldH/KR7SbC8Lzlka
-         EQKIznGOuDSTDAQVxsXYDKshPE71LM9ZtkHDZ72dT6TNyoULkyAmVO9lQoL0f0idXZY5
-         cPVcdKiq9Znd1J76AY7MnIJWRh7aOaPYYVc566ixyWnCqy1nbDGv/dAvWtSVMaAi8OIr
-         wXn/b0u+qCBMotorNaLRQkdsEnjCM0EwnqTalgz/+QKB5KQTwJGixQFLQPnrJeeCHtzI
-         csSMIY+hWmpvn3pRnNoW0SC3Gg4zs5BZ+fn//jKvWBF1VvpxuarPExN7B4jYAuWsMDD0
-         zbAg==
-X-Forwarded-Encrypted: i=1; AJvYcCWl/Af5SiPSg/3Gla7x3UIWs1KZU3AsTaxv64UEtYBzQpP0Mmd1sjp3QMX3Yk7/t3808UuDHFeC6qY=@vger.kernel.org
-X-Gm-Message-State: AOJu0YyIs+pxxI1MDkF0PSt3u8nBpH3Qa+lesdn7kLgYnFglJ6WUxSU/
-	NwQpBf1AnYqj1exnkN3l4ONXMsu4aEfDwPixMExiNxsFH4U4MGuxZmLav5jV76Y=
-X-Gm-Gg: ASbGnctPrgIgo1RvNVChYF5OTTYjykhllDGSx5wiufjErQmY23S5LuO1Cdu7TW5QlzM
-	lkyn/OecX/x1IYggZU0u0vVe9qed8Cho/z6RTZiuS6xbWtwdE21rr0qhgEZQUChDm2xV76ltXJO
-	iuQL1HQ0LQgMb8o6V6X1KM6JoeOO13az4uET5DEsetAN948bgrvFExIgkufiIeVOEhHiacontP0
-	Ti92vHSetbm7jRflS2rM0V+ErU4bXQMccApqKfMhjQ2x8/YterB2Go07mWzcw==
-X-Google-Smtp-Source: AGHT+IHpG+YYkt5XvDCdFdtRCKt3GJs9wG1S7RmUFMFyXfoO+hh7Lfjm2kqMdLvybUfLqLTQRDejCw==
-X-Received: by 2002:a05:600c:3ca7:b0:431:12a8:7f1a with SMTP id 5b1f17b1804b1-434d09c12bfmr28153625e9.16.1733238687261;
-        Tue, 03 Dec 2024 07:11:27 -0800 (PST)
-Received: from linaro.org ([2a02:2454:ff21:ef80:41ad:5703:2486:8f59])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-434b0dc99b3sm191481505e9.24.2024.12.03.07.11.26
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 03 Dec 2024 07:11:26 -0800 (PST)
-Date: Tue, 3 Dec 2024 16:11:22 +0100
-From: Stephan Gerhold <stephan.gerhold@linaro.org>
-To: Abel Vesa <abel.vesa@linaro.org>, Johan Hovold <johan@kernel.org>
-Cc: Bjorn Andersson <andersson@kernel.org>,
-	Konrad Dybcio <konradybcio@kernel.org>,
-	Rob Herring <robh@kernel.org>,
-	Krzysztof Kozlowski <krzk+dt@kernel.org>,
-	Conor Dooley <conor+dt@kernel.org>,
-	Catalin Marinas <catalin.marinas@arm.com>,
-	Will Deacon <will@kernel.org>, linux-arm-msm@vger.kernel.org,
-	devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
-	linux-arm-kernel@lists.infradead.org,
-	Krishna Kurapati <quic_kriskura@quicinc.com>,
-	Thinh Nguyen <Thinh.Nguyen@synopsys.com>, linux-usb@vger.kernel.org,
-	Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-Subject: Re: [PATCH 1/2] arm64: dts: qcom: x1e80100-crd: Add USB multiport
- fingerprint readery
-Message-ID: <Z08fmvBEh6dYQimN@linaro.org>
-References: <20241118-x1e80100-crd-fp-v1-0-ec6b553a2e53@linaro.org>
- <20241118-x1e80100-crd-fp-v1-1-ec6b553a2e53@linaro.org>
- <Z07bgH5vVk44zuEH@hovoldconsulting.com>
- <Z07r3Upr50vLluyn@linaro.org>
- <Z07zeVJU3Y1GiSLL@linaro.org>
+	dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="cw+tBO6K"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 9B548C4CED6;
+	Tue,  3 Dec 2024 15:34:15 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
+	s=korg; t=1733240056;
+	bh=JkY+5fOV9qIOnxsCxpI9LuFE3gW4OY/AYWWLkZk6dT8=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=cw+tBO6K4ei6BBayeOiLRkFW07O1fa5MF9AkitxqR9pP9zKAp7HWJ+ED/tGNWCHw6
+	 sCR+Dup7q6Bl/5guOfooulr0VAkud+sL2WAlfgORxiVnDmAyoyhgj4uN5xBUsM8d+y
+	 E8V65kOlexnY0r23jyd5Np5jk1x3b/wAxwJ/ZjuM=
+Date: Tue, 3 Dec 2024 15:48:07 +0100
+From: Greg KH <gregkh@linuxfoundation.org>
+To: Dominique Martinet <asmadeus@codewreck.org>
+Cc: Oliver Neukum <oneukum@suse.com>, Andrew Lunn <andrew+netdev@lunn.ch>,
+	"David S. Miller" <davem@davemloft.net>,
+	Eric Dumazet <edumazet@google.com>,
+	Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>,
+	Dominique Martinet <dominique.martinet@atmark-techno.com>,
+	netdev@vger.kernel.org, linux-usb@vger.kernel.org,
+	linux-kernel@vger.kernel.org
+Subject: Re: [PATCH] net: usb: usbnet: restore usb%d name exception for local
+ mac addresses
+Message-ID: <2024120357-vertebrae-squatted-f670@gregkh>
+References: <20241203130457.904325-1-asmadeus@codewreck.org>
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
@@ -86,68 +45,97 @@ List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <Z07zeVJU3Y1GiSLL@linaro.org>
+In-Reply-To: <20241203130457.904325-1-asmadeus@codewreck.org>
 
-+Cc Dmitry
-
-On Tue, Dec 03, 2024 at 02:03:05PM +0200, Abel Vesa wrote:
-> On 24-12-03 12:30:37, Stephan Gerhold wrote:
-> > On Tue, Dec 03, 2024 at 11:20:48AM +0100, Johan Hovold wrote:
-> > > [ +CC: Krishna, Thinh and the USB list ]
-> > > 
-> > > On Mon, Nov 18, 2024 at 11:34:29AM +0100, Stephan Gerhold wrote:
-> > > > The X1E80100 CRD has a Goodix fingerprint reader connected to the USB
-> > > > multiport controller on eUSB6. All other ports (including USB super-speed
-> > > > pins) are unused.
-> > > > 
-> > > > Set it up in the device tree together with the NXP PTN3222 repeater.
-> > > > 
-> > > > Signed-off-by: Stephan Gerhold <stephan.gerhold@linaro.org>
-> > > > ---
-> > > >  arch/arm64/boot/dts/qcom/x1e80100-crd.dts | 48 +++++++++++++++++++++++++++++++
-> > > >  1 file changed, 48 insertions(+)
-> > > > 
-> > > > diff --git a/arch/arm64/boot/dts/qcom/x1e80100-crd.dts b/arch/arm64/boot/dts/qcom/x1e80100-crd.dts
-> > > > index 39f9d9cdc10d..44942931c18f 100644
-> > > > --- a/arch/arm64/boot/dts/qcom/x1e80100-crd.dts
-> > > > +++ b/arch/arm64/boot/dts/qcom/x1e80100-crd.dts
-> > > > @@ -735,6 +735,26 @@ keyboard@3a {
-> > > >  	};
-> > > >  };
-> > > >  
-> > > > +&i2c5 {
-> > > > +	clock-frequency = <400000>;
-> > > > +
-> > > > +	status = "okay";
-> > > > +
-> > > > +	eusb6_repeater: redriver@4f {
-> > > > +		compatible = "nxp,ptn3222";
-> > > > +		reg = <0x4f>;
-> > > 
-> > > The driver does not currently check that there's actually anything at
-> > > this address. Did you verify that this is the correct address? 
-> > > 
-> > > (Abel is adding a check to the driver as we speak to catch any such
-> > > mistakes going forward).
-> > > 
-> > 
-> > Yes, I verified this using
-> > https://git.codelinaro.org/stephan.gerhold/linux/-/commit/45d5add498612387f88270ca944ee16e2236fddd
-> > 
-> > (I sent this to Abel back then, so I'm surprised he didn't run that :-))
+On Tue, Dec 03, 2024 at 10:04:55PM +0900, Dominique Martinet wrote:
+> From: Dominique Martinet <dominique.martinet@atmark-techno.com>
 > 
-> I don't remember seeing this commit back then. Maybe I didn't look
-> careful enough. Sorry.
+> The previous commit assumed that local addresses always came from the
+> kernel, but some devices hand out local mac addresses so we ended up
+> with point-to-point devices with a mac set by the driver, renaming to
+> eth%d when they used to be named usb%d.
 > 
-> Since you already did the work, can you send that on the list?
+> Userspace should not rely on device name, but for the sake of stability
+> restore the local mac address check portion of the naming exception:
+> point to point devices which either have no mac set by the driver or
+> have a local mac handed out by the driver will keep the usb%d name.
+> 
+> Fixes: 8a7d12d674ac ("net: usb: usbnet: fix name regression")
+> Signed-off-by: Dominique Martinet <dominique.martinet@atmark-techno.com>
+> ---
+>  drivers/net/usb/usbnet.c | 20 ++++++++++++++------
+>  1 file changed, 14 insertions(+), 6 deletions(-)
+> 
+> diff --git a/drivers/net/usb/usbnet.c b/drivers/net/usb/usbnet.c
+> index 44179f4e807f..d044dc7b7622 100644
+> --- a/drivers/net/usb/usbnet.c
+> +++ b/drivers/net/usb/usbnet.c
+> @@ -178,6 +178,17 @@ int usbnet_get_ethernet_addr(struct usbnet *dev, int iMACAddress)
+>  }
+>  EXPORT_SYMBOL_GPL(usbnet_get_ethernet_addr);
+>  
+> +static bool usbnet_needs_usb_name_format(struct usbnet *dev, struct net_device *net)
+> +{
+> +	/* Point to point devices which don't have a real MAC address
+> +	 * (or report a fake local one) have historically used the usb%d
+> +	 * naming. Preserve this..
+> +	 */
+> +	return (dev->driver_info->flags & FLAG_POINTTOPOINT) != 0 &&
+> +		(is_zero_ether_addr(net->dev_addr) ||
+> +		 is_local_ether_addr(net->dev_addr));
+> +}
+> +
+>  static void intr_complete (struct urb *urb)
+>  {
+>  	struct usbnet	*dev = urb->context;
+> @@ -1762,13 +1773,10 @@ usbnet_probe (struct usb_interface *udev, const struct usb_device_id *prod)
+>  		if (status < 0)
+>  			goto out1;
+>  
+> -		// heuristic:  "usb%d" for links we know are two-host,
+> -		// else "eth%d" when there's reasonable doubt.  userspace
+> -		// can rename the link if it knows better.
+> +		/* heuristic: rename to "eth%d" if we are not sure this link
+> +		 * is two-host (these links keep "usb%d") */
+>  		if ((dev->driver_info->flags & FLAG_ETHER) != 0 &&
+> -		    ((dev->driver_info->flags & FLAG_POINTTOPOINT) == 0 ||
+> -		     /* somebody touched it*/
+> -		     !is_zero_ether_addr(net->dev_addr)))
+> +		    !usbnet_needs_usb_name_format(dev, net))
+>  			strscpy(net->name, "eth%d", sizeof(net->name));
+>  		/* WLAN devices should always be named "wlan%d" */
+>  		if ((dev->driver_info->flags & FLAG_WLAN) != 0)
+> -- 
+> 2.47.0
+> 
 > 
 
-Sure, no problem. What exactly do we want for upstream?
+Hi,
 
-My patch above isn't ideal, because it checks the CHIP_ID on every PHY
-power up. But briefly powering up the PHY during probe() just for
-reading the CHIP_ID is also a bit weird. Not sure what the best approach
-here is.
+This is the friendly patch-bot of Greg Kroah-Hartman.  You have sent him
+a patch that has triggered this response.  He used to manually respond
+to these common problems, but in order to save his sanity (he kept
+writing the same thing over and over, yet to different people), I was
+created.  Hopefully you will not take offence and will fix the problem
+in your patch and resubmit it so that it can be accepted into the Linux
+kernel tree.
 
-Thanks,
-Stephan
+You are receiving this message because of the following common error(s)
+as indicated below:
+
+- You have marked a patch with a "Fixes:" tag for a commit that is in an
+  older released kernel, yet you do not have a cc: stable line in the
+  signed-off-by area at all, which means that the patch will not be
+  applied to any older kernel releases.  To properly fix this, please
+  follow the documented rules in the
+  Documentation/process/stable-kernel-rules.rst file for how to resolve
+  this.
+
+If you wish to discuss this problem further, or you have questions about
+how to resolve this issue, please feel free to respond to this email and
+Greg will reply once he has dug out from the pending patches received
+from other developers.
+
+thanks,
+
+greg k-h's patch email bot
