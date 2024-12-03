@@ -1,180 +1,177 @@
-Received: from mail-wm1-f51.google.com (mail-wm1-f51.google.com [209.85.128.51])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from bedivere.hansenpartnership.com (bedivere.hansenpartnership.com [96.44.175.130])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 121F31F76AA
-	for <linux-usb@vger.kernel.org>; Tue,  3 Dec 2024 16:05:14 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.51
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 112031F890D;
+	Tue,  3 Dec 2024 16:06:25 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=96.44.175.130
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1733241917; cv=none; b=WFunFaHdimf6db2UwTK+1qGsAu3xZfEsRrfoP+gbEnir3ZkEUPM9ptXJUwUZ4T//xdj565RKS6I1SBOSWy6f66Kpp5TtKsRnw257xU2RVRf/o6T34+TaEw/dTYW7BHEskOw5P2pO9tbFidbV8FfNn3JxWv7lHkvwqHjTWyQ1mQQ=
+	t=1733241988; cv=none; b=HvWod2SqmFkg1DvrTpYJmPACvaYAqiujjHJaUP5XogQl5IHsfeqePQ7/qFGEZO9jORmXBT9peLO2EvhCbYsLOP1W/1ulVWHrIMmdWjS/0+kEXiId5r6KJkStbDewnCAKuGXOPZTlmczrBd1Ep8DRJPmEfx5NeoKk7j93DeGQbEc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1733241917; c=relaxed/simple;
-	bh=RO/Jb2M7y1tZFvigE1wfDszAl2TeNoGpjZONNpYNo5Y=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=gx4cA9E1gTiOeCwUnuJqXk1Goo1pk4Me5tTiGU0GlKQWKZJMhDUs5txp95RSWDqSFGsjYdkviR/AuP11OpbACdA8IxRT+aqhOll+wDTI0sWOdiiH3Q3ipNa3GFjkSYNjuIYjpdbmVYh6h4rwZeYcJOMPPJNhfv3ibUkuANFXHxs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=AsHK7qQn; arc=none smtp.client-ip=209.85.128.51
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
+	s=arc-20240116; t=1733241988; c=relaxed/simple;
+	bh=VBBfv3eA4AsVsLgBF8VnP+EajJe1ALpu2GW7YHfiN/w=;
+	h=Message-ID:Subject:From:To:Cc:Date:In-Reply-To:Content-Type:
+	 MIME-Version; b=BiAXw5SXoTVaegE2WpiwoTt2OQDYpyrbUID2w5o0Ic0vKQD8ynBzTdo3OHScW0i+07RqXHOrls8c/ufPc5plYzAU/yqDt/25f+eksOCqOK8i46ietWYs7/7nN3Ofn7iWv/MaV3eyP+SbZ2s6ogcwyaUF05hkjAgsKrWQdaGF+gg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=HansenPartnership.com; spf=pass smtp.mailfrom=HansenPartnership.com; dkim=pass (1024-bit key) header.d=hansenpartnership.com header.i=@hansenpartnership.com header.b=lHnQZbqT; dkim=pass (1024-bit key) header.d=hansenpartnership.com header.i=@hansenpartnership.com header.b=lHnQZbqT; arc=none smtp.client-ip=96.44.175.130
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=HansenPartnership.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=HansenPartnership.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="AsHK7qQn"
-Received: by mail-wm1-f51.google.com with SMTP id 5b1f17b1804b1-4349fd77b33so46904935e9.2
-        for <linux-usb@vger.kernel.org>; Tue, 03 Dec 2024 08:05:14 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1733241913; x=1733846713; darn=vger.kernel.org;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=RbkegQEjWqxbEPHewAWlZuLvIFMHjFQ/a1uprEJuQrc=;
-        b=AsHK7qQnglG4FakmPhVui0oCTfGjRiGXxhak7oUzaPK77chmr09ETOzoBYVJrg3/fr
-         adA1B8p1FfehNbAN+k9UrZ47C6rtR2s+X6OI4rY/w2gxi9ycFgKHHQ0dCxLVpZZ67gQ8
-         JQr0cxvqjwNosIErjmaLnoBBJ8EldsV8St8TV2MRdPEY1PDfJ8291O5tzxVH/MNnsoBI
-         ObLDWcYrShR4g8L7gbgOYZnttouFiqMFnUjLyj0R9EpCRC34kt1XuAariKNRr82KiGVA
-         aMrXHMCwEYqefQeW+5EOYrfqVUsQUixrTZoFYHUu2h41ObFzUCE6JYrwmGXnm7WgMWWk
-         OTPw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1733241913; x=1733846713;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=RbkegQEjWqxbEPHewAWlZuLvIFMHjFQ/a1uprEJuQrc=;
-        b=X+Qv0leAu94090Z7pF/UlCTy1NywkCtJZvSQkTmXfdA7QRZ91/P+V+qPV8kDr5QbMs
-         v1CSOV23wp0KWE2/8rpV6rwdBlpKSY7GDqZw+lVdzFiJFliGlGfos1EIIC8msHfuhOj7
-         tVVkDpfPdUJ+pXc8LGyX8b2m02AsOgagBOWD97RsV6ZHSABQ16CbelLZ7ZE+HhvHHr5+
-         bLuywjkNwYjUZNJQu88Yzx9WWLXyFRV3aBeQNBjMbUoluafD+TKYSZAmHd0pWD0ur8sR
-         PWpydLu8NQB+Y+DZuSCDvnGuq4Iz11N/X5kVs2+iEOB0oef/NpfMwqKGpC8IbbUcxdGU
-         +kFQ==
-X-Forwarded-Encrypted: i=1; AJvYcCVJT9zpjcCwlM/VIIlq+kYLfyvAEbYHxLq8fvhCvqD6cnzxXKMDa/HRdb1zWbB/lQnEpFYGdE5BCQg=@vger.kernel.org
-X-Gm-Message-State: AOJu0Ywkkfk3700WlnAoz1YoiCkBTNSAWFu87UCZ4rl0TGVmOqWKs3UI
-	vZ7NGbS0SFPPbO+GCJw1DxkWDx70wuJtqZstdyK6x2YfXX7MDp6gtTHJyDIz5kctkJEBMLUbCw3
-	ZqYA=
-X-Gm-Gg: ASbGnctDZ/fIDyIV5I1qJ7r/UgMgtPi3bBxSwvPLHiQvvvwdHUTvh926+th25AyeCeZ
-	fZ3RlYnWmY4FOqIC8WTYCeMaWY9xzTU0pkKn8E3xMDL4fuQM3JZ1FOsDPm3DHkTTJ7Skt/almwF
-	yvcYis6ofqe/dAHwZCyiDyrGJigWUMc9v2EOCi8zqb3YG9+mTCSYAlFdGQNwrh0ZwbQyPyjj/Dn
-	OhUP7INMZHrqBd3fRcXrT1YmjwES75iTRY4UXlvDBAb0SGR3/MgMolfojOqSA==
-X-Google-Smtp-Source: AGHT+IFBeGxc9ewKOyLt6K1s6+sAqOV/yQmsHZjqJ5HZW1/QpKIblYPp2E3dP2IzrA43ijCRwjHlqQ==
-X-Received: by 2002:a05:600c:4708:b0:434:a555:d0d with SMTP id 5b1f17b1804b1-434d0a15333mr27229125e9.29.1733241913233;
-        Tue, 03 Dec 2024 08:05:13 -0800 (PST)
-Received: from linaro.org ([2a02:2454:ff21:ef80:41ad:5703:2486:8f59])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-434aa74f05asm224377395e9.1.2024.12.03.08.05.12
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 03 Dec 2024 08:05:12 -0800 (PST)
-Date: Tue, 3 Dec 2024 17:05:06 +0100
-From: Stephan Gerhold <stephan.gerhold@linaro.org>
-To: Krishna Kurapati <krishna.kurapati@oss.qualcomm.com>
-Cc: Johan Hovold <johan@kernel.org>, Bjorn Andersson <andersson@kernel.org>,
-	Konrad Dybcio <konradybcio@kernel.org>,
-	Rob Herring <robh@kernel.org>,
-	Krzysztof Kozlowski <krzk+dt@kernel.org>,
-	Conor Dooley <conor+dt@kernel.org>,
-	Catalin Marinas <catalin.marinas@arm.com>,
-	Will Deacon <will@kernel.org>, linux-arm-msm@vger.kernel.org,
-	devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
-	linux-arm-kernel@lists.infradead.org,
-	Abel Vesa <abel.vesa@linaro.org>,
-	Krishna Kurapati <quic_kriskura@quicinc.com>,
-	Thinh Nguyen <Thinh.Nguyen@synopsys.com>, linux-usb@vger.kernel.org
-Subject: Re: [PATCH 1/2] arm64: dts: qcom: x1e80100-crd: Add USB multiport
- fingerprint readery
-Message-ID: <Z08sMkbLF0b1DZTp@linaro.org>
-References: <20241118-x1e80100-crd-fp-v1-0-ec6b553a2e53@linaro.org>
- <20241118-x1e80100-crd-fp-v1-1-ec6b553a2e53@linaro.org>
- <Z07bgH5vVk44zuEH@hovoldconsulting.com>
- <Z07r3Upr50vLluyn@linaro.org>
- <41106fd7-5348-4d21-9ae7-8466f5634b4c@oss.qualcomm.com>
+	dkim=pass (1024-bit key) header.d=hansenpartnership.com header.i=@hansenpartnership.com header.b="lHnQZbqT";
+	dkim=pass (1024-bit key) header.d=hansenpartnership.com header.i=@hansenpartnership.com header.b="lHnQZbqT"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+	d=hansenpartnership.com; s=20151216; t=1733241982;
+	bh=VBBfv3eA4AsVsLgBF8VnP+EajJe1ALpu2GW7YHfiN/w=;
+	h=Message-ID:Subject:From:To:Date:In-Reply-To:From;
+	b=lHnQZbqTPw8lccD9LZoQTnjENuqFmq3M4qdXn9YwdcXuh8kaYOH60UbGnuArtEJoE
+	 Px4kL7hmZa2/uxmjqmqHUiq2gnIFhqP/9JNM4Zxjm340Kjh3IenF17vJPycyc5doEz
+	 9qzMTvJH2/Dq+wqAj7McqxgXVZICR0uf3Mza6cXQ=
+Received: from localhost (localhost [127.0.0.1])
+	by bedivere.hansenpartnership.com (Postfix) with ESMTP id 9B55D12871C9;
+	Tue, 03 Dec 2024 11:06:22 -0500 (EST)
+Received: from bedivere.hansenpartnership.com ([127.0.0.1])
+ by localhost (bedivere.hansenpartnership.com [127.0.0.1]) (amavis, port 10024)
+ with ESMTP id OEo6FblEm0Xs; Tue,  3 Dec 2024 11:06:22 -0500 (EST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+	d=hansenpartnership.com; s=20151216; t=1733241982;
+	bh=VBBfv3eA4AsVsLgBF8VnP+EajJe1ALpu2GW7YHfiN/w=;
+	h=Message-ID:Subject:From:To:Date:In-Reply-To:From;
+	b=lHnQZbqTPw8lccD9LZoQTnjENuqFmq3M4qdXn9YwdcXuh8kaYOH60UbGnuArtEJoE
+	 Px4kL7hmZa2/uxmjqmqHUiq2gnIFhqP/9JNM4Zxjm340Kjh3IenF17vJPycyc5doEz
+	 9qzMTvJH2/Dq+wqAj7McqxgXVZICR0uf3Mza6cXQ=
+Received: from lingrow.int.hansenpartnership.com (unknown [IPv6:2601:5c4:4302:c21::a774])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (2048 bits))
+	(Client did not present a certificate)
+	by bedivere.hansenpartnership.com (Postfix) with ESMTPSA id 1133D128718C;
+	Tue, 03 Dec 2024 11:06:17 -0500 (EST)
+Message-ID: <7ed3b713f8901398f52d7485d59613c19ea0e752.camel@HansenPartnership.com>
+Subject: Re: [PATCH v2 09/10] sysfs: bin_attribute: add const read/write
+ callback variants
+From: James Bottomley <James.Bottomley@HansenPartnership.com>
+To: linux@weissschuh.net
+Cc: James.Bottomley@HansenPartnership.com, Xinhui.Pan@amd.com, 
+ airlied@gmail.com, ajd@linux.ibm.com, alexander.deucher@amd.com, 
+ alison.schofield@intel.com, amd-gfx@lists.freedesktop.org, arnd@arndb.de, 
+ bhelgaas@google.com, carlos.bilbao.osdev@gmail.com,
+ christian.koenig@amd.com,  dan.j.williams@intel.com, dave.jiang@intel.com,
+ dave@stgolabs.net,  david.e.box@linux.intel.com, decui@microsoft.com, 
+ dennis.dalessandro@cornelisnetworks.com, dri-devel@lists.freedesktop.org, 
+ fbarrat@linux.ibm.com, gregkh@linuxfoundation.org, haiyangz@microsoft.com, 
+ hdegoede@redhat.com, ilpo.jarvinen@linux.intel.com, ira.weiny@intel.com, 
+ jgg@ziepe.ca, jonathan.cameron@huawei.com, kys@microsoft.com,
+ leon@kernel.org,  linux-alpha@vger.kernel.org, linux-cxl@vger.kernel.org, 
+ linux-hyperv@vger.kernel.org, linux-kernel@vger.kernel.org, 
+ linux-mtd@lists.infradead.org, linux-pci@vger.kernel.org, 
+ linux-rdma@vger.kernel.org, linux-scsi@vger.kernel.org, 
+ linux-usb@vger.kernel.org, linuxppc-dev@lists.ozlabs.org,
+ logang@deltatee.com,  martin.petersen@oracle.com, mattst88@gmail.com,
+ miquel.raynal@bootlin.com,  mwalle@kernel.org,
+ naveenkrishna.chatradhi@amd.com,  platform-driver-x86@vger.kernel.org,
+ pratyush@kernel.org, rafael@kernel.org,  richard.henderson@linaro.org,
+ richard@nod.at, simona@ffwll.ch,  srinivas.kandagatla@linaro.org,
+ tudor.ambarus@linaro.org, vigneshr@ti.com,  vishal.l.verma@intel.com,
+ wei.liu@kernel.org
+Date: Tue, 03 Dec 2024 11:06:16 -0500
+In-Reply-To: <20241103-sysfs-const-bin_attr-v2-9-71110628844c@weissschuh.net>
+Content-Type: text/plain; charset="UTF-8"
+User-Agent: Evolution 3.42.4 
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <41106fd7-5348-4d21-9ae7-8466f5634b4c@oss.qualcomm.com>
+Content-Transfer-Encoding: 7bit
 
-On Tue, Dec 03, 2024 at 09:07:22PM +0530, Krishna Kurapati wrote:
-> On 12/3/2024 5:00 PM, Stephan Gerhold wrote:
-> > On Tue, Dec 03, 2024 at 11:20:48AM +0100, Johan Hovold wrote:
-> > > [ +CC: Krishna, Thinh and the USB list ]
-> > > 
-> > > On Mon, Nov 18, 2024 at 11:34:29AM +0100, Stephan Gerhold wrote:
-> > > > The X1E80100 CRD has a Goodix fingerprint reader connected to the USB
-> > > > multiport controller on eUSB6. All other ports (including USB super-speed
-> > > > pins) are unused.
-> > > > 
-> > > > Set it up in the device tree together with the NXP PTN3222 repeater.
-> > > > 
-> > > > Signed-off-by: Stephan Gerhold <stephan.gerhold@linaro.org>
-> > > > ---
-> > > >   arch/arm64/boot/dts/qcom/x1e80100-crd.dts | 48 +++++++++++++++++++++++++++++++
-> > > >   1 file changed, 48 insertions(+)
-> > > > 
-> > > > diff --git a/arch/arm64/boot/dts/qcom/x1e80100-crd.dts b/arch/arm64/boot/dts/qcom/x1e80100-crd.dts
-> > > > index 39f9d9cdc10d..44942931c18f 100644
-> > > > --- a/arch/arm64/boot/dts/qcom/x1e80100-crd.dts
-> > > > +++ b/arch/arm64/boot/dts/qcom/x1e80100-crd.dts
-> > > > @@ -735,6 +735,26 @@ keyboard@3a {
-> > > > [...]
-> > > > @@ -1260,3 +1288,23 @@ &usb_1_ss2_dwc3_hs {
-> > > >   &usb_1_ss2_qmpphy_out {
-> > > >   	remote-endpoint = <&pmic_glink_ss2_ss_in>;
-> > > >   };
-> > > > +
-> > > > +&usb_mp {
-> > > > +	status = "okay";
-> > > > +};
-> > > > +
-> > > > +&usb_mp_dwc3 {
-> > > > +	/* Limit to USB 2.0 and single port */
-> > > > +	maximum-speed = "high-speed";
-> > > > +	phys = <&usb_mp_hsphy1>;
-> > > > +	phy-names = "usb2-1";
-> > > > +};
-> > > 
-> > > The dwc3 driver determines (and acts on) the number of ports based on
-> > > the port interrupts in DT and controller capabilities.
-> > > 
-> > > I'm not sure we can (should) just drop the other HS PHY and the SS PHYs
-> > > that would still be there in the SoC (possibly initialised by the boot
-> > > firmware).
-> > > 
-> > > I had a local patch to enable the multiport controller (for the suspend
-> > > work) and I realise that you'd currently need to specify a repeater also
-> > > for the HS PHY which does not have one, but that should be possible to
-> > > fix somehow.
-> > > 
-> > 
-> > I think there are two separate questions here:
-> > 
-> >   1. Should we (or do we even need to) enable unused PHYs?
-> >   2. Do we need to power off unused PHYs left enabled by the firmware?
-> > 
-> > For (1), I'm not not sure if there is a technical reason that requires
-> > us to. And given that PHYs typically consume quite a bit of power, I'm
-> > not sure if we should. Perhaps it's not worth spending effort on this
-> > minor optimization now, but then the device tree would ideally still
-> > tell us which PHYs are actually used (for future optimizations).
-> > 
-> > For (2), yes, we probably need to. But my impression so far is that this
-> > might be a larger problem that we need to handle on the SoC level. I
-> > have seen some firmware versions that blindly power up all USB
-> > controllers, even completely unused ones. Ideally we would power down
-> > unused components during startup and then leave them off.
-> > 
-> 
-> This question might be a dumb one, if so please ignore it.
-> 
-> But if we skip adding unused phys in DTS node, the core driver wouldn't have
-> access to all phys and we wouldn't be able to get references to unused ones
-> (un-mentioned ones in DTS). So how can we power them off from core driver if
-> we don't have reference to them ?
-> 
+> diff --git a/include/linux/sysfs.h b/include/linux/sysfs.h
+> index
+> d17c473c1ef292875475bf3bdf62d07241c13882..d713a6445a6267145a7014f308d
+> f3bb25b8c3287 100644
+> --- a/include/linux/sysfs.h
+> +++ b/include/linux/sysfs.h
+> @@ -305,8 +305,12 @@ struct bin_attribute {
+>  	struct address_space *(*f_mapping)(void);
+>  	ssize_t (*read)(struct file *, struct kobject *, struct
+> bin_attribute *,
+>  			char *, loff_t, size_t);
+> +	ssize_t (*read_new)(struct file *, struct kobject *, const
+> struct bin_attribute *,
+> +			    char *, loff_t, size_t);
+>  	ssize_t (*write)(struct file *, struct kobject *, struct
+> bin_attribute *,
+>  			 char *, loff_t, size_t);
+> +	ssize_t (*write_new)(struct file *, struct kobject *,
+> +			     const struct bin_attribute *, char *,
+> loff_t, size_t);
+>  	loff_t (*llseek)(struct file *, struct kobject *, const
+> struct bin_attribute *,
+>  			 loff_t, int);
+>  	int (*mmap)(struct file *, struct kobject *, const struct
+> bin_attribute *attr,
+> @@ -325,11 +329,28 @@ struct bin_attribute {
+>   */
+>  #define sysfs_bin_attr_init(bin_attr) sysfs_attr_init(&(bin_attr)-
+> >attr)
+>  
+> +typedef ssize_t __sysfs_bin_rw_handler_new(struct file *, struct
+> kobject *,
+> +					   const struct
+> bin_attribute *, char *, loff_t, size_t);
+> +
+>  /* macros to create static binary attributes easier */
+>  #define __BIN_ATTR(_name, _mode, _read, _write, _size)
+> {		\
+>  	.attr = { .name = __stringify(_name), .mode = _mode
+> },		\
+> -	.read	=
+> _read,						\
+> -	.write	=
+> _write,						\
+> +	.read =
+> _Generic(_read,						\
+> +		__sysfs_bin_rw_handler_new * :
+> NULL,			\
+> +		default :
+> _read						\
+> +	),							
+> 	\
+> +	.read_new =
+> _Generic(_read,					\
+> +		__sysfs_bin_rw_handler_new * :
+> _read,			\
+> +		default :
+> NULL						\
+> +	),							
+> 	\
+> +	.write =
+> _Generic(_write,					\
+> +		__sysfs_bin_rw_handler_new * :
+> NULL,			\
+> +		default :
+> _write					\
+> +	),							
+> 	\
+> +	.write_new =
+> _Generic(_write,					\
+> +		__sysfs_bin_rw_handler_new * :
+> _write,			\
+> +		default :
+> NULL						\
+> +	),							
+> 	\
+>  	.size	=
+> _size,						\
+>  }
 
-The question is not dumb at all, it's a very valid one. :-)
+It's probably a bit late now, but you've done this the wrong way
+around.  What you should have done is added the const to .read/.write
+then added a .read_old/.write_old with the original function prototype
+and used _Generic() to switch between them.  Then when there are no
+more non const left, you can simply remove .read_old and .write_old
+without getting Linus annoyed by having to do something like this:
 
-Perhaps it's easier if we keep them all listed on the USB controllers
-and have something else to mark them as unused. The downside of that
-option is that we might not be able to have a complete description of
-the PHY with all resources. For example on the CRD there is no eUSB
-repeater we could model for the first USB port (usb2-0), but it's needed
-to enable the qcom,x1e80100-snps-eusb2-phy.
+https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/commit/?id=e70140ba0d2b1a30467d4af6bcfe761327b9ec95
 
-Thanks,
-Stephan
+Regards,
+
+James
+
