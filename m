@@ -1,164 +1,231 @@
-Received: from mail-ed1-f50.google.com (mail-ed1-f50.google.com [209.85.208.50])
+Received: from mail-wr1-f65.google.com (mail-wr1-f65.google.com [209.85.221.65])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 254E21DDC3D
-	for <linux-usb@vger.kernel.org>; Tue,  3 Dec 2024 10:23:23 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.50
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A04571E3786
+	for <linux-usb@vger.kernel.org>; Tue,  3 Dec 2024 11:30:44 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.65
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1733221406; cv=none; b=uaa3hzd/umunzbSXwuDHXlJ81cZCFEhoAJ3B4b5qYgxNO+f70sChwpu9CS2ACXO83Xc/29F4ydxtSbCwF5+oefEwF5uK9+s3AKNq6fN29v7015ovc5TmcWXAYgUUFrVtAapf7Zmze3pAaF1y1Lzf9m5bhMfVyrt/NmqpG+AXHDc=
+	t=1733225446; cv=none; b=NmW5kVBuQu6jLpkgJp44pjdaiCoca/YWGYG03Duom7cL7UnpLdapjRcmvwiQ7QPNQp4bjSXt3Dkon2iG26MYpsIH5zMBBVUtubegWp/Ugbyy1rpL9VXeKbwyElTMxoXIa2pqCQIrYWCW7x9Cyvmv8MSGdf77uMVbN671KfP1+jU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1733221406; c=relaxed/simple;
-	bh=ETw7u1mk0LjlQqPvj8gR4APdnoQAxNUE+W5cxhDMBCg=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version:Content-Type; b=eqrUvHZBXLwlA6jdx/lyq7akPN0d/s1Srp5z/V28iT4Fl73kcVFrooxU2lw3iGgk+PEXnYbUi3ccKXfLKnUdCEl97YqqpiY9/5gTCoguAEEHjw8Pwr3WvqlYqjqZS2ZGS4U7rO3r25G3MeUnPbx0mia/JNwnujeZEZMcMPBLE+s=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org; spf=pass smtp.mailfrom=chromium.org; dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b=OS1xNeSD; arc=none smtp.client-ip=209.85.208.50
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=chromium.org
+	s=arc-20240116; t=1733225446; c=relaxed/simple;
+	bh=XQKBWrT8ks1Ct4PewBxKAAw4CBuc3RSkP2JdRArH02Y=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=uK6ekTZ6zhMSPngmTk8AN0iMSh4xguuFCDEMcOi812sdt4uwpkcwOHjrFp3PKEtaUKmcDOXnJ15TU1wNraKS3baqlF0KQ5Zk6wlcF7QWpiAbC699mhPKc9/jwSN+bUFiNnP9TBM7aYyW9Ak7v6r5qi4J4/dGiSRI+wmkJByE5qw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=Thtairp1; arc=none smtp.client-ip=209.85.221.65
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b="OS1xNeSD"
-Received: by mail-ed1-f50.google.com with SMTP id 4fb4d7f45d1cf-5d0d4a2da4dso3371977a12.1
-        for <linux-usb@vger.kernel.org>; Tue, 03 Dec 2024 02:23:23 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="Thtairp1"
+Received: by mail-wr1-f65.google.com with SMTP id ffacd0b85a97d-385e5db74d3so2286243f8f.0
+        for <linux-usb@vger.kernel.org>; Tue, 03 Dec 2024 03:30:44 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=chromium.org; s=google; t=1733221402; x=1733826202; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=RJzpjZ91uuCvgpzILXkD8zrAjfL5m7WyfegMJCZBGNo=;
-        b=OS1xNeSDFRucWUPYzNa4KkWLxq2n/G+Te8RHXpU/jaGhzQVVCxUeHIQrif/bUYWx0U
-         JMlarphRDAkG0/fQjrqKISCDNhpHnh0zAQE3JNYISpEDJ6Yy0JHLGt4vVIaEbTICHOBi
-         +XgFjGiYx+bqe1Z1698fpD39UvnE2FMBGCQsI=
+        d=linaro.org; s=google; t=1733225443; x=1733830243; darn=vger.kernel.org;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=k5QpSnqZsvHI5RdTuW6YI5wmM0DD916U9oPMDkb1hRw=;
+        b=Thtairp1YZWUiMOdW8kaisxxUXoFG+spED+10OM3QUnavi7ELWW2SKz6iNWX079xq2
+         2VJZOgc2P2AerWF8DiTKi15iqVdb9fKMfTY3zuXzRik5dUGPhhIUrpY02IcrftazAVPh
+         hALYSAVZHfhZTvBfudXSjMHXBKJ2SkfEPIhBf0N8ryOBy8ehDJF4PZgLTIu8CD/T3AuQ
+         BB/la3OQt9dGLFMcWu8sm63HNJhKHZ93Rb8kQSshe7Qf1mYt7WdXqzxYIlSoIOKckse9
+         Ncy2jMFArX6BP0JHWY4wHCXrwk5HlaBEvRyvkZGS/rWMszQYZc21QO+FdVtWP0oLYXAv
+         fDjQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1733221402; x=1733826202;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=RJzpjZ91uuCvgpzILXkD8zrAjfL5m7WyfegMJCZBGNo=;
-        b=IR0gFqsI9rlMk4Z505qff02ppYp+64WYxUZR23zNg9LrneWPSjHQsc0i/t7Vk/vEyH
-         49tz5UO32l3YdNsimrK9OhjIdPbzfsLJSLlrJArjQX+8yK2IWZSQOmQWi3JaO8wW37mj
-         0VofiIoxgjpJ6c5otmTBjoiIIGWTTgF/8e1pv9hbdugUXSMlMDHdKXeDW7WhYLcrvp/w
-         iycyqVEv1E7ivOUsJRNQhbG1YKDGDvRGOws/kEaF+0PTt20oegbN2YxYrMGopmfu5Kaz
-         toxnpBESYHCWun5NjQ497OkeoL6KBrzxL4p0NDkaQsRmReS2XhFg4Lx6uoJ+yP2d/mXg
-         WBng==
-X-Forwarded-Encrypted: i=1; AJvYcCX7PNV1vM3mzjizFhXItcLfj6z8ZdwDfgurK+V0dEr3N/vmYXNtz73gRVeLK9dPm6Ia7zYSDe+8Vk8=@vger.kernel.org
-X-Gm-Message-State: AOJu0Yw3ADKR2ujfi70ced9PuPC4ge4dmY5qdGQCmHumHcTMNM14XvdN
-	QaitWmhTkbVQvXmHr0aLhaQz1RaDNidNFM5herg1o8gpEJBe3coySE1PlrT2
-X-Gm-Gg: ASbGncuwbZ85eTCWhziofWU5MAIwjFF0aGDlMWBMlr3YvmYGT7cmaJcptDJiMo+jtAF
-	ZF0R+aIw8Ex/wf4jYv1lCzU5mZkVidxn1r+bKlk2l3jsqpVhEdo96Yvbs4s5F0SXUpDyhrVsXu+
-	WQatv0nTyhStH3uXt/ilbWTLz9GE0VqTIqOvu0qOU8WinQLdlyi0cIHoWzORk1mNV3l4y3cuWj8
-	vaA2Cxa0G59FndFeOLgh3acylsPabnrto/1GIs5XrYdpq9dDwVXa/is0gb+PL68O/RvBeWv4QHq
-	VIn/IMSG5gq2AgJ4+rBbuqvLY3uhXYfIwkk=
-X-Google-Smtp-Source: AGHT+IFVjs1rNJEw3UFMNZnu1wLLGO1PKNpGomwEtLmWDel9W+iixQKGmicK6vakDP7uGLvRDgW1hw==
-X-Received: by 2002:a05:6402:34c5:b0:5d0:bd2a:fc2a with SMTP id 4fb4d7f45d1cf-5d10cb80224mr1426909a12.26.1733221402401;
-        Tue, 03 Dec 2024 02:23:22 -0800 (PST)
-Received: from ukaszb-ng.c.googlers.com.com (103.45.147.34.bc.googleusercontent.com. [34.147.45.103])
-        by smtp.gmail.com with ESMTPSA id 4fb4d7f45d1cf-5d0f6cf4bbesm1720851a12.43.2024.12.03.02.23.21
+        d=1e100.net; s=20230601; t=1733225443; x=1733830243;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=k5QpSnqZsvHI5RdTuW6YI5wmM0DD916U9oPMDkb1hRw=;
+        b=A8NXE1bhNcHlXOXpl1MLlMXlOacGbleebt6IohwLrDflXvncCzfevoZeZFDRnWCdoV
+         CivmaJ6jGr+jBnh0Koh+fexb+kJ05332e/jz1J50X1f/9qGaMlwjqZ94DfPkJE+bCV2t
+         Z2nn3CZuxxhyxgbrtIfJMK5IToRImotZLEXQEacBo79Ib+Qu5sOtjzDTFl297YX2JEXe
+         gc6r1/0ei3BZ8f0+MvhVKqdKlPawH95eGN0ymcbB82CoceONwJtdySk1xnuy/Ca3cKyr
+         9cnECBiLnpQ0/O5EG6OgXlqFQedeWTwR6gLUwbOj7tSt6vYttSR729KZNtNwc90uAn4X
+         oXvQ==
+X-Forwarded-Encrypted: i=1; AJvYcCVDpyowql3OJCDqNsRgJJQ1bfKONMKDrcJQgNDF6/h8EfDGTaVlk5zqdqN89ESv+ScBYQLQ4M9qaV8=@vger.kernel.org
+X-Gm-Message-State: AOJu0YxrkwYb6YzmVwbuGo356ATmndJn0/cAC/KZxwsFuTIqP8e6ZljP
+	EDkR745yjirzTMluuPG9RgVVqMzI8JWmx4jTyren4EA6iZVg2TMWEVk7gg3U2ijrVlEQ7dZUshV
+	Wz+Yxqw==
+X-Gm-Gg: ASbGnctjOGpduU3XNy6dQos/4EaDTlaH81g+1ihs7HDwdRI1I7jIKvRq8uzYt1IOb1z
+	tsjdTOMHlpOTa+9dMvVisFRhyyOVWL/rJZALHMwi2Jm+gQgeZWWFAqMhptaDl1IDjqQp2QIMujl
+	ba2WoT8/Ks0yoMylCjLUxp9bSb+f0jJZOOA6C1H6kfZ5cK0yycv0ZYZ6rx1gKA5b22TNM53Y4ov
+	JkvPwwzpiajzs8r6XWrd1NoQ5w19l6igOj8lAJF5tYGlfAS/mtEz6mwcpKy
+X-Google-Smtp-Source: AGHT+IH34y7jHvFYEfoZxdYAaLv1kB29M7msviDEnioq7JmNTaNVxGRtN4bXS3pbvxOss6/WmLYc6A==
+X-Received: by 2002:a05:6000:18a3:b0:385:e055:a28d with SMTP id ffacd0b85a97d-385fd42a6cfmr1723185f8f.57.1733225441788;
+        Tue, 03 Dec 2024 03:30:41 -0800 (PST)
+Received: from linaro.org ([2a02:2454:ff21:ef80:5c38:843:f8a3:a2ba])
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-385dd99504csm13253045f8f.85.2024.12.03.03.30.40
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 03 Dec 2024 02:23:21 -0800 (PST)
-From: =?UTF-8?q?=C5=81ukasz=20Bartosik?= <ukaszb@chromium.org>
-To: Heikki Krogerus <heikki.krogerus@linux.intel.com>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-Cc: Abhishek Pandit-Subedi <abhishekpandit@chromium.org>,
-	Benson Leung <bleung@chromium.org>,
-	Jameson Thies <jthies@google.com>,
-	linux-usb@vger.kernel.org,
-	stable@vger.kernel.org
-Subject: [PATCH v2] usb: typec: ucsi: Fix completion notifications
-Date: Tue,  3 Dec 2024 10:23:18 +0000
-Message-ID: <20241203102318.3386345-1-ukaszb@chromium.org>
-X-Mailer: git-send-email 2.47.0.338.g60cca15819-goog
+        Tue, 03 Dec 2024 03:30:41 -0800 (PST)
+Date: Tue, 3 Dec 2024 12:30:37 +0100
+From: Stephan Gerhold <stephan.gerhold@linaro.org>
+To: Johan Hovold <johan@kernel.org>
+Cc: Bjorn Andersson <andersson@kernel.org>,
+	Konrad Dybcio <konradybcio@kernel.org>,
+	Rob Herring <robh@kernel.org>,
+	Krzysztof Kozlowski <krzk+dt@kernel.org>,
+	Conor Dooley <conor+dt@kernel.org>,
+	Catalin Marinas <catalin.marinas@arm.com>,
+	Will Deacon <will@kernel.org>, linux-arm-msm@vger.kernel.org,
+	devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
+	linux-arm-kernel@lists.infradead.org,
+	Abel Vesa <abel.vesa@linaro.org>,
+	Krishna Kurapati <quic_kriskura@quicinc.com>,
+	Thinh Nguyen <Thinh.Nguyen@synopsys.com>, linux-usb@vger.kernel.org
+Subject: Re: [PATCH 1/2] arm64: dts: qcom: x1e80100-crd: Add USB multiport
+ fingerprint readery
+Message-ID: <Z07r3Upr50vLluyn@linaro.org>
+References: <20241118-x1e80100-crd-fp-v1-0-ec6b553a2e53@linaro.org>
+ <20241118-x1e80100-crd-fp-v1-1-ec6b553a2e53@linaro.org>
+ <Z07bgH5vVk44zuEH@hovoldconsulting.com>
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <Z07bgH5vVk44zuEH@hovoldconsulting.com>
 
-OPM                         PPM                         LPM
- |        1.send cmd         |                           |
- |-------------------------->|                           |
- |                           |--                         |
- |                           |  | 2.set busy bit in CCI  |
- |                           |<-                         |
- |      3.notify the OPM     |                           |
- |<--------------------------|                           |
- |                           | 4.send cmd to be executed |
- |                           |-------------------------->|
- |                           |                           |
- |                           |      5.cmd completed      |
- |                           |<--------------------------|
- |                           |                           |
- |                           |--                         |
- |                           |  | 6.set cmd completed    |
- |                           |<-       bit in CCI        |
- |                           |                           |
- |     7.notify the OPM      |                           |
- |<--------------------------|                           |
- |                           |                           |
- |   8.handle notification   |                           |
- |   from point 3, read CCI  |                           |
- |<--------------------------|                           |
- |                           |                           |
+On Tue, Dec 03, 2024 at 11:20:48AM +0100, Johan Hovold wrote:
+> [ +CC: Krishna, Thinh and the USB list ]
+> 
+> On Mon, Nov 18, 2024 at 11:34:29AM +0100, Stephan Gerhold wrote:
+> > The X1E80100 CRD has a Goodix fingerprint reader connected to the USB
+> > multiport controller on eUSB6. All other ports (including USB super-speed
+> > pins) are unused.
+> > 
+> > Set it up in the device tree together with the NXP PTN3222 repeater.
+> > 
+> > Signed-off-by: Stephan Gerhold <stephan.gerhold@linaro.org>
+> > ---
+> >  arch/arm64/boot/dts/qcom/x1e80100-crd.dts | 48 +++++++++++++++++++++++++++++++
+> >  1 file changed, 48 insertions(+)
+> > 
+> > diff --git a/arch/arm64/boot/dts/qcom/x1e80100-crd.dts b/arch/arm64/boot/dts/qcom/x1e80100-crd.dts
+> > index 39f9d9cdc10d..44942931c18f 100644
+> > --- a/arch/arm64/boot/dts/qcom/x1e80100-crd.dts
+> > +++ b/arch/arm64/boot/dts/qcom/x1e80100-crd.dts
+> > @@ -735,6 +735,26 @@ keyboard@3a {
+> >  	};
+> >  };
+> >  
+> > +&i2c5 {
+> > +	clock-frequency = <400000>;
+> > +
+> > +	status = "okay";
+> > +
+> > +	eusb6_repeater: redriver@4f {
+> > +		compatible = "nxp,ptn3222";
+> > +		reg = <0x4f>;
+> 
+> The driver does not currently check that there's actually anything at
+> this address. Did you verify that this is the correct address? 
+> 
+> (Abel is adding a check to the driver as we speak to catch any such
+> mistakes going forward).
+> 
 
-When the PPM receives command from the OPM (p.1) it sets the busy bit
-in the CCI (p.2), sends notification to the OPM (p.3) and forwards the
-command to be executed by the LPM (p.4). When the PPM receives command
-completion from the LPM (p.5) it sets command completion bit in the CCI
-(p.6) and sends notification to the OPM (p.7). If command execution by
-the LPM is fast enough then when the OPM starts handling the notification
-from p.3 in p.8 and reads the CCI value it will see command completion bit
-set and will call complete(). Then complete() might be called again when
-the OPM handles notification from p.7.
+Yes, I verified this using
+https://git.codelinaro.org/stephan.gerhold/linux/-/commit/45d5add498612387f88270ca944ee16e2236fddd
 
-This fix replaces test_bit() with test_and_clear_bit()
-in ucsi_notify_common() in order to call complete() only
-once per request.
+(I sent this to Abel back then, so I'm surprised he didn't run that :-))
 
-This fix also reinitializes completion variable in
-ucsi_sync_control_common() before a command is sent.
+> > +		#phy-cells = <0>;
+> 
+> nit: I'd put provider properties like this one last.
+> 
+> > +		vdd3v3-supply = <&vreg_l13b_3p0>;
+> > +		vdd1v8-supply = <&vreg_l4b_1p8>;
+> 
+> Sort by supply name?
+> 
 
-Fixes: 584e8df58942 ("usb: typec: ucsi: extract common code for command handling")
-Cc: stable@vger.kernel.org
-Signed-off-by: Łukasz Bartosik <ukaszb@chromium.org>
----
+Ack.
 
-Changes in v2:
-- Swapped points 7 and 8 in the commit description
-in order to make diagram more clear. 
-- Added reinitialization of completion variable
-in the ucsi_sync_control_common().
----
+> > +		reset-gpios = <&tlmm 184 GPIO_ACTIVE_LOW>;
+> > +
+> > +		pinctrl-0 = <&eusb6_reset_n>;
+> > +		pinctrl-names = "default";
+> > +	};
+> > +};
+> > +
+> >  &i2c8 {
+> >  	clock-frequency = <400000>;
+> >  
+> > @@ -1047,6 +1067,14 @@ edp_reg_en: edp-reg-en-state {
+> >  		bias-disable;
+> >  	};
+> >  
+> > +	eusb6_reset_n: eusb6-reset-n-state {
+> > +		pins = "gpio184";
+> > +		function = "gpio";
+> > +		drive-strength = <2>;
+> > +		bias-disable;
+> > +		output-low;
+> 
+> I don't think the pin config should assert reset, that should be up to
+> the driver to control.
+> 
 
- drivers/usb/typec/ucsi/ucsi.c | 6 ++++--
- 1 file changed, 4 insertions(+), 2 deletions(-)
+I can drop it I guess, but pinctrl is applied before the driver takes
+control of the GPIO. This means if the GPIO happens to be in input mode
+before the driver loads (with pull up or pull down), then we would
+briefly leave it floating when applying the bias-disable.
 
-diff --git a/drivers/usb/typec/ucsi/ucsi.c b/drivers/usb/typec/ucsi/ucsi.c
-index c435c0835744..7a65a7672e18 100644
---- a/drivers/usb/typec/ucsi/ucsi.c
-+++ b/drivers/usb/typec/ucsi/ucsi.c
-@@ -46,11 +46,11 @@ void ucsi_notify_common(struct ucsi *ucsi, u32 cci)
- 		ucsi_connector_change(ucsi, UCSI_CCI_CONNECTOR(cci));
- 
- 	if (cci & UCSI_CCI_ACK_COMPLETE &&
--	    test_bit(ACK_PENDING, &ucsi->flags))
-+	    test_and_clear_bit(ACK_PENDING, &ucsi->flags))
- 		complete(&ucsi->complete);
- 
- 	if (cci & UCSI_CCI_COMMAND_COMPLETE &&
--	    test_bit(COMMAND_PENDING, &ucsi->flags))
-+	    test_and_clear_bit(COMMAND_PENDING, &ucsi->flags))
- 		complete(&ucsi->complete);
- }
- EXPORT_SYMBOL_GPL(ucsi_notify_common);
-@@ -65,6 +65,8 @@ int ucsi_sync_control_common(struct ucsi *ucsi, u64 command)
- 	else
- 		set_bit(COMMAND_PENDING, &ucsi->flags);
- 
-+	reinit_completion(&ucsi->complete);
-+
- 	ret = ucsi->ops->async_control(ucsi, command);
- 	if (ret)
- 		goto out_clear_bit;
--- 
-2.47.0.338.g60cca15819-goog
+Or I guess we could drop the bias-disable, since it shouldn't be
+relevant for a pin we keep in output mode all the time?
 
+> > +	};
+> > +
+> >  	hall_int_n_default: hall-int-n-state {
+> >  		pins = "gpio92";
+> >  		function = "gpio";
+> > @@ -1260,3 +1288,23 @@ &usb_1_ss2_dwc3_hs {
+> >  &usb_1_ss2_qmpphy_out {
+> >  	remote-endpoint = <&pmic_glink_ss2_ss_in>;
+> >  };
+> > +
+> > +&usb_mp {
+> > +	status = "okay";
+> > +};
+> > +
+> > +&usb_mp_dwc3 {
+> > +	/* Limit to USB 2.0 and single port */
+> > +	maximum-speed = "high-speed";
+> > +	phys = <&usb_mp_hsphy1>;
+> > +	phy-names = "usb2-1";
+> > +};
+> 
+> The dwc3 driver determines (and acts on) the number of ports based on
+> the port interrupts in DT and controller capabilities. 
+> 
+> I'm not sure we can (should) just drop the other HS PHY and the SS PHYs
+> that would still be there in the SoC (possibly initialised by the boot
+> firmware).
+> 
+> I had a local patch to enable the multiport controller (for the suspend
+> work) and I realise that you'd currently need to specify a repeater also
+> for the HS PHY which does not have one, but that should be possible to
+> fix somehow.
+> 
+
+I think there are two separate questions here:
+
+ 1. Should we (or do we even need to) enable unused PHYs?
+ 2. Do we need to power off unused PHYs left enabled by the firmware?
+
+For (1), I'm not not sure if there is a technical reason that requires
+us to. And given that PHYs typically consume quite a bit of power, I'm
+not sure if we should. Perhaps it's not worth spending effort on this
+minor optimization now, but then the device tree would ideally still
+tell us which PHYs are actually used (for future optimizations).
+
+For (2), yes, we probably need to. But my impression so far is that this
+might be a larger problem that we need to handle on the SoC level. I
+have seen some firmware versions that blindly power up all USB
+controllers, even completely unused ones. Ideally we would power down
+unused components during startup and then leave them off.
+
+Thanks,
+Stephan
