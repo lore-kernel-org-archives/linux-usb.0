@@ -1,57 +1,59 @@
-Received: from mail-ej1-f49.google.com (mail-ej1-f49.google.com [209.85.218.49])
+Received: from mail-ed1-f44.google.com (mail-ed1-f44.google.com [209.85.208.44])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AC0BA1A8F7D
-	for <linux-usb@vger.kernel.org>; Wed,  4 Dec 2024 19:49:10 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.49
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3734D239196
+	for <linux-usb@vger.kernel.org>; Wed,  4 Dec 2024 19:49:11 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.44
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1733341752; cv=none; b=mg5NP5rKLcIdGkOx17Af+jTg6mXYBP0XsA6TMgTvtLX90aWJNCE6nQq/FiGJdG7EH36tBzMcLmJzikGnPD+6cVCYi6jbMn+hy3X1odd8iIeIPSCnZIgV0hfowutYl95liF7Msu3HqeH6ZwOMeKeedswiE4U9x1pxf8Tamv3dTSA=
+	t=1733341753; cv=none; b=Wd20iNpcPszYXXwK5c+sA0fx/UMLkiyjimGz01+0TKc10M/bNKH08llrD4xUN22INgAUgyDYD3RJJPrjmA6yX1cTw2mrxJ+np4OU8bX/OgQeWZswrJdPS4BI+8eV+ascIC3sfIjRHTgC6IiaYcMXkkg1LcKUUwHUlx+lMrKHzhU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1733341752; c=relaxed/simple;
-	bh=X5D9Z6XvpiGeN1N9oKVJTtb9pC6bQ3oFckwDPASPiWw=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version:Content-Type; b=EAHFxuk9/0bmHxda5uhb4EQ0tf7J6Ga+ejdh2Nk0LPdHuifyAbQjVKGI/c3d6eUSYoOuhylv+SQqKQgJ1syZPfROZ9y+u/57WbZGgSZaUGtU9sjFdfiwEFfdVkoo/RBlFuLwWrq0qiReQp2aIU7anaNCXLo73u6vMmb5M3JrZVY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org; spf=pass smtp.mailfrom=chromium.org; dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b=X4ZtrXnR; arc=none smtp.client-ip=209.85.218.49
+	s=arc-20240116; t=1733341753; c=relaxed/simple;
+	bh=FsVPWUYW3r8+vYPca7TkDYiQezN0cxbYZZeUC077jgw=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=qTxzXOuah3oZnB/mgOq6QbWIeif2ZROxgQhjxuI77FqJ+WMBN8F2sJ01KEDVMsc9GbVnCPjPN+qCvRTZQhyt01fJydlqLUDJ1o67zduLosydJvaRT0Mue6aWk23fTAJWTP8GuUqkupkeSKoysODhMlPn1S/adJu542utlhNQ+hU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org; spf=pass smtp.mailfrom=chromium.org; dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b=dioKb9gX; arc=none smtp.client-ip=209.85.208.44
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=chromium.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b="X4ZtrXnR"
-Received: by mail-ej1-f49.google.com with SMTP id a640c23a62f3a-aa543c4db92so20249066b.0
-        for <linux-usb@vger.kernel.org>; Wed, 04 Dec 2024 11:49:10 -0800 (PST)
+	dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b="dioKb9gX"
+Received: by mail-ed1-f44.google.com with SMTP id 4fb4d7f45d1cf-5d0cd67766aso83378a12.2
+        for <linux-usb@vger.kernel.org>; Wed, 04 Dec 2024 11:49:11 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=chromium.org; s=google; t=1733341749; x=1733946549; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=/mngP4iptJPLYAmaFSpR8JCKdxNOCSzn3Y98pXoqTYA=;
-        b=X4ZtrXnRghIU1IhbRmmOwkkBbCWfMCMq5o2xsHpo7Xx0BpQN9oENfXwnfEPzTFrbNX
-         oVJMN61ZJPj27hP7tbBYR6FX6UBgnoBc5ThOIV+jKXGHhTMJpDuqZC3x4r4Em+G5pDIN
-         5ynq74OSBkx9LE4OSs1gfBl1aNW/o2ae2k2/g=
+        d=chromium.org; s=google; t=1733341750; x=1733946550; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=/VBmObv79eNi+4KOGkigLjUPpqUoMrzCTZAwaSnc+fc=;
+        b=dioKb9gX/DzpE95bWTXRBMzDPOSDzVXCFnuYzctWSyviQWK8iRBH21Pcl2Qto0Govq
+         aQjTrTFbNSY5IIY5O7px1252ViLH0AoW4MXNN4G9gaUE0SXFwk10I2Z8tTPDYSADMeff
+         pvfFusFdruIq40vyUNwl7FhPoeMTuoUqRLXHs=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1733341749; x=1733946549;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=/mngP4iptJPLYAmaFSpR8JCKdxNOCSzn3Y98pXoqTYA=;
-        b=YwaaBJW45/NzNIMolhPiDUxIIJO650vUQMtfNy9bKXUQ7i9EAccUJH6rGFkEIXMWRy
-         YNofKBN9Ot1Sm7pwx+mOshvVxAMDRHfaFHKWhzQv+2LrTZV1P2mzxSYdelilPJoCYDrS
-         4GCiNZopT3Ztyg+Gf7rsiegGokubqqbhaHhtCyXMrM11HRK53se1ZiDR2A1ZUGl/Jcqx
-         OVxLHj5895Zpa9+hs7thu94PzxO2ezO68x58vzvEpSmfh+rJL0D920BPDGFwTOVhO1CP
-         d927sPGnBLF84m4pwSKq1JPcHkHMCUoCiriHDGaqyHhxAvMbI/uWLQlBeTz1X1jXP1DR
-         SFRQ==
-X-Forwarded-Encrypted: i=1; AJvYcCXJ7KwKDHAphgOGTtvpa4KXCQrJrtdkTSJ5g3QyZVCH+PqO0BBSCITQKF7/a7eU+Qn3wpCfPCu/qgs=@vger.kernel.org
-X-Gm-Message-State: AOJu0Yy93lYUVcgB06+Df2/Bx5gTrFV/+XknNEarIbEWnx1npilmycU6
-	E23NgUaQlbwVtjnp56+xy3AWwvaWBFKckGiOLirZMjhIKrWOHdalmkk2j53P
-X-Gm-Gg: ASbGncsRuEcXBJJs/9zKQBUTw5mNbIJBhieKdmM2SA+Z/i5DIz/pdZb/skN8g7XksIi
-	zNeLM2XdJPBF/zPPIKK7G/t5z1kGUXBOymcbRaRPOWDi7EI5/0K88ZnLscJvw8q0wvGmWenMTfv
-	JAhREDiO8DtgcujX6Ynkjl8zaPrxOZoOYZMTUZKcytcAuKa8G0qbxkepsXtr4fa5tD7TKMt1EEZ
-	+0kWs1mtLj2lCz9GzFr1yghJDy9UIvWF7URbckNhGNUZzvpLeH7DNtWE/oCuu00RCqw5NJpZKVa
-	4uxoZDldz761+1tgI1c0VmW605Nqg2+nRrE=
-X-Google-Smtp-Source: AGHT+IFj9qAeVoF1+BsjtPFOFB0f/2B4gDimDvOScuftI2HUtisUhVOLvlmZIDXlzlRNfVJjRYEcAQ==
-X-Received: by 2002:a17:906:30cf:b0:aa5:3e7b:c117 with SMTP id a640c23a62f3a-aa5f7dc3e85mr694609566b.28.1733341748877;
-        Wed, 04 Dec 2024 11:49:08 -0800 (PST)
+        d=1e100.net; s=20230601; t=1733341750; x=1733946550;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=/VBmObv79eNi+4KOGkigLjUPpqUoMrzCTZAwaSnc+fc=;
+        b=UeDP+iNK4gclFC4yrL6MyZD+kbODbbM6kzf69VU7x69QqLd2Heurqo89hMamI2rgOo
+         n3vuMX6C3llxwvUKWw1tOCOPVuJik8zPi65AYYwO0ef4EO095SoEch9m5bAp6mRdrIHb
+         JoAa2xX/L/UN9WaNxLzurYetdr71McV0Ghr79N9Iqz57MSrZ/GLdvkYnUaQ4FQXskdvp
+         JozOkUyqSWuqTooAQLHfowThaN7jP+ddxu2K82nuy50yk+YhFDg5XKDtvqOxuaD7Br2V
+         lc3+mEZLJ9BH4hVCa1u751pb1ZJlGWNgzpoPr45CnUeIXxuo2mBrm1oQ7nx2W/d+Ct3l
+         BMyQ==
+X-Forwarded-Encrypted: i=1; AJvYcCU4Feq2SVSHk54hn7zb5bjDW9OqWWEdIEWg9RdS3Y7U2/qzHjwEN1FWdRw5ZnCa5NmtU48jXLlQcH4=@vger.kernel.org
+X-Gm-Message-State: AOJu0YxmlFkSrUqGMQUZHamCyEkJYNfogyVP7l+k2RHkK+5nsNh60TYK
+	4MAh/vekOMJtjcs6IGSazuDsvS5xJ3iwsuAEaQhvHxvieBRwJuEfJ6ri7UM/
+X-Gm-Gg: ASbGncu+mrPJCz2BFMjrTYGi9kxIF7/WihaGTEG+e3Tl2MJWr9/VOKviz9/gVEKXJzX
+	kK8hS95pFTaqPyt35hpW0IqOWrziouNIedcKNqBoQdFe0Do6f9e2IUietW7EXyqAzgclntRUHuP
+	VmQwlBpfAEWCe8ZyZcYA+KlUFGhuKvtbTKj6/XKeEMVqVcKxQR3lsEih3yAgdkwnAOsn9ywtRlM
+	jV1cV8JnFKB1n6awfz8MPXAidVSuZDzB5fhwGPoYF0bg+GmvjSUQGz9pF9WDcIk75Z5Hw6XYqK5
+	6FIHNX6D9CjOE2Ttm2xW6jm0f3EJudB5wOQ=
+X-Google-Smtp-Source: AGHT+IG7z/Fh6NDk1TqKo00mbOQAjB81fHSKqdVADw//P121W6LLzlsrt95W3VRLrdaxmtYCSrLJ8w==
+X-Received: by 2002:a05:6402:2743:b0:5d0:ca51:e859 with SMTP id 4fb4d7f45d1cf-5d10cb82696mr6854675a12.27.1733341750559;
+        Wed, 04 Dec 2024 11:49:10 -0800 (PST)
 Received: from ukaszb-ng.c.googlers.com.com (103.45.147.34.bc.googleusercontent.com. [34.147.45.103])
         by smtp.gmail.com with ESMTPSA id a640c23a62f3a-aa5996df797sm775338166b.68.2024.12.04.11.49.08
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 04 Dec 2024 11:49:08 -0800 (PST)
+        Wed, 04 Dec 2024 11:49:09 -0800 (PST)
 From: =?UTF-8?q?=C5=81ukasz=20Bartosik?= <ukaszb@chromium.org>
 To: Heikki Krogerus <heikki.krogerus@linux.intel.com>,
 	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
@@ -63,10 +65,12 @@ Cc: Abhishek Pandit-Subedi <abhishekpandit@chromium.org>,
 	Tzung-Bi Shih <tzungbi@kernel.org>,
 	linux-usb@vger.kernel.org,
 	chrome-platform@lists.linux.dev
-Subject: [PATCH v10 0/2] usb: typec: Implement UCSI driver for ChromeOS
-Date: Wed,  4 Dec 2024 19:48:58 +0000
-Message-ID: <20241204194900.371696-1-ukaszb@chromium.org>
+Subject: [PATCH v10 1/2] platform/chrome: Update ChromeOS EC header for UCSI
+Date: Wed,  4 Dec 2024 19:48:59 +0000
+Message-ID: <20241204194900.371696-2-ukaszb@chromium.org>
 X-Mailer: git-send-email 2.47.0.338.g60cca15819-goog
+In-Reply-To: <20241204194900.371696-1-ukaszb@chromium.org>
+References: <20241204194900.371696-1-ukaszb@chromium.org>
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
@@ -76,116 +80,67 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 
-This series implements a UCSI ChromeOS EC transport driver. 
-The ChromeOS EC is expected to implement UCSI Platform Policy
-Manager (PPM).
+From: Pavan Holla <pholla@chromium.org>
 
+Add EC host commands for reading and writing UCSI structures
+in the EC. The corresponding kernel driver is cros-ec-ucsi.
+
+Also update PD events supported by the EC.
+
+Acked-by: Tzung-Bi Shih <tzungbi@kernel.org>
+Signed-off-by: Pavan Holla <pholla@chromium.org>
+Signed-off-by: Łukasz Bartosik <ukaszb@chromium.org>
 ---
-Changes in v10:
-- Added cancel_delayed_work() in the cros_ucsi_suspend() in order
-to prevent premature wake up during suspend.
-- Added cancel_delayed_work() in the cros_ucsi_destroy() as well.
-- Link to v9: https://lore.kernel.org/linux-usb/20241203142314.3892422-1-ukaszb@chromium.org/
+ .../linux/platform_data/cros_ec_commands.h    | 28 ++++++++++++++++++-
+ 1 file changed, 27 insertions(+), 1 deletion(-)
 
-Changes in v9:
-- Squash "usb: typec: cros_ec_ucsi: Recover from write timeouts" commit
-into "usb: typec: ucsi: Implement ChromeOS UCSI driver".
-- Replaced out label in cros_ucsi_sync_control() with switch statement.
-- Link to v8: https://lore.kernel.org/linux-usb/20241128232035.1525978-1-ukaszb@chromium.org/ 
-
-Changes in v8:
-- Set .sync_control in cros_ucsi_ops struct to point
-to ucsi_sync_control_common().
-- Added explanation why complete() is used instead of resume()
-in cros_ucsi_pm_ops struct.
-- Updated s/miliseconds/milliseconds/.
-- Link to v7: https://lore.kernel.org/linux-usb/20241115155234.1587589-1-ukaszb@chromium.org/ 
-
-Changes in v7:
-- Dropped the following commits for now as I want to focus
-on upstreaming cros_ec_ucsi driver first. Then I will get
-back to the topic of trace events and netlink:
-  "usb: typec: cros_ec_ucsi: Add trace events"
-  "usb: typec: cros_ec_ucsi: Add netlink"
-- Squashed "usb: typec: cros_ec_ucsi: Use complete instead of resume"
-into "usb: typec: ucsi: Implement ChromeOS UCSI driver".
-- Added "usb: typec: cros_ec_ucsi: Recover from write timeouts" commmit.
-- Added usage of common functins ucsi_sync_control_common()
-and ucsi_notify_common().
-- Commits:
-  "platform/chrome: Update EC feature flags"
-  "mfd: cros_ec: Load cros_ec_ucsi on supported ECs"
-  "mfd: cros_ec: Don't load charger with UCSI"
-landed in the tree https://git.kernel.org/pub/scm/linux/kernel/git/lee/mfd.git/log/?h=for-mfd-next    
-- Link to v6: https://lore.kernel.org/linux-usb/20240910101527.603452-1-ukaszb@chromium.org
-
-Changes in v6:
-- Reverted to type names uint*_t in cros_ec_commands.h in order 
-to be consistent with type names used in other parts of the file.
-- Updated comments in cros_ec_commands.h related to UCSI.
-- Added missing sign-offs.
-- Fixed memory leak in cros_ucsi_async_control() by moving
-ec_params_ucsi_ppm_set request buffer to stack.
-- Replaced cros_ucsi_read with cros_ucsi_read_cci in cros_ucsi_work().
-- Updated changes in v5, it was missing information related to
-commits addition:
-  platform/chrome: Update EC feature flags
-  usb: typec: cros_ec_ucsi: Use complete instead of resume
-  mfd: cros_ec: Load cros_ec_ucsi on supported ECs
-  mfd: cros_ec: Don't load charger with UCSI
-- Link to v5: https://lore.kernel.org/r/all/20240903163033.3170815-1-ukaszb@chromium.org/
-
-Changes in v5:
-- Increased WRITE_TMO_MS to 5000.
-- Replaced DRV_NAME with KBUILD_MODNAME.
-- Added comments for WRITE_TMO_MS and MAX_EC_DATA_SIZE defines.
-- Refactored cros_ucsi_async_control() to dynamically allocate memory
-for a message to EC instead of allocating the message on stack.
-- Replaced type names uint*_t with u*.
-- Removed ret variable in cros_ucsi_work().
-- Updated ucsi_operations interface to align with changes introduced in
-  v6.11.
-- Replaced test_bit() with test_and_clear_bit() in cros_ucsi_work().
-- Updated EC feature flags in commit "platform/chrome: Update EC feature
-  flags".
-- Added new commit "usb: typec: cros_ec_ucsi: Use complete instead
-of resume".
-- Added trace events in commit "usb: typec: cros_ec_ucsi: Add trace
-  events".
-- Added netlink in commit "usb: typec: cros_ec_ucsi: Add netlink"
-for debugging and testing puropses.
-- Added new commit "mfd: cros_ec: Load cros_ec_ucsi on supported ECs".
-- Added new commit "mfd: cros_ec: Don't load charger with UCSI".
-- Link to v4: https://lore.kernel.org/all/CAB2FV=6We88NrvN8NZYt8NkMFH9N_ZBGyUWVUpGwPdja2X_+NA@mail.gmail.com/T/
-
-Changes in v4:
-- Setup notifications before calling ucsi_register.
-- Cancel work before destroying driver data.
-- Link to v3: https://lore.kernel.org/r/20240403-public-ucsi-h-v3-0-f848e18c8ed2@chromium.org
-
-Changes in v3:
-- Moved driver from platform/chrome to usb/typec/ucsi.
-- Used id_table instead of MODULE_ALIAS.
-- Split EC header changes into seperate commit.
-- Fixes from additional internal reviews and kernel bot warnings.
-- Link to v2: https://lore.kernel.org/r/20240325-public-ucsi-h-v2-0-a6d716968bb1@chromium.org
-
-Changes in v2:
-- No code or commit message changes.
-- Added drivers/platform/chrome maintainers for review.
-
-Pavan Holla (2):
-  platform/chrome: Update ChromeOS EC header for UCSI
-  usb: typec: ucsi: Implement ChromeOS UCSI driver
-
- MAINTAINERS                                   |   7 +
- drivers/usb/typec/ucsi/Kconfig                |  13 +
- drivers/usb/typec/ucsi/Makefile               |   1 +
- drivers/usb/typec/ucsi/cros_ec_ucsi.c         | 337 ++++++++++++++++++
- .../linux/platform_data/cros_ec_commands.h    |  28 +-
- 5 files changed, 385 insertions(+), 1 deletion(-)
- create mode 100644 drivers/usb/typec/ucsi/cros_ec_ucsi.c
-
+diff --git a/include/linux/platform_data/cros_ec_commands.h b/include/linux/platform_data/cros_ec_commands.h
+index b3c4993e656e..ecf290a0c98f 100644
+--- a/include/linux/platform_data/cros_ec_commands.h
++++ b/include/linux/platform_data/cros_ec_commands.h
+@@ -5044,8 +5044,11 @@ struct ec_response_pd_status {
+ #define PD_EVENT_POWER_CHANGE      BIT(1)
+ #define PD_EVENT_IDENTITY_RECEIVED BIT(2)
+ #define PD_EVENT_DATA_SWAP         BIT(3)
++#define PD_EVENT_TYPEC             BIT(4)
++#define PD_EVENT_PPM               BIT(5)
++
+ struct ec_response_host_event_status {
+-	uint32_t status;      /* PD MCU host event status */
++	uint32_t status; /* PD MCU host event status */
+ } __ec_align4;
+ 
+ /* Set USB type-C port role and muxes */
+@@ -6105,6 +6108,29 @@ struct ec_response_typec_vdm_response {
+ 
+ #undef VDO_MAX_SIZE
+ 
++/*
++ * UCSI OPM-PPM commands
++ *
++ * These commands are used for communication between OPM and PPM.
++ * Only UCSI3.0 is tested.
++ */
++
++#define EC_CMD_UCSI_PPM_SET 0x0140
++
++/* The data size is stored in the host command protocol header. */
++struct ec_params_ucsi_ppm_set {
++	uint16_t offset;
++	uint8_t data[];
++} __ec_align2;
++
++#define EC_CMD_UCSI_PPM_GET 0x0141
++
++/* For 'GET' sub-commands, data will be returned as a raw payload. */
++struct ec_params_ucsi_ppm_get {
++	uint16_t offset;
++	uint8_t size;
++} __ec_align2;
++
+ /*****************************************************************************/
+ /* The command range 0x200-0x2FF is reserved for Rotor. */
+ 
 -- 
 2.47.0.338.g60cca15819-goog
 
