@@ -1,37 +1,38 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 791501DDC38;
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9F7C61DE2B7;
 	Fri,  6 Dec 2024 07:46:58 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1733471218; cv=none; b=fMzhrNICpX5iNHiSkmPu0pZzR6aZuz+e1F/ddwoLvcOVhwnGECu7GYd7rmrbLKd5qGOYHBbbpPaZduk+DJUFiBHUqGb0xjaeJy7EqOEsn1eSDCPTqix0/UbxMEwTJfF6cuVI49JkZ4Wc76VcT+lkNma2Cw/5/MESPKh0MymX5Tw=
+	t=1733471218; cv=none; b=ke9NqgpqKNaCQgCNJi085lx6jp/TqavnLgKUwtfnMCkgwCUABRiZG1MzMQGidsDm3xcP0+8Z4y80eeAQjBdI3dfEKLe+Ukmc6wsOtdo4QvRBmWs5Z1z19fycJRt6OnUIo27c33Nb/C2enDZqSVifEZMtMCTvFuqtej6W1LvgLbA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
 	s=arc-20240116; t=1733471218; c=relaxed/simple;
-	bh=rIuOPSZ3vHFGNWi/6Cw75i5UpoJ+Y1ASP/eaOjNNLBM=;
-	h=From:Subject:Date:Message-Id:MIME-Version:Content-Type:To:Cc; b=g/FICHEKSy1uXM1u4b48ESnwtOFMhd6CkaQ4cPylqP434u0pcVCbh4/Z5M3eKGwfszTRqjA4YatkwLM0xmX9kowLakz0NZwKAj0wrP/adIMpVS1uBdtRX8RHzFPO07il3/TdbjMYMbOlvgi13cxXT3knIxSsVm5txbhODO1PCFs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Zy5oQh4A; arc=none smtp.client-ip=10.30.226.201
+	bh=YnY9okmLhb2rO8nDQHC9+5DkEpZ8pF35PzYJ12Pfjgg=;
+	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
+	 In-Reply-To:To:Cc; b=DUCx+Uu6KmY8dBDwNxBKcyTHxFWToRztt4H4Wc3E3E4H8Jd0Rb9EIQLQw6xtcP9Jbdw8Kus1zOrSZ7vLrT/mct1eH4WFQbfOxjUclucw5ZZRrE3Ts6ORGDU/I8DIJQ0onlMqckDSk/IONBiHwr9a+WLgqL2RjV8xSmmowkMXvcM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=WJLOpSE+; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Zy5oQh4A"
-Received: by smtp.kernel.org (Postfix) with ESMTPS id 00BD3C4CEDE;
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="WJLOpSE+"
+Received: by smtp.kernel.org (Postfix) with ESMTPS id 44989C4CEE2;
 	Fri,  6 Dec 2024 07:46:58 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
 	s=k20201202; t=1733471218;
-	bh=rIuOPSZ3vHFGNWi/6Cw75i5UpoJ+Y1ASP/eaOjNNLBM=;
-	h=From:Subject:Date:To:Cc:Reply-To:From;
-	b=Zy5oQh4ABy9TlOL/KeAq8Y4H6+4MA1gkYH8gIcHq0K+Nm7fn46LqlyHnmiqSTcFis
-	 rW7618qKeXh7gefhNXB7xeGLx2bfrZ/ea3PpaMKIsvF9NNFYIze4OMmR0Q5TRhbngw
-	 GcjB1pWSoSmfcDRAq/PhbeXHiX4lMeHCydzhdHu1VWDVOqsy4zcGUnSAo4xmuQAphK
-	 f5Taib2qplWEDu04ZQfRkB7/EB1T9Xyyh4vP6G0Sg3f5sJ54L5faNFQMrcVuI96qH1
-	 EYnO7AJFlQAlcOjnxdfvhVqS+imsAyr7lkfkBMevK5kyAr6m6Vp5n0BjMII9Y2ZxfM
-	 9gR2Xgha3L6Tg==
+	bh=YnY9okmLhb2rO8nDQHC9+5DkEpZ8pF35PzYJ12Pfjgg=;
+	h=From:Date:Subject:References:In-Reply-To:To:Cc:Reply-To:From;
+	b=WJLOpSE+hFqypNmZGmqO5rQF6BCjjfId3vlfsh+RGxTT1rAdJaq2tOYUtynVpgx9r
+	 rakmqFgEOOsYtoRNSnxNOdNDxl58p6MT5bRqVubT31+AlXF75Ee/lyL9xqaIKBzGit
+	 7dbQc+gTid0kwgmfG0MKPRT09fjtn5+nQtAQwHLYsC0KDdDKKvEKZ9EX4m7mplRDds
+	 AgL5D/1HHc9eUva7xXQeVfdMKMBObjYljID+mBqpRSQlPsSc2rNxikvXLrjXNG72zJ
+	 +nwhqDkjWjllE7n6ZN2iTJ9Us8yHpub05DKmbRw230SMd6yV6NGsSBDx/WJRDSJYOX
+	 RhUAR/Lk/COHg==
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id E880BE77173;
-	Fri,  6 Dec 2024 07:46:57 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 17D37E7717D;
+	Fri,  6 Dec 2024 07:46:58 +0000 (UTC)
 From: Amit Sunil Dhamne via B4 Relay <devnull+amitsd.google.com@kernel.org>
-Subject: [PATCH 0/3] Add support for responding to Get_Revision request
-Date: Thu, 05 Dec 2024 23:46:07 -0800
-Message-Id: <20241205-get_rev_upstream-v1-0-90158ee7d75f@google.com>
+Date: Thu, 05 Dec 2024 23:46:09 -0800
+Subject: [PATCH 2/3] usb: typec: tcpm: Add support for parsing pd-revision
+ DT property
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
@@ -40,10 +41,9 @@ List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-X-B4-Tracking: v=1; b=H4sIAL+rUmcC/6tWKk4tykwtVrJSqFYqSi3LLM7MzwNyDHUUlJIzE
- vPSU3UzU4B8JSMDIxNDIwNT3fTUknigwvjSguKSotTEXF2zJDMDIDAzNkhMUwJqKyhKTcusABs
- ZHVtbCwAxUc9OYgAAAA==
-X-Change-ID: 20241205-get_rev_upstream-6b60000630af
+Message-Id: <20241205-get_rev_upstream-v1-2-90158ee7d75f@google.com>
+References: <20241205-get_rev_upstream-v1-0-90158ee7d75f@google.com>
+In-Reply-To: <20241205-get_rev_upstream-v1-0-90158ee7d75f@google.com>
 To: Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>, 
  Conor Dooley <conor+dt@kernel.org>, 
  Greg Kroah-Hartman <gregkh@linuxfoundation.org>, 
@@ -53,11 +53,11 @@ Cc: Kyle Tso <kyletso@google.com>, RD Babiera <rdbabiera@google.com>,
  devicetree@vger.kernel.org, linux-kernel@vger.kernel.org, 
  linux-usb@vger.kernel.org, Amit Sunil Dhamne <amitsd@google.com>
 X-Mailer: b4 0.14.2
-X-Developer-Signature: v=1; a=ed25519-sha256; t=1733471217; l=1144;
+X-Developer-Signature: v=1; a=ed25519-sha256; t=1733471217; l=3819;
  i=amitsd@google.com; s=20241031; h=from:subject:message-id;
- bh=rIuOPSZ3vHFGNWi/6Cw75i5UpoJ+Y1ASP/eaOjNNLBM=;
- b=YKIez4YBYfYYsJa+1AFtSUFmhxjiYGDNbHUnDHgje5A92QwKJb1MDUDHicgLm/fG50ZXNaFKO
- hWZgAPclbrjA6EW8y4PTa5t4ewhu1cFc7i5+UUVEribllXSFCzKP63M
+ bh=ZW21PLDCuXrKmljq+jN/SmgnnmS/lrVcV0OJXDrQ1ss=;
+ b=QQpQdKPVDVgLOvWOVKIjUMdCy+MX63R5teB+pQd2qRFLUdUbJUrENM6y9wGq7ak3j7itQHrIG
+ +iHPiI8YQuvBrbyVzIUFt7aoqv5/eaqPNfu+yOFNX54vbHIjKBwyrNm
 X-Developer-Key: i=amitsd@google.com; a=ed25519;
  pk=wD+XZSST4dmnNZf62/lqJpLm7fiyT8iv462zmQ3H6bI=
 X-Endpoint-Received: by B4 Relay for amitsd@google.com/20241031 with
@@ -65,31 +65,114 @@ X-Endpoint-Received: by B4 Relay for amitsd@google.com/20241031 with
 X-Original-From: Amit Sunil Dhamne <amitsd@google.com>
 Reply-To: amitsd@google.com
 
-Currently TCPM doesn't support responding to Get_Revision request
-message. However, as per Message Applicability in USB PD Spec 3.1 v1.8
-("6.13.2 Applicability of Data Messages") "Revision" is a Normative
-(compulsory) message and needs to be supported. As part of this patchset
-add support for responding to Get_Revision requests as part of
-Revision_Information AMS.
+From: Amit Sunil Dhamne <amitsd@google.com>
+
+Add support for parsing "pd-revision" DT property in TCPM and store PD
+revision and version supported by the Type-C connnector.
+
+It should be noted that the PD revision is the maximum possible revision
+supported by the port. This is different from the 2 bit revision set in
+PD msg headers. The purpose of the 2 bit revision value is to negotiate
+between Rev 2.X & 3.X spec rev as part of contract negotiation, while
+this is used for Get_Revision AMS after a contract is in place.
 
 Signed-off-by: Amit Sunil Dhamne <amitsd@google.com>
+Reviewed-by: Badhri Jagan Sridharan <badhri@google.com>
 ---
-Amit Sunil Dhamne (3):
-      dt-bindings: connector: Add pd-revision property
-      usb: typec: tcpm: Add support for parsing pd-revision DT property
-      usb: typec: tcpm: Add new AMS for Get_Revision response
+ drivers/usb/typec/tcpm/tcpm.c | 46 +++++++++++++++++++++++++++++++++++++++++--
+ 1 file changed, 44 insertions(+), 2 deletions(-)
 
- .../bindings/connector/usb-connector.yaml          |  6 ++
- .../devicetree/bindings/usb/maxim,max33359.yaml    |  1 +
- drivers/usb/typec/tcpm/tcpm.c                      | 87 +++++++++++++++++++++-
- include/linux/usb/pd.h                             | 22 +++++-
- 4 files changed, 111 insertions(+), 5 deletions(-)
----
-base-commit: 40384c840ea1944d7c5a392e8975ed088ecf0b37
-change-id: 20241205-get_rev_upstream-6b60000630af
+diff --git a/drivers/usb/typec/tcpm/tcpm.c b/drivers/usb/typec/tcpm/tcpm.c
+index 6021eeb903fec53316dfa2d6b825c334d55b7cab..59621cfaee3d67a36f3ad6870bd1aa92d382f33a 100644
+--- a/drivers/usb/typec/tcpm/tcpm.c
++++ b/drivers/usb/typec/tcpm/tcpm.c
+@@ -310,6 +310,13 @@ struct pd_data {
+ 	unsigned int operating_snk_mw;
+ };
+ 
++struct pd_revision_info {
++	u8 rev_major;
++	u8 rev_minor;
++	u8 ver_major;
++	u8 ver_minor;
++};
++
+ /*
+  * @sink_wait_cap_time: Deadline (in ms) for tTypeCSinkWaitCap timer
+  * @ps_src_wait_off_time: Deadline (in ms) for tPSSourceOff timer
+@@ -567,6 +574,9 @@ struct tcpm_port {
+ 
+ 	/* Timer deadline values configured at runtime */
+ 	struct pd_timings timings;
++
++	/* Indicates maximum (revision, version) supported */
++	struct pd_revision_info pd_rev;
+ #ifdef CONFIG_DEBUG_FS
+ 	struct dentry *dentry;
+ 	struct mutex logbuffer_lock;	/* log buffer access lock */
+@@ -7036,7 +7046,9 @@ static void tcpm_port_unregister_pd(struct tcpm_port *port)
+ 
+ static int tcpm_port_register_pd(struct tcpm_port *port)
+ {
+-	struct usb_power_delivery_desc desc = { port->typec_caps.pd_revision };
++	u16 pd_revision = port->typec_caps.pd_revision;
++	u16 pd_version = port->pd_rev.ver_major << 8 | port->pd_rev.ver_minor;
++	struct usb_power_delivery_desc desc = { pd_revision, pd_version };
+ 	struct usb_power_delivery_capabilities *cap;
+ 	int ret, i;
+ 
+@@ -7331,6 +7343,29 @@ static int tcpm_fw_get_snk_vdos(struct tcpm_port *port, struct fwnode_handle *fw
+ 	return 0;
+ }
+ 
++static void tcpm_fw_get_pd_revision(struct tcpm_port *port, struct fwnode_handle *fwnode)
++{
++	int ret;
++	u8 val[4];
++
++	ret = fwnode_property_count_u8(fwnode, "pd-revision");
++	if (!ret || ret != 4) {
++		tcpm_log(port, "Unable to find pd-revision property or incorrect array size");
++		return;
++	}
++
++	ret = fwnode_property_read_u8_array(fwnode, "pd-revision", val, 4);
++	if (ret) {
++		tcpm_log(port, "Failed to parse pd-revision, ret:(%d)", ret);
++		return;
++	}
++
++	port->pd_rev.rev_major = val[0];
++	port->pd_rev.rev_minor = val[1];
++	port->pd_rev.ver_major = val[2];
++	port->pd_rev.ver_minor = val[3];
++}
++
+ /* Power Supply access to expose source power information */
+ enum tcpm_psy_online_states {
+ 	TCPM_PSY_OFFLINE = 0,
+@@ -7669,11 +7704,18 @@ struct tcpm_port *tcpm_register_port(struct device *dev, struct tcpc_dev *tcpc)
+ 		goto out_destroy_wq;
+ 
+ 	tcpm_fw_get_timings(port, tcpc->fwnode);
++	tcpm_fw_get_pd_revision(port, tcpc->fwnode);
+ 
+ 	port->try_role = port->typec_caps.prefer_role;
+ 
+ 	port->typec_caps.revision = 0x0120;	/* Type-C spec release 1.2 */
+-	port->typec_caps.pd_revision = 0x0300;	/* USB-PD spec release 3.0 */
++
++	if (port->pd_rev.rev_major)
++		port->typec_caps.pd_revision = port->pd_rev.rev_major << 8 |
++					       port->pd_rev.rev_minor;
++	else
++		port->typec_caps.pd_revision = 0x0300;	/* USB-PD spec release 3.0 */
++
+ 	port->typec_caps.svdm_version = SVDM_VER_2_0;
+ 	port->typec_caps.driver_data = port;
+ 	port->typec_caps.ops = &tcpm_ops;
 
-Best regards,
 -- 
-Amit Sunil Dhamne <amitsd@google.com>
+2.47.0.338.g60cca15819-goog
 
 
