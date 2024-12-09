@@ -1,175 +1,169 @@
-Received: from mail-wr1-f45.google.com (mail-wr1-f45.google.com [209.85.221.45])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F2FE61C5CBB;
-	Mon,  9 Dec 2024 15:40:26 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.45
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 149E31B4236;
+	Mon,  9 Dec 2024 15:44:45 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1733758828; cv=none; b=aSw8UYlcf1ikrPTexr48x+YN6xt06n1FJbuiFtHAIIXknWsdBQbmc4LthD3DipjrlXhD72nIxa8keq0lzXsfeBXjjGOTjdXVsiPhw5c1gmiF8Z5GKOSSkdx8vzorJrMjmXXzYhu0jAKuGUvfGqVfL3b6p7BkjFuVa8oHosHtq5U=
+	t=1733759085; cv=none; b=JXUp26iRd1AI7R/4j5eelDG0NokqlS+SnVUckseCEOJyG3EETvCBfXYL1nexhD5wr8xQRZYDQ2ytDDS6CcvViIS0Y+H9unq3NlD3t3eE8o/F2iXA4wPqN3R1uRuh50yDzbhPQwM9hnpCrQ+WaVw29ZG11BgJnbdxkkOLRhdLPWg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1733758828; c=relaxed/simple;
-	bh=v0qmFEPQJoqN571WZDmp772EQOLt21vXcTNq6l9K+Kw=;
-	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=LV7WQZV9fWxbdDCIp3r5tjgERZ5kNyN5nJ3JIy868b6/MHnuxmT3JHKnJwWxWm3WZ7NsdYMrTzfnsRKDadxvLZ/ne7zN04CohpBTvET1hPHkYiuSpl62SLHkpvtnFHomilkSTRcK+/ls2ufF9fikkDBBZyzYGbFhiJ63uErhPg8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=CvhGiT1z; arc=none smtp.client-ip=209.85.221.45
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1733759085; c=relaxed/simple;
+	bh=9GOLiYQVIhXG83mUb2q1xQx/CP+id9qyn1icV0HpwF0=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=nBcQiI//Oc3832XmynVodewgn46zRylLomf7TcpbYeLf8zePNqDcgFW7xnaNrU7EewP2VNVatIrs6Y7woPKUWoAj6aBi1InNtkfbdjN5Nsfj92XyWEWNEcPJBvzbz+zvjHlO7HgBw2fSHZpSiB++oWdafm7hjOSyB5ya299I7KI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=FiWFzD6j; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="CvhGiT1z"
-Received: by mail-wr1-f45.google.com with SMTP id ffacd0b85a97d-385d7f19f20so2029400f8f.1;
-        Mon, 09 Dec 2024 07:40:26 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1733758825; x=1734363625; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=THIVVsv4gFsQRzLTlgrKEIh5i75y63FKBQRh6bZVeLo=;
-        b=CvhGiT1zWN8PXImjxswwYJOxGvc/0j+pM5H0ehzvQJq36HuRCXfWBTG1mVllo1k1Jz
-         WOuQxtBSJtb59iFbbhQY1IijqIvlr+oOtTo7hwK87Nw1Zz2ic4+RZ66Jrn1A6s4AiGr9
-         Zm6bCxatCtOs/B4nNt4NzZfIXb1WPHk+1ti/WSVucxE4EbmQ7Nt6e644BFpy1FN+wq7X
-         HYv1ft8UXCZYK4plENMfHRf3AY1bjV0tnYJQqwhUDJhrDPFf1svCzlGEOoi4gLiSMMKS
-         u2YOpMSSJFoEaAlz0rJrrTq1PTlAUdD0VRWiIWV8AZzYkLfWNU8/CZ+Xy6cEgRs31VzM
-         q+PQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1733758825; x=1734363625;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=THIVVsv4gFsQRzLTlgrKEIh5i75y63FKBQRh6bZVeLo=;
-        b=Hfehq1iYknvMOfTM1Lxj8gl4/SlE0oMs59Y/YLKBkM8sA1A83RIcyslL/bWBo4hou5
-         xSQBhEfZ0hv2jIGJPNKGzPq+Y8mmL20Ms8a7AnnnUfXTb+XHzR48THLfqqgzV+KLyvtb
-         Fz2thEZ59K568WJ700cIEmggY+e2bsuh5t/naYCOKcx6PqqCSGYfb9slIO067ilRGIc2
-         TZdQVVDLaJfZMr0+F5AIATmcnsaDnh/++5cVmAqid+7ROpVYRKhZdX+jQ8HGOa8w8GLI
-         IF+JcgHy8GbOrLBkJhWAcXtRc/wdZ9YpIY52+t9z3+82uX3R0P7XX8xTsVbLVEVfCtYB
-         uKzQ==
-X-Forwarded-Encrypted: i=1; AJvYcCXkWClbihwdq0MS2A+tjfm2ybXzXZHX4hJhlSoGI5OLCKuHhGCqnhRvvevlypbrkSO02K/zBEE=@vger.kernel.org
-X-Gm-Message-State: AOJu0Yx6ksBuGi5gOnvoAhnyv+xCbDakLIh5gMpjBRld3xE4tAPoSn4J
-	ZpUGxkYCmlZ5wFiNC1CE/Un+cSMaB6LQiYmFX3CLFzZOVZ1ZJNeY
-X-Gm-Gg: ASbGnctzjIZ7iqb4x05Cp2nJFzRzoCG8OSUWyLdLx5CAFupS3c7MhvuXKKbm0ef4xJy
-	Q2y4v6IF3PoyCsma6+1FmJuDGMKaRvyEXKgMY+eicnk36ZlayBVHACaP317FnUkh6kK5oj3Iuzt
-	2GYk4gn5jOHlK+ilDHlZzSOFP/P0H67h6zroO6PQ7R6iLcz6WEh/8agDJAv51yTF6UbTjL8ScH9
-	CJB3byOed3EXo/MLIAzULmrlzBp5VIsc4qL/V3JcSCjvT/GyDuYvHwC3LIq9SYd2UCSzC4fBw==
-X-Google-Smtp-Source: AGHT+IFeayK/zc/dX5+/EUAGweidzTVymFAGnSR21oou+WeC63FyU+XpjumNNG6kz1KYSnELvXtxWA==
-X-Received: by 2002:a5d:47a1:0:b0:385:ec89:2f07 with SMTP id ffacd0b85a97d-3862b38ee31mr9965731f8f.32.1733758824993;
-        Mon, 09 Dec 2024 07:40:24 -0800 (PST)
-Received: from ThinkStation-P340.tmt.telital.com ([2a01:7d0:4800:7:664c:aec9:433c:7b34])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-3861f59cd35sm13249681f8f.31.2024.12.09.07.40.24
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 09 Dec 2024 07:40:24 -0800 (PST)
-From: Daniele Palmas <dnlplm@gmail.com>
-To: Johan Hovold <johan@kernel.org>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-Cc: linux-usb@vger.kernel.org,
-	stable@vger.kernel.org,
-	Daniele Palmas <dnlplm@gmail.com>
-Subject: [PATCH 1/1] USB: serial: option: add Telit FE910C04 rmnet compositions
-Date: Mon,  9 Dec 2024 16:32:54 +0100
-Message-Id: <20241209153254.3691495-1-dnlplm@gmail.com>
-X-Mailer: git-send-email 2.37.1
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="FiWFzD6j"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 480F9C4CED1;
+	Mon,  9 Dec 2024 15:44:44 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1733759084;
+	bh=9GOLiYQVIhXG83mUb2q1xQx/CP+id9qyn1icV0HpwF0=;
+	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+	b=FiWFzD6jHLtDA0q5Qt34FoHZ8bKAmwvsTwOPaEjJVRevpGQqFrBJSQSdwxg4Qt5nV
+	 or5w+XQWGhfesAoZducHdP6gYBBtR9wb8wflVvQGO5RYk211K+wFHC9zI/MPccW56X
+	 R2+O5tOCK0sZ6U5xTXVES0vm+i+vuailS0lOQR5vutzwG0tZq49doQXOATxtohoGKS
+	 XY8cDLHD6ZNXvXqPG3ULJ0JpQO+uI5E5QGzRWafMwDCc30cRfRDxT+VlhpN2ZKoRFr
+	 oaMcEqoTrZo8yB2s7cqOk2xaoCsEDPBRtB6cIrydqYcHP5yIyLVfL+s0Ug3j6+8wjZ
+	 v3FfVUe1yjYeA==
+Message-ID: <4314e730-0852-47e9-8431-f9ec648f4bff@kernel.org>
+Date: Mon, 9 Dec 2024 09:44:43 -0600
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH] thunderbolt: Don't display retimers unless nvm was
+ initialized
+To: Mika Westerberg <mika.westerberg@linux.intel.com>
+Cc: "open list:THUNDERBOLT DRIVER" <linux-usb@vger.kernel.org>,
+ linux-kernel@vger.kernel.org, Andreas Noever <andreas.noever@gmail.com>,
+ Michael Jamet <michael.jamet@intel.com>,
+ Yehezkel Bernat <YehezkelShB@gmail.com>,
+ Mario Limonciello <mario.limonciello@amd.com>,
+ Richard Hughes <hughsient@gmail.com>
+References: <20241206183318.1701180-1-superm1@kernel.org>
+ <20241209062415.GG4955@black.fi.intel.com>
+ <c40bed54-63e9-4535-b17b-fba980f19382@kernel.org>
+ <20241209154013.GK4955@black.fi.intel.com>
+Content-Language: en-US
+From: Mario Limonciello <superm1@kernel.org>
+In-Reply-To: <20241209154013.GK4955@black.fi.intel.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 
-Add the following Telit FE910C04 compositions:
+On 12/9/2024 09:40, Mika Westerberg wrote:
+> On Mon, Dec 09, 2024 at 08:15:16AM -0600, Mario Limonciello wrote:
+>> On 12/9/2024 00:24, Mika Westerberg wrote:
+>>> Hi Mario,
+>>>
+>>> On Fri, Dec 06, 2024 at 12:33:18PM -0600, Mario Limonciello wrote:
+>>>> From: Mario Limonciello <mario.limonciello@amd.com>
+>>>>
+>>>> The read will never succeed if nvm wasn't initialized.
+>>>
+>>> Okay but we would need to understand why it was not initialized in the
+>>> first place?
+>>
+>> Oh sorry I should have included that/
+>>
+>> https://gist.github.com/superm1/c3763840fefa54298258a6fbec399007
+>>
+>> As you can see it's an unknown retimer NVM format.  So this ends up down the
+>> path of "NVM upgrade disabled".  So that's why I'm thinking the visibility
+>> is the right move to adjust here (IE this patch).
+> 
+> This is actually on-board retimer of the AMD platform:
 
-0x10c0: rmnet + tty (AT/NMEA) + tty (AT) + tty (diag)
-T:  Bus=02 Lev=01 Prnt=03 Port=06 Cnt=01 Dev#= 13 Spd=480  MxCh= 0
-D:  Ver= 2.00 Cls=00(>ifc ) Sub=00 Prot=00 MxPS=64 #Cfgs=  1
-P:  Vendor=1bc7 ProdID=10c0 Rev=05.15
-S:  Manufacturer=Telit Cinterion
-S:  Product=FE910
-S:  SerialNumber=f71b8b32
-C:  #Ifs= 4 Cfg#= 1 Atr=e0 MxPwr=500mA
-I:  If#= 0 Alt= 0 #EPs= 3 Cls=ff(vend.) Sub=ff Prot=50 Driver=qmi_wwan
-E:  Ad=01(O) Atr=02(Bulk) MxPS= 512 Ivl=0ms
-E:  Ad=81(I) Atr=02(Bulk) MxPS= 512 Ivl=0ms
-E:  Ad=82(I) Atr=03(Int.) MxPS=   8 Ivl=32ms
-I:  If#= 1 Alt= 0 #EPs= 3 Cls=ff(vend.) Sub=ff Prot=60 Driver=option
-E:  Ad=02(O) Atr=02(Bulk) MxPS= 512 Ivl=0ms
-E:  Ad=83(I) Atr=02(Bulk) MxPS= 512 Ivl=0ms
-E:  Ad=84(I) Atr=03(Int.) MxPS=  10 Ivl=32ms
-I:  If#= 2 Alt= 0 #EPs= 3 Cls=ff(vend.) Sub=ff Prot=40 Driver=option
-E:  Ad=03(O) Atr=02(Bulk) MxPS= 512 Ivl=0ms
-E:  Ad=85(I) Atr=02(Bulk) MxPS= 512 Ivl=0ms
-E:  Ad=86(I) Atr=03(Int.) MxPS=  10 Ivl=32ms
-I:  If#= 3 Alt= 0 #EPs= 2 Cls=ff(vend.) Sub=ff Prot=30 Driver=option
-E:  Ad=04(O) Atr=02(Bulk) MxPS= 512 Ivl=0ms
-E:  Ad=87(I) Atr=02(Bulk) MxPS= 512 Ivl=0ms
+Oh, good point.
 
-0x10c4: rmnet + tty (AT) + tty (AT) + tty (diag)
-T:  Bus=02 Lev=01 Prnt=03 Port=06 Cnt=01 Dev#= 14 Spd=480  MxCh= 0
-D:  Ver= 2.00 Cls=00(>ifc ) Sub=00 Prot=00 MxPS=64 #Cfgs=  1
-P:  Vendor=1bc7 ProdID=10c4 Rev=05.15
-S:  Manufacturer=Telit Cinterion
-S:  Product=FE910
-S:  SerialNumber=f71b8b32
-C:  #Ifs= 4 Cfg#= 1 Atr=e0 MxPwr=500mA
-I:  If#= 0 Alt= 0 #EPs= 3 Cls=ff(vend.) Sub=ff Prot=50 Driver=qmi_wwan
-E:  Ad=01(O) Atr=02(Bulk) MxPS= 512 Ivl=0ms
-E:  Ad=81(I) Atr=02(Bulk) MxPS= 512 Ivl=0ms
-E:  Ad=82(I) Atr=03(Int.) MxPS=   8 Ivl=32ms
-I:  If#= 1 Alt= 0 #EPs= 3 Cls=ff(vend.) Sub=ff Prot=40 Driver=option
-E:  Ad=02(O) Atr=02(Bulk) MxPS= 512 Ivl=0ms
-E:  Ad=83(I) Atr=02(Bulk) MxPS= 512 Ivl=0ms
-E:  Ad=84(I) Atr=03(Int.) MxPS=  10 Ivl=32ms
-I:  If#= 2 Alt= 0 #EPs= 3 Cls=ff(vend.) Sub=ff Prot=40 Driver=option
-E:  Ad=03(O) Atr=02(Bulk) MxPS= 512 Ivl=0ms
-E:  Ad=85(I) Atr=02(Bulk) MxPS= 512 Ivl=0ms
-E:  Ad=86(I) Atr=03(Int.) MxPS=  10 Ivl=32ms
-I:  If#= 3 Alt= 0 #EPs= 2 Cls=ff(vend.) Sub=ff Prot=30 Driver=option
-E:  Ad=04(O) Atr=02(Bulk) MxPS= 512 Ivl=0ms
-E:  Ad=87(I) Atr=02(Bulk) MxPS= 512 Ivl=0ms
+> 
+> Dec 09 07:29:11 fedora kernel: thunderbolt 0-0:2.1: retimer NVM format of vendor 0x7fea unknown
+> Dec 09 07:29:11 fedora kernel: thunderbolt 0-0:2.1: NVM upgrade disabled
+> Dec 09 07:29:11 fedora kernel: thunderbolt 0-0:2.1: new retimer found, vendor=0x7fea device=0x1032
+> 
+> I would think you guys want to make it upgradeable as well, no?
 
-0x10c8: rmnet + tty (AT) + tty (diag) + DPL (data packet logging) + adb
-T:  Bus=02 Lev=01 Prnt=03 Port=06 Cnt=01 Dev#= 17 Spd=480  MxCh= 0
-D:  Ver= 2.00 Cls=00(>ifc ) Sub=00 Prot=00 MxPS=64 #Cfgs=  1
-P:  Vendor=1bc7 ProdID=10c8 Rev=05.15
-S:  Manufacturer=Telit Cinterion
-S:  Product=FE910
-S:  SerialNumber=f71b8b32
-C:  #Ifs= 5 Cfg#= 1 Atr=e0 MxPwr=500mA
-I:  If#= 0 Alt= 0 #EPs= 3 Cls=ff(vend.) Sub=ff Prot=50 Driver=qmi_wwan
-E:  Ad=01(O) Atr=02(Bulk) MxPS= 512 Ivl=0ms
-E:  Ad=81(I) Atr=02(Bulk) MxPS= 512 Ivl=0ms
-E:  Ad=82(I) Atr=03(Int.) MxPS=   8 Ivl=32ms
-I:  If#= 1 Alt= 0 #EPs= 3 Cls=ff(vend.) Sub=ff Prot=40 Driver=option
-E:  Ad=02(O) Atr=02(Bulk) MxPS= 512 Ivl=0ms
-E:  Ad=83(I) Atr=02(Bulk) MxPS= 512 Ivl=0ms
-E:  Ad=84(I) Atr=03(Int.) MxPS=  10 Ivl=32ms
-I:  If#= 2 Alt= 0 #EPs= 2 Cls=ff(vend.) Sub=ff Prot=30 Driver=option
-E:  Ad=03(O) Atr=02(Bulk) MxPS= 512 Ivl=0ms
-E:  Ad=85(I) Atr=02(Bulk) MxPS= 512 Ivl=0ms
-I:  If#= 3 Alt= 0 #EPs= 1 Cls=ff(vend.) Sub=ff Prot=80 Driver=(none)
-E:  Ad=86(I) Atr=02(Bulk) MxPS= 512 Ivl=0ms
-I:  If#= 4 Alt= 0 #EPs= 2 Cls=ff(vend.) Sub=42 Prot=01 Driver=(none)
-E:  Ad=04(O) Atr=02(Bulk) MxPS= 512 Ivl=0ms
-E:  Ad=87(I) Atr=02(Bulk) MxPS= 512 Ivl=0ms
+For AMD platforms retimers are nominally upgraded by the platform's BIOS 
+upgrade, there haven't been asks from anyone to upgrade in AFAIK OS 
+(Windows or Linux).
 
-Signed-off-by: Daniele Palmas <dnlplm@gmail.com>
-Cc: stable@vger.kernel.org
----
- drivers/usb/serial/option.c | 6 ++++++
- 1 file changed, 6 insertions(+)
+> 
+>>> I see this is ThinkPad Thunderbolt 4 Dock so probably Intel hardware? You
+>>> say you can reproduce this too so can you send me full dmesg with
+>>> thunderbolt dynamic debugging enabled? I would like to understand this bit
+>>> more deeper before we add any workarounds.
+>>>
+>>>> Reported-by: Richard Hughes <hughsient@gmail.com>
+>>>> Closes: https://github.com/fwupd/fwupd/issues/8200
+>>>> Signed-off-by: Mario Limonciello <mario.limonciello@amd.com>
+>>>> ---
+>>>>    drivers/thunderbolt/retimer.c | 17 ++++++++++++++---
+>>>>    1 file changed, 14 insertions(+), 3 deletions(-)
+>>>>
+>>>> diff --git a/drivers/thunderbolt/retimer.c b/drivers/thunderbolt/retimer.c
+>>>> index 89d2919d0193e..7be435aee7217 100644
+>>>> --- a/drivers/thunderbolt/retimer.c
+>>>> +++ b/drivers/thunderbolt/retimer.c
+>>>> @@ -321,9 +321,7 @@ static ssize_t nvm_version_show(struct device *dev,
+>>>>    	if (!mutex_trylock(&rt->tb->lock))
+>>>>    		return restart_syscall();
+>>>> -	if (!rt->nvm)
+>>>> -		ret = -EAGAIN;
+> 
+> This is actually here because it might take some time for the NVM to be
+> available after the upgrade so changing this may cause issues on its own.
+> 
+> Instead we should check first the
+> 
+> 	rt->no_nvm_upgrade
+> 
+> and return -EOPNOTSUPP which I believe fwupd handles?
+> 
 
-diff --git a/drivers/usb/serial/option.c b/drivers/usb/serial/option.c
-index 9ba5584061c8..5680bd155a94 100644
---- a/drivers/usb/serial/option.c
-+++ b/drivers/usb/serial/option.c
-@@ -1395,6 +1395,12 @@ static const struct usb_device_id option_ids[] = {
- 	  .driver_info = RSVD(0) | NCTRL(2) | RSVD(3) | RSVD(4) },
- 	{ USB_DEVICE_INTERFACE_CLASS(TELIT_VENDOR_ID, 0x10aa, 0xff),	/* Telit FN920C04 (MBIM) */
- 	  .driver_info = NCTRL(3) | RSVD(4) | RSVD(5) },
-+	{ USB_DEVICE_INTERFACE_CLASS(TELIT_VENDOR_ID, 0x10c0, 0xff),	/* Telit FE910C04 (rmnet) */
-+	  .driver_info = RSVD(0) | NCTRL(3) },
-+	{ USB_DEVICE_INTERFACE_CLASS(TELIT_VENDOR_ID, 0x10c4, 0xff),	/* Telit FE910C04 (rmnet) */
-+	  .driver_info = RSVD(0) | NCTRL(3) },
-+	{ USB_DEVICE_INTERFACE_CLASS(TELIT_VENDOR_ID, 0x10c8, 0xff),	/* Telit FE910C04 (rmnet) */
-+	  .driver_info = RSVD(0) | NCTRL(2) | RSVD(3) | RSVD(4) },
- 	{ USB_DEVICE(TELIT_VENDOR_ID, TELIT_PRODUCT_ME910),
- 	  .driver_info = NCTRL(0) | RSVD(1) | RSVD(3) },
- 	{ USB_DEVICE(TELIT_VENDOR_ID, TELIT_PRODUCT_ME910_DUAL_MODEM),
--- 
-2.37.1
+Well I don't think it's right to export the sysfs file in the first 
+place if we "know" it's not going to work.  That's disingenuous to software.
+
+How about looking for rt->no_nvm_upgrade in the new retimer_is_visible?
+
+I think it should get the same intent and not break this retry logic.
+
+>>>> -	else if (rt->no_nvm_upgrade)
+>>>> +	if (rt->no_nvm_upgrade)
+>>>>    		ret = -EOPNOTSUPP;
+>>>>    	else
+>>>>    		ret = sysfs_emit(buf, "%x.%x\n", rt->nvm->major, rt->nvm->minor);
+>>>> @@ -342,6 +340,18 @@ static ssize_t vendor_show(struct device *dev, struct device_attribute *attr,
+>>>>    }
+>>>>    static DEVICE_ATTR_RO(vendor);
+>>>> +static umode_t retimer_is_visible(struct kobject *kobj,
+>>>> +				      struct attribute *attr, int n)
+>>>> +{
+>>>> +	struct device *dev = kobj_to_dev(kobj);
+>>>> +	struct tb_retimer *rt = tb_to_retimer(dev);
+>>>> +
+>>>> +	if (!rt->nvm)
+>>>> +		return 0;
+>>>> +	return attr->mode;
+>>>> +
+>>>> +}
+>>
+>> I just noticed I had a spurious newline here.  If we end up taking this
+>> patch would you mind just fixing it up?  If there is other feedback I'll fix
+>> it on a v2.
+>>
+>>>> +
+>>>>    static struct attribute *retimer_attrs[] = {
+>>>>    	&dev_attr_device.attr,
+>>>>    	&dev_attr_nvm_authenticate.attr,
+>>>> @@ -351,6 +361,7 @@ static struct attribute *retimer_attrs[] = {
+>>>>    };
+>>>>    static const struct attribute_group retimer_group = {
+>>>> +	.is_visible = retimer_is_visible,
+>>>>    	.attrs = retimer_attrs,
+>>>>    };
+>>>> -- 
+>>>> 2.43.0
 
