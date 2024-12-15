@@ -1,175 +1,102 @@
-Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com [205.220.180.131])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-vk1-f173.google.com (mail-vk1-f173.google.com [209.85.221.173])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 751011AE863
-	for <linux-usb@vger.kernel.org>; Sat, 14 Dec 2024 22:33:15 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.180.131
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 85111145B03;
+	Sun, 15 Dec 2024 11:41:15 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.173
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1734215597; cv=none; b=qrxzXTm/b4uIO35adx7LB1HDsRELMYSgsQQymagbc820uY/yXQ6TJS8Qjr++Ybve1Fs52FraVU0QIA7NNxq9/i2jMP1AZZAX2b3MwDK5ZkYJ4MgDxPjR+b0M5xKjYYWOBCWJnZYqLsJhQo8U+2++zy1Vxon6xqfj91t13RFQvSA=
+	t=1734262877; cv=none; b=V7ZexzVBx3wG0499GvkCtaq5HS3LIcCDNohVwpNUrDudhKrz3Db6xFKzMp+qtB8TW31Xr1BNXJkFh42mDhUUFwn5oTiVjktIdD3iJnRzimBONyKB7NHUOuHOhqA67yxa+tIoMroqFUnuE8lP8cUrRDdLacvg/G5u4XKTOV66meQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1734215597; c=relaxed/simple;
-	bh=BlHpWGGf4r4JONh6CygaCzqeXiO/02tsNy6cd3qV3Hw=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=r6gyhJfbEttWFTlYWW3S76l9BHcyQ07/4r8FcZh7IUymOOIwROd+ViYK/vMjp7Au7D7/Ldziq5qPoHpocodq6OTZnHd1t7M1+9xv5D3rL99MY2eYS2gkiwt1XtbOcqFmIoXgflsSFsL5PeR0RPabbPPozQdWFZve5AQYKWOyXLs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com; spf=pass smtp.mailfrom=oss.qualcomm.com; dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b=fsYB7avh; arc=none smtp.client-ip=205.220.180.131
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=oss.qualcomm.com
+	s=arc-20240116; t=1734262877; c=relaxed/simple;
+	bh=OrT5OypUIRkSNqtZOYxKNlFeL2FtciIwtel/5pcPCSY=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=lzONqkqFWkOu9Kp5tjlfpau2JbRj1VtlCLlImg75aKP9DU3MXYt3PkBkgmvRPRUqBZ9HKJmQm7c7zKzyHKdNFUQuYCuT4qllFjnDtr/rcjbzlnrzv/9IiZtx5RCg9q2DHHKcwZSxOiZuzG6WIuNBU+qJy5VnFLGbfskxxgoa0Ac=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=QziLtJtc; arc=none smtp.client-ip=209.85.221.173
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b="fsYB7avh"
-Received: from pps.filterd (m0279872.ppops.net [127.0.0.1])
-	by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 4BELHsHo013460
-	for <linux-usb@vger.kernel.org>; Sat, 14 Dec 2024 22:33:14 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
-	cc:content-transfer-encoding:content-type:date:from:in-reply-to
-	:message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
-	oatQbi3O3tD9RBjaYUsTiiz1j1ogTPu6wPVGCfsPV+4=; b=fsYB7avhBKZ2LSkU
-	W/Q6jPFZLHUQAr4ReInUAdIrmD6MPmSBh985PSaq8rjEmPg9yPNW2pBupBwbmw/d
-	B6grEZypEVZGvvQuqsA06k8QVluZfGYvQLKpR/QlfF+Kx5ODoM1AGCM4mYJvUMXw
-	4FKMQbCxB76drvyZ1DS687xKxPigXrwZPFSbKY0QnDUVVxFvSaly+WfMJasPT6sL
-	YI7FJrbes7KBQvOJfozXYVjU9qoitx2sni0tj59MaML7lk+ef/1M9iOhBvJhQNGw
-	WJcaWCmZNSI9tCKrgvmVvPBbxBRcMNDOtVt4mY5r+bf4/oq04C792s9+fnfKt9UE
-	SIXd4Q==
-Received: from mail-qv1-f71.google.com (mail-qv1-f71.google.com [209.85.219.71])
-	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 43hbft8g1p-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT)
-	for <linux-usb@vger.kernel.org>; Sat, 14 Dec 2024 22:33:14 +0000 (GMT)
-Received: by mail-qv1-f71.google.com with SMTP id 6a1803df08f44-6d8e7016630so8079956d6.1
-        for <linux-usb@vger.kernel.org>; Sat, 14 Dec 2024 14:33:14 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="QziLtJtc"
+Received: by mail-vk1-f173.google.com with SMTP id 71dfb90a1353d-5188311e61cso963526e0c.2;
+        Sun, 15 Dec 2024 03:41:15 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1734262874; x=1734867674; darn=vger.kernel.org;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:from:to:cc:subject:date:message-id:reply-to;
+        bh=4WCgL15LbJ4GOpq9wna6wOMkuwKtZ/m/AB6Q4Iue9FY=;
+        b=QziLtJtcgJH8Egzyfy45Isadg4LU2ZfGlh/SA65+z11JjsFq0QKFq+XknVHFUnHxg+
+         RQht/2Cqou2jT69uUVcz9VcVqxPMuhUqZtkD80ZY5IuzFsVIVG1Lo/XcL0JmO4JRQjI/
+         UhQ8yWR4iEpmB0iMK0PHMzPSclDIe77jt9bWYplm1Qy4PuWOQrSbKuTBzWYzHs0ONATc
+         7bEh4OsXh1CkGjyU25IHpO1FKzD/tjMWbNyNFe6lARFvAy8y6uz+qRKf7srDbLzZiAqB
+         WgqONb3+lkHT3mJ8RcUnM+Ak1M5L+UxtE4BayhEC50g6+ZbXF0Ja+dIj2QTA4/Y2jyw9
+         N+oA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1734215593; x=1734820393;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=oatQbi3O3tD9RBjaYUsTiiz1j1ogTPu6wPVGCfsPV+4=;
-        b=gqssEuV55WoNKwf6ua2X/U7tkniKktlOM+Mot5U5mn2MBAOREu0BjmV++HkLgz8+J1
-         EYYCHCtS7Wg9hhzMNPCVzI3Sy82cXrCbKwBT5Al9hBS8yfB3OLziXibaKuL3sahU+nyB
-         Q72hNzQP9oY4MhHSanPynQnEMiRjeajxcOWnVZKallw9PUivP9BNcx4swM4UZ8RxVekM
-         jhwOYgi8dA2wgjgqU8sCmp5R81Wvc88hx2M75HryahumOO9uGiPR7APNP6ZZ3yR3YM93
-         h/gBK1KevLBZyUZvBmQzPXXKvsI1gdaMA2U5w6FS9Ro/3qG1bRelneiZZznriZP2cOlN
-         UmMA==
-X-Forwarded-Encrypted: i=1; AJvYcCWnWNTjMa+JJDT1dXuBMk3wBd1ySB6JYMRqnMw7Gig9Jp85Rr0QPE8vKMUMIsKAccwUr0K8giMmqTk=@vger.kernel.org
-X-Gm-Message-State: AOJu0Yz/f2F70GjzUPjlKTXeLM2yXGXama9TgLHQetirmmj+2wQHid7N
-	HClHWFfFcCD4Hxq9N9N6PlzUys/7UMYl6Q5kxeNCP+pKMf+ktrHqLZs3gHYZQO/onrnXWp4naz3
-	S2tYk61zRsndVb+edAAJEwOGEaejHrM9z+ZRyTmX1wDxuaakEBASBPtkRPfE=
-X-Gm-Gg: ASbGncutV3oaOgJ/yyfc5xigkRubJDosZqXpSasc9YcQtI91jbnwUgnvDz+w0+AIPdv
-	iAfOTP7+4KEQwrCedG+x2ygy6yGdoukdNOuvdR65Q9bYd7AdotMxSsqM8+cHe/xF7mA/wY+EPVs
-	AiY2BIMAxSE1efAuBxcT9U4L4VVFyR1YCLAIKF6wEI19oAXZpiC/yxcDg5cegMxgug0vPG0SHOy
-	zZmIEetAkM5LgJhHY1IJuO4pvJIv8IB7NNeB9LDG2ZCKL8iXC3taUPDXokfQ0NtKGqaiTb+WwN7
-	3rkzlRQDLVYr59yPXh+TuTE/0QZvNwE5IdQ=
-X-Received: by 2002:ac8:5dc7:0:b0:467:885e:2c6e with SMTP id d75a77b69052e-467a573441bmr53093641cf.1.1734215593418;
-        Sat, 14 Dec 2024 14:33:13 -0800 (PST)
-X-Google-Smtp-Source: AGHT+IENLCVvnwGOg/eVAJIwA38T4KTTRcSsV4U16aVEQULVqYttcjIrmj+Qh4yUFcSMppLXkCVpYA==
-X-Received: by 2002:ac8:5dc7:0:b0:467:885e:2c6e with SMTP id d75a77b69052e-467a573441bmr53093551cf.1.1734215593099;
-        Sat, 14 Dec 2024 14:33:13 -0800 (PST)
-Received: from [192.168.65.90] (078088045245.garwolin.vectranet.pl. [78.88.45.245])
-        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-aab96067de5sm140124066b.55.2024.12.14.14.33.10
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Sat, 14 Dec 2024 14:33:12 -0800 (PST)
-Message-ID: <ac88ba7b-0b14-4302-9074-ec4fcee223d7@oss.qualcomm.com>
-Date: Sat, 14 Dec 2024 23:33:09 +0100
+        d=1e100.net; s=20230601; t=1734262874; x=1734867674;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=4WCgL15LbJ4GOpq9wna6wOMkuwKtZ/m/AB6Q4Iue9FY=;
+        b=bzdSHnWFHMoqYvUaplL9MA2eL+WhAtPGttVxvw0NWVIS2atjsLhBNcpqIInhwUGr9y
+         +gVMvKFJ+o5DbepbXYlAPQAAxaeqzVqaYVItQH0sYC1Tb7DyQ7G8lgr7vneytbwTppEC
+         jh4MGLMrIP8Jmta/0nS1ND6J42z37rZrmXnaJn2LC4/NcLH7LigfazH0Rg9hktBUDdMr
+         dqnlefSaJ45K9IU5cUluQEDtuFZazBHsmDkFRvyuhR71YqDiupg/tTKoMCcjakb5Pvn+
+         1vec6Ea+j//2CZXYxP5oldWzlr8JqIAEs1vO62dir6OxOaGpxipFhA1VL2x+QcFMrcn0
+         BRaw==
+X-Forwarded-Encrypted: i=1; AJvYcCVAszaOhqmiza00cJhjNy4PDrlvLNFuws511r6DPLUYjDGOT7F7lm73rfYbD7ftbiMGebeI03NUn/GD@vger.kernel.org, AJvYcCXUJjqzS3csDLrYyDdJXuOegl0w8ws8xJhWoh9wNt3A019oKa+K3HkDbjjokpr1qgmrFcaIxMTXQ1JCTJo=@vger.kernel.org
+X-Gm-Message-State: AOJu0Ywe8ilHpZh1Ci53jPFLs4AMraEG4/DmqQ11j94z3of23ymykp4J
+	ctHvDTjMU6VjiGiBCAog9HcHM4u/Mt4CtGMkp/pQsS+eKkiIO6qcgDQzLeOY1WOqDVnjJlUqWO7
+	G+wC0H5VcrizFbVpcIRvXsQQpfWPuS0Md6f0=
+X-Gm-Gg: ASbGncurA6iI6FiQYaAYEmWoNoLP5SQFrWB4CdLIp4hhcCtUhqxXWF8OWXXQmWZeMt3
+	Z6NXdevLxotlDKqO2O41DurDCQedXAt/Y8mLU4w==
+X-Google-Smtp-Source: AGHT+IG+LlmItXXSrrSAO1/e+MAC/5NtfAkYB32EqlYIuVxP7rrFOlwhbNY+5sZGFMj+qKLU48Y2Sd4uYrZEUF+qt/g=
+X-Received: by 2002:a05:6122:169b:b0:518:1cd4:4eb with SMTP id
+ 71dfb90a1353d-518ca48517bmr7556635e0c.12.1734262874321; Sun, 15 Dec 2024
+ 03:41:14 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH RFT 4/4] arm64: dts: qcom: msm8994: Describe USB
- interrupts
-To: Petr Vorel <pvorel@suse.cz>, Konrad Dybcio <konradybcio@kernel.org>
-Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Rob Herring <robh@kernel.org>,
-        Krzysztof Kozlowski <krzk+dt@kernel.org>,
-        Conor Dooley <conor+dt@kernel.org>,
-        Wesley Cheng <quic_wcheng@quicinc.com>,
-        Bjorn Andersson <andersson@kernel.org>,
-        Yassine Oudjana <y.oudjana@protonmail.com>,
-        Marijn Suijten <marijn.suijten@somainline.org>,
-        linux-arm-msm@vger.kernel.org, linux-usb@vger.kernel.org,
-        devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
-        =?UTF-8?B?S3J5xaF0b2YgxIxlcm7DvQ==?= <cleverline1mc@gmail.com>,
-        Alexander Reimelt <alexander.reimelt@posteo.de>,
-        Dominik Kobinski <dominikkobinski314@gmail.com>,
-        Harry Austen <hpausten@protonmail.com>,
-        Konrad Dybcio <konrad.dybcio@oss.qualcomm.com>
-References: <20241129-topic-qcom_usb_dtb_fixup-v1-0-cba24120c058@oss.qualcomm.com>
- <20241129-topic-qcom_usb_dtb_fixup-v1-4-cba24120c058@oss.qualcomm.com>
- <20241206220252.GA138783@pevik>
-Content-Language: en-US
-From: Konrad Dybcio <konrad.dybcio@oss.qualcomm.com>
-In-Reply-To: <20241206220252.GA138783@pevik>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
-X-Proofpoint-GUID: ADecm5B8thApxZaDOrYCO09ACo30iK0b
-X-Proofpoint-ORIG-GUID: ADecm5B8thApxZaDOrYCO09ACo30iK0b
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1039,Hydra:6.0.680,FMLib:17.12.60.29
- definitions=2024-09-06_09,2024-09-06_01,2024-09-02_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 malwarescore=0 bulkscore=0
- spamscore=0 lowpriorityscore=0 clxscore=1015 impostorscore=0 adultscore=0
- suspectscore=0 mlxlogscore=760 phishscore=0 mlxscore=0 priorityscore=1501
- classifier=spam adjust=0 reason=mlx scancount=1 engine=8.19.0-2411120000
- definitions=main-2412140186
+References: <20241106183032.80155-1-karprzy7@gmail.com> <2024110719-kennel-tiptoeing-3409@gregkh>
+In-Reply-To: <2024110719-kennel-tiptoeing-3409@gregkh>
+From: Karol P <karprzy7@gmail.com>
+Date: Sun, 15 Dec 2024 12:41:03 +0100
+Message-ID: <CAKwoAfpB-n8m7btodbH0zzTuEGiEQbDsC0aYuOfk8MSb+CFgLg@mail.gmail.com>
+Subject: Re: [PATCH] usb: gadget: f_fs: remove unused values and add immediate returns
+To: Greg KH <gregkh@linuxfoundation.org>
+Cc: paul@crapouillou.net, tudor.ambarus@linaro.org, Chris.Wulff@biamp.com, 
+	david.sands@biamp.com, viro@zeniv.linux.org.uk, m.grzeschik@pengutronix.de, 
+	peter@korsgaard.com, linux-usb@vger.kernel.org, linux-kernel@vger.kernel.org, 
+	skhan@linuxfoundation.org
+Content-Type: text/plain; charset="UTF-8"
 
-On 6.12.2024 11:02 PM, Petr Vorel wrote:
-> Hi Konrad, all,
-> 
->> From: Konrad Dybcio <konrad.dybcio@oss.qualcomm.com>
-> 
->> Previously the interrupt lanes were not described, fix that.
-> 
->> Fixes: d9be0bc95f25 ("arm64: dts: qcom: msm8994: Add USB support")
->> Signed-off-by: Konrad Dybcio <konrad.dybcio@oss.qualcomm.com>
->> ---
->>  arch/arm64/boot/dts/qcom/msm8994.dtsi | 9 +++++++++
->>  1 file changed, 9 insertions(+)
-> 
->> diff --git a/arch/arm64/boot/dts/qcom/msm8994.dtsi b/arch/arm64/boot/dts/qcom/msm8994.dtsi
->> index 1acb0f159511996db07bc7543cf4f194a4ebd0fa..8c0b1e3a99a767e7c28bcaf3b9687501cc15cd58 100644
->> --- a/arch/arm64/boot/dts/qcom/msm8994.dtsi
->> +++ b/arch/arm64/boot/dts/qcom/msm8994.dtsi
->> @@ -437,6 +437,15 @@ usb3: usb@f92f8800 {
->>  			#size-cells = <1>;
->>  			ranges;
-> 
->> +			interrupts = <GIC_SPI 180 IRQ_TYPE_LEVEL_HIGH>,
->> +				     <GIC_SPI 311 IRQ_TYPE_LEVEL_HIGH>,
->> +				     <GIC_SPI 133 IRQ_TYPE_LEVEL_HIGH>,
->> +				     <GIC_SPI 310 IRQ_TYPE_LEVEL_HIGH>;
->> +			interrupt-names = "pwr_event",
->> +					  "qusb2_phy",
->> +					  "hs_phy_irq",
->> +					  "ss_phy_irq";
->> +
-> 
-> Tested-by: Petr Vorel <petr.vorel@gmail.com>
-> 
-> Well, I tested this on msm8994 Huawei Nexus 6P. It did not break anything,
-> but obviously it's not enough for phone to get USB working. IMHO none of
-> msm899[24] has working USB.
+On Thu, 7 Nov 2024 at 06:15, Greg KH <gregkh@linuxfoundation.org> wrote:
+>
+> On Wed, Nov 06, 2024 at 07:30:32PM +0100, Karol Przybylski wrote:
+> > In case of faulty copy_from_user call inside ffs_epfile_ioctl, error code is
+> > saved in a variable. However, this variable is later overwritten in every possible
+> > path, which overshadows initial assignment.
+> >
+> > This patch fixes it by returning the error code immediately and exiting the function.
+> >
+> > Error discovered in coverity scan - CID 1583682
+> >
+> > Signed-off-by: Karol Przybylski <karprzy7@gmail.com>
+> > ---
+> >  drivers/usb/gadget/function/f_fs.c | 9 +++------
+> >  1 file changed, 3 insertions(+), 6 deletions(-)
+>
+> What commit id does this fix?
 
-It did work for me on both libra and on the Sony phones.. On the Lumias
-it worked when I booted through lk2nd, and I tracked it down to one of
-the writes that I never implemented.. and then I removed the repo
-where I had it tracked down
+7b07a2a7ca02a, usb: gadget: functionfs: Add DMABUF import interface
 
-I took a quick peek (but don't have the time right now to make sure it's
-this one) and if my memory doesn't fail me, you may need to
+>
+> How was this change tested?
 
-// the second address in qcom,usb-dwc3-msm in downstream
-void __iomem *foo = ioremap(0xFD4AB000, 0x4);
-u32 val = readl(foo);
-val |= BIT(0);
-writel(val, foo);
+I compiled the kernel and ran it on my machine.
+Are there other ways to reliably test such change?
 
-> msm8996 has usb3phy, hsusb_phy[12] labels, I suppose USB will not be working
-> until this is set. Below is a snippet of a downstream device tree. I might
-> be able to transform it to the mainline tree, but feel free to post a patch
-> (probably obvious for you).
-
-So long as the PHY is not reset, it should be working as well as it
-did in the bootloader.. which depending on whether your BL set it up
-may mean "well" or "not at all".. Give the above a shot, put it in
-some early init code.
-
-Konrad
+>
+> thanks,
+>
+> greg k-h
