@@ -1,50 +1,50 @@
 Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.15])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 983DA1D63C4
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0B5DF1DAC95
 	for <linux-usb@vger.kernel.org>; Tue, 17 Dec 2024 08:22:27 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.15
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1734423749; cv=none; b=ZA3VGu7aFqOgE7OKs3zHuY8aVNJp8Xgry2PYViGdLOQuInc5rjjiZIyynpZg2fPY4mrvm49czcrlSss/17Z4XL3SXmXVM4nalN3qZ+VUFBfl8EB88kUhLHk9DdNYRPbixiWFW7/Tngr2pb3kFYCfwiPHVtoSSh7Xu0QKXporhv0=
+	t=1734423749; cv=none; b=tBMmcpiAQ3gi3DCv4SsUed6W4NmJEjrAP6vGDTkyqX0c6ABKsma/K7EiPGWYMq8OX5SXIzANbTK5lYk6HWo4UkGua5j3ZnySJ9r6dQXU2BQ2hrewSiqtAh2dQBX8cJGdMA+wXJ463p6xeD6NgC6J+at1TP1DjPrnxM022EGSrc4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
 	s=arc-20240116; t=1734423749; c=relaxed/simple;
-	bh=FafJbNr5gNji0JWMn3wCkxlMVr3ikCRi8cfU0fIuhVU=;
+	bh=rm+XfwCDb1w4MEyXlwYaAx7AGaBaxxUlyDBzqRIYnfA=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=po1kLkmsEXaBCTyer4vn46RIyx7miVtRN10VpmlRrWVfZn+J/PWcY/Ib2Ri4Jtnt0bgpCqIl/6Goapp98n7DUvdmpED/iHg7P//aq0C1vF6rSj2vaAmm7dDVCmrG5ky3OWK1KrG77nVXyaGGa4BF1WXT5lbhDWCRqscym3wGIZQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=none smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=GWWDfQ0l; arc=none smtp.client-ip=198.175.65.15
+	 MIME-Version; b=WwBd9gFtHq9Cz4J9cv3CV168TRBJPfTJkZMD2WcVkjKq7+7na/GbO1lllE+WOSDtZcQTId3XNVxt3xV3YhzuB1g5ameYccmFmV+q2WpB+pgYWXxD3iB9W1wSA/nyzMWqG4sQQhuUOzayM9j7rBH/zofohyAfvd3812iIZEMA0No=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=none smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=b6ZS3EWI; arc=none smtp.client-ip=198.175.65.15
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=linux.intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="GWWDfQ0l"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="b6ZS3EWI"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
   t=1734423748; x=1765959748;
   h=from:to:cc:subject:date:message-id:in-reply-to:
    references:mime-version:content-transfer-encoding;
-  bh=FafJbNr5gNji0JWMn3wCkxlMVr3ikCRi8cfU0fIuhVU=;
-  b=GWWDfQ0lUGpIgG89dQxnJ/S+GWef3BM9HuPURAprdMawSy+uU4Tc38Ey
-   GssDAmn3rpapEiVd6aWctsy22DKh4cVir4GHwZVvdIAxkhLMTMilTCovn
-   HMhjCOAUdaktpEp2+D2LywFRg5GdCDlmlUgMOtvO/Tf57aFoWRQ3/ynZT
-   nFXpSn/zhRfxstiTpJyoXCxojypLN8N49sckSN7Vz6VTzbMa+o5cSs7hP
-   u03IbxM6H3six73DRSok7EkRpMnoVbAzWesmrQsDoRVHNEIyg9lr4zNPL
-   9lwhX9V+iDte1zTZZ/KvqdnOulQgJgR3Nrev0e6evaFPGpu1/ywVhpQ4C
-   A==;
-X-CSE-ConnectionGUID: d1tlKY3DSxCSrK8wARdbWg==
-X-CSE-MsgGUID: v5T9msWfSqiaZXIGCay/QQ==
-X-IronPort-AV: E=McAfee;i="6700,10204,11288"; a="38511434"
+  bh=rm+XfwCDb1w4MEyXlwYaAx7AGaBaxxUlyDBzqRIYnfA=;
+  b=b6ZS3EWIeEpTjdmdvp00/aMth+KjZ36hfrIdSXqaMEfbtgTfIzM4T9PI
+   fiy1Uvw4NMUzlLx4CRKT4duXx1PGjVQB82WfuponMyjl+AcftMY+mSWUx
+   9GaKx8imurPT8dipZuTSqPRRILQKqNFFWnYlavikulfCAt0CCDO0GvEiK
+   GOkRTua9RgAZQ12PbRmWgtfGRP+nm6ySlg4aqsKhyO5QUF7YHffsEKD6E
+   ITl8mlPqMGXaA1jj0ZCvrwD/Csbhl7pn0avBQ2IlLH+GxDZ4u0eBijJcM
+   h5+yzZA4s7xLEaOi0baVxnL+ZvKRWZnlRKNwQAmmhscCkame8l1BqOa76
+   g==;
+X-CSE-ConnectionGUID: ixLAekflSy6+zPrfkn0T6w==
+X-CSE-MsgGUID: MIe5Q4f/QcWGt+L6eZtK5Q==
+X-IronPort-AV: E=McAfee;i="6700,10204,11288"; a="38511438"
 X-IronPort-AV: E=Sophos;i="6.12,241,1728975600"; 
-   d="scan'208";a="38511434"
+   d="scan'208";a="38511438"
 Received: from fmviesa005.fm.intel.com ([10.60.135.145])
   by orvoesa107.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 17 Dec 2024 00:22:26 -0800
-X-CSE-ConnectionGUID: 5n4JeqK+TJykR/8I2P6jIQ==
-X-CSE-MsgGUID: hV59TtAPQ06EWtq25+LqDA==
+X-CSE-ConnectionGUID: sWRdy1z4QASGtm2zGTkyeg==
+X-CSE-MsgGUID: YwiAPW0iT1qx6MYT2/Mt9w==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.12,224,1728975600"; 
-   d="scan'208";a="102063224"
+   d="scan'208";a="102063226"
 Received: from black.fi.intel.com ([10.237.72.28])
   by fmviesa005.fm.intel.com with ESMTP; 17 Dec 2024 00:22:24 -0800
 Received: by black.fi.intel.com (Postfix, from userid 1001)
-	id 0384F331; Tue, 17 Dec 2024 10:22:22 +0200 (EET)
+	id 0DF7C3B7; Tue, 17 Dec 2024 10:22:23 +0200 (EET)
 From: Mika Westerberg <mika.westerberg@linux.intel.com>
 To: linux-usb@vger.kernel.org
 Cc: Yehezkel Bernat <YehezkelShB@gmail.com>,
@@ -52,9 +52,9 @@ Cc: Yehezkel Bernat <YehezkelShB@gmail.com>,
 	Lukas Wunner <lukas@wunner.de>,
 	Andreas Noever <andreas.noever@gmail.com>,
 	Mika Westerberg <mika.westerberg@linux.intel.com>
-Subject: [PATCH 01/12] thunderbolt: Drop doubled empty line from ctl.h
-Date: Tue, 17 Dec 2024 10:22:11 +0200
-Message-ID: <20241217082222.528602-2-mika.westerberg@linux.intel.com>
+Subject: [PATCH 04/12] thunderbolt: Increase DPRX capabilities read timeout
+Date: Tue, 17 Dec 2024 10:22:14 +0200
+Message-ID: <20241217082222.528602-5-mika.westerberg@linux.intel.com>
 X-Mailer: git-send-email 2.45.2
 In-Reply-To: <20241217082222.528602-1-mika.westerberg@linux.intel.com>
 References: <20241217082222.528602-1-mika.westerberg@linux.intel.com>
@@ -66,23 +66,37 @@ List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-No functional changes.
+Some graphics drivers such as i915 support runtime power management and
+if there is nothing connected at the moment they will runtime suspend to
+save power. At least i915 is polling for new connections every 10
+seconds if the hardware does support sending PME. To allow i915 and
+other graphics from detect the just established DisplayPort tunnel allow
+the DPRX capabilities read to take up to 12 seconds.
 
 Signed-off-by: Mika Westerberg <mika.westerberg@linux.intel.com>
 ---
- drivers/thunderbolt/ctl.h | 1 -
- 1 file changed, 1 deletion(-)
+ drivers/thunderbolt/tunnel.c | 7 +++++--
+ 1 file changed, 5 insertions(+), 2 deletions(-)
 
-diff --git a/drivers/thunderbolt/ctl.h b/drivers/thunderbolt/ctl.h
-index bf930a191472..7e08ca8f0895 100644
---- a/drivers/thunderbolt/ctl.h
-+++ b/drivers/thunderbolt/ctl.h
-@@ -140,5 +140,4 @@ int tb_cfg_write(struct tb_ctl *ctl, const void *buffer, u64 route, u32 port,
- 		 enum tb_cfg_space space, u32 offset, u32 length);
- int tb_cfg_get_upstream_port(struct tb_ctl *ctl, u64 route);
- 
--
- #endif
+diff --git a/drivers/thunderbolt/tunnel.c b/drivers/thunderbolt/tunnel.c
+index 41cf6378ad25..f9e75c221fef 100644
+--- a/drivers/thunderbolt/tunnel.c
++++ b/drivers/thunderbolt/tunnel.c
+@@ -1186,9 +1186,12 @@ static int tb_dp_consumed_bandwidth(struct tb_tunnel *tunnel, int *consumed_up,
+ 		 * return that bandwidth (it may be smaller than the
+ 		 * reduced one). According to VESA spec, the DPRX
+ 		 * negotiation shall compete in 5 seconds after tunnel
+-		 * established. We give it 100ms extra just in case.
++		 * established. Since at least i915 can runtime suspend
++		 * if there is nothing connected, and that it polls any
++		 * new connections every 10 seconds, we use 12 seconds
++		 * here.
+ 		 */
+-		ret = tb_dp_wait_dprx(tunnel, 5100);
++		ret = tb_dp_wait_dprx(tunnel, 12000);
+ 		if (ret)
+ 			return ret;
+ 		ret = tb_dp_read_cap(tunnel, DP_COMMON_CAP, &rate, &lanes);
 -- 
 2.45.2
 
