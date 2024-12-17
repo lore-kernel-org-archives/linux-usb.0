@@ -1,50 +1,50 @@
 Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.15])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2132A1DBB24
-	for <linux-usb@vger.kernel.org>; Tue, 17 Dec 2024 08:22:29 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 07E531DB938
+	for <linux-usb@vger.kernel.org>; Tue, 17 Dec 2024 08:22:28 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.15
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1734423750; cv=none; b=DUUJ2HlDWGIMGBDV1nExgdvFpGWhdEw/1LaVhvGgU1C8uqjUxvZU5o+w5uuIZwBhd7ioyakn10T4oQ/snP1SoUTiBCKCSatael/pu18d4Lt2XLLsTkQsqDyMLZ+ccWtSopKMQ1yWMcDLe/lBFWm4rBmt532P2eAp4HWxxHlsaSg=
+	t=1734423750; cv=none; b=ugbznDp1GhG68ASKa/o14VYbXcPZ/Ub+RIOJnEMz0J8AqSMHDlg4vM/6zze+dhsjxuLphPt7cgFWlKQQlFlRV/DoFWOMc8YHRfiqy1nDLNycUyYt5oW/s5+Z0KVQEnA8nuOX5ptvGJuWDTI+OYu5TGgde9YDqV8+JaCxHv9vsgM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
 	s=arc-20240116; t=1734423750; c=relaxed/simple;
-	bh=L71qdzPBIxHeeF9NnhXTAoGkbxyD6X5/SFu56xfZxzM=;
+	bh=YYtr0cuhOWs6ELaPPdDPDjxOZ2jg4tQU3j7NGvowirM=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=h/MsvkEnIlb0/iVwT2v3U0K5PjwX2XD70R8xnQkJhJn1UKXXifdO453mYd2NMvv51zSRSJC57u8m7YHTaIkS6sLYrk+lzVHcjTDjbuSGLSjIwN2ERKC+saZP7b/pXhYJNno5JWrhEcijyAKwGF9rDub0UsuX+C9PH45C7YuLG/w=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=none smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=EySr4Zw0; arc=none smtp.client-ip=198.175.65.15
+	 MIME-Version; b=Xvgky6kw6hUgrq1IHRnaFIYWUwd00XJGD99ulDNCKt5x4QjN3KL1xu854cSmv21jDtjgVpAC+pt9/cqr6sjAeaMEMAjjRUX7O7kwIRkVEnWvdf8aYoTDPrAQMOkF6WNCOgkrLmn5bpK5Gsqg5DF/OC72YRXqpKy0rtaGQB6HrSk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=none smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=X+7TznOo; arc=none smtp.client-ip=198.175.65.15
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=linux.intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="EySr4Zw0"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="X+7TznOo"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
   t=1734423749; x=1765959749;
   h=from:to:cc:subject:date:message-id:in-reply-to:
    references:mime-version:content-transfer-encoding;
-  bh=L71qdzPBIxHeeF9NnhXTAoGkbxyD6X5/SFu56xfZxzM=;
-  b=EySr4Zw0mImefWk6oUOB/efv+OuDePF5V7GvfeXJbxudnkSZXt+OswM8
-   kYB87U2EHFRjor/GepKpvBuxF5cNAKjm0iL1g6auOUvehkXuR7I4RX9b1
-   LnXuNMOmL7OyXpxa5KIJgFNAUWIGYayNJsfIYvWDT3nQh7kKm781nU6cO
-   js5UCkejbVuwUDssMd06v/70RZqWTks6FWuvcoZTOIK1VpJzqxDMGM+tV
-   wNB9jlAA/4MBi5B/KcYzavSCSNdx6z5ihl3JCtgkUio7A6RgCddU9s5ei
-   HWD1XHvSPMp/O7TCKat0liO7HV7m1jO9O/kH64YC1unlccT/LvdbelP5T
-   Q==;
-X-CSE-ConnectionGUID: ZLbGkPy4Q/mQvLqKumB0xQ==
-X-CSE-MsgGUID: 8KLIjCauRrqANW8xDURscg==
-X-IronPort-AV: E=McAfee;i="6700,10204,11288"; a="38511450"
+  bh=YYtr0cuhOWs6ELaPPdDPDjxOZ2jg4tQU3j7NGvowirM=;
+  b=X+7TznOowJlcIjGo0lkyx7+3rp4rXTN7zh7khiGV8ScyZLAPjqpmwoxd
+   08O6HgkeVwNIVwT7U4oySTwUr7FSIlFPVegxseGbqHhk/98oH3lFk5Fzw
+   KIU13AEpzLPRe4/Y/GQRMLhZJhP9p16UY8yhytlvKupPbP6ZLZiCF90vE
+   NZJOOmd4ruRNIlvTyOAoPEW4CZdao/vCAK8uzNnt8/grE7fW6cnD5Dnvm
+   N3AsXko0HH9tSeWlkR74c2ZjLduYR00Yi5UXR5inkuxDF+Tks5XhROCBM
+   tHNr0KN0MfoTixsnpzJ254KoNG7/N9q3Dp2iadAOV4DPk1ZEV5nyPPwIp
+   w==;
+X-CSE-ConnectionGUID: uKV1QuW9T2uH7A3nCR1MkQ==
+X-CSE-MsgGUID: iIT/orcETzeulOfxpy9Z3g==
+X-IronPort-AV: E=McAfee;i="6700,10204,11288"; a="38511447"
 X-IronPort-AV: E=Sophos;i="6.12,241,1728975600"; 
-   d="scan'208";a="38511450"
+   d="scan'208";a="38511447"
 Received: from fmviesa005.fm.intel.com ([10.60.135.145])
   by orvoesa107.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 17 Dec 2024 00:22:28 -0800
-X-CSE-ConnectionGUID: IY56RhhoSDmKjCAIv9dbSA==
-X-CSE-MsgGUID: Q+M3hvTwQ/6Id8X7DpEwDA==
+X-CSE-ConnectionGUID: GZPaYkdMT5GNOeG59/7Mlw==
+X-CSE-MsgGUID: mVkfCSItQUW7aIz8lhGBmA==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.12,224,1728975600"; 
-   d="scan'208";a="102063247"
+   d="scan'208";a="102063245"
 Received: from black.fi.intel.com ([10.237.72.28])
   by fmviesa005.fm.intel.com with ESMTP; 17 Dec 2024 00:22:27 -0800
 Received: by black.fi.intel.com (Postfix, from userid 1001)
-	id 24D9740B; Tue, 17 Dec 2024 10:22:23 +0200 (EET)
+	id 44B68913; Tue, 17 Dec 2024 10:22:23 +0200 (EET)
 From: Mika Westerberg <mika.westerberg@linux.intel.com>
 To: linux-usb@vger.kernel.org
 Cc: Yehezkel Bernat <YehezkelShB@gmail.com>,
@@ -52,9 +52,9 @@ Cc: Yehezkel Bernat <YehezkelShB@gmail.com>,
 	Lukas Wunner <lukas@wunner.de>,
 	Andreas Noever <andreas.noever@gmail.com>,
 	Mika Westerberg <mika.westerberg@linux.intel.com>
-Subject: [PATCH 06/12] thunderbolt: Show path name in debug log when path is deactivated
-Date: Tue, 17 Dec 2024 10:22:16 +0200
-Message-ID: <20241217082222.528602-7-mika.westerberg@linux.intel.com>
+Subject: [PATCH 09/12] thunderbolt: Pass reason to tb_dp_resource_unavailable()
+Date: Tue, 17 Dec 2024 10:22:19 +0200
+Message-ID: <20241217082222.528602-10-mika.westerberg@linux.intel.com>
 X-Mailer: git-send-email 2.45.2
 In-Reply-To: <20241217082222.528602-1-mika.westerberg@linux.intel.com>
 References: <20241217082222.528602-1-mika.westerberg@linux.intel.com>
@@ -66,30 +66,49 @@ List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-Similarly as we do when activating the path. Helps in debugging.
+Since we are going to call this also when DisplayPort tunnel
+establishment fails it is useful to have the reason logged.
 
 Signed-off-by: Mika Westerberg <mika.westerberg@linux.intel.com>
 ---
- drivers/thunderbolt/path.c | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
+ drivers/thunderbolt/tb.c | 9 +++++----
+ 1 file changed, 5 insertions(+), 4 deletions(-)
 
-diff --git a/drivers/thunderbolt/path.c b/drivers/thunderbolt/path.c
-index f760e54cd9bd..e1a5f6e3d0b6 100644
---- a/drivers/thunderbolt/path.c
-+++ b/drivers/thunderbolt/path.c
-@@ -581,10 +581,10 @@ int tb_path_activate(struct tb_path *path)
- 		}
+diff --git a/drivers/thunderbolt/tb.c b/drivers/thunderbolt/tb.c
+index 53e4890e3198..60454f9b9475 100644
+--- a/drivers/thunderbolt/tb.c
++++ b/drivers/thunderbolt/tb.c
+@@ -2088,17 +2088,18 @@ static void tb_switch_exit_redrive(struct tb_switch *sw)
  	}
- 	path->activated = true;
--	tb_dbg(path->tb, "path activation complete\n");
-+	tb_dbg(path->tb, "%s path activation complete\n", path->name);
- 	return 0;
- err:
--	tb_WARN(path->tb, "path activation failed\n");
-+	tb_WARN(path->tb, "%s path activation failed\n", path->name);
- 	return res;
  }
  
+-static void tb_dp_resource_unavailable(struct tb *tb, struct tb_port *port)
++static void tb_dp_resource_unavailable(struct tb *tb, struct tb_port *port,
++				       const char *reason)
+ {
+ 	struct tb_port *in, *out;
+ 	struct tb_tunnel *tunnel;
+ 
+ 	if (tb_port_is_dpin(port)) {
+-		tb_port_dbg(port, "DP IN resource unavailable\n");
++		tb_port_dbg(port, "DP IN resource unavailable: %s\n", reason);
+ 		in = port;
+ 		out = NULL;
+ 	} else {
+-		tb_port_dbg(port, "DP OUT resource unavailable\n");
++		tb_port_dbg(port, "DP OUT resource unavailable: %s\n", reason);
+ 		in = NULL;
+ 		out = port;
+ 	}
+@@ -2404,7 +2405,7 @@ static void tb_handle_hotplug(struct work_struct *work)
+ 			tb_xdomain_put(xd);
+ 			tb_port_unconfigure_xdomain(port);
+ 		} else if (tb_port_is_dpout(port) || tb_port_is_dpin(port)) {
+-			tb_dp_resource_unavailable(tb, port);
++			tb_dp_resource_unavailable(tb, port, "adapter unplug");
+ 		} else if (!port->port) {
+ 			tb_sw_dbg(sw, "xHCI disconnect request\n");
+ 			tb_switch_xhci_disconnect(sw);
 -- 
 2.45.2
 
