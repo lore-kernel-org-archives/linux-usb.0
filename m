@@ -1,127 +1,111 @@
-Received: from mail11.truemail.it (mail11.truemail.it [217.194.8.81])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from sundtek.de (sundtek.de [85.10.198.106])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EB27F198E92
-	for <linux-usb@vger.kernel.org>; Wed, 18 Dec 2024 10:38:00 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.194.8.81
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A62D250276
+	for <linux-usb@vger.kernel.org>; Wed, 18 Dec 2024 10:39:31 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=85.10.198.106
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1734518285; cv=none; b=IKChjUCoDwj1cXBO3XL0U34wHiD/qemkh6jySyS9R32XDwKqG09h11g+dF/K5GnunjgCoheWM86jtbsYZGpFQU9aOP/l+zsLh/W2SfVuQ1i7GMEMK6C5aFwjiPsZd9kj5AhzstElKWimyuzJT6diRx2PUTl1IbYLWFQxbd3oNFM=
+	t=1734518374; cv=none; b=u7FZBNiYseeLRSol8yv1MieR30pt/ddX/FId7fKcIWvaKh/IVEB+fxG6LPU2v6MvfKicTrHrWFr1O+oEvbn7KjD2tuCdhzHnm+QCdM5oV2T16Jva5fogWNaMJiRErytX5uj3y/CUWHWeIw2gIjH5kn6IAv1/PXcemD0I/+0mFmw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1734518285; c=relaxed/simple;
-	bh=bYLDD8/8TM76bmYy74XFWSp63b13S4DU4o5bbP/qsUY=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=Y7Ree/FfoxvmxnthHXoiYAY9vjJZP5G++VpgdBgBPXbicRKg6Yk5Zr5qjZvcn0YDmojmTmC1Q3/vc0HeGBVFPWhGrhisPWlbTTuwS5AstodQ5LB8dmzWE6vCgOg8ZlNPVVVQtSwrOI0dwY1p9TNpR2R/oj3K9lIs0gzHIzFvtKQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=dolcini.it; spf=pass smtp.mailfrom=dolcini.it; dkim=pass (2048-bit key) header.d=dolcini.it header.i=@dolcini.it header.b=SDRKzOHT; arc=none smtp.client-ip=217.194.8.81
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=dolcini.it
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=dolcini.it
+	s=arc-20240116; t=1734518374; c=relaxed/simple;
+	bh=kNJvys9W98HEREJbPMgM5B1ukuBf4BHqwc+4NXI5sPI=;
+	h=Message-ID:Subject:From:To:Cc:Date:In-Reply-To:References:
+	 Content-Type:MIME-Version; b=fZ1ZmzaOkv8TYxoCebviq1cDDFuxFkH+R8j6r9KzUFDKx6JlXWGwe77QELTRZxXTfFdJIfE85078p1/TOMv/ajWNRjztVbKaqoYHl676OmQduUSDSZWFjCKRGaYN286PsOAHg2WIpqhX9QXnIwlwAuZOwyq9cDfGZEz9TZr14gw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=sundtek.de; spf=pass smtp.mailfrom=sundtek.de; dkim=pass (2048-bit key) header.d=sundtek.de header.i=@sundtek.de header.b=ezATlpL9; arc=none smtp.client-ip=85.10.198.106
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=sundtek.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=sundtek.de
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=dolcini.it header.i=@dolcini.it header.b="SDRKzOHT"
-Received: from francesco-nb (93-49-2-63.ip317.fastwebnet.it [93.49.2.63])
-	by mail11.truemail.it (Postfix) with ESMTPA id 82C801FCF7;
-	Wed, 18 Dec 2024 11:37:52 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=dolcini.it;
-	s=default; t=1734518273;
-	bh=w1v0QHKNQOz/R/miGVNt6KYUwMYCc0ptPv/vzKqwCq0=; h=From:To:Subject;
-	b=SDRKzOHT/1TjkV5y/uanoyFxmfPB9kdqyxQr2r2kslxgv6kPjP1ZTmq64KyhQHiNB
-	 kiN3S6y3/7Odz6/e7n/jaiShZxhnZD+WgDbQLOw24wDanyd68DKtJfinbfK0QRm5y/
-	 EukjeJoWGfMarfmaiwOm5l5lDr9HrxWqUe48b0eN+wtsgc7KiVW8h7nDet26oLYGyC
-	 J8PNYqBNOBrIZspL2tEO9AqViPS3K45ARiRNW45usKwlBw23KSAR5/O9Qv/zG6GsXJ
-	 UI1dpM2SFo0dt97lQv5o5XK7tpuOVz2hO2PnIa4YMxaG/kU19moRSRdEE6PkT6LTh2
-	 60wXEfp/T4m7Q==
-Date: Wed, 18 Dec 2024 11:37:47 +0100
-From: Francesco Dolcini <francesco@dolcini.it>
-To: Xu Yang <xu.yang_2@nxp.com>
-Cc: heikki.krogerus@linux.intel.com, gregkh@linuxfoundation.org,
-	andre.draszik@linaro.org, rdbabiera@google.com,
-	m.felsch@pengutronix.de, dan.carpenter@linaro.org,
-	emanuele.ghidoli@toradex.com, parth.pancholi@toradex.com,
-	francesco.dolcini@toradex.com, u.kleine-koenig@baylibre.com,
-	linux-usb@vger.kernel.org, imx@lists.linux.dev, jun.li@nxp.com
-Subject: Re: [PATCH v4] usb: typec: tcpci: fix NULL pointer issue on shared
- irq case
-Message-ID: <20241218103747.GA4500@francesco-nb>
-References: <20241218095328.2604607-1-xu.yang_2@nxp.com>
+	dkim=pass (2048-bit key) header.d=sundtek.de header.i=@sundtek.de header.b="ezATlpL9"
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=sundtek.de;
+	s=202411; h=MIME-Version:Content-Transfer-Encoding:Content-Type:References:
+	In-Reply-To:Date:Cc:To:From:Subject:Message-ID:Sender:Reply-To:Content-ID:
+	Content-Description:Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc
+	:Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:List-Subscribe:
+	List-Post:List-Owner:List-Archive;
+	bh=kNJvys9W98HEREJbPMgM5B1ukuBf4BHqwc+4NXI5sPI=; b=ezATlpL9KhHOs8Gglqr6Gx8RZ9
+	TFC2vFyIIcPdTvzH5RM1AtDKQkuUlwQ9+kz1L+6/Gh/RbBcKB5sh/VFN7s8Sm86wfuBtKKIz07ds6
+	YpUYObTa6ViJKXQNRVoqg8w99DEIrdHi+Raq8yrqH+A3v/NTNMlEurmrD5EgPvUCjRCAW4A/mRaOS
+	aeXNY3608NrkNs4aICE5U6OXaIq3KaWyZIgULSwvIzS3TyJqlg2G9cT6av9cOMwtQlMVZ6ldsfTLZ
+	sjMJ7OvS2tez6NHdM9NPYRD3FiYC7TcTJ2QCPPgA3eEDN16cmTi0PVE8lEFaQgVAtYCHpKFndUx3Z
+	vS/JdD4Q==;
+Received: from Debian-exim by sundtek.de with spam-scanned (Exim 4.95)
+	(envelope-from <linuxusb.ml@sundtek.de>)
+	id 1tNr3o-00DNj4-Om
+	for linux-usb@vger.kernel.org;
+	Wed, 18 Dec 2024 11:13:44 +0100
+X-Spam-Report: =?ISO-8859-1?Q?
+	* -1.0 ALL_TRUSTED Nachricht wurde nur =fcber vertrauensw=fcrdige Rechner
+	*      weitergeleitet
+	* -1.9 BAYES_00 BODY: Spamwahrscheinlichkeit nach Bayes-Test: 0-1%
+	*      [score: 0.0000]
+	*  0.0 TVD_RCVD_IP Message was received from an IP address?=
+X-Spam-Level: 
+Received: from 111-254-20-73.dynamic-ip.hinet.net ([111.254.20.73] helo=[192.168.2.197])
+	by sundtek.de with esmtpsa  (TLS1.3) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
+	(Exim 4.95)
+	(envelope-from <linuxusb.ml@sundtek.de>)
+	id 1tNr3k-00DNir-6s;
+	Wed, 18 Dec 2024 11:13:40 +0100
+Message-ID: <4e5403bfeaa656a42f145c217ccc7e58c993bca6.camel@sundtek.de>
+Subject: Re: USB Autosuspend
+From: Markus Rechberger <linuxusb.ml@sundtek.de>
+To: Alan Stern <stern@rowland.harvard.edu>
+Cc: linux-usb@vger.kernel.org
+Date: Wed, 18 Dec 2024 18:13:35 +0800
+In-Reply-To: <3e9d6d03-eed7-4f46-9926-4d395c0bc46d@rowland.harvard.edu>
+References: <77b79e95c092511a695ac0b6a8eade57b12ff3db.camel@sundtek.de>
+	 <3e9d6d03-eed7-4f46-9926-4d395c0bc46d@rowland.harvard.edu>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+User-Agent: Evolution 3.52.3-0ubuntu1 
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20241218095328.2604607-1-xu.yang_2@nxp.com>
+X-SA-Exim-Connect-IP: <locally generated>
+X-SA-Exim-Mail-From: linuxusb.ml@sundtek.de
+X-SA-Exim-Scanned: No (on sundtek.de); SAEximRunCond expanded to false
 
-On Wed, Dec 18, 2024 at 05:53:28PM +0800, Xu Yang wrote:
-> The tcpci_irq() may meet below NULL pointer dereference issue:
-> 
-> [    2.641851] Unable to handle kernel NULL pointer dereference at virtual address 0000000000000010
-> [    2.641951] status 0x1, 0x37f
-> [    2.650659] Mem abort info:
-> [    2.656490]   ESR = 0x0000000096000004
-> [    2.660230]   EC = 0x25: DABT (current EL), IL = 32 bits
-> [    2.665532]   SET = 0, FnV = 0
-> [    2.668579]   EA = 0, S1PTW = 0
-> [    2.671715]   FSC = 0x04: level 0 translation fault
-> [    2.676584] Data abort info:
-> [    2.679459]   ISV = 0, ISS = 0x00000004, ISS2 = 0x00000000
-> [    2.684936]   CM = 0, WnR = 0, TnD = 0, TagAccess = 0
-> [    2.689980]   GCS = 0, Overlay = 0, DirtyBit = 0, Xs = 0
-> [    2.695284] [0000000000000010] user address but active_mm is swapper
-> [    2.701632] Internal error: Oops: 0000000096000004 [#1] PREEMPT SMP
-> [    2.707883] Modules linked in:
-> [    2.710936] CPU: 1 UID: 0 PID: 87 Comm: irq/111-2-0051 Not tainted 6.12.0-rc6-06316-g7f63786ad3d1-dirty #4
-> [    2.720570] Hardware name: NXP i.MX93 11X11 EVK board (DT)
-> [    2.726040] pstate: 60400009 (nZCv daif +PAN -UAO -TCO -DIT -SSBS BTYPE=--)
-> [    2.732989] pc : tcpci_irq+0x38/0x318
-> [    2.736647] lr : _tcpci_irq+0x14/0x20
-> [    2.740295] sp : ffff80008324bd30
-> [    2.743597] x29: ffff80008324bd70 x28: ffff800080107894 x27: ffff800082198f70
-> [    2.750721] x26: ffff0000050e6680 x25: ffff000004d172ac x24: ffff0000050f0000
-> [    2.757845] x23: ffff000004d17200 x22: 0000000000000001 x21: ffff0000050f0000
-> [    2.764969] x20: ffff000004d17200 x19: 0000000000000000 x18: 0000000000000001
-> [    2.772093] x17: 0000000000000000 x16: ffff80008183d8a0 x15: ffff00007fbab040
-> [    2.779217] x14: ffff00007fb918c0 x13: 0000000000000000 x12: 000000000000017a
-> [    2.786341] x11: 0000000000000001 x10: 0000000000000a90 x9 : ffff80008324bd00
-> [    2.793465] x8 : ffff0000050f0af0 x7 : ffff00007fbaa840 x6 : 0000000000000031
-> [    2.800589] x5 : 000000000000017a x4 : 0000000000000002 x3 : 0000000000000002
-> [    2.807713] x2 : ffff80008324bd3a x1 : 0000000000000010 x0 : 0000000000000000
-> [    2.814838] Call trace:
-> [    2.817273]  tcpci_irq+0x38/0x318
-> [    2.820583]  _tcpci_irq+0x14/0x20
-> [    2.823885]  irq_thread_fn+0x2c/0xa8
-> [    2.827456]  irq_thread+0x16c/0x2f4
-> [    2.830940]  kthread+0x110/0x114
-> [    2.834164]  ret_from_fork+0x10/0x20
-> [    2.837738] Code: f9426420 f9001fe0 d2800000 52800201 (f9400a60)
-> 
-> This may happen on shared irq case. Such as two Type-C ports share one
-> irq. After the first port finished tcpci_register_port(), it may trigger
-> interrupt. However, if the interrupt comes by chance the 2nd port finishes
-> devm_request_threaded_irq(), the 2nd port interrupt handler will run at
-> first. Then the above issue happens due to tcpci is still a NULL pointer
-> in tcpci_irq() when dereference to regmap.
-> 
->   devm_request_threaded_irq()
-> 				<-- port1 irq comes
->   disable_irq(client->irq);
->   tcpci_register_port()
-> 
-> This will restore the logic to the state before commit (77e85107a771 "usb:
-> typec: tcpci: support edge irq").
-> 
-> However, moving tcpci_register_port() earlier creates a problem when use
-> edge irq because tcpci_init() will be called before
-> devm_request_threaded_irq(). The tcpci_init() writes the ALERT_MASK to
-> the hardware to tell it to start generating interrupts but we're not ready
-> to deal with them yet, then the ALERT events may be missed and ALERT line
-> will not recover to high level forever. To avoid the issue, this will also
-> set ALERT_MASK register after devm_request_threaded_irq() return.
-> 
-> Fixes: 77e85107a771 ("usb: typec: tcpci: support edge irq")
-> Cc: stable@vger.kernel.org
-> Tested-by: Emanuele Ghidoli <emanuele.ghidoli@toradex.com>
-> Signed-off-by: Xu Yang <xu.yang_2@nxp.com>
+On Mon, 2024-11-18 at 22:11 -0500, Alan Stern wrote:
+> On Mon, Nov 18, 2024 at 04:13:29PM +0800, Markus Rechberger wrote:
+> > Hi,
+> >=20
+> > we repeatedly received issues from customers with usb autosuspend,
+> > our
+> > devices are randomly disconnected on some systems, it did not
+> > happen
+> > many times but if more than 4-5 customers report this there's
+> > usually
+> > some real issue behind that.
+> >=20
+> > I'm asking here because the Libreelec distribution recently got my
+> > attention that they seem to set usb autosuspend to -1 during boot
+> > time
+> > so they probably figured that out much earlier with other devices.
+> > I have never experienced that issue on an Ivy or Haswell based
+> > system.
+> >=20
+> > Were there some issues with particular kernel versions in the past
+> > or
+> > are there any issues known in general with USB autosuspend?
+>=20
+> I'm not aware of any such issues.
+>=20
+> Do you think you can get kernel debugging logs from your customers=20
+> showing examples of these disconnections?
+>=20
 
-Reviewed-by: Francesco Dolcini <francesco.dolcini@toradex.com>
+one customer just replied his problem is gone since he disabled auto
+suspend (that was the latest one). He tested it since the last mail to
+the mailing list.
 
+Do you want any particular logfiles / logging from him?
+
+Best Regards,
+Markus
+
+> Alan Stern
+>=20
 
