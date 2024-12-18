@@ -1,337 +1,143 @@
-Received: from mx0a-00230701.pphosted.com (mx0a-00230701.pphosted.com [148.163.156.19])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-qt1-f172.google.com (mail-qt1-f172.google.com [209.85.160.172])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0009535964;
-	Wed, 18 Dec 2024 01:08:13 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=148.163.156.19
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 95DFF35952
+	for <linux-usb@vger.kernel.org>; Wed, 18 Dec 2024 01:16:53 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.160.172
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1734484097; cv=none; b=QIcjbVAeVi8h3RE6I3WiY/jalvgcODLdrmj41DKBUEixC5FKB00I6xqiVdoft7xWNSLBwTj6kmXaFbSk+OREplRIqc+FcPzb0gHghpZi4CQ115B616CP2/Ot2+QPrSqn3kH+l1FvctopnZat7Nlm2rmDRIddhdtVMwcDDLfxsSU=
+	t=1734484615; cv=none; b=E/0VjpoKJUtinM1J3F5VLnH4sX2UkvtIA6OV/CvWrWVnp4f1BjJUkQo3MBKvPRpFZq8hsazswdtwOa5+bt7O7ZkTz+Qxq4kmXPezhoXLIbtnka6SA0STm4Hyfr3HDuAAE+ah8EJs1q4hPmr0aq1nRiMOI9Io3GB/w1otdutlHW4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1734484097; c=relaxed/simple;
-	bh=3OXls4aX1XtriZFtqaZE692rJocWiHxEVkyrKopQNMo=;
-	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References; b=q0edU97MgkSlojRH57bOQjImKUIsB+yUti639KDWQyK5/YR9P3aG/qTUlyGcOLLZ40KGSRIIQfik0MnTzO343UJh7WYlBk/hqFV5US5Q3MSivGRjzjPwTWS3/RNjPghph0pbaIGZGkTQa1Pm1rMWSV+sxYjfKaAz8//1t3QOwNg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=synopsys.com; spf=pass smtp.mailfrom=synopsys.com; dkim=pass (2048-bit key) header.d=synopsys.com header.i=@synopsys.com header.b=ULn1z9mR; dkim=pass (2048-bit key) header.d=synopsys.com header.i=@synopsys.com header.b=eltfBVx+; arc=none smtp.client-ip=148.163.156.19
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=synopsys.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=synopsys.com
+	s=arc-20240116; t=1734484615; c=relaxed/simple;
+	bh=aJ+jKfs8vOkx5Gsw61RenhEFgwAHCYAz6byzGMuMsmg=;
+	h=MIME-Version:In-Reply-To:References:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=e5enVoLU604RF+Xu6uzR+wAVA4lkd5/ouJdLj3zvYQb5n6ZWc7YD7DGe7IuBLwWugqsLYDKeSPwlw1KDizb913VTZNSZNsL4fafGUp70DBUepR36ZXKiKmfY4DLf7pXYYA4oj/J29xI0gJAEZCQyKNn3JblgbzMZnZq4ZI8JFd8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org; spf=pass smtp.mailfrom=chromium.org; dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b=Y0cVCCjy; arc=none smtp.client-ip=209.85.160.172
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=chromium.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=synopsys.com header.i=@synopsys.com header.b="ULn1z9mR";
-	dkim=pass (2048-bit key) header.d=synopsys.com header.i=@synopsys.com header.b="eltfBVx+"
-Received: from pps.filterd (m0297266.ppops.net [127.0.0.1])
-	by mx0a-00230701.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 4BHIJpcr005630;
-	Tue, 17 Dec 2024 17:07:50 -0800
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=synopsys.com; h=
-	cc:date:from:in-reply-to:message-id:references:subject:to; s=
-	pfptdkimsnps; bh=aVgL/rPj9SQyfPihaVEBAbg2V+XvfIG1aZxzPK2Wpb8=; b=
-	ULn1z9mRXYLckD482INgKaeOuA3p67MVlgDs+YTgHAKRgbcX5pVK3a7M89VXDHDp
-	9Kzqx43jV3NdBT/upXvlLtjWKmUDm91j3MTMd8rOBPx7YHh0po2dStgD+Qhuk1kr
-	vw+9s4RVhYTt6G50NiSJSGgyg7ckj8Q0Ho79T92CwJOvAXKAZw2KYw4Xu03NfQ18
-	NJPKXyiU2IC9A0EJLLexbH3omwlg2Pkh4QDp9oah+7890RQcNvKWx7z5TDobCLFe
-	P/cvuqF36vtxgCMqIrpWXwkH8nv8TfTIhZJdoj1HzbnU/cU1sG84iEkWNA1SjhcQ
-	tKWzGAb834xZxg3ScwwsOw==
-Received: from smtprelay-out1.synopsys.com (smtprelay-out1.synopsys.com [149.117.87.133])
-	by mx0a-00230701.pphosted.com (PPS) with ESMTPS id 43kefyhk80-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Tue, 17 Dec 2024 17:07:49 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=synopsys.com; s=mail;
-	t=1734484069; bh=3OXls4aX1XtriZFtqaZE692rJocWiHxEVkyrKopQNMo=;
-	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=eltfBVx+h4TtPCMk3Yz2tFGI3IQsmF6i8OA8eV5laraBRIkdExciVlYGL6fnh5oc2
-	 /fWN5eL0VTf5hHlJzCNFVC7dATKuwjmkpJTTIxoUYeaFGHvJd1fPWivl5sPHfDdg4Y
-	 31jV9yXVlEZP9WISD3fql3rOH9/Ey2G2e3T6rn5ZA14ZsW8futHOA6KOME34k3rddR
-	 rqEZIiXMyDqd9fVUAfR3HlxPDGFmLp3GT2X4kHlOoONShCcG13Y/53Ra3EQPHro3SZ
-	 hTGahxfWS0bUS+wdJVePPS1UELbUH4SVWQ0KOqDhuwwA+qFwQyZ0Z0aEp4PajCxrF6
-	 j1CkPOR8HrD7w==
-Received: from mailhost.synopsys.com (eudc-mailhost2.synopsys.com [10.213.161.17])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (2048 bits)
-	 client-signature RSA-PSS (2048 bits))
-	(Client CN "mailhost.synopsys.com", Issuer "SNPSica2" (verified OK))
-	by smtprelay-out1.synopsys.com (Postfix) with ESMTPS id 287DF40147;
-	Wed, 18 Dec 2024 01:07:49 +0000 (UTC)
-Received: from stormcs515.internal.synopsys.com (stormcs515.eudc.maas.synopsys.com [10.212.40.42])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
-	(Client did not present a certificate)
-	by mailhost.synopsys.com (Postfix) with ESMTPSA id D7A3AC0A9B;
-	Wed, 18 Dec 2024 01:07:47 +0000 (UTC)
-X-SNPS-Relay: synopsys.com
-From: "Miao.Zhu" <Miao.Zhu@synopsys.com>
-To: gregkh@linuxfoundation.org, robh@kernel.org, xu.yang_2@nxp.com,
-        andre.draszik@linaro.org, dan.carpenter@linaro.org,
-        emanuele.ghidoli@toradex.com, heikki.krogerus@linux.intel.com,
-        m.felsch@pengutronix.de, rdbabiera@google.com,
-        u.kleine-koenig@baylibre.com, conor+dt@kernel.org, jun.li@nxp.com
-Cc: "Miao.Zhu" <Miao.Zhu@synopsys.com>, linux-kernel@vger.kernel.org,
-        linux-usb@vger.kernel.org, devicetree@vger.kernel.org,
-        Jianheng.Zhang@synopsys.com, James.Li1@synopsys.com,
-        Martin.McKenny@synopsys.com
-Subject: [PATCH v2 1/2] usb: typec: tcpm: tcpci: Make the driver be compatible with the TCPCI spec [Rev 2.0 Ver 1.0, October 2017]
-Date: Wed, 18 Dec 2024 02:07:17 +0100
-Message-Id: <20241218010718.224530-2-miao@synopsys.com>
-X-Mailer: git-send-email 2.9.3
-In-Reply-To: <20241218010718.224530-1-miao@synopsys.com>
-References: <20241202054314.k6dt7uhnv2kavea4@hippo>
- <20241218010718.224530-1-miao@synopsys.com>
-X-Proofpoint-GUID: zlUd3cELd7YRsqHvN0DaON7ZLx0rHylp
-X-Authority-Analysis: v=2.4 cv=IqPkcK/g c=1 sm=1 tr=0 ts=67622066 cx=c_pps a=t4gDRyhI9k+KZ5gXRQysFQ==:117 a=t4gDRyhI9k+KZ5gXRQysFQ==:17 a=N6atwU2pGFX-QpmD:21 a=RZcAm9yDv7YA:10 a=qPHU084jO2kA:10 a=jIQo8A4GAAAA:8 a=eGn6WNas5V0CIjkcNdIA:9
- a=Lf5xNeLK5dgiOs8hzIjU:22
-X-Proofpoint-ORIG-GUID: zlUd3cELd7YRsqHvN0DaON7ZLx0rHylp
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1039,Hydra:6.0.680,FMLib:17.12.60.29
- definitions=2024-09-06_09,2024-09-06_01,2024-09-02_01
-X-Proofpoint-Spam-Details: rule=outbound_active_cloned_notspam policy=outbound_active_cloned score=0
- adultscore=0 suspectscore=0 clxscore=1015 priorityscore=1501 mlxscore=0
- phishscore=0 lowpriorityscore=0 bulkscore=0 spamscore=0 impostorscore=0
- mlxlogscore=999 malwarescore=0 classifier=spam authscore=0 adjust=0
- reason=mlx scancount=1 engine=8.19.0-2411120000
- definitions=main-2412180005
+	dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b="Y0cVCCjy"
+Received: by mail-qt1-f172.google.com with SMTP id d75a77b69052e-46772a0f85bso52058101cf.3
+        for <linux-usb@vger.kernel.org>; Tue, 17 Dec 2024 17:16:53 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=chromium.org; s=google; t=1734484612; x=1735089412; darn=vger.kernel.org;
+        h=cc:to:subject:message-id:date:user-agent:from:references
+         :in-reply-to:mime-version:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=pceT12MgPX5LYeNYoGKuH+9kRM2/umAtaQqiUzTvSW0=;
+        b=Y0cVCCjyI0Er8qVyWY9Uvv42kEWVuOKElmqtq3ao7qfx21d7RvCCq6FT27Jnx3eOZA
+         t1Pbx9zyXcx4HrcHusPQoInIpA7SypJ8u09OswM+zdk3jHhTSJoYNnTh8pYxPHbdwfu8
+         MsC7fbQfrAwn+5x4kzOaiLjY+HF6nC9htPrqI=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1734484612; x=1735089412;
+        h=cc:to:subject:message-id:date:user-agent:from:references
+         :in-reply-to:mime-version:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=pceT12MgPX5LYeNYoGKuH+9kRM2/umAtaQqiUzTvSW0=;
+        b=Ldt7o2WHauXGLoCzRGrEQ0syYacK1jKJgoVpuDYYtxIYc+lsM76LMbhDFyxcAP99z6
+         Omo00mlR7fSG4pkwqSZTK2/e5jDgA8KMu3eFqDsvkKEwlG8BlqTGwF1m9gBzgpywO/Cj
+         vd7t4Enuq0NEcXjbORrKkYyFhkW0c/TVUQQB3EzbwdpeWKKjGfF3yWA9/20kn1gN8Cuw
+         GdrsNTNEuYyd0QVzVQbOsrIhsdi/Mk5eZ8v53BlCUSIRlKNXJeVQMTJFBDdgd6wTRC1n
+         Qo3nNeoUG32h+/UC6KwRAEBUTgbO7g1rGaX4s5Fp0U8pg2FDiEfYjtPioYk3jS2amMmj
+         quOw==
+X-Forwarded-Encrypted: i=1; AJvYcCWpgS6HljFWGe2rgy3dP8gY50F/n+sK7e3wersP/lWNponMNlx/eBCkxMCmVnhoRFi7aFWEYbZJ2fE=@vger.kernel.org
+X-Gm-Message-State: AOJu0YxW2ucXRd2dUA0WvK3LbLZUxgK7le+vlOetJiSAhbTfCJPXHOMj
+	/f7X3oatE8hdvamznB4hf9oXSzBI+p9Eee+lz7KC/IudM6rWIwUSuiGjr0NzThAwNX55rWFh969
+	4kitfmQqkLmdclTMkJA5Q1Jdh7GLp8/SfTgQH
+X-Gm-Gg: ASbGnctt/dQjgUHNShp/7klCOhX105f579BojOPfzH74Enbgwtdf1h/4WgSjWdjL6OC
+	LPmkEjFNvEnVxp6dgo26X/ZTQgSzkWYLGIgr3Of8Pz+IHHXTGXf9DTQIk1nsfsH44aw==
+X-Google-Smtp-Source: AGHT+IH0sag0Q8DdRb4YIYS5LquPPnmmZcz9FS1OqVkQ8B6udk4bdQhF22/vJ82rq6mCziYWZgvqWq+BtlhyvIOSsmY=
+X-Received: by 2002:ac8:7c4d:0:b0:467:8378:9e8 with SMTP id
+ d75a77b69052e-46908de32d9mr17129991cf.17.1734484612535; Tue, 17 Dec 2024
+ 17:16:52 -0800 (PST)
+Received: from 753933720722 named unknown by gmailapi.google.com with
+ HTTPREST; Tue, 17 Dec 2024 20:16:52 -0500
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
+MIME-Version: 1.0
+In-Reply-To: <20241213153543.v5.6.I142fc0c09df58689b98f0cebf1c5e48b9d4fa800@changeid>
+References: <20241213233552.451927-1-abhishekpandit@chromium.org> <20241213153543.v5.6.I142fc0c09df58689b98f0cebf1c5e48b9d4fa800@changeid>
+From: Stephen Boyd <swboyd@chromium.org>
+User-Agent: alot/0.12.dev1+gaa8c22fdeedb
+Date: Tue, 17 Dec 2024 20:16:52 -0500
+Message-ID: <CAE-0n52Y-t0TEuGS25GQsctCLC8FTm6A5tfQb3XLbwh2G5W_MA@mail.gmail.com>
+Subject: Re: [PATCH v5 6/8] platform/chrome: cros_ec_typec: Displayport support
+To: Abhishek Pandit-Subedi <abhishekpandit@chromium.org>, chrome-platform@lists.linux.dev, 
+	heikki.krogerus@linux.intel.com, linux-usb@vger.kernel.org, 
+	tzungbi@kernel.org
+Cc: akuchynski@google.com, pmalani@chromium.org, badhri@google.com, 
+	rdbabiera@google.com, dmitry.baryshkov@linaro.org, jthies@google.com, 
+	Benson Leung <bleung@chromium.org>, Guenter Roeck <groeck@chromium.org>, linux-kernel@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
 
-The tcpci driver doesn't fully follow the TCPCI spec even if
-it mentions this spec in its comments.
-- Add two flags into tcpci_data:
-	RX_BUF_BYTE_x_hidden
-	conn_present_capable
-- Following flags in tcpci_data are read from device tree in tcpci_probe.
-	TX_BUF_BYTE_x_hidden
-	RX_BUF_BYTE_x_hidden
-	auto_discharge_disconnect
-	vbus_vsafe0v
-The change makes the driver be compatible with the TCPCI spec and
-won't impact existing HW.
+Quoting Abhishek Pandit-Subedi (2024-12-13 15:35:47)
+> diff --git a/drivers/platform/chrome/Makefile b/drivers/platform/chrome/Makefile
+> index fb8335458a22..1a5a484563cc 100644
+> --- a/drivers/platform/chrome/Makefile
+> +++ b/drivers/platform/chrome/Makefile
+> @@ -19,7 +19,11 @@ obj-$(CONFIG_CROS_EC_SPI)            += cros_ec_spi.o
+>  obj-$(CONFIG_CROS_EC_UART)             += cros_ec_uart.o
+>  cros_ec_lpcs-objs                      := cros_ec_lpc.o cros_ec_lpc_mec.o
+>  cros-ec-typec-objs                     := cros_ec_typec.o cros_typec_vdm.o
+> +ifneq ($(CONFIG_CROS_EC_TYPEC_ALTMODES),)
+> +       cros-ec-typec-objs              += cros_typec_altmode.o
+> +endif
 
-Signed-off-by: Miao Zhu <miao@synopsys.com>
----
-V1 -> V2: Cleaned up typo and addressed review comments
----
- drivers/usb/typec/tcpm/tcpci.c | 115 ++++++++++++++++++++++++++++++++++-------
- include/linux/usb/tcpci.h      |  11 ++++
- 2 files changed, 106 insertions(+), 20 deletions(-)
+Can this be simplified by collapsing the config in because it is a bool?
 
-diff --git a/drivers/usb/typec/tcpm/tcpci.c b/drivers/usb/typec/tcpm/tcpci.c
-index ed32583..7c831c0 100644
---- a/drivers/usb/typec/tcpm/tcpci.c
-+++ b/drivers/usb/typec/tcpm/tcpci.c
-@@ -453,19 +453,26 @@ static int tcpci_set_roles(struct tcpc_dev *tcpc, bool attached,
- 			   enum typec_role role, enum typec_data_role data)
- {
- 	struct tcpci *tcpci = tcpc_to_tcpci(tcpc);
--	unsigned int reg;
-+	unsigned int reg = 0;
- 	int ret;
- 
--	reg = FIELD_PREP(TCPC_MSG_HDR_INFO_REV, PD_REV20);
--	if (role == TYPEC_SOURCE)
--		reg |= TCPC_MSG_HDR_INFO_PWR_ROLE;
--	if (data == TYPEC_HOST)
--		reg |= TCPC_MSG_HDR_INFO_DATA_ROLE;
-+	if (attached) {
-+		reg = FIELD_PREP(TCPC_MSG_HDR_INFO_REV, PD_REV20);
-+		if (role == TYPEC_SOURCE)
-+			reg |= TCPC_MSG_HDR_INFO_PWR_ROLE;
-+		if (data == TYPEC_HOST)
-+			reg |= TCPC_MSG_HDR_INFO_DATA_ROLE;
-+	}
- 	ret = regmap_write(tcpci->regmap, TCPC_MSG_HDR_INFO, reg);
- 	if (ret < 0)
- 		return ret;
- 
--	return 0;
-+	if (tcpci->data->conn_present_capable)
-+		return regmap_update_bits(tcpci->regmap, TCPC_CONFIG_STD_OUTPUT,
-+					TCPC_CONFIG_STD_OUTPUT_CON_PRES,
-+					attached ? TCPC_CONFIG_STD_OUTPUT_CON_PRES : 0);
-+	else
-+		return 0;
- }
- 
- static int tcpci_set_pd_rx(struct tcpc_dev *tcpc, bool enable)
-@@ -741,33 +748,86 @@ irqreturn_t tcpci_irq(struct tcpci *tcpci)
- 		struct pd_message msg;
- 		unsigned int cnt, payload_cnt;
- 		u16 header;
-+		unsigned int frame_type;
-+		enum tcpm_transmit_type rx_type;
- 
- 		regmap_read(tcpci->regmap, TCPC_RX_BYTE_CNT, &cnt);
- 		/*
- 		 * 'cnt' corresponds to READABLE_BYTE_COUNT in section 4.4.14
- 		 * of the TCPCI spec [Rev 2.0 Ver 1.0 October 2017] and is
- 		 * defined in table 4-36 as one greater than the number of
--		 * bytes received. And that number includes the header. So:
-+		 * bytes received. And that number includes the header.
-+		 * In Section 4.4.14 of the TCPCI spec [Rev 2.0 Ver 1.0 October, 2017],
-+		 * the RECEIVE_BUFFER comprises of three sets of registers:
-+		 * READABLE_BYTE_COUNT, RX_BUF_FRAME_TYPE and RX_BUF_BYTE_x.
-+		 * These registers can only be accessed by reading at a common
-+		 * register address 0x30h.
- 		 */
--		if (cnt > 3)
--			payload_cnt = cnt - (1 + sizeof(msg.header));
--		else
--			payload_cnt = 0;
-+		if (tcpci->data->RX_BUF_BYTE_x_hidden) {
-+			u8 buf[TCPC_RECEIVE_BUFFER_MAX_LEN] = {0,};
-+			u8 pos = 0;
-+
-+			/* Read the count and frame type in RECEIVE_BUFFER */
-+			regmap_raw_read(tcpci->regmap, TCPC_RX_BYTE_CNT, buf, 2);
-+			/* READABLE_BYTE_COUNT */
-+			cnt = buf[0];
-+			/* RX_BUF_FRAME_TYPE */
-+			frame_type = buf[1];
-+
-+			/* Read the content of the USB PD message in RECEIVE_BUFFER */
-+			regmap_raw_read(tcpci->regmap, TCPC_RX_BYTE_CNT, buf, cnt + 1);
-+
-+			pos += 2;
-+			memcpy(&msg.header, &buf[pos], sizeof(msg.header));
-+
-+			if (cnt > 3) {
-+				pos += sizeof(msg.header);
-+				payload_cnt = cnt - (1 + sizeof(msg.header));
-+				if (WARN_ON(payload_cnt > sizeof(msg.payload)))
-+					payload_cnt = sizeof(msg.payload);
-+				memcpy(&msg.payload, &buf[pos], payload_cnt);
-+			}
-+		} else {
-+			regmap_read(tcpci->regmap, TCPC_RX_BYTE_CNT, &cnt);
-+			/*
-+			 * 'cnt' corresponds to READABLE_BYTE_COUNT in section 4.4.14
-+			 * of the TCPCI spec [Rev 2.0 Ver 1.0 October 2017] and is
-+			 * defined in table 4-36 as one greater than the number of
-+			 * bytes received. And that number includes the header. So:
-+			 */
-+			if (cnt > 3)
-+				payload_cnt = cnt - (1 + sizeof(msg.header));
-+			else
-+				payload_cnt = 0;
- 
--		tcpci_read16(tcpci, TCPC_RX_HDR, &header);
--		msg.header = cpu_to_le16(header);
-+			regmap_read(tcpci->regmap, TCPC_RX_BUF_FRAME_TYPE, &frame_type);
- 
--		if (WARN_ON(payload_cnt > sizeof(msg.payload)))
--			payload_cnt = sizeof(msg.payload);
-+			tcpci_read16(tcpci, TCPC_RX_HDR, &header);
-+			msg.header = cpu_to_le16(header);
- 
--		if (payload_cnt > 0)
--			regmap_raw_read(tcpci->regmap, TCPC_RX_DATA,
--					&msg.payload, payload_cnt);
-+			if (WARN_ON(payload_cnt > sizeof(msg.payload)))
-+				payload_cnt = sizeof(msg.payload);
-+
-+			if (payload_cnt > 0)
-+				regmap_raw_read(tcpci->regmap, TCPC_RX_DATA,
-+							&msg.payload, payload_cnt);
-+		}
- 
- 		/* Read complete, clear RX status alert bit */
- 		tcpci_write16(tcpci, TCPC_ALERT, TCPC_ALERT_RX_STATUS);
- 
--		tcpm_pd_receive(tcpci->port, &msg, TCPC_TX_SOP);
-+		switch (frame_type) {
-+		case TCPC_RX_BUF_FRAME_TYPE_SOP1:
-+			rx_type = TCPC_TX_SOP_PRIME;
-+			break;
-+		case TCPC_RX_BUF_FRAME_TYPE_SOP:
-+			rx_type = TCPC_TX_SOP;
-+			break;
-+		default:
-+			rx_type = TCPC_TX_SOP;
-+			break;
-+		}
-+		tcpm_pd_receive(tcpci->port, &msg, rx_type);
- 	}
- 
- 	if (tcpci->data->vbus_vsafe0v && (status & TCPC_ALERT_EXTENDED_STATUS)) {
-@@ -916,6 +976,21 @@ static int tcpci_probe(struct i2c_client *client)
- 	if (err < 0)
- 		return err;
- 
-+	chip->data.TX_BUF_BYTE_x_hidden =
-+		device_property_read_bool(&client->dev, "TX_BUF_BYTE_x_hidden");
-+	chip->data.RX_BUF_BYTE_x_hidden =
-+		device_property_read_bool(&client->dev, "RX_BUF_BYTE_x_hidden");
-+	chip->data.auto_discharge_disconnect =
-+		device_property_read_bool(&client->dev, "auto_discharge_disconnect");
-+	chip->data.vbus_vsafe0v = device_property_read_bool(&client->dev, "vbus_vsafe0v");
-+
-+	err = tcpci_check_std_output_cap(chip->data.regmap,
-+					 TCPC_STD_OUTPUT_CAP_CONN_PRESENT);
-+	if (err < 0)
-+		return err;
-+
-+	chip->data.conn_present_capable = err;
-+
- 	err = tcpci_check_std_output_cap(chip->data.regmap,
- 					 TCPC_STD_OUTPUT_CAP_ORIENTATION);
- 	if (err < 0)
-diff --git a/include/linux/usb/tcpci.h b/include/linux/usb/tcpci.h
-index f7f5cfb..b649803 100644
---- a/include/linux/usb/tcpci.h
-+++ b/include/linux/usb/tcpci.h
-@@ -50,6 +50,7 @@
- #define TCPC_CONFIG_STD_OUTPUT_ORIENTATION_MASK		BIT(0)
- #define TCPC_CONFIG_STD_OUTPUT_ORIENTATION_NORMAL	0
- #define TCPC_CONFIG_STD_OUTPUT_ORIENTATION_FLIPPED	1
-+#define TCPC_CONFIG_STD_OUTPUT_CON_PRES		BIT(1)
- 
- #define TCPC_TCPC_CTRL			0x19
- #define TCPC_TCPC_CTRL_ORIENTATION	BIT(0)
-@@ -126,6 +127,7 @@
- #define TCPC_STD_INPUT_CAP		0x28
- #define TCPC_STD_OUTPUT_CAP		0x29
- #define TCPC_STD_OUTPUT_CAP_ORIENTATION	BIT(0)
-+#define TCPC_STD_OUTPUT_CAP_CONN_PRESENT	BIT(1)
- 
- #define TCPC_MSG_HDR_INFO		0x2e
- #define TCPC_MSG_HDR_INFO_DATA_ROLE	BIT(3)
-@@ -167,6 +169,7 @@
- 
- /* I2C_WRITE_BYTE_COUNT + 1 when TX_BUF_BYTE_x is only accessible I2C_WRITE_BYTE_COUNT */
- #define TCPC_TRANSMIT_BUFFER_MAX_LEN		31
-+#define TCPC_RECEIVE_BUFFER_MAX_LEN		32
- 
- #define tcpc_presenting_rd(reg, cc) \
- 	(!(TCPC_ROLE_CTRL_DRP & (reg)) && \
-@@ -177,6 +180,9 @@ struct tcpci;
- /*
-  * @TX_BUF_BYTE_x_hidden:
-  *		optional; Set when TX_BUF_BYTE_x can only be accessed through I2C_WRITE_BYTE_COUNT.
-+ * @RX_BUF_BYTE_x_hidden:
-+ *		Optional; Set when READABLE_BYTE_COUNT, RX_BUF_FRAME_TYPE and RX_BUF_BYTE_x
-+ *		can only be accessed through READABLE_BYTE_COUNT.
-  * @frs_sourcing_vbus:
-  *		Optional; Callback to perform chip specific operations when FRS
-  *		is sourcing vbus.
-@@ -204,6 +210,9 @@ struct tcpci;
-  *		swap following Discover Identity on SOP' occurs.
-  *		Return true when the TCPM is allowed to request a Vconn swap
-  *		after Discovery Identity on SOP.
-+ * @conn_present_capable:
-+ *		Optional; Enable setting the connection present
-+ *		CONFIG_STANDARD_OUTPUT (0x18) bit1.
-  * @set_orientation:
-  *		Optional; Enable setting the connector orientation
-  *		CONFIG_STANDARD_OUTPUT (0x18) bit0.
-@@ -211,9 +220,11 @@ struct tcpci;
- struct tcpci_data {
- 	struct regmap *regmap;
- 	unsigned char TX_BUF_BYTE_x_hidden:1;
-+	unsigned char RX_BUF_BYTE_x_hidden:1;
- 	unsigned char auto_discharge_disconnect:1;
- 	unsigned char vbus_vsafe0v:1;
- 	unsigned char cable_comm_capable:1;
-+	unsigned char conn_present_capable:1;
- 	unsigned char set_orientation:1;
- 
- 	int (*init)(struct tcpci *tcpci, struct tcpci_data *data);
--- 
-2.9.3
+	cros-ec-typec-y					:= cros_ec_typec.o cros_typec_vdm.o
+	cros-ec-typec-$(CONFIG_CROS_EC_TYPEC_ALTMODES)	+= cros_typec_altmode.o
 
+>  obj-$(CONFIG_CROS_EC_TYPEC)            += cros-ec-typec.o
+> +
+>  obj-$(CONFIG_CROS_EC_LPC)              += cros_ec_lpcs.o
+>  obj-$(CONFIG_CROS_EC_PROTO)            += cros_ec_proto.o cros_ec_trace.o
+>  obj-$(CONFIG_CROS_KBD_LED_BACKLIGHT)   += cros_kbd_led_backlight.o
+> diff --git a/drivers/platform/chrome/cros_typec_altmode.c b/drivers/platform/chrome/cros_typec_altmode.c
+> new file mode 100644
+> index 000000000000..6e736168ccc3
+> --- /dev/null
+> +++ b/drivers/platform/chrome/cros_typec_altmode.c
+> @@ -0,0 +1,285 @@
+> +// SPDX-License-Identifier: GPL-2.0-only
+> +/*
+> + * Alt-mode implementation on ChromeOS EC.
+> + *
+> + * Copyright 2024 Google LLC
+> + * Author: Abhishek Pandit-Subedi <abhishekpandit@chromium.org>
+> + */
+> +#include "cros_ec_typec.h"
+
+Please include this after linux headers.
+
+> +
+> +#include <linux/mutex.h>
+> +#include <linux/workqueue.h>
+> +#include <linux/usb/typec_dp.h>
+> +#include <linux/usb/pd_vdo.h>
+> +
+> +#include "cros_typec_altmode.h"
+> +
+
+[...]
+> +
+> +static int cros_typec_displayport_vdm(struct typec_altmode *alt, u32 header,
+> +                                     const u32 *data, int count)
+> +{
+> +       struct cros_typec_dp_data *dp_data = typec_altmode_get_drvdata(alt);
+> +       struct cros_typec_altmode_data *adata = &dp_data->adata;
+> +
+> +
+
+Nitpick: Remove extra newlines.
+
+> +       int cmd_type = PD_VDO_CMDT(header);
+> +       int cmd = PD_VDO_CMD(header);
+> +       int svdm_version;
+> +
+> +       svdm_version = typec_altmode_get_svdm_version(alt);
+> +       if (svdm_version < 0)
+> +               return svdm_version;
+> +
