@@ -1,44 +1,38 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2A326154457;
-	Wed, 18 Dec 2024 06:52:57 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C4D57157A55
+	for <linux-usb@vger.kernel.org>; Wed, 18 Dec 2024 06:56:19 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1734504778; cv=none; b=cs5Xt+1J3M7moI15/IioKdY1qZV4hYxQ6QwCVqhBXN5tqQyXZCgnsjHLqFqStl6nPtyzJVuPX7zsIKs50dXwhHuBtEJrUm+qD1liXBTy1nwHlNg5eK+SQYOM7wUBaZvaP66KV/g0IjqZ/c2ybSd8KiEPfKP+H3Jdm3MJQsyCbm8=
+	t=1734504979; cv=none; b=KELOE+oQ6hMa/hiEIv1vejvjHW7hlfO+eQDuXu7CvBYq5SFUFaLz8WUeyT3RzXJsB4s0+pH2AZMOdBMnxQpY3IXcgMN1fF7REDW6Zd8DLy7rO3qdMqwAdFG3OucNzlqDuAJ1oeFQpXduCrB1IHUANkkIUy2gcsi+reaIgsywWnY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1734504778; c=relaxed/simple;
-	bh=xFYjZQz9CdV8btbhFZ7g4gXuiGZ44yHRNOXodtxkLh0=;
+	s=arc-20240116; t=1734504979; c=relaxed/simple;
+	bh=hfvSk4A5a66BaoAMAXDM95mrtCoDKHyjxfswKLxUBQQ=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=c6ro7bWo16wl+wtVEyiyTnAJZ9AymNrpwWhsXdc3RKnmbtQsRu84k9FFH/k1QkgCJNOvs95eqVDZ2+TMrGCUyk5zSBgWUudGOXlHvXpRwZL/0cgV8bAYnGOmxSlwLLK/T0Opf1I0cIw/uGeU/3mPYJMm7567bfd37w+bQp/4qCo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b=FsmOExNF; arc=none smtp.client-ip=10.30.226.201
+	 Content-Type:Content-Disposition:In-Reply-To; b=rckS0gQlf6z9JjQu6CelkxTkc4pxT+PsgqqVdeO8UgrNHp2GkcMLQ752c5e/IPYYkBqwH4Y5/kecEGWTCuqtfVLmbtmzAiYWWEVU5qei+2jwIfRUFaciTXU4O2ZclIDIziyc43VB5iv9rRw/IUNLUyf/K4aZj5zWbG0aoVu+meg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b=IEGRV0Js; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="FsmOExNF"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 240D0C4CED0;
-	Wed, 18 Dec 2024 06:52:57 +0000 (UTC)
+	dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="IEGRV0Js"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id E22FEC4CEDD;
+	Wed, 18 Dec 2024 06:56:18 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
-	s=korg; t=1734504777;
-	bh=xFYjZQz9CdV8btbhFZ7g4gXuiGZ44yHRNOXodtxkLh0=;
+	s=korg; t=1734504979;
+	bh=hfvSk4A5a66BaoAMAXDM95mrtCoDKHyjxfswKLxUBQQ=;
 	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=FsmOExNFEAoERRCe2lAm3LhA/W1nJTF5UNzm8DLb/LhfXP5fbr2QEP1+QCQcnKevV
-	 +N+H61PNnDxsV1ew5mr0PuhAWCWstp35wGSwdSXduJ/5eVENYtVcw136BEyUtwUiHs
-	 8iJrTx3piFixjFbVTrcXeBUhBEAkZLScaAce7VDU=
-Date: Wed, 18 Dec 2024 06:31:08 +0100
+	b=IEGRV0JsgAkszCaAZvG5tSQbzc8MdjgEqglwbmZIQvzXBwAVB2aJpSjh3t3xnVdGN
+	 f/Kade+Aa7rMOiIRL7Ht3aspF/njXE8we/+ale34MaKTbzETn6R4N6Okrockf15ck/
+	 QpiAE1DTCR1NzMVOsQ+RqpC1XLQ26xqKuEkH71AE=
+Date: Wed, 18 Dec 2024 07:55:39 +0100
 From: Greg KH <gregkh@linuxfoundation.org>
-To: Selvarasu Ganesan <selvarasu.g@samsung.com>
-Cc: quic_jjohnson@quicinc.com, kees@kernel.org, abdul.rahim@myyahoo.com,
-	m.grzeschik@pengutronix.de, linux-usb@vger.kernel.org,
-	linux-kernel@vger.kernel.org, jh0801.jung@samsung.com,
-	dh10.jung@samsung.com, naushad@samsung.com, akash.m5@samsung.com,
-	rc93.raju@samsung.com, taehyun.cho@samsung.com,
-	hongpooh.kim@samsung.com, eomji.oh@samsung.com,
-	shijie.cai@samsung.com, alim.akhtar@samsung.com,
-	stable@vger.kernel.org
-Subject: Re: [PATCH] usb: gadget: f_midi: Fixing wMaxPacketSize exceeded
- issue during MIDI bind retries
-Message-ID: <2024121845-cactus-geology-8df3@gregkh>
-References: <CGME20241208152338epcas5p4fde427bb4467414417083221067ac7ab@epcas5p4.samsung.com>
- <20241208152322.1653-1-selvarasu.g@samsung.com>
+To: Niklas Neronin <niklas.neronin@linux.intel.com>
+Cc: WeitaoWang-oc@zhaoxin.com, mathias.nyman@linux.intel.com,
+	linux-usb@vger.kernel.org
+Subject: Re: [PATCH 2/2] Revert "xhci: Fix TRB prefetch issue of ZHAOXIN
+ hosts"
+Message-ID: <2024121824-primp-friend-380b@gregkh>
+References: <20241217112917.623898-1-niklas.neronin@linux.intel.com>
+ <20241217112917.623898-3-niklas.neronin@linux.intel.com>
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
@@ -47,59 +41,12 @@ List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20241208152322.1653-1-selvarasu.g@samsung.com>
+In-Reply-To: <20241217112917.623898-3-niklas.neronin@linux.intel.com>
 
-On Sun, Dec 08, 2024 at 08:53:20PM +0530, Selvarasu Ganesan wrote:
-> The current implementation sets the wMaxPacketSize of bulk in/out
-> endpoints to 1024 bytes at the end of the f_midi_bind function. However,
-> in cases where there is a failure in the first midi bind attempt,
-> consider rebinding.
-
-What considers rebinding?  Your change does not modify that.
-
-> This scenario may encounter an f_midi_bind issue due
-> to the previous bind setting the bulk endpoint's wMaxPacketSize to 1024
-> bytes, which exceeds the ep->maxpacket_limit where configured TX/RX
-> FIFO's maxpacket size of 512 bytes for IN/OUT endpoints in support HS
-> speed only.
-> This commit addresses this issue by resetting the wMaxPacketSize before
-> endpoint claim.
-
-resets it to what?  Where did the magic numbers come from?  How do we
-know this is now full speed and not high speed?
-
+On Tue, Dec 17, 2024 at 01:29:17PM +0200, Niklas Neronin wrote:
+> This reverts commit 2a865a652299f5666f3b785cbe758c5f57453036.
 > 
-> Fixes: 46decc82ffd5 ("usb: gadget: unconditionally allocate hs/ss descriptor in bind operation")
-> Cc: stable@vger.kernel.org
-> Signed-off-by: Selvarasu Ganesan <selvarasu.g@samsung.com>
-> ---
->  drivers/usb/gadget/function/f_midi.c | 9 +++++++++
->  1 file changed, 9 insertions(+)
-> 
-> diff --git a/drivers/usb/gadget/function/f_midi.c b/drivers/usb/gadget/function/f_midi.c
-> index 837fcdfa3840..5caa0e4eb07e 100644
-> --- a/drivers/usb/gadget/function/f_midi.c
-> +++ b/drivers/usb/gadget/function/f_midi.c
-> @@ -907,6 +907,15 @@ static int f_midi_bind(struct usb_configuration *c, struct usb_function *f)
->  
->  	status = -ENODEV;
->  
-> +	/*
-> +	 * Reset wMaxPacketSize with maximum packet size of FS bulk transfer before
-> +	 * endpoint claim. This ensures that the wMaxPacketSize does not exceed the
-> +	 * limit during bind retries where configured TX/RX FIFO's maxpacket size
-> +	 * of 512 bytes for IN/OUT endpoints in support HS speed only.
-> +	 */
-> +	bulk_in_desc.wMaxPacketSize = cpu_to_le16(64);
-> +	bulk_out_desc.wMaxPacketSize = cpu_to_le16(64);
+> Signed-off-by: Niklas Neronin <niklas.neronin@linux.intel.com>
 
-Where did "64" come from?  How do we know this is full speed?  Later
-on in this function the endpoint sizes are set, why set them here to
-these small values when you do not know the speed?
+You need to document a reason why this is being reverted :(
 
-Or, if it had failed before, reset the values on the failure, not here
-before you start anything up, right?
-
-thanks,
-
-greg k-h
