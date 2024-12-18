@@ -1,111 +1,88 @@
-Received: from sundtek.de (sundtek.de [85.10.198.106])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-ej1-f49.google.com (mail-ej1-f49.google.com [209.85.218.49])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A62D250276
-	for <linux-usb@vger.kernel.org>; Wed, 18 Dec 2024 10:39:31 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=85.10.198.106
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BC5F619C54E
+	for <linux-usb@vger.kernel.org>; Wed, 18 Dec 2024 10:56:44 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.49
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1734518374; cv=none; b=u7FZBNiYseeLRSol8yv1MieR30pt/ddX/FId7fKcIWvaKh/IVEB+fxG6LPU2v6MvfKicTrHrWFr1O+oEvbn7KjD2tuCdhzHnm+QCdM5oV2T16Jva5fogWNaMJiRErytX5uj3y/CUWHWeIw2gIjH5kn6IAv1/PXcemD0I/+0mFmw=
+	t=1734519406; cv=none; b=gTTxuFbTK9sNbrX1OPsqN6AmUiaJwggsB5ye5Y75CAdPJehMvC2tPGg3IKG5HTpMqDkU00mSw1VsKhY2hB3AhblL7FV0RJ7vmhrbMsqAv8YQL+nd7sVXj14qpbhbL/8lifEp8Cwzz1rODNLsruy4rmNhvku9313yO94yTYw5RWU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1734518374; c=relaxed/simple;
-	bh=kNJvys9W98HEREJbPMgM5B1ukuBf4BHqwc+4NXI5sPI=;
-	h=Message-ID:Subject:From:To:Cc:Date:In-Reply-To:References:
-	 Content-Type:MIME-Version; b=fZ1ZmzaOkv8TYxoCebviq1cDDFuxFkH+R8j6r9KzUFDKx6JlXWGwe77QELTRZxXTfFdJIfE85078p1/TOMv/ajWNRjztVbKaqoYHl676OmQduUSDSZWFjCKRGaYN286PsOAHg2WIpqhX9QXnIwlwAuZOwyq9cDfGZEz9TZr14gw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=sundtek.de; spf=pass smtp.mailfrom=sundtek.de; dkim=pass (2048-bit key) header.d=sundtek.de header.i=@sundtek.de header.b=ezATlpL9; arc=none smtp.client-ip=85.10.198.106
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=sundtek.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=sundtek.de
+	s=arc-20240116; t=1734519406; c=relaxed/simple;
+	bh=1U926oL0MDod9834V/+y8z2gIy7U+dCjf8CDW1Dhy+k=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=ISJSStrYCFEzeVkUFbP1IARW2eny+JlYRwiYVhDX7HzyZzbsJ/uDb6M94WfybEImAQEXeth7AC21vkiBmVrgSDR/KDD36FXvIiGun/HB8BSndV0m5HnQ08r9+F8uqhRdlONIFD4z2LGvV7fChEj6/SB8eqUYMUBk1k7lDMEISc0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=sEUWUhZF; arc=none smtp.client-ip=209.85.218.49
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=sundtek.de header.i=@sundtek.de header.b="ezATlpL9"
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=sundtek.de;
-	s=202411; h=MIME-Version:Content-Transfer-Encoding:Content-Type:References:
-	In-Reply-To:Date:Cc:To:From:Subject:Message-ID:Sender:Reply-To:Content-ID:
-	Content-Description:Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc
-	:Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:List-Subscribe:
-	List-Post:List-Owner:List-Archive;
-	bh=kNJvys9W98HEREJbPMgM5B1ukuBf4BHqwc+4NXI5sPI=; b=ezATlpL9KhHOs8Gglqr6Gx8RZ9
-	TFC2vFyIIcPdTvzH5RM1AtDKQkuUlwQ9+kz1L+6/Gh/RbBcKB5sh/VFN7s8Sm86wfuBtKKIz07ds6
-	YpUYObTa6ViJKXQNRVoqg8w99DEIrdHi+Raq8yrqH+A3v/NTNMlEurmrD5EgPvUCjRCAW4A/mRaOS
-	aeXNY3608NrkNs4aICE5U6OXaIq3KaWyZIgULSwvIzS3TyJqlg2G9cT6av9cOMwtQlMVZ6ldsfTLZ
-	sjMJ7OvS2tez6NHdM9NPYRD3FiYC7TcTJ2QCPPgA3eEDN16cmTi0PVE8lEFaQgVAtYCHpKFndUx3Z
-	vS/JdD4Q==;
-Received: from Debian-exim by sundtek.de with spam-scanned (Exim 4.95)
-	(envelope-from <linuxusb.ml@sundtek.de>)
-	id 1tNr3o-00DNj4-Om
-	for linux-usb@vger.kernel.org;
-	Wed, 18 Dec 2024 11:13:44 +0100
-X-Spam-Report: =?ISO-8859-1?Q?
-	* -1.0 ALL_TRUSTED Nachricht wurde nur =fcber vertrauensw=fcrdige Rechner
-	*      weitergeleitet
-	* -1.9 BAYES_00 BODY: Spamwahrscheinlichkeit nach Bayes-Test: 0-1%
-	*      [score: 0.0000]
-	*  0.0 TVD_RCVD_IP Message was received from an IP address?=
-X-Spam-Level: 
-Received: from 111-254-20-73.dynamic-ip.hinet.net ([111.254.20.73] helo=[192.168.2.197])
-	by sundtek.de with esmtpsa  (TLS1.3) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
-	(Exim 4.95)
-	(envelope-from <linuxusb.ml@sundtek.de>)
-	id 1tNr3k-00DNir-6s;
-	Wed, 18 Dec 2024 11:13:40 +0100
-Message-ID: <4e5403bfeaa656a42f145c217ccc7e58c993bca6.camel@sundtek.de>
-Subject: Re: USB Autosuspend
-From: Markus Rechberger <linuxusb.ml@sundtek.de>
-To: Alan Stern <stern@rowland.harvard.edu>
-Cc: linux-usb@vger.kernel.org
-Date: Wed, 18 Dec 2024 18:13:35 +0800
-In-Reply-To: <3e9d6d03-eed7-4f46-9926-4d395c0bc46d@rowland.harvard.edu>
-References: <77b79e95c092511a695ac0b6a8eade57b12ff3db.camel@sundtek.de>
-	 <3e9d6d03-eed7-4f46-9926-4d395c0bc46d@rowland.harvard.edu>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-User-Agent: Evolution 3.52.3-0ubuntu1 
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="sEUWUhZF"
+Received: by mail-ej1-f49.google.com with SMTP id a640c23a62f3a-aa67ac42819so1015546866b.0
+        for <linux-usb@vger.kernel.org>; Wed, 18 Dec 2024 02:56:44 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google; t=1734519403; x=1735124203; darn=vger.kernel.org;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=1U926oL0MDod9834V/+y8z2gIy7U+dCjf8CDW1Dhy+k=;
+        b=sEUWUhZFVNzs0TERxmcZlIIG5VwfTODpa768BK5Yx7FdTcHzNcUVxanWrOTiI66YHV
+         qjLuzkMAylTCH9b9x7krOo10VayY9PkrI8WfGln242W3es4ayI4zmSC/28s8CcLjhK4y
+         LuxeGcnD+RpfSyc3RPkmVnePmKJSvPwA7/LsoiXQsVYU5Z0FfcP6MwB9SyOciQyEL+P8
+         BBpY9VSLHhSHHfduA+869a9wKwuX2dQP/oa326czBMc09zRAc6Jl5rJut2Eosn+K7XGz
+         HXldM41DNny5CDvgftTWCLiwzRvRnQ28xWsP/VLDrmiMmRqG8KAfdgYTRMcPIgPI6/a4
+         W2Tg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1734519403; x=1735124203;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=1U926oL0MDod9834V/+y8z2gIy7U+dCjf8CDW1Dhy+k=;
+        b=cUyzREzLPjyjpy5pqNFI/iwumIm5/Atr3emxAcxgPu289LGC0wHYz/CF1aP1D5A4Sg
+         xplXh5S61fVxWsy2IhRjCnPSIwGMZIxxaAVgKYqfVUb57l1nlwPWYeI3bqpeRQ+IF/FS
+         VjsviWL4cV0rji23kg9j6nI43RhP+Tr/N9bJJSPoWge24i8AOjzg19yJiAbnI9Lifa3z
+         tSONoQK3rVGv6mlIoV5ioKzd4JckVMKafDOCLLCTWWmIcuoNRFyREKlvTjFb8QXMY4MV
+         txAiNWehoYcNN5Mduix2iCqMfecaaLVJcvhvADXXR68oQyACOVg6Hdj4E0TkcwVvfRFm
+         dg5A==
+X-Forwarded-Encrypted: i=1; AJvYcCVOg8pFFdzneqJxkaZAZcVb0Fh/p+T8hTNtxMD09mM4RNrVkUGpc1yuM7kf4YCDfnws7Y/JL8DcP74=@vger.kernel.org
+X-Gm-Message-State: AOJu0YynG9euvPrbxOidIoS1m+AVBq0anDU+2JCFxtREVuHe+1d/kGUa
+	9VIEX68c2b9KgIUEh9dDyNzlwD+vhGdgoS6XqG6zGJ6pZoBzECGZdjO/OsE6/y8nC/1KQPMbeRX
+	W
+X-Gm-Gg: ASbGncsr3Tly8ozATSVSYLjSVcduzslIAcjoi2qQYXBuIjnlW+FUEI30VZgYRzOO9J5
+	dK5sWjmuqvTuKflhZ+adrJ9OB+UFyFTK4FfIfvuHaeGkZf2F3wbgDaosPb+OPkYt/jNNC+eGWet
+	DqEqkF0VSkyN/UbaVdeZSJJDmWJ7HxFph2PnKZzUjk8CenbMDVEwVGjVV4yLSG69KIx9NcXxYFs
+	UCUQGW2Or/QkMB8oE2KWm8M+eTXMzar8eyBoXv7+XYK+ZlaeUl+nNYOt8dazA==
+X-Google-Smtp-Source: AGHT+IE/DWSsh274zbrdOvo9gwMqTUpaPLUr/pgihNb/oqeoC9Ggo5slLMiTVrniiI/U8u/pkIWoVg==
+X-Received: by 2002:a17:907:96a7:b0:aa6:82ea:69d6 with SMTP id a640c23a62f3a-aabf476eaedmr223466666b.18.1734519403047;
+        Wed, 18 Dec 2024 02:56:43 -0800 (PST)
+Received: from localhost ([196.207.164.177])
+        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-aabc8060de7sm299490266b.53.2024.12.18.02.56.42
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 18 Dec 2024 02:56:42 -0800 (PST)
+Date: Wed, 18 Dec 2024 13:56:39 +0300
+From: Dan Carpenter <dan.carpenter@linaro.org>
+To: Xu Yang <xu.yang_2@nxp.com>
+Cc: heikki.krogerus@linux.intel.com, gregkh@linuxfoundation.org,
+	andre.draszik@linaro.org, rdbabiera@google.com,
+	m.felsch@pengutronix.de, emanuele.ghidoli@toradex.com,
+	parth.pancholi@toradex.com, francesco.dolcini@toradex.com,
+	u.kleine-koenig@baylibre.com, linux-usb@vger.kernel.org,
+	imx@lists.linux.dev, jun.li@nxp.com
+Subject: Re: [PATCH v4] usb: typec: tcpci: fix NULL pointer issue on shared
+ irq case
+Message-ID: <1f50582e-1332-450b-9da9-08bb25d798cc@stanley.mountain>
+References: <20241218095328.2604607-1-xu.yang_2@nxp.com>
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-SA-Exim-Connect-IP: <locally generated>
-X-SA-Exim-Mail-From: linuxusb.ml@sundtek.de
-X-SA-Exim-Scanned: No (on sundtek.de); SAEximRunCond expanded to false
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20241218095328.2604607-1-xu.yang_2@nxp.com>
 
-On Mon, 2024-11-18 at 22:11 -0500, Alan Stern wrote:
-> On Mon, Nov 18, 2024 at 04:13:29PM +0800, Markus Rechberger wrote:
-> > Hi,
-> >=20
-> > we repeatedly received issues from customers with usb autosuspend,
-> > our
-> > devices are randomly disconnected on some systems, it did not
-> > happen
-> > many times but if more than 4-5 customers report this there's
-> > usually
-> > some real issue behind that.
-> >=20
-> > I'm asking here because the Libreelec distribution recently got my
-> > attention that they seem to set usb autosuspend to -1 during boot
-> > time
-> > so they probably figured that out much earlier with other devices.
-> > I have never experienced that issue on an Ivy or Haswell based
-> > system.
-> >=20
-> > Were there some issues with particular kernel versions in the past
-> > or
-> > are there any issues known in general with USB autosuspend?
->=20
-> I'm not aware of any such issues.
->=20
-> Do you think you can get kernel debugging logs from your customers=20
-> showing examples of these disconnections?
->=20
+Thanks!
 
-one customer just replied his problem is gone since he disabled auto
-suspend (that was the latest one). He tested it since the last mail to
-the mailing list.
+Reviewed-by: Dan Carpenter <dan.carpenter@linaro.org>
 
-Do you want any particular logfiles / logging from him?
-
-Best Regards,
-Markus
-
-> Alan Stern
->=20
+regards,
+dan carpenter
 
