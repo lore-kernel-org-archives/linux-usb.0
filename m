@@ -1,146 +1,105 @@
-Received: from mail-wm1-f53.google.com (mail-wm1-f53.google.com [209.85.128.53])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 098C91531E2
-	for <linux-usb@vger.kernel.org>; Wed, 18 Dec 2024 06:41:52 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.53
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2A326154457;
+	Wed, 18 Dec 2024 06:52:57 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1734504114; cv=none; b=Pb6UTxZHuR6mborsRLcFzZOmFeGFxIhv7h77m8LQSlfeNO1GJKm6QWOrxBm7TqcRcI3VQ7VSUz1UE/lhXP2poM25yfIBxtxVLt3xiD99HXGjRP+4XgBPGO7ZHrqdl7NzaXLgFYWwlQhFHCQqUQTf8KnQ87vF5ccXUUIoRSBnpEM=
+	t=1734504778; cv=none; b=cs5Xt+1J3M7moI15/IioKdY1qZV4hYxQ6QwCVqhBXN5tqQyXZCgnsjHLqFqStl6nPtyzJVuPX7zsIKs50dXwhHuBtEJrUm+qD1liXBTy1nwHlNg5eK+SQYOM7wUBaZvaP66KV/g0IjqZ/c2ybSd8KiEPfKP+H3Jdm3MJQsyCbm8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1734504114; c=relaxed/simple;
-	bh=PVlwr8mfKRxXFbEbIMsHZRbnpRRYzZus4FuKjBjfWiM=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=NAgkyB5kpTcY60NrS7lZxgmrdOnyMzxPl7RoaUZRaYGuPQjkpeJL87SERDt00fVLXKJUXEAiWOtT3et1w0hLQc8zRAMUvGRwJnzKC3/V0UuFDr7eKI/fNmRgO2Te67wCHGyr/PvexJK++kJtO0j4n9VzVSmLL6wKCf5mjzzPZgQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=aPQCKPti; arc=none smtp.client-ip=209.85.128.53
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1734504778; c=relaxed/simple;
+	bh=xFYjZQz9CdV8btbhFZ7g4gXuiGZ44yHRNOXodtxkLh0=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=c6ro7bWo16wl+wtVEyiyTnAJZ9AymNrpwWhsXdc3RKnmbtQsRu84k9FFH/k1QkgCJNOvs95eqVDZ2+TMrGCUyk5zSBgWUudGOXlHvXpRwZL/0cgV8bAYnGOmxSlwLLK/T0Opf1I0cIw/uGeU/3mPYJMm7567bfd37w+bQp/4qCo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b=FsmOExNF; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="aPQCKPti"
-Received: by mail-wm1-f53.google.com with SMTP id 5b1f17b1804b1-4364a37a1d7so15690905e9.3
-        for <linux-usb@vger.kernel.org>; Tue, 17 Dec 2024 22:41:52 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1734504111; x=1735108911; darn=vger.kernel.org;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=iTFIm6Olr5J0VYC+UWFbCw8PjPQxjA73Inj/173Aw1w=;
-        b=aPQCKPtibH5Ms/cqfiQ40L1QRZABsat/JEHI43UxBZheLhO/vFCNH8rE0//w8KfLsr
-         VOidCoF/boBx+zUc0L3kWYmBAxL5cFMsWRHGySOHYjHGz5iE2JWlffX1d+q9V2W+8aOM
-         7ZuZX5p+yzlTND3aO9GD+ZP9P92NkapKSJkAN01+tcCwmb4tjpj1FDP2NN9cYDK1dNQg
-         qkfeIcsniz8ntP30Pfv62zJ05gHVhVrGNn30K0ZuGZgj4shc9xaCF42v+pLZbf/h7Rvj
-         EbiaG8sbYV9sTXndgLJGY66IrVOKYuihfHBHyC4/KgTUDUXpw8qAeOAlBWkwyK5lDGnl
-         EDrQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1734504111; x=1735108911;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=iTFIm6Olr5J0VYC+UWFbCw8PjPQxjA73Inj/173Aw1w=;
-        b=vwDHjH2mELwkBYT7ZajD+nllRmN38fuO1TEWJo+c7EN+ADnALjX0Q8LKiGi0aEx6ca
-         qqKBQyBjpYfgnk5O6fV8n68qXWtmOXCLXCiMLM2kD4+/T2NWpygs654bgc5Ucuq9YbVu
-         tLhYjSGdnlGVaJ5ZxHGAdw2AE+FRFv3E6QUhxcff09hujqh9swC+xoGGqrPgNvy5Iwdv
-         yKJNJfivGIjLHxdxIPy9HK7BEeOGZ/eacdfV65hyvUwXDTcOkwr1gUsyxl11aoyfc05Z
-         F0N0KFseZBA3zPcl0NhOdRn44wuKHQ35BfX9083qqH3radSc7fCXB1GHsry9reH1ryzp
-         YZhA==
-X-Forwarded-Encrypted: i=1; AJvYcCUlrZZOoKGisdKTRdi55nDHdFgbFED5mdRJuin5gSeVtAhYPlYgXgGZ60M899lBSsKslAmTkWnV/jI=@vger.kernel.org
-X-Gm-Message-State: AOJu0Yzr2gB3RXWdJtjM/8/YV+AcITRVDyN7l7oAH2mL/A0jlc1ngkn2
-	z3Rqa2/7xnZfGP8kglF+r74UAq5dtowaV2TRD2wANffBlfgEml+K
-X-Gm-Gg: ASbGncv6z2EsBibj+j85XKRzWIuFRGJzx0ePnI5FzrHOuDgeN7Ry3wyaA9RW1wgTuV3
-	6tJFT4g/S7o4Ee63t/96GJUFIpDjonESYaqTh0aytsmmRx8/FRjKN1Rx8Xo2A4hsbPJiVOBOF0a
-	NMHNQqPpveEZ1ld6uZls33EH919IsagI15dn/2OnW7KS1f6NORaJFfOa8YeeLAdS7jp3XlGVfTg
-	AaihJOBJw7Waqv0WE3gpvmwI44Fk12At/rcYqB37kroJuqzj3cjzni7qE0/gPnsAelhhfpzK0c0
-	JbWL5JpPA2I3XGLTRb4PT806GZ5K7JRn0A==
-X-Google-Smtp-Source: AGHT+IHonuO7awA4hteGTtsewJt1mHgYO5to5LYOX4jan8U8oVt3jRsEStNJXMIwy74AxV8dP95E1w==
-X-Received: by 2002:a05:600c:4588:b0:434:a19a:5965 with SMTP id 5b1f17b1804b1-436553456d2mr10704805e9.6.1734504110948;
-        Tue, 17 Dec 2024 22:41:50 -0800 (PST)
-Received: from ?IPV6:2001:b07:aac:705d:5605:668a:52f3:a096? ([2001:b07:aac:705d:5605:668a:52f3:a096])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-388c801211dsm13061829f8f.17.2024.12.17.22.41.49
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 17 Dec 2024 22:41:50 -0800 (PST)
-Message-ID: <12af64d4-b9eb-480e-b6e9-9842d76901a4@gmail.com>
-Date: Wed, 18 Dec 2024 07:41:49 +0100
+	dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="FsmOExNF"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 240D0C4CED0;
+	Wed, 18 Dec 2024 06:52:57 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
+	s=korg; t=1734504777;
+	bh=xFYjZQz9CdV8btbhFZ7g4gXuiGZ44yHRNOXodtxkLh0=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=FsmOExNFEAoERRCe2lAm3LhA/W1nJTF5UNzm8DLb/LhfXP5fbr2QEP1+QCQcnKevV
+	 +N+H61PNnDxsV1ew5mr0PuhAWCWstp35wGSwdSXduJ/5eVENYtVcw136BEyUtwUiHs
+	 8iJrTx3piFixjFbVTrcXeBUhBEAkZLScaAce7VDU=
+Date: Wed, 18 Dec 2024 06:31:08 +0100
+From: Greg KH <gregkh@linuxfoundation.org>
+To: Selvarasu Ganesan <selvarasu.g@samsung.com>
+Cc: quic_jjohnson@quicinc.com, kees@kernel.org, abdul.rahim@myyahoo.com,
+	m.grzeschik@pengutronix.de, linux-usb@vger.kernel.org,
+	linux-kernel@vger.kernel.org, jh0801.jung@samsung.com,
+	dh10.jung@samsung.com, naushad@samsung.com, akash.m5@samsung.com,
+	rc93.raju@samsung.com, taehyun.cho@samsung.com,
+	hongpooh.kim@samsung.com, eomji.oh@samsung.com,
+	shijie.cai@samsung.com, alim.akhtar@samsung.com,
+	stable@vger.kernel.org
+Subject: Re: [PATCH] usb: gadget: f_midi: Fixing wMaxPacketSize exceeded
+ issue during MIDI bind retries
+Message-ID: <2024121845-cactus-geology-8df3@gregkh>
+References: <CGME20241208152338epcas5p4fde427bb4467414417083221067ac7ab@epcas5p4.samsung.com>
+ <20241208152322.1653-1-selvarasu.g@samsung.com>
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v3 2/2] usb: typec: tcpci: set ALERT_MASK register after
- devm_request_threaded_irq()
-To: Xu Yang <xu.yang_2@nxp.com>
-Cc: Francesco Dolcini <francesco@dolcini.it>,
- heikki.krogerus@linux.intel.com, gregkh@linuxfoundation.org,
- andre.draszik@linaro.org, rdbabiera@google.com, m.felsch@pengutronix.de,
- dan.carpenter@linaro.org, emanuele.ghidoli@toradex.com,
- parth.pancholi@toradex.com, francesco.dolcini@toradex.com,
- u.kleine-koenig@baylibre.com, linux-usb@vger.kernel.org,
- imx@lists.linux.dev, jun.li@nxp.com
-References: <20241217091208.2416971-1-xu.yang_2@nxp.com>
- <20241217091208.2416971-2-xu.yang_2@nxp.com>
- <20241217163506.GA80703@francesco-nb>
- <b378e1ab-5699-4369-8fed-fa6973d5aed7@gmail.com>
- <20241218053120.7r4ytd6bqzcmsbcm@hippo>
-Content-Language: en-US
-From: Emanuele Ghidoli <ghidoliemanuele@gmail.com>
-In-Reply-To: <20241218053120.7r4ytd6bqzcmsbcm@hippo>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20241208152322.1653-1-selvarasu.g@samsung.com>
 
+On Sun, Dec 08, 2024 at 08:53:20PM +0530, Selvarasu Ganesan wrote:
+> The current implementation sets the wMaxPacketSize of bulk in/out
+> endpoints to 1024 bytes at the end of the f_midi_bind function. However,
+> in cases where there is a failure in the first midi bind attempt,
+> consider rebinding.
 
+What considers rebinding?  Your change does not modify that.
 
-On 18/12/2024 06:31, Xu Yang wrote:
-> On Tue, Dec 17, 2024 at 09:29:36PM +0100, Emanuele Ghidoli wrote:
->>
->>
->> On 17/12/2024 17:35, Francesco Dolcini wrote:
->>> On Tue, Dec 17, 2024 at 05:12:08PM +0800, Xu Yang wrote:
->>>> With edge irq support, the ALERT event may be missed currently. The reason
->>>> is that ALERT_MASK register is written before devm_request_threaded_irq().
->>>> If ALERT event happens in this time gap, it will be missed and ALERT line
->>>> will not recover to high level. However, we don't meet this issue with
->>>> level irq. To avoid the issue, this will set ALERT_MASK register after
->>>> devm_request_threaded_irq() return.
->>>>
->>>> Fixes: 77e85107a771 ("usb: typec: tcpci: support edge irq")
->>>> Cc: stable@vger.kernel.org
->>>> Signed-off-by: Xu Yang <xu.yang_2@nxp.com>
->>>
->>> I had an offline chat with a Emanuele (in Cc:) that worked on this a few
->>> weeks ago and he remember that he already tried a similar approach, but
->>> for some reason he did not work.
->>>
->>> He should be able to try this patch in a few days, but with the upcoming
->>> winter holidays he might not be super responsive.
->>>
->>> I wonder if we could wait a little before merging this to allow this
->>> testing to happen. Or maybe you can just test if this is working on your
->>> setup using edge interrupts (you would need to use only one TCPCI, for
->>> the test).
->>>
->>> Francesco
->>>
->>
->> Hi all,
->>
->> I was curious, so I tested the two patches. I can confirm that if both are applied, 
->> edge interrupts still work correctly.
->> However, with only the first patch applied, it does not work.
+> This scenario may encounter an f_midi_bind issue due
+> to the previous bind setting the bulk endpoint's wMaxPacketSize to 1024
+> bytes, which exceeds the ep->maxpacket_limit where configured TX/RX
+> FIFO's maxpacket size of 512 bytes for IN/OUT endpoints in support HS
+> speed only.
+> This commit addresses this issue by resetting the wMaxPacketSize before
+> endpoint claim.
+
+resets it to what?  Where did the magic numbers come from?  How do we
+know this is now full speed and not high speed?
+
 > 
-> Yes. This is an expected results. So could this be regarded as a tested-by?
-> I have tested edge irq before sending out the patches too.
+> Fixes: 46decc82ffd5 ("usb: gadget: unconditionally allocate hs/ss descriptor in bind operation")
+> Cc: stable@vger.kernel.org
+> Signed-off-by: Selvarasu Ganesan <selvarasu.g@samsung.com>
+> ---
+>  drivers/usb/gadget/function/f_midi.c | 9 +++++++++
+>  1 file changed, 9 insertions(+)
 > 
-> Thanks,
-> Xu Yang
+> diff --git a/drivers/usb/gadget/function/f_midi.c b/drivers/usb/gadget/function/f_midi.c
+> index 837fcdfa3840..5caa0e4eb07e 100644
+> --- a/drivers/usb/gadget/function/f_midi.c
+> +++ b/drivers/usb/gadget/function/f_midi.c
+> @@ -907,6 +907,15 @@ static int f_midi_bind(struct usb_configuration *c, struct usb_function *f)
+>  
+>  	status = -ENODEV;
+>  
+> +	/*
+> +	 * Reset wMaxPacketSize with maximum packet size of FS bulk transfer before
+> +	 * endpoint claim. This ensures that the wMaxPacketSize does not exceed the
+> +	 * limit during bind retries where configured TX/RX FIFO's maxpacket size
+> +	 * of 512 bytes for IN/OUT endpoints in support HS speed only.
+> +	 */
+> +	bulk_in_desc.wMaxPacketSize = cpu_to_le16(64);
+> +	bulk_out_desc.wMaxPacketSize = cpu_to_le16(64);
 
-Hello Xu,
-I confirmed that the first patch introduces a regression, 
-so I agree with Francesco and Dan about merging the two patches.
+Where did "64" come from?  How do we know this is full speed?  Later
+on in this function the endpoint sizes are set, why set them here to
+these small values when you do not know the speed?
 
-Anyway, I tested it.
+Or, if it had failed before, reset the values on the failure, not here
+before you start anything up, right?
 
-Tested-by: Emanuele Ghidoli <emanuele.ghidoli@toradex.com>
+thanks,
 
-Regards,
-Emanuele
-
+greg k-h
