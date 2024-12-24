@@ -1,70 +1,78 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-il1-f200.google.com (mail-il1-f200.google.com [209.85.166.200])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 619E1219FF;
-	Tue, 24 Dec 2024 05:52:55 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4A5DE13774D
+	for <linux-usb@vger.kernel.org>; Tue, 24 Dec 2024 06:24:03 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.166.200
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1735019575; cv=none; b=rKgP+FR/1weIJ8ePf9o466TLM1pxvfROUa2S+M4KhmKMPB4F/pnfDJdUPAIwOIqTbrJHYB6+Um668gqa5rjlKrH/X/GSAlsTvlBOWP9O3Z/k2LrvyncTbeHIcUdZ0EToTseVl2Dn7EwK7xU710OY4k5KL6/smoBVVrm+dxIf71k=
+	t=1735021444; cv=none; b=hK8aXQHNluVn4MDb7sKXy5wMnLdw5Rb3h7D6uwFFZvDiTu7iEcL0Hp9LtH5Ke0ggBTiaPHc2ROhGu5TPZdcvNsrJ/g37aV+tgXKQ9TqxpgdBABOrslljpCxV5v7nXu5plIXtaZJ4CCLLRSlpOHQLih0KnvPcthfkud/RW5arduE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1735019575; c=relaxed/simple;
-	bh=IWmYgd/YvMvUfGgXSHLfJu4ZVEUtW+LqTeETfJCLR7A=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=Rp2jm0erfVqinczucn2ugzS7t7iY2U5HJhlNFHgXtc+eQk19TVHrbQVriwE7rp5yTxidSJxFqcLWWPobXsm2hUhxP2AMTKezwwRjs/bhwSckej+mxDna6ogUSEKucGUnvgklZTClR28fQe6uBais1KNCfcCOfqLnXKhQLFEmCBA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b=u+iB5Fb7; arc=none smtp.client-ip=10.30.226.201
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="u+iB5Fb7"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 62891C4CED0;
-	Tue, 24 Dec 2024 05:52:54 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
-	s=korg; t=1735019574;
-	bh=IWmYgd/YvMvUfGgXSHLfJu4ZVEUtW+LqTeETfJCLR7A=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=u+iB5Fb7DaitrcB8pdmAIyM7UFGj3eD6nQDU16OQ70W40vLhZo3UvX2bD7rUI9AYY
-	 WKGYXzCR+2lNfzjZzzfCYeJmuk8bfJ52xDBRIBM8GTlAKHJT490eQH1qnisNB6jsJw
-	 7Ujxly6Yzlg31u3lgboBcFC0J7KCjWfA689lL2s4=
-Date: Tue, 24 Dec 2024 06:52:10 +0100
-From: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-To: Gordon - <gordon.xwj@gmail.com>
-Cc: Shuah Khan <skhan@linuxfoundation.org>,
-	Valentina Manea <valentina.manea.m@gmail.com>,
-	Shuah Khan <shuah@kernel.org>, Hongren Zheng <i@zenithal.me>,
-	Jonathan Corbet <corbet@lwn.net>, linux-usb@vger.kernel.org,
-	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
-	trivial@kernel.org
-Subject: Re: [PATCH] Update USB/IP OP_REP_IMPORT documentation.
-Message-ID: <2024122456-verse-giblet-9870@gregkh>
-References: <20241223090417.12614-1-gordon.xwj@gmail.com>
- <42623280-d7da-4bc9-98a5-65de33d4f6dc@linuxfoundation.org>
- <CAD2T5m-kZAqeR3fSXHVDtevLkU0FynriwM+tb==eYaNXvVhb=g@mail.gmail.com>
+	s=arc-20240116; t=1735021444; c=relaxed/simple;
+	bh=MXzlKSwOGCI1XXQ61VjEYAgCn6j6p10k4UqY5qMglZw=;
+	h=MIME-Version:Date:In-Reply-To:Message-ID:Subject:From:To:
+	 Content-Type; b=PbXIHlQVaqc1HmbJ7gb3W4aHHs5V8TB2Psk2O1Rv50pEKGj3zQWdP4MkvTBXbfLtlciADmdyNR/JI7t372+xLwDzL8FOa563OrLG/Hcr4xWlHWlgRrtD+KTgVCVIAroPu1twPlTObNqmddz5zy0mtzDCDNP/5575xct3BhJHrCw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=syzkaller.appspotmail.com; spf=pass smtp.mailfrom=M3KW2WVRGUFZ5GODRSRYTGD7.apphosting.bounces.google.com; arc=none smtp.client-ip=209.85.166.200
+Authentication-Results: smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=syzkaller.appspotmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=M3KW2WVRGUFZ5GODRSRYTGD7.apphosting.bounces.google.com
+Received: by mail-il1-f200.google.com with SMTP id e9e14a558f8ab-3a7e0d5899bso107099965ab.0
+        for <linux-usb@vger.kernel.org>; Mon, 23 Dec 2024 22:24:03 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1735021442; x=1735626242;
+        h=to:from:subject:message-id:in-reply-to:date:mime-version
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=SblzuJBesHFVjaNJKKW8WutChPVdT51mxhglVDJXNiE=;
+        b=TiCmLRA8XM6XVMkQ3cJKAPLGltPLNLn7h5NFBs3XYg6xnyx7u/OBVjVyDTKLZuIL0i
+         s4WT4LrNfTzL2gm3wzhO3hrlJiIc7e9pfe70fvpC5kGRGawme5z9C/rRtIwvXstOmlP4
+         d4v4H9SoVMfUVYO/1lgR760DNn4fotVFc7FB0UK74TLyAsJzNIVBXfTDmaG5LWDPAVih
+         NvIc2+B0yreT3KS8DeeCyp8ivjmNa8H4INEJg/d08d08uYw4SkmP/xwXRLhZG8XuOUiu
+         2vqiBN32MIAArKHyuILX/5rK12a4RfTtNJ7mkJdFNqgCFH5aneT3EvaPr5utbn6KyxOJ
+         B8CQ==
+X-Forwarded-Encrypted: i=1; AJvYcCWjDO5tUWCtM7G3GZB5OtS1nfWmwW50vYmiQhBndNo5FDhWrJrfrZO2OVTi4fUP5FTohlAR4MEjo9Y=@vger.kernel.org
+X-Gm-Message-State: AOJu0YwSqi6yMn1S3RSDPAeo6983FaOZe3hNYD0dC2Hixmof0YT2rpkw
+	h5BbQy9NRzfr9zRIyEklu4Y8RNT6MwEni54XVP5P4PtEVF3lcH8qtsBM7oFAsVCFaTVs+KYZ7oI
+	eeq8tSbfnnPiffw5KZtU5YomdSodS2MGRWACXsBS/2D3vbBGIVGnWOVg=
+X-Google-Smtp-Source: AGHT+IH5Hx62rRepnJelJtQJ8sdAWuFF5a3JpWmRIfv6/1eGAfZAGB/MKANmjkpA7PjVg1BABMu96SJYY0CPLJHJNwgC8idATgJ/
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <CAD2T5m-kZAqeR3fSXHVDtevLkU0FynriwM+tb==eYaNXvVhb=g@mail.gmail.com>
+X-Received: by 2002:a05:6e02:34a0:b0:3a7:21ad:72a9 with SMTP id
+ e9e14a558f8ab-3c2d5152acfmr130327635ab.17.1735021442596; Mon, 23 Dec 2024
+ 22:24:02 -0800 (PST)
+Date: Mon, 23 Dec 2024 22:24:02 -0800
+In-Reply-To: <672ad9a8.050a0220.2a847.1aac.GAE@google.com>
+X-Google-Appengine-App-Id: s~syzkaller
+X-Google-Appengine-App-Id-Alias: syzkaller
+Message-ID: <676a5382.050a0220.2f3838.015e.GAE@google.com>
+Subject: Re: [syzbot] [scsi?] [usb?] WARNING: bad unlock balance in sd_revalidate_disk
+From: syzbot <syzbot+331e232a5d7a69fa7c81@syzkaller.appspotmail.com>
+To: James.Bottomley@HansenPartnership.com, axboe@kernel.dk, hch@lst.de, 
+	james.bottomley@hansenpartnership.com, linux-block@vger.kernel.org, 
+	linux-kernel@vger.kernel.org, linux-scsi@vger.kernel.org, 
+	linux-usb@vger.kernel.org, martin.petersen@oracle.com, ming.lei@redhat.com, 
+	syzkaller-bugs@googlegroups.com
+Content-Type: text/plain; charset="UTF-8"
 
-On Tue, Dec 24, 2024 at 11:00:38AM +0800, Gordon - wrote:
-> On Tue, Dec 24, 2024 at 1:11 AM Shuah Khan <skhan@linuxfoundation.org> wrote:
-> >
-> > On 12/23/24 02:04, Gordon Ou wrote:
-> > > Corrects byte offsets for OP_REP_IMPORT.
-> >
-> > Add more information on why this change is needed.
-> >
-> 
-> The change is needed to correct the mistaken byte offset of the field
-> bDeviceClass in OP_REP_IMPORT documentation. The previous field bcdDevice
-> has length 2 and the offset for bDeviceClass should be 0x138 + 2 = 0x13A
-> instead of 0x139. Offsets for subsequent fields are also affected and fixed
-> in this patch.
+syzbot has bisected this issue to:
 
-Great, please include that in the changelog text when you resend this.
+commit f1be1788a32e8fa63416ad4518bbd1a85a825c9d
+Author: Ming Lei <ming.lei@redhat.com>
+Date:   Fri Oct 25 00:37:20 2024 +0000
 
-thanks,
+    block: model freeze & enter queue as lock for supporting lockdep
 
-greg k-h
+bisection log:  https://syzkaller.appspot.com/x/bisect.txt?x=117bbf30580000
+start commit:   c88416ba074a Add linux-next specific files for 20241101
+git tree:       linux-next
+final oops:     https://syzkaller.appspot.com/x/report.txt?x=137bbf30580000
+console output: https://syzkaller.appspot.com/x/log.txt?x=157bbf30580000
+kernel config:  https://syzkaller.appspot.com/x/.config?x=704b6be2ac2f205f
+dashboard link: https://syzkaller.appspot.com/bug?extid=331e232a5d7a69fa7c81
+syz repro:      https://syzkaller.appspot.com/x/repro.syz?x=16952b40580000
+
+Reported-by: syzbot+331e232a5d7a69fa7c81@syzkaller.appspotmail.com
+Fixes: f1be1788a32e ("block: model freeze & enter queue as lock for supporting lockdep")
+
+For information about bisection process see: https://goo.gl/tpsmEJ#bisection
