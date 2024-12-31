@@ -1,58 +1,59 @@
-Received: from mail-ed1-f52.google.com (mail-ed1-f52.google.com [209.85.208.52])
+Received: from mail-ej1-f45.google.com (mail-ej1-f45.google.com [209.85.218.45])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BA9B219CCFC
-	for <linux-usb@vger.kernel.org>; Tue, 31 Dec 2024 13:11:06 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.52
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CC989944E
+	for <linux-usb@vger.kernel.org>; Tue, 31 Dec 2024 13:11:09 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.45
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1735650669; cv=none; b=MJvFyZXGKBKhwZghezrdzL3gEpTdTSAseYXaohIMAa36cDM/J8OUpYi34TsQqe48CjmfqRRisr255Ft6Huw2QHGz1Y1QPtxIjx8SExKQULAp9WNsC6bWPEKyHND48Hh5PYENFoQkE1mDz8Foq+5B1cHFqhIaF2VDK2d257pDkRU=
+	t=1735650672; cv=none; b=nJ6DaYtsjejCsFsStgICgRFAfK+mC8kcbKmsVXosVgphwsmkSMwUUuUe19JYjEqHBpyTa1hqLO9RpcsVftdQhL/S5ABZQ+NoJ0EuFfVCtjXW9ZDlouc67SuSZ/ALQZeWtsvMSdWZ8gvTlib6JGghs4H07uRXd1Cg25nEY5VaJ3g=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1735650669; c=relaxed/simple;
-	bh=bf+GukcEVltXNkTKSCrQQDQcHFBuI6bD2HSUYKuGOIE=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version:Content-Type; b=jFiZ+xKZ8KwEmcEVKbPD/I/8DQXuyCXKZIVc6mO8tw1Ay6/4sERh8kVAIrxVUu6N9DIdq5jIjgn3GAnNB+U0pkZCHlLFe1HI0qArJMcTdsBPqc/WhftNh8xymj3XAodSp6nhLUzhjbo6N3rkBHxU9wls/glyl9xrpIJi7zBVgsg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org; spf=pass smtp.mailfrom=chromium.org; dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b=BX1TS7Pb; arc=none smtp.client-ip=209.85.208.52
+	s=arc-20240116; t=1735650672; c=relaxed/simple;
+	bh=qBrCK4N5Icyjcsx++84zORVcZf9HVvDE4nldFKhwawk=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=KER6la3+EGzDxpb8ubh+HlPmhwoIm7mVqpgsKuCxdT3VWxOAoq0SMzeZY6g0njchTuOZHqm6eZZnAEjElZHjjJZJ6AwTeqbUmvQg/CLxcwVoHAKz6w085/3LpkuSviWKFOnJVDElVnol/hYTy34WqS1jfnGC4GEYe7v5UBhVd5o=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org; spf=pass smtp.mailfrom=chromium.org; dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b=J3cbVYEM; arc=none smtp.client-ip=209.85.218.45
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=chromium.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b="BX1TS7Pb"
-Received: by mail-ed1-f52.google.com with SMTP id 4fb4d7f45d1cf-5d88c355e0dso1983488a12.0
-        for <linux-usb@vger.kernel.org>; Tue, 31 Dec 2024 05:11:06 -0800 (PST)
+	dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b="J3cbVYEM"
+Received: by mail-ej1-f45.google.com with SMTP id a640c23a62f3a-aaef00ab172so883925566b.3
+        for <linux-usb@vger.kernel.org>; Tue, 31 Dec 2024 05:11:09 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=chromium.org; s=google; t=1735650665; x=1736255465; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=n0k5mVd+fLDtIL8C5inwIWUNpfV6H43E4vdNm1qt9/0=;
-        b=BX1TS7PbYPd5fIfy5EGRgUcD+PK7jfNG0jVgDplvRikUAKxjkjRdWE+rNaveN32RSP
-         VFfKVaewZcW3dvTD+h+oQYFbd9kwHyMSyFc8CRRb62NR2Yz5hlFyhH+0XXdUaZm3urL9
-         ow2nyweFqg+AYcSlHVhvw+aShR4jDXCcdD4yk=
+        d=chromium.org; s=google; t=1735650668; x=1736255468; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=HemYSWgyRXixy/Wgrazf+UqL3kMysf9963kkGhO1aQI=;
+        b=J3cbVYEM6xu8MBOXRcvGoudxQS2HHpemkzPOsyFNR08fr4FFIPh0Htr6NKzHApsZtb
+         9M6pnCQ9VpJ3VROKxap4Q/1MKXx/4gIOU9bPdS7LOWm4/iA8MCUi48hc6wsEHhGUQh8e
+         PuFUr6VjiThZxSU6ruAxA3CG9XbDOiJLJk2Jo=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1735650665; x=1736255465;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=n0k5mVd+fLDtIL8C5inwIWUNpfV6H43E4vdNm1qt9/0=;
-        b=tRRfFRBnbn5KDoROTBHmGAygVoLzSO96TKCBoewbBir0x4wReuoIG5nAkXYzJKuHHU
-         4ouOULu9NQKNzBeIXMkXVPcdeZOM6/SYn9k4UqOekkt4SXfTmquBM/Xg7VyrMJcTW0wC
-         qTv8ZUwgcGfFD2x0RuJOmPMGcjbbZu3ef3QXeu3LvoPLH3kepaB/TsDsxNTCnXJwm7AI
-         F6RtmXRlYhu/pM0PUm9oHZA4q6H8wYkELqnwn8dIS5sLcKqJDVm4oWwMISKJH1yTN0z4
-         v3sPzpw0nMdLalTiFDkkYtGfMcsav60pJMJXtI2dFFK9aGS4kEOI/uZgsn4zWPWtA74c
-         xHAA==
-X-Forwarded-Encrypted: i=1; AJvYcCU1me1PmKidso2E8iEl6L4ztWs0cSthOuovNdSrM+8uN5c6Gwifq22zcUlNnf6mDLDUgyisATWxdR0=@vger.kernel.org
-X-Gm-Message-State: AOJu0YxwIXNEweHidUJwlrLaP3ZDmgdlMcNJKu26gD5YCkQSSqgXnkV6
-	D2/yrBDPlcbmAS9wPuJTZW1s5NvRmxYjrEgWwLR9e09T03nM1IE0ssiw37qirl2pmg8XVLvCgXB
-	w4ps=
-X-Gm-Gg: ASbGnctN0VqDTCBhG2djRRlPQqTdPIux64Z61Lye5s3VQj9S8Q6bVq+VriwJ8e7AjZ+
-	BRC/HIIcNC+EcIJRm2vQc8O+NVrBPOnhDWjupfD9lAEtzxiNZgHP/XHUmDhLxmBSqDw9Uve2GAS
-	/+WFjuX0CNmsWNM7lh39eiaE3CjxBnrOKskiv/zDClWEnMEPQp5kMWqB5UPK0aA4k7K5xfAKz5r
-	+mMZUGSH1mrQIbhtAzXSCH3a/9TbU3xbmkilNQ8/1vZ6e98yjBWL83/nfsKpb3M4MPcnqEUyc2g
-	LJsedwvQcl8xo9aM1yTXfJ+r7mdkoNgHZTRO
-X-Google-Smtp-Source: AGHT+IEe+9lDwjXm0earALoLdeE0p8a1dVvo9dnTrYmjVrHTtFQ+RTu1kPyyl+VbzeIPCTmVnxPETQ==
-X-Received: by 2002:a05:6402:210b:b0:5d3:d19e:6d57 with SMTP id 4fb4d7f45d1cf-5d81de0669fmr30312163a12.34.1735650664906;
-        Tue, 31 Dec 2024 05:11:04 -0800 (PST)
+        d=1e100.net; s=20230601; t=1735650668; x=1736255468;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=HemYSWgyRXixy/Wgrazf+UqL3kMysf9963kkGhO1aQI=;
+        b=vg9r6ot0J7eSaeInZ5y9mNoCcSSgnPv5N6J4AyJI2AiNHsFOjckLmYZx/C4/NAJbyM
+         XznSjLO9cQoNBBpU744pFugIMCMDTsRyxXaLgt5wBOYYDfh2Mub7yrWxDX8zF7curb8p
+         +6OPvq34/0ubn4NQwg3YEDbyhSMxJQ2Wvy+lJEXu2JgnQUctHJC/oY2Q5C2mFl4GwwLD
+         RYIoJngG+BcG7mfC8s3wEq+zd+Dx1pYQBIRuMwwuIyB/ue65UhOVlAHJXSj8oIHysxwT
+         JMeS5FvIDmfNoKLEEpumZ5hCXdRaSuOULun3tl0hYyBVuikUycplFfJJIB3YD2bFFmj+
+         bYbg==
+X-Forwarded-Encrypted: i=1; AJvYcCWWEhxS4UJNcFEhINjaG33+jXJ5/LvWXaQbeFiu92XRmp5BoToH9/MoHVNeic9fUySHBBmbfKg58z0=@vger.kernel.org
+X-Gm-Message-State: AOJu0YxhAAdoHgM5uT9Gf64OEPIWBxVavX/o3f4k2rJ6Rl913SstrmqM
+	8Y9BAIvbYqvyzBPMYn8uPqz0PxHMm7CNI6oIzhpCXul4mnYeZtFJK084zakb
+X-Gm-Gg: ASbGncu1fy9ZBoS81PPmj6Kx+7e6mGO1BoD9I2oqpi39MDc4ph2OMJncQHHOT+Ur3U9
+	6Vp51sLBtluY9Id8/jz5vJmopVSVdeG+EwCQauJ8StjePGb9HuRGrTJReQN6CYSFghYSara8Dc3
+	Azbpetl24D3IE/dX0PsHgzt3tJFY8p5WmufvyYLIzIPP0xw+Q+EeUXO0HBfeUU/jEqtMeyLRRoV
+	sZI2OEciieYeCn3gDXveCt9jPvNFgE1xGnmxuCoqTZSUpdzlU/msPfSK5QX/wuWaqOTV7pir9h0
+	m5nxT17yw95OGmoDzIvkE1od0WKqAvokevEZ
+X-Google-Smtp-Source: AGHT+IFdAg3oMQOVfUGa4ZLj7xET4PjyLa805pm9kmr/LiyZ5xFs9i7Iwc80SbYGC+2P4uX5gRf7+Q==
+X-Received: by 2002:a05:6402:26cf:b0:5d0:abb8:7a3 with SMTP id 4fb4d7f45d1cf-5d81dd84692mr76252737a12.6.1735650668086;
+        Tue, 31 Dec 2024 05:11:08 -0800 (PST)
 Received: from ukaszb-ng.c.googlers.com.com (60.27.91.34.bc.googleusercontent.com. [34.91.27.60])
-        by smtp.gmail.com with ESMTPSA id 4fb4d7f45d1cf-5d80679efc9sm15876651a12.47.2024.12.31.05.11.04
+        by smtp.gmail.com with ESMTPSA id 4fb4d7f45d1cf-5d80679efc9sm15876651a12.47.2024.12.31.05.11.06
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 31 Dec 2024 05:11:04 -0800 (PST)
+        Tue, 31 Dec 2024 05:11:06 -0800 (PST)
 From: =?UTF-8?q?=C5=81ukasz=20Bartosik?= <ukaszb@chromium.org>
 To: Heikki Krogerus <heikki.krogerus@linux.intel.com>,
 	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
@@ -64,10 +65,12 @@ Cc: Abhishek Pandit-Subedi <abhishekpandit@chromium.org>,
 	Tzung-Bi Shih <tzungbi@kernel.org>,
 	linux-usb@vger.kernel.org,
 	chrome-platform@lists.linux.dev
-Subject: [PATCH v12 0/2] usb: typec: Implement UCSI driver for ChromeOS
-Date: Tue, 31 Dec 2024 13:10:45 +0000
-Message-ID: <20241231131047.1757434-1-ukaszb@chromium.org>
+Subject: [PATCH v12 2/2] usb: typec: ucsi: Implement ChromeOS UCSI driver
+Date: Tue, 31 Dec 2024 13:10:47 +0000
+Message-ID: <20241231131047.1757434-3-ukaszb@chromium.org>
 X-Mailer: git-send-email 2.47.1.613.gc27f4b7a9f-goog
+In-Reply-To: <20241231131047.1757434-1-ukaszb@chromium.org>
+References: <20241231131047.1757434-1-ukaszb@chromium.org>
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
@@ -77,131 +80,419 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 
-This series implements a UCSI ChromeOS EC transport driver. 
-The ChromeOS EC is expected to implement UCSI Platform Policy
-Manager (PPM).
+From: Pavan Holla <pholla@chromium.org>
 
+Implementation of a UCSI transport driver for ChromeOS.
+This driver will be loaded if the ChromeOS EC implements a PPM.
+
+Signed-off-by: Pavan Holla <pholla@chromium.org>
+Co-developed-by: Abhishek Pandit-Subedi <abhishekpandit@chromium.org>
+Signed-off-by: Abhishek Pandit-Subedi <abhishekpandit@chromium.org>
+Co-developed-by: Łukasz Bartosik <ukaszb@chromium.org>
+Signed-off-by: Łukasz Bartosik <ukaszb@chromium.org>
 ---
-Changes in v12:
-- Fixed passing of cmd argument (from '&cmd' to 'cmd) to cros_ucsi_async_control()
-which caused compilation failure. Verified also that all compilation
-failures reported by the 0-Day CI passed:
-https://lore.kernel.org/linux-usb/202412240743.tzTftk4H-lkp@intel.com/
-https://lore.kernel.org/linux-usb/202412240903.xAqTOQpa-lkp@intel.com/
-https://lore.kernel.org/linux-usb/202412241137.ld79A9Iq-lkp@intel.com/
--Link to v11: https://lore.kernel.org/linux-usb/20241210144527.1657888-1-ukaszb@chromium.org/
-
-Changes in v11:
-- Updated cancel_delayed_work() to cancel_delayed_work_sync() in both
-cros_ucsi_suspend() and cros_ucsi_destroy() in order to wait for delayed
-work to finish if it is running.
-- Link to v10: https://lore.kernel.org/linux-usb/20241204194900.371696-1-ukaszb@chromium.org/
-
-Changes in v10:
-- Added cancel_delayed_work() in the cros_ucsi_suspend() in order
-to prevent premature wake up during suspend.
-- Added cancel_delayed_work() in the cros_ucsi_destroy() as well.
-- Link to v9: https://lore.kernel.org/linux-usb/20241203142314.3892422-1-ukaszb@chromium.org/
-
-Changes in v9:
-- Squash "usb: typec: cros_ec_ucsi: Recover from write timeouts" commit
-into "usb: typec: ucsi: Implement ChromeOS UCSI driver".
-- Replaced out label in cros_ucsi_sync_control() with switch statement.
-- Link to v8: https://lore.kernel.org/linux-usb/20241128232035.1525978-1-ukaszb@chromium.org/ 
-
-Changes in v8:
-- Set .sync_control in cros_ucsi_ops struct to point
-to ucsi_sync_control_common().
-- Added explanation why complete() is used instead of resume()
-in cros_ucsi_pm_ops struct.
-- Updated s/miliseconds/milliseconds/.
-- Link to v7: https://lore.kernel.org/linux-usb/20241115155234.1587589-1-ukaszb@chromium.org/ 
-
-Changes in v7:
-- Dropped the following commits for now as I want to focus
-on upstreaming cros_ec_ucsi driver first. Then I will get
-back to the topic of trace events and netlink:
-  "usb: typec: cros_ec_ucsi: Add trace events"
-  "usb: typec: cros_ec_ucsi: Add netlink"
-- Squashed "usb: typec: cros_ec_ucsi: Use complete instead of resume"
-into "usb: typec: ucsi: Implement ChromeOS UCSI driver".
-- Added "usb: typec: cros_ec_ucsi: Recover from write timeouts" commmit.
-- Added usage of common functins ucsi_sync_control_common()
-and ucsi_notify_common().
-- Commits:
-  "platform/chrome: Update EC feature flags"
-  "mfd: cros_ec: Load cros_ec_ucsi on supported ECs"
-  "mfd: cros_ec: Don't load charger with UCSI"
-landed in the tree https://git.kernel.org/pub/scm/linux/kernel/git/lee/mfd.git/log/?h=for-mfd-next    
-- Link to v6: https://lore.kernel.org/linux-usb/20240910101527.603452-1-ukaszb@chromium.org
-
-Changes in v6:
-- Reverted to type names uint*_t in cros_ec_commands.h in order 
-to be consistent with type names used in other parts of the file.
-- Updated comments in cros_ec_commands.h related to UCSI.
-- Added missing sign-offs.
-- Fixed memory leak in cros_ucsi_async_control() by moving
-ec_params_ucsi_ppm_set request buffer to stack.
-- Replaced cros_ucsi_read with cros_ucsi_read_cci in cros_ucsi_work().
-- Updated changes in v5, it was missing information related to
-commits addition:
-  platform/chrome: Update EC feature flags
-  usb: typec: cros_ec_ucsi: Use complete instead of resume
-  mfd: cros_ec: Load cros_ec_ucsi on supported ECs
-  mfd: cros_ec: Don't load charger with UCSI
-- Link to v5: https://lore.kernel.org/r/all/20240903163033.3170815-1-ukaszb@chromium.org/
-
-Changes in v5:
-- Increased WRITE_TMO_MS to 5000.
-- Replaced DRV_NAME with KBUILD_MODNAME.
-- Added comments for WRITE_TMO_MS and MAX_EC_DATA_SIZE defines.
-- Refactored cros_ucsi_async_control() to dynamically allocate memory
-for a message to EC instead of allocating the message on stack.
-- Replaced type names uint*_t with u*.
-- Removed ret variable in cros_ucsi_work().
-- Updated ucsi_operations interface to align with changes introduced in
-  v6.11.
-- Replaced test_bit() with test_and_clear_bit() in cros_ucsi_work().
-- Updated EC feature flags in commit "platform/chrome: Update EC feature
-  flags".
-- Added new commit "usb: typec: cros_ec_ucsi: Use complete instead
-of resume".
-- Added trace events in commit "usb: typec: cros_ec_ucsi: Add trace
-  events".
-- Added netlink in commit "usb: typec: cros_ec_ucsi: Add netlink"
-for debugging and testing puropses.
-- Added new commit "mfd: cros_ec: Load cros_ec_ucsi on supported ECs".
-- Added new commit "mfd: cros_ec: Don't load charger with UCSI".
-- Link to v4: https://lore.kernel.org/all/CAB2FV=6We88NrvN8NZYt8NkMFH9N_ZBGyUWVUpGwPdja2X_+NA@mail.gmail.com/T/
-
-Changes in v4:
-- Setup notifications before calling ucsi_register.
-- Cancel work before destroying driver data.
-- Link to v3: https://lore.kernel.org/r/20240403-public-ucsi-h-v3-0-f848e18c8ed2@chromium.org
-
-Changes in v3:
-- Moved driver from platform/chrome to usb/typec/ucsi.
-- Used id_table instead of MODULE_ALIAS.
-- Split EC header changes into seperate commit.
-- Fixes from additional internal reviews and kernel bot warnings.
-- Link to v2: https://lore.kernel.org/r/20240325-public-ucsi-h-v2-0-a6d716968bb1@chromium.org
-
-Changes in v2:
-- No code or commit message changes.
-- Added drivers/platform/chrome maintainers for review.
-
-Pavan Holla (2):
-  platform/chrome: Update ChromeOS EC header for UCSI
-  usb: typec: ucsi: Implement ChromeOS UCSI driver
-
- MAINTAINERS                                   |   7 +
- drivers/usb/typec/ucsi/Kconfig                |  13 +
- drivers/usb/typec/ucsi/Makefile               |   1 +
- drivers/usb/typec/ucsi/cros_ec_ucsi.c         | 337 ++++++++++++++++++
- .../linux/platform_data/cros_ec_commands.h    |  28 +-
- 5 files changed, 385 insertions(+), 1 deletion(-)
+ MAINTAINERS                           |   7 +
+ drivers/usb/typec/ucsi/Kconfig        |  13 +
+ drivers/usb/typec/ucsi/Makefile       |   1 +
+ drivers/usb/typec/ucsi/cros_ec_ucsi.c | 337 ++++++++++++++++++++++++++
+ 4 files changed, 358 insertions(+)
  create mode 100644 drivers/usb/typec/ucsi/cros_ec_ucsi.c
 
+diff --git a/MAINTAINERS b/MAINTAINERS
+index 910305c11e8a..0f2ee59540a9 100644
+--- a/MAINTAINERS
++++ b/MAINTAINERS
+@@ -5454,6 +5454,13 @@ L:	chrome-platform@lists.linux.dev
+ S:	Maintained
+ F:	drivers/watchdog/cros_ec_wdt.c
+ 
++CHROMEOS UCSI DRIVER
++M:	Abhishek Pandit-Subedi <abhishekpandit@chromium.org>
++M:	Łukasz Bartosik <ukaszb@chromium.org>
++L:	chrome-platform@lists.linux.dev
++S:	Maintained
++F:	drivers/usb/typec/ucsi/cros_ec_ucsi.c
++
+ CHRONTEL CH7322 CEC DRIVER
+ M:	Joe Tessler <jrt@google.com>
+ L:	linux-media@vger.kernel.org
+diff --git a/drivers/usb/typec/ucsi/Kconfig b/drivers/usb/typec/ucsi/Kconfig
+index 680e1b87b152..75559601fe8f 100644
+--- a/drivers/usb/typec/ucsi/Kconfig
++++ b/drivers/usb/typec/ucsi/Kconfig
+@@ -69,6 +69,19 @@ config UCSI_PMIC_GLINK
+ 	  To compile the driver as a module, choose M here: the module will be
+ 	  called ucsi_glink.
+ 
++config CROS_EC_UCSI
++	tristate "UCSI Driver for ChromeOS EC"
++	depends on MFD_CROS_EC_DEV
++	depends on CROS_USBPD_NOTIFY
++	depends on !EXTCON_TCSS_CROS_EC
++	default MFD_CROS_EC_DEV
++	help
++	  This driver enables UCSI support for a ChromeOS EC. The EC is
++	  expected to implement a PPM.
++
++	  To compile the driver as a module, choose M here: the module
++	  will be called cros_ec_ucsi.
++
+ config UCSI_LENOVO_YOGA_C630
+ 	tristate "UCSI Interface Driver for Lenovo Yoga C630"
+ 	depends on EC_LENOVO_YOGA_C630
+diff --git a/drivers/usb/typec/ucsi/Makefile b/drivers/usb/typec/ucsi/Makefile
+index aed41d23887b..be98a879104d 100644
+--- a/drivers/usb/typec/ucsi/Makefile
++++ b/drivers/usb/typec/ucsi/Makefile
+@@ -21,4 +21,5 @@ obj-$(CONFIG_UCSI_ACPI)			+= ucsi_acpi.o
+ obj-$(CONFIG_UCSI_CCG)			+= ucsi_ccg.o
+ obj-$(CONFIG_UCSI_STM32G0)		+= ucsi_stm32g0.o
+ obj-$(CONFIG_UCSI_PMIC_GLINK)		+= ucsi_glink.o
++obj-$(CONFIG_CROS_EC_UCSI)		+= cros_ec_ucsi.o
+ obj-$(CONFIG_UCSI_LENOVO_YOGA_C630)	+= ucsi_yoga_c630.o
+diff --git a/drivers/usb/typec/ucsi/cros_ec_ucsi.c b/drivers/usb/typec/ucsi/cros_ec_ucsi.c
+new file mode 100644
+index 000000000000..db8324b71ee9
+--- /dev/null
++++ b/drivers/usb/typec/ucsi/cros_ec_ucsi.c
+@@ -0,0 +1,337 @@
++// SPDX-License-Identifier: GPL-2.0
++/*
++ * UCSI driver for ChromeOS EC
++ *
++ * Copyright 2024 Google LLC.
++ */
++
++#include <linux/container_of.h>
++#include <linux/dev_printk.h>
++#include <linux/jiffies.h>
++#include <linux/mod_devicetable.h>
++#include <linux/module.h>
++#include <linux/platform_data/cros_ec_commands.h>
++#include <linux/platform_data/cros_usbpd_notify.h>
++#include <linux/platform_data/cros_ec_proto.h>
++#include <linux/platform_device.h>
++#include <linux/slab.h>
++#include <linux/wait.h>
++
++#include "ucsi.h"
++
++/*
++ * Maximum size in bytes of a UCSI message between AP and EC
++ */
++#define MAX_EC_DATA_SIZE	256
++
++/*
++ * Maximum time in milliseconds the cros_ec_ucsi driver
++ * will wait for a response to a command or and ack.
++ */
++#define WRITE_TMO_MS		5000
++
++/* Number of times to attempt recovery from a write timeout before giving up. */
++#define WRITE_TMO_CTR_MAX	5
++
++struct cros_ucsi_data {
++	struct device *dev;
++	struct ucsi *ucsi;
++
++	struct cros_ec_device *ec;
++	struct notifier_block nb;
++	struct work_struct work;
++	struct delayed_work write_tmo;
++	int tmo_counter;
++
++	struct completion complete;
++	unsigned long flags;
++};
++
++static int cros_ucsi_read(struct ucsi *ucsi, unsigned int offset, void *val,
++			  size_t val_len)
++{
++	struct cros_ucsi_data *udata = ucsi_get_drvdata(ucsi);
++	struct ec_params_ucsi_ppm_get req = {
++		.offset = offset,
++		.size = val_len,
++	};
++	int ret;
++
++	if (val_len > MAX_EC_DATA_SIZE) {
++		dev_err(udata->dev, "Can't read %zu bytes. Too big.", val_len);
++		return -EINVAL;
++	}
++
++	ret = cros_ec_cmd(udata->ec, 0, EC_CMD_UCSI_PPM_GET,
++			  &req, sizeof(req), val, val_len);
++	if (ret < 0) {
++		dev_warn(udata->dev, "Failed to send EC message UCSI_PPM_GET: error=%d", ret);
++		return ret;
++	}
++	return 0;
++}
++
++static int cros_ucsi_read_version(struct ucsi *ucsi, u16 *version)
++{
++	return cros_ucsi_read(ucsi, UCSI_VERSION, version, sizeof(*version));
++}
++
++static int cros_ucsi_read_cci(struct ucsi *ucsi, u32 *cci)
++{
++	return cros_ucsi_read(ucsi, UCSI_CCI, cci, sizeof(*cci));
++}
++
++static int cros_ucsi_read_message_in(struct ucsi *ucsi, void *val,
++				     size_t val_len)
++{
++	return cros_ucsi_read(ucsi, UCSI_MESSAGE_IN, val, val_len);
++}
++
++static int cros_ucsi_async_control(struct ucsi *ucsi, u64 cmd)
++{
++	struct cros_ucsi_data *udata = ucsi_get_drvdata(ucsi);
++	u8 ec_buf[sizeof(struct ec_params_ucsi_ppm_set) + sizeof(cmd)];
++	struct ec_params_ucsi_ppm_set *req = (struct ec_params_ucsi_ppm_set *) ec_buf;
++	int ret;
++
++	req->offset = UCSI_CONTROL;
++	memcpy(req->data, &cmd, sizeof(cmd));
++	ret = cros_ec_cmd(udata->ec, 0, EC_CMD_UCSI_PPM_SET,
++			  req, sizeof(ec_buf), NULL, 0);
++	if (ret < 0) {
++		dev_warn(udata->dev, "Failed to send EC message UCSI_PPM_SET: error=%d", ret);
++		return ret;
++	}
++	return 0;
++}
++
++static int cros_ucsi_sync_control(struct ucsi *ucsi, u64 cmd)
++{
++	struct cros_ucsi_data *udata = ucsi_get_drvdata(ucsi);
++	int ret;
++
++	ret = ucsi_sync_control_common(ucsi, cmd);
++	switch (ret) {
++	case -EBUSY:
++		/* EC may return -EBUSY if CCI.busy is set.
++		 * Convert this to a timeout.
++		 */
++	case -ETIMEDOUT:
++		/* Schedule recovery attempt when we timeout
++		 * or tried to send a command while still busy.
++		 */
++		cancel_delayed_work_sync(&udata->write_tmo);
++		schedule_delayed_work(&udata->write_tmo,
++				      msecs_to_jiffies(WRITE_TMO_MS));
++		break;
++	case 0:
++		/* Successful write. Cancel any pending recovery work. */
++		cancel_delayed_work_sync(&udata->write_tmo);
++		break;
++	}
++
++	return ret;
++}
++
++struct ucsi_operations cros_ucsi_ops = {
++	.read_version = cros_ucsi_read_version,
++	.read_cci = cros_ucsi_read_cci,
++	.read_message_in = cros_ucsi_read_message_in,
++	.async_control = cros_ucsi_async_control,
++	.sync_control = cros_ucsi_sync_control,
++};
++
++static void cros_ucsi_work(struct work_struct *work)
++{
++	struct cros_ucsi_data *udata = container_of(work, struct cros_ucsi_data, work);
++	u32 cci;
++
++	if (cros_ucsi_read_cci(udata->ucsi, &cci))
++		return;
++
++	ucsi_notify_common(udata->ucsi, cci);
++}
++
++static void cros_ucsi_write_timeout(struct work_struct *work)
++{
++	struct cros_ucsi_data *udata =
++		container_of(work, struct cros_ucsi_data, write_tmo.work);
++	u32 cci;
++	u64 cmd;
++
++	if (cros_ucsi_read(udata->ucsi, UCSI_CCI, &cci, sizeof(cci))) {
++		dev_err(udata->dev,
++			"Reading CCI failed; no write timeout recovery possible.");
++		return;
++	}
++
++	if (cci & UCSI_CCI_BUSY) {
++		udata->tmo_counter++;
++
++		if (udata->tmo_counter <= WRITE_TMO_CTR_MAX)
++			schedule_delayed_work(&udata->write_tmo,
++					      msecs_to_jiffies(WRITE_TMO_MS));
++		else
++			dev_err(udata->dev,
++				"PPM unresponsive - too many write timeouts.");
++
++		return;
++	}
++
++	/* No longer busy means we can reset our timeout counter. */
++	udata->tmo_counter = 0;
++
++	/* Need to ack previous command which may have timed out. */
++	if (cci & UCSI_CCI_COMMAND_COMPLETE) {
++		cmd = UCSI_ACK_CC_CI | UCSI_ACK_COMMAND_COMPLETE;
++		cros_ucsi_async_control(udata->ucsi, cmd);
++
++		/* Check again after a few seconds that the system has
++		 * recovered to make sure our async write above was successful.
++		 */
++		schedule_delayed_work(&udata->write_tmo,
++				      msecs_to_jiffies(WRITE_TMO_MS));
++		return;
++	}
++
++	/* We recovered from a previous timeout. Treat this as a recovery from
++	 * suspend and call resume.
++	 */
++	ucsi_resume(udata->ucsi);
++}
++
++static int cros_ucsi_event(struct notifier_block *nb,
++			   unsigned long host_event, void *_notify)
++{
++	struct cros_ucsi_data *udata = container_of(nb, struct cros_ucsi_data, nb);
++
++	if (!(host_event & PD_EVENT_PPM))
++		return NOTIFY_OK;
++
++	dev_dbg(udata->dev, "UCSI notification received");
++	flush_work(&udata->work);
++	schedule_work(&udata->work);
++
++	return NOTIFY_OK;
++}
++
++static void cros_ucsi_destroy(struct cros_ucsi_data *udata)
++{
++	cros_usbpd_unregister_notify(&udata->nb);
++	cancel_delayed_work_sync(&udata->write_tmo);
++	cancel_work_sync(&udata->work);
++	ucsi_destroy(udata->ucsi);
++}
++
++static int cros_ucsi_probe(struct platform_device *pdev)
++{
++	struct device *dev = &pdev->dev;
++	struct cros_ec_dev *ec_data = dev_get_drvdata(dev->parent);
++	struct cros_ucsi_data *udata;
++	int ret;
++
++	udata = devm_kzalloc(dev, sizeof(*udata), GFP_KERNEL);
++	if (!udata)
++		return -ENOMEM;
++
++	udata->dev = dev;
++
++	udata->ec = ec_data->ec_dev;
++	if (!udata->ec) {
++		dev_err(dev, "couldn't find parent EC device");
++		return -ENODEV;
++	}
++
++	platform_set_drvdata(pdev, udata);
++
++	INIT_WORK(&udata->work, cros_ucsi_work);
++	INIT_DELAYED_WORK(&udata->write_tmo, cros_ucsi_write_timeout);
++	init_completion(&udata->complete);
++
++	udata->ucsi = ucsi_create(dev, &cros_ucsi_ops);
++	if (IS_ERR(udata->ucsi)) {
++		dev_err(dev, "failed to allocate UCSI instance");
++		return PTR_ERR(udata->ucsi);
++	}
++
++	ucsi_set_drvdata(udata->ucsi, udata);
++
++	udata->nb.notifier_call = cros_ucsi_event;
++	ret = cros_usbpd_register_notify(&udata->nb);
++	if (ret) {
++		dev_err(dev, "failed to register notifier: error=%d", ret);
++		ucsi_destroy(udata->ucsi);
++		return ret;
++	}
++
++	ret = ucsi_register(udata->ucsi);
++	if (ret) {
++		dev_err(dev, "failed to register UCSI: error=%d", ret);
++		cros_ucsi_destroy(udata);
++		return ret;
++	}
++
++	return 0;
++}
++
++static void cros_ucsi_remove(struct platform_device *dev)
++{
++	struct cros_ucsi_data *udata = platform_get_drvdata(dev);
++
++	ucsi_unregister(udata->ucsi);
++	cros_ucsi_destroy(udata);
++}
++
++static int __maybe_unused cros_ucsi_suspend(struct device *dev)
++{
++	struct cros_ucsi_data *udata = dev_get_drvdata(dev);
++
++	cancel_delayed_work_sync(&udata->write_tmo);
++	cancel_work_sync(&udata->work);
++
++	return 0;
++}
++
++static void __maybe_unused cros_ucsi_complete(struct device *dev)
++{
++	struct cros_ucsi_data *udata = dev_get_drvdata(dev);
++
++	ucsi_resume(udata->ucsi);
++}
++
++/*
++ * UCSI protocol is also used on ChromeOS platforms which reply on
++ * cros_ec_lpc.c driver for communication with embedded controller (EC).
++ * On such platforms communication with the EC is not available until
++ * the .complete() callback of the cros_ec_lpc driver is executed.
++ * For this reason we delay ucsi_resume() until the .complete() stage
++ * otherwise UCSI SET_NOTIFICATION_ENABLE command will fail and we won't
++ * receive any UCSI notifications from the EC where PPM is implemented.
++ */
++static const struct dev_pm_ops cros_ucsi_pm_ops = {
++#ifdef CONFIG_PM_SLEEP
++	.suspend = cros_ucsi_suspend,
++	.complete = cros_ucsi_complete,
++#endif
++};
++
++static const struct platform_device_id cros_ucsi_id[] = {
++	{ KBUILD_MODNAME, 0 },
++	{}
++};
++MODULE_DEVICE_TABLE(platform, cros_ucsi_id);
++
++static struct platform_driver cros_ucsi_driver = {
++	.driver = {
++		.name = KBUILD_MODNAME,
++		.pm = &cros_ucsi_pm_ops,
++	},
++	.id_table = cros_ucsi_id,
++	.probe = cros_ucsi_probe,
++	.remove = cros_ucsi_remove,
++};
++
++module_platform_driver(cros_ucsi_driver);
++
++MODULE_LICENSE("GPL");
++MODULE_DESCRIPTION("UCSI driver for ChromeOS EC");
 -- 
 2.47.1.613.gc27f4b7a9f-goog
 
