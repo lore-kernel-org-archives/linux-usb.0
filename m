@@ -1,92 +1,122 @@
-Received: from codeconstruct.com.au (pi.codeconstruct.com.au [203.29.241.158])
+Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com [205.220.180.131])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2CA5D25949C;
-	Wed,  8 Jan 2025 00:35:20 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=203.29.241.158
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1CE703BBF0;
+	Wed,  8 Jan 2025 01:22:42 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.180.131
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1736296523; cv=none; b=pdlEsFNf2O5iAd+ZiWYjbfBLH/t2q6ROsXzzTnFHsJCDSdqdn/VT/8KU2HCs2GIJwF4mLpUpSha49jL3kPYFE+qX3cu2MYEtNl/22IQ+sg56GBJmcKvL0oVQOrb5djlR6dS/LWkOzQIT5pS05QxcKQR2E7ZsfaH4ipollRbnyCw=
+	t=1736299364; cv=none; b=SvOz40gfrs0wugzDYOFqJEWdtu5DYeWZ8Dii93hzcETs5vl0w4ik8wVBKIrjict+JPGMsGgzL7PxI/iErTdUpI4W41nrwtlqtCcW+3EyI4rNgg37VR9y3ybO3eAi+9bNJUIr85GHjPgqecVTEe/K0/zIY4CjU7V4J0dIOzYyZLo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1736296523; c=relaxed/simple;
-	bh=CGtf0U2QWath+kQBWiGScXsK40BA3Bpp91eZ5jHTv+o=;
-	h=Message-ID:Subject:From:To:Date:In-Reply-To:References:
-	 Content-Type:MIME-Version; b=oMmNkbpYLsY1g8YdwKLNCR+wt6QDc7kGQgjmaTUmFwi9s7bd8kR5wBNmXiPfGHFxUJ1TRPPn4Ymo/VjDh+gwQDvGAR1E/nI4Bmki9KeaaTCnT9/oT8wTsL2VCg4++AsaHBsq7GqeUmCVoeqfrvXXWTGDozYLiWEJZxzf7aGkK8s=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=codeconstruct.com.au; spf=pass smtp.mailfrom=codeconstruct.com.au; dkim=pass (2048-bit key) header.d=codeconstruct.com.au header.i=@codeconstruct.com.au header.b=LWugbcXw; arc=none smtp.client-ip=203.29.241.158
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=codeconstruct.com.au
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=codeconstruct.com.au
+	s=arc-20240116; t=1736299364; c=relaxed/simple;
+	bh=uwMmmc0Pgdf7JRyIqnhB49HyER04IQ0I9JtlA61F2H4=;
+	h=From:To:CC:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=dhIi91BcwawN5Q+gpEI79F+FCmb5NJCy1PLgw2oxG7wJtJfG55O4T1kur0QjbHyxrnGjKTF851/80j7E+C9ckkAA0csBnD/rf8QKuH/ERJ1c2yYvTvZE7mqR5FYgkoY2ZefSX9r8h+wVmBHKYz39Ojxqym9rgaBLZZ4dfm3P2mc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=quicinc.com; spf=pass smtp.mailfrom=quicinc.com; dkim=pass (2048-bit key) header.d=quicinc.com header.i=@quicinc.com header.b=E05al5q0; arc=none smtp.client-ip=205.220.180.131
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=quicinc.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=quicinc.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=codeconstruct.com.au header.i=@codeconstruct.com.au header.b="LWugbcXw"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=codeconstruct.com.au; s=2022a; t=1736296518;
-	bh=CGtf0U2QWath+kQBWiGScXsK40BA3Bpp91eZ5jHTv+o=;
-	h=Subject:From:To:Date:In-Reply-To:References;
-	b=LWugbcXwyQ2jmJE0FpuMAzMD5WQrpJxWPGSomgMn6vElvDZGGzvzADUdG90a++wCa
-	 ti+EOrg14yaVMAFkiLk/FCoTcpMTerokvinOMT/TZuesb+Ukx66Qc2oYOYVCu39wBU
-	 7cTWBtpDi6GYuSYp2nPAwiKge9cCPo3pN9LwJY/77pj93i2eRe3Il6Qj5U/6cfUpF3
-	 Ns5leRi97JmVr9IiiBTCfBq/g5eqC94V6zKhaPLWmKat+DBDz+Dn90bySdlpm8H+bu
-	 SQ9BYe+zoTct0QqFM7azgR6JydzCvf4zuwpeceC9j00oNR+RjcsemHbbICWO0YRb83
-	 GZeHxlfd3QwCw==
-Received: from [192.168.68.112] (ppp118-210-64-24.adl-adc-lon-bras32.tpg.internode.on.net [118.210.64.24])
-	by mail.codeconstruct.com.au (Postfix) with ESMTPSA id 93F8E70801;
-	Wed,  8 Jan 2025 08:35:12 +0800 (AWST)
-Message-ID: <cf3d472b843eeedcb718013c38612cfb33cd0cdc.camel@codeconstruct.com.au>
-Subject: Re: [PATCH] dt-bindings: usb: Correct indentation and style in DTS
- example
-From: Andrew Jeffery <andrew@codeconstruct.com.au>
-To: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>, Greg Kroah-Hartman
- <gregkh@linuxfoundation.org>, Rob Herring <robh@kernel.org>, Krzysztof
- Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, Joel
- Stanley <joel@jms.id.au>,  Justin Chen <justin.chen@broadcom.com>, Al
- Cooper <alcooperx@gmail.com>, Broadcom internal kernel review list
- <bcm-kernel-feedback-list@broadcom.com>, Thierry Reding
- <thierry.reding@gmail.com>,  Jonathan Hunter <jonathanh@nvidia.com>, Geert
- Uytterhoeven <geert+renesas@glider.be>, Magnus Damm
- <magnus.damm@gmail.com>, Benjamin Herrenschmidt <benh@kernel.crashing.org>,
-  Florian Fainelli <f.fainelli@gmail.com>, Benjamin Bara
- <benjamin.bara@skidata.com>, Bjorn Andersson <andersson@kernel.org>, Ahmad
- Zainie <wan.ahmad.zainie.wan.mohamad@intel.com>,  Del Regno
- <angelogioacchino.delregno@collabora.com>, Tianping Fang
- <tianping.fang@mediatek.com>,  Jassi Brar <jaswinder.singh@linaro.org>,
- Biju Das <biju.das.jz@bp.renesas.com>, Yoshihiro Shimoda
- <yoshihiro.shimoda.uh@renesas.com>, Francesco Dolcini
- <francesco.dolcini@toradex.com>, Macpaul Lin <macpaul.lin@mediatek.com>, 
- Alexander Stein <alexander.stein@ew.tq-group.com>,
- linux-usb@vger.kernel.org, devicetree@vger.kernel.org, 
- linux-arm-kernel@lists.infradead.org, linux-aspeed@lists.ozlabs.org, 
- linux-kernel@vger.kernel.org, linux-tegra@vger.kernel.org, 
- linux-renesas-soc@vger.kernel.org
-Date: Wed, 08 Jan 2025 11:05:11 +1030
-In-Reply-To: <20250107131015.246461-1-krzysztof.kozlowski@linaro.org>
-References: <20250107131015.246461-1-krzysztof.kozlowski@linaro.org>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-User-Agent: Evolution 3.46.4-2 
+	dkim=pass (2048-bit key) header.d=quicinc.com header.i=@quicinc.com header.b="E05al5q0"
+Received: from pps.filterd (m0279870.ppops.net [127.0.0.1])
+	by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 507L5cQC022672;
+	Wed, 8 Jan 2025 01:22:28 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com; h=
+	cc:content-transfer-encoding:content-type:date:from:in-reply-to
+	:message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
+	4bT/oDsYIvWCvd7KTc4ugKcXx+6hePSFmLJkYUewgaU=; b=E05al5q0NQmkWqpX
+	pC4zhPVTzHjUlQ4CjLNICx61vFidptmoU9k1vPad2TaBQHbOcMd6VVAoxaLy/Ntm
+	gYMZe4MaSwlibL1yb05dat9rru2QiPAsT4kJ7+L5Qn9WFR/AklPkJF9vdnQXK26f
+	s9/FAbndwwNzJ23/bWY3c4LWv+8+VGV/7JrQNwrPb8+usLt0xyzZk9Kum1kiN+Nk
+	uXV/qBCP2rLrZkIcSGNCNGWbN5oPWD3awas7Yb3yENPoojT7hC11ithEjuBYO27w
+	NvbPfsbAXeODvTHgR4Ow+CyRQ20KlmipnrqIsBIQ8dcPoZ41/el3lPYJv5ytv6KP
+	VGzQig==
+Received: from nalasppmta05.qualcomm.com (Global_NAT1.qualcomm.com [129.46.96.20])
+	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 441bvq0e6t-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Wed, 08 Jan 2025 01:22:28 +0000 (GMT)
+Received: from nalasex01b.na.qualcomm.com (nalasex01b.na.qualcomm.com [10.47.209.197])
+	by NALASPPMTA05.qualcomm.com (8.18.1.2/8.18.1.2) with ESMTPS id 5081MRHu027991
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Wed, 8 Jan 2025 01:22:27 GMT
+Received: from hu-wcheng-lv.qualcomm.com (10.49.16.6) by
+ nalasex01b.na.qualcomm.com (10.47.209.197) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.1544.9; Tue, 7 Jan 2025 17:22:26 -0800
+From: Wesley Cheng <quic_wcheng@quicinc.com>
+To: <srinivas.kandagatla@linaro.org>, <mathias.nyman@intel.com>,
+        <perex@perex.cz>, <conor+dt@kernel.org>, <dmitry.torokhov@gmail.com>,
+        <corbet@lwn.net>, <broonie@kernel.org>, <lgirdwood@gmail.com>,
+        <krzk+dt@kernel.org>, <pierre-louis.bossart@linux.intel.com>,
+        <Thinh.Nguyen@synopsys.com>, <tiwai@suse.com>, <robh@kernel.org>,
+        <gregkh@linuxfoundation.org>
+CC: <linux-kernel@vger.kernel.org>, <devicetree@vger.kernel.org>,
+        <linux-sound@vger.kernel.org>, <linux-input@vger.kernel.org>,
+        <linux-usb@vger.kernel.org>, <linux-arm-msm@vger.kernel.org>,
+        <linux-doc@vger.kernel.org>, Wesley Cheng <quic_wcheng@quicinc.com>
+Subject: [PATCH v32 11/32] ALSA: usb-audio: Save UAC sample size information
+Date: Tue, 7 Jan 2025 17:21:52 -0800
+Message-ID: <20250108012213.1659364-12-quic_wcheng@quicinc.com>
+X-Mailer: git-send-email 2.34.1
+In-Reply-To: <20250108012213.1659364-1-quic_wcheng@quicinc.com>
+References: <20250108012213.1659364-1-quic_wcheng@quicinc.com>
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+X-ClientProxiedBy: nalasex01c.na.qualcomm.com (10.47.97.35) To
+ nalasex01b.na.qualcomm.com (10.47.209.197)
+X-QCInternal: smtphost
+X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800 signatures=585085
+X-Proofpoint-ORIG-GUID: CgDfJDsfQ2m3dauWG3W2G_8vUVVvtSdS
+X-Proofpoint-GUID: CgDfJDsfQ2m3dauWG3W2G_8vUVVvtSdS
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1039,Hydra:6.0.680,FMLib:17.12.60.29
+ definitions=2024-09-06_09,2024-09-06_01,2024-09-02_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 clxscore=1015
+ lowpriorityscore=0 malwarescore=0 phishscore=0 mlxlogscore=999 mlxscore=0
+ suspectscore=0 adultscore=0 spamscore=0 impostorscore=0 bulkscore=0
+ priorityscore=1501 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.19.0-2411120000 definitions=main-2501080007
 
-On Tue, 2025-01-07 at 14:10 +0100, Krzysztof Kozlowski wrote:
-> DTS example in the bindings should be indented with 2- or 4-spaces
-> and
-> aligned with opening '- |', so correct any differences like 3-spaces
-> or
-> mixtures 2- and 4-spaces in one binding.
->=20
-> No functional changes here, but saves some comments during reviews of
-> new patches built on existing code.
->=20
-> Signed-off-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-> ---
-> =C2=A0.../bindings/usb/aspeed,usb-vhub.yaml=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
-=C2=A0=C2=A0=C2=A0 | 40 +++++++++--------
-> --
+Within the UAC descriptor, there is information describing the size of a
+sample (bSubframeSize/bSubslotSize) and the number of relevant bits
+(bBitResolution).  Currently, fmt_bits carries only the bit resolution,
+however, some offloading entities may also require the overall size of the
+sample.  Save this information in a separate parameter, as depending on the
+UAC format type, the sample size can not easily be decoded from other
+existing parameters.
 
-Acked-by: Andrew Jeffery <andrew@codeconstruct.com.au> # aspeed,usb-vhub.ya=
-ml
+Reviewed-by: Pierre-Louis Bossart <pierre-louis.bossart@linux.intel.com>
+Signed-off-by: Wesley Cheng <quic_wcheng@quicinc.com>
+---
+ sound/usb/card.h   | 1 +
+ sound/usb/format.c | 1 +
+ 2 files changed, 2 insertions(+)
 
-Cheers,
-
-Andrew
+diff --git a/sound/usb/card.h b/sound/usb/card.h
+index 4f4f3f39b7fa..b65163c60176 100644
+--- a/sound/usb/card.h
++++ b/sound/usb/card.h
+@@ -15,6 +15,7 @@ struct audioformat {
+ 	unsigned int channels;		/* # channels */
+ 	unsigned int fmt_type;		/* USB audio format type (1-3) */
+ 	unsigned int fmt_bits;		/* number of significant bits */
++	unsigned int fmt_sz;		/* overall audio sub frame/slot size */
+ 	unsigned int frame_size;	/* samples per frame for non-audio */
+ 	unsigned char iface;		/* interface number */
+ 	unsigned char altsetting;	/* corresponding alternate setting */
+diff --git a/sound/usb/format.c b/sound/usb/format.c
+index 6049d957694c..f66449e5d634 100644
+--- a/sound/usb/format.c
++++ b/sound/usb/format.c
+@@ -85,6 +85,7 @@ static u64 parse_audio_format_i_type(struct snd_usb_audio *chip,
+ 	}
+ 
+ 	fp->fmt_bits = sample_width;
++	fp->fmt_sz = sample_bytes;
+ 
+ 	if ((pcm_formats == 0) &&
+ 	    (format == 0 || format == BIT(UAC_FORMAT_TYPE_I_UNDEFINED))) {
