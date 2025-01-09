@@ -1,194 +1,123 @@
-Received: from mail-pj1-f44.google.com (mail-pj1-f44.google.com [209.85.216.44])
+Received: from mail-ej1-f52.google.com (mail-ej1-f52.google.com [209.85.218.52])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A38FA204F8D
-	for <linux-usb@vger.kernel.org>; Thu,  9 Jan 2025 22:06:59 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.216.44
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2AADD20469D
+	for <linux-usb@vger.kernel.org>; Thu,  9 Jan 2025 22:44:17 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.52
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1736460424; cv=none; b=ksEI7RtrnHD114TBsXaRpvx40Ah7APwdXw9QkKweuZB1VEvtBE87RQs8qHsT5GcZKYQFH61o+XNA1W9q1R9FJVMXGxU/DpMbqc5s6745YVxdu1KfieLrn+Rvcu5JFmlLv77+UBknX5kX05sUWwAwsG2aMuZXM6Uya0oMwLtuyKE=
+	t=1736462659; cv=none; b=S6EUgXxgwSxFf/k2oyt+PDsnkZr0wYy1CI5j7A/MrwdezR+OvvKcMcBtA4ui07mcHHzPKREOj0UQu9UEiyblx6ZZyeSAK/ju5SOqWGwkEnfr9doVdSSZx9GodMW2L6ekakQH3ppcAF+nDTqiDdlQB6gMDhShk/SoH/QDDKXInXE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1736460424; c=relaxed/simple;
-	bh=691TqzGyV4dZ3erdSQoQB9mOFtSofyCtfYUX2KRcl7o=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=soMwgWK99WPbYXonlD4HzG0DaKIkrfuQjUW40DbOk/ueiHIk+SHt5AH2vjlNxTWnIL+4pqvlvi3sszssUKswH3zPHZitA5PNYzHc/wbY66P9s2zCUyveazkvafauK+QY4A9nzkmaPWyMZQSpHt/1SOZQFcPaGJIXF+PyliJJ2Dg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org; spf=pass smtp.mailfrom=chromium.org; dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b=Ka/E06Wv; arc=none smtp.client-ip=209.85.216.44
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=chromium.org
+	s=arc-20240116; t=1736462659; c=relaxed/simple;
+	bh=AIvYBo52dFoBas2P/YjdRD3fPRbh76olfULNcNjFsbU=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=qceQRFb0wNyT+uvBoynfN1tynMhDqViREbUPez5nVd9bG0f8ssBcdodtLfo+eAEswPTfBjkthHhm2mgFGLI+59teWFAl0CMLywyAU6n3ilcfpXGf5Ob2AA7bVHaChPYeFmq3ByvkagzEKeLUOT2IFCbpdNj+Ssek13N0crC4Vvs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=MJ1+ymPT; arc=none smtp.client-ip=209.85.218.52
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b="Ka/E06Wv"
-Received: by mail-pj1-f44.google.com with SMTP id 98e67ed59e1d1-2ef8c012913so1891913a91.3
-        for <linux-usb@vger.kernel.org>; Thu, 09 Jan 2025 14:06:59 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="MJ1+ymPT"
+Received: by mail-ej1-f52.google.com with SMTP id a640c23a62f3a-aaf3c3c104fso247838066b.1
+        for <linux-usb@vger.kernel.org>; Thu, 09 Jan 2025 14:44:17 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=chromium.org; s=google; t=1736460419; x=1737065219; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=Z+eJFfeJOCQC8B0IGpcCvXtjQAJSXPizwns60bTTIB0=;
-        b=Ka/E06WvW+bjCFRLzQPdo9V48dR9InspVUC76RFJK91tYEcYokZJ1RFUi2rX0D1rs/
-         bF1uQg8l8DFRENLDeU+UXWQrOiyUwOAMUmTYgO4WyRJwPaPjSHow7mwLalWC3Q11PvFL
-         ZmKW40/+ApfjthZPx0+MVDXs+FHi1krhCTaM0=
+        d=gmail.com; s=20230601; t=1736462656; x=1737067456; darn=vger.kernel.org;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=X2jaIn2DwzAc0itUUXiW+Znj2UpIm1Nt/JKI56s4SIE=;
+        b=MJ1+ymPTkANbaHo9VpGicfdwVDLoMsCjNnB60Rtzs4E9dn0M1djE36M/HLNiR2Kk+8
+         N0UL3tvw+IqJ7OUShm6rTSVlHPzUmQUv2EINAYNwfW22WvpGS42eikYAKawbepr4Shnm
+         cfWhzu7YRrL2TwaqgxzytwZMsL16RXS8wZL5IYr1Uf5pcyNibjMntXTUHVB6rOxjeWk+
+         m6UcQgrSv9izT2SCYMUGY3IqE5FWTlMqCw/fA1JNcYM/83ajttVYrKlIullvyl56ayZd
+         ibSmo2pZuKjwC26RSIXYmuokf2KoOv9g5/rN22ZkvyG9l+wylSdbGVJLFWfs4Bxk36QR
+         VHCg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1736460419; x=1737065219;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=Z+eJFfeJOCQC8B0IGpcCvXtjQAJSXPizwns60bTTIB0=;
-        b=YjaPCwzPoiOMEfS0KLJ27ZhcFz05d0B9B+q9yOgJCxjsMz0Z8oQog52RrAY87RysI2
-         Du+VFIrGBszaHIJsjH0CwtVNZ1dvyfHku0VNI3CI7su9z0uuQHglVDdEXW6IBvawRdPM
-         24y0PGziKniGBSi2+93pKXE6OQ0xc27qVb4rR+c+lKd88ceNdv+bFBSZQBwbk1tS0dSv
-         9J1bcZ3i8VftEJuFDes3+Y9EXrfuam38AKHROvEGTftRKfE1f95gXFoRBGfRVAdi/RIQ
-         vu+l4bhPeVhvKoReX8RKcgKeOB94eStimAr+jzaFW9UWYi3xsSVK/BHMT99rdIMRCOCW
-         qKXQ==
-X-Forwarded-Encrypted: i=1; AJvYcCVl3+slClvTBG1Y75iOzPMSksxzAA3UFgPs/v1KUDX6vIoXhgKoZiUL4fk7Knnz5bqwRUGIpPW90G0=@vger.kernel.org
-X-Gm-Message-State: AOJu0YzdnF1XxT1BrLmzP/xMwUY5Qn5/c6BWxxoAwVPIGLXPRcSUNdpG
-	i0kpynxzmrAzqKdpk5hiqD+TYnHFchT9+N6DbsPEiQK7G8KQG8mhedNm/QMThA==
-X-Gm-Gg: ASbGncvV3B2W0fwyeLxfTNEHul15l6uiPHXmddrFHdCxHJ5hOS1yOkJs8f0AZzzhRC8
-	upTJGfpFgm0njZbIn5mW+zmGj2ifjiRy0fKCq20iG9KLfffDA0ROoDUHvjVrOmiwcGK725a+r6F
-	LyMf72ySoYO5tJ3eG/ALLHZ4K15WeF3ZrF7UoD7lM7YX/3xDAyPsXJ4nJCCv47rGghzVn8yXPQy
-	W9TDNGJBrhNsVXSa5FY683LMstoP6x5VhwZNlMEc2HnD+lr+Rqr1QPHE5BMKprjr2Nl/6o4i7nH
-	XaX1vUQqN3urV+E2YWmB
-X-Google-Smtp-Source: AGHT+IHzMYBCU9fhbsnYh9NWeAdMwj9Nwk1H7/x3TSzmEP5o6kwN3Jz62wlfhHKZZQXr7JP3SQG5ag==
-X-Received: by 2002:a17:90a:d64b:b0:2ee:8aa7:94a0 with SMTP id 98e67ed59e1d1-2f548f42490mr10734733a91.32.1736460419093;
-        Thu, 09 Jan 2025 14:06:59 -0800 (PST)
-Received: from localhost (129.135.125.34.bc.googleusercontent.com. [34.125.135.129])
-        by smtp.gmail.com with UTF8SMTPSA id 98e67ed59e1d1-2f54a2ad2e4sm4177805a91.28.2025.01.09.14.06.58
+        d=1e100.net; s=20230601; t=1736462656; x=1737067456;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=X2jaIn2DwzAc0itUUXiW+Znj2UpIm1Nt/JKI56s4SIE=;
+        b=rUMgYkraRhAJsv0HjnmPoY+9CgHQWCjnbzejvAi+IPHfukXXk66zlX0p4bMtGbLHKf
+         BjNvtM0wym3vQ0vCZ69mIXn9ngBCqWK69M+0d5HJcZVuAFI7KJPHAawHe5yUcPowUfBc
+         DRJghPj8ge+uOX75Lun01Jjl8IHfzt7oSYoM6M1cxvWAc/ZZnBIlB3HVX+RgY/XYHe2O
+         FGfJx0ThOIAb81oYR1EBYSAEqsNWy5vG2lv95ZMvi2dgVa8RfKIQzrabB/xS2ZdI9LU9
+         lMz3NFGa8LIUhwcQayYMlaAWaihdLpi1I2qO/xRO5egqiPpsp3gr3lvKh+WahYSDtYUw
+         yfiQ==
+X-Gm-Message-State: AOJu0YxvB1c3KDkFVBaGvgDMS53cDmxaS20lgQl76gu9ZoEeBH41O00o
+	tj69vJmN6711oLRethXtTr5n3lhldgHbDRP8qks1q2RgkYquhSZ8
+X-Gm-Gg: ASbGnct8Arvfh2tCUHAk2GfS2WCDU/WqMoB3tEy4lyuGSFeRg8ifXGg3Y4OGRTbCgTM
+	BIHfEvqKKyEho1OBZKdBXI1QB5FLJRkrxvmShxVcxN5YhJq9clkjNArgodns5XqkymjYEJNXDrg
+	j2+SuU7h6Jz+XOB3dTjzpbYl2r3s5uSHlnRMOQCsV7iAuuJNv8bdmeQ82b4nwGRCyLEGPFVuFEn
+	f8TBQmPw/1KkVMXyxRU+wrexjwBIf2UFmULk2ae06VrqATLrumz05OK74Jax8z/
+X-Google-Smtp-Source: AGHT+IFbZuBbuVNV0eu+PBj0jVwpmwNepyB4vnQ2kZZW/svrE8kHOT2L63qNdO7YqtcMpse25Pu3sw==
+X-Received: by 2002:a17:907:d03:b0:aa6:730c:acb with SMTP id a640c23a62f3a-ab2ab16a3bamr757285966b.8.1736462656153;
+        Thu, 09 Jan 2025 14:44:16 -0800 (PST)
+Received: from [192.168.0.50] ([79.119.240.80])
+        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-ab2c9646bf9sm110605566b.175.2025.01.09.14.44.15
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Thu, 09 Jan 2025 14:06:58 -0800 (PST)
-From: Stephen Boyd <swboyd@chromium.org>
-To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-Cc: linux-kernel@vger.kernel.org,
-	patches@lists.linux.dev,
-	Benson Leung <bleung@chromium.org>,
-	chrome-platform@lists.linux.dev,
-	linux-usb@vger.kernel.org,
-	Pavan Holla <pholla@chromium.org>,
-	Abhishek Pandit-Subedi <abhishekpandit@chromium.org>,
-	=?UTF-8?q?=C5=81ukasz=20Bartosik?= <ukaszb@chromium.org>
-Subject: [PATCH 1/2] usb: typec: cros-ec-ucsi: Add newlines to printk messages
-Date: Thu,  9 Jan 2025 14:06:52 -0800
-Message-ID: <20250109220655.1677506-2-swboyd@chromium.org>
-X-Mailer: git-send-email 2.47.1.613.gc27f4b7a9f-goog
-In-Reply-To: <20250109220655.1677506-1-swboyd@chromium.org>
-References: <20250109220655.1677506-1-swboyd@chromium.org>
+        Thu, 09 Jan 2025 14:44:15 -0800 (PST)
+Message-ID: <8270ca72-a08e-41dd-8daf-d4e00be3d279@gmail.com>
+Date: Fri, 10 Jan 2025 00:44:15 +0200
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
+User-Agent: Mozilla Thunderbird
+Subject: Re: MT7601U with on-board storage reports incorrect capacity
+To: Alan Stern <stern@rowland.harvard.edu>
+Cc: linux-usb@vger.kernel.org
+References: <060301fe-17e2-4061-bb01-f5660b5d10a3@gmail.com>
+ <2be45061-034f-4cbb-8ed1-f028bbb35936@rowland.harvard.edu>
+ <c1a60120-ed18-4793-a7ba-a119e048ab2b@gmail.com>
+ <c0194169-0406-4450-908f-8537c464d122@rowland.harvard.edu>
+Content-Language: en-US
+From: Bitterblue Smith <rtl8821cerfe2@gmail.com>
+In-Reply-To: <c0194169-0406-4450-908f-8537c464d122@rowland.harvard.edu>
 Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+Content-Transfer-Encoding: 7bit
 
-These printks need newlines. Add them and convert to dev_err_probe() in
-cros_ucsi_probe() to simplify code.
+On 09/01/2025 21:38, Alan Stern wrote:
+> On Thu, Jan 09, 2025 at 08:57:29PM +0200, Bitterblue Smith wrote:
+>> On 09/01/2025 17:34, Alan Stern wrote:
+>>> On Thu, Jan 09, 2025 at 04:02:58PM +0200, Bitterblue Smith wrote:
+>>>> Hi,
+>>>>
+>>>> I have this wifi device with on-board storage for the Windows driver:
+>>>>
+>>>> New USB device found, idVendor=148f, idProduct=2878, bcdDevice= 0.01
+>>>>
+>>>> After switching to wifi mode, we can see it's a MT7601U:
+>>>>
+>>>> New USB device found, idVendor=148f, idProduct=7601, bcdDevice= 0.00
+>>>>
+>>>> The problem with this one is that it can't be mounted, nothing happens
+>>>> for a long time. I'm testing with kernel 6.12.8-arch1-1 but it's been
+>>>> like this for at least two years. 
+>>>>
+>>>> The problem seems to be that reading from the "end" of the device
+>>>> takes 17 seconds. I assume the reason for that is the fake capacity:
+> 
+>>>> How can this be fixed?
+> 
+>>> Probably your best approach is to tell usb-storage to ignore the device 
+>>> completely.  You can do this with a suitable module parameter for the 
+>>> usb-storage driver.  For example, add:
+>>>
+>>> 	usb-storage.quirks=148f:7601:i
+>>>
+>>> on the kernel's boot command line (or put a similar entry in an 
+>>> /etc/modprobe.d/*.conf file if usb-storage is a loadable kernel module 
+>>> on your system).  Of course, then you wouldn't be able to mount the 
+>>> device or access the Windows driver files on it, but I imagine you don't 
+>>> care about them very much while you're running Linux.
+> 
+>> Haha, so it's hopeless. Thank you for the detailed explanation.
+> 
+> Not hopeless at	all.  The module parameter approach really should work,	
+> at least to the	extent of getting rid of those annoying	17-second-long 
+> waits.
+> 
+> Alan Stern
 
-Cc: Pavan Holla <pholla@chromium.org>
-Cc: Abhishek Pandit-Subedi <abhishekpandit@chromium.org>
-Cc: Łukasz Bartosik <ukaszb@chromium.org>
-Signed-off-by: Stephen Boyd <swboyd@chromium.org>
----
- drivers/usb/typec/ucsi/cros_ec_ucsi.c | 28 ++++++++++++---------------
- 1 file changed, 12 insertions(+), 16 deletions(-)
-
-diff --git a/drivers/usb/typec/ucsi/cros_ec_ucsi.c b/drivers/usb/typec/ucsi/cros_ec_ucsi.c
-index db8324b71ee9..75646a8d55be 100644
---- a/drivers/usb/typec/ucsi/cros_ec_ucsi.c
-+++ b/drivers/usb/typec/ucsi/cros_ec_ucsi.c
-@@ -58,14 +58,14 @@ static int cros_ucsi_read(struct ucsi *ucsi, unsigned int offset, void *val,
- 	int ret;
- 
- 	if (val_len > MAX_EC_DATA_SIZE) {
--		dev_err(udata->dev, "Can't read %zu bytes. Too big.", val_len);
-+		dev_err(udata->dev, "Can't read %zu bytes. Too big.\n", val_len);
- 		return -EINVAL;
- 	}
- 
- 	ret = cros_ec_cmd(udata->ec, 0, EC_CMD_UCSI_PPM_GET,
- 			  &req, sizeof(req), val, val_len);
- 	if (ret < 0) {
--		dev_warn(udata->dev, "Failed to send EC message UCSI_PPM_GET: error=%d", ret);
-+		dev_warn(udata->dev, "Failed to send EC message UCSI_PPM_GET: error=%d\n", ret);
- 		return ret;
- 	}
- 	return 0;
-@@ -99,7 +99,7 @@ static int cros_ucsi_async_control(struct ucsi *ucsi, u64 cmd)
- 	ret = cros_ec_cmd(udata->ec, 0, EC_CMD_UCSI_PPM_SET,
- 			  req, sizeof(ec_buf), NULL, 0);
- 	if (ret < 0) {
--		dev_warn(udata->dev, "Failed to send EC message UCSI_PPM_SET: error=%d", ret);
-+		dev_warn(udata->dev, "Failed to send EC message UCSI_PPM_SET: error=%d\n", ret);
- 		return ret;
- 	}
- 	return 0;
-@@ -161,7 +161,7 @@ static void cros_ucsi_write_timeout(struct work_struct *work)
- 
- 	if (cros_ucsi_read(udata->ucsi, UCSI_CCI, &cci, sizeof(cci))) {
- 		dev_err(udata->dev,
--			"Reading CCI failed; no write timeout recovery possible.");
-+			"Reading CCI failed; no write timeout recovery possible.\n");
- 		return;
- 	}
- 
-@@ -173,7 +173,7 @@ static void cros_ucsi_write_timeout(struct work_struct *work)
- 					      msecs_to_jiffies(WRITE_TMO_MS));
- 		else
- 			dev_err(udata->dev,
--				"PPM unresponsive - too many write timeouts.");
-+				"PPM unresponsive - too many write timeouts.\n");
- 
- 		return;
- 	}
-@@ -208,7 +208,7 @@ static int cros_ucsi_event(struct notifier_block *nb,
- 	if (!(host_event & PD_EVENT_PPM))
- 		return NOTIFY_OK;
- 
--	dev_dbg(udata->dev, "UCSI notification received");
-+	dev_dbg(udata->dev, "UCSI notification received\n");
- 	flush_work(&udata->work);
- 	schedule_work(&udata->work);
- 
-@@ -237,10 +237,8 @@ static int cros_ucsi_probe(struct platform_device *pdev)
- 	udata->dev = dev;
- 
- 	udata->ec = ec_data->ec_dev;
--	if (!udata->ec) {
--		dev_err(dev, "couldn't find parent EC device");
--		return -ENODEV;
--	}
-+	if (!udata->ec)
-+		return dev_err_probe(dev, -ENODEV, "couldn't find parent EC device\n");
- 
- 	platform_set_drvdata(pdev, udata);
- 
-@@ -249,24 +247,22 @@ static int cros_ucsi_probe(struct platform_device *pdev)
- 	init_completion(&udata->complete);
- 
- 	udata->ucsi = ucsi_create(dev, &cros_ucsi_ops);
--	if (IS_ERR(udata->ucsi)) {
--		dev_err(dev, "failed to allocate UCSI instance");
--		return PTR_ERR(udata->ucsi);
--	}
-+	if (IS_ERR(udata->ucsi))
-+		return dev_err_probe(dev, PTR_ERR(udata->ucsi), "failed to allocate UCSI instance\n");
- 
- 	ucsi_set_drvdata(udata->ucsi, udata);
- 
- 	udata->nb.notifier_call = cros_ucsi_event;
- 	ret = cros_usbpd_register_notify(&udata->nb);
- 	if (ret) {
--		dev_err(dev, "failed to register notifier: error=%d", ret);
-+		dev_err_probe(dev, ret, "failed to register notifier\n");
- 		ucsi_destroy(udata->ucsi);
- 		return ret;
- 	}
- 
- 	ret = ucsi_register(udata->ucsi);
- 	if (ret) {
--		dev_err(dev, "failed to register UCSI: error=%d", ret);
-+		dev_err_probe(dev, ret, "failed to register UCSI\n");
- 		cros_ucsi_destroy(udata);
- 		return ret;
- 	}
--- 
-https://chromeos.dev
-
+But it's fine. usb_modeswitch switches it right away.
