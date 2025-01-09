@@ -1,57 +1,59 @@
-Received: from mail-pl1-f170.google.com (mail-pl1-f170.google.com [209.85.214.170])
+Received: from mail-pl1-f175.google.com (mail-pl1-f175.google.com [209.85.214.175])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 556D2187849
-	for <linux-usb@vger.kernel.org>; Thu,  9 Jan 2025 22:06:58 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.170
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2E4882054F0
+	for <linux-usb@vger.kernel.org>; Thu,  9 Jan 2025 22:07:01 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.175
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1736460419; cv=none; b=nWkGeuqPawD/syiVph9ogK3pcg+yY66djy+2B8cpzbrKOPeAFBHfYWLTspVJnsPD1mkQqwuJX2tLGNIAY94VzRgOYSK9BKPTGxMMcuw6m+zEQF9kI5qY/vbF8qOIKR7hCXhGaQ6tVzrtshP2kKH/vQB/fKPVvlDxyhM6yzCcD6w=
+	t=1736460423; cv=none; b=Q1Iymdllmtj7tOK6fh6OzC1eEIhVZYDWRUFdYOfqxlass+5Mloaf7Dpnj6BbAAYwUemoCwazMUc2ZPkvXmiMYGafzmgZYWy6hsbo2+plGU2s6UwGSJpXWoebNuSVVUwGqgBijAaOiyvBRvLcVqX954qEzbJC67Td1Z2hdItwBoM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1736460419; c=relaxed/simple;
-	bh=6z84NXznKiE1NpRqFZDZSeRqLTK2pAiyrFfu5gZG7/k=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version:Content-Type; b=uCyTYewHbb3WaiX4Rj4ALvTgw0qrMP1ta/urexsHrGYsUQJ57LxM6UULgV+p+6r4k+Ubs+mxiNwebtUloXAul6dhk9YskCGXWQhDIkoPNqfbvckbqcVlkxHhGn2L74GyDm1VNpPeNPEIm0DMIdmLwQswr2ZQnpWfRea/v+0oeWA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org; spf=pass smtp.mailfrom=chromium.org; dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b=QIpiqrZ+; arc=none smtp.client-ip=209.85.214.170
+	s=arc-20240116; t=1736460423; c=relaxed/simple;
+	bh=16103WdjKkDRPAUpJv/gja+j04dR9xW9d/edeY7WQjc=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=N7k0RVgUsFKczhhl/Ak47ZzA+NZpvWHtrHBQjze1OON+DP3DQefWtzatVJojM5wVv3BaU2U9T0+SuxDN0IggzDb4gtzY8Mn3URBVix1ApnBc/I8eGpjkrZ+NqyQ7Fp/jZv8H38ZKvLbbgOZkkDcNABp2CWTTVqZq6+xGBXrAumU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org; spf=pass smtp.mailfrom=chromium.org; dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b=ApWgDmYu; arc=none smtp.client-ip=209.85.214.175
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=chromium.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b="QIpiqrZ+"
-Received: by mail-pl1-f170.google.com with SMTP id d9443c01a7336-2164b1f05caso24039835ad.3
-        for <linux-usb@vger.kernel.org>; Thu, 09 Jan 2025 14:06:58 -0800 (PST)
+	dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b="ApWgDmYu"
+Received: by mail-pl1-f175.google.com with SMTP id d9443c01a7336-215770613dbso17757455ad.2
+        for <linux-usb@vger.kernel.org>; Thu, 09 Jan 2025 14:07:01 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=chromium.org; s=google; t=1736460418; x=1737065218; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=8tXgQ4cb0sIkfCID//2h8RdPOUcbcJV/Yvr7tKk7nQ8=;
-        b=QIpiqrZ+myZnT18AXDGCO1fUA0DAe1iLbm81aBz7k6HA3pnrkMj+WdTB6Z6gZJvQT7
-         AZQso29/cBoxJn853ZWSlQQnqhStomjkjbb77sdNlpFllg3cf5UGDJMgqclv3j/zaK0Y
-         OdjrhOB4S/7bPXFphvYDAN+opsMyitg5aHhQ4=
+        d=chromium.org; s=google; t=1736460420; x=1737065220; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=gXlckJ6SpwsTGpU1oM+HpGRrggJSHrz/QlJTly2bc/Y=;
+        b=ApWgDmYutqFn9Q2R8uo1z/lx8fFejzlQZH83jcw3a7meLdIwbYzSmNcdi3lfU4rCub
+         ec9Yl1WyZJa6r9vpPzJS9BqH6SdCI8+arUV5lf597jwlFFyACXKyZ+UfONJgheoOT8SW
+         Sj+jRKNmEYrnT98Cc7jx/ufX4mCNiuJowO4c8=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1736460418; x=1737065218;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=8tXgQ4cb0sIkfCID//2h8RdPOUcbcJV/Yvr7tKk7nQ8=;
-        b=AGHmVYCIpRn00GdXnfcC9a/9IT9BFFIthCPOZJRsaRsu2SZrMulOBpRWszPg0blash
-         OMzbi1CNAE3oUY85ln69rqWnZkJF3cU7fsySk0rHD1WluiXmV0VOHa19cYhzD7ECrRfo
-         1QLh/t8NuoKq7cHGo0t43jBN5f8PDoKpJI2mnvEkBNiRHWcQSnCSJtRYeNU43SzfzouW
-         dgUr7VPHfZ2Fx7hqozt/l4oBiyWBBIlDBvK4IHfBn6AsE7rj+WvF3QT6wyUx8xxBViKB
-         piuc9PJAf1OmRHZ3Rms7k3jBM2Ge59XHeMvf2cTZ7LwRG1Bjsj9kG84oReIqhlUbJJbP
-         4shg==
-X-Forwarded-Encrypted: i=1; AJvYcCVTwLp0lfHvWP4jrUmxrU21rV9GLV/aaxyoCyMXOV751hhuJdril0kS3XgKh0xIz7OU/pVB7BvYGjs=@vger.kernel.org
-X-Gm-Message-State: AOJu0YxFYpeT3OmGgN+c1kjLedy18uf9DtT1TPGB4uAgxIac28zhcSTQ
-	jGbqBgmBCQz6SaLodq0tGmLFCphvXASiGF56idrqDOrL+VrAqIjo1s95c39BCg==
-X-Gm-Gg: ASbGncvnPwGmsMEz54TSOKU8DnO6hi4FEJv1t7T++Ut9xPe+NLhu14WkNv+uD2fdVsj
-	gObz6ZOL0gw/2kmSOeRb4py3Ce7SDHWaELvq70suj5RUYOrfdlIQiq1rRGOKdoZY5FcKYfFsJoX
-	ofhORYCorQRFal1BLYTcVMX29TgU7d4Vcqe/FEawabYFnMUPpeJONdq4Np5KxJ/JETSsK8guxYq
-	0w+nEdJTCBjyo+7blpdBQBiFHJnVifH7ow21R21dNV0O8wH1i0REk7tW2Haa31rfBzLYMNkwnBs
-	Zj1LR5EMfO/yegD6jvl8
-X-Google-Smtp-Source: AGHT+IFbGsLInk2MTDokl6bXci0oi0ScYGAl8eACwvZ0JgMc+OuCQNESJJhMTrboOSbjH+j4yrWz/w==
-X-Received: by 2002:a05:6a21:329d:b0:1e3:cf57:5f5f with SMTP id adf61e73a8af0-1e88d043d3amr12319701637.27.1736460417708;
-        Thu, 09 Jan 2025 14:06:57 -0800 (PST)
+        d=1e100.net; s=20230601; t=1736460420; x=1737065220;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=gXlckJ6SpwsTGpU1oM+HpGRrggJSHrz/QlJTly2bc/Y=;
+        b=u6NtHBbexv5ReSew9G8vhy1HKTccGuPmkYn43p0j1w1e9iGhON/KKGpO7aA3EafMw8
+         Utl9L3FkOlVdc7mcYpzHQFDXSH/ZAvWDhKmfg7u92Wh5t+ecy0Bc7c0SpvLPgXylra0B
+         joZ/wMoKW+07abQCBJqxz/DNSD+rbT36L0JXw7FZX9zRY24Yf+8/wx72raylwPE8ZTnu
+         Z5+pCx4MXo7iXPSYjTHPeoxdEdtDzTSXExz3LwK2ADbtfDvJoLPBlAgwGYDjlvu3QSvB
+         A/AOoEQsISUJ9LwTC4ljFWSCsT/1196EeJmuFmVX/amQb/KjAfjtMfzv93rL1xffX+rh
+         NRMA==
+X-Forwarded-Encrypted: i=1; AJvYcCV7ZhJzKmx5XzHZ1U+QiH4TWPNv+xFnseH9al1bzHmuBFVLB5IwttHG0yaQmjq052iFyNa6Th+FycQ=@vger.kernel.org
+X-Gm-Message-State: AOJu0Yz/djoTW7WQs3ekMuqWqmZSvt+WYlTyNoU3cbpUh1/f71lx6y1i
+	3FmyFij3JNYQgrxKAbsmh4PTPRp4ONqSISbiwxfNOi2VjiQP7e5GLcZT17qP1g==
+X-Gm-Gg: ASbGncvruTDsvesZBd9XAtRS8rjPTkjTDYUZgfk7RlsjtNgmclsRbr3wwdneTpSF06j
+	1U8q3JFIIvy6164ItoGceLuK8SJyj3wFJec8xTwS36SZKjXtD8NkbA+YhyIjLussVACGdwhHnSK
+	UYmqbGU3Udz17ACp67JBgeS3QeAs8Bnb+0c1SPLppJnTw99KQ7vd1KQIsw9qJBdg0yqBA9QhSTi
+	xLsQiQKhCLwkSOe1gG2IOBYXl8ASKGrDQsUNGbd4cEflzBTe237nWKjsg7bFsG/cI/oMSHSzkHa
+	2Czr0jJpnaE8HU106UP7
+X-Google-Smtp-Source: AGHT+IFHTcniOS4ymC+7O/d+cYlP/uXsl/KBs0vwkT5Jh/l8n+3KRvnZGRy97PfSYyRO9sv8ZtFVgA==
+X-Received: by 2002:a05:6a20:a10e:b0:1e4:745c:4967 with SMTP id adf61e73a8af0-1e88d0dfa1dmr13487894637.3.1736460420526;
+        Thu, 09 Jan 2025 14:07:00 -0800 (PST)
 Received: from localhost (129.135.125.34.bc.googleusercontent.com. [34.125.135.129])
-        by smtp.gmail.com with UTF8SMTPSA id d2e1a72fcca58-72d4067e5d8sm277650b3a.122.2025.01.09.14.06.56
+        by smtp.gmail.com with UTF8SMTPSA id d2e1a72fcca58-72d4068178csm291404b3a.148.2025.01.09.14.06.59
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Thu, 09 Jan 2025 14:06:57 -0800 (PST)
+        Thu, 09 Jan 2025 14:07:00 -0800 (PST)
 From: Stephen Boyd <swboyd@chromium.org>
 To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
 Cc: linux-kernel@vger.kernel.org,
@@ -62,10 +64,12 @@ Cc: linux-kernel@vger.kernel.org,
 	Pavan Holla <pholla@chromium.org>,
 	Abhishek Pandit-Subedi <abhishekpandit@chromium.org>,
 	=?UTF-8?q?=C5=81ukasz=20Bartosik?= <ukaszb@chromium.org>
-Subject: [PATCH 0/2] usb: typec: cros-ec-ucsi: A couple small cleanups
-Date: Thu,  9 Jan 2025 14:06:51 -0800
-Message-ID: <20250109220655.1677506-1-swboyd@chromium.org>
+Subject: [PATCH 2/2] usb: typec: cros-ec-ucsi: Mark cros_ucsi_ops static/const
+Date: Thu,  9 Jan 2025 14:06:53 -0800
+Message-ID: <20250109220655.1677506-3-swboyd@chromium.org>
 X-Mailer: git-send-email 2.47.1.613.gc27f4b7a9f-goog
+In-Reply-To: <20250109220655.1677506-1-swboyd@chromium.org>
+References: <20250109220655.1677506-1-swboyd@chromium.org>
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
@@ -75,18 +79,30 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 
-A couple small cleanups to the cros-ec-ucsi driver that was recently
-introduced. Patches on top of next-20250109.
+This structure isn't used outside this file and can be marked const so
+that it gets moved to read-only memory.
 
-Stephen Boyd (2):
-  usb: typec: cros-ec-ucsi: Add newlines to printk messages
-  usb: typec: cros-ec-ucsi: Mark cros_ucsi_ops static/const
+Cc: Pavan Holla <pholla@chromium.org>
+Cc: Abhishek Pandit-Subedi <abhishekpandit@chromium.org>
+Cc: Łukasz Bartosik <ukaszb@chromium.org>
+Signed-off-by: Stephen Boyd <swboyd@chromium.org>
+---
+ drivers/usb/typec/ucsi/cros_ec_ucsi.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
- drivers/usb/typec/ucsi/cros_ec_ucsi.c | 30 ++++++++++++---------------
- 1 file changed, 13 insertions(+), 17 deletions(-)
-
-
-base-commit: 6ecd20965bdc21b265a0671ccf36d9ad8043f5ab
+diff --git a/drivers/usb/typec/ucsi/cros_ec_ucsi.c b/drivers/usb/typec/ucsi/cros_ec_ucsi.c
+index 75646a8d55be..c605c8616726 100644
+--- a/drivers/usb/typec/ucsi/cros_ec_ucsi.c
++++ b/drivers/usb/typec/ucsi/cros_ec_ucsi.c
+@@ -133,7 +133,7 @@ static int cros_ucsi_sync_control(struct ucsi *ucsi, u64 cmd)
+ 	return ret;
+ }
+ 
+-struct ucsi_operations cros_ucsi_ops = {
++static const struct ucsi_operations cros_ucsi_ops = {
+ 	.read_version = cros_ucsi_read_version,
+ 	.read_cci = cros_ucsi_read_cci,
+ 	.read_message_in = cros_ucsi_read_message_in,
 -- 
 https://chromeos.dev
 
