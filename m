@@ -1,165 +1,127 @@
-Received: from mail-m32104.qiye.163.com (mail-m32104.qiye.163.com [220.197.32.104])
+Received: from smtp-relay-canonical-0.canonical.com (smtp-relay-canonical-0.canonical.com [185.125.188.120])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4338B2066F4;
-	Fri, 10 Jan 2025 08:34:25 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=220.197.32.104
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0364920897C;
+	Fri, 10 Jan 2025 08:44:44 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.125.188.120
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1736498072; cv=none; b=PZzb2QaGmoE4qa2SiqDbxSwezRAtc+QbHe0Wl9BmgTwXwa2jQhkC6cR4pUMT3G5+G/dv36JxWFAQPWcFrDBK1AB+K4mafnvgBwDQ07tCvaC9CPshJGNCSi65IG6/Q4XJbweaqi7PphCUpN3iDw2gPUoSI3KKfXjggAW/9Uiim8c=
+	t=1736498687; cv=none; b=O/Mo1loI0ONT7oKLQWzGIRI0BUBDrsej4r1mxftTpCNS+lG7RhlIb3tlItsHkOgtUUyyzbRqrA7T5yZh3OIRyYUnVH67wP947SjTBqDtmZE/wPTfRZBEf2Gieuihl8d+R4x9roPkISPpZFCVFMFwfLtskZway43rAVaEy6HxVi0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1736498072; c=relaxed/simple;
-	bh=qEqPTF4nULWoVTAeKGSvjXgapT7N5A2egnTUmjMD040=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=KbV3dSDwk50QJXJWxszOm1L54bz24j7cZYXBGsQ+DGIK/WptC0bG5PeDQpSYJWksvwouiTdDb+W2iwK7/eMMbhuLCGimJ0VHcJ5lh/xMbpX4rMq4X6qotJrhpabLUwMTmxSHdewJcsGCOa637k/8hH2krkcySWr0FJMmBke9kPw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=rock-chips.com; spf=pass smtp.mailfrom=rock-chips.com; dkim=pass (1024-bit key) header.d=rock-chips.com header.i=@rock-chips.com header.b=VWXK7s8d; arc=none smtp.client-ip=220.197.32.104
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=rock-chips.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=rock-chips.com
+	s=arc-20240116; t=1736498687; c=relaxed/simple;
+	bh=of+lKH/eioVYAA03UEI/WQvpV+fhPhuHGfBVUKw4xJ4=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=qRDNuo9nCVjq+4BXg1C12gxX9aiintSVQJXwZjn7KI/KSe7zHOxXGltgkN2lOzWtZWbl8bdcJK+IIn5P9IDRxsVZFrzOPIc7ZgIXMw/jfHBeyRMYyudwk4FIOz7j6QKMv1z2ghRtkQYUF756b9qCHHz9BLrmlkqsSL4H2zE+Ihs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=canonical.com; spf=pass smtp.mailfrom=canonical.com; dkim=pass (2048-bit key) header.d=canonical.com header.i=@canonical.com header.b=BHCdFg++; arc=none smtp.client-ip=185.125.188.120
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=canonical.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=canonical.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=rock-chips.com header.i=@rock-chips.com header.b="VWXK7s8d"
-Received: from [172.16.12.67] (unknown [58.22.7.114])
-	by smtp.qiye.163.com (Hmail) with ESMTP id 851e8425;
-	Fri, 10 Jan 2025 15:58:45 +0800 (GMT+08:00)
-Message-ID: <3460b2a3-9579-4a12-9eff-6e2f1a1cc91c@rock-chips.com>
-Date: Fri, 10 Jan 2025 15:58:44 +0800
+	dkim=pass (2048-bit key) header.d=canonical.com header.i=@canonical.com header.b="BHCdFg++"
+Received: from localhost.localdomain (unknown [10.101.200.229])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+	(No client certificate requested)
+	by smtp-relay-canonical-0.canonical.com (Postfix) with ESMTPSA id 110AC3FA7E;
+	Fri, 10 Jan 2025 08:44:31 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=canonical.com;
+	s=20210705; t=1736498676;
+	bh=vTqK5C56T9DHhOQZVrs6YW0Drcz5tM30Ooii9+1QvxE=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version;
+	b=BHCdFg++sIXf36LYrfAmnrnIBIDq3qUvxKerOUnwgafYqSVL9Vc+B+fklPkQB/YPg
+	 1Cx36oPfKe91NpXeXNMwHlOgAQE0luKP06a13lNljN9Z0osH2u9y/iypEzuy3azjLz
+	 sj4cNRY7Hiy6puXSCakfl4S3RHYzHEhYV2h9wbrwaBCw8YHItC1moNQgDslypNXJlq
+	 kd1sL24i9iLwSiJ6D11ll6g4p5BXBk6dIJhvmq57rvhdpouF1rFsMpa18s2JTJ3KKU
+	 kBSujXh4FjIhM5Ck2s9ql5FdlaroWV9mUMQOU+iNE9uVOqSswYzcNvzxAOcfoK5SRG
+	 7/3N1wWRGKBSg==
+From: "Yo-Jung (Leo) Lin" <leo.lin@canonical.com>
+To: gregkh@linuxfoundation.org,
+	rafael@kernel.org,
+	pavel@ucw.cz,
+	len.brown@intel.com
+Cc: "Yo-Jung (Leo) Lin" <leo.lin@canonical.com>,
+	stern@rowland.harvard.edu,
+	bhelgaas@google.com,
+	duanchenghao@kylinos.cn,
+	dlemoal@kernel.org,
+	linux-usb@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	linux-pm@vger.kernel.org,
+	hdegoede@redhat.com
+Subject: [PATCH] USB: Prevent xhci from resuming root hub during suspend entrance
+Date: Fri, 10 Jan 2025 16:44:10 +0800
+Message-ID: <20250110084413.80981-1-leo.lin@canonical.com>
+X-Mailer: git-send-email 2.43.0
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v2 00/17] rockchip: Add rk3562 support
-To: Krzysztof Kozlowski <krzk@kernel.org>
-Cc: heiko@sntech.de, linux-rockchip@lists.infradead.org,
- Simon Xue <xxm@rock-chips.com>, Guenter Roeck <linux@roeck-us.net>,
- Mark Brown <broonie@kernel.org>, Chris Morgan <macromorgan@hotmail.com>,
- Frank Wang <frank.wang@rock-chips.com>, Jamie Iles <jamie@jamieiles.com>,
- Bjorn Helgaas <bhelgaas@google.com>, linux-pci@vger.kernel.org,
- Jonas Karlman <jonas@kwiboo.se>, Johan Jonker <jbx6244@gmail.com>,
- David Airlie <airlied@gmail.com>, dri-devel@lists.freedesktop.org,
- Sebastian Reichel <sebastian.reichel@collabora.com>,
- linux-i2c@vger.kernel.org, Shawn Lin <shawn.lin@rock-chips.com>,
- Simona Vetter <simona@ffwll.ch>, Elaine Zhang <zhangqing@rock-chips.com>,
- Conor Dooley <conor+dt@kernel.org>, Finley Xiao
- <finley.xiao@rock-chips.com>, Maxime Ripard <mripard@kernel.org>,
- =?UTF-8?Q?Krzysztof_Wilczy=C5=84ski?= <kw@linux.com>,
- FUKAUMI Naoki <naoki@radxa.com>, linux-pwm@vger.kernel.org,
- Krzysztof Kozlowski <krzk+dt@kernel.org>, Andy Yan <andyshrk@163.com>,
- linux-serial@vger.kernel.org, Michael Riesch
- <michael.riesch@wolfvision.net>,
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
- Jiri Slaby <jirislaby@kernel.org>, Andi Shyti <andi.shyti@kernel.org>,
- devicetree@vger.kernel.org, Diederik de Haas <didi.debian@cknow.org>,
- linux-watchdog@vger.kernel.org, Rob Herring <robh@kernel.org>,
- Lee Jones <lee@kernel.org>,
- Cristian Ciocaltea <cristian.ciocaltea@collabora.com>,
- Wim Van Sebroeck <wim@linux-watchdog.org>,
- Shresth Prasad <shresthprasad7@gmail.com>, Tim Lunn <tim@feathertop.org>,
- Lorenzo Pieralisi <lpieralisi@kernel.org>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- linux-arm-kernel@lists.infradead.org, Ulf Hansson <ulf.hansson@linaro.org>,
- Jisheng Zhang <jszhang@kernel.org>, Dragan Simic <dsimic@manjaro.org>,
- Detlev Casanova <detlev.casanova@collabora.com>, linux-mmc@vger.kernel.org,
- linux-kernel@vger.kernel.org, linux-spi@vger.kernel.org,
- linux-usb@vger.kernel.org,
- Manivannan Sadhasivam <manivannan.sadhasivam@linaro.org>,
- Thomas Zimmermann <tzimmermann@suse.de>,
- =?UTF-8?Q?Uwe_Kleine-K=C3=B6nig?= <ukleinek@kernel.org>
-References: <20241224094920.3821861-1-kever.yang@rock-chips.com>
- <sasnc2ocxnlfp4kprsobu5gkajjb5wdxhld73bg6xocgb3foah@yjmphtvpmyff>
-Content-Language: en-US
-From: Kever Yang <kever.yang@rock-chips.com>
-In-Reply-To: <sasnc2ocxnlfp4kprsobu5gkajjb5wdxhld73bg6xocgb3foah@yjmphtvpmyff>
-Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
-X-HM-Spam-Status: e1kfGhgUHx5ZQUpXWQgPGg8OCBgUHx5ZQUlOS1dZFg8aDwILHllBWSg2Ly
-	tZV1koWUFDSUNOT01LS0k3V1ktWUFJV1kPCRoVCBIfWUFZGh4dTlYZGR1MSR1MTk5JGkJWFRQJFh
-	oXVRMBExYaEhckFA4PWVdZGBILWUFZTkNVSUlVTFVKSk9ZV1kWGg8SFR0UWUFZT0tIVUpLSUhCS0
-	NVSktLVUpCWQY+
-X-HM-Tid: 0a944f3909e403afkunm851e8425
-X-HM-MType: 1
-X-HM-Sender-Digest: e1kMHhlZQR0aFwgeV1kSHx4VD1lBWUc6OTY6FBw4LDIQPQ8VMiJKC0lO
-	K0kaCUlVSlVKTEhNT0JOQklCSkNLVTMWGhIXVRAeDR4JVQIaFRw7CRQYEFYYExILCFUYFBZFWVdZ
-	EgtZQVlOQ1VJSVVMVUpKT1lXWQgBWUFJQktCNwY+
-DKIM-Signature:a=rsa-sha256;
-	b=VWXK7s8da0RDYOHxSWhWmVquzr9JT8B4nkrF/smFefecdntF1wQ00XwWP/W6zJg+9nzjib8DolV9vW+B7e4x9e94nqGrRa3NUYOfsb8LiB93JM1o4goCzIFl5gMoV51sQZuv+O5c3/QadXRtYtLINbjhyZzW/2jq4/AD/N9qfGU=; s=default; c=relaxed/relaxed; d=rock-chips.com; v=1;
-	bh=jhJHF5kfM0cVe+RkIB8dEyszOtU3eaBDxOU11VNcLG4=;
-	h=date:mime-version:subject:message-id:from;
 
-Hi Krzysztof,
+The commit d9b4067aef50 ("USB: Fix the issue of task recovery failure
+caused by USB status when S4 wakes up") fixed an issue where if an USB
+port change happens during the entering steps of hibernation, xhci driver
+would attempt to resume the root hub, making the hibernation fail.
 
-     Thanks very much for your review.
+System-wide suspend may fail due to the same reason, but this hasn't been
+addressed yet. This has been found on HP ProOne 440[1], as well as on
+some newer Dell all-in-one models. When suspend fails due to this reason,
+the kernel would show the following messages:
 
-On 2024/12/27 15:38, Krzysztof Kozlowski wrote:
-> On Tue, Dec 24, 2024 at 05:49:03PM +0800, Kever Yang wrote:
->> This patch set adds rk3562 SoC and its evb support.
->>
->> Split out patches belong to different subsystem.
->>
->> Test with GMAC, USB, PCIe, EMMC, SD Card.
->>
->> This patch set is base on the patche set for rk3576 evb1 support.
->>
->> Changes in v2:
->> - Update in sort order
->> - remove grf in cru
->> - Update some properties order
->>
->> Finley Xiao (2):
->>    arm64: dts: rockchip: add core dtsi for RK3562 Soc
->>    arm64: dts: rockchip: Add RK3562 evb2 devicetree
->>
->> Kever Yang (15):
->>    dt-bindings: PCI: dwc: rockchip: Add rk3562 support
->>    dt-bindings: mmc: Add support for rk3562 eMMC
->>    dt-bindings: mmc: rockchip-dw-mshc: Add rk3562 compatible string
->>    dt-bindings: power: rockchip: Add bindings for rk3562
->>    dt-bindings: i2c: i2c-rk3x: Add rk3562 compatible
->>    dt-bindings: gpu: Add rockchip,rk3562-mali compatible
->>    dt-bindings: watchdog: Add rk3562 compatible
->>    dt-bindings: spi: Add rockchip,rk3562-spi compatible
->>    dt-bindings: serial: snps-dw-apb-uart: Add support for rk3562
->>    dt-bindings: usb: dwc3: add compatible for rk3562
->>    dt-bindings: pwm: rockchip: Add rockchip,rk3562-pwm
->>    dt-bindings: rockchip: pmu: Add rk3562 compatible
->>    dt-bindings: soc: rockchip: Add rk3562 syscon compatibles
->>    dt-bindings: arm: rockchip: Add rk3562 evb2 board
->>    dt-bindings: mfd: syscon: Add rk3562 QoS register compatible
-> You squezzed here like 12 different subsystems. Some of these changes
-> suggest missing drivers.
-I have split out all the patches with driver change as separate patch set.
-All the other dt-binding patches in this patchset is re-use the driver 
-without any change,
-but only add a new "rockchip, rk3562-" based compatible entry, and also 
-no more info
-need to explain in the commit message which I usually copy from commit 
-msg already in tree
-and change the soc to rk3562.
-I think this patch set will be clear enough for the new soc/board 
-support. So do you mean
-I have to send the 1st~15th of this patchset one by one separately so 
-that they can reach
-to different subsystems? I believe there is no much useful change for 
-the cc list is provide
-by the tool automatically and the commit msg can update as Uwe's 
-suggestion:
+[   74.245058] [165] usbcore:hub_suspend:3961: hub 2-0:1.0: hub_suspend
+[   74.245850] [165] usbcore:hcd_bus_suspend:2251: usb usb2: bus suspend, wakeup 0
+[   74.250971] [3508] usbcore:usb_port_suspend:3554: usb 1-2: usb suspend, wakeup 1
+[   74.263025] [11] usbcore:hub_suspend:3961: hub 1-0:1.0: hub_suspend
+[   74.264029] [11] usbcore:hcd_bus_suspend:2251: usb usb1: bus suspend, wakeup 0
+[   74.265061] [11] xhci_hcd:xhci_bus_suspend:1779: xhci_hcd 0000:80:14.0: port 1-14 not suspended
+[   74.266020] [11] xhci_hcd:xhci_bus_suspend:1779: xhci_hcd 0000:80:14.0: port 1-8 not suspended
+[   74.266933] [11] xhci_hcd:xhci_bus_suspend:1779: xhci_hcd 0000:80:14.0: port 1-4 not suspended
+[   74.267758] [11] xhci_hcd:xhci_ring_cmd_db:369: xhci_hcd 0000:80:14.0: // Ding dong!
+[   74.268677] <intr> xhci_hcd:handle_tx_event:2711: xhci_hcd 0000:80:14.0: Stopped on No-op or Link TRB for slot 5 ep 6
+[   74.269632] <intr> xhci_hcd:handle_tx_event:2711: xhci_hcd 0000:80:14.0: Stopped on No-op or Link TRB for slot 5 ep 5
+[   74.270448] <intr> xhci_hcd:handle_tx_event:2711: xhci_hcd 0000:80:14.0: Stopped on No-op or Link TRB for slot 5 ep 3
+[   74.271228] <intr> xhci_hcd:handle_tx_event:2711: xhci_hcd 0000:80:14.0: Stopped on No-op or Link TRB for slot 5 ep 0
+[   74.271946] [11] xhci_hcd:xhci_ring_cmd_db:369: xhci_hcd 0000:80:14.0: // Ding dong!
+[   74.272802] <intr> xhci_hcd:handle_tx_event:2711: xhci_hcd 0000:80:14.0: Stopped on No-op or Link TRB for slot 6 ep 8
+[   74.273533] <intr> xhci_hcd:handle_tx_event:2711: xhci_hcd 0000:80:14.0: Stopped on No-op or Link TRB for slot 6 ep 5
+[   74.274233] <intr> xhci_hcd:handle_tx_event:2711: xhci_hcd 0000:80:14.0: Stopped on No-op or Link TRB for slot 6 ep 0
+[   74.274982] [11] xhci_hcd:xhci_ring_cmd_db:369: xhci_hcd 0000:80:14.0: // Ding dong!
+[   74.275814] <intr> xhci_hcd:handle_tx_event:2711: xhci_hcd 0000:80:14.0: Stopped on No-op or Link TRB for slot 2 ep 0
+[   74.281739] <intr> xhci_hcd:handle_port_status:1992: xhci_hcd 0000:80:14.0: Port change event, 1-8, id 8, portsc: 0x202a0
+[   74.282453] <intr> xhci_hcd:handle_port_status:1998: xhci_hcd 0000:80:14.0: resume root hub
+[   74.283145] <intr> xhci_hcd:handle_port_status:2109: xhci_hcd 0000:80:14.0: handle_port_status: starting usb1 port polling.
+[   74.385425] e1000e: EEE TX LPI TIMER: 00000011
+[   74.385543] [3508] pci_acpi:acpi_pci_set_power_state:1119: pcieport 0000:80:1c.0: power state changed by ACPI to D0
+[   74.385722] xhci_hcd 0000:80:14.0: PM: pci_pm_suspend(): hcd_pci_suspend returns -16
+[   74.385735] xhci_hcd 0000:80:14.0: PM: dpm_run_callback(): pci_pm_suspend returns -16
+[   74.385743] xhci_hcd 0000:80:14.0: PM: failed to suspend async: error -16
 
-	The PWM core on Rockchip's RK3562 is the same as the one already
-	included in RK3328. Extend the binding accordingly to allow
+To address this, extend the fix in that commit also to suspend.
 
-		compatible = "rockchip,rk3562-pwm", "rockchip,rk3328-pwm";
+This patch was tested on top of next-20250109, by suspending every 2
+minutes consecutively for 300 times on the machine where the above error
+messages were found. There's no suspend failure found during the test.
 
-Thanks,
-- Kever
+[1] [PATCH v3] platform/x86/hp: Avoid spurious wakeup on HP ProOne 440
+    https://lore.kernel.org/all/20240906053047.459036-1-kai.heng.feng@canonical.com/#t
 
+Signed-off-by: Yo-Jung (Leo) Lin <leo.lin@canonical.com>
+---
+ include/linux/pm.h | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
->
-> Please read basic upstreaming guide, some previous discussions and get
-> internal rock-chips help so we want repeat basics over and over.
->
-> Bindings are with drivers. Send them to respective subsystems.
->
-> Best regards,
-> Krzysztof
->
->
+diff --git a/include/linux/pm.h b/include/linux/pm.h
+index 08c37b83fea8..d71347357fb1 100644
+--- a/include/linux/pm.h
++++ b/include/linux/pm.h
+@@ -571,7 +571,7 @@ const struct dev_pm_ops name = { \
+ 
+ #define PMSG_IS_AUTO(msg)	(((msg).event & PM_EVENT_AUTO) != 0)
+ #define PMSG_NO_WAKEUP(msg)	(((msg).event & \
+-				(PM_EVENT_FREEZE | PM_EVENT_QUIESCE)) != 0)
++				(PM_EVENT_FREEZE | PM_EVENT_QUIESCE | PM_EVENT_SUSPEND)) != 0)
+ /*
+  * Device run-time power management status.
+  *
+-- 
+2.43.0
+
