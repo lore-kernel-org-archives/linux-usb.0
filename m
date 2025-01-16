@@ -1,50 +1,50 @@
 Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A023A22BAC2;
-	Thu, 16 Jan 2025 15:41:26 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9606D22C9E6;
+	Thu, 16 Jan 2025 15:41:27 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1737042088; cv=none; b=pNARlagzW7gUcvn0uTpUUtWMw15PBBU1SBL55OVsaPRpnu1vF6hQJqoptlnKYTk7a56fZ1CrbGdHXTDXhZEzKAb8Jhym+rvR3h2LjXMc1BOhtV/vlJ7sSoE6aWD5H3jn36mxpziQZt8WB0MwTKc4i9d1QDn9eV7jP1Lkuga9dZc=
+	t=1737042089; cv=none; b=atohgMHDZ6fzoogjkXXqJp04okn8098336HbP972TcArSJnIJte5xgz4ib2VGFCbeI+OkwczJTz+eCl284jQdVYvr8+bO/t8p9iohioJxQjq4jB+aVwLRplBVf64TekzTsNrJ1z8xB/RKZVCFUAvgdWIugeqWX8OkEmrGFtg+ks=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1737042088; c=relaxed/simple;
-	bh=/On/1g4U2EAzkLn8pPldeYXABCJaa9MoXs5eV93X0oI=;
+	s=arc-20240116; t=1737042089; c=relaxed/simple;
+	bh=osHQYzjua21+AIKSk/AqrMNF9wYfNXjjR7TwFnQGk+0=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=cVefzFOYMZ7QBenCY+3whVWh8irj0ZNpLGpmOgBB0POn+hleHSgd+BtcM4wpFsWk+khIbL+5MQXYZwm94olf33G4s6CrUzAQXuYGsaPxNGpwpU/1IyjGMjotgkweSYe10dw6knup/NvOxsOCgGmO/2iqUFNTX0Gh3QunpRMc4mw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=none smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=esc5G96P; arc=none smtp.client-ip=198.175.65.18
+	 MIME-Version; b=rQwUNZlCoftRM527F07jVCat28EGFHjwnvZjFapkQ8aNiRpEo5XZWOL+otUl8vmj2zmZoFGtZMDLovIbCjgJK82lWLLH/oinL8xhb1SBrvMILggInPqD/utGxVjEYpL+rHZ66wdqAvfIbmjFD64SxKOaQ8Q11oG3oMFsXh//3f0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=none smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=HP3n5swv; arc=none smtp.client-ip=198.175.65.18
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=linux.intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="esc5G96P"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="HP3n5swv"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1737042087; x=1768578087;
+  t=1737042088; x=1768578088;
   h=from:to:cc:subject:date:message-id:in-reply-to:
    references:mime-version:content-transfer-encoding;
-  bh=/On/1g4U2EAzkLn8pPldeYXABCJaa9MoXs5eV93X0oI=;
-  b=esc5G96PNoNy6wgAMRbyVJcIt+4kN3txXA/9ofucMhkMN2zsm/ByNrB4
-   1/+gnWuICo4QfgXlCO5boQn5HrdUHwgNUWRkMcOTcX+hKV0srLulYHlNB
-   m3z+wBeQl6rv4V0A3qoioKnEY5sDsIs147R7Xz2oYnIL4wGL4MA/5POmf
-   q/XHi3gD6kyf8CsYok4dHEGqsqQRQqcGujjLq902QWeDM6vW1UlL6P7RL
-   AlyaSFM9ZB2mOzqNVa2JavczxauwYYC90VhZxxiacT2o6Vre/qRbs3SWE
-   gzFS28QCsqAXVMCjseLLEPkqg45QO4VEG8gQddxPJfneM5gKEESJxZ7iq
-   A==;
-X-CSE-ConnectionGUID: bWf47mvbQhiGSWrVYgFHgw==
-X-CSE-MsgGUID: l2JWq8wET5eLE7xeq8gVpA==
-X-IronPort-AV: E=McAfee;i="6700,10204,11314"; a="37554157"
+  bh=osHQYzjua21+AIKSk/AqrMNF9wYfNXjjR7TwFnQGk+0=;
+  b=HP3n5swv3iIQvHoZCV98cvLo9v42FkNtmYithYW61N4FzTEkD5s64+YZ
+   B/AlPEHDlcXnUslK2YjBl+/FLmpbXrzPqfNTFb4+6w4lAgc4kFnRBqPH3
+   OgUVeFan4wRUd+T92+YANzOr7leK2YuyopfPVRNOlRc7Z7ciLo9iJSETb
+   SFo7kcfszsrWtpcciwaDTZ9MPjNvsXmNbsH9xW+zCy44p3ahywes1G4xB
+   XrA5ZXLi9jBZw5hkmZJrdagBxRhT0ZKZReME0znLWwKt29t6JWVVPNnfo
+   ugGHLFYg/g/Zk/KxiavzcQlLPfNxIVzM+QAwtJ4nl2rrxrcg7//Z4jNZ1
+   Q==;
+X-CSE-ConnectionGUID: EHHacd79SOuSHQGPUC0s5Q==
+X-CSE-MsgGUID: 6azbyccmRC6jXW94O9Xicg==
+X-IronPort-AV: E=McAfee;i="6700,10204,11314"; a="37554162"
 X-IronPort-AV: E=Sophos;i="6.12,310,1728975600"; 
-   d="scan'208";a="37554157"
+   d="scan'208";a="37554162"
 Received: from fmviesa004.fm.intel.com ([10.60.135.144])
   by orvoesa110.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 16 Jan 2025 07:41:24 -0800
-X-CSE-ConnectionGUID: aOCy8hgtRUuCWSHXMVgDgg==
-X-CSE-MsgGUID: F2Z/+cQ8Q+udOUMWGDBmFg==
+X-CSE-ConnectionGUID: Ru4B9G88S3KvW5cjTn/B9Q==
+X-CSE-MsgGUID: JvMqXoMcQnekibOvwI5RIA==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.13,209,1732608000"; 
-   d="scan'208";a="110512094"
+   d="scan'208";a="110512093"
 Received: from black.fi.intel.com ([10.237.72.28])
   by fmviesa004.fm.intel.com with ESMTP; 16 Jan 2025 07:41:20 -0800
 Received: by black.fi.intel.com (Postfix, from userid 1003)
-	id 3C3F849D; Thu, 16 Jan 2025 17:41:19 +0200 (EET)
+	id 289CE26D; Thu, 16 Jan 2025 17:41:19 +0200 (EET)
 From: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
 To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
 	Thinh Nguyen <Thinh.Nguyen@synopsys.com>,
@@ -57,9 +57,9 @@ Cc: Rob Herring <robh@kernel.org>,
 	Conor Dooley <conor+dt@kernel.org>,
 	Ferry Toth <fntoth@gmail.com>,
 	Andy Shevchenko <andriy.shevchenko@linux.intel.com>
-Subject: [PATCH v1 3/3] usb: dwc3: gadget: Skip endpoints ep[18]{in,out} on Intel Merrifield
-Date: Thu, 16 Jan 2025 17:40:48 +0200
-Message-ID: <20250116154117.148915-4-andriy.shevchenko@linux.intel.com>
+Subject: [PATCH v1 1/3] dt-bindings: usb: dwc3: Add a property to reserve endpoints
+Date: Thu, 16 Jan 2025 17:40:46 +0200
+Message-ID: <20250116154117.148915-2-andriy.shevchenko@linux.intel.com>
 X-Mailer: git-send-email 2.43.0.rc1.1336.g36b5255a03ac
 In-Reply-To: <20250116154117.148915-1-andriy.shevchenko@linux.intel.com>
 References: <20250116154117.148915-1-andriy.shevchenko@linux.intel.com>
@@ -69,45 +69,39 @@ List-Id: <linux-usb.vger.kernel.org>
 List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 
-Intel Merrifield SoC uses these endpoints for tracing and they shouldn't
-be used for normal transfers, we need to skip them.
-
-• 1 High BW Bulk IN (IN#1) (RTIT)
-• 1 1KB BW Bulk IN (IN#8) + 1 1KB BW Bulk OUT (Run Control) (OUT#8)
+Some of the endpoints may be reserved by hardware for different purposes,
+e.g., tracing control and output. This is the case, for instance, on
+Intel Merrifield and Moorefield platforms that reserve a few and USB driver
+may not use them for the regular transfers. Add the respective bindings.
 
 Signed-off-by: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
 ---
- drivers/usb/dwc3/dwc3-pci.c | 9 +++++++++
- 1 file changed, 9 insertions(+)
+ Documentation/devicetree/bindings/usb/snps,dwc3.yaml | 10 ++++++++++
+ 1 file changed, 10 insertions(+)
 
-diff --git a/drivers/usb/dwc3/dwc3-pci.c b/drivers/usb/dwc3/dwc3-pci.c
-index 052852f80146..9b73dfd34823 100644
---- a/drivers/usb/dwc3/dwc3-pci.c
-+++ b/drivers/usb/dwc3/dwc3-pci.c
-@@ -148,11 +148,20 @@ static const struct property_entry dwc3_pci_intel_byt_properties[] = {
- 	{}
- };
+diff --git a/Documentation/devicetree/bindings/usb/snps,dwc3.yaml b/Documentation/devicetree/bindings/usb/snps,dwc3.yaml
+index 1cd0ca90127d..2ae8e5e85f78 100644
+--- a/Documentation/devicetree/bindings/usb/snps,dwc3.yaml
++++ b/Documentation/devicetree/bindings/usb/snps,dwc3.yaml
+@@ -109,6 +109,16 @@ properties:
+   resets:
+     minItems: 1
  
-+/*
-+ * Intel Merrifield uses these endpoints for tracing and they shouldn't be used
-+ * for normal transfers, we need to skip them.
-+ * • 1 High BW Bulk IN (IN#1) (RTIT)
-+ * • 1 1KB BW Bulk IN (IN#8) + 1 1KB BW Bulk OUT (Run Control) (OUT#8)
-+ */
-+static const u8 dwc3_pci_mrfld_reserved_endpoints[] = { 3, 16, 17 };
++  snps,reserved-endpoints:
++    description:
++      Reserve endpoints for other needs, e.g, for tracing control and output.
++      When set, the driver will avoid using them for the regular USB transfers.
++    $ref: /schemas/types.yaml#/definitions/uint8-array
++    maxItems: 30
++    items:
++      minimum: 2
++      maximum: 31
 +
- static const struct property_entry dwc3_pci_mrfld_properties[] = {
- 	PROPERTY_ENTRY_STRING("dr_mode", "otg"),
- 	PROPERTY_ENTRY_STRING("linux,extcon-name", "mrfld_bcove_pwrsrc"),
- 	PROPERTY_ENTRY_BOOL("snps,dis_u3_susphy_quirk"),
- 	PROPERTY_ENTRY_BOOL("snps,dis_u2_susphy_quirk"),
-+	PROPERTY_ENTRY_U8_ARRAY("snps,reserved-endpoints", dwc3_pci_mrfld_reserved_endpoints),
- 	PROPERTY_ENTRY_BOOL("snps,usb2-gadget-lpm-disable"),
- 	PROPERTY_ENTRY_BOOL("linux,sysdev_is_parent"),
- 	{}
+   snps,usb2-lpm-disable:
+     description: Indicate if we don't want to enable USB2 HW LPM for host
+       mode.
 -- 
 2.43.0.rc1.1336.g36b5255a03ac
 
