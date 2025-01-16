@@ -1,107 +1,166 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.18])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9606D22C9E6;
-	Thu, 16 Jan 2025 15:41:27 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 05CE41D8A0D
+	for <linux-usb@vger.kernel.org>; Thu, 16 Jan 2025 16:02:24 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1737042089; cv=none; b=atohgMHDZ6fzoogjkXXqJp04okn8098336HbP972TcArSJnIJte5xgz4ib2VGFCbeI+OkwczJTz+eCl284jQdVYvr8+bO/t8p9iohioJxQjq4jB+aVwLRplBVf64TekzTsNrJ1z8xB/RKZVCFUAvgdWIugeqWX8OkEmrGFtg+ks=
+	t=1737043346; cv=none; b=AuHd44HN4a6kx8L7ZSCNcoSTX04ARsHEN7XGVARNxKQdGd23RCQ02hEWvtls/eqC4tYvncYauX6Nw1iMYw7NRRBMGNQD/q6/jDUNHAaXxsCthzeM7tTwnFCms7S53LOzzmm4yDmoQR2KtlINx6KYj2G4Hj6q7HxkNyzhuX/ZhY0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1737042089; c=relaxed/simple;
-	bh=osHQYzjua21+AIKSk/AqrMNF9wYfNXjjR7TwFnQGk+0=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=rQwUNZlCoftRM527F07jVCat28EGFHjwnvZjFapkQ8aNiRpEo5XZWOL+otUl8vmj2zmZoFGtZMDLovIbCjgJK82lWLLH/oinL8xhb1SBrvMILggInPqD/utGxVjEYpL+rHZ66wdqAvfIbmjFD64SxKOaQ8Q11oG3oMFsXh//3f0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=none smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=HP3n5swv; arc=none smtp.client-ip=198.175.65.18
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=linux.intel.com
+	s=arc-20240116; t=1737043346; c=relaxed/simple;
+	bh=8ztHMWK8Zhouc6LvwiZjOb1n3PWkw2C8leO2CpaP4kU=;
+	h=Date:From:To:Cc:Subject:Message-ID; b=bd4XNirHiPue0Z8BB9tpY4V+070o2u4m+9+bXg4xjgIrYrPr654seq36CYsc4msH0mVzqkcaquXjlWXZ37OL/nNYmf2C/twxOIv8KVe3N6vq0JjlrLCECLCLb8ufE9URwF6Nlpq4aaCxxQIKzVrkqsy9rKM3UZeUEXSrSaM4Aq8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=ZimCV/Xy; arc=none smtp.client-ip=192.198.163.18
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="HP3n5swv"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="ZimCV/Xy"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1737042088; x=1768578088;
-  h=from:to:cc:subject:date:message-id:in-reply-to:
-   references:mime-version:content-transfer-encoding;
-  bh=osHQYzjua21+AIKSk/AqrMNF9wYfNXjjR7TwFnQGk+0=;
-  b=HP3n5swv3iIQvHoZCV98cvLo9v42FkNtmYithYW61N4FzTEkD5s64+YZ
-   B/AlPEHDlcXnUslK2YjBl+/FLmpbXrzPqfNTFb4+6w4lAgc4kFnRBqPH3
-   OgUVeFan4wRUd+T92+YANzOr7leK2YuyopfPVRNOlRc7Z7ciLo9iJSETb
-   SFo7kcfszsrWtpcciwaDTZ9MPjNvsXmNbsH9xW+zCy44p3ahywes1G4xB
-   XrA5ZXLi9jBZw5hkmZJrdagBxRhT0ZKZReME0znLWwKt29t6JWVVPNnfo
-   ugGHLFYg/g/Zk/KxiavzcQlLPfNxIVzM+QAwtJ4nl2rrxrcg7//Z4jNZ1
+  t=1737043345; x=1768579345;
+  h=date:from:to:cc:subject:message-id;
+  bh=8ztHMWK8Zhouc6LvwiZjOb1n3PWkw2C8leO2CpaP4kU=;
+  b=ZimCV/Xyr/07rwP6pjIrph9jBSjbKzGkmnbR4Dxnv8djGGdBFzfn6V0G
+   qnvOlk/bvMMuI3egW7ftVOzvCGCYtNCKrI7iib2TrZFr8ynbhp3rQKhvG
+   MMGnteqIq8IsyXhxb50PMJyWF6XimMGBu6mY8TW4XbX4web73B/Y3bfoq
+   SZAdaZssxVitiBY1O8ZI0Gdgj9s9Aym23fiRsHIzCS0dK9BkONGyqJ5Io
+   9oA86eaSzR4I1/6+xBGF5WMWPpPOGopbbXKsButMnliKmAqynqLjOco4y
+   iHPLxj66Va/XpW/L+qW+obbWJiR1Bvk+yT0rdRbp5NUfmBSINase441Am
    Q==;
-X-CSE-ConnectionGUID: EHHacd79SOuSHQGPUC0s5Q==
-X-CSE-MsgGUID: 6azbyccmRC6jXW94O9Xicg==
-X-IronPort-AV: E=McAfee;i="6700,10204,11314"; a="37554162"
-X-IronPort-AV: E=Sophos;i="6.12,310,1728975600"; 
-   d="scan'208";a="37554162"
-Received: from fmviesa004.fm.intel.com ([10.60.135.144])
-  by orvoesa110.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 16 Jan 2025 07:41:24 -0800
-X-CSE-ConnectionGUID: Ru4B9G88S3KvW5cjTn/B9Q==
-X-CSE-MsgGUID: JvMqXoMcQnekibOvwI5RIA==
-X-ExtLoop1: 1
+X-CSE-ConnectionGUID: GUKGAn35SGyM22YiuMziSw==
+X-CSE-MsgGUID: ncf3vMW4TEm3LCNLUF5zyw==
+X-IronPort-AV: E=McAfee;i="6700,10204,11317"; a="36718453"
 X-IronPort-AV: E=Sophos;i="6.13,209,1732608000"; 
-   d="scan'208";a="110512093"
-Received: from black.fi.intel.com ([10.237.72.28])
-  by fmviesa004.fm.intel.com with ESMTP; 16 Jan 2025 07:41:20 -0800
-Received: by black.fi.intel.com (Postfix, from userid 1003)
-	id 289CE26D; Thu, 16 Jan 2025 17:41:19 +0200 (EET)
-From: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
-To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	Thinh Nguyen <Thinh.Nguyen@synopsys.com>,
-	Felipe Balbi <balbi@kernel.org>,
-	linux-usb@vger.kernel.org,
-	devicetree@vger.kernel.org,
-	linux-kernel@vger.kernel.org
-Cc: Rob Herring <robh@kernel.org>,
-	Krzysztof Kozlowski <krzk+dt@kernel.org>,
-	Conor Dooley <conor+dt@kernel.org>,
-	Ferry Toth <fntoth@gmail.com>,
-	Andy Shevchenko <andriy.shevchenko@linux.intel.com>
-Subject: [PATCH v1 1/3] dt-bindings: usb: dwc3: Add a property to reserve endpoints
-Date: Thu, 16 Jan 2025 17:40:46 +0200
-Message-ID: <20250116154117.148915-2-andriy.shevchenko@linux.intel.com>
-X-Mailer: git-send-email 2.43.0.rc1.1336.g36b5255a03ac
-In-Reply-To: <20250116154117.148915-1-andriy.shevchenko@linux.intel.com>
-References: <20250116154117.148915-1-andriy.shevchenko@linux.intel.com>
+   d="scan'208";a="36718453"
+Received: from fmviesa001.fm.intel.com ([10.60.135.141])
+  by fmvoesa112.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 16 Jan 2025 08:01:24 -0800
+X-CSE-ConnectionGUID: jf+Kk2gZTA+SojvDtM9mpQ==
+X-CSE-MsgGUID: iFMpFwgxSt+IpdaBIsfyAQ==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.12,224,1728975600"; 
+   d="scan'208";a="136404165"
+Received: from lkp-server01.sh.intel.com (HELO d63d4d77d921) ([10.239.97.150])
+  by fmviesa001.fm.intel.com with ESMTP; 16 Jan 2025 08:01:23 -0800
+Received: from kbuild by d63d4d77d921 with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1tYSJ7-000S6z-0C;
+	Thu, 16 Jan 2025 16:01:21 +0000
+Date: Fri, 17 Jan 2025 00:00:44 +0800
+From: kernel test robot <lkp@intel.com>
+To: "Greg Kroah-Hartman" <gregkh@linuxfoundation.org>
+Cc: linux-usb@vger.kernel.org
+Subject: [usb:usb-next] BUILD SUCCESS
+ 47a836da9ca91ab95b3cf1b2218db60bd67d4514
+Message-ID: <202501170038.Z7OMaPEV-lkp@intel.com>
+User-Agent: s-nail v14.9.24
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
 
-Some of the endpoints may be reserved by hardware for different purposes,
-e.g., tracing control and output. This is the case, for instance, on
-Intel Merrifield and Moorefield platforms that reserve a few and USB driver
-may not use them for the regular transfers. Add the respective bindings.
+tree/branch: https://git.kernel.org/pub/scm/linux/kernel/git/gregkh/usb.git usb-next
+branch HEAD: 47a836da9ca91ab95b3cf1b2218db60bd67d4514  Merge tag 'thunderbolt-for-v6.14-rc1' of ssh://gitolite.kernel.org/pub/scm/linux/kernel/git/westeri/thunderbolt into usb-next
 
-Signed-off-by: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
----
- Documentation/devicetree/bindings/usb/snps,dwc3.yaml | 10 ++++++++++
- 1 file changed, 10 insertions(+)
+elapsed time: 1452m
 
-diff --git a/Documentation/devicetree/bindings/usb/snps,dwc3.yaml b/Documentation/devicetree/bindings/usb/snps,dwc3.yaml
-index 1cd0ca90127d..2ae8e5e85f78 100644
---- a/Documentation/devicetree/bindings/usb/snps,dwc3.yaml
-+++ b/Documentation/devicetree/bindings/usb/snps,dwc3.yaml
-@@ -109,6 +109,16 @@ properties:
-   resets:
-     minItems: 1
- 
-+  snps,reserved-endpoints:
-+    description:
-+      Reserve endpoints for other needs, e.g, for tracing control and output.
-+      When set, the driver will avoid using them for the regular USB transfers.
-+    $ref: /schemas/types.yaml#/definitions/uint8-array
-+    maxItems: 30
-+    items:
-+      minimum: 2
-+      maximum: 31
-+
-   snps,usb2-lpm-disable:
-     description: Indicate if we don't want to enable USB2 HW LPM for host
-       mode.
--- 
-2.43.0.rc1.1336.g36b5255a03ac
+configs tested: 89
+configs skipped: 1
 
+The following configs have been built successfully.
+More configs may be tested in the coming days.
+
+tested configs:
+alpha                            allnoconfig    gcc-14.2.0
+alpha                           allyesconfig    gcc-14.2.0
+arc                             allmodconfig    gcc-13.2.0
+arc                              allnoconfig    gcc-13.2.0
+arc                             allyesconfig    gcc-13.2.0
+arc                  randconfig-001-20250116    gcc-13.2.0
+arc                  randconfig-002-20250116    gcc-13.2.0
+arm                             allmodconfig    gcc-14.2.0
+arm                              allnoconfig    clang-17
+arm                             allyesconfig    gcc-14.2.0
+arm                  randconfig-001-20250116    gcc-14.2.0
+arm                  randconfig-002-20250116    clang-15
+arm                  randconfig-003-20250116    gcc-14.2.0
+arm                  randconfig-004-20250116    gcc-14.2.0
+arm64                           allmodconfig    clang-18
+arm64                            allnoconfig    gcc-14.2.0
+arm64                randconfig-001-20250116    gcc-14.2.0
+arm64                randconfig-002-20250116    gcc-14.2.0
+arm64                randconfig-003-20250116    clang-15
+arm64                randconfig-004-20250116    clang-20
+csky                             allnoconfig    gcc-14.2.0
+csky                 randconfig-001-20250116    gcc-14.2.0
+csky                 randconfig-002-20250116    gcc-14.2.0
+hexagon                          allnoconfig    clang-20
+hexagon                         allyesconfig    clang-18
+hexagon              randconfig-001-20250116    clang-20
+hexagon              randconfig-002-20250116    clang-20
+i386                            allmodconfig    gcc-12
+i386                             allnoconfig    gcc-12
+i386       buildonly-randconfig-001-20250116    clang-19
+i386       buildonly-randconfig-002-20250116    clang-19
+i386       buildonly-randconfig-003-20250116    clang-19
+i386       buildonly-randconfig-004-20250116    clang-19
+i386       buildonly-randconfig-005-20250116    clang-19
+i386       buildonly-randconfig-006-20250116    clang-19
+i386                               defconfig    clang-19
+loongarch                        allnoconfig    gcc-14.2.0
+loongarch            randconfig-001-20250116    gcc-14.2.0
+loongarch            randconfig-002-20250116    gcc-14.2.0
+nios2                randconfig-001-20250116    gcc-14.2.0
+nios2                randconfig-002-20250116    gcc-14.2.0
+openrisc                         allnoconfig    gcc-14.2.0
+openrisc                        allyesconfig    gcc-14.2.0
+openrisc                   or1ksim_defconfig    gcc-14.2.0
+parisc                          allmodconfig    gcc-14.2.0
+parisc                           allnoconfig    gcc-14.2.0
+parisc               randconfig-001-20250116    gcc-14.2.0
+parisc               randconfig-002-20250116    gcc-14.2.0
+powerpc                          allnoconfig    gcc-14.2.0
+powerpc              randconfig-001-20250116    clang-20
+powerpc              randconfig-002-20250116    gcc-14.2.0
+powerpc              randconfig-003-20250116    clang-20
+powerpc64            randconfig-001-20250116    clang-19
+powerpc64            randconfig-002-20250116    clang-20
+powerpc64            randconfig-003-20250116    clang-15
+riscv                            allnoconfig    gcc-14.2.0
+riscv            nommu_k210_sdcard_defconfig    gcc-14.2.0
+riscv                randconfig-001-20250116    gcc-14.2.0
+riscv                randconfig-002-20250116    gcc-14.2.0
+s390                            allmodconfig    clang-19
+s390                             allnoconfig    clang-20
+s390                            allyesconfig    gcc-14.2.0
+s390                 randconfig-001-20250116    gcc-14.2.0
+s390                 randconfig-002-20250116    clang-18
+sh                              allmodconfig    gcc-14.2.0
+sh                              allyesconfig    gcc-14.2.0
+sh                   randconfig-001-20250116    gcc-14.2.0
+sh                   randconfig-002-20250116    gcc-14.2.0
+sparc                           allmodconfig    gcc-14.2.0
+sparc                randconfig-001-20250116    gcc-14.2.0
+sparc                randconfig-002-20250116    gcc-14.2.0
+sparc64              randconfig-001-20250116    gcc-14.2.0
+sparc64              randconfig-002-20250116    gcc-14.2.0
+um                              allmodconfig    clang-20
+um                               allnoconfig    clang-18
+um                              allyesconfig    gcc-12
+um                   randconfig-001-20250116    clang-19
+um                   randconfig-002-20250116    gcc-12
+x86_64                           allnoconfig    clang-19
+x86_64                          allyesconfig    clang-19
+x86_64     buildonly-randconfig-001-20250116    gcc-12
+x86_64     buildonly-randconfig-002-20250116    gcc-12
+x86_64     buildonly-randconfig-003-20250116    gcc-12
+x86_64     buildonly-randconfig-004-20250116    clang-19
+x86_64     buildonly-randconfig-005-20250116    clang-19
+x86_64     buildonly-randconfig-006-20250116    clang-19
+x86_64                             defconfig    gcc-11
+xtensa               randconfig-001-20250116    gcc-14.2.0
+xtensa               randconfig-002-20250116    gcc-14.2.0
+
+--
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
