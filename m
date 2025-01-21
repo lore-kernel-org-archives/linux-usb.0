@@ -1,48 +1,48 @@
-Received: from mailgw02.mediatek.com (unknown [210.61.82.184])
+Received: from mailgw01.mediatek.com (unknown [60.244.123.138])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8646C1F3FE0;
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CD9761F3FEA;
 	Tue, 21 Jan 2025 14:50:29 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=210.61.82.184
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=60.244.123.138
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1737471031; cv=none; b=XjP4bL9cVo7yTz5aKE4/MbgqysUoVWSzSdT6XLJyRlnXVnqKQPdEQIblUIVweIZVW0NdIuSddRZjneFpOVfs/Zgj/xyCcLtT55+NAC+EDvGnBa/1r4qDKrDSAB9RnPq1Q+Gqj9RHR9kCQ85P8u9yEWsuq1U1Ow+E1vqD8rKQ8ZE=
+	t=1737471032; cv=none; b=JMVoa4itGWJEuMPU+utkWKCfvjovOE2un6A8/w6uKnzOe0k+kKebIPJUtEpwkgfKaZdxqqv+NNY49J5lmr6/Ia3d/p9uw1J9hBDOiCvrrhoVdsvr1QlSesVjkpdMHGrYZ0fnJhr6S+7Ibw0G0BzG1/ihnd7dBWyzWvWOuN04ocs=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1737471031; c=relaxed/simple;
-	bh=xt99k3R4z3p2cPrkrh4fWb0896DK2DLkRWdGxsZ6vCA=;
+	s=arc-20240116; t=1737471032; c=relaxed/simple;
+	bh=Y6m52uAI66pCwP0bnQKfwuPqE69J3yQq28IL7uxqW7Q=;
 	h=From:To:CC:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=biTJzJ6z2aJypENIJvr9ohspMewLzHwwKCoSKUYr6DH+yLt3nGhegTANh+wn6vkse9QCYR8BllKa8W+qLloBOPSMMKCeo8zuNvO96B4SbpeGj7vUPP2+rVNNNAgXBu9j4mA719Teqqknsl4qllXfakZiYc/z5GYkAlT2S6vWaRM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=mediatek.com; spf=pass smtp.mailfrom=mediatek.com; dkim=pass (1024-bit key) header.d=mediatek.com header.i=@mediatek.com header.b=IOjqUoiU; arc=none smtp.client-ip=210.61.82.184
+	 MIME-Version:Content-Type; b=uvdQbJuiotOtCikgqB8aBEkV8etNqNXJcBw9xHLpjyAAuXcGMrLJS2XeZL7X83JroM+xR4RMWQntx3FNyrxPmaJZnYR2IqT1ON0meQwH62hErCfo5X3hEhH90DkM+HiC8PsPEhwvCF34BPtHCl/6IKGFMJIg2gzpvDweKzI68bk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=mediatek.com; spf=pass smtp.mailfrom=mediatek.com; dkim=pass (1024-bit key) header.d=mediatek.com header.i=@mediatek.com header.b=DJhNN2c/; arc=none smtp.client-ip=60.244.123.138
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=mediatek.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=mediatek.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=mediatek.com header.i=@mediatek.com header.b="IOjqUoiU"
-X-UUID: 0b320d1cd80711efbd192953cf12861f-20250121
+	dkim=pass (1024-bit key) header.d=mediatek.com header.i=@mediatek.com header.b="DJhNN2c/"
+X-UUID: 0a438acad80711ef99858b75a2457dd9-20250121
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=mediatek.com; s=dk;
-	h=Content-Type:Content-Transfer-Encoding:MIME-Version:References:In-Reply-To:Message-ID:Date:Subject:CC:To:From; bh=PEVqzPvMzV/kLBA1LjNlNLIZXxxvsAFy8f+1eXRMh3I=;
-	b=IOjqUoiU7+ymHvqtF/sXXWTwNdPLvek8L1k17LC/M2WuXar+VZei0QJEE3JWEFvfcOn7m6RD14Gwr/9pvVeFQzFfyAE7Kbf9t+zuIXYBPrJlqOYLuZa4N530A3DUa+MyT0/X1ZSdWks0trh61XXKFDdgUE4rB9Lj5pA3MC+77Ng=;
+	h=Content-Type:Content-Transfer-Encoding:MIME-Version:References:In-Reply-To:Message-ID:Date:Subject:CC:To:From; bh=reOaQSf5x/Xj8OtD15EY5mf1wJTTzkGBEWc5QRkRoLY=;
+	b=DJhNN2c/bSEYJIZtRMPEIC/RUkeUqjHKIgE0Ikl5k0N09/nJ+v+mQgiEj/Tf9sFnqtzisV3Cz5qOB4Kf5TurKLUhUvdlKA0Kha2I7vOV6Q6RTtyiwtFgW5i3SWhOoW5fnT42mWCB+6JRvusDDpqjw81VUFyINyLQbKGvjyod9hY=;
 X-CID-P-RULE: Release_Ham
-X-CID-O-INFO: VERSION:1.1.46,REQID:288b7873-ed14-4198-ad35-049e70e7d1a8,IP:0,U
-	RL:0,TC:0,Content:-25,EDM:0,RT:0,SF:0,FILE:0,BULK:0,RULE:Release_Ham,ACTIO
-	N:release,TS:-25
-X-CID-META: VersionHash:60aa074,CLOUDID:f61b6385-0f10-4f52-bb41-91703793d3e4,B
+X-CID-O-INFO: VERSION:1.1.46,REQID:1de95c60-25fb-408c-aef9-b562d50bd4f6,IP:0,U
+	RL:0,TC:0,Content:-5,EDM:0,RT:0,SF:0,FILE:0,BULK:0,RULE:Release_Ham,ACTION
+	:release,TS:-5
+X-CID-META: VersionHash:60aa074,CLOUDID:031c6385-0f10-4f52-bb41-91703793d3e4,B
 	ulkID:nil,BulkQuantity:0,Recheck:0,SF:81|82|102,TC:nil,Content:0|50,EDM:-3
 	,IP:nil,URL:11|1,File:nil,RT:nil,Bulk:nil,QS:nil,BEC:nil,COL:0,OSI:0,OSA:0
 	,AV:0,LES:1,SPR:NO,DKR:0,DKP:0,BRR:0,BRE:0,ARC:0
 X-CID-BVR: 0,NGT
 X-CID-BAS: 0,NGT,0,_
 X-CID-FACTOR: TF_CID_SPAM_SNR,TF_CID_SPAM_ULN
-X-UUID: 0b320d1cd80711efbd192953cf12861f-20250121
-Received: from mtkmbs13n1.mediatek.inc [(172.21.101.193)] by mailgw02.mediatek.com
+X-UUID: 0a438acad80711ef99858b75a2457dd9-20250121
+Received: from mtkmbs13n2.mediatek.inc [(172.21.101.108)] by mailgw01.mediatek.com
 	(envelope-from <chunfeng.yun@mediatek.com>)
 	(Generic MTA with TLSv1.2 ECDHE-RSA-AES256-GCM-SHA384 256/256)
-	with ESMTP id 1618761845; Tue, 21 Jan 2025 22:50:23 +0800
+	with ESMTP id 733964522; Tue, 21 Jan 2025 22:50:22 +0800
 Received: from mtkmbs11n1.mediatek.inc (172.21.101.185) by
- mtkmbs10n1.mediatek.inc (172.21.101.34) with Microsoft SMTP Server
+ MTKMBS14N1.mediatek.inc (172.21.101.75) with Microsoft SMTP Server
  (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.1258.28; Tue, 21 Jan 2025 22:50:22 +0800
+ 15.2.1258.28; Tue, 21 Jan 2025 22:50:20 +0800
 Received: from mhfsdcap04.gcn.mediatek.inc (10.17.3.154) by
  mtkmbs11n1.mediatek.inc (172.21.101.73) with Microsoft SMTP Server id
- 15.2.1258.28 via Frontend Transport; Tue, 21 Jan 2025 22:50:21 +0800
+ 15.2.1258.28 via Frontend Transport; Tue, 21 Jan 2025 22:50:20 +0800
 From: Chunfeng Yun <chunfeng.yun@mediatek.com>
 To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>, Rob Herring
 	<robh@kernel.org>, AngeloGioacchino Del Regno
@@ -53,9 +53,9 @@ CC: Chunfeng Yun <chunfeng.yun@mediatek.com>, Krzysztof Kozlowski
 	<linux-usb@vger.kernel.org>, <linux-arm-kernel@lists.infradead.org>,
 	<linux-mediatek@lists.infradead.org>, <devicetree@vger.kernel.org>,
 	<linux-kernel@vger.kernel.org>
-Subject: [PATCH v2 4/4] usb: mtu3: add support remote wakeup of mt8196
-Date: Tue, 21 Jan 2025 22:50:08 +0800
-Message-ID: <20250121145008.22936-4-chunfeng.yun@mediatek.com>
+Subject: [PATCH v2 2/4] dt-bindings: usb: mtu3: add support mt8196
+Date: Tue, 21 Jan 2025 22:50:06 +0800
+Message-ID: <20250121145008.22936-2-chunfeng.yun@mediatek.com>
 X-Mailer: git-send-email 2.46.0
 In-Reply-To: <20250121145008.22936-1-chunfeng.yun@mediatek.com>
 References: <20250121145008.22936-1-chunfeng.yun@mediatek.com>
@@ -70,58 +70,39 @@ Content-Type: text/plain
 X-MTK: N
 
 There are three USB controllers on mt8196, each controller's wakeup
-control is different, add some specific versions for them.
-Here add only for dual-role controllers.
+control is different, add some specific versions for them, and add
+compatilbe for mt8196.
 
 Signed-off-by: Chunfeng Yun <chunfeng.yun@mediatek.com>
 ---
-v2: add wakeup for dual-role controllers
+v2: new patch for dual-role controllers
 ---
- drivers/usb/mtu3/mtu3_host.c | 17 +++++++++++++++++
- 1 file changed, 17 insertions(+)
+ Documentation/devicetree/bindings/usb/mediatek,mtu3.yaml | 5 ++++-
+ 1 file changed, 4 insertions(+), 1 deletion(-)
 
-diff --git a/drivers/usb/mtu3/mtu3_host.c b/drivers/usb/mtu3/mtu3_host.c
-index 7c657ea2dabd..d65b0f318436 100644
---- a/drivers/usb/mtu3/mtu3_host.c
-+++ b/drivers/usb/mtu3/mtu3_host.c
-@@ -46,6 +46,11 @@
- #define WC1_IS_P_95		BIT(12)
- #define WC1_IS_EN_P0_95		BIT(6)
+diff --git a/Documentation/devicetree/bindings/usb/mediatek,mtu3.yaml b/Documentation/devicetree/bindings/usb/mediatek,mtu3.yaml
+index d4e187c78a0b..4566e67dd5d7 100644
+--- a/Documentation/devicetree/bindings/usb/mediatek,mtu3.yaml
++++ b/Documentation/devicetree/bindings/usb/mediatek,mtu3.yaml
+@@ -28,6 +28,7 @@ properties:
+           - mediatek,mt8188-mtu3
+           - mediatek,mt8192-mtu3
+           - mediatek,mt8195-mtu3
++          - mediatek,mt8196-mtu3
+           - mediatek,mt8365-mtu3
+       - const: mediatek,mtu3
  
-+/* mt8196 */
-+#define PERI_WK_CTRL0_8196	0x08
-+#define WC0_IS_EN_P0_96		BIT(0)
-+#define WC0_IS_EN_P1_96		BIT(7)
-+
- /* mt2712 etc */
- #define PERI_SSUSB_SPM_CTRL	0x0
- #define SSC_IP_SLEEP_EN	BIT(4)
-@@ -59,6 +64,8 @@ enum ssusb_uwk_vers {
- 	SSUSB_UWK_V1_3,		/* mt8195 IP0 */
- 	SSUSB_UWK_V1_5 = 105,	/* mt8195 IP2 */
- 	SSUSB_UWK_V1_6,		/* mt8195 IP3 */
-+	SSUSB_UWK_V1_7, 	/* mt8196 IP0 */
-+	SSUSB_UWK_V1_8, 	/* mt8196 IP1 */
- };
+@@ -188,7 +189,9 @@ properties:
+             103 - used by mt8195, IP0, specific 1.03;
+             105 - used by mt8195, IP2, specific 1.05;
+             106 - used by mt8195, IP3, specific 1.06;
+-          enum: [1, 2, 101, 102, 103, 105, 106]
++            107 - used by mt8196, IP0, specific 1.07;
++            108 - used by mt8196, IP1, specific 1.08;
++            enum: [1, 2, 101, 102, 103, 105, 106, 107, 108]
  
- /*
-@@ -100,6 +107,16 @@ static void ssusb_wakeup_ip_sleep_set(struct ssusb_mtk *ssusb, bool enable)
- 		msk = WC0_IS_EN_P3_95 | WC0_IS_C_95(0x7) | WC0_IS_P_95;
- 		val = enable ? (WC0_IS_EN_P3_95 | WC0_IS_C_95(0x1)) : 0;
- 		break;
-+	case SSUSB_UWK_V1_7:
-+		reg = ssusb->uwk_reg_base + PERI_WK_CTRL0_8196;
-+		msk = WC0_IS_EN_P0_96;
-+		val = enable ? msk : 0;
-+		break;
-+	case SSUSB_UWK_V1_8:
-+		reg = ssusb->uwk_reg_base + PERI_WK_CTRL0_8196;
-+		msk = WC0_IS_EN_P1_96;
-+		val = enable ? msk : 0;
-+		break;
- 	case SSUSB_UWK_V2:
- 		reg = ssusb->uwk_reg_base + PERI_SSUSB_SPM_CTRL;
- 		msk = SSC_IP_SLEEP_EN | SSC_SPM_INT_EN;
+   mediatek,u3p-dis-msk:
+     $ref: /schemas/types.yaml#/definitions/uint32
 -- 
 2.46.0
 
