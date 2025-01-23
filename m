@@ -1,119 +1,90 @@
-Received: from mail-qt1-f177.google.com (mail-qt1-f177.google.com [209.85.160.177])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3F3FE20B22;
-	Thu, 23 Jan 2025 15:15:27 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.160.177
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B26E821147C;
+	Thu, 23 Jan 2025 15:20:53 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1737645329; cv=none; b=FlksQO4/GL/fbRsCOnW0jNHSXfI2u5ci6ZjPg47Kngb+uJ3SsxGMUkRneQ3irPXAR7y/SaN2eery3RD02uLl0jMARBVlp6UW+rc7C30n918GxZu9GXDncYf0JPUU5+wfZsV4WgGvpRTxM9BzvSdMjwzGhasIocbE/D5BZODK9Zw=
+	t=1737645653; cv=none; b=XNVf/Ax0Xg91lshHjLRL8bnKqtWnAyXnGjuFTccR92x/1hUFsgjU0OIwPfA4W93or2LgnPCsq7R4wSqgEgh+01hUo4dIYVcHLiApWxCOawq1ACITBWj/ix5RlMafexNtQcOqyw9LJZneDURnnOnFwpYWhApjSSUXbGlFxapzaZo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1737645329; c=relaxed/simple;
-	bh=NWhksfyYko7Hl7PUJsqNiyWdCFxm69M1FQLArme4S/s=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=Sc0LD0VIqPbHZOT4Y7YuYft5/siLDYEhALnfAnL5R0BAFzcHPbFmSvsBQYZn3Fr47mngph2eigLPGzyGJOjds2OZydrrpASgsBOCIQFhkVI3ij0ZHk2STTWQl+S7tWEEE6mL/VHz1sHYi8/kFXQ2gmCnZAwifAddVlL2RRc61zU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=Y5ppztmt; arc=none smtp.client-ip=209.85.160.177
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1737645653; c=relaxed/simple;
+	bh=Y6U5gjXNgMYqM9FZVayD4htK8zE33+H9NQOTbLfgEpk=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=OLRfhjN4dkAQ1bmFegz6GcB9aF3gEM8Kx7IztXBpRjw76odrBmKFTLdLDdNfeXf3wkhX87jNWQ4JwnwmkSUUa6ZRIIIoB/Tt+K02NZf2cYsKXXeQELo1/56GUiueOeY/60Jil7Skio27NSGRFVAhqHTRX+gDOKcwmjPWPrY+70M=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=PgimfFyt; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Y5ppztmt"
-Received: by mail-qt1-f177.google.com with SMTP id d75a77b69052e-46769b34cbfso16452641cf.0;
-        Thu, 23 Jan 2025 07:15:27 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1737645327; x=1738250127; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=s5J9+bh1wvgqFbUM9Zsb8mjxSdn7EtJd7i19Xwq8KPw=;
-        b=Y5ppztmtgJwShx5rKQX81ztuSx+xWOtt8+sIqsokHClyfF8qRKCp5z0qxpgjmnwlnB
-         qedGUiISZ3YxyubQseE2Mm1DY/02McPXGC4zJHpo/k2Y+KNASyEs3/P+6aQ9o8AquBgJ
-         ovbEE4fkdkfyExnm3xlhgYXpIFZxtI3hzANIcQUT987o3c0trotCsT1PMcKBLaAtbxl+
-         jY4qz229mcIY8N+Ceofid/QnKl4Sgak2dDRmiBB5hPnJihCxX+E+afK+gJwoh2dDNSVP
-         wselvyyGTdrJF/io9/jjh/XJh6Euw2IX7ljNRJ4JUUz468lhbbnn7rq35ws24F4cxvb6
-         LAAg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1737645327; x=1738250127;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=s5J9+bh1wvgqFbUM9Zsb8mjxSdn7EtJd7i19Xwq8KPw=;
-        b=OFBxd3u7MBsH8/EUKYmmxoJgBbd+VgOr52y1O3svhmaeM1uJaoTf/lwtqI1yfrefz9
-         Ylrlh4jqIYdp7mX2af0tzP+DuQyMk95Amxjw7xxM2sSpUl3z1dhrftfnK9VBIr+NAqiJ
-         J+p/cISq2mJ+aSxg/TtIScI/soAy3a9lqQ4pqb5JO0VMzf3KSrS9fGteol15rR5ke12X
-         6UeK/sdGm+Lrm+wBARcXHXNbkol2Bk4bo5y0zqUHTnR3UAP9Sd+M8zqbjmm2pDQZdXvM
-         TYLfW6tln606tsMwwbvEVJyfYnADAXaPBO8X5Xeupxc7AxeDn05xggKnQ6mIQq8B8rAP
-         IBWA==
-X-Forwarded-Encrypted: i=1; AJvYcCVkQPaso0lH04CRQbHj85/iBI1QsrsgdZ7ZErn0flS5id7kkDLNpLLvgi+eaGYfAiOg1grVubmYgfPf@vger.kernel.org, AJvYcCVpRuLwYQKVrpUh6xeg5pk4MN4QThJq3COe9+keruZdASe8jFsRekC4YSVGwVe32WgTv4tl9MjV6wlxaKE=@vger.kernel.org
-X-Gm-Message-State: AOJu0YxKZZf/G+C2/DguvwOzB32uKeB3/yQ2PiB0T4QmdrzFz+yzNrGg
-	/wkPNveezYgwCZwjzi+RlZsRL8p8NJUkipa2jjBKlZJjO3YIqvFEV1cDc9KzsiZ95e9TyJULcbm
-	Lof1I9b9+k5htEKsXMlS36e9YwjfE8pEC
-X-Gm-Gg: ASbGnctmGdprpP1G/fc4RSEHo6A+o5C9r8G1WkAtVFMNS5mrXCc1AjfLJ7jP9et/D67
-	s75PvZ2cuzxi1rpYiKkhh7BGbJwQi2Ik5i1QS1AeF0Fid6kcNo+Wr6DKmeOR0Uw==
-X-Google-Smtp-Source: AGHT+IEqAX1T5lOFIon2lw42VIMQUdQEIwXsO5LqaueEtGjKqJjhBpZfqZKODzmCfGk4ssRPViqCfzHBKv1W4DqdBHA=
-X-Received: by 2002:a05:622a:487:b0:467:6133:3372 with SMTP id
- d75a77b69052e-46e12ab7422mr404421171cf.25.1737645326773; Thu, 23 Jan 2025
- 07:15:26 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="PgimfFyt"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 23661C4CED3;
+	Thu, 23 Jan 2025 15:20:53 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1737645653;
+	bh=Y6U5gjXNgMYqM9FZVayD4htK8zE33+H9NQOTbLfgEpk=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=PgimfFyt1TQQb8qDZsiGNsO7AOq2zKar4pJfHCvG3KgX478dMZZkm7nPH1lIgbSkh
+	 ffRBFXrIqVXzbNSeR+SJLXryLEozyCA74t2al7hTLow4I58vVdQQEMlAOrWemuE4Me
+	 Nziy2VoaCzcQyXyCB9hAGgfkX2ZYCPIEAl+20arNnMB5ZxZI+vhmLV/JiYGbUzRDyN
+	 82p+wCesNsLbVDTy1D3QxZY5kure3tpZRUnIyH27vWug0Ytr/9Oz/Vh08LKWzLlwMb
+	 MRdNwgorbGA1r2sugrVO0stpICJ4VHyUf6W19Eo0PSzVFMegUYDyx9cs32rvymvC0V
+	 MQfd+JLaq745w==
+Received: from johan by xi.lan with local (Exim 4.97.1)
+	(envelope-from <johan@kernel.org>)
+	id 1taz0t-000000006W9-3LqL;
+	Thu, 23 Jan 2025 16:20:59 +0100
+Date: Thu, 23 Jan 2025 16:20:59 +0100
+From: Johan Hovold <johan@kernel.org>
+To: POPESCU Catalin <catalin.popescu@leica-geosystems.com>
+Cc: "gregkh@linuxfoundation.org" <gregkh@linuxfoundation.org>,
+	"linux-usb@vger.kernel.org" <linux-usb@vger.kernel.org>,
+	"linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+	"m.felsch@pengutronix.de" <m.felsch@pengutronix.de>,
+	GEO-CHHER-bsp-development <bsp-development.geo@leica-geosystems.com>
+Subject: Re: [PATCH] usb: core: support interface node for simple USB devices
+Message-ID: <Z5JeW6kprsLgJJ_m@hovoldconsulting.com>
+References: <20250122134732.2318554-1-catalin.popescu@leica-geosystems.com>
+ <Z5Ik2GoseMbZRe8i@hovoldconsulting.com>
+ <ce5fe24e-e2b5-4e41-9dd3-164d688afe04@leica-geosystems.com>
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20250123080102.1632517-1-usmanakinyemi202@gmail.com>
- <2025012315-feminine-spiny-b288@gregkh> <CAPSxiM9vF0=fzOovxC2nj1t1Naxx9T=QJPaN-oi5U-h7s5OwLQ@mail.gmail.com>
- <2025012322-fit-flagship-381c@gregkh>
-In-Reply-To: <2025012322-fit-flagship-381c@gregkh>
-From: Usman Akinyemi <usmanakinyemi202@gmail.com>
-Date: Thu, 23 Jan 2025 20:45:15 +0530
-X-Gm-Features: AWEUYZltfppv6UQH92CYMneho0yRrKTj8ucmWvhBq0X7NUjCbN8ly5i0YuuybR4
-Message-ID: <CAPSxiM-iFfntGgfbKja_vhme05Owi0RFHAHC2n6tS+5NfkD2Mg@mail.gmail.com>
-Subject: Re: [PATCH] usb: dwc3: Fix documentation warning for sg member
-To: Greg KH <gregkh@linuxfoundation.org>
-Cc: Thinh.Nguyen@synopsys.com, linux-usb@vger.kernel.org, 
-	linux-kernel@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <ce5fe24e-e2b5-4e41-9dd3-164d688afe04@leica-geosystems.com>
 
-On Thu, Jan 23, 2025 at 7:52=E2=80=AFPM Greg KH <gregkh@linuxfoundation.org=
-> wrote:
->
-> On Thu, Jan 23, 2025 at 07:47:18PM +0530, Usman Akinyemi wrote:
-> > On Thu, Jan 23, 2025 at 7:37=E2=80=AFPM Greg KH <gregkh@linuxfoundation=
-.org> wrote:
-> > >
-> > > On Thu, Jan 23, 2025 at 01:31:02PM +0530, Usman Akinyemi wrote:
-> > > > The 'sg' member in struct dwc3_request was undocumented, causing a
-> > > > documentation warning when building the kernel docs.
-> > > >
-> > > > This patch adds a description for the 'sg' field, resolving the war=
-ning.
-> > > >
-> > > > Signed-off-by: Usman Akinyemi <usmanakinyemi202@gmail.com>
-> > >
-> > > What commit id does this fix?  And what about the reported-by: line?
-> > >
-> > > thanks,
-> > >
-> > Hi Greg,
+On Thu, Jan 23, 2025 at 02:01:00PM +0000, POPESCU Catalin wrote:
+> On 23/01/2025 12:15, Johan Hovold wrote:
 > >
-> > Thanks for replying.
-> >
-> > I was applying to Linux Mentorship(LFX) for fixing the Linux Kernel Bug=
-s.
-> > One of the tasks was to look for documentation warnings and I saw this.
-> >
-> > I created a patch for it and sent it also. So, it is not reported.
->
-> It was, you might have missed it on the mailing list:
->         https://lore.kernel.org/r/20250120182219.30dcb3c6@canb.auug.org.a=
-u
->
-> Also it still needs a "Fixes:" tag.
->
-> thanks,
-Thanks for this, I am sorry, I did not know.
+> > On Wed, Jan 22, 2025 at 02:47:32PM +0100, Catalin Popescu wrote:
+> >> A simple usb device has a single configuration and a single interface
+> >> and is considered as a "combined node" when defined in the devicetree.
+> >> If available, its interface node is simply ignored which is a problem
+> >> whenever the interface node has subnodes. To prevent that from happening
+> >> first check for any subnode and ignore the interface node only if no
+> >> subnode was found.
+> >>
+> >> Example: FTDI chip FT234XD that has only one UART interface which is
+> >> being used as a serdev by other driver.
+> >>
+> >> device@1 {
+> >>        compatible = "usb403,6015";
+> >>        reg = <1>;
+> >>
+> >>        #address-cells = <2>;
+> >>        #size-cells = <0>;
+> >>
+> >>        interface@0 {
+> >>                compatible = "usbif403,6015.config1.0";
+> > Your example makes no sense since if this is the only interface then the
+> > interface node should not be here.
+> 
+> That's the problem my patch is trying to address ...
+> Why is it OK to describe multiple interfaces and it is not OK to 
+> describe the interface of a simple USB device ?
 
-I sent the updated version. I hope it fixes this.
+It's part of the spec. See commit 1a7e3948cb9f ("USB: add device-tree
+support for interfaces") and its reference to "Open Firmware Recommended
+Practice: Universal Serial Bus Version 1".
 
-Thank you.
->
-> greg k-h
+Johan
