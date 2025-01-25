@@ -1,131 +1,93 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from mailgw.on2.de (mailgw.on2.de [213.61.158.215])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DB8BC15A8;
-	Sat, 25 Jan 2025 07:13:55 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B6EED25A623;
+	Sat, 25 Jan 2025 09:40:21 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.61.158.215
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1737789236; cv=none; b=Suujf31NWjWao4syKLfQul+Ai3mOhWNNjwKi/T3H0woI3tZTrNogLa5vwwwGhRLw5LGcpuoIrVZSOvSZQbPTYOrGOyz+YVL9+yBwXGKImhWs0iAtNVz8ZnhjFc8gV2S7jXHuPie5fZWpl3wXpSeNKjhm+NIZ4YMlLtaNAeefhHw=
+	t=1737798024; cv=none; b=cvAq+b/mGo1pZqn8xxFpRqJbLHg/1kmJpitoeiBeVj9+OGjQTh+dsAkKr7t3CqgajPB+4vuKY+VKVTB5y8mB0cwH8VLDY/VkAU0zp9WK6F0k42CL2nB0xoNLpAyNGtoP5LXFF9l5NdS7/+WDpB6OKGzhclYdjeuFT4KKjcRbPOE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1737789236; c=relaxed/simple;
-	bh=zQO/rI+Tx589OS8M0rrdAc9eToBiAckJZ3rbpXLpn1s=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=dvUWFvzPzHevWBpjihxD2LnFS9V5eMxIVz3FHIcEOlRpWzdk7a/Tq9ghzybNIBQo1ysZmcPqsEaHLiwS8ZojcGNLL+493hYsQFSwpZa1F46SJ/9umgPK8eQlAEZgKSeW0pBE64J2+FBKBtYUup1Wt+UZi4LMd9i81tMyUfBWguo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b=fBywUHZT; arc=none smtp.client-ip=10.30.226.201
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="fBywUHZT"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id D3BB8C4CED6;
-	Sat, 25 Jan 2025 07:13:54 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
-	s=korg; t=1737789235;
-	bh=zQO/rI+Tx589OS8M0rrdAc9eToBiAckJZ3rbpXLpn1s=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=fBywUHZTtC+wJUuhuEHCVHAipdm6rADLMPA0DWazeLQyGS8req6ZFLJ57ClkQ3VaR
-	 2G83XE8HKYq9NQwLfuF7iyqNx6IiLlDadzDN7+eCFT417rawl7SiIyD9eVvMVtqhEX
-	 2/x5zJINmqgGu6gvDrMutxYfnS8Zp0+T5tAexCcs=
-Date: Sat, 25 Jan 2025 08:13:52 +0100
-From: Greg KH <gregkh@linuxfoundation.org>
-To: Fabrice Gasnier <fabrice.gasnier@foss.st.com>
-Cc: hminas@synopsys.com, linux-usb@vger.kernel.org,
+	s=arc-20240116; t=1737798024; c=relaxed/simple;
+	bh=ib99i9i3UjJ+AgzvHyn0ZqKstpY+ZBa13X9Iu7xHflM=;
+	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=t5Om0MZBIhkNQnUn+xFXIFfLwVMzBDlVv5Z/mWAF+pb8Z8OCviwjviMOq2gfd/tGafYEzEK62JBfrjxHE5bvnAhopp+QNseNFHoHNazBnrlV+1pAmgXmrXtd0QWGrNpkEYC2jFr1MwKYg8dwfMYawalWyDYkYHrzwwlBZtGvOBk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=on2.de; spf=pass smtp.mailfrom=on2.de; arc=none smtp.client-ip=213.61.158.215
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=on2.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=on2.de
+Received: from phoebe.cuh.hg.on2.de (phoebe.cuh.hg.on2.de [10.101.9.217])
+	by mailgw.on2.de (Postfix) with ESMTP id BA437FFE1C;
+	Sat, 25 Jan 2025 10:40:17 +0100 (CET)
+From: U Michel <ulv@on2.de>
+To: Johan Hovold <johan@kernel.org>
+Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	linux-usb@vger.kernel.org,
 	linux-kernel@vger.kernel.org,
-	linux-stm32@st-md-mailman.stormreply.com
-Subject: Re: [PATCH] usb: dwc2: gadget: remove of_node reference upon udc_stop
-Message-ID: <2025012543-unpaired-cartridge-c221@gregkh>
-References: <20250124173325.2747710-1-fabrice.gasnier@foss.st.com>
+	U M <ulv@on2.de>
+Subject: [PATCH 2/2] USB: serial: option: add Wistron NeWeb M18QW support
+Date: Sat, 25 Jan 2025 10:40:05 +0100
+Message-Id: <20250125094005.1132785-1-ulv@on2.de>
+X-Mailer: git-send-email 2.34.1
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20250124173325.2747710-1-fabrice.gasnier@foss.st.com>
+Content-Transfer-Encoding: 8bit
 
-On Fri, Jan 24, 2025 at 06:33:25PM +0100, Fabrice Gasnier wrote:
-> In dwc2_hsotg_udc_start(), e.g. when binding composite driver, "of_node"
-> is set to hsotg->dev->of_node.
-> 
-> It causes errors when binding the gadget driver several times, on
-> stm32mp157c-ev1 board. Below error is seen:
-> "pin PA10 already requested by 49000000.usb-otg; cannot claim for gadget.0"
-> 
-> The first time, no issue is seen as when registering the driver, of_node
-> isn't NULL:
-> -> gadget_dev_desc_UDC_store
->   -> usb_gadget_register_driver_owner
->     -> driver_register
->     ...
->       -> really_probe -> pinctrl_bind_pins (no effect)
-> 
-> Then dwc2_hsotg_udc_start() sets of_node.
-> 
-> The second time (stop the gadget, reconfigure it, then start it again),
-> of_node has been set, so the probing code tries to acquire pins for the
-> gadget. These pins are hold by the controller, hence the error.
-> 
-> So clear gadget.dev.of_node in udc_stop() routine to avoid the issue.
-> 
-> Fixes: 7d7b22928b90 ("usb: gadget: s3c-hsotg: Propagate devicetree to gadget drivers")
-> Signed-off-by: Fabrice Gasnier <fabrice.gasnier@foss.st.com>
-> ---
-> Note: I'd have been tempted to remove of_node setting from udc_start:
->  -	hsotg->gadget.dev.of_node = hsotg->dev->of_node;
-> 
-> I can't find the original code that parses the device node [1] from
-> composite_bind() routine, originally part of the series that introduces
-> this.
-> I'm not sure if setting the gadget of_node is really useful, but I chose
-> safe approach to simply clear it in udc_stop().
-> 
-> [1] http://lore.kernel.org/lkml/1340720833-781-6-git-send-email-aletes.xgr@gmail.com/
-> ---
->  drivers/usb/dwc2/gadget.c | 1 +
->  1 file changed, 1 insertion(+)
-> 
-> diff --git a/drivers/usb/dwc2/gadget.c b/drivers/usb/dwc2/gadget.c
-> index e7bf9cc635be..bd4c788f03bc 100644
-> --- a/drivers/usb/dwc2/gadget.c
-> +++ b/drivers/usb/dwc2/gadget.c
-> @@ -4615,6 +4615,7 @@ static int dwc2_hsotg_udc_stop(struct usb_gadget *gadget)
->  	spin_lock_irqsave(&hsotg->lock, flags);
->  
->  	hsotg->driver = NULL;
-> +	hsotg->gadget.dev.of_node = NULL;
->  	hsotg->gadget.speed = USB_SPEED_UNKNOWN;
->  	hsotg->enabled = 0;
->  
-> -- 
-> 2.25.1
-> 
-> 
+From: U M <ulv@on2.de>
 
-Hi,
+Update the USB serial option driver to support Wistron NeWeb M18QW.
 
-This is the friendly patch-bot of Greg Kroah-Hartman.  You have sent him
-a patch that has triggered this response.  He used to manually respond
-to these common problems, but in order to save his sanity (he kept
-writing the same thing over and over, yet to different people), I was
-created.  Hopefully you will not take offence and will fix the problem
-in your patch and resubmit it so that it can be accepted into the Linux
-kernel tree.
+ID 1435:3185 WNC M18QW
 
-You are receiving this message because of the following common error(s)
-as indicated below:
+T:  Bus=01 Lev=01 Prnt=01 Port=00 Cnt=01 Dev#=  2 Spd=480  MxCh= 0
+D:  Ver= 2.00 Cls=00(>ifc ) Sub=00 Prot=00 MxPS=64 #Cfgs=  1
+P:  Vendor=1435 ProdID=3185 Rev= 3.18
+S:  Manufacturer=Android
+S:  Product=Android
+S:  SerialNumber=WNC_ADB
+C:* #Ifs= 6 Cfg#= 1 Atr=a0 MxPwr=500mA
+I:* If#= 0 Alt= 0 #EPs= 2 Cls=ff(vend.) Sub=ff Prot=ff Driver=(none)
+E:  Ad=81(I) Atr=02(Bulk) MxPS= 512 Ivl=0ms
+E:  Ad=01(O) Atr=02(Bulk) MxPS= 512 Ivl=0ms
+I:* If#= 1 Alt= 0 #EPs= 2 Cls=ff(vend.) Sub=42 Prot=01 Driver=(none)
+E:  Ad=02(O) Atr=02(Bulk) MxPS= 512 Ivl=0ms
+E:  Ad=82(I) Atr=02(Bulk) MxPS= 512 Ivl=0ms
+I:* If#= 2 Alt= 0 #EPs= 3 Cls=ff(vend.) Sub=00 Prot=00 Driver=option
+E:  Ad=84(I) Atr=03(Int.) MxPS=  10 Ivl=32ms
+E:  Ad=83(I) Atr=02(Bulk) MxPS= 512 Ivl=0ms
+E:  Ad=03(O) Atr=02(Bulk) MxPS= 512 Ivl=0ms
+I:* If#= 3 Alt= 0 #EPs= 3 Cls=ff(vend.) Sub=00 Prot=00 Driver=option
+E:  Ad=86(I) Atr=03(Int.) MxPS=  10 Ivl=32ms
+E:  Ad=85(I) Atr=02(Bulk) MxPS= 512 Ivl=0ms
+E:  Ad=04(O) Atr=02(Bulk) MxPS= 512 Ivl=0ms
+I:* If#= 4 Alt= 0 #EPs= 3 Cls=ff(vend.) Sub=ff Prot=ff Driver=qmi_wwan
+E:  Ad=88(I) Atr=03(Int.) MxPS=   8 Ivl=32ms
+E:  Ad=87(I) Atr=02(Bulk) MxPS= 512 Ivl=0ms
+E:  Ad=05(O) Atr=02(Bulk) MxPS= 512 Ivl=0ms
+I:* If#= 5 Alt= 0 #EPs= 2 Cls=08(stor.) Sub=06 Prot=50 Driver=(none)
+E:  Ad=89(I) Atr=02(Bulk) MxPS= 512 Ivl=0ms
+E:  Ad=06(O) Atr=02(Bulk) MxPS= 512 Ivl=125us
 
-- You have marked a patch with a "Fixes:" tag for a commit that is in an
-  older released kernel, yet you do not have a cc: stable line in the
-  signed-off-by area at all, which means that the patch will not be
-  applied to any older kernel releases.  To properly fix this, please
-  follow the documented rules in the
-  Documentation/process/stable-kernel-rules.rst file for how to resolve
-  this.
+Tested successfully connecting via picocom and submitting at commands
 
-If you wish to discuss this problem further, or you have questions about
-how to resolve this issue, please feel free to respond to this email and
-Greg will reply once he has dug out from the pending patches received
-from other developers.
+Signed-off-by: U M <ulv@on2.de>
+---
+ drivers/usb/serial/option.c | 1 +
+ 1 file changed, 1 insertion(+)
 
-thanks,
+diff --git a/drivers/usb/serial/option.c b/drivers/usb/serial/option.c
+index 1e2ae0c6c41c..b166f1607b0e 100644
+--- a/drivers/usb/serial/option.c
++++ b/drivers/usb/serial/option.c
+@@ -2285,6 +2285,7 @@ static const struct usb_device_id option_ids[] = {
+ 	{ USB_DEVICE_AND_INTERFACE_INFO(0x07d1, 0x7e11, 0xff, 0xff, 0xff) },	/* D-Link DWM-156/A3 */
+ 	{ USB_DEVICE_INTERFACE_CLASS(0x1435, 0xd191, 0xff),			/* Wistron Neweb D19Q1 */
+ 	  .driver_info = RSVD(1) | RSVD(4) },
++	{ USB_DEVICE_AND_INTERFACE_INFO(0x1435, 0x3185, 0xff, 0x00, 0x00) },   /* Wistron Neweb M18QW */
+ 	{ USB_DEVICE_INTERFACE_CLASS(0x1690, 0x7588, 0xff),			/* ASKEY WWHC050 */
+ 	  .driver_info = RSVD(1) | RSVD(4) },
+ 	{ USB_DEVICE_INTERFACE_CLASS(0x2020, 0x2031, 0xff),			/* Olicard 600 */
+-- 
+2.34.1
 
-greg k-h's patch email bot
