@@ -1,20 +1,21 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D4FF31A2630;
-	Tue, 28 Jan 2025 15:06:11 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2237342AA3;
+	Tue, 28 Jan 2025 15:14:15 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1738076771; cv=none; b=WOJ2N8j363b8ZZswQECq6IAFxDJno5ZOPLInh3+Uf+RP26YxIzFh+sG1vArxLsUGr+kFQAE0JC9APckPGIHdgPzS/MLJp7Zafzir8Df2ezFeGn9DyPCLz7x4VDNMzvFYNPiNjaETDTa/aLetUG3u1B/USZqCVwlGcbJzelSIpBw=
+	t=1738077256; cv=none; b=J6+N52GE3ocm8lflJZRvWLbJjcop5qzSrYcuxt9fAFS9Z/BBXCoMTWWZYEV2d4X3YUsDqYF85nQf8lCtaa8dTlatIBvLGK5v9ZwqPQr6QC1lXYMCG73+c71QMZzoU4R1H8ZM+5xyxkGZIK3oSPOhHRL00ZpwnOHEghlLoy2FxW0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1738076771; c=relaxed/simple;
-	bh=18e4SVqlrE3981FKaulWyVeb8HZjn3B8sIpulPj95DA=;
-	h=Message-ID:Date:MIME-Version:To:Cc:From:Subject:Content-Type; b=Hq1QnPnULlWxwzR9FxdD8jTQcUClVUW1xySPtnmQzegHGyU+qJJFDaAi5w/R63tms+aECZClGcpDASUCAOXSU8gQTfU8fTiFIO6SZljEq62Z4ne93LSvGLEEbbcDiORWMvCxcAh5zzsP7b2cAwCq7QXrgLpNhxrkgVzGiUYVmvI=
+	s=arc-20240116; t=1738077256; c=relaxed/simple;
+	bh=W6yFCVARpS+3ojPzRWRmAjVT58mW7GMrK2b6KLA6EK0=;
+	h=Message-ID:Date:MIME-Version:Subject:From:To:Cc:References:
+	 In-Reply-To:Content-Type; b=V8INO1hOOysRxaT6Xw2TzlUIT9OdTSvSjmWZ7RcrOgiRdpgr4UIbiN0ripJaFp+EuSh4ry6p30EWlg/fw1cZJHJT9Mpa6vtlQdT0XG/Yp816cXbZ9U6PK1Yg4Hj9RsK7juK/5brrywhImZpsgtYqHTiOttqwsOYEs7Gl7t1OnF0=
 ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id A58C5C4CED3;
-	Tue, 28 Jan 2025 15:06:10 +0000 (UTC)
-Message-ID: <2fb746b8-31c4-44e0-bf7b-7a0758edf52a@xs4all.nl>
-Date: Tue, 28 Jan 2025 16:06:08 +0100
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id C9A9AC4CED3;
+	Tue, 28 Jan 2025 15:14:14 +0000 (UTC)
+Message-ID: <d96432bd-dda0-4d26-9825-391206ebf6ab@xs4all.nl>
+Date: Tue, 28 Jan 2025 16:14:13 +0100
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
@@ -22,13 +23,13 @@ List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Content-Language: en-US, nl
-To: USB list <linux-usb@vger.kernel.org>
-Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
- Linux Media Mailing List <linux-media@vger.kernel.org>,
- Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+Subject: Re: [PATCH 0/6]
 From: Hans Verkuil <hverkuil@xs4all.nl>
-Subject: [PATCH] usb: gadget: uvc: drop vb2_ops_wait_prepare/finish
+To: linux-media@vger.kernel.org
+Cc: linux-input@vger.kernel.org, linux-usb@vger.kernel.org,
+ linux-staging@lists.linux.dev
+References: <cover.1738076484.git.hverkuil@xs4all.nl>
+Content-Language: en-US, nl
 Autocrypt: addr=hverkuil@xs4all.nl; keydata=
  xsFNBFQ84W0BEAC7EF1iL4s3tY8cRTVkJT/297h0Hz0ypA+ByVM4CdU9sN6ua/YoFlr9k0K4
  BFUlg7JzJoUuRbKxkYb8mmqOe722j7N3HO8+ofnio5cAP5W0WwDpM0kM84BeHU0aPSTsWiGR
@@ -72,39 +73,13 @@ Autocrypt: addr=hverkuil@xs4all.nl; keydata=
  e8tSeEXX8BZIen6y/y+U2CedzEsMKGjy5WNmufiPOzB3q2JwFQCw8AoNic7soPN9CVCEgd2r
  XS+OUZb8VvEDVRSK5Yf79RveqHvmhAdNOVh70f5CvwR/bfX/Ei2Szxz47KhZXpn1lxmcds6b
  LYjTAZF0anym44vsvOEuQg3rqxj/7Hiz4A3HIkrpTWclV6ru1tuGp/ZJ7aY8bdvztP2KTw==
+In-Reply-To: <cover.1738076484.git.hverkuil@xs4all.nl>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
 
-Since commit 88785982a19d ("media: vb2: use lock if wait_prepare/finish
-are NULL") it is no longer needed to set the wait_prepare/finish
-vb2_ops callbacks as long as the lock field in vb2_queue is set.
+On 28/01/2025 16:01, Hans Verkuil wrote:
+> 
 
-Since the vb2_ops_wait_prepare/finish callbacks already rely on that field,
-we can safely drop these callbacks.
+Sorry, email mishap. Just ignore.
 
-This simplifies the code and this is a step towards the goal of deleting
-these callbacks.
-
-Signed-off-by: Hans Verkuil <hverkuil@xs4all.nl>
-Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-Cc: linux-usb@vger.kernel.org
----
- drivers/usb/gadget/function/uvc_queue.c | 2 --
- 1 file changed, 2 deletions(-)
-
-diff --git a/drivers/usb/gadget/function/uvc_queue.c b/drivers/usb/gadget/function/uvc_queue.c
-index 5eaeae3e2441..9a1bbd79ff5a 100644
---- a/drivers/usb/gadget/function/uvc_queue.c
-+++ b/drivers/usb/gadget/function/uvc_queue.c
-@@ -122,8 +122,6 @@ static const struct vb2_ops uvc_queue_qops = {
- 	.queue_setup = uvc_queue_setup,
- 	.buf_prepare = uvc_buffer_prepare,
- 	.buf_queue = uvc_buffer_queue,
--	.wait_prepare = vb2_ops_wait_prepare,
--	.wait_finish = vb2_ops_wait_finish,
- };
-
- int uvcg_queue_init(struct uvc_video_queue *queue, struct device *dev, enum v4l2_buf_type type,
--- 
-2.45.2
-
+	Hans
