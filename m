@@ -1,35 +1,35 @@
 Received: from relay9-d.mail.gandi.net (relay9-d.mail.gandi.net [217.70.183.199])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 955831B6547;
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4B7121B85E2;
 	Wed, 29 Jan 2025 10:56:25 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.70.183.199
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1738148187; cv=none; b=MCywaHeCooNnLcfzYJBWuwDozCjl/UWUnV6NTCigDIG3ADXBt+ntUoxQ9J2PkU9gcOc4uccLVfQVcGnCDYr3p3hCEPdzD5cUf+0h1vxICtdTZQhkpIMViQS6b1RlTHGljoVkxPlncN2z0+jw7vqyV/GGrFb5z6KEoY+gNJyz9ws=
+	t=1738148188; cv=none; b=PG7r00bvXUjMXv/BE7RNUycn1brp8bN6xS+uguEI7SmgaaQ3DD7OFeDR0uuiW61LO2dZCxPm1UcLw6mvZZnaqNHezXwWUHzEGhmrz3VflHxLItVFFooc371Z6kc6Glu/LACLqs/SlU+PByxza9mFbFAfDpv5LhRua55le3n0No8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1738148187; c=relaxed/simple;
-	bh=CWdjP4aUsHF+7P6+eloiUKH9950Yvc0l5PM/y2Qolco=;
+	s=arc-20240116; t=1738148188; c=relaxed/simple;
+	bh=akp8FO9P2Jx990YIUJHM+r/jn8TJqVsUZUalIBq9TF4=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=eKEeR0OpQ61Yc9oq0JkFu3nkHqduGYFsQn6COK3Zdr+sTuQ07TjcQQstvA8ILS3kaomX4OUEzZ7d4TVWV5IVz1Y4CU0eBFQn0AUL6N2lRXNmtZGQ3jcncUpUGj98mFZchpMUq1sm5XozHBo1n8O9uUY3JhCxMJcSB1a0rwmeN4U=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com; spf=pass smtp.mailfrom=bootlin.com; dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b=G2HF2J1x; arc=none smtp.client-ip=217.70.183.199
+	 MIME-Version:Content-Type; b=TeqIW4YLqqWNm//ETQDGNwGspTYD3obQvriEm2uoAKvPdZcREgtuJ9FSGJCfm2WtnSZsnCmflwHxaIleTzofA+7SUsS9gnd3rAlrOzyIGzo1NO1wfDWSSrjnL9/bBZQYGl2fRiYvNg8RBpJRlp5ixMfLtFrr390PyH39jH5HbSY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com; spf=pass smtp.mailfrom=bootlin.com; dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b=BT2VXL2O; arc=none smtp.client-ip=217.70.183.199
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=bootlin.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b="G2HF2J1x"
-Received: by mail.gandi.net (Postfix) with ESMTPSA id 4A0C4FF809;
-	Wed, 29 Jan 2025 10:56:17 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b="BT2VXL2O"
+Received: by mail.gandi.net (Postfix) with ESMTPSA id D72F0FF802;
+	Wed, 29 Jan 2025 10:56:18 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=gm1;
-	t=1738148177;
+	t=1738148179;
 	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
 	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=v1e6nofxVdA9RtAytuEMyu+ZjGQH8z/fAVMV8muk7RU=;
-	b=G2HF2J1xfEOHD9801iHUNZRM/al04CV+2IOD57s6OLmJOm3IE7YMXEIb8GJkvyLNjDdnYu
-	ET4/Eao5FSycyS9dNfFat4zVC843SueRUGSWsXbWwk83KRM3pvey8vCxpXyMdJaYyYkn15
-	c6dkpXhfNlLlLtUcO45Ct17GhcOLlLjeTBg4EXKy0o3j1XpvfbihU54uJacJTrKg1ML/5q
-	3L1Z3+ZSLW8sUs7DpJ60/4zJGm5PvYgi9ekPw3Vb0QM2BIZGpMTKLgPB29FR4YD2ilTuPg
-	4Hv1P5SyAxj1+BLJ2bxnrZJ+UeGptvaBRI/h2whLCAMDAbK3Of4Uo1QS/ugkhA==
+	bh=uaejGi7/Nw1yFvMy04uA40ZGAAurzlofQcopOK8Hb10=;
+	b=BT2VXL2OPDg3DQZ+StP6OF6NzYE/iQIJy1PjhaaKpS4pVtzvwyZPXj30Gbzf3cyFXdQ1kN
+	wOMfhJa7NBcr5EhNn0kLaX/ygzaGCWtlCg+tqZDYBFTf4GvMs+lUR+C8sngLK/y0MRmRg/
+	1aYo2AA4PnhFTZ7xo3xxJ3FdumzN3sFIylnn68CDGhcOdezuJg0068CcsDvxa8gDPZ3ioH
+	IoAl/p8483dUNRmfDrwXRzDyIcuhVsweQ8ou2mwZitN6PzKMCQAccNy0O3RDOZI8oJeOVD
+	ubmo+R9ZwJnnWxyBs58q8gcuKtsHz2zFk/AoZ6Hu3Z4Wbth7XxAAbV94szT2sQ==
 From: =?UTF-8?q?Th=C3=A9o=20Lebrun?= <theo.lebrun@bootlin.com>
 To: theo.lebrun@bootlin.com,
 	mathias.nyman@linux.intel.com
@@ -42,9 +42,9 @@ Cc: rogerq@kernel.org,
 	thomas.petazzoni@bootlin.com,
 	linux-usb@vger.kernel.org,
 	linux-kernel@vger.kernel.org
-Subject: [PATCH 5/9] usb: cdns3: rename hibernated argument of role->resume() to lost_power
-Date: Wed, 29 Jan 2025 11:56:09 +0100
-Message-ID: <20250129105613.403923-5-theo.lebrun@bootlin.com>
+Subject: [PATCH 8/9] usb: host: xhci-plat: allow upper layers to signal power loss
+Date: Wed, 29 Jan 2025 11:56:12 +0100
+Message-ID: <20250129105613.403923-8-theo.lebrun@bootlin.com>
 X-Mailer: git-send-email 2.48.1
 In-Reply-To: <D7EHVKGXIFM4.3IDSI7TDG85AV@bootlin.com>
 References: <D7EHVKGXIFM4.3IDSI7TDG85AV@bootlin.com>
@@ -58,78 +58,51 @@ Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 X-GND-Sasl: theo.lebrun@bootlin.com
 
-The cdns_role_driver->resume() callback takes a second boolean argument
-named `hibernated` in its implementations. This is mistaken; the only
-potential caller is:
-
-int cdns_resume(struct cdns *cdns)
-{
-	/* ... */
-
-	if (cdns->roles[cdns->role]->resume)
-		cdns->roles[cdns->role]->resume(cdns, cdns_power_is_lost(cdns));
-
-	return 0;
-}
-
-The argument can be true in cases outside of return from hibernation.
-Reflect the true meaning by renaming both arguments to `lost_power`.
+Now that xhci_resume() exposes a power_lost boolean argument, expose
+that to all xhci-plat implementations. They are free to set it from
+wherever they want:
+ - Their own resume() callback.
+ - The xhci_plat_priv::resume_quirk() callback.
 
 Signed-off-by: Théo Lebrun <theo.lebrun@bootlin.com>
 ---
- drivers/usb/cdns3/cdns3-gadget.c | 4 ++--
- drivers/usb/cdns3/cdnsp-gadget.c | 2 +-
- drivers/usb/cdns3/core.h         | 2 +-
- 3 files changed, 4 insertions(+), 4 deletions(-)
+ drivers/usb/host/xhci-plat.c | 3 ++-
+ drivers/usb/host/xhci-plat.h | 1 +
+ 2 files changed, 3 insertions(+), 1 deletion(-)
 
-diff --git a/drivers/usb/cdns3/cdns3-gadget.c b/drivers/usb/cdns3/cdns3-gadget.c
-index fd1beb10bba7..694aa1457739 100644
---- a/drivers/usb/cdns3/cdns3-gadget.c
-+++ b/drivers/usb/cdns3/cdns3-gadget.c
-@@ -3468,7 +3468,7 @@ __must_hold(&cdns->lock)
- 	return 0;
- }
- 
--static int cdns3_gadget_resume(struct cdns *cdns, bool hibernated)
-+static int cdns3_gadget_resume(struct cdns *cdns, bool lost_power)
+diff --git a/drivers/usb/host/xhci-plat.c b/drivers/usb/host/xhci-plat.c
+index 831af518a6ec..8b18494ccc41 100644
+--- a/drivers/usb/host/xhci-plat.c
++++ b/drivers/usb/host/xhci-plat.c
+@@ -479,6 +479,7 @@ static int xhci_plat_suspend(struct device *dev)
+ static int xhci_plat_resume_common(struct device *dev, bool power_lost)
  {
- 	struct cdns3_device *priv_dev = cdns->gadget_dev;
+ 	struct usb_hcd	*hcd = dev_get_drvdata(dev);
++	struct xhci_plat_priv *priv = hcd_to_xhci_priv(hcd);
+ 	struct xhci_hcd	*xhci = hcd_to_xhci(hcd);
+ 	int ret;
  
-@@ -3476,7 +3476,7 @@ static int cdns3_gadget_resume(struct cdns *cdns, bool hibernated)
- 		return 0;
+@@ -498,7 +499,7 @@ static int xhci_plat_resume_common(struct device *dev, bool power_lost)
+ 	if (ret)
+ 		goto disable_clks;
  
- 	cdns3_gadget_config(priv_dev);
--	if (hibernated)
-+	if (lost_power)
- 		writel(USB_CONF_DEVEN, &priv_dev->regs->usb_conf);
+-	ret = xhci_resume(xhci, power_lost, false);
++	ret = xhci_resume(xhci, power_lost || priv->power_lost, false);
+ 	if (ret)
+ 		goto disable_clks;
  
- 	return 0;
-diff --git a/drivers/usb/cdns3/cdnsp-gadget.c b/drivers/usb/cdns3/cdnsp-gadget.c
-index 4a3f0f958256..7d05180442fb 100644
---- a/drivers/usb/cdns3/cdnsp-gadget.c
-+++ b/drivers/usb/cdns3/cdnsp-gadget.c
-@@ -1973,7 +1973,7 @@ static int cdnsp_gadget_suspend(struct cdns *cdns, bool do_wakeup)
- 	return 0;
- }
- 
--static int cdnsp_gadget_resume(struct cdns *cdns, bool hibernated)
-+static int cdnsp_gadget_resume(struct cdns *cdns, bool lost_power)
- {
- 	struct cdnsp_device *pdev = cdns->gadget_dev;
- 	enum usb_device_speed max_speed;
-diff --git a/drivers/usb/cdns3/core.h b/drivers/usb/cdns3/core.h
-index 57d47348dc19..921cccf1ca9d 100644
---- a/drivers/usb/cdns3/core.h
-+++ b/drivers/usb/cdns3/core.h
-@@ -30,7 +30,7 @@ struct cdns_role_driver {
- 	int (*start)(struct cdns *cdns);
- 	void (*stop)(struct cdns *cdns);
- 	int (*suspend)(struct cdns *cdns, bool do_wakeup);
--	int (*resume)(struct cdns *cdns, bool hibernated);
-+	int (*resume)(struct cdns *cdns, bool lost_power);
- 	const char *name;
- #define CDNS_ROLE_STATE_INACTIVE	0
- #define CDNS_ROLE_STATE_ACTIVE		1
+diff --git a/drivers/usb/host/xhci-plat.h b/drivers/usb/host/xhci-plat.h
+index 6475130eac4b..fe4f95e690fa 100644
+--- a/drivers/usb/host/xhci-plat.h
++++ b/drivers/usb/host/xhci-plat.h
+@@ -15,6 +15,7 @@ struct usb_hcd;
+ struct xhci_plat_priv {
+ 	const char *firmware_name;
+ 	unsigned long long quirks;
++	bool power_lost;
+ 	void (*plat_start)(struct usb_hcd *);
+ 	int (*init_quirk)(struct usb_hcd *);
+ 	int (*suspend_quirk)(struct usb_hcd *);
 -- 
 2.48.1
 
