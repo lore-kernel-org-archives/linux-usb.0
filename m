@@ -1,96 +1,98 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from frasgout.his.huawei.com (frasgout.his.huawei.com [185.176.79.56])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0549F3D81
-	for <linux-usb@vger.kernel.org>; Tue,  4 Feb 2025 06:49:05 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 792A7205502;
+	Tue,  4 Feb 2025 09:25:42 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.176.79.56
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1738651747; cv=none; b=LHIl7/MAsn43nSdwtNeFulpNOdl6I+HhXzPFe7PbOM+ZmkC35kOmBFDxQRo0aXa7rsc5wHeZ06+oIB0CpdB3MmGGiDcsNzLhZGjJVPSXwp3tSVHGEvyxo8GcFvBsVyZXYsSadh8a5ZcF9E28XAY3pAweClRdCT/z9KqM5EoBwto=
+	t=1738661148; cv=none; b=leGZshF8XxKPqYvnfHhkaB6Dqt8Sd8SVtQruWhpiEpAo2o9hC/mg8nG0lpniwaxe1jMqWA1Q9ocGIDg44UpQlEzbAg1FcPkD45KrH68Iy1OrLjIwjhwURCB3vtgLgWMd8/FNBprBRWb386Zt50/i83OaRqaGMtxIOz2SlbkzXDs=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1738651747; c=relaxed/simple;
-	bh=eEyy4lSDBjdVzfq9Hwq12fa7VzxiwzYfvfhfpkwaAB0=;
-	h=From:To:Subject:Date:Message-ID:In-Reply-To:References:
-	 Content-Type:MIME-Version; b=uSiwhC7v019y2BsJE869wNFBHXL/mumW1PXMOvOZaubghX14o6eAMX/TSpFExa8fno1Hkp5zAwm7olB6jw/qCji0lrmttXCZadQ8v03CVn9Bd61P+hI/w0Gpw+kr1Ij3zFlbuDFOu5/dRuEVL9vTTYeM+k7Zp7ERET3k2kPNUuw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=k9CYZzv+; arc=none smtp.client-ip=10.30.226.201
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="k9CYZzv+"
-Received: by smtp.kernel.org (Postfix) with ESMTPS id 61016C4CEE3
-	for <linux-usb@vger.kernel.org>; Tue,  4 Feb 2025 06:49:05 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1738651745;
-	bh=eEyy4lSDBjdVzfq9Hwq12fa7VzxiwzYfvfhfpkwaAB0=;
-	h=From:To:Subject:Date:In-Reply-To:References:From;
-	b=k9CYZzv+/G65Ne7pJiGg1L56porK5+fYdj/uJsPbB7QFoPG/DFSkWdDPhqJ9S1vhq
-	 bDhTiDw/qGRMA8TCHRo08cfN5kQQ8/xjFsZEZODq0EkfzqjS4gxsxaUsrS0u6nEWm6
-	 brWydJt3jc/LYpCQ1AD7bWYxX72/YbQ8CSGuB5QPhHp/LgwzikUHZhhLnMRtzQ5b7p
-	 7kNINefo+/faqz7ztILodvnyz7AMeOLVYPBfW5VaFgSmHoCytTCYc315u1Gxfa+++y
-	 8xLsPn4X3+Ocj0X88RRh6BB+LdjrfehmvKmEY5hqHPDX29zaueHMtOliJwo9QxEQMR
-	 i6JCtoVCokofQ==
-Received: by aws-us-west-2-korg-bugzilla-1.web.codeaurora.org (Postfix, from userid 48)
-	id 4E38CC41606; Tue,  4 Feb 2025 06:49:05 +0000 (UTC)
-From: bugzilla-daemon@kernel.org
-To: linux-usb@vger.kernel.org
-Subject: [Bug 219748] Pluggable UD-4VPD dock appears to continually reset
- with AMD AI 365
-Date: Tue, 04 Feb 2025 06:49:05 +0000
-X-Bugzilla-Reason: None
-X-Bugzilla-Type: changed
-X-Bugzilla-Watch-Reason: AssignedTo drivers_usb@kernel-bugs.kernel.org
-X-Bugzilla-Product: Drivers
-X-Bugzilla-Component: USB
-X-Bugzilla-Version: 2.5
-X-Bugzilla-Keywords: 
-X-Bugzilla-Severity: normal
-X-Bugzilla-Who: mika.westerberg@linux.intel.com
-X-Bugzilla-Status: NEW
-X-Bugzilla-Resolution: 
-X-Bugzilla-Priority: P3
-X-Bugzilla-Assigned-To: drivers_usb@kernel-bugs.kernel.org
-X-Bugzilla-Flags: 
-X-Bugzilla-Changed-Fields: 
-Message-ID: <bug-219748-208809-PCmKjpizFl@https.bugzilla.kernel.org/>
-In-Reply-To: <bug-219748-208809@https.bugzilla.kernel.org/>
-References: <bug-219748-208809@https.bugzilla.kernel.org/>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-X-Bugzilla-URL: https://bugzilla.kernel.org/
-Auto-Submitted: auto-generated
+	s=arc-20240116; t=1738661148; c=relaxed/simple;
+	bh=e7BXgZvYNO2Yfm1uDqi9dZspKT2AusgjGFCVrIZ/Y7g=;
+	h=Date:From:To:CC:Subject:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=usGYPX4Y3FHHAS0Y8pcXBAEyyVhh1JQvSTNJXnqH+N9M9Mf7tGx6PkNN3G30cCMVpNIgWEunkbPVaTfZN28Zqittk2y2WSlE5vebIkSUmza0QAjrK0cL0BymBqF+6cITXlUiG81TlJe02pnHdQGmbmYsyrzKvD+EPJIZ9dRYajY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=huawei.com; spf=pass smtp.mailfrom=huawei.com; arc=none smtp.client-ip=185.176.79.56
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=huawei.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=huawei.com
+Received: from mail.maildlp.com (unknown [172.18.186.231])
+	by frasgout.his.huawei.com (SkyGuard) with ESMTP id 4YnHwS3R9mz6D9b5;
+	Tue,  4 Feb 2025 17:23:20 +0800 (CST)
+Received: from frapeml500008.china.huawei.com (unknown [7.182.85.71])
+	by mail.maildlp.com (Postfix) with ESMTPS id 7744C140B3C;
+	Tue,  4 Feb 2025 17:25:34 +0800 (CST)
+Received: from localhost (10.203.177.66) by frapeml500008.china.huawei.com
+ (7.182.85.71) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.1.2507.39; Tue, 4 Feb
+ 2025 10:25:33 +0100
+Date: Tue, 4 Feb 2025 09:25:32 +0000
+From: Jonathan Cameron <Jonathan.Cameron@huawei.com>
+To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+CC: "Rafael J. Wysocki" <rafael@kernel.org>, Danilo Krummrich
+	<dakr@kernel.org>, Lyude Paul <lyude@redhat.com>, Alexander Lobakin
+	<aleksander.lobakin@intel.com>, Andy Shevchenko
+	<andriy.shevchenko@linux.intel.com>, Bjorn Helgaas <bhelgaas@google.com>,
+	Liam Girdwood <lgirdwood@gmail.com>, Lukas Wunner <lukas@wunner.de>, "Mark
+ Brown" <broonie@kernel.org>, =?ISO-8859-1?Q?Ma=EDra?= Canal
+	<mairacanal@riseup.net>, Robin Murphy <robin.murphy@arm.com>, Simona Vetter
+	<simona.vetter@ffwll.ch>, Zijun Hu <quic_zijuhu@quicinc.com>,
+	<linux-kernel@vger.kernel.org>, <linux-usb@vger.kernel.org>,
+	<rust-for-linux@vger.kernel.org>
+Subject: Re: [PATCH 1/3] driver core: add a faux bus for use when a simple
+ device/bus is needed
+Message-ID: <20250204092532.000001ca@huawei.com>
+In-Reply-To: <2025020326-backer-vendetta-7094@gregkh>
+References: <2025020324-thermal-quilt-1bae@gregkh>
+	<2025020326-backer-vendetta-7094@gregkh>
+X-Mailer: Claws Mail 4.3.0 (GTK 3.24.42; x86_64-w64-mingw32)
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
+Content-Type: text/plain; charset="US-ASCII"
+Content-Transfer-Encoding: 7bit
+X-ClientProxiedBy: lhrpeml500001.china.huawei.com (7.191.163.213) To
+ frapeml500008.china.huawei.com (7.182.85.71)
 
-https://bugzilla.kernel.org/show_bug.cgi?id=3D219748
+On Mon,  3 Feb 2025 15:25:17 +0100
+Greg Kroah-Hartman <gregkh@linuxfoundation.org> wrote:
 
---- Comment #2 from Mika Westerberg (mika.westerberg@linux.intel.com) ---
-Can you enable tracing as well and attach both dmesg and the trace output h=
-ere?
+> Many drivers abuse the platform driver/bus system as it provides a
+> simple way to create and bind a device to a driver-specific set of
+> probe/release functions.  Instead of doing that, and wasting all of the
+> memory associated with a platform device, here is a "faux" bus that
+> can be used instead.
+> 
+> Signed-off-by: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
 
-1. Boot the system nothing connected.
-2. Enable tracing as explained in
-(https://github.com/intel/tbtools?tab=3Dreadme-ov-file#tracing)
+Nice. One trivial thing inline.
 
-# tbtrace enable
 
-3. Plug in the dock
-4. Verify that the problem reproduces.
-5. Disable tracing
+> diff --git a/drivers/base/faux.c b/drivers/base/faux.c
+> new file mode 100644
+> index 000000000000..0eba89a5cd57
+> --- /dev/null
+> +++ b/drivers/base/faux.c
+> @@ -0,0 +1,189 @@
 
-# tbtrace disable
 
-6. Take both trace output and dmesg and attach them:
+> +int __init faux_bus_init(void)
+> +{
+> +	int error;
+> +
+> +	error = device_register(&faux_bus_root);
+> +	if (error) {
+> +		put_device(&faux_bus_root);
+> +		return error;
+> +	}
+> +
+> +	error =  bus_register(&faux_bus_type);
 
-# tbtrace dump -vv > trace.out
-# dmesg > dmesg.out
+Odd bonus space after = 
 
-(We need the dmesg as well to be able to match the trace lines with the dri=
-ver
-logs).
-
---=20
-You may reply to this email to add a comment.
-
-You are receiving this mail because:
-You are watching the assignee of the bug.=
+> +	if (error)
+> +		device_unregister(&faux_bus_root);
+> +
+> +	return error;
+> +}
