@@ -1,155 +1,364 @@
-Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com [205.220.180.131])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 11A15209F5B
-	for <linux-usb@vger.kernel.org>; Tue,  4 Feb 2025 10:59:22 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.180.131
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6597A20969D;
+	Tue,  4 Feb 2025 11:09:36 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1738666766; cv=none; b=MaIGywNBTL3Nj4mIavLGpzyO0F336lzh75Pc7QfqGmrKB/yMSCPk7mKrTGVKOrY4tT0lk1ZLpOsG5XGgc9uZW1Wd5auZP+JaFeGuhhbfa8jbosLJNBDTm2oWFxI14oYyjAVBm7Lrl76Lx7lU/1c8bu0cSCeldLfqzrktz6jBUDo=
+	t=1738667377; cv=none; b=oswkgzjmKoNCuPI6gReF8m0glgK+yWESXI4hR6r4/qWTrtvUVWJbAWOUG/nQV/UuTveWJD0shZyfj2nfr0kVeAXdt7jpvbGrzZ4+Rv+EFFvSgHE26qvBds7TTeOImhT8VBEL4sVlYh7iU8MGXLtKTryO28mu2MKGxOoedpnFEBM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1738666766; c=relaxed/simple;
-	bh=KDUpqFH60In99EOYxcvh8+1IiNmgCdzqDbEQmebOkZo=;
-	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=n91XpxpvY+CL1pO0PFoV8gFdGXq2384CvbKdO+GVICqbNgFdtxIRMgCdcSRULwBu9sppIaOwdc6hbh9bKlmNd+FoCXoFFsgX4EiNX+WzMbeyCXLGOtXh2EvHRbjoAphWZ6Tdr1mcH1ILDA6lB5QWpsQQ6NZGwvv5n+kPZQbHw9s=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com; spf=pass smtp.mailfrom=oss.qualcomm.com; dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b=oliS+NTu; arc=none smtp.client-ip=205.220.180.131
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=oss.qualcomm.com
+	s=arc-20240116; t=1738667377; c=relaxed/simple;
+	bh=M9fF2yZwbhd2NgZD12wwwug3mQYv6nfiLMXhmY+0PZM=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version; b=Ohc2GhBXcv9WRd0QUb4aenYQH3tsapn0AVwJdm+OLTLPWynhLdoTK4ZCXsdwQr/9LYFGtXsk8BHzdaJfh7hUKKwORWnw9XUDoYnyP4HBBLXi9X9OQPnp7XvwItZDU3RI5nzVYY+XAm8nC+JcuXXnfRCEsnRoSGUlnm1CEW75Vjo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b=jQGewVxX; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b="oliS+NTu"
-Received: from pps.filterd (m0279868.ppops.net [127.0.0.1])
-	by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 5149sgdS005808
-	for <linux-usb@vger.kernel.org>; Tue, 4 Feb 2025 10:59:22 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
-	cc:content-transfer-encoding:date:from:message-id:mime-version
-	:subject:to; s=qcppdkim1; bh=Bbk6v/28CZWZB/e8V3KywwDq5m0DSq4iiyz
-	z/FZspds=; b=oliS+NTuxK6FfwG3/cxiqqd9Xm8pp5WBNBIMm6b3tuDEqRMyMPW
-	D9ygEJtnm+3iG9X2uovhNKbRwdP28AmJgnBMxoNZQrnN4x2vek9syfJB8EjaWa4Q
-	8v0NWTP+ycV737y57sNRq+TGw9Dnbu0eH0U1ZE69mpysPkX15K8QhX1Dp2EvgMwT
-	t9MdEV/nMzelUkdFhGGgMMTksW0a7RVMSG628DYMgx9CQx+3wI7DXowPJevJ9NEi
-	Lr1zA3rYZrKSpuPCdxRX7yOMkwB5CpgxT5tTwCrZ60VY00aw23YEtY1BqHRPJLLK
-	DZxFPEVLpQ4un+r3C/9QKWLmy+xVnnvI0wg==
-Received: from mail-pj1-f70.google.com (mail-pj1-f70.google.com [209.85.216.70])
-	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 44kgp7050m-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT)
-	for <linux-usb@vger.kernel.org>; Tue, 04 Feb 2025 10:59:21 +0000 (GMT)
-Received: by mail-pj1-f70.google.com with SMTP id 98e67ed59e1d1-2ef91d5c863so10571857a91.2
-        for <linux-usb@vger.kernel.org>; Tue, 04 Feb 2025 02:59:21 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1738666760; x=1739271560;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=Bbk6v/28CZWZB/e8V3KywwDq5m0DSq4iiyzz/FZspds=;
-        b=YA2qOFmGm/LSo8LzeNdPbIi8ojHBB1e3hjPeS17KMptqvHLzaRHselyccAUe8HB8xc
-         x6+X7o81cn9eEZoXVFfKTMg3QNMFAyiUXBxOlBRaUh87DwmwlZMHxHvCTJ1J7jikPyjb
-         MqOWR7HTOwGWcJKa58Pg/zGlp3HOX6JnXFeyaGwKj3bA2PNgaz7hNNlC088cHWpsv4Ye
-         OAIO34m/F4m8reAjBxNs9HfG4kmPtIXrObuAB+5VWWyf465nAyswkT0OGvmk1dzE9qX9
-         rjxIakA90nfShHUnrPcmScO1/2rUh3qvq7Hy6s1IJhrJNBLUTm0Irw2P3PvSQhSyBRb3
-         mvvA==
-X-Gm-Message-State: AOJu0YynGQI6o4cOczTGOGmiuIKDC9wGsiLCKXjUm5w1P7IxXJ5BGUun
-	uRET9hsjJaT/KLJQAAHujioP32kpJWu0IBbPNftDHepyq7leQlLqCqHVKx/XsOCJ5gnuumeSmD9
-	fzftE2+4QlVaia+4ovE1gWbZRGq9LXmqsV3pA3HTquhNvozkzd1ZoeWn057I=
-X-Gm-Gg: ASbGncv3IALXSU57nYclnA/N7Kq7tBqpU4kGqPaUkGMspMB8ZERpbbpoeAWO2CeccMF
-	Dv+0wOWuKzDVomjNOJ67m5AILdGldGhP/qtszV0NWH/uOmqW89naQv1WD1iGAnotEzk52rXtS+O
-	5px66KC4PK7TYbpkLi+zeen2A3wsRAk6h658pZKLIcRJHEy6s55ktlob+NUjnDxI0BNTMDyituK
-	cYeD4TNzOYB7vQBkyoCkr6qNeMDuE1qNJZgcYE1yvLd/viyrKj6u5KWKZLEC4cIgCx4f3ZWnoXP
-	2r3nzEQ4dpt0sRH7BMlRWMeBYxmPJCrp2w==
-X-Received: by 2002:a17:90b:2f44:b0:2ee:c91a:ad05 with SMTP id 98e67ed59e1d1-2f83abc3987mr34859257a91.3.1738666760461;
-        Tue, 04 Feb 2025 02:59:20 -0800 (PST)
-X-Google-Smtp-Source: AGHT+IFDFBGFgvL9ZTIMVPksGB4FYma4HsKeELqR3L2h5d2h1EDl6nl6eH11BUBbOegxde5u3k9NJQ==
-X-Received: by 2002:a17:90b:2f44:b0:2ee:c91a:ad05 with SMTP id 98e67ed59e1d1-2f83abc3987mr34859233a91.3.1738666760104;
-        Tue, 04 Feb 2025 02:59:20 -0800 (PST)
-Received: from hu-prashk-hyd.qualcomm.com ([202.46.22.19])
-        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-2f8489d65a2sm11930665a91.29.2025.02.04.02.59.17
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 04 Feb 2025 02:59:19 -0800 (PST)
-From: Prashanth K <prashanth.k@oss.qualcomm.com>
-To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Thinh Nguyen <Thinh.Nguyen@synopsys.com>,
-        Peter Korsgaard <peter@korsgaard.com>,
-        Sabyrzhan Tasbolatov <snovitoll@gmail.com>
-Cc: linux-usb@vger.kernel.org, linux-kernel@vger.kernel.org,
-        Prashanth K <prashanth.k@oss.qualcomm.com>, stable@vger.kernel.org
-Subject: [PATCH RFC] usb: gadget: Set self-powered based on MaxPower and bmAttributes
-Date: Tue,  4 Feb 2025 16:29:08 +0530
-Message-Id: <20250204105908.2255686-1-prashanth.k@oss.qualcomm.com>
-X-Mailer: git-send-email 2.25.1
+	dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="jQGewVxX"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 3CA3EC4CEDF;
+	Tue,  4 Feb 2025 11:09:36 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
+	s=korg; t=1738667376;
+	bh=M9fF2yZwbhd2NgZD12wwwug3mQYv6nfiLMXhmY+0PZM=;
+	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
+	b=jQGewVxXP5zGIq9J4mWul5stjA+03hkSDPUfXtSbFQhhTob7G0YvSfAOk7gHkdgWO
+	 vZ5TIYJSBnMUh8W78n7TaBXfGXxvNEPpKJ4jHTDNkyUfbWj5Kvwc1Y/GfOeRd1rTxV
+	 871Nraww1cItAEf86WF6WzYfscfnf4diz8nD5k/o=
+From: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+To: linux-kernel@vger.kernel.org,
+	"Rafael J. Wysocki" <rafael@kernel.org>,
+	Danilo Krummrich <dakr@kernel.org>,
+	Lyude Paul <lyude@redhat.com>
+Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	Alexander Lobakin <aleksander.lobakin@intel.com>,
+	Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
+	Bjorn Helgaas <bhelgaas@google.com>,
+	Jonathan Cameron <Jonathan.Cameron@huawei.com>,
+	Liam Girdwood <lgirdwood@gmail.com>,
+	Lukas Wunner <lukas@wunner.de>,
+	Mark Brown <broonie@kernel.org>,
+	=?UTF-8?q?Ma=C3=ADra=20Canal?= <mairacanal@riseup.net>,
+	Robin Murphy <robin.murphy@arm.com>,
+	Simona Vetter <simona.vetter@ffwll.ch>,
+	Zijun Hu <quic_zijuhu@quicinc.com>,
+	linux-usb@vger.kernel.org,
+	rust-for-linux@vger.kernel.org
+Subject: [PATCH v2 1/5] driver core: add a faux bus for use when a simple device/bus is needed
+Date: Tue,  4 Feb 2025 12:09:13 +0100
+Message-ID: <2025020424-retrain-recharger-407c@gregkh>
+X-Mailer: git-send-email 2.48.1
+In-Reply-To: <2025020421-poster-moisture-534b@gregkh>
+References: <2025020421-poster-moisture-534b@gregkh>
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
+X-Developer-Signature: v=1; a=openpgp-sha256; l=9456; i=gregkh@linuxfoundation.org; h=from:subject:message-id; bh=M9fF2yZwbhd2NgZD12wwwug3mQYv6nfiLMXhmY+0PZM=; b=owGbwMvMwCRo6H6F97bub03G02pJDOkLv6ZEOAp9z+1lPl69Y3lznNPtvMlbP36wm1xlYlWTH s6ol7ewI5aFQZCJQVZMkeXLNp6j+ysOKXoZ2p6GmcPKBDKEgYtTACYixc6woKOtImWf2sqlzRYH G69X7a9SXRobwbBg2X+2F4n7v7AumTF5bbV9hi/bJ6VoAA==
+X-Developer-Key: i=gregkh@linuxfoundation.org; a=openpgp; fpr=F4B60CC5BF78C2214A313DCB3147D40DDB2DFB29
 Content-Transfer-Encoding: 8bit
-X-Proofpoint-ORIG-GUID: HK_bXp7_roEM2jiMivteTARrlMx3ZyXm
-X-Proofpoint-GUID: HK_bXp7_roEM2jiMivteTARrlMx3ZyXm
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1057,Hydra:6.0.680,FMLib:17.12.68.34
- definitions=2025-02-04_05,2025-01-31_02,2024-11-22_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 mlxscore=0 bulkscore=0
- phishscore=0 priorityscore=1501 spamscore=0 clxscore=1015 adultscore=0
- impostorscore=0 lowpriorityscore=0 malwarescore=0 suspectscore=0
- mlxlogscore=386 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.19.0-2501170000 definitions=main-2502040087
 
-Currently the USB gadget will be set as bus-powered based solely
-on whether its bMaxPower is greater than 100mA, but this may miss
-devices that may legitimately draw less than 100mA but still want
-to report as bus-powered. Similarly during suspend & resume, USB
-gadget is incorrectly marked as bus/self powered without checking
-the bmAttributes field. Fix these by configuring the USB gadget
-as self or bus powered based on bmAttributes, and explicitly set
-it as bus-powered if it draws more than 100mA.
+Many drivers abuse the platform driver/bus system as it provides a
+simple way to create and bind a device to a driver-specific set of
+probe/release functions.  Instead of doing that, and wasting all of the
+memory associated with a platform device, here is a "faux" bus that
+can be used instead.
 
-Cc: stable@vger.kernel.org
-Fixes: 5e5caf4fa8d3 ("usb: gadget: composite: Inform controller driver of self-powered")
-Signed-off-by: Prashanth K <prashanth.k@oss.qualcomm.com>
+Signed-off-by: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
 ---
- drivers/usb/gadget/composite.c | 16 +++++++++++-----
- 1 file changed, 11 insertions(+), 5 deletions(-)
+ v2: - renamed bus and root device to just "faux" thanks to Thomas
+     - removed the one-driver-per-device and now just have one driver
+       entirely thanks to Danilo
+     - kerneldoc fixups and additions and string handling bounds checks
+       hanks to Andy
+     - coding style fix thanks to Jonathan
+     - tested that the destroy path actually works
 
-diff --git a/drivers/usb/gadget/composite.c b/drivers/usb/gadget/composite.c
-index bdda8c74602d..1fb28bbf6c45 100644
---- a/drivers/usb/gadget/composite.c
-+++ b/drivers/usb/gadget/composite.c
-@@ -1050,10 +1050,11 @@ static int set_config(struct usb_composite_dev *cdev,
- 	else
- 		usb_gadget_set_remote_wakeup(gadget, 0);
- done:
--	if (power <= USB_SELF_POWER_VBUS_MAX_DRAW)
--		usb_gadget_set_selfpowered(gadget);
--	else
-+	if (power > USB_SELF_POWER_VBUS_MAX_DRAW ||
-+	    !(c->bmAttributes & USB_CONFIG_ATT_SELFPOWER))
- 		usb_gadget_clear_selfpowered(gadget);
-+	else
-+		usb_gadget_set_selfpowered(gadget);
- 
- 	usb_gadget_vbus_draw(gadget, power);
- 	if (result >= 0 && cdev->delayed_status)
-@@ -2615,7 +2616,9 @@ void composite_suspend(struct usb_gadget *gadget)
- 
- 	cdev->suspended = 1;
- 
--	usb_gadget_set_selfpowered(gadget);
-+	if (cdev->config->bmAttributes & USB_CONFIG_ATT_SELFPOWER)
-+		usb_gadget_set_selfpowered(gadget);
+ drivers/base/Makefile       |   2 +-
+ drivers/base/base.h         |   1 +
+ drivers/base/faux.c         | 196 ++++++++++++++++++++++++++++++++++++
+ drivers/base/init.c         |   1 +
+ include/linux/device/faux.h |  31 ++++++
+ 5 files changed, 230 insertions(+), 1 deletion(-)
+ create mode 100644 drivers/base/faux.c
+ create mode 100644 include/linux/device/faux.h
+
+diff --git a/drivers/base/Makefile b/drivers/base/Makefile
+index 7fb21768ca36..8074a10183dc 100644
+--- a/drivers/base/Makefile
++++ b/drivers/base/Makefile
+@@ -6,7 +6,7 @@ obj-y			:= component.o core.o bus.o dd.o syscore.o \
+ 			   cpu.o firmware.o init.o map.o devres.o \
+ 			   attribute_container.o transport_class.o \
+ 			   topology.o container.o property.o cacheinfo.o \
+-			   swnode.o
++			   swnode.o faux.o
+ obj-$(CONFIG_AUXILIARY_BUS) += auxiliary.o
+ obj-$(CONFIG_DEVTMPFS)	+= devtmpfs.o
+ obj-y			+= power/
+diff --git a/drivers/base/base.h b/drivers/base/base.h
+index 8cf04a557bdb..0042e4774b0c 100644
+--- a/drivers/base/base.h
++++ b/drivers/base/base.h
+@@ -137,6 +137,7 @@ int hypervisor_init(void);
+ static inline int hypervisor_init(void) { return 0; }
+ #endif
+ int platform_bus_init(void);
++int faux_bus_init(void);
+ void cpu_dev_init(void);
+ void container_dev_init(void);
+ #ifdef CONFIG_AUXILIARY_BUS
+diff --git a/drivers/base/faux.c b/drivers/base/faux.c
+new file mode 100644
+index 000000000000..9b28643afc45
+--- /dev/null
++++ b/drivers/base/faux.c
+@@ -0,0 +1,196 @@
++// SPDX-License-Identifier: GPL-2.0-only
++/*
++ * Copyright (c) 2025 Greg Kroah-Hartman <gregkh@linuxfoundation.org>
++ * Copyright (c) 2025 The Linux Foundation
++ *
++ * A "simple" faux bus that allows devices to be created and added
++ * automatically to it.  This is to be used whenever you need to create a
++ * device that is not associated with any "real" system resources, and do
++ * not want to have to deal with a bus/driver binding logic.  It is
++ * intended to be very simple, with only a create and a destroy function
++ * available.
++ */
++#include <linux/err.h>
++#include <linux/init.h>
++#include <linux/slab.h>
++#include <linux/string.h>
++#include <linux/container_of.h>
++#include <linux/device/faux.h>
++#include "base.h"
 +
- 	usb_gadget_vbus_draw(gadget, 2);
- }
- 
-@@ -2649,8 +2652,11 @@ void composite_resume(struct usb_gadget *gadget)
- 		else
- 			maxpower = min(maxpower, 900U);
- 
--		if (maxpower > USB_SELF_POWER_VBUS_MAX_DRAW)
-+		if (maxpower > USB_SELF_POWER_VBUS_MAX_DRAW ||
-+		    !(cdev->config->bmAttributes & USB_CONFIG_ATT_SELFPOWER))
- 			usb_gadget_clear_selfpowered(gadget);
-+		else
-+			usb_gadget_set_selfpowered(gadget);
- 
- 		usb_gadget_vbus_draw(gadget, maxpower);
- 	} else {
++#define MAX_NAME_SIZE	256	/* Max size of a faux_device name */
++
++/*
++ * Internal wrapper structure so we can hold the memory
++ * for the driver and the name string of the faux device.
++ */
++struct faux_object {
++	struct faux_device faux_dev;
++	const struct faux_driver_ops *faux_ops;
++	char name[];
++};
++#define to_faux_object(dev) container_of_const(dev, struct faux_object, faux_dev.dev)
++
++static struct device faux_bus_root = {
++	.init_name	= "faux",
++};
++
++static int faux_match(struct device *dev, const struct device_driver *drv)
++{
++	/* Match always succeeds, we only have one driver */
++	return 1;
++}
++
++static int faux_probe(struct device *dev)
++{
++	struct faux_object *faux_obj = to_faux_object(dev);
++	struct faux_device *faux_dev = &faux_obj->faux_dev;
++	const struct faux_driver_ops *faux_ops = faux_obj->faux_ops;
++	int ret = 0;
++
++	if (faux_ops && faux_ops->probe)
++		ret = faux_ops->probe(faux_dev);
++
++	return ret;
++}
++
++static void faux_remove(struct device *dev)
++{
++	struct faux_object *faux_obj = to_faux_object(dev);
++	struct faux_device *faux_dev = &faux_obj->faux_dev;
++	const struct faux_driver_ops *faux_ops = faux_obj->faux_ops;
++
++	if (faux_ops && faux_ops->remove)
++		faux_ops->remove(faux_dev);
++}
++
++static const struct bus_type faux_bus_type = {
++	.name		= "faux",
++	.match		= faux_match,
++	.probe		= faux_probe,
++	.remove		= faux_remove,
++};
++
++static struct device_driver faux_driver = {
++	.name		= "faux_driver",
++	.bus		= &faux_bus_type,
++	.probe_type	= PROBE_PREFER_ASYNCHRONOUS,
++};
++
++static void faux_device_release(struct device *dev)
++{
++	struct faux_object *faux_obj = to_faux_object(dev);
++
++	kfree(faux_obj);
++}
++
++/**
++ * faux_device_create - create and register a faux device and driver
++ * @name: name of the device and driver we are adding
++ * @faux_ops: struct faux_driver_ops that the new device will call back into, can be NULL
++ *
++ * Create a new faux device and driver, both with the same name, and
++ * register them in the driver core properly.  The probe() callback of
++ * @faux_ops will be called with the new device that is created for the
++ * caller to do something with.
++ *
++ * Note, when this function is called, the functions specified in struct
++ * faux_ops will be called before the function returns, so be prepared for
++ * everything to be properly initialized before that point in time.
++ *
++ * Return:
++ * * NULL if an error happened with creating the device
++ * * pointer to a valid struct faux_device that is registered with sysfs
++ */
++struct faux_device *faux_device_create(const char *name, struct faux_driver_ops *faux_ops)
++{
++	struct device *dev;
++	struct faux_object *faux_obj;
++	struct faux_device *faux_dev;
++	int name_size;
++	int ret;
++
++	name_size = strlen(name);
++	if (name_size > MAX_NAME_SIZE)
++		return NULL;
++
++	faux_obj = kzalloc(sizeof(*faux_obj) + name_size + 1, GFP_KERNEL);
++	if (!faux_obj)
++		return NULL;
++
++	/* Save off the name of the object into local memory */
++	memcpy(faux_obj->name, name, name_size);
++
++	/* Save off the callbacks so we can use them in the future */
++	faux_obj->faux_ops = faux_ops;
++
++	/* Initialize the device portion and register it with the driver core */
++	faux_dev = &faux_obj->faux_dev;
++	dev = &faux_dev->dev;
++
++	device_initialize(dev);
++	dev->release = faux_device_release;
++	dev->parent = &faux_bus_root;
++	dev->bus = &faux_bus_type;
++	dev_set_name(dev, "%s", name);
++
++	ret = device_add(dev);
++	if (ret) {
++		pr_err("%s: device_add for %s faux device failed with %d\n",
++		       __func__, name, ret);
++		put_device(dev);
++		return NULL;
++	}
++
++	return faux_dev;
++}
++EXPORT_SYMBOL_GPL(faux_device_create);
++
++/**
++ * faux_device_destroy - destroy a faux device
++ * @faux_dev: faux device to destroy
++ *
++ * Unregister and free all memory associated with a faux device that was
++ * previously created with a call to faux_device_create().
++ */
++void faux_device_destroy(struct faux_device *faux_dev)
++{
++	struct device *dev = &faux_dev->dev;
++
++	if (IS_ERR_OR_NULL(faux_dev))
++		return;
++
++	device_del(dev);
++
++	/* The final put_device() will clean up the driver we created for this device. */
++	put_device(dev);
++}
++EXPORT_SYMBOL_GPL(faux_device_destroy);
++
++int __init faux_bus_init(void)
++{
++	int ret;
++
++	ret = device_register(&faux_bus_root);
++	if (ret) {
++		put_device(&faux_bus_root);
++		return ret;
++	}
++
++	ret = bus_register(&faux_bus_type);
++	if (ret)
++		goto error_bus;
++
++	ret = driver_register(&faux_driver);
++	if (ret)
++		goto error_driver;
++
++	return ret;
++
++error_driver:
++	bus_unregister(&faux_bus_type);
++
++error_bus:
++	device_unregister(&faux_bus_root);
++	return ret;
++}
+diff --git a/drivers/base/init.c b/drivers/base/init.c
+index c4954835128c..9d2b06d65dfc 100644
+--- a/drivers/base/init.c
++++ b/drivers/base/init.c
+@@ -32,6 +32,7 @@ void __init driver_init(void)
+ 	/* These are also core pieces, but must come after the
+ 	 * core core pieces.
+ 	 */
++	faux_bus_init();
+ 	of_core_init();
+ 	platform_bus_init();
+ 	auxiliary_bus_init();
+diff --git a/include/linux/device/faux.h b/include/linux/device/faux.h
+new file mode 100644
+index 000000000000..2c8ae5bd7ae8
+--- /dev/null
++++ b/include/linux/device/faux.h
+@@ -0,0 +1,31 @@
++/* SPDX-License-Identifier: GPL-2.0-only */
++/*
++ * Copyright (c) 2025 Greg Kroah-Hartman <gregkh@linuxfoundation.org>
++ * Copyright (c) 2025 The Linux Foundation
++ *
++ * A "simple" faux bus that allows devices to be created and added
++ * automatically to it.  This is to be used whenever you need to create a
++ * device that is not associated with any "real" system resources, and do
++ * not want to have to deal with a bus/driver binding logic.  It is
++ * intended to be very simple, with only a create and a destroy function
++ * available.
++ */
++#ifndef _FAUX_DEVICE_H_
++#define _FAUX_DEVICE_H_
++
++#include <linux/device.h>
++
++struct faux_device {
++	struct device dev;
++};
++#define to_faux_device(x) container_of_const((x), struct faux_device, dev)
++
++struct faux_driver_ops {
++	int (*probe)(struct faux_device *faux_dev);
++	void (*remove)(struct faux_device *faux_dev);
++};
++
++struct faux_device *faux_device_create(const char *name, struct faux_driver_ops *faux_ops);
++void faux_device_destroy(struct faux_device *faux_dev);
++
++#endif /* _FAUX_DEVICE_H_ */
 -- 
-2.25.1
+2.48.1
 
