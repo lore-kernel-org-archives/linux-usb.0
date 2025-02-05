@@ -1,176 +1,145 @@
-Received: from mail-qt1-f172.google.com (mail-qt1-f172.google.com [209.85.160.172])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2A1BF1FDE00
-	for <linux-usb@vger.kernel.org>; Wed,  5 Feb 2025 18:25:31 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.160.172
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 780491FF5F4;
+	Wed,  5 Feb 2025 19:35:15 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1738779933; cv=none; b=QpgZy12ooXQnQp9Vhz10jJ+Yh4sQhsk3+gdItBXA5gqpf3rZs7jOcqvrVi52cSMBbOyMG9xpHxAlMswvCzvMVUtqofnQNzGw1wVy6AQsHXfnElaALJrb0UbwyctDJDN4KnGu6IagluVLyrwnRaSa0VbYVIxHRi/CZG5Hms093l8=
+	t=1738784115; cv=none; b=sru7cxYGiu1mKI13untadRXGtUGWv0iQQGEG9QxbHOJqFWavS73tQrdPXCNpKgav1FUmuErKAybffGL6gcN+LX4MZcbNgH9SwJCEQd/tdgFhADvtknYfdBxBF9+kCCo0BszQCHWfBYOZZOpiL5ORl2S9wLyVV4EJ1U67WR1MaIw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1738779933; c=relaxed/simple;
-	bh=tH6lLMrQ/gj5po0e0sG6QtkzB5Kxsj+lFXBtzxF6SIc=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=N+W7p0XnOFfn2J7+oGqU2dn9uEcW8NbZnpJDOa5NbD8WOtDXhCN4WfDZCPd4tEAbThWGkfxK//fQVkh0PLhprke3Lr81eXxG/2EvoygVBXy0xoG3p+OlrqQN/VsdRwoKWF0wKY7pVRtDukEBLUYVe9ou3Eu+BliJABSfABpTJxc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=rowland.harvard.edu; spf=fail smtp.mailfrom=g.harvard.edu; dkim=pass (2048-bit key) header.d=rowland.harvard.edu header.i=@rowland.harvard.edu header.b=ApoHtq05; arc=none smtp.client-ip=209.85.160.172
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=rowland.harvard.edu
-Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=g.harvard.edu
+	s=arc-20240116; t=1738784115; c=relaxed/simple;
+	bh=ShcZHGBdifSRfT1a3wdja/S42QVCg8pR07DE0bj9C2A=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=E7BK/HNBnPQ1Ww7GelOP/gd5srXdCPUMu6k39l+S95WN4fUrBICeO1eFcAQKcTM8pm1+sG/lvr1y5mrnhLxrCaXqvn1EdC22nbVm6RFY4WPjUYeKmujWtYiQY2DR6tpShmu05XtUyWJKYIJ/i82Fw3pk4v6MF8NpcsKQuQH3iVE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=kkAVgl1X; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=rowland.harvard.edu header.i=@rowland.harvard.edu header.b="ApoHtq05"
-Received: by mail-qt1-f172.google.com with SMTP id d75a77b69052e-467918c360aso1566651cf.0
-        for <linux-usb@vger.kernel.org>; Wed, 05 Feb 2025 10:25:31 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=rowland.harvard.edu; s=google; t=1738779931; x=1739384731; darn=vger.kernel.org;
-        h=in-reply-to:content-transfer-encoding:content-disposition
-         :mime-version:references:message-id:subject:cc:to:from:date:from:to
-         :cc:subject:date:message-id:reply-to;
-        bh=mCzyuBHVhuQj4Umta0/LqBnv3QQgsYQwEwtnRHH8YVM=;
-        b=ApoHtq05eDSi3/wXc75BudIKOhgeXgT1Xwxx8EmX68Z5uBqUh6n0Y9gWB1QCVhW6wq
-         A8VBkj/2FprcxeVdJeGhCCnvScm3cxnb54oBxswBBV3pldZMNUOG5HlNmhbhnzDcQkVV
-         cXtDk+f2jbYrtzQCSwDZnE8A5gU4QCAjwCdmPJ23DE9ZEx0rGXr1EDdApJ8pLtg43le+
-         prPEqM3x5t+NJwYSL8OiavFy5GraKuVwYtzR0KUMhCAylKfDG2c//13dRTFJxNN4JtXY
-         tQYysHfbOz3ZHZTp9dkNEKGusz80rxP4X3X1ymePPG5r0uKql6aXqyNj77M3cQQ4ZhGH
-         bbiQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1738779931; x=1739384731;
-        h=in-reply-to:content-transfer-encoding:content-disposition
-         :mime-version:references:message-id:subject:cc:to:from:date
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=mCzyuBHVhuQj4Umta0/LqBnv3QQgsYQwEwtnRHH8YVM=;
-        b=XRW4fSL/lwaK/ertwD2vVDrUhPEh2DuJ+R1dM9jhGqKzsCMymkPysR3P+ZRRu4heSm
-         fmFMCnRm7W2wKkTkelIibRccKtW0RKebNUwnXkaVy3QsSK0wrbOhIbDz9haXWXHlkOdP
-         pr7N10IE4mChlGkFhNQjwearEVT9rD0/hAlg+Zpq5MqBwXL8imoCK8AL3AgC2d+KQqAP
-         vwauMKffMOzlU13fPtz4YcRU0gBxzigr2vvTCtDuMsdQRyLdBK+BcPCj4fh+Vu0XKBaQ
-         ES+uc3xzYaicggShmsY9cx+Kg4AEu0lKkme/8ia4jd1hZI6+RxPbdsautqxHg11PkHxI
-         3BTw==
-X-Forwarded-Encrypted: i=1; AJvYcCVsri1c+6kAXOMa1hUCGy9aPk0nw2zbZ53wjAotInCOHl2wECNPaw3u2rVdSOpqRNBWqa7kUy4hesw=@vger.kernel.org
-X-Gm-Message-State: AOJu0Ywlfm8f8TcTBvA0OmuclN/bLRbRRGjOv/ICTaC7btY3fPsr9Px3
-	OyTuq340J0R1cWejgUF5fl9CKE7lGTG1E7jwo83iT760pmCWjmXEMXEunqYINw==
-X-Gm-Gg: ASbGncsQgHPU8EH2LBJcBXSJPqX5zoBahIc2JhswKVMxvabzd34ox5nYIOtUs3TpERA
-	rajlAKNyk8THBKPH6l62HNg/yVlzLmBP2ufCSdvhRbqNGLsvOYQcsZHIhUjz/nnpJV4RIOK6QkM
-	JaBgy+sYenAjumhLiWhar2Ra8KoFLTcf5RWswUnpF+NKza0cBIvI9Xny6t/AZ+FGzJ4qXzdoXCH
-	ZbjY+Vu92gdhA3OeQq4dqowu1TRkUIjgjBTz1W4/abdendA284o55XevyVB3g+AVgN3UPNHmiRy
-	Eg8/9B8Zyiqm2QA6/XJp98DyIovarRFs/MNy8giQt28tziscnLwbohbeF+1bPcb7tN1Cx7SBXt9
-	Kegn6Oz2w
-X-Google-Smtp-Source: AGHT+IHbLHNE3cQEhE10HA2TKNk7wuNggVxGPfO7kUIpeSaRqAIv7hAuT4QUnco0X4ZYtMz7WP94AA==
-X-Received: by 2002:a05:622a:50:b0:46f:cc2e:3b54 with SMTP id d75a77b69052e-4702818e2e4mr39924271cf.12.1738779931018;
-        Wed, 05 Feb 2025 10:25:31 -0800 (PST)
-Received: from rowland.harvard.edu (nat-65-112-8-21.harvard-secure.wrls.harvard.edu. [65.112.8.21])
-        by smtp.gmail.com with ESMTPSA id d75a77b69052e-46fdf0ce770sm72153931cf.19.2025.02.05.10.25.29
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 05 Feb 2025 10:25:30 -0800 (PST)
-Date: Wed, 5 Feb 2025 13:25:27 -0500
-From: Alan Stern <stern@rowland.harvard.edu>
-To: Mingcong Bai <jeffbai@aosc.io>
-Cc: Huacai Chen <chenhuacai@kernel.org>,
-	Huacai Chen <chenhuacai@loongson.cn>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	linux-usb@vger.kernel.org, linux-kernel@vger.kernel.org,
-	stable@vger.kernel.org, Kexy Biscuit <kexybiscuit@aosc.io>
-Subject: Re: [PATCH] USB: core: Enable root_hub's remote wakeup for wakeup
- sources
-Message-ID: <6363c5ba-c576-42a8-8a09-31d55768618c@rowland.harvard.edu>
-References: <20250131100630.342995-1-chenhuacai@loongson.cn>
- <2f583e59-5322-4cac-aaaf-02163084c32c@rowland.harvard.edu>
- <CAAhV-H7Dt1bEo8qcwfVfcjTOgXSKW71D19k3+418J6CtV3pVsQ@mail.gmail.com>
- <fbe4a6c4-f8ba-4b5b-b20f-9a2598934c42@rowland.harvard.edu>
- <61fecc0b-d5ac-4fcb-aca7-aa84d8219493@rowland.harvard.edu>
- <2a8d65f4-6832-49c5-9d61-f8c0d0552ed4@aosc.io>
- <06c81c97-7e5f-412b-b6af-04368dd644c9@rowland.harvard.edu>
- <6838de5f-2984-4722-9ee5-c4c62d13911b@aosc.io>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="kkAVgl1X"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 9B83FC4CED1;
+	Wed,  5 Feb 2025 19:35:11 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1738784114;
+	bh=ShcZHGBdifSRfT1a3wdja/S42QVCg8pR07DE0bj9C2A=;
+	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+	b=kkAVgl1Xjzt1q8t/CAipXH+qrumDPqWOhCqysT2XJzi3Q4mjx7rhEr5vXrre6CZwu
+	 UYBobVOwJGrYY9J0ZnXTjbgFC8CEzK141Cb6yitgYkWG61mAwSPZ5M39xC0ZcAm3Du
+	 n97+odZ/wJpzq+jCACoBPJM2OueummlRWdb5KPKLNW3hQ0rmqbCPzoht2HTFKlCpza
+	 AoxJOn1lPHCf5xHScmmz2J1Vo5x8WknrjEUVj/BPpDvyd9j9E2f//UPP1VYzPUyAjS
+	 S6KkzuwSOPqt30Q5H7BVKna7OkfGcqMo2l5qGMQq7Xp1IDt0GBdM9OGjo/0nV0PryN
+	 mlMk1g1q1BHKg==
+Message-ID: <73d4153e-cc03-45ba-ae2e-3b9f4baf7346@kernel.org>
+Date: Wed, 5 Feb 2025 20:35:09 +0100
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <6838de5f-2984-4722-9ee5-c4c62d13911b@aosc.io>
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v1 1/2] dt-bindings: usb: snps,dwc3: Add property for imod
+To: Badhri Jagan Sridharan <badhri@google.com>
+Cc: Thinh.Nguyen@synopsys.com, gregkh@linuxfoundation.org,
+ felipe.balbi@linux.intel.com, robh@kernel.org, krzk+dt@kernel.org,
+ conor+dt@kernel.org, johnyoun@synopsys.com, linux-usb@vger.kernel.org,
+ linux-kernel@vger.kernel.org, devicetree@vger.kernel.org,
+ jameswei@google.com, stable@kernel.org
+References: <20250202035100.31235-1-badhri@google.com>
+ <20250202-purring-ambitious-axolotl-4c6ff4@krzk-bin>
+ <CAPTae5+j9N=RBpfHVE-As+dz7HzrxXAH1enWrmSdFzu6DuaTBA@mail.gmail.com>
+ <80172550-a3d7-4d56-927c-ff63debc79f8@kernel.org>
+ <CAPTae5+xF0B64AhT5fjMU9tcW8cT9smO5eUD=Wpsiw2CKAhDAQ@mail.gmail.com>
+From: Krzysztof Kozlowski <krzk@kernel.org>
+Content-Language: en-US
+Autocrypt: addr=krzk@kernel.org; keydata=
+ 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 fv0=
+In-Reply-To: <CAPTae5+xF0B64AhT5fjMU9tcW8cT9smO5eUD=Wpsiw2CKAhDAQ@mail.gmail.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 
-On Wed, Feb 05, 2025 at 01:59:24PM +0800, Mingcong Bai wrote:
-> 在 2025/2/4 00:15, Alan Stern 写道:
-> > What sort of USB controller does the X200s have?  Is the controller
-> > enabled for wakeup?
-> > 
-> > What happens with runtime suspend rather than S3 suspend?
+On 05/02/2025 19:19, Badhri Jagan Sridharan wrote:
+>>>>
+>>>>> +      during device mode operation. A value of 0 disables the interrupt
+>>>>> +      throttling logic and interrupts are generated immediately if event
+>>>>> +      count becomes non-zero. Otherwise, the interrupt is signaled when
+>>>>> +      all of the following conditons are met which are, EVNT_HANDLER_BUSY
+>>>>> +      is 0, event count is non-zero and at least 250ns increments of this
+>>>>> +      value has elapsed since the last time interrupt was de-asserted.
+>>>>
+>>>> Why is this property of a board? Why different boards would wait
+>>>> different amount of time?
+>>>
+>>> Interrupt moderation allows batch processing of events reported by the
+>>> controller.
+>>> A very low value of snps,device-mode-intrpt-mod-interval-ns implies
+>>> that the controller will interrupt more often to make the host
+>>> processor process a smaller set of events Vs a larger value will wake
+>>> up the host processor at longer intervals to process events (likely
+>>> more). So depending what the board is designed for this can be tuned
+>>> to achieve the needed outcome.
+>>
+>> I do not see dependency on the board. Host has the same CPU always, so
+>> it processes with the same speed.
 > 
-> It has the Intel Corporation 82801I (ICH9 Family) USB UCHI/USB2 EHCI
+>  By "host processor", I am referring to the CPU which is scheduling
+> the TRBs and responding to the events reported by the Synopsys DWC3
+> controller. In a nutshell, the CPU which is driving the  Synopsys DWC3
+> controller. The Synopsys DWC3 controller could be paired with any CPU
+> configuration and therefore is "Host has the same CPU always" a fair
+> assumption to be made ?
 
-UHCI, not UCHI.
+Not really, this is part of a SoC, so DWC3 controller is always here
+fixed per given setup with given CPU. You claim that this is independent
+of SoC, but so far arguments do not support that statement. This is
+related to given SoC, so no need for this property and you can deduce
+everything from SoC.
 
-> controller with PCI IDs 17aa:20f0/17aa:20f1. The hub is a Genesys Logic,
-> Inc. Hub with an ID of 05e3:0610 - this is an xHCI hub.
+You push this as a property because you (or vendor) do not want to
+upstream your SoC. That's common pattern, seen here many times. BTW,
+good counter argument would be to show me patches for upstream DTS users
+of this. Actually that would be very easy way to finish discussion...
+but there are no patches, right? Why? Because it is not upstream and it
+is done for downstream solution. Sorry, no. Develop code how upstream
+develops, not downstream.
 
-There is no such thing as an xHCI hub -- xHCI is a host controller 
-technology, not a hub technology.  Perhaps you mean that it is a USB-3 
-hub.
-
-> Sorry but the record here is going to get a bit messy... But let's start
-> with a kernel with Huacai's patch.
-> 
-> === Kernel + Huacai's Patch ===
-> 
-> 1. If I plug in the external keyboard via the hub,
-> /sys/bus/usb/devices/usb1,
-
-/sys/bus/usb/devices/usb1 is the root hub, which is an emulated device 
-that is closely tied to the host controller.  The external Genesys Logic 
-hub is /sys/bus/usb/devices/1-1.
-
->  power/state is set to enabled. For the hub,
-
-You mean power/wakeup, not power/state.  In fact, there is no 
-power/state file for USB devices in sysfs.
-
-> corresponding to usb1/1-1, power/wakeup is set to disabled.
-> 
-> 2. If I plug the keyboard directly into the chassis, usb1/power/wakeup is
-> set to disabled, but usb1/1-1/power/wakeup is set to enabled.
-
-Why is usb1/power/wakeup set to disabled?  Doesn't Huacai's patch set it 
-to enabled?
-
-Is 1-1 the keyboard device?  That is, did you plug the keyboard into the 
-port that the Genesys Logic hub was using previously?
-
-> The system wakes up via external keyboard plugged directly into the chassis
-> **or** the hub either way, regardless if I used S3 or runtime suspend (which
-> I assume to be echo freeze > /sys/power/state).
-
-No.  Runtime suspend has no relation to /sys/power.  It is controlled by 
-/sys/bus/usb/devices/.../power/control.  If you write "auto" to this 
-file for the device and for all the hubs above it (including the root 
-hub) then they will be put into runtime suspend a few seconds after you 
-stop using them, assuming no other USB devices are plugged into the same 
-hubs.
-
-> === Kernel w/o Huacai's Patch ===
-> 
-> The controller where I plugged in the USB hub, /sys/bus/usb/devices/usb1 and
-
-/sys/bus/usb/devices/usb1 is the root hub, not the controller.  The two 
-are related but they are not the same thing.  The controller is the 
-parent device of the root hub; it lies under /sys/bus/pci/devices/.
-
-> the hub, corresponding to usb1/1-1, their power/wakeup entries are both set
-> to disabled. Same for when I have the patch applied.
-> 
-> However, if I plug the external keyboard into the chassis, it would fail to
-> wakeup regardless of S3/runtime suspend (freeze). If I plug the external
-> keyboard via that USB Hub though, it would wake up the machine. The findings
-> are consistent between S3/freeze.
-
-This means there's something different between the way the keyboard 
-sends its wakeup signal and the way the Genesys Logic hub sends its 
-wakeup signal.
-
-Can you post the output from "lsusb -t" for this system?
-
-Also, can you enable dynamic debugging for usbcore by doing:
-
-	echo module usbcore =p >/sys/kernel/debug/dynamic_debug/control
-
-and then post the dmesg log for a suspend/resume cycle?
-
-Alan Stern
+Best regards,
+Krzysztof
