@@ -1,99 +1,143 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.9])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from out.smtpout.orange.fr (out-18.smtpout.orange.fr [193.252.22.18])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1688A22759D
-	for <linux-usb@vger.kernel.org>; Thu,  6 Feb 2025 10:36:22 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.9
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 021D222654E;
+	Thu,  6 Feb 2025 11:05:54 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=193.252.22.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1738838184; cv=none; b=iikMhcGzO7lmykzilbdi0jXtjXxemlRhc6u1HQhZ4K2zlXeEWZVrNDauEue4FRGcYUIuyAq0EHJ5tEiL8CXc5jzSZCsnllRS379G4sP6kY5y5i3HnRev1p27o4ZxbhWwjVB2Wll03VDOOsOVQMhuqM7dwlDLsCc8eCaZJJdrdds=
+	t=1738839958; cv=none; b=e0vUqUWQszlwy6vZdH21B1htS+EQO7k8oiSVZSmOmyqSmnkP2OQoIlqVfxQ9GeOK5RluOd6aP8u+alXjp7OcbVSH0t4YxS1GZxgFkw3++l8mGMP9TO15OEdLWIVebnXfvrqazUNM2i1bmHZN7Wd37+JX04oBIwgR6/ayHKAF0fQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1738838184; c=relaxed/simple;
-	bh=6bCobt3br1NrxP04QOTionRb3Wz6gsB9BodXRYt1xU4=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=Y7spts3/Y1Ei+tyMl9pOF4XGZ5yryFHl3KgOJkjdmKnV8XGejqTZKqDbfCPRNkKCP5l41vwVndRob7N7iEJ0bS58NTrPNoiNLUQZfrF9SY7gyK7cBMMKPoorX5IIMyLXXZ3uZXEYG6xOziaJJLF56mlb+vcmrypm6elT2iyOVcs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=none smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Ctgdf3FO; arc=none smtp.client-ip=192.198.163.9
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=linux.intel.com
+	s=arc-20240116; t=1738839958; c=relaxed/simple;
+	bh=NZsOj5Fcsv03IXvzItAxk4Olrw8rpbCtglB2caFfCIY=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=JZyhX5m6wNdpgsmcY4OYdNzJaI/fF/UBOMYeasdPHIfIpRIoeO/GYgUiBCP5S2/0ptGQ3OZFhY7vpGJniLnCDqY7c5jl79knp9a+Xm/WWhEBuy1bZuLmBDrzfYgChdNoF0ZYNedRg8epz0xk47nGemIJjU84uPimYF5KVA/2xlU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=wanadoo.fr; spf=pass smtp.mailfrom=wanadoo.fr; dkim=pass (2048-bit key) header.d=wanadoo.fr header.i=@wanadoo.fr header.b=qNLgkufj; arc=none smtp.client-ip=193.252.22.18
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=wanadoo.fr
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=wanadoo.fr
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Ctgdf3FO"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1738838183; x=1770374183;
-  h=from:to:cc:subject:date:message-id:mime-version:
-   content-transfer-encoding;
-  bh=6bCobt3br1NrxP04QOTionRb3Wz6gsB9BodXRYt1xU4=;
-  b=Ctgdf3FOVdFEgjDQeXiCbI16KC16I7FBrON3ZgjY4I1/tvdr7j8nmWUj
-   I5oyncaT/QCE92CkdUSg8tZfGVevnBrsgE+8QyipVU6ok85cG4r8LoqWG
-   ULhp3kmOBJO77IRL1Kw/foguaZPEch2qdj0DmT26vLcuRmMJ0Qha0XH07
-   6s7ARry7bK+E0KcSUjaiTj80mIcJjAgUxcutWpem8zDn0wmrkSHk//Hym
-   UOSpT/Emhue5I5RbfrhgevdB47/4TCZVJq6KopQrhpWQgyaFq/K4uZMy3
-   Apy10bkV7rtF6lC81dIXF6mLsdVpyS3p5egP+V50NYXCb2Ou0nCYiAvdL
-   Q==;
-X-CSE-ConnectionGUID: 21y66ZxfQnSXGP4ZUBwWOA==
-X-CSE-MsgGUID: 66yybsQeSKSBVFHkYMVrZg==
-X-IronPort-AV: E=McAfee;i="6700,10204,11336"; a="50073842"
-X-IronPort-AV: E=Sophos;i="6.13,264,1732608000"; 
-   d="scan'208";a="50073842"
-Received: from fmviesa008.fm.intel.com ([10.60.135.148])
-  by fmvoesa103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 06 Feb 2025 02:34:44 -0800
-X-CSE-ConnectionGUID: 19lnvv7hQ7Kt5udqeCMAcQ==
-X-CSE-MsgGUID: CCbwYrToTvu0n8Upn/l0Zg==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.13,264,1732608000"; 
-   d="scan'208";a="111370790"
-Received: from black.fi.intel.com ([10.237.72.28])
-  by fmviesa008.fm.intel.com with ESMTP; 06 Feb 2025 02:34:32 -0800
-Received: by black.fi.intel.com (Postfix, from userid 1058)
-	id BA874EE; Thu, 06 Feb 2025 12:34:30 +0200 (EET)
-From: Niklas Neronin <niklas.neronin@linux.intel.com>
-To: mathias.nyman@linux.intel.com
-Cc: linux-usb@vger.kernel.org,
-	Niklas Neronin <niklas.neronin@linux.intel.com>
-Subject: [PATCH 0/4] usb: xhci: improve trb_in_td()
-Date: Thu,  6 Feb 2025 12:34:24 +0200
-Message-ID: <20250206103428.1034784-1-niklas.neronin@linux.intel.com>
-X-Mailer: git-send-email 2.47.2
+	dkim=pass (2048-bit key) header.d=wanadoo.fr header.i=@wanadoo.fr header.b="qNLgkufj"
+Received: from [172.16.82.72] ([124.33.176.97])
+	by smtp.orange.fr with ESMTPA
+	id fzhHthr0k30iWfzhMtk9fv; Thu, 06 Feb 2025 12:05:46 +0100
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=wanadoo.fr;
+	s=t20230301; t=1738839947;
+	bh=Yeb+V8hfoEsFwMLqNg9Wg1OhP0aaKTe+CyROomT+Lmk=;
+	h=Message-ID:Date:MIME-Version:Subject:To:From;
+	b=qNLgkufjqmHggIua4wEQscAknB0Bb5SfXuOm7Bs/vYLRNWR8yO/VNUWP3SPRmM6gq
+	 4wrfKATaLE8LMHmq3nq2TuHuMeWnMHXZ+t8JNx/SJJN+zm8uxJGCVYUpupgg7yAO5U
+	 F9vjBSpEfYK3B1jhEaUU2zBfFb13kT35rwh+8/dGfu1/INunadRiiKSdqdd2C56h0w
+	 PgIwBC7R9sDlKzXlzp3NF7JMxFrk388p7VUyy5uNhg/ggzHHu2RsQR5M+GxXngebNG
+	 9DwlMWPW8EX826d75Nob3mFdfW8mC4u7atqjOB5+Y64DzxzxKc/iwNT0kIw82ZnrP/
+	 h46fbam00CLhw==
+X-ME-Helo: [172.16.82.72]
+X-ME-Auth: bWFpbGhvbC52aW5jZW50QHdhbmFkb28uZnI=
+X-ME-Date: Thu, 06 Feb 2025 12:05:47 +0100
+X-ME-IP: 124.33.176.97
+Message-ID: <c255fe16-da67-42ff-86f3-89c1ac683c60@wanadoo.fr>
+Date: Thu, 6 Feb 2025 20:05:26 +0900
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v6 4/7] can: Add Nuvoton NCT6694 CANFD support
+To: Ming Yu <a0282524688@gmail.com>
+Cc: linux-kernel@vger.kernel.org, linux-gpio@vger.kernel.org,
+ linux-i2c@vger.kernel.org, linux-can@vger.kernel.org,
+ netdev@vger.kernel.org, linux-watchdog@vger.kernel.org,
+ linux-hwmon@vger.kernel.org, linux-rtc@vger.kernel.org,
+ linux-usb@vger.kernel.org, tmyu0@nuvoton.com, lee@kernel.org,
+ linus.walleij@linaro.org, brgl@bgdev.pl, andi.shyti@kernel.org,
+ mkl@pengutronix.de, andrew+netdev@lunn.ch, davem@davemloft.net,
+ edumazet@google.com, kuba@kernel.org, pabeni@redhat.com,
+ wim@linux-watchdog.org, linux@roeck-us.net, jdelvare@suse.com,
+ alexandre.belloni@bootlin.com
+References: <20250123091115.2079802-1-a0282524688@gmail.com>
+ <20250123091115.2079802-5-a0282524688@gmail.com>
+ <fc927b75-5862-4ead-a355-a40c27d8307b@wanadoo.fr>
+ <CAOoeyxWivAZmZPe92+_LrL-HvMn7Lqs7M4B__JULKqHeJMTioA@mail.gmail.com>
+Content-Language: en-US
+From: Vincent Mailhol <mailhol.vincent@wanadoo.fr>
+Autocrypt: addr=mailhol.vincent@wanadoo.fr; keydata=
+ xjMEZluomRYJKwYBBAHaRw8BAQdAf+/PnQvy9LCWNSJLbhc+AOUsR2cNVonvxhDk/KcW7FvN
+ LFZpbmNlbnQgTWFpbGhvbCA8bWFpbGhvbC52aW5jZW50QHdhbmFkb28uZnI+wrIEExYKAFoC
+ GwMFCQp/CJcFCwkIBwICIgIGFQoJCAsCBBYCAwECHgcCF4AWIQTtj3AFdOZ/IOV06OKrX+uI
+ bbuZwgUCZx41XhgYaGtwczovL2tleXMub3BlbnBncC5vcmcACgkQq1/riG27mcIYiwEAkgKK
+ BJ+ANKwhTAAvL1XeApQ+2NNNEwFWzipVAGvTRigA+wUeyB3UQwZrwb7jsQuBXxhk3lL45HF5
+ 8+y4bQCUCqYGzjgEZx4y8xIKKwYBBAGXVQEFAQEHQJrbYZzu0JG5w8gxE6EtQe6LmxKMqP6E
+ yR33sA+BR9pLAwEIB8J+BBgWCgAmFiEE7Y9wBXTmfyDldOjiq1/riG27mcIFAmceMvMCGwwF
+ CQPCZwAACgkQq1/riG27mcJU7QEA+LmpFhfQ1aij/L8VzsZwr/S44HCzcz5+jkxnVVQ5LZ4B
+ ANOCpYEY+CYrld5XZvM8h2EntNnzxHHuhjfDOQ3MAkEK
+In-Reply-To: <CAOoeyxWivAZmZPe92+_LrL-HvMn7Lqs7M4B__JULKqHeJMTioA@mail.gmail.com>
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 
-Function td_in_trd() checks whether a DMA address is within the TDs
-boundaries. This patch set aims to simplify and improve trb_in_td().
+On 04/02/2025 at 12:24, Ming Yu wrote:
+> Dear Vincent,
+> 
+> Thank you for reviewing,
+> I will address the issues you mentioned in the next patch.
+> 
+> Vincent Mailhol <mailhol.vincent@wanadoo.fr> 於 2025年1月26日 週日 下午4:47寫道：
+>>
+> ...
+>>> +static int nct6694_can_get_clock(struct nct6694_can_priv *priv)
+>>> +{
+>>> +     struct nct6694_can_information *info;
+>>> +     struct nct6694_cmd_header cmd_hd = {
+>>
+>> If the variable only has constant initializer, make it static const:
+>>
+>>         static const struct nct6694_cmd_header cmd_hd = {
+>>
+>> Apply this at other locations in your different modules.
+>>
+>>> +             .mod = NCT6694_CAN_MOD,
+>>> +             .cmd = NCT6694_CAN_INFORMATION,
+>>> +             .sel = NCT6694_CAN_INFORMATION_SEL,
+>>> +             .len = cpu_to_le16(sizeof(*info))
+>>> +     };
+>>> +     int ret, can_clk;
+>>> +
+>>> +     info = kzalloc(sizeof(*info), GFP_KERNEL);
+>>> +     if (!info)
+>>> +             return -ENOMEM;
+>>> +
+> 
+> Excuse me, I would like to confirm, if the variable is constant
+> initializer, should the declaration be written as:
+> static const struct nct6694_cmd_header cmd_hd = {
+>     .mod = NCT6694_CAN_MOD,
+>     .cmd = NCT6694_CAN_INFORMATION,
+>     .sel = NCT6694_CAN_INFORMATION_SEL,
+>     .len = cpu_to_le16(sizeof(struct nct6694_can_information))
+> };
+> instead of:
+> static const struct nct6694_cmd_header cmd_hd = {
+>     .mod = NCT6694_CAN_MOD,
+>     .cmd = NCT6694_CAN_INFORMATION,
+>     .sel = NCT6694_CAN_INFORMATION_SEL,
+>     .len = cpu_to_le16(sizeof(*info))
+> };
+> , correct?
 
-Additionally, the rework will enable trb_in_td() (with renaming and minor
-modifications) to also check whether a DMA address is in a ring queue.
-This will be utilized in the upcoming handle_tx_event() rework.
+The sizeof() keyword returns a integer constant expression even if
+applied on to a variable (unless that variable is a variable length
+array, but these are banned in the kernel anyway). This is because only
+the type of the variable matters, and that is known at compile time.
 
-Example of a Ring Structure:
-The example segment ring is composed of three segments (A, B, C), each
-containing three TRBs (1, 2, 3). Any segment can serve as the start or
-end segment, and any TRB within the start segment can be the start TRB,
-and vice versa.
+So, cpu_to_le16(sizeof(*info)) should work fine. Or are you getting any
+error?
 
-      +---+   +---+   +---+
-C --> | A |-->| B |-->| C |--> A
-      +---+   +---+   +---+
-        |       |       |
-      +---+   +---+   +---+
-      | 1 |   | 1 |   | 1 |
-      | 2 |   | 2 |   | 2 |
-      | 3 |   | 3 |   | 3 |
-      +---+   +---+   +---+
+> In addition, does this mean that the parameter in nct6694_read_msg()
+> and nct6694_write_msg() should be changed to const struct
+> nct6694_cmd_header *cmd_hd?
 
-Niklas Neronin (4):
-  usb: xhci: refactor trb_in_td() to be static
-  usb: xhci: move debug capabilities from trb_in_td() to
-    handle_tx_event()
-  usb: xhci: rework and simplify trb_in_td()
-  usb: xhci: modify trb_in_td() to be more modular
+Yes!
 
- drivers/usb/host/xhci-ring.c | 143 ++++++++++++++++++-----------------
- drivers/usb/host/xhci.h      |   2 -
- 2 files changed, 72 insertions(+), 73 deletions(-)
 
--- 
-2.47.2
+Yours sincerely,
+Vincent Mailhol
 
