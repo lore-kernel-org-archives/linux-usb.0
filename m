@@ -1,147 +1,74 @@
-Received: from fllvem-ot03.ext.ti.com (fllvem-ot03.ext.ti.com [198.47.19.245])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2755013D897;
-	Thu,  6 Feb 2025 12:59:59 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.47.19.245
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 791ED1624C3
+	for <linux-usb@vger.kernel.org>; Thu,  6 Feb 2025 13:22:16 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1738846802; cv=none; b=gzaYN8NjKK4sZuUHvXbak34ynpz+qGq9u5zeBN6wiKUUY9OTe2TfooE11x9eAYta+MOYtGz0uvpi2OCxjZegHn6gWVOSKAbucP0g/GP+Kz86J/2eTSB6UZm3S9c7b2Oj7zyKJfpPGSguLdKKwlovn9CkuCG7Pou6ztDdPJcdask=
+	t=1738848137; cv=none; b=RAwVNKE7GBpSuvMBSzXOjdcQf/O5pIY3P/U6CVuWJhPtDz4N/H8DPh0fFjP0YSrPOunZsjuw6Avpp2V0WZlFNejdB4FjHlz8pOEUNyyNlXHS6CDvAqL6e6MvBfWLmlLlu4Hj7+QRKunD6lU6xw+I62eqcoWoawk8xFN0W5pFnIg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1738846802; c=relaxed/simple;
-	bh=xxbDZdqWo3K/8PCwFPnRCr7uf9tUfjynoOu26v/FlfU=;
-	h=From:To:CC:Subject:Date:Message-ID:MIME-Version:Content-Type; b=ZuhzFgN+1EUMMdGTKzY9wohWqLqLsr5yR6lTRXBtrVCFjXeni1e0io5iEI01QGXvZjJav2D9jX0/AYH1dm5VH3jvPV66XEZZ6ipgMoAI6Gumqy+8YTxiYsnkFdbiI8vV2E2EeHHx8N+G9kiKW/ItYmHJTzQjGJ7m7AjBsdJS0+g=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=ti.com; spf=pass smtp.mailfrom=ti.com; dkim=pass (1024-bit key) header.d=ti.com header.i=@ti.com header.b=XrTLxR5w; arc=none smtp.client-ip=198.47.19.245
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=ti.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ti.com
+	s=arc-20240116; t=1738848137; c=relaxed/simple;
+	bh=uEhMVkwAJOWwOXx1ffdM+NlxfWfjTYjMB2Gj0M2Py0A=;
+	h=From:To:Subject:Date:Message-ID:In-Reply-To:References:
+	 Content-Type:MIME-Version; b=sby3uGLWKpllISS4v6V7XnSJ6Re2OaBFi0chAlVee9vgQjAs/xVovWI/E4yDjo7ViwsTZB39SGC1AtQWaAIVonDl6wEGQU4DoHUMyZWMvKYOv1sbW0QRN8to2W0zKNpz8nlYljWAStbvYDatiUkditrcJnswv5LZnUE1rc5Y0Xs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=VmGZ5c4A; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=ti.com header.i=@ti.com header.b="XrTLxR5w"
-Received: from lelv0265.itg.ti.com ([10.180.67.224])
-	by fllvem-ot03.ext.ti.com (8.15.2/8.15.2) with ESMTPS id 516Cxmmr3553666
-	(version=TLSv1.2 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
-	Thu, 6 Feb 2025 06:59:48 -0600
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ti.com;
-	s=ti-com-17Q1; t=1738846788;
-	bh=Mv0wdh7SmM7WMLkdwxSV1wkm7zvheEOu8m9g8tZ+KPI=;
-	h=From:To:CC:Subject:Date;
-	b=XrTLxR5wO8p6ersm33yDywbwUdJb5nIdCWOIuRR2+l8AnSWrgBBsCi40/sqGEZ9qq
-	 TRNHphQJO7WGmGZn2oiSJ8YrYp3kDbFjuilteo542lDVMKNSRma3Y/b+XGTqjm8M7X
-	 qW7ubqUEzu+OWEbVngTMOgwR7fLGI7RIeChkMwuo=
-Received: from DLEE111.ent.ti.com (dlee111.ent.ti.com [157.170.170.22])
-	by lelv0265.itg.ti.com (8.15.2/8.15.2) with ESMTPS id 516Cxm5T012943
-	(version=TLSv1.2 cipher=AES256-GCM-SHA384 bits=256 verify=FAIL);
-	Thu, 6 Feb 2025 06:59:48 -0600
-Received: from DLEE101.ent.ti.com (157.170.170.31) by DLEE111.ent.ti.com
- (157.170.170.22) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.2507.23; Thu, 6
- Feb 2025 06:59:48 -0600
-Received: from lelvsmtp6.itg.ti.com (10.180.75.249) by DLEE101.ent.ti.com
- (157.170.170.31) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.2507.23 via
- Frontend Transport; Thu, 6 Feb 2025 06:59:48 -0600
-Received: from uda0492258.dhcp.ti.com (uda0492258.dhcp.ti.com [10.24.72.104])
-	by lelvsmtp6.itg.ti.com (8.15.2/8.15.2) with ESMTP id 516CxhVf101205;
-	Thu, 6 Feb 2025 06:59:44 -0600
-From: Siddharth Vadapalli <s-vadapalli@ti.com>
-To: <peter.chen@kernel.org>, <pawell@cadence.com>, <rogerq@kernel.org>,
-        <gregkh@linuxfoundation.org>, <balbi@kernel.org>, <jun.li@nxp.com>
-CC: <linux-usb@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
-        <stable@vger.kernel.org>, <linux-arm-kernel@lists.infradead.org>,
-        <srk@ti.com>, <s-vadapalli@ti.com>
-Subject: [PATCH] usb: cdns3: exit cdns3_gadget_udc_start if FAST_REG_ACCESS cannot be set
-Date: Thu, 6 Feb 2025 18:29:36 +0530
-Message-ID: <20250206125943.786949-1-s-vadapalli@ti.com>
-X-Mailer: git-send-email 2.43.0
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="VmGZ5c4A"
+Received: by smtp.kernel.org (Postfix) with ESMTPS id D6F6BC4CEDD
+	for <linux-usb@vger.kernel.org>; Thu,  6 Feb 2025 13:22:15 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1738848135;
+	bh=uEhMVkwAJOWwOXx1ffdM+NlxfWfjTYjMB2Gj0M2Py0A=;
+	h=From:To:Subject:Date:In-Reply-To:References:From;
+	b=VmGZ5c4AN6ijihBl3GAFJAVKU7AAk//9EAM8/CAoSY/5KfBc3rKGs9DXjgi4aFhwd
+	 pXTW4+x7oRNV7aFUJyMlibfIIAiz2niSsQakuraV8sCNZD8b2GBekBVxbF3zkkP+oL
+	 Pd/gGYVEHrdAcFQal+bY4Pp724KcWSy8ldyiqKJxGAmhBb31xqt6r+vfdt2ALwxxci
+	 8fwoYzzxvN8ZQvmtxmBztxglU1Ig2EOIdS639r8HT+WcVK2iUrzSASYd0+MxnUMKRJ
+	 ZV8N6ybPcAjqGEhzPh7gh+CQQZcyc49iGLbSmB2mHORG5XYfToG7w50yqm6kon1bTx
+	 qeCnfOw9boP2A==
+Received: by aws-us-west-2-korg-bugzilla-1.web.codeaurora.org (Postfix, from userid 48)
+	id C1934C3279F; Thu,  6 Feb 2025 13:22:15 +0000 (UTC)
+From: bugzilla-daemon@kernel.org
+To: linux-usb@vger.kernel.org
+Subject: [Bug 219590] Linux 6.13 ucsi driver error:
+ drivers/usb/typec/ucsi/ucsi.c:1374 ucsi_reset_ppm
+Date: Thu, 06 Feb 2025 13:22:15 +0000
+X-Bugzilla-Reason: None
+X-Bugzilla-Type: changed
+X-Bugzilla-Watch-Reason: AssignedTo drivers_usb@kernel-bugs.kernel.org
+X-Bugzilla-Product: Drivers
+X-Bugzilla-Component: USB
+X-Bugzilla-Version: 2.5
+X-Bugzilla-Keywords: 
+X-Bugzilla-Severity: normal
+X-Bugzilla-Who: pchelkin@ispras.ru
+X-Bugzilla-Status: NEW
+X-Bugzilla-Resolution: 
+X-Bugzilla-Priority: P3
+X-Bugzilla-Assigned-To: drivers_usb@kernel-bugs.kernel.org
+X-Bugzilla-Flags: 
+X-Bugzilla-Changed-Fields: 
+Message-ID: <bug-219590-208809-HiGh3bxVOf@https.bugzilla.kernel.org/>
+In-Reply-To: <bug-219590-208809@https.bugzilla.kernel.org/>
+References: <bug-219590-208809@https.bugzilla.kernel.org/>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+X-Bugzilla-URL: https://bugzilla.kernel.org/
+Auto-Submitted: auto-generated
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-C2ProcessedOrg: 333ef613-75bf-4e12-a4b1-8e3623f5dcea
 
-When the device is in a low power state, access to the following
-registers takes a long time:
-- EP_CFG
-- EP_TRADDR
-- EP_CMD
-- EP_SEL
-- EP_STS
-- USB_CONF
+https://bugzilla.kernel.org/show_bug.cgi?id=3D219590
 
-To address this, the fast register access feature can be enabled by
-setting PUSB_PWR_FST_REG_ACCESS bit of the USB_PWR register, which
-allows quick access by software. Software is expected to poll on
-PUSB_PWR_FST_REG_ACCESS_STAT to ensure that fast register access has
-been enabled by the controller. Attempting to access any of the
-aforementioned registers after setting PUSB_PWR_FST_REG_ACCESS but
-before PUSB_PWR_FST_REG_ACCESS_STAT has been set will result in
-undefined behavior and potentially result in system hang.
+--- Comment #13 from Fedor Pchelkin (pchelkin@ispras.ru) ---
+Any success with that ..?
 
-Hence, poll on PUSB_PWR_FST_REG_ACCESS_STAT before proceeding with
-gadget configuration, and exit if it cannot be enabled.
+--=20
+You may reply to this email to add a comment.
 
-Fixes: b5148d946f45 ("usb: cdns3: gadget: set fast access bit")
-Cc: <stable@vger.kernel.org>
-Signed-off-by: Siddharth Vadapalli <s-vadapalli@ti.com>
----
-
-Hello,
-
-This patch is based on commit
-92514ef226f5 Merge tag 'for-6.14-rc1-tag' of git://git.kernel.org/pub/scm/linux/kernel/git/kdave/linux
-of Mainline Linux.
-
-Regards,
-Siddharth.
-
- drivers/usb/cdns3/cdns3-gadget.c | 18 ++++++++++++++++--
- 1 file changed, 16 insertions(+), 2 deletions(-)
-
-diff --git a/drivers/usb/cdns3/cdns3-gadget.c b/drivers/usb/cdns3/cdns3-gadget.c
-index fd1beb10bba7..b62691944272 100644
---- a/drivers/usb/cdns3/cdns3-gadget.c
-+++ b/drivers/usb/cdns3/cdns3-gadget.c
-@@ -2971,8 +2971,6 @@ static void cdns3_gadget_config(struct cdns3_device *priv_dev)
- 	/* enable generic interrupt*/
- 	writel(USB_IEN_INIT, &regs->usb_ien);
- 	writel(USB_CONF_CLK2OFFDS | USB_CONF_L1DS, &regs->usb_conf);
--	/*  keep Fast Access bit */
--	writel(PUSB_PWR_FST_REG_ACCESS, &priv_dev->regs->usb_pwr);
- 
- 	cdns3_configure_dmult(priv_dev, NULL);
- }
-@@ -2990,6 +2988,8 @@ static int cdns3_gadget_udc_start(struct usb_gadget *gadget,
- 	struct cdns3_device *priv_dev = gadget_to_cdns3_device(gadget);
- 	unsigned long flags;
- 	enum usb_device_speed max_speed = driver->max_speed;
-+	int ret;
-+	u32 reg;
- 
- 	spin_lock_irqsave(&priv_dev->lock, flags);
- 	priv_dev->gadget_driver = driver;
-@@ -2997,6 +2997,20 @@ static int cdns3_gadget_udc_start(struct usb_gadget *gadget,
- 	/* limit speed if necessary */
- 	max_speed = min(driver->max_speed, gadget->max_speed);
- 
-+	/*  keep Fast Access bit */
-+	writel(PUSB_PWR_FST_REG_ACCESS, &priv_dev->regs->usb_pwr);
-+	reg = readl(&priv_dev->regs->usb_pwr);
-+	if (!(reg & PUSB_PWR_FST_REG_ACCESS_STAT)) {
-+		ret = readl_poll_timeout_atomic(&priv_dev->regs->usb_pwr, reg,
-+						(reg & PUSB_PWR_FST_REG_ACCESS_STAT),
-+						10, 1000);
-+		if (ret) {
-+			dev_err(priv_dev->dev, "Failed to enable fast access\n");
-+			spin_unlock_irqrestore(&priv_dev->lock, flags);
-+			return ret;
-+		}
-+	}
-+
- 	switch (max_speed) {
- 	case USB_SPEED_FULL:
- 		writel(USB_CONF_SFORCE_FS, &priv_dev->regs->usb_conf);
--- 
-2.43.0
-
+You are receiving this mail because:
+You are watching the assignee of the bug.=
