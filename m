@@ -1,60 +1,57 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.14])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.9])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6FF2B18B03
-	for <linux-usb@vger.kernel.org>; Thu,  6 Feb 2025 10:34:41 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.14
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1688A22759D
+	for <linux-usb@vger.kernel.org>; Thu,  6 Feb 2025 10:36:22 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.9
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1738838083; cv=none; b=DmqUyYBX2pZCbxz0v6Blm/8XO+qQQwcd13gdwHh36zfBYG/BMrOSsPKcdnRirUxUw0ZFksMscqj2+pyrb+hCbUB5Bh1++0s9z8DslDb+n7UZ6Db8o5ISB44UjQ6mxq+y7MrnVrQWuQuPxbSmMGm5cxET17T6n2D4DDJTm5MZmcw=
+	t=1738838184; cv=none; b=iikMhcGzO7lmykzilbdi0jXtjXxemlRhc6u1HQhZ4K2zlXeEWZVrNDauEue4FRGcYUIuyAq0EHJ5tEiL8CXc5jzSZCsnllRS379G4sP6kY5y5i3HnRev1p27o4ZxbhWwjVB2Wll03VDOOsOVQMhuqM7dwlDLsCc8eCaZJJdrdds=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1738838083; c=relaxed/simple;
-	bh=2JiUcOM4qqRQm9DmI9zM1bg0+0tO17pH1C/43gMwfCo=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=rSPnc8b4bU0FQyJI8F4qWxNZNVipZQRqsstwNFEjkCregLMqQ/bO0K0EmoMljbKxKzACxleODyuv2J8fYAKpdB4Aqxgxe7WgTiqvzExiQmBkeebBGmO1zicez24+zjaG6BFe8otHbmOFDTQ8tFn749dsESdAM59LFbhR4CGrcNU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=none smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=PP+iz9W5; arc=none smtp.client-ip=198.175.65.14
+	s=arc-20240116; t=1738838184; c=relaxed/simple;
+	bh=6bCobt3br1NrxP04QOTionRb3Wz6gsB9BodXRYt1xU4=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=Y7spts3/Y1Ei+tyMl9pOF4XGZ5yryFHl3KgOJkjdmKnV8XGejqTZKqDbfCPRNkKCP5l41vwVndRob7N7iEJ0bS58NTrPNoiNLUQZfrF9SY7gyK7cBMMKPoorX5IIMyLXXZ3uZXEYG6xOziaJJLF56mlb+vcmrypm6elT2iyOVcs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=none smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Ctgdf3FO; arc=none smtp.client-ip=192.198.163.9
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=linux.intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="PP+iz9W5"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Ctgdf3FO"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1738838082; x=1770374082;
-  h=from:to:cc:subject:date:message-id:in-reply-to:
-   references:mime-version:content-transfer-encoding;
-  bh=2JiUcOM4qqRQm9DmI9zM1bg0+0tO17pH1C/43gMwfCo=;
-  b=PP+iz9W5ZcawRmMfHMRxwpKwCxA/EtLJVIW6fegvYHkVMn/I+p+IHBfS
-   lYfCqyJWYDLVdK/4W4c9PrfIKK8ETe5geR3OllUnieJnpuQMAL/WsFke+
-   3PoW8MQ6iX+PQe6/6R7EnW3XVgq+EEDC/J2q9fuNcoobtqESJ0IKISISX
-   J+sKKCuWWMsuajqZqJXD6b6fbsYXt6geO6O5U/xjnRWFk0UW5gSBZfWNA
-   RXeI72dd8b3kFqJ3+Ul1d3BXRnbACO+qOkJE2dz4/dLrEyL6rHCacvqBI
-   yG019OWVaweT3K+u7X8PAONuTUPqZZ64/rfZBwv4wpFNEgPflswSP1fAB
+  t=1738838183; x=1770374183;
+  h=from:to:cc:subject:date:message-id:mime-version:
+   content-transfer-encoding;
+  bh=6bCobt3br1NrxP04QOTionRb3Wz6gsB9BodXRYt1xU4=;
+  b=Ctgdf3FOVdFEgjDQeXiCbI16KC16I7FBrON3ZgjY4I1/tvdr7j8nmWUj
+   I5oyncaT/QCE92CkdUSg8tZfGVevnBrsgE+8QyipVU6ok85cG4r8LoqWG
+   ULhp3kmOBJO77IRL1Kw/foguaZPEch2qdj0DmT26vLcuRmMJ0Qha0XH07
+   6s7ARry7bK+E0KcSUjaiTj80mIcJjAgUxcutWpem8zDn0wmrkSHk//Hym
+   UOSpT/Emhue5I5RbfrhgevdB47/4TCZVJq6KopQrhpWQgyaFq/K4uZMy3
+   Apy10bkV7rtF6lC81dIXF6mLsdVpyS3p5egP+V50NYXCb2Ou0nCYiAvdL
    Q==;
-X-CSE-ConnectionGUID: 2K1IUtEtRT6fTuNk5XFAjg==
-X-CSE-MsgGUID: wa1D6dZZTiqGK0BwBgHHng==
-X-IronPort-AV: E=McAfee;i="6700,10204,11336"; a="43189420"
+X-CSE-ConnectionGUID: 21y66ZxfQnSXGP4ZUBwWOA==
+X-CSE-MsgGUID: 66yybsQeSKSBVFHkYMVrZg==
+X-IronPort-AV: E=McAfee;i="6700,10204,11336"; a="50073842"
 X-IronPort-AV: E=Sophos;i="6.13,264,1732608000"; 
-   d="scan'208";a="43189420"
-Received: from orviesa005.jf.intel.com ([10.64.159.145])
-  by orvoesa106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 06 Feb 2025 02:34:41 -0800
-X-CSE-ConnectionGUID: veHBgPZlRZSXIUXBBc5XjA==
-X-CSE-MsgGUID: lOXdCIz8T9qJ55txsDytTw==
+   d="scan'208";a="50073842"
+Received: from fmviesa008.fm.intel.com ([10.60.135.148])
+  by fmvoesa103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 06 Feb 2025 02:34:44 -0800
+X-CSE-ConnectionGUID: 19lnvv7hQ7Kt5udqeCMAcQ==
+X-CSE-MsgGUID: CCbwYrToTvu0n8Upn/l0Zg==
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.12,224,1728975600"; 
-   d="scan'208";a="116364501"
+X-IronPort-AV: E=Sophos;i="6.13,264,1732608000"; 
+   d="scan'208";a="111370790"
 Received: from black.fi.intel.com ([10.237.72.28])
-  by orviesa005.jf.intel.com with ESMTP; 06 Feb 2025 02:34:39 -0800
+  by fmviesa008.fm.intel.com with ESMTP; 06 Feb 2025 02:34:32 -0800
 Received: by black.fi.intel.com (Postfix, from userid 1058)
-	id DF53EEE; Thu, 06 Feb 2025 12:34:38 +0200 (EET)
+	id BA874EE; Thu, 06 Feb 2025 12:34:30 +0200 (EET)
 From: Niklas Neronin <niklas.neronin@linux.intel.com>
 To: mathias.nyman@linux.intel.com
 Cc: linux-usb@vger.kernel.org,
 	Niklas Neronin <niklas.neronin@linux.intel.com>
-Subject: [PATCH 4/4] usb: xhci: modify trb_in_td() to be more modular
-Date: Thu,  6 Feb 2025 12:34:28 +0200
-Message-ID: <20250206103428.1034784-5-niklas.neronin@linux.intel.com>
+Subject: [PATCH 0/4] usb: xhci: improve trb_in_td()
+Date: Thu,  6 Feb 2025 12:34:24 +0200
+Message-ID: <20250206103428.1034784-1-niklas.neronin@linux.intel.com>
 X-Mailer: git-send-email 2.47.2
-In-Reply-To: <20250206103428.1034784-1-niklas.neronin@linux.intel.com>
-References: <20250206103428.1034784-1-niklas.neronin@linux.intel.com>
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
@@ -63,103 +60,40 @@ List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-Lay the ground work for future handle_tx_event() rework, which will
-require a function which checks if a DMA address is in queueu.
+Function td_in_trd() checks whether a DMA address is within the TDs
+boundaries. This patch set aims to simplify and improve trb_in_td().
 
-To its core, trb_in_td() checks if a TRB falls within the specified start
-and end TRB/segment range, a common requirement. For instance, a ring has
-pointers to the queues first and last TRB/segment, which means that with
-slight modifications and renaming trb_in_td() could work for other
-structures not only TDs.
+Additionally, the rework will enable trb_in_td() (with renaming and minor
+modifications) to also check whether a DMA address is in a ring queue.
+This will be utilized in the upcoming handle_tx_event() rework.
 
-Modify trb_in_td() to accept pointer to start and end TRB/segment, and
-introduce a new function that takes a 'xhci_td' struct pointer, forwarding
-its elements to dma_in_range(), previously trb_in_td().
+Example of a Ring Structure:
+The example segment ring is composed of three segments (A, B, C), each
+containing three TRBs (1, 2, 3). Any segment can serve as the start or
+end segment, and any TRB within the start segment can be the start TRB,
+and vice versa.
 
-Signed-off-by: Niklas Neronin <niklas.neronin@linux.intel.com>
----
- drivers/usb/host/xhci-ring.c | 41 ++++++++++++++++++++++--------------
- 1 file changed, 25 insertions(+), 16 deletions(-)
+      +---+   +---+   +---+
+C --> | A |-->| B |-->| C |--> A
+      +---+   +---+   +---+
+        |       |       |
+      +---+   +---+   +---+
+      | 1 |   | 1 |   | 1 |
+      | 2 |   | 2 |   | 2 |
+      | 3 |   | 3 |   | 3 |
+      +---+   +---+   +---+
 
-diff --git a/drivers/usb/host/xhci-ring.c b/drivers/usb/host/xhci-ring.c
-index 23337c9d34c1..34699038b7f2 100644
---- a/drivers/usb/host/xhci-ring.c
-+++ b/drivers/usb/host/xhci-ring.c
-@@ -278,24 +278,28 @@ static void inc_enq(struct xhci_hcd *xhci, struct xhci_ring *ring,
- }
- 
- /*
-- * If the suspect DMA address is a TRB in this TD, this function returns that
-- * TRB's segment. Otherwise it returns 0.
-+ * Check if the DMA address of a TRB falls within the specified range.
-+ * The range is defined by 'start_trb' in 'start_seg' and 'end_trb' in 'end_seg'.
-+ * If the TRB's DMA address is within this range, return the segment containing the TRB.
-+ * Otherwise, return 'NULL'.
-  */
--static struct xhci_segment *trb_in_td(struct xhci_td *td, dma_addr_t dma)
-+static struct xhci_segment *dma_in_range(struct xhci_segment *start_seg, union xhci_trb *start_trb,
-+					 struct xhci_segment *end_seg, union xhci_trb *end_trb,
-+					 dma_addr_t dma)
- {
--	struct xhci_segment *seg = td->start_seg;
-+	struct xhci_segment *seg = start_seg;
- 
--	if (td->start_seg == td->end_seg) {
--		if (td->start_trb <= td->end_trb) {
--			if (xhci_trb_virt_to_dma(td->start_seg, td->start_trb) <= dma &&
--			    dma <= xhci_trb_virt_to_dma(td->end_seg, td->end_trb))
-+	if (start_seg == end_seg) {
-+		if (start_trb <= end_trb) {
-+			if (xhci_trb_virt_to_dma(start_seg, start_trb) <= dma &&
-+			    dma <= xhci_trb_virt_to_dma(end_seg, end_trb))
- 				return seg;
- 			return NULL;
- 		}
- 
- 		/* Edge case, the TD wrapped around to the start segment. */
--		if (xhci_trb_virt_to_dma(td->end_seg, td->end_trb) < dma &&
--		    dma < xhci_trb_virt_to_dma(td->start_seg, td->start_trb))
-+		if (xhci_trb_virt_to_dma(end_seg, end_trb) < dma &&
-+		    dma < xhci_trb_virt_to_dma(start_seg, start_trb))
- 			return NULL;
- 		if (seg->dma <= dma && dma <= (seg->dma + TRB_SEGMENT_SIZE))
- 			return seg;
-@@ -304,24 +308,29 @@ static struct xhci_segment *trb_in_td(struct xhci_td *td, dma_addr_t dma)
- 
- 	/* Loop through segment which don't contain the DMA address. */
- 	while (dma < seg->dma || (seg->dma + TRB_SEGMENT_SIZE) <= dma) {
--		if (seg == td->end_seg)
-+		if (seg == end_seg)
- 			return NULL;
- 
- 		seg = seg->next;
--		if (seg == td->start_seg)
-+		if (seg == start_seg)
- 			return NULL;
- 	}
- 
--	if (seg == td->start_seg) {
--		if (dma < xhci_trb_virt_to_dma(td->start_seg, td->start_trb))
-+	if (seg == start_seg) {
-+		if (dma < xhci_trb_virt_to_dma(start_seg, start_trb))
- 			return NULL;
--	} else if (seg == td->end_seg) {
--		if (xhci_trb_virt_to_dma(td->end_seg, td->end_trb) < dma)
-+	} else if (seg == end_seg) {
-+		if (xhci_trb_virt_to_dma(end_seg, end_trb) < dma)
- 			return NULL;
- 	}
- 	return seg;
- }
- 
-+static struct xhci_segment *trb_in_td(struct xhci_td *td, dma_addr_t dma)
-+{
-+	return dma_in_range(td->start_seg, td->start_trb, td->end_seg, td->end_trb, dma);
-+}
-+
- /*
-  * Return number of free normal TRBs from enqueue to dequeue pointer on ring.
-  * Not counting an assumed link TRB at end of each TRBS_PER_SEGMENT sized segment.
+Niklas Neronin (4):
+  usb: xhci: refactor trb_in_td() to be static
+  usb: xhci: move debug capabilities from trb_in_td() to
+    handle_tx_event()
+  usb: xhci: rework and simplify trb_in_td()
+  usb: xhci: modify trb_in_td() to be more modular
+
+ drivers/usb/host/xhci-ring.c | 143 ++++++++++++++++++-----------------
+ drivers/usb/host/xhci.h      |   2 -
+ 2 files changed, 72 insertions(+), 73 deletions(-)
+
 -- 
 2.47.2
 
