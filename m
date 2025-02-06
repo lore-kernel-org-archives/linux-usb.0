@@ -1,608 +1,235 @@
-Received: from mail-wm1-f47.google.com (mail-wm1-f47.google.com [209.85.128.47])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.14])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6B1CA22688F
-	for <linux-usb@vger.kernel.org>; Thu,  6 Feb 2025 09:28:56 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.47
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 959A418B03
+	for <linux-usb@vger.kernel.org>; Thu,  6 Feb 2025 10:34:34 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.14
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1738834139; cv=none; b=C9TdeLZVa8QpE/BUDc1maKIGEdr9RHBNQtl7J2BNKjUD55gSglrm3c9NTwD91jIqqi9gWpoLapQrJwQKsD6x/R44nriOM5QpTPqONy4dZNuV6QXgww57hQx0LPPDLSRPvP9S1qhlaPzvqHhvnreAFkU7LvRB1rchz+pwA17Wy3I=
+	t=1738838076; cv=none; b=lZT+R2S4mIbvENvHAaw3Z+7DDiRM86bJ73CWB8+vy6QJc+YfvE7Opq//C69kqIbE33j6+1kKuEUov7/d1k3zAzaHbUeOxNbdxxV32K1+yhb9HAONFaS/nXS6dE0i3mSjBRvY/AjadUqSqGO8bGHqbEDAeCRWfOSk0uL5pC0mEYI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1738834139; c=relaxed/simple;
-	bh=jseS7Nk1Ii/UxIrGwD8OV8gqX2B/jXZ396qOdcUVBHQ=;
-	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
-	 In-Reply-To:To:Cc; b=CMqSS7A18TOItLaGK23YWs3KC2BrNpktIZJJTiIWEYneaE0bLBr+MMsvzNPXgZSdO0jswsRV+3PFPK6E3zMHFyA09Tm2nz2U5eQfT4tjtUBAFsAoDkXhtAG/vXCw6o0I8mQFTovPuZToWMQklUT3qwnTBtS1OlzfZaQgD15y79s=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=nahpDvJW; arc=none smtp.client-ip=209.85.128.47
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
+	s=arc-20240116; t=1738838076; c=relaxed/simple;
+	bh=9YLlxhx1B8B47brShJrqaxxiJwgQfGkK2dOyUtS4vPg=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version; b=sdVi7+YpqIxkb4dZh2wK2vD5APmTFAig3XiDJYu/bFHNBUxHhWzCc9A3Zt+Ww57yx3Mw0qmNJGZQMs8tGqVUfRYl3+LIjMQJ+CsRnAR1cQZuVcTlTiuCBI8ouy4IruvM0IS+/dahcQUt7PNXEromKlbuO3sorqzFFxCN0ndzdDU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=none smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=mZxo89WU; arc=none smtp.client-ip=198.175.65.14
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=linux.intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="nahpDvJW"
-Received: by mail-wm1-f47.google.com with SMTP id 5b1f17b1804b1-4363ae65100so7139215e9.0
-        for <linux-usb@vger.kernel.org>; Thu, 06 Feb 2025 01:28:56 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1738834135; x=1739438935; darn=vger.kernel.org;
-        h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
-         :mime-version:subject:date:from:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=GjjoDIh4JZy0lAfg9i8lSdTUZmTjTLvkgRh6FrnqCHA=;
-        b=nahpDvJWgvWcA5US370e4CgWjx8DC/4AODXkM0n9xjLjK+P1+kz2uYeNAK97r7m2TM
-         PS7n6e3ZZ+6ngGRf2ETy87w/EediHGasDvhZ+86LYQbfOOSp70i1GE0r7PcoZNcCnuP9
-         Y0MulfRIeoN3hSApIAgqjmI6Zg20NNjW0AfBE3/ejmCZ+XFKT5IHTFUP0slwWatt/eZW
-         az/g2VcIEdYYXLLtfDy8Fck0OqXEBvE5V6Q3Rh+Md8+E9yVbe70xk8L7LcmdgMedlqMV
-         XoHo5pPSNLh4QtX9ly7udi4iW6K2OZrrzdLOFSD+kalxA7auucRCN8iIAkA5pS4VpObK
-         GEFg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1738834135; x=1739438935;
-        h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
-         :mime-version:subject:date:from:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=GjjoDIh4JZy0lAfg9i8lSdTUZmTjTLvkgRh6FrnqCHA=;
-        b=hGlpBm0mxHajjS92ig1PXhx+4n/UafcG6kcb+LVgkdEori+NBAQJ86TbYqASk5ddvc
-         fMzNpFWruRx8zqgZ6Va9QUKUFi1wgSW4IzjZB2/gwNETolC0J10YqUnwhsNY3922kGY5
-         F5n//5c7biqjEVmsD5LB4JZkl9QE+zX5U/3L5033Ai7iXcxmj9bKdDSdheGx3BSj4/z8
-         47DcYQZqCl38Ai5MVqfIG01WnWLtPBsvqHkvjQ/cDutn5aH9aiXAKlMLtL+xSba8r4CN
-         dFDzPVh3T1pd9qDTJdbYf149IVieo+bGbZoE/apejsPFdm4LvSEtnzk+049wNoGIeLoZ
-         5Bfw==
-X-Forwarded-Encrypted: i=1; AJvYcCWuOr6O2Cabd/jRORphTaOx0qdr1P2QFayaHiJ2iaz97SfjqCS4TP5S/oFVNObFfzie1PDpAbS54x0=@vger.kernel.org
-X-Gm-Message-State: AOJu0Yw2mk2P/e4NBy20MIQUIbcPvpn6dWHqdZkzmvIXir+Ggb9mXd5k
-	WxTH4GamxeaBn4rzsiTGOBbYj4Mc6WiAz4i1EmF4+9XwulbNHkcJfpPE221UN6w=
-X-Gm-Gg: ASbGncu7wjtZ8oJe7y0zpdUI8TAD0z7uN283b12M5S1abhf9omEjhjKjWYNu/CTNiDQ
-	/101HCA0aYDTaqQ6Sug1Ud3PNnZj89MBJgcJcAnZuzoyIywl5WHbmF6K2pFP7xzGYfx17plQDAA
-	E4mfOo4MNTTPbH9iapY4RzYMikcHwGE4lBQFax5bNEqR1noEyJFB679oNQg46uvhcP2M6mhliaJ
-	LFpjBBJVQNdZh3yWZTEW8ARq4Wb+NtAI0fGrssOzaXIHq0yll2Lu77ofmlyZJXMInpu/LOVRWef
-	jVf/pfYsBbKHMGI=
-X-Google-Smtp-Source: AGHT+IG+RhQFGWyQ26MR1Wr9DDZaU1IR6vgyMJtwo0K/A3HrLnlRVvrjtMjYLw5UrjrUzF8mGk8mJg==
-X-Received: by 2002:a05:600c:1c20:b0:434:fddf:5c0c with SMTP id 5b1f17b1804b1-4390d42f854mr57629685e9.4.1738834134425;
-        Thu, 06 Feb 2025 01:28:54 -0800 (PST)
-Received: from [127.0.1.1] ([86.123.96.125])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-4391dcae80dsm12827595e9.22.2025.02.06.01.28.52
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 06 Feb 2025 01:28:53 -0800 (PST)
-From: Abel Vesa <abel.vesa@linaro.org>
-Date: Thu, 06 Feb 2025 11:28:28 +0200
-Subject: [PATCH v6 2/2] usb: typec: Add support for Parade PS8830 Type-C
- Retimer
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="mZxo89WU"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1738838075; x=1770374075;
+  h=from:to:cc:subject:date:message-id:in-reply-to:
+   references:mime-version:content-transfer-encoding;
+  bh=9YLlxhx1B8B47brShJrqaxxiJwgQfGkK2dOyUtS4vPg=;
+  b=mZxo89WUlCiIl8kdTmqoEfbszIx37eUZCtKAGqnAK7dkIPLxg1bLJ4or
+   uVrzno8S6uYn9s92q7HFVAHipl+pyZotG2efs4xrUVh4mYA9Nq772+TVr
+   HxOF6J/4fXmj67ok/KA171aCu34N27ZtFoge8Dj+ZMn+zuqYAAaWtfDEI
+   5hBfrYJBsg2CKX077e9H3vHDVbiQtbeToLCqdRsUdmMHbMA/vUwPRJl1n
+   x7XsvoBzhw82+ashWlTC00WFejiiGr671zjdkWI/suWugrFf5zpkjApAj
+   OXmYp8UYjgyusel/U6Rl4lTCV3NyDqmPCbPqVdExMMtANGABSa8NQNXkl
+   A==;
+X-CSE-ConnectionGUID: /AF9ns3CR2uAc/KOnCY12g==
+X-CSE-MsgGUID: nt7mVWnNQf+VDcfs02zU1Q==
+X-IronPort-AV: E=McAfee;i="6700,10204,11336"; a="43189400"
+X-IronPort-AV: E=Sophos;i="6.13,264,1732608000"; 
+   d="scan'208";a="43189400"
+Received: from orviesa005.jf.intel.com ([10.64.159.145])
+  by orvoesa106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 06 Feb 2025 02:34:34 -0800
+X-CSE-ConnectionGUID: BuDlYP1bThOJv2/4zlfmeA==
+X-CSE-MsgGUID: 4Fvnl4ShTFSE5O+3wiFKOg==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.12,224,1728975600"; 
+   d="scan'208";a="116364489"
+Received: from black.fi.intel.com ([10.237.72.28])
+  by orviesa005.jf.intel.com with ESMTP; 06 Feb 2025 02:34:32 -0800
+Received: by black.fi.intel.com (Postfix, from userid 1058)
+	id A7C35116; Thu, 06 Feb 2025 12:34:31 +0200 (EET)
+From: Niklas Neronin <niklas.neronin@linux.intel.com>
+To: mathias.nyman@linux.intel.com
+Cc: linux-usb@vger.kernel.org,
+	Niklas Neronin <niklas.neronin@linux.intel.com>
+Subject: [PATCH 1/4] usb: xhci: refactor trb_in_td() to be static
+Date: Thu,  6 Feb 2025 12:34:25 +0200
+Message-ID: <20250206103428.1034784-2-niklas.neronin@linux.intel.com>
+X-Mailer: git-send-email 2.47.2
+In-Reply-To: <20250206103428.1034784-1-niklas.neronin@linux.intel.com>
+References: <20250206103428.1034784-1-niklas.neronin@linux.intel.com>
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-Message-Id: <20250206-x1e80100-ps8830-v6-2-60b1e49cfa8d@linaro.org>
-References: <20250206-x1e80100-ps8830-v6-0-60b1e49cfa8d@linaro.org>
-In-Reply-To: <20250206-x1e80100-ps8830-v6-0-60b1e49cfa8d@linaro.org>
-To: Heikki Krogerus <heikki.krogerus@linux.intel.com>, 
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>, 
- Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>, 
- Conor Dooley <conor+dt@kernel.org>, Bjorn Andersson <andersson@kernel.org>, 
- Konrad Dybcio <konradybcio@kernel.org>
-Cc: Rajendra Nayak <quic_rjendra@quicinc.com>, 
- Sibi Sankar <quic_sibis@quicinc.com>, Johan Hovold <johan@kernel.org>, 
- Dmitry Baryshkov <dmitry.baryshkov@linaro.org>, 
- Trilok Soni <quic_tsoni@quicinc.com>, 
- Christophe JAILLET <christophe.jaillet@wanadoo.fr>, 
- linux-kernel@vger.kernel.org, linux-usb@vger.kernel.org, 
- linux-arm-msm@vger.kernel.org, devicetree@vger.kernel.org, 
- Abel Vesa <abel.vesa@linaro.org>
-X-Mailer: b4 0.15-dev-dedf8
-X-Developer-Signature: v=1; a=openpgp-sha256; l=14837; i=abel.vesa@linaro.org;
- h=from:subject:message-id; bh=jseS7Nk1Ii/UxIrGwD8OV8gqX2B/jXZ396qOdcUVBHQ=;
- b=owEBbQKS/ZANAwAKARtfRMkAlRVWAcsmYgBnpIDQow0U+Q8QuGnu/7eEYt58y+aL46xFiK1Hq
- MGEL4WHAgyJAjMEAAEKAB0WIQRO8+4RTnqPKsqn0bgbX0TJAJUVVgUCZ6SA0AAKCRAbX0TJAJUV
- Vm2FEADKsJU0zDHFvnXr9rSn32ElTsnxgHzBbuMnhJKlvu+aspJcNvbIWQUSiNJklh4dbD1BnZp
- VjGN4oCcGvRmEU1ftSeJ+H4dPVndlgihlCpkRfBdGCiHn5aHHKuYcwCCioElXOQxPKplPYpFeOP
- nSyPSc7TcO0PbXpYof4+HovR0xrBp5x8pJeFEy8DTduD+zavpNYT094N822edU4RB2HVMxmRDVR
- E0bPRCKxk4AKqz0D9gDjG0E0mpZwR1TUY6r9bz1ZVUIS/MijUR2cinZIBr7kADmd5V1BYBcmhUZ
- fE7IFXe5jVB1UY5XZl+qCGZr7tROByLnP6wCbofmVIPz0cYDgLpdum+M6svPLYtMcDa01gp+0TD
- cJc31CjPCmgdFnKKdVJR6D44yEH20Mu7pheLK7ccUNPKVvcEGysg5COFslx5zNXz7WuhfGAxm1c
- S8EQ7y7IpLP+ulZTox1IcfNHXN3sAcpz8o0m7yFEH+DPcuwZQbnnYC0Rb5VjvKQAUG8yjY4d/4F
- ZTr11JPOC4GqiVH2aYUKBPxS7SektzKc2ga8Ie63iC8NZhcZ2LAaq8jQpiYsq/CT0WaYkPYU+2v
- 3vn7GYC2w/z34WwDRUK/KNjpoJR1bOlf9P3tPbehVjCohib4/p+y4xWUqDlxKzNbRVOL8Whbnoy
- v77H2QUgPtYaBeQ==
-X-Developer-Key: i=abel.vesa@linaro.org; a=openpgp;
- fpr=6AFF162D57F4223A8770EF5AF7BF214136F41FAE
+Content-Transfer-Encoding: 8bit
 
-The Parade PS8830 is a USB4, DisplayPort and Thunderbolt 4 retimer,
-controlled over I2C. It usually sits between a USB/DisplayPort PHY
-and the Type-C connector, and provides orientation and altmode handling.
+Relocate trb_in_td() and marks it as static, as it's exclusively utilized
+in xhci-ring.c. This adjustment lays the groundwork for future rework of
+the function.
 
-The boards that use this retimer are the ones featuring the Qualcomm
-Snapdragon X Elite SoCs.
+The function's logic remains unchanged; only its access specifier is
+altered to static and a redundant "else" is removed on line 325
+(due to checkpatch.pl complaining).
 
-Add a driver with support for the following modes:
- - DisplayPort 4-lanes
- - DisplayPort 2-lanes + USB3
- - USB3
-
-There is another variant of this retimer which is called PS8833. It seems
-to be really similar to the PS8830, so future-proof this driver by
-naming it ps883x.
-
-Signed-off-by: Abel Vesa <abel.vesa@linaro.org>
+Signed-off-by: Niklas Neronin <niklas.neronin@linux.intel.com>
 ---
- drivers/usb/typec/mux/Kconfig  |  10 +
- drivers/usb/typec/mux/Makefile |   1 +
- drivers/usb/typec/mux/ps883x.c | 437 +++++++++++++++++++++++++++++++++++++++++
- 3 files changed, 448 insertions(+)
+ drivers/usb/host/xhci-ring.c | 122 +++++++++++++++++------------------
+ drivers/usb/host/xhci.h      |   2 -
+ 2 files changed, 61 insertions(+), 63 deletions(-)
 
-diff --git a/drivers/usb/typec/mux/Kconfig b/drivers/usb/typec/mux/Kconfig
-index 67381b4ef4f68f4a6e73f157365ee24d0ab7109a..6dd8f961b593261fde1d39b238b981966e463599 100644
---- a/drivers/usb/typec/mux/Kconfig
-+++ b/drivers/usb/typec/mux/Kconfig
-@@ -56,6 +56,16 @@ config TYPEC_MUX_NB7VPQ904M
- 	  Say Y or M if your system has a On Semiconductor NB7VPQ904M Type-C
- 	  redriver chip found on some devices with a Type-C port.
+diff --git a/drivers/usb/host/xhci-ring.c b/drivers/usb/host/xhci-ring.c
+index 965bffce301e..467a3abf8f53 100644
+--- a/drivers/usb/host/xhci-ring.c
++++ b/drivers/usb/host/xhci-ring.c
+@@ -277,6 +277,67 @@ static void inc_enq(struct xhci_hcd *xhci, struct xhci_ring *ring,
+ 	}
+ }
  
-+config TYPEC_MUX_PS883X
-+	tristate "Parade PS883x Type-C retimer driver"
-+	depends on I2C
-+	depends on DRM || DRM=n
-+	select DRM_AUX_BRIDGE if DRM_BRIDGE && OF
-+	select REGMAP_I2C
-+	help
-+	  Say Y or M if your system has a Parade PS883x Type-C retimer chip
-+	  found on some devices with a Type-C port.
-+
- config TYPEC_MUX_PTN36502
- 	tristate "NXP PTN36502 Type-C redriver driver"
- 	depends on I2C
-diff --git a/drivers/usb/typec/mux/Makefile b/drivers/usb/typec/mux/Makefile
-index 60879446da9365183567d3374a2fb7b5171fb3d7..b4f599eb5053b8f20e9a41409b0a2d9a03d850b6 100644
---- a/drivers/usb/typec/mux/Makefile
-+++ b/drivers/usb/typec/mux/Makefile
-@@ -6,6 +6,7 @@ obj-$(CONFIG_TYPEC_MUX_PI3USB30532)	+= pi3usb30532.o
- obj-$(CONFIG_TYPEC_MUX_INTEL_PMC)	+= intel_pmc_mux.o
- obj-$(CONFIG_TYPEC_MUX_IT5205)		+= it5205.o
- obj-$(CONFIG_TYPEC_MUX_NB7VPQ904M)	+= nb7vpq904m.o
-+obj-$(CONFIG_TYPEC_MUX_PS883X)		+= ps883x.o
- obj-$(CONFIG_TYPEC_MUX_PTN36502)	+= ptn36502.o
- obj-$(CONFIG_TYPEC_MUX_TUSB1046)	+= tusb1046.o
- obj-$(CONFIG_TYPEC_MUX_WCD939X_USBSS)	+= wcd939x-usbss.o
-diff --git a/drivers/usb/typec/mux/ps883x.c b/drivers/usb/typec/mux/ps883x.c
-new file mode 100644
-index 0000000000000000000000000000000000000000..10e407ab6b7f6ce3c6d4a61a2d6219eb1b9e85e8
---- /dev/null
-+++ b/drivers/usb/typec/mux/ps883x.c
-@@ -0,0 +1,437 @@
-+// SPDX-License-Identifier: GPL-2.0+
 +/*
-+ * Parade ps883x usb retimer driver
-+ *
-+ * Copyright (C) 2024 Linaro Ltd.
++ * If the suspect DMA address is a TRB in this TD, this function returns that
++ * TRB's segment. Otherwise it returns 0.
 + */
-+
-+#include <drm/bridge/aux-bridge.h>
-+#include <linux/clk.h>
-+#include <linux/gpio/consumer.h>
-+#include <linux/i2c.h>
-+#include <linux/kernel.h>
-+#include <linux/module.h>
-+#include <linux/mutex.h>
-+#include <linux/regmap.h>
-+#include <linux/regulator/consumer.h>
-+#include <linux/usb/typec_altmode.h>
-+#include <linux/usb/typec_dp.h>
-+#include <linux/usb/typec_mux.h>
-+#include <linux/usb/typec_retimer.h>
-+
-+#define REG_USB_PORT_CONN_STATUS_0		0x00
-+
-+#define CONN_STATUS_0_CONNECTION_PRESENT	BIT(0)
-+#define CONN_STATUS_0_ORIENTATION_REVERSED	BIT(1)
-+#define CONN_STATUS_0_USB_3_1_CONNECTED		BIT(5)
-+
-+#define REG_USB_PORT_CONN_STATUS_1		0x01
-+
-+#define CONN_STATUS_1_DP_CONNECTED		BIT(0)
-+#define CONN_STATUS_1_DP_SINK_REQUESTED		BIT(1)
-+#define CONN_STATUS_1_DP_PIN_ASSIGNMENT_C_D	BIT(2)
-+#define CONN_STATUS_1_DP_HPD_LEVEL		BIT(7)
-+
-+#define REG_USB_PORT_CONN_STATUS_2		0x02
-+
-+struct ps883x_retimer {
-+	struct i2c_client *client;
-+	struct gpio_desc *reset_gpio;
-+	struct regmap *regmap;
-+	struct typec_switch_dev *sw;
-+	struct typec_retimer *retimer;
-+	struct clk *xo_clk;
-+	struct regulator *vdd_supply;
-+	struct regulator *vdd33_supply;
-+	struct regulator *vdd33_cap_supply;
-+	struct regulator *vddat_supply;
-+	struct regulator *vddar_supply;
-+	struct regulator *vddio_supply;
-+
-+	struct typec_switch *typec_switch;
-+	struct typec_mux *typec_mux;
-+
-+	struct mutex lock; /* protect non-concurrent retimer & switch */
-+
-+	enum typec_orientation orientation;
-+	unsigned long mode;
-+	unsigned int svid;
-+};
-+
-+static void ps883x_configure(struct ps883x_retimer *retimer, int cfg0,
-+			     int cfg1, int cfg2)
++static struct xhci_segment *trb_in_td(struct xhci_hcd *xhci, struct xhci_td *td,
++				      dma_addr_t suspect_dma, bool debug)
 +{
-+	regmap_write(retimer->regmap, REG_USB_PORT_CONN_STATUS_0, cfg0);
-+	regmap_write(retimer->regmap, REG_USB_PORT_CONN_STATUS_1, cfg1);
-+	regmap_write(retimer->regmap, REG_USB_PORT_CONN_STATUS_2, cfg2);
++	dma_addr_t start_dma;
++	dma_addr_t end_seg_dma;
++	dma_addr_t end_trb_dma;
++	struct xhci_segment *cur_seg;
++
++	start_dma = xhci_trb_virt_to_dma(td->start_seg, td->start_trb);
++	cur_seg = td->start_seg;
++
++	do {
++		if (start_dma == 0)
++			return NULL;
++		/* We may get an event for a Link TRB in the middle of a TD */
++		end_seg_dma = xhci_trb_virt_to_dma(cur_seg,
++				&cur_seg->trbs[TRBS_PER_SEGMENT - 1]);
++		/* If the end TRB isn't in this segment, this is set to 0 */
++		end_trb_dma = xhci_trb_virt_to_dma(cur_seg, td->end_trb);
++
++		if (debug)
++			xhci_warn(xhci,
++				"Looking for event-dma %016llx trb-start %016llx trb-end %016llx seg-start %016llx seg-end %016llx\n",
++				(unsigned long long)suspect_dma,
++				(unsigned long long)start_dma,
++				(unsigned long long)end_trb_dma,
++				(unsigned long long)cur_seg->dma,
++				(unsigned long long)end_seg_dma);
++
++		if (end_trb_dma > 0) {
++			/* The end TRB is in this segment, so suspect should be here */
++			if (start_dma <= end_trb_dma) {
++				if (suspect_dma >= start_dma && suspect_dma <= end_trb_dma)
++					return cur_seg;
++			} else {
++				/* Case for one segment with
++				 * a TD wrapped around to the top
++				 */
++				if ((suspect_dma >= start_dma &&
++							suspect_dma <= end_seg_dma) ||
++						(suspect_dma >= cur_seg->dma &&
++						 suspect_dma <= end_trb_dma))
++					return cur_seg;
++			}
++			return NULL;
++		}
++		/* Might still be somewhere in this segment */
++		if (suspect_dma >= start_dma && suspect_dma <= end_seg_dma)
++			return cur_seg;
++
++		cur_seg = cur_seg->next;
++		start_dma = xhci_trb_virt_to_dma(cur_seg, &cur_seg->trbs[0]);
++	} while (cur_seg != td->start_seg);
++
++	return NULL;
 +}
 +
-+static int ps883x_set(struct ps883x_retimer *retimer)
-+{
-+	int cfg0 = CONN_STATUS_0_CONNECTION_PRESENT;
-+	int cfg1 = 0x00;
-+	int cfg2 = 0x00;
-+
-+	if (retimer->orientation == TYPEC_ORIENTATION_NONE ||
-+	    retimer->mode == TYPEC_STATE_SAFE) {
-+		ps883x_configure(retimer, cfg0, cfg1, cfg2);
-+		return 0;
-+	}
-+
-+	if (retimer->mode != TYPEC_STATE_USB && retimer->svid != USB_TYPEC_DP_SID)
-+		return -EINVAL;
-+
-+	if (retimer->orientation == TYPEC_ORIENTATION_REVERSE)
-+		cfg0 |= CONN_STATUS_0_ORIENTATION_REVERSED;
-+
-+	switch (retimer->mode) {
-+	case TYPEC_STATE_USB:
-+		cfg0 |= CONN_STATUS_0_USB_3_1_CONNECTED;
-+		break;
-+
-+	case TYPEC_DP_STATE_C:
-+		cfg1 = CONN_STATUS_1_DP_CONNECTED |
-+		       CONN_STATUS_1_DP_SINK_REQUESTED |
-+		       CONN_STATUS_1_DP_PIN_ASSIGNMENT_C_D |
-+		       CONN_STATUS_1_DP_HPD_LEVEL;
-+		break;
-+
-+	case TYPEC_DP_STATE_D:
-+		cfg0 |= CONN_STATUS_0_USB_3_1_CONNECTED;
-+		cfg1 = CONN_STATUS_1_DP_CONNECTED |
-+		       CONN_STATUS_1_DP_SINK_REQUESTED |
-+		       CONN_STATUS_1_DP_PIN_ASSIGNMENT_C_D |
-+		       CONN_STATUS_1_DP_HPD_LEVEL;
-+		break;
-+
-+	case TYPEC_DP_STATE_E:
-+		cfg1 = CONN_STATUS_1_DP_CONNECTED |
-+		       CONN_STATUS_1_DP_HPD_LEVEL;
-+		break;
-+
-+	default:
-+		return -EOPNOTSUPP;
-+	}
-+
-+	ps883x_configure(retimer, cfg0, cfg1, cfg2);
-+
-+	return 0;
-+}
-+
-+static int ps883x_sw_set(struct typec_switch_dev *sw,
-+			 enum typec_orientation orientation)
-+{
-+	struct ps883x_retimer *retimer = typec_switch_get_drvdata(sw);
-+	int ret = 0;
-+
-+	ret = typec_switch_set(retimer->typec_switch, orientation);
-+	if (ret)
-+		return ret;
-+
-+	mutex_lock(&retimer->lock);
-+
-+	if (retimer->orientation != orientation) {
-+		retimer->orientation = orientation;
-+
-+		ret = ps883x_set(retimer);
-+	}
-+
-+	mutex_unlock(&retimer->lock);
-+
-+	return ret;
-+}
-+
-+static int ps883x_retimer_set(struct typec_retimer *rtmr,
-+			      struct typec_retimer_state *state)
-+{
-+	struct ps883x_retimer *retimer = typec_retimer_get_drvdata(rtmr);
-+	struct typec_mux_state mux_state;
-+	int ret = 0;
-+
-+	mutex_lock(&retimer->lock);
-+
-+	if (state->mode != retimer->mode) {
-+		retimer->mode = state->mode;
-+
-+		if (state->alt)
-+			retimer->svid = state->alt->svid;
-+		else
-+			retimer->svid = 0;
-+
-+		ret = ps883x_set(retimer);
-+	}
-+
-+	mutex_unlock(&retimer->lock);
-+
-+	if (ret)
-+		return ret;
-+
-+	mux_state.alt = state->alt;
-+	mux_state.data = state->data;
-+	mux_state.mode = state->mode;
-+
-+	return typec_mux_set(retimer->typec_mux, &mux_state);
-+}
-+
-+static int ps883x_enable_vregs(struct ps883x_retimer *retimer)
-+{
-+	struct device *dev = &retimer->client->dev;
-+	int ret;
-+
-+	ret = regulator_enable(retimer->vdd33_supply);
-+	if (ret) {
-+		dev_err(dev, "cannot enable VDD 3.3V regulator: %d\n", ret);
-+		return ret;
-+	}
-+
-+	ret = regulator_enable(retimer->vdd33_cap_supply);
-+	if (ret) {
-+		dev_err(dev, "cannot enable VDD 3.3V CAP regulator: %d\n", ret);
-+		goto err_vdd33_disable;
-+	}
-+
-+	usleep_range(4000, 10000);
-+
-+	ret = regulator_enable(retimer->vdd_supply);
-+	if (ret) {
-+		dev_err(dev, "cannot enable VDD regulator: %d\n", ret);
-+		goto err_vdd33_cap_disable;
-+	}
-+
-+	ret = regulator_enable(retimer->vddar_supply);
-+	if (ret) {
-+		dev_err(dev, "cannot enable VDD AR regulator: %d\n", ret);
-+		goto err_vdd_disable;
-+	}
-+
-+	ret = regulator_enable(retimer->vddat_supply);
-+	if (ret) {
-+		dev_err(dev, "cannot enable VDD AT regulator: %d\n", ret);
-+		goto err_vddar_disable;
-+	}
-+
-+	ret = regulator_enable(retimer->vddio_supply);
-+	if (ret) {
-+		dev_err(dev, "cannot enable VDD IO regulator: %d\n", ret);
-+		goto err_vddat_disable;
-+	}
-+
-+	return 0;
-+
-+err_vddat_disable:
-+	regulator_disable(retimer->vddat_supply);
-+err_vddar_disable:
-+	regulator_disable(retimer->vddar_supply);
-+err_vdd_disable:
-+	regulator_disable(retimer->vdd_supply);
-+err_vdd33_cap_disable:
-+	regulator_disable(retimer->vdd33_cap_supply);
-+err_vdd33_disable:
-+	regulator_disable(retimer->vdd33_supply);
-+
-+	return ret;
-+}
-+
-+static void ps883x_disable_vregs(struct ps883x_retimer *retimer)
-+{
-+	regulator_disable(retimer->vddio_supply);
-+	regulator_disable(retimer->vddat_supply);
-+	regulator_disable(retimer->vddar_supply);
-+	regulator_disable(retimer->vdd_supply);
-+	regulator_disable(retimer->vdd33_cap_supply);
-+	regulator_disable(retimer->vdd33_supply);
-+}
-+
-+static int ps883x_get_vregs(struct ps883x_retimer *retimer)
-+{
-+	struct device *dev = &retimer->client->dev;
-+
-+	retimer->vdd_supply = devm_regulator_get(dev, "vdd");
-+	if (IS_ERR(retimer->vdd_supply))
-+		return dev_err_probe(dev, PTR_ERR(retimer->vdd_supply),
-+				     "failed to get VDD\n");
-+
-+	retimer->vdd33_supply = devm_regulator_get(dev, "vdd33");
-+	if (IS_ERR(retimer->vdd33_supply))
-+		return dev_err_probe(dev, PTR_ERR(retimer->vdd33_supply),
-+				     "failed to get VDD 3.3V\n");
-+
-+	retimer->vdd33_cap_supply = devm_regulator_get(dev, "vdd33-cap");
-+	if (IS_ERR(retimer->vdd33_cap_supply))
-+		return dev_err_probe(dev, PTR_ERR(retimer->vdd33_cap_supply),
-+				     "failed to get VDD CAP 3.3V\n");
-+
-+	retimer->vddat_supply = devm_regulator_get(dev, "vddat");
-+	if (IS_ERR(retimer->vddat_supply))
-+		return dev_err_probe(dev, PTR_ERR(retimer->vddat_supply),
-+				     "failed to get VDD AT\n");
-+
-+	retimer->vddar_supply = devm_regulator_get(dev, "vddar");
-+	if (IS_ERR(retimer->vddar_supply))
-+		return dev_err_probe(dev, PTR_ERR(retimer->vddar_supply),
-+				     "failed to get VDD AR\n");
-+
-+	retimer->vddio_supply = devm_regulator_get(dev, "vddio");
-+	if (IS_ERR(retimer->vddio_supply))
-+		return dev_err_probe(dev, PTR_ERR(retimer->vddio_supply),
-+				     "failed to get VDD IO\n");
-+
-+	return 0;
-+}
-+
-+static const struct regmap_config ps883x_retimer_regmap = {
-+	.max_register = 0x1f,
-+	.reg_bits = 8,
-+	.val_bits = 8,
-+};
-+
-+static int ps883x_retimer_probe(struct i2c_client *client)
-+{
-+	struct device *dev = &client->dev;
-+	struct typec_switch_desc sw_desc = { };
-+	struct typec_retimer_desc rtmr_desc = { };
-+	struct ps883x_retimer *retimer;
-+	int ret;
-+
-+	retimer = devm_kzalloc(dev, sizeof(*retimer), GFP_KERNEL);
-+	if (!retimer)
-+		return -ENOMEM;
-+
-+	retimer->client = client;
-+
-+	mutex_init(&retimer->lock);
-+
-+	retimer->regmap = devm_regmap_init_i2c(client, &ps883x_retimer_regmap);
-+	if (IS_ERR(retimer->regmap))
-+		return dev_err_probe(dev, PTR_ERR(retimer->regmap),
-+				     "failed to allocate register map\n");
-+
-+	ret = ps883x_get_vregs(retimer);
-+	if (ret)
-+		return ret;
-+
-+	retimer->xo_clk = devm_clk_get(dev, NULL);
-+	if (IS_ERR(retimer->xo_clk))
-+		return dev_err_probe(dev, PTR_ERR(retimer->xo_clk),
-+				     "failed to get xo clock\n");
-+
-+	retimer->reset_gpio = devm_gpiod_get(dev, "reset", GPIOD_ASIS);
-+	if (IS_ERR(retimer->reset_gpio))
-+		return dev_err_probe(dev, PTR_ERR(retimer->reset_gpio),
-+				     "failed to get reset gpio\n");
-+
-+	retimer->typec_switch = typec_switch_get(dev);
-+	if (IS_ERR(retimer->typec_switch))
-+		return dev_err_probe(dev, PTR_ERR(retimer->typec_switch),
-+				     "failed to acquire orientation-switch\n");
-+
-+	retimer->typec_mux = typec_mux_get(dev);
-+	if (IS_ERR(retimer->typec_mux)) {
-+		ret = dev_err_probe(dev, PTR_ERR(retimer->typec_mux),
-+				    "failed to acquire mode-mux\n");
-+		goto err_switch_put;
-+	}
-+
-+	ret = drm_aux_bridge_register(dev);
-+	if (ret)
-+		goto err_mux_put;
-+
-+	ret = ps883x_enable_vregs(retimer);
-+	if (ret)
-+		goto err_mux_put;
-+
-+	ret = clk_prepare_enable(retimer->xo_clk);
-+	if (ret) {
-+		dev_err(dev, "failed to enable XO: %d\n", ret);
-+		goto err_vregs_disable;
-+	}
-+
-+	sw_desc.drvdata = retimer;
-+	sw_desc.fwnode = dev_fwnode(dev);
-+	sw_desc.set = ps883x_sw_set;
-+
-+	retimer->sw = typec_switch_register(dev, &sw_desc);
-+	if (IS_ERR(retimer->sw)) {
-+		ret = PTR_ERR(retimer->sw);
-+		dev_err(dev, "failed to register typec switch: %d\n", ret);
-+		goto err_clk_disable;
-+	}
-+
-+	rtmr_desc.drvdata = retimer;
-+	rtmr_desc.fwnode = dev_fwnode(dev);
-+	rtmr_desc.set = ps883x_retimer_set;
-+
-+	retimer->retimer = typec_retimer_register(dev, &rtmr_desc);
-+	if (IS_ERR(retimer->retimer)) {
-+		ret = PTR_ERR(retimer->retimer);
-+		dev_err(dev, "failed to register typec retimer: %d\n", ret);
-+		goto err_switch_unregister;
-+	}
-+
-+	/* skip resetting if already configured */
-+	if (regmap_test_bits(retimer->regmap, REG_USB_PORT_CONN_STATUS_0,
-+			     CONN_STATUS_0_CONNECTION_PRESENT) == 1)
-+		return gpiod_direction_output(retimer->reset_gpio, 0);
-+
-+	gpiod_direction_output(retimer->reset_gpio, 1);
-+
-+	/* VDD IO supply enable to reset release delay */
-+	usleep_range(4000, 14000);
-+
-+	gpiod_set_value(retimer->reset_gpio, 0);
-+
-+	/* firmware initialization delay */
-+	msleep(60);
-+
-+	return 0;
-+
-+err_switch_unregister:
-+	typec_switch_unregister(retimer->sw);
-+err_vregs_disable:
-+	ps883x_disable_vregs(retimer);
-+err_clk_disable:
-+	clk_disable_unprepare(retimer->xo_clk);
-+err_mux_put:
-+	typec_mux_put(retimer->typec_mux);
-+err_switch_put:
-+	typec_switch_put(retimer->typec_switch);
-+
-+	return ret;
-+}
-+
-+static void ps883x_retimer_remove(struct i2c_client *client)
-+{
-+	struct ps883x_retimer *retimer = i2c_get_clientdata(client);
-+
-+	typec_retimer_unregister(retimer->retimer);
-+	typec_switch_unregister(retimer->sw);
-+
-+	gpiod_set_value(retimer->reset_gpio, 1);
-+
-+	clk_disable_unprepare(retimer->xo_clk);
-+
-+	ps883x_disable_vregs(retimer);
-+
-+	typec_mux_put(retimer->typec_mux);
-+	typec_switch_put(retimer->typec_switch);
-+}
-+
-+static const struct of_device_id ps883x_retimer_of_table[] = {
-+	{ .compatible = "parade,ps8830" },
-+	{ }
-+};
-+MODULE_DEVICE_TABLE(of, ps883x_retimer_of_table);
-+
-+static struct i2c_driver ps883x_retimer_driver = {
-+	.driver = {
-+		.name = "ps883x_retimer",
-+		.of_match_table = ps883x_retimer_of_table,
-+	},
-+	.probe		= ps883x_retimer_probe,
-+	.remove		= ps883x_retimer_remove,
-+};
-+
-+module_i2c_driver(ps883x_retimer_driver);
-+
-+MODULE_DESCRIPTION("Parade ps883x Type-C Retimer driver");
-+MODULE_LICENSE("GPL");
-
+ /*
+  * Return number of free normal TRBs from enqueue to dequeue pointer on ring.
+  * Not counting an assumed link TRB at end of each TRBS_PER_SEGMENT sized segment.
+@@ -2116,67 +2177,6 @@ static void handle_port_status(struct xhci_hcd *xhci, union xhci_trb *event)
+ 	spin_lock(&xhci->lock);
+ }
+ 
+-/*
+- * If the suspect DMA address is a TRB in this TD, this function returns that
+- * TRB's segment. Otherwise it returns 0.
+- */
+-struct xhci_segment *trb_in_td(struct xhci_hcd *xhci, struct xhci_td *td, dma_addr_t suspect_dma,
+-			       bool debug)
+-{
+-	dma_addr_t start_dma;
+-	dma_addr_t end_seg_dma;
+-	dma_addr_t end_trb_dma;
+-	struct xhci_segment *cur_seg;
+-
+-	start_dma = xhci_trb_virt_to_dma(td->start_seg, td->start_trb);
+-	cur_seg = td->start_seg;
+-
+-	do {
+-		if (start_dma == 0)
+-			return NULL;
+-		/* We may get an event for a Link TRB in the middle of a TD */
+-		end_seg_dma = xhci_trb_virt_to_dma(cur_seg,
+-				&cur_seg->trbs[TRBS_PER_SEGMENT - 1]);
+-		/* If the end TRB isn't in this segment, this is set to 0 */
+-		end_trb_dma = xhci_trb_virt_to_dma(cur_seg, td->end_trb);
+-
+-		if (debug)
+-			xhci_warn(xhci,
+-				"Looking for event-dma %016llx trb-start %016llx trb-end %016llx seg-start %016llx seg-end %016llx\n",
+-				(unsigned long long)suspect_dma,
+-				(unsigned long long)start_dma,
+-				(unsigned long long)end_trb_dma,
+-				(unsigned long long)cur_seg->dma,
+-				(unsigned long long)end_seg_dma);
+-
+-		if (end_trb_dma > 0) {
+-			/* The end TRB is in this segment, so suspect should be here */
+-			if (start_dma <= end_trb_dma) {
+-				if (suspect_dma >= start_dma && suspect_dma <= end_trb_dma)
+-					return cur_seg;
+-			} else {
+-				/* Case for one segment with
+-				 * a TD wrapped around to the top
+-				 */
+-				if ((suspect_dma >= start_dma &&
+-							suspect_dma <= end_seg_dma) ||
+-						(suspect_dma >= cur_seg->dma &&
+-						 suspect_dma <= end_trb_dma))
+-					return cur_seg;
+-			}
+-			return NULL;
+-		} else {
+-			/* Might still be somewhere in this segment */
+-			if (suspect_dma >= start_dma && suspect_dma <= end_seg_dma)
+-				return cur_seg;
+-		}
+-		cur_seg = cur_seg->next;
+-		start_dma = xhci_trb_virt_to_dma(cur_seg, &cur_seg->trbs[0]);
+-	} while (cur_seg != td->start_seg);
+-
+-	return NULL;
+-}
+-
+ static void xhci_clear_hub_tt_buffer(struct xhci_hcd *xhci, struct xhci_td *td,
+ 		struct xhci_virt_ep *ep)
+ {
+diff --git a/drivers/usb/host/xhci.h b/drivers/usb/host/xhci.h
+index 8c164340a2c3..d66ad9bd7432 100644
+--- a/drivers/usb/host/xhci.h
++++ b/drivers/usb/host/xhci.h
+@@ -1884,8 +1884,6 @@ int xhci_set_interrupter_moderation(struct xhci_interrupter *ir,
+ 
+ /* xHCI ring, segment, TRB, and TD functions */
+ dma_addr_t xhci_trb_virt_to_dma(struct xhci_segment *seg, union xhci_trb *trb);
+-struct xhci_segment *trb_in_td(struct xhci_hcd *xhci, struct xhci_td *td,
+-			       dma_addr_t suspect_dma, bool debug);
+ int xhci_is_vendor_info_code(struct xhci_hcd *xhci, unsigned int trb_comp_code);
+ void xhci_ring_cmd_db(struct xhci_hcd *xhci);
+ int xhci_queue_slot_control(struct xhci_hcd *xhci, struct xhci_command *cmd,
 -- 
-2.34.1
+2.47.2
 
