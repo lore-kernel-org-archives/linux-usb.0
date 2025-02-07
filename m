@@ -1,183 +1,108 @@
-Received: from mail-oo1-f52.google.com (mail-oo1-f52.google.com [209.85.161.52])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from codeconstruct.com.au (pi.codeconstruct.com.au [203.29.241.158])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1B039235C19;
-	Fri,  7 Feb 2025 06:59:36 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.161.52
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2B040187325;
+	Fri,  7 Feb 2025 07:45:10 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=203.29.241.158
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1738911578; cv=none; b=fKZp4KPyQhJpJv1T8/wIUyoMFMqmEswMXLYFY/uwdgGN9sO2ant8HHU2SDCfTLng6yV0b9jLkAEKDmMPnwxx8n1YrysOS+BuQ93Sl/BsOLhpj+W/apQK1VSHc5NrlC3KYeVd6y3JAOwEK/YjoxLl/2n69F+ecGyVrGxJHb9vfHc=
+	t=1738914313; cv=none; b=mH1a4Px5v+pXxIOEw/f4YLqzQgtdR73cofNOIjgZH5AtyJ2Q5dLmIQSrog5AqCwEAxUAyG8V8If/Tc0R1pS4evvRjWEP7IHOlpO4zi4nNL6w7esSqNidX6wip5YmQmiFnetKfdDF8WyvupKr2K0TnTLiDTg/paApLc0EXn+qr8E=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1738911578; c=relaxed/simple;
-	bh=6XOcL3OWZU2HG9Nhc90c5mAanufZNmC52HVgYGBLg7M=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=ZOuqwvIwCXjbVLjQy7MSLgcHWWNONbHtorfjp4gTvR5YF15+BXIokLgbz59mHnMYtWTrKzN7iNPE4+E3vJvYUnUmkJCn5cUBHiBNHaFRG20HxXqqPMwBRYjaJYb7Vzi54cgRrKaP5+MLJ7iAICoc5MOq/+B2avageQ8mxYXMxDQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=ktH9QRPa; arc=none smtp.client-ip=209.85.161.52
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1738914313; c=relaxed/simple;
+	bh=VCNdDJ5d7bTx8qymPSJoXXNnXy/61oFSBk9foV2cuf8=;
+	h=Message-ID:Subject:From:To:Cc:Date:In-Reply-To:References:
+	 Content-Type:MIME-Version; b=I1tSfgLEM/MG4SC3ybB15opmk1pDRH2mbk7+qKDeqydF5edQrfVOAyEM4SlAYWBmLEVbiTCm/3t2aPw/PNhFohWiGxIFXHDLOkFzFZ/axVXorL5TDcUjtlgi1Bb+LrBmBBRfHuu6RR04AfGLacoN+IibBXsm5vC257oaf44zdbM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=codeconstruct.com.au; spf=pass smtp.mailfrom=codeconstruct.com.au; dkim=pass (2048-bit key) header.d=codeconstruct.com.au header.i=@codeconstruct.com.au header.b=SghX7gxS; arc=none smtp.client-ip=203.29.241.158
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=codeconstruct.com.au
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=codeconstruct.com.au
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="ktH9QRPa"
-Received: by mail-oo1-f52.google.com with SMTP id 006d021491bc7-5f31f8f4062so933814eaf.3;
-        Thu, 06 Feb 2025 22:59:36 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=codeconstruct.com.au header.i=@codeconstruct.com.au header.b="SghX7gxS"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1738911576; x=1739516376; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=97vO1HF1zHEq9ew3mBBmV+91aHR/hzKRLBbUJ8Z6gg8=;
-        b=ktH9QRPalg03iL8xHb9OrKn7uZDmj1HtIfSQVgJ8hsWEyQ6cJrrpN3/klFUZ1Y13Oc
-         DAtidFNiv06Ne6zftbk0wIcVeIPr56WmXfwljucCg/TQLwYsi82DSItUSAIeG0rpfrp/
-         66RAmQ8G0z2lqgkYO3rXuAlL35EgtMz7PXu97dUigIhjjtTeoEQBMO9Bu/5ALGvb0OZp
-         SZH51S37immln5HHztDrURguFcG5/Os0mGWL6CPikPlhFLbTeGAyjhoz10sI+yy6Ng3o
-         PutLMZCpEW3Bjn33WJHQwmj3IxSTuyxUtzOW68x9itRheWT4FF2dEqg/HGHYHHRHmF9z
-         aKqw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1738911576; x=1739516376;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=97vO1HF1zHEq9ew3mBBmV+91aHR/hzKRLBbUJ8Z6gg8=;
-        b=wB4sFpq0kdgQsKQHi4KXwab65WwkAotwYr6VUgLc3l3pyB5dAAO8jby6ppqPdKfWpl
-         uyraI8cvx0Cmw/dSIpXvwjp8r3gbK2Tp9E6ge3x1AvT5S9H617SlqZvNPUhWC2A31BhK
-         fSvZx7/Thviz20RuNXo8olSa3BmJv85xnBA/8A1JaHlcrBFI6FucpjwEa3jio8iZ2pX/
-         dn7t490SuzjRzQCBPUnfeZuh2KWPyfM652vni8OmoA9jEjQ2I5MfYZQbWOzH0g3J81Vr
-         t6muXLdNZNNNd4ZV3PXmd7Yg3uPtDxXi5BGUds9ByFSc3Gc+ycfytP7wvw2gPnZPjxsC
-         WcEA==
-X-Forwarded-Encrypted: i=1; AJvYcCURlLOD4jp4AI2gX7LXsYEuJQsxrdWhaBnMUsInbnrxwF/KZjvte2OfRiSF8rzr6k8mrkJFdrh2p+ir1v8=@vger.kernel.org, AJvYcCUoUGTaFKgzWLMIfwmy0f09NwSiUm+wIhg2PVex4AxGl9R31gnB7tEgf9THh9K/4507bISLc8EW@vger.kernel.org, AJvYcCV4XKr2VHoAa8k8d3SvqEd8n2Teewodb1GeBlxwvK15vFeliCtiPpw0jYfC7QhcoV+olTM2WdlMSVki@vger.kernel.org
-X-Gm-Message-State: AOJu0YzhFICgeIkpAetYHNc1Tg6nqfmTfhU+zky+vz15b+b8SqjI/8B+
-	JmWDkUlActqftgShxqGJoFyiSGxLegTN/HmmRqm5a+SzkN5wV6Wqi77MAgS3eZiP+5+cQI6cw3T
-	sygW5GlKejWVMQnM2IilvEMxl48zvAMfv
-X-Gm-Gg: ASbGncsYHSt0/lzXSJy1C4TbtRpXW6gsEY9QxlMtM2LIDsFd4H8Sm9LPll2Sdmi0IDK
-	CfyHPbdnEGRPgb/6X7kYjSOirntUlho/ZeAw3gY32PKeQ3jaw7B79i+/f0BGG1jY+WiIqwi6bQL
-	k=
-X-Google-Smtp-Source: AGHT+IHm7zQAj1NlhCwNN0td/SqMz2s1c5nwv7O7b6XR7eOhry8Taq94/mMMiwlQ0oUA5ZBttaLFcN6WC00SwnLxiHk=
-X-Received: by 2002:a4a:e916:0:b0:5fc:4582:4297 with SMTP id
- 006d021491bc7-5fc5e5beb09mr1593266eaf.1.1738911576040; Thu, 06 Feb 2025
- 22:59:36 -0800 (PST)
+	d=codeconstruct.com.au; s=2022a; t=1738914303;
+	bh=VCNdDJ5d7bTx8qymPSJoXXNnXy/61oFSBk9foV2cuf8=;
+	h=Subject:From:To:Cc:Date:In-Reply-To:References;
+	b=SghX7gxSpaV9uz8WSCwHM8JuHoVak2FYzTHl+JHEDVEoMUWNdc15KysNr524Ibo9+
+	 L1OXRP8q16DwvycLU84RVdVMVn1s4idOt0hU8fj+l3NqNI+auE5KyCVgZM3eHr2Xl0
+	 ld6/sT3T9hWTnydGpgoD7tUj/wWNk9qauyuiERFKTXEFD/r3PyABEi6vRaZnEZLpYb
+	 PyVhXY70C0gsLIlgSvy0DR2qzDfTh27oTt5Q9SV00o82wdu+Alyal3ArHVrP7jQKH6
+	 dgBYExWoBHLWrr+YI+8pcKlW4SAB+5waBHakxFnz5sdajSMQ7Ww0kqFZeCKlJJFhYr
+	 +ZsRu50+JALsw==
+Received: from pecola.lan (unknown [159.196.93.152])
+	by mail.codeconstruct.com.au (Postfix) with ESMTPSA id AD398746BD;
+	Fri,  7 Feb 2025 15:45:02 +0800 (AWST)
+Message-ID: <16ff513ac43a23fb0abfeaf9ff139115d87dbf3a.camel@codeconstruct.com.au>
+Subject: Re: [PATCH net-next 2/2] net: mctp: Add MCTP USB transport driver
+From: Jeremy Kerr <jk@codeconstruct.com.au>
+To: Oliver Neukum <oneukum@suse.com>, Matt Johnston
+ <matt@codeconstruct.com.au>,  Greg Kroah-Hartman
+ <gregkh@linuxfoundation.org>, Andrew Lunn <andrew+netdev@lunn.ch>, "David
+ S. Miller" <davem@davemloft.net>, Eric Dumazet <edumazet@google.com>, Jakub
+ Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>
+Cc: netdev@vger.kernel.org, linux-usb@vger.kernel.org, Santosh Puranik
+	 <spuranik@nvidia.com>
+Date: Fri, 07 Feb 2025 15:45:02 +0800
+In-Reply-To: <b78d0e25-f8cc-43af-90d8-2c7344895d55@suse.com>
+References: <20250206-dev-mctp-usb-v1-0-81453fe26a61@codeconstruct.com.au>
+	 <20250206-dev-mctp-usb-v1-2-81453fe26a61@codeconstruct.com.au>
+	 <b78d0e25-f8cc-43af-90d8-2c7344895d55@suse.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: base64
+User-Agent: Evolution 3.46.4-2 
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20250205053750.28251-2-ki.chiang65@gmail.com> <20250205224511.00e52a44@foxbook>
-In-Reply-To: <20250205224511.00e52a44@foxbook>
-From: Kuangyi Chiang <ki.chiang65@gmail.com>
-Date: Fri, 7 Feb 2025 14:59:25 +0800
-X-Gm-Features: AWEUYZkavx1U0HhBxiNlh8MokYsFU7x3XWM-lcDBktTqucBWvOwQPDvwJYakp6g
-Message-ID: <CAHN5xi1HoTHx5bye6v24eRWzuKLXcyp6zc4wVpYDyHcR4yu99A@mail.gmail.com>
-Subject: Re: [PATCH v4 1/1] xhci: Correctly handle last TRB of isoc TD on
- Etron xHCI host
-To: =?UTF-8?Q?Micha=C5=82_Pecio?= <michal.pecio@gmail.com>
-Cc: gregkh@linuxfoundation.org, linux-kernel@vger.kernel.org, 
-	linux-usb@vger.kernel.org, mathias.nyman@intel.com, stable@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
 
-Hi,
+SGkgT2xpdmVyLAoKVGhhbmtzIGZvciB0YWtpbmcgYSBsb29rLiBTb21lIHJlc3BvbnNlcyB0b28u
+Cgo+ID4gK8KgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoGhkciA9IHNrYl9wdWxsX2RhdGEo
+c2tiLCBzaXplb2YoKmhkcikpOwo+ID4gK8KgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoGlm
+ICghaGRyKQo+ID4gK8KgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKg
+wqBicmVhazsKPiA+ICsKPiA+ICvCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqBpZiAoYmUx
+Nl90b19jcHUoaGRyLT5pZCkgIT0gTUNUUF9VU0JfRE1URl9JRCkgewo+IAo+IEl0IHdvdWxkIGJl
+IG1vcmUgZWZmaWNpZW50IHRvIGRvIHRoZSBjb252ZXJzaW9uIG9uIHRoZSBjb25zdGFudAoKQ29t
+cGlsZXIgc2hvdWxkIGJlIGNsZXZlciBlbm91Z2ggZm9yIHRoYXQgbm90IHRvIG1ha2UgYSBkaWZm
+ZXJlbmNlOgoKICAkIGRpZmYgLXUgXAogICAgPChhcm0tbGludXgtZ251ZWFiaWhmLW9iamR1bXAg
+LWQgb2JqL2RyaXZlcnMvbmV0L21jdHAvbWN0cC11c2Iuby5vcmlnKSBcCiAgICA8KGFybS1saW51
+eC1nbnVlYWJpaGYtb2JqZHVtcCAtZCBvYmovZHJpdmVycy9uZXQvbWN0cC9tY3RwLXVzYi5vKQog
+IC0tLSAvZGV2L2ZkLzYzCTIwMjUtMDItMDcgMTU6MzI6NTMuODEzMDg0ODk0ICswODAwCiAgKysr
+IC9kZXYvZmQvNjIJMjAyNS0wMi0wNyAxNTozMjo1My44MDkwODQ4MjYgKzA4MDAKICBAQCAtMSw1
+ICsxLDUgQEAKICAgCiAgLW9iai9kcml2ZXJzL25ldC9tY3RwL21jdHAtdXNiLm8ub3JpZzogICAg
+IGZpbGUgZm9ybWF0IGVsZjMyLWxpdHRsZWFybQogICtvYmovZHJpdmVycy9uZXQvbWN0cC9tY3Rw
+LXVzYi5vOiAgICAgZmlsZSBmb3JtYXQgZWxmMzItbGl0dGxlYXJtCgogIERpc2Fzc2VtYmx5IG9m
+IHNlY3Rpb24gLnRleHQ6CiAgJAoKQW5kIGVuZGlhbi1jb252ZXJ0aW5nIHRoZSBoZWFkZXIgZmll
+bGQgKHJhdGhlciB0aGFuIHRoZSBjb25zdCkgc2VlbXMKbW9yZSByZWFkYWJsZSB0byBtZS4KCj4g
+PiArwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgaWYgKHBrdF9sZW4gPCBza2ItPmxlbikg
+ewo+ID4gK8KgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqAvKiBt
+b3JlIHBhY2tldHMgbWF5IGZvbGxvdyAtIGNsb25lIHRvIGEgbmV3Cj4gPiArwqDCoMKgwqDCoMKg
+wqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoCAqIHNrYiB0byB1c2Ugb24gdGhlIG5l
+eHQgaXRlcmF0aW9uCj4gPiArwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDC
+oMKgwqDCoCAqLwo+ID4gK8KgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDC
+oMKgwqBza2IyID0gc2tiX2Nsb25lKHNrYiwgR0ZQX0FUT01JQyk7Cj4gPiArwqDCoMKgwqDCoMKg
+wqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoGlmIChza2IyKSB7Cj4gPiArwqDCoMKg
+wqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqBp
+ZiAoIXNrYl9wdWxsKHNrYjIsIHBrdF9sZW4pKSB7Cj4gPiArwqDCoMKgwqDCoMKgwqDCoMKgwqDC
+oMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKg
+a2ZyZWVfc2tiKHNrYjIpOwo+ID4gK8KgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDC
+oMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoHNrYjIgPSBOVUxMOwo+
+ID4gK8KgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDC
+oMKgwqDCoMKgfQo+ID4gK8KgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDC
+oMKgwqB9Cj4gPiArwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDC
+oHNrYl90cmltKHNrYiwgcGt0X2xlbik7Cj4gCj4gVGhpcyBpcyBmdW5jdGlvbmFsLiBUaG91Z2gg
+aW4gdGVybXMgb2YgYWxnb3JpdGhtIHlvdSBhcmUgY29weWluZwo+IHRoZSBzYW1lIGRhdGEgbXVs
+dGlwbGUgdGltZXMuCgpUaGVyZSBzaG91bGQgYmUgbm8gY29weSBoZXJlOyB0aGV5J3JlIHNoYXJl
+ZCBjbG9uZXMgb2YgdGhlIHNhbWUgYnVmZmVyLgpPciBhbSBJIG1pc3Npbmcgc29tZSBzaXR1YXRp
+b24gd2hlcmUgdGhleSB3b3VsZCBnZXQgdW5zaGFyZWQ/Cgo+ID4gK3N0YXRpYyBpbnQgbWN0cF91
+c2Jfb3BlbihzdHJ1Y3QgbmV0X2RldmljZSAqZGV2KQo+ID4gK3sKPiA+ICvCoMKgwqDCoMKgwqDC
+oHN0cnVjdCBtY3RwX3VzYiAqbWN0cF91c2IgPSBuZXRkZXZfcHJpdihkZXYpOwo+ID4gKwo+ID4g
+K8KgwqDCoMKgwqDCoMKgcmV0dXJuIG1jdHBfdXNiX3J4X3F1ZXVlKG1jdHBfdXNiKTsKPiAKPiBU
+aGlzIHdpbGwgbmVlZGxlc3NseSB1c2UgR0ZQX0FUT01JQwoKSXQncyBvbmx5IHRoZSBvbmUgKGZp
+cnN0KSBza2IgYW5kIHVyYiBzdWJtaXNzaW9uLCBidXQgZmFpciBlbm91Z2guIEknbGwKYWRkIGEg
+Z2ZwX3QgYXJndW1lbnQgaW4gYSB2Mi4KCj4gPiArwqDCoMKgwqDCoMKgwqBTRVRfTkVUREVWX0RF
+VihuZXRkZXYsICZpbnRmLT5kZXYpOwo+ID4gK8KgwqDCoMKgwqDCoMKgZGV2ID0gbmV0ZGV2X3By
+aXYobmV0ZGV2KTsKPiA+ICvCoMKgwqDCoMKgwqDCoGRldi0+bmV0ZGV2ID0gbmV0ZGV2Owo+ID4g
+K8KgwqDCoMKgwqDCoMKgZGV2LT51c2JkZXYgPSB1c2JfZ2V0X2RldihpbnRlcmZhY2VfdG9fdXNi
+ZGV2KGludGYpKTsKPiAKPiBUYWtpbmcgYSByZWZlcmVuY2UuCj4gV2hlcmUgaXMgdGhlIGNvcnJl
+c3BvbmRpbmcgcHV0PwoKR29vZCBjYXRjaCAtIHdlIHNob3VsZCBoYXZlIG9uZSBpbiBkaXNjb25u
+ZWN0KCkuIENvbWluZyB1cCBpbiB2MiB0b28uCgpDaGVlcnMsCgoKSmVyZW15Cg==
 
-Thank you for the review.
-
-Micha=C5=82 Pecio <michal.pecio@gmail.com> =E6=96=BC 2025=E5=B9=B42=E6=9C=
-=886=E6=97=A5 =E9=80=B1=E5=9B=9B =E4=B8=8A=E5=8D=885:45=E5=AF=AB=E9=81=93=
-=EF=BC=9A
->
-> >       case COMP_STOPPED:
-> > +             /* Think of it as the final event if TD had an error */
-> > +             if (td->error_mid_td)
-> > +                     td->error_mid_td =3D false;
-> >               sum_trbs_for_length =3D true;
-> >               break;
->
-> What was the reason for this part?
-
-To prevent the driver from printing the following debug message twice:
-
-"Error mid isoc TD, wait for final completion event"
-
-This can happen if the driver queues a Stop Endpoint command after
-mid isoc TD error occurred, see my debug messages below:
-
-[  110.514149] xhci_hcd 0000:01:00.0: xhci_queue_isoc_tx
-[  110.514164] xhci_hcd 0000:01:00.0: @000000002d119510 59600000
-00000000 00009000 800b1725
-[  110.514169] xhci_hcd 0000:01:00.0: @000000002d119520 59609000
-00000000 00107000 800b1515
-[  110.514173] xhci_hcd 0000:01:00.0: @000000002d119530 59610000
-00000000 00002000 00000625
-...
-[  110.530263] xhci_hcd 0000:01:00.0: xhci_handle_event_trb
-[  110.530266] xhci_hcd 0000:01:00.0: @000000010afe6350 2d119510
-00000000 04009000 01138001
-[  110.530271] xhci_hcd 0000:01:00.0: Error mid isoc TD, wait for
-final completion event
-[  110.530373] xhci_hcd 0000:01:00.0: xhci_handle_event_trb
-[  110.530378] xhci_hcd 0000:01:00.0: @000000010afe6360 2d119510
-00000000 01009000 01138001
-[  110.530387] xhci_hcd 0000:01:00.0: xhci_handle_event_trb
-[  110.530391] xhci_hcd 0000:01:00.0: @000000010afe6370 2d119520
-00000000 04007000 01138001
-[  110.530395] xhci_hcd 0000:01:00.0: Error mid isoc TD, wait for
-final completion event
-[  110.530430] xhci_hcd 0000:01:00.0: queue_command
-[  110.530434] xhci_hcd 0000:01:00.0: @000000010afe5230 00000000
-00000000 00000000 01133c01
-[  110.530470] xhci_hcd 0000:01:00.0: xhci_handle_event_trb
-[  110.530473] xhci_hcd 0000:01:00.0: @000000010afe6380 2d119520
-00000000 1a000000 01138001
-[  110.530478] xhci_hcd 0000:01:00.0: Error mid isoc TD, wait for
-final completion event
-[  110.530481] xhci_hcd 0000:01:00.0: xhci_handle_event_trb
-[  110.530484] xhci_hcd 0000:01:00.0: @000000010afe6390 0afe5230
-00000001 01000000 01008401
-...
-
-This may become confusing.
-
->
-> As written it is going to cause problems, the driver will forget about
-> earlier errors if the endpoint is stopped and resumed on the same TD.
-
-Yes, this can happen, I didn't account for this scenario.
-
->
->
-> I think that the whole patch could be much simpler, like:
->
-> case X_ERROR:
->         frame->status =3D X;
->         td->error_mid_td =3D true;
->         break;
-> case Y_ERROR:
->         frame->status =3D Y;
->         td->error_mid_td =3D true;
->         break;
->
-> and then
->
-> if (error_mid_td && (ep_trb !=3D td->end_trb || ETRON && SUPERSPEED)) {
->         // error mid TD, wait for final event
-> }
->
-> finish_td()
-
-Yes, this is much simpler than my patch, but we still need to fix
-the issue with debug message being printed twice.
-
-Maybe silence the debug message like this:
-
-if (error_mid_td && (ep_trb !=3D td->end_trb || ETRON && SUPERSPEED)) {
-        if (trb_comp_code !=3D COMP_STOPPED)
-                xhci_dbg(xhci, "Error mid isoc TD, wait for final
-completion event\n");
-...
-}
-
-, or do nothing. Could you help with some suggestions?
-
->
->
-> Regards,
-> Michal
-
-Thanks,
-Kuangyi Chiang
