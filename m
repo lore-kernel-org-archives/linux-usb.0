@@ -1,44 +1,55 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AADD017BA6;
-	Sat,  8 Feb 2025 05:39:54 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 95F5A2C6A3;
+	Sat,  8 Feb 2025 07:12:40 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1738993195; cv=none; b=EKdQVm9opc30OH2n5t9+nZjOdXPNRlH/gqmZ5E1EIRO8zYWDmANqPGDPatk+eMYwjmzQ6A9ExWQKgYDpQZ52kJCHarU77Uu1iT+bR+FpIRBBZCxNMMDHLPqruBwdRYLM/5NxUQ34EKFIdrCCbmGIgSAWBjQdyeaRuqxTGtGWhTI=
+	t=1738998761; cv=none; b=twGMWwkuozY/GqnD83k7wrEsdudDN1SB1i+oaiDoX1cKmY/cJ8q/2CqFHTGYXgLGTJH57Gf5eFH7AjvuhlfEfDrMkSuOHy/apsNkKa1OYpKTaq4+jwTh+b71H9E5sGNEnDXcrid+zxswdlfhgxdZsGGMyf7HoORkOTbfPHlObEQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1738993195; c=relaxed/simple;
-	bh=EIO2RApIMTaoQHu0AYGuzLxcnzfiMUbPkQ+Ttz9uEII=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=bezvMdVPi36fGf/NACaf7GAR/fnOWukpvgaCBdmM/uzREP7m951Eqa3VGg+lQD5skLg1YFN4isN60Iclq94A7+Y5pGgImaKYhH9X4XCrv4wRWil8hX6zndKvXMwo5Gp+a2McAgSjbJSS4GLdOwXM06ep+YajPjHxyR20Vd1vgVY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=S7IS+KGI; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1738998761; c=relaxed/simple;
+	bh=Pyt2xpK/5RJwXZi+SVmuRDAyARjDEhYR26aol2nWBS8=;
+	h=Date:From:To:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=bq3q/HTGzy/8DBf273/P8ts73dcXiiQ9L8/7GMAyLcsHFmcR8EvcmRCxhmvSULsE+FwcZRxf51B/JlTUcHmAF7nxVuMt0UrXXuJwtSkYMvfl45gOX5iq3XdtJMzAGUDprhTSfrgkatt4787OQ2ueKtTIpldhl5Ei+K26tLYLwLE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b=ZXOYrzh+; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="S7IS+KGI"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 1A947C4CED6;
-	Sat,  8 Feb 2025 05:39:51 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1738993194;
-	bh=EIO2RApIMTaoQHu0AYGuzLxcnzfiMUbPkQ+Ttz9uEII=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=S7IS+KGI3Cu01/xSeKZlmjbimenl4l3+vdhqWbdTyYouNNAUtuuQyWwiHKVab3XdB
-	 IB8DBjZoyV7v0hhgNXxbff/mQ4HWs+m6zW94oGZB5LRvd4hYLwvkeeoIn3ilJEvi6r
-	 d5sR38oZnjxCT2bzT+5w4IMqQAl2yyowhLtQ14Cx4wgFbu/70jSYWyPIo+/4ANPurY
-	 K2Vsydclww71WiA2sgAFS235YE0a/UI72AZy008IOfcGiw/Mo7tN8/zXACsW96UHkI
-	 R6JA0YGDChkYHuY3eC0/8hCSicNYgXRy9TDwA71pP8+0ttdS7ftm/K4BaU25IZCoPJ
-	 n/1jziYmSveFg==
-Date: Sat, 8 Feb 2025 13:39:44 +0800
-From: Peter Chen <peter.chen@kernel.org>
-To: Siddharth Vadapalli <s-vadapalli@ti.com>
-Cc: pawell@cadence.com, rogerq@kernel.org, gregkh@linuxfoundation.org,
-	balbi@kernel.org, jun.li@nxp.com, linux-usb@vger.kernel.org,
-	linux-kernel@vger.kernel.org, stable@vger.kernel.org,
-	linux-arm-kernel@lists.infradead.org, srk@ti.com
-Subject: Re: [PATCH] usb: cdns3: exit cdns3_gadget_udc_start if
- FAST_REG_ACCESS cannot be set
-Message-ID: <20250208053944.GA28062@nchen-desktop>
-References: <20250206125943.786949-1-s-vadapalli@ti.com>
- <20250207022523.GA22848@nchen-desktop>
- <tf7qwkoybolexehzagzel67kdxdfsve2f3qdueomedld72v7pp@bquo47wpsxul>
+	dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="ZXOYrzh+"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id B9678C4CED6;
+	Sat,  8 Feb 2025 07:12:39 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
+	s=korg; t=1738998760;
+	bh=Pyt2xpK/5RJwXZi+SVmuRDAyARjDEhYR26aol2nWBS8=;
+	h=Date:From:To:Subject:References:In-Reply-To:From;
+	b=ZXOYrzh+VNM1tRwpXkLWvaYfcOJh9g+a7jdHgOpCUA5K1oTcx+EZa5Hv8s0FLOa1q
+	 Q/I1NpnNl4Of85rja+7mGxZmpsaI80P7nKO9Vfo0XrRg88oO2W1Jxrpj2dH9MgxuVp
+	 83v4VMcPVa+h4mpNq0thW/gPM2Q1Pvhm+spjszZM=
+Date: Sat, 8 Feb 2025 08:12:37 +0100
+From: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+To: linux-kernel@vger.kernel.org, "Rafael J. Wysocki" <rafael@kernel.org>,
+	Danilo Krummrich <dakr@kernel.org>, Lyude Paul <lyude@redhat.com>,
+	Alexander Lobakin <aleksander.lobakin@intel.com>,
+	Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
+	Bjorn Helgaas <bhelgaas@google.com>,
+	Jonathan Cameron <Jonathan.Cameron@huawei.com>,
+	Liam Girdwood <lgirdwood@gmail.com>, Lukas Wunner <lukas@wunner.de>,
+	Mark Brown <broonie@kernel.org>,
+	=?iso-8859-1?Q?Ma=EDra?= Canal <mairacanal@riseup.net>,
+	Robin Murphy <robin.murphy@arm.com>,
+	Simona Vetter <simona.vetter@ffwll.ch>,
+	Zijun Hu <quic_zijuhu@quicinc.com>, linux-usb@vger.kernel.org,
+	rust-for-linux@vger.kernel.org,
+	Haneen Mohammed <hamohammed.sa@gmail.com>,
+	Simona Vetter <simona@ffwll.ch>,
+	Melissa Wen <melissa.srw@gmail.com>,
+	Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+	Maxime Ripard <mripard@kernel.org>,
+	Thomas Zimmermann <tzimmermann@suse.de>,
+	David Airlie <airlied@gmail.com>, dri-devel@lists.freedesktop.org
+Subject: Re: [PATCH v3 8/8] drm/vkms: convert to use faux_device
+Message-ID: <2025020855-ventricle-slang-b705@gregkh>
+References: <2025020620-skedaddle-olympics-1735@gregkh>
+ <2025020625-unlaced-vagueness-ae34@gregkh>
+ <Z6Y72LK1UW86x8av@louis-chauvet-laptop>
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
@@ -47,117 +58,100 @@ List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <tf7qwkoybolexehzagzel67kdxdfsve2f3qdueomedld72v7pp@bquo47wpsxul>
+In-Reply-To: <Z6Y72LK1UW86x8av@louis-chauvet-laptop>
 
-On 25-02-07 11:12:50, Siddharth Vadapalli wrote:
-> On Fri, Feb 07, 2025 at 10:25:23AM +0800, Peter Chen wrote:
-> 
-> Hello Peter,
-> 
-> > On 25-02-06 18:29:36, Siddharth Vadapalli wrote:
-> > > When the device is in a low power state, access to the following
-> > > registers takes a long time:
-> > > - EP_CFG
-> > > - EP_TRADDR
-> > > - EP_CMD
-> > > - EP_SEL
-> > > - EP_STS
-> > > - USB_CONF
-> > > 
-> > > To address this, the fast register access feature can be enabled by
-> > > setting PUSB_PWR_FST_REG_ACCESS bit of the USB_PWR register, which
-> > > allows quick access by software. Software is expected to poll on
-> > > PUSB_PWR_FST_REG_ACCESS_STAT to ensure that fast register access has
-> > > been enabled by the controller. Attempting to access any of the
-> > > aforementioned registers after setting PUSB_PWR_FST_REG_ACCESS but
-> > > before PUSB_PWR_FST_REG_ACCESS_STAT has been set will result in
-> > > undefined behavior and potentially result in system hang.
-> > > 
-> > > Hence, poll on PUSB_PWR_FST_REG_ACCESS_STAT before proceeding with
-> > > gadget configuration, and exit if it cannot be enabled.
-> > > 
-> > > Fixes: b5148d946f45 ("usb: cdns3: gadget: set fast access bit")
-> > > Cc: <stable@vger.kernel.org>
-> > > Signed-off-by: Siddharth Vadapalli <s-vadapalli@ti.com>
-> > > ---
-> > > 
-> > > Hello,
-> > > 
-> > > This patch is based on commit
-> > > 92514ef226f5 Merge tag 'for-6.14-rc1-tag' of git://git.kernel.org/pub/scm/linux/kernel/git/kdave/linux
-> > > of Mainline Linux.
-> > > 
-> > > Regards,
-> > > Siddharth.
-> > > 
-> > >  drivers/usb/cdns3/cdns3-gadget.c | 18 ++++++++++++++++--
-> > >  1 file changed, 16 insertions(+), 2 deletions(-)
-> > > 
-> > > diff --git a/drivers/usb/cdns3/cdns3-gadget.c b/drivers/usb/cdns3/cdns3-gadget.c
-> > > index fd1beb10bba7..b62691944272 100644
-> > > --- a/drivers/usb/cdns3/cdns3-gadget.c
-> > > +++ b/drivers/usb/cdns3/cdns3-gadget.c
-> > > @@ -2971,8 +2971,6 @@ static void cdns3_gadget_config(struct cdns3_device *priv_dev)
-> > >  	/* enable generic interrupt*/
-> > >  	writel(USB_IEN_INIT, &regs->usb_ien);
-> > >  	writel(USB_CONF_CLK2OFFDS | USB_CONF_L1DS, &regs->usb_conf);
-> > > -	/*  keep Fast Access bit */
-> > > -	writel(PUSB_PWR_FST_REG_ACCESS, &priv_dev->regs->usb_pwr);
-> > >  
-> > >  	cdns3_configure_dmult(priv_dev, NULL);
-> > >  }
-> > > @@ -2990,6 +2988,8 @@ static int cdns3_gadget_udc_start(struct usb_gadget *gadget,
-> > >  	struct cdns3_device *priv_dev = gadget_to_cdns3_device(gadget);
-> > >  	unsigned long flags;
-> > >  	enum usb_device_speed max_speed = driver->max_speed;
-> > > +	int ret;
-> > > +	u32 reg;
-> > >  
-> > >  	spin_lock_irqsave(&priv_dev->lock, flags);
-> > >  	priv_dev->gadget_driver = driver;
-> > > @@ -2997,6 +2997,20 @@ static int cdns3_gadget_udc_start(struct usb_gadget *gadget,
-> > >  	/* limit speed if necessary */
-> > >  	max_speed = min(driver->max_speed, gadget->max_speed);
-> > >  
-> > > +	/*  keep Fast Access bit */
-> > > +	writel(PUSB_PWR_FST_REG_ACCESS, &priv_dev->regs->usb_pwr);
-> > > +	reg = readl(&priv_dev->regs->usb_pwr);
-> > > +	if (!(reg & PUSB_PWR_FST_REG_ACCESS_STAT)) {
-> > > +		ret = readl_poll_timeout_atomic(&priv_dev->regs->usb_pwr, reg,
-> > > +						(reg & PUSB_PWR_FST_REG_ACCESS_STAT),
-> > > +						10, 1000);
-> > > +		if (ret) {
-> > > +			dev_err(priv_dev->dev, "Failed to enable fast access\n");
-> > > +			spin_unlock_irqrestore(&priv_dev->lock, flags);
-> > > +			return ret;
-> > > +		}
-> > > +	}
-> > > +
-> > >  	switch (max_speed) {
-> > >  	case USB_SPEED_FULL:
-> > >  		writel(USB_CONF_SFORCE_FS, &priv_dev->regs->usb_conf);
+On Fri, Feb 07, 2025 at 05:59:04PM +0100, Louis Chauvet wrote:
+> On 06/02/25 - 18:38, Greg Kroah-Hartman wrote:
+> > The vkms driver does not need to create a platform device, as there is
+> > no real platform resources associated it,  it only did so because it was
+> > simple to do that in order to get a device to use for resource
+> > management of drm resources.  Change the driver to use the faux device
+> > instead as this is NOT a real platform device.
 > > 
-> > Hi Siddharth,
-> > 
-> > Would you please keep this change at cdns3_gadget_config in case the
-> > controller is power lost during the system suspend?
+> > Cc: Louis Chauvet <louis.chauvet@bootlin.com>
+> > Cc: Haneen Mohammed <hamohammed.sa@gmail.com>
+> > Cc: Simona Vetter <simona@ffwll.ch>
+> > Cc: Melissa Wen <melissa.srw@gmail.com>
+> > Cc: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>
+> > Cc: Maxime Ripard <mripard@kernel.org>
+> > Cc: Thomas Zimmermann <tzimmermann@suse.de>
+> > Cc: David Airlie <airlied@gmail.com>
+> > Cc: dri-devel@lists.freedesktop.org
+> > Signed-off-by: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+> > ---
+> >  v3: new patch in the series.  For an example of the api working, does
+> >      not have to be merged at this time, but I can take it if the
+> >      maintainers give an ack.
 > 
-> I did think of that initially, but the problem with doing so is that we
-> are already accessing USB_CONF above in the "switch(max_speed)" section.
-> The PUSB_PWR_FST_REG_ACCESS bit needs to be set before accessing any of:
-> - EP_CFG
-> - EP_TRADDR
-> - EP_CMD
-> - EP_SEL
-> - EP_STS
-> - USB_CONF
+> Hi,
 > 
-> Please let me know if you have an alternate suggestion to address the
-> above.
+> This patch cannot be merged into drm-misc-next because we modified the 
+> vkms_device structure in commit 49a167c393b0 ("drm/vkms: Switch to dynamic 
+> allocation for CRTC"), which is present in linux-next.
 > 
+> Once this conflict is resolved, I agree with changing from platform_device 
+> to faux_device.
+> 
+> Apart from this minor conflict, I believe your patch has revealed an issue 
+> in VKMS:
+> 
+> Without your patch:
+> 
+> 	bash-5.2# modprobe vkms
+> 	[drm] Initialized vkms 1.0.0 for vkms on minor 0
+> 	bash-5.2#
+> 
+> With your patch:
+> 
+> 	bash-5.2# modprobe vkms
+> 	faux vkms: Resources present before probing
+> 	[drm] Initialized vkms 1.0.0 for vkms on minor 0
+> 	bash-5.2#
+> 
+> After some investigation, I found that the issue is not caused by your 
+> patch but by VKMS itself:
+> 
+> During faux_device_create, the device core postpones the device probe to 
+> run it later [0]. This probe checks if the devres list is empty [1] and 
+> fails if it is not.
+> 
+> [0]:https://elixir.bootlin.com/linux/v6.13.1/source/drivers/base/bus.c#L534
+> [1]:https://elixir.bootlin.com/linux/v6.13.1/source/drivers/base/dd.c#L626
+> 
+> With a platform driver, the order of execution was:
+> 
+> 	platform_device_register_simple();
+> 		device_add();
+> 	*async* device_probe(); /* no issue, the devres is untouched */
+> 	devres_open_group();
+> 
+> But with faux-device, the order is:
+> 
+> 	faux_device_create();
+> 		device_add();
+> 	devres_open_group();
+> 	*async* device_probe(); /* issue here, because of the previous 
+> 				   devres_open_group */
 
-How about move cdns3_gadget_config at the beginning of function
-cdns3_gadget_udc_start, and add your changes at cdns3_gadget_config?
+Wait, what?  It shouuld be the exact same codepath, as faux_device() is
+not doing anything different from platform here.  You might just be
+hitting a race condition as the async probing is the same here.
 
-Regards,
-Peter
+> How do you think this should be solved? I would like to keep a simple 
+> solution, given that:
+> - we want to have multiple vkms devices (configfs [2])
+> - we need to ensure that device_probe is called before devres_open_group 
+>   and devm_drm_dev_alloc to avoid this error
+
+How about we take out the async probe?  You are getting lucky that it's
+not hit on the platform device code today.  Faux really doesn't need
+async, I was just trying to make the system work the same way that
+platform devices did.
+
+And as for the merge issue, not a problem, I just did this conversion
+for people to see how this works and ideally test it, as you did, to
+find issues!
+
+thanks,
+
+greg k-h
