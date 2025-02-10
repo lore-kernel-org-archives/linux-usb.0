@@ -1,53 +1,53 @@
-Received: from mail-vk1-f176.google.com (mail-vk1-f176.google.com [209.85.221.176])
+Received: from mail-vk1-f181.google.com (mail-vk1-f181.google.com [209.85.221.181])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D7FBD14B08C
-	for <linux-usb@vger.kernel.org>; Mon, 10 Feb 2025 13:57:32 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.176
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E45C3156F53
+	for <linux-usb@vger.kernel.org>; Mon, 10 Feb 2025 14:06:48 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.181
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1739195854; cv=none; b=mUV+xWNV1/WNUpRGI5QkmVazJePufVKyaW9PgZ6sY8cxs5xbxEGvh3JG0DxvL+0p1NkvyPdFobHy6fW0qs6nZjySuFG7pu9BP1zUFj/LZyhI3/F1mlUY6OC73HCBDfC75R3WdqEJs+l5UCIKYJNU74S2TMiz9jvQj03OvOP6F34=
+	t=1739196410; cv=none; b=PSLxnIq48p+4lIlSD2A29yJPpKZ5CjV1TU2ncI+qWPSpLc6Wkg+w/KX4qlXnmuKd3AuNVgg+BXHSLZIaO693KZRPgmHOH3yPZKihsS+pvuyv8i/GtecpqK9Rk3rQiKf0gSEEpFZrF5bHga1Wk/wd15rkUPNA3JaMjqzBDNtkKrs=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1739195854; c=relaxed/simple;
-	bh=QXT6KiT3RSQz0+6YG54MJV9iN8fA4nPM9LZD5tFJXJc=;
-	h=MIME-Version:From:Date:Message-ID:Subject:To:Cc:Content-Type; b=qIJd5T9W+FzciW/mdItm+X7n/BtThZ1I1vgieQpPYrWyFMSykeqWyzgsJW54doWfxD6OkO+5PMTXUxC9Ct+NpkWTpM73Fd5xL+doBFXAJ3tbVBspaMduQhc8keJy36y2pXL1vkBh4B7Dh3xRAmfHivAmXXddJnjAiPqgyzco1Jk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=oscium.com; spf=pass smtp.mailfrom=oscium.com; dkim=pass (2048-bit key) header.d=oscium-com.20230601.gappssmtp.com header.i=@oscium-com.20230601.gappssmtp.com header.b=FkfVwRjt; arc=none smtp.client-ip=209.85.221.176
+	s=arc-20240116; t=1739196410; c=relaxed/simple;
+	bh=QwtX1Q7/cA1Pa3oRbNTifUxiyDaCVj+oHpJx8NlDFL8=;
+	h=MIME-Version:From:Date:Message-ID:Subject:To:Cc:Content-Type; b=nkE2hiviZovBuu3JxJUe2o2aOmgNY7rqQSx7qtdOxp3CPW2wnySL9FsY7yd2aIjwYf62PCs6yVkVS3D0MfDVpS6fuSdGInaiPiLy+WamyXoJ/vKLVvjrIdSUNSIXTe8rUtabhkuqamuOaXYHS+iIi3LXKqK3WE9mVS/hbpsGsFU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=oscium.com; spf=pass smtp.mailfrom=oscium.com; dkim=pass (2048-bit key) header.d=oscium-com.20230601.gappssmtp.com header.i=@oscium-com.20230601.gappssmtp.com header.b=AK0C4w/K; arc=none smtp.client-ip=209.85.221.181
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=oscium.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=oscium.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=oscium-com.20230601.gappssmtp.com header.i=@oscium-com.20230601.gappssmtp.com header.b="FkfVwRjt"
-Received: by mail-vk1-f176.google.com with SMTP id 71dfb90a1353d-5203c91d28bso423400e0c.2
-        for <linux-usb@vger.kernel.org>; Mon, 10 Feb 2025 05:57:32 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=oscium-com.20230601.gappssmtp.com header.i=@oscium-com.20230601.gappssmtp.com header.b="AK0C4w/K"
+Received: by mail-vk1-f181.google.com with SMTP id 71dfb90a1353d-52031ffca74so547071e0c.2
+        for <linux-usb@vger.kernel.org>; Mon, 10 Feb 2025 06:06:48 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=oscium-com.20230601.gappssmtp.com; s=20230601; t=1739195852; x=1739800652; darn=vger.kernel.org;
+        d=oscium-com.20230601.gappssmtp.com; s=20230601; t=1739196408; x=1739801208; darn=vger.kernel.org;
         h=cc:to:subject:message-id:date:from:mime-version:from:to:cc:subject
          :date:message-id:reply-to;
-        bh=CWfwQCtKPeQHb06KKLpd2iYAmIJ6IMcQTyiX2qQjFpc=;
-        b=FkfVwRjt4eUpbCWBv+rD9HWajVaxkdTPAxp+wBuhxSnyb4rHifslgewsZWOHTye8Kr
-         p4liYL4c1oBke9j0rtmT2JTwRxYoNTDHjUQGPIHGRENHKSAxvHLE3NRMdPDYehoVYpxC
-         sqvnXhXGkOaqCvwFC4AFdip4kU5uTY9oFYEgMIqlhyBUeS1J7p2Dnws/E4LUfbclOPIn
-         mOz0eE9bGpdfk6bM2oY+/pDdUnco2w9F3MnZYvhlQ75uxXXfD8LF4SDIZjFIKEhOtzF9
-         dUE+gd5Y9bSvZDqr0H466dcPHgrFiEwFKeXJl22W8ZiQ2KguCuMjwQFf09ogTyBun9hT
-         1rnA==
+        bh=GOxpxDY6jk5bMukjYjLqH86TdGuXgrkKanuKTTWk0JM=;
+        b=AK0C4w/KEJBEQMd4q0TRwGghPtJbCffwjzSgR9U89B0edHWW69uD5TuKoWNArbpnQk
+         62B3VBzZpm+9buxyaUvvmwQ94XVkv3dEeB7bkjjiOV7wXTgCDNclqD0yp8yShJVgmiG+
+         ZegT9pkHcHIURhjOBigvrgYZtx9QxuZa+oUWLrZhT2yza0/wAkXJueqnLRVvqo/5PX2u
+         HXGWGsIU99lXATq9NN9fHQY1163xZ1EFjixk4Fl5svnobmNxn+aF5yLTuosLN2UjNxTw
+         GscJY+Z2PxNNo3ATjUxNl10fSRHkVR4nbn9EGkmCIQdXkoPUI2EFNKv48glZ2Rr2WD/m
+         0B9Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1739195852; x=1739800652;
+        d=1e100.net; s=20230601; t=1739196408; x=1739801208;
         h=cc:to:subject:message-id:date:from:mime-version:x-gm-message-state
          :from:to:cc:subject:date:message-id:reply-to;
-        bh=CWfwQCtKPeQHb06KKLpd2iYAmIJ6IMcQTyiX2qQjFpc=;
-        b=Nrsj6iRlFwbRQ4HvObVlNIezUY++cw3ngvZj7UtPULDQTFfpxmA55ItTgiDKCwFY96
-         cqeCnXWBXNnGee4oAMOGJLE70JiSLdcWcNndg/yrROZxUxKQPu8v0K/U4MVFPYI3/C/c
-         XdqZXoP82sv+GL3xAJkbJklpIpR93/eu7K5v+IgpbbrlfRYyDgJ/runDbflQ3IdSRFvh
-         kMYznKYR811GGFPesbtG5RE8YKJiWXC8kzYi+ZtqrWLLddUlMGjzkFnShKENuoWtkwQn
-         OKhLB7W/GewO/RmZZAX9hIQr9+x38gZbByCQ0mhWXsp2szbsMSzz2VWxzXWYM0lgbo52
-         lF1Q==
-X-Gm-Message-State: AOJu0Yy7QQC2Vl2xGWjNG1l/k7wiFdSluAjXKHJphCZb1i6Lg8du67pe
-	ZWpnQZDfjd3HfVpgAFfsUpBctZtUr25O41xDYcjC3Y9fO0zIz4PPslv11LhtZXtbG+bZ/6X/wyM
-	tKxGwv2HZieQY2I05LaUc82vTfI2VESmO0epa0A==
-X-Gm-Gg: ASbGncuICTVLuoXXUfg3o1z5ydf78Gkrj+vi+heeBvtQaQWe9SOwBtRtori8sck5Vki
-	0anNq48Pm9ZVqcuzGviMweJu6w6MMIUweCIkbvbY6akMD6U9nLJVHPT0nnFE261bV/JtaVAg=
-X-Google-Smtp-Source: AGHT+IE3+6DXL9qr/D8Ep+e74MZr+lyWci6RpBT2nueXyECM+9f5xoo1RPSzXsvdqhmhCRpYxkIjjVFNLqSvRzrw6p8=
-X-Received: by 2002:a05:6122:a26:b0:520:4ed1:62dc with SMTP id
- 71dfb90a1353d-5204ed167b3mr758429e0c.5.1739195851567; Mon, 10 Feb 2025
- 05:57:31 -0800 (PST)
+        bh=GOxpxDY6jk5bMukjYjLqH86TdGuXgrkKanuKTTWk0JM=;
+        b=ReXzF7TMCnKBqBCYkdrVMaos7kg4O7JY8wt75dNdTQPgBDzs2lB6QC7zv5HJYhZ1FV
+         aEYgw7bQ9RbYZbEyBPj2bKKwpPxkAO7h0MXEF/A4KUyvdIkZK/txksdlLK8C+6WiwMCb
+         1wKOHNMe6DliwqRaBoZ08iN9irqy89Ui8AKBg6maM0eQX27bUFM89nwacRryjAptCjpL
+         a+kqxjF/QUpmBUkFqvHgIVM399eBq3FsZuH1/nHbunFqTCQ/GwjkLrPHyHF/451C4ihr
+         tAuDP6FyRw9QKONsZylBUPkAHpzssAXsjrob0BLTrMuintYQHd7a6V8leG2O6sUoqLJ8
+         A3lw==
+X-Gm-Message-State: AOJu0Yy1sQnLJU8TZSnzzpGoDFfekEJlevJ+ceO/cGkPk5sMbDAcT2gI
+	45XWNcIq++oqsnGRsxmFjnjq17Z2uNEk0b8fPwDxzf4S0Igb45n501isX9tQ6x37XtliLVUiFNb
+	Otb5VCa5lhrJIwnza1PRK5Hvh3PtnKEVzUR03yA==
+X-Gm-Gg: ASbGncuE5VeaK8YsyF8hU2A7NCwcL0KnVbCjr2SxPVML6HGq1rsZoiT1TzbwML/jJHv
+	u2WrU5bu22SK/W1orCs/LO5QfY5+eeZ9Go4mIrqjPDg4PaI8Icjes3EIgg+HWo6vC0EVyqYI=
+X-Google-Smtp-Source: AGHT+IGpogM99WaNTm+jUxamHSJF7HMPuiwg1UKJqrfML2Hs+vZcAfoXP322C34Lu2/QbaBpch4YGVeEQ41Af2rWxF0=
+X-Received: by 2002:a05:6122:91b:b0:518:a261:adca with SMTP id
+ 71dfb90a1353d-51f2e21564amr7883453e0c.8.1739196406303; Mon, 10 Feb 2025
+ 06:06:46 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
@@ -55,60 +55,41 @@ List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 From: Matt Lee <matt@oscium.com>
-Date: Mon, 10 Feb 2025 07:57:20 -0600
-X-Gm-Features: AWEUYZkmP71RpNlZFFGFKEerYiywl-1A7Z54ZTPuJkPeW_7kJZcDN9KrzE0mVes
-Message-ID: <CABrMTjey9pZXh=fWevfv2saNOs+_2uV6feV5xbYbP_4nKcq8mw@mail.gmail.com>
-Subject: [PATCH 1/2] USB: max3421: Improve retransmit handling for NAK responses
+Date: Mon, 10 Feb 2025 08:06:35 -0600
+X-Gm-Features: AWEUYZmiUiHNT4tfzIFtvIC6l0yjKpXD75s9JuwObzLmeWxGohpvRFy-Dziy8DA
+Message-ID: <CABrMTjfEqJhUyDKX8UvrZOFFFpaoqEM9WM7Jfso09pXYSA7jtA@mail.gmail.com>
+Subject: [PATCH 2/2] USB: max3421: Fix scheduling while atomic in max3421_remove()
 To: gregkh@linuxfoundation.org
 Cc: linux-usb@vger.kernel.org, matt@oscium.com
 Content-Type: text/plain; charset="UTF-8"
 
-This reverts a previously submitted patch where the slow retransmit was removed.
+A bug in `max3421_remove()` caused a "scheduling while atomic" crash when
+`kthread_stop()` was called while holding a spinlock.
 
-Previously, the max3421 driver would immediately retry transmissions
-indefinitely
-upon receiving a NAK response, leading to potential stalls.
-
-This patch re-introduces a limit (`NAK_MAX_FAST_RETRANSMITS`) on how
-many times a
-request is retransmitted immediately.  After reaching this limit, the driver
-falls back to a slower retransmit strategy using `max3421_slow_retransmit()`.
-
-This improves robustness when dealing with unresponsive USB devices.
+This patch ensures that `kthread_stop()` is called outside the spinlock,
+fixing the crash and improving system stability when unloading the driver.
 
 Signed-off-by: Matt Lee <matt@oscium.com>
 ---
- drivers/usb/host/max3421-hcd.c | 7 +++++++
- 1 file changed, 7 insertions(+)
+ drivers/usb/host/max3421-hcd.c | 3 +--
+ 1 file changed, 1 insertion(+), 2 deletions(-)
 
 diff --git a/drivers/usb/host/max3421-hcd.c b/drivers/usb/host/max3421-hcd.c
-index 1234567..abcdef0 100644
+index abcdef0..1234567 100644
 --- a/drivers/usb/host/max3421-hcd.c
 +++ b/drivers/usb/host/max3421-hcd.c
-@@ -72,6 +72,12 @@
- #define USB_MAX_FRAME_NUMBER   0x7ff
- #define USB_MAX_RETRIES        3 /* # of retries before error is reported */
+@@ -1936,11 +1945,10 @@ max3421_remove(struct spi_device *spi)
+        usb_remove_hcd(hcd);
 
-+/*
-+ * Max. # of times we're willing to retransmit a request immediately in
-+ * response to a NAK.  Afterwards, we fall back on trying once a frame.
-+ */
-+#define NAK_MAX_FAST_RETRANSMITS       2
-+
- #define POWER_BUDGET   500     /* in mA; use 8 for low-power port testing */
+        spin_lock_irqsave(&max3421_hcd->lock, flags);
++       spin_unlock_irqrestore(&max3421_hcd->lock, flags);
 
- /* Port-change mask: */
-@@ -924,8 +930,11 @@ max3421_handle_error(struct usb_hcd *hcd
-                 * Device wasn't ready for data or has no data
-                 * available: retry the packet again.
-                 */
-+               if (max3421_ep->naks++ < NAK_MAX_FAST_RETRANSMITS) {
-                max3421_next_transfer(hcd, 1);
-                switch_sndfifo = 0;
-+               } else
-+                       max3421_slow_retransmit(hcd);
-                break;
-        }
-        if (switch_sndfifo)
+        kthread_stop(max3421_hcd->spi_thread);
+
+-       spin_unlock_irqrestore(&max3421_hcd->lock, flags);
+-
+        free_irq(spi->irq, hcd);
+
+        usb_put_hcd(hcd);
 -- 
 2.34.1
