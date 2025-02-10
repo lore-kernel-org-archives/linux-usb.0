@@ -1,140 +1,169 @@
-Received: from mailout2.samsung.com (mailout2.samsung.com [203.254.224.25])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-oi1-f179.google.com (mail-oi1-f179.google.com [209.85.167.179])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6B8BE2505BA
-	for <linux-usb@vger.kernel.org>; Mon, 10 Feb 2025 19:43:05 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=203.254.224.25
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3F27F26460D
+	for <linux-usb@vger.kernel.org>; Mon, 10 Feb 2025 20:46:31 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.179
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1739216588; cv=none; b=eP/acBxIqLtlmedrVUa1xmC7SXzWLcoVAjOgj5l7VE3Ra2EXRdOmtOrzNoATrwqI4Xfatd060jQirZiXUScpnU9brymvil9wtyT1lTQHp9T0EB/9YFKfmeU07RJhnCYKPFEJmMB41yxsHwAypzzZ7HD1Yyqp/Hws576cMXweS0U=
+	t=1739220393; cv=none; b=pYzwhUHuEdmW9kJJiksN5/dgaTBBAbhuCHzXMRYo1mIuXC2MyuR8EzXgSGWDT/0IWVp5Payez3SmmK75NtPSg1980IZ/L9H3sVBKn1BQNJet96QQCU7WQs4ra+n3QP+9vXFsCF37Z8xvARo9IidAG4zwPGpvVfDuBcg+8KwCIrc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1739216588; c=relaxed/simple;
-	bh=zDOdwrtEgqL5utC5zX/sNmBwQ2znbX6ktSuLXgQgpws=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version:Content-Type:
-	 References; b=eYdNo2IB4/QgXS9eiV4/vwn3cUFad6LU31HECcuu7GLs2phWcsNUxiCST+uMIHEOb25gR9Vj8Q5Icd4iEPcqFGzqzWbM95K2ZdnEGNuATTrDNmQ43QzZxtqGQy7r1JHfEZh3VffBt3agPcllsV6FD0qhK90z70xul2BmNqw6OMU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=samsung.com; spf=pass smtp.mailfrom=samsung.com; dkim=pass (1024-bit key) header.d=samsung.com header.i=@samsung.com header.b=cG3g2vHX; arc=none smtp.client-ip=203.254.224.25
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=samsung.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=samsung.com
+	s=arc-20240116; t=1739220393; c=relaxed/simple;
+	bh=YjMg18iPraSfB7gYeljXFaWdZCQpj6L90GR9hnqeZJw=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=Hp3oXSRy7vLJnnNgYPWxlObnPH5t58rkvaZEnHpirSYlG/BGq85e1+7GAqZPgXV/wBkXEeUXLmfec75Fi3jSwMGLbG6xJsQ0f2bE6fn+kpJw2r2BlZXx3i/JvxC1ljIyJdvuwZnvH2Rxpo9qRM04hNmZAtp1Hob+KhEQgzfo2ys=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=a1xYLKgY; arc=none smtp.client-ip=209.85.167.179
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=google.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=samsung.com header.i=@samsung.com header.b="cG3g2vHX"
-Received: from epcas5p3.samsung.com (unknown [182.195.41.41])
-	by mailout2.samsung.com (KnoxPortal) with ESMTP id 20250210194303epoutp02e2da31889677f2fb7dc73e8988b1f2d3~i8ESOoXdS1609416094epoutp02N
-	for <linux-usb@vger.kernel.org>; Mon, 10 Feb 2025 19:43:03 +0000 (GMT)
-DKIM-Filter: OpenDKIM Filter v2.11.0 mailout2.samsung.com 20250210194303epoutp02e2da31889677f2fb7dc73e8988b1f2d3~i8ESOoXdS1609416094epoutp02N
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=samsung.com;
-	s=mail20170921; t=1739216583;
-	bh=Qrsvwbm83TIa/72fQltxAnMshkLGTHgkRYY1/Dx1x1g=;
-	h=From:To:Cc:Subject:Date:References:From;
-	b=cG3g2vHXZeNr3vRTI7qPxp094UfOoioi7+9R5n65bPh6mt2WJELuuEnwDdU0iYgD0
-	 npUPkmq4w0hb8bddgWlOcMyJxJkoXIwrpaD8L4kzGMIrgUf6WmcLzit4j6CP2sAnGR
-	 p4+Q6bei/PLEUE7iIhG6ZncSbv28LbHWna8TL5XQ=
-Received: from epsnrtp1.localdomain (unknown [182.195.42.162]) by
-	epcas5p3.samsung.com (KnoxPortal) with ESMTP id
-	20250210194302epcas5p3e69da3238905af70a86a3e58b7ef2b49~i8ERiHxZl2476124761epcas5p3b;
-	Mon, 10 Feb 2025 19:43:02 +0000 (GMT)
-Received: from epcpadp2new (unknown [182.195.40.142]) by
-	epsnrtp1.localdomain (Postfix) with ESMTP id 4YsFNk45Txz4x9Pr; Mon, 10 Feb
-	2025 19:43:02 +0000 (GMT)
-Received: from epsmtrp2.samsung.com (unknown [182.195.40.14]) by
-	epcas5p4.samsung.com (KnoxPortal) with ESMTPA id
-	20250210131144epcas5p4a0599050f5973b495db0371021c21e27~i2un9NPY-0918109181epcas5p4D;
-	Mon, 10 Feb 2025 13:11:44 +0000 (GMT)
-Received: from epsmgmcp1.samsung.com (unknown [182.195.42.82]) by
-	epsmtrp2.samsung.com (KnoxPortal) with ESMTP id
-	20250210131144epsmtrp2efd616cee279f5e2c67f7838543d9d5d~i2un4wzLi1237012370epsmtrp2G;
-	Mon, 10 Feb 2025 13:11:44 +0000 (GMT)
-X-AuditID: b6c32a52-1f7ff700000083ab-83-67a9fb10fe47
-Received: from epsmtip2.samsung.com ( [182.195.34.31]) by
-	epsmgmcp1.samsung.com (Symantec Messaging Gateway) with SMTP id
-	81.B4.33707.01BF9A76; Mon, 10 Feb 2025 22:11:44 +0900 (KST)
-Received: from INBRO002811.samsungds.net (unknown [107.122.5.126]) by
-	epsmtip2.samsung.com (KnoxPortal) with ESMTPA id
-	20250210131141epsmtip2d289bc772427d32592ed474915e32c75~i2ulW1MWr0730507305epsmtip28;
-	Mon, 10 Feb 2025 13:11:41 +0000 (GMT)
-From: Selvarasu Ganesan <selvarasu.g@samsung.com>
-To: mathias.nyman@intel.com, gregkh@linuxfoundation.org,
-	WeitaoWang-oc@zhaoxin.com, Thinh.Nguyen@synopsys.com,
-	linux-usb@vger.kernel.org, linux-kernel@vger.kernel.org
-Cc: jh0801.jung@samsung.com, dh10.jung@samsung.com, naushad@samsung.com,
-	akash.m5@samsung.com, h10.kim@samsung.com, eomji.oh@samsung.com,
-	alim.akhtar@samsung.com, thiagu.r@samsung.com, muhammed.ali@samsung.com,
-	pritam.sutar@samsung.com, cpgs@samsung.com, Selvarasu Ganesan
-	<selvarasu.g@samsung.com>, stable@vger.kernel.org
-Subject: [PATCH] usb: xhci: Initialize unassigned variables to fix possible
- errors
-Date: Mon, 10 Feb 2025 18:41:23 +0530
-Message-ID: <1891546521.01739216582564.JavaMail.epsvc@epcpadp2new>
-X-Mailer: git-send-email 2.46.0.windows.1
+	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="a1xYLKgY"
+Received: by mail-oi1-f179.google.com with SMTP id 5614622812f47-3f3a6ee569cso454023b6e.0
+        for <linux-usb@vger.kernel.org>; Mon, 10 Feb 2025 12:46:31 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=google.com; s=20230601; t=1739220391; x=1739825191; darn=vger.kernel.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=KTz2G+osBZOI2qrcEz2DubZi9LC3H8MM7P5FUg9ZQ6c=;
+        b=a1xYLKgY1kV88uhKncxZY/JQyOcqPFGVLXf38RMeie+PkxzOiMm0YI9R1tnVBy/yg4
+         SUMP+mXf/dVYfBfAhhoyd2r58idWsJQnY516CD7c8w77BAQ2LnafvD2FmZvihQ7+JiaZ
+         lqV4aug/9JsDjJQ/op1ePwNS1Ty3uXFEUmg4oZ2wmybc7sslf+nC1Y1cXZoYjyR49qJh
+         pkm7M6ym9E8S386S8npcTI4gb4liI6ic4Q1ISyTBjmJUNf0LA+eoLB7yrVReVcjCcKme
+         hpX3JcUz7oFsoO3VZoL6yjEJm5E3AWbC6SuiHOBQ5ocJ+iwofGXmz+ER8zNQy0xIdz09
+         qQRQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1739220391; x=1739825191;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=KTz2G+osBZOI2qrcEz2DubZi9LC3H8MM7P5FUg9ZQ6c=;
+        b=rRE2l4OAX4FlMrKFhPJvqW98WTdBn7GqFU2TVs8vV4vyJI3aA/UtXzy1RI92Td9fNB
+         7odYJFXy5hGhlI8R++Z//1LYNwh4T9IaAe3K54D5ceYZIuw3ZPnAomMj7PSjrqFbq1wy
+         KwXDfmxs+khuN9wc8DG9RRNj2q7ej40j5gSirP/8Ift7vu3Py/Qy0cFnObinxJbac95F
+         4pJui+kN4h8cj6eF98Vo1jsBWI1SgHaWvH2p+12raNGdgHYBHOYsKhD9rzmKK52ulcSl
+         tF7ZRiq3EDrpHGnWiMmv4nqYjFCH7HWAAlyeFpVASLbsOKuY3LvrE/fc0eDQeCztU7Hl
+         Z5kw==
+X-Forwarded-Encrypted: i=1; AJvYcCWiRpZGNzyMMAA7WPUWL3K7WBylS7GMdxQ4qttfpWqeVEaYLB4p+1qY1UkVP018FqCrKzTn9uY724E=@vger.kernel.org
+X-Gm-Message-State: AOJu0YwM8vjU0jms0DYn38eyHYzv93XymFseFPwwTfcT+T42nc9cDZf1
+	ZcK28j5YkDMsSjoFSAvlMcMXX1/muCEcmwBBqe2qzDA3AYzdKjw9Rs9Ze3hiQVlt2ZF/pOWCybu
+	kD+Ystoh5JYMBulDDmVG/3hZgq7/Kcj441qcB
+X-Gm-Gg: ASbGnct58n3re7TqRTq3hTWq2pKpaZbp7b7nq0iHMhwdrxD4FIkKj0d5VRcn+whgVA+
+	o+ENMO1/Z+IBUQ1kKoyUmrrDZcO4x1atGU50Z1Z/q8AmxFf8mVKL9zWppVZBkOT/Iz9ObqqULgO
+	YvqIRhA81RF5ZFioF4TbPiXRq0O5idQA==
+X-Google-Smtp-Source: AGHT+IHnT0DCAZ4e+uDewxZGJfHSuvhUI0Jc5UKJf6W79fEDyu/BxP83uIqsn10mC/yrh6HlNKtJBTb1KQuEj4MV5pE=
+X-Received: by 2002:a05:6808:1701:b0:3ea:aa8a:c121 with SMTP id
+ 5614622812f47-3f39233f5c5mr11834469b6e.22.1739220391142; Mon, 10 Feb 2025
+ 12:46:31 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFnrDLMWRmVeSWpSXmKPExsWy7bCSvK7A75XpBusuyli8ubqK1eLBvG1s
-	Fi8PaVrcWTCNyeLU8oVMFs2L17NZ/L19kdXi7sMfLBaXd81hs1i0rJXZonnTFFaL8y+6WC0+
-	Hf3PavHs3go2iyPLPzJZLNj4iNFiRTNQyaoFB9gtHv2cy+Qg7LF4z0smj/1z17B79G1Zxeix
-	Zf9nRo/Pm+Q8ft26xRLAFsVlk5Kak1mWWqRvl8CV0bNwIXvBdN6K5avmsTUwzuPuYuTkkBAw
-	kXjbt52xi5GLQ0hgO6PEkcc7WSAS0hKvZ3UxQtjCEiv/PWeHKPrKKHH36HSgIg4ONgFDiWcn
-	bEDiIgIbGCWunpnNCuIwC9xikjj49wMzSLewQJDE1Sdr2UFsFgFVicM7VoBt4BWwkrj24BAT
-	xAZNibV79zBBxAUlTs58AlbDLCAv0bx1NvMERr5ZSFKzkKQWMDKtYhRNLSjOTc9NLjDUK07M
-	LS7NS9dLzs/dxAiOEK2gHYzL1v/VO8TIxMF4iFGCg1lJhNdk4Yp0Id6UxMqq1KL8+KLSnNTi
-	Q4zSHCxK4rzKOZ0pQgLpiSWp2ampBalFMFkmDk6pBib13qfhsvzJDyerf8zfw2Dl6MV8aukm
-	O+HG4gmrtzNZZVtsdPJ++4Dtq9Cdy4GLz/qz8GhfjHRlbgjkFm+ZHFYanrFauifl5KqanRun
-	bFqlFRb/6FXeejFehfgELa72VYHVy7/eSH3ZaBGc4jnhb07hr6d56rN5TfdtPrOg9pfHtdSJ
-	X/QsU78z1ZdK/8s7/s7J8OlaxRtBM0IcelKeF39ri3t/aDP/pvkR4rvji25fenvQXODCqQuT
-	1YQt9JPf/Dxo/fjWbOZHV2en686O5FFqaHs51TRkQa5kT9yc29pce1Z6rWctPGAf66S8KU2G
-	ayp7tu/NJ7m7l/+T/nv0vAc/1xWNPz8y14j1ywhkbVBiKc5INNRiLipOBABUBjE1/wIAAA==
-X-CMS-MailID: 20250210131144epcas5p4a0599050f5973b495db0371021c21e27
-X-Msg-Generator: CA
-Content-Type: text/plain; charset="utf-8"
-CMS-TYPE: 105P
-X-CPGSPASS: Y
-X-Hop-Count: 3
-X-CMS-RootMailID: 20250210131144epcas5p4a0599050f5973b495db0371021c21e27
-References: <CGME20250210131144epcas5p4a0599050f5973b495db0371021c21e27@epcas5p4.samsung.com>
+References: <20250124075911.811594-1-badhri@google.com> <20250128024416.7i3i2vmw2ioy5huf@synopsys.com>
+ <CAPTae5L6Worr3WsuuV-SUNJh6SOVf+RnLWt2d1LNLDYvY6uRuA@mail.gmail.com>
+ <20250130014159.bv7gvtskyg73lxmc@synopsys.com> <CAPTae5JYuogc-mHUi-VdfLAJ4E1z6myGofCvqVCfYxt--VetKA@mail.gmail.com>
+ <20250201000926.veukjr6wmhrgl6me@synopsys.com> <CAPTae5Lw8pB=SuGgkfTyk5BNPWwgCVvYssdLwT7vFKgMepsZig@mail.gmail.com>
+ <20250204002238.prkgpq3w6c6ck6a4@synopsys.com> <CAPTae5K7fdUPsDp-S8uOfrOrN5Pqfd91bw+UN=h65sjrTvFdzg@mail.gmail.com>
+In-Reply-To: <CAPTae5K7fdUPsDp-S8uOfrOrN5Pqfd91bw+UN=h65sjrTvFdzg@mail.gmail.com>
+From: Badhri Jagan Sridharan <badhri@google.com>
+Date: Mon, 10 Feb 2025 12:45:54 -0800
+X-Gm-Features: AWEUYZlVgT5TYpYhjZtOHYaZTLE5nZMU_q1hFqZgo0RnoF5jnN2p5SEB47gEj50
+Message-ID: <CAPTae5KAwCuE7EREa=k3Sj_xK8fKBbY8tw2Q7b3Yer03E8QQ-w@mail.gmail.com>
+Subject: Re: [PATCH v1] usb: dwc3: gadget: Prevent irq storm when TH re-executes
+To: Thinh Nguyen <Thinh.Nguyen@synopsys.com>
+Cc: "gregkh@linuxfoundation.org" <gregkh@linuxfoundation.org>, 
+	"felipe.balbi@linux.intel.com" <felipe.balbi@linux.intel.com>, 
+	"linux-usb@vger.kernel.org" <linux-usb@vger.kernel.org>, 
+	"linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>, "jameswei@google.com" <jameswei@google.com>, 
+	"stable@kernel.org" <stable@kernel.org>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-Fix the following smatch errors:
+On Wed, Feb 5, 2025 at 12:32=E2=80=AFAM Badhri Jagan Sridharan
+<badhri@google.com> wrote:
+>
+> On Mon, Feb 3, 2025 at 4:22=E2=80=AFPM Thinh Nguyen <Thinh.Nguyen@synopsy=
+s.com> wrote:
+> >
+> > On Sat, Feb 01, 2025, Badhri Jagan Sridharan wrote:
+> > > On Fri, Jan 31, 2025 at 4:09=E2=80=AFPM Thinh Nguyen <Thinh.Nguyen@sy=
+nopsys.com> wrote:
+> > > >
+> > > > Hmm... Can you try this instead:
+> > >
+> > > Thanks, this seems to be working !
+> > > I also sent out the following as there isn't a way to enable interrup=
+t
+> > > moderation through the device tree node:
+> > > https://urldefense.com/v3/__https://lore.kernel.org/all/2025020203510=
+0.31235-1-badhri@google.com/__;!!A4F2R9G_pg!e6BA5h7M1-HZjrH2-bLVF0YbmzStu9A=
+Sv1lkZudrnyX2RFDlDUnrlFCgMdbwXcbTrMsVUQvgnpRmYxmcV-w$
+> > > https://urldefense.com/v3/__https://lore.kernel.org/all/2025020203510=
+0.31235-2-badhri@google.com/__;!!A4F2R9G_pg!e6BA5h7M1-HZjrH2-bLVF0YbmzStu9A=
+Sv1lkZudrnyX2RFDlDUnrlFCgMdbwXcbTrMsVUQvgnpRm9hdUtjE$
+> > >
+> > > >
+> > > > diff --git a/drivers/usb/dwc3/gadget.c b/drivers/usb/dwc3/gadget.c
+> > > > index 0fe92c0fb520..c1b5a3742ab4 100644
+> > > > --- a/drivers/usb/dwc3/gadget.c
+> > > > +++ b/drivers/usb/dwc3/gadget.c
+> > > > @@ -5737,14 +5737,20 @@ static irqreturn_t dwc3_process_event_buf(s=
+truct dwc3_event_buffer *evt)
+> > > >         dwc3_writel(dwc->regs, DWC3_GEVNTSIZ(0),
+> > > >                     DWC3_GEVNTSIZ_SIZE(evt->length));
+> > > >
+> > > > +       /*
+> > > > +        * Keep the clearing of DWC3_EVENT_PENDING after the interr=
+upt unmask
+> > > > +        * but before the clearing of DWC3_GEVNTCOUNT_EHB.
+> > > > +        */
+> > > > +       evt->flags &=3D ~DWC3_EVENT_PENDING;
+> > > > +
+> > > > +       /* Ensure the flag is updated before clearing DWC3_GEVNTCOU=
+NT_EHB */
+> > > > +       wmb();
+> > >
+> > > I still have one more question though :)
+> > > Wondering why not move this code about the DWC3_GEVNTSIZ write where
+> > > the interrupt is actually unmasked that way this would also work for
+> > > systems which dont have interrupt moderation enabled right ?
+> > >
+> >
+> > It's mainly for PCI devices. PCI devices sends assert/de-assert message=
+s
+> > to represent the level interrupt for PCI legacy interrupt. The de-asser=
+t
+> > interrupt message may not be received right after masking the interrupt=
+,
+> > such as due to system latency. This may trigger a scheduling of the
+> > TH again. If there's new event received during the TH, this will cause =
+a
+> > race and dwc3 driver may overwrite the cached events (a window between
+> > clearing the flag and unmasking of interrupt).
+> >
+> > We may have a potential issue for platform with devices with shared
+> > interrupt too (though I haven't seen report of this issue before).
+>
+> Thanks for the detailed explanation Thinh ! Appreciate that !
+> I am running more tests before sending out the V2 version of the patch.
+> Should be done in another day or two.
 
-drivers/usb/host/xhci-mem.c:2060 xhci_add_in_port() error: unassigned variable 'tmp_minor_revision'
-drivers/usb/host/xhci-hub.c:71 xhci_create_usb3x_bos_desc() error: unassigned variable 'bcdUSB'
 
-Fixes: d9b0328d0b8b ("xhci: Show ZHAOXIN xHCI root hub speed correctly")
-Fixes: eb02aaf21f29 ("usb: xhci: Rewrite xhci_create_usb3_bos_desc()")
-Cc: stable@vger.kernel.org
-Signed-off-by: Selvarasu Ganesan <selvarasu.g@samsung.com>
----
- drivers/usb/host/xhci-hub.c | 2 +-
- drivers/usb/host/xhci-mem.c | 2 +-
- 2 files changed, 2 insertions(+), 2 deletions(-)
+Hi Thinh,
 
-diff --git a/drivers/usb/host/xhci-hub.c b/drivers/usb/host/xhci-hub.c
-index 9693464c0520..5715a8bdda7f 100644
---- a/drivers/usb/host/xhci-hub.c
-+++ b/drivers/usb/host/xhci-hub.c
-@@ -39,7 +39,7 @@ static int xhci_create_usb3x_bos_desc(struct xhci_hcd *xhci, char *buf,
- 	struct usb_ss_cap_descriptor	*ss_cap;
- 	struct usb_ssp_cap_descriptor	*ssp_cap;
- 	struct xhci_port_cap		*port_cap = NULL;
--	u16				bcdUSB;
-+	u16				bcdUSB = 0;
- 	u32				reg;
- 	u32				min_rate = 0;
- 	u8				min_ssid;
-diff --git a/drivers/usb/host/xhci-mem.c b/drivers/usb/host/xhci-mem.c
-index 92703efda1f7..8665893df894 100644
---- a/drivers/usb/host/xhci-mem.c
-+++ b/drivers/usb/host/xhci-mem.c
-@@ -1980,7 +1980,7 @@ static void xhci_add_in_port(struct xhci_hcd *xhci, unsigned int num_ports,
- {
- 	u32 temp, port_offset, port_count;
- 	int i;
--	u8 major_revision, minor_revision, tmp_minor_revision;
-+	u8 major_revision, minor_revision, tmp_minor_revision = 0;
- 	struct xhci_hub *rhub;
- 	struct device *dev = xhci_to_hcd(xhci)->self.sysdev;
- 	struct xhci_port_cap *port_cap;
--- 
-2.17.1
+I have sent out the V2 version of this patch in
+https://lore.kernel.org/all/20250208033129.3524423-1-badhri@google.com/
+and have incorporated all the feedback. When you get a chance, let me
+know if it looks good.
 
+Thanks,
+Badhri
 
+>
+>
+> Thanks,
+> Badhri
+>
+> >s
+> > BR,
+> > Thinh
