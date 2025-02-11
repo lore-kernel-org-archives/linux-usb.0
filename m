@@ -1,121 +1,119 @@
-Received: from mail-lf1-f50.google.com (mail-lf1-f50.google.com [209.85.167.50])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CD78924CEC3;
-	Tue, 11 Feb 2025 14:03:10 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.50
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 88B2B1F942D;
+	Tue, 11 Feb 2025 14:17:12 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1739282592; cv=none; b=Biy7svdKMEMgeAkrfEM319Yk3+NkuokgCspvhhIbSSZzxuOcFudTLPyhKenqEI+AyNYDUx75lanp1YgbMP6abemyy5rQ9sC84mUSY4eoD9qqNKqHRxLtnEoJjMUxbaHbcpcTjRLh8d18jP7zJ4ajacS5FUMbxZRausGDDq4cVis=
+	t=1739283432; cv=none; b=NqETVmpXrtky5QmWLVwwFPqO+yjC50e9MoNt191yzOmRrIw07nJW5rBKs0GsdzN2spGFwe7GWyNZShENpmAhPsgzwOFbzkPsEHwzDnZV4pwxJU2JHi0hM8l5mFEwXXEPPbmnzG/N71vcVGsDfpyY7RTJ4miiN6cuf6W7iEQales=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1739282592; c=relaxed/simple;
-	bh=kNGRVi3mkE4Ik7DuVSzb0dE3caW/bhvIv27XtZ4uEmE=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=Jugcu3bzAOENGS2AIxSWA0PUuEOXa7wkf5t329kVd5ABi5l6j0gV19rQKR8tkFKzO/KR7B3dsRsLv4BbmMNsGZ7IFuaTrCk6nNIZJiHTzFNWPoWRfcMmJQ0oDvE5zD/4d/6G/anA5NgZIyyt2rJUzjWp23Pnhk4KBYOoDlP1xAA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=kP4DFTwa; arc=none smtp.client-ip=209.85.167.50
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1739283432; c=relaxed/simple;
+	bh=6Hy6BH8y0RHlOoaA0+wIPMx7hUagCP6QeLxk+ZJ5qHs=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=YIjCKCQPeUv1GNMf0Iy09ED+2dxPYr37obXTfbACFoO1YZAPbhwylwn4qh1WAjnnaYxgbqhNq4wjZqBrcXkmrF+jM+NOTPpiVG2Yz1ovuNU+ddaLb4XCP3XJRGD882WVZ+GLv6o7HlO+aMloR4FM1KrCLU9R6hYwRZDjpb0kXXg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=UXpgDgvU; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="kP4DFTwa"
-Received: by mail-lf1-f50.google.com with SMTP id 2adb3069b0e04-5450e08f300so283387e87.0;
-        Tue, 11 Feb 2025 06:03:10 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1739282589; x=1739887389; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=w2CWaXsm/K/mNvLz1mhLGG+mDBgTiXMcIaNXAmCgOmw=;
-        b=kP4DFTwaG6UktNTEHN1ylbocF4K8KRWmONtKoM9fp+T7Sht9ZDElW/qGwYlqljNei5
-         eosxH/Ouq4djLJ3c4YAsDvqFnRpVBXcRSsy3tQRG1N5KHkAhF/VSbMHG7M4ko0DsJoJ3
-         Dy/Q4biFr5ii+7lgxBA9IAiXFDHxYJMHXL63+Yji7JFE9FySvcG7fIMLxx9cppbr/92c
-         xh9CGbLtIhmDeTX9PBh9rahVP8oXiV1PVjI2/EQtQFKRS85P1cEmw2tIJ/fcyhEa0EtW
-         rALqyjeiLcEXERRjU6Vg1z/0aVJz/8fZG/0IUYZ5K7DEl/e7zzqGtYmnxakW+SL1Nijw
-         hCdw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1739282589; x=1739887389;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=w2CWaXsm/K/mNvLz1mhLGG+mDBgTiXMcIaNXAmCgOmw=;
-        b=c6bTtJhsIlKOonQx/v7g4YMvco1gEFpKtu2GOMWBVT94nN0JNWDcDO/sxS8rV8qp3y
-         wpjju9HLY44zcFP9FRi9tHH0czIm8n6UvrgtLEoYIi9c0J6vf4qoB9CUh+iAZC63UpNp
-         Ah/n/pnZotzdU2nc786/1kI+G2BQNmM6IFfys2DO9JpSLNuwBr8knZru9uwrIE6FXNgm
-         68Ccmi2S/7AbKpihL6HDX+ZGTzQYmhRa9kQSUqi6bLY8/6SG8Ow9I82aBJoClp74uTzI
-         swwG7TFzGvOVGC1dqNHIqYc3yriuIn7VaiDKfWfzsh9O6nHNkMnDIHO9ANfOCOdRvOU2
-         lgqA==
-X-Forwarded-Encrypted: i=1; AJvYcCVTM+DMDptXguuGQQO2sbVk3xIomSZzmytlgEiHwz8LM+o/P2v43WvnfqUpk8ZxgzlwfHp2Y32tdaZM@vger.kernel.org, AJvYcCXgX/vNIs0xjzexyNErEDL5/29si2gdLh4qDZe5+EqqekP0Nwal0vZdhhWSx7VaMCtu9ZHaBBJ0e4InRw==@vger.kernel.org
-X-Gm-Message-State: AOJu0YxTSl5JVsh5u/CWjkJ7Lgb0mOcdMlYQkaPk4i880yzkowl7XOGr
-	75VlPdDbSkRSkJLGLEWqUEzdFayPuNqHvZsqN7ajewhD35dkgPOl
-X-Gm-Gg: ASbGncs5USk7aQXXTv1YHlozfpiwqGhLRAZ/AwLnD+be5lQIH6ynIctTOjbDVULiKyu
-	WE53i+nRWA3n3lA+bQHVKA0EmXgtk1SXCQYjD4C5NFyiTXW8G3Q1mCDrptWF5OSQCW8jihNlN/2
-	krwbW9ca4d0UrruPAnPyXvNUBHJdR7bjOEmTydh/D053mRrzsQCdrJGRLyTFXQRf93xAhG7nOG6
-	wdgjw3XsYDvjy02D0OLk20oOb0PIGvK5JnqxF/ocASjwl229xg22zEd96sS5AXDPXdvMF6vc70x
-	EEF2vhGEi7bOH/Si/1/xb5Jb4vP+a5xQNAL7dwYhGYZnArpd0KNVYUFvqFrVHA==
-X-Google-Smtp-Source: AGHT+IHVPqTnF/S9xuKkuuUBxGGreITBRohMmM0gNs1PnjpP+f5eajnP/XaxJNiaIPpKHi4xf84zRg==
-X-Received: by 2002:a05:6512:b22:b0:545:ece:82d5 with SMTP id 2adb3069b0e04-5450ece849dmr827307e87.13.1739282587061;
-        Tue, 11 Feb 2025 06:03:07 -0800 (PST)
-Received: from laptok.lan (89-64-31-140.dynamic.chello.pl. [89.64.31.140])
-        by smtp.gmail.com with ESMTPSA id 2adb3069b0e04-545014af0d0sm1118721e87.184.2025.02.11.06.03.05
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 11 Feb 2025 06:03:06 -0800 (PST)
-From: =?UTF-8?q?Tomasz=20Paku=C5=82a?= <tomasz.pakula.oficjalny@gmail.com>
-To: jikos@kernel.org,
-	bentiss@kernel.org
-Cc: anssi.hannula@gmail.com,
-	oleg@makarenk.ooo,
-	linux-input@vger.kernel.org,
-	linux-usb@vger.kernel.org
-Subject: [PATCH v3 5/6] HID: pidff: Support device error response from PID_BLOCK_LOAD
-Date: Tue, 11 Feb 2025 15:02:51 +0100
-Message-ID: <20250211140252.702104-6-tomasz.pakula.oficjalny@gmail.com>
-X-Mailer: git-send-email 2.48.1
-In-Reply-To: <20250211140252.702104-1-tomasz.pakula.oficjalny@gmail.com>
-References: <20250211140252.702104-1-tomasz.pakula.oficjalny@gmail.com>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="UXpgDgvU"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id EE184C4CEDD;
+	Tue, 11 Feb 2025 14:17:11 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1739283432;
+	bh=6Hy6BH8y0RHlOoaA0+wIPMx7hUagCP6QeLxk+ZJ5qHs=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=UXpgDgvUAfn4C5eikO1uR4hk9tNAo1B3FsOLiPacbg50590NKsrpSSEhQKFFPLAGH
+	 1JMK/y1StcQ6GD0jLbWJPFRa6OfRQLEsZlGpAf2RJYoO3ExW9piglzTHFN5VRbIh4+
+	 ffCPbLbSbskYSo29LweN9UcI6huJZ8F3qXGurRSqXjczKDbJHCBTGvtN1eI9KH2bCE
+	 UJj1jAamlejRQSCJxmL4+8B2W+JsaWc8YKC9rUlaERpe1mRV+VlwE27g2BuMwF1Ba1
+	 Bvuy8a1wHZ3p0WiGDAkcY5Dy7UB0mnVgdNhfaizNUlzkiyciBQvuvB9+na5XkfJK7G
+	 cjqDqQJnO0d2A==
+Received: from johan by xi.lan with local (Exim 4.97.1)
+	(envelope-from <johan@kernel.org>)
+	id 1thr4g-000000008Fv-4Bry;
+	Tue, 11 Feb 2025 15:17:19 +0100
+Date: Tue, 11 Feb 2025 15:17:18 +0100
+From: Johan Hovold <johan@kernel.org>
+To: chester.a.unal@arinc9.com
+Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	linux-usb@vger.kernel.org, linux-kernel@vger.kernel.org,
+	dwayne Du Preez <dwayne.dupreez@xpedite-tech.com>,
+	Alexander Scholten <alexander.scholten@xpedite-tech.com>,
+	Zenon van Deventer <zenon@xpedite-tech.com>
+Subject: Re: [PATCH v2] USB: serial: option: add MeiG Smart SLM828
+Message-ID: <Z6tb7us7t7CmK-zV@hovoldconsulting.com>
+References: <20250124-for-johan-meig-slm828-v2-1-6b4cd3f6344f@arinc9.com>
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20250124-for-johan-meig-slm828-v2-1-6b4cd3f6344f@arinc9.com>
 
-If an error happens on the device, the driver will no longer fall
-into the trap of reading this status 60 times before it decides that
-this reply won't change to success/memory full.
+On Fri, Jan 24, 2025 at 10:28:00AM +0000, Chester A. Unal via B4 Relay wrote:
+> From: "Chester A. Unal" <chester.a.unal@arinc9.com>
+> 
+> MeiG Smart SLM828 is an LTE-A CAT6 modem with the mPCIe form factor. The
+> "Cls=ff(vend.) Sub=10 Prot=02" and "Cls=ff(vend.) Sub=10 Prot=03"
+> interfaces respond to AT commands. Add these interfaces.
+> 
+> The product ID the modem uses is shared across multiple modems. Therefore,
+> add comments to describe which interface is used for which modem.
+> 
+> T:  Bus=01 Lev=01 Prnt=05 Port=01 Cnt=01 Dev#=  6 Spd=480  MxCh= 0
+> D:  Ver= 2.10 Cls=00(>ifc ) Sub=00 Prot=00 MxPS=64 #Cfgs=  1
+> P:  Vendor=2dee ProdID=4d22 Rev=05.04
+> S:  Manufacturer=MEIG
+> S:  Product=LTE-A Module
+> S:  SerialNumber=4da7ec42
+> C:  #Ifs= 6 Cfg#= 1 Atr=80 MxPwr=500mA
+> I:  If#= 0 Alt= 0 #EPs= 2 Cls=ff(vend.) Sub=10 Prot=01 Driver=(none)
+> E:  Ad=01(O) Atr=02(Bulk) MxPS= 512 Ivl=0ms
+> E:  Ad=81(I) Atr=02(Bulk) MxPS= 512 Ivl=0ms
+> I:  If#= 1 Alt= 0 #EPs= 3 Cls=ff(vend.) Sub=10 Prot=02 Driver=(none)
+> E:  Ad=02(O) Atr=02(Bulk) MxPS= 512 Ivl=0ms
+> E:  Ad=82(I) Atr=02(Bulk) MxPS= 512 Ivl=0ms
+> E:  Ad=83(I) Atr=03(Int.) MxPS=  10 Ivl=32ms
+> I:  If#= 2 Alt= 0 #EPs= 3 Cls=ff(vend.) Sub=10 Prot=03 Driver=(none)
+> E:  Ad=03(O) Atr=02(Bulk) MxPS= 512 Ivl=0ms
+> E:  Ad=84(I) Atr=02(Bulk) MxPS= 512 Ivl=0ms
+> E:  Ad=85(I) Atr=03(Int.) MxPS=  10 Ivl=32ms
+> I:  If#= 3 Alt= 0 #EPs= 3 Cls=ff(vend.) Sub=10 Prot=04 Driver=(none)
+> E:  Ad=04(O) Atr=02(Bulk) MxPS= 512 Ivl=0ms
+> E:  Ad=86(I) Atr=02(Bulk) MxPS= 512 Ivl=0ms
+> E:  Ad=87(I) Atr=03(Int.) MxPS=  10 Ivl=32ms
+> I:  If#= 4 Alt= 0 #EPs= 1 Cls=ff(vend.) Sub=ff Prot=ff Driver=(none)
+> E:  Ad=88(I) Atr=03(Int.) MxPS=  64 Ivl=32ms
+> I:  If#= 5 Alt= 0 #EPs= 3 Cls=ff(vend.) Sub=10 Prot=05 Driver=qmi_wwan
+> E:  Ad=0f(O) Atr=02(Bulk) MxPS= 512 Ivl=0ms
+> E:  Ad=89(I) Atr=03(Int.) MxPS=   8 Ivl=32ms
+> E:  Ad=8e(I) Atr=02(Bulk) MxPS= 512 Ivl=0ms
+> 
+> Signed-off-by: Chester A. Unal <chester.a.unal@arinc9.com>
 
-Greatly reduces communication overhead during device error situation.
-
-Signed-off-by: Tomasz Pakuła <tomasz.pakula.oficjalny@gmail.com>
----
- drivers/hid/usbhid/hid-pidff.c | 8 +++++++-
- 1 file changed, 7 insertions(+), 1 deletion(-)
-
-diff --git a/drivers/hid/usbhid/hid-pidff.c b/drivers/hid/usbhid/hid-pidff.c
-index e2508a4d754d..d5734cbf745d 100644
---- a/drivers/hid/usbhid/hid-pidff.c
-+++ b/drivers/hid/usbhid/hid-pidff.c
-@@ -138,7 +138,8 @@ static const u8 pidff_effect_types[] = {
+> Changes in v2:
+> - Add to the relevant comment that SLM828 is based on Qualcomm SDX12.
+> - Add to the comment for certain interface specification that SRM815
+>   uses that interface specificiation as well.
+> - Link to v1: https://lore.kernel.org/r/20250123-for-johan-meig-slm828-v1-1-6456996e94a5@arinc9.com
  
- #define PID_BLOCK_LOAD_SUCCESS	0
- #define PID_BLOCK_LOAD_FULL	1
--static const u8 pidff_block_load_status[] = { 0x8c, 0x8d };
-+#define PID_BLOCK_LOAD_ERROR	2
-+static const u8 pidff_block_load_status[] = { 0x8c, 0x8d, 0x8e};
- 
- #define PID_EFFECT_START	0
- #define PID_EFFECT_STOP		1
-@@ -666,6 +667,11 @@ static int pidff_request_effect_upload(struct pidff_device *pidff, int efnum)
- 				pidff->block_load[PID_RAM_POOL_AVAILABLE].value[0] : -1);
- 			return -ENOSPC;
- 		}
-+		if (pidff->block_load_status->value[0] ==
-+		    pidff->status_id[PID_BLOCK_LOAD_ERROR]) {
-+			hid_dbg(pidff->hid, "device error during effect creation\n");
-+			return -EREMOTEIO;
-+		}
- 	}
- 	hid_err(pidff->hid, "pid_block_load failed 60 times\n");
- 	return -EIO;
--- 
-2.48.1
+>  /* MeiG Smart Technology products */
+>  #define MEIGSMART_VENDOR_ID			0x2dee
+> -/* MeiG Smart SRM815/SRM825L based on Qualcomm 315 */
+> +/* MeiG Smart SLM828, SRM815, and SRM825L use the same product ID. SLM828 is
+> + * based on Qualcomm SDX12. SRM815 and SRM825L are based on Qualcomm 315.
+> + */
 
+Thanks for the patch and for documenting how these entries are related
+(here and below).
+
+I fixed up the multi-line comment above to follow the usual style:
+
+	/*
+	 * ...
+	 */
+
+when applying.
+
+Johan
