@@ -1,35 +1,50 @@
-Received: from pv50p00im-ztdg10021801.me.com (pv50p00im-ztdg10021801.me.com [17.58.6.56])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.12])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E67AC252909
-	for <linux-usb@vger.kernel.org>; Tue, 11 Feb 2025 15:29:15 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=17.58.6.56
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3934125332A;
+	Tue, 11 Feb 2025 15:40:44 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.12
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1739287758; cv=none; b=dYcvBr6ipP4AduO5RQ2FbFFkshv2VqO+6PVnxcPSbO9N4cS6FFKG29AtUSpdmQ5CMt81oXRuvBdtgcwxArua5cub/Mx1sJGjPCNmUlwb+pZ/QkRGaA5cLM5mRTaT4hOJIr36L5l9Y0ZZ6voNyjt/8Xmt3n89rcATCKxzXV6vbtE=
+	t=1739288446; cv=none; b=SUKvRvUG4Kq7y05Bm/e0CQS5KCEBswf9hnFwBCY6YC6HuZN5TITkjlAPd73trlAqgB/jPw6duDKUU9B0G9nOALCT5/c7x2jpB9zQCOmMAqS3yYPmJJ0FU83iwibg/f8ASJVNDMRdbWJCs9T6VekHI56GQwGIjHyGb0xSiuTOwpc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1739287758; c=relaxed/simple;
-	bh=Lpebr7E4O1qXgM+GwTmjvL9d6fJEckCRITlepkyDUZ0=;
+	s=arc-20240116; t=1739288446; c=relaxed/simple;
+	bh=IRqvT2gFAGKgf/HJpQvxM4rKmMf2ytFeZ3wxmbUMJnk=;
 	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=uAQvl6+NEC71QUUjJw813LHAttT8+NldjEExcVchr3S8WdykwlFROWz/Tm0ZDUHARVZo2IGGxqlEheRz0i/EZNaHAtdAaNgnc3bBVgDB3TsP6N+VeORD4WohhH1bXnks2uF/KKHn3fxz/Qf4Z/9az7YjKUB3EcRsDVOhBGiAwNw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=icloud.com; spf=pass smtp.mailfrom=icloud.com; dkim=pass (2048-bit key) header.d=icloud.com header.i=@icloud.com header.b=1C6I5seU; arc=none smtp.client-ip=17.58.6.56
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=icloud.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=icloud.com
+	 In-Reply-To:Content-Type; b=EVclyc/Swg7bZ+wMqxyQhritgDbzpm/k9t7XqENDw+L4YhK4/m1pAu84vZDnGHBwO4aJB/45RGEY8Ld9pscxP7MuXl5O4EJtQ/QWualBYfu4X5Ijdp8c2hHI2G0HFGLd1JblYhduJtJHGMk4zYRi4TX3ER/RNXVZ/xXImntk9ik=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=none smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Jhwwqmc3; arc=none smtp.client-ip=198.175.65.12
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=linux.intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=icloud.com header.i=@icloud.com header.b="1C6I5seU"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=icloud.com;
-	s=1a1hai; bh=QOsegHChMEdENsDFl50iHjj6Urk+naCjXjh88gC9Lb0=;
-	h=Message-ID:Date:MIME-Version:Subject:To:From:Content-Type:x-icloud-hme;
-	b=1C6I5seUBBrmEAmp5wop6SYdNnY3c3kQGSe+xH4zowedPM97ukA7LfAHcv3c744yB
-	 J/FYckarWRNq2v4YIdkNPqkKJ3zHFu6lQT9Wy6z9OkW/MILpJTjOyPaid4MjE2jfoD
-	 GpgIHYtRZqd+PfY5t6Nu5Hc3SBQcHFJ75bWYuZPXAV5XN/86bdVLS24kIWPnjgM8Wj
-	 biLON07NOGTxmax9VVN+W2DSrTaBbWorfOhCSNEIuxIdl/n98jgxzDvudhqO2V+QJc
-	 1wmGiNzKErWWFmFMKtv2F692OSZBScDJ8S7SHa1s9a7xMYzGjI33Kaktxm6hFT7ebP
-	 mreZsoXB/3GVg==
-Received: from [192.168.1.26] (pv50p00im-dlb-asmtp-mailmevip.me.com [17.56.9.10])
-	by pv50p00im-ztdg10021801.me.com (Postfix) with ESMTPSA id D090A20104E0;
-	Tue, 11 Feb 2025 15:29:06 +0000 (UTC)
-Message-ID: <116e9983-6c5f-45f3-a933-dcded223f6d7@icloud.com>
-Date: Tue, 11 Feb 2025 23:29:02 +0800
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Jhwwqmc3"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1739288445; x=1770824445;
+  h=message-id:date:mime-version:subject:to:cc:references:
+   from:in-reply-to:content-transfer-encoding;
+  bh=IRqvT2gFAGKgf/HJpQvxM4rKmMf2ytFeZ3wxmbUMJnk=;
+  b=Jhwwqmc3NIHoBAPhyE4OGIktOqgyFUJv/dhY6zxFCjMF/ZpdOe7eW/9l
+   SD/xXu+wk+5q3YQZmBXFlLRXGkb3fFF1wZzSSl7Asdz0+Y+EYLf7VLl6N
+   vRpL6ZvNuMAFkv4TMX2Vu8UwlXnKt8oY1i4zBY4kaOgX2aT1e4GkA9+73
+   9NRXxkZTxbgD8iObE62BElu3xMY3/fbBHE0pjEimMNOWBj2x7hrFc2lmU
+   1mbTJ+7MoEg4kuRniWjuoI79Nayj1Q3Kmc03RojVggQZdUA6bp9sK1BP3
+   RoyA13M6P9U6JQuEg+TypD4Y66TQzar6mB3bTnJkQ00mXdv5Am0+8gNq3
+   g==;
+X-CSE-ConnectionGUID: BhT/ROXlTBiDXMKDhhcOtg==
+X-CSE-MsgGUID: cjA5z0ufQnejZcj+RthTeQ==
+X-IronPort-AV: E=McAfee;i="6700,10204,11342"; a="51307177"
+X-IronPort-AV: E=Sophos;i="6.13,277,1732608000"; 
+   d="scan'208";a="51307177"
+Received: from orviesa001.jf.intel.com ([10.64.159.141])
+  by orvoesa104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 11 Feb 2025 07:40:43 -0800
+X-CSE-ConnectionGUID: pWAKKPsrRrKX/y3Ug34QtQ==
+X-CSE-MsgGUID: s7huuwbJRX+TrPVK3UY41Q==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.12,224,1728975600"; 
+   d="scan'208";a="149730920"
+Received: from unknown (HELO [10.237.72.199]) ([10.237.72.199])
+  by orviesa001.jf.intel.com with ESMTP; 11 Feb 2025 07:40:41 -0800
+Message-ID: <7bb25848-c80e-4ba8-8790-8628951806b3@linux.intel.com>
+Date: Tue, 11 Feb 2025 17:41:39 +0200
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
@@ -37,67 +52,65 @@ List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v4 1/9] driver core: add a faux bus for use when a simple
- device/bus is needed
-To: Kurt Borja <kuurtb@gmail.com>,
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
- linux-kernel@vger.kernel.org, Lyude Paul <lyude@redhat.com>,
- "Rafael J. Wysocki" <rafael@kernel.org>, Danilo Krummrich <dakr@kernel.org>
-Cc: Alexander Lobakin <aleksander.lobakin@intel.com>,
- Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
- Bjorn Helgaas <bhelgaas@google.com>,
- Jonathan Cameron <Jonathan.Cameron@huawei.com>,
- Liam Girdwood <lgirdwood@gmail.com>, Lukas Wunner <lukas@wunner.de>,
- Mark Brown <broonie@kernel.org>, =?UTF-8?Q?Ma=C3=ADra_Canal?=
- <mairacanal@riseup.net>, Robin Murphy <robin.murphy@arm.com>,
- Simona Vetter <simona.vetter@ffwll.ch>, Zijun Hu <quic_zijuhu@quicinc.com>,
- linux-usb@vger.kernel.org, rust-for-linux@vger.kernel.org,
- =?UTF-8?Q?Thomas_Wei=C3=9Fschuh?= <thomas.weissschuh@linutronix.de>
-References: <2025021023-sandstorm-precise-9f5d@gregkh>
- <2025021026-atlantic-gibberish-3f0c@gregkh>
- <D7OU5VOXCS8M.39YEYRWFL1MPW@gmail.com>
+Subject: Re: [PATCH 5/5] usb: xhci: Skip only one TD on Ring Underrun/Overrun
+To: Michal Pecio <michal.pecio@gmail.com>,
+ Mathias Nyman <mathias.nyman@intel.com>,
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+Cc: Niklas Neronin <niklas.neronin@linux.intel.com>,
+ linux-usb@vger.kernel.org, linux-kernel@vger.kernel.org
+References: <20250210083718.2dd337c3@foxbook>
+ <20250210084220.3e5414e9@foxbook>
 Content-Language: en-US
-From: Zijun Hu <zijun_hu@icloud.com>
-In-Reply-To: <D7OU5VOXCS8M.39YEYRWFL1MPW@gmail.com>
-Content-Type: text/plain; charset=UTF-8
+From: Mathias Nyman <mathias.nyman@linux.intel.com>
+In-Reply-To: <20250210084220.3e5414e9@foxbook>
+Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
-X-Proofpoint-GUID: HC7Nsj_fZNeMs72_TJJMMOiDclYVS2ZC
-X-Proofpoint-ORIG-GUID: HC7Nsj_fZNeMs72_TJJMMOiDclYVS2ZC
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.272,Aquarius:18.0.1057,Hydra:6.0.680,FMLib:17.12.68.34
- definitions=2025-02-11_06,2025-02-11_01,2024-11-22_01
-X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 spamscore=0 mlxscore=0 phishscore=0
- suspectscore=0 clxscore=1011 mlxlogscore=999 malwarescore=0 bulkscore=0
- adultscore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.19.0-2308100000 definitions=main-2502110103
 
-On 2025/2/10 22:29, Kurt Borja wrote:
->> +
->> +	ret = device_add(dev);
->> +	if (ret) {
->> +		pr_err("%s: device_add for faux device '%s' failed with %d\n",
->> +		       __func__, name, ret);
->> +		put_device(dev);
->> +		return NULL;
->> +	}
-> Now that the probe is synchronous, what do you think about returning
-> -ENODEV if the device failed to bind to the driver?
+On 10.2.2025 9.42, Michal Pecio wrote:
+> If skipping is deferred to events other than Missed Service Error itsef,
+> it means we are running on an xHCI 1.0 host and don't know how many TDs
+> were missed until we reach some ordinary transfer completion event.
 > 
+> And in case of ring xrun, we can't know where the xrun happened either.
+> 
+> If we skip all pending TDs, we may prematurely give back TDs added after
+> the xrun had occurred, risking data loss or buffer UAF by the xHC.
+> 
+> If we skip none, a driver may become confused and stop working when all
+> its URBs are missed and appear to be "in flight" forever.
+> 
+> Skip exactly one TD on each xrun event - the first one that was missed,
+> as we can now be sure that the HC has finished processing it. Provided
+> that one more TD is queued before any subsequent doorbell ring, it will
+> become safe to skip another TD by the time we get an xrun again.
+> 
+> Signed-off-by: Michal Pecio <michal.pecio@gmail.com>
+> ---
+>   drivers/usb/host/xhci-ring.c | 12 ++++++++++++
+>   1 file changed, 12 insertions(+)
+> 
+> diff --git a/drivers/usb/host/xhci-ring.c b/drivers/usb/host/xhci-ring.c
+> index 878abf5b745d..049206a1db76 100644
+> --- a/drivers/usb/host/xhci-ring.c
+> +++ b/drivers/usb/host/xhci-ring.c
+> @@ -2875,6 +2875,18 @@ static int handle_tx_event(struct xhci_hcd *xhci,
+>   
+>   			if (!ep_seg && usb_endpoint_xfer_isoc(&td->urb->ep->desc)) {
+>   				skip_isoc_td(xhci, td, ep, status);
+> +
+> +				if (ring_xrun_event) {
+> +					/*
+> +					 * If we are here, we are on xHCI 1.0 host with no idea how
+> +					 * many TDs were missed and where the xrun occurred. Don't
+> +					 * skip more TDs, they may have been queued after the xrun.
+> +					 */
+> +					xhci_dbg(xhci, "Skipped one TD for slot %u ep %u",
+> +							slot_id, ep_index);
+> +					break;
 
-Result of device registering @ret is not, should not be, effected by
-"device binding driver (probe result)"
+This would be the same as return 0; right?
 
-if device binging driver failed, you may return -ENODEV in
-faux_ops->probe(). not here.
+Whole series looks good, I'll add it
 
-> This would be useful for modules that may want to unload if the probe
-> fails.
-
-may need to root cause if probe failure happens.
-
-how to unload module automatically if probe() failure ?
-
-
-
-
+-Mathias
 
