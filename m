@@ -1,64 +1,102 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from mailout3.samsung.com (mailout3.samsung.com [203.254.224.33])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 02CCE1F1528;
-	Tue, 11 Feb 2025 09:44:06 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 26E761F3FF5
+	for <linux-usb@vger.kernel.org>; Tue, 11 Feb 2025 10:15:04 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=203.254.224.33
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1739267047; cv=none; b=t6PKt27WSZjY3byJxK8QVYFJ4s2MHhJmfELIyWBuwRuf/NIXHVJTFGZZfF2KOGE+pG3SisDvnksTE7PgEViplmcCyX0U6PlAkvlZmpMTTP9AgNZprezKe5H42PgJMUGe9rjDw83WgnL+POCiIGuhe/Awpzu+qT1BM7PK8banP40=
+	t=1739268907; cv=none; b=TuwZZJ+j/caGr2h9frgIrd1Yow67t7oPN5z2IN28oNewo5Gw7SE1fCHxyvquW79rxgxJvxXtdd83iIYOtgoUjR3ziGyQtO6s5w3kW1p77b+P0SGLu+19MTQzmEe2K+rnqpVxFfO5iyOwslNZJounVUa+pmSv/3XWfqvPBdVnyT8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1739267047; c=relaxed/simple;
-	bh=fyUuuUrOMp/QMIR+pMlbiTz0D7pIXEzTcFSFL9YSYl4=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=bP61B4Nl/yc7fpyfFXzCr6IcX3I9wNNhuNac3PwbVany9og5/VBe18MZLLGGYpna+y7nRRL4NZ4ODFXac3SECn150ua7HXlFHRgcHV/wsMua47DZByRRrwcua3OUlvX61gxZo/TpulqIieWxIJ8XprNUpkNrRUDmeSCZeGTwtak=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=oAvN/DRk; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1739268907; c=relaxed/simple;
+	bh=+C96UP0QRfYDESgtwQi/x7lVhO/8MtE4PRXHDqVSHDs=;
+	h=Mime-Version:Subject:From:To:CC:Message-ID:Date:Content-Type:
+	 References; b=WJjCJavRbWaMqesq8gCR1niiB0V+dezmN0oww9fSKEARZnUl0VaD19Zjck9gHT0U2FM9NzQfuWIWdGU7R5+9qqsosfn0qCIb9hp1QZTQDLg+HxtjhYXrpMfAnS/VzG79Ufy/qGiOCTH3J0SvPN/qIPZ9jUG7gI0+3L1+ROrdJys=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=samsung.com; spf=pass smtp.mailfrom=samsung.com; dkim=pass (1024-bit key) header.d=samsung.com header.i=@samsung.com header.b=JteXxFBf; arc=none smtp.client-ip=203.254.224.33
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=samsung.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=samsung.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="oAvN/DRk"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 5F95EC4CEDD;
-	Tue, 11 Feb 2025 09:44:06 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1739267046;
-	bh=fyUuuUrOMp/QMIR+pMlbiTz0D7pIXEzTcFSFL9YSYl4=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=oAvN/DRksST7aF5KRTgGoaVGB6a9uTIXf3XLaC9whNq8zRtr9LHDUUUvlsdqkJkqT
-	 SxK97HOSDcddoeReDjBgiWriYMsQHwcksVn+e3GIOwLCoq4i3J7tqwo2ht++WUml3U
-	 1OXmXmin/NOX2pByAtqX3N/hUDUqkFDqOg0793q5AIGW6AxZU01+9jivOM479GNeZ0
-	 PTTNX44StxFCTMrLzstKV5ecyuPjwul+Zl2nKXltLOkA4nE/5bA432QY83Wn+7atVo
-	 pN9NDuj5N0Hws7v+VeRc/mZ31KclqbrvQkjBoYtr3c+LHRt2M+BJzmfe2j1Ec6G0aQ
-	 a/PIhmrZn63eA==
-Received: from johan by xi.lan with local (Exim 4.97.1)
-	(envelope-from <johan@kernel.org>)
-	id 1thmoP-000000007W8-2ApA;
-	Tue, 11 Feb 2025 10:44:13 +0100
-Date: Tue, 11 Feb 2025 10:44:13 +0100
-From: Johan Hovold <johan@kernel.org>
-To: Tony Chung <tony467913@gmail.com>
-Cc: gregkh@linuxfoundation.org, linux-kernel@vger.kernel.org,
-	linux-usb@vger.kernel.org
-Subject: Re: [PATCH 1/3] drivers: usb: serial: mos7840: Add defines for clock
- select register offset
-Message-ID: <Z6sb7QzdeWvcIxI4@hovoldconsulting.com>
-References: <20241024100901.69883-1-tony467913@gmail.com>
- <20241024100901.69883-2-tony467913@gmail.com>
+	dkim=pass (1024-bit key) header.d=samsung.com header.i=@samsung.com header.b="JteXxFBf"
+Received: from epcas5p2.samsung.com (unknown [182.195.41.40])
+	by mailout3.samsung.com (KnoxPortal) with ESMTP id 20250211101503epoutp03ca8a7f32e90c9efbba96ec2a95f8db01~jH9ozs51L0949309493epoutp03R
+	for <linux-usb@vger.kernel.org>; Tue, 11 Feb 2025 10:15:03 +0000 (GMT)
+DKIM-Filter: OpenDKIM Filter v2.11.0 mailout3.samsung.com 20250211101503epoutp03ca8a7f32e90c9efbba96ec2a95f8db01~jH9ozs51L0949309493epoutp03R
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=samsung.com;
+	s=mail20170921; t=1739268903;
+	bh=+C96UP0QRfYDESgtwQi/x7lVhO/8MtE4PRXHDqVSHDs=;
+	h=Subject:Reply-To:From:To:CC:Date:References:From;
+	b=JteXxFBflGsKYe384luaIDCQoV6M/BC4DO34hxQECn4fqU40qdeHyUAqfQcwxqebM
+	 xUqDwKA0+k++EzMKZ/q2eZ6/EsIW+t7f+f+K9h/OrhI1Gioq6YuwLkVa2lVLdt/FOX
+	 z4yla37sMai6Mve4cKVyoW1d0YqJoWnTwSE/g47M=
+Received: from epsnrtp1.localdomain (unknown [182.195.42.162]) by
+	epcas5p4.samsung.com (KnoxPortal) with ESMTP id
+	20250211101502epcas5p4d71ddd73c52f1bc78fe7e3c9d534d650~jH9oUHowL2637626376epcas5p4z;
+	Tue, 11 Feb 2025 10:15:02 +0000 (GMT)
+Received: from epcpadp1new (unknown [182.195.40.141]) by
+	epsnrtp1.localdomain (Postfix) with ESMTP id 4Ysckt3zLCz4x9Q3; Tue, 11 Feb
+	2025 10:15:02 +0000 (GMT)
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20241024100901.69883-2-tony467913@gmail.com>
+Mime-Version: 1.0
+Subject: Re: [PATCH] usb: xhci: Initialize unassigned variables to fix
+ possible errors
+Reply-To: selvarasu.g@samsung.com
+Sender: Selvarasu G <selvarasu.g@samsung.com>
+From: Selvarasu G <selvarasu.g@samsung.com>
+To: Greg KH <gregkh@linuxfoundation.org>
+CC: "mathias.nyman@intel.com" <mathias.nyman@intel.com>,
+	"WeitaoWang-oc@zhaoxin.com" <WeitaoWang-oc@zhaoxin.com>,
+	"Thinh.Nguyen@synopsys.com" <Thinh.Nguyen@synopsys.com>,
+	"linux-usb@vger.kernel.org" <linux-usb@vger.kernel.org>,
+	"linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>, JaeHun Jung
+	<jh0801.jung@samsung.com>, JUNG Daehwan <dh10.jung@samsung.com>, NAUSHAD
+	KOLLIKKARA <naushad@samsung.com>, Akash M <akash.m5@samsung.com>, Hyunsoon
+	Kim <h10.kim@samsung.com>, OH Eomji <eomji.oh@samsung.com>, ALIM AKHTAR
+	<alim.akhtar@samsung.com>, Thiagu Ramalingam <thiagu.r@samsung.com>,
+	Muhammed Ali K P <muhammed.ali@samsung.com>, Pritam Manohar Sutar
+	<pritam.sutar@samsung.com>, CPGS <cpgs@samsung.com>,
+	"stable@vger.kernel.org" <stable@vger.kernel.org>
+X-Priority: 3
+X-Content-Kind-Code: NORMAL
+X-Drm-Type: N,general
+X-Msg-Generator: Mail
+X-Msg-Type: PERSONAL
+X-Reply-Demand: N
+Message-ID: <1296674576.21739268902551.JavaMail.epsvc@epcpadp1new>
+Date: Tue, 11 Feb 2025 17:37:13 +0900
+X-CMS-MailID: 20250211083713epcms5p719a589a7a973e0c81fca9c9c506f9d85
+Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset="utf-8"
+CMS-TYPE: 105P
+X-CPGSPASS: Y
+X-CPGSPASS: Y
+X-Hop-Count: 3
+X-CMS-RootMailID: 20250210131144epcas5p4a0599050f5973b495db0371021c21e27
+References: <CGME20250210131144epcas5p4a0599050f5973b495db0371021c21e27@epcms5p7>
 
-On Thu, Oct 24, 2024 at 06:09:01PM +0800, Tony Chung wrote:
-> This patch adds define for CLOCK_SELECT_REG1 & CLOCK_SELECT_REG2 offsets.
-> These two registers can select clock source between 30M/96M/External.
+On 2/11/2025 11:28 AM, Greg KH wrote:
+> On Mon, Feb 10, 2025 at 06:41:23PM +0530, Selvarasu Ganesan wrote:
+>> Fix the following smatch errors:
+>>
+>> drivers/usb/host/xhci-mem.c:2060 xhci_add_in_port() error: unassigned variable 'tmp_minor_revision'
+>> drivers/usb/host/xhci-hub.c:71 xhci_create_usb3x_bos_desc() error: unassigned variable 'bcdUSB'
+>>
+>> Fixes: d9b0328d0b8b ("xhci: Show ZHAOXIN xHCI root hub speed correctly")
+>> Fixes: eb02aaf21f29 ("usb: xhci: Rewrite xhci_create_usb3_bos_desc()")
+> This should be two different changes, right?
+>
+> Please break it up and send as a patch series.
+>
+> thanks,
+>
+> greg k-h
 
-I think should just add these as part of the patch that uses them. If
-you have some information on how they are used, that would be useful to
-have in the commit message and possibly also in a comment above the
-defines.
 
-Where did you learn about these settings?
+Hi Greg,
 
-Johan
+Thanks for your comments. Sure i will send as a patch series.
+
+Thanks,
+Selva
