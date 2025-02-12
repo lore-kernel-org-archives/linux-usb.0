@@ -1,28 +1,27 @@
-Received: from AS8PR03CU001.outbound.protection.outlook.com (mail-westeuropeazon11012049.outbound.protection.outlook.com [52.101.71.49])
+Received: from PA4PR04CU001.outbound.protection.outlook.com (mail-francecentralazon11013070.outbound.protection.outlook.com [40.107.162.70])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A7E4F20E329;
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8ED6A20E326;
 	Wed, 12 Feb 2025 13:56:58 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=52.101.71.49
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=40.107.162.70
 ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1739368620; cv=fail; b=g9EeuyvFJ00RtMiksSnvlwyozkUL5a4oDjianETMDGURYLfIYiecbVJNOxvpf26lL2VyXClMuLt5lIePMpKUUaJDLwkpXNd/ps774mfcAc/Ry/TW4/KxhjWyvDGRl40nXmerymGDJ/LryVUO434bpfv/4cuY/eE9RkYqZtHz2nw=
+	t=1739368621; cv=fail; b=erV0J7xwMqAHRDNutYAur/c220iWz1yvBZHgLafLMpaaD4SzFkBthADXhHa5mANUEvIS99K/E/E9H1cosLz10o0wt8VecSWXkCn7F6PyvKx8c960qMoX3AuRm954sUhDj57CZ1F568t8au+xYlz2buKGhgSK+DjKXaHXrULYRP4=
 ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1739368620; c=relaxed/simple;
-	bh=ZO9GtwXtI70toNwvARD4v58U9jmXhoKOv06y5Ujpa/Q=;
-	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=haqKT1toCQpqY7w2hxoGeMrUlFQnGSImUNg1mTjb0goAHR7gMpMOqDF/ldbJZQcczR/79Ct8fDx76/oKtFxNfexUrHVbA5OZBImV5E5fUu0IYdWb7xBhngJtAPgdM2KMS/tG11j5E2jiAGozp6e0lh+lZZjDM5dDvTd1DyiuNwM=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=leica-geosystems.com; spf=fail smtp.mailfrom=leica-geosystems.com; dkim=pass (1024-bit key) header.d=leica-geosystems.com header.i=@leica-geosystems.com header.b=ePqqxgLj; arc=fail smtp.client-ip=52.101.71.49
+	s=arc-20240116; t=1739368621; c=relaxed/simple;
+	bh=hVd2H6SeA6prvsRJ0JRpkubEJ1WEwNf6aeYWl4PX/60=;
+	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version:Content-Type; b=Un/2A/An/NQS8WVtaRzbVdTJ/h8Gd9APijUyNQzsHO2/FbnRv1CTvBuHfIkK9pJTlo/dPkDDsfRhpqA9Y2l3R1L5AKeJ4XoqQYd44m5uGnf/t9ybsRoKYdUgKE6jQskcAglcwLH0fMVf8u19QQnWQ/TaK0Hpj2kgTk7AGuiVW4c=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=leica-geosystems.com; spf=fail smtp.mailfrom=leica-geosystems.com; dkim=pass (1024-bit key) header.d=leica-geosystems.com header.i=@leica-geosystems.com header.b=PQqzGqwv; arc=fail smtp.client-ip=40.107.162.70
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=leica-geosystems.com
 Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=leica-geosystems.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=leica-geosystems.com header.i=@leica-geosystems.com header.b="ePqqxgLj"
+	dkim=pass (1024-bit key) header.d=leica-geosystems.com header.i=@leica-geosystems.com header.b="PQqzGqwv"
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=dMGBiF2hDGGrD7C8Z87uI8FUN3SfPI/0WbVWofbYZZ01St8ujXps6I9eWOuFxu5UCrBtk3PlWYIiRxJiQ/206NQYteW5Vek19LdNyU7KK4zj2VY7gmjyvj7Zt5MNIDLIHoq2qSjtWgIsQ3L5vlCZUMPnq4d8aWdGCZCN0KGYW5yAHYbQqgF4571BEJPFf8GrLvziN4f9ShWFX6zuieg78wVdnf/Qzvmkno8OImtgkBfh4J9ApZBehbnOgeQsVycENPWY1knZdz8JT+qg7mw7XNaAmfTwJjug37q8b+izUbIuSyJUtW7sMuqzKhiLgKU/QzuQXxb2catPhO6sjCb8ng==
+ b=rjdtSYm4XY/FIrNza6rTB3ahC6nIch4CRnGzL2Fad9GmWCPB3TWqXgV+Su8ZyFQKXXVVpNKDZw1hzkzkQEjhUGQst+2kZPX5mIq0eeXgr2OpZnUcpTFi5FR3enCt9ZjAz1W84ANLHkGLcgf2MqevFvdU2uswAmoNxW0uotIAoc+vCeo3wV/pEMXYCfFMfg5qaVU4YSBlm4YioEbFDYBAJkzR93DSEYdgqE91VofZnsypNokAkPcO/I8P9yTjLggIOAdylXzHxzY17zXu0zscqdfdr8nRW+eZ9MgMPFbCkN0eWMZxoQDYFQ6NdkLfL55+lv5kYZWa2SwzlIN41NXceg==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
  s=arcselector10001;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=XCBdVMgd1/WeLJUvPT/PwKOR+MgIJbOFf5PFgi36dj8=;
- b=T/3xtBeVW90VEskyWeLKQj1/7OYAxbbtgFLkYcKt53XvwK/Lx0LvBixk5gAWXAQot9IFK935gkzhDxZ2g0uXtgzQYSFrXBfp2BsfXwDCxJUq2ags0H9U5+69MRKrgRhXxeD5Vp+JT4XoQbK77bl4skdKLmq8TjJJSNAZA+G/nFXE5gA+8jujXwY4LPJQfRcus25b1wxivTI705bcLEZkYGlvfLMYzI7wudIug772jubo1yQG0OeEFhi+1sfg3HnfjrM9vwKz2LY8jQ7mHDcicVUx191lms3LCJ7FEjBJBTM7Hkdcfax0n/olsxZ3jua3gR9Xkgdz44ECx58wubz2Zw==
+ bh=Gy+iAXBDg2zi+E7/mYu8/E/Sl6y+2of9c7BmpByo3aE=;
+ b=M1x3hNBXntgmLnnTYNeKCZa+meQJfoIsBohtGEcpwC70M8ESflbZFkcLvNP4a4h8PM0/og7wAuaTEFlCDYICc/yDrLWp+f02hua43En1qEe8rtc31GnZRwGteaL78h/N+qqHlvCyDDsf0rSMxAVlRAK9cqwb60stNlQLtVSCnyWD0/TNrRufFfaxyQ6URSqLt9QiPgEHZaJojlG2fKRH3Xv4blBVBiY4jUtyiBdH2Bm+sNM+2orB7mfg7UhqXYxstsPalr5gJaZmBxqROtu5ctdXXvUhz3nmCedTHMDHJorZU6uCroVgYRb6jQwdu2Qm8kHLAvFDaJ4wwKQX0vGFOA==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
  193.8.40.94) smtp.rcpttodomain=vger.kernel.org
  smtp.mailfrom=leica-geosystems.com; dmarc=pass (p=reject sp=reject pct=100)
@@ -31,18 +30,18 @@ ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=leica-geosystems.com;
  s=selector1;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=XCBdVMgd1/WeLJUvPT/PwKOR+MgIJbOFf5PFgi36dj8=;
- b=ePqqxgLjxEwibSwT3IYgQ1XsIQkO9FZcofGL6Zp1M8vhzheYfb60zhpBJ6w+jKnPegYIeU+CGhI2y0hWm23mvjvjfvJBBXDx94TKXlwBCohHzqRantL6xC1pyQVQZEB5RpiADLxHKHr7R+UG5UH1NVVEq3eunXL8PTVjWYouknQ=
-Received: from PAZP264CA0248.FRAP264.PROD.OUTLOOK.COM (2603:10a6:102:239::19)
- by PA4PR06MB7295.eurprd06.prod.outlook.com (2603:10a6:102:f8::22) with
+ bh=Gy+iAXBDg2zi+E7/mYu8/E/Sl6y+2of9c7BmpByo3aE=;
+ b=PQqzGqwvO9RxbZyRHqnhGyaIXQcwokMNaLb4j3gcZTUGmGZZ6jyRkS1/wekVgw+j6tkA4/popsm0cnT1DGDFtnwDTn+zeVVHZj3yclyueJXx4xEz7emgoRMwq6GLFONHpJ8OukjR137psFnKSKBYjIBhTrhPZQWQGV5kzIQKv+0=
+Received: from PAZP264CA0254.FRAP264.PROD.OUTLOOK.COM (2603:10a6:102:239::20)
+ by DU4PR06MB9619.eurprd06.prod.outlook.com (2603:10a6:10:565::16) with
  Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8377.17; Wed, 12 Feb
- 2025 13:56:55 +0000
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8445.12; Wed, 12 Feb
+ 2025 13:56:54 +0000
 Received: from AM4PEPF00025F99.EURPRD83.prod.outlook.com
- (2603:10a6:102:239:cafe::29) by PAZP264CA0248.outlook.office365.com
- (2603:10a6:102:239::19) with Microsoft SMTP Server (version=TLS1_3,
- cipher=TLS_AES_256_GCM_SHA384) id 15.20.8445.12 via Frontend Transport; Wed,
- 12 Feb 2025 13:56:55 +0000
+ (2603:10a6:102:239:cafe::28) by PAZP264CA0254.outlook.office365.com
+ (2603:10a6:102:239::20) with Microsoft SMTP Server (version=TLS1_3,
+ cipher=TLS_AES_256_GCM_SHA384) id 15.20.8398.31 via Frontend Transport; Wed,
+ 12 Feb 2025 13:56:54 +0000
 X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 193.8.40.94)
  smtp.mailfrom=leica-geosystems.com; dkim=none (message not signed)
  header.d=none;dmarc=pass action=none header.from=leica-geosystems.com;
@@ -52,9 +51,9 @@ Received-SPF: Pass (protection.outlook.com: domain of leica-geosystems.com
 Received: from hexagon.com (193.8.40.94) by
  AM4PEPF00025F99.mail.protection.outlook.com (10.167.16.8) with Microsoft SMTP
  Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.8466.0 via Frontend Transport; Wed, 12 Feb 2025 13:56:55 +0000
+ 15.20.8466.0 via Frontend Transport; Wed, 12 Feb 2025 13:56:52 +0000
 Received: from aherlnxbspsrv01.lgs-net.com ([10.60.34.116]) by hexagon.com with Microsoft SMTPSVC(10.0.17763.1697);
-	 Wed, 12 Feb 2025 14:56:54 +0100
+	 Wed, 12 Feb 2025 14:56:52 +0100
 From: Catalin Popescu <catalin.popescu@leica-geosystems.com>
 To: gregkh@linuxfoundation.org,
 	robh@kernel.org,
@@ -67,12 +66,10 @@ Cc: linux-usb@vger.kernel.org,
 	m.felsch@pengutronix.de,
 	bsp-development.geo@leica-geosystems.com,
 	Catalin Popescu <catalin.popescu@leica-geosystems.com>
-Subject: [PATCH next v2 3/3] usb: misc: onboard_dev: add vdda support for Microchip USB2514
-Date: Wed, 12 Feb 2025 14:56:49 +0100
-Message-Id: <20250212135649.3431570-3-catalin.popescu@leica-geosystems.com>
+Subject: [PATCH next v2 1/3] dt-bindings: usb: microchip,usb2514: add support for vdda
+Date: Wed, 12 Feb 2025 14:56:47 +0100
+Message-Id: <20250212135649.3431570-1-catalin.popescu@leica-geosystems.com>
 X-Mailer: git-send-email 2.34.1
-In-Reply-To: <20250212135649.3431570-1-catalin.popescu@leica-geosystems.com>
-References: <20250212135649.3431570-1-catalin.popescu@leica-geosystems.com>
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
@@ -80,97 +77,126 @@ List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-OriginalArrivalTime: 12 Feb 2025 13:56:54.0427 (UTC) FILETIME=[F9353EB0:01DB7D55]
+X-OriginalArrivalTime: 12 Feb 2025 13:56:52.0505 (UTC) FILETIME=[F80FF890:01DB7D55]
 X-EOPAttributedMessage: 0
 X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: AM4PEPF00025F99:EE_|PA4PR06MB7295:EE_
+X-MS-TrafficTypeDiagnostic: AM4PEPF00025F99:EE_|DU4PR06MB9619:EE_
 Content-Type: text/plain
-X-MS-Office365-Filtering-Correlation-Id: a0f23398-8b16-4bc2-1931-08dd4b6d1c64
+X-MS-Office365-Filtering-Correlation-Id: 483ad5ac-a9d5-41c2-2bb9-08dd4b6d1ab2
 X-SET-LOWER-SCL-SCANNER: YES
 X-MS-Exchange-SenderADCheck: 1
 X-MS-Exchange-AntiSpam-Relay: 0
 X-Microsoft-Antispam:
-	BCL:0;ARA:13230040|36860700013|1800799024|376014|82310400026;
+	BCL:0;ARA:13230040|36860700013|376014|82310400026|1800799024;
 X-Microsoft-Antispam-Message-Info:
-	=?us-ascii?Q?dgYOTbI7lDRnRdd6D9SiWtUljGAmuGge0JmoI6Yu65F6h6CsS8ESZTS3QZaA?=
- =?us-ascii?Q?29fxW+h+DGYSAmutttZRSKPIRDt2Wa9gOQ3XPDIVN7G/rLNrgYNPJzn4aRdb?=
- =?us-ascii?Q?piK4EhyyweNknN+Koh6LHPMf2GZ0azv+amwr2bv2Hs5cNW9+OFgD116tSjM6?=
- =?us-ascii?Q?L97a7ifXgSH+m6oXIUIdnXBhY9lXGsonhNuCpAmh6U5BMSINb9tp7dcrpJku?=
- =?us-ascii?Q?L6Z59ZTYKEsgvu+up4+YsFrKiC1smSGdHFm8qel1ETmOtl0GcuQhfcvfR8hv?=
- =?us-ascii?Q?RXDw0qxKuVEAZ09zbPPEidXwpyESZD52cDHmxzfiMnZN3rdDrVUtbMTgvXHc?=
- =?us-ascii?Q?zvog6kQg4SNILMZy7HTUrGMAcKyerYawuuFax+Ek8WV8bMsekovR6i2q962N?=
- =?us-ascii?Q?TFZ5gks5muYkoMReQRQ2m8PwPi3DdpWJs9VkdbSDEDlMa7pg7maLGIzfmBIa?=
- =?us-ascii?Q?4AWCCtgANUu1+cndiMVLg0HMxRAARhkXgQXv1x90H+HQ6NJF0Wj/qvmFby4c?=
- =?us-ascii?Q?m2i9LLmtTNB3Xqk7uOd1MjZ6RrdWORcEVSoNHr/9OSrSc2rN2Ngh8UA+V1A9?=
- =?us-ascii?Q?dcFn7cgWwhSwjCy/1xs9BqUC7qP3oVW5mvBJ1GmYzOQiZSbcEPCES0RzGQKX?=
- =?us-ascii?Q?uXQTA0aioI+FqIkeh8OgVG6Pm06v9LopRAKnaNK8l1DD7BZCWbRcfo5TtRSa?=
- =?us-ascii?Q?kDdG4WuuwiAzvv6LizvUaR7tbnJ5oU0ylRSHh4Y3A3+4VsRLPi/qF5Psbziw?=
- =?us-ascii?Q?FhQ9xs+2QluA9rg6M9XbMhk/m58/tiI6VERiBzM1XxP1jZgVK6oVJ6/wWwsw?=
- =?us-ascii?Q?bRk6W2Zn7KKgL8quYpNuVfW7iV09JtatSOQiA16ay9moqXCVtUSxc4DnKw7H?=
- =?us-ascii?Q?4veYOfXfrGNdWfxSmw4fM2lDUv2GTgjnGAUtzPl9754FrzSFLiTgKrS0HK4K?=
- =?us-ascii?Q?PI7TyEbQe76KZkHh8KuDj2TOTZM1PRNt2SrHYTUVI3ukAw/XVpVbie20XuhV?=
- =?us-ascii?Q?cYN0CMeMrWKnhhvQD2QUc5fy99hUKEre95lHuMaHQcb+fRsao7/3XaLTpGAA?=
- =?us-ascii?Q?bG7l/Vp4bBYXfFiTiSVVSOhYSpJue/WXMWkdUkEifhy4AH6ShtuPo26LwXUg?=
- =?us-ascii?Q?LXsHz0S2AzdQ6nc7aTP1mO5fCOEKuwneCBvjYWKCLmBEmVHIivl8HbLSXO5U?=
- =?us-ascii?Q?XlZRugij9xvUJWN5wDEHL9YsGTCyp9E3JSkOqtGLl7yhLbjRZqcc4MchwNmV?=
- =?us-ascii?Q?J+femTmiOyMhUXVBIEY2dbRjJ5RgLN2htMi4FYUnZse+zLUbNFwlmEsIbIQy?=
- =?us-ascii?Q?IHXO9AzHmEqDijeVxsG2IZeowHs5ljtXt8+Tp1/K8sEzR1iQ3+j/Zf+8K43Z?=
- =?us-ascii?Q?oFKH9gRyGCz2657yHh5cr/6VUrqu6n5tVBHwIA2zIIiU3Whuqeel82JQfjmQ?=
- =?us-ascii?Q?BhSUIsLHuy3FD9HmFIzhrpvWaKRJMSDIXLpTW0y0zDA4sgC07/ftnYQIOfa7?=
- =?us-ascii?Q?DEdjQ4ZN6uHJ5no=3D?=
+	=?us-ascii?Q?bw0sW3gktMc/Y/+36bPv8FuZYd39o7pYUPIATDqBFmm6XA3Y9sSMRfee2Yep?=
+ =?us-ascii?Q?BQ5U3g2xaqgHN79bHw7YG5mlPLU1yXCb0rUzUhQrhbXGVFe0jTtRO7pV7oai?=
+ =?us-ascii?Q?KZgAWpgKoeyu81FRaKZovfbXf+UNpSMNrOsNIz2xxb0THwxWMcLz/qZGr+se?=
+ =?us-ascii?Q?eZJ9gDecAeS6H2MY3o5Xw4RmnunDnVoSlO/h1q9bRqZ8fWUrwDKGqcHk7TR5?=
+ =?us-ascii?Q?r2PJ1f+xvGjb4Terx8GLkrISV8KpNsP+sT6/GwppkiK30nxM4qXtdOJpEFvW?=
+ =?us-ascii?Q?YvZAkScqZlosYu1Z4EeRf8YezM02J6UFrOC57bsqTEru1EF1R1fP0cs6OPbR?=
+ =?us-ascii?Q?t8Eqx2M2dDa0uTMubV2vy5w0Bm9N7wxE6SVJ4QOG4F8lmM52LmxLdoEesGPq?=
+ =?us-ascii?Q?eXHg2UDeD7xsz1M/UUQE1tzdt0uxuTs1butflRo16eXM2t9Nohd91TlPL71q?=
+ =?us-ascii?Q?mreQYVcjDrY+4wsdNKfvHOkyPwrNsHaQVAzySL39lLSNTfEe3gE+m5YdFE3g?=
+ =?us-ascii?Q?fi/3xlG/qmkp1Q/vYEoUG5zA01jORxp+EX083O7cjUXkytxVHnGslSJE9moD?=
+ =?us-ascii?Q?EblV9bCZE2fS02KIwZQKbaG39j6fhGhHhXHpwD8prhNnM1xX9ueFEhAwrn8O?=
+ =?us-ascii?Q?HgiW38q7sBwjx6V6vYtDhRlV4GrzomCao2ccmR8PTLoJhM3QD2IOrT/uDnE/?=
+ =?us-ascii?Q?QjCE+ld/HXpweCfG1eQz4mD14AkeuGr87yMPEKX9SwM8iRB0Ko8KoFI9PfH9?=
+ =?us-ascii?Q?fEkf0QH/iorf6n1cjLdOHTd37NmFCVMrRs7IYJnfZrPNK9POOjhCswYndJx0?=
+ =?us-ascii?Q?wUK3EXYJ1WTaGM4aNYR/6yJjzTybcUAV1Gr2vMPPVC0zAlqf6A2LQ2pzhhPU?=
+ =?us-ascii?Q?8XdnQBtK5vdqnwUEsn9vq2nRDEzdQGf6uaLEGwm/n4SF4s/G//B+S3kTQI1e?=
+ =?us-ascii?Q?zDvRelEWLNFu34x66IzhoreIfMiwzZ6uLlXrTGm1JUUXJ7iWpH+o39w/T0Mo?=
+ =?us-ascii?Q?/sAprKFchAG/TNH1MLBLNY7jI4d5y+7ry4L6/ZjszuwYQref0KZ2SYdkWjwa?=
+ =?us-ascii?Q?z6DjNizGNghH+HL76i3dxVtW1ZENs4VkRK4HBI4NfSzDY0C5CKhtRNUPYjLm?=
+ =?us-ascii?Q?aROJ6MfxA4lC6HPRUvohSHSg6wckHYjqwj/LH3tsdMK5JjOS8xkvwpj4eTmu?=
+ =?us-ascii?Q?8adrdh+VgDTZSom2uMBOlYMPy5ar4QUsRym/Sh5mJIVPDyQUF0BCUekdclKC?=
+ =?us-ascii?Q?e97w2vbq7mr45dghDkG0mKngvrKXKHWL3brlruOKUxd6uU9iz6I2mmun8c5V?=
+ =?us-ascii?Q?gNnx+0nkFIE3BuHExkWRSKtnFWVFEXUpOdaWEVspnq1R8OyCs6BH5DMzJmAz?=
+ =?us-ascii?Q?Z+RQeL+nb+xDkvpZrk+pyBvYTJZIClt+4LdqY4AWeX+o4DpZ6xuE9tkZlxcF?=
+ =?us-ascii?Q?Jolnrrjmn+EL7tdjurk6JU3Fz8g31oB2CmyKaCcu2H3CcIzUxkxpZUySwXpT?=
+ =?us-ascii?Q?eKAFeKWVvmeRrrA=3D?=
 X-Forefront-Antispam-Report:
-	CIP:193.8.40.94;CTRY:CH;LANG:en;SCL:1;SRV:;IPV:CAL;SFV:NSPM;H:hexagon.com;PTR:ahersrvdom50.leica-geosystems.com;CAT:NONE;SFS:(13230040)(36860700013)(1800799024)(376014)(82310400026);DIR:OUT;SFP:1101;
+	CIP:193.8.40.94;CTRY:CH;LANG:en;SCL:1;SRV:;IPV:CAL;SFV:NSPM;H:hexagon.com;PTR:ahersrvdom50.leica-geosystems.com;CAT:NONE;SFS:(13230040)(36860700013)(376014)(82310400026)(1800799024);DIR:OUT;SFP:1101;
 X-OriginatorOrg: leica-geosystems.com
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 12 Feb 2025 13:56:55.5381
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 12 Feb 2025 13:56:52.6943
  (UTC)
-X-MS-Exchange-CrossTenant-Network-Message-Id: a0f23398-8b16-4bc2-1931-08dd4b6d1c64
+X-MS-Exchange-CrossTenant-Network-Message-Id: 483ad5ac-a9d5-41c2-2bb9-08dd4b6d1ab2
 X-MS-Exchange-CrossTenant-Id: 1b16ab3e-b8f6-4fe3-9f3e-2db7fe549f6a
 X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=1b16ab3e-b8f6-4fe3-9f3e-2db7fe549f6a;Ip=[193.8.40.94];Helo=[hexagon.com]
 X-MS-Exchange-CrossTenant-AuthSource:
 	AM4PEPF00025F99.EURPRD83.prod.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Anonymous
 X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: PA4PR06MB7295
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: DU4PR06MB9619
 
-This hub is powered by digital and analog 3V3 power rails, so provide
-the possibility to use different regulators for digital (vdd) and analog
-(vdda) power rails.
+Microchip hub USB2514 has one 3V3 digital power supply and one 3V3
+analog power supply. Add support for analog power supply vdda.
 
 Signed-off-by: Catalin Popescu <catalin.popescu@leica-geosystems.com>
 ---
 v2:
-- no change
+- merge "if" with "allOf" and move the whole after patternProperties
+  section
 ---
- drivers/usb/misc/onboard_usb_dev.h | 9 ++++++++-
- 1 file changed, 8 insertions(+), 1 deletion(-)
+ .../bindings/usb/microchip,usb2514.yaml       | 21 ++++++++++++++++---
+ 1 file changed, 18 insertions(+), 3 deletions(-)
 
-diff --git a/drivers/usb/misc/onboard_usb_dev.h b/drivers/usb/misc/onboard_usb_dev.h
-index 317b3eb99c02..933797a7e084 100644
---- a/drivers/usb/misc/onboard_usb_dev.h
-+++ b/drivers/usb/misc/onboard_usb_dev.h
-@@ -23,6 +23,13 @@ static const struct onboard_dev_pdata microchip_usb424_data = {
- 	.is_hub = true,
- };
+diff --git a/Documentation/devicetree/bindings/usb/microchip,usb2514.yaml b/Documentation/devicetree/bindings/usb/microchip,usb2514.yaml
+index b14e6f37b298..aeffdf0362c2 100644
+--- a/Documentation/devicetree/bindings/usb/microchip,usb2514.yaml
++++ b/Documentation/devicetree/bindings/usb/microchip,usb2514.yaml
+@@ -9,9 +9,6 @@ title: Microchip USB2514 Hub Controller
+ maintainers:
+   - Fabio Estevam <festevam@gmail.com>
  
-+static const struct onboard_dev_pdata microchip_usb2514_data = {
-+	.reset_us = 1,
-+	.num_supplies = 2,
-+	.supply_names = { "vdd", "vdda" },
-+	.is_hub = true,
-+};
+-allOf:
+-  - $ref: usb-device.yaml#
+-
+ properties:
+   compatible:
+     enum:
+@@ -28,6 +25,9 @@ properties:
+   vdd-supply:
+     description: 3.3V power supply.
+ 
++  vdda-supply:
++    description: 3.3V analog power supply.
 +
- static const struct onboard_dev_pdata microchip_usb5744_data = {
- 	.reset_us = 0,
- 	.power_on_delay_us = 10000,
-@@ -96,7 +103,7 @@ static const struct onboard_dev_pdata xmos_xvf3500_data = {
+   clocks:
+     description: External 24MHz clock connected to the CLKIN pin.
+     maxItems: 1
+@@ -43,6 +43,20 @@ patternProperties:
+     $ref: /schemas/usb/usb-device.yaml
+     additionalProperties: true
  
- static const struct of_device_id onboard_dev_match[] = {
- 	{ .compatible = "usb424,2412", .data = &microchip_usb424_data, },
--	{ .compatible = "usb424,2514", .data = &microchip_usb424_data, },
-+	{ .compatible = "usb424,2514", .data = &microchip_usb2514_data, },
- 	{ .compatible = "usb424,2517", .data = &microchip_usb424_data, },
- 	{ .compatible = "usb424,2744", .data = &microchip_usb5744_data, },
- 	{ .compatible = "usb424,5744", .data = &microchip_usb5744_data, },
++allOf:
++  - $ref: usb-device.yaml#
++  - if:
++      properties:
++        compatible:
++          contains:
++            const: usb424,2514
++    then:
++      properties:
++        vdda-supply: true
++    else:
++      properties:
++        vdda-supply: false
++
+ unevaluatedProperties: false
+ 
+ examples:
+@@ -60,6 +74,7 @@ examples:
+             clocks = <&clks IMX6QDL_CLK_CKO>;
+             reset-gpios = <&gpio7 12 GPIO_ACTIVE_LOW>;
+             vdd-supply = <&reg_3v3_hub>;
++            vdda-supply = <&reg_3v3a_hub>;
+             #address-cells = <1>;
+             #size-cells = <0>;
+ 
+
+base-commit: df5d6180169ae06a2eac57e33b077ad6f6252440
+prerequisite-patch-id: 0000000000000000000000000000000000000000
 -- 
 2.34.1
 
