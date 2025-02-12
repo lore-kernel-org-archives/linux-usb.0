@@ -1,68 +1,70 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.9])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wr1-f52.google.com (mail-wr1-f52.google.com [209.85.221.52])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1D7B71FF7D9;
-	Wed, 12 Feb 2025 19:31:26 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.9
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C64F0200B99
+	for <linux-usb@vger.kernel.org>; Wed, 12 Feb 2025 20:29:26 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.52
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1739388687; cv=none; b=nQWN36+ttJfLhrG+tbGHoc4l79VBjSdN4EKUlH+ZJ9f0Ut+JUjVWtmKdA2268a/Oyx/HghdneLSstsbUu/S4WvfMnlJULiqpfF9dQbExtTKdTL0uE5cy4JlY6nW6dRW8EojCXlO/00ItycBlRKMS3TQizLd8lfd7+DjiSCRIBCE=
+	t=1739392168; cv=none; b=lNxQYXfgqizyN+ddjlhPzlmJpVG3v5gY0wGCp4kZKESwkQSI7T8VGNtQS7e2g+54B/jxjAO3t+tfb+xuf1HZZlfwxeFj5/qrdpUp/ugZzc/WX17ds3SgR5uKvw4ZWvJsO0UidGKzPr7rqhtGWujbPVsrf3ezxtPLOhlcjrE2pRg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1739388687; c=relaxed/simple;
-	bh=Zka1OgwBNU8gVd96R+RYcxMXujnKFe2UmvDxynnRWSw=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=eR3AAtqQt+MFz6xAFGdd10R5nFlkqR+MVKNP1F3z82sb0VCvp6jroFwVlN+xsbXcXCRzPYkvSGtGnI0Kx6B71pcSEXRPFij+HIqF9XWs19FzRZVV5NK6yvZb5ovJbweBUN+SJbGIS7KxYdHcjz8CspCs1i99xh6Cf+sDfUdQZow=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=none smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=J6W3LKvR; arc=none smtp.client-ip=192.198.163.9
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=linux.intel.com
+	s=arc-20240116; t=1739392168; c=relaxed/simple;
+	bh=fMzZBQwz2zarejgNGL4Eghd7LeFJHEGwlkIQxCyakHM=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=S+FoukvKGLfnh0YgXcN9Iy7RfnknvwF2GzVicYoXyNNXhy3/ks/0+ZTe2nMPayeQxjsletKHPFysR2HzLnvCmp7JBFx7PK/6hO28iNzURpbK2yoC8+QZRRBZZlFmoUmLH0gmUg3bHsj+JMZV25qSCyh85wDYTHvU6ykB69FC6Vs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=pZwKHqBt; arc=none smtp.client-ip=209.85.221.52
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="J6W3LKvR"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1739388686; x=1770924686;
-  h=from:to:cc:subject:date:message-id:in-reply-to:
-   references:mime-version:content-transfer-encoding;
-  bh=Zka1OgwBNU8gVd96R+RYcxMXujnKFe2UmvDxynnRWSw=;
-  b=J6W3LKvRQpdy3PGZigvrEIcNmtSlHb0/ZC6nlfYbF2Gjj+iU+T8IY0PT
-   K/zzOCOHNNblN9nTD6I3z6l10mvYUbPx8Sn1tbCl8wp8wT0o0n5B2QpsZ
-   26GlNCNY52ekCfZ3uOwPtgrearlHHVYbiiJxGW24Czu4xV3YcCwt0Pp6i
-   6aJLo79E2iheNLQi8it56EEstKRpqmnpX+HacZo+LxsATMsGK2IWlsERM
-   d5KHJx+ITEXwwl/Uy+shDiL8m/ilrMIf7MvilAYwRgklpz94VAa2DbaIj
-   tOPuY4lWw1h93FV8FwgoZFyK1L8qc2Yf9jOv/ckAHxV0FQuif8NifNN9S
-   Q==;
-X-CSE-ConnectionGUID: 2pufIgPvRVuHcvxTshK4FA==
-X-CSE-MsgGUID: 2KjSeKFWTjqjLYKIK8iPXA==
-X-IronPort-AV: E=McAfee;i="6700,10204,11343"; a="50714407"
-X-IronPort-AV: E=Sophos;i="6.13,280,1732608000"; 
-   d="scan'208";a="50714407"
-Received: from orviesa006.jf.intel.com ([10.64.159.146])
-  by fmvoesa103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 12 Feb 2025 11:31:24 -0800
-X-CSE-ConnectionGUID: sXj48DD0TU26vi1Z7vJOnA==
-X-CSE-MsgGUID: mULhXL8bSGC45HZosk7uvg==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.13,280,1732608000"; 
-   d="scan'208";a="112880549"
-Received: from black.fi.intel.com ([10.237.72.28])
-  by orviesa006.jf.intel.com with ESMTP; 12 Feb 2025 11:31:21 -0800
-Received: by black.fi.intel.com (Postfix, from userid 1003)
-	id 6F4682CA; Wed, 12 Feb 2025 21:31:19 +0200 (EET)
-From: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
-To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	Thinh Nguyen <Thinh.Nguyen@synopsys.com>,
-	Felipe Balbi <balbi@kernel.org>,
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="pZwKHqBt"
+Received: by mail-wr1-f52.google.com with SMTP id ffacd0b85a97d-38dc10e479cso19754f8f.0
+        for <linux-usb@vger.kernel.org>; Wed, 12 Feb 2025 12:29:26 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google; t=1739392165; x=1739996965; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=P4Xly9Z4ajTEnrRhuPY7JmSmoF3/UWXiSM6R6mhlLyA=;
+        b=pZwKHqBt58QGRlSwPZ1jlpmJZljAA1vRhplovav1qTgBp8PCam6l50AmQ4tvA+Z9Hi
+         3mR+IL3Ru8VBt4GrZJ/1tglzvEg1TksiefXvwt6zmZGP6+hZn1vYG9gvOzcpNjrSle+d
+         cW4xfKT7nX0N5PkQOZ/AxcP1/KCxQYf867RXtV0Y7qApyr/5plWm47TfRnfPyW16RxXv
+         jGLS2c2c+w91bk1+s3hPYn0160jxHqIZ305KLZLJLx3Fim9iPwxkvFl8VK0NOkWacjg/
+         J6e7tJtyQ2gdnezZtkjAtssgaqJJEcEthTSzaZ9zta+g0gFxPAEfm7wSRRkSR78+cWga
+         NTgA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1739392165; x=1739996965;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=P4Xly9Z4ajTEnrRhuPY7JmSmoF3/UWXiSM6R6mhlLyA=;
+        b=qKfHuLo8/f9EXV7ElX+sL/Eeqby96XMxDv7aIBZCEkuFTMZlzW1nWI45MNqoxB1FNc
+         yLP/ZfY9gMl9YOD949FnJx0+wR55k0qPT1gOBWMi7S6nrZ84JgSRMG9yDfN3NNF7utBQ
+         w0rnw3+6KTfqN4RK58q/JATskv9Qo+TPgwEWd0OR+ljO8TxB8TanxHMXvYtv1jBdIDrN
+         NqOGJuce718bNUVdkZkT3I9/3ApFnEw6SN4qqvprb4X0AxHLPcb3pAogKAKqZLPeq2Qe
+         T6ssl/xXLjyyyu7OdN7RRwNFuAo4vsSIw97SXdUD7DpJ/GdJg7ktb3oAn3ZhCugjA43y
+         pBhQ==
+X-Forwarded-Encrypted: i=1; AJvYcCUjXXuaUZBMIi8vABZ64FkLVHJgbyBS/tfbJ3MOvIQ9S5tsEttbHRCkCnX4X778ZoZweVAW9WD+PJs=@vger.kernel.org
+X-Gm-Message-State: AOJu0YzbyfsmAhXjcBrIxlludeo3mdbqfVZgN3AtD8k4E37lQDM89rB2
+	vW56UaRh+0ZvGI7E2uqzE4wg0h+iJrjdEfUkdbhEcW+/wVgRc9YnMbDFhDRmUCU=
+X-Gm-Gg: ASbGncvVdMZF8pbIuCAsPc2VCLpqZ8fUBlML300Ws4iIB7ZkQNJOBPCpifwbgir15eZ
+	4TrBOub1owW1l7vyeojucYECfpOyOcAlbfNBoAW+l8bBrw7Vsua3fTjK0urBzZlyEsTEeBDVmmh
+	9FazOcEtFNL1+6QWLvPJ48HYLaRpKx/nBNoLn7+GuZwveajZHJ+rOzmzR5ja8cYeivCquHfvf1i
+	+0ojH/53eAFbk9lycW6+uDj7W7tLy/hZsYVkqhyvmHl08pRTNOG5l6PxZM1IMQ3mz9a39+aRqSI
+	QfULCAxowAOVNhS1pFn5Irk0j18nfg==
+X-Google-Smtp-Source: AGHT+IEIX04KbEhnC59jF35sJIWxiziJxxlj7+Pxs6uWKXoNxjH3yyR8TvsCk1zSJHtc3g87I5swYA==
+X-Received: by 2002:a05:600c:3585:b0:439:6103:d2de with SMTP id 5b1f17b1804b1-4396103d503mr656295e9.7.1739392165041;
+        Wed, 12 Feb 2025 12:29:25 -0800 (PST)
+Received: from krzk-bin.. ([178.197.218.144])
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-38f21ea3246sm1454554f8f.81.2025.02.12.12.29.22
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 12 Feb 2025 12:29:23 -0800 (PST)
+From: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+To: Thinh Nguyen <Thinh.Nguyen@synopsys.com>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
 	linux-usb@vger.kernel.org,
-	devicetree@vger.kernel.org,
 	linux-kernel@vger.kernel.org
-Cc: Rob Herring <robh@kernel.org>,
-	Krzysztof Kozlowski <krzk+dt@kernel.org>,
-	Conor Dooley <conor+dt@kernel.org>,
-	Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
-	Ferry Toth <fntoth@gmail.com>
-Subject: [PATCH v3 3/4] usb: dwc3: gadget: Add support for snps,reserved-endpoints property
-Date: Wed, 12 Feb 2025 21:28:03 +0200
-Message-ID: <20250212193116.2487289-4-andriy.shevchenko@linux.intel.com>
-X-Mailer: git-send-email 2.45.1.3035.g276e886db78b
-In-Reply-To: <20250212193116.2487289-1-andriy.shevchenko@linux.intel.com>
-References: <20250212193116.2487289-1-andriy.shevchenko@linux.intel.com>
+Cc: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+Subject: [PATCH v2] USB: dwc3: Use syscon_regmap_lookup_by_phandle_args
+Date: Wed, 12 Feb 2025 21:29:13 +0100
+Message-ID: <20250212202913.23443-1-krzysztof.kozlowski@linaro.org>
+X-Mailer: git-send-email 2.43.0
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
@@ -71,75 +73,54 @@ List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-The snps,reserved-endpoints property lists the reserved endpoints
-that shouldn't be used for normal transfers. Add support for that
-to the driver.
+Use syscon_regmap_lookup_by_phandle_args() which is a wrapper over
+syscon_regmap_lookup_by_phandle() combined with getting the syscon
+argument.  Except simpler code this annotates within one line that given
+phandle has arguments, so grepping for code would be easier.
 
-Signed-off-by: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
-Tested-by: Ferry Toth <fntoth@gmail.com>
+Signed-off-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+
 ---
- drivers/usb/dwc3/gadget.c | 41 ++++++++++++++++++++++++++++++++++++++-
- 1 file changed, 40 insertions(+), 1 deletion(-)
 
-diff --git a/drivers/usb/dwc3/gadget.c b/drivers/usb/dwc3/gadget.c
-index 73cebb7d90c2..f3ad8434366e 100644
---- a/drivers/usb/dwc3/gadget.c
-+++ b/drivers/usb/dwc3/gadget.c
-@@ -3403,14 +3403,53 @@ static int dwc3_gadget_init_endpoint(struct dwc3 *dwc, u8 epnum)
- 	return 0;
- }
- 
-+static int dwc3_gadget_get_reserved_endpoints(struct dwc3 *dwc, const char *propname,
-+					      u8 *eps, u8 num)
-+{
-+	u8 count;
-+	int ret;
-+
-+	if (!device_property_present(dwc->dev, propname))
-+		return 0;
-+
-+	ret = device_property_count_u8(dwc->dev, propname);
-+	if (ret < 0)
-+		return ret;
-+	count = ret;
-+
-+	ret = device_property_read_u8_array(dwc->dev, propname, eps, min(num, count));
-+	if (ret)
-+		return ret;
-+
-+	return count;
-+}
-+
- static int dwc3_gadget_init_endpoints(struct dwc3 *dwc, u8 total)
+Changes in v2:
+1. Rebase (drop of_node_put)
+---
+ drivers/usb/dwc3/dwc3-am62.c | 12 ++----------
+ 1 file changed, 2 insertions(+), 10 deletions(-)
+
+diff --git a/drivers/usb/dwc3/dwc3-am62.c b/drivers/usb/dwc3/dwc3-am62.c
+index c158364bc03e..9db8f3ca493d 100644
+--- a/drivers/usb/dwc3/dwc3-am62.c
++++ b/drivers/usb/dwc3/dwc3-am62.c
+@@ -153,11 +153,11 @@ static int phy_syscon_pll_refclk(struct dwc3_am62 *am62)
  {
-+	const char			*propname = "snps,reserved-endpoints";
- 	u8				epnum;
-+	u8				reserved_eps[DWC3_ENDPOINTS_NUM];
-+	u8				count;
-+	u8				num;
-+	int				ret;
+ 	struct device *dev = am62->dev;
+ 	struct device_node *node = dev->of_node;
+-	struct of_phandle_args args;
+ 	struct regmap *syscon;
+ 	int ret;
  
- 	INIT_LIST_HEAD(&dwc->gadget->ep_list);
+-	syscon = syscon_regmap_lookup_by_phandle(node, "ti,syscon-phy-pll-refclk");
++	syscon = syscon_regmap_lookup_by_phandle_args(node, "ti,syscon-phy-pll-refclk",
++						      1, &am62->offset);
+ 	if (IS_ERR(syscon)) {
+ 		dev_err(dev, "unable to get ti,syscon-phy-pll-refclk regmap\n");
+ 		return PTR_ERR(syscon);
+@@ -165,14 +165,6 @@ static int phy_syscon_pll_refclk(struct dwc3_am62 *am62)
  
-+	ret = dwc3_gadget_get_reserved_endpoints(dwc, propname,
-+						 reserved_eps, ARRAY_SIZE(reserved_eps));
-+	if (ret < 0) {
-+		dev_err(dwc->dev, "failed to read %s\n", propname);
-+		return ret;
-+	}
-+	count = ret;
-+
- 	for (epnum = 0; epnum < total; epnum++) {
--		int			ret;
-+		for (num = 0; num < count; num++) {
-+			if (epnum == reserved_eps[num])
-+				break;
-+		}
-+		if (num < count)
-+			continue;
+ 	am62->syscon = syscon;
  
- 		ret = dwc3_gadget_init_endpoint(dwc, epnum);
- 		if (ret)
+-	ret = of_parse_phandle_with_fixed_args(node, "ti,syscon-phy-pll-refclk", 1,
+-					       0, &args);
+-	if (ret)
+-		return ret;
+-
+-	of_node_put(args.np);
+-	am62->offset = args.args[0];
+-
+ 	/* Core voltage. PHY_CORE_VOLTAGE bit Recommended to be 0 always */
+ 	ret = regmap_update_bits(am62->syscon, am62->offset, PHY_CORE_VOLTAGE_MASK, 0);
+ 	if (ret) {
 -- 
-2.45.1.3035.g276e886db78b
+2.43.0
 
