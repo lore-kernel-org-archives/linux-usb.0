@@ -1,126 +1,76 @@
-Received: from mailout3.samsung.com (mailout3.samsung.com [203.254.224.33])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 044BF1FBE80
-	for <linux-usb@vger.kernel.org>; Thu, 13 Feb 2025 04:53:05 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=203.254.224.33
+Received: from m16.mail.163.com (m16.mail.163.com [220.197.31.5])
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id D34712063E2;
+	Thu, 13 Feb 2025 06:08:11 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=220.197.31.5
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1739422388; cv=none; b=Wvqg4PnaRa2WSzq6RB6EnLEO6CLfNs+OwfOHVzOIrPlxIzGFQloP6ZaHn+hYd5qvYcXDAQkH7cWYbDzdVsBaudQF8yr3C01zUHXTFNz4G1tsnF7CR6oBOHsAB0l0MNXXgzpVADmCO8WrUaf0pGTMltU6CGAKHVgqFHgTgHRjw8w=
+	t=1739426895; cv=none; b=s6ZgpSeEi9mLrpfuaKiALxAnj3asgs42l8Muaj4FSb7lUBZvbyNkklde6isQxOXNf8XAl70AJdiH0VIT7qAw4Q/ogT/pNaPqNs3zexPrX3ul7CFO+99J4ffMEZPjmSVergEqKGYG33XgM7jAy+nFioNq5V4TfgKes2TqFJAOi7o=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1739422388; c=relaxed/simple;
-	bh=dficntmdLBv88Uvc4N5XgHBbu1lCoeFFI/9KziADYdk=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:MIME-Version:
-	 Content-Type:References; b=dsMCW1KtpIS/kJxsaxc3m1nsxp/GNzVH1DN9xJfDEOPpBwtnoz8OPzM7CoTsX99ziMqBKfYioXrfdD9i0VehsECvzUSO5dWgswUS5I7kAZRm83xCT+7X2Y4DjA/vL/Y5D45LEEsByWtD48fty+44pP6E8o897PWXCpTCR6zZGz4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=samsung.com; spf=pass smtp.mailfrom=samsung.com; dkim=pass (1024-bit key) header.d=samsung.com header.i=@samsung.com header.b=ryBbWOHb; arc=none smtp.client-ip=203.254.224.33
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=samsung.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=samsung.com
+	s=arc-20240116; t=1739426895; c=relaxed/simple;
+	bh=ENJWjFM8DaN1Oe+BoexqycWpBPzbDudOA9qgKyPQ3Kk=;
+	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version:Content-Type; b=l0lcE0g3oUn6iBvL3EGXD8WW7NkLAl3DH+Wj1pty1npmv4lP0d4plAfzS+4akUx1lZoPgHvUCUodXJC+PAY/eA8Dh/MU9mPNtBe7BznC/0grfaVwElD+IL+i1duvJLjt7AGmoXxh4IFipMxSFzDZB6E0Ljgz94UZZ0V02xS50hg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=163.com; spf=pass smtp.mailfrom=163.com; dkim=pass (1024-bit key) header.d=163.com header.i=@163.com header.b=WHl40XVY; arc=none smtp.client-ip=220.197.31.5
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=163.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=163.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=samsung.com header.i=@samsung.com header.b="ryBbWOHb"
-Received: from epcas5p4.samsung.com (unknown [182.195.41.42])
-	by mailout3.samsung.com (KnoxPortal) with ESMTP id 20250213045304epoutp0350d589627766f266d2ec48ffa3262360~jq3FF-51J2435124351epoutp03Y
-	for <linux-usb@vger.kernel.org>; Thu, 13 Feb 2025 04:53:04 +0000 (GMT)
-DKIM-Filter: OpenDKIM Filter v2.11.0 mailout3.samsung.com 20250213045304epoutp0350d589627766f266d2ec48ffa3262360~jq3FF-51J2435124351epoutp03Y
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=samsung.com;
-	s=mail20170921; t=1739422384;
-	bh=3HLbLMPJmzSucOlsqmhUhAS8S4GVvP2o0xrz+vP8sis=;
-	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=ryBbWOHbrvcBhp8YrAHqsLoPSkKQT+D8KCbSNBUDcRWLT/zjyaiwqKxIxqX9NpfLR
-	 vuWBl2LOwv/iKxSO7wx+15Dr56qTUTI6NODUIsvFX3C6+VzikonTMty5zzLRXJiuUC
-	 moo9hUaAodMgPo6DwuuqQx9CCUny19kb/JGelUlE=
-Received: from epsnrtp1.localdomain (unknown [182.195.42.162]) by
-	epcas5p1.samsung.com (KnoxPortal) with ESMTP id
-	20250213045303epcas5p1552f1b30bdd4d34992df8b75296555fb~jq3EI6ECs2466024660epcas5p12;
-	Thu, 13 Feb 2025 04:53:03 +0000 (GMT)
-Received: from epcpadp2new (unknown [182.195.40.142]) by
-	epsnrtp1.localdomain (Postfix) with ESMTP id 4YtjVR08WMz4x9QF; Thu, 13 Feb
-	2025 04:53:03 +0000 (GMT)
-Received: from epsmtrp1.samsung.com (unknown [182.195.40.13]) by
-	epcas5p1.samsung.com (KnoxPortal) with ESMTPA id
-	20250213042229epcas5p1a3080b21423a43f2e71ab7f631604b1d~jqcY4hMzT1614116141epcas5p1j;
-	Thu, 13 Feb 2025 04:22:29 +0000 (GMT)
-Received: from epsmgms1p1new.samsung.com (unknown [182.195.42.41]) by
-	epsmtrp1.samsung.com (KnoxPortal) with ESMTP id
-	20250213042229epsmtrp19e2f1b217faee08df2e182fbb84372a3~jqcY3fIXs0967509675epsmtrp1J;
-	Thu, 13 Feb 2025 04:22:29 +0000 (GMT)
-X-AuditID: b6c32a29-63df970000004929-13-67ad7385f598
-Received: from epsmtip1.samsung.com ( [182.195.34.30]) by
-	epsmgms1p1new.samsung.com (Symantec Messaging Gateway) with SMTP id
-	39.A5.18729.5837DA76; Thu, 13 Feb 2025 13:22:29 +0900 (KST)
-Received: from INBRO002811.samsungds.net (unknown [107.122.5.126]) by
-	epsmtip1.samsung.com (KnoxPortal) with ESMTPA id
-	20250213042227epsmtip19447e7ac3e84c7c4f39138bbe3015dc5~jqcWPA9Oe3205632056epsmtip1h;
-	Thu, 13 Feb 2025 04:22:26 +0000 (GMT)
-From: Selvarasu Ganesan <selvarasu.g@samsung.com>
-To: mathias.nyman@intel.com, gregkh@linuxfoundation.org,
-	WeitaoWang-oc@zhaoxin.com, Thinh.Nguyen@synopsys.com,
-	linux-usb@vger.kernel.org, linux-kernel@vger.kernel.org
-Cc: jh0801.jung@samsung.com, dh10.jung@samsung.com, naushad@samsung.com,
-	akash.m5@samsung.com, h10.kim@samsung.com, eomji.oh@samsung.com,
-	alim.akhtar@samsung.com, thiagu.r@samsung.com, muhammed.ali@samsung.com,
-	pritam.sutar@samsung.com, cpgs@samsung.com, Selvarasu Ganesan
-	<selvarasu.g@samsung.com>, stable@vger.kernel.org
-Subject: [PATCH v2 1/2] usb: xhci: Fix unassigned variable
- 'tmp_minor_revision' in xhci_add_in_port()
-Date: Thu, 13 Feb 2025 09:51:25 +0530
-Message-ID: <1931444790.41739422383013.JavaMail.epsvc@epcpadp2new>
-X-Mailer: git-send-email 2.46.0.windows.1
-In-Reply-To: <20250213042130.858-1-selvarasu.g@samsung.com>
+	dkim=pass (1024-bit key) header.d=163.com header.i=@163.com header.b="WHl40XVY"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=163.com;
+	s=s110527; h=From:Subject:Date:Message-Id:MIME-Version:
+	Content-Type; bh=fCGABF2XYfIo1vC+SRUYw07lm9xs8lHUxSSE5UGqbkY=;
+	b=WHl40XVYQocB74KcIJSPwsiFUaYXk3lXafwZ4XguyEx86OyfkP0KWHFtxL1w1n
+	tYet5Z64b3P8Mn+T0DEmHX+uNK47xA4GFd5wqObD6CUG9VBRsnlIURCU6kYokQjG
+	GIUTBmnKfsRaf0K6gj6h4nbDUYeplkRzn9IvPmCz4h3Lk=
+Received: from localhost.localdomain (unknown [])
+	by gzga-smtp-mtada-g0-0 (Coremail) with SMTP id _____wD3d3BGjK1npHxHMA--.22020S2;
+	Thu, 13 Feb 2025 14:08:06 +0800 (CST)
+From: 412574090@163.com
+To: gregkh@linuxfoundation.org
+Cc: linux-usb@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	weiyufeng <weiyufeng@kylinos.cn>
+Subject: [PATCH] usb: fix error while OF and ACPI all config Y
+Date: Thu, 13 Feb 2025 14:08:04 +0800
+Message-Id: <20250213060804.114558-1-412574090@163.com>
+X-Mailer: git-send-email 2.25.1
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFmpnkeLIzCtJLcpLzFFi42LZdlhJTre1eG26wbs/ehZvrq5itXgwbxub
-	xctDmhZ3Fkxjsji1fCGTRfPi9WwWf29fZLW4+/AHi8XlXXPYLBYta2W2aN40hdXi/IsuVotP
-	R/+zWjy7t4LN4sjyj0wWCzY+YrRY0QxUsmrBAXaLRz/nMjkIeyze85LJY//cNewefVtWMXps
-	2f+Z0ePzJjmPX7dusQSwRXHZpKTmZJalFunbJXBl3P9zlK3gAnvF/mtHWBsYj7N1MXJwSAiY
-	SOy7Xt/FyMUhJLCbUeLA3r1AcU6guLTE61ldjBC2sMTKf8/ZIYq+MkrcuboDrJlNwFDi2Qkb
-	kLiIwAZGiatnZrOCOMwCt5gkDv79wAzSLSyQKnFtzQMwm0VAVWLd04vsIDavgJXE622/WSE2
-	aEqs3buHCcTmFLCWuNh5AaxGCKimf+tqRoh6QYmTM5+wgNjMAvISzVtnM09gFJiFJDULSWoB
-	I9MqRsnUguLc9NxiwwLDvNRyveLE3OLSvHS95PzcTYzguNLS3MG4fdUHvUOMTByMhxglOJiV
-	RHglpq1JF+JNSaysSi3Kjy8qzUktPsQozcGiJM4r/qI3RUggPbEkNTs1tSC1CCbLxMEp1cBk
-	Vzb/6Onrs9J7v3v0ykuo3Vx+IPB2/de8dcI3f2/nWHmL9/WD60J1jIwftnAaPfv4cRrPrz/2
-	sz/61q5JnGB/a9ZhfcaCjpUs9ibb/y7zOKT/g1HeVMzJm6Oo3n31qo6fNewBE5KZEvWFZuyc
-	ztElznmk7X2AEZubcnnPsS1CVtyS96e4LSl0qU+ZZZkQP3ETs84jz8TConN93M90jew2/O5U
-	eVX0QcE8+mxAw07Na039PwXDitzqdilx8kSy31RS2pxzr5yPqd6j/Omkzd3b1k4y+XrO3sD9
-	ac6s9kPrqxa7Lf6VdWRJeNV3F82FV4+2zFb/nbUt+d+xp5sUr0ybfvX35P8fd9TGVe0KOtGo
-	xFKckWioxVxUnAgAY8kW/BoDAAA=
-X-CMS-MailID: 20250213042229epcas5p1a3080b21423a43f2e71ab7f631604b1d
-X-Msg-Generator: CA
-Content-Type: text/plain; charset="utf-8"
-CMS-TYPE: 105P
-X-CPGSPASS: Y
-X-Hop-Count: 3
-X-CMS-RootMailID: 20250213042229epcas5p1a3080b21423a43f2e71ab7f631604b1d
-References: <20250213042130.858-1-selvarasu.g@samsung.com>
-	<CGME20250213042229epcas5p1a3080b21423a43f2e71ab7f631604b1d@epcas5p1.samsung.com>
+X-CM-TRANSID:_____wD3d3BGjK1npHxHMA--.22020S2
+X-Coremail-Antispam: 1Uf129KBjvdXoWrtF4ruFW3Xr45Gr1rtr1xAFb_yoWfCrX_K3
+	Wq9rWxG348C34jkr15Kr4F9w1fK3WDWrWxuF1Dt3sxJFW29w47Xas09ryDta1UGayDJF1D
+	WryFyryj9F1F9jkaLaAFLSUrUUUUjb8apTn2vfkv8UJUUUU8Yxn0WfASr-VFAUDa7-sFnT
+	9fnUUvcSsGvfC2KfnxnUUI43ZEXa7IUb5l1JUUUUU==
+X-CM-SenderInfo: yursklauqziqqrwthudrp/1tbizRjyAGetg7+QHQAAsc
 
-Fix the following smatch error:
-drivers/usb/host/xhci-mem.c:2060 xhci_add_in_port() error: unassigned variable 'tmp_minor_revision'
+From: weiyufeng <weiyufeng@kylinos.cn>
 
-Fixes: d9b0328d0b8b ("xhci: Show ZHAOXIN xHCI root hub speed correctly")
-Cc: stable@vger.kernel.org
-Signed-off-by: Selvarasu Ganesan <selvarasu.g@samsung.com>
+When both OF and ACPI are configured as Y simultaneously，this may
+cause error while install os with usb disk，while reading data from
+the usb disk, the onboard_ hub driver will reinitialize the
+hub, causing system installation exceptions.
+
+Signed-off-by: weiyufeng <weiyufeng@kylinos.cn>
 ---
- drivers/usb/host/xhci-mem.c | 2 +-
+ drivers/usb/misc/Kconfig | 2 +-
  1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/drivers/usb/host/xhci-mem.c b/drivers/usb/host/xhci-mem.c
-index 92703efda1f7..8665893df894 100644
---- a/drivers/usb/host/xhci-mem.c
-+++ b/drivers/usb/host/xhci-mem.c
-@@ -1980,7 +1980,7 @@ static void xhci_add_in_port(struct xhci_hcd *xhci, unsigned int num_ports,
- {
- 	u32 temp, port_offset, port_count;
- 	int i;
--	u8 major_revision, minor_revision, tmp_minor_revision;
-+	u8 major_revision, minor_revision, tmp_minor_revision = 0;
- 	struct xhci_hub *rhub;
- 	struct device *dev = xhci_to_hcd(xhci)->self.sysdev;
- 	struct xhci_port_cap *port_cap;
+diff --git a/drivers/usb/misc/Kconfig b/drivers/usb/misc/Kconfig
+index 6497c4e81e95..9ffb51191621 100644
+--- a/drivers/usb/misc/Kconfig
++++ b/drivers/usb/misc/Kconfig
+@@ -318,7 +318,7 @@ config BRCM_USB_PINMAP
+ 
+ config USB_ONBOARD_DEV
+ 	tristate "Onboard USB device support"
+-	depends on OF
++	depends on (OF && !ACPI)
+ 	help
+ 	  Say Y here if you want to support discrete onboard USB devices
+ 	  that don't require an additional control bus for initialization,
 -- 
-2.17.1
-
+2.25.1
 
