@@ -1,168 +1,112 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.17])
+Received: from mailgw01.mediatek.com (unknown [60.244.123.138])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 35C9E19D093
-	for <linux-usb@vger.kernel.org>; Sat, 15 Feb 2025 09:21:26 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.17
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D0718C2ED;
+	Sat, 15 Feb 2025 10:06:25 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=60.244.123.138
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1739611287; cv=none; b=DhYPIEVRhOCliznKqkAuqRaki3ir0ktetLtVsyklKNlLdgJ5VDDdtwtNI7qzcEiz6hMEUGak7VxMbgnrEN2JtdED9u2nFMqPjEz6YwF8uhmcyzPIGsJmngozwJxJREFG/67F8H+TfSeRdadmBZWpiRooYnGmNNkYal4/gnC3sGs=
+	t=1739613988; cv=none; b=i/OI+HIhiTMtcMq2d/DTbGNDoaHgDvZdtc/76uezLMH2a8MQ0m+T0+7L3PxM9cpE6onEM68HlVspZvgSp5ne+GVNT4Nprojzn/zxxRb7hnwSWiKmhE7mygoi6qj0b+fWObsQrVddxgFRXpLsyoIuYpon8VvSLKHupT/csrXhLuI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1739611287; c=relaxed/simple;
-	bh=cdkkTDIAIghJCoNjXNKjdg6rCz3ke4UpSpB8YNZAp3U=;
-	h=Date:From:To:Cc:Subject:Message-ID; b=Su43/Ssoi48z1zAa0qDVygd6+4Y92U8F9QyuEkiHnpu1HJJP+hlxs5elQ36L0hxECw8Zrf35rrHeHMxrRLLkdHh5izwbj3PNV29YDEBnSfjyVmRZvJxs/5pv2lisok7yRzqj0QvP/6x/NQGUPnyhbwZjB2SvtKZTvyJDPWEWS1c=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=mhBhVG36; arc=none smtp.client-ip=198.175.65.17
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	s=arc-20240116; t=1739613988; c=relaxed/simple;
+	bh=qN9sqzBF8Wm+6uTGSVriIgBQyemhgwmom0TimKNH/w8=;
+	h=From:To:CC:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=texjjM1rPx7asEl6KEG0sqSpth69mLHYdm3fGsjrZJncblEISM4rb8PzpZawrZLL0SrqVUfPn3iogyZpQdrGbSXgGadR2m6q552ER91vS+7ctDGG+DllQQeuwOewfTFQ8sScJsmMxanhNTgLbffV3xj5Xuv3f48qispJaFCR/xY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=mediatek.com; spf=pass smtp.mailfrom=mediatek.com; dkim=pass (1024-bit key) header.d=mediatek.com header.i=@mediatek.com header.b=fu77did2; arc=none smtp.client-ip=60.244.123.138
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=mediatek.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=mediatek.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="mhBhVG36"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1739611286; x=1771147286;
-  h=date:from:to:cc:subject:message-id;
-  bh=cdkkTDIAIghJCoNjXNKjdg6rCz3ke4UpSpB8YNZAp3U=;
-  b=mhBhVG36AD9b/9Ov52hMeyMljzQ1dSEHnfbyMj+chuQHVOTiBFUlRRH2
-   zB6WRjExLChxD2PNziZEFUKAq7v2CnrI9EdEpcx9gNB/5egiQ2Gc1WRQ7
-   o9PC5O1DpxdOtQL+Vd1OArIQGQaXUHEJLAwIt9avn4gYOrsDSS8CYeltF
-   iSR1pki3CpTC7+vB3lE7FcHXo6rOXSIkNqixBGWWch4InYiJIOBGuq6Ql
-   wRZAT1J4lcPVfXFRj/Krzx5RM7equj+FxFk5IwHk4awu65EFK2DQSJcOw
-   QkCnMc8rfkDDM4pLkcpXnLlzO5/NILgiiPND134VZEQ1GVziNkUmCU1OR
-   Q==;
-X-CSE-ConnectionGUID: O8rP2X+lTLO30xxpl+PuOA==
-X-CSE-MsgGUID: 8VsQMsHiQDCTTpUjgmDtPg==
-X-IronPort-AV: E=McAfee;i="6700,10204,11345"; a="40390760"
-X-IronPort-AV: E=Sophos;i="6.13,288,1732608000"; 
-   d="scan'208";a="40390760"
-Received: from fmviesa008.fm.intel.com ([10.60.135.148])
-  by orvoesa109.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 15 Feb 2025 01:21:23 -0800
-X-CSE-ConnectionGUID: v+N3kcgxSvm1tCUUZB4bGA==
-X-CSE-MsgGUID: psdaYQoUTYeWk+BmugYNgA==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.13,288,1732608000"; 
-   d="scan'208";a="113855358"
-Received: from lkp-server01.sh.intel.com (HELO d63d4d77d921) ([10.239.97.150])
-  by fmviesa008.fm.intel.com with ESMTP; 15 Feb 2025 01:21:22 -0800
-Received: from kbuild by d63d4d77d921 with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1tjEMS-001Afy-1L;
-	Sat, 15 Feb 2025 09:21:20 +0000
-Date: Sat, 15 Feb 2025 17:20:23 +0800
-From: kernel test robot <lkp@intel.com>
-To: "Greg Kroah-Hartman" <gregkh@linuxfoundation.org>
-Cc: linux-usb@vger.kernel.org
-Subject: [usb:usb-linus] BUILD SUCCESS
- 659f5d55feb75782bd46cf130da3c1f240afe9ba
-Message-ID: <202502151717.OeKlh6iG-lkp@intel.com>
-User-Agent: s-nail v14.9.24
+	dkim=pass (1024-bit key) header.d=mediatek.com header.i=@mediatek.com header.b="fu77did2"
+X-UUID: 801471c0eb8411efb8f9918b5fc74e19-20250215
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=mediatek.com; s=dk;
+	h=Content-Type:Content-Transfer-Encoding:MIME-Version:References:In-Reply-To:Message-ID:Date:Subject:CC:To:From; bh=v+EJ59sKfsvOAm5WdSxUyGZEDjYp1M4xybOklYuyeHg=;
+	b=fu77did2raEuzRcT3h1MYDoVDr0fj/fnKEDqsnW+GpsYZcXcw5tWVXm78He8L18KYwQ4+Nh0fr1ELyGxAwuyojKdQ0MEU0V1o19Tu7zmPFmrC0kuS5Udx4dDqNFCb+wDANgn/GT+PY9GSSHIWIg1WiAD+slUTRBQ7QXBVgngKQQ=;
+X-CID-P-RULE: Release_Ham
+X-CID-O-INFO: VERSION:1.1.46,REQID:ef713562-0b45-401e-84a9-d54f1aad8ec5,IP:0,U
+	RL:0,TC:0,Content:-5,EDM:0,RT:0,SF:0,FILE:0,BULK:0,RULE:Release_Ham,ACTION
+	:release,TS:-5
+X-CID-META: VersionHash:60aa074,CLOUDID:11316988-f9ab-4ac1-951b-e3a689bed90c,B
+	ulkID:nil,BulkQuantity:0,Recheck:0,SF:81|82|102,TC:nil,Content:0|50,EDM:-3
+	,IP:nil,URL:0,File:nil,RT:nil,Bulk:nil,QS:nil,BEC:nil,COL:0,OSI:0,OSA:0,AV
+	:0,LES:1,SPR:NO,DKR:0,DKP:0,BRR:0,BRE:0,ARC:0
+X-CID-BVR: 0
+X-CID-BAS: 0,_,0,_
+X-CID-FACTOR: TF_CID_SPAM_SNR
+X-UUID: 801471c0eb8411efb8f9918b5fc74e19-20250215
+Received: from mtkmbs13n2.mediatek.inc [(172.21.101.108)] by mailgw01.mediatek.com
+	(envelope-from <chunfeng.yun@mediatek.com>)
+	(Generic MTA with TLSv1.2 ECDHE-RSA-AES256-GCM-SHA384 256/256)
+	with ESMTP id 2031481686; Sat, 15 Feb 2025 18:06:18 +0800
+Received: from mtkmbs13n2.mediatek.inc (172.21.101.108) by
+ mtkmbs10n1.mediatek.inc (172.21.101.34) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.1258.28; Sat, 15 Feb 2025 18:06:17 +0800
+Received: from mhfsdcap04.gcn.mediatek.inc (10.17.3.154) by
+ mtkmbs13n2.mediatek.inc (172.21.101.73) with Microsoft SMTP Server id
+ 15.2.1258.28 via Frontend Transport; Sat, 15 Feb 2025 18:06:16 +0800
+From: Chunfeng Yun <chunfeng.yun@mediatek.com>
+To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>, Rob Herring
+	<robh@kernel.org>, AngeloGioacchino Del Regno
+	<angelogioacchino.delregno@collabora.com>
+CC: Chunfeng Yun <chunfeng.yun@mediatek.com>, Krzysztof Kozlowski
+	<krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, Matthias Brugger
+	<matthias.bgg@gmail.com>, Mathias Nyman <mathias.nyman@intel.com>,
+	<linux-usb@vger.kernel.org>, <linux-arm-kernel@lists.infradead.org>,
+	<linux-mediatek@lists.infradead.org>, <devicetree@vger.kernel.org>,
+	<linux-kernel@vger.kernel.org>, Conor Dooley <conor.dooley@microchip.com>
+Subject: [PATCH v3 2/4] dt-bindings: usb: mtu3: add support mt8196
+Date: Sat, 15 Feb 2025 18:06:12 +0800
+Message-ID: <20250215100615.808-2-chunfeng.yun@mediatek.com>
+X-Mailer: git-send-email 2.46.0
+In-Reply-To: <20250215100615.808-1-chunfeng.yun@mediatek.com>
+References: <20250215100615.808-1-chunfeng.yun@mediatek.com>
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
+MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+X-MTK: N
 
-tree/branch: https://git.kernel.org/pub/scm/linux/kernel/git/gregkh/usb.git usb-linus
-branch HEAD: 659f5d55feb75782bd46cf130da3c1f240afe9ba  usb: typec: tcpm: PSSourceOffTimer timeout in PR_Swap enters ERROR_RECOVERY
+There are three USB controllers on mt8196, each controller's wakeup
+control is different, add some specific versions for them, and add
+compatilbe for mt8196.
 
-elapsed time: 1448m
+Acked-by: Conor Dooley <conor.dooley@microchip.com>
+Signed-off-by: Chunfeng Yun <chunfeng.yun@mediatek.com>
+---
+v3: add the ommitted third dual-role controller
+    add acked by Conor
+v2: new patch for dual-role controllers
+---
+ Documentation/devicetree/bindings/usb/mediatek,mtu3.yaml | 6 +++++-
+ 1 file changed, 5 insertions(+), 1 deletion(-)
 
-configs tested: 91
-configs skipped: 1
+diff --git a/Documentation/devicetree/bindings/usb/mediatek,mtu3.yaml b/Documentation/devicetree/bindings/usb/mediatek,mtu3.yaml
+index d4e187c78a0b..aa411568704b 100644
+--- a/Documentation/devicetree/bindings/usb/mediatek,mtu3.yaml
++++ b/Documentation/devicetree/bindings/usb/mediatek,mtu3.yaml
+@@ -28,6 +28,7 @@ properties:
+           - mediatek,mt8188-mtu3
+           - mediatek,mt8192-mtu3
+           - mediatek,mt8195-mtu3
++          - mediatek,mt8196-mtu3
+           - mediatek,mt8365-mtu3
+       - const: mediatek,mtu3
+ 
+@@ -188,7 +189,10 @@ properties:
+             103 - used by mt8195, IP0, specific 1.03;
+             105 - used by mt8195, IP2, specific 1.05;
+             106 - used by mt8195, IP3, specific 1.06;
+-          enum: [1, 2, 101, 102, 103, 105, 106]
++            107 - used by mt8196, IP0, specific 1.07;
++            108 - used by mt8196, IP1, specific 1.08;
++            109 - used by mt8196, IP2, specific 1.09;
++            enum: [1, 2, 101, 102, 103, 105, 106, 107, 108, 109]
+ 
+   mediatek,u3p-dis-msk:
+     $ref: /schemas/types.yaml#/definitions/uint32
+-- 
+2.46.0
 
-The following configs have been built successfully.
-More configs may be tested in the coming days.
-
-tested configs:
-alpha                            allyesconfig    gcc-14.2.0
-arc                              allmodconfig    gcc-13.2.0
-arc                              allyesconfig    gcc-13.2.0
-arc                   randconfig-001-20250214    gcc-13.2.0
-arc                   randconfig-002-20250214    gcc-13.2.0
-arm                              allmodconfig    gcc-14.2.0
-arm                              allyesconfig    gcc-14.2.0
-arm                   randconfig-001-20250214    clang-16
-arm                   randconfig-002-20250214    gcc-14.2.0
-arm                   randconfig-003-20250214    clang-21
-arm                   randconfig-004-20250214    gcc-14.2.0
-arm64                            allmodconfig    clang-18
-arm64                 randconfig-001-20250214    gcc-14.2.0
-arm64                 randconfig-002-20250214    gcc-14.2.0
-arm64                 randconfig-003-20250214    gcc-14.2.0
-arm64                 randconfig-004-20250214    gcc-14.2.0
-csky                  randconfig-001-20250214    gcc-14.2.0
-csky                  randconfig-002-20250214    gcc-14.2.0
-hexagon                          allmodconfig    clang-21
-hexagon                          allyesconfig    clang-18
-hexagon               randconfig-001-20250214    clang-21
-hexagon               randconfig-002-20250214    clang-15
-i386                             allmodconfig    gcc-12
-i386                              allnoconfig    gcc-12
-i386                             allyesconfig    gcc-12
-i386        buildonly-randconfig-001-20250214    gcc-12
-i386        buildonly-randconfig-002-20250214    gcc-12
-i386        buildonly-randconfig-003-20250214    clang-19
-i386        buildonly-randconfig-004-20250214    gcc-12
-i386        buildonly-randconfig-005-20250214    gcc-12
-i386        buildonly-randconfig-006-20250214    gcc-12
-i386                                defconfig    clang-19
-loongarch             randconfig-001-20250214    gcc-14.2.0
-loongarch             randconfig-002-20250214    gcc-14.2.0
-m68k                              allnoconfig    gcc-14.2.0
-m68k                             allyesconfig    gcc-14.2.0
-microblaze                        allnoconfig    gcc-14.2.0
-mips                              allnoconfig    gcc-14.2.0
-nios2                             allnoconfig    gcc-14.2.0
-nios2                 randconfig-001-20250214    gcc-14.2.0
-nios2                 randconfig-002-20250214    gcc-14.2.0
-openrisc                          allnoconfig    gcc-14.2.0
-openrisc                         allyesconfig    gcc-14.2.0
-parisc                           allmodconfig    gcc-14.2.0
-parisc                            allnoconfig    gcc-14.2.0
-parisc                           allyesconfig    gcc-14.2.0
-parisc                randconfig-001-20250214    gcc-14.2.0
-parisc                randconfig-002-20250214    gcc-14.2.0
-powerpc                           allnoconfig    gcc-14.2.0
-powerpc               randconfig-001-20250214    gcc-14.2.0
-powerpc               randconfig-002-20250214    clang-18
-powerpc               randconfig-003-20250214    clang-21
-powerpc64             randconfig-001-20250214    clang-18
-powerpc64             randconfig-002-20250214    gcc-14.2.0
-powerpc64             randconfig-003-20250214    gcc-14.2.0
-riscv                             allnoconfig    gcc-14.2.0
-riscv                 randconfig-001-20250214    clang-18
-riscv                 randconfig-002-20250214    gcc-14.2.0
-s390                             allmodconfig    clang-19
-s390                              allnoconfig    clang-21
-s390                             allyesconfig    gcc-14.2.0
-s390                  randconfig-001-20250214    gcc-14.2.0
-s390                  randconfig-002-20250214    clang-19
-sh                               allmodconfig    gcc-14.2.0
-sh                                allnoconfig    gcc-14.2.0
-sh                               allyesconfig    gcc-14.2.0
-sh                    randconfig-001-20250214    gcc-14.2.0
-sh                    randconfig-002-20250214    gcc-14.2.0
-sparc                            allmodconfig    gcc-14.2.0
-sparc                             allnoconfig    gcc-14.2.0
-sparc                 randconfig-001-20250214    gcc-14.2.0
-sparc                 randconfig-002-20250214    gcc-14.2.0
-sparc64               randconfig-001-20250214    gcc-14.2.0
-sparc64               randconfig-002-20250214    gcc-14.2.0
-um                               allmodconfig    clang-21
-um                                allnoconfig    clang-18
-um                               allyesconfig    gcc-12
-um                    randconfig-001-20250214    gcc-12
-um                    randconfig-002-20250214    clang-16
-x86_64                            allnoconfig    clang-19
-x86_64                           allyesconfig    clang-19
-x86_64      buildonly-randconfig-001-20250214    clang-19
-x86_64      buildonly-randconfig-002-20250214    clang-19
-x86_64      buildonly-randconfig-003-20250214    gcc-12
-x86_64      buildonly-randconfig-004-20250214    clang-19
-x86_64      buildonly-randconfig-005-20250214    gcc-12
-x86_64      buildonly-randconfig-006-20250214    gcc-12
-x86_64                              defconfig    gcc-11
-xtensa                            allnoconfig    gcc-14.2.0
-xtensa                randconfig-001-20250214    gcc-14.2.0
-xtensa                randconfig-002-20250214    gcc-14.2.0
-
---
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
