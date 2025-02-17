@@ -1,38 +1,37 @@
-Received: from mout.gmx.net (mout.gmx.net [212.227.17.22])
+Received: from mout.gmx.net (mout.gmx.net [212.227.17.21])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 933782185A3
-	for <linux-usb@vger.kernel.org>; Mon, 17 Feb 2025 13:41:58 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=212.227.17.22
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 09FD721CA0F
+	for <linux-usb@vger.kernel.org>; Mon, 17 Feb 2025 13:42:01 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=212.227.17.21
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1739799721; cv=none; b=RDdFmUTm4nTyeeK3KupigkGCfR7G0zjibuAw1o3I1vY7ERMik9eE5+P0N+qHY3LLX9IWIMysWJP9xt/A7rSogI2WgWlQIh1cDeYR0oy76zosVs+XUfuDZBWBG+rvSr4EFFjIlTBR1sS6ilrUusuTuQXPKoxLwZDiFrPUrruJmJk=
+	t=1739799724; cv=none; b=Gl8tVWn5g11RmWEnXmY3JtBTV0JEBfL6qi8FUECeAn8W/OylqxbOrjezmy62nzFuApw6Er6y1J4qCCD8wWjf6/7PQOgZ3P90Zkn9rOZeEfCSkcbtUBT6FHsYPKseS4UD26yhjM+LBsxa9a/6t8lgOlsx308sPl9dSIukiaehRRw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1739799721; c=relaxed/simple;
-	bh=fhyJwPRa3XnBmf6wTquJoay9exRZroYKCtEvRVXNviI=;
-	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
-	 MIME-Version; b=OfUfRiUinjUxXhSrh4hR4plv6+IculKnT6TeC7U2XBE0c1Nv1S/OJYjKFFEzv3F2cfhHOvDYbNAVCZ2n2TAGKs1eQjcxUqHTgHA83Ap7DpUnjcQmX45NH7lYt44aKz5X2RWniiyqY8QupPhBBA+m8TJxz8iO6yZnvhZoxT3D7Yc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=gmx.net; spf=pass smtp.mailfrom=gmx.net; dkim=pass (2048-bit key) header.d=gmx.net header.i=wahrenst@gmx.net header.b=cDDmFWr7; arc=none smtp.client-ip=212.227.17.22
+	s=arc-20240116; t=1739799724; c=relaxed/simple;
+	bh=IvMTw8Bm0UQaioDvRA7NEQqJ7IGmXoVL6JYNK0fT5k8=;
+	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=S5xot3FSpe+avcpWNyi3HPe2qMl/9AGX1h5FTfCn1L+CrBhifOj1e1TDMameysKG0/y9PAw1oBgeKid7Zbee5d+nY2oop0WlsmivuXJ8GVSucfLZ7uMkEwK0/VbNHF8GJAkjntyJnVgiYIVScf8m4gARUpyvTamZgVCxrELKfDc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=gmx.net; spf=pass smtp.mailfrom=gmx.net; dkim=pass (2048-bit key) header.d=gmx.net header.i=wahrenst@gmx.net header.b=sKJKpTWF; arc=none smtp.client-ip=212.227.17.21
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=gmx.net
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmx.net
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmx.net header.i=wahrenst@gmx.net header.b="cDDmFWr7"
+	dkim=pass (2048-bit key) header.d=gmx.net header.i=wahrenst@gmx.net header.b="sKJKpTWF"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmx.net;
-	s=s31663417; t=1739799716; x=1740404516; i=wahrenst@gmx.net;
-	bh=9n6Xh5tNA6Lo754p4NxvbSLbqirZz2kDoCHbo7rPufU=;
-	h=X-UI-Sender-Class:From:To:Cc:Subject:Date:Message-Id:In-Reply-To:
-	 References:MIME-Version:Content-Transfer-Encoding:cc:
+	s=s31663417; t=1739799715; x=1740404515; i=wahrenst@gmx.net;
+	bh=ksXilSpfUt3B+VZR+agmmrI764/uolVU4VhWitsUDBI=;
+	h=X-UI-Sender-Class:From:To:Cc:Subject:Date:Message-Id:
+	 MIME-Version:Content-Transfer-Encoding:cc:
 	 content-transfer-encoding:content-type:date:from:message-id:
 	 mime-version:reply-to:subject:to;
-	b=cDDmFWr7MA0UtpJaLf3leVhJwgBSWT9bJUHucUrXPc52QJL/jdEhDnPSqGzjNQHw
-	 BhJ9v4m+d+gdhktV0rg8wWjolu3pfisg9eFnxd9bg6AYaxAGRdGWmA/Za2GVe03EA
-	 P0Rp9kkt2TWWEwcrzrYp0EbyhA4nucMHoctKC0tOigbMdfjMTq51BXIojqUC+WtO2
-	 /heHs7A8P5eDMCVUQD4OBAwTOLFfMeQ0GzWuzuGte6wsRmltne3pkK/3jCNi7PtJT
-	 9Lm45+Vhe9WRz2FWX3pOX7bfaJbc68LdiLW2sHUt6HMs3iM2mhfG6kq1UEIynarRX
-	 NGqrhwImVpzbUaazDA==
+	b=sKJKpTWFNFQn6ukHhIXrrs8KUtTtZp3kxnljaXqhwFg9NhimHkbRT2fbb2JFyFb1
+	 CYetnBNtaA3TS2+bRPUK7cRlQj4A4L0yUfkycxGTLOsa76KIk955JstZeTwfv+xnt
+	 RDuYN3lS0ytAHfrldaxNRHMcVNZpNpJEVOjxB5VsLqzGU/tmq81M6IlEfgi9ou/Bl
+	 UQvdEds8ivtIVTXlD6GVpiZbZFC33Tjf448OmgQrEGt0LpuM6rV6odaUyhJ14dYSg
+	 YJ558BYZwZFcby+WtFUaLQvT2ZHxxGU2s7ZGLBsy2Whf4QBDTFpamUn1Lk2VEVu/N
+	 C4+pnUKi8oya5rUkKw==
 X-UI-Sender-Class: 724b4f7f-cbec-4199-ad4e-598c01a50d3a
 Received: from stefanw-SCHENKER ([37.4.251.153]) by mail.gmx.net (mrgmx105
- [212.227.17.168]) with ESMTPSA (Nemesis) id 1MkHMP-1t42mo49yT-00g4wp; Mon, 17
- Feb 2025 14:41:56 +0100
+ [212.227.17.168]) with ESMTPSA (Nemesis) id 1MqJmF-1swt7I0l87-00a3KX; Mon, 17
+ Feb 2025 14:41:55 +0100
 From: Stefan Wahren <wahrenst@gmx.net>
 To: Minas Harutyunyan <hminas@synopsys.com>,
 	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
@@ -43,12 +42,10 @@ Cc: Lukas Wunner <lukas@wunner.de>,
 	linux-usb@vger.kernel.org,
 	kernel-list@raspberrypi.com,
 	Stefan Wahren <wahrenst@gmx.net>
-Subject: [PATCH V6 2/3] usb: dwc2: Refactor backup/restore of registers
-Date: Mon, 17 Feb 2025 14:41:31 +0100
-Message-Id: <20250217134132.36786-3-wahrenst@gmx.net>
+Subject: [PATCH V6 0/3] usb: dwc2: Implement S2Idle for BCM2835
+Date: Mon, 17 Feb 2025 14:41:29 +0100
+Message-Id: <20250217134132.36786-1-wahrenst@gmx.net>
 X-Mailer: git-send-email 2.34.1
-In-Reply-To: <20250217134132.36786-1-wahrenst@gmx.net>
-References: <20250217134132.36786-1-wahrenst@gmx.net>
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
@@ -56,435 +53,96 @@ List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
-X-Provags-ID: V03:K1:qh1HomvCGNAlKzubJV3LKfJ4nmnq9rMIsxM4sKBlwRxkjXBU6KB
- 98L8GA2ZVgFnqgoI+OKsmDto8to77dGqYGNoYU9g/DHmsuFOJf0QR9g7qnHyKMPjmu3Rqym
- m/48QcKyERSFXMMltiqesgGI4iEZ5G8P2NJ4c/knxR+4b0lqTdDkEauVHyBaOfda6lDjSa5
- bEzMPsK34TcAbPP+aCWTg==
+X-Provags-ID: V03:K1:PqpM4+389j8Ta9VZ+CZodDAYgqf8lGVAgJw9AqdwgscoVePzyMa
+ iBRvvC+r17QO7IdSfllx/vf+2ZLT7w006bZAeaNBpP6UYXbcawaJ+fsu0ey+K3JqfW4+4FT
+ PXz6JCigqQ4qSCa2aTxJZs+t4GF5Rdb+LQpG71dyrWx8dT69gkwdbCzsrDC9Vs3KewvmpDA
+ xd8c4uHYDQqxO83/LWXeA==
 X-Spam-Flag: NO
-UI-OutboundReport: notjunk:1;M01:P0:P8qKTjSE+nM=;dBXYgqpvB8ZDZZxY7h/vR0VaBpS
- dA01Rj6J6ClOHXOrVtA3sjpZvAlJU+bEwzmdksUtfiVbCvMKNV3rbp35WAViBk74M9xGKcO76
- 64ZL4zzRKv8dG3JWICUfqHPPKtM1PmCPfK+3nI9U0mQOBv3K/bvNqONIHst10C8kgtLBy6KD5
- NVsFARHQIOcN9kyPZ1zduLmJkklziqd5a3XMojGZO1opi0CYyncb4Coxu5CL9gQrjFtvgtWKx
- Voeg2M60ya0oFW1PX18AL/mmUx2VYoM9T9PuxLIl6bxL96iTDYc70P41F75TU7P6I4adaEY8h
- Gztm9JwS5SPz+Dzw7YAHJOxIo+z07qiwGUX0P47smLJpts1gKYrXPYS4H8QdiB/7j/afXYCKo
- H+vNzaqk4gJ/8TGPGwGv5urR0rbwW+TLjyOhzxPvV/T1CE35ObCy1SrU9xVgqtc2VZufZyJoO
- MIryO3NO57XUBIuq6Q7CrYV8Jpdll8BzIgvpo7mqztjDYpo60b0Qo6pdGvZJE+cXPyC3dNbsZ
- ph6djVlNH7ha1OsWaqXvnQwF7uNitO93O06EMmAqq179s1mmXLVAGM8JnkZcv+Ovk2ntm3oHe
- DS07H40OcfjwSrarRjlkqHkMZz6UGBdRDzDcEX9S4IOqdNBULYM4g/F72sJW/G8DJCSQ1xWmc
- bbl+QHQOeKO13uDIocQl69JMadnmiKuGlQzxFmXIzpDBQjox4KXGgqxsKuDWBIXeFIpTujN3p
- 7mdEDP9RmEHedieGLewRmmn16axtSYfYkN8ok8Bj6hHDx1cZS0ry/ZwXagSPlr53GlGj9NO/V
- X/0K3CinuCDYFBb8rm3/1Rky+SFoF6113oL1KQsULzP1YBt5ywk4ZvRfMju147N2UlB42yJOI
- KBP+fVz3FUHB1d4ER9rMS2Gi2kMOpux7GLs8L/YBnEtvXBRSXHTLPU/SD7PPSik9A/hxyv3Sq
- iXyA1MpXuhehddNeaP70uo7B0pdTOStlZHYqtlVwGnotag4FXQ/KDJ+UZw3M0WELaxLWujkAe
- yKs++v9IWGMbJG5w/jFldT8R2JzQh6STsbxzRj3e0x8lR4NVyTzTDv6WCq5u6blkbIL6cOsOh
- Bmi61Fapc2Jv0+j8Nzjw2okBiun2JZu4rC08/OMoamWc/P5IScQVhlCEoyMBSw68JngspXTqX
- BolJ9lP5bwg0CTiZDybSP1uy1Gcw/PBZM7iGZHlTxCay3UVgECUUjsC2QblqvAxhaGpM8H4yn
- /ebSwxMp/MFr2qdzSUR9zI3SuxWCLqq9/k9tvmLOBZ3/SCp2g1u2DQBa5hEQSEYdcyXc2Clek
- bTcoYBUC49DQZi5QxOrMoUMkh6CWFwJ/Y3H1xKWmo9U88JVGCfZ7MIChLB0MIlSFNdT8IwUB/
- iG3mGNm9ALkfNUJocnK84xTyI/9ISC13wlGqiDpp4lse/E0xjm+L/ZgtM+
+UI-OutboundReport: notjunk:1;M01:P0:b7HBKn6JhGU=;Sg7av3lo/ThreqSEE1x0ioSS1oN
+ COsrLDC2ToOXUSwfWHrLO1I/lLDklLLbPtoEsQfxxXR+Nvg9uIV0AY0F/FEg5YEfe/V3IZ9lh
+ p1GRVD6X5+tsjelG57wsFPMsnimJWxsoaYZCe1sDdHKWVONfyt10vJWhM/X5yRzGP5q42c5gM
+ VZz/Bo2+G2kAwOQwlG7IkDWKL+XG3kEq3HpQI1OTtJdxeXdYxvp6hY8XRj+fqVJDEV02Gpo7K
+ oIDcylndjA+lrgaSso4fir0or4sOR4yeqlWatrw1pO//OIV3TLT6mfuXcs9E4alH5yKlQftJY
+ jdYd5HSVnfRf6+/iZcthvruOq3ERW9F/KFs2uEPTwxalzqzNozNCecgnFKH94eljDm2Gx9sM+
+ 9XjLpiaRVZf8mZ0XUIISmdifiYvZrrExExBTV4iacK+tHeqs+/pH/vbhf1GjOA2K24LER0/ZK
+ R3BoedwSDedniAnvmjIzShhDIklWIwgBikA0oTbuR2ZD6hVrTOZ1ym9kdncYIXmtwTotjrPX/
+ +3WOyAfihiBZGWUBY/J8lIjsIeA6+n6Ct/tSuF02/5s3GGoW1WS/JGrDLQYbVJ0cnGiytnj+8
+ JvIyE8f2kWafysgISXOqTVj7zbx8ayUDful5BwYO3VKtxIkEuGlTk9Uqp1QdEul0yxkWsWsYb
+ /27GmLx/Pg+FoRAfT12fFwER7QAHz9x30LOm94iY9bWA+KXarxYvM06t5ETO6tL6mV1P5DBO7
+ mD8Ml0/d8ckz4YdOW+1PoygJx0nx16npkgOwMeFBvhk0Ap6aNIdulhbn6p+33D2yocovVlyUB
+ iCww4gmuaPTLdxC6pAqO7LEIJDBzuZWM1Q+w17mag8eq4yUBY7BFUe/sgiX7sdK3xYtSvYyyv
+ 1KxXcsVWd+zHkTl5w6VpYqDAnnCrmfrHjIewXIpaebD/4tPMaBO8hiBHP4b6Xla+4n+gLVTOD
+ 68OXzDS3zYyHsFh1DWABimSdo8j/rKAIKFIUGMA//U/iBfX4hYYV/7SrsYWrdLruqSgRtAC/v
+ TtuWYQDL9An14G7m/M1BdIZmV2qjRrYdUfXEGk/PmUXXuIy9b5BTMdZd0e9MMA/8789qZgDtw
+ qD2MUAyXTHv97neoHN4tT4A78sFB652tpGwIWJ6f526rpFPcsteQMAPa2izKGHPsrrU4OSiyT
+ 4vWZD7V+wZFeyWFlMPTqs8Oii25dhtgwDN+yandpm/iwH80sFSQMDR0tR0kSBUNKgag+A8g8X
+ OEZdFuns54cYRtwBoz86I5D84roRkQDH/VobDejMQFc8BrFZ89VLeqNsIwMErZWhlOjPLWH2s
+ 4twksDcsERSIlVttORApnFEj8PXvVcRlpw6v/G+fqMQN+jkC2wjmmGTsF6+KtIqyThKm2V/uU
+ LqfM5ZyPDf54kVJ7LO1B6o1YG0c1fVlSzWcs+2DgkQlFHhju91WMJJcRMa
 
-The DWC2 runtime PM code reuses similar patterns to backup and
-restore the registers. So consolidate them in USB mode specific
-variants. This also has the advantage it is reusable for further
-PM improvements.
+This series implement S2Idle support for the BCM2835, which is mostly
+used on the Raspberry Pi boards.
 
-Special care is taken for DCFG register during device mode restore.
+Test steps:
+- configure debug console (pl011 or mini UART) as wakeup source
+- send system to idle state
 
-Signed-off-by: Stefan Wahren <wahrenst@gmx.net>
-=2D--
- drivers/usb/dwc2/core.h   |  15 ++++++
- drivers/usb/dwc2/gadget.c | 108 +++++++++++++++++++-------------------
- drivers/usb/dwc2/hcd.c    |  99 +++++++++++++++++-----------------
- 3 files changed, 121 insertions(+), 101 deletions(-)
+   echo freeze > /sys/power/state
 
-diff --git a/drivers/usb/dwc2/core.h b/drivers/usb/dwc2/core.h
-index 48f4b639ca2f..265791fbe87f 100644
-=2D-- a/drivers/usb/dwc2/core.h
-+++ b/drivers/usb/dwc2/core.h
-@@ -1128,6 +1128,7 @@ struct dwc2_hsotg {
- #define DWC2_HS_IOT_ID		0x55320000
+- wakeup system by console traffic
 
- #define DWC2_RESTORE_DCTL BIT(0)
-+#define DWC2_RESTORE_DCFG BIT(1)
+The series based on an idea of Doug Anderson. The USB domain is now
+powered down and the USB devices are still usable after resume.
 
- #if IS_ENABLED(CONFIG_USB_DWC2_HOST) || IS_ENABLED(CONFIG_USB_DWC2_DUAL_R=
-OLE)
- 	union dwc2_hcd_internal_flags {
-@@ -1437,6 +1438,9 @@ int dwc2_hsotg_tx_fifo_total_depth(struct dwc2_hsotg=
- *hsotg);
- int dwc2_hsotg_tx_fifo_average_depth(struct dwc2_hsotg *hsotg);
- void dwc2_gadget_init_lpm(struct dwc2_hsotg *hsotg);
- void dwc2_gadget_program_ref_clk(struct dwc2_hsotg *hsotg);
-+int dwc2_gadget_backup_critical_registers(struct dwc2_hsotg *hsotg);
-+int dwc2_gadget_restore_critical_registers(struct dwc2_hsotg *hsotg,
-+					   unsigned int flags);
- static inline void dwc2_clear_fifo_map(struct dwc2_hsotg *hsotg)
- { hsotg->fifo_map =3D 0; }
- #else
-@@ -1484,6 +1488,11 @@ static inline int dwc2_hsotg_tx_fifo_average_depth(=
-struct dwc2_hsotg *hsotg)
- { return 0; }
- static inline void dwc2_gadget_init_lpm(struct dwc2_hsotg *hsotg) {}
- static inline void dwc2_gadget_program_ref_clk(struct dwc2_hsotg *hsotg) =
-{}
-+static inline int dwc2_gadget_backup_critical_registers(struct dwc2_hsotg=
- *hsotg)
-+{ return 0; }
-+static inline int dwc2_gadget_restore_critical_registers(struct dwc2_hsot=
-g *hsotg,
-+							 unsigned int flags)
-+{ return 0; }
- static inline void dwc2_clear_fifo_map(struct dwc2_hsotg *hsotg) {}
- #endif
+Here are some figures for the Raspberry Pi 1 (without any
+devices connected except of a debug UART):
 
-@@ -1507,6 +1516,8 @@ int dwc2_host_exit_partial_power_down(struct dwc2_hs=
-otg *hsotg,
- void dwc2_host_enter_clock_gating(struct dwc2_hsotg *hsotg);
- void dwc2_host_exit_clock_gating(struct dwc2_hsotg *hsotg, int rem_wakeup=
-);
- bool dwc2_host_can_poweroff_phy(struct dwc2_hsotg *dwc2);
-+int dwc2_host_backup_critical_registers(struct dwc2_hsotg *hsotg);
-+int dwc2_host_restore_critical_registers(struct dwc2_hsotg *hsotg);
- static inline void dwc2_host_schedule_phy_reset(struct dwc2_hsotg *hsotg)
- { schedule_work(&hsotg->phy_reset_work); }
- #else
-@@ -1546,6 +1557,10 @@ static inline void dwc2_host_exit_clock_gating(stru=
-ct dwc2_hsotg *hsotg,
- 					       int rem_wakeup) {}
- static inline bool dwc2_host_can_poweroff_phy(struct dwc2_hsotg *dwc2)
- { return false; }
-+static inline int dwc2_host_backup_critical_registers(struct dwc2_hsotg *=
-hsotg)
-+{ return 0; }
-+static inline int dwc2_host_restore_critical_registers(struct dwc2_hsotg =
-*hsotg)
-+{ return 0; }
- static inline void dwc2_host_schedule_phy_reset(struct dwc2_hsotg *hsotg)=
- {}
+running but CPU idle =3D 1.67 W
+S2Idle               =3D 1.33 W
 
- #endif
-diff --git a/drivers/usb/dwc2/gadget.c b/drivers/usb/dwc2/gadget.c
-index 96d703f4c509..2e071a0342f8 100644
-=2D-- a/drivers/usb/dwc2/gadget.c
-+++ b/drivers/usb/dwc2/gadget.c
-@@ -5223,6 +5223,9 @@ int dwc2_restore_device_registers(struct dwc2_hsotg =
-*hsotg, unsigned int flags)
- 	}
- 	dr->valid =3D false;
+In comparison with HDMI & USB keyboard connected (but neither active
+nor wakeup source):
 
-+	if (flags & DWC2_RESTORE_DCFG)
-+		dwc2_writel(hsotg, dr->dcfg, DCFG);
-+
- 	if (flags & DWC2_RESTORE_DCTL)
- 		dwc2_writel(hsotg, dr->dctl, DCTL);
+running but CPU idle =3D 1.82 W
+S2Idle               =3D 1.33 W
 
-@@ -5309,6 +5312,49 @@ void dwc2_gadget_program_ref_clk(struct dwc2_hsotg =
-*hsotg)
- 	dev_dbg(hsotg->dev, "GREFCLK=3D0x%08x\n", dwc2_readl(hsotg, GREFCLK));
- }
+The series has been successfully tested on the following platforms:
+Raspberry Pi 1 B
+Raspberry Pi 3 B+
 
-+int dwc2_gadget_backup_critical_registers(struct dwc2_hsotg *hsotg)
-+{
-+	int ret;
-+
-+	/* Backup all registers */
-+	ret =3D dwc2_backup_global_registers(hsotg);
-+	if (ret) {
-+		dev_err(hsotg->dev, "%s: failed to backup global registers\n",
-+			__func__);
-+		return ret;
-+	}
-+
-+	ret =3D dwc2_backup_device_registers(hsotg);
-+	if (ret) {
-+		dev_err(hsotg->dev, "%s: failed to backup device registers\n",
-+			__func__);
-+		return ret;
-+	}
-+
-+	return 0;
-+}
-+
-+int dwc2_gadget_restore_critical_registers(struct dwc2_hsotg *hsotg,
-+					   unsigned int flags)
-+{
-+	int ret;
-+
-+	ret =3D dwc2_restore_global_registers(hsotg);
-+	if (ret) {
-+		dev_err(hsotg->dev, "%s: failed to restore registers\n",
-+			__func__);
-+		return ret;
-+	}
-+	ret =3D dwc2_restore_device_registers(hsotg, flags);
-+	if (ret) {
-+		dev_err(hsotg->dev, "%s: failed to restore device registers\n",
-+			__func__);
-+		return ret;
-+	}
-+
-+	return 0;
-+}
-+
- /**
-  * dwc2_gadget_enter_hibernation() - Put controller in Hibernation.
-  *
-@@ -5326,18 +5372,9 @@ int dwc2_gadget_enter_hibernation(struct dwc2_hsotg=
- *hsotg)
- 	/* Change to L2(suspend) state */
- 	hsotg->lx_state =3D DWC2_L2;
- 	dev_dbg(hsotg->dev, "Start of hibernation completed\n");
--	ret =3D dwc2_backup_global_registers(hsotg);
--	if (ret) {
--		dev_err(hsotg->dev, "%s: failed to backup global registers\n",
--			__func__);
--		return ret;
--	}
--	ret =3D dwc2_backup_device_registers(hsotg);
--	if (ret) {
--		dev_err(hsotg->dev, "%s: failed to backup device registers\n",
--			__func__);
-+	ret =3D dwc2_gadget_backup_critical_registers(hsotg);
-+	if (ret)
- 		return ret;
--	}
+Changes in V6:
+- adapt cover letter to focus on DWC2 (was ARM: bcm2835: Implement initial
+  S2Idle for Raspberry Pi)
+- drop already applied patches and bcm2835_defconfig changes
+- rebase on Linux 6.14-rc1
 
- 	gpwrdn =3D GPWRDN_PWRDNRSTN;
- 	udelay(10);
-@@ -5485,20 +5522,9 @@ int dwc2_gadget_exit_hibernation(struct dwc2_hsotg =
-*hsotg,
- 	dwc2_writel(hsotg, 0xffffffff, GINTSTS);
+Changes in V5:
+- add missing version
 
- 	/* Restore global registers */
--	ret =3D dwc2_restore_global_registers(hsotg);
--	if (ret) {
--		dev_err(hsotg->dev, "%s: failed to restore registers\n",
--			__func__);
--		return ret;
--	}
--
--	/* Restore device registers */
--	ret =3D dwc2_restore_device_registers(hsotg, flags);
--	if (ret) {
--		dev_err(hsotg->dev, "%s: failed to restore device registers\n",
--			__func__);
-+	ret =3D dwc2_gadget_restore_critical_registers(hsotg, flags);
-+	if (ret)
- 		return ret;
--	}
+Changes in V4:
+- added Reviewed-by from Doug
+- fix DWC2 register backup
+- add revert because of Raspberry Pi 3B+ regression
 
- 	if (rem_wakeup) {
- 		mdelay(10);
-@@ -5532,19 +5558,9 @@ int dwc2_gadget_enter_partial_power_down(struct dwc=
-2_hsotg *hsotg)
- 	dev_dbg(hsotg->dev, "Entering device partial power down started.\n");
+Changes in V3:
+- replace old USB recovery patch with canary approach [3], which should
+  work with other platforms
 
- 	/* Backup all registers */
--	ret =3D dwc2_backup_global_registers(hsotg);
--	if (ret) {
--		dev_err(hsotg->dev, "%s: failed to backup global registers\n",
--			__func__);
--		return ret;
--	}
--
--	ret =3D dwc2_backup_device_registers(hsotg);
--	if (ret) {
--		dev_err(hsotg->dev, "%s: failed to backup device registers\n",
--			__func__);
-+	ret =3D dwc2_gadget_backup_critical_registers(hsotg);
-+	if (ret)
- 		return ret;
--	}
+V5: https://lore.kernel.org/linux-usb/20241025103621.4780-1-wahrenst@gmx.n=
+et/
 
- 	/*
- 	 * Clear any pending interrupts since dwc2 will not be able to
-@@ -5591,11 +5607,8 @@ int dwc2_gadget_exit_partial_power_down(struct dwc2=
-_hsotg *hsotg,
- {
- 	u32 pcgcctl;
- 	u32 dctl;
--	struct dwc2_dregs_backup *dr;
- 	int ret =3D 0;
+Stefan Wahren (3):
+  usb: dwc2: gadget: Introduce register restore flags
+  usb: dwc2: Refactor backup/restore of registers
+  usb: dwc2: Implement recovery after PM domain off
 
--	dr =3D &hsotg->dr_backup;
--
- 	dev_dbg(hsotg->dev, "Exiting device partial Power Down started.\n");
+ drivers/usb/dwc2/core.c     |   1 +
+ drivers/usb/dwc2/core.h     |  23 ++++++-
+ drivers/usb/dwc2/gadget.c   | 116 +++++++++++++++++++-----------------
+ drivers/usb/dwc2/hcd.c      |  99 +++++++++++++++---------------
+ drivers/usb/dwc2/platform.c |  38 ++++++++++++
+ 5 files changed, 171 insertions(+), 106 deletions(-)
 
- 	pcgcctl =3D dwc2_readl(hsotg, PCGCTL);
-@@ -5612,21 +5625,10 @@ int dwc2_gadget_exit_partial_power_down(struct dwc=
-2_hsotg *hsotg,
-
- 	udelay(100);
- 	if (restore) {
--		ret =3D dwc2_restore_global_registers(hsotg);
--		if (ret) {
--			dev_err(hsotg->dev, "%s: failed to restore registers\n",
--				__func__);
--			return ret;
--		}
--		/* Restore DCFG */
--		dwc2_writel(hsotg, dr->dcfg, DCFG);
--
--		ret =3D dwc2_restore_device_registers(hsotg, DWC2_RESTORE_DCTL);
--		if (ret) {
--			dev_err(hsotg->dev, "%s: failed to restore device registers\n",
--				__func__);
-+		ret =3D dwc2_gadget_restore_critical_registers(hsotg, DWC2_RESTORE_DCTL=
- |
-+							     DWC2_RESTORE_DCFG);
-+		if (ret)
- 			return ret;
--		}
- 	}
-
- 	/* Set the Power-On Programming done bit */
-diff --git a/drivers/usb/dwc2/hcd.c b/drivers/usb/dwc2/hcd.c
-index 8c3941ecaaf5..869245238d6c 100644
-=2D-- a/drivers/usb/dwc2/hcd.c
-+++ b/drivers/usb/dwc2/hcd.c
-@@ -5474,6 +5474,49 @@ int dwc2_restore_host_registers(struct dwc2_hsotg *=
-hsotg)
- 	return 0;
- }
-
-+int dwc2_host_backup_critical_registers(struct dwc2_hsotg *hsotg)
-+{
-+	int ret;
-+
-+	/* Backup all registers */
-+	ret =3D dwc2_backup_global_registers(hsotg);
-+	if (ret) {
-+		dev_err(hsotg->dev, "%s: failed to backup global registers\n",
-+			__func__);
-+		return ret;
-+	}
-+
-+	ret =3D dwc2_backup_host_registers(hsotg);
-+	if (ret) {
-+		dev_err(hsotg->dev, "%s: failed to backup host registers\n",
-+			__func__);
-+		return ret;
-+	}
-+
-+	return 0;
-+}
-+
-+int dwc2_host_restore_critical_registers(struct dwc2_hsotg *hsotg)
-+{
-+	int ret;
-+
-+	ret =3D dwc2_restore_global_registers(hsotg);
-+	if (ret) {
-+		dev_err(hsotg->dev, "%s: failed to restore registers\n",
-+			__func__);
-+		return ret;
-+	}
-+
-+	ret =3D dwc2_restore_host_registers(hsotg);
-+	if (ret) {
-+		dev_err(hsotg->dev, "%s: failed to restore host registers\n",
-+			__func__);
-+		return ret;
-+	}
-+
-+	return 0;
-+}
-+
- /**
-  * dwc2_host_enter_hibernation() - Put controller in Hibernation.
-  *
-@@ -5489,18 +5532,9 @@ int dwc2_host_enter_hibernation(struct dwc2_hsotg *=
-hsotg)
- 	u32 gpwrdn;
-
- 	dev_dbg(hsotg->dev, "Preparing host for hibernation\n");
--	ret =3D dwc2_backup_global_registers(hsotg);
--	if (ret) {
--		dev_err(hsotg->dev, "%s: failed to backup global registers\n",
--			__func__);
--		return ret;
--	}
--	ret =3D dwc2_backup_host_registers(hsotg);
--	if (ret) {
--		dev_err(hsotg->dev, "%s: failed to backup host registers\n",
--			__func__);
-+	ret =3D dwc2_host_backup_critical_registers(hsotg);
-+	if (ret)
- 		return ret;
--	}
-
- 	/* Enter USB Suspend Mode */
- 	hprt0 =3D dwc2_readl(hsotg, HPRT0);
-@@ -5694,20 +5728,9 @@ int dwc2_host_exit_hibernation(struct dwc2_hsotg *h=
-sotg, int rem_wakeup,
- 	dwc2_writel(hsotg, 0xffffffff, GINTSTS);
-
- 	/* Restore global registers */
--	ret =3D dwc2_restore_global_registers(hsotg);
--	if (ret) {
--		dev_err(hsotg->dev, "%s: failed to restore registers\n",
--			__func__);
-+	ret =3D dwc2_host_restore_critical_registers(hsotg);
-+	if (ret)
- 		return ret;
--	}
--
--	/* Restore host registers */
--	ret =3D dwc2_restore_host_registers(hsotg);
--	if (ret) {
--		dev_err(hsotg->dev, "%s: failed to restore host registers\n",
--			__func__);
--		return ret;
--	}
-
- 	if (rem_wakeup) {
- 		dwc2_hcd_rem_wakeup(hsotg);
-@@ -5774,19 +5797,9 @@ int dwc2_host_enter_partial_power_down(struct dwc2_=
-hsotg *hsotg)
- 		dev_warn(hsotg->dev, "Suspend wasn't generated\n");
-
- 	/* Backup all registers */
--	ret =3D dwc2_backup_global_registers(hsotg);
--	if (ret) {
--		dev_err(hsotg->dev, "%s: failed to backup global registers\n",
--			__func__);
--		return ret;
--	}
--
--	ret =3D dwc2_backup_host_registers(hsotg);
--	if (ret) {
--		dev_err(hsotg->dev, "%s: failed to backup host registers\n",
--			__func__);
-+	ret =3D dwc2_host_backup_critical_registers(hsotg);
-+	if (ret)
- 		return ret;
--	}
-
- 	/*
- 	 * Clear any pending interrupts since dwc2 will not be able to
-@@ -5855,19 +5868,9 @@ int dwc2_host_exit_partial_power_down(struct dwc2_h=
-sotg *hsotg,
-
- 	udelay(100);
- 	if (restore) {
--		ret =3D dwc2_restore_global_registers(hsotg);
--		if (ret) {
--			dev_err(hsotg->dev, "%s: failed to restore registers\n",
--				__func__);
--			return ret;
--		}
--
--		ret =3D dwc2_restore_host_registers(hsotg);
--		if (ret) {
--			dev_err(hsotg->dev, "%s: failed to restore host registers\n",
--				__func__);
-+		ret =3D dwc2_host_restore_critical_registers(hsotg);
-+		if (ret)
- 			return ret;
--		}
- 	}
-
- 	/* Drive resume signaling and exit suspend mode on the port. */
 =2D-
 2.34.1
 
