@@ -1,192 +1,161 @@
-Received: from EUR02-AM0-obe.outbound.protection.outlook.com (mail-am0eur02on2070.outbound.protection.outlook.com [40.107.247.70])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B4FB61F0E5D;
-	Thu, 20 Feb 2025 10:26:09 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=40.107.247.70
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1740047171; cv=fail; b=Gc1jjjymUgitsgUWNrZit2W5eeUkKRk/SPAcWHxfC/tXHpqMiZl/VxwEOr/O+NhHyN2IW5XhZ7c4QtyF47cjinuMMlcHTt3xyIjIQFluW9RgKwZc1N9I3jyOJWhgZG79jkDh9rDNgFz2XEsPNPIzVnWSc0ZTI5gX6916YQgv29Y=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1740047171; c=relaxed/simple;
-	bh=oag5FjhH+GTnC1Oopa/AgCwJYAk6WAk1XILq/yRDP2g=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:Content-Type:
-	 Content-Disposition:In-Reply-To:MIME-Version; b=fmHJ44w2QJOWzn5i/T+efJlxw7wugCWs01jFgFf2V+OmLW+L5O2iws6e4ksRlddecY69KV7znJW1EaDDiUe+Bvd+cuqAr0vCjqhcx9XGLJRLad0i4sqKujLJHlibGXLRm8gB+AkSs/h/4FQtzMPLnvUuMKoIcvVvZdiAqmZV7co=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=nxp.com; spf=pass smtp.mailfrom=nxp.com; dkim=pass (2048-bit key) header.d=nxp.com header.i=@nxp.com header.b=VN7NdsOO; arc=fail smtp.client-ip=40.107.247.70
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=nxp.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=nxp.com
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=nxp.com header.i=@nxp.com header.b="VN7NdsOO"
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=El7c2iALGshqVgDQLhJjPo8iJnXA4ixfxzm0jtpO39swghrppX3moBOTwcx9XX5HjOVuuuyrO2J2IgFO7K3vixxOw4i/dwUHyKaN7zmyKLXleEDJ/GnrVijrLwOfhwCm7oN+BocuSC8t3FpG89tNLtmfi7IcPzLT5wI5SvDRArFK9ixQa0QlIN4UQVbFtEhsYy1q1Z9jlZ//lG6MFnmOhO1s17R5iaZo2Ih2nRuAZLD4fuGSxVF52vudU1O8xmwQFKI1RzZi65ViqpocjzRdGyYzJesbyDzmRnttjKNx1VfB4MdkEhyH4DovjCrp79o34fKvYCF/pxPjlx2bnVdeig==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=iJfi73Jr0AEU2g8qCrCDuIrFDoa1dNmjHuoOXNJn8pk=;
- b=qfDYGz/uBVPHYRmpe9145dN1tt8Wqa2sCEQg5mQEV5+kQ38fa6nGE8oxaOqDEZPl6ZEMTyggjfAYFSQWsKNaINLPsTuvJm/Gsmpfc3My/dsGalG10AI8d8pE8k3slw1YghlvUIy4aZDSU9Kaf1OOEgKM20wzfvnco5Y6VlKgXPlKRIGB5hwnwt57hGr1OHwPTyJ3aCHoJR6oJfptYoJYZpJ8QCE1zUXIgWSnjjc9UcalhfFhPZR4ki/AW+M96x4Z5Kzarp/aVRwJP6IrKRqpYr3VctFbGUrwKkTsYh1NYXwZj8oEcbJGvYIOmx5NnAJefFrLLQbyRDF842KrXN9lcg==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=nxp.com; dmarc=pass action=none header.from=nxp.com; dkim=pass
- header.d=nxp.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nxp.com; s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=iJfi73Jr0AEU2g8qCrCDuIrFDoa1dNmjHuoOXNJn8pk=;
- b=VN7NdsOOCGWBY0G5wi+h+SGMeyqtKKeav1nnv6BspXquSworRn7kWldsKlJvCEI8VIyje8YhBDt3R17ndIrDDj6W7bDudB+idFnASemgAG5j+wA4nDtNy+c5iT67+Hyq/liA0qUKHnkNpfKLrksTuDtOEbSsrgRLUY37dCLA+AETK4V4W2r4bA6/7DELZoenYYrirR11I1veSdjaXlRibmfUgKrhs2KWagXRA03cFJPt7hI8id7ytQJ6qCH8kAbg1IoYzb8SgVwLHYKSrn3MaMBh2qDKymk9xjix6VZOq97kqC2zTwJ5OAH/MCtWXKRPwvGbv4M1bTuyyty7XzOV3A==
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=nxp.com;
-Received: from PAXPR04MB8829.eurprd04.prod.outlook.com (2603:10a6:102:20c::17)
- by PA4PR04MB7598.eurprd04.prod.outlook.com (2603:10a6:102:e9::22) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8466.17; Thu, 20 Feb
- 2025 10:26:07 +0000
-Received: from PAXPR04MB8829.eurprd04.prod.outlook.com
- ([fe80::cdc5:713a:9592:f7ad]) by PAXPR04MB8829.eurprd04.prod.outlook.com
- ([fe80::cdc5:713a:9592:f7ad%7]) with mapi id 15.20.8445.016; Thu, 20 Feb 2025
- 10:26:07 +0000
-Date: Thu, 20 Feb 2025 18:22:42 +0800
-From: Xu Yang <xu.yang_2@nxp.com>
-To: Frank Li <Frank.li@nxp.com>
-Cc: gregkh@linuxfoundation.org, robh@kernel.org, krzk+dt@kernel.org,
-	conor+dt@kernel.org, shawnguo@kernel.org, s.hauer@pengutronix.de,
-	kernel@pengutronix.de, festevam@gmail.com, peter.chen@kernel.org,
-	linux-usb@vger.kernel.org, devicetree@vger.kernel.org,
-	imx@lists.linux.dev, jun.li@nxp.com
-Subject: Re: [PATCH 1/6] dt-bindings: usb: chipidea: add compatible for
- i.MX95 platform
-Message-ID: <20250220102242.g2sijuvh4wq56gq6@hippo>
-References: <20250219093104.2589449-1-xu.yang_2@nxp.com>
- <20250219093104.2589449-2-xu.yang_2@nxp.com>
- <Z7YbsvFMb7ZP6xFu@lizhi-Precision-Tower-5810>
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <Z7YbsvFMb7ZP6xFu@lizhi-Precision-Tower-5810>
-X-ClientProxiedBy: SG2PR02CA0058.apcprd02.prod.outlook.com
- (2603:1096:4:54::22) To PAXPR04MB8829.eurprd04.prod.outlook.com
- (2603:10a6:102:20c::17)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D4AD71EE7C6;
+	Thu, 20 Feb 2025 10:31:58 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1740047519; cv=none; b=P71DJb4zuuc6akjegZk53SqnX8mzZbHthJMFh6XmeUtsxvjb3GkP4H3KFeGdf64gW/ODhNs3LmiH+IAhkPFgVovTs1dCqxcPR5aMnVDxZ4+l83oY2O0QLDVNLkNW5Quma+D1iyz5ywMxwyEXjfupp9YFPcIg5D3GIvpSvkn8BO8=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1740047519; c=relaxed/simple;
+	bh=EoE8bMHv7xu0prvb8E0epB/K/6l0shvsMw5QSn1M2s4=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=D8BPmiZJO3S1rOon0zYt1JRfAsvkONRUbeIJN9QyyLOyh4wFT+5q7DSDUNPB/wr5MyG2Iu6vn4WoYOyRJXOq1OhqdjvyO/PHEOd2SsEFC0s2fFgBhpgNYNqqGA9dmRDuj0bPfdDS7k+61YXc8rQ8/szdWHXAaXIQAydq/3aLF3o=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 66793C4CED1;
+	Thu, 20 Feb 2025 10:31:52 +0000 (UTC)
+Message-ID: <6dc1e10e-9c40-4da3-b0e0-72bdc9daa827@xs4all.nl>
+Date: Thu, 20 Feb 2025 11:31:50 +0100
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: PAXPR04MB8829:EE_|PA4PR04MB7598:EE_
-X-MS-Office365-Filtering-Correlation-Id: 1e17a581-6fdc-460d-cc25-08dd5198fc8c
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam:
-	BCL:0;ARA:13230040|366016|1800799024|52116014|7416014|376014|38350700014;
-X-Microsoft-Antispam-Message-Info:
-	=?us-ascii?Q?5aWfbtyTAKVEM3z/LeTtO64TOnZ128uBmxn3BIAJFiRBAQSrjzafV+JJlU9V?=
- =?us-ascii?Q?VXT0c4+PYyasO1lgoc+A0KvV4w4yP51TsCDHPi40h8aiVu/8R/N4IEBP0Bfn?=
- =?us-ascii?Q?WyOhbawPE58ZKqD6ztvyIFIbqcvlQ9hUxlPMnhyCqK9t9p7xGaxdWviMQFb0?=
- =?us-ascii?Q?1nzgpfEIcfOOlQktQWlq44uOEcO0ij/OB45WxvF84I0TmAs4NZ4+CjuumWeF?=
- =?us-ascii?Q?L8id1T3xoGBzreA+Kk+X/xR5z8Mopms+gKJcwwp1Wt7SOqq3J8SkzWV7sSbt?=
- =?us-ascii?Q?yEUz95kLoJ5UG7eyRilcl+LWXkGX4e0xnpFfk4LijwTgStXGOF77xggFlv6y?=
- =?us-ascii?Q?A+idcXL7sBdl0GxwOJCN2Jk9sxbyjgvw2HBnbo9nZLbnHIvGPmto0us/ejpU?=
- =?us-ascii?Q?TyJl2RreP36FlPRmwR6fY4LW6zNqjcmx3Qa61t3Izz78cQA6OrdoewBDQm/X?=
- =?us-ascii?Q?qLZci59VAkFMvyjFTSleVFaenYGy1PZ/DUY2DWaesJk45XQSPPBnlI1oHdlD?=
- =?us-ascii?Q?JL7ktO3883XpBRSxrLRQmKxpyZ6x5DBlvUY42d16fk44OIMIYDXIejuarTOV?=
- =?us-ascii?Q?aDwRdAQu/7pK6IyyleQruYp1hr46eXQyT324r85jwPyxUaqifcLHxqX705Ix?=
- =?us-ascii?Q?edk1m9nROdsIpb0gp4/p4TPWKC/dqFgegrQGUOUnHZyDb+JflGUjnSmZqBkt?=
- =?us-ascii?Q?IapPnHq3DIfiH6vlnDWif0GhvYmGRfq8C3+vjq1Lz/hBUNuATRZabzeOUlDR?=
- =?us-ascii?Q?/u2Dfux70XKWnCkCZ0rUhE7kYpPb9nZqxQbgnycVoiJYXFWcV1OMWUhRBWh0?=
- =?us-ascii?Q?BAkVQPpNDH7WF4GoDco0CBo6S9LHyBkTUFkMxnSdVv1U4EH1Uz5rSxx85uB+?=
- =?us-ascii?Q?SuVYjVmFVOUBn9hk2aeLxs6BISvcFxPORibCRfdT2XqmIJAzS17nyK/uEgoL?=
- =?us-ascii?Q?5l96BdfEFifacGsYAFUsP5y7OhiQa1B9aXzU7YKjoyh4EXRzpip/+GoQtpbG?=
- =?us-ascii?Q?vFQ+A6xpAyadbd7XeXMY9DzInPMlaVP1Q8ACHtGO/eSTV8O0K1AMgI7Yl5bQ?=
- =?us-ascii?Q?g4FP0+FJHNeU3D0xoWU4WlzD3SdQXnM19+Z9BYapq9Jyp8/D0691ccHnWPqa?=
- =?us-ascii?Q?uAY3Ho3vfG4jf6v1t0PEuCD3kEBVgLbumqZlF7NkF0WhSegYkR/B36D6St5M?=
- =?us-ascii?Q?bBw2Nz8/8+gmiupZokuL5LXnMXish7vH2VR75BXacunwpyBZbXrx7EjIzJlm?=
- =?us-ascii?Q?ISV+7P3lJ/W4EbKncExt2IEInPT3sn6SeG05ius6vBpOnpfpQ0Gl8cERC0YX?=
- =?us-ascii?Q?upGUfrhmW6qQBdR7/EQHx3hAR6vt8e2uN8Nmb8AWSYkMqPk8DE79GuW8Rbfm?=
- =?us-ascii?Q?czO5F/5XpOFsR3pL/NURVRUGF8Wzy8LRohKEilwSr1SsxjDyn6jmeL3bSkXz?=
- =?us-ascii?Q?m4tKPjP5fF9XQG6hcBA5EpCtyJ6pzjL1?=
-X-Forefront-Antispam-Report:
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:PAXPR04MB8829.eurprd04.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(366016)(1800799024)(52116014)(7416014)(376014)(38350700014);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0:
-	=?us-ascii?Q?xj1TDHV2X4SrAWlkkQTVWOvjM36reJr2Mywu5dcFzl+UD/aftY8W0sIffNja?=
- =?us-ascii?Q?bijJrpXt14c7ms1l0SxkPGHpuJnj8KTw2UlvIp9VSOpo1Wh/4b6PdomvIMQD?=
- =?us-ascii?Q?+gOGXpVAmqyUiswGeKZs2MqMxCyaN3mTRQ9i1dAICefIZLB32/n48VcY0lJs?=
- =?us-ascii?Q?TBJh/RZzYREkQ1fWKZ23wrj2lMcnXVuyDSctKxEInJg3bMAuYYzDM0d1qX1U?=
- =?us-ascii?Q?mctz6BP3B67G3YOHPm6XroQB0jNYpfiHVCQ2xAzaGqdiYWbrRJQ2gLIu6zZz?=
- =?us-ascii?Q?xB8puVpvOK3qR3jts6DLFbWbCkIvJcDK7Muz+SkIcqF0ozAVRYU2N1ndIkxu?=
- =?us-ascii?Q?OL+1p6OD+jvxwj7t9IRS9hPKbs2RwHf4mGozNcDuLx1i0jyldviDqYGhaSRL?=
- =?us-ascii?Q?5djgr+z7Lz13of1kEDSG2vsCm0rNk84YJTcDddy5QTHLewR2LMWBvKelfVRD?=
- =?us-ascii?Q?g15zLmydYWWfYF40jSlQ7Y7Y/kvT74X/GcBgb1lbbSObVfAtarJ6H8J503lE?=
- =?us-ascii?Q?YTWEpYHyfAXD0dF6JHlKZjnlsYoo160ZuzoZL0AVnSfmtssB0osvXCjtjJrM?=
- =?us-ascii?Q?Uo2wnYFr0Dn4ZP9GghGEqyrlzFvBhiuATn3KJpF7t7XvxS1JybQfbcnya/I6?=
- =?us-ascii?Q?Jj8kVF0aw2gMXpL0KtAQAdTEqbOyYIF4oOiPf2nAIGBP40MCe2r1NqLYQ0sm?=
- =?us-ascii?Q?uyeEYUMY9wobVIf5Yc6DAwDf80zK1wu2LoVmd0K5mc/i4i6jkG5vkpldTTW8?=
- =?us-ascii?Q?jxNOzaHLibTAbwmoegrPbAbXRiqRFikxsSITFZjApT+Mn53DKJ8+0RbE8j1A?=
- =?us-ascii?Q?cTkGnZ8stGaIsm6vuFMsF3NVmKFGLE5lkF9SarPmyO2xAN6vgrOp1GoP+67z?=
- =?us-ascii?Q?XoTXEE95jnA+N9SQJTF4CLsoVailq73+A1Uw9K+x+dNeWt5fysrjLYa89hKx?=
- =?us-ascii?Q?aPWXWm4j+MP9lOmnD4Pqcg6GgSs0Fz8RO0UlAm4CQJ866wHORTK6dTpiJ94p?=
- =?us-ascii?Q?xJuTwtrgvGO/aX5SUfhBDQ+tKpTBx3XAqPHb7qQ0HKEAMKoX4c4r98LYq+2F?=
- =?us-ascii?Q?HMS8OHXNzENThWU37zlhdixHbyVtHxvV+i2uC56TG2nmS5Az8SF20h6GJrBu?=
- =?us-ascii?Q?ZSl7FN3pSqYyTlb/XsbZnntAsRzZ9+xlHbu1HX2yEgLcZkoDOeNNY3B46+jv?=
- =?us-ascii?Q?GB4mkUlOVYB2Z40vIOtKZURi2u4l6zn9AMS75ZWEBHh6UrB+D02sE/G306Xr?=
- =?us-ascii?Q?CPl2EqYtUpFf59w323mjxLSA8x52AbYPXtSzRt5uMdtWsL+mn0SVaa4tFdi4?=
- =?us-ascii?Q?XLN/u0drUVcQV2iBeNiptEcsSvzdp/KE1Pg3Nq2Ci3bqZxho5Qpofa89VScR?=
- =?us-ascii?Q?pzug7aeZlznM74BsRPCrY9FNBc5r3cS8h1QBfgUoqHgDGB7j0JOMWvnsEa35?=
- =?us-ascii?Q?XTBij1oLXdkXwBAlWBHi1A4ZdnMvXnHoUUBY8G1ntxVKwwqz35SSI8quIC6W?=
- =?us-ascii?Q?nYHTk9EBs72xfstdfnw8SngpuDcAfSEAnadcBDrxgYMusw1vavmnM4V90RJG?=
- =?us-ascii?Q?TAtehrn7xELnYTNqz2xJpswFlnd3yKv1hRon3AlR?=
-X-OriginatorOrg: nxp.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 1e17a581-6fdc-460d-cc25-08dd5198fc8c
-X-MS-Exchange-CrossTenant-AuthSource: PAXPR04MB8829.eurprd04.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 20 Feb 2025 10:26:07.2023
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 686ea1d3-bc2b-4c6f-a92c-d99c5c301635
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: VNmLf/gw6KN+q4D8L22Vf5JlF3MXxtSc+aGOF/8YN+UiuqzVfBvA2pQtEadHEjf/uLPca28JUHE7amNzQ2lf/g==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: PA4PR04MB7598
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v5 04/12] driver core: Constify API device_find_child()
+ and adapt for various usages
+To: Zijun Hu <zijun_hu@icloud.com>,
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+Cc: Linus Walleij <linus.walleij@linaro.org>,
+ Bartosz Golaszewski <brgl@bgdev.pl>, =?UTF-8?Q?Uwe_Kleine-K=C3=B6nig?=
+ <ukleinek@kernel.org>,
+ James Bottomley <James.Bottomley@HansenPartnership.com>,
+ =?UTF-8?Q?Thomas_Wei=C3=9Fschuh?= <thomas@t-8ch.de>,
+ linux-kernel@vger.kernel.org, nvdimm@lists.linux.dev,
+ linux-sound@vger.kernel.org, sparclinux@vger.kernel.org,
+ linux-block@vger.kernel.org, linux-cxl@vger.kernel.org,
+ linux1394-devel@lists.sourceforge.net, arm-scmi@vger.kernel.org,
+ linux-efi@vger.kernel.org, linux-gpio@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, linux-mediatek@lists.infradead.org,
+ linux-hwmon@vger.kernel.org, linux-media@vger.kernel.org,
+ linux-pwm@vger.kernel.org, linux-remoteproc@vger.kernel.org,
+ linux-scsi@vger.kernel.org, linux-usb@vger.kernel.org,
+ linux-serial@vger.kernel.org, netdev@vger.kernel.org,
+ Zijun Hu <quic_zijuhu@quicinc.com>,
+ Alison Schofield <alison.schofield@intel.com>,
+ Takashi Sakamoto <o-takashi@sakamocchi.jp>
+References: <20241224-const_dfc_done-v5-0-6623037414d4@quicinc.com>
+ <20241224-const_dfc_done-v5-4-6623037414d4@quicinc.com>
+Content-Language: en-US, nl
+From: Hans Verkuil <hverkuil@xs4all.nl>
+Autocrypt: addr=hverkuil@xs4all.nl; keydata=
+ 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
+In-Reply-To: <20241224-const_dfc_done-v5-4-6623037414d4@quicinc.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 
-On Wed, Feb 19, 2025 at 12:58:10PM -0500, Frank Li wrote:
-> On Wed, Feb 19, 2025 at 05:30:59PM +0800, Xu Yang wrote:
-> > The i.MX95 USB2.0 controller is basically compatible with i.MX7d, except
-> > it needs a second interrupt for wakeup handling. This will add compatible
-> > for i.MX95 platform and restriciton on interrupt property. Besides, this
->                           ^ typo,
+On 24/12/2024 14:05, Zijun Hu wrote:
+> From: Zijun Hu <quic_zijuhu@quicinc.com>
 > 
-> run check-patch --code-spell
+> Constify the following API:
+> struct device *device_find_child(struct device *dev, void *data,
+> 		int (*match)(struct device *dev, void *data));
+> To :
+> struct device *device_find_child(struct device *dev, const void *data,
+>                                  device_match_t match);
+> typedef int (*device_match_t)(struct device *dev, const void *data);
+> with the following reasons:
 > 
-> > will also add iommus property.
+> - Protect caller's match data @*data which is for comparison and lookup
+>   and the API does not actually need to modify @*data.
 > 
-> dt-bindings: usb: Add i.MX95 compatible string 'fsl,imx95-usb'
+> - Make the API's parameters (@match)() and @data have the same type as
+>   all of other device finding APIs (bus|class|driver)_find_device().
 > 
-> The i.MX95 USB2.0 controller is mostly compatible with i.MX7D, except it
-> requires a second interrupt for wakeup handling. Add the compatible string
-> for the i.MX95 platform, add the iommus property, and enforce the
-> interrupt property restriction. Keep the same restriction for existing
-> compatible strings.
+> - All kinds of existing device match functions can be directly taken
+>   as the API's argument, they were exported by driver core.
+> 
+> Constify the API and adapt for various existing usages.
+> 
+> BTW, various subsystem changes are squashed into this commit to meet
+> 'git bisect' requirement, and this commit has the minimal and simplest
+> changes to complement squashing shortcoming, and that may bring extra
+> code improvement.
+> 
+> Reviewed-by: Alison Schofield <alison.schofield@intel.com>
+> Reviewed-by: Takashi Sakamoto <o-takashi@sakamocchi.jp>
+> Acked-by: Uwe Kleine-König <ukleinek@kernel.org> # for drivers/pwm
+> Signed-off-by: Zijun Hu <quic_zijuhu@quicinc.com>
 
-Okay.
+<snip>
 
-> 
-> Fix below nit.
-> 
-> Reviewed-by: Frank Li <Frank.Li@nxp.com>
-> 
-> Frank
-> 
-> 
-> >
+> diff --git a/drivers/media/pci/mgb4/mgb4_core.c b/drivers/media/pci/mgb4/mgb4_core.c
+> index bc63dc81bcae0d20924174be74b93a2139d5879f..697d50bedfe285d74c702efde61e510df87c1229 100644
+> --- a/drivers/media/pci/mgb4/mgb4_core.c
+> +++ b/drivers/media/pci/mgb4/mgb4_core.c
+> @@ -123,7 +123,7 @@ static const struct hwmon_chip_info temp_chip_info = {
+>  };
+>  #endif
+>  
+> -static int match_i2c_adap(struct device *dev, void *data)
+> +static int match_i2c_adap(struct device *dev, const void *data)
+>  {
+>  	return i2c_verify_adapter(dev) ? 1 : 0;
+>  }
+> @@ -139,7 +139,7 @@ static struct i2c_adapter *get_i2c_adap(struct platform_device *pdev)
+>  	return dev ? to_i2c_adapter(dev) : NULL;
+>  }
+>  
+> -static int match_spi_adap(struct device *dev, void *data)
+> +static int match_spi_adap(struct device *dev, const void *data)
+>  {
+>  	return to_spi_device(dev) ? 1 : 0;
+>  }
 
-[...]
+Reviewed-by: Hans Verkuil <hverkuil@xs4all.nl>
 
-> > +    description:
-> > +      One interrupt for USB controller and wakeup interrupt combined
-> > +      case or two interrupts for individual USB controller and wakeup
-> 
-> Needn't descrition here. Items: descrption already provide enough
-> informaiton.  Or you can change first
-> 
-> description: USB controller interrupt Or combine USB controller and wakeup
-> interrupts.
+Regards,
 
-Okay. will do.
-
-Thanks,
-Xu Yang
+	Hans
