@@ -1,38 +1,38 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7B8211BD9E6
-	for <linux-usb@vger.kernel.org>; Thu, 20 Feb 2025 09:32:40 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E61101EE019
+	for <linux-usb@vger.kernel.org>; Thu, 20 Feb 2025 09:34:01 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1740043962; cv=none; b=IhuoAVHTpGp5PNyDi2tprWyWixDOwrU77Jc9SwhivAifj+xtSY97qcnIdmhvHsencV1oNAvmdPvnRIgavVwQmstS+qvT6OplOq+UAgLWsQaNFeOgVNyXI5aoh7lpdS7wCkdgYrTkhndJOKGv8cb1o5JpvG7N1D80nd3AVR0ZQvk=
+	t=1740044042; cv=none; b=KP9ExXryGg9y270NRdzmfaSowdVbPhUMtKKdyF3QXTIzuMoqnh7y+h4TBV04TZopMrOCLY8XI3Re3Jem9Tivq9f+EFEUAsYLnORJ7LRO/a8OVCdETovveuafClyZyYNAAX7jyIjcQQYiFogO2dzDtqqDLKc/gyieSRDxWak9UBc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1740043962; c=relaxed/simple;
-	bh=RtM2D6pG7xBfMGC9vAA3CiF0wWFQNy3bToFy/udSU0Q=;
+	s=arc-20240116; t=1740044042; c=relaxed/simple;
+	bh=XfDSzFBnElzwLEibOlJPVoVSbBP8Jlyvy+hFoJJ5oc0=;
 	h=From:To:Subject:Date:Message-ID:In-Reply-To:References:
-	 Content-Type:MIME-Version; b=XnprM1gIEljhdbItjUDmciwxNWlWA08QnhmfDOsQf5ZJ9hJoCVYokggkCtbjiSziNJbIaC6+iE0fMe3r35wWVQkhtHNIvYke9PrUr7gzfBaPJJIgMDKDc4X2fyy1Ehnw34Es508jBrAVUK1V+9gxDT9FPc3IOiyKZ/ag3JLgy4s=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=QpgLjb2j; arc=none smtp.client-ip=10.30.226.201
+	 Content-Type:MIME-Version; b=qmFycMMp7gPDyFim0oBOfZGBVRN51Xv5XlkmPXkZAO+uBHLLZeLnynHvgWr5WkqEDmBsHyFuZ5hYa9Jfu+LxnZmeXTpqCe4fV2y5K6GoCUVMHiq1r8kcm3R0aUPwD0+4ow6r72BclJJsCq219cvTxjNqBOLekCJrfzUDW4AR0bE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=KEtknpYs; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="QpgLjb2j"
-Received: by smtp.kernel.org (Postfix) with ESMTPS id E1611C4CEE3
-	for <linux-usb@vger.kernel.org>; Thu, 20 Feb 2025 09:32:39 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="KEtknpYs"
+Received: by smtp.kernel.org (Postfix) with ESMTPS id 5EF33C4CEDD
+	for <linux-usb@vger.kernel.org>; Thu, 20 Feb 2025 09:34:01 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1740043959;
-	bh=RtM2D6pG7xBfMGC9vAA3CiF0wWFQNy3bToFy/udSU0Q=;
+	s=k20201202; t=1740044041;
+	bh=XfDSzFBnElzwLEibOlJPVoVSbBP8Jlyvy+hFoJJ5oc0=;
 	h=From:To:Subject:Date:In-Reply-To:References:From;
-	b=QpgLjb2jBdvESnqW9jiv9eKJSJU6WTLBbfmubA5dOQ6LqiT6Ob+MeZLDVoHi3Mo2i
-	 YpOOhQNBa11Nd/0giYciC3cz+vzjswIaZvYFaJpGbRta8huueBl/hkOY3DaEFECE2l
-	 tLTercblSjpXwjy9zqKmes5VARCTZfRKpuQSFzNk8v78RKDH3Nx7maCj7uPYundZBS
-	 VDWL0MIA8OYLJiYu0lHIdu4oOpiNmR5w0XLmFu5jK2cucP53mQxQzdzVTNatLFL+Qz
-	 qiVZifh/P8zAa8dEVzV/S0t25ZnlexmtuNlfZkKmb7/xZS64aW58PglewFNKQu4Klv
-	 UiqJqvk8E8/dg==
+	b=KEtknpYsNW1xGxoYKyHXM0mDMh/gRmQQMUUCen2sxow9VH1SopDn2dCLDHdHylFTX
+	 K6kaC7PoQiDAg3UO1zoXHJ2AJL+e1MbEYCfE/B64xB8Bd4Rskj3TWu5PFFtKCUQV5z
+	 uwCg5GBEUpm/eiF9Phkahf+ZEB+uBVjsU77lISQqbxQO96zBXO55e843yFfDOS2Pv9
+	 ur9ewJP4zD6dU0xZin3KOVYl9EgPbo81SproHiJitOqDyZxFYPkfwG8j2GMwCN81sS
+	 lYR/Ae//+dPb6x9BNMvEzMgd8+UmzvabTpE4gOKeJ4jh/p2XKYGpGzDLRgz/VIcTsU
+	 GS/NyTs2BNTrA==
 Received: by aws-us-west-2-korg-bugzilla-1.web.codeaurora.org (Postfix, from userid 48)
-	id D25AFC41606; Thu, 20 Feb 2025 09:32:39 +0000 (UTC)
+	id 56272C41614; Thu, 20 Feb 2025 09:34:01 +0000 (UTC)
 From: bugzilla-daemon@kernel.org
 To: linux-usb@vger.kernel.org
 Subject: [Bug 219773] External USB disk drive and SSD corruption while
  connected to USB 3 ports.
-Date: Thu, 20 Feb 2025 09:32:39 +0000
+Date: Thu, 20 Feb 2025 09:34:01 +0000
 X-Bugzilla-Reason: None
 X-Bugzilla-Type: changed
 X-Bugzilla-Watch-Reason: AssignedTo drivers_usb@kernel-bugs.kernel.org
@@ -48,7 +48,7 @@ X-Bugzilla-Priority: P3
 X-Bugzilla-Assigned-To: drivers_usb@kernel-bugs.kernel.org
 X-Bugzilla-Flags: 
 X-Bugzilla-Changed-Fields: 
-Message-ID: <bug-219773-208809-ecVWiRlB4i@https.bugzilla.kernel.org/>
+Message-ID: <bug-219773-208809-ogZoKabOSR@https.bugzilla.kernel.org/>
 In-Reply-To: <bug-219773-208809@https.bugzilla.kernel.org/>
 References: <bug-219773-208809@https.bugzilla.kernel.org/>
 Content-Type: text/plain; charset="UTF-8"
@@ -64,14 +64,8 @@ MIME-Version: 1.0
 
 https://bugzilla.kernel.org/show_bug.cgi?id=3D219773
 
---- Comment #18 from Frederic Bezies (fredbezies@gmail.com) ---
-Some additional infos. I thought it was an Archlinux bug. So I tried both
-Manjaro and Fedora live USB.
-
-And nothing changed.Ut is really a bad management of this motherboard USB
-ports.
-
-Hardware is not guilty here.
+--- Comment #19 from Frederic Bezies (fredbezies@gmail.com) ---
+Oops. I meant USB HDD / SSD peripherals are not guilty here.
 
 --=20
 You may reply to this email to add a comment.
