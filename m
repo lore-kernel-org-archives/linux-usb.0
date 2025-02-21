@@ -1,177 +1,94 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.14])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.17])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0ABB220DD46
-	for <linux-usb@vger.kernel.org>; Fri, 21 Feb 2025 13:17:05 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.14
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D91E118651;
+	Fri, 21 Feb 2025 13:22:13 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.17
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1740143827; cv=none; b=mw2uUy7RLvjso9aCH8Ty2mR58EB4NuN+JdQIqA4/PEWsfds/FwQs8aLiNb9CTmRRNGLZTfZwGFUtIAsd7ZJVkpEMCAqcWPk1EOSxNFlh58p6J5/uWs2sfKEoidynJW/NYG+Wlvd0u59xQImlEzWhxKn6t1wVtjiz8RlBEXckN/M=
+	t=1740144135; cv=none; b=jZhlcTPrxYbToDwRBLM08ksQIvfECH8QdmAH3PqyEtFvDyx4AJX6wkcwq/AdE7Nsjy/Xad63sL8M23yaDvVTN+i7zmHacuobCiW9cYYUdj//FMjfCYGNT2a1dZW/tOwzr3vqW3fOWP9k8Nmu6wm8Ms7xFit6Q2WOYXv/UOIJCWY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1740143827; c=relaxed/simple;
-	bh=6EkA0Whd3rwh7QbA6tEKxw4plsP8zIaMB1BgmIkivbU=;
-	h=Date:From:To:Cc:Subject:Message-ID; b=Np1E6AN3ffADC56JyyLthJ8p6W7UvV/WW3/SmwDcblDen2mwnG0xmLgJJKxh1qw/517cIUvnKfT7yOtV5BJg6EfvwxpTUzcvLgAoggG2FhWO94+qrmAZDvzoXiRNuaTcSs8KnjT/+rAB9D9YZuzSCmnaa0BxkVSj0WjjVN3HVPA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=FmqfR/de; arc=none smtp.client-ip=198.175.65.14
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	s=arc-20240116; t=1740144135; c=relaxed/simple;
+	bh=5nofOT4jU2NHxmhSPVYytlfPpDoj8bGuh9b4nzJ/Spo=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=njQ4O3PZJjGOX1ltOrwmQ5OgC9LoYpo7xT+kcOYbQgpZqxXAOIrqjKN5XHzDxoNMgeNflOAVrtitmtPqZwhKI0X8z6198iZkgVJOt0r5bPolE5r4aPArw3tbUZU/BAjBv4TEXFAXP3GCN/UN+BN2mO+istTpf9MKFUJK4PSndvo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=none smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=nV/iDQiI; arc=none smtp.client-ip=198.175.65.17
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=linux.intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="FmqfR/de"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="nV/iDQiI"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1740143826; x=1771679826;
-  h=date:from:to:cc:subject:message-id;
-  bh=6EkA0Whd3rwh7QbA6tEKxw4plsP8zIaMB1BgmIkivbU=;
-  b=FmqfR/dec6XMIfROhXdACl3vXU/zwi8XlNgCvZivq6MNgWNNul63Wu4b
-   yMxn2hG64KfuxQ7GKAcqlRCLU4HZIiuDQKFsxdfUKf0DE4Qh5M1DZAZWx
-   FZnpVRVBAckkh90MTm7F6qjVTmYq+fJhRCPwJG5GSbbqzYF0A4xU5dg8b
-   8HjvCsAIPV6pp2o2F8NvaVahOX1ppA0ooU2BlQp9dRDmCDQfl6kP4t5kt
-   zrD6riGhscELkJzWCheYSItXYMCL7YkARyfkuTNpv2BYmXxRUWipUJZGu
-   xQxUIaLZ5GokOUKqmqewN4xL2HYBj+sl4ArXDyhI3BuluqJU1nFMmNYZJ
+  t=1740144134; x=1771680134;
+  h=message-id:date:mime-version:subject:to:cc:references:
+   from:in-reply-to:content-transfer-encoding;
+  bh=5nofOT4jU2NHxmhSPVYytlfPpDoj8bGuh9b4nzJ/Spo=;
+  b=nV/iDQiI6YYr9VKF+RAbvoHe9h67UAwbs2Wsi7Zto27aM/VEgATJthT8
+   ve5NsxhLxfSQm9T4BbZMnISYo5BqpGjYpwi/c2nYSm5fHiDR2JVIRWXOB
+   iM0x67Wi3pZB/VY1ZXDH8J66nUkmemnOHpSWXp6N8drcV39V9OT31go7S
+   YGvV6t/mhHFuZjzdW/5BOyWoz+vAGwhf+1qpALFZV3ur4uSRM0LY+SNjC
+   XryaUuA9hwmMKwaP62prNgnAr2C7jv+RpGUMkCR+zsNMTHhVw6lNXXoB+
+   +oebbznYi6soSLoVXnPPyPasEvL4n8r6QNaF0r96OvjSmx2QL6vjWF5ks
    A==;
-X-CSE-ConnectionGUID: I0LQxB+nS9ue9P0n9VkE6Q==
-X-CSE-MsgGUID: VAMKFhR7RVSKIbcdjRuG+A==
-X-IronPort-AV: E=McAfee;i="6700,10204,11351"; a="44746404"
+X-CSE-ConnectionGUID: 3VK5NHADR5+urXOx51wvgg==
+X-CSE-MsgGUID: BsnSBz0JSii4HV9bkzINWw==
+X-IronPort-AV: E=McAfee;i="6700,10204,11351"; a="40977145"
 X-IronPort-AV: E=Sophos;i="6.13,304,1732608000"; 
-   d="scan'208";a="44746404"
-Received: from orviesa004.jf.intel.com ([10.64.159.144])
-  by orvoesa106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 21 Feb 2025 05:17:05 -0800
-X-CSE-ConnectionGUID: b98/v52IS8mDCBtsyJdLFg==
-X-CSE-MsgGUID: BclHW2icSqGPIQ9eka5ngQ==
+   d="scan'208";a="40977145"
+Received: from fmviesa002.fm.intel.com ([10.60.135.142])
+  by orvoesa109.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 21 Feb 2025 05:22:13 -0800
+X-CSE-ConnectionGUID: I/OOPYLiQXyn5zwOJmiMqg==
+X-CSE-MsgGUID: ScytPYCnQ9OSkZAJ6yzYaw==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.13,304,1732608000"; 
-   d="scan'208";a="120347651"
-Received: from lkp-server02.sh.intel.com (HELO 76cde6cc1f07) ([10.239.97.151])
-  by orviesa004.jf.intel.com with ESMTP; 21 Feb 2025 05:17:05 -0800
-Received: from kbuild by 76cde6cc1f07 with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1tlStq-0005Xx-19;
-	Fri, 21 Feb 2025 13:17:02 +0000
-Date: Fri, 21 Feb 2025 21:16:32 +0800
-From: kernel test robot <lkp@intel.com>
-To: "Greg Kroah-Hartman" <gregkh@linuxfoundation.org>
-Cc: linux-usb@vger.kernel.org
-Subject: [usb:usb-linus] BUILD SUCCESS
- c783e1258f29c5caac9eea0aea6b172870f1baf8
-Message-ID: <202502212124.xUyCxnSg-lkp@intel.com>
-User-Agent: s-nail v14.9.24
+   d="scan'208";a="138590447"
+Received: from unknown (HELO [10.237.72.199]) ([10.237.72.199])
+  by fmviesa002.fm.intel.com with ESMTP; 21 Feb 2025 05:22:12 -0800
+Message-ID: <e3ca349d-c77d-4643-9865-f9991b34540f@linux.intel.com>
+Date: Fri, 21 Feb 2025 15:23:11 +0200
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
+MIME-Version: 1.0
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH 1/3] usb: xhci: Simplify
+ update_ring_for_set_deq_completion()
+To: Michal Pecio <michal.pecio@gmail.com>,
+ Mathias Nyman <mathias.nyman@intel.com>,
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+Cc: linux-usb@vger.kernel.org, linux-kernel@vger.kernel.org,
+ Niklas Neronin <niklas.neronin@linux.intel.com>
+References: <20250220234355.2386cb6d@foxbook>
+ <20250220234458.4bf8dcba@foxbook>
+Content-Language: en-US
+From: Mathias Nyman <mathias.nyman@linux.intel.com>
+In-Reply-To: <20250220234458.4bf8dcba@foxbook>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 
-tree/branch: https://git.kernel.org/pub/scm/linux/kernel/git/gregkh/usb.git usb-linus
-branch HEAD: c783e1258f29c5caac9eea0aea6b172870f1baf8  usb: gadget: Fix setting self-powered state on suspend
+On 21.2.2025 0.44, Michal Pecio wrote:
+> This function checks if the queued Set Deq pointer really belongs to the
+> ring it was queued on and updates the ring's dequeue state. It also used
+> to count free TRBs, but that part has been removed.
+> 
+> The code is needlessly complex and inefficent, walking TRBs one by one.
+> And it could "jump off the segment into la-la-land" if a segment doesn't
+> end with a link TRB or if the link points to another link.
+> 
+> Make if faster, simpler and more robust. Upgrade xhci_dbg() to xhci_err()
+> because this situation is a bug and shouldn't happen.
+> 
+> Signed-off-by: Michal Pecio <michal.pecio@gmail.com>
 
-Unverified Warning (likely false positive, kindly check if interested):
 
-    drivers/usb/gadget/composite.c:1054 set_config() error: we previously assumed 'c' could be null (see line 983)
-    drivers/usb/gadget/composite.c:2619 composite_suspend() error: we previously assumed 'cdev->config' could be null (see line 2608)
+update_ring_for_set_deq_completion() isn't needed anymore.
+Niklas already wrote a patch to remove it.
 
-Warning ids grouped by kconfigs:
+It's sitting in my for-usb-next branch
 
-recent_errors
-`-- x86_64-randconfig-161-20250220
-    |-- drivers-usb-gadget-composite.c-composite_suspend()-error:we-previously-assumed-cdev-config-could-be-null-(see-line-)
-    `-- drivers-usb-gadget-composite.c-set_config()-error:we-previously-assumed-c-could-be-null-(see-line-)
+https://git.kernel.org/pub/scm/linux/kernel/git/mnyman/xhci.git/commit/?h=for-usb-next&id=ee7dab196a7dfc48a1608274329323cb10b4340d
 
-elapsed time: 1451m
+Thanks
+Mathias
 
-configs tested: 88
-configs skipped: 1
-
-The following configs have been built successfully.
-More configs may be tested in the coming days.
-
-tested configs:
-alpha                            allnoconfig    gcc-14.2.0
-alpha                           allyesconfig    gcc-14.2.0
-arc                             allmodconfig    gcc-13.2.0
-arc                              allnoconfig    gcc-13.2.0
-arc                             allyesconfig    gcc-13.2.0
-arc                  randconfig-001-20250220    gcc-13.2.0
-arc                  randconfig-002-20250220    gcc-13.2.0
-arm                             allmodconfig    gcc-14.2.0
-arm                              allnoconfig    clang-17
-arm                             allyesconfig    gcc-14.2.0
-arm                  randconfig-001-20250220    gcc-14.2.0
-arm                  randconfig-002-20250220    gcc-14.2.0
-arm                  randconfig-003-20250220    gcc-14.2.0
-arm                  randconfig-004-20250220    gcc-14.2.0
-arm64                           allmodconfig    clang-18
-arm64                            allnoconfig    gcc-14.2.0
-arm64                randconfig-001-20250220    gcc-14.2.0
-arm64                randconfig-002-20250220    gcc-14.2.0
-arm64                randconfig-003-20250220    clang-21
-arm64                randconfig-004-20250220    gcc-14.2.0
-csky                             allnoconfig    gcc-14.2.0
-csky                 randconfig-001-20250221    gcc-14.2.0
-csky                 randconfig-002-20250221    gcc-14.2.0
-hexagon                         allmodconfig    clang-21
-hexagon                          allnoconfig    clang-21
-hexagon                         allyesconfig    clang-18
-hexagon              randconfig-001-20250221    clang-21
-hexagon              randconfig-002-20250221    clang-21
-i386                            allmodconfig    gcc-12
-i386                             allnoconfig    gcc-12
-i386                            allyesconfig    gcc-12
-i386       buildonly-randconfig-001-20250220    gcc-12
-i386       buildonly-randconfig-002-20250220    gcc-12
-i386       buildonly-randconfig-003-20250220    gcc-12
-i386       buildonly-randconfig-004-20250220    clang-19
-i386       buildonly-randconfig-005-20250220    clang-19
-i386       buildonly-randconfig-006-20250220    clang-19
-i386                               defconfig    clang-19
-loongarch                        allnoconfig    gcc-14.2.0
-loongarch            randconfig-001-20250221    gcc-14.2.0
-loongarch            randconfig-002-20250221    gcc-14.2.0
-nios2                randconfig-001-20250221    gcc-14.2.0
-nios2                randconfig-002-20250221    gcc-14.2.0
-openrisc                        allyesconfig    gcc-14.2.0
-parisc                          allmodconfig    gcc-14.2.0
-parisc                          allyesconfig    gcc-14.2.0
-parisc               randconfig-001-20250221    gcc-14.2.0
-parisc               randconfig-002-20250221    gcc-14.2.0
-powerpc                         allmodconfig    gcc-14.2.0
-powerpc                         allyesconfig    clang-16
-powerpc              randconfig-001-20250221    clang-21
-powerpc              randconfig-002-20250221    clang-21
-powerpc              randconfig-003-20250221    clang-17
-powerpc64            randconfig-001-20250221    clang-21
-powerpc64            randconfig-002-20250221    clang-21
-powerpc64            randconfig-003-20250221    clang-19
-riscv                           allmodconfig    clang-21
-riscv                           allyesconfig    clang-21
-riscv                randconfig-001-20250220    gcc-14.2.0
-riscv                randconfig-002-20250220    clang-21
-s390                            allmodconfig    clang-19
-s390                            allyesconfig    gcc-14.2.0
-s390                 randconfig-001-20250220    clang-19
-s390                 randconfig-002-20250220    gcc-14.2.0
-sh                              allmodconfig    gcc-14.2.0
-sh                              allyesconfig    gcc-14.2.0
-sh                   randconfig-001-20250220    gcc-14.2.0
-sh                   randconfig-002-20250220    gcc-14.2.0
-sparc                           allmodconfig    gcc-14.2.0
-sparc                randconfig-001-20250220    gcc-14.2.0
-sparc                randconfig-002-20250220    gcc-14.2.0
-sparc64              randconfig-001-20250220    gcc-14.2.0
-sparc64              randconfig-002-20250220    gcc-14.2.0
-um                              allmodconfig    clang-21
-um                              allyesconfig    gcc-12
-um                   randconfig-001-20250220    gcc-12
-um                   randconfig-002-20250220    gcc-12
-x86_64                           allnoconfig    clang-19
-x86_64                          allyesconfig    clang-19
-x86_64     buildonly-randconfig-001-20250220    gcc-12
-x86_64     buildonly-randconfig-002-20250220    gcc-12
-x86_64     buildonly-randconfig-003-20250220    gcc-12
-x86_64     buildonly-randconfig-004-20250220    gcc-12
-x86_64     buildonly-randconfig-005-20250220    gcc-12
-x86_64     buildonly-randconfig-006-20250220    gcc-12
-x86_64                             defconfig    gcc-11
-xtensa               randconfig-001-20250220    gcc-14.2.0
-xtensa               randconfig-002-20250220    gcc-14.2.0
-
---
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
