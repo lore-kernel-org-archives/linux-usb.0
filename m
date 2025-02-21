@@ -1,139 +1,124 @@
-Received: from codeconstruct.com.au (pi.codeconstruct.com.au [203.29.241.158])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-ej1-f48.google.com (mail-ej1-f48.google.com [209.85.218.48])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D5EBF192D96;
-	Fri, 21 Feb 2025 00:57:08 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=203.29.241.158
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F071478F3A;
+	Fri, 21 Feb 2025 01:17:18 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.48
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1740099431; cv=none; b=GsUfSEOmK5Q8n9XwmTkE+zKLp3bN+rFuOeOMKGWu5VOXAb/7cqrzbpYHoH8eS5/yZ/9ifJgoukisKOwHR4yI8Ak2nX19MqCtA1tk8cMCode7lh+HyXzhdO5BJlS6y7SNMHM6eH4b6ph2dv+9X4rrwlmStQbjLwyGwfpXOjaiQsQ=
+	t=1740100640; cv=none; b=Hm9o7YQU97dL8ZPkcc2XWRiU2YaSr+Qg8FwjHGX3NKM475Csmvj5Tr1ipENZ/56HuMp39HxIJZeBegEsnOHmO27QzuQ2UlwDvkdnf+0oXRyWcw820N1gMgbzo6/7QIJKJraDm6hEoxHYsXcMTOIMJhw9AAEgNRHeh7EVN5rIja0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1740099431; c=relaxed/simple;
-	bh=Mhst66kmKrIm+sg1YPCExZpth9I5Pw0L0khRNjmjk3w=;
-	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
-	 In-Reply-To:To:Cc; b=jZqnBXXbc46ksQqcNzev9Lz0+ki6PoVUcumMwGx3HU1GZnZOsmeB2xAU1K05IwLQaPyNLB0NrJ8ypnOpaVkfeyrVm706VJ4ahMfiZDGN+I4TBFBThf/wB7uasUjgiTQ/V0+Act2Co2m1m2OoSFjplVc6uHGbqyz4dh2zZQwK1wU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=codeconstruct.com.au; spf=pass smtp.mailfrom=codeconstruct.com.au; dkim=pass (2048-bit key) header.d=codeconstruct.com.au header.i=@codeconstruct.com.au header.b=bIAZFRGl; arc=none smtp.client-ip=203.29.241.158
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=codeconstruct.com.au
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=codeconstruct.com.au
+	s=arc-20240116; t=1740100640; c=relaxed/simple;
+	bh=eNDF3KzeU9FTB0eW035Ua9FeFcYDtA1ElcYayck/FgA=;
+	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=fnP8PDFyDNGXWaCMZvE34WnHi3qKJIxVkhZtKqHnXUQTOpUAwnj3D11kqbFiUzkZcgpg1Qlk+3FeqeyYDYz7pscayf0OTVe5RPkAZygg7JzDZDOf8oMMTF1ZgJlt4VLsQKlhA0d4sAR+OQ4kAFyFoK7C7HZPkW9KONL2UyL9sbM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=eBo32tUd; arc=none smtp.client-ip=209.85.218.48
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=codeconstruct.com.au header.i=@codeconstruct.com.au header.b="bIAZFRGl"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="eBo32tUd"
+Received: by mail-ej1-f48.google.com with SMTP id a640c23a62f3a-aaec111762bso358372566b.2;
+        Thu, 20 Feb 2025 17:17:18 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=codeconstruct.com.au; s=2022a; t=1740099426;
-	bh=j7P+g+DfPE1ixwT6fo+dp4YcW+7/Cg7z3OsGUGHtROI=;
-	h=From:Date:Subject:References:In-Reply-To:To:Cc;
-	b=bIAZFRGlcE1EhzdtYn0u/kgc09CwnkPDUh5eCjDDfD+a0K2JF5vwetNpkH9tddYsg
-	 4hMidSfiobwH/9+1YlgNdTAGbkfbzpZhwFzLqbS2hneEycOPr1IzUokfD/HYZAXgiz
-	 3j3t1S+VHIdh3H/Wjjrw/9x2g/isFSVozETacVBmijNswhZjmGgX4YWdVfEHhVZppN
-	 9sTi2ojDXH25vdmn7djme8bGc/JcfFeKkc6SvO7nwczjDuAPBgJUiBIG+acbzxXYwa
-	 siLbG2lYCnWmVVFZmDCPyIC8uuLZFOZdkgVlttPGxHQgQEBwKIf4n67DlOt0ZBXZnr
-	 GtdVP16yKn4hA==
-Received: by codeconstruct.com.au (Postfix, from userid 10000)
-	id A486276C0A; Fri, 21 Feb 2025 08:57:06 +0800 (AWST)
-From: Jeremy Kerr <jk@codeconstruct.com.au>
-Date: Fri, 21 Feb 2025 08:56:57 +0800
-Subject: [PATCH net-next v3 1/2] usb: Add base USB MCTP definitions
+        d=gmail.com; s=20230601; t=1740100637; x=1740705437; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:subject:cc:to:from:date:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=MNYf8gvUKIK6z2omU7NjF3p1iZczAqWaT1UYqslXvvQ=;
+        b=eBo32tUdE/p5LsmalM6G0neyT6lwJ0tAVfcYcR6/bMwg1a66ldDJ3nWC/K6Lh9IymY
+         M6oB8H9coLFszZfKkBk+R5BFW1a+IvQ9+gLIWG3Cf9nbHWWQUDK9eXCNRl/y2J21OZ5t
+         ZlV56hCHbAeUMFEe70WCbe3w61Y0amS2r/98IhCBYWDZulf8mLxq+tsIHOz0KeRCpNwc
+         vhfl8UKoEQWtQmNTehmgq/lXLoN02ZScYPl71a6Op9lEk0Z9a1k2NwcHWsqMqYrbcnaf
+         QS8BSZVFKsGRgpssrEtIqLLno0Usi2sgrAir1/2i4jUy5CZgD84Y/fxVnR8QqERoBExo
+         nABQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1740100637; x=1740705437;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:subject:cc:to:from:date:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=MNYf8gvUKIK6z2omU7NjF3p1iZczAqWaT1UYqslXvvQ=;
+        b=lj8qCe96/eh616ZwTrzEwqrtNAkJShS1bngx00YpLjqMgMnUsSPKHTokh3uDQEDXkS
+         kEEF5z8i/OnpNLxpn8xVxO/THS7Wckvu0oBtwdplObgxT5zV8TQ/SBf0MMSu7W2+GNCN
+         2EmaPCNRLwAdZFidyOtVkv8w5MfV1E3wNaSiiUwiq80mPe+y2BfTA2LMYGIHJInKHqsd
+         Po9RbEtmU/MnvRbbV8QRsH9F6CjW7sberV6IzGJbsTYBRnNYp0QBswBz3rxGDT7lRdwc
+         3tU831IT0A8Ix3nbOcgIzyHMifUGrQh41et7XE3F85ZgDlUAiOH7ryRgYc2mYyGIJ9n6
+         21oA==
+X-Forwarded-Encrypted: i=1; AJvYcCV9rCE9u/e56hFFe1vPo0h2MTiostIRkObdKKKC+dtHd8rHiXCdQicd6xvHI1njvW4fumCffH5P8GXX@vger.kernel.org, AJvYcCWYYZd1ZdYZF7VrhuT48DmVc2P6/Obopv5iCALAm+6FXIe3H+2dYg6HH/7QdmxJbe35/8bQ22UuSKi7ImE=@vger.kernel.org
+X-Gm-Message-State: AOJu0YyvBXqsQO30nDCnbLtovGePK1bd77hYOHIlqp1mf9gcOYpLgPeu
+	0ZWkkZr+mRS78tw3q02cfPH3kInHOdnv8TZv5WOZEna5VrS0CCLO+E90YQ==
+X-Gm-Gg: ASbGncuDm3KbG6NWsje5LePSGfiCeeAt11acpwGDXVgBgdC7cCwtFtshiatAITvflSL
+	Cy4VLw3itQZ1sUiCH3/Dg3RN39efr8Cc2btSSEwGfjLiAwHUefg4cwAaTBnT2c9ytTZ6Jv0STYE
+	BzP3K0L0etO/6h6ZG3ym/Nm9oEO1eWr8fPIkHY6XeLQwsWHSrNGWolbqCKVKSysT2qnLNdzPp6Y
+	qsdZZe+G392x0hbVCjOfS2kz1g98YNF0KupwCxh3E+4JmaRquJiRhGWn5hf6m62IaGMyu9X5LPm
+	Gg7XLecnQsq8S4hx5ineoQEORo20mX7+
+X-Google-Smtp-Source: AGHT+IFjBI2eeNQdYSu40Bn0PtNyNd8RBK+113npY8OkqddVeS1rr/8D6XY5mZU/TA2EeL2+RORNdQ==
+X-Received: by 2002:a17:907:948c:b0:abb:fcbb:ab20 with SMTP id a640c23a62f3a-abc09aa96bfmr156838066b.22.1740100636861;
+        Thu, 20 Feb 2025 17:17:16 -0800 (PST)
+Received: from foxbook (adtt173.neoplus.adsl.tpnet.pl. [79.185.231.173])
+        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-abb989d89edsm894200066b.81.2025.02.20.17.17.15
+        (version=TLS1_2 cipher=AES128-SHA bits=128/128);
+        Thu, 20 Feb 2025 17:17:16 -0800 (PST)
+Date: Fri, 21 Feb 2025 02:17:12 +0100
+From: =?UTF-8?B?TWljaGHFgg==?= Pecio <michal.pecio@gmail.com>
+To: Mathias Nyman <mathias.nyman@linux.intel.com>
+Cc: Mathias Nyman <mathias.nyman@intel.com>, Greg Kroah-Hartman
+ <gregkh@linuxfoundation.org>, Niklas Neronin
+ <niklas.neronin@linux.intel.com>, linux-usb@vger.kernel.org,
+ linux-kernel@vger.kernel.org
+Subject: Re: [PATCH 5/5] usb: xhci: Skip only one TD on Ring
+ Underrun/Overrun
+Message-ID: <20250221021712.48c07fe0@foxbook>
+In-Reply-To: <7bb25848-c80e-4ba8-8790-8628951806b3@linux.intel.com>
+References: <20250210083718.2dd337c3@foxbook>
+	<20250210084220.3e5414e9@foxbook>
+	<7bb25848-c80e-4ba8-8790-8628951806b3@linux.intel.com>
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
+Content-Type: text/plain; charset=US-ASCII
 Content-Transfer-Encoding: 7bit
-Message-Id: <20250221-dev-mctp-usb-v3-1-3353030fe9cc@codeconstruct.com.au>
-References: <20250221-dev-mctp-usb-v3-0-3353030fe9cc@codeconstruct.com.au>
-In-Reply-To: <20250221-dev-mctp-usb-v3-0-3353030fe9cc@codeconstruct.com.au>
-To: Matt Johnston <matt@codeconstruct.com.au>, 
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>, 
- Andrew Lunn <andrew+netdev@lunn.ch>, 
- "David S. Miller" <davem@davemloft.net>, Eric Dumazet <edumazet@google.com>, 
- Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>
-Cc: netdev@vger.kernel.org, linux-usb@vger.kernel.org, 
- Santosh Puranik <spuranik@nvidia.com>
-X-Mailer: b4 0.14.0
 
-Upcoming changes will add a USB host (and later gadget) driver for the
-MCTP-over-USB protocol. Add a header that provides common definitions
-for protocol support: the packet header format and a few framing
-definitions. Add a define for the MCTP class code, as per
-https://usb.org/defined-class-codes.
+On Tue, 11 Feb 2025 17:41:39 +0200, Mathias Nyman wrote:
+> On 10.2.2025 9.42, Michal Pecio wrote:
+> > +				if (ring_xrun_event) {
+> > +					/*
+> > +					 * If we are here, we are on xHCI 1.0 host with no idea how
+> > +					 * many TDs were missed and where the xrun occurred. Don't
+> > +					 * skip more TDs, they may have been queued after the xrun.
+> > +					 */
+> > +					xhci_dbg(xhci, "Skipped one TD for slot %u ep %u",
+> > +							slot_id, ep_index);
+> > +					break;  
+> 
+> This would be the same as return 0; right?
+> 
+> Whole series looks good, I'll add it
 
-Signed-off-by: Jeremy Kerr <jk@codeconstruct.com.au>
-Acked-by: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+I hope you haven't sent it out yet because I found two minor issues.
 
----
-v3:
- - __u8 -> u8
- - GPL-2 rather than 2+
-v2:
- - add reference & URL to DSP0283
- - update copyright year
----
- MAINTAINERS                  |  1 +
- include/linux/usb/mctp-usb.h | 30 ++++++++++++++++++++++++++++++
- include/uapi/linux/usb/ch9.h |  1 +
- 3 files changed, 32 insertions(+)
 
-diff --git a/MAINTAINERS b/MAINTAINERS
-index 67665d9dd536..e7b326dba9a9 100644
---- a/MAINTAINERS
-+++ b/MAINTAINERS
-@@ -13903,6 +13903,7 @@ L:	netdev@vger.kernel.org
- S:	Maintained
- F:	Documentation/networking/mctp.rst
- F:	drivers/net/mctp/
-+F:	include/linux/usb/mctp-usb.h
- F:	include/net/mctp.h
- F:	include/net/mctpdevice.h
- F:	include/net/netns/mctp.h
-diff --git a/include/linux/usb/mctp-usb.h b/include/linux/usb/mctp-usb.h
-new file mode 100644
-index 000000000000..a2f6f1e04efb
---- /dev/null
-+++ b/include/linux/usb/mctp-usb.h
-@@ -0,0 +1,30 @@
-+/* SPDX-License-Identifier: GPL-2.0 */
-+/*
-+ * mctp-usb.h - MCTP USB transport binding: common definitions,
-+ * based on DMTF0283 specification:
-+ * https://www.dmtf.org/sites/default/files/standards/documents/DSP0283_1.0.1.pdf
-+ *
-+ * These are protocol-level definitions, that may be shared between host
-+ * and gadget drivers.
-+ *
-+ * Copyright (C) 2024-2025 Code Construct Pty Ltd
-+ */
-+
-+#ifndef __LINUX_USB_MCTP_USB_H
-+#define __LINUX_USB_MCTP_USB_H
-+
-+#include <linux/types.h>
-+
-+struct mctp_usb_hdr {
-+	__be16	id;
-+	u8	rsvd;
-+	u8	len;
-+} __packed;
-+
-+#define MCTP_USB_XFER_SIZE	512
-+#define MCTP_USB_BTU		68
-+#define MCTP_USB_MTU_MIN	MCTP_USB_BTU
-+#define MCTP_USB_MTU_MAX	(U8_MAX - sizeof(struct mctp_usb_hdr))
-+#define MCTP_USB_DMTF_ID	0x1ab4
-+
-+#endif /*  __LINUX_USB_MCTP_USB_H */
-diff --git a/include/uapi/linux/usb/ch9.h b/include/uapi/linux/usb/ch9.h
-index 91f0f7e214a5..052290652046 100644
---- a/include/uapi/linux/usb/ch9.h
-+++ b/include/uapi/linux/usb/ch9.h
-@@ -330,6 +330,7 @@ struct usb_device_descriptor {
- #define USB_CLASS_AUDIO_VIDEO		0x10
- #define USB_CLASS_BILLBOARD		0x11
- #define USB_CLASS_USB_TYPE_C_BRIDGE	0x12
-+#define USB_CLASS_MCTP			0x14
- #define USB_CLASS_MISC			0xef
- #define USB_CLASS_APP_SPEC		0xfe
- #define USB_SUBCLASS_DFU			0x01
+Firstly,
+[PATCH 3/5] usb: xhci: Fix isochronous Ring Underrun/Overrun event handling
 
--- 
-2.39.5
+increases the number of xrun events that we handle but doesn't suppress
+the "Event TRB for slot %u ep %u with no TDs queued\n" warning, so the
+warning started to show up sometimes for no good reason. The fix is to
+add ring_xrun_event to the list of exception for this warning.
 
+
+Secondly,
+[PATCH 5/5] usb: xhci: Skip only one TD on Ring Underrun/Overrun
+
+can be improved to clear the skip flag if skipped TD was the only one.
+This eliminates any confusion and risk of skipping bugs in the future.
+The change is a matter of moving that code to a different branch.
+
+I also changed 'break' to 'return 0' because it gets hard to follow at
+this level of indentation.
+
+
+I'll send a v2 of those two patches. Sorry for any inconvenience.
+
+Michal
