@@ -1,136 +1,117 @@
-Received: from metis.whiteo.stw.pengutronix.de (metis.whiteo.stw.pengutronix.de [185.203.201.7])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BCFB21FAC57
-	for <linux-usb@vger.kernel.org>; Fri, 21 Feb 2025 08:09:29 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.203.201.7
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8033220103F
+	for <linux-usb@vger.kernel.org>; Fri, 21 Feb 2025 08:52:10 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1740125371; cv=none; b=k2r35NBGBbOG7pGnsJheMDPQm8Bmeb1UnKVqidi4EHyexg79zC345Ido+L55YY7xoN0SQ7/3wJCg584GmCqrSe1af15dITZuBPP1IMvctqsIPXU/XIM+LLEklMMGIOssXEnpLEqZwn2zS3BkMhc+jXhF9XQYT7lVNlhV6EHRTxY=
+	t=1740127932; cv=none; b=Ma9ka7vMOCyqUcqsZUj8gZdVo0TJFzWvdU41qBD5qRFr7Xs2AEIRiE00jzGyPStGQ6kWkOVvph5Y2Eh27qe2IQvE8pz4POncQTXJruqOGjyUR4x1xWfh4HFUBIvGyQU/LNqrxU88N9NgG7xfd43zfvk+B9cahFS5lkiTHPGQsyg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1740125371; c=relaxed/simple;
-	bh=W2+lqFB3yvUvKTgq6OrbULXW2hoBiT0kzSTRg8T/j5c=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=EPr+0Amwm/ArizEl66/DWZW8XJUhOSYUQOs74NmRtjCBanaun5tsUFqOu5VOpGSU3CvUBiHgGPV19nmmNdoe4GSbp8BEXak92Ec5qG74wlgMEH1Qc17VvbgKwl+W+RHDAk9am7kTIrf6DynZex1H2PKk6ROnHDpwMgBdCyWIXhE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=pengutronix.de; spf=pass smtp.mailfrom=pengutronix.de; arc=none smtp.client-ip=185.203.201.7
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=pengutronix.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=pengutronix.de
-Received: from drehscheibe.grey.stw.pengutronix.de ([2a0a:edc0:0:c01:1d::a2])
-	by metis.whiteo.stw.pengutronix.de with esmtps (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
-	(Exim 4.92)
-	(envelope-from <mkl@pengutronix.de>)
-	id 1tlO5e-0007gh-LR; Fri, 21 Feb 2025 09:08:54 +0100
-Received: from moin.white.stw.pengutronix.de ([2a0a:edc0:0:b01:1d::7b] helo=bjornoya.blackshift.org)
-	by drehscheibe.grey.stw.pengutronix.de with esmtps  (TLS1.3) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
-	(Exim 4.96)
-	(envelope-from <mkl@pengutronix.de>)
-	id 1tlO5b-0024OL-2S;
-	Fri, 21 Feb 2025 09:08:51 +0100
-Received: from pengutronix.de (p5b164285.dip0.t-ipconnect.de [91.22.66.133])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange ECDHE (prime256v1) server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(Client did not present a certificate)
-	(Authenticated sender: mkl-all@blackshift.org)
-	by smtp.blackshift.org (Postfix) with ESMTPSA id 585363C8315;
-	Fri, 21 Feb 2025 08:08:51 +0000 (UTC)
-Date: Fri, 21 Feb 2025 09:08:51 +0100
-From: Marc Kleine-Budde <mkl@pengutronix.de>
-To: Ming Yu <a0282524688@gmail.com>
-Cc: tmyu0@nuvoton.com, lee@kernel.org, linus.walleij@linaro.org, 
-	brgl@bgdev.pl, andi.shyti@kernel.org, mailhol.vincent@wanadoo.fr, 
-	andrew+netdev@lunn.ch, davem@davemloft.net, edumazet@google.com, kuba@kernel.org, 
-	pabeni@redhat.com, wim@linux-watchdog.org, linux@roeck-us.net, jdelvare@suse.com, 
-	alexandre.belloni@bootlin.com, linux-kernel@vger.kernel.org, linux-gpio@vger.kernel.org, 
-	linux-i2c@vger.kernel.org, linux-can@vger.kernel.org, netdev@vger.kernel.org, 
-	linux-watchdog@vger.kernel.org, linux-hwmon@vger.kernel.org, linux-rtc@vger.kernel.org, 
-	linux-usb@vger.kernel.org
-Subject: Re: [PATCH v7 4/7] can: Add Nuvoton NCT6694 CANFD support
-Message-ID: <20250221-light-neat-doberman-1166a5-mkl@pengutronix.de>
-References: <20250207074502.1055111-1-a0282524688@gmail.com>
- <20250207074502.1055111-5-a0282524688@gmail.com>
- <20250207-savvy-beaver-of-culture-45698d-mkl@pengutronix.de>
- <CAOoeyxX4guHzUap1ieQ_L3PrvpBAYbMiQKrb6ko=MGsF5RcXLg@mail.gmail.com>
+	s=arc-20240116; t=1740127932; c=relaxed/simple;
+	bh=6bvVGaGnta9Tej9ZF83+g21NjrRB16+DjPTG5hUNtnE=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=klZkMgwDNxbjaBkbPwcVpj4FvnfCQFtyEOVBd/pELfhUvIu7ETimMdKeiDsJIl5gzXf6vF9UrZRSQlVtqPnnJwnjNDtEabKMNdxnoqNTYvp9e2o4SGIDa99NyWLoOeLPMGVG6vf15zwjSTBt7deqV4spDIC6bboK533UtdlG3xI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=none smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=mQNjrOE1; arc=none smtp.client-ip=198.175.65.18
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=linux.intel.com
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="mQNjrOE1"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1740127930; x=1771663930;
+  h=message-id:date:mime-version:subject:to:cc:references:
+   from:in-reply-to:content-transfer-encoding;
+  bh=6bvVGaGnta9Tej9ZF83+g21NjrRB16+DjPTG5hUNtnE=;
+  b=mQNjrOE1Z7zJGVrSZF/4EpH+/34SqM8W9zkoYLahuFccU4wBgYZJW2bI
+   EEdLWbO20bpdH44bln7K/JuuplvWKtMfkLHCiDIkCQ9dkRrafMptuneB8
+   bTo8Q9Mzu6JtlK+qWtonKveq+b0KkZJ25GWRkj25ghBkE4ay9AOZxVUcK
+   A4NOUnQ2txocVO/9i1XmWWe9pHunXlMkKIPz8GiLa4WQd2A8EUHNhsn3y
+   0H4igRB+1lmDQl3di3cDWJXHtG1+a4Q/rYk0qucDHoIgaIJQXW5bHgRg1
+   by/CEG/tYDYVqZRsEyOiLsjIAwhz3XwM6gEsaUJdN4cViOU3R3RaBwSfN
+   A==;
+X-CSE-ConnectionGUID: 43wEPHGaRPWa1CULZEtn2w==
+X-CSE-MsgGUID: Oo4hRxj+SbSbANGwLmsfgw==
+X-IronPort-AV: E=McAfee;i="6700,10204,11314"; a="41145863"
+X-IronPort-AV: E=Sophos;i="6.12,310,1728975600"; 
+   d="scan'208";a="41145863"
+Received: from fmviesa005.fm.intel.com ([10.60.135.145])
+  by orvoesa110.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 21 Feb 2025 00:52:10 -0800
+X-CSE-ConnectionGUID: bMHSOsHDTjGS0I1LxnaFlg==
+X-CSE-MsgGUID: y2dVYvcIT3GzQqTJByr74g==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.13,304,1732608000"; 
+   d="scan'208";a="119932414"
+Received: from unknown (HELO [10.237.72.199]) ([10.237.72.199])
+  by fmviesa005.fm.intel.com with ESMTP; 21 Feb 2025 00:52:08 -0800
+Message-ID: <01300a1a-a2f1-4816-9341-933ef236e887@linux.intel.com>
+Date: Fri, 21 Feb 2025 10:53:08 +0200
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-	protocol="application/pgp-signature"; boundary="tjblaazmatqfq76v"
-Content-Disposition: inline
-In-Reply-To: <CAOoeyxX4guHzUap1ieQ_L3PrvpBAYbMiQKrb6ko=MGsF5RcXLg@mail.gmail.com>
-X-SA-Exim-Connect-IP: 2a0a:edc0:0:c01:1d::a2
-X-SA-Exim-Mail-From: mkl@pengutronix.de
-X-SA-Exim-Scanned: No (on metis.whiteo.stw.pengutronix.de); SAEximRunCond expanded to false
-X-PTX-Original-Recipient: linux-usb@vger.kernel.org
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH] USB: core: Add eUSB2 descriptor and parsing in USB core
+To: Greg KH <gregkh@linuxfoundation.org>
+Cc: linux-usb@vger.kernel.org, Kannappan R <r.kannappan@intel.com>,
+ Amardeep Rai <amardeep.rai@intel.com>
+References: <20250220141339.1939448-1-mathias.nyman@linux.intel.com>
+ <2025022056-confess-unlovely-da5a@gregkh>
+Content-Language: en-US
+From: Mathias Nyman <mathias.nyman@linux.intel.com>
+In-Reply-To: <2025022056-confess-unlovely-da5a@gregkh>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 
+On 20.2.2025 18.35, Greg KH wrote:
+> On Thu, Feb 20, 2025 at 04:13:39PM +0200, Mathias Nyman wrote:
+>> From: Kannappan R <r.kannappan@intel.com>
+>> --->> @@ -64,9 +65,10 @@ struct ep_device;
+>>    * descriptor within an active interface in a given USB configuration.
+>>    */
+>>   struct usb_host_endpoint {
+>> -	struct usb_endpoint_descriptor		desc;
+>> -	struct usb_ss_ep_comp_descriptor	ss_ep_comp;
+>> -	struct usb_ssp_isoc_ep_comp_descriptor	ssp_isoc_ep_comp;
+>> +	struct usb_endpoint_descriptor			desc;
+>> +	struct usb_ss_ep_comp_descriptor		ss_ep_comp;
+>> +	struct usb_ssp_isoc_ep_comp_descriptor		ssp_isoc_ep_comp;
+>> +	struct usb_eusb2_isoc_ep_comp_descriptor	eusb2_isoc_ep_comp;
+> 
+> No real need to indent any of these, but oh well :)
 
---tjblaazmatqfq76v
-Content-Type: text/plain; protected-headers=v1; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
-Subject: Re: [PATCH v7 4/7] can: Add Nuvoton NCT6694 CANFD support
-MIME-Version: 1.0
+It looked odd when adding one new variable off by a space compared to all the
+other neatly tab-aligned variables. So I shifted them all right.
 
-On 21.02.2025 16:01:07, Ming Yu wrote:
-> Hi Marc,
->=20
-> Marc Kleine-Budde <mkl@pengutronix.de> =E6=96=BC 2025=E5=B9=B42=E6=9C=887=
-=E6=97=A5 =E9=80=B1=E4=BA=94 =E4=B8=8B=E5=8D=888:15=E5=AF=AB=E9=81=93=EF=BC=
-=9A
-> >
-> > > +static irqreturn_t nct6694_can_irq(int irq, void *data)
-> > > +{
-> > > +     struct net_device *ndev =3D data;
-> > > +     struct nct6694_can_priv *priv =3D netdev_priv(ndev);
-> > > +     struct nct6694_can_event *evt =3D priv->event;
-> > > +     struct nct6694_cmd_header cmd_hd =3D {
-> > > +             .mod =3D NCT6694_CAN_MOD,
-> > > +             .cmd =3D NCT6694_CAN_EVENT,
-> > > +             .sel =3D NCT6694_CAN_EVENT_SEL(priv->can_idx, NCT6694_C=
-AN_EVENT_MASK),
-> > > +             .len =3D cpu_to_le16(sizeof(priv->event))
-> > > +     };
-> > > +     irqreturn_t handled =3D IRQ_NONE;
-> > > +     int can_idx =3D priv->can_idx;
-> > > +     int ret;
-> >
-> > it would make sense to have a event pointer here instead of the can_idx?
-> >
-> >         const struct nct6694_can_event *event =3D &priv->event[priv->ca=
-n_idx];
-> >
-> The CAN Event command always returns 16bytes: the first 8 bytes
-> correspond to the CAN0 event, and the last 8 bytes correspond to the
-> CAN1 event. Therefore, the event pointer here refers to both event
-> buffers.
+>> +/* USB_DT_EUSB2_ISOC_ENDPOINT_COMP: eUSB2 Isoch Endpoint Companion descriptor */
+>> +struct usb_eusb2_isoc_ep_comp_descriptor {
+>> +	__u8	bLength;
+>> +	__u8	bDescriptorType;
+>> +	__le16	wMaxPacketSize;
+>> +	__le32	dwBytesPerInterval;
+>> +} __attribute__ ((packed));
+>> +
+>> +#define USB_DT_EUSB2_ISOC_EP_COMP_SIZE	8
+> 
+> Can't we use a sizeof() for this as well?  I guess we don't do it for
+> other structures, so maybe not.
+> 
+> Anyway, this looks fine, if you want to just send an update for the
+> 0x0220 later on if you think it's needed, please do.
 
-Yes, but in the following code uses "priv->event[can_idx]" several
-times, this is why I proposed to have a dedicated "struct
-nct6694_can_event *event" variable.
+Thanks for looking at this.
 
-regards,
-Marc
+We did consider defining 0x0220, but checked that usb core uses magic numbers
+for bcdUSB in other places:
 
---=20
-Pengutronix e.K.                 | Marc Kleine-Budde          |
-Embedded Linux                   | https://www.pengutronix.de |
-Vertretung N=C3=BCrnberg              | Phone: +49-5121-206917-129 |
-Amtsgericht Hildesheim, HRA 2686 | Fax:   +49-5121-206917-9   |
+hcd.c:  if (le16_to_cpu(usb_dev->descriptor.bcdUSB) >= 0x0201) {
+hub.c:                  (le16_to_cpu(udev->descriptor.bcdUSB) < 0x0300)) {
+hub.c:  if (le16_to_cpu(udev->descriptor.bcdUSB) >= 0x0201) {
+hub.c:          if (le16_to_cpu(udev->descriptor.bcdUSB) >= 0x0200
+hub.h:          le16_to_cpu(hdev->descriptor.bcdUSB) >= 0x0310 &&
 
---tjblaazmatqfq76v
-Content-Type: application/pgp-signature; name="signature.asc"
+Makes sense to add a separate patch later on that define all these.
 
------BEGIN PGP SIGNATURE-----
-
-iQEzBAABCgAdFiEEn/sM2K9nqF/8FWzzDHRl3/mQkZwFAme4NJAACgkQDHRl3/mQ
-kZwgawgAqcasz/q2z0wDldtBADvSGWJpZYReThQnX06QjplHpEQwiaalyPWXJBK0
-IRkuBRHEj0mNahTZgsl731lg+Y+kz3DxS7QBVJIIKvuq4MebGerv+g96FJHQ/HPE
-6m7vE/Y46rSC5PJQpZgxL3K0V/L8NmFxDCMQjYOFaXvHvwG+4bgPi4vCmCElJYRn
-iOMtP7NhVwmP9c1YcFlraOBQ2exHFPrOnHA2J9myAewvFnXqLZRJDNQrEohPm7ZJ
-jlHgOB7cJYCzL8wed06r9RxSq6ZPHF3tPxCL6n5nVKgmxwTOdW2S8Mk1Z4LANrjY
-bjwfdAqvpMPU/EQQkTxSxIadWDQSWQ==
-=aqP2
------END PGP SIGNATURE-----
-
---tjblaazmatqfq76v--
+Thanks
+Mathias
