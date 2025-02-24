@@ -1,109 +1,162 @@
-Received: from mail-ej1-f50.google.com (mail-ej1-f50.google.com [209.85.218.50])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C6E048494;
-	Mon, 24 Feb 2025 21:01:55 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.50
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B00371EEA4E;
+	Mon, 24 Feb 2025 23:22:00 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1740430917; cv=none; b=hxo6Ib6A8ROZ4a1o5bjXGrG41ziD+dpFs6eKEmR/A3uRI64J0x4TVXia0r1hOvOTBIVsA5VQNgJkF/8EL3wq4ISUKdvlsYvzOK7mMH2nxOGYnt7Sr42XQP2Tv9mrDdybkN0cySeVXKc4tlfXBfu5RDXjqmXKTNVZq5uDMxBJ/30=
+	t=1740439320; cv=none; b=d7E0qbcDiZXs0FC80wJY4qF28S5ryrmlL8Ww+spOcV0w73Kx9mS3MGln1m/MuRlZqBn+cJIivtMPToWkY70OvQh4KKlACE8gPqZ1llcNzI9e0NLLIk0jiORU/Jq9hTwHzu2Q9OKXnaJUUYXJcKrpZpr+z1AhibZ/1kNVw+cPItQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1740430917; c=relaxed/simple;
-	bh=oF9FvDdhmewp8QSRflG1IxIm5LKB3f507x+5bkfgoMY=;
-	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=ccZkUX8V9PaYcgIKRyIT9gKHcDxkplO32G56aiNgb87MTVqM3x07Z/TQinDk4G3G1DUAlySoqJQ59MMo4Rp4qk9wp0AJ6eYpNcll04Ub+WYqr6zVKGjqushXfP411A7Fy9XLLU0b4lJkH+YkFcDa61udo3HiRt0HnctOJoPpGqo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=jX1yUm3/; arc=none smtp.client-ip=209.85.218.50
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="jX1yUm3/"
-Received: by mail-ej1-f50.google.com with SMTP id a640c23a62f3a-abbdf897503so1020430866b.0;
-        Mon, 24 Feb 2025 13:01:55 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1740430914; x=1741035714; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:subject:cc:to:from:date:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=TH0y+b8IFS1HuVo+L7i24GrobpdGjipjHp+6Po4+zAk=;
-        b=jX1yUm3/XB7/nvN+dDvCoxOsJay5fxP4i9Gpiie+ZjynxcDV+WxzZqjcwUN1D2TNS9
-         ZPHgG+2vWiM/HnRSgnoc5whiIOAWHrao3o8LZwhiQfm9mWZiSqZSLe1HBshCiOHVnOAh
-         Vs03evw5M563bu+S/v2GaYdxzFPn9BfCqLHWUAa7lqPJUPpr9arDkLH/hQLjEvrSrsd9
-         ftgITRMTZuFHw1Z7s2e4EyqGQ/W+mZi492zvKVlMyHWLM45gBidIPyR0688cgqqR804e
-         p4QDv+8ULbQnuqhwe4rffHUmcFmGE002mCqBk4trVq+KkHUJMIqn3BN9Gy7A4cl/n3wV
-         s8Xg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1740430914; x=1741035714;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:subject:cc:to:from:date:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=TH0y+b8IFS1HuVo+L7i24GrobpdGjipjHp+6Po4+zAk=;
-        b=KGQodjcDOGtcZK3yk4pZqyMvYUuuIvW6W/1Vun2XpQglpcRlKoYy6UBUf86rbyFBmF
-         Sbs7TENHQM7eY/aLyOoxYQiRNvh8g9IliV8tflNWgzECq9ilawLtE8Ox7wC8s4YWs1zx
-         ZBfdlCLFzqrXGBOa0oW0I7N37tc2RvYZubC/6efonrx9vxUXnbnzGHQ3XboXfOe0fjvT
-         Z6Xt0zAF1rP3G4dd4qeu9QG0fJ+SxgN/OjVFDksFl40czyqDk9wbt9WSKpGY+2ySzepF
-         HzB2pNtFi6MSDINanOk7Hu5NNp+TqOwYcJXviSgtgX2kaTah6/9NHWb1CfF6tt8+zhxP
-         r0KA==
-X-Forwarded-Encrypted: i=1; AJvYcCU+PGu28YNIOrsQYsgDCt/1BlPgGO0waiGRZ3J2AwKRB4hv3i9pXh9Kq/O4/Z8PrZtC6/8ieWKLbcT/qJ8=@vger.kernel.org, AJvYcCUVisg16SZ7CJaOejKvTGuzo1m0MHsqWiJujr5p9UDBwBR1iXIEYHFqbJAR09yv6FwSHKtsGHs368v3@vger.kernel.org
-X-Gm-Message-State: AOJu0Yxvl1PI/H2K5pDl4uwX2frZG9KQFEGEE+sg1vSDabKclcrq+ka/
-	gg3hOv/4HlL6L+dBG0yblor8DQADKpvb2aKYyxGTg0qT6nEEuWK9FVC4+A==
-X-Gm-Gg: ASbGncvducQ7cY+Oo81MyWJZ6jPTqEeqaPV1FWZ26uEG5wRCuup3s2hMfvcjpQqVXCl
-	GuV+4D5UwzOMQs/JKjpLVC5cZFENDCMWLlvdE7qIFJMLwyYXzrCuj7GUWYp9lfNbph5e240bMT6
-	sw1ALjadtZbvtNNneDkFwAeCHjFJGzyd/z3NAfLCiCUOQsM2WSu2tahBSrlj6XKzwxGGF9wBfPg
-	5xssz4MzD9Us24iQ4KT430glaLT2kz2vcG7/edoqaIJN8jJ0x8bORcxGPpTLfQOekcAvM5aEsI2
-	pvUZUurYh/x/926VKYAaJxwV2ETlIMV0OOZtz4+d59c=
-X-Google-Smtp-Source: AGHT+IEib4FVFj66xehFol3DyFMj+0rKjgEf+3JhG5Bu9EgY1iV4TRM0wfrwGcLks8RI8Svn4oyVaw==
-X-Received: by 2002:a17:907:8995:b0:ab7:cf7c:f9ed with SMTP id a640c23a62f3a-abbedf564b1mr1772646466b.24.1740430913697;
-        Mon, 24 Feb 2025 13:01:53 -0800 (PST)
-Received: from foxbook (adqm166.neoplus.adsl.tpnet.pl. [79.185.146.166])
-        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-abed2013348sm20631866b.89.2025.02.24.13.01.52
-        (version=TLS1_2 cipher=AES128-SHA bits=128/128);
-        Mon, 24 Feb 2025 13:01:53 -0800 (PST)
-Date: Mon, 24 Feb 2025 22:01:48 +0100
-From: =?UTF-8?B?TWljaGHFgg==?= Pecio <michal.pecio@gmail.com>
-To: Mathias Nyman <mathias.nyman@linux.intel.com>
-Cc: Mathias Nyman <mathias.nyman@intel.com>, Greg Kroah-Hartman
- <gregkh@linuxfoundation.org>, linux-usb@vger.kernel.org,
- linux-kernel@vger.kernel.org
-Subject: Re: [PATCH 3/3] usb: xhci: Unify duplicate inc_enq() code
-Message-ID: <20250224220148.4b91de02@foxbook>
-In-Reply-To: <91e9b2f6-d9f6-460e-965a-bf2d5b13878c@linux.intel.com>
-References: <20250220234355.2386cb6d@foxbook>
-	<20250220234719.5dc47877@foxbook>
-	<d59a6694-e0e7-46b7-874e-0c6acd8c9126@linux.intel.com>
-	<20250224004542.5861d4dc@foxbook>
-	<91e9b2f6-d9f6-460e-965a-bf2d5b13878c@linux.intel.com>
+	s=arc-20240116; t=1740439320; c=relaxed/simple;
+	bh=QKY3PTyYmEm+cEdjzXqQF41L9DqH+mU5dbNV5sPtDaM=;
+	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
+	 In-Reply-To:To:Cc; b=rMacCA1LZafO3afru4GwVj5ThUwVgY5F62QZ+GVEqpFrU7SloH1av6SHabO/sAqXF0HrfxgWG5T1INITjlAGBkkNzB2E4vgaSSuxJLWBT/UhEaulaLSijKdB6xUCJ3I37Lm8+vfNtY3UJ5UJUXnPEy9enznTDE8SxE9/VtQF7Gs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 228DAC4CEE6;
+	Mon, 24 Feb 2025 23:22:00 +0000 (UTC)
+Received: by venus (Postfix, from userid 1000)
+	id 443AD18066E; Tue, 25 Feb 2025 00:21:58 +0100 (CET)
+From: Sebastian Reichel <sebastian.reichel@collabora.com>
+Date: Tue, 25 Feb 2025 00:21:34 +0100
+Subject: [PATCH 1/7] power: supply: core: get rid of of_node
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
+Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
+Message-Id: <20250225-psy-core-convert-to-fwnode-v1-1-d5e4369936bb@collabora.com>
+References: <20250225-psy-core-convert-to-fwnode-v1-0-d5e4369936bb@collabora.com>
+In-Reply-To: <20250225-psy-core-convert-to-fwnode-v1-0-d5e4369936bb@collabora.com>
+To: Sebastian Reichel <sre@kernel.org>, Mark Brown <broonie@kernel.org>, 
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>, 
+ Linus Walleij <linus.walleij@linaro.org>, 
+ Hans de Goede <hdegoede@redhat.com>
+Cc: Liam Girdwood <lgirdwood@gmail.com>, Chen-Yu Tsai <wens@csie.org>, 
+ Matti Vaittinen <mazziesaccount@gmail.com>, 
+ =?utf-8?q?Pali_Roh=C3=A1r?= <pali@kernel.org>, 
+ Paul Cercueil <paul@crapouillou.net>, Samuel Holland <samuel@sholland.org>, 
+ David Lechner <david@lechnology.com>, Krzysztof Kozlowski <krzk@kernel.org>, 
+ Marek Szyprowski <m.szyprowski@samsung.com>, 
+ Sebastian Krzyszkowiak <sebastian.krzyszkowiak@puri.sm>, 
+ Purism Kernel Team <kernel@puri.sm>, Bartosz Golaszewski <brgl@bgdev.pl>, 
+ Konrad Dybcio <konradybcio@kernel.org>, 
+ Matthias Brugger <matthias.bgg@gmail.com>, 
+ AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>, 
+ Orson Zhai <orsonzhai@gmail.com>, 
+ Baolin Wang <baolin.wang@linux.alibaba.com>, 
+ Chunyan Zhang <zhang.lyra@gmail.com>, linux-pm@vger.kernel.org, 
+ linux-kernel@vger.kernel.org, linux-usb@vger.kernel.org, 
+ Sebastian Reichel <sebastian.reichel@collabora.com>
+X-Mailer: b4 0.14.2
+X-Developer-Signature: v=1; a=openpgp-sha256; l=3060;
+ i=sebastian.reichel@collabora.com; h=from:subject:message-id;
+ bh=QKY3PTyYmEm+cEdjzXqQF41L9DqH+mU5dbNV5sPtDaM=;
+ b=owEBbQKS/ZANAwAKAdju1/PIO/qaAcsmYgBnvP8TOdMot9PQtethDjqEyfHqR6xxTbTQsfBlw
+ 8mEd4upDXmJAjMEAAEKAB0WIQTvZg0HRj+Lcmp5VBPY7tfzyDv6mgUCZ7z/EwAKCRDY7tfzyDv6
+ mgJ1D/4+BYlcCsk5XiDQ6TjNon6jTYwL6NAwYYW2+Fk77yDPgHAlNcMqIjzTuPInpKddPtoYT/s
+ hUJh+DdhYK6iBjffxQ0EX/Sd18zIFgkzKBPnSQYXzr+bJIKTWyK7HclXNEr9yj9slfq1E8Vpsv/
+ gJ3dI2WLavtgABq0JTehVeUgDrPNdwGu37il+ttiBHWwAplsHkkkveIQ7ZNSigHCcwz5GFzb1Vv
+ nsfK4fOmuqA3XeMwEbxp8KWlxwa2T3zjfv5ujPRYo4BQ9AXetwvVfpSuAzKLdD8HCouQ3XCkFxo
+ yK+qYxyyuXC+mi63KkHvguAYOdq8iBxCVq3ZISe/TQaWJBeKjaj6NfjR+4b3f4pscR4SnG0wnXY
+ W2B3CSAe2M2MIyKOpkadwT0a9Q+7xZsKyy0oYxSb00LqJ3Iw7CVYNGGW0zB2UZkHizXLjFSan5G
+ dvZ8bYd/s1zW49+TeQZmraYfU6KBRYgDMC4j5zuAFV+oGRlBYyT+x1E90mscXmTS95oJc2yLSrV
+ If44wTSvpgD+WhS/Rda95i2O7Wo0EAOQdSkUyVwomkEaGoSWUw3EDGsPZLce/J8Db+xXRnXfKkM
+ /YQ7mgA3vvAGPUvA7eYJexIYrs3eIwhZ2QqrD2JpBM2DmiT+YXR5Ch5ku+eC49DBiN6SdpYryKa
+ Sa2v9AnC39QUBbQ==
+X-Developer-Key: i=sebastian.reichel@collabora.com; a=openpgp;
+ fpr=EF660D07463F8B726A795413D8EED7F3C83BFA9A
 
-On Mon, 24 Feb 2025 13:49:29 +0200, Mathias Nyman wrote:
-> Interesting, I wonder if setting the link TRB chain bit would
-> also help with the TRB prefetch issue on VIA VL805 hosts.
+This removes .of_node from 'struct power_supply', since there
+is already a copy in .dev.of_node and there is no need to have
+two copies.
 
-Good idea, but unfortunately not.
+Signed-off-by: Sebastian Reichel <sebastian.reichel@collabora.com>
+---
+ drivers/power/supply/power_supply_core.c | 17 ++++++++---------
+ include/linux/power_supply.h             |  1 -
+ 2 files changed, 8 insertions(+), 10 deletions(-)
 
-With xhci_hcd quirks=1, which is XHCI_LINK_TRB_QUIRK:
+diff --git a/drivers/power/supply/power_supply_core.c b/drivers/power/supply/power_supply_core.c
+index d0bb52a7a0367a8e07787be211691cad14a41a54..11030035da6f121ca76bebf800c06cfd5db57578 100644
+--- a/drivers/power/supply/power_supply_core.c
++++ b/drivers/power/supply/power_supply_core.c
+@@ -200,11 +200,11 @@ static int __power_supply_populate_supplied_from(struct power_supply *epsy,
+ 	int i = 0;
+ 
+ 	do {
+-		np = of_parse_phandle(psy->of_node, "power-supplies", i++);
++		np = of_parse_phandle(psy->dev.of_node, "power-supplies", i++);
+ 		if (!np)
+ 			break;
+ 
+-		if (np == epsy->of_node) {
++		if (np == epsy->dev.of_node) {
+ 			dev_dbg(&psy->dev, "%s: Found supply : %s\n",
+ 				psy->desc->name, epsy->desc->name);
+ 			psy->supplied_from[i-1] = (char *)epsy->desc->name;
+@@ -235,7 +235,7 @@ static int  __power_supply_find_supply_from_node(struct power_supply *epsy,
+ 	struct device_node *np = data;
+ 
+ 	/* returning non-zero breaks out of power_supply_for_each_psy loop */
+-	if (epsy->of_node == np)
++	if (epsy->dev.of_node == np)
+ 		return 1;
+ 
+ 	return 0;
+@@ -270,13 +270,13 @@ static int power_supply_check_supplies(struct power_supply *psy)
+ 		return 0;
+ 
+ 	/* No device node found, nothing to do */
+-	if (!psy->of_node)
++	if (!psy->dev.of_node)
+ 		return 0;
+ 
+ 	do {
+ 		int ret;
+ 
+-		np = of_parse_phandle(psy->of_node, "power-supplies", cnt++);
++		np = of_parse_phandle(psy->dev.of_node, "power-supplies", cnt++);
+ 		if (!np)
+ 			break;
+ 
+@@ -606,8 +606,8 @@ int power_supply_get_battery_info(struct power_supply *psy,
+ 	const __be32 *list;
+ 	u32 min_max[2];
+ 
+-	if (psy->of_node) {
+-		battery_np = of_parse_phandle(psy->of_node, "monitored-battery", 0);
++	if (psy->dev.of_node) {
++		battery_np = of_parse_phandle(psy->dev.of_node, "monitored-battery", 0);
+ 		if (!battery_np)
+ 			return -ENODEV;
+ 
+@@ -1544,9 +1544,8 @@ __power_supply_register(struct device *parent,
+ 	if (cfg) {
+ 		dev->groups = cfg->attr_grp;
+ 		psy->drv_data = cfg->drv_data;
+-		psy->of_node =
++		dev->of_node =
+ 			cfg->fwnode ? to_of_node(cfg->fwnode) : cfg->of_node;
+-		dev->of_node = psy->of_node;
+ 		psy->supplied_to = cfg->supplied_to;
+ 		psy->num_supplicants = cfg->num_supplicants;
+ 	}
+diff --git a/include/linux/power_supply.h b/include/linux/power_supply.h
+index 6ed53b292162469d7b357734d5589bff18a201d0..975ccab56597ef579ef0c9dc913dcb0a26b5855a 100644
+--- a/include/linux/power_supply.h
++++ b/include/linux/power_supply.h
+@@ -316,7 +316,6 @@ struct power_supply {
+ 
+ 	char **supplied_from;
+ 	size_t num_supplies;
+-	struct device_node *of_node;
+ 
+ 	/* Driver private data */
+ 	void *drv_data;
 
-[    0.543465] pci 0000:0a:00.0: [1106:3483] type 00 class 0x0c0330 PCIe Endpoint
+-- 
+2.47.2
 
-[  406.745905] xhci_hcd 0000:0a:00.0: xHCI Host Controller
-[  406.745916] xhci_hcd 0000:0a:00.0: new USB bus registered, assigned bus number 11
-[  406.747265] xhci_hcd 0000:0a:00.0: hcc params 0x002841eb hci version 0x100 quirks 0x0000000000000891
-
-[  407.475672] usb 11-1.4: Found UVC 1.00 device USB2.0 Camera (1e4e:0103)
-
-[  407.697768] usb 11-1.4: Selecting alternate setting 12 (3060 B/frame bandwidth)
-[  407.700432] usb 11-1.4: Allocated 5 URB buffers of 32x3060 bytes each
-[  407.732047] xhci_hcd 0000:0a:00.0: AMD-Vi: Event logged [IO_PAGE_FAULT domain=0x0005 address=0xffccc000 flags=0x0000]
-[  407.732122] xhci_hcd 0000:0a:00.0: WARNING: Host System Error
-[  407.732133] xhci_hcd 0000:0a:00.0: AMD-Vi: Event logged [IO_PAGE_FAULT domain=0x0005 address=0xffccc000 flags=0x0000]
-[  407.732151] xhci_hcd 0000:0a:00.0: AMD-Vi: Event logged [IO_PAGE_FAULT domain=0x0005 address=0xffccc000 flags=0x0000]
-
-Link TRBs from debugfs:
-
- 0 0x00000000ffccbff0: LINK 00000000ffcca000 intr 0 type 'Link' flags i:C:t:C
- 1 0x00000000ffccaff0: LINK 00000000ffccb000 intr 0 type 'Link' flags i:C:T:c
