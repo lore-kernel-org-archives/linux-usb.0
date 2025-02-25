@@ -1,107 +1,130 @@
-Received: from relay3.mymailcheap.com (relay3.mymailcheap.com [217.182.119.157])
+Received: from mout02.posteo.de (mout02.posteo.de [185.67.36.66])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 91F7A194A59;
-	Tue, 25 Feb 2025 17:41:30 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.182.119.157
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9F9911DF994
+	for <linux-usb@vger.kernel.org>; Tue, 25 Feb 2025 21:23:48 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.67.36.66
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1740505292; cv=none; b=DjwKbYa87nhVqnPBHHA1lfm6gelOdk8AcqpFXwWmbhyQoOM/OzjqXzoDDii00Oam6Hqex4UyFn4KVNGaZ+MpjY/JgSElcM91rqNz1h2CKO66oMNP3qFEEAzrUUAa30VP6Tu5ws4naRmS3lxCx+8bWGQsoLQ0/S9HOs3mlRMUw90=
+	t=1740518630; cv=none; b=LRO+hDNyNQgGP7UWSU/FuOlSRIyL4qYI0JlzYQQqNdQ6hX1cOkxvOkkxGHKdorpCWJ3vHVGf73rpfluvT7o50/HoCNSPyrM9/ZmNfcuoIoTkWTByllxVMOaec3dLOB8CGsXl7V0mIR/XsqZu5Vn7yHB+1YaXhOMbuBKylo6UaD4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1740505292; c=relaxed/simple;
-	bh=gZ9azeov55xkLXY+W2frk6ujUo/ML78OAupnzsnNQ5I=;
-	h=Message-ID:Date:MIME-Version:Subject:From:To:Cc:References:
-	 In-Reply-To:Content-Type; b=VhtydxyWFUvTuEe3v+fwQVlHNkjpVeZT/4ktKO2LwUhLG5G/JaVSxv7rC4M/qXWux4pTkKqbsoEPnChG/gfV7/pzxOv/eSh+O5vD2Ia7hiGLc/5qU/RPJkK97nJ9u1W+TmAysYohDDdFwVSRMEwJuV0GCAg8HHLXclgv4uh9lIk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=aosc.io; spf=pass smtp.mailfrom=aosc.io; dkim=pass (1024-bit key) header.d=aosc.io header.i=@aosc.io header.b=vQk4+0T0; arc=none smtp.client-ip=217.182.119.157
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=aosc.io
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=aosc.io
+	s=arc-20240116; t=1740518630; c=relaxed/simple;
+	bh=9e5b+ExLgK2p2+BxW6jT8y+FhU5WN164n9eGn9MzGy0=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=gtuYmMS6HFTUudpkDkt7SCnggRS8Bz8hFu+8M10POJQeAkYj3uxn+TkowRGarreG/383tofBLZSZyov1mUqqOen7fltgnhPO04ReetA14U8wggOM/xqFi7QEegIiax1yeo4BBDiuQJPFO4yGci2yyx5sH0vgOI2R23Awji3EhoM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=posteo.net; spf=pass smtp.mailfrom=posteo.net; dkim=pass (2048-bit key) header.d=posteo.net header.i=@posteo.net header.b=LKrvjzfz; arc=none smtp.client-ip=185.67.36.66
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=posteo.net
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=posteo.net
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=aosc.io header.i=@aosc.io header.b="vQk4+0T0"
-Received: from nf2.mymailcheap.com (nf2.mymailcheap.com [54.39.180.165])
-	by relay3.mymailcheap.com (Postfix) with ESMTPS id 0722A3E917;
-	Tue, 25 Feb 2025 17:41:23 +0000 (UTC)
-Received: from mail20.mymailcheap.com (mail20.mymailcheap.com [51.83.111.147])
-	by nf2.mymailcheap.com (Postfix) with ESMTPSA id E11F2400F0;
-	Tue, 25 Feb 2025 17:41:21 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple; d=aosc.io; s=default;
-	t=1740505280; bh=gZ9azeov55xkLXY+W2frk6ujUo/ML78OAupnzsnNQ5I=;
-	h=Date:Subject:From:To:Cc:References:In-Reply-To:From;
-	b=vQk4+0T0pO39EPIqQLmw0e7DKkbyF4Vs3kxxgVJX33WOs4nDDOgat8kjoovATDQia
-	 dU9TspXZKxh2avYay+RvtXQFFj1wRtGpKpa23wjq9qS+y8WSsRLK+lQJZdHnQ9dWHJ
-	 1jT9oZzMAlldzLOqXHdMctW8OeLyKWa1JzviVn5g=
-Received: from [172.29.0.1] (unknown [203.175.14.48])
-	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
-	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
-	(No client certificate requested)
-	by mail20.mymailcheap.com (Postfix) with ESMTPSA id D1B2B401D1;
-	Tue, 25 Feb 2025 17:41:17 +0000 (UTC)
-Message-ID: <c2b8f8af-db2b-4b64-9e45-83e2b0a3d919@aosc.io>
-Date: Wed, 26 Feb 2025 01:41:14 +0800
+	dkim=pass (2048-bit key) header.d=posteo.net header.i=@posteo.net header.b="LKrvjzfz"
+Received: from submission (posteo.de [185.67.36.169]) 
+	by mout02.posteo.de (Postfix) with ESMTPS id 2A36A240103
+	for <linux-usb@vger.kernel.org>; Tue, 25 Feb 2025 22:23:41 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=posteo.net; s=2017;
+	t=1740518621; bh=9e5b+ExLgK2p2+BxW6jT8y+FhU5WN164n9eGn9MzGy0=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition:Content-Transfer-Encoding:From;
+	b=LKrvjzfzBGciSEIXr2NGc7U8HYBxDDSiCpbsW0MqZQdVO0wYrb7uSxgTPedXkfS0R
+	 4324LQ5SiykN35CStB9V8cXAhKXBx5lvbd0mOc3WI5MZlnf+nheamyc8eEueB2g11j
+	 vGM+lAiJbmP+d1qZVGBDQPh+QhuiJ3ShUYX7yGXbtudWps3/56fnc8ql0Vdv8HXIwf
+	 T9ZyHfROnXLa9avZehvxtL+BMFL/LZvWkNL6ANxD0n05NevESL3ziktg5DA+ZF8NTT
+	 IvtFiC3i/6HmdellNX3LOFuyPlPHOHOD3PPUIsIjqJD1LivqrmhdAgG/3/3+XWXg8o
+	 wwdDLye5lUH3A==
+Received: from customer (localhost [127.0.0.1])
+	by submission (posteo.de) with ESMTPSA id 4Z2Vvw1c3Wz9rxB;
+	Tue, 25 Feb 2025 22:23:40 +0100 (CET)
+Date: Tue, 25 Feb 2025 21:23:40 +0000
+From: =?utf-8?Q?J=2E_Neusch=C3=A4fer?= <j.ne@posteo.net>
+To: Alan Stern <stern@rowland.harvard.edu>
+Cc: j.ne@posteo.net, Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	linux-usb@vger.kernel.org, usb-storage@lists.one-eyed-alien.net,
+	linux-kernel@vger.kernel.org,
+	Jonathan =?utf-8?Q?Neusch=C3=A4fer?= <j.neuschaefer@gmx.net>
+Subject: Re: [PATCH] usb: storage: jumpshot: Use const for constant arrays
+Message-ID: <Z7403OPZUf7WZ5Ai@probook>
+References: <20250225-misc-const-v1-1-121ff3b86437@posteo.net>
+ <a4e81827-b506-491f-8087-204044705c42@rowland.harvard.edu>
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH] USB: core: Enable root_hub's remote wakeup for wakeup
- sources
-From: Mingcong Bai <jeffbai@aosc.io>
-To: Alan Stern <stern@rowland.harvard.edu>
-Cc: Huacai Chen <chenhuacai@kernel.org>, Huacai Chen
- <chenhuacai@loongson.cn>, Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
- linux-usb@vger.kernel.org, linux-kernel@vger.kernel.org,
- stable@vger.kernel.org, Kexy Biscuit <kexybiscuit@aosc.io>
-References: <20250131100630.342995-1-chenhuacai@loongson.cn>
- <2f583e59-5322-4cac-aaaf-02163084c32c@rowland.harvard.edu>
- <CAAhV-H7Dt1bEo8qcwfVfcjTOgXSKW71D19k3+418J6CtV3pVsQ@mail.gmail.com>
- <fbe4a6c4-f8ba-4b5b-b20f-9a2598934c42@rowland.harvard.edu>
- <61fecc0b-d5ac-4fcb-aca7-aa84d8219493@rowland.harvard.edu>
- <2a8d65f4-6832-49c5-9d61-f8c0d0552ed4@aosc.io>
- <06c81c97-7e5f-412b-b6af-04368dd644c9@rowland.harvard.edu>
- <6838de5f-2984-4722-9ee5-c4c62d13911b@aosc.io>
- <6363c5ba-c576-42a8-8a09-31d55768618c@rowland.harvard.edu>
- <9f363d74-24ce-43fe-b0e3-7aef5000abb3@aosc.io>
- <425bf21b-8aa6-4de0-bbe4-c815b9df51a7@rowland.harvard.edu>
- <0ca08039-73fb-4c4b-ad10-15be8129d1b7@aosc.io>
- <5b4349c8-26ae-4c95-8e60-9cccbb1befe6@aosc.io>
- <6c9b295c-3199-4660-b162-188a9ab5a829@aosc.io>
-Content-Language: en-US
-In-Reply-To: <6c9b295c-3199-4660-b162-188a9ab5a829@aosc.io>
-Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-X-Rspamd-Queue-Id: E11F2400F0
-X-Rspamd-Server: nf2.mymailcheap.com
-X-Spamd-Result: default: False [-0.10 / 10.00];
-	MIME_GOOD(-0.10)[text/plain];
-	RCVD_TLS_ALL(0.00)[];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
-	ARC_NA(0.00)[];
-	RCVD_COUNT_ONE(0.00)[1];
-	ASN(0.00)[asn:16276, ipnet:51.83.0.0/16, country:FR];
-	FUZZY_RATELIMITED(0.00)[rspamd.com];
-	RCPT_COUNT_SEVEN(0.00)[8];
-	MID_RHS_MATCH_FROM(0.00)[];
-	FROM_HAS_DN(0.00)[];
-	MIME_TRACE(0.00)[0:+];
-	FROM_EQ_ENVFROM(0.00)[];
-	TO_MATCH_ENVRCPT_SOME(0.00)[];
-	TO_DN_SOME(0.00)[]
-X-Rspamd-Action: no action
+In-Reply-To: <a4e81827-b506-491f-8087-204044705c42@rowland.harvard.edu>
 
-Hi Alan,
-
-在 2025/2/9 18:22, Mingcong Bai 写道:
-> Hi again,
+On Tue, Feb 25, 2025 at 10:11:02AM -0500, Alan Stern wrote:
+> On Tue, Feb 25, 2025 at 01:25:03PM +0100, J. Neuschäfer via B4 Relay wrote:
+> > From: "J. Neuschäfer" <j.ne@posteo.net>
+> > 
+> > These arrays are not modified. Make them const.
 > 
-> Oops. I missed the dmesg.
+> This does not explain _why_ you want to declare these arrays const.
 > 
+> > Signed-off-by: J. Neuschäfer <j.ne@posteo.net>
+> > ---
+> > Signed-off-by: Jonathan Neuschäfer <j.neuschaefer@gmx.net>
+> 
+> There should not be two Signed-off-by lines for the same person.  You 
+> should keep only the one with the email address you used for sending the 
+> patch.  And it should have your full name, just like signing a legal 
+> document.
 
-<snip>
+Ah sorry, editing error on my part (I started the patch a while ago and
+since switched to a different email provider).
 
-Gentle ping as it has been almost a month since our last correspondence. 
-Can you please advise if you would need any further information and, 
-since the fix is probably incorrect, if you have any suggestions as to 
-how we could move forward with a better fix or platform-specific quirk?
+> 
+> > ---
+> > 
+> > This change was compile-tested with ARCH=powerpc
+> > ---
+> >  drivers/usb/storage/jumpshot.c | 10 +++++-----
+> >  1 file changed, 5 insertions(+), 5 deletions(-)
+> > 
+> > diff --git a/drivers/usb/storage/jumpshot.c b/drivers/usb/storage/jumpshot.c
+> > index 39ca84d6859122903de4e64b13e697e8b7d4ab31..089c6f8ac85fbb683cca8b03a2ff06c0ca776167 100644
+> > --- a/drivers/usb/storage/jumpshot.c
+> > +++ b/drivers/usb/storage/jumpshot.c
+> > @@ -367,16 +367,16 @@ static int jumpshot_handle_mode_sense(struct us_data *us,
+> >  				      struct scsi_cmnd * srb, 
+> >  				      int sense_6)
+> >  {
+> > -	static unsigned char rw_err_page[12] = {
+> > +	static const unsigned char rw_err_page[12] = {
+> >  		0x1, 0xA, 0x21, 1, 0, 0, 0, 0, 1, 0, 0, 0
+> >  	};
+> > -	static unsigned char cache_page[12] = {
+> > +	static const unsigned char cache_page[12] = {
+> >  		0x8, 0xA, 0x1, 0, 0, 0, 0, 0, 0, 0, 0, 0
+> >  	};
+> > -	static unsigned char rbac_page[12] = {
+> > +	static const unsigned char rbac_page[12] = {
+> >  		0x1B, 0xA, 0, 0x81, 0, 0, 0, 0, 0, 0, 0, 0
+> >  	};
+> > -	static unsigned char timer_page[8] = {
+> > +	static const unsigned char timer_page[8] = {
+> >  		0x1C, 0x6, 0, 0, 0, 0
+> >  	};
+> >  	unsigned char pc, page_code;
+> > @@ -477,7 +477,7 @@ static int jumpshot_transport(struct scsi_cmnd *srb, struct us_data *us)
+> >  	int rc;
+> >  	unsigned long block, blocks;
+> >  	unsigned char *ptr = us->iobuf;
+> > -	static unsigned char inquiry_response[8] = {
+> > +	static const unsigned char inquiry_response[8] = {
+> >  		0x00, 0x80, 0x00, 0x01, 0x1F, 0x00, 0x00, 0x00
+> >  	};
+> 
+> There's nothing wrong with this.  However, several other source files in 
+> this directory also have static arrays that are never written to.  Why 
+> don't you change all of them?
+> 
+> If you do, it will be best to put the changes for each of the files in 
+> its own patch, and then submit them as a series of patches.
 
-Best Regards,
-Mingcong Bai
+That's a good idea, I'll do it.
+
+
+> 
+> Alan Stern
