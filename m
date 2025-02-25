@@ -1,156 +1,108 @@
-Received: from sender4-pp-f112.zoho.com (sender4-pp-f112.zoho.com [136.143.188.112])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-ej1-f49.google.com (mail-ej1-f49.google.com [209.85.218.49])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6A9E81A23BD;
-	Tue, 25 Feb 2025 21:24:09 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=136.143.188.112
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1740518651; cv=pass; b=IloHQ9c5uRcJueq/5vMXZ17B2OnjKzwtzEX+2j34MdzEfUH31yEW3Se52xhAiYQhBoEpQO2UNge7a+XSAGDqSa1bOPnPOKUJwHoT5rts7njVnDynMYQgVE7TMrYftTNhF6RT/oXGBhY0yE7rnN7e5Y45cv9Ex2PROY6v5eTwasA=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1740518651; c=relaxed/simple;
-	bh=yifWYicXzI3Racy3WLNPfPX3gSInoMk9MGp4tHcStF0=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=b+0uozk4BFIFb31un9OVrSHzWHWrXR592FFFDK6GWH2Goonklq7NXFimrkEvANjsvOs5hBXoGlzaBJraogH+s1h75rvjHhLzXVitT9TdLlU+lwFBo1ePhEy7jblXHnZv/Ve6JfnSCky7/1SeZEUVdupiFHjXB0rgiz4eUw9jflQ=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=collabora.com; spf=pass smtp.mailfrom=collabora.com; dkim=pass (1024-bit key) header.d=collabora.com header.i=sebastian.reichel@collabora.com header.b=VZMI05Lf; arc=pass smtp.client-ip=136.143.188.112
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=collabora.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=collabora.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 80B5D21ABDF;
+	Tue, 25 Feb 2025 22:17:12 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.49
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1740521834; cv=none; b=Jg3LozgNUMt6NanT1m05kmpkqDj167oiEyr2LmS6B5Tvt3C/gH9onWHpDTiEParffZ/jLV6wyaSFFWAkrtvYcjU7rfpCrNYRfPjoRbgfm+g/rcoU7MjjoE7hme9T9P6BaL3zIF4dkuhh+2erxA1s6kDGqbOYU9UueCzsYfTsFmU=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1740521834; c=relaxed/simple;
+	bh=QP19tnSUO6+HLqxH1ELuRp+Rtpr531yPVfYEaoK/1/w=;
+	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=q1s1+6KUvsFAHCyr64EO67uYiiw74I7sPzBf0M3UfPGlpx317z+MSIM01Yb2IYHgvSnPB/+rA1lXiW2pAdgF87YvFCY0u/slLSFCJxIOoebmouJ/v1mDZOJ5WjkbjwAiu3nOqIGURscdq7d1f8jmzNhCIpb6NZzjQgs5R22t08U=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=blpvUsDr; arc=none smtp.client-ip=209.85.218.49
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=collabora.com header.i=sebastian.reichel@collabora.com header.b="VZMI05Lf"
-ARC-Seal: i=1; a=rsa-sha256; t=1740518576; cv=none; 
-	d=zohomail.com; s=zohoarc; 
-	b=VQ2zUjBknzn2fmSl3OndjkBykCq6GH3YuUXD5yu7z5+pqCpQNl+Ruz2gb6ReS+PlvB7W790tIhDa3l/BV+tCifHsB3Dn+li2pohgJn8XbT+Wvbx7HFL7knG09YzGcU8EAF0gTtK+wUfpT13Xa5nPWLjHBLXpKBSHOC0GIJ2XLtY=
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=zohomail.com; s=zohoarc; 
-	t=1740518576; h=Content-Type:Cc:Cc:Date:Date:From:From:In-Reply-To:MIME-Version:Message-ID:References:Subject:Subject:To:To:Message-Id:Reply-To; 
-	bh=PDVTKSM1rcFjNwRRV/0KaHspAmH3vDFXNZuyf3meR0Y=; 
-	b=KAqxisptIvOtUWOG3/+nOvLQaLBf8bUImwjIguK5eZHbHnM+kgZK9KxTWbfs5dlGJdHYlvssxgGUmaKlbeOzkvdZFn72sEaN9KaSaEwQ3/bwrzYdno7PYDAl2Iw7FZTQvYNOkSS3NgpBZ5P2lgnymWItTMmsE/QLjOwxyqpzte4=
-ARC-Authentication-Results: i=1; mx.zohomail.com;
-	dkim=pass  header.i=collabora.com;
-	spf=pass  smtp.mailfrom=sebastian.reichel@collabora.com;
-	dmarc=pass header.from=<sebastian.reichel@collabora.com>
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; t=1740518576;
-	s=zohomail; d=collabora.com; i=sebastian.reichel@collabora.com;
-	h=Date:Date:From:From:To:To:Cc:Cc:Subject:Subject:Message-ID:References:MIME-Version:Content-Type:In-Reply-To:Message-Id:Reply-To;
-	bh=PDVTKSM1rcFjNwRRV/0KaHspAmH3vDFXNZuyf3meR0Y=;
-	b=VZMI05LfLyyWPl0+UeCgDE5+u4fdSF4zFhcfpdraUnoy8v/M835dRL/zZFPtJC3j
-	RLfixi+m2Bzvlxl6W0sDDNBAV8Gg0bhbeLS7vUzTjosyt1C3Ub+da+pZI3WKB8ifLP7
-	O9qzAZPA+h8Q6SweL1iTFwYgc7ut3LVgkZYd/SnA=
-Received: by mx.zohomail.com with SMTPS id 17405185698304.8376916548969575;
-	Tue, 25 Feb 2025 13:22:49 -0800 (PST)
-Received: by venus (Postfix, from userid 1000)
-	id 7E04D18040A; Tue, 25 Feb 2025 22:22:42 +0100 (CET)
-Date: Tue, 25 Feb 2025 22:22:42 +0100
-From: Sebastian Reichel <sebastian.reichel@collabora.com>
-To: Hans de Goede <hdegoede@redhat.com>
-Cc: Mark Brown <broonie@kernel.org>, 
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>, Linus Walleij <linus.walleij@linaro.org>, 
-	Liam Girdwood <lgirdwood@gmail.com>, Chen-Yu Tsai <wens@csie.org>, 
-	Matti Vaittinen <mazziesaccount@gmail.com>, Pali =?utf-8?B?Um9ow6Fy?= <pali@kernel.org>, 
-	Paul Cercueil <paul@crapouillou.net>, Samuel Holland <samuel@sholland.org>, 
-	David Lechner <david@lechnology.com>, Krzysztof Kozlowski <krzk@kernel.org>, 
-	Marek Szyprowski <m.szyprowski@samsung.com>, Sebastian Krzyszkowiak <sebastian.krzyszkowiak@puri.sm>, 
-	Purism Kernel Team <kernel@puri.sm>, Bartosz Golaszewski <brgl@bgdev.pl>, 
-	Konrad Dybcio <konradybcio@kernel.org>, Matthias Brugger <matthias.bgg@gmail.com>, 
-	AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>, Orson Zhai <orsonzhai@gmail.com>, 
-	Baolin Wang <baolin.wang@linux.alibaba.com>, Chunyan Zhang <zhang.lyra@gmail.com>, linux-pm@vger.kernel.org, 
-	linux-kernel@vger.kernel.org, linux-usb@vger.kernel.org
-Subject: Re: [PATCH 7/7] power: supply: core: convert to fwnnode
-Message-ID: <duzge5bpxv4cd7b27pq2daisqtaw6mtt6oxl2u3hcdxcnh5tkw@yasxlx33yxbi>
-References: <20250225-psy-core-convert-to-fwnode-v1-0-d5e4369936bb@collabora.com>
- <20250225-psy-core-convert-to-fwnode-v1-7-d5e4369936bb@collabora.com>
- <a98547f0-f125-45dc-8bb6-a154ad78f672@redhat.com>
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="blpvUsDr"
+Received: by mail-ej1-f49.google.com with SMTP id a640c23a62f3a-abb7f539c35so1190632466b.1;
+        Tue, 25 Feb 2025 14:17:12 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1740521831; x=1741126631; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:subject:cc:to:from:date:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=fH1ejT9qluyOxi6z4OMvRkQd0hvbyUhN+fXwbEGK+rc=;
+        b=blpvUsDrPfR4zcqUpzXVcmyhfaclj7t9CFZEh/jnsaNML2YL3KeDqY6bl/ih7bCJQI
+         Fne9peHH4Bn038+q/Qn4Z0fuNsBkXxQw/HUZGrREVHzt3Z5lDbKcv7XEVa0Az0huQAtp
+         THUc02FN8xoGSDraD0ZwlSwFjS6i/KyXHRADqbrYRANp77OyEzo9J4SArNQGi9sp0yF1
+         A1pgin8gWtlvXjX5SusdaB355EjlYWDlNfEMaTZqseIJ0BasFQvn0PeRXBELa8RmkOnb
+         so8SUw3uedgJpCnAIU8mDVEID4X0wiY6yfqiWy5pnJZRWRgTo896N5/p8+1ATl8Nogao
+         BlcQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1740521831; x=1741126631;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:subject:cc:to:from:date:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=fH1ejT9qluyOxi6z4OMvRkQd0hvbyUhN+fXwbEGK+rc=;
+        b=AKYo9b7H9QyPH9/+FQYmtvgL4bRQpL2RChS1t2jGGS/C6nSDMU/RRcI0iGbQYXo2OX
+         nhDb8Dh6GO6m5qxppW+G1LTkYs5dzS+Wn6kxoeYtJZxOvoed/6bJ3aayC0BFhQtFQXI4
+         RaBPebSpCChbEVlF+y0dXlwgldnqOGl2RhANhJabkZifUYDJtJUa51PIN8gpQinWiQFI
+         FMnCrwDC0Wape2DbuEugHZmYY9NEWlhjdvQGz3jDDM91+kZ1Pjfrpkydmy7omjhP9asX
+         7L/GLfiqPCV6l++CSIO8WPBARuQvzGiPduCEntm8q1J26XkTkOV1qDWi8vi8LA7PSHDW
+         AwSg==
+X-Forwarded-Encrypted: i=1; AJvYcCX/YSmR0xlpIx9s09yRmHjQAwoNjxTLdU6b02MtaORhBflTp6TdPw/Kk99nxnjmFPsOEzMlLPTE2V2WB4I=@vger.kernel.org, AJvYcCXUXXzKN97xgFSJ6i1qGw05AyeFBI9qGKsyt1fYZ/uv+5bFmqEX07R03CobVtnVqaPY8T5Lnh27cvdf@vger.kernel.org
+X-Gm-Message-State: AOJu0YyiQJCqdruf7OkWvw9xAzWV1RqJyckDg2xT2yn0JWlynXuUho42
+	Anre6BkNgun1PEq2m5TfT+Wi0jgRZ/dRwgyUWz0zzmTdcB47z3Cn
+X-Gm-Gg: ASbGncsYATKuRELl/COHz3gJ+e4b6iuaIxJsNxYjUSpGI52ziKxBt0u2B/XxngvYDts
+	lu3XL0Cgq3EmtNb2B1bHql3bS4ZfcOmHOhNwsD81FvnFxgDrv+c208cVjNRDNOUkjcleTKPA6Rq
+	Ua2BUZJJ1LacxbSrZpxMmBiIjDWxkw0duFXxmrs5+efh5doi8gAdeYbtKDYhljjLkfTlWHf4GDI
+	X4MMhH3s/jS6/u37WZh2aPPNmD3EmBKegTXgMC/MK0LvXen+M6tBLhaNjXjcOYsf6+3QrayYEtX
+	iaVC1f/A96vRjG9Dqpcm2Wm5Plnw+3oqn6pO7Taq
+X-Google-Smtp-Source: AGHT+IFv5xQtOyaT5z0hxjQvRhVdVKN5ONoFFGjZjoPiPJ0F+I3C6bLQSwC1YbZ4C+i0+9LQsT29ZA==
+X-Received: by 2002:a17:907:728c:b0:ab7:d481:212e with SMTP id a640c23a62f3a-abed0c7a097mr495602666b.12.1740521830500;
+        Tue, 25 Feb 2025 14:17:10 -0800 (PST)
+Received: from foxbook (adqi59.neoplus.adsl.tpnet.pl. [79.185.142.59])
+        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-abed20b6a05sm212587966b.174.2025.02.25.14.17.09
+        (version=TLS1_2 cipher=AES128-SHA bits=128/128);
+        Tue, 25 Feb 2025 14:17:10 -0800 (PST)
+Date: Tue, 25 Feb 2025 23:17:05 +0100
+From: =?UTF-8?B?TWljaGHFgg==?= Pecio <michal.pecio@gmail.com>
+To: Mathias Nyman <mathias.nyman@linux.intel.com>
+Cc: Mathias Nyman <mathias.nyman@intel.com>, Greg Kroah-Hartman
+ <gregkh@linuxfoundation.org>, linux-usb@vger.kernel.org,
+ linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v2 2/3] usb: xhci: Simplify moving HW Dequeue Pointer
+ past cancelled TDs
+Message-ID: <20250225231705.3fa7c8bd@foxbook>
+In-Reply-To: <b82f9543-2730-48af-81e8-1612b0d30ed9@linux.intel.com>
+References: <20250225125750.1b345e2c@foxbook>
+	<20250225125939.7a248e38@foxbook>
+	<b82f9543-2730-48af-81e8-1612b0d30ed9@linux.intel.com>
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-	protocol="application/pgp-signature"; boundary="hdfg4ybxxtxchsut"
-Content-Disposition: inline
-In-Reply-To: <a98547f0-f125-45dc-8bb6-a154ad78f672@redhat.com>
-X-Zoho-Virus-Status: 1
-X-Zoho-AV-Stamp: zmail-av-1.4.2/240.490.19
-X-ZohoMailClient: External
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
 
+On Tue, 25 Feb 2025 16:55:49 +0200, Mathias Nyman wrote:
+> This new way relies on td_list being in sync and up to date.
+> i.e. hardware dequeue can't be ahead of first TD in list.
+> 
+> One bad scenario could be something like:
+> 
+> class driver queues TD1
+> class driver queues TD2
+> Class driver cancels TD2, queue stop endpoint command
+> (Class driver cancels TD1) (optional)
+> 
+> xHC hardware just completed TD1 and stop endpoint command at the same
+> time, xHC hw may have advanced the hw dequeue to TD2, write event for
+> stop endpoint command, and then write transfer event for TD1
+> completion. (xHC hardware may do things in odd order)
 
---hdfg4ybxxtxchsut
-Content-Type: text/plain; protected-headers=v1; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
-Subject: Re: [PATCH 7/7] power: supply: core: convert to fwnnode
-MIME-Version: 1.0
+I suppose this would be illegal; per 4.6.9 transfer events are posted
+and EP Context updated before Stop EP cmd completion. HW Dequeue Ptr
+is advanced on subseqent doorbell ring if the stopped TRB is complete.
 
-Hello Hans,
+But I can see how this could appear to work fine and then mysteriously
+break on some weird buggy HC. I will abandon this patch for now.
 
-On Tue, Feb 25, 2025 at 02:16:12PM +0100, Hans de Goede wrote:
-> Hi Sebastian,
->=20
-> Thank you for your work on this.
->
-> A few small remarks inline / below.
->=20
-> On 25-Feb-25 12:21 AM, Sebastian Reichel wrote:
->=20
-> <snip>
->=20
-> > diff --git a/include/linux/power_supply.h b/include/linux/power_supply.h
-> > index a785742f97721e7e70d0e4c17a1ded7b985acb6d..9afde8c04efc72691c81a37=
-3d8dd03477b4efd7e 100644
-> > --- a/include/linux/power_supply.h
-> > +++ b/include/linux/power_supply.h
-> > @@ -805,7 +805,7 @@ static inline struct power_supply *power_supply_get=
-_by_name(const char *name)
-> >  { return NULL; }
-> >  #endif
-> >  #ifdef CONFIG_OF
-> > -extern struct power_supply *power_supply_get_by_phandle(struct device_=
-node *np,
-> > +extern struct power_supply *power_supply_get_by_phandle(struct fwnode_=
-handle *fwnode,
-> >  							const char *property);
->=20
-> this function now no longer is DT/OF/open-firmware specific, so I think i=
-t should be moved
-> outside of the #ifdef CONFIG_OF block now ?  The same goes for the devm v=
-ariant I think
-> and the implementations of course also should no longer be "#ifdef CONFIG=
-_OF".
+> Now we detect that hw dequeue is in the cancelled TD2 but with TD1 is
+> till in the td_list. This new solution would move dequeue back to TD1
+> beginning, and process it again.
 
-Good point. I suppose ideally the name should also change to power_supply_g=
-et_by_reference,
-since phandle is a DT/OF term. I will prepare these two changes for v2.
-
-Greetings,
-
--- Sebastian
-
-> >  extern struct power_supply *devm_power_supply_get_by_phandle(
-> >  				    struct device *dev, const char *property);
->=20
-> Regards,
->=20
-> Hans
->=20
->=20
-
---hdfg4ybxxtxchsut
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQIzBAABCgAdFiEE72YNB0Y/i3JqeVQT2O7X88g7+poFAme+NJcACgkQ2O7X88g7
-+poO0w/+PtjuypiPttq8FXdCRzUhU78WLqWOJidkFzOKBqamTFhS0xbCsok/IUFQ
-AZSGVeoVEmZoASd8PRsXkGrfTDTq7LU3mcJArxufUITgc3y4xqEBJ82761VW16mJ
-g6koal4Wi4eQ/6BPKPXlXk8fcRiMNKmy2dZbTbivI2q7fmFzVTQLmgMTCi9241XP
-XYiyyHC7cI7/iHtXomgitOXCTF6qXBdXuB7nx/yE+qUofYF8akM/cD+ya5ktzGym
-ZKoizoAVDpu9DyHK6uyJuwBBc6wgmyaH91iIrw8xlfYR+OSHy+HRUyM8NTbROpSr
-nrD0I1ORi3uxjJUeoZ5v/bi70gLMXDEDaxQk7FXrqfBRgw43pHGnMIZsACK+b2Zv
-sFEez70kMZFHJM99oDJ9ZgvBZwrKXc6ZWvYXakX1IW7iNWUoEhXBLnXf2Zrni/Zx
-FMq6lr7s9/QnEtet/17dUKvCp9F3V23kvDbrJRV8C0ujkpW9wfo2VEvfPJNH9Ku+
-vdFDUeYNn7RvwHAsHYlmB/GyCUGdYLDsvyHPMbp4l989RUtNC0OF4t9bAVwJFdUt
-3oN7y6BOqfQa4EcP0fv3Ui9ITiak9BweFCVPm8aHqsKkqnIbzx1N9aaLB+TqS3is
-Xgz0BGWOempPbvaca4fuYrmSOsnC/gNIKFi+LMd5QmMhyO1ybi8=
-=g2xY
------END PGP SIGNATURE-----
-
---hdfg4ybxxtxchsut--
