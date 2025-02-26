@@ -1,98 +1,121 @@
-Received: from vps0.lunn.ch (vps0.lunn.ch [156.67.10.101])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 009E041C71;
-	Wed, 26 Feb 2025 13:43:39 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=156.67.10.101
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0D4BA80BEC;
+	Wed, 26 Feb 2025 14:17:31 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1740577421; cv=none; b=FYjjDYxn/fO5Lo+a0J1K3p0B48RvBj/ECYvfw5kBTc8BmT9Gy//GFO3E4EePS0cvXT9m0jDwhe6heFvdXfCxRBFAFM66NXEmNNJv/YNm3zCe6qkZ+TKmtIJrpNyMDKI13rC/VR5AEFsJ3j6Ei519cuO9LEzhKrfXIS3Btgt86ZU=
+	t=1740579452; cv=none; b=dLPQAcYF+x53LQkeirbE6pUayD2Z0euyKLnf6dun8az3Y1ejfBFcxHDsPXMsSC/PbQLcV+crKxRjZua2pv7BAjpP8USSYFwnvw232yjuoPXX25W2eHmhuVZNFwytXt5HRZJYAq2s6kCLnh0qE6UcZPyQ3PdZvymkVxLyLh/TBQM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1740577421; c=relaxed/simple;
-	bh=C1RgbLR6GSfvgGMUX8LxeDVo7GdVzjmW06YGox9WhSA=;
-	h=Date:From:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=Md+QrwwDR005Mwl2QpnxTVImF9KRaAQsRWAc9yETJXQu6GpLzN6DmT7/UgEK+yPAuQkWDFCFqV8VsKQjzsEBPbWaVYw9Eb5jwdKIx52+n3+4tN6xUrxax4Q70xiRbmfFocgTVH1XB9nXLkF4mhv9BzCN2tLUDpMqaPCawSwhmeg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lunn.ch; spf=pass smtp.mailfrom=lunn.ch; dkim=pass (1024-bit key) header.d=lunn.ch header.i=@lunn.ch header.b=O+J6C6YS; arc=none smtp.client-ip=156.67.10.101
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lunn.ch
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=lunn.ch
+	s=arc-20240116; t=1740579452; c=relaxed/simple;
+	bh=rfDn+KiVBkmx3nDlyBVL/TWI0/nwyuJ+FW3EGRqP6ng=;
+	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
+	 In-Reply-To:To:Cc; b=tdY2GQuKTEalakpdap7zahX7XaMrUtp248C8GMh5b5hITQBb33jI2IVuCH52GHNcU5wyKo5qXAmG8VKGlngThk0sQCgwiNYF/eta+sP57K6jvijFJfm4XeOq6z9FaWNofMroAWT7XPsIDHK+BkT6Dz7dEerm4ofjDtHB5pew+oc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=pBBx+spe; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=lunn.ch header.i=@lunn.ch header.b="O+J6C6YS"
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=lunn.ch;
-	s=20171124; h=In-Reply-To:Content-Disposition:Content-Type:MIME-Version:
-	References:Message-ID:Subject:Cc:From:Date:From:Sender:Reply-To:Subject:Date:
-	Message-ID:To:Cc:MIME-Version:Content-Type:Content-Transfer-Encoding:
-	Content-ID:Content-Description:Content-Disposition:In-Reply-To:References;
-	bh=+RM9fCd/pH/t1kXOr5ohz3w+lMtjBfCOedTcP39zAaM=; b=O+J6C6YSUoR+qkSnbq3xnBv7kq
-	TK4+SebVazszU6RcdBlkTq5CUyf3NmIhIhYO4MGohY316oVlXE0KLvs6ss0yQ3ky3nYPY3QhgpeF9
-	eE9Sc7oXJ+d8EeSJgvEf/0+iAexlZBH/QGnIn08RsEP67gXc1wGFh+n+8SXiFA7yLrgA=;
-Received: from andrew by vps0.lunn.ch with local (Exim 4.94.2)
-	(envelope-from <andrew@lunn.ch>)
-	id 1tnHhD-000Gqa-Mm; Wed, 26 Feb 2025 14:43:31 +0100
-Date: Wed, 26 Feb 2025 14:43:31 +0100
-From: Andrew Lunn <andrew@lunn.ch>
-Cc: davem@davemloft.net, edumazet@google.com, kuba@kernel.org,
-	pabeni@redhat.com, netdev@vger.kernel.org,
-	linux-kernel@vger.kernel.org, linux-usb@vger.kernel.org,
-	stable@vger.kernel.org
-Subject: Re: [PATCH] net: fix uninitialised access in mii_nway_restart()
-Message-ID: <418ddcf6-e7c9-4a8e-ba1a-38a83cb2b5f8@lunn.ch>
-References: <Z7R6uet1dJ1UJsJ1@qasdev.system>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="pBBx+spe"
+Received: by smtp.kernel.org (Postfix) with ESMTPS id A3396C4CEE9;
+	Wed, 26 Feb 2025 14:17:31 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1740579451;
+	bh=rfDn+KiVBkmx3nDlyBVL/TWI0/nwyuJ+FW3EGRqP6ng=;
+	h=From:Date:Subject:References:In-Reply-To:To:Cc:Reply-To:From;
+	b=pBBx+speW0xpfNhtMDTiYGRYbQ/Q5EeqP+uBinXNqJial5ntCD1tE71qjsNxn1mlu
+	 LTxaw/B+ls5aNu9Ss30MSedBLYp0UFWYdAZFJBtb8+NpKWQYQg/WvnkqnMfLFX6YwX
+	 pPzVFhbUgfyzVPsKf4+mL7vZycA52+az7cDPxi7lEF8pz7Xzp7xwQciU+Aukw4rGx/
+	 +RKK6tMTVM0baLB1yNG3/qZCmSuZEylio1puI3oaKIkwqgcJv/mVBtxobeSzVX2zEm
+	 n/AWLLntmWBB18zdoBDgUJH1U0PRinZ6dWJtpBab6Yfd6/BOdsTgyj/ADpuGOCRSnl
+	 3K4sq1+SKQ/pA==
+Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 991B4C18E7C;
+	Wed, 26 Feb 2025 14:17:31 +0000 (UTC)
+From: =?utf-8?q?Jonathan_Neusch=C3=A4fer_via_B4_Relay?= <devnull+j.ne.posteo.net@kernel.org>
+Date: Wed, 26 Feb 2025 15:17:25 +0100
+Subject: [PATCH v2 3/9] usb: storage: alauda: Use const for card ID array
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <Z7R6uet1dJ1UJsJ1@qasdev.system>
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 8bit
+Message-Id: <20250226-misc-const-v2-3-ab655a4a29cc@posteo.net>
+References: <20250226-misc-const-v2-0-ab655a4a29cc@posteo.net>
+In-Reply-To: <20250226-misc-const-v2-0-ab655a4a29cc@posteo.net>
+To: Alan Stern <stern@rowland.harvard.edu>, 
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+Cc: linux-usb@vger.kernel.org, usb-storage@lists.one-eyed-alien.net, 
+ linux-kernel@vger.kernel.org, 
+ =?utf-8?q?Jonathan_Neusch=C3=A4fer?= <j.ne@posteo.net>
+X-Mailer: b4 0.14.2
+X-Developer-Signature: v=1; a=ed25519-sha256; t=1740579450; l=1734;
+ i=j.ne@posteo.net; s=20240329; h=from:subject:message-id;
+ bh=xAXPKBDwOOBoB15BevA7fkgOtiFU68x7gTE2+hUwyPY=;
+ b=xV5Vhk4iWlyer4unDR4p2EIq6gdYddi2WvMjqMUq1gHJvZJs8Ts0KzxzgmSAK2Sa+elAhzkpC
+ QDam+rQUI3PAH7RqCGQWhe3XJIL9bR+31UJhZp0QuAsdI33PHVm1cHi
+X-Developer-Key: i=j.ne@posteo.net; a=ed25519;
+ pk=NIe0bK42wNaX/C4bi6ezm7NJK0IQE+8MKBm7igFMIS4=
+X-Endpoint-Received: by B4 Relay for j.ne@posteo.net/20240329 with
+ auth_id=156
+X-Original-From: =?utf-8?q?Jonathan_Neusch=C3=A4fer?= <j.ne@posteo.net>
+Reply-To: j.ne@posteo.net
 
-On Tue, Feb 18, 2025 at 12:19:57PM +0000, Qasim Ijaz wrote:
-> On Tue, Feb 18, 2025 at 02:10:08AM +0100, Andrew Lunn wrote:
-> > On Tue, Feb 18, 2025 at 12:24:43AM +0000, Qasim Ijaz wrote:
-> > > In mii_nway_restart() during the line:
-> > > 
-> > > 	bmcr = mii->mdio_read(mii->dev, mii->phy_id, MII_BMCR);
-> > > 
-> > > The code attempts to call mii->mdio_read which is ch9200_mdio_read().
-> > > 
-> > > ch9200_mdio_read() utilises a local buffer, which is initialised 
-> > > with control_read():
-> > > 
-> > > 	unsigned char buff[2];
-> > > 	
-> > > However buff is conditionally initialised inside control_read():
-> > > 
-> > > 	if (err == size) {
-> > > 		memcpy(data, buf, size);
-> > > 	}
-> > > 
-> > > If the condition of "err == size" is not met, then buff remains 
-> > > uninitialised. Once this happens the uninitialised buff is accessed 
-> > > and returned during ch9200_mdio_read():
-> > > 
-> > > 	return (buff[0] | buff[1] << 8);
-> > > 	
-> > > The problem stems from the fact that ch9200_mdio_read() ignores the
-> > > return value of control_read(), leading to uinit-access of buff.
-> > > 
-> > > To fix this we should check the return value of control_read()
-> > > and return early on error.
-> > 
-> > What about get_mac_address()?
-> > 
-> > If you find a bug, it is a good idea to look around and see if there
-> > are any more instances of the same bug. I could be wrong, but it seems
-> > like get_mac_address() suffers from the same problem?
-> 
-> Thank you for the feedback Andrew. I checked get_mac_address() before
-> sending this patch and to me it looks like it does check the return value of
-> control_read(). It accumulates the return value of each control_read() call into 
-> rd_mac_len and then checks if it not equal to what is expected (ETH_ALEN which is 6),
-> I believe each call should return 2.
+From: Jonathan Neuschäfer <j.ne@posteo.net>
 
-It is unlikely a real device could trigger an issue, but a USB Rubber
-Ducky might be able to. So the question is, are you interested in
-protecting against malicious devices, or just making a static analyser
-happy? Feel free to submit the patch as is.
+The alauda_card_ids array is only read, and not modified.
 
-	Andrew
+Signed-off-by: Jonathan Neuschäfer <j.ne@posteo.net>
+---
+
+V2:
+- new patch
+---
+ drivers/usb/storage/alauda.c | 8 ++++----
+ 1 file changed, 4 insertions(+), 4 deletions(-)
+
+diff --git a/drivers/usb/storage/alauda.c b/drivers/usb/storage/alauda.c
+index 6263c4e61678e890e0192c5c9dad9b97dbaf0e66..e01f3a42bde4200da245c17abd5299c062868204 100644
+--- a/drivers/usb/storage/alauda.c
++++ b/drivers/usb/storage/alauda.c
+@@ -174,7 +174,7 @@ struct alauda_card_info {
+ 	unsigned char zoneshift;	/* 1<<zs blocks per zone */
+ };
+ 
+-static struct alauda_card_info alauda_card_ids[] = {
++static const struct alauda_card_info alauda_card_ids[] = {
+ 	/* NAND flash */
+ 	{ 0x6e, 20, 8, 4, 8},	/* 1 MB */
+ 	{ 0xe8, 20, 8, 4, 8},	/* 1 MB */
+@@ -200,7 +200,7 @@ static struct alauda_card_info alauda_card_ids[] = {
+ 	{ 0,}
+ };
+ 
+-static struct alauda_card_info *alauda_card_find_id(unsigned char id)
++static const struct alauda_card_info *alauda_card_find_id(unsigned char id)
+ {
+ 	int i;
+ 
+@@ -383,7 +383,7 @@ static int alauda_init_media(struct us_data *us)
+ {
+ 	unsigned char *data = us->iobuf;
+ 	int ready = 0;
+-	struct alauda_card_info *media_info;
++	const struct alauda_card_info *media_info;
+ 	unsigned int num_zones;
+ 
+ 	while (ready == 0) {
+@@ -1132,7 +1132,7 @@ static int alauda_transport(struct scsi_cmnd *srb, struct us_data *us)
+ 	int rc;
+ 	struct alauda_info *info = (struct alauda_info *) us->extra;
+ 	unsigned char *ptr = us->iobuf;
+-	static unsigned char inquiry_response[36] = {
++	static const unsigned char inquiry_response[36] = {
+ 		0x00, 0x80, 0x00, 0x01, 0x1F, 0x00, 0x00, 0x00
+ 	};
+ 
+
+-- 
+2.48.0.rc1.219.gb6b6757d772
+
+
