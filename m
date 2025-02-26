@@ -1,181 +1,107 @@
-Received: from l2mail1.panix.com (l2mail1.panix.com [166.84.1.75])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-qk1-f176.google.com (mail-qk1-f176.google.com [209.85.222.176])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B221721CC6D;
-	Wed, 26 Feb 2025 15:49:50 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=166.84.1.75
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C37E021CA1B
+	for <linux-usb@vger.kernel.org>; Wed, 26 Feb 2025 17:02:07 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.222.176
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1740584993; cv=none; b=CM2IZxBS5VddB+uziutYGVC9hEpohKYrzdhp1cwO5yKA9VC6a2SB2StmqRgDYeBdM54vJZCTfvntfoBzR5dXZajjxiSdOKbnR25sWLy9l7uPKeWefLPvD/O0gNKmtIFrlV/wZQCTa3xMtl75KFid1ShFgWWf35omAfMyn3yHkfg=
+	t=1740589330; cv=none; b=ZBwsGbZRzhjhs5t9g09GeLZueMkjbSm1fEXM4AwCfNocAJBI4Zo7Hqm3gPVwxDnoNrmgRVmX5pxq4R96gSFEuNoqFwOpeEMOEtttmOM1eyAnRLHqFUlkNbGOZUkN1ro3Qpd0WYFMIyJz49wYGrcwr1r8fb+Gu4OmIpjyYdfjXGw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1740584993; c=relaxed/simple;
-	bh=Vj5uE4ESzohsxDwURRoN/xqYlLO93wlxFGqvOeU2v0Y=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=YfjR3AllY26UMVzIVCgbwGbLgQiXJpxjvD7J8SezWhnbku6vNfhz/eaxgO80mmXdwr+/oblG/WrFkle+wrKYWvkDp8FxQNSbhTZBojDYfMsQ0O6xhcuiekK1Jny4O6dKy43p3IL6uCuCgLGB+lRRaHfu95GzqqIxSKx939y+RK8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=panix.com; spf=pass smtp.mailfrom=panix.com; dkim=pass (1024-bit key) header.d=panix.com header.i=@panix.com header.b=BXgM6QBV; arc=none smtp.client-ip=166.84.1.75
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=panix.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=panix.com
+	s=arc-20240116; t=1740589330; c=relaxed/simple;
+	bh=e5NiXp9FYAQo8RmgI6NQ6gPt2AVfMiz6r0xfJUYuKrk=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=dMQFF9Er8TlqFDiq0E5LGuJUWZMbXoULegZN3SDs08D5Eo9fC92yqdmM8Sml2FuMYZGhqiLDvzC7HDWUuvpexlWjiLta1FO5WLFqWGPjwR/y+DTo81kizZJzi1ZtY2ppWXt8a9OMFoVcR7lV1ew3UJqpzH0u5jYjvXLwTAxQZRY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=rowland.harvard.edu; spf=fail smtp.mailfrom=g.harvard.edu; dkim=pass (2048-bit key) header.d=rowland.harvard.edu header.i=@rowland.harvard.edu header.b=ewGg9k3z; arc=none smtp.client-ip=209.85.222.176
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=rowland.harvard.edu
+Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=g.harvard.edu
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=panix.com header.i=@panix.com header.b="BXgM6QBV"
-Received: from mailbackend.panix.com (mailbackend.panix.com [166.84.1.89])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (1024 bits) server-digest SHA256)
-	(No client certificate requested)
-	by l2mail1.panix.com (Postfix) with ESMTPS id 4Z2z3S3y1QzDSH;
-	Wed, 26 Feb 2025 10:31:48 -0500 (EST)
-Received: from [172.16.225.207] (unknown [47.154.181.182])
-	by mailbackend.panix.com (Postfix) with ESMTPSA id 4Z2z3H0zQqz56g5;
-	Wed, 26 Feb 2025 10:31:39 -0500 (EST)
-DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple; d=panix.com; s=panix;
-	t=1740583900; bh=Vj5uE4ESzohsxDwURRoN/xqYlLO93wlxFGqvOeU2v0Y=;
-	h=Date:Subject:To:Cc:References:From:In-Reply-To;
-	b=BXgM6QBVMxwP3HtMLYG4ARsarO/GAmA/r+WnIFR2oNA23NwVHsnuLEh0L+6KLiHzR
-	 zvPLpInkIjwPGTmJI4/IzrWXf4g53/MAVosroZNl6NJj6Ktt0L8HDYhAfCTyifKOC6
-	 BeQOfik9xOSbLC6e4zLTnMNqzX/kh4I44VOrwn4k=
-Message-ID: <7b472880-32d0-4783-b9d2-3d4230403975@panix.com>
-Date: Wed, 26 Feb 2025 07:31:37 -0800
+	dkim=pass (2048-bit key) header.d=rowland.harvard.edu header.i=@rowland.harvard.edu header.b="ewGg9k3z"
+Received: by mail-qk1-f176.google.com with SMTP id af79cd13be357-7c0a3d6a6e4so631485a.1
+        for <linux-usb@vger.kernel.org>; Wed, 26 Feb 2025 09:02:07 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=rowland.harvard.edu; s=google; t=1740589326; x=1741194126; darn=vger.kernel.org;
+        h=in-reply-to:content-transfer-encoding:content-disposition
+         :mime-version:references:message-id:subject:cc:to:from:date:from:to
+         :cc:subject:date:message-id:reply-to;
+        bh=6gDpJWiIqmqRiAR05CBdJHy9M1E970vBLzOxyspapRA=;
+        b=ewGg9k3z5si26WBJQSk2PhTrDtlkW4iM0Ye+lFWaKhfbAFyfQ+Nd0FdVkOOQP3QU0i
+         36560fSkSvDlCZs9aLLAKiZkPCO95S7CLE45qui7e+LwnSXiaP9si7Ha2wWzbeUEqZv3
+         4sDCec61zt9v9MUQT2N3hlmbbPJzJDblDCzl9V1xwv70zDHzDpgz58quD3+LC1aETmcU
+         dY+bGCMAHCtPOl6krW3/0i8ni+pf4InMqjIbb9vTasQcFArOJLsKrYoS+eW3lawHrTRW
+         TsQSN4GSE6F6tU2DxR4YV9MQdPgc4Jlblvp+W3NEb+A072KEckBEmEgfdsdYBfGbDO/d
+         3E9Q==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1740589326; x=1741194126;
+        h=in-reply-to:content-transfer-encoding:content-disposition
+         :mime-version:references:message-id:subject:cc:to:from:date
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=6gDpJWiIqmqRiAR05CBdJHy9M1E970vBLzOxyspapRA=;
+        b=ZkMPMGF3v9hhXaMepM1kXGQ2rvw3rU3deGn+JHSJutN0PCJlkwUAmqv+6VMic6G3hb
+         JW2/C3hRCIE6TvTBPSINQvfHn0u2NTX60gXzXGF3OO3UiKVRDuB+b/XhpjyU8YPBbx9d
+         7NIFottg3ffypNI25LER7ZivXlcEbQyfsrvZyK6/Y0hdzV7pPOt+FJBo6HReKU2LqUgC
+         yRpWQeod33Nk2vUrFqg5WXY/8z5nLndYexIt02knKC0UQIvI8fvm5YRIGU6sL3SfWxPv
+         hnFP7eqchiu7y0gmlDH408Wta3WqInMuawxSFo4+TRJzMAT+NL9syhniJPdMZzkLXtlh
+         iyvg==
+X-Forwarded-Encrypted: i=1; AJvYcCUMDM9UTXeKzB/NaOPTMMNHOQZuY7LPSG8qOr68rGWwsjtuPJLz7RbOE1labWMos3WbNI+aTpBk1JE=@vger.kernel.org
+X-Gm-Message-State: AOJu0YzpTbwMcfhG4MXQ5svTkGn6w565F+TBB1w1FXiclHebUU14DP8G
+	QaLlQ7shyeIvYEfq7/0IVVaDh0ZfFBXSLv56ZhiP4HtrjV+XQg1tvjEn4Kmoa7aNWCLVdsz13Nk
+	=
+X-Gm-Gg: ASbGnctLzbXR5NlpgN1WdiRWVLmY270lpOARqni33L6Nx+tPYX6JY8fBlF7aB+IM/Lt
+	d/g0afG0woOXmn3M1wl8IMObl+3i/DKI0U//annQJBgZ1HP2ToeQKc53fUA75vep7u2UK6EW5nl
+	xeM3G9ndXFaQvRkyCogxXp1mGh9A8grLfzKZb9SB4XJ3xdwKQg1SKje8F2bRbcksdWsmCLnV888
+	8mJhqOWRes21yIWS6kWVG1VeFripkWHdoHl1e79DYUJ4NSTl65F3N3aI9S8JjTKHc9hsIRr/pwY
+	hZIuG7FDQYRhzcnc3mn5JV+Kj1A4qQdSFGjqDzRrydNKcsNLeDnaDQXqaUGqk6z5wQFaGYcd1/G
+	M2R5bSLq3UNuw4CKTTzM=
+X-Google-Smtp-Source: AGHT+IGV/gWuJnQclFU8ZteMOSQCELX/mpo4Tyj2Sn/PZ7XKzflnRkNxcemJufnJWgcG73GfCcYYUQ==
+X-Received: by 2002:a05:620a:1b8f:b0:7c0:b368:5d8b with SMTP id af79cd13be357-7c0ceee5f8fmr2639224985a.11.1740589326574;
+        Wed, 26 Feb 2025 09:02:06 -0800 (PST)
+Received: from rowland.harvard.edu (nat-65-112-8-24.harvard-secure.wrls.harvard.edu. [65.112.8.24])
+        by smtp.gmail.com with ESMTPSA id af79cd13be357-7c23c34f633sm269044585a.117.2025.02.26.09.02.05
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 26 Feb 2025 09:02:05 -0800 (PST)
+Date: Wed, 26 Feb 2025 12:02:02 -0500
+From: Alan Stern <stern@rowland.harvard.edu>
+To: j.ne@posteo.net
+Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	linux-usb@vger.kernel.org, usb-storage@lists.one-eyed-alien.net,
+	linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v2 0/9] usb: storage: Mark various arrays as const
+Message-ID: <ea5c2735-cfb3-4e5f-a7f9-40d4493bd05a@rowland.harvard.edu>
+References: <20250226-misc-const-v2-0-ab655a4a29cc@posteo.net>
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: diagnosing resume failures after disconnected USB4 drives (Was:
- Re: PCI/ASPM: Fix L1SS saving (linus/master commit 7507eb3e7bfac))
-To: Mika Westerberg <mika.westerberg@linux.intel.com>
-Cc: Bjorn Helgaas <helgaas@kernel.org>, ilpo.jarvinen@linux.intel.com,
- Bjorn Helgaas <bhelgaas@google.com>, Jian-Hong Pan <jhp@endlessos.org>,
- linux-pci@vger.kernel.org, linux-kernel@vger.kernel.org,
- =?UTF-8?B?TmlrbMSBdnMgS2/EvGVzxYZpa292cw==?= <pinkflames.linux@gmail.com>,
- Andreas Noever <andreas.noever@gmail.com>,
- Michael Jamet <michael.jamet@intel.com>, Lukas Wunner <lukas@wunner.de>,
- Yehezkel Bernat <YehezkelShB@gmail.com>, linux-usb@vger.kernel.org,
- Kenneth Crudup <kenny@panix.com>
-References: <20250210210502.GA15655@bhelgaas>
- <21b72adf-aac6-49fa-af40-6db596c87432@panix.com>
- <20250211055722.GW3713119@black.fi.intel.com>
- <83d9302a-f743-43e4-9de2-2dd66d91ab5b@panix.com>
- <20250213135911.GG3713119@black.fi.intel.com>
- <a8d6ca75-8f50-4c46-8c67-fcf20d870dcc@panix.com>
- <20250214162948.GJ3713119@black.fi.intel.com>
- <661459dd-67d0-4e1c-bb28-9adf1417f660@panix.com>
- <20250226084404.GM3713119@black.fi.intel.com>
-Content-Language: en-US
-From: Kenneth Crudup <kenny@panix.com>
-In-Reply-To: <20250226084404.GM3713119@black.fi.intel.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <20250226-misc-const-v2-0-ab655a4a29cc@posteo.net>
 
+On Wed, Feb 26, 2025 at 03:17:22PM +0100, 'Jonathan Neuschäfer via B4 Relay' via USB Mass Storage on Linux wrote:
+> While reading code, I noticed that some arrays in USB mass storage
+> drivers are declared static but not const, even though they are not
+> modified. This patchset marks them const.
+> 
+> All patches were compile-tested.
+> 
+> Signed-off-by: Jonathan Neuschäfer <j.ne@posteo.net>
+> ---
+> Changes in v2:
+> - Add new patches 2-9
+> - Use consistent authorship information
+> - Link to v1: https://lore.kernel.org/r/20250225-misc-const-v1-1-121ff3b86437@posteo.net
 
-Trying to do a "control" test before I try out your bisected commit, and 
-Lukas' changes, but of course now I can't get it to fail (I'm on Linus' 
-master as of this morning (b5799106b4).
+The patches themselves look good, but I still think you should explain 
+in the patch descriptions why declaring these arrays const is worth 
+doing.
 
-I'm using my portable USB4 dock (Plugable TBT4-HUB3C) this time (vs. my 
-CalDigit 4 dock) but the same ASMedia USB4-to-NVMe adapter as always; in 
-any case everything is PCIe so it shouldn't matter.
+Merely saying _what_ you are doing isn't good enough.  We can tell what 
+a patch does just by reading it.  What we can't always tell is _why_ you 
+would want to do it.  That is what needs to be explained.
 
-I don't normally use "tbauth" (I think that's all done for me via the 
-"boltctl" suite) but I grabbed and built the GIT and ran it anyway, for 
-good measure.
+The explanation doesn't have to be terribly long or detailed, but you 
+should not omit it entirely.
 
-I'll keep you updated, I'll be at my CalDigit dock soon enough if I 
-can't get any failures this morning.
-
--K
-
-On 2/26/25 00:44, Mika Westerberg wrote:
-> Hi Kenneth,
-> 
-> On Fri, Feb 14, 2025 at 09:39:33AM -0800, Kenneth Crudup wrote:
->>
->> This is excellent news that you were able to reproduce it- I'd figured this
->> regression would have been caught already (as I do remember this working
->> before) and was worried it may have been specific to a particular piece of
->> hardware (or software setup) on my system.
->>
->> I'll see what I can dig up on my end, but as I'm not expert in these
->> subsystems I may not be able to diagnose anything until your return.
-> 
-> [Back now]
-> 
-> My git bisect ended up to this commit:
-> 
->    9d573d19547b ("PCI: pciehp: Detect device replacement during system sleep")
-> 
-> Adding Lukas who is the expert.
-> 
-> My steps to reproduce on Intel Meteor Lake based reference system are:
-> 
-> 1. Boot the system up, nothing connected.
-> 2. Once up, connect Thunderbolt 4 dock and Thunderbolt 3 NVMe in a chain:
-> 
->    [Meteor Lake host] <--> [TB 4 dock] <--> [TB 3 NVMe]
-> 
-> 3. Authorize PCIe tunnels (whatever your distro provides, my buildroot just
->      has the debugging tools so running 'tbauth -r 301')
-> 
-> 4. Check that the PCIe topology matches the expected (lspci)
-> 
-> 5. Enter s2idle:
-> 
->    # rtcwake -s 30 -mmem
-> 
-> 6. Once it is suspended, unplug the cable between the host and the dock.
-> 
-> 7. Wait for the resume to happen.
-> 
-> Expectation: The system wakes up fine, notices that the TB and PCIe devices
-> are gone, stays responsive and usable.
-> 
-> Actual result: Resume never completes.
-> 
-> I added "no_console_suspend" to the command line and the did sysrq-w to
-> get list of blocked tasks. I've attached it just in case it is needed.
-> 
-> If I revert the above commit the issue is gone. Now I'm not sure if this is
-> exactly the same issue that you are seeing but nevertheless this is kind of
-> normal use case so definitely something we should get fixed.
-> 
-> Lukas, if you need any more information let me know. I can reproduce this
-> easily.
-> 
->> I also saw some DRM/connected fixes posted to Linus' master so maybe one of
->> them corrects this new display-crash issue (I'm not home on my big monitor
->> to be able to test yet).
->>
->> -Kenny
->>
->> On 2/14/25 08:29, Mika Westerberg wrote:
->>> Hi,
->>>
->>> On Thu, Feb 13, 2025 at 11:19:35AM -0800, Kenneth Crudup wrote:
->>>>
->>>> On 2/13/25 05:59, Mika Westerberg wrote:
->>>>
->>>>> Hi,
->>>>
->>>> As Murphy's would have it, now my crashes are display-driver related (this
->>>> is Xe, but I've also seen it with i915).
->>>>
->>>> Attached here just for the heck of it, but I'll be better testing the NVMe
->>>> enclosure-related failures this weekend. Stay tuned!
->>>
->>> Okay, I checked quickly and no TB related crash there but I was actually
->>> able to reproduce hang when I unplug the device chain during suspend. I did
->>> not yet have time to look into it deeper. I'm sure this has been working
->>> fine in the past as we tested all kinds of topologies including similar to
->>> this.
->>>
->>> I will be out next week for vacation but will continue after that if the
->>> problem is not alraedy solved ;-)
->>>
->>
->> -- 
->> Kenneth R. Crudup / Sr. SW Engineer, Scott County Consulting, Orange County
->> CA
-
--- 
-Kenneth R. Crudup / Sr. SW Engineer, Scott County Consulting, Orange 
-County CA
-
+Alan Stern
