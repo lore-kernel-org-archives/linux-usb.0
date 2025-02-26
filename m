@@ -1,37 +1,37 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0D4F914D283;
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0D599191F6A;
 	Wed, 26 Feb 2025 14:17:31 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1740579452; cv=none; b=ugFOrsjm/KxqF0dpCQQYW0e7IGpK8cd1hzk13I/U87RKTkw8zItFieY+qnB/ZPIuSBHk54g8BqKN2zxPnUCgRmxkXFwach1P/CH2ZbRKC+NgREHPEN9WI2M3AOanLwGpBeguCKZvyWIbe62skEQqE85sHUCn5D7F/SrzBwSxeVg=
+	t=1740579452; cv=none; b=NzOGEBlhMn8woJV1gHT/EI8x1mxK7wy9Qzmjoq6j1e1yJtqrSqAggx0fn8D6idh9yeINwlzc2KHNwHHkmH2760OzfPu0HBVTbt3LDcLe7qJIAjgkHdlC2gj11dGOGXVVW1UGlQpsln0qX/j8jJrgD+qqkBqmI7hvJ6JXvGlNDgs=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
 	s=arc-20240116; t=1740579452; c=relaxed/simple;
-	bh=t4T1Z6bfxQBpjyXd5fjAXivHEZkPs3AogPqa+53JyR8=;
+	bh=cG41MNyc8x+QEktsxSBjUBrLBNatZCQO437Ub1tz6tI=;
 	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
-	 In-Reply-To:To:Cc; b=DWlb2i3stbp0rrGOyYZJx+jEUDglzMJ6ga3/wt+FI8kZj2SNvY0NRkjSb2vv41WimT7NodVjxIqTUNWDmOIXV5wSgvScnMoBkYC0+DhgSV9buDFrjg59cJhhDRwe+fkNzuXzEn/EMK6TNliuuaI5hJmzSUFPSGRqvqXO6yG8Hv8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=FpfNRFbC; arc=none smtp.client-ip=10.30.226.201
+	 In-Reply-To:To:Cc; b=rNF+s6rMr1A88NBAO/I49qtuve0CczNvxWQ1hFIfd/ydS9tpFg3XcnIYLFrRVa3p3EZPPy7cndq4tazI+nd/+au3sndGL0VPulzsMHRo4A+cKIkpV/e0piNbwBYXfL+6NcPVJ5GqJNZ0gutBrEfqCdF7QzAyuLFoVQpAa+N6LpA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=YyYM6wiO; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="FpfNRFbC"
-Received: by smtp.kernel.org (Postfix) with ESMTPS id 8F178C4CED6;
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="YyYM6wiO"
+Received: by smtp.kernel.org (Postfix) with ESMTPS id B64EAC4CEEB;
 	Wed, 26 Feb 2025 14:17:31 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
 	s=k20201202; t=1740579451;
-	bh=t4T1Z6bfxQBpjyXd5fjAXivHEZkPs3AogPqa+53JyR8=;
+	bh=cG41MNyc8x+QEktsxSBjUBrLBNatZCQO437Ub1tz6tI=;
 	h=From:Date:Subject:References:In-Reply-To:To:Cc:Reply-To:From;
-	b=FpfNRFbCPKE6RSmg0gEEzPqBzamu7Huf12NAVSa3nLj+FJz5KLy06Nq45lGXy9qHC
-	 JMLmuF1Olgu3PK2v7wqi8Xj88YftvKh9iaIcOocSq8zmr1PKqDMo7y8dAJ00bmkUus
-	 nRDgFR7W+XrKTVBPV3PoJUkz/TiUIwup4ZY4W91JwlXmK/VOolXNRzFPZQADOP99xd
-	 tsCt/KOeLNmEqvzEJfqvRk0cUqzk4+K2wABNSrsraSEYmPMZDKd5dYnr/TjInJJMac
-	 /LSSYa28n8TGH8c16OGDmGf1uZJm9Mx2iEF9qN1CsC+t+HPUo09gJxinUPxJC0nGWF
-	 uQLBWtzH0bn3A==
+	b=YyYM6wiOjALYvTxi8K3R7VtOMav2exWrbFdZhEFvRg6f1/npY+1rPhQ4tjtB+BsEx
+	 6CeIHhZ3tMPf173fRjOm8F1+1hdl7GC7NrdjGEBzptik64GLE603IGbSwJ8Evf83WS
+	 MtXTCUHeNCra4I3mDauss/+2KyFPAlUh0gzQL5RykfEn8bni4LWCBhDEUg2ZyTLVIC
+	 trxsIYz2tqc4Pme/37fdXCZu+sts+BuuYZUOqvbuHFTkwyWTFIruPnuCjzpY3jonzQ
+	 QQrjOeBIM73anKJ8UJBXZ1akupsZFJ6inklX3Xi8soCtQ829gEIP56ACy4RcczDLr/
+	 FBEJ4ZnO1dQig==
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 7C441C021BF;
+	by smtp.lore.kernel.org (Postfix) with ESMTP id AD84DC021B8;
 	Wed, 26 Feb 2025 14:17:31 +0000 (UTC)
 From: =?utf-8?q?Jonathan_Neusch=C3=A4fer_via_B4_Relay?= <devnull+j.ne.posteo.net@kernel.org>
-Date: Wed, 26 Feb 2025 15:17:23 +0100
-Subject: [PATCH v2 1/9] usb: storage: jumpshot: Use const for constant
+Date: Wed, 26 Feb 2025 15:17:26 +0100
+Subject: [PATCH v2 4/9] usb: storage: datafab: Use const for constant
  arrays
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
@@ -41,7 +41,7 @@ List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 8bit
-Message-Id: <20250226-misc-const-v2-1-ab655a4a29cc@posteo.net>
+Message-Id: <20250226-misc-const-v2-4-ab655a4a29cc@posteo.net>
 References: <20250226-misc-const-v2-0-ab655a4a29cc@posteo.net>
 In-Reply-To: <20250226-misc-const-v2-0-ab655a4a29cc@posteo.net>
 To: Alan Stern <stern@rowland.harvard.edu>, 
@@ -50,11 +50,11 @@ Cc: linux-usb@vger.kernel.org, usb-storage@lists.one-eyed-alien.net,
  linux-kernel@vger.kernel.org, 
  =?utf-8?q?Jonathan_Neusch=C3=A4fer?= <j.ne@posteo.net>
 X-Mailer: b4 0.14.2
-X-Developer-Signature: v=1; a=ed25519-sha256; t=1740579450; l=1619;
+X-Developer-Signature: v=1; a=ed25519-sha256; t=1740579450; l=2349;
  i=j.ne@posteo.net; s=20240329; h=from:subject:message-id;
- bh=H3dMAb8P96lFwD5LpmR5haaczG54h7nPpY9qeuhmOyQ=;
- b=vF9loLYXkwunZHPQSBSjPkNHR4KE926KDCA6C9QnncH+mdwU9dnMF4CesPjZz4sBl+Ne+JVtm
- 2+tvSOmCGdhDGPfwhy6AZgOlbRXV1l3HYOfnimKf9m1M5Ii7mxetjEj
+ bh=5889APtKFFab054l3Ee3spnWaj/UxBWmua1IlElw8Hk=;
+ b=AU338qvvEAePEg9jLLeMUgQzbkLqosqROpA/Ngu4KxLu0N+nAlUKqOim3VKzHIX3mqqaxeZI3
+ G8p/zLIP7eqDxP/YhPj6atkVfpOeIsNmgqt3iUYzyhUsbrC2t/R0+9l
 X-Developer-Key: i=j.ne@posteo.net; a=ed25519;
  pk=NIe0bK42wNaX/C4bi6ezm7NJK0IQE+8MKBm7igFMIS4=
 X-Endpoint-Received: by B4 Relay for j.ne@posteo.net/20240329 with
@@ -64,24 +64,42 @@ Reply-To: j.ne@posteo.net
 
 From: Jonathan Neuschäfer <j.ne@posteo.net>
 
-These arrays are not modified. Make them const.
+These arrays are only read, not modified.
 
 Signed-off-by: Jonathan Neuschäfer <j.ne@posteo.net>
 ---
 
 V2:
-- use consistent authorship information
+- new patch
 ---
- drivers/usb/storage/jumpshot.c | 10 +++++-----
- 1 file changed, 5 insertions(+), 5 deletions(-)
+ drivers/usb/storage/datafab.c | 14 +++++++-------
+ 1 file changed, 7 insertions(+), 7 deletions(-)
 
-diff --git a/drivers/usb/storage/jumpshot.c b/drivers/usb/storage/jumpshot.c
-index 39ca84d6859122903de4e64b13e697e8b7d4ab31..089c6f8ac85fbb683cca8b03a2ff06c0ca776167 100644
---- a/drivers/usb/storage/jumpshot.c
-+++ b/drivers/usb/storage/jumpshot.c
-@@ -367,16 +367,16 @@ static int jumpshot_handle_mode_sense(struct us_data *us,
- 				      struct scsi_cmnd * srb, 
- 				      int sense_6)
+diff --git a/drivers/usb/storage/datafab.c b/drivers/usb/storage/datafab.c
+index bbfa2398b17036f431c0692bbf794bdb01d68cdf..9ba369483c9b36c2f662749c32bf81b525ae897f 100644
+--- a/drivers/usb/storage/datafab.c
++++ b/drivers/usb/storage/datafab.c
+@@ -319,7 +319,7 @@ static int datafab_determine_lun(struct us_data *us,
+ 	//
+ 	// There might be a better way of doing this?
+ 
+-	static unsigned char scommand[8] = { 0, 1, 0, 0, 0, 0xa0, 0xec, 1 };
++	static const unsigned char scommand[8] = { 0, 1, 0, 0, 0, 0xa0, 0xec, 1 };
+ 	unsigned char *command = us->iobuf;
+ 	unsigned char *buf;
+ 	int count = 0, rc;
+@@ -384,7 +384,7 @@ static int datafab_id_device(struct us_data *us,
+ 	// to the ATA spec, 'Sector Count' isn't used but the Windows driver
+ 	// sets this bit so we do too...
+ 	//
+-	static unsigned char scommand[8] = { 0, 1, 0, 0, 0, 0xa0, 0xec, 1 };
++	static const unsigned char scommand[8] = { 0, 1, 0, 0, 0, 0xa0, 0xec, 1 };
+ 	unsigned char *command = us->iobuf;
+ 	unsigned char *reply;
+ 	int rc;
+@@ -437,16 +437,16 @@ static int datafab_handle_mode_sense(struct us_data *us,
+ 				     struct scsi_cmnd * srb, 
+ 				     int sense_6)
  {
 -	static unsigned char rw_err_page[12] = {
 +	static const unsigned char rw_err_page[12] = {
@@ -100,12 +118,12 @@ index 39ca84d6859122903de4e64b13e697e8b7d4ab31..089c6f8ac85fbb683cca8b03a2ff06c0
  		0x1C, 0x6, 0, 0, 0, 0
  	};
  	unsigned char pc, page_code;
-@@ -477,7 +477,7 @@ static int jumpshot_transport(struct scsi_cmnd *srb, struct us_data *us)
+@@ -550,7 +550,7 @@ static int datafab_transport(struct scsi_cmnd *srb, struct us_data *us)
  	int rc;
  	unsigned long block, blocks;
  	unsigned char *ptr = us->iobuf;
--	static unsigned char inquiry_response[8] = {
-+	static const unsigned char inquiry_response[8] = {
+-	static unsigned char inquiry_reply[8] = {
++	static const unsigned char inquiry_reply[8] = {
  		0x00, 0x80, 0x00, 0x01, 0x1F, 0x00, 0x00, 0x00
  	};
  
