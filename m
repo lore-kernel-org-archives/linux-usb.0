@@ -1,37 +1,38 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3C2181EF36E;
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3C1DF1EF361;
 	Fri, 28 Feb 2025 15:11:34 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1740755495; cv=none; b=rCe98RED96uc+b9Vv1f6T/95DWt2Gp2PpcsiBfOydRM72E8k547iEqQuNijscFjRuYWijvvbVev1vAHZI+haEX7QyoK8VDRfRCl8EdqcrVkDgypb5KkbY/k08BAjLbTUqLI37AFFOhkjaqmCY51sow4N+VZXk3boE2C9SuuqlQs=
+	t=1740755495; cv=none; b=gT8PYy7/GnzeXJxFzE1PFnLJef0Dw9ITC6bdXSWaCuRbfYI/O5Wzk/bzP9DSjAnaaRWpf939zW3C15CQJqfP1yhChY346A0cjMjm4Yv+XYFRXhWoLr00F4QhOktgsYq6p4F2E4t3tumR2c3LPJRH2iegmgm63P5FPJrJyh5lSMg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
 	s=arc-20240116; t=1740755495; c=relaxed/simple;
-	bh=d6jAc3qib5tSgD8hCc1ZWLfDLKrBDtNf4sx4KR6R/lE=;
-	h=From:Subject:Date:Message-Id:MIME-Version:Content-Type:To:Cc; b=IRK4fdtDYQtvyCVbHkLvobXb0BdS8kkQk83CCeLa646AYetA+/uU8BrunU8D/+eBKruT9LN9VBFrOnt/WbWegNuHnKkd4LgpYc2gyeruPGkO9GyXHpOjl9JL8whA0nAwKyfBYIagzskzXMPxZR+ipmnVedB6xxP/bJ1uBQVDZjo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=aUirnxra; arc=none smtp.client-ip=10.30.226.201
+	bh=bf3wlblmTinnWFniIp02mcMiY7kKvz+UH9UrgdVi1Yk=;
+	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
+	 In-Reply-To:To:Cc; b=rsZbzvUSA9kCmm2ZAGwkq3eme0P1zUE28A7g9FloWsuEXtLxaPpaxLNZ0H42LTXDmM36dfZQ5cTz6w3hqvwojfa1irTH7t8hmu5jMaMIHORwlYD1/ogcQs2ciZe1yeokrxkvhyL46Ub5CiKSkPEruBHskdqKZJgJOqH4MEqIorg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Y11VSiuo; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="aUirnxra"
-Received: by smtp.kernel.org (Postfix) with ESMTPS id B4F19C4CED6;
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Y11VSiuo"
+Received: by smtp.kernel.org (Postfix) with ESMTPS id D002BC4CEE2;
 	Fri, 28 Feb 2025 15:11:34 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
 	s=k20201202; t=1740755494;
-	bh=d6jAc3qib5tSgD8hCc1ZWLfDLKrBDtNf4sx4KR6R/lE=;
-	h=From:Subject:Date:To:Cc:Reply-To:From;
-	b=aUirnxra45BPpfceFpoSZpphkANWAwG202uEbtJixI+8GSw7gP8XoAwl6CUmOX8uO
-	 Gwc9u7nf/OLYuoE/+uYYw8O0t2LbLE85UkGomYmwbV3MDOruWrzQRHxQu42RsikB69
-	 +m6MxvMrdTNxNQxhh5MVv/9Bjrtcy84Lb+FEoltMCE/ciH6SDJua4j6dWwlR8xGnjL
-	 pTP4PylTyxOfYdG7YgWMAOi4G1/JMv+cuap5Oie11Vr2i3KaesB8m9eTF6iy2QjoH4
-	 bfq/Ojx1V4SQb8/Q1c0kgYwl/zkkn5MUv4YvSpx3ssAchsozpKYNpUOGCXU8EE7vic
-	 /OEOqSYr6SOJg==
+	bh=bf3wlblmTinnWFniIp02mcMiY7kKvz+UH9UrgdVi1Yk=;
+	h=From:Date:Subject:References:In-Reply-To:To:Cc:Reply-To:From;
+	b=Y11VSiuosDDu4OvhcY+kGVxaTlIeV+imkEeXTsRvgfbIY8CQuKmcmWDLqUAY047JS
+	 JXG8AL7iT3bgIKhjYoIIsvU/80Q5eKcFSuMaxJsWs3x9oAIbdeaYNErEyeCB1G9El6
+	 o7D00ezfyXbg03AHpnQ8ifkVor7C33a1CsEjChc/Sdt8QsrDw6jV4m+i2S0E/i+eaF
+	 YE5QYH8du3QRweSp9Orkm2jY5JuIAz6pieg9KeMNYz0yAI/cSkzVrwJAy+vUsvbnci
+	 K+dihqLkEcLpmfiufLANTU1Tg0IAiyuGMjO8y1/DFKEBd0PAYRqcXDOq69izu1DQ1b
+	 aBfXIUvysnCkw==
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id A3067C282C1;
+	by smtp.lore.kernel.org (Postfix) with ESMTP id C2ED7C282D0;
 	Fri, 28 Feb 2025 15:11:34 +0000 (UTC)
 From: =?utf-8?q?Jonathan_Neusch=C3=A4fer_via_B4_Relay?= <devnull+j.ne.posteo.net@kernel.org>
-Subject: [PATCH v3 0/9] usb: storage: Mark various arrays as const
-Date: Fri, 28 Feb 2025 16:11:15 +0100
-Message-Id: <20250228-misc-const-v3-0-09b417ded9c4@posteo.net>
+Date: Fri, 28 Feb 2025 16:11:17 +0100
+Subject: [PATCH v3 2/9] usb: storage: transport: Use const for constant
+ array
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
@@ -40,22 +41,20 @@ List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 8bit
-X-B4-Tracking: v=1; b=H4sIABPSwWcC/1WMQQ6DIBQFr2JYlwY+oLWr3qPpAvFTWRQMENLGe
- PeiK81bzUtmFpIwOkzk3iwkYnHJBV9BXBpiJu3fSN1YmQADySTj9OOSoSb4lCl2gzQW2KhsT6o
- wR7Tuu8eer8qTSznE394ufHu3jGIA6pgpnNYBt1YMt1aK7jGHlDFcPWaydQoc3fbkAmVUD61SW
- mrojTm567r+AWlKhIThAAAA
-X-Change-ID: 20240401-misc-const-e7b4cf20d5f9
+Message-Id: <20250228-misc-const-v3-2-09b417ded9c4@posteo.net>
+References: <20250228-misc-const-v3-0-09b417ded9c4@posteo.net>
+In-Reply-To: <20250228-misc-const-v3-0-09b417ded9c4@posteo.net>
 To: Alan Stern <stern@rowland.harvard.edu>, 
  Greg Kroah-Hartman <gregkh@linuxfoundation.org>
 Cc: linux-usb@vger.kernel.org, usb-storage@lists.one-eyed-alien.net, 
  linux-kernel@vger.kernel.org, 
  =?utf-8?q?Jonathan_Neusch=C3=A4fer?= <j.ne@posteo.net>
 X-Mailer: b4 0.14.2
-X-Developer-Signature: v=1; a=ed25519-sha256; t=1740755487; l=1859;
+X-Developer-Signature: v=1; a=ed25519-sha256; t=1740755487; l=1083;
  i=j.ne@posteo.net; s=20240329; h=from:subject:message-id;
- bh=d6jAc3qib5tSgD8hCc1ZWLfDLKrBDtNf4sx4KR6R/lE=;
- b=F1afqBPYnJvF2KHLnpWOeY0Wgv1HJz8SL1YNWW21594n+LoTJHkJbeiJqMzW0ZSYkTlZ4R4Ll
- uG0qOvsQfcmBKjWrAS8sBGv5haqqScp8LVDTjxiz8fxunnwF4BYl3Ji
+ bh=5QhhUgzLhqlm9TuqxkqZvu43pDK5vNdB37hr9QmYLe0=;
+ b=Do+TFHXIzpuTMoqzCo0Tlwt1aL6JJT8DwkXkg/H3OvZYEdkDmwi2cv0YFHb/HTKnG0germ+oH
+ 3FcQCQ4aPi4AYzYLjafm50iYjfGO2uOQK+QciXxn5RZ3CgOFtFWEsdV
 X-Developer-Key: i=j.ne@posteo.net; a=ed25519;
  pk=NIe0bK42wNaX/C4bi6ezm7NJK0IQE+8MKBm7igFMIS4=
 X-Endpoint-Received: by B4 Relay for j.ne@posteo.net/20240329 with
@@ -63,51 +62,40 @@ X-Endpoint-Received: by B4 Relay for j.ne@posteo.net/20240329 with
 X-Original-From: =?utf-8?q?Jonathan_Neusch=C3=A4fer?= <j.ne@posteo.net>
 Reply-To: j.ne@posteo.net
 
-While reading code, I noticed that some arrays in USB mass storage
-drivers are declared static but not const, even though they are not
-modified. This patchset marks them const.
+From: Jonathan Neuschäfer <j.ne@posteo.net>
 
-All patches were compile-tested.
+This array is only read, not modified.
+
+Declaring data as const makes it easier to see what's going on, and can
+prevent unintended writes through placement in a read-only section.
 
 Signed-off-by: Jonathan Neuschäfer <j.ne@posteo.net>
 ---
-Changes in v3:
-- Elaborate *why* const is a good idea
-- Link to v2: https://lore.kernel.org/r/20250226-misc-const-v2-0-ab655a4a29cc@posteo.net
 
-Changes in v2:
-- Add new patches 2-9
-- Use consistent authorship information
-- Link to v1: https://lore.kernel.org/r/20250225-misc-const-v1-1-121ff3b86437@posteo.net
+V3:
+- elaborate why const is a good idea
 
+V2:
+- new patch
 ---
-Jonathan Neuschäfer (9):
-      usb: storage: jumpshot: Use const for constant arrays
-      usb: storage: transport: Use const for constant array
-      usb: storage: alauda: Use const for card ID array
-      usb: storage: datafab: Use const for constant arrays
-      usb: storage: initializers: Use const for constant array
-      usb: storage: realtek_cr: Use const for constant arrays
-      usb: storage: sddr09: Use const for constant arrays
-      usb: storage: sddr55: Use const for constant arrays
-      usb: storage: shuttle_usbat: Use const for constant array
+ drivers/usb/storage/transport.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
- drivers/usb/storage/alauda.c        |  8 ++++----
- drivers/usb/storage/datafab.c       | 14 +++++++-------
- drivers/usb/storage/initializers.c  |  2 +-
- drivers/usb/storage/jumpshot.c      | 10 +++++-----
- drivers/usb/storage/realtek_cr.c    |  6 +++---
- drivers/usb/storage/sddr09.c        | 14 +++++++-------
- drivers/usb/storage/sddr55.c        |  4 ++--
- drivers/usb/storage/shuttle_usbat.c |  2 +-
- drivers/usb/storage/transport.c     |  2 +-
- 9 files changed, 31 insertions(+), 31 deletions(-)
----
-base-commit: 2014c95afecee3e76ca4a56956a936e23283f05b
-change-id: 20240401-misc-const-e7b4cf20d5f9
+diff --git a/drivers/usb/storage/transport.c b/drivers/usb/storage/transport.c
+index e6bc8ecaecbb202714be69c6db6b0a4824de4855..1aa1bd26c81f2f9fbd508fdfed4465e6482bdef0 100644
+--- a/drivers/usb/storage/transport.c
++++ b/drivers/usb/storage/transport.c
+@@ -528,7 +528,7 @@ static void last_sector_hacks(struct us_data *us, struct scsi_cmnd *srb)
+ 	u32 sector;
+ 
+ 	/* To Report "Medium Error: Record Not Found */
+-	static unsigned char record_not_found[18] = {
++	static const unsigned char record_not_found[18] = {
+ 		[0]	= 0x70,			/* current error */
+ 		[2]	= MEDIUM_ERROR,		/* = 0x03 */
+ 		[7]	= 0x0a,			/* additional length */
 
-Best regards,
 -- 
-Jonathan Neuschäfer <j.ne@posteo.net>
+2.48.0.rc1.219.gb6b6757d772
 
 
