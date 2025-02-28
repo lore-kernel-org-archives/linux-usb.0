@@ -1,105 +1,133 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-qt1-f179.google.com (mail-qt1-f179.google.com [209.85.160.179])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 81B681EF38B;
-	Fri, 28 Feb 2025 15:11:35 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 02CD026F444
+	for <linux-usb@vger.kernel.org>; Fri, 28 Feb 2025 15:21:23 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.160.179
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1740755495; cv=none; b=D4/55hxDpXXciPQoJmJnPi0/0trHCxE7Lx1vUqjpoF0QOtoli4lQdlPgtyQqkM60YBngZEimkzbiB4a9TtVyA3gizQEkBeXp1axw9IFF/rr/0Xku5cSTKZ/hEoGKtKjJ5ySUAN7E5u1hq6ucxGO2sUXIu+Rp8Q+Sim6NAZM1Azg=
+	t=1740756086; cv=none; b=iA/SYzhEapfdQPyI4GxSH3NrAb/WSOTV1JKjlfM3jr+/3FTcnzI5jWueApnpAY8InZRwTsRy7J9U0qUqGmUzy4/2Z61xo9KGQwOPe6TWkyE7vmFGp2avizty2VouRCfEO0Ke+LQ1SZPeaRr4BI54RC9PcsyafL3X94pC+6trki8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1740755495; c=relaxed/simple;
-	bh=9ZJqhfxxUVKNn9pQ4sEtXI4UMBqewViPBr/PTvTjPN4=;
-	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
-	 In-Reply-To:To:Cc; b=OBS/ksDGdZiZTyWeAPyf2iRDWZkLmXDLXYGm93bNKas6iDzOIPJxrzmYb2NZYmFIR1DfbTSwa4zRjLq42O0PmD+tBZKVhDt5dTfitrVRYpp9SD6V8T5bXtud8eKuHRxTU13ho5Tyemc3Sl9nw/7XDqY0ES3Ykn8eKy6KXabO/D8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=cCF8J9u1; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1740756086; c=relaxed/simple;
+	bh=KECKa7HXMO2S6P3OFCfRxoEsFc6wINxBWgMsRAegBDQ=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=cRNJ4vitmNIBwgfATPUkI/SWmJ0vhrsnHJ2c/ECOawafG/sDTWsjyhDjrKnrjAmdrBB6qeV3Mj7xs/nUpHKUfhHffJwYT9xYmZI5uS13msxCjyjToj4ntrqNF7WqAgtSMQu94Ayt0JG+qCTnJPHgkpeLvFgkb6LDu55diht4r38=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=rowland.harvard.edu; spf=fail smtp.mailfrom=g.harvard.edu; dkim=pass (2048-bit key) header.d=rowland.harvard.edu header.i=@rowland.harvard.edu header.b=OaR8JR4B; arc=none smtp.client-ip=209.85.160.179
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=rowland.harvard.edu
+Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=g.harvard.edu
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="cCF8J9u1"
-Received: by smtp.kernel.org (Postfix) with ESMTPS id 26C7AC4CEED;
-	Fri, 28 Feb 2025 15:11:35 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1740755495;
-	bh=9ZJqhfxxUVKNn9pQ4sEtXI4UMBqewViPBr/PTvTjPN4=;
-	h=From:Date:Subject:References:In-Reply-To:To:Cc:Reply-To:From;
-	b=cCF8J9u1MMhIxliRHBG9j3Ogm5sTJcKO6u/9GgChK0cvg5l7FLen9lBwWGPssBj53
-	 y2fS0CB842jWuJmQoq0LRT7bOIAXom6LJ6hdrKCnEEiGMS1o6NljHl9jpd+Hg9xTt0
-	 Exb4NnnXvzBjFidHpNmc5lJroDc2LYBi8wgUfsiWBvd2h/eKjcHFYJiiS7NeG2I1DN
-	 T4TNqGxA03Klhfr6YOIkJoRs58YmYtZa9ot4hI0Ou3DfCXcQ6QJA6svXPavyjL7tEw
-	 dqdb6qKP03fW9C+8gIuezxzYcyFHH+0U5WoqP9U5TSQkowUwnYX41e2aRW5vQ+nnRw
-	 oHPK0+Btj/AuA==
-Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 1FB20C282D0;
-	Fri, 28 Feb 2025 15:11:35 +0000 (UTC)
-From: =?utf-8?q?Jonathan_Neusch=C3=A4fer_via_B4_Relay?= <devnull+j.ne.posteo.net@kernel.org>
-Date: Fri, 28 Feb 2025 16:11:23 +0100
-Subject: [PATCH v3 8/9] usb: storage: sddr55: Use const for constant arrays
+	dkim=pass (2048-bit key) header.d=rowland.harvard.edu header.i=@rowland.harvard.edu header.b="OaR8JR4B"
+Received: by mail-qt1-f179.google.com with SMTP id d75a77b69052e-46fa764aac2so18232391cf.1
+        for <linux-usb@vger.kernel.org>; Fri, 28 Feb 2025 07:21:23 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=rowland.harvard.edu; s=google; t=1740756083; x=1741360883; darn=vger.kernel.org;
+        h=in-reply-to:content-transfer-encoding:content-disposition
+         :mime-version:references:message-id:subject:cc:to:from:date:from:to
+         :cc:subject:date:message-id:reply-to;
+        bh=3zKHm2FbIZbRCZMx6XqxFdXnpMw66b0caIDo/gjHQJs=;
+        b=OaR8JR4B2rsmX9MNxtyds+hdEtwp4u2R89Gve3RBe6+8WVE7oyQ9dq9/u+XZgsFt3G
+         ojBWIgo0YQkzjsZhQIaY9iFrTXdzihv8ZnML9ta+89SgGgm5ojUG3ZGb3rU15V0xDt5u
+         78U16ZVXeJjH36Lff8NFJsQhIwSTP2OJ9VsEkEpzbfmNuAF7xPrpNi0YXr/n/JEdQQJ+
+         6akWM4Z2O4cMZFymi1Udxi/RCWQj9EavJmn28RsMoqGFzNoKWPHfLsd0t1i5ev61725t
+         6yeh0hCWG305Ufnok5cZAwsncyI+MgEgg45Vwqafv8gO4/5EzZLvFPSgDfoyCPT47DTV
+         fkfA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1740756083; x=1741360883;
+        h=in-reply-to:content-transfer-encoding:content-disposition
+         :mime-version:references:message-id:subject:cc:to:from:date
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=3zKHm2FbIZbRCZMx6XqxFdXnpMw66b0caIDo/gjHQJs=;
+        b=ZIdyOHWTQuWPX4Ctknrou79mTEqq7JB4Mh1BHwEVoZQnQvWi92BLA5A30xBL9AnyqF
+         YzeTh70zTAN/ax7rxi20riElWgRuw//K4koxzp+xkMGtGWXe1fa8qzTuMldGjkGtLZ/4
+         BubgExc5TxDQIIe8QnoDxLC64CiwFokG+T81mmi7UkereC19hN4+Usr7h+sTaQuoN90x
+         O+M2iqVxj0fC7GtbrHX+kLL4bUSrZT9bss5aDcwRhzoCQk9QkAjbnqEd8F4IrCp7Krj4
+         wU6EUuwgzmEqmeba0RqoZ6ze9/27EvweQlkbhZOAtZlVj50tYAkERu3FOFe0Hftu14kR
+         337w==
+X-Forwarded-Encrypted: i=1; AJvYcCU0NYRsmMrVOiPaqs8G7Fo1C+HPEvKU2jYMhBBcgaLj7MHzXQQkKi/Lpb59U9Egc6A7nKDy6LQY1qM=@vger.kernel.org
+X-Gm-Message-State: AOJu0Yx5qSREbjVcaWcaPBEDe98lCGFBjn2ZGsB3WwIYuT+kQomsA/sM
+	o5q3rRWXSp5i8CMPdIVjmKqclBIY8uoA414samAvUYg2iLO0ggDe7QeYe2xsXQ==
+X-Gm-Gg: ASbGncu7aKmRDt6j724S8piYD1+KfYTJ9ZlNVU8qOadUvZ0c0n01WdMH/uyGGa+hWql
+	lJ6NZEi2jebmBKUvvqmHrOyi0joTtK9P2X2dDRBXRtoUNKt0wlmmxtXOPyE8u77AAv1Tl+2Heyv
+	XlS5IdEVjZDDu3B1PfuN00azyzWG8gNCaEUCisYq63LfeGyozypEBHHXCmWpum7o7eGyCXBRmLS
+	fVQnJPP+E64omVB7//QroH3woAYOvYN7R4+J2OBLeWrNqrUh0iHgBANESBIdkD9WFUjGJeANfIy
+	PAbycnoXq9fzn5ASKfJE4e/kDqyqwkaLEZnLOJ1GNVD5ezeWruzWsaEkCi4Wy92GqyPF+XsDUaB
+	RfQtqpIdwfPBA66a8LuU=
+X-Google-Smtp-Source: AGHT+IGz9doxOFauOLj2SOAKNV3haWXF9zvTC5dsMiNswX+IYjm/SEucg/ksBBE7PfIwgTSgi/7JYg==
+X-Received: by 2002:a05:622a:11d5:b0:472:12f1:ba4a with SMTP id d75a77b69052e-474bc051974mr52432911cf.4.1740756082757;
+        Fri, 28 Feb 2025 07:21:22 -0800 (PST)
+Received: from rowland.harvard.edu (nat-65-112-8-24.harvard-secure.wrls.harvard.edu. [65.112.8.24])
+        by smtp.gmail.com with ESMTPSA id d75a77b69052e-4746b4f9507sm26119881cf.27.2025.02.28.07.21.21
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 28 Feb 2025 07:21:22 -0800 (PST)
+Date: Fri, 28 Feb 2025 10:21:19 -0500
+From: Alan Stern <stern@rowland.harvard.edu>
+To: j.ne@posteo.net
+Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	linux-usb@vger.kernel.org, usb-storage@lists.one-eyed-alien.net,
+	linux-kernel@vger.kernel.org
+Subject: Re: [usb-storage] [PATCH v3 0/9] usb: storage: Mark various arrays
+ as const
+Message-ID: <17654d89-a9f3-478b-90d5-0bc9ab838739@rowland.harvard.edu>
+References: <20250228-misc-const-v3-0-09b417ded9c4@posteo.net>
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-Message-Id: <20250228-misc-const-v3-8-09b417ded9c4@posteo.net>
-References: <20250228-misc-const-v3-0-09b417ded9c4@posteo.net>
 In-Reply-To: <20250228-misc-const-v3-0-09b417ded9c4@posteo.net>
-To: Alan Stern <stern@rowland.harvard.edu>, 
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-Cc: linux-usb@vger.kernel.org, usb-storage@lists.one-eyed-alien.net, 
- linux-kernel@vger.kernel.org, 
- =?utf-8?q?Jonathan_Neusch=C3=A4fer?= <j.ne@posteo.net>
-X-Mailer: b4 0.14.2
-X-Developer-Signature: v=1; a=ed25519-sha256; t=1740755487; l=1301;
- i=j.ne@posteo.net; s=20240329; h=from:subject:message-id;
- bh=dyKVA5pPyRY7TuBL1KemWvR3umAVS5JkAQpDbS4Ydg8=;
- b=BA2AmNdIfge2Df+JYGIJv5vw589dHvWjgpw9g3g4XAmSw0hlylN9Cwos695Ecbek4xyDO25CK
- YPc4LO4ulNyCW2RrB7XQ6aT4rULx/eUV2vZE8BRKGz3BpojbZOU/8sn
-X-Developer-Key: i=j.ne@posteo.net; a=ed25519;
- pk=NIe0bK42wNaX/C4bi6ezm7NJK0IQE+8MKBm7igFMIS4=
-X-Endpoint-Received: by B4 Relay for j.ne@posteo.net/20240329 with
- auth_id=156
-X-Original-From: =?utf-8?q?Jonathan_Neusch=C3=A4fer?= <j.ne@posteo.net>
-Reply-To: j.ne@posteo.net
 
-From: Jonathan Neusch√§fer <j.ne@posteo.net>
+On Fri, Feb 28, 2025 at 04:11:15PM +0100, 'Jonathan Neusch‰fer via B4 Relay' via USB Mass Storage on Linux wrote:
+> While reading code, I noticed that some arrays in USB mass storage
+> drivers are declared static but not const, even though they are not
+> modified. This patchset marks them const.
+> 
+> All patches were compile-tested.
+> 
+> Signed-off-by: Jonathan Neusch‰fer <j.ne@posteo.net>
+> ---
+> Changes in v3:
+> - Elaborate *why* const is a good idea
+> - Link to v2: https://lore.kernel.org/r/20250226-misc-const-v2-0-ab655a4a29cc@posteo.net
+> 
+> Changes in v2:
+> - Add new patches 2-9
+> - Use consistent authorship information
+> - Link to v1: https://lore.kernel.org/r/20250225-misc-const-v1-1-121ff3b86437@posteo.net
+> 
+> ---
+> Jonathan Neusch‰fer (9):
+>       usb: storage: jumpshot: Use const for constant arrays
+>       usb: storage: transport: Use const for constant array
+>       usb: storage: alauda: Use const for card ID array
+>       usb: storage: datafab: Use const for constant arrays
+>       usb: storage: initializers: Use const for constant array
+>       usb: storage: realtek_cr: Use const for constant arrays
+>       usb: storage: sddr09: Use const for constant arrays
+>       usb: storage: sddr55: Use const for constant arrays
+>       usb: storage: shuttle_usbat: Use const for constant array
+> 
+>  drivers/usb/storage/alauda.c        |  8 ++++----
+>  drivers/usb/storage/datafab.c       | 14 +++++++-------
+>  drivers/usb/storage/initializers.c  |  2 +-
+>  drivers/usb/storage/jumpshot.c      | 10 +++++-----
+>  drivers/usb/storage/realtek_cr.c    |  6 +++---
+>  drivers/usb/storage/sddr09.c        | 14 +++++++-------
+>  drivers/usb/storage/sddr55.c        |  4 ++--
+>  drivers/usb/storage/shuttle_usbat.c |  2 +-
+>  drivers/usb/storage/transport.c     |  2 +-
+>  9 files changed, 31 insertions(+), 31 deletions(-)
+> ---
+> base-commit: 2014c95afecee3e76ca4a56956a936e23283f05b
+> change-id: 20240401-misc-const-e7b4cf20d5f9
+> 
+> Best regards,
+> -- 
+> Jonathan Neusch‰fer <j.ne@posteo.net>
 
-These arrays are only read, not modified.
+For all 9 patches:
 
-Declaring data as const makes it easier to see what's going on, and can
-prevent unintended writes through placement in a read-only section.
-
-Signed-off-by: Jonathan Neusch√§fer <j.ne@posteo.net>
----
-
-V3:
-- elaborate why const is a good idea
-
-V2:
-- new patch
----
- drivers/usb/storage/sddr55.c | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
-
-diff --git a/drivers/usb/storage/sddr55.c b/drivers/usb/storage/sddr55.c
-index d5cdff30f6f31f98d3d58ffcdd2426d7cd385cbb..b323f0a3626031905b946ce64ddf04539a6e3232 100644
---- a/drivers/usb/storage/sddr55.c
-+++ b/drivers/usb/storage/sddr55.c
-@@ -775,11 +775,11 @@ static void sddr55_card_info_destructor(void *extra) {
- static int sddr55_transport(struct scsi_cmnd *srb, struct us_data *us)
- {
- 	int result;
--	static unsigned char inquiry_response[8] = {
-+	static const unsigned char inquiry_response[8] = {
- 		0x00, 0x80, 0x00, 0x02, 0x1F, 0x00, 0x00, 0x00
- 	};
-  	// write-protected for now, no block descriptor support
--	static unsigned char mode_page_01[20] = {
-+	static const unsigned char mode_page_01[20] = {
- 		0x0, 0x12, 0x00, 0x80, 0x0, 0x0, 0x0, 0x0,
- 		0x01, 0x0A,
- 		0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00
-
--- 
-2.48.0.rc1.219.gb6b6757d772
-
+Reviewed-by: Alan Stern <stern@rowland.harvard.edu>
 
