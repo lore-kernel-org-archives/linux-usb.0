@@ -1,87 +1,123 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com [205.220.180.131])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 11F9F1FECB4;
-	Tue,  4 Mar 2025 20:43:24 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 628301DB125;
+	Tue,  4 Mar 2025 21:57:57 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.180.131
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1741121005; cv=none; b=fTelnAEYmzvlohpqzVZ47BwSYmJFg7NYh4jjq0/NuMWEum+ISHJbZii4AXlggcTqJe7TUgri0gZcoukLqp/OiLIbFMVC6fEP6xyEsm9LTFqG3o6bdiU2fi9Vd9Z8QVBgjEmvD4PTN0IJCOxPmxLBs0zGxnfsxWWZzojZmEdSqhw=
+	t=1741125478; cv=none; b=ToUVmkempuGMEeTTYZ8BUE/MHPXvjYVcI6f0g59ATbYG6eDlcKgkFaQZ02ipUpefOmb/Bpo8rPmgQSkJC3g4UkSmLEcCXy93u/GF1vZoKpCM4o9bZvmZ+coSq+a0U1TYVYEGY1HG7nxjvlhRInJd7OpdcoTAPgMNVAJPKw6GqAo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1741121005; c=relaxed/simple;
-	bh=8DIvWFvqlQVCU/zQtOV3Zt/hbEL7NTNFD1TrAd7eF5k=;
-	h=Date:From:To:cc:Subject:In-Reply-To:Message-ID:References:
-	 MIME-Version:Content-Type; b=qMfbCSJJVf1z7q3MSfM/ccd53cHnaIH7AZ9XW0wpS4v4dtGf5fJQxDeZRuc7YF9a/PSOWG+re9Gyh1rsYFTNBMVmCljXHKKYFuqR9L2x6v4P47aJc5hOiF7FUfNneUW/smn9nU8txS/2AJWYTh55K3A8FO8nenaYdjhc5TDX2WQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=PtCgS7lw; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1741125478; c=relaxed/simple;
+	bh=9DmVicPrlTPOcpmBQU75aKufZtlbrj8uKOaGgQZBasU=;
+	h=From:Date:Subject:MIME-Version:Content-Type:Message-ID:References:
+	 In-Reply-To:To:CC; b=Ui+r+OqZEWqQOLBmbfVuYeWz8TTfR5NXsmfFVUXZbhN01mbJOingn7Iai1xIWG8smIhdUFOJd93yXjnXdFcLd6zgii8bliDwV1W4AljWxs2aAI9SK6BIP+0r/NggJxZcgcI4AGUTLs2dlWpuwZyDDcXByZ8Zg+oIix/Hqid+Hnk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=quicinc.com; spf=pass smtp.mailfrom=quicinc.com; dkim=pass (2048-bit key) header.d=quicinc.com header.i=@quicinc.com header.b=CPGaYX0+; arc=none smtp.client-ip=205.220.180.131
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=quicinc.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=quicinc.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="PtCgS7lw"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 174C7C4CEE5;
-	Tue,  4 Mar 2025 20:43:23 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1741121004;
-	bh=8DIvWFvqlQVCU/zQtOV3Zt/hbEL7NTNFD1TrAd7eF5k=;
-	h=Date:From:To:cc:Subject:In-Reply-To:References:From;
-	b=PtCgS7lwcNLAwe7LQjXBVq/Up23ka2Cwzfx+jBlNJg90+LI/qMnq8Z+xsUCe2LZbE
-	 Mhd85qgUxdRD22CBnr63O4GEQJQkqbakwqRKvXFZAmVL/BORNk3SUGmCrhAAkqTJKJ
-	 uWVPzo5qu0nDa2mzT5qLvWwSjHgnmqHpHVptY6IoXuiL4wJWRjBKtAN82hVXC4aolL
-	 iCbz5KV32rgw4wLuvirc38mNeQOrXEBB/1RW83XATcqt1NPub6y0DYmD8GyA/FYdJX
-	 AGHcNNNL80BZbjvlF0eodSI0M9SzO7vWFjcTPfMNTBBcr2UaCpT5LVzjGwhoEQd2JV
-	 EocT+1Qpx9n9g==
-Date: Tue, 4 Mar 2025 21:43:21 +0100 (CET)
-From: Jiri Kosina <jikos@kernel.org>
-To: =?ISO-8859-2?Q?Tomasz_Paku=B3a?= <tomasz.pakula.oficjalny@gmail.com>
-cc: bentiss@kernel.org, anssi.hannula@gmail.com, oleg@makarenk.ooo, 
-    linux-input@vger.kernel.org, linux-usb@vger.kernel.org
-Subject: Re: [PATCH v2 0/5] hid-pidff fixes and PID compliance improvement
-In-Reply-To: <20250225223004.415965-1-tomasz.pakula.oficjalny@gmail.com>
-Message-ID: <p9qr7p76-3o7r-225p-8rrp-o4p6238r0n1o@xreary.bet>
-References: <20250225223004.415965-1-tomasz.pakula.oficjalny@gmail.com>
+	dkim=pass (2048-bit key) header.d=quicinc.com header.i=@quicinc.com header.b="CPGaYX0+"
+Received: from pps.filterd (m0279869.ppops.net [127.0.0.1])
+	by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 524Lk9vV025636;
+	Tue, 4 Mar 2025 21:57:42 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com; h=
+	cc:content-transfer-encoding:content-type:date:from:in-reply-to
+	:message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
+	TdMlUGUbtEgwTwa+QYeh/PtyBSFF35IMj3odV52+M4g=; b=CPGaYX0+gKrVCsF/
+	nanMRQud0tZZl2sBZS8wE772CsPrhgkDk2Xfys27Hl/2T7BkFNb9SQ00SNd78mS/
+	GEFeJJqP3jEa7YsAJEYPk//PiR36mz1du/Tqt/C3y9msJEYHORSORcuLmUrvvF47
+	Z9Zmes6eF7vF/zZBTBHvdwi1YTLByAvoOUKbjjY56xu65il8o0wvE703bhLDoKPq
+	yQltCas2pDwsM9dgh9CTGZsvC5Lg2QRKMOaFORo88ZpVH+swutx0OJHgzHAlMK4y
+	UJ4XVcu2r6qVFh40IjOkhzvIVBCD6SfhWVQFzROoL4uDcRR5pbD9qY1aZoWgwBty
+	X28Wog==
+Received: from nasanppmta02.qualcomm.com (i-global254.qualcomm.com [199.106.103.254])
+	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 455p6vb8q9-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Tue, 04 Mar 2025 21:57:42 +0000 (GMT)
+Received: from nasanex01b.na.qualcomm.com (nasanex01b.na.qualcomm.com [10.46.141.250])
+	by NASANPPMTA02.qualcomm.com (8.18.1.2/8.18.1.2) with ESMTPS id 524LvfHe022663
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Tue, 4 Mar 2025 21:57:41 GMT
+Received: from hu-molvera-lv.qualcomm.com (10.49.16.6) by
+ nasanex01b.na.qualcomm.com (10.46.141.250) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.1544.9; Tue, 4 Mar 2025 13:57:40 -0800
+From: Melody Olvera <quic_molvera@quicinc.com>
+Date: Tue, 4 Mar 2025 13:56:42 -0800
+Subject: [PATCH v2 9/9] arm64: defconfig: Add M31 eUSB2 PHY config
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: QUOTED-PRINTABLE
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+Message-ID: <20250304-sm8750_usb_master-v2-9-a698a2e68e06@quicinc.com>
+References: <20250304-sm8750_usb_master-v2-0-a698a2e68e06@quicinc.com>
+In-Reply-To: <20250304-sm8750_usb_master-v2-0-a698a2e68e06@quicinc.com>
+To: Vinod Koul <vkoul@kernel.org>, Kishon Vijay Abraham I <kishon@kernel.org>,
+        Rob Herring <robh@kernel.org>,
+        Krzysztof Kozlowski <krzk+dt@kernel.org>,
+        Conor Dooley <conor+dt@kernel.org>,
+        Wesley Cheng <quic_wcheng@quicinc.com>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Philipp Zabel
+	<p.zabel@pengutronix.de>,
+        Bjorn Andersson <andersson@kernel.org>,
+        "Konrad
+ Dybcio" <konradybcio@kernel.org>,
+        Catalin Marinas <catalin.marinas@arm.com>,
+        Will Deacon <will@kernel.org>
+CC: <linux-arm-msm@vger.kernel.org>, <linux-phy@lists.infradead.org>,
+        <devicetree@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
+        <linux-usb@vger.kernel.org>, <linux-arm-kernel@lists.infradead.org>,
+        "Melody
+ Olvera" <quic_molvera@quicinc.com>
+X-Mailer: b4 0.14.2
+X-Developer-Signature: v=1; a=ed25519-sha256; t=1741125455; l=712;
+ i=quic_molvera@quicinc.com; s=20241204; h=from:subject:message-id;
+ bh=9DmVicPrlTPOcpmBQU75aKufZtlbrj8uKOaGgQZBasU=;
+ b=riWdijZkG8UDSq68rGABHp7R5veaXARMgSeIHrMtf89tRjOhb7fwYjP22OSDdI0SmsqgS80ZC
+ fiGZ2RMCxJFCer8vDnzNE2qEl1XETtHesRX5Bhr5tLqUh7PSb1QERxq
+X-Developer-Key: i=quic_molvera@quicinc.com; a=ed25519;
+ pk=1DGLp3zVYsHAWipMaNZZTHR321e8xK52C9vuAoeca5c=
+X-ClientProxiedBy: nalasex01a.na.qualcomm.com (10.47.209.196) To
+ nasanex01b.na.qualcomm.com (10.46.141.250)
+X-QCInternal: smtphost
+X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800 signatures=585085
+X-Proofpoint-ORIG-GUID: sHyA-6889VbNNDUFWFniAId-wV9Nu8qQ
+X-Authority-Analysis: v=2.4 cv=bPnsIO+Z c=1 sm=1 tr=0 ts=67c77756 cx=c_pps a=JYp8KDb2vCoCEuGobkYCKw==:117 a=JYp8KDb2vCoCEuGobkYCKw==:17 a=3H110R4YSZwA:10 a=IkcTkHD0fZMA:10 a=Vs1iUdzkB0EA:10 a=COk6AnOGAAAA:8 a=75KNVkkY0apcGqszbmoA:9 a=QEXdDO2ut3YA:10
+ a=TjNXssC_j7lpFel5tvFf:22
+X-Proofpoint-GUID: sHyA-6889VbNNDUFWFniAId-wV9Nu8qQ
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1093,Hydra:6.0.680,FMLib:17.12.68.34
+ definitions=2025-03-04_09,2025-03-04_02,2024-11-22_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 malwarescore=0 suspectscore=0
+ impostorscore=0 lowpriorityscore=0 priorityscore=1501 adultscore=0
+ spamscore=0 mlxscore=0 clxscore=1011 bulkscore=0 mlxlogscore=604
+ phishscore=0 classifier=spam authscore=0 adjust=0 reason=mlx scancount=1
+ engine=8.19.0-2502100000 definitions=main-2503040175
 
-On Tue, 25 Feb 2025, Tomasz Paku=C5=82a wrote:
+Add configs for the M31 eUSB2 PHY for SM8750 USB.
 
-> Based on top of current hid.git#for-6.15/pidff
->=20
-> Another batch of updated to the generic USB PID driver. Apart from
-> realigning two function names with the rest of the driver, clamping
-> LOOP_COUNT value to the logical max to fix some errors.
->=20
-> Infinite values were previously hardcoded to 0xffff but the standard
-> actually calls for the max possible value for the presented field size.
-> If the duration is not 16 bit, but 32 bit 0xffff won't work as infinite.
->=20
-> Setting infinite value works now by computing this value from report
-> size. We still need to look out for 0xffff as that's the max possible
-> value we can get from the ff API. 0 was never actually defined in the
-> Linux kernel as explicitly INFINITE but it seems like it has become a
-> de-facto standard.
->=20
-> After pidff, I'll (at least try) working on extending and updating
-> the ff API as it lacks some features and could be considered incomplete.
-> The biggest issue is that there's currently no way of obtaining effect
-> status or sending device control commands.
->=20
-> ---
-> Changes in v2:
-> - Fix the direction name in the fixed direction comment
-> - Fix set_device_control() and implelemt missing device control commands
->=20
-> Tomasz Paku=C5=82a (5):
->   HID: pidff: Rename two functions to align them with naming convention
->   HID: pidff: Clamp effect playback LOOP_COUNT value
->   HID: pidff: Compute INFINITE value instead of using hardcoded 0xffff
->   HID: pidff: Fix 90 degrees direction name North -> East
->   HID: pidff: Fix set_device_control()
+Signed-off-by: Melody Olvera <quic_molvera@quicinc.com>
+---
+ arch/arm64/configs/defconfig | 1 +
+ 1 file changed, 1 insertion(+)
 
-This is now queued on top of hid.git#for-6.15/pidff. Thanks,
+diff --git a/arch/arm64/configs/defconfig b/arch/arm64/configs/defconfig
+index 3a3706db29822036d25a7228f8936e2ad613b208..7a7187475a11206e708a5a2c6dd51736e16932e9 100644
+--- a/arch/arm64/configs/defconfig
++++ b/arch/arm64/configs/defconfig
+@@ -1587,6 +1587,7 @@ CONFIG_PHY_QCOM_QUSB2=m
+ CONFIG_PHY_QCOM_SNPS_EUSB2=m
+ CONFIG_PHY_QCOM_EUSB2_REPEATER=m
+ CONFIG_PHY_QCOM_M31_USB=m
++CONFIG_PHY_QCOM_M31_EUSB=m
+ CONFIG_PHY_QCOM_USB_HS=m
+ CONFIG_PHY_QCOM_USB_SNPS_FEMTO_V2=m
+ CONFIG_PHY_QCOM_USB_HS_28NM=m
 
---=20
-Jiri Kosina
-SUSE Labs
+-- 
+2.46.1
 
