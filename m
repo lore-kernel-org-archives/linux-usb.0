@@ -1,182 +1,183 @@
 Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com [205.220.168.131])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 965A727BF8D;
-	Tue,  4 Mar 2025 21:58:00 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B9A7D1F4611;
+	Tue,  4 Mar 2025 22:46:53 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.168.131
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1741125483; cv=none; b=CKlK1m44DxRFNgfxafcKufy65OUE05MvbACgjJiwepDLE9ErPU6YOkwrNj5vHXr5xHBkATGs0E+Gd+adXvjtOhluTIiBBZO8Bpe5PfullJWV+cZIakgzIrghEZzg/fIX4tLCa4CiRVoV8D6/PHxWFLFB1M6OQ4jOCAliGh4/diE=
+	t=1741128415; cv=none; b=J8RYXTSXzjqwvVnlcboyfnC2lDveBwG4xnancIVJb++yTybgMNrJz9+KfE4EfZjPE2Tpu8wZYeTtdCJ+myV6YlLnEXLM3lVbrZPlyaHxmEyM1+Gn1nzhli/ZJIVx6mMqoLpUXzx28b15RZCKZaDxVRJmzJvt52ehecV0RPkDoJ8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1741125483; c=relaxed/simple;
-	bh=b4r/pzaAbS8LrhlRfjD8cSY8aRYE/gKciDoWvT6gCCU=;
-	h=From:Date:Subject:MIME-Version:Content-Type:Message-ID:References:
-	 In-Reply-To:To:CC; b=Q8rNSX2O2a/sA045Z9Gxgfts6WPSTrIW5jz1T2HA68x9Ofy72KtAO9QHaCcilyg6hCK0ic9kUamYUL/256W8dUbrseT/AmnqMfSBHSFJlad2341ZtusAwICrW2xAnneJ5ZbEeWGSzPNlMP1H8TkUEf77+PUFgfbjhkZNVtL2VzY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=quicinc.com; spf=pass smtp.mailfrom=quicinc.com; dkim=pass (2048-bit key) header.d=quicinc.com header.i=@quicinc.com header.b=j7SMZ6TA; arc=none smtp.client-ip=205.220.168.131
+	s=arc-20240116; t=1741128415; c=relaxed/simple;
+	bh=v0g4BhzX+oxQUTu43WMPEeP6GZ8btdAYmtKYz+4cFHY=;
+	h=Message-ID:Date:MIME-Version:Subject:To:CC:References:From:
+	 In-Reply-To:Content-Type; b=QhEEVd3O4uE2VW8LaXmYOyvFK+XPWpPff7r+4LS9ErBEdwkfpqnbmAeaP09A2N4gZHZYrAsjY9mm9hWhybhQXgjDLeEiu18AZtFRsTlaPC/WF/jNSQ41rKLSIVUg+QAEavL6LQMgvZaphNMyYFcY9U6St6OkiG5o8ajtU7WQyrM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=quicinc.com; spf=pass smtp.mailfrom=quicinc.com; dkim=pass (2048-bit key) header.d=quicinc.com header.i=@quicinc.com header.b=D/jcaYBg; arc=none smtp.client-ip=205.220.168.131
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=quicinc.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=quicinc.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=quicinc.com header.i=@quicinc.com header.b="j7SMZ6TA"
-Received: from pps.filterd (m0279863.ppops.net [127.0.0.1])
-	by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 524L6WrR006445;
-	Tue, 4 Mar 2025 21:57:41 GMT
+	dkim=pass (2048-bit key) header.d=quicinc.com header.i=@quicinc.com header.b="D/jcaYBg"
+Received: from pps.filterd (m0279864.ppops.net [127.0.0.1])
+	by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 524Kio0i000988;
+	Tue, 4 Mar 2025 22:46:35 GMT
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com; h=
 	cc:content-transfer-encoding:content-type:date:from:in-reply-to
 	:message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
-	umeEudK/6VGxykrpPvMHRY8oqXqIe6afoLBxvqHhDlA=; b=j7SMZ6TAvX53MYhe
-	+SBB8G9ep2RYFITKpRC2yJWoXhJe2YYxEF6fSEq0Uhuiu38Hgbrs7avpJa5ZDzNO
-	PMcpe84V1a/fVP3Hk3Qb/UJ6QgRTR8G0DMP827Sqd5zNdAnro6P78K+Lq3u1Tkbu
-	JVcrpBEJZmjuZfLxDgkIcOKyNk29epH+gBXLJPw/B9XRB2eBmGpB7uVZYvmE7vm7
-	mf05yTmXP9d+O9aORk//CUOKIh91dSs5txTvAPsxQc8O2a7xM7bUbreZ0Axg9em8
-	NLPSCJYCLnMILdmKFLFbYlYtAAdAwBAhoV8KEkBjUmaD4bbTFRf33jKgdL6dUuHu
-	V+8qQA==
-Received: from nasanppmta04.qualcomm.com (i-global254.qualcomm.com [199.106.103.254])
-	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 455p933a58-1
+	3NwIGTcVv3klJr/RLcrTlS8Yu+Du9AxTXUb6muo8eOw=; b=D/jcaYBgLoLOBV00
+	30atQphosIV3bb+gin5IEbuDqLl9VQzDD0IXU8mQz+cOy8eFei7LqghxLy8V4aEO
+	8tThITjPrIJkzmj4eI1uQNEch495xGUyYS59cOmWWXOl2C5QO3leyUAEzpUzVVcR
+	ccekj81muoEpnd3kKbdMuB5rK+3oaRrs6J32K6iYw5Fe5pr6AXtO1Pm+7Gn3M6yw
+	hIvZjrr1cj+sAjFnv0Mt+nEG8DWASyD0n9qPdHqJoqJPBt9hVMlcrcKlO0SZvx8f
+	RitwiINpVd9iq4MSNY+OSHnuMmS9FxYxQLIef9EtaPdbPNRgE39G0vbxVRTBOJJ2
+	ybPkYA==
+Received: from nalasppmta03.qualcomm.com (Global_NAT1.qualcomm.com [129.46.96.20])
+	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 455p6vkf5d-1
 	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Tue, 04 Mar 2025 21:57:41 +0000 (GMT)
-Received: from nasanex01b.na.qualcomm.com (nasanex01b.na.qualcomm.com [10.46.141.250])
-	by NASANPPMTA04.qualcomm.com (8.18.1.2/8.18.1.2) with ESMTPS id 524LvfGm032281
+	Tue, 04 Mar 2025 22:46:35 +0000 (GMT)
+Received: from nalasex01b.na.qualcomm.com (nalasex01b.na.qualcomm.com [10.47.209.197])
+	by NALASPPMTA03.qualcomm.com (8.18.1.2/8.18.1.2) with ESMTPS id 524MkYrs002179
 	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Tue, 4 Mar 2025 21:57:41 GMT
-Received: from hu-molvera-lv.qualcomm.com (10.49.16.6) by
- nasanex01b.na.qualcomm.com (10.46.141.250) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.1544.9; Tue, 4 Mar 2025 13:57:40 -0800
-From: Melody Olvera <quic_molvera@quicinc.com>
-Date: Tue, 4 Mar 2025 13:56:41 -0800
-Subject: [PATCH v2 8/9] arm64: dts: qcom: sm8750: Add USB support for
- SM8750 MTP and QRD platforms
+	Tue, 4 Mar 2025 22:46:34 GMT
+Received: from [10.71.114.206] (10.80.80.8) by nalasex01b.na.qualcomm.com
+ (10.47.209.197) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1544.9; Tue, 4 Mar 2025
+ 14:46:33 -0800
+Message-ID: <ee5cb6bc-963a-4e31-8ac4-07120fb9ff70@quicinc.com>
+Date: Tue, 4 Mar 2025 14:46:28 -0800
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v35 00/31] Introduce QC USB SND audio offloading support
+To: Stephan Gerhold <stephan.gerhold@linaro.org>
+CC: Greg KH <gregkh@linuxfoundation.org>, <srinivas.kandagatla@linaro.org>,
+        <mathias.nyman@intel.com>, <perex@perex.cz>, <conor+dt@kernel.org>,
+        <dmitry.torokhov@gmail.com>, <corbet@lwn.net>, <broonie@kernel.org>,
+        <lgirdwood@gmail.com>, <tiwai@suse.com>, <krzk+dt@kernel.org>,
+        <pierre-louis.bossart@linux.intel.com>, <Thinh.Nguyen@synopsys.com>,
+        <robh@kernel.org>, <linux-kernel@vger.kernel.org>,
+        <devicetree@vger.kernel.org>, <linux-sound@vger.kernel.org>,
+        <linux-input@vger.kernel.org>, <linux-usb@vger.kernel.org>,
+        <linux-arm-msm@vger.kernel.org>, <linux-doc@vger.kernel.org>
+References: <20250219004754.497985-1-quic_wcheng@quicinc.com>
+ <Z7W_Vz_kVDjIcp5N@linaro.org>
+ <82ce69a3-d248-494f-6ddb-098f392c78a0@quicinc.com>
+ <Z8a4WYq4GqWBVNyX@linaro.org>
+Content-Language: en-US
+From: Wesley Cheng <quic_wcheng@quicinc.com>
+In-Reply-To: <Z8a4WYq4GqWBVNyX@linaro.org>
+Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: 7bit
-Message-ID: <20250304-sm8750_usb_master-v2-8-a698a2e68e06@quicinc.com>
-References: <20250304-sm8750_usb_master-v2-0-a698a2e68e06@quicinc.com>
-In-Reply-To: <20250304-sm8750_usb_master-v2-0-a698a2e68e06@quicinc.com>
-To: Vinod Koul <vkoul@kernel.org>, Kishon Vijay Abraham I <kishon@kernel.org>,
-        Rob Herring <robh@kernel.org>,
-        Krzysztof Kozlowski <krzk+dt@kernel.org>,
-        Conor Dooley <conor+dt@kernel.org>,
-        Wesley Cheng <quic_wcheng@quicinc.com>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Philipp Zabel
-	<p.zabel@pengutronix.de>,
-        Bjorn Andersson <andersson@kernel.org>,
-        "Konrad
- Dybcio" <konradybcio@kernel.org>,
-        Catalin Marinas <catalin.marinas@arm.com>,
-        Will Deacon <will@kernel.org>
-CC: <linux-arm-msm@vger.kernel.org>, <linux-phy@lists.infradead.org>,
-        <devicetree@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
-        <linux-usb@vger.kernel.org>, <linux-arm-kernel@lists.infradead.org>,
-        "Melody
- Olvera" <quic_molvera@quicinc.com>
-X-Mailer: b4 0.14.2
-X-Developer-Signature: v=1; a=ed25519-sha256; t=1741125455; l=1970;
- i=quic_molvera@quicinc.com; s=20241204; h=from:subject:message-id;
- bh=w0jV4f5wOL5IOLGE4+M+4MQiMNGK9MqIV1e8z9dtuyI=;
- b=/bsmpvfDySi75zaLXRyKEh2w1LIUZlJtSHP1nkA+mIsXroivYxXlqXFgaQi+KNYw1hwU5kJe2
- iWoKYR373MJDjTgKfChFTBNECyXPXMU3rdY2HYAOY/TRVGuGdEr3HWB
-X-Developer-Key: i=quic_molvera@quicinc.com; a=ed25519;
- pk=1DGLp3zVYsHAWipMaNZZTHR321e8xK52C9vuAoeca5c=
-X-ClientProxiedBy: nalasex01a.na.qualcomm.com (10.47.209.196) To
- nasanex01b.na.qualcomm.com (10.46.141.250)
+X-ClientProxiedBy: nasanex01a.na.qualcomm.com (10.52.223.231) To
+ nalasex01b.na.qualcomm.com (10.47.209.197)
 X-QCInternal: smtphost
 X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800 signatures=585085
-X-Authority-Analysis: v=2.4 cv=Me2Wu4/f c=1 sm=1 tr=0 ts=67c77755 cx=c_pps a=JYp8KDb2vCoCEuGobkYCKw==:117 a=JYp8KDb2vCoCEuGobkYCKw==:17 a=3H110R4YSZwA:10 a=IkcTkHD0fZMA:10 a=Vs1iUdzkB0EA:10 a=COk6AnOGAAAA:8 a=EoOMd-xwxZjzz6zYUw0A:9 a=QEXdDO2ut3YA:10
- a=TjNXssC_j7lpFel5tvFf:22
-X-Proofpoint-GUID: 5rlOYhViSDCJeuX2W7_zPkTK2i9_Z9EM
-X-Proofpoint-ORIG-GUID: 5rlOYhViSDCJeuX2W7_zPkTK2i9_Z9EM
+X-Proofpoint-GUID: Lbil9AyCLexrYewfigB777EYp9i9QjEK
+X-Authority-Analysis: v=2.4 cv=LYfG6ifi c=1 sm=1 tr=0 ts=67c782cb cx=c_pps a=ouPCqIW2jiPt+lZRy3xVPw==:117 a=ouPCqIW2jiPt+lZRy3xVPw==:17 a=GEpy-HfZoHoA:10 a=IkcTkHD0fZMA:10 a=Vs1iUdzkB0EA:10 a=OF3dkDXz7wlyf22mrvMA:9 a=QEXdDO2ut3YA:10
+X-Proofpoint-ORIG-GUID: Lbil9AyCLexrYewfigB777EYp9i9QjEK
 X-Proofpoint-Virus-Version: vendor=baseguard
  engine=ICAP:2.0.293,Aquarius:18.0.1093,Hydra:6.0.680,FMLib:17.12.68.34
  definitions=2025-03-04_09,2025-03-04_02,2024-11-22_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 bulkscore=0 clxscore=1015
- suspectscore=0 mlxscore=0 malwarescore=0 phishscore=0 spamscore=0
- adultscore=0 lowpriorityscore=0 mlxlogscore=732 priorityscore=1501
- impostorscore=0 classifier=spam authscore=0 adjust=0 reason=mlx
- scancount=1 engine=8.19.0-2502100000 definitions=main-2503040175
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 priorityscore=1501
+ spamscore=0 clxscore=1015 phishscore=0 adultscore=0 lowpriorityscore=0
+ impostorscore=0 bulkscore=0 mlxscore=0 suspectscore=0 malwarescore=0
+ mlxlogscore=999 classifier=spam authscore=0 adjust=0 reason=mlx
+ scancount=1 engine=8.19.0-2502100000 definitions=main-2503040181
 
-From: Wesley Cheng <quic_wcheng@quicinc.com>
+Hi Stephan,
 
-Enable USB support on SM8750 MTP and QRD variants.  The current definition
-will start the USB controller in peripheral mode by default until
-dependencies are added, such as USB role detection.
+On 3/4/2025 12:22 AM, Stephan Gerhold wrote:
+> On Mon, Mar 03, 2025 at 06:39:52PM -0800, Wesley Cheng wrote:
+>>
+>>
+>> On 2/19/2025 3:24 AM, Stephan Gerhold wrote:
+>>> On Tue, Feb 18, 2025 at 04:47:23PM -0800, Wesley Cheng wrote:
+>>>> Requesting to see if we can get some Acked-By tags, and merge on usb-next.
+>>>>
+>>>> Several Qualcomm based chipsets can support USB audio offloading to a
+>>>> dedicated audio DSP, which can take over issuing transfers to the USB
+>>>> host controller.  The intention is to reduce the load on the main
+>>>> processors in the SoC, and allow them to be placed into lower power modes.
+>>>> There are several parts to this design:
+>>>>   1. Adding ASoC binding layer
+>>>>   2. Create a USB backend for Q6DSP
+>>>>   3. Introduce XHCI interrupter support
+>>>>   4. Create vendor ops for the USB SND driver
+>>>>
+>>>>       USB                          |            ASoC
+>>>> --------------------------------------------------------------------
+>>>>                                    |  _________________________
+>>>>                                    | |sm8250 platform card     |
+>>>>                                    | |_________________________|
+>>>>                                    |         |           |
+>>>>                                    |      ___V____   ____V____
+>>>>                                    |     |Q6USB   | |Q6AFE    |
+>>>> |     |"codec" | |"cpu"    |
+>>>>                                    |     |________| |_________|
+>>>>                                    |         ^  ^        ^
+>>>>                                    |         |  |________|
+>>>>                                    |      ___V____    |
+>>>>                                    |     |SOC-USB |   |
+>>>>    ________       ________               |        |   |
+>>>>   |USB SND |<--->|QC offld|<------------>|________|   |
+>>>>   |(card.c)|     |        |<----------                |
+>>>>   |________|     |________|___     | |                |
+>>>>       ^               ^       |    | |    ____________V_________
+>>>>       |               |       |    | |   |APR/GLINK             |
+>>>>    __ V_______________V_____  |    | |   |______________________|
+>>>>   |USB SND (endpoint.c)     | |    | |              ^
+>>>>   |_________________________| |    | |              |
+>>>>               ^               |    | |   ___________V___________
+>>>>               |               |    | |->|audio DSP              |
+>>>>    ___________V_____________  |    |    |_______________________|
+>>>>   |XHCI HCD                 |<-    |
+>>>>   |_________________________|      |
+>>>>
+>>>
+>>> As I noted on v34 [1], this version is still missing instructions and
+>>> changes needed for testing this series. The device tree changes don't
+>>> need to be part of the same series, but there should be at least a link
+>>> provided to give other people the chance to provide Tested-by tags.
+>>>
+>>> IMO we shouldn't merge this series without those instructions, otherwise
+>>> we risk that this just ends up being dead code that no one can use.
+>>>
+>>> Can you please share the device tree changes for a board upstream and
+>>> any other changes needed to be able to test this series? E.g. for
+>>> sm8250-mtp.dts, based on the examples in your cover letter.
+>>>
+>>
+>> To clarify I'm testing this on sm8350 in recent times, but utilizing sm8250
+>> definitions for the ASoC platform card, as the platform sound card is more
+>> or less the same between the two SoCs.  Back
+>> when I started this series, sm8350 was missing a bunch of dependent
+>> components, such as aDSP not being loaded, and missing platform sound card
+>> definition, so I had to define and enable those on my own, which required a
+>> slew of new DT nodes, hence why it wasn't as straight forward to include
+>> the DT definitions yet for sm8350.  Not thinking that this series would
+>> take as long as it did, I was planning on separating out the DT changes in
+>> a different series to enable offloading for the devices I have tested with.
+>> (sm8150, sm8250 and sm8350)
+>>
+>> There's still a pretty big chunk of dependencies missing from sm8350, so
+>> those would also be handled in the follow up DT submission.  For now, its a
+>> much bigger hurdle to get the main/functional changes in, and that was
+>> taking a significant amount of time from my end to manage.
+>>
+>> If you want, I can give you the changes I have offline to enable this for
+>> sm8350, since I haven't spent time formatting/prepping the changes for
+>> submission yet.
+>>
+> 
+> Can you push it to a public branch somewhere (e.g. on CodeLinaro)? I was
+> talking to some people from the community about testing this on some of
+> the smartphones we have in upstream, so it wouldn't help if I just have
+> the changes privately.
 
-Signed-off-by: Wesley Cheng <quic_wcheng@quicinc.com>
-Signed-off-by: Melody Olvera <quic_molvera@quicinc.com>
----
- arch/arm64/boot/dts/qcom/sm8750-mtp.dts | 24 ++++++++++++++++++++++++
- arch/arm64/boot/dts/qcom/sm8750-qrd.dts | 24 ++++++++++++++++++++++++
- 2 files changed, 48 insertions(+)
+Which CLO project/branch did you want me to push it to?  Sorry, I haven't
+worked too much with the CLO open branches.  I have an account though.
 
-diff --git a/arch/arm64/boot/dts/qcom/sm8750-mtp.dts b/arch/arm64/boot/dts/qcom/sm8750-mtp.dts
-index 9e3aacad7bdab6848e86f8e45e04907e1c752a07..059eccbbc3fb05fc8806e36d35dc469d44443a26 100644
---- a/arch/arm64/boot/dts/qcom/sm8750-mtp.dts
-+++ b/arch/arm64/boot/dts/qcom/sm8750-mtp.dts
-@@ -792,3 +792,27 @@ &tlmm {
- &uart7 {
- 	status = "okay";
- };
-+
-+&usb_1 {
-+	status = "okay";
-+};
-+
-+&usb_1_dwc3 {
-+	dr_mode = "peripheral";
-+};
-+
-+&usb_1_hsphy {
-+	vdd-supply = <&vreg_l2d_0p88>;
-+	vdda12-supply = <&vreg_l3g_1p2>;
-+
-+	phys = <&pmih0108_eusb2_repeater>;
-+
-+	status = "okay";
-+};
-+
-+&usb_dp_qmpphy {
-+	vdda-phy-supply = <&vreg_l3g_1p2>;
-+	vdda-pll-supply = <&vreg_l2d_0p88>;
-+
-+	status = "okay";
-+};
-diff --git a/arch/arm64/boot/dts/qcom/sm8750-qrd.dts b/arch/arm64/boot/dts/qcom/sm8750-qrd.dts
-index f77efab0aef9bab751a947173bcdcc27df7295a8..01c0af643626917614fbd68cf8962ef947ca6548 100644
---- a/arch/arm64/boot/dts/qcom/sm8750-qrd.dts
-+++ b/arch/arm64/boot/dts/qcom/sm8750-qrd.dts
-@@ -790,3 +790,27 @@ &tlmm {
- &uart7 {
- 	status = "okay";
- };
-+
-+&usb_1 {
-+	status = "okay";
-+};
-+
-+&usb_1_dwc3 {
-+	dr_mode = "peripheral";
-+};
-+
-+&usb_1_hsphy {
-+	vdd-supply = <&vreg_l2d_0p88>;
-+	vdda12-supply = <&vreg_l3g_1p2>;
-+
-+	phys = <&pmih0108_eusb2_repeater>;
-+
-+	status = "okay";
-+};
-+
-+&usb_dp_qmpphy {
-+	vdda-phy-supply = <&vreg_l3g_1p2>;
-+	vdda-pll-supply = <&vreg_l2d_0p88>;
-+
-+	status = "okay";
-+};
-
--- 
-2.46.1
-
+Thanks
+Wesley Cheng
