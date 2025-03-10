@@ -1,185 +1,91 @@
-Received: from relay2-d.mail.gandi.net (relay2-d.mail.gandi.net [217.70.183.194])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.12])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D9545224252;
-	Mon, 10 Mar 2025 12:51:13 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.70.183.194
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6AC0322AE6D;
+	Mon, 10 Mar 2025 13:53:12 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.12
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1741611076; cv=none; b=UmA1+DiYfKQA7sjgdv41tUtOmzgdYEvlY+Z2c1ASUhv8jN5Mf0TxoIFmviRRRW9pczTpc5iIY9rkihdSHJenRVuPGR/IhsU0cAa49X+VIReqGJvXP5U0pyocr36Fvt8BBthQYfHUVilcH8Crpfr4x+Xxd2OiXnzEOUkegSwjO0I=
+	t=1741614793; cv=none; b=UzNnKqvvgZydWvgWbto1P5s0wCzXS6Xzp3R7iJHkIVKkuqQ7+8EJlSgR7/+JE1lKM7lovxq8+RHqvv/q2fxayDetAeyc7ysnW1e31VvERflWKiEZKG1bmqTSEOq9HKUJl1WK56WOAnkNX8/FC9wcV+iiB7rSOXkjcL1Zo0gwQcE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1741611076; c=relaxed/simple;
-	bh=UjM8Ysu6ITSvttk3Hg0lMsBTnl6G5ZsqoiI8lIaMSfY=;
-	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=R94VrfqwYY28QfNzdu+Yqnk61B+WRWjTcGhntSz7fHAzfKrSHFZHOnJiGvgsRHm79awL2nZHTimOcJJSCq9K9O4ldiwRImIhFUTBbIU7tNrxjJrzorWe1+mB/XwgUm3LEI/H3I190Y9YoZurk9VzJZmIdtASwDUCPAGW/+iyKPQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com; spf=pass smtp.mailfrom=bootlin.com; dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b=KOXorH2E; arc=none smtp.client-ip=217.70.183.194
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=bootlin.com
+	s=arc-20240116; t=1741614793; c=relaxed/simple;
+	bh=b+P4vKkK142ylgc34PXD4AdP2x7aUnRfBXYHIS1TtRY=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=DVyieT54uOBW3IxsEFhI/2IrTLm+/srCb6/kaP8VOa/lDLF7g88kii9SN7cuIQrpl8fegs35LF4YGZuqB5Pn2YEAoQTgFRlSjMYA9Q0LM2/sQ2PgD9QHRNmswEesrvvGXhaCNwZg7ZdhzKS6trZXnSW/xxOyF8Bh7NGtfH3OG+U=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=none smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=NwkcmgIT; arc=none smtp.client-ip=192.198.163.12
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=linux.intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b="KOXorH2E"
-Received: by mail.gandi.net (Postfix) with ESMTPSA id 79C3E4418C;
-	Mon, 10 Mar 2025 12:50:14 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=gm1;
-	t=1741611065;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=cpwv+O/rfjVyEucu2QcSsIfXnrXMI0PIlcx95yddQ+Y=;
-	b=KOXorH2EviOwBX90oHYpCRsMCj5LPdVecXFwNLwwVwj0tkggBUk9NnZmOXbFHYvcnqlght
-	O7PjNZB4jiUBlpGnwp/tP/DFhgwD/y9k1Ts+6/kKGgMztyKC0YpelTXZTzIRlcIfgONt9c
-	XADOnzvueAuVfDDnfLJHN5gLupxCBUS+VEyt4G8UtBQSiEypJoMB76sDusPvnJiHillDlH
-	LuyNVlreD0iTJ9Cs5I1UFi4oKGR9vxzIpULWuQCludb3PRHIVP8Qkz8lN5S9if6lz55CO4
-	6h0TbAjNfgRqyIAet1J+zopSykvBCRHFS0kUmHGZL8EmATS1+nv9/orTQL244g==
-Date: Mon, 10 Mar 2025 13:50:12 +0100
-From: Kory Maincent <kory.maincent@bootlin.com>
-To: Philipp Hahn <phahn-oss@avm.de>
-Cc: netdev@vger.kernel.org, linux-usb@vger.kernel.org, Leon Schuermann
- <leon@is.currently.online>, Jakub Kicinski <kuba@kernel.org>, Oliver Neukum
- <oliver@neukum.org>
-Subject: Re: [PATCH] cdc_ether|r8152: ThinkPad Hybrid USB-C/A Dock quirk
-Message-ID: <20250310135012.0e5a0791@kmaincent-XPS-13-7390>
-In-Reply-To: <484336aad52d14ccf061b535bc19ef6396ef5120.1741601523.git.p.hahn@avm.de>
-References: <484336aad52d14ccf061b535bc19ef6396ef5120.1741601523.git.p.hahn@avm.de>
-Organization: bootlin
-X-Mailer: Claws Mail 4.0.0 (GTK+ 3.24.33; x86_64-pc-linux-gnu)
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="NwkcmgIT"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1741614793; x=1773150793;
+  h=message-id:date:mime-version:subject:to:cc:references:
+   from:in-reply-to:content-transfer-encoding;
+  bh=b+P4vKkK142ylgc34PXD4AdP2x7aUnRfBXYHIS1TtRY=;
+  b=NwkcmgITt/uXh+74nX6qYuFgYzUA6/GP1ywwjxRuNC7dkMhB3H9XhWe8
+   iCQ+ohfrm6x/TuurQlK3FOBH5Fb9jZN/8OI3yITli+S8Ef9q642GPqsDG
+   1473xllGMEEwSffGIV7KijWjIfTznc6S40HxxSzMGQ+cGf5VUud2b1YkP
+   bLUbwAP3nKytRIeLHqqjGMwOC8Ic2gun0jEmAsvTermyqrOykqrf729Ug
+   HCF8eTHNDfUWuaC/vRWiEP4gGJzTIuLOzDkiFfIyRvGSCk/vQ40GUCdVu
+   MbBk/bU0Fg89u/JZiNIaLcnGmpahtluGKFoDks+hJqrttfc7HE5/pEKp/
+   A==;
+X-CSE-ConnectionGUID: FZvlbWONTEOQy1IvRiVF1g==
+X-CSE-MsgGUID: p4jL86nARbuxY8TZdZh7kg==
+X-IronPort-AV: E=McAfee;i="6700,10204,11369"; a="46519404"
+X-IronPort-AV: E=Sophos;i="6.14,236,1736841600"; 
+   d="scan'208";a="46519404"
+Received: from fmviesa003.fm.intel.com ([10.60.135.143])
+  by fmvoesa106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 10 Mar 2025 06:53:12 -0700
+X-CSE-ConnectionGUID: IoWGwWhwTnqZxjnweKexBg==
+X-CSE-MsgGUID: GGzU0XmXSR6O9wlBy0n8Wg==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.14,236,1736841600"; 
+   d="scan'208";a="124170270"
+Received: from unknown (HELO [10.237.72.199]) ([10.237.72.199])
+  by fmviesa003.fm.intel.com with ESMTP; 10 Mar 2025 06:53:10 -0700
+Message-ID: <2e3372fb-5eed-4259-841e-4af5ceeebf76@linux.intel.com>
+Date: Mon, 10 Mar 2025 15:54:14 +0200
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
-X-GND-State: clean
-X-GND-Score: -100
-X-GND-Cause: gggruggvucftvghtrhhoucdtuddrgeefvddrtddtgdduudelgedtucetufdoteggodetrfdotffvucfrrhhofhhilhgvmecuifetpfffkfdpucggtfgfnhhsuhgsshgtrhhisggvnecuuegrihhlohhuthemuceftddunecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenucfjughrpeffhffvvefukfgjfhhoofggtgfgsehtqhertdertdejnecuhfhrohhmpefmohhrhicuofgrihhntggvnhhtuceokhhorhihrdhmrghinhgtvghnthessghoohhtlhhinhdrtghomheqnecuggftrfgrthhtvghrnhepgeetgeeghfduhefhleelueeuueejjeegueegffdviedtheejieekhedvveejteehnecuffhomhgrihhnpehkvghrnhgvlhdrohhrghdplhgvnhhovhhordgtohhmpdgsohhothhlihhnrdgtohhmnecukfhppeegiedrudekkedrvdefledruddtnecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehinhgvthepgeeirddukeekrddvfeelrddutddphhgvlhhopehkmhgrihhntggvnhhtqdgirffuqddufedqjeefledtpdhmrghilhhfrhhomhepkhhorhihrdhmrghinhgtvghnthessghoohhtlhhinhdrtghomhdpnhgspghrtghpthhtohepjedprhgtphhtthhopehphhgrhhhnqdhoshhssegrvhhmrdguvgdprhgtphhtthhopehnvghtuggvvhesvhhgvghrrdhkvghrnhgvlhdrohhrghdprhgtphhtthhopehlihhnuhigqdhushgssehvghgvrhdrkhgvrhhnvghlrdhorhhgpdhrtghpthhtohepl
- hgvohhnsehishdrtghurhhrvghnthhlhidrohhnlhhinhgvpdhrtghpthhtohepkhhusggrsehkvghrnhgvlhdrohhrghdprhgtphhtthhopeholhhivhgvrhesnhgvuhhkuhhmrdhorhhgpdhrtghpthhtohepkhhorhihrdhmrghinhgtvghnthessghoohhtlhhinhdrtghomh
-X-GND-Sasl: kory.maincent@bootlin.com
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH 4/6] usb: xhci: Don't change the status of stalled TDs on
+ failed Stop EP
+To: Michal Pecio <michal.pecio@gmail.com>,
+ Mathias Nyman <mathias.nyman@intel.com>,
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+Cc: linux-usb@vger.kernel.org, linux-kernel@vger.kernel.org
+References: <20250310093605.2b3d0425@foxbook>
+ <20250310094037.52625e24@foxbook>
+Content-Language: en-US
+From: Mathias Nyman <mathias.nyman@linux.intel.com>
+In-Reply-To: <20250310094037.52625e24@foxbook>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 
-On Mon, 10 Mar 2025 11:17:35 +0100
-Philipp Hahn <phahn-oss@avm.de> wrote:
+On 10.3.2025 10.40, Michal Pecio wrote:
+> When the device stalls an endpoint, current TD is assigned -EPIPE
+> status and Reset Endpoint is queued. If a Stop Endpoint is pending
+> at the time, it will run before Reset Endpoint and fail due to the
+> stall. Its handler will change TD's status to -EPROTO before Reset
+> Endpoint handler runs and initiates giveback.
+> 
+> Check if the stall has already been handled and don't try to do it
+> again. Since xhci_handle_halted_endpoint() performs this check too,
+> not overwriting td->status is the only difference.
+> 
+> I haven't seen this case yet, but I have seen a related one where
+> the xHC has already executed Reset Endpoint, EP Context state is
+> now Stopped and EP_HALTED is set. If the xHC took a bit longer to
+> execute Reset Endpoint, said case would become this one.
+> 
+> Signed-off-by: Michal Pecio <michal.pecio@gmail.com>
 
-> Lenovo ThinkPad Hybrid USB-C with USB-A Dock (17ef:a359) is affected by
-> the same problem as the Lenovo Powered USB-C Travel Hub (17ef:721e):
-> Both are based on the Realtek RTL8153B chip used to use the cdc_ether
-> driver. However, using this driver, with the system suspended the device
-> constantly sends pause-frames as soon as the receive buffer fills up.
-> This causes issues with other devices, where some Ethernet switches stop
-> forwarding packets altogether.
->=20
-> Using the Realtek driver (r8152) fixes this issue. Pause frames are no
-> longer sent while the host system is suspended.
+Makes sense, nice improvement
 
-Please add net-next prefix to your patch as it is not a fix.
+Thanks
+Mathias
 
-Also several net maintainers are missing in the Cc. Please use the
-get_maintainers scripts like the following to get list of maintainers:
-./scripts/get_maintainer.pl --norolestats --nogit-fallback *.patch
-
-With these changes:
-Reviewed-by: Kory Maincent <kory.maincent@bootlin.com>
-
-Thank you!
-
-> Cc: Leon Schuermann <leon@is.currently.online>
-> Cc: Jakub Kicinski <kuba@kernel.org>
-> Cc: Oliver Neukum <oliver@neukum.org> (maintainer:USB CDC ETHERNET DRIVER)
-> Cc: netdev@vger.kernel.org (open list:NETWORKING DRIVERS)
-> Link: https://git.kernel.org/netdev/net/c/cb82a54904a9
-> Link: https://git.kernel.org/netdev/net/c/2284bbd0cf39
-> Link:
-> https://www.lenovo.com/de/de/p/accessories-and-software/docking/docking-u=
-sb-docks/40af0135eu
-> Signed-off-by: Philipp Hahn <phahn-oss@avm.de> ---
->  drivers/net/usb/cdc_ether.c | 7 +++++++
->  drivers/net/usb/r8152.c     | 6 ++++++
->  drivers/net/usb/r8153_ecm.c | 6 ++++++
->  3 files changed, 19 insertions(+)
->=20
-> diff --git a/drivers/net/usb/cdc_ether.c b/drivers/net/usb/cdc_ether.c
-> index a6469235d904..a032c1ded406 100644
-> --- a/drivers/net/usb/cdc_ether.c
-> +++ b/drivers/net/usb/cdc_ether.c
-> @@ -783,6 +783,13 @@ static const struct usb_device_id	products[] =3D {
->  	.driver_info =3D 0,
->  },
-> =20
-> +/* Lenovo ThinkPad Hybrid USB-C with USB-A Dock (40af0135eu, based on
-> Realtek RTL8153) */ +{
-> +	USB_DEVICE_AND_INTERFACE_INFO(LENOVO_VENDOR_ID, 0xa359,
-> USB_CLASS_COMM,
-> +			USB_CDC_SUBCLASS_ETHERNET, USB_CDC_PROTO_NONE),
-> +	.driver_info =3D 0,
-> +},
-> +
->  /* Aquantia AQtion USB to 5GbE Controller (based on AQC111U) */
->  {
->  	USB_DEVICE_AND_INTERFACE_INFO(AQUANTIA_VENDOR_ID, 0xc101,
-> diff --git a/drivers/net/usb/r8152.c b/drivers/net/usb/r8152.c
-> index 468c73974046..96fa3857d8e2 100644
-> --- a/drivers/net/usb/r8152.c
-> +++ b/drivers/net/usb/r8152.c
-> @@ -785,6 +785,7 @@ enum rtl8152_flags {
->  #define DEVICE_ID_THINKPAD_USB_C_DONGLE			0x720c
->  #define DEVICE_ID_THINKPAD_USB_C_DOCK_GEN2		0xa387
->  #define DEVICE_ID_THINKPAD_USB_C_DOCK_GEN3		0x3062
-> +#define DEVICE_ID_THINKPAD_HYBRID_USB_C_DOCK		0xa359
-> =20
->  struct tally_counter {
->  	__le64	tx_packets;
-> @@ -9787,6 +9788,7 @@ static bool rtl8152_supports_lenovo_macpassthru(str=
-uct
-> usb_device *udev) case DEVICE_ID_THINKPAD_USB_C_DOCK_GEN2:
->  		case DEVICE_ID_THINKPAD_USB_C_DOCK_GEN3:
->  		case DEVICE_ID_THINKPAD_USB_C_DONGLE:
-> +		case DEVICE_ID_THINKPAD_HYBRID_USB_C_DOCK:
->  			return 1;
->  		}
->  	} else if (vendor_id =3D=3D VENDOR_ID_REALTEK && parent_vendor_id =3D=3D
-> VENDOR_ID_LENOVO) { @@ -10064,6 +10066,8 @@ static const struct usb_devic=
-e_id
-> rtl8152_table[] =3D { { USB_DEVICE(VENDOR_ID_MICROSOFT, 0x0927) },
->  	{ USB_DEVICE(VENDOR_ID_MICROSOFT, 0x0c5e) },
->  	{ USB_DEVICE(VENDOR_ID_SAMSUNG, 0xa101) },
-> +
-> +	/* Lenovo */
->  	{ USB_DEVICE(VENDOR_ID_LENOVO,  0x304f) },
->  	{ USB_DEVICE(VENDOR_ID_LENOVO,  0x3054) },
->  	{ USB_DEVICE(VENDOR_ID_LENOVO,  0x3062) },
-> @@ -10074,7 +10078,9 @@ static const struct usb_device_id rtl8152_table[]=
- =3D {
->  	{ USB_DEVICE(VENDOR_ID_LENOVO,  0x720c) },
->  	{ USB_DEVICE(VENDOR_ID_LENOVO,  0x7214) },
->  	{ USB_DEVICE(VENDOR_ID_LENOVO,  0x721e) },
-> +	{ USB_DEVICE(VENDOR_ID_LENOVO,  0xa359) },
->  	{ USB_DEVICE(VENDOR_ID_LENOVO,  0xa387) },
-> +
->  	{ USB_DEVICE(VENDOR_ID_LINKSYS, 0x0041) },
->  	{ USB_DEVICE(VENDOR_ID_NVIDIA,  0x09ff) },
->  	{ USB_DEVICE(VENDOR_ID_TPLINK,  0x0601) },
-> diff --git a/drivers/net/usb/r8153_ecm.c b/drivers/net/usb/r8153_ecm.c
-> index 20b2df8d74ae..8d860dacdf49 100644
-> --- a/drivers/net/usb/r8153_ecm.c
-> +++ b/drivers/net/usb/r8153_ecm.c
-> @@ -135,6 +135,12 @@ static const struct usb_device_id products[] =3D {
->  				      USB_CDC_SUBCLASS_ETHERNET,
-> USB_CDC_PROTO_NONE), .driver_info =3D (unsigned long)&r8153_info,
->  },
-> +/* Lenovo ThinkPad Hybrid USB-C with USB-A Dock (40af0135eu, based on
-> Realtek RTL8153) */ +{
-> +	USB_DEVICE_AND_INTERFACE_INFO(VENDOR_ID_LENOVO, 0xa359,
-> USB_CLASS_COMM,
-> +				      USB_CDC_SUBCLASS_ETHERNET,
-> USB_CDC_PROTO_NONE),
-> +	.driver_info =3D (unsigned long)&r8153_info,
-> +},
-> =20
->  	{ },		/* END */
->  };
-
-
-
---=20
-K=C3=B6ry Maincent, Bootlin
-Embedded Linux and kernel engineering
-https://bootlin.com
