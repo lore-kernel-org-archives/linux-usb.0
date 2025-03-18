@@ -1,74 +1,74 @@
 Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com [205.220.180.131])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E7FDC212F8A
-	for <linux-usb@vger.kernel.org>; Tue, 18 Mar 2025 19:05:15 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 66A83214217
+	for <linux-usb@vger.kernel.org>; Tue, 18 Mar 2025 19:05:21 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.180.131
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1742324721; cv=none; b=LA6M+XpRCutmCUQKQHJZcFQK81tTHloFLaJxjqMXrr+Ab7eDRtBv4EPCThDB4Mq+fyjw7ATcXEJeSWmyhL+Mzmj2Rw79bt5lxNJ8XwrXBnaY5r5XO1zBZXcTanaK81MKUcQZyuSfuso+wmS8do9TwPGA1Zf7xFIuqXYoOz5RIGo=
+	t=1742324723; cv=none; b=tXPkg0Qnax47HefgBzGagKcuemfSA02JxrRk7+MdKPaX7Xgud9bb0r1v03Yo6aQRBwXLdW1jmEI5g3AOFd6tkLsbQCddqrCn/GkRCYUCQQMgrQsL+CgQNcbmZeQGFmQjQoLXf/kqzqW20IBdkRjhkJYfjUaOFlStDZHgpsvo5gE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1742324721; c=relaxed/simple;
-	bh=wAWUM3ffucxW+1g6lHY+OoHFAYGy2yWiORLWyxjTwt4=;
+	s=arc-20240116; t=1742324723; c=relaxed/simple;
+	bh=sLxeEtD5KdN/Fv/iIWiSNNJC3gbOXhgI4IPGBPoYGf4=;
 	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
-	 In-Reply-To:To:Cc; b=GtPABAhn6dT/2s3hBQoB8xeU6+bBXm7GjtQNIuyuwVplMhfI4Lv+6fqVQx0zWlDWhdfhVuyoYTJFgAm5GR4zwCPr0TDSxCISzmkSpJY+LJXTh9XFN/HDzTeer7JqqjCDpKy2drzD5tD2RIWctwywFKE0bszNYHNcT1V5GatGHgg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com; spf=pass smtp.mailfrom=oss.qualcomm.com; dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b=eIza6hXQ; arc=none smtp.client-ip=205.220.180.131
+	 In-Reply-To:To:Cc; b=RTIhZmutvTrsfEkNRnG3no9Ofzx3l30LjIw3Ajq5wLFXKsNfFuwmmLW0ee7acPWBaoXeUUBoumOL7Tc3hwecZf6tMdzZriNEAWNJAknaMX49Uxu4PeKzKbNA0sAIV3894ikriEimBk7nJqzZteGnWbgH107CiRko3bJIGZpBbCk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com; spf=pass smtp.mailfrom=oss.qualcomm.com; dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b=hF3zmzBH; arc=none smtp.client-ip=205.220.180.131
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=oss.qualcomm.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b="eIza6hXQ"
-Received: from pps.filterd (m0279873.ppops.net [127.0.0.1])
-	by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 52IIBL19004551
-	for <linux-usb@vger.kernel.org>; Tue, 18 Mar 2025 19:05:15 GMT
+	dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b="hF3zmzBH"
+Received: from pps.filterd (m0279868.ppops.net [127.0.0.1])
+	by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 52IHCUlZ003831
+	for <linux-usb@vger.kernel.org>; Tue, 18 Mar 2025 19:05:20 GMT
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
 	cc:content-transfer-encoding:content-type:date:from:in-reply-to
 	:message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
-	HMZC9VkGCoUU7Q/SeMHW2tCY+RJpQ+s8b+qSPkLUVkA=; b=eIza6hXQ0PWfNukR
-	zrVS+RJmSoA3Ka0+oIhPUMHaqCOJQozyTWzXJshqH3Efy1z90pMsUuxX4gOwtVIw
-	Z+udJn9rFsUb7sYMPx6Mz5nrFsLA8C5IL6hEwn/w1gK6dHf6fle4vdv5Pgq48G8X
-	CISUJLOIXkHfvpZpNlAIj+jqfRQS0Gg6k2gPxITXrpqqkuOgHBIRtg/7rBZPk8Wh
-	ptOLK5+YAur0t9TZ8q1aL0GF+5Hy5dYyRlu3fY4vG6THSnTvzyJnSYuCqRhJR8uc
-	ii2eQ0i/pRCis6azmA1i3uADEwOhzLYBbFHRDoPNrA/FBPkqQhXM7Km+OuMMhBW2
-	juG2zg==
-Received: from mail-oi1-f198.google.com (mail-oi1-f198.google.com [209.85.167.198])
-	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 45fdvxg457-1
+	J6uQd0OkZNwJTPgyOmvaqcV8zTcij5kAUFzA7Gkr9es=; b=hF3zmzBHb9MF30/+
+	5LjI1oEDGDiCnUbO464Q6N7JkmSVN94MFR7asChcSJ1XDlIplBdB2cpkxP1yhWnb
+	wfv+pFuAwu8OnYC9jPFfb3sFZTsV8xaTGjM3eRqo/VDZo6EjSEvWCSAQsBKgggV/
+	Kghbe/zaFS1CCMpwFw0XunGDsM9A72UYth2xePNqT/nHzFizOfPE/QWpBL4pXVBQ
+	5tvgwEJcpmGC883L7KXgcwxJjua8o8EgBNdFZBSLZX9YM2t4GaXEd4fJR9h0RVbq
+	T7XdTSLp9H7wUnYyWUcbD+KWojsqTO4uV7M+Bt+8aGIROIJXMeqpPKrnxbmTaXdY
+	AfWb6A==
+Received: from mail-oi1-f200.google.com (mail-oi1-f200.google.com [209.85.167.200])
+	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 45fd1dg962-1
 	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT)
-	for <linux-usb@vger.kernel.org>; Tue, 18 Mar 2025 19:05:14 +0000 (GMT)
-Received: by mail-oi1-f198.google.com with SMTP id 5614622812f47-3fdc9dc5c9dso945930b6e.3
-        for <linux-usb@vger.kernel.org>; Tue, 18 Mar 2025 12:05:14 -0700 (PDT)
+	for <linux-usb@vger.kernel.org>; Tue, 18 Mar 2025 19:05:20 +0000 (GMT)
+Received: by mail-oi1-f200.google.com with SMTP id 5614622812f47-3f3412843dbso6681872b6e.0
+        for <linux-usb@vger.kernel.org>; Tue, 18 Mar 2025 12:05:19 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1742324714; x=1742929514;
+        d=1e100.net; s=20230601; t=1742324719; x=1742929519;
         h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
          :mime-version:subject:date:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=HMZC9VkGCoUU7Q/SeMHW2tCY+RJpQ+s8b+qSPkLUVkA=;
-        b=LOmlScur6rcxuvgUJoAm+OlOLPL9ygLxTTdBZE6Knn7fURPc+ujJWff8jkHIxm+kGD
-         lt1n1ysBlbc5Nykjrfj1T/uZGxWucer3yOzw/zROTNKeFpw4BanrOeaB2aqWCLYoOr+P
-         b1Pz25iDLahOmQIvhW2SzVHqiQXYkzojlTrdOhdZM12KKp7LbjW9UB9DaiMu7X3Xem5+
-         aEEqJYkkI8CnavVziCiw6hI5AoNMzfuWo50Jl2IIprx3AaPleoJ1fMfqAMrXbhDdV28i
-         isN27T6cVO468RJ/rdYHjpnGAur429mxZ+I/t4TSiZhSVVH+pPIZDlkrBoOupz9jFJRN
-         EWaQ==
-X-Forwarded-Encrypted: i=1; AJvYcCXt/wSxQO+CqWYd2FwOlnQipdxK6DEDFz3qVyqegBYYwjw1DmWmxfpNQSEtxIIN8/nPRvMWfuWX0z4=@vger.kernel.org
-X-Gm-Message-State: AOJu0YyhQBbWigJDyKHzeePGf0mCZ0P9dfUkknJ58x7r+LdzgMFrqF1e
-	PFRvwaumyQeDW/JzVndkFCaCR4XmBqQryCj+l53nHVCP1nGcc/68zjIdefcHZSpS4tdi7vCV3H6
-	zz/svzQyN1OdDAGP2MjTTvwJyKKDm+Y+y9BkxnHmYIy41XTuOhGtw2jXsQOM=
-X-Gm-Gg: ASbGncs8SrrlxNIiSBfaIWz6Kn9IP8de4T0LAtoKMFbLYzQPnJGj07+bu/RMty7RpRH
-	ixt9pzhl1/NJYwBSXa0UHZcYdMat/+t5UDC5QxffbcDQyyrxyeX10z6xd4yCyAhneYmBGuZs77f
-	6vbWzu8SjvV2W7vlKsmW5p5sudIKs8P3BUGt6DHQ+ODl6vi+dS1XGfUX24HQlN6jQaxZ6ZCqvt8
-	H72UWNhSt8WffYsJ9ApY4KGXQSVDhagnzopvNoe6BC5DlnNjtuvpsN5hwBBJ3Srj/O0+xi8yGxa
-	py9er7juyvslPN5bpM6Q5knZYVhd4/fy9QQYynqki/3cheixiP60aLbz3/xgO3ympmyPvcNAFJK
-	gvdr3gItruFNw/V0=
-X-Received: by 2002:a05:6808:1801:b0:3fa:1d22:6d2c with SMTP id 5614622812f47-3feac2a3786mr131258b6e.15.1742324713853;
-        Tue, 18 Mar 2025 12:05:13 -0700 (PDT)
-X-Google-Smtp-Source: AGHT+IGvXyY2S5sGQHTlkQZEMYhM770zfAZyAg2bYMmMZTua9oAMTCBz5g5U/8JKmUdCYUo6ZH7cAA==
-X-Received: by 2002:a05:6808:1801:b0:3fa:1d22:6d2c with SMTP id 5614622812f47-3feac2a3786mr131240b6e.15.1742324713465;
-        Tue, 18 Mar 2025 12:05:13 -0700 (PDT)
+        bh=J6uQd0OkZNwJTPgyOmvaqcV8zTcij5kAUFzA7Gkr9es=;
+        b=RtRmNsM8XKjjPPDj7ImKUhG6xfzyRRV670+EbJeyPXFS2mU+P7vmrPXNvLfZqgu9by
+         h2yguPHB67WkOtnjENcIMNK7c+i3ylk9NYHU2gi/2sxdSxHrvIBqdr7OhaSg0f40MZ8C
+         QgM5EVwX1VYVQeny0219w3uRgRO9gvDE3Eg6HgaVg+BcEXn6bLIpxS6O2e7ErR6o1T7g
+         1u1scZt0/pjumk3gKFmkFiuwoOz/nQZfUUeUeBLATf0BIWjVHliSBFNHmfp/EpMGmB0U
+         NRSDTHHqk9h8jBxbnwWHn964f9YIvsR4SRgd8/YDQCxvMstvsh9pXjPSvveFjbUpJBul
+         zpmg==
+X-Forwarded-Encrypted: i=1; AJvYcCU3dvjfcp0WLtw006FZeV2z7zsPuwSa4Vwh7oJ3UrdoMmXx/rwvJAthf993qV9KPrio9M65jO0yoBE=@vger.kernel.org
+X-Gm-Message-State: AOJu0YyxkiGN+m3qVLYAnxPycjG9092+v3os8CYFT6E1Efj62T4Oz0Vm
+	ckensAv+YZEwmkurGlk4lCrpUKpI9Gg0Vzk/hJPydPhivUvztsOUmkawLca6X8VeLT2YkCPEi/r
+	TrH81eX/6hbFU3JELhj9SPGMam3Ifd2BYo2ywYyS1xXOTBN6B7nGeua5ha8Q=
+X-Gm-Gg: ASbGncvxn0qHxb9WfSmybCkFKNQauflk7NmZ0wNgNFOdrZhi9xRtsxYRx0RV14NoEWD
+	EtnoqpQ0QCqLaKbwdXdPgIFn6G+A28QDslOCRsfEmzmhxJ1kBztzNlt6xPq4IrPEaFyD4zCMgp5
+	VP8RqOe+KwMztVmk7o8g3gj8qKreFn1ctRvrItbQaPhaQY7OyHYHZWuEKL9RdMnIhJd65y2k7P4
+	KTnRRJP4aF2wPRau9G9l43aeE4Q6JtC5vAJ0p9J00dghJdpkPVQJ4Jev91wwCj4XRVQ+ZUDfroV
+	QnWqdTh28/OnbDgv7NPntZ4KBQZj2pWoERuPZRgEAahr7XxZyP2Q/XQCT1BHCXkJi3CpId9GKop
+	aItuUHF78g6oduzQ=
+X-Received: by 2002:a05:6808:244e:b0:3f8:95cc:3d35 with SMTP id 5614622812f47-3fdf06470d5mr7986127b6e.37.1742324718879;
+        Tue, 18 Mar 2025 12:05:18 -0700 (PDT)
+X-Google-Smtp-Source: AGHT+IH9RwwS3lxuV+oqVVP5738VEKq+iMo5mGWNjBhkcxPvwxZYna17cQsmaAyGa8O4NEqBHMfBlA==
+X-Received: by 2002:a05:6808:244e:b0:3f8:95cc:3d35 with SMTP id 5614622812f47-3fdf06470d5mr7986093b6e.37.1742324718469;
+        Tue, 18 Mar 2025 12:05:18 -0700 (PDT)
 Received: from [192.168.86.65] (104-57-184-186.lightspeed.austtx.sbcglobal.net. [104.57.184.186])
-        by smtp.gmail.com with ESMTPSA id 5614622812f47-3fcd403b065sm2264273b6e.4.2025.03.18.12.05.12
+        by smtp.gmail.com with ESMTPSA id 5614622812f47-3fcd403b065sm2264273b6e.4.2025.03.18.12.05.17
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 18 Mar 2025 12:05:12 -0700 (PDT)
+        Tue, 18 Mar 2025 12:05:17 -0700 (PDT)
 From: Bjorn Andersson <bjorn.andersson@oss.qualcomm.com>
-Date: Tue, 18 Mar 2025 14:05:03 -0500
-Subject: [PATCH v5 3/7] usb: dwc3: core: Expose core driver as library
+Date: Tue, 18 Mar 2025 14:05:07 -0500
+Subject: [PATCH v5 7/7] arm64: dts: qcom: sc8280x: Flatten the USB nodes
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
@@ -77,7 +77,7 @@ List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20250318-dwc3-refactor-v5-3-90ea6e5b3ba4@oss.qualcomm.com>
+Message-Id: <20250318-dwc3-refactor-v5-7-90ea6e5b3ba4@oss.qualcomm.com>
 References: <20250318-dwc3-refactor-v5-0-90ea6e5b3ba4@oss.qualcomm.com>
 In-Reply-To: <20250318-dwc3-refactor-v5-0-90ea6e5b3ba4@oss.qualcomm.com>
 To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
@@ -92,383 +92,551 @@ To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
         Konrad Dybcio <konradybcio@kernel.org>, Frank Li <Frank.li@nxp.com>
 Cc: linux-arm-msm@vger.kernel.org, linux-usb@vger.kernel.org,
         devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
+        Konrad Dybcio <konrad.dybcio@oss.qualcomm.com>,
         Bjorn Andersson <bjorn.andersson@oss.qualcomm.com>
 X-Mailer: b4 0.14.2
-X-Developer-Signature: v=1; a=openpgp-sha256; l=10136;
+X-Developer-Signature: v=1; a=openpgp-sha256; l=14141;
  i=bjorn.andersson@oss.qualcomm.com; h=from:subject:message-id;
- bh=wAWUM3ffucxW+1g6lHY+OoHFAYGy2yWiORLWyxjTwt4=;
- b=owEBgwJ8/ZANAwAIAQsfOT8Nma3FAcsmYgBn2cPjSJPDlDww96zN6653/MWcszDD3Ic5NpH1/
- 1zAAvo3+T+JAkkEAAEIADMWIQQF3gPMXzXqTwlm1SULHzk/DZmtxQUCZ9nD4xUcYW5kZXJzc29u
- QGtlcm5lbC5vcmcACgkQCx85Pw2ZrcWgwRAAiyAVa0WXvVjJ8Bh1bb10NmIubWgXCVppAZGAO5b
- BGgJ/04dnqpCK72+1157yGxIG4OKUtfqrtZYgWPTdcS+LCDTLuu30fNwK9DDb+AnrCC1Tf/Pvld
- /SDxqU5bOutmmP68X0wspgerAcMigaMsx8soKdeWr1QHWChNwGr5qkpDxJBqkqOCavHAsJ3RyjG
- LzzIk4qJ6dk7XsgnsQROvLkBh4LiTXHuH2oEBB3hI0Q6+p7M/xfM/zsapIF7uBxiL048I0AmG/s
- SRxSXSsg7vt2r99KqGOBpYDu20HTZso7ngarfVmVbtG7mDUQwfqco5kwb+A4xuzWmd7PxLKAAPZ
- h/TlwPFj70GlrDW2zqO6tjebud4gToUtRHRCDha7gRDuHbZSLU7X/cvUzWD65J3W4lVKfsRbhkK
- 9CU0A0raxjn8nPK7+FJ7oReymYRJgewImKc69pvjcliDgP32mmeVgIeXOfvePYfZKMZedDMF5Og
- MZpNeTf5Pu/ANbJZq0oJxYtMQjjIVOrkxmCw3O/3JOkRJ3uYznTJlk0bN/2WqWDA1GamqfZGgg6
- wMSqoNXKEjV6ovWd+9S7K7LrJQHCxjUjQM5Vpf1CtJgCFmzKY0KGo8dQf2LKqW8ypwS+7sq2pV4
- //O3xQh51CMPJy+4R8hzIhZNinDOTsGaNnrPq+6cKbSI=
+ bh=sLxeEtD5KdN/Fv/iIWiSNNJC3gbOXhgI4IPGBPoYGf4=;
+ b=owEBgwJ8/ZANAwAIAQsfOT8Nma3FAcsmYgBn2cPktSWx/Y5SmgLPt0FRYJfIOetOU/S5hmV/u
+ nvj+WWUPbOJAkkEAAEIADMWIQQF3gPMXzXqTwlm1SULHzk/DZmtxQUCZ9nD5BUcYW5kZXJzc29u
+ QGtlcm5lbC5vcmcACgkQCx85Pw2ZrcVEwxAAlccuZQxDZsO8jAxrrrHGk5Kno5y4VuGdXBi/MTL
+ 98fpe/d9e2NAUfASCSqUkEZNSn706deU6vOT0Z6gNJ6adJE9JhEqJLUjsJ/G1FsbAY1pmpN7Qy7
+ BD4XTMTOCzHrNniQiGZFG/rvb9AWAlGhqx0cjr+wsxosZ/oKomBehDHv1nySYZtAEzzf6HP6WVM
+ XiE2kbPUGihSYEelIp6YyQXKnTvXIDgb6qK5i5F/643VWr9S1t0uI4Xu5lg5K2LDds9Kqr0YgKQ
+ lqaJp2/YtQtqarUUGU2ga+Cb40jF5+U2ohyJ87cpD6ClTJBp6ZkwzMGlCEZuRTedAN05omYIQBm
+ furcBdLucaROQHXmcVFZLA/+MN2kJGeS3R+FCB6ITDeZfZ+IjAWS7HiXZSOJMi1hX4/iv2/+83t
+ s6EDICx746cKkZ3n8o9cwEK4uXt8aTEJbo8AZ3hwID6RB9aIL3jalQCgyD3mi1iIrw/uqG5bZo4
+ XPS9KIEMrKiRc79shbKpHBGFkr+moay9KKxLKXJI2phr+ZKi3iqbI5xBvgihaBwbkZDbJRB0GSE
+ BlwkdNAp88isjhGtVY89FLcMlhGjFJ0DBHHF5vAA9DeyiwJWzbI4pyxBa6xBfFff/1sF4GJIsTl
+ xhX4veV3oYln+1XMpXI8ACrzOuT/eNOR2UTQBxYvDzsk=
 X-Developer-Key: i=bjorn.andersson@oss.qualcomm.com; a=openpgp;
  fpr=05DE03CC5F35EA4F0966D5250B1F393F0D99ADC5
-X-Authority-Analysis: v=2.4 cv=SKhCVPvH c=1 sm=1 tr=0 ts=67d9c3ea cx=c_pps a=4ztaESFFfuz8Af0l9swBwA==:117 a=DaeiM5VmU20ml6RIjrOvYw==:17 a=IkcTkHD0fZMA:10 a=Vs1iUdzkB0EA:10 a=EUspDBNiAAAA:8 a=bGkOf_LmPnIWPiKmcZAA:9 a=QEXdDO2ut3YA:10
- a=TPnrazJqx2CeVZ-ItzZ-:22
-X-Proofpoint-ORIG-GUID: RytQLWlgWlgmhXU5VNRZGkBvVIE8A7lG
-X-Proofpoint-GUID: RytQLWlgWlgmhXU5VNRZGkBvVIE8A7lG
+X-Proofpoint-ORIG-GUID: s7_z_GVAk5tweDVNO2zN1llYMd3TIWpN
+X-Proofpoint-GUID: s7_z_GVAk5tweDVNO2zN1llYMd3TIWpN
+X-Authority-Analysis: v=2.4 cv=T52MT+KQ c=1 sm=1 tr=0 ts=67d9c3f0 cx=c_pps a=AKZTfHrQPB8q3CcvmcIuDA==:117 a=DaeiM5VmU20ml6RIjrOvYw==:17 a=IkcTkHD0fZMA:10 a=Vs1iUdzkB0EA:10 a=EUspDBNiAAAA:8 a=4tWh1G48NiluqMR1ZxwA:9 a=QEXdDO2ut3YA:10
+ a=pF_qn-MSjDawc0seGVz6:22
 X-Proofpoint-Virus-Version: vendor=baseguard
  engine=ICAP:2.0.293,Aquarius:18.0.1093,Hydra:6.0.680,FMLib:17.12.68.34
  definitions=2025-03-18_08,2025-03-17_03,2024-11-22_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 malwarescore=0
- mlxlogscore=996 spamscore=0 lowpriorityscore=0 priorityscore=1501
- clxscore=1015 bulkscore=0 mlxscore=0 suspectscore=0 phishscore=0
- impostorscore=0 adultscore=0 classifier=spam authscore=0 authtc=n/a
- authcc= route=outbound adjust=0 reason=mlx scancount=1
- engine=8.19.0-2502280000 definitions=main-2503180137
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 suspectscore=0 adultscore=0
+ impostorscore=0 priorityscore=1501 bulkscore=0 mlxscore=0 clxscore=1015
+ mlxlogscore=999 lowpriorityscore=0 phishscore=0 spamscore=0 malwarescore=0
+ classifier=spam authscore=0 authtc=n/a authcc= route=outbound adjust=0
+ reason=mlx scancount=1 engine=8.19.0-2502280000
+ definitions=main-2503180137
 
-The DWC3 IP block is handled by three distinct device drivers: XHCI,
-DWC3 core and a platform specific (optional) DWC3 glue driver.
+Transition the three USB controllers found in sc8280xp to the newly
+introduced, flattened representation of the Qualcomm USB block, i.e.
+qcom,snps-dwc3, to show the end result.
 
-This has resulted in, at least in the case of the Qualcomm glue, the
-presence of a number of layering violations, where the glue code either
-can't handle, or has to work around, the fact that core might not probe
-deterministically.
+The reg and interrupts properties from the usb child node are merged
+with their counterpart in the outer node, remaining properties and child
+nodes are simply moved.
 
-An example of this is that the suspend path should operate slightly
-different depending on the device operating in host or peripheral mode,
-and the only way to determine the operating state is to peek into the
-core's drvdata.
-
-The Qualcomm glue driver is expected to make updates in the qscratch
-register region (the "glue" region) during role switch events, but with
-the glue and core split using the driver model, there is no reasonable
-way to introduce listeners for mode changes.
-
-Split the dwc3 core platform_driver callbacks and their implementation
-and export the implementation, to make it possible to deterministically
-instantiate the dwc3 core as part of the dwc3 glue drivers and to
-allow flattening of the DeviceTree representation.
-
+Reviewed-by: Konrad Dybcio <konrad.dybcio@oss.qualcomm.com>
 Signed-off-by: Bjorn Andersson <bjorn.andersson@oss.qualcomm.com>
 ---
- drivers/usb/dwc3/core.c | 142 +++++++++++++++++++++++++++++++++---------------
- drivers/usb/dwc3/glue.h |  32 +++++++++++
- 2 files changed, 129 insertions(+), 45 deletions(-)
+ arch/arm64/boot/dts/qcom/sa8295p-adp.dts           |  12 +-
+ arch/arm64/boot/dts/qcom/sa8540p-ride.dts          |   5 +-
+ arch/arm64/boot/dts/qcom/sc8280xp-crd.dts          |  12 +-
+ .../boot/dts/qcom/sc8280xp-huawei-gaokun3.dts      |  10 +-
+ .../dts/qcom/sc8280xp-lenovo-thinkpad-x13s.dts     |  11 +-
+ .../boot/dts/qcom/sc8280xp-microsoft-arcata.dts    |  10 +-
+ .../boot/dts/qcom/sc8280xp-microsoft-blackrock.dts |  18 +--
+ arch/arm64/boot/dts/qcom/sc8280xp.dtsi             | 157 ++++++++++-----------
+ 8 files changed, 95 insertions(+), 140 deletions(-)
 
-diff --git a/drivers/usb/dwc3/core.c b/drivers/usb/dwc3/core.c
-index 66a08b5271653abd458f9ec85ca730afd7779d71..b428b6fc3d0a55811e2f75d33d79df4b0c67dcac 100644
---- a/drivers/usb/dwc3/core.c
-+++ b/drivers/usb/dwc3/core.c
-@@ -36,6 +36,7 @@
- 
- #include "core.h"
- #include "gadget.h"
-+#include "glue.h"
- #include "io.h"
- 
- #include "debug.h"
-@@ -2148,27 +2149,16 @@ static struct power_supply *dwc3_get_usb_power_supply(struct dwc3 *dwc)
- 	return usb_psy;
- }
- 
--static int dwc3_probe(struct platform_device *pdev)
-+int dwc3_core_probe(const struct dwc3_probe_data *data)
- {
--	struct device		*dev = &pdev->dev;
--	struct resource		*res, dwc_res;
-+	struct dwc3		*dwc = data->dwc;
-+	struct device		*dev = dwc->dev;
-+	struct resource		dwc_res;
- 	unsigned int		hw_mode;
- 	void __iomem		*regs;
--	struct dwc3		*dwc;
-+	struct resource		*res = data->res;
- 	int			ret;
- 
--	dwc = devm_kzalloc(dev, sizeof(*dwc), GFP_KERNEL);
--	if (!dwc)
--		return -ENOMEM;
--
--	dwc->dev = dev;
--
--	res = platform_get_resource(pdev, IORESOURCE_MEM, 0);
--	if (!res) {
--		dev_err(dev, "missing memory resource\n");
--		return -ENODEV;
--	}
--
- 	dwc->xhci_resources[0].start = res->start;
- 	dwc->xhci_resources[0].end = dwc->xhci_resources[0].start +
- 					DWC3_XHCI_REGS_END;
-@@ -2232,7 +2222,7 @@ static int dwc3_probe(struct platform_device *pdev)
- 		goto err_disable_clks;
- 	}
- 
--	platform_set_drvdata(pdev, dwc);
-+	dev_set_drvdata(dev, dwc);
- 	dwc3_cache_hwparams(dwc);
- 
- 	if (!dwc->sysdev_is_parent &&
-@@ -2327,12 +2317,35 @@ static int dwc3_probe(struct platform_device *pdev)
- 
- 	return ret;
- }
-+EXPORT_SYMBOL_GPL(dwc3_core_probe);
- 
--static void dwc3_remove(struct platform_device *pdev)
-+static int dwc3_probe(struct platform_device *pdev)
- {
--	struct dwc3	*dwc = platform_get_drvdata(pdev);
-+	struct dwc3_probe_data probe_data;
-+	struct resource *res;
-+	struct dwc3 *dwc;
- 
--	pm_runtime_get_sync(&pdev->dev);
-+	res = platform_get_resource(pdev, IORESOURCE_MEM, 0);
-+	if (!res) {
-+		dev_err(&pdev->dev, "missing memory resource\n");
-+		return -ENODEV;
-+	}
-+
-+	dwc = devm_kzalloc(&pdev->dev, sizeof(*dwc), GFP_KERNEL);
-+	if (!dwc)
-+		return -ENOMEM;
-+
-+	dwc->dev = &pdev->dev;
-+
-+	probe_data.dwc = dwc;
-+	probe_data.res = res;
-+
-+	return dwc3_core_probe(&probe_data);
-+}
-+
-+void dwc3_core_remove(struct dwc3 *dwc)
-+{
-+	pm_runtime_get_sync(dwc->dev);
- 
- 	dwc3_core_exit_mode(dwc);
- 	dwc3_debugfs_exit(dwc);
-@@ -2340,22 +2353,28 @@ static void dwc3_remove(struct platform_device *pdev)
- 	dwc3_core_exit(dwc);
- 	dwc3_ulpi_exit(dwc);
- 
--	pm_runtime_allow(&pdev->dev);
--	pm_runtime_disable(&pdev->dev);
--	pm_runtime_dont_use_autosuspend(&pdev->dev);
--	pm_runtime_put_noidle(&pdev->dev);
-+	pm_runtime_allow(dwc->dev);
-+	pm_runtime_disable(dwc->dev);
-+	pm_runtime_dont_use_autosuspend(dwc->dev);
-+	pm_runtime_put_noidle(dwc->dev);
- 	/*
- 	 * HACK: Clear the driver data, which is currently accessed by parent
- 	 * glue drivers, before allowing the parent to suspend.
- 	 */
--	platform_set_drvdata(pdev, NULL);
--	pm_runtime_set_suspended(&pdev->dev);
-+	dev_set_drvdata(dwc->dev, NULL);
-+	pm_runtime_set_suspended(dwc->dev);
- 
- 	dwc3_free_event_buffers(dwc);
- 
- 	if (dwc->usb_psy)
- 		power_supply_put(dwc->usb_psy);
- }
-+EXPORT_SYMBOL_GPL(dwc3_core_remove);
-+
-+static void dwc3_remove(struct platform_device *pdev)
-+{
-+	dwc3_core_remove(platform_get_drvdata(pdev));
-+}
- 
- #ifdef CONFIG_PM
- static int dwc3_core_init_for_resume(struct dwc3 *dwc)
-@@ -2544,9 +2563,8 @@ static int dwc3_runtime_checks(struct dwc3 *dwc)
- 	return 0;
- }
- 
--static int dwc3_runtime_suspend(struct device *dev)
-+int dwc3_runtime_suspend(struct dwc3 *dwc)
- {
--	struct dwc3     *dwc = dev_get_drvdata(dev);
- 	int		ret;
- 
- 	if (dwc3_runtime_checks(dwc))
-@@ -2558,10 +2576,11 @@ static int dwc3_runtime_suspend(struct device *dev)
- 
- 	return 0;
- }
-+EXPORT_SYMBOL_GPL(dwc3_runtime_suspend);
- 
--static int dwc3_runtime_resume(struct device *dev)
-+int dwc3_runtime_resume(struct dwc3 *dwc)
- {
--	struct dwc3     *dwc = dev_get_drvdata(dev);
-+	struct device *dev = dwc->dev;
- 	int		ret;
- 
- 	ret = dwc3_resume_common(dwc, PMSG_AUTO_RESUME);
-@@ -2571,7 +2590,7 @@ static int dwc3_runtime_resume(struct device *dev)
- 	switch (dwc->current_dr_role) {
- 	case DWC3_GCTL_PRTCAP_DEVICE:
- 		if (dwc->pending_events) {
--			pm_runtime_put(dwc->dev);
-+			pm_runtime_put(dev);
- 			dwc->pending_events = false;
- 			enable_irq(dwc->irq_gadget);
- 		}
-@@ -2586,10 +2605,11 @@ static int dwc3_runtime_resume(struct device *dev)
- 
- 	return 0;
- }
-+EXPORT_SYMBOL_GPL(dwc3_runtime_resume);
- 
--static int dwc3_runtime_idle(struct device *dev)
-+int dwc3_runtime_idle(struct dwc3 *dwc)
- {
--	struct dwc3     *dwc = dev_get_drvdata(dev);
-+	struct device *dev = dwc->dev;
- 
- 	switch (dwc->current_dr_role) {
- 	case DWC3_GCTL_PRTCAP_DEVICE:
-@@ -2607,12 +2627,28 @@ static int dwc3_runtime_idle(struct device *dev)
- 
- 	return 0;
- }
-+EXPORT_SYMBOL_GPL(dwc3_runtime_idle);
-+
-+static int dwc3_plat_runtime_suspend(struct device *dev)
-+{
-+	return dwc3_runtime_suspend(dev_get_drvdata(dev));
-+}
-+
-+static int dwc3_plat_runtime_resume(struct device *dev)
-+{
-+	return dwc3_runtime_resume(dev_get_drvdata(dev));
-+}
-+
-+static int dwc3_plat_runtime_idle(struct device *dev)
-+{
-+	return dwc3_runtime_idle(dev_get_drvdata(dev));
-+}
- #endif /* CONFIG_PM */
- 
- #ifdef CONFIG_PM_SLEEP
--static int dwc3_suspend(struct device *dev)
-+int dwc3_pm_suspend(struct dwc3 *dwc)
- {
--	struct dwc3	*dwc = dev_get_drvdata(dev);
-+	struct device *dev = dwc->dev;
- 	int		ret;
- 
- 	ret = dwc3_suspend_common(dwc, PMSG_SUSPEND);
-@@ -2623,10 +2659,11 @@ static int dwc3_suspend(struct device *dev)
- 
- 	return 0;
- }
-+EXPORT_SYMBOL_GPL(dwc3_pm_suspend);
- 
--static int dwc3_resume(struct device *dev)
-+int dwc3_pm_resume(struct dwc3 *dwc)
- {
--	struct dwc3	*dwc = dev_get_drvdata(dev);
-+	struct device *dev = dwc->dev;
- 	int		ret = 0;
- 
- 	pinctrl_pm_select_default_state(dev);
-@@ -2645,10 +2682,10 @@ static int dwc3_resume(struct device *dev)
- 
- 	return ret;
- }
-+EXPORT_SYMBOL_GPL(dwc3_pm_resume);
- 
--static void dwc3_complete(struct device *dev)
-+void dwc3_pm_complete(struct dwc3 *dwc)
- {
--	struct dwc3	*dwc = dev_get_drvdata(dev);
- 	u32		reg;
- 
- 	if (dwc->current_dr_role == DWC3_GCTL_PRTCAP_HOST &&
-@@ -2658,21 +2695,36 @@ static void dwc3_complete(struct device *dev)
- 		dwc3_writel(dwc->regs, DWC3_GUCTL3, reg);
- 	}
- }
-+EXPORT_SYMBOL_GPL(dwc3_pm_complete);
-+
-+static int dwc3_plat_suspend(struct device *dev)
-+{
-+	return dwc3_pm_suspend(dev_get_drvdata(dev));
-+}
-+
-+static int dwc3_plat_resume(struct device *dev)
-+{
-+	return dwc3_pm_resume(dev_get_drvdata(dev));
-+}
-+
-+static void dwc3_plat_complete(struct device *dev)
-+{
-+	dwc3_pm_complete(dev_get_drvdata(dev));
-+}
- #else
--#define dwc3_complete NULL
-+#define dwc3_plat_complete NULL
- #endif /* CONFIG_PM_SLEEP */
- 
- static const struct dev_pm_ops dwc3_dev_pm_ops = {
--	SET_SYSTEM_SLEEP_PM_OPS(dwc3_suspend, dwc3_resume)
--	.complete = dwc3_complete,
--
-+	SET_SYSTEM_SLEEP_PM_OPS(dwc3_plat_suspend, dwc3_plat_resume)
-+	.complete = dwc3_plat_complete,
- 	/*
- 	 * Runtime suspend halts the controller on disconnection. It relies on
- 	 * platforms with custom connection notification to start the controller
- 	 * again.
- 	 */
--	SET_RUNTIME_PM_OPS(dwc3_runtime_suspend, dwc3_runtime_resume,
--			dwc3_runtime_idle)
-+	SET_RUNTIME_PM_OPS(dwc3_plat_runtime_suspend, dwc3_plat_runtime_resume,
-+			   dwc3_plat_runtime_idle)
+diff --git a/arch/arm64/boot/dts/qcom/sa8295p-adp.dts b/arch/arm64/boot/dts/qcom/sa8295p-adp.dts
+index 2fd1dafe63ce7a4f409d19946b9f10ffe324fba3..3d84cbf5af3181c51853ed3a05f1fd9dd47d113b 100644
+--- a/arch/arm64/boot/dts/qcom/sa8295p-adp.dts
++++ b/arch/arm64/boot/dts/qcom/sa8295p-adp.dts
+@@ -631,12 +631,10 @@ &ufs_card_phy {
  };
  
- #ifdef CONFIG_OF
-diff --git a/drivers/usb/dwc3/glue.h b/drivers/usb/dwc3/glue.h
-new file mode 100644
-index 0000000000000000000000000000000000000000..e73cfc466012f07214291abe56454934ab014013
---- /dev/null
-+++ b/drivers/usb/dwc3/glue.h
-@@ -0,0 +1,32 @@
-+/* SPDX-License-Identifier: GPL-2.0 */
-+/*
-+ * glue.h - DesignWare USB3 DRD glue header
-+ */
+ &usb_0 {
+-	status = "okay";
+-};
+-
+-&usb_0_dwc3 {
+ 	/* TODO: Define USB-C connector properly */
+ 	dr_mode = "peripheral";
 +
-+#ifndef __DRIVERS_USB_DWC3_GLUE_H
-+#define __DRIVERS_USB_DWC3_GLUE_H
++	status = "okay";
+ };
+ 
+ &usb_0_hsphy {
+@@ -655,12 +653,10 @@ &usb_0_qmpphy {
+ };
+ 
+ &usb_1 {
+-	status = "okay";
+-};
+-
+-&usb_1_dwc3 {
+ 	/* TODO: Define USB-C connector properly */
+ 	dr_mode = "host";
 +
-+#include <linux/types.h>
-+#include "core.h"
++	status = "okay";
+ };
+ 
+ &usb_1_hsphy {
+diff --git a/arch/arm64/boot/dts/qcom/sa8540p-ride.dts b/arch/arm64/boot/dts/qcom/sa8540p-ride.dts
+index 11663cf81e45881d74aa58104b8e36b1189cede0..e794f45ce841f0bb041ee3732d561b2ec49eeb35 100644
+--- a/arch/arm64/boot/dts/qcom/sa8540p-ride.dts
++++ b/arch/arm64/boot/dts/qcom/sa8540p-ride.dts
+@@ -464,11 +464,8 @@ &ufs_mem_phy {
+ };
+ 
+ &usb_0 {
+-	status = "okay";
+-};
+-
+-&usb_0_dwc3 {
+ 	dr_mode = "peripheral";
++	status = "okay";
+ };
+ 
+ &usb_0_hsphy {
+diff --git a/arch/arm64/boot/dts/qcom/sc8280xp-crd.dts b/arch/arm64/boot/dts/qcom/sc8280xp-crd.dts
+index c4a5828be9353de0e4215b71a78ed5ca8e4b6b8a..46d11e8261e21cca99e7c01aaacc62182a97ef56 100644
+--- a/arch/arm64/boot/dts/qcom/sc8280xp-crd.dts
++++ b/arch/arm64/boot/dts/qcom/sc8280xp-crd.dts
+@@ -809,11 +809,9 @@ &ufs_mem_phy {
+ };
+ 
+ &usb_0 {
+-	status = "okay";
+-};
+-
+-&usb_0_dwc3 {
+ 	dr_mode = "host";
 +
-+/**
-+ * dwc3_probe_data: Initialization parameters passed to dwc3_core_probe()
-+ * @dwc: Reference to dwc3 context structure
-+ * @res: resource for the DWC3 core mmio region
-+ */
-+struct dwc3_probe_data {
-+	struct dwc3 *dwc;
-+	struct resource *res;
-+};
++	status = "okay";
+ };
+ 
+ &usb_0_dwc3_hs {
+@@ -846,11 +844,9 @@ &usb_0_qmpphy_out {
+ };
+ 
+ &usb_1 {
+-	status = "okay";
+-};
+-
+-&usb_1_dwc3 {
+ 	dr_mode = "host";
 +
-+int dwc3_core_probe(const struct dwc3_probe_data *data);
-+void dwc3_core_remove(struct dwc3 *dwc);
++	status = "okay";
+ };
+ 
+ &usb_1_dwc3_hs {
+diff --git a/arch/arm64/boot/dts/qcom/sc8280xp-huawei-gaokun3.dts b/arch/arm64/boot/dts/qcom/sc8280xp-huawei-gaokun3.dts
+index 1667c7157057825e92c6103c9d8fe03dbf1d2b4c..10fcf85c0d94a42de7181f7982732e428fbcb7c9 100644
+--- a/arch/arm64/boot/dts/qcom/sc8280xp-huawei-gaokun3.dts
++++ b/arch/arm64/boot/dts/qcom/sc8280xp-huawei-gaokun3.dts
+@@ -1123,11 +1123,8 @@ bluetooth {
+ };
+ 
+ &usb_0 {
+-	status = "okay";
+-};
+-
+-&usb_0_dwc3 {
+ 	dr_mode = "host";
++	status = "okay";
+ };
+ 
+ &usb_0_dwc3_hs {
+@@ -1160,11 +1157,8 @@ &usb_0_qmpphy_out {
+ };
+ 
+ &usb_1 {
+-	status = "okay";
+-};
+-
+-&usb_1_dwc3 {
+ 	dr_mode = "host";
++	status = "okay";
+ };
+ 
+ &usb_1_dwc3_hs {
+diff --git a/arch/arm64/boot/dts/qcom/sc8280xp-lenovo-thinkpad-x13s.dts b/arch/arm64/boot/dts/qcom/sc8280xp-lenovo-thinkpad-x13s.dts
+index d36fc1ebe50e8baf73e21bd571f716e0152aa624..20c3b2f7231a1df14fe83ef548ebe48e9437b7f9 100644
+--- a/arch/arm64/boot/dts/qcom/sc8280xp-lenovo-thinkpad-x13s.dts
++++ b/arch/arm64/boot/dts/qcom/sc8280xp-lenovo-thinkpad-x13s.dts
+@@ -1329,11 +1329,9 @@ bluetooth {
+ };
+ 
+ &usb_0 {
+-	status = "okay";
+-};
+-
+-&usb_0_dwc3 {
+ 	dr_mode = "host";
 +
-+int dwc3_runtime_suspend(struct dwc3 *dwc);
-+int dwc3_runtime_resume(struct dwc3 *dwc);
-+int dwc3_runtime_idle(struct dwc3 *dwc);
-+int dwc3_pm_suspend(struct dwc3 *dwc);
-+int dwc3_pm_resume(struct dwc3 *dwc);
-+void dwc3_pm_complete(struct dwc3 *dwc);
++	status = "okay";
+ };
+ 
+ &usb_0_dwc3_hs {
+@@ -1366,11 +1364,8 @@ &usb_0_qmpphy_out {
+ };
+ 
+ &usb_1 {
+-	status = "okay";
+-};
+-
+-&usb_1_dwc3 {
+ 	dr_mode = "host";
++	status = "okay";
+ };
+ 
+ &usb_1_dwc3_hs {
+diff --git a/arch/arm64/boot/dts/qcom/sc8280xp-microsoft-arcata.dts b/arch/arm64/boot/dts/qcom/sc8280xp-microsoft-arcata.dts
+index d00889fa6f0bac01d326dca9801c66a508ff1d67..105463070e314a2e8ce8e255a013f56f09c4b425 100644
+--- a/arch/arm64/boot/dts/qcom/sc8280xp-microsoft-arcata.dts
++++ b/arch/arm64/boot/dts/qcom/sc8280xp-microsoft-arcata.dts
+@@ -749,11 +749,8 @@ embedded-controller {
+ };
+ 
+ &usb_0 {
+-	status = "okay";
+-};
+-
+-&usb_0_dwc3 {
+ 	dr_mode = "host";
++	status = "okay";
+ };
+ 
+ &usb_0_dwc3_hs {
+@@ -786,11 +783,8 @@ &usb_0_qmpphy_out {
+ };
+ 
+ &usb_1 {
+-	status = "okay";
+-};
+-
+-&usb_1_dwc3 {
+ 	dr_mode = "host";
++	status = "okay";
+ };
+ 
+ &usb_1_dwc3_hs {
+diff --git a/arch/arm64/boot/dts/qcom/sc8280xp-microsoft-blackrock.dts b/arch/arm64/boot/dts/qcom/sc8280xp-microsoft-blackrock.dts
+index 812251324002b50f3b48845b6c244f692d42b9b2..cb5baf50cef216ab2fb19fad3c58c999a68237fe 100644
+--- a/arch/arm64/boot/dts/qcom/sc8280xp-microsoft-blackrock.dts
++++ b/arch/arm64/boot/dts/qcom/sc8280xp-microsoft-blackrock.dts
+@@ -982,11 +982,9 @@ bluetooth {
+ };
+ 
+ &usb_0 {
+-	status = "okay";
+-};
+-
+-&usb_0_dwc3 {
+ 	dr_mode = "host";
 +
-+#endif
++	status = "okay";
+ };
+ 
+ &usb_0_dwc3_hs {
+@@ -1019,11 +1017,9 @@ &usb_0_qmpphy_out {
+ };
+ 
+ &usb_1 {
+-	status = "okay";
+-};
+-
+-&usb_1_dwc3 {
+ 	dr_mode = "host";
++
++	status = "okay";
+ };
+ 
+ &usb_1_dwc3_hs {
+@@ -1059,12 +1055,10 @@ &usb_2 {
+ 	pinctrl-0 = <&usb2_en_state>;
+ 	pinctrl-names = "default";
+ 
+-	status = "okay";
+-};
+-
+-&usb_2_dwc3 {
+ 	phys = <&usb_2_hsphy0>, <&usb_2_qmpphy0>;
+ 	phy-names = "usb2-0", "usb3-0";
++
++	status = "okay";
+ };
+ 
+ &usb_2_hsphy0 {
+diff --git a/arch/arm64/boot/dts/qcom/sc8280xp.dtsi b/arch/arm64/boot/dts/qcom/sc8280xp.dtsi
+index f57c23c244b6bb8a5502493553bbd17372e57b0c..cfc61d2a0285da15ddf28db50a14d088adc684d7 100644
+--- a/arch/arm64/boot/dts/qcom/sc8280xp.dtsi
++++ b/arch/arm64/boot/dts/qcom/sc8280xp.dtsi
+@@ -3457,12 +3457,9 @@ system-cache-controller@9200000 {
+ 			interrupts = <GIC_SPI 582 IRQ_TYPE_LEVEL_HIGH>;
+ 		};
+ 
+-		usb_2: usb@a4f8800 {
+-			compatible = "qcom,sc8280xp-dwc3-mp", "qcom,dwc3";
+-			reg = <0 0x0a4f8800 0 0x400>;
+-			#address-cells = <2>;
+-			#size-cells = <2>;
+-			ranges;
++		usb_2: usb@a400000 {
++			compatible = "qcom,sc8280xp-dwc3-mp", "qcom,snps-dwc3";
++			reg = <0 0x0a400000 0 0x10000>;
+ 
+ 			clocks = <&gcc GCC_CFG_NOC_USB3_MP_AXI_CLK>,
+ 				 <&gcc GCC_USB30_MP_MASTER_CLK>,
+@@ -3480,7 +3477,8 @@ usb_2: usb@a4f8800 {
+ 					  <&gcc GCC_USB30_MP_MASTER_CLK>;
+ 			assigned-clock-rates = <19200000>, <200000000>;
+ 
+-			interrupts-extended = <&intc GIC_SPI 130 IRQ_TYPE_LEVEL_HIGH>,
++			interrupts-extended = <&intc GIC_SPI 133 IRQ_TYPE_LEVEL_HIGH>,
++					      <&intc GIC_SPI 130 IRQ_TYPE_LEVEL_HIGH>,
+ 					      <&intc GIC_SPI 135 IRQ_TYPE_LEVEL_HIGH>,
+ 					      <&intc GIC_SPI 857 IRQ_TYPE_LEVEL_HIGH>,
+ 					      <&intc GIC_SPI 856 IRQ_TYPE_LEVEL_HIGH>,
+@@ -3499,7 +3497,8 @@ usb_2: usb@a4f8800 {
+ 					      <&pdc 16 IRQ_TYPE_LEVEL_HIGH>,
+ 					      <&pdc 17 IRQ_TYPE_LEVEL_HIGH>;
+ 
+-			interrupt-names = "pwr_event_1", "pwr_event_2",
++			interrupt-names = "dwc_usb3",
++					  "pwr_event_1", "pwr_event_2",
+ 					  "pwr_event_3", "pwr_event_4",
+ 					  "hs_phy_1",	 "hs_phy_2",
+ 					  "hs_phy_3",	 "hs_phy_4",
+@@ -3509,6 +3508,7 @@ usb_2: usb@a4f8800 {
+ 					  "dp_hs_phy_4", "dm_hs_phy_4",
+ 					  "ss_phy_1",	 "ss_phy_2";
+ 
++			iommus = <&apps_smmu 0x800 0x0>;
+ 			power-domains = <&gcc USB30_MP_GDSC>;
+ 			required-opps = <&rpmhpd_opp_nom>;
+ 
+@@ -3518,35 +3518,28 @@ usb_2: usb@a4f8800 {
+ 					<&gem_noc MASTER_APPSS_PROC 0 &config_noc SLAVE_USB3_MP 0>;
+ 			interconnect-names = "usb-ddr", "apps-usb";
+ 
++			phys = <&usb_2_hsphy0>, <&usb_2_qmpphy0>,
++			       <&usb_2_hsphy1>, <&usb_2_qmpphy1>,
++			       <&usb_2_hsphy2>,
++			       <&usb_2_hsphy3>;
++			phy-names = "usb2-0", "usb3-0",
++				    "usb2-1", "usb3-1",
++				    "usb2-2",
++				    "usb2-3";
++
+ 			wakeup-source;
+ 
++			dr_mode = "host";
++
++			snps,dis-u1-entry-quirk;
++			snps,dis-u2-entry-quirk;
++
+ 			status = "disabled";
++		};
+ 
+-			usb_2_dwc3: usb@a400000 {
+-				compatible = "snps,dwc3";
+-				reg = <0 0x0a400000 0 0xcd00>;
+-				interrupts = <GIC_SPI 133 IRQ_TYPE_LEVEL_HIGH>;
+-				iommus = <&apps_smmu 0x800 0x0>;
+-				phys = <&usb_2_hsphy0>, <&usb_2_qmpphy0>,
+-				       <&usb_2_hsphy1>, <&usb_2_qmpphy1>,
+-				       <&usb_2_hsphy2>,
+-				       <&usb_2_hsphy3>;
+-				phy-names = "usb2-0", "usb3-0",
+-					    "usb2-1", "usb3-1",
+-					    "usb2-2",
+-					    "usb2-3";
+-				dr_mode = "host";
+-				snps,dis-u1-entry-quirk;
+-				snps,dis-u2-entry-quirk;
+-			};
+-		};
+-
+-		usb_0: usb@a6f8800 {
+-			compatible = "qcom,sc8280xp-dwc3", "qcom,dwc3";
+-			reg = <0 0x0a6f8800 0 0x400>;
+-			#address-cells = <2>;
+-			#size-cells = <2>;
+-			ranges;
++		usb_0: usb@a600000 {
++			compatible = "qcom,sc8280xp-dwc3", "qcom,snps-dwc3";
++			reg = <0 0x0a600000 0 0x10000>;
+ 
+ 			clocks = <&gcc GCC_CFG_NOC_USB3_PRIM_AXI_CLK>,
+ 				 <&gcc GCC_USB30_PRIM_MASTER_CLK>,
+@@ -3564,17 +3557,20 @@ usb_0: usb@a6f8800 {
+ 					  <&gcc GCC_USB30_PRIM_MASTER_CLK>;
+ 			assigned-clock-rates = <19200000>, <200000000>;
+ 
+-			interrupts-extended = <&intc GIC_SPI 804 IRQ_TYPE_LEVEL_HIGH>,
++			interrupts-extended = <&intc GIC_SPI 803 IRQ_TYPE_LEVEL_HIGH>,
++					      <&intc GIC_SPI 804 IRQ_TYPE_LEVEL_HIGH>,
+ 					      <&intc GIC_SPI 805 IRQ_TYPE_LEVEL_HIGH>,
+ 					      <&pdc 14 IRQ_TYPE_EDGE_BOTH>,
+ 					      <&pdc 15 IRQ_TYPE_EDGE_BOTH>,
+ 					      <&pdc 138 IRQ_TYPE_LEVEL_HIGH>;
+-			interrupt-names = "pwr_event",
++			interrupt-names = "dwc_usb3",
++					  "pwr_event",
+ 					  "hs_phy_irq",
+ 					  "dp_hs_phy_irq",
+ 					  "dm_hs_phy_irq",
+ 					  "ss_phy_irq";
+ 
++			iommus = <&apps_smmu 0x820 0x0>;
+ 			power-domains = <&gcc USB30_PRIM_GDSC>;
+ 			required-opps = <&rpmhpd_opp_nom>;
+ 
+@@ -3584,45 +3580,40 @@ usb_0: usb@a6f8800 {
+ 					<&gem_noc MASTER_APPSS_PROC 0 &config_noc SLAVE_USB3_0 0>;
+ 			interconnect-names = "usb-ddr", "apps-usb";
+ 
++			phys = <&usb_0_hsphy>, <&usb_0_qmpphy QMP_USB43DP_USB3_PHY>;
++			phy-names = "usb2-phy", "usb3-phy";
++
+ 			wakeup-source;
+ 
+-			status = "disabled";
++			snps,dis-u1-entry-quirk;
++			snps,dis-u2-entry-quirk;
+ 
+-			usb_0_dwc3: usb@a600000 {
+-				compatible = "snps,dwc3";
+-				reg = <0 0x0a600000 0 0xcd00>;
+-				interrupts = <GIC_SPI 803 IRQ_TYPE_LEVEL_HIGH>;
+-				iommus = <&apps_smmu 0x820 0x0>;
+-				phys = <&usb_0_hsphy>, <&usb_0_qmpphy QMP_USB43DP_USB3_PHY>;
+-				phy-names = "usb2-phy", "usb3-phy";
+-				snps,dis-u1-entry-quirk;
+-				snps,dis-u2-entry-quirk;
++			status = "disabled";
+ 
+-				ports {
+-					#address-cells = <1>;
+-					#size-cells = <0>;
++			ports {
++				#address-cells = <1>;
++				#size-cells = <0>;
+ 
+-					port@0 {
+-						reg = <0>;
++				port@0 {
++					reg = <0>;
+ 
+-						usb_0_dwc3_hs: endpoint {
+-						};
++					usb_0_dwc3_hs: endpoint {
+ 					};
++				};
+ 
+-					port@1 {
+-						reg = <1>;
++				port@1 {
++					reg = <1>;
+ 
+-						usb_0_dwc3_ss: endpoint {
+-							remote-endpoint = <&usb_0_qmpphy_usb_ss_in>;
+-						};
++					usb_0_dwc3_ss: endpoint {
++						remote-endpoint = <&usb_0_qmpphy_usb_ss_in>;
+ 					};
+ 				};
+ 			};
+ 		};
+ 
+-		usb_1: usb@a8f8800 {
+-			compatible = "qcom,sc8280xp-dwc3", "qcom,dwc3";
+-			reg = <0 0x0a8f8800 0 0x400>;
++		usb_1: usb@a800000 {
++			compatible = "qcom,sc8280xp-dwc3", "qcom,snps-dwc3";
++			reg = <0 0x0a800000 0 0x10000>;
+ 			#address-cells = <2>;
+ 			#size-cells = <2>;
+ 			ranges;
+@@ -3643,17 +3634,20 @@ usb_1: usb@a8f8800 {
+ 					  <&gcc GCC_USB30_SEC_MASTER_CLK>;
+ 			assigned-clock-rates = <19200000>, <200000000>;
+ 
+-			interrupts-extended = <&intc GIC_SPI 811 IRQ_TYPE_LEVEL_HIGH>,
++			interrupts-extended = <&intc GIC_SPI 810 IRQ_TYPE_LEVEL_HIGH>,
++					      <&intc GIC_SPI 811 IRQ_TYPE_LEVEL_HIGH>,
+ 					      <&intc GIC_SPI 790 IRQ_TYPE_LEVEL_HIGH>,
+ 					      <&pdc 12 IRQ_TYPE_EDGE_BOTH>,
+ 					      <&pdc 13 IRQ_TYPE_EDGE_BOTH>,
+ 					      <&pdc 136 IRQ_TYPE_LEVEL_HIGH>;
+-			interrupt-names = "pwr_event",
++			interrupt-names = "dwc_usb3",
++					  "pwr_event",
+ 					  "hs_phy_irq",
+ 					  "dp_hs_phy_irq",
+ 					  "dm_hs_phy_irq",
+ 					  "ss_phy_irq";
+ 
++			iommus = <&apps_smmu 0x860 0x0>;
+ 			power-domains = <&gcc USB30_SEC_GDSC>;
+ 			required-opps = <&rpmhpd_opp_nom>;
+ 
+@@ -3663,37 +3657,32 @@ usb_1: usb@a8f8800 {
+ 					<&gem_noc MASTER_APPSS_PROC 0 &config_noc SLAVE_USB3_1 0>;
+ 			interconnect-names = "usb-ddr", "apps-usb";
+ 
++			phys = <&usb_1_hsphy>, <&usb_1_qmpphy QMP_USB43DP_USB3_PHY>;
++			phy-names = "usb2-phy", "usb3-phy";
++
+ 			wakeup-source;
+ 
+-			status = "disabled";
++			snps,dis-u1-entry-quirk;
++			snps,dis-u2-entry-quirk;
+ 
+-			usb_1_dwc3: usb@a800000 {
+-				compatible = "snps,dwc3";
+-				reg = <0 0x0a800000 0 0xcd00>;
+-				interrupts = <GIC_SPI 810 IRQ_TYPE_LEVEL_HIGH>;
+-				iommus = <&apps_smmu 0x860 0x0>;
+-				phys = <&usb_1_hsphy>, <&usb_1_qmpphy QMP_USB43DP_USB3_PHY>;
+-				phy-names = "usb2-phy", "usb3-phy";
+-				snps,dis-u1-entry-quirk;
+-				snps,dis-u2-entry-quirk;
++			status = "disabled";
+ 
+-				ports {
+-					#address-cells = <1>;
+-					#size-cells = <0>;
++			ports {
++				#address-cells = <1>;
++				#size-cells = <0>;
+ 
+-					port@0 {
+-						reg = <0>;
++				port@0 {
++					reg = <0>;
+ 
+-						usb_1_dwc3_hs: endpoint {
+-						};
++					usb_1_dwc3_hs: endpoint {
+ 					};
++				};
+ 
+-					port@1 {
+-						reg = <1>;
++				port@1 {
++					reg = <1>;
+ 
+-						usb_1_dwc3_ss: endpoint {
+-							remote-endpoint = <&usb_1_qmpphy_usb_ss_in>;
+-						};
++					usb_1_dwc3_ss: endpoint {
++						remote-endpoint = <&usb_1_qmpphy_usb_ss_in>;
+ 					};
+ 				};
+ 			};
 
 -- 
 2.48.1
