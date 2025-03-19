@@ -1,239 +1,237 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com [205.220.168.131])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 626B02116FE;
-	Tue, 18 Mar 2025 22:26:03 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3275418C31;
+	Wed, 19 Mar 2025 00:52:10 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.168.131
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1742336764; cv=none; b=iyNjavXqNxOiTk/EDExtiWRvMqq61TNHVlHKtmdDbDUTu0ZAK/JzZYEkSjT7+wNwxjiCcJc4nNto82SBlQOa7oWvIVEJlAIjJpe/plZBb+JriJAn2/n6ixSg7El+GLUHceAqYdK8+Ky0XufMByPouw0yELB3Q7Ggx7XJL+U3R44=
+	t=1742345532; cv=none; b=kdAJY6R01rnEmbo6WndS6CF9jrePL9ZK0QYbnT9hX9xdwoqxNry9Remj9PFlo+K+RpwkqkrPffveTYsMcQA02yrSdeWsy9RMi407Nmn44/scWNwzvqJiEIEdM/NEk5sZHJwLVxB2xFU8KJO29Y9WxllZ+SbCUDM/VfYbXftVLSs=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1742336764; c=relaxed/simple;
-	bh=cUgPqeI33cz9Ef2WxyD7GspkWm9E1yXB2DQjkBv29Qg=;
-	h=Date:Content-Type:MIME-Version:From:Cc:To:In-Reply-To:References:
-	 Message-Id:Subject; b=VINhbjo4rFBD8yu+dgwXrCpbSZQhKgdMjEIDR9ouqc5w80ufZS4Mm/gVf+FGE0kmzwcrTPBeUFPIPsUBcYD2sLtaWk1pNU5Febl2TpWcD9MVFCL5/p/rVZntokiQEt77Q0GHvT7i+gFUTQagvJbZpDGp6TnDai1W/VxLViq7hD8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=dFXJ9rDz; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1742345532; c=relaxed/simple;
+	bh=EeyElv1+Zo9cqaqSO0S6wu3AfLdYTUfgtuN1J1TwLVY=;
+	h=From:To:CC:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=BUfSrx9zbz9jg/5er0RBsh3uWJUHMLgb7SMIVMNoc9v8+exgj1xy9fuVIrTzExGS1ksQ199nWi74RZfqY6EdbjCaDvvNLUWMpG6LoDSsz8VsXiBOPiff18q/Es5YL8FLs4pbynN6IliXPr+rL54xNLyoV6BBKtR23vFBUx1OZiY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=quicinc.com; spf=pass smtp.mailfrom=quicinc.com; dkim=pass (2048-bit key) header.d=quicinc.com header.i=@quicinc.com header.b=U53Y3kRa; arc=none smtp.client-ip=205.220.168.131
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=quicinc.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=quicinc.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="dFXJ9rDz"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 7F50AC4CEEF;
-	Tue, 18 Mar 2025 22:26:03 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1742336763;
-	bh=cUgPqeI33cz9Ef2WxyD7GspkWm9E1yXB2DQjkBv29Qg=;
-	h=Date:From:Cc:To:In-Reply-To:References:Subject:From;
-	b=dFXJ9rDzX0Ka50WCLYaDtE6l4kkUIaNaJf0+YJNzpfqWqKIo1FuAkUfy2KRharZkW
-	 LuU68eiYPlMfVWdf59g3h+Ztes1cSMA7QyTufDXyfq6u8xoCduj1RK09dCRr8a30Ar
-	 z0ubhKWhogO68XhlknR+HQ/o6jtsboRk9XeeQOH/br/lwEYL0Ddw4BD2OVG/F6Ps0X
-	 oyrst5frm+U8kYczMm2iSLg+9JAW+tgeuqhly4NEunoQ8Mwdw/rmXCO9oKQgbDnl3D
-	 ag31M5hSZlyZEN5A2D1N+0NGLF+Cr2c6EXKSOBeN1FdC5K2CoSjebkRu136fBwZaq9
-	 izKqVxAHlKBhA==
-Date: Tue, 18 Mar 2025 17:26:02 -0500
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 8bit
+	dkim=pass (2048-bit key) header.d=quicinc.com header.i=@quicinc.com header.b="U53Y3kRa"
+Received: from pps.filterd (m0279865.ppops.net [127.0.0.1])
+	by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 52ILDoGa002990;
+	Wed, 19 Mar 2025 00:51:54 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com; h=
+	cc:content-transfer-encoding:content-type:date:from:in-reply-to
+	:message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
+	MD4LpxIUV3N5O8W6IdQcfHg3vn3fGB0SjEfT4ZKnsqc=; b=U53Y3kRaZMO4gUTQ
+	LuydYm6sonWAkRIm7jyodajPGHxU+8vdhEZcdxTso0kEZqDjl6OZT6R2hxWN0xub
+	ASZyHmFFaZQ1pGylhZ06b1c7ruKeBBbtZ9HdqA11/at2S1pBZnk9+St8Q2PTEkZQ
+	m1s8FXkdrZkH+uv4JcTI2Ml3pYdUo7LmFPrGDIp+evah87d3TSXok505OToumz4I
+	3vsqZpzeRmYZTZIJRNuy/hx6wN9M/EE5o3sywEsa5LNPs7+lN1yDlONtWXIlj6oD
+	8YQ8WaU3rdwcLB1TZipWxCP+FWkCXcWcwNonh5wAOFsTMm6Yq1TQpgV6CpLrU4xc
+	RUu3Rg==
+Received: from nalasppmta03.qualcomm.com (Global_NAT1.qualcomm.com [129.46.96.20])
+	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 45f010ke0d-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Wed, 19 Mar 2025 00:51:53 +0000 (GMT)
+Received: from nalasex01b.na.qualcomm.com (nalasex01b.na.qualcomm.com [10.47.209.197])
+	by NALASPPMTA03.qualcomm.com (8.18.1.2/8.18.1.2) with ESMTPS id 52J0pqfa006517
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Wed, 19 Mar 2025 00:51:53 GMT
+Received: from hu-wcheng-lv.qualcomm.com (10.49.16.6) by
+ nalasex01b.na.qualcomm.com (10.47.209.197) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.1544.9; Tue, 18 Mar 2025 17:51:52 -0700
+From: Wesley Cheng <quic_wcheng@quicinc.com>
+To: <srinivas.kandagatla@linaro.org>, <mathias.nyman@intel.com>,
+        <perex@perex.cz>, <conor+dt@kernel.org>, <dmitry.torokhov@gmail.com>,
+        <corbet@lwn.net>, <broonie@kernel.org>, <lgirdwood@gmail.com>,
+        <krzk+dt@kernel.org>, <pierre-louis.bossart@linux.intel.com>,
+        <Thinh.Nguyen@synopsys.com>, <tiwai@suse.com>, <robh@kernel.org>,
+        <gregkh@linuxfoundation.org>
+CC: <linux-kernel@vger.kernel.org>, <devicetree@vger.kernel.org>,
+        <linux-sound@vger.kernel.org>, <linux-input@vger.kernel.org>,
+        <linux-usb@vger.kernel.org>, <linux-arm-msm@vger.kernel.org>,
+        <linux-doc@vger.kernel.org>, Wesley Cheng <quic_wcheng@quicinc.com>
+Subject: [PATCH v36 05/31] usb: host: xhci: Notify xHCI sideband on transfer ring free
+Date: Tue, 18 Mar 2025 17:51:15 -0700
+Message-ID: <20250319005141.312805-6-quic_wcheng@quicinc.com>
+X-Mailer: git-send-email 2.34.1
+In-Reply-To: <20250319005141.312805-1-quic_wcheng@quicinc.com>
+References: <20250319005141.312805-1-quic_wcheng@quicinc.com>
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-From: "Rob Herring (Arm)" <robh@kernel.org>
-Cc: devicetree@vger.kernel.org, Conor Dooley <conor+dt@kernel.org>, 
- Thinh Nguyen <Thinh.Nguyen@synopsys.com>, linux-kernel@vger.kernel.org, 
- Krzysztof Kozlowski <krzk+dt@kernel.org>, 
- Philipp Zabel <p.zabel@pengutronix.de>, 
- Konrad Dybcio <konrad.dybcio@oss.qualcomm.com>, linux-usb@vger.kernel.org, 
- Frank Li <Frank.li@nxp.com>, 
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>, 
- Saravana Kannan <saravanak@google.com>, linux-arm-msm@vger.kernel.org, 
- Frank Li <Frank.Li@nxp.com>, Felipe Balbi <balbi@kernel.org>, 
- Bjorn Andersson <andersson@kernel.org>, 
- Wesley Cheng <quic_wcheng@quicinc.com>, 
- Konrad Dybcio <konradybcio@kernel.org>
-To: Bjorn Andersson <bjorn.andersson@oss.qualcomm.com>
-In-Reply-To: <20250318-dwc3-refactor-v5-0-90ea6e5b3ba4@oss.qualcomm.com>
-References: <20250318-dwc3-refactor-v5-0-90ea6e5b3ba4@oss.qualcomm.com>
-Message-Id: <174233664011.4094337.15532864486999752175.robh@kernel.org>
-Subject: Re: [PATCH v5 0/7] usb: dwc3: qcom: Flatten dwc3 structure
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+X-ClientProxiedBy: nalasex01b.na.qualcomm.com (10.47.209.197) To
+ nalasex01b.na.qualcomm.com (10.47.209.197)
+X-QCInternal: smtphost
+X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800 signatures=585085
+X-Proofpoint-ORIG-GUID: _mdg1-Zp6DaGj3Hzks029YI4g4t8spIe
+X-Proofpoint-GUID: _mdg1-Zp6DaGj3Hzks029YI4g4t8spIe
+X-Authority-Analysis: v=2.4 cv=G50cE8k5 c=1 sm=1 tr=0 ts=67da1529 cx=c_pps a=ouPCqIW2jiPt+lZRy3xVPw==:117 a=ouPCqIW2jiPt+lZRy3xVPw==:17 a=3H110R4YSZwA:10 a=Vs1iUdzkB0EA:10 a=COk6AnOGAAAA:8 a=PreZEog4GvDKfhablsMA:9 a=jobEv7ETv8MbDsZbtwfI:22
+ a=TjNXssC_j7lpFel5tvFf:22
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1093,Hydra:6.0.680,FMLib:17.12.68.34
+ definitions=2025-03-18_10,2025-03-17_03,2024-11-22_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 mlxscore=0 suspectscore=0
+ lowpriorityscore=0 mlxlogscore=885 phishscore=0 adultscore=0
+ impostorscore=0 spamscore=0 clxscore=1015 malwarescore=0
+ priorityscore=1501 bulkscore=0 classifier=spam authscore=0 authtc=n/a
+ authcc= route=outbound adjust=0 reason=mlx scancount=1
+ engine=8.19.0-2502280000 definitions=main-2503190003
 
+In the case of handling a USB bus reset, the xhci_discover_or_reset_device
+can run without first notifying the xHCI sideband client driver to stop or
+prevent the use of the transfer ring.  It was seen that when a bus reset
+situation happened, the USB offload driver was attempting to fetch the xHCI
+transfer ring information, which was already freed.
 
-On Tue, 18 Mar 2025 14:05:00 -0500, Bjorn Andersson wrote:
-> The USB IP-block found in most Qualcomm platforms is modelled in the
-> Linux kernel as 3 different independent device drivers, but as shown by
-> the already existing layering violations in the Qualcomm glue driver
-> they can not be operated independently.
-> 
-> With the current implementation, the glue driver registers the core and
-> has no way to know when this is done. As a result, e.g. the suspend
-> callbacks needs to guard against NULL pointer dereferences when trying
-> to peek into the struct dwc3 found in the drvdata of the child.
-> 
-> Missing from the upstream Qualcomm USB support is proper handling of
-> role switching, in which the glue needs to be notified upon DRD mode
-> changes. Several attempts has been made through the years to register
-> callbacks etc, but they always fall short when it comes to handling of
-> the core's probe deferral on resources etc.
-> 
-> Furhtermore, the DeviceTree binding is a direct representation of the
-> Linux driver model, and doesn't necessarily describe "the USB IP-block".
-> 
-> This series therefor attempts to flatten the driver split, and operate
-> the glue and core out of the same platform_device instance. And in order
-> to do this, the DeviceTree representation of the IP block is flattened.
-> 
-> Departing from previous versions' attempts at runtime-convert the
-> Devicetree representation is swapped out and instead a snapshot of the
-> current dwc3-qcom driver is proposed to be carried for a limited time.
-> 
-> A patch to convert a single platform - sc8280xp - is included in the
-> series. The broader conversion will be submitted in a follow up series.
-> 
-> ---
-> Changes in v5:
-> - Moved the snapshot commit first, to get a clean copy
-> - Add missing kernel-doc in glue.h
-> - Used a local "struct device" variable in PM functions to reduce the
->   patch size
-> - Replaced initialization with default values with zero-initalizing the
->   dwc3_probe_data in dwc3_probe()
-> - Add TODO about extcon, as a role-switch callback needs to be
->   implemented
-> - Corrected &usb_2 mmio region length
-> - Changes the timeline expressed in the commit message to suggest the
->   legacy driver to be dropped after next LTS
-> - Integrated qcom,dwc3.yaml changes since v4
-> - Link to v4: https://lore.kernel.org/r/20250226-dwc3-refactor-v4-0-4415e7111e49@oss.qualcomm.com
-> 
-> Changes in v4:
-> - dwc3_{init,uninit}() renamed to dwc3_core_probe() and dwc3_core_remove()
-> - dwc3_{suspend, resume, complete}() changed to dwc3_pm_*()
-> - Arguments to dwc3_core_probe() are wrapped in a struct to better
->   handle the expected growing list of parameters.
-> - Add the lost call to dwc3_core_remove() from the Qualcomm glue driver
-> - Removed now unused cleanup.h, of_address.h, and of_irq.h includes from
->   dwc3-qcom.c
-> - Link to v3: https://lore.kernel.org/r/20250113-dwc3-refactor-v3-0-d1722075df7b@oss.qualcomm.com
-> 
-> Changes in v3:
-> - Replaced the handcoded migration logic of compatible, reg, interrupts,
->   phys with overlays.
-> - Move the migration logic (and overlays) to a new drivers/of/overlays
->   directory and apply this at postcore, so that it takes effect prior to
->   the relevant platform_devices are created
-> - struct dwc3 is embedded in the glue context, rather than having a
->   separate object allocated
-> - The hack of using of_address_to_resource() to avoid platform_resource
->   being stale is removed (thanks to applying migration at postcore)
-> - Link to v2: https://lore.kernel.org/r/20240811-dwc3-refactor-v2-0-91f370d61ad2@quicinc.com
-> 
-> Changes in v2:
-> - Rewrite after ACPI removal, multiport support and interrupt fixes
-> - Completely changed strategy for DeviceTree binding, as previous idea
->   of using snps,dwc3 as a generic fallback required unreasonable changes
->   to that binding.
-> - Abandoned idea of supporting both flattened and unflattened device
->   model in the one driver. As Johan pointed out, it will leave the race
->   condition holes and will make the code harder to understand.
->   Furthermore, the role switching logic that we intend to introduce
->   following this would have depended on the user updating their
->   DeviceTree blobs.
-> - Per above, introduced the dynamic DeviceTree rewrite
-> - Link to v1: https://lore.kernel.org/all/20231016-dwc3-refactor-v1-0-ab4a84165470@quicinc.com/
-> 
-> ---
-> Bjorn Andersson (7):
->       usb: dwc3: qcom: Snapshot driver for backwards compatibilty
->       dt-bindings: usb: Introduce qcom,snps-dwc3
->       usb: dwc3: core: Expose core driver as library
->       usb: dwc3: core: Don't touch resets and clocks
->       usb: dwc3: qcom: Don't rely on drvdata during probe
->       usb: dwc3: qcom: Transition to flattened model
->       arm64: dts: qcom: sc8280x: Flatten the USB nodes
-> 
->  .../devicetree/bindings/usb/qcom,dwc3.yaml         |  13 +-
->  .../devicetree/bindings/usb/qcom,snps-dwc3.yaml    | 620 ++++++++++++++
->  arch/arm64/boot/dts/qcom/sa8295p-adp.dts           |  12 +-
->  arch/arm64/boot/dts/qcom/sa8540p-ride.dts          |   5 +-
->  arch/arm64/boot/dts/qcom/sc8280xp-crd.dts          |  12 +-
->  .../boot/dts/qcom/sc8280xp-huawei-gaokun3.dts      |  10 +-
->  .../dts/qcom/sc8280xp-lenovo-thinkpad-x13s.dts     |  11 +-
->  .../boot/dts/qcom/sc8280xp-microsoft-arcata.dts    |  10 +-
->  .../boot/dts/qcom/sc8280xp-microsoft-blackrock.dts |  18 +-
->  arch/arm64/boot/dts/qcom/sc8280xp.dtsi             | 157 ++--
->  drivers/usb/dwc3/Makefile                          |   1 +
->  drivers/usb/dwc3/core.c                            | 160 ++--
->  drivers/usb/dwc3/dwc3-qcom-legacy.c                | 935 +++++++++++++++++++++
->  drivers/usb/dwc3/dwc3-qcom.c                       | 157 ++--
->  drivers/usb/dwc3/glue.h                            |  35 +
->  15 files changed, 1885 insertions(+), 271 deletions(-)
-> ---
-> base-commit: c4d4884b67802c41fd67399747165d65c770621a
-> change-id: 20231016-dwc3-refactor-931e3b08a8b9
-> 
-> Best regards,
-> --
-> Bjorn Andersson <bjorn.andersson@oss.qualcomm.com>
-> 
-> 
-> 
+Signed-off-by: Wesley Cheng <quic_wcheng@quicinc.com>
+---
+ drivers/usb/host/xhci-sideband.c  | 29 ++++++++++++++++++++++++++++-
+ drivers/usb/host/xhci.c           |  3 +++
+ include/linux/usb/xhci-sideband.h | 30 +++++++++++++++++++++++++++++-
+ 3 files changed, 60 insertions(+), 2 deletions(-)
 
-
-My bot found new DTB warnings on the .dts files added or changed in this
-series.
-
-Some warnings may be from an existing SoC .dtsi. Or perhaps the warnings
-are fixed by another series. Ultimately, it is up to the platform
-maintainer whether these warnings are acceptable or not. No need to reply
-unless the platform maintainer has comments.
-
-If you already ran DT checks and didn't see these error(s), then
-make sure dt-schema is up to date:
-
-  pip3 install dtschema --upgrade
-
-
-New warnings running 'make CHECK_DTBS=y for arch/arm64/boot/dts/qcom/' for 20250318-dwc3-refactor-v5-0-90ea6e5b3ba4@oss.qualcomm.com:
-
-arch/arm64/boot/dts/qcom/sc8280xp-lenovo-thinkpad-x13s.dtb: usb@a800000: #address-cells: 1 was expected
-	from schema $id: http://devicetree.org/schemas/usb/qcom,snps-dwc3.yaml#
-arch/arm64/boot/dts/qcom/sc8280xp-lenovo-thinkpad-x13s.dtb: usb@a800000: #size-cells: 0 was expected
-	from schema $id: http://devicetree.org/schemas/usb/qcom,snps-dwc3.yaml#
-arch/arm64/boot/dts/qcom/sc8280xp-lenovo-thinkpad-x13s.dtb: usb@a800000: Unevaluated properties are not allowed ('#address-cells', '#size-cells', 'dr_mode', 'phy-names', 'phys', 'ports', 'ranges', 'snps,dis-u1-entry-quirk', 'snps,dis-u2-entry-quirk' were unexpected)
-	from schema $id: http://devicetree.org/schemas/usb/qcom,snps-dwc3.yaml#
-arch/arm64/boot/dts/qcom/sc8280xp-microsoft-arcata.dtb: usb@a800000: #address-cells: 1 was expected
-	from schema $id: http://devicetree.org/schemas/usb/qcom,snps-dwc3.yaml#
-arch/arm64/boot/dts/qcom/sc8280xp-microsoft-arcata.dtb: usb@a800000: #size-cells: 0 was expected
-	from schema $id: http://devicetree.org/schemas/usb/qcom,snps-dwc3.yaml#
-arch/arm64/boot/dts/qcom/sc8280xp-microsoft-arcata.dtb: usb@a800000: Unevaluated properties are not allowed ('#address-cells', '#size-cells', 'dr_mode', 'phy-names', 'phys', 'ports', 'ranges', 'snps,dis-u1-entry-quirk', 'snps,dis-u2-entry-quirk' were unexpected)
-	from schema $id: http://devicetree.org/schemas/usb/qcom,snps-dwc3.yaml#
-arch/arm64/boot/dts/qcom/sa8295p-adp.dtb: usb@a800000: #address-cells: 1 was expected
-	from schema $id: http://devicetree.org/schemas/usb/qcom,snps-dwc3.yaml#
-arch/arm64/boot/dts/qcom/sa8295p-adp.dtb: usb@a800000: #size-cells: 0 was expected
-	from schema $id: http://devicetree.org/schemas/usb/qcom,snps-dwc3.yaml#
-arch/arm64/boot/dts/qcom/sa8295p-adp.dtb: usb@a800000: Unevaluated properties are not allowed ('#address-cells', '#size-cells', 'dr_mode', 'phy-names', 'phys', 'ports', 'ranges', 'snps,dis-u1-entry-quirk', 'snps,dis-u2-entry-quirk' were unexpected)
-	from schema $id: http://devicetree.org/schemas/usb/qcom,snps-dwc3.yaml#
-arch/arm64/boot/dts/qcom/sc8280xp-huawei-gaokun3.dtb: usb@a800000: #address-cells: 1 was expected
-	from schema $id: http://devicetree.org/schemas/usb/qcom,snps-dwc3.yaml#
-arch/arm64/boot/dts/qcom/sc8280xp-huawei-gaokun3.dtb: usb@a800000: #size-cells: 0 was expected
-	from schema $id: http://devicetree.org/schemas/usb/qcom,snps-dwc3.yaml#
-arch/arm64/boot/dts/qcom/sc8280xp-huawei-gaokun3.dtb: usb@a800000: Unevaluated properties are not allowed ('#address-cells', '#size-cells', 'dr_mode', 'phy-names', 'phys', 'ports', 'ranges', 'snps,dis-u1-entry-quirk', 'snps,dis-u2-entry-quirk' were unexpected)
-	from schema $id: http://devicetree.org/schemas/usb/qcom,snps-dwc3.yaml#
-arch/arm64/boot/dts/qcom/sc8280xp-microsoft-blackrock.dtb: usb@a800000: #address-cells: 1 was expected
-	from schema $id: http://devicetree.org/schemas/usb/qcom,snps-dwc3.yaml#
-arch/arm64/boot/dts/qcom/sc8280xp-microsoft-blackrock.dtb: usb@a800000: #size-cells: 0 was expected
-	from schema $id: http://devicetree.org/schemas/usb/qcom,snps-dwc3.yaml#
-arch/arm64/boot/dts/qcom/sc8280xp-microsoft-blackrock.dtb: usb@a800000: Unevaluated properties are not allowed ('#address-cells', '#size-cells', 'dr_mode', 'phy-names', 'phys', 'ports', 'ranges', 'snps,dis-u1-entry-quirk', 'snps,dis-u2-entry-quirk' were unexpected)
-	from schema $id: http://devicetree.org/schemas/usb/qcom,snps-dwc3.yaml#
-arch/arm64/boot/dts/qcom/sc8280xp-crd.dtb: usb@a800000: #address-cells: 1 was expected
-	from schema $id: http://devicetree.org/schemas/usb/qcom,snps-dwc3.yaml#
-arch/arm64/boot/dts/qcom/sc8280xp-crd.dtb: usb@a800000: #size-cells: 0 was expected
-	from schema $id: http://devicetree.org/schemas/usb/qcom,snps-dwc3.yaml#
-arch/arm64/boot/dts/qcom/sc8280xp-crd.dtb: usb@a800000: Unevaluated properties are not allowed ('#address-cells', '#size-cells', 'dr_mode', 'phy-names', 'phys', 'ports', 'ranges', 'snps,dis-u1-entry-quirk', 'snps,dis-u2-entry-quirk' were unexpected)
-	from schema $id: http://devicetree.org/schemas/usb/qcom,snps-dwc3.yaml#
-arch/arm64/boot/dts/qcom/sa8540p-ride.dtb: usb@a800000: #address-cells: 1 was expected
-	from schema $id: http://devicetree.org/schemas/usb/qcom,snps-dwc3.yaml#
-arch/arm64/boot/dts/qcom/sa8540p-ride.dtb: usb@a800000: #size-cells: 0 was expected
-	from schema $id: http://devicetree.org/schemas/usb/qcom,snps-dwc3.yaml#
-
-
-
-
-
+diff --git a/drivers/usb/host/xhci-sideband.c b/drivers/usb/host/xhci-sideband.c
+index 742bbc6c2d9b..d49f9886dd84 100644
+--- a/drivers/usb/host/xhci-sideband.c
++++ b/drivers/usb/host/xhci-sideband.c
+@@ -88,6 +88,30 @@ __xhci_sideband_remove_endpoint(struct xhci_sideband *sb, struct xhci_virt_ep *e
+ 
+ /* sideband api functions */
+ 
++/**
++ * xhci_sideband_notify_ep_ring_free - notify client of xfer ring free
++ * @sb: sideband instance for this usb device
++ * @ep_index: usb endpoint index
++ *
++ * Notifies the xHCI sideband client driver of a xHCI transfer ring free
++ * routine.  This will allow for the client to ensure that all transfers
++ * are completed.
++ *
++ * The callback should be synchronous, as the ring free happens after.
++ */
++void xhci_sideband_notify_ep_ring_free(struct xhci_sideband *sb,
++				       unsigned int ep_index)
++{
++	struct xhci_sideband_event evt;
++
++	evt.type = XHCI_SIDEBAND_XFER_RING_FREE;
++	evt.evt_data = &ep_index;
++
++	if (sb->notify_client)
++		sb->notify_client(sb->intf, &evt);
++}
++EXPORT_SYMBOL_GPL(xhci_sideband_notify_ep_ring_free);
++
+ /**
+  * xhci_sideband_add_endpoint - add endpoint to sideband access list
+  * @sb: sideband instance for this usb device
+@@ -342,7 +366,9 @@ EXPORT_SYMBOL_GPL(xhci_sideband_interrupter_id);
+  * Return: pointer to a new xhci_sideband instance if successful. NULL otherwise.
+  */
+ struct xhci_sideband *
+-xhci_sideband_register(struct usb_interface *intf, enum xhci_sideband_type type)
++xhci_sideband_register(struct usb_interface *intf, enum xhci_sideband_type type,
++		       int (*notify_client)(struct usb_interface *intf,
++				    struct xhci_sideband_event *evt))
+ {
+ 	struct usb_device *udev = interface_to_usbdev(intf);
+ 	struct usb_hcd *hcd = bus_to_hcd(udev->bus);
+@@ -381,6 +407,7 @@ xhci_sideband_register(struct usb_interface *intf, enum xhci_sideband_type type)
+ 	sb->vdev = vdev;
+ 	sb->intf = intf;
+ 	sb->type = type;
++	sb->notify_client = notify_client;
+ 	vdev->sideband = sb;
+ 
+ 	spin_unlock_irq(&xhci->lock);
+diff --git a/drivers/usb/host/xhci.c b/drivers/usb/host/xhci.c
+index 61950a350432..91e2d6eac8b7 100644
+--- a/drivers/usb/host/xhci.c
++++ b/drivers/usb/host/xhci.c
+@@ -20,6 +20,7 @@
+ #include <linux/string_choices.h>
+ #include <linux/dmi.h>
+ #include <linux/dma-mapping.h>
++#include <linux/usb/xhci-sideband.h>
+ 
+ #include "xhci.h"
+ #include "xhci-trace.h"
+@@ -3919,6 +3920,8 @@ static int xhci_discover_or_reset_device(struct usb_hcd *hcd,
+ 		}
+ 
+ 		if (ep->ring) {
++			if (ep->sideband)
++				xhci_sideband_notify_ep_ring_free(ep->sideband, i);
+ 			xhci_debugfs_remove_endpoint(xhci, virt_dev, i);
+ 			xhci_free_endpoint_ring(xhci, virt_dev, i);
+ 		}
+diff --git a/include/linux/usb/xhci-sideband.h b/include/linux/usb/xhci-sideband.h
+index f8722afb8a2d..45288c392f6e 100644
+--- a/include/linux/usb/xhci-sideband.h
++++ b/include/linux/usb/xhci-sideband.h
+@@ -21,6 +21,20 @@ enum xhci_sideband_type {
+ 	XHCI_SIDEBAND_VENDOR,
+ };
+ 
++enum xhci_sideband_notify_type {
++	XHCI_SIDEBAND_XFER_RING_FREE,
++};
++
++/**
++ * struct xhci_sideband_event - sideband event
++ * @type: notifier type
++ * @evt_data: event data
++ */
++struct xhci_sideband_event {
++	enum xhci_sideband_notify_type type;
++	void *evt_data;
++};
++
+ /**
+  * struct xhci_sideband - representation of a sideband accessed usb device.
+  * @xhci: The xhci host controller the usb device is connected to
+@@ -30,6 +44,7 @@ enum xhci_sideband_type {
+  * @type: xHCI sideband type
+  * @mutex: mutex for sideband operations
+  * @intf: USB sideband client interface
++ * @notify_client: callback for xHCI sideband sequences
+  *
+  * FIXME usb device accessed via sideband Keeping track of sideband accessed usb devices.
+  */
+@@ -44,10 +59,14 @@ struct xhci_sideband {
+ 	struct mutex			mutex;
+ 
+ 	struct usb_interface		*intf;
++	int (*notify_client)(struct usb_interface *intf,
++			     struct xhci_sideband_event *evt);
+ };
+ 
+ struct xhci_sideband *
+-xhci_sideband_register(struct usb_interface *intf, enum xhci_sideband_type type);
++xhci_sideband_register(struct usb_interface *intf, enum xhci_sideband_type type,
++		       int (*notify_client)(struct usb_interface *intf,
++				    struct xhci_sideband_event *evt));
+ void
+ xhci_sideband_unregister(struct xhci_sideband *sb);
+ int
+@@ -71,4 +90,13 @@ void
+ xhci_sideband_remove_interrupter(struct xhci_sideband *sb);
+ int
+ xhci_sideband_interrupter_id(struct xhci_sideband *sb);
++
++#if IS_ENABLED(CONFIG_USB_XHCI_SIDEBAND)
++void xhci_sideband_notify_ep_ring_free(struct xhci_sideband *sb,
++				       unsigned int ep_index);
++#else
++static inline void xhci_sideband_notify_ep_ring_free(struct xhci_sideband *sb,
++						     unsigned int ep_index)
++{ }
++#endif /* IS_ENABLED(CONFIG_USB_XHCI_SIDEBAND) */
+ #endif /* __LINUX_XHCI_SIDEBAND_H */
