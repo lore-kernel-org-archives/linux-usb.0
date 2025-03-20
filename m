@@ -1,107 +1,134 @@
-Received: from mail-qv1-f50.google.com (mail-qv1-f50.google.com [209.85.219.50])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
-	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E60C91C3C11
-	for <linux-usb@vger.kernel.org>; Thu, 20 Mar 2025 01:41:13 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.219.50
+Received: from hrbeu.edu.cn (mx1.hrbeu.edu.cn [202.118.176.6])
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id F2C8033E1;
+	Thu, 20 Mar 2025 04:39:33 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=202.118.176.6
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1742434875; cv=none; b=ZWApkw78EPAubB7rBt2GM17DXScjxgTNPXhDCki3WpZCZHmVkkq33zaey22S7CLrmqCM4vJWyiAxyera5Pw9yog2u01/BF8xtD6uTQzcAdcKPLdpx/9trfDEetHHbRFFhJQWsHP5MGGZ7wt5A+2MDIAU7Lvwydamou5D8m1qkzw=
+	t=1742445578; cv=none; b=libM3QmRx31Vptq/umkKJpq5o9va61Q4juH59L7v44CJc9qCt6xt506NrvezOAOlMbKN/XQFRSQhIsu29LKEYDXPKRdyY2bZP6BFKch6Wgbnu1g1bQwNANsu9HFSp/7WjwtlxRvoT+ophMxQGRTqIqhlaWv6o2oKqzn1tlvAavM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1742434875; c=relaxed/simple;
-	bh=UUlnAag7GvtsvmLxS+Vu2PmkhcCEqAWwoPmEyUl0cpw=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=mF48sk0IoOKZJxkmvxSBavYrrwqbbxZiG3e8b13o00v9hph/8AlpjUgfkPJx/vvAfcTIdhZjRHySeA0GDMVQ96iT5dQaD74vfohUcDHfKbYy+pCP56yRJgp460gjJ2L/tmaqqCwz1KUIP4urdDWw8fCtWonYVYVWeOdNgrkix1Q=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=rowland.harvard.edu; spf=fail smtp.mailfrom=g.harvard.edu; dkim=pass (2048-bit key) header.d=rowland.harvard.edu header.i=@rowland.harvard.edu header.b=gLifOJ/F; arc=none smtp.client-ip=209.85.219.50
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=rowland.harvard.edu
-Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=g.harvard.edu
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=rowland.harvard.edu header.i=@rowland.harvard.edu header.b="gLifOJ/F"
-Received: by mail-qv1-f50.google.com with SMTP id 6a1803df08f44-6e8f05acc13so2974626d6.2
-        for <linux-usb@vger.kernel.org>; Wed, 19 Mar 2025 18:41:13 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=rowland.harvard.edu; s=google; t=1742434872; x=1743039672; darn=vger.kernel.org;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=uZ8h0zSipJfQbtevp/QJvj8hMv9cb9Vf+EvEqQCI1E4=;
-        b=gLifOJ/FQDS4PHOhttQbCqJw26KkdzHEsu4GrbmOox4Wi4I65B4bqf261IVnqYO22M
-         ASdUnCia8QgxLGmJVanr5fyHKcw44FlSsTzr0o9M2lo5E+ee2QbmQe31jwuOJj6ySmav
-         34v28UVstbG9yN40RPmxoT2gRqRE65mxoE3ANuqSoPyZauIOZSoNY8fBdzqOu5LPhqkN
-         A0DqnVpK3Utv7RBB9mT6Lo36kEC2ufQGAVQt7pxyfSLCMxAHgnJY0IPcv44wYgesHWDi
-         uorVBs4m5COPZ3hDO4Fp0syGQ9k4RPd8T5DGGoKRvnQ4PIuMbrWaTrEunXxJx1ZUv3BU
-         Y57Q==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1742434872; x=1743039672;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=uZ8h0zSipJfQbtevp/QJvj8hMv9cb9Vf+EvEqQCI1E4=;
-        b=rPU06r8gKVC5WIYEgieKTR2cctVWtV7HnAMs62Pu6E6kHUdD2RT4FxcSX8YngWp6YW
-         kdtKoq+DYyE1nOZ4MWAWbGdU3KdNPHYaDlgFTm/pJEfZALPyyrA9x/UvCwvmtCyFDvfG
-         mdFXHq/GTYsvNvz7t0Y/KjM115j+1y7tH7Y63VaEXv/LfLm6NLz95O0Y7q98FgfBVNpp
-         +CA5nYlI6Jx/2f62xZRjkNlywD6LPEL7UPeUDDfnbKwFKfKDi55TJK22+s3KB17X8UAq
-         EAYJVcxzToEr3iwR5eFdzvCfuhdOYNzXDfGPWe4cMatq/PXSuyhCtLXgG5SV6fPMc6c6
-         Z06A==
-X-Forwarded-Encrypted: i=1; AJvYcCUsciOyZ/vSE0gEb42UL/s53mxr3EAQIIeJWCVXUx+n2IJjRgaC/hwR1hkv8S6wvpBOMzvX9ruFS64=@vger.kernel.org
-X-Gm-Message-State: AOJu0YzS8BaET3ZtIV/e0IZr8ZZIQ9Vj6hL7z6s0SfBTVaA0YGzQWint
-	cHjCQ6UToWRE78dQ193CS4MHRooZ4IVHNNXwV4zM8VkL4eVX6TNC6IOCcK5TtGUEdBhnCGwzyvk
-	=
-X-Gm-Gg: ASbGncsr1RK1dSqykcQDPFpDYxK0pVMSLuE+zxSzfTRyaBX45f6A63aHohlMamVv2/A
-	v3ZVMuX8QBL2nHjQP/h2myV4hmb/HP0oCUEnNw93wyk9/eQSlWc6zwVkGdOQ8NQAlxOGRhjY+IE
-	GvuNwxYvDhgXOIy6jzBqXufwXNx17e6jGKIYvOuAsq6xJP//kLjVrCJ9x2T+Ta/71exb3mcVEuD
-	lP0KWopBwLyIrkxtPTsueRBaKz47YUGZ2ybigweUfqidd/b4bOYaG1oVDzw06YNs7wJ2pjRp8l6
-	6ig5aTkRBUmZiD5gAh7rA5otK2IUQnzFiBMEn1aKBKnTRA==
-X-Google-Smtp-Source: AGHT+IFjwQWNsIniP3sqG2rsgjRfgP+KY3Slh59o+Bs/kQmnTEbqXYdf7mj5eKQwr4fYXV5dCyXcsQ==
-X-Received: by 2002:a05:6214:cc6:b0:6e8:fbd9:169a with SMTP id 6a1803df08f44-6eb29389861mr57823156d6.11.1742434872699;
-        Wed, 19 Mar 2025 18:41:12 -0700 (PDT)
-Received: from rowland.harvard.edu ([2601:19b:681:fd10::3ca7])
-        by smtp.gmail.com with ESMTPSA id 6a1803df08f44-6eade209f70sm87478636d6.13.2025.03.19.18.41.10
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 19 Mar 2025 18:41:11 -0700 (PDT)
-Date: Wed, 19 Mar 2025 21:41:08 -0400
-From: Alan Stern <stern@rowland.harvard.edu>
-To: Greg KH <gregkh@linuxfoundation.org>
-Cc: rtm@csail.mit.edu, linux-usb@vger.kernel.org
-Subject: Re: use-after-free in drivers/net/usb/hso.c hso_serial_open()
-Message-ID: <e7f0dc08-a5bd-4838-a229-a9fc1afd4f09@rowland.harvard.edu>
-References: <33193.1742406937@30-11-165.wireless.csail.mit.edu>
- <2025031933-clavicle-sulfide-878e@gregkh>
+	s=arc-20240116; t=1742445578; c=relaxed/simple;
+	bh=ftgEpznoOgdnpXw35OzUbRA18XILihoo4sKoASydQCQ=;
+	h=Date:From:To:Cc:Subject:Content-Type:MIME-Version:Message-ID; b=EdSGH0V2LKs0+OMQxkg3/g1tGMyzcJTIkghkCMsMQ2ZrRu9Rlq1W//F3Wv5WcEnVmEcfFftAwNvXVTLfNeFCYTlR8u4Gb1+TnOyvjS65lMlyyyOyWi/fvnXS+6N+MnaxG6QHyoy+j9z9lDBpzLNx9MmYvvbXoO289lBYYoQdYwU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=hrbeu.edu.cn; spf=pass smtp.mailfrom=hrbeu.edu.cn; arc=none smtp.client-ip=202.118.176.6
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=hrbeu.edu.cn
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=hrbeu.edu.cn
+Received: from baishuoran$hrbeu.edu.cn ( [198.2.244.151] ) by
+ ajax-webmail-Front (Coremail) ; Thu, 20 Mar 2025 12:39:24 +0800 (GMT+08:00)
+Date: Thu, 20 Mar 2025 12:39:24 +0800 (GMT+08:00)
+X-CM-HeaderCharset: UTF-8
+From: =?UTF-8?B?55m954OB5YaJ?= <baishuoran@hrbeu.edu.cn>
+To: "Greg Kroah-Hartman" <gregkh@linuxfoundation.org>,
+	"Dmitry Torokhov" <dmitry.torokhov@gmail.com>
+Cc: "Kun Hu" <huk23@m.fudan.edu.cn>, "Jiaji Qin" <jjtan24@m.fudan.edu.cn>,
+	linux-usb@vger.kernel.org, linux-kernel@vger.kernel.org,
+	linux-input@vger.kernel.org, syzkaller@googlegroups.com
+Subject: WARNING in cm109_urb_irq_callback/usb_submit_urb
+X-Priority: 3
+X-Mailer: Coremail Webmail Server Version 2024.2-cmXT5 build
+ 20241202(ebbd5d74) Copyright (c) 2002-2025 www.mailtech.cn hrbeu.edu.cn
+Content-Transfer-Encoding: base64
+Content-Type: text/plain; charset=UTF-8
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <2025031933-clavicle-sulfide-878e@gregkh>
+Message-ID: <559eddf1.5c68.195b1d950ef.Coremail.baishuoran@hrbeu.edu.cn>
+X-Coremail-Locale: zh_CN
+X-CM-TRANSID:CbB2ygBH0h_8m9tn1nCMAA--.13392W
+X-CM-SenderInfo: pedl2xpxrut0w6kuuvvxohv3gofq/1tbiAQIHCmfbjtQAfAABsV
+X-Coremail-Antispam: 1Ur529EdanIXcx71UUUUU7IcSsGvfJ3iIAIbVAYjsxI4VWDJw
+	CS07vEb4IE77IF4wCS07vE1I0E4x80FVAKz4kxMIAIbVAFxVCaYxvI4VCIwcAKzIAtYxBI
+	daVFxhVjvjDU=
 
-On Wed, Mar 19, 2025 at 04:49:57PM -0700, Greg KH wrote:
-> On Wed, Mar 19, 2025 at 01:55:37PM -0400, rtm@csail.mit.edu wrote:
-> > The attached demo uses usbip to pretend to be a net/usb/hso.c device. It
-> > provides damaged configuration information that, among other things,
-> > claims to have an INTR endpoint with zero maximum transfer size. If
-> > /dev/ttyHS0 is opened, hso_serial_open() / hso_start_serial_device() /
-> > ...submit_intr_urb() fails due to that bad endpoint, causing the
-> > relevant hso_dev and hso_serial to be freed by hso_free_serial_device().
-> > But the serial_table[] entry is not cleared, and is left pointing to a
-> > now-deallocated hso_dev. If /dev/ttyHS0 is opened again,
-> > hso_serial_open() (via get_serial_by_index()) will use the
-> > now-deallocated structures.
-> 
-> Great, can you write a fix for this as you have a test case for it?
-> 
-> Wait, shouldn't we fail a device that has a zero size anyway in the USB
-> core?  Is that a valid configuration?  It's been a long time since I dug
-> into the spec for that...
-
-The USB 2.0 spec doesn't say that wMaxPacketSize must be nonzero for 
-interrupt endpoints.  It specifies a maximum allowed value for this 
-field but not a minimum.  In theory, transfers limited to length 0 can 
-still be used to convey Boolean information (did the transfer succeed or 
-fail?), although I don't think any existing devices do this.
-
-In any case, this isn't directly related to the bug reported here, which 
-appears to be a simple logic error in the hso driver: not cleaning up 
-completely in one of the error paths.
-
-Alan Stern
+RGVhciBNYWludGFpbmVycywKCldoZW4gdXNpbmcgb3VyIGN1c3RvbWl6ZWQgU3l6a2FsbGVyIHRv
+IGZ1enogdGhlIGxhdGVzdCBMaW51eCBrZXJuZWwsIHRoZSBmb2xsb3dpbmcgY3Jhc2ggKDk0dGgp
+d2FzIHRyaWdnZXJlZC4KCgpIRUFEIGNvbW1pdDogNjUzN2NmYjM5NWYzNTI3ODI5MThkOGVlN2I3
+ZjEwYmEyY2MzY2JmMgpnaXQgdHJlZTogdXBzdHJlYW0KT3V0cHV0Omh0dHBzOi8vZ2l0aHViLmNv
+bS9wZ2hrMTMvS2VybmVsLUJ1Zy90cmVlL21haW4vMDMwNV82LjE0cmM1Lzk0LUlORk9fJTIwcmN1
+JTIwZGV0ZWN0ZWQlMjBzdGFsbCUyMGluJTIwZGNhY2hlX2Rpcl9vcGVuCktlcm5lbCBjb25maWc6
+aHR0cHM6Ly9naXRodWIuY29tL3BnaGsxMy9LZXJuZWwtQnVnL2Jsb2IvbWFpbi8wMzA1XzYuMTRy
+YzUvY29uZmlnLnR4dApDIHJlcHJvZHVjZXI6aHR0cHM6Ly9naXRodWIuY29tL3BnaGsxMy9LZXJu
+ZWwtQnVnL2Jsb2IvbWFpbi8wMzA1XzYuMTRyYzUvOTQtSU5GT18lMjByY3UlMjBkZXRlY3RlZCUy
+MHN0YWxsJTIwaW4lMjBkY2FjaGVfZGlyX29wZW4vOTRyZXByby5jClN5emxhbmcgcmVwcm9kdWNl
+cjogaHR0cHM6Ly9naXRodWIuY29tL3BnaGsxMy9LZXJuZWwtQnVnL2Jsb2IvbWFpbi8wMzA1XzYu
+MTRyYzUvOTQtSU5GT18lMjByY3UlMjBkZXRlY3RlZCUyMHN0YWxsJTIwaW4lMjBkY2FjaGVfZGly
+X29wZW4vOTRyZXBvcnQKCgpUaGUgZXJyb3Igb2NjdXJzIGFyb3VuZCBsaW5lIDM3OSBvZiB0aGUg
+dXJiLmMgZmlsZS4gVGhlIHByb2JsZW0gZW5kcyB1cCBpbiB0aGUgY20xMDlfdXJiX2lycV9jYWxs
+YmFjayBmdW5jdGlvbiBpbiB0aGUgY20xMDkuYyBmaWxlOkluIHRoZSBjbTEwOV91cmJfaXJxX2Nh
+bGxiYWNrIGZ1bmN0aW9uLCB0aGUgZHJpdmVyIGF0dGVtcHRzIHRvIHJlc3VibWl0IGEgVVJCIHRo
+YXQgaGFzIG5vdCB5ZXQgYmVlbiBwcm9jZXNzZWQuIFRoZXJlIG1heSBiZSBhIHJhY2UgY29uZGl0
+aW9uIGluIHRoZSBkcml2ZXIgdGhhdCByZXN1Ym1pdHMgdGhlIFVSQiBpbiB0aGUgVVJCIGNvbXBs
+ZXRpb24gY2FsbGJhY2ssIGJ1dCB0aGUgc2FtZSBVUkIgbWF5IGhhdmUgYWxyZWFkeSBiZWVuIGNv
+bW1pdHRlZCB0byBhbm90aGVyIGxvY2F0aW9uIGluIHRoZSBzeXN0ZW0uIFRoaXMgaXNzdWUgc2Vl
+bXMgdG8gaW52b2x2ZSB0aGUgY3JlYXRpb24gb2YgVVNCIGRldmljZXMsIHRoZSBvcGVyYXRpb24g
+b2YgVFRZIGRldmljZXMsIGFuZCBmaWxlIGRlc2NyaXB0b3IgY29weWluZy4gVGhpcyBjb21wbGV4
+IGludGVyYWN0aW9uIHJlc3VsdGVkIGluIGR1cGxpY2F0ZSBjb21taXRzIG9mIHRoZSBVUkIuCldl
+IGhhdmUgcmVwcm9kdWNlZCB0aGlzIGlzc3VlIHNldmVyYWwgdGltZXMgb24gNi4xNC1yYzUgYWdh
+aW4uCgoKCgpJZiB5b3UgZml4IHRoaXMgaXNzdWUsIHBsZWFzZSBhZGQgdGhlIGZvbGxvd2luZyB0
+YWcgdG8gdGhlIGNvbW1pdDoKUmVwb3J0ZWQtYnk6IEt1biBIdSA8aHVrMjNAbS5mdWRhbi5lZHUu
+Y24+LCBKaWFqaSBRaW4gPGpqdGFuMjRAbS5mdWRhbi5lZHUuY24+LCBTaHVvcmFuIEJhaSA8YmFp
+c2h1b3JhbkBocmJldS5lZHUuY24+CgoKPT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09
+PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09IApVUkIgZmZmZjg4ODA0NWM4MTgwMCBz
+dWJtaXR0ZWQgd2hpbGUgYWN0aXZlCldBUk5JTkc6IENQVTogMCBQSUQ6IDAgYXQgZHJpdmVycy91
+c2IvY29yZS91cmIuYzozNzkgdXNiX3N1Ym1pdF91cmIrMHgxMzRlLzB4MTc1MApNb2R1bGVzIGxp
+bmtlZCBpbjoKQ1BVOiAwIFVJRDogMCBQSUQ6IDAgQ29tbTogc3dhcHBlci8wIE5vdCB0YWludGVk
+IDYuMTQuMC1yYzUgIzEKSGFyZHdhcmUgbmFtZTogUUVNVSBTdGFuZGFyZCBQQyAoaTQ0MEZYICsg
+UElJWCwgMTk5NiksIEJJT1MgMS4xMy4wLTF1YnVudHUxLjEgMDQvMDEvMjAxNApSSVA6IDAwMTA6
+dXNiX3N1Ym1pdF91cmIrMHgxMzRlLzB4MTc1MApDb2RlOiBlOCBjNyBiNCBhMCBmYSA4NCBkYiAw
+ZiA4NSA0NyBmNSBmZiBmZiBlOCAwYSBiMyBhMCBmYSBjNiAwNSBjMyBiYSAzMCAwOSAwMSA5MCA0
+OCBjNyBjNyAwMCAzZSAyZiA4YyA0YyA4OSBmZSBlOCBlMyBhOCA2MCBmYSA5MCA8MGY+IDBiIDkw
+IDkwIGU5IDIxIGY1IGZmIGZmIDQ4IDg5IDdjIDI0IDM4IGU4IGRmIGIyIGEwIGZhIDQ4IDhiIDdj
+ClJTUDogMDAxODpmZmZmYzkwMDAwMDA3YWQwIEVGTEFHUzogMDAwMTAwODIKUkFYOiAwMDAwMDAw
+MDAwMDAwMDAwIFJCWDogMDAwMDAwMDAwMDAwMDAwMCBSQ1g6IGZmZmZmZmZmODE3OWVjN2EKUkRY
+OiAwMDAwMDAwMDAwMDAwMDAwIFJTSTogZmZmZmZmZmY4ZGU5Nzc0MCBSREk6IDAwMDAwMDAwMDAw
+MDAwMDIKUkJQOiBmZmZmODg4MDIyYmVlNzQwIFIwODogMDAwMDAwMDAwMDAwMDAwMCBSMDk6IGZm
+ZmZlZDEwMDU3MDUxODIKUjEwOiBmZmZmZWQxMDA1NzA1MTgxIFIxMTogZmZmZjg4ODAyYjgyOGMw
+YiBSMTI6IDAwMDAwMDAwMDAwMDAwNDYKUjEzOiBmZmZmODg4MDI3YjI0MDU4IFIxNDogMDAwMDAw
+MDBmZmZmZmZmMCBSMTU6IGZmZmY4ODgwNDVjODE4MDAKRlM6ICAwMDAwMDAwMDAwMDAwMDAwKDAw
+MDApIEdTOmZmZmY4ODgwMmI4MDAwMDAoMDAwMCkga25sR1M6MDAwMDAwMDAwMDAwMDAwMApDUzog
+IDAwMTAgRFM6IDAwMDAgRVM6IDAwMDAgQ1IwOiAwMDAwMDAwMDgwMDUwMDMzCkNSMjogMDAwMDdm
+ZmZjYTA0ZmY2MCBDUjM6IDAwMDAwMDAwMGRmODAwMDAgQ1I0OiAwMDAwMDAwMDAwNzUwZWYwClBL
+UlU6IDU1NTU1NTU0CkNhbGwgVHJhY2U6CiA8SVJRPgogY20xMDlfdXJiX2lycV9jYWxsYmFjaysw
+eDQ0Yi8weGI2MAogX191c2JfaGNkX2dpdmViYWNrX3VyYisweDJlNC8weDZiMAogdXNiX2hjZF9n
+aXZlYmFja191cmIrMHgzOTEvMHg0NTAKIGR1bW15X3RpbWVyKzB4MTIxNy8weDM1NDAKIF9faHJ0
+aW1lcl9ydW5fcXVldWVzKzB4MWI3LzB4YzMwCiBocnRpbWVyX3J1bl9zb2Z0aXJxKzB4MTdmLzB4
+MmUwCiBoYW5kbGVfc29mdGlycXMrMHgxYmQvMHg4ODAKIGlycV9leGl0X3JjdSsweGZkLzB4MTUw
+CiBzeXN2ZWNfYXBpY190aW1lcl9pbnRlcnJ1cHQrMHhhOC8weGMwCiA8L0lSUT4KIDxUQVNLPgog
+YXNtX3N5c3ZlY19hcGljX3RpbWVyX2ludGVycnVwdCsweDFhLzB4MjAKUklQOiAwMDEwOmRlZmF1
+bHRfaWRsZSsweDFlLzB4MzAKQ29kZTogOTAgOTAgOTAgOTAgOTAgOTAgOTAgOTAgOTAgOTAgOTAg
+OTAgZjMgMGYgMWUgZmEgMGYgMWYgNDQgMDAgMDAgZWIgMGMgMGYgMWYgNDQgMDAgMDAgMGYgMDAg
+MmQgYzkgYTkgMGQgMDAgMGYgMWYgNDQgMDAgMDAgZmIgZjQgPGZhPiBlOSBhNyA0MSBiNyBmNSA2
+NiA2NiAyZSAwZiAxZiA4NCAwMCAwMCAwMCAwMCAwMCA5MCA5MCA5MCA5MCA5MApSU1A6IDAwMTg6
+ZmZmZmZmZmY4ZGUwN2UwOCBFRkxBR1M6IDAwMDAwMjA2ClJBWDogMDAwMDAwMDAwMDI3ZGVjNSBS
+Qlg6IDAwMDAwMDAwMDAwMDAwMDAgUkNYOiBmZmZmZmZmZjhiNThlNWE3ClJEWDogMDAwMDAwMDAw
+MDAwMDAwMCBSU0k6IDAwMDAwMDAwMDAwMDAwMDEgUkRJOiAwMDAwMDAwMDAwMDAwMDAwClJCUDog
+ZGZmZmZjMDAwMDAwMDAwMCBSMDg6IDAwMDAwMDAwMDAwMDAwMDEgUjA5OiBmZmZmZWQxMDA1NzA2
+Zjg2ClIxMDogZmZmZmVkMTAwNTcwNmY4NSBSMTE6IGZmZmY4ODgwMmI4MzdjMmIgUjEyOiAwMDAw
+MDAwMDAwMDAwMDAwClIxMzogZmZmZmZmZmY5MDYxNmExMCBSMTQ6IDAwMDAwMDAwMDAwMDAwMDAg
+UjE1OiAwMDAwMDAwMDAwMDAwMDAwCiBkZWZhdWx0X2lkbGVfY2FsbCsweDZkLzB4YjAKIGRvX2lk
+bGUrMHgzMTIvMHgzYzAKIGNwdV9zdGFydHVwX2VudHJ5KzB4NGYvMHg2MAogcmVzdF9pbml0KzB4
+MWE5LzB4MmYwCiBzdGFydF9rZXJuZWwrMHgzZmEvMHg0ZTAKIHg4Nl82NF9zdGFydF9yZXNlcnZh
+dGlvbnMrMHgxOC8weDMwCiB4ODZfNjRfc3RhcnRfa2VybmVsKzB4YjMvMHhjMAogY29tbW9uX3N0
+YXJ0dXBfNjQrMHgxM2UvMHgxNDgKIDwvVEFTSz4KLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0t
+LS0tLS0KQ29kZSBkaXNhc3NlbWJseSAoYmVzdCBndWVzcyk6CiAgIDA6CTkwICAgICAgICAgICAg
+ICAgICAgIAlub3AKICAgMToJOTAgICAgICAgICAgICAgICAgICAgCW5vcAogICAyOgk5MCAgICAg
+ICAgICAgICAgICAgICAJbm9wCiAgIDM6CTkwICAgICAgICAgICAgICAgICAgIAlub3AKICAgNDoJ
+OTAgICAgICAgICAgICAgICAgICAgCW5vcAogICA1Ogk5MCAgICAgICAgICAgICAgICAgICAJbm9w
+CiAgIDY6CTkwICAgICAgICAgICAgICAgICAgIAlub3AKICAgNzoJOTAgICAgICAgICAgICAgICAg
+ICAgCW5vcAogICA4Ogk5MCAgICAgICAgICAgICAgICAgICAJbm9wCiAgIDk6CTkwICAgICAgICAg
+ICAgICAgICAgIAlub3AKICAgYToJOTAgICAgICAgICAgICAgICAgICAgCW5vcAogICBiOgk5MCAg
+ICAgICAgICAgICAgICAgICAJbm9wCiAgIGM6CWYzIDBmIDFlIGZhICAgICAgICAgIAllbmRicjY0
+CiAgMTA6CTBmIDFmIDQ0IDAwIDAwICAgICAgIAlub3BsICAgMHgwKCVyYXgsJXJheCwxKQogIDE1
+OgllYiAwYyAgICAgICAgICAgICAgICAJam1wICAgIDB4MjMKICAxNzoJMGYgMWYgNDQgMDAgMDAg
+ICAgICAgCW5vcGwgICAweDAoJXJheCwlcmF4LDEpCiAgMWM6CTBmIDAwIDJkIGM5IGE5IDBkIDAw
+IAl2ZXJ3ICAgMHhkYTljOSglcmlwKSAgICAgICAgIyAweGRhOWVjCiAgMjM6CTBmIDFmIDQ0IDAw
+IDAwICAgICAgIAlub3BsICAgMHgwKCVyYXgsJXJheCwxKQogIDI4OglmYiAgICAgICAgICAgICAg
+ICAgICAJc3RpCiAgMjk6CWY0ICAgICAgICAgICAgICAgICAgIAlobHQKKiAyYToJZmEgICAgICAg
+ICAgICAgICAgICAgCWNsaSA8LS0gdHJhcHBpbmcgaW5zdHJ1Y3Rpb24KICAyYjoJZTkgYTcgNDEg
+YjcgZjUgICAgICAgCWptcHEgICAweGY1Yjc0MWQ3CiAgMzA6CTY2IDY2IDJlIDBmIDFmIDg0IDAw
+IAlkYXRhMTYgbm9wdyAlY3M6MHgwKCVyYXgsJXJheCwxKQogIDM3OgkwMCAwMCAwMCAwMAogIDNi
+Ogk5MCAgICAgICAgICAgICAgICAgICAJbm9wCiAgM2M6CTkwICAgICAgICAgICAgICAgICAgIAlu
+b3AKICAzZDoJOTAgICAgICAgICAgICAgICAgICAgCW5vcAogIDNlOgk5MCAgICAgICAgICAgICAg
+ICAgICAJbm9wCiAgM2Y6CTkwICAgICAgICAgICAgICAgICAgIAlub3AKLS0tLS0tLS0tLS0tLS0t
+LS0tLS0tLS0tLS0tLS0tLS0KCgoKCgp0aGFua3MsCkt1biBIdQo=
