@@ -1,50 +1,50 @@
 Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com [205.220.180.131])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3F34A1C245C;
-	Mon, 24 Mar 2025 20:19:32 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 095731C6FE2;
+	Mon, 24 Mar 2025 20:19:33 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.180.131
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1742847574; cv=none; b=TtMJxnaxTNNjSQOrPXyM1W3rVVF5E3CR1dtxJKejot6WKcohSJNO6XNTjh0J0m3ZxIq3Ak5hODpEl4qMl2llvSFPxXz75eljOFbKgsoScLeHVvDNDkoPjgLVH4uE2q1MtI34/FSeZFlV7IKVZmbIfKquiBBEwxeFoSQ6zBX+0i4=
+	t=1742847575; cv=none; b=oz0RppRu3P4eJXu2NJ7xhge/6KqYnRdltENIcyNQtD1L43FkAbwXGJAo0iWqDeu7E8Kyp4Px1UTWLNYfYJN3BqLUTxfQORIU9z2YWYU6FtvZ1ecr7axWHj9X/DGC3Fqegtam/tpRkRjubAjM+g3gR+V/0ldTlCvggFtT/hSDlN4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1742847574; c=relaxed/simple;
-	bh=VgYuMIfNWBe9o0vZQMbdHTwJEdKPHyZNHVNO/qDZXQY=;
+	s=arc-20240116; t=1742847575; c=relaxed/simple;
+	bh=qCtayBUQTYNaKn3nVezk7Yi1hUy/Jm+rW7pkiE+ZKeo=;
 	h=From:Date:Subject:MIME-Version:Content-Type:Message-ID:References:
-	 In-Reply-To:To:CC; b=oS9KLX+fVhNbGLv1EkTvWbxg644bCZjxRo3wDCiLOezsm0MPAKdoUl93T3EyEG5xIUR7vs+oEduyJa7tAa7swi1Fs5hOs+wfTxChiKL82nK8tLicuwAfYx40nZ5Bbvn2sapBQYw8DZsQ3d2Ck0j8Cs148e4wiHgSOXrOeAycnVE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=quicinc.com; spf=pass smtp.mailfrom=quicinc.com; dkim=pass (2048-bit key) header.d=quicinc.com header.i=@quicinc.com header.b=FcruzybI; arc=none smtp.client-ip=205.220.180.131
+	 In-Reply-To:To:CC; b=lKoMfW6dVNAgFg7xIN2vR8rIvsbjEIcWMFyLiN1ud9xjw7INQol8h8Z0jrGOCPeVBW7j6znISmIy3OWQgizizlF5E7eObbjd8GFAMT73/d5AumEO50eakV29EhRJqLNtO9ZB0PhdBdrjmiWnFNLudmzWV4ze6AyJEdA0UlliVJM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=quicinc.com; spf=pass smtp.mailfrom=quicinc.com; dkim=pass (2048-bit key) header.d=quicinc.com header.i=@quicinc.com header.b=A7e3ecnW; arc=none smtp.client-ip=205.220.180.131
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=quicinc.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=quicinc.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=quicinc.com header.i=@quicinc.com header.b="FcruzybI"
-Received: from pps.filterd (m0279868.ppops.net [127.0.0.1])
-	by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 52OJRfTm002587;
-	Mon, 24 Mar 2025 20:19:19 GMT
+	dkim=pass (2048-bit key) header.d=quicinc.com header.i=@quicinc.com header.b="A7e3ecnW"
+Received: from pps.filterd (m0279873.ppops.net [127.0.0.1])
+	by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 52OIDGXg025889;
+	Mon, 24 Mar 2025 20:19:22 GMT
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com; h=
 	cc:content-transfer-encoding:content-type:date:from:in-reply-to
 	:message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
-	1OzApNA6jsp/xiCFO+/sGoOJgdgMF055sF4INvME3+E=; b=FcruzybI7eZktDFD
-	E0wctPeJ5k+Txh93V1xs10KiD1WP20FXLhcVQE5woR2lHrB5ei2OGBCVoZOPS0sb
-	wnfekLOZprTBUU5k/6FssrmGzwiBJK9wgc/FzoVDt/BEH1uXVdwMUT/I6JV4vnEY
-	ecibJjPWZa3pR9pxm3dfNXyxM4Oujy3f0h9NFuLokEgpqn0i65FBXmShZHAMcmYI
-	L9c0szgQE8bV3V5cayt79iLzaAyzIRJXHCjmyG6Goa8pcYV0vQNBAcM7T6zLUQyV
-	fdyN5WlWrqx2mK/P6KZ/k8EXX9VA81zt0JKmAdmOYm8EikFCBSfqiNCjKcIxpEW1
-	RY0NvA==
+	NOOAoH889rcTeaM3rweFJiGpTbLypXx8ZLlv80ZV9gk=; b=A7e3ecnW38BNPEwE
+	GudjsiMTSBp/iZNXeP41Ie2EcK3ijYfbE2TxZ5GJXLg1ghDPeC8IjfDZKNisyGhl
+	GUqpqbA4FZ8FvyiGAS0op3z/iN5m7f7FfzZd6YPYR3eDAEvvrDeY0QuNDU7/BEEQ
+	Y1QSkWiI8CHEVSL859+6jLbAcclW09wu3kPOIvAYPYyPydZtDVjjIWTDtYIeHTrz
+	UyP9fv7c5rJyNTDHrEmdMuahcy4x0G7z+szDAxSQARQ7kxZS8YoeViC/MdH17U0T
+	wAKy1AxIkttweHP/lqZ9MfHG+JUHYBNU5rrxpGur0pVHuVtfhpuhXQIybo/4hGth
+	w+b+Wg==
 Received: from nasanppmta02.qualcomm.com (i-global254.qualcomm.com [199.106.103.254])
-	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 45hmhk5jp4-1
+	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 45hjjnnreh-1
 	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Mon, 24 Mar 2025 20:19:19 +0000 (GMT)
+	Mon, 24 Mar 2025 20:19:21 +0000 (GMT)
 Received: from nasanex01b.na.qualcomm.com (nasanex01b.na.qualcomm.com [10.46.141.250])
-	by NASANPPMTA02.qualcomm.com (8.18.1.2/8.18.1.2) with ESMTPS id 52OKJIkr002192
+	by NASANPPMTA02.qualcomm.com (8.18.1.2/8.18.1.2) with ESMTPS id 52OKJK1d002237
 	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Mon, 24 Mar 2025 20:19:18 GMT
+	Mon, 24 Mar 2025 20:19:20 GMT
 Received: from hu-molvera-lv.qualcomm.com (10.49.16.6) by
  nasanex01b.na.qualcomm.com (10.46.141.250) with Microsoft SMTP Server
  (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.1544.9; Mon, 24 Mar 2025 13:19:17 -0700
+ 15.2.1544.9; Mon, 24 Mar 2025 13:19:20 -0700
 From: Melody Olvera <quic_molvera@quicinc.com>
-Date: Mon, 24 Mar 2025 13:18:31 -0700
-Subject: [PATCH v3 03/10] dt-bindings: usb: qcom,dwc3: Add SM8750
- compatible
+Date: Mon, 24 Mar 2025 13:18:36 -0700
+Subject: [PATCH v3 08/10] arm64: dts: qcom: sm8750: Add USB support for
+ SM8750 MTP platform
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
@@ -53,7 +53,7 @@ List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-ID: <20250324-sm8750_usb_master-v3-3-13e096dc88fd@quicinc.com>
+Message-ID: <20250324-sm8750_usb_master-v3-8-13e096dc88fd@quicinc.com>
 References: <20250324-sm8750_usb_master-v3-0-13e096dc88fd@quicinc.com>
 In-Reply-To: <20250324-sm8750_usb_master-v3-0-13e096dc88fd@quicinc.com>
 To: Vinod Koul <vkoul@kernel.org>, Kishon Vijay Abraham I <kishon@kernel.org>,
@@ -72,77 +72,83 @@ To: Vinod Koul <vkoul@kernel.org>, Kishon Vijay Abraham I <kishon@kernel.org>,
 CC: <linux-arm-msm@vger.kernel.org>, <linux-phy@lists.infradead.org>,
         <devicetree@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
         <linux-usb@vger.kernel.org>, <linux-arm-kernel@lists.infradead.org>,
-        Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>,
+        "Konrad
+ Dybcio" <konrad.dybcio@oss.qualcomm.com>,
         Melody Olvera
-	<quic_molvera@quicinc.com>
+	<quic_molvera@quicinc.com>,
+        Dmitry Baryshkov <lumag@kernel.org>
 X-Mailer: b4 0.14.2
-X-Developer-Signature: v=1; a=ed25519-sha256; t=1742847556; l=1625;
+X-Developer-Signature: v=1; a=ed25519-sha256; t=1742847556; l=1282;
  i=quic_molvera@quicinc.com; s=20241204; h=from:subject:message-id;
- bh=qEEkwlK1IJQ6+YBwYPIriaFtmg+pE6JINBvnPVXBOtc=;
- b=AXPvL+/9P+RpXAarFGFJNX03sEhvGKIq/kQDcU9c7Rz6BoxGv340nqly8ll0lEFfYD+Hzv31o
- NHzRfIbbspfAcLE1lKk9L2RSfdcHFDNdrq5ejZsqipyM6ejEP4LzuLg
+ bh=gHgA0vlmFpMMzWr28bbHbSRjLhhi4kvN+rQ48/Tle4k=;
+ b=G82P3PbHwqse+jkVgbbKIMm0Rx0t/OnF0D1w4qxSNNOIybH2zWJVKHFxtCPUWEwt0Ycr6n4fx
+ owA1fvrsTIUCO/XF8U7OM+bIwBeoKXmpvlsv0y1usGJwg2cYbp1lE8V
 X-Developer-Key: i=quic_molvera@quicinc.com; a=ed25519;
  pk=1DGLp3zVYsHAWipMaNZZTHR321e8xK52C9vuAoeca5c=
 X-ClientProxiedBy: nalasex01a.na.qualcomm.com (10.47.209.196) To
  nasanex01b.na.qualcomm.com (10.46.141.250)
 X-QCInternal: smtphost
 X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800 signatures=585085
-X-Authority-Analysis: v=2.4 cv=C4PpyRP+ c=1 sm=1 tr=0 ts=67e1be47 cx=c_pps a=JYp8KDb2vCoCEuGobkYCKw==:117 a=JYp8KDb2vCoCEuGobkYCKw==:17 a=3H110R4YSZwA:10 a=IkcTkHD0fZMA:10 a=Vs1iUdzkB0EA:10 a=COk6AnOGAAAA:8 a=KKAkSRfTAAAA:8 a=nqcDc_6wAsSP5qgj5vEA:9
- a=QEXdDO2ut3YA:10 a=TjNXssC_j7lpFel5tvFf:22 a=cvBusfyB2V15izCimMoJ:22
-X-Proofpoint-GUID: NIgahYSHON17QfDuQIYrCXFq96-N-fhk
-X-Proofpoint-ORIG-GUID: NIgahYSHON17QfDuQIYrCXFq96-N-fhk
+X-Authority-Analysis: v=2.4 cv=fNc53Yae c=1 sm=1 tr=0 ts=67e1be49 cx=c_pps a=JYp8KDb2vCoCEuGobkYCKw==:117 a=JYp8KDb2vCoCEuGobkYCKw==:17 a=3H110R4YSZwA:10 a=IkcTkHD0fZMA:10 a=Vs1iUdzkB0EA:10 a=COk6AnOGAAAA:8 a=EUspDBNiAAAA:8 a=KKAkSRfTAAAA:8
+ a=zJXK8rm16J_mOy4j9woA:9 a=QEXdDO2ut3YA:10 a=TjNXssC_j7lpFel5tvFf:22 a=cvBusfyB2V15izCimMoJ:22
+X-Proofpoint-ORIG-GUID: r3ldeiC1XLq_xZHzchN5Z3bZOQpdx9em
+X-Proofpoint-GUID: r3ldeiC1XLq_xZHzchN5Z3bZOQpdx9em
 X-Proofpoint-Virus-Version: vendor=baseguard
  engine=ICAP:2.0.293,Aquarius:18.0.1093,Hydra:6.0.680,FMLib:17.12.68.34
  definitions=2025-03-24_07,2025-03-21_01,2024-11-22_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 adultscore=0 mlxscore=0
- phishscore=0 mlxlogscore=888 priorityscore=1501 impostorscore=0
- bulkscore=0 clxscore=1015 spamscore=0 malwarescore=0 suspectscore=0
- lowpriorityscore=0 classifier=spam authscore=0 authtc=n/a authcc=
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 clxscore=1015 impostorscore=0
+ lowpriorityscore=0 mlxlogscore=776 priorityscore=1501 mlxscore=0
+ adultscore=0 spamscore=0 bulkscore=0 suspectscore=0 phishscore=0
+ malwarescore=0 classifier=spam authscore=0 authtc=n/a authcc=
  route=outbound adjust=0 reason=mlx scancount=1 engine=8.19.0-2502280000
  definitions=main-2503240143
 
 From: Wesley Cheng <quic_wcheng@quicinc.com>
 
-SM8750 uses the Synopsys DWC3 controller. Add this to the compatibles list
-to utilize the DWC3 QCOM and DWC3 core framework.  Other than a revision
-bump to DWC3 controller rev2.00a, the controller on SM8750 does not add any
-additional vendor specific features compared to previous chipsets.
+Enable USB support on SM8750 MTP variants.  The current definition will
+start the USB controller in peripheral mode by default until
+dependencies are added, such as USB role detection.
 
-Reviewed-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+Reviewed-by: Konrad Dybcio <konrad.dybcio@oss.qualcomm.com>
+Reviewed-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
 Signed-off-by: Wesley Cheng <quic_wcheng@quicinc.com>
 Signed-off-by: Melody Olvera <quic_molvera@quicinc.com>
 ---
- Documentation/devicetree/bindings/usb/qcom,dwc3.yaml | 3 +++
- 1 file changed, 3 insertions(+)
+ arch/arm64/boot/dts/qcom/sm8750-mtp.dts | 24 ++++++++++++++++++++++++
+ 1 file changed, 24 insertions(+)
 
-diff --git a/Documentation/devicetree/bindings/usb/qcom,dwc3.yaml b/Documentation/devicetree/bindings/usb/qcom,dwc3.yaml
-index 64137c1619a635a5a4f96fc49bd75c5fb757febb..a681208616f3a260086cff5a28dc23d35bd96f9a 100644
---- a/Documentation/devicetree/bindings/usb/qcom,dwc3.yaml
-+++ b/Documentation/devicetree/bindings/usb/qcom,dwc3.yaml
-@@ -55,6 +55,7 @@ properties:
-           - qcom,sm8450-dwc3
-           - qcom,sm8550-dwc3
-           - qcom,sm8650-dwc3
-+          - qcom,sm8750-dwc3
-           - qcom,x1e80100-dwc3
-           - qcom,x1e80100-dwc3-mp
-       - const: qcom,dwc3
-@@ -354,6 +355,7 @@ allOf:
-               - qcom,sm8450-dwc3
-               - qcom,sm8550-dwc3
-               - qcom,sm8650-dwc3
-+              - qcom,sm8750-dwc3
-     then:
-       properties:
-         clocks:
-@@ -497,6 +499,7 @@ allOf:
-               - qcom,sm8450-dwc3
-               - qcom,sm8550-dwc3
-               - qcom,sm8650-dwc3
-+              - qcom,sm8750-dwc3
-     then:
-       properties:
-         interrupts:
+diff --git a/arch/arm64/boot/dts/qcom/sm8750-mtp.dts b/arch/arm64/boot/dts/qcom/sm8750-mtp.dts
+index 5d0decd2aa2d0e0849414534cdd504714402458e..3ad417aaaaf46ee007bc4c029fa9e57ac183c075 100644
+--- a/arch/arm64/boot/dts/qcom/sm8750-mtp.dts
++++ b/arch/arm64/boot/dts/qcom/sm8750-mtp.dts
+@@ -806,3 +806,27 @@ &tlmm {
+ &uart7 {
+ 	status = "okay";
+ };
++
++&usb_1 {
++	status = "okay";
++};
++
++&usb_1_dwc3 {
++	dr_mode = "peripheral";
++};
++
++&usb_1_hsphy {
++	vdd-supply = <&vreg_l2d_0p88>;
++	vdda12-supply = <&vreg_l3g_1p2>;
++
++	phys = <&pmih0108_eusb2_repeater>;
++
++	status = "okay";
++};
++
++&usb_dp_qmpphy {
++	vdda-phy-supply = <&vreg_l3g_1p2>;
++	vdda-pll-supply = <&vreg_l2d_0p88>;
++
++	status = "okay";
++};
 
 -- 
 2.48.1
