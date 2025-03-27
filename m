@@ -1,106 +1,118 @@
-Received: from mail-lf1-f47.google.com (mail-lf1-f47.google.com [209.85.167.47])
+Received: from mail-pj1-f41.google.com (mail-pj1-f41.google.com [209.85.216.41])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E6A221CAA85;
-	Thu, 27 Mar 2025 09:34:50 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.47
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A6CDC20F062
+	for <linux-usb@vger.kernel.org>; Thu, 27 Mar 2025 10:14:46 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.216.41
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1743068092; cv=none; b=LKwUqnZ+UDRs8jeKup0H3BNlZ6/lFWHa9ytSkqltaefbf0MpHgelrlYvgjpoFip4uX4Hsxh2zxF46YryDxwEGq0wgRb8vXz+iAK5+Sc8jucB4EGFnZy87yL37UZHtqAPmWGTtFYhc+2xZ1XzWArT9Ly9CBHnkzBogYd6/+s1Gw8=
+	t=1743070488; cv=none; b=hxMA3vPjOsNR8zNZs0CUvpqZ1FrpvXimpDGG/U/XdTwGgDrla5mGY9TXMZfIZUR1+yPveizi3zhLy74CTINASqzTTXeyVipicZ7C9Fxsc+56hTGOk6Q9tg5dIQzkwY+9+bFKIn3IkJBq4+fGY1YUwwlc7S8hP8P+ACylUFg3nLo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1743068092; c=relaxed/simple;
-	bh=feahf2RlNjMG7TuzyyRQ7CAEtCk2y5mQ9bTEbE1vmSY=;
-	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=pQIHt9zDG2qKEPHEeMImNiYYfIDEzFoEZcXYmit+Wu6DbiFTbhoGe/70K39ylr95EOUpMS/Z4Uckid3Z3QNGjkCF26l+L5E71ditO/2MND6iCY+SfoMi4haeK1WCNWFai3mcw2ANRfWVwsN5rRjqgkdeGkE1qRO4kZnZvPWOswY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=cZmw8cvb; arc=none smtp.client-ip=209.85.167.47
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1743070488; c=relaxed/simple;
+	bh=C6Yhmj5NSDmuki5prkNWWgqAqbPvRZU5lqPe4zAvakg=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=FNcc47IYZh/Yf1hV6BcDPULx6WD1fxaxlBsl7TAFglLdXcMs40oetQrzy4kDYy268e+c6zCSvqT5bzex77AUPXZp5m7XzAxYRnZM4CMNRW5mFS0BtcJ1/uK1GxzWk5d2rnMTPgP4FRnnw0MjH2PPwPBM4ECOGcdia3TnvW6Jsuo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=PH3/UzjT; arc=none smtp.client-ip=209.85.216.41
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=google.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="cZmw8cvb"
-Received: by mail-lf1-f47.google.com with SMTP id 2adb3069b0e04-54ac9b3ddf6so736461e87.1;
-        Thu, 27 Mar 2025 02:34:50 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="PH3/UzjT"
+Received: by mail-pj1-f41.google.com with SMTP id 98e67ed59e1d1-2ff615a114bso2955042a91.0
+        for <linux-usb@vger.kernel.org>; Thu, 27 Mar 2025 03:14:46 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1743068089; x=1743672889; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:subject:cc:to:from:date:from:to:cc:subject:date
+        d=google.com; s=20230601; t=1743070486; x=1743675286; darn=vger.kernel.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=Cwthd6DvDSuYnlEHZsEaCsrecTV0g5QhuogV3nNKmcI=;
-        b=cZmw8cvbRWqSHx/74Ffc3gs+P6O/to6eG3xun2W4/JMbm0WyPJr0q+0bOz6uLFj/v9
-         nVW5Y3myodnqA4OBGpTj+FivqN8DDqz94LwOmIg4GjWwoDn4wIn5WQuNXT/cf9P6dOJg
-         P9GzTKGTMRRdNqL1LbyB8mk9zc6mC88lH++TCOZ0LMkfPMaDsxaKeUyXxqYNDTkcBI6I
-         c8Nox71k6pnBmsO22tp+Wog93NePFJirp0KN8iL2u4qDls0jvabxa46zFS8L481UQmi7
-         Hrewuv6YyLTpU3ZLY6QZkN06kl2fFDJh9cFyquGSm3eSyFs1rH6ABCpQXCDFqGzwz5fF
-         TG8Q==
+        bh=NXU1FLrii1vst2IhDKt8s9STfEquca1Y5iYBAMgYvYg=;
+        b=PH3/UzjTb/1krpG8Qhb+auQ/CnsfSOHHdB5Q+A0CQ6doDY651lqKw/HkA7VjN8r5tU
+         CrY0UQtBs3JEewTrzqDftEEb9Zb4gVZoJ9ZT4oM5VT1B0UXMzRfMBeO9G8dNVh5Cyq+4
+         VYZvKWVsJQ/OwT7buSyKLOanCGFys1x1pAC8KdMiTHANjyFOHsDfMLp0FsGZx/VsjlRV
+         YI8zgtsxAa80/58k6PTyoEEbR4MsUUR+671M9ABK5abRbO8EZtGaoNT870aDpujfno5l
+         jGR45gPctibq+09rgy/uirYVpVDif3QdRwQf0cuL8YJlBvdrPEmpVrPBKUkmP/gSMuyW
+         svcg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1743068089; x=1743672889;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:subject:cc:to:from:date:x-gm-message-state:from:to:cc
+        d=1e100.net; s=20230601; t=1743070486; x=1743675286;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=Cwthd6DvDSuYnlEHZsEaCsrecTV0g5QhuogV3nNKmcI=;
-        b=IF4jO4UnGSYF8zFfmEQ/R6Xu4Inm4uHsZYpjDLnEV7kxGsDxU97rNLnHHcfX7RWRjq
-         dUh9DOFgW/kJhSec4nt73xMfC5I+pEkGnrFqRC3j4s1/eC/KMp8l2z4O4H+c4paYwfe7
-         XJp0ioMtPPJVeNH66MSwmlSSoIJ547F9vMaKDxfQQVdW4C0KQRiAao25MQyM5P1gaYzg
-         5sEsivwsCQjZbE2x0VlsD2k3MCdlrQOm2fg9FQZg4Dn0Hr2+JwOY8wPBmyU6pmqGdbRZ
-         eelgVUUQvmUIxVaen4ZzcunVv7kfed7Tg6w3HRZqF28ruccSgTB3iTuAlld2oiiBk16T
-         q1qg==
-X-Forwarded-Encrypted: i=1; AJvYcCVZ7Xq9awTZ8bif5UjzNDog95tKPBJfjV1t68JomRxQqTS4lNGkBc5hU6N3Ve9gUrbX7o/n3NRk5vA9@vger.kernel.org, AJvYcCWq8rrgEzOyakdN34ZpzAIgWRaV0xowl07XUE9Yl71oE8ytc6wFAAIcZOV1HlD4dbfyHrml/IsvciuTFPE=@vger.kernel.org, AJvYcCXFETA2Cuqd0soz/W1x1+wMU3lu2w4UDvaSrvcIkN2qG5Jfxxa8MqyLC3VG2RNBhW29/9IbEcUc@vger.kernel.org
-X-Gm-Message-State: AOJu0Ywx7lBXhnt5RV8bsH2Z2y2t/a5g9NBt0vRCdy0tMCRcqaeVQBGh
-	FiWKdNXzZmNeq/woSI3mvmtpg3VCDwjKfJLP/nKuImJtafrbF/nQ
-X-Gm-Gg: ASbGncusxeFgLf8DIR0XvV/WSNDISi7eAI5mLlbFsXSa5fvxEEMiSiUK3Wfg5mvQAwd
-	RS5DZcHxhUhPf7PU80XSWzkLdqtpKl6DTcNoqGYuP9rmV2QDve0l7HrEiRktJoyYfJE1t6+PUH2
-	T7dyuFlr8FscQyMFkoFlf4rStZae0Nww1bBd/qLUMIf4XssWrje25UdsWYCK+LsOlQPiwgPoD1v
-	cAiJQLlWa9FWQfA0P1kKHUthjWsqdiVFfS1GZhVBqkTI5VSct8ZzZBNYGjBRrHEO+ioVKl5f5DQ
-	OtFmrLGBFOHXbekePHxT2hQo0SwaCeu04M2cCfiscQkXg5YG0UHrfiErDGngFw==
-X-Google-Smtp-Source: AGHT+IFwgZ6kYC8A0WndQ549KjcP1lam1V9gB0x42xLQC3LqdXyaaWkYCCa3Vu+K+wV3jCMbpRX8xg==
-X-Received: by 2002:a05:6512:15a6:b0:549:8f47:e67d with SMTP id 2adb3069b0e04-54b012435a4mr969722e87.34.1743068088708;
-        Thu, 27 Mar 2025 02:34:48 -0700 (PDT)
-Received: from foxbook (adtt243.neoplus.adsl.tpnet.pl. [79.185.231.243])
-        by smtp.gmail.com with ESMTPSA id 2adb3069b0e04-54ad646931esm2034295e87.42.2025.03.27.02.34.46
-        (version=TLS1_2 cipher=AES128-SHA bits=128/128);
-        Thu, 27 Mar 2025 02:34:47 -0700 (PDT)
-Date: Thu, 27 Mar 2025 10:34:43 +0100
-From: =?UTF-8?B?TWljaGHFgg==?= Pecio <michal.pecio@gmail.com>
-To: "Rangoju, Raju" <raju.rangoju@amd.com>
-Cc: gregkh@linuxfoundation.org, linux-kernel@vger.kernel.org,
- linux-usb@vger.kernel.org, mathias.nyman@intel.com,
- mathias.nyman@linux.intel.com, stable@vger.kernel.org
-Subject: Re: [PATCH v4] usb: xhci: quirk for data loss in ISOC transfers
-Message-ID: <20250327103443.682f4cd1@foxbook>
-In-Reply-To: <bb78e164-f24f-49d2-b560-24d097cb2827@amd.com>
-References: <20250326074736.1a852cbc@foxbook>
-	<bb78e164-f24f-49d2-b560-24d097cb2827@amd.com>
+        bh=NXU1FLrii1vst2IhDKt8s9STfEquca1Y5iYBAMgYvYg=;
+        b=fRQM79VdAewUkCF55RtQyh4ulpq+xUzatOAwzpLXsSMHnRk8YfyqGmitdxeJuMSOsp
+         AfsV88X/vp3W0NCfEG48MQm3h6S5zPItxyU+9BL6ZIQLRVgEdLbx+NfcpboSngRgU9Ry
+         UTorb7vWPuCSDuyAM8mxCsijrqH3TfrzxS2ERHD//ucPo11iZ3scMMqk7GsBRzHkUP07
+         +wqJRY1lpgsbryVFGdjzfCQ4onuNfxe9R8AGyUJuRFF4cqovWcdu3ILq0zAkh81dEpaO
+         DxE1clO0xIZODpy1hfvWdpYzzCHuCY3vserkzLg4zrBivdgOh0WgX15tQCuMz/QMp7OR
+         +loA==
+X-Forwarded-Encrypted: i=1; AJvYcCUeDsfc91c608oiNlL4Y0fCYW7snzEth7iSjnSsTdUzyZ8RXi9nCPYhzI+W5imSNSwveenp953FsUE=@vger.kernel.org
+X-Gm-Message-State: AOJu0YwnACE6HFY90VXB4iewmtwKmG//jFBQCK6Kts9smQV4NsnNnjp6
+	+F7zLDxvinqYACDHbAPFJ/3A2d7dMKG2dah6V6G4ulvK19wwzzpuBD6cNMu3PuOksduFx2JI3eW
+	wPHp/GTS91Uu/DfsQb5XSu9wkNvi/vEOrw2NB
+X-Gm-Gg: ASbGnct8HHGqhouqfsia1+6F3ZIiGeDIoTsGylrOkcqFhwL0wKuR4/Nr0IRUwJuwM0/
+	6Q2DTHEUGdBqgyDvCvFYWgQZrw8nALq+Edj+TGt/cH8TcDoUVQ8e6mhnIABe0oQ47C3P6eIGFGH
+	kaIKuOTixozTwaSVrn3CA/LBhTY8sHaN5qEM76+IkkHyRoU//+lOlO61wG
+X-Google-Smtp-Source: AGHT+IE1AefcJXIAWpDxPG3bUQ0bh6A+2grtsHhf+KAx7LnCFJqdzcBF4kLKgl+IZnDTHnXwKb1Ss9FhuZTqsrkbkRw=
+X-Received: by 2002:a17:90b:2cc3:b0:2fa:4926:d18d with SMTP id
+ 98e67ed59e1d1-303789576damr11844174a91.13.1743070485612; Thu, 27 Mar 2025
+ 03:14:45 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
+References: <20250319005141.312805-1-quic_wcheng@quicinc.com>
+ <20250319005141.312805-2-quic_wcheng@quicinc.com> <CAGCq0LZoi0MOJLJYUeQJW6EfOU_Ch=v1Sg8L4_B-KhdDCx1fCw@mail.gmail.com>
+ <2025032734-reward-fantasize-dc16@gregkh>
+In-Reply-To: <2025032734-reward-fantasize-dc16@gregkh>
+From: Puma Hsu <pumahsu@google.com>
+Date: Thu, 27 Mar 2025 18:14:00 +0800
+X-Gm-Features: AQ5f1JpamchKB-mbo8HzMPc07dJP4L7AYc2gJudLypuurcRTBQseSpaQIpAXpM8
+Message-ID: <CAGCq0LamxvvE8b45VAshw9aWJNC2so_vK9t+pzXd3C7Y7tfYAg@mail.gmail.com>
+Subject: Re: [PATCH v36 01/31] xhci: sideband: add initial api to register a
+ secondary interrupter entity
+To: Greg KH <gregkh@linuxfoundation.org>
+Cc: Wesley Cheng <quic_wcheng@quicinc.com>, srinivas.kandagatla@linaro.org, 
+	mathias.nyman@intel.com, perex@perex.cz, conor+dt@kernel.org, 
+	dmitry.torokhov@gmail.com, corbet@lwn.net, broonie@kernel.org, 
+	lgirdwood@gmail.com, krzk+dt@kernel.org, pierre-louis.bossart@linux.intel.com, 
+	Thinh.Nguyen@synopsys.com, tiwai@suse.com, robh@kernel.org, 
+	linux-kernel@vger.kernel.org, devicetree@vger.kernel.org, 
+	linux-sound@vger.kernel.org, linux-input@vger.kernel.org, 
+	linux-usb@vger.kernel.org, linux-arm-msm@vger.kernel.org, 
+	linux-doc@vger.kernel.org, Mathias Nyman <mathias.nyman@linux.intel.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-On Thu, 27 Mar 2025 12:08:53 +0530, Rangoju, Raju wrote:
-> > What if there is an ISOC IN endpoint with 64ms ESIT? I haven't yet
-> > seen such a slow isoc endpoint, but I think they are allowed by the
-> > spec. Your changelog suggests any periodic IN endpoint can trigger
-> > this bug. 
-> 
-> If such an endpoint is implemented, it could theoretically contribute
-> to scheduling conflicts similar to those caused by INT endpoints in
-> this context. However, our observations and testing on affected
-> platforms primarily involved periodic IN endpoints with service
-> intervals greater than 32ms interfering with ISOC OUT endpoints.
+On Thu, Mar 27, 2025 at 3:02=E2=80=AFPM Greg KH <gregkh@linuxfoundation.org=
+> wrote:
+>
+> On Thu, Mar 27, 2025 at 02:27:00PM +0800, Puma Hsu wrote:
+> > Hi,
+> >
+> > We have implemented and verified the USB audio offloading feature with
+> > the xhci sideband driver on our Google Pixel products. We would
+> > appreciate it if this solution can be accepted. Thank you all for the
+> > work!
+> >
+>
+> Great, can you properly send a "Tested-by:" line for this against the
+> 00/XX email so that it will be properly saved?
+>
 
-In such case it would make sense to drop the check for
-usb_endpoint_xfer_int(&ep->desc)
-and rely on existing (xfer_int || xfer_isoc) in the outer 'if'.
+We(Google Pixel) only use the xhci sideband related changes and two
+changes in the sound card driver. For the details, what we actually
+tested are patch [01], [02], [03], [04], [05], [06], [08], and [12].
+Do I still send the "Tested-by:" line to 00/31 email? Or should I just
+send the "Tested-by:" line to the 8 changes above? (I added
+"Tested-by" line for this [01/31] first.)
 
-> I'm not completely sure about this corner case if HS OUT endpoints
-> can inadvertently get affected when co-existing with long-interval
-> LS/FS IN endpoints. Our IP vendor confirmed that LS/FS devices are
-> not affected.
+> Also, I think a new version of the series is coming, can you test that
+> to verify it works properly?  We have to wait until after -rc1 is out
+> anyway.
+>
 
-There is also a third case of a FS device behind an external HS hub.
-The device will look like FS to this code here, but the xHC will need
-to schedule HS transactions to service it.
+I think this v36 is the last version of the series as I discussed with
+QCOM Wesley. And for sure I will test it if they do have a new
+version.
 
-Regards,
-Michal
+Thanks
+Puma
