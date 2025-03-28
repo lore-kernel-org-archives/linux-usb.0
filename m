@@ -1,213 +1,235 @@
-Received: from mail-vk1-f172.google.com (mail-vk1-f172.google.com [209.85.221.172])
+Received: from mail-pl1-f178.google.com (mail-pl1-f178.google.com [209.85.214.178])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B27A42F30;
-	Fri, 28 Mar 2025 08:29:38 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.172
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 72F1918DB2B
+	for <linux-usb@vger.kernel.org>; Fri, 28 Mar 2025 08:30:23 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.178
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1743150580; cv=none; b=hSBY054qWERLpgiIQb0D9Nw8KYMCpNamnjJw34nC1SX4v6f3HFZl9dQdeDYKIQ1LeDaFZTHurtBpVbxEhZiS7991NV9zhAKRK8QRs/MDV10RCKVrXsfG5c79EIkx3ji1VLbLphGRKcgOsk/IiE4Oy4tFL46c2RgFuAs0L06cnvk=
+	t=1743150626; cv=none; b=hTn0EYfyXA8zgTasZ9hyVLSVmvheNIO5hmQIclStFUN85VKYC8sOfbwqiaUBW268ie75fxe65yoMGW7DoCAWDZiMaljV4x4qEwWpBc7NQIPxCoOlfCZFhLbDs4Eq54wPKg+EESIaLXz7MGQjgOhDy8DvhkKwE8MgzT4LGS4CG+w=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1743150580; c=relaxed/simple;
-	bh=pDffGY4oyd0PxQ/KRiEepC6qUycajp4F52W0w2SZ/tM=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=YUz979ApfrtfTsnLVjdZpjGwq3U5ZV9OMRR3cnQBMsRcPwTHsAgxVhTqMfQoCQgLRA65HHDlCZjFL2QbAZ7Wxg51mYNU+3nIcobWXeAlrNkecTSA1DV9PJ7gWGzReapMfT9xU2tv/Hz/Ouq82MUxUYIymr6UlG0C1HYWp7dwMzo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=K3vHdw2T; arc=none smtp.client-ip=209.85.221.172
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1743150626; c=relaxed/simple;
+	bh=fDqF6O4FnTPiRQdfgNkPd+mtmIU2vY7UGxECVEdgvno=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=NgP1X56Ij8JwEAerjiDQjuZkuFWCanntexge0p8zeUpf678UTL0IuEQYxqbQiGYPL0dFivuiKEbtTdBlDwgl+9c2UqeXmqKE5EHEsDznbNaahavnSPRm2ZQmPI6vwzohkU7acze1OP5nVCx3l1GfgEUZb9ZXktHd8JVNCQ/5AeI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org; spf=pass smtp.mailfrom=chromium.org; dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b=VzBf0E0k; arc=none smtp.client-ip=209.85.214.178
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=chromium.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="K3vHdw2T"
-Received: by mail-vk1-f172.google.com with SMTP id 71dfb90a1353d-51eb1818d4fso1954403e0c.1;
-        Fri, 28 Mar 2025 01:29:38 -0700 (PDT)
+	dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b="VzBf0E0k"
+Received: by mail-pl1-f178.google.com with SMTP id d9443c01a7336-225477548e1so37025265ad.0
+        for <linux-usb@vger.kernel.org>; Fri, 28 Mar 2025 01:30:23 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1743150577; x=1743755377; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=d30QttJ3kFYJy8HLYJ11ejVcMVaRpYa8Jw/DEhp7CDE=;
-        b=K3vHdw2ToI/3KkME74ZrWriaWSOxfVvpVOggJzJxJXN7+KZXYMdw3xEBfR5snOIYie
-         +vwf1MJq+lAfYQihGvI7NjAcUgWMxEJxztRp9lrw4C/D0KAT29Ivhsi/OhBWsvwlY76m
-         5pHmRDYyGP3P7dz+BgHRvZnq1TaK+QXuWDzuLe1zB5xyjuWpqyeqFJSUVW5OKNRwZYTe
-         BlqGLDFg45RvIReYBDru3hO+diLznKyECmUiBm/hJZtgoZaZ9K82Z2YRyhBYWeIPqCtT
-         /byHGlLvZvr5NwoALKgVXx0WYJT63jiDTBrSRf3aPI/ZVD2qi/+/A3WSnlAHE9q/eqzZ
-         RPrw==
+        d=chromium.org; s=google; t=1743150623; x=1743755423; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=iMvSX3/8MLdcWMy6QaV85qtOi5tjLAdkUxquxvyJjpk=;
+        b=VzBf0E0kLGuYHHdVFN3ZEHUhWfc8i6rVrgAk+EkgWmA2Z5LS/PyRRKgST+muqvzSaI
+         j+zUvu7zs8jMjh3EzXcXPe9HLmGHWM8QErcs5jeizznoYs/jxgy2U864AN6CCoXvACRM
+         5W1kXrO6XcKsr+3ZsPufFmwo+U8DTvCX404WM=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1743150577; x=1743755377;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=d30QttJ3kFYJy8HLYJ11ejVcMVaRpYa8Jw/DEhp7CDE=;
-        b=WnNhdMaNjXCzzP7cx4ijwq62FK4a4tFPm1u8a+071TXgWRV97Vjb1H43TwcmIXIhje
-         PSG9pQK/Pt5aqjm/2gj1Ihom3+NGG+8+/H+SnzAzbJfjspMUy5X5pBSxHKVOZT+lU90R
-         iAXnH9ZywTFCh0wBvM0g7/KvlAagvmmKnx4vkp4bQp+c9qprRbYTx5xpKdfv7iGFGL7p
-         D5fIlZv9gT26DHEZUjuBuppH4UCUWnMBcWtyT1jCo7gYHO/qhW9xBZhaDxPiXz9veUG4
-         sOs34IPGoaKR5ggdXuY9PHh8ifpuf7GwmivP8vKQjp0jI5THk3GyaiJxVXINrGUKDrR5
-         /K5A==
-X-Forwarded-Encrypted: i=1; AJvYcCWRDzCftlQWrIT11YJvH8563qJtn42YEJGaHMMRZ5KYErTxnXeN6wgwpLFJMJI0FaTCvZGYiKfUyAdW@vger.kernel.org, AJvYcCWyiinilmubQuLoStquIb+a6+tVQy8wuxD5a6+Ov8sqkNU+KfFzrJ26rBKMg7bk/3UbGCn/7vTViBW67II=@vger.kernel.org, AJvYcCXAc47ia1LZ8ODoEy9QKLAD3aR/T2xoy0zC8YLSuJATrTiua37Bazs9WphBOxl9bRJE73IyRTuQjQ4/DGLBwIaMp9E=@vger.kernel.org
-X-Gm-Message-State: AOJu0Yxrv9+MWmolcJaF2NX5fzgd6LnN4ae9DWNBou19fITCI2VGxew3
-	nC8XNHa9VuENJzr/pKHPY6jOd6on0kKXngZWZndgX6lHw96ONI4IvaJHmRu27e6+EULkk/UmP3U
-	uPYF3oulr966ht8FR9YIrU0+tfdg=
-X-Gm-Gg: ASbGncvTodvN1TRFNOQI/rA9L9eJXLk7nYVo/SV9uisDf8EASrO+7CnRbRIDUg0HNfz
-	nZ89ZMPZL20BNnYS7MQuMUrnSQpb9duOG5izw2/7n4S5ACijptYJfyVmGg5OvT29Q+Lmv6SVpCo
-	Ef3+y3BkuksqG2egfTHegiBTPO4A==
-X-Google-Smtp-Source: AGHT+IGZ77jAnCPj58lcIOJ2aeLE8UITLEP4sbFyGAVQzdIYVYm+ol7wyVpnwzDXQjsf77RFfGZI0POt5vvPr0pP8OI=
-X-Received: by 2002:a05:6122:3229:b0:523:a88b:9ac5 with SMTP id
- 71dfb90a1353d-52600a8064dmr6686071e0c.9.1743150577435; Fri, 28 Mar 2025
- 01:29:37 -0700 (PDT)
+        d=1e100.net; s=20230601; t=1743150623; x=1743755423;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=iMvSX3/8MLdcWMy6QaV85qtOi5tjLAdkUxquxvyJjpk=;
+        b=mhE0u2tIpw6SLuPPMRG4+GcFwkh4h++ExJyIs/3D2YBObdps80nYoLY2+cjxzePfXX
+         z+Jsszs39QsA0g3zrln6ABQ3wDdW/1hg+YE2Za2vMb2nAa+z77nPS3QMa/5RBhAzos4p
+         5+1c6eficGMN1Kqb7rkdazcE2vkk4zHWHriVD0Qh7RKQp2akxz3MrNpwE/z8Q1V+CG+w
+         ulUIJ5eivL2smjf38CUWJKOch9Xeozo8+L/OpipnNCt1yp2egyUK2/0BG2IEL+rD/Jlh
+         oBy9oPfmIIoolpq0rGVuz31dhJ/Xv9Y+jBPGu5R/bmmP6smKM0n37fdNwLaoTY0RX3+u
+         xRNQ==
+X-Forwarded-Encrypted: i=1; AJvYcCXp9wetpuV/NTw6puUNiTc2E7KWXHLy8KcuM2Gwpna2wl/EueOdXk8MeaCnNcLa8gVV0lYhCqsqwGI=@vger.kernel.org
+X-Gm-Message-State: AOJu0YygbRZ9eF7Thn7nFg8u5dK0iULm7xqsakJSk0W+2dgGgxGj7OR6
+	ouW3w24P+J0QPPDoXkJn0ovg+Fjh47FitcB7NqjdJsvuIP+LKdNJZPhpiigZcw==
+X-Gm-Gg: ASbGncuM/DdA++7k1emAS7HcJhg6B/tq+LppR7IMP4Kf5it018e7g/AnN5IrqeKHDPO
+	zcapvz2TFZgmbne68hungFklpLLWNed7BmErLEoK2C8ZDUBJ5/W9U9/gbDZtgQTm/FQbVp+2sq/
+	5dR0Uk7wdTy4qShcRya4m5TiekSFZZKnCFKpaVH6chzLpIVi+ePJoKc4hmdscoDXnE/OTF70IHC
+	urToFig+xgFFxJbVb8SI5LsG/T0myXmuTQv7F6BtInSeOzQj2Ku6HS09T8ym7pminNyqm1ZXi7J
+	LW2QRs+h+6Xasb7lgGC2VBhzOkui/bbxIg8K3UbE49hJppVxbZv3UBLJ2KI0GeHSNA==
+X-Google-Smtp-Source: AGHT+IHk5g+zM1oUsjRtviy05Z0HNph2qVB5VdMrxZ+hrOLHHnalDkunfM120pSNG/jfbr5zMflnrg==
+X-Received: by 2002:a17:902:e886:b0:220:e63c:5b13 with SMTP id d9443c01a7336-2280491c3f4mr112692905ad.46.1743150622552;
+        Fri, 28 Mar 2025 01:30:22 -0700 (PDT)
+Received: from treapking.tpe.corp.google.com ([2401:fa00:1:10:9004:7029:99b:276])
+        by smtp.gmail.com with ESMTPSA id d9443c01a7336-2291f1ef62asm12283775ad.217.2025.03.28.01.30.20
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 28 Mar 2025 01:30:22 -0700 (PDT)
+From: Pin-yen Lin <treapking@chromium.org>
+To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	Rob Herring <robh@kernel.org>,
+	Krzysztof Kozlowski <krzk+dt@kernel.org>,
+	Conor Dooley <conor+dt@kernel.org>,
+	Matthias Kaehlcke <mka@chromium.org>
+Cc: linux-kernel@vger.kernel.org,
+	Stephen Boyd <swboyd@chromium.org>,
+	linux-usb@vger.kernel.org,
+	Pin-yen Lin <treapking@chromium.org>,
+	devicetree@vger.kernel.org
+Subject: [PATCH 1/2] dt-bindings: usb: Add binding for PS5511 hub controller
+Date: Fri, 28 Mar 2025 16:28:45 +0800
+Message-ID: <20250328082950.1473406-1-treapking@chromium.org>
+X-Mailer: git-send-email 2.49.0.472.ge94155a9ec-goog
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20250327120737.230041-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
- <20250327120737.230041-4-prabhakar.mahadev-lad.rj@bp.renesas.com> <87zfh6yoly.wl-kuninori.morimoto.gx@renesas.com>
-In-Reply-To: <87zfh6yoly.wl-kuninori.morimoto.gx@renesas.com>
-From: "Lad, Prabhakar" <prabhakar.csengg@gmail.com>
-Date: Fri, 28 Mar 2025 08:29:11 +0000
-X-Gm-Features: AQ5f1Joz0Yl2NwlX4vM3SMZ2TTdDb4hpY-z18HKFBqEEH80xIsYDqhUbtNNTT8w
-Message-ID: <CA+V-a8uwJasrQZ+3Y1vgTKz+b_SBULXpXdGYxULUOpPkZgXjFg@mail.gmail.com>
-Subject: Re: [PATCH 3/3] usb: renesas_usbhs: Reorder clock handling and power
- management in probe
-To: Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>
-Cc: Geert Uytterhoeven <geert+renesas@glider.be>, 
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>, 
-	Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>, linux-usb@vger.kernel.org, 
-	linux-renesas-soc@vger.kernel.org, linux-kernel@vger.kernel.org, 
-	Biju Das <biju.das.jz@bp.renesas.com>, 
-	Claudiu Beznea <claudiu.beznea.uj@bp.renesas.com>, 
-	Fabrizio Castro <fabrizio.castro.jz@renesas.com>, 
-	Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Transfer-Encoding: 8bit
 
-Hi Kuninori san,
+Parade PS5511 is USB hub with 4 USB 3.2 compliant 5Gbps downstream(DS)
+ports, and 1 extra USB 2.0 downstream port. The hub has one reset pin
+control and two power supplies (3V3 and 1V1).
 
-Thank you for the review.
+Signed-off-by: Pin-yen Lin <treapking@chromium.org>
+---
 
-On Fri, Mar 28, 2025 at 12:40=E2=80=AFAM Kuninori Morimoto
-<kuninori.morimoto.gx@renesas.com> wrote:
->
->
-> Hi Prabhakark
->
-> Thank you for the patch
->
-> > Reorder the initialization sequence in `usbhs_probe()` to enable runtim=
-e
-> > PM before accessing registers, preventing potential crashes due to
-> > uninitialized clocks.
-> >
-> > Currently, in the probe path, registers are accessed before enabling th=
-e
-> > clocks, leading to a synchronous external abort on the RZ/V2H SoC.
-> > The problematic call flow is as follows:
-> >
-> >     usbhs_probe()
-> >         usbhs_sys_clock_ctrl()
-> >             usbhs_bset()
-> >                 usbhs_write()
-> >                     iowrite16()  <-- Register access before enabling cl=
-ocks
->
-> This patch itself is not so bad idea, but basically, we should not assume
-> the power/clock was enabled since kernel boot.
-> In this driver, register access happen only during power enable <->  powe=
-r
-> disable (except your issue case), and this is good idea. So, the strange
-> is usbhs_sys_clock_ctrl() call in usbhs_probe() (without power enable) I
-> guess.
->
-> According to the comment, it is just caring boot loader, and
-> usbhs_sys_clock_ctrl() itself will be called when usbhsc_power_ctrl() was
-> called anyway. And more, if my understanding was correct, Renesas clock
-> driver will stop all unused devices clock/power after boot.
-> So maybe we can just remove strange usbhs_sys_clock_ctrl() from usbhs_pro=
-be() ?
->
+ .../bindings/usb/parade,ps5511.yaml           | 138 ++++++++++++++++++
+ 1 file changed, 138 insertions(+)
+ create mode 100644 Documentation/devicetree/bindings/usb/parade,ps5511.yaml
 
-After dropping usbhs_sys_clock_ctrl and removing the clock enabling
-done in this patch and with  `CONFIG_USB_G_SERIAL=3Dy` I hit the same
-issue.
+diff --git a/Documentation/devicetree/bindings/usb/parade,ps5511.yaml b/Documentation/devicetree/bindings/usb/parade,ps5511.yaml
+new file mode 100644
+index 00000000000000..605f94df561428
+--- /dev/null
++++ b/Documentation/devicetree/bindings/usb/parade,ps5511.yaml
+@@ -0,0 +1,138 @@
++# SPDX-License-Identifier: GPL-2.0-only OR BSD-2-Clause
++%YAML 1.2
++---
++$id: http://devicetree.org/schemas/usb/parade,ps5511.yaml#
++$schema: http://devicetree.org/meta-schemas/core.yaml#
++
++title: PS5511 4+1 Port USB 3.2 Gen 1 Hub Controller
++
++maintainers:
++  - Pin-yen Lin <treapking@chromium.org>
++
++properties:
++  compatible:
++    enum:
++      - usb1da0,5511
++      - usb1da0,55a1
++
++  reg: true
++
++  '#address-cells':
++    const: 1
++
++  '#size-cells':
++    const: 0
++
++  reset-gpios:
++    items:
++      - description: GPIO specifier for GRST# pin.
++
++  vddd11-supply:
++    description:
++      1V1 power supply to the hub
++
++  vdd33-supply:
++    description:
++      3V3 power supply to the hub
++
++  peer-hub:
++    $ref: /schemas/types.yaml#/definitions/phandle
++    description:
++      phandle to the peer hub on the controller.
++
++  ports:
++    $ref: /schemas/graph.yaml#/properties/ports
++
++    properties:
++      port@1:
++        $ref: /schemas/graph.yaml#/properties/port
++        description:
++          1st downstream facing USB port
++
++      port@2:
++        $ref: /schemas/graph.yaml#/properties/port
++        description:
++          2nd downstream facing USB port
++
++      port@3:
++        $ref: /schemas/graph.yaml#/properties/port
++        description:
++          3rd downstream facing USB port
++
++      port@4:
++        $ref: /schemas/graph.yaml#/properties/port
++        description:
++          4th downstream facing USB port
++
++      port@5:
++        $ref: /schemas/graph.yaml#/properties/port
++        description:
++          5th downstream facing USB port
++
++required:
++  - compatible
++  - reg
++  - peer-hub
++
++patternProperties:
++  '^.*@[1-5]$':
++    description: The hard wired USB devices
++    type: object
++    $ref: /schemas/usb/usb-device.yaml
++    additionalProperties: true
++
++additionalProperties: false
++
++allOf:
++  - $ref: usb-device.yaml#
++  - if:
++      not:
++        properties:
++          compatible:
++            enum:
++              - usb1da0,usb55a1
++    then:
++      properties:
++        port@5: false
++
++examples:
++  - |
++    #include <dt-bindings/gpio/gpio.h>
++
++    usb {
++        #address-cells = <1>;
++        #size-cells = <0>;
++
++        /* 2.0 hub on port 1 */
++        hub_2_0: hub@1 {
++            compatible = "usb1da0,55a1";
++            reg = <1>;
++            peer-hub = <&hub_3_0>;
++            #address-cells = <1>;
++            #size-cells = <0>;
++            /* USB 2.0 device on port 5 */
++            device@5 {
++                reg = <5>;
++                compatible = "usb123,4567";
++            };
++        };
++
++        /* 3.0 hub on port 2 */
++        hub_3_0: hub@2 {
++            compatible = "usb1da0,5511";
++            reg = <2>;
++            peer-hub = <&hub_2_0>;
++
++            ports {
++                #address-cells = <1>;
++                #size-cells = <0>;
++                /* Type-A connector on port 3 */
++                port@3 {
++                    reg = <3>;
++                    endpoint {
++                        remote-endpoint = <&usb_a0_ss>;
++                    };
++                };
++            };
++        };
++    };
+-- 
+2.49.0.472.ge94155a9ec-goog
 
-[14.318626] g_serial gadget.0: g_serial ready
-[14.323923] Internal error: synchronous external abort:
-0000000096000010 [#1] PREEMPT SMP
-[14.332107] Modules linked in: rzg2l_mipi_dsi rcar_fcp
-renesas_usbhs(+) drm_shmem_helper display_connector gpu_sched
-drm_kms_helper fuse drm backlight ipv6
-[14.346025] CPU: 1 UID: 0 PID: 187 Comm: (udev-worker) Not tainted
-6.14.0-rc7+ #99
-[14.353578] Hardware name: Renesas RZ/V2H EVK Board based on r9a09g057h44 (=
-DT)
-[14.360775] pstate: 204000c5 (nzCv daIF +PAN -UAO -TCO -DIT -SSBS BTYPE=3D-=
--)
-[14.367711] pc : usbhs_sys_function_pullup+0x10/0x40 [renesas_usbhs]
-[14.374082] lr : usbhsg_update_pullup+0x58/0x68 [renesas_usbhs]
-[14.374107] sp : ffff80008278b460
-[14.374110] x29: ffff80008278b460 x28: ffff800079a355f0 x27: 00000000000000=
-0a
-[14.374122] x26: ffff800079a35d00 x25: ffff0000c3c26b40 x24: ffff8000817bb1=
-c0
-[14.374131] x23: ffff0000c33cd800 x22: ffff0000c221e480 x21: ffff0000c221e5=
-40
-[14.374140] x20: 0000000000000001 x19: ffff0000c221e480 x18: 00000000000000=
-00
-[14.374148] x17: 0000000000000000 x16: 0000000000000000 x15: 00000000000000=
-00
-[14.374156] x14: 0000000000000074 x13: ffff0000c33ac680 x12: 00000000000000=
-00
-[14.374164] x11: ffff0000c33ac680 x10: 0000000000000aa0 x9 : ffff80008278b1=
-60
-[14.374172] x8 : ffff0000c33ad100 x7 : 0000000002307a83 x6 : 00000000000003=
-2c
-[14.374180] x5 : ffff0003fdfb4388 x4 : 0000000000000000 x3 : 00000000000000=
-00
-[14.374187] x2 : 0000000000000010 x1 : ffff8000825a0000 x0 : ffff0000c221e4=
-80
-[14.374197] Call trace:
-[14.374200]  usbhs_sys_function_pullup+0x10/0x40 [renesas_usbhs] (P)
-[14.374220]  usbhsg_pullup+0x54/0x78 [renesas_usbhs]
-[14.374236]  usb_gadget_connect_locked+0x44/0x8c
-[14.374249]  gadget_bind_driver+0x198/0x284
-[14.374256]  really_probe+0xbc/0x2c0
-[14.374266]  __driver_probe_device+0x78/0x120
-[14.374272]  driver_probe_device+0x3c/0x154
-[14.374278]  __device_attach_driver+0xb8/0x140
-[14.374285]  bus_for_each_drv+0x88/0xe8
-[14.374292]  __device_attach+0xa0/0x190
-[14.374299]  device_initial_probe+0x14/0x20
-[14.374306]  bus_probe_device+0xb4/0xc0
-[14.374312]  device_add+0x5c4/0x7a0
-[14.374318]  usb_add_gadget+0x198/0x220
-[14.374324]  usb_add_gadget_udc+0x68/0xa0
-[14.374330]  usbhs_mod_gadget_probe+0x218/0x2c4 [renesas_usbhs]
-[14.374347]  usbhs_mod_probe+0x30/0xc0 [renesas_usbhs]
-[14.374363]  usbhs_probe+0x208/0x5a0 [renesas_usbhs]
-[14.374378]  platform_probe+0x68/0xdc
-[14.374387]  really_probe+0xbc/0x2c0
-[14.374394]  __driver_probe_device+0x78/0x120
-[14.374400]  driver_probe_device+0x3c/0x154
-[14.374407]  __driver_attach+0x90/0x1a0
-[14.374413]  bus_for_each_dev+0x7c/0xe0
-[14.374419]  driver_attach+0x24/0x30
-[14.374425]  bus_add_driver+0xe4/0x208
-[14.374432]  driver_register+0x68/0x130
-[14.374438]  __platform_driver_register+0x24/0x30
-[14.374446]  renesas_usbhs_driver_init+0x20/0x1000 [renesas_usbhs]
-[14.374462]  do_one_initcall+0x60/0x1d4
-[14.374474]  do_init_module+0x54/0x1f8
-[14.374484]  load_module+0x1754/0x1c98
-[14.374492]  init_module_from_file+0x88/0xcc
-[14.374499]  __arm64_sys_finit_module+0x1c4/0x328
-[14.374506]  invoke_syscall+0x48/0x104
-[14.374516]  el0_svc_common.constprop.0+0xc0/0xe0
-[14.374524]  do_el0_svc+0x1c/0x28
-[14.374530]  el0_svc+0x30/0xcc
-[14.374539]  el0t_64_sync_handler+0x10c/0x138
-[14.374546]  el0t_64_sync+0x198/0x19c
-[14.374558] Code: 7100003f 1a9f07e2 f9400001 531c6c42 (79400021)
-[14.374564] ---[ end trace 0000000000000000 ]---
-
-
-Cheers,
-Prabhakar
