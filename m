@@ -1,66 +1,121 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 99EAF219E93;
-	Fri, 28 Mar 2025 11:31:22 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 068FE2114
+	for <linux-usb@vger.kernel.org>; Fri, 28 Mar 2025 12:41:16 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1743161482; cv=none; b=HCjfwd/p5fu2NqVlXAF+tUIRIULj3ok7wxHKEer41ZGdo4IhkU7Bp5W6vCUJ9MkCdE1z5donS6TgcGpI8joPhGKs9FOpuCKvyvJmFPaq82/hf1pEcf+Kq3Ox17ywqmvlV84BLDNhNEPHq2RLnoIe1pWBOEAeS+qoLcCak9q716w=
+	t=1743165678; cv=none; b=FsNO5XPcnRHdFUPT/788w8RCjnLSU7S/ZDr1zxysF2uuQhJMkLT91/oC0OU8lEmtcjYfBsSCZlg3BHNHZWv7UYnHcTX0jcIEcX3a1gdlmYXyCHnunEtumgsDImXBChDTfeRwjr6VHDgjpIYH8S69bu237dWzv8c+6dq/46mYcQg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1743161482; c=relaxed/simple;
-	bh=LHa9xz76CIhV2+jLsq3mcF4E3EUSoSeXhvdMAA5/E7s=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=QxVSWIKmYhzjzXXQ6+Wp/lKmMggx+FotlJOhsMz2oEM2BoGp5CrhPiIMHIJcIB0076T+MhUcOOsjTOkn2nxbhgHPjA3ccRCfGIuxHFjDPiZ4nY0WJc+NzjH/sH8Pn0vKCSnesPhO+f9kcyTx8SAdA+qnyS91BVsqPNW7PC7G7vg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b=VMZgeRpX; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1743165678; c=relaxed/simple;
+	bh=inD/N2W9kfz3nc2nmDe9odmU0ZtRmKhnFDCKAan31ww=;
+	h=From:To:Subject:Date:Message-ID:In-Reply-To:References:
+	 Content-Type:MIME-Version; b=qlLTTwflBGTWAKIzx7x5cqKpuoFT9hHGWREgfK4oJCzr6Pl0H3Sz5KE6CIiiO55j6IcNQOadQlQHQhecHKp9KlddMEVRQh4HYH/N0L+acc5sXPnLkCdPk6lV2tU4eemyDRa1o1Te9IwGXkkn5vSAzH1zRK9UZW1HvM69BdXF0HA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=OXgTEvX9; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="VMZgeRpX"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id A7F96C4CEE5;
-	Fri, 28 Mar 2025 11:31:21 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
-	s=korg; t=1743161482;
-	bh=LHa9xz76CIhV2+jLsq3mcF4E3EUSoSeXhvdMAA5/E7s=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=VMZgeRpX3tm3Kr8Dsh0HSvOzxgKr44xetLhJDROMN2yZbplCj/42ncBbw25Lxe0O/
-	 vMP+aZZutnaJFmEm/orUOrTjYoFs7U+/wyu+BLqe2blCJmZbvHOYE2n5bEl3wKwsWY
-	 bnBtOFgMRhGCHDmTesOk1bA1xxF35r9TX5muxpEo=
-Date: Fri, 28 Mar 2025 12:31:19 +0100
-From: Greg KH <gregkh@linuxfoundation.org>
-To: madhu.m@intel.com
-Cc: heikki.krogerus@linux.intel.com, linux-usb@vger.kernel.org,
-	pooja.katiyar@intel.com, dmitry.baryshkov@linaro.org,
-	diogo.ivo@tecnico.ulisboa.pt, lk@c--e.de,
-	linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v2] usb: typec: ucsi: Add the UCSI commands in debugfs
-Message-ID: <2025032818-trash-backpack-5518@gregkh>
-References: <20250328115041.555008-1-madhu.m@intel.com>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="OXgTEvX9"
+Received: by smtp.kernel.org (Postfix) with ESMTPS id 7B1ABC4CEE4
+	for <linux-usb@vger.kernel.org>; Fri, 28 Mar 2025 12:41:16 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1743165676;
+	bh=inD/N2W9kfz3nc2nmDe9odmU0ZtRmKhnFDCKAan31ww=;
+	h=From:To:Subject:Date:In-Reply-To:References:From;
+	b=OXgTEvX9Psh2eYvXhwBKrC3k5i9KIcC9zQ8NMoNO7DY5C1pac0xjXPh6GZUaS0blr
+	 peDDypwltjfl65BJzGzltN/GnWz6MTuvy9YUXH5WwE9Pa1JTAf5mys2UI3sGSgDwcf
+	 35361ePgiSXmdR213tJK5+0+xk+7dsPNrevGBZRdLaF6m0IbEe1meTF7V82bOeQOrK
+	 BVvrIkxiqd9FaKH83rlToS1etnMDgRCjYF7HGD51rkBUFX8N7Xi6DYgKs4kdJ1dHfN
+	 KDx7mKhJnBYWAkLQAoEY0+F5dyCuB8YD1KB1V9s+J3MKx89jS5/908aG9qDGkFI06M
+	 pNFX+enUMTl8w==
+Received: by aws-us-west-2-korg-bugzilla-1.web.codeaurora.org (Postfix, from userid 48)
+	id 6A75BC41613; Fri, 28 Mar 2025 12:41:16 +0000 (UTC)
+From: bugzilla-daemon@kernel.org
+To: linux-usb@vger.kernel.org
+Subject: [Bug 219951] Missing null check in ast_vhub_init_dev
+Date: Fri, 28 Mar 2025 12:41:16 +0000
+X-Bugzilla-Reason: None
+X-Bugzilla-Type: changed
+X-Bugzilla-Watch-Reason: AssignedTo drivers_usb@kernel-bugs.kernel.org
+X-Bugzilla-Product: Drivers
+X-Bugzilla-Component: USB
+X-Bugzilla-Version: 2.5
+X-Bugzilla-Keywords: 
+X-Bugzilla-Severity: normal
+X-Bugzilla-Who: bsdhenrymartin@gmail.com
+X-Bugzilla-Status: NEW
+X-Bugzilla-Resolution: 
+X-Bugzilla-Priority: P3
+X-Bugzilla-Assigned-To: drivers_usb@kernel-bugs.kernel.org
+X-Bugzilla-Flags: 
+X-Bugzilla-Changed-Fields: 
+Message-ID: <bug-219951-208809-TbihWkveCr@https.bugzilla.kernel.org/>
+In-Reply-To: <bug-219951-208809@https.bugzilla.kernel.org/>
+References: <bug-219951-208809@https.bugzilla.kernel.org/>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+X-Bugzilla-URL: https://bugzilla.kernel.org/
+Auto-Submitted: auto-generated
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20250328115041.555008-1-madhu.m@intel.com>
 
-On Fri, Mar 28, 2025 at 05:20:41PM +0530, madhu.m@intel.com wrote:
-> From: Madhu M <madhu.m@intel.com>
-> 
-> Added the UCSI commands UCSI_GET_CAM_SUPPORTED, UCSI_GET_PD_MESSAGE,
-> UCSI_GET_ATTENTION_VDO and UCSI_SET_USB support in debugfs to enhance
-> PD/TypeC debugging capability.
-> 
-> Signed-off-by: Madhu M <madhu.m@intel.com>
-> Reviewed-by: Heikki Krogerus <heikki.krogerus@linux.intel.com>
-> ---
-> Changes in v1:
-> - Removed UCSI_READ_POWER_LEVEL and UCSI_SET_PDOS commands.
-> - Modified commit messages.
+https://bugzilla.kernel.org/show_bug.cgi?id=3D219951
 
-I see 3 different v2 patches on the list from you now, which obviously
-is not correct :(
+--- Comment #2 from henry (bsdhenrymartin@gmail.com) ---
+We should first check devm_kasprintf() before setting d->vhub and d->index,
+so that if allocation fails, the d struct remains in a clean state.
 
-Please slow down, take a day or so at the least, and work with Heikki to
-submit this properly.  There is no rush here.
+Patch code:
+int ast_vhub_init_dev(struct ast_vhub *vhub, unsigned int idx)
+{
+struct ast_vhub_dev *d =3D &vhub->ports[idx].dev;
+struct device *parent =3D &vhub->pdev->dev;
+int rc;
 
-greg k-h
+/* First allocate the name (before modifying d->vhub/index) */
+d->name =3D devm_kasprintf(parent, GFP_KERNEL, "port%d", idx + 1);
+if (!d->name)
+return -ENOMEM;
+
+/* Now safe to set vhub and index */
+d->vhub =3D vhub;
+d->index =3D idx;
+d->regs =3D vhub->regs + 0x100 + 0x10 * idx;
+
+ast_vhub_init_ep0(vhub, &d->ep0, d);
+
+<bugzilla-daemon@kernel.org> =E4=BA=8E2025=E5=B9=B43=E6=9C=8828=E6=97=A5=E5=
+=91=A8=E4=BA=94 19:27=E5=86=99=E9=81=93=EF=BC=9A
+
+> https://bugzilla.kernel.org/show_bug.cgi?id=3D219951
+>
+> --- Comment #1 from Greg Kroah-Hartman (greg@kroah.com) ---
+> On Fri, Mar 28, 2025 at 11:15:22AM +0000, bugzilla-daemon@kernel.org
+> wrote:
+> > When devm_kasprintf() fails, it returns a NULL pointer. However, this
+> return
+> > value is not properly checked in the function ast_vhub_init_dev.
+> >
+> > A NULL check should be added after the devm_kasprintf call to prevent
+> > potential
+> > NULL pointer dereference error.
+>
+> Please submit a patch for this if you feel it needs to be fixed up.
+>
+> thanks,
+>
+> greg k-h
+>
+> --
+> You may reply to this email to add a comment.
+>
+> You are receiving this mail because:
+> You reported the bug.
+
+--=20
+You may reply to this email to add a comment.
+
+You are receiving this mail because:
+You are watching the assignee of the bug.=
