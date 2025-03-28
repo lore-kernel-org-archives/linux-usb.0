@@ -1,72 +1,71 @@
-Received: from mail-pl1-f181.google.com (mail-pl1-f181.google.com [209.85.214.181])
+Received: from mail-pj1-f41.google.com (mail-pj1-f41.google.com [209.85.216.41])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1C86E212B11
-	for <linux-usb@vger.kernel.org>; Fri, 28 Mar 2025 07:45:46 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.181
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AB94217A2E0
+	for <linux-usb@vger.kernel.org>; Fri, 28 Mar 2025 07:47:25 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.216.41
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1743147948; cv=none; b=i/HLLypT0urJxghvI7Sd3fNaWfittepG+z+QcX/WhFCvOJeXeZDXt4ki6WOWU24n612FL/deuMyxexDI8LlmOlmJpSuymfdFQDT3hwjSLS8aXrBxL8qkAICN6MscG5UPu0N8KEF0HgosRQN5SpWf258DKqGR1USKuIEtkZIxKXA=
+	t=1743148047; cv=none; b=kNTQC4vWSw4Ojcpb1kK3uZyW5pV/vlM0cqFWKtYTRId/bxgnGrUm5jc+kZomhQpHOUEzfrJdQLP4H+Ef0QfeWYBxfTxAnB/0goQM6yrZ+iNAM4vVL1+EmW0JLWv9OQ3KQsWsJBIyUr1zSkEKTRdJbbyOc4LO2o/9QkJBIbCxsiM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1743147948; c=relaxed/simple;
-	bh=jhd8eqeLqKtgOMegJHXn9/RBH+p95nA916u23Bs1/xU=;
+	s=arc-20240116; t=1743148047; c=relaxed/simple;
+	bh=PtP+NGCGW7qLVQ3maqLF1JTTzGIcq5Q0+GUEyuhMre4=;
 	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=EcSQcJUlH2eIIMJN2YKcDYPMdaRiDJUvJKuqpDc8c2mcdJufIxft21Zgm1jxToaldH1IVBy5K5NlmFz/9txiL24SQjdmgQQO7bbI9eImV8qc5324iCb0NAIElVQNDEjfZ/nw97II/dsJNk5QBq5ujzG0tABaai9Kxtw9s+rDKQE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=yoQpUS5G; arc=none smtp.client-ip=209.85.214.181
+	 To:Cc:Content-Type; b=AhqJZss4JNMFX5FIO1cFR6LBXskHuKEmeaUrMqZT+l37de2ubEhILhlga+ixyztkfYtEPa5hxoZRbJvimYK9l8WN0GJfWyDqSYK0dbqH0AdLUFfUmDJvbqxT0tCNTgG6VBidhO3m5JpXzvkrdxDRCEyrms9SEVDZI6S8uQccY8Y=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=xM3+fQuP; arc=none smtp.client-ip=209.85.216.41
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=google.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="yoQpUS5G"
-Received: by mail-pl1-f181.google.com with SMTP id d9443c01a7336-2241053582dso50550365ad.1
-        for <linux-usb@vger.kernel.org>; Fri, 28 Mar 2025 00:45:46 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="xM3+fQuP"
+Received: by mail-pj1-f41.google.com with SMTP id 98e67ed59e1d1-2ff6a98c638so3734807a91.0
+        for <linux-usb@vger.kernel.org>; Fri, 28 Mar 2025 00:47:25 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20230601; t=1743147946; x=1743752746; darn=vger.kernel.org;
+        d=google.com; s=20230601; t=1743148045; x=1743752845; darn=vger.kernel.org;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=Cju4PP3BDwNUuGXUxlhnczSfO2O+sRFjPqYxZUsY/Fs=;
-        b=yoQpUS5G1WczIvAr6LZUddcvjI2Ojd88Y/vPHrUHg4KODVEnxp4CDjPh5nN/C5lkl6
-         4KHSVb6atT653sH9Vet0J5t6AW/HzeLjLJdE+EBhMzxU/DdQ2q9B72iULBdgU51ZTzjF
-         MjnZu25rtaYV6ksKxvNcHC4jtyHZ09IJjwk+gEnK60g7mTOvzYvw+DoJV9Mo7RwQQFnM
-         GqjPR78lvbPD3S3bAMjUM2cfq4Ibap6ZQMqXPLc1V9swCmoZHXprFEhUKL94KXY/7Qgm
-         EKQL6G4LXXkl5lbhnEJGzxH6eRGeFTlWNUiBp+4yHOTz9ZsS05wU4lN7dzTbXJ1M40+3
-         RUUQ==
+        bh=nSRNCHHEeuWVfsyhWJ175d+kGZyBEPrk7OGj2+IPcUM=;
+        b=xM3+fQuP8P8ZfbhsG+LCJA/H0VyHCf0zyyEmszt1M/dLLh8Ry0mQ0ZtOG20T1q8evf
+         K2dsjBJedhy/AUnc/FQE3ENj2bFv1/+z1lZsbj0w228k5WMIQcJJzyFp/nDoNyn7lDgW
+         i55vuF2iRRCuUeVTUgHhaJU4r1fA9aVLYcSzW/AFkbVtpB5n4nfLw+ljLdVzr5I/mj0r
+         sfQUXEbHsIsuw54BmwrFOQwu2y0LWJHtQ3QsL1mEJB00QsBfMKrxVRm81qSO/N4jRJTL
+         MPZj0S8+NYYnqM97xV9M5jBLtO1VyOoznRnDAiCS/65LXt9MgjaZo3rnMs1ze8oYc0NQ
+         WqZg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1743147946; x=1743752746;
+        d=1e100.net; s=20230601; t=1743148045; x=1743752845;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=Cju4PP3BDwNUuGXUxlhnczSfO2O+sRFjPqYxZUsY/Fs=;
-        b=ncwJ+CcyqDXG3Rf+nRsQvViOc2RVTowGIogyix8UR/wocTp/rRWHygwcFuP76ZBrq7
-         DMH2J8tBD5wr/MlTMZVcm4Tdw0gc7+JfStTBQPWMiET+pNFCz6FJevTO5hU4QCIezNMB
-         cRO+W9rgQHdmyFHFpM/CkyFNGjiuQkrTqvVmLq2ECcRSRLFbpzH74A+xIhOAA4AbhR3b
-         OJ4B2T4MWOn2/HHW88LMls1JgyGnMpcJqXLyADHuL9Kc35Wcuy89ODqQEcNLsQOiwRpJ
-         ++LmOPmnSNizp64pjjWS78XyqKzu2nykGYgJH5b6eYSNGE3FeFIi27hdynfJPrLK7+hE
-         53Og==
-X-Forwarded-Encrypted: i=1; AJvYcCXS+GkW8vh0QHzuRsRY4Wn1XayO85ncAJQPdZhwS/iYefhCu4bt+3WjX3AsZX8YSFx17w5RG2i5brk=@vger.kernel.org
-X-Gm-Message-State: AOJu0YwzIcz0QaBo2AHXMtwhIhYotVzvCibLfoyzZa8AYRsWKPIY3boS
-	7RMxQw23cxCp6DX2QHXjP6eBEdAxrgnUbd+CQ0fnNYv8ak3fy+UOn3Do0MIn6h/HmTip4DnS6RS
-	hTcmJAHmB1cPP3gH/xVgeukYt6t9fPk7tsUA+
-X-Gm-Gg: ASbGncsE/qcGMVQdZ3NM9AfiwRd7S0gc2qvXQOIOlGUneKHwMDrKctx3LcGwAH+rdrf
-	q/5TP1PclQU/w2KZ4gh/lNrWvgBrhJTzo+GWdhcFPhzEAxq6ArcdR5tGLNqdOcKXf1PKwBYwFB6
-	cQ2W8FRKnK8osS4PbiLPvYRIVnoJ2+AztG4qWWpo+lSEmZXLHluVgtrm5o
-X-Google-Smtp-Source: AGHT+IHOrcw9DisHzvvGCzWpEdMq/2DuAlul4EC/64JuosmYAwms2YN5mduIbPIPWnfzDcFKN8g6PnqvAgOWYqzB4tA=
-X-Received: by 2002:a17:903:41d2:b0:21f:7e12:5642 with SMTP id
- d9443c01a7336-22804855243mr78114555ad.18.1743147945996; Fri, 28 Mar 2025
- 00:45:45 -0700 (PDT)
+        bh=nSRNCHHEeuWVfsyhWJ175d+kGZyBEPrk7OGj2+IPcUM=;
+        b=LTYQqu+QNUe1es8IzTfmj7zzuP46feN9edpF3h5B5E45hmyC4dXFImvPZHtCl5AT9T
+         Fq0HQzBxsxoMviOPXxNFRVQc5VBL1I1VtxJgW8Tw/qR/zhqgkq0X02jHzzokNRWa+6nI
+         ENjrgd5FeaBJj0dlvdUSv+cTutNK6paF0mfq/Pqe/XkiKZ5KNOFfwOWLp1yaagGYOgdw
+         G7P0uAriMY2cvzAm3q6wnOirQgZ0Is0iZRbln/T61pgVY1vHeli0sHnfYpgyCYtfqbUW
+         Ty1CP+wunw6grIQpJtvu5CemwlO1wITam07vNJD2YDlTzZKhAU3noWhx+BUnSO9xLt8V
+         qrbQ==
+X-Forwarded-Encrypted: i=1; AJvYcCUyR4UD5Y/Tg9DXP1rVEbig89XmVkEBq+XHZYmWnjcPQ7wFuuFnv7naaaWxHrPPI1TrarD0EuogjiQ=@vger.kernel.org
+X-Gm-Message-State: AOJu0YyfNL7YRLvgbHKNvqiJwevd4ySAhaZ6QuqHuzACZIEkchhAl7Hm
+	c6ubrn8vOZ36tAA2mvSTYievrFrLnfwauclAiw+eZQfqYh3Jo2HpOZ18aLHLOO7VAHOHFWCQdBb
+	0PunZHoEPnPGsCJ+hOuNcHh5R/236ywu6fNth
+X-Gm-Gg: ASbGncsMiu918OYnkfa7MnnKHqwnc4VgvuJ2cZ8275s9I/R13iCT6O2ZbJftRUB/dKs
+	BrWULy4xrAAfLp2ANPKC6DAyGhsm/8tIBcFmd6Eifl3Ex1vz3UX4MN9wZg1261cyR7xeKcsNlTd
+	lZnERcMrr/qptkmUcWA5+HFmwV4lxgdfc6DDOrdPPjWt6WVuSIMDOmtYs1
+X-Google-Smtp-Source: AGHT+IFjlntASsIZFKKFarjsob5FA/YWx+0UwMbHPg7tbz1FC4RqdXsuMvg0Aor7xktvtHSjvCWuvoZcUzL+GRvbomQ=
+X-Received: by 2002:a17:90b:4a02:b0:2ff:72f8:3708 with SMTP id
+ 98e67ed59e1d1-303a815d765mr10177056a91.17.1743148044642; Fri, 28 Mar 2025
+ 00:47:24 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20250319005141.312805-1-quic_wcheng@quicinc.com> <20250319005141.312805-5-quic_wcheng@quicinc.com>
-In-Reply-To: <20250319005141.312805-5-quic_wcheng@quicinc.com>
+References: <20250319005141.312805-1-quic_wcheng@quicinc.com> <20250319005141.312805-7-quic_wcheng@quicinc.com>
+In-Reply-To: <20250319005141.312805-7-quic_wcheng@quicinc.com>
 From: Puma Hsu <pumahsu@google.com>
-Date: Fri, 28 Mar 2025 15:44:00 +0800
-X-Gm-Features: AQ5f1JrxKR_5At3wbtVqdesBrs5EjD2B83PPzVhOxlnkDOQEImF4VUCzY3fgoP4
-Message-ID: <CAGCq0LYNn6VZwKpvvf=N2ra8ZJcSso80ZDpirByHO9ChBZv3eg@mail.gmail.com>
-Subject: Re: [PATCH v36 04/31] usb: host: xhci-plat: Set XHCI max interrupters
- if property is present
+Date: Fri, 28 Mar 2025 15:46:00 +0800
+X-Gm-Features: AQ5f1Jqq_y-DoImoixkLsT9RYwh8uFNtxMSR53od-9VW8uNfYNhDBtnFa6MwHG4
+Message-ID: <CAGCq0LaDzCVau0jZ8WydSFF7FVAAXuUHaR=3gPcteew6X4kP=g@mail.gmail.com>
+Subject: Re: [PATCH v36 06/31] usb: dwc3: Specify maximum number of XHCI interrupters
 To: Wesley Cheng <quic_wcheng@quicinc.com>
 Cc: srinivas.kandagatla@linaro.org, mathias.nyman@intel.com, perex@perex.cz, 
 	conor+dt@kernel.org, dmitry.torokhov@gmail.com, corbet@lwn.net, 
@@ -80,35 +79,107 @@ Cc: srinivas.kandagatla@linaro.org, mathias.nyman@intel.com, perex@perex.cz,
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
-On Wed, Mar 19, 2025 at 8:54=E2=80=AFAM Wesley Cheng <quic_wcheng@quicinc.c=
+On Wed, Mar 19, 2025 at 8:53=E2=80=AFAM Wesley Cheng <quic_wcheng@quicinc.c=
 om> wrote:
 >
-> Some platforms may want to limit the number of XHCI interrupters allocate=
-d.
-> This is passed to xhci-plat as a device property.  Ensure that this is re=
-ad
-> and the max_interrupters field is set.
+> Allow for the DWC3 host driver to pass along XHCI property that defines
+> how many interrupters to allocate.  This is in relation for the number of
+> event rings that can be potentially used by other processors within the
+> system.
 >
+> Acked-by: Thinh Nguyen <Thinh.Nguyen@synopsys.com>
 > Signed-off-by: Wesley Cheng <quic_wcheng@quicinc.com>
 
 Tested-by: Puma Hsu <pumahsu@google.com>
 
 > ---
->  drivers/usb/host/xhci-plat.c | 2 ++
->  1 file changed, 2 insertions(+)
+>  drivers/usb/dwc3/core.c | 12 ++++++++++++
+>  drivers/usb/dwc3/core.h |  2 ++
+>  drivers/usb/dwc3/host.c |  3 +++
+>  3 files changed, 17 insertions(+)
 >
-> diff --git a/drivers/usb/host/xhci-plat.c b/drivers/usb/host/xhci-plat.c
-> index 3155e3a842da..6dab142e7278 100644
-> --- a/drivers/usb/host/xhci-plat.c
-> +++ b/drivers/usb/host/xhci-plat.c
-> @@ -267,6 +267,8 @@ int xhci_plat_probe(struct platform_device *pdev, str=
-uct device *sysdev, const s
+> diff --git a/drivers/usb/dwc3/core.c b/drivers/usb/dwc3/core.c
+> index 66a08b527165..17ae5c13fe36 100644
+> --- a/drivers/usb/dwc3/core.c
+> +++ b/drivers/usb/dwc3/core.c
+> @@ -1699,6 +1699,7 @@ static void dwc3_get_properties(struct dwc3 *dwc)
+>         u8                      tx_thr_num_pkt_prd =3D 0;
+>         u8                      tx_max_burst_prd =3D 0;
+>         u8                      tx_fifo_resize_max_num;
+> +       u16                     num_hc_interrupters;
 >
->                 device_property_read_u32(tmpdev, "imod-interval-ns",
->                                          &xhci->imod_interval);
-> +               device_property_read_u16(tmpdev, "num-hc-interrupters",
-> +                                        &xhci->max_interrupters);
->         }
+>         /* default to highest possible threshold */
+>         lpm_nyet_threshold =3D 0xf;
+> @@ -1719,6 +1720,9 @@ static void dwc3_get_properties(struct dwc3 *dwc)
+>          */
+>         tx_fifo_resize_max_num =3D 6;
 >
->         /*
+> +       /* default to a single XHCI interrupter */
+> +       num_hc_interrupters =3D 1;
+> +
+>         dwc->maximum_speed =3D usb_get_maximum_speed(dev);
+>         dwc->max_ssp_rate =3D usb_get_maximum_ssp_rate(dev);
+>         dwc->dr_mode =3D usb_get_dr_mode(dev);
+> @@ -1765,6 +1769,12 @@ static void dwc3_get_properties(struct dwc3 *dwc)
+>                                 &tx_thr_num_pkt_prd);
+>         device_property_read_u8(dev, "snps,tx-max-burst-prd",
+>                                 &tx_max_burst_prd);
+> +       device_property_read_u16(dev, "num-hc-interrupters",
+> +                                &num_hc_interrupters);
+> +       /* DWC3 core allowed to have a max of 8 interrupters */
+> +       if (num_hc_interrupters > 8)
+> +               num_hc_interrupters =3D 8;
+> +
+>         dwc->do_fifo_resize =3D device_property_read_bool(dev,
+>                                                         "tx-fifo-resize")=
+;
+>         if (dwc->do_fifo_resize)
+> @@ -1851,6 +1861,8 @@ static void dwc3_get_properties(struct dwc3 *dwc)
+>         dwc->tx_max_burst_prd =3D tx_max_burst_prd;
+>
+>         dwc->tx_fifo_resize_max_num =3D tx_fifo_resize_max_num;
+> +
+> +       dwc->num_hc_interrupters =3D num_hc_interrupters;
+>  }
+>
+>  /* check whether the core supports IMOD */
+> diff --git a/drivers/usb/dwc3/core.h b/drivers/usb/dwc3/core.h
+> index aaa39e663f60..fbe83914d9f9 100644
+> --- a/drivers/usb/dwc3/core.h
+> +++ b/drivers/usb/dwc3/core.h
+> @@ -1083,6 +1083,7 @@ struct dwc3_scratchpad_array {
+>   * @tx_max_burst_prd: max periodic ESS transmit burst size
+>   * @tx_fifo_resize_max_num: max number of fifos allocated during txfifo =
+resize
+>   * @clear_stall_protocol: endpoint number that requires a delayed status=
+ phase
+> + * @num_hc_interrupters: number of host controller interrupters
+>   * @hsphy_interface: "utmi" or "ulpi"
+>   * @connected: true when we're connected to a host, false otherwise
+>   * @softconnect: true when gadget connect is called, false when disconne=
+ct runs
+> @@ -1330,6 +1331,7 @@ struct dwc3 {
+>         u8                      tx_max_burst_prd;
+>         u8                      tx_fifo_resize_max_num;
+>         u8                      clear_stall_protocol;
+> +       u16                     num_hc_interrupters;
+>
+>         const char              *hsphy_interface;
+>
+> diff --git a/drivers/usb/dwc3/host.c b/drivers/usb/dwc3/host.c
+> index b48e108fc8fe..1c513bf8002e 100644
+> --- a/drivers/usb/dwc3/host.c
+> +++ b/drivers/usb/dwc3/host.c
+> @@ -182,6 +182,9 @@ int dwc3_host_init(struct dwc3 *dwc)
+>         if (DWC3_VER_IS_WITHIN(DWC3, ANY, 300A))
+>                 props[prop_idx++] =3D PROPERTY_ENTRY_BOOL("quirk-broken-p=
+ort-ped");
+>
+> +       props[prop_idx++] =3D PROPERTY_ENTRY_U16("num-hc-interrupters",
+> +                                              dwc->num_hc_interrupters);
+> +
+>         if (prop_idx) {
+>                 ret =3D device_create_managed_software_node(&xhci->dev, p=
+rops, NULL);
+>                 if (ret) {
 >
