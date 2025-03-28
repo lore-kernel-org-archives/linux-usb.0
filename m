@@ -1,105 +1,127 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.14])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7CF7B4C6E
-	for <linux-usb@vger.kernel.org>; Fri, 28 Mar 2025 11:15:23 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5D496145B27;
+	Fri, 28 Mar 2025 11:24:48 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.14
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1743160523; cv=none; b=rvF5QFFxAjFkEeHxJTY0TEFhBHegG4cPlxyGvGlLpzpUXLjts3Dof56iKceGmCdDXw4PYVtO/p5e7Em6nLM62ZrLtYfA10kn4HasqPDFL9+JAvc0Snlkymle+Vt7qNsIij9l1evXWqhQ4cpXtpplssDY4FVz4QZxh450X0aj8Bs=
+	t=1743161090; cv=none; b=aOpKuJZW7rd7dWcq4wzDo9zyWg28rc2rCCp+jbb4biWME+QW+VZJElG9w3I37aRHPjo/oX1b+/xhVEPv7F3Dr7o/vWnQCOI3LuzxufcLb1RnaCMHNa6QvG0aoDOqQNFwVrK4c9wpLBI9j5rIKeDpXyiXnW5gJrte7trK7jywnfg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1743160523; c=relaxed/simple;
-	bh=RLSZEYpt43AZB2Xuu8p5//XoGLJY+KtCzXx+A9nN8o8=;
-	h=From:To:Subject:Date:Message-ID:Content-Type:MIME-Version; b=P5FpXw+hc8TNU17NwAC9V5N0fgx+oFjZQ34UI0O3AIDzMwvI4I6ReMw5zWuaV4zzzolq+7CzLJ8fvQnlMSDVa0n6zftFwLIWLpDOcZ08a9aFXrKV+6SXt5FVPlZiUTTvOrQb/w/O27+hB86cLDmLuJtkbwCXEYDSvwNhLj28Q9o=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Z4wshhNp; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1743161090; c=relaxed/simple;
+	bh=uOQtP6lL6Ge7T833eHO6JChDyq2YE0dX5lWBJluwnCM=;
+	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=Krd9mVZOjDLMQ2M2M1/f/bLSGWtkw+0MLbloIwpNceUlQFf/t0v+w8E+gwE3B1V0jnRfkb+p3Mo2q43bzNKBQnyPTXWw6WxvO1tBoxihWiEFkR6EEbk7Cb0yaW6ZDyLe8QE8er7x9TnF4su0F2v6O6AFUtT5dml0W6OdjYU/3rc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=jDTiM9p9; arc=none smtp.client-ip=192.198.163.14
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Z4wshhNp"
-Received: by smtp.kernel.org (Postfix) with ESMTPS id ED0EDC4CEE4
-	for <linux-usb@vger.kernel.org>; Fri, 28 Mar 2025 11:15:22 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1743160523;
-	bh=RLSZEYpt43AZB2Xuu8p5//XoGLJY+KtCzXx+A9nN8o8=;
-	h=From:To:Subject:Date:From;
-	b=Z4wshhNpgiZG+OuiZE3QvHw7iJWWO9B8jW6OZOVa7v3LnJCIh4HrfWZHVAsXNBq7I
-	 N3lLi2fayIEAOOOUyAp3IybEibpV2sRBnGXdBf60Vu6XWBf7wwddJNZ5Ac2PX8IJvC
-	 4Ju4FZPIS8MzR4EHCM5DXJF6vwUunYqQYPxjw+CMJubIV6uvjb3dOfn7MdxAxFms4a
-	 1Sfy1l/5TVuXj3XFqHFDC6t8kr4pfJyA25mXsXmIX0D1VWeEqriZ83UqhZpoCAOTMg
-	 1mqt7lKUfysNeJS1w0O+cS3hqN8pJx8rlPVWUUk0o2EDPWaEAa4Qgak9gm3abBOdH1
-	 Q6kfeilsCp4zg==
-Received: by aws-us-west-2-korg-bugzilla-1.web.codeaurora.org (Postfix, from userid 48)
-	id D9324C3279F; Fri, 28 Mar 2025 11:15:22 +0000 (UTC)
-From: bugzilla-daemon@kernel.org
-To: linux-usb@vger.kernel.org
-Subject: [Bug 219951] New: Missing null check in ast_vhub_init_dev
-Date: Fri, 28 Mar 2025 11:15:22 +0000
-X-Bugzilla-Reason: None
-X-Bugzilla-Type: new
-X-Bugzilla-Watch-Reason: AssignedTo drivers_usb@kernel-bugs.kernel.org
-X-Bugzilla-Product: Drivers
-X-Bugzilla-Component: USB
-X-Bugzilla-Version: 2.5
-X-Bugzilla-Keywords: 
-X-Bugzilla-Severity: normal
-X-Bugzilla-Who: bsdhenrymartin@gmail.com
-X-Bugzilla-Status: NEW
-X-Bugzilla-Resolution: 
-X-Bugzilla-Priority: P3
-X-Bugzilla-Assigned-To: drivers_usb@kernel-bugs.kernel.org
-X-Bugzilla-Flags: 
-X-Bugzilla-Changed-Fields: bug_id short_desc product version rep_platform
- op_sys bug_status bug_severity priority component assigned_to reporter
- cf_regression
-Message-ID: <bug-219951-208809@https.bugzilla.kernel.org/>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-X-Bugzilla-URL: https://bugzilla.kernel.org/
-Auto-Submitted: auto-generated
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="jDTiM9p9"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1743161088; x=1774697088;
+  h=from:to:cc:subject:date:message-id:mime-version:
+   content-transfer-encoding;
+  bh=uOQtP6lL6Ge7T833eHO6JChDyq2YE0dX5lWBJluwnCM=;
+  b=jDTiM9p9b6QZqQJDEI7knlaFh3lOZmPr/6zDA7tpLtNJjrQF4jXRPJyw
+   xh2LCnBofS45vpkf0M6qLA+lQRlJ7C3wNII/UTPOvvMrbwYrqeKbtr8j2
+   woJSnOrSnPL9eawzfn9e9huayznbD+h2cp+YImZtLXgKUIzuqnOg4JWIb
+   1EzSyqndMlAKDir8G60ThaBa87rIswdN954inzQhxVzBJQna0wZeaym9q
+   j3U2xiDViXpgmD5l1uRF6Y9jzGEqcDAgxLx8FUiDBxwaXocwyahG9Hr5A
+   67KwcTvx27UoCHOMI4OhYNRVZ6xedjCowXBpL/l/2bOn9H7QBP3XBrHlr
+   w==;
+X-CSE-ConnectionGUID: kzRkAIzDR9ewfjnXHfGS4g==
+X-CSE-MsgGUID: q/sVeovVSDOoR/BBi7VFow==
+X-IronPort-AV: E=McAfee;i="6700,10204,11385"; a="44702597"
+X-IronPort-AV: E=Sophos;i="6.14,283,1736841600"; 
+   d="scan'208";a="44702597"
+Received: from orviesa003.jf.intel.com ([10.64.159.143])
+  by fmvoesa108.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 28 Mar 2025 04:24:47 -0700
+X-CSE-ConnectionGUID: iGEpRbFDRTe1f3qqVfXKNQ==
+X-CSE-MsgGUID: 9iY+bSG4R2+xiE+9+p69xA==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.14,283,1736841600"; 
+   d="scan'208";a="130277056"
+Received: from win-uq4qlp9a0jq.iind.intel.com (HELO madhum.iind.intel.com) ([10.223.138.63])
+  by orviesa003.jf.intel.com with ESMTP; 28 Mar 2025 04:24:44 -0700
+From: madhu.m@intel.com
+To: gregkh@linuxfoundation.org
+Cc: heikki.krogerus@linux.intel.com,
+	linux-usb@vger.kernel.org,
+	pooja.katiyar@intel.com,
+	dmitry.baryshkov@linaro.org,
+	diogo.ivo@tecnico.ulisboa.pt,
+	lk@c--e.de,
+	linux-kernel@vger.kernel.org,
+	Madhu M <madhu.m@intel.com>
+Subject: [PATCH v2] usb: typec: ucsi: Add the UCSI commands in debugfs
+Date: Fri, 28 Mar 2025 17:20:41 +0530
+Message-Id: <20250328115041.555008-1-madhu.m@intel.com>
+X-Mailer: git-send-email 2.34.1
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
 
-https://bugzilla.kernel.org/show_bug.cgi?id=3D219951
+From: Madhu M <madhu.m@intel.com>
 
-            Bug ID: 219951
-           Summary: Missing null check in ast_vhub_init_dev
-           Product: Drivers
-           Version: 2.5
-          Hardware: All
-                OS: Linux
-            Status: NEW
-          Severity: normal
-          Priority: P3
-         Component: USB
-          Assignee: drivers_usb@kernel-bugs.kernel.org
-          Reporter: bsdhenrymartin@gmail.com
-        Regression: No
+Added the UCSI commands UCSI_GET_CAM_SUPPORTED, UCSI_GET_PD_MESSAGE,
+UCSI_GET_ATTENTION_VDO and UCSI_SET_USB support in debugfs to enhance
+PD/TypeC debugging capability.
 
-usb: gadget: udc: aspeed-vhub: dev.c
-Add NULL check in the ast_vhub_init_dev
+Signed-off-by: Madhu M <madhu.m@intel.com>
+Reviewed-by: Heikki Krogerus <heikki.krogerus@linux.intel.com>
+---
+Changes in v1:
+- Removed UCSI_READ_POWER_LEVEL and UCSI_SET_PDOS commands.
+- Modified commit messages.
+---
+ drivers/usb/typec/ucsi/debugfs.c | 4 ++++
+ drivers/usb/typec/ucsi/ucsi.h    | 2 ++
+ 2 files changed, 6 insertions(+)
 
-When devm_kasprintf() fails, it returns a NULL pointer. However, this return
-value is not properly checked in the function ast_vhub_init_dev.=20
+diff --git a/drivers/usb/typec/ucsi/debugfs.c b/drivers/usb/typec/ucsi/debugfs.c
+index eae2b18a2d8a..92ebf1a2defd 100644
+--- a/drivers/usb/typec/ucsi/debugfs.c
++++ b/drivers/usb/typec/ucsi/debugfs.c
+@@ -34,16 +34,20 @@ static int ucsi_cmd(void *data, u64 val)
+ 	case UCSI_CONNECTOR_RESET:
+ 	case UCSI_SET_SINK_PATH:
+ 	case UCSI_SET_NEW_CAM:
++	case UCSI_SET_USB:
+ 		ret = ucsi_send_command(ucsi, val, NULL, 0);
+ 		break;
+ 	case UCSI_GET_CAPABILITY:
+ 	case UCSI_GET_CONNECTOR_CAPABILITY:
+ 	case UCSI_GET_ALTERNATE_MODES:
++	case UCSI_GET_CAM_SUPPORTED:
+ 	case UCSI_GET_CURRENT_CAM:
+ 	case UCSI_GET_PDOS:
+ 	case UCSI_GET_CABLE_PROPERTY:
+ 	case UCSI_GET_CONNECTOR_STATUS:
+ 	case UCSI_GET_ERROR_STATUS:
++	case UCSI_GET_PD_MESSAGE:
++	case UCSI_GET_ATTENTION_VDO:
+ 	case UCSI_GET_CAM_CS:
+ 	case UCSI_GET_LPM_PPM_INFO:
+ 		ret = ucsi_send_command(ucsi, val,
+diff --git a/drivers/usb/typec/ucsi/ucsi.h b/drivers/usb/typec/ucsi/ucsi.h
+index 3a2c1762bec1..72b9d5a42961 100644
+--- a/drivers/usb/typec/ucsi/ucsi.h
++++ b/drivers/usb/typec/ucsi/ucsi.h
+@@ -123,9 +123,11 @@ void ucsi_connector_change(struct ucsi *ucsi, u8 num);
+ #define UCSI_GET_CONNECTOR_STATUS		0x12
+ #define UCSI_GET_CONNECTOR_STATUS_SIZE		152
+ #define UCSI_GET_ERROR_STATUS			0x13
++#define UCSI_GET_ATTENTION_VDO			0x16
+ #define UCSI_GET_PD_MESSAGE			0x15
+ #define UCSI_GET_CAM_CS			0x18
+ #define UCSI_SET_SINK_PATH			0x1c
++#define UCSI_SET_USB				0x21
+ #define UCSI_GET_LPM_PPM_INFO			0x22
+ 
+ #define UCSI_CONNECTOR_NUMBER(_num_)		((u64)(_num_) << 16)
+-- 
+2.34.1
 
-A NULL check should be added after the devm_kasprintf call to prevent poten=
-tial
-NULL pointer dereference error.
-
-CODE:
-        struct ast_vhub_dev *d =3D &vhub->ports[idx].dev;
-        struct device *parent =3D &vhub->pdev->dev;
-        int rc;
-
-        d->vhub =3D vhub;
-        d->index =3D idx;
-        d->name =3D devm_kasprintf(parent, GFP_KERNEL, "port%d", idx+1);
-        d->regs =3D vhub->regs + 0x100 + 0x10 * idx;
-
-        ast_vhub_init_ep0(vhub, &d->ep0, d);
-
---=20
-You may reply to this email to add a comment.
-
-You are receiving this mail because:
-You are watching the assignee of the bug.=
