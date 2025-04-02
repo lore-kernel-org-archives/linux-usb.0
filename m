@@ -1,272 +1,497 @@
-Received: from mx0a-00230701.pphosted.com (mx0a-00230701.pphosted.com [148.163.156.19])
+Received: from bg5.exmail.qq.com (bg5.exmail.qq.com [43.154.197.177])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4FE8617D2
-	for <linux-usb@vger.kernel.org>; Wed,  2 Apr 2025 00:16:05 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=148.163.156.19
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1743552972; cv=fail; b=OhNpB628cBswrh+b/uIdMH30IREOnhJb02JY8Bp3f+0EFd3QR05X8Zs5dIc/E6YSD63nmsMr9SVOhuQ5M6Hw0+0nY12rg4LlMyz4Vhk/8CWfx0UNyLzRYAxnxCNfdVcEhsBAyUGI479k+TJPh2h4NKlHbn9u9oMtyJY0XfeQyzI=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1743552972; c=relaxed/simple;
-	bh=gWm6TAlAADIYuSNBM3LOa3tNc9SIdpCf5LpvUTEsPAs=;
-	h=From:To:CC:Subject:Date:Message-ID:References:In-Reply-To:
-	 Content-Type:MIME-Version; b=SuVhPftO7jbEt9ThpAOlSQ4KaWUFJq1rSUP3Q5JmnZ3M9/ctZF31VmoFhDeeCf94JzCwz/IaxVMcqEKSpUIZNiNsENmyVyHIEbjmrn8JSIqm4jOp+CpYdNPo9ah9f3EOSPWy74daSyXieUuSLz808sYJegdeW/KPvkqG63w/XkQ=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=synopsys.com; spf=pass smtp.mailfrom=synopsys.com; dkim=pass (2048-bit key) header.d=synopsys.com header.i=@synopsys.com header.b=Iel34tuv; dkim=pass (2048-bit key) header.d=synopsys.com header.i=@synopsys.com header.b=k/lKBbx7; dkim=fail (1024-bit key) header.d=synopsys.com header.i=@synopsys.com header.b=KNG9pbs8 reason="signature verification failed"; arc=fail smtp.client-ip=148.163.156.19
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=synopsys.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=synopsys.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E19EAEEB2;
+	Wed,  2 Apr 2025 02:33:00 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=43.154.197.177
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1743561186; cv=none; b=U5CA/1ss6b+FCKHeuZ+7g791Z+FpgkgQTqooqppFfQCXBuNC4pps12yHgDCjV/rO+l9SAYI/0YWJhhDtx/30lfIMLX44vNdih8eQHDZU6CjouN0r9qJ44GiVXI4B9JFiTFbR5DkdMfCOUTt4lIhkBb1Q1+rxE1cLow+AVjwTtTM=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1743561186; c=relaxed/simple;
+	bh=EAiy6oQESp4bH9RUWapq0zzIPxcPEcBVLvInJtCoZL0=;
+	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=TKzcxgaZ+OAQJjuUHbJm2WVQxUD/nRfqPMObScaROetMGKu1KVZ2py2aMt+79nrR9gI+0fkFzTcOPcKXVCCiAuGXHpDP0A8Kujxbs7JuV4Csb5aYRyMWW4C6w8X5cIp9aottHZWbIKJ4AUb5PTNUrfZfvTbXcXLW+VbZKPweoy0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=uniontech.com; spf=pass smtp.mailfrom=uniontech.com; dkim=pass (1024-bit key) header.d=uniontech.com header.i=@uniontech.com header.b=GfUeAtHn; arc=none smtp.client-ip=43.154.197.177
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=uniontech.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=uniontech.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=synopsys.com header.i=@synopsys.com header.b="Iel34tuv";
-	dkim=pass (2048-bit key) header.d=synopsys.com header.i=@synopsys.com header.b="k/lKBbx7";
-	dkim=fail reason="signature verification failed" (1024-bit key) header.d=synopsys.com header.i=@synopsys.com header.b="KNG9pbs8"
-Received: from pps.filterd (m0098571.ppops.net [127.0.0.1])
-	by mx0a-00230701.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 531Iltq3013465;
-	Tue, 1 Apr 2025 16:49:18 -0700
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=synopsys.com; h=
-	cc:content-id:content-transfer-encoding:content-type:date:from
-	:in-reply-to:message-id:mime-version:references:subject:to; s=
-	pfptdkimsnps; bh=gWm6TAlAADIYuSNBM3LOa3tNc9SIdpCf5LpvUTEsPAs=; b=
-	Iel34tuvsgl8Y1utmRh5GpbUO9fpbRAS8p4eW5nLMQ/nxqIRCQlMDBRuvv9M7NF/
-	/dxVNbhwnHxiYipV626XV+ZE8iB0OsWQUzCdt9mhd031CLHh1Rcg1EDTYlSyPPUQ
-	AehJ+/BsvQPgWi95ag6UumpsxLwSs9W1egO1ffII5uMx4btVY0QgVQA0h86In/fx
-	d9v9B4fYnRsvr12dyPOr8/AxwtDeCWS+imSGQ//ztyqeIq7ABlMOhT4s1OCIWSOF
-	iru47NhmR21HJFXuw6WbAha0myG6G3bMBNtxca5KT3pvUG5i87s7mpGshD6wCK7v
-	p/yYala/0YX2Z+DIq+mqiA==
-Received: from smtprelay-out1.synopsys.com (smtprelay-out1.synopsys.com [149.117.87.133])
-	by mx0a-00230701.pphosted.com (PPS) with ESMTPS id 45pfvpqrsq-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Tue, 01 Apr 2025 16:49:17 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=synopsys.com; s=mail;
-	t=1743551357; bh=gWm6TAlAADIYuSNBM3LOa3tNc9SIdpCf5LpvUTEsPAs=;
-	h=From:To:CC:Subject:Date:References:In-Reply-To:From;
-	b=k/lKBbx71V410dWehcX2NwhckR/raWH7qISVB7K7svuXRg1rEOt5saBYRoUTuKJ1F
-	 7xy4V6gLJif45hW2aYWZWA+TbBz9s0QtpJCotEpqCTxwbZ+Pr2A1M8ew1//o8oHIwO
-	 f+jnP9roRr+2Pe2vzBYsvERpfi77D5JGjfPMsm+ktiPyVXpLmmLHX8XxTkEe7oxKgX
-	 IZg0Ngoq6gZkP3SN4kYznb+zK7jJvCdbOQ5DaqaibeAAh/YIjzml6AiNZ+M1qnNz/6
-	 4tQ0avEP7wEYhAwgIWT13lrcy5KVd8UCPYm+Vq51UlHcpSAtJR7F9l+noj2iZveVGB
-	 MGL11wQEhCBAw==
-Received: from mailhost.synopsys.com (badc-mailhost3.synopsys.com [10.192.0.81])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (2048 bits)
-	 client-signature RSA-PSS (2048 bits))
-	(Client CN "mailhost.synopsys.com", Issuer "SNPSica2" (verified OK))
-	by smtprelay-out1.synopsys.com (Postfix) with ESMTPS id 2911940226;
-	Tue,  1 Apr 2025 23:49:17 +0000 (UTC)
-Received: from o365relay-in.synopsys.com (us03-o365relay3.synopsys.com [10.4.161.139])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits))
-	(Client CN "o365relay-in.synopsys.com", Issuer "Entrust Certification Authority - L1K" (not verified))
-	by mailhost.synopsys.com (Postfix) with ESMTPS id 70FCAA007A;
-	Tue,  1 Apr 2025 23:49:16 +0000 (UTC)
-Authentication-Results: o365relay-in.synopsys.com; dmarc=pass (p=reject dis=none) header.from=synopsys.com
-Authentication-Results: o365relay-in.synopsys.com; spf=pass smtp.mailfrom=synopsys.com
-Authentication-Results: o365relay-in.synopsys.com;
-	dkim=pass (1024-bit key; unprotected) header.d=synopsys.com header.i=@synopsys.com header.a=rsa-sha256 header.s=selector1 header.b=KNG9pbs8;
-	dkim-atps=neutral
-Received: from NAM11-BN8-obe.outbound.protection.outlook.com (mail-bn8nam11lp2169.outbound.protection.outlook.com [104.47.58.169])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange ECDHE (P-384) server-signature RSA-PSS (2048 bits) server-digest SHA256
-	 client-signature RSA-PSS (2048 bits) client-digest SHA256)
-	(Client CN "mail.protection.outlook.com", Issuer "DigiCert Cloud Services CA-1" (verified OK))
-	by o365relay-in.synopsys.com (Postfix) with ESMTPS id CF63A401D0;
-	Tue,  1 Apr 2025 23:49:15 +0000 (UTC)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=KNHV5BvS3g+U5/pR8LazqSNepk+jZsStO0xd73qgWQ/eAEjv5rQSW1DmtRuWYhJMIZlJINrSOohzheEpBakiVjJsCEAQvvIn5O/NQKfg6RMIX7NKdZ9Ng5gkjdTTXPV2IZJRP6J8CzZPrEs+4p5BSpdvONbOV67jwE7eWLTCKrYC76BttTHGqFqxhIE109uQ98EbZvKgpDtEiirhQsLwZTnSDJ6YI891NjnOaWv+XYxRSTxaS9WhX1XdVzDRvYWu3wn7KNuQeSVZI2MXtZXyYsWYP8ctOuW5LgXdJzsin2wA06Fj58tXKCLic41G/kTD8mgYpZQ8TaHIwIWtEIzi2g==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=gWm6TAlAADIYuSNBM3LOa3tNc9SIdpCf5LpvUTEsPAs=;
- b=dXZUmOnvh8DardPotfuG991GUacarYtzso/FGIThnQoGzSpQ0kRjyUgQk1TIu4HuRPKPour6VfLeX8n5092b4Dxexmz0HUKiqDzI/VdR7KPKRw0nzWe6s+1OPceofoV8aXLwJchwxfKej5WNAmLRw0+sV9zC+eX0c66edzw56bzSxe4L7RAa/sUa9dJws9gt5nGIAC17WezET3DN3+/BOV7xuL6Yr20s/e/E3Nqpl9lI3R329ptaYVykS1hS7aFP6tsE7eEhJHNgIRn+sxrxAZE8arfitAvxb7KjHdddEtwT0z0Y9OLeVf7FzLwS5GMbHl4tcy7k/Z0KKUt9jiGU/A==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=synopsys.com; dmarc=pass action=none header.from=synopsys.com;
- dkim=pass header.d=synopsys.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=synopsys.com;
- s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=gWm6TAlAADIYuSNBM3LOa3tNc9SIdpCf5LpvUTEsPAs=;
- b=KNG9pbs8lS9lrhuRddraCvMa+piTEHjKoM9+B3cCfwxzxDBCGSnl5yvqw+JRlA1+DessmoYECmpB4SkKamqcst0tV94AUAKzN2CuHMw65eSJBZt9ox4xuU29brfswbKFcTyndLuVydJ0CuPH2zXXLqEGY+seULIW+zjQGmOTsUw=
-Received: from LV2PR12MB5990.namprd12.prod.outlook.com (2603:10b6:408:170::16)
- by IA0PR12MB9046.namprd12.prod.outlook.com (2603:10b6:208:405::17) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8534.44; Tue, 1 Apr
- 2025 23:49:11 +0000
-Received: from LV2PR12MB5990.namprd12.prod.outlook.com
- ([fe80::3d09:f15f:d888:33a8]) by LV2PR12MB5990.namprd12.prod.outlook.com
- ([fe80::3d09:f15f:d888:33a8%3]) with mapi id 15.20.8534.048; Tue, 1 Apr 2025
- 23:49:11 +0000
-X-SNPS-Relay: synopsys.com
-From: Thinh Nguyen <Thinh.Nguyen@synopsys.com>
-To: Frode Isaksen <fisaksen@baylibre.com>
-CC: "linux-usb@vger.kernel.org" <linux-usb@vger.kernel.org>,
-        Thinh Nguyen <Thinh.Nguyen@synopsys.com>,
-        "gregkh@linuxfoundation.org" <gregkh@linuxfoundation.org>,
-        Frode Isaksen <frode@meta.com>
-Subject: Re: [PATCH] usb: dwc3: ep0: prevent dwc3_request from being queued
- twice
-Thread-Topic: [PATCH] usb: dwc3: ep0: prevent dwc3_request from being queued
- twice
-Thread-Index: AQHbnyLuqf9Hu8uhE0ul0JwT/TVjubOPgwsA
-Date: Tue, 1 Apr 2025 23:49:11 +0000
-Message-ID: <20250401234908.npkn5h3vdyefkvxr@synopsys.com>
-References: <20250327141630.2085029-1-fisaksen@baylibre.com>
-In-Reply-To: <20250327141630.2085029-1-fisaksen@baylibre.com>
-Accept-Language: en-US
-Content-Language: en-US
-X-MS-Has-Attach:
-X-MS-TNEF-Correlator:
-x-ms-publictraffictype: Email
-x-ms-traffictypediagnostic: LV2PR12MB5990:EE_|IA0PR12MB9046:EE_
-x-ms-office365-filtering-correlation-id: 97a91e82-a8a8-4c2a-a82f-08dd7177cd17
-x-ms-exchange-senderadcheck: 1
-x-ms-exchange-antispam-relay: 0
-x-microsoft-antispam: BCL:0;ARA:13230040|1800799024|366016|376014|38070700018;
-x-microsoft-antispam-message-info:
- =?utf-8?B?T1h4L1NlOXpnQS8rbG5zQS9PNjdMZ1BvVzhRODRvb1JZUDlzZHVmNVZSeWc3?=
- =?utf-8?B?WjZBTUhid2l5TU0ybDBVZHNaRi9ibzFFWHNKdnN4akJOVHVmeEtIQS9wZkx0?=
- =?utf-8?B?Y0NkY0Y2OWNWajEvZml3VVp4aEhIaUdHeVBDeVZIVGozZEpzdWpEV0laNStC?=
- =?utf-8?B?TG00MWVzV1NPTUk4cGtzWmJLRFBLcU1mMCtNK3lpcHdVeWNKejZsMWFKTFFa?=
- =?utf-8?B?WmRzTDJLSlRKeDdxMDB0WWRNb0ZSTDEzSWFaVDZWa2x0N0Y5NUE2dGZOdkhJ?=
- =?utf-8?B?eTdxOXBjakpFZkhGcFovUWpxRTl2M3d2NlVNSnhzQ2c3MFQxUWhFZjlBaFh2?=
- =?utf-8?B?SWU4NXFPQzByMklHeDJseTR3VDBPbm5jOFFVeWRqOXc3UmV0RjJSZ2xLeEZx?=
- =?utf-8?B?bmozbDBNN0JYdkw1SC90MDhvWndqZndGZHhJZDJUN2FFMFFJeDRFNXhXR1RB?=
- =?utf-8?B?MnYvNmc5Y2dqQmRmeGdxTUxqTldIdGtqY1JDWHZNdnlXQ1ZIMzJ4aVVoVkRC?=
- =?utf-8?B?a1NGdVg0bFA4Z0JUOGlQclZzTWJ2RnRNOUFEcm9LWHFhKzFteXFmdWZpUUZz?=
- =?utf-8?B?ZUxsUHlPTDJXQkRoWmJKSEI5MGcrMFAyTzZ0NG9YWkdBWnJTT3l5RCtsSjR6?=
- =?utf-8?B?U2ZDbEhCRlJ0ekNXR1BLRGc1YW83cDBYYkRCamt4d2JBS1FxMXlTTEQ3YVpr?=
- =?utf-8?B?YjFVK1Y2aThtWjRIOHgzRVI1eFhhQjRMS0g3b094NW9YNnhIQ283cFhSRENJ?=
- =?utf-8?B?MkMxMnJUbTZLeUpVVUY0aVZ3MXhqSkJQaHR5ckd3eUF3SWNFaHoyMlR2SmJ5?=
- =?utf-8?B?eC9majJUd1BkMW1JcXpLK3RWeCtjMm4vblN1anlRUzdGdk9PcDh0cjcwM0lo?=
- =?utf-8?B?QU43UEJpMXA3amEvb0FSelR0Tnh0WUZOUmtJVitMYVRlSUI3UGJCLzNXQXNU?=
- =?utf-8?B?dE53aHpuYkZQYmYwNjRGejl6ZVVKeFZHbGhNRXFlak9CVERybk1BOU11ZmpP?=
- =?utf-8?B?TDd6Mis2REhHSVIwOTFpVjJ1bjIvVUFsQkdSeFBJTHUrZGZ3dTF0MlU1SWd3?=
- =?utf-8?B?T1M4WDduQkFjZWp6ZFdtUzh5SSsxcW1PbUhEbWducHlhYUZCbUlvUDdOUHR3?=
- =?utf-8?B?VFZyWVhlQklCQUhuR0dubWI3dHk3MFM0dzZOMHF2M3dEVEZES3ZFK210RmFW?=
- =?utf-8?B?VU1tTTQ4eDBxbzFnNXhoaEJLd1FlSjZLaXVzL2JZVWs3aERPdHVFWjV1WUht?=
- =?utf-8?B?ZnI0ejE0NUhraGdvaCs5bnNFMHFTMjQ0dko1bENiQmFPQXFHWi9kVGxiMm81?=
- =?utf-8?B?cExKeGlYd3lST0t6QXROQWRUejFaU05tUTRxL2xEYko2ZUllYTduY3JGRkQy?=
- =?utf-8?B?dzRYUEEwWE5EMXh2UUpjUzR6R05NVm9ud0FMeS95OUp6bmVldWdrRWdpUzNy?=
- =?utf-8?B?SFMvTVFrZW9VMW82MVFEVHVlY0JKRWdlQ085LzFGN1FZTVpuQXRYczhOcGt6?=
- =?utf-8?B?RTdBNHNNMHhCUUZrOGhkR3J2WnZrS1NjL3dLUWZzeXpmK1pBZFNydFBFR25n?=
- =?utf-8?B?SGVNTFg5WGN1TmJNb3krbTV3VGRxSXZrL2ovdUlvSHQwWCt3UUNETXZDOGls?=
- =?utf-8?B?cnNWNGg3ZithdEI4cmVhZ0NQRnc0VytXMGNBbHNPcTU3d1JPREtZNGJrRG8y?=
- =?utf-8?B?WEFXYW95TnppWVlCZWx4YmdDb1JxcklXQWJFdjRzcUpHRG52MVA1VXEyUCtU?=
- =?utf-8?B?MW1rUVZjblZrNHZYUm50R2hBeCs1Q3BiK1hrR0ZKeGRuT0M1OW43eVlsM2po?=
- =?utf-8?B?VUJFWmJnSUVjOGN3czJ6eS9SMmFTWVpqQXFYeFIvNEpLWXU3OHBPMDhDSU1H?=
- =?utf-8?B?MlVEcGw1UUltNEhOSWQ5WWI5SlUzNGFubFhDQk00bGFURkFySUJTNEI5ck84?=
- =?utf-8?Q?rCGwLuPWb6E=3D?=
-x-forefront-antispam-report:
- CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:LV2PR12MB5990.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(1800799024)(366016)(376014)(38070700018);DIR:OUT;SFP:1101;
-x-ms-exchange-antispam-messagedata-chunkcount: 1
-x-ms-exchange-antispam-messagedata-0:
- =?utf-8?B?aGEzTUNMZktUOXBOQWpSUkpnVytkMWloVlFVdUpGdEl4cm1PQXpVRTU5Q3I1?=
- =?utf-8?B?T01oZWExek1qcENEaXk1dUdiUUc5UTdKSGY3bTNrTmZBdWc3cVRmczRVY2tC?=
- =?utf-8?B?WlRZQ1RubE9iUjAwcVB1QWQ5TG9nR1V5R2xOT1ZUR25NOGlGZUxvK0pMYWQ5?=
- =?utf-8?B?d1FjQjBNRlp4aW9RQXRpdU0rWk5zN2E4ME81ZTc1UjBRZUoxMnp4QUx4WWp3?=
- =?utf-8?B?OHl0VEQvbHBadFNCN1RNQ0JrR29ydk8wTG5aeUJ6YUNKaTRFN2VPak5PTW0r?=
- =?utf-8?B?QmpZYkxOK3JXQ2lXOVNacGQydi90aDNtd2dhQ09HamF2RU9QS2xJR1VINmg3?=
- =?utf-8?B?aFJWcDg3VTBTQ2ZBVUtzdTVjdkZHc2VPR0lURFV0M3VIMDkyTUQyb1N2VEhl?=
- =?utf-8?B?SjMxSUdvTmVjL1lDY05OSWtGMm9ONDh2UllMM2VkcjVhekNKUWxOdkV4RmVF?=
- =?utf-8?B?aXNsaFRiVE5aYUoxZ29tdEovb2ZFRTBvZjdOenFTSElpWWFrOEF3U3hhL0s0?=
- =?utf-8?B?MGVTSXZ6dWtHOXNpcllDbWd5M2YzTzR3K3J5VVNXRytjZFRiemZYdHpWd1Nw?=
- =?utf-8?B?OFQxUVZ4d01oS0x4TlpwRHJGYTM2ZGJIRG52VXE4Q1dnS3hwRldMUGlFM044?=
- =?utf-8?B?TFB0dFRNRnJDR2VVNEQzUURMOVJFYktRTG1hWHppMUUxWHQyaDgyMFVjYW9X?=
- =?utf-8?B?NURWd2RUckg0eG51UFMzVWRBdG11T2FHNG04dmtLcUQwL1VjOE5sRkxPVUh4?=
- =?utf-8?B?WVg4MFBPZUd5NjVKN0lCRC9RUFFPUkdEN1hKTzREYmc2RFROT0JKbURwMVJZ?=
- =?utf-8?B?dzB3MmdMdGdpWEhkVDNKSlN6SDhjN0lOU0NrRURHdnlMYjZWUWVFNFNUeHEw?=
- =?utf-8?B?UXY0N05Qd1liY1N6UzJxalZuSm5XV3ovUVRUcDFWYTBLamZheFBuVi9JMzhT?=
- =?utf-8?B?Wi9INXB0OGlSdWt4RVFFMnMrSWJoODRra2lSNCt5dyttcTNEVnd4Uk93SXdw?=
- =?utf-8?B?WUo5WEpLaklNQXAvMlQ5UGdObU1hZEV3VXMzd3NlZDFQMGlpMmRkLzlFZTFG?=
- =?utf-8?B?SCtUN2dlZVh5aDJYYmhRbW1nNlBFNlQzRjJLTVRlUXlzRnBCeTF4YW1oeHQ0?=
- =?utf-8?B?eTVNeFNPRFVseXB1S2ZacDNMSDk2ZlIvYUxFdGtwSjdhb3U0bGJFNGZuT3hZ?=
- =?utf-8?B?b25ycCt5ODNEMlhiMEhIYUFOdWFMbUtxQ1I3bjB2Q1BGWTJHdEo0TjNVa3Ja?=
- =?utf-8?B?eFc1Zjd6QTBTQnhWUWVKV1hRSVdmdGUwVFV3TWNsSXNVMUpSMEJDV0pUa2dO?=
- =?utf-8?B?QnhTZXhtSXFFdWZRTnFybjkwQnFSMDhrVlh6YWxXcGdUc0tVQU5xYnI0ek15?=
- =?utf-8?B?RkdXR0Q2cDM2UTFqdjdZV0k0azB6VTV2SGJtclIzNGptWlgzdnpwSDUwVUl2?=
- =?utf-8?B?SjkydDNXQ0JEZE5ldzZVY1oxSmtobGkxaEV1azVpNWxLd0IzTUw1cmVuMFhW?=
- =?utf-8?B?Sm9hbzMxczBCNk9ZUGZOMExEcDJSUmxlaDI4cytBcjVKV0c4Z3hYaFJpQkZ1?=
- =?utf-8?B?bEVXck1vQXlCSjIwcDBSS3FkNmFkbGpZT0l3cmJJVStYMjRyRzhQakJmVGMy?=
- =?utf-8?B?MFZhYUZSdDFtNjhGcmM3SFBaUW9vcE9SVjZKSXJSQ1dZOVBEcXhoc2grUUR2?=
- =?utf-8?B?aGY2MG1NcXJRNjlsbWdlQUw1VXdyZHBLTXp3RWI3dld2L0VIMXdFNDNtSzdM?=
- =?utf-8?B?cThMdThRaW9qeHRLbkxodlVETW9LbGNzRnhtNElyVUZJMDY4c1VjYUVMZy9K?=
- =?utf-8?B?ZnlrdUNWakJQWXJMbEwxR2dsL0tHZUMzcTFjSUNiL0V6YThrQ3pQYkt1STIr?=
- =?utf-8?B?b2NNd0dxYVVRRGZEQlMwSU5UZy9NS0JTRThvWXRXS29KbjdoeExSMmRjNm5P?=
- =?utf-8?B?b2NhNGdLbWpNK1U5MDM4ekFIcmxoaGhiZ2dJY3ZmOU8zRk5BanQ5Z2FpYjhV?=
- =?utf-8?B?b1JDWTAwNDRMNjJDVENuQi9YeDA4Mk5XZTJDQ3Nabmp2Q01BTlRBMUtqZzEx?=
- =?utf-8?B?Q2pjdXVLU1QxaE8zM1lqb0QzRjJGNHExUnBIUW9TN1BVb0tuM01SaHZwK0JN?=
- =?utf-8?Q?xAPJ92NVP1o0iV2hzKbH7mx8q?=
-Content-Type: text/plain; charset="utf-8"
-Content-ID: <3D7386AB7B9B85418841EC238853AC3E@namprd12.prod.outlook.com>
-Content-Transfer-Encoding: base64
+	dkim=pass (1024-bit key) header.d=uniontech.com header.i=@uniontech.com header.b="GfUeAtHn"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=uniontech.com;
+	s=onoh2408; t=1743561161;
+	bh=eGU5KbXO6e1/HojDQxT8SCCrYwesKSvunfoPBk+eObk=;
+	h=From:To:Subject:Date:Message-Id:MIME-Version;
+	b=GfUeAtHnLGK9MJQ7Cw+iGUwjPive3iXdhoQ+eAglrx5VIsNLTDjH0PUwqCurH8asU
+	 Q8VYbr+7NSOG9YYg/USABt2uwrbOfayQsTcSomvJMYFtoX3jh0WQPy4IIg0MEiUcFB
+	 Z81V3pq8RtAypkbu0Q6hD7tfKZowEukTMk77OJCY=
+X-QQ-mid: bizesmtpip4t1743561052tc8e308
+X-QQ-Originating-IP: jKwJ6CYMPd9lPExsLpd+vLwoRtPbgYC/T8e0Byx4OGw=
+Received: from localhost.localdomain ( [localhost])
+	by bizesmtp.qq.com (ESMTP) with 
+	id ; Wed, 02 Apr 2025 10:30:50 +0800 (CST)
+X-QQ-SSF: 0000000000000000000000000000000
+X-QQ-GoodBg: 1
+X-BIZMAIL-ID: 15527068167197107366
+EX-QQ-RecipientCnt: 7
+From: raoxu <raoxu@uniontech.com>
+To: mathias.nyman@intel.com,
+	gregkh@linuxfoundation.org
+Cc: linux-usb@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	wangyuli@uniontech.com,
+	zhanjun@uniontech.com,
+	Xu Rao <raoxu@uniontech.com>
+Subject: [RESEND PATCH V6] usb:xhci: Add debugfs support for xHCI port bandwidth
+Date: Wed,  2 Apr 2025 10:30:47 +0800
+Message-Id: <20250402023047.26719-1-raoxu@uniontech.com>
+X-Mailer: git-send-email 2.20.1
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-MS-Exchange-AntiSpam-ExternalHop-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-ExternalHop-MessageData-0:
-	MNCEeEaWZyxg0xzA/YF6T4thkEp10qifVtnVoB7Ei0m0cIpreiNT1K24XACOyDHv76gM+lFKa9Kwh96itCZzouiE1DGVUqYd7ZjM7GqBMiFFfEEl3FE8wpR54POXkrsBGGh0cg/QqEI3JeTmWhIQ+rmbj1ZC/Y9uT0JXozzHm+OxY1F8r5TExxjjkozBt7oXYc8K6JqEfy5MwApIH0RI3F3kOfbjpPlj9WVM7NVnQDew/tcTg7c9siZap+KzM10HhkZ4/FI0GfEuVmgu2rvNRpggYQt6vAyKeFPQDMcrg7j04/8jt67MZBvQFIAx+WUnz45OwgO8OydDbeRJa436IqUZJtzhDM6aQm8hs0ru6BuBcPmlEYdhvV3bj+ZdsH61pYvZ/WC6GiD5QS0RFvNFEgWx5ryS77RP8UVu2pG6wETuC9sGfj7IjGStyxGHEONjevNLF4LvVWTgQ0jdiqOli6wYzk29dhBPSe/OeAcPNYvKkb9S9wgneiu0eMv2SJxqEk0bTqDnkRIS2n8+JW+YrGHjZ87hZujnWMuBXevYuFZGY+eAx9JnjnI1eoq1uFe36+EvlvC853qHGwYvdLOzx4+2JvG7x8b7OtJIv8GPlf62dpbgTu74SMDjWTiiemqoRsI8jbO2G+LyBsZJjU/pQA==
-X-OriginatorOrg: synopsys.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-AuthSource: LV2PR12MB5990.namprd12.prod.outlook.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 97a91e82-a8a8-4c2a-a82f-08dd7177cd17
-X-MS-Exchange-CrossTenant-originalarrivaltime: 01 Apr 2025 23:49:11.2254
- (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: c33c9f88-1eb7-4099-9700-16013fd9e8aa
-X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: /YE+RXA9cnRThBmdHjkgOaYJJhnuliIyBFACixY8L+0YJnCQixU+9EQO2p3oYjaCvLI2a1jH3cs4JhhP6ggDZw==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: IA0PR12MB9046
-X-Proofpoint-ORIG-GUID: SBs0AUFdW2dWVMq4Xd-AKzNG_rzyE79g
-X-Authority-Analysis: v=2.4 cv=Y7/4sgeN c=1 sm=1 tr=0 ts=67ec7b7d cx=c_pps a=t4gDRyhI9k+KZ5gXRQysFQ==:117 a=t4gDRyhI9k+KZ5gXRQysFQ==:17 a=lCpzRmAYbLLaTzLvsPZ7Mbvzbb8=:19 a=wKuvFiaSGQ0qltdbU6+NXLB8nM8=:19 a=Ol13hO9ccFRV9qXi2t6ftBPywas=:19 a=xqWC_Br6kY4A:10
- a=IkcTkHD0fZMA:10 a=XR8D0OoHHMoA:10 a=H5OGdu5hBBwA:10 a=qPHU084jO2kA:10 a=VabnemYjAAAA:8 a=Ylell4bZ2m-pHLxnI0kA:9 a=QEXdDO2ut3YA:10 a=gKebqoRLp9LExxC7YDUY:22
-X-Proofpoint-GUID: SBs0AUFdW2dWVMq4Xd-AKzNG_rzyE79g
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1095,Hydra:6.0.680,FMLib:17.12.68.34
- definitions=2025-04-01_10,2025-04-01_01,2024-11-22_01
-X-Proofpoint-Spam-Details: rule=outbound_active_cloned_notspam policy=outbound_active_cloned score=0
- mlxscore=0 spamscore=0 phishscore=0 mlxlogscore=999 impostorscore=0
- lowpriorityscore=0 priorityscore=1501 bulkscore=0 malwarescore=0
- adultscore=0 clxscore=1015 suspectscore=0 classifier=spam authscore=0
- authtc=n/a authcc= route=outbound adjust=0 reason=mlx scancount=1
- engine=8.19.0-2502280000 definitions=main-2504010147
+Content-Transfer-Encoding: 8bit
+X-QQ-SENDSIZE: 520
+Feedback-ID: bizesmtpip:uniontech.com:qybglogicsvrgz:qybglogicsvrgz7a-0
+X-QQ-XMAILINFO: NIvXgkk7mfUglAlRqZUtKE4p1EzyqTOIDUk1Y3wKzf4xzV8mcIY43un/
+	7QRkmkCHdf9hg+PXTV7ls7Gj5RLKD4ZzM+wlSTOxVFJb5HDyXjXnYbLQMRcHNaKgOHxqve5
+	6mVHtD/+9GN2pwnxAMc1FkNdwgVljGcH4ZjtSdleQBQtJRwc2T9PvQENC6R+LNLi9LigxP0
+	Q2Y0KH5ES+b/PXRU2IoFyyGxHpZAkmZPyZNaFeB9NRyp1GH2ZOHQC3KaAvbAxp3MPZ7MdxW
+	s7nOGmyIIX9yT2Y/TpPN+jfzLo+sRUFF/EKe8hdJClkGmjUNIgXbVJZyKCRogUmU8mHcKOH
+	dWz9ZrTU+uSuM5OZLcrD7pLzVfoI8A+TSf9G8D+4bMCxqAcfi0w2DSV7gwYbCxDxAQX64g5
+	GaBQX0P7syYJ9+RrGTbBJ+hGK2KiwY76p8JDMYVq9inA06xGMkRFMTnZibSk4OsfudfY1gB
+	vbHnwAGNUp3+9ltrbEKFwLj2NGKvbr7w83+5er+sptDTCZ408Jbxw0T38X4aKJ0blIG8gn6
+	qkPouk1UxJx+a5rO5eAyXxeCufqWS2po53XGAACbGoj2oIEZcDnFtdoWEjoO2a0lXm+HZZz
+	T5lXMhfgWeFQ3F/Wj26PS0efHvZh0THVV7Pd4rkjXcNST/MLXCV2lfkhZTurNuI3vHYUg9+
+	kYRuVII9GeSMsrMk31fIxGy95uut1du+Fjg8TzGiLTyMlJtP286yDAiWWXNdALREHqGj7cH
+	3Qetsjcgf2E7FvCNT9166AzeS561NTlDP58CpAyPs1xpaDfr7JJNzTN1C0Y6zE+CTdkzbek
+	RHkOIU46S2i1YT3dQygsAuiJHYJG5kjjIhKuXvb1VK3bCMjJp49ElwfgNjthQERi5fN2bRz
+	UANbX38ERA5sigys32LN7AOTz/yk1vnIF+OvngcryRjyyeedU/+tW00kqnEFBXxhW1kDIod
+	yjeRk2ktlQFLj0FK1CeEQHuP0nvtgdcHLYMq9q6b+OMOYfQOnRmNU23uIQD9o0wj0ud2b/t
+	aLP+Mbox2W1V1sRko8m8Q9p0Tuxso=
+X-QQ-XMRINFO: NS+P29fieYNw95Bth2bWPxk=
+X-QQ-RECHKSPAM: 0
 
-T24gVGh1LCBNYXIgMjcsIDIwMjUsIEZyb2RlIElzYWtzZW4gd3JvdGU6DQo+IEZyb206IEZyb2Rl
-IElzYWtzZW4gPGZyb2RlQG1ldGEuY29tPg0KPiANCj4gUHJldmVudCBkd2MzX3JlcXVlc3QgZnJv
-bSBiZWluZyBxdWV1ZWQgdHdpY2UsIGJ5IGNoZWNraW5nDQo+IHJlcS0+c3RhdHVzLg0KPiBTaW1p
-bGFyIHRvIGNvbW1pdCBiMmI2ZDYwMTM2NWEgKCJ1c2I6IGR3YzM6IGdhZGdldDogcHJldmVudA0K
-PiBkd2MzX3JlcXVlc3QgZnJvbSBiZWluZyBxdWV1ZWQgdHdpY2UiKSBmb3Igbm9uLWVwMCBlbmRw
-b2ludHMuDQo+IENyYXNoIGxvZzoNCj4gbGlzdF9hZGQgZG91YmxlIGFkZDogbmV3PWZmZmZmZjg3
-YWIyYzc5NTAsIHByZXY9ZmZmZmZmODdhYjJjNzk1MCwNCj4gIG5leHQ9ZmZmZmZmODdhYjQ4NWI2
-MC4NCj4ga2VybmVsIEJVRyBhdCBsaWIvbGlzdF9kZWJ1Zy5jOjM1IQ0KPiBDYWxsIHRyYWNlOg0K
-PiBfX2xpc3RfYWRkX3ZhbGlkKzB4NzAvMHhjMA0KPiBfX2R3YzNfZ2FkZ2V0X2VwMF9xdWV1ZSsw
-eDcwLzB4MjI0DQo+IGR3YzNfZXAwX2hhbmRsZV9zdGF0dXMrMHgxMTgvMHgyMDANCj4gZHdjM19l
-cDBfaW5zcGVjdF9zZXR1cCsweDE0NC8weDMyYw0KPiBkd2MzX2VwMF9pbnRlcnJ1cHQrMHhhYy8w
-eDM0MA0KPiBkd2MzX3Byb2Nlc3NfZXZlbnRfZW50cnkrMHg5MC8weDcyNA0KPiBkd2MzX3Byb2Nl
-c3NfZXZlbnRfYnVmKzB4N2MvMHgzM2MNCj4gZHdjM190aHJlYWRfaW50ZXJydXB0KzB4NTgvMHg4
-Yw0KPiANCj4gU2lnbmVkLW9mZi1ieTogRnJvZGUgSXNha3NlbiA8ZnJvZGVAbWV0YS5jb20+DQo+
-IC0tLQ0KPiBUaGlzIGJ1ZyB3YXMgZGlzY292ZXJlZCwgdGVzdGVkIGFuZCBmaXhlZCAobm8gbW9y
-ZSBjcmFzaGVzIHNlZW4pIG9uIA0KPiBNZXRhIFF1ZXN0IDMgZGV2aWNlLiBBbHNvIHRlc3RlZCBv
-biBULkkuIEFNNjJ4IGJvYXJkLg0KPiANCj4gIGRyaXZlcnMvdXNiL2R3YzMvZXAwLmMgICAgfCA1
-ICsrKysrDQo+ICBkcml2ZXJzL3VzYi9kd2MzL2dhZGdldC5jIHwgMSArDQo+ICAyIGZpbGVzIGNo
-YW5nZWQsIDYgaW5zZXJ0aW9ucygrKQ0KPiANCj4gZGlmZiAtLWdpdCBhL2RyaXZlcnMvdXNiL2R3
-YzMvZXAwLmMgYi9kcml2ZXJzL3VzYi9kd2MzL2VwMC5jDQo+IGluZGV4IDY2NmFjNDMyZjUyZC4u
-ZTI2YzNhNjJkNDcwIDEwMDY0NA0KPiAtLS0gYS9kcml2ZXJzL3VzYi9kd2MzL2VwMC5jDQo+ICsr
-KyBiL2RyaXZlcnMvdXNiL2R3YzMvZXAwLmMNCj4gQEAgLTkxLDYgKzkxLDExIEBAIHN0YXRpYyBp
-bnQgX19kd2MzX2dhZGdldF9lcDBfcXVldWUoc3RydWN0IGR3YzNfZXAgKmRlcCwNCj4gIHsNCj4g
-IAlzdHJ1Y3QgZHdjMwkJKmR3YyA9IGRlcC0+ZHdjOw0KPiAgDQo+ICsJaWYgKFdBUk4ocmVxLT5z
-dGF0dXMgPCBEV0MzX1JFUVVFU1RfU1RBVFVTX0NPTVBMRVRFRCwNCg0KTGV0J3Mgbm90IHVzZSBX
-QVJOLiBQZXJoYXBzIGRldl93YXJuPw0KDQo+ICsJCQkJIiVzOiByZXF1ZXN0ICVwSyBhbHJlYWR5
-IGluIGZsaWdodFxuIiwNCj4gKwkJCQlkZXAtPm5hbWUsICZyZXEtPnJlcXVlc3QpKQ0KPiArCQly
-ZXR1cm4gLUVJTlZBTDsNCj4gKw0KPiAgCXJlcS0+cmVxdWVzdC5hY3R1YWwJPSAwOw0KPiAgCXJl
-cS0+cmVxdWVzdC5zdGF0dXMJPSAtRUlOUFJPR1JFU1M7DQo+ICAJcmVxLT5lcG51bQkJPSBkZXAt
-Pm51bWJlcjsNCj4gZGlmZiAtLWdpdCBhL2RyaXZlcnMvdXNiL2R3YzMvZ2FkZ2V0LmMgYi9kcml2
-ZXJzL3VzYi9kd2MzL2dhZGdldC5jDQo+IGluZGV4IDg5YTRkYzhlYmY5NC4uYzM0NDQ2ZDhjNTRm
-IDEwMDY0NA0KPiAtLS0gYS9kcml2ZXJzL3VzYi9kd2MzL2dhZGdldC5jDQo+ICsrKyBiL2RyaXZl
-cnMvdXNiL2R3YzMvZ2FkZ2V0LmMNCj4gQEAgLTMwMDIsNiArMzAwMiw3IEBAIHN0YXRpYyBpbnQg
-X19kd2MzX2dhZGdldF9zdGFydChzdHJ1Y3QgZHdjMyAqZHdjKQ0KPiAgCWR3Yy0+ZXAwX2JvdW5j
-ZWQgPSBmYWxzZTsNCj4gIAlkd2MtPmxpbmtfc3RhdGUgPSBEV0MzX0xJTktfU1RBVEVfU1NfRElT
-Ow0KPiAgCWR3Yy0+ZGVsYXllZF9zdGF0dXMgPSBmYWxzZTsNCj4gKwlkd2MtPmVwMF91c2JfcmVx
-LnN0YXR1cyA9IERXQzNfUkVRVUVTVF9TVEFUVVNfVU5LTk9XTjsNCj4gIAlkd2MzX2VwMF9vdXRf
-c3RhcnQoZHdjKTsNCj4gIA0KPiAgCWR3YzNfZ2FkZ2V0X2VuYWJsZV9pcnEoZHdjKTsNCj4gLS0g
-DQo+IDIuNDguMQ0KPiANCg0KSSdtIHN0aWxsIG5vdCBjbGVhciBob3cgdGhpcyBjYW4gaGFwcGVu
-LiBBcmUgeW91IHRlc3RpbmcgdGhpcyBhZ2FpbnN0DQptYWlubGluZT8gQ2FuIHlvdSBwcm92aWRl
-IHRoZSBkd2MzIHRyYWNlcG9pbnRzPw0KDQpUaGFua3MsDQpUaGluaA==
+From: Xu Rao <raoxu@uniontech.com>
+
+In many projects, you need to obtain the available bandwidth of the
+xhci roothub port. Refer to xhci rev1_2 and use the TRB_GET_BW
+command to obtain it.
+
+hardware tested:
+03:00.3 USB controller: Advanced Micro Devices, Inc. [AMD] Raven USB 3.1
+(prog-if 30 [XHCI])
+Subsystem: Huawei Technologies Co., Ltd. Raven USB 3.1
+Flags: bus master, fast devsel, latency 0, IRQ 30
+Memory at c0300000 (64-bit, non-prefetchable) [size=1M]
+Capabilities: [48] Vendor Specific Information: Len=08 <?>
+Capabilities: [50] Power Management version 3
+Capabilities: [64] Express Endpoint, MSI 00
+Capabilities: [a0] MSI: Enable- Count=1/8 Maskable- 64bit+
+Capabilities: [c0] MSI-X: Enable+ Count=8 Masked-
+Kernel driver in use: xhci_hcd
+
+test progress:
+1. cd /sys/kernel/debug/usb/xhci/0000:03:00.3/port_bandwidth# ls
+FS_BW  HS_BW  SS_BW
+2. test fs speed  device
+cat FS_BW
+port[1] available bw: 90%.
+port[2] available bw: 90%.
+port[3] available bw: 90%.
+port[4] available bw: 90%.
+port[5] available bw: 0%.
+port[6] available bw: 0%.
+port[7] available bw: 0%.
+port[8] available bw: 0%.
+plug in fs usb audio ID 0d8c:013c
+cat FS_BW
+port[1] available bw: 76%.
+port[2] available bw: 76%.
+port[3] available bw: 76%.
+port[4] available bw: 76%.
+port[5] available bw: 0%.
+port[6] available bw: 0%.
+port[7] available bw: 0%.
+port[8] available bw: 0%.
+3. test hs speed device
+cat HS_BW
+port[1] available bw: 79%.
+port[2] available bw: 79%.
+port[3] available bw: 79%.
+port[4] available bw: 79%.
+port[5] available bw: 0%.
+port[6] available bw: 0%.
+port[7] available bw: 0%.
+port[8] available bw: 0%.
+plug in hs usb video ID 0408:1040
+cat HS_BW
+port[1] available bw: 39%.
+port[2] available bw: 39%.
+port[3] available bw: 39%.
+port[4] available bw: 39%.
+port[5] available bw: 0%.
+port[6] available bw: 0%.
+port[7] available bw: 0%.
+port[8] available bw: 0%.
+4.cat SS_BW
+port[1] available bw: 0%.
+port[2] available bw: 0%.
+port[3] available bw: 0%.
+port[4] available bw: 0%.
+port[5] available bw: 90%.
+port[6] available bw: 90%.
+port[7] available bw: 90%.
+port[8] available bw: 90%.
+
+Signed-off-by: Xu Rao <raoxu@uniontech.com>
+---
+Changelog:
+ *v1->v2: modify the patch subject no code changes.
+  v2->v3: separate files in debugfs for each speed (SS HS FS).
+	  queue one command for each speed not queuing three commands on one file.
+	  print value from context not array on stack.
+  v3->v4: Fix compilation warnings for W=1 build. Delete unused variable
+  v4->v5: Add pm_runtime_get_sync operation before get port bandwidth.
+	  When obtaining port bandwidth, alloc a new command structure with
+	  context for each time.
+	  Create dma pool instead of allocating one shared.
+  v5->v6: The memory of port bandwidth context structure shall be aligned 16-
+	  byte not 8-byte
+---
+ drivers/usb/host/xhci-debugfs.c | 108 ++++++++++++++++++++++++++++++++
+ drivers/usb/host/xhci-mem.c     |  45 ++++++++++++-
+ drivers/usb/host/xhci-ring.c    |  13 ++++
+ drivers/usb/host/xhci.c         |  36 +++++++++++
+ drivers/usb/host/xhci.h         |  14 +++++
+ 5 files changed, 215 insertions(+), 1 deletion(-)
+
+diff --git a/drivers/usb/host/xhci-debugfs.c b/drivers/usb/host/xhci-debugfs.c
+index 1f5ef174abea..c6d44977193f 100644
+--- a/drivers/usb/host/xhci-debugfs.c
++++ b/drivers/usb/host/xhci-debugfs.c
+@@ -631,6 +631,112 @@ static void xhci_debugfs_create_ports(struct xhci_hcd *xhci,
+ 	}
+ }
+
++static int xhci_port_bw_show(struct xhci_hcd *xhci, u8 dev_speed,
++				struct seq_file *s)
++{
++	unsigned int			num_ports;
++	unsigned int			i;
++	int				ret;
++	struct xhci_container_ctx	*ctx;
++	struct usb_hcd			*hcd = xhci_to_hcd(xhci);
++	struct device			*dev = hcd->self.controller;
++
++	ret = pm_runtime_get_sync(dev);
++	if (ret < 0)
++		return ret;
++
++	num_ports = HCS_MAX_PORTS(xhci->hcs_params1);
++
++	ctx = xhci_alloc_port_bw_ctx(xhci, 0);
++	if (!ctx) {
++		pm_runtime_put_sync(dev);
++		return -ENOMEM;
++	}
++
++	/* get roothub port bandwidth */
++	ret = xhci_get_port_bandwidth(xhci, ctx, dev_speed);
++	if (ret)
++		goto err_out;
++
++	/* print all roothub ports available bandwidth
++	 * refer to xhci rev1_2 protocol 6.2.6 , byte 0 is reserved
++	 */
++	for (i = 1; i < num_ports+1; i++)
++		seq_printf(s, "port[%d] available bw: %d%%.\n", i,
++				ctx->bytes[i]);
++err_out:
++	pm_runtime_put_sync(dev);
++	xhci_free_port_bw_ctx(xhci, ctx);
++	return ret;
++}
++
++static int xhci_ss_bw_show(struct seq_file *s, void *unused)
++{
++	int ret;
++	struct xhci_hcd		*xhci = (struct xhci_hcd *)s->private;
++
++	ret = xhci_port_bw_show(xhci, USB_SPEED_SUPER, s);
++	return ret;
++}
++
++static int xhci_hs_bw_show(struct seq_file *s, void *unused)
++{
++	int ret;
++	struct xhci_hcd		*xhci = (struct xhci_hcd *)s->private;
++
++	ret = xhci_port_bw_show(xhci, USB_SPEED_HIGH, s);
++	return ret;
++}
++
++static int xhci_fs_bw_show(struct seq_file *s, void *unused)
++{
++	int ret;
++	struct xhci_hcd		*xhci = (struct xhci_hcd *)s->private;
++
++	ret = xhci_port_bw_show(xhci, USB_SPEED_FULL, s);
++	return ret;
++}
++
++static struct xhci_file_map bw_context_files[] = {
++	{"SS_BW",	xhci_ss_bw_show, },
++	{"HS_BW",	xhci_hs_bw_show, },
++	{"FS_BW",	xhci_fs_bw_show, },
++};
++
++static int bw_context_open(struct inode *inode, struct file *file)
++{
++	int			i;
++	struct xhci_file_map	*f_map;
++	const char		*file_name = file_dentry(file)->d_iname;
++
++	for (i = 0; i < ARRAY_SIZE(bw_context_files); i++) {
++		f_map = &bw_context_files[i];
++
++		if (strcmp(f_map->name, file_name) == 0)
++			break;
++	}
++
++	return single_open(file, f_map->show, inode->i_private);
++}
++
++static const struct file_operations bw_fops = {
++	.open			= bw_context_open,
++	.read			= seq_read,
++	.llseek			= seq_lseek,
++	.release		= single_release,
++};
++
++static void xhci_debugfs_create_bandwidth(struct xhci_hcd *xhci,
++					struct dentry *parent)
++{
++	parent = debugfs_create_dir("port_bandwidth", parent);
++
++	xhci_debugfs_create_files(xhci, bw_context_files,
++			  ARRAY_SIZE(bw_context_files),
++			  xhci,
++			  parent, &bw_fops);
++}
++
+ void xhci_debugfs_init(struct xhci_hcd *xhci)
+ {
+ 	struct device		*dev = xhci_to_hcd(xhci)->self.controller;
+@@ -681,6 +787,8 @@ void xhci_debugfs_init(struct xhci_hcd *xhci)
+ 	xhci->debugfs_slots = debugfs_create_dir("devices", xhci->debugfs_root);
+
+ 	xhci_debugfs_create_ports(xhci, xhci->debugfs_root);
++
++	xhci_debugfs_create_bandwidth(xhci, xhci->debugfs_root);
+ }
+
+ void xhci_debugfs_exit(struct xhci_hcd *xhci)
+diff --git a/drivers/usb/host/xhci-mem.c b/drivers/usb/host/xhci-mem.c
+index 92703efda1f7..31549b37f61e 100644
+--- a/drivers/usb/host/xhci-mem.c
++++ b/drivers/usb/host/xhci-mem.c
+@@ -484,6 +484,35 @@ void xhci_free_container_ctx(struct xhci_hcd *xhci,
+ 	kfree(ctx);
+ }
+
++struct xhci_container_ctx *xhci_alloc_port_bw_ctx(struct xhci_hcd *xhci,
++						    gfp_t flags)
++{
++	struct xhci_container_ctx *ctx;
++	struct device *dev = xhci_to_hcd(xhci)->self.sysdev;
++
++	ctx = kzalloc_node(sizeof(*ctx), flags, dev_to_node(dev));
++	if (!ctx)
++		return NULL;
++
++	ctx->size = GET_PORT_BW_ARRAY_SIZE;
++
++	ctx->bytes = dma_pool_zalloc(xhci->port_bw_pool, flags, &ctx->dma);
++	if (!ctx->bytes) {
++		kfree(ctx);
++		return NULL;
++	}
++	return ctx;
++}
++
++void xhci_free_port_bw_ctx(struct xhci_hcd *xhci,
++			     struct xhci_container_ctx *ctx)
++{
++	if (!ctx)
++		return;
++	dma_pool_free(xhci->port_bw_pool, ctx->bytes, ctx->dma);
++	kfree(ctx);
++}
++
+ struct xhci_input_control_ctx *xhci_get_input_control_ctx(
+ 					      struct xhci_container_ctx *ctx)
+ {
+@@ -1907,6 +1936,11 @@ void xhci_mem_cleanup(struct xhci_hcd *xhci)
+ 	xhci_dbg_trace(xhci, trace_xhci_dbg_init,
+ 			"Freed small stream array pool");
+
++	dma_pool_destroy(xhci->port_bw_pool);
++	xhci->port_bw_pool = NULL;
++	xhci_dbg_trace(xhci, trace_xhci_dbg_init,
++			"Freed xhci port bw array pool");
++
+ 	dma_pool_destroy(xhci->medium_streams_pool);
+ 	xhci->medium_streams_pool = NULL;
+ 	xhci_dbg_trace(xhci, trace_xhci_dbg_init,
+@@ -2463,7 +2497,16 @@ int xhci_mem_init(struct xhci_hcd *xhci, gfp_t flags)
+ 	 * will be allocated with dma_alloc_coherent()
+ 	 */
+
+-	if (!xhci->small_streams_pool || !xhci->medium_streams_pool)
++	/* refer to xhci rev1_2 protocol 5.3.3 max ports is 255.
++	 * refer to xhci rev1_2 protocol 6.4.3.14 port bandwidth buffer need
++	 * to be 16-byte aligned.
++	 */
++	xhci->port_bw_pool =
++		dma_pool_create("xHCI 256 port bw ctx arrays",
++			dev, GET_PORT_BW_ARRAY_SIZE, 16, 0);
++
++	if (!xhci->small_streams_pool || !xhci->medium_streams_pool ||
++		!xhci->port_bw_pool)
+ 		goto fail;
+
+ 	/* Set up the command ring to have one segments for now. */
+diff --git a/drivers/usb/host/xhci-ring.c b/drivers/usb/host/xhci-ring.c
+index 965bffce301e..0a01753075b4 100644
+--- a/drivers/usb/host/xhci-ring.c
++++ b/drivers/usb/host/xhci-ring.c
+@@ -1867,6 +1867,8 @@ static void handle_cmd_completion(struct xhci_hcd *xhci,
+ 	case TRB_NEC_GET_FW:
+ 		xhci_handle_cmd_nec_get_fw(xhci, event);
+ 		break;
++	case TRB_GET_BW:
++		break;
+ 	default:
+ 		/* Skip over unknown commands on the event ring */
+ 		xhci_info(xhci, "INFO unknown command type %d\n", cmd_type);
+@@ -4414,6 +4416,17 @@ int xhci_queue_configure_endpoint(struct xhci_hcd *xhci,
+ 			command_must_succeed);
+ }
+
++/* Queue a get root hub port bandwidth command TRB */
++int xhci_queue_get_port_bw(struct xhci_hcd *xhci,
++		struct xhci_command *cmd, dma_addr_t in_ctx_ptr,
++		u8 dev_speed, bool command_must_succeed)
++{
++	return queue_command(xhci, cmd, lower_32_bits(in_ctx_ptr),
++		upper_32_bits(in_ctx_ptr), 0,
++		TRB_TYPE(TRB_GET_BW) | DEV_SPEED_FOR_TRB(dev_speed),
++		command_must_succeed);
++}
++
+ /* Queue an evaluate context command TRB */
+ int xhci_queue_evaluate_context(struct xhci_hcd *xhci, struct xhci_command *cmd,
+ 		dma_addr_t in_ctx_ptr, u32 slot_id, bool command_must_succeed)
+diff --git a/drivers/usb/host/xhci.c b/drivers/usb/host/xhci.c
+index 45653114ccd7..fde774408a13 100644
+--- a/drivers/usb/host/xhci.c
++++ b/drivers/usb/host/xhci.c
+@@ -3088,6 +3088,42 @@ void xhci_reset_bandwidth(struct usb_hcd *hcd, struct usb_device *udev)
+ }
+ EXPORT_SYMBOL_GPL(xhci_reset_bandwidth);
+
++/* Get the available bandwidth of the ports under the xhci roothub */
++int xhci_get_port_bandwidth(struct xhci_hcd *xhci, struct xhci_container_ctx *ctx,
++		u8 dev_speed)
++{
++	struct xhci_command *cmd;
++	unsigned long flags;
++	int ret;
++
++	if (!ctx || !xhci)
++		return -EINVAL;
++
++	cmd = xhci_alloc_command(xhci, true, GFP_KERNEL);
++	if (!cmd)
++		return -ENOMEM;
++
++	cmd->in_ctx = ctx;
++
++	/* get xhci port bandwidth, refer to xhci rev1_2 protocol 4.6.15 */
++	spin_lock_irqsave(&xhci->lock, flags);
++
++	ret = xhci_queue_get_port_bw(xhci, cmd, ctx->dma, dev_speed, 0);
++	if (ret) {
++		spin_unlock_irqrestore(&xhci->lock, flags);
++		goto err_out;
++	}
++	xhci_ring_cmd_db(xhci);
++	spin_unlock_irqrestore(&xhci->lock, flags);
++
++	wait_for_completion(cmd->completion);
++err_out:
++	kfree(cmd->completion);
++	kfree(cmd);
++
++	return ret;
++}
++
+ static void xhci_setup_input_ctx_for_config_ep(struct xhci_hcd *xhci,
+ 		struct xhci_container_ctx *in_ctx,
+ 		struct xhci_container_ctx *out_ctx,
+diff --git a/drivers/usb/host/xhci.h b/drivers/usb/host/xhci.h
+index 8c164340a2c3..51bf99787ec9 100644
+--- a/drivers/usb/host/xhci.h
++++ b/drivers/usb/host/xhci.h
+@@ -586,6 +586,7 @@ struct xhci_stream_info {
+
+ #define	SMALL_STREAM_ARRAY_SIZE		256
+ #define	MEDIUM_STREAM_ARRAY_SIZE	1024
++#define	GET_PORT_BW_ARRAY_SIZE		256
+
+ /* Some Intel xHCI host controllers need software to keep track of the bus
+  * bandwidth.  Keep track of endpoint info here.  Each root port is allocated
+@@ -999,6 +1000,9 @@ enum xhci_setup_dev {
+ /* bits 16:23 are the virtual function ID */
+ /* bits 24:31 are the slot ID */
+
++/* bits 19:16 are the dev speed */
++#define DEV_SPEED_FOR_TRB(p)    ((p) << 16)
++
+ /* Stop Endpoint TRB - ep_index to endpoint ID for this TRB */
+ #define SUSPEND_PORT_FOR_TRB(p)		(((p) & 1) << 23)
+ #define TRB_TO_SUSPEND_PORT(p)		(((p) & (1 << 23)) >> 23)
+@@ -1554,6 +1558,7 @@ struct xhci_hcd {
+ 	struct dma_pool	*device_pool;
+ 	struct dma_pool	*segment_pool;
+ 	struct dma_pool	*small_streams_pool;
++	struct dma_pool	*port_bw_pool;
+ 	struct dma_pool	*medium_streams_pool;
+
+ 	/* Host controller watchdog timer structures */
+@@ -1837,6 +1842,10 @@ struct xhci_container_ctx *xhci_alloc_container_ctx(struct xhci_hcd *xhci,
+ 		int type, gfp_t flags);
+ void xhci_free_container_ctx(struct xhci_hcd *xhci,
+ 		struct xhci_container_ctx *ctx);
++struct xhci_container_ctx *xhci_alloc_port_bw_ctx(struct xhci_hcd *xhci,
++		gfp_t flags);
++void xhci_free_port_bw_ctx(struct xhci_hcd *xhci,
++		struct xhci_container_ctx *ctx);
+ struct xhci_interrupter *
+ xhci_create_secondary_interrupter(struct usb_hcd *hcd, unsigned int segs,
+ 				  u32 imod_interval);
+@@ -1907,6 +1916,11 @@ int xhci_queue_isoc_tx_prepare(struct xhci_hcd *xhci, gfp_t mem_flags,
+ int xhci_queue_configure_endpoint(struct xhci_hcd *xhci,
+ 		struct xhci_command *cmd, dma_addr_t in_ctx_ptr, u32 slot_id,
+ 		bool command_must_succeed);
++int xhci_queue_get_port_bw(struct xhci_hcd *xhci,
++		struct xhci_command *cmd, dma_addr_t in_ctx_ptr,
++		u8 dev_speed, bool command_must_succeed);
++int xhci_get_port_bandwidth(struct xhci_hcd *xhci, struct xhci_container_ctx *ctx,
++		u8 dev_speed);
+ int xhci_queue_evaluate_context(struct xhci_hcd *xhci, struct xhci_command *cmd,
+ 		dma_addr_t in_ctx_ptr, u32 slot_id, bool command_must_succeed);
+ int xhci_queue_reset_ep(struct xhci_hcd *xhci, struct xhci_command *cmd,
+--
+2.43.4
+
