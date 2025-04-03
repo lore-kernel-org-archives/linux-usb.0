@@ -1,16 +1,15 @@
 Received: from metis.whiteo.stw.pengutronix.de (metis.whiteo.stw.pengutronix.de [185.203.201.7])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4C8C8161320
-	for <linux-usb@vger.kernel.org>; Thu,  3 Apr 2025 22:43:16 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8DC1E1922FA
+	for <linux-usb@vger.kernel.org>; Thu,  3 Apr 2025 23:02:24 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.203.201.7
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1743720199; cv=none; b=ndFVRBQbPp+imapbEXP6NHVGAL5rPHzxF4cOSL+4ew6qUmXQz+Oee1JJZYO5t4XbE/G8hocSqOidDfq8L652bdvxyxg8F5C0y2QYMi7EsYz6NBGEQxamI/kYYLwyv79nrvZRnSxsa2b29fP9AwOfrQW+7M7RNCGhm7xZB+NpMFQ=
+	t=1743721347; cv=none; b=BETC3YKYLDStNu/vxa89WHbdgYKIFE4cLNJNjbtBgA9o4anbobsQBrX9WqUiy19q5WIoG+SJhQ3AXBcpG/09SUljaBcMh1uC94bu7e85CjyYL2cK0bGKElMPoYeI8VG9hTcxvfAgaRBd+v+oJZvFm2lit/paK/+gQpitFjJyP2s=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1743720199; c=relaxed/simple;
-	bh=/saiKlT+3nmRcPtPTyQ7Fq6w/dSPk17B+vlnsaZ2f04=;
-	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
-	 In-Reply-To:To:Cc; b=kIxqDkrXmS7QDwNUsHNVdXf8Na6c90lQn7X3C9D/Z+0a1/r4VJbDB4VVbo65yogrJtzceVlCvuNiz4UEAlDROA8r2XWdRxyEP7zGCT07X9UXnDkHN26a6Uz96BLfbGxHqL2A+fBMqo0fJMTRmaEdVbHEWc1M5Rn1GCmQ1vVSZCM=
+	s=arc-20240116; t=1743721347; c=relaxed/simple;
+	bh=5gz+IKOc8N3R2ZPRZ8QLjEQogRib4lDUx76Z0fGIaoE=;
+	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:To:Cc; b=k4ANnHEP2gj8hOCXe54rwiM+8VaezbwPDNSGrXLGIiS1mEiykvnyO7Nn64ZP8HJO1lNtvT0/e1zsbQOv4ia12wK4U0MX56IFSLp4wHEOiM+DiAVKaUoy8OOohb11Fs/w68mcTTYi2rgmTXUIGcWsG5FL/G3peYGRRx8YlknMwYY=
 ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=pengutronix.de; spf=pass smtp.mailfrom=pengutronix.de; arc=none smtp.client-ip=185.203.201.7
 Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=pengutronix.de
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=pengutronix.de
@@ -18,21 +17,21 @@ Received: from drehscheibe.grey.stw.pengutronix.de ([2a0a:edc0:0:c01:1d::a2])
 	by metis.whiteo.stw.pengutronix.de with esmtps (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
 	(Exim 4.92)
 	(envelope-from <m.grzeschik@pengutronix.de>)
-	id 1u0THG-0000kC-33; Fri, 04 Apr 2025 00:43:14 +0200
+	id 1u0TZm-00020j-2a; Fri, 04 Apr 2025 01:02:22 +0200
 Received: from dude04.red.stw.pengutronix.de ([2a0a:edc0:0:1101:1d::ac])
 	by drehscheibe.grey.stw.pengutronix.de with esmtps  (TLS1.3) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
 	(Exim 4.96)
 	(envelope-from <m.grzeschik@pengutronix.de>)
-	id 1u0THF-003AjT-12;
-	Fri, 04 Apr 2025 00:43:13 +0200
+	id 1u0TZl-003AlB-08;
+	Fri, 04 Apr 2025 01:02:21 +0200
 Received: from localhost ([::1] helo=dude04.red.stw.pengutronix.de)
 	by dude04.red.stw.pengutronix.de with esmtp (Exim 4.96)
 	(envelope-from <m.grzeschik@pengutronix.de>)
-	id 1u0THF-004aMT-0r;
-	Fri, 04 Apr 2025 00:43:13 +0200
+	id 1u0TZk-004d1L-3B;
+	Fri, 04 Apr 2025 01:02:20 +0200
 From: Michael Grzeschik <m.grzeschik@pengutronix.de>
-Date: Fri, 04 Apr 2025 00:43:04 +0200
-Subject: [PATCH 1/3] usb: typec: tcpm: allow to use sink in accessory mode
+Date: Fri, 04 Apr 2025 01:02:20 +0200
+Subject: [PATCH] usb: typec: mux: fsa4480: add regulator support
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
@@ -41,29 +40,30 @@ List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20250404-ml-topic-tcpm-v1-1-b99f44badce8@pengutronix.de>
-References: <20250404-ml-topic-tcpm-v1-0-b99f44badce8@pengutronix.de>
-In-Reply-To: <20250404-ml-topic-tcpm-v1-0-b99f44badce8@pengutronix.de>
+Message-Id: <20250404-ml-topic-typec-mux-fs4480-v1-1-475377ef22a3@pengutronix.de>
+X-B4-Tracking: v=1; b=H4sIAHsT72cC/x3MQQqDMBBA0avIrDswpiONXqW4kDhpBxoNiYpFv
+ LvB5Vv8f0CWpJKhqw5IsmnWeSqoHxW47zB9BHUsBkOmISbG8MNljupw+UdxGNYdfWa2hM/WML1
+ 8y94ylD4m8brf73d/nhfEvfVWawAAAA==
 To: Heikki Krogerus <heikki.krogerus@linux.intel.com>, 
  Greg Kroah-Hartman <gregkh@linuxfoundation.org>
 Cc: linux-usb@vger.kernel.org, linux-kernel@vger.kernel.org, 
  kernel@pengutronix.de, Michael Grzeschik <m.grzeschik@pengutronix.de>
 X-Mailer: b4 0.12.0
-X-Developer-Signature: v=1; a=openpgp-sha256; l=1106;
+X-Developer-Signature: v=1; a=openpgp-sha256; l=1405;
  i=m.grzeschik@pengutronix.de; h=from:subject:message-id;
- bh=/saiKlT+3nmRcPtPTyQ7Fq6w/dSPk17B+vlnsaZ2f04=;
- b=owEBbQKS/ZANAwAKAb9pWET5cfSrAcsmYgBn7w8AB0xtDmVdQ63eqoS/5SMgGMx/cVpi2FNpP
- uJGVRcLnX6JAjMEAAEKAB0WIQQV2+2Fpbqd6fvv0Gi/aVhE+XH0qwUCZ+8PAAAKCRC/aVhE+XH0
- qw/4D/9VtUPkv0vKOOuv9jvL/8fZLg8Q3h9mwuuT/7980eplpTU+4yhl5MrtTCob/AXEX+EVHn0
- s93le7o29mERLkrPsWcsRRGG58KsDydZZODyU8SVO1r6eqDztEOSbSW5trLl5Vs/Qb0mQP8L5w9
- 1xCcCJPQqZJieoRLniMAJ7IkTHxH0RyW0uLuuYcZGM9xVhl2TnPsBNuS8hF4Hgn9aB6BL09p42Y
- m2beP342DermQ96pgJq0irNhgdS7SRHGNrxPy6e6SRNCZGojjqWamdDXw6j7T1APoDu3TVuFN39
- NCU3F0u4BcF//5hl+x2/6uPgvbqu9QUJPf8O6aeB+p4TAcbUcg27sDLX4kPS6IO1zr4/ag7E+pV
- D53lbkijrJ89+DQeuc3wrh/e/CHWFI08iucSOhWH8ayTJSbRTRJQ9JlLwlbmCSWD3t/NgN/ZTY3
- gJnLu4ADqW3CIg1vzDyMDrfoyw6Y6TLJbfasC4T5+k8eOdJU/APJWSrtf9mKV9et3iZwx5K+Le+
- sjvAB18qkpD9kpMLTg9z+twTxAa/ajzuKKf3D6iVuXiiG84bU9HlPz+fyCn3Ul+NrJpXSwQt+Rw
- /XXUXRAOHILTHnIuyH6UAG4xgiP3fdBduRLMknwu1ubkhu1H9GGBWSmoeoG2T49b2JNCGsoMj9Y
- EeJMAsr/sBMbBaw==
+ bh=5gz+IKOc8N3R2ZPRZ8QLjEQogRib4lDUx76Z0fGIaoE=;
+ b=owEBbQKS/ZANAwAKAb9pWET5cfSrAcsmYgBn7xN8EiywtJhILSIHVsUv53/iqlpIIIdYB2VhW
+ NasEmAvg9+JAjMEAAEKAB0WIQQV2+2Fpbqd6fvv0Gi/aVhE+XH0qwUCZ+8TfAAKCRC/aVhE+XH0
+ q7ZwD/4u/xwXm3iubekHtT7RjkrbqscBQdjwM7EhYvz2WiFjNHTIcn2LBzCyHEZMagQuCSFPiW7
+ 1EBesBg9+KjkEy6byeiFYjxbREX7nTkADx/gXIDj8ryv30AYOzgDMQ5QKlmnzVXZpGWlb0JUEOd
+ IlI9sB1XZdzaf2L26BFgwsugQfEHKDs5b4Rw/Df8/iTYAfdOF5iJ3O6RU35qWRXKk6kQq1EAakV
+ U5iBqv/cdRpJ3QoJoiR0mR8YR3hLb7B2gVApPj0Hy33s+1oAQCYXW2z9LLrqYvYr9AXAsyZfbQf
+ C0Nr7cCtCF9aW1BIP93UISavhVp2Z76Mxm1WzixU8MjwZ+bgO/x5l84ATHyB07SnUXnhAa1j4yv
+ V9HTFTjqno8KE3OsFKHJnJywu0j04HNSLjj5i84tbfyry7TtQSxavCXYVrooNi/8ZwU3HuLD/jo
+ uYDEq4fIXqb1Suapx6kAXQDXufU7BXwKKLQr3s7Dl2niM9tx1rSNeKOy0PTLeNpXHEhU3gDMC9e
+ A6EWKMn+oVkDDBaZNSLKrIyw7iFS9PQazChJRYnsasvXUwOnLOt8wajI0H2zbsaw1oBk9M19GQS
+ NGwB6JHIex7xOGfQ8GYVNnyTIzsEVDARMfO4Z1xwNpyl2WHzCrAvsVXojBxJ33U7jODzkUieX0t
+ NTdVO0T7ull/yJg==
 X-Developer-Key: i=m.grzeschik@pengutronix.de; a=openpgp;
  fpr=957BC452CE953D7EA60CF4FC0BE9E3157A1E2C64
 X-SA-Exim-Connect-IP: 2a0a:edc0:0:c01:1d::a2
@@ -71,39 +71,43 @@ X-SA-Exim-Mail-From: m.grzeschik@pengutronix.de
 X-SA-Exim-Scanned: No (on metis.whiteo.stw.pengutronix.de); SAEximRunCond expanded to false
 X-PTX-Original-Recipient: linux-usb@vger.kernel.org
 
-Since the function tcpm_acc_attach is not setting the data and role for
-for the sink case we extend it to check for it first.
+The fsa4480 vcc lane could be driven by some external regulator.
+This patch is adding support to enable the regulator before probing.
 
 Signed-off-by: Michael Grzeschik <m.grzeschik@pengutronix.de>
 ---
- drivers/usb/typec/tcpm/tcpm.c | 9 +++++++--
- 1 file changed, 7 insertions(+), 2 deletions(-)
+ drivers/usb/typec/mux/fsa4480.c | 5 +++++
+ 1 file changed, 5 insertions(+)
 
-diff --git a/drivers/usb/typec/tcpm/tcpm.c b/drivers/usb/typec/tcpm/tcpm.c
-index a99db4e025cd0..839697c14265e 100644
---- a/drivers/usb/typec/tcpm/tcpm.c
-+++ b/drivers/usb/typec/tcpm/tcpm.c
-@@ -4551,12 +4551,17 @@ static void tcpm_snk_detach(struct tcpm_port *port)
- static int tcpm_acc_attach(struct tcpm_port *port)
- {
- 	int ret;
-+	enum typec_role role;
-+	enum typec_data_role data;
+diff --git a/drivers/usb/typec/mux/fsa4480.c b/drivers/usb/typec/mux/fsa4480.c
+index f71dba8bf07c9..c54e42c7e6a16 100644
+--- a/drivers/usb/typec/mux/fsa4480.c
++++ b/drivers/usb/typec/mux/fsa4480.c
+@@ -12,6 +12,7 @@
+ #include <linux/regmap.h>
+ #include <linux/usb/typec_dp.h>
+ #include <linux/usb/typec_mux.h>
++#include <linux/regulator/consumer.h>
  
- 	if (port->attached)
- 		return 0;
+ #define FSA4480_DEVICE_ID	0x00
+  #define FSA4480_DEVICE_ID_VENDOR_ID	GENMASK(7, 6)
+@@ -273,6 +274,10 @@ static int fsa4480_probe(struct i2c_client *client)
+ 	if (IS_ERR(fsa->regmap))
+ 		return dev_err_probe(dev, PTR_ERR(fsa->regmap), "failed to initialize regmap\n");
  
--	ret = tcpm_set_roles(port, true, TYPEC_SOURCE,
--			     tcpm_data_role_for_source(port));
-+	role = tcpm_port_is_sink(port) ? TYPEC_SINK : TYPEC_SOURCE;
-+	data = tcpm_port_is_sink(port) ? tcpm_data_role_for_sink(port)
-+				       : tcpm_data_role_for_source(port);
++	ret = devm_regulator_get_enable_optional(dev, "vcc");
++	if (ret && ret != -ENODEV)
++		return dev_err_probe(dev, ret, "Failed to get regulator\n");
 +
-+	ret = tcpm_set_roles(port, true, role, data);
- 	if (ret < 0)
- 		return ret;
- 
+ 	ret = regmap_read(fsa->regmap, FSA4480_DEVICE_ID, &val);
+ 	if (ret)
+ 		return dev_err_probe(dev, -ENODEV, "FSA4480 not found\n");
 
+---
+base-commit: a1b5bd45d4ee58af4f56e49497b8c3db96d8f8a3
+change-id: 20250404-ml-topic-typec-mux-fs4480-392407f94f84
+
+Best regards,
 -- 
-2.39.5
+Michael Grzeschik <m.grzeschik@pengutronix.de>
 
