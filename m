@@ -1,57 +1,57 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.18])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.19])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8295226AA82
-	for <linux-usb@vger.kernel.org>; Tue,  8 Apr 2025 11:59:55 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1675726A0D9
+	for <linux-usb@vger.kernel.org>; Tue,  8 Apr 2025 11:59:57 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.19
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1744113597; cv=none; b=FAsgJKbG/NlcfpIKNms3NAUt6bvteTf5OugLopaspp/+vNphzGyX6g+SEzE7/9onUGT777M93o+dtpGyBAcq/B82vWse/ty0ORMB42WYp1d6UWkbG/gn5IP5Lmkdb+KvaIqpf47/w1a4diSOrB+vpJWCq9tNIwLdQBWfBZ/zfNc=
+	t=1744113598; cv=none; b=GTDnlA4E9IgJ7r6veQP37VNa1yffoPpy4mypm/KQLmV5hU6fPOnM8PLcQeUnTO0VkGIVqf0oH9e1iP9gSHt5eP/5vioZWy8WywYyHh0QHD3yMwdvyeeg7wumYIXID41JoHBlZU2F0lzbiz9iuP3t7q+sPKAtW4FTcJEAhnpnHjc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1744113597; c=relaxed/simple;
-	bh=ju+24sM5izmCx9YopZ91b5iDG5thenrTBwdZmNSFnQI=;
+	s=arc-20240116; t=1744113598; c=relaxed/simple;
+	bh=6TVVH8Q4IN4rDP4/apskBATgOniCGvrAdnAQPmWIuKk=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=UZKnnda3YSqJcILmkQOHzPsEMqozGpocgmVMSyYZNieWxyZWa+ua1NRJn3oUYzvwvw3PXHIi4hMZlKUdvS/25F4f+xsNFmkUUEy9+Walx8RtAHeEosD4C6lZBuUhLzHLHFXtKITRMlh6PFQOfqvUzmCO64hwpuauU8uPV9OSfHI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=none smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=bUFxD6ES; arc=none smtp.client-ip=198.175.65.18
+	 MIME-Version; b=CUr/01CW/avzJRvQTqaMnqotvBKj9KTN/QwBIb0xdQr9Fe7toMx5zHnepJIptXk98XnEr2asKPnDjAgQqNbeStOUhXtb3tvVvjIlZlzcmZIZ+zKdInQ2dY1rUPbHulDidiTFsLMJ6jFejsH6NWU6uYyIXACc3RzjGnRBc/m3+YE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=none smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=XqO4s/Pq; arc=none smtp.client-ip=192.198.163.19
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=linux.intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="bUFxD6ES"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="XqO4s/Pq"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1744113595; x=1775649595;
+  t=1744113597; x=1775649597;
   h=from:to:cc:subject:date:message-id:in-reply-to:
    references:mime-version:content-transfer-encoding;
-  bh=ju+24sM5izmCx9YopZ91b5iDG5thenrTBwdZmNSFnQI=;
-  b=bUFxD6ES4UpKrs3kqHSxuwGoElR6GRlrqfJ0b1lOlzeixgKHUGXKSYhU
-   FyWAnJGck7g81PetaQLb+dFvmFObHmW1lmG6PFqHY6+UFdGz3y2fWKoLv
-   qOCSwu66OHd/4SQZeCIDiUzhCfRZ+9Sq1ljF+eFj7GrwiUFNjmWXPwm96
-   oep35wVQSZRxKWF/M/ObZkDR0Gl7NPbHDSpD/1zsNkAkm4V1bec5oa5Kg
-   A6/LoO6MKn3+6HCOQoIf85IrKP4uNyg0gaQdJbApllWZWC8i9zANo9E7R
-   butqM/rf5JwfiNVhDvoFyeJG/ZIRQVXvt1V2MPpI3UrLxM2j045FkvwoH
-   A==;
-X-CSE-ConnectionGUID: iLXq4LIdSTKVOf6Eq1YBSw==
-X-CSE-MsgGUID: KveJW26qRWGM3szk6/vvyg==
-X-IronPort-AV: E=McAfee;i="6700,10204,11397"; a="45676471"
+  bh=6TVVH8Q4IN4rDP4/apskBATgOniCGvrAdnAQPmWIuKk=;
+  b=XqO4s/PqTYzd1yqV211e8a5kUPZHxnt2rmUhS9AJYULtV6VoZddIOTYN
+   k7Wf1z9LSc0TRGkDU0vgLhyXaGPKoAgbNSeujYr1FejbAQ3pbuK38edqA
+   MEIlMnwUc3eaLBPVR96y1438+UOBVOXtBINHxrSkF6iJHti+TbFmSpa/U
+   Uc08P3PI0xSubWlS8FzvnOKOqBCY6GGQT3Zpu1yncuf9qRzFKXr6i1F3U
+   4USJY36Ak0wDvf/UKqmee1Ssn0/0tt9B7fI8GfPsi9YmRRxE7iHilhy2q
+   jBOPkgOKc2Im4NvbKArd4jRPyg/dlOBWusv991ZIDEBW04XheiUrhM4Ia
+   g==;
+X-CSE-ConnectionGUID: TDN41OInQpWBJB6C3TS1Zw==
+X-CSE-MsgGUID: 9yqJwoirRAa+abw23F3U7w==
+X-IronPort-AV: E=McAfee;i="6700,10204,11397"; a="44681736"
 X-IronPort-AV: E=Sophos;i="6.15,198,1739865600"; 
-   d="scan'208";a="45676471"
-Received: from fmviesa002.fm.intel.com ([10.60.135.142])
-  by orvoesa110.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 08 Apr 2025 04:59:54 -0700
-X-CSE-ConnectionGUID: tT44rNeBQC2OHXqcyiFWnA==
-X-CSE-MsgGUID: wdZ9VxX9TfqQ3bMnjlzHKA==
+   d="scan'208";a="44681736"
+Received: from fmviesa006.fm.intel.com ([10.60.135.146])
+  by fmvoesa113.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 08 Apr 2025 04:59:57 -0700
+X-CSE-ConnectionGUID: m9wOa7OTSpGeClS4KIx4xQ==
+X-CSE-MsgGUID: 63m/RrNbQLuRj1UkkvjIAQ==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.15,198,1739865600"; 
-   d="scan'208";a="151428057"
+   d="scan'208";a="128114724"
 Received: from black.fi.intel.com ([10.237.72.28])
-  by fmviesa002.fm.intel.com with ESMTP; 08 Apr 2025 04:59:52 -0700
+  by fmviesa006.fm.intel.com with ESMTP; 08 Apr 2025 04:59:56 -0700
 Received: by black.fi.intel.com (Postfix, from userid 1058)
-	id EA591398; Tue, 08 Apr 2025 14:59:51 +0300 (EEST)
+	id E74A3484; Tue, 08 Apr 2025 14:59:54 +0300 (EEST)
 From: Niklas Neronin <niklas.neronin@linux.intel.com>
 To: mathias.nyman@linux.intel.com
 Cc: linux-usb@vger.kernel.org,
 	Niklas Neronin <niklas.neronin@linux.intel.com>
-Subject: [PATCH 7/9] usb: xhci: cleanup IMOD register comments
-Date: Tue,  8 Apr 2025 14:57:50 +0300
-Message-ID: <20250408115752.1344901-8-niklas.neronin@linux.intel.com>
+Subject: [PATCH 9/9] usb: xhci: rename 'irq_control' to 'imod'
+Date: Tue,  8 Apr 2025 14:57:52 +0300
+Message-ID: <20250408115752.1344901-10-niklas.neronin@linux.intel.com>
 X-Mailer: git-send-email 2.47.2
 In-Reply-To: <20250408115752.1344901-1-niklas.neronin@linux.intel.com>
 References: <20250408115752.1344901-1-niklas.neronin@linux.intel.com>
@@ -63,86 +63,118 @@ List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-Patch does not contain any functional changes.
+The Interrupt Register Set contains Interrupt Moderation register (IMOD).
+The IMOD register contains the following fields:
+ - Bits 15:0:	Interrupt Moderation Interval (IMODI)
+ - Bits 31:16:	Interrupt Moderation Counter (IMODC)
 
-Add missing macro descriptions with specific bit definitions for each data
-field and reordered them accordingly.
+In the xHCI driver, the pointer currently named 'irq_control' refers to the
+IMOD register. However, the name 'irq_control' does not accurately describe
+the register or its contents, and the xHCI specification does not use the
+term "irq control" or "interrupt control" for this register. To improve
+clarity and better align with the xHCI specification, the pointer is
+renamed to 'imod'.
 
-Remove "HW use only" from Interrupt Moderation Counter. xHCI Specification
-1.2, section 5.5.2.2, states "This counter may be directly written by
-software at any time to alter the interrupt rate."
+Additionally, the IMOD register fields IMODI & IMODC have their own masks,
+which are also renamed for consistency:
+ * 'ER_IRQ_INTERVAL_MASK' -> 'IMODI_MASK'
+ * 'ER_IRQ_COUNTER_MASK' -> 'IMODC_MASK'
 
 Signed-off-by: Niklas Neronin <niklas.neronin@linux.intel.com>
 ---
- drivers/usb/host/xhci.h | 33 ++++++++++++++++++---------------
- 1 file changed, 18 insertions(+), 15 deletions(-)
+ drivers/usb/host/xhci.c | 12 ++++++------
+ drivers/usb/host/xhci.h | 12 ++++++------
+ 2 files changed, 12 insertions(+), 12 deletions(-)
 
+diff --git a/drivers/usb/host/xhci.c b/drivers/usb/host/xhci.c
+index 2b4dd527c64d..ec88d2cacb13 100644
+--- a/drivers/usb/host/xhci.c
++++ b/drivers/usb/host/xhci.c
+@@ -366,12 +366,12 @@ int xhci_set_interrupter_moderation(struct xhci_interrupter *ir,
+ 		return -EINVAL;
+ 
+ 	/* IMODI value in IMOD register is in 250ns increments */
+-	imod_interval = umin(imod_interval / 250, ER_IRQ_INTERVAL_MASK);
++	imod_interval = umin(imod_interval / 250, IMODI_MASK);
+ 
+-	imod = readl(&ir->ir_set->irq_control);
+-	imod &= ~ER_IRQ_INTERVAL_MASK;
++	imod = readl(&ir->ir_set->imod);
++	imod &= ~IMODI_MASK;
+ 	imod |= imod_interval;
+-	writel(imod, &ir->ir_set->irq_control);
++	writel(imod, &ir->ir_set->imod);
+ 
+ 	return 0;
+ }
+@@ -731,7 +731,7 @@ static void xhci_save_registers(struct xhci_hcd *xhci)
+ 		ir->s3_erst_base = xhci_read_64(xhci, &ir->ir_set->erst_base);
+ 		ir->s3_erst_dequeue = xhci_read_64(xhci, &ir->ir_set->erst_dequeue);
+ 		ir->s3_iman = readl(&ir->ir_set->iman);
+-		ir->s3_irq_control = readl(&ir->ir_set->irq_control);
++		ir->s3_imod = readl(&ir->ir_set->imod);
+ 	}
+ }
+ 
+@@ -755,7 +755,7 @@ static void xhci_restore_registers(struct xhci_hcd *xhci)
+ 		xhci_write_64(xhci, ir->s3_erst_base, &ir->ir_set->erst_base);
+ 		xhci_write_64(xhci, ir->s3_erst_dequeue, &ir->ir_set->erst_dequeue);
+ 		writel(ir->s3_iman, &ir->ir_set->iman);
+-		writel(ir->s3_irq_control, &ir->ir_set->irq_control);
++		writel(ir->s3_imod, &ir->ir_set->imod);
+ 	}
+ }
+ 
 diff --git a/drivers/usb/host/xhci.h b/drivers/usb/host/xhci.h
-index 2a4beb6a6695..715b860995f3 100644
+index 05e35f1303c3..5eb01d1a3e7e 100644
 --- a/drivers/usb/host/xhci.h
 +++ b/drivers/usb/host/xhci.h
-@@ -211,14 +211,13 @@ struct xhci_op_regs {
- #define XHCI_PAGE_SIZE_MASK     0xffff
- 
- /**
-- * struct xhci_intr_reg - Interrupt Register Set
-- * @irq_pending:	IMAN - Interrupt Management Register.  Used to enable
-+ * struct xhci_intr_reg - Interrupt Register Set, v1.2 section 5.5.2.
-+ * @irq_pending:	IMAN - Interrupt Management Register. Used to enable
+@@ -214,7 +214,7 @@ struct xhci_op_regs {
+  * struct xhci_intr_reg - Interrupt Register Set, v1.2 section 5.5.2.
+  * @iman:		IMAN - Interrupt Management Register. Used to enable
   *			interrupts and check for pending interrupts.
-- * @irq_control:	IMOD - Interrupt Moderation Register.
-- * 			Used to throttle interrupts.
-- * @erst_size:		Number of segments in the Event Ring Segment Table (ERST).
-- * @erst_base:		ERST base address.
-- * @erst_dequeue:	Event ring dequeue pointer.
-+ * @irq_control:	IMOD - Interrupt Moderation Register. Used to throttle interrupts.
-+ * @erst_size:		ERSTSZ - Number of segments in the Event Ring Segment Table (ERST).
-+ * @erst_base:		ERSTBA - Event ring segment table base address.
-+ * @erst_dequeue:	ERDP - Event ring dequeue pointer.
-  *
-  * Each interrupter (defined by a MSI-X vector) has an event ring and an Event
-  * Ring Segment Table (ERST) associated with it.  The event ring is comprised of
-@@ -243,12 +242,13 @@ struct xhci_intr_reg {
+- * @irq_control:	IMOD - Interrupt Moderation Register. Used to throttle interrupts.
++ * @imod:		IMOD - Interrupt Moderation Register. Used to throttle interrupts.
+  * @erst_size:		ERSTSZ - Number of segments in the Event Ring Segment Table (ERST).
+  * @erst_base:		ERSTBA - Event ring segment table base address.
+  * @erst_dequeue:	ERDP - Event ring dequeue pointer.
+@@ -228,7 +228,7 @@ struct xhci_op_regs {
+  */
+ struct xhci_intr_reg {
+ 	__le32	iman;
+-	__le32	irq_control;
++	__le32	imod;
+ 	__le32	erst_size;
+ 	__le32	rsvd;
+ 	__le64	erst_base;
+@@ -241,15 +241,15 @@ struct xhci_intr_reg {
+ /* bit 1 - Interrupt Enable (IE), whether the interrupter is capable of generating an interrupt */
  #define	IMAN_IE			(1 << 1)
  
- /* irq_control bitmasks */
--/* Minimum interval between interrupts (in 250ns intervals).  The interval
-- * between interrupts will be longer if there are no events on the event ring.
-- * Default is 4000 (1 ms).
-+/*
-+ * bits 15:0 - Interrupt Moderation Interval, the minimum interval between interrupts
-+ * (in 250ns intervals). The interval between interrupts will be longer if there are no
-+ * events on the event ring. Default is 4000 (1 ms).
+-/* irq_control bitmasks */
++/* imod bitmasks */
+ /*
+  * bits 15:0 - Interrupt Moderation Interval, the minimum interval between interrupts
+  * (in 250ns intervals). The interval between interrupts will be longer if there are no
+  * events on the event ring. Default is 4000 (1 ms).
   */
- #define ER_IRQ_INTERVAL_MASK	(0xffff)
--/* Counter used to count down the time to the next interrupt - HW use only */
-+/* bits 31:16 - Interrupt Moderation Counter, used to count down the time to the next interrupt */
- #define ER_IRQ_COUNTER_MASK	(0xffff << 16)
+-#define ER_IRQ_INTERVAL_MASK	(0xffff)
++#define IMODI_MASK		(0xffff)
+ /* bits 31:16 - Interrupt Moderation Counter, used to count down the time to the next interrupt */
+-#define ER_IRQ_COUNTER_MASK	(0xffff << 16)
++#define IMODC_MASK		(0xffff << 16)
  
  /* erst_size bitmasks */
-@@ -260,15 +260,18 @@ struct xhci_intr_reg {
- #define ERST_BASE_ADDRESS_MASK	GENMASK_ULL(63, 6)
- 
- /* erst_dequeue bitmasks */
--/* Dequeue ERST Segment Index (DESI) - Segment number (or alias)
-- * where the current dequeue pointer lies.  This is an optional HW hint.
-+/*
-+ * bits 2:0 - Dequeue ERST Segment Index (DESI), is the segment number (or alias) where the
-+ * current dequeue pointer lies. This is an optional HW hint.
-  */
- #define ERST_DESI_MASK		(0x7)
--/* Event Handler Busy (EHB) - is the event ring scheduled to be serviced by
-+/*
-+ * bit 3 - Event Handler Busy (EHB), whether the event ring is scheduled to be serviced by
-  * a work queue (or delayed service routine)?
-  */
- #define ERST_EHB		(1 << 3)
--#define ERST_PTR_MASK		(GENMASK_ULL(63, 4))
-+/* bits 63:4 - Event Ring Dequeue Pointer */
-+#define ERST_PTR_MASK		GENMASK_ULL(63, 4)
- 
- /**
-  * struct xhci_run_regs
+ /* bits 15:0 - Event Ring Segment Table Size, number of ERST entries */
+@@ -1447,7 +1447,7 @@ struct xhci_interrupter {
+ 	u32			isoc_bei_interval;
+ 	/* For interrupter registers save and restore over suspend/resume */
+ 	u32	s3_iman;
+-	u32	s3_irq_control;
++	u32	s3_imod;
+ 	u32	s3_erst_size;
+ 	u64	s3_erst_base;
+ 	u64	s3_erst_dequeue;
 -- 
 2.47.2
 
