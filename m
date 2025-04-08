@@ -1,204 +1,102 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.18])
+Received: from mr85p00im-zteg06021501.me.com (mr85p00im-zteg06021501.me.com [17.58.23.183])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4522226AAA1
-	for <linux-usb@vger.kernel.org>; Tue,  8 Apr 2025 11:59:56 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9240D26B09D
+	for <linux-usb@vger.kernel.org>; Tue,  8 Apr 2025 12:09:57 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=17.58.23.183
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1744113599; cv=none; b=o9hE3MeV1iu5p6FcCo/dxk8C788q3d0TKmtIXcq1zoMeomEgXMRP2Z3JYSuSkoqFRzqqmqBu6/m9OzTiACqDKIr0w/MoMQEg0fO+J8WeiJbui2BryAqdySZRjB0waYCr6HAUOAJ8aao2CQBn+W0BHR/SW7SqdxLMrlV+EJvYKvk=
+	t=1744114200; cv=none; b=hBOIigWYcs3+8bGJJjcYTksk4k21AGs+0sZEESzHeZZO3vD+OoLWy4JFinR/cEjaQs5+J++jZgTgbJ4A8Tc2mUp9hXJHI7/tRx88mq0eSsdZQdeNZ+8hpiGTfQNQLXfBB7YNDxBeZ1dTVkBymnY0ITqmlwR1deyEepSEMj4gbR4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1744113599; c=relaxed/simple;
-	bh=caYpHf7zFLI92uKJs2tHRJa0e7brab0b4dDy95e5Wbw=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=VGyY8F90A+A/EOAikvvu/bHdukCptA9Qa4PCSGLy6lUlkgug9zaX1gZqjgt59EdVw39XC3pjJO7zcj7vmSjDyV1lx2BSC/7gD2Jr+LK8md3PlWLPtwMj2JmZi88AdfbsUOPMf5+pBYFkMI1vbpZbMqhft1r124KEgbS0caffIy0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=none smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=OPJjakN+; arc=none smtp.client-ip=198.175.65.18
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=linux.intel.com
+	s=arc-20240116; t=1744114200; c=relaxed/simple;
+	bh=QEqKjxqbWub8YsuQbU+tPhuhK3lJRWqkR2DgLlJnxvQ=;
+	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:To:Cc; b=CNLyPM+0RXThcbYpzbjgnjELUOmcBk2JqTB8j7vyEI0OXAyS0Lyxdh2v6aO/Bsp34xPMjuC5ymxLN+J9Xhub6oa/Esmv8GjDv9Sp8QymFcBxqVR05eveg5DfQw1cIWiS8TgrB5wr0f6OOjaE3lDNsSImG4vhimaDfWnsKSHrqGI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=icloud.com; spf=pass smtp.mailfrom=icloud.com; dkim=pass (2048-bit key) header.d=icloud.com header.i=@icloud.com header.b=Bgm3jS76; arc=none smtp.client-ip=17.58.23.183
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=icloud.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=icloud.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="OPJjakN+"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1744113597; x=1775649597;
-  h=from:to:cc:subject:date:message-id:in-reply-to:
-   references:mime-version:content-transfer-encoding;
-  bh=caYpHf7zFLI92uKJs2tHRJa0e7brab0b4dDy95e5Wbw=;
-  b=OPJjakN+FxefYgxiZP+s++Qe77oRMNyyhEXnhB0/nhItqFuo8s2AHb/k
-   mrH+qrUt9xNMF+y72m0X/S1Ev1w6K4x0jx+hnx7/s+hx/JxSL17VE5gzy
-   R61YdiRRyQnC1A7CAs0Dyq+KDqacIeqtUZS655TiRcMDg4b/whR8mNesH
-   /jQOglM2MfqEHk066S6D1M5NsrJXVQ06Wc1vffeAFAsvIJmqCxKVzM4rc
-   1kLKRLOEppNmEoB4RH48OE3hC6hE/8zSzEQrYknMi5qlObFw/+0pQeajb
-   FWn10OlAO8d1nH+eQxp9z2dfR97f+Zk4mYn6X2UkErw1FSTELHaPGkZ3L
-   w==;
-X-CSE-ConnectionGUID: B+X1Uo4rR2uoPlJeM3QhKQ==
-X-CSE-MsgGUID: 2JmaWg7pTxy4CAWpsWDPxg==
-X-IronPort-AV: E=McAfee;i="6700,10204,11397"; a="45676477"
-X-IronPort-AV: E=Sophos;i="6.15,198,1739865600"; 
-   d="scan'208";a="45676477"
-Received: from fmviesa002.fm.intel.com ([10.60.135.142])
-  by orvoesa110.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 08 Apr 2025 04:59:56 -0700
-X-CSE-ConnectionGUID: OH5ErdHcSiOJIdF0U3QWPA==
-X-CSE-MsgGUID: k1QJBtmyQZWWF0MjD7/J4g==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.15,198,1739865600"; 
-   d="scan'208";a="151428062"
-Received: from black.fi.intel.com ([10.237.72.28])
-  by fmviesa002.fm.intel.com with ESMTP; 08 Apr 2025 04:59:55 -0700
-Received: by black.fi.intel.com (Postfix, from userid 1058)
-	id 27799398; Tue, 08 Apr 2025 14:59:54 +0300 (EEST)
-From: Niklas Neronin <niklas.neronin@linux.intel.com>
-To: mathias.nyman@linux.intel.com
-Cc: linux-usb@vger.kernel.org,
-	Niklas Neronin <niklas.neronin@linux.intel.com>
-Subject: [PATCH 8/9] usb: xhci: rename 'irq_pending' to 'iman'
-Date: Tue,  8 Apr 2025 14:57:51 +0300
-Message-ID: <20250408115752.1344901-9-niklas.neronin@linux.intel.com>
-X-Mailer: git-send-email 2.47.2
-In-Reply-To: <20250408115752.1344901-1-niklas.neronin@linux.intel.com>
-References: <20250408115752.1344901-1-niklas.neronin@linux.intel.com>
+	dkim=pass (2048-bit key) header.d=icloud.com header.i=@icloud.com header.b="Bgm3jS76"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=icloud.com;
+	s=1a1hai; bh=BDiMM4gbvtusq153Cw0jBPOX1iQ4qyGjf3UtgNk2nRQ=;
+	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:To:x-icloud-hme;
+	b=Bgm3jS76T0ExwCoHgcW23Pl2H4wM3F0J2gZznH5M7UOovoLE4b0EGT+8OvTX4UrZf
+	 IGZDjtj/EUlFSr6zvMrGnRDP4PNbVwgGRTxZSNyg87knuq5TpUJUIsJ2/47IB/cJrN
+	 NQVxtjmmhIXk+5iEYkHun3pErC3gyYuJVE1uIqAqbPvgY68BZzfZjpq8ix3GZefrcZ
+	 AcT8LmkEB0n1gKUMQse2N541qju9CUY0OGH4zlt6X8cFDy9d41vW4MEFx3eRLpw82w
+	 /Q1t/qZZ1kTSzl+he19tkfkOSnGHjRk4L1Y6x8+Y68Ffix9KSKOqKe+fZb9z9GxJ2x
+	 5yhpjQDkdzCmA==
+Received: from [192.168.1.26] (mr38p00im-dlb-asmtp-mailmevip.me.com [17.57.152.18])
+	by mr85p00im-zteg06021501.me.com (Postfix) with ESMTPSA id F26582793FE0;
+	Tue,  8 Apr 2025 12:09:05 +0000 (UTC)
+From: Zijun Hu <zijun_hu@icloud.com>
+Date: Tue, 08 Apr 2025 20:08:51 +0800
+Subject: [PATCH] USB: core: Correct API usb_(enable|disable)_autosuspend()
+ prototypes
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+Message-Id: <20250408-fix_usb_hdr-v1-1-e785c5b49481@quicinc.com>
+X-B4-Tracking: v=1; b=H4sIANIR9WcC/x2MWwqAIBAAryL7neATpKtESOWa+2OhFIF096TPY
+ ZhpULEQVhhZg4I3VTpyBzkw2NKSd+QUOoMSygojHI/0+KuuPoXCnRZWWxeNQgm9OAt2/d+m+X0
+ /abSx510AAAA=
+X-Change-ID: 20250408-fix_usb_hdr-8305358f42e1
+To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+Cc: Zijun Hu <zijun_hu@icloud.com>, linux-usb@vger.kernel.org, 
+ linux-kernel@vger.kernel.org, Zijun Hu <quic_zijuhu@quicinc.com>
+X-Mailer: b4 0.14.2
+X-Proofpoint-GUID: FQj8FmXbrb2tqslaEMhyWDlIIDI50Zr_
+X-Proofpoint-ORIG-GUID: FQj8FmXbrb2tqslaEMhyWDlIIDI50Zr_
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1095,Hydra:6.0.680,FMLib:17.12.68.34
+ definitions=2025-04-08_04,2025-04-08_01,2024-11-22_01
+X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 clxscore=1015
+ malwarescore=0 spamscore=0 suspectscore=0 adultscore=0 bulkscore=0 mlxscore=0
+ phishscore=0 mlxlogscore=697 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.22.0-2503100000 definitions=main-2504080086
+X-Apple-Remote-Links: v=1;h=KCk=;charset=UTF-8
 
-The Interrupt Register Set contains Interrupt Management register (IMAN).
-The IMAN register contains the following fields:
- - Bit 0:	Interrupt Pending (IP)
- - Bit 1:	Interrupt Enable (IE)
- - Bits 31:2:	RsvdP (Reserved and Preserved)
+From: Zijun Hu <quic_zijuhu@quicinc.com>
 
-Tn the xhci driver, the pointer currently named 'irq_pending' refers to the
-IMAN register. However, the name "irq_pending" only describes one of the
-fields within the IMAN register, rather than the entire register itself.
-To improve clarity and better align with the xHCI specification,
-the pointer is renamed to 'iman'.
+API usb_(enable|disable)_autosuspend() have inconsistent prototypes
+regarding if CONFIG_PM is defined.
 
-Signed-off-by: Niklas Neronin <niklas.neronin@linux.intel.com>
+Correct prototypes when the macro is undefined by referring to those
+when the macro is defined.
+
+Signed-off-by: Zijun Hu <quic_zijuhu@quicinc.com>
 ---
- drivers/usb/host/xhci-ring.c | 10 +++++-----
- drivers/usb/host/xhci.c      | 16 ++++++++--------
- drivers/usb/host/xhci.h      |  8 ++++----
- 3 files changed, 17 insertions(+), 17 deletions(-)
+ include/linux/usb.h | 8 ++++----
+ 1 file changed, 4 insertions(+), 4 deletions(-)
 
-diff --git a/drivers/usb/host/xhci-ring.c b/drivers/usb/host/xhci-ring.c
-index 412eb90c29fb..aa04a910c855 100644
---- a/drivers/usb/host/xhci-ring.c
-+++ b/drivers/usb/host/xhci-ring.c
-@@ -3087,14 +3087,14 @@ static void xhci_update_erst_dequeue(struct xhci_hcd *xhci,
- static void xhci_clear_interrupt_pending(struct xhci_interrupter *ir)
- {
- 	if (!ir->ip_autoclear) {
--		u32 irq_pending;
-+		u32 iman;
+diff --git a/include/linux/usb.h b/include/linux/usb.h
+index b46738701f8dc46085f251379873b6a8a008d99d..1b2545b4363bcf3ef97a53a004ebf456eb9d5d05 100644
+--- a/include/linux/usb.h
++++ b/include/linux/usb.h
+@@ -815,10 +815,10 @@ static inline void usb_mark_last_busy(struct usb_device *udev)
  
--		irq_pending = readl(&ir->ir_set->irq_pending);
--		irq_pending |= IMAN_IP;
--		writel(irq_pending, &ir->ir_set->irq_pending);
-+		iman = readl(&ir->ir_set->iman);
-+		iman |= IMAN_IP;
-+		writel(iman, &ir->ir_set->iman);
+ #else
  
- 		/* Read operation to guarantee the write has been flushed from posted buffers */
--		readl(&ir->ir_set->irq_pending);
-+		readl(&ir->ir_set->iman);
- 	}
- }
+-static inline int usb_enable_autosuspend(struct usb_device *udev)
+-{ return 0; }
+-static inline int usb_disable_autosuspend(struct usb_device *udev)
+-{ return 0; }
++static inline void usb_enable_autosuspend(struct usb_device *udev)
++{ }
++static inline void usb_disable_autosuspend(struct usb_device *udev)
++{ }
  
-diff --git a/drivers/usb/host/xhci.c b/drivers/usb/host/xhci.c
-index a41337360535..2b4dd527c64d 100644
---- a/drivers/usb/host/xhci.c
-+++ b/drivers/usb/host/xhci.c
-@@ -329,12 +329,12 @@ static int xhci_enable_interrupter(struct xhci_interrupter *ir)
- 	if (!ir || !ir->ir_set)
- 		return -EINVAL;
- 
--	iman = readl(&ir->ir_set->irq_pending);
-+	iman = readl(&ir->ir_set->iman);
- 	iman |= IMAN_IE;
--	writel(iman, &ir->ir_set->irq_pending);
-+	writel(iman, &ir->ir_set->iman);
- 
- 	/* Read operation to guarantee the write has been flushed from posted buffers */
--	readl(&ir->ir_set->irq_pending);
-+	readl(&ir->ir_set->iman);
- 	return 0;
- }
- 
-@@ -345,11 +345,11 @@ static int xhci_disable_interrupter(struct xhci_hcd *xhci, struct xhci_interrupt
- 	if (!ir || !ir->ir_set)
- 		return -EINVAL;
- 
--	iman = readl(&ir->ir_set->irq_pending);
-+	iman = readl(&ir->ir_set->iman);
- 	iman &= ~IMAN_IE;
--	writel(iman, &ir->ir_set->irq_pending);
-+	writel(iman, &ir->ir_set->iman);
- 
--	iman = readl(&ir->ir_set->irq_pending);
-+	iman = readl(&ir->ir_set->iman);
- 	if (iman & IMAN_IP)
- 		xhci_dbg(xhci, "%s: Interrupt pending\n", __func__);
- 
-@@ -730,7 +730,7 @@ static void xhci_save_registers(struct xhci_hcd *xhci)
- 		ir->s3_erst_size = readl(&ir->ir_set->erst_size);
- 		ir->s3_erst_base = xhci_read_64(xhci, &ir->ir_set->erst_base);
- 		ir->s3_erst_dequeue = xhci_read_64(xhci, &ir->ir_set->erst_dequeue);
--		ir->s3_irq_pending = readl(&ir->ir_set->irq_pending);
-+		ir->s3_iman = readl(&ir->ir_set->iman);
- 		ir->s3_irq_control = readl(&ir->ir_set->irq_control);
- 	}
- }
-@@ -754,7 +754,7 @@ static void xhci_restore_registers(struct xhci_hcd *xhci)
- 		writel(ir->s3_erst_size, &ir->ir_set->erst_size);
- 		xhci_write_64(xhci, ir->s3_erst_base, &ir->ir_set->erst_base);
- 		xhci_write_64(xhci, ir->s3_erst_dequeue, &ir->ir_set->erst_dequeue);
--		writel(ir->s3_irq_pending, &ir->ir_set->irq_pending);
-+		writel(ir->s3_iman, &ir->ir_set->iman);
- 		writel(ir->s3_irq_control, &ir->ir_set->irq_control);
- 	}
- }
-diff --git a/drivers/usb/host/xhci.h b/drivers/usb/host/xhci.h
-index 715b860995f3..05e35f1303c3 100644
---- a/drivers/usb/host/xhci.h
-+++ b/drivers/usb/host/xhci.h
-@@ -212,7 +212,7 @@ struct xhci_op_regs {
- 
- /**
-  * struct xhci_intr_reg - Interrupt Register Set, v1.2 section 5.5.2.
-- * @irq_pending:	IMAN - Interrupt Management Register. Used to enable
-+ * @iman:		IMAN - Interrupt Management Register. Used to enable
-  *			interrupts and check for pending interrupts.
-  * @irq_control:	IMOD - Interrupt Moderation Register. Used to throttle interrupts.
-  * @erst_size:		ERSTSZ - Number of segments in the Event Ring Segment Table (ERST).
-@@ -227,7 +227,7 @@ struct xhci_op_regs {
-  * updates the dequeue pointer.
-  */
- struct xhci_intr_reg {
--	__le32	irq_pending;
-+	__le32	iman;
- 	__le32	irq_control;
- 	__le32	erst_size;
- 	__le32	rsvd;
-@@ -235,7 +235,7 @@ struct xhci_intr_reg {
- 	__le64	erst_dequeue;
- };
- 
--/* irq_pending bitmasks */
-+/* iman bitmasks */
- /* bit 0 - Interrupt Pending (IP), whether there is an interrupt pending. Write-1-to-clear. */
- #define	IMAN_IP			(1 << 0)
- /* bit 1 - Interrupt Enable (IE), whether the interrupter is capable of generating an interrupt */
-@@ -1446,7 +1446,7 @@ struct xhci_interrupter {
- 	bool			ip_autoclear;
- 	u32			isoc_bei_interval;
- 	/* For interrupter registers save and restore over suspend/resume */
--	u32	s3_irq_pending;
-+	u32	s3_iman;
- 	u32	s3_irq_control;
- 	u32	s3_erst_size;
- 	u64	s3_erst_base;
+ static inline int usb_autopm_get_interface(struct usb_interface *intf)
+ { return 0; }
+
+---
+base-commit: 0af2f6be1b4281385b618cb86ad946eded089ac8
+change-id: 20250408-fix_usb_hdr-8305358f42e1
+
+Best regards,
 -- 
-2.47.2
+Zijun Hu <quic_zijuhu@quicinc.com>
 
