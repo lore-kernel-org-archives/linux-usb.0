@@ -1,57 +1,57 @@
 Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 424CC267F67
-	for <linux-usb@vger.kernel.org>; Tue,  8 Apr 2025 11:59:45 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EF93C26A0D9
+	for <linux-usb@vger.kernel.org>; Tue,  8 Apr 2025 11:59:47 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1744113587; cv=none; b=Wn+eHJNSyZG4D+LLtYJbPbW/UNCCuLOlJwg0589q4du+bLZPNJsZJOLvDH40ffHnRFmwB5KB0EKm1b3MMLRw0lT7OC5DFfAmVQZ+p7qFtR2NB27Md/zcfZ/mZH8HKZJQUwp8ACiKR+N+EW+78oQiJqD8G7hbMAVAAPUOuz9wS+I=
+	t=1744113589; cv=none; b=CE4bSv1b9OJbKeeaXCEJ4NH+tysa24IlFX+TDlsZ3Ts8jxojQehhS1HfzvVspVU0MLz4bFmEP50vP3eDxnf2wi+1pExQ1U5mt+GdBTuBLEx0H+LJYMRs+RLEBJ/VPl+I+Ztm67OFPGeJhXR46Kfo3Lg2V70esA8loSZW2lh/5S8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1744113587; c=relaxed/simple;
-	bh=lUN3tSnDDA0VVndcko/E0ki/sm2/4RMztD5pnZ/Chs0=;
+	s=arc-20240116; t=1744113589; c=relaxed/simple;
+	bh=h7B5yL+lCB4y9maC5JNARcEPThbC1anABN0yN0Gldlo=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=l0ihTlWSFHdPJTcuu1oW8vBZmKy3yHT8YPQ/52E0B3wYGm/0XCWA+uGZ+fI0M0nFBx5swYEb3+Dn+1tsYH26m/Pi2da+1u90y5Q3i+XNBcAO5AdyVkaqbt+TSnG3TXnOMN6gAsH0iVhrauxPef1r6n1Q+T/sfv+7G1cBd7K0dig=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=none smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=XDTDcqOG; arc=none smtp.client-ip=198.175.65.18
+	 MIME-Version; b=SdMxc+4uHmQYNYer+/BBy9UyuPPJQ8joD+TMdqGZ8UxjoTAHw52R95xgR4t9EKv2y/gBUfcwdLXUETwY9SWSOgYbqVTkRrPTxvhMbNF28aikmNOz8HpaNeSxNF2yhdnNihtqQFXZolNi+gkLLEg/GzxC7C67zAC9kFyQopM+GKs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=none smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=VV26DeNB; arc=none smtp.client-ip=198.175.65.18
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=linux.intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="XDTDcqOG"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="VV26DeNB"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1744113586; x=1775649586;
+  t=1744113588; x=1775649588;
   h=from:to:cc:subject:date:message-id:in-reply-to:
    references:mime-version:content-transfer-encoding;
-  bh=lUN3tSnDDA0VVndcko/E0ki/sm2/4RMztD5pnZ/Chs0=;
-  b=XDTDcqOGywGhWaQJLxiFesIPkPOCr6js7kB5G7V3QeB501whE2/f4EY3
-   MpLYnMGXf8pKbGLfIEz8Im06t56exoV4f9jVwMuximzlqsf+bLJQbHXwY
-   HszJXBDSMY15Ageefd8EbT+VHx1s4wXzXqfCSBNvc4DS1q1oNKCaCNZZs
-   e5HNYKOAMpfZRlDPe4bzJ9P3LXiFzgxOyhTIFhO7jmRJGagWVeT8BAhqW
-   YAc7rEhiLn0LbrFkRNfOdheXFZVpIY58bZeTo2ftFU8DntKUgziHyLGeO
-   Cvxs3YqnXLh8Is/peZAJF/rhUGdq7+k+6ouuS5K0DvOQLRnAHhkAm9DlP
-   g==;
-X-CSE-ConnectionGUID: 5PwysLYxRzCO9RVTwmk+PA==
-X-CSE-MsgGUID: tAIMCHrgQy6IA7GFqoJxzQ==
-X-IronPort-AV: E=McAfee;i="6700,10204,11397"; a="45676457"
+  bh=h7B5yL+lCB4y9maC5JNARcEPThbC1anABN0yN0Gldlo=;
+  b=VV26DeNBTApZydce2rOwzuF+Tr7yY/TgKieWrK+qsTt1WohFkogAKG+r
+   CL3nSHlJaUmHK0pd3vVM36EUDhrX2v0lIxTXREfraUOffCVB93zTVW/3t
+   HxZFwX70GoeCiz6e75ppLcjWQOzqNx8Z4pFes05B8amSt+fcOo+JntSIL
+   +MIRRAVK5EYZeGM8uiK3GMJSoUpTG6JF3A5mQ4eTGgjjNiI93RYcyaFAw
+   jhzS6MWvUFUmWlgL6ncMWaW0RnvYy+SyIVm44t2EwtX8lUT7Qa03vtaZN
+   IwvEEJjC84l68o17JNhE5T/crSttKo/kGInRnuQvJ0UVQxh7y2LWI3kB5
+   w==;
+X-CSE-ConnectionGUID: eeWSMQcYQjelKST71VQftw==
+X-CSE-MsgGUID: wcJPx1j0QJeafSoqkRDuBQ==
+X-IronPort-AV: E=McAfee;i="6700,10204,11397"; a="45676460"
 X-IronPort-AV: E=Sophos;i="6.15,198,1739865600"; 
-   d="scan'208";a="45676457"
+   d="scan'208";a="45676460"
 Received: from fmviesa002.fm.intel.com ([10.60.135.142])
-  by orvoesa110.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 08 Apr 2025 04:59:45 -0700
-X-CSE-ConnectionGUID: nqNyP6p6SSq4/GGxiZyYyA==
-X-CSE-MsgGUID: Bj1m2zgPQKGiAuAeD8lQpw==
+  by orvoesa110.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 08 Apr 2025 04:59:47 -0700
+X-CSE-ConnectionGUID: 8tWfcPzvSeWPSfqrdW8ACQ==
+X-CSE-MsgGUID: 06UUmcX/SGqUJP6/gwXQxQ==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.15,198,1739865600"; 
-   d="scan'208";a="151428036"
+   d="scan'208";a="151428042"
 Received: from black.fi.intel.com ([10.237.72.28])
-  by fmviesa002.fm.intel.com with ESMTP; 08 Apr 2025 04:59:44 -0700
+  by fmviesa002.fm.intel.com with ESMTP; 08 Apr 2025 04:59:46 -0700
 Received: by black.fi.intel.com (Postfix, from userid 1058)
-	id 0CC87398; Tue, 08 Apr 2025 14:59:42 +0300 (EEST)
+	id 4E4E0398; Tue, 08 Apr 2025 14:59:45 +0300 (EEST)
 From: Niklas Neronin <niklas.neronin@linux.intel.com>
 To: mathias.nyman@linux.intel.com
 Cc: linux-usb@vger.kernel.org,
 	Niklas Neronin <niklas.neronin@linux.intel.com>
-Subject: [PATCH 1/9] usb: xhci: set requested IMODI to the closest supported value
-Date: Tue,  8 Apr 2025 14:57:44 +0300
-Message-ID: <20250408115752.1344901-2-niklas.neronin@linux.intel.com>
+Subject: [PATCH 3/9] usb: xhci: guarantee that IMAN register is flushed
+Date: Tue,  8 Apr 2025 14:57:46 +0300
+Message-ID: <20250408115752.1344901-4-niklas.neronin@linux.intel.com>
 X-Mailer: git-send-email 2.47.2
 In-Reply-To: <20250408115752.1344901-1-niklas.neronin@linux.intel.com>
 References: <20250408115752.1344901-1-niklas.neronin@linux.intel.com>
@@ -63,59 +63,55 @@ List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-The function configures the Interrupt Moderation Interval (IMODI) via bits
-15:0 in the Interrupt Moderation Register. The IMODI value is specified in
-increments of 250 nanoseconds. For instance, an IMODI register value of 16
-corresponds to 4000 nanoseconds, resulting in an interrupt every ~1ms.
+Add read call to guarantee that the write to the IMAN register has
+been flushed.
 
-Currently, the function fails when a requested IMODI value is too large,
-only logging a warning message for secondary interrupters. Prevent this by
-automatically adjusting the IMODI value to the nearest supported value.
+xHCI specification 1.2, section 5.5.2.1, Note:
+"Most systems have write buffers that minimize overhead, but this may
+ require a read operation to guarantee that the write has been flushed
+ from the posted buffer."
 
 Signed-off-by: Niklas Neronin <niklas.neronin@linux.intel.com>
 ---
- drivers/usb/host/xhci-mem.c | 5 +----
- drivers/usb/host/xhci.c     | 7 +++++--
- 2 files changed, 6 insertions(+), 6 deletions(-)
+ drivers/usb/host/xhci-ring.c | 3 +++
+ drivers/usb/host/xhci.c      | 3 +++
+ 2 files changed, 6 insertions(+)
 
-diff --git a/drivers/usb/host/xhci-mem.c b/drivers/usb/host/xhci-mem.c
-index d698095fc88d..ebbf5f039902 100644
---- a/drivers/usb/host/xhci-mem.c
-+++ b/drivers/usb/host/xhci-mem.c
-@@ -2359,10 +2359,7 @@ xhci_create_secondary_interrupter(struct usb_hcd *hcd, unsigned int segs,
- 		return NULL;
+diff --git a/drivers/usb/host/xhci-ring.c b/drivers/usb/host/xhci-ring.c
+index 5d64c297721c..412eb90c29fb 100644
+--- a/drivers/usb/host/xhci-ring.c
++++ b/drivers/usb/host/xhci-ring.c
+@@ -3092,6 +3092,9 @@ static void xhci_clear_interrupt_pending(struct xhci_interrupter *ir)
+ 		irq_pending = readl(&ir->ir_set->irq_pending);
+ 		irq_pending |= IMAN_IP;
+ 		writel(irq_pending, &ir->ir_set->irq_pending);
++
++		/* Read operation to guarantee the write has been flushed from posted buffers */
++		readl(&ir->ir_set->irq_pending);
  	}
+ }
  
--	err = xhci_set_interrupter_moderation(ir, imod_interval);
--	if (err)
--		xhci_warn(xhci, "Failed to set interrupter %d moderation to %uns\n",
--			  i, imod_interval);
-+	xhci_set_interrupter_moderation(ir, imod_interval);
- 
- 	xhci_dbg(xhci, "Add secondary interrupter %d, max interrupters %d\n",
- 		 i, xhci->max_interrupters);
 diff --git a/drivers/usb/host/xhci.c b/drivers/usb/host/xhci.c
-index 0452b8d65832..7a8c545b78b7 100644
+index 5cf9908188cf..93daaac102f7 100644
 --- a/drivers/usb/host/xhci.c
 +++ b/drivers/usb/host/xhci.c
-@@ -354,12 +354,15 @@ int xhci_set_interrupter_moderation(struct xhci_interrupter *ir,
- {
- 	u32 imod;
+@@ -334,6 +334,8 @@ static int xhci_enable_interrupter(struct xhci_interrupter *ir)
+ 	iman |= IMAN_IE;
+ 	writel(iman, &ir->ir_set->irq_pending);
  
--	if (!ir || !ir->ir_set || imod_interval > U16_MAX * 250)
-+	if (!ir || !ir->ir_set)
- 		return -EINVAL;
- 
-+	/* IMODI value in IMOD register is in 250ns increments */
-+	imod_interval = umin(imod_interval / 250, ER_IRQ_INTERVAL_MASK);
-+
- 	imod = readl(&ir->ir_set->irq_control);
- 	imod &= ~ER_IRQ_INTERVAL_MASK;
--	imod |= (imod_interval / 250) & ER_IRQ_INTERVAL_MASK;
-+	imod |= imod_interval;
- 	writel(imod, &ir->ir_set->irq_control);
- 
++	/* Read operation to guarantee the write has been flushed from posted buffers */
++	readl(&ir->ir_set->irq_pending);
  	return 0;
+ }
+ 
+@@ -349,6 +351,7 @@ static int xhci_disable_interrupter(struct xhci_interrupter *ir)
+ 	iman &= ~IMAN_IE;
+ 	writel(iman, &ir->ir_set->irq_pending);
+ 
++	readl(&ir->ir_set->irq_pending);
+ 	return 0;
+ }
+ 
 -- 
 2.47.2
 
