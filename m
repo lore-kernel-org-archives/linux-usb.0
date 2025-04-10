@@ -1,73 +1,89 @@
-Received: from forward204a.mail.yandex.net (forward204a.mail.yandex.net [178.154.239.89])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B77E62571CB;
-	Thu, 10 Apr 2025 09:38:53 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=178.154.239.89
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D2FBF283CAA;
+	Thu, 10 Apr 2025 11:53:32 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1744277936; cv=none; b=GNM/9nFmI1l+FhKkZ8JV5iSFSAGK284AM9r7QwJRpt0Whgk/rk4Q0pnbkGux4dCZwXTf5b5G+5H32EDGdKJxa4Cj0LXMy1UNqSZyebIZ2a4+pcI4H21J2llLrdBouH91OuEWTSGaO6f/dc8sTGud80sLjf7wqj3HFqxc2crqEaQ=
+	t=1744286013; cv=none; b=P2T7IcLbp2Pfq4SKm7tWDGAdAwwAfKOhiTnQ6Mh5fTCKlNWGbVm8D5WQ2qxg8NH59/TayUpk5niK0XtjD8Bgo2Y3F0OzG/K1rxE/fvH+5PdDv83s/vRkZWJvyrlKFnCKILI+qgmHPLfdERPYH//4tEeO7beV56tqRpEzXKaDtJs=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1744277936; c=relaxed/simple;
-	bh=RyU2jVof6pyBfkRDwvWTu8EVWthx+KsZS0RZUWF1bYA=;
-	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=Ls8VwIkm1yG2uFfvV1xTMriWmCkynfofvrzmxc3jlrKMc6RSA4SF+xQjJ3yzL2MVgswmCH2xGGr34YKgyV65ZJ3h7iBYRu7YrO/rnwNYaU5GmBmqXqn2wRjEnUeyCKpxbQNPG7IEY7Tj6g3koi/85Epu4wrokQdoB4SEfNSqvSk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=yandex.ru; spf=pass smtp.mailfrom=yandex.ru; dkim=pass (1024-bit key) header.d=yandex.ru header.i=@yandex.ru header.b=bsJsBEh7; arc=none smtp.client-ip=178.154.239.89
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=yandex.ru
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=yandex.ru
+	s=arc-20240116; t=1744286013; c=relaxed/simple;
+	bh=PhiOxgPV+UJGeNCtj3MezYeVIX8cgjdJLX0OoBVn8PU=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=Ez/m7JI/hP38qWCr8Gotkvca9PRrD8FpLV4yUucVnNei6RQMOb51ttoGnHbVaIbXTQFfRjhHY5vK+VdQEh+7ORkQR6bAKN3wf0YbFml+8GStgmTxKpmyDEoP+/pswa1TbKGUz7HHz4wd5beK/GV8fbib/MKwe0kxER6shporo2o=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=h7MQhzqY; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=yandex.ru header.i=@yandex.ru header.b="bsJsBEh7"
-Received: from forward103a.mail.yandex.net (forward103a.mail.yandex.net [IPv6:2a02:6b8:c0e:500:1:45:d181:d103])
-	by forward204a.mail.yandex.net (Yandex) with ESMTPS id E38326679B;
-	Thu, 10 Apr 2025 12:32:12 +0300 (MSK)
-Received: from mail-nwsmtp-smtp-production-main-60.vla.yp-c.yandex.net (mail-nwsmtp-smtp-production-main-60.vla.yp-c.yandex.net [IPv6:2a02:6b8:c1d:5b1c:0:640:ee42:0])
-	by forward103a.mail.yandex.net (Yandex) with ESMTPS id 07F7E60AEF;
-	Thu, 10 Apr 2025 12:32:05 +0300 (MSK)
-Received: by mail-nwsmtp-smtp-production-main-60.vla.yp-c.yandex.net (smtp/Yandex) with ESMTPSA id tVbEbTALfqM0-9mWQVZPt;
-	Thu, 10 Apr 2025 12:32:04 +0300
-X-Yandex-Fwd: 1
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=yandex.ru; s=mail;
-	t=1744277524; bh=XGEr/aiM1XB+aNqfFCFL+tQOC9vRqcy5a9BRcDcpU64=;
-	h=Message-Id:Date:Cc:Subject:To:From;
-	b=bsJsBEh78qjtr5+3WG+PAo9G0ap0naFgFZZVxGEMbmDDKyWIimUMnYXMefsVStG+v
-	 abs8J7acCbdTqvEIanysdRfTYoujAl3JH6p5fItUTdsGGI3w7LEeV7gKIK9SXO2zx/
-	 FBAD7QurJGW+H0IrqEMhYBOuMv0i9zZCB13ykwXw=
-Authentication-Results: mail-nwsmtp-smtp-production-main-60.vla.yp-c.yandex.net; dkim=pass header.i=@yandex.ru
-From: Andrey Tsygunka <aitsygunka@yandex.ru>
-To: Matthieu CASTET <castet.matthieu@free.fr>,
-	Stanislaw Gruszka <stf_xl@wp.pl>
-Cc: Andrey Tsygunka <aitsygunka@yandex.ru>,
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="h7MQhzqY"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 8E5BDC4CEEB;
+	Thu, 10 Apr 2025 11:53:31 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1744286012;
+	bh=PhiOxgPV+UJGeNCtj3MezYeVIX8cgjdJLX0OoBVn8PU=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=h7MQhzqY2PpJ0Jem5Fw2rsXzKuA1s69TONRI1iVqGtOLjORR228OnpOyzwHw3s5h+
+	 vwgY95cSE+Co0rFRlFI7+tP0C7dYB7y+tggmxpExoPNjTzc6sBj5Mf3MOxmPpZaUcn
+	 SIuYoYcUpI/po+HeJlmC2P/8Xa8Xre7fZwuwLqXk5pEZ4rxli+GaFoVRD/YBNFnklt
+	 sAiUVSzji0bfDgBH+w5NVXBxW/nF7WyQ92wClMsAoAlOgOBUzD4V1KqEUQzsphw0sL
+	 6I1CQS8eH1/DmU29GNOdnFxPzaz3HdRAa7mfik1bOmdRlenPIZ2BJSL2ZGDK92BGSc
+	 YHOzgOQT0pSHQ==
+Date: Thu, 10 Apr 2025 17:23:28 +0530
+From: Vinod Koul <vkoul@kernel.org>
+To: Melody Olvera <melody.olvera@oss.qualcomm.com>
+Cc: Kishon Vijay Abraham I <kishon@kernel.org>,
+	Rob Herring <robh@kernel.org>,
+	Krzysztof Kozlowski <krzk+dt@kernel.org>,
+	Conor Dooley <conor+dt@kernel.org>,
+	Wesley Cheng <quic_wcheng@quicinc.com>,
 	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	linux-usb@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	lvc-project@linuxtesting.org
-Subject: [PATCH 0/1] usb: ueagle-atm: wait for a firmware upload to complete
-Date: Thu, 10 Apr 2025 12:31:45 +0300
-Message-Id: <20250410093146.3776801-1-aitsygunka@yandex.ru>
-X-Mailer: git-send-email 2.25.1
+	Philipp Zabel <p.zabel@pengutronix.de>,
+	Bjorn Andersson <andersson@kernel.org>,
+	Konrad Dybcio <konradybcio@kernel.org>,
+	Catalin Marinas <catalin.marinas@arm.com>,
+	Will Deacon <will@kernel.org>, linux-arm-msm@vger.kernel.org,
+	linux-phy@lists.infradead.org, devicetree@vger.kernel.org,
+	linux-kernel@vger.kernel.org, linux-usb@vger.kernel.org,
+	linux-arm-kernel@lists.infradead.org
+Subject: Re: [PATCH v4 06/10] phy: qcom: Add M31 based eUSB2 PHY driver
+Message-ID: <Z/exOF4T+0vNLQwg@vaman>
+References: <20250409-sm8750_usb_master-v4-0-6ec621c98be6@oss.qualcomm.com>
+ <20250409-sm8750_usb_master-v4-6-6ec621c98be6@oss.qualcomm.com>
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20250409-sm8750_usb_master-v4-6-6ec621c98be6@oss.qualcomm.com>
 
-This suggested patch adds a fix to the ueagle-atm driver related to the
-syzkaller report [1]. This report is currently relevant for older kernel
-versions, WARN() is not shown in the upstream version due to its
-replacement by pd_debug() in commit
-d87c295f599cab2ab3b3df53a9098adba4a6002b in the sysfs subsystem, but it
-reports a driver-side issue.
+On 09-04-25, 10:48, Melody Olvera wrote:
 
-Hope this will be a useful fix.
+> +static int m31eusb2_phy_write_readback(void __iomem *base, u32 offset,
+> +					const u32 mask, u32 val)
+> +{
+> +	u32 write_val;
+> +	u32 tmp;
+> +
+> +	tmp = readl_relaxed(base + offset);
+> +	tmp &= ~mask;
+> +	write_val = tmp | val;
+> +
+> +	writel_relaxed(write_val, base + offset);
+> +
+> +	tmp = readl_relaxed(base + offset);
 
-[1] https://syzkaller.appspot.com/bug?extid=457452d30bcdda75ead2
+Why are you using _relaxed version here?
 
-Andrey Tsygunka (1):
-  usb: ueagle-atm: wait for a firmware upload to complete
-
- drivers/usb/atm/ueagle-atm.c | 40 +++++++++++++++++++++++++++++++-----
- 1 file changed, 35 insertions(+), 5 deletions(-)
+> +	tmp &= mask;
+> +
+> +	if (tmp != val) {
+> +		pr_err("write: %x to offset: %x FAILED\n", val, offset);
+> +		return -EINVAL;
+> +	}
+> +
+> +	return 0;
+> +}
 
 -- 
-2.25.1
-
+~Vinod
