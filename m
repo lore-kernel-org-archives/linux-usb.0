@@ -1,50 +1,50 @@
 Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.13])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 82206269D0C
-	for <linux-usb@vger.kernel.org>; Thu, 10 Apr 2025 12:56:04 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 40D472853EB
+	for <linux-usb@vger.kernel.org>; Thu, 10 Apr 2025 12:56:06 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.13
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1744289766; cv=none; b=iQ9M1OMpFBZJFf64tfhvQJnyvHB/QKQuBy2A/Y4UCNwiWPH1fqC5AQ0sFScyhFtg6YWGF27gvqvVGdvgQ33IUwbdbGEimsGGw+52WWT0hvtVkcdnKL29NuTqZLC2CXr0bph2T9TtAzgWMyu+OxAVVZt7qYTTmCIownLnoOIKcy4=
+	t=1744289768; cv=none; b=s86ed+Vmvxh+DMdx7jGoGlyCa6cdPvuTCNfRMbNy57LCTYrazzuvDqDs2c5qjoWBZWTnJh83CQyFKbhG9Uff1571WgYEGyjpfdyq+0L4r8sozAgj6LAA+C8HXi1fTAvEBMvuL3UxtXJ3y2Y+/eYQXClFdtyTCbhyf9LCNUkBG4w=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1744289766; c=relaxed/simple;
-	bh=6KrJ7W2cRxSJR2K+OvRI3JtZW+2jWadpO5qaoyPi6TI=;
+	s=arc-20240116; t=1744289768; c=relaxed/simple;
+	bh=8ptKG71osZf9Z7VcQVSNGRCr6hO9tgDtvzwD3L6mOmQ=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=W0pI0gd2HklEgGPALRVdxUWQBxXmb8LD2Z11914slY7uFGwaV+D3CTgl7o7RsWarwN3tFb4FcjmzvhzysyCx4pxCGHR47Pe+4F+og/GW15OTsl/vj12aYWbEQEe0NuIEORXBX2ZRdlpfw8KVsFzfe0eXWd/B4CytRe0PTupu9gk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=none smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=ULJia8F1; arc=none smtp.client-ip=192.198.163.13
+	 MIME-Version; b=kUeQd0Lq31oiO+5ne3am2PFsGLaZ4dL9AQTTBxl0F/iDu/PP4EqbXLuYNqZvqE6klO9jszEaNQkE2RTB+Mh7p6NvqTpkcJ1Vb+Jg+ZcbHIafF7/TNLAbJb7hBowQlDHeCEbUhSqn0hIkTgW3/wyAeZGgX7gPQSiXerMsI94+XH8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=none smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=N1wxbGfG; arc=none smtp.client-ip=192.198.163.13
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=linux.intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="ULJia8F1"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="N1wxbGfG"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1744289765; x=1775825765;
+  t=1744289766; x=1775825766;
   h=from:to:cc:subject:date:message-id:in-reply-to:
    references:mime-version:content-transfer-encoding;
-  bh=6KrJ7W2cRxSJR2K+OvRI3JtZW+2jWadpO5qaoyPi6TI=;
-  b=ULJia8F1V8Z8c7DS1f23ej4hT5q1CrzdzLLZRRMlJR4zudJK4bIz+Kfv
-   IHbIoEOF5jRHVkXmxY/xvjcVjPZtRHwl7pAa8eI8d5lOf/+qAB4ZidxLj
-   0R+/krMLrL1TfJZYt8lRivQesyVIlw70VrY5ZyhlyNngx7y+kZgAh2GL4
-   vYQ9XslQUtA1Z3hViDtLvcT/uNrGUOGOJBJ+tBjhS+igxaTqrWJ3dWOqt
-   eLJNWTyAcIRM73ZvZZIhA+5owvMyJJ/oOJBdZk1SXkdbgokQ26DhJf/Gn
-   qphTmZm7wGDBVaoTrChDFCpE1pp629ECC41TZrUQ3c9bxQ8TIa8vm7nw7
+  bh=8ptKG71osZf9Z7VcQVSNGRCr6hO9tgDtvzwD3L6mOmQ=;
+  b=N1wxbGfGbdgUSzGT6nmQEgAjVI/SVIiQ5cv7b/8vi9HXMJGvk+KMwvtt
+   Zw+FB8mh6JjmbRZfJz1q+Cu6geqFnmV+8uTkC88/JNxp1xow8xrDuHLNB
+   33hyYd6kMwyi/6s8qyPs6X7Opg5/JvJUxSfASXD0AJs7bjzv/MMyhpEsJ
+   RQiWlaULM8wIPvvDC9joCUSapvFWJCXToFVglcOlErtl/xZYbbSQbY3QF
+   gNezseRCGy6XEnFnqTHrdpTkgo6f147csGAOGPFiBuy8RlT46UoZ/h+0v
+   rSu1VDuwSB185ObN5OJv3n1DyRMoc/nrlnzjfHfrfGshfSsmOCetCDRAB
    w==;
-X-CSE-ConnectionGUID: xaU/BgAaQRq1hM8pNfFY+A==
-X-CSE-MsgGUID: Yw6jV+9+RfSGkOaRd6fShw==
-X-IronPort-AV: E=McAfee;i="6700,10204,11400"; a="48512296"
+X-CSE-ConnectionGUID: /0ljArpWRgG7sU5zep7NZA==
+X-CSE-MsgGUID: BOrMTxgDQ3yr/jEyEMU1oQ==
+X-IronPort-AV: E=McAfee;i="6700,10204,11400"; a="48512299"
 X-IronPort-AV: E=Sophos;i="6.15,202,1739865600"; 
-   d="scan'208";a="48512296"
+   d="scan'208";a="48512299"
 Received: from fmviesa001.fm.intel.com ([10.60.135.141])
   by fmvoesa107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 10 Apr 2025 05:56:04 -0700
-X-CSE-ConnectionGUID: L3Ceb6cmSDaEtIhRgE/7CA==
-X-CSE-MsgGUID: vMU0b1S0T0a+bP/VFQlT3A==
+X-CSE-ConnectionGUID: Zls1DrErTea2Os/nTffk/w==
+X-CSE-MsgGUID: 2S1AQRQ+R4yUiBwvNPR3xA==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.15,202,1739865600"; 
-   d="scan'208";a="159861908"
+   d="scan'208";a="159861910"
 Received: from black.fi.intel.com ([10.237.72.28])
   by fmviesa001.fm.intel.com with ESMTP; 10 Apr 2025 05:56:02 -0700
 Received: by black.fi.intel.com (Postfix, from userid 1001)
-	id A5DBC162; Thu, 10 Apr 2025 15:56:00 +0300 (EEST)
+	id C1C5B54E; Thu, 10 Apr 2025 15:56:00 +0300 (EEST)
 From: Mika Westerberg <mika.westerberg@linux.intel.com>
 To: linux-usb@vger.kernel.org
 Cc: Yehezkel Bernat <YehezkelShB@gmail.com>,
@@ -54,9 +54,9 @@ Cc: Yehezkel Bernat <YehezkelShB@gmail.com>,
 	Alan Borzeszkowski <alan.borzeszkowski@linux.intel.com>,
 	Saranya Gopal <saranya.gopal@intel.com>,
 	Mika Westerberg <mika.westerberg@linux.intel.com>
-Subject: [PATCH 1/3] thunderbolt: Introduce domain event message handler
-Date: Thu, 10 Apr 2025 15:55:58 +0300
-Message-ID: <20250410125600.3074417-2-mika.westerberg@linux.intel.com>
+Subject: [PATCH 3/3] thunderbolt: Notify userspace about firmware CM tunneling events
+Date: Thu, 10 Apr 2025 15:56:00 +0300
+Message-ID: <20250410125600.3074417-4-mika.westerberg@linux.intel.com>
 X-Mailer: git-send-email 2.47.2
 In-Reply-To: <20250410125600.3074417-1-mika.westerberg@linux.intel.com>
 References: <20250410125600.3074417-1-mika.westerberg@linux.intel.com>
@@ -70,57 +70,128 @@ Content-Transfer-Encoding: 8bit
 
 From: Alan Borzeszkowski <alan.borzeszkowski@linux.intel.com>
 
-This patch introduces a function that can be used to send uevent
-notifications in the domain to userspace. For instance, it can indicate
-that a DisplayPort tunnel could not be established due to insufficient
-bandwidth. Userspace can then forward to user via dialog or similar.
+In the same way we do for software connection manager, send
+notifications about tunneling changes done by the firmware connection
+manager as well. There are some limitations with this though, for
+example we only get "DP Configuration Changed" message from the firmware
+without any indication if DisplayPort tunnel was activated or
+deactivated. Also we don't get information about the tunnel itself
+either so the event then looks like:
 
-Convert boot_acl_store() to call this instead of open-coding.
+  TUNNEL_EVENT=changed
+  TUNNEL_DETAILS=(DP)
+
+XDomain connections are similar to what the software connection manager
+sends.
 
 Signed-off-by: Alan Borzeszkowski <alan.borzeszkowski@linux.intel.com>
 Signed-off-by: Mika Westerberg <mika.westerberg@linux.intel.com>
 ---
- drivers/thunderbolt/domain.c |  2 +-
- drivers/thunderbolt/tb.h     | 13 +++++++++++++
- 2 files changed, 14 insertions(+), 1 deletion(-)
+ drivers/thunderbolt/icm.c     | 36 ++++++++++++++++++++++++++++++++++-
+ drivers/thunderbolt/tb_msgs.h |  1 +
+ 2 files changed, 36 insertions(+), 1 deletion(-)
 
-diff --git a/drivers/thunderbolt/domain.c b/drivers/thunderbolt/domain.c
-index 144d0232a70c..a3a7c8059eee 100644
---- a/drivers/thunderbolt/domain.c
-+++ b/drivers/thunderbolt/domain.c
-@@ -217,7 +217,7 @@ static ssize_t boot_acl_store(struct device *dev, struct device_attribute *attr,
- 	ret = tb->cm_ops->set_boot_acl(tb, acl, tb->nboot_acl);
- 	if (!ret) {
- 		/* Notify userspace about the change */
--		kobject_uevent(&tb->dev.kobj, KOBJ_CHANGE);
-+		tb_domain_event(tb, NULL);
- 	}
- 	mutex_unlock(&tb->lock);
+diff --git a/drivers/thunderbolt/icm.c b/drivers/thunderbolt/icm.c
+index 7859bccc592d..f213d9174dc5 100644
+--- a/drivers/thunderbolt/icm.c
++++ b/drivers/thunderbolt/icm.c
+@@ -22,6 +22,7 @@
+ #include "ctl.h"
+ #include "nhi_regs.h"
+ #include "tb.h"
++#include "tunnel.h"
  
-diff --git a/drivers/thunderbolt/tb.h b/drivers/thunderbolt/tb.h
-index b54147a1ba87..5869b379e4f7 100644
---- a/drivers/thunderbolt/tb.h
-+++ b/drivers/thunderbolt/tb.h
-@@ -804,6 +804,19 @@ static inline void tb_domain_put(struct tb *tb)
- 	put_device(&tb->dev);
+ #define PCIE2CIO_CMD			0x30
+ #define PCIE2CIO_CMD_TIMEOUT		BIT(31)
+@@ -379,6 +380,27 @@ static bool icm_firmware_running(const struct tb_nhi *nhi)
+ 	return !!(val & REG_FW_STS_ICM_EN);
  }
  
-+/**
-+ * tb_domain_event() - Notify userspace about an event in domain
-+ * @tb: Domain where event occurred
-+ * @envp: Array of uevent environment strings (can be %NULL)
-+ *
-+ * This function provides a way to notify userspace about any events
-+ * that take place in the domain.
-+ */
-+static inline void tb_domain_event(struct tb *tb, char *envp[])
++static void icm_xdomain_activated(struct tb_xdomain *xd, bool activated)
 +{
-+	kobject_uevent_env(&tb->dev.kobj, KOBJ_CHANGE, envp);
++	struct tb_port *nhi_port, *dst_port;
++	struct tb *tb = xd->tb;
++
++	nhi_port = tb_switch_find_port(tb->root_switch, TB_TYPE_NHI);
++	dst_port = tb_xdomain_downstream_port(xd);
++
++	if (activated)
++		tb_tunnel_event(tb, TB_TUNNEL_ACTIVATED, TB_TUNNEL_DMA,
++				nhi_port, dst_port);
++	else
++		tb_tunnel_event(tb, TB_TUNNEL_DEACTIVATED, TB_TUNNEL_DMA,
++				nhi_port, dst_port);
 +}
 +
- struct tb_nvm *tb_nvm_alloc(struct device *dev);
- int tb_nvm_read_version(struct tb_nvm *nvm);
- int tb_nvm_validate(struct tb_nvm *nvm);
++static void icm_dp_event(struct tb *tb)
++{
++	tb_tunnel_event(tb, TB_TUNNEL_CHANGED, TB_TUNNEL_DP, NULL, NULL);
++}
++
+ static bool icm_fr_is_supported(struct tb *tb)
+ {
+ 	return !x86_apple_machine;
+@@ -584,6 +606,7 @@ static int icm_fr_approve_xdomain_paths(struct tb *tb, struct tb_xdomain *xd,
+ 	if (reply.hdr.flags & ICM_FLAGS_ERROR)
+ 		return -EIO;
+ 
++	icm_xdomain_activated(xd, true);
+ 	return 0;
+ }
+ 
+@@ -603,6 +626,8 @@ static int icm_fr_disconnect_xdomain_paths(struct tb *tb, struct tb_xdomain *xd,
+ 	nhi_mailbox_cmd(tb->nhi, cmd, 1);
+ 	usleep_range(10, 50);
+ 	nhi_mailbox_cmd(tb->nhi, cmd, 2);
++
++	icm_xdomain_activated(xd, false);
+ 	return 0;
+ }
+ 
+@@ -1151,6 +1176,7 @@ static int icm_tr_approve_xdomain_paths(struct tb *tb, struct tb_xdomain *xd,
+ 	if (reply.hdr.flags & ICM_FLAGS_ERROR)
+ 		return -EIO;
+ 
++	icm_xdomain_activated(xd, true);
+ 	return 0;
+ }
+ 
+@@ -1191,7 +1217,12 @@ static int icm_tr_disconnect_xdomain_paths(struct tb *tb, struct tb_xdomain *xd,
+ 		return ret;
+ 
+ 	usleep_range(10, 50);
+-	return icm_tr_xdomain_tear_down(tb, xd, 2);
++	ret = icm_tr_xdomain_tear_down(tb, xd, 2);
++	if (ret)
++		return ret;
++
++	icm_xdomain_activated(xd, false);
++	return 0;
+ }
+ 
+ static void
+@@ -1718,6 +1749,9 @@ static void icm_handle_notification(struct work_struct *work)
+ 			if (tb_is_xdomain_enabled())
+ 				icm->xdomain_disconnected(tb, n->pkg);
+ 			break;
++		case ICM_EVENT_DP_CONFIG_CHANGED:
++			icm_dp_event(tb);
++			break;
+ 		case ICM_EVENT_RTD3_VETO:
+ 			icm->rtd3_veto(tb, n->pkg);
+ 			break;
+diff --git a/drivers/thunderbolt/tb_msgs.h b/drivers/thunderbolt/tb_msgs.h
+index a1670a96cbdc..144f7332d5d2 100644
+--- a/drivers/thunderbolt/tb_msgs.h
++++ b/drivers/thunderbolt/tb_msgs.h
+@@ -118,6 +118,7 @@ enum icm_event_code {
+ 	ICM_EVENT_DEVICE_DISCONNECTED = 0x4,
+ 	ICM_EVENT_XDOMAIN_CONNECTED = 0x6,
+ 	ICM_EVENT_XDOMAIN_DISCONNECTED = 0x7,
++	ICM_EVENT_DP_CONFIG_CHANGED = 0x8,
+ 	ICM_EVENT_RTD3_VETO = 0xa,
+ };
+ 
 -- 
 2.47.2
 
