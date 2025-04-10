@@ -1,50 +1,50 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.13])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.16])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 40D472853EB
-	for <linux-usb@vger.kernel.org>; Thu, 10 Apr 2025 12:56:06 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.13
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1A0F4285415
+	for <linux-usb@vger.kernel.org>; Thu, 10 Apr 2025 12:56:05 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.16
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1744289768; cv=none; b=s86ed+Vmvxh+DMdx7jGoGlyCa6cdPvuTCNfRMbNy57LCTYrazzuvDqDs2c5qjoWBZWTnJh83CQyFKbhG9Uff1571WgYEGyjpfdyq+0L4r8sozAgj6LAA+C8HXi1fTAvEBMvuL3UxtXJ3y2Y+/eYQXClFdtyTCbhyf9LCNUkBG4w=
+	t=1744289768; cv=none; b=Kg63qIcF9M77D2wV1KENVbZUS4fOyZuHHBPhS4qKwrGjcBRYSXJ+eb605azx9YD7jpnPmTVCufrZoIEcL2SLdBTIhBZL3calAmqqrC1s5vXz8dgfm39Hzb1kCcaB72wljxE/bHKvzFbunLeiLcxCoKVIEyFETYQW0Me+ltZOpAo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
 	s=arc-20240116; t=1744289768; c=relaxed/simple;
-	bh=8ptKG71osZf9Z7VcQVSNGRCr6hO9tgDtvzwD3L6mOmQ=;
+	bh=/daDCyxnLcd0Sa/f078Ry8XJGLwnjIuvTH8ZhmMZzAY=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=kUeQd0Lq31oiO+5ne3am2PFsGLaZ4dL9AQTTBxl0F/iDu/PP4EqbXLuYNqZvqE6klO9jszEaNQkE2RTB+Mh7p6NvqTpkcJ1Vb+Jg+ZcbHIafF7/TNLAbJb7hBowQlDHeCEbUhSqn0hIkTgW3/wyAeZGgX7gPQSiXerMsI94+XH8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=none smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=N1wxbGfG; arc=none smtp.client-ip=192.198.163.13
+	 MIME-Version; b=sJGkh7EpdpO1Eeh4B/MTG8WqV91cNyIoQH+S1GG/GNumxH/ufjDfuQ+8l37/TgxvNaKGmIGlLaZpvDOtzmzoDwWGVgeIThyoE9cg8FWQzxfbZg1N0rLtxh6hT6kD3hPI04I7DjlsNRaQQrsRcdQ5Cdlp4aOirP6plnQ/3zTR3F0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=none smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=arBuonn7; arc=none smtp.client-ip=192.198.163.16
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=linux.intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="N1wxbGfG"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="arBuonn7"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1744289766; x=1775825766;
+  t=1744289767; x=1775825767;
   h=from:to:cc:subject:date:message-id:in-reply-to:
    references:mime-version:content-transfer-encoding;
-  bh=8ptKG71osZf9Z7VcQVSNGRCr6hO9tgDtvzwD3L6mOmQ=;
-  b=N1wxbGfGbdgUSzGT6nmQEgAjVI/SVIiQ5cv7b/8vi9HXMJGvk+KMwvtt
-   Zw+FB8mh6JjmbRZfJz1q+Cu6geqFnmV+8uTkC88/JNxp1xow8xrDuHLNB
-   33hyYd6kMwyi/6s8qyPs6X7Opg5/JvJUxSfASXD0AJs7bjzv/MMyhpEsJ
-   RQiWlaULM8wIPvvDC9joCUSapvFWJCXToFVglcOlErtl/xZYbbSQbY3QF
-   gNezseRCGy6XEnFnqTHrdpTkgo6f147csGAOGPFiBuy8RlT46UoZ/h+0v
-   rSu1VDuwSB185ObN5OJv3n1DyRMoc/nrlnzjfHfrfGshfSsmOCetCDRAB
+  bh=/daDCyxnLcd0Sa/f078Ry8XJGLwnjIuvTH8ZhmMZzAY=;
+  b=arBuonn7kdxyHJm91Wv3f+1IQB+AwQrWKmmNPF4ky0PS9fShDKTIhwuB
+   jOWfkv7Wsr4XQYDixPSU1jqHTmdBFOlDUcEFZNZElueynK3+94vnpBchS
+   NPg11PdYJt+PMZj1Zy9cXfqConPG/AN9yvFPx/EvUMgtODpNue7BmtKtk
+   SjjNf690kUM0lDrDFEup1joziYkbd1B2Hc/MpnrI3fHe6ab9tem/dmrfO
+   7o1HYdvZl8X4ShgpzihdBH4SKnhNh5OYnnn311An6Sfq8otsJbhEJ2kRv
+   rh/BpooT6pSNHBsYCsJFGQKdUXISztK3aceANOF+FxluzrTQx95KYCHib
    w==;
-X-CSE-ConnectionGUID: /0ljArpWRgG7sU5zep7NZA==
-X-CSE-MsgGUID: BOrMTxgDQ3yr/jEyEMU1oQ==
-X-IronPort-AV: E=McAfee;i="6700,10204,11400"; a="48512299"
+X-CSE-ConnectionGUID: 7RJtEKIYTQCR5NEvHxSjAw==
+X-CSE-MsgGUID: CfbAA6xZQvidMe/T4N9ajg==
+X-IronPort-AV: E=McAfee;i="6700,10204,11400"; a="33417008"
 X-IronPort-AV: E=Sophos;i="6.15,202,1739865600"; 
-   d="scan'208";a="48512299"
-Received: from fmviesa001.fm.intel.com ([10.60.135.141])
-  by fmvoesa107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 10 Apr 2025 05:56:04 -0700
-X-CSE-ConnectionGUID: Zls1DrErTea2Os/nTffk/w==
-X-CSE-MsgGUID: 2S1AQRQ+R4yUiBwvNPR3xA==
+   d="scan'208";a="33417008"
+Received: from orviesa010.jf.intel.com ([10.64.159.150])
+  by fmvoesa110.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 10 Apr 2025 05:56:05 -0700
+X-CSE-ConnectionGUID: TDKcdTeHQ3G11MLS72qVVQ==
+X-CSE-MsgGUID: v2NTmfL8ROa7E8vLuDzuwA==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.15,202,1739865600"; 
-   d="scan'208";a="159861910"
+   d="scan'208";a="128812865"
 Received: from black.fi.intel.com ([10.237.72.28])
-  by fmviesa001.fm.intel.com with ESMTP; 10 Apr 2025 05:56:02 -0700
+  by orviesa010.jf.intel.com with ESMTP; 10 Apr 2025 05:56:02 -0700
 Received: by black.fi.intel.com (Postfix, from userid 1001)
-	id C1C5B54E; Thu, 10 Apr 2025 15:56:00 +0300 (EEST)
+	id AF39F20B; Thu, 10 Apr 2025 15:56:00 +0300 (EEST)
 From: Mika Westerberg <mika.westerberg@linux.intel.com>
 To: linux-usb@vger.kernel.org
 Cc: Yehezkel Bernat <YehezkelShB@gmail.com>,
@@ -54,9 +54,9 @@ Cc: Yehezkel Bernat <YehezkelShB@gmail.com>,
 	Alan Borzeszkowski <alan.borzeszkowski@linux.intel.com>,
 	Saranya Gopal <saranya.gopal@intel.com>,
 	Mika Westerberg <mika.westerberg@linux.intel.com>
-Subject: [PATCH 3/3] thunderbolt: Notify userspace about firmware CM tunneling events
-Date: Thu, 10 Apr 2025 15:56:00 +0300
-Message-ID: <20250410125600.3074417-4-mika.westerberg@linux.intel.com>
+Subject: [PATCH 2/3] thunderbolt: Notify userspace about software CM tunneling events
+Date: Thu, 10 Apr 2025 15:55:59 +0300
+Message-ID: <20250410125600.3074417-3-mika.westerberg@linux.intel.com>
 X-Mailer: git-send-email 2.47.2
 In-Reply-To: <20250410125600.3074417-1-mika.westerberg@linux.intel.com>
 References: <20250410125600.3074417-1-mika.westerberg@linux.intel.com>
@@ -70,128 +70,253 @@ Content-Transfer-Encoding: 8bit
 
 From: Alan Borzeszkowski <alan.borzeszkowski@linux.intel.com>
 
-In the same way we do for software connection manager, send
-notifications about tunneling changes done by the firmware connection
-manager as well. There are some limitations with this though, for
-example we only get "DP Configuration Changed" message from the firmware
-without any indication if DisplayPort tunnel was activated or
-deactivated. Also we don't get information about the tunnel itself
-either so the event then looks like:
+This adds notification whenever software connection manager activates,
+changes or deactivates a tunnel, and also if there is limitation in
+bandwidth.
 
-  TUNNEL_EVENT=changed
-  TUNNEL_DETAILS=(DP)
+The notification looks like below:
 
-XDomain connections are similar to what the software connection manager
-sends.
+  TUNNEL_EVENT=activated|changed|deactivated|low bandwidth|
+  	       insufficient bandwidth
+  TUNNEL_DETAILS=0:12 <-> 1:20 (USB3)
+
+Userspace can then listen these and inform user if needed. For example
+if there is not enough bandwidth, it can show warning dialog to the user.
 
 Signed-off-by: Alan Borzeszkowski <alan.borzeszkowski@linux.intel.com>
-Signed-off-by: Mika Westerberg <mika.westerberg@linux.intel.com>
 ---
- drivers/thunderbolt/icm.c     | 36 ++++++++++++++++++++++++++++++++++-
- drivers/thunderbolt/tb_msgs.h |  1 +
- 2 files changed, 36 insertions(+), 1 deletion(-)
+ drivers/thunderbolt/tb.c     | 22 +++++++--
+ drivers/thunderbolt/tunnel.c | 92 ++++++++++++++++++++++++++++++++++--
+ drivers/thunderbolt/tunnel.h | 23 +++++++++
+ 3 files changed, 129 insertions(+), 8 deletions(-)
 
-diff --git a/drivers/thunderbolt/icm.c b/drivers/thunderbolt/icm.c
-index 7859bccc592d..f213d9174dc5 100644
---- a/drivers/thunderbolt/icm.c
-+++ b/drivers/thunderbolt/icm.c
-@@ -22,6 +22,7 @@
- #include "ctl.h"
- #include "nhi_regs.h"
- #include "tb.h"
-+#include "tunnel.h"
+diff --git a/drivers/thunderbolt/tb.c b/drivers/thunderbolt/tb.c
+index 8c527af98927..c14ab1fbeeaf 100644
+--- a/drivers/thunderbolt/tb.c
++++ b/drivers/thunderbolt/tb.c
+@@ -952,6 +952,15 @@ static int tb_tunnel_usb3(struct tb *tb, struct tb_switch *sw)
+ 	tb_port_dbg(up, "available bandwidth for new USB3 tunnel %d/%d Mb/s\n",
+ 		    available_up, available_down);
  
- #define PCIE2CIO_CMD			0x30
- #define PCIE2CIO_CMD_TIMEOUT		BIT(31)
-@@ -379,6 +380,27 @@ static bool icm_firmware_running(const struct tb_nhi *nhi)
- 	return !!(val & REG_FW_STS_ICM_EN);
++	/*
++	 * If the available bandwidth is less than 1.5 Gb/s notify
++	 * userspace that the connected isochronous device may not work
++	 * properly.
++	 */
++	if (available_up < 1500 || available_down < 1500)
++		tb_tunnel_event(tb, TB_TUNNEL_LOW_BANDWIDTH, TB_TUNNEL_USB3,
++				down, up);
++
+ 	tunnel = tb_tunnel_alloc_usb3(tb, up, down, available_up,
+ 				      available_down);
+ 	if (!tunnel) {
+@@ -2000,8 +2009,10 @@ static void tb_tunnel_one_dp(struct tb *tb, struct tb_port *in,
+ 
+ 	ret = tb_available_bandwidth(tb, in, out, &available_up, &available_down,
+ 				     true);
+-	if (ret)
++	if (ret) {
++		tb_tunnel_event(tb, TB_TUNNEL_NO_BANDWIDTH, TB_TUNNEL_DP, in, out);
+ 		goto err_reclaim_usb;
++	}
+ 
+ 	tb_dbg(tb, "available bandwidth for new DP tunnel %u/%u Mb/s\n",
+ 	       available_up, available_down);
+@@ -2622,8 +2633,12 @@ static int tb_alloc_dp_bandwidth(struct tb_tunnel *tunnel, int *requested_up,
+ 			}
+ 		}
+ 
+-		return tb_tunnel_alloc_bandwidth(tunnel, requested_up,
+-						 requested_down);
++		ret = tb_tunnel_alloc_bandwidth(tunnel, requested_up,
++						requested_down);
++		if (ret)
++			goto fail;
++
++		return 0;
+ 	}
+ 
+ 	/*
+@@ -2699,6 +2714,7 @@ static int tb_alloc_dp_bandwidth(struct tb_tunnel *tunnel, int *requested_up,
+ 			      "failing the request by rewriting allocated %d/%d Mb/s\n",
+ 			      allocated_up, allocated_down);
+ 		tb_tunnel_alloc_bandwidth(tunnel, &allocated_up, &allocated_down);
++		tb_tunnel_event(tb, TB_TUNNEL_NO_BANDWIDTH, TB_TUNNEL_DP, in, out);
+ 	}
+ 
+ 	return ret;
+diff --git a/drivers/thunderbolt/tunnel.c b/drivers/thunderbolt/tunnel.c
+index 76254ed3f47f..d52efe3f658c 100644
+--- a/drivers/thunderbolt/tunnel.c
++++ b/drivers/thunderbolt/tunnel.c
+@@ -100,6 +100,14 @@ MODULE_PARM_DESC(bw_alloc_mode,
+ 
+ static const char * const tb_tunnel_names[] = { "PCI", "DP", "DMA", "USB3" };
+ 
++static const char * const tb_event_names[] = {
++	[TB_TUNNEL_ACTIVATED] = "activated",
++	[TB_TUNNEL_CHANGED] = "changed",
++	[TB_TUNNEL_DEACTIVATED] = "deactivated",
++	[TB_TUNNEL_LOW_BANDWIDTH] = "low bandwidth",
++	[TB_TUNNEL_NO_BANDWIDTH] = "insufficient bandwidth",
++};
++
+ /* Synchronizes kref_get()/put() of struct tb_tunnel */
+ static DEFINE_MUTEX(tb_tunnel_lock);
+ 
+@@ -220,6 +228,72 @@ void tb_tunnel_put(struct tb_tunnel *tunnel)
+ 	mutex_unlock(&tb_tunnel_lock);
  }
  
-+static void icm_xdomain_activated(struct tb_xdomain *xd, bool activated)
++/**
++ * tb_tunnel_event() - Notify userspace about tunneling event
++ * @tb: Domain where the event occurred
++ * @event: Event that happened
++ * @type: Type of the tunnel in question
++ * @src_port: Tunnel source port (can be %NULL)
++ * @dst_port: Tunnel destination port (can be %NULL)
++ *
++ * Notifies userspace about tunneling @event in the domain. The tunnel
++ * does not need to exist (e.g the tunnel was not activated because
++ * there is not enough bandwidth). If the @src_port and @dst_port are
++ * given fill in full %TUNNEL_DETAILS environment variable. Otherwise
++ * uses the shorter one (just the tunnel type).
++ */
++void tb_tunnel_event(struct tb *tb, enum tb_tunnel_event event,
++		     enum tb_tunnel_type type,
++		     const struct tb_port *src_port,
++		     const struct tb_port *dst_port)
 +{
-+	struct tb_port *nhi_port, *dst_port;
-+	struct tb *tb = xd->tb;
++	char *envp[3] = { NULL };
 +
-+	nhi_port = tb_switch_find_port(tb->root_switch, TB_TYPE_NHI);
-+	dst_port = tb_xdomain_downstream_port(xd);
++	if (WARN_ON_ONCE(event >= ARRAY_SIZE(tb_event_names)))
++		return;
++	if (WARN_ON_ONCE(type >= ARRAY_SIZE(tb_tunnel_names)))
++		return;
 +
-+	if (activated)
-+		tb_tunnel_event(tb, TB_TUNNEL_ACTIVATED, TB_TUNNEL_DMA,
-+				nhi_port, dst_port);
-+	else
-+		tb_tunnel_event(tb, TB_TUNNEL_DEACTIVATED, TB_TUNNEL_DMA,
-+				nhi_port, dst_port);
++	envp[0] = kasprintf(GFP_KERNEL, "TUNNEL_EVENT=%s", tb_event_names[event]);
++	if (!envp[0])
++		return;
++
++	if (src_port != NULL && dst_port != NULL) {
++		envp[1] = kasprintf(GFP_KERNEL, "TUNNEL_DETAILS=%llx:%u <-> %llx:%u (%s)",
++				    tb_route(src_port->sw), src_port->port,
++				    tb_route(dst_port->sw), dst_port->port,
++				    tb_tunnel_names[type]);
++	} else {
++		envp[1] = kasprintf(GFP_KERNEL, "TUNNEL_DETAILS=(%s)",
++				    tb_tunnel_names[type]);
++	}
++
++	if (envp[1])
++		tb_domain_event(tb, envp);
++
++	kfree(envp[1]);
++	kfree(envp[0]);
 +}
 +
-+static void icm_dp_event(struct tb *tb)
++static inline void tb_tunnel_set_active(struct tb_tunnel *tunnel, bool active)
 +{
-+	tb_tunnel_event(tb, TB_TUNNEL_CHANGED, TB_TUNNEL_DP, NULL, NULL);
++	if (active) {
++		tunnel->state = TB_TUNNEL_ACTIVE;
++		tb_tunnel_event(tunnel->tb, TB_TUNNEL_ACTIVATED, tunnel->type,
++				tunnel->src_port, tunnel->dst_port);
++	} else {
++		tunnel->state = TB_TUNNEL_INACTIVE;
++		tb_tunnel_event(tunnel->tb, TB_TUNNEL_DEACTIVATED, tunnel->type,
++				tunnel->src_port, tunnel->dst_port);
++	}
 +}
 +
- static bool icm_fr_is_supported(struct tb *tb)
++static inline void tb_tunnel_changed(struct tb_tunnel *tunnel)
++{
++	tb_tunnel_event(tunnel->tb, TB_TUNNEL_CHANGED, tunnel->type,
++			tunnel->src_port, tunnel->dst_port);
++}
++
+ static int tb_pci_set_ext_encapsulation(struct tb_tunnel *tunnel, bool enable)
  {
- 	return !x86_apple_machine;
-@@ -584,6 +606,7 @@ static int icm_fr_approve_xdomain_paths(struct tb *tb, struct tb_xdomain *xd,
- 	if (reply.hdr.flags & ICM_FLAGS_ERROR)
- 		return -EIO;
+ 	struct tb_port *port = tb_upstream_port(tunnel->dst_port->sw);
+@@ -992,7 +1066,7 @@ static void tb_dp_dprx_work(struct work_struct *work)
+ 				return;
+ 			}
+ 		} else {
+-			tunnel->state = TB_TUNNEL_ACTIVE;
++			tb_tunnel_set_active(tunnel, true);
+ 		}
+ 		mutex_unlock(&tb->lock);
+ 	}
+@@ -2326,7 +2400,7 @@ int tb_tunnel_activate(struct tb_tunnel *tunnel)
+ 		}
+ 	}
  
-+	icm_xdomain_activated(xd, true);
+-	tunnel->state = TB_TUNNEL_ACTIVE;
++	tb_tunnel_set_active(tunnel, true);
  	return 0;
+ 
+ err:
+@@ -2356,7 +2430,7 @@ void tb_tunnel_deactivate(struct tb_tunnel *tunnel)
+ 	if (tunnel->post_deactivate)
+ 		tunnel->post_deactivate(tunnel);
+ 
+-	tunnel->state = TB_TUNNEL_INACTIVE;
++	tb_tunnel_set_active(tunnel, false);
  }
  
-@@ -603,6 +626,8 @@ static int icm_fr_disconnect_xdomain_paths(struct tb *tb, struct tb_xdomain *xd,
- 	nhi_mailbox_cmd(tb->nhi, cmd, 1);
- 	usleep_range(10, 50);
- 	nhi_mailbox_cmd(tb->nhi, cmd, 2);
+ /**
+@@ -2449,8 +2523,16 @@ int tb_tunnel_alloc_bandwidth(struct tb_tunnel *tunnel, int *alloc_up,
+ 	if (!tb_tunnel_is_active(tunnel))
+ 		return -ENOTCONN;
+ 
+-	if (tunnel->alloc_bandwidth)
+-		return tunnel->alloc_bandwidth(tunnel, alloc_up, alloc_down);
++	if (tunnel->alloc_bandwidth) {
++		int ret;
 +
-+	icm_xdomain_activated(xd, false);
- 	return 0;
- }
- 
-@@ -1151,6 +1176,7 @@ static int icm_tr_approve_xdomain_paths(struct tb *tb, struct tb_xdomain *xd,
- 	if (reply.hdr.flags & ICM_FLAGS_ERROR)
- 		return -EIO;
- 
-+	icm_xdomain_activated(xd, true);
- 	return 0;
- }
- 
-@@ -1191,7 +1217,12 @@ static int icm_tr_disconnect_xdomain_paths(struct tb *tb, struct tb_xdomain *xd,
- 		return ret;
- 
- 	usleep_range(10, 50);
--	return icm_tr_xdomain_tear_down(tb, xd, 2);
-+	ret = icm_tr_xdomain_tear_down(tb, xd, 2);
-+	if (ret)
-+		return ret;
++		ret = tunnel->alloc_bandwidth(tunnel, alloc_up, alloc_down);
++		if (ret)
++			return ret;
 +
-+	icm_xdomain_activated(xd, false);
-+	return 0;
++		tb_tunnel_changed(tunnel);
++		return 0;
++	}
+ 
+ 	return -EOPNOTSUPP;
+ }
+diff --git a/drivers/thunderbolt/tunnel.h b/drivers/thunderbolt/tunnel.h
+index 8a0a0cb21a89..5e9fb73d5220 100644
+--- a/drivers/thunderbolt/tunnel.h
++++ b/drivers/thunderbolt/tunnel.h
+@@ -194,6 +194,29 @@ static inline bool tb_tunnel_direction_downstream(const struct tb_tunnel *tunnel
+ 						 tunnel->dst_port);
  }
  
- static void
-@@ -1718,6 +1749,9 @@ static void icm_handle_notification(struct work_struct *work)
- 			if (tb_is_xdomain_enabled())
- 				icm->xdomain_disconnected(tb, n->pkg);
- 			break;
-+		case ICM_EVENT_DP_CONFIG_CHANGED:
-+			icm_dp_event(tb);
-+			break;
- 		case ICM_EVENT_RTD3_VETO:
- 			icm->rtd3_veto(tb, n->pkg);
- 			break;
-diff --git a/drivers/thunderbolt/tb_msgs.h b/drivers/thunderbolt/tb_msgs.h
-index a1670a96cbdc..144f7332d5d2 100644
---- a/drivers/thunderbolt/tb_msgs.h
-+++ b/drivers/thunderbolt/tb_msgs.h
-@@ -118,6 +118,7 @@ enum icm_event_code {
- 	ICM_EVENT_DEVICE_DISCONNECTED = 0x4,
- 	ICM_EVENT_XDOMAIN_CONNECTED = 0x6,
- 	ICM_EVENT_XDOMAIN_DISCONNECTED = 0x7,
-+	ICM_EVENT_DP_CONFIG_CHANGED = 0x8,
- 	ICM_EVENT_RTD3_VETO = 0xa,
- };
++/**
++ * enum tb_tunnel_event - Tunnel related events
++ * @TB_TUNNEL_ACTIVATED: A tunnel was activated
++ * @TB_TUNNEL_CHANGED: There is a tunneling change in the domain. Includes
++ *		       full %TUNNEL_DETAILS if the tunnel in question is known
++ *		       (ICM does not provide that information).
++ * @TB_TUNNEL_DEACTIVATED: A tunnel was torn down
++ * @TB_TUNNEL_LOW_BANDWIDTH: Tunnel bandwidth is not optimal
++ * @TB_TUNNEL_NO_BANDWIDTH: There is not enough bandwidth for a tunnel
++ */
++enum tb_tunnel_event {
++	TB_TUNNEL_ACTIVATED,
++	TB_TUNNEL_CHANGED,
++	TB_TUNNEL_DEACTIVATED,
++	TB_TUNNEL_LOW_BANDWIDTH,
++	TB_TUNNEL_NO_BANDWIDTH,
++};
++
++void tb_tunnel_event(struct tb *tb, enum tb_tunnel_event event,
++		     enum tb_tunnel_type type,
++		     const struct tb_port *src_port,
++		     const struct tb_port *dst_port);
++
+ const char *tb_tunnel_type_name(const struct tb_tunnel *tunnel);
  
+ #define __TB_TUNNEL_PRINT(level, tunnel, fmt, arg...)                   \
 -- 
 2.47.2
 
