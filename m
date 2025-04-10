@@ -1,72 +1,33 @@
-Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com [205.220.168.131])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E2E841E5B71
-	for <linux-usb@vger.kernel.org>; Thu, 10 Apr 2025 05:48:31 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.168.131
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 01D7417A309;
+	Thu, 10 Apr 2025 06:04:53 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1744264113; cv=none; b=IAxbfERCKKthOlujlqRjPkO/oEQADJcdxiKsGgibAbPXRAs8smfky03CHALx8bEfa2geDk9tulpT5ron+gd3eCkkKOOwIgd+6mJHiegKEfQe5KWb3M00ujpsMMtqRMLmbRw9pxqk6OOSfgkACsNHvVK2is1CtEr5qzO0ADUN++k=
+	t=1744265094; cv=none; b=K7UkSybUxqXo5+BsySUIjEH2Xewo5xz7VwerWgasqNCCRlO4fBXxFf7b9goCc8ATaY65rPEglbsQv6IcV30wzGpLj1rAY16roLcbIu8N1+6dahDpEPzgsha9Y7E7Rh5/oKk2N2pZIF+kN7CKcCxH9n4ek0ZeN0fUfEAJdfCmrqk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1744264113; c=relaxed/simple;
-	bh=7HPB4C6hG5RveqzVOYqClm26/z8XxekYphPB5BsB7jU=;
+	s=arc-20240116; t=1744265094; c=relaxed/simple;
+	bh=FYrBWSCKFVtEQ8dqrWonuh8PblTo1bjrFXM916oA1Z8=;
 	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=ZGJb2/x0f8Dxmho6uXnucq+zh8+CXxdugkwBZilkO2e0EnIsyYqAbG5kBYVG6fkY4vfFqWaQT+pA3x0GO5KfSwyKV9O2NeuihQESPNKrI2LUEqUTABdk0W54IKwu3GveRKMt0zMC7ZV7bFoWuoH3RSogUXsoIgzfCGbw0JtnL4w=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com; spf=pass smtp.mailfrom=oss.qualcomm.com; dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b=HNiblCwb; arc=none smtp.client-ip=205.220.168.131
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=oss.qualcomm.com
+	 In-Reply-To:Content-Type; b=HKtiSsZ7q+JTHiudKcdNxJOWOjo6CXzAez8xJ+IrfQvewV06WJU+g4aPQxRW8GWwECj5ueg+jvIAEKMhqlnzogGyTy2VeOE/VntdzYsIdlrCYTKL32bpeGW4AV+h9w3zBibsEy90C5lwK+2s2tHq/1+9c9xb3V1bJ4TDSSckal0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=pE6bNzha; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b="HNiblCwb"
-Received: from pps.filterd (m0279866.ppops.net [127.0.0.1])
-	by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 53A5Uolu006630
-	for <linux-usb@vger.kernel.org>; Thu, 10 Apr 2025 05:48:31 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
-	cc:content-transfer-encoding:content-type:date:from:in-reply-to
-	:message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
-	fto71A2vBF+o06+1sO8jWrZT7txIGRj9I+GBH3AAlBs=; b=HNiblCwbf0OCvaHM
-	ypBHpSJNmhsXdENuvPhVP5CSygM65j5oCJKHpUbAwd+gKnun8NKnxZGfUV39DCqT
-	PysivpDHaZgevQB741wz9xkFLmJVC7GLMO7h4k8sj/BjIaC7UqEH283oKNb+Fh9b
-	fb2d/4+rVfD7kUzfMlBct48/4SXsA7CzNrxrpBryAqI6AMsnze7y53JBgXRFIE8W
-	yxd572cyu0S7wIm26vG6gzRFqAlyr7L1gfgiIobWegjaKOg/qMASzLs5aB+87zZZ
-	EI30PJww934TnvPvqLFs2letkcqA5HY1fjiMrf6q0ZwhZodFP7vH6upwVdnUrVfe
-	rGcliw==
-Received: from mail-pf1-f197.google.com (mail-pf1-f197.google.com [209.85.210.197])
-	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 45twtb5ujk-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT)
-	for <linux-usb@vger.kernel.org>; Thu, 10 Apr 2025 05:48:30 +0000 (GMT)
-Received: by mail-pf1-f197.google.com with SMTP id d2e1a72fcca58-736b2a25d9fso358928b3a.0
-        for <linux-usb@vger.kernel.org>; Wed, 09 Apr 2025 22:48:30 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1744264109; x=1744868909;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=fto71A2vBF+o06+1sO8jWrZT7txIGRj9I+GBH3AAlBs=;
-        b=uSV8M3w5TMAOu9Qc0BL+Ps4MYAwkPQpsG8XgcDCbhwRCSPA80zMr5aBsXwOM3lJoG8
-         yOTfJjkR9RGuIshhXK6Y04YeREv3SmUXVr6OkZgm5Ds9tTT8iEbuSC0/2l4n8veHx6E+
-         FIXu0fF5VAg7/sNtCyeYrzTAnntidd/HOkV4++H92/l43Yo1ygbGPaDY0By6MbVX7kou
-         Y9Mk69kJKcRlKkkJRb8nFW7cyJzRQ7sf2W78Jg/hte+FpqWF1TEgvm/kaJq/fXAnHhza
-         nU4BVN0IHxIrU7RYxwMpZyJ+yWFZuynATzUNFVYZkow4V1Y/Y1r21UdJXLUG5GorDjqc
-         XmZw==
-X-Forwarded-Encrypted: i=1; AJvYcCWhLw1v0UpTh7IJ5+9aMrnbL8lH79y3b7jEM+1JcHXOJ2WyOpvnhDHKkI5QlQvQd2yvX4W67oYEMvM=@vger.kernel.org
-X-Gm-Message-State: AOJu0YxeKu1PzJhHUgDGaQ//z0DTWVA5UVr2QB3fiu59QREsvzs8VzDu
-	OS0GPl3UcJUQp1l/wvjD2d1zaqTInGLS+0ZEN+7+MVxom3qZ2wbF06tuded76Ff1Ido5cgRcqW7
-	VfLiWoGUkpWY+vGactgmgcqLUNT3KY/56YBdEqKDaz8JZt1bgLjNpOV2oKhbx7ANZo8k=
-X-Gm-Gg: ASbGncsnCWp+E6RzIefwuywkEWIK45BPVtLsqHWdB7/fvcagGH5gO+S3zO4vfN8a8Lm
-	S+BUtP/R57JADUDoMW/MR+Hps55zaYr3WdKZ4IyT/sH5rHblG1r9XLmj4RUjt4UZ1jSn8JIY7tu
-	PkDROGa3ra0rOvlHOCwPBoJY4MRfp1iZqC5YCSoY9kpMb5Ee/d6JebOapEDw0TgeGpfamWg9mvj
-	QVsJshlAB/r0l3tP4PzdZkRr5XiplRh1TGrwAeDSiD++SxvlsOcXoWOkLAPrAYwqm9IFM18HPVh
-	x3oYfLto9MbUTmATczvHPOhEqvfeKpXBdJdO5w==
-X-Received: by 2002:a05:6a00:2e16:b0:730:95a6:375f with SMTP id d2e1a72fcca58-73bc0a176b5mr1716193b3a.3.1744264109529;
-        Wed, 09 Apr 2025 22:48:29 -0700 (PDT)
-X-Google-Smtp-Source: AGHT+IEOndUpg1XsPJBAfCy6plpCiUpoFwdwwZ4YOy0Tb9egEkXZXfORzoMZQBdjurZZitPCQa9KdQ==
-X-Received: by 2002:a05:6a00:2e16:b0:730:95a6:375f with SMTP id d2e1a72fcca58-73bc0a176b5mr1716175b3a.3.1744264109029;
-        Wed, 09 Apr 2025 22:48:29 -0700 (PDT)
-Received: from [192.168.29.15] ([49.37.108.152])
-        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-73bb1d44c31sm2407196b3a.38.2025.04.09.22.48.25
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Wed, 09 Apr 2025 22:48:28 -0700 (PDT)
-Message-ID: <bbe1af12-3aaf-4382-b8c8-5d645ea9d906@oss.qualcomm.com>
-Date: Thu, 10 Apr 2025 11:18:22 +0530
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="pE6bNzha"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id C720EC4CEE8;
+	Thu, 10 Apr 2025 06:04:47 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1744265093;
+	bh=FYrBWSCKFVtEQ8dqrWonuh8PblTo1bjrFXM916oA1Z8=;
+	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+	b=pE6bNzhaXcXOVCREnHA9o+CvitfxrvKq4sQ8deVGbMdDCLRhGoX/LalA91CeAbe24
+	 9X3bAWjtstpdxGKLt3vxoGsjQj7oM/WM7Xo4778mqYlrztV9TOz9PVAhooXj35XDZV
+	 6k/SlLjwchM7YQjuusm1VP+UC9o+5R6U62fVaaLCVNI+Cx2qQ+JVxEZgp/HiarRnLu
+	 pJqYY5blC7Zr1sCy5uerI3dXcdekHYjBzbZhzpbv9E7s9FEgV0WdG+62Im2dlAySfb
+	 ySMiUXnuQNVO3akeP3JoKh31HY6WOGig4Va/c0PA8eA2sPpUcpkURLrayFoVt3PyBi
+	 oSjLCjHLVXWwA==
+Message-ID: <11d2541e-580b-4060-ad92-ed721e98793e@kernel.org>
+Date: Thu, 10 Apr 2025 08:04:45 +0200
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
@@ -74,127 +35,188 @@ List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v1 3/3] usb: dwc3: gadget: Make gadget_wakeup asynchronous
-To: Thinh Nguyen <Thinh.Nguyen@synopsys.com>
-Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Kees Bakker <kees@ijzerbout.nl>,
-        William McVicker <willmcvicker@google.com>,
-        Marek Szyprowski <m.szyprowski@samsung.com>,
-        "linux-usb@vger.kernel.org" <linux-usb@vger.kernel.org>,
-        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
-        "stable@kernel.org" <stable@kernel.org>
-References: <20250403110805.865311-1-prashanth.k@oss.qualcomm.com>
- <20250403110805.865311-4-prashanth.k@oss.qualcomm.com>
- <20250407233757.jmtohzgm4xebjndn@synopsys.com>
- <10bf04c1-f040-4646-9484-70827db36d27@oss.qualcomm.com>
- <20250409004330.iflfdxabodalsmox@synopsys.com>
- <468898dd-8b57-4fb5-bef1-d47ffbc38846@oss.qualcomm.com>
- <20250409215151.thkmgzyeohyxhslh@synopsys.com>
+Subject: Re: [PATCH v9 1/7] mfd: Add core driver for Nuvoton NCT6694
+To: a0282524688@gmail.com, lee@kernel.org, linus.walleij@linaro.org,
+ brgl@bgdev.pl, andi.shyti@kernel.org, mkl@pengutronix.de,
+ mailhol.vincent@wanadoo.fr, andrew+netdev@lunn.ch, davem@davemloft.net,
+ edumazet@google.com, kuba@kernel.org, pabeni@redhat.com,
+ wim@linux-watchdog.org, linux@roeck-us.net, jdelvare@suse.com,
+ alexandre.belloni@bootlin.com
+Cc: linux-kernel@vger.kernel.org, linux-gpio@vger.kernel.org,
+ linux-i2c@vger.kernel.org, linux-can@vger.kernel.org,
+ netdev@vger.kernel.org, linux-watchdog@vger.kernel.org,
+ linux-hwmon@vger.kernel.org, linux-rtc@vger.kernel.org,
+ linux-usb@vger.kernel.org, Ming Yu <tmyu0@nuvoton.com>
+References: <20250409082752.3697532-1-tmyu0@nuvoton.com>
+ <20250409082752.3697532-2-tmyu0@nuvoton.com>
+From: Krzysztof Kozlowski <krzk@kernel.org>
 Content-Language: en-US
-From: Prashanth K <prashanth.k@oss.qualcomm.com>
-In-Reply-To: <20250409215151.thkmgzyeohyxhslh@synopsys.com>
+Autocrypt: addr=krzk@kernel.org; keydata=
+ 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 fv0=
+In-Reply-To: <20250409082752.3697532-2-tmyu0@nuvoton.com>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
-X-Proofpoint-GUID: mPiFKr5ax6tG0XeV1pViHQkN8pUC6CjT
-X-Authority-Analysis: v=2.4 cv=LLlmQIW9 c=1 sm=1 tr=0 ts=67f75baf cx=c_pps a=rEQLjTOiSrHUhVqRoksmgQ==:117 a=pWYFwPD2pogPt9fXZc2mdA==:17 a=IkcTkHD0fZMA:10 a=XR8D0OoHHMoA:10 a=BO5IBNuD8639gGEQwbYA:9 a=QEXdDO2ut3YA:10 a=2VI0MkxyNR6bbpdq8BZq:22
-X-Proofpoint-ORIG-GUID: mPiFKr5ax6tG0XeV1pViHQkN8pUC6CjT
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1095,Hydra:6.0.680,FMLib:17.12.68.34
- definitions=2025-04-09_06,2025-04-08_04,2024-11-22_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 impostorscore=0 bulkscore=0
- clxscore=1015 mlxlogscore=999 malwarescore=0 phishscore=0
- lowpriorityscore=0 priorityscore=1501 mlxscore=0 spamscore=0 adultscore=0
- suspectscore=0 classifier=spam authscore=0 authtc=n/a authcc=
- route=outbound adjust=0 reason=mlx scancount=1 engine=8.19.0-2502280000
- definitions=main-2504100042
 
+On 09/04/2025 10:27, a0282524688@gmail.com wrote:
+> +
+> +static int nct6694_response_err_handling(struct nct6694 *nct6694,
+> +					 unsigned char err_status)
+> +{
+> +	switch (err_status) {
+> +	case NCT6694_NO_ERROR:
+> +		return 0;
+> +	case NCT6694_NOT_SUPPORT_ERROR:
+> +		dev_err(nct6694->dev, "Command is not supported!\n");
+> +		break;
+> +	case NCT6694_NO_RESPONSE_ERROR:
+> +		dev_warn(nct6694->dev, "Command received no response!\n");
+> +		break;
+> +	case NCT6694_TIMEOUT_ERROR:
+> +		dev_warn(nct6694->dev, "Command timed out!\n");
+> +		break;
+> +	case NCT6694_PENDING:
+> +		dev_err(nct6694->dev, "Command is pending!\n");
+> +		break;
+> +	default:
+> +		return -EINVAL;
+> +	}
+> +
+> +	return -EIO;
+> +}
+> +
 
+Missing Kconfig. Exported functions are supposed to have it.
 
-On 10-04-25 03:21 am, Thinh Nguyen wrote:
-> On Wed, Apr 09, 2025, Prashanth K wrote:
->>
->>
->> On 09-04-25 06:13 am, Thinh Nguyen wrote:
->>> On Tue, Apr 08, 2025, Prashanth K wrote:
->>>>
->>>>
->>>> On 08-04-25 05:08 am, Thinh Nguyen wrote:
->>>>> On Thu, Apr 03, 2025, Prashanth K wrote:
->>>
->>>>>> @@ -4398,6 +4371,21 @@ static void dwc3_gadget_linksts_change_interrupt(struct dwc3 *dwc,
->>>>>>  	}
->>>>>>  
->>>>>>  	dwc->link_state = next;
->>>>>> +
->>>>>> +	/* Proceed with func wakeup if any interfaces that has requested */
->>>>>> +	while (dwc->func_wakeup_pending && (next == DWC3_LINK_STATE_U0)) {
->>>>>> +		if (dwc->func_wakeup_pending & BIT(0)) {
->>>>>> +			ret = dwc3_send_gadget_generic_command(dwc, DWC3_DGCMD_DEV_NOTIFICATION,
->>>>>> +							       DWC3_DGCMDPAR_DN_FUNC_WAKE |
->>>>>> +							       DWC3_DGCMDPAR_INTF_SEL(intf_id));
->>>>>> +			if (ret)
->>>>>> +				dev_err(dwc->dev, "function remote wakeup failed for %d, ret:%d\n",
->>>>>> +					intf_id, ret);
->>>>>> +		}
->>>>>> +		dwc->func_wakeup_pending >>= 1;
->>>>>
->>>>> This would break the bitmap of dwc->func_wakeup_pending. Perhaps we can
->>>>> use ffs(x) to properly find and clear the interface ID from the bitmap
->>>>> one at a time.
->>>>>
->>>> Yes, we can use ffs(x). But I didn't understand how this would break
->>>> bitmap of dwc->func_wakeup_pending.
->>>>
->>>
->>> Since you're sending device notification to all the wakeup armed
->>> interfaces and not reusing the func_wakeup_pending afterward, the result
->>> of what you're doing here will be the same.
->>>
->>> IMHO, for clarity, what I was suggesting is to revise the logic to
->>> preserve the dwc->func_wakeup_pending bitmap instead of shifting and
->>> overwriting it, causing the bitmap to no longer match the intf_id. We
->>> get the intf_id from the bitmap and clear the intf_id bit from the
->>> bitmap as we go.
->>>
->> The above logic works, but as you suggested I'll refactor it using
->> ffs(x) and clear the intf_id directly (instead of shifting).
->>
->> Does this look good?
-> 
-> It looks great!
-> 
->>
->> /* Proceed with func wakeup if any interfaces that has requested */
->> while (dwc->func_wakeup_pending && (next == DWC3_LINK_STATE_U0)) {
->> 	intf_id = ffs(dwc->func_wakeup_pending);
->> 	if (intf_id)
->> 		ret = dwc3_send_gadget_generic_command(dwc, DWC3_DGCMD_DEV_NOTIFICATION,
->> 							   DWC3_DGCMDPAR_DN_FUNC_WAKE |
->> 							   DWC3_DGCMDPAR_INTF_SEL(intf_id - 1));
->> 		if (ret)
->> 			dev_err(dwc->dev, "function remote wakeup failed for %d, ret:%d\n",
->> 				intf_id, ret);
->> 	}
->> 	dwc->func_wakeup_pending &= ~(1 << (intf_id - 1));
-> 
-> 
-> Some minor revision. How does this look? (not tested)
-> 
-> while (dwc->func_wakeup_pending && (next == DWC3_LINK_STATE_U0)) {
-> 	intf_id = ffs(dwc->func_wakeup_pending) - 1;
-> 	ret = dwc3_send_gadget_generic_command(dwc, DWC3_DGCMD_DEV_NOTIFICATION,
-> 					       DWC3_DGCMDPAR_DN_FUNC_WAKE |
-> 			                       DWC3_DGCMDPAR_INTF_SEL(intf_id));
-> 	if (ret)
-> 		dev_err(dwc->dev, "Failed to send DN wake for intf %d\n", intf_id);
-> 
-> 	dwc->func_wakeup_pending &= ~BIT(intf_id);
-> }
-> 
-> Thanks,
-> Thinh
+> +int nct6694_read_msg(struct nct6694 *nct6694, const struct nct6694_cmd_header *cmd_hd, void *buf)
+> +{
+> +	union nct6694_usb_msg *msg = nct6694->usb_msg;
+> +	struct usb_device *udev = nct6694->udev;
+> +	int tx_len, rx_len, ret;
+> +
+> +	guard(mutex)(&nct6694->access_lock);
+> +
+> +	memcpy(&msg->cmd_header, cmd_hd, sizeof(*cmd_hd));
+> +	msg->cmd_header.hctrl = NCT6694_HCTRL_GET;
+> +
+> +	/* Send command packet to USB device */
+> +	ret = usb_bulk_msg(udev, usb_sndbulkpipe(udev, NCT6694_BULK_OUT_EP), &msg->cmd_header,
+> +			   sizeof(*msg), &tx_len, NCT6694_URB_TIMEOUT);
+> +	if (ret)
+> +		return ret;
+> +
+> +	/* Receive response packet from USB device */
+> +	ret = usb_bulk_msg(udev, usb_rcvbulkpipe(udev, NCT6694_BULK_IN_EP), &msg->response_header,
+> +			   sizeof(*msg), &rx_len, NCT6694_URB_TIMEOUT);
+> +	if (ret)
+> +		return ret;
+> +
+> +	/* Receive data packet from USB device */
+> +	ret = usb_bulk_msg(udev, usb_rcvbulkpipe(udev, NCT6694_BULK_IN_EP), buf,
+> +			   le16_to_cpu(cmd_hd->len), &rx_len, NCT6694_URB_TIMEOUT);
+> +	if (ret)
+> +		return ret;
+> +
+> +	if (rx_len != le16_to_cpu(cmd_hd->len)) {
+> +		dev_err(nct6694->dev, "Expected received length %d, but got %d\n",
+> +			le16_to_cpu(cmd_hd->len), rx_len);
+> +		return -EIO;
+> +	}
+> +
+> +	return nct6694_response_err_handling(nct6694, msg->response_header.sts);
+> +}
+> +EXPORT_SYMBOL(nct6694_read_msg);
 
-Good suggestion, ideally it should work, I'll test and add it in v2.
+GPL
 
-Thanks,
-Prashanth K
+> +
+> +int nct6694_write_msg(struct nct6694 *nct6694, const struct nct6694_cmd_header *cmd_hd, void *buf)
+> +{
+> +	union nct6694_usb_msg *msg = nct6694->usb_msg;
+> +	struct usb_device *udev = nct6694->udev;
+> +	int tx_len, rx_len, ret;
+> +
+> +	guard(mutex)(&nct6694->access_lock);
+> +
+> +	memcpy(&msg->cmd_header, cmd_hd, sizeof(*cmd_hd));
+> +	msg->cmd_header.hctrl = NCT6694_HCTRL_SET;
+> +
+> +	/* Send command packet to USB device */
+> +	ret = usb_bulk_msg(udev, usb_sndbulkpipe(udev, NCT6694_BULK_OUT_EP), &msg->cmd_header,
+> +			   sizeof(*msg), &tx_len, NCT6694_URB_TIMEOUT);
+> +	if (ret)
+> +		return ret;
+> +
+> +	/* Send data packet to USB device */
+> +	ret = usb_bulk_msg(udev, usb_sndbulkpipe(udev, NCT6694_BULK_OUT_EP), buf,
+> +			   le16_to_cpu(cmd_hd->len), &tx_len, NCT6694_URB_TIMEOUT);
+> +	if (ret)
+> +		return ret;
+> +
+> +	/* Receive response packet from USB device */
+> +	ret = usb_bulk_msg(udev, usb_rcvbulkpipe(udev, NCT6694_BULK_IN_EP), &msg->response_header,
+> +			   sizeof(*msg), &rx_len, NCT6694_URB_TIMEOUT);
+> +	if (ret)
+> +		return ret;
+> +
+> +	/* Receive data packet from USB device */
+> +	ret = usb_bulk_msg(udev, usb_rcvbulkpipe(udev, NCT6694_BULK_IN_EP), buf,
+> +			   le16_to_cpu(cmd_hd->len), &rx_len, NCT6694_URB_TIMEOUT);
+> +	if (ret)
+> +		return ret;
+> +
+> +	if (rx_len != le16_to_cpu(cmd_hd->len)) {
+> +		dev_err(nct6694->dev, "Expected transmitted length %d, but got %d\n",
+> +			le16_to_cpu(cmd_hd->len), rx_len);
+> +		return -EIO;
+> +	}
+> +
+> +	return nct6694_response_err_handling(nct6694, msg->response_header.sts);
+> +}
+> +EXPORT_SYMBOL(nct6694_write_msg);
+> +
+
+Same comments.
+
+Best regards,
+Krzysztof
