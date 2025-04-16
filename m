@@ -1,58 +1,58 @@
 Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.20])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A7220222566
-	for <linux-usb@vger.kernel.org>; Wed, 16 Apr 2025 13:46:16 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7DB36222585
+	for <linux-usb@vger.kernel.org>; Wed, 16 Apr 2025 13:46:17 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.20
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1744811178; cv=none; b=dn/OPCiHfm/kOvBxe6hZxb5icr9R2t6RQtI44EvR07UFfCKDfU3aYtfh1EdgAQJFuSK/nd9dA2+p+NWoJCGs4PMtScVi97uWWvnAY1mUBsxjqpbNwzsuVE16+JVF5Sd3psK6wCfYoJAdaN7g/MjLwyNLSJ2t332WOw+j/U1WAEc=
+	t=1744811179; cv=none; b=jV4Z2qaPFQBY1NkM0C9Wglw8TAkyjP/GGrZyZhY6BkT9C6vRvRdRCEDrgGB4hem2p8wT4+MX4+JOVPLocEKiQVEc1QP8inIl6/9sgjUnth5oqbOCsL2x5nDg5eICpVILT26VR+Nz1TrhepGUDXCzWW20XAq+5EKgZ3EeTeshHZs=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1744811178; c=relaxed/simple;
-	bh=zLrYJFb+GK+TbyRnoLgeAbEj9plTO60qKVfsRuKziGk=;
+	s=arc-20240116; t=1744811179; c=relaxed/simple;
+	bh=1Lz8KKBu9PZJ72w195lWYKl2VTg6lorL3JnsjbcTlZg=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=kc2FyGp8CF/5PBbIY+lKtEVFqw13Ul1S1eaBAopaa24XyrK3jv8IA71TwlgFMTXzCAu64FX4x7fxcrwbABCtLRPtsTjktlE4onuQNR8/lDEpiBBK9kIiifaeSPZZd/CP9IPwlPtVsJaqrH60w6u+pbysfXDX1Uxi+/zauy2cKxk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=none smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=VRlDAFHg; arc=none smtp.client-ip=198.175.65.20
+	 MIME-Version; b=cWg/XEES0N5TT1WNRnLweO0LMtDBEqJ5mknECSz30GZRy7WbBNjsoRdb49Vg+k/8x0x5N+7/FkBB4p0pI9eyBtbf8Yq5C1gxholTWBLvLJcxT1ODcP4JMj3KdCW5ph4A6/rgiQfnk0SmDx/G9Kmrk6HwRVKBrCc3N9btN36xSD4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=none smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=nxutgpwL; arc=none smtp.client-ip=198.175.65.20
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=linux.intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="VRlDAFHg"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="nxutgpwL"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1744811176; x=1776347176;
+  t=1744811177; x=1776347177;
   h=from:to:cc:subject:date:message-id:in-reply-to:
    references:mime-version:content-transfer-encoding;
-  bh=zLrYJFb+GK+TbyRnoLgeAbEj9plTO60qKVfsRuKziGk=;
-  b=VRlDAFHgczOZjjRaZAut78spqwiqSC+4YOcCDc1kueOCMNWznxssMKy2
-   usOkhy+oVDzxWz9+e5/SUQZvG5tzelGPzmZ0XSWqdTaTff3T8d5yno9IM
-   jOcQwC8oDNMQ8m5V698HPMRMX7k0xkF343R8+8j087SCZjj0WZCGTE+im
-   Cnp6EcIa+KB2hSrdy8s3UL05NazqyPXVxyrADh6ZT9if0nKubP/3y9gXW
-   6VjutJGpfQOzaB/JuS/bsSMCncJS5aXwnrFrVfhlKnKo5V7VYcSpfQ0AC
-   gdtv/SWwqjATMLzAwucE9IorGKZorOFXE/bONLQ8d/2DZb6zy1Z4CWQvV
-   A==;
-X-CSE-ConnectionGUID: 66qh4kTBT4GPNyULsMwenA==
-X-CSE-MsgGUID: w5occoLGQWyv5ycTDp27ew==
-X-IronPort-AV: E=McAfee;i="6700,10204,11405"; a="46074466"
+  bh=1Lz8KKBu9PZJ72w195lWYKl2VTg6lorL3JnsjbcTlZg=;
+  b=nxutgpwL5axcImEAlT+MeJJGF7M+4zYZi5J5OuelTF02amzFD5V4dMhf
+   mrIgrlrTwnWvRthuqK/3LPaM3K7acwtlMbr6WJxX/Hg8kqx0J2S3ccgIq
+   1hucqG2jE/zhN6M8a8YhXu54NQbF18sLeWLMTqbz5LNgWs7ykWEN/nb5y
+   teaBgnNbKESWLaqVjQ4isYHN9B9XQU45W5szSA7BedzCgUq55iNdOIc98
+   /aixkc5f2yiGx24OXZUR3ZmsQexnB6Siq7l4uWzK5V+2fwS1oMZYwraAb
+   ek769wS2tgWaSnWzwrrX2sI/WNTkwp9clPyfzP7w5LydUcvjTtI6B7h2s
+   Q==;
+X-CSE-ConnectionGUID: 6IBpqr2lRDqNGCAflpVNeg==
+X-CSE-MsgGUID: J96nuUzyRhy7mGtwHRSZ9g==
+X-IronPort-AV: E=McAfee;i="6700,10204,11405"; a="46074469"
 X-IronPort-AV: E=Sophos;i="6.15,216,1739865600"; 
-   d="scan'208";a="46074466"
+   d="scan'208";a="46074469"
 Received: from orviesa005.jf.intel.com ([10.64.159.145])
-  by orvoesa112.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 16 Apr 2025 06:46:15 -0700
-X-CSE-ConnectionGUID: 95OFqUyFRt2f9jCpZO8uJg==
-X-CSE-MsgGUID: pVSJ/CZwQBiMucnbQ9Xj7Q==
+  by orvoesa112.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 16 Apr 2025 06:46:16 -0700
+X-CSE-ConnectionGUID: qWmfg0cvSOynJnAUiEilkg==
+X-CSE-MsgGUID: WycA1XraT8yPdAMxNX8rfw==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.15,216,1739865600"; 
-   d="scan'208";a="135659177"
+   d="scan'208";a="135659182"
 Received: from black.fi.intel.com ([10.237.72.28])
-  by orviesa005.jf.intel.com with ESMTP; 16 Apr 2025 06:46:14 -0700
+  by orviesa005.jf.intel.com with ESMTP; 16 Apr 2025 06:46:16 -0700
 Received: by black.fi.intel.com (Postfix, from userid 1058)
-	id 56D78260; Wed, 16 Apr 2025 16:46:13 +0300 (EEST)
+	id A9A66715; Wed, 16 Apr 2025 16:46:14 +0300 (EEST)
 From: Niklas Neronin <niklas.neronin@linux.intel.com>
 To: mathias.nyman@linux.intel.com
 Cc: linux-usb@vger.kernel.org,
 	sergei.shtylyov@gmail.com,
 	Niklas Neronin <niklas.neronin@linux.intel.com>
-Subject: [PATCH v2 08/11] usb: xhci: remove error handling from xhci_add_interrupter()
-Date: Wed, 16 Apr 2025 16:45:07 +0300
-Message-ID: <20250416134510.2406543-9-niklas.neronin@linux.intel.com>
+Subject: [PATCH v2 10/11] usb: xhci: add individual allocation checks in xhci_mem_init()
+Date: Wed, 16 Apr 2025 16:45:09 +0300
+Message-ID: <20250416134510.2406543-11-niklas.neronin@linux.intel.com>
 X-Mailer: git-send-email 2.47.2
 In-Reply-To: <20250416134510.2406543-1-niklas.neronin@linux.intel.com>
 References: <20250416134510.2406543-1-niklas.neronin@linux.intel.com>
@@ -64,114 +64,61 @@ List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-Remove redundant error handling from xhci_add_interrupter() instead of
-trying to accommodate them in future changes.
-
-======== Reasoning for the removal ========
-
-Function xhci_add_interrupter() is invoked in two scenarios:
-
-Primary Interrupter Setup (ID 0):
- The maximum number of interrupters is always greater than zero, and the
- primary interrupter is always allocated as part of the driver's
- initialization process. In case of failure, the xHCI driver errors and
- exits.
-
-Secondary Interrupter Creation (ID >= 1):
- The interrupter is pre-allocated, and an empty slot is identified before
- invoking xhci_add_interrupter().
-
-In both cases, the existing error handling within xhci_add_interrupter() is
-redundant and unnecessary.
-
-Upcoming Changes:
- In the subsequent commit, interrupter initialization will move from
- xhci_mem_init() to xhci_init(). This change is necessary to facilitate
- the ability to restart the xHCI driver without re-allocating memory.
- As a result, the allocated interrupter must be stored in the interrupters
- pointer array before initialization.
-
- Consequently, xhci_create_secondary_interrupter() would need to handle
- pointer removal for allocated 'interrupters' array upon failure, although
- xhci_add_interrupter() will never fail.
+Break up the existing multi-allocation checks into individual checks.
+Add missing allocation check for 'xhci->interrupters'.
 
 Signed-off-by: Niklas Neronin <niklas.neronin@linux.intel.com>
 ---
-v2:
- * Set 'err' to '0' in case of available interrupt index. Due to rebase.
-
- drivers/usb/host/xhci-mem.c | 27 ++++++++-------------------
- 1 file changed, 8 insertions(+), 19 deletions(-)
+ drivers/usb/host/xhci-mem.c | 11 +++++++++--
+ 1 file changed, 9 insertions(+), 2 deletions(-)
 
 diff --git a/drivers/usb/host/xhci-mem.c b/drivers/usb/host/xhci-mem.c
-index 226013ee443a..75ad30d52507 100644
+index 007536879c24..3edb231af199 100644
 --- a/drivers/usb/host/xhci-mem.c
 +++ b/drivers/usb/host/xhci-mem.c
-@@ -2287,24 +2287,13 @@ xhci_alloc_interrupter(struct xhci_hcd *xhci, unsigned int segs, gfp_t flags)
- 	return ir;
- }
+@@ -2403,11 +2403,13 @@ int xhci_mem_init(struct xhci_hcd *xhci, gfp_t flags)
+ 	else
+ 		xhci->segment_pool = dma_pool_create("xHCI ring segments", dev,
+ 				TRB_SEGMENT_SIZE, TRB_SEGMENT_SIZE, xhci->page_size);
++	if (!xhci->segment_pool)
++		goto fail;
  
--static int
-+static void
- xhci_add_interrupter(struct xhci_hcd *xhci, struct xhci_interrupter *ir,
- 		     unsigned int intr_num)
- {
- 	u64 erst_base;
- 	u32 erst_size;
- 
--	if (intr_num >= xhci->max_interrupters) {
--		xhci_warn(xhci, "Can't add interrupter %d, max interrupters %d\n",
--			  intr_num, xhci->max_interrupters);
--		return -EINVAL;
--	}
--
--	if (xhci->interrupters[intr_num]) {
--		xhci_warn(xhci, "Interrupter %d\n already set up", intr_num);
--		return -EINVAL;
--	}
--
- 	xhci->interrupters[intr_num] = ir;
- 	ir->intr_num = intr_num;
- 	ir->ir_set = &xhci->run_regs->ir_set[intr_num];
-@@ -2325,8 +2314,6 @@ xhci_add_interrupter(struct xhci_hcd *xhci, struct xhci_interrupter *ir,
- 
- 	/* Set the event ring dequeue address of this interrupter */
- 	xhci_set_hc_event_deq(xhci, ir);
--
--	return 0;
- }
- 
- struct xhci_interrupter *
-@@ -2351,13 +2338,16 @@ xhci_create_secondary_interrupter(struct usb_hcd *hcd, unsigned int segs,
- 		/* Find available secondary interrupter, interrupter 0 is reserved for primary */
- 		for (i = 1; i < xhci->max_interrupters; i++) {
- 			if (!xhci->interrupters[i]) {
--				err = xhci_add_interrupter(xhci, ir, i);
-+				xhci_add_interrupter(xhci, ir, i);
-+				err = 0;
- 				break;
- 			}
- 		}
- 	} else {
--		if (!xhci->interrupters[intr_num])
--			err = xhci_add_interrupter(xhci, ir, intr_num);
-+		if (!xhci->interrupters[intr_num]) {
-+			xhci_add_interrupter(xhci, ir, intr_num);
-+			err = 0;
-+		}
- 	}
- 	spin_unlock_irq(&xhci->lock);
- 
-@@ -2461,8 +2451,7 @@ int xhci_mem_init(struct xhci_hcd *xhci, gfp_t flags)
- 	if (!ir)
+ 	/* See Table 46 and Note on Figure 55 */
+ 	xhci->device_pool = dma_pool_create("xHCI input/output contexts", dev,
+ 			2112, 64, xhci->page_size);
+-	if (!xhci->segment_pool || !xhci->device_pool)
++	if (!xhci->device_pool)
  		goto fail;
  
--	if (xhci_add_interrupter(xhci, ir, 0))
--		goto fail;
-+	xhci_add_interrupter(xhci, ir, 0);
+ 	/* Linear stream context arrays don't have any boundary restrictions,
+@@ -2416,6 +2418,9 @@ int xhci_mem_init(struct xhci_hcd *xhci, gfp_t flags)
+ 	xhci->small_streams_pool =
+ 		dma_pool_create("xHCI 256 byte stream ctx arrays",
+ 			dev, SMALL_STREAM_ARRAY_SIZE, 16, 0);
++	if (!xhci->small_streams_pool)
++		goto fail;
++
+ 	xhci->medium_streams_pool =
+ 		dma_pool_create("xHCI 1KB stream ctx arrays",
+ 			dev, MEDIUM_STREAM_ARRAY_SIZE, 16, 0);
+@@ -2423,7 +2428,7 @@ int xhci_mem_init(struct xhci_hcd *xhci, gfp_t flags)
+ 	 * will be allocated with dma_alloc_coherent()
+ 	 */
  
- 	ir->isoc_bei_interval = AVOID_BEI_INTERVAL_MAX;
+-	if (!xhci->small_streams_pool || !xhci->medium_streams_pool)
++	if (!xhci->medium_streams_pool)
+ 		goto fail;
  
+ 	/* Set up the command ring to have one segments for now. */
+@@ -2446,6 +2451,8 @@ int xhci_mem_init(struct xhci_hcd *xhci, gfp_t flags)
+ 		       "Allocating primary event ring");
+ 	xhci->interrupters = kcalloc_node(xhci->max_interrupters, sizeof(*xhci->interrupters),
+ 					  flags, dev_to_node(dev));
++	if (!xhci->interrupters)
++		goto fail;
+ 
+ 	xhci->interrupters[0] = xhci_alloc_interrupter(xhci, 0, flags);
+ 	if (!xhci->interrupters[0])
 -- 
 2.47.2
 
