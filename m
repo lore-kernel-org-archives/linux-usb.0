@@ -1,76 +1,59 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 409F119F111
-	for <linux-usb@vger.kernel.org>; Wed, 16 Apr 2025 00:26:55 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A8E3315B543;
+	Wed, 16 Apr 2025 03:47:10 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1744763216; cv=none; b=WoHlyzqt6j8OWng+CMHKh30TzhEi2w6Y6ys0HM/O34gVyTudtGkoICUaRKvIRjO4HCWoGPLwGoZmgMVXqN9gD1BTMgUzJyYJUSMb32D6lhHWFwQk6hqAxHoBKsYV5XR6tgsagVgANIekau+Lzu/zMlusBIAYycb6zlAUEENnjNc=
+	t=1744775230; cv=none; b=jSkFumfJWnyuj/ab6449UsFZtp1/G16FWopGtG7OWaP/yz5MZf8KyccQCKbeGuZvY4VhMwZHKYQnmydj2QkSHBW+8sxWfbcSk89wwaNyE8DCPPPZBmNujkdX7tivyO/gyYv+LBgcb9fk1ifWJ0q54vV/XTfFa5NLtPke8KT3sXA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1744763216; c=relaxed/simple;
-	bh=3KIZuXlLsG3hVVWExWYFARWi2XDTEi+6jGCgWqtV9BQ=;
-	h=From:To:Subject:Date:Message-ID:In-Reply-To:References:
-	 Content-Type:MIME-Version; b=LDKoQker7d8hatA0JhzdotCRr55xZisadFEwOTZvAAGwfr+i1SAbDgMqe6PYT/TOYI60Y+fhcsRI/UKUPK0CI7CnXOv5pc1LGnSWktAEwS1fa5EOuuAamBwAyjrFLyfpcnUXJYhcC6AflvWL4K97kK8rq/fLTeWXsgFCMqGmTk8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=SfB2Jyf0; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1744775230; c=relaxed/simple;
+	bh=mUjUk9HaVhPnl5rig69nbaVVP2JnNmkWbsOwSLuVeBs=;
+	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=Nfqmt9RAU5YknZaRKbnogi0+NkbQB2kYA5gBYzOk2u8t7Zl/dfJ6ER7pmYI62akYJBUHG8qXTzIAqlVidibLscLupWjk6sf3pXzoAgaPfiKz2ZqqqpLcTF+af/PCWRefMA4FOJ4gyADC7ghiuC/dKzAVvnuzd3nkpfTio0ESvbY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=ajCYtk6P; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="SfB2Jyf0"
-Received: by smtp.kernel.org (Postfix) with ESMTPS id AA1A6C4CEE7
-	for <linux-usb@vger.kernel.org>; Wed, 16 Apr 2025 00:26:55 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="ajCYtk6P"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 90D07C4CEE2;
+	Wed, 16 Apr 2025 03:47:09 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1744763215;
-	bh=3KIZuXlLsG3hVVWExWYFARWi2XDTEi+6jGCgWqtV9BQ=;
-	h=From:To:Subject:Date:In-Reply-To:References:From;
-	b=SfB2Jyf0dblqhpQZEY6MSSUTwA05KGNYvBxUuGBBrFCr4qlogIt5Q663JPpRxdXVg
-	 421ZDv7XQ5DRNbelY0+TSTe3A3TA+G+1rJh+r+lCB51BwdwBGBsEFVw/gg7NRtqhkq
-	 ELXfOxDk9AQQVWS7bn/Bikg+63pjfpov3cI5HIXE+jvrIwNEsrBqhrf8tpjWas8q1Y
-	 CrsVwlvu3ZisqpoAJEU3/ksE/Ur23XpgiJcpfW4e6j8f5enkFoY6Lr16JSoiHLL/pv
-	 hVb9BNzTLq8Fa40ID6yJ7tBwdZLBeTaptjPYVHdNnqyLEH5PhQ62UBNH742iLHeNt+
-	 JV4asdVIfIvtw==
-Received: by aws-us-west-2-korg-bugzilla-1.web.codeaurora.org (Postfix, from userid 48)
-	id 935F6C3279F; Wed, 16 Apr 2025 00:26:55 +0000 (UTC)
-From: bugzilla-daemon@kernel.org
-To: linux-usb@vger.kernel.org
-Subject: [Bug 220016] USB devices plugged into USB hubs on
- 6.14.2-300.fc42.x86_64 do not work
-Date: Wed, 16 Apr 2025 00:26:55 +0000
-X-Bugzilla-Reason: None
-X-Bugzilla-Type: changed
-X-Bugzilla-Watch-Reason: AssignedTo drivers_usb@kernel-bugs.kernel.org
-X-Bugzilla-Product: Drivers
-X-Bugzilla-Component: USB
-X-Bugzilla-Version: 2.5
-X-Bugzilla-Keywords: 
-X-Bugzilla-Severity: normal
-X-Bugzilla-Who: joe@solidadmin.com
-X-Bugzilla-Status: NEW
-X-Bugzilla-Resolution: 
-X-Bugzilla-Priority: P3
-X-Bugzilla-Assigned-To: drivers_usb@kernel-bugs.kernel.org
-X-Bugzilla-Flags: 
-X-Bugzilla-Changed-Fields: attachments.created
-Message-ID: <bug-220016-208809-ZvXfvj4Ymq@https.bugzilla.kernel.org/>
-In-Reply-To: <bug-220016-208809@https.bugzilla.kernel.org/>
-References: <bug-220016-208809@https.bugzilla.kernel.org/>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-X-Bugzilla-URL: https://bugzilla.kernel.org/
-Auto-Submitted: auto-generated
+	s=k20201202; t=1744775230;
+	bh=mUjUk9HaVhPnl5rig69nbaVVP2JnNmkWbsOwSLuVeBs=;
+	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
+	b=ajCYtk6PGXPyjLXjQqw+udtMlkBVKble6Y1pU1dWxgxktzLX28cei/l5fymtk2rZY
+	 qtujj/DGZ0Kiz/lq5BdVhi7aVIwfFHkYFOl+5+tUyjzfnbKqzEJ3m3h8qXshndveM0
+	 RZTJ4DpzWMJUSb1XV3zzxmlAVZDv/Qt6L4npsJRSuDSiDkq8thAPgrsL5nY5wFmje/
+	 cSQ5G8oCYF3pVXdkwUwVtVNdk3i3zR9qbyAbPZ9KjiROWOQofdyowJETjMwgUjpCb7
+	 JPyQsb5SikEu3VhoTbNfqbH7FSn+eNBf9tkkdGv6WvpVbUV9UWVMVD4v9sv0u2MwpC
+	 izGwYT0ZPBJkw==
+Date: Tue, 15 Apr 2025 20:47:08 -0700
+From: Jakub Kicinski <kuba@kernel.org>
+To: Qasim Ijaz <qasdev00@gmail.com>
+Cc: andrew+netdev@lunn.ch, davem@davemloft.net, edumazet@google.com,
+ pabeni@redhat.com, horms@kernel.org, linux-usb@vger.kernel.org,
+ netdev@vger.kernel.org, linux-kernel@vger.kernel.org,
+ syzbot+3361c2d6f78a3e0892f9@syzkaller.appspotmail.com,
+ stable@vger.kernel.org
+Subject: Re: [PATCH 4/5] net: ch9200: add missing error handling in
+ ch9200_bind()
+Message-ID: <20250415204708.13dc3156@kernel.org>
+In-Reply-To: <20250412183829.41342-5-qasdev00@gmail.com>
+References: <20250412183829.41342-1-qasdev00@gmail.com>
+	<20250412183829.41342-5-qasdev00@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
 
-https://bugzilla.kernel.org/show_bug.cgi?id=3D220016
+On Sat, 12 Apr 2025 19:38:28 +0100 Qasim Ijaz wrote:
+>  	retval = usbnet_get_endpoints(dev, intf);
+> -	if (retval)
+> +	if (retval < 0)
+>  		return retval;
 
---- Comment #1 from Joe Doss (joe@solidadmin.com) ---
-Created attachment 307968
-  --> https://bugzilla.kernel.org/attachment.cgi?id=3D307968&action=3Dedit
-6.13.7-200.fc41.x86_64 journalctl -k output
-
---=20
-You may reply to this email to add a comment.
-
-You are receiving this mail because:
-You are watching the assignee of the bug.=
+This change is unnecessary ? Commit message speaks of control_write(),
+this is usbnet_get_endpoints().
