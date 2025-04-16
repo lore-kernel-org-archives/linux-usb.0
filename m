@@ -1,58 +1,58 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.14])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.20])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F06F52222D1
-	for <linux-usb@vger.kernel.org>; Wed, 16 Apr 2025 13:46:15 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.14
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 698962222DD
+	for <linux-usb@vger.kernel.org>; Wed, 16 Apr 2025 13:46:16 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.20
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1744811177; cv=none; b=Y/EkMGR4hprsjWVncD68fyTPeohRMhS2nH5TY3XidEUadz1KrOC37lR6ADFOnKUcJ9BBw2GYwDkrLJ+Umx8D7jA9Y5TSNbbjtKF3fEfQNUblrX0VFXzz9RfpYdNpz4gOckdwAskj1df6pgcfPD1FTlSA8YkdJxxpCwbKvWbFwTM=
+	t=1744811178; cv=none; b=IVf7G+PSHLVtIa8qVcDMp6JZhe9Ch7QoVrGFyJXjkZWJMPn++L1kLZJWldvhXmfHwKw02PKHtrhXUY80cWZr4nTInUKzg4DABNWZWJ5nZJBYw98mowJyD+P1ABIk8vx1xcbFNfiSClBSoSc6pRIX9Zeb3uMNgs36U/0AaBZHDx4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1744811177; c=relaxed/simple;
-	bh=tfv9k20NMxxTGkuACHVfh8qjkJ1Shl2CSvwK/I2/aGw=;
+	s=arc-20240116; t=1744811178; c=relaxed/simple;
+	bh=HMHrBwIhg4x+Pu1NWtumKmwftkteBGg4w6T8P4FotfU=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=pD+RBf/m2RT3x9EUm39p7tYQJzxwEhNef3BOoLDVuUx62KFvTZLwxMD1E7tCVj54WXU3/f2traX5BLLsOjuj7lTVkvdNyiT6EedmNOYj5IPd+biw/EII69R0ig7UL9/Y/I9VgzaLjri8In0DyA1anq/B81stnNcv9Kmrf8bxV0I=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=none smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=JmxOwPFe; arc=none smtp.client-ip=198.175.65.14
+	 MIME-Version; b=EQ+djWbKqtkgqyWsyJAhcd4labHEm66zkS+XH7LiSVriCr3YvaIxyIXO8b9ImWJaMvJljonhVlX6ROVLVkPG7oh7T6tNs5WA3lqKtLZgilHexGmhXERXP32WLPZgU2zbtLlez2Rov/4icK3sx4RylDBYsSJy1+3P2N06U0vY2jM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=none smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=m5LZCwuC; arc=none smtp.client-ip=198.175.65.20
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=linux.intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="JmxOwPFe"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="m5LZCwuC"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
   t=1744811176; x=1776347176;
   h=from:to:cc:subject:date:message-id:in-reply-to:
    references:mime-version:content-transfer-encoding;
-  bh=tfv9k20NMxxTGkuACHVfh8qjkJ1Shl2CSvwK/I2/aGw=;
-  b=JmxOwPFex0HSAGGV/MqmAXw1KaZpnNn2LOW1a1HyJ2eVf+NQHM6ZIDQc
-   PPW3EVrQ8z3VwiJaTJg7SYd6FJEiTMBZFbD+E8nhJGZtLABiP9Dq1aMZt
-   ke+Xr/c6p3dDVFzpR8ojL05CKCxL26OoB1cbMOf75uvO0Y/52prlgvRQs
-   1RqQBhp/6zZwGqxRwcC4oO/wucCU19Kkhel3EWxh6LnfoOmSpFz7xJ82f
-   ncG3a9lvPjWtgYZsRjlValM3uMB1g0JCj8yq1J/hJWHx2HFCtM/XgRC9t
-   Lzl/r4lnTYNSaIh3i82qOIkjPkNGQkGw2T4tFz12Sa4Hk6cGXyn5x/UEA
-   A==;
-X-CSE-ConnectionGUID: 6DEJ9NtaR4+vJgWc/txSbQ==
-X-CSE-MsgGUID: lTcFLeKSQM+1uZKvuhwpVw==
-X-IronPort-AV: E=McAfee;i="6700,10204,11405"; a="50168109"
+  bh=HMHrBwIhg4x+Pu1NWtumKmwftkteBGg4w6T8P4FotfU=;
+  b=m5LZCwuCn+F03Wu0F26PU+lKVQ8ZYpDAuFuU/Wk/i7xCWkIs0XGoRD0b
+   DRWNH5ixIsy6l3cFvup7UMaF8ENX+qCi2mDNykxirgze2c6rWJt1d8wHw
+   tBqtwxlpBSzRAbYVRh//gq8genpHEyMNQ1N9i1qMSBe+o974Kp6SXHoji
+   8/o19O1N3TpnLcFRy5AVbVVEvu0gCTJy941yCj03Brrfr1HybPZ1mECb+
+   Py3jKsz/O03YizPFJByOyc3hHIcAxsoA1Fueg5DOn4kLP/l1XyOJPb0Nf
+   nhC7dvdjJa83MYFJ64MYttqFKIWEB77kZ8p7VbJK4SAAHGQ95q83/7Qa+
+   w==;
+X-CSE-ConnectionGUID: cD8rX60WQL+b5mkFuk0/uw==
+X-CSE-MsgGUID: QjtC1mMCQ4uY6gURUQ3XWQ==
+X-IronPort-AV: E=McAfee;i="6700,10204,11405"; a="46074464"
 X-IronPort-AV: E=Sophos;i="6.15,216,1739865600"; 
-   d="scan'208";a="50168109"
-Received: from fmviesa005.fm.intel.com ([10.60.135.145])
-  by orvoesa106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 16 Apr 2025 06:46:16 -0700
-X-CSE-ConnectionGUID: gk+w/gQET2GJKLDvB05eSw==
-X-CSE-MsgGUID: jRwdgdBWSRSXWTiUYd2rMQ==
+   d="scan'208";a="46074464"
+Received: from orviesa005.jf.intel.com ([10.64.159.145])
+  by orvoesa112.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 16 Apr 2025 06:46:15 -0700
+X-CSE-ConnectionGUID: lzlzodhxSdmKSxsZnjkR1g==
+X-CSE-MsgGUID: taVICWsgTfS9UBXmlz04pA==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.15,216,1739865600"; 
-   d="scan'208";a="135290236"
+   d="scan'208";a="135659173"
 Received: from black.fi.intel.com ([10.237.72.28])
-  by fmviesa005.fm.intel.com with ESMTP; 16 Apr 2025 06:46:15 -0700
+  by orviesa005.jf.intel.com with ESMTP; 16 Apr 2025 06:46:14 -0700
 Received: by black.fi.intel.com (Postfix, from userid 1058)
-	id 0547981D; Wed, 16 Apr 2025 16:46:13 +0300 (EEST)
+	id A5F1578A; Wed, 16 Apr 2025 16:46:12 +0300 (EEST)
 From: Niklas Neronin <niklas.neronin@linux.intel.com>
 To: mathias.nyman@linux.intel.com
 Cc: linux-usb@vger.kernel.org,
 	sergei.shtylyov@gmail.com,
 	Niklas Neronin <niklas.neronin@linux.intel.com>
-Subject: [PATCH v2 09/11] usb: xhci: move initialization of the primary interrupter
-Date: Wed, 16 Apr 2025 16:45:08 +0300
-Message-ID: <20250416134510.2406543-10-niklas.neronin@linux.intel.com>
+Subject: [PATCH v2 07/11] usb: xhci: move enabling of USB 3 device notifications
+Date: Wed, 16 Apr 2025 16:45:06 +0300
+Message-ID: <20250416134510.2406543-8-niklas.neronin@linux.intel.com>
 X-Mailer: git-send-email 2.47.2
 In-Reply-To: <20250416134510.2406543-1-niklas.neronin@linux.intel.com>
 References: <20250416134510.2406543-1-niklas.neronin@linux.intel.com>
@@ -64,118 +64,101 @@ List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-Move the primary interrupter (0) initialization from xhci_mem_init() to
-xhci_init(). This change requires us to save the allocated interrupter
-somewhere before initialization. Therefore, store it in the 'interrupters'
-array and rework xhci_add_interrupter() to retrieve the interrupter from
-the array.
+Relocated the enabling of USB 3.0 device notifications from xhci_mem_init()
+to xhci_init(). Introduced xhci_set_dev_notifications() function to handle
+the notification settings.
 
-This is part of the ongoing effort to separate allocation and
-initialization.
+Simplify 'DEV_NOTE_FWAKE' masks by directly using the 'ENABLE_DEV_NOTE'
+value (1 << 1) instead of using the 'ENABLE_DEV_NOTE' macro.
+Macro 'ENABLE_DEV_NOTE' is removed.
 
 Signed-off-by: Niklas Neronin <niklas.neronin@linux.intel.com>
 ---
-v2:
- * Add the same logic to specific 'intr_num'. Due to rebase.
-
- drivers/usb/host/xhci-mem.c | 22 +++++++++-------------
- drivers/usb/host/xhci.c     |  4 ++++
- drivers/usb/host/xhci.h     |  1 +
- 3 files changed, 14 insertions(+), 13 deletions(-)
+ drivers/usb/host/xhci-mem.c | 10 ----------
+ drivers/usb/host/xhci.c     | 17 +++++++++++++++++
+ drivers/usb/host/xhci.h     |  3 +--
+ 3 files changed, 18 insertions(+), 12 deletions(-)
 
 diff --git a/drivers/usb/host/xhci-mem.c b/drivers/usb/host/xhci-mem.c
-index 75ad30d52507..007536879c24 100644
+index 391dc2282360..226013ee443a 100644
 --- a/drivers/usb/host/xhci-mem.c
 +++ b/drivers/usb/host/xhci-mem.c
-@@ -2287,14 +2287,13 @@ xhci_alloc_interrupter(struct xhci_hcd *xhci, unsigned int segs, gfp_t flags)
- 	return ir;
- }
- 
--static void
--xhci_add_interrupter(struct xhci_hcd *xhci, struct xhci_interrupter *ir,
--		     unsigned int intr_num)
-+void xhci_add_interrupter(struct xhci_hcd *xhci, unsigned int intr_num)
- {
-+	struct xhci_interrupter *ir;
- 	u64 erst_base;
- 	u32 erst_size;
- 
--	xhci->interrupters[intr_num] = ir;
-+	ir = xhci->interrupters[intr_num];
- 	ir->intr_num = intr_num;
- 	ir->ir_set = &xhci->run_regs->ir_set[intr_num];
- 
-@@ -2338,14 +2337,16 @@ xhci_create_secondary_interrupter(struct usb_hcd *hcd, unsigned int segs,
- 		/* Find available secondary interrupter, interrupter 0 is reserved for primary */
- 		for (i = 1; i < xhci->max_interrupters; i++) {
- 			if (!xhci->interrupters[i]) {
--				xhci_add_interrupter(xhci, ir, i);
-+				xhci->interrupters[i] = ir;
-+				xhci_add_interrupter(xhci, i);
- 				err = 0;
- 				break;
- 			}
- 		}
- 	} else {
- 		if (!xhci->interrupters[intr_num]) {
--			xhci_add_interrupter(xhci, ir, intr_num);
-+			xhci->interrupters[intr_num] = ir;
-+			xhci_add_interrupter(xhci, intr_num);
- 			err = 0;
- 		}
- 	}
-@@ -2372,7 +2373,6 @@ EXPORT_SYMBOL_GPL(xhci_create_secondary_interrupter);
- 
- int xhci_mem_init(struct xhci_hcd *xhci, gfp_t flags)
- {
--	struct xhci_interrupter *ir;
+@@ -2385,7 +2385,6 @@ int xhci_mem_init(struct xhci_hcd *xhci, gfp_t flags)
+ 	struct xhci_interrupter *ir;
  	struct device	*dev = xhci_to_hcd(xhci)->self.sysdev;
  	dma_addr_t	dma;
+-	u32		temp;
  
-@@ -2447,14 +2447,10 @@ int xhci_mem_init(struct xhci_hcd *xhci, gfp_t flags)
- 	xhci->interrupters = kcalloc_node(xhci->max_interrupters, sizeof(*xhci->interrupters),
- 					  flags, dev_to_node(dev));
- 
--	ir = xhci_alloc_interrupter(xhci, 0, flags);
--	if (!ir)
-+	xhci->interrupters[0] = xhci_alloc_interrupter(xhci, 0, flags);
-+	if (!xhci->interrupters[0])
- 		goto fail;
- 
--	xhci_add_interrupter(xhci, ir, 0);
--
--	ir->isoc_bei_interval = AVOID_BEI_INTERVAL_MAX;
--
- 	if (scratchpad_alloc(xhci, flags))
- 		goto fail;
+ 	/*
+ 	 * xHCI section 5.4.6 - Device Context array must be
+@@ -2472,15 +2471,6 @@ int xhci_mem_init(struct xhci_hcd *xhci, gfp_t flags)
  	if (xhci_setup_port_arrays(xhci, flags))
+ 		goto fail;
+ 
+-	/* Enable USB 3.0 device notifications for function remote wake, which
+-	 * is necessary for allowing USB 3.0 devices to do remote wakeup from
+-	 * U3 (device suspend).
+-	 */
+-	temp = readl(&xhci->op_regs->dev_notification);
+-	temp &= ~DEV_NOTE_MASK;
+-	temp |= DEV_NOTE_FWAKE;
+-	writel(temp, &xhci->op_regs->dev_notification);
+-
+ 	return 0;
+ 
+ fail:
 diff --git a/drivers/usb/host/xhci.c b/drivers/usb/host/xhci.c
-index 18d8637773cb..1cc58d10776d 100644
+index 00aae0619ccd..18d8637773cb 100644
 --- a/drivers/usb/host/xhci.c
 +++ b/drivers/usb/host/xhci.c
-@@ -578,6 +578,10 @@ static int xhci_init(struct usb_hcd *hcd)
- 	/* Set USB 3.0 device notifications for function remote wake */
- 	xhci_set_dev_notifications(xhci);
+@@ -524,6 +524,20 @@ static void xhci_set_doorbell_ptr(struct xhci_hcd *xhci)
+ 		       "Doorbell array is located at offset 0x%x from cap regs base addr", offset);
+ }
  
-+	/* Initialize the Primary interrupter */
-+	xhci_add_interrupter(xhci, 0);
-+	xhci->interrupters[0]->isoc_bei_interval = AVOID_BEI_INTERVAL_MAX;
++/*
++ * Enable USB 3.0 device notifications for function remote wake, which is necessary
++ * for allowing USB 3.0 devices to do remote wakeup from U3 (device suspend).
++ */
++static void xhci_set_dev_notifications(struct xhci_hcd *xhci)
++{
++	u32 dev_notf;
++
++	dev_notf = readl(&xhci->op_regs->dev_notification);
++	dev_notf &= ~DEV_NOTE_MASK;
++	dev_notf |= DEV_NOTE_FWAKE;
++	writel(dev_notf, &xhci->op_regs->dev_notification);
++}
++
+ /*
+  * Initialize memory for HCD and xHC (one-time init).
+  *
+@@ -561,6 +575,9 @@ static int xhci_init(struct usb_hcd *hcd)
+ 	/* Set Doorbell array pointer */
+ 	xhci_set_doorbell_ptr(xhci);
+ 
++	/* Set USB 3.0 device notifications for function remote wake */
++	xhci_set_dev_notifications(xhci);
 +
  	/* Initializing Compliance Mode Recovery Data If Needed */
  	if (xhci_compliance_mode_recovery_timer_quirk_check()) {
  		xhci->quirks |= XHCI_COMP_MODE_QUIRK;
 diff --git a/drivers/usb/host/xhci.h b/drivers/usb/host/xhci.h
-index c05c3eab005b..97da9f2853f3 100644
+index bfb02dbd9fc7..c05c3eab005b 100644
 --- a/drivers/usb/host/xhci.h
 +++ b/drivers/usb/host/xhci.h
-@@ -1945,6 +1945,7 @@ void xhci_process_cancelled_tds(struct xhci_virt_ep *ep);
- void xhci_update_erst_dequeue(struct xhci_hcd *xhci,
- 			      struct xhci_interrupter *ir,
- 			      bool clear_ehb);
-+void xhci_add_interrupter(struct xhci_hcd *xhci, unsigned int intr_num);
+@@ -184,11 +184,10 @@ struct xhci_op_regs {
+  * notification type that matches a bit set in this bit field.
+  */
+ #define	DEV_NOTE_MASK		(0xffff)
+-#define ENABLE_DEV_NOTE(x)	(1 << (x))
+ /* Most of the device notification types should only be used for debug.
+  * SW does need to pay attention to function wake notifications.
+  */
+-#define	DEV_NOTE_FWAKE		ENABLE_DEV_NOTE(1)
++#define	DEV_NOTE_FWAKE		(1 << 1)
  
- /* xHCI roothub code */
- void xhci_set_link_state(struct xhci_hcd *xhci, struct xhci_port *port,
+ /* CRCR - Command Ring Control Register - cmd_ring bitmasks */
+ /* bit 0 - Cycle bit indicates the ownership of the command ring */
 -- 
 2.47.2
 
