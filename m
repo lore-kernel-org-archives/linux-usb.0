@@ -1,139 +1,59 @@
-Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com [205.220.180.131])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.14])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3E83D19DF4C
-	for <linux-usb@vger.kernel.org>; Wed, 23 Apr 2025 13:38:12 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.180.131
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AA80F19F48D;
+	Wed, 23 Apr 2025 13:43:12 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.14
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1745415494; cv=none; b=c/u3kXdghXITVy/0C1Rnai9SDCtBOlLBnqBeBnBS1p4a6oS6P0KaSM4UY+Lp7+cO0t/3RDoMh7GVkbUkMtqfTSbtByUV8S30UACs29kr9ycf2xBbVz0YciIPA9fD5M02K/FZ5cYbjSWLGYU26yk7EMTihjd9Yy7MR2wz8u7vdMY=
+	t=1745415794; cv=none; b=BLrmiTQjPubLUHENB4pJpWiIvWHADuSXwYOluGaPKRCimuqb2XZ00GuMs0c16El1EBf7Z0p9nVe8Wa5Pqg2BTKTt1wepaizkDs/xmc46DxPfhfX/xDSq2GEVgd+JXJMu7qfVpc084fnFL0/6ayyhQL3weo2N3fuuM3gXs22rBJk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1745415494; c=relaxed/simple;
-	bh=lPJJwHKGCbJcWTOy/W2KqY1hoahEC6Ch3aeOkRUot7I=;
+	s=arc-20240116; t=1745415794; c=relaxed/simple;
+	bh=sdSO4vtsyCgKCiuvtLa7sZ+BGvUG/9woFfGbGd3g5bQ=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=b0/tfoqSN4lW5CeBzyoWRLaGfftcknRpEupf9Vj9Oxd82b3Qgb6y2W/og12J0wsXieHh89L6+w9j8+JieKHwAEbuMHzNjTFLeibKR8WFyTBIa1fljrxrZuC8MsDGScuzqu+0zoDqLL5m8qlmoGApZfjpz+eqgla4PWv7T8MSWQk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com; spf=pass smtp.mailfrom=oss.qualcomm.com; dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b=lln9v1Oc; arc=none smtp.client-ip=205.220.180.131
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=oss.qualcomm.com
+	 Content-Type:Content-Disposition:In-Reply-To; b=Ushm6cbGX4lpuxpaU0RNRoCCQDuq2VwxB+yrM3JC4P8u2wt9OI3BsgqzxcLbTDJziii0MXe9CVAkLaqRsCeXGd4dyoVI/noSBZgJwWE6VTzZw2fxenprobuvlxBhMpDu+ZgzXxA/cXOEYHl9OfhWFmPlDMtng5ZJGiBzrDIj/vE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=none smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=aXF0HiMD; arc=none smtp.client-ip=192.198.163.14
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=linux.intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b="lln9v1Oc"
-Received: from pps.filterd (m0279873.ppops.net [127.0.0.1])
-	by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 53NBHVAM003738
-	for <linux-usb@vger.kernel.org>; Wed, 23 Apr 2025 13:38:12 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
-	cc:content-type:date:from:in-reply-to:message-id:mime-version
-	:references:subject:to; s=qcppdkim1; bh=wj+FtiAGAkQ5P/5zChODPkrm
-	ZAMKKPl/2U1Ld2vwF7E=; b=lln9v1Oc1wNdBAOcxgSa0NUOSO3GeARiFX0pWfBT
-	TB72Ue87DJnryx3NjX+fkfljwpPeSHEttfHNXIMW0hMXfAWmCQz30Qfnr39qHxoj
-	Lsz8T5pDCCM45mCE0VL7jq/tReu41HvWK7/F0k9p7WykLE8P6KYjRbdAbVTBQo7A
-	RPpPQOoEZPn1+toa5OKpsOVAoTp02EWXjAQ2jnwOR+1nGzmnsNxXz5/jRHpWaMO6
-	ZKUigtfJs+ZRGywq+p3Sl08dmcM8y4u+3rlYlzQjQ99zakY39vFtej73yslL+a4i
-	J87Hg6K/1RRqiO4kV189DUnc/+QfgYfnPwl/yelkdOc3Ow==
-Received: from mail-qt1-f198.google.com (mail-qt1-f198.google.com [209.85.160.198])
-	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 466jgy291y-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT)
-	for <linux-usb@vger.kernel.org>; Wed, 23 Apr 2025 13:38:12 +0000 (GMT)
-Received: by mail-qt1-f198.google.com with SMTP id d75a77b69052e-4767348e239so126799011cf.0
-        for <linux-usb@vger.kernel.org>; Wed, 23 Apr 2025 06:38:12 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1745415491; x=1746020291;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=wj+FtiAGAkQ5P/5zChODPkrmZAMKKPl/2U1Ld2vwF7E=;
-        b=tBbbDKk3Smw7uQvb2EctzDcWiq9c+LE4FGEjxeSloUHG9BHt5JMBCzhwmu9DlM0IIj
-         w5kRoS7w9OwCD4GuHLk8vlWih+VQrX9Ltq0uFh9VxZ9PN/9qxrBoRZRQfSjiRQhNh2sz
-         /ai3EQXQ4GStBTMZviB6149tpde5aj/7aThWUC2385CJVna5hrt41u+8V9z+emFITLM4
-         oClb/rBTxJ4zoCom4ocvB7bm0uCgB74fsSkut8+5DTn/rT8IvxmQrkCENKMphOvKR6IW
-         A9ZYwcSuEppnUj8LN+HMEfm7JQYjjTbh48jtGVBlJvo5NavRd9CUHpGcw92ZQzeftZBP
-         ytYQ==
-X-Forwarded-Encrypted: i=1; AJvYcCV1cCIchO+EbClXtEjUIZ1sWtFkKqvdNtz/TciDBDydmyEsuwD7m50yj7eb2/I/FAQ86a/VowJPom0=@vger.kernel.org
-X-Gm-Message-State: AOJu0YwSly606H7UaG1OvtfY/PIM9Gr5NaMltZtiWxHKsa83mKz5Boq4
-	ATxzchXr0Ei5XOac26CdZZt/aCD16DkDljnAWfALjS+zj48fGUVQLRsrJfdcZ3IzgClj6fn2Xzk
-	/5YEtEz7gj0KDN/PRNK6iVOfmpPiNVR43v8Fi35bwNItxJ/Gi+BN2bkY/qwU=
-X-Gm-Gg: ASbGncv0IdokqnlHNEhSIehJMjwqXhRqnmJUyU84q8ahYln89d1GNBed06W+6ADvUgC
-	+DXdUtxBhJtCs3PBtw4A701OVEooOtDVXFdFyWEMVI31AHySN/tWrqbTQqeCQc6EMYKYRJANA/U
-	ZOLWgtjYTOCe0gZ+oo1d3GVsbZA6LE1C53rGRt054BgRuTEc80yR7xA8Pfgp1v3GemKUEzAzhoM
-	3ntpgdcEwDfmbDnhSCWoyXXHAcuY1cNUZ2kLDrPCoOGYtqSWkQ4VG6w/0k2uRliKhkBoBxbDuC2
-	FfmsuaCm7am0L8C/RIyEteL78g0miBIYKQBITgaeM2VsRVc8UEBu3ftb7arekK43N7vtPx7ZDLM
-	=
-X-Received: by 2002:a05:6808:6a84:b0:400:fa6b:5dfb with SMTP id 5614622812f47-401c0ca677amr12197838b6e.36.1745415056346;
-        Wed, 23 Apr 2025 06:30:56 -0700 (PDT)
-X-Google-Smtp-Source: AGHT+IGDEi3rdB2ep6R+cK4PHyu/fZwFAeRdF3OHYastR6zA3OEKUX6hMlxowo/Y01S4Kl8W7OZkVg==
-X-Received: by 2002:a05:6808:6a84:b0:400:fa6b:5dfb with SMTP id 5614622812f47-401c0ca677amr12197723b6e.36.1745415055890;
-        Wed, 23 Apr 2025 06:30:55 -0700 (PDT)
-Received: from eriador.lumag.spb.ru (2001-14ba-a0c3-3a00--7a1.rev.dnainternet.fi. [2001:14ba:a0c3:3a00::7a1])
-        by smtp.gmail.com with ESMTPSA id 38308e7fff4ca-3109084e434sm18283881fa.104.2025.04.23.06.30.54
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 23 Apr 2025 06:30:54 -0700 (PDT)
-Date: Wed, 23 Apr 2025 16:30:52 +0300
-From: Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
-To: Danila Tikhonov <danila@jiaxyga.com>
-Cc: Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>,
-        Conor Dooley <conor+dt@kernel.org>,
-        Lorenzo Pieralisi <lpieralisi@kernel.org>,
-        "Rafael J . Wysocki" <rafael@kernel.org>,
-        Viresh Kumar <viresh.kumar@linaro.org>,
-        Manivannan Sadhasivam <manivannan.sadhasivam@linaro.org>,
-        Wim Van Sebroeck <wim@linux-watchdog.org>,
-        Guenter Roeck <linux@roeck-us.net>,
-        Rajendra Nayak <quic_rjendra@quicinc.com>,
-        Jassi Brar <jassisinghbrar@gmail.com>,
-        Bjorn Andersson <andersson@kernel.org>,
-        Konrad Dybcio <konradybcio@kernel.org>,
-        Amit Kucheria <amitk@kernel.org>,
-        Thara Gopinath <thara.gopinath@gmail.com>,
-        Daniel Lezcano <daniel.lezcano@linaro.org>,
-        Zhang Rui <rui.zhang@intel.com>, Lukasz Luba <lukasz.luba@arm.com>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Wesley Cheng <quic_wcheng@quicinc.com>, Vinod Koul <vkoul@kernel.org>,
-        Kishon Vijay Abraham I <kishon@kernel.org>,
-        Ulf Hansson <ulf.hansson@linaro.org>,
-        Souradeep Chowdhury <quic_schowdhu@quicinc.com>,
-        Lee Jones <lee@kernel.org>, Andrew Lunn <andrew+netdev@lunn.ch>,
-        "David S . Miller" <davem@davemloft.net>,
-        Eric Dumazet <edumazet@google.com>, Jakub Kicinski <kuba@kernel.org>,
-        Paolo Abeni <pabeni@redhat.com>, Alex Elder <elder@kernel.org>,
-        Alim Akhtar <alim.akhtar@samsung.com>,
-        Avri Altman <avri.altman@wdc.com>,
-        Bart Van Assche <bvanassche@acm.org>, Andy Gross <agross@kernel.org>,
-        Srinivas Kandagatla <srini@kernel.org>,
-        Herbert Xu <herbert@gondor.apana.org.au>,
-        Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>,
-        Georgi Djakov <djakov@kernel.org>,
-        Loic Poulain <loic.poulain@oss.qualcomm.com>,
-        Robert Foss <rfoss@kernel.org>, Andi Shyti <andi.shyti@kernel.org>,
-        Michael Turquette <mturquette@baylibre.com>,
-        Stephen Boyd <sboyd@kernel.org>, Taniya Das <quic_tdas@quicinc.com>,
-        Sibi Sankar <quic_sibis@quicinc.com>, Will Deacon <will@kernel.org>,
-        Robin Murphy <robin.murphy@arm.com>, Joerg Roedel <joro@8bytes.org>,
-        Imran Shaik <quic_imrashai@quicinc.com>,
-        Mathieu Poirier <mathieu.poirier@linaro.org>,
-        Bartosz Golaszewski <bartosz.golaszewski@linaro.org>,
-        Neil Armstrong <neil.armstrong@linaro.org>,
-        Jessica Zhang <quic_jesszhan@quicinc.com>,
-        David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
-        Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
-        Maxime Ripard <mripard@kernel.org>,
-        Thomas Zimmermann <tzimmermann@suse.de>, Kees Cook <kees@kernel.org>,
-        Tony Luck <tony.luck@intel.com>,
-        "Guilherme G . Piccoli" <gpiccoli@igalia.com>,
-        David Wronek <david@mainlining.org>,
-        Jens Reidel <adrian@mainlining.org>, devicetree@vger.kernel.org,
-        linux-kernel@vger.kernel.org, linux-pm@vger.kernel.org,
-        linux-arm-msm@vger.kernel.org, linux-watchdog@vger.kernel.org,
-        linux-usb@vger.kernel.org, linux-phy@lists.infradead.org,
-        linux-mmc@vger.kernel.org, netdev@vger.kernel.org,
-        linux-scsi@vger.kernel.org, dmaengine@vger.kernel.org,
-        linux-crypto@vger.kernel.org, linux-i2c@vger.kernel.org,
-        linux-clk@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
-        iommu@lists.linux.dev, linux-remoteproc@vger.kernel.org,
-        dri-devel@lists.freedesktop.org, linux-hardening@vger.kernel.org,
-        linux@mainlining.org, ~postmarketos/upstreaming@lists.sr.ht
-Subject: Re: [PATCH 28/33] cpufreq: Add SM7150 to cpufreq-dt-platdev blocklist
-Message-ID: <pywgehih5yrxbnzyjtufkh52xiuonsjv7wougvbauiw2yd3mpy@imcguzi5f7fm>
-References: <20250422213137.80366-1-danila@jiaxyga.com>
- <20250422213137.80366-12-danila@jiaxyga.com>
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="aXF0HiMD"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1745415793; x=1776951793;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=sdSO4vtsyCgKCiuvtLa7sZ+BGvUG/9woFfGbGd3g5bQ=;
+  b=aXF0HiMDG8aokgs2pUXUgmVKpAXWaTqmr1miWTryTsPmWgtSrKMQliwY
+   CYJNabgflCH38W0oBdMiCzY6ZI4VSV933+QTuYOKW5S4bNrzXoXHU1QM+
+   rtcLKIhLnEAMLPSjVfs+t19Gm9vURj/80AOvt9WUb+qOg9Aq7Wb4JCjJ3
+   yVU/yUOtYh5sz5NkqGIf6xmuHmPBb8ekjETio7q4LQ/LgrPapn+GkDoDa
+   mPcaTaQDzKYcCmcU5zU7A6P6JacJwYFn1x3vPB4jTZLt7KoUtrcBx1ume
+   XyeFglpQTGUUKhW1dhXCeC+zNBhfnCKxaIbP59aUGVUBoDC2KDAvrgQTv
+   A==;
+X-CSE-ConnectionGUID: BwfN/wC0S+iYbyhxVAV4tw==
+X-CSE-MsgGUID: b/91ykZeQeimDnhn0T6KPA==
+X-IronPort-AV: E=McAfee;i="6700,10204,11412"; a="47190576"
+X-IronPort-AV: E=Sophos;i="6.15,233,1739865600"; 
+   d="scan'208";a="47190576"
+Received: from fmviesa006.fm.intel.com ([10.60.135.146])
+  by fmvoesa108.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 23 Apr 2025 06:43:12 -0700
+X-CSE-ConnectionGUID: 1WWXhu/HSWKk3VQE5qeX7A==
+X-CSE-MsgGUID: J53B5CQbTdKylLhvMnSWAQ==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.15,233,1739865600"; 
+   d="scan'208";a="132164514"
+Received: from kuha.fi.intel.com ([10.237.72.152])
+  by fmviesa006.fm.intel.com with SMTP; 23 Apr 2025 06:43:08 -0700
+Received: by kuha.fi.intel.com (sSMTP sendmail emulation); Wed, 23 Apr 2025 16:43:07 +0300
+Date: Wed, 23 Apr 2025 16:43:07 +0300
+From: Heikki Krogerus <heikki.krogerus@linux.intel.com>
+To: Qasim Ijaz <qasdev00@gmail.com>
+Cc: gregkh@linuxfoundation.org, lumag@kernel.org, pooja.katiyar@intel.com,
+	diogo.ivo@tecnico.ulisboa.pt, madhu.m@intel.com,
+	saranya.gopal@intel.com, linux-usb@vger.kernel.org,
+	linux-kernel@vger.kernel.org, stable@vger.kernel.org
+Subject: Re: [PATCH] usb: typec: ucsi: fix Clang -Wsign-conversion warning
+Message-ID: <aAjua0rWkHO4H6Rj@kuha.fi.intel.com>
+References: <20250422134717.66218-1-qasdev00@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
@@ -142,35 +62,54 @@ List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20250422213137.80366-12-danila@jiaxyga.com>
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUwNDIzMDA5NSBTYWx0ZWRfX16/EN1U9c+hj +CpBw0VFToRQ3Wx8PsP4OXzcRdjcHaHHDOt787FwpMGWmF71QfwVvbkj+fvJ6mfjZLwp4Ctb/DV PLy2KjuD0+vS0hL4Zsqg3Meno8ksWD3y82tF6Fz6fkMWppWEUoMVFgRqZxJiT5kl5w5x37s6gCc
- Umop/PiQDL+B3mEpZTPzNCupiE760+N+B0tUne+vA364YGjzr6v4PJS8bV+wzlCHABI18puUQ6H z8HoOXuxvzMe/JA36I0HhDbT5MQopyBpHJjmMZFh05OBwSOO8GCmRbPy70+MC3ygULPhayLdAv/ XxzHfuYLCH8Fh5VVvLhbeSdUDT15uUTBDM0xbvEGo1zUMqbmgepUx5DwEidU/mGuMK+mIT2IKDd
- xvnSH8jkVML7Vpz6BYOZlNgil9bhYUOV3kz3+zC5BqMj/BjKaHYL7Okxnk2yqXjAPPmGYdH3
-X-Proofpoint-GUID: Mo_TGGJSz4JOzHt-v3o-yozWet8hu-XY
-X-Proofpoint-ORIG-GUID: Mo_TGGJSz4JOzHt-v3o-yozWet8hu-XY
-X-Authority-Analysis: v=2.4 cv=M5VNKzws c=1 sm=1 tr=0 ts=6808ed44 cx=c_pps a=mPf7EqFMSY9/WdsSgAYMbA==:117 a=xqWC_Br6kY4A:10 a=kj9zAlcOel0A:10 a=XR8D0OoHHMoA:10 a=7ibcVnAUAAAA:8 a=EUspDBNiAAAA:8 a=KMkCwTOw-m2sBZ1LepcA:9 a=CjuIK1q_8ugA:10
- a=dawVfQjAaf238kedN5IG:22 a=HywIFdX19-EX8Ph82vJO:22
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1099,Hydra:6.0.680,FMLib:17.12.80.40
- definitions=2025-04-23_08,2025-04-22_01,2025-02-21_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 bulkscore=0
- lowpriorityscore=0 adultscore=0 spamscore=0 priorityscore=1501 mlxscore=0
- mlxlogscore=559 malwarescore=0 impostorscore=0 clxscore=1015
- suspectscore=0 phishscore=0 classifier=spam authscore=0 authtc=n/a authcc=
- route=outbound adjust=0 reason=mlx scancount=1 engine=8.19.0-2504070000
- definitions=main-2504230095
+In-Reply-To: <20250422134717.66218-1-qasdev00@gmail.com>
 
-On Wed, Apr 23, 2025 at 12:31:32AM +0300, Danila Tikhonov wrote:
-> The Qualcomm SM7150 platform uses the qcom-cpufreq-hw driver, so add
-> it to the cpufreq-dt-platdev driver's blocklist.
+On Tue, Apr 22, 2025 at 02:47:17PM +0100, Qasim Ijaz wrote:
+> debugfs.c emits the following warnings when compiling with the -Wsign-conversion flag with clang 15:
 > 
-> Signed-off-by: Danila Tikhonov <danila@jiaxyga.com>
+> drivers/usb/typec/ucsi/debugfs.c:58:27: warning: implicit conversion changes signedness: 'int' to 'u32' (aka 'unsigned int') [-Wsign-conversion]
+>                 ucsi->debugfs->status = ret;
+>                                       ~ ^~~
+> drivers/usb/typec/ucsi/debugfs.c:71:25: warning: implicit conversion changes signedness: 'u32' (aka 'unsigned int') to 'int' [-Wsign-conversion]
+>                 return ucsi->debugfs->status;
+>                 ~~~~~~ ~~~~~~~~~~~~~~~^~~~~~
+>                 
+> During ucsi_cmd() we see:
+> 
+> 	if (ret < 0) {
+> 		ucsi->debugfs->status = ret;
+> 		return ret;
+> 	}
+> 	
+> But "status" is u32 meaning unsigned wrap-around occurs when assigning a value which is < 0 to it, this obscures the real status.
+> 
+> To fix this make the "status" of type int since ret is also of type int.
+> 
+> Fixes: df0383ffad64 ("usb: typec: ucsi: Add debugfs for ucsi commands")
+> Cc: stable@vger.kernel.org
+> Signed-off-by: Qasim Ijaz <qasdev00@gmail.com>
+
+Reviewed-by: Heikki Krogerus <heikki.krogerus@linux.intel.com>
+
 > ---
->  drivers/cpufreq/cpufreq-dt-platdev.c | 1 +
->  1 file changed, 1 insertion(+)
+>  drivers/usb/typec/ucsi/ucsi.h | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
 > 
+> diff --git a/drivers/usb/typec/ucsi/ucsi.h b/drivers/usb/typec/ucsi/ucsi.h
+> index 3a2c1762bec1..525d28160413 100644
+> --- a/drivers/usb/typec/ucsi/ucsi.h
+> +++ b/drivers/usb/typec/ucsi/ucsi.h
+> @@ -432,7 +432,7 @@ struct ucsi_debugfs_entry {
+>  		u64 low;
+>  		u64 high;
+>  	} response;
+> -	u32 status;
+> +	int status;
+>  	struct dentry *dentry;
+>  };
+>  
+> -- 
+> 2.39.5
 
-Reviewed-by: Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
 -- 
-With best wishes
-Dmitry
+heikki
