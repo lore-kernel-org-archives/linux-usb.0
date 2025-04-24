@@ -1,164 +1,167 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from mout.kundenserver.de (mout.kundenserver.de [212.227.126.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9D3A3D528
-	for <linux-usb@vger.kernel.org>; Thu, 24 Apr 2025 14:31:21 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7F38612CDA5;
+	Thu, 24 Apr 2025 14:47:05 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=212.227.126.133
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1745505081; cv=none; b=L/S15BrinJLT2wV2kuFdfoEap6NnzgBDk/LjeJpYoObxu/S6c7SDJXwNHQu60VpVknfFJptzH3QQ0DXvPnAZOLbYWQ6f8U7W7rQEa5TviXHCqqPuwwZoyi7bdxYJ3wPj9K4DICArYrUrxkjwOi8OpSksFu0sI5TxXB2kKicyEQo=
+	t=1745506029; cv=none; b=SZtTuGSqwSeOAgkazdEtnypL3/69ofMqk3HxtkQhuxOYTNhoOErzQf4z5QwhXFd/NB57g8E9yDgHbUINTtx3M9KUJDta7CYEyf/28xwV1YFYbylqWCzj63HIyMZeACtKL8115h5iy9JM3jx8q5AkD0R4mTIhfI4cFwp6DOlMraE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1745505081; c=relaxed/simple;
-	bh=r8szc3lTbkG3hW8ewzn9Dic1Z2/s9G1/jvcAaWr8nVw=;
-	h=From:To:Subject:Date:Message-ID:Content-Type:MIME-Version; b=ZXY9NsLoIjOq09lt3hhKJAoObqn1WwNo8H9JHmECKyZuhW1/utgNTA6FD/zk0hStdtd+r2A5oY9Krwsb0EILS83qV3I4vMGrSo7tkysM4Ge/BaG+Eae8j412dvQUFuPPKk6DooIkGS6uKxtfk5tTCrf5bs+K3XHiIVhk3m4Vrhg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=poS6cDPb; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1745506029; c=relaxed/simple;
+	bh=Bn7qKgmVirMnL4HSoD6+ySbU242thJzaLTltDmOvM9c=;
+	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:To:Cc; b=YOHyrghSLKMSGgPUJ9casVPkVL8lEYrVzGLY8Bd5cU663iCxks4Gv4GeaHbM7fZTqY2ElfuAV3H7cF8pX102Kh5d/9iKpVlZeO3elRVdPhJwD47DQndKt0J3N7/lNdEWzIsnCy5oG4j30KVKWt375MxVhn0jLlskUWCReFy46As=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=heusel.eu; spf=pass smtp.mailfrom=heusel.eu; dkim=pass (2048-bit key) header.d=heusel.eu header.i=christian@heusel.eu header.b=UiBzdblN; arc=none smtp.client-ip=212.227.126.133
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=heusel.eu
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=heusel.eu
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="poS6cDPb"
-Received: by smtp.kernel.org (Postfix) with ESMTPS id 07A60C4CEE3
-	for <linux-usb@vger.kernel.org>; Thu, 24 Apr 2025 14:31:21 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1745505081;
-	bh=r8szc3lTbkG3hW8ewzn9Dic1Z2/s9G1/jvcAaWr8nVw=;
-	h=From:To:Subject:Date:From;
-	b=poS6cDPbbAsys3JEOuseE9BsSDX/wfzC1QSPx41RHjA1jJf9Wzagvvl7WgYBWKsnf
-	 y/MiPc+L0fUqLKVFHmCvjDCc9Hrl5TUObS9IMpI2hwPAFtDj93PokDTw8S9cTA3tAM
-	 WsqZWXGhTmqkE7flqDp0MJiTe1RR+Pe9exWDFal1IvEUGiBghwzStT9JE6zqGfBOn6
-	 sw/GXc0WOmfQX2lWlvkyVC6K9Xq0AJrvE/g7qdxCW1W6RfoWj0Yoa1qry7Sz1xD2Hx
-	 t5laNf79WvAVFbrjw0jx3vPUfF0DfXRUj18UB76rrU7CEygQ1BSF9YTOc+2FyGS9uQ
-	 l/5tjBvXPj/7A==
-Received: by aws-us-west-2-korg-bugzilla-1.web.codeaurora.org (Postfix, from userid 48)
-	id E82AAC41612; Thu, 24 Apr 2025 14:31:20 +0000 (UTC)
-From: bugzilla-daemon@kernel.org
-To: linux-usb@vger.kernel.org
-Subject: [Bug 220052] New: The usb/cdc-acm driver uses memory after it is
- freed
-Date: Thu, 24 Apr 2025 14:31:20 +0000
-X-Bugzilla-Reason: None
-X-Bugzilla-Type: new
-X-Bugzilla-Watch-Reason: AssignedTo drivers_usb@kernel-bugs.kernel.org
-X-Bugzilla-Product: Drivers
-X-Bugzilla-Component: USB
-X-Bugzilla-Version: 2.5
-X-Bugzilla-Keywords: 
-X-Bugzilla-Severity: normal
-X-Bugzilla-Who: ben.maan@aimvalley.com
-X-Bugzilla-Status: NEW
-X-Bugzilla-Resolution: 
-X-Bugzilla-Priority: P3
-X-Bugzilla-Assigned-To: drivers_usb@kernel-bugs.kernel.org
-X-Bugzilla-Flags: 
-X-Bugzilla-Changed-Fields: bug_id short_desc product version rep_platform
- op_sys bug_status bug_severity priority component assigned_to reporter
- cf_regression attachments.created
-Message-ID: <bug-220052-208809@https.bugzilla.kernel.org/>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-X-Bugzilla-URL: https://bugzilla.kernel.org/
-Auto-Submitted: auto-generated
+	dkim=pass (2048-bit key) header.d=heusel.eu header.i=christian@heusel.eu header.b="UiBzdblN"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=heusel.eu;
+	s=s1-ionos; t=1745506020; x=1746110820; i=christian@heusel.eu;
+	bh=BiYoI3t07zEC8MRuyXYTtYuABNrGYYjjjTp7cv/tN5k=;
+	h=X-UI-Sender-Class:From:Date:Subject:MIME-Version:Content-Type:
+	 Content-Transfer-Encoding:Message-Id:To:Cc:cc:
+	 content-transfer-encoding:content-type:date:from:message-id:
+	 mime-version:reply-to:subject:to;
+	b=UiBzdblNx8SwoBGVxvk9jjILOoLWahs1kH+IM9Jg1GoFjDtyCk7d6VMXlArVRrCV
+	 cImoPPph4TrSVxDGFE4IFj2DND54y/B6fE6KDxDealrOQ8kNrQq1/YvHSSPLMxZ9I
+	 xyk6DtjWUJEpcJV3O9PZPKmD0QBFd0KESuAK0mAVObJyNaehAL43rmKHkIgsC6GQl
+	 DAYR2elgIPK/3EdTRx5hyUD4BgpERUy+gRW35H43fpfG00yTsJNKg5kEuBpcJNqEu
+	 JLz6g3bh9yLkh4i+UQrKViu6W8HiUfsubgDPrBUJ4K26vux5YRRwkMWJ0FCbbYIOV
+	 QdVGVxbZY82aIH5o/Q==
+X-UI-Sender-Class: 55c96926-9e95-11ee-ae09-1f7a4046a0f6
+Received: from meterpeter.localdomain ([80.187.66.147]) by
+ mrelayeu.kundenserver.de (mreue009 [212.227.15.167]) with ESMTPSA (Nemesis)
+ id 1M7auL-1uBYB23HSf-0093Pm; Thu, 24 Apr 2025 16:01:06 +0200
+From: Christian Heusel <christian@heusel.eu>
+Date: Thu, 24 Apr 2025 16:00:28 +0200
+Subject: [PATCH] Revert "rndis_host: Flag RNDIS modems as WWAN devices"
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: quoted-printable
+Message-Id: <20250424-usb-tethering-fix-v1-1-b65cf97c740e@heusel.eu>
+X-B4-Tracking: v=1; b=H4sIAPtDCmgC/x2MywqAIBAAf0X23ELZA+tXokPmpnux0Iog+veWj
+ jMw80CmxJRhUA8kujjzFgWqQsES5ugJ2QmDLnVbNrrBM1s86AiSRY8r31j3pjPG1trNDqTbE4n
+ +n+P0vh/8VO0nYwAAAA==
+X-Change-ID: 20250424-usb-tethering-fix-398688b32dad
+To: Andrew Lunn <andrew+netdev@lunn.ch>, 
+ "David S. Miller" <davem@davemloft.net>, Eric Dumazet <edumazet@google.com>, 
+ Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>
+Cc: linux-usb@vger.kernel.org, netdev@vger.kernel.org, 
+ regressions@lists.linux.dev, linux-kernel@vger.kernel.org, 
+ stable@vger.kernel.org, Lubomir Rintel <lkundrak@v3.sk>, 
+ Christian Heusel <christian@heusel.eu>
+X-Mailer: b4 0.14.2
+X-Developer-Signature: v=1; a=openpgp-sha256; l=2318; i=christian@heusel.eu;
+ h=from:subject:message-id; bh=uCmWJ08d3T6sqzruRhhWDBmrpAmhzZjpMdT+4kKwQso=;
+ b=owEBbQKS/ZANAwAIAcBH1PMotSWFAcsmYgBoCkQYdLRPMzkf+QHfzbvX3tEyVNKkXCfmnJZ2b
+ F3yPlBdc5+JAjMEAAEIAB0WIQRvd5reJHprig9yzBPAR9TzKLUlhQUCaApEGAAKCRDAR9TzKLUl
+ hbkUEADVFJTdIYmV70vJOafWG6Q0MJ2+D744VIi72htiDZaU5KXXnhjhgcCkc7ERzzc6EPBdfvh
+ fT0tSm0OSj5EmPxftgKRfnKpuSzgUf3JrqszWBjc3b1VS116beAeKyBSL3CDxn410Qgefxq6ONN
+ Snx4HfR6mmQMdYskMAmBfXcnhZumZbOs6E79j4Rgo9aGyhn8e5br9Wjydvdaha6ofhalKG4/noI
+ 3V1sxjlLAtItMZN6x8K/Sw//g6oOpKeUarSXzINs2jE1KE+KM9iEL0ao23V7D/Abvx5j8uIOnsH
+ Zd3XTbOumKO9MwGhRFcWscVXtTbwcwE4l08BvhjLrNQcx1CCXK4r1NDkqEvmCEQPkEs5gOCKe2s
+ KcH2umRSOXY3MdEFn6MfOaswwA9qB3GYfklyjZJ5sFsZ7B/CYK5taj4ZBdF2B2mJN+n8ZZJNOTa
+ GRQh2SZ5wcR4TfSt/UO8xGbvngKYeHzj1PVMBar79KJNDpwolwDF4Q12CUTfP0aPs2kCuWFaeTA
+ qSq8esVlTmrAYmpstcqq5ggZHK12aTwAgzo137jYyjctXFMGjwAMeHZ2/tAEHRQKYF/x0xp1J8l
+ rQvN2uVtySCduj5BGS8ibjNrLYHIy+QSEWgpYxK7DTRpQcR+TXmmojhXCma6F4AKINd9+Xit5sO
+ aVMbYywjdZ0p1AQ==
+X-Developer-Key: i=christian@heusel.eu; a=openpgp;
+ fpr=6F779ADE247A6B8A0F72CC13C047D4F328B52585
+X-Provags-ID: V03:K1:inbTguRCRiMzNvBapqeKfvNgoRAp4ykFIM+J2mJo0gamsw0VmE2
+ SCWeqUtxg/rShR/rwfRc771bqCWDaQuMi2EiSCFU/1U7cbNqcuOcfj6n03OKFnTz8PoT3Xy
+ cj3rVVGs0Lo8CPxQbCb3CxFRkiY/ojr9BH/QlvXlUFPFXIBABy3qJl/IsDYJqUiFt5Q2FTk
+ /8AdAL1xp0bS9+MPHtEHw==
+X-Spam-Flag: NO
+UI-OutboundReport: notjunk:1;M01:P0:PflABPEdXXQ=;RPRrPH81t1zq5AQlBJjAPtNrmDf
+ z1ri80UOQmYc4dRQUCwE5PDe/i4AuVyT68lf9t4FuUdxaA6OqAOMueSuojh8tubI4CHNBcRW7
+ 6jAjlC3xrBbdKpr26g06tMgBOivVL0NfE2FXD5NK5f4pUUFRSVczL34JXwwY2GsRLERxgRZvr
+ Xwf0Jb6vgkwENptVDqO8r7I5CZBayJBwgfnRtdvarmas+9hzEMs8sNtBMRzvwyyUQadp95qQc
+ ZjmGS9cHnh9nrzr/vfbCu5v1MNbbxhEawVbH+dNpjxl7A7hG6YUVXLGy7QjBP3XNDyC6JZnLu
+ CoTVuxEs/3aLm+6vTqVhbTO2MyCNQqvbONprbOhfckBCsJ7fLHuNdMogxphtbiCUKJ4FhuDpc
+ tfcbRormUhfG15NRrOY2pdX7iTXliAvZPdBOPJZfXehfsssLtv7VrQNcKtkecnKxc6gH2ivFd
+ DY1XrrOMyEJcVCZf6lZGyXr5BrI3xbSvCkWUwCOPHugWzsrNtLrTyw8xO9v6HJNpCx7DH4ayd
+ yKtxvKjcXLrUkyCrQoULoM2CGNamwCtEXdvpUDCfonqww/ED4jio9nURsWRRkBjcbzebweZ0H
+ /qYqskUX9VQpXLidBVBZhdirQLm5Ex049Vb50Iv+8w5fxCoWx7uMi0hRhJxKoRsu5//Zqp3/x
+ hYJMaVFao/MPUPXdId7ujlm48QFsxT7ALMXmTJtMy+1MHBoJ+u8FB12OXdmQ1lsvjoEqxb/TL
+ 8ix9TaULacjJ7hw+sWq3GDtHmZMwH81/ekfIA1SkbmwJ88ixv7HJ2Bq5H8aurUKBGDWK5s20y
+ yfrbNkEKuhlzI3Lqa/ZSTjYEJy6i/hT0DAY2xznOO4kLF5BgbJQQ38Cl+xq7Rl/0IEJmAwkKm
+ eLGCYYpUt3vXzKKMhh7eGl0j7i1uFHzfcLm0AG+6e6yAxmm0M+C/THAZg2GxZGqcowO4p2IF7
+ wsBJShEbeaBWPmfd9Jy+MJtMYboksE+8moo2SUTuPyzBFwvQFBHRNChAmt+vKXlVbw+wG3wPS
+ 1GxyDcFvAk2QbjjiTIm2pG9hrUHCLkzyXZ2COmHf787pNwXQO3oP+2w2DKA8xKxaNveeozQEo
+ ebEriHEf+7+pL2Ih0kZmk5xvpRh3GBw4FNf7WdP6z8NGsOL+fv0HdGFDtHWH4PsYq3ww/Co5i
+ CDbZuHM40lxEAIeMWLr8XzPzMzxW5GW5l/3a8Ol3TZucCEEmcI571WTcuG9Or5Jrl8BGvP/dy
+ 93ZYovJGafW889NA9VXP4Gvp9hJITNjbnLnjxMrF9UePt8x5PiIGgyBmFrNUHieqWpUZe06No
+ /q3t2GI+gAXepIrMOGveVwcKBQrjL7+gTtItIBFrZXs94+JSNsSP78Gf3Hce63EOyIYWsKe4R
+ 33jLZG0aF7F35D1DYAYsjHW+kq43b0ci7QzcE=
 
-https://bugzilla.kernel.org/show_bug.cgi?id=3D220052
+This reverts commit 67d1a8956d2d62fe6b4c13ebabb57806098511d8. Since this
+commit has been proven to be problematic for the setup of USB-tethered
+ethernet connections and the related breakage is very noticeable for
+users it should be reverted until a fixed version of the change can be
+rolled out.
 
-            Bug ID: 220052
-           Summary: The usb/cdc-acm driver uses memory after it is freed
-           Product: Drivers
-           Version: 2.5
-          Hardware: All
-                OS: Linux
-            Status: NEW
-          Severity: normal
-          Priority: P3
-         Component: USB
-          Assignee: drivers_usb@kernel-bugs.kernel.org
-          Reporter: ben.maan@aimvalley.com
-        Regression: No
+Closes: https://lore.kernel.org/all/e0df2d85-1296-4317-b717-bd757e3ab928@h=
+eusel.eu/
+Link: https://chaos.social/@gromit/114377862699921553
+Link: https://bugzilla.kernel.org/show_bug.cgi?id=3D220002
+Link: https://bugs.gentoo.org/953555
+Link: https://bbs.archlinux.org/viewtopic.php?id=3D304892
+Cc: stable@vger.kernel.org
+Acked-by: Lubomir Rintel <lkundrak@v3.sk>
+Signed-off-by: Christian Heusel <christian@heusel.eu>
+=2D--
+ drivers/net/usb/rndis_host.c | 16 ++--------------
+ 1 file changed, 2 insertions(+), 14 deletions(-)
 
-Created attachment 308013
-  --> https://bugzilla.kernel.org/attachment.cgi?id=3D308013&action=3Dedit
-A patch file that solves the kernel panic.
+diff --git a/drivers/net/usb/rndis_host.c b/drivers/net/usb/rndis_host.c
+index bb0bf1415872745aea177ce0ba7d6eb578cb4a47..7b3739b29c8f72b7b108c5f4ae=
+11fdfcf243237d 100644
+=2D-- a/drivers/net/usb/rndis_host.c
++++ b/drivers/net/usb/rndis_host.c
+@@ -630,16 +630,6 @@ static const struct driver_info	zte_rndis_info =3D {
+ 	.tx_fixup =3D	rndis_tx_fixup,
+ };
+=20
+-static const struct driver_info	wwan_rndis_info =3D {
+-	.description =3D	"Mobile Broadband RNDIS device",
+-	.flags =3D	FLAG_WWAN | FLAG_POINTTOPOINT | FLAG_FRAMING_RN | FLAG_NO_SET=
+INT,
+-	.bind =3D		rndis_bind,
+-	.unbind =3D	rndis_unbind,
+-	.status =3D	rndis_status,
+-	.rx_fixup =3D	rndis_rx_fixup,
+-	.tx_fixup =3D	rndis_tx_fixup,
+-};
+-
+ /*-----------------------------------------------------------------------=
+=2D-*/
+=20
+ static const struct usb_device_id	products [] =3D {
+@@ -676,11 +666,9 @@ static const struct usb_device_id	products [] =3D {
+ 	USB_INTERFACE_INFO(USB_CLASS_WIRELESS_CONTROLLER, 1, 3),
+ 	.driver_info =3D (unsigned long) &rndis_info,
+ }, {
+-	/* Mobile Broadband Modem, seen in Novatel Verizon USB730L and
+-	 * Telit FN990A (RNDIS)
+-	 */
++	/* Novatel Verizon USB730L */
+ 	USB_INTERFACE_INFO(USB_CLASS_MISC, 4, 1),
+-	.driver_info =3D (unsigned long)&wwan_rndis_info,
++	.driver_info =3D (unsigned long) &rndis_info,
+ },
+ 	{ },		// END
+ };
 
-In the cdc-acm driver, memory is used after it is freed. The code is in
-drivers/usb/class/cdc-acm.c, in the acm_softint function. The problem manif=
-ests
-when a usb connection is disconnected by unplugging a cable and can result =
-in a
-kernel panic. The panic is not always seen but only when the freed memory is
-claimed and used by an other process, somewhere between the for loop and the
-acm_submit_read_urbs.
+=2D--
+base-commit: 9c32cda43eb78f78c73aee4aa344b777714e259b
+change-id: 20250424-usb-tethering-fix-398688b32dad
 
-A solution is attached in the form of a patch where 2 lines of code are
-exchanged with 2 other lines. The patch is based on kernel version
-linux-6.15-rc3.
+Best regards,
+=2D-=20
+Christian Heusel <christian@heusel.eu>
 
-The kernel panic is shown below.
-
-cdc_acm 1-1.3:1.2: urb 0 failed submission with -2
-Unable to handle kernel NULL pointer dereference at virtual address 00000030
-Mem abort info:
-  Exception class =3D DABT (current EL), IL =3D 32 bits
-  SET =3D 0, FnV =3D 0
-  EA =3D 0, S1PTW =3D 0
-Data abort info:
-  ISV =3D 0, ISS =3D 0x00000004
-  CM =3D 0, WnR =3D 0
-user pgtable: 4k pages, 48-bit VAs, pgd =3D ffff8000bbab6000
-[0000000000000030] *pgd=3D0000000000000000
-Internal error: Oops: 96000004 [#1] PREEMPT SMP
-Modules linked in: 8021q garp stp mrp ax88179_178a usbnet crc32_ce crct10di=
-f_ce
-galcore(O)
-CPU: 0 PID: 1740 Comm: kworker/0:3 Tainted: G           O=20=20=20
-4.14.98-imx_4.14.98_2.0.0_ga+g5d6cbeafb80c #1
-Hardware name: Freescale i.MX8MQ EVK (DT)
-Workqueue: events acm_softint
-task: ffff8000baa12880 task.stack: ffff00000d448000
-PC is at usb_autopm_put_interface+0x14/0x48
-LR is at acm_softint+0xb8/0xd8
-pc : [<ffff0000088e3abc>] lr : [<ffff0000089480b8>] pstate: 40000145
-sp : ffff00000d44bda0
-x29: ffff00000d44bda0 x28: 0000000000000000=20
-x27: 0000000000000000 x26: ffff000009222ec0=20
-x25: ffff0000080e7760 x24: ffff8000b6386788=20
-x23: 0000000000000000 x22: ffff8000bff60580=20
-x21: ffff8000b6385f88 x20: ffff8000b6386000=20
-x19: ffff8000b6386788 x18: 0000000000000001=20
-x17: 0000ffffb6667098 x16: ffff000008261920=20
-x15: ffff000009752000 x14: 00000000fffffff0=20
-x13: ffff0000098e5150 x12: ffff000009738df8=20
-x11: ffff000008663128 x10: ffff0000098e4000=20
-x9 : 0000000000000006 x8 : 6d6275732064656c=20
-x7 : 6961662030206272 x6 : 0000000000000514=20
-x5 : 0000000000000000 x4 : 0000000000000000=20
-x3 : 0000000000000330 x2 : 00000000fffefa67=20
-x1 : ffff000009736000 x0 : 0000000000000000=20
-Process kworker/0:3 (pid: 1740, stack limit =3D 0xffff00000d448000)
-Call trace:
-Exception stack(0xffff00000d44bc60 to 0xffff00000d44bda0)
-bc60: 0000000000000000 ffff000009736000 00000000fffefa67 0000000000000330
-bc80: 0000000000000000 0000000000000000 0000000000000514 6961662030206272
-bca0: 6d6275732064656c 0000000000000006 ffff0000098e4000 ffff000008663128
-bcc0: ffff000009738df8 ffff0000098e5150 00000000fffffff0 ffff000009752000
-bce0: ffff000008261920 0000ffffb6667098 0000000000000001 ffff8000b6386788
-bd00: ffff8000b6386000 ffff8000b6385f88 ffff8000bff60580 0000000000000000
-bd20: ffff8000b6386788 ffff0000080e7760 ffff000009222ec0 0000000000000000
-bd40: 0000000000000000 ffff00000d44bda0 ffff0000089480b8 ffff00000d44bda0
-bd60: ffff0000088e3abc 0000000040000145 00000000014000c0 ffff8000bff60580
-bd80: ffffffffffffffff ffff0000089480b0 ffff00000d44bda0 ffff0000088e3abc
-[<ffff0000088e3abc>] usb_autopm_put_interface+0x14/0x48
-[<ffff0000089480b8>] acm_softint+0xb8/0xd8
-[<ffff0000080e75ec>] process_one_work+0x1d4/0x348
-[<ffff0000080e77a8>] worker_thread+0x48/0x470
-[<ffff0000080edaac>] kthread+0x12c/0x130
-[<ffff000008084ed8>] ret_from_fork+0x10/0x18
-Code: f0007281 910cc003 910003fd f9454022 (f9401801)=20
----[ end trace 1b12fec59341c199 ]---
-
---=20
-You may reply to this email to add a comment.
-
-You are receiving this mail because:
-You are watching the assignee of the bug.=
