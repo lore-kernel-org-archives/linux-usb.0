@@ -1,127 +1,86 @@
-Received: from mail-wm1-f49.google.com (mail-wm1-f49.google.com [209.85.128.49])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
-	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 048A8230BCC
-	for <linux-usb@vger.kernel.org>; Fri, 25 Apr 2025 07:08:56 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.49
+Received: from m16.mail.163.com (m16.mail.163.com [220.197.31.4])
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 8B670217648;
+	Fri, 25 Apr 2025 08:09:17 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=220.197.31.4
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1745564940; cv=none; b=ahjO2qFZ9bqzZQNCczcHQw/TPdHIa0oSo9R6rLa/nRTfi5DAPWA3w3E1Dq778x05H3WzXjv0X3XktmN7IxW6OJpKDg80nuBWco71okOhfwZbboN6cJqfSUeaBsglbsduYwHZ1gDk4cPOrRkBlawtN/eN3zkjiV2wd+6lgC5HGP4=
+	t=1745568560; cv=none; b=Qn8yBpc5C87J/1hs9gpigIITa4a07qvVH6LtpVG2zpm6s/W5YnS2t+5rxfYUt3+xxBZwENQNMiVa7bIMvDXGYIy9js0E6nCOFDh4ilOnUQLnVKp2uLPKcBY86cqQY0cmTyY3o7tkp4kM7RcJP79ehCyvv/3elWRKtt/Fc2iG8S0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1745564940; c=relaxed/simple;
-	bh=LA7q9pHIp9WcS0ADH7ddcSsLNvm3BotUh4LJ/goiaag=;
-	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
-	 In-Reply-To:To:Cc; b=GWg0kOeIrSrBWS6OCHIkORA6g9mTV8JRJfmUksRD1AcZq9bEDRTVNNZlGKk419fggIbgxF0qyEadQ5t4PiBkd7qgEVoIOxlAe1O7vbf+/6zOsq1gaPiObQrpbcQipUOHyw+zy+a7S9hWHfg1cYdi7S7SdfDWfT+QD5McOi3Li18=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=fairphone.com; spf=pass smtp.mailfrom=fairphone.com; dkim=pass (2048-bit key) header.d=fairphone.com header.i=@fairphone.com header.b=XCoVsl5Z; arc=none smtp.client-ip=209.85.128.49
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=fairphone.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=fairphone.com
+	s=arc-20240116; t=1745568560; c=relaxed/simple;
+	bh=XQJpp88XMokP9lPGQCSmNoNIHO8Ct09S5ZSjkAs2rzI=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=KPwPURByeHpyDbJuGHDJEfUaqEtGJdny4b8cHl8F/BCSm38dGtZc18hyfuoqgc8tng92yL5D1NFPnnUzbZWZJgQRC+9ESmu4wVlBxg6uMUnEWBylfUGoGnT5Vr17pQzE/PrWsDIgmjegqjXDgAXDey9DRNxqB+INSxmphYKoCrk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=163.com; spf=pass smtp.mailfrom=163.com; dkim=pass (1024-bit key) header.d=163.com header.i=@163.com header.b=o3pmN4tg; arc=none smtp.client-ip=220.197.31.4
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=163.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=163.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=fairphone.com header.i=@fairphone.com header.b="XCoVsl5Z"
-Received: by mail-wm1-f49.google.com with SMTP id 5b1f17b1804b1-43ce70f9afbso15209535e9.0
-        for <linux-usb@vger.kernel.org>; Fri, 25 Apr 2025 00:08:56 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=fairphone.com; s=fair; t=1745564935; x=1746169735; darn=vger.kernel.org;
-        h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
-         :mime-version:subject:date:from:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=mm0mORpqXwGhjKCx6UTWDuYwmgBU3yr6fMoZERP6FVU=;
-        b=XCoVsl5ZxXwuomrxsqaEHsivgCge0RZPjrPu23jrVlGpFiC/k86I+zPjAHowiux/5L
-         5QvX4wtz/hrjEY4FSXtIftAWc6lmn3FVySpCHbeHMnSX723/np7uYB1Ymdk7pPGImEf6
-         hIuRh7g0iUXvvn7rn5iKawAOGQsVQukJYDnp5qr3eqvoXaW7faDlKNMla+PT9mbvu3ln
-         G7LxInQQnBN/5+zAQDz3j+JYY9P55SZQyv+48ctbym9iH7XhAb8n5OnakM6DRCYGUOS0
-         WP+j6fHLhZXb6qOK/XvpFg26VAtoiq8tKy2RZgxee7NQxJeFCfqLkOVzbN7N7DNQWReI
-         /TJA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1745564935; x=1746169735;
-        h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
-         :mime-version:subject:date:from:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=mm0mORpqXwGhjKCx6UTWDuYwmgBU3yr6fMoZERP6FVU=;
-        b=S3t+gcLyy29pTdhB2CiAZ1M3wQbgZZngZhq/mnsVI25SsLufxmP+9JwlH729X6lPkE
-         S0XLRqCoSgDW0Ke9qrdGNppXWP4Mh5/s1kD9w5CfuAPgg3nV2+6gDo6yKICqDo42fFKR
-         Fo3Gog3uQASXQqTrGqaOaIf6plaqUQ+mv2f+v/AH9BX8LHDVSiUdf/70rJqKMetiNWKq
-         JN94aTh5wFq+P3moWjX1CIirUmG9EIKB72qoVLDwyEfS1cxWxIKdRgBsgyS+2z5LlMhQ
-         daHVtJA5LI6sqtKE/Y56DKygY7DoopqYsA1BRTt+FZ1y9OspWRoyAJnqd3EhuQoTPXEK
-         WRHQ==
-X-Forwarded-Encrypted: i=1; AJvYcCWfUAHCKYZYx66uME7TWly/QicU5MgSL34HHgDCm5zQ2A29m5jd0PDxlhrQu9Ht2e6A/tKIsLa0WRA=@vger.kernel.org
-X-Gm-Message-State: AOJu0YyZHy5T6xS3WAbdb8KHqsYy1E//Rd9uyW1htICYRLKalYgj+wyk
-	wpG42QGkLwEncj7OVEX450pJz/oqoztn05ZrGZ5/Bqi06BMIp0zegVkYaP5lvng=
-X-Gm-Gg: ASbGnctKVfmKd1Ag9ySJGRPeIy72n1NmB/ZeuBKV6Aod+dM4JoipJAUR1i04b7hfS4Y
-	sqSH+RAJCkzSSvPWL5K5z2b8aeX+gb3Ewr4iGJc9HW2NeQY80E2yodVit4ROJImo8xKCPvMZIqA
-	w7JRkie6noApWLc9I0q/BVv0BRNSsH1k9lO3ySldVhkwKBUrXLrvtB2MmiqcqmVVqN7KJQvjN36
-	L+CEpy/6xGGZHA98cQTImHecxW1gGfaw4Zik38cv1iuH3ldtFBVHy7XxROPwPanbU1PWQMcAoRi
-	TtGs+n4vUKU1tRz1HBkkQWbEoblN7s/cZvs85Lh+nw9vGxIJUyJY6E3iaIFHD1ez4hZIm5qHOCi
-	VEcmmZ8WHxKapsS50uRKiKM+56hQ6/DrW1Q9YaeXTDEVvlUM+XSRHQwOF
-X-Google-Smtp-Source: AGHT+IGLT5RMGJOi31Z4EljlBM6Dn6ye/misUQytVMeOZB5sQxwZhioVj8uoLgVjDj0pdiM3s3HzmQ==
-X-Received: by 2002:a05:600c:4ec6:b0:440:66a4:8d1a with SMTP id 5b1f17b1804b1-440a65ba116mr6484755e9.7.1745564935206;
-        Fri, 25 Apr 2025 00:08:55 -0700 (PDT)
-Received: from [100.64.0.4] (2a02-8388-6584-6400-d322-7350-96d2-429d.cable.dynamic.v6.surfer.at. [2a02:8388:6584:6400:d322:7350:96d2:429d])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-4409d2ad112sm46202735e9.24.2025.04.25.00.08.54
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 25 Apr 2025 00:08:54 -0700 (PDT)
-From: Luca Weiss <luca.weiss@fairphone.com>
-Date: Fri, 25 Apr 2025 09:08:14 +0200
-Subject: [PATCH v3 3/4] arm64: dts: qcom: qcm6490-fairphone-fp5: Add
- OCP96011 audio switch
+	dkim=pass (1024-bit key) header.d=163.com header.i=@163.com header.b="o3pmN4tg"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=163.com;
+	s=s110527; h=Message-ID:Date:MIME-Version:Subject:From:
+	Content-Type; bh=nDI+AaMDaS6xtTgWIOFXkykW7E6eXoW4o1/iyaJzSOU=;
+	b=o3pmN4tgS+IGXULrPBUM4uSPYaPijHid28z3EzR82jSGJwzAmIz5tCcoo6LWL6
+	aR7EgbWYdKwNsFwXDj1PT2Od1uUPTjVab/3azwtmUBqAKPbekl5khAkzLWMAN39t
+	hk3SjbZbhRDavkJAfjzSdBmn5lNq4F3bnSbA7YcAJCg48=
+Received: from [10.42.12.155] (unknown [])
+	by gzga-smtp-mtada-g0-2 (Coremail) with SMTP id _____wD3f1sPQwto2_WmCQ--.1960S2;
+	Fri, 25 Apr 2025 16:08:49 +0800 (CST)
+Message-ID: <4c6660a6-29ce-4b97-b092-8fc15585e52a@163.com>
+Date: Fri, 25 Apr 2025 16:08:47 +0800
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-Message-Id: <20250425-fp5-pmic-glink-dp-v3-3-cc9c2aeb42fb@fairphone.com>
-References: <20250425-fp5-pmic-glink-dp-v3-0-cc9c2aeb42fb@fairphone.com>
-In-Reply-To: <20250425-fp5-pmic-glink-dp-v3-0-cc9c2aeb42fb@fairphone.com>
-To: Bjorn Andersson <andersson@kernel.org>, 
- Konrad Dybcio <konradybcio@kernel.org>, Rob Herring <robh@kernel.org>, 
- Krzysztof Kozlowski <krzk+dt@kernel.org>, 
- Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>, 
- Conor Dooley <conor+dt@kernel.org>, cros-qcom-dts-watchers@chromium.org, 
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-Cc: ~postmarketos/upstreaming@lists.sr.ht, phone-devel@vger.kernel.org, 
- linux-arm-msm@vger.kernel.org, devicetree@vger.kernel.org, 
- linux-kernel@vger.kernel.org, 
- Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>, 
- linux-usb@vger.kernel.org, Luca Weiss <luca.weiss@fairphone.com>, 
- Konrad Dybcio <konrad.dybcio@oss.qualcomm.com>
-X-Mailer: b4 0.14.2
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH] usbip: set the dma mask to 64bit default for vhci-driver
+To: Christoph Hellwig <hch@infradead.org>, gregkh@linuxfoundation.org,
+ Shuah Khan <skhan@linuxfoundation.org>
+Cc: i@zenithal.me, linux-kernel@vger.kernel.org, linux-usb@vger.kernel.org,
+ shuah@kernel.org, valentina.manea.m@gmail.com,
+ Zongmin Zhou <zhouzongmin@kylinos.cn>
+References: <3e1f8fab-0155-4ff9-800d-5fa9df88c48c@linuxfoundation.org>
+ <20250422063409.607859-1-min_halo@163.com> <aAdEM0crDfSP9JYf@infradead.org>
+Content-Language: en-US
+From: Zongmin Zhou <min_halo@163.com>
+In-Reply-To: <aAdEM0crDfSP9JYf@infradead.org>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
+X-CM-TRANSID:_____wD3f1sPQwto2_WmCQ--.1960S2
+X-Coremail-Antispam: 1Uf129KBjvdXoWrKr4rZF47tFWkKr1UCFyfJFb_yoWkCwc_uF
+	y2qFZrJ34DArWDtayxtF93tryqvas8Wr95J3W5Kws7KasYqFyfuFn7JrWava4DXw1Syr43
+	Ga1Svr9Ivw1IgjkaLaAFLSUrUUUUjb8apTn2vfkv8UJUUUU8Yxn0WfASr-VFAUDa7-sFnT
+	9fnUUvcSsGvfC2KfnxnUUI43ZEXa7IUU6BT7UUUUU==
+X-CM-SenderInfo: pplqsxxdorqiywtou0bp/1tbixxg5q2gKX-B-dAABsK
 
-Add a node for the OCP96011 on the board which is used to handle USB-C
-analog audio switch and handles the SBU mux for DisplayPort-over-USB-C.
+Dear Greg and Christoph:
 
-Reviewed-by: Konrad Dybcio <konrad.dybcio@oss.qualcomm.com>
-Signed-off-by: Luca Weiss <luca.weiss@fairphone.com>
----
- arch/arm64/boot/dts/qcom/qcm6490-fairphone-fp5.dts | 14 +++++++++++++-
- 1 file changed, 13 insertions(+), 1 deletion(-)
+This patch is the simple solution for the issue described in below link:
+https://lore.kernel.org/all/20250219092555.112631-1-min_halo@163.com/
 
-diff --git a/arch/arm64/boot/dts/qcom/qcm6490-fairphone-fp5.dts b/arch/arm64/boot/dts/qcom/qcm6490-fairphone-fp5.dts
-index ea9f5517e8a083e37c4b7432322bd6d18fea84a5..e0470be9142caa4bac4285a191725bbd60e706fa 100644
---- a/arch/arm64/boot/dts/qcom/qcm6490-fairphone-fp5.dts
-+++ b/arch/arm64/boot/dts/qcom/qcm6490-fairphone-fp5.dts
-@@ -750,7 +750,19 @@ vreg_l7p: ldo7 {
- 	};
- 
- 	/* Pixelworks @ 26 */
--	/* FSA4480 USB audio switch @ 42 */
-+
-+	typec-mux@42 {
-+		compatible = "ocs,ocp96011", "fcs,fsa4480";
-+		reg = <0x42>;
-+
-+		interrupts-extended = <&tlmm 7 IRQ_TYPE_LEVEL_LOW>;
-+
-+		vcc-supply = <&vreg_bob>;
-+
-+		mode-switch;
-+		orientation-switch;
-+	};
-+
- 	/* AW86927FCR haptics @ 5a */
- };
- 
+This issue has been discussed at length with Shuah.
 
--- 
-2.49.0
+As Christoph said,vhci-hcd is a virtual hci,
+but it serves as a bridge to connect virtual USB devices to the real USB 
+controller.
+Since the commit d74ffae8b8dd is applied on kernel v5.3,
+the virtual USB devices's max_sectors size is limited since v5.3.
+
+Just because on vhci-hcd, the dma mask setting follows the platform 
+device default setting(32-bit).
+
+So I want to get the real USB controller dma mask to set on vhci-hcd 
+driver，
+or set to 64 by default,to fix the max_sectors limited issue
+on virtual USB device since the commit d74ffae8b8dd applied.
+
+Thanks.
+
+
+On 2025/4/22 15:24, Christoph Hellwig wrote:
+> On Tue, Apr 22, 2025 at 02:34:09PM +0800, Zongmin Zhou wrote:
+>> From: Zongmin Zhou <zhouzongmin@kylinos.cn>
+>>
+>> fix usb device limited  max_sectors when use usbip protocol
+> As far as I can tell this is a virtual HCI and can't perform DMA.
+> Thus nothing should use DMA API calls on it and the mask is irrelevant.
 
