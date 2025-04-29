@@ -1,114 +1,112 @@
-Received: from mx01.omp.ru (mx01.omp.ru [90.154.21.10])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-SHA384 (256/256 bits))
+Received: from mail-pf1-f201.google.com (mail-pf1-f201.google.com [209.85.210.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2AF6C253B5F;
-	Tue, 29 Apr 2025 20:47:52 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=90.154.21.10
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5A7E5255F4E
+	for <linux-usb@vger.kernel.org>; Tue, 29 Apr 2025 23:47:09 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1745959685; cv=none; b=mITSBkKLZ/nVLZ/Xc0BiQAHQDxIdb/CnXVy4sVf6+oEJVfdMbNKU6jajOlIco/M12r6NaU0eKaCM1YEZl3KHBbP+QjZvgxuLvU4sW/DkI86v7PFUsMO54YK3R6II7SRK3wgrmv9QLxqXc66EjsRnh0yiXTIxaAuYoXrmd47cLK8=
+	t=1745970431; cv=none; b=Ljxb4x3gB+Wa2N99sMJ0Iw/6CMARk1w50xjvvbb0djHVCdVHZSzZq6sjaB3ShNoDvjFiYdCz7y10/inaqxvSGMXyTe0PtWbdEgRDd80uKO/qUPIy3rl0MXdORuLF8XsHzgFkCbS4LoEupTt0SkqUDt4y7AaNAmxEYMhmYgjfMJ8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1745959685; c=relaxed/simple;
-	bh=3QG6bD1fHB8Qpdf5IMGGkVLMPiekodAvyL68jjwpSkQ=;
-	h=Message-ID:Date:MIME-Version:To:CC:From:Subject:Content-Type; b=nRsEBPQPhV/9LpN2cFAVGFjc2eNQ0otABugvrvgXtFB/zaiz3Bl2pucarzlF8fqyAUYpALB6REh7gX70UoahB69yvzmvj6vjxFI/3Wp/Jd7N7Nu6TFQq9UP5F2KT9dd/N2OmAkpLR1cJczd+XSowrEjQGMoRDDk1qEBoMEDOKsw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=omp.ru; spf=pass smtp.mailfrom=omp.ru; arc=none smtp.client-ip=90.154.21.10
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=omp.ru
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=omp.ru
-Received: from [192.168.2.102] (213.87.130.43) by msexch01.omp.ru
- (10.188.4.12) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_CBC_SHA384) id 15.2.1258.12; Tue, 29 Apr
- 2025 23:32:37 +0300
-Message-ID: <0e61b364-8f26-4f98-9f10-9b9800b1cd41@omp.ru>
-Date: Tue, 29 Apr 2025 23:32:36 +0300
+	s=arc-20240116; t=1745970431; c=relaxed/simple;
+	bh=lqFpTzBKH0n+hLPP3D74zDTrtj3ZCOQgeEHM7+9pKZ4=;
+	h=Date:Mime-Version:Message-ID:Subject:From:Cc:Content-Type; b=gXLZ5wnUOzaB7zKQiqgKerv8Vlp8TQI740iA6qvcLlzXWaM2tO6Vj5XZad82NPa5tvWL+CZJY0v0hBth2e2kE/60InvFEAfRaPJR8VCB3ZthMVeg87SjqJfTsxcUsOXMQ921CY21EML8Ozo3bK4NrKiFLRMb+kXbQeV/V8Cqd9U=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=flex--rdbabiera.bounces.google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=m2Oten3T; arc=none smtp.client-ip=209.85.210.201
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=flex--rdbabiera.bounces.google.com
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="m2Oten3T"
+Received: by mail-pf1-f201.google.com with SMTP id d2e1a72fcca58-73e0094706bso8054794b3a.3
+        for <linux-usb@vger.kernel.org>; Tue, 29 Apr 2025 16:47:09 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=google.com; s=20230601; t=1745970428; x=1746575228; darn=vger.kernel.org;
+        h=cc:from:subject:message-id:mime-version:date:from:to:cc:subject
+         :date:message-id:reply-to;
+        bh=rHgN+FCfcpWxKWmUBcvDV+CDR/OsUBfRs2x102Mf4zk=;
+        b=m2Oten3TacdjncZXnZwfYz/0bAs35CDRIRa3B6apFcHEWS124i3a4+mSgrLAn186Ca
+         8a4rjrF0qHBNKhWXPolP+HnFxqd61iHlDF0Rf/SNdzBi7KhyBcdbrBWTUQDQ2u9a0tbZ
+         6dWtN2wg+cmeFSLobbRs7cxj5d9B0nUC6/1EpteOTFcGErTne1fNHzHZ7f8a0GlS83WC
+         2O/we83avKo8JAQGU5KnzomJviYacpgJGH+mc+X0hi7kLGlYDmak+UL3eHkttSVSusx8
+         oer7vkXC3D2dfYB65q0q2HwH94Hf98L0hVnDaL/1dsjZ5nGwso9MzlDMDZ5NE5cfkiRe
+         syqw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1745970428; x=1746575228;
+        h=cc:from:subject:message-id:mime-version:date:x-gm-message-state
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=rHgN+FCfcpWxKWmUBcvDV+CDR/OsUBfRs2x102Mf4zk=;
+        b=aoIKQmte5fbQkgRMYZm6YRC82PLAY6Ta5aeyM77FWTnUz91cVldnX3t3Sg7bndJbZw
+         VMXmfGjuBFKUeRdeKGUFT5TkM+VbWZ5mE4p2sDXLai0VI1uZhpaooNnq6sAivcLPPsbl
+         ui0zSOORPEYb0vSmzLEj3O8zEp0DtRLs/avCWQIeTNBQ8HmpRpTq9vSch0BXl0yHT/4v
+         pB4CdPSWR26hl5t5mhDS3Oe1sp/Rp09YUwz5Og3RlpeBkOW+BlasTXD8epempmLC4jtN
+         b7DjPJqD+gBM2x+W6M3vTe2AKuo8oCSkmh814qbZ7iDmulq/Tz33wWKImt1F28du4cdU
+         x09g==
+X-Forwarded-Encrypted: i=1; AJvYcCXS8RPpCD+h0p2M+GGbybb+1WvSwgzGwNCI0JQ5sksfmIit0zOrQu0ifwFNQbOGzH7qgvv6aBc0334=@vger.kernel.org
+X-Gm-Message-State: AOJu0YxdylcLfQeEeBavou05rxvWokA2yJbLVx2ubtzfTFwgQkMneXNG
+	NE/WgTWlixL6lrTOH6OeYiYpKuSPihPvrgAJzHlLawKPuOe697mvAUOrWIkoimuj78c8RbDtam9
+	Zf9qXxjEau0VFUQ==
+X-Google-Smtp-Source: AGHT+IHJSCSltg+/WIvPA6Nl6fDGEhdVNbCCtrD4AIszlnjDqDNJCFlblYduUzbVm4fXKSyRzxB9EK7JCUQkCWs=
+X-Received: from pgnm17.prod.google.com ([2002:a63:7d51:0:b0:b15:84fa:ff1f])
+ (user=rdbabiera job=prod-delivery.src-stubby-dispatcher) by
+ 2002:a05:6a21:e94:b0:1f5:7280:1cf7 with SMTP id adf61e73a8af0-20a87c542bamr1146783637.16.1745970428604;
+ Tue, 29 Apr 2025 16:47:08 -0700 (PDT)
+Date: Tue, 29 Apr 2025 23:47:01 +0000
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Content-Language: en-US
-To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	<linux-usb@vger.kernel.org>
-CC: <linux-kernel@vger.kernel.org>, <lvc-project@linuxtesting.org>, Fedor
- Pchelkin <pchelkin@ispras.ru>
-From: Sergey Shtylyov <s.shtylyov@omp.ru>
-Subject: [PATCH] usb: gadget: composite: fix possible kernel oops in
- composite_setup()
-Organization: Open Mobile Platform
+Mime-Version: 1.0
+X-Developer-Key: i=rdbabiera@google.com; a=openpgp; fpr=639A331F1A21D691815CE090416E17CA2BBBD5C8
+X-Developer-Signature: v=1; a=openpgp-sha256; l=1469; i=rdbabiera@google.com;
+ h=from:subject; bh=lqFpTzBKH0n+hLPP3D74zDTrtj3ZCOQgeEHM7+9pKZ4=;
+ b=owGbwMvMwCFW0bfok0KS4TbG02pJDBmCKd9jVzPEWE+SSrfKeOVlefIr47ZZgRELovtfTD78I
+ zOVdXdlRykLgxgHg6yYIouuf57BjSupW+Zw1hjDzGFlAhnCwMUpABP58Z2R4Z39tc+rWv++8FLm
+ FvHh9P/j6cJSI/Uy9HDYjEsd03i38DD84c25lzGD5yy3dIz5rdjZusJGkve3vA/pufQr/I70Zd9 1nAA=
+X-Mailer: git-send-email 2.49.0.967.g6a0df3ecc3-goog
+Message-ID: <20250429234703.3748506-2-rdbabiera@google.com>
+Subject: [PATCH v1] usb: typec: tcpm: delay SNK_TRY_WAIT_DEBOUNCE to
+ SRC_TRYWAIT transition
+From: RD Babiera <rdbabiera@google.com>
+Cc: heikki.krogerus@linux.intel.com, badhri@google.com, 
+	gregkh@linuxfoundation.org, linux-usb@vger.kernel.org, 
+	linux-kernel@vger.kernel.org, RD Babiera <rdbabiera@google.com>, stable@vger.kernel.org
 Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
-X-ClientProxiedBy: msexch01.omp.ru (10.188.4.12) To msexch01.omp.ru
- (10.188.4.12)
-X-KSE-ServerInfo: msexch01.omp.ru, 9
-X-KSE-AntiSpam-Interceptor-Info: scan successful
-X-KSE-AntiSpam-Version: 6.1.1, Database issued on: 04/29/2025 20:17:26
-X-KSE-AntiSpam-Status: KAS_STATUS_NOT_DETECTED
-X-KSE-AntiSpam-Method: none
-X-KSE-AntiSpam-Rate: 0
-X-KSE-AntiSpam-Info: Lua profiles 193027 [Apr 29 2025]
-X-KSE-AntiSpam-Info: Version: 6.1.1.11
-X-KSE-AntiSpam-Info: Envelope from: s.shtylyov@omp.ru
-X-KSE-AntiSpam-Info: LuaCore: 56 0.3.56
- 52db7f275cc9b6820389ba9ab2ac225370e1c244
-X-KSE-AntiSpam-Info: {rep_avail}
-X-KSE-AntiSpam-Info: {Tracking_from_domain_doesnt_match_to}
-X-KSE-AntiSpam-Info:
-	127.0.0.199:7.1.2;d41d8cd98f00b204e9800998ecf8427e.com:7.1.1;omp.ru:7.1.1
-X-KSE-AntiSpam-Info: {Tracking_ip_hunter}
-X-KSE-AntiSpam-Info: FromAlignment: s
-X-KSE-AntiSpam-Info: ApMailHostAddress: 213.87.130.43
-X-KSE-AntiSpam-Info: Rate: 0
-X-KSE-AntiSpam-Info: Status: not_detected
-X-KSE-AntiSpam-Info: Method: none
-X-KSE-AntiSpam-Info: Auth:dmarc=temperror header.from=omp.ru;spf=temperror
- smtp.mailfrom=omp.ru;dkim=none
-X-KSE-Antiphishing-Info: Clean
-X-KSE-Antiphishing-ScanningType: Heuristic
-X-KSE-Antiphishing-Method: None
-X-KSE-Antiphishing-Bases: 04/29/2025 20:19:00
-X-KSE-Antivirus-Interceptor-Info: scan successful
-X-KSE-Antivirus-Info: Clean, bases: 4/29/2025 5:44:00 PM
-X-KSE-Attachment-Filter-Triggered-Rules: Clean
-X-KSE-Attachment-Filter-Triggered-Filters: Clean
-X-KSE-BulkMessagesFiltering-Scan-Result: InTheLimit
 
-list_first_entry() should never return NULL -- which makes Svace complain
-about the next *if* statement's condition being always false. What's worse,
-list_first_entry() won't work correctly when the list is empty -- in that
-case, passing config->descriptors[0] to memcpy() further below will cause
-dereferencing of a garbage pointer read from cdev->qw_sign[] and so (most
-probably) a kernel oops. Use list_first_entry_or_null() that returns NULL
-if the list is empty; fix the strange indentation below, while at it...
+This patch fixes Type-C Compliance Test TD 4.7.6 - Try.SNK DRP Connect
+SNKAS.
 
-TTBOMK, this situation shouldn't happen with the current gadget drivers --
-however there's no guarantee that usb_add_config[_only]() is called by any
-gadget driver; and anyway, Svace's complaints would be silenced...
+The compliance tester moves into SNK_UNATTACHED during toggling and
+expects the PUT to apply Rp after tPDDebounce of detection. If the port
+is in SNK_TRY_WAIT_DEBOUNCE, it will move into SRC_TRYWAIT immediately
+and apply Rp. This violates TD 4.7.5.V.3, where the tester confirms that
+the PUT attaches Rp after the transitions to Unattached.SNK for
+tPDDebounce.
 
-Found by Linux Verification Center (linuxtesting.org) with the Svace static
-analysis tool.
+Change the tcpm_set_state delay between SNK_TRY_WAIT_DEBOUNCE and
+SRC_TRYWAIT to tPDDebounce.
 
-Fixes: 53e6242db8d6 ("usb: gadget: composite: add USB_DT_OTG request handling")
-Suggested-by: Fedor Pchelkin <pchelkin@ispras.ru>
-Signed-off-by: Sergey Shtylyov <s.shtylyov@omp.ru>
-
+Fixes: a0a3e04e6b2c ("staging: typec: tcpm: Check for Rp for tPDDebounce")
+Cc: stable@vger.kernel.org
+Signed-off-by: RD Babiera <rdbabiera@google.com>
+Reviewed-by: Badhri Jagan Sridharan <badhri@google.com>
 ---
-This patch is against the usb-linus branch of Greg KH's usb.git repo.
+ drivers/usb/typec/tcpm/tcpm.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
- drivers/usb/gadget/composite.c |    4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
+diff --git a/drivers/usb/typec/tcpm/tcpm.c b/drivers/usb/typec/tcpm/tcpm.c
+index 784fa23102f9..87d56ac4565d 100644
+--- a/drivers/usb/typec/tcpm/tcpm.c
++++ b/drivers/usb/typec/tcpm/tcpm.c
+@@ -6003,7 +6003,7 @@ static void _tcpm_cc_change(struct tcpm_port *port, enum typec_cc_status cc1,
+ 	case SNK_TRY_WAIT_DEBOUNCE:
+ 		if (!tcpm_port_is_sink(port)) {
+ 			port->max_wait = 0;
+-			tcpm_set_state(port, SRC_TRYWAIT, 0);
++			tcpm_set_state(port, SRC_TRYWAIT, PD_T_PD_DEBOUNCE);
+ 		}
+ 		break;
+ 	case SRC_TRY_WAIT:
 
-Index: usb/drivers/usb/gadget/composite.c
-===================================================================
---- usb.orig/drivers/usb/gadget/composite.c
-+++ usb/drivers/usb/gadget/composite.c
-@@ -1887,8 +1887,8 @@ composite_setup(struct usb_gadget *gadge
- 				if (cdev->config)
- 					config = cdev->config;
- 				else
--					config = list_first_entry(
--							&cdev->configs,
-+					config = list_first_entry_or_null(
-+						&cdev->configs,
- 						struct usb_configuration, list);
- 				if (!config)
- 					goto done;
+base-commit: 615dca38c2eae55aff80050275931c87a812b48c
+-- 
+2.49.0.967.g6a0df3ecc3-goog
+
