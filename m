@@ -1,44 +1,54 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CD222281501;
-	Mon,  5 May 2025 23:08:02 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 29CC82DBB3F;
+	Mon,  5 May 2025 23:12:27 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1746486483; cv=none; b=nRLhFEaLQtmDcv8M8oqlAVF1h9WFxjwn3df/hrEomNNM9iXcEAu91uPj2KPyrsn2YGRAc2JYgUPWj2jhlB2F2VC0uaElkqDT4j8SDi7MT6JI9t1PvHzkIzrPSsfQPsjYZlVu9uLQsCo8JXCNcrsqpepKUbP04To4Lf/9vDIMQd4=
+	t=1746486748; cv=none; b=ed5WEAHidzBCcZNIHn+G3A4MCFFHpxMkt8t0D87jrHiKcsDcEykg5F/vVjcnMrsTAo3NPKS5F+rzLluYUKWyR6wY6HwutX7ViARSxs8iqKsudqVl0DCit0v2w8fVbu5Ruzrj8Frcjg7kFznf/zpvsNThy3iKVlJUcdiqpzK1yE4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1746486483; c=relaxed/simple;
-	bh=6YRcUTK56kXBcBxkiILEyGZQmGqLy6xAnl8/69Hwbgg=;
+	s=arc-20240116; t=1746486748; c=relaxed/simple;
+	bh=VxwCcqEjjmFKkOmipPXouA+cBNnTqKLEv9WW2/LM5Tw=;
 	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
-	 MIME-Version; b=KWDw37CxsLrsMrR+y7pa3DWb3B9cXWpdLveBDU5GhAW+ENjSXFCXLP/f7n05j6yUqafjZcbCpHWaVfCB/BAkLmaePImsLxTUZ8jcR6zd4t61IaMAXk+Ff97U2TVGgeUHRwDxoJshg/mCscNl3k4IhNbNhnCN6PHj5OkDIVVXHBE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=lfAMemGA; arc=none smtp.client-ip=10.30.226.201
+	 MIME-Version; b=S8OfG0glXGfDDsg0S8mWEHXzAkNU3hT9CautzR483jrG/S5lBZiIpiWqkeNxRKdNWJGTzPOLkIxXFLW8qazVPY+CnmBqQImKCdP+YhJBwVtxk18Wfju5jZA8FaABSifhPmGeQUsvV5PqgwUYYNqhZCElnxi7/5wPC1yq14Sihb4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=au1TIWu3; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="lfAMemGA"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 5033CC4CEED;
-	Mon,  5 May 2025 23:08:01 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="au1TIWu3"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 112BBC4CEEE;
+	Mon,  5 May 2025 23:12:24 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1746486482;
-	bh=6YRcUTK56kXBcBxkiILEyGZQmGqLy6xAnl8/69Hwbgg=;
+	s=k20201202; t=1746486747;
+	bh=VxwCcqEjjmFKkOmipPXouA+cBNnTqKLEv9WW2/LM5Tw=;
 	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=lfAMemGApZ2I4Zv1VfplsQMwuEFVUqJdyR40DTXbw9hlutDGRqxBGyHYF7tnFbNgJ
-	 faGD1Iv5npPqiQ14fzJBWg2wDfyvZPQ1PacXnXy9dwhFXzl7TgJzdnu20FvVl9hJ0S
-	 mWQIPReCn5zdz/ROmxcHxFvDWosVJCD7bmyKQxugRGz5yRe/3tG1EIFbsWTAT1INhh
-	 bMLTYUUaOGjBXXABPVYNx1xevlCGNCrSTnKq3noMv4dPTH4wSccpOZtMmq9WQcj1Cz
-	 L9Mwbj/BUniDTLRQKs5A5Vwz+YQksEZgvCfU2+u6x92s7QuM+27F82G4qhE0AdyUbu
-	 MYOB/FmYpuNwg==
+	b=au1TIWu3SxQ/WeFpL0MbEVbSrAlKBtJciVmqGVVMrr43Mzx63MybgIf3amg6Yeiqc
+	 vykKxGWWoQF8V9mzA96E8iw0vMhk64ePRy2pEZh8AsxL/JIpzxsGuKWIT8wo3Y55UZ
+	 AVVZPbxRVm0Pc/1FEU/2JuOTCr8nxgwQzJ43b+8+3TMQSdBJvpXnxi2UWrnjg2gTJ6
+	 IpnsnRBUAmOU/PpeRBNC4NHb8kfBnGjsZMN2Xz4aB3xnBKrOY98feQyPQBGoa6Mz9k
+	 dGBPsSxHSOtNewT/4tbhft3rt91Sn/XDzVLTri8r/psW5ik5YyNOX6t//LvinblFQV
+	 COw5iXEBbq7Cw==
 From: Sasha Levin <sashal@kernel.org>
 To: linux-kernel@vger.kernel.org,
 	stable@vger.kernel.org
-Cc: Mika Westerberg <mika.westerberg@linux.intel.com>,
+Cc: Aleksander Jan Bajkowski <olek2@wp.pl>,
+	Jakub Kicinski <kuba@kernel.org>,
 	Sasha Levin <sashal@kernel.org>,
-	andreas.noever@gmail.com,
-	michael.jamet@intel.com,
-	westeri@kernel.org,
-	YehezkelShB@gmail.com,
-	linux-usb@vger.kernel.org
-Subject: [PATCH AUTOSEL 6.1 053/212] thunderbolt: Do not add non-active NVM if NVM upgrade is disabled for retimer
-Date: Mon,  5 May 2025 19:03:45 -0400
-Message-Id: <20250505230624.2692522-53-sashal@kernel.org>
+	andrew+netdev@lunn.ch,
+	davem@davemloft.net,
+	edumazet@google.com,
+	pabeni@redhat.com,
+	gregkh@linuxfoundation.org,
+	hayeswang@realtek.com,
+	dianders@chromium.org,
+	horms@kernel.org,
+	kory.maincent@bootlin.com,
+	gmazyland@gmail.com,
+	ste3ls@gmail.com,
+	phahn-oss@avm.de,
+	linux-usb@vger.kernel.org,
+	netdev@vger.kernel.org
+Subject: [PATCH AUTOSEL 6.1 181/212] r8152: add vendor/device ID pair for Dell Alienware AW1022z
+Date: Mon,  5 May 2025 19:05:53 -0400
+Message-Id: <20250505230624.2692522-181-sashal@kernel.org>
 X-Mailer: git-send-email 2.39.5
 In-Reply-To: <20250505230624.2692522-1-sashal@kernel.org>
 References: <20250505230624.2692522-1-sashal@kernel.org>
@@ -53,39 +63,48 @@ X-Patchwork-Hint: Ignore
 X-stable-base: Linux 6.1.136
 Content-Transfer-Encoding: 8bit
 
-From: Mika Westerberg <mika.westerberg@linux.intel.com>
+From: Aleksander Jan Bajkowski <olek2@wp.pl>
 
-[ Upstream commit ad79c278e478ca8c1a3bf8e7a0afba8f862a48a1 ]
+[ Upstream commit 848b09d53d923b4caee5491f57a5c5b22d81febc ]
 
-This is only used to write a new NVM in order to upgrade the retimer
-firmware. It does not make sense to expose it if upgrade is disabled.
-This also makes it consistent with the router NVM upgrade.
+The Dell AW1022z is an RTL8156B based 2.5G Ethernet controller.
 
-Signed-off-by: Mika Westerberg <mika.westerberg@linux.intel.com>
+Add the vendor and product ID values to the driver. This makes Ethernet
+work with the adapter.
+
+Signed-off-by: Aleksander Jan Bajkowski <olek2@wp.pl>
+Link: https://patch.msgid.link/20250206224033.980115-1-olek2@wp.pl
+Signed-off-by: Jakub Kicinski <kuba@kernel.org>
 Signed-off-by: Sasha Levin <sashal@kernel.org>
 ---
- drivers/thunderbolt/retimer.c | 8 +++++---
- 1 file changed, 5 insertions(+), 3 deletions(-)
+ drivers/net/usb/r8152.c   | 1 +
+ include/linux/usb/r8152.h | 1 +
+ 2 files changed, 2 insertions(+)
 
-diff --git a/drivers/thunderbolt/retimer.c b/drivers/thunderbolt/retimer.c
-index 5bd5c22a5085d..d2038337ea03b 100644
---- a/drivers/thunderbolt/retimer.c
-+++ b/drivers/thunderbolt/retimer.c
-@@ -89,9 +89,11 @@ static int tb_retimer_nvm_add(struct tb_retimer *rt)
- 	if (ret)
- 		goto err_nvm;
+diff --git a/drivers/net/usb/r8152.c b/drivers/net/usb/r8152.c
+index 061a7a9afad04..c2b715541989b 100644
+--- a/drivers/net/usb/r8152.c
++++ b/drivers/net/usb/r8152.c
+@@ -9880,6 +9880,7 @@ static const struct usb_device_id rtl8152_table[] = {
+ 	{ USB_DEVICE(VENDOR_ID_NVIDIA,  0x09ff) },
+ 	{ USB_DEVICE(VENDOR_ID_TPLINK,  0x0601) },
+ 	{ USB_DEVICE(VENDOR_ID_DLINK,   0xb301) },
++	{ USB_DEVICE(VENDOR_ID_DELL,    0xb097) },
+ 	{ USB_DEVICE(VENDOR_ID_ASUS,    0x1976) },
+ 	{}
+ };
+diff --git a/include/linux/usb/r8152.h b/include/linux/usb/r8152.h
+index 33a4c146dc19c..2ca60828f28bb 100644
+--- a/include/linux/usb/r8152.h
++++ b/include/linux/usb/r8152.h
+@@ -30,6 +30,7 @@
+ #define VENDOR_ID_NVIDIA		0x0955
+ #define VENDOR_ID_TPLINK		0x2357
+ #define VENDOR_ID_DLINK			0x2001
++#define VENDOR_ID_DELL			0x413c
+ #define VENDOR_ID_ASUS			0x0b05
  
--	ret = tb_nvm_add_non_active(nvm, nvm_write);
--	if (ret)
--		goto err_nvm;
-+	if (!rt->no_nvm_upgrade) {
-+		ret = tb_nvm_add_non_active(nvm, nvm_write);
-+		if (ret)
-+			goto err_nvm;
-+	}
- 
- 	rt->nvm = nvm;
- 	return 0;
+ #if IS_REACHABLE(CONFIG_USB_RTL8152)
 -- 
 2.39.5
 
