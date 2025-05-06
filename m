@@ -1,109 +1,82 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 37EE2284B50;
-	Mon,  5 May 2025 23:17:37 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+Received: from m16.mail.163.com (m16.mail.163.com [117.135.210.2])
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 01568221D8F;
+	Tue,  6 May 2025 03:31:28 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=117.135.210.2
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1746487057; cv=none; b=A1CiFsZx2dKkU6I5NV4vtJwrwxeY7HCy/W99EMl3cQjvkdSaoGFDk50qB5sP4gWSkhuTHMGuiKs/T/XNkfVZfyfHo0tVV42QY6QgMDUhW4aekQPFmYNCQe4jhu6WYlxOh6bAz3VxKInvnZOdbm4U8VKSJwU8EKaUJaBhqCxd0VI=
+	t=1746502292; cv=none; b=S5vkwbOAwTSzahr4A/0J1BgS7sVSKvHqOCFZevvdazMK3IziBN8rXDyaOVUYloqTc7H1aHw4cI9PcVJHccOVVoY8yknO2khE2vAO5eqcrZphAI4/VDChJRTfDu9azU5IY9xWb3GoJUoels2Te99mwRSF02PizQT3qntnTE2gmXI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1746487057; c=relaxed/simple;
-	bh=+jOy/rUkDGwAENDvYuJBQ7AgNkyldxwU7QFdHWuSleA=;
-	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
-	 MIME-Version; b=QtgRzUn9WoQrKZNT8NW9yXo+AfoeKiCMpDI5MfXsjMK+q9DZnLfDXjNe16us3JRBI1nbVOfA6hbQBN0amNQWsjGP5sn7KcJgO945x//LPHfhIp5vArqeYZh/z6S7hS+fu46yoq4ydDob49MkM5Fh8fD/ypqs1kf8vnAoXaQWEXs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=K7W0THAs; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1746502292; c=relaxed/simple;
+	bh=Bc323uGw9bg1vSKP1bB4KaCxLYWf8Yumf+T0uu+k9iY=;
+	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=uw9HH4QUfkynM9S2tnUGueS2GbRDGO2GpkoROii4+uGOmDMfn5928TY5ziBz/znVOQRmiJy9duR6npqR8PhrDFlrBiuwn3ghwENGqbWAw12Ir2Taj8xJ3yKAdSItCRmgcY1bBbtenFl/rRs5amMWPwsMWk9LGyKJi7bEMicvB5o=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=163.com; spf=pass smtp.mailfrom=163.com; dkim=pass (1024-bit key) header.d=163.com header.i=@163.com header.b=XnGfu3cB; arc=none smtp.client-ip=117.135.210.2
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=163.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=163.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="K7W0THAs"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 51085C4CEE4;
-	Mon,  5 May 2025 23:17:35 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1746487057;
-	bh=+jOy/rUkDGwAENDvYuJBQ7AgNkyldxwU7QFdHWuSleA=;
-	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=K7W0THAsIKgx4vW0UqGc2UzkhoGY5hGXKycEPjJn0fdj8U9ppHipIW0COT3ktIGUN
-	 jxpkeNFDh9JzSWEwEXGcbH/j5Ssoy25KFe5Enw9vVCZpAs7s4sRT1SrMiSsbLfAow8
-	 kMzyY5q+W9etZadtkAe96B8+25YjSPcvdWY7MJT4rpc5NsvXhLOVCUv28NcWcocrn8
-	 jQGaJr4vil7rhJXmXyZXkPqs3zsdSswuVuwl68X8uKMB+1pu8BSAlZgtuGnHrQ5cRP
-	 3aVldpf7j6wthyAVqaW7M4KUsL3RpIIffBG2w+Hc0hmkfv9JiPhpEBsAKkOukPJUlc
-	 qCYFAJA5GvQdw==
-From: Sasha Levin <sashal@kernel.org>
-To: linux-kernel@vger.kernel.org,
-	stable@vger.kernel.org
-Cc: Aleksander Jan Bajkowski <olek2@wp.pl>,
-	Jakub Kicinski <kuba@kernel.org>,
-	Sasha Levin <sashal@kernel.org>,
-	andrew+netdev@lunn.ch,
-	davem@davemloft.net,
-	edumazet@google.com,
-	pabeni@redhat.com,
-	gregkh@linuxfoundation.org,
-	hayeswang@realtek.com,
-	horms@kernel.org,
-	dianders@chromium.org,
-	gmazyland@gmail.com,
-	phahn-oss@avm.de,
-	ste3ls@gmail.com,
-	linux-usb@vger.kernel.org,
-	netdev@vger.kernel.org
-Subject: [PATCH AUTOSEL 5.15 130/153] r8152: add vendor/device ID pair for Dell Alienware AW1022z
-Date: Mon,  5 May 2025 19:12:57 -0400
-Message-Id: <20250505231320.2695319-130-sashal@kernel.org>
-X-Mailer: git-send-email 2.39.5
-In-Reply-To: <20250505231320.2695319-1-sashal@kernel.org>
-References: <20250505231320.2695319-1-sashal@kernel.org>
+	dkim=pass (1024-bit key) header.d=163.com header.i=@163.com header.b="XnGfu3cB"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=163.com;
+	s=s110527; h=From:Subject:Date:Message-Id:MIME-Version; bh=miqoq
+	4cqdh1LtpHKSamdO+B4bXNZgm7fPVKTf8kCeHA=; b=XnGfu3cBMwyQ1+N3WqN2Z
+	R5lJyrRUH4xhRoOxOBSdARl1o6AgUzNBnzYRZ2y2Pc2t53aw4WtnY4vy4nQC0pDa
+	Xho78/M3X/9/jEZzRhA22ZAwOq1GW12FUADN+nwe19kWO8aeK+JEWrfL6QUE/8qb
+	0YcXu/cESyFM8oIqW1fV+Y=
+Received: from localhost.localdomain (unknown [])
+	by gzsmtp2 (Coremail) with SMTP id PSgvCgAHt3N8ghlooYTGCw--.39086S2;
+	Tue, 06 May 2025 11:31:10 +0800 (CST)
+From: Hans Zhang <18255117159@163.com>
+To: mathias.nyman@intel.com,
+	gregkh@linuxfoundation.org
+Cc: linux-usb@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	Hans Zhang <18255117159@163.com>
+Subject: [PATCH v2] xhci: Add missing parameter description to xhci_get_endpoint_index()
+Date: Tue,  6 May 2025 11:31:01 +0800
+Message-Id: <20250506033101.206180-1-18255117159@163.com>
+X-Mailer: git-send-email 2.25.1
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-stable: review
-X-Patchwork-Hint: Ignore
-X-stable-base: Linux 5.15.181
 Content-Transfer-Encoding: 8bit
+X-CM-TRANSID:PSgvCgAHt3N8ghlooYTGCw--.39086S2
+X-Coremail-Antispam: 1Uf129KBjvJXoW7ZryxAr1ktw15WFW3XF4DCFg_yoW8Gr1xpF
+	s8G3y0krs5JFWav3W8Aan7Aa4rCa17Ary5KFWxG3sYvrW3tF10yF12kF15tr13Zw43Aryj
+	vF4UG3y5W3W7uFUanT9S1TB71UUUUU7qnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
+	9KBjDUYxBIdaVFxhVjvjDU0xZFpf9x0z_FAJUUUUUU=
+X-CM-SenderInfo: rpryjkyvrrlimvzbiqqrwthudrp/1tbiWxFFo2gZfjmk0AAAsu
 
-From: Aleksander Jan Bajkowski <olek2@wp.pl>
+Fix kernel-doc warning by documenting the @desc parameter:
 
-[ Upstream commit 848b09d53d923b4caee5491f57a5c5b22d81febc ]
+drivers/usb/host/xhci.c:1369: warning: Function parameter or struct member 'desc' not described in 'xhci_get_endpoint_index'
 
-The Dell AW1022z is an RTL8156B based 2.5G Ethernet controller.
+Add detailed description of the @desc parameter and clarify the indexing
+logic for control endpoints vs other types. This brings the documentation
+in line with kernel-doc requirements while maintaining technical accuracy.
 
-Add the vendor and product ID values to the driver. This makes Ethernet
-work with the adapter.
-
-Signed-off-by: Aleksander Jan Bajkowski <olek2@wp.pl>
-Link: https://patch.msgid.link/20250206224033.980115-1-olek2@wp.pl
-Signed-off-by: Jakub Kicinski <kuba@kernel.org>
-Signed-off-by: Sasha Levin <sashal@kernel.org>
+Fixes: d0e96f5a71a0 ("USB: xhci: Control transfer support.")
+Signed-off-by: Hans Zhang <18255117159@163.com>
 ---
- drivers/net/usb/r8152.c   | 1 +
- include/linux/usb/r8152.h | 1 +
- 2 files changed, 2 insertions(+)
+Changes for v2:
+- Add Fixes.
+---
+ drivers/usb/host/xhci.c | 1 +
+ 1 file changed, 1 insertion(+)
 
-diff --git a/drivers/net/usb/r8152.c b/drivers/net/usb/r8152.c
-index abf4a488075ef..6cde3d262d415 100644
---- a/drivers/net/usb/r8152.c
-+++ b/drivers/net/usb/r8152.c
-@@ -9853,6 +9853,7 @@ static const struct usb_device_id rtl8152_table[] = {
- 	{ USB_DEVICE(VENDOR_ID_NVIDIA,  0x09ff) },
- 	{ USB_DEVICE(VENDOR_ID_TPLINK,  0x0601) },
- 	{ USB_DEVICE(VENDOR_ID_DLINK,   0xb301) },
-+	{ USB_DEVICE(VENDOR_ID_DELL,    0xb097) },
- 	{ USB_DEVICE(VENDOR_ID_ASUS,    0x1976) },
- 	{}
- };
-diff --git a/include/linux/usb/r8152.h b/include/linux/usb/r8152.h
-index 33a4c146dc19c..2ca60828f28bb 100644
---- a/include/linux/usb/r8152.h
-+++ b/include/linux/usb/r8152.h
-@@ -30,6 +30,7 @@
- #define VENDOR_ID_NVIDIA		0x0955
- #define VENDOR_ID_TPLINK		0x2357
- #define VENDOR_ID_DLINK			0x2001
-+#define VENDOR_ID_DELL			0x413c
- #define VENDOR_ID_ASUS			0x0b05
- 
- #if IS_REACHABLE(CONFIG_USB_RTL8152)
+diff --git a/drivers/usb/host/xhci.c b/drivers/usb/host/xhci.c
+index 90eb491267b5..dbe6f41202ca 100644
+--- a/drivers/usb/host/xhci.c
++++ b/drivers/usb/host/xhci.c
+@@ -1359,6 +1359,7 @@ static void xhci_unmap_urb_for_dma(struct usb_hcd *hcd, struct urb *urb)
+  * xhci_get_endpoint_index - Used for passing endpoint bitmasks between the core and
+  * HCDs.  Find the index for an endpoint given its descriptor.  Use the return
+  * value to right shift 1 for the bitmask.
++ * @desc: USB endpoint descriptor to determine index for
+  *
+  * Index  = (epnum * 2) + direction - 1,
+  * where direction = 0 for OUT, 1 for IN.
+
+base-commit: ca91b9500108d4cf083a635c2e11c884d5dd20ea
 -- 
-2.39.5
+2.25.1
 
