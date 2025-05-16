@@ -1,74 +1,70 @@
-Received: from mail-io1-f42.google.com (mail-io1-f42.google.com [209.85.166.42])
+Received: from mail-ot1-f52.google.com (mail-ot1-f52.google.com [209.85.210.52])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9382022D4FE
-	for <linux-usb@vger.kernel.org>; Fri, 16 May 2025 07:52:40 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.166.42
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8A6BF22ACD3
+	for <linux-usb@vger.kernel.org>; Fri, 16 May 2025 07:52:41 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.52
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1747381962; cv=none; b=c8DssFaC3N5CzDzNP+bB0IACpTBvGs4oZSJAbIyFQsewqPLNe+zU73IOntEuTdWlI5/Rb7z6TUzshgfiGf8i59PmGcp/q9v17jlNCocdof9zYDVy3wAjn9cJQsrlyIQq22g44gtmMOtrEmqJIkE+GVtbXKYU6hP6ztWWleqwnEo=
+	t=1747381963; cv=none; b=e/Zve890r+a0hRL3rs02qsVgptI2VMD9lCdq3Fh5zYwvOqj01/GV6K3DYUE8TxkBsx6YDrQk9psOoLwVFLtLc0vEAvs3XA8IdMRdpIM7ACA9aeCGF5jKyl8mVaSNaqA9tg4IOTo2QFWX9hayILiJ85C1RhzwO6OMq6e2s9mUPCM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1747381962; c=relaxed/simple;
-	bh=6yJiTwLoybt/zoUgminfx6704mwdtL2Dg1IT58c50rY=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=sp16sIS7e3A3EDGxDUnCUYLH8TdCvDIlBqM1d2nQLsjMmLpkQsuo7dSmvBygeOG4ePGAPkPFiUl+SkNJG7RMig9nuogQf2maKeUWK8IH9QMblaeHLNqt16TUcEAi4eyl2IvKGjUDm0iy3d/d+SPv2ZNJx+LldOHGQHQ8I+1nWaU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=mi2XYPBz; arc=none smtp.client-ip=209.85.166.42
+	s=arc-20240116; t=1747381963; c=relaxed/simple;
+	bh=9bp3+/dLtXcLrNFNRpJG7Qm8n89dMqnYYLs/E95z+lc=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=bKvqcVSf0UGlui0Kd2BjH4DVSC2HQm79N4/5vb7zGbsLvE7OpDo7lmFgjX3utX1RrwC3hxs0KMJ8JPuqXMN3Sk0E/Txe9jYdze+L2PPEx80tvtZ7t5z/rlc48wNSoB04oHJ/hbJ3pTq6KPiQ2Ra0oRCfGknB6+FQhZT7Woy77Vs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=OXLNPQPs; arc=none smtp.client-ip=209.85.210.52
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="mi2XYPBz"
-Received: by mail-io1-f42.google.com with SMTP id ca18e2360f4ac-86135ac9542so68818639f.1
-        for <linux-usb@vger.kernel.org>; Fri, 16 May 2025 00:52:40 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="OXLNPQPs"
+Received: by mail-ot1-f52.google.com with SMTP id 46e09a7af769-72a4793d4e2so1549381a34.2
+        for <linux-usb@vger.kernel.org>; Fri, 16 May 2025 00:52:41 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1747381959; x=1747986759; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=PFcO4853m8kskyhkcneX2xT6tirKAj12e4AMlTYn0uI=;
-        b=mi2XYPBzrjDkHi17FHCFX6JMEGtpqE9JyOI2qp/HOiyawJVFI2xhDjxFQA/Q4N2hjN
-         BaVTGdA9imbIcff7Crxwc/191ho7Lt1oQSDZWzzh/Byg1I6Pfs+sod5uKPxZ9q9XrznQ
-         hAoAXH10r3BCr3DHFArkNJneQw0+Gu9Q0HI2rEcV/DotZFa2etsfYU1udIoYtu6caS6L
-         FyiRSBsg97fqxuM/7XQ3r2TBst/0BmSfr1GRWpWrxgB5K++f7hit9aYcpfGxDioEOaAV
-         n6288VTg3TzXWqvzbOTMn4wvi3Uv7PKB5wHud7rzBiSAy+gvwSWPKaqNwAxMk21kBDGJ
-         Q09Q==
+        d=gmail.com; s=20230601; t=1747381960; x=1747986760; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=HU/iFedIL6SKDZLCTi7zcWWyb1XrUafF6XzReJbzvr8=;
+        b=OXLNPQPsUtVmS23BOeO2ntoEDVAzhTkCcSGyHjDzhqC1RIVi7bMS0y0cOlwndn5OYr
+         HMTb/O3mxwUkq9dQEn85+yD6KWWceh9qt3d0UDE+xtyBGtyAVyKa7Bym6AAr+DCufZGu
+         teJk53q2lyIbKTiaVMf5iGimKs5lcHpn9tkGbS+mhoABwJaXwR+nIkWnM3yPf4X6R/Y9
+         /3zCqm4OhR4WkxVdu1vCBHZ9JM57GuywfFONtZEEoA/OYQ9tVJDSeZl0QORtHaWuBFln
+         D4ALs1r/UwChmIuNFbay3Kl0J+muif+BwM4fps2qQ9bjpo3ZeoJkNrYIn78ED8oqqFfC
+         YbiQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1747381959; x=1747986759;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=PFcO4853m8kskyhkcneX2xT6tirKAj12e4AMlTYn0uI=;
-        b=ZjTPodk/M/RkK2Sqdvl6LObcwy6+VQIUh/iwca1kTYGmxA8cHZThWotszqweo2j+WD
-         fQqHcaETxRvRoD/HNHGgZM0pvdnE6ob/i5zcq4LAbbmpkkF63Gh/nHwRCp16s8dsLt83
-         CQZrA9VVx14aHvqmu4c4xLxGcZKL0VGrMlssGxDae61OaKG27+nx/J27X97/bih+CN12
-         muuolDXeG0ykjNCn8eu3yu3te+NuWS14w1wd7hhoY4FJSXKTue1GmxQee+2RulkhR3uc
-         LMHH9mPfVyl6U3eD4JydIU+qh5T4d4GWv/AWj+OPKdjOc6uKD2o55rS9ZnwFmLobBfa4
-         byCA==
-X-Forwarded-Encrypted: i=1; AJvYcCUl8kVR0GhZuUPGRdqcPLbXyczd7KGEcA3EVKcf5PATmBWmdcObLVr8CnzLurog8srRiyg8EYYvD2w=@vger.kernel.org
-X-Gm-Message-State: AOJu0YxVwyphM0kQn2VsdqRiMuGnenBzD/iukksCKFIdE4cyp4X7fV1O
-	JCM1iVtnY6CMr8RPp02EOn8mqtIxmP40Xs6sUhI3mlRx1T+GSl7fE+py
-X-Gm-Gg: ASbGncvTtz1Jh+etUWN3o/djQUzCsU6JNLkpI09JoD71QlPorc+1gjETEISuwEkM96n
-	SYXI4SbAC3Bv1lBw7A9AgkzJyK7s84DYH3EPwENpnMMyZfpvnhm0wDk4bLuB3XieFcxnl4klabW
-	BNWiz1JXimpwJjcy9fW4GL9UsV2tbDrunCVrevgpO4rzk2/pgBBl63slZwxiLWWjHJ4EmfbDSSC
-	84Sj0nw2LCFajy4NSbXP3jjFZvQaGgN/hETkuqefl5ZI5bzYdZ5ETbTjLpTpGQPm7qcYEH/iJ25
-	DkojeQkheMvKxd0Zd5X6qhaMobuDZiPJhMZ3E2INfYo=
-X-Google-Smtp-Source: AGHT+IHNf4gIPEdQwn9qy1azGj95sakP8T4ipQNtyb++BsJlIWZRs7rSPXe/JZOOIymhpAkLbxlSsQ==
-X-Received: by 2002:a6b:f40e:0:b0:85b:3ae9:da01 with SMTP id ca18e2360f4ac-86a174c1798mr628894839f.4.1747381959487;
-        Fri, 16 May 2025 00:52:39 -0700 (PDT)
+        d=1e100.net; s=20230601; t=1747381960; x=1747986760;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=HU/iFedIL6SKDZLCTi7zcWWyb1XrUafF6XzReJbzvr8=;
+        b=k31fGW4qd1nJM45isFPupNkGSB8NviRQAGKJHjT6X9IYR54iicRWuGEGy6api1c8je
+         S3JKtkjTuXguluSvNjTNgQG4+xrdhhTFCmGE0Itx/t/HuNanLKO07lSqX1BE9+Z80xj2
+         /R14+VkU4sB0FHkKDuBthxynOF+2I4JgpDmBaf97z70EldNRzT+sAXiOTjEzS5za40M2
+         9ca4Y41tBpvb1pABUSizGOVdR8DlCCLt1/fmct+TATt9jK5at4jveb7cJytQktThwcoT
+         zRlIP8tLYucFzoGp5A2HAIvVPegEL9M4TC3f7KlQn1fQ834IDE0fL7Ti9lCu6LEUqFZS
+         NF8g==
+X-Forwarded-Encrypted: i=1; AJvYcCX7XOxsV6LEc6CYdtqxHvEMnxbT2Y3UqViMMQwd8XY21tWvH1KbjQNTlxirZjGDqk9pjdJf6cTFqTM=@vger.kernel.org
+X-Gm-Message-State: AOJu0YwvMasoqoZtvedEND2QZmTYJ6ua6t4RiCwGJVqfE/AWu10usSCb
+	4g/VJkcJ+GFtlQbvKjpxNCC+z0whMnpTY2uYUBDIxLD87BsqrFpd4TJxmv9cb7o8
+X-Gm-Gg: ASbGncuqaviheJ1Vx+H0Pr0x1Hy6NOye5UIP+fdefkowAVm61bpwSTEPOk1zlX7pZTp
+	Im5FuDHqZWwMeKz0QPNbnpv1lThBK2XyrsHn3Q5qZfmPcnTj1KtYTB7Xcp1JL6xpfe33TYYwvWp
+	as3DtWlB+KNrPY/6cnO3cbbAm09FTdJJpZ8Nr+qwt/yDa9KXGAoe/ucfe6BwZMG3Ig1XSxetv/v
+	1P0nqC5EJJ7TMCs+UEmRV+gElujhFh1j8OEC8hSyc7GBX/7yl8tT2gg5eXRwLSZm7k6XYKNnW9V
+	BU+17wCyCRX001Fk3F+qu2uu3Pv0KyIZP4KMtcp+IqI=
+X-Google-Smtp-Source: AGHT+IE6t2Kp2tDEzBaG+9zEoq2qKzxW65vWFTTqNW0T7DOgbcf90YpE79z0227c9a6Xq3cri8gzhw==
+X-Received: by 2002:a05:6e02:b4a:b0:3da:7cbe:f47b with SMTP id e9e14a558f8ab-3db843348fbmr30575395ab.21.1747381949751;
+        Fri, 16 May 2025 00:52:29 -0700 (PDT)
 Received: from dell.. ([185.223.112.22])
-        by smtp.gmail.com with ESMTPSA id 8926c6da1cb9f-4fbcc4aa6cfsm281438173.113.2025.05.16.00.52.37
+        by smtp.gmail.com with ESMTPSA id 8926c6da1cb9f-4fbcc4aa6cfsm281438173.113.2025.05.16.00.52.27
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 16 May 2025 00:52:38 -0700 (PDT)
+        Fri, 16 May 2025 00:52:29 -0700 (PDT)
 From: Vadym Hrynchyshyn <vadimgrn@gmail.com>
 To: valentina.manea.m@gmail.com,
 	shuah@kernel.org,
 	i@zenithal.me,
 	linux-usb@vger.kernel.org
 Cc: Vadym Hrynchyshyn <vadimgrn@gmail.com>
-Subject: [PATCH 3/3] [3/3] usbipd: use usbip_to_int to simplify usbip_setup_port_number implementation
-Date: Fri, 16 May 2025 10:52:04 +0300
-Message-ID: <20250516075204.7950-3-vadimgrn@gmail.com>
+Subject: [PATCH 1/3] [1/3] usbipd: enable SO_KEEPALIVE socket option for accepted connection
+Date: Fri, 16 May 2025 10:52:02 +0300
+Message-ID: <20250516075204.7950-1-vadimgrn@gmail.com>
 X-Mailer: git-send-email 2.43.0
-In-Reply-To: <20250516075204.7950-1-vadimgrn@gmail.com>
-References: <20250516075204.7950-1-vadimgrn@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
@@ -77,54 +73,36 @@ List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-    - usbip_to_int function is used for handling arguments
-      of options --tcp-keepidle,--tcp-keepcnt,--tcp-keepintvl.
-      It is now called from usbip_setup_port_number to handle
-      tcp port number. This simplifies its implementation.
+    - If usbip client does not close a TCP/IP connection to a daemon
+      gracefully, the daemon will keep this connection open indefinitely.
+
+    - The issue is that the client cannot attach this device again
+      until the device will be rebinded on server side by commands:
+      usbip unbind -b X-Y
+      usbip bind -b X-Y
+
+    - usbip client enables tcp keepalive by calling
+      usbip_net_set_keepalive from usbip_net_tcp_connect.
+      usbip daemon now enables this socket option too
+      for accepted connection.
 
 Signed-off-by: Vadym Hrynchyshyn <vadimgrn@gmail.com>
 ---
- tools/usb/usbip/src/usbip_network.c | 25 +++++--------------------
- 1 file changed, 5 insertions(+), 20 deletions(-)
+ tools/usb/usbip/src/usbipd.c | 1 +
+ 1 file changed, 1 insertion(+)
 
-diff --git a/tools/usb/usbip/src/usbip_network.c b/tools/usb/usbip/src/usbip_network.c
-index 15787044a7c9..26559a11e648 100644
---- a/tools/usb/usbip/src/usbip_network.c
-+++ b/tools/usb/usbip/src/usbip_network.c
-@@ -26,28 +26,13 @@ char *usbip_port_string = "3240";
- void usbip_setup_port_number(char *arg)
- {
- 	dbg("parsing port arg '%s'", arg);
--	char *end;
--	unsigned long int port = strtoul(arg, &end, 10);
--
--	if (end == arg) {
--		err("port: could not parse '%s' as a decimal integer", arg);
--		return;
--	}
-+	int port = usbip_to_int("port", arg, UINT16_MAX);
+diff --git a/tools/usb/usbip/src/usbipd.c b/tools/usb/usbip/src/usbipd.c
+index 48398a78e88a..d89633d8f799 100644
+--- a/tools/usb/usbip/src/usbipd.c
++++ b/tools/usb/usbip/src/usbipd.c
+@@ -119,6 +119,7 @@ static int recv_request_import(int sockfd)
+ 	if (found) {
+ 		/* should set TCP_NODELAY for usbip */
+ 		usbip_net_set_nodelay(sockfd);
++		usbip_net_set_keepalive(sockfd);
  
--	if (*end != '\0') {
--		err("port: garbage at end of '%s'", arg);
--		return;
-+	if (port > 0) {
-+		usbip_port = port;
-+		usbip_port_string = arg;
-+		info("using port %d (\"%s\")", usbip_port, usbip_port_string);
- 	}
--
--	if (port > UINT16_MAX) {
--		err("port: %s too high (max=%d)",
--		    arg, UINT16_MAX);
--		return;
--	}
--
--	usbip_port = port;
--	usbip_port_string = arg;
--	info("using port %d (\"%s\")", usbip_port, usbip_port_string);
- }
- 
- int usbip_to_int(const char *name, const char *val, int maxval)
+ 		/* export device needs a TCP/IP socket descriptor */
+ 		status = usbip_export_device(edev, sockfd);
 -- 
 2.43.0
 
