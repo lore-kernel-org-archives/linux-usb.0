@@ -1,171 +1,168 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.9])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 85FDF2BE0E4;
-	Wed, 21 May 2025 20:46:26 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9D1B21A5BAC
+	for <linux-usb@vger.kernel.org>; Wed, 21 May 2025 21:25:18 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.9
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1747860386; cv=none; b=D/assLVGrq9YnUuaXPRIwEP7Dno8sDSD7FZLzdFofBnJagdV05rjgMiv2FySy1i7yksvvSZ5uM5Y2vLQJaNQt6YkO+0NGCdW7iahxMRq2+pzXGfeyHQKT8eWpVubgvVc79v+IJgzZ4tKZzpT4aTb0vjAe4wRC8yn0J2RrhQzMtE=
+	t=1747862721; cv=none; b=S76BZYOyKEDfatnIo9iKMjuReY6Ry5oPKVAJHHIuihFMzBATuHAr95p8hC0wKwTXeEvyZAkJGxCl/VZ7Wm+fu5UaSftAe6bR81BaZIABZ3vyNUiMhSEukn/DZwFlT1hMP37yTi72hhdg00IZAa0qVMYqLGBKC3ebKCUQoOpE4Ho=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1747860386; c=relaxed/simple;
-	bh=l0FQvf1M3ScltpOkIqN+MDVq9vIgvD938vpt9yDUCJ4=;
-	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
-	 MIME-Version; b=JH5+ROpe5ossj7T489Jp9xVaT0qO/bzxX64M36esNcpDPySct5+fw68lTcIpM2Q2rF0BGqwf5uAbd+YK+fQxvBimdQ3qiQRzj2/vw1wZIp2v6QFaNW4Pm3K+QToG0lMonrurPVlZV9feVNaZt53dxw9DUOyb8YLGAYlZopUdlkA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=GKUaA8HJ; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1747862721; c=relaxed/simple;
+	bh=RLgPL3wMwtzlutDaktiy95eJvNq6z3esuD7lMdi//os=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=ZEd50AixlOVi5Zp9iqBVTmw0bSZ9B6qKXTQjWJvP+zyhnWt4SrMwcyKONIunC0+JhPxvOIrMpACxw/A4tqHBYQuXUmREo0L66bOTHXtxOuI+l16r7fo1+VY0TfGl/c82UUiUQb8461jQPCkhyiCiGb8FLsuw3F7p3uxyHC8DKm8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Np33vsSC; arc=none smtp.client-ip=198.175.65.9
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="GKUaA8HJ"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 092CDC4CEE4;
-	Wed, 21 May 2025 20:46:26 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1747860386;
-	bh=l0FQvf1M3ScltpOkIqN+MDVq9vIgvD938vpt9yDUCJ4=;
-	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=GKUaA8HJuMHueMQ43f9BlsAoZQ8tB64VoBZ0/vQHrZ1O00BzIgD1butpvZFA4qmyJ
-	 cmtBak74rNAZBzi78g9XCcOOzO2JmpmavrDdbeB3Cwr/o5KOy7ZAojs3PX0tYYFb2M
-	 kHLr0NLNigCJ/AH8PE8xnq2XeP8KOV7CEv+OtoG2KS4SxBJZ3960mSuTw1qlzyIaKj
-	 grOLGspy0g7sU6LfZH/6OqPD2P8wd6gzkc4oCoktcadVjIAv6+ACWXOfO6DB7CuXRj
-	 FDWLjqLvgOX1LAv9PbKRs+AJSEJeSW8jxouWJ8u+W5CxnAjL5ktbc6Ff3+HSqSTvxa
-	 mdP1RGY2gr7Cw==
-From: Kees Cook <kees@kernel.org>
-To: Kuniyuki Iwashima <kuniyu@amazon.com>
-Cc: Kees Cook <kees@kernel.org>,
-	"Gustavo A . R . Silva" <gustavoars@kernel.org>,
-	Eric Dumazet <edumazet@google.com>,
-	Jakub Kicinski <kuba@kernel.org>,
-	"David S. Miller" <davem@davemloft.net>,
-	Paolo Abeni <pabeni@redhat.com>,
-	Simon Horman <horms@kernel.org>,
-	Ido Schimmel <idosch@nvidia.com>,
-	netdev@vger.kernel.org,
-	Willem de Bruijn <willemdebruijn.kernel@gmail.com>,
-	"Martin K. Petersen" <martin.petersen@oracle.com>,
-	Christoph Hellwig <hch@lst.de>,
-	Sagi Grimberg <sagi@grimberg.me>,
-	Chaitanya Kulkarni <kch@nvidia.com>,
-	Mike Christie <michael.christie@oracle.com>,
-	Max Gurtovoy <mgurtovoy@nvidia.com>,
-	Maurizio Lombardi <mlombard@redhat.com>,
-	Dmitry Bogdanov <d.bogdanov@yadro.com>,
-	Mingzhe Zou <mingzhe.zou@easystack.cn>,
-	Christophe Leroy <christophe.leroy@csgroup.eu>,
-	"Dr. David Alan Gilbert" <linux@treblig.org>,
-	Andrew Lunn <andrew+netdev@lunn.ch>,
-	Stanislav Fomichev <sdf@fomichev.me>,
-	Cosmin Ratiu <cratiu@nvidia.com>,
-	Lei Yang <leiyang@redhat.com>,
-	Samuel Mendoza-Jonas <sam@mendozajonas.com>,
-	Paul Fertser <fercerpav@gmail.com>,
-	Alexander Aring <alex.aring@gmail.com>,
-	Stefan Schmidt <stefan@datenfreihafen.org>,
-	Miquel Raynal <miquel.raynal@bootlin.com>,
-	Hayes Wang <hayeswang@realtek.com>,
-	Douglas Anderson <dianders@chromium.org>,
-	Grant Grundler <grundler@chromium.org>,
-	Jay Vosburgh <jv@jvosburgh.net>,
-	"K. Y. Srinivasan" <kys@microsoft.com>,
-	Haiyang Zhang <haiyangz@microsoft.com>,
-	Wei Liu <wei.liu@kernel.org>,
-	Dexuan Cui <decui@microsoft.com>,
-	Jiri Pirko <jiri@resnulli.us>,
-	Jason Wang <jasowang@redhat.com>,
-	Vladimir Oltean <vladimir.oltean@nxp.com>,
-	Florian Fainelli <florian.fainelli@broadcom.com>,
-	Kory Maincent <kory.maincent@bootlin.com>,
-	Maxim Georgiev <glipus@gmail.com>,
-	Aleksander Jan Bajkowski <olek2@wp.pl>,
-	Philipp Hahn <phahn-oss@avm.de>,
-	Eric Biggers <ebiggers@google.com>,
-	Ard Biesheuvel <ardb@kernel.org>,
-	Al Viro <viro@zeniv.linux.org.uk>,
-	Ahmed Zaki <ahmed.zaki@intel.com>,
-	Alexander Lobakin <aleksander.lobakin@intel.com>,
-	Xiao Liang <shaw.leon@gmail.com>,
-	linux-kernel@vger.kernel.org,
-	linux-nvme@lists.infradead.org,
-	linux-scsi@vger.kernel.org,
-	target-devel@vger.kernel.org,
-	linux-wpan@vger.kernel.org,
-	linux-usb@vger.kernel.org,
-	linux-hyperv@vger.kernel.org,
-	linux-hardening@vger.kernel.org
-Subject: [PATCH net-next v2 7/8] rtnetlink: do_setlink: Use struct sockaddr_storage
-Date: Wed, 21 May 2025 13:46:15 -0700
-Message-Id: <20250521204619.2301870-7-kees@kernel.org>
-X-Mailer: git-send-email 2.34.1
-In-Reply-To: <20250521204310.it.500-kees@kernel.org>
-References: <20250521204310.it.500-kees@kernel.org>
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Np33vsSC"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1747862719; x=1779398719;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=RLgPL3wMwtzlutDaktiy95eJvNq6z3esuD7lMdi//os=;
+  b=Np33vsSC8qPEMIo71EppIhfP11mFuZ8NkOVipxq254b59U+gclI2z264
+   e9nEjreA5itv72nlczQrZqGKJW/1VmQo6KciDEaqpVlt4YslfOmkeN/Xt
+   Qi+4qT4KffoIG2F11+PcOpoDZMog38ZRJbiTrvdtt5c1cEce17N6phBNb
+   bhIKqL9UUf4IcvxveA0ExmjvxLA5wZ/MjrKtIyPWCAtFP3xUaJBnf/jep
+   gavIRM8UTD6EA6C7oP1F96iVGpf5ABY++iT/izZL6kuINQwr1oyKAuSkX
+   rgXJWce38wFsPkxopKB5C84VxU54eMl7UHrw38he1EHoKJTrhGeqt1k+x
+   w==;
+X-CSE-ConnectionGUID: goYYeEzARVupf46XJ2Rd3w==
+X-CSE-MsgGUID: DggGWFfUSCu+nbtkz7pm1A==
+X-IronPort-AV: E=McAfee;i="6700,10204,11440"; a="72383728"
+X-IronPort-AV: E=Sophos;i="6.15,304,1739865600"; 
+   d="scan'208";a="72383728"
+Received: from fmviesa006.fm.intel.com ([10.60.135.146])
+  by orvoesa101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 21 May 2025 14:25:18 -0700
+X-CSE-ConnectionGUID: vM1QqffQRDGiEPO505McQg==
+X-CSE-MsgGUID: iK52d6t6Sk67CnFvKVOa2w==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.15,304,1739865600"; 
+   d="scan'208";a="140158521"
+Received: from lkp-server01.sh.intel.com (HELO 1992f890471c) ([10.239.97.150])
+  by fmviesa006.fm.intel.com with ESMTP; 21 May 2025 14:25:16 -0700
+Received: from kbuild by 1992f890471c with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1uHqw6-000Oe4-1o;
+	Wed, 21 May 2025 21:25:14 +0000
+Date: Thu, 22 May 2025 05:24:36 +0800
+From: kernel test robot <lkp@intel.com>
+To: Arnd Bergmann <arnd@arndb.de>
+Cc: oe-kbuild-all@lists.linux.dev, linux-usb@vger.kernel.org,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+Subject: [usb:usb-testing 49/52] sound/usb/qcom/qc_audio_offload.c:1019:
+ warning: Function parameter or struct member 'xfer_buf_cpu' not described in
+ 'uaudio_transfer_buffer_setup'
+Message-ID: <202505220522.rT5u07uk-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-Developer-Signature: v=1; a=openpgp-sha256; l=2148; i=kees@kernel.org; h=from:subject; bh=l0FQvf1M3ScltpOkIqN+MDVq9vIgvD938vpt9yDUCJ4=; b=owGbwMvMwCVmps19z/KJym7G02pJDBl61tMbYmZ7vqv3y5thHs3r9nVXSVtZ7MEJ73YFLVVlf crw4fn/jlIWBjEuBlkxRZYgO/c4F4+37eHucxVh5rAygQxh4OIUgImYKjAyfDV1aEz44sad4qiz 39HRp5zLnFf5iffcMym3Px+wdE/gY/ineFOBL/PIyU28LFO3x+ZnOm9YpcfdFuQ7kyW368Lt3AU cAA==
-X-Developer-Key: i=kees@kernel.org; a=openpgp; fpr=A5C3F68F229DD60F723E6E138972F4DFDC6DC026
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
-Instead of a heap allocating a variably sized struct sockaddr and lying
-about the type in the call to netif_set_mac_address(), use a stack
-allocated struct sockaddr_storage. This lets us drop the cast and avoid
-the allocation.
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/gregkh/usb.git usb-testing
+head:   342e4955a1f1ce28c70a589999b76365082dbf10
+commit: 5c7ef5001292d70d09d90bc2251f7d869b9d135c [49/52] ALSA: qc_audio_offload: avoid leaking xfer_buf allocation
+config: sh-randconfig-001-20250522 (https://download.01.org/0day-ci/archive/20250522/202505220522.rT5u07uk-lkp@intel.com/config)
+compiler: sh4-linux-gcc (GCC) 13.3.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250522/202505220522.rT5u07uk-lkp@intel.com/reproduce)
 
-Putting "ss" on the stack means it will get a reused stack slot since
-it is the same size (128B) as other existing single-scope stack variables,
-like the vfinfo array (128B), so no additional stack space is used by
-this function.
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202505220522.rT5u07uk-lkp@intel.com/
 
-Acked-by: Gustavo A. R. Silva <gustavoars@kernel.org>
-Signed-off-by: Kees Cook <kees@kernel.org>
----
-Cc: Kuniyuki Iwashima <kuniyu@amazon.com>
-Cc: Eric Dumazet <edumazet@google.com>
-Cc: Jakub Kicinski <kuba@kernel.org>
-Cc: "David S. Miller" <davem@davemloft.net>
-Cc: Paolo Abeni <pabeni@redhat.com>
-Cc: Simon Horman <horms@kernel.org>
-Cc: Ido Schimmel <idosch@nvidia.com>
-Cc: <netdev@vger.kernel.org>
----
- net/core/rtnetlink.c | 19 ++++---------------
- 1 file changed, 4 insertions(+), 15 deletions(-)
+All warnings (new ones prefixed by >>):
 
-diff --git a/net/core/rtnetlink.c b/net/core/rtnetlink.c
-index 9743f1c2ae3c..f9a35bdc58ad 100644
---- a/net/core/rtnetlink.c
-+++ b/net/core/rtnetlink.c
-@@ -3080,17 +3080,7 @@ static int do_setlink(const struct sk_buff *skb, struct net_device *dev,
- 	}
- 
- 	if (tb[IFLA_ADDRESS]) {
--		struct sockaddr *sa;
--		int len;
--
--		len = sizeof(sa_family_t) + max_t(size_t, dev->addr_len,
--						  sizeof(*sa));
--		sa = kmalloc(len, GFP_KERNEL);
--		if (!sa) {
--			err = -ENOMEM;
--			goto errout;
--		}
--		sa->sa_family = dev->type;
-+		struct sockaddr_storage ss = { };
- 
- 		netdev_unlock_ops(dev);
- 
-@@ -3098,10 +3088,9 @@ static int do_setlink(const struct sk_buff *skb, struct net_device *dev,
- 		down_write(&dev_addr_sem);
- 		netdev_lock_ops(dev);
- 
--		memcpy(sa->sa_data, nla_data(tb[IFLA_ADDRESS]),
--		       dev->addr_len);
--		err = netif_set_mac_address(dev, (struct sockaddr_storage *)sa, extack);
--		kfree(sa);
-+		ss.ss_family = dev->type;
-+		memcpy(ss.__data, nla_data(tb[IFLA_ADDRESS]), dev->addr_len);
-+		err = netif_set_mac_address(dev, &ss, extack);
- 		if (err) {
- 			up_write(&dev_addr_sem);
- 			goto errout;
+>> sound/usb/qcom/qc_audio_offload.c:1019: warning: Function parameter or struct member 'xfer_buf_cpu' not described in 'uaudio_transfer_buffer_setup'
+>> sound/usb/qcom/qc_audio_offload.c:1019: warning: Excess function parameter 'xfer_buf' description in 'uaudio_transfer_buffer_setup'
+
+
+vim +1019 sound/usb/qcom/qc_audio_offload.c
+
+326bbc348298ab Wesley Cheng  2025-04-09  1003  
+326bbc348298ab Wesley Cheng  2025-04-09  1004  /**
+326bbc348298ab Wesley Cheng  2025-04-09  1005   * uaudio_transfer_buffer_setup() - fetch and populate xfer buffer params
+326bbc348298ab Wesley Cheng  2025-04-09  1006   * @subs: usb substream
+326bbc348298ab Wesley Cheng  2025-04-09  1007   * @xfer_buf: xfer buf to be allocated
+326bbc348298ab Wesley Cheng  2025-04-09  1008   * @xfer_buf_len: size of allocation
+326bbc348298ab Wesley Cheng  2025-04-09  1009   * @mem_info: QMI response info
+326bbc348298ab Wesley Cheng  2025-04-09  1010   *
+326bbc348298ab Wesley Cheng  2025-04-09  1011   * Allocates and maps the transfer buffers that will be utilized by the
+326bbc348298ab Wesley Cheng  2025-04-09  1012   * audio DSP.  Will populate the information in the QMI response that is
+326bbc348298ab Wesley Cheng  2025-04-09  1013   * sent back to the stream enable request.
+326bbc348298ab Wesley Cheng  2025-04-09  1014   *
+326bbc348298ab Wesley Cheng  2025-04-09  1015   */
+326bbc348298ab Wesley Cheng  2025-04-09  1016  static int uaudio_transfer_buffer_setup(struct snd_usb_substream *subs,
+5c7ef5001292d7 Arnd Bergmann 2025-05-13  1017  					void **xfer_buf_cpu, u32 xfer_buf_len,
+326bbc348298ab Wesley Cheng  2025-04-09  1018  					struct mem_info_v01 *mem_info)
+326bbc348298ab Wesley Cheng  2025-04-09 @1019  {
+326bbc348298ab Wesley Cheng  2025-04-09  1020  	struct sg_table xfer_buf_sgt;
+5c7ef5001292d7 Arnd Bergmann 2025-05-13  1021  	void *xfer_buf;
+326bbc348298ab Wesley Cheng  2025-04-09  1022  	phys_addr_t xfer_buf_pa;
+326bbc348298ab Wesley Cheng  2025-04-09  1023  	u32 len = xfer_buf_len;
+326bbc348298ab Wesley Cheng  2025-04-09  1024  	bool dma_coherent;
+485ae085925218 Arnd Bergmann 2025-05-13  1025  	unsigned long iova;
+326bbc348298ab Wesley Cheng  2025-04-09  1026  	u32 remainder;
+326bbc348298ab Wesley Cheng  2025-04-09  1027  	u32 mult;
+326bbc348298ab Wesley Cheng  2025-04-09  1028  	int ret;
+326bbc348298ab Wesley Cheng  2025-04-09  1029  
+326bbc348298ab Wesley Cheng  2025-04-09  1030  	dma_coherent = dev_is_dma_coherent(subs->dev->bus->sysdev);
+326bbc348298ab Wesley Cheng  2025-04-09  1031  
+326bbc348298ab Wesley Cheng  2025-04-09  1032  	/* xfer buffer, multiple of 4K only */
+326bbc348298ab Wesley Cheng  2025-04-09  1033  	if (!len)
+326bbc348298ab Wesley Cheng  2025-04-09  1034  		len = PAGE_SIZE;
+326bbc348298ab Wesley Cheng  2025-04-09  1035  
+326bbc348298ab Wesley Cheng  2025-04-09  1036  	mult = len / PAGE_SIZE;
+326bbc348298ab Wesley Cheng  2025-04-09  1037  	remainder = len % PAGE_SIZE;
+326bbc348298ab Wesley Cheng  2025-04-09  1038  	len = mult * PAGE_SIZE;
+326bbc348298ab Wesley Cheng  2025-04-09  1039  	len += remainder ? PAGE_SIZE : 0;
+326bbc348298ab Wesley Cheng  2025-04-09  1040  
+326bbc348298ab Wesley Cheng  2025-04-09  1041  	if (len > MAX_XFER_BUFF_LEN) {
+326bbc348298ab Wesley Cheng  2025-04-09  1042  		dev_err(uaudio_qdev->data->dev,
+326bbc348298ab Wesley Cheng  2025-04-09  1043  			"req buf len %d > max buf len %lu, setting %lu\n",
+326bbc348298ab Wesley Cheng  2025-04-09  1044  			len, MAX_XFER_BUFF_LEN, MAX_XFER_BUFF_LEN);
+326bbc348298ab Wesley Cheng  2025-04-09  1045  		len = MAX_XFER_BUFF_LEN;
+326bbc348298ab Wesley Cheng  2025-04-09  1046  	}
+326bbc348298ab Wesley Cheng  2025-04-09  1047  
+326bbc348298ab Wesley Cheng  2025-04-09  1048  	xfer_buf = usb_alloc_coherent(subs->dev, len, GFP_KERNEL, &xfer_buf_pa);
+326bbc348298ab Wesley Cheng  2025-04-09  1049  	if (!xfer_buf)
+326bbc348298ab Wesley Cheng  2025-04-09  1050  		return -ENOMEM;
+326bbc348298ab Wesley Cheng  2025-04-09  1051  
+326bbc348298ab Wesley Cheng  2025-04-09  1052  	dma_get_sgtable(subs->dev->bus->sysdev, &xfer_buf_sgt, xfer_buf,
+326bbc348298ab Wesley Cheng  2025-04-09  1053  			xfer_buf_pa, len);
+485ae085925218 Arnd Bergmann 2025-05-13  1054  	iova = uaudio_iommu_map(MEM_XFER_BUF, dma_coherent, xfer_buf_pa, len,
+326bbc348298ab Wesley Cheng  2025-04-09  1055  			      &xfer_buf_sgt);
+485ae085925218 Arnd Bergmann 2025-05-13  1056  	if (!iova) {
+326bbc348298ab Wesley Cheng  2025-04-09  1057  		ret = -ENOMEM;
+326bbc348298ab Wesley Cheng  2025-04-09  1058  		goto unmap_sync;
+326bbc348298ab Wesley Cheng  2025-04-09  1059  	}
+326bbc348298ab Wesley Cheng  2025-04-09  1060  
+485ae085925218 Arnd Bergmann 2025-05-13  1061  	mem_info->dma = xfer_buf_pa;
+326bbc348298ab Wesley Cheng  2025-04-09  1062  	mem_info->size = len;
+485ae085925218 Arnd Bergmann 2025-05-13  1063  	mem_info->iova = PREPEND_SID_TO_IOVA(iova, uaudio_qdev->data->sid);
+5c7ef5001292d7 Arnd Bergmann 2025-05-13  1064  	*xfer_buf_cpu = xfer_buf;
+326bbc348298ab Wesley Cheng  2025-04-09  1065  	sg_free_table(&xfer_buf_sgt);
+326bbc348298ab Wesley Cheng  2025-04-09  1066  
+326bbc348298ab Wesley Cheng  2025-04-09  1067  	return 0;
+326bbc348298ab Wesley Cheng  2025-04-09  1068  
+326bbc348298ab Wesley Cheng  2025-04-09  1069  unmap_sync:
+326bbc348298ab Wesley Cheng  2025-04-09  1070  	usb_free_coherent(subs->dev, len, xfer_buf, xfer_buf_pa);
+326bbc348298ab Wesley Cheng  2025-04-09  1071  
+326bbc348298ab Wesley Cheng  2025-04-09  1072  	return ret;
+326bbc348298ab Wesley Cheng  2025-04-09  1073  }
+326bbc348298ab Wesley Cheng  2025-04-09  1074  
+
+:::::: The code at line 1019 was first introduced by commit
+:::::: 326bbc348298ab0946c5560defe024a5f6ef28bb ALSA: usb-audio: qcom: Introduce QC USB SND offloading support
+
+:::::: TO: Wesley Cheng <quic_wcheng@quicinc.com>
+:::::: CC: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+
 -- 
-2.34.1
-
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
