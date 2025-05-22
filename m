@@ -1,203 +1,213 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.19])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 04AE9149C6F
-	for <linux-usb@vger.kernel.org>; Thu, 22 May 2025 07:14:14 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.19
+Received: from m16.mail.163.com (m16.mail.163.com [220.197.31.4])
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 13C6B320F;
+	Thu, 22 May 2025 07:25:31 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=220.197.31.4
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1747898057; cv=none; b=bqcXDP1DGHt8/Y/WZynd+2YCKpeEXogWnUU14XCHT3bihbNaRWQ65g8EZG11U8lggM3xz68k5i6FWhFy34tv0BDLgJJrtvkhvAf1OhaxuhBOV9g7AA5AL4GfUkuYJDC2gL1J0Pxyg3YuyQdpWluAG6iMdPczCFginrOipZk8WFA=
+	t=1747898735; cv=none; b=grbWBT3wYU8Pr6+pFuKrz5+hEnWyg36xAaTSGiAyvEupxhPMWFlTjeTwhENmn3sbCXfEmWTBjVr99LVzNOp6dq4Ol7AR2ido+LLMbtliTzzEGZhOCQeZCNx8pyA4w/wQZ4OkbyQGgurThwKPzfFA/v3ZWRc+giyH4XSGR0WwX/g=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1747898057; c=relaxed/simple;
-	bh=vUUaaZG9LVVnBh5v7+qC+r5qM/j7uDr8qiMk2zpS6l4=;
-	h=Date:From:To:Cc:Subject:Message-ID; b=edi1jKnYsTQt2F9Uel71yr/Quu/HUZ+jvfeu2t52Ez/vLewiaE3Sm4JmARb14TAe2WaRuIxPxMHL0xiyYdia2TRDMYLWBkNjUkNxA5Hu6D76kJGb/0KoTvVlwzsmNY3dI+efHMYx7r5Az3P/4+HTmExNXduVFw/MBgrduPMRivI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=isrcQykd; arc=none smtp.client-ip=192.198.163.19
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	s=arc-20240116; t=1747898735; c=relaxed/simple;
+	bh=gtcQiVv8C/ThkqirllVBFHa40vSa2FjD+GV/VeHq2io=;
+	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=mD/kTzmD6EKWMkkrJXDJSlE3FESSSJHXyF4nPRfNQzs6BB9mU4yBLQxTEE2a+i7ODA7fhkGNsYQ1xBT9titE2Pp/cTlZ7iWqn4NMV1+JhCmif2E1YApUcw8xdGN9M8+uACtO7c/s75NUjdXxV6nmaB++Y8oJI/EHV5kBrqnIFvg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=163.com; spf=pass smtp.mailfrom=163.com; dkim=pass (1024-bit key) header.d=163.com header.i=@163.com header.b=bKGm0jYx; arc=none smtp.client-ip=220.197.31.4
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=163.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=163.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="isrcQykd"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1747898055; x=1779434055;
-  h=date:from:to:cc:subject:message-id;
-  bh=vUUaaZG9LVVnBh5v7+qC+r5qM/j7uDr8qiMk2zpS6l4=;
-  b=isrcQykd3SnI8Wqijz1O/GX3BXrs2m/QKEx5w8Fs4rnhnU3QNAW5C5TK
-   D8SCxlwKtx1TG9D0nQuP49zIigwbht6/pC30iNKwInRFQBOYSxwQtm7sO
-   PmbNKMjR697TeMHNC3BN1BCGJH+Vmb7NfAhygortZFwESHIZh4gwote7k
-   4OA582lTIm8hJwxGNpIG4/XTIZVtKERfJMX7q06HpBnRKgtujxtCT9Gq5
-   q1pJZe6aNkYNv8vA9hEpEQlT5C4kxEzdrmmZlDVFiMX7rmUVicd3wgQsX
-   8Y3R3hgQZCMsSuPGpT1MgAYBfw/8+WHAtaTkaB9fjSa089av/RvNSsafc
-   Q==;
-X-CSE-ConnectionGUID: 9YjB6S2yT42w7Mu78K7d9g==
-X-CSE-MsgGUID: XItF4rnyT3Ozq6KrxEWUFQ==
-X-IronPort-AV: E=McAfee;i="6700,10204,11440"; a="49023034"
-X-IronPort-AV: E=Sophos;i="6.15,305,1739865600"; 
-   d="scan'208";a="49023034"
-Received: from fmviesa005.fm.intel.com ([10.60.135.145])
-  by fmvoesa113.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 22 May 2025 00:14:14 -0700
-X-CSE-ConnectionGUID: NSgGZHQzR1CkiBezfVaC+g==
-X-CSE-MsgGUID: B2TmgOKISVabU5niPTg2/w==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.15,305,1739865600"; 
-   d="scan'208";a="145323297"
-Received: from lkp-server01.sh.intel.com (HELO 1992f890471c) ([10.239.97.150])
-  by fmviesa005.fm.intel.com with ESMTP; 22 May 2025 00:14:13 -0700
-Received: from kbuild by 1992f890471c with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1uI083-000P1g-0i;
-	Thu, 22 May 2025 07:14:11 +0000
-Date: Thu, 22 May 2025 15:13:38 +0800
-From: kernel test robot <lkp@intel.com>
-To: "Greg Kroah-Hartman" <gregkh@linuxfoundation.org>
-Cc: linux-usb@vger.kernel.org
-Subject: [usb:usb-next] BUILD SUCCESS
- 6381f9950440f78bc89b4384292a613e721f604e
-Message-ID: <202505221528.cWRz9dT9-lkp@intel.com>
-User-Agent: s-nail v14.9.24
+	dkim=pass (1024-bit key) header.d=163.com header.i=@163.com header.b="bKGm0jYx"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=163.com;
+	s=s110527; h=From:To:Subject:Date:Message-Id:MIME-Version; bh=Yy
+	XzRmLJrmjlX+RlPnQIdYO0P6MdtW6Vfq9iIZQfCt4=; b=bKGm0jYxNcq65xY5n9
+	JQD3/rdf2N5k7OZuMgL49/Uyi2tEc4RO7ZmKqBt/1+GxgbMBlVLxk3bz13SAkJMy
+	lYG0NruLAw/md26m+yDMkdkVLc5s1LYVRoGJz0nlRfI69IngpoipngfvMZe+BpWA
+	L0qoXNcTm1IDjb+uXCbM4gBUY=
+Received: from localhost.localdomain (unknown [])
+	by gzsmtp1 (Coremail) with SMTP id PCgvCgDnl2O4zS5oEWbhBQ--.29592S4;
+	Thu, 22 May 2025 15:09:55 +0800 (CST)
+From: David Wang <00107082@163.com>
+To: gregkh@linuxfoundation.org,
+	mathias.nyman@intel.com
+Cc: oneukum@suse.com,
+	stern@rowland.harvard.edu,
+	hminas@synopsys.com,
+	rui.silva@linaro.org,
+	jgross@suse.com,
+	linux-usb@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	David Wang <00107082@163.com>
+Subject: [PATCH v4 1/2] USB: core: add a memory pool to urb caching host-controller private data
+Date: Thu, 22 May 2025 15:09:43 +0800
+Message-Id: <a235e322e270942dc3d607d4b46ff7db29abeb2d.1747897366.git.00107082@163.com>
+X-Mailer: git-send-email 2.39.2
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
+MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
+X-CM-TRANSID:PCgvCgDnl2O4zS5oEWbhBQ--.29592S4
+X-Coremail-Antispam: 1Uf129KBjvJXoW3Xr47CF15uryrtryftw1UKFg_yoWxWF4UpF
+	WfJwn3tF18XrW3JrZ3GF4kuayfta1kCFy2kFyfu34UZwnFywn5Aas2yFyrur9Fyr4fJwsI
+	qa1DKFn8Ww1UA3DanT9S1TB71UUUUU7qnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
+	9KBjDUYxBIdaVFxhVjvjDU0xZFpf9x0piJGYdUUUUU=
+X-CM-SenderInfo: qqqrilqqysqiywtou0bp/xtbBkBxVqmguzbwBUwAAsW
 
-tree/branch: https://git.kernel.org/pub/scm/linux/kernel/git/gregkh/usb.git usb-next
-branch HEAD: 6381f9950440f78bc89b4384292a613e721f604e  Merge tag 'thunderbolt-for-v6.16-rc1' of ssh://gitolite.kernel.org/pub/scm/linux/kernel/git/westeri/thunderbolt into usb-next
+When using USB devices, there are lots of memory allocations for
+host controller's private data. For example, on a system with xhci,
+using a webcam and a mic would needs ~250 and ~1k kzallocs per
+second, respectively.
 
-elapsed time: 1242m
+Some HCDs use kmem_cache to handle the high frequency of memory
+allocation during device usages. There are several drawbacks:
+1. The lifespan of kmem_cache entry has weak correlation with
+device usages: when devices are in idle, those memory is still
+kept in slab until system decide to reclaim it, if reclaimable.
+2. kmem_cache is only used for fix-sized memory allocation, if a
+HCD needs private data of m different sizes, m different kmem_cache
+would be needed, and the overhead of kmem_cache is multiplied by m.
+When m is large, as some HCD needs variable length private data,
+kmem_cache approach is inflexible to use.
+3. A system may have multiple HCDs in use, then the overhead of
+kmem_cache would be multiplied again by the number of HCDs.
 
-configs tested: 126
-configs skipped: 3
+URB objects have long lifespans, an urb can be reused between
+submit loops while the devices are being used. And with following
+premise:
+1. Each URB cannot be used by more than one HCDs at the same time.
+2. The lifespan of HC private data is contained in its URB object's
+lifespan.
 
-The following configs have been built successfully.
-More configs may be tested in the coming days.
+high frequent allocations for HCD private data can be avoided if
+urb take over the ownership of memory, the memory then shares
+the longer lifespan with urb objects.
 
-tested configs:
-alpha                             allnoconfig    gcc-14.2.0
-alpha                            allyesconfig    gcc-14.2.0
-arc                              allmodconfig    gcc-14.2.0
-arc                               allnoconfig    gcc-14.2.0
-arc                              allyesconfig    gcc-14.2.0
-arc                      axs103_smp_defconfig    gcc-14.2.0
-arc                     haps_hs_smp_defconfig    gcc-14.2.0
-arc                   randconfig-001-20250521    gcc-10.5.0
-arc                   randconfig-002-20250521    gcc-12.4.0
-arm                              allmodconfig    gcc-14.2.0
-arm                               allnoconfig    clang-21
-arm                              allyesconfig    gcc-14.2.0
-arm                            dove_defconfig    gcc-14.2.0
-arm                       multi_v4t_defconfig    clang-16
-arm                   randconfig-001-20250521    clang-21
-arm                   randconfig-002-20250521    clang-21
-arm                   randconfig-003-20250521    clang-16
-arm                   randconfig-004-20250521    clang-21
-arm64                            allmodconfig    clang-19
-arm64                             allnoconfig    gcc-14.2.0
-arm64                 randconfig-001-20250521    gcc-6.5.0
-arm64                 randconfig-002-20250521    gcc-6.5.0
-arm64                 randconfig-003-20250521    gcc-8.5.0
-arm64                 randconfig-004-20250521    gcc-8.5.0
-csky                              allnoconfig    gcc-14.2.0
-csky                  randconfig-001-20250521    gcc-10.5.0
-csky                  randconfig-002-20250521    gcc-12.4.0
-hexagon                          allmodconfig    clang-17
-hexagon                           allnoconfig    clang-21
-hexagon                          allyesconfig    clang-21
-hexagon               randconfig-001-20250521    clang-20
-hexagon               randconfig-002-20250521    clang-21
-i386                             allmodconfig    gcc-12
-i386                              allnoconfig    gcc-12
-i386                             allyesconfig    gcc-12
-i386        buildonly-randconfig-001-20250521    clang-20
-i386        buildonly-randconfig-002-20250521    clang-20
-i386        buildonly-randconfig-003-20250521    gcc-12
-i386        buildonly-randconfig-004-20250521    clang-20
-i386        buildonly-randconfig-005-20250521    gcc-12
-i386        buildonly-randconfig-006-20250521    gcc-12
-i386                                defconfig    clang-20
-loongarch                        allmodconfig    gcc-14.2.0
-loongarch                         allnoconfig    gcc-14.2.0
-loongarch             randconfig-001-20250521    gcc-15.1.0
-loongarch             randconfig-002-20250521    gcc-14.2.0
-m68k                             allmodconfig    gcc-14.2.0
-m68k                              allnoconfig    gcc-14.2.0
-m68k                             allyesconfig    gcc-14.2.0
-m68k                            mac_defconfig    gcc-14.2.0
-microblaze                       allmodconfig    gcc-14.2.0
-microblaze                        allnoconfig    gcc-14.2.0
-microblaze                       allyesconfig    gcc-14.2.0
-mips                              allnoconfig    gcc-14.2.0
-mips                           gcw0_defconfig    clang-21
-mips                           ip32_defconfig    clang-21
-mips                           mtx1_defconfig    clang-21
-nios2                             allnoconfig    gcc-14.2.0
-nios2                 randconfig-001-20250521    gcc-14.2.0
-nios2                 randconfig-002-20250521    gcc-14.2.0
-openrisc                          allnoconfig    gcc-14.2.0
-openrisc                         allyesconfig    gcc-14.2.0
-openrisc                            defconfig    gcc-14.2.0
-parisc                           allmodconfig    gcc-14.2.0
-parisc                            allnoconfig    gcc-14.2.0
-parisc                           allyesconfig    gcc-14.2.0
-parisc                              defconfig    gcc-14.2.0
-parisc                randconfig-001-20250521    gcc-13.3.0
-parisc                randconfig-002-20250521    gcc-11.5.0
-parisc64                         alldefconfig    gcc-15.1.0
-powerpc                          allmodconfig    gcc-14.2.0
-powerpc                           allnoconfig    gcc-14.2.0
-powerpc                          allyesconfig    clang-21
-powerpc                        cell_defconfig    gcc-14.2.0
-powerpc               randconfig-001-20250521    clang-21
-powerpc               randconfig-002-20250521    gcc-8.5.0
-powerpc               randconfig-003-20250521    gcc-6.5.0
-powerpc                        warp_defconfig    gcc-14.2.0
-powerpc64             randconfig-001-20250521    gcc-8.5.0
-powerpc64             randconfig-002-20250521    gcc-6.5.0
-powerpc64             randconfig-003-20250521    clang-21
-riscv                            allmodconfig    clang-21
-riscv                             allnoconfig    gcc-14.2.0
-riscv                            allyesconfig    clang-16
-riscv                               defconfig    clang-21
-riscv                 randconfig-001-20250522    gcc-9.3.0
-riscv                 randconfig-002-20250522    clang-18
-s390                             allmodconfig    clang-18
-s390                              allnoconfig    clang-21
-s390                             allyesconfig    gcc-14.2.0
-s390                  randconfig-001-20250522    clang-19
-s390                  randconfig-002-20250522    clang-18
-sh                               allmodconfig    gcc-14.2.0
-sh                                allnoconfig    gcc-14.2.0
-sh                               allyesconfig    gcc-14.2.0
-sh                                  defconfig    gcc-14.2.0
-sh                        edosk7760_defconfig    gcc-14.2.0
-sh                            hp6xx_defconfig    gcc-14.2.0
-sh                    randconfig-001-20250522    gcc-13.3.0
-sh                    randconfig-002-20250522    gcc-13.3.0
-sh                           sh2007_defconfig    gcc-14.2.0
-sh                          urquell_defconfig    gcc-14.2.0
-sparc                            allmodconfig    gcc-14.2.0
-sparc                             allnoconfig    gcc-14.2.0
-sparc                 randconfig-001-20250522    gcc-14.2.0
-sparc                 randconfig-002-20250522    gcc-6.5.0
-sparc64               randconfig-001-20250522    gcc-14.2.0
-sparc64               randconfig-002-20250522    gcc-12.4.0
-um                               allmodconfig    clang-19
-um                                allnoconfig    clang-21
-um                               allyesconfig    gcc-12
-um                    randconfig-001-20250522    gcc-12
-um                    randconfig-002-20250522    gcc-12
-x86_64                            allnoconfig    clang-20
-x86_64                           allyesconfig    clang-20
-x86_64      buildonly-randconfig-001-20250521    clang-20
-x86_64      buildonly-randconfig-002-20250521    clang-20
-x86_64      buildonly-randconfig-003-20250521    gcc-12
-x86_64      buildonly-randconfig-004-20250521    gcc-12
-x86_64      buildonly-randconfig-005-20250521    clang-20
-x86_64      buildonly-randconfig-006-20250521    clang-20
-x86_64                              defconfig    gcc-11
-x86_64                          rhel-9.4-rust    clang-18
-xtensa                            allnoconfig    gcc-14.2.0
-xtensa                randconfig-001-20250522    gcc-14.2.0
-xtensa                randconfig-002-20250522    gcc-10.5.0
+The memory pool in URB works this way:
+1. A URB object holds only one slot of memory pool.
+2. When created, memory pool is NULL. If no private data requested,
+no memory pool alloced for the URB.
+3. The memory pool slot will grow when larger size is requested.
+4. Memory pool slot will be released only when URB is destroyed.
 
---
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+Normally the hcpriv pointer in URB structure is the same as memory
+pool slot, but considering some drivers may still have its own
+management of urb->hcpriv, a hcpriv_mempool pointer is added, to make
+sure no impact on existing drivers.
+
+A hcpriv_mempool_size field is needed for making sure that the mempool
+slot is big enough, if not, more memory would be requested from system.
+
+Existing drivers may have it own allocation of URB object, not via
+usb_alloc_urb(), this may cause memory leak if URB has a active mempool
+slot but it is not released via usb_free_urb(); A hcpriv_mempool_activated
+flag is added to address this issue, it is set only in usb_alloc_urb().
+When requesting a hcpriv memory to a URB which has hcpriv_mempool_activated
+not set, the memory will be requested from system directly.
+
+One of the drawbacks is URB object now have 3 more fields even if the
+object would never be requested for HCD private data.
+
+From an end-user's perspective, the performance difference with this change
+is insignificant when system is under no memory pressure, and when under
+heavy memory pressure. When system is under heavy memory pressure,
+everything is slow.  There could be a point in-between no memory pressure
+and heavy memory pressure where these 1k+/s memory allocations would
+dominate the performance, but very hard to pinpoint it.
+
+Signed-off-by: David Wang <00107082@163.com>
+---
+ drivers/usb/core/urb.c | 45 ++++++++++++++++++++++++++++++++++++++++++
+ include/linux/usb.h    |  5 +++++
+ 2 files changed, 50 insertions(+)
+
+diff --git a/drivers/usb/core/urb.c b/drivers/usb/core/urb.c
+index 5e52a35486af..2cf218d4fb73 100644
+--- a/drivers/usb/core/urb.c
++++ b/drivers/usb/core/urb.c
+@@ -23,6 +23,8 @@ static void urb_destroy(struct kref *kref)
+ 
+ 	if (urb->transfer_flags & URB_FREE_BUFFER)
+ 		kfree(urb->transfer_buffer);
++	if (urb->hcpriv_mempool_activated)
++		kfree(urb->hcpriv_mempool);
+ 
+ 	kfree(urb);
+ }
+@@ -77,6 +79,8 @@ struct urb *usb_alloc_urb(int iso_packets, gfp_t mem_flags)
+ 	if (!urb)
+ 		return NULL;
+ 	usb_init_urb(urb);
++	/* activate hcpriv mempool when urb is created via usb_alloc_urb */
++	urb->hcpriv_mempool_activated = true;
+ 	return urb;
+ }
+ EXPORT_SYMBOL_GPL(usb_alloc_urb);
+@@ -1037,3 +1041,44 @@ int usb_anchor_empty(struct usb_anchor *anchor)
+ 
+ EXPORT_SYMBOL_GPL(usb_anchor_empty);
+ 
++/**
++ * urb_hcpriv_mempool_zalloc - alloc memory from mempool for hcpriv
++ * @urb: pointer to URB being used
++ * @size: memory size requested by current host controller
++ * @mem_flags: the type of memory to allocate
++ *
++ * Return: NULL if out of memory, otherwise memory are zeroed
++ */
++void *urb_hcpriv_mempool_zalloc(struct urb *urb, size_t size, gfp_t mem_flags)
++{
++	if (!urb->hcpriv_mempool_activated)
++		return kzalloc(size, mem_flags);
++
++	if (urb->hcpriv_mempool_size < size) {
++		kfree(urb->hcpriv_mempool);
++		urb->hcpriv_mempool_size = size;
++		urb->hcpriv_mempool = kmalloc(size, mem_flags);
++	}
++	if (urb->hcpriv_mempool)
++		memset(urb->hcpriv_mempool, 0, size);
++	else
++		urb->hcpriv_mempool_size = 0;
++	return urb->hcpriv_mempool;
++}
++EXPORT_SYMBOL_GPL(urb_hcpriv_mempool_zalloc);
++
++/**
++ * urb_free_hcpriv - free hcpriv data if necessary
++ * @urb: pointer to URB being used
++ *
++ * If mempool is activated, private data's lifecycle
++ * is managed by urb object.
++ */
++void urb_free_hcpriv(struct urb *urb)
++{
++	if (urb->hcpriv != urb->hcpriv_mempool) {
++		kfree(urb->hcpriv);
++		urb->hcpriv = NULL;
++	}
++}
++EXPORT_SYMBOL_GPL(urb_free_hcpriv);
+diff --git a/include/linux/usb.h b/include/linux/usb.h
+index b46738701f8d..27bc394b8141 100644
+--- a/include/linux/usb.h
++++ b/include/linux/usb.h
+@@ -1602,6 +1602,9 @@ struct urb {
+ 	struct kref kref;		/* reference count of the URB */
+ 	int unlinked;			/* unlink error code */
+ 	void *hcpriv;			/* private data for host controller */
++	void *hcpriv_mempool;           /* a single slot of cache for HCD's private data */
++	size_t hcpriv_mempool_size;     /* current size of the memory pool */
++	bool hcpriv_mempool_activated;  /* flag the mempool usage */
+ 	atomic_t use_count;		/* concurrent submissions counter */
+ 	atomic_t reject;		/* submissions will fail */
+ 
+@@ -1790,6 +1793,8 @@ extern int usb_wait_anchor_empty_timeout(struct usb_anchor *anchor,
+ extern struct urb *usb_get_from_anchor(struct usb_anchor *anchor);
+ extern void usb_scuttle_anchored_urbs(struct usb_anchor *anchor);
+ extern int usb_anchor_empty(struct usb_anchor *anchor);
++extern void *urb_hcpriv_mempool_zalloc(struct urb *urb, size_t size, gfp_t mem_flags);
++extern void urb_free_hcpriv(struct urb *urb);
+ 
+ #define usb_unblock_urb	usb_unpoison_urb
+ 
+-- 
+2.39.2
+
