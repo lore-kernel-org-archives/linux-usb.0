@@ -1,141 +1,142 @@
-Received: from mail-il1-f205.google.com (mail-il1-f205.google.com [209.85.166.205])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
-	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B27FC2B9B7
-	for <linux-usb@vger.kernel.org>; Thu, 22 May 2025 06:36:37 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.166.205
+Received: from m16.mail.163.com (m16.mail.163.com [220.197.31.5])
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 06C1F221D9B;
+	Thu, 22 May 2025 07:11:01 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=220.197.31.5
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1747895799; cv=none; b=A78x3HsKseTWxmUhQAYfEmOiTlHSDQHdOfJsWxeZqz7S8gSdpxOXx39rUHoNqcxqJy4ruRhZpblR/iy0PxfIvqLiLFoD/yH5zlnzI+311gVkqQfBg06spwIUrH81t6opYsLLFtTVwNtPf5G63DQQ2INDu9ejEATBR6PdINSX2h8=
+	t=1747897866; cv=none; b=O+sTC0G/pc08nSL817ytuhQUIYmiRky47zQm2AyqwPGIBzdxyeIju8ye0YzTquFV4gxAX2dObWaRRM6dvy3BhYnwuoSnexvTUG8sOiByOjGX4wRaueHKv6d2dskaltPi9uFFlnT8rv60O8KU77qrYd1wrSTCV5ylXKURDvYoFfg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1747895799; c=relaxed/simple;
-	bh=mHhMz48zmTfbdAHT6nAUMVyJ6JP+5bV9RJ7zi8JFo80=;
-	h=MIME-Version:Date:Message-ID:Subject:From:To:Content-Type; b=O4lyGxr7Vv/D+4sH2awsxWxM3s0qDnHPFXOUPRp1G1L67HUMqXZnkejnuOrfRyFClwEi5paYxM3z96SxxUu4MrgwoZqZN8HoBbmlkzT5rdTBpwfFTNykQFJzMW3fPs5sbzUzZMXKJS0QsYIofCojA14co43icx/BGAqfdoXXElo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=syzkaller.appspotmail.com; spf=pass smtp.mailfrom=M3KW2WVRGUFZ5GODRSRYTGD7.apphosting.bounces.google.com; arc=none smtp.client-ip=209.85.166.205
-Authentication-Results: smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=syzkaller.appspotmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=M3KW2WVRGUFZ5GODRSRYTGD7.apphosting.bounces.google.com
-Received: by mail-il1-f205.google.com with SMTP id e9e14a558f8ab-3dc83674dbbso28785875ab.2
-        for <linux-usb@vger.kernel.org>; Wed, 21 May 2025 23:36:37 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1747895797; x=1748500597;
-        h=to:from:subject:message-id:date:mime-version:x-gm-message-state
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=i+28ZBqCHdGJpYTfl5Txc9FnefB+Ye1SC10s5aGa14c=;
-        b=Dxw5boQGzMBGx4/hxgXpoZHFAByoPLK8WWOoY2zPrLm9FxB9rSclHiYKLtMg2tOwCn
-         4ZycSPOBXQPwfZXPfTgKxtWRkTSxnvcvUZQMLJc0qC4xItkQohYCIpLr4uPUL83fBMLb
-         VDffZbZUdnutVDJn4R2GegYTJtSp2e0AxCuJM4u0kTt6FAEjFXtawJJyDMkqFWy6AncG
-         EZUVxkcPEQ4D6F1FqJPbPYz1M12VNCk8y+G5WgvWjilzlM6CHLEnpsn+BbCDM6xHNVh7
-         tY2h6+yuPKx9qOKn+bc+UUlAXP2oTNflRlheq41ji8mRfO2vgS8SWdg5RLHsEhe1aUIe
-         30Fw==
-X-Forwarded-Encrypted: i=1; AJvYcCV2Y+seTLLdZSRSoHdDyVG5Melm13uRD7cGlv5lVBcMErz5MjkOHdk8V5ldBtSJc78rtMj3eaOMJ10=@vger.kernel.org
-X-Gm-Message-State: AOJu0YziDLNFf2YRzyaBP4+YhxCSh/+AElWUlTnm59Ha2DCxmWhEBkOO
-	j01SQl/Q440pYTTL3drWYyzZE3IZO72pLyN7YxX0FG6Evkvw5FI6cfORtEsVTj4ZUrgl/LXsjJP
-	YU+RYQpa17N+bN2TYEAXvCNojdgmmg27jvVSkYatOlSZFXh6hYgy/m9VPdSo=
-X-Google-Smtp-Source: AGHT+IG1EtV86rdulCWLkddnrTGcVk4ivQNEdjUc2j/wGK7KNYYu99nncN87HNXKbzsbACZB7In0oWweAntOo1UPoOv8rrEh4pJ8
+	s=arc-20240116; t=1747897866; c=relaxed/simple;
+	bh=1f60hXuzMX3Q12cENE42Cqcu5aJ9RJJaRYBKm42RIsQ=;
+	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
+	 MIME-Version; b=snXhVcY/nxAvYwsJA+MKdQNPOWpUu4r5tDR/MqRTK9ZanKiReJ3q/ynSivgcHRPW4OpJ/Tk9hmr4hjidGloae0MSU2saSH8P3qoC6Yyb1Q7aNFfhzjDPu6XR+0VCyby0IWtJe1P52zmhzTweULBlWPSjPVwkk/xpAGy7/saD1sE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=163.com; spf=pass smtp.mailfrom=163.com; dkim=pass (1024-bit key) header.d=163.com header.i=@163.com header.b=Gqu7tFqf; arc=none smtp.client-ip=220.197.31.5
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=163.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=163.com
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (1024-bit key) header.d=163.com header.i=@163.com header.b="Gqu7tFqf"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=163.com;
+	s=s110527; h=From:To:Subject:Date:Message-Id:MIME-Version; bh=uc
+	LITgF9VnGp5x0QXfM6YRhE6tyeArA6Sg9rqFsFqWE=; b=Gqu7tFqfxsfGTYeFVH
+	cy4RsIV2phONbWpUdRKVpjIHl2EOtbwKIK+JQ5GldaCmnEbnTDCVS+mYqM/Cqjyp
+	ga9k0FcBN7lNmkFw2adjo11IXlR8z9lHjSLIIJPTxQVlxcHre2+j4F3eFEaHCl1U
+	V5IfguGkV+aoPsT69s0Dki9Bo=
+Received: from localhost.localdomain (unknown [])
+	by gzsmtp4 (Coremail) with SMTP id PygvCgAHa9_TzS5o7LFrAQ--.37799S4;
+	Thu, 22 May 2025 15:10:15 +0800 (CST)
+From: David Wang <00107082@163.com>
+To: gregkh@linuxfoundation.org,
+	mathias.nyman@intel.com
+Cc: oneukum@suse.com,
+	stern@rowland.harvard.edu,
+	hminas@synopsys.com,
+	rui.silva@linaro.org,
+	jgross@suse.com,
+	linux-usb@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	David Wang <00107082@163.com>
+Subject: [PATCH v4 2/2] USB: xhci: use urb hcpriv mempool for private data
+Date: Thu, 22 May 2025 15:10:10 +0800
+Message-Id: <5f14d11e4c651f9e856d760bc8b45ea7ac863b2f.1747897366.git.00107082@163.com>
+X-Mailer: git-send-email 2.39.2
+In-Reply-To: <a235e322e270942dc3d607d4b46ff7db29abeb2d.1747897366.git.00107082@163.com>
+References: <a235e322e270942dc3d607d4b46ff7db29abeb2d.1747897366.git.00107082@163.com>
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-Received: by 2002:a05:6e02:19cb:b0:3dc:80e6:3819 with SMTP id
- e9e14a558f8ab-3dc80e638edmr89155415ab.22.1747895796846; Wed, 21 May 2025
- 23:36:36 -0700 (PDT)
-Date: Wed, 21 May 2025 23:36:36 -0700
-X-Google-Appengine-App-Id: s~syzkaller
-X-Google-Appengine-App-Id-Alias: syzkaller
-Message-ID: <682ec5f4.a00a0220.2a3337.000e.GAE@google.com>
-Subject: [syzbot] [usb?] WARNING in dtv5100_i2c_msg/usb_submit_urb
-From: syzbot <syzbot+0335df380edd9bd3ff70@syzkaller.appspotmail.com>
-To: gregkh@linuxfoundation.org, linux-kernel@vger.kernel.org, 
-	linux-usb@vger.kernel.org, syzkaller-bugs@googlegroups.com
-Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8bit
+X-CM-TRANSID:PygvCgAHa9_TzS5o7LFrAQ--.37799S4
+X-Coremail-Antispam: 1Uf129KBjvJXoWxCry5WF13Kw43tryUAF48tFb_yoW5CFWfpF
+	4rXa40kr1rtr4xXFZ8Jw1DAa4fJw4vgF92gFWxu345ursFy3srG342yFWF9rnxXryDCrnI
+	qF1qqrWrGw1UGFDanT9S1TB71UUUUU7qnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
+	9KBjDUYxBIdaVFxhVjvjDU0xZFpf9x0piL0ePUUUUU=
+X-CM-SenderInfo: qqqrilqqysqiywtou0bp/1tbiqBdVqmgux8vUGgAAsE
 
-Hello,
+xhci keeps alloc/free private data for each enqueue/dequeue cycles,
+when using a USB webcam, allocation rate is ~250/s;
+when using a USB mic, allocation rate reaches ~1k/s;
+The more usb device in use, the higher allocation rate.
 
-syzbot found the following issue on:
+URB objects have longer lifespan than private data, hand over ownership
+of private data to urb can save lots of memory allocations over time.
+With this change, no extra memory allocation is needed during usages of
+USB webcam/mic.
 
-HEAD commit:    5723cc3450bc Merge tag 'dmaengine-fix-6.15' of git://git.k..
-git tree:       upstream
-console output: https://syzkaller.appspot.com/x/log.txt?x=176c5f68580000
-kernel config:  https://syzkaller.appspot.com/x/.config?x=c3f0e807ec5d1268
-dashboard link: https://syzkaller.appspot.com/bug?extid=0335df380edd9bd3ff70
-compiler:       Debian clang version 20.1.2 (++20250402124445+58df0ef89dd6-1~exp1~20250402004600.97), Debian LLD 20.1.2
-
-Unfortunately, I don't have any reproducer for this issue yet.
-
-Downloadable assets:
-disk image: https://storage.googleapis.com/syzbot-assets/0539c6646d88/disk-5723cc34.raw.xz
-vmlinux: https://storage.googleapis.com/syzbot-assets/3e53f83634f7/vmlinux-5723cc34.xz
-kernel image: https://storage.googleapis.com/syzbot-assets/23a89b974355/bzImage-5723cc34.xz
-
-IMPORTANT: if you fix the issue, please add the following tag to the commit:
-Reported-by: syzbot+0335df380edd9bd3ff70@syzkaller.appspotmail.com
-
-------------[ cut here ]------------
-usb 3-1: BOGUS control dir, pipe 80006980 doesn't match bRequestType c0
-WARNING: CPU: 0 PID: 15834 at drivers/usb/core/urb.c:413 usb_submit_urb+0x1112/0x1870 drivers/usb/core/urb.c:411
-Modules linked in:
-CPU: 0 UID: 0 PID: 15834 Comm: syz.3.2930 Not tainted 6.15.0-rc6-syzkaller-00346-g5723cc3450bc #0 PREEMPT(full) 
-Hardware name: Google Google Compute Engine/Google Compute Engine, BIOS Google 05/07/2025
-RIP: 0010:usb_submit_urb+0x1112/0x1870 drivers/usb/core/urb.c:411
-Code: 0f b6 44 05 00 84 c0 0f 85 38 06 00 00 45 0f b6 04 24 48 c7 c7 00 86 12 8c 48 8b 74 24 18 4c 89 fa 44 89 f1 e8 5f f7 6e fa 90 <0f> 0b 90 90 49 bd 00 00 00 00 00 fc ff df e9 2b f4 ff ff 89 e9 80
-RSP: 0018:ffffc90004b3f610 EFLAGS: 00010246
-RAX: f5838b6742b91e00 RBX: ffff88801ff35300 RCX: 0000000000080000
-RDX: ffffc90010c7f000 RSI: 0000000000004945 RDI: 0000000000004946
-RBP: 1ffff11003fd2d6c R08: ffff8880b8923e93 R09: 1ffff110171247d2
-R10: dffffc0000000000 R11: ffffed10171247d3 R12: ffff88801fe96b60
-R13: dffffc0000000000 R14: 0000000080006980 R15: ffff8881422eaa60
-FS:  00007f2867dba6c0(0000) GS:ffff8881260c2000(0000) knlGS:0000000000000000
-CS:  0010 DS: 0000 ES: 0000 CR0: 0000000080050033
-CR2: 00007f2867d99d58 CR3: 0000000067e32000 CR4: 00000000003526f0
-DR0: 0000000000000000 DR1: 0000000000000000 DR2: 0000000000000000
-DR3: 0000000000000000 DR6: 00000000fffe0ff0 DR7: 0000000000000400
-Call Trace:
- <TASK>
- usb_start_wait_urb+0x114/0x4c0 drivers/usb/core/message.c:59
- usb_internal_control_msg drivers/usb/core/message.c:103 [inline]
- usb_control_msg+0x232/0x3e0 drivers/usb/core/message.c:154
- dtv5100_i2c_msg+0x250/0x330 drivers/media/usb/dvb-usb/dtv5100.c:60
- dtv5100_i2c_xfer+0x1a4/0x3c0 drivers/media/usb/dvb-usb/dtv5100.c:86
- __i2c_transfer+0x871/0x2170 drivers/i2c/i2c-core-base.c:-1
- i2c_transfer+0x25b/0x3a0 drivers/i2c/i2c-core-base.c:2315
- i2c_transfer_buffer_flags+0x105/0x190 drivers/i2c/i2c-core-base.c:2343
- i2c_master_send include/linux/i2c.h:109 [inline]
- i2cdev_write+0x112/0x1b0 drivers/i2c/i2c-dev.c:183
- do_loop_readv_writev include/linux/uio.h:-1 [inline]
- vfs_writev+0x4a5/0x9a0 fs/read_write.c:1057
- do_writev+0x14d/0x2d0 fs/read_write.c:1101
- do_syscall_x64 arch/x86/entry/syscall_64.c:63 [inline]
- do_syscall_64+0xf6/0x210 arch/x86/entry/syscall_64.c:94
- entry_SYSCALL_64_after_hwframe+0x77/0x7f
-RIP: 0033:0x7f2866f8e969
-Code: ff ff c3 66 2e 0f 1f 84 00 00 00 00 00 0f 1f 40 00 48 89 f8 48 89 f7 48 89 d6 48 89 ca 4d 89 c2 4d 89 c8 4c 8b 4c 24 08 0f 05 <48> 3d 01 f0 ff ff 73 01 c3 48 c7 c1 a8 ff ff ff f7 d8 64 89 01 48
-RSP: 002b:00007f2867dba038 EFLAGS: 00000246 ORIG_RAX: 0000000000000014
-RAX: ffffffffffffffda RBX: 00007f28671b5fa0 RCX: 00007f2866f8e969
-RDX: 0000000000000001 RSI: 00002000000012c0 RDI: 0000000000000005
-RBP: 00007f2867010ab1 R08: 0000000000000000 R09: 0000000000000000
-R10: 0000000000000000 R11: 0000000000000246 R12: 0000000000000000
-R13: 0000000000000000 R14: 00007f28671b5fa0 R15: 00007f28672dfa28
- </TASK>
-
-
+Signed-off-by: David Wang <00107082@163.com>
 ---
-This report is generated by a bot. It may contain errors.
-See https://goo.gl/tpsmEJ for more information about syzbot.
-syzbot engineers can be reached at syzkaller@googlegroups.com.
+ drivers/usb/host/xhci-mem.c  | 1 +
+ drivers/usb/host/xhci-ring.c | 3 +--
+ drivers/usb/host/xhci.c      | 8 +++-----
+ 3 files changed, 5 insertions(+), 7 deletions(-)
 
-syzbot will keep track of this issue. See:
-https://goo.gl/tpsmEJ#status for how to communicate with syzbot.
+diff --git a/drivers/usb/host/xhci-mem.c b/drivers/usb/host/xhci-mem.c
+index d698095fc88d..b19e41cf1c4c 100644
+--- a/drivers/usb/host/xhci-mem.c
++++ b/drivers/usb/host/xhci-mem.c
+@@ -1745,6 +1745,7 @@ struct xhci_command *xhci_alloc_command_with_ctx(struct xhci_hcd *xhci,
+ 
+ void xhci_urb_free_priv(struct urb_priv *urb_priv)
+ {
++	WARN_ONCE(1, "xhci private data should be managed by urb");
+ 	kfree(urb_priv);
+ }
+ 
+diff --git a/drivers/usb/host/xhci-ring.c b/drivers/usb/host/xhci-ring.c
+index 423bf3649570..8fa3f71fdb29 100644
+--- a/drivers/usb/host/xhci-ring.c
++++ b/drivers/usb/host/xhci-ring.c
+@@ -821,7 +821,6 @@ static void xhci_giveback_urb_in_irq(struct xhci_hcd *xhci,
+ 				     struct xhci_td *cur_td, int status)
+ {
+ 	struct urb	*urb		= cur_td->urb;
+-	struct urb_priv	*urb_priv	= urb->hcpriv;
+ 	struct usb_hcd	*hcd		= bus_to_hcd(urb->dev->bus);
+ 
+ 	if (usb_pipetype(urb->pipe) == PIPE_ISOCHRONOUS) {
+@@ -831,7 +830,7 @@ static void xhci_giveback_urb_in_irq(struct xhci_hcd *xhci,
+ 				usb_amd_quirk_pll_enable();
+ 		}
+ 	}
+-	xhci_urb_free_priv(urb_priv);
++	urb_free_hcpriv(urb);
+ 	usb_hcd_unlink_urb_from_ep(hcd, urb);
+ 	trace_xhci_urb_giveback(urb);
+ 	usb_hcd_giveback_urb(hcd, urb, status);
+diff --git a/drivers/usb/host/xhci.c b/drivers/usb/host/xhci.c
+index 90eb491267b5..071a7680b36e 100644
+--- a/drivers/usb/host/xhci.c
++++ b/drivers/usb/host/xhci.c
+@@ -1552,7 +1552,7 @@ static int xhci_urb_enqueue(struct usb_hcd *hcd, struct urb *urb, gfp_t mem_flag
+ 	else
+ 		num_tds = 1;
+ 
+-	urb_priv = kzalloc(struct_size(urb_priv, td, num_tds), mem_flags);
++	urb_priv = urb_hcpriv_mempool_zalloc(urb, struct_size(urb_priv, td, num_tds), mem_flags);
+ 	if (!urb_priv)
+ 		return -ENOMEM;
+ 
+@@ -1626,8 +1626,7 @@ static int xhci_urb_enqueue(struct usb_hcd *hcd, struct urb *urb, gfp_t mem_flag
+ 
+ 	if (ret) {
+ free_priv:
+-		xhci_urb_free_priv(urb_priv);
+-		urb->hcpriv = NULL;
++		urb_free_hcpriv(urb);
+ 	}
+ 	spin_unlock_irqrestore(&xhci->lock, flags);
+ 	return ret;
+@@ -1789,8 +1788,7 @@ static int xhci_urb_dequeue(struct usb_hcd *hcd, struct urb *urb, int status)
+ 	return ret;
+ 
+ err_giveback:
+-	if (urb_priv)
+-		xhci_urb_free_priv(urb_priv);
++	urb_free_hcpriv(urb);
+ 	usb_hcd_unlink_urb_from_ep(hcd, urb);
+ 	spin_unlock_irqrestore(&xhci->lock, flags);
+ 	usb_hcd_giveback_urb(hcd, urb, -ESHUTDOWN);
+-- 
+2.39.2
 
-If the report is already addressed, let syzbot know by replying with:
-#syz fix: exact-commit-title
-
-If you want to overwrite report's subsystems, reply with:
-#syz set subsystems: new-subsystem
-(See the list of subsystem names on the web dashboard)
-
-If the report is a duplicate of another one, reply with:
-#syz dup: exact-subject-of-another-report
-
-If you want to undo deduplication, reply with:
-#syz undup
