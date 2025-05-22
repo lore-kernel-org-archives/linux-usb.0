@@ -1,213 +1,137 @@
-Received: from m16.mail.163.com (m16.mail.163.com [220.197.31.4])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 13C6B320F;
-	Thu, 22 May 2025 07:25:31 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=220.197.31.4
+Received: from mail-il1-f172.google.com (mail-il1-f172.google.com [209.85.166.172])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+	(No client certificate requested)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 41F13224249
+	for <linux-usb@vger.kernel.org>; Thu, 22 May 2025 07:47:56 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.166.172
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1747898735; cv=none; b=grbWBT3wYU8Pr6+pFuKrz5+hEnWyg36xAaTSGiAyvEupxhPMWFlTjeTwhENmn3sbCXfEmWTBjVr99LVzNOp6dq4Ol7AR2ido+LLMbtliTzzEGZhOCQeZCNx8pyA4w/wQZ4OkbyQGgurThwKPzfFA/v3ZWRc+giyH4XSGR0WwX/g=
+	t=1747900079; cv=none; b=ciXIIyZPDZb05x1fp40abSvuELcjPTdWpaUMSduQY4ABZWpN0iqWM5JkShKmAZ96fyLaSy+tMzGeeAVwLymLIxI1jS8q6HgtcGrMgVNxdMDmOH9KBiIQikoXGK0Gq8/1IaEyH/Dk6o5fgzLrVr2O4Tr+BXTHZzNZufUixWzLDUY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1747898735; c=relaxed/simple;
-	bh=gtcQiVv8C/ThkqirllVBFHa40vSa2FjD+GV/VeHq2io=;
-	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=mD/kTzmD6EKWMkkrJXDJSlE3FESSSJHXyF4nPRfNQzs6BB9mU4yBLQxTEE2a+i7ODA7fhkGNsYQ1xBT9titE2Pp/cTlZ7iWqn4NMV1+JhCmif2E1YApUcw8xdGN9M8+uACtO7c/s75NUjdXxV6nmaB++Y8oJI/EHV5kBrqnIFvg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=163.com; spf=pass smtp.mailfrom=163.com; dkim=pass (1024-bit key) header.d=163.com header.i=@163.com header.b=bKGm0jYx; arc=none smtp.client-ip=220.197.31.4
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=163.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=163.com
+	s=arc-20240116; t=1747900079; c=relaxed/simple;
+	bh=oawndc3u6OFeNXbkn8onoaiERrlvNEUPYPsJqnlMj3g=;
+	h=Mime-Version:Content-Type:Date:Message-Id:Subject:From:To:Cc:
+	 References:In-Reply-To; b=TdU2cak9RG9WdUlyb2TOuInHKTjUnmzW7CO1/ijr93tS29nAJbmdX8euciiitUWQ4XEVJljBoCJKDLVFob5TDRfcFqRHkRQ6JchVZn6RcGqEwEgjmnh5syFPFnnRJJoj59LfKlzLoZHakFF8pLqfok4te90HYFFcdbj43VJwvEM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=brighamcampbell.com; spf=pass smtp.mailfrom=brighamcampbell.com; dkim=fail (0-bit key) header.d=brighamcampbell.com header.i=@brighamcampbell.com header.b=Fojo3Oc3 reason="key not found in DNS"; arc=none smtp.client-ip=209.85.166.172
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=brighamcampbell.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=brighamcampbell.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=163.com header.i=@163.com header.b="bKGm0jYx"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=163.com;
-	s=s110527; h=From:To:Subject:Date:Message-Id:MIME-Version; bh=Yy
-	XzRmLJrmjlX+RlPnQIdYO0P6MdtW6Vfq9iIZQfCt4=; b=bKGm0jYxNcq65xY5n9
-	JQD3/rdf2N5k7OZuMgL49/Uyi2tEc4RO7ZmKqBt/1+GxgbMBlVLxk3bz13SAkJMy
-	lYG0NruLAw/md26m+yDMkdkVLc5s1LYVRoGJz0nlRfI69IngpoipngfvMZe+BpWA
-	L0qoXNcTm1IDjb+uXCbM4gBUY=
-Received: from localhost.localdomain (unknown [])
-	by gzsmtp1 (Coremail) with SMTP id PCgvCgDnl2O4zS5oEWbhBQ--.29592S4;
-	Thu, 22 May 2025 15:09:55 +0800 (CST)
-From: David Wang <00107082@163.com>
-To: gregkh@linuxfoundation.org,
-	mathias.nyman@intel.com
-Cc: oneukum@suse.com,
-	stern@rowland.harvard.edu,
-	hminas@synopsys.com,
-	rui.silva@linaro.org,
-	jgross@suse.com,
-	linux-usb@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	David Wang <00107082@163.com>
-Subject: [PATCH v4 1/2] USB: core: add a memory pool to urb caching host-controller private data
-Date: Thu, 22 May 2025 15:09:43 +0800
-Message-Id: <a235e322e270942dc3d607d4b46ff7db29abeb2d.1747897366.git.00107082@163.com>
-X-Mailer: git-send-email 2.39.2
+	dkim=fail reason="key not found in DNS" (0-bit key) header.d=brighamcampbell.com header.i=@brighamcampbell.com header.b="Fojo3Oc3"
+Received: by mail-il1-f172.google.com with SMTP id e9e14a558f8ab-3db6ddcef4eso67294475ab.2
+        for <linux-usb@vger.kernel.org>; Thu, 22 May 2025 00:47:56 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=brighamcampbell.com; s=google; t=1747900076; x=1748504876; darn=vger.kernel.org;
+        h=in-reply-to:references:cc:to:from:subject:message-id:date
+         :content-transfer-encoding:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=qSRz3DaXBxnm8FuwtommREWFzr69OZg5+bKQaLg1jag=;
+        b=Fojo3Oc3H06coOR7chfBFvcK8GGYRppOZgKiv/ZZ32e5UXpuXTpVyrPl51ke3EaLOR
+         YZNThfr6NT2MUlQBaA+ZWtzd9Tj3HDt9LcL+b32QbWTvsUgG6mZnRYogFNpvf4wzeUdh
+         +4XJUG6bdEp4rEqNIAW3yJFgGB5lTgZo6KxJQZxSadJpu/z1AuidoVGEUfaHrgaLoifB
+         knYLGmxDduePn/EoEA6uUY2+wsLhfboXZtzC082v1tpMv2ZDOW8aEko181dp6snaL4xW
+         4w4Y5lr3xvAQeWmH10eYcZc1LS0dhrdkT9EA2yppPE+p+Z/KjZ2D9wF7WKZYUbMzLsVL
+         Vv1Q==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1747900076; x=1748504876;
+        h=in-reply-to:references:cc:to:from:subject:message-id:date
+         :content-transfer-encoding:mime-version:x-gm-message-state:from:to
+         :cc:subject:date:message-id:reply-to;
+        bh=qSRz3DaXBxnm8FuwtommREWFzr69OZg5+bKQaLg1jag=;
+        b=Fg7eSVNv1F1i/1iENGB1FjvCf7+FXLNh3VSb/YJXJyikJ2Sto5KcuZUcJ9I28bq1Bt
+         4H/4qLuyllLKJtMsmSgh+Efemed/qdXE/9q23l3GEdDVrgdiA16zpH2FGvDOp840Xmuo
+         Q+FewgWo8N9AHs1DRNm8jPK5gxlZKmaFijfxVQUs24Mxynt9gKyWdAzdYawD7bPYlijV
+         V2Oq3LNKm5yP7Wcd9Ddyzv0IfI9vH7xT9IA/CNFtU7Mg1JRkNIVaOA0v0jj+ykLCi70O
+         cPuGwfvF//rpR/aBrV6uMjei5ks5VKBIKCNOWxSIc7g+mUIOU2ygZgPy09MO/QC2XnGT
+         XRjQ==
+X-Gm-Message-State: AOJu0YxfUcsg8+qWlQX6hAkf/W1y6L1nLEVMQjIxyMJOtlwo/fnxiZ2a
+	dzjCxnPrT67gq/jlc8Hhh9xcedHfqdLI2mcknCl0UX5Tm3CFAIMhZgLY3kTmI5c0Ox0=
+X-Gm-Gg: ASbGnct6778IJONquk5bWEk22XG52VWnopgk0AThQpW+Y1sumBpOn6Kq3pbuAgGlnAx
+	jV2Js1//00e2wqQu+tLVMbhNTtoVgPF4orOqAANk5SJyhj/K2YLEAm//yOGX+tRx3nUeHt+7ws5
+	LULSU7iTGcKOoPZb+GOsKLHmdwEgpGv4YLDnlVAsYYgYC4e4cxG2VsKBBkEKCCpkZ4JWpXWL02g
+	wGisgKvXfJPd7oRTdAnr2ZWde8jwNcmqrtmLw3WcdkXT1lofwwZk+ADcBSgUGG6UepV9j42N1LX
+	S75EnI56KVLIu3lCXhEW4XiMfzuxqvMDEn0MzDcs87LeNRcDvu+eLt+Aqec=
+X-Google-Smtp-Source: AGHT+IEG8W77MeONJnBqaY3Kk6tuHXRXvYrpqiOJH8hduazBrd/kiXsmtoZpvJrUizpMHw69vmC2bQ==
+X-Received: by 2002:a05:6e02:3784:b0:3d9:6cb5:3be4 with SMTP id e9e14a558f8ab-3db84322dfamr259928015ab.15.1747900076239;
+        Thu, 22 May 2025 00:47:56 -0700 (PDT)
+Received: from localhost ([64.71.154.6])
+        by smtp.gmail.com with ESMTPSA id 8926c6da1cb9f-4fbcc38a5besm3021494173.13.2025.05.22.00.47.54
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Thu, 22 May 2025 00:47:55 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-CM-TRANSID:PCgvCgDnl2O4zS5oEWbhBQ--.29592S4
-X-Coremail-Antispam: 1Uf129KBjvJXoW3Xr47CF15uryrtryftw1UKFg_yoWxWF4UpF
-	WfJwn3tF18XrW3JrZ3GF4kuayfta1kCFy2kFyfu34UZwnFywn5Aas2yFyrur9Fyr4fJwsI
-	qa1DKFn8Ww1UA3DanT9S1TB71UUUUU7qnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
-	9KBjDUYxBIdaVFxhVjvjDU0xZFpf9x0piJGYdUUUUU=
-X-CM-SenderInfo: qqqrilqqysqiywtou0bp/xtbBkBxVqmguzbwBUwAAsW
+Mime-Version: 1.0
+Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=UTF-8
+Date: Thu, 22 May 2025 01:47:54 -0600
+Message-Id: <DA2IV4ZGT2M8.3QXO3L57VXSA5@brighamcampbell.com>
+Subject: Re: [PATCH 1/1] usb: typec: tipd: fix typo in
+ TPS_STATUS_HIGH_VOLAGE_WARNING macro
+From: "Brigham Campbell" <me@brighamcampbell.com>
+To: "Jihed Chaibi" <jihed.chaibi.dev@gmail.com>,
+ <heikki.krogerus@linux.intel.com>, <gregkh@linuxfoundation.org>
+Cc: <linux-usb@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
+ <linux-kernel-mentees@lists.linux.dev>, <skhan@linuxfoundation.org>
+X-Mailer: aerc 0.20.1-0-g2ecb8770224a
+References: <20250521214851.386796-1-jihed.chaibi.dev@gmail.com>
+In-Reply-To: <20250521214851.386796-1-jihed.chaibi.dev@gmail.com>
 
-When using USB devices, there are lots of memory allocations for
-host controller's private data. For example, on a system with xhci,
-using a webcam and a mic would needs ~250 and ~1k kzallocs per
-second, respectively.
+On Wed May 21, 2025 at 3:48 PM MDT, Jihed Chaibi wrote:
+> "VOLAGE" should become "VOLTAGE"
+>
+> Signed-off-by: Jihed Chaibi <jihed.chaibi.dev@gmail.com>
 
-Some HCDs use kmem_cache to handle the high frequency of memory
-allocation during device usages. There are several drawbacks:
-1. The lifespan of kmem_cache entry has weak correlation with
-device usages: when devices are in idle, those memory is still
-kept in slab until system decide to reclaim it, if reclaimable.
-2. kmem_cache is only used for fix-sized memory allocation, if a
-HCD needs private data of m different sizes, m different kmem_cache
-would be needed, and the overhead of kmem_cache is multiplied by m.
-When m is large, as some HCD needs variable length private data,
-kmem_cache approach is inflexible to use.
-3. A system may have multiple HCDs in use, then the overhead of
-kmem_cache would be multiplied again by the number of HCDs.
+Nice work! I was able to successfully compile this driver with your
+changes and I don't see any further references to the misspelled macro.
 
-URB objects have long lifespans, an urb can be reused between
-submit loops while the devices are being used. And with following
-premise:
-1. Each URB cannot be used by more than one HCDs at the same time.
-2. The lifespan of HC private data is contained in its URB object's
-lifespan.
+Patches which fix issues which were introduced in some previous commit
+typically indicate the offending commit via the "Fixes" tag. Admittedly,
+I don't know if the tag is reserved for technical bugs rather than typos
+such as the one you addressed, but such a tag would look like the
+following for this patch:
 
-high frequent allocations for HCD private data can be avoided if
-urb take over the ownership of memory, the memory then shares
-the longer lifespan with urb objects.
+Fixes: e011178579b57c03 ("usb: typec: tipd: fix typo in TPS_STATUS_HIGH_VOL=
+AGE_WARNING macro")
 
-The memory pool in URB works this way:
-1. A URB object holds only one slot of memory pool.
-2. When created, memory pool is NULL. If no private data requested,
-no memory pool alloced for the URB.
-3. The memory pool slot will grow when larger size is requested.
-4. Memory pool slot will be released only when URB is destroyed.
+> ---
+>  drivers/usb/typec/tipd/tps6598x.h | 2 +-
+>  drivers/usb/typec/tipd/trace.h    | 2 +-
+>  2 files changed, 2 insertions(+), 2 deletions(-)
+>
+> diff --git a/drivers/usb/typec/tipd/tps6598x.h b/drivers/usb/typec/tipd/t=
+ps6598x.h
+> index 9b23e9017..cecb8d11d 100644
+> --- a/drivers/usb/typec/tipd/tps6598x.h
+> +++ b/drivers/usb/typec/tipd/tps6598x.h
+> @@ -27,7 +27,7 @@
+>  #define TPS_STATUS_OVERCURRENT		BIT(16)
+>  #define TPS_STATUS_GOTO_MIN_ACTIVE	BIT(26)
+>  #define TPS_STATUS_BIST			BIT(27)
+> -#define TPS_STATUS_HIGH_VOLAGE_WARNING	BIT(28)
+> +#define TPS_STATUS_HIGH_VOLTAGE_WARNING	BIT(28)
+>  #define TPS_STATUS_HIGH_LOW_VOLTAGE_WARNING BIT(29)
+> =20
+>  #define TPS_STATUS_CONN_STATE_MASK		GENMASK(3, 1)
+> diff --git a/drivers/usb/typec/tipd/trace.h b/drivers/usb/typec/tipd/trac=
+e.h
+> index 0669cca12..bea383f2d 100644
+> --- a/drivers/usb/typec/tipd/trace.h
+> +++ b/drivers/usb/typec/tipd/trace.h
+> @@ -153,7 +153,7 @@
+>  		      { TPS_STATUS_OVERCURRENT,		"OVERCURRENT" }, \
+>  		      { TPS_STATUS_GOTO_MIN_ACTIVE,	"GOTO_MIN_ACTIVE" }, \
+>  		      { TPS_STATUS_BIST,		"BIST" }, \
+> -		      { TPS_STATUS_HIGH_VOLAGE_WARNING,	"HIGH_VOLAGE_WARNING" }, \
+> +		      { TPS_STATUS_HIGH_VOLTAGE_WARNING,	"HIGH_VOLTAGE_WARNING" }, \
+>  		      { TPS_STATUS_HIGH_LOW_VOLTAGE_WARNING, "HIGH_LOW_VOLTAGE_WARNING=
+" })
 
-Normally the hcpriv pointer in URB structure is the same as memory
-pool slot, but considering some drivers may still have its own
-management of urb->hcpriv, a hcpriv_mempool pointer is added, to make
-sure no impact on existing drivers.
+Consider making "HIGH_LOW_VOLTAGE_WARNING" inline with
+"HIGH_VOLTAGE_WARNING", or vice versa.
 
-A hcpriv_mempool_size field is needed for making sure that the mempool
-slot is big enough, if not, more memory would be requested from system.
+> =20
+>  #define show_tps25750_status_flags(flags) \
 
-Existing drivers may have it own allocation of URB object, not via
-usb_alloc_urb(), this may cause memory leak if URB has a active mempool
-slot but it is not released via usb_free_urb(); A hcpriv_mempool_activated
-flag is added to address this issue, it is set only in usb_alloc_urb().
-When requesting a hcpriv memory to a URB which has hcpriv_mempool_activated
-not set, the memory will be requested from system directly.
-
-One of the drawbacks is URB object now have 3 more fields even if the
-object would never be requested for HCD private data.
-
-From an end-user's perspective, the performance difference with this change
-is insignificant when system is under no memory pressure, and when under
-heavy memory pressure. When system is under heavy memory pressure,
-everything is slow.  There could be a point in-between no memory pressure
-and heavy memory pressure where these 1k+/s memory allocations would
-dominate the performance, but very hard to pinpoint it.
-
-Signed-off-by: David Wang <00107082@163.com>
----
- drivers/usb/core/urb.c | 45 ++++++++++++++++++++++++++++++++++++++++++
- include/linux/usb.h    |  5 +++++
- 2 files changed, 50 insertions(+)
-
-diff --git a/drivers/usb/core/urb.c b/drivers/usb/core/urb.c
-index 5e52a35486af..2cf218d4fb73 100644
---- a/drivers/usb/core/urb.c
-+++ b/drivers/usb/core/urb.c
-@@ -23,6 +23,8 @@ static void urb_destroy(struct kref *kref)
- 
- 	if (urb->transfer_flags & URB_FREE_BUFFER)
- 		kfree(urb->transfer_buffer);
-+	if (urb->hcpriv_mempool_activated)
-+		kfree(urb->hcpriv_mempool);
- 
- 	kfree(urb);
- }
-@@ -77,6 +79,8 @@ struct urb *usb_alloc_urb(int iso_packets, gfp_t mem_flags)
- 	if (!urb)
- 		return NULL;
- 	usb_init_urb(urb);
-+	/* activate hcpriv mempool when urb is created via usb_alloc_urb */
-+	urb->hcpriv_mempool_activated = true;
- 	return urb;
- }
- EXPORT_SYMBOL_GPL(usb_alloc_urb);
-@@ -1037,3 +1041,44 @@ int usb_anchor_empty(struct usb_anchor *anchor)
- 
- EXPORT_SYMBOL_GPL(usb_anchor_empty);
- 
-+/**
-+ * urb_hcpriv_mempool_zalloc - alloc memory from mempool for hcpriv
-+ * @urb: pointer to URB being used
-+ * @size: memory size requested by current host controller
-+ * @mem_flags: the type of memory to allocate
-+ *
-+ * Return: NULL if out of memory, otherwise memory are zeroed
-+ */
-+void *urb_hcpriv_mempool_zalloc(struct urb *urb, size_t size, gfp_t mem_flags)
-+{
-+	if (!urb->hcpriv_mempool_activated)
-+		return kzalloc(size, mem_flags);
-+
-+	if (urb->hcpriv_mempool_size < size) {
-+		kfree(urb->hcpriv_mempool);
-+		urb->hcpriv_mempool_size = size;
-+		urb->hcpriv_mempool = kmalloc(size, mem_flags);
-+	}
-+	if (urb->hcpriv_mempool)
-+		memset(urb->hcpriv_mempool, 0, size);
-+	else
-+		urb->hcpriv_mempool_size = 0;
-+	return urb->hcpriv_mempool;
-+}
-+EXPORT_SYMBOL_GPL(urb_hcpriv_mempool_zalloc);
-+
-+/**
-+ * urb_free_hcpriv - free hcpriv data if necessary
-+ * @urb: pointer to URB being used
-+ *
-+ * If mempool is activated, private data's lifecycle
-+ * is managed by urb object.
-+ */
-+void urb_free_hcpriv(struct urb *urb)
-+{
-+	if (urb->hcpriv != urb->hcpriv_mempool) {
-+		kfree(urb->hcpriv);
-+		urb->hcpriv = NULL;
-+	}
-+}
-+EXPORT_SYMBOL_GPL(urb_free_hcpriv);
-diff --git a/include/linux/usb.h b/include/linux/usb.h
-index b46738701f8d..27bc394b8141 100644
---- a/include/linux/usb.h
-+++ b/include/linux/usb.h
-@@ -1602,6 +1602,9 @@ struct urb {
- 	struct kref kref;		/* reference count of the URB */
- 	int unlinked;			/* unlink error code */
- 	void *hcpriv;			/* private data for host controller */
-+	void *hcpriv_mempool;           /* a single slot of cache for HCD's private data */
-+	size_t hcpriv_mempool_size;     /* current size of the memory pool */
-+	bool hcpriv_mempool_activated;  /* flag the mempool usage */
- 	atomic_t use_count;		/* concurrent submissions counter */
- 	atomic_t reject;		/* submissions will fail */
- 
-@@ -1790,6 +1793,8 @@ extern int usb_wait_anchor_empty_timeout(struct usb_anchor *anchor,
- extern struct urb *usb_get_from_anchor(struct usb_anchor *anchor);
- extern void usb_scuttle_anchored_urbs(struct usb_anchor *anchor);
- extern int usb_anchor_empty(struct usb_anchor *anchor);
-+extern void *urb_hcpriv_mempool_zalloc(struct urb *urb, size_t size, gfp_t mem_flags);
-+extern void urb_free_hcpriv(struct urb *urb);
- 
- #define usb_unblock_urb	usb_unpoison_urb
- 
--- 
-2.39.2
+Reviewed-by: Brigham Campbell <me@brighamcampbell.com>
 
