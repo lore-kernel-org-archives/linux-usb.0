@@ -1,37 +1,38 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C88F972617;
-	Sat, 24 May 2025 09:19:14 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5C14919AD8B;
+	Sat, 24 May 2025 09:19:15 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1748078354; cv=none; b=BeM2ZnAWyK/BlMd6OQ5zZbQB3o770UzLW2owH11qdkOqrmnlC1LgLpRJ7ns3Cfw6YDUIl5b+sdolk8AGn5h+aKq3X2GCXn+Z3TqZhvE74kzkRUNrBvCHYiw+K1nMn32xHT9adP47rtMIDD9LaadKb1NUr4G0synSfqnzuJNhzmk=
+	t=1748078355; cv=none; b=luKBVdaXujl1+Y2cY9I1wJXA5cuKrAvWsnPHAivKP8sGVY8W5GjW805ebML5dHkRavpnp9Is/wJT7nv202/XVDp76DyrOyyZ1M2/sQr+i1PPTFzfJJ1HgR0gOkjcttGFQNJSstcuD+QNUH+9/d47Z+wLapdDzeJ/kxHr6rH032U=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1748078354; c=relaxed/simple;
-	bh=NywEqeDWKIE3DJOODAgld7o8NJRiMHAFoJbk7OTyI6I=;
+	s=arc-20240116; t=1748078355; c=relaxed/simple;
+	bh=B+cZu+TUTXQrQNNpRD2/t83ewYuLdZHh1R/RwTUc/dA=;
 	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
-	 In-Reply-To:To:Cc; b=T4U/SFAQXkB475K2hSHxuG973LFts5nN6LE94gPwVDBLDwh4V8x0Qi9oHusicRXHoLmVPtWm9COFXaCC96Fn9V/kJAk/5HiihJIB8EawEpoVXhWUISpSCOKGy/hfesSpRyCaPtii4SD4I9o4oo2YDjIoQC/wr6CEq6kBKo8NXZc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=uR/5SOvA; arc=none smtp.client-ip=10.30.226.201
+	 In-Reply-To:To:Cc; b=Vloc3qKPzLlyyYDjS1iyk1lH1vm2SAB2DB42OVLRVgSKI3G1aFInnxnYUNpdwjfEPRwYBbZP+e1qLVwVbR+wmKL4zXnmOoxkJ3p/oGow+Pn2Wpa+/PpUj4rK0yX1JSkO/pEp8BHYsHQ6x4Iy3+8Nwopfn+8M9pHgb3dCBzOY/Uc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=RRFz4+cW; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="uR/5SOvA"
-Received: by smtp.kernel.org (Postfix) with ESMTPS id 37130C4CEED;
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="RRFz4+cW"
+Received: by smtp.kernel.org (Postfix) with ESMTPS id 70F97C4AF12;
 	Sat, 24 May 2025 09:19:14 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
 	s=k20201202; t=1748078354;
-	bh=NywEqeDWKIE3DJOODAgld7o8NJRiMHAFoJbk7OTyI6I=;
+	bh=B+cZu+TUTXQrQNNpRD2/t83ewYuLdZHh1R/RwTUc/dA=;
 	h=From:Date:Subject:References:In-Reply-To:To:Cc:Reply-To:From;
-	b=uR/5SOvAlooICmQl+drAIMv5dS8CRWyGSVlMnbggC7vQmJclZoRR/FAXurGPnJrc8
-	 SFQbTfHRW7Cl22N5ZHcfFS091Pn0hyLmESJQNc3oMYN2cmSUDSHoF6JOOFzwkZ3xK8
-	 +E0ODQpqcEcu7EXAWHGFetpSyrsDXKKtIQRGSydOKijwgGFPRxFSjr+HDi7nIrk3ct
-	 J1X0bl2NGmkub1g0x74xdzX/vz0hLqrO9b4zlpUAVPRkO2LdWENWM0W0U8WERU+x/4
-	 gNpvmHkWZMXNYG0nCc89v5mNt3h+Kw+Tx/czFMgpq8D6J42TnwlGN84IYugXxYf+a8
-	 uewnVZRps/dOA==
+	b=RRFz4+cWNpVhxFSTZMiv5F191NUmW0rM0uQcsOzuAylrtCU6TsuD2ab5OhN0QBjZn
+	 OYvg3ui1wWjGxz8bT+d2EmYvfg58cuadZSZ2d5aDz5LdabPporNjM3ZUlm7e5kt0h/
+	 lBNYDV10MAVjYDCFz63dGc5uUOGW5ChGJQG3hAmivEJlo94B5Dsb48BzoufCvHkjWP
+	 Zk2ahYOrXpJpsVaaCaKTQ+S+KKjW++hbCno2XYbdXM5WUm1qXH5gHjpy0sR2PVXY3b
+	 2H/mxA4Q0PqX6O4sAxvyIOb0u3JkPYZqpuQG5tA8dhx5KKgeJrWUtuihRuYREh33sl
+	 R4neZa+bbCUew==
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 259BEC54F30;
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 5DCA2C54FC6;
 	Sat, 24 May 2025 09:19:14 +0000 (UTC)
 From: Jens Glathe via B4 Relay <devnull+jens.glathe.oldschoolsolutions.biz@kernel.org>
-Date: Sat, 24 May 2025 11:19:08 +0200
-Subject: [PATCH v3 1/6] dt-bindings: arm: qcom: Add Lenovo TB16 support
+Date: Sat, 24 May 2025 11:19:12 +0200
+Subject: [PATCH v3 5/6] arm64: dts: qcom: x1p42100: Add Lenovo ThinkBook 16
+ G7 QOY
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
@@ -40,7 +41,7 @@ List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20250524-tb16-dt-v3-1-17e26d935e73@oldschoolsolutions.biz>
+Message-Id: <20250524-tb16-dt-v3-5-17e26d935e73@oldschoolsolutions.biz>
 References: <20250524-tb16-dt-v3-0-17e26d935e73@oldschoolsolutions.biz>
 In-Reply-To: <20250524-tb16-dt-v3-0-17e26d935e73@oldschoolsolutions.biz>
 To: Bjorn Andersson <andersson@kernel.org>, 
@@ -60,12 +61,12 @@ Cc: linux-arm-msm@vger.kernel.org, devicetree@vger.kernel.org,
  dri-devel@lists.freedesktop.org, 
  Jens Glathe <jens.glathe@oldschoolsolutions.biz>
 X-Mailer: b4 0.14.2
-X-Developer-Signature: v=1; a=ed25519-sha256; t=1748078352; l=905;
+X-Developer-Signature: v=1; a=ed25519-sha256; t=1748078352; l=993;
  i=jens.glathe@oldschoolsolutions.biz; s=20240919;
  h=from:subject:message-id;
- bh=2g8SM9lGMgdWyCMNBhCp6KQKXsIP6Oe0w1ibkHBucW4=;
- b=xz/DTjymTkjW3jAKwrwD2tr5eegtPJAe6HcgyLVa9GiExzlhcosG3xdgykZoBQMtTweaRSVe/
- skNL2rPQNUOBNpa+v4/EFHPqRFbQDhHake7o1c3klEN174g/KVdZGen
+ bh=iL7H+7E9dNkYXKjNsHdkYJEl/5Eui7TcgzKxZKRPtM4=;
+ b=ckcgKkFsVD2mYC6k+k1b2cE4ozKPrFlZLZ4bkSJZ++eqZKG9uYgO9DVQFnoRXvRxhssqX1Ubs
+ hV7j/N2UNgrD08C6U4Gzo9DqzDo5WwFlX9tyDY0bAxaInugqL0FZSc4
 X-Developer-Key: i=jens.glathe@oldschoolsolutions.biz; a=ed25519;
  pk=JcRJqJc/y8LsxOlPakALD3juGfOKmFBWtO+GfELMJVg=
 X-Endpoint-Received: by B4 Relay for
@@ -75,27 +76,25 @@ Reply-To: jens.glathe@oldschoolsolutions.biz
 
 From: Jens Glathe <jens.glathe@oldschoolsolutions.biz>
 
-Document the x1p-42-100/x1-26-100 variants of the Thinkbook 16 G7 QOY.
-
-[1]: https://psref.lenovo.com/syspool/Sys/PDF/ThinkBook/ThinkBook_16_G7_QOY/ThinkBook_16_G7_QOY_Spec.pdf
+The Thinkbook 16 appears to be an X1 / X1 Plus only design.
+Add make targets for normal and -el2 variant.
 
 Signed-off-by: Jens Glathe <jens.glathe@oldschoolsolutions.biz>
 ---
- Documentation/devicetree/bindings/arm/qcom.yaml | 1 +
- 1 file changed, 1 insertion(+)
+ arch/arm64/boot/dts/qcom/Makefile | 3 +++
+ 1 file changed, 3 insertions(+)
 
-diff --git a/Documentation/devicetree/bindings/arm/qcom.yaml b/Documentation/devicetree/bindings/arm/qcom.yaml
-index 56f78f0f3803fedcb6422efd6adec3bbc81c2e03..5654aaf825955f8000355600c0ae35b74676273e 100644
---- a/Documentation/devicetree/bindings/arm/qcom.yaml
-+++ b/Documentation/devicetree/bindings/arm/qcom.yaml
-@@ -1153,6 +1153,7 @@ properties:
-       - items:
-           - enum:
-               - asus,zenbook-a14-ux3407qa
-+              - lenovo,thinkbook-16
-               - qcom,x1p42100-crd
-           - const: qcom,x1p42100
- 
+diff --git a/arch/arm64/boot/dts/qcom/Makefile b/arch/arm64/boot/dts/qcom/Makefile
+index 669b888b27a1daa93ac15f47e8b9a302bb0922c2..aff4fe3e81ec0d6f6d52e2aa0da327b7576632d8 100644
+--- a/arch/arm64/boot/dts/qcom/Makefile
++++ b/arch/arm64/boot/dts/qcom/Makefile
+@@ -327,3 +327,6 @@ x1e80100-qcp-el2-dtbs	:= x1e80100-qcp.dtb x1-el2.dtbo
+ dtb-$(CONFIG_ARCH_QCOM)	+= x1e80100-qcp.dtb x1e80100-qcp-el2.dtb
+ x1p42100-crd-el2-dtbs	:= x1p42100-crd.dtb x1-el2.dtbo
+ dtb-$(CONFIG_ARCH_QCOM)	+= x1p42100-crd.dtb x1p42100-crd-el2.dtb
++x1p42100-lenovo-thinkbook-16-el2-dtbs	:= x1p42100-lenovo-thinkbook-16.dtb x1-el2.dtbo
++dtb-$(CONFIG_ARCH_QCOM)	+= x1p42100-lenovo-thinkbook-16.dtb x1p42100-lenovo-thinkbook-16-el2.dtb
++
 
 -- 
 2.48.1
