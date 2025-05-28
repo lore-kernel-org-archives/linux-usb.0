@@ -1,196 +1,82 @@
-Received: from mail-ed1-f42.google.com (mail-ed1-f42.google.com [209.85.208.42])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1805C28E0F
-	for <linux-usb@vger.kernel.org>; Wed, 28 May 2025 02:52:21 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.42
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C52074C9F
+	for <linux-usb@vger.kernel.org>; Wed, 28 May 2025 04:35:56 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1748400743; cv=none; b=Oup0ugUgga9a2g0soawXFP6wCcFWpMbnzDJ2WMWcj31IsCackMp05amlHnJYggZocSlsA7s91ArDhXgqj41GbczRooJOkdQlxhgW1fDOr4ewtRRd6mn2fVCiYTxbgWJjiOYVyq5fr5TIcBohbat4rxsp71S/Z02VmC30kqz+GSE=
+	t=1748406956; cv=none; b=lIfgHcngx/LExLVdVGmW1c7sHGBQQdWZ37uY2sOdQyXSiiQGi7/1ryPRV6zF8MG75HNzwCEkTlg63a0EK0tYpagwLW427t+CP4uQTTzW0s3zxrwJcUvAsVtp6T7+Miyjc6hZUHV41K1W8wn8AT48RVuTW9+jhUOeC7nYxybsMAM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1748400743; c=relaxed/simple;
-	bh=Lmgy7MqGrCLBP46G6gw23g7U95PebNNozAWuuAbDHB8=;
-	h=MIME-Version:From:Date:Message-ID:Subject:To:Cc:Content-Type; b=Fy94PtZOYFwt6KnLNnAU1qxYpM6eJs+JndWLanVJGPiW9hkZ/6MX1mYdwAs3eIBRCcgWHfIy+gNDUGz1JSoeMpJkoYwTdwPD0TuEnDlk+ROpqDeVrWOj6OK0+srbC9PUBBvvvqWpZ4IyA35P30dpWzrRsq2WSxb/UF9K+oEG5xg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=lP3DPm00; arc=none smtp.client-ip=209.85.208.42
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1748406956; c=relaxed/simple;
+	bh=gcVVKtoTBKJT2QMHiYzxfdOWANOnr7z/wGTEKuoVdv8=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=O+uuV9HvPVTMYVTurHC2coemOhS4huVh6mn4wWWc2Y7cEtEC3yy3H4c9355x1fDHyDHGoTDdnI+dvPArwDEFoGCr2YD0sI7DtzrZi5hZcr63jcQ7b1ITWVxQeKzD7t+eqGRUo40B9Y+XBYyVbtSO5Z/zjMOaHo9wfnVigwQptwU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b=mlSt5XKz; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="lP3DPm00"
-Received: by mail-ed1-f42.google.com with SMTP id 4fb4d7f45d1cf-602b5b4c125so823289a12.3
-        for <linux-usb@vger.kernel.org>; Tue, 27 May 2025 19:52:21 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1748400740; x=1749005540; darn=vger.kernel.org;
-        h=cc:to:subject:message-id:date:from:mime-version:from:to:cc:subject
-         :date:message-id:reply-to;
-        bh=scq/nYJh7SI3oVPlVc81MgirDlyIQ0ruJNBhj8Bs00s=;
-        b=lP3DPm00+6Kbh3xIowOMX8YgMtIQXoG5wtKrKAoNosvA3zHD0qmSfKP+sirBItWFV4
-         xlLQqlctzFC/rpWH5zr/4DhxrKbDq1odX+TbADrqzXJEavl3Wi3Kf01mGj+Vc+xB83eS
-         lHWqTogOmikgDqnF8309jkfNi10bMFSBZbgUtnG/yovkvBFgAXis5kK1a/qvg74FPmeE
-         t5CoMl/6Sv3M3wzW4gvniWuRyONX1kqA4rLgLrECCzSY3DNRts0IMt/wYAr5h9xKuZGh
-         086TR1gu4A3iealNECZ+OqjCxKF4712Az4L6JpuDdtYqaosupCb8pPrXfrlzyBkLV0xO
-         52MQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1748400740; x=1749005540;
-        h=cc:to:subject:message-id:date:from:mime-version:x-gm-message-state
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=scq/nYJh7SI3oVPlVc81MgirDlyIQ0ruJNBhj8Bs00s=;
-        b=FGlw7RDkh7RfNtIjHs0zNNqiPMEftdhNMJNGyo/Gyh72K8Eqf53eWeOO8KoBhPIB6d
-         XCuCc+ncth8txG0wT/VR7GG0fa28yzKNj/LQ6frug0jfI6IXE7A6KTYCqr9L+WjOl49f
-         RPsz3RoHy3HpYNwx4E5hQgbkpnQ0Y+S0GeCInmU2XyoeIzkY6BOKstUXS2o7SvMbONXh
-         U8U43y+mj/eORNMouzqExqfaDUnXPm1z31M37pIBppRGR2arpEuzl0thOzsi9m77fsve
-         mGi5ZyzelCEZH9wKB4VSUTgK+YtdugIpLKZ9Q7ZtF4pCn7mVe1HRkNt+VULViVYpi/4J
-         f/Cg==
-X-Gm-Message-State: AOJu0YystxHma6srIMDRuhJxVQqfqUfPpeFn3iEWOV0daIohhre5dt0q
-	i2Ut3SW6PaZEuHSfeV3cl0PBoTkPWO+TARprdkznlqQGJVek/PHn1UCB7jqiYAN39cwr/I+hsmL
-	aaUkZsgSUM3nvcoEzY7OPH8bBh1J0LEVnBku1u8w=
-X-Gm-Gg: ASbGnctP2XpaYRW2RhqSnvuyO8Y7u4TwCvC6K4I54NYO9fa805tCgs9sIPIHJq6WKRt
-	RzSiNYvgYfAorLB5lKq295Q5MErhtEp11CD0FtvZP92p3kNCbcD/z7HTcA11B9Ltm5nR91pplmJ
-	8XzI9BaZ66Pvmi/2Qgfb7+/4+MNWlHbulM
-X-Google-Smtp-Source: AGHT+IG2tovSV/thWBkzTRrbc36G8sGeo0eNhNLG+fbIV3MFtjKQxTkpojoKfc26MJ2o299noxLkwChKLgToT6Mr0GU=
-X-Received: by 2002:a17:907:1df3:b0:ad8:8f5a:9d2b with SMTP id
- a640c23a62f3a-ad88f5a9df8mr129761266b.16.1748400739933; Tue, 27 May 2025
- 19:52:19 -0700 (PDT)
+	dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="mlSt5XKz"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id A3D12C4CEE7;
+	Wed, 28 May 2025 04:35:55 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
+	s=korg; t=1748406956;
+	bh=gcVVKtoTBKJT2QMHiYzxfdOWANOnr7z/wGTEKuoVdv8=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=mlSt5XKzX/7lPS5lVlpODyVQPXLxzQxi9XaeUZdBm3IimgrgwynvhWMP0l4batI1p
+	 bd6PKX5niL8UGRu4AeqxxCHk0xvH6VnjddQO8rwEY4K5CRgAwHF6t+TwLXFs5IMkH+
+	 U8lhORc6y0UYNfTOz51XHQnGZvcCXLYPOEBl+NK8=
+Date: Wed, 28 May 2025 06:34:01 +0200
+From: Greg KH <gregkh@linuxfoundation.org>
+To: Josh Cabarrus <joshcabarrus@gmail.com>
+Cc: linux-usb@vger.kernel.org, laurent.pinchart@ideasonboard.com,
+	balbi@kernel.org
+Subject: Re: g_webcam UVC gadget causes USB\DEVICE_DESCRIPTOR_FAILURE on
+ Windows 11
+Message-ID: <2025052821-certified-remission-05fd@gregkh>
+References: <CAD=osaSH51vGF_zq2ArWY-6jCuG0LfMO5guSE9mgGpc-YPWOtw@mail.gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-From: Josh Cabarrus <joshcabarrus@gmail.com>
-Date: Tue, 27 May 2025 20:48:20 -0600
-X-Gm-Features: AX0GCFtKbCY_Y1dFctlFWHvkIQ4hqKzQYKA_bi7EPXS6kHvQlCNWvadD1Fh9abU
-Message-ID: <CAD=osaSH51vGF_zq2ArWY-6jCuG0LfMO5guSE9mgGpc-YPWOtw@mail.gmail.com>
-Subject: g_webcam UVC gadget causes USB\DEVICE_DESCRIPTOR_FAILURE on Windows 11
-To: linux-usb@vger.kernel.org
-Cc: laurent.pinchart@ideasonboard.com, balbi@kernel.org
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <CAD=osaSH51vGF_zq2ArWY-6jCuG0LfMO5guSE9mgGpc-YPWOtw@mail.gmail.com>
 
-Bug Report: g_webcam UVC gadget incompatible with Windows 11 USB
-descriptor validation
+On Tue, May 27, 2025 at 08:48:20PM -0600, Josh Cabarrus wrote:
+> Bug Report: g_webcam UVC gadget incompatible with Windows 11 USB
+> descriptor validation
 
-To: linux-usb@vger.kernel.org
-CC: laurent.pinchart@ideasonboard.com, balbi@kernel.org
-Subject: g_webcam UVC gadget causes USB\DEVICE_DESCRIPTOR_FAILURE on Windows 11
+Has this ever worked in the past?  If so, what kernel versions did work,
+and can you use git bisect to track down the offending commits?
 
-Summary
+If it has never worked, any patches to change the code to make it work
+would be appreciated.
 
-The g_webcam UVC gadget driver fails to enumerate properly on Windows
-11, returning USB\DEVICE_DESCRIPTOR_FAILURE in Device Manager, while
-other USB gadgets (g_serial, g_mass_storage) work correctly on the
-same hardware and Windows version. This represents a regression in
-Windows compatibility.
+> Could the maintainers investigate updating g_webcam's USB descriptors
+> to meet Windows 11's stricter validation requirements? The fact that
+> g_serial works but g_webcam fails suggests this is a
+> descriptor-specific issue rather than hardware or driver framework
+> problem.
 
-System Information
+g_serial is trivial compared to g_webcam, so this is not really a fair
+comparison.  What changed in windows 11 descriptor requirements?  Do you
+have a pointer to the relevant documentation for where it is explained
+what has changed?
 
-Hardware: Raspberry Pi Zero W Rev 1.1 (BCM2835, Revision: 9000c1)
-Kernel: Linux 6.12.25+rpt-rpi-v6 #1 Raspbian (armv6l)
-USB Controller: dwc2 20980000.usb
-Host OS: Windows 11 (up to date)
+And what exact descriptors are failing here?
 
-Problem Description
+> I can provide:
+> 
+> USB protocol analyzer captures
+> Testing with different Windows versions
 
-When g_webcam is loaded and the Pi Zero W is connected to Windows 11 via USB:
+Did windows 10 work?
 
-g_webcam behavior:
+> Comparison with working UVC implementations
 
-Loads successfully on Pi: g_webcam ready, bound driver g_webcam
-UDC state remains: not attached (never reaches configured)
-Windows shows: Unknown USB Device (Device Descriptor Request Failed)
-Hardware ID: USB\DEVICE_DESCRIPTOR_FAILURE
+Great, that might be the simplest, what descriptors work, and what do
+not?
 
-g_serial behavior (control test):
+thanks,
 
-Loads successfully: g_serial ready, bound driver g_serial
-UDC state becomes: configured
-Windows properly recognizes as COM port device
-
-Steps to Reproduce
-
-bash
-
-# On Raspberry Pi Zero W:
-sudo modprobe g_webcam
-cat /sys/class/udc/20980000.usb/state  # Shows: not attached
-
-# Connect USB cable to Windows 11
-# Result: "Unknown USB Device" in Device Manager
-
-# Control test:
-sudo rmmod g_webcam
-sudo modprobe g_serial
-cat /sys/class/udc/20980000.usb/state  # Shows: configured
-# Result: Working COM port in Windows
-
-Expected vs Actual Behavior
-
-Expected: g_webcam should enumerate successfully on Windows 11 like
-other gadgets and previous Windows versions.
-
-Actual: Windows 11 rejects the USB device descriptors with
-DEVICE_DESCRIPTOR_FAILURE.
-
-Analysis
-
-The issue appears to be Windows 11's stricter USB descriptor
-validation. The g_webcam UVC descriptors may not fully comply with:
-
-USB Video Class specification requirements
-Windows 11's enhanced USB security validation
-Microsoft's USB descriptor formatting standards
-
-Loaded Modules
-
-g_webcam               16384  0
-usb_f_uvc              77824  5
-uvc                    12288  1 usb_f_uvc
-libcomposite           69632  17 usb_f_acm,usb_f_uvc,g_webcam
-dwc2                  176128  0
-
-Kernel Messages
-
-g_webcam gadget.0: uvc: uvc_function_bind()
-g_webcam gadget.0: Webcam Video Gadget
-g_webcam gadget.0: g_webcam ready
-dwc2 20980000.usb: bound driver g_webcam
-
-Impact
-
-This affects numerous Raspberry Pi Zero W webcam projects and
-tutorials that previously worked with Windows. Users report this issue
-across multiple Pi Zero W webcam implementations.
-
-Suggested Investigation Areas
-
-USB Descriptor Compliance: Review g_webcam's USB descriptors against
-latest USB Video Class specification
-Windows 11 Requirements: Compare descriptor format with Windows 11's
-validation requirements
-VID/PID Issues: Verify Vendor/Product ID configuration doesn't trigger
-Windows driver conflicts
-UVC Version Compatibility: Check if UVC version advertised matches
-capabilities provided
-
-Request
-
-Could the maintainers investigate updating g_webcam's USB descriptors
-to meet Windows 11's stricter validation requirements? The fact that
-g_serial works but g_webcam fails suggests this is a
-descriptor-specific issue rather than hardware or driver framework
-problem.
-
-Additional Information Available
-
-I can provide:
-
-USB protocol analyzer captures
-Testing with different Windows versions
-Comparison with working UVC implementations
-Further diagnostic information as needed
-
-Thank you for maintaining the USB gadget subsystem.
-
-Reporter: Josh Cabarrus joshcabarrus@gmail.com
-Date: May 27, 2025
-
-P.S.  I used anthropic's claude.ai running Claude Sonnet 4 to
-troubleshoot this issue.  I can upload the full conversation with all
-troubleshooting steps if needed.
+greg k-h
