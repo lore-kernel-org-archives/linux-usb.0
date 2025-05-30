@@ -1,38 +1,38 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DD6D91EF363;
-	Fri, 30 May 2025 07:35:40 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 67236217736;
+	Fri, 30 May 2025 07:35:41 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1748590541; cv=none; b=OTWmLfVNUJl9GNZ2+UlutN2NKL3mjmb10QbpI/KzmEMXededNErr2VnuaClBHt8ZhdBDCyHoDaYJF3ZU5nDS/PohM8gK9ChsbPtyX9glLzWIT8X2ngVjuaYq36YJzS+zyCvDICJIwSFmITEPhXDwvtag0mWeR49+WWBa9JTIY9U=
+	t=1748590541; cv=none; b=jc5nCnxh7yefkg1LnIGMgcHfA65SN5TWO1SSyERMWy4/sF1llckcCuhj7LKwcaB7A3J6acKt5Qxc7k98iDaJj5fPfeRgl41tJTx8ossGO0QOFMuoXu2GXJclSTLJSRY07/KBq/8WciZ3TnksRvJ1iY+ZKvePBJkP+Fh4Z9WLWg0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
 	s=arc-20240116; t=1748590541; c=relaxed/simple;
-	bh=fSH8VcUWn4IadvvlHLpin4WeIfYmHHLC9in+AqR65Tg=;
+	bh=SLH0/e6jpaZePdqGNp9px61CLgYmQRPgVnhUwsNM8w4=;
 	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
-	 In-Reply-To:To:Cc; b=ogHmT67kABc43W2bZJg4S5KMPgUFTAItHmUn7txb7n1V6FAFDB3UBEY04vLFnzsXky2O97v0qnAIbW69sZJpjtzaMa0CxHx2/xLmWEsA8bQ4pLkCdJooeCzPGAN6yQy/fqw/t/5F7+erTMFBVcq8kyAfpOB0/nirJybkVCcY9Z4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=I2EYN9QT; arc=none smtp.client-ip=10.30.226.201
+	 In-Reply-To:To:Cc; b=FTwN8ithilMjN/5xvRLflTvIYVQ5FAc+W/lw9pWgX/+HuR+YO2P8kbBz3Udm3FdWt9QJuK9VYdz/ZpKk+VTpkfUmZxKYUJPZ2QE9t78Pv2ayY76IJ+fyM2VG8/UqeaR4M4IUx171H9/xrixMeEPa3cKiTYX/K3u0I5K2wQJ75vQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=U4FiFXcg; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="I2EYN9QT"
-Received: by smtp.kernel.org (Postfix) with ESMTPS id 72FBCC4CEFD;
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="U4FiFXcg"
+Received: by smtp.kernel.org (Postfix) with ESMTPS id 8BBA3C4CEFB;
 	Fri, 30 May 2025 07:35:40 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
 	s=k20201202; t=1748590540;
-	bh=fSH8VcUWn4IadvvlHLpin4WeIfYmHHLC9in+AqR65Tg=;
+	bh=SLH0/e6jpaZePdqGNp9px61CLgYmQRPgVnhUwsNM8w4=;
 	h=From:Date:Subject:References:In-Reply-To:To:Cc:Reply-To:From;
-	b=I2EYN9QTXDqyQH1xu7hYd0Drwt2hrkxe19tW0BbmSwi/TKxNaK9OEB5rTnD2jiIWq
-	 7ZPUBlskZd4ZxkLuskTjPhLJrvAVE6JpdJg+Vcm7SmVzf3OyUCizDnaNGrE/zZNq3I
-	 bvefzMI6KRfcCQj8JMgVcG6gQ7OLDa0ooUf32PzPsFozLBbYicxI1lGtjj2rJyUNCx
-	 Dd0Alnwus645TAqCMeinkQ37yl8D4PECOOgfExRN9SeWhV2HA2XaqElgyWabS6NmFx
-	 eX/fuD0lv/EgKNSyp7N9t8yRQE2FPYaIseQz+CfPfnsID9Q7UUUJGZC2MOjgBlgej6
-	 ECwdp9j3pPuDA==
+	b=U4FiFXcgWGJcN/8TCmcb35p4a2b+cpoGgG2j4vCaBwxKVLSBxJ9DM3FyVqNuOvUvc
+	 sGykvGx8x85yFN2m/2oFWLV4udVvVC2fIXV/AdOMrgaCFE0p2nbvJtWYqH6DAuzjpo
+	 tPkX96KCaKMvWr8iS3gkdYZOHAhJDdMyqoWR4fBPpAH7FhdV6g1gLCJetu5Ko+ZdMa
+	 fTh17xQLFoeQsHzC6r0mrra/ChDQ9S4/clLH8JolTdo/v4/XLgjonsgzwsyXZyK68v
+	 FFVaI2B9K5/35kofw1lsaWU7/gbVptM1RxBB+VwMgwQnFMUHjnEiVcu7zh0AmzJg84
+	 l17chgEFbUDpA==
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 68BDBC3ABB2;
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 82FB3C5B549;
 	Fri, 30 May 2025 07:35:40 +0000 (UTC)
 From: Fenglin Wu via B4 Relay <devnull+fenglin.wu.oss.qualcomm.com@kernel.org>
-Date: Fri, 30 May 2025 15:35:09 +0800
-Subject: [PATCH v2 4/8] power: supply: qcom_battmgr: Add state_of_health
- property
+Date: Fri, 30 May 2025 15:35:11 +0800
+Subject: [PATCH v2 6/8] dt-bindings: soc: qcom: pmic-glink: Move X1E80100
+ out of fallbacks
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
@@ -41,7 +41,7 @@ List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20250530-qcom_battmgr_update-v2-4-9e377193a656@oss.qualcomm.com>
+Message-Id: <20250530-qcom_battmgr_update-v2-6-9e377193a656@oss.qualcomm.com>
 References: <20250530-qcom_battmgr_update-v2-0-9e377193a656@oss.qualcomm.com>
 In-Reply-To: <20250530-qcom_battmgr_update-v2-0-9e377193a656@oss.qualcomm.com>
 To: Sebastian Reichel <sre@kernel.org>, 
@@ -57,11 +57,11 @@ Cc: Subbaraman Narayanamurthy <subbaraman.narayanamurthy@oss.qualcomm.com>,
  kernel@oss.qualcomm.com, devicetree@vger.kernel.org, 
  linux-usb@vger.kernel.org, Fenglin Wu <fenglin.wu@oss.qualcomm.com>
 X-Mailer: b4 0.14.2
-X-Developer-Signature: v=1; a=ed25519-sha256; t=1748590538; l=2172;
+X-Developer-Signature: v=1; a=ed25519-sha256; t=1748590538; l=1055;
  i=fenglin.wu@oss.qualcomm.com; s=20240327; h=from:subject:message-id;
- bh=JvAD0WnJwITmbmbJY6i45xNmJBhhzbm9/zJiJwWXo38=;
- b=9rkh5BKfzPngMIJ7u7RRP2bA7O0eJt+4RHcBRq4v21hAXG0ZxWZ3hgxupfw0Smd5t9HMNOC7r
- TN0SOicvlABBzXLDkSgGXxFJ5ysniHzZOz2iWKVRJ4gFGiu/+/NhLZB
+ bh=Cum9h5T8HOEqZYRtn+XVwUsJjYopn4P2b00zD/gfTPk=;
+ b=/hIg7NchpOii0i76vHdkSEiRHdTrH5KjZa/MLTucRF+++OFB39/RfeGLaIx+bJr85TDrx6E7U
+ Hmyij3OpD+wDfzqRGCIzUykjGLpqVxP+u9ORjXqDHcCI5UqWCdIpxJF
 X-Developer-Key: i=fenglin.wu@oss.qualcomm.com; a=ed25519;
  pk=BF8SA4IVDk8/EBCwlBehKtn2hp6kipuuAuDAHh9s+K4=
 X-Endpoint-Received: by B4 Relay for fenglin.wu@oss.qualcomm.com/20240327
@@ -71,62 +71,30 @@ Reply-To: fenglin.wu@oss.qualcomm.com
 
 From: Fenglin Wu <fenglin.wu@oss.qualcomm.com>
 
-Add state_of_health property to read battery health percentage from
-battery management firmware.
+Move X1E80100 out of the fallbacks of SM8550 in pmic-glink support.
 
 Signed-off-by: Fenglin Wu <fenglin.wu@oss.qualcomm.com>
 ---
- drivers/power/supply/qcom_battmgr.c | 9 +++++++++
- 1 file changed, 9 insertions(+)
+ Documentation/devicetree/bindings/soc/qcom/qcom,pmic-glink.yaml | 4 +++-
+ 1 file changed, 3 insertions(+), 1 deletion(-)
 
-diff --git a/drivers/power/supply/qcom_battmgr.c b/drivers/power/supply/qcom_battmgr.c
-index bc521f60f67fa427cc03b51c44adaeb46ae746f5..d5d0200b92bdc3d9a22f44159ad45b152efe8be0 100644
---- a/drivers/power/supply/qcom_battmgr.c
-+++ b/drivers/power/supply/qcom_battmgr.c
-@@ -256,6 +256,7 @@ struct qcom_battmgr_status {
- 	unsigned int voltage_ocv;
- 	unsigned int temperature;
- 	unsigned int resistance;
-+	unsigned int soh_percent;
+diff --git a/Documentation/devicetree/bindings/soc/qcom/qcom,pmic-glink.yaml b/Documentation/devicetree/bindings/soc/qcom/qcom,pmic-glink.yaml
+index 4c9e78f29523e3d77aacb4299f64ab96f9b1a831..972bec151118f2e20e1f3b4e0c0a8fbbbea7ab90 100644
+--- a/Documentation/devicetree/bindings/soc/qcom/qcom,pmic-glink.yaml
++++ b/Documentation/devicetree/bindings/soc/qcom/qcom,pmic-glink.yaml
+@@ -39,9 +39,11 @@ properties:
+           - enum:
+               - qcom,sm8650-pmic-glink
+               - qcom,sm8750-pmic-glink
+-              - qcom,x1e80100-pmic-glink
+           - const: qcom,sm8550-pmic-glink
+           - const: qcom,pmic-glink
++      - items:
++          - const: qcom,x1e80100-pmic-glink
++          - const: qcom,pmic-glink
  
- 	unsigned int discharge_time;
- 	unsigned int charge_time;
-@@ -421,6 +422,7 @@ static const u8 sm8350_bat_prop_map[] = {
- 	[POWER_SUPPLY_PROP_TIME_TO_FULL_AVG] = BATT_TTF_AVG,
- 	[POWER_SUPPLY_PROP_TIME_TO_EMPTY_AVG] = BATT_TTE_AVG,
- 	[POWER_SUPPLY_PROP_RESISTANCE] = BATT_RESISTANCE,
-+	[POWER_SUPPLY_PROP_STATE_OF_HEALTH] = BATT_SOH,
- 	[POWER_SUPPLY_PROP_POWER_NOW] = BATT_POWER_NOW,
- };
- 
-@@ -588,6 +590,9 @@ static int qcom_battmgr_bat_get_property(struct power_supply *psy,
- 	case POWER_SUPPLY_PROP_RESISTANCE:
- 		val->intval = battmgr->status.resistance;
- 		break;
-+	case POWER_SUPPLY_PROP_STATE_OF_HEALTH:
-+		val->intval = battmgr->status.soh_percent;
-+		break;
- 	case POWER_SUPPLY_PROP_TIME_TO_EMPTY_AVG:
- 		val->intval = battmgr->status.discharge_time;
- 		break;
-@@ -672,6 +677,7 @@ static const enum power_supply_property sm8350_bat_props[] = {
- 	POWER_SUPPLY_PROP_TIME_TO_FULL_AVG,
- 	POWER_SUPPLY_PROP_TIME_TO_EMPTY_AVG,
- 	POWER_SUPPLY_PROP_RESISTANCE,
-+	POWER_SUPPLY_PROP_STATE_OF_HEALTH,
- 	POWER_SUPPLY_PROP_POWER_NOW,
- };
- 
-@@ -1141,6 +1147,9 @@ static void qcom_battmgr_sm8350_callback(struct qcom_battmgr *battmgr,
- 		case BATT_CAPACITY:
- 			battmgr->status.percent = le32_to_cpu(resp->intval.value) / 100;
- 			break;
-+		case BATT_SOH:
-+			battmgr->status.soh_percent = le32_to_cpu(resp->intval.value);
-+			break;
- 		case BATT_VOLT_OCV:
- 			battmgr->status.voltage_ocv = le32_to_cpu(resp->intval.value);
- 			break;
+   '#address-cells':
+     const: 1
 
 -- 
 2.34.1
