@@ -1,64 +1,64 @@
-Received: from mail-lf1-f48.google.com (mail-lf1-f48.google.com [209.85.167.48])
+Received: from mail-lf1-f42.google.com (mail-lf1-f42.google.com [209.85.167.42])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5963027A133
-	for <linux-usb@vger.kernel.org>; Thu,  5 Jun 2025 17:53:07 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.48
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6BCEA27A918
+	for <linux-usb@vger.kernel.org>; Thu,  5 Jun 2025 17:53:08 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.42
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1749145990; cv=none; b=rrdAKU9BUsias3v7x/O/FOxX69ysBEF0Dv+HOxyydX+LQid07fiyXd0DHHYOhdVpZj5J1IlGJN018f2lgJ5vzfKDBka9zv7EA44VqeHPVQdwrSXcaIKYHaq5niH0jADra4RVsJYh25kgAeg1ZT1/szaCQ5ryBzIjecAA2h/18Ho=
+	t=1749145992; cv=none; b=BaHltYQVhI9BVbdxzWmN9OZkhMYfXtnbO/vgxNJUTGSZzgN8C+xU8tLRAtGyPqlYNqClxNMmuKti0Otl6Ps9lOAspWIVs7eKIMlmfDkVBKyjpsC7bVXpqYS6wEOKUGFNm7tDe79r4zVULymmL8adp6K0m26zLSKgy4kqoJykz20=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1749145990; c=relaxed/simple;
-	bh=HkpzCJY6QMUo/A2tmF9l8NRgkFwGl+Bw/RVcSwiZ3nc=;
+	s=arc-20240116; t=1749145992; c=relaxed/simple;
+	bh=NngJ6Yx0t8C9t8P4XXbFrpgjfgvwAkcfBnBpT4lxGFs=;
 	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
-	 In-Reply-To:To:Cc; b=tXOfxUoLnhb8t5VfNmg0zIBuInsRX9nNoazhcq0zUp5UL7+ZWjyKH7ozalDHO6KylwaVKHprfR3sPI5ylPdOeati3h/B093+Lgq2qzqll7gzShnrVGa2CeANBUWM0C8HftfEK0egE3FJXnAQSVANG/Qi521yTPNGPvEEZEZTZU4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org; spf=pass smtp.mailfrom=chromium.org; dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b=mAIbvnSb; arc=none smtp.client-ip=209.85.167.48
+	 In-Reply-To:To:Cc; b=GqBmuMmLpG/paEOLzCB5PqgLIh4XP0Wux5t/1asCgM/OH/4NaozchkK9oAkOpa7HZaKqbAkczAYNbnpvLw1CbBWAA2rJ4GBcOhgI/pD5gDbJfbzZu+NPvakxSdEj6+ebs/nE0l6a1klHazAT67HFGApw3yCahz2tM8n5c+Jue6c=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org; spf=pass smtp.mailfrom=chromium.org; dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b=I1VnEq3T; arc=none smtp.client-ip=209.85.167.42
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=chromium.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b="mAIbvnSb"
-Received: by mail-lf1-f48.google.com with SMTP id 2adb3069b0e04-5535652f42cso1341145e87.2
-        for <linux-usb@vger.kernel.org>; Thu, 05 Jun 2025 10:53:06 -0700 (PDT)
+	dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b="I1VnEq3T"
+Received: by mail-lf1-f42.google.com with SMTP id 2adb3069b0e04-551efd86048so1376073e87.3
+        for <linux-usb@vger.kernel.org>; Thu, 05 Jun 2025 10:53:08 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=chromium.org; s=google; t=1749145985; x=1749750785; darn=vger.kernel.org;
+        d=chromium.org; s=google; t=1749145986; x=1749750786; darn=vger.kernel.org;
         h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
          :mime-version:subject:date:from:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=IAddCa1zo14U93p/hxz3tXNuMoufL4dFoj1aELCNFac=;
-        b=mAIbvnSbSujXriDone/jjS4I6hRdXbCA6Sb+MUaRuNWkIv0C+UTJskIZwnosB21vDQ
-         GM5uBqOYGmjZmzBvzcWO3BRwgYvDA47BfeHSLZnpiQTPE8wlGEXSrIfXPI+cTZjNueI2
-         ac8/+2ZXhvKnXpb3IYUEHaoCIdg3h+8EuvdfE=
+        bh=Ar8+oEy28CepxnVsr2jEiRDXTfDok/weLPLs5Z9kVHA=;
+        b=I1VnEq3T8ddqhvoQ5NQEukgf98kgl7JFV0+hJFR08RpOZNJJecr1c0dpbMFgc2cV05
+         0qvwE/NiO1qE7Mp+j7Wh7nVnDoL2Ul0nM8dMnVCvPQiR8V5swuaCtKPfusjdb1M3GaMR
+         wlX1GOuM584IpO1TFQgHjYERmMzoyas7NAhKw=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1749145985; x=1749750785;
+        d=1e100.net; s=20230601; t=1749145986; x=1749750786;
         h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
          :mime-version:subject:date:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=IAddCa1zo14U93p/hxz3tXNuMoufL4dFoj1aELCNFac=;
-        b=oYIbGhfb/cOwF6BLC3t5X0aX5qdYodIQ5K5X6dAIfkq1w9IgkQNnr2HfI8MQYn7raT
-         1kiRyU0ZO4dBXNZLwlUh+1jtqHZTRnYdcAktjuETvJcS+IzKMFvwNTQcc+X3Dla04U2Q
-         vy4cmKp6RiQjPxyqBRcdKDmDxuj1I7LGK8WZz9aZgmumYDRD1YfwWIXFMvxKd6/9IhlV
-         S/YvVMQeE02IBdGHVXxrRvf3jYWs+uj2JMjv0O3GgejvcgymLC8T7RDhkIRtOmPasl3r
-         8X5VfVn69tnzmtr62LQdQPBOYJYki3dVd7b8TTcjNSMeOYhvQ2QLI/HOX5qEj2b7pts3
-         uTZg==
-X-Forwarded-Encrypted: i=1; AJvYcCVyf4vMhtIVMcSmdqp/firrVRzLQxD9JP0zShwGsAVfVp4JBSvwrq57Bp6LoUVz3ERkuaNeuZ3jMO4=@vger.kernel.org
-X-Gm-Message-State: AOJu0YxQ0e1m0UR7zmD5DaJsx3RXdsGNI/b+eJxq16jhOaMJaNgYOqE5
-	Y2xyQfd8xHuI0wzW49PAygUj53QNLLKfgfOHriDVCVCyqvgW8thhBaQlAP/VVrBvZw==
-X-Gm-Gg: ASbGncs4ITceO4WuDJOBzsueekOYHrudEBe9pGL6RMTlXphZ/sz/x4VzOvP0UIoEx1x
-	ILFCwI6N62zNckOlzHFT7yCXpDZ+Ooa0QSyWY8Q7Sh0iW87ramajVAh+F0x/Zj26+qIz8vd28z2
-	421aOGwfnLBEWjje68cp/JjKwGOr79LqvSE/LyfAjvAgsHDwDFmfLTDxM5EVquS+/xM8WXn2Cb4
-	0yraBrQH899upLzYhDV/l6LLREsnSw9xXWBvP5bb+e0vgc26lOuN/LfhiynuKVB/czj7Wk/wNZc
-	ORhzo+9Kk5Z8mthVDy5zbUJObOYtT74ib9dcc5CUaF6RBVDeXCs3R/lN5XY93WEYW9dWKUWtA4d
-	FCanfyLBsDHLZFvW3ImC7xstUOw==
-X-Google-Smtp-Source: AGHT+IEuQ3DoWfSTvrnWbXmxFE5uIRwAzd3dzxpPZvGceJdrS5ZQ7/hUcchLBDj/wBd6vU9oMBKPzQ==
-X-Received: by 2002:a05:6512:3e0f:b0:553:30fc:cedf with SMTP id 2adb3069b0e04-55366c1ee9emr20515e87.38.1749145984851;
-        Thu, 05 Jun 2025 10:53:04 -0700 (PDT)
+        bh=Ar8+oEy28CepxnVsr2jEiRDXTfDok/weLPLs5Z9kVHA=;
+        b=mnEFrDU5G77IP/+so+Sx0qPAsZ20ZGSPjFU4OwfUMSxlWEn8i2QIVELPP8ZWywdCfK
+         V4rgV89RCJVhCwwtE5YmyUs0Iplt1UCGhg2DsuyRnx++YlTgYLg4mr4aGcJ9PuxqL/su
+         WU7G+9tFqx5Xz6Y1HYNOUBCbn0UdJVG0MHmlk0T6UIMlt+DzoqF9rM0fqDlCBivauBl8
+         zYkbKZb20nhJLKaAxnIJsHI/pZNaz5+7lZDEs8G3mo1pN5F/FrjnXKLzkk/aiJzrFtZE
+         SMERgUUxSje8kso50JCPTmGz45RkuqGaie9fKXDD1snXGWPzCyxu/7pS1K6iKYGAN4ru
+         yJYg==
+X-Forwarded-Encrypted: i=1; AJvYcCXjYbRkpNay37Zh++Dz3HqDAwR5pbCAVzIwRKZsOveCECmJKGrO1sMWs3AAaejL1C/Latx4PLxkoYg=@vger.kernel.org
+X-Gm-Message-State: AOJu0YyqEnaM3wHqm28+OhgcWc9eiHZN1gWaqNJLW0NGekGp82sqoWKt
+	+iQ06InwNB/L8LCujEKuQtqK73DElG65CQunR9Y3pK7/xD065KaQrKzPulsiYINpmA==
+X-Gm-Gg: ASbGnctstec49kb77Yd39M3L0DdCA96cdWyJAY9PiH0nYcYao7n1feYwz0oP/4bOBTS
+	RiK5pxSf2HEMJcuINM8pHG9YztY722J4BdugkMJklwO58I4QprvdH2qjkdu52eJv1JfSmNzcHga
+	Qpz87ChpX2acq0kZKUpfPfk8d8u5pJ2Jm8moNEyqP/40ujpHH9lPxsY7CCkxUND0IH/JbcczXMp
+	YuQknR6e0QBqIYsDzMCqm6LXndbZ9INJ/uNx+1nnINQF2WCyF58q0HmjO9MGXKC6lffiW6I+RqQ
+	qip30lefXIrug8rimElNAELHhAH2bmk9NlIUQws/fDBxkEG89osVotHbbu56mCBxGFdIz8wd5m2
+	oWfUr7E6/Em3TunNKqDLSISm5GrGLkReiHvZ+
+X-Google-Smtp-Source: AGHT+IGuo9eAuj3/ZulUgVYVuEINR6TV4aJnWcXikBTGTDNlZ8YqpVl3rERmqVeHdcMBB1locGc5IA==
+X-Received: by 2002:a05:6512:2242:b0:553:3892:5ec3 with SMTP id 2adb3069b0e04-55366c354f4mr16249e87.46.1749145985864;
+        Thu, 05 Jun 2025 10:53:05 -0700 (PDT)
 Received: from ribalda.c.googlers.com (90.52.88.34.bc.googleusercontent.com. [34.88.52.90])
-        by smtp.gmail.com with ESMTPSA id 2adb3069b0e04-553379379c2sm2641210e87.251.2025.06.05.10.53.04
+        by smtp.gmail.com with ESMTPSA id 2adb3069b0e04-553379379c2sm2641210e87.251.2025.06.05.10.53.05
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 05 Jun 2025 10:53:04 -0700 (PDT)
+        Thu, 05 Jun 2025 10:53:05 -0700 (PDT)
 From: Ricardo Ribalda <ribalda@chromium.org>
-Date: Thu, 05 Jun 2025 17:52:57 +0000
-Subject: [PATCH v2 04/12] media: ipu-bridge: Use v4l2_fwnode_device_parse
- helper
+Date: Thu, 05 Jun 2025 17:52:59 +0000
+Subject: [PATCH v2 06/12] dt-bindings: usb: usb-device: Add orientation and
+ rotation
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
@@ -67,7 +67,7 @@ List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20250605-uvc-orientation-v2-4-5710f9d030aa@chromium.org>
+Message-Id: <20250605-uvc-orientation-v2-6-5710f9d030aa@chromium.org>
 References: <20250605-uvc-orientation-v2-0-5710f9d030aa@chromium.org>
 In-Reply-To: <20250605-uvc-orientation-v2-0-5710f9d030aa@chromium.org>
 To: Laurent Pinchart <laurent.pinchart@ideasonboard.com>, 
@@ -87,61 +87,53 @@ Cc: linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
  Ricardo Ribalda <ribalda@chromium.org>
 X-Mailer: b4 0.14.2
 
-v4l2_fwnode_device_parse now supports acpi devices as well. Use the
-helper instead of re-implement the logic.
+For some devices, such as cameras, the OS needs to know where they are
+mounted.
+
+ACPI has a property for this purpose, which is parsed by
+acpi_get_physical_device_location():
+https://uefi.org/htmlspecs/ACPI_Spec_6_4_html/06_Device_Configuration/Device_Configuration.html#pld-physical-location-of-device
+
+In DT we have similar properties for video-interface-devices called
+orientation and rotation:
+Documentation/devicetree/bindings/media/video-interface-devices.yaml
+
+Add rotation and orientation for usb-devices that matches the already
+existing properties of video-interface-devices.
 
 Signed-off-by: Ricardo Ribalda <ribalda@chromium.org>
 ---
- drivers/media/pci/intel/ipu-bridge.c | 32 ++++++--------------------------
- 1 file changed, 6 insertions(+), 26 deletions(-)
+ Documentation/devicetree/bindings/usb/usb-device.yaml | 10 ++++++++++
+ 1 file changed, 10 insertions(+)
 
-diff --git a/drivers/media/pci/intel/ipu-bridge.c b/drivers/media/pci/intel/ipu-bridge.c
-index 83e682e1a4b77d9d97b2988750732d0b7c9087b3..020aa52f590d66b6d333adc56ebfb9ab0561db51 100644
---- a/drivers/media/pci/intel/ipu-bridge.c
-+++ b/drivers/media/pci/intel/ipu-bridge.c
-@@ -253,36 +253,16 @@ static u32 ipu_bridge_parse_rotation(struct acpi_device *adev,
+diff --git a/Documentation/devicetree/bindings/usb/usb-device.yaml b/Documentation/devicetree/bindings/usb/usb-device.yaml
+index c676956810331b81f11f3624340fc3e612c98315..a44eb24c657993f88145377a4706ec419b6cd998 100644
+--- a/Documentation/devicetree/bindings/usb/usb-device.yaml
++++ b/Documentation/devicetree/bindings/usb/usb-device.yaml
+@@ -44,6 +44,14 @@ properties:
+       - minimum: 1
+         maximum: 255
  
- static enum v4l2_fwnode_orientation ipu_bridge_parse_orientation(struct acpi_device *adev)
- {
--	enum v4l2_fwnode_orientation orientation;
--	struct acpi_pld_info *pld = NULL;
-+	struct v4l2_fwnode_device_properties props;
-+	int ret;
++  orientation:
++    description: If present, specifies the orientation of the usb device.
++    $ref: /schemas/media/video-interface-devices.yaml#/properties/orientation
++
++  rotation:
++    description: If present, specifies the rotation of the usb device.
++    $ref: /schemas/media/video-interface-devices.yaml#/properties/rotation
++
+   "#address-cells":
+     description: should be 1 for hub nodes with device nodes,
+       should be 2 for device nodes with interface nodes.
+@@ -103,6 +111,8 @@ examples:
+         device@2 {
+             compatible = "usb123,4567";
+             reg = <2>;
++            orientation = <0>;
++            rotation = <90>;
+         };
  
--	if (!acpi_get_physical_device_location(ACPI_PTR(adev->handle), &pld)) {
--		dev_warn(ADEV_DEV(adev), "_PLD call failed, using default orientation\n");
-+	ret = v4l2_fwnode_device_parse(ADEV_DEV(adev), &props);
-+	if (!ret || props.rotation == V4L2_FWNODE_PROPERTY_UNSET) {
-+		dev_warn(ADEV_DEV(adev), "Using default orientation\n");
- 		return V4L2_FWNODE_ORIENTATION_EXTERNAL;
- 	}
- 
--	switch (pld->panel) {
--	case ACPI_PLD_PANEL_FRONT:
--		orientation = V4L2_FWNODE_ORIENTATION_FRONT;
--		break;
--	case ACPI_PLD_PANEL_BACK:
--		orientation = V4L2_FWNODE_ORIENTATION_BACK;
--		break;
--	case ACPI_PLD_PANEL_TOP:
--	case ACPI_PLD_PANEL_LEFT:
--	case ACPI_PLD_PANEL_RIGHT:
--	case ACPI_PLD_PANEL_UNKNOWN:
--		orientation = V4L2_FWNODE_ORIENTATION_EXTERNAL;
--		break;
--	default:
--		dev_warn(ADEV_DEV(adev), "Unknown _PLD panel val %d\n",
--			 pld->panel);
--		orientation = V4L2_FWNODE_ORIENTATION_EXTERNAL;
--		break;
--	}
--
--	ACPI_FREE(pld);
--	return orientation;
-+	return props.orientation;
- }
- 
- int ipu_bridge_parse_ssdb(struct acpi_device *adev, struct ipu_sensor *sensor)
+         device@3 {
 
 -- 
 2.50.0.rc0.642.g800a2b2222-goog
