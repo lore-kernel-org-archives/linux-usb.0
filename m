@@ -1,63 +1,64 @@
-Received: from mail-lf1-f45.google.com (mail-lf1-f45.google.com [209.85.167.45])
+Received: from mail-lf1-f41.google.com (mail-lf1-f41.google.com [209.85.167.41])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2F71927978D
-	for <linux-usb@vger.kernel.org>; Thu,  5 Jun 2025 17:53:04 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.45
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4275D279904
+	for <linux-usb@vger.kernel.org>; Thu,  5 Jun 2025 17:53:06 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.41
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1749145987; cv=none; b=a132Rgf5GE1eZeHqR4wz02CIvVycn+8ZHubiGXCv73D2suLE0h2cCSLaJW2O5qioNLgHLY1edN94jW+xyhgOe+EQA6m+DhX7efEh+H2MLT5HAPMd1mOzHFz2Ew5dwC0oRyguKlK9GhepKFYNpTpPUq8v+cYEn1MrOzVaVYkl2P4=
+	t=1749145989; cv=none; b=W4zYQqVQpv9OT0AJ4E/SYoIU//wmsnBB+mY5ENU7cRCPG451AKhgjoi1M96mM8l5qUHvf3FELHnbCispi1kSW/aiMtvjfvxOWWKalzEiwApczJCDTeeAd/vSljJ0liGQdmuNuuO7af9vmqzq3q4JG4Fu6aj0P3AVCMUXnJj9vnQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1749145987; c=relaxed/simple;
-	bh=tewb45+dzAe3tLBQsQaB+O4zKZphuKqtE9IM4Y6OX9M=;
+	s=arc-20240116; t=1749145989; c=relaxed/simple;
+	bh=V3mF7pLDoaruyqIzAwwMyJdM0YQYzWL05/erg95lnDI=;
 	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
-	 In-Reply-To:To:Cc; b=ukBX1//XAVUy3Y6fgUdHtAyJ2HCYtgAd/mgpvXhvCiAvzU9ijfYr92E1A/jJ3NIfK0sujwcpnPCO45u8dtIrOPtXPLD5O4BpcYZsNg4g0ehhKLTLCJ0xiBBkc9KZqTMDjoCGq7rbYv74dn8cXiPdYaswBiR7Vrp4SuWUf6JTxu4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org; spf=pass smtp.mailfrom=chromium.org; dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b=ZVkCRHEm; arc=none smtp.client-ip=209.85.167.45
+	 In-Reply-To:To:Cc; b=anW6CH3UAA0hemT+6qLptp2Cid/KMAFCUgh3VDqIBxJ+PITD3KZEYSZ5gfmMODZ1Wc1u9GO1ESdiNvHkoTwqhfAH2evTheUYkfryk4QLZQ/fknKxxCmhxRcvvWdvIuMs0nCJGHZxrVDyaifhdkd3J6H9W+qRKlYIvP2EW22aRUI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org; spf=pass smtp.mailfrom=chromium.org; dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b=ETjM1jqi; arc=none smtp.client-ip=209.85.167.41
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=chromium.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b="ZVkCRHEm"
-Received: by mail-lf1-f45.google.com with SMTP id 2adb3069b0e04-551ed563740so1575896e87.2
-        for <linux-usb@vger.kernel.org>; Thu, 05 Jun 2025 10:53:04 -0700 (PDT)
+	dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b="ETjM1jqi"
+Received: by mail-lf1-f41.google.com with SMTP id 2adb3069b0e04-551efd86048so1376046e87.3
+        for <linux-usb@vger.kernel.org>; Thu, 05 Jun 2025 10:53:05 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=chromium.org; s=google; t=1749145983; x=1749750783; darn=vger.kernel.org;
+        d=chromium.org; s=google; t=1749145984; x=1749750784; darn=vger.kernel.org;
         h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
          :mime-version:subject:date:from:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=K2bzjHeaOe4XJQH7wCz0q9lsz5fFHI+NR6J/UEFEZdQ=;
-        b=ZVkCRHEmBSMwAVs2r4H6mCqw7kB5h/HMviCkeWJwBrW4ZC8SnUK2Ug2FJB9zOV/PRa
-         3yprm3m92Yf3jKNQHX2hv+vxVW36LQN/Qx2gkIo6Xf8evy9FIF6EVPgBXSp+IZObtOSz
-         OWYhDVEBzWScLF1rid461YU5MTRNttPiSBucI=
+        bh=W8OIPxZw+kNtaX9XsRliFjEOnUVpjIedNlprBesFBFM=;
+        b=ETjM1jqiveXzdwPDQFMdlninWX7WCzWyBBTNVcW8rRYgpQ9RBIljJU1/Z4o4pYaX/E
+         ho9z0jjgKf6qSxZ5fghWCD/nUGaOdMY0r3O5cfwPsx6FHPvxDVWfvcfWQgD956eFgjyj
+         gwNfHRFdK2iaQ2xUr6iRIhtPpoIHBQRoN6HSM=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1749145983; x=1749750783;
+        d=1e100.net; s=20230601; t=1749145984; x=1749750784;
         h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
          :mime-version:subject:date:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=K2bzjHeaOe4XJQH7wCz0q9lsz5fFHI+NR6J/UEFEZdQ=;
-        b=IjztlSoqPwe2b+DbKClzWWXt9K9ndqUCPuG3vruJrqdC/au5sGIrlyJeHmT0T7044j
-         YL2jE2KKx1hB2/biMibiSrzhooJxcCF34YZZMKtL9hGf0QVQY/uCrb1/sUVV9xP7oxg0
-         v+2CisSI01YjtdhlKF3MrUV28R911UHglIcC6+N60V/KTfUr5zvVjrkN+kOiA66DIenz
-         r3jC7FhdIVxZSN9uUYI3mgjGct1UE3ieNLqKVQtz6BCe69/RKXFn6PW9FkbzF3yGlcZy
-         KaVJr5GZjzWngcmSXf9i/7KCuQrQk4Bo8F41FY3sN95zUIDewSAzMFuAP8waO1HEi4YF
-         ZWuw==
-X-Forwarded-Encrypted: i=1; AJvYcCURSv4P7IbbI/e7UzLo6Osaj+r9tRUAmKV1w8J+3C/VJSZPWZgOj8eeuHTJ8mq9Oi4IimI4bGBNX9Y=@vger.kernel.org
-X-Gm-Message-State: AOJu0YweKGVuzNRHHvOIJagx8cf5wwoGFLN76PDiG9s7YEMmDF7mrvot
-	zkQGEYy9EIZ+ESwyLq4MbtjJT+d2skZGYh5aqtu/1aXaWBX5yKSIPn1ggUI18Dgz7w==
-X-Gm-Gg: ASbGncvIJtVbzy8GR6qEF7fCDsroCD3wK8wQyo8qla44LusKkS/Mp6B5PSpXWKCD2UK
-	esTD4WPpfIMQxrA1J70zr8FuYq8W425ZvMWSBXXdz/oLfql+pe8A3SVGy1iDZ5uch0pqTSGhw9T
-	9cmz+jfKVzuwi05SZzAwRc3TuhtEKpQyzEYIM3P/pPppVWjr0z0AcPOoGwnQwb+NNUVGL85qizw
-	UJEFfFwHRrkYGy387n/y17EOzgWc2AoYP0cUghpdd5JmYk1QTXk0Lvr18eYdRrMFz1HoY279PQZ
-	0cwXItVMk1vCBEHPCGsEQbmrhc/1BC6lhv/czSWEVr9SCQYpMOtfAB/xsTlELvvE4Vivo9AtGh3
-	e22xEsi4TmpazNAtxos+pZUL2Tg==
-X-Google-Smtp-Source: AGHT+IGl548xQa/vsHY27xBCLqMA/WtFSSEsFfeQt2Dzb0VNl43ck1yHu+ccC0nfMKcjxfgnvusB5Q==
-X-Received: by 2002:a05:6512:1248:b0:553:2cc1:2bb4 with SMTP id 2adb3069b0e04-55366bd49dcmr18752e87.12.1749145983043;
-        Thu, 05 Jun 2025 10:53:03 -0700 (PDT)
+        bh=W8OIPxZw+kNtaX9XsRliFjEOnUVpjIedNlprBesFBFM=;
+        b=PVY/TgLfG6B2sWXPTpxEb/d/YSwlB7WHMbt6WhC1GwM52PupPX5zaL1l0xbzvrGa4Q
+         NzSeK8pFPW/V0zhQUfOCqHAWNuXaIPD4cHivak1TH2S3b90HeVIMiZ7/YWJtkZyoD7L6
+         vFc1KXKDpNK7ZHfL7iAp0hXDlFvSDFY4fv0Wr46UOB2U/WNckuhI1zRhMSjpVb8HsPDU
+         TB5SKWzjy8vdfcFwWNx2elFzCoSy1+0p1i0VuRIQGGWWee6xwT0g22xqzzc+zP9WW/AZ
+         rzvi9Rk6ERrpe5jpODQb6ZYrV5sbYyA/rKctNTb5eA7wrekzkvBNZw2KhcCi7NUbA4Og
+         btdw==
+X-Forwarded-Encrypted: i=1; AJvYcCUmCsWohA1h4FAjSv5cD9CEkLs2zMJbMvCpnYmWykGrJBnY1+I78PCMbDm5WChItfc6iEbiTDcvXww=@vger.kernel.org
+X-Gm-Message-State: AOJu0YxXbH4gXA30adO/kKZRXa5/rzOYFH1AX6fZQEqhvjjUNejg+ktD
+	zkfdFz+XsGnFvb91GABod7KWZuk0/8++n4k+U4wDTgxQBZoExaZ2Gd3/YxrOiYkcEw==
+X-Gm-Gg: ASbGnctCfUOclqMfT9VstIjEQ7iTGsC6lrvmybQz+l8oaudXlj3ETCr2IdhzSML1yYM
+	RhHKQovUCB0LbCMTY7iJ4agRiYPMZNXJjbm244DGVtJepdCeuHkRpngzH6rFVpm3mfjiAjkRniA
+	7lhTJ4SPImbrbSC+TiPYkZwdHhsZm7iIkijeQdaWM30U8FU0/oeouEsSobJFUVPhQ0nwH29nYT8
+	FG2FmhRHqipWxRnTxVz1cEWryEZLrkJ/OzezM7w1VCC4f5jhQda4YhWYW4hOl+WUxImxw2GJkj0
+	0xwhrKbIb/Go+YDpa40/vzNpc6PEAQCvuA6WqWNkNSsebrkaHun1DXZAa0Ijefe2wNjen1IGeEj
+	lDXl48GpK6SV1PQvnOdYOVJaKTAG/Oow1iysBn2YVvycWiQ4=
+X-Google-Smtp-Source: AGHT+IGs54mK0grF5GpYvNrIRBVyl5RIQTl5wT33xEXZ6lSNp2Qm87PtJXgiSarLAOoqtbFmQtgqJA==
+X-Received: by 2002:a05:6512:224b:b0:553:2bf2:e303 with SMTP id 2adb3069b0e04-55366bf9034mr20502e87.30.1749145984304;
+        Thu, 05 Jun 2025 10:53:04 -0700 (PDT)
 Received: from ribalda.c.googlers.com (90.52.88.34.bc.googleusercontent.com. [34.88.52.90])
-        by smtp.gmail.com with ESMTPSA id 2adb3069b0e04-553379379c2sm2641210e87.251.2025.06.05.10.53.02
+        by smtp.gmail.com with ESMTPSA id 2adb3069b0e04-553379379c2sm2641210e87.251.2025.06.05.10.53.03
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 05 Jun 2025 10:53:02 -0700 (PDT)
+        Thu, 05 Jun 2025 10:53:04 -0700 (PDT)
 From: Ricardo Ribalda <ribalda@chromium.org>
-Date: Thu, 05 Jun 2025 17:52:54 +0000
-Subject: [PATCH v2 01/12] media: uvcvideo: Always set default_value
+Date: Thu, 05 Jun 2025 17:52:56 +0000
+Subject: [PATCH v2 03/12] ACPI: mipi-disco-img: Do not duplicate rotation
+ info into swnodes
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
@@ -66,7 +67,7 @@ List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20250605-uvc-orientation-v2-1-5710f9d030aa@chromium.org>
+Message-Id: <20250605-uvc-orientation-v2-3-5710f9d030aa@chromium.org>
 References: <20250605-uvc-orientation-v2-0-5710f9d030aa@chromium.org>
 In-Reply-To: <20250605-uvc-orientation-v2-0-5710f9d030aa@chromium.org>
 To: Laurent Pinchart <laurent.pinchart@ideasonboard.com>, 
@@ -86,28 +87,41 @@ Cc: linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
  Ricardo Ribalda <ribalda@chromium.org>
 X-Mailer: b4 0.14.2
 
-If the control does not support GET_DEF, the field default_value will be
-left uninitialized during queryctrl.
+The function v4l2_fwnode_device_parse() is not capable of parsint the
+_PLD method, there is no need to duplicate the rotation information in a
+swnode.
 
-Fixes: c0efd232929c ("V4L/DVB (8145a): USB Video Class driver")
 Signed-off-by: Ricardo Ribalda <ribalda@chromium.org>
 ---
- drivers/media/usb/uvc/uvc_ctrl.c | 2 ++
- 1 file changed, 2 insertions(+)
+ drivers/acpi/mipi-disco-img.c | 15 ---------------
+ 1 file changed, 15 deletions(-)
 
-diff --git a/drivers/media/usb/uvc/uvc_ctrl.c b/drivers/media/usb/uvc/uvc_ctrl.c
-index 44b6513c526421943bb9841fb53dc5f8e9f93f02..47e8ccc39234d1769384b55539a21df07f3d57c7 100644
---- a/drivers/media/usb/uvc/uvc_ctrl.c
-+++ b/drivers/media/usb/uvc/uvc_ctrl.c
-@@ -1497,6 +1497,8 @@ static int __uvc_queryctrl_boundaries(struct uvc_video_chain *chain,
- 	if (ctrl->info.flags & UVC_CTRL_FLAG_GET_DEF) {
- 		v4l2_ctrl->default_value = uvc_mapping_get_s32(mapping,
- 				UVC_GET_DEF, uvc_ctrl_data(ctrl, UVC_CTRL_DATA_DEF));
-+	} else {
-+		v4l2_ctrl->default_value = 0;
- 	}
+diff --git a/drivers/acpi/mipi-disco-img.c b/drivers/acpi/mipi-disco-img.c
+index 5b85989f96beeb726f59ac9e12e965a215fb38f6..b58b5ba22a47a4afc5212998074d322f0b7586dc 100644
+--- a/drivers/acpi/mipi-disco-img.c
++++ b/drivers/acpi/mipi-disco-img.c
+@@ -617,21 +617,6 @@ static void init_crs_csi2_swnodes(struct crs_csi2 *csi2)
  
- 	switch (mapping->v4l2_type) {
+ 	adev_fwnode = acpi_fwnode_handle(adev);
+ 
+-	/*
+-	 * If the "rotation" property is not present, but _PLD is there,
+-	 * evaluate it to get the "rotation" value.
+-	 */
+-	if (!fwnode_property_present(adev_fwnode, "rotation")) {
+-		struct acpi_pld_info *pld;
+-
+-		if (acpi_get_physical_device_location(handle, &pld)) {
+-			swnodes->dev_props[NEXT_PROPERTY(prop_index, DEV_ROTATION)] =
+-					PROPERTY_ENTRY_U32("rotation",
+-							   pld->rotation * 45U);
+-			kfree(pld);
+-		}
+-	}
+-
+ 	if (!fwnode_property_read_u32(adev_fwnode, "mipi-img-clock-frequency", &val))
+ 		swnodes->dev_props[NEXT_PROPERTY(prop_index, DEV_CLOCK_FREQUENCY)] =
+ 			PROPERTY_ENTRY_U32("clock-frequency", val);
 
 -- 
 2.50.0.rc0.642.g800a2b2222-goog
