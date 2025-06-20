@@ -1,120 +1,169 @@
-Received: from dilbert.mork.no (dilbert.mork.no [65.108.154.246])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4706017E;
-	Fri, 20 Jun 2025 06:58:58 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=65.108.154.246
+Received: from m16.mail.163.com (m16.mail.163.com [220.197.31.5])
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 38BEF27FD6D;
+	Fri, 20 Jun 2025 09:19:51 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=220.197.31.5
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1750402743; cv=none; b=JRLNJRmlvjOhTWk6JhvS+WEMLm2l5b+reJoNMtOJjje0LYbCx1OKaXSpGVZPQBt/Gea2kPv8xTWskYUTW42vJNEBdKXCan9Tp2YiXyNB/PFZfevAwadoIGTP9NPR6v67JfhnjScbu7Nc+z791Sbj0EsL6uSIeJonx7k/ZxUjY8o=
+	t=1750411195; cv=none; b=B/j7jQHsTF5mMht77UDJa4Ph158zHvvFVkxhqYhv/C436+hliOcQoFTWETR77jnTxfdZa+Gs7AoCdAtRVPkd10vHMLx11hpBz9S8jbJt8ssanJNONT1lJXK3HgCoymLJLnGL/4sdcY4a1TEe06TGyJ1FjUCLOXJo1boOTdS76Ig=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1750402743; c=relaxed/simple;
-	bh=xvmfCr3MUimdze413yuYKOxxXmtG+gIayHmwTGC81cs=;
-	h=From:To:Cc:Subject:References:Date:In-Reply-To:Message-ID:
-	 MIME-Version:Content-Type; b=nKDVwGZ4LoSfDTLd5PWkLzJZLesPHhCq/MiJ80n5oqDdfJ5UItu5m3YNJKA3OpZGqomO29a9LxyLXMID985W3n1IGYeuJ8FDxQsSJWyahjDRqtOlcZrjVVesQnah6p8tzTCjx36PoS32lj8R4dFj3HoOeBorlXYmUJK4hha3X84=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=mork.no; spf=pass smtp.mailfrom=miraculix.mork.no; dkim=pass (1024-bit key) header.d=mork.no header.i=@mork.no header.b=m+/I4wZR; arc=none smtp.client-ip=65.108.154.246
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=mork.no
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=miraculix.mork.no
+	s=arc-20240116; t=1750411195; c=relaxed/simple;
+	bh=vP0fc3TzCtBVwLfvGk9UEI9JOSs+hbFuxkv7gvF18Ms=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=iMstGSNTTBzw8s6jAka+y5vxqKOZCFSqpaS/ixbzWN66Z7O1S99tMd+yULqaN+hvwmiEQVlGWuZyYpZyjWG0mBzASGW4JFAurDTDKOJ9ybs5Bz8aASdG2jehgrooiUOBoYxZNTSU91Z6zRdQJaR8pLdDCvtAirbm7HM/oFp46mA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=163.com; spf=pass smtp.mailfrom=163.com; dkim=pass (1024-bit key) header.d=163.com header.i=@163.com header.b=TgFPF5WE; arc=none smtp.client-ip=220.197.31.5
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=163.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=163.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=mork.no header.i=@mork.no header.b="m+/I4wZR"
-Authentication-Results: dilbert.mork.no;
-	dkim=pass (1024-bit key; secure) header.d=mork.no header.i=@mork.no header.a=rsa-sha256 header.s=b header.b=m+/I4wZR;
-	dkim-atps=neutral
-Received: from canardo.dyn.mork.no ([IPv6:2a01:799:10de:2e00:0:0:0:1])
-	(authenticated bits=0)
-	by dilbert.mork.no (8.18.1/8.18.1) with ESMTPSA id 55K6kPYe3551040
-	(version=TLSv1.3 cipher=TLS_AES_256_GCM_SHA384 bits=256 verify=OK);
-	Fri, 20 Jun 2025 07:46:26 +0100
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=mork.no; s=b;
-	t=1750401985; bh=DceUHKn3HLA3crwE6S+F2oi2qQFk/ihZKyh0elu8AMs=;
-	h=From:To:Cc:Subject:References:Date:Message-ID:From;
-	b=m+/I4wZRvYpRVt7T8KzqnUKiivmtuetSXwtmVOcB1jEGwWth87arW4uOLfvc8LcCb
-	 ePPg9Kr+pYcm4Wf4AqXeO47UlDuLypkRO+HVANJwX1d36b+Ca3TWWVY58E3ewMQNB7
-	 Cw51fHVCcDXCzgh93sXMclUcBVBxsRgk37il4ITg=
-Received: from miraculix.mork.no ([IPv6:2a01:799:10de:2e0a:149a:2079:3a3a:3457])
-	(authenticated bits=0)
-	by canardo.dyn.mork.no (8.18.1/8.18.1) with ESMTPSA id 55K6kOmr3974318
-	(version=TLSv1.3 cipher=TLS_AES_256_GCM_SHA384 bits=256 verify=OK);
-	Fri, 20 Jun 2025 08:46:25 +0200
-Received: (nullmailer pid 136670 invoked by uid 1000);
-	Fri, 20 Jun 2025 06:46:24 -0000
-From: =?utf-8?Q?Bj=C3=B8rn_Mork?= <bjorn@mork.no>
-To: dataonline <dataonline@foxmail.com>
-Cc: Jakub Kicinski <kuba@kernel.org>, netdev@vger.kernel.org,
-        linux-usb@vger.kernel.org, Xiaowei Li <xiaowei.li@simcom.com>
-Subject: Re: [PATCH] net: usb: qmi_wwan: add SIMCom 8230C composition
-Organization: m
-References: <tencent_21D781FAA4969FEACA6ABB460362B52C9409@qq.com>
-Date: Fri, 20 Jun 2025 08:46:24 +0200
-In-Reply-To: <tencent_21D781FAA4969FEACA6ABB460362B52C9409@qq.com>
-	(dataonline@foxmail.com's message of "Fri, 20 Jun 2025 10:27:02
-	+0800")
-Message-ID: <87cyayuczj.fsf@miraculix.mork.no>
-User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/28.2 (gnu/linux)
+	dkim=pass (1024-bit key) header.d=163.com header.i=@163.com header.b="TgFPF5WE"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=163.com;
+	s=s110527; h=Message-ID:Date:MIME-Version:Subject:To:From:
+	Content-Type; bh=e4VtYTu1vknHIVj4povD3h+Ci+kpMZER4RskT3rQmUw=;
+	b=TgFPF5WEvtfBqnMmPQs4Qbx/cPIvVtabLqMcH9kSVdIQ5SaqVMuiswXLjRZdJu
+	MOo6yW77aiydyqiwP0xAIfmaKcqanrQLOooIYI43P/kCmLlgk4j0n/4CF5NWwMQ2
+	qVxtAfeOVcD94cedajNaOVUD4agtGm7nIz149uVNv6AoY=
+Received: from [10.42.12.155] (unknown [])
+	by gzsmtp4 (Coremail) with SMTP id PygvCgDX3qulJ1VoWdx4AQ--.21834S2;
+	Fri, 20 Jun 2025 17:19:34 +0800 (CST)
+Message-ID: <9d95bb75-586c-48dc-9e34-432cc13fd99f@163.com>
+Date: Fri, 20 Jun 2025 17:19:33 +0800
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
-X-Virus-Scanned: clamav-milter 1.0.7 at canardo.mork.no
-X-Virus-Status: Clean
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v2] usbip: convert to use faux_device
+Content-Language: en-US
+To: Greg KH <gregkh@linuxfoundation.org>
+Cc: shuah@kernel.org, valentina.manea.m@gmail.com, i@zenithal.me,
+ linux-kernel@vger.kernel.org, linux-usb@vger.kernel.org,
+ zhouzongmin@kylinos.cn
+References: <2a327b520760271471717fff9b222cdc34967489.1746662386.git.zhouzongmin@kylinos.cn>
+ <20250604065410.76069-1-min_halo@163.com>
+ <2025061926-paycheck-footnote-a2b8@gregkh>
+ <c7a2cc26-794e-49e1-bf8c-35617bb8060f@163.com>
+ <2025062010-hardiness-flashily-cb0f@gregkh>
+From: Zongmin Zhou <min_halo@163.com>
+In-Reply-To: <2025062010-hardiness-flashily-cb0f@gregkh>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
+X-CM-TRANSID:PygvCgDX3qulJ1VoWdx4AQ--.21834S2
+X-Coremail-Antispam: 1Uf129KBjvJXoWxur1fJry7Zr15ZFWUXFykAFb_yoWrKF13pF
+	ZxJFZYkr4qkF42gFsFgF1xXw1Fkw4Sy3y5Cr9rJry7X3yYkr95uFy7Kry5C393trWIkwnI
+	vr4DKas8WFyUZaUanT9S1TB71UUUUU7qnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
+	9KBjDUYxBIdaVFxhVjvjDU0xZFpf9x07U-6pQUUUUU=
+X-CM-SenderInfo: pplqsxxdorqiywtou0bp/1tbixxFyq2hUvbrrkwACsO
 
-dataonline <dataonline@foxmail.com> writes:
 
-> From: Xiaowei Li <xiaowei.li@simcom.com>
->
-> Add support for SIMCom 8230C which is based on Qualcomm SDX35 chip.
-> 0x9071: tty (DM) + tty (NMEA) + tty (AT) + rmnet
-> T:  Bus=3D01 Lev=3D01 Prnt=3D01 Port=3D05 Cnt=3D02 Dev#=3D  8 Spd=3D480  =
-MxCh=3D 0
-> D:  Ver=3D 2.00 Cls=3D00(>ifc ) Sub=3D00 Prot=3D00 MxPS=3D64 #Cfgs=3D  1
-> P:  Vendor=3D1e0e ProdID=3D9071 Rev=3D 5.15
-> S:  Manufacturer=3DSIMCOM
-> S:  Product=3DSDXBAAGHA-IDP _SN:D744C4C5
-> S:  SerialNumber=3D0123456789ABCDEF
-> C:* #Ifs=3D 5 Cfg#=3D 1 Atr=3Da0 MxPwr=3D500mA
-> I:* If#=3D 0 Alt=3D 0 #EPs=3D 2 Cls=3Dff(vend.) Sub=3Dff Prot=3D30 Driver=
-=3Doption
-> E:  Ad=3D01(O) Atr=3D02(Bulk) MxPS=3D 512 Ivl=3D0ms
-> E:  Ad=3D81(I) Atr=3D02(Bulk) MxPS=3D 512 Ivl=3D0ms
-> I:* If#=3D 1 Alt=3D 0 #EPs=3D 2 Cls=3Dff(vend.) Sub=3D00 Prot=3D00 Driver=
-=3Doption
-> E:  Ad=3D82(I) Atr=3D02(Bulk) MxPS=3D 512 Ivl=3D0ms
-> E:  Ad=3D02(O) Atr=3D02(Bulk) MxPS=3D 512 Ivl=3D0ms
-> I:* If#=3D 2 Alt=3D 0 #EPs=3D 3 Cls=3Dff(vend.) Sub=3Dff Prot=3D40 Driver=
-=3Doption
-> E:  Ad=3D84(I) Atr=3D03(Int.) MxPS=3D  10 Ivl=3D32ms
-> E:  Ad=3D83(I) Atr=3D02(Bulk) MxPS=3D 512 Ivl=3D0ms
-> E:  Ad=3D03(O) Atr=3D02(Bulk) MxPS=3D 512 Ivl=3D0ms
-> I:* If#=3D 3 Alt=3D 0 #EPs=3D 3 Cls=3Dff(vend.) Sub=3Dff Prot=3D50 Driver=
-=3Dqmi_wwan
-> E:  Ad=3D86(I) Atr=3D03(Int.) MxPS=3D   8 Ivl=3D32ms
-> E:  Ad=3D85(I) Atr=3D02(Bulk) MxPS=3D 512 Ivl=3D0ms
-> E:  Ad=3D04(O) Atr=3D02(Bulk) MxPS=3D 512 Ivl=3D0ms
-> I:* If#=3D 4 Alt=3D 0 #EPs=3D 2 Cls=3Dff(vend.) Sub=3D42 Prot=3D01 Driver=
-=3Dnone
-> E:  Ad=3D05(O) Atr=3D02(Bulk) MxPS=3D 512 Ivl=3D0ms
-> E:  Ad=3D87(I) Atr=3D02(Bulk) MxPS=3D 512 Ivl=3D0ms
->
-> Signed-off-by: Xiaowei Li <xiaowei.li@simcom.com>
-> ---
->  drivers/net/usb/qmi_wwan.c | 1 +
->  1 file changed, 1 insertion(+)
->
-> diff --git a/drivers/net/usb/qmi_wwan.c b/drivers/net/usb/qmi_wwan.c
-> index b586b1c13a47..f5647ee0adde 100644
-> --- a/drivers/net/usb/qmi_wwan.c
-> +++ b/drivers/net/usb/qmi_wwan.c
-> @@ -1426,6 +1426,7 @@ static const struct usb_device_id products[] =3D {
->  	{QMI_QUIRK_SET_DTR(0x22de, 0x9051, 2)}, /* Hucom Wireless HM-211S/K */
->  	{QMI_FIXED_INTF(0x22de, 0x9061, 3)},	/* WeTelecom WPD-600N */
->  	{QMI_QUIRK_SET_DTR(0x1e0e, 0x9001, 5)},	/* SIMCom 7100E, 7230E, 7600E +=
-+ */
-> +	{QMI_QUIRK_SET_DTR(0x1e0e, 0x9071, 3)},	/* SIMCom 8230C ++ */
->  	{QMI_QUIRK_SET_DTR(0x2c7c, 0x0121, 4)},	/* Quectel EC21 Mini PCIe */
->  	{QMI_QUIRK_SET_DTR(0x2c7c, 0x0191, 4)},	/* Quectel EG91 */
->  	{QMI_QUIRK_SET_DTR(0x2c7c, 0x0195, 4)},	/* Quectel EG95 */
+On 2025/6/20 12:29, Greg KH wrote:
+> On Fri, Jun 20, 2025 at 10:16:16AM +0800, Zongmin Zhou wrote:
+>> On 2025/6/19 19:01, Greg KH wrote:
+>>> On Wed, Jun 04, 2025 at 02:54:10PM +0800, Zongmin Zhou wrote:
+>>>> From: Zongmin Zhou <zhouzongmin@kylinos.cn>
+>>>>
+>>>> The vhci driver does not need to create a platform device,
+>>>> it only did so because it was simple to do that in order to
+>>>> get a place in sysfs to hang some device-specific attributes.
+>>>> Now the faux device interface is more appropriate,change it
+>>>> over to use the faux bus instead.
+>>>>
+>>>> Signed-off-by: Zongmin Zhou <zhouzongmin@kylinos.cn>
+>>>> ---
+>>>> Changes in v2:
+>>>> - don't change faux create api,just call probe on vhci_hcd_init.
+>>>>
+>>>>    drivers/usb/usbip/vhci.h             |  4 +-
+>>>>    drivers/usb/usbip/vhci_hcd.c         | 86 +++++++++++-----------------
+>>>>    drivers/usb/usbip/vhci_sysfs.c       | 68 +++++++++++-----------
+>>>>    tools/usb/usbip/libsrc/vhci_driver.h |  2 +-
+>>>>    4 files changed, 72 insertions(+), 88 deletions(-)
+>>> I get the following build errors from this patch:
+>>>
+>>> drivers/usb/usbip/vhci_hcd.c:1462:12: error: ‘vhci_hcd_resume’ defined but not used [-Werror=unused-function]
+>>>    1462 | static int vhci_hcd_resume(struct faux_device *fdev)
+>>>         |            ^~~~~~~~~~~~~~~
+>>> drivers/usb/usbip/vhci_hcd.c:1418:12: error: ‘vhci_hcd_suspend’ defined but not used [-Werror=unused-function]
+>>>    1418 | static int vhci_hcd_suspend(struct faux_device *fdev, pm_message_t state)
+>>>         |            ^~~~~~~~~~~~~~~~
+>>> cc1: all warnings being treated as errors
+>>>
+>>> Are you sure you tested this?
+>> I apologize for not enabling -Werror, which resulted in missing this error
+>> warning.
+>> I have tested usbip feature use the new patch,but not test system
+>> suspend/resume.
+>> The faux bus type don't add pm function,and vhci-hcd driver can't register
+>> it.
+>> Maybe have to add suspend/resume for it.like below:
+>> static const struct bus_type faux_bus_type = {
+>>      .name        = "faux",
+>>      .match        = faux_match,
+>>      .probe        = faux_probe,
+>>      .remove        = faux_remove,
+>>      .resume     = faux_resume,
+>>      .suspend    = faux_suspend,
+>> };
+>>
+>> Is that right?
+>> Your expertise would be greatly valued.
+> As this is not real hardware, why do you need the suspend/resume
+> callbacks at all?  What is happening here that requires them?
+@greg,
+The vhci_hcd_suspend/vhci_hcd_resume interfaces are not designed for 
+this faux device, but rather to
+manipulate the HCD_FLAG_HW_ACCESSIBLE bit in the hcd flags associated 
+with the faux device.
+For example:
+During system standby: clear_bit(HCD_FLAG_HW_ACCESSIBLE, &hcd->flags)
+During system wakeup: set_bit(HCD_FLAG_HW_ACCESSIBLE, &hcd->flags)
 
-Acked-by: Bj=C3=B8rn Mork <bjorn@mork.no>
+Previously, these two functions were registered through platform_driver,
+but faux bus does not have the relevant interface, so they were not called,
+resulting in this compilation warning error.
+
+This raises the question: Should the faux bus implement PM-related 
+interface?
+I'm uncertain whether these functions are essential for the vhci-hcd 
+driver or if they can be safely removed.
+
+However, during system standby/wakeup tests with remote USB devices 
+bound to the vhci-hcd driver,
+I observed consistent failure scenarios across both the original 
+platform bus and faux bus patch implementations.
+
+Failure Modes
+a.Failed standby with auto-wakeup(Log excerpt):
+[ 1449.065592][T10238] PM: suspend entry (s2idle)
+[ 1449.106146][T10238] Filesystems sync: 0.040 seconds
+[ 1449.216189][T10238] Freezing user space processes
+[ 1449.219474][T10238] Freezing user space processes completed (elapsed 
+0.002 seconds)
+[ 1449.219887][T10238] OOM killer disabled.
+[ 1449.220090][T10238] Freezing remaining freezable tasks
+[ 1469.222372][T10238] Freezing remaining freezable tasks failed after 
+20.002 seconds (0 tasks refusing to freeze, wq_busy=1):
+[ 1469.225038][T10238] Showing freezable workqueues that are still busy:
+[ 1469.226176][T10238] workqueue events_freezable_pwr_efficient: flags=0x86
+[ 1469.227453][T10238]   pwq 20: cpus=0-3 node=0 flags=0x4 nice=0 
+active=1 refcnt=2
+[ 1469.227463][T10238]     in-flight: 268:disk_events_workfn
+[ 1469.233559][T10238] Restarting kernel threads ... done.
+[ 1469.235119][T10238] OOM killer enabled.
+[ 1469.235849][T10238] Restarting tasks ... done.
+[ 1469.240121][T10238] random: crng reseeded on system resumption
+[ 1469.241176][T10238] PM: suspend exit
+
+b.Failed standby with black screen freeze:
+[ 1820.667073][T11454] PM: suspend entry (s2idle)
+
+@Shuah，
+I wonder if you has encountered this issue? When a USB device is 
+attached to vhci-hcd,
+is it not possible to put the system into standby mode?
+
+Thanks.
+
+> thanks,
+>
+> greg k-h
+
