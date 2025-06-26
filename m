@@ -1,95 +1,79 @@
-Received: from fhigh-b4-smtp.messagingengine.com (fhigh-b4-smtp.messagingengine.com [202.12.124.155])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A63F72E718A
-	for <linux-usb@vger.kernel.org>; Thu, 26 Jun 2025 14:04:58 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=202.12.124.155
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 12A1A2EA492
+	for <linux-usb@vger.kernel.org>; Thu, 26 Jun 2025 14:30:34 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1750946701; cv=none; b=nfUWQEowgv0dwN7ISrLTUa2h7laXYosu9OUTW6V+gkWoT3qF/d/ypLVGZ4W1wPWf9h2l0rKwvqFHzDlM1rwPhOcDBo3n7nq4ecVMenC11/LyKMiA+enyafQrZPorCY4uXdDo+wUJnyf2TQcPEM4CbrvWDK1ip0JClNU+xmlJyb8=
+	t=1750948236; cv=none; b=r78xgg7WbOw/bNdIumCKL/rrIDUefBkaQkcw8wUKK6yRUgVt9xftpMhCo1n+6/Stz7l0GWncg68cXrvW//axFvjl1Xt/w6IZgmjnHRYrhGlc0sQiq5lC9igQ3vMyTsMTUVf36cAH/ZJF9EEltn6RkKS6ebr7gOllBHtfG4QA7c8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1750946701; c=relaxed/simple;
-	bh=BJ8QZzleztNjIsu9/THvi0uI0E5MsWXAmM8KhaXj/Po=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=RlxjmBBx6bwgYDM+/KyO67PYDkl9T0wyqJqZe83fOsmQFRHJmcR2oZBgJhU9KZlj5DQ4IGPpmLtSg3arcKU6nSaeCMbkQPbZxahie198JGs23XV4G+Hp0iW0NeZ8mkSYLX7y7uoM6AfbW+w7pVjYsjXE62QDA8DII6GC/6z9ymA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=kroah.com; spf=pass smtp.mailfrom=kroah.com; dkim=pass (2048-bit key) header.d=kroah.com header.i=@kroah.com header.b=nwR0HYFE; dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b=OgxiDQ3e; arc=none smtp.client-ip=202.12.124.155
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=kroah.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=kroah.com
+	s=arc-20240116; t=1750948236; c=relaxed/simple;
+	bh=ES8AZ4INdbhrik/zU0eaHaRXXQ1YZQGt1mxwnbSqaVo=;
+	h=From:To:Subject:Date:Message-ID:In-Reply-To:References:
+	 Content-Type:MIME-Version; b=AIueOTMfuN3Z/BXRN14KBLy3b7k4ix/yHZy3NZToGaDBGf5eVebEPoq32YtoAYcKWL/S+YHYcNBTAQ+n+gafCtY5kLuYQPYCPY+Bogn/m1IMo7M6pZDn3CSaVOdUYQaeC9JB2W8D+QlBbGLD2lItvWo63U/wJPD9eRWhv1YAbhY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Du8N02/a; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kroah.com header.i=@kroah.com header.b="nwR0HYFE";
-	dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b="OgxiDQ3e"
-Received: from phl-compute-07.internal (phl-compute-07.phl.internal [10.202.2.47])
-	by mailfhigh.stl.internal (Postfix) with ESMTP id 829DF7A0116;
-	Thu, 26 Jun 2025 10:04:57 -0400 (EDT)
-Received: from phl-mailfrontend-01 ([10.202.2.162])
-  by phl-compute-07.internal (MEProxy); Thu, 26 Jun 2025 10:04:57 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kroah.com; h=cc
-	:cc:content-type:content-type:date:date:from:from:in-reply-to
-	:in-reply-to:message-id:mime-version:references:reply-to:subject
-	:subject:to:to; s=fm2; t=1750946697; x=1751033097; bh=BJ8QZzlezt
-	NjIsu9/THvi0uI0E5MsWXAmM8KhaXj/Po=; b=nwR0HYFE5xjHkoOjPW21kRA93Y
-	yEG4qYRrXDYiOQgepkpOjC/8UiwUN6nZZY7QAhyUiZmP9w/s2LoYD7VbF9w6OY+/
-	g9abTsRnEdwmDtbvm/QdnDgq8yZYdJjDAmL0zNlITMscnmjmg7ue+NQGTSt4fUjX
-	bhxKpl5/Ccs34fJpp79XY6ZzwBzjwNgx9aaPkPYLzeLkaGd3pvk4CXwRlTW/0HP2
-	GTdsvWB3DpEplNJy2gdRtOBVBzbLQ/GWBEHm75MBiL261roxNr6yHdqBV80x4mDi
-	IVJq/spJWCNzByMR1Ig07PLsoV26SEwH1+JS/BNqJ4XoiGQdACu02veIA6cw==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
-	messagingengine.com; h=cc:cc:content-type:content-type:date:date
-	:feedback-id:feedback-id:from:from:in-reply-to:in-reply-to
-	:message-id:mime-version:references:reply-to:subject:subject:to
-	:to:x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=fm2; t=
-	1750946697; x=1751033097; bh=BJ8QZzleztNjIsu9/THvi0uI0E5MsWXAmM8
-	KhaXj/Po=; b=OgxiDQ3eMv5hAV2yUUs4VtmJfi+qTBI83U96ChixBYCvgFJS38I
-	OAdX1TLxxB4V7AtUG4lkEgXCOC3bmsvjM0sCPCw3hV3DevjjQLw6x2EWoPpZOzjb
-	13osNVLeN4rhMrCm3H6MZWUGMmOr16qkjcLGXxedQsfUVl604ZQHcGBSmnA6aO54
-	YrBXsS6EM+COBOuhzYsewAZBwp6zktbHBaUI8IUefShDAEfvD2XiKqOTlwn7VjJg
-	OQFmPP0CCoB6MMZBtZNyoxuORT6GLDljn2LCRWjxhtkQ8pwvDQmoR3SqSVjCLY0D
-	ESpbyLsKyW728woJ2WdXr3/r9Zq0vpPKHpw==
-X-ME-Sender: <xms:iVNdaPPzvSdQmEnJ_lwaKEMzwSrGWuoy8HTgtUnxaZsCwCzzcacJIA>
-    <xme:iVNdaJ9MB3s0qLEetLVQfnAqHQZaybiYCrivz_uEKJ6w8pfL68gsxKH_m9YUbgSlb
-    -SPyahCPBLLOA>
-X-ME-Received: <xmr:iVNdaOTR5mw3e1eiJWIWQv3AjZhz4fdPAOH_Vc_zSIubHIgMLDsu3VqN8FM>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeeffedrtdefgdefjecutefuodetggdotefrodftvf
-    curfhrohhfihhlvgemucfhrghsthforghilhdpuffrtefokffrpgfnqfghnecuuegrihhl
-    ohhuthemuceftddtnecunecujfgurhepfffhvfevuffkfhggtggujgesthdtredttddtvd
-    enucfhrhhomhepifhrvghgucfmjfcuoehgrhgvgheskhhrohgrhhdrtghomheqnecuggft
-    rfgrthhtvghrnhepheegvdevvdeljeeugfdtudduhfekledtiefhveejkeejuefhtdeufe
-    fhgfehkeetnecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehmrghilhhfrhho
-    mhepghhrvghgsehkrhhorghhrdgtohhmpdhnsggprhgtphhtthhopeegpdhmohguvgepsh
-    hmthhpohhuthdprhgtphhtthhopegsuhhgiihilhhlrgdquggrvghmohhnsehkvghrnhgv
-    lhdrohhrghdprhgtphhtthhopehlihhnuhigqdhushgssehvghgvrhdrkhgvrhhnvghlrd
-    horhhg
-X-ME-Proxy: <xmx:iVNdaDui7Tmjd9fiFEEGmdp9xZ6DTqQqKLFwCfeydNtKDan_hvl0Iw>
-    <xmx:iVNdaHfZlh6XIXMJOthZpIsE-_eiYkDg1_271xZe3lQEfu_BcdBDCw>
-    <xmx:iVNdaP0dNrrBdmiSSv1sLz8ufKKSXTM7aTx2FkHNviX12CfHFy3l_A>
-    <xmx:iVNdaD-k1WW_MzS4D5J7YIZOh2HCGwl7cJzQpHT4ixFpnIF5SQi9ZA>
-    <xmx:iVNdaDqiUM0Ta_88exIueQlpyIeWAhjG2J9lPhyJ8z3PgBE_zYpTPoB6>
-Feedback-ID: i787e41f1:Fastmail
-Received: by mail.messagingengine.com (Postfix) with ESMTPA; Thu,
- 26 Jun 2025 10:04:56 -0400 (EDT)
-Date: Thu, 26 Jun 2025 15:04:53 +0100
-From: Greg KH <greg@kroah.com>
-To: bugzilla-daemon@kernel.org
-Cc: linux-usb@vger.kernel.org
-Subject: Re: [Bug 220272] New: Latent race condition in USB code unveiled
- with optimized memset_64.S
-Message-ID: <2025062650-handling-brussels-9f92@gregkh>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Du8N02/a"
+Received: by smtp.kernel.org (Postfix) with ESMTPS id A4E88C4CEEB
+	for <linux-usb@vger.kernel.org>; Thu, 26 Jun 2025 14:30:34 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1750948234;
+	bh=ES8AZ4INdbhrik/zU0eaHaRXXQ1YZQGt1mxwnbSqaVo=;
+	h=From:To:Subject:Date:In-Reply-To:References:From;
+	b=Du8N02/aMQkrzHbS4BsdWr7eeWlt8Oio4hW8D6oqN1tSsYi0ZT+4WfMZn18J3jVuv
+	 za2tYOh+I0eVPy9dw/x9l/ZhRxd8zWLRizJ1sAq9+nu6jWNJqs9ARu2cj7+N8Hx7K6
+	 SCimmYBqvvQ+9Fx0tOkI6hyFWv57XQW06IRg8txtKPrYlLCv3ruhEx9CRJoBDfpUCt
+	 EQezdW1yl1eSt9mdQKJf6EXoLnNMHG8Ps8ff8HO+638+sfNvqr6ucRKjgGo37+EMYj
+	 8f6RiouSYX0E44Z449sfu4cFAOQdwOnUMX8QDiqp+nc5Yte/CKkG0v92oKtUK+XpeT
+	 9TlmWTwuG452g==
+Received: by aws-us-west-2-korg-bugzilla-1.web.codeaurora.org (Postfix, from userid 48)
+	id 9B2E0C3279F; Thu, 26 Jun 2025 14:30:34 +0000 (UTC)
+From: bugzilla-daemon@kernel.org
+To: linux-usb@vger.kernel.org
+Subject: [Bug 220272] Latent race condition in USB code unveiled with
+ optimized memset_64.S
+Date: Thu, 26 Jun 2025 14:30:34 +0000
+X-Bugzilla-Reason: None
+X-Bugzilla-Type: changed
+X-Bugzilla-Watch-Reason: AssignedTo drivers_usb@kernel-bugs.kernel.org
+X-Bugzilla-Product: Drivers
+X-Bugzilla-Component: USB
+X-Bugzilla-Version: 2.5
+X-Bugzilla-Keywords: 
+X-Bugzilla-Severity: normal
+X-Bugzilla-Who: stern@rowland.harvard.edu
+X-Bugzilla-Status: NEW
+X-Bugzilla-Resolution: 
+X-Bugzilla-Priority: P3
+X-Bugzilla-Assigned-To: drivers_usb@kernel-bugs.kernel.org
+X-Bugzilla-Flags: 
+X-Bugzilla-Changed-Fields: 
+Message-ID: <bug-220272-208809-FMmzhw6lR7@https.bugzilla.kernel.org/>
+In-Reply-To: <bug-220272-208809@https.bugzilla.kernel.org/>
 References: <bug-220272-208809@https.bugzilla.kernel.org/>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+X-Bugzilla-URL: https://bugzilla.kernel.org/
+Auto-Submitted: auto-generated
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <bug-220272-208809@https.bugzilla.kernel.org/>
 
-On Thu, Jun 26, 2025 at 11:39:35AM +0000, bugzilla-daemon@kernel.org wrote:
-> Experimenting with AI to tune memset_64.S (see the attached file) for my Intel
-> 14700KF-system unveiled a race condition in the USB code.
+https://bugzilla.kernel.org/show_bug.cgi?id=3D220272
 
-Odds are this is because your memset code is buggy :)
+--- Comment #2 from Alan Stern (stern@rowland.harvard.edu) ---
+What makes you think the mouse problem is caused by a race condition?
 
-As this isn't an existing kernel issue, there's not much we can do about
-this at the moment, sorry.
+If you enable USB dynamic debugging, what shows up in the dmesg log when the
+mouse is plugged in (both successfully and unsuccessfully)?
 
+    echo module usbcore =3Dp >/sys/kernel/debug/dynamic_debug/control
+
+--=20
+You may reply to this email to add a comment.
+
+You are receiving this mail because:
+You are watching the assignee of the bug.=
