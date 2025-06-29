@@ -1,217 +1,252 @@
-Received: from mail-lf1-f51.google.com (mail-lf1-f51.google.com [209.85.167.51])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.19])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 14F411E5702
-	for <linux-usb@vger.kernel.org>; Mon, 30 Jun 2025 06:48:40 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.51
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CC7DB215F72;
+	Mon, 30 Jun 2025 07:06:35 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.19
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1751266123; cv=none; b=cBWqBEQYklgugiyspbzdNbsPCQ/fH4zQ07d/NBmJirr+ScpQdEAoASOdi/OpFAbXKrYzK9rCWK1nk9ctarEdJT7MB/tqURwlmxSNWDhM4hCChvKAvtkQWPQ2kwDa6nMCl6K8OHGCf/bWzMrxHaAU7gJHcCjFV2CWpQ1ys85kI7Q=
+	t=1751267197; cv=none; b=mmQ5QQ8XNPsxWhFFDOxchakGAvo5g5O01n8bIbQ6JMGlKoebR5pw1Sw0vdEjWELiV7enLx20sETgzqim9KVc65HJE4XetcIl6jGIvdwQs8JioYncmFmbNSV9c2TN0fXcmpuQkNE0330zYOma29aK6EM5LifKEyoHhcEdLsgYX48=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1751266123; c=relaxed/simple;
-	bh=W3/qUmYR6QyOvmumbF5zNgCLQg69m81T3y9dtD4rHzM=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=Az2Ch8udyLY0G4JZiX9KUrCN+xlucTMETbIjxtO1ZtwI/FQvez5S8LRW+5L5KsugUmVRUylutuWBaQf+GCfzmQs0cXqYtwyPQ87yUzz6PghbyfIzIbvWzv6Zrda7eO1zneUOkfD4U4I25b6SUS8f9ubx5gs3JDnr9hTqiZ8RpA0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org; spf=pass smtp.mailfrom=chromium.org; dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b=MSczNZRH; arc=none smtp.client-ip=209.85.167.51
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=chromium.org
+	s=arc-20240116; t=1751267197; c=relaxed/simple;
+	bh=j733+QscBMRNMa4l7CcujmPxTXt/r1eIsNkfLH7J9wY=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=QKoS58C4dXi9vszyFAsslYabMj8zHp1lEVgKPfJG/d2Cj3qAfIW4m1DkJ/3cV3FHL+nv3dBCgh6axHghfeSj6c4iOvHYPNuc4GEbMcnwA9REAcPgdOv2xi82mI0a2bLKdoYU5aFRNYJ2JJemyrEh801diCawaECGyHH/682Qa/Y=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=none smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=DzuYIRxc; arc=none smtp.client-ip=192.198.163.19
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=linux.intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b="MSczNZRH"
-Received: by mail-lf1-f51.google.com with SMTP id 2adb3069b0e04-5551a770828so814135e87.1
-        for <linux-usb@vger.kernel.org>; Sun, 29 Jun 2025 23:48:40 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=chromium.org; s=google; t=1751266119; x=1751870919; darn=vger.kernel.org;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=Pku19sNVP6VuOr/+3IUAfIt54nYSogJc7sn5HCCxY5g=;
-        b=MSczNZRHiw4DqU0S9f5kOy6d563U0yx5WA/asWam17R6sFevTzMrnrEgNxTEZBlQ1H
-         8gbdNKHXIpabSd/taOtXmnNIvz3Y7J6DkIstPf5DOAUsvbIh6SgGBHZC6ZwiBnis9sK2
-         kSRkfb1Fv7iHwWnCSc+vXEdmfZ6C5RBCEZzVE=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1751266119; x=1751870919;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=Pku19sNVP6VuOr/+3IUAfIt54nYSogJc7sn5HCCxY5g=;
-        b=Lcgb2KkhxnEdyuc3ULVinaCAfJPKqHxYoyde999h4lM8SFaP/0DInx0sXzrmS63UXn
-         /IaKmAWhL/oEL+/ldDjPmMbUcint0dkmf1vJdg5nCC46qZeXxMzkKlslF4wkAtOJs1Vp
-         GBgSc4pbnjE4bZmLo1VUE+kJURrzhe0n9fPAi5K7+8tNtkC38xhTkmDqf8Mxu/OeZe89
-         hUAILh+OmkBJ3s4PPe/YYKDrckRSRO5udeMwm2yzahx2DCyA3lOdDl3/eePqkvUslW2G
-         DP7UcAvPcs9p/E8qAKkn5c2yJfBO64KEdPgMFQBDfN3G74QE6xa5cvddC3VsNOgaxLWi
-         MJ2g==
-X-Forwarded-Encrypted: i=1; AJvYcCXMNyMkjYFuHS3wwiuAe+DpQ6DGpwEhVA7fcLQdHDhzMFxXKJ8BUidcF3h9I+9Zf2TVn/JwGZUP3Ns=@vger.kernel.org
-X-Gm-Message-State: AOJu0YzfoBxmQWQPJzINPTQVVj6iwfD5VmevNecwy/XCUXTygC4VZ/xh
-	6/L/FrRll26qPBul6XzQ+ArenzhXkRirZNU3U3N2vowAqrLcY0MwO+6UxyaUearxjUvjKm93UCE
-	/Avk=
-X-Gm-Gg: ASbGncsNYqMRF8YDneDIX1cQPG9b/ItAVvGvjGU9lBKFXgWD6o87LWweyRCq1eKaB3B
-	4J86HwJAg9l1XD7/0MpAM2VPTVm111AIWbMmybtmcVukutTnh1+wN0H2aifn7WjfzIOd+fWoexZ
-	/g+NMI9Fb9+QHE7frbD07cxKiatu6hu6F/v4FoMYIu0GDtBR8YG5FSky32gNk6EuyuWI/sFjEVi
-	YNHSM96gojqJROkJMrywwDJadr6mIsq3A7cP90oI/TvrPM0u7OYCrIM688kMfpq9aWZfkzaXlAk
-	eretXu2DLxfMT7sWFcd2BocofIBKstEycONi9kqAGSFIV9nCElRK/IC8QYwp4P1WsSw4azXSlS/
-	72gY/5+fd61toeyRBxxanhk1I
-X-Google-Smtp-Source: AGHT+IE94GMC8FnMxhjBxEaTLxXoA4YXb+cHWUpFD27oPIkX/O9CS3Xc1P7fAPQQ3vYm9NA9ofziNg==
-X-Received: by 2002:a05:6512:4011:b0:553:d122:f904 with SMTP id 2adb3069b0e04-5550b88e3b8mr3716094e87.23.1751266118836;
-        Sun, 29 Jun 2025 23:48:38 -0700 (PDT)
-Received: from mail-lf1-f54.google.com (mail-lf1-f54.google.com. [209.85.167.54])
-        by smtp.gmail.com with ESMTPSA id 2adb3069b0e04-5550b2cefebsm1308127e87.184.2025.06.29.23.48.36
-        for <linux-usb@vger.kernel.org>
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Sun, 29 Jun 2025 23:48:36 -0700 (PDT)
-Received: by mail-lf1-f54.google.com with SMTP id 2adb3069b0e04-553b51f5218so4277898e87.0
-        for <linux-usb@vger.kernel.org>; Sun, 29 Jun 2025 23:48:36 -0700 (PDT)
-X-Forwarded-Encrypted: i=1; AJvYcCUzVv41Xdy0RAxTl++LFaCJbTJjpHT7qa8iyK+u7Sa4lmEWxtdsYcSTh9lZNJtdTnGt5p/xo8Ap8do=@vger.kernel.org
-X-Received: by 2002:a05:6512:3e2a:b0:553:3770:c912 with SMTP id
- 2adb3069b0e04-5550ba2bc7emr3296124e87.47.1751266115614; Sun, 29 Jun 2025
- 23:48:35 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="DzuYIRxc"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1751267196; x=1782803196;
+  h=message-id:date:mime-version:subject:to:cc:references:
+   from:in-reply-to:content-transfer-encoding;
+  bh=j733+QscBMRNMa4l7CcujmPxTXt/r1eIsNkfLH7J9wY=;
+  b=DzuYIRxc2bxkbRA1zs4SeS/DRTHgYEaHVz/OsiSD4vttU4Kp99HunYMB
+   h2ml8pALX4bOdB8j66tPQq1wOmC8yzstqfGHfLZrfmiVq2WbMm3EDsuTV
+   joUzEJmL3x1RYbn9K5i6aDgreNZaYDCkPFu74Z7IsOc43FwpKO19itV2M
+   9m5ADuejTrGQSJL7Os2Yq1I1Rv0i+esqQ1V6QgLVlNuElICgCkfDqbRUp
+   4ORwKnDB1C3xcst+KGXBOJHJYLGxsnzomqoHyFnNO6WnseO5V6xn4izll
+   5ZdkEbLP0h0HkExmUqDx5olUBh1N4VMcqmUq3w61ZUarIVzrCVdhBQZxU
+   Q==;
+X-CSE-ConnectionGUID: awzTm6xTTsWNfMgH1NUnlA==
+X-CSE-MsgGUID: CvTMaO/JTG+xrmQdfWddfg==
+X-IronPort-AV: E=McAfee;i="6800,10657,11479"; a="52600156"
+X-IronPort-AV: E=Sophos;i="6.16,277,1744095600"; 
+   d="scan'208";a="52600156"
+Received: from fmviesa002.fm.intel.com ([10.60.135.142])
+  by fmvoesa113.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 30 Jun 2025 00:06:35 -0700
+X-CSE-ConnectionGUID: MiAxahvASw2z6GR28Ii+7w==
+X-CSE-MsgGUID: acMQ7alxRX+NSTRPsuEwxQ==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.16,277,1744095600"; 
+   d="scan'208";a="177046704"
+Received: from agladkov-desk.ger.corp.intel.com (HELO svinhufvud.fi.intel.com) ([10.245.244.57])
+  by fmviesa002-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 30 Jun 2025 00:06:30 -0700
+Received: from [127.0.0.1] (localhost [127.0.0.1])
+	by svinhufvud.fi.intel.com (Postfix) with ESMTP id C72BE44366;
+	Mon, 30 Jun 2025 10:06:28 +0300 (EEST)
+Message-ID: <1ac49bd3-1b65-4611-8c90-92fb2c2ffd4a@linux.intel.com>
+Date: Sun, 29 Jun 2025 12:21:47 +0300
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20250627101939.3649295-1-xu.yang_2@nxp.com> <20250627101939.3649295-2-xu.yang_2@nxp.com>
- <1c4f505f-d684-4643-bf77-89d97e01a9f2@rowland.harvard.edu> <20250629233924.GC20732@pendragon.ideasonboard.com>
-In-Reply-To: <20250629233924.GC20732@pendragon.ideasonboard.com>
-From: Ricardo Ribalda <ribalda@chromium.org>
-Date: Mon, 30 Jun 2025 08:48:23 +0200
-X-Gmail-Original-Message-ID: <CANiDSCswzMouJrRn2A3EAbGzHTf88q_qQ=DC_KX7dbf_LJzqBg@mail.gmail.com>
-X-Gm-Features: Ac12FXygHhnlFKiXR-4gqAGeNFFl6ex4EPtMW2SIZttm2I0yNPjkXicKbD_z69Y
-Message-ID: <CANiDSCswzMouJrRn2A3EAbGzHTf88q_qQ=DC_KX7dbf_LJzqBg@mail.gmail.com>
-Subject: Re: [PATCH v2 1/3] usb: core: add dma-noncoherent buffer alloc and
- free API
-To: Laurent Pinchart <laurent.pinchart@ideasonboard.com>, Christoph Hellwig <hch@lst.de>
-Cc: Alan Stern <stern@rowland.harvard.edu>, Xu Yang <xu.yang_2@nxp.com>, 
-	ezequiel@vanguardiasur.com.ar, mchehab@kernel.org, hdegoede@redhat.com, 
-	gregkh@linuxfoundation.org, mingo@kernel.org, tglx@linutronix.de, 
-	andriy.shevchenko@linux.intel.com, viro@zeniv.linux.org.uk, 
-	thomas.weissschuh@linutronix.de, linux-media@vger.kernel.org, 
-	linux-kernel@vger.kernel.org, linux-usb@vger.kernel.org, imx@lists.linux.dev, 
-	jun.li@nxp.com
-Content-Type: text/plain; charset="UTF-8"
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v2 02/12] media: v4l: fwnode: Support ACPI's _PLD for
+ v4l2_fwnode_device_parse
+Content-Language: en-US
+To: Ricardo Ribalda <ribalda@chromium.org>,
+ Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+ Hans de Goede <hdegoede@redhat.com>,
+ Mauro Carvalho Chehab <mchehab@kernel.org>, Hans Verkuil
+ <hverkuil@xs4all.nl>, Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+ Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>,
+ Conor Dooley <conor+dt@kernel.org>, Linus Walleij
+ <linus.walleij@linaro.org>, Bartosz Golaszewski <brgl@bgdev.pl>,
+ "Rafael J. Wysocki" <rafael@kernel.org>, Len Brown <lenb@kernel.org>
+Cc: linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
+ linux-usb@vger.kernel.org, devicetree@vger.kernel.org,
+ linux-gpio@vger.kernel.org, linux-acpi@vger.kernel.org
+References: <20250605-uvc-orientation-v2-0-5710f9d030aa@chromium.org>
+ <20250605-uvc-orientation-v2-2-5710f9d030aa@chromium.org>
+Organization: Intel Finland Oy - BIC 0357606-4 - c/o Alberga Business Park, 6 krs, Bertel Jungin Aukio 5, 02600 Espoo
+From: Sakari Ailus <sakari.ailus@linux.intel.com>
+In-Reply-To: <20250605-uvc-orientation-v2-2-5710f9d030aa@chromium.org>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 
-On Mon, 30 Jun 2025 at 01:39, Laurent Pinchart
-<laurent.pinchart@ideasonboard.com> wrote:
->
-> On Fri, Jun 27, 2025 at 10:23:36AM -0400, Alan Stern wrote:
-> > On Fri, Jun 27, 2025 at 06:19:37PM +0800, Xu Yang wrote:
-> > > This will add usb_alloc_noncoherent() and usb_free_noncoherent()
-> > > functions to support alloc and free buffer in a dma-noncoherent way.
-> > >
-> > > To explicit manage the memory ownership for the kernel and device,
-> > > this will also add usb_dma_noncoherent_sync_for_cpu/device() functions
-> > > and call it at proper time.  The management requires the user save
-> > > sg_table returned by usb_alloc_noncoherent() to urb->sgt.
-> > >
-> > > Signed-off-by: Xu Yang <xu.yang_2@nxp.com>
-> > > ---
-> > >  drivers/usb/core/hcd.c | 30 ++++++++++++++++
-> > >  drivers/usb/core/usb.c | 80 ++++++++++++++++++++++++++++++++++++++++++
-> > >  include/linux/usb.h    |  9 +++++
-> > >  3 files changed, 119 insertions(+)
-> > >
-> > > diff --git a/drivers/usb/core/hcd.c b/drivers/usb/core/hcd.c
-> > > index c22de97432a0..5fa00d32afb8 100644
-> > > --- a/drivers/usb/core/hcd.c
-> > > +++ b/drivers/usb/core/hcd.c
-> > > @@ -1496,6 +1496,34 @@ int usb_hcd_map_urb_for_dma(struct usb_hcd *hcd, struct urb *urb,
-> > >  }
-> > >  EXPORT_SYMBOL_GPL(usb_hcd_map_urb_for_dma);
-> > >
-> > > +static void usb_dma_noncoherent_sync_for_cpu(struct usb_hcd *hcd,
-> > > +                                        struct urb *urb)
-> > > +{
-> > > +   enum dma_data_direction dir;
-> > > +
-> > > +   if (!urb->sgt)
-> > > +           return;
-> > > +
-> > > +   dir = usb_urb_dir_in(urb) ? DMA_FROM_DEVICE : DMA_TO_DEVICE;
-> >
-> > Are the following operations really necessary if the direction is OUT?
-> > There are no bidirectional URBs, and an OUT transfer never modifies the
-> > contents of the transfer buffer so the buffer contents will be the same
-> > after the URB completes as they were when the URB was submitted.
->
-> The arch part of dma_sync_sgtable_for_cpu(DMA_TO_DEVICE) is a no-op on
-> all architectures but microblaze, mips, parisc and powerpc (at least in
-> some configurations of those architectures).
->
-> The IOMMU DMA mapping backend calls into the arch-specific code, and
-> also handles swiotlb, which is a no-op for DMA_TO_DEVICE. There's also
-> some IOMMU-related arch-specific handling for sparc.
->
-> I think dma_sync_sgtable_for_cpu() should be called for the
-> DMA_TO_DEVICE direction, to ensure proper operation in those uncommon
-> but real cases where platforms need to perform some operation. It has a
-> non-zero cost on other platforms, as the CPU will need to go through a
-> few function calls to end up in no-ops and then go back up the call
-> stack.
->
-> invalidate_kernel_vmap_range() may not be needed. I don't recall why it
-> was added. The call was introduced in
->
-> commit 20e1dbf2bbe2431072571000ed31dfef09359c08
-> Author: Ricardo Ribalda <ribalda@chromium.org>
-> Date:   Sat Mar 13 00:55:20 2021 +0100
->
->     media: uvcvideo: Use dma_alloc_noncontiguous API
->
-> Ricardo, do we need to invalidate the vmap range in the DMA_TO_DEVICE
-> case ?
+Hi Ricardo,
 
-That change came from Christoph
-https://lore.kernel.org/linux-media/20210128150955.GA30563@lst.de/
+Thanks for the update.
 
-"""
+On 6/5/25 20:52, Ricardo Ribalda wrote:
+> Currently v4l2_fwnode_device_parse() obtains the orientation and
+> rotation via fwnode properties.
+> 
+> Extend the function to support as well ACPI devices with _PLD info.
+> 
+> We give a higher priority to fwnode, because it might contain quirks
+> injected via swnodes.
+> 
+> Signed-off-by: Ricardo Ribalda <ribalda@chromium.org>
+> ---
+>   drivers/media/v4l2-core/v4l2-fwnode.c | 85 ++++++++++++++++++++++++++++++++---
+>   1 file changed, 79 insertions(+), 6 deletions(-)
+> 
+> diff --git a/drivers/media/v4l2-core/v4l2-fwnode.c b/drivers/media/v4l2-core/v4l2-fwnode.c
+> index cb153ce42c45d69600a3ec4e59a5584d7e791a2a..379290ab3cfde74c8f663d61837a9a95011b5ae0 100644
+> --- a/drivers/media/v4l2-core/v4l2-fwnode.c
+> +++ b/drivers/media/v4l2-core/v4l2-fwnode.c
+> @@ -15,6 +15,7 @@
+>    * Author: Guennadi Liakhovetski <g.liakhovetski@gmx.de>
+>    */
+>   #include <linux/acpi.h>
+> +#include <acpi/acpi_bus.h>
+>   #include <linux/kernel.h>
+>   #include <linux/mm.h>
+>   #include <linux/module.h>
+> @@ -807,16 +808,65 @@ int v4l2_fwnode_connector_add_link(struct fwnode_handle *fwnode,
+>   }
+>   EXPORT_SYMBOL_GPL(v4l2_fwnode_connector_add_link);
+>   
+> -int v4l2_fwnode_device_parse(struct device *dev,
+> -			     struct v4l2_fwnode_device_properties *props)
+> +static int v4l2_fwnode_device_parse_acpi(struct device *dev,
+> +					 struct v4l2_fwnode_device_properties *props)
+> +{
+> +	struct acpi_pld_info *pld;
+> +	int ret = 0;
+> +
+> +	if (!is_acpi_device_node(dev_fwnode(dev)))
+> +		return 0;
+> +
+> +	if (!acpi_get_physical_device_location(ACPI_HANDLE(dev), &pld)) {
+> +		dev_dbg(dev, "acpi _PLD call failed\n");
 
-Given that we vmap the addresses this also needs
-flush_kernel_vmap_range / invalidate_kernel_vmap_range calls for
-VIVT architectures.
+I'd do:
 
-"""
+acpi_handle_debug(ACPI_HANDLE(dev), "cannot obtain _PLD\n");
 
->
-> > > +   invalidate_kernel_vmap_range(urb->transfer_buffer,
-> > > +                                urb->transfer_buffer_length);
-> > > +   dma_sync_sgtable_for_cpu(hcd->self.sysdev, urb->sgt, dir);
->
-> In the DMA_FROM_DEVICE case, shouldn't the vmap range should be
-> invalidated after calling dma_sync_sgtable_for_cpu() ? Otherwise I think
-> speculative reads coming between invalidation and dma sync could result
-> in data corruption.
->
-> > > +}
-> >
-> > This entire routine should be inserted at the appropriate place in
-> > usb_hcd_unmap_urb_for_dma() instead of being standalone.
-> >
-> > > +static void usb_dma_noncoherent_sync_for_device(struct usb_hcd *hcd,
-> > > +                                           struct urb *urb)
-> > > +{
-> > > +   enum dma_data_direction dir;
-> > > +
-> > > +   if (!urb->sgt)
-> > > +           return;
-> > > +
-> > > +   dir = usb_urb_dir_in(urb) ? DMA_FROM_DEVICE : DMA_TO_DEVICE;
-> > > +   flush_kernel_vmap_range(urb->transfer_buffer,
-> > > +                           urb->transfer_buffer_length);
-> > > +   dma_sync_sgtable_for_device(hcd->self.sysdev, urb->sgt, dir);
-> > > +}
-> >
-> > Likewise, this code belongs inside usb_hcd_map_urb_for_dma().
-> >
-> > Also, the material that this routine replaces in the uvc and stk1160
-> > drivers do not call flush_kernel_vmap_range().  Why did you add that
-> > here?  Was this omission a bug in those drivers?
-> >
-> > Alan Stern
->
-> --
-> Regards,
->
-> Laurent Pinchart
+> +		return 0;
+> +	}
+> +
+> +	if (props->orientation != V4L2_FWNODE_PROPERTY_UNSET) {
+> +		switch (pld->panel) {
+> +		case ACPI_PLD_PANEL_FRONT:
+> +			props->orientation = V4L2_FWNODE_ORIENTATION_FRONT;
+> +			break;
+> +		case ACPI_PLD_PANEL_BACK:
+> +			props->orientation = V4L2_FWNODE_ORIENTATION_BACK;
+> +			break;
+> +		case ACPI_PLD_PANEL_TOP:
+> +		case ACPI_PLD_PANEL_LEFT:
+> +		case ACPI_PLD_PANEL_RIGHT:
+> +		case ACPI_PLD_PANEL_UNKNOWN:
+> +			props->orientation = V4L2_FWNODE_ORIENTATION_EXTERNAL;
+> +			break;
+> +		default:
+> +			dev_dbg(dev, "Unknown _PLD panel val %d\n", pld->panel);
 
+Similarly:
 
+acpi_handle_debug(ACPI_HANDLE(dev), "invalid panel %u in _PLD\n",
+		  pld->panel);
+
+> +			ret = -EINVAL;
+
+Should this be an error or should we simply ignore it here (and maybe 
+use acpi_handle_warn())?
+
+> +			goto done;
+> +		}
+> +	}
+> +
+> +	if (props->rotation != V4L2_FWNODE_PROPERTY_UNSET) {
+> +		switch (pld->rotation) {
+> +		case 0 ... 7:
+> +			props->rotation = pld->rotation * 45;
+> +			break;
+> +		default:
+> +			dev_dbg(dev, "Unknown _PLD rotation val %d\n", pld->panel);
+
+acpi_handle_debug(ACPI_HANDLE(dev), "invalid rotation %u in _PLD\n",
+		  pld->rotation);
+
+> +			ret = -EINVAL;
+> +			goto done;
+> +		}
+> +	}
+> +
+> +done:
+> +	ACPI_FREE(pld);
+> +	return ret;
+> +}
+> +
+> +static int v4l2_fwnode_device_parse_dt(struct device *dev,
+
+I'd call this v4l2_fwnode_device_parse_of() as we're parsing OF nodes 
+and properties here.
+
+> +				       struct v4l2_fwnode_device_properties *props)
+>   {
+>   	struct fwnode_handle *fwnode = dev_fwnode(dev);
+>   	u32 val;
+>   	int ret;
+>   
+> -	memset(props, 0, sizeof(*props));
+> -
+> -	props->orientation = V4L2_FWNODE_PROPERTY_UNSET;
+>   	ret = fwnode_property_read_u32(fwnode, "orientation", &val);
+>   	if (!ret) {
+>   		switch (val) {
+> @@ -833,7 +883,6 @@ int v4l2_fwnode_device_parse(struct device *dev,
+>   		dev_dbg(dev, "device orientation: %u\n", val);
+>   	}
+>   
+> -	props->rotation = V4L2_FWNODE_PROPERTY_UNSET;
+>   	ret = fwnode_property_read_u32(fwnode, "rotation", &val);
+>   	if (!ret) {
+>   		if (val >= 360) {
+> @@ -847,6 +896,30 @@ int v4l2_fwnode_device_parse(struct device *dev,
+>   
+>   	return 0;
+>   }
+> +
+> +int v4l2_fwnode_device_parse(struct device *dev,
+> +			     struct v4l2_fwnode_device_properties *props)
+> +{
+> +	int ret;
+> +
+> +	memset(props, 0, sizeof(*props));
+> +
+> +	props->orientation = V4L2_FWNODE_PROPERTY_UNSET;
+> +	props->rotation = V4L2_FWNODE_PROPERTY_UNSET;
+> +
+> +	/* Start by looking into swnodes and dt. */
+> +	ret =  v4l2_fwnode_device_parse_dt(dev, props);
+> +	if (ret)
+> +		return ret;
+> +
+> +	/* Orientation and rotation found!, we are ready. */
+> +	if (props->orientation != V4L2_FWNODE_PROPERTY_UNSET &&
+> +	    props->rotation != V4L2_FWNODE_PROPERTY_UNSET)
+> +		return 0;
+
+I think you can remove this check without affecting the functionality.
+
+> +
+> +	/* Let's check the acpi table. */
+> +	return v4l2_fwnode_device_parse_acpi(dev, props);
+> +}
+>   EXPORT_SYMBOL_GPL(v4l2_fwnode_device_parse);
+>   
+>   /*
+> 
 
 -- 
-Ricardo Ribalda
+Regards,
+
+Sakari Ailus
