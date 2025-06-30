@@ -1,242 +1,206 @@
-Received: from DB3PR0202CU003.outbound.protection.outlook.com (mail-northeuropeazon11010062.outbound.protection.outlook.com [52.101.84.62])
+Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com [205.220.180.131])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C940924166A;
-	Mon, 30 Jun 2025 08:23:45 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=52.101.84.62
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1751271828; cv=fail; b=OhrE73zQbGLKQuJYyPqAEVQZWZ0k4wbRdVEtWDnqPTuhCtgtpKyM3COtGnirbRfblZuBy9CrL3A/dx9l37s8wKUkfvTunzyf+VUXndaPwDlEMhcrsAzG6wsOuu48SObAjSiTYFcm0N4LkCmrNMJo3pTLGN/GJa0KfercEr0gceU=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1751271828; c=relaxed/simple;
-	bh=MHiRt6BRvQdBs9Yuo5AoH7riwn7uHaTxFzABCw64uh4=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:Content-Type:
-	 Content-Disposition:In-Reply-To:MIME-Version; b=PP963qFhGjTV7kKY9P6w/SnPukJvuY8dPEHz1Irgi1thCGxXE8s8T6ICDoDvR7AYuJPTJSy8GgjR5Cj5UYfrdwxqiFA+yDK2Ypf65bg988N7+W2oLU3VmlwWxk44XTgUJXZlksPatm8k+epiLIpUe0Z/gTI41LfyzbliX7z2+4o=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=nxp.com; spf=pass smtp.mailfrom=nxp.com; dkim=pass (2048-bit key) header.d=nxp.com header.i=@nxp.com header.b=IZZPY6+6; arc=fail smtp.client-ip=52.101.84.62
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=nxp.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=nxp.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5C0F123ABA7
+	for <linux-usb@vger.kernel.org>; Mon, 30 Jun 2025 08:28:23 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.180.131
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1751272105; cv=none; b=JE9tsEUZoip8NvoRqV7A5VNXWj7Z04ToTkwU9CPw1IHzpVAdlYHPRpT045x1T6k2f7TNMkBdov8oxnXSpAo2ZRQY1xYKS7dbz/r0ajA207qjUdHwS/OsL1yn33RAUGi7TYNyMIOKp863WCqwno85D8dbnTAjDVxNNpXyTawol4g=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1751272105; c=relaxed/simple;
+	bh=opuEB7LyWEqgR61ttBKTDpTpAkIB9+/UeaBrxZSbziY=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=rf/1V6VUMVFQMwPnn3EcKYDBLC+Z7ewAwtjbhwVUQRxvZStTTBM5gEqZV8lK4nV3DoTbEd93Z5JvNQalUrpQvaK+KbYfrtnUFtufZyrQZius1dKdpbER5u3zDGrVWrj5y/Cm27OKlYJF2VHjAom7xP8cvX0dTuIplW7G4kVJFyk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com; spf=pass smtp.mailfrom=oss.qualcomm.com; dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b=Np6/mk64; arc=none smtp.client-ip=205.220.180.131
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=oss.qualcomm.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=nxp.com header.i=@nxp.com header.b="IZZPY6+6"
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=ttj/6Y2DzA5CmMI/uqz2TV9w5onmuEkoawHbncpfCiy2BL1KarIqo3hdX4m394e3QRDC60fza9EoB3IaskW5gEDJzOmBbK7tGuQG/prUVytP76jNBKeugQ1Io8IuV4KBIdzAko5PL5L8k9hCEyjXD9XzTNcp/aWZqy/Nlyw4bNmNHSQv98uzYvJDDsKo/GnVlHpMz7sZyraLzUjOKBfnHY30tBIS3COgmlz2fTZJts1SwSz8slmdRXIA/XIVE/1zg/Gj8fj25PMJk/gupHzSIC19sdVq+A0nEwCHRbdab+Stf7mc1cFhsVDOtKswj2Y+LvmCzALS3obLuUN958B7BA==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=odOa7NBnUIPKua65+OUbpJ4xD7sDqXygvxXU/cZcJxA=;
- b=zCzEcIB5bSHNCljG4+M0mDt5GrXiQCqRmuzXtYKi4ILTy+XxRryOj+jfd26pWl1BlgAjT4hpQ7MdPZ024SOdobLxR460loMEH+4zIDLzFIE5gCwsND9w5MMfzrutv5xCv15SU5PnZ+1l+DqXkZFMm18LWws9Khpt1qQpP5NiLwkUWiplXrhp7DeecvEH51iE4HrjoSorBdGkyLqSrPynsG/enwMWtwgxxrBN0b3MFcld2GDTz6wkawGbnQSKimGMkCAYYguqjHQJ6iznoByze6mDQevOY+Snf1XK2F1zICfhePlPYgjdXReq0t0O5qxl6v4KIXMrMbRFzSdlSAcoQA==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=nxp.com; dmarc=pass action=none header.from=nxp.com; dkim=pass
- header.d=nxp.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nxp.com; s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=odOa7NBnUIPKua65+OUbpJ4xD7sDqXygvxXU/cZcJxA=;
- b=IZZPY6+6bDuMsNTCeJG5R82qqRMS/NoBjTjBYPlxvqgZvsYZ5gB/03YrvPs/zpSiDipSiZx8bQgpIhH/sbnJND4bJI9LB3BtAYFeVl5Vi6GCq/His6E6tKs1WvXZ6zPplaFXfeLDjW7KmRI1BljaagTAgwB/vOlhk03CPiFYDZExlAPMmB6J6wnZcHoKsXgvRdgiDv71PJJGXNm5C7UB4ZIdV8XC9XdVII6T/2xuD/n2fE6hZBP7951rfAaFPY5D4YH29gCvxrDUH9th9a/h2u4trH90voUU+MOx/MN4amUXnr7U2h93xL/+B+rFJDk1b/rHcI0qP9We2da2iB+81w==
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=nxp.com;
-Received: from DU2PR04MB8822.eurprd04.prod.outlook.com (2603:10a6:10:2e1::11)
- by VI2PR04MB10192.eurprd04.prod.outlook.com (2603:10a6:800:229::16) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8880.25; Mon, 30 Jun
- 2025 08:23:42 +0000
-Received: from DU2PR04MB8822.eurprd04.prod.outlook.com
- ([fe80::4e24:c2c7:bd58:c5c7]) by DU2PR04MB8822.eurprd04.prod.outlook.com
- ([fe80::4e24:c2c7:bd58:c5c7%6]) with mapi id 15.20.8880.027; Mon, 30 Jun 2025
- 08:23:42 +0000
-Date: Mon, 30 Jun 2025 16:18:51 +0800
-From: Xu Yang <xu.yang_2@nxp.com>
-To: Alan Stern <stern@rowland.harvard.edu>
-Cc: ezequiel@vanguardiasur.com.ar, mchehab@kernel.org, 
-	laurent.pinchart@ideasonboard.com, hdegoede@redhat.com, gregkh@linuxfoundation.org, 
-	mingo@kernel.org, tglx@linutronix.de, andriy.shevchenko@linux.intel.com, 
-	viro@zeniv.linux.org.uk, thomas.weissschuh@linutronix.de, linux-media@vger.kernel.org, 
-	linux-kernel@vger.kernel.org, linux-usb@vger.kernel.org, imx@lists.linux.dev, jun.li@nxp.com
-Subject: Re: [PATCH v2 1/3] usb: core: add dma-noncoherent buffer alloc and
- free API
-Message-ID: <wddmyx4lccthln7mbngkd4zbh6y7mwetdba5e7ob6u4xevecmj@zopp65eqbeuu>
-References: <20250627101939.3649295-1-xu.yang_2@nxp.com>
- <20250627101939.3649295-2-xu.yang_2@nxp.com>
- <1c4f505f-d684-4643-bf77-89d97e01a9f2@rowland.harvard.edu>
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <1c4f505f-d684-4643-bf77-89d97e01a9f2@rowland.harvard.edu>
-X-ClientProxiedBy: MA0PR01CA0087.INDPRD01.PROD.OUTLOOK.COM
- (2603:1096:a01:ae::17) To DU2PR04MB8822.eurprd04.prod.outlook.com
- (2603:10a6:10:2e1::11)
+	dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b="Np6/mk64"
+Received: from pps.filterd (m0279873.ppops.net [127.0.0.1])
+	by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 55U8D509008139
+	for <linux-usb@vger.kernel.org>; Mon, 30 Jun 2025 08:28:22 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
+	cc:content-transfer-encoding:content-type:date:from:in-reply-to
+	:message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
+	vKpr6yzIcJB1d9WyXdee0CZFQ4Hog1591SCG7KI65o0=; b=Np6/mk64Wnssv3Zz
+	qL236c9QdxAfqMiESBMSJ7eZ2BUw7Nfv3R6sDMyzXYZwdbZ9VpejQLHsN0czm9U1
+	WKtvbvp/o80RDjV9fzdRFfyk/Db9r2jGWSJ04AyuYMq3Jra2WvIONRUEVYb8eE/N
+	+ANgnuqGT4wBKeA+D4HJFKIdtKTUIQIZxtzjthPKhOUihLxF7b00uFsvNB6Yqgdl
+	ZUvqhA+8yP5mzUuozDwxxasRXbjbadZGW5Egai9oin2jzU/fKCMEA/AaYDdQGtkk
+	FouYeoUk+V2J4mExMLQQuF2YNgejMLbOUwMkZpF2+CJtKAz+WVU/xzrlMT2A9UAJ
+	a9NuYQ==
+Received: from mail-pl1-f197.google.com (mail-pl1-f197.google.com [209.85.214.197])
+	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 47kkfmrk6h-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT)
+	for <linux-usb@vger.kernel.org>; Mon, 30 Jun 2025 08:28:22 +0000 (GMT)
+Received: by mail-pl1-f197.google.com with SMTP id d9443c01a7336-235e1d66fa6so39718535ad.0
+        for <linux-usb@vger.kernel.org>; Mon, 30 Jun 2025 01:28:21 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1751272101; x=1751876901;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=vKpr6yzIcJB1d9WyXdee0CZFQ4Hog1591SCG7KI65o0=;
+        b=U9SjTgjdqleWZHbLJWRtlSbQSx8dDL8r6X4Rv1J75qWweg5gbOjH4dn2gnMBcOP7lD
+         /A9rsDyc7zgE6B5//VGKq4FjvvJJn2pk2eu00JW6OwIoHvSakc5YyH6Jqq9Zkkmd/eDI
+         IxqWzJ8dv8eGlNbQuI4jCBGOQ6ahm34wBFFl6X3mEuXjtpYVhwQUMrnNO60sfyTk0E+N
+         vQ3/ZDTWzk0I0hmnPbklqABbJOMVcDWm4yUYolcWoAWuqm8LuBTZNKQAG1lq13NJACwp
+         hlm/fwSRuQiRJqkD0jFBFCF0WOqc8sqDiYhiUV9RnywO5LAD1IzpQPRgjbDHniRkQn0a
+         RyoQ==
+X-Forwarded-Encrypted: i=1; AJvYcCWzlcaQX0GlbGFVRcHYroNqgWpUyJpskSMv2Bm4cXkaF7rth0SD9Cxxq4S2SIiTmvVeW68IlyqfnIE=@vger.kernel.org
+X-Gm-Message-State: AOJu0YyqynpejvIK8JvJwxRjDYw5WKtysTekngh1w9U+vRlsOFvXHQGP
+	Af8Q6igTh0m3HB9c8qbeotQy2fBQO7TLgO6361CSGlDtNFEuPn68NiTq8YTtWgeD9uBN9eu4yWq
+	LRGIgDVFYhRt0lGNT8GNDfg9mua6hFI5d/dA2hmoIuTtbEVgQ4T/DS7jlCYCNDkk=
+X-Gm-Gg: ASbGnctiVRe01VtK1UaknZnG5/QSFkV3qELaV+8jsyKtgdgBwQt225wnKKhmia2kbrR
+	7TkjJVOSdhtBpV66q7Tx8REoFfcxO2slvx9RGvVMz6YoJWOFuTJdc1wwgaVCEMOc5C0bp6DBIfY
+	iLly7vcFRdZmABfln30IJ67w2pfxylY6vgMJFi30tGAZ8Fm80f22jL5w8oC4GRbWWC2sycxZ3i7
+	6NVNBh8PgLkEuKdysor0lPRS0Dp3JZvwbKd39Iqxsc1NsMD/64xf5WHlXvdpX4Toa8KafX7OVPM
+	YnQaYgFvgK/LH/6qZ8CtD13AFBrFBS7V6a/OWuCtwCghwzI5J7FX5EHIRlMMBJExc8BZPLLaPqq
+	LrPBqS/8oub0=
+X-Received: by 2002:a17:903:46cd:b0:233:f3df:513d with SMTP id d9443c01a7336-23ac4607b79mr203783875ad.35.1751272100784;
+        Mon, 30 Jun 2025 01:28:20 -0700 (PDT)
+X-Google-Smtp-Source: AGHT+IFFpoJe/E22crPOG7XWE9BLjLycCr22wMPAkT8qjvh8z5NDNDo/Aolfr358a5ZWAnCeRRw7gg==
+X-Received: by 2002:a17:903:46cd:b0:233:f3df:513d with SMTP id d9443c01a7336-23ac4607b79mr203783485ad.35.1751272100359;
+        Mon, 30 Jun 2025 01:28:20 -0700 (PDT)
+Received: from [10.133.33.109] (tpe-colo-wan-fw-bordernet.qualcomm.com. [103.229.16.4])
+        by smtp.gmail.com with ESMTPSA id d9443c01a7336-23acb2e1b54sm75066315ad.15.2025.06.30.01.28.16
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Mon, 30 Jun 2025 01:28:19 -0700 (PDT)
+Message-ID: <e9160bb8-2b5c-4c30-b60f-520decde851e@oss.qualcomm.com>
+Date: Mon, 30 Jun 2025 16:28:14 +0800
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: DU2PR04MB8822:EE_|VI2PR04MB10192:EE_
-X-MS-Office365-Filtering-Correlation-Id: 6e4ed2a6-0ef6-4ff9-5cbf-08ddb7af6c6b
-X-LD-Processed: 686ea1d3-bc2b-4c6f-a92c-d99c5c301635,ExtAddr
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam:
- BCL:0;ARA:13230040|1800799024|366016|52116014|19092799006|7416014|376014|38350700014;
-X-Microsoft-Antispam-Message-Info:
- =?us-ascii?Q?3dyuPMmDKwoSEAQ/UMInNfAC1+9MD6Un+/pSmeWCkZVp6G4zv8g+IRdrsQdL?=
- =?us-ascii?Q?lm2/OpR3STqdoYXykWuVvEg4/fJX6QljkHv7ZqGghJ7v8vDZ/7dhRKCC4Pj5?=
- =?us-ascii?Q?XX/HiY4k6w4urazLCpq68ewfMp5JNThd4VwJFub14Jjl4CEgAdFGII9oeG8H?=
- =?us-ascii?Q?J5YErmuuQVPgL0ggm5nmpxJwu+YLWn7+TUow9koQ8LEhPTMZAXeuefSaAize?=
- =?us-ascii?Q?WhEHChUEZLfGoEOVObeOjioT4Z/abu/3fQeV1DaQp31x3zMO4sJs8HkwnKRn?=
- =?us-ascii?Q?p6WRpCWsKYW3f9C6iN1RKEjWEhxHPQKYUzL98YaecishYCF+PSjjXQKbgCAB?=
- =?us-ascii?Q?cbPCbQAzFrtawqyDZcSKNt7DaIi/3K2BSZlbSvTXtdQiKNqn/yC/elmva410?=
- =?us-ascii?Q?BJ9uQF9PoKdrffpYaOW2xBN5BuL6jlz/A6Oou8nSsYIY4vPRwAcSZE6hByq1?=
- =?us-ascii?Q?EH3G55A7DtcksNLl1Fn0Wq9K2aXlCIqahHIDSAwIt/VWILCtaWvzWm8V87dw?=
- =?us-ascii?Q?io1BG4s7oLtC6D02tH4Hjb+aHqxMeIPsK5XkO7s/yNIZ1k8tkAwpOqSjpVjy?=
- =?us-ascii?Q?MSZyzuIEvT8ez735/VLUqkC1D2VFYoKAGNpCPg16R5ibpcEzAQHnBKsS8HL9?=
- =?us-ascii?Q?f7IZaA8YpYT8hqEDI+xw7AN8G27y5R9p5YNS29dei+aVe2QvPehp4hba70PI?=
- =?us-ascii?Q?NnTt8rQwkaDMXD+beEYBQejKi0zmXJj2Db3U7UoVCNrSUl2D6zU04QpF0aEa?=
- =?us-ascii?Q?XCIJPgMdshjxhRemrrRU9SO4/xGjFGQq94g5RCxnI9lO/2+z2XJoh2B4N/1G?=
- =?us-ascii?Q?KNK0T5eQR1SU93sbdickzJOYoCnpbwfH11OkmLG50gGmrGxT3jC/peWvvsgU?=
- =?us-ascii?Q?Z4hztiSTeKMX2JiymUiNZcJpCZ8pk3XBfc5N+GlYyrs2QW0m1YWkdAUTfvPz?=
- =?us-ascii?Q?Ik7SLgTw9SsBvA9QQHaJ2uNZVmvMWJBOfOCeN/P4D3ir7I3tKaPxfcsHDoEb?=
- =?us-ascii?Q?4uBaBNm+Kk5IOO3NSDYJYSroL8bRSTyR5JePs33DkAKKLyDPC5vHaMxspDCb?=
- =?us-ascii?Q?AGqLwFqJckOYq1/ixB+bhrXBYZAa9uOTvVZ0Cia+hwUB7CpGt6+aaFTclNX/?=
- =?us-ascii?Q?J8Om/+6fuVLBoFDTBAvh4HDW9h3zvyPF5Eczji0gLPlhQj59Bl/jfM/D2jTK?=
- =?us-ascii?Q?7045qbpNert19lyQgWvEMDlb0/nyuApMg/N7tEyR/pt7r9Ixc8pVAr0dy1p6?=
- =?us-ascii?Q?VdDETIcQH7EdhFvz6p5CtaLY8iAZOhjhj4gkLvuPLprNobLjnUIDo41Ro9qV?=
- =?us-ascii?Q?DuDu+PqAxoj5h5F69FBruauzTRFGoIEydJ3tP2MahcoS/I+3RKlT/Knwjw7z?=
- =?us-ascii?Q?I5JLxR3CKCe6jpGGQsgZyr08cHGj4EEIMI1esy9b74v/areAy1qgMWNZzYGX?=
- =?us-ascii?Q?BHS9/pmrxlSvgHcb8ztJ+za4FdslYjmgOiQ8AOniYmFBLpYF6muM9jYSbFBR?=
- =?us-ascii?Q?Aio1DugFm7JfFHg=3D?=
-X-Forefront-Antispam-Report:
- CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:DU2PR04MB8822.eurprd04.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(1800799024)(366016)(52116014)(19092799006)(7416014)(376014)(38350700014);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0:
- =?us-ascii?Q?vzWkJpWfDERskYLVUnEkteojrdtde3/tNr6m/uMIZlhZWdhDjaVMoiCoq7qv?=
- =?us-ascii?Q?wik8Vv3tE+NkGK07mMUQiOhDIw2eFI6r7r5ViqpeFCdFGD1QW7kp6MsOBYf1?=
- =?us-ascii?Q?29EYsRB3ZtkZQ63+iZgcsvc2ZCdtWpZZAkos0doCyAhkwGEY6E+9ydCahJdT?=
- =?us-ascii?Q?hzTFicSAaSDk+FYA/cACPzV49jC6Wd0FmsgXeBRckosG2QVRO9rD9WrH/Ysp?=
- =?us-ascii?Q?cYSJn0oxNZ/nIkPWIyits8GrrmSyBOVlwOfIAy5pAR98DKxiqzhMiLq5kOcm?=
- =?us-ascii?Q?Fe7WiIjeE6trLYdymZTcGyMlilZad+TxAO2Y9GB2XQvFqI9mImeFenOqCU3j?=
- =?us-ascii?Q?ieZ7O2+piDpCGpl1qHgc+MTV2yM2dUh60q8HGoWSM3SLNJ7AH0Zb7aXmZS0r?=
- =?us-ascii?Q?dBCrK4gWpHXy82sJutR+EPOzeqdSvbsUANeZqkq+a7FPXSn8phTF5G6iSkwT?=
- =?us-ascii?Q?EIMT7qnuIBZ/uUEyATvb324GK/gQh323BAWHZwveYG7GPujndqWaIU7s+DrK?=
- =?us-ascii?Q?TA47YM/xL3TTlN5lZHA42ZF1AMcxfyr0xfkWLjq8E60I35l6DBfZ82qjRDbS?=
- =?us-ascii?Q?RGHmdZq0td4EC6/yKTyl1nMJY1U+uXGUmGR42HaMfvxz2srVUkwNB9LbNNAi?=
- =?us-ascii?Q?2hjGJPSc/+czrGmHVDX5zariCDSBsNsu6jiqXAx0vUgPbyG1AMi8IKG1xYCL?=
- =?us-ascii?Q?xnuFUSWfW+63mMge65vyeQZJeWUTO9KDXkc5q6U9JHKNpf2wL+a8hBKtCKBY?=
- =?us-ascii?Q?LL3TlLzVMLO8mQWUX97ehFYYGGN1cYEPWea5Ufe/r1apnK30K9bLC3RA3SdF?=
- =?us-ascii?Q?uCQutKVyeTsC/0kNDwlR4KkXT/YA8jIXDCYDR/iqc0eN820ig5ILAg/nP/TT?=
- =?us-ascii?Q?uz702qFbGppmOLSD/Mnyqc2m4rWnOPDX/AcCDX5k45Tf4yoabMHIEEO3QrL/?=
- =?us-ascii?Q?/kpYEGQQBO0I1iIgnrHqDxc/NmR2J6m0ryPpPfti3Y30UPGq27IZZrB9Zrju?=
- =?us-ascii?Q?Ao39GY13GLeU6zA6/GfFMVxbpUV4ygivu6guD6VZsfCPcF0O2EpGo1u/0YzB?=
- =?us-ascii?Q?c6THcxXNtG/grz1nSRJ0k0C8xLUH7WPI9jAsvozwpi2gH0sTbj/D2F5lmvBa?=
- =?us-ascii?Q?whqb0hi/1WLCOLv5/KLzZoAFNgumYQcJlMZQ0iP2Y+AOYaNtQr/2ilBKuNpH?=
- =?us-ascii?Q?+Burix+iAwPwWfed4IAukd4ST2Kb+eIb6dV6nXSusCxSkerN59XScZXNJUGg?=
- =?us-ascii?Q?UpzOW3ZDkoxocqcupGkQrlmCik4arNjLPE0nilz7vUmbh0FtDsa7VgyPVxzL?=
- =?us-ascii?Q?P31zKK/uOeJQnMVL1xO73N+odB3hU/Xj9wm7cx0/etevATVhqc7Wu4mFfPkm?=
- =?us-ascii?Q?0hpdjGqcdU2vuPM/DHlIvCayEcEN5UIYkwsofJnb13km6vWS93uBFX39JA5A?=
- =?us-ascii?Q?ZfF81SmX508LezZt5EVsrkkEfc3OBLlx2dNIxjlhEawszXscTah/5e1hoDFc?=
- =?us-ascii?Q?lpwmJ4b8TRn1caknKSmkRhLGVy/GA4mz8lKbnrSV7MVUrlnDBnC29E+UWkx8?=
- =?us-ascii?Q?Mk1asz7IO2vJESUygfdl/5bKl8W2FbDuyPkTSgdM?=
-X-OriginatorOrg: nxp.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 6e4ed2a6-0ef6-4ff9-5cbf-08ddb7af6c6b
-X-MS-Exchange-CrossTenant-AuthSource: DU2PR04MB8822.eurprd04.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 30 Jun 2025 08:23:42.4252
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 686ea1d3-bc2b-4c6f-a92c-d99c5c301635
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: 3kJdG4q/5aewk0RJACOD+qhzmER3eVQKYMzj4Ey1ZBJI9NOW6BQQ9b7QqBd8tGwQ4mj/k5IhHxO2AzuuBp+qJw==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: VI2PR04MB10192
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v2 1/8] power: supply: core: Add resistance power supply
+ property
+To: Sebastian Reichel <sebastian.reichel@collabora.com>
+Cc: Bjorn Andersson <andersson@kernel.org>,
+        Konrad Dybcio <konradybcio@kernel.org>, Rob Herring <robh@kernel.org>,
+        Krzysztof Kozlowski <krzk+dt@kernel.org>,
+        Conor Dooley
+ <conor+dt@kernel.org>,
+        Heikki Krogerus <heikki.krogerus@linux.intel.com>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Subbaraman Narayanamurthy <subbaraman.narayanamurthy@oss.qualcomm.com>,
+        David Collins <david.collins@oss.qualcomm.com>,
+        linux-pm@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linux-arm-msm@vger.kernel.org, kernel@oss.qualcomm.com,
+        devicetree@vger.kernel.org, linux-usb@vger.kernel.org
+References: <20250530-qcom_battmgr_update-v2-0-9e377193a656@oss.qualcomm.com>
+ <20250530-qcom_battmgr_update-v2-1-9e377193a656@oss.qualcomm.com>
+ <b7m55sjc2rtvtelvez6sxnjvdostvxmfjhhsr4uxhyhh4bxrcd@xmioz2bsgis2>
+Content-Language: en-US
+From: Fenglin Wu <fenglin.wu@oss.qualcomm.com>
+In-Reply-To: <b7m55sjc2rtvtelvez6sxnjvdostvxmfjhhsr4uxhyhh4bxrcd@xmioz2bsgis2>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+X-Proofpoint-ORIG-GUID: EH7g2_jBM_0Mub9cFv7mg3y-CjPoreBZ
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUwNjMwMDA2OSBTYWx0ZWRfX5Q/X/mzAXz1g
+ E8q5dNq3KYGaxUOi7cAmBkQQhzMuWcHXOO1vGMUV2jOcJ4IeHvPp9fiBuacBMvcqKZxZhhDnOMT
+ qeHSOQSzEOhQY3lOlUQz731cc6+USnI6CHqvGjgOXlxVwEAWz9ridBRm2k/SQS7r0Iy6Adq0PMy
+ xm3ePiVKDq22TGoJPLgCiHaRLc+LEC5FoSjJCvD37XiUNlLwy5Y8C+8AMP3lHArAdefZeaNHpjf
+ owpCcXrd5uh0+zxARSrFEU2XmmUCriPn6uJ/UeSeqGccXQOFh509lnt6kf2uk5vVYKOzDQwMZsv
+ 9JP62+LQabABme+bLqGBs+LDv1sQqxUSrYe1Mh4H6vYwWQ1KDNfQDdA3c9w3lfa9a9dZrPs6Jy5
+ If/nQyHCG8+XFldG8O+0i32cH2T0AnU2cwARSzWI0KApCxH5ZEri9Z8dH/AcLNLTFoY+X/iK
+X-Authority-Analysis: v=2.4 cv=L9sdQ/T8 c=1 sm=1 tr=0 ts=68624aa6 cx=c_pps
+ a=cmESyDAEBpBGqyK7t0alAg==:117 a=nuhDOHQX5FNHPW3J6Bj6AA==:17
+ a=IkcTkHD0fZMA:10 a=6IFa9wvqVegA:10 a=EUspDBNiAAAA:8 a=VwQbUJbxAAAA:8
+ a=N6g_Jt28wG8IcqWndf0A:9 a=QEXdDO2ut3YA:10 a=1OuFwYUASf3TG4hYMiVC:22
+X-Proofpoint-GUID: EH7g2_jBM_0Mub9cFv7mg3y-CjPoreBZ
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1099,Hydra:6.1.7,FMLib:17.12.80.40
+ definitions=2025-06-30_01,2025-06-27_01,2025-03-28_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ clxscore=1015 spamscore=0 phishscore=0 impostorscore=0 priorityscore=1501
+ malwarescore=0 lowpriorityscore=0 adultscore=0 suspectscore=0 mlxlogscore=999
+ bulkscore=0 mlxscore=0 classifier=spam authscore=0 authtc=n/a authcc=
+ route=outbound adjust=0 reason=mlx scancount=1 engine=8.19.0-2505280000
+ definitions=main-2506300069
 
-Hi Alan,
 
-On Fri, Jun 27, 2025 at 10:23:36AM -0400, Alan Stern wrote:
-> On Fri, Jun 27, 2025 at 06:19:37PM +0800, Xu Yang wrote:
-> > This will add usb_alloc_noncoherent() and usb_free_noncoherent()
-> > functions to support alloc and free buffer in a dma-noncoherent way.
-> > 
-> > To explicit manage the memory ownership for the kernel and device,
-> > this will also add usb_dma_noncoherent_sync_for_cpu/device() functions
-> > and call it at proper time.  The management requires the user save
-> > sg_table returned by usb_alloc_noncoherent() to urb->sgt.
-> > 
-> > Signed-off-by: Xu Yang <xu.yang_2@nxp.com>
-> > ---
-> >  drivers/usb/core/hcd.c | 30 ++++++++++++++++
-> >  drivers/usb/core/usb.c | 80 ++++++++++++++++++++++++++++++++++++++++++
-> >  include/linux/usb.h    |  9 +++++
-> >  3 files changed, 119 insertions(+)
-> > 
-> > diff --git a/drivers/usb/core/hcd.c b/drivers/usb/core/hcd.c
-> > index c22de97432a0..5fa00d32afb8 100644
-> > --- a/drivers/usb/core/hcd.c
-> > +++ b/drivers/usb/core/hcd.c
-> > @@ -1496,6 +1496,34 @@ int usb_hcd_map_urb_for_dma(struct usb_hcd *hcd, struct urb *urb,
-> >  }
-> >  EXPORT_SYMBOL_GPL(usb_hcd_map_urb_for_dma);
-> >  
-> > +static void usb_dma_noncoherent_sync_for_cpu(struct usb_hcd *hcd,
-> > +					     struct urb *urb)
-> > +{
-> > +	enum dma_data_direction dir;
-> > +
-> > +	if (!urb->sgt)
-> > +		return;
-> > +
-> > +	dir = usb_urb_dir_in(urb) ? DMA_FROM_DEVICE : DMA_TO_DEVICE;
-> 
-> Are the following operations really necessary if the direction is OUT?  
-> There are no bidirectional URBs, and an OUT transfer never modifies the 
-> contents of the transfer buffer so the buffer contents will be the same 
-> after the URB completes as they were when the URB was submitted.
+On 6/22/2025 9:26 AM, Sebastian Reichel wrote:
+> Hi,
+>
+> On Fri, May 30, 2025 at 03:35:06PM +0800, Fenglin Wu via B4 Relay wrote:
+>> From: Fenglin Wu <fenglin.wu@oss.qualcomm.com>
+>>
+>> Some battery drivers provide the ability to export resistance as a
+>> parameter. Add resistance power supply property for that purpose.
+> This is missing some information and the naming is bad.
+>
+> Which resistance (I suppose battery internal resistance)?
+>
+> That is heavily dependent on the battery temperature. So this needs
+> to document if this is for the current temperature or for some
+> specific one.
+>
+> -- Sebastian
 
-According to Laurent's reply email, it may be needed for some archs.
+This is battery internal resistance calculated by battery management 
+system, using the real-time temperature measured by the thermistor 
+inside the battery pack.
 
-> 
-> > +	invalidate_kernel_vmap_range(urb->transfer_buffer,
-> > +				     urb->transfer_buffer_length);
-> > +	dma_sync_sgtable_for_cpu(hcd->self.sysdev, urb->sgt, dir);
-> > +}
-> 
-> This entire routine should be inserted at the appropriate place in 
-> usb_hcd_unmap_urb_for_dma() instead of being standalone.
+I can update the name to something like "rt_internal_resistance" and 
+update the description accordingly.
 
-Okay.
-
-> 
-> > +static void usb_dma_noncoherent_sync_for_device(struct usb_hcd *hcd,
-> > +						struct urb *urb)
-> > +{
-> > +	enum dma_data_direction dir;
-> > +
-> > +	if (!urb->sgt)
-> > +		return;
-> > +
-> > +	dir = usb_urb_dir_in(urb) ? DMA_FROM_DEVICE : DMA_TO_DEVICE;
-> > +	flush_kernel_vmap_range(urb->transfer_buffer,
-> > +				urb->transfer_buffer_length);
-> > +	dma_sync_sgtable_for_device(hcd->self.sysdev, urb->sgt, dir);
-> > +}
-> 
-> Likewise, this code belongs inside usb_hcd_map_urb_for_dma().
-
-Okay.
-
-> 
-> Also, the material that this routine replaces in the uvc and stk1160 
-> drivers do not call flush_kernel_vmap_range().  Why did you add that 
-> here?  Was this omission a bug in those drivers?
-
-According to dma-api.rst:
-https://git.kernel.org/pub/scm/linux/kernel/git/stable/linux-stable-rc.git/tree/Documentation/core-api/dma-api.rst?h=linux-6.15.y#n664
-
-"Once a non-contiguous allocation is mapped using this function, the
-flush_kernel_vmap_range() and invalidate_kernel_vmap_range() APIs must
-be used to manage the coherency between the kernel mapping, the device
-and user space mappings (if any)."
-
-Possibly the uvc and stk1160 missed calling it, but since they won't be
-the only user of the USB core, so we'd better call these APIs.
-
-Thanks,
-Xu Yang
-
-> 
-> Alan Stern
+>> Signed-off-by: Fenglin Wu <fenglin.wu@oss.qualcomm.com>
+>> ---
+>>   Documentation/ABI/testing/sysfs-class-power | 10 ++++++++++
+>>   drivers/power/supply/power_supply_sysfs.c   |  1 +
+>>   include/linux/power_supply.h                |  1 +
+>>   3 files changed, 12 insertions(+)
+>>
+>> diff --git a/Documentation/ABI/testing/sysfs-class-power b/Documentation/ABI/testing/sysfs-class-power
+>> index 560124cc31770cde03bcdbbba0d85a5bd78b15a0..22a565a6a1c509461b8c483e12975295765121d6 100644
+>> --- a/Documentation/ABI/testing/sysfs-class-power
+>> +++ b/Documentation/ABI/testing/sysfs-class-power
+>> @@ -552,6 +552,16 @@ Description:
+>>   			Integer > 0: representing full cycles
+>>   			Integer = 0: cycle_count info is not available
+>>   
+>> +What:		/sys/class/power_supply/<supply_name>/resistance
+>> +Date:		May 2025
+>> +Contact:	linux-arm-msm@vger.kernel.org
+>> +Description:
+>> +		Reports the resistance of the battery power supply.
+>> +
+>> +		Access: Read
+>> +
+>> +		Valid values: Represented in microohms
+>> +
+>>   **USB Properties**
+>>   
+>>   What:		/sys/class/power_supply/<supply_name>/input_current_limit
+>> diff --git a/drivers/power/supply/power_supply_sysfs.c b/drivers/power/supply/power_supply_sysfs.c
+>> index a438f7983d4f6a832e9d479184c7c35453e1757c..dd829148eb6fda5dcd7eab53fc70f99081763714 100644
+>> --- a/drivers/power/supply/power_supply_sysfs.c
+>> +++ b/drivers/power/supply/power_supply_sysfs.c
+>> @@ -220,6 +220,7 @@ static struct power_supply_attr power_supply_attrs[] __ro_after_init = {
+>>   	POWER_SUPPLY_ATTR(MANUFACTURE_YEAR),
+>>   	POWER_SUPPLY_ATTR(MANUFACTURE_MONTH),
+>>   	POWER_SUPPLY_ATTR(MANUFACTURE_DAY),
+>> +	POWER_SUPPLY_ATTR(RESISTANCE),
+>>   	/* Properties of type `const char *' */
+>>   	POWER_SUPPLY_ATTR(MODEL_NAME),
+>>   	POWER_SUPPLY_ATTR(MANUFACTURER),
+>> diff --git a/include/linux/power_supply.h b/include/linux/power_supply.h
+>> index c4cb854971f53a244ba7742a15ce7a5515da6199..de3e88810e322546470b21258913abc7707c86a7 100644
+>> --- a/include/linux/power_supply.h
+>> +++ b/include/linux/power_supply.h
+>> @@ -174,6 +174,7 @@ enum power_supply_property {
+>>   	POWER_SUPPLY_PROP_MANUFACTURE_YEAR,
+>>   	POWER_SUPPLY_PROP_MANUFACTURE_MONTH,
+>>   	POWER_SUPPLY_PROP_MANUFACTURE_DAY,
+>> +	POWER_SUPPLY_PROP_RESISTANCE,
+>>   	/* Properties of type `const char *' */
+>>   	POWER_SUPPLY_PROP_MODEL_NAME,
+>>   	POWER_SUPPLY_PROP_MANUFACTURER,
+>>
+>> -- 
+>> 2.34.1
+>>
+>>
