@@ -1,284 +1,222 @@
-Received: from mail-m155101.qiye.163.com (mail-m155101.qiye.163.com [101.71.155.101])
+Received: from DB3PR0202CU003.outbound.protection.outlook.com (mail-northeuropeazon11010023.outbound.protection.outlook.com [52.101.84.23])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 660C92356CE;
-	Tue,  1 Jul 2025 10:15:27 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=101.71.155.101
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1751364932; cv=none; b=NkBJ+EYELlxkuqHyyn9K+HIyy5HKikoECEKJMAkTV/s9ogsmjqQw8MdK+rjszm9QFtH3FRd+8Mw34QXi5WMRIAuShxGBG8YRmi6bobNDK9Rbv2u2qjVZBywbw1M+UMARXLMWSFNKXqWKc5HxUrjnMd6jpdFZWosC5GT9sG77upc=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1751364932; c=relaxed/simple;
-	bh=UER6UP57mrgWSjf4gyDsjMn+GpFS6MZjgA5BfuK8RzI=;
-	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
-	 MIME-Version; b=umMW4GpDjzSs/GZE5iUr3wbsh/t7QACoJPUShv/edhAMkaxjP82GS8rCuI67LEO6ubu4/X14xJDykbQCGlbtYJh9VnJd/PsYHQeNo2kia/9Cter98EU5raSyB8N9Gf0pahU8v5e5SmfFQmjquxLKZGKYvW+hgQkFnKi32jUlvmg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=jmu.edu.cn; spf=pass smtp.mailfrom=jmu.edu.cn; arc=none smtp.client-ip=101.71.155.101
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=jmu.edu.cn
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=jmu.edu.cn
-Received: from localhost.localdomain (unknown [116.25.94.38])
-	by smtp.qiye.163.com (Hmail) with ESMTP id 1a8790b15;
-	Tue, 1 Jul 2025 18:00:08 +0800 (GMT+08:00)
-From: Chukun Pan <amadeus@jmu.edu.cn>
-To: Johan Hovold <johan@kernel.org>
-Cc: linux-kernel@vger.kernel.org,
-	linux-usb@vger.kernel.org,
-	Chukun Pan <amadeus@jmu.edu.cn>
-Subject: [PATCH v2 1/1] USB: serial: option: add GosunCn GM800 series
-Date: Tue,  1 Jul 2025 18:00:02 +0800
-Message-Id: <20250701100002.798372-2-amadeus@jmu.edu.cn>
-X-Mailer: git-send-email 2.25.1
-In-Reply-To: <20250701100002.798372-1-amadeus@jmu.edu.cn>
-References: <20250701100002.798372-1-amadeus@jmu.edu.cn>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B5E2426CE10
+	for <linux-usb@vger.kernel.org>; Tue,  1 Jul 2025 10:21:14 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=52.101.84.23
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1751365276; cv=fail; b=DIpci4DIUkNlohR10Pnbnrcos1gO6Hpynlp2oLii+mnY64gQeRo2YN5tcg/kgbSYeX0+NySCnjDE1eVskf04DUXXD2MMtPZIb/l2GIfcIN5VGV9078e6z+pBuBlQEgELyBKmnQZSnU1lEEL6HmHcEC8KGMHLZff0aRvoMsUEkJk=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1751365276; c=relaxed/simple;
+	bh=QcUmFoBQrdGiV5wCxLM+JV/5MCZRKOQKPdIBzDViOlY=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:Content-Type:
+	 Content-Disposition:In-Reply-To:MIME-Version; b=IS8/Jj1a5Xyz3nNiY2J6miGG5rAkVdOmnZuLaFb0uVSbyarH+NB/V1IpCjvdRD164rYuh4K4p402q8/FJv/YQ95fhSTOhxDqkyCxzVqUhc0HAy+UDdpntYT+/fKPxa90XVG48WJLZ/gOR2wVJENbGdWiHOGlKC0urjenPVo3T3w=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=nxp.com; spf=pass smtp.mailfrom=nxp.com; dkim=pass (2048-bit key) header.d=nxp.com header.i=@nxp.com header.b=gpEIaeII; arc=fail smtp.client-ip=52.101.84.23
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=nxp.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=nxp.com
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=nxp.com header.i=@nxp.com header.b="gpEIaeII"
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=MYXLWPSU68LKGMuFUvZgyDB6zHK+349zLRvyA4ydVwFds//vZEdl9SGGt+VdRCD2OKQ1zO+5Q5HE30A9GEAvQaqnQ7ZygE4fRSm5GPHL+jY4ka6wtwhWHFdfOo/KtKv5zP2UvxXqlVv6JKrltYWdFDsBZFtfvAMMhmPOYcczdvCEXsH1aA+hQQFqsVYm+0O7FrmYdkSa9BvT5VxXQvdUjewksRIZpxahZ65pLrb2DWUjFYnlz+ucSOa9Z3BOld24HPTzDmyIdkLbdyXYnLvGkTgNfDjCyyb3BXGA3ZtPlRIx10rR0GK3p/mpDywdqi5C4Aa8p1FhUa81fi+au5eVlw==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=OtGU2gixDByWglZsy5dn7ARCJsmzAJptUgtBEEu6vO8=;
+ b=jgRD0X0ZRS4JdI4orPaIFBLJo1GetphMGDnV1e6VCTXjvOs1GdBWJEKwTnuWrIZMh0X5wK3LUVbXpRoYNfER2L0sXYbnj44zlHvBTztoSoXFoLwyMPnaemjPQNZXlYSI1dcKTQR5J1qdclcdlparKoB7bG6li/p8+52GhrnpTmSmU1dBMmv87SWRW6n1xNOJKphOM5x2/PGiiYcHTwvT6zUJsS9aFCARe1dukq2Su2v3t//SvET8lj0hQu01OXGMc3nHQyrc8taYkiPN/9f2hc6VTqo0KGBHmjsMTUvSC2+aJ5Go0iP/hlgvFkC12C36djjETjtLETcHMTPM/E3Z5g==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=nxp.com; dmarc=pass action=none header.from=nxp.com; dkim=pass
+ header.d=nxp.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nxp.com; s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=OtGU2gixDByWglZsy5dn7ARCJsmzAJptUgtBEEu6vO8=;
+ b=gpEIaeII3ukqh/yLU0vHuB8+jpAJ+t7HWiQsrE5I5PBo8fZhjPaUE6O4sdg3Zgl87qOJFXjSdYJ+cFQmQMcXP6wbPD9G9+iVFbN1Z+Mcnetu7G6KD2reHFfsEBmoxj7owle29njKIALbteqBYz6CgmYV0Rnh9utm67C+s1Wkc2cvqqR8W17Gz4R9PkB1QV7a/Qgn5gakSwZ9DkVeZP1hK+vF8VFkxOtuT4Kbz5DITP/NNdYlJUCNNcJWyG9yARkscnetI/ZZ0F9D2A2jlg4/A72mJLmQmT2RGOFQOxPTgg2Nw9OK5DiT8RenDQV7Qh8DYdp7FrBZNUdYrffVwVPWrA==
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=nxp.com;
+Received: from DU2PR04MB8822.eurprd04.prod.outlook.com (2603:10a6:10:2e1::11)
+ by AS8PR04MB8931.eurprd04.prod.outlook.com (2603:10a6:20b:42e::12) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8880.26; Tue, 1 Jul
+ 2025 10:21:11 +0000
+Received: from DU2PR04MB8822.eurprd04.prod.outlook.com
+ ([fe80::4e24:c2c7:bd58:c5c7]) by DU2PR04MB8822.eurprd04.prod.outlook.com
+ ([fe80::4e24:c2c7:bd58:c5c7%6]) with mapi id 15.20.8880.029; Tue, 1 Jul 2025
+ 10:21:11 +0000
+Date: Tue, 1 Jul 2025 18:16:23 +0800
+From: Xu Yang <xu.yang_2@nxp.com>
+To: Alan Stern <stern@rowland.harvard.edu>
+Cc: gregkh@linuxfoundation.org, viro@zeniv.linux.org.uk, 
+	linux-usb@vger.kernel.org, imx@lists.linux.dev, jun.li@nxp.com
+Subject: Re: [PATCH] usb: mon_text: find valid buffer offset for iso transfer
+Message-ID: <fornnnolaxn5zbw2dnepq2higyf5vw4dkdn4uptgz6tuki4zoe@wnclvwajtila>
+References: <20250627105651.3653231-1-xu.yang_2@nxp.com>
+ <8a251c8b-5ec6-4238-bdcd-8d8001fd06df@rowland.harvard.edu>
+ <zbxioq4jk2ykd3alu5j6igmgzmsuainlwelhvl5lhz3iczcqyv@uspbdfpyj36j>
+ <57695560-d6ef-49bc-976e-836ddc903d13@rowland.harvard.edu>
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <57695560-d6ef-49bc-976e-836ddc903d13@rowland.harvard.edu>
+X-ClientProxiedBy: FR4P281CA0374.DEUP281.PROD.OUTLOOK.COM
+ (2603:10a6:d10:f8::6) To DU2PR04MB8822.eurprd04.prod.outlook.com
+ (2603:10a6:10:2e1::11)
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-HM-Spam-Status: e1kfGhgUHx5ZQUpXWQgPGg8OCBgUHx5ZQUlOS1dZFg8aDwILHllBWSg2Ly
-	tZV1koWUFITzdXWS1ZQUlXWQ8JGhUIEh9ZQVlCSEMdVkIdSE1MGhhOQh9CS1YeHw5VEwETFhoSFy
-	QUDg9ZV1kYEgtZQVlKSk1VSU5VQk9VSENZV1kWGg8SFR0UWUFZT0tIVUpLSU9PT0tVSktLVUtZBg
-	++
-X-HM-Tid: 0a97c56dfbf203a2kunma1c93f498732f
-X-HM-MType: 10
-X-HM-Sender-Digest: e1kMHhlZQR0aFwgeV1kSHx4VD1lBWUc6OC46Lio*TDE8EkscPE85CQMT
-	HlEKCzZVSlVKTE5KSE1PS0tCQkNNVTMWGhIXVRoWGh8eDgg7ERYOVR4fDlUYFUVZV1kSC1lBWUpK
-	TVVJTlVCT1VIQ1lXWQgBWUFKSUlKQjcG
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: DU2PR04MB8822:EE_|AS8PR04MB8931:EE_
+X-MS-Office365-Filtering-Correlation-Id: 9438e1ac-bc41-4f58-454c-08ddb889006d
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam:
+	BCL:0;ARA:13230040|366016|1800799024|52116014|376014|19092799006|38350700014|27256017;
+X-Microsoft-Antispam-Message-Info:
+	=?us-ascii?Q?wP4/vUvTX5+ULFFilH7wwrfsiwD2wG8dwUkwj0f6LyVtqf0Nbc/bsvEc5sSN?=
+ =?us-ascii?Q?UrEwM3BXEAD017n3+hxytsIUJda+9oZhBOr8u00MR26y5iv3MnkjksjLGmJl?=
+ =?us-ascii?Q?dfWE5xpSSs/e4fuXQ+vNaNZ0xKbrhtImy1x75JuLodSVLrLaMeoMeV39Dv8J?=
+ =?us-ascii?Q?FGydiGNNyMKmsxpiVSQ61P7O2G6sfIvWaYnnVO+0o8O3RylE7EY1seArwXa+?=
+ =?us-ascii?Q?P6Ahh9CW4IK/VX9WjzSJdsX2gJI2lChHEWZMNU74e0soDWHYeFLrjEDFBLdf?=
+ =?us-ascii?Q?fTpMSRHAJD1EmuV32HG2z/DysV0SNfbRET13Kc94DOD7HTqk0jVOpXc0uHRB?=
+ =?us-ascii?Q?k5asi7j15JIP32pWCEZSKwYJFNuwG+P/YAPq2/SIZlBe80SxiBtWcEpvrRE/?=
+ =?us-ascii?Q?FXe83RhLGCDuRTGYW7H7ZrSfayrC2vGt3pReuiZcKooz+09kBxADjYmPA6OV?=
+ =?us-ascii?Q?QA6Fvj0mStGDO8R8wspFLim3dyz0Dl/vnlhr4GCK17lzvuX4xuWm58h1/LD7?=
+ =?us-ascii?Q?NcTAkp6rlmVBCiWtKKFc6JbwB+0JJ49dZQnUw9jRQLSG4Xv9XFM015vDLfsD?=
+ =?us-ascii?Q?AcrGFaTTbd+tWx+N25doKZwk7BhViXK0UD68U0B8bKZw8fqzYVxY34EOdevH?=
+ =?us-ascii?Q?CAW5oFYoSBxcQk8B5m3+/4osWRSCyBcZqbj1Bv1V/ohcE56gxDD8JSKFFqzi?=
+ =?us-ascii?Q?iGbWo8LFOgdeV6cstcAla0VrFsGRMWGoAP8yZYnZ+Yxb7zpa5G0Mkp3UYnTi?=
+ =?us-ascii?Q?nZfKQJj7i0D+pp2Sn1yx9udFpBtlkvIkmyCuyFkE/NCwnf5nxmJoytLt0YqV?=
+ =?us-ascii?Q?y4dtitBIfiIXKmRioUSkBZpH3NFtYX2n3Nez79PQpQ0mUZXzSon1ZszC2ik+?=
+ =?us-ascii?Q?/VRWTiS2tXWZ765hDzZDgaE6SihQk/AoCKtJr4yWJv/Se7Fk1/xxfzCrHAoR?=
+ =?us-ascii?Q?0G8cHMtkcHUiHkDxtOGOQB8dCbQtbqn/AcWu4j/M/Chd/+2nxmub7WDDg7Md?=
+ =?us-ascii?Q?Cu2RUD4YJLt1YNyS3YenwYn4sz2QUQnzv4JB5RfjP1aO1kzfJYmCsVxRg4Ym?=
+ =?us-ascii?Q?OCeciugYs8C+5Kmz5AkGx25sbJm+Y/YXeMIKcv2cbScmLm6AP+JwaoVilIpN?=
+ =?us-ascii?Q?1qx5sFaHIXDvAwVY9z5GLeDZJdRd+l2Bk/YZDFdrI28p6U/38Jk6n2Fe00U2?=
+ =?us-ascii?Q?s8dXSRdsQZiRoQTLSo6vao2rhpGpN1tLzLYrc5KcDlNqY2n8QI+gvr9r/hfY?=
+ =?us-ascii?Q?kmeEx1s4RsDDqMITbBEoVLxBGqwhaNAP2tfLf8OS5ywFgLyRYC6GNxDhi0J7?=
+ =?us-ascii?Q?t0t8X1oXh9qRBZxRBWhwWfxfLbo2GnA7s8cVyauY8JQ8gCaETjAT4L8gTIaR?=
+ =?us-ascii?Q?BnETB7ba6zqNs9Bg+YnRdaz4TTxXP6nU+Rp9Wr2SRkoGMvV/+Q56/nskKc4D?=
+ =?us-ascii?Q?ilfIQrnHy60JGvhDXVSZTI+FHUkkrmb7+zwQzZH8YUOcYhsGlz/O5307mW3I?=
+ =?us-ascii?Q?Vmvv+3o1ZNcuZrw=3D?=
+X-Forefront-Antispam-Report:
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:DU2PR04MB8822.eurprd04.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(366016)(1800799024)(52116014)(376014)(19092799006)(38350700014)(27256017);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0:
+	=?us-ascii?Q?VyoFVoVP7EB9/9Mr9YztQZ+sA+ga1XNn6DGTSJU+klSLEusEYiyLbTC60chs?=
+ =?us-ascii?Q?ZRTAZOXKLB3dQfZvY3xuNSZ+EfWiVhWKgiTUwZMkYzjsKRy+VIYwCTwEmrn+?=
+ =?us-ascii?Q?KI/jnc3ApSslx6U5aC5j7XF+eWqY7wmMKuuSF/no/uBFHsAPDP8YRzjygVld?=
+ =?us-ascii?Q?TSX/E2TTE0CXjlDeiAdOMq/XEf1bI+GN/i8DIbbAVsP+x1GkfAw+BQkA8/n+?=
+ =?us-ascii?Q?E4k2ZmqDcv6WN+rZohPyeK+xveyWJjh4GfMELD816xcvXvPTm0rUA+8yYBPr?=
+ =?us-ascii?Q?wWutUI41VJL6j7T+lxiODJIa0b5SiN7qzIcjtuUQxgunZl4vvEM5TkDlbh6Y?=
+ =?us-ascii?Q?K0veSieU/YBSfZFUwtr9dmxuUOjyRCBG/37c6FwqAoluDqYeK05Qqphj4rqZ?=
+ =?us-ascii?Q?l5LkhFLqyoQy4iBf+AoAaN7es/pr+vFpw4F5nH9XM5/N06+HjGmT3YiLxyIU?=
+ =?us-ascii?Q?HmJNazyXaUOEvDPSa3fYH675x3ArKHb4Lsq+WdMeM3Kmy6EsIG0fyQ8UB7Qr?=
+ =?us-ascii?Q?qnyZENSMAqH2+/+hB6w2mNhx1jf6GNTDO2hKPWO1H1aAlDzMLyxZiP3gfIBE?=
+ =?us-ascii?Q?m0b2NcXnvLbuaeLvHWXBVtBnpmJfDCGDxYk8QudwW2mbe8IgLZ3HmsyZ5KQD?=
+ =?us-ascii?Q?3vTYIM8uq3nVBNj8j7ltGoPUfXwUcg1b26ZDn1wGTDq/Zim9nMLRGjcf7CyJ?=
+ =?us-ascii?Q?0K17fCp9HYOH78KMgTLCHp/vWqzeiT+/PF+jFusmGvikZWhEljz5z3UE04Qq?=
+ =?us-ascii?Q?vW4RpgFF+w35aSZ41wHZ9NdFqHjeLr7YNgxQVugRx/tcGTgY2Pw5efqZ6yMV?=
+ =?us-ascii?Q?4Hyyebyyh1efASwIu0qvMHa5DKFmJ3VGENfGX4GDb3HPUiZrF97MARrryG6u?=
+ =?us-ascii?Q?9btRDqX0CkQlZXq+DFhwz5dKRsoBhjKmidZP8iEF0o/goHQ9akUMT5xGtGdy?=
+ =?us-ascii?Q?7I/0oM3taVOv5fviPPfNeLDQxIMqguDvfLQ/ZHJIl7AG5FL5Pkxliq9Tks0Y?=
+ =?us-ascii?Q?tsZv4KvNq5jwBdwWHzHR91pJBIFHj/DwmUh+zG/cZid9IeJMZsEq5G9xy/b+?=
+ =?us-ascii?Q?aUMSIimDiCY5QwSmrUXlwctjEfOmBAkFCTZ2T6Z4voW/J9F0IqJSK3WqukRK?=
+ =?us-ascii?Q?Bg4vz7mrRYOqOlBJBtXYB5D+bFyIXqhFi4xc97cT37l35DnW3sgmUE4e9/lD?=
+ =?us-ascii?Q?Qi2XE3SYjObehwE6dZv+HU/818yV5Vua0fAgxYYuE+aFGz/wNWvb9d9Z4k2C?=
+ =?us-ascii?Q?M9jHmYVvjxQnTCWZ6UkvD2xkzxc3LhPJJz6fyZX4BtIUxOAirMnmaVzBXaBx?=
+ =?us-ascii?Q?AT19W6cS+Z1iL/JMzwrVSNFHdoc4QPHYD0N+NqLp+YRgLSf0runBB4v0h6h7?=
+ =?us-ascii?Q?kzYH238VBPnRfMcdEo7tAWklMEIqvUaWZGVIvbRM8vUjqi4FT3Ef6Yh13F0y?=
+ =?us-ascii?Q?BGdPh5/uiOsBJPyeSGPw7M/k393RGYS6Y3hPyjF559+gOTYH/EdOTkF1DAOV?=
+ =?us-ascii?Q?svWWy450hB0vC0SxndKpYXAjy09hBCYVGrl4IbyOH122cXvjHeWLTkkqtAp+?=
+ =?us-ascii?Q?NNoE+43ze6N1zzonBedbmummvNnq85j5Y4jduuAX?=
+X-OriginatorOrg: nxp.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 9438e1ac-bc41-4f58-454c-08ddb889006d
+X-MS-Exchange-CrossTenant-AuthSource: DU2PR04MB8822.eurprd04.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 01 Jul 2025 10:21:11.5923
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 686ea1d3-bc2b-4c6f-a92c-d99c5c301635
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: cp/y3/y7042PXaM4g46uOj8mHgIwxFTnU6UgOSNFasA6uGMZHyNXvQ3NKKskmDHHSeqoCCuNCo40MgHateTlYg==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: AS8PR04MB8931
 
-Add support for GosunCn GM800 series which are based on Qualcomm
-SDX55 chip. The ID of MBIM/ECM/RNDIS mode is the same as GM500.
+On Mon, Jun 30, 2025 at 10:26:56AM -0400, Alan Stern wrote:
+> On Mon, Jun 30, 2025 at 05:13:31PM +0800, Xu Yang wrote:
+> > Hi Alan,
+> > 
+> > On Fri, Jun 27, 2025 at 10:28:53AM -0400, Alan Stern wrote:
+> > > On Fri, Jun 27, 2025 at 06:56:51PM +0800, Xu Yang wrote:
+> > > > The valid data doesn't always begin at the buffer head in case
+> > > > iso_frame_desc is larger than 1. Otherwise, the output info will be
+> > > > meaningless.
+> > > 
+> > > Not so.  usbmon intentionally copies the entire isochronous transfer 
+> > > buffer, even if only part of it was used for the actual transfer.
+> > 
+> > Ah, I see USB monitor only copies DATA_MAX (32) bytes data for mon_text.
+> > For mon_bin it copies entire transfer length data. So I think whether
+> > the data is valid or not matters for mon_text.
+> 
+> Given that nobody has complained about the way it works, after many 
+> years, changing it probably isn't really necessary.
 
-Download mode:
-0x1402: DIAG + AT + MODEM
-T:  Bus=01 Lev=01 Prnt=01 Port=00 Cnt=01 Dev#=  2 Spd=480  MxCh= 0
-D:  Ver= 2.00 Cls=00(>ifc ) Sub=00 Prot=00 MxPS=64 #Cfgs=  1
-P:  Vendor=305a ProdID=1402 Rev= 4.14
-S:  Manufacturer=GSW
-S:  Product=GSW_GM800_123456
-S:  SerialNumber=12345678
-C:* #Ifs= 3 Cfg#= 1 Atr=80 MxPwr=500mA
-I:* If#= 0 Alt= 0 #EPs= 2 Cls=ff(vend.) Sub=ff Prot=30 Driver=option
-E:  Ad=81(I) Atr=02(Bulk) MxPS= 512 Ivl=0ms
-E:  Ad=01(O) Atr=02(Bulk) MxPS= 512 Ivl=0ms
-I:* If#= 1 Alt= 0 #EPs= 3 Cls=ff(vend.) Sub=00 Prot=00 Driver=option
-E:  Ad=83(I) Atr=03(Int.) MxPS=  10 Ivl=32ms
-E:  Ad=82(I) Atr=02(Bulk) MxPS= 512 Ivl=0ms
-E:  Ad=02(O) Atr=02(Bulk) MxPS= 512 Ivl=0ms
-I:* If#= 2 Alt= 0 #EPs= 3 Cls=ff(vend.) Sub=00 Prot=00 Driver=option
-E:  Ad=85(I) Atr=03(Int.) MxPS=  10 Ivl=32ms
-E:  Ad=84(I) Atr=02(Bulk) MxPS= 512 Ivl=0ms
-E:  Ad=03(O) Atr=02(Bulk) MxPS= 512 Ivl=0ms
+Okay. I just want to remove some strange info from the results.
+If so, we can simply skip this patch.
 
-RmNet mode (old):
-0x1403: DIAG + AT + MODEM + RMNET + ADB
-T:  Bus=08 Lev=01 Prnt=01 Port=00 Cnt=01 Dev#=  2 Spd=5000 MxCh= 0
-D:  Ver= 3.20 Cls=00(>ifc ) Sub=00 Prot=00 MxPS= 9 #Cfgs=  1
-P:  Vendor=305a ProdID=1403 Rev= 4.14
-S:  Manufacturer=QCOM
-S:  Product=SDXPRAIRIE-MTP _SN:12345678
-S:  SerialNumber=12345678
-C:* #Ifs= 5 Cfg#= 1 Atr=a0 MxPwr=896mA
-I:* If#= 0 Alt= 0 #EPs= 2 Cls=ff(vend.) Sub=ff Prot=30 Driver=(none)
-E:  Ad=81(I) Atr=02(Bulk) MxPS=1024 Ivl=0ms
-E:  Ad=01(O) Atr=02(Bulk) MxPS=1024 Ivl=0ms
-I:* If#= 1 Alt= 0 #EPs= 3 Cls=ff(vend.) Sub=00 Prot=00 Driver=option
-E:  Ad=83(I) Atr=03(Int.) MxPS=  10 Ivl=32ms
-E:  Ad=82(I) Atr=02(Bulk) MxPS=1024 Ivl=0ms
-E:  Ad=02(O) Atr=02(Bulk) MxPS=1024 Ivl=0ms
-I:* If#= 2 Alt= 0 #EPs= 3 Cls=ff(vend.) Sub=00 Prot=00 Driver=option
-E:  Ad=85(I) Atr=03(Int.) MxPS=  10 Ivl=32ms
-E:  Ad=84(I) Atr=02(Bulk) MxPS=1024 Ivl=0ms
-E:  Ad=03(O) Atr=02(Bulk) MxPS=1024 Ivl=0ms
-I:* If#= 3 Alt= 0 #EPs= 3 Cls=ff(vend.) Sub=ff Prot=ff Driver=(none)
-E:  Ad=86(I) Atr=03(Int.) MxPS=   8 Ivl=32ms
-E:  Ad=8e(I) Atr=02(Bulk) MxPS=1024 Ivl=0ms
-E:  Ad=0f(O) Atr=02(Bulk) MxPS=1024 Ivl=0ms
-I:* If#= 4 Alt= 0 #EPs= 2 Cls=ff(vend.) Sub=42 Prot=01 Driver=(none)
-E:  Ad=04(O) Atr=02(Bulk) MxPS=1024 Ivl=0ms
-E:  Ad=87(I) Atr=02(Bulk) MxPS=1024 Ivl=0ms
+> 
+> Furthermore, I suspect there are no usages where the transfer 
+> doesn't start from the beginning of the buffer.
 
-RNDIS mode:
-0x1404: DIAG + AT + MODEM + RNDIS + ADB
-T:  Bus=08 Lev=01 Prnt=01 Port=00 Cnt=01 Dev#=  3 Spd=5000 MxCh= 0
-D:  Ver= 3.20 Cls=00(>ifc ) Sub=00 Prot=00 MxPS= 9 #Cfgs=  1
-P:  Vendor=305a ProdID=1404 Rev= 4.14
-S:  Manufacturer=QCOM
-S:  Product=SDXPRAIRIE-MTP _SN:12345678
-S:  SerialNumber=12345678
-C:* #Ifs= 6 Cfg#= 1 Atr=a0 MxPwr=896mA
-A:  FirstIf#= 0 IfCount= 2 Cls=ef(misc ) Sub=04 Prot=01
-I:* If#= 0 Alt= 0 #EPs= 1 Cls=ef(misc ) Sub=04 Prot=01 Driver=rndis_host
-E:  Ad=81(I) Atr=03(Int.) MxPS=   8 Ivl=32ms
-I:* If#= 1 Alt= 0 #EPs= 2 Cls=0a(data ) Sub=00 Prot=00 Driver=rndis_host
-E:  Ad=8e(I) Atr=02(Bulk) MxPS=1024 Ivl=0ms
-E:  Ad=0f(O) Atr=02(Bulk) MxPS=1024 Ivl=0ms
-I:* If#= 2 Alt= 0 #EPs= 2 Cls=ff(vend.) Sub=ff Prot=30 Driver=(none)
-E:  Ad=82(I) Atr=02(Bulk) MxPS=1024 Ivl=0ms
-E:  Ad=01(O) Atr=02(Bulk) MxPS=1024 Ivl=0ms
-I:* If#= 3 Alt= 0 #EPs= 3 Cls=ff(vend.) Sub=00 Prot=00 Driver=option
-E:  Ad=84(I) Atr=03(Int.) MxPS=  10 Ivl=32ms
-E:  Ad=83(I) Atr=02(Bulk) MxPS=1024 Ivl=0ms
-E:  Ad=02(O) Atr=02(Bulk) MxPS=1024 Ivl=0ms
-I:* If#= 4 Alt= 0 #EPs= 3 Cls=ff(vend.) Sub=00 Prot=00 Driver=option
-E:  Ad=86(I) Atr=03(Int.) MxPS=  10 Ivl=32ms
-E:  Ad=85(I) Atr=02(Bulk) MxPS=1024 Ivl=0ms
-E:  Ad=03(O) Atr=02(Bulk) MxPS=1024 Ivl=0ms
-I:* If#= 5 Alt= 0 #EPs= 2 Cls=ff(vend.) Sub=42 Prot=01 Driver=(none)
-E:  Ad=04(O) Atr=02(Bulk) MxPS=1024 Ivl=0ms
-E:  Ad=87(I) Atr=02(Bulk) MxPS=1024 Ivl=0ms
+I met it many times on uvcvideo use case. That's why I want to correct it.
+The UVC header is 8 bytes which will show very important information when
+debug the issue.
 
-MBIM mode:
-0x1405: DIAG + AT + MODEM + MBIM + ADB
-T:  Bus=08 Lev=01 Prnt=01 Port=00 Cnt=01 Dev#=  4 Spd=5000 MxCh= 0
-D:  Ver= 3.20 Cls=00(>ifc ) Sub=00 Prot=00 MxPS= 9 #Cfgs=  1
-P:  Vendor=305a ProdID=1405 Rev= 4.14
-S:  Manufacturer=QCOM
-S:  Product=SDXPRAIRIE-MTP _SN:12345678
-S:  SerialNumber=12345678
-C:* #Ifs= 6 Cfg#= 1 Atr=a0 MxPwr=896mA
-A:  FirstIf#= 3 IfCount= 2 Cls=02(comm.) Sub=0e Prot=00
-I:* If#= 0 Alt= 0 #EPs= 2 Cls=ff(vend.) Sub=ff Prot=30 Driver=(none)
-E:  Ad=81(I) Atr=02(Bulk) MxPS=1024 Ivl=0ms
-E:  Ad=01(O) Atr=02(Bulk) MxPS=1024 Ivl=0ms
-I:* If#= 1 Alt= 0 #EPs= 3 Cls=ff(vend.) Sub=00 Prot=00 Driver=option
-E:  Ad=83(I) Atr=03(Int.) MxPS=  10 Ivl=32ms
-E:  Ad=82(I) Atr=02(Bulk) MxPS=1024 Ivl=0ms
-E:  Ad=02(O) Atr=02(Bulk) MxPS=1024 Ivl=0ms
-I:* If#= 2 Alt= 0 #EPs= 3 Cls=ff(vend.) Sub=00 Prot=00 Driver=option
-E:  Ad=85(I) Atr=03(Int.) MxPS=  10 Ivl=32ms
-E:  Ad=84(I) Atr=02(Bulk) MxPS=1024 Ivl=0ms
-E:  Ad=03(O) Atr=02(Bulk) MxPS=1024 Ivl=0ms
-I:* If#= 3 Alt= 0 #EPs= 1 Cls=02(comm.) Sub=0e Prot=00 Driver=cdc_mbim
-E:  Ad=86(I) Atr=03(Int.) MxPS=  64 Ivl=32ms
-I:  If#= 4 Alt= 0 #EPs= 0 Cls=0a(data ) Sub=00 Prot=02 Driver=cdc_mbim
-I:* If#= 4 Alt= 1 #EPs= 2 Cls=0a(data ) Sub=00 Prot=02 Driver=cdc_mbim
-E:  Ad=8e(I) Atr=02(Bulk) MxPS=1024 Ivl=0ms
-E:  Ad=0f(O) Atr=02(Bulk) MxPS=1024 Ivl=0ms
-I:* If#= 5 Alt= 0 #EPs= 2 Cls=ff(vend.) Sub=42 Prot=01 Driver=(none)
-E:  Ad=04(O) Atr=02(Bulk) MxPS=1024 Ivl=0ms
-E:  Ad=87(I) Atr=02(Bulk) MxPS=1024 Ivl=0ms
+> 
+> So overall, I guess this change won't make any noticeable difference.  
+> But theoretically, how would the user know that the usbmon output didn't 
+> start at the beginning of the buffer?  I think you would need to update 
+> the documentation as well as the code.
 
-ECM mode:
-0x1406: DIAG + AT + MODEM + MBIM + ADB
-T:  Bus=08 Lev=01 Prnt=01 Port=00 Cnt=01 Dev#=  5 Spd=5000 MxCh= 0
-D:  Ver= 3.20 Cls=00(>ifc ) Sub=00 Prot=00 MxPS= 9 #Cfgs=  1
-P:  Vendor=305a ProdID=1406 Rev= 4.14
-S:  Manufacturer=QCOM
-S:  Product=SDXPRAIRIE-MTP _SN:12345678
-S:  SerialNumber=12345678
-C:* #Ifs= 6 Cfg#= 1 Atr=a0 MxPwr=896mA
-I:* If#= 0 Alt= 0 #EPs= 2 Cls=ff(vend.) Sub=ff Prot=30 Driver=(none)
-E:  Ad=81(I) Atr=02(Bulk) MxPS=1024 Ivl=0ms
-E:  Ad=01(O) Atr=02(Bulk) MxPS=1024 Ivl=0ms
-I:* If#= 1 Alt= 0 #EPs= 3 Cls=ff(vend.) Sub=00 Prot=00 Driver=option
-E:  Ad=83(I) Atr=03(Int.) MxPS=  10 Ivl=32ms
-E:  Ad=82(I) Atr=02(Bulk) MxPS=1024 Ivl=0ms
-E:  Ad=02(O) Atr=02(Bulk) MxPS=1024 Ivl=0ms
-I:* If#= 2 Alt= 0 #EPs= 3 Cls=ff(vend.) Sub=00 Prot=00 Driver=option
-E:  Ad=85(I) Atr=03(Int.) MxPS=  10 Ivl=32ms
-E:  Ad=84(I) Atr=02(Bulk) MxPS=1024 Ivl=0ms
-E:  Ad=03(O) Atr=02(Bulk) MxPS=1024 Ivl=0ms
-I:* If#= 3 Alt= 0 #EPs= 1 Cls=02(comm.) Sub=06 Prot=00 Driver=cdc_ether
-E:  Ad=86(I) Atr=03(Int.) MxPS=  16 Ivl=32ms
-I:  If#= 4 Alt= 0 #EPs= 0 Cls=0a(data ) Sub=00 Prot=00 Driver=cdc_ether
-I:* If#= 4 Alt= 1 #EPs= 2 Cls=0a(data ) Sub=00 Prot=00 Driver=cdc_ether
-E:  Ad=8e(I) Atr=02(Bulk) MxPS=1024 Ivl=0ms
-E:  Ad=0f(O) Atr=02(Bulk) MxPS=1024 Ivl=0ms
-I:* If#= 5 Alt= 0 #EPs= 2 Cls=ff(vend.) Sub=42 Prot=01 Driver=(none)
-E:  Ad=04(O) Atr=02(Bulk) MxPS=1024 Ivl=0ms
-E:  Ad=87(I) Atr=02(Bulk) MxPS=1024 Ivl=0ms
+Does the user need know such information? As a user, I don't need it at all.
+I just want to see the data transferred on the USB bus.
 
-RmNet mode:
-0x1421: DIAG + AT + MODEM + RMNET + ADB
-T:  Bus=08 Lev=01 Prnt=01 Port=00 Cnt=01 Dev#=  7 Spd=5000 MxCh= 0
-D:  Ver= 3.20 Cls=00(>ifc ) Sub=00 Prot=00 MxPS= 9 #Cfgs=  1
-P:  Vendor=305a ProdID=1421 Rev= 4.14
-S:  Manufacturer=QCOM
-S:  Product=SDXPRAIRIE-MTP _SN:12345678
-S:  SerialNumber=12345678
-C:* #Ifs= 5 Cfg#= 1 Atr=a0 MxPwr=896mA
-I:* If#= 0 Alt= 0 #EPs= 2 Cls=ff(vend.) Sub=ff Prot=30 Driver=(none)
-E:  Ad=81(I) Atr=02(Bulk) MxPS=1024 Ivl=0ms
-E:  Ad=01(O) Atr=02(Bulk) MxPS=1024 Ivl=0ms
-I:* If#= 1 Alt= 0 #EPs= 3 Cls=ff(vend.) Sub=00 Prot=00 Driver=option
-E:  Ad=83(I) Atr=03(Int.) MxPS=  10 Ivl=32ms
-E:  Ad=82(I) Atr=02(Bulk) MxPS=1024 Ivl=0ms
-E:  Ad=02(O) Atr=02(Bulk) MxPS=1024 Ivl=0ms
-I:* If#= 2 Alt= 0 #EPs= 3 Cls=ff(vend.) Sub=00 Prot=00 Driver=option
-E:  Ad=85(I) Atr=03(Int.) MxPS=  10 Ivl=32ms
-E:  Ad=84(I) Atr=02(Bulk) MxPS=1024 Ivl=0ms
-E:  Ad=03(O) Atr=02(Bulk) MxPS=1024 Ivl=0ms
-I:* If#= 3 Alt= 0 #EPs= 3 Cls=ff(vend.) Sub=ff Prot=ff Driver=(none)
-E:  Ad=86(I) Atr=03(Int.) MxPS=   8 Ivl=32ms
-E:  Ad=8e(I) Atr=02(Bulk) MxPS=1024 Ivl=0ms
-E:  Ad=0f(O) Atr=02(Bulk) MxPS=1024 Ivl=0ms
-I:* If#= 4 Alt= 0 #EPs= 2 Cls=ff(vend.) Sub=42 Prot=01 Driver=(none)
-E:  Ad=04(O) Atr=02(Bulk) MxPS=1024 Ivl=0ms
-E:  Ad=87(I) Atr=02(Bulk) MxPS=1024 Ivl=0ms
+> 
+> > > > +	if (usb_pipeisoc(urb->pipe)) {
+> > > > +		isoc_desc = urb->iso_frame_desc;
+> > > > +		for (i = 0; i < urb->number_of_packets &&
+> > > > +		     !isoc_desc[i].actual_length; i++)
+> > > > +			continue;
+> > > > +		offset = isoc_desc[i].offset;
+> > > > +	}
+> > > > +
+> > > >  	if (urb->num_sgs == 0) {
+> > > > -		src = urb->transfer_buffer;
+> > > > +		src = urb->transfer_buffer + offset;
+> > > >  		if (src == NULL)
+> > > >  			return 'Z';	/* '0' would be not as pretty. */
+> > > >  	} else {
+> > > 
+> > > And how come you didn't modify this branch of the "if"?
+> > 
+> > I looked into it, but didn't find any ISO transfer usecase using sglist
+> > to manage data, so I skipped it. I'm not sure if my understanding is
+> > correct, do you have any ideas on sglist?
+> 
+> I'm not aware of any use cases like that either.
+> 
+> By the way, this code runs for both IN and OUT transfers.  But for OUT 
+> transfers, the actual_length field will always be 0 (because for OUT, 
+> the buffer data is copied before the USB transfer occurs).  So the code 
+> you're adding would skip the entire transfer buffer!
 
-EAP mode:
-0x1422: RNDIS + RMNET + IPC + DIAG + MODEM + AT + ADB
-T:  Bus=08 Lev=01 Prnt=01 Port=00 Cnt=01 Dev#=  8 Spd=5000 MxCh= 0
-D:  Ver= 3.20 Cls=00(>ifc ) Sub=00 Prot=00 MxPS= 9 #Cfgs=  1
-P:  Vendor=305a ProdID=1422 Rev= 4.14
-S:  Manufacturer=QCOM
-S:  Product=SDXPRAIRIE-MTP _SN:12345678
-S:  SerialNumber=12345678
-C:* #Ifs= 8 Cfg#= 1 Atr=80 MxPwr=896mA
-A:  FirstIf#= 0 IfCount= 2 Cls=e0(wlcon) Sub=01 Prot=03
-I:* If#= 0 Alt= 0 #EPs= 1 Cls=e0(wlcon) Sub=01 Prot=03 Driver=rndis_host
-E:  Ad=82(I) Atr=03(Int.) MxPS=   8 Ivl=32ms
-I:* If#= 1 Alt= 0 #EPs= 2 Cls=0a(data ) Sub=00 Prot=00 Driver=rndis_host
-E:  Ad=81(I) Atr=02(Bulk) MxPS=1024 Ivl=0ms
-E:  Ad=01(O) Atr=02(Bulk) MxPS=1024 Ivl=0ms
-I:* If#= 2 Alt= 0 #EPs= 3 Cls=ff(vend.) Sub=ff Prot=ff Driver=(none)
-E:  Ad=83(I) Atr=03(Int.) MxPS=   8 Ivl=32ms
-E:  Ad=8e(I) Atr=02(Bulk) MxPS=1024 Ivl=0ms
-E:  Ad=0f(O) Atr=02(Bulk) MxPS=1024 Ivl=0ms
-I:* If#= 3 Alt= 0 #EPs= 2 Cls=ff(vend.) Sub=ff Prot=30 Driver=(none)
-E:  Ad=84(I) Atr=02(Bulk) MxPS=1024 Ivl=0ms
-E:  Ad=02(O) Atr=02(Bulk) MxPS=1024 Ivl=0ms
-I:* If#= 4 Alt= 0 #EPs= 2 Cls=ff(vend.) Sub=ff Prot=30 Driver=(none)
-E:  Ad=85(I) Atr=02(Bulk) MxPS=1024 Ivl=0ms
-E:  Ad=03(O) Atr=02(Bulk) MxPS=1024 Ivl=0ms
-I:* If#= 5 Alt= 0 #EPs= 3 Cls=ff(vend.) Sub=00 Prot=00 Driver=option
-E:  Ad=87(I) Atr=03(Int.) MxPS=  10 Ivl=32ms
-E:  Ad=86(I) Atr=02(Bulk) MxPS=1024 Ivl=0ms
-E:  Ad=04(O) Atr=02(Bulk) MxPS=1024 Ivl=0ms
-I:* If#= 6 Alt= 0 #EPs= 3 Cls=ff(vend.) Sub=00 Prot=00 Driver=option
-E:  Ad=89(I) Atr=03(Int.) MxPS=  10 Ivl=32ms
-E:  Ad=88(I) Atr=02(Bulk) MxPS=1024 Ivl=0ms
-E:  Ad=05(O) Atr=02(Bulk) MxPS=1024 Ivl=0ms
-I:* If#= 7 Alt= 0 #EPs= 2 Cls=ff(vend.) Sub=42 Prot=01 Driver=(none)
-E:  Ad=06(O) Atr=02(Bulk) MxPS=1024 Ivl=0ms
-E:  Ad=8a(I) Atr=02(Bulk) MxPS=1024 Ivl=0ms
+For OUT transfers, the offset will finally be 0 instead of the last offset.
+But it's better to check usb_pipein(urb->pipe).
 
-Signed-off-by: Chukun Pan <amadeus@jmu.edu.cn>
----
- drivers/usb/serial/option.c | 10 +++++++---
- 1 file changed, 7 insertions(+), 3 deletions(-)
+Anyway, many thanks for your comments!
 
-diff --git a/drivers/usb/serial/option.c b/drivers/usb/serial/option.c
-index c0c44e594d36..55347d973c60 100644
---- a/drivers/usb/serial/option.c
-+++ b/drivers/usb/serial/option.c
-@@ -2382,9 +2382,13 @@ static const struct usb_device_id option_ids[] = {
- 	{ USB_DEVICE_AND_INTERFACE_INFO(0x2dee, 0x4d22, 0xff, 0xff, 0x40) },	/* MeiG Smart SRM825L */
- 	{ USB_DEVICE_AND_INTERFACE_INFO(0x2dee, 0x4d22, 0xff, 0xff, 0x60) },	/* MeiG Smart SRM825L */
- 	{ USB_DEVICE_INTERFACE_CLASS(0x2df3, 0x9d03, 0xff) },			/* LongSung M5710 */
--	{ USB_DEVICE_INTERFACE_CLASS(0x305a, 0x1404, 0xff) },			/* GosunCn GM500 RNDIS */
--	{ USB_DEVICE_INTERFACE_CLASS(0x305a, 0x1405, 0xff) },			/* GosunCn GM500 MBIM */
--	{ USB_DEVICE_INTERFACE_CLASS(0x305a, 0x1406, 0xff) },			/* GosunCn GM500 ECM/NCM */
-+	{ USB_DEVICE_AND_INTERFACE_INFO(0x305a, 0x1402, 0xff, 0, 0) },		/* GosunCn GM800 (Download) */
-+	{ USB_DEVICE_AND_INTERFACE_INFO(0x305a, 0x1403, 0xff, 0, 0) },		/* GosunCn GM800 (RMNET, old) */
-+	{ USB_DEVICE_AND_INTERFACE_INFO(0x305a, 0x1404, 0xff, 0, 0) },		/* GosunCn GM500/GM800 RNDIS */
-+	{ USB_DEVICE_AND_INTERFACE_INFO(0x305a, 0x1405, 0xff, 0, 0) },		/* GosunCn GM500/GM800 MBIM */
-+	{ USB_DEVICE_AND_INTERFACE_INFO(0x305a, 0x1406, 0xff, 0, 0) },		/* GosunCn GM500/GM800 ECM */
-+	{ USB_DEVICE_AND_INTERFACE_INFO(0x305a, 0x1421, 0xff, 0, 0) },		/* GosunCn GM800 (RMNET) */
-+	{ USB_DEVICE_AND_INTERFACE_INFO(0x305a, 0x1422, 0xff, 0, 0) },		/* GosunCn GM800 (EAP) */
- 	{ USB_DEVICE(0x33f8, 0x0104),						/* Rolling RW101-GL (laptop RMNET) */
- 	  .driver_info = RSVD(4) | RSVD(5) },
- 	{ USB_DEVICE_INTERFACE_CLASS(0x33f8, 0x01a2, 0xff) },			/* Rolling RW101-GL (laptop MBIM) */
--- 
-2.25.1
+Thanks,
+Xu Yang
 
+> 
+> Alan Stern
