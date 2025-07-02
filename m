@@ -1,121 +1,210 @@
-Received: from mail-wm1-f53.google.com (mail-wm1-f53.google.com [209.85.128.53])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from AS8PR04CU009.outbound.protection.outlook.com (mail-westeuropeazon11011052.outbound.protection.outlook.com [52.101.70.52])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 05AFE24A07A
-	for <linux-usb@vger.kernel.org>; Wed,  2 Jul 2025 10:54:25 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.53
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1751453668; cv=none; b=YbA3uames4VAhg+7BQ0OeTBAfI5Wh6QqHJVWYl0D//AXEgxBsJ2fEbo0Yo8zzRIfYYY5XGGwmfOqbgUtCSBz1whYHYkfDKBE/ggL3tDvw5AxtoiYAYh4IqorvemuKj6+OPKPE6IbxoT3Xn2tdJcCV0mRYk2fu5v+vakWchbPkYM=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1751453668; c=relaxed/simple;
-	bh=DWeR+/uQQSYMmH/LvahmZ0RIw9E1q0WXOgj4Vn2Kq3c=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=bMiQFT6FOQZsy5IrHbRGk+MfrzotSpSdnXMXeR2aXcDdgr9rWkQ8NREGvb4ra3gH2AwYIuOJw2uuLupYTma6ihDI/AjHCd3JUrGSZrALNMFQsNJD5D43OyaFi+WEh6ih9EZLBT6yZu+SIVAJvbQb3p3K+g447t86YuGRsnZ+1sA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=suse.com; spf=pass smtp.mailfrom=suse.com; dkim=pass (2048-bit key) header.d=suse.com header.i=@suse.com header.b=N2+PRhfs; arc=none smtp.client-ip=209.85.128.53
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=suse.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EC776246781;
+	Wed,  2 Jul 2025 10:59:54 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=52.101.70.52
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1751453997; cv=fail; b=ZLEmV8yK3j/WZ9ex+pocwVYvyXjXf1z9rVOYYkkkQt5Ocm3PWWobcBcBSsD9Co2+1/mV6Zj+7Lk1ALrPpPLfC5X1IF+f4im4wKl9VuLBlFDQmKFl6kvL3IIMuvS7cJEh5/CA+DdOQLUw74ptIPtn1i10OnH625RlYyrZrj1QtXk=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1751453997; c=relaxed/simple;
+	bh=5hNZ2gRtiBK80k6IkJd33BgRbGSLsrAUl/6BrgUuD/A=;
+	h=From:To:Cc:Subject:Date:Message-Id:Content-Type:MIME-Version; b=T2ByYxzTRMahJxmw+qF3kr57Wk6gOATXGr7QV+3QVI2PtPpKidDrByn96I3hnWgAIamC1/YbPzXHqusXP+YaSV0RnftlqjE1qz4vHyGxFD4yl7ZpC9062m27Rahxgplx2uS47CAOsLN+bYYYh6WJVzbhvagZdbvTLWkOMJ+5Z6Y=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=nxp.com; spf=pass smtp.mailfrom=nxp.com; dkim=pass (2048-bit key) header.d=nxp.com header.i=@nxp.com header.b=Scr0g2AC; arc=fail smtp.client-ip=52.101.70.52
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=nxp.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=nxp.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=suse.com header.i=@suse.com header.b="N2+PRhfs"
-Received: by mail-wm1-f53.google.com with SMTP id 5b1f17b1804b1-4538bc1cffdso40906165e9.0
-        for <linux-usb@vger.kernel.org>; Wed, 02 Jul 2025 03:54:25 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=suse.com; s=google; t=1751453664; x=1752058464; darn=vger.kernel.org;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=2Jg9h1VCLy4qgpopj8IiT7Jm8iMsC+mvB1PgrDfbBVE=;
-        b=N2+PRhfscD0orJLHMjTS5mMyjsrnqnShvdO0j55Hvw2Ix+mMm0+yiKGtnMsidce9db
-         k5X2PZWu2GEwuOmHVf+M8Zn8T8rGQ8xtZvVC/33j7mYNgtrMSYZcovZNTjxjloWqgMpp
-         CqAlGhXVDA9VauMbUq7fTMSkExaFaIHd+RhUTnoSfUyNHM9NSzMA2tlWYkC/MpztWfvc
-         5jh2DVm03v9WzJZlRCJmqS+p3z1ZQEV3cyEaI6wdsaA+uk3nybOKub/z0nIYtjabUKh0
-         OFf5ZW77JrBjQl5m6WEf5jPO4+qsPYt73E00g9QT7sLO0k4YenAekQZYVVmru6sHYidR
-         muWw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1751453664; x=1752058464;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=2Jg9h1VCLy4qgpopj8IiT7Jm8iMsC+mvB1PgrDfbBVE=;
-        b=SS0Nrdx60YfofudDjEqNR76VG1PKvYLR0C2ngNH4fxRSkKFNquCsR8YObuiZ0qwqwH
-         ZQlS1rmY2ODh14PpYblX0368qYguO56VZ/D5or0bTuE0QNW9wKLL7n5Z/gRH4iwy41SN
-         G2n4YyXaC6wdPW/HpxhTyCkz7rnUQ7LZ19NS7bAYVTWmzPUyOLhC2RUtKY4Z2YSdJW+w
-         F5htXoaU8NiMTV4MfFqkw2v4hs90WUPSySLLG2PnH4ObI4y0V3TDDPoCiNZJP+aaNbrH
-         UoHJUQ1wInBVt6IB+GxGbw2qcL85xJ0ZCyrfq8bPMs+75fH1E8s/Oj8Wvk2KI2eW88d1
-         5aOA==
-X-Forwarded-Encrypted: i=1; AJvYcCVWIA37YHi4xw8beel3g+GDefb3Hvd15fufjJjGqwmgEN53P38u0cw4iGfbdc0A1A9VFxJki+5W12E=@vger.kernel.org
-X-Gm-Message-State: AOJu0YzckY4FPKqFtOn/cneV5xJKMAnaVfcubPhxfJnpfpiuPkhHTlii
-	XhqKFce8rmUD/wgwJCciL5lKWouyihb2M/pkxo5UlyG9y6fy30tHoNOJZLfxoF/qSLU=
-X-Gm-Gg: ASbGncvntKGvlSJ0IXYpUtbHs+7pfL52ASX5YkYwYuOaPaHxsZW3LN0urGqHTcE//To
-	IQPsk7WDsJYF7hhjgjPgny/5Nsnhj7j14Ta9Jo0os2VDV9fb21Ln91cUxZgf+wsvcxDhfHvla5l
-	UyvKFnTfi7YZl+XXf8xoNu6SMCdH3RjW41Uk8y9Wr0rYdudKvhKsoy3ylH79CDAbrfvg85fGQ+d
-	ytuaOpAQiq9X7PzYRKegDCSyOqRBEQfjgSPvCJaTR3m2XcLXeslTZHVcrqQKRxHVwZKe/7cLQSP
-	2pt/q6xIslAnIy7v7DRMu8obNQ/BLHlOjjWIyYyBsUlEJ7r00d8UN7VNWK3Ki9vsOXiT2Jt8X2i
-	pc3KT2yuL/8IxKfb8xfKuiSjhCqhK
-X-Google-Smtp-Source: AGHT+IGAIK/G/I8tdPVOI217bep69ojNDn163oQvep1EwZXnaYnHz492awG91UUkdfrnfI0nWERljQ==
-X-Received: by 2002:a05:600c:3b24:b0:442:f12f:bd9f with SMTP id 5b1f17b1804b1-454a371d3eemr24456755e9.27.1751453664299;
-        Wed, 02 Jul 2025 03:54:24 -0700 (PDT)
-Received: from ?IPV6:2001:a61:13c3:8601:acfb:599e:12fa:d72a? ([2001:a61:13c3:8601:acfb:599e:12fa:d72a])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-3a88c7e6f74sm15728135f8f.3.2025.07.02.03.54.23
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Wed, 02 Jul 2025 03:54:24 -0700 (PDT)
-Message-ID: <560fa48a-7e0b-4b50-bebb-b3600efaadd3@suse.com>
-Date: Wed, 2 Jul 2025 12:54:23 +0200
+	dkim=pass (2048-bit key) header.d=nxp.com header.i=@nxp.com header.b="Scr0g2AC"
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=dz28O3B+wh0ye/FveQLr0c49NN37iuWsUZMPdNI/qaOJpMsDgTolwyeWoXx+SgRf7JD+Tx4/ZMVz11/VIrfPjcpvDAn4rfsj4sHT5UsXPf3kkHBpYb5MpLPRIKqwGt2y6yovLF+BvwKiNKvxUSbYPL9l2oHY23iJQW/F4hrrVTacgVp9NPwgeERfyG5pcNlHTO0NQNJGhZF+MD6kDHd5RNLB+p6WfKWvS6b1hWgLS5LkKfr5lpYWydGIj/w1mEFTCwRdo4heTnf0cE+12G5IZ0cnlOLqyczv9+ViIqImJEaHeRMTXH2i8o5/KMsfxTT4LridaHkYz/aPV0eJpvKTrA==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=PioYGM7XvuEOwSKgGyM49uZtGkyKPKmJwsrFHTWH3Ic=;
+ b=f4I43zDfmE0emHn4/pRksuQzf3WJqGj6nPxYiq3baYaJrdzH75dL8yTdjRw73YpBx085t6ZH/vqLDrqxSLXLG/n6T7iqcna6RfQwfKHguFb50/2o3JgMdDSsGq4PKnAQP0K7XaiECWEcRJLRG+QLsQmblFCY2eg2jpIsMI7slbWMt60MUmC88WrQIX1L9looM5ulqUN6ny+lMCXgQHICaJE9yoJZT9uGpeZawfhEU1oEUsiWWW7yQFoDDCpqKrAh6hO+l4HxKnm2rEDHqQk5Oig/XjpMo8Zn9vcTqZcnSoANc2UnTyTlJTQB9nmBmG/439HXcImK6EZCRHDftkJ8Kg==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=nxp.com; dmarc=pass action=none header.from=nxp.com; dkim=pass
+ header.d=nxp.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nxp.com; s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=PioYGM7XvuEOwSKgGyM49uZtGkyKPKmJwsrFHTWH3Ic=;
+ b=Scr0g2ACOHICW2M/EsjUU2nkxYo3Rd2jFB1mZB+ZIHJKOONFJv9kVtcBmLcl8YDu5acDzOsAXyTbfOaPN9CD2L2PrvbCMTzxqiH/voD9cNgVyQu38LMd2uX6SUXPdto/MDweoxpuXA/VzGRVM/z9bPjh4/RKBTWSqF012nGS2GRWDkveOv589jsvLL91CluDaHiSvUUw9QKvPUfy45gZ257xZNFln5bsmQPYJbbwZe70Q6FW4k52f/z004BjFulGY/FT9esyDCFolf/+B24FIw8cdtKEjGU7Ey013Rsn7auIXmI/VD2nYHilcCtnp1sUsOX8YophksMTs+GgsXTgXg==
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=nxp.com;
+Received: from DU2PR04MB8822.eurprd04.prod.outlook.com (2603:10a6:10:2e1::11)
+ by PAXPR04MB8639.eurprd04.prod.outlook.com (2603:10a6:102:21e::19) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8901.19; Wed, 2 Jul
+ 2025 10:59:51 +0000
+Received: from DU2PR04MB8822.eurprd04.prod.outlook.com
+ ([fe80::4e24:c2c7:bd58:c5c7]) by DU2PR04MB8822.eurprd04.prod.outlook.com
+ ([fe80::4e24:c2c7:bd58:c5c7%6]) with mapi id 15.20.8901.018; Wed, 2 Jul 2025
+ 10:59:51 +0000
+From: Xu Yang <xu.yang_2@nxp.com>
+To: ezequiel@vanguardiasur.com.ar,
+	mchehab@kernel.org,
+	laurent.pinchart@ideasonboard.com,
+	hdegoede@redhat.com,
+	gregkh@linuxfoundation.org,
+	xu.yang_2@nxp.com,
+	mingo@kernel.org,
+	tglx@linutronix.de,
+	andriy.shevchenko@linux.intel.com,
+	viro@zeniv.linux.org.uk,
+	thomas.weissschuh@linutronix.de,
+	dafna.hirschfeld@collabora.com
+Cc: linux-media@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	linux-usb@vger.kernel.org,
+	imx@lists.linux.dev,
+	jun.li@nxp.com
+Subject: [PATCH v3 0/3] add dma noncoherent API
+Date: Wed,  2 Jul 2025 19:02:19 +0800
+Message-Id: <20250702110222.3926355-1-xu.yang_2@nxp.com>
+X-Mailer: git-send-email 2.34.1
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+X-ClientProxiedBy: MA0PR01CA0073.INDPRD01.PROD.OUTLOOK.COM
+ (2603:1096:a01:ad::12) To DU2PR04MB8822.eurprd04.prod.outlook.com
+ (2603:10a6:10:2e1::11)
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH] net: usb: usbnet: fix use-after-free in race on workqueue
-To: Jakub Kicinski <kuba@kernel.org>, Oliver Neukum <oneukum@suse.com>
-Cc: Paolo Abeni <pabeni@redhat.com>, "Peter GJ. Park"
- <gyujoon.park@samsung.com>, Andrew Lunn <andrew+netdev@lunn.ch>,
- "David S. Miller" <davem@davemloft.net>, Eric Dumazet <edumazet@google.com>,
- netdev@vger.kernel.org, linux-usb@vger.kernel.org,
- linux-kernel@vger.kernel.org, Ming Lei <ming.lei@canonical.com>
-References: <CGME20250625093354epcas1p1c9817df6e1d1599e8b4eb16c5715a6fd@epcas1p1.samsung.com>
- <20250625-usbnet-uaf-fix-v1-1-421eb05ae6ea@samsung.com>
- <87a7f8a6-71b1-4b90-abc7-0a680f2a99cf@redhat.com>
- <ebd0bb9b-8e66-4119-b011-c1a737749fb2@suse.com>
- <20250701182617.07d6e437@kernel.org>
-Content-Language: en-US
-From: Oliver Neukum <oneukum@suse.com>
-In-Reply-To: <20250701182617.07d6e437@kernel.org>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: DU2PR04MB8822:EE_|PAXPR04MB8639:EE_
+X-MS-Office365-Filtering-Correlation-Id: 57917d06-5f77-4b82-7439-08ddb957918a
+X-LD-Processed: 686ea1d3-bc2b-4c6f-a92c-d99c5c301635,ExtAddr
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam:
+ BCL:0;ARA:13230040|1800799024|366016|52116014|7416014|376014|19092799006|921020|38350700014;
+X-Microsoft-Antispam-Message-Info:
+ =?us-ascii?Q?dCHx8m96nvnHqEGXUrEOkwakNzUB86Zvj2bdASxSRRUam8cq7b79m0aJydCp?=
+ =?us-ascii?Q?ppplQS/X6/WuC0CeMB+YRkKpO4QL/92dv9i7q7OPbNwW8hLO52GE7u4uSh04?=
+ =?us-ascii?Q?VZKD6Zu7KSZYNMloczoFGV1Fn+xQ8DGy0SmviZy3jO+mKhIrRfDdJq6Dh7WT?=
+ =?us-ascii?Q?zuy0O1fBnn5yxXzsIZMbSwagU10Uqyf9c61+Yylvu1g2m+SKssbc85/F1cB6?=
+ =?us-ascii?Q?O6bARL0FW21BQ9TSdEbb+6w2J0C4fiT3kk3R+wGyZTR2eo73+9DnJqGBosXa?=
+ =?us-ascii?Q?de3dqHEAhvo6Jv5GiUhWxqyV+QYfL7qnl8YCvvaif38H28zn/UcbPBcJUQT3?=
+ =?us-ascii?Q?5cXpDlazUGKIas9Bqoa0QPP/X0REVyoDoWN8q2vuubKYfImDyGk0RTyu7NvY?=
+ =?us-ascii?Q?FuM9Col4YRZInzQibZl6NUvURe0EpgRBJ+lxudMQLqE0WHC9aWvespi7gUpZ?=
+ =?us-ascii?Q?w8wme6Fa/0Ktl+L1JerFr2d9YHnfWLT9jQt7mgaZZRqhQVMwWDTgdMgkvjT6?=
+ =?us-ascii?Q?CMzMFxpvKjtliq5aT15hK4o8YuCky5jH2RB5lTHde3ZwTFNHFAo8cEDDLCg6?=
+ =?us-ascii?Q?hzeoMtVO2jfCPkDqdipyuyBWOjoWZ47jXTA8rELEtGs8kIJ8aayAZrQF56BX?=
+ =?us-ascii?Q?GJmlyFjB+U5+tom1CSBjBEo9GWwcKprWg266NBrHiuv9HUxM2h1lCd+ww4Gc?=
+ =?us-ascii?Q?K1QSGisrLsvHGDe8the0YbNzRqo1RksCRTlcQKrRm4/Ua9N9B4g/QElBKeuL?=
+ =?us-ascii?Q?byjRW+w7DEnnBRcLutUAN+K68D6Awf74VivZRXccyR4sczHY6ycx7C2WUMtv?=
+ =?us-ascii?Q?y/kCwfkyxQ0q6N3d6n6xB/QYRhTAVW4zbjhWUByPG09ArBwWTb8b01mk068r?=
+ =?us-ascii?Q?NeNgHIA1j8BwVPVxSF5S+NMK1MYVsTO+L08B6wUh0kJq2mN2/Mlxl/cyzX02?=
+ =?us-ascii?Q?sHTMElh1os4MngoA+Y5NRW313zYZ1FV1Fbk58VJbeXtX9lx+7TKzE8kxqSk4?=
+ =?us-ascii?Q?egBM67TMFR4EsswQxB3nMhbBMULBPOtW5Nav1eyYoNAoYQ2nGdDBuKIK4EAX?=
+ =?us-ascii?Q?x7JFYWHFymUATvppm/V5/OwAaeyaYeOHfIJ950VOHhQpq2wNhxUa2PdyqBA6?=
+ =?us-ascii?Q?9SeB3cUnwbTIJtpTSrv9n28Dok73+qDUInruDf9FlL7cOfwF1BgcGQfl63+q?=
+ =?us-ascii?Q?W2qWToAbaIQxbhg3W8rBdOu7VOSOJro7YCzqkIqX6zfmRgm1kHGCYDgjGH2q?=
+ =?us-ascii?Q?WVJ0hUJjHM9CmfQ3SNnOsi/E9OxaSAAVxj6Cy7EDWnn5GzqUhMVBAPbh/B5v?=
+ =?us-ascii?Q?ByHy0n2J2Q02vreD6A9yRCKZDLCyIvVdSkDUDyxIDvOptcogyqCUQhj1e5a6?=
+ =?us-ascii?Q?VwXQ7hCsmNTl22kqjw8Nb73IxtpYG8+8Aqsq0TUqUWhohXIUk+Gi5sioLpun?=
+ =?us-ascii?Q?PGb3/fgXGeFYRBPxoZDXBRILlfk6xuI1KrWbU2Wk8gnmS6BviQspSLPgZq6o?=
+ =?us-ascii?Q?y6gqAl6OZa3pUQ8WGABatS6y3DHapHxaRwAS?=
+X-Forefront-Antispam-Report:
+ CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:DU2PR04MB8822.eurprd04.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(1800799024)(366016)(52116014)(7416014)(376014)(19092799006)(921020)(38350700014);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0:
+ =?us-ascii?Q?ojoQOkS4cY+EYO30C+rDhwjAguyh8pCq39krkfOxJn/Vd/eIrIZHoSi9Ke23?=
+ =?us-ascii?Q?Xsd/xDQ235EnTORL/ulf5gwJXuvfc087pELVixua4Ko4zU043uknNZHbevCM?=
+ =?us-ascii?Q?+FphkJSnzg/6ai3yKo/VrJPLfqeXoPi83i1D8nt5YgdgUVYbSp1OW+uK0Gcp?=
+ =?us-ascii?Q?rlRG1aFpgMT2STaWrD4azKtb+H6VOGZEhwqjy8d4dDw2A+d45SedsGPAaDdj?=
+ =?us-ascii?Q?bPlDIqG5Zd1ys94zAR0N+RmrweduglucfC+skSr8QOxsaQuLLPbuciQTKOMl?=
+ =?us-ascii?Q?gE6VUMSldv0SnE8ogURrP0X4S48NYetWFgKly3DqsDD82Z8g3+19BwH0rTMg?=
+ =?us-ascii?Q?cFulu/2VSKLLRIF/IlBYz6QMyJMuM84Z5ml5fNWz6ng5PFhJMTyLxJZXT3wE?=
+ =?us-ascii?Q?kqD/mKPp03dYcPPfkp4w8j3Gw3Z0k5Ho2Imld3ErF7ZvDNvF8hQWMl2d4bav?=
+ =?us-ascii?Q?/YeHbuYF07p9SJ6qAck239leyHuPpkHE5j5qNoxPdwR3FNKIoDe2qBfSwbgA?=
+ =?us-ascii?Q?6KBidzSS1TfHIPHwEdwAB62KTp12ghCOXgm/VX48M8jGN+ZtBcMbvPDU7GPw?=
+ =?us-ascii?Q?MpZ1o/eg/dOK6e9lQVS4yxHELZ86tggmtMto69qrehjyr7z9GH0qLhevlKF3?=
+ =?us-ascii?Q?1RuEkfEG/UmOtJt6K2YNwUs7bQeZEEdAPVbTskBYGUJaLGQ3k/NmXMWYBG7B?=
+ =?us-ascii?Q?QuXv6XIC4iR96dtcO5mgwJ25XoIwrY/1BfzDGMQSEQ1nMBFwDzqUDdlTF4kk?=
+ =?us-ascii?Q?3FxQkyq7Vy4adr+iXip2u8yIOdE+8k4eD102KzJndz2SVqKOOHl/Ae/zaNJj?=
+ =?us-ascii?Q?z9uVOLT75o5Z19oJzRGQYKLjnx/nB38f9fWa+n75+Od1TtI7glkrIpBZPmww?=
+ =?us-ascii?Q?wBVOvDA38u7YgKsGOwUngslykENSY4J1RVhtHY2nN0TsbDNijWxtzn+Yf729?=
+ =?us-ascii?Q?lrZnbIF1lEBx+Xh2R1d/0FXPR/Q/emxRrTG3xx8asd+wRqSk2SYptejVz4/0?=
+ =?us-ascii?Q?IPnkNfz3Xht1pNDgvTtjwuC5juUk7NgnX07JeOL0am+vl2YQr+aVV6N7BiAK?=
+ =?us-ascii?Q?c9RXPDLPTQZINNITyuvpCcVC7tpplRR5w0NUMMAmCkvfAbljybND+QsKuVk0?=
+ =?us-ascii?Q?vpSJT4VbO0g3et0UHOQpqCyIVvjEKMhAwjL0XsKPyijny2IaA/PpwAnv9Cwu?=
+ =?us-ascii?Q?Tjjbt6ZO0iQeb3wvFdm+OL5vbJyVqAITniKVGq+nLjAKovn/zj63b8lbjIvA?=
+ =?us-ascii?Q?wfYohd9GAwkS9DgtjZGOTWIzReGK8LYfZbEeHBAAlH03XULy4cKQx74lwUbr?=
+ =?us-ascii?Q?e/kUIHTIx93MR7UAAer9BNwOyOp3V1rxax9eBEp97Sv6uuQ22UUbeCLDAUX1?=
+ =?us-ascii?Q?YzLqCyPYVWVegKQ2UZvfKkte8w7r1HIp4mSm53qLqbfjBNiqjhF9nGgLTQ5X?=
+ =?us-ascii?Q?F7HulNnj9OtudfajdLP4VfCqwUZJuPNwVrzG3z88f2OoeeLU1yGjrkI+tBxC?=
+ =?us-ascii?Q?aJjF6RcVHEHQm0j/degmVhkoj2aKCZgw2b5BxMulRLmJjo1ZNUdH8hqd28xW?=
+ =?us-ascii?Q?B9gkpkhCGWj5/wFXf/UhPFGv5fw93K6gmU0EGShy?=
+X-OriginatorOrg: nxp.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 57917d06-5f77-4b82-7439-08ddb957918a
+X-MS-Exchange-CrossTenant-AuthSource: DU2PR04MB8822.eurprd04.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 02 Jul 2025 10:59:51.4285
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 686ea1d3-bc2b-4c6f-a92c-d99c5c301635
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: pj+9zODZPopUwyZjyuozBN78OAsF+De5yivK3CNrRc/trbakycprXERXNNiFCgXzgmNP4vr5pgYUsTas+YIkeg==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: PAXPR04MB8639
 
-On 02.07.25 03:26, Jakub Kicinski wrote:
-> On Tue, 1 Jul 2025 15:22:54 +0200 Oliver Neukum wrote:
+On architectures where there is no coherent caching such as ARM it's
+proved that using dma_alloc_noncontiguous API and handling manually
+the cache flushing will significantly improve performance.
 
->> That is indeed a core question, which we really need an answer to.
->> Do I interpret dev_close_many() correctly, if I state that the
->> ndo_stop() method will _not_ be called if the device has never been
->> opened?
-> 
-> Correct, open and close are paired. Most drivers would crash if we
-> tried to close them before they ever got opened.
+Refer to:
+commit 20e1dbf2bbe2 ("media: uvcvideo: Use dma_alloc_noncontiguous API")
+commit 68d0c3311ec1 ("media: stk1160: use dma_alloc_noncontiguous API")
 
-Thank you for clarifying that.
+However, it's obvious that there is significant code duplication between
+these two commits. Besides, a potential user USB Monitor may read outdated
+data before the driver do DMA sync for CPU which will make the data
+unreliable.
 
->> I am sorry to be a stickler here, but if that turns out to be true,
->> usbnet is not the only driver that has this bug.
-> 
-> Shooting from the hip slightly, but its unusual for a driver to start
-> link monitoring before open. After all there can be no packets on a
-> device that's closed. Why not something like:
+To reduce code duplication and avoid USB Monitor result unreliable, this
+series will introduce DMA noncoherent API to USB core. And the USB core
+layer will manage synchronization itself.
 
-It turns out that user space wants to know whether there is carrier
-even before it uses an interface because it uses that information
-to decide whether to use the link.
+Then the last 2 patches have used the API.
 
-https://bugs.debian.org/cgi-bin/bugreport.cgi?bug=444043
+I have tested uvcvideo driver. But I haven't tested stk1160 driver as I
+don't have such boards. @Ezequiel Garcia, @Dafna Hirschfeld do you have
+time to test it? Your support on this would be greatly appreciated.
 
-However, it looks to me like the issue is specifically
-queuing work for kevent. That would call for reverting
-0162c55463057 ("usbnet: apply usbnet_link_change")
-[taking author into CC]
+Changes in v3:
+ - put Return section at the end of description
+ - correct some abbreviations
+ - remove usb_dma_noncoherent_sync_for_cpu() and
+   usb_dma_noncoherent_sync_for_device()
+ - do DMA sync in usb_hcd_map_urb_for_dma() and
+   usb_hcd_unmap_urb_for_dma()
+ - call flush_kernel_vmap_range() for OUT transfers
+   and invalidate_kernel_vmap_range() for IN transfers 
 
-	Regards
-		Oliver
+Changes in v2:
+ - https://lore.kernel.org/all/20250627101939.3649295-1-xu.yang_2@nxp.com/
+ - handle it in USB core
+
+v1:
+ - https://lore.kernel.org/linux-usb/20250614132446.251218-1-xu.yang_2@nxp.com/
+
+Xu Yang (3):
+  usb: core: add dma-noncoherent buffer alloc and free API
+  media: uvcvideo: use usb_alloc_noncoherent/usb_free_noncoherent()
+  media: stk1160: use usb_alloc_noncoherent/usb_free_noncoherent()
+
+ drivers/media/usb/stk1160/stk1160-v4l.c   |  4 --
+ drivers/media/usb/stk1160/stk1160-video.c | 43 ++++--------
+ drivers/media/usb/stk1160/stk1160.h       |  7 --
+ drivers/media/usb/uvc/uvc_video.c         | 56 ++++------------
+ drivers/usb/core/hcd.c                    | 19 ++++++
+ drivers/usb/core/usb.c                    | 80 +++++++++++++++++++++++
+ include/linux/usb.h                       | 11 ++++
+ 7 files changed, 135 insertions(+), 85 deletions(-)
+
+-- 
+2.34.1
 
