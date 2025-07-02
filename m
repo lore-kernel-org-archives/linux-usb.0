@@ -1,127 +1,96 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.19])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BA00D253350;
-	Wed,  2 Jul 2025 12:20:41 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.19
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 79CDF230BFB
+	for <linux-usb@vger.kernel.org>; Wed,  2 Jul 2025 12:25:30 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1751458843; cv=none; b=H3POKgOkRiLAzIeORIcnUk8lsn9Fql5V/CDLFEInrCkuEFg+LsyZ0XA+Fy3W6VaOztBxRD7paEA/pvJ/fVobX8ZJWFTB+mLsveur9o41fupIPoeoQxHrqQpUt/azNjKcAoXtRu6IRefG8UbMYB9Y5T0UvNwmAsUeNuXk74ciqKI=
+	t=1751459130; cv=none; b=R+C/ibfxlAJEJy7cx6Y6ZdVb4KaNJeakUzlIIeD3JTPpLHUlKG54pPIdgWy5G7b6gSoHig+khbJ50K8oom3j/bG2608TzhlPNaLzXQ9PQSFcKWxoAyjRDdxZVBcBhz3zlowTaYybM4DN92cEHKhCjc6WcaIuee7DzHgs56sSaG4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1751458843; c=relaxed/simple;
-	bh=64aTKjc/IcbpGG9gKWt+2nVue/MdoRiwlfPf0ILjKpo=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=dMjCVdjsGVRQf5Fwuy8Uz6NcHgJ7dosTiVUOoKjWcFuBEviWECpZJkgjRSdXlS+DwlBwYTUFklx/PW9Ldnn70T09Fm1ce0NMMYDD1sFs3KqnUgmBrshdiqYKUg/P+S/6c8ifrwzJKtfvLPMtk0l/MAJ1XRAunZO2HIiEUh9jHJM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=none smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=aEz897f1; arc=none smtp.client-ip=198.175.65.19
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=linux.intel.com
+	s=arc-20240116; t=1751459130; c=relaxed/simple;
+	bh=lF+QOevg3hT9NNfyEuXkTn+SVH3dCTeMBJ04D9dlNKU=;
+	h=From:To:Subject:Date:Message-ID:In-Reply-To:References:
+	 Content-Type:MIME-Version; b=rp+bEbTSYrnN/64ts04yKr1WuI1uYTmPZA/a9zbjxydhAEUnepGoXm/4dha32xHBczwc2QeqitR98z2UOq00EFA/WAylTkA4DT3ZbfXeAwZSlnQjN8hZeilgJHR4f8npcWUOt9xIadY2r3i06no6z4LAPG7EpyGI1hcHWrSgAQo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=gcG4S57l; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="aEz897f1"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1751458842; x=1782994842;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=64aTKjc/IcbpGG9gKWt+2nVue/MdoRiwlfPf0ILjKpo=;
-  b=aEz897f1q7bf7XAR9LSt27bLtTKuL51R7K+tQRCij+p0CyJoei91o6Mr
-   2tiORroOnfTJGswRavIVIEPomDZyLT5FB6p2Ief2e7qqvwSH2qCRUkLkA
-   12Qg/P6zkQbXKz90b5j2g8m3vBq6dorFF1vsDsDo5gnn8xHFlJF2j8ztY
-   H1w1dhggL1fbFb33j/sBLgvR+dj1lrSqmSQXWL1cmWB04v4oVOOqAsboB
-   nrscgTxq4dCnsN9nFWnxB90oT/k3YkVSS2qvrRSzCieYjrkLVZVWE4FIo
-   Taz2irBVTvjlo1gM6f5EesUZGH6Kk3gysCdnohh8MHck+bsjGO1CB880a
-   Q==;
-X-CSE-ConnectionGUID: 665iHEqlQ2Wx9e6RID6Row==
-X-CSE-MsgGUID: pso3+bjzTdmhyRzmLgjRiw==
-X-IronPort-AV: E=McAfee;i="6800,10657,11482"; a="53616732"
-X-IronPort-AV: E=Sophos;i="6.16,281,1744095600"; 
-   d="scan'208";a="53616732"
-Received: from fmviesa003.fm.intel.com ([10.60.135.143])
-  by orvoesa111.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 02 Jul 2025 05:20:41 -0700
-X-CSE-ConnectionGUID: 1aETWCKNQ1umOKFoIsAm7Q==
-X-CSE-MsgGUID: ppFS1wN+T+ik1840nkTGjg==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.16,281,1744095600"; 
-   d="scan'208";a="158104826"
-Received: from smile.fi.intel.com ([10.237.72.52])
-  by fmviesa003.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 02 Jul 2025 05:20:37 -0700
-Received: from andy by smile.fi.intel.com with local (Exim 4.98.2)
-	(envelope-from <andriy.shevchenko@linux.intel.com>)
-	id 1uWwS1-0000000Bun0-43Su;
-	Wed, 02 Jul 2025 15:20:33 +0300
-Date: Wed, 2 Jul 2025 15:20:33 +0300
-From: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
-To: Xu Yang <xu.yang_2@nxp.com>
-Cc: ezequiel@vanguardiasur.com.ar, mchehab@kernel.org,
-	laurent.pinchart@ideasonboard.com, hdegoede@redhat.com,
-	gregkh@linuxfoundation.org, mingo@kernel.org, tglx@linutronix.de,
-	viro@zeniv.linux.org.uk, thomas.weissschuh@linutronix.de,
-	dafna.hirschfeld@collabora.com, linux-media@vger.kernel.org,
-	linux-kernel@vger.kernel.org, linux-usb@vger.kernel.org,
-	imx@lists.linux.dev, jun.li@nxp.com
-Subject: Re: [PATCH v3 1/3] usb: core: add dma-noncoherent buffer alloc and
- free API
-Message-ID: <aGUkEbaSOzrtILkZ@smile.fi.intel.com>
-References: <20250702110222.3926355-1-xu.yang_2@nxp.com>
- <20250702110222.3926355-2-xu.yang_2@nxp.com>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="gcG4S57l"
+Received: by smtp.kernel.org (Postfix) with ESMTPS id EDB9AC4CEF4
+	for <linux-usb@vger.kernel.org>; Wed,  2 Jul 2025 12:25:29 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1751459130;
+	bh=lF+QOevg3hT9NNfyEuXkTn+SVH3dCTeMBJ04D9dlNKU=;
+	h=From:To:Subject:Date:In-Reply-To:References:From;
+	b=gcG4S57lv2PnOhf1v3KhQJSL/0G86g5vcD+CJ/27Sz4+QYbOfFs9QM9vxjZxe2I+M
+	 2Phv4NQB1pnWv3qlxsEY9E6dAYrNAlrQgV2XgidwtQAoukxlt4xzysgs2f0iXOQgsD
+	 oRvSUsebsh1gvR1kix6I7sCUwSX5gkVmo0PMdwN3wCAKBliZe3jk2jGZqX3wMlSjd+
+	 7iQBVAqEbc3h5D6IT0Vr0y0LtybAW8AVkawVSMpxva7lX9G2EjDHo3jeBwCvVdqD4W
+	 3cTtcTBR01KXSaLPNR3FNA/WASxIkLgpC4SYpwSORSAXzdYu3BRwMjXA3aO0JDQYM5
+	 ELWrKum8TD5AQ==
+Received: by aws-us-west-2-korg-bugzilla-1.web.codeaurora.org (Postfix, from userid 48)
+	id E6DB1C433E1; Wed,  2 Jul 2025 12:25:29 +0000 (UTC)
+From: bugzilla-daemon@kernel.org
+To: linux-usb@vger.kernel.org
+Subject: =?UTF-8?B?W0J1ZyAyMjAxODFdIFVzZXJzIGFjcm9zcyBkaXN0cmlidXRpb25z?=
+ =?UTF-8?B?IHNlZSDigJxjb25maWcgZmFpbGVkLCBodWIgZG9lc27igJl0IGhhdmUgYW55?=
+ =?UTF-8?B?IHBvcnRzISAoZXJyIC0xOSnigJ0gZnJvbSB4aGNpX2hjZCBhdCBib290Lg==?=
+Date: Wed, 02 Jul 2025 12:25:29 +0000
+X-Bugzilla-Reason: None
+X-Bugzilla-Type: changed
+X-Bugzilla-Watch-Reason: AssignedTo drivers_usb@kernel-bugs.kernel.org
+X-Bugzilla-Product: Drivers
+X-Bugzilla-Component: USB
+X-Bugzilla-Version: 2.5
+X-Bugzilla-Keywords: 
+X-Bugzilla-Severity: low
+X-Bugzilla-Who: nick.kainielsen@free.fr
+X-Bugzilla-Status: NEW
+X-Bugzilla-Resolution: 
+X-Bugzilla-Priority: P3
+X-Bugzilla-Assigned-To: drivers_usb@kernel-bugs.kernel.org
+X-Bugzilla-Flags: 
+X-Bugzilla-Changed-Fields: cc
+Message-ID: <bug-220181-208809-GGBKDCnLBc@https.bugzilla.kernel.org/>
+In-Reply-To: <bug-220181-208809@https.bugzilla.kernel.org/>
+References: <bug-220181-208809@https.bugzilla.kernel.org/>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+X-Bugzilla-URL: https://bugzilla.kernel.org/
+Auto-Submitted: auto-generated
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20250702110222.3926355-2-xu.yang_2@nxp.com>
-Organization: Intel Finland Oy - BIC 0357606-4 - c/o Alberga Business Park, 6
- krs, Bertel Jungin Aukio 5, 02600 Espoo
 
-On Wed, Jul 02, 2025 at 07:02:20PM +0800, Xu Yang wrote:
-> This will add usb_alloc_noncoherent() and usb_free_noncoherent()
-> functions to support alloc and free buffer in a dma-noncoherent way.
-> 
-> To explicit manage the memory ownership for the kernel and device,
-> this will also add usb_dma_noncoherent_sync_for_cpu/device() functions
-> and call it at proper time.  The management requires the user save
-> sg_table returned by usb_alloc_noncoherent() to urb->sgt.
+https://bugzilla.kernel.org/show_bug.cgi?id=3D220181
 
-...
+Nick Nielsen (nick.kainielsen@free.fr) changed:
 
-> +	if ((urb->transfer_flags & URB_NO_TRANSFER_DMA_MAP) &&
-> +	    urb->sgt) {
+           What    |Removed                     |Added
+----------------------------------------------------------------------------
+                 CC|                            |nick.kainielsen@free.fr
 
-Something weird with the indentation. Here you wrapped, but the very next line
-is not, and they both satisfy 80 limit (even though we have it relaxed now).
+--- Comment #9 from Nick Nielsen (nick.kainielsen@free.fr) ---
+I'm in Tumbleweed - or I would be=20
+-
+-
+My error message reads
+"[1.361031][T442] hub 6-0:1.3 : config failed hub doesn't have any ports (e=
+rror
+-19)" - there's a difference of numbering of the hub.=20=20=20
+-
+-
+My set up : an AMD Ryzen 5 8600G processor mounted on an ASRock A620M Pro RS
+mother board which uses the AMD A620 chipset.
+-
+-
+Willing to help/test bearing in mind my skills are very limited... which is=
+ why
+I can't format this text
 
-> +		dma_sync_sgtable_for_cpu(hcd->self.sysdev, urb->sgt, dir);
-> +		if (dir == DMA_FROM_DEVICE)
-> +			invalidate_kernel_vmap_range(urb->transfer_buffer,
-> +						     urb->transfer_buffer_length);
-> +	}
+--=20
+You may reply to this email to add a comment.
 
-...
-
-> +
-> +		return ret;
->  	}
-> +
-> +	if ((urb->transfer_flags & URB_NO_TRANSFER_DMA_MAP) &&
-> +	    urb->sgt) {
-
-Why not
-
-	} else if {
-
-and drop the above return ret; ?
-
-> +		if (dir == DMA_TO_DEVICE)
-> +			flush_kernel_vmap_range(urb->transfer_buffer,
-> +						urb->transfer_buffer_length);
-> +		dma_sync_sgtable_for_device(hcd->self.sysdev, urb->sgt, dir);
-> +	}
-> +
->  	return ret;
-
--- 
-With Best Regards,
-Andy Shevchenko
-
-
+You are receiving this mail because:
+You are watching the assignee of the bug.=
