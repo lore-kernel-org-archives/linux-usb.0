@@ -1,75 +1,126 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.10])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EC6141A08A3;
-	Fri, 11 Jul 2025 06:51:32 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5F7BD20C009;
+	Fri, 11 Jul 2025 08:35:27 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.10
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1752216693; cv=none; b=LHis/o3qrGl+R5Ypg/UqgsjOuEsQcoFpVrre7LuU4tUGGFtUaxqwhgIC4dB+62g63A1OQKAci/G/P0MH00eLcHyA+jCrrLkGzDXkk3LfRbBM/TuZMEtBWzngEw76ILLxnuY4tq/EjhiZFx0YLfgSkGPXhb082Z/G04wVnHTZe5M=
+	t=1752222928; cv=none; b=skDJI+gpIb9+7BS6fQ31ujKAQNZbKQK1S7nV3UQKYP2dsEkGTSqZW6hCsy9UqzXf4jswhbeklqeQFrgbdajJUlZSYdkO+uN+c8COJiTRf0JnaFhbXnQ/Fh4qR88XnyvnkgftPGxeT0fKCdipaO1KweKh2GKgkbm92SUurJ/tgZ4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1752216693; c=relaxed/simple;
-	bh=wgsKhzdfMzjTQNnKiRuPYSNlGTF338MZWPENTlmzD9U=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=G7XuWdIokYykI34/4yZQtCwUPbXOzFwPd60BGGMulktgmp0qkCv3pCFRkW8aNB0Y8NkoLknSbyQbbgyvMHjaBbC6+c8cesTFA+S7Vx5o/GeC7DVGr8egfmbs/wARIJlquQz/6969hcq3HIRSlyTYaA5L/D6LEr6lk4QaHAW4hQY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b=p5A8YpnE; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1752222928; c=relaxed/simple;
+	bh=/61z1vRuVF9vGtozMon/4vHnhn12LmdN4a7nQlDa3Ug=;
+	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
+	 MIME-Version; b=YUlT7hNwTgwgwpxJQWAGFOmYJdagAZ6IXoGlzJWukKLdgpNXukQQyy9+aLREkv0fnGeIVYrSKuX43AL81r5gSHaC0BNVWnH+/qV2wiqekWtJsyh4Ej0vJwU+61Xr+gZjRG6DGuFQa971ebJgSJelqKcLeoiLzAlc4zR+NHAlkzc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=none smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=ksDp6Nru; arc=none smtp.client-ip=198.175.65.10
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=linux.intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="p5A8YpnE"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 350D1C4CEED;
-	Fri, 11 Jul 2025 06:51:32 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
-	s=korg; t=1752216692;
-	bh=wgsKhzdfMzjTQNnKiRuPYSNlGTF338MZWPENTlmzD9U=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=p5A8YpnEONtyJVVj+40XFHhtjqMaW/KihdEiUz6hUsdoLdf8mDVdU5xtMUjyYxNyb
-	 qi4XK6drPwD5/QRTMcrtgqgaZ4L4A0HKD6haD50RchvtLsaUtoWR+AQDDtUTYEvg4a
-	 nKu01208rnfs+gEaja75rSVKNvXPEy+ioU5Lxlkk=
-Date: Fri, 11 Jul 2025 08:51:30 +0200
-From: Greg KH <gregkh@linuxfoundation.org>
-To: jackysliu <1972843537@qq.com>
-Cc: linux-kernel@vger.kernel.org, linux-usb@vger.kernel.org,
-	viro@zeniv.linux.org.uk
-Subject: Re: [PATCH v2] usb: gadget: functioni: Fix a oob problem in rndis
-Message-ID: <2025071116-landline-antelope-5c9f@gregkh>
-References: <2025071150-removal-bullring-5649@gregkh>
- <tencent_693B44F3060A525A26EEC5ED8DFF5E92C906@qq.com>
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="ksDp6Nru"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1752222928; x=1783758928;
+  h=from:to:cc:subject:date:message-id:in-reply-to:
+   references:mime-version:content-transfer-encoding;
+  bh=/61z1vRuVF9vGtozMon/4vHnhn12LmdN4a7nQlDa3Ug=;
+  b=ksDp6Nru3oasuOKNT98iAYFDm7UrnhHaChENdyuHF3Mke6gtFCTP3kap
+   Ic4zKYFZkUudjRDPcSU9bLyDhEgnHW4wHrRA9P6N3G6NRB23Fei8qkYNi
+   SYk04+ISiVWwRDEdiuFGQT2hNvLGiAosrrAzXODzJeIif5N+wxFRRcrD/
+   lieD93B1azlLLrLJAczxqvRHSVPy7ZUMTKpfpAqh6iChS5/L5kEKjPkbS
+   OXmlNIKHl+UN6Ijb/dkiliLtINWS6ZpydJxYT6Tp6TO1eheoG099Bo90l
+   VOaLNCAcxtSNU7J8F424OZegN3feMfQ4wUYvfoiwuQ/B9Co4HUMQ9r9Vy
+   w==;
+X-CSE-ConnectionGUID: UwWgBEjOR9+M62c5YnR7lg==
+X-CSE-MsgGUID: O+dTx3XYSoaaZWg7TomKtQ==
+X-IronPort-AV: E=McAfee;i="6800,10657,11490"; a="71965135"
+X-IronPort-AV: E=Sophos;i="6.16,303,1744095600"; 
+   d="scan'208";a="71965135"
+Received: from orviesa009.jf.intel.com ([10.64.159.149])
+  by orvoesa102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 11 Jul 2025 01:34:19 -0700
+X-CSE-ConnectionGUID: vB3UySmZT6iGPVFat9Kauw==
+X-CSE-MsgGUID: 5SkhypF7T8urC2pWMNlufQ==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.16,303,1744095600"; 
+   d="scan'208";a="156097087"
+Received: from ettammin-desk.ger.corp.intel.com (HELO kekkonen.fi.intel.com) ([10.245.244.248])
+  by orviesa009-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 11 Jul 2025 01:34:17 -0700
+Received: from punajuuri.localdomain (unknown [192.168.240.130])
+	by kekkonen.fi.intel.com (Postfix) with ESMTP id DC53B1206EB;
+	Fri, 11 Jul 2025 11:34:13 +0300 (EEST)
+Received: from sailus by punajuuri.localdomain with local (Exim 4.96)
+	(envelope-from <sakari.ailus@linux.intel.com>)
+	id 1ua9Cv-006Vra-2C;
+	Fri, 11 Jul 2025 11:34:13 +0300
+Organization: Intel Finland Oy - BIC 0357606-4 - c/o Alberga Business Park, 6 krs, Bertel Jungin Aukio 5, 02600 Espoo
+From: Sakari Ailus <sakari.ailus@linux.intel.com>
+To: linux-usb@vger.kernel.org
+Cc: linux-media@vger.kernel.org,
+	gregkh@linuxfoundation.org,
+	laurent.pinchart@ideasonboard.com,
+	hdegoede@redhat.com,
+	Thinh.Nguyen@synopsys.com,
+	Amardeep Rai <amardeep.rai@intel.com>,
+	Kannappan R <r.kannappan@intel.com>,
+	Mathias Nyman <mathias.nyman@linux.intel.com>
+Subject: [PATCH v2 3/4] USB: Add a function to obtain USB version independent maximum bpi value
+Date: Fri, 11 Jul 2025 11:34:12 +0300
+Message-Id: <20250711083413.1552423-4-sakari.ailus@linux.intel.com>
+X-Mailer: git-send-email 2.39.5
+In-Reply-To: <20250711083413.1552423-1-sakari.ailus@linux.intel.com>
+References: <20250711083413.1552423-1-sakari.ailus@linux.intel.com>
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <tencent_693B44F3060A525A26EEC5ED8DFF5E92C906@qq.com>
+Content-Transfer-Encoding: 8bit
 
-On Fri, Jul 11, 2025 at 02:40:19PM +0800, jackysliu wrote:
-> On Fri, Jul 11, 2025 at 11:46:35AM +0800, greg k-h wrote
-> >Sure, but again, BufLength is not used for anything, so the value of
-> >that variable means nothing as far as I can tell.
-> >How exactly?  Again, BufLength isn't even used in that function
-> function contains below code:
-> if (gen_ndis_set_resp(params, le32_to_cpu(buf->OID),
-> 			((u8 *)buf) + 8 + BufOffset, BufLength, r))
-> ((u8 *)buf) + 8 + BufOffset determins base address of buffer 
-> and BufLength determins buflen.
+From: "Rai, Amardeep" <amardeep.rai@intel.com>
 
-Yes, and then look to see what buf_len (not buflen) in
-gen_ndis_set_resp() is used for.  I'll wait... :)
+Add usb_endpoint_max_isoc_bpi() to obtain maximum bytes per interval for
+isochronous endpoints in a USB version independent way.
 
+Signed-off-by: Rai, Amardeep <amardeep.rai@intel.com>
+Signed-off-by: Mathias Nyman <mathias.nyman@linux.intel.com>
+Co-developed-by: Sakari Ailus <sakari.ailus@linux.intel.com>
+Signed-off-by: Sakari Ailus <sakari.ailus@linux.intel.com>
+---
+ include/linux/usb.h | 22 ++++++++++++++++++++++
+ 1 file changed, 22 insertions(+)
 
-> >How was this tested?
-> >
-> >And even more importantly, how did you find this bug?  What triggered
-> >it?
-> I detected this problem through static analysis and calibrated
->  the device via qemu emulation.
+diff --git a/include/linux/usb.h b/include/linux/usb.h
+index 68166718ab30..bd70bd5ca82d 100644
+--- a/include/linux/usb.h
++++ b/include/linux/usb.h
+@@ -2038,6 +2038,28 @@ static inline int usb_translate_errors(int error_code)
+ 	}
+ }
+ 
++static inline u32 usb_endpoint_max_isoc_bpi(struct usb_device *dev,
++					    const struct usb_host_endpoint *ep)
++{
++	if (usb_endpoint_type(&ep->desc) != USB_ENDPOINT_XFER_ISOC)
++		return 0;
++
++	switch (dev->speed) {
++	case USB_SPEED_SUPER_PLUS:
++		if (USB_SS_SSP_ISOC_COMP(ep->ss_ep_comp.bmAttributes))
++			return le32_to_cpu(ep->ssp_isoc_ep_comp.dwBytesPerInterval);
++		fallthrough;
++	case USB_SPEED_SUPER:
++		return le16_to_cpu(ep->ss_ep_comp.wBytesPerInterval);
++	case USB_SPEED_HIGH:
++		if (!usb_endpoint_maxp(&ep->desc) && le16_to_cpu(dev->descriptor.bcdUSB) == 0x220)
++			return le32_to_cpu(ep->eusb2_isoc_ep_comp.dwBytesPerInterval);
++		fallthrough;
++	default:
++		return usb_endpoint_maxp(&ep->desc) * usb_endpoint_maxp_mult(&ep->desc);
++	}
++}
++
+ /* Events from the usb core */
+ #define USB_DEVICE_ADD		0x0001
+ #define USB_DEVICE_REMOVE	0x0002
+-- 
+2.39.5
 
-What tool generated this static analysis?  You always have to mention
-that as per our development rules.
-
-And what qemu setup did you use to test this?  That would be helpful to
-know so that I can verify it on my end.
-
-thanks,
-
-greg k-h
