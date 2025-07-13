@@ -1,144 +1,207 @@
-Received: from out-184.mta0.migadu.com (out-184.mta0.migadu.com [91.218.175.184])
+Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com [205.220.180.131])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5F3B220C461
-	for <linux-usb@vger.kernel.org>; Sat, 12 Jul 2025 07:49:27 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=91.218.175.184
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 68359156677
+	for <linux-usb@vger.kernel.org>; Sun, 13 Jul 2025 09:29:59 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.180.131
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1752306569; cv=none; b=AP4XKmQnwTwKZNN1C+VT3g4i+R9kCqnApFynBvGPhuxHviKtbZ66i5wZmp/fjtFi499LZuq9vJPch4pdW1RO5zYFibMPK30hyk/REmwQA4lIZ3+CSgFKTqlsS4SuI3qV3mINutHLsj4+J0U0qkS6Mf4xlLOLqmm2xChpB4wb/nM=
+	t=1752399001; cv=none; b=A09Z5K6K4rM+rCCOPxG94Ff5vk/ANZLH8cAxERhDlcag+CURAjxv3jdtkRWJb+kCb16m8jV8daqCJGnq4SyN9DZb7oP/BTP6Trz8d8BbpYXvRSLuoUG+dc1+yekcWmhl4QGFqVysTsG7KtW+fbuGWilxdeCYDhfoypfNSUlLRkU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1752306569; c=relaxed/simple;
-	bh=1MuKM66N+VpDrAadh8p/LAH+Y+Guai4ttqwz7vBJaNM=;
-	h=From:Subject:Date:Message-Id:MIME-Version:Content-Type:To:Cc; b=DE+8AmwBD3sJWGqeMVMr6X2vV8k3UvnjrG5creqXVFMCH7TP7VzmqLFAsWLLSDoVxRauR9tla9ooX7q57KlF1y8WR/Mt/EGf0ndnZg2A8aCTxoW3UdoYtovLn9dA9ytPlaf2zF5p470MrUDkX5Yy305WTpR4I+eiaZOnajnd9QQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev; spf=pass smtp.mailfrom=linux.dev; dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b=LXfmtrJd; arc=none smtp.client-ip=91.218.175.184
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.dev
+	s=arc-20240116; t=1752399001; c=relaxed/simple;
+	bh=jjmujOfz0YByvx6u1HvyFte3TNGEBmIAN0WgYDdBKpo=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=R5ZOqHjpxNrCxG1sKXNPSJnD9em4PVdmdXVsEp+TyvyX3SxqWHfCWZdNNVe+eD8x32k/xzR//SJlWjZ95DwIXPKWTVCZ4NjqZ/mbeYXLXbYG+dCctvHmlwxNCX6tin8PGIzUJ0Th1OJqETMpgjmeEltU/+j5mzDSLQhsL2krhmc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com; spf=pass smtp.mailfrom=oss.qualcomm.com; dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b=TyoYSocU; arc=none smtp.client-ip=205.220.180.131
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=oss.qualcomm.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b="LXfmtrJd"
-X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and include these headers.
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.dev; s=key1;
-	t=1752306555;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding;
-	bh=1hEMfGUsaTb+Yy5uX2svn+tvEyF1FLF6gJK6rBT3z1Y=;
-	b=LXfmtrJdfLfu9dm8NC91mhS0flxAQjRDHGW9Z1Y8xedWGzRs4SA/xJ9SXnNnt/5cmgpYMU
-	iPyuyV/sI/2GF2ME7nCNXZDWeCuaRW60Mxp4W+UZwcaHCZKsmdioKzP1DxwVJ8hC4grA0M
-	SEETsKbyHJ+O1bvhxoVIXa0cYQmMm0E=
-From: Ze Huang <huang.ze@linux.dev>
-Subject: [PATCH v6 0/2] Add SpacemiT K1 USB3.0 host controller support
-Date: Sat, 12 Jul 2025 15:48:59 +0800
-Message-Id: <20250712-dwc3_generic-v6-0-cc87737cc936@linux.dev>
+	dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b="TyoYSocU"
+Received: from pps.filterd (m0279870.ppops.net [127.0.0.1])
+	by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 56D5ffp4007545
+	for <linux-usb@vger.kernel.org>; Sun, 13 Jul 2025 09:29:58 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
+	cc:content-transfer-encoding:content-type:date:from:in-reply-to
+	:message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
+	1dY6ZVa9DM+PzibcCkmZyv4ANviQi7JtP2IKQ1ChPXI=; b=TyoYSocUDSrD4s2V
+	SUUkUAUj9OQ57WwvpnU19IBRKVuNeLTs2qZIpG0dlJffa0NxTofZuIXxNeO6f4dX
+	Z0lhELhldHGttZfnbRiy/yk9ekfykahZAE/TYmpYoOee/mGI5qNJAiv2+dap+IH2
+	PpXoGsLY+JLEERXtWjThY6RtwPqs+OzcMhvEkUz1G82No2cUbQQF24vakbhthatQ
+	k/8lMbJR2l1glJ+WjNYCu9NoSpuXVdf57Ve7gn9mDsNwQUPYKpt3jRpEap8gNflk
+	lTwhMjk26eEBpHO2QKC+QbxgJ6hDlDGbL8qtbVSh/UrTrRfQYvOG76Ud06J6lEHx
+	t0AJUw==
+Received: from mail-pf1-f198.google.com (mail-pf1-f198.google.com [209.85.210.198])
+	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 47uftm9v63-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT)
+	for <linux-usb@vger.kernel.org>; Sun, 13 Jul 2025 09:29:58 +0000 (GMT)
+Received: by mail-pf1-f198.google.com with SMTP id d2e1a72fcca58-748cf01de06so5185597b3a.3
+        for <linux-usb@vger.kernel.org>; Sun, 13 Jul 2025 02:29:58 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1752398997; x=1753003797;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=1dY6ZVa9DM+PzibcCkmZyv4ANviQi7JtP2IKQ1ChPXI=;
+        b=FJUzBp4lRORcfoiVzFXzGIBfr9N1EYTIOMwsxcjypNsxrD8C6gXVrq8ZQvVgPaRvzJ
+         cIn/Fw1n6rlHvfQqljCnZZG82cAZXHx5UPsNwJXKC1PthUAfpMT4TzFxSUll6XH1wgLf
+         gYKwqld1YYXzY4/5CEuDqzBUjTe1p2Mb3T7eF33GAm0EFnbb21ngkZRrVakQd+0bQoLy
+         qorKFQX1H8Hl4gkIz3qH3IiVKGD8JK1mQ07wRKNIe472+dc8kQQOO1RZCfemKltDC/2K
+         Ctf+47XnLvHT7SGMxioTCaOBrD3hFrn5e0dCgJ9Lg+2pTv1O1tv+SE40hUhOHYLgqxnd
+         ALcA==
+X-Forwarded-Encrypted: i=1; AJvYcCUIzxzvQJhroJdJyGquSFfBh5YP1gJCaRx1Vu+Nxc/tCMBlTj5CdRzmuo/IzW+aD1eCbdbzVib5RuQ=@vger.kernel.org
+X-Gm-Message-State: AOJu0Yy3SIpDHNvVY/uAzIaNI1OqI6t6zAosslUp0rp0Dpf8LSNxvTOS
+	WqAz0NlPDMW0dpUpOprTmVZgE5oyCHW35RIJ9jQh0wxYYPbEPHWRC5PTDO2JKkexMViNJcGpNmj
+	6SNxskdgLF5PQF17dyZRf/TKyBm91yBJ68bt6ADY9VVNKYq4ZJZv4OARkAvtGzgU=
+X-Gm-Gg: ASbGnculZJcW/3K7gis1oY0VKGQzXDrKvsvdts/pORhhqud3H3kiqQsKCgsQO3Ynfx9
+	wL3ExrzofILT4yH0DAOzZrYbUu/e9A8O+Uby0FKNMZMb7Rvc8X4CiEVrhDZdYvw175uaqG+MzCd
+	Fe94Ob4uzhwiIDH+BTZJVXKgwx6jwtfZ4FJ1TkAAaM35Ytgt0GCrUuCbcRJKZDFGOMh/TEuD/a2
+	nWK5hMUpoghclAiCSzwwK3F7XilZi8eKTXaQy6NC8U6heeWnH2XIUGEkrXhKR87HGQ34SyB5VRk
+	ZtxInnbAbic+evY52GHQaXekLz5Lrc+jOMzlqqn7ehmp2IlWJ14kQDQT3fbS34VsIyecFprK6Po
+	I2dYhFUeSk6F+GHk9NW5LhvCBSr8Iwl1zLzr5CQ==
+X-Received: by 2002:a05:6a00:2352:b0:740:9e87:9625 with SMTP id d2e1a72fcca58-74ee04ade9cmr14364988b3a.4.1752398996768;
+        Sun, 13 Jul 2025 02:29:56 -0700 (PDT)
+X-Google-Smtp-Source: AGHT+IHz2YfpMT3tzMVZtVk/aJfp5mnzyvhKOdjKfF3sS31t6p0qgfYXHXVFuYF2XRE2ePI/Wi61RA==
+X-Received: by 2002:a05:6a00:2352:b0:740:9e87:9625 with SMTP id d2e1a72fcca58-74ee04ade9cmr14364955b3a.4.1752398996212;
+        Sun, 13 Jul 2025 02:29:56 -0700 (PDT)
+Received: from ?IPV6:2401:4900:1cb1:5cc8:5574:6ccf:b356:9c65? ([2401:4900:1cb1:5cc8:5574:6ccf:b356:9c65])
+        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-74eb9f949adsm8742795b3a.174.2025.07.13.02.29.53
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Sun, 13 Jul 2025 02:29:55 -0700 (PDT)
+Message-ID: <27ff2c46-9402-47e6-b5ea-8a1f783220b1@oss.qualcomm.com>
+Date: Sun, 13 Jul 2025 14:59:40 +0530
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v2 2/4] usb: dwc3: qcom: Implement glue callbacks to
+ facilitate runtime suspend
+To: Thinh Nguyen <Thinh.Nguyen@synopsys.com>
+Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Bjorn Andersson <bjorn.andersson@oss.qualcomm.com>,
+        "linux-arm-msm@vger.kernel.org" <linux-arm-msm@vger.kernel.org>,
+        "linux-usb@vger.kernel.org" <linux-usb@vger.kernel.org>,
+        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>
+References: <20250610091357.2983085-1-krishna.kurapati@oss.qualcomm.com>
+ <20250610091357.2983085-3-krishna.kurapati@oss.qualcomm.com>
+ <20250623233211.aeehndz2nxqovepd@synopsys.com>
+ <a46b9870-207b-45a1-b3e6-5c13e1857640@oss.qualcomm.com>
+ <20250711232929.5oukafed5lnvsu2v@synopsys.com>
+Content-Language: en-US
+From: Krishna Kurapati <krishna.kurapati@oss.qualcomm.com>
+In-Reply-To: <20250711232929.5oukafed5lnvsu2v@synopsys.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
-X-B4-Tracking: v=1; b=H4sIAGsTcmgC/22Oyw6CMBBFf4XM2pLSpjxc+R+GGGhHmESKtlAxh
- H+3wtblubmvFTw6Qg/nZAWHgTyNNkJ+SkD3je2QkYkMggvFC66YeWt569DGmGal4aJUVSGElhA
- jT4d3Wva6a32ww9ccW6dDhLbxyPQ4DDSdk5CnWc6czuBn7slPo/vsV4La3f9Xg2KcVabVSmKjp
- BGXB9l5SQ0GqLdt+wIpcEWX1QAAAA==
-X-Change-ID: 20250705-dwc3_generic-8d02859722c3
-To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>, 
- Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>, 
- Conor Dooley <conor+dt@kernel.org>, Yixun Lan <dlan@gentoo.org>, 
- Thinh Nguyen <Thinh.Nguyen@synopsys.com>, 
- Philipp Zabel <p.zabel@pengutronix.de>
-Cc: linux-usb@vger.kernel.org, devicetree@vger.kernel.org, 
- linux-riscv@lists.infradead.org, spacemit@lists.linux.dev, 
- linux-kernel@vger.kernel.org, Ze Huang <huang.ze@linux.dev>, 
- Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-X-Developer-Signature: v=1; a=ed25519-sha256; t=1752306549; l=3386;
- i=huang.ze@linux.dev; s=20250705; h=from:subject:message-id;
- bh=1MuKM66N+VpDrAadh8p/LAH+Y+Guai4ttqwz7vBJaNM=;
- b=dAWAK/ya87gUhcMsd+jqyT5tQZCy2XpKae+r+SrK66YK5bjUiK7HfcRV/8ykUt6jAAWdjQmm3
- Pe5/j1UJ38YANTv8fBdP7fTMUi1SWseq8yCfTy8+oAG4cwU4CMeTuy8
-X-Developer-Key: i=huang.ze@linux.dev; a=ed25519;
- pk=Kzc4PMu5PTo8eZZQ5xmTNL9jeXcQ9Wml0cs+vlQpBkg=
-X-Migadu-Flow: FLOW_OUT
+X-Authority-Analysis: v=2.4 cv=AI4FyeZ1 c=1 sm=1 tr=0 ts=68737c96 cx=c_pps
+ a=m5Vt/hrsBiPMCU0y4gIsQw==:117 a=xqWC_Br6kY4A:10 a=IkcTkHD0fZMA:10
+ a=Wb1JkmetP80A:10 a=EUspDBNiAAAA:8 a=O1qQoxS_gdKAj5MKBqMA:9 a=QEXdDO2ut3YA:10
+ a=IoOABgeZipijB_acs4fv:22
+X-Proofpoint-ORIG-GUID: eqfQ3Zl9BKqV6BAj43xQOmmpFt7oG1Mp
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUwNzEzMDA2NCBTYWx0ZWRfXwxuPZx52ZjVD
+ jU97gbGOB3BpuLZaD7tCEwJNYBEprMfxOxRgkDLlux3HBJap1e4to494xWbO1+KEU5xJPPBkyoM
+ uYMjE+GRBUAZESJyGtYEl47yxXF8Pte3wd/xOtmQACapg4Gc7zvwo5nzgZeFFOBE/FBJ6oZYX4R
+ pr8UQMVGc7Py6kf8mPf3aEFLOkQO2ij4WxBA0MCKpdaE/bs5v+TLEnSwamF1M0vl5/4gt3eEDHL
+ GV5Sc7Im80xgT1q9XIz+mzcHNzKdTXMdCsnXnc4fFMmeuLGQdMAtunPz+WZz1oSBHv70Vb+XNE6
+ lq0HYrCEwxAeVD1+v1MMEZFrKkPEJ0GXm3KdvnMI8HZyE+lZnx0NC9Xru67LRetQNf3Kx8QGWjD
+ gP22GTHmj7GUARTxG4l+372jMsDCM3wmfVBi1geBjcQet0PBUg6ygIFOhuzmOH1dg5Xhi+Vt
+X-Proofpoint-GUID: eqfQ3Zl9BKqV6BAj43xQOmmpFt7oG1Mp
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1099,Hydra:6.1.7,FMLib:17.12.80.40
+ definitions=2025-07-13_01,2025-07-09_01,2025-03-28_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ mlxlogscore=999 phishscore=0 suspectscore=0 mlxscore=0 malwarescore=0
+ lowpriorityscore=0 impostorscore=0 clxscore=1015 adultscore=0
+ priorityscore=1501 spamscore=0 bulkscore=0 classifier=spam authscore=0
+ authtc=n/a authcc= route=outbound adjust=0 reason=mlx scancount=1
+ engine=8.19.0-2505280000 definitions=main-2507130064
 
-The USB 3.0 controller found in the SpacemiT K1 SoC[1] supports both USB3.0
-Host and USB2.0 Dual-Role Device (DRD). 
 
-This controller is compatible with DesignWare Core USB 3 (DWC3) driver.
-However, constraints in the `snps,dwc3` bindings limit the ability to describe
-hardware-specific features in a clean and maintainable way. While
-`dwc3-of-simple` still serves as a glue layer for many platforms, it requires a
-split device tree node structure, which is less desirable in newer platforms.
 
-To promote a transition toward a flattened `dwc` node structure, this series
-introduces `dwc3-generic-plat`, building upon prior efforts that exposed the
-DWC3 core driver [2].
+On 7/12/2025 4:59 AM, Thinh Nguyen wrote:
+> On Tue, Jun 24, 2025, Krishna Kurapati wrote:
+>>
+>>
+>> On 6/24/2025 5:02 AM, Thinh Nguyen wrote:
+>>> On Tue, Jun 10, 2025, Krishna Kurapati wrote:
+>>>> On Qualcomm DWC3 dual-role controllers, the conndone/disconnect events in
+>>>> device mode are generated by controller when software writes to QSCRATCH
+>>>> registers in Qualcomm Glue layer rather than the vbus line being routed to
+>>>> dwc3 core IP for it to recognize and generate these events.
+>>>>
+>>>> UTMI_OTG_VBUS_VALID  bit of QSCRATCH_HS_PHY_CTRL register needs to be set
+>>>> to generate a connection done event and to be cleared for the controller to
+>>>> generate a disconnect event during cable removal. When the disconnect is
+>>>> not generated upon cable removal, the "connected" flag of dwc3 is left
+>>>> marked as "true" and it blocks suspend routines and for that to happen upon
+>>>> cable removal, the cable disconnect notification coming in via set_role
+>>>> call need to be provided to the Qualcomm glue layer as well.
+>>>>
+>>>> Currently, the way DWC3 core and Qualcomm legacy glue driver are designed,
+>>>> there is no mechanism through which the DWC3 core can notify the Qualcomm
+>>>> glue layer of any role changes which it receives via role switch. To
+>>>> register these glue callbacks at probe time, for enabling core to notify
+>>>> glue layer, the legacy Qualcomm driver has no way to find out when the
+>>>> child driver probe was successful since it does not check for the same
+>>>> during of_platform_populate.
+>>>>
+>>>> Hence implement the following glue callbacks for flattened Qualcomm glue
+>>>> driver:
+>>>>
+>>>> 1. set_role: To pass role switching information from drd layer to glue.
+>>>> This information is needed to identify NONE/DEVICE mode switch and modify
+>>>> QSCRATCH to generate connect-done event on device mode entry and disconnect
+>>>> event on cable removal in device mode.
+>>>>
+>>>> 2. run_stop: When booting up in device mode, if autouspend is enabled and
+>>>> userspace doesn't write UDC on boot, controller enters autosuspend. After
+>>>> this, if the userspace writes to UDC in the future, run_stop notifier is
+>>>> required to enable UTMI_OTG_VBUS_VALID of QSCRATCH so that connect done
+>>>> event is generated after run_stop(1) is done to finish enumeration.
+>>>>
+>>>> Signed-off-by: Krishna Kurapati <krishna.kurapati@oss.qualcomm.com>
+>>>> ---
+>>>>    drivers/usb/dwc3/dwc3-qcom.c | 82 ++++++++++++++++++++++++++++++++----
+>>>>    1 file changed, 73 insertions(+), 9 deletions(-)
+>>>>
+>>>> diff --git a/drivers/usb/dwc3/dwc3-qcom.c b/drivers/usb/dwc3/dwc3-qcom.c
+>>>> index ca7e1c02773a..d40b52e2ba01 100644
+>>>> --- a/drivers/usb/dwc3/dwc3-qcom.c
+>>>> +++ b/drivers/usb/dwc3/dwc3-qcom.c
+>>>> @@ -89,6 +89,12 @@ struct dwc3_qcom {
+>>>>    	bool			pm_suspended;
+>>>>    	struct icc_path		*icc_path_ddr;
+>>>>    	struct icc_path		*icc_path_apps;
+>>>> +
+>>>> +	/*
+>>>> +	 * Current role changes via usb_role_switch_set_role callback protected
+>>>> +	 * internally by mutex lock.
+>>>> +	 */
+>>>> +	enum usb_role		current_role;
+>>>
+>>> Can we just track the current role through dwc3 core instead of an
+>>> addition field in the glue?
+>>>
+>>
+>> Core caches only mode. We need ROLE NONE to identify cable connect. So
+>> adding that in glue to keep track.
+>>
+> 
+> The controller is always either host or device, not somewhere in
+> between. You're using ROLE_NONE to indicate connection, which is a
+> separate state.
+> 
 
-The device tree support for SpacemiT K1 will be submitted separately when the
-associated PHY driver is ready.
+Yes, but there is no flag that indicates that in dwc structure today. 
+Also since only dwc3-qcom needs it at the moment, I added that role info 
+in glue layer.
 
-This series is based on 6.16-rc1 and has been tested on BananaPi development
-boards.
+> I feel this should be tracked separately for clarity. The dwc3 also
+> tracks the connection state, can we use that?
+> 
 
-Link: https://developer.spacemit.com/documentation?token=AjHDwrW78igAAEkiHracBI9HnTb [1]
-Link: https://lore.kernel.org/all/20250414-dwc3-refactor-v7-3-f015b358722d@oss.qualcomm.com [2]
+Are you referring to the "connected" flag in DWC structure ? I see that 
+it indicates connection status only in gadget mode.
 
-Signed-off-by: Ze Huang <huang.ze@linux.dev>
----
-Changes in v6:
-- replace SET_RUNTIME_PM_OPS/SET_SYSTEM_SLEEP_PM_OPS with RUNTIME_PM_OPS/SYSTEM_SLEEP_PM_OPS
-- Link to v5: https://lore.kernel.org/r/20250705-dwc3_generic-v5-0-9dbc53ea53d2@linux.dev
-
-Changes in v5:
-- drop DTS patch (will submit when PHY driver is ready)
-- drop interconnects and update resets property in dt-bindings
-- remove unnecessary __maybe_unused attribute and PM guards
-- switch to devres APIs for reset and clock management
-- Link to v4: https://lore.kernel.org/all/20250526-b4-k1-dwc3-v3-v4-0-63e4e525e5cb@whut.edu.cn/
-
-Changes in v4:
-- dt-bindings spacemit,k1-dwc:
-  - reorder properties
-  - add properties of phys & phy-names
-  - add usb hub nodes in example dt
-- add support for spacemit,k1-mbus
-- dwc3 generic plat driver:
-  - rename dwc3-common.c to dwc3-generic-plat.c
-  - use SYSTEM_SLEEP_PM_OPS macros and drop PM guards
-- dts:
-  - reorder dts properties of usb dwc3 node
-  - move "dr_mode" of dwc3 from dtsi to dts
-- Link to v3: https://lore.kernel.org/r/20250518-b4-k1-dwc3-v3-v3-0-7609c8baa2a6@whut.edu.cn
-
-Changes in v3:
-- introduce dwc3-common for generic dwc3 hardware
-- fix warnings in usb host dt-bindings
-- fix errors in dts
-- Link to v2: https://lore.kernel.org/r/20250428-b4-k1-dwc3-v2-v1-0-7cb061abd619@whut.edu.cn
-
-Changes in v2:
-- dt-bindings:
-  - add missing 'maxItems'
-  - remove 'status' property in exmaple
-  - fold dwc3 node into parent
-- drop dwc3 glue driver and use snps,dwc3 driver directly
-- rename dts nodes and reorder properties to fit coding style
-- Link to v1: https://lore.kernel.org/all/20250407-b4-k1-usb3-v3-2-v1-0-bf0bcc41c9ba@whut.edu.cn
-
----
-Ze Huang (2):
-      dt-bindings: usb: dwc3: add support for SpacemiT K1
-      usb: dwc3: add generic driver to support flattened
-
- .../devicetree/bindings/usb/spacemit,k1-dwc3.yaml  | 107 ++++++++++++
- drivers/usb/dwc3/Kconfig                           |  11 ++
- drivers/usb/dwc3/Makefile                          |   1 +
- drivers/usb/dwc3/dwc3-generic-plat.c               | 182 +++++++++++++++++++++
- 4 files changed, 301 insertions(+)
----
-base-commit: d9946fe286439c2aeaa7953b8c316efe5b83d515
-change-id: 20250705-dwc3_generic-8d02859722c3
-
-Best regards,
--- 
-Ze Huang <huang.ze@linux.dev>
-
+Regards,
+Krishna,
