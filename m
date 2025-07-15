@@ -1,37 +1,37 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CC0F82D3A88;
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EC7E52D46CE;
 	Tue, 15 Jul 2025 04:03:51 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1752552231; cv=none; b=m4FyuX9J1EDNIkNLD3+OVdbloLqFNn7hzXGF72ufH3qWbcuTWVniWkr3pKufb0gGbfDOjI1AiaXyVUhFNvikqGQaEVc2c/ktqCebFDchPRGOvwyy5DO/0lcDsOAOsedT+nrv/JmBzCDwgZLqXi8huqZkVYyqOU/YTtMtZmuP10A=
+	t=1752552232; cv=none; b=o/UenS91cVgKshCd8ybNOuRwM8jE+ajDY0gv6ZeOIAtixWBXNIpGm2F/YltvbwxxezR2Dok+bST1zGvjR2WoHsegzHQoAdcLy0BaVhfy7e2G9KrpOVYeLbFBQNcRJX5yQZ6c/n5f+xd53/JP2EhwENiCE/fq2JJg9y96Dqj7sg8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1752552231; c=relaxed/simple;
-	bh=u7olUKfS03c9Mbr4nQGTSTHx3nl6QJuN1w4bvpppFPA=;
+	s=arc-20240116; t=1752552232; c=relaxed/simple;
+	bh=DJu5S4IwJo18/zBTs5hjXsnqZFl0TuSdcXyF/MtV004=;
 	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
-	 In-Reply-To:To:Cc; b=sZ/mHT5GI7bJef7jU588klWkEYamaimqPX7iYmLmX8m0l/G+O9jQi3YgfD1ggEyMT0z83LGvO2DbjMbHGoDjpFbW9OWVbC3DZREqekA+vnmWcKU9o3zrf2cy3t/4WxlZoqIwDSg0N1/0CwB9tbz0tmcjIrplkwgvjopmpC2hn6w=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=MKDMQS/x; arc=none smtp.client-ip=10.30.226.201
+	 In-Reply-To:To:Cc; b=nhpIXk/yfj8f1FMtOwMAim+MCbBfBz5JJ00ry637tOEOY21s4HNEkfIjBUTAqPA4cfhhO++InsSwA4oXWZH7Qqx4DsGXI/zO/04v60dJ+HhG4K1gos/o6r8qUv+uEIYgB40GHYenrP+DTE3hOoT3l12umgdkPht/cEbo5ESOufM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=V3Cs58xy; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="MKDMQS/x"
-Received: by smtp.kernel.org (Postfix) with ESMTPS id 6B942C4CEF7;
-	Tue, 15 Jul 2025 04:03:51 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="V3Cs58xy"
+Received: by smtp.kernel.org (Postfix) with ESMTPS id A1660C19424;
+	Tue, 15 Jul 2025 04:03:50 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
 	s=k20201202; t=1752552231;
-	bh=u7olUKfS03c9Mbr4nQGTSTHx3nl6QJuN1w4bvpppFPA=;
+	bh=DJu5S4IwJo18/zBTs5hjXsnqZFl0TuSdcXyF/MtV004=;
 	h=From:Date:Subject:References:In-Reply-To:To:Cc:Reply-To:From;
-	b=MKDMQS/xbsGvDn6qIllD0JAJlqSPjefAqNiJ+rY6r98mq0e/KpOKPGkKTCAmxpCzw
-	 C0zOnjfUsDa7MvrFhDw3QdYHEqw+pVRyDilw/+sVlXqWFxUkd0dz9u0eeCxC5ZDjv2
-	 1AXbcgTdrRafUmdGS2buu7lYadsPNUFpPsY4hWaLNbChmjcDspfF4kHBZFiHsPAtOh
-	 fKFCXPo4d9bzhhttloiW5oFD2K9OUevwUMPqwUwPeNJgXjc+Xu1IAIznAy74zowhZL
-	 V2sJXsVyuj/EuYSviDtda5gCQLvGzylFMhWqIx8O+QMqHewbJ77cPOwfcusl/qi6Lw
-	 MxdUN61v4D8+w==
+	b=V3Cs58xy93Hb6rGfpE7MpIhsyYB8A7ZNsS8Tq/Vf6l2o7WRiGEK4lNEmiv6Ajewlb
+	 gbnvSynNYL0KJNOV1ms2VI7/M5jutInqVw83LdbGKNt/3vKeXg7gNhKeADI4StUYGn
+	 p4ii0he3kV0sBVJ2yyI51EFdh+327AURGHn/GcuYV4QJZsJ8esrrvEfxIXR7YAE729
+	 xwAYcNhN/I7DQgVasDaZBML/wLUH1fmjRxBq2rG8NEAqKpRrira6BTWXzmPV+NH1eo
+	 9A+xpB4wMYu9s6tkSeMh/q9RlAEdNVz/wE+NsFL9D/OMK7PZncP42tU3YwPvai/wTk
+	 uSZ/VbPRG3S3A==
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 63F02C83F1D;
-	Tue, 15 Jul 2025 04:03:51 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 9238EC83F17;
+	Tue, 15 Jul 2025 04:03:50 +0000 (UTC)
 From: Aaron Kling via B4 Relay <devnull+webgeek1234.gmail.com@kernel.org>
-Date: Mon, 14 Jul 2025 23:02:55 -0500
-Subject: [PATCH 12/17] usb: gadget: tegra-xudc: Add Tegra210B01 Support
+Date: Mon, 14 Jul 2025 23:02:44 -0500
+Subject: [PATCH 01/17] dt-bindings: arm: tegra: pmc: Document Tegra210B01
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
@@ -40,7 +40,7 @@ List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20250714-t210b01-v1-12-e3f5f7de5dce@gmail.com>
+Message-Id: <20250714-t210b01-v1-1-e3f5f7de5dce@gmail.com>
 References: <20250714-t210b01-v1-0-e3f5f7de5dce@gmail.com>
 In-Reply-To: <20250714-t210b01-v1-0-e3f5f7de5dce@gmail.com>
 To: Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>, 
@@ -63,11 +63,11 @@ Cc: devicetree@vger.kernel.org, linux-tegra@vger.kernel.org,
  linux-pm@vger.kernel.org, linux-clk@vger.kernel.org, 
  Aaron Kling <webgeek1234@gmail.com>
 X-Mailer: b4 0.14.2
-X-Developer-Signature: v=1; a=ed25519-sha256; t=1752552229; l=1624;
+X-Developer-Signature: v=1; a=ed25519-sha256; t=1752552229; l=1125;
  i=webgeek1234@gmail.com; s=20250217; h=from:subject:message-id;
- bh=hwelDVF01l5ZRuL1g/lhcmuuedoseJ2J1ZVrnMI3gXs=;
- b=baFB1DdUEiia6vOQK8oaNGYQd3FsJhUrLGKbcFZMIszCMnODWRn0Ug45lihanr925q/MIEhwc
- MiBWkJ36UueBY0taC3Y8kgN3WP59wXKyUpgQRjaLt6QHrUdgjgRhxJ5
+ bh=cgMpw5zuA5nEV4NkcEZ4qpIA/kC31MfIetXY4+pWRrc=;
+ b=kwDtUeynLZztzgV6Gshl/q8j63IovMWnSvwrd3YLif7L1wSA/cqLk3gNCrdSYbhROPsAo87P3
+ 7e5yZJp5bK+AcLPkRna/ltvB4dcls6TLZVYoeNL4plCZvMNt6e6biY+
 X-Developer-Key: i=webgeek1234@gmail.com; a=ed25519;
  pk=TQwd6q26txw7bkK7B8qtI/kcAohZc7bHHGSD7domdrU=
 X-Endpoint-Received: by B4 Relay for webgeek1234@gmail.com/20250217 with
@@ -77,51 +77,36 @@ Reply-To: webgeek1234@gmail.com
 
 From: Aaron Kling <webgeek1234@gmail.com>
 
-It doesn't need some of the workarounds that the original Tegra210 does.
+Add the PMC driver compatible strings for Tegra210B01
 
 Signed-off-by: Aaron Kling <webgeek1234@gmail.com>
 ---
- drivers/usb/gadget/udc/tegra-xudc.c | 20 ++++++++++++++++++++
- 1 file changed, 20 insertions(+)
+ Documentation/devicetree/bindings/soc/tegra/nvidia,tegra20-pmc.yaml | 5 ++++-
+ 1 file changed, 4 insertions(+), 1 deletion(-)
 
-diff --git a/drivers/usb/gadget/udc/tegra-xudc.c b/drivers/usb/gadget/udc/tegra-xudc.c
-index 2957316fd3d003e8444a825a72d228b7db06febe..1d2fb9bd51c7369dc5d056e49ae184659a40406c 100644
---- a/drivers/usb/gadget/udc/tegra-xudc.c
-+++ b/drivers/usb/gadget/udc/tegra-xudc.c
-@@ -3652,6 +3652,22 @@ static struct tegra_xudc_soc tegra210_xudc_soc_data = {
- 	.has_ipfs = true,
- };
+diff --git a/Documentation/devicetree/bindings/soc/tegra/nvidia,tegra20-pmc.yaml b/Documentation/devicetree/bindings/soc/tegra/nvidia,tegra20-pmc.yaml
+index 7140c312d8986b0b733c519b1e89e360d9602add..eddcafc2f9398ad6fb4d2d46b3181ab91c89a229 100644
+--- a/Documentation/devicetree/bindings/soc/tegra/nvidia,tegra20-pmc.yaml
++++ b/Documentation/devicetree/bindings/soc/tegra/nvidia,tegra20-pmc.yaml
+@@ -18,6 +18,7 @@ properties:
+       - nvidia,tegra114-pmc
+       - nvidia,tegra124-pmc
+       - nvidia,tegra210-pmc
++      - nvidia,tegra210b01-pmc
  
-+static struct tegra_xudc_soc tegra210b01_xudc_soc_data = {
-+	.supply_names = tegra210_xudc_supply_names,
-+	.num_supplies = ARRAY_SIZE(tegra210_xudc_supply_names),
-+	.clock_names = tegra210_xudc_clock_names,
-+	.num_clks = ARRAY_SIZE(tegra210_xudc_clock_names),
-+	.num_phys = 4,
-+	.u1_enable = false,
-+	.u2_enable = true,
-+	.lpm_enable = false,
-+	.invalid_seq_num = false,
-+	.pls_quirk = false,
-+	.port_reset_quirk = true,
-+	.port_speed_quirk = false,
-+	.has_ipfs = true,
-+};
-+
- static struct tegra_xudc_soc tegra186_xudc_soc_data = {
- 	.clock_names = tegra186_xudc_clock_names,
- 	.num_clks = ARRAY_SIZE(tegra186_xudc_clock_names),
-@@ -3698,6 +3714,10 @@ static const struct of_device_id tegra_xudc_of_match[] = {
- 		.compatible = "nvidia,tegra210-xudc",
- 		.data = &tegra210_xudc_soc_data
- 	},
-+	{
-+		.compatible = "nvidia,tegra210b01-xudc",
-+		.data = &tegra210b01_xudc_soc_data
-+	},
- 	{
- 		.compatible = "nvidia,tegra186-xudc",
- 		.data = &tegra186_xudc_soc_data
+   reg:
+     maxItems: 1
+@@ -346,7 +347,9 @@ allOf:
+       properties:
+         compatible:
+           contains:
+-            const: nvidia,tegra210-pmc
++            enum:
++              - nvidia,tegra210-pmc
++              - nvidia,tegra210b01-pmc
+     then:
+       properties:
+         pinmux:
 
 -- 
 2.50.0
