@@ -1,145 +1,187 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.223.131])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 78DB1288CAC;
-	Thu, 17 Jul 2025 11:48:46 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4D2F12BDC02
+	for <linux-usb@vger.kernel.org>; Thu, 17 Jul 2025 12:06:54 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.131
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1752752926; cv=none; b=J/9IcoOX8HYmvAZ7ej3TyQI57W1TjJB4+liDteqvX6Hc7GdbYqZnUksawaz2tJnC4lcS5Ysq7M3E3mKmnJCcAh6C4L00LXLkbfuAS6ZIAjSftyhqrjafN1eSskKDZIVUgy1WlYcYigvWOHPk+Wa9k4xCX1yOJCDBKReyvR1Cr64=
+	t=1752754016; cv=none; b=NgZUMT2VyQRObO/SoOlq5s6Ukg0tGNLnkMX8Xj/GpUJD9FoJB7vgFThF4/0gb3oyIOw0/jMoCEb+4/FSEmjbVos5vJkJmsEmxKyDCKQDa+EO1Xg9aFTImqOCWcs0Rr7v9DkMNVdn+DDn8iZ+OU3BI9f3qNMKGJa/EuWedypPLU4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1752752926; c=relaxed/simple;
-	bh=GvQYWzAsi6ZMuordr5tQl/DqtBCsrBqMy6+E+fPs6GQ=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=cSxxW9WcGFuwFKd/dHHY9J34CozCNTfAamb6A4+NWwpokGaaPXgBsN8Dv6BwUw/E91sDHUQy9c8KqgtBuCQbeWmNgly1VeUCd4OtWYwp8QoU3hhSz0mR/xsIQVGFOnfOMpwG+JwKoS89qdqMG4VNv0kMr2cQxxm4QITleKruCy8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=DEQRPLwg; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1752754016; c=relaxed/simple;
+	bh=gGb2jgBsCojcWza9wiagDxthFwZh1W6ZG8iNoWvj7Jk=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=gsjb9sRMRqarZLOAjsZvbrID5ejX0xFIDnUNscfPOZia/eKngZiLNtrYzZTl7KAiSekkld6a27yyVz1EZ5wJlbfzRQAtsAxUkxOmiwQLf4PWsCoSRnbBu9Y7+b4EsHIqriRw9jJnKDSr4yZIXXnn3M6ar6mxS2Q5hDulf5lGXcY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=suse.com; spf=pass smtp.mailfrom=suse.com; dkim=pass (1024-bit key) header.d=suse.com header.i=@suse.com header.b=pIb6NMyb; dkim=pass (1024-bit key) header.d=suse.com header.i=@suse.com header.b=pIb6NMyb; arc=none smtp.client-ip=195.135.223.131
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=suse.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="DEQRPLwg"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 5A2E6C4CEE3;
-	Thu, 17 Jul 2025 11:48:44 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1752752925;
-	bh=GvQYWzAsi6ZMuordr5tQl/DqtBCsrBqMy6+E+fPs6GQ=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=DEQRPLwglx4FVLnL5WHZK51JhexHrE9jVAmZ68SGr2ehkbeT2pAYf3RQQX+Xn5utU
-	 KMmZeR67/xkjUcfkBLZM5RQQX3fsOoue4RYiORcoXCT6Mo4AwWyYTKyIdMC2sWGtfz
-	 ZOd0VJmIfoS3jCik06GyLmgG9+q8VFLXqlxU5FOjrhXFmPgBP6qDVrVbVK7o75RE/Z
-	 oSGhizmCMlNs9deJsk9k7GBnx7lAemDBfbJfez5Ek7pA45RHQnATIB+wCBQLLDNmc1
-	 5bCndVrfklRZAmCQWE9brlQt8yEBUeqebHOV6yeuT590Zv8oJ6dFaVyI3u6+L+rIhX
-	 8NSe+Cnxg2S9Q==
-Date: Thu, 17 Jul 2025 13:48:41 +0200
-From: Benjamin Tissoires <bentiss@kernel.org>
-To: Alan Stern <stern@rowland.harvard.edu>
-Cc: syzbot <syzbot+b63d677d63bcac06cf90@syzkaller.appspotmail.com>, 
-	jikos@kernel.org, linux-input@vger.kernel.org, linux-kernel@vger.kernel.org, 
-	linux-usb@vger.kernel.org, syzkaller-bugs@googlegroups.com
-Subject: Re: [syzbot] [input?] [usb?] UBSAN: shift-out-of-bounds in s32ton (2)
-Message-ID: <zakga5qqql6zyat6wbnntm6tvcmhlhmjt5ecz6nm5hpc7z2iw7@mcpmrg7r4qlt>
-References: <8bec1698-5008-428f-8e71-ec002def0c54@rowland.harvard.edu>
- <6876b0ec.a70a0220.693ce.0019.GAE@google.com>
- <78c3fb66-c30f-4c64-a499-61c1665186a8@rowland.harvard.edu>
- <d21dcce3-88ba-416c-9d18-ea47855c48fc@rowland.harvard.edu>
+	dkim=pass (1024-bit key) header.d=suse.com header.i=@suse.com header.b="pIb6NMyb";
+	dkim=pass (1024-bit key) header.d=suse.com header.i=@suse.com header.b="pIb6NMyb"
+Received: from imap1.dmz-prg2.suse.org (unknown [10.150.64.97])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by smtp-out2.suse.de (Postfix) with ESMTPS id 96FA71F7E3;
+	Thu, 17 Jul 2025 12:06:52 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.com; s=susede1;
+	t=1752754012; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:  content-transfer-encoding:content-transfer-encoding;
+	bh=YDUIHgMD435OAQEX8tU8R8HZ98QfNa9nf3ITFiXrue8=;
+	b=pIb6NMybRN1pK7UDvXC/CG2x3KMLQQ40Ixax04HRuiDeJ8jk5ioCCT0XvHlmewu2DR650x
+	y+EshR+slNjEpOobVsfiQdcNnu9wK5TCaZBLKfJSzf3RAvlZY3Ig1mH2jYLwWRUSwbIipd
+	2eHfB/Wn7Ml0BAQPBhTF4rhcA9+pAoU=
+Authentication-Results: smtp-out2.suse.de;
+	none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.com; s=susede1;
+	t=1752754012; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:  content-transfer-encoding:content-transfer-encoding;
+	bh=YDUIHgMD435OAQEX8tU8R8HZ98QfNa9nf3ITFiXrue8=;
+	b=pIb6NMybRN1pK7UDvXC/CG2x3KMLQQ40Ixax04HRuiDeJ8jk5ioCCT0XvHlmewu2DR650x
+	y+EshR+slNjEpOobVsfiQdcNnu9wK5TCaZBLKfJSzf3RAvlZY3Ig1mH2jYLwWRUSwbIipd
+	2eHfB/Wn7Ml0BAQPBhTF4rhcA9+pAoU=
+Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 5E82713A6C;
+	Thu, 17 Jul 2025 12:06:52 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
+	by imap1.dmz-prg2.suse.org with ESMTPSA
+	id b6buFVzneGjtBwAAD6G6ig
+	(envelope-from <oneukum@suse.com>); Thu, 17 Jul 2025 12:06:52 +0000
+From: Oliver Neukum <oneukum@suse.com>
+To: andrew+netdev@lunn.ch,
+	davem@davemloft.net,
+	edumazet@google.com,
+	kuba@kernel.org,
+	pabeni@redhat.com,
+	linux-usb@vger.kernel.org,
+	netdev@vger.kernel.org
+Cc: Oliver Neukum <oneukum@suse.com>
+Subject: [PATCH net-next] net: usb: cdc-ncm: check for filtering capability
+Date: Thu, 17 Jul 2025 14:06:17 +0200
+Message-ID: <20250717120649.2090929-1-oneukum@suse.com>
+X-Mailer: git-send-email 2.50.1
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <d21dcce3-88ba-416c-9d18-ea47855c48fc@rowland.harvard.edu>
+Content-Transfer-Encoding: 8bit
+X-Spamd-Result: default: False [-1.30 / 50.00];
+	BAYES_HAM(-3.00)[99.99%];
+	SUSPICIOUS_RECIPS(1.50)[];
+	MID_CONTAINS_FROM(1.00)[];
+	NEURAL_HAM_LONG(-1.00)[-1.000];
+	R_MISSING_CHARSET(0.50)[];
+	NEURAL_HAM_SHORT(-0.20)[-1.000];
+	MIME_GOOD(-0.10)[text/plain];
+	TAGGED_RCPT(0.00)[netdev];
+	MIME_TRACE(0.00)[0:+];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	FUZZY_RATELIMITED(0.00)[rspamd.com];
+	ARC_NA(0.00)[];
+	RCPT_COUNT_SEVEN(0.00)[8];
+	DKIM_SIGNED(0.00)[suse.com:s=susede1];
+	FROM_EQ_ENVFROM(0.00)[];
+	FROM_HAS_DN(0.00)[];
+	TO_DN_SOME(0.00)[];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[suse.com:mid,suse.com:email,imap1.dmz-prg2.suse.org:helo];
+	RCVD_COUNT_TWO(0.00)[2];
+	TO_MATCH_ENVRCPT_ALL(0.00)[];
+	RCVD_TLS_ALL(0.00)[]
+X-Spam-Flag: NO
+X-Spam-Level: 
+X-Spam-Score: -1.30
 
-Hi Alan,
+If the decice does not support filtering, filtering
+must not be used and all packets delivered for the
+upper layers to sort.
 
-On Jul 16 2025, Alan Stern wrote:
-> Benjamin:
-> 
-> On Wed, Jul 16, 2025 at 10:29:38AM -0400, Alan Stern wrote:
-> > On Tue, Jul 15, 2025 at 12:50:04PM -0700, syzbot wrote:
-> > > Hello,
-> > > 
-> > > syzbot has tested the proposed patch but the reproducer is still triggering an issue:
-> > > UBSAN: shift-out-of-bounds in s32ton
-> > > 
-> > > microsoft 0003:045E:07DA.0001: ignoring exceeding usage max
-> > > microsoft 0003:045E:07DA.0001: unsupported Resolution Multiplier 0
-> > > hid: s32ton: n 0 val 0 size 0x0
-> > > ------------[ cut here ]------------
-> > > UBSAN: shift-out-of-bounds in drivers/hid/hid-core.c:69:16
-> > > shift exponent 4294967295 is too large for 32-bit type '__s32' (aka 'int')
-> > 
-> > Benjamin:
-> > 
-> > Clearly there's going to be trouble when you try to convert a signed 
-> > 32-bit value to a 0-bit number!
-> > 
-> > My impression is that hid_parser_global() should reject Report Size or 
-> > Report Count items with a value of 0.  Such fields would be meaningless 
-> > in any case.  The routine checks for values that are too large, but not 
-> > for values that are too small.
-> > 
-> > Does this look like the right approach?
-> > 
-> > Alan Stern
-> > 
-> > #syz test: git://git.kernel.org/pub/scm/linux/kernel/git/hid/hid.git c2ca42f1
-> > 
-> >  drivers/hid/hid-core.c |    6 ++++--
-> >  1 file changed, 4 insertions(+), 2 deletions(-)
-> > 
-> > Index: usb-devel/drivers/hid/hid-core.c
-> > ===================================================================
-> > --- usb-devel.orig/drivers/hid/hid-core.c
-> > +++ usb-devel/drivers/hid/hid-core.c
-> > @@ -464,7 +464,8 @@ static int hid_parser_global(struct hid_
-> >  
-> >  	case HID_GLOBAL_ITEM_TAG_REPORT_SIZE:
-> >  		parser->global.report_size = item_udata(item);
-> > -		if (parser->global.report_size > 256) {
-> > +		if (parser->global.report_size > 256 ||
-> > +				parser->global.report_size == 0) {
-> >  			hid_err(parser->device, "invalid report_size %d\n",
-> >  					parser->global.report_size);
-> >  			return -1;
-> > @@ -473,7 +474,8 @@ static int hid_parser_global(struct hid_
-> >  
-> >  	case HID_GLOBAL_ITEM_TAG_REPORT_COUNT:
-> >  		parser->global.report_count = item_udata(item);
-> > -		if (parser->global.report_count > HID_MAX_USAGES) {
-> > +		if (parser->global.report_count > HID_MAX_USAGES ||
-> > +				parser->global.report_count == 0) {
-> >  			hid_err(parser->device, "invalid report_count %d\n",
-> >  					parser->global.report_count);
-> >  			return -1;
-> 
-> This patch didn't work; the error message never showed up in the kernel 
-> log.  Nevertheless, hidinput_change_resolution_multipliers() tried to 
-> create an output report with a field having size 0.
-> 
-> How can this to happen without hid_scan_report() or hid_open_report() 
-> running?  It shouldn't be possible to use a report before it has been 
-> checked for validity.
+Signed-off-by: Oliver Neukum <oneukum@suse.com>
+---
+ drivers/net/usb/cdc_ncm.c   | 20 ++++++++++++++++----
+ include/linux/usb/cdc_ncm.h |  1 +
+ 2 files changed, 17 insertions(+), 4 deletions(-)
 
-It's just that the provided report descriptor was never setting a report
-size or a report count. This way, we are stuck with the default value
-from kzalloc: 0.
+diff --git a/drivers/net/usb/cdc_ncm.c b/drivers/net/usb/cdc_ncm.c
+index 34e82f1e37d9..ea0e5e276cd6 100644
+--- a/drivers/net/usb/cdc_ncm.c
++++ b/drivers/net/usb/cdc_ncm.c
+@@ -892,6 +892,10 @@ int cdc_ncm_bind_common(struct usbnet *dev, struct usb_interface *intf, u8 data_
+ 		}
+ 	}
+ 
++	if (ctx->func_desc)
++		ctx->filtering_supported = !!(ctx->func_desc->bmNetworkCapabilities
++			& USB_CDC_NCM_NCAP_ETH_FILTER);
++
+ 	iface_no = ctx->data->cur_altsetting->desc.bInterfaceNumber;
+ 
+ 	/* Device-specific flags */
+@@ -1898,6 +1902,14 @@ static void cdc_ncm_status(struct usbnet *dev, struct urb *urb)
+ 	}
+ }
+ 
++static void cdc_ncm_update_filter(struct usbnet *dev)
++{
++	struct cdc_ncm_ctx *ctx = (struct cdc_ncm_ctx *)dev->data[0];
++
++	if (ctx->filtering_supported)
++		usbnet_cdc_update_filter(dev);
++}
++
+ static const struct driver_info cdc_ncm_info = {
+ 	.description = "CDC NCM (NO ZLP)",
+ 	.flags = FLAG_POINTTOPOINT | FLAG_NO_SETINT | FLAG_MULTI_PACKET
+@@ -1908,7 +1920,7 @@ static const struct driver_info cdc_ncm_info = {
+ 	.status = cdc_ncm_status,
+ 	.rx_fixup = cdc_ncm_rx_fixup,
+ 	.tx_fixup = cdc_ncm_tx_fixup,
+-	.set_rx_mode = usbnet_cdc_update_filter,
++	.set_rx_mode = cdc_ncm_update_filter,
+ };
+ 
+ /* Same as cdc_ncm_info, but with FLAG_SEND_ZLP  */
+@@ -1922,7 +1934,7 @@ static const struct driver_info cdc_ncm_zlp_info = {
+ 	.status = cdc_ncm_status,
+ 	.rx_fixup = cdc_ncm_rx_fixup,
+ 	.tx_fixup = cdc_ncm_tx_fixup,
+-	.set_rx_mode = usbnet_cdc_update_filter,
++	.set_rx_mode = cdc_ncm_update_filter,
+ };
+ 
+ /* Same as cdc_ncm_info, but with FLAG_SEND_ZLP */
+@@ -1964,7 +1976,7 @@ static const struct driver_info wwan_info = {
+ 	.status = cdc_ncm_status,
+ 	.rx_fixup = cdc_ncm_rx_fixup,
+ 	.tx_fixup = cdc_ncm_tx_fixup,
+-	.set_rx_mode = usbnet_cdc_update_filter,
++	.set_rx_mode = cdc_ncm_update_filter,
+ };
+ 
+ /* Same as wwan_info, but with FLAG_NOARP  */
+@@ -1978,7 +1990,7 @@ static const struct driver_info wwan_noarp_info = {
+ 	.status = cdc_ncm_status,
+ 	.rx_fixup = cdc_ncm_rx_fixup,
+ 	.tx_fixup = cdc_ncm_tx_fixup,
+-	.set_rx_mode = usbnet_cdc_update_filter,
++	.set_rx_mode = cdc_ncm_update_filter,
+ };
+ 
+ static const struct usb_device_id cdc_devs[] = {
+diff --git a/include/linux/usb/cdc_ncm.h b/include/linux/usb/cdc_ncm.h
+index 2d207cb4837d..4ac082a63173 100644
+--- a/include/linux/usb/cdc_ncm.h
++++ b/include/linux/usb/cdc_ncm.h
+@@ -119,6 +119,7 @@ struct cdc_ncm_ctx {
+ 	u32 timer_interval;
+ 	u32 max_ndp_size;
+ 	u8 is_ndp16;
++	u8 filtering_supported;
+ 	union {
+ 		struct usb_cdc_ncm_ndp16 *delayed_ndp16;
+ 		struct usb_cdc_ncm_ndp32 *delayed_ndp32;
+-- 
+2.50.1
 
-Basically, if your report descriptor is as simple as:
-Usage Page (Generic Desktop)
-Usage (X)
-Usage (Y)
-Report Count (2)
-Input (Data,Var,Rel)
-
-Then we would trigger this bug: "report Size" is never set and is thus 0.
-
-Your patch is good though, as it is probably a good thing to prevent a
-report size/count to be 0. But it's not addressing the issue here
-because the only time we can check for those values is when we receive
-an Input/Feature/Output value (or ranges), so in hid_add_field().
-
-Cheers,
-Benjamin
-
-
-> 
-> Alan Stern
