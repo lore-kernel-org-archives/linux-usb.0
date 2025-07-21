@@ -1,173 +1,282 @@
-Received: from mail-ed1-f66.google.com (mail-ed1-f66.google.com [209.85.208.66])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com [205.220.180.131])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 711B2239E7C
-	for <linux-usb@vger.kernel.org>; Mon, 21 Jul 2025 06:22:09 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.66
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1E1D91F3B96
+	for <linux-usb@vger.kernel.org>; Mon, 21 Jul 2025 06:38:53 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.180.131
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1753078931; cv=none; b=VuYA9ksJhs4B61ZRSkXp5pHuMt571T9Ie6Q77+9IFICdV54cHe1Ft57kl6ereJCJTL5nTm59dK2XuZzji78hdaFB6n/U1sOCTkf7pxVaVmC/XPEB0mGMo/nZSNIbvybtBOG0dg5YbFWdop2JajamdPMvtsM2uNIGcOu12+B5M3A=
+	t=1753079936; cv=none; b=TmbyXnkTE3NH3wMi88x0CbP8eOeKDEhlwciOwgPd+9FYdSG1eW0fYS1rfpIzpWUkCFeZ8fViBOMyV6u2kGnI85MZVgegBfOzrv1SiK8x/56Lgtl2jQUVVu/WdByxDOdpjD4hi7y0vdc2zImtxceWlt1nML2p+8UKZccWAaKHtp4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1753078931; c=relaxed/simple;
-	bh=e/WbSFDNeDfS+LSOj9AgaJuPp6oksM9qfd/sSKFNU8Y=;
-	h=Mime-Version:Content-Type:Date:Message-Id:Subject:From:To:Cc:
-	 References:In-Reply-To; b=lyC8/rG2NFEZKPCtT77VQZrLctt52MdijJkplIUBpPsLgaW8g/2Z2kBR6CkUSQBpjTIXZjgxbVGXfqRyNucUtY7Q2nyY34ZsHUJH+gITAakUt0SIzWT9nbIcBxubn2hyUxiWOk/yo4LsXpgJeTSawELqPfDr4AjpQ1+wPNJWVz4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=fairphone.com; spf=pass smtp.mailfrom=fairphone.com; dkim=pass (2048-bit key) header.d=fairphone.com header.i=@fairphone.com header.b=aq8cV+t8; arc=none smtp.client-ip=209.85.208.66
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=fairphone.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=fairphone.com
+	s=arc-20240116; t=1753079936; c=relaxed/simple;
+	bh=2xg0NV/M3b1B1hjZbwFKdPDsyamKVf1rmwKufVJSzuU=;
+	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:To:Cc; b=QweonXegDbEHqOtN3gkE8+eztODPzm3+KidGdhBeP4Cfjstr/VaHk+dc09EqVzlABmcS1aaNt310mmnmmyyRi30qhmx2R7CxU/h+xHpLxt3jFjTgHOH9w7SAfqr7QW/tnkw7ifLL0p40JkZXrz/WzKWaId4yZpwPEMxZlErmw6U=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com; spf=pass smtp.mailfrom=oss.qualcomm.com; dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b=FX94H6SP; arc=none smtp.client-ip=205.220.180.131
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=oss.qualcomm.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=fairphone.com header.i=@fairphone.com header.b="aq8cV+t8"
-Received: by mail-ed1-f66.google.com with SMTP id 4fb4d7f45d1cf-612b67dcb89so5365238a12.1
-        for <linux-usb@vger.kernel.org>; Sun, 20 Jul 2025 23:22:09 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=fairphone.com; s=fair; t=1753078928; x=1753683728; darn=vger.kernel.org;
-        h=in-reply-to:references:cc:to:from:subject:message-id:date
-         :content-transfer-encoding:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=SxlTp2H4f+SSkPB3pjUTlZ/GS1r2OUFTEUF3Vv45kbo=;
-        b=aq8cV+t8y3rWHCjiRbl1Fa/PBc1hKt6fQzWP9kVTQ8Lbya1WAwYWSCto1v2ps501YO
-         kz6t8IVe7/MxPGy9n/plexfvL9Xk6caeMmH1znATp2fzc9Cu6iYNevRm4g0YE1sT9Z7G
-         M9FWnLLkYRmhWd1sOBOmDSS5RSuCLGw6qohCuuUZAmjMoXji/WD400pN7adUslNfF4Ju
-         jxShos+hgQ4l1awXVGTZVeaS0YwOCjZ/FBRM6a21Rmo4O9xPTUMLYcKLI5uecb0xdd5H
-         GGZEZXu3eB3WpgW//GERqpoAKIvduMvNq01cjq0ompbmiayFUZgCvlBHfDvaoZ5OiXGl
-         rftw==
+	dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b="FX94H6SP"
+Received: from pps.filterd (m0279869.ppops.net [127.0.0.1])
+	by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 56L40gfs027782
+	for <linux-usb@vger.kernel.org>; Mon, 21 Jul 2025 06:38:52 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
+	cc:content-transfer-encoding:content-type:date:from:message-id
+	:mime-version:subject:to; s=qcppdkim1; bh=fYHYCnRlqnA8SARi373nD6
+	538xoAzXeqruNe6iQgZOI=; b=FX94H6SPHQj4sMft4J4ZhdRBTMkYvNVrP3iHsI
+	h8i2TCBj4mlfzqZygKKlTd0/L8fNIGHcbVbKmzVYnRvJJtTEhsPn/9NCQErqvG5H
+	OGfMbsEVUM3TkPJ3tLZheZE7pfGDgWt6Iim9WpKwpFc3u1brlc8qIxW5TIZCJlbS
+	26SYtt5uLAsAKTdt78e81BNl/DOhjpkgE7hgZijPvzMZnOHk9yF8VIeMZDAqmNYg
+	MnstvD2CWZkmNDqRIjyNlVN/BzDqTYJKBvfPCBgnypg9Mym1KUaQBKGEL6nK9kzF
+	0SbWpXpDQ3EhKzZbi9hQIwGAstSQBGVGxXdxRxUcnN74dQQg==
+Received: from mail-pf1-f198.google.com (mail-pf1-f198.google.com [209.85.210.198])
+	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 48045hbmk1-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT)
+	for <linux-usb@vger.kernel.org>; Mon, 21 Jul 2025 06:38:52 +0000 (GMT)
+Received: by mail-pf1-f198.google.com with SMTP id d2e1a72fcca58-74ce2491c0fso5937123b3a.0
+        for <linux-usb@vger.kernel.org>; Sun, 20 Jul 2025 23:38:52 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1753078928; x=1753683728;
-        h=in-reply-to:references:cc:to:from:subject:message-id:date
-         :content-transfer-encoding:mime-version:x-gm-message-state:from:to
-         :cc:subject:date:message-id:reply-to;
-        bh=SxlTp2H4f+SSkPB3pjUTlZ/GS1r2OUFTEUF3Vv45kbo=;
-        b=obt8SNMllQ8MXx/pb4KFBQAyRd9Ol4YQyAiT0Kh0ExmOAPddekqUoAZfqY5fQrfek8
-         +8//b3cU34pxwRXO/pxrIuYSbQe2LbhP7dmiLXZWNmkHuTwEG6UB7na3VDu6mFtMj+g3
-         NUu+Jv9wfjuU4QtJ/aNI0viqkq84GEJ9A79TKjj8exuM6juI9dO+bEbp0/HVmVxPLh+E
-         W6KKotpxGSgBHT0yKj91C6C9AjLJGiaR4uzovMyKoIwIWmU/Erre3Bbobx5ChwL8ayq1
-         tSKM9AKq2XY77VXE968APP1sq63iWsbak/XrMiVcjjKx9sOmw9oHB8hfFQwUIeSWo5o7
-         3I6w==
-X-Forwarded-Encrypted: i=1; AJvYcCUFzoCSetCKY0y0/R4cflhT4FrKcToKQRbCwqxlYUtA75R1NJiYq7AiEoURPIuCc/jl4GljlkxwUcc=@vger.kernel.org
-X-Gm-Message-State: AOJu0YxoK2lEHGmljByfcPKJn2B49dmg8+tZ64rP5dBZ9HnZxdTdUJc9
-	KSb5jjaXaB59tPirXAukJUbQWa3s5fhdplyfHCxFKadSy41JrrLTCFiUoPPAv+eH8y+S7nbz0eA
-	z0w8kot5tTzw8
-X-Gm-Gg: ASbGncvScXszdJmk3APJO9rcExqHuhGia38ayor4Jn1HVwJX/ootdbolSA8bP1KL+TW
-	t2mfu8P9On+790EYlMQ5b3nJ+YBjXAb4knZNzRtBTVeRXhK4VDpPnUmqqpiTVnWS9HnMlO60mBO
-	c6MnF97KusoRDxHtY8gbh1R2Zeb8g3Uxk7IFBE+IN5zmN4FPryTF/qqnOAe8pvx772Zvcx3+MmO
-	pokGJ98aSHLBLqsyu15ftEXZHA3rL+77rdE3KtRuvA+3VHxoFgQ6JuWET7aU7TtOkirKxa8yfZN
-	dh0EygZACSWP6WBE60WduZjM/MRaXxa4Seu30fBM8GimMP8wmHhl3zbVRfGoJsyWuOj30hRpahz
-	zrECJQimzO5gtO2Pm5RDg0OEoWl+fSIs7yM7Qa/ugstiNCh4z8zTzdH5nK9ADNlxFLyDEnUyG/C
-	JVx+lvsi3bEpjhjCmC3r22c0vtVw4LJ38=
-X-Google-Smtp-Source: AGHT+IGWvgXRtNul1EHNPbtYzvjFLipYAjCIlsMOcSI5SACMCOkh5I5JbXvq4SIjNEe0zxTInnpH1A==
-X-Received: by 2002:a05:6402:1ed2:b0:5ff:ef06:1c52 with SMTP id 4fb4d7f45d1cf-612859187eemr18924367a12.3.1753078927734;
-        Sun, 20 Jul 2025 23:22:07 -0700 (PDT)
-Received: from localhost (2001-1c00-3b8a-ea00-c4de-d39d-05f4-c77a.cable.dynamic.v6.ziggo.nl. [2001:1c00:3b8a:ea00:c4de:d39d:5f4:c77a])
-        by smtp.gmail.com with ESMTPSA id 4fb4d7f45d1cf-612c8f09d99sm4949565a12.3.2025.07.20.23.22.06
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Sun, 20 Jul 2025 23:22:07 -0700 (PDT)
+        d=1e100.net; s=20230601; t=1753079931; x=1753684731;
+        h=cc:to:message-id:content-transfer-encoding:mime-version:subject
+         :date:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=fYHYCnRlqnA8SARi373nD6538xoAzXeqruNe6iQgZOI=;
+        b=huXV+5iIRF8yeoeYRdrbz2jDwlRhXHcSANYaZisaPqv8M0iy7PUFXBZouq+UUqvCQR
+         oAehPvdBgqCGpCB0MmXwSKq6yjU7F5bC8stuFzmZAMhw5EDvCv5pEHqCA0jn81axnJwM
+         xUi4JvWK7vTwG+WejopeEmTT+KNRPBqFCbH/YZAYg5nRxUc39s2n4zKzAT6fKxSpPL/i
+         xJljsF9UiBTSuDEa1Tmjs10mp0bz5xxQUzmZr2T8il4QetViCqVyaZFhmW7jrR0Jed/j
+         qMY6OjEHU12rI7+JBSVfopPo58vDG/h33VizTYwQrSZqxrKLcok9CQoQ1NRKUJ5nnT2P
+         4Dpg==
+X-Gm-Message-State: AOJu0YykAdksEOwrglr4zWFndf4S8nmII+hAUtN7sVugiENBxSQJFNGQ
+	j3G4d7tascxGl7VDzLcpAiaFXlx2pKuBwOGfgvnOKbowUSDppGwKeoeo3URrmYOF56ybeVTt9gJ
+	5Cp0JpQgY+jwjirgkRHLUzxiJPpUDM1A5KQzFFjk0q4JPHccVOKdF0FW+XuID5lA=
+X-Gm-Gg: ASbGncvo/p2tv/CtcNpVZCTYLpJ6SWTCM2VTfpmEBx+AblVPPI6YFe/kMuvAJdHK97D
+	oFzXEIPgCjb6OGPBvRHa8iaIgfCjtjyffkRAre0L/ldfSlIGeZj3UO8hO6DRo29dyeC7mazZ5Hm
+	nLpyknfy3oXTaLshRs83PbRtrzDE84BjJprV7hgQ9VlygmNOgntAB92Sdyu3vl/nc7K8DPN53xJ
+	Fg95Jo4BR/5OGEr62FrXE5W7CLXCj1BgOCDGlqGXRLml71ZdTNgbVV+PZapJ1wi+HEU/B+Q7YXB
+	kfYh//S02zy3ErxiCgMYI10aRUC3Fk65AEaTurGvvfC+tXPN08wZlf8l0IB5MXQ30n7y
+X-Received: by 2002:a05:6a00:1488:b0:736:6043:69f9 with SMTP id d2e1a72fcca58-7584b13905dmr21777757b3a.19.1753079931078;
+        Sun, 20 Jul 2025 23:38:51 -0700 (PDT)
+X-Google-Smtp-Source: AGHT+IHe3084qTMHfewaxpTs+H7S7dY/TNvKUMB/eyZxsYUU44g7Ux5hgQk/0nK2V1m3gP2ZCscKDw==
+X-Received: by 2002:a05:6a00:1488:b0:736:6043:69f9 with SMTP id d2e1a72fcca58-7584b13905dmr21777730b3a.19.1753079930597;
+        Sun, 20 Jul 2025 23:38:50 -0700 (PDT)
+Received: from hu-kbajaj-hyd.qualcomm.com ([202.46.22.19])
+        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-759cb154745sm5149329b3a.91.2025.07.20.23.38.47
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sun, 20 Jul 2025 23:38:50 -0700 (PDT)
+From: Komal Bajaj <komal.bajaj@oss.qualcomm.com>
+Date: Mon, 21 Jul 2025 12:08:41 +0530
+Subject: [PATCH v6] usb: misc: qcom_eud: Access EUD_MODE_MANAGER2 through
+ secure calls
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
-Mime-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
-Content-Type: text/plain; charset=UTF-8
-Date: Mon, 21 Jul 2025 08:22:06 +0200
-Message-Id: <DBHIM4SA3OIK.PXX6HMDE93B8@fairphone.com>
-Subject: Re: [PATCH v2 0/5] Enable USB audio offloading on Fairphone 4
- smartphone
-From: "Luca Weiss" <luca.weiss@fairphone.com>
-To: "Luca Weiss" <luca.weiss@fairphone.com>, "Greg Kroah-Hartman"
- <gregkh@linuxfoundation.org>, "Rob Herring" <robh@kernel.org>, "Krzysztof
- Kozlowski" <krzk+dt@kernel.org>, "Conor Dooley" <conor+dt@kernel.org>,
- "Felipe Balbi" <balbi@kernel.org>, "Srinivas Kandagatla"
- <srini@kernel.org>, "Liam Girdwood" <lgirdwood@gmail.com>, "Mark Brown"
- <broonie@kernel.org>, "Jaroslav Kysela" <perex@perex.cz>, "Takashi Iwai"
- <tiwai@suse.com>, "Bjorn Andersson" <andersson@kernel.org>, "Konrad Dybcio"
- <konradybcio@kernel.org>, "Wesley Cheng" <quic_wcheng@quicinc.com>,
- "Stephan Gerhold" <stephan.gerhold@linaro.org>
-Cc: <~postmarketos/upstreaming@lists.sr.ht>, <phone-devel@vger.kernel.org>,
- <linux-usb@vger.kernel.org>, <devicetree@vger.kernel.org>,
- <linux-kernel@vger.kernel.org>, "Krzysztof Kozlowski"
- <krzysztof.kozlowski@linaro.org>, <linux-arm-msm@vger.kernel.org>,
- <linux-sound@vger.kernel.org>, "Dmitry Baryshkov"
- <dmitry.baryshkov@oss.qualcomm.com>
-X-Mailer: aerc 0.20.1-0-g2ecb8770224a-dirty
-References: <20250501-fp4-usb-audio-offload-v2-0-30f4596281cd@fairphone.com>
- <DBDAPORDD5IM.1BHXPK225E2PP@fairphone.com>
-In-Reply-To: <DBDAPORDD5IM.1BHXPK225E2PP@fairphone.com>
+MIME-Version: 1.0
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 8bit
+Message-Id: <20250721-eud_mode_manager_secure_access-v6-1-fe603325ac04@oss.qualcomm.com>
+X-B4-Tracking: v=1; b=H4sIAHDgfWgC/42OMY7CMBQFr4Jc48hxcAxU3GOFoo/zIIY4Bn8S7
+ Qrl7muokGhonjTNzHsIRvJgsV08RMLk2cchQ71cCNfRcIL0bWahlTbKlkZibJsQWzSBBjohNQw
+ 3JjTkHJhlDWNROVvCaZEl14Sj/30FfvaZjykGee8S6E2rNqo2pqoKbaxeyVJeYqC+ONCZzrvIX
+ NxG6l0MocjztHae7zH9vV5P5un++uBksh+23hxQqXW7os/Afp7nfxHRjRkZAQAA
+X-Change-ID: 20250715-eud_mode_manager_secure_access-6e57e3c71ec2
+To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Souradeep Chowdhury <quic_schowdhu@quicinc.com>
+Cc: linux-usb@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linux-arm-msm@vger.kernel.org,
+        Melody Olvera <quic_molvera@quicinc.com>,
+        Komal Bajaj <komal.bajaj@oss.qualcomm.com>,
+        Konrad Dybcio <konrad.dybcio@oss.qualcomm.com>
+X-Mailer: b4 0.14.2
+X-Developer-Signature: v=1; a=ed25519-sha256; t=1753079927; l=5653;
+ i=komal.bajaj@oss.qualcomm.com; s=20250710; h=from:subject:message-id;
+ bh=2xg0NV/M3b1B1hjZbwFKdPDsyamKVf1rmwKufVJSzuU=;
+ b=NyR8KHH4oexneKEyVAQGrT4A+qpwhmKpQbvYXNLTleW6BHByNB6K3SHd3DxZiS+uplKzAaXhP
+ tAgt0Ag8tjmA7C/pRvsHkqtwaVZq4CNcH9vcZJLnG1yyMFS8fZkDFl5
+X-Developer-Key: i=komal.bajaj@oss.qualcomm.com; a=ed25519;
+ pk=wKh8mgDh+ePUZ4IIvpBhQOqf16/KvuQHvSvHK20LXNU=
+X-Authority-Analysis: v=2.4 cv=ZtDtK87G c=1 sm=1 tr=0 ts=687de07c cx=c_pps
+ a=m5Vt/hrsBiPMCU0y4gIsQw==:117 a=fChuTYTh2wq5r3m49p7fHw==:17
+ a=IkcTkHD0fZMA:10 a=Wb1JkmetP80A:10 a=VwQbUJbxAAAA:8 a=EUspDBNiAAAA:8
+ a=COk6AnOGAAAA:8 a=lmNMGcLygp3pFLK-ZoUA:9 a=3ZKOabzyN94A:10 a=QEXdDO2ut3YA:10
+ a=IoOABgeZipijB_acs4fv:22 a=TjNXssC_j7lpFel5tvFf:22
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUwNzIxMDA1NiBTYWx0ZWRfX6FJQiQuQtlpy
+ 5wz74g9gCK764UkuvDABHZKArNlZdwqhSrhMv+ZOHO+FB5XDcn09Ve7CrzGGOrKmqfDrNSBnfFw
+ mtKPL77DJqk4ehj4gecQOx+9eycvgKyjGKTUg9bt9NXC3i9LdSw3pqNgPkffrKnBPPoHY8W4dBf
+ eINs7vNbje7g1fCZKAptpxG0xhbgmhfEabajpF6fCJX7sU2MGcBFzXV/lD9FUVM5UYGZQXZGijS
+ GShM0aH4Ze1BD9vg52/NWTMTxjiFqP8OTzrl3Jcvyn1/DcA5nKuLaOWJjPSQMyQPoZzs+tP3M5q
+ WscJGIMnHn3EDALHu+FC16M+QCDmtUYJO3Z+GzlwBaUcWnMh2Eo+6cJUdxuVVfQvxRx5jVLD0X4
+ C+/YCJX1fBLf8ifij9K/d0NnrxSuH83qGv79kdSmolV2GE0FdsgEIs92EsQfj8VJI9gjRWgt
+X-Proofpoint-GUID: WE26oyaKJmZZBXgPYu1UNb5TCKBL3ieg
+X-Proofpoint-ORIG-GUID: WE26oyaKJmZZBXgPYu1UNb5TCKBL3ieg
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1099,Hydra:6.1.9,FMLib:17.12.80.40
+ definitions=2025-07-21_02,2025-07-17_02,2025-03-28_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ adultscore=0 bulkscore=0 clxscore=1015 spamscore=0 phishscore=0
+ malwarescore=0 priorityscore=1501 impostorscore=0 mlxlogscore=999
+ suspectscore=0 mlxscore=0 lowpriorityscore=0 classifier=spam authscore=0
+ authtc=n/a authcc= route=outbound adjust=0 reason=mlx scancount=1
+ engine=8.19.0-2505280000 definitions=main-2507210056
 
-Hi Mark Brown,
+EUD_MODE_MANAGER2 register is mapped to a memory region that is marked
+as read-only for HLOS, enforcing access restrictions that prohibit
+direct memory-mapped writes via writel().
 
-On Wed Jul 16, 2025 at 9:19 AM CEST, Luca Weiss wrote:
-> Hi all,
->
-> On Thu May 1, 2025 at 8:48 AM CEST, Luca Weiss wrote:
->> Since the series for the USB sound offloading driver was finally merged,
->> we can add the sm6350 dts and enable it on Fairphone 4.
->>
->> A few devicetree binding bits have also been missing in that series, so
->> there's some extra patches for the basics in this series.
->>
->> Depends on:
->> - For qcom,sm8250.yaml & sm8250.c:
->>   https://lore.kernel.org/linux-arm-msm/20250425-fp5-dp-sound-v3-0-7cb45=
-180091b@fairphone.com/T/
->> - For dts:
->>   https://lore.kernel.org/linux-arm-msm/20250321-sm6350-apr-v1-1-7805ce7=
-b4dcf@fairphone.com/
->>
->> Devicetree patches go through qcom
->>
->> Signed-off-by: Luca Weiss <luca.weiss@fairphone.com>
->> ---
->> Changes in v2:
->> - Move num-hc-interrupters prop to sm6350.dtsi (Konrad)
->> - Sort cpu & codec nodes correctly (Konrad)
->> - Remove usb-soc-be prop as it's no longer needed (Wesley)
->> - Pick up tags
->> - Link to v1: https://lore.kernel.org/r/20250425-fp4-usb-audio-offload-v=
-1-0-f90f571636e4@fairphone.com
->>
->> ---
->> Luca Weiss (5):
->>       ASoC: dt-bindings: qcom,q6afe: Document q6usb subnode
->>       ASoC: dt-bindings: qcom,sm8250: Add Fairphone 4 sound card
->>       ASoC: qcom: sm8250: Add Fairphone 4 soundcard compatible
->>       arm64: dts: qcom: sm6350: Add q6usbdai node
->>       arm64: dts: qcom: sm7225-fairphone-fp4: Enable USB audio offload s=
-upport
->
-> All dependencies for the patches have been applied already, so this
-> series can land as well!
+Attempts to write to this region from HLOS can result in silent failures
+or memory access violations, particularly when toggling EUD (Embedded
+USB Debugger) state. To ensure secure register access, modify the driver
+to use qcom_scm_io_writel(), which routes the write operation to Qualcomm
+Secure Channel Monitor (SCM). SCM has the necessary permissions to access
+protected memory regions, enabling reliable control over EUD state.
 
-Is it still possible to pick up the sound patches (1-3) for 6.17? Dts
-has been applied already.
+SC7280, the only user of EUD is also affected, indicating that this could
+never have worked on a properly fused device.
 
-Regards
-Luca
+Fixes: 9a1bf58ccd44 ("usb: misc: eud: Add driver support for Embedded USB Debugger(EUD)")
+Signed-off-by: Melody Olvera <quic_molvera@quicinc.com>
+Signed-off-by: Komal Bajaj <komal.bajaj@oss.qualcomm.com>
+Reviewed-by: Konrad Dybcio <konrad.dybcio@oss.qualcomm.com>
+---
+Changes in v6:
+- Propagating the error code from disable_eud(), per Dmitry's suggestion
+- Link to v5: https://lore.kernel.org/r/20250715-eud_mode_manager_secure_access-v5-1-e769be308d4a@oss.qualcomm.com
 
->
-> Devicetree patches go through qcom, the rest through their trees.
->
-> Regards
-> Luca
->
->>
->>  .../devicetree/bindings/sound/qcom,q6afe.yaml      | 13 ++++++++
->>  .../devicetree/bindings/sound/qcom,sm8250.yaml     |  1 +
->>  arch/arm64/boot/dts/qcom/sm6350.dtsi               | 11 +++++++
->>  arch/arm64/boot/dts/qcom/sm7225-fairphone-fp4.dts  | 36 +++++++++++++++=
-+++++++
->>  sound/soc/qcom/sm8250.c                            |  1 +
->>  5 files changed, 62 insertions(+)
->> ---
->> base-commit: 393d0c54cae31317deaa9043320c5fd9454deabc
->> change-id: 20250425-fp4-usb-audio-offload-e5d7fb55d283
->> prerequisite-change-id: 20250321-sm6350-apr-15f3e7e4e5ca:v1
->> prerequisite-patch-id: 69859554c94de52068406dab0d2869ca26072c78
->> prerequisite-change-id: 20240809-fp5-dp-sound-b3768f3019bd:v3
->> prerequisite-patch-id: 2d8997a2be02cfddf3a054c79e7eb308a6d06710
->> prerequisite-patch-id: 1b7c8f00ab50ae71c0221868578b9c1dfe939e4d
->> prerequisite-patch-id: 4fd0673c4d35c1fefce63ec5785ff5ea67cc3d3a
->> prerequisite-patch-id: f5ec3a893de19900f62dc691d83986f1104914b0
->> prerequisite-patch-id: fce7573c39e768f7a09c002064b6159b8e91161a
->>
->> Best regards,
+usb: misc: qcom_eud: Access EUD_MODE_MANAGER2 through secure calls
+
+Changes in v5:
+* Changed select QCOM_SCM to depends on QCOM_SCM in Kconfig per Greg's review
+* Link to v4: https://lore.kernel.org/all/20250709065533.25724-1-komal.bajaj@oss.qualcomm.com/
+
+Changes in v4:
+* Added error logging in disable_eud() for SCM write failures, per Konrad’s suggestion
+* Link to v3: https://lore.kernel.org/all/20250708085208.19089-1-komal.bajaj@oss.qualcomm.com/
+
+Changes in v3:
+* Moved secure write before normal writes
+* Added error checking in disable_eud()
+* Use ENOMEM error code if platform_get_resource() fails
+* Select QCOM_SCM driver if USB_QCOM_EUD is enabled
+* Link to v2: https://lore.kernel.org/all/20250627125131.27606-1-komal.bajaj@oss.qualcomm.com/
+
+Changes in v2:
+* Drop separate compatible to be added for secure eud
+* Use secure call to access EUD mode manager register
+* Link to v1: https://lore.kernel.org/all/20240807183205.803847-1-quic_molvera@quicinc.com/
+---
+ drivers/usb/misc/Kconfig    |  1 +
+ drivers/usb/misc/qcom_eud.c | 33 ++++++++++++++++++++++++---------
+ 2 files changed, 25 insertions(+), 9 deletions(-)
+
+diff --git a/drivers/usb/misc/Kconfig b/drivers/usb/misc/Kconfig
+index 6497c4e81e951a14201ad965dadc29f9888f8254..73ebd3257625e4567f33636cdfd756344b9ed4e7 100644
+--- a/drivers/usb/misc/Kconfig
++++ b/drivers/usb/misc/Kconfig
+@@ -147,6 +147,7 @@ config USB_APPLEDISPLAY
+ config USB_QCOM_EUD
+ 	tristate "QCOM Embedded USB Debugger(EUD) Driver"
+ 	depends on ARCH_QCOM || COMPILE_TEST
++	depends on QCOM_SCM
+ 	select USB_ROLE_SWITCH
+ 	help
+ 	  This module enables support for Qualcomm Technologies, Inc.
+diff --git a/drivers/usb/misc/qcom_eud.c b/drivers/usb/misc/qcom_eud.c
+index 83079c414b4f281b2136d0d1eb39418c7f94ff8c..05c8bdc943a88dab6159a05c2d770484c084f7b7 100644
+--- a/drivers/usb/misc/qcom_eud.c
++++ b/drivers/usb/misc/qcom_eud.c
+@@ -15,6 +15,7 @@
+ #include <linux/slab.h>
+ #include <linux/sysfs.h>
+ #include <linux/usb/role.h>
++#include <linux/firmware/qcom/qcom_scm.h>
+ 
+ #define EUD_REG_INT1_EN_MASK	0x0024
+ #define EUD_REG_INT_STATUS_1	0x0044
+@@ -34,7 +35,7 @@ struct eud_chip {
+ 	struct device			*dev;
+ 	struct usb_role_switch		*role_sw;
+ 	void __iomem			*base;
+-	void __iomem			*mode_mgr;
++	phys_addr_t			mode_mgr;
+ 	unsigned int			int_status;
+ 	int				irq;
+ 	bool				enabled;
+@@ -43,18 +44,29 @@ struct eud_chip {
+ 
+ static int enable_eud(struct eud_chip *priv)
+ {
++	int ret;
++
++	ret = qcom_scm_io_writel(priv->mode_mgr + EUD_REG_EUD_EN2, 1);
++	if (ret)
++		return ret;
++
+ 	writel(EUD_ENABLE, priv->base + EUD_REG_CSR_EUD_EN);
+ 	writel(EUD_INT_VBUS | EUD_INT_SAFE_MODE,
+ 			priv->base + EUD_REG_INT1_EN_MASK);
+-	writel(1, priv->mode_mgr + EUD_REG_EUD_EN2);
+ 
+ 	return usb_role_switch_set_role(priv->role_sw, USB_ROLE_DEVICE);
+ }
+ 
+-static void disable_eud(struct eud_chip *priv)
++static int disable_eud(struct eud_chip *priv)
+ {
++	int ret;
++
++	ret = qcom_scm_io_writel(priv->mode_mgr + EUD_REG_EUD_EN2, 0);
++	if (ret)
++		return ret;
++
+ 	writel(0, priv->base + EUD_REG_CSR_EUD_EN);
+-	writel(0, priv->mode_mgr + EUD_REG_EUD_EN2);
++	return 0;
+ }
+ 
+ static ssize_t enable_show(struct device *dev,
+@@ -82,11 +94,12 @@ static ssize_t enable_store(struct device *dev,
+ 			chip->enabled = enable;
+ 		else
+ 			disable_eud(chip);
++
+ 	} else {
+-		disable_eud(chip);
++		ret = disable_eud(chip);
+ 	}
+ 
+-	return count;
++	return ret < 0 ? ret : count;
+ }
+ 
+ static DEVICE_ATTR_RW(enable);
+@@ -178,6 +191,7 @@ static void eud_role_switch_release(void *data)
+ static int eud_probe(struct platform_device *pdev)
+ {
+ 	struct eud_chip *chip;
++	struct resource *res;
+ 	int ret;
+ 
+ 	chip = devm_kzalloc(&pdev->dev, sizeof(*chip), GFP_KERNEL);
+@@ -200,9 +214,10 @@ static int eud_probe(struct platform_device *pdev)
+ 	if (IS_ERR(chip->base))
+ 		return PTR_ERR(chip->base);
+ 
+-	chip->mode_mgr = devm_platform_ioremap_resource(pdev, 1);
+-	if (IS_ERR(chip->mode_mgr))
+-		return PTR_ERR(chip->mode_mgr);
++	res = platform_get_resource(pdev, IORESOURCE_MEM, 1);
++	if (!res)
++		return -ENODEV;
++	chip->mode_mgr = res->start;
+ 
+ 	chip->irq = platform_get_irq(pdev, 0);
+ 	if (chip->irq < 0)
+
+---
+base-commit: 347e9f5043c89695b01e66b3ed111755afcf1911
+change-id: 20250715-eud_mode_manager_secure_access-6e57e3c71ec2
+
+Best regards,
+-- 
+Komal Bajaj <komal.bajaj@oss.qualcomm.com>
 
