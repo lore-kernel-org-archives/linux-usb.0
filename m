@@ -1,88 +1,54 @@
-Received: from s1.g1.infrastructure.qtmlabs.xyz (s1.g1.infrastructure.qtmlabs.xyz [107.172.1.117])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id ED7B52C181;
-	Mon, 21 Jul 2025 06:42:09 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=107.172.1.117
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 73BEC1F2B88;
+	Mon, 21 Jul 2025 06:53:52 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1753080132; cv=none; b=nq1ae23NqgBIrm2DL/SxHtbEDmrKB5hPszWi6l5ckiSFlPDerx198Okme1+13Wh+IIF/j0j6tB6CYCZaRFs0KWvEzAAi7xKsQ64OdqX05k/lfpO+XU3TxpCg8FcnjkCa4j2Druhwpng6FwaMG0ewourGLMb313Ldz1VFIy/8Ofs=
+	t=1753080833; cv=none; b=OJ50Kn0frAvy3HEyzvkprZOneqCluEr6qJ24yBKBRWKetuITitZ5aGIi+bjJs1qCqM+LVQz/6b2/uWlbrLc4YTndLTEzfTj3VcocX4nclcmJxKV23qvFyjiqzb1eOtPEkoEekzgVU6nwnpla7cR2BOatN6dy+oH4XWU8FdRnrH4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1753080132; c=relaxed/simple;
-	bh=wxeCEH+SU8MPDQOxuqjRDnvHyxvCzawyLu1QgV8iPD0=;
-	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:To:Cc; b=th7xMZNbwBHUhrq1VuFAG+XYzVNGled+rtnbHPsxOrQzPYgxyjzTZmF7viugeVwqd4ED9QHPXY68Nyc6Zu9M7bPX8CKuLyRMvkajCh5eB+mxddhgSoCcaF/LA3CExvksJDvoTVauDl4iH9A5uhg7XwsY1+cE5Tlx0pNTjTKRLUk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=qtmlabs.xyz; spf=pass smtp.mailfrom=qtmlabs.xyz; dkim=pass (2048-bit key) header.d=qtmlabs.xyz header.i=@qtmlabs.xyz header.b=I83a04+j; arc=none smtp.client-ip=107.172.1.117
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=qtmlabs.xyz
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=qtmlabs.xyz
+	s=arc-20240116; t=1753080833; c=relaxed/simple;
+	bh=BLrfXbwanftgU995wrz+bAONG7D2POOPCtK5ReR07js=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=sMo/1hSTIik1PvY4PMRkDr0py0qIkDHFl1zwrjSrVgUYdWlCHjDmZ4Sb7gP1WgNYG3Sm74PA0Ulv3+D4SdSXOzNurLLncZzkxlh46iCiF7pg3MsGRki9Z5iOKjpvwnCSPYdb8oK0+rBuzU/TDCZGjIbFlwUGhamkIzvJo9r+uVU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b=hZ4+id1d; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=qtmlabs.xyz header.i=@qtmlabs.xyz header.b="I83a04+j"
-From: Myrrh Periwinkle <myrrhperiwinkle@qtmlabs.xyz>
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qtmlabs.xyz; s=dkim;
-	t=1753079576;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding;
-	bh=JqkdQzm/twkZ0VIwHtBVBtBC90/ZA2tGjffFIZE7FDY=;
-	b=I83a04+jqtQCXmrtMyJ6J9S/WKikuzmcSD6ioHXUJb+9GzTMmmWf5QQiZYhHPX7QZ1h9Bh
-	rRuVJtS9o9Y9RhgcNKIin2IjyFWrb8TS2ACFEdTlBYVV3UfNb1mpbpHL6Ex7BwluhCsVYf
-	bD39/XeNaHk6X4QccWIWJ6a05VifPPWyclB3Al6Vqrf3Nkg9GIPzwqyRhMBm8AreAD6bNI
-	XJ1KxhWyzpet0qI9bfjwIbwLIiBPMVweG6jCVfi3waFyzzLs0siRe1J7R2bI4933+4ZYOl
-	OFYoUxsyBzKLVYScTDtiToRHocVqyLuBipHILmfaS0ICTdrmF4O8vSipi6Qghg==
-Authentication-Results: s1.g1.infrastructure.qtmlabs.xyz;
-	auth=pass smtp.mailfrom=myrrhperiwinkle@qtmlabs.xyz
-Date: Mon, 21 Jul 2025 13:32:51 +0700
-Subject: [PATCH] usb: typec: ucsi: Update power_supply on power role change
+	dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="hZ4+id1d"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 9C6B3C4CEED;
+	Mon, 21 Jul 2025 06:53:51 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
+	s=korg; t=1753080832;
+	bh=BLrfXbwanftgU995wrz+bAONG7D2POOPCtK5ReR07js=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=hZ4+id1dpM8pxx5lNZaMLaC9gA9G53fpU03n32croZ7A4yrOe7fZqLLGAhBtqiCMd
+	 DdSq9kB9ZIgs93N8xX+8qjLAgmewSw4o97b9rC+mqPWlnbd8K1iGMKMqz91TN4dvLJ
+	 8vCsrFiiFUDvKLBSAW+qu6klbs+dkqrqySaki7BY=
+Date: Mon, 21 Jul 2025 08:53:48 +0200
+From: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+To: Komal Bajaj <komal.bajaj@oss.qualcomm.com>
+Cc: Souradeep Chowdhury <quic_schowdhu@quicinc.com>,
+	linux-usb@vger.kernel.org, linux-kernel@vger.kernel.org,
+	linux-arm-msm@vger.kernel.org,
+	Melody Olvera <quic_molvera@quicinc.com>,
+	Konrad Dybcio <konrad.dybcio@oss.qualcomm.com>
+Subject: Re: [PATCH v6] usb: misc: qcom_eud: Access EUD_MODE_MANAGER2 through
+ secure calls
+Message-ID: <2025072141-anointer-venus-d99f@gregkh>
+References: <20250721-eud_mode_manager_secure_access-v6-1-fe603325ac04@oss.qualcomm.com>
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-Message-Id: <20250721-fix-ucsi-pwr-dir-notify-v1-1-e53d5340cb38@qtmlabs.xyz>
-X-B4-Tracking: v=1; b=H4sIABLffWgC/x2MSQqAMAwAvyI5G9BqcfmKeKg2ai5VUlekf7d4H
- JiZFzwJk4c2eUHoZM+ri5CnCYyLcTMh28igMqWzSuU48Y3H6Bm3S9CyoFt3nh6sTaMLY4ZSkYZ
- Yb0JR/c9dH8IHLm38Z2kAAAA=
-X-Change-ID: 20250721-fix-ucsi-pwr-dir-notify-8a953aab42e5
-To: Heikki Krogerus <heikki.krogerus@linux.intel.com>, 
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-Cc: linux-usb@vger.kernel.org, linux-kernel@vger.kernel.org, 
- stable@vger.kernel.org, Myrrh Periwinkle <myrrhperiwinkle@qtmlabs.xyz>
-X-Spamd-Bar: ---
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20250721-eud_mode_manager_secure_access-v6-1-fe603325ac04@oss.qualcomm.com>
 
-The current power direction of an USB-C port also influences the
-power_supply's online status, so a power role change should also update
-the power_supply.
+On Mon, Jul 21, 2025 at 12:08:41PM +0530, Komal Bajaj wrote:
+> EUD_MODE_MANAGER2 register is mapped to a memory region that is marked
+> as read-only for HLOS, enforcing access restrictions that prohibit
+> direct memory-mapped writes via writel().
 
-Fixes an issue on some systems where plugging in a normal USB device in
-for the first time after a reboot will cause upower to erroneously
-consider the system to be connected to AC power.
-
-Cc: stable@vger.kernel.org
-Fixes: 0e6371fbfba3 ("usb: typec: ucsi: Report power supply changes")
-Signed-off-by: Myrrh Periwinkle <myrrhperiwinkle@qtmlabs.xyz>
----
- drivers/usb/typec/ucsi/ucsi.c | 1 +
- 1 file changed, 1 insertion(+)
-
-diff --git a/drivers/usb/typec/ucsi/ucsi.c b/drivers/usb/typec/ucsi/ucsi.c
-index 01ce858a1a2b3466155db340e213c767d1e79479..8ff31963970bb384e28b460e5307e32cf421396b 100644
---- a/drivers/usb/typec/ucsi/ucsi.c
-+++ b/drivers/usb/typec/ucsi/ucsi.c
-@@ -1246,6 +1246,7 @@ static void ucsi_handle_connector_change(struct work_struct *work)
- 
- 	if (change & UCSI_CONSTAT_POWER_DIR_CHANGE) {
- 		typec_set_pwr_role(con->port, role);
-+		ucsi_port_psy_changed(con);
- 
- 		/* Complete pending power role swap */
- 		if (!completion_done(&con->complete))
-
----
-base-commit: 89be9a83ccf1f88522317ce02f854f30d6115c41
-change-id: 20250721-fix-ucsi-pwr-dir-notify-8a953aab42e5
-
-Best regards,
--- 
-Myrrh Periwinkle <myrrhperiwinkle@qtmlabs.xyz>
+What is "HLOS"?
 
