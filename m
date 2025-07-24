@@ -1,106 +1,111 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pg1-f176.google.com (mail-pg1-f176.google.com [209.85.215.176])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 92CD226E6F1
-	for <linux-usb@vger.kernel.org>; Thu, 24 Jul 2025 07:54:01 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1F458274B4D
+	for <linux-usb@vger.kernel.org>; Thu, 24 Jul 2025 08:39:12 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.215.176
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1753343641; cv=none; b=F5cpbLn/mClP8EoDt4j4F4zn5Wuib/WKU8bLtdJrQB/8gG7lgTp3c5ZkNIsoZYTCcsSQgGbYLV8GHqm/qwjqFbBM/u5NgZt/kWngV3L2dkxDb3EZTAaXr7oD+rLSsxpTzY/wElMx3Bc/VHdeE0CF39QOlrGB2DGpKwUWa38Uqao=
+	t=1753346354; cv=none; b=Oo4OrT91NrAbnCCvlMEw4AKFZwlR0jkdXNx1nnGSRwWWVG8Xta5JNN7hnTdjisPpAbLHJNQeBTqrcfMHUHSmUM0TqiLOIKg9izAEY3Cj7WJPY6qYblepDdu9GkzUCaLXx7+5b0joPVr8uH9rqSdON+v4dKNeMaz+ytCLvPWLM0A=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1753343641; c=relaxed/simple;
-	bh=WXXZYXtWjnCumb+ZOw/64lczWC2xbZ3L6Pboz2YpeTI=;
-	h=From:To:Subject:Date:Message-ID:In-Reply-To:References:
-	 Content-Type:MIME-Version; b=c8EMeppFldskRHNYwUNS7yCrdzvfnb3vhnJD1MKidWiSfSwEkhp3IiE70qNXd1z30RtSrj68ePHDszQMSFHNgBakUE52KVyCi0vA26xd+iVzSINzdJg4NwSJQjWoHSsZGDXyPQAjMCVwUM0xsMm4eiGig6L6ozLePUdwFksMhPc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=bBuAL9M/; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1753346354; c=relaxed/simple;
+	bh=DPnU95ZJtHDimTEnJ4WU3skY6t7lEUuN/QC7PlHSgdg=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=KR9Ionrs9UBTbVr+MCiZWUYYBEF510CHApE8GA9IPStIa/6+TvDiYBPK18JwsgKVJJFSPROVemd7V3xThInoCZTij2rFcsrzFpSNwPJglc3+oUkMX1LMQ+/qPYXuOT+04+TdQfME9D+v6UHRRA+qd/pdMnNR4YOTAB08UbZAPYA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org; spf=pass smtp.mailfrom=chromium.org; dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b=PQIdcdgC; arc=none smtp.client-ip=209.85.215.176
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=chromium.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="bBuAL9M/"
-Received: by smtp.kernel.org (Postfix) with ESMTPS id 28A0AC4CEF1
-	for <linux-usb@vger.kernel.org>; Thu, 24 Jul 2025 07:54:01 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1753343641;
-	bh=WXXZYXtWjnCumb+ZOw/64lczWC2xbZ3L6Pboz2YpeTI=;
-	h=From:To:Subject:Date:In-Reply-To:References:From;
-	b=bBuAL9M/obJrSG3PdQsmPrwc2j2WSQJfn3xQ8So2GJ3eDBIefqFO56wR0WhtzrcFP
-	 etfbU+Mwl6UeLRZNGf4d9FzyJDsAgfeIWxa480vBBTLALnzMMkidz9L4HDugMvPHHl
-	 Q20MMmAs7+cKqRXsVd/RLBgXoijmnxPxWNqdVF+g+EpBrSVHOByb8UL4fpuNQcSlYL
-	 aHRxt7XF6qoTAyVuV8UNIH5voAOvVYTK70ALzmo0UfdyANKXoGSjTgBpPwAIbEHtWG
-	 BGIoKEOghHnbNCmOiH7lr67I8C/6BbS8F2UiMsaAeLkmHhJG4ZLxURvJA6hNfc5Uov
-	 gF0jzOP85U0ug==
-Received: by aws-us-west-2-korg-bugzilla-1.web.codeaurora.org (Postfix, from userid 48)
-	id 1B1D4C3279F; Thu, 24 Jul 2025 07:54:01 +0000 (UTC)
-From: bugzilla-daemon@kernel.org
-To: linux-usb@vger.kernel.org
-Subject: [Bug 220307] USB cannot submit urb disconnecting sound card
-Date: Thu, 24 Jul 2025 07:54:00 +0000
-X-Bugzilla-Reason: None
-X-Bugzilla-Type: changed
-X-Bugzilla-Watch-Reason: AssignedTo drivers_usb@kernel-bugs.kernel.org
-X-Bugzilla-Product: Drivers
-X-Bugzilla-Component: USB
-X-Bugzilla-Version: 2.5
-X-Bugzilla-Keywords: 
-X-Bugzilla-Severity: normal
-X-Bugzilla-Who: targz@rambler.ru
-X-Bugzilla-Status: NEW
-X-Bugzilla-Resolution: 
-X-Bugzilla-Priority: P3
-X-Bugzilla-Assigned-To: drivers_usb@kernel-bugs.kernel.org
-X-Bugzilla-Flags: 
-X-Bugzilla-Changed-Fields: 
-Message-ID: <bug-220307-208809-7JdDrNtjao@https.bugzilla.kernel.org/>
-In-Reply-To: <bug-220307-208809@https.bugzilla.kernel.org/>
-References: <bug-220307-208809@https.bugzilla.kernel.org/>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-X-Bugzilla-URL: https://bugzilla.kernel.org/
-Auto-Submitted: auto-generated
+	dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b="PQIdcdgC"
+Received: by mail-pg1-f176.google.com with SMTP id 41be03b00d2f7-b321bd36a41so705968a12.2
+        for <linux-usb@vger.kernel.org>; Thu, 24 Jul 2025 01:39:12 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=chromium.org; s=google; t=1753346352; x=1753951152; darn=vger.kernel.org;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:from:to:cc:subject:date:message-id:reply-to;
+        bh=X0HMsTBmbQ4+9APSf+6vM24W99brsJT2SqN+LugoyEE=;
+        b=PQIdcdgCHk4ie4jfyyVGcVF0PGD2IHxurDTf+t82dxpMJv7voPv76msuOhK0zu2P8K
+         REoCSJU92BMI6KgMs9UBAE/OEAMwC7SJGBi2n/axMgfDYtZQq8mYp/snWU4ajjQRTPX2
+         T9zBXfWeIWWEKgqlE+py0zwPPsJDRWccV/Hac=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1753346352; x=1753951152;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=X0HMsTBmbQ4+9APSf+6vM24W99brsJT2SqN+LugoyEE=;
+        b=rX6n5IV1uBFvhLAq8O3d/3Iy3+L88sgQKKCtwsOOZx/R1ml2/wv49An23W2lJA0AYY
+         w/K8edqZe8Y45ZxDGzHLzZs+pNq7Y6J0b9owXYXhKSCFR+dPgTlqBItwyHmhrIiJVBdD
+         X61Hi5t/2nrWOtbFwB0oNlH+/Iorl37ytOBZvulpSH6mdmYd1p3tKQ0JFJB38tFZJfQD
+         4JBdEtUNGPnjXCaGV3COxNKwENXAU1lAevwwPFm3Cge97WCvoQAUJESVPPOyK14lkkPL
+         6odn2OkgSr7+lWg+n9sJsj8m176TOEx3MSAtOx76q/CBsQ7HQJhJga2od4HuEnCaqDPt
+         7c0A==
+X-Forwarded-Encrypted: i=1; AJvYcCU5c37ONBvqe5q5ZXGnM3RYSsR+aFdZXxMfbCl7XBiKb28ZtvNgCrM80L5KHPoL6auQh5lMwXV/uG8=@vger.kernel.org
+X-Gm-Message-State: AOJu0YyNSDA/7KeXDPhefU/qw3ejfaQ/2d0arVX4s4ojcxdHAdyf60jZ
+	6/kaAKePkJbEwf4PB5PfNDmLyXmFrZmEeFnidhxhuqkDOJdqAzSj7cs2FHkMNC8KqdJno2mNki6
+	1VRt8YSoYEZFPaHtj2X3WDSgVFLMl/PGU2nFuaqrs
+X-Gm-Gg: ASbGnct/yhPi71gPWPKcLh1pbRQ/l9pZ+Wm3lef9pqyQ4g3cdw+1lAKtxoDh+G5Ex6Y
+	SoEOxwnKMuI5yor9o0Dr/GwQzdI5kocGsKXIsc9PDt1NCLEcI09blxO0mjsBOboMcSHe6l1YVxa
+	sgGe+oh2eAuYfqkC1XYluvLLfKStIehaFdt5RcNxNiUZfjlqTDqv5IjH4uu0Rr0aEmN+GfDz133
+	8QyT0gCZ/zE7lSWPp3aNoKFG8TMByrkzQ==
+X-Google-Smtp-Source: AGHT+IF6GlHoPfQBE7VcJ/+n3gkrTpAcXrzNcm2cizHwNSOzKAmihYyhhHBa69uI0PTyutNd71gW6mxdz1twf+0MKAQ=
+X-Received: by 2002:a17:90b:6cb:b0:313:1a8c:c2d3 with SMTP id
+ 98e67ed59e1d1-31e508172ebmr7030678a91.22.1753346352248; Thu, 24 Jul 2025
+ 01:39:12 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
+References: <20250630141239.3174390-1-akuchynski@chromium.org>
+ <20250630141239.3174390-6-akuchynski@chromium.org> <2025070143-safeness-prewashed-6e9f@gregkh>
+ <CAMMMRMeKyi56Pha-X86BaQwcHGCx-xu5F67HCGZg=Yhxuk==OQ@mail.gmail.com>
+In-Reply-To: <CAMMMRMeKyi56Pha-X86BaQwcHGCx-xu5F67HCGZg=Yhxuk==OQ@mail.gmail.com>
+From: Andrei Kuchynski <akuchynski@chromium.org>
+Date: Thu, 24 Jul 2025 10:39:00 +0200
+X-Gm-Features: Ac12FXzobt46uNoTI8Mrqq6Cj9erlIAHq47itWaRXovYE0fFMCg2hJa92bbZ6uk
+Message-ID: <CAMMMRMf_qc342=azkU-ceg=f-db2Z9NiONOu1_oRk8tmRL4RGg@mail.gmail.com>
+Subject: Re: [PATCH v2 05/10] usb: typec: Implement automated mode selection
+To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+Cc: Heikki Krogerus <heikki.krogerus@linux.intel.com>, 
+	Abhishek Pandit-Subedi <abhishekpandit@chromium.org>, Benson Leung <bleung@chromium.org>, 
+	Jameson Thies <jthies@google.com>, Tzung-Bi Shih <tzungbi@kernel.org>, linux-usb@vger.kernel.org, 
+	chrome-platform@lists.linux.dev, Guenter Roeck <groeck@chromium.org>, 
+	Dmitry Baryshkov <lumag@kernel.org>, "Christian A. Ehrhardt" <lk@c--e.de>, linux-kernel@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
 
-https://bugzilla.kernel.org/show_bug.cgi?id=3D220307
+Proposed sysfs entries for V3:
 
---- Comment #4 from Evgenii (targz@rambler.ru) ---
-Mathias I already tried to contact Intel about DDR5, bug they prefer to don=
-'t
-answer making view that this is not possible I guess. But what not possible=
- for
-Intel engineers doesn't mean not possible for me. I just had some issues
-running Firefox for example when its crashing on start when I've used test
-settings for overclocked DDR5 in Gear 1 working on frequency of memory
-controller - that's why I'm not dropping this as possibility for issues in
-Linux, while games running just fine. I been able to heat up up to about 52
-degrees RAM using testmem5, the original one - not newer versions that simp=
-ly
-not launch on Linux, but in games it stays pretty much cold cause no voltage
-overload happens on PMIC. And practically this is world record in overclock=
-ing
-about what again don't wish to know western society I guess cause its not
-comfortable to tell everyone that they are not best in overclocking the RAM
-that is not promoting high speeds cause in reality Gear 1 requires not that
-much voltages and might work on simpler motherboards - again against intere=
-sts
-of motherboards makers I guess. But in reality this is the only way how Int=
-el
-could stop firing employees by thousands - is to use platform capabilities.
-This also might be extremely important not only for games, but also servers
-which Linux also targeting. If you are able to recognize proper work of Int=
-el
-MLC in terminal you might explain that to your bosses that prefers to close
-eyes on reality if your company would not fire you as they closed own Linux
-distribution recently. Maybe bugs happening cause of unsupported state, may=
-be
-not. My experience is limited, but still there is no one better who could
-handle DDR5 on Intel platform. For me it works fine and even if latency not
-getting reduced in 5400 MHz mode versus 5200 MHz mode Geekbench shows equal
-performance benefit. So I don't understand Intel strategy to ruin Gear 1
-support cause life shows that my strategy works better.
+- portN/portN.M/priority, RW.
+This attribute assigns a unique priority to each mode. If a user
+attempts to input a value that is already in use, the existing mode at
+that priority will have its priority incremented by one to accommodate
+the new input. Users cannot disable a mode via this entry; disabling
+is handled by `active` for altmodes and `usb_capability` for USB4 mode
 
---=20
-You may reply to this email to add a comment.
+- portN/mode_priorities, RO.
+Provides a prioritized list of all available modes for the port,
+formatted as a space-separated string (e.g., "USB4 TBT DP").
 
-You are receiving this mail because:
-You are watching the assignee of the bug.=
+- portN-partner/mode_selection, RW.
+Write: 1/0 to trigger or cancel mode selection.
+Read:  Provides a prioritized list of all available modes for the
+partner. Modes currently in progress are indicated by parentheses
+(e.g., "USB4 (TBT) DP"). Active modes are enclosed in brackets
+(e.g., "USB4 [TBT] DP").
+
+- portN-partner.M/entry_result, RO.
+Represents a mode state for this altmode, e.g. "none", "active",
+"in progress", "cable error", "timeout".
+
+- portN/usb4_priority, RW.
+- portN-partner/usb4_entry_result, RO.
+USB4 mode, not being part of `typec_altmode_group`, introduces
+additional attributes with the same meaning as alternate modes
+attributes.
+
+Please let me know if you have any questions, require further
+clarification on these proposed sysfs entries, or have objections to
+them.
+
+Thanks,
+Andrei
