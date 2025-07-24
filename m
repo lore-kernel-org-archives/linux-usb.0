@@ -1,111 +1,106 @@
-Received: from mx2.zhaoxin.com (mx2.zhaoxin.com [61.152.208.219])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5076026C396
-	for <linux-usb@vger.kernel.org>; Thu, 24 Jul 2025 07:49:14 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=61.152.208.219
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 92CD226E6F1
+	for <linux-usb@vger.kernel.org>; Thu, 24 Jul 2025 07:54:01 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1753343357; cv=none; b=IzZg0IuLlsrOK0X/g519T453ZY9my9eg9DAnB1T8DeSlYVYNS9NSbyNqr01KpqHhYOU61dacrM0gG6zGT/2JULrPmpiluvA/ERtljneSvzxCsDhio1Mg+96gNeUjFbZQEtfXt2CuJf1upX6y810nVrykcKhj2Idk0vRMbvjAsoU=
+	t=1753343641; cv=none; b=F5cpbLn/mClP8EoDt4j4F4zn5Wuib/WKU8bLtdJrQB/8gG7lgTp3c5ZkNIsoZYTCcsSQgGbYLV8GHqm/qwjqFbBM/u5NgZt/kWngV3L2dkxDb3EZTAaXr7oD+rLSsxpTzY/wElMx3Bc/VHdeE0CF39QOlrGB2DGpKwUWa38Uqao=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1753343357; c=relaxed/simple;
-	bh=jcjaQYTMTRrx+WghJX3jlueR/iLAJpHiv6lfByqp1NE=;
-	h=Message-ID:Date:MIME-Version:Subject:To:CC:References:From:
-	 In-Reply-To:Content-Type; b=ezq3chUUw5NdUelDUh6nqHUKtptCPmW1L8xtmzYQjaFRPW9iKzeqUmPm6gunCAjgBM9WxV9ikEhpaFAz/l0Cgm8d0VL+ujviinqZLgJ3jVKtmzwB+8AzettiHvW78G3crHtr9/quyvQhdRNIyDhw2rmcURgyRMX9Ytgdm5W9XYM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=zhaoxin.com; spf=pass smtp.mailfrom=zhaoxin.com; arc=none smtp.client-ip=61.152.208.219
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=zhaoxin.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=zhaoxin.com
-X-ASG-Debug-ID: 1753342245-1eb14e1c3a854d0001-YVMibp
-Received: from ZXBJMBX03.zhaoxin.com (ZXBJMBX03.zhaoxin.com [10.29.252.7]) by mx2.zhaoxin.com with ESMTP id CZNMqECXxPG4FN1y (version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NO); Thu, 24 Jul 2025 15:30:45 +0800 (CST)
-X-Barracuda-Envelope-From: WeitaoWang-oc@zhaoxin.com
-X-Barracuda-RBL-Trusted-Forwarder: 10.29.252.7
-Received: from ZXSHMBX1.zhaoxin.com (10.28.252.163) by ZXBJMBX03.zhaoxin.com
- (10.29.252.7) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.1.2507.44; Thu, 24 Jul
- 2025 15:30:44 +0800
-Received: from ZXSHMBX1.zhaoxin.com ([fe80::cd37:5202:5b71:926f]) by
- ZXSHMBX1.zhaoxin.com ([fe80::cd37:5202:5b71:926f%7]) with mapi id
- 15.01.2507.044; Thu, 24 Jul 2025 15:30:44 +0800
-X-Barracuda-RBL-Trusted-Forwarder: 10.29.252.7
-Received: from [10.29.8.21] (10.29.8.21) by zxbjmbx1.zhaoxin.com
- (10.29.252.163) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.1.2507.44; Thu, 24 Jul
- 2025 15:30:06 +0800
-Message-ID: <67fdd776-4329-04d8-6b4f-b5f11ee2105f@zhaoxin.com>
-Date: Thu, 24 Jul 2025 23:30:05 +0800
+	s=arc-20240116; t=1753343641; c=relaxed/simple;
+	bh=WXXZYXtWjnCumb+ZOw/64lczWC2xbZ3L6Pboz2YpeTI=;
+	h=From:To:Subject:Date:Message-ID:In-Reply-To:References:
+	 Content-Type:MIME-Version; b=c8EMeppFldskRHNYwUNS7yCrdzvfnb3vhnJD1MKidWiSfSwEkhp3IiE70qNXd1z30RtSrj68ePHDszQMSFHNgBakUE52KVyCi0vA26xd+iVzSINzdJg4NwSJQjWoHSsZGDXyPQAjMCVwUM0xsMm4eiGig6L6ozLePUdwFksMhPc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=bBuAL9M/; arc=none smtp.client-ip=10.30.226.201
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="bBuAL9M/"
+Received: by smtp.kernel.org (Postfix) with ESMTPS id 28A0AC4CEF1
+	for <linux-usb@vger.kernel.org>; Thu, 24 Jul 2025 07:54:01 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1753343641;
+	bh=WXXZYXtWjnCumb+ZOw/64lczWC2xbZ3L6Pboz2YpeTI=;
+	h=From:To:Subject:Date:In-Reply-To:References:From;
+	b=bBuAL9M/obJrSG3PdQsmPrwc2j2WSQJfn3xQ8So2GJ3eDBIefqFO56wR0WhtzrcFP
+	 etfbU+Mwl6UeLRZNGf4d9FzyJDsAgfeIWxa480vBBTLALnzMMkidz9L4HDugMvPHHl
+	 Q20MMmAs7+cKqRXsVd/RLBgXoijmnxPxWNqdVF+g+EpBrSVHOByb8UL4fpuNQcSlYL
+	 aHRxt7XF6qoTAyVuV8UNIH5voAOvVYTK70ALzmo0UfdyANKXoGSjTgBpPwAIbEHtWG
+	 BGIoKEOghHnbNCmOiH7lr67I8C/6BbS8F2UiMsaAeLkmHhJG4ZLxURvJA6hNfc5Uov
+	 gF0jzOP85U0ug==
+Received: by aws-us-west-2-korg-bugzilla-1.web.codeaurora.org (Postfix, from userid 48)
+	id 1B1D4C3279F; Thu, 24 Jul 2025 07:54:01 +0000 (UTC)
+From: bugzilla-daemon@kernel.org
+To: linux-usb@vger.kernel.org
+Subject: [Bug 220307] USB cannot submit urb disconnecting sound card
+Date: Thu, 24 Jul 2025 07:54:00 +0000
+X-Bugzilla-Reason: None
+X-Bugzilla-Type: changed
+X-Bugzilla-Watch-Reason: AssignedTo drivers_usb@kernel-bugs.kernel.org
+X-Bugzilla-Product: Drivers
+X-Bugzilla-Component: USB
+X-Bugzilla-Version: 2.5
+X-Bugzilla-Keywords: 
+X-Bugzilla-Severity: normal
+X-Bugzilla-Who: targz@rambler.ru
+X-Bugzilla-Status: NEW
+X-Bugzilla-Resolution: 
+X-Bugzilla-Priority: P3
+X-Bugzilla-Assigned-To: drivers_usb@kernel-bugs.kernel.org
+X-Bugzilla-Flags: 
+X-Bugzilla-Changed-Fields: 
+Message-ID: <bug-220307-208809-7JdDrNtjao@https.bugzilla.kernel.org/>
+In-Reply-To: <bug-220307-208809@https.bugzilla.kernel.org/>
+References: <bug-220307-208809@https.bugzilla.kernel.org/>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+X-Bugzilla-URL: https://bugzilla.kernel.org/
+Auto-Submitted: auto-generated
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.11.0
-Subject: Re: [PATCH] usb:xhci:Fix slot_id resource race conflict
-Content-Language: en-US
-X-ASG-Orig-Subj: Re: [PATCH] usb:xhci:Fix slot_id resource race conflict
-To: Greg KH <gregkh@linuxfoundation.org>
-CC: <mathias.nyman@intel.com>, <linux-usb@vger.kernel.org>,
-	<linux-kernel@vger.kernel.org>, <WeitaoWang@zhaoxin.com>, <wwt8723@163.com>,
-	<CobeChen@zhaoxin.com>
-References: <20250724124012.296934-1-WeitaoWang-oc@zhaoxin.com>
- <2025072457-quaking-each-ea25@gregkh>
-From: "WeitaoWang-oc@zhaoxin.com" <WeitaoWang-oc@zhaoxin.com>
-In-Reply-To: <2025072457-quaking-each-ea25@gregkh>
-Content-Type: text/plain; charset="UTF-8"; format=flowed
-Content-Transfer-Encoding: 7bit
-X-ClientProxiedBy: ZXSHCAS2.zhaoxin.com (10.28.252.162) To
- zxbjmbx1.zhaoxin.com (10.29.252.163)
-X-Moderation-Data: 7/24/2025 3:30:42 PM
-X-Barracuda-Connect: ZXBJMBX03.zhaoxin.com[10.29.252.7]
-X-Barracuda-Start-Time: 1753342245
-X-Barracuda-Encrypted: ECDHE-RSA-AES128-GCM-SHA256
-X-Barracuda-URL: https://10.28.252.36:4443/cgi-mod/mark.cgi
-X-Virus-Scanned: by bsmtpd at zhaoxin.com
-X-Barracuda-Scan-Msg-Size: 1428
-X-Barracuda-BRTS-Status: 1
-X-Barracuda-Bayes: INNOCENT GLOBAL 0.0000 1.0000 -2.0210
-X-Barracuda-Spam-Score: 1.09
-X-Barracuda-Spam-Status: No, SCORE=1.09 using global scores of TAG_LEVEL=1000.0 QUARANTINE_LEVEL=1000.0 KILL_LEVEL=9.0 tests=DATE_IN_FUTURE_06_12, DATE_IN_FUTURE_06_12_2
-X-Barracuda-Spam-Report: Code version 3.2, rules version 3.2.3.144739
-	Rule breakdown below
-	 pts rule name              description
-	---- ---------------------- --------------------------------------------------
-	0.01 DATE_IN_FUTURE_06_12   Date: is 6 to 12 hours after Received: date
-	3.10 DATE_IN_FUTURE_06_12_2 DATE_IN_FUTURE_06_12_2
 
-On 2025/7/24 14:35, Greg KH wrote:
-> 
-> Hi,
-> 
-> This is the friendly patch-bot of Greg Kroah-Hartman.  You have sent him
-> a patch that has triggered this response.  He used to manually respond
-> to these common problems, but in order to save his sanity (he kept
-> writing the same thing over and over, yet to different people), I was
-> created.  Hopefully you will not take offence and will fix the problem
-> in your patch and resubmit it so that it can be accepted into the Linux
-> kernel tree.
-> 
-> You are receiving this message because of the following common error(s)
-> as indicated below:
-> 
-> - You have marked a patch with a "Fixes:" tag for a commit that is in an
->    older released kernel, yet you do not have a cc: stable line in the
->    signed-off-by area at all, which means that the patch will not be
->    applied to any older kernel releases.  To properly fix this, please
->    follow the documented rules in the
->    Documentation/process/stable-kernel-rules.rst file for how to resolve
->    this.
-> 
-> If you wish to discuss this problem further, or you have questions about
-> how to resolve this issue, please feel free to respond to this email and
-> Greg will reply once he has dug out from the pending patches received
-> from other developers. 
-OK, I'll cc to stable line on the next patch version.
+https://bugzilla.kernel.org/show_bug.cgi?id=3D220307
 
-Best Regards,
-weitao
+--- Comment #4 from Evgenii (targz@rambler.ru) ---
+Mathias I already tried to contact Intel about DDR5, bug they prefer to don=
+'t
+answer making view that this is not possible I guess. But what not possible=
+ for
+Intel engineers doesn't mean not possible for me. I just had some issues
+running Firefox for example when its crashing on start when I've used test
+settings for overclocked DDR5 in Gear 1 working on frequency of memory
+controller - that's why I'm not dropping this as possibility for issues in
+Linux, while games running just fine. I been able to heat up up to about 52
+degrees RAM using testmem5, the original one - not newer versions that simp=
+ly
+not launch on Linux, but in games it stays pretty much cold cause no voltage
+overload happens on PMIC. And practically this is world record in overclock=
+ing
+about what again don't wish to know western society I guess cause its not
+comfortable to tell everyone that they are not best in overclocking the RAM
+that is not promoting high speeds cause in reality Gear 1 requires not that
+much voltages and might work on simpler motherboards - again against intere=
+sts
+of motherboards makers I guess. But in reality this is the only way how Int=
+el
+could stop firing employees by thousands - is to use platform capabilities.
+This also might be extremely important not only for games, but also servers
+which Linux also targeting. If you are able to recognize proper work of Int=
+el
+MLC in terminal you might explain that to your bosses that prefers to close
+eyes on reality if your company would not fire you as they closed own Linux
+distribution recently. Maybe bugs happening cause of unsupported state, may=
+be
+not. My experience is limited, but still there is no one better who could
+handle DDR5 on Intel platform. For me it works fine and even if latency not
+getting reduced in 5400 MHz mode versus 5200 MHz mode Geekbench shows equal
+performance benefit. So I don't understand Intel strategy to ruin Gear 1
+support cause life shows that my strategy works better.
 
-> thanks,
-> 
-> greg k-h's patch email bot
-> .
+--=20
+You may reply to this email to add a comment.
+
+You are receiving this mail because:
+You are watching the assignee of the bug.=
