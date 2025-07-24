@@ -1,63 +1,114 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from mx1.zhaoxin.com (MX1.ZHAOXIN.COM [210.0.225.12])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 253522747B;
-	Thu, 24 Jul 2025 06:36:51 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EEAE91C6FF5
+	for <linux-usb@vger.kernel.org>; Thu, 24 Jul 2025 07:31:24 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=210.0.225.12
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1753339012; cv=none; b=DYe71ro37jmgmXmfoX7T7rVlq9mD3SJeabUpaibt3BRf0nafHdo/GihMi1RR3V7jJd9sNWrwAqVDWH/PzLHwLvhGENtrCSn7MMQXM9FABGDcQQnSYFy2FhBcWzZYMRoKhhT+P9AR4I4BBKWbBKK7kxgM0tjJWifvSYggTuyGZOg=
+	t=1753342288; cv=none; b=WpTnq7XocAg+bfGRzV/54hBaBQNZKzpdk0E8JliuxNWYJWntcijr2qlESZzUmIB5ItIyhM43P5gjpoBslJ08Wu6M+DXExb7Y4mIECk/1KKXyYYx4sOTcgfq0i9SGOmTWpYe5ssVSP1RnaNu3REauBqCDhxi31hpFA2asXoefBx8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1753339012; c=relaxed/simple;
-	bh=M++MJT1ygfbfaSq/5tSlNeDY2uZt6rt+SgZd7m8OW/4=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=ZXLEBm/9hnmVysOLwhuqVM5CFvtTMMsAE1+MdM88QarPE0WXPZrJ9ukiHyFm3cnp4DCn255JQO9ioBZRDIyWf4qZ5J96vJRCVzEFdueWu7Nvi4XxNtTrOnK4AdAOuOluB9M4aq0y2DfW6hfTc3DzR1B5uvWcttr5may3azhwx6U=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b=T+9x8XVz; arc=none smtp.client-ip=10.30.226.201
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="T+9x8XVz"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 2C03BC4CEED;
-	Thu, 24 Jul 2025 06:36:50 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
-	s=korg; t=1753339011;
-	bh=M++MJT1ygfbfaSq/5tSlNeDY2uZt6rt+SgZd7m8OW/4=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=T+9x8XVzkuakpvSTEfwM7cdutbBmvG+wFLSoOLBlT35EYtzJSZlxwcaBlOItSovFJ
-	 aEMRgHqnxYNpC1LgBfWlrj26dwfDK+3Ex4jMQFC1s/qbCy0Gw/ThwuQmDNx0guHqd2
-	 SjTOscq6Au6XOxhqsJbyXwmF3mnWpod5nBywhtYI=
-Date: Thu, 24 Jul 2025 08:36:48 +0200
-From: Greg KH <gregkh@linuxfoundation.org>
-To: Weitao Wang <WeitaoWang-oc@zhaoxin.com>
-Cc: mathias.nyman@intel.com, linux-usb@vger.kernel.org,
-	linux-kernel@vger.kernel.org, WeitaoWang@zhaoxin.com,
-	wwt8723@163.com, CobeChen@zhaoxin.com
-Subject: Re: [PATCH] usb:xhci:Fix slot_id resource race conflict
-Message-ID: <2025072425-sixtyfold-curling-88ff@gregkh>
-References: <20250724124012.296934-1-WeitaoWang-oc@zhaoxin.com>
+	s=arc-20240116; t=1753342288; c=relaxed/simple;
+	bh=3Z9tVvFNPyAAE1BEfI/X25TMFAvcbGnPg++lILWBKlQ=;
+	h=Message-ID:Date:MIME-Version:Subject:To:CC:References:From:
+	 In-Reply-To:Content-Type; b=YjFBqZ+kwAFcrOmnmrjDHXiNrvXkHA3QH590iwSznX7R+3ToG3cEMh0JfJVECWD+SJmGKhCYK1BGWvbZPl0bLM57jFOc3T+Fc353cM22q/X3AK4pTQRyxxBiYAkk0w6bsxhhkJgiX1OdktFC6yiT4g2joJ+WYeDpYuW9syKJhyU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=zhaoxin.com; spf=pass smtp.mailfrom=zhaoxin.com; arc=none smtp.client-ip=210.0.225.12
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=zhaoxin.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=zhaoxin.com
+X-ASG-Debug-ID: 1753342260-086e23295613750001-YVMibp
+Received: from ZXBJMBX02.zhaoxin.com (ZXBJMBX02.zhaoxin.com [10.29.252.6]) by mx1.zhaoxin.com with ESMTP id o2WpMInN1RTmCmqI (version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NO); Thu, 24 Jul 2025 15:31:00 +0800 (CST)
+X-Barracuda-Envelope-From: WeitaoWang-oc@zhaoxin.com
+X-Barracuda-RBL-Trusted-Forwarder: 10.29.252.6
+Received: from ZXSHMBX1.zhaoxin.com (10.28.252.163) by ZXBJMBX02.zhaoxin.com
+ (10.29.252.6) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.1.2507.44; Thu, 24 Jul
+ 2025 15:30:59 +0800
+Received: from ZXSHMBX1.zhaoxin.com ([fe80::cd37:5202:5b71:926f]) by
+ ZXSHMBX1.zhaoxin.com ([fe80::cd37:5202:5b71:926f%7]) with mapi id
+ 15.01.2507.044; Thu, 24 Jul 2025 15:30:59 +0800
+X-Barracuda-RBL-Trusted-Forwarder: 10.29.252.6
+Received: from [10.29.8.21] (10.29.8.21) by zxbjmbx1.zhaoxin.com
+ (10.29.252.163) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.1.2507.44; Thu, 24 Jul
+ 2025 15:24:34 +0800
+Message-ID: <c52e3bc8-3618-cc99-a936-6576fef3215b@zhaoxin.com>
+Date: Thu, 24 Jul 2025 23:24:10 +0800
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20250724124012.296934-1-WeitaoWang-oc@zhaoxin.com>
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.11.0
+Subject: Re: [PATCH] usb:xhci:Fix slot_id resource race conflict
+Content-Language: en-US
+X-ASG-Orig-Subj: Re: [PATCH] usb:xhci:Fix slot_id resource race conflict
+To: Greg KH <gregkh@linuxfoundation.org>
+CC: <mathias.nyman@intel.com>, <linux-usb@vger.kernel.org>,
+	<linux-kernel@vger.kernel.org>, <WeitaoWang@zhaoxin.com>, <wwt8723@163.com>,
+	<CobeChen@zhaoxin.com>
+References: <20250724124012.296934-1-WeitaoWang-oc@zhaoxin.com>
+ <2025072425-sixtyfold-curling-88ff@gregkh>
+From: "WeitaoWang-oc@zhaoxin.com" <WeitaoWang-oc@zhaoxin.com>
+In-Reply-To: <2025072425-sixtyfold-curling-88ff@gregkh>
+Content-Type: text/plain; charset="UTF-8"; format=flowed
+Content-Transfer-Encoding: quoted-printable
+X-ClientProxiedBy: ZXSHCAS2.zhaoxin.com (10.28.252.162) To
+ zxbjmbx1.zhaoxin.com (10.29.252.163)
+X-Moderation-Data: 7/24/2025 3:30:58 PM
+X-Barracuda-Connect: ZXBJMBX02.zhaoxin.com[10.29.252.6]
+X-Barracuda-Start-Time: 1753342260
+X-Barracuda-Encrypted: ECDHE-RSA-AES128-GCM-SHA256
+X-Barracuda-URL: https://10.28.252.35:4443/cgi-mod/mark.cgi
+X-Virus-Scanned: by bsmtpd at zhaoxin.com
+X-Barracuda-Scan-Msg-Size: 1174
+X-Barracuda-BRTS-Status: 1
+X-Barracuda-Bayes: INNOCENT GLOBAL 0.0000 1.0000 -2.0210
+X-Barracuda-Spam-Score: 1.09
+X-Barracuda-Spam-Status: No, SCORE=1.09 using global scores of TAG_LEVEL=1000.0 QUARANTINE_LEVEL=1000.0 KILL_LEVEL=9.0 tests=DATE_IN_FUTURE_06_12, DATE_IN_FUTURE_06_12_2
+X-Barracuda-Spam-Report: Code version 3.2, rules version 3.2.3.144741
+	Rule breakdown below
+	 pts rule name              description
+	---- ---------------------- --------------------------------------------------
+	0.01 DATE_IN_FUTURE_06_12   Date: is 6 to 12 hours after Received: date
+	3.10 DATE_IN_FUTURE_06_12_2 DATE_IN_FUTURE_06_12_2
 
-On Thu, Jul 24, 2025 at 08:40:12PM +0800, Weitao Wang wrote:
-> @@ -4085,10 +4086,11 @@ static void xhci_free_dev(struct usb_hcd *hcd, struct usb_device *udev)
->  	for (i = 0; i < 31; i++)
->  		virt_dev->eps[i].ep_state &= ~EP_STOP_CMD_PENDING;
->  	virt_dev->udev = NULL;
-> -	xhci_disable_slot(xhci, udev->slot_id);
-> +	ret = xhci_disable_slot(xhci, udev->slot_id);
->  
->  	spin_lock_irqsave(&xhci->lock, flags);
-> -	xhci_free_virt_device(xhci, udev->slot_id);
-> +	if (ret)
-> +		xhci_free_virt_device(xhci, udev->slot_id);
->  	spin_unlock_irqrestore(&xhci->lock, flags);
+On 2025/7/24 14:36, Greg KH wrote:
+>=20
+>=20
+> [=E8=BF=99=E5=B0=81=E9=82=AE=E4=BB=B6=E6=9D=A5=E8=87=AA=E5=A4=96=E9=83=A8=
+=E5=8F=91=E4=BB=B6=E4=BA=BA =E8=B0=A8=E9=98=B2=E9=A3=8E=E9=99=A9]
+>=20
+> On Thu, Jul 24, 2025 at 08:40:12PM +0800, Weitao Wang wrote:
+>> @@ -4085,10 +4086,11 @@ static void xhci_free_dev(struct usb_hcd *hcd, s=
+truct usb_device *udev)
+>>        for (i =3D 0; i < 31; i++)
+>>                virt_dev->eps[i].ep_state &=3D ~EP_STOP_CMD_PENDING;
+>>        virt_dev->udev =3D NULL;
+>> -     xhci_disable_slot(xhci, udev->slot_id);
+>> +     ret =3D xhci_disable_slot(xhci, udev->slot_id);
+>>
+>>        spin_lock_irqsave(&xhci->lock, flags);
+>> -     xhci_free_virt_device(xhci, udev->slot_id);
+>> +     if (ret)
+>> +             xhci_free_virt_device(xhci, udev->slot_id);
+>>        spin_unlock_irqrestore(&xhci->lock, flags);
+>=20
+> Shouldn't you lock/unlock only if ret is set?
 
-Shouldn't you lock/unlock only if ret is set?
+Yes,it's my mistake,here's code should like this:
 
-thanks,
+ret =3D xhci_disable_slot(xhci, udev->slot_id);
+if (ret) {
+	spin_lock_irqsave(&xhci->lock, flags);
+	xhci_free_virt_device(xhci, udev->slot_id);
+	spin_unlock_irqrestore(&xhci->lock, flags);
+}
+Thanks for your suggestion. I'll revise it in the next patch version.
 
-greg k-h
+Best Regards,
+weitao
+
+
+> greg k-h
+> .
