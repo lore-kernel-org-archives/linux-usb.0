@@ -1,58 +1,43 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9884B259CBA;
-	Thu, 24 Jul 2025 09:19:31 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BFB05259CA9;
+	Thu, 24 Jul 2025 09:20:32 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1753348771; cv=none; b=oMHjHxHp3mF2PYcs/Wnr0hcKoUdxiZ9GHWuquD+2029HPBZyMcyi864a82MKqxiOsuM5C+3N+63Fg7jW0tKVOGf7ZBjJOHhUj/E887Eqh3EF8DYTK4R3icdxG1+p/BjSBkKiytCtoxlmp/Xf27LjpI4lwaZ16JDGPdI3ut4/Ls8=
+	t=1753348832; cv=none; b=WL05fZ3dqgqO2hvnnzDs5+nX09h+Yv/Ih1Q6uCUEac9o93NoyJtZqEY8O5ZCul9JDiFgTzduNF9HdlXD2qJMHwMvjO5Srm1tvwa2CBLNo3MY7fWY9Xo9UxT5knMwHgBkIDlA80SOdbI4oYZ8dpmgzYvwnW45vHI4WPS+a6kNQNA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1753348771; c=relaxed/simple;
-	bh=heZubNRf2SjBNIuw2Atw10HonqmFi54G/HKy4mFRFIA=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=ZCs+S8MlgG17l9zqUIsiwQ7e0JlncJaTj5HIx9teG2nP5mnay6CLMYrYBeA7LUtjB3ZaqheROkWCgrcNKz5ydf2MI8rZiBQn1Q8VDEvQ23w3WfDw1nwSso3WmltRHd6vyiq0ArfNHtTe/DWyOFL2NF71sEnznrshXcaYIdV6+bI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=CIx00lE9; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1753348832; c=relaxed/simple;
+	bh=hqvA7P/13its3aivenGaO2NqOrueFUv24Dfs34xTs3s=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=eBnn3S3pWywTLIdPvq//uI5FqnmPXZK/Uluk4GqDsxK/Hj1HWxr3FR0ISZcFZbBNb4awPowXhtbCQoYifjrv7AeXzX9/jht5dwcJ03TInMHebQJCOkX5vhWZ5pcDoKSyVpe4gyJqX5p+zE3P/JawgY3g+e6gbnHQT1w3KmxdsbE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=bJ2H1yd+; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="CIx00lE9"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id F15A2C4CEFA;
-	Thu, 24 Jul 2025 09:19:30 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="bJ2H1yd+"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 62ACDC4CEED;
+	Thu, 24 Jul 2025 09:20:32 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1753348771;
-	bh=heZubNRf2SjBNIuw2Atw10HonqmFi54G/HKy4mFRFIA=;
-	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=CIx00lE9oSnUaRBc7WEcZvhZSzTfjC3CH99QmbfDDQLZoKxZjJ/qfAMtf8d2lyriV
-	 n/te2CxDcO9q58DUXBsSXmtbkK4su6+Wa1PZ2MjuL7pOvlEpzkoGMkpQQ2+KsjYitx
-	 H09hPPDKUxo1D9gjUjs9XpNYqL/W+YmHVH8XVTjTktO8NGQIxFCVU0sYSFFg/bUxVH
-	 Y/qiOt+UmHGiADEvZDiLYuUrBYukCAScTEnWxRNQREYghINN4B+5Em/jMVLi7FLLcv
-	 O9d5zoOCTja7kwkdFwcwCzm0oH7MDrbGAgsWSTurKxFtByi5vxJ0mbc3bF+CDjKfRT
-	 NNgUwLsG+Cf5w==
+	s=k20201202; t=1753348832;
+	bh=hqvA7P/13its3aivenGaO2NqOrueFUv24Dfs34xTs3s=;
+	h=From:To:Cc:Subject:Date:From;
+	b=bJ2H1yd+9vc/FEBk/fbohVen2PmqHcG/pXX6ekau9eKDs359qCUhbSwGOT9vrR+GG
+	 3ncMojhITojXR7GKfRe98V8GzdCQbqVPTZQeHp3F0JY4RWrdpdmn1KWA5BeZDoGgUR
+	 ANvCm4yavEQvxbDyHBuCTM3nOSLLTouK3LxnkRdYLJMMt4uL+up+gnd5K/3DS1vkT/
+	 4AmEv1gyDBmfncuOSokYT2x98urb4r2AfsqZbXZDulPp57kUvt/ncgReP93sdCefwh
+	 IOrHWG/ufDO0wcw9P2XozWtWWrbdwC1H7E4ucsZKsvMEWfC+NpENjbmz3Q8nhJq+tL
+	 Wc0LGgQ+KGOpQ==
 Received: from johan by xi.lan with local (Exim 4.98.2)
 	(envelope-from <johan@kernel.org>)
-	id 1ues6n-000000005V1-3sbp;
-	Thu, 24 Jul 2025 11:19:25 +0200
+	id 1ues7n-000000005Wt-25Vy;
+	Thu, 24 Jul 2025 11:20:27 +0200
 From: Johan Hovold <johan@kernel.org>
-To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	Thinh Nguyen <Thinh.Nguyen@synopsys.com>,
-	Bin Liu <b-liu@ti.com>
-Cc: Shawn Guo <shawnguo@kernel.org>,
-	Sascha Hauer <s.hauer@pengutronix.de>,
-	Pengutronix Kernel Team <kernel@pengutronix.de>,
-	Fabio Estevam <festevam@gmail.com>,
-	Neil Armstrong <neil.armstrong@linaro.org>,
-	Kevin Hilman <khilman@baylibre.com>,
-	Jerome Brunet <jbrunet@baylibre.com>,
-	Martin Blumenstingl <martin.blumenstingl@googlemail.com>,
-	linux-usb@vger.kernel.org,
+To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+Cc: linux-usb@vger.kernel.org,
 	linux-kernel@vger.kernel.org,
-	Johan Hovold <johan@kernel.org>,
-	stable@vger.kernel.org,
-	Roger Quadros <rogerq@kernel.org>
-Subject: [PATCH 4/5] usb: musb: omap2430: fix device leak at unbind
-Date: Thu, 24 Jul 2025 11:19:09 +0200
-Message-ID: <20250724091910.21092-5-johan@kernel.org>
+	Johan Hovold <johan@kernel.org>
+Subject: [PATCH] usb: gadget: udc: renesas_usb3: drop unused module alias
+Date: Thu, 24 Jul 2025 11:20:06 +0200
+Message-ID: <20250724092006.21216-1-johan@kernel.org>
 X-Mailer: git-send-email 2.49.1
-In-Reply-To: <20250724091910.21092-1-johan@kernel.org>
-References: <20250724091910.21092-1-johan@kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
@@ -61,76 +46,24 @@ List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-Make sure to drop the reference to the control device taken by
-of_find_device_by_node() during probe when the driver is unbound.
+Since commit f3323cd03e58 ("usb: gadget: udc: renesas_usb3: remove R-Car
+H3 ES1.* handling") the driver only supports OF probe so drop the unused
+platform module alias.
 
-Fixes: 8934d3e4d0e7 ("usb: musb: omap2430: Don't use omap_get_control_dev()")
-Cc: stable@vger.kernel.org	# 3.13
-Cc: Roger Quadros <rogerq@kernel.org>
 Signed-off-by: Johan Hovold <johan@kernel.org>
 ---
- drivers/usb/musb/omap2430.c | 14 +++++++++-----
- 1 file changed, 9 insertions(+), 5 deletions(-)
+ drivers/usb/gadget/udc/renesas_usb3.c | 1 -
+ 1 file changed, 1 deletion(-)
 
-diff --git a/drivers/usb/musb/omap2430.c b/drivers/usb/musb/omap2430.c
-index 2970967a4fd2..36f756f9b7f6 100644
---- a/drivers/usb/musb/omap2430.c
-+++ b/drivers/usb/musb/omap2430.c
-@@ -400,7 +400,7 @@ static int omap2430_probe(struct platform_device *pdev)
- 	ret = platform_device_add_resources(musb, pdev->resource, pdev->num_resources);
- 	if (ret) {
- 		dev_err(&pdev->dev, "failed to add resources\n");
--		goto err2;
-+		goto err_put_control_otghs;
- 	}
- 
- 	if (populate_irqs) {
-@@ -413,7 +413,7 @@ static int omap2430_probe(struct platform_device *pdev)
- 		res = platform_get_resource(pdev, IORESOURCE_MEM, 0);
- 		if (!res) {
- 			ret = -EINVAL;
--			goto err2;
-+			goto err_put_control_otghs;
- 		}
- 
- 		musb_res[i].start = res->start;
-@@ -441,14 +441,14 @@ static int omap2430_probe(struct platform_device *pdev)
- 		ret = platform_device_add_resources(musb, musb_res, i);
- 		if (ret) {
- 			dev_err(&pdev->dev, "failed to add IRQ resources\n");
--			goto err2;
-+			goto err_put_control_otghs;
- 		}
- 	}
- 
- 	ret = platform_device_add_data(musb, pdata, sizeof(*pdata));
- 	if (ret) {
- 		dev_err(&pdev->dev, "failed to add platform_data\n");
--		goto err2;
-+		goto err_put_control_otghs;
- 	}
- 
- 	pm_runtime_enable(glue->dev);
-@@ -463,7 +463,9 @@ static int omap2430_probe(struct platform_device *pdev)
- 
- err3:
- 	pm_runtime_disable(glue->dev);
--
-+err_put_control_otghs:
-+	if (!IS_ERR(glue->control_otghs))
-+		put_device(glue->control_otghs);
- err2:
- 	platform_device_put(musb);
- 
-@@ -477,6 +479,8 @@ static void omap2430_remove(struct platform_device *pdev)
- 
- 	platform_device_unregister(glue->musb);
- 	pm_runtime_disable(glue->dev);
-+	if (!IS_ERR(glue->control_otghs))
-+		put_device(glue->control_otghs);
- }
- 
- #ifdef CONFIG_PM
+diff --git a/drivers/usb/gadget/udc/renesas_usb3.c b/drivers/usb/gadget/udc/renesas_usb3.c
+index d23b1762e0e4..bdb88ab0ff73 100644
+--- a/drivers/usb/gadget/udc/renesas_usb3.c
++++ b/drivers/usb/gadget/udc/renesas_usb3.c
+@@ -3024,4 +3024,3 @@ module_platform_driver(renesas_usb3_driver);
+ MODULE_DESCRIPTION("Renesas USB3.0 Peripheral driver");
+ MODULE_LICENSE("GPL v2");
+ MODULE_AUTHOR("Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>");
+-MODULE_ALIAS("platform:renesas_usb3");
 -- 
 2.49.1
 
