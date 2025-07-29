@@ -1,131 +1,63 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.15])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BA864292B3D;
-	Tue, 29 Jul 2025 15:21:03 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.15
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B1D36255F27;
+	Tue, 29 Jul 2025 18:39:57 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1753802466; cv=none; b=iXHTUNzssjmAV5iu4DOSK4HAXs3CaaLXHoKDRxG6g7lhcR7gaAFEmjeUmKhGUh2LwWU/sx1K1+J+9BxzDqV8vgSrBQBiotWb4rxKqXmJ8WL9waV7QYWFby/s2geTYYxKr5Wmm2uyfT/yHC0jbxIa0/WiOEA11UgUltP7mytj5WA=
+	t=1753814397; cv=none; b=qxRZhHKSqizzjezgWkYC0yUgJZzrCw+fSnl4uiFEHekhSHnRFg+4BU7aP3D5jaMb7Sr1isBvnCeNvwIeRBsVf7eHngLyIguB6sPCoUl7gweh1F2k2q9Qjnf0MZGAvklRUoloRD0u4EtlR1i8i+iWffNL1J8kunJuwCjdCuc//OE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1753802466; c=relaxed/simple;
-	bh=PJ605ARQguDhCFZo50hkDMxiA0Q8GgGg9/9dBOXj6aA=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=IuRl9bjVvdRlv/Yyk+cgcEAPgnkKxo+iF29HtEsr226HxBhqRhwf6XvUoX10z+dRmXvwUt+SPgq77XxeFh4gGNNT2Bx9a2kD82oj51S9TPZ8dwPWBSbGMkHNkRDTK4SDGWqF5ZcdTb8yumKxDMM2OxYk59YH+ManialC+ivlCpM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=none smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=XmRM8d1s; arc=none smtp.client-ip=198.175.65.15
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=linux.intel.com
+	s=arc-20240116; t=1753814397; c=relaxed/simple;
+	bh=KQOtmDXH1BtTjIG0VTWQWNgUGw7+W5U+f2f8dvTfO1w=;
+	h=Subject:From:In-Reply-To:References:Message-Id:Date:To:Cc; b=K9Mw6PsR87Epw4o0/AisbtucXm6LOJFLy+eCF1/yX45RkmN5gTVTWH8YykO6IvWVpKXOXG/qwUkXOSh4bTd9RESyiEs5m6H6S1XKNHNxH2PimzU35g0K+YkVKy6LPAo4tRiCmzDS/PIvEfeyJ4i2DibJenX5iyfDWQtGUmD10NM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=NzCnUG60; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="XmRM8d1s"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1753802464; x=1785338464;
-  h=message-id:date:mime-version:subject:to:cc:references:
-   from:in-reply-to:content-transfer-encoding;
-  bh=PJ605ARQguDhCFZo50hkDMxiA0Q8GgGg9/9dBOXj6aA=;
-  b=XmRM8d1sLZghxkedtGlKhzwnVDlX7nYc1ZuEWA31vePS+i88zLt83hMR
-   5RFMZ92N1+OKWy6c1veWIlwskzDwbtnX++SFGdN/ZvK2SVhV0A6SoPD1i
-   8vU9Z3f6CAK/3kvkrmPkYvIck3qi6/moWjk/3IsYM0zYZ/eYa6hTwfg3z
-   VAavgZm9vRkGOQhDW9hjPd7SPI83hcPsNrmwqzgkpIQK4butiwtcajdFD
-   vjqnsqlh2W4CLvaYXhU4HfDL5wAy4eh8mQJKHF6LniC2CsI2klws+4Tjx
-   BIAJw97efhuwa46TDITCgbLS7LUO1QtnPzBUnN2EiRJ49ClP39eR2hRtX
-   Q==;
-X-CSE-ConnectionGUID: SjvUHwU/SS2LVhRqzhExPA==
-X-CSE-MsgGUID: i2nGsHjBS96zqOonN4YzhA==
-X-IronPort-AV: E=McAfee;i="6800,10657,11506"; a="59722810"
-X-IronPort-AV: E=Sophos;i="6.16,349,1744095600"; 
-   d="scan'208";a="59722810"
-Received: from fmviesa007.fm.intel.com ([10.60.135.147])
-  by orvoesa107.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 29 Jul 2025 08:21:04 -0700
-X-CSE-ConnectionGUID: qdbqXlTiRBKoHflU+LfHDg==
-X-CSE-MsgGUID: EVyiJOoQQsGLC5ddS2b97Q==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.16,349,1744095600"; 
-   d="scan'208";a="162308092"
-Received: from mnyman-desk.fi.intel.com (HELO [10.237.72.199]) ([10.237.72.199])
-  by fmviesa007.fm.intel.com with ESMTP; 29 Jul 2025 08:21:01 -0700
-Message-ID: <c47814bf-85f0-4bd1-bc33-63f06b44d9c9@linux.intel.com>
-Date: Tue, 29 Jul 2025 18:20:59 +0300
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="NzCnUG60"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 9616DC4CEF6;
+	Tue, 29 Jul 2025 18:39:57 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1753814397;
+	bh=KQOtmDXH1BtTjIG0VTWQWNgUGw7+W5U+f2f8dvTfO1w=;
+	h=Subject:From:In-Reply-To:References:Date:To:Cc:From;
+	b=NzCnUG60fZGEl1/TW03G3Jr96IbPRX7Sm5FVGHaNuZLRRW6iUX70kZ39V0XIp0JaS
+	 7r/OkOJILmqQR/p0Tp2fq4DrjjPC9NohtRsSwrm/wAeGPTJe9mtKT/4FJNZfc8iPE8
+	 r3CBgHJ8eUBeJjycMMx3dcJMdruXrM79dbLEFituNvjQMrtc0bEso80eSnu5LcssYU
+	 wyD/J68tnDwL3JF8t/AlLy1PW12mFxGR5Uz23Pvcl3sXdL6i+WxG7ORSTysJWt1Jfd
+	 LfHkZQ5R3s0ozJRGzSN3m/vq5NCWv6Sqeuu/l9E8W3ZlfVmorHYoi4SxWqcaPnXhDf
+	 Z8SNjPtvDlBbg==
+Received: from [10.30.226.235] (localhost [IPv6:::1])
+	by aws-us-west-2-korg-oddjob-rhel9-1.codeaurora.org (Postfix) with ESMTP id 19968383BF61;
+	Tue, 29 Jul 2025 18:40:15 +0000 (UTC)
+Subject: Re: [GIT PULL] USB/Thunderbolt driver updates for 6.17-rc1
+From: pr-tracker-bot@kernel.org
+In-Reply-To: <aIea0h6hkgqgeFUf@kroah.com>
+References: <aIea0h6hkgqgeFUf@kroah.com>
+X-PR-Tracked-List-Id: <linux-usb.vger.kernel.org>
+X-PR-Tracked-Message-Id: <aIea0h6hkgqgeFUf@kroah.com>
+X-PR-Tracked-Remote: git://git.kernel.org/pub/scm/linux/kernel/git/gregkh/usb.git tags/usb-6.17-rc1
+X-PR-Tracked-Commit-Id: 51d4b0a44c82e5eff056ef76acd2c3c605a8eb74
+X-PR-Merge-Tree: torvalds/linux.git
+X-PR-Merge-Refname: refs/heads/master
+X-PR-Merge-Commit-Id: 4eee1520ea845a6d6d82e85498d9412419560871
+Message-Id: <175381441383.1585410.15507318222720685900.pr-tracker-bot@kernel.org>
+Date: Tue, 29 Jul 2025 18:40:13 +0000
+To: Greg KH <gregkh@linuxfoundation.org>
+Cc: Linus Torvalds <torvalds@linux-foundation.org>, Andrew Morton <akpm@linux-foundation.org>, linux-kernel@vger.kernel.org, linux-usb@vger.kernel.org
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH] usb: renesas-xhci: Fix External ROM access timeouts
-To: Marek Vasut <marek.vasut+renesas@mailbox.org>, linux-usb@vger.kernel.org
-Cc: Geert Uytterhoeven <geert+renesas@glider.be>,
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
- Mathias Nyman <mathias.nyman@intel.com>, Vinod Koul <vkoul@kernel.org>,
- stable@vger.kernel.org, linux-renesas-soc@vger.kernel.org
-References: <20250727154516.11599-1-marek.vasut+renesas@mailbox.org>
-Content-Language: en-US
-From: Mathias Nyman <mathias.nyman@linux.intel.com>
-In-Reply-To: <20250727154516.11599-1-marek.vasut+renesas@mailbox.org>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
 
-On 27.7.2025 18.44, Marek Vasut wrote:
-> Increase the External ROM access timeouts to prevent failures during
-> programming of External SPI EEPROM chips. The current timeouts are
-> too short for some SPI EEPROMs used with uPD720201 controllers.
-> 
-> The current timeout for Chip Erase in renesas_rom_erase() is 100 ms ,
-> the current timeout for Sector Erase issued by the controller before
-> Page Program in renesas_fw_download_image() is also 100 ms. Neither
-> timeout is sufficient for e.g. the Macronix MX25L5121E or MX25V5126F.
-> 
-> MX25L5121E reference manual [1] page 35 section "ERASE AND PROGRAMMING
-> PERFORMANCE" and page 23 section "Table 8. AC CHARACTERISTICS (Temperature
-> = 0°C to 70°C for Commercial grade, VCC = 2.7V ~ 3.6V)" row "tCE" indicate
-> that the maximum time required for Chip Erase opcode to complete is 2 s,
-> and for Sector Erase it is 300 ms .
-> 
-> MX25V5126F reference manual [2] page 47 section "13. ERASE AND PROGRAMMING
-> PERFORMANCE (2.3V - 3.6V)" and page 42 section "Table 8. AC CHARACTERISTICS
-> (Temperature = -40°C to 85°C for Industrial grade, VCC = 2.3V - 3.6V)" row
-> "tCE" indicate that the maximum time required for Chip Erase opcode to
-> complete is 3.2 s, and for Sector Erase it is 400 ms .
-> 
-> Update the timeouts such, that Chip Erase timeout is set to 5 seconds,
-> and Sector Erase timeout is set to 500 ms. Such lengthy timeouts ought
-> to be sufficient for majority of SPI EEPROM chips.
-> 
-> [1] https://www.macronix.com/Lists/Datasheet/Attachments/8634/MX25L5121E,%203V,%20512Kb,%20v1.3.pdf
-> [2] https://www.macronix.com/Lists/Datasheet/Attachments/8750/MX25V5126F,%202.5V,%20512Kb,%20v1.1.pdf
-> 
-> Fixes: 2478be82de44 ("usb: renesas-xhci: Add ROM loader for uPD720201")
-> Signed-off-by: Marek Vasut <marek.vasut+renesas@mailbox.org>
-> ---
-> Cc: Geert Uytterhoeven <geert+renesas@glider.be>
-> Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-> Cc: Mathias Nyman <mathias.nyman@intel.com>
-> Cc: Vinod Koul <vkoul@kernel.org>
-> Cc: <stable@vger.kernel.org>
-> Cc: linux-renesas-soc@vger.kernel.org
-> Cc: linux-usb@vger.kernel.org
-> ---
->   drivers/usb/host/xhci-pci-renesas.c | 7 ++++---
->   1 file changed, 4 insertions(+), 3 deletions(-)
-> 
-> diff --git a/drivers/usb/host/xhci-pci-renesas.c b/drivers/usb/host/xhci-pci-renesas.c
-> index 620f8f0febb8..86df80399c9f 100644
-> --- a/drivers/usb/host/xhci-pci-renesas.c
-> +++ b/drivers/usb/host/xhci-pci-renesas.c
-> @@ -47,8 +47,9 @@
->   #define RENESAS_ROM_ERASE_MAGIC				0x5A65726F
->   #define RENESAS_ROM_WRITE_MAGIC				0x53524F4D
->   
-> -#define RENESAS_RETRY	10000
-> -#define RENESAS_DELAY	10
-> +#define RENESAS_RETRY			50000	/* 50000 * RENESAS_DELAY ~= 500ms */
-> +#define RENESAS_CHIP_ERASE_RETRY	500000	/* 500000 * RENESAS_DELAY ~= 5s */
-> +#define RENESAS_DELAY			10
+The pull request you sent on Mon, 28 Jul 2025 17:44:18 +0200:
 
-No objection, just making sure author is aware that RENESAS_RETRY is used in
-_seven_ for loops, and this change will increase the timeout five-fold for
-all of them.
+> git://git.kernel.org/pub/scm/linux/kernel/git/gregkh/usb.git tags/usb-6.17-rc1
 
-Thanks
-Mathias
+has been merged into torvalds/linux.git:
+https://git.kernel.org/torvalds/c/4eee1520ea845a6d6d82e85498d9412419560871
 
+Thank you!
+
+-- 
+Deet-doot-dot, I am a bot.
+https://korg.docs.kernel.org/prtracker.html
