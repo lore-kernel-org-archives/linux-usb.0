@@ -1,201 +1,86 @@
-Received: from mail-pf1-f182.google.com (mail-pf1-f182.google.com [209.85.210.182])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7F276277CAF;
-	Wed, 30 Jul 2025 09:36:18 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.182
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0BE14635;
+	Wed, 30 Jul 2025 09:56:12 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1753868181; cv=none; b=e05oKIshzfzIjysMe2qDojdSwCsEfDO7IgHE1XrSGJ03r9hGoaCQ3pH7VM1TLLebHK6yYkE/CRpu7rYE/OxH7AuHvAT44foivoCnbV6lSK0UWn/SylruUvOtzrnBzZpanlttTsxmyLqV/33OzYsOFZxIZx3mpyDfdIgcABuX9ZM=
+	t=1753869373; cv=none; b=Yj4eilCbAFT/Dq8ESv1B9IDtowiwSnPkV2YyyCxM6gBLd79ZyIpBaRnXwD7CundHgZT70Fl6kC034SHbfsJ+BV9n75BzX6NrV371c34I1InFLryiM2LrbaaBHAbpmS+q003nVKvUvXvHUrpcO9cNn1iu9PDFA55sKKE48vlMiXI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1753868181; c=relaxed/simple;
-	bh=c2GH0rNGWLSNkTpOjy4OMDbtOxD8avJx7PsDc1FiDT4=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=Y974Iz/HdQJO8sxhK1Sq2U3Lf32y3hOXJqLKuvYizEbVX+dTfn2OqAMJybCV+48gNhe7QJpuOUNtK4K8uXPZrO+wm6tdXsqplQxIUCEv2pfoza4qEIZWpMH/uyOvXQ25zwbA+N9VMUDGuh3nE5XeA1JSwOCCw44k9kB7eEKvsKc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=AV0TAGBr; arc=none smtp.client-ip=209.85.210.182
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1753869373; c=relaxed/simple;
+	bh=SIXAr+KqhJD9vQZTqReUx3UJgWlIwotFz/eYRQc7yKw=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=l4Cuv605ZQTc84bZbtDY1Ypaf1SVKSdKmTbw6Tf6VI8KXwMBj8DUY46HzPL2WDP+Zaz1yjxw0PjKOzH6ch5mIx7Re7jqnTsCGUfhWqh7FNelSBo1NzGvgZqhIQLABB1l31ZyIQ+d135DG4GT/G7XLOPKs3w1bgPdp9E/BChq2rU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b=AWzCNeWi; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="AV0TAGBr"
-Received: by mail-pf1-f182.google.com with SMTP id d2e1a72fcca58-75001b1bd76so4199858b3a.2;
-        Wed, 30 Jul 2025 02:36:18 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1753868177; x=1754472977; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=ssDVlCsCS3jSCW7a4ghd6/R/IH3Ziy5fSjKUqHewJCs=;
-        b=AV0TAGBru96dqdj/sFz9LwG4DaO508QfYRpQ5/hSe23f7dRRaM6wTmgF96jfsvc4Qj
-         wxKW0EUcrXEIsjoCunlAISMTrNsKRQd7vRfLNU9Lq8XvoDXNOKm8GSazRC4cuzFqSilG
-         5S2eA/Elhe3GiDVe5g339rfIqJ4Zp7+U6wLO65dp6hOK1WdCyWQY+9gVTEyulTSuGFJF
-         93oLvo0422eF6J4psNrVYuzRVkbVTkfZ7fZnlL0nqSCFgXTGfDbq+bRHfNxNquKu2YYs
-         HFG0oX/25/gWbQ/e+wZrIqB4/iCL5jS/GU5P0SudrZNbDUxrZ8JlMy7XCtc6X1M+CDGW
-         WC0A==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1753868177; x=1754472977;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=ssDVlCsCS3jSCW7a4ghd6/R/IH3Ziy5fSjKUqHewJCs=;
-        b=iqwfHSIbdEw4B2j8pl9dyUCqU5Wn+m+wb9rhsDsn2me3egFj8PVxsasOkHfbpjftFa
-         NeSnmjz97DUn0f+hxs3qFmBfKtZ1XYgSF5V6rJnZSEanOnQSsCvOJ0llPphgSMGTBXwi
-         qGsRVdFS2ZyGbjINkXZZIN7PuzZiu7zw2K//dSCVUvcEfXKuV2sC5kBXpUZ9xO5b49SD
-         cgcEBcmmEynDg44K24IvcrzqP8W24527Qa5VbSuhyYAxlkl53RrI8mJ0IrQfNczSmQEV
-         S+nvt53jyesaVsGFVla8fADQrv2DLv55qEmMX/QLhLTdpzgoyGoobNhSW+8TtfNOmrNx
-         LS+g==
-X-Forwarded-Encrypted: i=1; AJvYcCVhLYyviGwoMfJg9jioruHVgIdvDjnmRtiQEKQMTk/KdAFvTGZJpfbvYwIcS0V7VJU4rP5A3ZUldT3DEUY=@vger.kernel.org
-X-Gm-Message-State: AOJu0Ywi4Rx+fkJIKwW7ArCvDynT8f25+WEBlFD0rt/wTCfnIi8+Bvvs
-	6n3jXUrybQ15ac+tpWp8lUwVKlmvDSJNVcM4YgWNLGqWqgVhBZZOmAst
-X-Gm-Gg: ASbGncvWyjYx3rgkOaRqCA8mNhy+cKN9aQTyIIIbjllobxFX82c11Tpeih3QxX2Zext
-	Wnb+o7yrOgL1NeOP/dq/ki6FYBwhH81zKAxNx/NpbtCrJ1aNJBiA2/3Vn3ZO2HPXERCs0xG9TQh
-	TJ/CjiMaAv9pSK41fgM5z1UMI7EY6PngSn33zPUuArKZ5hAftfEMHMyDRPmfBRN0EFQfkSwiYYC
-	KIz5jpQpkPrr5eVAvILO6CQDPXhumakyZE7dVF1RjEnA2wSoPUSeAm3LRP30WaH4d4qyHxceO6n
-	GA8QNPd0FOVBJaOklc5OydM8pTVXQqOYgF8FyJX5RLItoFEuAf+kPQFQ4IUwur04rJ2uZ9UMhAX
-	R5AGE5L/wNh2G1rXvOloufkh/kBejYw5Iho6hUZvPmFococCQx2Jfxc1ZLuP5OQYdTsxYFqyhYw
-	==
-X-Google-Smtp-Source: AGHT+IEkegB4qW3NBL1Htv2lZAEOtQ654FZ/2szFdy4KcwXFd0xODhnxhuJYgNKiowD1gC09+N2zrg==
-X-Received: by 2002:a05:6a20:6a21:b0:220:90a9:a91b with SMTP id adf61e73a8af0-23dc0d321b7mr4050211637.9.1753868177439;
-        Wed, 30 Jul 2025 02:36:17 -0700 (PDT)
-Received: from SIQOL-WIN-0002-DARSHAN.localdomain ([49.36.70.111])
-        by smtp.gmail.com with ESMTPSA id d9443c01a7336-240087fc42bsm75689305ad.153.2025.07.30.02.36.15
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 30 Jul 2025 02:36:17 -0700 (PDT)
-From: Darshan Rathod <darshanrathod475@gmail.com>
-To: gregkh@linuxfoundation.org,
-	m.grzeschik@pengutronix.de
-Cc: linux-usb@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	Darshan Rathod <darshanrathod475@gmail.com>
-Subject: [PATCH] usb: gadget: uvc: clean up code style for checkpatch compliance
-Date: Wed, 30 Jul 2025 08:19:15 +0000
-Message-ID: <20250730081915.12878-1-darshanrathod475@gmail.com>
-X-Mailer: git-send-email 2.43.0
+	dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="AWzCNeWi"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 13822C4CEE7;
+	Wed, 30 Jul 2025 09:56:11 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
+	s=korg; t=1753869372;
+	bh=SIXAr+KqhJD9vQZTqReUx3UJgWlIwotFz/eYRQc7yKw=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=AWzCNeWiU5m/RjZ5FceOgpY0BsujxU1QW2EsEhyuoofP/pquutHV1aU5NzUrv+VRt
+	 NWg/5V4jDt1ALQShSWy6KPUCldG6+JId/iNltutmwLEDvjVDAR4WZvS/rRnYNZhvSz
+	 f+TmbKhaQn3ajPx388Lt80ePVVyd1WdiR5Mdkx4I=
+Date: Wed, 30 Jul 2025 11:45:20 +0200
+From: Greg KH <gregkh@linuxfoundation.org>
+To: Darshan Rathod <darshanrathod475@gmail.com>
+Cc: m.grzeschik@pengutronix.de, linux-usb@vger.kernel.org,
+	linux-kernel@vger.kernel.org
+Subject: Re: [PATCH] usb: gadget: uvc: clean up code style for checkpatch
+ compliance
+Message-ID: <2025073059-moneybags-illicitly-8e1f@gregkh>
+References: <20250730081915.12878-1-darshanrathod475@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20250730081915.12878-1-darshanrathod475@gmail.com>
 
-This patch fixes a few coding style issues:
-- Avoids assignments in if conditions
-- Corrects parameter indentation and alignment
-- Trims inconsistent spacing
+On Wed, Jul 30, 2025 at 08:19:15AM +0000, Darshan Rathod wrote:
+> This patch fixes a few coding style issues:
+> - Avoids assignments in if conditions
+> - Corrects parameter indentation and alignment
+> - Trims inconsistent spacing
+> 
+> All updates conform to kernel coding standards and improve maintainability.
+> 
+> Signed-off-by: Darshan Rathod <darshanrathod475@gmail.com>
+> ---
+>  drivers/usb/gadget/function/uvc_video.c | 26 +++++++++++++------------
+>  1 file changed, 14 insertions(+), 12 deletions(-)
 
-All updates conform to kernel coding standards and improve maintainability.
+Hi,
 
-Signed-off-by: Darshan Rathod <darshanrathod475@gmail.com>
----
- drivers/usb/gadget/function/uvc_video.c | 26 +++++++++++++------------
- 1 file changed, 14 insertions(+), 12 deletions(-)
+This is the friendly patch-bot of Greg Kroah-Hartman.  You have sent him
+a patch that has triggered this response.  He used to manually respond
+to these common problems, but in order to save his sanity (he kept
+writing the same thing over and over, yet to different people), I was
+created.  Hopefully you will not take offence and will fix the problem
+in your patch and resubmit it so that it can be accepted into the Linux
+kernel tree.
 
-diff --git a/drivers/usb/gadget/function/uvc_video.c b/drivers/usb/gadget/function/uvc_video.c
-index fb77b0b21790..fe176ba4ac6b 100644
---- a/drivers/usb/gadget/function/uvc_video.c
-+++ b/drivers/usb/gadget/function/uvc_video.c
-@@ -27,7 +27,7 @@
- 
- static int
- uvc_video_encode_header(struct uvc_video *video, struct uvc_buffer *buf,
--		u8 *data, int len)
-+			u8 *data, int len)
- {
- 	struct uvc_device *uvc = container_of(video, struct uvc_device, video);
- 	struct usb_composite_dev *cdev = uvc->func.config->cdev;
-@@ -57,7 +57,7 @@ uvc_video_encode_header(struct uvc_video *video, struct uvc_buffer *buf,
- 
- 		data[1] |= UVC_STREAM_SCR;
- 		put_unaligned_le32(stc, &data[pos]);
--		put_unaligned_le16(sof, &data[pos+4]);
-+		put_unaligned_le16(sof, &data[pos + 4]);
- 		pos += 6;
- 	}
- 
-@@ -71,7 +71,7 @@ uvc_video_encode_header(struct uvc_video *video, struct uvc_buffer *buf,
- 
- static int
- uvc_video_encode_data(struct uvc_video *video, struct uvc_buffer *buf,
--		u8 *data, int len)
-+		      u8 *data, int len)
- {
- 	struct uvc_video_queue *queue = &video->queue;
- 	unsigned int nbytes;
-@@ -89,7 +89,7 @@ uvc_video_encode_data(struct uvc_video *video, struct uvc_buffer *buf,
- 
- static void
- uvc_video_encode_bulk(struct usb_request *req, struct uvc_video *video,
--		struct uvc_buffer *buf)
-+		      struct uvc_buffer *buf)
- {
- 	void *mem = req->buf;
- 	struct uvc_request *ureq = req->context;
-@@ -132,7 +132,7 @@ uvc_video_encode_bulk(struct usb_request *req, struct uvc_video *video,
- 
- static void
- uvc_video_encode_isoc_sg(struct usb_request *req, struct uvc_video *video,
--		struct uvc_buffer *buf)
-+			 struct uvc_buffer *buf)
- {
- 	unsigned int pending = buf->bytesused - video->queue.buf_used;
- 	struct uvc_request *ureq = req->context;
-@@ -187,7 +187,7 @@ uvc_video_encode_isoc_sg(struct usb_request *req, struct uvc_video *video,
- 	video->queue.buf_used += req->length - header_len;
- 
- 	if (buf->bytesused == video->queue.buf_used || !buf->sg ||
--			video->queue.flags & UVC_QUEUE_DROP_INCOMPLETE) {
-+	    video->queue.flags & UVC_QUEUE_DROP_INCOMPLETE) {
- 		video->queue.buf_used = 0;
- 		buf->state = UVC_BUF_STATE_DONE;
- 		buf->offset = 0;
-@@ -199,7 +199,7 @@ uvc_video_encode_isoc_sg(struct usb_request *req, struct uvc_video *video,
- 
- static void
- uvc_video_encode_isoc(struct usb_request *req, struct uvc_video *video,
--		struct uvc_buffer *buf)
-+		      struct uvc_buffer *buf)
- {
- 	void *mem = req->buf;
- 	struct uvc_request *ureq = req->context;
-@@ -218,7 +218,7 @@ uvc_video_encode_isoc(struct usb_request *req, struct uvc_video *video,
- 	req->length = buf->req_payload_size - len;
- 
- 	if (buf->bytesused == video->queue.buf_used ||
--			video->queue.flags & UVC_QUEUE_DROP_INCOMPLETE) {
-+	    video->queue.flags & UVC_QUEUE_DROP_INCOMPLETE) {
- 		video->queue.buf_used = 0;
- 		buf->state = UVC_BUF_STATE_DONE;
- 		list_del(&buf->queue);
-@@ -473,7 +473,6 @@ static void uvcg_video_hw_submit(struct kthread_work *work)
- 			 * There is a new free request - wake up the pump.
- 			 */
- 			queue_work(video->async_wq, &video->pump);
--
- 		}
- 
- 		spin_unlock_irqrestore(&video->req_lock, flags);
-@@ -777,18 +776,21 @@ int uvcg_video_enable(struct uvc_video *video)
- 	 */
- 	video->is_enabled = true;
- 
--	if ((ret = uvcg_queue_enable(&video->queue, 1)) < 0)
-+	ret = uvcg_queue_enable(&video->queue, 1);
-+	if (ret < 0)
- 		return ret;
- 
--	if ((ret = uvc_video_alloc_requests(video)) < 0)
-+	ret = uvc_video_alloc_requests(video);
-+	if (ret < 0)
- 		return ret;
- 
- 	if (video->max_payload_size) {
- 		video->encode = uvc_video_encode_bulk;
- 		video->payload_size = 0;
--	} else
-+	} else {
- 		video->encode = video->queue.use_sg ?
- 			uvc_video_encode_isoc_sg : uvc_video_encode_isoc;
-+	}
- 
- 	video->req_int_count = 0;
- 
--- 
-2.43.0
+You are receiving this message because of the following common error(s)
+as indicated below:
 
+- Your patch did many different things all at once, making it difficult
+  to review.  All Linux kernel patches need to only do one thing at a
+  time.  If you need to do multiple things (such as clean up all coding
+  style issues in a file/driver), do it in a sequence of patches, each
+  one doing only one thing.  This will make it easier to review the
+  patches to ensure that they are correct, and to help alleviate any
+  merge issues that larger patches can cause.
+
+If you wish to discuss this problem further, or you have questions about
+how to resolve this issue, please feel free to respond to this email and
+Greg will reply once he has dug out from the pending patches received
+from other developers.
+
+thanks,
+
+greg k-h's patch email bot
