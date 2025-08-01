@@ -1,83 +1,93 @@
-Received: from pp2023.ppsmtp.net (pp2023.ppsmtp.net [132.145.231.115])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.17])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 286757260D;
-	Fri,  1 Aug 2025 12:39:02 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=132.145.231.115
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 31D28247284;
+	Fri,  1 Aug 2025 13:06:30 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.17
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1754051944; cv=none; b=kVDPmFAI0V4c6qDN2ugQJ/fbKh81KLXvnPBo80tatzHAHutYr0XvrshQE0up436jf2KEC8AAfF97Ek9gwFPwh5IAIaB6lGdGFV8pSDn1BjRbl7npAuSwzGlTdZRkzlvYVWlgUlXbrJVbXdgJJXWyWDMGv5ckr/bED7MjyGovStg=
+	t=1754053593; cv=none; b=keYNY0NgeHfLXkJ+/efkYGr0nKNG55fXCLsvt1S0bT/L9zx+ZC8DOdIIPi6SkQlFMPbqAXOhf1JUXfWS9ae+Mkzy+ifzeErx01qWnJsGQoKqTxPvC3ZiZmAguYzlrMEg0ux+dZyRzpLGbkpX6PymD7Pc9tGYsxfBch591bIK8hg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1754051944; c=relaxed/simple;
-	bh=AIgaXLU6VVb21Oq2YknimM6q0Lj3pcJxXxaBsB43KOQ=;
-	h=Date:From:To:CC:Subject:In-Reply-To:Message-ID:References:
-	 MIME-Version:Content-Type; b=anoFXzstcV93nHNmvna1sg8HBm4EwgimzRVnHxTaerfUDB8GD9awx+FQMU4O6Id6jpunDRttplKqSsZUpVAhuJQBQGpfTrGCZ0g5BdQe2pcI1vvc18v5dxqJ6gEjsuBIQ/vfrrdtmv/6RKmMhFYjRTiRVIMEgFx7NtbJweQ4Flo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=ifm.com; spf=pass smtp.mailfrom=ifm.com; dkim=pass (2048-bit key) header.d=ifm.com header.i=@ifm.com header.b=hooaJxhw; arc=none smtp.client-ip=132.145.231.115
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=ifm.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ifm.com
+	s=arc-20240116; t=1754053593; c=relaxed/simple;
+	bh=sEw9KSgIPZRHJ1gVK4TjPXW0BX1S9WDtiHbYXd25qCw=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=J55j+53zPAo3VUIC/+nCLBscjzVMXMiosZi/7toAjogWCpv1ECnhi0vPAGg9K/Ugy0It3f+VFFyCEX8pHKhio1uaNmxIlFh1KkFrsy3WPg0cMe6fEKIWi1F6vq3WLDJA1XdqvBnRg0Q7KlZ3axU7jOLx/A99o01os+NAYHtBNKY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=none smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=MbsM8BNI; arc=none smtp.client-ip=198.175.65.17
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=linux.intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=ifm.com header.i=@ifm.com header.b="hooaJxhw"
-Received: from pps.filterd (pp2023.ppsmtp.internal [127.0.0.1])
-	by pp2023.ppsmtp.internal (8.18.1.2/8.18.1.2) with ESMTP id 5719jZBl027083;
-	Fri, 1 Aug 2025 14:06:30 +0200
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ifm.com; h=cc : content-type : date
- : from : in-reply-to : message-id : mime-version : references : subject :
- to; s=pps; bh=lpH3xkMAjRdqOgEf0utAOyXzcKUV6T2rnEhq3u+IzPA=;
- b=hooaJxhwctkWK4rZUeBNW4ffD2FQRtJ3xgHdjCT9xDyL3UbbIM/SkagCTfL4BAmoCC98
- /atcNbv5wQ3lOj/JSqGSHsFzzkKbd71SrXgv8fdLncFJqmXs4fJsvspbhTvt7CzWvpe7
- XjDnZrtJbl8Os0BTRP/PsVHNuaw3DyCsZrpKRl6ZdZRE+8vSA1uneDA4UKnSygusjqju
- jjSXEqA0OOL8bWzxNXMmopqx1VikddEUc0gqM0gSKM0McjrhsTzTKU5V3ZcL3iC735Sm
- GuJ0owBcrwn2RGsLnyL+XS+XH339skz9dzwljEcpSl0rZfyGbOHBpojRBfJijUUrIq3t 4w== 
-Date: Fri, 1 Aug 2025 14:06:28 +0200
-From: Christoph Freundl <Christoph.Freundl@ifm.com>
-To: Xu Yang <xu.yang_2@nxp.com>
-CC: Greg KH <gregkh@linuxfoundation.org>, <linux-usb@vger.kernel.org>,
-        <peter.chen@kernel.org>, <sashal@kernel.org>, <stable@vger.kernel.org>,
-        <hui.pu@gehealthcare.com>
-Subject: Re: [GIT PULL] USB chipidea patches for linux-5.15.y and
- linux-6.1.y
-In-Reply-To: <20240903021135.5lzfybyv7rzty33d@hippo>
-Message-ID: <36406dea-f876-b3e-5ad7-69fdae97366a@ifm.com>
-References: <20240902092711.jwuf4kxbbmqsn7xk@hippo> <2024090235-baggage-iciness-b469@gregkh> <20240903021135.5lzfybyv7rzty33d@hippo>
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="MbsM8BNI"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1754053591; x=1785589591;
+  h=message-id:date:mime-version:subject:to:cc:references:
+   from:in-reply-to:content-transfer-encoding;
+  bh=sEw9KSgIPZRHJ1gVK4TjPXW0BX1S9WDtiHbYXd25qCw=;
+  b=MbsM8BNIQNqAAy8YGXToflpBEYcCVo4gVr+RQ+l74Yo2VR43PEF2BRLi
+   qceDqCrjztwFFTIdFiYrJjCR0iEnPpz+MCVXdC5WMKxZ7MCojeSg9krBF
+   SFyadHt+D9Hq6z4c9Psyb5/QLsYxBRg0J3nAK/PHgjJJaRQxILPOobnm8
+   kXWTmc+SeW44D23qrCGHHTx7oW/6/O6A17QdkbVs28RPqh9VW7EGqYnZI
+   g+Qk016AS/pTC8KE2OBoboca3HLYPXR6jBg0ApJWBd80YVwPr09l8xRiV
+   6yPIYTBD2sreGjBXpJhzm3u+lc66XCUh9Kqiyy3K2ggjkyk7EdrrNsfNl
+   g==;
+X-CSE-ConnectionGUID: QvXMwEMaTgiyx9Cx6G1zRA==
+X-CSE-MsgGUID: GJDISb8kROGbp62nyJg0NA==
+X-IronPort-AV: E=McAfee;i="6800,10657,11508"; a="56358984"
+X-IronPort-AV: E=Sophos;i="6.17,255,1747724400"; 
+   d="scan'208";a="56358984"
+Received: from orviesa002.jf.intel.com ([10.64.159.142])
+  by orvoesa109.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 01 Aug 2025 06:06:30 -0700
+X-CSE-ConnectionGUID: a7YXSyRgQW2Z1sLrJLrlvg==
+X-CSE-MsgGUID: X3MyL08pSt6KoYfPN6KGrA==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.17,255,1747724400"; 
+   d="scan'208";a="194522052"
+Received: from mnyman-desk.fi.intel.com (HELO [10.237.72.199]) ([10.237.72.199])
+  by orviesa002.jf.intel.com with ESMTP; 01 Aug 2025 06:06:28 -0700
+Message-ID: <42d12655-dca5-4465-a19d-17a2e4984d31@linux.intel.com>
+Date: Fri, 1 Aug 2025 16:06:26 +0300
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="US-ASCII"
-X-Proofpoint-ID: SID=48578gpnjh QID=48578gpnjh-4
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1099,Hydra:6.1.9,FMLib:17.12.80.40
- definitions=2025-08-01_04,2025-07-31_03,2025-03-28_01
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v3] usb:xhci:Fix slot_id resource race conflict
+To: Weitao Wang <WeitaoWang-oc@zhaoxin.com>, gregkh@linuxfoundation.org,
+ mathias.nyman@intel.com, linux-usb@vger.kernel.org,
+ linux-kernel@vger.kernel.org
+Cc: WeitaoWang@zhaoxin.com, wwt8723@163.com, CobeChen@zhaoxin.com,
+ stable@vger.kernel.org
+References: <20250730152715.8368-1-WeitaoWang-oc@zhaoxin.com>
+Content-Language: en-US
+From: Mathias Nyman <mathias.nyman@linux.intel.com>
+In-Reply-To: <20250730152715.8368-1-WeitaoWang-oc@zhaoxin.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 
-On Tue, 3 Sep 2024, Xu Yang wrote:
-> On Mon, Sep 02, 2024 at 02:14:04PM +0200, Greg KH wrote:
-> > On Mon, Sep 02, 2024 at 05:27:11PM +0800, Xu Yang wrote:
-> > > Hi Greg,
-> > >
-> > > The below two patches are needed on linux-5.15.y and linux-6.1.y, please
-> > > help to add them to the stable tree.
-> > >
-> > > b7a62611fab7 usb: chipidea: add USB PHY event
-> > > 87ed257acb09 usb: phy: mxs: disconnect line when USB charger is attached
-> > >
-> > > They are available in the Git repository at:
-> > >   git://git.kernel.org/pub/scm/linux/kernel/git/gregkh/usb.git branch usb-testing
-> >
-> > We don't do 'git pull' for stable patches, please read the file:
-> >     https://www.kernel.org/doc/html/latest/process/stable-kernel-rules.html
-> > for how to do this properly.
-> >
-> > Just send them through email please.
->
-> Okay. I'll follow the rules.
+On 30.7.2025 18.27, Weitao Wang wrote:
+> In such a scenario, device-A with slot_id equal to 1 is disconnecting
+> while device-B is enumerating, device-B will fail to enumerate in the
+> follow sequence.
+> 
+> 1.[device-A] send disable slot command
+> 2.[device-B] send enable slot command
+> 3.[device-A] disable slot command completed and wakeup waiting thread
+> 4.[device-B] enable slot command completed with slot_id equal to 1 and
+> wakeup waiting thread
+> 5.[device-B] driver check this slot_id was used by someone(device-A) in
+> xhci_alloc_virt_device, this device fails to enumerate as this conflict
+> 6.[device-A] xhci->devs[slot_id] set to NULL in xhci_free_virt_device
+> 
+> To fix driver's slot_id resources conflict, clear xhci->devs[slot_id] and
+> xhci->dcbba->dev_context_ptrs[slot_id] pointers in the interrupt context
+> when disable slot command completes successfully. Simultaneously, adjust
+> function xhci_free_virt_device to accurately handle device release.
+> 
+> Cc: stable@vger.kernel.org
+> Fixes: 7faac1953ed1 ("xhci: avoid race between disable slot command and host runtime suspend")
+> Signed-off-by: Weitao Wang <WeitaoWang-oc@zhaoxin.com>
 
-I want to bump this topic as this is still an issue, not only on the
-mentioned branches but also on linux-5.10.y. For the affected devices (a
-custom i.MX6 board in our case) you have to either revert commits
-e70b17282a5c3c and cc2d5cdb19e3 or apply above commits in order to make
-the USB interface work properly.
+Thanks, added to queue with some minor commit message tuning
 
-Many regards,
-Christoph
-
+-Mathias
