@@ -1,184 +1,368 @@
-Received: from mail-lf1-f41.google.com (mail-lf1-f41.google.com [209.85.167.41])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from metis.whiteo.stw.pengutronix.de (metis.whiteo.stw.pengutronix.de [185.203.201.7])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B4CF6243956
-	for <linux-usb@vger.kernel.org>; Tue,  5 Aug 2025 06:44:52 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.41
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BA5EA23ABB2
+	for <linux-usb@vger.kernel.org>; Tue,  5 Aug 2025 07:42:20 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.203.201.7
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1754376295; cv=none; b=CMEYCAkAQ5L54haFXsPZkjrCpUFl3DBsnNbRsmGTtaaY87jqVl9LiSlvzXH6kDyd8OFCx1zlSccCScOwBNpgCQZCzA6foLZ4eDctzGSh7Kv0xbhfiaS6nNQqSUj6gpnI7U+vQMUqfh7xPhILgmAsuBsrtaeXTT038j/kXyMq5BY=
+	t=1754379742; cv=none; b=sBoFvt+D2rQsGeBsOJ69NvZG3lL32b73LC7tTepUSGT5zn2EhWdNLPjHY6U2IAIY9WJxOJuah3I2b1yw4TE8xiL11a+EKx3veHcNHTBEiKNZM3rzDzyEquez7HZb21hFWOJN6/KxhSN02UqbkqhJpmCsAsthaGRWRRNubO9zgDg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1754376295; c=relaxed/simple;
-	bh=70KfqXyr0tc0pq9qDsSTIln2Mnzvs9JWaCq9f/Xk5Hs=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=ZyOEqB3WkCc2gx4MQERqE1e7HbLTngu1Lky9mHIpwnVX5F91Oe/eJCBSCLgMCFB+CysMJyx0vRBq/56kt0mvh+GU1u0WKzLJHlEB66ouAAb2Bb/1RLEDbjc81LkdaHUQ7ULEkTd10ANJcOIjAHwB7U4FH8gcCENlDuEb95pl7rY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=Uf/mvNHb; arc=none smtp.client-ip=209.85.167.41
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=google.com
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="Uf/mvNHb"
-Received: by mail-lf1-f41.google.com with SMTP id 2adb3069b0e04-55ba0f2f081so4774e87.1
-        for <linux-usb@vger.kernel.org>; Mon, 04 Aug 2025 23:44:52 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20230601; t=1754376291; x=1754981091; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=U82i/V6rRmI7haWGqVBfda5K95EEBBOxiTSSBste6CA=;
-        b=Uf/mvNHbRq4iDoqmKDnwabWnQdehsJJBl4rX1MrAosCSIHJZEOwjnXmmtwvfEadNRn
-         kSbfE2z6+6OYsALWWif9dJt7pUrU02XspMdK1x1j7BQZ94th5WKMkpJJtA7jzDeCxPiu
-         F+LzCnOVS2msluEK2iYZpSk+RARDYdiT5Jrz4Jv8xEmumt/KSV1TgS1O5gdwwaZAPoBh
-         jrau5so0nNnzZa1ggcy2VnUj/KeHWJg3iqXDJN1w0J+rW4z6Vg+6USVpHmG1jZFUqgen
-         8LVyTbMoxxnNSRzADtHlyKby9p4+UuTk1LkrbIQUeueIrJ0hPzWAAzWaKajwgZcLLbFF
-         2dGA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1754376291; x=1754981091;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=U82i/V6rRmI7haWGqVBfda5K95EEBBOxiTSSBste6CA=;
-        b=bYGWFgImgFH8xip49kK9l64Syz1Jl5S1iRU3/TdnX/7B1cC+j71w6Idg9MiIMdoOBw
-         xRYqJx5EA0LRxhAUHQb61wlKwJFB0AzkrfhckL5UxdlSlU8u0tvwfC13J0/C0QIHRk9l
-         biyXTA2XkSPH1I/QWVzaItk0NTBcNZTGvWhsoB2ifyh4i8aKo4NMworVh9AUYE7f36Jr
-         KbOdSMPsIDlLkAmnNItO5AjCsVn25KJ0u7B3YXriBEwmud+d7YI69B849yTKAeNhS8jk
-         xXLhK7OPBTujam1Un6sRN8MG7HEKc5aCI3ojrH7Y5VcAmaIZFdjYM0/7fz51RPiBJlAB
-         +Hxw==
-X-Forwarded-Encrypted: i=1; AJvYcCWaJWgdevJelF2d7AeJMO+Xc71RaQlx9POevCVzDKStFOY4Rld3ibIraiUlYeKwYsnZMbEjwlfDHQI=@vger.kernel.org
-X-Gm-Message-State: AOJu0YzlJn0qBhWXm4O+7slK6mL7bR9KzV0FBbB9nCF0AwD2IFGLnHe5
-	Z4vcnsAn+juqEFNjfgYI6YEyOHMf5tvOuofF15tJUHltFgPkH9UQqxbQkEn6buhBBc1mB65TIst
-	mxQQAvZFNqiYhQaC0OMLzry9EhtWVwWlWIe10CBUp
-X-Gm-Gg: ASbGncsABduFNT3aOoX89wcfZI0QfpLVxPBnY37t7OnPffBCEfgRrcm7mdawBDZpCQe
-	d2oFqHbLXh886TwgKllEFKqA6lrQO+NA7jsdXOSeEJ/icpry+AgpO4IvR7InduoN9stH7T0V92K
-	4Ijn6AgXnnkK1qXwpAT/ShB9DdEGwbonaQs8KtZjDPDN1VS+bys7b1vmzS/RCTk1sGkCTGxWiNG
-	Ppo7/Nxgb57MRtHULIYeMt71Xf5nzNgHA==
-X-Google-Smtp-Source: AGHT+IHnTc9NK3KsO4pyPp3EbA6zYOS9DHaibyZ84NJu9M+17yeVwSPHZDleDDEdC2Ex0TcPSrM2GhHajuqsX3X6740=
-X-Received: by 2002:a05:6512:1456:20b0:542:6b39:1d57 with SMTP id
- 2adb3069b0e04-55badbe9d07mr36096e87.3.1754376290533; Mon, 04 Aug 2025
- 23:44:50 -0700 (PDT)
+	s=arc-20240116; t=1754379742; c=relaxed/simple;
+	bh=1qW0jic5qgSouRAJ0K8gWbRDvMtLz1uULmdexDci+H4=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=cVDFsL9+AFo30ujUX/uDTD52k1T6wJLffZSUuarY5RM9ogs5Z61yGPwQYkdor4mAI03NcwAGSVlril6f60+Ae5scD5Sp3dElSsCeFwxiNUXamiSV/U7C4XnKtnGsXM+iRCV8MK55GNc70aTmez4J/8+EpKGhHVBAXKFsfsoAhxY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=pengutronix.de; spf=pass smtp.mailfrom=pengutronix.de; arc=none smtp.client-ip=185.203.201.7
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=pengutronix.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=pengutronix.de
+Received: from drehscheibe.grey.stw.pengutronix.de ([2a0a:edc0:0:c01:1d::a2])
+	by metis.whiteo.stw.pengutronix.de with esmtps (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
+	(Exim 4.92)
+	(envelope-from <mtr@pengutronix.de>)
+	id 1ujCHA-0005yv-K9; Tue, 05 Aug 2025 09:40:00 +0200
+Received: from pty.whiteo.stw.pengutronix.de ([2a0a:edc0:2:b01:1d::c5])
+	by drehscheibe.grey.stw.pengutronix.de with esmtps  (TLS1.3) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
+	(Exim 4.96)
+	(envelope-from <mtr@pengutronix.de>)
+	id 1ujCGr-00C0Ka-13;
+	Tue, 05 Aug 2025 09:39:41 +0200
+Received: from mtr by pty.whiteo.stw.pengutronix.de with local (Exim 4.96)
+	(envelope-from <mtr@pengutronix.de>)
+	id 1ujCGr-00A7fC-02;
+	Tue, 05 Aug 2025 09:39:41 +0200
+Date: Tue, 5 Aug 2025 09:39:40 +0200
+From: Michael Tretter <m.tretter@pengutronix.de>
+To: Jacopo Mondi <jacopo.mondi@ideasonboard.com>
+Cc: Mauro Carvalho Chehab <mchehab@kernel.org>,
+	Devarsh Thakkar <devarsht@ti.com>, Benoit Parrot <bparrot@ti.com>,
+	Hans Verkuil <hverkuil@kernel.org>, Mike Isely <isely@pobox.com>,
+	Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+	Hans de Goede <hansg@kernel.org>,
+	Parthiban Veerasooran <parthiban.veerasooran@microchip.com>,
+	Christian Gromm <christian.gromm@microchip.com>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	Alex Shi <alexs@kernel.org>, Yanteng Si <si.yanteng@linux.dev>,
+	Dongliang Mu <dzm91@hust.edu.cn>, Jonathan Corbet <corbet@lwn.net>,
+	Tomasz Figa <tfiga@chromium.org>,
+	Marek Szyprowski <m.szyprowski@samsung.com>,
+	Andy Walls <awalls@md.metrocast.net>,
+	Pengutronix Kernel Team <kernel@pengutronix.de>,
+	Bin Liu <bin.liu@mediatek.com>,
+	Matthias Brugger <matthias.bgg@gmail.com>,
+	AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
+	Dmitry Osipenko <digetx@gmail.com>,
+	Thierry Reding <thierry.reding@gmail.com>,
+	Jonathan Hunter <jonathanh@nvidia.com>,
+	Mirela Rabulea <mirela.rabulea@nxp.com>,
+	Shawn Guo <shawnguo@kernel.org>,
+	Sascha Hauer <s.hauer@pengutronix.de>,
+	Fabio Estevam <festevam@gmail.com>,
+	Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>,
+	Michal Simek <michal.simek@amd.com>, Ming Qian <ming.qian@nxp.com>,
+	Zhou Peng <eagle.zhou@nxp.com>,
+	Xavier Roumegue <xavier.roumegue@oss.nxp.com>,
+	Philipp Zabel <p.zabel@pengutronix.de>,
+	Vikash Garodia <quic_vgarodia@quicinc.com>,
+	Dikshita Agarwal <quic_dikshita@quicinc.com>,
+	Abhinav Kumar <abhinav.kumar@linux.dev>,
+	Bryan O'Donoghue <bryan.odonoghue@linaro.org>,
+	Sylwester Nawrocki <sylvester.nawrocki@gmail.com>,
+	Jernej Skrabec <jernej.skrabec@gmail.com>,
+	Chen-Yu Tsai <wens@csie.org>, Samuel Holland <samuel@sholland.org>,
+	Daniel Almeida <daniel.almeida@collabora.com>,
+	Neil Armstrong <neil.armstrong@linaro.org>,
+	Kevin Hilman <khilman@baylibre.com>,
+	Jerome Brunet <jbrunet@baylibre.com>,
+	Martin Blumenstingl <martin.blumenstingl@googlemail.com>,
+	Nas Chung <nas.chung@chipsnmedia.com>,
+	Jackson Lee <jackson.lee@chipsnmedia.com>,
+	Minghsiu Tsai <minghsiu.tsai@mediatek.com>,
+	Houlong Wei <houlong.wei@mediatek.com>,
+	Andrew-CT Chen <andrew-ct.chen@mediatek.com>,
+	Tiffany Lin <tiffany.lin@mediatek.com>,
+	Yunfei Dong <yunfei.dong@mediatek.com>,
+	Geert Uytterhoeven <geert+renesas@glider.be>,
+	Magnus Damm <magnus.damm@gmail.com>,
+	Mikhail Ulyanov <mikhail.ulyanov@cogentembedded.com>,
+	Jacob Chen <jacob-chen@iotwrt.com>,
+	Ezequiel Garcia <ezequiel@vanguardiasur.com.ar>,
+	Heiko Stuebner <heiko@sntech.de>,
+	Detlev Casanova <detlev.casanova@collabora.com>,
+	Krzysztof Kozlowski <krzk@kernel.org>,
+	Alim Akhtar <alim.akhtar@samsung.com>,
+	Sylwester Nawrocki <s.nawrocki@samsung.com>,
+	=?utf-8?Q?=C5=81ukasz?= Stelmach <l.stelmach@samsung.com>,
+	Andrzej Pietrasiewicz <andrzejtp2010@gmail.com>,
+	Jacek Anaszewski <jacek.anaszewski@gmail.com>,
+	Andrzej Hajda <andrzej.hajda@intel.com>,
+	Fabien Dessenne <fabien.dessenne@foss.st.com>,
+	Hugues Fruchet <hugues.fruchet@foss.st.com>,
+	Jean-Christophe Trotin <jean-christophe.trotin@foss.st.com>,
+	Maxime Coquelin <mcoquelin.stm32@gmail.com>,
+	Alexandre Torgue <alexandre.torgue@foss.st.com>,
+	Nicolas Dufresne <nicolas.dufresne@collabora.com>,
+	Benjamin Gaignard <benjamin.gaignard@collabora.com>,
+	Steve Longerbeam <slongerbeam@gmail.com>,
+	Maxime Ripard <mripard@kernel.org>,
+	Paul Kocialkowski <paulk@sys-base.io>,
+	Niklas =?utf-8?Q?S=C3=B6derlund?= <niklas.soderlund@ragnatech.se>,
+	Robert Foss <rfoss@kernel.org>, Todor Tomov <todor.too@gmail.com>,
+	Vladimir Zapolskiy <vladimir.zapolskiy@linaro.org>,
+	Corentin Labbe <clabbe@baylibre.com>,
+	Sakari Ailus <sakari.ailus@linux.intel.com>,
+	Bingbu Cao <bingbu.cao@intel.com>,
+	Tianshu Qiu <tian.shu.qiu@intel.com>,
+	Stanislaw Gruszka <stanislaw.gruszka@linux.intel.com>,
+	linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
+	linux-staging@lists.linux.dev, linux-doc@vger.kernel.org,
+	linux-arm-kernel@lists.infradead.org,
+	linux-mediatek@lists.infradead.org, linux-tegra@vger.kernel.org,
+	imx@lists.linux.dev, linux-renesas-soc@vger.kernel.org,
+	linux-arm-msm@vger.kernel.org, linux-samsung-soc@vger.kernel.org,
+	linux-sunxi@lists.linux.dev, linux-usb@vger.kernel.org,
+	linux-amlogic@lists.infradead.org,
+	linux-rockchip@lists.infradead.org,
+	linux-stm32@st-md-mailman.stormreply.com,
+	mjpeg-users@lists.sourceforge.net
+Subject: Re: [PATCH 29/65] media: allegro: Access v4l2_fh from file
+Message-ID: <aJG1PC0poVY-QZRb@pengutronix.de>
+Mail-Followup-To: Michael Tretter <m.tretter@pengutronix.de>,
+	Jacopo Mondi <jacopo.mondi@ideasonboard.com>,
+	Mauro Carvalho Chehab <mchehab@kernel.org>,
+	Devarsh Thakkar <devarsht@ti.com>, Benoit Parrot <bparrot@ti.com>,
+	Hans Verkuil <hverkuil@kernel.org>, Mike Isely <isely@pobox.com>,
+	Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+	Hans de Goede <hansg@kernel.org>,
+	Parthiban Veerasooran <parthiban.veerasooran@microchip.com>,
+	Christian Gromm <christian.gromm@microchip.com>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	Alex Shi <alexs@kernel.org>, Yanteng Si <si.yanteng@linux.dev>,
+	Dongliang Mu <dzm91@hust.edu.cn>, Jonathan Corbet <corbet@lwn.net>,
+	Tomasz Figa <tfiga@chromium.org>,
+	Marek Szyprowski <m.szyprowski@samsung.com>,
+	Andy Walls <awalls@md.metrocast.net>,
+	Pengutronix Kernel Team <kernel@pengutronix.de>,
+	Bin Liu <bin.liu@mediatek.com>,
+	Matthias Brugger <matthias.bgg@gmail.com>,
+	AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
+	Dmitry Osipenko <digetx@gmail.com>,
+	Thierry Reding <thierry.reding@gmail.com>,
+	Jonathan Hunter <jonathanh@nvidia.com>,
+	Mirela Rabulea <mirela.rabulea@nxp.com>,
+	Shawn Guo <shawnguo@kernel.org>,
+	Sascha Hauer <s.hauer@pengutronix.de>,
+	Fabio Estevam <festevam@gmail.com>,
+	Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>,
+	Michal Simek <michal.simek@amd.com>, Ming Qian <ming.qian@nxp.com>,
+	Zhou Peng <eagle.zhou@nxp.com>,
+	Xavier Roumegue <xavier.roumegue@oss.nxp.com>,
+	Philipp Zabel <p.zabel@pengutronix.de>,
+	Vikash Garodia <quic_vgarodia@quicinc.com>,
+	Dikshita Agarwal <quic_dikshita@quicinc.com>,
+	Abhinav Kumar <abhinav.kumar@linux.dev>,
+	Bryan O'Donoghue <bryan.odonoghue@linaro.org>,
+	Sylwester Nawrocki <sylvester.nawrocki@gmail.com>,
+	Jernej Skrabec <jernej.skrabec@gmail.com>,
+	Chen-Yu Tsai <wens@csie.org>, Samuel Holland <samuel@sholland.org>,
+	Daniel Almeida <daniel.almeida@collabora.com>,
+	Neil Armstrong <neil.armstrong@linaro.org>,
+	Kevin Hilman <khilman@baylibre.com>,
+	Jerome Brunet <jbrunet@baylibre.com>,
+	Martin Blumenstingl <martin.blumenstingl@googlemail.com>,
+	Nas Chung <nas.chung@chipsnmedia.com>,
+	Jackson Lee <jackson.lee@chipsnmedia.com>,
+	Minghsiu Tsai <minghsiu.tsai@mediatek.com>,
+	Houlong Wei <houlong.wei@mediatek.com>,
+	Andrew-CT Chen <andrew-ct.chen@mediatek.com>,
+	Tiffany Lin <tiffany.lin@mediatek.com>,
+	Yunfei Dong <yunfei.dong@mediatek.com>,
+	Geert Uytterhoeven <geert+renesas@glider.be>,
+	Magnus Damm <magnus.damm@gmail.com>,
+	Mikhail Ulyanov <mikhail.ulyanov@cogentembedded.com>,
+	Jacob Chen <jacob-chen@iotwrt.com>,
+	Ezequiel Garcia <ezequiel@vanguardiasur.com.ar>,
+	Heiko Stuebner <heiko@sntech.de>,
+	Detlev Casanova <detlev.casanova@collabora.com>,
+	Krzysztof Kozlowski <krzk@kernel.org>,
+	Alim Akhtar <alim.akhtar@samsung.com>,
+	Sylwester Nawrocki <s.nawrocki@samsung.com>,
+	=?utf-8?Q?=C5=81ukasz?= Stelmach <l.stelmach@samsung.com>,
+	Andrzej Pietrasiewicz <andrzejtp2010@gmail.com>,
+	Jacek Anaszewski <jacek.anaszewski@gmail.com>,
+	Andrzej Hajda <andrzej.hajda@intel.com>,
+	Fabien Dessenne <fabien.dessenne@foss.st.com>,
+	Hugues Fruchet <hugues.fruchet@foss.st.com>,
+	Jean-Christophe Trotin <jean-christophe.trotin@foss.st.com>,
+	Maxime Coquelin <mcoquelin.stm32@gmail.com>,
+	Alexandre Torgue <alexandre.torgue@foss.st.com>,
+	Nicolas Dufresne <nicolas.dufresne@collabora.com>,
+	Benjamin Gaignard <benjamin.gaignard@collabora.com>,
+	Steve Longerbeam <slongerbeam@gmail.com>,
+	Maxime Ripard <mripard@kernel.org>,
+	Paul Kocialkowski <paulk@sys-base.io>,
+	Niklas =?utf-8?Q?S=C3=B6derlund?= <niklas.soderlund@ragnatech.se>,
+	Robert Foss <rfoss@kernel.org>, Todor Tomov <todor.too@gmail.com>,
+	Vladimir Zapolskiy <vladimir.zapolskiy@linaro.org>,
+	Corentin Labbe <clabbe@baylibre.com>,
+	Sakari Ailus <sakari.ailus@linux.intel.com>,
+	Bingbu Cao <bingbu.cao@intel.com>,
+	Tianshu Qiu <tian.shu.qiu@intel.com>,
+	Stanislaw Gruszka <stanislaw.gruszka@linux.intel.com>,
+	linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
+	linux-staging@lists.linux.dev, linux-doc@vger.kernel.org,
+	linux-arm-kernel@lists.infradead.org,
+	linux-mediatek@lists.infradead.org, linux-tegra@vger.kernel.org,
+	imx@lists.linux.dev, linux-renesas-soc@vger.kernel.org,
+	linux-arm-msm@vger.kernel.org, linux-samsung-soc@vger.kernel.org,
+	linux-sunxi@lists.linux.dev, linux-usb@vger.kernel.org,
+	linux-amlogic@lists.infradead.org,
+	linux-rockchip@lists.infradead.org,
+	linux-stm32@st-md-mailman.stormreply.com,
+	mjpeg-users@lists.sourceforge.net
+References: <20250802-media-private-data-v1-0-eb140ddd6a9d@ideasonboard.com>
+ <20250802-media-private-data-v1-29-eb140ddd6a9d@ideasonboard.com>
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20250804080809.1700691-1-khtsai@google.com> <20250804182220.mho2qjdtmvdkicec@synopsys.com>
-In-Reply-To: <20250804182220.mho2qjdtmvdkicec@synopsys.com>
-From: Kuen-Han Tsai <khtsai@google.com>
-Date: Tue, 5 Aug 2025 14:44:23 +0800
-X-Gm-Features: Ac12FXwF-2BWQ8k8fNwT-Q0QadlHFSXDUezgppVWbUt-En04my_PRbsxiSiU8x4
-Message-ID: <CAKzKK0pJkpGu0x1VZVpSa=5O4KeCF9vRuM_WQu9gmYKKoc77wA@mail.gmail.com>
-Subject: Re: [RFC PATCH] usb: dwc3: Ignore late xferNotReady event to prevent
- halt timeout
-To: Thinh Nguyen <Thinh.Nguyen@synopsys.com>
-Cc: "gregkh@linuxfoundation.org" <gregkh@linuxfoundation.org>, 
-	"linux-usb@vger.kernel.org" <linux-usb@vger.kernel.org>, 
-	"linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <20250802-media-private-data-v1-29-eb140ddd6a9d@ideasonboard.com>
+X-Sent-From: Pengutronix Hildesheim
+X-URL: http://www.pengutronix.de/
+X-Accept-Language: de,en
+X-Accept-Content-Type: text/plain
+X-SA-Exim-Connect-IP: 2a0a:edc0:0:c01:1d::a2
+X-SA-Exim-Mail-From: mtr@pengutronix.de
+X-SA-Exim-Scanned: No (on metis.whiteo.stw.pengutronix.de); SAEximRunCond expanded to false
+X-PTX-Original-Recipient: linux-usb@vger.kernel.org
 
-Hi Thinh,
+Hi Jacopo,
 
-On Tue, Aug 5, 2025 at 2:22=E2=80=AFAM Thinh Nguyen <Thinh.Nguyen@synopsys.=
-com> wrote:
->
-> Hi,
->
-> On Mon, Aug 04, 2025, Kuen-Han Tsai wrote:
-> > During a device-initiated disconnect, an xferNotReady event for an ISOC
-> > IN endpoint can be received after the End Transfer command has already
-> > completed.
->
-> Some more info for clarity: the controller generates xferNotReady event
-> once when the host requests to send/receive data to an endpoint. The End
-> Transfer command resets the event filter and allow the controller to
-> generate the xferNotReady event again. This can occur in the middle of
-> device-initiated disconnect and before the controller is halted.
+On Sat, 02 Aug 2025 11:22:51 +0200, Jacopo Mondi wrote:
+> The v4l2_fh associated with an open file handle is now guaranteed
+> to be available in file->private_data, initialised by v4l2_fh_add().
+> 
+> Access the v4l2_fh, and from there the driver-specific structure,
+> from the file * in all ioctl handlers.
+> 
+> While at it remove the only left user of fh_to_channel() and remove
+> the macro completely.
 
-Thanks for adding more details. I've revised the problem description
-in the new submission.
+Thanks for the cleanup!
 
->
-> >
-> > This late event incorrectly triggers a new Start Transfer, which
-> > prevents the controller from halting and results in a DSTS.DEVCTRLHLT
-> > bit polling timeout.
-> >
-> > Ignore the late xferNotReady event if the controller is already in a
-> > disconnected state.
-> >
-> > Signed-off-by: Kuen-Han Tsai <khtsai@google.com>
->
-> Please also add Fixes tag and Cc stable.
->
-> > ---
-> > Tracing:
-> >
-> > # Stop active transfers by sending End Transfer commands
-> >  android.hardwar-913     [004] d..1.  6172.855517: dwc3_gadget_ep_cmd: =
-ep1out: cmd 'End Transfer' [20d08] params 00000000 00000000 00000000 --> st=
-atus: Successful
-> >  android.hardwar-913     [004] dn.1.  6172.855734: dwc3_gadget_ep_cmd: =
-ep1in: cmd 'End Transfer' [40d08] params 00000000 00000000 00000000 --> sta=
-tus: Successful
-> >  ...
-> > # Recieve an xferNotReady event on an ISOC IN endpoint
-> >     irq/991-dwc3-29741   [000] D..1.  6172.856166: dwc3_event: event (3=
-5d010c6): ep1in: Transfer Not Ready [000035d0] (Not Active)
-> >     irq/991-dwc3-29741   [000] D..1.  6172.856190: dwc3_gadget_ep_cmd: =
-ep1in: cmd 'Start Transfer' [35d60406] params 00000000 ffffb620 00000000 --=
-> status: Successful
-> >  android.hardwar-913     [004] dn.1.  6172.868130: dwc3_gadget_ep_cmd: =
-ep2in: cmd 'End Transfer' [30d08] params 00000000 00000000 00000000 --> sta=
-tus: Timed Out
-> >  ...
-> > # Start polling DSTS.DEVCTRLHLT
-> >  android.hardwar-913     [000] .....  6172.869253: dwc3_gadget_run_stop=
-: start polling DWC3_DSTS_DEVCTRLHLT
-> >  ...
-> > # HALT timeout and show the endpoint status for debugging
-> >  android.hardwar-913     [004] .....  6177.479946: dwc3_gadget_run_stop=
-: finish polling DWC3_DSTS_DEVCTRLHLT, is_on=3D0, reg=3D0
-> >  android.hardwar-913     [004] .....  6177.479957: dwc3_gadget_ep_statu=
-s: ep1out: mps 1024/2765 streams 16 burst 5 ring 64/56 flags E:swbp:>
-> >  android.hardwar-913     [004] .....  6177.479958: dwc3_gadget_ep_statu=
-s: ep1in: mps 1024/1024 streams 16 burst 2 ring 21/64 flags E:swBp:<
-> >  android.hardwar-913     [004] .....  6177.479959: dwc3_gadget_ep_statu=
-s: ep2out: mps 1024/2765 streams 16 burst 5 ring 56/48 flags e:swbp:>
-> >
-> > ---
-> >  drivers/usb/dwc3/gadget.c | 3 ++-
-> >  1 file changed, 2 insertions(+), 1 deletion(-)
-> >
-> > diff --git a/drivers/usb/dwc3/gadget.c b/drivers/usb/dwc3/gadget.c
-> > index 25db36c63951..506391699a10 100644
-> > --- a/drivers/usb/dwc3/gadget.c
-> > +++ b/drivers/usb/dwc3/gadget.c
-> > @@ -3896,7 +3896,8 @@ static void dwc3_endpoint_interrupt(struct dwc3 *=
-dwc,
-> >               dwc3_gadget_endpoint_transfer_in_progress(dep, event);
-> >               break;
-> >       case DWC3_DEPEVT_XFERNOTREADY:
-> > -             dwc3_gadget_endpoint_transfer_not_ready(dep, event);
-> > +             if (dwc->connected)
->
-> Move this check in dwc3_gadget_endpoint_transfer_not_ready().
+Minor suggestion below, but even without it
 
-Done.
+> 
+> Signed-off-by: Jacopo Mondi <jacopo.mondi@ideasonboard.com>
 
->
-> > +                     dwc3_gadget_endpoint_transfer_not_ready(dep, even=
-t);
-> >               break;
-> >       case DWC3_DEPEVT_EPCMDCMPLT:
-> >               dwc3_gadget_endpoint_command_complete(dep, event);
-> > --
-> > 2.50.1.565.gc32cd1483b-goog
-> >
->
-> And remove the RFC tag in $subject.
+Reviewed-by: Michael Tretter <m.tretter@pengutronix.de>
 
-I sent out a new change without the RFC tag.
-https://lore.kernel.org/linux-usb/20250805063413.2934208-1-khtsai@google.co=
-m/
+> ---
+>  drivers/media/platform/allegro-dvt/allegro-core.c | 18 ++++++++----------
+>  1 file changed, 8 insertions(+), 10 deletions(-)
+> 
+> diff --git a/drivers/media/platform/allegro-dvt/allegro-core.c b/drivers/media/platform/allegro-dvt/allegro-core.c
+> index 5e3b1f5d7206d84b8ccb9ea3b3f3f1fe75becf99..81c6afcf2d06f9e39015e49d355346238c5033d8 100644
+> --- a/drivers/media/platform/allegro-dvt/allegro-core.c
+> +++ b/drivers/media/platform/allegro-dvt/allegro-core.c
+> @@ -197,8 +197,6 @@ static const struct regmap_config allegro_sram_config = {
+>  	.cache_type = REGCACHE_NONE,
+>  };
+>  
+> -#define fh_to_channel(__fh) container_of(__fh, struct allegro_channel, fh)
+> -
+>  struct allegro_channel {
+>  	struct allegro_dev *dev;
+>  	struct v4l2_fh fh;
+> @@ -3284,7 +3282,7 @@ static int allegro_enum_fmt_vid(struct file *file, void *fh,
+>  static int allegro_g_fmt_vid_cap(struct file *file, void *fh,
+>  				 struct v4l2_format *f)
+>  {
+> -	struct allegro_channel *channel = fh_to_channel(fh);
+> +	struct allegro_channel *channel = file_to_channel(file);
+>  
+>  	f->fmt.pix.field = V4L2_FIELD_NONE;
+>  	f->fmt.pix.width = channel->width;
+> @@ -3326,7 +3324,7 @@ static int allegro_try_fmt_vid_cap(struct file *file, void *fh,
+>  static int allegro_s_fmt_vid_cap(struct file *file, void *fh,
+>  				 struct v4l2_format *f)
+>  {
+> -	struct allegro_channel *channel = fh_to_channel(fh);
+> +	struct allegro_channel *channel = file_to_channel(file);
+>  	struct vb2_queue *vq;
+>  	int err;
+>  
+> @@ -3350,7 +3348,7 @@ static int allegro_s_fmt_vid_cap(struct file *file, void *fh,
+>  static int allegro_g_fmt_vid_out(struct file *file, void *fh,
+>  				 struct v4l2_format *f)
+>  {
+> -	struct allegro_channel *channel = fh_to_channel(fh);
+> +	struct allegro_channel *channel = file_to_channel(file);
+>  
+>  	f->fmt.pix.field = V4L2_FIELD_NONE;
+>  
+> @@ -3397,7 +3395,7 @@ static int allegro_try_fmt_vid_out(struct file *file, void *fh,
+>  static int allegro_s_fmt_vid_out(struct file *file, void *fh,
+>  				 struct v4l2_format *f)
+>  {
+> -	struct allegro_channel *channel = fh_to_channel(fh);
+> +	struct allegro_channel *channel = file_to_channel(file);
+>  	int err;
+>  
+>  	err = allegro_try_fmt_vid_out(file, fh, f);
+> @@ -3438,7 +3436,7 @@ static int allegro_channel_cmd_start(struct allegro_channel *channel)
+>  static int allegro_encoder_cmd(struct file *file, void *fh,
+>  			       struct v4l2_encoder_cmd *cmd)
+>  {
+> -	struct allegro_channel *channel = fh_to_channel(fh);
+> +	struct allegro_channel *channel = file_to_channel(file);
+>  	int err;
+>  
+>  	err = v4l2_m2m_ioctl_try_encoder_cmd(file, fh, cmd);
+> @@ -3488,7 +3486,7 @@ static int allegro_ioctl_streamon(struct file *file, void *priv,
+>  				  enum v4l2_buf_type type)
+>  {
+>  	struct v4l2_fh *fh = file_to_v4l2_fh(file);
+> -	struct allegro_channel *channel = fh_to_channel(fh);
+> +	struct allegro_channel *channel = file_to_channel(file);
 
-Regards,
-Kuen-Han
+You could remove the local fh entirely, if you change
+
+	return v4l2_m2m_streamon(file, fh->m2m_ctx, type);
+
+to
+
+	return v4l2_m2m_streamon(file, channel->fh.m2m_ctx, type);
+
+in the allegro_ioctl_streamon() function.
+
+Michael
+
+>  	int err;
+>  
+>  	if (type == V4L2_BUF_TYPE_VIDEO_CAPTURE) {
+> @@ -3503,7 +3501,7 @@ static int allegro_ioctl_streamon(struct file *file, void *priv,
+>  static int allegro_g_parm(struct file *file, void *fh,
+>  			  struct v4l2_streamparm *a)
+>  {
+> -	struct allegro_channel *channel = fh_to_channel(fh);
+> +	struct allegro_channel *channel = file_to_channel(file);
+>  	struct v4l2_fract *timeperframe;
+>  
+>  	if (a->type != V4L2_BUF_TYPE_VIDEO_OUTPUT)
+> @@ -3520,7 +3518,7 @@ static int allegro_g_parm(struct file *file, void *fh,
+>  static int allegro_s_parm(struct file *file, void *fh,
+>  			  struct v4l2_streamparm *a)
+>  {
+> -	struct allegro_channel *channel = fh_to_channel(fh);
+> +	struct allegro_channel *channel = file_to_channel(file);
+>  	struct v4l2_fract *timeperframe;
+>  	int div;
+>  
+> 
+> -- 
+> 2.49.0
+> 
+> 
