@@ -1,127 +1,221 @@
-Received: from mail-lf1-f74.google.com (mail-lf1-f74.google.com [209.85.167.74])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9DE4A25A323
-	for <linux-usb@vger.kernel.org>; Thu,  7 Aug 2025 09:07:23 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.74
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 020241EB36;
+	Thu,  7 Aug 2025 12:32:17 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.167.242.64
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1754557645; cv=none; b=QvJ1SlVGygSyhyDXqay/irqdxIIMeLgmU8kK9jbK/gEfYh5ECsxquSDSeoEkF2ZC7LM0ipk1LN4muOl6MLkXEN7OEmpyUJZa1JR7r+ICnhDbCjMNFOzaJng6t5vuZMz+nrSZHlC1J473cR3ECTGDbe4DJ06MLyBHJav2mRluEBI=
+	t=1754569939; cv=none; b=eQG+NSEZ3bdLcPKWlR4qxY9LZYd/S46bP/asDJF4Or/E+uc8eE0ooB0ema+bDlLGOL0cZzJ4q4qqecDNCuPwACE3xV5am2rdkY2FvStdC+8P5zzwly6kd2g4CxxFMkpoSpStfgOfG4u22sNT6Nwave9KFeSuVcp5yGpx1CGe+TA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1754557645; c=relaxed/simple;
-	bh=gWOqssh/B0zhOWj/hgJV7uLzIgiEe8s9kBaCELWoyKk=;
-	h=Date:Mime-Version:Message-ID:Subject:From:To:Cc:Content-Type; b=XnF42fCBeIrNjo+4WDvreaWy7FL+noySeb8f5UDm7pMunP6ye7XFXQ5cV8YvAjqscRKS7M3Lswb0ksUv+hDBYQbxt6TTk103QdHME0DU/he8kW17Iah75XLRSRSgE7f6mqCNlZOlYjasmbWcyP0Sjdjw+lzmSedy3TTj9M8/Iss=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=flex--khtsai.bounces.google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=GsnRebEp; arc=none smtp.client-ip=209.85.167.74
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=flex--khtsai.bounces.google.com
+	s=arc-20240116; t=1754569939; c=relaxed/simple;
+	bh=mDLUQyipon3TC8s7Xe5hlhtx/kxMnlzT8INeN44SBME=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=NIhqw8cLTe9KHk96o4DHnMi+Y0lc3lWSDq2Df2+c69OxiAOJf3EH/2Vlg68Y3881UUCbh5rLrL/AwjjRLcojVQnsiOi3lF5m+W6JmbJ8JDXJJ3n+16ln25MnSm/ApJLG6M638YZenQ2k2KGgn6KC/MA7r0WS1XoRmuwOn8ZTsDE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=LACv+uFT; arc=none smtp.client-ip=213.167.242.64
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ideasonboard.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ideasonboard.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="GsnRebEp"
-Received: by mail-lf1-f74.google.com with SMTP id 2adb3069b0e04-55ba07af930so385767e87.1
-        for <linux-usb@vger.kernel.org>; Thu, 07 Aug 2025 02:07:23 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20230601; t=1754557642; x=1755162442; darn=vger.kernel.org;
-        h=cc:to:from:subject:message-id:mime-version:date:from:to:cc:subject
-         :date:message-id:reply-to;
-        bh=7857YzQoqmpmB028bo2TGbiPP5wF9E/++uq/WGiIKkw=;
-        b=GsnRebEp/k2t6992PQYbJpruGBzpSyKFcgJflyamRqM1fC/OlpeqXWLLhVZUGpI0A0
-         K0RmumCw3iizF1fcEs0PupHBGPnP2de1anG1nn3E7IyaEXaoSGh1f8XpsX8oVyI+JrEH
-         saXlfLtUHdnn6uZkP7rmGs7TsHizBMjBDs0ovBzadQxmXApVCH3H441q7Ire2bKT7YnZ
-         SM8uv7hwDYw+BsCdArLZMRuCGbW5t8FLDWtopPBI+xxEiTe1RyqHj2f7/1gaN/rz/Ca7
-         HgHrcgqYBW4rU/655FXbIjZxY/scfP662MoNV/vbXmP5VLNajmr5lybwUCLf0u3L9NTS
-         vSSQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1754557642; x=1755162442;
-        h=cc:to:from:subject:message-id:mime-version:date:x-gm-message-state
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=7857YzQoqmpmB028bo2TGbiPP5wF9E/++uq/WGiIKkw=;
-        b=bZuXScIfsuce4s/xqL+aaFJDABrKyZrAbWtZF83huWnik7OQ/xrLUT70OCHpvIC9pm
-         TCx+SHNorLrUCRyj08N6x0wgSI/gr5/+eOMz5Xkj8yJbdTXPmNA3zzlT5ehbZqN4t8IM
-         Ja8zEXwlvFxlL3tPNVBhpCORfjD6DnbBR+0mtHnTclYIjoeEJCxeI/rJwu/M/HFUYUW3
-         eGJNwNH9xBfst+Eu4gaROWnuV8FODzTAW0JAdK+iGIaDcl359/geqhM/icLIpxQKp4x6
-         6GQeOx8+2Ligi6njuCJfHkYT+qcvFGX3jnWwcl2AlzfcUJ9nvZeD7LGqNgWPsNqvuNnq
-         QTAg==
-X-Gm-Message-State: AOJu0Yy4s5RWN+cXERhpHOAJlEp1YRSy+MJo1AIMT1vbdZm3O7f5LiGD
-	fXvboG1bxmHPkl1coF+pSoBAFxXYQ4+OeQFyez8iLSkD2hYlc4QX+piHrOF5FfJ1ghmdKEXgitM
-	zKxIbVw==
-X-Google-Smtp-Source: AGHT+IGcYso9lswwa8L91nhsQT2KN51k8C00/kO55/cOHbQzKDJFXuLSSBDlGqgO/JEw4iEG5HMAZyjVZdk=
-X-Received: from ljcq7-n2.prod.google.com ([2002:a05:651c:1107:20b0:332:7383:a5fd])
- (user=khtsai job=prod-delivery.src-stubby-dispatcher) by 2002:a2e:a00f:0:b0:32b:7811:d48d
- with SMTP id 38308e7fff4ca-33381231618mr11845571fa.4.1754557641541; Thu, 07
- Aug 2025 02:07:21 -0700 (PDT)
-Date: Thu,  7 Aug 2025 17:06:55 +0800
+	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="LACv+uFT"
+Received: from pendragon.ideasonboard.com (81-175-209-231.bb.dnainternet.fi [81.175.209.231])
+	by perceval.ideasonboard.com (Postfix) with UTF8SMTPSA id EDCB18FA;
+	Thu,  7 Aug 2025 14:31:22 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+	s=mail; t=1754569883;
+	bh=mDLUQyipon3TC8s7Xe5hlhtx/kxMnlzT8INeN44SBME=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=LACv+uFTAOqCoVr6y4n8xhP/phvZ2YaIqX4nfPzsq8htw1/33Ig2joQ5o1c7g1TI/
+	 sm6fQdyxttR4+gfZN8u7QpF8EcmmN4qBOEZ1BO6Gpa7oo5sCerPApF06+UQkNeTbXv
+	 CoAosKL4r64nC+r6TFuPhQz7Lyc1Gdn1yLFrA/Yc=
+Date: Thu, 7 Aug 2025 15:31:57 +0300
+From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+To: Hans Verkuil <hverkuil+cisco@kernel.org>
+Cc: Jacopo Mondi <jacopo.mondi@ideasonboard.com>,
+	Mauro Carvalho Chehab <mchehab@kernel.org>,
+	Devarsh Thakkar <devarsht@ti.com>, Benoit Parrot <bparrot@ti.com>,
+	Hans Verkuil <hverkuil@kernel.org>, Mike Isely <isely@pobox.com>,
+	Hans de Goede <hansg@kernel.org>,
+	Parthiban Veerasooran <parthiban.veerasooran@microchip.com>,
+	Christian Gromm <christian.gromm@microchip.com>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	Alex Shi <alexs@kernel.org>, Yanteng Si <si.yanteng@linux.dev>,
+	Dongliang Mu <dzm91@hust.edu.cn>, Jonathan Corbet <corbet@lwn.net>,
+	Tomasz Figa <tfiga@chromium.org>,
+	Marek Szyprowski <m.szyprowski@samsung.com>,
+	Andy Walls <awalls@md.metrocast.net>,
+	Michael Tretter <m.tretter@pengutronix.de>,
+	Pengutronix Kernel Team <kernel@pengutronix.de>,
+	Bin Liu <bin.liu@mediatek.com>,
+	Matthias Brugger <matthias.bgg@gmail.com>,
+	AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
+	Dmitry Osipenko <digetx@gmail.com>,
+	Thierry Reding <thierry.reding@gmail.com>,
+	Jonathan Hunter <jonathanh@nvidia.com>,
+	Mirela Rabulea <mirela.rabulea@nxp.com>,
+	Shawn Guo <shawnguo@kernel.org>,
+	Sascha Hauer <s.hauer@pengutronix.de>,
+	Fabio Estevam <festevam@gmail.com>,
+	Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>,
+	Michal Simek <michal.simek@amd.com>, Ming Qian <ming.qian@nxp.com>,
+	Zhou Peng <eagle.zhou@nxp.com>,
+	Xavier Roumegue <xavier.roumegue@oss.nxp.com>,
+	Philipp Zabel <p.zabel@pengutronix.de>,
+	Vikash Garodia <quic_vgarodia@quicinc.com>,
+	Dikshita Agarwal <quic_dikshita@quicinc.com>,
+	Abhinav Kumar <abhinav.kumar@linux.dev>,
+	Bryan O'Donoghue <bryan.odonoghue@linaro.org>,
+	Sylwester Nawrocki <sylvester.nawrocki@gmail.com>,
+	Jernej Skrabec <jernej.skrabec@gmail.com>,
+	Chen-Yu Tsai <wens@csie.org>, Samuel Holland <samuel@sholland.org>,
+	Daniel Almeida <daniel.almeida@collabora.com>,
+	Neil Armstrong <neil.armstrong@linaro.org>,
+	Kevin Hilman <khilman@baylibre.com>,
+	Jerome Brunet <jbrunet@baylibre.com>,
+	Martin Blumenstingl <martin.blumenstingl@googlemail.com>,
+	Nas Chung <nas.chung@chipsnmedia.com>,
+	Jackson Lee <jackson.lee@chipsnmedia.com>,
+	Minghsiu Tsai <minghsiu.tsai@mediatek.com>,
+	Houlong Wei <houlong.wei@mediatek.com>,
+	Andrew-CT Chen <andrew-ct.chen@mediatek.com>,
+	Tiffany Lin <tiffany.lin@mediatek.com>,
+	Yunfei Dong <yunfei.dong@mediatek.com>,
+	Geert Uytterhoeven <geert+renesas@glider.be>,
+	Magnus Damm <magnus.damm@gmail.com>,
+	Mikhail Ulyanov <mikhail.ulyanov@cogentembedded.com>,
+	Jacob Chen <jacob-chen@iotwrt.com>,
+	Ezequiel Garcia <ezequiel@vanguardiasur.com.ar>,
+	Heiko Stuebner <heiko@sntech.de>,
+	Detlev Casanova <detlev.casanova@collabora.com>,
+	Krzysztof Kozlowski <krzk@kernel.org>,
+	Alim Akhtar <alim.akhtar@samsung.com>,
+	Sylwester Nawrocki <s.nawrocki@samsung.com>,
+	=?utf-8?Q?=C5=81ukasz?= Stelmach <l.stelmach@samsung.com>,
+	Andrzej Pietrasiewicz <andrzejtp2010@gmail.com>,
+	Jacek Anaszewski <jacek.anaszewski@gmail.com>,
+	Andrzej Hajda <andrzej.hajda@intel.com>,
+	Fabien Dessenne <fabien.dessenne@foss.st.com>,
+	Hugues Fruchet <hugues.fruchet@foss.st.com>,
+	Jean-Christophe Trotin <jean-christophe.trotin@foss.st.com>,
+	Maxime Coquelin <mcoquelin.stm32@gmail.com>,
+	Alexandre Torgue <alexandre.torgue@foss.st.com>,
+	Nicolas Dufresne <nicolas.dufresne@collabora.com>,
+	Benjamin Gaignard <benjamin.gaignard@collabora.com>,
+	Steve Longerbeam <slongerbeam@gmail.com>,
+	Maxime Ripard <mripard@kernel.org>,
+	Paul Kocialkowski <paulk@sys-base.io>,
+	Niklas =?utf-8?Q?S=C3=B6derlund?= <niklas.soderlund@ragnatech.se>,
+	Robert Foss <rfoss@kernel.org>, Todor Tomov <todor.too@gmail.com>,
+	Vladimir Zapolskiy <vladimir.zapolskiy@linaro.org>,
+	Corentin Labbe <clabbe@baylibre.com>,
+	Sakari Ailus <sakari.ailus@linux.intel.com>,
+	Bingbu Cao <bingbu.cao@intel.com>,
+	Tianshu Qiu <tian.shu.qiu@intel.com>,
+	Stanislaw Gruszka <stanislaw.gruszka@linux.intel.com>,
+	linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
+	linux-staging@lists.linux.dev, linux-doc@vger.kernel.org,
+	linux-arm-kernel@lists.infradead.org,
+	linux-mediatek@lists.infradead.org, linux-tegra@vger.kernel.org,
+	imx@lists.linux.dev, linux-renesas-soc@vger.kernel.org,
+	linux-arm-msm@vger.kernel.org, linux-samsung-soc@vger.kernel.org,
+	linux-sunxi@lists.linux.dev, linux-usb@vger.kernel.org,
+	linux-amlogic@lists.infradead.org,
+	linux-rockchip@lists.infradead.org,
+	linux-stm32@st-md-mailman.stormreply.com,
+	mjpeg-users@lists.sourceforge.net
+Subject: Re: [PATCH 58/65] media: zoran: Remove access to __fh
+Message-ID: <20250807123157.GF11583@pendragon.ideasonboard.com>
+References: <20250802-media-private-data-v1-0-eb140ddd6a9d@ideasonboard.com>
+ <20250802-media-private-data-v1-58-eb140ddd6a9d@ideasonboard.com>
+ <d8875dea-aa04-41fc-b1b4-519d06ed6cba@kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
-Mime-Version: 1.0
-X-Mailer: git-send-email 2.50.1.565.gc32cd1483b-goog
-Message-ID: <20250807090700.2397190-1-khtsai@google.com>
-Subject: [PATCH v2] usb: dwc3: Ignore late xferNotReady event to prevent halt timeout
-From: Kuen-Han Tsai <khtsai@google.com>
-To: Thinh.Nguyen@synopsys.com, gregkh@linuxfoundation.org
-Cc: linux-usb@vger.kernel.org, linux-kernel@vger.kernel.org, 
-	Kuen-Han Tsai <khtsai@google.com>, stable <stable@kernel.org>
-Content-Type: text/plain; charset="UTF-8"
+MIME-Version: 1.0
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <d8875dea-aa04-41fc-b1b4-519d06ed6cba@kernel.org>
 
-During a device-initiated disconnect, the End Transfer command resets
-the event filter, allowing a new xferNotReady event to be generated
-before the controller is fully halted. Processing this late event
-incorrectly triggers a Start Transfer, which prevents the controller
-from halting and results in a DSTS.DEVCTLHLT bit polling timeout.
+On Thu, Aug 07, 2025 at 08:58:01AM +0200, Hans Verkuil wrote:
+> On 02/08/2025 11:23, Jacopo Mondi wrote:
+> > The __fh parameter is assigned to an unsued variable. Remove it
+> > and remove the unused struct zoran_fh type.
+> > 
+> > Signed-off-by: Jacopo Mondi <jacopo.mondi@ideasonboard.com>
+> > ---
+> >  drivers/media/pci/zoran/zoran.h        | 6 ------
+> >  drivers/media/pci/zoran/zoran_driver.c | 3 +--
+> >  2 files changed, 1 insertion(+), 8 deletions(-)
+> > 
+> > diff --git a/drivers/media/pci/zoran/zoran.h b/drivers/media/pci/zoran/zoran.h
+> > index 1cd990468d3de9db8b14b72483972041c57bfee2..d05e222b392156bf1b3b4c83c6591db642c3c377 100644
+> > --- a/drivers/media/pci/zoran/zoran.h
+> > +++ b/drivers/media/pci/zoran/zoran.h
+> > @@ -154,12 +154,6 @@ struct zoran_jpg_settings {
+> >  
+> >  struct zoran;
+> >  
+> > -/* zoran_fh contains per-open() settings */
+> > -struct zoran_fh {
+> > -	struct v4l2_fh fh;
+> > -	struct zoran *zr;
+> > -};
+> > -
+> >  struct card_info {
+> >  	enum card_type type;
+> >  	char name[32];
+> > diff --git a/drivers/media/pci/zoran/zoran_driver.c b/drivers/media/pci/zoran/zoran_driver.c
+> > index f42f596d3e6295e31e3b33cd83c5f7243911bd30..ec7fc1da4cc02f5a344cb49bb9a783c41c758195 100644
+> > --- a/drivers/media/pci/zoran/zoran_driver.c
+> > +++ b/drivers/media/pci/zoran/zoran_driver.c
+> > @@ -511,12 +511,11 @@ static int zoran_s_fmt_vid_cap(struct file *file, void *__fh,
+> 
+> This driver uses __fh as the name for the second argument of the ioctl
+> callbacks. Can you take this opportunity to rename it to either 'fh' or 'priv'?
 
-Ignore the late xferNotReady event if the controller is already in a
-disconnected state.
+It's a bit of yak shaving, but not too difficult so it will be addressed
+in the next version (Jacopo already wrote the patches, thanks).
 
-Fixes: 72246da40f37 ("usb: Introduce DesignWare USB3 DRD Driver")
-Cc: stable <stable@kernel.org>
-Signed-off-by: Kuen-Han Tsai <khtsai@google.com>
----
-Tracing:
+> Generally it's not a good idea to prefix variables with __ for no good reason.
+> 
+> Grepping for __fh also shows two other drivers:
+> 
+> drivers/media/platform/chips-media/coda/coda-common.c:#define fh_to_ctx(__fh)   container_of(__fh, struct coda_ctx, fh)
+> drivers/media/platform/samsung/s5p-mfc/s5p_mfc_common.h:#define fh_to_ctx(__fh) container_of(__fh, struct s5p_mfc_ctx, fh)
+> 
+> I think it is a good idea to rename __fh to fh there as well.
 
-# Stop active transfers by sending End Transfer commands
-dwc3_gadget_ep_cmd: ep1out: cmd 'End Transfer' [20d08] params 00000000 00000000 00000000 --> status: Successful
-dwc3_gadget_ep_cmd: ep1in: cmd 'End Transfer' [40d08] params 00000000 00000000 00000000 --> status: Successful
- ...
-# Recieve an xferNotReady event on an ISOC IN endpoint
-dwc3_event: event (35d010c6): ep1in: Transfer Not Ready [000035d0] (Not Active)
-dwc3_gadget_ep_cmd: ep1in: cmd 'Start Transfer' [35d60406] params 00000000 ffffb620 00000000 --> status: Successful
-dwc3_gadget_ep_cmd: ep2in: cmd 'End Transfer' [30d08] params 00000000 00000000 00000000 --> status: Timed Out
- ...
-# Start polling DSTS.DEVCTRLHLT
-dwc3_gadget_run_stop: start polling DWC3_DSTS_DEVCTRLHLT
- ...
-# HALT timeout and print out the endpoint status for debugging
-dwc3_gadget_run_stop: finish polling DWC3_DSTS_DEVCTRLHLT, is_on=0, reg=0
-dwc3_gadget_ep_status: ep1out: mps 1024/2765 streams 16 burst 5 ring 64/56 flags E:swbp:>
-dwc3_gadget_ep_status: ep1in: mps 1024/1024 streams 16 burst 2 ring 21/64 flags E:swBp:<
-dwc3_gadget_ep_status: ep2out: mps 1024/2765 streams 16 burst 5 ring 56/48 flags e:swbp:>
+That can't be done, otherwise things like
 
----
-v1 -> v2: Updated the commit ID for the Fixes tag and added the missing !.
+#define fh_to_ctx(fh)	container_of(fh, struct coda_ctx, fh)
 
- drivers/usb/dwc3/gadget.c | 9 +++++++++
- 1 file changed, 9 insertions(+)
+static inline struct coda_ctx *file_to_ctx(struct file *filp)
+{
+	return fh_to_ctx(file_to_v4l2_fh(filp));
+}
 
-diff --git a/drivers/usb/dwc3/gadget.c b/drivers/usb/dwc3/gadget.c
-index 25db36c63951..68fa2813e5f4 100644
---- a/drivers/usb/dwc3/gadget.c
-+++ b/drivers/usb/dwc3/gadget.c
-@@ -3777,6 +3777,15 @@ static void dwc3_gadget_endpoint_transfer_complete(struct dwc3_ep *dep,
- static void dwc3_gadget_endpoint_transfer_not_ready(struct dwc3_ep *dep,
- 		const struct dwc3_event_depevt *event)
- {
-+	/*
-+	 * During a device-initiated disconnect, a late xferNotReady event can
-+	 * be generated after the End Transfer command resets the event filter,
-+	 * but before the controller is halted. Ignore it to prevent a new
-+	 * transfer from starting.
-+	 */
-+	if (!dep->dwc->connected)
-+		return;
-+
- 	dwc3_gadget_endpoint_frame_from_event(dep, event);
+will expand in the file_to_ctx() function to
 
- 	/*
---
-2.50.1.565.gc32cd1483b-goog
+	return container_of(file_to_v4l2_fh(filp), struct coda_ctx, file_to_v4l2_fh(filp))
 
+We could rename the __fh argument to vfh or v4l2fh, but I think __fh is
+equally good there. It's just the macro argument name.
+
+> >  			       struct v4l2_format *fmt)
+> >  {
+> >  	struct zoran *zr = video_drvdata(file);
+> > -	struct zoran_fh *fh = __fh;
+> >  	int i;
+> >  	int res = 0;
+> >  
+> >  	if (fmt->fmt.pix.pixelformat == V4L2_PIX_FMT_MJPEG)
+> > -		return zoran_s_fmt_vid_out(file, fh, fmt);
+> > +		return zoran_s_fmt_vid_out(file, __fh, fmt);
+> >  
+> >  	for (i = 0; i < NUM_FORMATS; i++)
+> >  		if (fmt->fmt.pix.pixelformat == zoran_formats[i].fourcc)
+
+-- 
+Regards,
+
+Laurent Pinchart
