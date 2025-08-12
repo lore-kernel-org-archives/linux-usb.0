@@ -1,72 +1,73 @@
-Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com [205.220.168.131])
+Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com [205.220.180.131])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6D5BE2EAD0E
-	for <linux-usb@vger.kernel.org>; Tue, 12 Aug 2025 10:23:54 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.168.131
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0510424678D
+	for <linux-usb@vger.kernel.org>; Tue, 12 Aug 2025 10:45:31 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.180.131
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1754994235; cv=none; b=Vgd20eptOiDcJ9VpPPt2GsVZKJr7Tfw4tcYrpuFCyaxaUJlUHxSBY4+9Z9QYzjlp0dKBwrbIUs7bn/ZI3BI6sJU70qcwV+Qr8uYVWmhGSFf8/6fCWt+SI7+HxWrXv02PqGaWAW6Nn08bc4ougmhqWam/MhtxBuu6jyicWCH8qa8=
+	t=1754995533; cv=none; b=IxWB32anPfc8OHVcQTJXiP8TLIGYsXDvKnXEhVW63WM3uN9AOWfRwMd09C2XuX+9NwLJpLr4j+yFwK97HX22UL4hD2w/KYtKK9JiJUzjnJwQzMCDncX+GqC6HIJPppBGZ2KQLM5y+2eOU977a+lxHJideeJyRJYIHkNemPYC83M=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1754994235; c=relaxed/simple;
-	bh=We6XfkAl0+Rk+YFJpAN79Snk06JGvwWviwXHLqMusGc=;
+	s=arc-20240116; t=1754995533; c=relaxed/simple;
+	bh=ZnLpOEqaKeO0TQYdYLDgBAZVcBBCwqwJgH1A1X28ETQ=;
 	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=RRLBvw0PIAoj7c1MA4u9Cgngvr41fawIkkpKNfqEymrmHeOcnAbVGySED5jvgOQENOMPt6WvRlgXHfxL72qcQSDqn3AQpLsqhw78bapDQP+GXLQDRijTuGkeSLxxl6CY6gqQl8qpFteTUPEmZLOQaiUJw/KebV1Dz/kn8obV1tc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com; spf=pass smtp.mailfrom=oss.qualcomm.com; dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b=QM+6lsVW; arc=none smtp.client-ip=205.220.168.131
+	 In-Reply-To:Content-Type; b=aSLdiPZfyYlNowENHSfxmfppBl2MUxyNxwbpvBLgJ4Vj8Aj1rJxTJve6nr4mR+qmuCdw00A2n8vl8H4zp73AuQHNGGAtN/tsIogicvsESC9MK8nN/e8C2wnZIg4Q98dtWgpzvYdTZKvsRKurgD1CQYkySFjSlhKqBx6h39r7xi0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com; spf=pass smtp.mailfrom=oss.qualcomm.com; dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b=ZNklWb4f; arc=none smtp.client-ip=205.220.180.131
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=oss.qualcomm.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b="QM+6lsVW"
-Received: from pps.filterd (m0279867.ppops.net [127.0.0.1])
-	by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 57C3QGQ1004900
-	for <linux-usb@vger.kernel.org>; Tue, 12 Aug 2025 10:23:53 GMT
+	dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b="ZNklWb4f"
+Received: from pps.filterd (m0279871.ppops.net [127.0.0.1])
+	by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 57C5Y0Lt005398
+	for <linux-usb@vger.kernel.org>; Tue, 12 Aug 2025 10:45:31 GMT
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
 	cc:content-transfer-encoding:content-type:date:from:in-reply-to
 	:message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
-	uVDsi1mqr9iZ/YWfYut7sj+G181wFB16lCiuqt0bKQs=; b=QM+6lsVWmX9CZDKO
-	j85s7DX5IC91rO6zwWkqdM4Ja/9zbdGQ9CpxwQaq1uoeMmvpG15rRN49Y0gcogKh
-	QsreN9gT7xipMKajX6TqlA1GVScKVMsNyvR7SKVCofxJM9o/HVlEp/PPJwohMJx9
-	UYCr79ToViYoGUT6S7FXKuH0Vj2HRZwiROm5sW6iRi+IDVGM/CBu+32UNAOE4Z5N
-	wjxJgyRbq39dWva8Dku/T97nYzWXa6RQZbiNbBMoWJS9CYlqvtv08M4Hzv++Ktcy
-	qQgnE+l8KmBCI9aC+MACMLwibERrAYMVFgMAa9hLCGhtjl2PRSC9GpZvpN3TenZM
-	wm+rqA==
-Received: from mail-pl1-f198.google.com (mail-pl1-f198.google.com [209.85.214.198])
-	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 48fjxbav61-1
+	3cLzSF3gpHrunTl5F1JZE5JIjZSIBKlPzndpcOzoxZQ=; b=ZNklWb4f3tBGu8Ll
+	YwnrRuHaJMNtiGZH6p7l3AlZs3fPAUBUtTg9+7AUFcLYxuHhCd7gT+3EFUDBnw5r
+	ACCuA3kkzyc1ATadHot1ES84WE6pJnpvFiKrkzwcoSz9zclR5aNk9EBbFhaGrfSY
+	kilz9Oa73vfxbzSJHtIvBMJUenzD/7OnkPop+ThyF3VwT7cHDq5mkUBJZpzoPVHE
+	bVjpuCtBW8p+99zGNyzvqy75glA2siQ9WM0n4HHkCWzGHLGJrWjTPBOlciHi5ucp
+	ZxKNkF6FDF0HN30Wlxb8Q/zy8Ln08Ny2QlgA5V2qHLHti5X0KdiOVhUzV4VCmVaV
+	09eQ8g==
+Received: from mail-qt1-f200.google.com (mail-qt1-f200.google.com [209.85.160.200])
+	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 48eqhx5yry-1
 	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT)
-	for <linux-usb@vger.kernel.org>; Tue, 12 Aug 2025 10:23:53 +0000 (GMT)
-Received: by mail-pl1-f198.google.com with SMTP id d9443c01a7336-242fe34add1so7146485ad.3
-        for <linux-usb@vger.kernel.org>; Tue, 12 Aug 2025 03:23:53 -0700 (PDT)
+	for <linux-usb@vger.kernel.org>; Tue, 12 Aug 2025 10:45:30 +0000 (GMT)
+Received: by mail-qt1-f200.google.com with SMTP id d75a77b69052e-4b06c7cf38eso2751091cf.1
+        for <linux-usb@vger.kernel.org>; Tue, 12 Aug 2025 03:45:30 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1754994233; x=1755599033;
+        d=1e100.net; s=20230601; t=1754995530; x=1755600330;
         h=content-transfer-encoding:in-reply-to:from:content-language
          :references:cc:to:subject:user-agent:mime-version:date:message-id
          :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=uVDsi1mqr9iZ/YWfYut7sj+G181wFB16lCiuqt0bKQs=;
-        b=Gqwg7ruiLFZVXfx4zEwxIytKUiUYZwJy4cLfr0Kja2HiKJ9mxxJnG5z68wfnm1jkQ8
-         o9Bw/5eSKV/YeL1zkDbmVz9M6J1M353PDYaN3MpecAmm89Tne7joxatcHk1oNewHpHTt
-         b9fPqk38easvhcoQwupWTTSnlBQnnsh3FAGOfEdB2IyTA/1HFQYbT4bieguSbGwMm5Io
-         Mao7zEs6JK/EaFXQqW6xk0SYiKgU8SgwKfax8n9r6T4KBCvjJopPrjuni6pwUoesqBnW
-         IXT+nDjcEc8N/nkpJiq62hY9DBAUPTNXAhdW0zYyj4AXuL4qrvaanP5TQw9iLYF/VhsH
-         PXAA==
-X-Forwarded-Encrypted: i=1; AJvYcCWF+GYVpPdLVpF3hGCV5t14nF/x/rcjxHjHHT/AnHrOSGfUXpjLHvQL2eUnW5K8HX5WOkTQsLJWH8o=@vger.kernel.org
-X-Gm-Message-State: AOJu0YwFe+zy0m+3CG5UwXesvlBkQyeqDTj1p8IlEp2U1QseTu6rNQ36
-	HcBhb9ehH3g9BukZAOwX2YvmS/LTaGLNu936LgUkPUxs4YxzJ9ZpVmy3ShEi4zu2wvBbe9i8cZU
-	ByXuhl99Mluq+048BjQCsBlc3Ut9mEJaZONlJVRgXgMJDkH4PnmSHoL1boj8t33s=
-X-Gm-Gg: ASbGnct3lq+uzgXfNorCfoGDjkk9K5Fi0OHcnAHtnvqflVHp4zAkJQ9P+la7OtcW57a
-	kLP6Too2wUFCwGIbxtbJHrGQUsERxO3t+FHT/G+VPnk2l/XPLZay5j1f6gImaee6qMdrB2YbXYN
-	UwtffMKu/6tAaMBPjgxCOmbDfVoURcir0ZiDeaHjGMV/EWbuS09zz3WX6wzHZ4ZmdJwQ0zi48zC
-	5n24qclLQaFmFLaKR0ghPEIdklU4KPj+Zu68Cuypq4zXyq+E0JJaOfGgHPmQzVIcFWZ7oP50x/7
-	RblTYCbm79uFF1tvcDc8/4ZGSbiPn1YG5QxBgiLOAsvfSw9t0mnTOwWtcbX/J3DjQi6TBKo=
-X-Received: by 2002:a17:903:2444:b0:234:9656:7db9 with SMTP id d9443c01a7336-242fc31a4a3mr51288875ad.32.1754994232583;
-        Tue, 12 Aug 2025 03:23:52 -0700 (PDT)
-X-Google-Smtp-Source: AGHT+IH3nE0xxMXGE/aWuTkvjXgGqjunL9+rYSJeujJY4UxqEAU7X4YcgP2z+joHLGg4G+JZ/pjB4Q==
-X-Received: by 2002:a17:903:2444:b0:234:9656:7db9 with SMTP id d9443c01a7336-242fc31a4a3mr51288405ad.32.1754994232082;
-        Tue, 12 Aug 2025 03:23:52 -0700 (PDT)
-Received: from [10.92.180.108] ([202.46.23.19])
-        by smtp.gmail.com with ESMTPSA id d9443c01a7336-241e8aafa11sm295123515ad.172.2025.08.12.03.23.48
+        bh=3cLzSF3gpHrunTl5F1JZE5JIjZSIBKlPzndpcOzoxZQ=;
+        b=VVfnyTlmRp3tmonG3I4+mt3uFAIrCNf5gM9Dse0et3RAfkbmSQxjnshlekWxjOlctF
+         y0iv/UxkWGAA5IlYyeuV4B+ia5HfAmm3NdvzMt2MHBqQ4qZtN7t5u7l4hOzzFxkQKmRW
+         QRmVqDqZTfKV5+WMt6GU8zsVsT7DtRY1pIIGwDhTAe/7Tz+hKWY7dUJSKV6dEpYuAWYw
+         R1/niKSEpHKc7IVa3NNeqMzqwHP+vpVVtDa+8uTy2V3B25NuFIKErtQYmZh/Ui6pOP2M
+         6NpfCg6eOtBP/I3Qgdz3Yym9QYd7R+OKXeLqlc98NztFFu1+2z7gJi2wk2LpdFHAkoFF
+         7NrQ==
+X-Forwarded-Encrypted: i=1; AJvYcCX+YEMA2MNnpJJ9SZ4YCJv0L5PHfxuBR3z0cc3FIvAQVNVTRwOWHPbgafPFn503M2lKNl4I/Zar4KI=@vger.kernel.org
+X-Gm-Message-State: AOJu0YyoQwA0a0b9rdmdlEpkGkQqguvRUOCaRx3G5aGpre3YvZQhtndD
+	SZ8Rg7fOtXz5RgGFNLtKjxSmN2E2pCvt4XP3Ojkwm9CiBfGg7ELFhU3W/0wRSO+n7z7AkliOnzB
+	wcuBlnRccmp6RBg59iE3H3+epvvKFzcjZ/1WhJVB966Cj1Z4XHZdlz215RO6RGTY=
+X-Gm-Gg: ASbGnctvIQXstLqZSk9652DrYLjyR583Z6RU0awNGmpT4rP2wP0p6XB2sX84uyGQyLx
+	v3+On35uW3L3RqIt862rMgTf2vD8C+BOW1SE7W5ZUgAootGK5ZHfdsMSbJ/zwhbV3yVn19aekI7
+	jJ74EJeDQ92i7ZrY/bQU3wS1gERRMaluRkbwSYGoQ7jLY4pb2sIDaezexC3ERPt9o5RkUsahMob
+	w6fx7Cj5r5TV6OXoyozABZbhlra7dZYYVGs/zJ/ev+C+aKdRCKo7OfblsOVuRSAk9lPR3V1TjsM
+	56b54+LPItT+br1EPfgDMWj9TtbgcK6XfaADfrueE0dW2DtC59kTtDOb6eUjV0B2wffdTA5tud/
+	DA9vx4H5YonbYOUfCRA==
+X-Received: by 2002:ac8:5f4d:0:b0:4ab:609f:d7d1 with SMTP id d75a77b69052e-4b0f491b39amr4190401cf.4.1754995530142;
+        Tue, 12 Aug 2025 03:45:30 -0700 (PDT)
+X-Google-Smtp-Source: AGHT+IGAB92TKf0KXpgBRFniBKIftqHfFH4cyEtGpbP2vO7IxteDlG0EJNpZMmAQrqtJ1FZt2QwoPw==
+X-Received: by 2002:ac8:5f4d:0:b0:4ab:609f:d7d1 with SMTP id d75a77b69052e-4b0f491b39amr4190141cf.4.1754995529451;
+        Tue, 12 Aug 2025 03:45:29 -0700 (PDT)
+Received: from [192.168.43.16] (078088045245.garwolin.vectranet.pl. [78.88.45.245])
+        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-af92b650c8asm2035025266b.65.2025.08.12.03.45.28
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 12 Aug 2025 03:23:51 -0700 (PDT)
-Message-ID: <7ab4d0b1-30b8-408f-8dd8-85d9fc255704@oss.qualcomm.com>
-Date: Tue, 12 Aug 2025 15:53:46 +0530
+        Tue, 12 Aug 2025 03:45:28 -0700 (PDT)
+Message-ID: <bd859eaf-9809-4820-958b-dd6cbb3d16e5@oss.qualcomm.com>
+Date: Tue, 12 Aug 2025 12:45:27 +0200
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
@@ -74,170 +75,63 @@ List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v4 2/3] usb: dwc3: qcom: Implement glue callbacks to
- facilitate runtime suspend
-To: Konrad Dybcio <konrad.dybcio@oss.qualcomm.com>,
-        Thinh Nguyen <Thinh.Nguyen@synopsys.com>
-Cc: linux-arm-msm@vger.kernel.org, linux-usb@vger.kernel.org,
-        linux-kernel@vger.kernel.org,
-        Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>,
-        Mathias Nyman <mathias.nyman@intel.com>,
-        Bjorn Andersson <bjorn.andersson@oss.qualcomm.com>,
+Subject: Re: [PATCH v10 3/3] arm64: dts: qcom: Add Lenovo ThinkBook 16 G7 QOY
+ device tree
+To: Jens Glathe <jens.glathe@oldschoolsolutions.biz>,
+        Bjorn Andersson <andersson@kernel.org>,
+        Konrad Dybcio <konradybcio@kernel.org>, Rob Herring <robh@kernel.org>,
+        Krzysztof Kozlowski <krzk+dt@kernel.org>,
+        Conor Dooley
+ <conor+dt@kernel.org>,
+        Matthias Kaehlcke <mka@chromium.org>,
         Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-References: <20250812055542.1588528-1-krishna.kurapati@oss.qualcomm.com>
- <20250812055542.1588528-3-krishna.kurapati@oss.qualcomm.com>
- <575c80d1-5f68-4863-8ba3-9769a5047b8d@oss.qualcomm.com>
+Cc: Aleksandrs Vinarskis <alex.vinarskis@gmail.com>,
+        linux-arm-msm@vger.kernel.org, devicetree@vger.kernel.org,
+        linux-kernel@vger.kernel.org, linux-usb@vger.kernel.org
+References: <20250810-tb16-dt-v10-0-0bfed6d75c69@oldschoolsolutions.biz>
+ <20250810-tb16-dt-v10-3-0bfed6d75c69@oldschoolsolutions.biz>
+ <388aed37-03c1-4a5f-a425-5ed8c4f9cb34@oss.qualcomm.com>
+ <8672fcd0-cae3-428e-b1e6-cfbdea1ebbb7@oldschoolsolutions.biz>
 Content-Language: en-US
-From: Krishna Kurapati <krishna.kurapati@oss.qualcomm.com>
-In-Reply-To: <575c80d1-5f68-4863-8ba3-9769a5047b8d@oss.qualcomm.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
+From: Konrad Dybcio <konrad.dybcio@oss.qualcomm.com>
+In-Reply-To: <8672fcd0-cae3-428e-b1e6-cfbdea1ebbb7@oldschoolsolutions.biz>
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
-X-Authority-Analysis: v=2.4 cv=G6EcE8k5 c=1 sm=1 tr=0 ts=689b1639 cx=c_pps
- a=MTSHoo12Qbhz2p7MsH1ifg==:117 a=j4ogTh8yFefVWWEFDRgCtg==:17
- a=IkcTkHD0fZMA:10 a=2OwXVqhp2XgA:10 a=hQXcrAQZFoSSxVINoZkA:9
- a=QEXdDO2ut3YA:10 a=GvdueXVYPmCkWapjIL-Q:22
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUwODExMDA5NyBTYWx0ZWRfX67/L4q93cVem
- I5/wgBK6qzr+neXbpOdTIaCC3W6ngCKAqdZc7FW9juwfBZwjL59Zitz7IUQL34wTVgikcZKF9lG
- +XjztftRd5uoJlXY65hoCkFvxJijsect51z0u1i7T823CwjFdYXN4Ll8SdF4u1RK/cfrU/Ea56B
- 5adypaBSmcuYT7+sBhCn5DlKdi8/RnRYajBW4V6YmqA1DKsHFYOd15wsObU8ao1oAxzDQeLov0F
- F+FCqjvlFIkVlsbcvHzxjxrj0wKLUQWXuCc2uQ7dU3ansqXvZJBs4nuS+8h0j//DSLljp2j71ZN
- xxSm0q128xBp5sEIAcmk4OgbUn1quqYz1JEBLZ2gno/hAp1JcrzUy5CGezRAJiqOZPNL7Gh+VuN
- FoFVVT2q
-X-Proofpoint-ORIG-GUID: Hn3Atz6fqay6IhQgXdxJszleU0NeU3vk
-X-Proofpoint-GUID: Hn3Atz6fqay6IhQgXdxJszleU0NeU3vk
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUwODEwMDA1NyBTYWx0ZWRfX1R0tTWlfVXPQ
+ zdFxWF8e4ENtqfebjdu4eIiQbkRX/jNnQjFQ3vSvIB2pwQ9i87vm8AJq2n1bHkQibTvh1AtPDUg
+ yEUsMBOqVILiT6jOz6Vg7dj6E478G7VHaLS2XnQape1tsLgWVMj9jyFiWRZG9cOHWOK5p2Ixr3k
+ faSSFIK1tTI2QHWqKw8JHIcci2+jiFr89FL6c+peHbDLrtnKuhpE+bktJr+DpwEM16zevgJaAJ4
+ T1s8hrvd6knGffcOEsSSJi/sE0H0HX0L9Yq36JZ2+X4KUErNXNZ7lk2d6X2Tjl4qRSz5MXcrCs6
+ 80dL3+0InVtjrhdpNk5i9jW2zio3Yn+BA0GEhHtBMBMQ4J2MzwiknhLNrUntvrtkDqzLIpQt5IW
+ 72amvL/A
+X-Proofpoint-GUID: M0dZPN2WmmhEBFIU9SAxMRLAB0Qq0cmm
+X-Authority-Analysis: v=2.4 cv=aYNhnQot c=1 sm=1 tr=0 ts=689b1b4b cx=c_pps
+ a=JbAStetqSzwMeJznSMzCyw==:117 a=FpWmc02/iXfjRdCD7H54yg==:17
+ a=IkcTkHD0fZMA:10 a=2OwXVqhp2XgA:10 a=pn5id0YzOMrLbUZRFx4A:9
+ a=QEXdDO2ut3YA:10 a=uxP6HrT_eTzRwkO_Te1X:22
+X-Proofpoint-ORIG-GUID: M0dZPN2WmmhEBFIU9SAxMRLAB0Qq0cmm
 X-Proofpoint-Virus-Version: vendor=baseguard
  engine=ICAP:2.0.293,Aquarius:18.0.1099,Hydra:6.1.9,FMLib:17.12.80.40
- definitions=2025-08-12_04,2025-08-11_01,2025-03-28_01
+ definitions=2025-08-12_05,2025-08-11_01,2025-03-28_01
 X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- suspectscore=0 priorityscore=1501 bulkscore=0 spamscore=0 phishscore=0
- malwarescore=0 adultscore=0 impostorscore=0 clxscore=1015
+ spamscore=0 adultscore=0 priorityscore=1501 suspectscore=0 phishscore=0
+ impostorscore=0 bulkscore=0 malwarescore=0 clxscore=1015
  classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
- reason=mlx scancount=1 engine=8.19.0-2507300000 definitions=main-2508110097
+ reason=mlx scancount=1 engine=8.19.0-2507300000 definitions=main-2508100057
 
+On 8/12/25 12:35 PM, Jens Glathe wrote:
+> On 12.08.25 12:17, Konrad Dybcio wrote:
+>> On 8/10/25 7:37 PM, Jens Glathe via B4 Relay wrote:
+>>> diff --git a/arch/arm64/boot/dts/qcom/x1e80100-hp-omnibook-x14.dts b/arch/arm64/boot/dts/qcom/x1p42100-lenovo-thinkbook-16.dts
+>>> similarity index 77%
+>>> copy from arch/arm64/boot/dts/qcom/x1e80100-hp-omnibook-x14.dts
+>>> copy to arch/arm64/boot/dts/qcom/x1p42100-lenovo-thinkbook-16.dts
+>> I understand that git may have gotten confused, but the diff is now
+>> impossible to review
+> 
+> Oh wow. Yes I get that, haven't seen. Needs either a tweak for the similarity index (needs to be really high) or I need to disable --find-copies-harder. [1] How do I go about this: is this a resend or a new version?
 
+The content differs, so preferably a new version so as not to confuse
+the tooling
 
-On 8/12/2025 2:39 PM, Konrad Dybcio wrote:
-> On 8/12/25 7:55 AM, Krishna Kurapati wrote:
->> On Qualcomm DWC3 dual-role controllers, the conndone/disconnect events in
->> device mode are generated by controller when software writes to QSCRATCH
->> registers in Qualcomm Glue layer rather than the vbus line being routed to
->> dwc3 core IP for it to recognize and generate these events.
->>
->> UTMI_OTG_VBUS_VALID  bit of QSCRATCH_HS_PHY_CTRL register needs to be set
->> to generate a connection done event and to be cleared for the controller to
->> generate a disconnect event during cable removal. When the disconnect is
->> not generated upon cable removal, the "connected" flag of dwc3 is left
->> marked as "true" and it blocks suspend routines and for that to happen upon
->> cable removal, the cable disconnect notification coming in via set_role
->> call need to be provided to the Qualcomm glue layer as well.
->>
->> Currently, the way DWC3 core and Qualcomm legacy glue driver are designed,
->> there is no mechanism through which the DWC3 core can notify the Qualcomm
->> glue layer of any role changes which it receives via role switch. To
->> register these glue callbacks at probe time, for enabling core to notify
->> glue layer, the legacy Qualcomm driver has no way to find out when the
->> child driver probe was successful since it does not check for the same
->> during of_platform_populate.
-> 
-> [...]
-> 
->> +	if (qcom->current_role == USB_ROLE_DEVICE)
-> 
-> I think it makes more sense to check for next_role here (we know
-> it'll be the opposite of current_role, but this is confusing to read)
-> 
->> +		dwc3_qcom_vbus_override_enable(qcom, false);
->> +	else if (qcom->current_role != USB_ROLE_DEVICE)
->> +		dwc3_qcom_vbus_override_enable(qcom, true);
-> 
-> I think the formerly proposed inline comparison grew on me..
-> or at least drop the 'else' condition, '==' only goes two ways
-> 
-
-ACK.
-
->> +
->> +	pm_runtime_mark_last_busy(qcom->dev);
->> +	pm_runtime_put_sync(qcom->dev);
->> +
->> +	/*
->> +	 * Current role changes via usb_role_switch_set_role callback protected
->> +	 * internally by mutex lock.
->> +	 */
->> +	qcom->current_role = next_role;
->> +}
->> +
->> +static void dwc3_qcom_run_stop_notifier(struct dwc3 *dwc, bool is_on)
->> +{
->> +	struct dwc3_qcom *qcom = to_dwc3_qcom(dwc);
->> +
->> +	/*
->> +	 * When autosuspend is enabled and controller goes to suspend
->> +	 * after removing UDC from userspace, the next UDC write needs
->> +	 * setting of QSCRATCH VBUS_VALID to "1" to generate a connect
->> +	 * done event.
->> +	 */
->> +	if (!is_on)
->> +		return;
->> +
->> +	dwc3_qcom_vbus_override_enable(qcom, true);
->> +	pm_runtime_mark_last_busy(qcom->dev);
->> +}
->> +
->> +struct dwc3_glue_ops dwc3_qcom_glue_ops = {
->> +	.pre_set_role	= dwc3_qcom_set_role_notifier,
->> +	.pre_run_stop	= dwc3_qcom_run_stop_notifier,
->> +};
->> +
->>   static int dwc3_qcom_probe(struct platform_device *pdev)
->>   {
->>   	struct dwc3_probe_data	probe_data = {};
->> @@ -636,6 +683,23 @@ static int dwc3_qcom_probe(struct platform_device *pdev)
->>   	if (ignore_pipe_clk)
->>   		dwc3_qcom_select_utmi_clk(qcom);
->>   
->> +	qcom->mode = usb_get_dr_mode(dev);
->> +
->> +	if (qcom->mode == USB_DR_MODE_HOST) {
->> +		qcom->current_role = USB_ROLE_HOST;
-> 
-> Should we explicitly clear the VBUS override in this and the last branch?
-> 
-
-Not necessary. Even if its kept set (somehow carried on from 
-bootloader), its still a NOP if dr mode is host or default mode is host.
-
-Regards,
-Krishna,
-
-> Konrad
-> 
->> +	} else if (qcom->mode == USB_DR_MODE_PERIPHERAL) {
->> +		qcom->current_role = USB_ROLE_DEVICE;
->> +		dwc3_qcom_vbus_override_enable(qcom, true);
->> +	} else {
->> +		if ((device_property_read_bool(dev, "usb-role-switch")) &&
->> +		    (usb_get_role_switch_default_mode(dev) == USB_DR_MODE_HOST))
->> +			qcom->current_role = USB_ROLE_HOST;
->> +		else
->> +			qcom->current_role = USB_ROLE_DEVICE;
->> +	}
->> +
->> +	qcom->dwc.glue_ops = &dwc3_qcom_glue_ops;
->> +
->>   	qcom->dwc.dev = dev;
->>   	probe_data.dwc = &qcom->dwc;
->>   	probe_data.res = &res;
->> @@ -650,12 +714,6 @@ static int dwc3_qcom_probe(struct platform_device *pdev)
->>   	if (ret)
->>   		goto remove_core;
->>   
->> -	qcom->mode = usb_get_dr_mode(dev);
->> -
->> -	/* enable vbus override for device mode */
->> -	if (qcom->mode != USB_DR_MODE_HOST)
->> -		dwc3_qcom_vbus_override_enable(qcom, true);
->> -
->>   	wakeup_source = of_property_read_bool(dev->of_node, "wakeup-source");
->>   	device_init_wakeup(&pdev->dev, wakeup_source);
->>   
+Konrad
