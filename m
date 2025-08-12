@@ -1,120 +1,193 @@
-Received: from mout.kundenserver.de (mout.kundenserver.de [212.227.126.134])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.16])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9C66A23BCE7;
-	Tue, 12 Aug 2025 11:02:05 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=212.227.126.134
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C53BA2EE5F7;
+	Tue, 12 Aug 2025 11:41:05 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.16
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1754996528; cv=none; b=cKrwus4kGhf9wpvJ2xJCJX3LNkUNGp+9o5jthUlu0j5Q8bW0zsBWXtmALNEOGf/HCA1EcXNrx8VfmW5gT0powb6p5HFG1kUeWHbLHnisyhE7UPjAWNCmofk9r6b+1qjIChoV5mCc63hYmDnTGdDK8e7r+UEEQ5B1ruAAVwaEPwQ=
+	t=1754998869; cv=none; b=jf5jPjZzVdEWqGEoQ4yGOzAd8v7COvXjaAPx1HZG0lDWB9D6ReqLJeYdnToHy0e8rIdYiVL4mMfpArWMw340SLben+h1emOVsIAFnYvDbLMIjc9NnFNL+iBwmNZPpEQfZNQ1HKv2yIdZZkEKttcaQMA6bV603O6mPuYgXO6ABD8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1754996528; c=relaxed/simple;
-	bh=3OwEx3ATq9hTzfxnY3gg+hw0Eg7P8zJzOgQ50ls1n/Q=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=aWlFv0zNXvp4wAtf+yuQSXsv8fwgwG4MSK+PtnORHTOrFMYWVZIVJUmSyLz5YjJbwT6VF4w+hqur/EQ62OzzKPpq5wjUPJVYtwNDaNbuyJm+RORmZV3nT0jPgG78Jv9yCflWTIeNRQQOca9ZNGWMlgUAmUSSg5TIg4Gzvab6Bos=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=oldschoolsolutions.biz; spf=pass smtp.mailfrom=oldschoolsolutions.biz; dkim=pass (2048-bit key) header.d=oldschoolsolutions.biz header.i=jens.glathe@oldschoolsolutions.biz header.b=ZN2aCNDZ; arc=none smtp.client-ip=212.227.126.134
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=oldschoolsolutions.biz
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=oldschoolsolutions.biz
+	s=arc-20240116; t=1754998869; c=relaxed/simple;
+	bh=8cHX/Sr/SKiYCY8L0anyseQRntP0r49oVVkND9FPyS4=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=Z54COoz+m1e3IdR9yWek/MqMNDDQaftVc0DFw8+uzaL6kAI3ZYTD7xlhdTSDIUDicCJ5vKRKpzPy5cLnIlDWRZmXl2ADwRyeimpZCqiUnh8WXHbXOOVWk8uLCqhQK9sB8am9EFphwZk0ZJDRandFykLABbmO/6ZhVmnbH0jHLVg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=none smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=nIRVjaCw; arc=none smtp.client-ip=198.175.65.16
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=linux.intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=oldschoolsolutions.biz header.i=jens.glathe@oldschoolsolutions.biz header.b="ZN2aCNDZ"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=oldschoolsolutions.biz; s=s1-ionos; t=1754996506; x=1755601306;
-	i=jens.glathe@oldschoolsolutions.biz;
-	bh=3OwEx3ATq9hTzfxnY3gg+hw0Eg7P8zJzOgQ50ls1n/Q=;
-	h=X-UI-Sender-Class:Message-ID:Date:MIME-Version:Subject:To:Cc:
-	 References:From:In-Reply-To:Content-Type:
-	 Content-Transfer-Encoding:cc:content-transfer-encoding:
-	 content-type:date:from:message-id:mime-version:reply-to:subject:
-	 to;
-	b=ZN2aCNDZ7+fuca61kc8CwXfxWDreYBIubAXXY/0vhJZejfjvV3QrUYr+23fiR12H
-	 uU9WPoA2nIee4iGyVEbsAW2YoGFcX4Rk8WAwWgeA38QJyWBqfOKX3D5/TRn/W7vvz
-	 Hpxwh3ujch4RPenca6d+PR/hkhkC2Tv1OLRET1XM6B/Xv2tjAtNRe/rvHnHuDmn07
-	 GtmL2h9QKnANIlqNQN3bV139iggemmRFK6l3h2r8NiLDvT8Gl1gdHsBS0ul39HuUu
-	 TWh0L4YqaH5nI7EeviiYQ6bNG50HW4yE1rdJ0rIpX8+d8FZVdZ57vfWLd8ItswoPA
-	 n8qIVOgOcfkA7IybhA==
-X-UI-Sender-Class: 55c96926-9e95-11ee-ae09-1f7a4046a0f6
-Received: from [192.168.0.107] ([80.128.171.52]) by mrelayeu.kundenserver.de
- (mreue009 [212.227.15.167]) with ESMTPSA (Nemesis) id
- 1M6lxe-1ufi5X04P0-0063Tk; Tue, 12 Aug 2025 12:35:45 +0200
-Message-ID: <8672fcd0-cae3-428e-b1e6-cfbdea1ebbb7@oldschoolsolutions.biz>
-Date: Tue, 12 Aug 2025 12:35:43 +0200
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="nIRVjaCw"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1754998865; x=1786534865;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:content-transfer-encoding:in-reply-to;
+  bh=8cHX/Sr/SKiYCY8L0anyseQRntP0r49oVVkND9FPyS4=;
+  b=nIRVjaCw0RfCV71PokxEHDGH6D4JrK5M4RzdRTSHHIxpkyHq9dG3ezlV
+   M0ucRlFu/W0pXglqjXrd/Fu7wWMSFEwv4JfAV6bTOBRujIM0JqYkPIKbV
+   bV25YzbgWvSFCetG1fPPyzvD02IAFZ7ppLY0r6g26rqNTyNvWDOBxwns0
+   oiTuOP5n1bUS114FD9IBoK9eUTg9NXrFyLML6BPJ+o0sSH897oz6kje7B
+   w9qv6pFBKMwBnuc5Iu4GjT4XCjPP0bwemRItl1bMW9LSjwgQNJFQBGuzO
+   HUJrSo7G90FMq2jZLB+qWubkcC43cwXy0BkVIZxyTSdVsylpdM1Ht0JGU
+   g==;
+X-CSE-ConnectionGUID: ES3VCS13TumPA2xyarEQYw==
+X-CSE-MsgGUID: z7A+TynvSb69zINgA5BQgQ==
+X-IronPort-AV: E=McAfee;i="6800,10657,11518"; a="57417920"
+X-IronPort-AV: E=Sophos;i="6.17,284,1747724400"; 
+   d="scan'208";a="57417920"
+Received: from orviesa003.jf.intel.com ([10.64.159.143])
+  by orvoesa108.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 12 Aug 2025 04:41:05 -0700
+X-CSE-ConnectionGUID: 088z0gfNSJymyLmSnlB/lw==
+X-CSE-MsgGUID: y+O8W3nPTQynoLrDy6xRfw==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.17,284,1747724400"; 
+   d="scan'208";a="170377978"
+Received: from kuha.fi.intel.com ([10.237.72.152])
+  by orviesa003.jf.intel.com with SMTP; 12 Aug 2025 04:41:01 -0700
+Received: by kuha.fi.intel.com (sSMTP sendmail emulation); Tue, 12 Aug 2025 14:40:59 +0300
+Date: Tue, 12 Aug 2025 14:40:59 +0300
+From: Heikki Krogerus <heikki.krogerus@linux.intel.com>
+To: Abhishek Pandit-Subedi <abhishekpandit@chromium.org>
+Cc: Andrei Kuchynski <akuchynski@chromium.org>,
+	Benson Leung <bleung@chromium.org>,
+	Jameson Thies <jthies@google.com>,
+	Tzung-Bi Shih <tzungbi@kernel.org>, linux-usb@vger.kernel.org,
+	chrome-platform@lists.linux.dev,
+	Guenter Roeck <groeck@chromium.org>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>,
+	"Christian A. Ehrhardt" <lk@c--e.de>,
+	Venkat Jayaraman <venkat.jayaraman@intel.com>,
+	linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v3 04/10] usb: typec: Expose mode priorities via sysfs
+Message-ID: <aJsoS3EXgoLP-f-E@kuha.fi.intel.com>
+References: <20250804090340.3062182-1-akuchynski@chromium.org>
+ <20250804090340.3062182-5-akuchynski@chromium.org>
+ <aJn9ZSy3w4zW4Xvq@kuha.fi.intel.com>
+ <CANFp7mVUFZyF8z0dN-Mo7ntPOXh06ZD0RH5GyvJJymOXrhSD1g@mail.gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v10 3/3] arm64: dts: qcom: Add Lenovo ThinkBook 16 G7 QOY
- device tree
-To: Konrad Dybcio <konrad.dybcio@oss.qualcomm.com>,
- Bjorn Andersson <andersson@kernel.org>,
- Konrad Dybcio <konradybcio@kernel.org>, Rob Herring <robh@kernel.org>,
- Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley
- <conor+dt@kernel.org>, Matthias Kaehlcke <mka@chromium.org>,
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-Cc: Aleksandrs Vinarskis <alex.vinarskis@gmail.com>,
- linux-arm-msm@vger.kernel.org, devicetree@vger.kernel.org,
- linux-kernel@vger.kernel.org, linux-usb@vger.kernel.org
-References: <20250810-tb16-dt-v10-0-0bfed6d75c69@oldschoolsolutions.biz>
- <20250810-tb16-dt-v10-3-0bfed6d75c69@oldschoolsolutions.biz>
- <388aed37-03c1-4a5f-a425-5ed8c4f9cb34@oss.qualcomm.com>
-Content-Language: en-US
-From: Jens Glathe <jens.glathe@oldschoolsolutions.biz>
-In-Reply-To: <388aed37-03c1-4a5f-a425-5ed8c4f9cb34@oss.qualcomm.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: quoted-printable
-X-Provags-ID: V03:K1:TKFUv73J8yNj5Mz4hRnRFr6FPpJQYkvdiCBpYbKd9Prxuz1qIWS
- 9NJm9gFQ9CTjMut18m4Bmfw2YOpQo7doTleF6kP9b4uDz5UyNBJ7oPZ9SDx5a8b1XXrk8VG
- RGgv9Pq2vHG5+UCWRBnQ0gigRX45I49xvUwyO4LwfNsusmLjJve7uOpxnYSR98abXJXatAu
- QU/64lyrPzFNxzoHD1QLw==
-X-Spam-Flag: NO
-UI-OutboundReport: notjunk:1;M01:P0:BO9bf+wCaaE=;21li4PT0UtvQmLP3+6YDaP5Sc/T
- 5T+MwSOnH4GK9g+0tLn/MzAK/LoPaGqIm1eYDtMeun3n1fVSxXatmK8M9RACEB1FfhbkFP8ze
- w/7vGJ7TS8CUtUtwVpLCxeKEfFIKbk0yEht+CYi+2c/DEjoLRfSXtHNVflfEa7ypJqsrvKmOq
- WHs+VwR+sSDac3wPa/WKCXZU9a+3LNeyipDpCALGldTvNoOOnz5F6uipsz4O12IuRANweXJfl
- TGJ85fExqvxprVOjZS9yS76yjHhjrL6uM7IEOLIMWSqz3LSiadLU3gGxydJknPYO5ez145lUC
- WYYeQ/1YfoAsLYMhyIdhuodmILCBM1zIFoGAmlwr8R+khUz89qGUwly5x7YYnncdCqBqL8Qt0
- kuo4Cq/dXL5O5497Hkzn6K+73/70sTKobAle1fIYUEPvnqg8hpQKP3bslYarM2KUWZUT/R6md
- d+4Eg2yCBmr/DsWgcHyq2hULmYpBusKXmMKU377hg4YTwXrZOmjOMoqcGb4pwOXzkNNjMC6Rs
- PPBJKT6uMh6ZH5nq3lMctOG7Fsp/0BAKu2VeS7m1IhkGtxgnzrJ1ePTQomdeGLva6/P39URmk
- n9cWJKvkp4UyjO7Ytb7lCXwS8FvA1LnUnfvXR38vLGI/JJSMsmx2mJMxBPa3XV39kb94sa7+0
- BvrGOA5icihVHQeUITYWhACAAvnYmO93WdR4cR7pCKuRKPV7xqb16dMGIqmxkrHmW0ESJHBB8
- DUTTmxpPV2uIu9sM+BSED5HL6j6BNRi74a7/FQg0gjklOir0LOjfo9iqitpEfiZ/sJc0dEaCM
- DXpcuPJXPH+gMcfFbENJa6741Vl/lDtFHAJj2HhHiVpF2UZDKHXNzQNB/f45Cdk7/5jpyVCYK
- TnYJsynQNOS34oXIA5nIsrCWIhUATnMxQfodT+1Q9b6SGW6jdKFR12+UzA8eKp6D3kD9p1JC0
- /zIk+SxzG2k4eL2Tyhaxd3olYarZZVmShMwj853+euP5ft0xJg4MLmLUjtKQhRT8azuDBW0Nk
- FpQEdLV4QK4g1/4Cuo3fL7RmUz9ImstI1dT+1onGPt10l6NjQPDbqYqP+vw0YXIn28JSXTRQH
- esmG61e7Rs/fNhbjqUdxyrYqhLdes7i8wbB+nt7pgHshFjUKn9MYzuRSlXK46EnvwAum1IuyN
- R1Htq9aEp/AQkp0rmXYl3O+NqjEwLPXwa91WfHJKU5/Tl6HbZLpUW5jvXvYwrbIhWiQWgBktf
- esNAFT50sKpPpYBaafTWj1gy1VCjTuwKnX5wAsrX3YA9QxQ96pi6hJw/zTPL3ubjWxsXseAhg
- l0lRrTPmYi/61UKWkPq4GHpL55xP2pGPkSIWWKUAEKfbxJBxf7xzXvIJUp+LKZkXxFnpw+Fi0
- Ork6Ts9hqTX4ygo5L1Bgqi1pjf5vprsTK/7uu1sbUfAIgMBtF50yT/NgHfVf+DWHKieoGZsvV
- lmywC28cOPbvaLtHlp6S1hBfyH3SmtJYsdn3Yu/pska4wqepa57uxI0gelQk7IIPFT25MB4Pn
- ihBWz5Z73rBx/Jbcnp/BEgSCYNccusxwy6rGbov5jAw5d21yc3IkvuO9UhftfQvCjs694BAa1
- HtousJAS0CWhG8XEWILYOeWMwKQ9wAE7dG5lNVD7yrhhS80max8Nw==
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <CANFp7mVUFZyF8z0dN-Mo7ntPOXh06ZD0RH5GyvJJymOXrhSD1g@mail.gmail.com>
 
-On 12.08.25 12:17, Konrad Dybcio wrote:
-> On 8/10/25 7:37 PM, Jens Glathe via B4 Relay wrote:
->> diff --git a/arch/arm64/boot/dts/qcom/x1e80100-hp-omnibook-x14.dts b/ar=
-ch/arm64/boot/dts/qcom/x1p42100-lenovo-thinkbook-16.dts
->> similarity index 77%
->> copy from arch/arm64/boot/dts/qcom/x1e80100-hp-omnibook-x14.dts
->> copy to arch/arm64/boot/dts/qcom/x1p42100-lenovo-thinkbook-16.dts
-> I understand that git may have gotten confused, but the diff is now
-> impossible to review
+Hi Abhishek,
 
-Oh wow. Yes I get that, haven't seen. Needs either a tweak for the=20
-similarity index (needs to be really high) or I need to disable=20
-=2D-find-copies-harder. [1] How do I go about this: is this a resend or a=
-=20
-new version?
+On Mon, Aug 11, 2025 at 11:22:38AM -0700, Abhishek Pandit-Subedi wrote:
+> On Mon, Aug 11, 2025 at 7:25 AM Heikki Krogerus
+> <heikki.krogerus@linux.intel.com> wrote:
+> >
+> > Hi Andrei,
+> >
+> > On Mon, Aug 04, 2025 at 09:03:33AM +0000, Andrei Kuchynski wrote:
+> > > This patch introduces new sysfs attributes to allow users to configure
+> > > and view Type-C mode priorities.
+> > >
+> > > `priority`, `usb4_priority` attributes allow users to assign a numeric
+> > > priority to DisplayPort alt-mode, Thunderbolt alt-mode, and USB4 mode.
+> > >
+> > > `mode_priorities` - read-only attribute that displays an ordered list
+> > > of all modes based on their configured priorities.
+> > >
+> > > Signed-off-by: Andrei Kuchynski <akuchynski@chromium.org>
+> > > ---
+> > >  Documentation/ABI/testing/sysfs-class-typec |  33 +++++
+> > >  drivers/usb/typec/Makefile                  |   2 +-
+> > >  drivers/usb/typec/class.c                   | 103 +++++++++++++++-
+> > >  drivers/usb/typec/class.h                   |   1 +
+> > >  drivers/usb/typec/mode_selection.c          | 130 ++++++++++++++++++++
+> > >  drivers/usb/typec/mode_selection.h          |  23 ++++
+> > >  include/linux/usb/typec_altmode.h           |   7 ++
+> > >  7 files changed, 295 insertions(+), 4 deletions(-)
+> > >  create mode 100644 drivers/usb/typec/mode_selection.c
+> > >  create mode 100644 drivers/usb/typec/mode_selection.h
+> > >
+> > > diff --git a/Documentation/ABI/testing/sysfs-class-typec b/Documentation/ABI/testing/sysfs-class-typec
+> > > index 38e101c17a00..575dd94f33ab 100644
+> > > --- a/Documentation/ABI/testing/sysfs-class-typec
+> > > +++ b/Documentation/ABI/testing/sysfs-class-typec
+> > > @@ -162,6 +162,39 @@ Description:     Lists the supported USB Modes. The default USB mode that is used
+> > >               - usb3 (USB 3.2)
+> > >               - usb4 (USB4)
+> > >
+> > > +             What:           /sys/class/typec/<port>/<alt-mode>/priority
+> > > +Date:                July 2025
+> > > +Contact:     Andrei Kuchynski <akuchynski@chromium.org>
+> > > +Description:
+> > > +             Displays and allows setting the priority for a specific alt-mode.
+> > > +             When read, it shows the current integer priority value. Lower numerical
+> > > +             values indicate higher priority (0 is the highest priority).
+> > > +             If the new value is already in use by another mode, the priority of the
+> > > +             conflicting mode and any subsequent modes will be incremented until they
+> > > +             are all unique.
+> > > +             This attribute is visible only if the kernel supports mode selection.
+> > > +
+> > > +             What:           /sys/class/typec/<port>/usb4_priority
+> > > +Date:                July 2025
+> > > +Contact:     Andrei Kuchynski <akuchynski@chromium.org>
+> > > +Description:
+> > > +             Displays and allows setting the priority for USB4 mode. Its behavior and
+> > > +             priority numbering scheme are identical to the general alt-mode
+> > > +             "priority" attributes.
+> >
+> > I'm not sure those above two file make any sense.
+> >
+> > > +What:                /sys/class/typec/<port>/mode_priorities
+> > > +Date:                July 2025
+> > > +Contact:     Andrei Kuchynski <akuchynski@chromium.org>
+> > > +Description: This read-only file lists the modes supported by the port,
+> > > +             ordered by their activation priority. It reflects the preferred sequence
+> > > +             the kernel will attempt to activate modes (DisplayPort alt-mode,
+> > > +             Thunderbolt alt-mode, USB4 mode).
+> > > +             This attribute is visible only if the kernel supports mode selection.
+> > > +
+> > > +             Example values:
+> > > +             - "USB4 Thunderbolt3 DisplayPort"
+> > > +             - "DisplayPort": the port only supports Displayport alt-mode
+> >
+> > Why not just use this one instead so that you write the highest
+> > priority mode to it?
+> 
+> Feedback from Greg on
+> https://lore.kernel.org/linux-usb/2025070159-judgingly-baggage-042a@gregkh/:
+> 
+> "quote":
+> Multiple value sysfs files are generally frowned apon.  sysfs files that
+> also have to be manually parsed in the kernel are also frowned apon.
+> Are you _SURE_ there is no other way that you could possibly do this?
+> 
+> The reason we originally suggested a single "mode priorities" was
+> because we weren't sure what to do about USB4. Otherwise, it makes
+> sense to push a priority field to each alt_mode sysfs group and keep
+> it internally ordered. This is where I really wish we just treated
+> USB4 as an alternate mode :)
 
-with best regards
+I'm probable forgetting something, but I'm pretty sure I already told
+you guys that I agree, it should be an alt mode. So why not just
+register a special alt mode for it?
 
-Jens
+Sorry if I missed something.
 
-[1]:=20
-https://lore.kernel.org/all/20250705-format-harder-v1-1-55c5342be55c@oldsc=
-hoolsolutions.biz/
+> As such, our current API recommendation looks like the following:
+> 
+> * On each port, we lay out priorities for all supported alternate modes + USB4.
 
+This first part I understand.
 
+> * We expose a file to trigger the mode selection task. Reading from it
+> gives you the current status of mode selection (single value).
+> * Detailed results from mode entry are pushed to the mode sysfs group
+> (via entry_results). Converting these to UEVENT is fine but a more
+> persistent value in debugfs would be useful for debugging.
+
+This second part I would really like to handle separately, after we
+have a solution for the first part.
+
+thanks,
+
+-- 
+heikki
