@@ -1,139 +1,131 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.18])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from tengu.nordisch.org (tengu.nordisch.org [138.201.201.57])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AD15D2F90C9;
-	Tue, 12 Aug 2025 16:24:25 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A40D12DFA3E;
+	Tue, 12 Aug 2025 18:21:49 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=138.201.201.57
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1755015867; cv=none; b=kUhu/voN3F3+hDEc2Z542qoipYJeQ5RKARUNDx3r+XikfwTQZtfIZQhagz75LbE2/gWCkgyKJHsCST/rIi1TrqRrSnWVXsSFcYdQbHculPymyP8CzfAw1jK1HKm2cJO73CQYZI8gQqmEmZ/4IM/9XlCZ2NR7CrCiOKeGAnZB42A=
+	t=1755022911; cv=none; b=EUmBAav43MrgGojJnvBTOzTuRMQwzWgerONGScUWADUzOps2GnEG11sLV6uDiol6FzhLB4ATIbEA5bED32PhH/yzWQkQQf7Mn7AA3bq0kxKjwoD9RlUGgBmXppxIoogc2ZMTQBI1JV3o7I+tiXziX8M1/XfwYw2PLe+BgrlnufI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1755015867; c=relaxed/simple;
-	bh=q3ATWwbJnmhEV0tER11ue3lL09n8bcsLC90p1qBToR0=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=PKm94dsritkodVsglInj+fFxXgGvW2ppUKtQYAgwT+H+6v3rkiQVD4zMKDBGvKKgehhwX7QQWv7jMi2fdt50aN5HoIreY7jaK25sP00SRGG5HCVEvnyZMLtSCG0cwivsOEB3bNdq8FXKebUorSjoQYbZnQ9lsX1Y3wW7KvsenS0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=BD1X9zBY; arc=none smtp.client-ip=198.175.65.18
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	s=arc-20240116; t=1755022911; c=relaxed/simple;
+	bh=Nm3nZAnFCwJNQ4VDBSZgNPO9vR8bsr/ulE20lACILKg=;
+	h=Message-ID:Subject:From:To:Cc:Date:In-Reply-To:References:
+	 Content-Type:MIME-Version; b=IxaRBziGUCRziOCFnfsk5E8fla9qTMRKx/KmLe5OuW5DCcQ/rbBwZoUcnGegHc9Hp8Zp3FfbvCjWYag6Yd75GK5HYxYQoJjey2vYd0/r6v6FaK6voYXfeSdwrtp0vsjB3p10q6TJKN8EFzbVqkkPCdK/JwfVldWrahDCj6jx/Zc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=nordisch.org; spf=pass smtp.mailfrom=nordisch.org; dkim=pass (1024-bit key) header.d=nordisch.org header.i=@nordisch.org header.b=Y5PT4Pq7; dkim=permerror (0-bit key) header.d=nordisch.org header.i=@nordisch.org header.b=xCU+db1m; arc=none smtp.client-ip=138.201.201.57
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=nordisch.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=nordisch.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="BD1X9zBY"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1755015866; x=1786551866;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=q3ATWwbJnmhEV0tER11ue3lL09n8bcsLC90p1qBToR0=;
-  b=BD1X9zBY/U8VTu6XBGOF+2j5ZS+oYGAFfCZ2DRzPcFrXtKpD5jJ8tjr8
-   io2l5JKHeNrE74PDPjEK+GAnQRnFwlkjknkFwBCNLki11WJIDxKdqmGdF
-   fyhrUtR9lRKxCw1wu7wnjeQ65Rpce8rs+AyFqSVtSblhu/XDoqJ382iz8
-   UD/kEVeVc7zbZdk1Bb6pdhCgMnxE+1Fs6JBbmvZVG5sv7jfgmpLt/GGpp
-   Yu3VZF3Y9Xs2bES32TiIAbzgIbt98L7rFPcRQ4jYq/mSE0EYgaR2YFh/F
-   wsqTZH5nZPBjkX50VecjG20kO75pue5U077Qk/obrQCxu4Xxpx5Ay7G7M
-   Q==;
-X-CSE-ConnectionGUID: agXSYFprReS5hKqseFr7kQ==
-X-CSE-MsgGUID: 8ZOqbmgpR1O/YgbrijuX8g==
-X-IronPort-AV: E=McAfee;i="6800,10657,11520"; a="57378392"
-X-IronPort-AV: E=Sophos;i="6.17,284,1747724400"; 
-   d="scan'208";a="57378392"
-Received: from fmviesa005.fm.intel.com ([10.60.135.145])
-  by orvoesa110.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 12 Aug 2025 09:24:25 -0700
-X-CSE-ConnectionGUID: yC4pQlA5TSWMd4+9pje4Aw==
-X-CSE-MsgGUID: aWFQrDsnQvqkjbg6wiAiLg==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.17,284,1747724400"; 
-   d="scan'208";a="170457391"
-Received: from lkp-server02.sh.intel.com (HELO 4ea60e6ab079) ([10.239.97.151])
-  by fmviesa005.fm.intel.com with ESMTP; 12 Aug 2025 09:24:20 -0700
-Received: from kbuild by 4ea60e6ab079 with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1ulrnN-0006zD-1K;
-	Tue, 12 Aug 2025 16:24:17 +0000
-Date: Wed, 13 Aug 2025 00:23:28 +0800
-From: kernel test robot <lkp@intel.com>
-To: "Mario Limonciello (AMD)" <superm1@kernel.org>,
-	"Rafael J . Wysocki" <rafael@kernel.org>,
-	Bjorn Helgaas <helgaas@kernel.org>
-Cc: oe-kbuild-all@lists.linux.dev, Pavel Machek <pavel@kernel.org>,
-	Len Brown <lenb@kernel.org>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	Danilo Krummrich <dakr@kernel.org>,
-	Christian =?iso-8859-1?Q?K=F6nig?= <christian.koenig@amd.com>,
-	"James E . J . Bottomley" <James.Bottomley@hansenpartnership.com>,
-	"Martin K . Petersen" <martin.petersen@oracle.com>,
-	Steven Rostedt <rostedt@goodmis.org>,
-	"(open list:HIBERNATION (aka Software Suspend, aka swsusp))" <linux-pm@vger.kernel.org>,
-	amd-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
-	linux-pci@vger.kernel.org, linux-scsi@vger.kernel.org,
-	linux-usb@vger.kernel.org, linux-trace-kernel@vger.kernel.org,
-	AceLan Kao <acelan.kao@canonical.com>,
-	Kai-Heng Feng <kaihengf@nvidia.com>,
-	Mark Pearson <mpearson-lenovo@squebb.ca>,
-	Merthan =?utf-8?Q?Karaka=C5=9F?= <m3rthn.k@gmail.com>,
-	Eric Naim <dnaim@cachyos.org>,
-	"Mario Limonciello (AMD)" <superm1@kernel.org>
-Subject: Re: [PATCH v5 04/11] USB: Pass PMSG_POWEROFF event to
- suspend_common() for poweroff with S4 flow
-Message-ID: <202508130049.aA2DXgHW-lkp@intel.com>
-References: <20250811194102.864225-5-superm1@kernel.org>
+	dkim=pass (1024-bit key) header.d=nordisch.org header.i=@nordisch.org header.b="Y5PT4Pq7";
+	dkim=permerror (0-bit key) header.d=nordisch.org header.i=@nordisch.org header.b="xCU+db1m"
+Received: from [192.168.3.6] (fortress.wg.nordisch.org [192.168.3.6])
+	by tengu.nordisch.org (Postfix) with ESMTPSA id 99AC675AA93;
+	Tue, 12 Aug 2025 20:15:13 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nordisch.org;
+	s=tengu_rsa; t=1755022513;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=FvzejOOAm8yKhKoXy3UatE5OCUk6/FfOEd6OdReBm8M=;
+	b=Y5PT4Pq7UBAe4mTFXLvkGL6Gq05n3Np9r96vTD0t1H0s7bzZVsM97bLQUexLBPcyD0bcuv
+	P5PP4Zuj+Vc3HQjhyjsusyOBn2AI1eEAXwtoSDzjcEji9MHtwUtDYoc4FlH0jfD6qcW5gr
+	zd6CSbJifXcW7p8m/gqqtdv1hcOsVjk=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=nordisch.org;
+	s=tengu_ed25519; t=1755022513;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=FvzejOOAm8yKhKoXy3UatE5OCUk6/FfOEd6OdReBm8M=;
+	b=xCU+db1moJJLw9ckcBB3oyUp59bnkjA1v8rhRfuW54eUuNDd6wBR2AC/EeM5n9F4HMCUFd
+	ear0bEvJGOc/woBA==
+Message-ID: <4fd2765f5454cbf57fbc3c2fe798999d1c4adccb.camel@nordisch.org>
+Subject: Re: [PATCH] usb: hub: Don't try to recover devices lost during warm
+ reset.
+From: Marcus =?ISO-8859-1?Q?R=FCckert?= <kernel@nordisch.org>
+To: Mathias Nyman <mathias.nyman@linux.intel.com>, Jiri Slaby
+	 <jirislaby@kernel.org>, gregkh@linuxfoundation.org
+Cc: linux-usb@vger.kernel.org, stern@rowland.harvard.edu, 
+	stable@vger.kernel.org, =?UTF-8?Q?=C5=81ukasz?= Bartosik
+ <ukaszb@chromium.org>,  Oliver Neukum <oneukum@suse.com>,
+ =?UTF-8?Q?Micha=C5=82?= Pecio <michal.pecio@gmail.com>
+Date: Tue, 12 Aug 2025 20:15:13 +0200
+In-Reply-To: <5b039333-fc97-43b0-9d7a-287a9b313c34@linux.intel.com>
+References: <20250623133947.3144608-1-mathias.nyman@linux.intel.com>
+	 <fc3e5cf5-a346-4329-a66e-5d28cb4fe763@kernel.org>
+	 <5b039333-fc97-43b0-9d7a-287a9b313c34@linux.intel.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+User-Agent: Evolution 3.56.2 
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20250811194102.864225-5-superm1@kernel.org>
 
-Hi Mario,
+On Tue, 2025-08-12 at 13:48 +0300, Mathias Nyman wrote:
+> > > [Wed Aug=C2=A0 6 16:52:50 2025] [ T362645] xhci_hcd 0000:0e:00.0: xHC=
+I
+> > > host controller not responding, assume dead
+> > > [Wed Aug=C2=A0 6 16:52:50 2025] [ T362645] xhci_hcd 0000:0e:00.0: HC
+> > > died; cleaning up
+>=20
+> Tear down xhci.
 
-kernel test robot noticed the following build errors:
+so usb is not dead completely. I can connect my keyboard to the
+charging cable of my mouse and it starts working again. but it seems
+all my devices hanging on that part of the usb tree are dead
+(DAC/keyboard)
 
-[auto build test ERROR on 8f5ae30d69d7543eee0d70083daf4de8fe15d585]
+lspci is here=20
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Mario-Limonciello-AMD/PM-Introduce-new-PMSG_POWEROFF-event/20250812-034228
-base:   8f5ae30d69d7543eee0d70083daf4de8fe15d585
-patch link:    https://lore.kernel.org/r/20250811194102.864225-5-superm1%40kernel.org
-patch subject: [PATCH v5 04/11] USB: Pass PMSG_POWEROFF event to suspend_common() for poweroff with S4 flow
-config: i386-randconfig-013-20250812 (https://download.01.org/0day-ci/archive/20250813/202508130049.aA2DXgHW-lkp@intel.com/config)
-compiler: gcc-12 (Debian 12.2.0-14+deb12u1) 12.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250813/202508130049.aA2DXgHW-lkp@intel.com/reproduce)
+https://bugzilla.opensuse.org/show_bug.cgi?id=3D1247895#c3
 
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202508130049.aA2DXgHW-lkp@intel.com/
+Mainboard is a ASUS ProArt X870E-CREATOR WIFI
 
-All errors (new ones prefixed by >>):
+> >=20
+> > Any ideas? What would you need to debug this?
+>=20
+> Could be that this patch reveals some underlying race in xhci re-
+> enumeration path.
 
->> drivers/usb/core/hcd-pci.c:650:27: error: 'hcd_pci_poweroff' undeclared here (not in a function); did you mean 'hcd_pci_poweroff_late'?
-     650 |         .poweroff       = hcd_pci_poweroff,
-         |                           ^~~~~~~~~~~~~~~~
-         |                           hcd_pci_poweroff_late
+possible.
+
+> Could also be related to ep0 max packet size setting as this is a
+> full-speed device.
+> (max packet size is unknown until host reads first 8 bytes of
+> descriptor, then adjusts
+> it on the fly with an evaluate context command)
+>=20
+> Appreciated if this could be reproduced with as few usb devices as
+> possible, and with
+> xhci tracing and dynamic debug enabled:
+
+sadly this is not really reproducible on command. sometimes it happens
+after only a few hours. sometimes it happens after a day or 2.
+
+> mount -t debugfs none /sys/kernel/debug
+> echo 'module xhci_hcd =3Dp' >/sys/kernel/debug/dynamic_debug/control
+> echo 'module usbcore =3Dp' >/sys/kernel/debug/dynamic_debug/control
+> echo 81920 > /sys/kernel/debug/tracing/buffer_size_kb
+> echo 1 > /sys/kernel/debug/tracing/events/xhci-hcd/enable
+> echo 1 > /sys/kernel/debug/tracing/tracing_on
+
+Running with this now.=20
+
+> < Reproduce issue >
+> Send output of dmesg
+> Send content of /sys/kernel/debug/tracing/trace
+
+Will do once it happened again.
+
+   darix
+
+--=20
+Always remember:
+  Never accept the world as it appears to be.
+    Dare to see it for what it could be.
+      The world can always use more heroes.
 
 
-vim +650 drivers/usb/core/hcd-pci.c
-
-   640	
-   641	const struct dev_pm_ops usb_hcd_pci_pm_ops = {
-   642		.suspend	= hcd_pci_suspend,
-   643		.suspend_noirq	= hcd_pci_suspend_noirq,
-   644		.resume_noirq	= hcd_pci_resume_noirq,
-   645		.resume		= hcd_pci_resume,
-   646		.freeze		= hcd_pci_freeze,
-   647		.freeze_noirq	= check_root_hub_suspended,
-   648		.thaw_noirq	= NULL,
-   649		.thaw		= hcd_pci_resume,
- > 650		.poweroff	= hcd_pci_poweroff,
-   651		.poweroff_late	= hcd_pci_poweroff_late,
-   652		.poweroff_noirq	= hcd_pci_suspend_noirq,
-   653		.restore_noirq	= hcd_pci_resume_noirq,
-   654		.restore	= hcd_pci_restore,
-   655		.runtime_suspend = hcd_pci_runtime_suspend,
-   656		.runtime_resume	= hcd_pci_runtime_resume,
-   657	};
-   658	EXPORT_SYMBOL_GPL(usb_hcd_pci_pm_ops);
-   659	
-
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
