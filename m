@@ -1,50 +1,42 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.14])
+Received: from mout.kundenserver.de (mout.kundenserver.de [212.227.126.134])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A95B52EBDE1;
-	Tue, 12 Aug 2025 10:48:54 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.14
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9C66A23BCE7;
+	Tue, 12 Aug 2025 11:02:05 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=212.227.126.134
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1754995736; cv=none; b=R4yPJ0P1asGQIDuBsioi7/akX/UwfmriUAhwVUdCF8zyV5OZamBqBO0yYlzCYeu/gdsemonc51sYNqEcTYLzTulD2NeDFI3YcoQ9alom0L3BbgCBfk4VoSs482b/p8OspigiTYg9gqdAyhN/G+cQqcAWN1hHDOWHpWVpqL3k56I=
+	t=1754996528; cv=none; b=cKrwus4kGhf9wpvJ2xJCJX3LNkUNGp+9o5jthUlu0j5Q8bW0zsBWXtmALNEOGf/HCA1EcXNrx8VfmW5gT0powb6p5HFG1kUeWHbLHnisyhE7UPjAWNCmofk9r6b+1qjIChoV5mCc63hYmDnTGdDK8e7r+UEEQ5B1ruAAVwaEPwQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1754995736; c=relaxed/simple;
-	bh=Esq8t7wbTlKL0Q3zZg56LpOHe5ZR3qmGQXipZBa5Ju8=;
+	s=arc-20240116; t=1754996528; c=relaxed/simple;
+	bh=3OwEx3ATq9hTzfxnY3gg+hw0Eg7P8zJzOgQ50ls1n/Q=;
 	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=XK8tWmqbI72oUM+45TJcRXQJiVfs1d2hUXkHG6RfkCO/WdQc2WLRfAETGpMXybZEvJ6N+1wWNXU0m7Ln9E4IkIityFXSRGtNCKqsULWaiEHbGhq5RqlWXjHTwCNEUeaQlzsR9/tlNJRooh9tbOZv+CXaeOMvoUdrAQXXkY1dnzA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=none smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=ewdyFgKY; arc=none smtp.client-ip=192.198.163.14
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=linux.intel.com
+	 In-Reply-To:Content-Type; b=aWlFv0zNXvp4wAtf+yuQSXsv8fwgwG4MSK+PtnORHTOrFMYWVZIVJUmSyLz5YjJbwT6VF4w+hqur/EQ62OzzKPpq5wjUPJVYtwNDaNbuyJm+RORmZV3nT0jPgG78Jv9yCflWTIeNRQQOca9ZNGWMlgUAmUSSg5TIg4Gzvab6Bos=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=oldschoolsolutions.biz; spf=pass smtp.mailfrom=oldschoolsolutions.biz; dkim=pass (2048-bit key) header.d=oldschoolsolutions.biz header.i=jens.glathe@oldschoolsolutions.biz header.b=ZN2aCNDZ; arc=none smtp.client-ip=212.227.126.134
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=oldschoolsolutions.biz
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=oldschoolsolutions.biz
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="ewdyFgKY"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1754995734; x=1786531734;
-  h=message-id:date:mime-version:subject:to:cc:references:
-   from:in-reply-to:content-transfer-encoding;
-  bh=Esq8t7wbTlKL0Q3zZg56LpOHe5ZR3qmGQXipZBa5Ju8=;
-  b=ewdyFgKYLHM3BrK9KMTKYO1RtKv8zFK3CYb02TsUSbnz6+vKndSKnCYw
-   xa9hWAwOPHqKCg43/a0zPCDMw7dL5rAKBVqwyWHySt3Z0c1jNJaPRngkp
-   EXSINqUTVfxi+2haZAlq3yruZ/+gcz6HHon/loLRBFnph4ewJL6TDNWIE
-   oArnSwHVQxuIi3H33oVBiEBYqtNJfigs0lqu7TGd1O/Q1w/oHg2XZH8hG
-   1Gn3IX//YCXWKt0dF/YzM/Gc3SoLEANuYr/yQDn7mK5ErifBHdNUz3iNz
-   CoKhDfEiuDfUZ3jv0PMAmjeO0x1pmVpEHbx/NiAQS6qvjdWnkqhgQNKYo
-   A==;
-X-CSE-ConnectionGUID: xEYJaoHFTaGQzTi42XboCw==
-X-CSE-MsgGUID: EVuOtToZR9CvsOdrhAteyw==
-X-IronPort-AV: E=McAfee;i="6800,10657,11518"; a="57330116"
-X-IronPort-AV: E=Sophos;i="6.17,284,1747724400"; 
-   d="scan'208";a="57330116"
-Received: from fmviesa010.fm.intel.com ([10.60.135.150])
-  by fmvoesa108.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 12 Aug 2025 03:48:54 -0700
-X-CSE-ConnectionGUID: hGELmE0YTJatBo18EmMKVQ==
-X-CSE-MsgGUID: wgXcgqpHQYm84PLQ74q6MA==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.17,284,1747724400"; 
-   d="scan'208";a="166960085"
-Received: from mnyman-desk.fi.intel.com (HELO [10.237.72.199]) ([10.237.72.199])
-  by fmviesa010.fm.intel.com with ESMTP; 12 Aug 2025 03:48:52 -0700
-Message-ID: <5b039333-fc97-43b0-9d7a-287a9b313c34@linux.intel.com>
-Date: Tue, 12 Aug 2025 13:48:50 +0300
+	dkim=pass (2048-bit key) header.d=oldschoolsolutions.biz header.i=jens.glathe@oldschoolsolutions.biz header.b="ZN2aCNDZ"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=oldschoolsolutions.biz; s=s1-ionos; t=1754996506; x=1755601306;
+	i=jens.glathe@oldschoolsolutions.biz;
+	bh=3OwEx3ATq9hTzfxnY3gg+hw0Eg7P8zJzOgQ50ls1n/Q=;
+	h=X-UI-Sender-Class:Message-ID:Date:MIME-Version:Subject:To:Cc:
+	 References:From:In-Reply-To:Content-Type:
+	 Content-Transfer-Encoding:cc:content-transfer-encoding:
+	 content-type:date:from:message-id:mime-version:reply-to:subject:
+	 to;
+	b=ZN2aCNDZ7+fuca61kc8CwXfxWDreYBIubAXXY/0vhJZejfjvV3QrUYr+23fiR12H
+	 uU9WPoA2nIee4iGyVEbsAW2YoGFcX4Rk8WAwWgeA38QJyWBqfOKX3D5/TRn/W7vvz
+	 Hpxwh3ujch4RPenca6d+PR/hkhkC2Tv1OLRET1XM6B/Xv2tjAtNRe/rvHnHuDmn07
+	 GtmL2h9QKnANIlqNQN3bV139iggemmRFK6l3h2r8NiLDvT8Gl1gdHsBS0ul39HuUu
+	 TWh0L4YqaH5nI7EeviiYQ6bNG50HW4yE1rdJ0rIpX8+d8FZVdZ57vfWLd8ItswoPA
+	 n8qIVOgOcfkA7IybhA==
+X-UI-Sender-Class: 55c96926-9e95-11ee-ae09-1f7a4046a0f6
+Received: from [192.168.0.107] ([80.128.171.52]) by mrelayeu.kundenserver.de
+ (mreue009 [212.227.15.167]) with ESMTPSA (Nemesis) id
+ 1M6lxe-1ufi5X04P0-0063Tk; Tue, 12 Aug 2025 12:35:45 +0200
+Message-ID: <8672fcd0-cae3-428e-b1e6-cfbdea1ebbb7@oldschoolsolutions.biz>
+Date: Tue, 12 Aug 2025 12:35:43 +0200
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
@@ -52,86 +44,77 @@ List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH] usb: hub: Don't try to recover devices lost during warm
- reset.
-To: Jiri Slaby <jirislaby@kernel.org>, gregkh@linuxfoundation.org
-Cc: linux-usb@vger.kernel.org, stern@rowland.harvard.edu,
- stable@vger.kernel.org, =?UTF-8?Q?=C5=81ukasz_Bartosik?=
- <ukaszb@chromium.org>, Oliver Neukum <oneukum@suse.com>
-References: <20250623133947.3144608-1-mathias.nyman@linux.intel.com>
- <fc3e5cf5-a346-4329-a66e-5d28cb4fe763@kernel.org>
+Subject: Re: [PATCH v10 3/3] arm64: dts: qcom: Add Lenovo ThinkBook 16 G7 QOY
+ device tree
+To: Konrad Dybcio <konrad.dybcio@oss.qualcomm.com>,
+ Bjorn Andersson <andersson@kernel.org>,
+ Konrad Dybcio <konradybcio@kernel.org>, Rob Herring <robh@kernel.org>,
+ Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley
+ <conor+dt@kernel.org>, Matthias Kaehlcke <mka@chromium.org>,
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+Cc: Aleksandrs Vinarskis <alex.vinarskis@gmail.com>,
+ linux-arm-msm@vger.kernel.org, devicetree@vger.kernel.org,
+ linux-kernel@vger.kernel.org, linux-usb@vger.kernel.org
+References: <20250810-tb16-dt-v10-0-0bfed6d75c69@oldschoolsolutions.biz>
+ <20250810-tb16-dt-v10-3-0bfed6d75c69@oldschoolsolutions.biz>
+ <388aed37-03c1-4a5f-a425-5ed8c4f9cb34@oss.qualcomm.com>
 Content-Language: en-US
-From: Mathias Nyman <mathias.nyman@linux.intel.com>
-In-Reply-To: <fc3e5cf5-a346-4329-a66e-5d28cb4fe763@kernel.org>
+From: Jens Glathe <jens.glathe@oldschoolsolutions.biz>
+In-Reply-To: <388aed37-03c1-4a5f-a425-5ed8c4f9cb34@oss.qualcomm.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
+Content-Transfer-Encoding: quoted-printable
+X-Provags-ID: V03:K1:TKFUv73J8yNj5Mz4hRnRFr6FPpJQYkvdiCBpYbKd9Prxuz1qIWS
+ 9NJm9gFQ9CTjMut18m4Bmfw2YOpQo7doTleF6kP9b4uDz5UyNBJ7oPZ9SDx5a8b1XXrk8VG
+ RGgv9Pq2vHG5+UCWRBnQ0gigRX45I49xvUwyO4LwfNsusmLjJve7uOpxnYSR98abXJXatAu
+ QU/64lyrPzFNxzoHD1QLw==
+X-Spam-Flag: NO
+UI-OutboundReport: notjunk:1;M01:P0:BO9bf+wCaaE=;21li4PT0UtvQmLP3+6YDaP5Sc/T
+ 5T+MwSOnH4GK9g+0tLn/MzAK/LoPaGqIm1eYDtMeun3n1fVSxXatmK8M9RACEB1FfhbkFP8ze
+ w/7vGJ7TS8CUtUtwVpLCxeKEfFIKbk0yEht+CYi+2c/DEjoLRfSXtHNVflfEa7ypJqsrvKmOq
+ WHs+VwR+sSDac3wPa/WKCXZU9a+3LNeyipDpCALGldTvNoOOnz5F6uipsz4O12IuRANweXJfl
+ TGJ85fExqvxprVOjZS9yS76yjHhjrL6uM7IEOLIMWSqz3LSiadLU3gGxydJknPYO5ez145lUC
+ WYYeQ/1YfoAsLYMhyIdhuodmILCBM1zIFoGAmlwr8R+khUz89qGUwly5x7YYnncdCqBqL8Qt0
+ kuo4Cq/dXL5O5497Hkzn6K+73/70sTKobAle1fIYUEPvnqg8hpQKP3bslYarM2KUWZUT/R6md
+ d+4Eg2yCBmr/DsWgcHyq2hULmYpBusKXmMKU377hg4YTwXrZOmjOMoqcGb4pwOXzkNNjMC6Rs
+ PPBJKT6uMh6ZH5nq3lMctOG7Fsp/0BAKu2VeS7m1IhkGtxgnzrJ1ePTQomdeGLva6/P39URmk
+ n9cWJKvkp4UyjO7Ytb7lCXwS8FvA1LnUnfvXR38vLGI/JJSMsmx2mJMxBPa3XV39kb94sa7+0
+ BvrGOA5icihVHQeUITYWhACAAvnYmO93WdR4cR7pCKuRKPV7xqb16dMGIqmxkrHmW0ESJHBB8
+ DUTTmxpPV2uIu9sM+BSED5HL6j6BNRi74a7/FQg0gjklOir0LOjfo9iqitpEfiZ/sJc0dEaCM
+ DXpcuPJXPH+gMcfFbENJa6741Vl/lDtFHAJj2HhHiVpF2UZDKHXNzQNB/f45Cdk7/5jpyVCYK
+ TnYJsynQNOS34oXIA5nIsrCWIhUATnMxQfodT+1Q9b6SGW6jdKFR12+UzA8eKp6D3kD9p1JC0
+ /zIk+SxzG2k4eL2Tyhaxd3olYarZZVmShMwj853+euP5ft0xJg4MLmLUjtKQhRT8azuDBW0Nk
+ FpQEdLV4QK4g1/4Cuo3fL7RmUz9ImstI1dT+1onGPt10l6NjQPDbqYqP+vw0YXIn28JSXTRQH
+ esmG61e7Rs/fNhbjqUdxyrYqhLdes7i8wbB+nt7pgHshFjUKn9MYzuRSlXK46EnvwAum1IuyN
+ R1Htq9aEp/AQkp0rmXYl3O+NqjEwLPXwa91WfHJKU5/Tl6HbZLpUW5jvXvYwrbIhWiQWgBktf
+ esNAFT50sKpPpYBaafTWj1gy1VCjTuwKnX5wAsrX3YA9QxQ96pi6hJw/zTPL3ubjWxsXseAhg
+ l0lRrTPmYi/61UKWkPq4GHpL55xP2pGPkSIWWKUAEKfbxJBxf7xzXvIJUp+LKZkXxFnpw+Fi0
+ Ork6Ts9hqTX4ygo5L1Bgqi1pjf5vprsTK/7uu1sbUfAIgMBtF50yT/NgHfVf+DWHKieoGZsvV
+ lmywC28cOPbvaLtHlp6S1hBfyH3SmtJYsdn3Yu/pska4wqepa57uxI0gelQk7IIPFT25MB4Pn
+ ihBWz5Z73rBx/Jbcnp/BEgSCYNccusxwy6rGbov5jAw5d21yc3IkvuO9UhftfQvCjs694BAa1
+ HtousJAS0CWhG8XEWILYOeWMwKQ9wAE7dG5lNVD7yrhhS80max8Nw==
 
-Hi
+On 12.08.25 12:17, Konrad Dybcio wrote:
+> On 8/10/25 7:37 PM, Jens Glathe via B4 Relay wrote:
+>> diff --git a/arch/arm64/boot/dts/qcom/x1e80100-hp-omnibook-x14.dts b/ar=
+ch/arm64/boot/dts/qcom/x1p42100-lenovo-thinkbook-16.dts
+>> similarity index 77%
+>> copy from arch/arm64/boot/dts/qcom/x1e80100-hp-omnibook-x14.dts
+>> copy to arch/arm64/boot/dts/qcom/x1p42100-lenovo-thinkbook-16.dts
+> I understand that git may have gotten confused, but the diff is now
+> impossible to review
 
-> 
-> This was reported to break the USB on one box:
->> [Wed Aug  6 16:51:33 2025] [ T355745] usb 1-2: reset full-speed USB device number 12 using xhci_hcd
->> [Wed Aug  6 16:51:34 2025] [ T355745] usb 1-2: device descriptor read/64, error -71
->> [Wed Aug  6 16:51:34 2025] [ T355745] usb 1-2: device descriptor read/64, error -71
+Oh wow. Yes I get that, haven't seen. Needs either a tweak for the=20
+similarity index (needs to be really high) or I need to disable=20
+=2D-find-copies-harder. [1] How do I go about this: is this a resend or a=
+=20
+new version?
 
-Protocol error (EPROTO) reading 64 bytes of device descriptor
+with best regards
 
->> [Wed Aug  6 16:51:34 2025] [ T355745] usb 1-2: reset full-speed USB device number 12 using xhci_hcd
->> [Wed Aug  6 16:51:34 2025] [ T355745] usb 1-2: device descriptor read/64, error -71
->> [Wed Aug  6 16:51:35 2025] [ T355745] usb 1-2: device descriptor read/64, error -71
->> [Wed Aug  6 16:51:35 2025] [ T355745] usb 1-2: reset full-speed USB device number 12 using xhci_hcd
->> [Wed Aug  6 16:51:35 2025] [ T355745] usb 1-2: Device not responding to setup address.
+Jens
 
-The xhci "address device" command failed with a transaction error
-Slot does not reach "addressed" state
-
->> [Wed Aug  6 16:51:35 2025] [ T355745] usb 1-2: Device not responding to setup address.
->> [Wed Aug  6 16:51:35 2025] [ T355745] usb 1-2: device not accepting address 12, error -71
->> [Wed Aug  6 16:51:35 2025] [ T355745] usb 1-2: WARN: invalid context state for evaluate context command.
-
-xhci evaluate context command failed, probably due to slot not in addressed state
-
->> [Wed Aug  6 16:51:36 2025] [ T355745] usb 1-2: reset full-speed USB device number 12 using xhci_hcd
->> [Wed Aug  6 16:51:36 2025] [     C10] xhci_hcd 0000:0e:00.0: ERROR unknown event type 2
-
-This is odd,
-TRBs of type "2" should not exists on event rings, TRB type id 2 are supposed to be the
-setup TRB for control transfers, and only exist on transfer rings.
+[1]:=20
+https://lore.kernel.org/all/20250705-format-harder-v1-1-55c5342be55c@oldsc=
+hoolsolutions.biz/
 
 
->> [Wed Aug  6 16:51:36 2025] [ T355745] usb 1-2: Device not responding to setup address.
->> [Wed Aug  6 16:51:37 2025] [     C10] xhci_hcd 0000:0e:00.0: ERROR unknown event type 2
->> [Wed Aug  6 16:52:50 2025] [ T362645] xhci_hcd 0000:0e:00.0: Abort failed to stop command ring: -110
-
-Aborting command due to driver not seeing command completions.
-The missing command completions are probably those mangled "unknown" events
-
->> [Wed Aug  6 16:52:50 2025] [ T362645] xhci_hcd 0000:0e:00.0: xHCI host controller not responding, assume dead
->> [Wed Aug  6 16:52:50 2025] [ T362645] xhci_hcd 0000:0e:00.0: HC died; cleaning up
-
-Tear down xhci.
-
-> 
-> Any ideas? What would you need to debug this?
-
-Could be that this patch reveals some underlying race in xhci re-enumeration path.
-
-Could also be related to ep0 max packet size setting as this is a full-speed device.
-(max packet size is unknown until host reads first 8 bytes of descriptor, then adjusts
-it on the fly with an evaluate context command)
-
-Appreciated if this could be reproduced with as few usb devices as possible, and with
-xhci tracing and dynamic debug enabled:
-
-mount -t debugfs none /sys/kernel/debug
-echo 'module xhci_hcd =p' >/sys/kernel/debug/dynamic_debug/control
-echo 'module usbcore =p' >/sys/kernel/debug/dynamic_debug/control
-echo 81920 > /sys/kernel/debug/tracing/buffer_size_kb
-echo 1 > /sys/kernel/debug/tracing/events/xhci-hcd/enable
-echo 1 > /sys/kernel/debug/tracing/tracing_on
-< Reproduce issue >
-Send output of dmesg
-Send content of /sys/kernel/debug/tracing/trace
-
-Thanks
-Mathias
