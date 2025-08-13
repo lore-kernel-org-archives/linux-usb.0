@@ -1,81 +1,65 @@
-Received: from out-176.mta1.migadu.com (out-176.mta1.migadu.com [95.215.58.176])
+Received: from out-181.mta0.migadu.com (out-181.mta0.migadu.com [91.218.175.181])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C24A62D0C9D
-	for <linux-usb@vger.kernel.org>; Wed, 13 Aug 2025 10:14:40 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=95.215.58.176
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CE2FF21254E
+	for <linux-usb@vger.kernel.org>; Wed, 13 Aug 2025 10:17:37 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=91.218.175.181
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1755080082; cv=none; b=mKfEG5oTaWRUO1Yk3lm18Rs44lr2gy5LmY5IDPMbmikhekZBKNRnaxlUpuZKeirbgMCZqKkUSU4udY3lMLDy254QlH+0wC3/4E4a/JqS0yxHe05wCt5Dfu8Bilacnr1wAbqddqxjW8P79I5uGpEZzuJndavIFytJq1aYPWpVRMc=
+	t=1755080259; cv=none; b=UFYhVna149L9GrsAuHdlSY13WhexmRYO13yzf5BAnDfqAGLRRgBwrDktPp3wS7Fh7fnObBCz3pJxSIjP9pf+a50p1KLae3+KfBHZvZKdskrFuUCWbDxDeQ1o8VJxMbY8Gm2Qv+t/L6fqWiTH9C27V3i1PG5NHd0uMcELvMDr/Kg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1755080082; c=relaxed/simple;
-	bh=RnVSME/rogwEOBK+j6+fLeml3CKH5bpNmM9U/IxMiMs=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=dOJm7hG3jJPBUZXPokenayFEanUGjKqOEqWKHD5Xddo7qlkTJBr32TmzPJckk751/Iy33vH6gGnmNjM18EM4AOXsvva2ckiZ38APH+H59kKKwj7swYcqOfyd9+h2aEbFEdUscVNcKqzb9kAQsb7tqh2UQQP5xtLY4DFg5cRJ/aY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev; spf=pass smtp.mailfrom=linux.dev; dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b=kpNOJvi9; arc=none smtp.client-ip=95.215.58.176
+	s=arc-20240116; t=1755080259; c=relaxed/simple;
+	bh=eBogFjsAW/CzbqvTDnhDBJE6o6dXCGpP/yXDyp5i38Q=;
+	h=Content-Type:Mime-Version:Subject:From:In-Reply-To:Date:Cc:
+	 Message-Id:References:To; b=MVPh2S8kjejopWHwW4XKJTX8klBBUhsl6/chzsVc8YLkd8S+GXGZ0CQQKl/awbIbuMyJbAgLCNmpLYHgulwW1HaB5JZyqCEKyQo8eh6Z7OceY5Dbn7LmEyzyn+5z2NxbCHQWne4ijWJPivE+IMndtsMMXI4Bqj8GtbK87TrIfBo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev; spf=pass smtp.mailfrom=linux.dev; dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b=oliG3B5M; arc=none smtp.client-ip=91.218.175.181
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.dev
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b="kpNOJvi9"
-X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and include these headers.
+	dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b="oliG3B5M"
+Content-Type: text/plain;
+	charset=us-ascii
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.dev; s=key1;
-	t=1755080079;
+	t=1755080255;
 	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=Pv4CHsTtOFzXF65KnF8iE3uf5kBWd2tkurIQwheweOg=;
-	b=kpNOJvi9odUDIJ4dCPRFsQyk6NB2YIK6iRGvUcs8zijAHVZChHLsYUCKdOSn1tYZG5cJ+T
-	IB+5UZ0BismvIn3aKJfozQ9MrRjsocteI4zaEpqsJTAI+EShdOkZ9Uxp3AdylYaoAZX7li
-	3izek3Sfh7QVt50OKnWzkmkpxKv1nO8=
-From: Thorsten Blum <thorsten.blum@linux.dev>
-To: Alan Stern <stern@rowland.harvard.edu>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	wwang <wei_wang@realsil.com.cn>
-Cc: Thorsten Blum <thorsten.blum@linux.dev>,
-	stable@vger.kernel.org,
-	Greg Kroah-Hartman <gregkh@suse.de>,
-	linux-usb@vger.kernel.org,
-	usb-storage@lists.one-eyed-alien.net,
-	linux-kernel@vger.kernel.org
-Subject: [PATCH 3/3] usb: storage: realtek_cr: Use correct byte order for bcs->Residue
-Date: Wed, 13 Aug 2025 12:12:51 +0200
-Message-ID: <20250813101249.158270-6-thorsten.blum@linux.dev>
-In-Reply-To: <20250813101249.158270-2-thorsten.blum@linux.dev>
-References: <20250813101249.158270-2-thorsten.blum@linux.dev>
+	bh=eBogFjsAW/CzbqvTDnhDBJE6o6dXCGpP/yXDyp5i38Q=;
+	b=oliG3B5Mbwsp5QN7u/Xy/XuxdjCtDBxbM7+ZC1Y5fbGyG4HgqUmfn2C3+f+9+PQe62nCPl
+	nVL1VupPFOlCdiglVdm6a/QUgNgPYLVq49CKYN4BM25Xw33SfxGccIr+0eK0oTEfLbU3Wi
+	94w5CvvmA1q3A0SAAHeeko1nXBxuKME=
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Mime-Version: 1.0 (Mac OS X Mail 16.0 \(3826.700.81\))
+Subject: Re: [usb-storage] [PATCH] usb: storage: realtek_cr: Simplify
+ rts51x_bulk_transport()
+X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and include these headers.
+From: Thorsten Blum <thorsten.blum@linux.dev>
+In-Reply-To: <49559415-4493-4b90-a9bc-c6b9074a61f6@rowland.harvard.edu>
+Date: Wed, 13 Aug 2025 12:17:21 +0200
+Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+ linux-usb@vger.kernel.org,
+ usb-storage@lists.one-eyed-alien.net,
+ linux-kernel@vger.kernel.org
+Content-Transfer-Encoding: 7bit
+Message-Id: <8AD61006-EA99-48A3-879A-49A575081F15@linux.dev>
+References: <20250812144358.122154-1-thorsten.blum@linux.dev>
+ <b11a19b6-9fb3-4fdc-b94e-33ff01a634b3@rowland.harvard.edu>
+ <19E72C72-AFD3-4D13-8F14-9A1F96B971D3@linux.dev>
+ <49559415-4493-4b90-a9bc-c6b9074a61f6@rowland.harvard.edu>
+To: Alan Stern <stern@rowland.harvard.edu>
 X-Migadu-Flow: FLOW_OUT
 
-Since 'bcs->Residue' has the data type '__le32', we must convert it to
-the correct byte order of the CPU using this driver when assigning it to
-the local variable 'residue'.
+On 13. Aug 2025, at 03:38, Alan Stern wrote:
+> If you would like to submit three new patches, please do.
 
-Cc: stable@vger.kernel.org
-Fixes: 50a6cb932d5c ("USB: usb_storage: add ums-realtek driver")
-Suggested-by: Alan Stern <stern@rowland.harvard.edu>
-Signed-off-by: Thorsten Blum <thorsten.blum@linux.dev>
----
- drivers/usb/storage/realtek_cr.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+I just submitted this as three separate patches:
 
-diff --git a/drivers/usb/storage/realtek_cr.c b/drivers/usb/storage/realtek_cr.c
-index 8a4d7c0f2662..758258a569a6 100644
---- a/drivers/usb/storage/realtek_cr.c
-+++ b/drivers/usb/storage/realtek_cr.c
-@@ -253,7 +253,7 @@ static int rts51x_bulk_transport(struct us_data *us, u8 lun,
- 		return USB_STOR_TRANSPORT_ERROR;
- 	}
- 
--	residue = bcs->Residue;
-+	residue = le32_to_cpu(bcs->Residue);
- 	if (bcs->Tag != us->tag)
- 		return USB_STOR_TRANSPORT_ERROR;
- 
--- 
-2.50.1
+https://lore.kernel.org/lkml/20250813101249.158270-2-thorsten.blum@linux.dev/
+
+Thanks,
+Thorsten
 
