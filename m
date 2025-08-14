@@ -1,72 +1,65 @@
-Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com [205.220.180.131])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pj1-f49.google.com (mail-pj1-f49.google.com [209.85.216.49])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E69331BC2A
-	for <linux-usb@vger.kernel.org>; Thu, 14 Aug 2025 01:36:17 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.180.131
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 508C4204090;
+	Thu, 14 Aug 2025 01:57:24 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.216.49
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1755135379; cv=none; b=LTaxlXdQryPHxPJs1jGnWV687kAER451uci0va7vOSjD1Rs+RCu/uZJna09kSkNUNG22HU4lCM7h/OgkhFDAqWclgqVT20aY2L+QjSe9JrClPPnxcPiE+7Nc92T4FXJvQ4IxgGKba+nYQF5L4ZHQlu4HkE3upGVX2rVD9vLdDpQ=
+	t=1755136646; cv=none; b=YCQqtYDNeS9+MCrkrpeEeRPldLQO9Rl4WvpPmqk4+GsbowbN+aZDmA9VdUAucFnHFkv04Q7h53t6V2rN+satUpo4dxVkS8F022zJOjnf6LLaBUcXyMGL/wkq6xen43LbtmqE8kxjgpOFlUPvrKNk1oajcOFaj1r6b75dLxLLacw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1755135379; c=relaxed/simple;
-	bh=J1ajpuE3Z7f+hzL+pLyA1kcEyqlc4Xr/4m10DsRsMtY=;
+	s=arc-20240116; t=1755136646; c=relaxed/simple;
+	bh=wlLWX+UnpA8mFludyfGuIC5yAqUHEvKUAq+kWf0rnQM=;
 	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=RBNZLX4I2tvCj17ugB+zN16uBGLARk24Tjdh5SqIVdw6NuvdelXDXJxz+p5PNb0lWEkGdOy+keY05ayDCtpSeCB9xFcLfKWdVQIbYexKIeAU2CPThbT0N0Q+vmZnSj5/TJZLrBwY3gk+DeOTGf/tqYgzF0wLntkcq2cnhgjDHkU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com; spf=pass smtp.mailfrom=oss.qualcomm.com; dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b=morcl/Kv; arc=none smtp.client-ip=205.220.180.131
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=oss.qualcomm.com
+	 In-Reply-To:Content-Type; b=KD0J1K+XeknDVVEGKqGt/6OuEqYzEzcYHFRp81r4N37TH2tAJ9CmE5iz83Kai3oDs5R+5NhZEYVbx+JkcIiel8RnqGtIO9wctgBTZ77UVo0d77GSGP1vAMLvb1JIPqgIbTt4kcQ4SWe4gTjaBhGLLVyyh8XcX3PBGYo3yAumheg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=SbE4pyn4; arc=none smtp.client-ip=209.85.216.49
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b="morcl/Kv"
-Received: from pps.filterd (m0279869.ppops.net [127.0.0.1])
-	by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 57DMwVFo030136
-	for <linux-usb@vger.kernel.org>; Thu, 14 Aug 2025 01:36:17 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
-	cc:content-transfer-encoding:content-type:date:from:in-reply-to
-	:message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
-	mEnEcAbfNrTJNlbTiR2Yql1yDDkhVAvZOyJH4OB5/sE=; b=morcl/KvENuPzMJK
-	My779rkDBQ8XH+dvZkuGI/bOTCueOS9B6nXhjt4uE5/xxU28IjVL4967PeFF0UkR
-	cHxw3UPmM0sCtX6puPTGRkYucKrBtIEJhbXQ/AlUkUPNN6eWwu8X1eFk7+Xuxngs
-	CeQnRERbrK8FB3CWmfsObEidFQrNwZnlj76EJufg19xWr6+n3zmGyxv48pe7j5Fu
-	aY97+/2nnJnWE/u5vlN5iHN/OglhTQz+DUmJynTnLci/4f0ggO4aS/57odJx4NKX
-	eaoHcAnrY7vaQLmZSbGNNi9JRL7HWld4EfiUUSUQTnz7axAYk6fw8ECUdLnANacQ
-	Ck645g==
-Received: from mail-pf1-f200.google.com (mail-pf1-f200.google.com [209.85.210.200])
-	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 48fm3vrqcm-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT)
-	for <linux-usb@vger.kernel.org>; Thu, 14 Aug 2025 01:36:16 +0000 (GMT)
-Received: by mail-pf1-f200.google.com with SMTP id d2e1a72fcca58-76e2e5fde8fso439064b3a.0
-        for <linux-usb@vger.kernel.org>; Wed, 13 Aug 2025 18:36:16 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="SbE4pyn4"
+Received: by mail-pj1-f49.google.com with SMTP id 98e67ed59e1d1-32326e71c08so96848a91.3;
+        Wed, 13 Aug 2025 18:57:24 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1755136643; x=1755741443; darn=vger.kernel.org;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=y+kWqLLyePNycR+JiNLWQPriOMjue0Fgv8ycdj0wX2A=;
+        b=SbE4pyn4Wh0hzGgj74dpBII5j1T4X7Vwa2zqcZC1M94dBeR7TqoXgtxRp/2liyw7Ad
+         MT/aEBnXk0b38V7wLqSF0kKyUGFEL3ACzI+eM+UKJSKnvwQcQ3XJv2/ak4J6a52oLrS/
+         dOGTNOMEncqAEqQAlnbnDx2Ym+dC8WM3EZoMLGNp5JmHHpGTqxjQEeqoSFvSN4lt2ait
+         94ycw3FJ8ltpP0c5i4m6dKgAzcZKpEbwBWieahvlJCY0Q27Sbky9cGk4+cM2HQxX3hdu
+         FjCXTiWs0j0f78K8RAnoIUSJrJFOrD7G9Ontwo/qyoYgSu1CheWXUnZ83vJkSQ4Te/1J
+         Rvww==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1755135375; x=1755740175;
+        d=1e100.net; s=20230601; t=1755136643; x=1755741443;
         h=content-transfer-encoding:in-reply-to:from:content-language
          :references:cc:to:subject:user-agent:mime-version:date:message-id
          :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=mEnEcAbfNrTJNlbTiR2Yql1yDDkhVAvZOyJH4OB5/sE=;
-        b=vyqZbkrRHSKoml+24VpdpX9NqV3OwYBYvWeGUzvN6p5TzvcfJlzXPtjvBPX3q5ItLU
-         lRhx1ir60g8bptBlcwamgSG7edMU+z1g3hsaD//mm4HmLreNGrJYWrQ2Bh66JAW1bkZ0
-         7MD6ptfZM7ulm+gc0ZYm2V9UWiBBiMVcYsCrIWKdxqMGc7lHx0oA+9NOLU/0VmCI/0bG
-         fUuOjTzgEMA6AsLXhjuHS8ubc3G2fPesYjc3tjpcwnBjZqoObJ2wm9aWLilVEmp0Tw5n
-         rB+8Me7Vvp5qg9+PwnBly9hyq/9CpV+44hWO17lBqFza3SBErgsQ5ECke+LgJJdBLKEu
-         P0eQ==
-X-Forwarded-Encrypted: i=1; AJvYcCUF70XA06MJsZdO+5dgR9j3ICYSrhtXW2kSnRug5a7wWLG0Y9boF94FwzbC3Wr8o6YHV4SNM0d05io=@vger.kernel.org
-X-Gm-Message-State: AOJu0YyWEuU1HAuQWI7EmMiPWkWDjZ59VWAdzwqRVmzozu6DeJWUh9Sc
-	SaNNJk4K5V8ckgHU2Gb+FYFHN3F2YDtQgGNYWYLx8nUmKOIUY5KT58oMM9jPBkwv4hBXImm3S93
-	c48Bfw60DmkJfLwpMwFjGza9VSzJ52/c8hZzVa9MN8dxLm6Wo8NbQaBtvtRGLnWk=
-X-Gm-Gg: ASbGncsmcbOSqX6/jj+ZVQ9roWD0zbggKTtr6/msUgqxH0f+1Y8Xw6aWIMR13yauQbh
-	9lgbfbA6HidOJBMqlszaFFXTx6C6fjpRDmVA3AudX58XC8QwyeyHWv2QthNQ1XjUdLV4rUtlRgG
-	6eNH2T/b+7YGVuA0/xOG4jYBkHVZRnEXS3tyeyVRmm1/A7rv9w7uiu4AZrPO6bdmKVC2nd4v1Gp
-	6N7gUHPbGiAoVqhLGrm4wnBeSpglCodPPJdCxpOPHi9kPsvpDA+3+/B+4Wo/gV8kVEiOXTITgqP
-	1CVlWzrUs9oKqhKtIEx+Oc5V+ufl4uf84/ivcPzFRd1HiQM1GYc75JcqnGz2DndnsQp+sbE4
-X-Received: by 2002:a05:6a00:4f8d:b0:730:9946:5973 with SMTP id d2e1a72fcca58-76e2f8a26f5mr1697546b3a.5.1755135375320;
-        Wed, 13 Aug 2025 18:36:15 -0700 (PDT)
-X-Google-Smtp-Source: AGHT+IFKcgHXNlU4FAU79GrgXGLx2YCdtWA3iFVXz3nLVJSXAYEdE7UjTkH+udB8uxDtwGSK6gZmAA==
-X-Received: by 2002:a05:6a00:4f8d:b0:730:9946:5973 with SMTP id d2e1a72fcca58-76e2f8a26f5mr1697520b3a.5.1755135374803;
-        Wed, 13 Aug 2025 18:36:14 -0700 (PDT)
-Received: from [192.168.1.4] ([122.181.203.219])
-        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-76e277bfbf4sm2199447b3a.115.2025.08.13.18.36.10
+        bh=y+kWqLLyePNycR+JiNLWQPriOMjue0Fgv8ycdj0wX2A=;
+        b=bPJfT7CbF+4X9gSyzz2b6fyD3kzt7spFgDXC0+qvtII9xFGlXLxe4BGaYwFC8RGNHG
+         hWaviXMPUknWUbnLdpTqEjhUg6vIGsccmpEhKqucNGXUe4hJJPvgsk5FL/Z2VeqRZFNw
+         PMkyBaQGuiRj7V7vwK7Ee5t8+XGTj0wGNGeRG2plOpEeROVS14irhbYzG974Wn53LIUv
+         lM9udVMANpwsakoXk0hqN8375oDDoPU9QDDii0q32sJerXLBSlobjC8/pK7Jht4cMMb3
+         2PrJVgVFdXJ2CioNytt54PVgiAmdb2wUjqGzqivT4ZMVR6uc95ksDL8NDhFihGYFM5pe
+         t6ew==
+X-Forwarded-Encrypted: i=1; AJvYcCVClQJYyDinuSAr3OILTe958upyPmoKqrxnnVvb71OERfBkKY3JQUCNEDRY5+LeosNMCgz0StJpPXJA@vger.kernel.org, AJvYcCVqoXymIPshbt2wccFNKzJifCbUPaEUG3m3nowEAJpEYYLZ+mhoN6VrbB4X7AYIAxVCtsoviaNL@vger.kernel.org, AJvYcCWGsT3C94j2wELtQEUzatLkB0IFh9z1vgFgw3VP9ASMjOrgFW71GiPiR5BvHG8C5KP2I1hga6CqbCXOEKU=@vger.kernel.org
+X-Gm-Message-State: AOJu0Yx8HIJUJW9pyZ9CIrBcB7U3sdHk1f3uLeizLp2hlSMsDVWR/Jcm
+	kDMt59M01ov5JttK7ud6GHKPsrAWIrDXeeJ3yWSForijv42sbGo7y2Y8
+X-Gm-Gg: ASbGnctdXnvGc6kJMB/Xw3+Xr6rQ27fV2Du9OEQCaF+yxgpzaxwqryYYXVCZLCJjmeP
+	W5LAXgveQZ/GEZgwW5oKBCbExgSzBgZC+4vUVH9CfDmMZ9h6U02tZ+67Bj0HpbFdkTzUBlUpEXC
+	AFZ2fgNqI/xmS2qF72fC3/40sUwvgBAbVa191X5+lSB5cyx9cUcS01Vx2dQMMWPLSwkMeY+2Q4K
+	wWpbXFEBp0LGzUSAUhmoLx5Gc79WTElVYvaKX1YTwRMCbRuoTo+MPOFLSD389EF2PBEDrcQ81Vh
+	Q6gmFPgO6EhLFMmJ+BbokhhEIh04btb4MZuL/qeTLo8UpAIRq+1wtGafuWOZZfxqAoclFpCKGy0
+	KDIZ5mPR9vFU7pYhY6UtwwoCkIWcHYfc=
+X-Google-Smtp-Source: AGHT+IEPA6HMlWNpHXodrv1lD5E3otIkFSWEptYHG08XWLr4ANdEPjhnnUybs67K/lJPHq37cBOu7g==
+X-Received: by 2002:a05:6a20:734f:b0:240:25cf:8548 with SMTP id adf61e73a8af0-240bd296dccmr784167637.6.1755136642967;
+        Wed, 13 Aug 2025 18:57:22 -0700 (PDT)
+Received: from [192.168.1.7] ([110.78.157.89])
+        by smtp.googlemail.com with ESMTPSA id 41be03b00d2f7-b435a19a01asm10970743a12.17.2025.08.13.18.57.19
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Wed, 13 Aug 2025 18:36:14 -0700 (PDT)
-Message-ID: <4d160c86-cfbf-4f08-b3e9-f1f8235d20a6@oss.qualcomm.com>
-Date: Thu, 14 Aug 2025 07:06:08 +0530
+        Wed, 13 Aug 2025 18:57:22 -0700 (PDT)
+Message-ID: <8e9066d4-1b04-4423-869d-2bac0a3385a2@gmail.com>
+Date: Thu, 14 Aug 2025 08:57:16 +0700
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
@@ -74,265 +67,495 @@ List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v4 2/3] usb: dwc3: qcom: Implement glue callbacks to
- facilitate runtime suspend
-To: Thinh Nguyen <Thinh.Nguyen@synopsys.com>
-Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Mathias Nyman <mathias.nyman@intel.com>,
-        Bjorn Andersson <bjorn.andersson@oss.qualcomm.com>,
-        Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>,
-        Konrad Dybcio <konrad.dybcio@oss.qualcomm.com>,
-        "linux-arm-msm@vger.kernel.org" <linux-arm-msm@vger.kernel.org>,
-        "linux-usb@vger.kernel.org" <linux-usb@vger.kernel.org>,
-        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>
-References: <20250812055542.1588528-1-krishna.kurapati@oss.qualcomm.com>
- <20250812055542.1588528-3-krishna.kurapati@oss.qualcomm.com>
- <20250814001552.gtbrgqthtjpilq23@synopsys.com>
+Subject: Re: [PATCH] USB: storage: Ignore driver CD mode for Realtek
+ multi-mode Wi-Fi dongles
+To: Zenm Chen <zenmchen@gmail.com>, stern@rowland.harvard.edu
+Cc: gregkh@linuxfoundation.org, linux-kernel@vger.kernel.org,
+ linux-usb@vger.kernel.org, pkshih@realtek.com, rtl8821cerfe2@gmail.com,
+ stable@vger.kernel.org, usb-storage@lists.one-eyed-alien.net,
+ usbwifi2024@gmail.com
+References: <03d4c721-f96d-4ace-b01e-c7adef150209@rowland.harvard.edu>
+ <20250813225417.4792-1-zenmchen@gmail.com>
 Content-Language: en-US
-From: Krishna Kurapati <krishna.kurapati@oss.qualcomm.com>
-In-Reply-To: <20250814001552.gtbrgqthtjpilq23@synopsys.com>
+From: Lars Melin <larsm17@gmail.com>
+In-Reply-To: <20250813225417.4792-1-zenmchen@gmail.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUwODExMDEwNyBTYWx0ZWRfXznuuUezRVfaB
- 1wt+dH6DkjE3PcywY+Qfte8sqNPK8+jV6KJPh1bsiNuI03tWOCsAPM+j1u9e5C8A5tpmlWPq1BF
- be/jRNR0uFB8Wtk+UpGOhx67xTpwuGMDJZywjSf5FzX23NulUn5AT9phXCwIXc7Zz6YkZdpUAZv
- ulQmmd3XmP/aIg4OXqRTEuBgQ0SlGiZgZjXq1Ok3OQa1aL7Z35+TlrAE+3gg4j8RJ4c+l6f9M+u
- zkMKuhgZLoQYa0TdAW2JIiSRLYVhVN+cOF+kqfAYYDzJYJoKCwmhTeaVGefO91w/PzCi2TDDx1a
- 7HV+eGagGDMtmR2e7LbTDPlNyKNNlYrdfa0BfBG9uUevyaBmt/tNiYlWa6MgvFG3h/+LlTMapy4
- dLX8MbY+
-X-Proofpoint-GUID: ONRGJhrhf_GTQxlpqEFmCTCdf8GBZzsr
-X-Authority-Analysis: v=2.4 cv=A+1sP7WG c=1 sm=1 tr=0 ts=689d3d90 cx=c_pps
- a=mDZGXZTwRPZaeRUbqKGCBw==:117 a=8GxWK2/7jzpMbo9U3bXwdg==:17
- a=IkcTkHD0fZMA:10 a=2OwXVqhp2XgA:10 a=EUspDBNiAAAA:8 a=jIQo8A4GAAAA:8
- a=0Udd3H8GFMBbaGnnyygA:9 a=QEXdDO2ut3YA:10 a=zc0IvFSfCIW2DFIPzwfm:22
-X-Proofpoint-ORIG-GUID: ONRGJhrhf_GTQxlpqEFmCTCdf8GBZzsr
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1099,Hydra:6.1.9,FMLib:17.12.80.40
- definitions=2025-08-13_02,2025-08-11_01,2025-03-28_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- impostorscore=0 suspectscore=0 priorityscore=1501 malwarescore=0 spamscore=0
- phishscore=0 clxscore=1015 adultscore=0 bulkscore=0 classifier=typeunknown
- authscore=0 authtc= authcc= route=outbound adjust=0 reason=mlx scancount=1
- engine=8.19.0-2507300000 definitions=main-2508110107
+Content-Transfer-Encoding: 8bit
 
-
-
-On 8/14/2025 5:46 AM, Thinh Nguyen wrote:
-> On Tue, Aug 12, 2025, Krishna Kurapati wrote:
->> On Qualcomm DWC3 dual-role controllers, the conndone/disconnect events in
->> device mode are generated by controller when software writes to QSCRATCH
->> registers in Qualcomm Glue layer rather than the vbus line being routed to
->> dwc3 core IP for it to recognize and generate these events.
+On 2025-08-14 05:54, Zenm Chen wrote:
+> Alan Stern <stern@rowland.harvard.edu> 於 2025年8月14日 週四 上午2:19寫道：
 >>
->> UTMI_OTG_VBUS_VALID  bit of QSCRATCH_HS_PHY_CTRL register needs to be set
->> to generate a connection done event and to be cleared for the controller to
->> generate a disconnect event during cable removal. When the disconnect is
->> not generated upon cable removal, the "connected" flag of dwc3 is left
->> marked as "true" and it blocks suspend routines and for that to happen upon
->> cable removal, the cable disconnect notification coming in via set_role
->> call need to be provided to the Qualcomm glue layer as well.
+>> On Thu, Aug 14, 2025 at 01:53:12AM +0800, Zenm Chen wrote:
+>>> Alan Stern <stern@rowland.harvard.edu> 於 2025年8月14日 週四 上午12:58寫道：
+>>>>
+>>>> On Thu, Aug 14, 2025 at 12:24:15AM +0800, Zenm Chen wrote:
+>>>>> Many Realtek USB Wi-Fi dongles released in recent years have two modes:
+>>>>> one is driver CD mode which has Windows driver onboard, another one is
+>>>>> Wi-Fi mode. Add the US_FL_IGNORE_DEVICE quirk for these multi-mode devices.
+>>>>> Otherwise, usb_modeswitch may fail to switch them to Wi-Fi mode.
+>>>>
+>>>> There are several other entries like this already in the unusual_devs.h
+>>>> file.  But I wonder if we really still need them.  Shouldn't the
+>>>> usb_modeswitch program be smart enough by now to know how to handle
+>>>> these things?
+>>>
+>>> Hi Alan,
+>>>
+>>> Thanks for your review and reply.
+>>>
+>>> Without this patch applied, usb_modeswitch cannot switch my Mercury MW310UH
+>>> into Wi-Fi mode [1].
 >>
->> Currently, the way DWC3 core and Qualcomm legacy glue driver are designed,
->> there is no mechanism through which the DWC3 core can notify the Qualcomm
->> glue layer of any role changes which it receives via role switch. To
->> register these glue callbacks at probe time, for enabling core to notify
->> glue layer, the legacy Qualcomm driver has no way to find out when the
->> child driver probe was successful since it does not check for the same
->> during of_platform_populate.
+>> Don't post a link to a video; it's not very helpful.  Instead, copy the
+>> output from the usb_modeswitch program and include it in an email
+>> message.
+> 
+> Sorry about that.
+> 
 >>
->> Hence implement the following glue callbacks for flattened Qualcomm glue
->> driver:
+>>> I also ran into a similar problem like [2] with D-Link
+>>> AX9U, so I believe this patch is needed.
 >>
->> 1. set_role: To pass role switching information from drd layer to glue.
->> This information is needed to identify NONE/DEVICE mode switch and modify
->> QSCRATCH to generate connect-done event on device mode entry and disconnect
->> event on cable removal in device mode.
+>> Maybe it is and maybe not.  It depends on where the underlying problem
+>> is.  If the problem is in the device then yes, the patch probably is
+>> needed.  But if the problem is in usb_modeswitch then the patch probably
+>> is not needed.
 >>
->> 2. run_stop: When booting up in device mode, if autouspend is enabled and
->> userspace doesn't write UDC on boot, controller enters autosuspend. After
->> this, if the userspace writes to UDC in the future, run_stop notifier is
->> required to enable UTMI_OTG_VBUS_VALID of QSCRATCH so that connect done
->> event is generated after run_stop(1) is done to finish enumeration.
+>>>> In theory, someone might want to access the Windows driver on the
+>>>> emulated CD.  With this quirk, they wouldn't be able to.
+>>>>
+>>>
+>>> Actually an emulated CD doesn't appear when I insert these 2 Wi-Fi dongles into
+>>> my Linux PC, so users cannot access that Windows driver even if this patch is not
+>>> applied.
 >>
->> Signed-off-by: Krishna Kurapati <krishna.kurapati@oss.qualcomm.com>
->> ---
->>   drivers/usb/dwc3/dwc3-qcom.c | 78 +++++++++++++++++++++++++++++++-----
->>   1 file changed, 68 insertions(+), 10 deletions(-)
+>> What does happen when you insert the WiFi dongle?  That is, what
+>> messages appear in the dmesg log?
+> 
+> OS: Arch Linux
+> Kernel version: 6.15.9-arch1-1
+> 
+> These are the messages shown in the kernel log when the dongles were inserted.
+> 
+> Mercury MW310UH:
+> [ 4405.000985] usb 3-2: new high-speed USB device number 31 using ehci-pci
+> [ 4405.126736] usb 3-2: New USB device found, idVendor=0bda, idProduct=a192, bcdDevice= 2.00
+> [ 4405.126750] usb 3-2: New USB device strings: Mfr=1, Product=2, SerialNumber=0
+> [ 4405.126756] usb 3-2: Product: DISK
+> [ 4405.126760] usb 3-2: Manufacturer: Realtek
+> [ 4405.127200] usb-storage 3-2:1.0: USB Mass Storage device detected
+> [ 4405.127632] scsi host8: usb-storage 3-2:1.0
+> [ 4406.155867] scsi 8:0:0:0: CD-ROM            Realtek  USB Disk autorun 1.00 PQ: 0 ANSI: 0 CCS
+> [ 4406.164982] sr 8:0:0:0: [sr0] scsi-1 drive
+> [ 4406.169602] sr 8:0:0:0: [sr0] Hmm, seems the drive doesn't support multisession CD's
+> [ 4406.282981] usb 3-2: reset high-speed USB device number 31 using ehci-pci
+> [ 4406.530027] usb 3-2: reset high-speed USB device number 31 using ehci-pci
+> [ 4406.776991] usb 3-2: reset high-speed USB device number 31 using ehci-pci
+> [ 4407.023992] usb 3-2: reset high-speed USB device number 31 using ehci-pci
+> [ 4407.263927] usb 3-2: reset high-speed USB device number 31 using ehci-pci
+> [ 4407.510987] usb 3-2: reset high-speed USB device number 31 using ehci-pci
+> [ 4407.757988] usb 3-2: reset high-speed USB device number 31 using ehci-pci
+> [ 4408.004967] usb 3-2: reset high-speed USB device number 31 using ehci-pci
+> [ 4408.244989] usb 3-2: reset high-speed USB device number 31 using ehci-pci
+> [ 4408.491971] usb 3-2: reset high-speed USB device number 31 using ehci-pci
+> [ 4408.738973] usb 3-2: reset high-speed USB device number 31 using ehci-pci
+> [ 4408.985967] usb 3-2: reset high-speed USB device number 31 using ehci-pci
+> [ 4409.225847] usb 3-2: reset high-speed USB device number 31 using ehci-pci
+> [ 4409.473012] usb 3-2: reset high-speed USB device number 31 using ehci-pci
+> [ 4409.719978] usb 3-2: reset high-speed USB device number 31 using ehci-pci
+> [ 4409.966958] usb 3-2: reset high-speed USB device number 31 using ehci-pci
+> [ 4410.206962] usb 3-2: reset high-speed USB device number 31 using ehci-pci
+> [ 4410.453952] usb 3-2: reset high-speed USB device number 31 using ehci-pci
+> [ 4410.700965] usb 3-2: reset high-speed USB device number 31 using ehci-pci
+> [ 4410.947959] usb 3-2: reset high-speed USB device number 31 using ehci-pci
+> [ 4411.187950] usb 3-2: reset high-speed USB device number 31 using ehci-pci
+> [ 4411.434956] usb 3-2: reset high-speed USB device number 31 using ehci-pci
+> [ 4411.681959] usb 3-2: reset high-speed USB device number 31 using ehci-pci
+> [ 4411.928970] usb 3-2: reset high-speed USB device number 31 using ehci-pci
+> [ 4412.054904] sr 8:0:0:0: Attached scsi CD-ROM sr0
+> [ 4412.055122] sr 8:0:0:0: Attached scsi generic sg3 type 5
+> [ 4412.168955] usb 3-2: reset high-speed USB device number 31 using ehci-pci
+> [ 4412.416956] usb 3-2: reset high-speed USB device number 31 using ehci-pci
+> [ 4412.663960] usb 3-2: reset high-speed USB device number 31 using ehci-pci
+> [ 4412.910947] usb 3-2: reset high-speed USB device number 31 using ehci-pci
+> [ 4413.150951] usb 3-2: reset high-speed USB device number 31 using ehci-pci
+> [ 4413.397994] usb 3-2: reset high-speed USB device number 31 using ehci-pci
+> [ 4413.645959] usb 3-2: reset high-speed USB device number 31 using ehci-pci
+> [ 4413.892990] usb 3-2: reset high-speed USB device number 31 using ehci-pci
+> [ 4414.133942] usb 3-2: reset high-speed USB device number 31 using ehci-pci
+> [ 4414.380798] usb 3-2: reset high-speed USB device number 31 using ehci-pci
+> [ 4414.621191] usb 3-2: reset high-speed USB device number 31 using ehci-pci
+> [ 4414.867934] usb 3-2: reset high-speed USB device number 31 using ehci-pci
+> [ 4415.117949] usb 3-2: reset high-speed USB device number 31 using ehci-pci
+> [ 4415.364797] usb 3-2: reset high-speed USB device number 31 using ehci-pci
+> 
+> ... Countless "usb 3-2: reset high-speed USB device number 31 using ehci-pci" appearred here.
+> 
+> [ 4854.437661] usb 3-2: reset high-speed USB device number 31 using ehci-pci
+> [ 4854.684646] usb 3-2: reset high-speed USB device number 31 using ehci-pci
+> [ 4856.951643] usb 3-2: reset high-speed USB device number 31 using ehci-pci
+> [ 4857.198641] usb 3-2: reset high-speed USB device number 31 using ehci-pci
+> [ 4857.445642] usb 3-2: reset high-speed USB device number 31 using ehci-pci
+> [ 4857.692644] usb 3-2: reset high-speed USB device number 31 using ehci-pci
+> [ 4859.959629] usb 3-2: reset high-speed USB device number 31 using ehci-pci
+> [ 4860.207512] usb 3-2: reset high-speed USB device number 31 using ehci-pci
+> [ 4860.454675] usb 3-2: reset high-speed USB device number 31 using ehci-pci
+> [ 4860.701628] usb 3-2: reset high-speed USB device number 31 using ehci-pci
+> [ 4862.968616] usb 3-2: reset high-speed USB device number 31 using ehci-pci
+> [ 4863.215613] usb 3-2: reset high-speed USB device number 31 using ehci-pci
+> [ 4863.462670] usb 3-2: reset high-speed USB device number 31 using ehci-pci
+> [ 4863.709608] usb 3-2: reset high-speed USB device number 31 using ehci-pci
+> [ 4865.975479] usb 3-2: reset high-speed USB device number 31 using ehci-pci
+> [ 4866.224610] usb 3-2: reset high-speed USB device number 31 using ehci-pci
+> [ 4866.471590] usb 3-2: reset high-speed USB device number 31 using ehci-pci
+> [ 4866.718605] usb 3-2: reset high-speed USB device number 31 using ehci-pci
+> [ 4868.983453] usb 3-2: reset high-speed USB device number 31 using ehci-pci
+> [ 4869.230624] usb 3-2: reset high-speed USB device number 31 using ehci-pci
+> [ 4869.477582] usb 3-2: reset high-speed USB device number 31 using ehci-pci
+> [ 4869.724579] usb 3-2: reset high-speed USB device number 31 using ehci-pci
+> 
+> 
+> 
+> D-Link AX9U:
+> [ 6400.069566] usb 3-2: new high-speed USB device number 38 using ehci-pci
+> [ 6400.195236] usb 3-2: New USB device found, idVendor=0bda, idProduct=1a2b, bcdDevice= 0.00
+> [ 6400.195250] usb 3-2: New USB device strings: Mfr=1, Product=2, SerialNumber=0
+> [ 6400.195256] usb 3-2: Product: DISK
+> [ 6400.195261] usb 3-2: Manufacturer: Realtek
+> [ 6400.197475] usb-storage 3-2:1.0: USB Mass Storage device detected
+> [ 6400.197768] scsi host8: usb-storage 3-2:1.0
+> [ 6401.481648] scsi 8:0:0:0: CD-ROM            RTK      Driver Storage   2.04 PQ: 0 ANSI: 0 CCS
+> [ 6401.483955] sr 8:0:0:0: [sr0] scsi3-mmc drive: 0x/0x caddy
+> [ 6401.487626] sr 8:0:0:0: Attached scsi CD-ROM sr0
+> [ 6401.487828] sr 8:0:0:0: Attached scsi generic sg3 type 5
+> [ 6432.007456] usb 3-2: reset high-speed USB device number 38 using ehci-pci
+> [ 6462.723317] usb 3-2: reset high-speed USB device number 38 using ehci-pci
+> [ 6493.447105] usb 3-2: reset high-speed USB device number 38 using ehci-pci
+> [ 6524.163962] usb 3-2: reset high-speed USB device number 38 using ehci-pci
+> [ 6554.882745] usb 3-2: reset high-speed USB device number 38 using ehci-pci
+> [ 6565.190684] usb 3-2: reset high-speed USB device number 38 using ehci-pci
+> [ 6595.846508] usb 3-2: reset high-speed USB device number 38 using ehci-pci
+> [ 6626.562333] usb 3-2: reset high-speed USB device number 38 using ehci-pci
+> [ 6657.283170] usb 3-2: reset high-speed USB device number 38 using ehci-pci
+> [ 6688.002984] usb 3-2: reset high-speed USB device number 38 using ehci-pci
+> [ 6718.721814] usb 3-2: reset high-speed USB device number 38 using ehci-pci
+> [ 6749.445506] usb 3-2: reset high-speed USB device number 38 using ehci-pci
+> [ 6759.549662] INFO: task (udev-worker):2838 blocked for more than 122 seconds.
+> [ 6759.549677]       Not tainted 6.15.9-arch1-1 #1
+> [ 6759.549682] "echo 0 > /proc/sys/kernel/hung_task_timeout_secs" disables this message.
+> [ 6759.549685] task:(udev-worker)   state:D stack:0     pid:2838  tgid:2838  ppid:329    task_flags:0x400140 flags:0x00004002
+> [ 6759.549697] Call Trace:
+> [ 6759.549701]  <TASK>
+> [ 6759.549709]  __schedule+0x409/0x1330
+> [ 6759.549727]  schedule+0x27/0xd0
+> [ 6759.549735]  schedule_preempt_disabled+0x15/0x30
+> [ 6759.549743]  __mutex_lock.constprop.0+0x481/0x880
+> [ 6759.549754]  ? __pfx_blkdev_open+0x10/0x10
+> [ 6759.549763]  bdev_open+0x2a0/0x3d0
+> [ 6759.549771]  ? __pfx_blkdev_open+0x10/0x10
+> [ 6759.549777]  blkdev_open+0xa5/0x100
+> [ 6759.549785]  do_dentry_open+0x170/0x5d0
+> [ 6759.549794]  vfs_open+0x30/0x100
+> [ 6759.549804]  path_openat+0x717/0x1300
+> [ 6759.549813]  ? path_openat+0x98c/0x1300
+> [ 6759.549821]  do_filp_open+0xd8/0x180
+> [ 6759.549834]  do_sys_openat2+0x88/0xe0
+> [ 6759.549841]  __x64_sys_openat+0x61/0xa0
+> [ 6759.549847]  do_syscall_64+0x7b/0x810
+> [ 6759.549856]  ? do_syscall_64+0x87/0x810
+> [ 6759.549863]  ? do_syscall_64+0x87/0x810
+> [ 6759.549869]  ? set_pte_range+0xe2/0x200
+> [ 6759.549879]  ? set_ptes.isra.0+0x36/0x80
+> [ 6759.549886]  ? finish_fault+0x22f/0x460
+> [ 6759.549895]  ? do_fault+0x3a7/0x5b0
+> [ 6759.549903]  ? ___pte_offset_map+0x1b/0x180
+> [ 6759.549912]  ? __handle_mm_fault+0x7de/0xfd0
+> [ 6759.549918]  ? do_epoll_ctl+0xa80/0xdd0
+> [ 6759.549926]  ? __count_memcg_events+0xb0/0x150
+> [ 6759.549934]  ? count_memcg_events.constprop.0+0x1a/0x30
+> [ 6759.549941]  ? handle_mm_fault+0x1d2/0x2d0
+> [ 6759.549948]  ? do_user_addr_fault+0x181/0x690
+> [ 6759.549957]  ? irqentry_exit_to_user_mode+0x2c/0x1b0
+> [ 6759.549966]  entry_SYSCALL_64_after_hwframe+0x76/0x7e
+> [ 6759.549974] RIP: 0033:0x7fc19fe931ce
+> [ 6759.549995] RSP: 002b:00007ffe87a741b0 EFLAGS: 00000202 ORIG_RAX: 0000000000000101
+> [ 6759.550003] RAX: ffffffffffffffda RBX: 0000000000000000 RCX: 00007fc19fe931ce
+> [ 6759.550008] RDX: 0000000000080900 RSI: 00007ffe87a74270 RDI: ffffffffffffff9c
+> [ 6759.550012] RBP: 00007ffe87a741c0 R08: 0000000000000000 R09: 0000000000000000
+> [ 6759.550017] R10: 0000000000000000 R11: 0000000000000202 R12: 000055eaf18c4470
+> [ 6759.550021] R13: 00007ffe87a74500 R14: 0000000000080900 R15: 0000000000000015
+> [ 6759.550030]  </TASK>
+> [ 6759.550054] INFO: task (udev-worker):2838 is blocked on a mutex likely owned by task udisksd:706.
+> [ 6759.550059] task:udisksd         state:D stack:0     pid:706   tgid:706   ppid:1      task_flags:0x400100 flags:0x00004002
+> [ 6759.550068] Call Trace:
+> [ 6759.550071]  <TASK>
+> [ 6759.550075]  __schedule+0x409/0x1330
+> [ 6759.550084]  ? lock_timer_base+0x70/0x90
+> [ 6759.550094]  schedule+0x27/0xd0
+> [ 6759.550101]  schedule_timeout+0x83/0x100
+> [ 6759.550109]  ? __pfx_process_timeout+0x10/0x10
+> [ 6759.550117]  io_schedule_timeout+0x5b/0x90
+> [ 6759.550124]  wait_for_completion_io_timeout+0x7f/0x1a0
+> [ 6759.550134]  blk_execute_rq+0xee/0x170
+> [ 6759.550145]  scsi_execute_cmd+0x100/0x420
+> [ 6759.550157]  scsi_test_unit_ready+0x6f/0xf0
+> [ 6759.550172]  sr_drive_status+0x57/0x120 [sr_mod de25504f195c3fb7b76d163270dae636af6d4152]
+> [ 6759.550187]  cdrom_open+0xd4/0xab0 [cdrom ff26b01442b014534657abb98fa7fb688822fb56]
+> [ 6759.550208]  ? __disk_unblock_events+0x26/0xc0
+> [ 6759.550219]  ? disk_check_media_change+0x96/0xe0
+> [ 6759.550229]  sr_block_open+0x71/0x110 [sr_mod de25504f195c3fb7b76d163270dae636af6d4152]
+> [ 6759.550239]  ? __pfx_blkdev_open+0x10/0x10
+> [ 6759.550246]  blkdev_get_whole+0x2c/0xe0
+> [ 6759.550253]  ? __pfx_blkdev_open+0x10/0x10
+> [ 6759.550259]  bdev_open+0x201/0x3d0
+> [ 6759.550266]  ? __pfx_blkdev_open+0x10/0x10
+> [ 6759.550272]  blkdev_open+0xa5/0x100
+> [ 6759.550279]  do_dentry_open+0x170/0x5d0
+> [ 6759.550287]  vfs_open+0x30/0x100
+> [ 6759.550296]  path_openat+0x717/0x1300
+> [ 6759.550304]  ? __memcg_slab_free_hook+0xf7/0x140
+> [ 6759.550312]  do_filp_open+0xd8/0x180
+> [ 6759.550325]  do_sys_openat2+0x88/0xe0
+> [ 6759.550386]  __x64_sys_openat+0x61/0xa0
+> [ 6759.550397]  do_syscall_64+0x7b/0x810
+> [ 6759.550406]  ? vfs_read+0x2af/0x390
+> [ 6759.550419]  ? ksys_read+0xa8/0xe0
+> [ 6759.550429]  ? syscall_exit_to_user_mode+0x37/0x1c0
+> [ 6759.550439]  ? do_syscall_64+0x87/0x810
+> [ 6759.550448]  ? irqentry_exit_to_user_mode+0x2c/0x1b0
+> [ 6759.550458]  entry_SYSCALL_64_after_hwframe+0x76/0x7e
+> [ 6759.550466] RIP: 0033:0x7f3ced89f042
+> [ 6759.550479] RSP: 002b:00007fff0e8d04f8 EFLAGS: 00000246 ORIG_RAX: 0000000000000101
+> [ 6759.550488] RAX: ffffffffffffffda RBX: 0000562237bedca0 RCX: 00007f3ced89f042
+> [ 6759.550494] RDX: 0000000000000000 RSI: 0000562237bbc6e0 RDI: ffffffffffffff9c
+> [ 6759.550499] RBP: 00007fff0e8d0520 R08: 0000000000000000 R09: 0000000000000000
+> [ 6759.550504] R10: 0000000000000000 R11: 0000000000000246 R12: 00007fff0e8d0650
+> [ 6759.550509] R13: 00007fff0e8d0654 R14: 0000562237bf1b80 R15: 0000562237bb0fe0
+> [ 6759.550520]  </TASK>
+> [ 6780.163423] usb 3-2: reset high-speed USB device number 38 using ehci-pci
+> [ 6787.459425] usb 3-2: reset high-speed USB device number 38 using ehci-pci
+> [ 6797.765312] usb 3-2: reset high-speed USB device number 38 using ehci-pci
+> [ 6828.289146] usb 3-2: reset high-speed USB device number 38 using ehci-pci
+> [ 6859.013081] usb 3-2: reset high-speed USB device number 38 using ehci-pci
+> [ 6889.732859] usb 3-2: reset high-speed USB device number 38 using ehci-pci
+> [ 6900.036820] usb 3-2: reset high-speed USB device number 38 using ehci-pci
+> [ 6930.692665] usb 3-2: reset high-speed USB device number 38 using ehci-pci
+> [ 6961.412477] usb 3-2: reset high-speed USB device number 38 using ehci-pci
+> [ 6992.132215] usb 3-2: reset high-speed USB device number 38 using ehci-pci
+> [ 7022.852189] usb 3-2: reset high-speed USB device number 38 using ehci-pci
+> [ 7030.145050] usb 3-2: reset high-speed USB device number 38 using ehci-pci
+> 
+> 
+> When trying to mount these two Wi-Fi dongles' driver CD, I got this error.
+> $ sudo mount /dev/sr0 /mnt/tmp
+> mount: /mnt/tmp: fsconfig() failed: /dev/sr0: Can't open blockdev.
+>         dmesg(1) may have more information after failed mount system call.
+> 
+> 
+> usb_modeswitch can switch D-Link AX9U into Wi-Fi mode successfully, but it took a
+> very long time (about 40 seconds).
+> 
+> $ lsusb
+> Bus 001 Device 001: ID 1d6b:0001 Linux Foundation 1.1 root hub
+> Bus 001 Device 002: ID 0bda:5852 Realtek Semiconductor Corp. Bluetooth Radio
+> Bus 002 Device 001: ID 1d6b:0002 Linux Foundation 2.0 root hub
+> Bus 003 Device 001: ID 1d6b:0002 Linux Foundation 2.0 root hub
+> Bus 003 Device 002: ID 2717:4106 Xiaomi Inc. MediaTek MT7601U [MI WiFi]
+> Bus 003 Device 035: ID 0bda:1a2b Realtek Semiconductor Corp. RTL8188GU 802.11n WLAN Adapter (Driver CDROM Mode)
+> Bus 004 Device 001: ID 1d6b:0001 Linux Foundation 1.1 root hub
+> Bus 004 Device 002: ID 046d:c077 Logitech, Inc. Mouse
+> Bus 004 Device 003: ID 05af:1023 Jing-Mold Enterprise Co., Ltd Ghost Key Elimiantion Keyboard
+> Bus 005 Device 001: ID 1d6b:0002 Linux Foundation 2.0 root hub
+> Bus 006 Device 001: ID 1d6b:0003 Linux Foundation 3.0 root hub
+> Bus 007 Device 001: ID 1d6b:0002 Linux Foundation 2.0 root hub
+> Bus 008 Device 001: ID 1d6b:0003 Linux Foundation 3.0 root hub
+> 
+> $ sudo  usb_modeswitch -v 0bda -p 1a2b -KW
+> Take all parameters from the command line
+> 
+> 
+>   * usb_modeswitch: handle USB devices with multiple modes
+>   * Version 2.6.2 (C) Josua Dietze 2017
+>   * Based on libusb1/libusbx
+> 
+>   ! PLEASE REPORT NEW CONFIGURATIONS !
+> 
+> DefaultVendor=  0x0bda
+> DefaultProduct= 0x1a2b
+> 
+> StandardEject=1
+> 
+> Look for default devices ...
+>    found USB ID 2717:4106
+>    found USB ID 0bda:1a2b
+>     vendor ID matched
+>     product ID matched
+>    found USB ID 1d6b:0002
+>    found USB ID 05af:1023
+>    found USB ID 046d:c077
+>    found USB ID 1d6b:0001
+>    found USB ID 1d6b:0002
+>    found USB ID 0bda:5852
+>     vendor ID matched
+>    found USB ID 1d6b:0001
+>    found USB ID 1d6b:0003
+>    found USB ID 1d6b:0002
+>    found USB ID 1d6b:0003
+>    found USB ID 1d6b:0002
+>   Found devices in default mode (1)
+> Access device 035 on bus 003
+> Get the current device configuration ...
+> Current configuration number is 1
+> Use interface number 0
+>   with class 8
+> Use endpoints 0x05 (out) and 0x84 (in)
+> 
+> USB description data (for identification)
+> -------------------------
+> Manufacturer: Realtek
+>       Product: DISK
+>    Serial No.: not provided
+> -------------------------
+> Sending standard EJECT sequence
+> Looking for active drivers ...
+>   OK, driver detached
+> Set up interface 0
+> Use endpoint 0x05 for message sending ...
+> Trying to send message 1 to endpoint 0x05 ...
+>   Sending the message returned error -7. Try to continue
+> Read the response to message 1 (CSW) ...
+>   Response successfully read (13 bytes), status 1
+> Trying to send message 2 to endpoint 0x05 ...
+>   OK, message successfully sent
+> Read the response to message 2 (CSW) ...
+>   Response successfully read (13 bytes), status 0
+> Trying to send message 3 to endpoint 0x05 ...
+> libusb: error [submit_bulk_transfer] submiturb failed, errno=113
+>   Sending the message returned error -1. Try to continue
+> Read the response to message 3 (CSW) ...
+>   Device seems to have vanished after reading. Good.
+>   Device is gone, skip any further commands
+> -> Run lsusb to note any changes. Bye!
+> 
+> $ lsusb
+> Bus 001 Device 001: ID 1d6b:0001 Linux Foundation 1.1 root hub
+> Bus 001 Device 002: ID 0bda:5852 Realtek Semiconductor Corp. Bluetooth Radio
+> Bus 002 Device 001: ID 1d6b:0002 Linux Foundation 2.0 root hub
+> Bus 003 Device 001: ID 1d6b:0002 Linux Foundation 2.0 root hub
+> Bus 003 Device 002: ID 2717:4106 Xiaomi Inc. MediaTek MT7601U [MI WiFi]
+> Bus 003 Device 036: ID 2001:332a D-Link Corp. 802.11ax WLAN Adapter
+> Bus 004 Device 001: ID 1d6b:0001 Linux Foundation 1.1 root hub
+> Bus 004 Device 002: ID 046d:c077 Logitech, Inc. Mouse
+> Bus 004 Device 003: ID 05af:1023 Jing-Mold Enterprise Co., Ltd Ghost Key Elimiantion Keyboard
+> Bus 005 Device 001: ID 1d6b:0002 Linux Foundation 2.0 root hub
+> Bus 006 Device 001: ID 1d6b:0003 Linux Foundation 3.0 root hub
+> Bus 007 Device 001: ID 1d6b:0002 Linux Foundation 2.0 root hub
+> Bus 008 Device 001: ID 1d6b:0003 Linux Foundation 3.0 root hub
+> 
+> 
+> On the other side, Mercury MW310UH cannot be switched successfully.
+> 
+> $ sudo  usb_modeswitch -v 0bda -p a192 -KW
+> Take all parameters from the command line
+> 
+> 
+>   * usb_modeswitch: handle USB devices with multiple modes
+>   * Version 2.6.2 (C) Josua Dietze 2017
+>   * Based on libusb1/libusbx
+> 
+>   ! PLEASE REPORT NEW CONFIGURATIONS !
+> 
+> DefaultVendor=  0x0bda
+> DefaultProduct= 0xa192
+> 
+> StandardEject=1
+> 
+> Look for default devices ...
+>    found USB ID 2717:4106
+>    found USB ID 0bda:a192
+>     vendor ID matched
+>     product ID matched
+>    found USB ID 1d6b:0002
+>    found USB ID 05af:1023
+>    found USB ID 046d:c077
+>    found USB ID 1d6b:0001
+>    found USB ID 1d6b:0002
+>    found USB ID 0bda:5852
+>     vendor ID matched
+>    found USB ID 1d6b:0001
+>    found USB ID 1d6b:0003
+>    found USB ID 1d6b:0002
+>    found USB ID 1d6b:0003
+>    found USB ID 1d6b:0002
+>   Found devices in default mode (1)
+> Access device 033 on bus 003
+> Get the current device configuration ...
+> Current configuration number is 1
+> Use interface number 0
+>   with class 8
+> Use endpoints 0x0b (out) and 0x8a (in)
+> 
+> USB description data (for identification)
+> -------------------------
+> Manufacturer: Realtek
+>       Product: DISK
+>    Serial No.: not provided
+> -------------------------
+> Sending standard EJECT sequence
+> Looking for active drivers ...
+>   OK, driver detached
+> Set up interface 0
+> Use endpoint 0x0b for message sending ...
+> Trying to send message 1 to endpoint 0x0b ...
+>   OK, message successfully sent
+> Read the response to message 1 (CSW) ...
+>   Response reading failed (error -8)
+>   Device is gone, skip any further commands
+> -> Run lsusb to note any changes. Bye!
+> 
+> $ lsusb
+> Bus 001 Device 001: ID 1d6b:0001 Linux Foundation 1.1 root hub
+> Bus 001 Device 002: ID 0bda:5852 Realtek Semiconductor Corp. Bluetooth Radio
+> Bus 002 Device 001: ID 1d6b:0002 Linux Foundation 2.0 root hub
+> Bus 003 Device 001: ID 1d6b:0002 Linux Foundation 2.0 root hub
+> Bus 003 Device 002: ID 2717:4106 Xiaomi Inc. MediaTek MT7601U [MI WiFi]
+> Bus 003 Device 033: ID 0bda:a192 Realtek Semiconductor Corp. DISK
+> Bus 004 Device 001: ID 1d6b:0001 Linux Foundation 1.1 root hub
+> Bus 004 Device 002: ID 046d:c077 Logitech, Inc. Mouse
+> Bus 004 Device 003: ID 05af:1023 Jing-Mold Enterprise Co., Ltd Ghost Key Elimiantion Keyboard
+> Bus 005 Device 001: ID 1d6b:0002 Linux Foundation 2.0 root hub
+> Bus 006 Device 001: ID 1d6b:0003 Linux Foundation 3.0 root hub
+> Bus 007 Device 001: ID 1d6b:0002 Linux Foundation 2.0 root hub
+> Bus 008 Device 001: ID 1d6b:0003 Linux Foundation 3.0 root hub
+> 
 >>
->> diff --git a/drivers/usb/dwc3/dwc3-qcom.c b/drivers/usb/dwc3/dwc3-qcom.c
->> index a7eaefaeec4d..d89fbb1d8994 100644
->> --- a/drivers/usb/dwc3/dwc3-qcom.c
->> +++ b/drivers/usb/dwc3/dwc3-qcom.c
->> @@ -83,6 +83,8 @@ struct dwc3_qcom {
->>   	bool			pm_suspended;
->>   	struct icc_path		*icc_path_ddr;
->>   	struct icc_path		*icc_path_apps;
->> +
->> +	enum usb_role		current_role;
->>   };
->>   
->>   #define to_dwc3_qcom(d) container_of((d), struct dwc3_qcom, dwc)
->> @@ -111,10 +113,6 @@ static inline void dwc3_qcom_clrbits(void __iomem *base, u32 offset, u32 val)
->>   	readl(base + offset);
->>   }
->>   
->> -/*
->> - * TODO: Make the in-core role switching code invoke dwc3_qcom_vbus_override_enable(),
->> - * validate that the in-core extcon support is functional
->> - */
->>   static void dwc3_qcom_vbus_override_enable(struct dwc3_qcom *qcom, bool enable)
->>   {
->>   	if (enable) {
->> @@ -560,6 +558,55 @@ static int dwc3_qcom_setup_irq(struct dwc3_qcom *qcom, struct platform_device *p
->>   	return 0;
->>   }
->>   
->> +static void dwc3_qcom_set_role_notifier(struct dwc3 *dwc, enum usb_role next_role)
+>> Also, can you collect a usbmon trace showing what happens when the
+>> dongle is plugged in?
 > 
-> Minor nit: There's no notifier here, can we rename to
-> dwc3_qcom_pre_set_role() for clarity?
+> I am not familiar with this, but I will try these days, thank you!
 > 
->> +{
->> +	struct dwc3_qcom *qcom = to_dwc3_qcom(dwc);
->> +
->> +	if (qcom->current_role == next_role)
->> +		return;
->> +
->> +	if (pm_runtime_resume_and_get(qcom->dev)) {
->> +		dev_dbg(qcom->dev, "Failed to resume device\n");
-> 
-> Minor nit: should this be dev_err?
-> 
->> +		return;
->> +	}
->> +
->> +	if (qcom->current_role == USB_ROLE_DEVICE)
->> +		dwc3_qcom_vbus_override_enable(qcom, false);
->> +	else if (qcom->current_role != USB_ROLE_DEVICE)
->> +		dwc3_qcom_vbus_override_enable(qcom, true);
->> +
->> +	pm_runtime_mark_last_busy(qcom->dev);
->> +	pm_runtime_put_sync(qcom->dev);
->> +
->> +	/*
->> +	 * Current role changes via usb_role_switch_set_role callback protected
->> +	 * internally by mutex lock.
->> +	 */
->> +	qcom->current_role = next_role;
->> +}
->> +
->> +static void dwc3_qcom_run_stop_notifier(struct dwc3 *dwc, bool is_on)
-> 
-> Minor nit: can we rename to dwc3_qcom_pre_run_stop()
-> 
->> +{
->> +	struct dwc3_qcom *qcom = to_dwc3_qcom(dwc);
->> +
->> +	/*
->> +	 * When autosuspend is enabled and controller goes to suspend
->> +	 * after removing UDC from userspace, the next UDC write needs
->> +	 * setting of QSCRATCH VBUS_VALID to "1" to generate a connect
->> +	 * done event.
->> +	 */
->> +	if (!is_on)
->> +		return;
->> +
->> +	dwc3_qcom_vbus_override_enable(qcom, true);
->> +	pm_runtime_mark_last_busy(qcom->dev);
->> +}
->> +
->> +struct dwc3_glue_ops dwc3_qcom_glue_ops = {
->> +	.pre_set_role	= dwc3_qcom_set_role_notifier,
->> +	.pre_run_stop	= dwc3_qcom_run_stop_notifier,
->> +};
->> +
->>   static int dwc3_qcom_probe(struct platform_device *pdev)
->>   {
->>   	struct dwc3_probe_data	probe_data = {};
->> @@ -636,6 +683,23 @@ static int dwc3_qcom_probe(struct platform_device *pdev)
->>   	if (ignore_pipe_clk)
->>   		dwc3_qcom_select_utmi_clk(qcom);
->>   
->> +	qcom->mode = usb_get_dr_mode(dev);
->> +
->> +	if (qcom->mode == USB_DR_MODE_HOST) {
->> +		qcom->current_role = USB_ROLE_HOST;
->> +	} else if (qcom->mode == USB_DR_MODE_PERIPHERAL) {
->> +		qcom->current_role = USB_ROLE_DEVICE;
->> +		dwc3_qcom_vbus_override_enable(qcom, true);
-> 
-> Shouldn't you determine if there's connection before setting vbus valid?
-> 
-> There are a couple things that seems at odd to me:
-> 1) Typically we use "vbus override" to describe the vbus control on host
->     to turn on/off vbus. Where as here, the vbus override is used for
->     vbus valid in device mode for vbus detection.
-
-The register was named that way even in HW description we get 
-internally. So it was kept as is.
-
-> 
-> 2) It seems like you always enable vbus valid without checking for
->     connection status. You also set vbus valid even if it's in host mode.
->     Only when there's role-switch away from device that you'd clear the
->     vbus valid.
-> 
-
-In device mode, we do not get any role information (or cable connection) 
-as role switch is not present and set_role notifier is not called. So if 
-we keep the vbus_override set, it is still harmless because, it is used 
-to generate a connection done event (which comes after bus reset) only 
-when cable is connected to a host. If there is no cable connection, then 
-keeping the bit set is a NOP and hence I set it by default when dr_mode 
-is peripheral. I am setting this bit only is dr_mode is peripheral and 
-when we are switching from any role to peripheral in case of a role switch.
-
-> But I'm not familiar with your platform/design, so I can't judge much on
-> the above. Base on the description provided, I don't expect functional
-> issues from your implementation.
-> 
-> I think the comments above should not be blocking your change.
-> 
-> Whether or not you decide to make the updates for the minor nits, here's
-> my ack:
-> 
-> Acked-by: Thinh Nguyen <Thinh.Nguyen@synopsys.com>
-> 
-
-Thanks for the review.
-
-Regards,
-Krishna,
-
-> BR,
-> Thinh
-> 
->> +	} else {
->> +		if ((device_property_read_bool(dev, "usb-role-switch")) &&
->> +		    (usb_get_role_switch_default_mode(dev) == USB_DR_MODE_HOST))
->> +			qcom->current_role = USB_ROLE_HOST;
->> +		else
->> +			qcom->current_role = USB_ROLE_DEVICE;
->> +	}
->> +
->> +	qcom->dwc.glue_ops = &dwc3_qcom_glue_ops;
->> +
->>   	qcom->dwc.dev = dev;
->>   	probe_data.dwc = &qcom->dwc;
->>   	probe_data.res = &res;
->> @@ -650,12 +714,6 @@ static int dwc3_qcom_probe(struct platform_device *pdev)
->>   	if (ret)
->>   		goto remove_core;
->>   
->> -	qcom->mode = usb_get_dr_mode(dev);
->> -
->> -	/* enable vbus override for device mode */
->> -	if (qcom->mode != USB_DR_MODE_HOST)
->> -		dwc3_qcom_vbus_override_enable(qcom, true);
->> -
->>   	wakeup_source = of_property_read_bool(dev->of_node, "wakeup-source");
->>   	device_init_wakeup(&pdev->dev, wakeup_source);
->>   
->> -- 
->> 2.34.1
 >>
+>> Alan Stern
+> 
+
+Hi Zenm,
+
+0bda:1a2b
+It is a USB Id supported by usb-modeswitch, I suspect that you would not 
+had got all the error messages for the device if you had let 
+usb-modeswitch access the device early (through udev) before the linux 
+storage driver tried to access it. The long time to switch when running 
+usb-modeswitch manually is likely also caused by clashes with 
+communication by the storage driver.
+
+0bda:a192
+This USB Id is not yet supported by usb-modeswitch and it probably has a 
+different method than ejecting the virtual CD drive, the failure to 
+switch it when manually running usb-modeswitch is an indication of that.
+If you are a representative of Realtek or if you know how to switch the 
+device then contact the usb-modeswitch maintainer (Joshua Dietze) and 
+ask him to add switch support for it.
+
+thanks
+Lars
+
