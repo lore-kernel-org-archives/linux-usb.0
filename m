@@ -1,85 +1,135 @@
-Received: from metis.whiteo.stw.pengutronix.de (metis.whiteo.stw.pengutronix.de [185.203.201.7])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-ot1-f47.google.com (mail-ot1-f47.google.com [209.85.210.47])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D2D0122A4F8
-	for <linux-usb@vger.kernel.org>; Thu, 14 Aug 2025 06:48:27 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.203.201.7
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D7DC92E8E13
+	for <linux-usb@vger.kernel.org>; Thu, 14 Aug 2025 08:28:33 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.47
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1755154110; cv=none; b=Q+LJEHQ7Oq2xmB4pn2atAj6LFBbW5TbQeBbZ6LKGaTKj/AgSKhZ5E6d0WA85sezTVyXNJPtZBuXnIwtecUusgaH4LAQor4p/htco6J9zJLGzhbXQLJhEP8DMtUVjJ0C5iY01eLxZdii0K3cAanVCVa8M8wBPu6zbpy0Kcv+fTUE=
+	t=1755160115; cv=none; b=FmON9hvDY1xyO38FnQVfpxGdW+KN6QQeDWVLGlV4nLJD3jGGudzpKKk/kmRys/WST+3epBF4LsD5W8HtBWhrvNNzmHk6U+kqsXD7SZq2RBqIMfMZ9o30QIuHcVeEHJCeDhjSouQAlfHjPFGKO8enLO3+7z4rmpRTA4R7FMbLMrY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1755154110; c=relaxed/simple;
-	bh=/UtVnKTqYerqYS5xnl0q0rPTv3I8d4qynMpBxd8rmz8=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=iTNqoZaMdMiWwz0rqmu6JMWI318yyQjZAU1F8+E6RDX8Mf7TMV84w+jC6X2ROVzI/UNgoGLGX/RbQT1f2b73UfozoQZCP8MDLNsUQmoSrukEtGWHJS994KBGJ2I5y+hZ16b29336c8HNa+zvK8FRyXOcir6+rk2HX8jTSMiNNq8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=pengutronix.de; spf=pass smtp.mailfrom=pengutronix.de; arc=none smtp.client-ip=185.203.201.7
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=pengutronix.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=pengutronix.de
-Received: from drehscheibe.grey.stw.pengutronix.de ([2a0a:edc0:0:c01:1d::a2])
-	by metis.whiteo.stw.pengutronix.de with esmtps (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
-	(Exim 4.92)
-	(envelope-from <ore@pengutronix.de>)
-	id 1umRl2-0002cS-Q3; Thu, 14 Aug 2025 08:48:16 +0200
-Received: from pty.whiteo.stw.pengutronix.de ([2a0a:edc0:2:b01:1d::c5])
-	by drehscheibe.grey.stw.pengutronix.de with esmtps  (TLS1.3) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
-	(Exim 4.96)
-	(envelope-from <ore@pengutronix.de>)
-	id 1umRl0-000DC9-1R;
-	Thu, 14 Aug 2025 08:48:14 +0200
-Received: from ore by pty.whiteo.stw.pengutronix.de with local (Exim 4.96)
-	(envelope-from <ore@pengutronix.de>)
-	id 1umRl0-00B3B7-13;
-	Thu, 14 Aug 2025 08:48:14 +0200
-Date: Thu, 14 Aug 2025 08:48:14 +0200
-From: Oleksij Rempel <o.rempel@pengutronix.de>
-To: Xu Yang <xu.yang_2@nxp.com>
-Cc: andrew+netdev@lunn.ch, davem@davemloft.net, edumazet@google.com,
-	kuba@kernel.org, pabeni@redhat.com, max.schulze@online.de,
-	khalasa@piap.pl, linux-usb@vger.kernel.org, netdev@vger.kernel.org,
-	imx@lists.linux.dev
-Subject: Re: [PATCH v2] net: usb: asix_devices: add phy_mask for ax88772 mdio
- bus
-Message-ID: <aJ2GrsiISQqbkZsF@pengutronix.de>
-References: <20250811092931.860333-1-xu.yang_2@nxp.com>
+	s=arc-20240116; t=1755160115; c=relaxed/simple;
+	bh=DXoZWllPvSAlTn6cKguWUx5XsVI696Dlfnu+ADK3Vug=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=CZrXuxyiMMGrq8agX+28rvyOiy8rdqzBglVon8B/TocgD+RwiecUkLzGQl0wpDJnZatmR7uLsTKFYPMYKIzJfebxj6MID7aNGk0tsTC0YC83xKQMGMdw/xRSFqGt9yzynTESvRn1tD1D7VXv4Jf7/+BvzWf1hhp2viQazfjJSTY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org; spf=pass smtp.mailfrom=chromium.org; dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b=CFz2J5Dg; arc=none smtp.client-ip=209.85.210.47
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=chromium.org
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b="CFz2J5Dg"
+Received: by mail-ot1-f47.google.com with SMTP id 46e09a7af769-74381f217e7so468927a34.1
+        for <linux-usb@vger.kernel.org>; Thu, 14 Aug 2025 01:28:33 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=chromium.org; s=google; t=1755160113; x=1755764913; darn=vger.kernel.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=DXoZWllPvSAlTn6cKguWUx5XsVI696Dlfnu+ADK3Vug=;
+        b=CFz2J5Dg2T4Q44h2Q6ahAS3/PtT2Vz3DpoKx4nbNwTNpr3CATw3lrO1JAyiut1gOgy
+         agWLpaDv2J27PpXB/Wnv0zGJLViX76+skKoFXjhOvP+Ewqq5tKWC0+1EnB6J3sSYBmEf
+         C2Fdf+u9w6j8reQC4pF3zpAG8Ysf1+Aw6bMvg=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1755160113; x=1755764913;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=DXoZWllPvSAlTn6cKguWUx5XsVI696Dlfnu+ADK3Vug=;
+        b=Q/GhD8ke11Q4QffGW68S3Ukc0W46metr1KakUS6riSSs7TPOPjMFMHCnJ8vIo+m1ta
+         S+P3lTKmC9qFM5qQayrf9Y3uKwECEnMu9F+TU/0o0njQaCdOfWyru5eu9wp+qHrFiZ9o
+         hoOKYacCl0VjMOtJz0/IV6PgL42iCgGQH/nFUCrmtTTpmXGXJXbDFBj/R9cB3R+CVh83
+         TRvxx0TPw+o0lfUufbVfimQDVC0v1Wd3h4neftN4SwdofErbsMawNnnyaaORwJM+e2nC
+         pdJjxXYKrpjoDYwaXFTuJ5aDCyvHe95r1Li0Gvzsvyi5KHKsIh7zUcvRn1AJvRyFwvTZ
+         RSCQ==
+X-Forwarded-Encrypted: i=1; AJvYcCV0EpP02n+dU3INRY4kV8A0PAlF7vX8C5/TCm665VBurFUBfSNjK432dmXzXwx06uBP1zAn1XSdFS8=@vger.kernel.org
+X-Gm-Message-State: AOJu0YygYeRxCzjZWPnqXBzbaFx5EgJtd77Ey7mTZ1REAvGt5J6Trpxx
+	4lrCW3t427FtqsVc900bgx6J+hSLR6zelo+0T7N5HrArWTDlRuZxkSFiyu/Aa17w+qSbxwePsTK
+	n4WlMZY0de5qyqan7XGPCapjOya0cktGSDdZYedZf8lmSOhGZBRf2zQ==
+X-Gm-Gg: ASbGncsMPwImmCw5yBoZs5o1wDk4xrw23PfNo1TwF/Vj5F5opyX/Dz8jLTx2y4jqbVE
+	tqp29vFdiRiQgvcaJscsT0UppZErarfg6ZKqZzOZMyHOdKGwfWg7SuLPIcZzuWJQeZk+4xmCtx1
+	zYkCP4QV4UdoLFtfrv61pqaDGfsb4KjFiqcMaRM77mC4ukYzhpd+0nBb68E8gTH6B5ClOQSz+7H
+	Xv4oRVvohMcXaFVxk0cjQl8WjLPMWKa+A==
+X-Google-Smtp-Source: AGHT+IFzeNU7id7rlH8AtFJTm1cePeOA784ZDto12yMUCjCqT2q+uwgR13V7z+m3dpw+DNaYtWcHDCtnfdbNOZZRXJk=
+X-Received: by 2002:a17:90b:35d0:b0:321:27d5:eaf1 with SMTP id
+ 98e67ed59e1d1-32327b48f77mr3326450a91.25.1755159739419; Thu, 14 Aug 2025
+ 01:22:19 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <20250811092931.860333-1-xu.yang_2@nxp.com>
-X-Sent-From: Pengutronix Hildesheim
-X-URL: http://www.pengutronix.de/
-X-Accept-Language: de,en
-X-Accept-Content-Type: text/plain
-X-SA-Exim-Connect-IP: 2a0a:edc0:0:c01:1d::a2
-X-SA-Exim-Mail-From: ore@pengutronix.de
-X-SA-Exim-Scanned: No (on metis.whiteo.stw.pengutronix.de); SAEximRunCond expanded to false
-X-PTX-Original-Recipient: linux-usb@vger.kernel.org
+References: <20250804090340.3062182-1-akuchynski@chromium.org>
+ <20250804090340.3062182-5-akuchynski@chromium.org> <aJn9ZSy3w4zW4Xvq@kuha.fi.intel.com>
+ <CANFp7mVUFZyF8z0dN-Mo7ntPOXh06ZD0RH5GyvJJymOXrhSD1g@mail.gmail.com>
+ <aJsoS3EXgoLP-f-E@kuha.fi.intel.com> <CANFp7mW92PgjSWyJq7Bz6ZLJ8ZgnsCRw2kAYAjKX3yymKW9hBA@mail.gmail.com>
+In-Reply-To: <CANFp7mW92PgjSWyJq7Bz6ZLJ8ZgnsCRw2kAYAjKX3yymKW9hBA@mail.gmail.com>
+From: Andrei Kuchynski <akuchynski@chromium.org>
+Date: Thu, 14 Aug 2025 10:22:07 +0200
+X-Gm-Features: Ac12FXz1UN0w6EPEh01uDLgnpov_q6H22DAPFIMRA5Ihvr9O148EKDmKL8f4WE8
+Message-ID: <CAMMMRMfo4n_xZPZG++OXoXJTeHuzzSBL0Bossn7+DMZMoRbqjQ@mail.gmail.com>
+Subject: Re: [PATCH v3 04/10] usb: typec: Expose mode priorities via sysfs
+To: Abhishek Pandit-Subedi <abhishekpandit@chromium.org>, 
+	Heikki Krogerus <heikki.krogerus@linux.intel.com>
+Cc: Benson Leung <bleung@chromium.org>, Jameson Thies <jthies@google.com>, 
+	Tzung-Bi Shih <tzungbi@kernel.org>, linux-usb@vger.kernel.org, 
+	chrome-platform@lists.linux.dev, Guenter Roeck <groeck@chromium.org>, 
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>, 
+	Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>, "Christian A. Ehrhardt" <lk@c--e.de>, 
+	Venkat Jayaraman <venkat.jayaraman@intel.com>, linux-kernel@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-On Mon, Aug 11, 2025 at 05:29:31PM +0800, Xu Yang wrote:
-> Without setting phy_mask for ax88772 mdio bus, current driver may create
-> at most 32 mdio phy devices with phy address range from 0x00 ~ 0x1f.
-> DLink DUB-E100 H/W Ver B1 is such a device. However, only one main phy
-> device will bind to net phy driver. This is creating issue during system
-> suspend/resume since phy_polling_mode() in phy_state_machine() will
-> directly deference member of phydev->drv for non-main phy devices. Then
-> NULL pointer dereference issue will occur. Due to only external phy or
-> internal phy is necessary, add phy_mask for ax88772 mdio bus to workarnoud
-> the issue.
-> 
-> Closes: https://lore.kernel.org/netdev/20250806082931.3289134-1-xu.yang_2@nxp.com
-> Fixes: e532a096be0e ("net: usb: asix: ax88772: add phylib support")
-> Cc: stable@vger.kernel.org
-> Signed-off-by: Xu Yang <xu.yang_2@nxp.com>
+On Tue, Aug 12, 2025 at 10:34=E2=80=AFPM Abhishek Pandit-Subedi
+<abhishekpandit@chromium.org> wrote:
+>
+>
+> We interpreted this a bit differently (as just rename it):
+> https://patchwork.kernel.org/project/linux-usb/patch/20250616133147.18359=
+39-5-akuchynski@chromium.org/#26431992
+>
+> Thanks for the clarification here. In that case, we'll get rid of
+> `usb_priorities` and `usb_results` and just add a new alternate mode
+> for USB4. The vendor ids list on usb.org
+> (https://www.usb.org/sites/default/files/vendor_ids072325_1.pdf) shows
+> 0xff00 for USB4 so that's what we'll use. So the attributes should be:
+> .active (similar to other modes), .mode =3D 1 (unused really), .svid =3D
+> 0xff00, .vdo =3D <usb eudo> (if supported).
+>
+> >
+> > > As such, our current API recommendation looks like the following:
+> > >
+> > > * On each port, we lay out priorities for all supported alternate mod=
+es + USB4.
+> >
+> > This first part I understand.
+> >
+> > > * We expose a file to trigger the mode selection task. Reading from i=
+t
+> > > gives you the current status of mode selection (single value).
+> > > * Detailed results from mode entry are pushed to the mode sysfs group
+> > > (via entry_results). Converting these to UEVENT is fine but a more
+> > > persistent value in debugfs would be useful for debugging.
+> >
+> > This second part I would really like to handle separately, after we
+> > have a solution for the first part.
+>
+> Ack. We'll reduce the series so it's easier to review for mode_priorities=
+ first.
+>
 
-Tested-by: Oleksij Rempel <o.rempel@pengutronix.de>
-Reviewed-by: Oleksij Rempel <o.rempel@pengutronix.de>
+Hi Heikki, Abhishek,
 
-Thank you! 
--- 
-Pengutronix e.K.                           |                             |
-Steuerwalder Str. 21                       | http://www.pengutronix.de/  |
-31137 Hildesheim, Germany                  | Phone: +49-5121-206917-0    |
-Amtsgericht Hildesheim, HRA 2686           | Fax:   +49-5121-206917-5555 |
+Thank you for your review. I have addressed the feedback and plan to
+resubmit the series.
+
+Here are the changes I will make:
+- The `typec_mode_selection_init` function and the `name` member
+from the mode_selection_state struct will be removed.
+- Patch 4 will be split into API and ABI parts.
+- The entire series will be divided into `mode priority` (patches 1-4)
+and then `mode selection`.
+- The mode selection logic will be standardized to function
+identically for all modes, including USB4.
+
+Thanks again for your guidance.
+
+Andrei
