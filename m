@@ -1,38 +1,37 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 54AF9946A;
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 81243212561;
 	Fri, 15 Aug 2025 18:32:16 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1755282736; cv=none; b=D2Y4+1X67QtSBICQbgoPsaU1p1q7qtHX8XFE27gQin7EM1gvGu2mkGQTubUDpx1GB4l9ov7IV9EEXyIi0nvFBJorjMbY6irFawFvbU4OSfwh/uCiquqhyXk4ciWKlLOrGYnx6SX5QNMvd/7TUPlefZAu6CycpB2WtCtqG866SuI=
+	t=1755282736; cv=none; b=R9jmHjRglkD0xqXdwlRaAy3lpGr4e/6LF0cCjZjhgCIy51mafUSU8dCQjOKIbuAGLUSK4Xg59JagwFKTJvOABGVLWJEtv9bboWmiwQyNq5uipybjCb3phjT6ZgZjREEwewGWFd+4pP+J2bwCvYsRKN/G77sHQgnUpT8Yx6og6lU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
 	s=arc-20240116; t=1755282736; c=relaxed/simple;
-	bh=k/hVQtPf/YplLXIDsqdhaq22mUPS3WD/l1OuxiARJfs=;
-	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
-	 In-Reply-To:To:Cc; b=ZQ32JENA+Jt9gFGwUsoseSwLivbcIXeTXQrv4rn76YuYaTN24ItrJeaUoXQmmVfTQv57yye+mRwUYkASMMzYxqDy2uo9+MOT3mCVeiEnQBJyKy03HpMoi2yCUZ/i3imQyKPfuRKdVMSPrA88EhM2++6X5O/okwMw6CGeq9sFBjs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=llEhxguw; arc=none smtp.client-ip=10.30.226.201
+	bh=9z3lCu74Prxu4L02rJ9U7O515gDUwPsAhghQTM6Eae4=;
+	h=From:Subject:Date:Message-Id:MIME-Version:Content-Type:To:Cc; b=EZyVH5c/P8tHBKR8UxokOqa/F/QpbqK567J3LRmAwXKbMvGoSmVTBPhQWyvy10f8Td8szxCaTXw4vNR2n8qp2vb9r8bF4lxthRuY6HPCuqioWNByMMlbD/7ZFgfR9QHcqAc7iAdG58slcytDwMZK8cmAylWItwCqKUGHpnmKz+4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=SqSG2YOr; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="llEhxguw"
-Received: by smtp.kernel.org (Postfix) with ESMTPS id 3233BC4CEF6;
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="SqSG2YOr"
+Received: by smtp.kernel.org (Postfix) with ESMTPS id 1CA4FC4CEEB;
 	Fri, 15 Aug 2025 18:32:16 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
 	s=k20201202; t=1755282736;
-	bh=k/hVQtPf/YplLXIDsqdhaq22mUPS3WD/l1OuxiARJfs=;
-	h=From:Date:Subject:References:In-Reply-To:To:Cc:Reply-To:From;
-	b=llEhxguwOjaJnGKxqOz7buWLcmS2BPO/DgX2TWj/sN5uiA3n52m60vivhsOwXRCBW
-	 dFjhcwuhExDWY1ZkLrHE3DiGClLfjKvWOBizeGN4+D1gS6J4MBlyxBZGZddoNHkijW
-	 9KqR2myRCd2iTIznblPxtrziJ4bPS3YSGHOUQOSYTOAA4KRYgxHs3l2C4g2l9UvEw1
-	 cLZzQD1G98BrIM1GEyVQ9pd7kv+6tSxkjNlmJ92CJijCkKqng24C2Kt6BL10Q3peK9
-	 8zRykc73gg+9PPeYHUnv1af4kHYXsIyWAlGpXV3mRDp2JZq3IONHQqluJbCK8PoviP
-	 WbtXhuHDfXCbQ==
+	bh=9z3lCu74Prxu4L02rJ9U7O515gDUwPsAhghQTM6Eae4=;
+	h=From:Subject:Date:To:Cc:Reply-To:From;
+	b=SqSG2YOrYL5NUd3HwxO0mqK/L80rUt2WxZUdKPANXTWz2L17zHbjFKpJ+6tdmKTWq
+	 LjyXOedVmO0QAE10VSbn4seVjSymXez3xG+N1+AlywKGXfKXoWB1LjzcRcmAWm8nx0
+	 kWYu0moE8ichREh0rZsOdWzWXNupS7/xJcVBIHHExYHtHiLYTsUjzYmeVm2bOCkmwH
+	 3ooUq0mPLfe1DtK73vJrJtChTVpAPbmZg6Wxayq+ekZ5O2MD7EaTUDvyunRKtEuJZ7
+	 MRg8Edca0j1+jKqigr/hzO2SQosP1nYxzREmlHWqf0pKg1+tkPnrhXkZYCM2e2ulWI
+	 XBcmZB2A1o5eA==
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 275E4CA0ED1;
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 0D99BCA0EE6;
 	Fri, 15 Aug 2025 18:32:16 +0000 (UTC)
 From: Amit Sunil Dhamne via B4 Relay <devnull+amitsd.google.com@kernel.org>
-Date: Fri, 15 Aug 2025 11:31:52 -0700
-Subject: [PATCH v2 2/2] usb: typec: maxim_contaminant: re-enable cc toggle
- if cc is open and port is clean
+Subject: [PATCH v2 0/2] Fixes for maxim tcpc contaminant detection logic
+Date: Fri, 15 Aug 2025 11:31:50 -0700
+Message-Id: <20250815-fix-upstream-contaminant-v2-0-6c8d6c3adafb@google.com>
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
@@ -41,9 +40,11 @@ List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20250815-fix-upstream-contaminant-v2-2-6c8d6c3adafb@google.com>
-References: <20250815-fix-upstream-contaminant-v2-0-6c8d6c3adafb@google.com>
-In-Reply-To: <20250815-fix-upstream-contaminant-v2-0-6c8d6c3adafb@google.com>
+X-B4-Tracking: v=1; b=H4sIABZ9n2gC/3WNwQ6CMBBEf4Xs2TW7VbFw8j8Mh6au0ERa0laiI
+ fy7lXj1+CYzbxZIEp0kaKsFoswuueALqF0FdjC+F3S3wqBInUiTwrt74XNKOYoZ0Qafzei88Rm
+ 5bphEnWtlDZT5FKV0N/W1Kzy4lEN8b08zf9OflI//pTMjoSa2okk3dOBLH0L/kL0NI3Trun4Ap
+ 7q6N8EAAAA=
+X-Change-ID: 20250802-fix-upstream-contaminant-16910e2762ca
 To: Heikki Krogerus <heikki.krogerus@linux.intel.com>, 
  Greg Kroah-Hartman <gregkh@linuxfoundation.org>, 
  Badhri Jagan Sridharan <badhri@google.com>, 
@@ -56,11 +57,11 @@ Cc: linux-usb@vger.kernel.org, linux-kernel@vger.kernel.org,
  Tudor Ambarus <tudor.ambarus@linaro.org>, 
  Amit Sunil Dhamne <amitsd@google.com>
 X-Mailer: b4 0.14.2
-X-Developer-Signature: v=1; a=ed25519-sha256; t=1755282735; l=3851;
+X-Developer-Signature: v=1; a=ed25519-sha256; t=1755282735; l=964;
  i=amitsd@google.com; s=20241031; h=from:subject:message-id;
- bh=EWnT1ifJAgl1Osv4yGiXsCaYOzDaaQyWwT/7zjrH7aQ=;
- b=rvbTFbaa4EqrfOIvMfO9ErfjvRxt6r3Sdvwn+i6BHgY7mrPr8wRcqwe4dtWipx1UX8lSKPRhY
- oAlPewPQ5ChCkfnXYhJI4SjTta/ErnBkXDKnVYD43mj5OnenRIoxDNx
+ bh=9z3lCu74Prxu4L02rJ9U7O515gDUwPsAhghQTM6Eae4=;
+ b=Bfs56Qain5NfOqRZiiIJtu4ekQ+VVRIl0m0t7N1+x6vcxbjSKyqEoK6EXWZ5uJr/H1IreLjqr
+ Vr02/CkUb2pBZVM5X2fjzY3k2Z+FUCc7/nGe7h/nKAx0okOQQqr3wu8
 X-Developer-Key: i=amitsd@google.com; a=ed25519;
  pk=wD+XZSST4dmnNZf62/lqJpLm7fiyT8iv462zmQ3H6bI=
 X-Endpoint-Received: by B4 Relay for amitsd@google.com/20241031 with
@@ -68,118 +69,30 @@ X-Endpoint-Received: by B4 Relay for amitsd@google.com/20241031 with
 X-Original-From: Amit Sunil Dhamne <amitsd@google.com>
 Reply-To: amitsd@google.com
 
-From: Amit Sunil Dhamne <amitsd@google.com>
+Add fixes to the CC contaminant/connection detection logic to improve
+reliability and stability of the maxim tcpc driver. This patchset has
+been tested on a PD Tester.
 
-Presently in `max_contaminant_is_contaminant()` if there's no
-contaminant detected previously, CC is open & stopped toggling and no
-contaminant is currently present, TCPC.RC would be programmed to do DRP
-toggling. However, it didn't actively look for a connection. This would
-lead to Type-C not detect *any* new connections. Hence, in the above
-situation, re-enable toggling & program TCPC to look for a new
-connection.
-
-Also, return early if TCPC was looking for connection as this indicates
-TCPC has neither detected a potential connection nor a change in
-contaminant state.
-
-In addition, once dry detection is complete (port is dry), restart
-toggling.
-
-Fixes: 02b332a06397e ("usb: typec: maxim_contaminant: Implement check_contaminant callback")
-Cc: stable@vger.kernel.org
-Signed-off-by: Amit Sunil Dhamne <amitsd@google.com>
-Reviewed-by: Badhri Jagan Sridharan <badhri@google.com>
 ---
- drivers/usb/typec/tcpm/maxim_contaminant.c | 53 ++++++++++++++++++++++++++++++
- 1 file changed, 53 insertions(+)
+Changes in v2:
+- Fix improperly formatted patch for stable inclusion. Tagged every
+  patch in patchset for stable.
+- Link to v1: https://lore.kernel.org/r/20250814-fix-upstream-contaminant-v1-0-801ce8089031@google.com
 
-diff --git a/drivers/usb/typec/tcpm/maxim_contaminant.c b/drivers/usb/typec/tcpm/maxim_contaminant.c
-index 818cfe226ac7716de2fcbce205c67ea16acba592..af8da6dc60ae0bc5900f6614514d51f41eded8ab 100644
---- a/drivers/usb/typec/tcpm/maxim_contaminant.c
-+++ b/drivers/usb/typec/tcpm/maxim_contaminant.c
-@@ -329,6 +329,39 @@ static int max_contaminant_enable_dry_detection(struct max_tcpci_chip *chip)
- 	return 0;
- }
- 
-+static int max_contaminant_enable_toggling(struct max_tcpci_chip *chip)
-+{
-+	struct regmap *regmap = chip->data.regmap;
-+	int ret;
-+
-+	/* Disable dry detection if enabled. */
-+	ret = regmap_update_bits(regmap, TCPC_VENDOR_CC_CTRL2, CCLPMODESEL,
-+				 FIELD_PREP(CCLPMODESEL,
-+					    LOW_POWER_MODE_DISABLE));
-+	if (ret)
-+		return ret;
-+
-+	ret = regmap_update_bits(regmap, TCPC_VENDOR_CC_CTRL1, CCCONNDRY, 0);
-+	if (ret)
-+		return ret;
-+
-+	ret = max_tcpci_write8(chip, TCPC_ROLE_CTRL, TCPC_ROLE_CTRL_DRP |
-+			       FIELD_PREP(TCPC_ROLE_CTRL_CC1,
-+					  TCPC_ROLE_CTRL_CC_RD) |
-+			       FIELD_PREP(TCPC_ROLE_CTRL_CC2,
-+					  TCPC_ROLE_CTRL_CC_RD));
-+	if (ret)
-+		return ret;
-+
-+	ret = regmap_update_bits(regmap, TCPC_TCPC_CTRL,
-+				 TCPC_TCPC_CTRL_EN_LK4CONN_ALRT,
-+				 TCPC_TCPC_CTRL_EN_LK4CONN_ALRT);
-+	if (ret)
-+		return ret;
-+
-+	return max_tcpci_write8(chip, TCPC_COMMAND, TCPC_CMD_LOOK4CONNECTION);
-+}
-+
- bool max_contaminant_is_contaminant(struct max_tcpci_chip *chip, bool disconnect_while_debounce,
- 				    bool *cc_handled)
- {
-@@ -345,6 +378,12 @@ bool max_contaminant_is_contaminant(struct max_tcpci_chip *chip, bool disconnect
- 	if (ret < 0)
- 		return false;
- 
-+	if (cc_status & TCPC_CC_STATUS_TOGGLING) {
-+		if (chip->contaminant_state == DETECTED)
-+			return true;
-+		return false;
-+	}
-+
- 	if (chip->contaminant_state == NOT_DETECTED || chip->contaminant_state == SINK) {
- 		if (!disconnect_while_debounce)
- 			msleep(100);
-@@ -377,6 +416,12 @@ bool max_contaminant_is_contaminant(struct max_tcpci_chip *chip, bool disconnect
- 				max_contaminant_enable_dry_detection(chip);
- 				return true;
- 			}
-+
-+			ret = max_contaminant_enable_toggling(chip);
-+			if (ret)
-+				dev_err(chip->dev,
-+					"Failed to enable toggling, ret=%d",
-+					ret);
- 		}
- 	} else if (chip->contaminant_state == DETECTED) {
- 		if (!(cc_status & TCPC_CC_STATUS_TOGGLING)) {
-@@ -384,6 +429,14 @@ bool max_contaminant_is_contaminant(struct max_tcpci_chip *chip, bool disconnect
- 			if (chip->contaminant_state == DETECTED) {
- 				max_contaminant_enable_dry_detection(chip);
- 				return true;
-+			} else {
-+				ret = max_contaminant_enable_toggling(chip);
-+				if (ret) {
-+					dev_err(chip->dev,
-+						"Failed to enable toggling, ret=%d",
-+						ret);
-+					return true;
-+				}
- 			}
- 		}
- 	}
+---
+Amit Sunil Dhamne (2):
+      usb: typec: maxim_contaminant: disable low power mode when reading comparator values
+      usb: typec: maxim_contaminant: re-enable cc toggle if cc is open and port is clean
 
+ drivers/usb/typec/tcpm/maxim_contaminant.c | 58 ++++++++++++++++++++++++++++++
+ drivers/usb/typec/tcpm/tcpci_maxim.h       |  1 +
+ 2 files changed, 59 insertions(+)
+---
+base-commit: 89be9a83ccf1f88522317ce02f854f30d6115c41
+change-id: 20250802-fix-upstream-contaminant-16910e2762ca
+
+Best regards,
 -- 
-2.51.0.rc1.167.g924127e9c0-goog
+Amit Sunil Dhamne <amitsd@google.com>
 
 
