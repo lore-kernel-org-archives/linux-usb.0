@@ -1,117 +1,194 @@
-Received: from mail-qt1-f176.google.com (mail-qt1-f176.google.com [209.85.160.176])
+Received: from mail-pl1-f173.google.com (mail-pl1-f173.google.com [209.85.214.173])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1327D72615
-	for <linux-usb@vger.kernel.org>; Sat, 16 Aug 2025 02:04:11 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.160.176
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7BC71A95E;
+	Sat, 16 Aug 2025 02:18:10 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.173
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1755309853; cv=none; b=JB3xhUFH2qQjx90m1IUepzGeWPmqwf8sblTWKT2rz5BTsVfdP1i3BGtK20VULd0lUOkr29/NQX0RO64IpLumrRZDd1RSJcKpn3sPnLK8M8wBFgZHY1tiSKSpC0+NM5l9C4lOz2GHzp9BZ5DKj4t/YEpanD4HYRfrr1TmMctnhHM=
+	t=1755310692; cv=none; b=QVUR8WWt/qEOrgIJbMfSGCgHEdMnr8Y8rjMrgLJsi++bR9EqbCii7Ivg86UbAoSf25TkFwP+EnxAUYiIEuHA4xxRO+g/8nzPjKzroz6kJmEl+IqsYsNzgOi/qFWu1S5GklfZJqf4rMZqltARV8t3sHpmIrEhDK+JrgW+alcjoUc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1755309853; c=relaxed/simple;
-	bh=+AVNEDHZHvQdDTf/WXMK9J79piDVR1YQex7lGADXNAU=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=ddbOiZK68/YZVKugd0iqlnjIqxhsc/0E7lX30NPUiQ27F8XODL8U0FYqAWpfa5K5BYDRBhjDwxuKcJSU4hy7KPssX6cEp2GX/xjfqDTK9zHKn3XerXXvsAfVOIs+kQw/UVTM4D0VN3S/GKw0roh4OmcSiX/8aFhUx9YcW+SxwV4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=rowland.harvard.edu; spf=fail smtp.mailfrom=g.harvard.edu; dkim=pass (2048-bit key) header.d=rowland.harvard.edu header.i=@rowland.harvard.edu header.b=cenuj3tW; arc=none smtp.client-ip=209.85.160.176
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=rowland.harvard.edu
-Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=g.harvard.edu
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=rowland.harvard.edu header.i=@rowland.harvard.edu header.b="cenuj3tW"
-Received: by mail-qt1-f176.google.com with SMTP id d75a77b69052e-4b109bd8b09so33582601cf.2
-        for <linux-usb@vger.kernel.org>; Fri, 15 Aug 2025 19:04:11 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=rowland.harvard.edu; s=google; t=1755309851; x=1755914651; darn=vger.kernel.org;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=CcMOgsUXh0XDH0c0L0SpGP+Mo5Ev6stvJb0FAAUHGhY=;
-        b=cenuj3tWXktJhQtg0khNHET0QtPPpFOcCEeCvWUZC2h9B1GPP5sybMxBMITwvZRG7x
-         hO/hWd+up8ccGDsI9BCH5YCKOO65xHeiolUYrkYN6avD6yoy7LeWl5N9Vb0AFgZ4YYfX
-         YqwYDKRsonH0ADrFlFo0h3ryUxa1CSIZjqBOUReEUtLJS/rlZ9mliNsmuIvHdGr1V+4U
-         eluAypSOa7PwnQhc2GFWzc41je7MGzjN13JzdDkNu4gikyIu3XI3hQ5kIyQYiYgkQq4E
-         D4fYP4iAdghCnlrkkDu1Y4WzP3dSfLbJk6VpbXu9gsknR1GGqQkcCKaUyXW7AmDMD94m
-         vXeQ==
+	s=arc-20240116; t=1755310692; c=relaxed/simple;
+	bh=s4ZInaeHU0K/BWeIVGD8Oh9RU4nlKEkUdtbbM5sTBm8=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=CDfLGVQASmn0ZJexTvJ9XRfJkFrETu+Y0zy+HwJtMTiU96UKWgLzZ0R+AVNTMqclv8NIpv6AcpWybNtPRsp7IOxjsPIv+mVnp/5WQ9QPXnKOWf3O/BDQdJCzARHRqQoaECj39p5Re3msUsabqqpDjVsOzBL7Zuzq+i8G7J2FOr4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=kzalloc.com; spf=pass smtp.mailfrom=gmail.com; arc=none smtp.client-ip=209.85.214.173
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=kzalloc.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Received: by mail-pl1-f173.google.com with SMTP id d9443c01a7336-24458293cebso3463575ad.3;
+        Fri, 15 Aug 2025 19:18:10 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1755309851; x=1755914651;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+        d=1e100.net; s=20230601; t=1755310690; x=1755915490;
+        h=content-transfer-encoding:in-reply-to:organization:from
+         :content-language:references:cc:to:subject:user-agent:mime-version
+         :date:message-id:x-gm-message-state:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=CcMOgsUXh0XDH0c0L0SpGP+Mo5Ev6stvJb0FAAUHGhY=;
-        b=k9nmHJhhtGJqn5i80CWAG/A4yBK+sEslkBvmAOpLjypeZEeEn48ty1qk+B/0i9TkHf
-         1JAdETIBB0vtDcyuz3kxm69CD7u+t1gTgBizdzDDcyXOV9YahEuRZ3KXovNacct72y8r
-         /8bn3bHk0iqKjaWl8CeKPMdLin0xc/LWx5XpNDvIpRms5ObLN8V8WYUqyVtUzwbOpHGu
-         OUh6IGGWnLHBdozt1cDF6ukj2A4gqnP3Qwg9EbNGXtvkY7u/IFXJCmjX7oNa7n2SJRhp
-         Sv08sL1b0AHHDYYkcMTNpOM3pRzCwjvQtIkrJsqbNuVaFqZjBtlQQn25sRQ7d/gP73Jv
-         91+w==
-X-Gm-Message-State: AOJu0Yxq3bctb35npUJN+vyWsvOOoI3Zg5hpq8nu3M7UnuOlEvmB7cXn
-	B2rOIozpZQ4+uOq6g3S8cWhK7/IrqRMiJG3T0YI+jUMoCK0Dn2nFRIlhIFzWdtLO48plWFKbsZ0
-	Q1WM=
-X-Gm-Gg: ASbGncvXV4W1eEOBG/gCMwJP5xcnxATrHFFcTK6Ksg98yQhWB9cldeYSZ2meBq/lHn/
-	uOySRWrM+iOu13XD5icsPpSe0WzZMDgsD/wELjMHXw7ufVdV1BjaIzMG5U3QJB6D56E6KkF7W4h
-	Ed/1HF5I1u+4n6nkkxc0y6VBGg3sC9d2mgxFFIGxwh5G63tsHJR/5rqEMI9s2AQHOKGsABSGwkS
-	lchibY/5xE6OaY+M/4naocNMuJz6RXMOaCcH9aTMlA6Yq2jZNa632zlUqqLQm7fEyOyKt7hWgvr
-	uw5YVTzhIRMKbqc3XPO5SkmbcOFkLx5OL02K19XGTOFMFCYe+LwMWNV/KwbRQDPsQAq0pp07Ef2
-	nFajsgPMRbDqg91UGOTGhGq23TdU=
-X-Google-Smtp-Source: AGHT+IFE9vxFHxeUetK8f9CiqWYjVjlFVsaLb9eFMyjpoYVSsHguoDg64RA2ulZKIWWk6gXVkGb6hw==
-X-Received: by 2002:a05:622a:11c9:b0:4b0:7091:54a4 with SMTP id d75a77b69052e-4b11e0a150amr60097611cf.1.1755309850932;
-        Fri, 15 Aug 2025 19:04:10 -0700 (PDT)
-Received: from rowland.harvard.edu ([2601:19b:681:fd10::f777])
-        by smtp.gmail.com with ESMTPSA id d75a77b69052e-4b11dc5d069sm17884101cf.21.2025.08.15.19.04.10
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 15 Aug 2025 19:04:10 -0700 (PDT)
-Date: Fri, 15 Aug 2025 22:04:07 -0400
-From: Alan Stern <stern@rowland.harvard.edu>
-To: ValdikSS <iam@valdikss.org.ru>
-Cc: linux-usb@vger.kernel.org
-Subject: Re: USB 1.1 Full Speed OHCI slow/high latency
-Message-ID: <4e83d098-19e8-45aa-94e7-9ef005a0c8ab@rowland.harvard.edu>
-References: <3fe845b9-1328-4b40-8b02-61a879bea6df@valdikss.org.ru>
- <6017298f-fc03-41c9-b0e3-a74180f4c9a1@rowland.harvard.edu>
- <f2c433ae-f9d0-4beb-a2c7-84d2fd68e02e@valdikss.org.ru>
- <d41d8488-9438-430a-88ab-f845df3655e1@rowland.harvard.edu>
- <2bf5c54e-7dac-4673-a696-e09eb8d459d5@valdikss.org.ru>
- <7bfaeea9-6eb1-4e49-af8a-77940fdb70fc@rowland.harvard.edu>
- <e5d73b85-9c7f-4c74-9a00-700b4b6e7d70@valdikss.org.ru>
- <da6326e4-9b47-4347-a044-879b4be58560@rowland.harvard.edu>
- <9013fce0-6764-49b1-9e54-68e915e12d7c@valdikss.org.ru>
+        bh=u7+YvTE3zXrxg2NPoB/pXCcTw+FU7/h69ZU4O7D7BtE=;
+        b=uittm4/yXAhJBrd/rGRRdOuTkDPCTgPf2qQRbNcMQiPLW3ohWMCa/A2Zu9ZolaBB10
+         5UQtB9fw4zgVUIiVPjwAQrFsSIZMJs00YMU/Q5LHo2/kN6spZs5/z1qLO2ayKe5J9wVW
+         V/a3o9Zg0IGHELW9J5lWzRAh60OyYHVBq8tiIp6L6nO5f0IhApA4Gv+ZpHCdXkezSg2s
+         BRMSViK8uu7Z40LgrBEmie8zPJ7sqVZ4VPY4FmaXQqnQ2g29/I8eVZY08pdeKtQiBIlO
+         e2VrbcsyuCX0udn12A5JR2P73nEY8v5J8r+2Xm+toNHeuJvWO1kgaV8gRi87Fj7QYnao
+         /tDA==
+X-Forwarded-Encrypted: i=1; AJvYcCUABIGlPXXuATqQESZZw2KAZqhCP2FibUhyxlTfS305x4E/bXOZUjLjTxa7HVoAYjudrpkcxc6GPPT4fQc=@vger.kernel.org, AJvYcCUVvsoHnJK1NYOoxkvFVJtveCuc8x/pvnO2fXkXG6No3oSbX3hUPtlsCVnsVhvqElCbZkpUyXWcrpcgdCO+hxg=@vger.kernel.org
+X-Gm-Message-State: AOJu0Yxo+1oSbtCf0w4f0BxiBgGOCw3SM7VUhV/o1IK/J/4/m6ngCeKh
+	LL00l91YakzNJ7wIEMeINr2IkYLXM95EmQRt2IpWOF3Qx+iMRUnIj4zs
+X-Gm-Gg: ASbGncsUZHOqfDe5uPhvfd3xM6HfKO5/eGK+efh6iXPLjWlbwJ1t1lG8lKd2yhEARJm
+	6ruoz83Kb4I1VSRsupRKHtGHY0Jp1rzWYR0DvG+Y3C66/fPE2dBKx/749gGCI58v3m0HfukhWgt
+	4VUTltqUw46ZDqtJwqN4jF666v/xnGBYXorMtwtH1eFVMcFqcie5ZR7wT4rZddVqwiCDWNcNo/8
+	DKcFATDxm1PDp27G1LGtkeQuGGm3HPAKHKpH+UnMIlk2nhGx5s6qQDSMYBayWhd/Uj9TtCk7mzU
+	782XhQYs85kFeGTRl58lRPj1IvVhq/G7RDDoJrvopzCFXRZVLQ91XV2brbLLy7QFsl2RMKm5BkP
+	Coa6ijREvkDL6pipbFRjM6/n3D4BIBMEa
+X-Google-Smtp-Source: AGHT+IGKyVt6YNx8hzsEDiKM3d8MPYTvIJyS5Ze9B4ONXLm2BtBVctGCSWO+iINuXMA6bIG4ClYZeQ==
+X-Received: by 2002:a17:902:d482:b0:231:c9bb:6105 with SMTP id d9443c01a7336-2446cb8781amr30203385ad.0.1755310689658;
+        Fri, 15 Aug 2025 19:18:09 -0700 (PDT)
+Received: from [192.168.50.136] ([118.32.98.101])
+        by smtp.gmail.com with ESMTPSA id d9443c01a7336-2446d56e9e5sm24691175ad.148.2025.08.15.19.18.06
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Fri, 15 Aug 2025 19:18:09 -0700 (PDT)
+Message-ID: <28544110-3021-43da-b32e-9785c81a42c1@kzalloc.com>
+Date: Sat, 16 Aug 2025 11:18:02 +0900
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <9013fce0-6764-49b1-9e54-68e915e12d7c@valdikss.org.ru>
+User-Agent: Mozilla Thunderbird
+Subject: Re: [BUG] usbip: vhci: Sleeping function called from invalid context
+ in vhci_urb_enqueue on PREEMPT_RT
+To: Alan Stern <stern@rowland.harvard.edu>
+Cc: linux-usb@vger.kernel.org, gregkh@linuxfoundation.org,
+ Andrey Konovalov <andreyknvl@google.com>,
+ Shuah Khan <skhan@linuxfoundation.org>, Thomas Gleixner
+ <tglx@linutronix.de>, Sebastian Andrzej Siewior <bigeasy@linutronix.de>,
+ Clark Williams <clrkwllms@kernel.org>, Steven Rostedt <rostedt@goodmis.org>,
+ linux-rt-users@vger.kernel.org, linux-kernel@vger.kernel.org,
+ syzkaller@googlegroups.com
+References: <c6c17f0d-b71d-4a44-bcef-2b65e4d634f7@kzalloc.com>
+ <f6cdf21a-642f-458c-85c1-0c2e1526f539@rowland.harvard.edu>
+Content-Language: en-US
+From: Yunseong Kim <ysk@kzalloc.com>
+Organization: kzalloc
+In-Reply-To: <f6cdf21a-642f-458c-85c1-0c2e1526f539@rowland.harvard.edu>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 
-On Fri, Aug 15, 2025 at 09:13:09PM +0300, ValdikSS wrote:
-> I *buy* these legacy devices to improve them in Linux :)
+Hi Alan,
+
+On 8/16/25 10:51 AM, Alan Stern wrote:
+> On Sat, Aug 16, 2025 at 10:29:34AM +0900, Yunseong Kim wrote:
+>> While testing a PREEMPT_RT enabled kernel (based on v6.17.0-rc1),
+>> I encountered a "BUG: sleeping function called from invalid context"
+>> error originating from the USB/IP VHCI driver.
+>>
+>> On PREEMPT_RT configurations, standard spin_lock() calls are replaced by
+>> rt_spin_lock(). Since rt_spin_lock() may sleep when contended, it must not
+>> be called from an atomic context (e.g., with interrupts disabled).
+>>
+>> The issue occurs within the vhci_urb_enqueue function This function
+>> explicitly disables local interrupts using local_irq_disable() immediately
+>> before calling usb_hcd_giveback_urb(), adhering to HCD requirements.
 > 
-> I'm making an open-source print server hardware for older printers, that's
-> why for me this issue is worth researching, at least to document such
-> hardware heisenbugs.
-> There've been different USB behavior and incompatibilities with scanners
-> (fixed it in SANE) and printers (fixed by CUPS quirks file), but this is the
-> first time I'm going down to USB HC level.
+> ...
 > 
-> This printer (Canon LBP1120) does not have drivers for 64-bit Windows or
-> recent macOS, that's why for many it's a paperweight device you can't use or
-> sell, unless fixed by other means (usually a VM with 32-bit Windows, and now
-> my print server as well).
+>> This error reported after this work:
+>> It occurs after going through the code below:
+>>
+>>  static int vhci_urb_enqueue(struct usb_hcd *hcd, struct urb *urb, gfp_t mem_flags)
+>>  {
+>>  
+>>  	...
+>>  
+>>  no_need_unlink:
+>>  	spin_unlock_irqrestore(&vhci->lock, flags);
+>>  	if (!ret) {
+>>  		/* usb_hcd_giveback_urb() should be called with
+>>  		 * irqs disabled
+>>  		 */
+>>  		local_irq_disable(); // <--- Entering atomic context (IRQs disabled)
+>>  		usb_hcd_giveback_urb(hcd, urb, urb->status);
+>>  		local_irq_enable();
+>>  	}
+>>  	return ret;
+>>  }
+>>
+>>  static void mon_bus_complete(struct mon_bus *mbus, struct urb *urb, int status)
+>>  {
+>>  	...
+>>  	spin_lock_irqsave(&mbus->lock, flags);
+>                   ^
+> ------------------^
 > 
-> You gave me directions where I should look for, because I didn't know how to
-> start debugging without the logic analyzer.
-> Usbmon captures only USB communication packets and some of USB HUB
-> controlling packets (such as TT related), but does not include
-> device-controlling MMIO registers, which was the case here.
+>>  	...
+>>  }
+>>
+>> When called with interrupts disabled, usb_hcd_giveback_urb() eventually
+>> leads to mon_complete() in the USB monitoring, if usbmon is enabled,
+>> via __usb_hcd_giveback_urb().
+>>
+>> mon_complete() attempts to acquire a lock via spin_lock(), observed in the
+>> trace within the inlined mon_bus_complete.
 > 
-> I'll add debug prints to everything related to MMIO and take a look what
-> could be improved. Thanks!
+> Look again.  mon_bus_complete() calls spin_lock_irqsave(), not 
+> spin_lock().
+> 
+> Is the kernel tree that you are using different from Linus's tree?
+I think this part is a macro, so it appears this way.
 
-Good luck!
+Link: https://github.com/torvalds/linux/blob/v6.17-rc1/include/linux/spinlock_rt.h#L96
 
-> If you have other ideas I could try right away, please share them!
+#define spin_lock_irqsave(lock, flags)			 \
+	do {						 \
+		typecheck(unsigned long, flags);	 \
+		flags = 0;				 \
+		spin_lock(lock);			 \
+	} while (0)
 
-You might compare the usbmon traces for your patched OHCI against a UHCI 
-system.  They should run at approximately the same speed, so it's not 
-clear why the printer would work with one but not the other.
+My tree is indeed 6.17-rc1. I made a mistake in the diagram,
+which caused the misunderstanding. I’ve redrawn the diagram:
 
-Alan Stern
+  kworker (hub_event)
+      |
+      v
+  vhci_urb_enqueue() [drivers/usb/usbip/vhci_hcd.c]
+      |
+      |---> spin_unlock_irqrestore(&vhci->lock, flags);
+      |     (Context: IRQs Enabled, Process Context)
+      |---> local_irq_disable();
+      |
+      |     *** STATE CHANGE: IRQs Disabled (Atomic Context) ***
+      |
+      +-----> usb_hcd_giveback_urb() [drivers/usb/core/hcd.c]
+              |
+              v
+              __usb_hcd_giveback_urb()
+              |
+              v
+              mon_complete() [drivers/usb/mon/mon_main.c]
+              |
+              |---> spin_lock_irqsave() [include/linux/spinlock_rt.h]
+                    |
+                    v https://github.com/torvalds/linux/blob/v6.17-rc1/include/linux/spinlock_rt.h#L96
+                    spin_lock() [kernel/locking/spinlock_rt.c] <--- Attempts to acquire lock
+                    |
+                    | [On PREEMPT_RT]
+                    v
+                    rt_spin_lock() [kernel/locking/spinlock_rt.c]
+                    |
+                    v
+                    [May Sleep if contended]
+                    |
+      X <----------- BUG: Sleeping in atomic context (IRQs are disabled!)
+
+      |
+      |---> local_irq_enable();
+            (Context: IRQs Enabled)
+
+
+> Alan Stern
+
+Thank you!
+
+Yunseong Kim
+
+
