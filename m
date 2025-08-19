@@ -1,293 +1,107 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.8])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pj1-f44.google.com (mail-pj1-f44.google.com [209.85.216.44])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7C8AC33EB0F;
-	Tue, 19 Aug 2025 12:59:07 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.8
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 85453322741;
+	Tue, 19 Aug 2025 13:19:30 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.216.44
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1755608351; cv=none; b=tJ3Dq7vEM8H28LYOPqWNJf1toVmD0zCDkmbFkc3fOiOIqSqPXBb14Z95VfYo+ZUfhpgD1u8SrSoqnu4XcdQqBuULgrOsTsGxYjjmB5FNnUJl/ocW2Lx+FJNxiHd7r1pABmn9smRdYDwKNvcqGQMWQimxtnlPN2hfaryfX3ovuhE=
+	t=1755609571; cv=none; b=WOAKETY8XWfx6yGiEaw/4dQgbEW4KTC3YgXlTyFfxD0jKQPfgmHB+ztC9bC70gX2jq8NrTft3WDk/5QKCNzYtftSB2RNBJCJKEEGOnv/YnH1jxtWhNXyWWMC7m4s4Egjvv2xdvLWmNyskTWQYfXaqffTNjbLx9JYrcgGDCoBEFI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1755608351; c=relaxed/simple;
-	bh=1gMYDgxO20IR62dFoC8PccFkLwKG84ArKQG3eysG+G8=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=k4KkskWjN6olQsyVRxwi1vWZE28m8tzlw1BcV60MRhTSytuZIn0ASHb82kDeTSAv0aSJHgUaRmonuY9UNODFgAAdULO0/f8Y5Q2BNKE656yy3hZqwAiZxGHLSPIaaZOFEcu17PJVv1yiJBwlRPZGFRYwcRbixFmmcMOTS2q3K4Y=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=none smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=RIPUPVqn; arc=none smtp.client-ip=192.198.163.8
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=linux.intel.com
+	s=arc-20240116; t=1755609571; c=relaxed/simple;
+	bh=r23hmMjYeFnmQbtG3d+3ohTMfPdmfJrL7/bunmfRuaM=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=fVgB2dyYvXLu3BhgjRmiK4LZ9r7IlBfl5xNyo0UbtnhfC5qcZjIEFajd6FQolilyeGamphBYSFmXx4OsAaZBt+r0hAtmgewVlJZFVEGAmgCnyDRWCpVMMaHO3VdUNPWz7rsSYImz0xLWcg7dwFL+simGzp9Etj4bowmRdRtML74=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=G6jwNhRW; arc=none smtp.client-ip=209.85.216.44
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="RIPUPVqn"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1755608347; x=1787144347;
-  h=from:to:cc:subject:date:message-id:in-reply-to:
-   references:mime-version:content-transfer-encoding;
-  bh=1gMYDgxO20IR62dFoC8PccFkLwKG84ArKQG3eysG+G8=;
-  b=RIPUPVqnAT28Zcz3PCUOWiiuUyW2DsVohHZ7hgt05BOhapKqQ+Q/LKk3
-   ynjIibO3KiXcVlRNMtmvxELKgpxGTjLRJ7wfIsHt95DEu98txqAj+splo
-   s/z9BVfupyQY1CTVzVh/ZLEs7+uMTZp9UqmpxkMoabmqKLksgC0PKuUqd
-   2hLv37zTCYut5bpU3MDVmi7vMfxIaESqSXuZ/tcbOfGk8g5ZbDRQEdyWk
-   YRLhbZjfR8vyXBSY9xEUDGTpey8jjeL4zd5MX6tLqNutI3ANEI97pPTbr
-   4Jqy/2eK0+DyUIFENbrNrprKaQ0/ATU5k+4endJx6ct4/e13LPclpJW7W
-   A==;
-X-CSE-ConnectionGUID: Zs0dWwwcQTGS5dPMN0yR/Q==
-X-CSE-MsgGUID: P03r56iLQHCsP6ES67/76A==
-X-IronPort-AV: E=McAfee;i="6800,10657,11527"; a="75423024"
-X-IronPort-AV: E=Sophos;i="6.17,300,1747724400"; 
-   d="scan'208";a="75423024"
-Received: from fmviesa008.fm.intel.com ([10.60.135.148])
-  by fmvoesa102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 19 Aug 2025 05:58:57 -0700
-X-CSE-ConnectionGUID: h5OeWqG4ShumXzR7iKbT+w==
-X-CSE-MsgGUID: UCxbR0lQQ2KFgKaXEzcFCg==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.17,300,1747724400"; 
-   d="scan'208";a="168194858"
-Received: from mnyman-desk.fi.intel.com ([10.237.72.199])
-  by fmviesa008.fm.intel.com with ESMTP; 19 Aug 2025 05:58:55 -0700
-From: Mathias Nyman <mathias.nyman@linux.intel.com>
-To: <gregkh@linuxfoundation.org>
-Cc: <linux-usb@vger.kernel.org>,
-	christian@heusel.eu,
-	michal.pecio@gmail.com,
-	niklas.neronin@linux.intel.com,
-	regressions@lists.linux.dev,
-	Weitao Wang <WeitaoWang-oc@zhaoxin.com>,
-	stable@vger.kernel.org,
-	Mathias Nyman <mathias.nyman@linux.intel.com>
-Subject: [PATCH 1/2] usb: xhci: Fix slot_id resource race conflict
-Date: Tue, 19 Aug 2025 15:58:43 +0300
-Message-ID: <20250819125844.2042452-2-mathias.nyman@linux.intel.com>
-X-Mailer: git-send-email 2.43.0
-In-Reply-To: <20250819125844.2042452-1-mathias.nyman@linux.intel.com>
-References: <20250819125844.2042452-1-mathias.nyman@linux.intel.com>
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="G6jwNhRW"
+Received: by mail-pj1-f44.google.com with SMTP id 98e67ed59e1d1-323267bc2eeso3759195a91.1;
+        Tue, 19 Aug 2025 06:19:30 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1755609570; x=1756214370; darn=vger.kernel.org;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:from:to:cc:subject:date:message-id:reply-to;
+        bh=r23hmMjYeFnmQbtG3d+3ohTMfPdmfJrL7/bunmfRuaM=;
+        b=G6jwNhRWzP7TnO5eRjxZTd4eUsxnVKXSCOmr4Y559//KHQ069d85tUZhkneio7Bm16
+         fBp37/P5E9835T7uB88VMbK5MJ+z1lZe1wOVzOY3YzUzg5EbA1JanESAoFzMN30LYKVz
+         oRAXZmWARqD7hzQGjrvOY7EQh4FMxz6cM3m8opY9UwxUqgfV8mBpwNId4EUhsVf1/WEc
+         FAgZZwfO9U98n7s7FGmHcNVkoU7YpOjMDWOeQK2Rk49NT8wRga0Pahzl7kIrB/IGuU4q
+         jVVteHQSbaPIIa9ucdbd9f1qg191ufas394P6z+6JgoRx07c+co+1MwDLf1VgJDYrlGh
+         s/5g==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1755609570; x=1756214370;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=r23hmMjYeFnmQbtG3d+3ohTMfPdmfJrL7/bunmfRuaM=;
+        b=gHvVNjZ6w+kHN5vJc/iegUM5uYlmsEAKn8PMV1KIbr+ttHBK62spP2QumJXQpea6JE
+         cZosAnR0iJiiKwMqr8J40H/VarjXPKD303uxBkNhbsa+EbjCxEDojGlnajhydvB4XIXr
+         Gl2aZZemsfxiR9g6H8Yj/rJrD0/qVymkYw86f4eJOPFzKhXSGlLENdYnGZCgOMgHZ/e/
+         gnRpbwEkrtGafPYw51QK1siH2YGgkCE/AbyAWP6DWnwBzmVTxHU1fyNw8mNRiqOqBRoV
+         QS8rl8UCzmDTOW9McN9JEDdDxPSe4ZLOP64uR3uK63G777SE/ejRRHk9P9ylMxf4qh0d
+         mVjw==
+X-Forwarded-Encrypted: i=1; AJvYcCU8wg0oQHZcCYMRsqOc09jF9Q+tnuhlbg/KvmBL6uInY3tHmK0/w3Z/itZryRqU7b/GLS1u8rvi6twJ@vger.kernel.org, AJvYcCUQAAxjC1St7mtpnssd6bdnU6+7MqRD83XjrPxJE0rlInzL4pb6PjmAg8AXSkdMcygbxEmLCHcmvjt4ahE=@vger.kernel.org, AJvYcCWuJILw2JEGpZynnrvt6ckPTuqHbKeQmew1mglrkBhs1dJvdBxTPA7/QEAYyj8CMvN+piqAOmwfR05+RZU=@vger.kernel.org, AJvYcCWxWAC8SE7RP91Kzjw1xnYBc52EXoWpSaZo/8wPYW3DUF7rx3o8MLkN9udeDX4KyG6Pyn+BHlXLO4Mq@vger.kernel.org, AJvYcCXSkim3lErXp0t/B8PlqGVG3XImGHsCN6jo7Xmnfnwz3G5IFF3eAFLORHtZtE2hALbgekIJ4LZjU4df@vger.kernel.org
+X-Gm-Message-State: AOJu0YxVXa3jCwAFI2Nb6/q+WGGTaPRTx3PIAMi31J8lD4Dh2X2ZuNwY
+	VYVpgnaAkPSi6aHLyMRJhwMw13kJuIfq64/sQjKQqb17dxwPFJ+qiChJmM9DKyn0AMMj5SqNJAl
+	Hel7WPYeaMKStziIEvxtSIO9YgRh79A==
+X-Gm-Gg: ASbGncs33BXRR6dF3WJtdVtLGok4Zsj2HaGAHP+zmzQ7ve4osmOsjL93TdkvGAKdcaL
+	VTT904g7JRbeepHeo4h5zKF/DSW8IC3so955j3lRwMBJtapHYFNlq1jnCAahgfblSITREKMYqZf
+	Q6/xoLuRXNk7AhViUSaBreYatwBSvRL9zYJQKa6H+dvVe5laNhh4aLGZ7sxuLpQp/arMBCDxWvc
+	iPc3jw=
+X-Google-Smtp-Source: AGHT+IEhhIygA1bnMp5OmuLfxqFMwh/55vlg61V7P62U8jCxjgB67lK8mBtooTUSQ4tyZ+w3P2ukeu2oqxwqtea8dJY=
+X-Received: by 2002:a17:90b:5103:b0:313:f6fa:5bca with SMTP id
+ 98e67ed59e1d1-32476afbfbfmr3312885a91.22.1755609569563; Tue, 19 Aug 2025
+ 06:19:29 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+References: <20250811224739.53869-1-jihed.chaibi.dev@gmail.com> <564lqfhskoiivxziptyhrkajpblrrnk7nmfe73fzsd6ov2vwlh@n6ydqbrxh2my>
+In-Reply-To: <564lqfhskoiivxziptyhrkajpblrrnk7nmfe73fzsd6ov2vwlh@n6ydqbrxh2my>
+From: Jihed Chaibi <jihed.chaibi.dev@gmail.com>
+Date: Tue, 19 Aug 2025 15:19:17 +0200
+X-Gm-Features: Ac12FXyaAV_fr68gP_yU1FNDg6itu2IlLFaD6Hyb0iuATvPfS4x6a8BXCW6M9uY
+Message-ID: <CANBuOYoJv5F=4H71fPoWx3MmzSQuKt_p5SPMJx1P=PGwDrEmPA@mail.gmail.com>
+Subject: Re: [PATCH 0/8] dt-bindings: Convert TWL4030/6040 family binding to
+ DT schema
+To: =?UTF-8?Q?Uwe_Kleine=2DK=C3=B6nig?= <ukleinek@kernel.org>, 
+	peter.ujfalusi@gmail.com
+Cc: linux-kernel@vger.kernel.org, dmitry.torokhov@gmail.com, robh@kernel.org, 
+	krzk+dt@kernel.org, lgirdwood@gmail.com, tiwai@suse.com, conor+dt@kernel.org, 
+	lee@kernel.org, broonie@kernel.org, gregkh@linuxfoundation.org, 
+	linux-input@vger.kernel.org, devicetree@vger.kernel.org, 
+	linux-pwm@vger.kernel.org, linux-sound@vger.kernel.org, 
+	linux-usb@vger.kernel.org, shuah@kernel.org
+Content-Type: text/plain; charset="UTF-8"
 
-From: Weitao Wang <WeitaoWang-oc@zhaoxin.com>
+> > The following eight patches are included in this series, covering the
+> > audio, keypad, power, PWM, and USB sub-modules.
+>
+> Thanks for doing that.
+>
+> I think the patches are all orthogonal and can/should be applied by the
+> respective subsystem maintainers once they are considered ready?
+>
 
-xHC controller may immediately reuse a slot_id after it's disabled,
-giving it to a new enumerating device before the xhci driver freed
-all resources related to the disabled device.
+Hello Uwe, Peter, and everyone,
 
-In such a scenario, device-A with slot_id equal to 1 is disconnecting
-while device-B is enumerating, device-B will fail to enumerate in the
-follow sequence.
+Thank you for the feedback, I am now working on a new v4 patch series
+for each subsystem with few improvements and will make sure of their
+orthogonality.
 
-1.[device-A] send disable slot command
-2.[device-B] send enable slot command
-3.[device-A] disable slot command completed and wakeup waiting thread
-4.[device-B] enable slot command completed with slot_id equal to 1 and
-	     wakeup waiting thread
-5.[device-B] driver checks that slot_id is still in use (by device-A) in
-	     xhci_alloc_virt_device, and fail to enumerate due to this
-	     conflict
-6.[device-A] xhci->devs[slot_id] set to NULL in xhci_free_virt_device
+While working on this, I had a question about the 'maintainers:' property for
+the new YAML bindings. I see from the MAINTAINERS file that Peter Ujfalusi
+is the maintainer for the TWL4030 codec driver. I initially marked him as
+maintainer for every new twl4030 related binding.
 
-To fix driver's slot_id resources conflict, clear xhci->devs[slot_id] and
-xhci->dcbba->dev_context_ptrs[slot_id] pointers in the interrupt context
-when disable slot command completes successfully. Simultaneously, adjust
-function xhci_free_virt_device to accurately handle device release.
+For those new YAML binding files I am creating, should I list only the driver
+maintainer (Peter, once he confirms this), or should I add myself as
+a co-maintainer since I am authoring these new binding files?
 
-[minor smatch warning and commit message fix -Mathias]
-Cc: stable@vger.kernel.org
-Fixes: 7faac1953ed1 ("xhci: avoid race between disable slot command and host runtime suspend")
-Signed-off-by: Weitao Wang <WeitaoWang-oc@zhaoxin.com>
-Signed-off-by: Mathias Nyman <mathias.nyman@linux.intel.com>
----
- drivers/usb/host/xhci-hub.c  |  3 +--
- drivers/usb/host/xhci-mem.c  | 22 +++++++++++-----------
- drivers/usb/host/xhci-ring.c |  9 +++++++--
- drivers/usb/host/xhci.c      | 21 ++++++++++++++-------
- drivers/usb/host/xhci.h      |  3 ++-
- 5 files changed, 35 insertions(+), 23 deletions(-)
+Pinging Peter for his thoughts on this as well.
 
-diff --git a/drivers/usb/host/xhci-hub.c b/drivers/usb/host/xhci-hub.c
-index 92bb84f8132a..b3a59ce1b3f4 100644
---- a/drivers/usb/host/xhci-hub.c
-+++ b/drivers/usb/host/xhci-hub.c
-@@ -704,8 +704,7 @@ static int xhci_enter_test_mode(struct xhci_hcd *xhci,
- 		if (!xhci->devs[i])
- 			continue;
- 
--		retval = xhci_disable_slot(xhci, i);
--		xhci_free_virt_device(xhci, i);
-+		retval = xhci_disable_and_free_slot(xhci, i);
- 		if (retval)
- 			xhci_err(xhci, "Failed to disable slot %d, %d. Enter test mode anyway\n",
- 				 i, retval);
-diff --git a/drivers/usb/host/xhci-mem.c b/drivers/usb/host/xhci-mem.c
-index 07289333a1e8..81eaad87a3d9 100644
---- a/drivers/usb/host/xhci-mem.c
-+++ b/drivers/usb/host/xhci-mem.c
-@@ -865,21 +865,20 @@ int xhci_alloc_tt_info(struct xhci_hcd *xhci,
-  * will be manipulated by the configure endpoint, allocate device, or update
-  * hub functions while this function is removing the TT entries from the list.
-  */
--void xhci_free_virt_device(struct xhci_hcd *xhci, int slot_id)
-+void xhci_free_virt_device(struct xhci_hcd *xhci, struct xhci_virt_device *dev,
-+		int slot_id)
- {
--	struct xhci_virt_device *dev;
- 	int i;
- 	int old_active_eps = 0;
- 
- 	/* Slot ID 0 is reserved */
--	if (slot_id == 0 || !xhci->devs[slot_id])
-+	if (slot_id == 0 || !dev)
- 		return;
- 
--	dev = xhci->devs[slot_id];
--
--	xhci->dcbaa->dev_context_ptrs[slot_id] = 0;
--	if (!dev)
--		return;
-+	/* If device ctx array still points to _this_ device, clear it */
-+	if (dev->out_ctx &&
-+	    xhci->dcbaa->dev_context_ptrs[slot_id] == cpu_to_le64(dev->out_ctx->dma))
-+		xhci->dcbaa->dev_context_ptrs[slot_id] = 0;
- 
- 	trace_xhci_free_virt_device(dev);
- 
-@@ -920,8 +919,9 @@ void xhci_free_virt_device(struct xhci_hcd *xhci, int slot_id)
- 		dev->udev->slot_id = 0;
- 	if (dev->rhub_port && dev->rhub_port->slot_id == slot_id)
- 		dev->rhub_port->slot_id = 0;
--	kfree(xhci->devs[slot_id]);
--	xhci->devs[slot_id] = NULL;
-+	if (xhci->devs[slot_id] == dev)
-+		xhci->devs[slot_id] = NULL;
-+	kfree(dev);
- }
- 
- /*
-@@ -962,7 +962,7 @@ static void xhci_free_virt_devices_depth_first(struct xhci_hcd *xhci, int slot_i
- out:
- 	/* we are now at a leaf device */
- 	xhci_debugfs_remove_slot(xhci, slot_id);
--	xhci_free_virt_device(xhci, slot_id);
-+	xhci_free_virt_device(xhci, vdev, slot_id);
- }
- 
- int xhci_alloc_virt_device(struct xhci_hcd *xhci, int slot_id,
-diff --git a/drivers/usb/host/xhci-ring.c b/drivers/usb/host/xhci-ring.c
-index ecd757d482c5..4f8f5aab109d 100644
---- a/drivers/usb/host/xhci-ring.c
-+++ b/drivers/usb/host/xhci-ring.c
-@@ -1592,7 +1592,8 @@ static void xhci_handle_cmd_enable_slot(int slot_id, struct xhci_command *comman
- 		command->slot_id = 0;
- }
- 
--static void xhci_handle_cmd_disable_slot(struct xhci_hcd *xhci, int slot_id)
-+static void xhci_handle_cmd_disable_slot(struct xhci_hcd *xhci, int slot_id,
-+					u32 cmd_comp_code)
- {
- 	struct xhci_virt_device *virt_dev;
- 	struct xhci_slot_ctx *slot_ctx;
-@@ -1607,6 +1608,10 @@ static void xhci_handle_cmd_disable_slot(struct xhci_hcd *xhci, int slot_id)
- 	if (xhci->quirks & XHCI_EP_LIMIT_QUIRK)
- 		/* Delete default control endpoint resources */
- 		xhci_free_device_endpoint_resources(xhci, virt_dev, true);
-+	if (cmd_comp_code == COMP_SUCCESS) {
-+		xhci->dcbaa->dev_context_ptrs[slot_id] = 0;
-+		xhci->devs[slot_id] = NULL;
-+	}
- }
- 
- static void xhci_handle_cmd_config_ep(struct xhci_hcd *xhci, int slot_id)
-@@ -1856,7 +1861,7 @@ static void handle_cmd_completion(struct xhci_hcd *xhci,
- 		xhci_handle_cmd_enable_slot(slot_id, cmd, cmd_comp_code);
- 		break;
- 	case TRB_DISABLE_SLOT:
--		xhci_handle_cmd_disable_slot(xhci, slot_id);
-+		xhci_handle_cmd_disable_slot(xhci, slot_id, cmd_comp_code);
- 		break;
- 	case TRB_CONFIG_EP:
- 		if (!cmd->completion)
-diff --git a/drivers/usb/host/xhci.c b/drivers/usb/host/xhci.c
-index 47151ca527bf..0e03691f03bf 100644
---- a/drivers/usb/host/xhci.c
-+++ b/drivers/usb/host/xhci.c
-@@ -3932,8 +3932,7 @@ static int xhci_discover_or_reset_device(struct usb_hcd *hcd,
- 		 * Obtaining a new device slot to inform the xHCI host that
- 		 * the USB device has been reset.
- 		 */
--		ret = xhci_disable_slot(xhci, udev->slot_id);
--		xhci_free_virt_device(xhci, udev->slot_id);
-+		ret = xhci_disable_and_free_slot(xhci, udev->slot_id);
- 		if (!ret) {
- 			ret = xhci_alloc_dev(hcd, udev);
- 			if (ret == 1)
-@@ -4090,7 +4089,7 @@ static void xhci_free_dev(struct usb_hcd *hcd, struct usb_device *udev)
- 	xhci_disable_slot(xhci, udev->slot_id);
- 
- 	spin_lock_irqsave(&xhci->lock, flags);
--	xhci_free_virt_device(xhci, udev->slot_id);
-+	xhci_free_virt_device(xhci, virt_dev, udev->slot_id);
- 	spin_unlock_irqrestore(&xhci->lock, flags);
- 
- }
-@@ -4139,6 +4138,16 @@ int xhci_disable_slot(struct xhci_hcd *xhci, u32 slot_id)
- 	return 0;
- }
- 
-+int xhci_disable_and_free_slot(struct xhci_hcd *xhci, u32 slot_id)
-+{
-+	struct xhci_virt_device *vdev = xhci->devs[slot_id];
-+	int ret;
-+
-+	ret = xhci_disable_slot(xhci, slot_id);
-+	xhci_free_virt_device(xhci, vdev, slot_id);
-+	return ret;
-+}
-+
- /*
-  * Checks if we have enough host controller resources for the default control
-  * endpoint.
-@@ -4245,8 +4254,7 @@ int xhci_alloc_dev(struct usb_hcd *hcd, struct usb_device *udev)
- 	return 1;
- 
- disable_slot:
--	xhci_disable_slot(xhci, udev->slot_id);
--	xhci_free_virt_device(xhci, udev->slot_id);
-+	xhci_disable_and_free_slot(xhci, udev->slot_id);
- 
- 	return 0;
- }
-@@ -4382,8 +4390,7 @@ static int xhci_setup_device(struct usb_hcd *hcd, struct usb_device *udev,
- 		dev_warn(&udev->dev, "Device not responding to setup %s.\n", act);
- 
- 		mutex_unlock(&xhci->mutex);
--		ret = xhci_disable_slot(xhci, udev->slot_id);
--		xhci_free_virt_device(xhci, udev->slot_id);
-+		ret = xhci_disable_and_free_slot(xhci, udev->slot_id);
- 		if (!ret) {
- 			if (xhci_alloc_dev(hcd, udev) == 1)
- 				xhci_setup_addressable_virt_dev(xhci, udev);
-diff --git a/drivers/usb/host/xhci.h b/drivers/usb/host/xhci.h
-index a20f4e7cd43a..85d5b964bf1e 100644
---- a/drivers/usb/host/xhci.h
-+++ b/drivers/usb/host/xhci.h
-@@ -1791,7 +1791,7 @@ void xhci_dbg_trace(struct xhci_hcd *xhci, void (*trace)(struct va_format *),
- /* xHCI memory management */
- void xhci_mem_cleanup(struct xhci_hcd *xhci);
- int xhci_mem_init(struct xhci_hcd *xhci, gfp_t flags);
--void xhci_free_virt_device(struct xhci_hcd *xhci, int slot_id);
-+void xhci_free_virt_device(struct xhci_hcd *xhci, struct xhci_virt_device *dev, int slot_id);
- int xhci_alloc_virt_device(struct xhci_hcd *xhci, int slot_id, struct usb_device *udev, gfp_t flags);
- int xhci_setup_addressable_virt_dev(struct xhci_hcd *xhci, struct usb_device *udev);
- void xhci_copy_ep0_dequeue_into_input_ctx(struct xhci_hcd *xhci,
-@@ -1888,6 +1888,7 @@ void xhci_reset_bandwidth(struct usb_hcd *hcd, struct usb_device *udev);
- int xhci_update_hub_device(struct usb_hcd *hcd, struct usb_device *hdev,
- 			   struct usb_tt *tt, gfp_t mem_flags);
- int xhci_disable_slot(struct xhci_hcd *xhci, u32 slot_id);
-+int xhci_disable_and_free_slot(struct xhci_hcd *xhci, u32 slot_id);
- int xhci_ext_cap_init(struct xhci_hcd *xhci);
- 
- int xhci_suspend(struct xhci_hcd *xhci, bool do_wakeup);
--- 
-2.43.0
-
+Thanks again for your guidance.
+Jihed
