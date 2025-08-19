@@ -1,103 +1,180 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0AA5B1C32FF;
-	Tue, 19 Aug 2025 00:39:35 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D84771863E;
+	Tue, 19 Aug 2025 06:08:20 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1755563978; cv=none; b=GhuyBcO+aXJw4fROsSNKh9iu8z0RaR7cQCGF5x6AHMmQOHQHha3JYBjpoonwACqDAsSVeWCdQdGn6NbHzI2pQKFN6LqE+pVKctdKJDiQWpSgbryomWuhnKIZOoF3RFJN4PccO1YCWs6AvM7OLAa+vI8U8pKie2R5TI+vwzQEPdk=
+	t=1755583701; cv=none; b=euDrQtMO2rUlsrejdKf4Wsi88rDY9zxvPQYW7bF2I4EZ1fC38halDX5rpMt8wUY2WRTtZotj2KjDqd9T4qgVkhF8zVxLSPpmkEmraMfD+aQPeirrwYcWUCZp+vqX/bcEnMkhH6dNtTx7aF/aw4tIS2Zsc0CVYffMdmODh/eG0+0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1755563978; c=relaxed/simple;
-	bh=0v49ZCs+KcrnAsogjZvRFHcVhQAaER7OfcCStKcAGiM=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=QuPH+GxMHMd75puPZ+EEzLi/RD0IIsD7H6XYj5VLG1pXQ3tw+DYwMKccfalO37ugAE/16Tco75Zsw+n01s2HdiNtJ88zDhmSB3H14NeTx372cbAxQ8NDRlK63Q8xZ8hrI+Eg5WBAVbCZHKZ25wN8updFPao0guGuH9fx1/a/uZA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Fcl5vWTt; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1755583701; c=relaxed/simple;
+	bh=JFOqiQZygYJZwxR9jUnXSWxc6RjvoDhgTgxK8uDWeLw=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=B+oyngVtVGnD9IKF9WjYhuFYZcKZKv6ACRFyJoz2Qfb/JGWJ3gicbortAwhYRBRlsX0dxyRPsebw1ryVNSijjtTJ+Q+B9YugT0w8rmQ61V0xMZ8nF3hf7PITJ0Zu6Z+53OERV+rE7o3fRvIKuXWJHXgI2wjEC7PsiRX4V4xe3/w=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=mIBKQB2U; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Fcl5vWTt"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 99CADC116B1;
-	Tue, 19 Aug 2025 00:39:33 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="mIBKQB2U"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id CC394C4CEF4;
+	Tue, 19 Aug 2025 06:08:19 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1755563975;
-	bh=0v49ZCs+KcrnAsogjZvRFHcVhQAaER7OfcCStKcAGiM=;
-	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=Fcl5vWTtZFSObT8RS4N9BZ4tVkR0QfSV6hkX/b/Hvb6lgeu9Y6mfOGvo4oOG/tM/m
-	 i1DhyfrP0Ok+n0hyMGM3xAa2Nfbzc320m9jtNguq8Bt6tS5t2h11dUH5IbBwt5mLBz
-	 2pihHCB12pKgenRy5MSLP+lsqZ8M7kh+QQWifCOxwoMhPGZ8eA6pT3pbf9c6zbcuv7
-	 CbT0hMI4IKVUQ6F2uSvnZWCDLYhABTuXPLl/04pxVdkTjuneVj5iZfa1136LDS6qhR
-	 VwDwlI2LrYgHcd6hJ+JiRyEvrGHsS4CycybpIu73n0x4J7cZPcTivlG8dztaIC7V06
-	 x77yg1btvo4/g==
-From: Jisheng Zhang <jszhang@kernel.org>
-To: Richard Leitner <richard.leitner@linux.dev>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	Rob Herring <robh@kernel.org>,
-	Krzysztof Kozlowski <krzk+dt@kernel.org>,
-	Conor Dooley <conor+dt@kernel.org>
-Cc: linux-usb@vger.kernel.org,
-	devicetree@vger.kernel.org,
-	linux-kernel@vger.kernel.org
-Subject: [PATCH v2 2/3] usb: usb251xb: use modern PM macros
-Date: Tue, 19 Aug 2025 08:22:16 +0800
-Message-ID: <20250819002217.30249-3-jszhang@kernel.org>
-X-Mailer: git-send-email 2.50.0
-In-Reply-To: <20250819002217.30249-1-jszhang@kernel.org>
-References: <20250819002217.30249-1-jszhang@kernel.org>
+	s=k20201202; t=1755583700;
+	bh=JFOqiQZygYJZwxR9jUnXSWxc6RjvoDhgTgxK8uDWeLw=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=mIBKQB2Ug804maWvOPuUOfpcsNLZO1bdOfLqRy/haIy1HpbJEdniEvVrEjX5PGrkn
+	 Zd5u2y457HAPPZ8RqN9l1HIW1r7OVJ3BxFlrMeNwyNwtG5Wnt4gadHSrTP8r4C7F0K
+	 98OuY+3Az23afPP211w0a9J7MP4uvuIlsaXKZCrUDWFX/dtPUMNcjiJjxkXZuO7bi9
+	 LMLIUb51Dli9W6YN+iVU0eyQ0YEJlyXMUCuCQwX86yf5cz0p3UxRIV4GggyITumYiZ
+	 D1VsrhYN/uIL3KTNVTYTwWtYpx9P5V9N/HXa3s/Zu/0lsx42U78eU1axRYCNilOIV3
+	 DMaHPbYmlXnaA==
+Date: Tue, 19 Aug 2025 08:08:17 +0200
+From: Uwe =?utf-8?Q?Kleine-K=C3=B6nig?= <ukleinek@kernel.org>
+To: Jihed Chaibi <jihed.chaibi.dev@gmail.com>
+Cc: linux-kernel@vger.kernel.org, peter.ujfalusi@gmail.com, 
+	dmitry.torokhov@gmail.com, robh@kernel.org, krzk+dt@kernel.org, lgirdwood@gmail.com, 
+	tiwai@suse.com, conor+dt@kernel.org, lee@kernel.org, broonie@kernel.org, 
+	gregkh@linuxfoundation.org, linux-input@vger.kernel.org, devicetree@vger.kernel.org, 
+	linux-pwm@vger.kernel.org, linux-sound@vger.kernel.org, linux-usb@vger.kernel.org, 
+	shuah@kernel.org
+Subject: Re: [PATCH 5/8] pwm: dt-bindings: ti,twl-pwm: convert to DT schema
+Message-ID: <xs5dgd57ycqaohpqevy67mrmngqei5pyg2a62mk6gjzawzvwfm@pzhw5jthxmyo>
+References: <20250811224739.53869-1-jihed.chaibi.dev@gmail.com>
+ <20250811224739.53869-6-jihed.chaibi.dev@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: multipart/signed; micalg=pgp-sha512;
+	protocol="application/pgp-signature"; boundary="5yzp6gv7etjwnva5"
+Content-Disposition: inline
+In-Reply-To: <20250811224739.53869-6-jihed.chaibi.dev@gmail.com>
 
-Use the modern PM macros for the suspend and resume functions to be
-automatically dropped by the compiler when CONFIG_PM or
-CONFIG_PM_SLEEP are disabled, without having to use __maybe_unused.
 
-Signed-off-by: Jisheng Zhang <jszhang@kernel.org>
----
- drivers/usb/misc/usb251xb.c | 8 ++++----
- 1 file changed, 4 insertions(+), 4 deletions(-)
+--5yzp6gv7etjwnva5
+Content-Type: text/plain; protected-headers=v1; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
+Subject: Re: [PATCH 5/8] pwm: dt-bindings: ti,twl-pwm: convert to DT schema
+MIME-Version: 1.0
 
-diff --git a/drivers/usb/misc/usb251xb.c b/drivers/usb/misc/usb251xb.c
-index 4fb453ca5450..cb2f946de42c 100644
---- a/drivers/usb/misc/usb251xb.c
-+++ b/drivers/usb/misc/usb251xb.c
-@@ -698,7 +698,7 @@ static int usb251xb_i2c_probe(struct i2c_client *i2c)
- 	return usb251xb_probe(hub);
- }
- 
--static int __maybe_unused usb251xb_suspend(struct device *dev)
-+static int usb251xb_suspend(struct device *dev)
- {
- 	struct i2c_client *client = to_i2c_client(dev);
- 	struct usb251xb *hub = i2c_get_clientdata(client);
-@@ -706,7 +706,7 @@ static int __maybe_unused usb251xb_suspend(struct device *dev)
- 	return regulator_disable(hub->vdd);
- }
- 
--static int __maybe_unused usb251xb_resume(struct device *dev)
-+static int usb251xb_resume(struct device *dev)
- {
- 	struct i2c_client *client = to_i2c_client(dev);
- 	struct usb251xb *hub = i2c_get_clientdata(client);
-@@ -719,7 +719,7 @@ static int __maybe_unused usb251xb_resume(struct device *dev)
- 	return usb251xb_connect(hub);
- }
- 
--static SIMPLE_DEV_PM_OPS(usb251xb_pm_ops, usb251xb_suspend, usb251xb_resume);
-+static DEFINE_SIMPLE_DEV_PM_OPS(usb251xb_pm_ops, usb251xb_suspend, usb251xb_resume);
- 
- static const struct i2c_device_id usb251xb_id[] = {
- 	{ "usb2422" },
-@@ -739,7 +739,7 @@ static struct i2c_driver usb251xb_i2c_driver = {
- 	.driver = {
- 		.name = DRIVER_NAME,
- 		.of_match_table = usb251xb_of_match,
--		.pm = &usb251xb_pm_ops,
-+		.pm = pm_sleep_ptr(&usb251xb_pm_ops),
- 	},
- 	.probe = usb251xb_i2c_probe,
- 	.id_table = usb251xb_id,
--- 
-2.50.0
+On Tue, Aug 12, 2025 at 12:47:36AM +0200, Jihed Chaibi wrote:
+> Convert the legacy TXT binding for the TWL-family PWM controller
+> to the modern YAML DT schema format. This adds formal validation
+> and improves documentation by inheriting from the base pwm schema.
+>=20
+> Signed-off-by: Jihed Chaibi <jihed.chaibi.dev@gmail.com>
+> ---
+>  .../devicetree/bindings/pwm/ti,twl-pwm.txt    | 17 -------
+>  .../devicetree/bindings/pwm/ti,twl-pwm.yaml   | 46 +++++++++++++++++++
+>  2 files changed, 46 insertions(+), 17 deletions(-)
+>  delete mode 100644 Documentation/devicetree/bindings/pwm/ti,twl-pwm.txt
+>  create mode 100644 Documentation/devicetree/bindings/pwm/ti,twl-pwm.yaml
+>=20
+> diff --git a/Documentation/devicetree/bindings/pwm/ti,twl-pwm.txt b/Docum=
+entation/devicetree/bindings/pwm/ti,twl-pwm.txt
+> deleted file mode 100644
+> index d97ca1964..000000000
+> --- a/Documentation/devicetree/bindings/pwm/ti,twl-pwm.txt
+> +++ /dev/null
+> @@ -1,17 +0,0 @@
+> -Texas Instruments TWL series PWM drivers
+> -
+> -Supported PWMs:
+> -On TWL4030 series: PWM1 and PWM2
+> -On TWL6030 series: PWM0 and PWM1
+> -
+> -Required properties:
+> -- compatible: "ti,twl4030-pwm" or "ti,twl6030-pwm"
+> -- #pwm-cells: should be 2. See pwm.yaml in this directory for a descript=
+ion of
+> -  the cells format.
+> -
+> -Example:
+> -
+> -twl_pwm: pwm {
+> -	compatible =3D "ti,twl6030-pwm";
+> -	#pwm-cells =3D <2>;
+> -};
+> diff --git a/Documentation/devicetree/bindings/pwm/ti,twl-pwm.yaml b/Docu=
+mentation/devicetree/bindings/pwm/ti,twl-pwm.yaml
+> new file mode 100644
+> index 000000000..5bbbdc13a
+> --- /dev/null
+> +++ b/Documentation/devicetree/bindings/pwm/ti,twl-pwm.yaml
+> @@ -0,0 +1,46 @@
+> +# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
+> +%YAML 1.2
+> +---
+> +$id: http://devicetree.org/schemas/pwm/ti,twl-pwm.yaml#
+> +$schema: http://devicetree.org/meta-schemas/core.yaml#
+> +
+> +title: Texas Instruments TWL4030/TWL6030 family PWM controller
+> +
+> +maintainers:
+> +  - Peter Ujfalusi <peter.ujfalusi@gmail.com>
+> +
+> +description: |
+> +  Bindings for the following PWM controllers :
+> +    TWL4030 series: PWMA and PWMB (connected to LEDA and LEDB terminals)
+> +    TWL6030 series: LED PWM (mainly used as charging indicator LED)
+> +
+> +allOf:
+> +  - $ref: /schemas/pwm/pwm.yaml#
+> +
+> +properties:
+> +  compatible:
+> +    enum:
+> +      - ti,twl4030-pwm
+> +      - ti,twl6030-pwm
+> +
+> +  '#pwm-cells':
+> +    const: 2
+> +
+> +required:
+> +  - compatible
+> +  - '#pwm-cells'
+> +
+> +unevaluatedProperties: false
+> +
+> +examples:
+> +  - |
+> +    pwm {
+> +        compatible =3D "ti,twl4030-pwm";
+> +        #pwm-cells =3D <2>;
+> +    };
+> +
+> +  - |
+> +    pwm {
+> +        compatible =3D "ti,twl6030-pwm";
+> +        #pwm-cells =3D <2>;
+> +    };
 
+Without having asked dt_binding_check it looks ok formally. I guess you
+added Peter Ujfalusi as maintainer from the driver file. I'd like to see
+a confirmation from him this is fine.
+
+The 2nd example isn't very helpful. Unless I'm missing some detail that
+makes it have a value I suggest to drop it. (But no need to resend just
+for that, I don't feel that strong and can keep it or fixup when
+applying.)
+
+Best regards
+Uwe
+
+--5yzp6gv7etjwnva5
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQEzBAABCgAdFiEEP4GsaTp6HlmJrf7Tj4D7WH0S/k4FAmikFM4ACgkQj4D7WH0S
+/k6TXQgAgOHpunUCvCKcPCdfYvw/x0GxIJld2NVPMHAvH/zoqHhuWyA80902Vml7
+oaOHd6EvK5AiYwfd6OFaODZy0zw4slH/wNW5v00NSJIkEj01gp/FLJGOmA1nEYSU
+oW6E4bjhEhaTM4LdDuIRBsi98yy1rmbwgRu0AgmoSv2Yof3jKwqbFW9UffjiJHus
+yjU8tTPF6Tcu7x9JaFNSEJqymp1K97cTTqs6e3njMt8OCCktpSNlKl/u4Wp2o6DY
+tXjPDChXLGYrcvwefTl2vb+qrc8/Q1xSx5GH/udU68l+c4RHdPivtxdwyUDOiWpB
+Ida7RVbLjhD3LQKIN8RWgaQxC6Pi8A==
+=hMLi
+-----END PGP SIGNATURE-----
+
+--5yzp6gv7etjwnva5--
