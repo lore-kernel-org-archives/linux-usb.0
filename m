@@ -1,182 +1,162 @@
-Received: from mail-qv1-f48.google.com (mail-qv1-f48.google.com [209.85.219.48])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mail.andi.de1.cc (mail.andi.de1.cc [178.238.236.174])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 629A4207A18
-	for <linux-usb@vger.kernel.org>; Tue, 19 Aug 2025 15:44:58 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.219.48
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 832E233EB02;
+	Tue, 19 Aug 2025 20:33:35 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=178.238.236.174
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1755618300; cv=none; b=aM+kwSkOZRwTNWHwKpgczoYA6iWKj1ZaXarTWdnePMmbh7lxFEFpXxuX9sYgHM3qs9hHNF3Yeh7ww8o2JIBwo3qCL0RIlWUbHRJ3Vgy1rBVGMCanCgi/O6dJZS2I6TxkZ7TQv+jahlD99pV5OvbiQosbfGWyVidQqyJ3zGFhxvY=
+	t=1755635617; cv=none; b=KmbvrB8oQCLQJ30Zx4mpDSj2aYILb/Sl17YIxb2OlOpn2ortmN0he8V3QWqFbkymAcTUw9M8vdUzBB15wGQvTpP9l2mCw+rqqEE9KXbz4yDFUriJvM6+khxfW8omcXhgTa0T6YRhyW5fCZw6IlPngCTWdYBel6FQMtYo6oOx1T4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1755618300; c=relaxed/simple;
-	bh=pRJj1H5tO7XMkVZRCLKY+sRfLzGpi20O91KKFr0QgRw=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=tOrLqzBngxTJKIdH3eMWhA6YJUAaAZ8QXyZb9SG6TnUKkmas/GVb9+U955DYnh6eHi1CRlS55WbiY1BjH/YDpjLUQ8t9QYI3D+ExJ5Iwl37PfNCqz0/q8F3jvnt2EVe0V2PGeXPV9aIX/AK2Mg+hE2kjYXKzAcqysxnAobYOP14=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=rowland.harvard.edu; spf=fail smtp.mailfrom=g.harvard.edu; dkim=pass (2048-bit key) header.d=rowland.harvard.edu header.i=@rowland.harvard.edu header.b=OYZJmkin; arc=none smtp.client-ip=209.85.219.48
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=rowland.harvard.edu
-Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=g.harvard.edu
+	s=arc-20240116; t=1755635617; c=relaxed/simple;
+	bh=u0jHy+96xQQc8Rsq14s4xOxOiOUOUoyteYoE2V6u/cs=;
+	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=keESg/ZanVvBfLjES84GrfeI+YIOghKKARACJ7eGrtK3czKpvIaYtPXujFJMTCXzOpwxpcbs4UTK1qLS0mQYf38aBjhur/pt+GuGv1rKIUp6fCX+HWuB55veivIBgWQb0EZb93Shxv6qsywn7SNCygIag0gKxs7/GV7p1iFXnLs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=kemnade.info; spf=pass smtp.mailfrom=kemnade.info; dkim=pass (2048-bit key) header.d=kemnade.info header.i=@kemnade.info header.b=2t0nH+rw; arc=none smtp.client-ip=178.238.236.174
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=kemnade.info
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=kemnade.info
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=rowland.harvard.edu header.i=@rowland.harvard.edu header.b="OYZJmkin"
-Received: by mail-qv1-f48.google.com with SMTP id 6a1803df08f44-70a9f5625b7so49675266d6.2
-        for <linux-usb@vger.kernel.org>; Tue, 19 Aug 2025 08:44:58 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=rowland.harvard.edu; s=google; t=1755618297; x=1756223097; darn=vger.kernel.org;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=3KlMvHTnEPY7TidCf7GXQGzitb9p96DYnk2H6Hb9KLY=;
-        b=OYZJmkini68JWEd+aizXrWYd9UbtL4fX0SK9HLZpAb4nJvdcK4zb/7U8zS7JCAZFky
-         mjwRhgVwLvMRelgaEzmuFXsHgtuovpSlDKFP2bjb0XpjS5c4R8Ti6/0ZFxPkN4ZMAvq0
-         GZaBLwlNPchRlMb/+XTcSGvnh6zY0nmE6qGhr85T7G3SDnuEEuhWyCgXByNYxKEQYLuX
-         jwpmkzW4/AvvmeVwI8dzX7nZCafA1nrCq1adcOnktHz6o7JrwJ4M32MeSQ0jkEYihZEV
-         VT8b42Dx1NbbrB3Zgxj3pqVlYE3sJWeH1cYGd2e3ac+agh85kbnx+dyCB40VlDsJmpiW
-         q4Zg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1755618297; x=1756223097;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=3KlMvHTnEPY7TidCf7GXQGzitb9p96DYnk2H6Hb9KLY=;
-        b=LVZEPmZ2Z0rJykH+PU/Wx1VZeE4dvBRcVpu6Ut8BrNtrU2jJIDyV2TJodHgLisSon6
-         sITRXlsJZfOjAsA8uccnE/p0OxOUgsnz0g3jiD9I1zD8GiTA139c+eKrnN7pXME8cpb9
-         22HPr5r7roivQ3FvF6usXFasaocFzvD1XIHWYv921dzWJP8pRFVxEt7eA+zl/KZuNvWF
-         egJHEW9v6pMGq7O3+pUkNCPVA5T0WWTaETF5+7BO/Z9VsBsVQj+FJe5B/xzT6MBoeRMT
-         xZMTvvQLKuANxmTLgF/c/Vibn+dMvaBoCsANcnteJKc7Cj9XXsYB1D37MRqC92QDSGjE
-         quhg==
-X-Forwarded-Encrypted: i=1; AJvYcCV6Le9OfKvIGSO6/MBSGmrUrulNSzaPo6I+ipSN//KkQ/o93MvpAIPIyTOMV3KFGYcUAyPUGCOIwSc=@vger.kernel.org
-X-Gm-Message-State: AOJu0YwK1Gw6YOpLo6DC8JU/p3Url2Sl1t6PtcoPueFdqdCybK6nFlhf
-	R1rfGvKS7o/Fm3RO+DlKY1A0jAE/oZXRZur3rqKNtzOSsdjkYI2hgi7DoDfZwg+ExQ==
-X-Gm-Gg: ASbGncvdK7jSX/1ehg9BVK/EHJgfv30L+xQ2yjvaTRmnggFtkVKY2vyA7ZRnyXp3xig
-	Q1+7pPcrcCV6AuogB7wYOvtPrYSEnPLjINNMomUVlqhugAO34K8lBwsQOPCanG9tKPM3QlaGC/9
-	BJC3RsR8swXM3jolAV5WTv0UW9Mae9jaRRxFdudgBB8dx5yYvq6ih7+Rq9RvPm9ZYUT5U2Sotc9
-	O9UIpa7rhzJRb5IWwVXSPaXrh5QPX7N6BV2ftkON8y5QIa/BPsIL57Zq5/E/ALIorVP1Z9KxwdV
-	ZaOFS7nN1z0aZCr3LmifFYqU0h4+iSIWfSoMCCHr5TyOmQiGEb37unYl4UvrV211PsyHXcgDwDj
-	s8nnZu1Y76nZqjNbK8ZQjUaQAq+E=
-X-Google-Smtp-Source: AGHT+IHsJOHr6hojE7rqYrX+qOfnG5f94QM0U9BbVYttqZiqetVC0hqJlHsw3PTuBRo8TpfE2D4Y4w==
-X-Received: by 2002:a05:6214:2b0f:b0:709:b691:c9b3 with SMTP id 6a1803df08f44-70c35ba7757mr35172326d6.21.1755618297027;
-        Tue, 19 Aug 2025 08:44:57 -0700 (PDT)
-Received: from rowland.harvard.edu ([2601:19b:681:fd10::fa48])
-        by smtp.gmail.com with ESMTPSA id 6a1803df08f44-70ba902f4edsm71527736d6.14.2025.08.19.08.44.55
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 19 Aug 2025 08:44:56 -0700 (PDT)
-Date: Tue, 19 Aug 2025 11:44:52 -0400
-From: Alan Stern <stern@rowland.harvard.edu>
-To: Sebastian Andrzej Siewior <bigeasy@linutronix.de>
-Cc: Yunseong Kim <ysk@kzalloc.com>, linux-usb@vger.kernel.org,
-	gregkh@linuxfoundation.org,
-	Andrey Konovalov <andreyknvl@google.com>,
-	Shuah Khan <skhan@linuxfoundation.org>,
-	Thomas Gleixner <tglx@linutronix.de>,
-	Clark Williams <clrkwllms@kernel.org>,
-	Steven Rostedt <rostedt@goodmis.org>,
-	linux-rt-users@vger.kernel.org, linux-kernel@vger.kernel.org,
-	syzkaller@googlegroups.com
-Subject: Re: [BUG] usbip: vhci: Sleeping function called from invalid context
- in vhci_urb_enqueue on PREEMPT_RT
-Message-ID: <bb7e34b7-c06b-4153-ba6c-009b9f1b34d0@rowland.harvard.edu>
-References: <c6c17f0d-b71d-4a44-bcef-2b65e4d634f7@kzalloc.com>
- <f6cdf21a-642f-458c-85c1-0c2e1526f539@rowland.harvard.edu>
- <28544110-3021-43da-b32e-9785c81a42c1@kzalloc.com>
- <1088432b-b433-4bab-a927-69e55d9eb433@rowland.harvard.edu>
- <2bf33071-e05e-4b89-b149-30b90888606f@rowland.harvard.edu>
- <20250819110457.I46wiKTe@linutronix.de>
- <49ee1b8a-d47a-42df-aa64-d0d62798c45b@rowland.harvard.edu>
- <20250819145700.sIWRW7Oe@linutronix.de>
+	dkim=pass (2048-bit key) header.d=kemnade.info header.i=@kemnade.info header.b="2t0nH+rw"
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+	d=kemnade.info; s=20220719; h=References:In-Reply-To:Cc:From:Sender:Reply-To:
+	Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
+	Resent-To:Resent-Cc:Resent-Message-ID;
+	bh=1/eUspNCUXyY5YlWldBkBwRS3SFcnhUn4WjHQtP/9wc=; b=2t0nH+rw7E8V78kWenP4au6K+4
+	exEwfVKJi8b0tPVduqB/o8rbtRCeUrCKje/ykiFOZopI3RhEtqZdqmYdm7DBGNefeRThMQJBt195Y
+	ADh1TgtWB7gNOx0iXJr67Cd9r/Ru148qKSOr2Ur3tE2CNtKuPFpxtpeWEqTlzh5VC3bft21T59xs4
+	3W/lkEzBbkczajoZIHzdhxFvbTaNAMXk1aNkAmSOAzyml43d0lDOd5EeHWpkyPExCBw03X66X2jmo
+	qIcEJJZbRla6DLBwkNeNn7lmyaF6Spxrn3gymHy0JHTIWpmhFX7vDrM8+SQdSS+IwK0GWYxC6IZ1E
+	5V3lht2A==;
+Date: Tue, 19 Aug 2025 22:31:57 +0200
+From: Andreas Kemnade <andreas@kemnade.info>
+To: Krzysztof Kozlowski <krzk@kernel.org>
+Cc: Jihed Chaibi <jihed.chaibi.dev@gmail.com>, linux-kernel@vger.kernel.org,
+ peter.ujfalusi@gmail.com, dmitry.torokhov@gmail.com, robh@kernel.org,
+ krzk+dt@kernel.org, lgirdwood@gmail.com, tiwai@suse.com,
+ conor+dt@kernel.org, lee@kernel.org, ukleinek@kernel.org,
+ broonie@kernel.org, gregkh@linuxfoundation.org, linus.walleij@linaro.org,
+ brgl@bgdev.pl, aaro.koskinen@iki.fi, khilman@baylibre.com,
+ rogerq@kernel.org, tony@atomide.com, linux-gpio@vger.kernel.org,
+ linux-input@vger.kernel.org, devicetree@vger.kernel.org,
+ linux-pwm@vger.kernel.org, linux-sound@vger.kernel.org,
+ linux-usb@vger.kernel.org, linux-omap@vger.kernel.org, shuah@kernel.org
+Subject: Re: [PATCH v3 1/6] dt-bindings: mfd: twl: Add missing sub-nodes for
+ TWL4030 & TWL603x
+Message-ID: <20250819223157.0b271c74@akair>
+In-Reply-To: <20250819-humongous-muscular-curassow-5accd5@kuoka>
+References: <20250816021523.167049-1-jihed.chaibi.dev@gmail.com>
+	<20250816021523.167049-2-jihed.chaibi.dev@gmail.com>
+	<20250819-humongous-muscular-curassow-5accd5@kuoka>
+X-Mailer: Claws Mail 4.1.1 (GTK 3.24.38; x86_64-pc-linux-gnu)
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20250819145700.sIWRW7Oe@linutronix.de>
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
 
-On Tue, Aug 19, 2025 at 04:57:00PM +0200, Sebastian Andrzej Siewior wrote:
-> > There are several places in the USB stack that disable local interrupts.  
+Am Tue, 19 Aug 2025 10:13:39 +0200
+schrieb Krzysztof Kozlowski <krzk@kernel.org>:
+
+> On Sat, Aug 16, 2025 at 04:15:18AM +0200, Jihed Chaibi wrote:
+> > Update the TI TWL family Device Tree binding to include additional
+> > subnodes for TWL4030, TWL6030, and TWL6032 devices.
+> > 
+> > The simple power and PWM bindings (ti,twl4030-power, ti,twl-pwm, and
+> > ti,twl-pwmled) are now defined directly within this binding.
+> > 
+> > Other child node definitions (audio, gpio, keypad, usb, etc.) are also
+> > added to the schema. These additions fix 'unevaluated properties'
+> > errors found during dtbs_check for boards like the omap3-beagle
+> > and improve the binding's overall completeness.
+> > 
+> > Signed-off-by: Jihed Chaibi <jihed.chaibi.dev@gmail.com>
+> > 
+> > ---
+> > Changes in v3:
+> >  - New patch to consolidate simple bindings (power, pwm) and add
+> >    definitions for all child nodes to fix dtbs_check validation
+> >    errors found in v2.
+> > ---
+> >  .../devicetree/bindings/mfd/ti,twl.yaml       | 191 ++++++++++++++++++
+> >  .../devicetree/bindings/mfd/twl4030-power.txt |  48 -----
+> >  .../devicetree/bindings/pwm/ti,twl-pwm.txt    |  17 --
+> >  .../devicetree/bindings/pwm/ti,twl-pwmled.txt |  17 --
+> >  4 files changed, 191 insertions(+), 82 deletions(-)
+> >  delete mode 100644 Documentation/devicetree/bindings/mfd/twl4030-power.txt
+> >  delete mode 100644 Documentation/devicetree/bindings/pwm/ti,twl-pwm.txt
+> >  delete mode 100644 Documentation/devicetree/bindings/pwm/ti,twl-pwmled.txt
+> > 
+> > diff --git a/Documentation/devicetree/bindings/mfd/ti,twl.yaml b/Documentation/devicetree/bindings/mfd/ti,twl.yaml
+> > index f162ab60c..b0f1cb7b5 100644
+> > --- a/Documentation/devicetree/bindings/mfd/ti,twl.yaml
+> > +++ b/Documentation/devicetree/bindings/mfd/ti,twl.yaml
+> > @@ -76,6 +76,98 @@ allOf:
+> >            properties:
+> >              compatible:
+> >                const: ti,twl4030-wdt
+> > +
+> > +        audio:
+> > +          type: object
+> > +          $ref: /schemas/sound/ti,twl4030-audio.yaml#
+> > +          unevaluatedProperties: false
+> > +
+> > +        keypad:
+> > +          type: object
+> > +          $ref: /schemas/input/ti,twl4030-keypad.yaml#
+> > +          unevaluatedProperties: false
+> > +
+> > +        pwm:
+> > +          type: object
+> > +          $ref: /schemas/pwm/pwm.yaml#
+> > +          unevaluatedProperties: false
+> > +          description: |
+> > +            TWL4030 series: PWMA and PWMB (connected to LEDA and LEDB terminals)
+> > +          properties:
+> > +            compatible:
+> > +              enum:
+> > +                - ti,twl4030-pwm
+> > +            '#pwm-cells':
+> > +              const: 2
+> > +          required:
+> > +            - compatible
+> > +            - '#pwm-cells'
+> > +
+> > +        pwmled:
+> > +          type: object
+> > +          $ref: /schemas/pwm/pwm.yaml#
+> > +          unevaluatedProperties: false
+> > +          description: |
+> > +            TWL4030 series: PWMA and PWMB (connected to LEDA and LEDB terminals)
+> > +          properties:
+> > +            compatible:
+> > +              enum:
+> > +                - ti,twl4030-pwmled
+> > +            '#pwm-cells':
+> > +              const: 2
+> > +          required:
+> > +            - compatible
+> > +            - '#pwm-cells'
+> > +
+> > +        'twl4030-usb':  
 > 
-> But *why*? You need locking due to SMP. So it should be simply to avoid
-> irqrestore()/ irqsave() during unlock/lock or to avoid deadlocks if a
-> callback is invoked from IRQ and process context and the callback
-> handler does simply spin_lock() (without the _irq suffix).
-> The latter shouldn't be problem due to commit
-> 	ed194d1367698 ("usb: core: remove local_irq_save() around ->complete() handler")
+> No need for quotes.
 > 
-> So if completing the URB tasklet/ softirq context works for ehci/ xhci
-> without creating any warning, it should also work for vhci, dummy_hcd.
-
-dummy-hcd is different from the others; its use of local_irq_save() is 
-in the gadget giveback path, not the host giveback path.  We would need 
-another audit similar to the one you did for ed194d136769, but this 
-time checking gadget completion handlers.
-
-> Only RH code completes directly, everything else is shifted to softirq
-> context (for ehci/HCD_BH).
-
-Correct (except that RH code always uses softirq context; it never 
-completes directly -- the kerneldoc is wrong and Greg just accepted a 
-patch to change it).
-
-There are other places that disable local interrupts.  ehci-brcm.c does 
-it in order to meet a timing constraint.  ohci-omap.c and ohci-s3c2410.c 
-do it for reasons I'm not aware of (no comment about it in the source).  
-gadget/legacy/inode.c does it in ep_aio_cancel() -- I can only guess 
-that this is somehow related to aio and not to anything in USB.
-
-> | git grep -E 'local_irq_save|local_irq_disable' drivers/usb/ | wc -l
-> | 21
-> of which 10 are in pxa udc. The only one I am a bit concerned about is
-> the one in usb_hcd_pci_remove() and I think we had reports and patches
-> but somehow nothing did happen and I obviously forgot.
+> > +          type: object
+> > +          $ref: /schemas/usb/ti,twlxxxx-usb.yaml#  
 > 
-> > I would expect that RT already defines functions which do this, but I 
-> > don't know their names.
+> Are you sure your patchset is bsiectable? Apply this patch and test. You
+> will see errors and you must fix these. Even after fixing you have
+> strict dependencies so your cover letter must explain these (or merging
+> constraints)...
 > 
-> We don't have anything where
-> 	local_irq_disable()
-> 	spin_lock()
-> 
-> can be mapped to something equivalent other than
-> 	spin_lock_irq()
-> 
-> I was running around and kept changing code so that we don't end up in
-> this scenario where we need to disable interrupts for some reason but on
-> RT we don't.
-> 
-> The closest thing we have is local_lock_irq() which maps to
-> local_irq_disable() on !PREEMPT_RT systems. But I would prefer to avoid
-> it because it serves a different purpose.
-> What works is something like
-> 	spin_lock_irqsave();
-> 	spin_unlock();
-> 	$SOMETHING
-> 	spin_lock();
-> 	spin_unlock_irqestore().
+what are the rules here regarding bisectability? non-existing files
+in $ref are probably bad. Are then unveiled errors in dts also a
+problem? I would not expect too much fixing effort needed here. I have
+not run dtbs_check yet.
 
-That's just silly.  We should have something like this:
+I have expected this would all go via Lee's usual immutable branches. 
 
-#ifdef CONFIG_PREEMPT_RT
-static inline void local_irqsave_nonrt(unsigned long flags) {}
-static inline void local_irqrestore_nonrt(unsigned long flags) {}
-static inline void local_irq_disable_nonrt() {}
-static inline void local_irq_enable_nonrt() {}
-#else
-#define local_irqsave_nonrt	local_irqsave
-#define local_irqrestore_nonrt	local_irqrestore
-#define local_irq_disable_nonrt	local_irq_disable
-#define local_irq_enable_nonrt	local_irq_enable
-#endif
-
-> The question is why should $SOMETHING be invoked with disabled
-> interrupts if the function was called from process context.
-
-More to the point, out of all the possible reasons why $SOMETHING might 
-be invoked with disabled interrupts, which of these reasons remain valid 
-in RT builds and which don't?
-
-> If your concern is a missing _irqsave() in the callback then this
-> shouldn't be an issue. If it is the wrong context from kcov's point of
-> view then making the driver complete in tasklet should fix it since it
-> would match what ehci/ xhci does. 
-
-No, I'm not concerned about that.
-
-Alan Stern
+Regards,
+Andreas
