@@ -1,31 +1,31 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B200513FEE;
-	Tue, 19 Aug 2025 00:39:33 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0AA071C2DB2;
+	Tue, 19 Aug 2025 00:39:37 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1755563976; cv=none; b=T69QfULUyONSxfLCdMhmvNQNDYdyJT7pb7uBGirIk2F5sMj9oo1LfRL2C/RsrgPvvshZjwf7mQ1vKmqKsEyiS39frW96RQ558UV76Qpwa77Ci8egDY1N6O0B/Y+85a/6FPpk0EqXe3HYklujk2jPBSyhC6JMvPFUIpGa8rN0L5g=
+	t=1755563978; cv=none; b=KSuVHmngycuzXlRA2ODwWhUhhn815lQ+tLjjq6th7JkNRCBZe0AB6Cc07E4s8F2pqzlVAU2feHrE2PuW1/GOWVYpueYfQ/pXMinqCBsAd1fUs8U4h+I6hxvZXFP1dcLHLuCe383C5hu9nPGa/HLdFF36fGdLNSJUDcFWjy6U/0k=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1755563976; c=relaxed/simple;
-	bh=C03dOmNnOqBE2+8uBcpUMnixcBGRIOifUTQNa6baHCY=;
+	s=arc-20240116; t=1755563978; c=relaxed/simple;
+	bh=MT2vNdM2lpeUGjwMVRdXAlWokrm3B+QB4lJckciXBxU=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=H21+K+uT8xYI6WjytYe1bKhHTD2r29cpxGlHQbo5agLRFtYvILYSBeASNZ13hCXMtmB3Z45+HwAPgc0umyPgJjJvSbD/PYsJ9ip0txROvI5Hoi6ddQPOffOMndiiGT2qHPvOIQ5U71RBKP5CSJ41fN5JaBihbHOfs7Z2h9VhRZs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=JBzpY4MH; arc=none smtp.client-ip=10.30.226.201
+	 MIME-Version; b=ifQbW4TfhV7TjMMAq4cDDHwjtktNBx6WVkCd+Z70WrQHSRj42CrNsv3J0kyUzvgPlFP4XY7C7T1wXNaPFmF96wE6K/+Y8Tb/DIpOnmSj1Gpl26Fnr5piW7reHc56xL3xd3AkxJeUtspYXo2sqn9Wc2KRJfVqJoBqhOTayk4p14Q=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=fvwqBwGu; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="JBzpY4MH"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 652D6C116C6;
-	Tue, 19 Aug 2025 00:39:31 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="fvwqBwGu"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id BC980C4CEF1;
+	Tue, 19 Aug 2025 00:39:35 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1755563973;
-	bh=C03dOmNnOqBE2+8uBcpUMnixcBGRIOifUTQNa6baHCY=;
+	s=k20201202; t=1755563977;
+	bh=MT2vNdM2lpeUGjwMVRdXAlWokrm3B+QB4lJckciXBxU=;
 	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=JBzpY4MHrQlFe68cYlLf7omHHC16oQw0iHDVVWPlJBG1NQl0rtIuPbwtQwc16a5xo
-	 85AV4++AAJfo/pkyeWfZeH/wfFE+PkkE4iSjMEfuGAK3y2QkZgLj4cdQzu3rhcqP40
-	 7sGFGndkl9UIBBC+5iCUJX2dvelo1BzaGVfflZlwz29HBOFzI06YoZT8Va/mDtTEKX
-	 vrN2bdxQWwIDMF/JILXanEhlKvrBglhC77SpToFumYQPGQ0Yuw8Lzkqcr32gexxIBX
-	 5am0IeQJWv5fHfEY1NMY1I21LQ45/660yLjm0vVjzXD7BOhpc5oHHkr2OQnhTXW+LH
-	 xInER8ufkrx7Q==
+	b=fvwqBwGuz7ZAQ7sMMwxbDl+X91vBdhIqmYmS9kh4D3aTA/9OXlRkeTkeHq48gASPC
+	 80Z6dHdHtU2CDbJvZiGuzV8fMBwF1973YZYyaxzQGm/A/1rkh2G0nWY3DTR5ggBR1V
+	 8tpYQOWTHxYBH9FkB5+toOSoT2UXB75Wfu6j4+djkfHKb++gE9NZeFSog/N6X69fO2
+	 CwudJMhKKB2vbrzUGOAdc6tJzrCzDzFt6ZfTuscDj5xlJk8l/BjWVDjsCL+JXxnLaM
+	 HU63egFgL60f+rYeisR6iJAFCbDwOy7rQ4Hr+UbGa2lbDIq0cqIYF2mHEeJ9EfwfeF
+	 l35rIzcxNN5aw==
 From: Jisheng Zhang <jszhang@kernel.org>
 To: Richard Leitner <richard.leitner@linux.dev>,
 	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
@@ -35,9 +35,9 @@ To: Richard Leitner <richard.leitner@linux.dev>,
 Cc: linux-usb@vger.kernel.org,
 	devicetree@vger.kernel.org,
 	linux-kernel@vger.kernel.org
-Subject: [PATCH v2 1/3] dt-bindings: usb: usb251xb: make reg optional for no I2C ctrl use case
-Date: Tue, 19 Aug 2025 08:22:15 +0800
-Message-ID: <20250819002217.30249-2-jszhang@kernel.org>
+Subject: [PATCH v2 3/3] usb: usb251xb: support usage case without I2C control
+Date: Tue, 19 Aug 2025 08:22:17 +0800
+Message-ID: <20250819002217.30249-4-jszhang@kernel.org>
 X-Mailer: git-send-email 2.50.0
 In-Reply-To: <20250819002217.30249-1-jszhang@kernel.org>
 References: <20250819002217.30249-1-jszhang@kernel.org>
@@ -49,26 +49,202 @@ List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-Make "reg" optional to allow the driver to be used to manage GPIO
-based control of the device.
+Refactor so that register writes for configuration are only performed if
+the device has a i2c_client provided and also register as a platform
+driver. This allows the driver to be used to manage GPIO based control
+of the device.
 
 Signed-off-by: Jisheng Zhang <jszhang@kernel.org>
 ---
- Documentation/devicetree/bindings/usb/usb251xb.yaml | 1 -
- 1 file changed, 1 deletion(-)
+ drivers/usb/misc/usb251xb.c | 108 +++++++++++++++++++++++++++++++-----
+ 1 file changed, 94 insertions(+), 14 deletions(-)
 
-diff --git a/Documentation/devicetree/bindings/usb/usb251xb.yaml b/Documentation/devicetree/bindings/usb/usb251xb.yaml
-index ac5b99710332..4b676c010f3e 100644
---- a/Documentation/devicetree/bindings/usb/usb251xb.yaml
-+++ b/Documentation/devicetree/bindings/usb/usb251xb.yaml
-@@ -240,7 +240,6 @@ additionalProperties: false
+diff --git a/drivers/usb/misc/usb251xb.c b/drivers/usb/misc/usb251xb.c
+index cb2f946de42c..c900df69dd8d 100644
+--- a/drivers/usb/misc/usb251xb.c
++++ b/drivers/usb/misc/usb251xb.c
+@@ -17,6 +17,7 @@
+ #include <linux/module.h>
+ #include <linux/nls.h>
+ #include <linux/of.h>
++#include <linux/platform_device.h>
+ #include <linux/regulator/consumer.h>
+ #include <linux/slab.h>
  
- required:
-   - compatible
--  - reg
+@@ -242,15 +243,19 @@ static int usb251xb_check_dev_children(struct device *dev, void *child)
+ static int usb251x_check_gpio_chip(struct usb251xb *hub)
+ {
+ 	struct gpio_chip *gc = gpiod_to_chip(hub->gpio_reset);
+-	struct i2c_adapter *adap = hub->i2c->adapter;
++	struct i2c_adapter *adap;
+ 	int ret;
  
- examples:
-   - |
++	if (!hub->i2c)
++		return 0;
++
+ 	if (!hub->gpio_reset)
+ 		return 0;
+ 
+ 	if (!gc)
+ 		return -EINVAL;
+ 
++	adap = hub->i2c->adapter;
+ 	ret = usb251xb_check_dev_children(&adap->dev, gc->parent);
+ 	if (ret) {
+ 		dev_err(hub->dev, "Reset GPIO chip is at the same i2c-bus\n");
+@@ -271,7 +276,8 @@ static void usb251xb_reset(struct usb251xb *hub)
+ 	if (!hub->gpio_reset)
+ 		return;
+ 
+-	i2c_lock_bus(hub->i2c->adapter, I2C_LOCK_SEGMENT);
++	if (hub->i2c)
++		i2c_lock_bus(hub->i2c->adapter, I2C_LOCK_SEGMENT);
+ 
+ 	gpiod_set_value_cansleep(hub->gpio_reset, 1);
+ 	usleep_range(1, 10);	/* >=1us RESET_N asserted */
+@@ -280,7 +286,8 @@ static void usb251xb_reset(struct usb251xb *hub)
+ 	/* wait for hub recovery/stabilization */
+ 	usleep_range(500, 750);	/* >=500us after RESET_N deasserted */
+ 
+-	i2c_unlock_bus(hub->i2c->adapter, I2C_LOCK_SEGMENT);
++	if (hub->i2c)
++		i2c_unlock_bus(hub->i2c->adapter, I2C_LOCK_SEGMENT);
+ }
+ 
+ static int usb251xb_connect(struct usb251xb *hub)
+@@ -289,7 +296,11 @@ static int usb251xb_connect(struct usb251xb *hub)
+ 	int err, i;
+ 	char i2c_wb[USB251XB_I2C_REG_SZ];
+ 
+-	memset(i2c_wb, 0, USB251XB_I2C_REG_SZ);
++	if (!hub->i2c) {
++		usb251xb_reset(hub);
++		dev_info(dev, "hub is put in default configuration.\n");
++		return 0;
++	}
+ 
+ 	if (hub->skip_config) {
+ 		dev_info(dev, "Skip hub configuration, only attach.\n");
+@@ -698,18 +709,13 @@ static int usb251xb_i2c_probe(struct i2c_client *i2c)
+ 	return usb251xb_probe(hub);
+ }
+ 
+-static int usb251xb_suspend(struct device *dev)
++static int usb251xb_suspend(struct usb251xb *hub)
+ {
+-	struct i2c_client *client = to_i2c_client(dev);
+-	struct usb251xb *hub = i2c_get_clientdata(client);
+-
+ 	return regulator_disable(hub->vdd);
+ }
+ 
+-static int usb251xb_resume(struct device *dev)
++static int usb251xb_resume(struct usb251xb *hub)
+ {
+-	struct i2c_client *client = to_i2c_client(dev);
+-	struct usb251xb *hub = i2c_get_clientdata(client);
+ 	int err;
+ 
+ 	err = regulator_enable(hub->vdd);
+@@ -719,7 +725,23 @@ static int usb251xb_resume(struct device *dev)
+ 	return usb251xb_connect(hub);
+ }
+ 
+-static DEFINE_SIMPLE_DEV_PM_OPS(usb251xb_pm_ops, usb251xb_suspend, usb251xb_resume);
++static int usb251xb_i2c_suspend(struct device *dev)
++{
++	struct i2c_client *client = to_i2c_client(dev);
++	struct usb251xb *hub = i2c_get_clientdata(client);
++
++	return usb251xb_suspend(hub);
++}
++
++static int usb251xb_i2c_resume(struct device *dev)
++{
++	struct i2c_client *client = to_i2c_client(dev);
++	struct usb251xb *hub = i2c_get_clientdata(client);
++
++	return usb251xb_resume(hub);
++}
++
++static DEFINE_SIMPLE_DEV_PM_OPS(usb251xb_i2c_pm_ops, usb251xb_i2c_suspend, usb251xb_i2c_resume);
+ 
+ static const struct i2c_device_id usb251xb_id[] = {
+ 	{ "usb2422" },
+@@ -739,13 +761,71 @@ static struct i2c_driver usb251xb_i2c_driver = {
+ 	.driver = {
+ 		.name = DRIVER_NAME,
+ 		.of_match_table = usb251xb_of_match,
+-		.pm = pm_sleep_ptr(&usb251xb_pm_ops),
++		.pm = pm_sleep_ptr(&usb251xb_i2c_pm_ops),
+ 	},
+ 	.probe = usb251xb_i2c_probe,
+ 	.id_table = usb251xb_id,
+ };
+ 
+-module_i2c_driver(usb251xb_i2c_driver);
++static int usb251xb_plat_probe(struct platform_device *pdev)
++{
++	struct usb251xb *hub;
++
++	hub = devm_kzalloc(&pdev->dev, sizeof(*hub), GFP_KERNEL);
++	if (!hub)
++		return -ENOMEM;
++
++	platform_set_drvdata(pdev, hub);
++	hub->dev = &pdev->dev;
++
++	return usb251xb_probe(hub);
++}
++
++static int usb251xb_plat_suspend(struct device *dev)
++{
++	return usb251xb_suspend(dev_get_drvdata(dev));
++}
++
++static int usb251xb_plat_resume(struct device *dev)
++{
++	return usb251xb_resume(dev_get_drvdata(dev));
++}
++
++static DEFINE_SIMPLE_DEV_PM_OPS(usb251xb_plat_pm_ops, usb251xb_plat_suspend, usb251xb_plat_resume);
++
++static struct platform_driver usb251xb_plat_driver = {
++	.driver = {
++		.name = DRIVER_NAME,
++		.of_match_table = of_match_ptr(usb251xb_of_match),
++		.pm = pm_sleep_ptr(&usb251xb_plat_pm_ops),
++	},
++	.probe		= usb251xb_plat_probe,
++};
++
++static int __init usb251xb_init(void)
++{
++	int err;
++
++	err = i2c_add_driver(&usb251xb_i2c_driver);
++	if (err)
++		return err;
++
++	err = platform_driver_register(&usb251xb_plat_driver);
++	if (err) {
++		i2c_del_driver(&usb251xb_i2c_driver);
++		return err;
++	}
++
++	return 0;
++}
++module_init(usb251xb_init);
++
++static void __exit usb251xb_exit(void)
++{
++	platform_driver_unregister(&usb251xb_plat_driver);
++	i2c_del_driver(&usb251xb_i2c_driver);
++}
++module_exit(usb251xb_exit);
+ 
+ MODULE_AUTHOR("Richard Leitner <richard.leitner@skidata.com>");
+ MODULE_DESCRIPTION("USB251x/xBi USB 2.0 Hub Controller Driver");
 -- 
 2.50.0
 
