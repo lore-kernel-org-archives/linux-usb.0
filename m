@@ -1,190 +1,251 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.14])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-lf1-f50.google.com (mail-lf1-f50.google.com [209.85.167.50])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 005631DC98C
-	for <linux-usb@vger.kernel.org>; Wed, 20 Aug 2025 14:42:22 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.14
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5B67536CDFE
+	for <linux-usb@vger.kernel.org>; Wed, 20 Aug 2025 15:22:07 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.50
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1755700944; cv=none; b=VPHJ+XS3F6ea78OT2qQh3GOmVFNFBewDRPaZGOV6n3mgRvP/TEI4O9/5BR6mxyQpLw8mPvGXeBL3cwkrn4zgVA+8k61+o+2cyMbs0ELfETsN3u3ydMHz5asmTK5V15vNfDSqn6Rjt0XCLIs4KvrsyfTDObTKX5hCn2BtRNt1Sno=
+	t=1755703329; cv=none; b=hDVxtGRx6dHgYAqdmR8NUIN3boNYKiLtcIBnE3fJnqjZlatd9qBZrFOe2OpaI8feshfINql1EAr/OQFeoovdJXniuipmE2bH7MmCFBnVTtcqQAJOIrrysQvIBgqJUCRhAk9aeaUny4/nbvrsf6DgUKeVnRSvi917xrdre+LmOYI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1755700944; c=relaxed/simple;
-	bh=1//0pOHJzE3qeXiVKJGxSkQXfG4IOrqXzwvqPAth5fg=;
-	h=Date:From:To:Cc:Subject:Message-ID; b=hg6KKmEgsYvneh6eZAcimgqNKFBVxmUVmWeIt6Nij3aTQMdnVa4bcuevDKMfPAdjcqsMHUhQn/tXd1vE2sKI9EMUU3AXtRfyURP0QcNOjFpSJbFB7Fl9vZRorBuCJqyAO439nb+ZECPcbR/gzkeYD9/ks38cnV8Xf6yW8OQe6jI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=hSfyjMuZ; arc=none smtp.client-ip=198.175.65.14
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	s=arc-20240116; t=1755703329; c=relaxed/simple;
+	bh=ve8TblAuMSCb6tU4athNRxufJKZ6IUExRK3RK/OuyCM=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=VBKZxoXXJean6FwlyiJW0UZgelBr1Geks7vFylc2JKS86D+ftAKZzmlHumf1bqKORQ74ei6i8uyxlEjPH0d+AMkxE9H9qjmZXAq0sIv/nq9vfH09URzGn6r7jTblpTg2w4tFKumxaJEyCDzf7qApdEumeORZXHK2k1sX71QnwHs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org; spf=pass smtp.mailfrom=chromium.org; dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b=R+KzIEs8; arc=none smtp.client-ip=209.85.167.50
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=chromium.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="hSfyjMuZ"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1755700943; x=1787236943;
-  h=date:from:to:cc:subject:message-id;
-  bh=1//0pOHJzE3qeXiVKJGxSkQXfG4IOrqXzwvqPAth5fg=;
-  b=hSfyjMuZwH10JuX7wP10zYGyJ87fMQazUhWqyyQgTJsGl24Q8u7SNa8N
-   aGsUqfIpCiJsD9Hg1AfWt05Lo7Jfai9YOngpC7aaHMdcvLHn9ADlelGBP
-   BB9BSS4OrvSDIq/uF8LFRWRj+TGPbbLfXWzM4KjtuIj22wnbOQPSe0flQ
-   sr7Ct77sH0Eb5sizXRwWykHD9EMtBZ8JMSAXIg5kvzBExqggxDSM7JbvX
-   bNOPx4mLTIWTmrvpt/a4hhibqDPRBPtvaacjxLnCS+yBCeBCf8l+gDRVM
-   LxmhFMPEd6cMu+ZvxL4voOZ2mtBakD6QoMYn3cyeinUgRgKNUxb+C9T7H
-   g==;
-X-CSE-ConnectionGUID: qLL9ht9SRj+VTEpguVigjg==
-X-CSE-MsgGUID: vCboyMENRd2cTDtFKYep4w==
-X-IronPort-AV: E=McAfee;i="6800,10657,11527"; a="61798166"
-X-IronPort-AV: E=Sophos;i="6.17,302,1747724400"; 
-   d="scan'208";a="61798166"
-Received: from fmviesa004.fm.intel.com ([10.60.135.144])
-  by orvoesa106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 20 Aug 2025 07:42:08 -0700
-X-CSE-ConnectionGUID: lyZnPDF9R5Km3DFOTuv+IQ==
-X-CSE-MsgGUID: 2E8ONGmiQGuLyl9b3FtR+Q==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.17,302,1747724400"; 
-   d="scan'208";a="173400969"
-Received: from lkp-server02.sh.intel.com (HELO 4ea60e6ab079) ([10.239.97.151])
-  by fmviesa004.fm.intel.com with ESMTP; 20 Aug 2025 07:42:07 -0700
-Received: from kbuild by 4ea60e6ab079 with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1uok0r-000JJU-0K;
-	Wed, 20 Aug 2025 14:42:05 +0000
-Date: Wed, 20 Aug 2025 22:32:45 +0800
-From: kernel test robot <lkp@intel.com>
-To: "Greg Kroah-Hartman" <gregkh@linuxfoundation.org>
-Cc: linux-usb@vger.kernel.org
-Subject: [usb:usb-linus] BUILD SUCCESS
- ff9a09b3e09c7b794b56f2f5858f5ce42ba46cb3
-Message-ID: <202508202237.pLCpYK6B-lkp@intel.com>
-User-Agent: s-nail v14.9.24
+	dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b="R+KzIEs8"
+Received: by mail-lf1-f50.google.com with SMTP id 2adb3069b0e04-55ce526627dso6693781e87.3
+        for <linux-usb@vger.kernel.org>; Wed, 20 Aug 2025 08:22:07 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=chromium.org; s=google; t=1755703325; x=1756308125; darn=vger.kernel.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=N1FpvzU4/OcZ3HFncGYXGBLrDfBsRLvX6s4xeHQww4w=;
+        b=R+KzIEs8Z3wL1glXtKY0JZrqpx0hTtWxI94DII3D5C0nClmEL62qb5RNSxV+/EMcXO
+         KNHcImf8pV7QDQ4GDbWsHRokU9eg8phSJcB8DMVtk/o8Gm7+dzbeVwvKCx2HxEV9nT7c
+         U3IIhWoKLZRlFkYJ3A8A52PzP+92wYIIs1aFU=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1755703325; x=1756308125;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=N1FpvzU4/OcZ3HFncGYXGBLrDfBsRLvX6s4xeHQww4w=;
+        b=kFeB9D2sfyDIJWu2EBcTXeOiETPteryGSYMYlJu+RBNmsisIvwZdxqyZzLcut0m+Um
+         jxq2Osjd/OkRrDplVAk+pNfBdpY9nDDI3HaWw732ihWdCyVuSeaWbhK8ydd7y8iyBRL5
+         9+jPCmZgSu9VaUc/Ls/fdyOYlLftl1ZAy/h+3HZhTSilg7bN4GwpioWAaqNCT4niEz6Q
+         95rHsp+9Neh7CzE7UCkYl1HVwXBdktVKRdcht1BaUCp9uG6KixYamFnlKka1miAZgiMF
+         wPTWyKEB6MtlqN2LXM+Rgt/ltsfQTpO4DeuDm8gd17VzDALSHWHFJEkMpFmmXas+8C62
+         9Tdw==
+X-Gm-Message-State: AOJu0YwuD203QxAYDQCOfKoT/kpGKLiO49uA4MmntH6g11IMpBpjUcNK
+	IjOPah+x0WKEMzu3OfTJwY+t5aqzgKzcqO96wDDgRSs5pLLlaEIaEGsVNiJWVxMsbRbxROrr+Me
+	jQJQ=
+X-Gm-Gg: ASbGncuttEIQJ6EqGZ/z+h6de6AdLDafc/ZPGaoceH92lUBtk85LrO8wpC6c9DHHf4z
+	esjuTQiRwr6YtyZNPVThZCMG/AstL/5D9T9om0hYEUhl93tasChJRgZcaMonsoJSdA18VMouBPK
+	UL84XmJtDzmZu2VTu3MJhxfxYC4u5FLGLnfFK3Q/dp2YafOoPShdKpmN7P5mtDmH+a13B85HOSA
+	nd26oVrfMpLSVb7Z4YyO4G5J03XlisblkON4nMFZqoEPXcI5F0XuEfFXDiSWSly7bzdXA9cDswn
+	W0humpEAnuQM6MSeSsAEDyUa/+gpPAAC5YyhEGu5lbqCGqQ/6nGptARSEd7rIktYXbX+j7rzm0L
+	yJ6DyX3UUmzDtryhx0sl36acNQinl7fbe9iDoEyr+QlpPN8EDsegvBVQy8XqcA0Sk
+X-Google-Smtp-Source: AGHT+IFME7XEZs8vB5HQBkcrPKOdqMJGGN0pAzbEs7kn9mwLvuNc4XoVo21yYfGutPTPqAYKF2ajlA==
+X-Received: by 2002:ac2:4eda:0:b0:553:202e:a41c with SMTP id 2adb3069b0e04-55e06bad114mr719138e87.28.1755703325183;
+        Wed, 20 Aug 2025 08:22:05 -0700 (PDT)
+Received: from mail-lj1-f173.google.com (mail-lj1-f173.google.com. [209.85.208.173])
+        by smtp.gmail.com with ESMTPSA id 2adb3069b0e04-55e033fc2e8sm706675e87.59.2025.08.20.08.22.04
+        for <linux-usb@vger.kernel.org>
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Wed, 20 Aug 2025 08:22:04 -0700 (PDT)
+Received: by mail-lj1-f173.google.com with SMTP id 38308e7fff4ca-333f9160c21so48466881fa.2
+        for <linux-usb@vger.kernel.org>; Wed, 20 Aug 2025 08:22:04 -0700 (PDT)
+X-Received: by 2002:a05:651c:1118:20b0:335:16a4:cfe1 with SMTP id
+ 38308e7fff4ca-3353bcd5c50mr7339211fa.6.1755703323895; Wed, 20 Aug 2025
+ 08:22:03 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
+MIME-Version: 1.0
+References: <20250820143824.551777-1-sakari.ailus@linux.intel.com> <20250820143824.551777-10-sakari.ailus@linux.intel.com>
+In-Reply-To: <20250820143824.551777-10-sakari.ailus@linux.intel.com>
+From: Ricardo Ribalda <ribalda@chromium.org>
+Date: Wed, 20 Aug 2025 17:21:50 +0200
+X-Gmail-Original-Message-ID: <CANiDSCuBNsRq45J6RZibD=fWxWuUKBWJfW=7addXK8g7J8R8mw@mail.gmail.com>
+X-Gm-Features: Ac12FXwwGHcJ2y9cwGTilVIHefPWT6Ic00MsCu97CZsAIXOY28DZX-cIYltqB3s
+Message-ID: <CANiDSCuBNsRq45J6RZibD=fWxWuUKBWJfW=7addXK8g7J8R8mw@mail.gmail.com>
+Subject: Re: [PATCH v5 9/9] media: uvcvideo: eUSB2 double isochronous
+ bandwidth support
+To: Sakari Ailus <sakari.ailus@linux.intel.com>
+Cc: linux-usb@vger.kernel.org, linux-media@vger.kernel.org, 
+	gregkh@linuxfoundation.org, laurent.pinchart@ideasonboard.com, 
+	hdegoede@redhat.com, Thinh.Nguyen@synopsys.com, 
+	Amardeep Rai <amardeep.rai@intel.com>, Kannappan R <r.kannappan@intel.com>, 
+	Mathias Nyman <mathias.nyman@linux.intel.com>, Alan Stern <stern@rowland.harvard.edu>, 
+	=?UTF-8?Q?Micha=C5=82_Pecio?= <michal.pecio@gmail.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-tree/branch: https://git.kernel.org/pub/scm/linux/kernel/git/gregkh/usb.git usb-linus
-branch HEAD: ff9a09b3e09c7b794b56f2f5858f5ce42ba46cb3  usb: xhci: fix host not responding after suspend and resume
+Hi Sakari
 
-elapsed time: 1446m
+I believe you have missed my previous email.
 
-configs tested: 113
-configs skipped: 4
+https://lore.kernel.org/linux-media/CANiDSCsocBBQRPRFAbAovkzauThgN8Qd1u8kjJ=
+_af-83Nd4wvw@mail.gmail.com/
 
-The following configs have been built successfully.
-More configs may be tested in the coming days.
+re-posting here
 
-tested configs:
-alpha                             allnoconfig    gcc-15.1.0
-alpha                            allyesconfig    gcc-15.1.0
-arc                              allmodconfig    gcc-15.1.0
-arc                               allnoconfig    gcc-15.1.0
-arc                              allyesconfig    gcc-15.1.0
-arc                   randconfig-001-20250820    gcc-8.5.0
-arc                   randconfig-002-20250820    gcc-11.5.0
-arm                               allnoconfig    clang-22
-arm                              allyesconfig    gcc-15.1.0
-arm                            mmp2_defconfig    gcc-15.1.0
-arm                   randconfig-001-20250820    gcc-8.5.0
-arm                   randconfig-002-20250820    gcc-15.1.0
-arm                   randconfig-003-20250820    gcc-13.4.0
-arm                   randconfig-004-20250820    clang-22
-arm                        realview_defconfig    clang-16
-arm64                            allmodconfig    clang-19
-arm64                             allnoconfig    gcc-15.1.0
-arm64                 randconfig-001-20250820    gcc-14.3.0
-arm64                 randconfig-002-20250820    gcc-14.3.0
-arm64                 randconfig-003-20250820    gcc-8.5.0
-arm64                 randconfig-004-20250820    gcc-14.3.0
-csky                              allnoconfig    gcc-15.1.0
-csky                  randconfig-001-20250820    gcc-15.1.0
-csky                  randconfig-002-20250820    gcc-9.5.0
-hexagon                          allmodconfig    clang-17
-hexagon                           allnoconfig    clang-22
-hexagon                          allyesconfig    clang-22
-hexagon               randconfig-001-20250820    clang-22
-hexagon               randconfig-002-20250820    clang-22
-i386                              allnoconfig    gcc-12
-i386                             allyesconfig    gcc-12
-i386        buildonly-randconfig-001-20250819    gcc-12
-i386        buildonly-randconfig-002-20250819    clang-20
-i386        buildonly-randconfig-003-20250819    clang-20
-i386        buildonly-randconfig-004-20250819    clang-20
-i386        buildonly-randconfig-005-20250819    clang-20
-i386        buildonly-randconfig-006-20250819    clang-20
-i386                                defconfig    clang-20
-loongarch                        allmodconfig    clang-19
-loongarch                         allnoconfig    clang-22
-loongarch             randconfig-001-20250820    clang-18
-loongarch             randconfig-002-20250820    clang-22
-m68k                             allmodconfig    gcc-15.1.0
-m68k                              allnoconfig    gcc-15.1.0
-m68k                             allyesconfig    gcc-15.1.0
-microblaze                       allmodconfig    gcc-15.1.0
-microblaze                        allnoconfig    gcc-15.1.0
-microblaze                       allyesconfig    gcc-15.1.0
-microblaze                          defconfig    gcc-15.1.0
-mips                              allnoconfig    gcc-15.1.0
-mips                           gcw0_defconfig    clang-22
-nios2                             allnoconfig    gcc-11.5.0
-nios2                               defconfig    gcc-11.5.0
-nios2                 randconfig-001-20250820    gcc-11.5.0
-nios2                 randconfig-002-20250820    gcc-10.5.0
-openrisc                          allnoconfig    gcc-15.1.0
-openrisc                         allyesconfig    gcc-15.1.0
-parisc                           allmodconfig    gcc-15.1.0
-parisc                            allnoconfig    gcc-15.1.0
-parisc                           allyesconfig    gcc-15.1.0
-parisc                              defconfig    gcc-15.1.0
-parisc                randconfig-001-20250820    gcc-8.5.0
-parisc                randconfig-002-20250820    gcc-13.4.0
-parisc64                            defconfig    gcc-15.1.0
-powerpc                    adder875_defconfig    gcc-15.1.0
-powerpc                          allmodconfig    gcc-15.1.0
-powerpc                           allnoconfig    gcc-15.1.0
-powerpc               randconfig-001-20250820    gcc-12.5.0
-powerpc               randconfig-002-20250820    gcc-8.5.0
-powerpc               randconfig-003-20250820    gcc-13.4.0
-powerpc                     tqm8548_defconfig    clang-22
-powerpc64                        alldefconfig    clang-22
-powerpc64             randconfig-001-20250820    clang-22
-powerpc64             randconfig-002-20250820    clang-22
-powerpc64             randconfig-003-20250820    gcc-15.1.0
-riscv                             allnoconfig    gcc-15.1.0
-riscv                 randconfig-001-20250820    clang-20
-riscv                 randconfig-002-20250820    clang-22
-s390                             allmodconfig    clang-18
-s390                              allnoconfig    clang-22
-s390                             allyesconfig    gcc-15.1.0
-s390                  randconfig-001-20250820    clang-18
-s390                  randconfig-002-20250820    clang-22
-sh                               allmodconfig    gcc-15.1.0
-sh                                allnoconfig    gcc-15.1.0
-sh                               allyesconfig    gcc-15.1.0
-sh                    randconfig-001-20250820    gcc-15.1.0
-sh                    randconfig-002-20250820    gcc-15.1.0
-sparc                            allmodconfig    gcc-15.1.0
-sparc                             allnoconfig    gcc-15.1.0
-sparc                               defconfig    gcc-15.1.0
-sparc                 randconfig-001-20250820    gcc-8.5.0
-sparc                 randconfig-002-20250820    gcc-12.5.0
-sparc64               randconfig-001-20250820    clang-22
-sparc64               randconfig-002-20250820    clang-22
-um                               allmodconfig    clang-19
-um                                allnoconfig    clang-22
-um                               allyesconfig    gcc-12
-um                    randconfig-001-20250820    gcc-12
-um                    randconfig-002-20250820    gcc-12
-x86_64                            allnoconfig    clang-20
-x86_64                           allyesconfig    clang-20
-x86_64      buildonly-randconfig-001-20250820    clang-20
-x86_64      buildonly-randconfig-002-20250820    gcc-11
-x86_64      buildonly-randconfig-003-20250820    clang-20
-x86_64      buildonly-randconfig-004-20250820    gcc-12
-x86_64      buildonly-randconfig-005-20250820    clang-20
-x86_64      buildonly-randconfig-006-20250820    gcc-12
-x86_64                              defconfig    gcc-11
-x86_64                          rhel-9.4-rust    clang-20
-xtensa                            allnoconfig    gcc-15.1.0
-xtensa                randconfig-001-20250820    gcc-8.5.0
-xtensa                randconfig-002-20250820    gcc-8.5.0
+On Wed, 20 Aug 2025 at 16:39, Sakari Ailus <sakari.ailus@linux.intel.com> w=
+rote:
+>
+> From: Tao Q Tao <tao.q.tao@intel.com>
+>
+> Use usb_endpoint_max_esit_payload() from the USB framework to find the
+> maximum bytes per interval for the endpoint. Consequently this adds eUSB2
+> isochronous mode and SuperSpeedPlus Isochronous Endpoint Companion suppor=
+t
+> where larger payloads within a service interval are possible.
+>
+>
 
---
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+Reviewed-by: Ricardo Ribalda <ribalda@chromium.org>
+
+Co-developed-by: Amardeep Rai <amardeep.rai@intel.com>
+> Signed-off-by: Amardeep Rai <amardeep.rai@intel.com>
+> Signed-off-by: Tao Q Tao <tao.q.tao@intel.com>
+> Signed-off-by: Mathias Nyman <mathias.nyman@linux.intel.com>
+> Co-developed-by: Sakari Ailus <sakari.ailus@linux.intel.com>
+> Signed-off-by: Sakari Ailus <sakari.ailus@linux.intel.com>
+> Reviewed-by: Ilpo J=C3=A4rvinen <ilpo.jarvinen@linux.intel.com>
+> Reviewed-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+
+nit: I believe the last tag should be: Signed-off-by:
+
+
+> ---
+>  drivers/media/usb/uvc/uvc_driver.c |  4 ++--
+>  drivers/media/usb/uvc/uvc_video.c  | 24 +++---------------------
+>  drivers/media/usb/uvc/uvcvideo.h   |  4 +---
+>  3 files changed, 6 insertions(+), 26 deletions(-)
+>
+> diff --git a/drivers/media/usb/uvc/uvc_driver.c b/drivers/media/usb/uvc/u=
+vc_driver.c
+> index 775bede0d93d..d06ca79ae2d9 100644
+> --- a/drivers/media/usb/uvc/uvc_driver.c
+> +++ b/drivers/media/usb/uvc/uvc_driver.c
+> @@ -539,7 +539,7 @@ static int uvc_parse_streaming(struct uvc_device *dev=
+,
+>         unsigned int nformats =3D 0, nframes =3D 0, nintervals =3D 0;
+>         unsigned int size, i, n, p;
+>         u32 *interval;
+> -       u16 psize;
+> +       u32 psize;
+>         int ret =3D -EINVAL;
+>
+>         if (intf->cur_altsetting->desc.bInterfaceSubClass
+> @@ -775,7 +775,7 @@ static int uvc_parse_streaming(struct uvc_device *dev=
+,
+>                                 streaming->header.bEndpointAddress);
+>                 if (ep =3D=3D NULL)
+>                         continue;
+> -               psize =3D uvc_endpoint_max_bpi(dev->udev, ep);
+> +               psize =3D usb_endpoint_max_periodic_payload(dev->udev, ep=
+);
+>                 if (psize > streaming->maxpsize)
+>                         streaming->maxpsize =3D psize;
+>         }
+> diff --git a/drivers/media/usb/uvc/uvc_video.c b/drivers/media/usb/uvc/uv=
+c_video.c
+> index a5013a7fbca4..1a0cc937de9b 100644
+> --- a/drivers/media/usb/uvc/uvc_video.c
+> +++ b/drivers/media/usb/uvc/uvc_video.c
+> @@ -1869,24 +1869,6 @@ static void uvc_video_stop_transfer(struct uvc_str=
+eaming *stream,
+>                 uvc_free_urb_buffers(stream);
+>  }
+>
+> -/*
+> - * Compute the maximum number of bytes per interval for an endpoint.
+> - */
+> -u16 uvc_endpoint_max_bpi(struct usb_device *dev, struct usb_host_endpoin=
+t *ep)
+> -{
+> -       u16 psize;
+> -
+> -       switch (dev->speed) {
+> -       case USB_SPEED_SUPER:
+> -       case USB_SPEED_SUPER_PLUS:
+> -               return le16_to_cpu(ep->ss_ep_comp.wBytesPerInterval);
+> -       default:
+> -               psize =3D usb_endpoint_maxp(&ep->desc);
+> -               psize *=3D usb_endpoint_maxp_mult(&ep->desc);
+> -               return psize;
+> -       }
+> -}
+> -
+>  /*
+>   * Initialize isochronous URBs and allocate transfer buffers. The packet=
+ size
+>   * is given by the endpoint.
+> @@ -1897,10 +1879,10 @@ static int uvc_init_video_isoc(struct uvc_streami=
+ng *stream,
+>         struct urb *urb;
+>         struct uvc_urb *uvc_urb;
+>         unsigned int npackets, i;
+> -       u16 psize;
+> +       u32 psize;
+>         u32 size;
+>
+> -       psize =3D uvc_endpoint_max_bpi(stream->dev->udev, ep);
+> +       psize =3D usb_endpoint_max_periodic_payload(stream->dev->udev, ep=
+);
+>         size =3D stream->ctrl.dwMaxVideoFrameSize;
+>
+>         npackets =3D uvc_alloc_urb_buffers(stream, size, psize, gfp_flags=
+);
+> @@ -2043,7 +2025,7 @@ static int uvc_video_start_transfer(struct uvc_stre=
+aming *stream,
+>                                 continue;
+>
+>                         /* Check if the bandwidth is high enough. */
+> -                       psize =3D uvc_endpoint_max_bpi(stream->dev->udev,=
+ ep);
+> +                       psize =3D usb_endpoint_max_periodic_payload(strea=
+m->dev->udev, ep);
+>                         if (psize >=3D bandwidth && psize < best_psize) {
+>                                 altsetting =3D alts->desc.bAlternateSetti=
+ng;
+>                                 best_psize =3D psize;
+> diff --git a/drivers/media/usb/uvc/uvcvideo.h b/drivers/media/usb/uvc/uvc=
+video.h
+> index 757254fc4fe9..ac19ca721f29 100644
+> --- a/drivers/media/usb/uvc/uvcvideo.h
+> +++ b/drivers/media/usb/uvc/uvcvideo.h
+> @@ -456,7 +456,7 @@ struct uvc_streaming {
+>
+>         struct usb_interface *intf;
+>         int intfnum;
+> -       u16 maxpsize;
+> +       u32 maxpsize;
+>
+>         struct uvc_streaming_header header;
+>         enum v4l2_buf_type type;
+> @@ -798,8 +798,6 @@ void uvc_ctrl_cleanup_fh(struct uvc_fh *handle);
+>  /* Utility functions */
+>  struct usb_host_endpoint *uvc_find_endpoint(struct usb_host_interface *a=
+lts,
+>                                             u8 epaddr);
+> -u16 uvc_endpoint_max_bpi(struct usb_device *dev, struct usb_host_endpoin=
+t *ep);
+> -
+>  /* Quirks support */
+>  void uvc_video_decode_isight(struct uvc_urb *uvc_urb,
+>                              struct uvc_buffer *buf,
+> --
+> 2.47.2
+>
+>
+
+
+--=20
+Ricardo Ribalda
