@@ -1,37 +1,38 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3D1042D2496;
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8140B2D7818;
 	Thu, 21 Aug 2025 15:40:04 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1755790804; cv=none; b=MXI2/wead+8lOhLI3Q4BezJBhev7hiajmw3pSYT9aDZhCpU7WEtWo3knQfVAV5ZPF2iwBXhN66uQsoz0fjoZrLv8UDX8YIwkzS79I8kBXWjejGJ1ALuPoWUyWRf8OjmMrpjm0KDWBNBcFyM4tSQgwEOfloklF12GLhsKvWge9N4=
+	t=1755790804; cv=none; b=oktwWinLQcCREGeSeoCwtx/H2OM6xI87Lz88ty7YMNBonVMF0sHrrTwexAvyFM+QhSgzGs3jKUVlv58z9NvFYB2tTnkzOtLHF6NdlcVkjpLNdyZsjglVh9bVvStKmrsq0+ffr72F7atto0P8rrmoFlNpI3Drhs1DDUMcwMoKZok=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
 	s=arc-20240116; t=1755790804; c=relaxed/simple;
-	bh=u2Zlown9pUIPvBVQ1qtJSypKTJVZhbvstB3kFMzlXCw=;
+	bh=ZU/ah4guW5/JR15Fg0P75HIjEN5tcqmapd5/VETG0AI=;
 	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
-	 In-Reply-To:To:Cc; b=s6KNzCwGkkHiAmb4nHzLlqe2IAIdT3mKpYzLzgNHGqIPt5dwXPWxjuCSLBdUy3qJxuR2Ga1KFLnFlViweIIFv13zFibddzONZ6OF/X6GZMAbF3m100HPywad8R3FoJAs9BxwOTaJbk1hJsRfgzmjENSu5A4cKzLFTkxidS+kJH4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=MDjma5Pl; arc=none smtp.client-ip=10.30.226.201
+	 In-Reply-To:To:Cc; b=q+AsNqw/cvwQnXxgUDpeXIl0lHcXDDBzLDRH2zaydZnxZuG0HnNQZCKVJyOK0TMZLUKnauU1jZGXitzob5eI3IZx4sVIFFuUKbIO33qV7DLigvNH4ohFQlejNrq5MsbeNBXyyCZTLA6AmFayhiGbsQ/1RBrKq1PmhgZCYyAyg80=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=WuMm542a; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="MDjma5Pl"
-Received: by smtp.kernel.org (Postfix) with ESMTPS id 8331DC2BCC6;
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="WuMm542a"
+Received: by smtp.kernel.org (Postfix) with ESMTPS id C0049C4AF12;
 	Thu, 21 Aug 2025 15:40:03 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
 	s=k20201202; t=1755790803;
-	bh=u2Zlown9pUIPvBVQ1qtJSypKTJVZhbvstB3kFMzlXCw=;
+	bh=ZU/ah4guW5/JR15Fg0P75HIjEN5tcqmapd5/VETG0AI=;
 	h=From:Date:Subject:References:In-Reply-To:To:Cc:From;
-	b=MDjma5PlcPXJukWpzqbopxJIXlKc+1sJTmY+KdVF5NtqFaDpZbTE2n/jmuvORoOlN
-	 pEJ0sl/ZxPEr0wCLW+Lsch4UNpLs+6fpMAQfj4rTOeEcAKcckkR06VualeOYRckmh7
-	 Je+UBD70iOrX2DQEwCVy04oa3C2pvjitG2kHSseuMGgl/758unyTM0AFSqSXThhXTm
-	 aDc/KjsjTRIB++p6G9maIUgYb2GHASyEpYMrM9++HL8GfwVl96iLJBkT1aO/bL0WW2
-	 pUorPHYsmKACLRfIaOdGd6f1tF0QMk3igXIaybiC5YmkgzmFjDB3SpzPdS76wVRMal
-	 aSWLd4g/Q9uCQ==
+	b=WuMm542aqa4sWUYaCtLS66EVjj263bxrB1iBZ0crLF9C1dqnWfp7KL/nnQXL5ZaEO
+	 hdWrsS+Ex8PeaLubZkxkJictWcFXOByzJYHU4aTJ6kjawZ8fCs7SkZAQre99kT92h6
+	 DCTJARt9Q3sAptmtO+lRrP9poXaQoRhI1UTcX8V2+lMSRUL1GUw/bHbXu1CbHFM+/w
+	 IsnIYcSF/Qbvr7DrEfd2E/hJd9JKZV6VREK6O+fDRTPS/rW/dBMJylWAdTvsDFGSCg
+	 0KTaFwUe6Ea6nwnCm3nSt9jKU9RHMy6JGm2P4GuXUUVRsaKpwP6EUu0xwEzY091Oqx
+	 Zz/DPgTqn8jJQ==
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 7955FCA0FE4;
+	by smtp.lore.kernel.org (Postfix) with ESMTP id B2A43CA0FE7;
 	Thu, 21 Aug 2025 15:40:03 +0000 (UTC)
 From: Sven Peter <sven@kernel.org>
-Date: Thu, 21 Aug 2025 15:39:00 +0000
-Subject: [PATCH RFC 08/22] usb: typec: tipd: Clear interrupts first
+Date: Thu, 21 Aug 2025 15:39:04 +0000
+Subject: [PATCH RFC 12/22] usb: typec: tipd: Add cd321x struct with
+ separate size
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
@@ -40,7 +41,7 @@ List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20250821-atcphy-6-17-v1-8-172beda182b8@kernel.org>
+Message-Id: <20250821-atcphy-6-17-v1-12-172beda182b8@kernel.org>
 References: <20250821-atcphy-6-17-v1-0-172beda182b8@kernel.org>
 In-Reply-To: <20250821-atcphy-6-17-v1-0-172beda182b8@kernel.org>
 To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>, 
@@ -55,112 +56,114 @@ To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
 Cc: linux-usb@vger.kernel.org, devicetree@vger.kernel.org, 
  linux-kernel@vger.kernel.org, asahi@lists.linux.dev, 
  linux-arm-kernel@lists.infradead.org, linux-phy@lists.infradead.org, 
- Sven Peter <sven@kernel.org>, stable@kernel.org
+ Sven Peter <sven@kernel.org>
 X-Mailer: b4 0.14.2
-X-Developer-Signature: v=1; a=openpgp-sha256; l=3328; i=sven@kernel.org;
+X-Developer-Signature: v=1; a=openpgp-sha256; l=3506; i=sven@kernel.org;
  h=from:subject:message-id;
- bh=u2Zlown9pUIPvBVQ1qtJSypKTJVZhbvstB3kFMzlXCw=;
- b=owGbwMvMwCHmIlirolUq95LxtFoSQ8Zy21UcmpxL7i2sEtzw42XBFc5fH+KqHnzpmLXbdvKFv
- 5WzM/kOdJSyMIhxMMiKKbJs329v+uThG8Glmy69h5nDygQyhIGLUwAmcsae4Z/Z69Na55TV0t7p
- hvwxTFl0fb339oSpVx0jfoQ9n3twRsIpRoaWV3MWmYdOk/gWdKM9y/TQLLGNq65837CCiUk2vfT
- SqV4WAA==
+ bh=ZU/ah4guW5/JR15Fg0P75HIjEN5tcqmapd5/VETG0AI=;
+ b=owGbwMvMwCHmIlirolUq95LxtFoSQ8Zy2w12UnfuHZn8e//ziTqlcUJxIYeFOhQXq5++qbWv2
+ fuIdpNeRykLgxgHg6yYIsv2/famTx6+EVy66dJ7mDmsTCBDGLg4BWAi0qUM/9PMnm3xKZtX/GXF
+ eZMPDxses89mnidQuTfW6Zd8uyCbjyXDf//lk9PNzhblNnZNmRO3/O88TgOXjS+v2rqe/qY45UC
+ 4PgMA
 X-Developer-Key: i=sven@kernel.org; a=openpgp;
  fpr=A1E3E34A2B3C820DBC4955E5993B08092F131F93
 X-Endpoint-Received: by B4 Relay for sven@kernel.org/default with
  auth_id=407
 
-Right now the interrupt handler first reads all updated status registers
-and only then clears the interrupts. It's possible that a duplicate
-interrupt for a changed register or plug state comes in after the
-interrupts have been processed but before they have been cleared:
+We're about to add more fields to struct tps6598x which are only relevant
+for Apple's CD321x and to ensure that we don't waste memory everywhere for
+those add a separate struct for cd321x and prepare to allocate more space
+inside probe.
 
-* plug is inserted, TPS_REG_INT_PLUG_EVENT is set
-* TPS_REG_INT_EVENT1 is read
-* tps6598x_handle_plug_event() has run and registered the plug
-* plug is removed again, TPS_REG_INT_PLUG_EVENT is set (again)
-* TPS_REG_INT_CLEAR1 is written, TPS_REG_INT_PLUG_EVENT is cleared
-
-We then have no plug connected and no pending interrupt but the tipd
-core still thinks there is a plug. It's possible to trigger this with
-e.g. a slightly broken Type-C to USB A converter.
-
-Fix this by first clearing the interrupts and only then reading the
-updated registers.
-
-Fixes: 45188f27b3d0 ("usb: typec: tipd: Add support for Apple CD321X")
-Fixes: 0a4c005bd171 ("usb: typec: driver for TI TPS6598x USB Power Delivery controllers")
-Cc: stable@kernel.org
 Signed-off-by: Sven Peter <sven@kernel.org>
 ---
- drivers/usb/typec/tipd/core.c | 24 +++++++++++-------------
- 1 file changed, 11 insertions(+), 13 deletions(-)
+ drivers/usb/typec/tipd/core.c | 20 +++++++++++++++-----
+ 1 file changed, 15 insertions(+), 5 deletions(-)
 
 diff --git a/drivers/usb/typec/tipd/core.c b/drivers/usb/typec/tipd/core.c
-index dcf141ada07812295a6f07e41d77f95f98116010..1c80296c3b273e24ceacb3feff432c4f6e6835cc 100644
+index 19d713937870304e68325a441b0de63eb5db3b80..51b0f3be8b66a743ddc3ea96c1b25f597a1e8f6c 100644
 --- a/drivers/usb/typec/tipd/core.c
 +++ b/drivers/usb/typec/tipd/core.c
-@@ -545,24 +545,23 @@ static irqreturn_t cd321x_interrupt(int irq, void *data)
- 	if (!event)
- 		goto err_unlock;
+@@ -113,6 +113,7 @@ struct tps6598x;
+ struct tipd_data {
+ 	irq_handler_t irq_handler;
+ 	u64 irq_mask1;
++	size_t tps_struct_size;
+ 	int (*register_port)(struct tps6598x *tps, struct fwnode_handle *node);
+ 	void (*trace_data_status)(u32 status);
+ 	void (*trace_power_status)(u16 status);
+@@ -148,6 +149,10 @@ struct tps6598x {
+ 	const struct tipd_data *data;
+ };
  
-+	tps6598x_write64(tps, TPS_REG_INT_CLEAR1, event);
++struct cd321x {
++	struct tps6598x tps;
++};
 +
- 	if (!tps6598x_read_status(tps, &status))
--		goto err_clear_ints;
-+		goto err_unlock;
+ static enum power_supply_property tps6598x_psy_props[] = {
+ 	POWER_SUPPLY_PROP_USB_TYPE,
+ 	POWER_SUPPLY_PROP_ONLINE,
+@@ -1297,18 +1302,24 @@ tps25750_register_port(struct tps6598x *tps, struct fwnode_handle *fwnode)
  
- 	if (event & APPLE_CD_REG_INT_POWER_STATUS_UPDATE)
- 		if (!tps6598x_read_power_status(tps))
--			goto err_clear_ints;
-+			goto err_unlock;
+ static int tps6598x_probe(struct i2c_client *client)
+ {
++	const struct tipd_data *data;
+ 	struct tps6598x *tps;
+ 	struct fwnode_handle *fwnode;
+ 	u32 status;
+ 	u32 vid;
+ 	int ret;
  
- 	if (event & APPLE_CD_REG_INT_DATA_STATUS_UPDATE)
- 		if (!tps6598x_read_data_status(tps))
--			goto err_clear_ints;
-+			goto err_unlock;
- 
- 	/* Handle plug insert or removal */
- 	if (event & APPLE_CD_REG_INT_PLUG_EVENT)
- 		tps6598x_handle_plug_event(tps, status);
- 
--err_clear_ints:
--	tps6598x_write64(tps, TPS_REG_INT_CLEAR1, event);
--
- err_unlock:
- 	mutex_unlock(&tps->lock);
- 
-@@ -668,25 +667,24 @@ static irqreturn_t tps6598x_interrupt(int irq, void *data)
- 	if (!(event1[0] | event1[1] | event2[0] | event2[1]))
- 		goto err_unlock;
- 
-+	tps6598x_block_write(tps, TPS_REG_INT_CLEAR1, event1, intev_len);
-+	tps6598x_block_write(tps, TPS_REG_INT_CLEAR2, event2, intev_len);
+-	tps = devm_kzalloc(&client->dev, sizeof(*tps), GFP_KERNEL);
++	data = i2c_get_match_data(client);
++	if (!data)
++		return -EINVAL;
 +
- 	if (!tps6598x_read_status(tps, &status))
--		goto err_clear_ints;
-+		goto err_unlock;
++	tps = devm_kzalloc(&client->dev, data->tps_struct_size, GFP_KERNEL);
+ 	if (!tps)
+ 		return -ENOMEM;
  
- 	if ((event1[0] | event2[0]) & TPS_REG_INT_POWER_STATUS_UPDATE)
- 		if (!tps6598x_read_power_status(tps))
--			goto err_clear_ints;
-+			goto err_unlock;
+ 	mutex_init(&tps->lock);
+ 	tps->dev = &client->dev;
++	tps->data = data;
  
- 	if ((event1[0] | event2[0]) & TPS_REG_INT_DATA_STATUS_UPDATE)
- 		if (!tps6598x_read_data_status(tps))
--			goto err_clear_ints;
-+			goto err_unlock;
+ 	tps->reset = devm_gpiod_get_optional(tps->dev, "reset", GPIOD_OUT_LOW);
+ 	if (IS_ERR(tps->reset))
+@@ -1334,10 +1345,6 @@ static int tps6598x_probe(struct i2c_client *client)
+ 	if (i2c_check_functionality(client->adapter, I2C_FUNC_I2C))
+ 		tps->i2c_protocol = true;
  
- 	/* Handle plug insert or removal */
- 	if ((event1[0] | event2[0]) & TPS_REG_INT_PLUG_EVENT)
- 		tps6598x_handle_plug_event(tps, status);
- 
--err_clear_ints:
--	tps6598x_block_write(tps, TPS_REG_INT_CLEAR1, event1, intev_len);
--	tps6598x_block_write(tps, TPS_REG_INT_CLEAR2, event2, intev_len);
+-	tps->data = i2c_get_match_data(client);
+-	if (!tps->data)
+-		return -EINVAL;
 -
- err_unlock:
- 	mutex_unlock(&tps->lock);
- 
+ 	if (tps->data->switch_power_state) {
+ 		ret = tps->data->switch_power_state(tps, TPS_SYSTEM_POWER_STATE_S0);
+ 		if (ret)
+@@ -1521,6 +1528,7 @@ static const struct tipd_data cd321x_data = {
+ 	.irq_mask1 = APPLE_CD_REG_INT_POWER_STATUS_UPDATE |
+ 		     APPLE_CD_REG_INT_DATA_STATUS_UPDATE |
+ 		     APPLE_CD_REG_INT_PLUG_EVENT,
++	.tps_struct_size = sizeof(struct cd321x),
+ 	.register_port = tps6598x_register_port,
+ 	.trace_data_status = trace_cd321x_data_status,
+ 	.trace_power_status = trace_tps6598x_power_status,
+@@ -1535,6 +1543,7 @@ static const struct tipd_data tps6598x_data = {
+ 	.irq_mask1 = TPS_REG_INT_POWER_STATUS_UPDATE |
+ 		     TPS_REG_INT_DATA_STATUS_UPDATE |
+ 		     TPS_REG_INT_PLUG_EVENT,
++	.tps_struct_size = sizeof(struct tps6598x),
+ 	.register_port = tps6598x_register_port,
+ 	.trace_data_status = trace_tps6598x_data_status,
+ 	.trace_power_status = trace_tps6598x_power_status,
+@@ -1549,6 +1558,7 @@ static const struct tipd_data tps25750_data = {
+ 	.irq_mask1 = TPS_REG_INT_POWER_STATUS_UPDATE |
+ 		     TPS_REG_INT_DATA_STATUS_UPDATE |
+ 		     TPS_REG_INT_PLUG_EVENT,
++	.tps_struct_size = sizeof(struct tps6598x),
+ 	.register_port = tps25750_register_port,
+ 	.trace_data_status = trace_tps6598x_data_status,
+ 	.trace_power_status = trace_tps25750_power_status,
 
 -- 
 2.34.1
