@@ -1,38 +1,38 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C0623280324;
-	Thu, 21 Aug 2025 15:40:03 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 060E22D0620;
+	Thu, 21 Aug 2025 15:40:04 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1755790803; cv=none; b=QfRDFQmTiG+FJPHh5iRiPNZxcZm8COuwMwL8Xt6+9imShYt6RfYzyovnrZJN/kGIs7qdCh7la7XEjbvaU0oSRtZbvv6IIZbwagBMdya6jVqsfnzkmC2O0dyQmt8GGNLJCX9ld4uiMv8tXQ/13PPywfCqdwNtFO5/jvQYAAwORCw=
+	t=1755790804; cv=none; b=JpvHDghSNOsGYF1hOVoN29sbSsXqcoYzIMnf48PLS1A+AcRV1LemdZz5KKertaF3c23le+dA305UmzNI2uprUvJRenHb2bZUOhlbD++3XSfpDzWGPNwPyeoWnhDZPGoTc6FR3eGBQ7rWVLOmV7zYGr+4zD3La5D4AvhaElEp3Nw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1755790803; c=relaxed/simple;
-	bh=a5iByOwmuIst1Br18o+6QngL0G+1LuBDoKuObEUxjUA=;
+	s=arc-20240116; t=1755790804; c=relaxed/simple;
+	bh=9jDoVQ1/z0pxLrrUKQFvuFlzCV4MYmq0sO+xpriK97c=;
 	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
-	 In-Reply-To:To:Cc; b=DJTBQ173cLaYEVP3FFxcnEL0ntOcjo1BtKJy9IGII6sGlqoy3e3X7LAW2In3VSMNllJus9HSKQ64a2EungFBcUpPYI94wLA487RrEJJOz6t2SPdIRuvQmlZGplPc/sN1sddDZtWiriyRONSlTXT7NTEApMyK/A90TW/ErsP2jxQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=jxxCPdYk; arc=none smtp.client-ip=10.30.226.201
+	 In-Reply-To:To:Cc; b=pdf/yFFtSoUN5uwUq8Y8NEuLbhIIMTwfZc7VnUom1KFB6fuuFjSSF+PgiGcYZ7o7AclQApe37jPQBUQ8Nbbx5Kk5KD+r1jc6wmn23I9G/nzzdfobN1VScUl3DUFYpIYck6l7CYlsB4KFG/NbfdQmDeGmMkE+urDAV3scYIJIhVQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=LhLcjB6R; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="jxxCPdYk"
-Received: by smtp.kernel.org (Postfix) with ESMTPS id 38325C19422;
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="LhLcjB6R"
+Received: by smtp.kernel.org (Postfix) with ESMTPS id 752C7C2BCB8;
 	Thu, 21 Aug 2025 15:40:03 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
 	s=k20201202; t=1755790803;
-	bh=a5iByOwmuIst1Br18o+6QngL0G+1LuBDoKuObEUxjUA=;
+	bh=9jDoVQ1/z0pxLrrUKQFvuFlzCV4MYmq0sO+xpriK97c=;
 	h=From:Date:Subject:References:In-Reply-To:To:Cc:From;
-	b=jxxCPdYkkR4bAtNNjG5FMt6xuKCE8o/Mp8ytQQv4W7eYQDJ3F6IeoqtB9W8hSWcLm
-	 IyyeueK0RL07hDaZRhuZ4Oa+FX1Dv8VNKBDbeSOtBF8eMHuvZHaxKx8PSlybg0ab+W
-	 rnNn4OPn0Ph5BIv5CV0+CLKKm4rhhKAxQSrhVKOq9dd0EqDaij2w8DGnPzcgPuj8iS
-	 xfUfH7y0KEkR+QmkCzFjAN/KMB3DprZM21gKWSjfLH64NLq4Wc0SI/7rk7A5aVIEWw
-	 HXbDcKaMn6iv21RixsJS4AuM5iO2PXpVtJD3g4L82zkWW4K+ddmZ4FXYHwggHMAH16
-	 Mro3iw1LPzXlA==
+	b=LhLcjB6Reg3+JMHJNyU7msIaDCdB8DHH5hCnQOy77QlG0uVvelenxdBkXFCEgICoS
+	 9Lwb8I3MCJxO00NIG91hUHC4Wvb5ap2z4mh79xKZ/Eg9lP5VvLXs8Vbtq1e+lP221X
+	 E/rz0KhuMwr5LYr9gLBrofaFOlUh5ljPVPMWyDHoc+LHFI+WeDB3o+L/xbFT8CHczc
+	 saMOpBDeyys99H71m6ML8F8gR6Bk7eyVOG37cT9pNrgCNfYnnG/Dg6m3CwRMzevehO
+	 +oF7qY/bNNaEv7Ijgd6adK+eYHKTIbwhauqaRnIsW5HyWS5XARfxSKIyUO1iWwrRtd
+	 6en06OiDEpVvg==
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 2A634CA0FE2;
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 6A6A8CA0FE1;
 	Thu, 21 Aug 2025 15:40:03 +0000 (UTC)
 From: Sven Peter <sven@kernel.org>
-Date: Thu, 21 Aug 2025 15:38:56 +0000
-Subject: [PATCH RFC 04/22] usb: dwc3: apple: Reset dwc3 during role
- switches
+Date: Thu, 21 Aug 2025 15:38:59 +0000
+Subject: [PATCH RFC 07/22] usb: dwc3: apple: Adjust vendor-specific
+ registers during init
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
@@ -41,7 +41,7 @@ List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20250821-atcphy-6-17-v1-4-172beda182b8@kernel.org>
+Message-Id: <20250821-atcphy-6-17-v1-7-172beda182b8@kernel.org>
 References: <20250821-atcphy-6-17-v1-0-172beda182b8@kernel.org>
 In-Reply-To: <20250821-atcphy-6-17-v1-0-172beda182b8@kernel.org>
 To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>, 
@@ -56,255 +56,93 @@ To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
 Cc: linux-usb@vger.kernel.org, devicetree@vger.kernel.org, 
  linux-kernel@vger.kernel.org, asahi@lists.linux.dev, 
  linux-arm-kernel@lists.infradead.org, linux-phy@lists.infradead.org, 
- Sven Peter <sven@kernel.org>
+ Sven Peter <sven@kernel.org>, Hector Martin <marcan@marcan.st>
 X-Mailer: b4 0.14.2
-X-Developer-Signature: v=1; a=openpgp-sha256; l=8338; i=sven@kernel.org;
+X-Developer-Signature: v=1; a=openpgp-sha256; l=2771; i=sven@kernel.org;
  h=from:subject:message-id;
- bh=a5iByOwmuIst1Br18o+6QngL0G+1LuBDoKuObEUxjUA=;
- b=owGbwMvMwCHmIlirolUq95LxtFoSQ8Zy28VH+d89+XTrz3pPE9mDy1KzVPocVvPxzWGfX5HYd
- 2WXoHB5RykLgxgHg6yYIsv2/famTx6+EVy66dJ7mDmsTCBDGLg4BWAimYsZ/icnpUZm3Xe4mjS5
- +Qorx6RFOncyV62PZsn4Vr90Q9eUf3sYGV7/vlLVzCxi77rda0qeT+LUSXcTGGyNZA5oTRPuO8e
- +iQUA
+ bh=Ikp6czp+quI9KYT9CWH9WFMemYOvMSa7Gr19hm1ueGQ=;
+ b=owGbwMvMwCHmIlirolUq95LxtFoSQ8Zy2xVS+teCv0fd52+62njLwutKT41zZ+O9/bz75wlvL
+ pgvVt/dUcrCIMbBICumyLJ9v73pk4dvBJduuvQeZg4rE8gQBi5OAZjI1B5GhjadZ9FrY78wRmp7
+ NX++XLy80071lkXGivInUwP1uPbLRDL8T9LQdmuR5mrdu8jPKO/k4vYE4eU37k1duEylI+kKj+o
+ NFgA=
 X-Developer-Key: i=sven@kernel.org; a=openpgp;
  fpr=A1E3E34A2B3C820DBC4955E5993B08092F131F93
 X-Endpoint-Received: by B4 Relay for sven@kernel.org/default with
  auth_id=407
 
-As mad as it sounds, the dwc3 controller present on the Apple M1 must be
-reset and reinitialized whenever a device is unplugged from the root
-port or when the PHY mode is changed.
+From: Hector Martin <marcan@marcan.st>
 
-This is required for at least the following reasons:
+When tracing Apple's dwc3 driver under our hypervisor and comparing its
+MMIO access with their kernel debug output these vendor-specific
+registers have been identified. We don't know exactly what these do
+or why they are required but without changing these parameters sometimes
+USB3 devices don't work or take an additional 5 seconds to be recognized.
 
-  - The USB2 D+/D- lines are connected through a stateful eUSB2 repeater
-    which in turn is controlled by a variant of the TI TPS6598x USB PD
-    chip. When the USB PD controller detects a hotplug event it resets
-    the eUSB2 repeater. Afterwards, no new device is recognized before
-    the DWC3 core and PHY are reset as well because the eUSB2 repeater
-    and the PHY/dwc3 block disagree about the current state.
-
-  - It's possible to completely break the dwc3 controller by switching
-    it to device mode and unplugging the cable at just the wrong time.
-    If this happens dwc3 behaves as if no device is connected.
-    CORESOFTRESET will also never clear after it has been set. The only
-    workaround is to trigger a hard reset of the entire dwc3 core with
-    its external reset line.
-
-  - Whenever the PHY mode is changed (to e.g. transition to DisplayPort
-    alternate mode or USB4) dwc3 has to be shutdown and reinitialized.
-    Otherwise the Type-C port will not be usable until the entire SoC
-    has been reset.
-
-All of this can be easily worked around by respecting transitions to
-USB_ROLE_NONE and making sure the external reset line is asserted when
-switching roles. We additionally have to ensure that the PHY is
-suspended during init.
-
+Signed-off-by: Hector Martin <marcan@marcan.st>
+Co-developed-by: Sven Peter <sven@kernel.org>
 Signed-off-by: Sven Peter <sven@kernel.org>
 ---
- drivers/usb/dwc3/core.c | 61 +++++++++++++++++++++++++++++++++++++++++++++----
- drivers/usb/dwc3/core.h |  3 +++
- drivers/usb/dwc3/drd.c  | 11 ++++++++-
- drivers/usb/dwc3/host.c |  3 ++-
- 4 files changed, 72 insertions(+), 6 deletions(-)
+ drivers/usb/dwc3/core.c | 17 +++++++++++++++++
+ drivers/usb/dwc3/core.h | 18 ++++++++++++++++++
+ 2 files changed, 35 insertions(+)
 
 diff --git a/drivers/usb/dwc3/core.c b/drivers/usb/dwc3/core.c
-index 8002c23a5a02acb8f3e87b2662a53998a4cf4f5c..26aa507a738f001409a97ef563c6561433a1cac5 100644
+index f8013ba2bdc22fa5e719df0841b12b84d9465b62..e018e80778cf39a9981d438c7e54534b26cddf63 100644
 --- a/drivers/usb/dwc3/core.c
 +++ b/drivers/usb/dwc3/core.c
-@@ -158,6 +158,9 @@ void dwc3_set_prtcap(struct dwc3 *dwc, u32 mode, bool ignore_susphy)
- 	dwc->current_dr_role = mode;
- }
- 
-+static void dwc3_core_exit(struct dwc3 *dwc);
-+static int dwc3_core_init_for_resume(struct dwc3 *dwc);
-+
- static void __dwc3_set_mode(struct work_struct *work)
- {
- 	struct dwc3 *dwc = work_to_dwc(work);
-@@ -177,7 +180,7 @@ static void __dwc3_set_mode(struct work_struct *work)
- 	if (dwc->current_dr_role == DWC3_GCTL_PRTCAP_OTG)
- 		dwc3_otg_update(dwc, 0);
- 
--	if (!desired_dr_role)
-+	if (!desired_dr_role && !dwc->role_switch_reset_quirk)
- 		goto out;
- 
- 	if (desired_dr_role == dwc->current_dr_role)
-@@ -205,13 +208,32 @@ static void __dwc3_set_mode(struct work_struct *work)
- 		break;
- 	}
- 
-+	if (dwc->role_switch_reset_quirk) {
-+		if (dwc->current_dr_role) {
-+			dwc->current_dr_role = 0;
-+			dwc3_core_exit(dwc);
-+		}
-+
-+		if (desired_dr_role) {
-+			ret = dwc3_core_init_for_resume(dwc);
-+			if (ret) {
-+				dev_err(dwc->dev,
-+				    "failed to reinitialize core\n");
-+				goto out;
-+			}
-+		} else {
-+			goto out;
-+		}
-+	}
-+
- 	/*
- 	 * When current_dr_role is not set, there's no role switching.
- 	 * Only perform GCTL.CoreSoftReset when there's DRD role switching.
+@@ -1366,6 +1366,23 @@ static int dwc3_core_init(struct dwc3 *dwc)
  	 */
--	if (dwc->current_dr_role && ((DWC3_IP_IS(DWC3) ||
-+	if (dwc->role_switch_reset_quirk ||
-+		(dwc->current_dr_role && ((DWC3_IP_IS(DWC3) ||
- 			DWC3_VER_IS_PRIOR(DWC31, 190A)) &&
--			desired_dr_role != DWC3_GCTL_PRTCAP_OTG)) {
-+			desired_dr_role != DWC3_GCTL_PRTCAP_OTG))) {
- 		reg = dwc3_readl(dwc->regs, DWC3_GCTL);
- 		reg |= DWC3_GCTL_CORESOFTRESET;
- 		dwc3_writel(dwc->regs, DWC3_GCTL, reg);
-@@ -1372,6 +1394,9 @@ static int dwc3_core_init(struct dwc3 *dwc)
- 	if (ret)
- 		goto err_exit_phy;
+ 	dwc3_writel(dwc->regs, DWC3_GUID, LINUX_VERSION_CODE);
  
-+	if (dwc->role_switch_reset_quirk)
-+		dwc3_enable_susphy(dwc, true);
++	/* Apply Apple quirks */
++	if (of_device_is_compatible(dwc->dev->of_node, "apple,t8103-dwc3")) {
++		dwc3_writel(dwc->regs,
++			    APPLE_DWC3_CIO_LFPS_OFFSET,
++			    APPLE_DWC3_CIO_LFPS_OFFSET_VALUE);
++		dwc3_writel(dwc->regs,
++			    APPLE_DWC3_CIO_BW_NGT_OFFSET,
++			    APPLE_DWC3_CIO_BW_NGT_OFFSET_VALUE);
 +
- 	dwc3_core_setup_global_control(dwc);
- 	dwc3_core_num_eps(dwc);
- 
-@@ -1635,6 +1660,18 @@ static int dwc3_core_init_mode(struct dwc3 *dwc)
- 		ret = dwc3_drd_init(dwc);
- 		if (ret)
- 			return dev_err_probe(dev, ret, "failed to initialize dual-role\n");
++		u32 link_timer = dwc3_readl(dwc->regs, APPLE_DWC3_CIO_LINK_TIMER);
 +
-+		/*
-+		 * If the role switch reset quirk is required the first role
-+		 * switch notification will initialize the core such that we
-+		 * have to shut it down here. Make sure that the __dwc3_set_mode
-+		 * queued by dwc3_drd_init has completed before since it
-+		 * may still try to access MMIO.
-+		 */
-+		if (dwc->role_switch_reset_quirk) {
-+			flush_work(&dwc->drd_work);
-+			dwc3_core_exit(dwc);
-+		}
- 		break;
- 	default:
- 		dev_err(dev, "Unsupported mode of operation %d\n", dwc->dr_mode);
-@@ -2223,6 +2260,22 @@ int dwc3_core_probe(const struct dwc3_probe_data *data)
- 			goto err_put_psy;
- 	}
- 
-+	if (dev->of_node) {
-+		if (of_device_is_compatible(dev->of_node, "apple,t8103-dwc3")) {
-+			if (!IS_ENABLED(CONFIG_USB_ROLE_SWITCH) ||
-+			    !IS_ENABLED(CONFIG_USB_DWC3_DUAL_ROLE)) {
-+				dev_err(dev,
-+				    "Apple DWC3 requires role switch support.\n"
-+				    );
-+				ret = -EINVAL;
-+				goto err_put_psy;
-+			}
-+
-+			dwc->dr_mode = USB_DR_MODE_OTG;
-+			dwc->role_switch_reset_quirk = true;
-+		}
++		link_timer &= ~APPLE_DWC3_CIO_PENDING_HP_TIMER;
++		link_timer |= FIELD_PREP(APPLE_DWC3_CIO_PENDING_HP_TIMER,
++					 APPLE_DWC3_CIO_PENDING_HP_TIMER_VALUE);
++		dwc3_writel(dwc->regs, APPLE_DWC3_CIO_LINK_TIMER, link_timer);
 +	}
 +
- 	ret = reset_control_deassert(dwc->reset);
+ 	ret = dwc3_phy_setup(dwc);
  	if (ret)
- 		goto err_put_psy;
-@@ -2391,7 +2444,6 @@ static void dwc3_remove(struct platform_device *pdev)
- 	dwc3_core_remove(platform_get_drvdata(pdev));
- }
- 
--#ifdef CONFIG_PM
- static int dwc3_core_init_for_resume(struct dwc3 *dwc)
- {
- 	int ret;
-@@ -2418,6 +2470,7 @@ static int dwc3_core_init_for_resume(struct dwc3 *dwc)
- 	return ret;
- }
- 
-+#ifdef CONFIG_PM
- static int dwc3_suspend_common(struct dwc3 *dwc, pm_message_t msg)
- {
- 	u32 reg;
+ 		return ret;
 diff --git a/drivers/usb/dwc3/core.h b/drivers/usb/dwc3/core.h
-index d5b985fa12f4d9ee3f318ea5cce7c1b225cd3623..38f32f2a6193c1b2662ab4f38f4d20cf4b0e198d 100644
+index 98e748cc348dfd9de1962c93fcf9f6a6690c2388..1caa46ca8b2ffb74dd3e58b174122e8f8216dd48 100644
 --- a/drivers/usb/dwc3/core.h
 +++ b/drivers/usb/dwc3/core.h
-@@ -1154,6 +1154,7 @@ struct dwc3_scratchpad_array {
-  * @suspended: set to track suspend event due to U3/L2.
-  * @susphy_state: state of DWC3_GUSB2PHYCFG_SUSPHY + DWC3_GUSB3PIPECTL_SUSPHY
-  *		  before PM suspend.
-+ * @role_switch_reset_quirk: set to force reinitialization after any role switch
-  * @imod_interval: set the interrupt moderation interval in 250ns
-  *			increments or 0 to disable.
-  * @max_cfg_eps: current max number of IN eps used across all USB configs.
-@@ -1392,6 +1393,8 @@ struct dwc3 {
- 	unsigned		suspended:1;
- 	unsigned		susphy_state:1;
+@@ -181,6 +181,24 @@
  
-+	unsigned		role_switch_reset_quirk:1;
+ #define DWC3_LLUCTL(n)		(0xd024 + ((n) * 0x80))
+ 
++/*
++ * Apple Silicon dwc3 vendor-specific registers
++ *
++ * These registers were identified by tracing XNU's memory access patterns
++ * and correlating them with debug output over serial to determine their names.
++ * We don't exactly know what these do but without these USB3 devices sometimes
++ * don't work.
++ */
++#define APPLE_DWC3_CIO_LFPS_OFFSET 0xcd38
++#define APPLE_DWC3_CIO_LFPS_OFFSET_VALUE 0xf800f80
 +
- 	u16			imod_interval;
- 
- 	int			max_cfg_eps;
-diff --git a/drivers/usb/dwc3/drd.c b/drivers/usb/dwc3/drd.c
-index 7977860932b142924edd19f859f7c4041d11eda6..65450db91bdea00bb30bfb368f5195ad2fd58da4 100644
---- a/drivers/usb/dwc3/drd.c
-+++ b/drivers/usb/dwc3/drd.c
-@@ -464,6 +464,9 @@ static int dwc3_usb_role_switch_set(struct usb_role_switch *sw,
- 		break;
- 	}
- 
-+	if (dwc->role_switch_reset_quirk && role == USB_ROLE_NONE)
-+		mode = 0;
++#define APPLE_DWC3_CIO_BW_NGT_OFFSET 0xcd3c
++#define APPLE_DWC3_CIO_BW_NGT_OFFSET_VALUE 0xfc00fc0
 +
- 	dwc3_set_mode(dwc, mode);
- 	return 0;
- }
-@@ -492,6 +495,10 @@ static enum usb_role dwc3_usb_role_switch_get(struct usb_role_switch *sw)
- 			role = USB_ROLE_DEVICE;
- 		break;
- 	}
++#define APPLE_DWC3_CIO_LINK_TIMER 0xcd40
++#define APPLE_DWC3_CIO_PENDING_HP_TIMER GENMASK(23, 16)
++#define APPLE_DWC3_CIO_PENDING_HP_TIMER_VALUE 0x14
 +
-+	if (dwc->role_switch_reset_quirk && !dwc->current_dr_role)
-+		role = USB_ROLE_NONE;
-+
- 	spin_unlock_irqrestore(&dwc->lock, flags);
- 	return role;
- }
-@@ -502,7 +509,9 @@ static int dwc3_setup_role_switch(struct dwc3 *dwc)
- 	u32 mode;
+ /* Bit fields */
  
- 	dwc->role_switch_default_mode = usb_get_role_switch_default_mode(dwc->dev);
--	if (dwc->role_switch_default_mode == USB_DR_MODE_HOST) {
-+	if (dwc->role_switch_reset_quirk) {
-+		mode = 0;
-+	} else if (dwc->role_switch_default_mode == USB_DR_MODE_HOST) {
- 		mode = DWC3_GCTL_PRTCAP_HOST;
- 	} else {
- 		dwc->role_switch_default_mode = USB_DR_MODE_PERIPHERAL;
-diff --git a/drivers/usb/dwc3/host.c b/drivers/usb/dwc3/host.c
-index 1c513bf8002ec9ec91b41bfd096cbd0da1dd2d2e..f7a71e6f9d80aca632f1f970d900a3de8a76f0a7 100644
---- a/drivers/usb/dwc3/host.c
-+++ b/drivers/usb/dwc3/host.c
-@@ -223,7 +223,8 @@ void dwc3_host_exit(struct dwc3 *dwc)
- 	if (dwc->sys_wakeup)
- 		device_init_wakeup(&dwc->xhci->dev, false);
- 
--	dwc3_enable_susphy(dwc, false);
-+	if (!dwc->role_switch_reset_quirk)
-+		dwc3_enable_susphy(dwc, false);
- 	platform_device_unregister(dwc->xhci);
- 	dwc->xhci = NULL;
- }
+ /* Global SoC Bus Configuration INCRx Register 0 */
 
 -- 
 2.34.1
