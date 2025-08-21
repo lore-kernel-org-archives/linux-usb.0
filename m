@@ -1,38 +1,37 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BDD782F659B;
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E22D92FB61B;
 	Thu, 21 Aug 2025 15:40:04 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1755790804; cv=none; b=Hf0BTeisPHf1NeS0H5K+0ktLaSRMibd1AF+1+xMvg57Gtd8kWp4rSL24oK0H/a1AYYKhkw4Ycnd7vCzmVD4h5pNElnhTOGWn3FY08aAYFFFi+VB2uBQTeVeyOM3dIcsEJrDV+jqntsAYs32j2YCyQouSuQ6ZOvR0rn+jf/K7Iv0=
+	t=1755790805; cv=none; b=bHQ8iYO5VjRFJyWYam0vkPuTuyEzIoTR43WY7EcCEV6wIK/vB30dB17tvjslxAW6yteNwmd9TWwaVIds6vDDEgyQavOZx54ILv95xnpgGRhyGpC0pb8wp1LwHH/fmp/YvdrlSDDVuKe8kB4UXbl9cbiN4cPnsnvGjpXR4BuGOU8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1755790804; c=relaxed/simple;
-	bh=YOUvjA7ZxBoWfbdlcJU7aVjGOvnp3BfxTVe9MsnlukQ=;
+	s=arc-20240116; t=1755790805; c=relaxed/simple;
+	bh=vklN4/w2hbW7rNLgTYVlAI33wbeeVkY8FZwbhVtsJVg=;
 	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
-	 In-Reply-To:To:Cc; b=rL4g2KilW7dHOCnLcy0VfsvjG34ufc3J0K6HF/nxm7TdQD64ksEilvx9k6ekzXXN5TM/0Mt4jI5elb+StA1PuJ9CCPIUVvpkntfLiCii3dDft0431OAuVZZgNBGj8FymiGaCoJ7xTrp2zQwDImrV/EUgh2BMVyaFOpen4PF5tjc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=MabXnc5y; arc=none smtp.client-ip=10.30.226.201
+	 In-Reply-To:To:Cc; b=Sp74Bgm3zCIOhp8mVcmyj1niCfOAMC4J5iopCaNMUTRbyr2dHXZDF+exggj43UqfKRO7Ci6ASZNrLzCMWx7HGqq+NzWrhgKbbzVCC2LymM9gQhK5nW5WFjYgIk0Z2NzO7g8knyYhNag4IPB2YoUCdLnvlIyHx/FosbvvNxvMrE0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=tAw+xFUd; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="MabXnc5y"
-Received: by smtp.kernel.org (Postfix) with ESMTPS id 2A3D5C116C6;
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="tAw+xFUd"
+Received: by smtp.kernel.org (Postfix) with ESMTPS id 374A8C2BCC4;
 	Thu, 21 Aug 2025 15:40:04 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
 	s=k20201202; t=1755790804;
-	bh=YOUvjA7ZxBoWfbdlcJU7aVjGOvnp3BfxTVe9MsnlukQ=;
+	bh=vklN4/w2hbW7rNLgTYVlAI33wbeeVkY8FZwbhVtsJVg=;
 	h=From:Date:Subject:References:In-Reply-To:To:Cc:From;
-	b=MabXnc5ygb9IfJn05RWLX0FIUPq74OEuDXN4vXihub4HoC8xY4VcP8QsItt24FCkp
-	 uQYeHV4kzjtaR3lsEmb+o1+t+LosOW4y5lbveM3GRA437n5/qUf2pFGEuPNsaV0IN8
-	 tuxnWIU0MsWIPjQrXfZr7JU4v4D7YpTsPjNgUQXUeyNSjSExtQLpXgiLkbpIq78Eze
-	 b6bwvEqAh9zcmK0IH6uEqQCOzQGBuc+81VKeUos0J2OQ/usJkX5pP16Vyt1UVjGCeE
-	 /AKlo79zZIuh/o+4D0qQt9YFJfYVop6A4dTb86s5y1tay7nr+yoz2n813Qo/iCY7Po
-	 yHJjxt75JBibA==
+	b=tAw+xFUduHWkahyOaAhbPExukBZjrLPXq92a1OoG0AUbsQgti7TToFv2d9ZOjC9nU
+	 MpUpwBPyeExSw0QHPHHmmcDGR/hY+bXq9KAud+ulRNdRQnY30mADGuz0DvTnMMP8q0
+	 /Iy5DSPakV5HwaR9Gv1rrAMPFjhQRm54fBPfZEWlCUU1qnluL2tkSuvXNBSSD+TRr1
+	 ljA2+qKNofgRHGlUzso4/rg9937OCqIiXF2Q/muCRN5DW7O+dn4j/O603tNrVz7vbZ
+	 GfrRWVe51j0ilOkrAxmyhr6KLNNxE+hslkkJVriFs9a138ljii+y7sIhTnDrVDzNWZ
+	 3zcQL30PFMOtA==
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 0E093CA0EEB;
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 28668CA0FE7;
 	Thu, 21 Aug 2025 15:40:04 +0000 (UTC)
 From: Sven Peter <sven@kernel.org>
-Date: Thu, 21 Aug 2025 15:39:10 +0000
-Subject: [PATCH RFC 18/22] usb: typec: mux: Introduce data_role to mux
- state
+Date: Thu, 21 Aug 2025 15:39:12 +0000
+Subject: [PATCH RFC 20/22] soc: apple: Add hardware tunable support
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
@@ -41,7 +40,7 @@ List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20250821-atcphy-6-17-v1-18-172beda182b8@kernel.org>
+Message-Id: <20250821-atcphy-6-17-v1-20-172beda182b8@kernel.org>
 References: <20250821-atcphy-6-17-v1-0-172beda182b8@kernel.org>
 In-Reply-To: <20250821-atcphy-6-17-v1-0-172beda182b8@kernel.org>
 To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>, 
@@ -56,44 +55,212 @@ To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
 Cc: linux-usb@vger.kernel.org, devicetree@vger.kernel.org, 
  linux-kernel@vger.kernel.org, asahi@lists.linux.dev, 
  linux-arm-kernel@lists.infradead.org, linux-phy@lists.infradead.org, 
- Sven Peter <sven@kernel.org>, Hector Martin <marcan@marcan.st>
+ Sven Peter <sven@kernel.org>
 X-Mailer: b4 0.14.2
-X-Developer-Signature: v=1; a=openpgp-sha256; l=832; i=sven@kernel.org;
+X-Developer-Signature: v=1; a=openpgp-sha256; l=6361; i=sven@kernel.org;
  h=from:subject:message-id;
- bh=JRN0Pkcv1Gw9Rq/i5eF+ACOnqAvxuHK0oC9pDd6cKvY=;
- b=owGbwMvMwCHmIlirolUq95LxtFoSQ8Zy233WGZb7kycy/csIv9MoWLJLr6P0mWfg/jSNDxKST
- q8L0z07SlkYxDgYZMUUWbbvtzd98vCN4NJNl97DzGFlAhnCwMUpABPZOpWRYRk3h9t/k1k257m0
- GFvPl7k9vnvu1M5pF6/eV9nQJnT2WCvD/8ItJ1ynXdys4DJ9nmP53TPh5nHccsFrAx2X+30qdlx
- 8mREA
+ bh=vklN4/w2hbW7rNLgTYVlAI33wbeeVkY8FZwbhVtsJVg=;
+ b=owGbwMvMwCHmIlirolUq95LxtFoSQ8Zy21PV4iZzXpfc0TPWYvT0/nIx9ueWn9s2MSiGzV+wq
+ 3PZic03OkpYGMQ4GGTFFFm277c3ffLwjeDSTZfew8xhZQIZwsDFKQATKb7CyPCkcbqJ7JuLEkmz
+ GQsYm1WZ/gfP4DiiZfVrhvfthdsfbv/J8OP35dRP5QF28fv/v5s9keVIj4O/1YYbfVMs/nf/tnu
+ 9hAcA
 X-Developer-Key: i=sven@kernel.org; a=openpgp;
  fpr=A1E3E34A2B3C820DBC4955E5993B08092F131F93
 X-Endpoint-Received: by B4 Relay for sven@kernel.org/default with
  auth_id=407
 
-From: Hector Martin <marcan@marcan.st>
+Various hardware, like the Type-C PHY or the Thunderbolt/USB4 NHI,
+present on Apple SoCs need machine-specific tunables passed from our
+bootloader m1n1 to the device tree. Add generic helpers so that we
+don't have to duplicate this across multiple drivers.
 
-Some muxes may need to know the data role that is being switched to,
-such as to direct the data pins to separate host/device controllers or
-configure a unified PHY correctly.
-
-Signed-off-by: Hector Martin <marcan@marcan.st>
 Signed-off-by: Sven Peter <sven@kernel.org>
 ---
- include/linux/usb/typec_mux.h | 1 +
- 1 file changed, 1 insertion(+)
+ drivers/soc/apple/Kconfig         |  4 ++
+ drivers/soc/apple/Makefile        |  3 ++
+ drivers/soc/apple/tunable.c       | 77 +++++++++++++++++++++++++++++++++++++++
+ include/linux/soc/apple/tunable.h | 64 ++++++++++++++++++++++++++++++++
+ 4 files changed, 148 insertions(+)
 
-diff --git a/include/linux/usb/typec_mux.h b/include/linux/usb/typec_mux.h
-index 2489a7857d8e10a73450a66ee85b5068f401f047..89b64ed081aecaa70529aaa717579c0dc7a5f961 100644
---- a/include/linux/usb/typec_mux.h
-+++ b/include/linux/usb/typec_mux.h
-@@ -45,6 +45,7 @@ void *typec_switch_get_drvdata(struct typec_switch_dev *sw);
- struct typec_mux_state {
- 	struct typec_altmode *alt;
- 	unsigned long mode;
-+	enum typec_data_role data_role;
- 	void *data;
- };
+diff --git a/drivers/soc/apple/Kconfig b/drivers/soc/apple/Kconfig
+index 6388cbe1e56b5a9d90acad3ee2377ed6ac0d207d..f266b70fd9620cc940dc685f7eb2972c21a361df 100644
+--- a/drivers/soc/apple/Kconfig
++++ b/drivers/soc/apple/Kconfig
+@@ -41,6 +41,10 @@ config APPLE_SART
  
+ 	  Say 'y' here if you have an Apple SoC.
+ 
++config APPLE_TUNABLE
++	tristate
++	depends on ARCH_APPLE || COMPILE_TEST
++
+ endmenu
+ 
+ endif
+diff --git a/drivers/soc/apple/Makefile b/drivers/soc/apple/Makefile
+index 4d9ab8f3037b7159771d8817fa507ba29f99ae10..0b85ab61aefe131349a67d0aa80204edd8e89925 100644
+--- a/drivers/soc/apple/Makefile
++++ b/drivers/soc/apple/Makefile
+@@ -8,3 +8,6 @@ apple-rtkit-y = rtkit.o rtkit-crashlog.o
+ 
+ obj-$(CONFIG_APPLE_SART) += apple-sart.o
+ apple-sart-y = sart.o
++
++obj-$(CONFIG_APPLE_TUNABLE) += apple-tunable.o
++apple-tunable-y = tunable.o
+diff --git a/drivers/soc/apple/tunable.c b/drivers/soc/apple/tunable.c
+new file mode 100644
+index 0000000000000000000000000000000000000000..3d9d47b3861f6fea637a3c82f270e5d321b1a48e
+--- /dev/null
++++ b/drivers/soc/apple/tunable.c
+@@ -0,0 +1,77 @@
++// SPDX-License-Identifier: GPL-2.0-only OR MIT
++/*
++ * Apple Silicon hardware tunable support
++ *
++ * Each tunable is a list with each entry containing a offset into the MMIO
++ * region, a mask of bits to be cleared and a set of bits to be set. These
++ * tunables are passed along by the previous boot stages and vary from device
++ * to device such that they cannot be hardcoded in the individual drivers.
++ *
++ * Copyright (C) The Asahi Linux Contributors
++ */
++
++#include <linux/io.h>
++#include <linux/module.h>
++#include <linux/of.h>
++#include <linux/soc/apple/tunable.h>
++
++int devm_apple_parse_tunable(struct device *dev, struct device_node *np,
++			     struct apple_tunable *tunable, const char *name)
++{
++	struct property *prop;
++	const __le32 *p = NULL;
++	int i;
++
++	prop = of_find_property(np, name, NULL);
++	if (!prop) {
++		dev_err(dev, "tunable %s not found\n", name);
++		return -ENOENT;
++	}
++
++	if (prop->length % (3 * sizeof(u32)))
++		return -EINVAL;
++
++	tunable->sz = prop->length / (3 * sizeof(u32));
++	tunable->values = devm_kcalloc(dev, tunable->sz,
++				       sizeof(*tunable->values), GFP_KERNEL);
++	if (!tunable->values) {
++		tunable->sz = 0;
++		return -ENOMEM;
++	}
++
++	for (i = 0; i < tunable->sz; ++i) {
++		p = of_prop_next_u32(prop, p, &tunable->values[i].offset);
++		p = of_prop_next_u32(prop, p, &tunable->values[i].mask);
++		p = of_prop_next_u32(prop, p, &tunable->values[i].value);
++	}
++
++	return 0;
++}
++EXPORT_SYMBOL(devm_apple_parse_tunable);
++
++void devm_apple_free_tunable(struct device *dev, struct apple_tunable *tunable)
++{
++	devm_kfree(dev, tunable->values);
++	tunable->sz = 0;
++}
++EXPORT_SYMBOL(devm_apple_free_tunable);
++
++void apple_apply_tunable(void __iomem *regs, struct apple_tunable *tunable)
++{
++	size_t i;
++
++	for (i = 0; i < tunable->sz; ++i) {
++		u32 val, old_val;
++
++		val = old_val = readl_relaxed(regs + tunable->values[i].offset);
++		val &= ~tunable->values[i].mask;
++		val |= tunable->values[i].value;
++		if (val != old_val)
++			writel_relaxed(val, regs + tunable->values[i].offset);
++	}
++}
++EXPORT_SYMBOL(apple_apply_tunable);
++
++MODULE_LICENSE("Dual MIT/GPL");
++MODULE_AUTHOR("Sven Peter <sven@svenpeter.dev>");
++MODULE_DESCRIPTION("Apple Silicon hardware tunable support");
+diff --git a/include/linux/soc/apple/tunable.h b/include/linux/soc/apple/tunable.h
+new file mode 100644
+index 0000000000000000000000000000000000000000..4a149f0f210d0b4b9e17c213f0482e8fbe02355f
+--- /dev/null
++++ b/include/linux/soc/apple/tunable.h
+@@ -0,0 +1,64 @@
++/* SPDX-License-Identifier: GPL-2.0-only OR MIT */
++/*
++ * Apple Silicon hardware tunable support
++ *
++ * Each tunable is a list with each entry containing a offset into the MMIO
++ * region, a mask of bits to be cleared and a set of bits to be set. These
++ * tunables are passed along by the previous boot stages and vary from device
++ * to device such that they cannot be hardcoded in the individual drivers.
++ *
++ * Copyright (C) The Asahi Linux Contributors
++ */
++
++#ifndef _LINUX_SOC_APPLE_TUNABLE_H_
++#define _LINUX_SOC_APPLE_TUNABLE_H_
++
++#include <linux/device.h>
++#include <linux/types.h>
++
++/*
++ * Struct to store a Apple Silicon hardware tunable.
++ *
++ * sz: number of [offset, mask, value] tuples stored in values.
++ * values: array containing the hardware tunables.
++ */
++struct apple_tunable {
++	size_t sz;
++	struct {
++		u32 offset;
++		u32 mask;
++		u32 value;
++	} *values;
++};
++
++/*
++ * Parse an array of hardware tunables from the device tree.
++ *
++ * Return 0 on success, -ENOMEM if the allocation failed and -ENOENT if the
++ * tunable could not be found or was in an invalid format.
++ *
++ * dev: Device node used for devm_kzalloc internally.
++ * np: Device node which contains the tunable array.
++ * tunable: Pointer to where the parsed tunables will be stored.
++ * name: Name of the device tree property which contains the tunables.
++ */
++int devm_apple_parse_tunable(struct device *dev, struct device_node *np,
++			     struct apple_tunable *tunable, const char *name);
++
++/*
++ * Apply a previously loaded hardware tunable.
++ *
++ * regs: MMIO to which the tunable will be applied.
++ * tunable: Pointer to the tunable.
++ */
++void apple_apply_tunable(void __iomem *regs, struct apple_tunable *tunable);
++
++/*
++ * Manually frees a previous allocated tunable.
++ *
++ * dev: Device node used for devm_apple_parse_tunable
++ * tunable: Tunable allocaated by devm_apple_parse_tunable
++ */
++void devm_apple_free_tunable(struct device *dev, struct apple_tunable *tunable);
++
++#endif
 
 -- 
 2.34.1
