@@ -1,58 +1,84 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from mail-m49242.qiye.163.com (mail-m49242.qiye.163.com [45.254.49.242])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 615242EBDFB;
-	Fri, 22 Aug 2025 08:45:39 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AA7ED21256B;
+	Fri, 22 Aug 2025 08:51:39 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=45.254.49.242
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1755852340; cv=none; b=IVa57uHcM06sk0//PlVppi4/qp5V30iWwf7FZ7cslBsPB9cuMbct1rYN2Q9d5Jb7Nhf5nkbVhbVEMAOwXh4efnL+hU159SIiuWGg4S5u1+2mAs91XEITXTMu0b3ludk3iT24vbyHzvr9KrkK6rUv69uz+OtAYolI/pDE+jB5BIE=
+	t=1755852704; cv=none; b=luiriJG1Ry1gXuoq4O58zYYaVe9VknTfSVGJkdfkSLndBMqowAyRO5s27KiYC0FD0TdgnnSq91mC/0IiDs6TGZPP9g8lBkMMDiAuDjzF6VoTQr4l5M/rs6SYiFMESAzaWECVhQE22ynFHSKa7Pbn+LKxFSLa3KN69eLt47xQJIU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1755852340; c=relaxed/simple;
-	bh=MwTBivIsWzzCRaSBjsMx0hwxeVU7kmJDJZIOhiavlCU=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=bf6673zueX8TV8LPqVU+Y6HdFN/SVo3CuveD5ctn9FZgYtN94sfaJfllQ6gxzKGCaQtMX5RTjCNvH7OXe70CkKKulWDDtTyxpS3yxG8ng7Yf32y2ktOY0qJinitfgOYJa/NQrHw36qGV22uR05hiYF46ocXLoPBDwJ6gin/OyqA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b=jhLr5ui+; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1755852704; c=relaxed/simple;
+	bh=hI9Em7fJ6eVQa8jhh/hSHKRksg47JsrDq6blmIDU9qs=;
+	h=From:To:Cc:Subject:Date:Message-Id; b=OTMxc7nmrp4jsHDMa8nhAtovPxGtvdLI1x5nPwUW1UBoVEgTbKUaagel1FmqW3vkswm6ib3R7Yvq3L9BpQGtmPJrzJotA1PUWarpYDIKdBfg/UdEoMnUMlN/4Zp3dHzfdd6uiiHo1vNQclzS+tALzPI5fpiAoSmF85YoWGopdwY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=rock-chips.com; spf=pass smtp.mailfrom=rock-chips.com; dkim=pass (1024-bit key) header.d=rock-chips.com header.i=@rock-chips.com header.b=idiglcOA; arc=none smtp.client-ip=45.254.49.242
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=rock-chips.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=rock-chips.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="jhLr5ui+"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 833E6C4CEF4;
-	Fri, 22 Aug 2025 08:45:38 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
-	s=korg; t=1755852338;
-	bh=MwTBivIsWzzCRaSBjsMx0hwxeVU7kmJDJZIOhiavlCU=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=jhLr5ui+jVE8wvYwWVFKbG+0ocWqDGDeVHSRtQ57sLGIpChQitxKGhvam38CuJqNG
-	 CXwz26IEa2whH/5t2h89fkbL882R8cjvWrMKmUN/y1kOWwBRi0gvx6K73ymgyiMtsp
-	 dPp+eNKSnbwO/Dg9+2+CqxdVNTN0HQBNG9kKNIOA=
-Date: Fri, 22 Aug 2025 10:45:21 +0200
-From: Greg KH <gregkh@linuxfoundation.org>
-To: Xichao Zhao <zhao.xichao@vivo.com>
-Cc: linux-usb@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] usb: phy: twl6030: Fix incorrect type for ret
-Message-ID: <2025082212-monorail-impromptu-ec1b@gregkh>
-References: <20250822081403.12932-1-zhao.xichao@vivo.com>
+	dkim=pass (1024-bit key) header.d=rock-chips.com header.i=@rock-chips.com header.b="idiglcOA"
+Received: from localhost.localdomain (unknown [58.22.7.114])
+	by smtp.qiye.163.com (Hmail) with ESMTP id 2035e0701;
+	Fri, 22 Aug 2025 10:02:01 +0800 (GMT+08:00)
+From: William Wu <william.wu@rock-chips.com>
+To: gregkh@linuxfoundation.org
+Cc: Chris.Wulff@biamp.com,
+	linux-usb@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	william.wu@rock-chips.com,
+	frank.wang@rock-chips.com,
+	jianwei.zheng@rock-chips.com,
+	yue.long@rock-chips.com
+Subject: [PATCH] usb: gadget: f_hid: Fix zero length packet transfer
+Date: Fri, 22 Aug 2025 10:01:58 +0800
+Message-Id: <1755828118-21640-1-git-send-email-william.wu@rock-chips.com>
+X-Mailer: git-send-email 2.0.0
+X-HM-Tid: 0a98cf82efec09d4kunme097ec7a15bd2bc
+X-HM-MType: 1
+X-HM-Spam-Status: e1kfGhgUHx5ZQUpXWQgPGg8OCBgUHx5ZQUlOS1dZFg8aDwILHllBWSg2Ly
+	tZV1koWUFDSUNOT01LS0k3V1ktWUFJV1kPCRoVCBIfWUFZQxhOSFZJHxlMH0sZSBhJQxlWFRQJFh
+	oXVRMBExYaEhckFA4PWVdZGBILWUFZTkNVSUlVTFVKSk9ZV1kWGg8SFR0UWUFZT0tIVUpLSEpOTE
+	pVSktLVUpCS0tZBg++
+DKIM-Signature: a=rsa-sha256;
+	b=idiglcOAYfigRf5Z8SqYODsvHew1DFYMt0w+MTC+wjDmvQvlzCK549s8a7okIg5AafHy5k8sVA4A9fHwx5BAot3l5o3r9/sOsaw25FWkDlRGrtOvZWkF0Ec0M9eN7d7Qq7GZLh0kXHHNjZQRUIlGeOtGZoOCqMSQwrjVAgZEJIg=; s=default; c=relaxed/relaxed; d=rock-chips.com; v=1;
+	bh=a546GnIyrpWoM96hhIjpZRRW3cZAytHVHfuWQYQyiVg=;
+	h=date:mime-version:subject:message-id:from;
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20250822081403.12932-1-zhao.xichao@vivo.com>
 
-On Fri, Aug 22, 2025 at 04:14:03PM +0800, Xichao Zhao wrote:
-> In the twl6030_usb_probe(), the variable ret is declared as
-> a u32 type. However, since ret may receive -ENODEV when accepting
-> the return value of omap_usb2_set_comparator().Therefore, its type
-> should be changed to int.
-> 
-> Signed-off-by: Xichao Zhao <zhao.xichao@vivo.com>
-> ---
->  drivers/usb/phy/phy-twl6030-usb.c | 3 +--
->  1 file changed, 1 insertion(+), 2 deletions(-)
+If the hid transfer with size divisible to EPs max packet
+size, it needs to set the req->zero to true, then the usb
+controller can transfer a zero length packet at the end
+according to the USB 2.0 spec.
 
-What commit id does this fix?
+Signed-off-by: William Wu <william.wu@rock-chips.com>
+---
+ drivers/usb/gadget/function/f_hid.c | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
 
-thanks,
+diff --git a/drivers/usb/gadget/function/f_hid.c b/drivers/usb/gadget/function/f_hid.c
+index 8e1d1e8..8021af3 100644
+--- a/drivers/usb/gadget/function/f_hid.c
++++ b/drivers/usb/gadget/function/f_hid.c
+@@ -511,7 +511,7 @@ static ssize_t f_hidg_write(struct file *file, const char __user *buffer,
+ 	}
+ 
+ 	req->status   = 0;
+-	req->zero     = 0;
++	req->zero     = ((count % hidg->in_ep->maxpacket) == 0);
+ 	req->length   = count;
+ 	req->complete = f_hidg_req_complete;
+ 	req->context  = hidg;
+@@ -967,7 +967,7 @@ static int hidg_setup(struct usb_function *f,
+ 	return -EOPNOTSUPP;
+ 
+ respond:
+-	req->zero = 0;
++	req->zero = ((length % cdev->gadget->ep0->maxpacket) == 0);
+ 	req->length = length;
+ 	status = usb_ep_queue(cdev->gadget->ep0, req, GFP_ATOMIC);
+ 	if (status < 0)
+-- 
+2.0.0
 
-greg k-h
