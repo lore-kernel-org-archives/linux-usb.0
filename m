@@ -1,102 +1,170 @@
-Received: from mail-m32109.qiye.163.com (mail-m32109.qiye.163.com [220.197.32.109])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pf1-f174.google.com (mail-pf1-f174.google.com [209.85.210.174])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 87B7C2FB639;
-	Fri, 22 Aug 2025 12:14:28 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=220.197.32.109
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A897E2FB607
+	for <linux-usb@vger.kernel.org>; Fri, 22 Aug 2025 12:52:18 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.174
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1755864874; cv=none; b=mz1s4NQNd8Eh6RcC/6p5rla0JfBV8Hntk19Dn3cX6hu0loJGNGqRBrdpzJPFvSau8OwK1CYWYSXTBxrZxFPuFDv9LuAlhhBuS7N4PSZs36EWWeUPGKjsvOBRGweL6bmVrPJmmml6HHtIyUrFYbcg5Uh1gPcbs7PsQZiOacwC6pA=
+	t=1755867140; cv=none; b=iWxNlI9fl7/z9GfXNRq/46Wa2hhVhQHbw/BHt/F4H4jLZIb/dUbcgOsSCqmrdv73sB4fVXU/asAQ65hy6TTtmNDoxhX4hmoR+o66nw4FPwNVwCiLVTthZK8zd70ZmCyBp/lKW7yP7esHWgAulNAjaU1m+YgfgIqiJxzuIHrGYEc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1755864874; c=relaxed/simple;
-	bh=mNQvOcjjLUsjMPK0Ge2NZOtca9480N6MLioMkGl/IUA=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=PaFcXnr7vKsB1f8br2zKINsuZkurl3PET9MhFkKTb+W4GZjxN99LOgYCBH0iAUndMszjzFSQOCGUwJGn0qW+tvhxbCWOIZZvA9zEJH7Mxwy8P8cLuyd6q45PIlsGooW1fIkoY5V+fBXiVW5Uz91z13aWa5GhnHLHOWRq1Tsp9VQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=rock-chips.com; spf=pass smtp.mailfrom=rock-chips.com; dkim=pass (1024-bit key) header.d=rock-chips.com header.i=@rock-chips.com header.b=VWc6BcnA; arc=none smtp.client-ip=220.197.32.109
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=rock-chips.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=rock-chips.com
+	s=arc-20240116; t=1755867140; c=relaxed/simple;
+	bh=Qvkm8ZvcKVj/gdX6BAq0K2JgptBY3L/xiu5D9dt3b90=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=gPG+mwZUUx0+wmDCpzixmpRW9BQSZhJtEP5hxNQUCqLqaWj85kSm093dqConbPW95Hx6ztykzS8WrnSO5x+GInXE4zftUqfCsswyKC6EeSO8oPOd8xjf2EJ3vD6/E7R14xAnOhEhNK+0v7OxBIwHBtV+yu7KuN9/3ZnWt9QZ96A=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org; spf=pass smtp.mailfrom=chromium.org; dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b=STDm5/53; arc=none smtp.client-ip=209.85.210.174
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=chromium.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=rock-chips.com header.i=@rock-chips.com header.b="VWc6BcnA"
-Received: from [172.16.33.175] (unknown [58.22.7.114])
-	by smtp.qiye.163.com (Hmail) with ESMTP id 204432ef2;
-	Fri, 22 Aug 2025 16:45:06 +0800 (GMT+08:00)
-Message-ID: <61a7bf20-d9a0-4789-8c44-7630b34615d6@rock-chips.com>
-Date: Fri, 22 Aug 2025 16:45:07 +0800
+	dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b="STDm5/53"
+Received: by mail-pf1-f174.google.com with SMTP id d2e1a72fcca58-76e2ea6ccb7so1679078b3a.2
+        for <linux-usb@vger.kernel.org>; Fri, 22 Aug 2025 05:52:18 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=chromium.org; s=google; t=1755867138; x=1756471938; darn=vger.kernel.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=yPWZ0k713TIq/QYfMNdmSvfN5q6KC+M5vfGH3Fh2z5k=;
+        b=STDm5/53EXT1VljXn6BGfCspYCVEX2AZpq506mI8kXtBAAxGhHiYkO345XzmHjhH+b
+         bx0hJN12V3NAFUXu4uNF+xu4WnaOvZ9MFvn6sK26XKIdguvCvZFB3a8Wsp/FY7oZg6rC
+         KcgnTenKiLi78N1FGLwD7BlWlDbrEpNiMD5Ys=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1755867138; x=1756471938;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=yPWZ0k713TIq/QYfMNdmSvfN5q6KC+M5vfGH3Fh2z5k=;
+        b=N6/QdDL+zQQShM8kfy43kcuxHVSO6fC8jlQ0avbo7arPux+53n5U//Lo0tXvQRe8Of
+         OFxLwmlbaYlmxWAwoWZ34A0n86FubDYa8SgpyxskPKQcgEwscNfAjVbZfspVyKBn0LyD
+         MwiYbhKhIUddFs5Zg/b4F8g3DsrWv5rxuaM/gWTX/CRyKJnez+RbXbUZtPiijR5AtFYk
+         kzmLF7npvme5gv1oEgfSaLcaXzWfS3Eu2zy3LasnC04OCOIRiETp0BW6Sy5CpSqxyacB
+         iud8gKKTkQlitwc9v5uUQmE3unsRX37TTMPStlPCZJEGleVrxhY5PoLB5hkLcY0/rzNN
+         CrSQ==
+X-Forwarded-Encrypted: i=1; AJvYcCW6dLrcnqWt+Nn5DqLucUgZbrI3coj58+Nrw1UpHOgmJd9MrJbEquTbZ393mjYh91JOY1LHUoe6pUM=@vger.kernel.org
+X-Gm-Message-State: AOJu0Yzowg+j0FwrPZbxDP6t8gLaqZq3OyG63coL3MS/TKzjxCivRRK1
+	mutiisNdm4tq+lXthAGBYMXxaL6hxk2vua64QccehzMTbTHb3NEQx8kfpXo2F5d/3NZTQC9zrPU
+	Rivt/3KNzE3IyoFQ7FkrQvDhazjmXwOu99mU7uiJl
+X-Gm-Gg: ASbGncsYvQKjZ5KdNXu+d4fPK+d1xaWb4TjMOTOR+/ggyJNncGkaag8edaBMITHm8Zf
+	Kkvi+juaS6L49lK45SOuzaUXT4cUS6uUk9Nr/ARgN6bZmbd/PslEi9dNBr3g+n4Fr6I4BX7KmWo
+	nNtNvqvW/AhLabho1nmQircdeFB9xp7Si814US8htysD87wDQMPHwsP+mUmp99qfQCumXG5K+6l
+	CZLRA44k4hFGqa3nMvK/RG+Pgi5AZfCqXgP+4YdCXc7
+X-Google-Smtp-Source: AGHT+IGRt7T15g4J9TtJHeozRsfP6YTUMgnhVNdFI3+HALeg7CoNfApLp63yXeFIxoeJ6WrrgpylLU3LPWYlGugAkhs=
+X-Received: by 2002:a05:6a20:430b:b0:23d:54bd:92e6 with SMTP id
+ adf61e73a8af0-24340d02428mr4351745637.29.1755867137998; Fri, 22 Aug 2025
+ 05:52:17 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH] usb: gadget: f_hid: Fix zero length packet transfer
-To: Greg KH <gregkh@linuxfoundation.org>
-Cc: Chris.Wulff@biamp.com, linux-usb@vger.kernel.org,
- linux-kernel@vger.kernel.org, frank.wang@rock-chips.com,
- jianwei.zheng@rock-chips.com, yue.long@rock-chips.com
-References: <1755828118-21640-1-git-send-email-william.wu@rock-chips.com>
- <2025082235-fondness-destruct-f8f6@gregkh>
-From: wuliangfeng <william.wu@rock-chips.com>
-In-Reply-To: <2025082235-fondness-destruct-f8f6@gregkh>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-X-HM-Tid: 0a98d0f3f96909d4kunm9dfc621616a01b0
-X-HM-MType: 1
-X-HM-Spam-Status: e1kfGhgUHx5ZQUpXWQgPGg8OCBgUHx5ZQUlOS1dZFg8aDwILHllBWSg2Ly
-	tZV1koWUFDSUNOT01LS0k3V1ktWUFJV1kPCRoVCBIfWUFZQh9ITFZPTR5DTElLS09DTU1WFRQJFh
-	oXVRMBExYaEhckFA4PWVdZGBILWUFZTkNVSUlVTFVKSk9ZV1kWGg8SFR0UWUFZT0tIVUJCSU5LVU
-	pLS1VKQktCWQY+
-DKIM-Signature: a=rsa-sha256;
-	b=VWc6BcnAML6KLeYKr7BxS6rPYgvthG5iRlzVui0M6z6a2UFNjAqU365e9aRcVCoqNQrn0sBwx7NVGNk/iE0+TuDaBUUcoJ1dXZqIzX3KYrdrwhQ6yUuJKY8n3PDn1oM7JcsUSRBX3rPs4aqCy1FtxG2tC0n67eF4PDeBkwJEgZU=; s=default; c=relaxed/relaxed; d=rock-chips.com; v=1;
-	bh=9h36v6z5jw9feLJK7q2WkHj5YgXyiYTUvmPXIhbXB54=;
-	h=date:mime-version:subject:message-id:from;
+References: <20250814184455.723170-1-akuchynski@chromium.org>
+ <20250814184455.723170-5-akuchynski@chromium.org> <aKbwby7OYdUpLvhA@kuha.fi.intel.com>
+ <aKb_rwVqqzipHHqf@kuha.fi.intel.com>
+In-Reply-To: <aKb_rwVqqzipHHqf@kuha.fi.intel.com>
+From: Andrei Kuchynski <akuchynski@chromium.org>
+Date: Fri, 22 Aug 2025 14:52:05 +0200
+X-Gm-Features: Ac12FXx3ANTUMIa8Fow-ciMNUPql3vLmAiHYubi-qOYKb8F15LFr1nZlCVhH7cs
+Message-ID: <CAMMMRMc6YYpQMo0hDqvjVwg28tTazJxxxgQ5j9iUq-ZWeYg6qA@mail.gmail.com>
+Subject: Re: [PATCH v1 4/5] usb: typec: Implement alternate mode priority handling
+To: Heikki Krogerus <heikki.krogerus@linux.intel.com>
+Cc: Abhishek Pandit-Subedi <abhishekpandit@chromium.org>, Benson Leung <bleung@chromium.org>, 
+	Jameson Thies <jthies@google.com>, Tzung-Bi Shih <tzungbi@kernel.org>, linux-usb@vger.kernel.org, 
+	chrome-platform@lists.linux.dev, Guenter Roeck <groeck@chromium.org>, 
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>, 
+	Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>, "Christian A. Ehrhardt" <lk@c--e.de>, 
+	Venkat Jayaraman <venkat.jayaraman@intel.com>, linux-kernel@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
+On Thu, Aug 21, 2025 at 1:15=E2=80=AFPM Heikki Krogerus
+<heikki.krogerus@linux.intel.com> wrote:
+>
+> Hi again,
+>
+> On Thu, Aug 21, 2025 at 01:09:57PM +0300, Heikki Krogerus wrote:
+> > > diff --git a/drivers/usb/typec/mode_selection.c b/drivers/usb/typec/m=
+ode_selection.c
+> > > new file mode 100644
+> > > index 000000000000..8a54639b86bf
+> > > --- /dev/null
+> > > +++ b/drivers/usb/typec/mode_selection.c
+> > > @@ -0,0 +1,127 @@
+> > > +// SPDX-License-Identifier: GPL-2.0-only
+> > > +/*
+> > > + * Copyright 2025 Google LLC.
+> > > + */
+> > > +
+> > > +#include <linux/usb/typec_altmode.h>
+> > > +#include <linux/slab.h>
+> > > +#include <linux/list.h>
+> > > +#include "mode_selection.h"
+> > > +#include "class.h"
+> > > +
+> > > +static const char * const mode_names[TYPEC_ALTMODE_MAX] =3D {
+> > > +   [TYPEC_ALTMODE_DP] =3D "DisplayPort",
+> > > +   [TYPEC_ALTMODE_TBT] =3D "Thunderbolt3",
+> > > +   [TYPEC_ALTMODE_USB4] =3D "USB4",
+> > > +};
+> >
+> > You only need string for USB4. The altmode names come from the drivers.
+>
+> Sorry, that won't work with port altmode. But you can still do the
+> lookup with just the sid.
+>
 
+Hi Heikki,
 
-On 8/22/2025 12:45 PM, Greg KH wrote:
-> On Fri, Aug 22, 2025 at 10:01:58AM +0800, William Wu wrote:
->> If the hid transfer with size divisible to EPs max packet
->> size, it needs to set the req->zero to true, then the usb
->> controller can transfer a zero length packet at the end
->> according to the USB 2.0 spec.
->>
->> Signed-off-by: William Wu <william.wu@rock-chips.com>
->> ---
->>   drivers/usb/gadget/function/f_hid.c | 4 ++--
->>   1 file changed, 2 insertions(+), 2 deletions(-)
->>
->> diff --git a/drivers/usb/gadget/function/f_hid.c b/drivers/usb/gadget/function/f_hid.c
->> index 8e1d1e8..8021af3 100644
->> --- a/drivers/usb/gadget/function/f_hid.c
->> +++ b/drivers/usb/gadget/function/f_hid.c
->> @@ -511,7 +511,7 @@ static ssize_t f_hidg_write(struct file *file, const char __user *buffer,
->>   	}
->>   
->>   	req->status   = 0;
->> -	req->zero     = 0;
->> +	req->zero     = ((count % hidg->in_ep->maxpacket) == 0);
->>   	req->length   = count;
->>   	req->complete = f_hidg_req_complete;
->>   	req->context  = hidg;
->> @@ -967,7 +967,7 @@ static int hidg_setup(struct usb_function *f,
->>   	return -EOPNOTSUPP;
->>   
->>   respond:
->> -	req->zero = 0;
->> +	req->zero = ((length % cdev->gadget->ep0->maxpacket) == 0);
->>   	req->length = length;
->>   	status = usb_ep_queue(cdev->gadget->ep0, req, GFP_ATOMIC);
->>   	if (status < 0)
-> 
-> What commit id does this fix?
-It seems that the first verison of the f_hid.c had this issue.
-commit 71adf1189469 ("USB: gadget: add HID gadget driver")
+I can get names from altmode partner. Names are only needed to
+provide results of entering the mode. No partner - no results.
 
-Best Regards,
-William Wu>
+>
+> I think this needs to be simplified. You don't need this elaborate
+> implementation in the beginning.
+>
+> I'm going to do some suggestions. I don't know if all of them work,
+> but hopefully you get the idea how I would like to see the initial
+> support to be implemented.
+>
+
+I checked your suggestions. It looks like all of them should
+work. Thank you!
+
+- priority is a member to struct typec_altmode
+- use svid instead of enum typec_mode_type
+- no list or other variables in struct typec_port.
+- struct mode_selection_state will be introduced in other series
+
+>
+> The default priorities is an array of svids. And I really think that
+> the highest priority should be 1 not 0.
+>
+
+I think your idea of setting priorities based on the order of
+port altmod registrations is better. We don't really need default
+priorities in this case.
+
+>
+> No driver so you would need to use the mode_names, but instead of
+> doing that, just don't limit this at all.
+>
+> If there is no name for the mode, use the svid.
+>
 > thanks,
-> 
-> greg k-h
-> 
-> 
-> 
+>
+> --
+> heikki
 
+What if we later create typec_USB4 driver, similar to the
+existing typec_displayport and typec_thunderbolt?
+This approach could unify how various modes are handled,
+eliminating exceptions for USB4 or any other mode.
+
+The port altmode would contain priority and support "enter" and
+"exit" operations, while partner altmode would handle "activate"
+and name field. I've explored this approach with cros_ec_typec
+driver, and it appears to be a promising way to manage USB4 as
+alternate mode.
+
+Thanks,
+
+Andrei
