@@ -1,103 +1,97 @@
-Received: from mail-m49206.qiye.163.com (mail-m49206.qiye.163.com [45.254.49.206])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-il1-f198.google.com (mail-il1-f198.google.com [209.85.166.198])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 96A8F29B793;
-	Mon, 25 Aug 2025 08:11:16 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=45.254.49.206
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A785F1E231E
+	for <linux-usb@vger.kernel.org>; Mon, 25 Aug 2025 08:44:38 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.166.198
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1756109482; cv=none; b=hAJTQtGhcHUXZ+d0epsJZ5P2gPLWcunKgQumYhwNc/VQ+U6PZIM31DASQj9ljNj4Xv+18+5RQqKOwGOtMd1BUrg6Y8YU6Ct5u/k/NPg5oMjVkW04I+MljMdPg8p5mogZVgzLMNhmcm2xWBkwakag6piRFFKGpkSOSmPGY4NHSAM=
+	t=1756111480; cv=none; b=JSijjsJMNYanC0RhTacYlKiiLh5takGvGbAVp6sewogwqsHG6XXzXQGPQKbEZTR3b7uMURZ9nDg37ZWOTXnjDHo5G4LoLnQf3B67DjolUovrplDVCeLGX71TZmRIruCwBjTaXhD54HzC7cn25lTvAhUoy/cgKcgkdSBo9F5ka98=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1756109482; c=relaxed/simple;
-	bh=NGv79DTk6F7a87cvl4FUlWH3mVBfPqdnx9mJIeeHa5c=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=Rjw2y891k4GLhCthBeJ3KWvpzrT3tItSjBrQ/5esRl3vTfHBBIHDYUCVSVpXEjAxnO2YF8BxwD1B5j6lkLudgAJ9ycBj58RNtHjT69aG6K9OH6j8UzGHjwyeANFYy3mFB9urd955JcuO5x7ZqakGhCVTvbAyiw8s07YV3UQn0y8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=rock-chips.com; spf=pass smtp.mailfrom=rock-chips.com; dkim=pass (1024-bit key) header.d=rock-chips.com header.i=@rock-chips.com header.b=jZTcCQqM; arc=none smtp.client-ip=45.254.49.206
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=rock-chips.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=rock-chips.com
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=rock-chips.com header.i=@rock-chips.com header.b="jZTcCQqM"
-Received: from [172.16.33.94] (unknown [58.22.7.114])
-	by smtp.qiye.163.com (Hmail) with ESMTP id 20740ab50;
-	Mon, 25 Aug 2025 11:35:11 +0800 (GMT+08:00)
-Message-ID: <5252b43d-a7ee-42b5-932e-6c6eadd04543@rock-chips.com>
-Date: Mon, 25 Aug 2025 11:35:10 +0800
+	s=arc-20240116; t=1756111480; c=relaxed/simple;
+	bh=60YGKx1jOXWqzikn9Qdwng7JZDsIVBL6yOYKm8/8GhM=;
+	h=MIME-Version:Date:Message-ID:Subject:From:To:Content-Type; b=dGUF1ULvaPT3oCW2+2+I14VszkRvcRcmBtcKP+FAMXDgcUEp6Hvexj0l/UPxUPahCxNo0gmEpZrIxjoK77VsXe4hSjOPZv2pXbzM2WnLNxcv9f7S5SJtqoIBTVDLFREciKE/YeXOsDrpMK34UolNpb3try8OducZ5OCD503uJD4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=syzkaller.appspotmail.com; spf=pass smtp.mailfrom=M3KW2WVRGUFZ5GODRSRYTGD7.apphosting.bounces.google.com; arc=none smtp.client-ip=209.85.166.198
+Authentication-Results: smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=syzkaller.appspotmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=M3KW2WVRGUFZ5GODRSRYTGD7.apphosting.bounces.google.com
+Received: by mail-il1-f198.google.com with SMTP id e9e14a558f8ab-3e671c9e964so42649315ab.3
+        for <linux-usb@vger.kernel.org>; Mon, 25 Aug 2025 01:44:38 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1756111478; x=1756716278;
+        h=to:from:subject:message-id:date:mime-version:x-gm-message-state
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=27gF5zpDZDPhSEuAe3Ncb5f06Cl0miIJLfhXt+1oVn0=;
+        b=Itlim+/2TCkIcqeLdjivlQfrIFnRiGIvRqR/vgjUGZvCrj9l9+u/kVMhLycYPFR8Y4
+         n2YZdBV7s8kSVdCCKQLgSvCzfBfH9p2l98vEDxfhXhjapUvBw5AewNmDV5RxEYtS/mMs
+         QCKGKbwYpieGlJfxWBf198c0E4NVOtXaO6PZ/HrWdqnQgM1iwyNqJHaKzbyjowAL/b/0
+         oxc9Ym1CsHLNKhMJPuw+UFDjzcYYmt6Y0HqLtLNshWEA2B3fLizQKDvRCbI0J+rEfUGy
+         JRLypJWFT3L58f7Xde5B7rC4Csuk/61p1oTBhGKkM+45Goo2k+MHF4JDtuz2aMePe3Kn
+         NhFA==
+X-Forwarded-Encrypted: i=1; AJvYcCV2J5nOQXOS2fDagQBDBHBAjMlPP7Dnx3kr7NeziJmQwD7WHHxBK3+GfObbLVx0F2MiJPkNSPxUdpk=@vger.kernel.org
+X-Gm-Message-State: AOJu0YyZtjWO/ZQzr03v1LoZ2dAS/56iUXG0Gqp6Zlu5GOQqibTTt8C7
+	HrsYMJIcbKo+OdDhy5k8NcmxiWezoAl8h6H3QA0VO0wN61e92y2AA/TlINb8qK5tnsjltPICBfT
+	/vuZndTTPAbSKQwh1nAOVtwMEJyk6G8NO3izVtjRbku2+CPVXjTBHEprkINk=
+X-Google-Smtp-Source: AGHT+IE4ixtNXfe9U/VI3FK5ddT/fLjiPEmCNsFQNmL6djAfqRsUe1ELUMgZHuAKwgDgI37kKkC2JR8BEu6zib3XeM3jH6IJTkTK
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH] usb: gadget: f_hid: Fix zero length packet transfer
-To: Alan Stern <stern@rowland.harvard.edu>
-Cc: gregkh@linuxfoundation.org, Chris.Wulff@biamp.com,
- linux-usb@vger.kernel.org, linux-kernel@vger.kernel.org,
- frank.wang@rock-chips.com, jianwei.zheng@rock-chips.com,
- yue.long@rock-chips.com
-References: <1755828118-21640-1-git-send-email-william.wu@rock-chips.com>
- <c09f21ee-be83-4880-841b-70e1e5c036f0@rowland.harvard.edu>
-From: William Wu <william.wu@rock-chips.com>
-In-Reply-To: <c09f21ee-be83-4880-841b-70e1e5c036f0@rowland.harvard.edu>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-X-HM-Tid: 0a98df4b4d9709d4kunm3b6efc731b10cc1
-X-HM-MType: 1
-X-HM-Spam-Status: e1kfGhgUHx5ZQUpXWQgPGg8OCBgUHx5ZQUlOS1dZFg8aDwILHllBWSg2Ly
-	tZV1koWUFDSUNOT01LS0k3V1ktWUFJV1kPCRoVCBIfWUFZGh4YGVZJSk5OS0wfSh0ZSENWFRQJFh
-	oXVRMBExYaEhckFA4PWVdZGBILWUFZTkNVSUlVTFVKSk9ZV1kWGg8SFR0UWUFZT0tIVUJCSU5LVU
-	pLS1VKQktCWQY+
-DKIM-Signature: a=rsa-sha256;
-	b=jZTcCQqM5yrjKOFSAtYk0EnwukWfQDkymkU92Bs/8bgdkoPL4iFiWgwJQ0RWrLDRT0s05dijmxWi39X56bJypBnDZJPRelZpNaRs6nQiCRqooJycG19YKE9GFZan4yvA4KXRKygdrWj8BKp8qrjw1L2zGaovhMjvOgSZYCkCrg0=; s=default; c=relaxed/relaxed; d=rock-chips.com; v=1;
-	bh=G4TTjMMxsEMVdyTYcmWj7mnrO5XKGcr4tlqnkm4eDc8=;
-	h=date:mime-version:subject:message-id:from;
+X-Received: by 2002:a05:6e02:19cf:b0:3ec:6e58:beb5 with SMTP id
+ e9e14a558f8ab-3ec6e58c207mr42422425ab.3.1756111477864; Mon, 25 Aug 2025
+ 01:44:37 -0700 (PDT)
+Date: Mon, 25 Aug 2025 01:44:37 -0700
+X-Google-Appengine-App-Id: s~syzkaller
+X-Google-Appengine-App-Id-Alias: syzkaller
+Message-ID: <68ac2275.a00a0220.33401d.0405.GAE@google.com>
+Subject: [syzbot] Monthly usb report (Aug 2025)
+From: syzbot <syzbot+listfc56ad5a17ace4adf6e6@syzkaller.appspotmail.com>
+To: linux-kernel@vger.kernel.org, linux-usb@vger.kernel.org, 
+	syzkaller-bugs@googlegroups.com
+Content-Type: text/plain; charset="UTF-8"
 
+Hello usb maintainers/developers,
 
+This is a 31-day syzbot report for the usb subsystem.
+All related reports/information can be found at:
+https://syzkaller.appspot.com/upstream/s/usb
 
-On 8/22/2025 9:56 PM, Alan Stern wrote:
-> On Fri, Aug 22, 2025 at 10:01:58AM +0800, William Wu wrote:
->> If the hid transfer with size divisible to EPs max packet
->> size, it needs to set the req->zero to true, then the usb
->> controller can transfer a zero length packet at the end
->> according to the USB 2.0 spec.
->>
->> Signed-off-by: William Wu <william.wu@rock-chips.com>
->> ---
->>   drivers/usb/gadget/function/f_hid.c | 4 ++--
->>   1 file changed, 2 insertions(+), 2 deletions(-)
->>
->> diff --git a/drivers/usb/gadget/function/f_hid.c b/drivers/usb/gadget/function/f_hid.c
->> index 8e1d1e8..8021af3 100644
->> --- a/drivers/usb/gadget/function/f_hid.c
->> +++ b/drivers/usb/gadget/function/f_hid.c
->> @@ -511,7 +511,7 @@ static ssize_t f_hidg_write(struct file *file, const char __user *buffer,
->>   	}
->>   
->>   	req->status   = 0;
->> -	req->zero     = 0;
->> +	req->zero     = ((count % hidg->in_ep->maxpacket) == 0);
-> 
-> Here and below, there is no need to check whether count is divisible by
-> the maxpacket length.  The UDC driver does this for you automatically.
-> (See the kerneldoc for struct usb_request.)  Simply set req->zero to 1.
-> 
-> Alan Stern
-Good idea，I checked the UDC drivers (drivers/usb/gadget/udc and 
-dwc2/dwc3), they test if zlp is actually needed if req->zero to 1.>
->>   	req->length   = count;
->>   	req->complete = f_hidg_req_complete;
->>   	req->context  = hidg;
->> @@ -967,7 +967,7 @@ static int hidg_setup(struct usb_function *f,
->>   	return -EOPNOTSUPP;
->>   
->>   respond:
->> -	req->zero = 0;
->> +	req->zero = ((length % cdev->gadget->ep0->maxpacket) == 0);
->>   	req->length = length;
->>   	status = usb_ep_queue(cdev->gadget->ep0, req, GFP_ATOMIC);
->>   	if (status < 0)
->> -- 
->> 2.0.0
-> 
-> 
-> 
+During the period, 3 new issues were detected and 1 were fixed.
+In total, 81 issues are still open and 390 have already been fixed.
 
+Some of the still happening issues:
+
+Ref  Crashes Repro Title
+<1>  17047   Yes   KASAN: slab-use-after-free Read in hdm_disconnect
+                   https://syzkaller.appspot.com/bug?extid=916742d5d24f6c254761
+<2>  5297    Yes   KASAN: use-after-free Read in v4l2_fh_init
+                   https://syzkaller.appspot.com/bug?extid=c025d34b8eaa54c571b8
+<3>  2703    Yes   WARNING in usb_free_urb
+                   https://syzkaller.appspot.com/bug?extid=b466336413a1fba398a5
+<4>  2176    Yes   KASAN: use-after-free Read in v4l2_fh_open
+                   https://syzkaller.appspot.com/bug?extid=b2391895514ed9ef4a8e
+<5>  1454    Yes   possible deadlock in input_inject_event
+                   https://syzkaller.appspot.com/bug?extid=79c403850e6816dc39cf
+<6>  1418    Yes   INFO: task hung in usbdev_open (2)
+                   https://syzkaller.appspot.com/bug?extid=b73659f5bb96fac34820
+<7>  1396    Yes   KASAN: use-after-free Read in em28xx_init_extension (2)
+                   https://syzkaller.appspot.com/bug?extid=99d6c66dbbc484f50e1c
+<8>  907     Yes   WARNING in enable_work
+                   https://syzkaller.appspot.com/bug?extid=7053fbd8757fecbbe492
+<9>  734     Yes   INFO: task hung in hub_port_init (3)
+                   https://syzkaller.appspot.com/bug?extid=b6f11035e572f08bc20f
+<10> 532     Yes   WARNING in usb_tx_block/usb_submit_urb
+                   https://syzkaller.appspot.com/bug?extid=355c68b459d1d96c4d06
+
+---
+This report is generated by a bot. It may contain errors.
+See https://goo.gl/tpsmEJ for more information about syzbot.
+syzbot engineers can be reached at syzkaller@googlegroups.com.
+
+To disable reminders for individual bugs, reply with the following command:
+#syz set <Ref> no-reminders
+
+To change bug's subsystems, reply with:
+#syz set <Ref> subsystems: new-subsystem
+
+You may send multiple commands in a single email message.
