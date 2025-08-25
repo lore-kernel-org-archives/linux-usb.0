@@ -1,140 +1,103 @@
-Received: from mail-lj1-f181.google.com (mail-lj1-f181.google.com [209.85.208.181])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mail-m49206.qiye.163.com (mail-m49206.qiye.163.com [45.254.49.206])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 69871393DE4
-	for <linux-usb@vger.kernel.org>; Mon, 25 Aug 2025 07:15:59 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.181
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 96A8F29B793;
+	Mon, 25 Aug 2025 08:11:16 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=45.254.49.206
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1756106161; cv=none; b=cj7WczSQVYN0mk8Nz+kzvIL8xYRDGc1MFkd/3EP6ULWWqCScmw4y1pG38GRDP4DmRSnUDsUc9hvdaCnbjYSLWwnER0Bz6gJkeW5/raPeDUfyrCGO5eyEqHD4Gn26VSbm0kSeuOmGi0+tON3P4JdxvyyhtAeYve9DG/d00+IanlI=
+	t=1756109482; cv=none; b=hAJTQtGhcHUXZ+d0epsJZ5P2gPLWcunKgQumYhwNc/VQ+U6PZIM31DASQj9ljNj4Xv+18+5RQqKOwGOtMd1BUrg6Y8YU6Ct5u/k/NPg5oMjVkW04I+MljMdPg8p5mogZVgzLMNhmcm2xWBkwakag6piRFFKGpkSOSmPGY4NHSAM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1756106161; c=relaxed/simple;
-	bh=uXSnhe8W2AVbP2vnHrNQGR8eAqyfSIEu5SsLO6jRh8o=;
-	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=mZDNU9+XhRu0NvnaZz32JVatK5+QT3sby2MNwuTrvZnrS6uwcYjOelxoKLZzsH0VYmhUyFSQuqMlJs5BacrJsm3hXm85tOv3vVnCyvHL/f9yLiNmXNLkejL8fE1rigAh8mhPFo5HYQJ1ySCbx/OzXUC8RJl0glRR5KLh9Cckisc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=a74rQYgE; arc=none smtp.client-ip=209.85.208.181
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1756109482; c=relaxed/simple;
+	bh=NGv79DTk6F7a87cvl4FUlWH3mVBfPqdnx9mJIeeHa5c=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=Rjw2y891k4GLhCthBeJ3KWvpzrT3tItSjBrQ/5esRl3vTfHBBIHDYUCVSVpXEjAxnO2YF8BxwD1B5j6lkLudgAJ9ycBj58RNtHjT69aG6K9OH6j8UzGHjwyeANFYy3mFB9urd955JcuO5x7ZqakGhCVTvbAyiw8s07YV3UQn0y8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=rock-chips.com; spf=pass smtp.mailfrom=rock-chips.com; dkim=pass (1024-bit key) header.d=rock-chips.com header.i=@rock-chips.com header.b=jZTcCQqM; arc=none smtp.client-ip=45.254.49.206
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=rock-chips.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=rock-chips.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="a74rQYgE"
-Received: by mail-lj1-f181.google.com with SMTP id 38308e7fff4ca-333f8d24c6fso30002201fa.0
-        for <linux-usb@vger.kernel.org>; Mon, 25 Aug 2025 00:15:59 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1756106157; x=1756710957; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:subject:cc:to:from:date:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=cR+8LvVi57TD5yB34AYwEXou3QzdqqOAMGG0TPLdTew=;
-        b=a74rQYgEx9Z7F0Msp60myuXONBtjICYqoj1waeaR3N/OHK55MfTpc+vcyg5tKuyw5W
-         ibYZuarVVbMNdkyfXhZoLbR1rMytNXLlzWuk4Mfz/+CAnK7t7MN93z/WNcMcDinOI/lR
-         5MtahfUsbJv5GEFhk2yzNsd34QbxO//dkxcCxjJYmXBvCb/fOyq45QvFBNr6Qs39amTO
-         m4yUtIZErz1M13Q7jophxu+nr20mGH8RJ8sWQB1kzwmNplf8jHqMMkhLmVpryxm/mDC/
-         4DAzslKeGlcXkMIz6ahGbPr9TnpKwGztdwhIVZFjmEDq+4S/u0r0qSpiokFMdrXGx4xD
-         UfRw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1756106157; x=1756710957;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:subject:cc:to:from:date:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=cR+8LvVi57TD5yB34AYwEXou3QzdqqOAMGG0TPLdTew=;
-        b=hdjdfyO5Y0ZOBqmIky/lPjeav0yjBHrd93s9tp8F7y8/lXVZ93CJ8tOUALtSuGjSCh
-         QHAc3zSiDS26bzKWy/Vyi6n2HlA1hyXehU2gBxxc9mpMU/1zuWPKJ0+tFZD1ek2e8E/O
-         FzSUQyUjjXh90hd9+69f2fXEiQpgWDqBWBn0CGzwnpx08t65o2vxHSb2PjuE90fXXQG9
-         1dihyxDaEjDHBH5FuB0V4PgZvhs68ndNGpTwNvV8HqG2EX4Zi7IAW42vFf5B195xB7vc
-         PusoHLxF+iy21/vbWgIWBgNZ8daLZNfzg7jR57AcYZAhkRIMHoBrwkieSch9OuvtVdCJ
-         TbLw==
-X-Gm-Message-State: AOJu0Ywv2EF/cbizqyN2qUSadTcijEilwol2fHHzF/wpx2PlRURXillE
-	O8yzx9ciQWPUuZBgheRm7Pboh+FPVop1olQk4CH3xzFur2lv2M7RledP+/Ox2w==
-X-Gm-Gg: ASbGncuAfDVxnrDbcz1UCG3biKWtk4ajnW+HAHuaeo+k5YHzXSFGfrIRNTrigDTFR1z
-	1b9RMalMixCSqEPpLn1yJmDOe0LIkHJIMk2NyJzANHvvrQBMKXZkhv5PbgJr7R9EWybuaGIDnQ5
-	sqA+qTHXhPFAj4YXcbLjzxv5soIgd186B6UcNcR0JMkLnkVkaRP2et4S2SIs8C5A2rYs3fQv7Ry
-	WHw0tPs4gn6QF2OkRcJXMM4bRTqj/IhJ6+CUO23wB10vXMwgK/zmpSOZV3CedBz3hSckCqj3rJq
-	+7r60W9s7n1eddVMkoNMUiAZWYmHadQKc1CjaSJ2iqPQRDKLBy7Hzg2yhHaix+HDWEQUlmjcNjd
-	f8LUUlKtwsg9k6B4zQ5nyNFn5cda4T6FVnck=
-X-Google-Smtp-Source: AGHT+IEEv1GPlyTPPRU4YPd2N3tl1xxr/gqs74tPBWLTgdBNVZyh2szM4Rf0BeXdwqS3sFSSuWV+dw==
-X-Received: by 2002:a2e:a553:0:b0:336:7cf4:7e95 with SMTP id 38308e7fff4ca-3367cf486a2mr2841611fa.42.1756106157055;
-        Mon, 25 Aug 2025 00:15:57 -0700 (PDT)
-Received: from foxbook (bhd106.neoplus.adsl.tpnet.pl. [83.28.93.106])
-        by smtp.gmail.com with ESMTPSA id 38308e7fff4ca-3366fdea6eesm7524271fa.44.2025.08.25.00.15.56
-        (version=TLS1_2 cipher=AES128-SHA bits=128/128);
-        Mon, 25 Aug 2025 00:15:56 -0700 (PDT)
-Date: Mon, 25 Aug 2025 09:15:52 +0200
-From: =?UTF-8?B?TWljaGHFgg==?= Pecio <michal.pecio@gmail.com>
-To: Niklas Neronin <niklas.neronin@linux.intel.com>,
- mathias.nyman@linux.intel.com
-Cc: linux-usb@vger.kernel.org
-Subject: Re: [PATCH 4/4] usb: xhci: handle Set TR Deq Context State Error
- due to Endpoint state
-Message-ID: <20250825091552.350d027e.michal.pecio@gmail.com>
-In-Reply-To: <20250822101514.3a730f4f.michal.pecio@gmail.com>
-References: <20250818125742.3572487-1-niklas.neronin@linux.intel.com>
-	<20250818125742.3572487-5-niklas.neronin@linux.intel.com>
-	<20250822101514.3a730f4f.michal.pecio@gmail.com>
+	dkim=pass (1024-bit key) header.d=rock-chips.com header.i=@rock-chips.com header.b="jZTcCQqM"
+Received: from [172.16.33.94] (unknown [58.22.7.114])
+	by smtp.qiye.163.com (Hmail) with ESMTP id 20740ab50;
+	Mon, 25 Aug 2025 11:35:11 +0800 (GMT+08:00)
+Message-ID: <5252b43d-a7ee-42b5-932e-6c6eadd04543@rock-chips.com>
+Date: Mon, 25 Aug 2025 11:35:10 +0800
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
-
-On Fri, 22 Aug 2025 10:15:14 +0200, Micha=C5=82 Pecio wrote:
-> Set TR Dequeue code is pretty dumb and it will jump to the first TRB
-> after the first cancelled TD (or something like that). If the endpoint
-> may have been running when Set TR Dequeue failed, is it guaranteed that
-> trying again won't rewind it to some already completed TD?
-
-Answering my own question, rewinding back to completed TDs could only
-happen if TD cancel status were TD_HALTED, but it's made TD_DIRTY here.
-In such case xhci_invalidate_cancelled_tds() will perform trb_in_td()
-check and find that another Set TR Deq is not necessary if the HW has
-already moved past the TD we tried to get out of. (It may still issue
-the command for some other TD, of course.)
-
-BTW, if the HW completed this TD, the TD *should* have already been
-given back and this patch should have no effect then. But this is not
-guaranteed, because fe49df60cdb7 ("xhci: Mitigate failed set dequeue
-pointer commands") turned the TD into No-Ops. (Note that the contrary
-isn't guaranteed either, since the xHC is allowed to cache this TD.)
-
-Perhaps fe49df60cdb7 isn't really right? It's not illegal to complete
-an unlinked URB due to race with normal execution. Sure, the condition
-discussed here is abnormal, but callers won't know the difference.
-
-And in the ASMedia case mentioned by fe49df60cdb7:
-
-1. The unhandled Babble Error makes no real difference. IME, after
-   a TRB Error from Set TR Dequeue, the endpoint stays stuck anyway.
-   Some other HCs also get stuck similarly, but without TRB Error.
-
-2. Babble Error wasn't handled because the TD had already been given
-   back earlier when Set TR Deq failed with TRB Error. Perhaps that's
-   the real bug which deserves fixing?
-
-The ASMedia TRB Error case:
-https://lore.kernel.org/linux-usb/ZsjgmCjHdzck9UKd@alphanet.ch/
-https://lore.kernel.org/linux-usb/20241113002658.0a031681@foxbook/
-
-> Is it impossible that the TD we tried to skip has been given back and
-> the endpoint and/or slot are being disabled right now?
-
-It's not impossible, but if the TD is given back and no other TDs
-remain then nothing more will be done, so no problem.
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH] usb: gadget: f_hid: Fix zero length packet transfer
+To: Alan Stern <stern@rowland.harvard.edu>
+Cc: gregkh@linuxfoundation.org, Chris.Wulff@biamp.com,
+ linux-usb@vger.kernel.org, linux-kernel@vger.kernel.org,
+ frank.wang@rock-chips.com, jianwei.zheng@rock-chips.com,
+ yue.long@rock-chips.com
+References: <1755828118-21640-1-git-send-email-william.wu@rock-chips.com>
+ <c09f21ee-be83-4880-841b-70e1e5c036f0@rowland.harvard.edu>
+From: William Wu <william.wu@rock-chips.com>
+In-Reply-To: <c09f21ee-be83-4880-841b-70e1e5c036f0@rowland.harvard.edu>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
+X-HM-Tid: 0a98df4b4d9709d4kunm3b6efc731b10cc1
+X-HM-MType: 1
+X-HM-Spam-Status: e1kfGhgUHx5ZQUpXWQgPGg8OCBgUHx5ZQUlOS1dZFg8aDwILHllBWSg2Ly
+	tZV1koWUFDSUNOT01LS0k3V1ktWUFJV1kPCRoVCBIfWUFZGh4YGVZJSk5OS0wfSh0ZSENWFRQJFh
+	oXVRMBExYaEhckFA4PWVdZGBILWUFZTkNVSUlVTFVKSk9ZV1kWGg8SFR0UWUFZT0tIVUJCSU5LVU
+	pLS1VKQktCWQY+
+DKIM-Signature: a=rsa-sha256;
+	b=jZTcCQqM5yrjKOFSAtYk0EnwukWfQDkymkU92Bs/8bgdkoPL4iFiWgwJQ0RWrLDRT0s05dijmxWi39X56bJypBnDZJPRelZpNaRs6nQiCRqooJycG19YKE9GFZan4yvA4KXRKygdrWj8BKp8qrjw1L2zGaovhMjvOgSZYCkCrg0=; s=default; c=relaxed/relaxed; d=rock-chips.com; v=1;
+	bh=G4TTjMMxsEMVdyTYcmWj7mnrO5XKGcr4tlqnkm4eDc8=;
+	h=date:mime-version:subject:message-id:from;
 
 
-In general, this patch looks like an improvement over the status quo -
-pretending that the command succeeded and then unconditionally giving
-back the TD, even though the HW may still complete it later.
 
-That being said,
+On 8/22/2025 9:56 PM, Alan Stern wrote:
+> On Fri, Aug 22, 2025 at 10:01:58AM +0800, William Wu wrote:
+>> If the hid transfer with size divisible to EPs max packet
+>> size, it needs to set the req->zero to true, then the usb
+>> controller can transfer a zero length packet at the end
+>> according to the USB 2.0 spec.
+>>
+>> Signed-off-by: William Wu <william.wu@rock-chips.com>
+>> ---
+>>   drivers/usb/gadget/function/f_hid.c | 4 ++--
+>>   1 file changed, 2 insertions(+), 2 deletions(-)
+>>
+>> diff --git a/drivers/usb/gadget/function/f_hid.c b/drivers/usb/gadget/function/f_hid.c
+>> index 8e1d1e8..8021af3 100644
+>> --- a/drivers/usb/gadget/function/f_hid.c
+>> +++ b/drivers/usb/gadget/function/f_hid.c
+>> @@ -511,7 +511,7 @@ static ssize_t f_hidg_write(struct file *file, const char __user *buffer,
+>>   	}
+>>   
+>>   	req->status   = 0;
+>> -	req->zero     = 0;
+>> +	req->zero     = ((count % hidg->in_ep->maxpacket) == 0);
+> 
+> Here and below, there is no need to check whether count is divisible by
+> the maxpacket length.  The UDC driver does this for you automatically.
+> (See the kerneldoc for struct usb_request.)  Simply set req->zero to 1.
+> 
+> Alan Stern
+Good idea，I checked the UDC drivers (drivers/usb/gadget/udc and 
+dwc2/dwc3), they test if zlp is actually needed if req->zero to 1.>
+>>   	req->length   = count;
+>>   	req->complete = f_hidg_req_complete;
+>>   	req->context  = hidg;
+>> @@ -967,7 +967,7 @@ static int hidg_setup(struct usb_function *f,
+>>   	return -EOPNOTSUPP;
+>>   
+>>   respond:
+>> -	req->zero = 0;
+>> +	req->zero = ((length % cdev->gadget->ep0->maxpacket) == 0);
+>>   	req->length = length;
+>>   	status = usb_ep_queue(cdev->gadget->ep0, req, GFP_ATOMIC);
+>>   	if (status < 0)
+>> -- 
+>> 2.0.0
+> 
+> 
+> 
 
-1. I'm not aware of any known cases leading to this situation.
-
-2. A loop which finds and updates the TD_CLEARING_CACHE item already
-   exists, so I think it would be better to modify this loop instead
-   of adding another one. And the loop prints some xhci_dbg(), so it
-   would be nice if they showed up in this case as well.
-
-
-Regards,
-Michal
