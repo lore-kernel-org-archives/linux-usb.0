@@ -1,38 +1,38 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 062492F657E;
-	Tue, 26 Aug 2025 07:18:37 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 51E722F83B6;
+	Tue, 26 Aug 2025 07:18:38 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1756192718; cv=none; b=LLUMnHv9XzShXXQVC6I7tQ09fYNkXxuf2wvRyqNynrXImAZKYBij5/9m2lmsKwj3PM42Iq1uLB8VL/xtnP8OLXrntvPRTdhib4yposiWpTnNO2Wxb8I4ka+tdiyfa4He9bkRx6LWLrj0VUsBf3IZWR9dGZxBs89z3DwMuX/jCdE=
+	t=1756192718; cv=none; b=KythlgmitbvCnaCzc3bnr4tv8yIS4klkdyqlJQEvo3aPZNdEH6/1vwitL6fm9//jfRThrCIoB0PgqMb+4S6ow/sBgek6OO4LYOUsT1AeBeX7L7xQWGf+/QO/BYy7A2hrfabMStA8kBPfaRynAJ4FFrZLKpCeBXmOEXOQYVrYTD4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
 	s=arc-20240116; t=1756192718; c=relaxed/simple;
-	bh=c9FpxhMbO0dHJY+8IwcerSUUGg4XtosdvIRtqr24ytw=;
+	bh=i0Nfy+9gssKmarkh7J2+cP0xs3hncTO4KeRTAk5qZO8=;
 	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
-	 In-Reply-To:To:Cc; b=st8zRdlz7Qty4C+2Bqllypbla2Wv1riw0/B4G0UQ+rFVmuPRydOvUXm3+JZpSY3I15AtLiDc0I3kvDbWo2T6iL6SHhinnAdWBelrloEieFtMjQuJ9gK+QPG4dexXmPQjxf6MHJOFMP1pyH/OXe5O+eP45Ma9FoYsUAcclWaHcMk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=uNIkFdiH; arc=none smtp.client-ip=10.30.226.201
+	 In-Reply-To:To:Cc; b=huZCbrkCTK5qj8SdSa93deVIwK8fDWjid2kS60gGvJvxOa7BupriDWtdPTLDtMFDIWV0jDu3cRdstjVwVrsalkS2Vi41PwEeRVg3yqUAkcTNVJZi+okgG0mPEuUCLc+vSth/xb8qUOqqOGycYHZYBYb2W6OY4LciSTvalYon+yY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=iscT6gSZ; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="uNIkFdiH"
-Received: by smtp.kernel.org (Postfix) with ESMTPS id 80F54C2BCB4;
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="iscT6gSZ"
+Received: by smtp.kernel.org (Postfix) with ESMTPS id 9BDD2C2BCB7;
 	Tue, 26 Aug 2025 07:18:37 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
 	s=k20201202; t=1756192717;
-	bh=c9FpxhMbO0dHJY+8IwcerSUUGg4XtosdvIRtqr24ytw=;
+	bh=i0Nfy+9gssKmarkh7J2+cP0xs3hncTO4KeRTAk5qZO8=;
 	h=From:Date:Subject:References:In-Reply-To:To:Cc:Reply-To:From;
-	b=uNIkFdiHoF3Dq4lRSIfAawSrqom1FSmEVkQHS6tKlI/rzfQiBEqFSueUQhEaMQf/j
-	 eP15kYpgfHtQUA8T72f8n59D9N4cdQH1e421F8KsxJn3YsTn4glKqUx8KXD1uKq80h
-	 zoxgjGR64QQJo3ZKQBCx6iPqfkxyq/LRe/pullaq5czU/9b4KhGKNWrKG3aHvgyWWO
-	 x85amhZb1IFqsY5qb0stcgms0pJ+heByC606ZAv1iBAX64qLVAS8kGIs4qKRyrtG7G
-	 QEWV1M8Nk8jbuoTJr1CpBmk6A6ufxtLnz8fCGmVcFShVN+3Vh+hUlS6ETjiDqmkDTb
-	 OYskWxFa+DgPA==
+	b=iscT6gSZf9IrQsmHBTplipM+0F9X9OI8CwAzh0KIFSezDZwQHScS8J/8uoohKSUUs
+	 KBWZcz3v4+r7ykZS64xQcl9bUFHXYLBsXsx7VbqzgoU2nHVpR0ur5q5S8iOu+ZyLhr
+	 YPQ4mcjX4bCSzTB2hzQIvxOZsUJ1hhTwH7qY70WWRldfwv0Z3CVADnoDY/AL8z2X0w
+	 7MDg8Dw/Vkdc5pK0aXCZDhu7MX3AgpZIlwUT8AeB+ksROrBq0vm8ynlp3veYmCxdkq
+	 N1M5S6rI/o4xKWeYuf8omNKus4x6V/hEwRKrAM2UW2pkOqOiiaIf/kVNQ/1XSxYcr8
+	 4rQUrZbMgNM6g==
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 75FB1CA0EFA;
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 93069CA0FEB;
 	Tue, 26 Aug 2025 07:18:37 +0000 (UTC)
 From: Fenglin Wu via B4 Relay <devnull+fenglin.wu.oss.qualcomm.com@kernel.org>
-Date: Tue, 26 Aug 2025 15:18:33 +0800
-Subject: [PATCH v3 6/8] dt-bindings: soc: qcom,pmic-glink: Add charge limit
- nvmem properties
+Date: Tue, 26 Aug 2025 15:18:35 +0800
+Subject: [PATCH v3 8/8] arm64: dts: qcom: x1e80100-crd: Add charge limit
+ nvmem
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
@@ -41,7 +41,7 @@ List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20250826-qcom_battmgr_update-v3-6-74ea410ef146@oss.qualcomm.com>
+Message-Id: <20250826-qcom_battmgr_update-v3-8-74ea410ef146@oss.qualcomm.com>
 References: <20250826-qcom_battmgr_update-v3-0-74ea410ef146@oss.qualcomm.com>
 In-Reply-To: <20250826-qcom_battmgr_update-v3-0-74ea410ef146@oss.qualcomm.com>
 To: Sebastian Reichel <sre@kernel.org>, 
@@ -61,11 +61,11 @@ Cc: Subbaraman Narayanamurthy <subbaraman.narayanamurthy@oss.qualcomm.com>,
  kernel@oss.qualcomm.com, devicetree@vger.kernel.org, 
  linux-usb@vger.kernel.org, Fenglin Wu <fenglin.wu@oss.qualcomm.com>
 X-Mailer: b4 0.14.2
-X-Developer-Signature: v=1; a=ed25519-sha256; t=1756192715; l=1445;
+X-Developer-Signature: v=1; a=ed25519-sha256; t=1756192715; l=1892;
  i=fenglin.wu@oss.qualcomm.com; s=20240327; h=from:subject:message-id;
- bh=ORlAVczHQEA0etBKQz2CENwDXUZXd+9EuSntaMi9ZEE=;
- b=h48ys0f+qEB7+0uoFBLr92/XOO7t0htNP1CHWOiYkdaL5AJMU/ZtZxF0qrfgA+gMUrD7lbn/O
- p92TpiOpK2QAiirfCQsuKD8nqztmnaapvAua+H64T17OyqHbnXYXVgc
+ bh=nz0xqUIFES4rZCFzolpsU95uZVTcAXXyGgr1rWpbGA4=;
+ b=DtfgkJIdv343kcIVoBWGlbvfyvBVocOucPuihWubpjjDuFsrX/vYpzAfcFgXdtNSKANvONaOl
+ 83AnAvPj5lSDPvb5Z24TD+c7MHXCLo7Ic+6QxroMCMFUFp1JzvbD6i1
 X-Developer-Key: i=fenglin.wu@oss.qualcomm.com; a=ed25519;
  pk=BF8SA4IVDk8/EBCwlBehKtn2hp6kipuuAuDAHh9s+K4=
 X-Endpoint-Received: by B4 Relay for fenglin.wu@oss.qualcomm.com/20240327
@@ -75,39 +75,59 @@ Reply-To: fenglin.wu@oss.qualcomm.com
 
 From: Fenglin Wu <fenglin.wu@oss.qualcomm.com>
 
-Add nvmem properties to retrieve charge control configurations
-from the PMIC SDAM registers.
+Add nvmem cells for getting charge control thresholds if they have
+been set previously.
 
 Signed-off-by: Fenglin Wu <fenglin.wu@oss.qualcomm.com>
 ---
- .../devicetree/bindings/soc/qcom/qcom,pmic-glink.yaml      | 14 ++++++++++++++
- 1 file changed, 14 insertions(+)
+ arch/arm64/boot/dts/qcom/x1-crd.dtsi         |  2 ++
+ arch/arm64/boot/dts/qcom/x1e80100-pmics.dtsi | 20 ++++++++++++++++++++
+ 2 files changed, 22 insertions(+)
 
-diff --git a/Documentation/devicetree/bindings/soc/qcom/qcom,pmic-glink.yaml b/Documentation/devicetree/bindings/soc/qcom/qcom,pmic-glink.yaml
-index 4c9e78f29523e3d77aacb4299f64ab96f9b1a831..9d6db4825da389aa14d77f653d2f8a3442e22162 100644
---- a/Documentation/devicetree/bindings/soc/qcom/qcom,pmic-glink.yaml
-+++ b/Documentation/devicetree/bindings/soc/qcom/qcom,pmic-glink.yaml
-@@ -55,6 +55,20 @@ properties:
-       The array should contain a gpio entry for each PMIC Glink connector, in reg order.
-       It is defined that GPIO active level means "CC2" or Reversed/Flipped orientation.
+diff --git a/arch/arm64/boot/dts/qcom/x1-crd.dtsi b/arch/arm64/boot/dts/qcom/x1-crd.dtsi
+index c9f0d505267081af66b0973fe6c1e33832a2c86b..8c3d30dd936ef9b12867971f5f237dd12484072d 100644
+--- a/arch/arm64/boot/dts/qcom/x1-crd.dtsi
++++ b/arch/arm64/boot/dts/qcom/x1-crd.dtsi
+@@ -82,6 +82,8 @@ pmic-glink {
+ 				    <&tlmm 123 GPIO_ACTIVE_HIGH>,
+ 				    <&tlmm 125 GPIO_ACTIVE_HIGH>;
  
-+  nvmem-cells:
-+    minItems: 3
-+    maxItems: 3
-+    description:
-+      The nvmem cells contain the charge control settings, including the charge control
-+      enable status, the battery state of charge (SoC) threshold for stopping charging,
-+      and the battery SoC delta required to restart charging.
++		nvmem-cells = <&charge_limit_en>, <&charge_limit_end>, <&charge_limit_delta>;
++		nvmem-cell-names = "charge_limit_en", "charge_limit_end", "charge_limit_delta";
+ 		/* Left-side rear port */
+ 		connector@0 {
+ 			compatible = "usb-c-connector";
+diff --git a/arch/arm64/boot/dts/qcom/x1e80100-pmics.dtsi b/arch/arm64/boot/dts/qcom/x1e80100-pmics.dtsi
+index c02fd4d15c9649c222caaafa5ed2c777a10fb4f5..abf7afe5127d7b8b572513234e00009ce837837d 100644
+--- a/arch/arm64/boot/dts/qcom/x1e80100-pmics.dtsi
++++ b/arch/arm64/boot/dts/qcom/x1e80100-pmics.dtsi
+@@ -239,6 +239,26 @@ reboot_reason: reboot-reason@48 {
+ 			};
+ 		};
+ 
++		pmk8550_sdam_15: nvram@7e00 {
++			compatible = "qcom,spmi-sdam";
++			reg = <0x7e00>;
++			#address-cells = <1>;
++			#size-cells = <1>;
++			ranges = <0 0x7e00 0x100>;
 +
-+  nvmem-cell-names:
-+    items:
-+      - const: charge_limit_en
-+      - const: charge_limit_end
-+      - const: charge_limit_delta
++			charge_limit_en: charge-limit-en@73 {
++				reg = <0x73 0x1>;
++			};
 +
- patternProperties:
-   '^connector@\d$':
-     $ref: /schemas/connector/usb-connector.yaml#
++			charge_limit_end: charge-limit-end@75 {
++				reg = <0x75 0x1>;
++			};
++
++			charge_limit_delta: charge-limit-delta@75 {
++				reg = <0x76 0x1>;
++			};
++		};
++
+ 		pmk8550_gpios: gpio@8800 {
+ 			compatible = "qcom,pmk8550-gpio", "qcom,spmi-gpio";
+ 			reg = <0xb800>;
 
 -- 
 2.34.1
