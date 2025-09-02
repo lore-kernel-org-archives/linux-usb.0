@@ -1,38 +1,38 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1170F20311
-	for <linux-usb@vger.kernel.org>; Tue,  2 Sep 2025 21:23:15 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2070820311
+	for <linux-usb@vger.kernel.org>; Tue,  2 Sep 2025 21:24:12 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1756848195; cv=none; b=FtEMdZK4LTbn+KNDCMJCsqH9IYxNVAouy2+GiOkIRvo4qd5r38NarIisFz9YXyeZUqYOAyml0T48p+3Wv8PAkD5hwSwF5uEjnzl8K8uy2sD1ruOePzguXiz4M1zssogoskVJ9R5vQ/SrCbxeku/FiofCwLm2pJZbXArXvP8ehfc=
+	t=1756848253; cv=none; b=PpekwNSnwI4VtWBpbNQoYPi1mJOc5iqoJGv6VL+FTUN7YNtdcZ8iCW55DBuQt02MP5INZkkyohS3My9Oy+KiAByPkJLMZGrN0dOOA9d/KvryxYCrAwQKc8RS42hzbrZVTkq0BhCYMfUcCh9Z8/RbURkUD3URwqYRLx8T0tDyxp4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1756848195; c=relaxed/simple;
-	bh=sTgFANJTUcM3AlV+eqa0pJuu4uiaIXhwMZj2ZauBvrw=;
+	s=arc-20240116; t=1756848253; c=relaxed/simple;
+	bh=T8lHMqisD1YdUogAdKOVvGsxIyfALyzAtpZmbB9nZCo=;
 	h=From:To:Subject:Date:Message-ID:In-Reply-To:References:
-	 Content-Type:MIME-Version; b=ns+yT+UFXuRI4T22NCKdRfAIpDTzjEDB+o6PSe1EzDQDZyAn0IOC5g8Frsn8f8UkKgCEwYyex5a2lxiPwG9m5q3ilT+2BH0Lciklsa3znDPxY1+n9l8Kc1EevYsyusVMbnnC14xQQFxRoUeTbzd4EWB7rMtpfcwtm2Hdl/UGBDg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=YkgR3Aqh; arc=none smtp.client-ip=10.30.226.201
+	 Content-Type:MIME-Version; b=X9UymrrRWDP3zBXWpqW479qT0QxqD+b2w7DhgMKeEN+1eOg5/2zLh6cVSpr+lf/LyDxCLVxc6sj7zDgO2Z4DdQiCXm9THOJnxhyb32EzsHuW5vOV/WhX8HdLEbI32LWpTWX4Mrf1Dy8KqPBSVfi2v67KMPOurszThqUeaOoL7DA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=AEVgyRzB; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="YkgR3Aqh"
-Received: by smtp.kernel.org (Postfix) with ESMTPS id E121EC4CEED
-	for <linux-usb@vger.kernel.org>; Tue,  2 Sep 2025 21:23:14 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="AEVgyRzB"
+Received: by smtp.kernel.org (Postfix) with ESMTPS id ADE22C4CEF4
+	for <linux-usb@vger.kernel.org>; Tue,  2 Sep 2025 21:24:12 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1756848194;
-	bh=sTgFANJTUcM3AlV+eqa0pJuu4uiaIXhwMZj2ZauBvrw=;
+	s=k20201202; t=1756848252;
+	bh=T8lHMqisD1YdUogAdKOVvGsxIyfALyzAtpZmbB9nZCo=;
 	h=From:To:Subject:Date:In-Reply-To:References:From;
-	b=YkgR3AqhoZNpzIDLw66s29CrcI5UpSp6thApIxWeyGI2uuOafavNnrPCSovWbuYq4
-	 nWwYtgWlXz4mGQNDX+Es4Ciw/Bw4xL72sz9xQkrKn7Bzj+fJgD6HG4iEVL1AoSXBaf
-	 Yk9MiEo59cl9TRUSalN3i1YnTKn4fANjbqlYD8ob0DGHu6ZJzVD/nU0YNPDdJDY657
-	 pW9jaJMX94uiBhEZrZW33sdey1jAcy/lbiz4cYO03MC3evh3V6BE6DAWZAJ5SKeWgN
-	 UK67/sMLwBp9XEGD6ZfgJ+xzq2vyBdf6EOevt4kUcJFSnPBqxpgCdTvCjSXGkKIWBD
-	 t+6Jo4TdqUtYw==
+	b=AEVgyRzB1O4EnW+chthrIFFkD/VlJ8yDbMiIbpkYILHP8h6Oh19RE5opkCJ6D1tHs
+	 MiIE/F9deJaLITGwtDZnnC21dEdbY4TOz0KqBNXRfe5PAw8cmTajlbe9Xb6yin86aj
+	 5mZePbERDlcJFXlH/jaSZ2frvPbBTDrjVcccyxhZwkmtg/mgIljO7a7Pu5OgGiv0Gr
+	 4MhdX9R1ccyKO3eu2K8l07fGBzjgRIQ6jizXQfs+j8LLDEa7tBWtbJVfvhEyGCcdrh
+	 ws/VPdTWE57V01KA4ddPU+izcqrZfegRP7+x/o9+HPp/0Sj/Jm+N8WqFbl4y7qUEu1
+	 ossh6yHYtWEhw==
 Received: by aws-us-west-2-korg-bugzilla-1.web.codeaurora.org (Postfix, from userid 48)
-	id CC59EC3279F; Tue,  2 Sep 2025 21:23:14 +0000 (UTC)
+	id A67F4C3279F; Tue,  2 Sep 2025 21:24:12 +0000 (UTC)
 From: bugzilla-daemon@kernel.org
 To: linux-usb@vger.kernel.org
 Subject: [Bug 220491] usb_storage connected SD card disconnects/reconnects on
  resume from suspend
-Date: Tue, 02 Sep 2025 21:23:14 +0000
+Date: Tue, 02 Sep 2025 21:24:12 +0000
 X-Bugzilla-Reason: None
 X-Bugzilla-Type: changed
 X-Bugzilla-Watch-Reason: AssignedTo drivers_usb@kernel-bugs.kernel.org
@@ -48,7 +48,7 @@ X-Bugzilla-Priority: P3
 X-Bugzilla-Assigned-To: drivers_usb@kernel-bugs.kernel.org
 X-Bugzilla-Flags: 
 X-Bugzilla-Changed-Fields: attachments.created
-Message-ID: <bug-220491-208809-WAMrRFVYC8@https.bugzilla.kernel.org/>
+Message-ID: <bug-220491-208809-xwYsC9D5vb@https.bugzilla.kernel.org/>
 In-Reply-To: <bug-220491-208809@https.bugzilla.kernel.org/>
 References: <bug-220491-208809@https.bugzilla.kernel.org/>
 Content-Type: text/plain; charset="UTF-8"
@@ -64,11 +64,10 @@ MIME-Version: 1.0
 
 https://bugzilla.kernel.org/show_bug.cgi?id=3D220491
 
---- Comment #17 from Paul Ausbeck (paula@alumni.cse.ucsc.edu) ---
-Created attachment 308605
-  --> https://bugzilla.kernel.org/attachment.cgi?id=3D308605&action=3Dedit
-usbmon trace of emb-qm77 suspend/resume with connected xhci usb_storage dev=
-ice
+--- Comment #18 from Paul Ausbeck (paula@alumni.cse.ucsc.edu) ---
+Created attachment 308606
+  --> https://bugzilla.kernel.org/attachment.cgi?id=3D308606&action=3Dedit
+emb-qm77 suspend/resume dmesg log with xhci_hcd & usbcore dynamic debug
 
 --=20
 You may reply to this email to add a comment.
