@@ -1,55 +1,59 @@
 Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.8])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F24C5145355
-	for <linux-usb@vger.kernel.org>; Tue,  2 Sep 2025 10:53:17 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9DF092F5315;
+	Tue,  2 Sep 2025 10:53:20 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.8
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1756810399; cv=none; b=eooaBTmRMiGm+3ZzwIaOLWlaDFqPTeqa+UlDTSWNgLkKGyCkjnf6HBOnxOrEujv2Q6Kth6E7toRwPo9h5AsDxV/H8jb36ByhoOcId4DmNgSSOGsKG16Fk9e2aW5qSTr0mMjzgq95IycEIAtG5bvWXiBOlz84ruN0kRxZt3R2zCA=
+	t=1756810402; cv=none; b=qig50qHLlH3SPfajH6Dko+gedfJQ1r7XhbqVz36/viC6Dh2zLC+nrxbdXj19AYBKjwotAbEmjrXdUYD29DUcIcBsl1hJr80OIkUhqr/7mBt8QXrpjSiuPWb42k81F94SXry+0kQ8hZEaeEA8b69lfF3SkXz2uB0UwGYGWmyQYE0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1756810399; c=relaxed/simple;
-	bh=0JLIsZqom/1ZnX0RAui67TXJdwX/PdEU0JNvgWmppDU=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=juMW7UE5YalAVRqPO/z07lXlU8sEqVYEYe+ZMmtDKuzu0Gzm3n3WIL8MXL0B+xHTUxJVhEuFPzRZu+e2s/6hNpUfOoysZWu5D3czB0gAbcaCJpTvb1MyEcY2cNLxj8lYTsGOrxLQrabP0N8Jq1FZuNu+8hpkHz5szKtHM5rGWk4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=none smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=luePoTkF; arc=none smtp.client-ip=192.198.163.8
+	s=arc-20240116; t=1756810402; c=relaxed/simple;
+	bh=uAHxGn4/rHTrVBm7NBXS+g9pX3xfb9FmMbRVSxzG05E=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version; b=YAL+5oC5T2F6JmnvOnEe7svQdXt8dNYZdmNPWQqO5xwtCgPu2eXDUIOrR/ULH+Q5EBPgDQ/3qTy8ISDIaZyCUeUwQrfSSf7xuxWI8UngOnW7OqAJkGkTtvpCgYyek8Jqkw+a/YFAdigcKUZ8kYQaOg6hYKZRp+WrV7kBTYDkFiE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=none smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=m+Y9uhxq; arc=none smtp.client-ip=192.198.163.8
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=linux.intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="luePoTkF"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="m+Y9uhxq"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1756810398; x=1788346398;
-  h=from:to:cc:subject:date:message-id:mime-version:
-   content-transfer-encoding;
-  bh=0JLIsZqom/1ZnX0RAui67TXJdwX/PdEU0JNvgWmppDU=;
-  b=luePoTkFmwUr9lkJHMtPxcEZr/5+p4gJaS5fLXlpzWsmgfJNpiui+VaJ
-   W5kb+kgTvOKjhbcxItK/LBT/gTtky43+56IMIkHFO01wp03fNMvM7yCDz
-   1J4KxGMJQ4BxBeOjqn4jWGSavWhHbGjdnaCx5X+L2AtBdnlJPpgz8+F4t
-   IBbwNtGkVLlq665SKTi2352lgVw9PxIh1FEBzmp5EZiF1Qd+K5Pn+J6fI
-   S1L8pMwR316ZwMBCGYERW2zk0ZTKPWviAZUFZa1XYM5g92+iuy37tvOss
-   jRivBqoQf8/KTw5FPTnnmSjrprHBM+mfg0B5Hi75xBEwfZL+cawsrnENu
-   w==;
-X-CSE-ConnectionGUID: E68UtcILTziGOOczlJkSdA==
-X-CSE-MsgGUID: TBUDHQIcTR2AIwuxToFPag==
-X-IronPort-AV: E=McAfee;i="6800,10657,11540"; a="76678007"
+  t=1756810401; x=1788346401;
+  h=from:to:cc:subject:date:message-id:in-reply-to:
+   references:mime-version:content-transfer-encoding;
+  bh=uAHxGn4/rHTrVBm7NBXS+g9pX3xfb9FmMbRVSxzG05E=;
+  b=m+Y9uhxqc2lZgeqAOLSu1ezOOyVWc1Hvfee3Vm2381oggLZCENc4YeDy
+   F4P58rFqTXY525met8fLiZLM7mYftH944Vc/11RNMQJ5wOG/3CKNlASn9
+   tRG4EEImn2UpHcrfzfbUe8n84g24fAupqEwV0H2OXL50uRRdXf3RBUKL5
+   DkkD/sihGc8o1IGz+f3BGIFdHJDkqkm5sLkon0qIDuc+AFiEb1El5bTC9
+   YYgNfRJNMTwOaQyIYfBtF8pNhD9TrWheQq3v7viKxaoSEyCGU8f4e51v8
+   g2eCCyBhJlUjUqGk/NvOYLKtL6nKywM34f9rNZ9ex8Ewu3vvntEkkStlY
+   Q==;
+X-CSE-ConnectionGUID: vxHtLwYbSEKhWHFgz9BRGw==
+X-CSE-MsgGUID: jUjNFP4USD6VhJdl/mnVlg==
+X-IronPort-AV: E=McAfee;i="6800,10657,11540"; a="76678015"
 X-IronPort-AV: E=Sophos;i="6.18,230,1751266800"; 
-   d="scan'208";a="76678007"
+   d="scan'208";a="76678015"
 Received: from fmviesa008.fm.intel.com ([10.60.135.148])
-  by fmvoesa102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 02 Sep 2025 03:53:17 -0700
-X-CSE-ConnectionGUID: EJYJ6lKWR3GTUiIyu8yZag==
-X-CSE-MsgGUID: plySjc+yQvq6QZU3rqSf7g==
+  by fmvoesa102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 02 Sep 2025 03:53:21 -0700
+X-CSE-ConnectionGUID: kbGVSMwlSzOVhOvzKoxzag==
+X-CSE-MsgGUID: nQsKODBWQV6gg80ng6e9gg==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.18,230,1751266800"; 
-   d="scan'208";a="171609562"
+   d="scan'208";a="171609569"
 Received: from johunt-mobl9.ger.corp.intel.com (HELO mnyman-desk.intel.com) ([10.245.245.90])
-  by fmviesa008.fm.intel.com with ESMTP; 02 Sep 2025 03:53:16 -0700
+  by fmviesa008.fm.intel.com with ESMTP; 02 Sep 2025 03:53:19 -0700
 From: Mathias Nyman <mathias.nyman@linux.intel.com>
 To: <gregkh@linuxfoundation.org>
 Cc: <linux-usb@vger.kernel.org>,
-	Mathias Nyman <mathias.nyman@linux.intel.com>
-Subject: [PATCH 0/3] xhci fixes for usb-linus
-Date: Tue,  2 Sep 2025 13:53:03 +0300
-Message-ID: <20250902105306.877476-1-mathias.nyman@linux.intel.com>
+	Mathias Nyman <mathias.nyman@linux.intel.com>,
+	stable@vger.kernel.org
+Subject: [PATCH 2/3] xhci: dbc: Fix full DbC transfer ring after several reconnects
+Date: Tue,  2 Sep 2025 13:53:05 +0300
+Message-ID: <20250902105306.877476-3-mathias.nyman@linux.intel.com>
 X-Mailer: git-send-email 2.43.0
+In-Reply-To: <20250902105306.877476-1-mathias.nyman@linux.intel.com>
+References: <20250902105306.877476-1-mathias.nyman@linux.intel.com>
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
@@ -58,27 +62,83 @@ List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-Hi Greg
+Pending requests will be flushed on disconnect, and the corresponding
+TRBs will be turned into No-op TRBs, which are ignored by the xHC
+controller once it starts processing the ring.
 
-A couple xhci fixes for usb-linus
+If the USB debug cable repeatedly disconnects before ring is started
+then the ring will eventually be filled with No-op TRBs.
+No new transfers can be queued when the ring is full, and driver will
+print the following error message:
 
-Fixing a xhci memory leak regression in 6.17-rc3, and a DbC issue
-triggered when re-connecting DbC cable ~10 times without data transfers
-in between
+    "xhci_hcd 0000:00:14.0: failed to queue trbs"
 
-Thanks
-Mathias
+This is a normal case for 'in' transfers where TRBs are always enqueued
+in advance, ready to take on incoming data. If no data arrives, and
+device is disconnected, then ring dequeue will remain at beginning of
+the ring while enqueue points to first free TRB after last cancelled
+No-op TRB.
+s
+Solve this by reinitializing the rings when the debug cable disconnects
+and DbC is leaving the configured state.
+Clear the whole ring buffer and set enqueue and dequeue to the beginning
+of ring, and set cycle bit to its initial state.
 
-Mathias Nyman (3):
-  xhci: dbc: decouple endpoint allocation from initialization
-  xhci: dbc: Fix full DbC transfer ring after several reconnects
-  xhci: fix memory leak regression when freeing xhci vdev devices depth
-    first
+Cc: stable@vger.kernel.org
+Fixes: dfba2174dc42 ("usb: xhci: Add DbC support in xHCI driver")
+Signed-off-by: Mathias Nyman <mathias.nyman@linux.intel.com>
+---
+ drivers/usb/host/xhci-dbgcap.c | 23 +++++++++++++++++++++--
+ 1 file changed, 21 insertions(+), 2 deletions(-)
 
- drivers/usb/host/xhci-dbgcap.c | 94 ++++++++++++++++++++++++----------
- drivers/usb/host/xhci-mem.c    |  2 +-
- 2 files changed, 68 insertions(+), 28 deletions(-)
-
+diff --git a/drivers/usb/host/xhci-dbgcap.c b/drivers/usb/host/xhci-dbgcap.c
+index d0faff233e3e..63edf2d8f245 100644
+--- a/drivers/usb/host/xhci-dbgcap.c
++++ b/drivers/usb/host/xhci-dbgcap.c
+@@ -462,6 +462,25 @@ static void xhci_dbc_ring_init(struct xhci_ring *ring)
+ 	xhci_initialize_ring_info(ring);
+ }
+ 
++static int xhci_dbc_reinit_ep_rings(struct xhci_dbc *dbc)
++{
++	struct xhci_ring *in_ring = dbc->eps[BULK_IN].ring;
++	struct xhci_ring *out_ring = dbc->eps[BULK_OUT].ring;
++
++	if (!in_ring || !out_ring || !dbc->ctx) {
++		dev_warn(dbc->dev, "Can't re-init unallocated endpoints\n");
++		return -ENODEV;
++	}
++
++	xhci_dbc_ring_init(in_ring);
++	xhci_dbc_ring_init(out_ring);
++
++	/* set ep context enqueue, dequeue, and cycle to initial values */
++	xhci_dbc_init_ep_contexts(dbc);
++
++	return 0;
++}
++
+ static struct xhci_ring *
+ xhci_dbc_ring_alloc(struct device *dev, enum xhci_ring_type type, gfp_t flags)
+ {
+@@ -885,7 +904,7 @@ static enum evtreturn xhci_dbc_do_handle_events(struct xhci_dbc *dbc)
+ 			dev_info(dbc->dev, "DbC cable unplugged\n");
+ 			dbc->state = DS_ENABLED;
+ 			xhci_dbc_flush_requests(dbc);
+-
++			xhci_dbc_reinit_ep_rings(dbc);
+ 			return EVT_DISC;
+ 		}
+ 
+@@ -895,7 +914,7 @@ static enum evtreturn xhci_dbc_do_handle_events(struct xhci_dbc *dbc)
+ 			writel(portsc, &dbc->regs->portsc);
+ 			dbc->state = DS_ENABLED;
+ 			xhci_dbc_flush_requests(dbc);
+-
++			xhci_dbc_reinit_ep_rings(dbc);
+ 			return EVT_DISC;
+ 		}
+ 
 -- 
 2.43.0
 
