@@ -1,57 +1,57 @@
 Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.10])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AA7103FF1
-	for <linux-usb@vger.kernel.org>; Wed,  3 Sep 2025 17:01:49 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4ED3A2BCF5D
+	for <linux-usb@vger.kernel.org>; Wed,  3 Sep 2025 17:01:51 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.10
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1756918911; cv=none; b=Sz1+sQgLPAvOJ26rXmy6RjnUrMJ+/tzx5UgTSzv0zzq1brhxa7wX7JbFAyVWdwIKAD6YciTHxpa2sudsiXZRhX/lf+Jq1VhaF2fu/He9aHD6rfC4iszy0ZA8EMm6yDvbzEjqOLWlk0EsCmYLWxlW2SseasBcWPdOwBZulnawgPk=
+	t=1756918912; cv=none; b=Mb9MTuL32dytw+3i9msQGGpMVHfhrFfrYhfs9lL5L72Be2NBJxrINnVfec0UEGOx0MAWlaWJ+9iHORlq3MorkuZPAwii7+ajiHkiibFeTFUdM86xUyFPgEUaLHdtjJjujH6FYCKMFTfxs9oLt6HIl+faFDHQImRvNLW2AtPDy/E=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1756918911; c=relaxed/simple;
-	bh=Fu6mEuVkx7SUO/e55E17BDMDRgxOsYFhiJkGBc0V4B8=;
+	s=arc-20240116; t=1756918912; c=relaxed/simple;
+	bh=gHs2+iYkfhzHJQ7V5td6wFQ5XfN887fGS4w0ecyKfoY=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=WPNNrR3hfLAiCpLYstmW8cUP790DV8mcSxcc+vJ2p9N8pi6Ao8Uk4E/vg3NeJ1Z7euuZaRSZQ2TIYM1PbC8KGpyHkk0WD+4jzP0pVS6hLXYBKr4Qb9srRxf+tXRLGseFJ3vbu8PJI7H54PVIXqdZxA07dbmpwYa9bSP8yWzdogg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=none smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=hFVgEcLX; arc=none smtp.client-ip=198.175.65.10
+	 MIME-Version; b=layDRB6HjHf8TDfBKe13+4RAnMbpyElcokjeDip/CwhQJQLlWV0Ag0/xrcXFiTz7NpN9VktaHkhaKO4jk0WMRbDFZa+j3uRPrsMd/lGzFwmb6goVFI4I2Ox+ywM//wQcLKtXUymz6er9LR0HKT73aH8MC5BCZTeXRS4yFibg8hw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=none smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=GfkunUjU; arc=none smtp.client-ip=198.175.65.10
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=linux.intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="hFVgEcLX"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="GfkunUjU"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1756918910; x=1788454910;
+  t=1756918912; x=1788454912;
   h=from:to:cc:subject:date:message-id:in-reply-to:
    references:mime-version:content-transfer-encoding;
-  bh=Fu6mEuVkx7SUO/e55E17BDMDRgxOsYFhiJkGBc0V4B8=;
-  b=hFVgEcLXqlYJRrURlOvQqkZaugw+oA0786iSygIOFt5Yph4QJ1GJmb59
-   RBK8SbQY5OKqS+AX1b40a85+ybufQ/co6Rdp/04jmPT8SzyW57toNjszK
-   84Cpo3k6p/wVv/A1bshwCoXSG7VvZoitpvZaX1QMdncRAdRVQcrOl3qhp
-   9M9FO2u0vJ5JILqoi+7Sbfckunz1SaxZikpwGjBnEmsbpYQBJSx70hJX+
-   6Qtl6i3hgrs6szudwQhZO6ivmgixM71cDY6CrgSkJK/dBbUQnK8BX8pxl
-   JVXFaIv/3ynWJwDzkHHxkF8tdLeVnLGIC4Z3KIgY34EtQ/6DZ4zMAjUrg
+  bh=gHs2+iYkfhzHJQ7V5td6wFQ5XfN887fGS4w0ecyKfoY=;
+  b=GfkunUjUcpefHZpj2m/9P8ZrEJRbTI/wJlUPHJM2VrevG8K1L6IxhAUg
+   UQbZuDxt9hHSQ91gSLuQMGZtR9PzTVXnJC2GrMUIGT+zYWkZ66JvQMegj
+   XAbMYC5sucxwve0z8ceZaWj59DOk3+BTBiWMFtctbR39CCwOMtxryidnF
+   yb2jq/Oj3U6BBYOIl1MRM0isiMxrv0yuRTwZejov4pNpC8X//FILRjdL1
+   ZzZzNaAwtjPL/5HHEwWwxjpGt/CTNrGAiQo8HnBdixsRu+0rPSYTtzMCf
+   4MCInrt47QSoyIXg0E3OmPGcn+pCxNgq9xhPL4SzJianUIW6ZylLjMV02
    w==;
-X-CSE-ConnectionGUID: XrcbNGdbQEap4nfhZdzOog==
-X-CSE-MsgGUID: bqZxIaM6Qsu/IXHQPklfdw==
-X-IronPort-AV: E=McAfee;i="6800,10657,11542"; a="76687943"
+X-CSE-ConnectionGUID: XebMoLUtQM6feaQpQDvBlg==
+X-CSE-MsgGUID: Gl80hYNHQmOXtIagZg3XuQ==
+X-IronPort-AV: E=McAfee;i="6800,10657,11542"; a="76687953"
 X-IronPort-AV: E=Sophos;i="6.18,236,1751266800"; 
-   d="scan'208";a="76687943"
+   d="scan'208";a="76687953"
 Received: from orviesa004.jf.intel.com ([10.64.159.144])
-  by orvoesa102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 03 Sep 2025 10:01:50 -0700
-X-CSE-ConnectionGUID: rt0hWeqyReWVkbXjvvOlaw==
-X-CSE-MsgGUID: hhLxRFeqR/O6HE9aznISJA==
+  by orvoesa102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 03 Sep 2025 10:01:52 -0700
+X-CSE-ConnectionGUID: SsBNjaC1SleTOdqYMqKypQ==
+X-CSE-MsgGUID: Qz+LAqmOQNu8QN4du49/dA==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.18,236,1751266800"; 
-   d="scan'208";a="176007526"
+   d="scan'208";a="176007531"
 Received: from black.igk.intel.com ([10.91.253.5])
-  by orviesa004.jf.intel.com with ESMTP; 03 Sep 2025 10:01:49 -0700
+  by orviesa004.jf.intel.com with ESMTP; 03 Sep 2025 10:01:50 -0700
 Received: by black.igk.intel.com (Postfix, from userid 1058)
-	id 623E794; Wed, 03 Sep 2025 19:01:47 +0200 (CEST)
+	id ED17396; Wed, 03 Sep 2025 19:01:48 +0200 (CEST)
 From: Niklas Neronin <niklas.neronin@linux.intel.com>
 To: mathias.nyman@linux.intel.com
 Cc: linux-usb@vger.kernel.org,
 	Niklas Neronin <niklas.neronin@linux.intel.com>
-Subject: [PATCH 1/7] usb: xhci-dbgcap: correct DMA address handling
-Date: Wed,  3 Sep 2025 19:01:21 +0200
-Message-ID: <20250903170127.2190730-2-niklas.neronin@linux.intel.com>
+Subject: [PATCH 3/7] usb: xhci: improve Stream Context register debugging
+Date: Wed,  3 Sep 2025 19:01:23 +0200
+Message-ID: <20250903170127.2190730-4-niklas.neronin@linux.intel.com>
 X-Mailer: git-send-email 2.50.1
 In-Reply-To: <20250903170127.2190730-1-niklas.neronin@linux.intel.com>
 References: <20250903170127.2190730-1-niklas.neronin@linux.intel.com>
@@ -63,19 +63,19 @@ List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-Address the handling of addresses within the dbc_handle_xfer_event(),
-ensuring accurate extraction and comparison.
+Improve the debugging output for Stream Context registers in the xHCI
+driver. The Stream Context registers consist of the following fields:
+ bit 0 - Dequeue Cycle State.
+ bits 3:1 - Stream Context Type.
+ bits 63:4 - TR Dequeue Pointer, is 16-byte aligned.
 
-Variable details:
-'r->trb_dma'		    : A DMA address.
-'ep_ctx->deq'		    : A le64, bits 63:4 contain the DMA address.
-'event->trans_event.buffer' : A le64, bits 63:0 contain the DMA address.
+Instead of printing the entire 64-bit register as a single block, each
+field is now printed separately. This approach enhances the readability.
 
-1. Convert 'ep_ctx->deq' and 'event->trans_event.buffer' addresses to
-   the CPU's native byte order.
+Remove xhci_dbg() in xhci_alloc_stream_info(). A detailed trace message is
+printed after xhci_update_stream_mapping() call.
 
-2. Use mask; TR_DEQ_PTR_MASK (bits 63:4) to extract the address from
-   'ep_ctx->deq', replacing the previous use of ~TRB_CYCLE (bits 63:1).
+xHCI specification, section 6.2.4.1.
 
 Why not use 'dma_addr_t' for the address?
 The 'dma_addr_t' type can vary between 32 and 64 bits depending on the
@@ -87,54 +87,74 @@ detected.
 
 Signed-off-by: Niklas Neronin <niklas.neronin@linux.intel.com>
 ---
- drivers/usb/host/xhci-dbgcap.c | 9 ++++++---
- 1 file changed, 6 insertions(+), 3 deletions(-)
+ drivers/usb/host/xhci-debugfs.c | 16 ++++++++++------
+ drivers/usb/host/xhci-mem.c     |  1 -
+ drivers/usb/host/xhci-trace.h   |  5 +++--
+ 3 files changed, 13 insertions(+), 9 deletions(-)
 
-diff --git a/drivers/usb/host/xhci-dbgcap.c b/drivers/usb/host/xhci-dbgcap.c
-index 06a2edb9e86e..2f24a3a54439 100644
---- a/drivers/usb/host/xhci-dbgcap.c
-+++ b/drivers/usb/host/xhci-dbgcap.c
-@@ -724,6 +724,7 @@ static void dbc_handle_xfer_event(struct xhci_dbc *dbc, union xhci_trb *event)
- 	u32			comp_code;
- 	size_t			remain_length;
- 	struct dbc_request	*req = NULL, *r;
-+	u64			ep_trb, deq;
+diff --git a/drivers/usb/host/xhci-debugfs.c b/drivers/usb/host/xhci-debugfs.c
+index c6d44977193f..35398b95c5a2 100644
+--- a/drivers/usb/host/xhci-debugfs.c
++++ b/drivers/usb/host/xhci-debugfs.c
+@@ -521,6 +521,7 @@ static int xhci_stream_context_array_show(struct seq_file *s, void *unused)
+ 	struct xhci_ep_priv	*epriv = s->private;
+ 	struct xhci_stream_ctx	*stream_ctx;
+ 	dma_addr_t		dma;
++	u64			ctx;
+ 	int			id;
  
- 	comp_code	= GET_COMP_CODE(le32_to_cpu(event->generic.field[2]));
- 	remain_length	= EVENT_TRB_LEN(le32_to_cpu(event->generic.field[2]));
-@@ -733,10 +734,11 @@ static void dbc_handle_xfer_event(struct xhci_dbc *dbc, union xhci_trb *event)
- 	ep_ctx		= (ep_id == EPID_OUT) ?
- 				dbc_bulkout_ctx(dbc) : dbc_bulkin_ctx(dbc);
- 	ring		= dep->ring;
-+	ep_trb		= le64_to_cpu(event->trans_event.buffer);
+ 	if (!epriv->stream_info)
+@@ -533,12 +534,15 @@ static int xhci_stream_context_array_show(struct seq_file *s, void *unused)
+ 	for (id = 0; id < epriv->stream_info->num_stream_ctxs; id++) {
+ 		stream_ctx = epriv->stream_info->stream_ctx_array + id;
+ 		dma = epriv->stream_info->ctx_array_dma + id * 16;
+-		if (id < epriv->stream_info->num_streams)
+-			seq_printf(s, "%pad stream id %d deq %016llx\n", &dma,
+-				   id, le64_to_cpu(stream_ctx->stream_ring));
+-		else
+-			seq_printf(s, "%pad stream context entry not used deq %016llx\n",
+-				   &dma, le64_to_cpu(stream_ctx->stream_ring));
++
++		if (id < epriv->stream_info->num_streams) {
++			ctx = le64_to_cpu(stream_ctx->stream_ring);
++			seq_printf(s, "%pad stream %d: deq %016llx SCT %llu cycle %llu\n",
++				   &dma, id, ctx & TR_DEQ_PTR_MASK, CTX_TO_SCT(ctx),
++				   ctx & EP_CTX_CYCLE_MASK);
++		} else {
++			seq_printf(s, "%pad stream %d: entry not used\n", &dma, id);
++		}
+ 	}
  
- 	/* Match the pending request: */
- 	list_for_each_entry(r, &dep->list_pending, list_pending) {
--		if (r->trb_dma == event->trans_event.buffer) {
-+		if (r->trb_dma == ep_trb) {
- 			req = r;
- 			break;
- 		}
-@@ -768,8 +770,9 @@ static void dbc_handle_xfer_event(struct xhci_dbc *dbc, union xhci_trb *event)
- 		status = -comp_code;
- 		break;
- 	case COMP_STALL_ERROR:
-+		deq = le64_to_cpu(ep_ctx->deq) & TR_DEQ_PTR_MASK;
- 		dev_warn(dbc->dev, "Stall error at bulk TRB %llx, remaining %zu, ep deq %llx\n",
--			 event->trans_event.buffer, remain_length, ep_ctx->deq);
-+			 ep_trb, remain_length, deq);
- 		status = 0;
- 		dep->halted = 1;
+ 	return 0;
+diff --git a/drivers/usb/host/xhci-mem.c b/drivers/usb/host/xhci-mem.c
+index 2a414dee7233..9520e7c6e774 100644
+--- a/drivers/usb/host/xhci-mem.c
++++ b/drivers/usb/host/xhci-mem.c
+@@ -676,7 +676,6 @@ struct xhci_stream_info *xhci_alloc_stream_info(struct xhci_hcd *xhci,
+ 			cur_ring->cycle_state;
+ 		stream_info->stream_ctx_array[cur_stream].stream_ring =
+ 			cpu_to_le64(addr);
+-		xhci_dbg(xhci, "Setting stream %d ring ptr to 0x%08llx\n", cur_stream, addr);
  
-@@ -788,7 +791,7 @@ static void dbc_handle_xfer_event(struct xhci_dbc *dbc, union xhci_trb *event)
- 		 * TRB again.
- 		 */
+ 		ret = xhci_update_stream_mapping(cur_ring, mem_flags);
  
--		if ((ep_ctx->deq & ~TRB_CYCLE) == event->trans_event.buffer) {
-+		if (deq == ep_trb) {
- 			dev_dbg(dbc->dev, "Ep stopped on Stalled TRB\n");
- 			if (remain_length == req->length) {
- 				dev_dbg(dbc->dev, "Spurious stall event, keep req\n");
+diff --git a/drivers/usb/host/xhci-trace.h b/drivers/usb/host/xhci-trace.h
+index 8451e9386aa9..f6a2b4cedb8d 100644
+--- a/drivers/usb/host/xhci-trace.h
++++ b/drivers/usb/host/xhci-trace.h
+@@ -329,9 +329,10 @@ DECLARE_EVENT_CLASS(xhci_log_stream_ctx,
+ 		__entry->ctx_array_dma = info->ctx_array_dma + stream_id * 16;
+ 
+ 	),
+-	TP_printk("stream %u ctx @%pad: SCT %llu deq %llx", __entry->stream_id,
++	TP_printk("stream %u ctx @%pad: SCT %llu deq %llx cycle %llu", __entry->stream_id,
+ 		&__entry->ctx_array_dma, CTX_TO_SCT(__entry->stream_ring),
+-		__entry->stream_ring
++		__entry->stream_ring & TR_DEQ_PTR_MASK,
++		__entry->stream_ring & EP_CTX_CYCLE_MASK
+ 	)
+ );
+ 
 -- 
 2.50.1
 
