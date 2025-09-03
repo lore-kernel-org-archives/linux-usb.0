@@ -1,38 +1,38 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 91F361F2371
-	for <linux-usb@vger.kernel.org>; Wed,  3 Sep 2025 21:08:23 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EB7102C235A
+	for <linux-usb@vger.kernel.org>; Wed,  3 Sep 2025 21:13:16 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1756933704; cv=none; b=GGCTaEewq8XQj5oqrS4ns0F6NBWcC8V/ykU0ys2zyw9xC8ABw0/EHRhs2OznSiE2BhDgQBVjM0RBJz0A98hvuyjh5yTnP/PbCxITzj0FiUgU0lSVbY1mD9CddCHP0ij2bdtgS7u604bzh5tgKQ5w5vRqjrmvIt3H66Jnwd6UAOs=
+	t=1756933997; cv=none; b=e7ZbB5TG7XV3tufRkrCmm+z8cMbzdz0wuoTrynU5yIHptJFbDoXrRi39cRODM+HdXFAvY3FkDMMqr/CSvQx7feyVcQZa9ZQY67sXKFI/BGRlmZrjZjTBVZAycwigF+6C2FtKHulTxwNSMQ8ykw2EQJhhAUXHV7+9u/qbXGaza9o=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1756933704; c=relaxed/simple;
-	bh=AaqEgQia7YLGHRxGEZACKVUnL08gf/BxiEmqsZ2/5Ro=;
+	s=arc-20240116; t=1756933997; c=relaxed/simple;
+	bh=uJZaBQz9xELvoH9hbGZnge05Xq/MCcY/URbrXXIxGF8=;
 	h=From:To:Subject:Date:Message-ID:In-Reply-To:References:
-	 Content-Type:MIME-Version; b=LLkyJbrGeoyeHez+RSWDJnRHS8fwezQULGAUenO3KPVXvXSqdJfvywkAI8XZIPvWXC7TySZupjb8WX69Ez1wQwfr4I/6x8SblighvjvTRAyhdRgCoTHFIdLDnWSBziNG/UBiagHurk4mevUThz73u4WMENAgRvY6M8J48CQ0Gy0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=kKL3BXeH; arc=none smtp.client-ip=10.30.226.201
+	 Content-Type:MIME-Version; b=c0+epg1qF4WZWhISAzOyTsGCJKSKh/6wpfHR29V7LZQQV4GQxT/QlIZuKEQf6jT1YyNMrLSVn5O6GMRXHCuqlKWryKr0Dh04a6n5uWg/6Wpebwd1ni6bH/eFpPwfxEIdoihlz0GiPUlN/ttFyijLFwRMd/hMxVt425Jz/6K7rEI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=qSB84Pp9; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="kKL3BXeH"
-Received: by smtp.kernel.org (Postfix) with ESMTPS id 210DFC4CEF4
-	for <linux-usb@vger.kernel.org>; Wed,  3 Sep 2025 21:08:23 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="qSB84Pp9"
+Received: by smtp.kernel.org (Postfix) with ESMTPS id BF9A5C4CEF5
+	for <linux-usb@vger.kernel.org>; Wed,  3 Sep 2025 21:13:16 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1756933703;
-	bh=AaqEgQia7YLGHRxGEZACKVUnL08gf/BxiEmqsZ2/5Ro=;
+	s=k20201202; t=1756933996;
+	bh=uJZaBQz9xELvoH9hbGZnge05Xq/MCcY/URbrXXIxGF8=;
 	h=From:To:Subject:Date:In-Reply-To:References:From;
-	b=kKL3BXeHefkdCqVzMgOxzPpkyTtg8FVTgwSFWMml1RmjVch+7CFJh39ieIfie6YKx
-	 UW+XY+34S36nLODroVa1elKAn3JIbnGg/BIc3GRZdFi7WK7LHE4EivB90hnxhaju1o
-	 aEijPFefJJjFLfd9NKrt2w1kHKS0VGyMkYefLZCKoUTHm21rvJKHgigrb3pRweIR+I
-	 eI+1NarZJo0NoWxr9Gzac/WbmSnsXg+efhqlu8oqt/d6+I1zTaNw0LvhOoLAP1rfYr
-	 eoZGoDDRobsVMY00RivYYMnLDhWpwSpt4P2GWQPWgpYrKpBmCH29zrd4DHiOEC41WL
-	 vfSq8RkMbTGUg==
+	b=qSB84Pp9FY2EKgLtbxs+62umHdbJOHD7mDENyD812mEeieiXzCfZLKy2XbiucqK5v
+	 tM2t+/T3E70IxDGCsJQy1rnf2GFyYvNSP6RnCzPNxvyainy+7Ng/q4TC7OLVxSMJyn
+	 ONTKz2uni99m2m9NC+msBhVcQSC2t7gZjDa2mIiyfz52FynqKHgBaQxNkAr05Ee6aP
+	 wsNTDK3va+DxDxoQO6lD40X3bN5hU4r3/ZqPAI5DXBY5uABIzu/1MVmC6m80fFeDwd
+	 gsA/6O54ILdo8nOwcb6rVLXGMQvBardRviCThJ8Eourc0OBQGXF6qXiOhsxg2tjRY9
+	 vPWHdtMDbmGMg==
 Received: by aws-us-west-2-korg-bugzilla-1.web.codeaurora.org (Postfix, from userid 48)
-	id 0EE30C4160E; Wed,  3 Sep 2025 21:08:23 +0000 (UTC)
+	id B0F78C433E1; Wed,  3 Sep 2025 21:13:16 +0000 (UTC)
 From: bugzilla-daemon@kernel.org
 To: linux-usb@vger.kernel.org
 Subject: [Bug 220491] usb_storage connected SD card disconnects/reconnects on
  resume from suspend
-Date: Wed, 03 Sep 2025 21:08:22 +0000
+Date: Wed, 03 Sep 2025 21:13:16 +0000
 X-Bugzilla-Reason: None
 X-Bugzilla-Type: changed
 X-Bugzilla-Watch-Reason: AssignedTo drivers_usb@kernel-bugs.kernel.org
@@ -47,8 +47,8 @@ X-Bugzilla-Resolution:
 X-Bugzilla-Priority: P3
 X-Bugzilla-Assigned-To: drivers_usb@kernel-bugs.kernel.org
 X-Bugzilla-Flags: 
-X-Bugzilla-Changed-Fields: attachments.created
-Message-ID: <bug-220491-208809-0JtUO0lDLK@https.bugzilla.kernel.org/>
+X-Bugzilla-Changed-Fields: 
+Message-ID: <bug-220491-208809-t12UhO5L0Y@https.bugzilla.kernel.org/>
 In-Reply-To: <bug-220491-208809@https.bugzilla.kernel.org/>
 References: <bug-220491-208809@https.bugzilla.kernel.org/>
 Content-Type: text/plain; charset="UTF-8"
@@ -64,18 +64,15 @@ MIME-Version: 1.0
 
 https://bugzilla.kernel.org/show_bug.cgi?id=3D220491
 
---- Comment #31 from Paul Ausbeck (paula@alumni.cse.ucsc.edu) ---
-Created attachment 308613
-  --> https://bugzilla.kernel.org/attachment.cgi?id=3D308613&action=3Dedit
-xhci_hcd and usbcore dmesg trace, emb-qm77, S/R, USB storage manually
-disconnected
-
-This is a dmesg log fragment with xhci_hcd and usbcore dynamic debug enable=
-d,
-suspend/resume events, with the USB storage device being physically unplugg=
-ed
-wile the machine is suspended. This attachment is matched with the previous
-attachment, a usbmon trace.
+--- Comment #32 from Paul Ausbeck (paula@alumni.cse.ucsc.edu) ---
+I thought it might be useful to gather data on what an actual physical
+disconnect looks like during suspend/resume. I've run a test where I physic=
+ally
+remove the USB storage device while the machine is suspended and then trigg=
+er
+resume. The trace data looks somewhat similar to the software simulated
+disconnect but without any device communication attempts and without any
+subsequent reconnect. The attached test data relates to the emb-qm77 MB.
 
 --=20
 You may reply to this email to add a comment.
