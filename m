@@ -1,67 +1,87 @@
-Received: from cdmsr2.hinet.net (210-65-1-144.hinet-ip.hinet.net [210.65.1.144])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.12])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 34E601DE2C2
-	for <linux-usb@vger.kernel.org>; Fri,  5 Sep 2025 21:47:11 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=210.65.1.144
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B76E22397BF
+	for <linux-usb@vger.kernel.org>; Sat,  6 Sep 2025 04:30:51 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.12
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1757108835; cv=none; b=eDLCK5sV7XvEJJr0TL/kXJ/y5qLmgSi+NcggMdG3LweAWD5HhTEcHG3xMiD32JqMoGhp1b8z64Z1h1BOHTNL54oALIJg3N9NgwxF6NhK++lUoOgBeED8OPpB25vF3AUkASyt15Brw/AgsbhqNtuNevEu8v3I60ih4MWbDsOO+TI=
+	t=1757133053; cv=none; b=OuaQu4KO+KMpaHTEBJiTnzOVlgoTlejZ7MJn+ksMlJbRq7gWD0ZiP812djxRDQNWa5XtUPJfLlHrVAgnt/I2XolBWb0DrR2cAAiAvmvdodwyauQAE7ty+pSzy2JFIj2rihOX13MY5BHCblMthGi0XO++C5rV9GsrtfTkRRvFMnQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1757108835; c=relaxed/simple;
-	bh=o+qLoQAhjBVgxw8p+p/znE8CwPM+2fMcRkqJQKlzslw=;
-	h=From:To:Subject:Message-ID:Date:MIME-Version:Content-Type; b=epu6NUSs5jqxW7lYJgg7tlxwlUjPxa3ikIq0rNAk8OQl/ajecA5IYCTaRk9QG66tC005JMX19UdNhyanARXI3N2PcrQMjA236lAaUhS6ygyDR3k5bFYUuRYxKYeu1oI6wuTQB4yNa5iNF/hYCyeOOh6uJNpt/WTY5YVBp9LjzZI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ms29.hinet.net; spf=pass smtp.mailfrom=ms29.hinet.net; dkim=pass (1024-bit key) header.d=ms29.hinet.net header.i=@ms29.hinet.net header.b=4weWjWEM; arc=none smtp.client-ip=210.65.1.144
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ms29.hinet.net
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ms29.hinet.net
+	s=arc-20240116; t=1757133053; c=relaxed/simple;
+	bh=/JvYGo8wio9b1WEq67ViyQiaAJ9oX/hOljx8zUDo+rU=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=TnYfKr58rFk6zyTDUjkDnPNqJMkZx/1CicNyMCVAW/l2mDf8XQG3Cow/zpu3P2hREPJDbmpbsmgLH/es0kRuJtZMr5p2YTMcjwGywk/TTOA2sp1qSD8aKVE3tmlsa7giR3p1CrTVVS5pY7fxkAH7WbtvgluJxdeC5D0h9uiIUPw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=GLGQyzud; arc=none smtp.client-ip=192.198.163.12
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=ms29.hinet.net header.i=@ms29.hinet.net header.b="4weWjWEM"
-Received: from cmsr8.hinet.net ([10.199.216.87])
-	by cdmsr2.hinet.net (8.15.2/8.15.2) with ESMTPS id 585Ll8cK896029
-	(version=TLSv1.3 cipher=TLS_AES_256_GCM_SHA384 bits=256 verify=NO)
-	for <linux-usb@vger.kernel.org>; Sat, 6 Sep 2025 05:47:10 +0800
-DKIM-Signature: v=1; a=rsa-sha1; c=relaxed/relaxed; d=ms29.hinet.net;
-	s=default; t=1757108830; bh=v28bNIItIv9p9u+ELmiBhD/hU/A=;
-	h=From:To:Subject:Date;
-	b=4weWjWEM+FsfcjlVnDzpT/RgBxSx0X83aDKoYCUJx+f7jiWpWq3clSVm1F9+nV2sp
-	 9NiHjfnal3JmiWyjCazY3fOZvcsMxCOWN/cmMLQSc40uxvh12Np77P7vh+iq4Ew9hX
-	 eNsmbl50TaSEnb0hrWBO/AlTShZMU8f64y2cRFI8=
-Received: from [127.0.0.1] (111-242-93-98.dynamic-ip.hinet.net [111.242.93.98])
-	by cmsr8.hinet.net (8.15.2/8.15.2) with ESMTPS id 585Lbqq5102955
-	(version=TLSv1.3 cipher=TLS_AES_256_GCM_SHA384 bits=256 verify=NO)
-	for <linux-usb@vger.kernel.org>; Sat, 6 Sep 2025 05:40:51 +0800
-From: "Info - Albinayah 032" <Linux-usb@ms29.hinet.net>
-To: linux-usb@vger.kernel.org
-Reply-To: "Info - Albinayah." <europe-sales@albinayah-group.com>
-Subject: =?UTF-8?B?TmV3IFNlcHRlbWJlciBPcmRlci4gMzU2OTcgRnJpZGF5LCBTZXB0ZW1iZXIgNSwgMjAyNSBhdCAxMTo0MDo0OSBQTQ==?=
-Message-ID: <aa1f01f4-f8d0-386b-a86b-121b19ac4a78@ms29.hinet.net>
-Content-Transfer-Encoding: 7bit
-Date: Fri, 05 Sep 2025 21:40:50 +0000
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="GLGQyzud"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1757133051; x=1788669051;
+  h=from:to:cc:subject:date:message-id:mime-version:
+   content-transfer-encoding;
+  bh=/JvYGo8wio9b1WEq67ViyQiaAJ9oX/hOljx8zUDo+rU=;
+  b=GLGQyzudSZju7sLHEcDi90PojPguyn+0U1KWvcJZ23JstCW8O50Q5nK8
+   ija3kPxocPCl84RawHyyUeMrU5PCL1IwRSn2CWjoJrLK9uIfwnI7gV9Mu
+   E9JRwoUBJNc+2rJTek1H0Dg0HqhCuD2eNqK4FXPCw26U0oIkuxSYiQwq6
+   iBBeFbJbGjXpp4Vkqt7ph58WSjkD5+tXRnrQSGKdB8fVFb28hyScgCQ3g
+   ZbSdjNjVYuZBXZqmfJojb1tc58YRldzyWrjZENIjTF4FQ10fsmQKhrpZU
+   j3bQlGDDpgrawc54QcyEVixZfMXzKDLrroChze4HGhMfsKUXQkTuPNWAR
+   g==;
+X-CSE-ConnectionGUID: dvzOX6JAReeIkLR163kviQ==
+X-CSE-MsgGUID: v4l0PU2bSUKK+BsQwQzYxA==
+X-IronPort-AV: E=McAfee;i="6800,10657,11544"; a="63307757"
+X-IronPort-AV: E=Sophos;i="6.18,243,1751266800"; 
+   d="scan'208";a="63307757"
+Received: from fmviesa010.fm.intel.com ([10.60.135.150])
+  by fmvoesa106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 05 Sep 2025 21:30:51 -0700
+X-CSE-ConnectionGUID: J3TQF+EuTLqlbvHYEWfKxg==
+X-CSE-MsgGUID: /VQRLjdWTnGXwmERMP0kXA==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.18,243,1751266800"; 
+   d="scan'208";a="173128874"
+Received: from clke07vm102.fm.intel.com (HELO clke07vm102.amr.corp.intel.com) ([10.80.128.226])
+  by fmviesa010.fm.intel.com with ESMTP; 05 Sep 2025 21:30:51 -0700
+From: Pooja Katiyar <pooja.katiyar@intel.com>
+To: linux-usb@vger.kernel.org,
+	gregkh@linuxfoundation.org
+Cc: dmitry.baryshkov@oss.qualcomm.com,
+	pooja.katiyar@intel.com
+Subject: [PATCH v3 0/4] usb: typec: ucsi: Add support for SET_PDOS command
+Date: Fri,  5 Sep 2025 21:30:57 -0700
+Message-ID: <cover.1757024530.git.pooja.katiyar@intel.com>
+X-Mailer: git-send-email 2.43.0
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-X-HiNet-Brightmail: Spam
-X-CMAE-Score: 100
-X-CMAE-Analysis: v=2.4 cv=V87e0vni c=0 sm=1 tr=0 ts=68bb58e4
-	p=OrFXhexWvejrBOeqCD4A:9 a=dz3rte2YA/NWJqL9zhb/1g==:117 a=IkcTkHD0fZMA:10
-	a=5KLPUuaC_9wA:10
+Content-Transfer-Encoding: 8bit
 
-Hi Linux-usb,
+This series implements support for UCSI SET_PDOS command. It provides
+interface to send message out data structure and update source or sink
+capabilities PDOs on a connector over debugfs interface.
 
-Please provide a quote for your products:
+It also updates UCSI structure to have message in and message out fields
+instead of handling them as separate parameters.
 
-Include:
-1.Pricing (per unit)
-2.Delivery cost & timeline
-3.Quote expiry date
+Pooja Katiyar (4):
+  usb: typec: ucsi: Update UCSI structure to have message in and message
+    out fields
+  usb: typec: ucsi: Add support for message out data structure
+  usb: typec: ucsi: Enable debugfs for message_out data structure
+  usb: typec: ucsi: Add support for SET_PDOS command
 
-Deadline: September
+ drivers/usb/typec/ucsi/cros_ec_ucsi.c |   5 +-
+ drivers/usb/typec/ucsi/debugfs.c      |  36 +++++++-
+ drivers/usb/typec/ucsi/displayport.c  |  11 ++-
+ drivers/usb/typec/ucsi/ucsi.c         | 118 ++++++++++++++++++--------
+ drivers/usb/typec/ucsi/ucsi.h         |  22 +++--
+ drivers/usb/typec/ucsi/ucsi_acpi.c    |  25 ++++--
+ drivers/usb/typec/ucsi/ucsi_ccg.c     |  11 ++-
+ 7 files changed, 165 insertions(+), 63 deletions(-)
 
-Thanks!
+-- 
+2.43.0
 
-Kamal Prasad
-
-Albinayah Trading
