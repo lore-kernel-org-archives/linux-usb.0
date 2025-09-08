@@ -1,50 +1,49 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.15])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.14])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 10AEE30F925
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2F27630F93C
 	for <linux-usb@vger.kernel.org>; Mon,  8 Sep 2025 16:32:33 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.15
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.14
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1757349155; cv=none; b=EIQRcgF8CVLrc+ize/Wi2zMylxN6oK+GOB/kkapz5tc0Pd9rEdYY2ZlZS4/extW0kFRZuCZ2eQxRtr2PS7aZZyLL7tzQ5623RFme0/nDwzCese8KIb4s38gw4dXlldKOcIDtFayEZFdWWJx1hRPdS5ZU0Mk2fgAiecA3qNvsVIs=
+	t=1757349156; cv=none; b=SjDWYfg/PFLYHzX5ZyT0zHs87vuHcsH6NZ8CowWqce1IguGcBGIzY+X9FfHn497NtY+Mfv7padmtifWedqBmAlnncVsoWAQkDtIgrNAXyPIOJWMwU6CmEK4K4SU9/nh2YiOB8NyyQd5LA5AB4OkUqJX19PZuuQJTl9nHXPf0rkk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1757349155; c=relaxed/simple;
-	bh=tg6+MFp2zYyUUzNuP0InWkh7XeTBg3CxBquBD/OErlI=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=B6xeYCI/EtnE8B1B9YED9TiyFJmTWKt6PnF4REbgsJUS1MoS49Z81zD3b4jy4RI/6N0pfeUU2cPOCDN0tfjMJs21TI1l7n/oC42eN9qZk62lLs6zIeyFiC1kC/l+zWrUUbNPbGHUV0KK4BjXvso1ZqVhMqxYjBOZ+yc0OMmZojM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=none smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=JjlN4C3h; arc=none smtp.client-ip=198.175.65.15
+	s=arc-20240116; t=1757349156; c=relaxed/simple;
+	bh=9Q96o+R44rT7rSMYfGJdXOPELN7ODPO2soevOqQZtW0=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=pJ1I6XDLeBbjp1tPYnsooFy5MC+HX8wnVzHdemBjRHtB51XZgQQJzp0J2fvWQwVHWheI+IF6LdCZuaukqqfNLUyGQBL09NwNb7+4epBSF+geBA+dJKWOcuRvZTG/CO4COarykZb75X/hKhzPOVOeP/8eKiL4nBkCHLtBxrFg9/M=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=none smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Vv3JA4+z; arc=none smtp.client-ip=198.175.65.14
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=linux.intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="JjlN4C3h"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Vv3JA4+z"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1757349155; x=1788885155;
-  h=from:to:cc:subject:date:message-id:in-reply-to:
-   references:mime-version:content-transfer-encoding;
-  bh=tg6+MFp2zYyUUzNuP0InWkh7XeTBg3CxBquBD/OErlI=;
-  b=JjlN4C3htQh/gAt+jWU/3fxlBPu+8klbuikxwlZOm/99/ZdXfoJn23dD
-   R6xrRrK2mRCPZY1Gb/2iGnkFNtVCkXWVJQfXvho1rTpY7V3AVAk8gMLQM
-   ruDPZ4MGEzAi4hhzl+dbYPdY5sRq+7kiBwEMYHhGsC2EMWyDjnEQVMKjQ
-   FWr50eF+NOhB1qWTT5S2a2U2SVq8jWqOfI0tjW1JpN0UHdx3FuOqQPYZZ
-   pRExFaxJa6w4N3r44m885ui3NuyII6dYOup7OFSInJA182QH8ODy9IN3F
-   p/tPxwzWA5EHcUTXiWr0nENa/K5qwscKv4zKGH9X63zbKrSZftU7uOKSh
-   g==;
-X-CSE-ConnectionGUID: qnCsAEv2Tpa6LZjnKF9Qxw==
-X-CSE-MsgGUID: h4AR4SyVT1iaLhqryUPulg==
-X-IronPort-AV: E=McAfee;i="6800,10657,11547"; a="63252086"
-X-IronPort-AV: E=Sophos;i="6.18,249,1751266800"; 
-   d="scan'208";a="63252086"
-Received: from orviesa002.jf.intel.com ([10.64.159.142])
-  by orvoesa107.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 08 Sep 2025 09:32:34 -0700
-X-CSE-ConnectionGUID: xp1sjl0WSfOYvYy9JgbDiQ==
-X-CSE-MsgGUID: m2QZGB3sRquz4iXLG9VlPQ==
+  t=1757349153; x=1788885153;
+  h=from:to:cc:subject:date:message-id:mime-version:
+   content-transfer-encoding;
+  bh=9Q96o+R44rT7rSMYfGJdXOPELN7ODPO2soevOqQZtW0=;
+  b=Vv3JA4+zotVFKpkM3BYAIciHBgthQz7/VN1ms+DjLNVZbrLzclViZ2MW
+   NkbI9pk9HRmkLDGPU71L0oCHqa8zYh5Pvnmk3wE4J6w6glkacwoIpUZax
+   GataYmvVmc65n5IOJTbrlZeyBP0O4szzaiTLDJdAL2nadSQ2tC6u7glEr
+   NgSdCkqOq8OdXNkyDA5C0z6YfrpY6uysBDgtDFrBiU/NfHXHVphDWx99x
+   2K2unBpEvHcAfN8H/0XVGVLe0FT31ZhuCpB5rR0V5hjAfcHorkE5EUl3r
+   MtD4FhVdLkRh5+GGVtDYsm7KwSN0HF0KhCiIXfGckVVii6iLnbl5PaOmy
+   A==;
+X-CSE-ConnectionGUID: Rh+vw/6JREqETY99+jtu/g==
+X-CSE-MsgGUID: SToVF6sKRzilyToukk0YtQ==
+X-IronPort-AV: E=McAfee;i="6800,10657,11531"; a="63443037"
+X-IronPort-AV: E=Sophos;i="6.17,312,1747724400"; 
+   d="scan'208";a="63443037"
+Received: from fmviesa009.fm.intel.com ([10.60.135.149])
+  by orvoesa106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 08 Sep 2025 09:32:32 -0700
+X-CSE-ConnectionGUID: 3WX5PrboSNOX1jN0Fbhp4A==
+X-CSE-MsgGUID: 4lZk2viaSJW9iv6+mfjRPg==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.18,249,1751266800"; 
-   d="scan'208";a="203622635"
+   d="scan'208";a="173291147"
 Received: from unknown (HELO black.igk.intel.com) ([10.91.253.5])
-  by orviesa002.jf.intel.com with ESMTP; 08 Sep 2025 09:32:31 -0700
+  by fmviesa009.fm.intel.com with ESMTP; 08 Sep 2025 09:32:31 -0700
 Received: by black.igk.intel.com (Postfix, from userid 1001)
-	id CD63897; Mon, 08 Sep 2025 18:32:30 +0200 (CEST)
+	id C555894; Mon, 08 Sep 2025 18:32:30 +0200 (CEST)
 From: Mika Westerberg <mika.westerberg@linux.intel.com>
 To: linux-usb@vger.kernel.org
 Cc: Yehezkel Bernat <YehezkelShB@gmail.com>,
@@ -53,12 +52,10 @@ Cc: Yehezkel Bernat <YehezkelShB@gmail.com>,
 	Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
 	Alan Borzeszkowski <alan.borzeszkowski@linux.intel.com>,
 	Mika Westerberg <mika.westerberg@linux.intel.com>
-Subject: [PATCH 03/26] thunderbolt: Update clx.c function documentation
-Date: Mon,  8 Sep 2025 18:32:07 +0200
-Message-ID: <20250908163230.2614397-4-mika.westerberg@linux.intel.com>
+Subject: [PATCH 00/26] thunderbolt: kernel-doc fixes
+Date: Mon,  8 Sep 2025 18:32:04 +0200
+Message-ID: <20250908163230.2614397-1-mika.westerberg@linux.intel.com>
 X-Mailer: git-send-email 2.50.1
-In-Reply-To: <20250908163230.2614397-1-mika.westerberg@linux.intel.com>
-References: <20250908163230.2614397-1-mika.westerberg@linux.intel.com>
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
@@ -67,68 +64,75 @@ List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-From: Alan Borzeszkowski <alan.borzeszkowski@linux.intel.com>
+Hi all,                                                                                             
+                                                                                                    
+This series fixes kernel-docs in the Thunderbolt/USB4 subsystem to adhere
+the current standards.
 
-Make clx.c function documentation compliant with current kernel-doc
-standards. No functional changes.
+All errors/warnings in documentation were found by kernel-doc script and
+were subsequently fixed. Main recurring complaint was incorrect or missing
+"Return: " section in kernel-doc comments. Besides that, few missing
+parameters and structure field descriptions.                                                        
 
-Signed-off-by: Alan Borzeszkowski <alan.borzeszkowski@linux.intel.com>
-Signed-off-by: Mika Westerberg <mika.westerberg@linux.intel.com>
----
- drivers/thunderbolt/clx.c | 12 +++++++-----
- 1 file changed, 7 insertions(+), 5 deletions(-)
+No functional changes.
 
-diff --git a/drivers/thunderbolt/clx.c b/drivers/thunderbolt/clx.c
-index 787dfd1550e5..1637e79d988a 100644
---- a/drivers/thunderbolt/clx.c
-+++ b/drivers/thunderbolt/clx.c
-@@ -167,7 +167,8 @@ static int tb_port_clx(struct tb_port *port)
-  * @port: USB4 port to check
-  * @clx: Mask of CL states to check
-  *
-- * Returns true if any of the given CL states is enabled for @port.
-+ * Return: %true if any of the given CL states is enabled for @port,
-+ * %false otherwise.
-  */
- bool tb_port_clx_is_enabled(struct tb_port *port, unsigned int clx)
- {
-@@ -177,6 +178,8 @@ bool tb_port_clx_is_enabled(struct tb_port *port, unsigned int clx)
- /**
-  * tb_switch_clx_is_supported() - Is CLx supported on this type of router
-  * @sw: The router to check CLx support for
-+ *
-+ * Return: %true if CLx is supported, %false otherwise.
-  */
- static bool tb_switch_clx_is_supported(const struct tb_switch *sw)
- {
-@@ -203,7 +206,7 @@ static bool tb_switch_clx_is_supported(const struct tb_switch *sw)
-  * Can be called for any router. Initializes the current CL state by
-  * reading it from the hardware.
-  *
-- * Returns %0 in case of success and negative errno in case of failure.
-+ * Return: %0 on success, negative errno otherwise.
-  */
- int tb_switch_clx_init(struct tb_switch *sw)
- {
-@@ -313,7 +316,7 @@ static bool validate_mask(unsigned int clx)
-  * is not inter-domain link. The complete set of conditions is described in CM
-  * Guide 1.0 section 8.1.
-  *
-- * Returns %0 on success or an error code on failure.
-+ * Return: %0 on success, negative errno otherwise.
-  */
- int tb_switch_clx_enable(struct tb_switch *sw, unsigned int clx)
- {
-@@ -390,8 +393,7 @@ int tb_switch_clx_enable(struct tb_switch *sw, unsigned int clx)
-  * Disables all CL states of the given router. Can be called on any
-  * router and if the states were not enabled already does nothing.
-  *
-- * Returns the CL states that were disabled or negative errno in case of
-- * failure.
-+ * Return: CL states that were disabled or negative errno otherwise.
-  */
- int tb_switch_clx_disable(struct tb_switch *sw)
- {
+This series was suggested by Andy Shevchenko.
+
+Alan Borzeszkowski (26):
+  thunderbolt: Update acpi.c function documentation
+  thunderbolt: Update cap.c function documentation
+  thunderbolt: Update clx.c function documentation
+  thunderbolt: Update ctl.c function documentation
+  thunderbolt: Add missing documentation in ctl.h tb_cfg_request struct
+  thunderbolt: Update dma_port.c function documentation
+  thunderbolt: Update domain.c function documentation
+  thunderbolt: Update eeprom.c function documentation
+  thunderbolt: Update lc.c function documentation
+  thunderbolt: Update nhi.c function documentation
+  thunderbolt: Add missing documentation in nhi_regs.h ring_desc structure
+  thunderbolt: Update nvm.c function documentation
+  thunderbolt: Update path.c function documentation
+  thunderbolt: Update property.c function documentation
+  thunderbolt: Update retimer.c function documentation
+  thunderbolt: Update switch.c function documentation
+  thunderbolt: Update tb.c function documentation
+  thunderbolt: Update tb.h function documentation
+  thunderbolt: Add missing documentation in tb.h
+  thunderbolt: Update tmu.c function documentation
+  thunderbolt: Update tunnel.c function documentation
+  thunderbolt: Update tunnel.h function documentation
+  thunderbolt: Update usb4.c function documentation
+  thunderbolt: Update usb4_port.c function documentation
+  thunderbolt: Update xdomain.c function documentation
+  thunderbolt: Update thunderbolt.h header file
+
+ drivers/thunderbolt/acpi.c      |  28 +--
+ drivers/thunderbolt/cap.c       |  49 +++--
+ drivers/thunderbolt/clx.c       |  12 +-
+ drivers/thunderbolt/ctl.c       |  33 +++-
+ drivers/thunderbolt/ctl.h       |   1 +
+ drivers/thunderbolt/dma_port.c  |  21 +-
+ drivers/thunderbolt/domain.c    |  28 ++-
+ drivers/thunderbolt/eeprom.c    |   4 +-
+ drivers/thunderbolt/lc.c        |  58 ++++--
+ drivers/thunderbolt/nhi.c       |  17 +-
+ drivers/thunderbolt/nhi_regs.h  |   6 +
+ drivers/thunderbolt/nvm.c       |  42 ++--
+ drivers/thunderbolt/path.c      |  14 +-
+ drivers/thunderbolt/property.c  |  38 +++-
+ drivers/thunderbolt/retimer.c   |   7 +-
+ drivers/thunderbolt/switch.c    | 140 ++++++++++----
+ drivers/thunderbolt/tb.c        |  30 +--
+ drivers/thunderbolt/tb.h        |  45 +++--
+ drivers/thunderbolt/tmu.c       |  16 +-
+ drivers/thunderbolt/tunnel.c    |  85 +++++---
+ drivers/thunderbolt/tunnel.h    |   9 +-
+ drivers/thunderbolt/usb4.c      | 333 ++++++++++++++++++++++----------
+ drivers/thunderbolt/usb4_port.c |   7 +-
+ drivers/thunderbolt/xdomain.c   |  46 +++--
+ include/linux/thunderbolt.h     |  25 +--
+ 25 files changed, 749 insertions(+), 345 deletions(-)
+
 -- 
 2.50.1
 
