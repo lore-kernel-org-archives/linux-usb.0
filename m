@@ -1,56 +1,64 @@
-Received: from smtpout-03.galae.net (smtpout-03.galae.net [185.246.85.4])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.15])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5765030FF33;
-	Mon,  8 Sep 2025 16:21:17 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.246.85.4
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 10AEE30F925
+	for <linux-usb@vger.kernel.org>; Mon,  8 Sep 2025 16:32:33 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.15
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1757348479; cv=none; b=VfnH6Fd984jHNP+6B6ttEhpYTrcxX37rmXIvOpXKbdYnADlU2HvU6uVU+GWs+KdVsW1sKr4mthLwinTVmagKMHBwhbznxoEHXmjZ1LL/dX5/7Ee7TYOvuIEPYRoguq9TFT1/YnQYvm6dyDcE3ZbzbdKgLTYjtSf255Gf4fuYi+s=
+	t=1757349155; cv=none; b=EIQRcgF8CVLrc+ize/Wi2zMylxN6oK+GOB/kkapz5tc0Pd9rEdYY2ZlZS4/extW0kFRZuCZ2eQxRtr2PS7aZZyLL7tzQ5623RFme0/nDwzCese8KIb4s38gw4dXlldKOcIDtFayEZFdWWJx1hRPdS5ZU0Mk2fgAiecA3qNvsVIs=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1757348479; c=relaxed/simple;
-	bh=ObIz+zp4lgzgox/7k1WlzLLzMcg9mj+QVGcH9Gr3WV8=;
+	s=arc-20240116; t=1757349155; c=relaxed/simple;
+	bh=tg6+MFp2zYyUUzNuP0InWkh7XeTBg3CxBquBD/OErlI=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=r9otK4+Acc37YCyDw9wHnZVx6OxsjUe46S2ORu5MFZvgrXMpgEa0ncZIffVGNKr4EidOx3PQki5Ly+ej91MrEoLAiMWJrzQo1wuCFitTTaffHLIDgOU+mK+j1eWngc9wC43TgQjhVf8GmCYW+xoQfPoF3oz2WrQi5t5d5EgX+Qo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com; spf=pass smtp.mailfrom=bootlin.com; dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b=fb6MBuAY; arc=none smtp.client-ip=185.246.85.4
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=bootlin.com
+	 MIME-Version; b=B6xeYCI/EtnE8B1B9YED9TiyFJmTWKt6PnF4REbgsJUS1MoS49Z81zD3b4jy4RI/6N0pfeUU2cPOCDN0tfjMJs21TI1l7n/oC42eN9qZk62lLs6zIeyFiC1kC/l+zWrUUbNPbGHUV0KK4BjXvso1ZqVhMqxYjBOZ+yc0OMmZojM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=none smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=JjlN4C3h; arc=none smtp.client-ip=198.175.65.15
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=linux.intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b="fb6MBuAY"
-Received: from smtpout-01.galae.net (smtpout-01.galae.net [212.83.139.233])
-	by smtpout-03.galae.net (Postfix) with ESMTPS id CB5CD4E40BFB;
-	Mon,  8 Sep 2025 16:21:15 +0000 (UTC)
-Received: from mail.galae.net (mail.galae.net [212.83.136.155])
-	by smtpout-01.galae.net (Postfix) with ESMTPS id A03D66061A;
-	Mon,  8 Sep 2025 16:21:15 +0000 (UTC)
-Received: from [127.0.0.1] (localhost [127.0.0.1]) by localhost (Mailerdaemon) with ESMTPSA id 4F428102F23A0;
-	Mon,  8 Sep 2025 18:21:14 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=dkim;
-	t=1757348475; h=from:subject:date:message-id:to:cc:mime-version:
-	 content-transfer-encoding:in-reply-to:references;
-	bh=5UhibPtQVINFYBbqXWLMG4UxJzAoW2vDCrPuqBZnckk=;
-	b=fb6MBuAYKGgiKvyw1GlL2AM9X+MT2/NIV9LiTB9fspBia5AIVHnZ4lOyjGimoTP5JXAIjb
-	EXXt714Xl6CXh7PtfUC69+Pj/qsbLqm1v3r0ImtAZ17kdIBR3pMvvzXPpliKmCQNqIuGht
-	ESL1cdO3Xk3CNmgfABqfzdYNOFBGPJM0uI8wGgRr2WUToAeuPGlATNcnolL10L6lT3Hxaj
-	/SY43Q06F+8cRcVuLjPO3MWfzLfN+ZDkybW1AneAKhxIcSjJRpMQDGlbT05nn/IvA7ANHU
-	aKtzaSPHw/OB+aNAGw0q5z5nfFcaUrUxqmGcmk8txfCQHU64TmtUsOVkT6OdMQ==
-From: Richard Genoud <richard.genoud@bootlin.com>
-To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	Rob Herring <robh@kernel.org>,
-	Krzysztof Kozlowski <krzk+dt@kernel.org>,
-	Conor Dooley <conor+dt@kernel.org>,
-	Thinh Nguyen <Thinh.Nguyen@synopsys.com>
-Cc: Aswath Govindraju <a-govindraju@ti.com>,
-	linux-usb@vger.kernel.org,
-	devicetree@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	Thomas Petazzoni <thomas.petazzoni@bootlin.com>,
-	Richard Genoud <richard.genoud@bootlin.com>
-Subject: [PATCH 2/2] usb: dwc3-am62: support ti,lane-reverse property
-Date: Mon,  8 Sep 2025 18:20:52 +0200
-Message-ID: <20250908162052.355341-3-richard.genoud@bootlin.com>
-X-Mailer: git-send-email 2.47.3
-In-Reply-To: <20250908162052.355341-1-richard.genoud@bootlin.com>
-References: <20250908162052.355341-1-richard.genoud@bootlin.com>
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="JjlN4C3h"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1757349155; x=1788885155;
+  h=from:to:cc:subject:date:message-id:in-reply-to:
+   references:mime-version:content-transfer-encoding;
+  bh=tg6+MFp2zYyUUzNuP0InWkh7XeTBg3CxBquBD/OErlI=;
+  b=JjlN4C3htQh/gAt+jWU/3fxlBPu+8klbuikxwlZOm/99/ZdXfoJn23dD
+   R6xrRrK2mRCPZY1Gb/2iGnkFNtVCkXWVJQfXvho1rTpY7V3AVAk8gMLQM
+   ruDPZ4MGEzAi4hhzl+dbYPdY5sRq+7kiBwEMYHhGsC2EMWyDjnEQVMKjQ
+   FWr50eF+NOhB1qWTT5S2a2U2SVq8jWqOfI0tjW1JpN0UHdx3FuOqQPYZZ
+   pRExFaxJa6w4N3r44m885ui3NuyII6dYOup7OFSInJA182QH8ODy9IN3F
+   p/tPxwzWA5EHcUTXiWr0nENa/K5qwscKv4zKGH9X63zbKrSZftU7uOKSh
+   g==;
+X-CSE-ConnectionGUID: qnCsAEv2Tpa6LZjnKF9Qxw==
+X-CSE-MsgGUID: h4AR4SyVT1iaLhqryUPulg==
+X-IronPort-AV: E=McAfee;i="6800,10657,11547"; a="63252086"
+X-IronPort-AV: E=Sophos;i="6.18,249,1751266800"; 
+   d="scan'208";a="63252086"
+Received: from orviesa002.jf.intel.com ([10.64.159.142])
+  by orvoesa107.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 08 Sep 2025 09:32:34 -0700
+X-CSE-ConnectionGUID: xp1sjl0WSfOYvYy9JgbDiQ==
+X-CSE-MsgGUID: m2QZGB3sRquz4iXLG9VlPQ==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.18,249,1751266800"; 
+   d="scan'208";a="203622635"
+Received: from unknown (HELO black.igk.intel.com) ([10.91.253.5])
+  by orviesa002.jf.intel.com with ESMTP; 08 Sep 2025 09:32:31 -0700
+Received: by black.igk.intel.com (Postfix, from userid 1001)
+	id CD63897; Mon, 08 Sep 2025 18:32:30 +0200 (CEST)
+From: Mika Westerberg <mika.westerberg@linux.intel.com>
+To: linux-usb@vger.kernel.org
+Cc: Yehezkel Bernat <YehezkelShB@gmail.com>,
+	Lukas Wunner <lukas@wunner.de>,
+	Andreas Noever <andreas.noever@gmail.com>,
+	Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
+	Alan Borzeszkowski <alan.borzeszkowski@linux.intel.com>,
+	Mika Westerberg <mika.westerberg@linux.intel.com>
+Subject: [PATCH 03/26] thunderbolt: Update clx.c function documentation
+Date: Mon,  8 Sep 2025 18:32:07 +0200
+Message-ID: <20250908163230.2614397-4-mika.westerberg@linux.intel.com>
+X-Mailer: git-send-email 2.50.1
+In-Reply-To: <20250908163230.2614397-1-mika.westerberg@linux.intel.com>
+References: <20250908163230.2614397-1-mika.westerberg@linux.intel.com>
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
@@ -58,46 +66,69 @@ List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-Last-TLS-Session-Version: TLSv1.3
 
-Support the ti,lane-reverse property by setting the
-USBSS_PHY_LANE_REVERSE bit.
-This way, D+ line become D- and vice and versa.
+From: Alan Borzeszkowski <alan.borzeszkowski@linux.intel.com>
 
-Tested on am625 SoC.
+Make clx.c function documentation compliant with current kernel-doc
+standards. No functional changes.
 
-Signed-off-by: Richard Genoud <richard.genoud@bootlin.com>
+Signed-off-by: Alan Borzeszkowski <alan.borzeszkowski@linux.intel.com>
+Signed-off-by: Mika Westerberg <mika.westerberg@linux.intel.com>
 ---
- drivers/usb/dwc3/dwc3-am62.c | 5 +++++
- 1 file changed, 5 insertions(+)
+ drivers/thunderbolt/clx.c | 12 +++++++-----
+ 1 file changed, 7 insertions(+), 5 deletions(-)
 
-diff --git a/drivers/usb/dwc3/dwc3-am62.c b/drivers/usb/dwc3/dwc3-am62.c
-index 9db8f3ca493d..9437d2246ee9 100644
---- a/drivers/usb/dwc3/dwc3-am62.c
-+++ b/drivers/usb/dwc3/dwc3-am62.c
-@@ -119,6 +119,7 @@ struct dwc3_am62 {
- 	struct regmap *syscon;
- 	unsigned int offset;
- 	unsigned int vbus_divider;
-+	unsigned int lane_reverse;
- 	u32 wakeup_stat;
- 	void __iomem *phy_regs;
- };
-@@ -203,6 +204,9 @@ static int dwc3_ti_init(struct dwc3_am62 *am62)
- 	if (am62->vbus_divider)
- 		reg |= 1 << USBSS_PHY_VBUS_SEL_SHIFT;
- 
-+	if (am62->lane_reverse)
-+		reg |= USBSS_PHY_LANE_REVERSE;
-+
- 	dwc3_ti_writel(am62, USBSS_PHY_CONFIG, reg);
- 
- 	clk_prepare_enable(am62->usb2_refclk);
-@@ -264,6 +268,7 @@ static int dwc3_ti_probe(struct platform_device *pdev)
- 	}
- 
- 	am62->vbus_divider = device_property_read_bool(dev, "ti,vbus-divider");
-+	am62->lane_reverse = device_property_read_bool(dev, "ti,lane-reverse");
- 
- 	ret = dwc3_ti_init(am62);
- 	if (ret)
+diff --git a/drivers/thunderbolt/clx.c b/drivers/thunderbolt/clx.c
+index 787dfd1550e5..1637e79d988a 100644
+--- a/drivers/thunderbolt/clx.c
++++ b/drivers/thunderbolt/clx.c
+@@ -167,7 +167,8 @@ static int tb_port_clx(struct tb_port *port)
+  * @port: USB4 port to check
+  * @clx: Mask of CL states to check
+  *
+- * Returns true if any of the given CL states is enabled for @port.
++ * Return: %true if any of the given CL states is enabled for @port,
++ * %false otherwise.
+  */
+ bool tb_port_clx_is_enabled(struct tb_port *port, unsigned int clx)
+ {
+@@ -177,6 +178,8 @@ bool tb_port_clx_is_enabled(struct tb_port *port, unsigned int clx)
+ /**
+  * tb_switch_clx_is_supported() - Is CLx supported on this type of router
+  * @sw: The router to check CLx support for
++ *
++ * Return: %true if CLx is supported, %false otherwise.
+  */
+ static bool tb_switch_clx_is_supported(const struct tb_switch *sw)
+ {
+@@ -203,7 +206,7 @@ static bool tb_switch_clx_is_supported(const struct tb_switch *sw)
+  * Can be called for any router. Initializes the current CL state by
+  * reading it from the hardware.
+  *
+- * Returns %0 in case of success and negative errno in case of failure.
++ * Return: %0 on success, negative errno otherwise.
+  */
+ int tb_switch_clx_init(struct tb_switch *sw)
+ {
+@@ -313,7 +316,7 @@ static bool validate_mask(unsigned int clx)
+  * is not inter-domain link. The complete set of conditions is described in CM
+  * Guide 1.0 section 8.1.
+  *
+- * Returns %0 on success or an error code on failure.
++ * Return: %0 on success, negative errno otherwise.
+  */
+ int tb_switch_clx_enable(struct tb_switch *sw, unsigned int clx)
+ {
+@@ -390,8 +393,7 @@ int tb_switch_clx_enable(struct tb_switch *sw, unsigned int clx)
+  * Disables all CL states of the given router. Can be called on any
+  * router and if the states were not enabled already does nothing.
+  *
+- * Returns the CL states that were disabled or negative errno in case of
+- * failure.
++ * Return: CL states that were disabled or negative errno otherwise.
+  */
+ int tb_switch_clx_disable(struct tb_switch *sw)
+ {
+-- 
+2.50.1
+
