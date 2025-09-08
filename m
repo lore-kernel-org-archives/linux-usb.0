@@ -1,50 +1,50 @@
 Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.15])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B170030FC1E
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E25E930FC2E
 	for <linux-usb@vger.kernel.org>; Mon,  8 Sep 2025 16:32:37 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.15
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1757349159; cv=none; b=H0NKjSqI7Ce1lTfJgYs0zO0LWci5Pb+JhWV0prS7e8ejDnpNoQRrYf6EFYYfsYCQwZdAZuMO7bEH3fkShNqP+/YK414F1elJlDl+C4FV3H5mdRkzjy5JS9vqLuHIDKWB09Zu/JzZ23AYMv2tDrl0tcYGmGYu7EnFt67qwWbKV7A=
+	t=1757349159; cv=none; b=SLkSxhiT/VByrAxRL1HMIfY7mNXVtgIKD73vr3BDyig3lk8PlQ9Ds/GVjm8im5BlfUMsIXX6i3TCmUDYyBqGp9HRsefqticSPJVVWGBXtRJ49Ot3j+knoDklHo6ztnkUrSxHnFSdZlFg3ivfjLi7rRYKGj4djvtqXEAkfOGatws=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
 	s=arc-20240116; t=1757349159; c=relaxed/simple;
-	bh=WZBVgCN3blb2G8PMjjegoM/EFNItIRbl30HzqXUn6DI=;
+	bh=LJC70j92Ql84y3vV9Kqc/0ci0uuk26Z91+zjR+el5KE=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=qv6hZtw7YgDhMh844xXMIPGZghGY59hoeS81Dy7PbolrUDozrq3yV4fvUivpWaf0ZsR7FmoTslT3QIZT1EfmybOHXpAzx1cQdbweO2HR8zQH2DYXY/Bdq6GAFgocOvzTDfnLc66tJDFc51cjYS11MahVjcJkhiUWEtOV60sT8PA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=none smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=i2ORILSw; arc=none smtp.client-ip=198.175.65.15
+	 MIME-Version; b=D9Xeix5icRl316JN5Yyt8hBp6H/ByxGZFnu7VIEtw5IjO5DGDxmhaBAdONfR8cAsg5jV5yCFwh8oRJc0ON4QEOjMTNK3g+haCN1vbi7Hur2Iusss0tgeYO2RaxgDbVf2R/y6S4lgFlnHMpkREUF3B/HWdIweZB8+HvAo2K5y9os=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=none smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=iOySWvvT; arc=none smtp.client-ip=198.175.65.15
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=linux.intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="i2ORILSw"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="iOySWvvT"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1757349158; x=1788885158;
+  t=1757349159; x=1788885159;
   h=from:to:cc:subject:date:message-id:in-reply-to:
    references:mime-version:content-transfer-encoding;
-  bh=WZBVgCN3blb2G8PMjjegoM/EFNItIRbl30HzqXUn6DI=;
-  b=i2ORILSwl6y12HbJ5GCFsTV1Qf7S/EeLjFMPtFBm4DbL3xXXRs+eZGjf
-   WsBWL6GiG25y90xOyEFtVQ42QpNQEY/MfYkw8MQ8R3IA85yBCQCJ07JGO
-   7RFcT+JePemvyt/rISiM09VSGyP4Hb2RhNluOst6H13FufxjhzHskITq9
-   efKGRIovySaS53kS9ag3FHjXshlOItjMFMic+V52Jadjmd7ciJNko9sV9
-   5B+WqqZNE7BmgodEwexkPD13d+Kh13ofY2+B02DvaOZ2dz05PPOzG8QQ2
-   6Zl4Xhk4EaC8Uf6I+82AnCkpXkoqO8wauf4/tqH12c5+J+xmAwjD5kPnR
-   g==;
-X-CSE-ConnectionGUID: f1VHUf2dQbGkEyCNjGIgww==
-X-CSE-MsgGUID: VjollZ6HTPelLb1X6NduUA==
-X-IronPort-AV: E=McAfee;i="6800,10657,11547"; a="63252102"
+  bh=LJC70j92Ql84y3vV9Kqc/0ci0uuk26Z91+zjR+el5KE=;
+  b=iOySWvvTixFEueyCyRRLjG0gOErOuAyvc9hV6qZM32K3he1Z9MXhdqlW
+   OryLcx/+IRpdXwxvdXUtKrS39ptg3KDBIuB6/q+XVhpprvOFfApHkrbE+
+   p9JD8VHSh9yqy8IgHgyiY4LrWkqFFgGYAzHmvdKYYApA+n/4oTAWslz7c
+   pOnuRkMHpjkO17eXRd6tJ5+HcverFgQJeorfPuVezkKUSqFfyPmNOL5Kv
+   H9m4/6q84hqLL0/eEZLarJp0TpLRcnmYzo7dDg8yhUHoHKG+Q4KzFkWR1
+   FpxF/1jczpFuZhrDi2tIfK6ouN7NwBiAyIYP4v2gmmwBzTSWrVnohF4OZ
+   A==;
+X-CSE-ConnectionGUID: GeOVc/uITx2gh/7Ag2IyhA==
+X-CSE-MsgGUID: BPD/i+1lRmmsuFyFgZHMzg==
+X-IronPort-AV: E=McAfee;i="6800,10657,11547"; a="63252106"
 X-IronPort-AV: E=Sophos;i="6.18,249,1751266800"; 
-   d="scan'208";a="63252102"
+   d="scan'208";a="63252106"
 Received: from orviesa002.jf.intel.com ([10.64.159.142])
   by orvoesa107.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 08 Sep 2025 09:32:37 -0700
-X-CSE-ConnectionGUID: 6qRgsJ9UQqCGaOELgmFgmA==
-X-CSE-MsgGUID: h+O6PZUgQ0qzqGWJUe85dw==
+X-CSE-ConnectionGUID: Rwfbj4krThqv0hYJvpRneQ==
+X-CSE-MsgGUID: V+0WIZQZQM22sahDKCBVpw==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.18,249,1751266800"; 
-   d="scan'208";a="203622641"
+   d="scan'208";a="203622643"
 Received: from unknown (HELO black.igk.intel.com) ([10.91.253.5])
   by orviesa002.jf.intel.com with ESMTP; 08 Sep 2025 09:32:34 -0700
 Received: by black.igk.intel.com (Postfix, from userid 1001)
-	id D719A9A; Mon, 08 Sep 2025 18:32:30 +0200 (CEST)
+	id E9C51A0; Mon, 08 Sep 2025 18:32:30 +0200 (CEST)
 From: Mika Westerberg <mika.westerberg@linux.intel.com>
 To: linux-usb@vger.kernel.org
 Cc: Yehezkel Bernat <YehezkelShB@gmail.com>,
@@ -53,9 +53,9 @@ Cc: Yehezkel Bernat <YehezkelShB@gmail.com>,
 	Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
 	Alan Borzeszkowski <alan.borzeszkowski@linux.intel.com>,
 	Mika Westerberg <mika.westerberg@linux.intel.com>
-Subject: [PATCH 06/26] thunderbolt: Update dma_port.c function documentation
-Date: Mon,  8 Sep 2025 18:32:10 +0200
-Message-ID: <20250908163230.2614397-7-mika.westerberg@linux.intel.com>
+Subject: [PATCH 12/26] thunderbolt: Update nvm.c function documentation
+Date: Mon,  8 Sep 2025 18:32:16 +0200
+Message-ID: <20250908163230.2614397-13-mika.westerberg@linux.intel.com>
 X-Mailer: git-send-email 2.50.1
 In-Reply-To: <20250908163230.2614397-1-mika.westerberg@linux.intel.com>
 References: <20250908163230.2614397-1-mika.westerberg@linux.intel.com>
@@ -69,83 +69,125 @@ Content-Transfer-Encoding: 8bit
 
 From: Alan Borzeszkowski <alan.borzeszkowski@linux.intel.com>
 
-Make dma_port.c function documentation compliant with current kernel-doc
+Make nvm.c function documentation compliant with current kernel-doc
 standards. No functional changes.
 
 Signed-off-by: Alan Borzeszkowski <alan.borzeszkowski@linux.intel.com>
 Signed-off-by: Mika Westerberg <mika.westerberg@linux.intel.com>
 ---
- drivers/thunderbolt/dma_port.c | 21 ++++++++++++++++-----
- 1 file changed, 16 insertions(+), 5 deletions(-)
+ drivers/thunderbolt/nvm.c | 42 ++++++++++++++++++++++++---------------
+ 1 file changed, 26 insertions(+), 16 deletions(-)
 
-diff --git a/drivers/thunderbolt/dma_port.c b/drivers/thunderbolt/dma_port.c
-index 9f20c7bbf0ce..dc8ea188a114 100644
---- a/drivers/thunderbolt/dma_port.c
-+++ b/drivers/thunderbolt/dma_port.c
-@@ -197,6 +197,8 @@ static int dma_find_port(struct tb_switch *sw)
+diff --git a/drivers/thunderbolt/nvm.c b/drivers/thunderbolt/nvm.c
+index da11c8112e29..6901058b7ac0 100644
+--- a/drivers/thunderbolt/nvm.c
++++ b/drivers/thunderbolt/nvm.c
+@@ -278,9 +278,13 @@ static const struct tb_nvm_vendor retimer_nvm_vendors[] = {
+  * tb_nvm_alloc() - Allocate new NVM structure
+  * @dev: Device owning the NVM
   *
-  * The DMA control port is functional also when the switch is in safe
-  * mode.
+- * Allocates new NVM structure with unique @id and returns it. In case
+- * of error returns ERR_PTR(). Specifically returns %-EOPNOTSUPP if the
+- * NVM format of the @dev is not known by the kernel.
++ * Allocates new NVM structure with unique @id and returns it.
 + *
-+ * Return: &struct tb_dma_port on success, %NULL otherwise.
-  */
- struct tb_dma_port *dma_port_alloc(struct tb_switch *sw)
- {
-@@ -354,6 +356,8 @@ static int dma_port_flash_write_block(void *data, unsigned int dwaddress,
-  * @address: Address relative to the start of active region
-  * @buf: Buffer where the data is read
-  * @size: Size of the buffer
-+ *
-+ * Return: %0 on success, negative errno otherwise.
-  */
- int dma_port_flash_read(struct tb_dma_port *dma, unsigned int address,
- 			void *buf, size_t size)
-@@ -372,6 +376,8 @@ int dma_port_flash_read(struct tb_dma_port *dma, unsigned int address,
-  * Writes block of data to the non-active flash region of the switch. If
-  * the address is given as %DMA_PORT_CSS_ADDRESS the block is written
-  * using CSS command.
-+ *
-+ * Return: %0 on success, negative errno otherwise.
-  */
- int dma_port_flash_write(struct tb_dma_port *dma, unsigned int address,
- 			 const void *buf, size_t size)
-@@ -393,6 +399,8 @@ int dma_port_flash_write(struct tb_dma_port *dma, unsigned int address,
-  * dma_port_flash_update_auth_status() to get status of this command.
-  * This is because if the switch in question is root switch the
-  * thunderbolt host controller gets reset as well.
-+ *
-+ * Return: %0 on success, negative errno otherwise.
-  */
- int dma_port_flash_update_auth(struct tb_dma_port *dma)
- {
-@@ -410,12 +418,13 @@ int dma_port_flash_update_auth(struct tb_dma_port *dma)
-  * @status: Status code of the operation
-  *
-  * The function checks if there is status available from the last update
-- * auth command. Returns %0 if there is no status and no further
-- * action is required. If there is status, %1 is returned instead and
-- * @status holds the failure code.
-+ * auth command.
-  *
-- * Negative return means there was an error reading status from the
-- * switch.
 + * Return:
-+ * * %0 - If there is no status and no further action is required.
-+ * * %1 - If there is some status. @status holds the failure code.
-+ * * Negative errno - An error occurred when reading status from the
-+ *   switch.
++ * * Pointer to &struct tb_nvm - On success.
++ * * %-EOPNOTSUPP - If the NVM format of the @dev is not known by the
++ *   kernel.
++ * * %ERR_PTR - In case of failure.
   */
- int dma_port_flash_update_auth_status(struct tb_dma_port *dma, u32 *status)
+ struct tb_nvm *tb_nvm_alloc(struct device *dev)
  {
-@@ -446,6 +455,8 @@ int dma_port_flash_update_auth_status(struct tb_dma_port *dma, u32 *status)
-  * @dma: DMA control port
+@@ -347,9 +351,10 @@ struct tb_nvm *tb_nvm_alloc(struct device *dev)
+  * tb_nvm_read_version() - Read and populate NVM version
+  * @nvm: NVM structure
   *
-  * Triggers power cycle to the switch.
+- * Uses vendor specific means to read out and fill in the existing
+- * active NVM version. Returns %0 in case of success and negative errno
+- * otherwise.
++ * Uses vendor specific means to read and fill out the existing
++ * active NVM version.
 + *
 + * Return: %0 on success, negative errno otherwise.
   */
- int dma_port_power_cycle(struct tb_dma_port *dma)
+ int tb_nvm_read_version(struct tb_nvm *nvm)
  {
+@@ -365,12 +370,11 @@ int tb_nvm_read_version(struct tb_nvm *nvm)
+  * tb_nvm_validate() - Validate new NVM image
+  * @nvm: NVM structure
+  *
+- * Runs vendor specific validation over the new NVM image and if all
+- * checks pass returns %0. As side effect updates @nvm->buf_data_start
+- * and @nvm->buf_data_size fields to match the actual data to be written
+- * to the NVM.
++ * Runs vendor specific validation over the new NVM image. As a
++ * side effect, updates @nvm->buf_data_start and @nvm->buf_data_size
++ * fields to match the actual data to be written to the NVM.
+  *
+- * If the validation does not pass then returns negative errno.
++ * Return: %0 on successful validation, negative errno otherwise.
+  */
+ int tb_nvm_validate(struct tb_nvm *nvm)
+ {
+@@ -405,7 +409,7 @@ int tb_nvm_validate(struct tb_nvm *nvm)
+  * the image, this function does that. Can be called even if the device
+  * does not need this.
+  *
+- * Returns %0 in case of success and negative errno otherwise.
++ * Return: %0 on success, negative errno otherwise.
+  */
+ int tb_nvm_write_headers(struct tb_nvm *nvm)
+ {
+@@ -423,7 +427,8 @@ int tb_nvm_write_headers(struct tb_nvm *nvm)
+  * Registers new active NVmem device for @nvm. The @reg_read is called
+  * directly from NVMem so it must handle possible concurrent access if
+  * needed. The first parameter passed to @reg_read is @nvm structure.
+- * Returns %0 in success and negative errno otherwise.
++ *
++ * Return: %0 on success, negative errno otherwise.
+  */
+ int tb_nvm_add_active(struct tb_nvm *nvm, nvmem_reg_read_t reg_read)
+ {
+@@ -461,6 +466,11 @@ int tb_nvm_add_active(struct tb_nvm *nvm, nvmem_reg_read_t reg_read)
+  * Helper function to cache the new NVM image before it is actually
+  * written to the flash. Copies @bytes from @val to @nvm->buf starting
+  * from @offset.
++ *
++ * Return:
++ * * %0 - On success.
++ * * %-ENOMEM - If buffer allocation failed.
++ * * Negative errno - Another error occurred.
+  */
+ int tb_nvm_write_buf(struct tb_nvm *nvm, unsigned int offset, void *val,
+ 		     size_t bytes)
+@@ -488,7 +498,7 @@ int tb_nvm_write_buf(struct tb_nvm *nvm, unsigned int offset, void *val,
+  * needed. The first parameter passed to @reg_write is @nvm structure.
+  * The size of the NVMem device is set to %NVM_MAX_SIZE.
+  *
+- * Returns %0 in success and negative errno otherwise.
++ * Return: %0 on success, negative errno otherwise.
+  */
+ int tb_nvm_add_non_active(struct tb_nvm *nvm, nvmem_reg_write_t reg_write)
+ {
+@@ -545,7 +555,7 @@ void tb_nvm_free(struct tb_nvm *nvm)
+  * This is a generic function that reads data from NVM or NVM like
+  * device.
+  *
+- * Returns %0 on success and negative errno otherwise.
++ * Return: %0 on success, negative errno otherwise.
+  */
+ int tb_nvm_read_data(unsigned int address, void *buf, size_t size,
+ 		     unsigned int retries, read_block_fn read_block,
+@@ -592,7 +602,7 @@ int tb_nvm_read_data(unsigned int address, void *buf, size_t size,
+  *
+  * This is generic function that writes data to NVM or NVM like device.
+  *
+- * Returns %0 on success and negative errno otherwise.
++ * Return: %0 on success, negative errno otherwise.
+  */
+ int tb_nvm_write_data(unsigned int address, const void *buf, size_t size,
+ 		      unsigned int retries, write_block_fn write_block,
 -- 
 2.50.1
 
