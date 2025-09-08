@@ -1,50 +1,50 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.14])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.15])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6A96F30FC08
-	for <linux-usb@vger.kernel.org>; Mon,  8 Sep 2025 16:32:36 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.14
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 55C5630FC16
+	for <linux-usb@vger.kernel.org>; Mon,  8 Sep 2025 16:32:37 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.15
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1757349158; cv=none; b=OrnWssi5mvosdQ2BKB2abX86xIKjyhdH8xZQ4oXrpMFe7brew0UCmSI+bdjlycja9yCxmpBEkPlApyoWXgaTEVN0iXZE3FdWmOdGniRP2QS/9NmxmFEikdCAPheSyy+wAk+t46/uu0nauEj+DBxR/20DAX6NJmjNA/cx9cjCZWw=
+	t=1757349158; cv=none; b=LwsIiJy7e+WWfH1Wf4PShVIDM6pXSk4XvGAEynf5tg+KUy1/7dHw8kMKL5Y56bu3Ri5cjSPQePbCRzY96DyxtSQ7RshkAWWN33Rw4G0mvTheZGRDGYh1v2nkL34y1o9YKQlRAkyIRCxImGwhBzLVP5gjQB140/PFyMszI8oM1Zk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
 	s=arc-20240116; t=1757349158; c=relaxed/simple;
-	bh=0ZssnZWmTH6DXQs87+xsICJpAhW36t0Zu0hKea0l51o=;
+	bh=q0wLAR4MdfgL6Xv/Pc0Ucyf4Q196bfudtCjGV8aJr3k=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=aXH6Hkp9yNIEDihEVfOBKLGhWyBAVljnYZU7H0mHImLviIpdyGaXfLjIVn1g1NCqmJncaiFSNLeJA8Hjsuy+v9Zour7DErzUTFD4YoAaYJUMxX7Ez4mamfhCmg6DyzS4bg6La1AkCwrm97+e+peHPC+lX44EIr2GTUTaY3qRWPw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=none smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Fo8aEtjd; arc=none smtp.client-ip=198.175.65.14
+	 MIME-Version; b=e94y0Y84zxak+JuSCdmTpfplMPTDlnSjnqcmpUtd2GI7gITl+Zx3dEvFKv4YQ+yI8Vu5To1eK68HhtYwBj640ovDsNsHSGx3M+NzZMf5HNkSlrc0mgFb+Bdq4bmkD03lzHXaclBOXa+EKzpQHvwf/hvR4wCm22eZN9viK/gVtLc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=none smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=DuXC3XFY; arc=none smtp.client-ip=198.175.65.15
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=linux.intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Fo8aEtjd"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="DuXC3XFY"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1757349155; x=1788885155;
+  t=1757349158; x=1788885158;
   h=from:to:cc:subject:date:message-id:in-reply-to:
    references:mime-version:content-transfer-encoding;
-  bh=0ZssnZWmTH6DXQs87+xsICJpAhW36t0Zu0hKea0l51o=;
-  b=Fo8aEtjdwLHGgHjvOG6OfaPikmbjaFR/5Nw8RJQR++5dsjYNctkbUWDE
-   AXotEax4eBXhKZOHwzyfnomOwCK2Tqodg3S74nvbG1ZulCG1K7wy8pK8u
-   w5oCMGDDgbFwUSscrKoks4QzJImYT0k1rgdnDtQaeKfKq/nPhbmI9mxyi
-   0ejFj9PZ2mN+zd19829wSbPSzzg+O5o1gKQtmJsIcCqN6FyQC9SAtorCQ
-   BMHX0i92VqZkXhlTBb6kZkpCTY9HBKtFTV6F+NWIuVV9yDSevKvdHFEGk
-   djOIu7spzjgR9WsDNIYtTBcFFGqRXcB40orMBCCm8WN3AL25n1yA1DQaD
-   Q==;
-X-CSE-ConnectionGUID: rIfFV2hgSRKKXP+r+0mquA==
-X-CSE-MsgGUID: 8TUcyuUrRraLHxZyoRZdzg==
-X-IronPort-AV: E=McAfee;i="6800,10657,11531"; a="63443045"
-X-IronPort-AV: E=Sophos;i="6.17,312,1747724400"; 
-   d="scan'208";a="63443045"
-Received: from fmviesa009.fm.intel.com ([10.60.135.149])
-  by orvoesa106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 08 Sep 2025 09:32:35 -0700
-X-CSE-ConnectionGUID: lNEVcb+kR1+cibzCq9oIsg==
-X-CSE-MsgGUID: bMkiVAlQT2OfJpDEm3GUyw==
+  bh=q0wLAR4MdfgL6Xv/Pc0Ucyf4Q196bfudtCjGV8aJr3k=;
+  b=DuXC3XFYFDbO6OOfxOVAS7blWq+udLG6eSKl3hqRdT+Yw1L+WMfNF/Vw
+   VeylEF29EfAKxOW79nRloT0zls0ffXJ+UJbxERYADc9dJsN0RROOy5Mjy
+   szsmndA37pCOF5tuaRlsfSnPtb4Yu1ELZdJmCtDs90N+8gP7dV1spkW3/
+   CqNFVVO+x2RuS7smGvhF1k/sbc7j69Ev0Mn2LiWYOCtA2wwpDTihMtX0X
+   Fe0aXINf04U77M1VdxQPLn4WMLojAcX0gnikpi2lamDl8ZVA7ZeNviBqG
+   GErmA6dOA6UZP4AiWFgEKJubPByObWVXCR/4nNYwzJrkTzZKTbRfkmVXL
+   w==;
+X-CSE-ConnectionGUID: fUWnDR/fTNmeSJjlCD9J2A==
+X-CSE-MsgGUID: EpJVfT2vRLmOxLOTjP0fIQ==
+X-IronPort-AV: E=McAfee;i="6800,10657,11547"; a="63252099"
+X-IronPort-AV: E=Sophos;i="6.18,249,1751266800"; 
+   d="scan'208";a="63252099"
+Received: from orviesa002.jf.intel.com ([10.64.159.142])
+  by orvoesa107.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 08 Sep 2025 09:32:37 -0700
+X-CSE-ConnectionGUID: a1xnp5zKTY+qiVbxIqD60g==
+X-CSE-MsgGUID: P2DrDemARWOP7nIl7AlWRA==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.18,249,1751266800"; 
-   d="scan'208";a="173291149"
+   d="scan'208";a="203622642"
 Received: from unknown (HELO black.igk.intel.com) ([10.91.253.5])
-  by fmviesa009.fm.intel.com with ESMTP; 08 Sep 2025 09:32:34 -0700
+  by orviesa002.jf.intel.com with ESMTP; 08 Sep 2025 09:32:34 -0700
 Received: by black.igk.intel.com (Postfix, from userid 1001)
-	id DD6D89C; Mon, 08 Sep 2025 18:32:30 +0200 (CEST)
+	id D3DEA99; Mon, 08 Sep 2025 18:32:30 +0200 (CEST)
 From: Mika Westerberg <mika.westerberg@linux.intel.com>
 To: linux-usb@vger.kernel.org
 Cc: Yehezkel Bernat <YehezkelShB@gmail.com>,
@@ -53,9 +53,9 @@ Cc: Yehezkel Bernat <YehezkelShB@gmail.com>,
 	Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
 	Alan Borzeszkowski <alan.borzeszkowski@linux.intel.com>,
 	Mika Westerberg <mika.westerberg@linux.intel.com>
-Subject: [PATCH 08/26] thunderbolt: Update eeprom.c function documentation
-Date: Mon,  8 Sep 2025 18:32:12 +0200
-Message-ID: <20250908163230.2614397-9-mika.westerberg@linux.intel.com>
+Subject: [PATCH 05/26] thunderbolt: Add missing documentation in ctl.h tb_cfg_request struct
+Date: Mon,  8 Sep 2025 18:32:09 +0200
+Message-ID: <20250908163230.2614397-6-mika.westerberg@linux.intel.com>
 X-Mailer: git-send-email 2.50.1
 In-Reply-To: <20250908163230.2614397-1-mika.westerberg@linux.intel.com>
 References: <20250908163230.2614397-1-mika.westerberg@linux.intel.com>
@@ -69,37 +69,27 @@ Content-Transfer-Encoding: 8bit
 
 From: Alan Borzeszkowski <alan.borzeszkowski@linux.intel.com>
 
-Make eeprom.c function documentation compliant with current kernel-doc
-standards. No functional changes.
+Add missing @request field description in tb_cfg_request struct
+kernel-doc. No functional changes.
 
 Signed-off-by: Alan Borzeszkowski <alan.borzeszkowski@linux.intel.com>
 Signed-off-by: Mika Westerberg <mika.westerberg@linux.intel.com>
 ---
- drivers/thunderbolt/eeprom.c | 4 +++-
- 1 file changed, 3 insertions(+), 1 deletion(-)
+ drivers/thunderbolt/ctl.h | 1 +
+ 1 file changed, 1 insertion(+)
 
-diff --git a/drivers/thunderbolt/eeprom.c b/drivers/thunderbolt/eeprom.c
-index e66183a72cf9..1af65fece495 100644
---- a/drivers/thunderbolt/eeprom.c
-+++ b/drivers/thunderbolt/eeprom.c
-@@ -298,6 +298,8 @@ struct tb_drom_entry_desc {
-  *
-  * Does not use the cached copy in sw->drom. Used during resume to check switch
-  * identity.
-+ *
-+ * Return: %0 on success, negative errno otherwise.
-  */
- int tb_drom_read_uid_only(struct tb_switch *sw, u64 *uid)
- {
-@@ -709,7 +711,7 @@ static int tb_drom_device_read(struct tb_switch *sw)
-  * populates the fields in @sw accordingly. Can be called for any router
-  * generation.
-  *
-- * Returns %0 in case of success and negative errno otherwise.
-+ * Return: %0 on success, negative errno otherwise.
-  */
- int tb_drom_read(struct tb_switch *sw)
- {
+diff --git a/drivers/thunderbolt/ctl.h b/drivers/thunderbolt/ctl.h
+index 7e08ca8f0895..db1646eb4fd0 100644
+--- a/drivers/thunderbolt/ctl.h
++++ b/drivers/thunderbolt/ctl.h
+@@ -54,6 +54,7 @@ struct ctl_pkg {
+  * @kref: Reference count
+  * @ctl: Pointer to the control channel structure. Only set when the
+  *	 request is queued.
++ * @request: Request is stored here
+  * @request_size: Size of the request packet (in bytes)
+  * @request_type: Type of the request packet
+  * @response: Response is stored here
 -- 
 2.50.1
 
