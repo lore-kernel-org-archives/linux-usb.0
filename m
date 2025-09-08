@@ -1,50 +1,50 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.15])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.14])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4D5F1318152
-	for <linux-usb@vger.kernel.org>; Mon,  8 Sep 2025 16:32:41 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.15
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2FC483191C8
+	for <linux-usb@vger.kernel.org>; Mon,  8 Sep 2025 16:32:42 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.14
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1757349163; cv=none; b=Ndedtm+V34KBjfbkkAOSZ0Ev2f2hRc/M1j5C1yn4vwN+pdCStWeNe0Pb29b/wJtUh6ASI/6Abns9ZjmRPt8gc8VtZGIX0ryja3Fsf1RIUi6VK4HFV2McPLyOh+997J9HNVCFJEjiMoW2k2IQMGVyw/YEC0ZzNUOv2tlFXl1bL/g=
+	t=1757349164; cv=none; b=nUhFot32dszAilVkVs5mHKzqDtnv7oQrr2+t9M8L4EZ7UjLrWdUdZl04W3pvophvC2xIpVaPeSa+PjPp84lKysDy0vZuuiAn0utziMSxioIbSAd7antq5igwf99qOvOFKubFZXJX1BC60pOH1OmFwQ92ioTdBoMmDGPWIS+JjP0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1757349163; c=relaxed/simple;
-	bh=1rdNFYAX5oXQ0Y+/6jkLam2cbhkRmMWVX68nTSMBGAQ=;
+	s=arc-20240116; t=1757349164; c=relaxed/simple;
+	bh=htdUpKiFiui+gzjoQAd77JWwe0c4jtDTvZAEY5UmQXU=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=WZAU6rd5RCFZOo1RgyMtIReK+qyH3ASn4oe6Gl6qI0KqrnI5JUrHjsfVwZHsYAwfkP/WiQ86EykkcwU7ce5VHibbv1KCPJ0nA+41iUtJOV6ibrPU3qlVyOqvaazCYhRjzjvqOsHfFzOWYfddiH4n0QAn58LUV0daKqedocufazE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=none smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=ezr1cL4t; arc=none smtp.client-ip=198.175.65.15
+	 MIME-Version; b=b3ZXHW3TNwfPE96jVPVpxFm93phqHKtgMABg0BvWtDsLhs/rs8ufiI45AC2WNIVCe6h2iI7iS0YWjqhtC88/o9sARDkmKKNT4dGv8eJWqgH4d7BJu1VWSBSZfBFhKvwpzioRpaSPcYEoA1G+6lExTbUHzqnvGNtrADeWFBJBNvw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=none smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=gIXym1+q; arc=none smtp.client-ip=198.175.65.14
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=linux.intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="ezr1cL4t"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="gIXym1+q"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1757349162; x=1788885162;
+  t=1757349161; x=1788885161;
   h=from:to:cc:subject:date:message-id:in-reply-to:
    references:mime-version:content-transfer-encoding;
-  bh=1rdNFYAX5oXQ0Y+/6jkLam2cbhkRmMWVX68nTSMBGAQ=;
-  b=ezr1cL4tNcEhFKmi5lXEu02scTTwaA6k7EiTLj/+dhKegAxp4n3shApl
-   IXYMlZj07/ZbAwQylxmd5FkmJZ5/kpXGucK1gn43KTLu5OKAUsBmdKr1X
-   7TXZHwlDEAdNTwr/MBAxJjLf8NdF4yRjMJM/aMRon0rTSXHhIRMXQlAg6
-   LVQtO4tCUp6rc0kyqGnOuKkJBijP+yuz3vSroxNRhBqJlUVSlE3g5/sMA
-   Xj2WZi+OnIEyeMQ3sdP0YhycXHG0vKZT/9i9Y+DJE7qcalsI95vhfW0gP
-   IlkGc5MT1cH+iZX+Ui3PSIxy+Iv3qonTJ3S6QbX1pRud3g5OJgK3D3nb+
-   A==;
-X-CSE-ConnectionGUID: UD7L2ovMQhm2imCF8q/Sxg==
-X-CSE-MsgGUID: viKcmG7oQViVCQm7Ir1jeQ==
-X-IronPort-AV: E=McAfee;i="6800,10657,11547"; a="63252124"
-X-IronPort-AV: E=Sophos;i="6.18,249,1751266800"; 
-   d="scan'208";a="63252124"
-Received: from orviesa002.jf.intel.com ([10.64.159.142])
-  by orvoesa107.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 08 Sep 2025 09:32:39 -0700
-X-CSE-ConnectionGUID: /u/gT56gRcOE5YlST1kbMA==
-X-CSE-MsgGUID: S7RbcS5GRbyv4S3+/4bKEA==
+  bh=htdUpKiFiui+gzjoQAd77JWwe0c4jtDTvZAEY5UmQXU=;
+  b=gIXym1+qNH+NAIA4Z+cgAy6QzHoiJpKhkOvxopBMZUuGoed2iALSm7QR
+   ATS1cprbx5v7ymt9Ne2w1gc0TrlEHoB7oATVbibUqKUxGcT/vFtXyVWLX
+   AdZiFvTLHneQ0hPYog6xoanEa/cozauqMuLvG5SiB0KWi2l7xjAO3Hd0Q
+   4Pb7gcxATsvNSdWWccqNvLt0jEBq94ZK2pGLd72Trgn4CbK2D6/DQNNSX
+   LErzt0iZ3+XoGps+K0/ToHZ8qMl71opN13N6Vq9XZdAAWKc8pRN75lRmb
+   fSIoPxc5GARHVbowH6NlCYVHLlbFTSlAeYOxfrAICZ1deETBlJiljVSOP
+   Q==;
+X-CSE-ConnectionGUID: vsC0VphoTc61ixxQYtB7wA==
+X-CSE-MsgGUID: 5qs2FKdvRKWcjLApTiVlOQ==
+X-IronPort-AV: E=McAfee;i="6800,10657,11531"; a="63443077"
+X-IronPort-AV: E=Sophos;i="6.17,312,1747724400"; 
+   d="scan'208";a="63443077"
+Received: from fmviesa009.fm.intel.com ([10.60.135.149])
+  by orvoesa106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 08 Sep 2025 09:32:37 -0700
+X-CSE-ConnectionGUID: KjdTsf/cT2mWAeYNF4zhfA==
+X-CSE-MsgGUID: hO6ieeDhSW6a9yKOXPG+XA==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.18,249,1751266800"; 
-   d="scan'208";a="203622652"
+   d="scan'208";a="173291158"
 Received: from unknown (HELO black.igk.intel.com) ([10.91.253.5])
-  by orviesa002.jf.intel.com with ESMTP; 08 Sep 2025 09:32:36 -0700
+  by fmviesa009.fm.intel.com with ESMTP; 08 Sep 2025 09:32:36 -0700
 Received: by black.igk.intel.com (Postfix, from userid 1001)
-	id 02E59A4; Mon, 08 Sep 2025 18:32:31 +0200 (CEST)
+	id 12AE0A9; Mon, 08 Sep 2025 18:32:31 +0200 (CEST)
 From: Mika Westerberg <mika.westerberg@linux.intel.com>
 To: linux-usb@vger.kernel.org
 Cc: Yehezkel Bernat <YehezkelShB@gmail.com>,
@@ -53,9 +53,9 @@ Cc: Yehezkel Bernat <YehezkelShB@gmail.com>,
 	Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
 	Alan Borzeszkowski <alan.borzeszkowski@linux.intel.com>,
 	Mika Westerberg <mika.westerberg@linux.intel.com>
-Subject: [PATCH 16/26] thunderbolt: Update switch.c function documentation
-Date: Mon,  8 Sep 2025 18:32:20 +0200
-Message-ID: <20250908163230.2614397-17-mika.westerberg@linux.intel.com>
+Subject: [PATCH 21/26] thunderbolt: Update tunnel.c function documentation
+Date: Mon,  8 Sep 2025 18:32:25 +0200
+Message-ID: <20250908163230.2614397-22-mika.westerberg@linux.intel.com>
 X-Mailer: git-send-email 2.50.1
 In-Reply-To: <20250908163230.2614397-1-mika.westerberg@linux.intel.com>
 References: <20250908163230.2614397-1-mika.westerberg@linux.intel.com>
@@ -69,509 +69,236 @@ Content-Transfer-Encoding: 8bit
 
 From: Alan Borzeszkowski <alan.borzeszkowski@linux.intel.com>
 
-Make switch.c function documentation compliant with current kernel-doc
+Make tunnel.c function documentation compliant with current kernel-doc
 standards. No functional changes.
 
 Signed-off-by: Alan Borzeszkowski <alan.borzeszkowski@linux.intel.com>
 Signed-off-by: Mika Westerberg <mika.westerberg@linux.intel.com>
 ---
- drivers/thunderbolt/switch.c | 140 +++++++++++++++++++++++++----------
- 1 file changed, 102 insertions(+), 38 deletions(-)
+ drivers/thunderbolt/tunnel.c | 85 ++++++++++++++++++++++--------------
+ 1 file changed, 53 insertions(+), 32 deletions(-)
 
-diff --git a/drivers/thunderbolt/switch.c b/drivers/thunderbolt/switch.c
-index e9f4186f20f4..0e07904aa73b 100644
---- a/drivers/thunderbolt/switch.c
-+++ b/drivers/thunderbolt/switch.c
-@@ -290,8 +290,9 @@ static int nvm_authenticate(struct tb_switch *sw, bool auth_only)
-  * @size: Size of the buffer in bytes
-  *
-  * Reads from router NVM and returns the requested data in @buf. Locking
-- * is up to the caller. Returns %0 in success and negative errno in case
-- * of failure.
-+ * is up to the caller.
+diff --git a/drivers/thunderbolt/tunnel.c b/drivers/thunderbolt/tunnel.c
+index d52efe3f658c..850d9b107abd 100644
+--- a/drivers/thunderbolt/tunnel.c
++++ b/drivers/thunderbolt/tunnel.c
+@@ -121,6 +121,8 @@ static inline unsigned int tb_usable_credits(const struct tb_port *port)
+  * @port: Lane adapter to check
+  * @max_dp_streams: If non-%NULL stores maximum number of simultaneous DP
+  *		    streams possible through this lane adapter
 + *
-+ * Return: %0 on success, negative errno otherwise.
++ * Return: Number of available credits.
   */
- int tb_switch_nvm_read(struct tb_switch *sw, unsigned int address, void *buf,
- 		       size_t size)
-@@ -464,7 +465,7 @@ static void tb_dump_port(struct tb *tb, const struct tb_port *port)
+ static unsigned int tb_available_credits(const struct tb_port *port,
+ 					 size_t *max_dp_streams)
+@@ -415,8 +417,9 @@ static int tb_pci_init_path(struct tb_path *path)
+  * @alloc_hopid: Allocate HopIDs from visited ports
   *
-  * The port must have a TB_CAP_PHY (i.e. it should be a real port).
-  *
-- * Return: Returns an enum tb_port_state on success or an error code on failure.
-+ * Return: &enum tb_port_state or negative error code on failure.
-  */
- int tb_port_state(struct tb_port *port)
- {
-@@ -491,9 +492,11 @@ int tb_port_state(struct tb_port *port)
-  * switch resume). Otherwise we only wait if a device is registered but the link
-  * has not yet been established.
-  *
-- * Return: Returns an error code on failure. Returns 0 if the port is not
-- * connected or failed to reach state TB_PORT_UP within one second. Returns 1
-- * if the port is connected and in state TB_PORT_UP.
-+ * Return:
-+ * * %0 - If the port is not connected or failed to reach
-+ *   state %TB_PORT_UP within one second.
-+ * * %1 - If the port is connected and in state %TB_PORT_UP.
-+ * * Negative errno - An error occurred.
-  */
- int tb_wait_for_port(struct tb_port *port, bool wait_if_unplugged)
- {
-@@ -562,7 +565,7 @@ int tb_wait_for_port(struct tb_port *port, bool wait_if_unplugged)
-  * Change the number of NFC credits allocated to @port by @credits. To remove
-  * NFC credits pass a negative amount of credits.
-  *
-- * Return: Returns 0 on success or an error code on failure.
-+ * Return: %0 on success, negative errno otherwise.
-  */
- int tb_port_add_nfc_credits(struct tb_port *port, int credits)
- {
-@@ -599,7 +602,7 @@ int tb_port_add_nfc_credits(struct tb_port *port, int credits)
-  * @port: Port whose counters to clear
-  * @counter: Counter index to clear
-  *
-- * Return: Returns 0 on success or an error code on failure.
-+ * Return: %0 on success, negative errno otherwise.
-  */
- int tb_port_clear_counter(struct tb_port *port, int counter)
- {
-@@ -614,6 +617,8 @@ int tb_port_clear_counter(struct tb_port *port, int counter)
-  *
-  * Needed for USB4 but can be called for any CIO/USB4 ports. Makes the
-  * downstream router accessible for CM.
+  * If @down adapter is active, follows the tunnel to the PCIe upstream
+- * adapter and back. Returns the discovered tunnel or %NULL if there was
+- * no tunnel.
++ * adapter and back.
 + *
-+ * Return: %0 on success, negative errno otherwise.
++ * Return: Pointer to &struct tb_tunnel or %NULL if there was no tunnel.
   */
- int tb_port_unlock(struct tb_port *port)
- {
-@@ -659,6 +664,8 @@ static int __tb_port_enable(struct tb_port *port, bool enable)
-  * @port: Port to enable (can be %NULL)
+ struct tb_tunnel *tb_tunnel_discover_pci(struct tb *tb, struct tb_port *down,
+ 					 bool alloc_hopid)
+@@ -496,7 +499,7 @@ struct tb_tunnel *tb_tunnel_discover_pci(struct tb *tb, struct tb_port *down,
+  * Allocate a PCI tunnel. The ports must be of type TB_TYPE_PCIE_UP and
+  * TB_TYPE_PCIE_DOWN.
   *
-  * This is used for lane 0 and 1 adapters to enable it.
-+ *
-+ * Return: %0 on success, negative errno otherwise.
+- * Return: Returns a tb_tunnel on success or NULL on failure.
++ * Return: Pointer to @struct tb_tunnel or %NULL on failure.
   */
- int tb_port_enable(struct tb_port *port)
- {
-@@ -670,6 +677,8 @@ int tb_port_enable(struct tb_port *port)
-  * @port: Port to disable (can be %NULL)
+ struct tb_tunnel *tb_tunnel_alloc_pci(struct tb *tb, struct tb_port *up,
+ 				      struct tb_port *down)
+@@ -543,9 +546,12 @@ struct tb_tunnel *tb_tunnel_alloc_pci(struct tb *tb, struct tb_port *up,
   *
-  * This is used for lane 0 and 1 adapters to disable it.
-+ *
-+ * Return: %0 on success, negative errno otherwise.
-  */
- int tb_port_disable(struct tb_port *port)
- {
-@@ -689,7 +698,7 @@ static int tb_port_reset(struct tb_port *port)
-  * This is a helper method for tb_switch_alloc. Does not check or initialize
-  * any downstream switches.
-  *
-- * Return: Returns 0 on success or an error code on failure.
-+ * Return: %0 on success, negative errno otherwise.
-  */
- static int tb_init_port(struct tb_port *port)
- {
-@@ -847,9 +856,9 @@ static inline bool tb_switch_is_reachable(const struct tb_switch *parent,
-  * link port, the function follows that link and returns another end on
-  * that same link.
-  *
-- * If the @end port has been reached, return %NULL.
-- *
-  * Domain tb->lock must be held when this function is called.
-+ *
-+ * Return: Pointer to &struct tb_port, %NULL if the @end port has been reached.
-  */
- struct tb_port *tb_next_port_on_path(struct tb_port *start, struct tb_port *end,
- 				     struct tb_port *prev)
-@@ -894,7 +903,7 @@ struct tb_port *tb_next_port_on_path(struct tb_port *start, struct tb_port *end,
-  * tb_port_get_link_speed() - Get current link speed
-  * @port: Port to check (USB4 or CIO)
-  *
-- * Returns link speed in Gb/s or negative errno in case of failure.
-+ * Return: Link speed in Gb/s or negative errno in case of failure.
-  */
- int tb_port_get_link_speed(struct tb_port *port)
- {
-@@ -926,9 +935,11 @@ int tb_port_get_link_speed(struct tb_port *port)
-  * tb_port_get_link_generation() - Returns link generation
-  * @port: Lane adapter
-  *
-- * Returns link generation as number or negative errno in case of
-- * failure. Does not distinguish between Thunderbolt 1 and Thunderbolt 2
-- * links so for those always returns 2.
-+ * Return: Link generation as a number or negative errno in case of
-+ * failure.
-+ *
-+ * Does not distinguish between Thunderbolt 1 and Thunderbolt 2
-+ * links so for those always returns %2.
-  */
- int tb_port_get_link_generation(struct tb_port *port)
- {
-@@ -952,8 +963,8 @@ int tb_port_get_link_generation(struct tb_port *port)
-  * tb_port_get_link_width() - Get current link width
-  * @port: Port to check (USB4 or CIO)
-  *
-- * Returns link width. Return the link width as encoded in &enum
-- * tb_link_width or negative errno in case of failure.
-+ * Return: Link width encoded in &enum tb_link_width or
-+ * negative errno in case of failure.
-  */
- int tb_port_get_link_width(struct tb_port *port)
- {
-@@ -979,7 +990,9 @@ int tb_port_get_link_width(struct tb_port *port)
-  * @width: Widths to check (bitmask)
-  *
-  * Can be called to any lane adapter. Checks if given @width is
-- * supported by the hardware and returns %true if it is.
-+ * supported by the hardware.
-+ *
-+ * Return: %true if link width is supported, %false otherwise.
-  */
- bool tb_port_width_supported(struct tb_port *port, unsigned int width)
- {
-@@ -1016,7 +1029,7 @@ bool tb_port_width_supported(struct tb_port *port, unsigned int width)
-  * Sets the target link width of the lane adapter to @width. Does not
-  * enable/disable lane bonding. For that call tb_port_set_lane_bonding().
-  *
-- * Return: %0 in case of success and negative errno in case of error
-+ * Return: %0 on success, negative errno otherwise.
-  */
- int tb_port_set_link_width(struct tb_port *port, enum tb_link_width width)
- {
-@@ -1070,7 +1083,7 @@ int tb_port_set_link_width(struct tb_port *port, enum tb_link_width width)
-  * cases one should use tb_port_lane_bonding_enable() instead to enable
-  * lane bonding.
-  *
-- * Return: %0 in case of success and negative errno in case of error
-+ * Return: %0 on success, negative errno otherwise.
-  */
- static int tb_port_set_lane_bonding(struct tb_port *port, bool bonding)
- {
-@@ -1104,7 +1117,7 @@ static int tb_port_set_lane_bonding(struct tb_port *port, bool bonding)
-  * tb_port_wait_for_link_width() before enabling any paths through the
-  * link to make sure the link is in expected state.
-  *
-- * Return: %0 in case of success and negative errno in case of error
-+ * Return: %0 on success, negative errno otherwise.
-  */
- int tb_port_lane_bonding_enable(struct tb_port *port)
- {
-@@ -1181,9 +1194,14 @@ void tb_port_lane_bonding_disable(struct tb_port *port)
-  *
-  * Should be used after both ends of the link have been bonded (or
-  * bonding has been disabled) to wait until the link actually reaches
-- * the expected state. Returns %-ETIMEDOUT if the width was not reached
-- * within the given timeout, %0 if it did. Can be passed a mask of
-- * expected widths and succeeds if any of the widths is reached.
-+ * the expected state.
-+ *
-+ * Can be passed a mask of expected widths.
+  * Can be called to any connected lane 0 adapter to find out how much
+  * bandwidth needs to be left in reserve for possible PCIe bulk traffic.
+- * Returns true if there is something to be reserved and writes the
+- * amount to @reserved_down/@reserved_up. Otherwise returns false and
+- * does not touch the parameters.
 + *
 + * Return:
-+ * * %0 - If link reaches any of the specified widths.
-+ * * %-ETIMEDOUT - If link does not reach specified width.
-+ * * Negative errno - Another error occurred.
++ * * %true - If there is something to be reserved. Writes the amount to
++ *   @reserved_down/@reserved_up.
++ * * %false - Nothing to be reserved. Leaves @reserved_down/@reserved_up
++ *   unmodified.
   */
- int tb_port_wait_for_link_width(struct tb_port *port, unsigned int width,
- 				int timeout_msec)
-@@ -1248,6 +1266,8 @@ static int tb_port_do_update_credits(struct tb_port *port)
-  * After the link is bonded (or bonding was disabled) the port total
-  * credits may change, so this function needs to be called to re-read
-  * the credits. Updates also the second lane adapter.
+ bool tb_tunnel_reserved_pci(struct tb_port *port, int *reserved_up,
+ 			    int *reserved_down)
+@@ -1151,7 +1157,8 @@ static int tb_dp_activate(struct tb_tunnel *tunnel, bool active)
+  * @tunnel: DP tunnel to check
+  * @max_bw_rounded: Maximum bandwidth in Mb/s rounded up to the next granularity
+  *
+- * Returns maximum possible bandwidth for this tunnel in Mb/s.
++ * Return: Maximum possible bandwidth for this tunnel in Mb/s, negative errno
++ * in case of failure.
+  */
+ static int tb_dp_bandwidth_mode_maximum_bandwidth(struct tb_tunnel *tunnel,
+ 						  int *max_bw_rounded)
+@@ -1547,7 +1554,7 @@ static void tb_dp_dump(struct tb_tunnel *tunnel)
+  * and back. Returns the discovered tunnel or %NULL if there was no
+  * tunnel.
+  *
+- * Return: DP tunnel or %NULL if no tunnel found.
++ * Return: Pointer to &struct tb_tunnel or %NULL if no tunnel found.
+  */
+ struct tb_tunnel *tb_tunnel_discover_dp(struct tb *tb, struct tb_port *in,
+ 					bool alloc_hopid)
+@@ -1648,7 +1655,7 @@ struct tb_tunnel *tb_tunnel_discover_dp(struct tb *tb, struct tb_port *in,
+  * successful (or if it returns %false there was some sort of issue).
+  * The @callback is called without @tb->lock held.
+  *
+- * Return: Returns a tb_tunnel on success or &NULL on failure.
++ * Return: Pointer to @struct tb_tunnel or %NULL in case of failure.
+  */
+ struct tb_tunnel *tb_tunnel_alloc_dp(struct tb *tb, struct tb_port *in,
+ 				     struct tb_port *out, int link_nr,
+@@ -1861,7 +1868,7 @@ static void tb_dma_destroy(struct tb_tunnel *tunnel)
+  * @receive_ring: NHI ring number used to receive packets from the
+  *		  other domain. Set to %-1 if RX path is not needed.
+  *
+- * Return: Returns a tb_tunnel on success or NULL on failure.
++ * Return: Pointer to @struct tb_tunnel or %NULL in case of failure.
+  */
+ struct tb_tunnel *tb_tunnel_alloc_dma(struct tb *tb, struct tb_port *nhi,
+ 				      struct tb_port *dst, int transmit_path,
+@@ -1938,7 +1945,8 @@ struct tb_tunnel *tb_tunnel_alloc_dma(struct tb *tb, struct tb_port *nhi,
+  *
+  * This function can be used to match specific DMA tunnel, if there are
+  * multiple DMA tunnels going through the same XDomain connection.
+- * Returns true if there is match and false otherwise.
 + *
-+ * Return: %0 on success, negative errno otherwise.
++ * Return: %true if there is a match, %false otherwise.
   */
- int tb_port_update_credits(struct tb_port *port)
- {
-@@ -1303,6 +1323,8 @@ static bool tb_port_resume(struct tb_port *port)
+ bool tb_tunnel_match_dma(const struct tb_tunnel *tunnel, int transmit_path,
+ 			 int transmit_ring, int receive_path, int receive_ring)
+@@ -2160,8 +2168,9 @@ static void tb_usb3_init_path(struct tb_path *path)
+  * @alloc_hopid: Allocate HopIDs from visited ports
+  *
+  * If @down adapter is active, follows the tunnel to the USB3 upstream
+- * adapter and back. Returns the discovered tunnel or %NULL if there was
+- * no tunnel.
++ * adapter and back.
++ *
++ * Return: Pointer to &struct tb_tunnel or %NULL if there was no tunnel.
+  */
+ struct tb_tunnel *tb_tunnel_discover_usb3(struct tb *tb, struct tb_port *down,
+ 					  bool alloc_hopid)
+@@ -2266,7 +2275,7 @@ struct tb_tunnel *tb_tunnel_discover_usb3(struct tb *tb, struct tb_port *down,
+  * Allocate an USB3 tunnel. The ports must be of type @TB_TYPE_USB3_UP and
+  * @TB_TYPE_USB3_DOWN.
+  *
+- * Return: Returns a tb_tunnel on success or %NULL on failure.
++ * Return: Pointer to @struct tb_tunnel or %NULL in case of failure.
+  */
+ struct tb_tunnel *tb_tunnel_alloc_usb3(struct tb *tb, struct tb_port *up,
+ 				       struct tb_port *down, int max_up,
+@@ -2337,6 +2346,8 @@ struct tb_tunnel *tb_tunnel_alloc_usb3(struct tb *tb, struct tb_port *up,
  /**
-  * tb_port_is_enabled() - Is the adapter port enabled
-  * @port: Port to check
+  * tb_tunnel_is_invalid - check whether an activated path is still valid
+  * @tunnel: Tunnel to check
 + *
-+ * Return: %true if port is enabled, %false otherwise.
++ * Return: %true if path is valid, %false otherwise.
   */
- bool tb_port_is_enabled(struct tb_port *port)
+ bool tb_tunnel_is_invalid(struct tb_tunnel *tunnel)
  {
-@@ -1327,6 +1349,8 @@ bool tb_port_is_enabled(struct tb_port *port)
- /**
-  * tb_usb3_port_is_enabled() - Is the USB3 adapter port enabled
-  * @port: USB3 adapter port to check
-+ *
-+ * Return: %true if port is enabled, %false otherwise.
-  */
- bool tb_usb3_port_is_enabled(struct tb_port *port)
- {
-@@ -1343,6 +1367,8 @@ bool tb_usb3_port_is_enabled(struct tb_port *port)
-  * tb_usb3_port_enable() - Enable USB3 adapter port
-  * @port: USB3 adapter port to enable
-  * @enable: Enable/disable the USB3 adapter
-+ *
-+ * Return: %0 on success, negative errno otherwise.
-  */
- int tb_usb3_port_enable(struct tb_port *port, bool enable)
- {
-@@ -1358,6 +1384,8 @@ int tb_usb3_port_enable(struct tb_port *port, bool enable)
- /**
-  * tb_pci_port_is_enabled() - Is the PCIe adapter port enabled
-  * @port: PCIe port to check
-+ *
-+ * Return: %true if port is enabled, %false otherwise.
-  */
- bool tb_pci_port_is_enabled(struct tb_port *port)
- {
-@@ -1374,6 +1402,8 @@ bool tb_pci_port_is_enabled(struct tb_port *port)
-  * tb_pci_port_enable() - Enable PCIe adapter port
-  * @port: PCIe port to enable
-  * @enable: Enable/disable the PCIe adapter
-+ *
-+ * Return: %0 on success, negative errno otherwise.
-  */
- int tb_pci_port_enable(struct tb_port *port, bool enable)
- {
-@@ -1389,6 +1419,8 @@ int tb_pci_port_enable(struct tb_port *port, bool enable)
-  * @port: DP out port to check
+@@ -2355,10 +2366,11 @@ bool tb_tunnel_is_invalid(struct tb_tunnel *tunnel)
+  * tb_tunnel_activate() - activate a tunnel
+  * @tunnel: Tunnel to activate
   *
-  * Checks if the DP OUT adapter port has HPD bit already set.
-+ *
-+ * Return: %1 if HPD is active, %0 otherwise.
-  */
- int tb_dp_port_hpd_is_active(struct tb_port *port)
- {
-@@ -1408,6 +1440,8 @@ int tb_dp_port_hpd_is_active(struct tb_port *port)
-  * @port: Port to clear HPD
-  *
-  * If the DP IN port has HPD set, this function can be used to clear it.
-+ *
-+ * Return: %0 on success, negative errno otherwise.
-  */
- int tb_dp_port_hpd_clear(struct tb_port *port)
- {
-@@ -1434,6 +1468,8 @@ int tb_dp_port_hpd_clear(struct tb_port *port)
-  * Programs specified Hop IDs for DP IN/OUT port. Can be called for USB4
-  * router DP adapters too but does not program the values as the fields
-  * are read-only.
-+ *
-+ * Return: %0 on success, negative errno otherwise.
-  */
- int tb_dp_port_set_hops(struct tb_port *port, unsigned int video,
- 			unsigned int aux_tx, unsigned int aux_rx)
-@@ -1466,6 +1502,8 @@ int tb_dp_port_set_hops(struct tb_port *port, unsigned int video,
- /**
-  * tb_dp_port_is_enabled() - Is DP adapter port enabled
-  * @port: DP adapter port to check
-+ *
-+ * Return: %true if DP port is enabled, %false otherwise.
-  */
- bool tb_dp_port_is_enabled(struct tb_port *port)
- {
-@@ -1485,6 +1523,8 @@ bool tb_dp_port_is_enabled(struct tb_port *port)
-  *
-  * Once Hop IDs are programmed DP paths can be enabled or disabled by
-  * calling this function.
-+ *
-+ * Return: %0 on success, negative errno otherwise.
-  */
- int tb_dp_port_enable(struct tb_port *port, bool enable)
- {
-@@ -1634,7 +1674,7 @@ static bool tb_switch_enumerated(struct tb_switch *sw)
-  *
-  * If the router is not enumerated does nothing.
-  *
-- * Returns %0 on success or negative errno in case of failure.
-+ * Return: %0 on success, negative errno otherwise.
-  */
- int tb_switch_reset(struct tb_switch *sw)
- {
-@@ -1670,8 +1710,12 @@ int tb_switch_reset(struct tb_switch *sw)
-  * @timeout_msec: Timeout in ms how long to wait
-  *
-  * Wait till the specified bits in specified offset reach specified value.
-- * Returns %0 in case of success, %-ETIMEDOUT if the @value was not reached
-- * within the given timeout or a negative errno in case of failure.
-+ *
+- * Return: 0 on success and negative errno in case if failure.
+- * Specifically returns %-EINPROGRESS if the tunnel activation is still
+- * in progress (that's for DP tunnels to complete DPRX capabilities
+- * read).
 + * Return:
 + * * %0 - On success.
-+ * * %-ETIMEDOUT - If the @value was not reached within
-+ *   the given timeout.
++ * * %-EINPROGRESS - If the tunnel activation is still in progress (that's
++ *   for DP tunnels to complete DPRX capabilities read).
++ * * Negative errno - Another error occurred.
+  */
+ int tb_tunnel_activate(struct tb_tunnel *tunnel)
+ {
+@@ -2438,8 +2450,8 @@ void tb_tunnel_deactivate(struct tb_tunnel *tunnel)
+  * @tunnel: Tunnel to check
+  * @port: Port to check
+  *
+- * Returns true if @tunnel goes through @port (direction does not matter),
+- * false otherwise.
++ * Return: %true if @tunnel goes through @port (direction does not matter),
++ * %false otherwise.
+  */
+ bool tb_tunnel_port_on_path(const struct tb_tunnel *tunnel,
+ 			    const struct tb_port *port)
+@@ -2469,9 +2481,11 @@ static bool tb_tunnel_is_activated(const struct tb_tunnel *tunnel)
+  * @max_up: Maximum upstream bandwidth in Mb/s
+  * @max_down: Maximum downstream bandwidth in Mb/s
+  *
+- * Returns maximum possible bandwidth this tunnel can go if not limited
+- * by other bandwidth clients. If the tunnel does not support this
+- * returns %-EOPNOTSUPP.
++ * Return:
++ * * Maximum possible bandwidth this tunnel can support if not
++ *   limited by other bandwidth clients.
++ * * %-EOPNOTSUPP - If the tunnel does not support this function.
++ * * %-ENOTCONN - If the tunnel is not active.
+  */
+ int tb_tunnel_maximum_bandwidth(struct tb_tunnel *tunnel, int *max_up,
+ 				int *max_down)
+@@ -2491,8 +2505,12 @@ int tb_tunnel_maximum_bandwidth(struct tb_tunnel *tunnel, int *max_up,
+  * @allocated_down: Currently allocated downstream bandwidth in Mb/s is
+  *		    stored here
+  *
+- * Returns the bandwidth allocated for the tunnel. This may be higher
+- * than what the tunnel actually consumes.
++ * Return:
++ * * Bandwidth allocated for the tunnel. This may be higher than what the
++ *   tunnel actually consumes.
++ * * %-EOPNOTSUPP - If the tunnel does not support this function.
++ * * %-ENOTCONN - If the tunnel is not active.
++ * * Negative errno - Another error occurred.
+  */
+ int tb_tunnel_allocated_bandwidth(struct tb_tunnel *tunnel, int *allocated_up,
+ 				  int *allocated_down)
+@@ -2512,10 +2530,12 @@ int tb_tunnel_allocated_bandwidth(struct tb_tunnel *tunnel, int *allocated_up,
+  * @alloc_up: New upstream bandwidth in Mb/s
+  * @alloc_down: New downstream bandwidth in Mb/s
+  *
+- * Tries to change tunnel bandwidth allocation. If succeeds returns %0
+- * and updates @alloc_up and @alloc_down to that was actually allocated
+- * (it may not be the same as passed originally). Returns negative errno
+- * in case of failure.
++ * Tries to change tunnel bandwidth allocation.
++ *
++ * Return:
++ * * %0 - On success. Updates @alloc_up and @alloc_down to values that were
++ *   actually allocated (it may not be the same as passed originally).
 + * * Negative errno - In case of failure.
   */
- int tb_switch_wait_for_bit(struct tb_switch *sw, u32 offset, u32 bit,
- 			   u32 value, int timeout_msec)
-@@ -1700,7 +1744,7 @@ int tb_switch_wait_for_bit(struct tb_switch *sw, u32 offset, u32 bit,
+ int tb_tunnel_alloc_bandwidth(struct tb_tunnel *tunnel, int *alloc_up,
+ 			      int *alloc_down)
+@@ -2546,8 +2566,9 @@ int tb_tunnel_alloc_bandwidth(struct tb_tunnel *tunnel, int *alloc_up,
+  *		   Can be %NULL.
   *
-  * Also configures a sane plug_events_delay of 255ms.
-  *
-- * Return: Returns 0 on success or an error code on failure.
-+ * Return: %0 on success, negative errno otherwise.
-  */
- static int tb_plug_events_active(struct tb_switch *sw, bool active)
- {
-@@ -2406,8 +2450,7 @@ static bool tb_switch_exceeds_max_depth(const struct tb_switch *sw, int depth)
-  * separately. The returned switch should be released by calling
-  * tb_switch_put().
-  *
-- * Return: Pointer to the allocated switch or ERR_PTR() in case of
-- * failure.
-+ * Return: Pointer to &struct tb_switch or ERR_PTR() in case of failure.
-  */
- struct tb_switch *tb_switch_alloc(struct tb *tb, struct device *parent,
- 				  u64 route)
-@@ -2526,7 +2569,7 @@ struct tb_switch *tb_switch_alloc(struct tb *tb, struct device *parent,
-  *
-  * The returned switch must be released by calling tb_switch_put().
-  *
-- * Return: Pointer to the allocated switch or ERR_PTR() in case of failure
-+ * Return: Pointer to &struct tb_switch or ERR_PTR() in case of failure.
-  */
- struct tb_switch *
- tb_switch_alloc_safe_mode(struct tb *tb, struct device *parent, u64 route)
-@@ -2562,7 +2605,7 @@ tb_switch_alloc_safe_mode(struct tb *tb, struct device *parent, u64 route)
-  * connection manager to use. Can be called to the switch again after
-  * resume from low power states to re-initialize it.
-  *
-- * Return: %0 in case of success and negative errno in case of failure
-+ * Return: %0 on success, negative errno otherwise.
-  */
- int tb_switch_configure(struct tb_switch *sw)
- {
-@@ -2625,7 +2668,7 @@ int tb_switch_configure(struct tb_switch *sw)
-  * Needs to be called before any tunnels can be setup through the
-  * router. Can be called to any router.
-  *
-- * Returns %0 in success and negative errno otherwise.
-+ * Return: %0 on success, negative errno otherwise.
-  */
- int tb_switch_configuration_valid(struct tb_switch *sw)
- {
-@@ -2900,6 +2943,8 @@ static void tb_switch_link_init(struct tb_switch *sw)
-  * Connection manager can call this function to enable lane bonding of a
-  * switch. If conditions are correct and both switches support the feature,
-  * lanes are bonded. It is safe to call this to any switch.
+  * Stores the amount of isochronous bandwidth @tunnel consumes in
+- * @consumed_up and @consumed_down. In case of success returns %0,
+- * negative errno otherwise.
++ * @consumed_up and @consumed_down.
 + *
 + * Return: %0 on success, negative errno otherwise.
   */
- static int tb_switch_lane_bonding_enable(struct tb_switch *sw)
- {
-@@ -2950,6 +2995,8 @@ static int tb_switch_lane_bonding_enable(struct tb_switch *sw)
+ int tb_tunnel_consumed_bandwidth(struct tb_tunnel *tunnel, int *consumed_up,
+ 				 int *consumed_down)
+@@ -2585,7 +2606,7 @@ int tb_tunnel_consumed_bandwidth(struct tb_tunnel *tunnel, int *consumed_up,
+  * If tunnel supports dynamic bandwidth management (USB3 tunnels at the
+  * moment) this function makes it to release all the unused bandwidth.
   *
-  * Disables lane bonding between @sw and parent. This can be called even
-  * if lanes were not bonded originally.
-+ *
+- * Returns %0 in case of success and negative errno otherwise.
 + * Return: %0 on success, negative errno otherwise.
   */
- static int tb_switch_lane_bonding_disable(struct tb_switch *sw)
- {
-@@ -3074,7 +3121,7 @@ static int tb_switch_asym_disable(struct tb_switch *sw)
-  *
-  * Does nothing for host router.
-  *
-- * Returns %0 in case of success, negative errno otherwise.
-+ * Return: %0 on success, negative errno otherwise.
-  */
- int tb_switch_set_link_width(struct tb_switch *sw, enum tb_link_width width)
- {
-@@ -3145,7 +3192,7 @@ int tb_switch_set_link_width(struct tb_switch *sw, enum tb_link_width width)
-  *
-  * It is recommended that this is called after lane bonding is enabled.
-  *
-- * Returns %0 on success and negative errno in case of error.
-+ * Return: %0 on success and negative errno otherwise.
-  */
- int tb_switch_configure_link(struct tb_switch *sw)
- {
-@@ -3245,7 +3292,7 @@ static int tb_switch_port_hotplug_enable(struct tb_switch *sw)
-  * exposed to the userspace when this function successfully returns. To
-  * remove and release the switch, call tb_switch_remove().
-  *
-- * Return: %0 in case of success and negative errno in case of failure
-+ * Return: %0 on success, negative errno otherwise.
-  */
- int tb_switch_add(struct tb_switch *sw)
- {
-@@ -3467,6 +3514,8 @@ static void tb_switch_check_wakes(struct tb_switch *sw)
-  * suspend. If this is resume from system sleep, notifies PM core about the
-  * wakes occurred during suspend. Disables all wakes, except USB4 wake of
-  * upstream port for USB4 routers that shall be always enabled.
-+ *
-+ * Return: %0 on success, negative errno otherwise.
-  */
- int tb_switch_resume(struct tb_switch *sw, bool runtime)
- {
-@@ -3617,7 +3666,9 @@ void tb_switch_suspend(struct tb_switch *sw, bool runtime)
-  * @in: DP IN port
-  *
-  * Queries availability of DP resource for DP tunneling using switch
-- * specific means. Returns %true if resource is available.
-+ * specific means.
-+ *
-+ * Return: %true if resource is available, %false otherwise.
-  */
- bool tb_switch_query_dp_resource(struct tb_switch *sw, struct tb_port *in)
- {
-@@ -3633,7 +3684,8 @@ bool tb_switch_query_dp_resource(struct tb_switch *sw, struct tb_port *in)
-  *
-  * Allocates DP resource for DP tunneling. The resource must be
-  * available for this to succeed (see tb_switch_query_dp_resource()).
-- * Returns %0 in success and negative errno otherwise.
-+ *
-+ * Return: %0 on success, negative errno otherwise.
-  */
- int tb_switch_alloc_dp_resource(struct tb_switch *sw, struct tb_port *in)
- {
-@@ -3718,6 +3770,8 @@ static int tb_switch_match(struct device *dev, const void *data)
-  *
-  * Returned switch has reference count increased so the caller needs to
-  * call tb_switch_put() when done with the switch.
-+ *
-+ * Return: Pointer to &struct tb_switch, %NULL if not found.
-  */
- struct tb_switch *tb_switch_find_by_link_depth(struct tb *tb, u8 link, u8 depth)
- {
-@@ -3743,6 +3797,8 @@ struct tb_switch *tb_switch_find_by_link_depth(struct tb *tb, u8 link, u8 depth)
-  *
-  * Returned switch has reference count increased so the caller needs to
-  * call tb_switch_put() when done with the switch.
-+ *
-+ * Return: Pointer to &struct tb_switch, %NULL if not found.
-  */
- struct tb_switch *tb_switch_find_by_uuid(struct tb *tb, const uuid_t *uuid)
- {
-@@ -3767,6 +3823,8 @@ struct tb_switch *tb_switch_find_by_uuid(struct tb *tb, const uuid_t *uuid)
-  *
-  * Returned switch has reference count increased so the caller needs to
-  * call tb_switch_put() when done with the switch.
-+ *
-+ * Return: Pointer to &struct tb_switch, %NULL if not found.
-  */
- struct tb_switch *tb_switch_find_by_route(struct tb *tb, u64 route)
- {
-@@ -3791,6 +3849,8 @@ struct tb_switch *tb_switch_find_by_route(struct tb *tb, u64 route)
-  * tb_switch_find_port() - return the first port of @type on @sw or NULL
-  * @sw: Switch to find the port from
-  * @type: Port type to look for
-+ *
-+ * Return: Pointer to &struct tb_port, %NULL if not found.
-  */
- struct tb_port *tb_switch_find_port(struct tb_switch *sw,
- 				    enum tb_port_type type)
-@@ -3859,6 +3919,8 @@ static int tb_switch_pcie_bridge_write(struct tb_switch *sw, unsigned int bridge
-  * entry to PCIe L1 state. Shall be called after the upstream PCIe tunnel
-  * was configured. Due to Intel platforms limitation, shall be called only
-  * for first hop switch.
-+ *
-+ * Return: %0 on success, negative errno otherwise.
-  */
- int tb_switch_pcie_l1_enable(struct tb_switch *sw)
- {
-@@ -3893,6 +3955,8 @@ int tb_switch_pcie_l1_enable(struct tb_switch *sw)
-  * connected to the type-C port. Call only after PCIe tunnel has been
-  * established. The function only does the connect if not done already
-  * so can be called several times for the same router.
-+ *
-+ * Return: %0 on success, negative errno otherwise.
-  */
- int tb_switch_xhci_connect(struct tb_switch *sw)
+ int tb_tunnel_release_unused_bandwidth(struct tb_tunnel *tunnel)
  {
 -- 
 2.50.1
