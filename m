@@ -1,26 +1,27 @@
 Received: from metis.whiteo.stw.pengutronix.de (metis.whiteo.stw.pengutronix.de [185.203.201.7])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 095972DC78C
-	for <linux-usb@vger.kernel.org>; Thu, 11 Sep 2025 20:22:55 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AE6A4273809
+	for <linux-usb@vger.kernel.org>; Thu, 11 Sep 2025 20:22:56 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.203.201.7
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1757622177; cv=none; b=OC0FSIelOGTvRhediSYJM5CFHvGfYujkaXEk0r/Lz4WvHvQJWzyUetg0bjDQogt2Po+qpPcZVxI6n6Zsqky2DZrYkeknNoCScudnQrc32EDk17CyktJWZCX/6Ao8VxX9AKlUzRs07EHcC6rwBKrYwRPUmrRW9CPDPPNYQQPJZm4=
+	t=1757622178; cv=none; b=n2bsP++WFxa+dfllYRo93WO3GSkMZNWdpelP7xitMDUrgCnPxvgLKnwRI5MKKrT2oYkCSVBQIEhEYUQ3jGKtOHAu8Z1zIDG6vjQgbFIhIpiqEsoiaHuqn64bnbSnZuDCk0Xl78Ue4YRWAzN1gguZ6uL2RbnwsOfa7X4OO7wtJ4U=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1757622177; c=relaxed/simple;
-	bh=NOqmee/dDD5cagjg4HvJgFuGnZ/TnFg8cXA8JExo+/s=;
+	s=arc-20240116; t=1757622178; c=relaxed/simple;
+	bh=TXnmdDo5RUFYnHwQiJ5oW/Z1zuTGfz1ZHaRZcG0i0cs=;
 	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
-	 In-Reply-To:To:Cc; b=liS+9DVJrRmO5+70exhUmZM7PKxiAgqkg+d82OWTfLShHn3lLPiAGXgpbCka5O0dFqdiMLbY9nBSYaixBtTaC1E540ttGit8lsdKAwIseMpEPrT6IHYqI0E+hghSkwJtk/9+QdDOhsH1jTRfv8XMYfKDDBLb3+Fwgy9+TvtuIx0=
+	 In-Reply-To:To:Cc; b=GYl2+7YflH3ks836bo6CcwU+LnpEfR7LOpugObOEss0eN07f0OBmKfkQjCwBGt90kxSMJcZ762KSS4PAgDkpmwDtW9jTBSI7Llksy/uIhVp6MTW/vvlJE8h/PMs+OzQCtMLiBi41hZA9kLi62s+EOM1pOVZTJwna5UP/Nc5EaDw=
 ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=pengutronix.de; spf=pass smtp.mailfrom=pengutronix.de; arc=none smtp.client-ip=185.203.201.7
 Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=pengutronix.de
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=pengutronix.de
 Received: from dude02.red.stw.pengutronix.de ([2a0a:edc0:0:1101:1d::28])
 	by metis.whiteo.stw.pengutronix.de with esmtp (Exim 4.92)
 	(envelope-from <m.felsch@pengutronix.de>)
-	id 1uwnog-0005yg-JB; Thu, 11 Sep 2025 22:22:50 +0200
+	id 1uwnog-0005yg-Mv; Thu, 11 Sep 2025 22:22:50 +0200
 From: Marco Felsch <m.felsch@pengutronix.de>
-Date: Thu, 11 Sep 2025 22:22:42 +0200
-Subject: [PATCH v4 1/5] usb: port: track the disabled state
+Date: Thu, 11 Sep 2025 22:22:44 +0200
+Subject: [PATCH v4 3/5] dt-bindings: usb: usb-device: add usb hub port
+ vbus-supply suppport
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
@@ -29,7 +30,7 @@ List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20250911-v6-16-topic-usb-onboard-dev-v4-1-1af288125d74@pengutronix.de>
+Message-Id: <20250911-v6-16-topic-usb-onboard-dev-v4-3-1af288125d74@pengutronix.de>
 References: <20250911-v6-16-topic-usb-onboard-dev-v4-0-1af288125d74@pengutronix.de>
 In-Reply-To: <20250911-v6-16-topic-usb-onboard-dev-v4-0-1af288125d74@pengutronix.de>
 To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>, 
@@ -46,61 +47,32 @@ X-SA-Exim-Mail-From: m.felsch@pengutronix.de
 X-SA-Exim-Scanned: No (on metis.whiteo.stw.pengutronix.de); SAEximRunCond expanded to false
 X-PTX-Original-Recipient: linux-usb@vger.kernel.org
 
-The disable state isn't tracked at the moment, instead the state is
-directly passed to the hub driver. Change this behavior to only trigger
-the hub if a state change happened. Exit early in case of no state
-changes but don't return an error.
+Some PCB designs don't use the dedicated USB hub port power control GPIO
+to control the port VBUS supply. Instead host managed GPIOs are used to
+control the VBUS supply.
 
 Signed-off-by: Marco Felsch <m.felsch@pengutronix.de>
 ---
- drivers/usb/core/hub.h  | 2 ++
- drivers/usb/core/port.c | 6 ++++++
- 2 files changed, 8 insertions(+)
+ Documentation/devicetree/bindings/usb/usb-device.yaml | 6 ++++++
+ 1 file changed, 6 insertions(+)
 
-diff --git a/drivers/usb/core/hub.h b/drivers/usb/core/hub.h
-index 9ebc5ef54a325d63e01b0deb59a1853d2b13c8d5..297adf2c6078809ca582104f228e5222c464f999 100644
---- a/drivers/usb/core/hub.h
-+++ b/drivers/usb/core/hub.h
-@@ -97,6 +97,7 @@ struct usb_hub {
-  * @usb3_lpm_u2_permit: whether USB3 U2 LPM is permitted.
-  * @early_stop: whether port initialization will be stopped earlier.
-  * @ignore_event: whether events of the port are ignored.
-+ * @disabled: whether the port is disabled
-  */
- struct usb_port {
- 	struct usb_device *child;
-@@ -118,6 +119,7 @@ struct usb_port {
- 	unsigned int is_superspeed:1;
- 	unsigned int usb3_lpm_u1_permit:1;
- 	unsigned int usb3_lpm_u2_permit:1;
-+	unsigned int disabled:1;
- };
+diff --git a/Documentation/devicetree/bindings/usb/usb-device.yaml b/Documentation/devicetree/bindings/usb/usb-device.yaml
+index 09fceb469f10525e9dcdb91435b142b0d21964b8..2f891a05ab9bca095eb881c5f601ac27ac63b542 100644
+--- a/Documentation/devicetree/bindings/usb/usb-device.yaml
++++ b/Documentation/devicetree/bindings/usb/usb-device.yaml
+@@ -53,6 +53,12 @@ properties:
+   "#size-cells":
+     const: 0
  
- #define to_usb_port(_dev) \
-diff --git a/drivers/usb/core/port.c b/drivers/usb/core/port.c
-index f54198171b6a3fb49c5f74f4a8a303b422d099eb..cae08a9a71e65c42fb9a8f5369060bd82b8daebb 100644
---- a/drivers/usb/core/port.c
-+++ b/drivers/usb/core/port.c
-@@ -117,6 +117,10 @@ static ssize_t disable_store(struct device *dev, struct device_attribute *attr,
- 	if (rc)
- 		return rc;
- 
-+	/* Early quit if no change was detected */
-+	if (port_dev->disabled == disabled)
-+		return count;
++  vbus-supply:
++    description: USB hub port VBUS supply.
++      The host managed regulator which controlls the USB hub port VBUS. This
++      regulator is only required if the hub internal control signals aren't
++      used to control the VBUS regulators.
 +
- 	hub_get(hub);
- 	rc = usb_autopm_get_interface(intf);
- 	if (rc < 0)
-@@ -148,6 +152,8 @@ static ssize_t disable_store(struct device *dev, struct device_attribute *attr,
- 			usb_clear_port_feature(hdev, port1, USB_PORT_FEAT_C_ENABLE);
- 	}
- 
-+	port_dev->disabled = disabled;
-+
- 	if (!rc)
- 		rc = count;
- 
+ patternProperties:
+   "^interface@[0-9a-f]{1,2}(,[0-9a-f]{1,2})$":
+     type: object
 
 -- 
 2.47.3
