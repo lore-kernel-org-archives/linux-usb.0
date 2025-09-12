@@ -1,116 +1,203 @@
-Received: from metis.whiteo.stw.pengutronix.de (metis.whiteo.stw.pengutronix.de [185.203.201.7])
+Received: from out-181.mta0.migadu.com (out-181.mta0.migadu.com [91.218.175.181])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E05D5313531
-	for <linux-usb@vger.kernel.org>; Fri, 12 Sep 2025 15:31:03 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.203.201.7
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 00878321F57;
+	Fri, 12 Sep 2025 16:54:11 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=91.218.175.181
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1757691065; cv=none; b=LZHBPVcBL/0zv2Y9pdF/wFsJs1qM/HUQoKlMk5YtAy0dxOIzfP/pMg/7x2gtAACDiuyudvck3dzz32xFZwbj1nZl9BTNKX1FniP+NJlLWewy5P8TAxmKe4BWKhytCl5pN00VhEchocF1EAQ9ZjpiCYeM4v/Agvhf1NINw7Qzvag=
+	t=1757696054; cv=none; b=Pveoz5uNMXFOGyyW1YjrXDhJsIbI5LW00lMZIS+FN1Ry2I0uwxmxgl1R3sf1YHu23mze6HIbnBTwvfLIb9TtxYQ8jD6vdOt+09adLAmIISWuhdFXsOGQSBBTFVZM+tyr1/77mYDiv6wjY4I8Wlsy1aSOIG63K0tefOzSjHrLVyc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1757691065; c=relaxed/simple;
-	bh=H0jXXB+1J5btXH4NTziHG1bNKRsdMn8D2kQ0d+XW+mI=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=DJ1SXj8gCVhBYd7S/QTrUkFTiWd/LYeBWZA7TB8/18kVeMWsnLSbhTI/HuHhz2J/yyjgqDy2iSBEREtVaj0Hah1ZR+tLxnzIxcz9daDjmSmtArO6K5z0luwfwpbDrZmvCgfOwRsONvQjzAi3Eeja9xasrejAbBAoVOcuWu+Vhvw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=pengutronix.de; spf=pass smtp.mailfrom=pengutronix.de; arc=none smtp.client-ip=185.203.201.7
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=pengutronix.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=pengutronix.de
-Received: from drehscheibe.grey.stw.pengutronix.de ([2a0a:edc0:0:c01:1d::a2])
-	by metis.whiteo.stw.pengutronix.de with esmtps (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
-	(Exim 4.92)
-	(envelope-from <mfe@pengutronix.de>)
-	id 1ux5jl-0006CG-Vf; Fri, 12 Sep 2025 17:30:57 +0200
-Received: from pty.whiteo.stw.pengutronix.de ([2a0a:edc0:2:b01:1d::c5])
-	by drehscheibe.grey.stw.pengutronix.de with esmtps  (TLS1.3) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
-	(Exim 4.96)
-	(envelope-from <mfe@pengutronix.de>)
-	id 1ux5jl-000xJG-24;
-	Fri, 12 Sep 2025 17:30:57 +0200
-Received: from mfe by pty.whiteo.stw.pengutronix.de with local (Exim 4.96)
-	(envelope-from <mfe@pengutronix.de>)
-	id 1ux5jl-0032pT-1b;
-	Fri, 12 Sep 2025 17:30:57 +0200
-Date: Fri, 12 Sep 2025 17:30:57 +0200
-From: Marco Felsch <m.felsch@pengutronix.de>
-To: Rob Herring <robh@kernel.org>
-Cc: Fabio Estevam <festevam@gmail.com>, Conor Dooley <conor+dt@kernel.org>,
-	devicetree@vger.kernel.org,
-	Krzysztof Kozlowski <krzk+dt@kernel.org>,
-	Matthias Kaehlcke <mka@chromium.org>,
-	Liam Girdwood <lgirdwood@gmail.com>, linux-kernel@vger.kernel.org,
-	linux-usb@vger.kernel.org,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	kernel@pengutronix.de, Mark Brown <broonie@kernel.org>
-Subject: Re: [PATCH v4 4/5] dt-bindings: usb: microchip,usb2514: add
- vbus-supply example
-Message-ID: <20250912153057.ovywbksnwq6ganvb@pengutronix.de>
-References: <20250911-v6-16-topic-usb-onboard-dev-v4-0-1af288125d74@pengutronix.de>
- <20250911-v6-16-topic-usb-onboard-dev-v4-4-1af288125d74@pengutronix.de>
- <175763620958.1187267.14091957840948870392.robh@kernel.org>
- <20250912085156.h4hhye5vc2rbntyl@pengutronix.de>
- <20250912141158.GA1330389-robh@kernel.org>
+	s=arc-20240116; t=1757696054; c=relaxed/simple;
+	bh=H7k5mDAfvycjhvRWu34N74VSOKqaMn3YDIjLNtIW6qM=;
+	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
+	 In-Reply-To:To:Cc; b=EHtq+tlhP/hH58b4Jn994Y6KS3Z3BHCyLD/cMohH2ennJiaX6Rl0UvN0SnQjswvAqZq1WwTlrmXcaJgTNcmKZdMrTAcwRz1A6c+H+18UldqPQeqYe6m8MuyAXG255SKPFSqFCNpt6XrHyAxgy+9pvEEa88XBQkmJWEwObW7joVQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev; spf=pass smtp.mailfrom=linux.dev; dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b=cDtcWlzo; arc=none smtp.client-ip=91.218.175.181
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.dev
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b="cDtcWlzo"
+X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and include these headers.
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.dev; s=key1;
+	t=1757696049;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=mfZBlMHwJS9/OuN5VmEq2SYdNWX9aD0m2Sh8K3/blMA=;
+	b=cDtcWlzozhFot9ePL0RKopC2wj5Ha8ZnnpDYQ7aobap3+nRnBinzDjTWwtedeYpVb11e5U
+	YMzMJvSKw/I8LmIzCDsMEcAdOcw5a0pV7gVLuAv/cngWsw1qKxfo3DQnmkv9WNecoKjnQz
+	wG4ZtDxNXpCa9i4jEJBFur7919gHgDA=
+From: Ze Huang <huang.ze@linux.dev>
+Date: Sat, 13 Sep 2025 00:53:47 +0800
+Subject: [PATCH v8 1/2] dt-bindings: usb: dwc3: add support for SpacemiT K1
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20250912141158.GA1330389-robh@kernel.org>
-X-SA-Exim-Connect-IP: 2a0a:edc0:0:c01:1d::a2
-X-SA-Exim-Mail-From: mfe@pengutronix.de
-X-SA-Exim-Scanned: No (on metis.whiteo.stw.pengutronix.de); SAEximRunCond expanded to false
-X-PTX-Original-Recipient: linux-usb@vger.kernel.org
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+Message-Id: <20250913-dwc3_generic-v8-1-b50f81f05f95@linux.dev>
+References: <20250913-dwc3_generic-v8-0-b50f81f05f95@linux.dev>
+In-Reply-To: <20250913-dwc3_generic-v8-0-b50f81f05f95@linux.dev>
+To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>, 
+ Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>, 
+ Conor Dooley <conor+dt@kernel.org>, Yixun Lan <dlan@gentoo.org>, 
+ Thinh Nguyen <Thinh.Nguyen@synopsys.com>, 
+ Philipp Zabel <p.zabel@pengutronix.de>
+Cc: linux-usb@vger.kernel.org, devicetree@vger.kernel.org, 
+ linux-riscv@lists.infradead.org, spacemit@lists.linux.dev, 
+ linux-kernel@vger.kernel.org, Ze Huang <huang.ze@linux.dev>, 
+ Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+X-Developer-Signature: v=1; a=ed25519-sha256; t=1757696039; l=3806;
+ i=huang.ze@linux.dev; s=20250705; h=from:subject:message-id;
+ bh=H7k5mDAfvycjhvRWu34N74VSOKqaMn3YDIjLNtIW6qM=;
+ b=jbkyzOcIQWAfVhF/BNStissrHzcoutpFBZe+WEk8BcO198bWNcMPm0EdUEbnvZkaf9Q1APLKP
+ PmS3I93RLImCcqVZgPNDpD9gHN4DTICYWjLzoVBhYfKLosJdQe3RbPG
+X-Developer-Key: i=huang.ze@linux.dev; a=ed25519;
+ pk=Kzc4PMu5PTo8eZZQ5xmTNL9jeXcQ9Wml0cs+vlQpBkg=
+X-Migadu-Flow: FLOW_OUT
 
-On 25-09-12, Rob Herring wrote:
-> On Fri, Sep 12, 2025 at 10:51:56AM +0200, Marco Felsch wrote:
-> > On 25-09-11, Rob Herring (Arm) wrote:
-> > > 
-> > > On Thu, 11 Sep 2025 22:22:45 +0200, Marco Felsch wrote:
-> > > > Add an usb hub vbus-supply example to make it easier for users to
-> > > > understand the binding, after the usb-device.yaml gained the support for
-> > > > it.
-> > > > 
-> > > > Signed-off-by: Marco Felsch <m.felsch@pengutronix.de>
-> > > > ---
-> > > >  Documentation/devicetree/bindings/usb/microchip,usb2514.yaml | 7 +++++++
-> > > >  1 file changed, 7 insertions(+)
-> > > > 
-> > > 
-> > > My bot found errors running 'make dt_binding_check' on your patch:
-> > > 
-> > > yamllint warnings/errors:
-> > > 
-> > > dtschema/dtc warnings/errors:
-> > > /builds/robherring/dt-review-ci/linux/Documentation/devicetree/bindings/usb/microchip,usb2514.example.dtb: ethernet@2 (usbb95,772b): 'vbus-supply' does not match any of the regexes: '^pinctrl-[0-9]+$'
-> > > 	from schema $id: http://devicetree.org/schemas/net/asix,ax88178.yaml#
-> > 
-> > Well this is just an example on how to use it, we can drop this patch of
-> > course.
-> 
-> Yes, but how's it going to work for an actual user?
+Add support for the USB 3.0 Dual-Role Device (DRD) controller embedded
+in the SpacemiT K1 SoC. The controller is based on the Synopsys
+DesignWare Core USB 3 (DWC3) IP, supporting USB3.0 host mode and USB 2.0
+DRD mode.
 
-What do you mean? It's working as you requested:
+Reviewed-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+Signed-off-by: Ze Huang <huang.ze@linux.dev>
+---
+ .../devicetree/bindings/usb/spacemit,k1-dwc3.yaml  | 121 +++++++++++++++++++++
+ 1 file changed, 121 insertions(+)
 
-  hub@1 {
-  	compatible = "..";
-	reg = <1>;
+diff --git a/Documentation/devicetree/bindings/usb/spacemit,k1-dwc3.yaml b/Documentation/devicetree/bindings/usb/spacemit,k1-dwc3.yaml
+new file mode 100644
+index 0000000000000000000000000000000000000000..0f0b5e061ca17cd02866a78d15d3808f933a76c2
+--- /dev/null
++++ b/Documentation/devicetree/bindings/usb/spacemit,k1-dwc3.yaml
+@@ -0,0 +1,121 @@
++# SPDX-License-Identifier: (GPL-2.0 OR BSD-2-Clause)
++%YAML 1.2
++---
++$id: http://devicetree.org/schemas/usb/spacemit,k1-dwc3.yaml#
++$schema: http://devicetree.org/meta-schemas/core.yaml#
++
++title: SpacemiT K1 SuperSpeed DWC3 USB SoC Controller
++
++maintainers:
++  - Ze Huang <huang.ze@linux.dev>
++
++description: |
++  The SpacemiT K1 embeds a DWC3 USB IP Core which supports Host functions
++  for USB 3.0 and DRD for USB 2.0.
++
++  Key features:
++  - USB3.0 SuperSpeed and USB2.0 High/Full/Low-Speed support
++  - Supports low-power modes (USB2.0 suspend, USB3.0 U1/U2/U3)
++  - Internal DMA controller and flexible endpoint FIFO sizing
++
++  Communication Interface:
++  - Use of PIPE3 (125MHz) interface for USB3.0 PHY
++  - Use of UTMI+ (30/60MHz) interface for USB2.0 PHY
++
++allOf:
++  - $ref: snps,dwc3-common.yaml#
++
++properties:
++  compatible:
++    const: spacemit,k1-dwc3
++
++  reg:
++    maxItems: 1
++
++  clocks:
++    maxItems: 1
++
++  clock-names:
++    const: usbdrd30
++
++  interrupts:
++    maxItems: 1
++
++  phys:
++    items:
++      - description: phandle to USB2/HS PHY
++      - description: phandle to USB3/SS PHY
++
++  phy-names:
++    items:
++      - const: usb2-phy
++      - const: usb3-phy
++
++  resets:
++    items:
++      - description: USB3.0 AHB reset
++      - description: USB3.0 VCC reset
++      - description: USB3.0 PHY reset
++
++  reset-names:
++    items:
++      - const: ahb
++      - const: vcc
++      - const: phy
++
++  reset-delay:
++    $ref: /schemas/types.yaml#/definitions/uint32
++    default: 2
++    description: delay after reset sequence [us]
++
++  vbus-supply:
++    description: A phandle to the regulator supplying the VBUS voltage.
++
++required:
++  - compatible
++  - reg
++  - clocks
++  - clock-names
++  - interrupts
++  - phys
++  - phy-names
++  - resets
++  - reset-names
++
++unevaluatedProperties: false
++
++examples:
++  - |
++    usb@c0a00000 {
++        compatible = "spacemit,k1-dwc3";
++        reg = <0xc0a00000 0x10000>;
++        clocks = <&syscon_apmu 16>;
++        clock-names = "usbdrd30";
++        interrupts = <125>;
++        phys = <&usb2phy>, <&usb3phy>;
++        phy-names = "usb2-phy", "usb3-phy";
++        resets = <&syscon_apmu 8>,
++                 <&syscon_apmu 9>,
++                 <&syscon_apmu 10>;
++        reset-names = "ahb", "vcc", "phy";
++        reset-delay = <2>;
++        vbus-supply = <&usb3_vbus>;
++        #address-cells = <1>;
++        #size-cells = <0>;
++
++        hub_2_0: hub@1 {
++            compatible = "usb2109,2817";
++            reg = <1>;
++            vdd-supply = <&usb3_vhub>;
++            peer-hub = <&hub_3_0>;
++            reset-gpios = <&gpio 3 28 1>;
++        };
++
++        hub_3_0: hub@2 {
++            compatible = "usb2109,817";
++            reg = <2>;
++            vdd-supply = <&usb3_vhub>;
++            peer-hub = <&hub_2_0>;
++            reset-gpios = <&gpio 3 28 1>;
++        };
++    };
 
-	device@1 {
-		compatible = "..";
-		reg = <1>;
-		
-		vbus-supply = <&vbus_supply_port1>;
-	};
+-- 
+2.34.1
 
-	device@4 {
-		compatible = "..";
-		reg = <4>;
-		
-		vbus-supply = <&vbus_supply_port4>;
-	};
-  };
-
-> 
-> Rob
-> 
