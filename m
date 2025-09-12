@@ -1,361 +1,300 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from mail.wyraz.net (mail.wyraz.net [46.38.234.247])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 821AA28726A;
-	Fri, 12 Sep 2025 06:49:11 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 78C76323E
+	for <linux-usb@vger.kernel.org>; Fri, 12 Sep 2025 07:01:29 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=46.38.234.247
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1757659751; cv=none; b=boVlItUoe3iHEBdJoBJjAgGIADQACRDZhGjfFwiZfEuXQbZsXWl4XuTj/Io7HqLpPOVsEqhPg6nsR0IRar5Gr8PRTd+zftXzrQ4q71SmInGaTPazLAK/54YNc8RwhBqBGkyu0XoYczy2yJtGVgqZOoNpRfxNUkmXpIqrblrnC0w=
+	t=1757660492; cv=none; b=NJ+ejfZ6HIyN5iSh+dn/q5g+Fcq5OMhflWm3bJQroB87TSpzA1NnvBz3Oq3HK8EKQHAIpWLrlQR2y9n2vixU86Peej73VtqMTlQ/UvlKsvEenRnOaR7p8QibtcTQmf2To7QIu03JyEf7jFKYES69mbzB6rJ0eTMTpHzG/mHJcuk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1757659751; c=relaxed/simple;
-	bh=CU0Tkkq2oieQT86ftxffSgSTBVZAVNabh+8fprnY9xM=;
-	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
-	 In-Reply-To:To:Cc; b=e3MY9vUpTU6t8vJsLGy007z4EMLR4/FuEqCO0uNON1aO+YatgflO7BNRb3SqV9TGR+v6WdWhCvEuQZ2j+rZN4KAoHNDm4NlR6vnLZU7CutDEgpc9mAuw0m0UvPS3CB3CBk1AGvhvTHKSE6dS/qZuzzUZmmQ9gPFap6watxDqKJ8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=IoYbU8UR; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1757660492; c=relaxed/simple;
+	bh=PH/HGfCULVJOgit529o7v2lhhjZu5jWzgs4hyJl9MFU=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=cp0o3tWKRYg1rKFvTWezxVjsAieciO5IDxDHbUuTrEc3vRRC7FgneeIj7kx+1fzpOe7HXIWNVC+sL4DaH4uzACxbnjLIGMZbgjXmqFHaxVWwBj1ryYbjwZ0yJ96yWWYhwIEl0a1bR9fScm5vm/rQBNMNw4mN4vdSlb/E+FKbxkU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=wyraz.de; spf=pass smtp.mailfrom=wyraz.de; dkim=pass (2048-bit key) header.d=wyraz.de header.i=@wyraz.de header.b=p5g6gSgO; arc=none smtp.client-ip=46.38.234.247
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=wyraz.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=wyraz.de
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="IoYbU8UR"
-Received: by smtp.kernel.org (Postfix) with ESMTPS id 1D30CC4CEF5;
-	Fri, 12 Sep 2025 06:49:11 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1757659751;
-	bh=CU0Tkkq2oieQT86ftxffSgSTBVZAVNabh+8fprnY9xM=;
-	h=From:Date:Subject:References:In-Reply-To:To:Cc:Reply-To:From;
-	b=IoYbU8URfguXua5HcDZ4Kn330WTAuZ28DKc82D3chpDOIcXlfpzSxUyhWoCxKsclb
-	 W/fnRKdZV+o0dBRpHTl3bUA/p7Q2mkivtmYanQy05/dPBXVhbzlN0jGQO95NbAKRbC
-	 a5Yuy2IMSvxOryak2qoNrVI+6ckHvn6J5ebR3GylxGxGyeyQ+5jwH33Qcm+mF4tUvL
-	 m4XCeUTPeYEPKI3l9BOtGrjRfJa3FbZtMycwWlNNqMFFvVb8oIy9wDl/1G2ow6e5Rk
-	 8dKbzSNFVDyd6ZWwo8YA88ZmbFhZOnS0mvhJrSXWsUPVFEgkR7aAJ1b3A+B27CbfDf
-	 F15kBmMXWuYgA==
-Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 0FBBACAC582;
-	Fri, 12 Sep 2025 06:49:11 +0000 (UTC)
-From: Cryolitia PukNgae via B4 Relay <devnull+cryolitia.uniontech.com@kernel.org>
-Date: Fri, 12 Sep 2025 14:48:59 +0800
-Subject: [PATCH v2 2/3] ALSA: usb-audio: add module param
- device_quirk_flags
+	dkim=pass (2048-bit key) header.d=wyraz.de header.i=@wyraz.de header.b="p5g6gSgO"
+Message-ID: <d12635f9-9706-4dbd-8adb-d673c6a77202@wyraz.de>
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=wyraz.de; s=dkim;
+	t=1757660092;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=B9g4cSXuxYRp0rdSLRLAXIbO1yTQFeU5KJnkDIVxhG4=;
+	b=p5g6gSgO9DvSApxRDD5zx36YbzTtqulE2EAI17cMdN14ZiuuefT2mP5iwAGtZGixPlrDj1
+	RQx97QiALlqttPLoeLuOtoRC9CGQ7o+iIixJpxgzTXYELakWwRjOnCqtBbMiMRhmDgb/mb
+	E/y3fujTqXeHaRt8VNoO5DBEOFV4a1EPHmvUPfRt2bgWfaACFFM6Dew6xJOvAgIbcyXUkl
+	9kdDr+zn9rqTR02JvrJbAwYt4XF1LmGFQLijcJawuAzhzlv+pzORTqH8C9Ic7myADG9qiN
+	nUlnB77qebgt9bEDLR7sP0s91kMZEsycN82i0iLAC4chTQtd+RS+A/qO2QdMTQ==
+Authentication-Results: mail.wyraz.net;
+	auth=pass smtp.mailfrom=michael@wyraz.de
+Date: Fri, 12 Sep 2025 08:54:51 +0200
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-Message-Id: <20250912-sound-v2-2-01ea3d279f4b@uniontech.com>
-References: <20250912-sound-v2-0-01ea3d279f4b@uniontech.com>
-In-Reply-To: <20250912-sound-v2-0-01ea3d279f4b@uniontech.com>
-To: Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>, 
- Jonathan Corbet <corbet@lwn.net>
-Cc: linux-sound@vger.kernel.org, linux-usb@vger.kernel.org, 
- linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org, 
- Mingcong Bai <jeffbai@aosc.io>, Kexy Biscuit <kexybiscuit@aosc.io>, 
- Nie Cheng <niecheng1@uniontech.com>, Zhan Jun <zhanjun@uniontech.com>, 
- Feng Yuan <fengyuan@uniontech.com>, qaqland <anguoli@uniontech.com>, 
- kernel@uniontech.com, Cryolitia PukNgae <cryolitia@uniontech.com>
-X-Mailer: b4 0.14.2
-X-Developer-Signature: v=1; a=ed25519-sha256; t=1757659749; l=8167;
- i=cryolitia@uniontech.com; s=20250730; h=from:subject:message-id;
- bh=vy1GhNtVVe5bJjpuCQxdcSZoCeXV0hfadpQ5aSIqw6I=;
- b=Pb/RudesldX8zHjBeWMP9jkifnq+gq13CKuNCdv6+DmNFKf2xHrtRHbHHMLOxnUErQKbm6mTE
- WnNMqxZRvjTD3iMafWiYh9C3IKK1+h8JZ2Aw9lgsCDnACygE7sbyz7J
-X-Developer-Key: i=cryolitia@uniontech.com; a=ed25519;
- pk=tZ+U+kQkT45GRGewbMSB4VPmvpD+KkHC/Wv3rMOn/PU=
-X-Endpoint-Received: by B4 Relay for cryolitia@uniontech.com/20250730 with
- auth_id=474
-X-Original-From: Cryolitia PukNgae <cryolitia@uniontech.com>
-Reply-To: cryolitia@uniontech.com
+Subject: Re: [PATCH] Add Marvell ML352 to drivers/usb/serial/option.c
+To: Johan Hovold <johan@kernel.org>
+Cc: linux-usb@vger.kernel.org
+References: <aFJzdxe_ykNw6cP_@homebase1>
+ <aFLM7jZBEk6a7W-k@hovoldconsulting.com>
+Content-Language: en-US, de-DE
+From: Michael Wyraz <michael@wyraz.de>
+In-Reply-To: <aFLM7jZBEk6a7W-k@hovoldconsulting.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
+X-Spamd-Bar: ---
 
-From: Cryolitia PukNgae <cryolitia@uniontech.com>
+Hello Johan,
 
-For apply and unapply quirk flags more flexibly though param and sysfs
+sorry, I totally missed this mail. "usb-devices" is not available on 
+that device. Hope this does it too:
 
-Signed-off-by: Cryolitia PukNgae <cryolitia@uniontech.com>
----
- sound/usb/card.c     | 165 ++++++++++++++++++++++++++++++++++++++++++++++++++-
- sound/usb/quirks.c   |  28 +++++++++
- sound/usb/quirks.h   |   2 +
- sound/usb/usbaudio.h |  13 ++++
- 4 files changed, 207 insertions(+), 1 deletion(-)
+lsusb  -d 1286:4e3c  -v
 
-diff --git a/sound/usb/card.c b/sound/usb/card.c
-index 0265206a8e8cf31133e8463c98fe0497d8ace89e..e53fd868f34e93d42b1447958fc136658a6f9dd2 100644
---- a/sound/usb/card.c
-+++ b/sound/usb/card.c
-@@ -77,6 +77,7 @@ static unsigned int quirk_flags[SNDRV_CARDS];
- 
- bool snd_usb_use_vmalloc = true;
- bool snd_usb_skip_validation;
-+char device_quirk_flags[MAX_QUIRK_PARAM_LEN];
- 
- module_param_array(index, int, NULL, 0444);
- MODULE_PARM_DESC(index, "Index value for the USB audio adapter.");
-@@ -110,6 +111,149 @@ MODULE_PARM_DESC(use_vmalloc, "Use vmalloc for PCM intermediate buffers (default
- module_param_named(skip_validation, snd_usb_skip_validation, bool, 0444);
- MODULE_PARM_DESC(skip_validation, "Skip unit descriptor validation (default: no).");
- 
-+DEFINE_MUTEX(device_quirk_mutex); /* protects device_quirk_list */
-+
-+struct device_quirk_entry *device_quirk_list;
-+unsigned int device_quirk_count;
-+
-+static int device_quirks_param_set(const char *value,
-+				   const struct kernel_param *kp)
-+{
-+	char *val, *p, *field, *flag_field;
-+	u32 mask_flags, unmask_flags, bit;
-+	bool is_unmask;
-+	u16 vid, pid;
-+	size_t i;
-+	int err;
-+
-+	val = kstrdup(value, GFP_KERNEL);
-+	if (!val)
-+		return -ENOMEM;
-+
-+	err = param_set_copystring(val, kp);
-+	if (err) {
-+		kfree(val);
-+		return err;
-+	}
-+
-+	mutex_lock(&device_quirk_mutex);
-+
-+	if (!*val) {
-+		device_quirk_count = 0;
-+		kfree(device_quirk_list);
-+		device_quirk_list = NULL;
-+		goto unlock;
-+	}
-+
-+	for (device_quirk_count = 1, i = 0; val[i]; i++)
-+		if (val[i] == ';')
-+			device_quirk_count++;
-+
-+	kfree(device_quirk_list);
-+
-+	device_quirk_list = kcalloc(device_quirk_count,
-+				    sizeof(struct device_quirk_entry),
-+				    GFP_KERNEL);
-+	if (!device_quirk_list) {
-+		device_quirk_count = 0;
-+		mutex_unlock(&device_quirk_mutex);
-+		kfree(val);
-+		return -ENOMEM;
-+	}
-+
-+	for (i = 0, p = val; p && *p;) {
-+		/* Each entry consists of VID:PID:flags */
-+		field = strsep(&p, ":");
-+		if (!field)
-+			break;
-+
-+		if (strcmp(field, "*") == 0)
-+			vid = 0;
-+		else if (kstrtou16(field, 16, &vid))
-+			break;
-+
-+		field = strsep(&p, ":");
-+		if (!field)
-+			break;
-+
-+		if (strcmp(field, "*") == 0)
-+			pid = 0;
-+		else if (kstrtou16(field, 16, &pid))
-+			break;
-+
-+		field = strsep(&p, ";");
-+		if (!field || !*field)
-+			break;
-+
-+		/* Collect the flags */
-+		mask_flags = 0;
-+		unmask_flags = 0;
-+		while (field && *field) {
-+			flag_field = strsep(&field, ",");
-+
-+			if (!flag_field)
-+				break;
-+
-+			if (*flag_field == '!') {
-+				is_unmask = true;
-+				flag_field++;
-+			} else {
-+				is_unmask = false;
-+			}
-+
-+			if (!kstrtou32(flag_field, 16, &bit)) {
-+				if (is_unmask)
-+					unmask_flags |= bit;
-+				else
-+					mask_flags |= bit;
-+
-+				break;
-+			}
-+
-+			bit = snd_usb_quirk_flags_from_name(flag_field);
-+
-+			if (bit) {
-+				if (is_unmask)
-+					unmask_flags |= bit;
-+				else
-+					mask_flags |= bit;
-+			} else {
-+				pr_warn("snd_usb_audio: unknown flag %s while parsing param device_quirk_flags\n",
-+					flag_field);
-+			}
-+		}
-+		device_quirk_list[i++] = (struct device_quirk_entry){
-+			.vid = vid,
-+			.pid = pid,
-+			.mask_flags = mask_flags,
-+			.unmask_flags = unmask_flags,
-+		};
-+	}
-+
-+	if (i < device_quirk_count)
-+		device_quirk_count = i;
-+
-+unlock:
-+	mutex_unlock(&device_quirk_mutex);
-+	kfree(val);
-+
-+	return 0;
-+}
-+
-+static const struct kernel_param_ops device_quirks_param_ops = {
-+	.set = device_quirks_param_set,
-+	.get = param_get_string,
-+};
-+
-+static struct kparam_string device_quirks_param_string = {
-+	.maxlen = sizeof(device_quirk_flags),
-+	.string = device_quirk_flags,
-+};
-+
-+device_param_cb(device_quirk_flags, &device_quirks_param_ops,
-+		&device_quirks_param_string, 0644);
-+MODULE_PARM_DESC(device_quirk_flags, "Add/modify USB audio quirks");
-+
- /*
-  * we keep the snd_usb_audio_t instances by ourselves for merging
-  * the all interfaces on the same card as one sound device.
-@@ -755,6 +899,8 @@ static int snd_usb_audio_create(struct usb_interface *intf,
- 	else
- 		snd_usb_init_quirk_flags(chip);
- 
-+	snd_usb_init_dynamic_quirks(chip);
-+
- 	card->private_free = snd_usb_audio_free;
- 
- 	strscpy(card->driver, "USB-Audio");
-@@ -1290,4 +1436,21 @@ static struct usb_driver usb_audio_driver = {
- 	.supports_autosuspend = 1,
- };
- 
--module_usb_driver(usb_audio_driver);
-+static int __init usb_audio_init(void)
-+{
-+	return usb_register_driver(&usb_audio_driver, THIS_MODULE,
-+							   KBUILD_MODNAME);
-+}
-+
-+static void __exit usb_audio_exit(void)
-+{
-+	mutex_lock(&device_quirk_mutex);
-+	kfree(device_quirk_list);
-+	device_quirk_list = NULL;
-+	mutex_unlock(&device_quirk_mutex);
-+
-+	usb_deregister(&usb_audio_driver);
-+}
-+
-+module_init(usb_audio_init);
-+module_exit(usb_audio_exit);
-diff --git a/sound/usb/quirks.c b/sound/usb/quirks.c
-index 94854f352b1702b491e1bf3c8b769f7088e03976..bb40c747c1d25ddedeaf9df7df99edc79eacbb84 100644
---- a/sound/usb/quirks.c
-+++ b/sound/usb/quirks.c
-@@ -2537,3 +2537,31 @@ void snd_usb_init_quirk_flags(struct snd_usb_audio *chip)
- 		}
- 	}
- }
-+
-+void snd_usb_init_dynamic_quirks(struct snd_usb_audio *chip)
-+{
-+	u16 vid = USB_ID_VENDOR(chip->usb_id);
-+	u16 pid = USB_ID_PRODUCT(chip->usb_id);
-+	int i;
-+
-+	mutex_lock(&device_quirk_mutex);
-+
-+	for (i = 0; i < device_quirk_count; i++) {
-+		if (device_quirk_list[i].vid == 0 ||
-+		    (vid == device_quirk_list[i].vid &&
-+		     device_quirk_list[i].pid == 0) ||
-+		    (vid == device_quirk_list[i].vid &&
-+		     pid == device_quirk_list[i].pid)) {
-+			chip->quirk_flags |= device_quirk_list[i].mask_flags;
-+			chip->quirk_flags &= ~device_quirk_list[i].unmask_flags;
-+			usb_audio_dbg(chip,
-+				      "Set mask quirk flag 0x%x and unmask quirk flag 0x%x from param for device %04x:%04x\n",
-+				      device_quirk_list[i].mask_flags,
-+				      device_quirk_list[i].unmask_flags,
-+				      USB_ID_VENDOR(chip->usb_id),
-+				      USB_ID_PRODUCT(chip->usb_id));
-+		}
-+	}
-+
-+	mutex_unlock(&device_quirk_mutex);
-+}
-diff --git a/sound/usb/quirks.h b/sound/usb/quirks.h
-index bd5baf2b193a1985f3a0e52bf4a77ca741364769..1257d81bf5fd9f6b83bfdfb190f18fe08f83f12a 100644
---- a/sound/usb/quirks.h
-+++ b/sound/usb/quirks.h
-@@ -53,4 +53,6 @@ void snd_usb_init_quirk_flags(struct snd_usb_audio *chip);
- const char *snd_usb_quirk_flag_find_name(unsigned long flag);
- u32 snd_usb_quirk_flags_from_name(char *name);
- 
-+void snd_usb_init_dynamic_quirks(struct snd_usb_audio *chip);
-+
- #endif /* __USBAUDIO_QUIRKS_H */
-diff --git a/sound/usb/usbaudio.h b/sound/usb/usbaudio.h
-index 0a22cb4a02344b2dcf4009c560a759f2da25ca67..cb6cab37d749a258258394816e74c939cdd471fe 100644
---- a/sound/usb/usbaudio.h
-+++ b/sound/usb/usbaudio.h
-@@ -20,6 +20,7 @@ struct media_device;
- struct media_intf_devnode;
- 
- #define MAX_CARD_INTERFACES	16
-+#define MAX_QUIRK_PARAM_LEN	128
- 
- /*
-  * Structure holding assosiation between Audio Control Interface
-@@ -165,6 +166,11 @@ DEFINE_CLASS(snd_usb_lock, struct __snd_usb_lock,
- extern bool snd_usb_use_vmalloc;
- extern bool snd_usb_skip_validation;
- 
-+extern struct mutex device_quirk_mutex;
-+extern char device_quirk_flags[MAX_QUIRK_PARAM_LEN];
-+extern unsigned int device_quirk_count;
-+extern struct device_quirk_entry *device_quirk_list;
-+
- /*
-  * Driver behavior quirk flags, stored in chip->quirk_flags
-  *
-@@ -254,4 +260,11 @@ extern bool snd_usb_skip_validation;
- #define QUIRK_FLAG_MIXER_CAPTURE_MIN_MUTE	(1U << 25)
- /* Please also edit snd_usb_audio_quirk_flag_names */
- 
-+struct device_quirk_entry {
-+	u16 vid;
-+	u16 pid;
-+	u32 mask_flags;
-+	u32 unmask_flags;
-+};
-+
- #endif /* __USBAUDIO_H */
+Bus 001 Device 002: ID 1286:4e3c ASR Mobile Composite Device Bus
+Device Descriptor:
+   bLength                18
+   bDescriptorType         1
+   bcdUSB               2.00
+   bDeviceClass          239
+   bDeviceSubClass         2
+   bDeviceProtocol         1
+   bMaxPacketSize0        64
+   idVendor           0x1286
+   idProduct          0x4e3c
+   bcdDevice            1.00
+   iManufacturer           1 ASR
+   iProduct                2 Mobile Composite Device Bus
+   iSerial                 3 200806006809080000
+   bNumConfigurations      1
+   Configuration Descriptor:
+     bLength                 9
+     bDescriptorType         2
+     wTotalLength       0x00c4
+     bNumInterfaces          5
+     bConfigurationValue     1
+     iConfiguration          0
+     bmAttributes         0xc0
+       Self Powered
+     MaxPower              500mA
+     Interface Association:
+       bLength                 8
+       bDescriptorType        11
+       bFirstInterface         0
+       bInterfaceCount         2
+       bFunctionClass        224
+       bFunctionSubClass       1
+       bFunctionProtocol       3
+       iFunction               5 Mobile RNDIS Network Adapter
+     Interface Descriptor:
+       bLength                 9
+       bDescriptorType         4
+       bInterfaceNumber        0
+       bAlternateSetting       0
+       bNumEndpoints           1
+       bInterfaceClass       224
+       bInterfaceSubClass      1
+       bInterfaceProtocol      3
+       iInterface              5 Mobile RNDIS Network Adapter
+       ** UNRECOGNIZED:  05 24 00 10 01
+       ** UNRECOGNIZED:  05 24 01 00 01
+       ** UNRECOGNIZED:  04 24 02 00
+       ** UNRECOGNIZED:  05 24 06 00 01
+       Endpoint Descriptor:
+         bLength                 7
+         bDescriptorType         5
+         bEndpointAddress     0x85  EP 5 IN
+         bmAttributes            3
+           Transfer Type            Interrupt
+           Synch Type               None
+           Usage Type               Data
+         wMaxPacketSize     0x0040  1x 64 bytes
+         bInterval              16
+     Interface Descriptor:
+       bLength                 9
+       bDescriptorType         4
+       bInterfaceNumber        1
+       bAlternateSetting       0
+       bNumEndpoints           2
+       bInterfaceClass        10
+       bInterfaceSubClass      0
+       bInterfaceProtocol      0
+       iInterface              5 Mobile RNDIS Network Adapter
+       Endpoint Descriptor:
+         bLength                 7
+         bDescriptorType         5
+         bEndpointAddress     0x87  EP 7 IN
+         bmAttributes            2
+           Transfer Type            Bulk
+           Synch Type               None
+           Usage Type               Data
+         wMaxPacketSize     0x0200  1x 512 bytes
+         bInterval               0
+       Endpoint Descriptor:
+         bLength                 7
+         bDescriptorType         5
+         bEndpointAddress     0x06  EP 6 OUT
+         bmAttributes            2
+           Transfer Type            Bulk
+           Synch Type               None
+           Usage Type               Data
+         wMaxPacketSize     0x0200  1x 512 bytes
+         bInterval               0
+     Interface Descriptor:
+       bLength                 9
+       bDescriptorType         4
+       bInterfaceNumber        2
+       bAlternateSetting       0
+       bNumEndpoints           2
+       bInterfaceClass       255
+       bInterfaceSubClass      0
+       bInterfaceProtocol      0
+       iInterface              8 Mobile Diag Interface
+       Endpoint Descriptor:
+         bLength                 7
+         bDescriptorType         5
+         bEndpointAddress     0x84  EP 4 IN
+         bmAttributes            2
+           Transfer Type            Bulk
+           Synch Type               None
+           Usage Type               Data
+         wMaxPacketSize     0x0200  1x 512 bytes
+         bInterval               0
+       Endpoint Descriptor:
+         bLength                 7
+         bDescriptorType         5
+         bEndpointAddress     0x03  EP 3 OUT
+         bmAttributes            2
+           Transfer Type            Bulk
+           Synch Type               None
+           Usage Type               Data
+         wMaxPacketSize     0x0200  1x 512 bytes
+         bInterval               0
+     Interface Descriptor:
+       bLength                 9
+       bDescriptorType         4
+       bInterfaceNumber        3
+       bAlternateSetting       0
+       bNumEndpoints           3
+       bInterfaceClass       255
+       bInterfaceSubClass      0
+       bInterfaceProtocol      0
+       iInterface             11 Mobile AT Interface
+       ** UNRECOGNIZED:  05 24 00 10 01
+       ** UNRECOGNIZED:  05 24 01 00 00
+       ** UNRECOGNIZED:  04 24 02 02
+       ** UNRECOGNIZED:  05 24 06 00 00
+       Endpoint Descriptor:
+         bLength                 7
+         bDescriptorType         5
+         bEndpointAddress     0x8c  EP 12 IN
+         bmAttributes            3
+           Transfer Type            Interrupt
+           Synch Type               None
+           Usage Type               Data
+         wMaxPacketSize     0x0040  1x 64 bytes
+         bInterval              16
+       Endpoint Descriptor:
+         bLength                 7
+         bDescriptorType         5
+         bEndpointAddress     0x8e  EP 14 IN
+         bmAttributes            2
+           Transfer Type            Bulk
+           Synch Type               None
+           Usage Type               Data
+         wMaxPacketSize     0x0200  1x 512 bytes
+         bInterval               0
+       Endpoint Descriptor:
+         bLength                 7
+         bDescriptorType         5
+         bEndpointAddress     0x0d  EP 13 OUT
+         bmAttributes            2
+           Transfer Type            Bulk
+           Synch Type               None
+           Usage Type               Data
+         wMaxPacketSize     0x0200  1x 512 bytes
+         bInterval               0
+     Interface Descriptor:
+       bLength                 9
+       bDescriptorType         4
+       bInterfaceNumber        4
+       bAlternateSetting       0
+       bNumEndpoints           3
+       bInterfaceClass       255
+       bInterfaceSubClass      0
+       bInterfaceProtocol      0
+       iInterface             11 Mobile AT Interface
+       ** UNRECOGNIZED:  05 24 00 10 01
+       ** UNRECOGNIZED:  05 24 01 00 00
+       ** UNRECOGNIZED:  04 24 02 02
+       ** UNRECOGNIZED:  05 24 06 00 00
+       Endpoint Descriptor:
+         bLength                 7
+         bDescriptorType         5
+         bEndpointAddress     0x8a  EP 10 IN
+         bmAttributes            3
+           Transfer Type            Interrupt
+           Synch Type               None
+           Usage Type               Data
+         wMaxPacketSize     0x0040  1x 64 bytes
+         bInterval              16
+       Endpoint Descriptor:
+         bLength                 7
+         bDescriptorType         5
+         bEndpointAddress     0x82  EP 2 IN
+         bmAttributes            2
+           Transfer Type            Bulk
+           Synch Type               None
+           Usage Type               Data
+         wMaxPacketSize     0x0200  1x 512 bytes
+         bInterval               0
+       Endpoint Descriptor:
+         bLength                 7
+         bDescriptorType         5
+         bEndpointAddress     0x01  EP 1 OUT
+         bmAttributes            2
+           Transfer Type            Bulk
+           Synch Type               None
+           Usage Type               Data
+         wMaxPacketSize     0x0200  1x 512 bytes
+         bInterval               0
+Device Qualifier (for other device speed):
+   bLength                10
+   bDescriptorType         6
+   bcdUSB               2.00
+   bDeviceClass            0
+   bDeviceSubClass         0
+   bDeviceProtocol         0
+   bMaxPacketSize0        16
+   bNumConfigurations      1
+Device Status:     0x0001
+   Self Powered
 
--- 
-2.51.0
-
-
+Am 18.06.25 um 16:27 schrieb Johan Hovold:
+> On Wed, Jun 18, 2025 at 10:06:15AM +0200, Michael Wyraz wrote:
+>> Add the device id of the Marvell ML352 to option.c so that the
+>> device is recognized as usb-serial device.
+>>
+>> Signed-off-by: Michael Wyraz <michael@wyraz.de>
+> Thanks for the patch. Looks good, but we may not want to bind to every
+> interface of the device.
+>
+> Can you please post the output of 'usb-devices' for this device? I
+> assume it has more than one interface, do what each interface is used
+> for?
+>
+> If you end up resending, please use the common prefix in Subject, for
+> example:
+>
+> 	USB: serial: option: add support for Marvell ML352
+>
+> (e.g. as can been seen by running 'git log --oneline' on the files
+> you're changing).
+>
+> Johan
