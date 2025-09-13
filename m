@@ -1,136 +1,176 @@
-Received: from mail-lf1-f51.google.com (mail-lf1-f51.google.com [209.85.167.51])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.16])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9CEA42BCFB
-	for <linux-usb@vger.kernel.org>; Sat, 13 Sep 2025 08:12:53 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.51
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 87442BA3D
+	for <linux-usb@vger.kernel.org>; Sat, 13 Sep 2025 12:33:59 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.16
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1757751175; cv=none; b=cPzI3h6eFqq+uKrfYLFZyGJcOF/kokgDqKlchaJPiDHZUgDbAbMTJqQu0jP/+ti5Zm3SqQsi5DiuCNMl3vU6obRl3l8obCWx1fA3gZlCMj/kXQuf/np+MS4vVIToKcZDnsHJ7syFV+pkayQiOxfrlOJk897dj8fbJvFbOf9XHf8=
+	t=1757766841; cv=none; b=mkslnYqvvKGTTXRO5U0scnWa+9fO2k8ZaSJpiZn36xdOk51FhjDqKmbgIC2pVt9pW1mHOhGpH2PVfQTdLb6aVpymp6N80k/nZMehOZigQ3T/fwphxtv7vlTd4xldt+iCO/hiaqa9D8BxOBNMTZu1O8ri65E0eIRSQjrJWVe0JLQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1757751175; c=relaxed/simple;
-	bh=R0zHToYnuiQEcRHbpnTZ0Nwu1p01PFg+ubOn0A+ZmJ8=;
-	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=dlCRXxtMGTGraPFqup0tIAe4j3wR8LsfuY6UBLn+gb0PIlgxU8NIalrzCwDO8y7SiMCgHfaBoH4BtBHFyNFww7hmRXskWaXE2iWDQwjEMKL6Sf5DtoMGR0cHHpbWDrFc2zhW5Avi2rsg9i7ZjZEnaonewYnOaO9gmRaJP4oARS8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=EtYpIyjr; arc=none smtp.client-ip=209.85.167.51
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1757766841; c=relaxed/simple;
+	bh=g139W4/u+2Dpew3iEWqrs1dvenK+95y+NedNAHqBZ9g=;
+	h=Date:From:To:Cc:Subject:Message-ID; b=fAQQV+HJygEDjQpfeo91jgDUpJCBRs0KHe8YnRRyX4HIoexGGj0cBecsAIcqsScUfTdYg7iTiPSctJCAWqOyTAcRIscvoyD2/CSqPJhYxvRF+LyOzDH0QBuD8sfvPOO6TdCDhjDJWwiswhNUiF6IRJFKb2fTAfjsgmKcc/lPWtg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Iv9ee/Ab; arc=none smtp.client-ip=192.198.163.16
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="EtYpIyjr"
-Received: by mail-lf1-f51.google.com with SMTP id 2adb3069b0e04-55f72452a8eso3156128e87.3
-        for <linux-usb@vger.kernel.org>; Sat, 13 Sep 2025 01:12:53 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1757751172; x=1758355972; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:subject:cc:to:from:date:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=UfQhDuSvzHIkemDW8GNUkq4GLhACt1FD+0aGxJPOI+o=;
-        b=EtYpIyjrMxawlHYypmt/TbcevYQjjtlwxLGjgPWEuV5m7p3vNuv76i82FxjrMkuQ3U
-         sMwcpcj8sgG3+jzy6aEGY1d52iHeR+zrdakxsMKpFNOSVLlX5QwemzpUT6P/xe+X0lzw
-         jwr3min/nYTWH0mFzH4aRpqiaJaQUmT2YRUvL3GIHV6ffgaD6me3J8D8Il3/vZ1MYGD6
-         Vv0re9pf9Jyp+D0pQ2wOHAEGNJPtPD/4yrAs0MW94r09P6IHpHVfQjL3FDlYfVehJKCe
-         oagZnL/GNwwVbFnjh1Juw0LU8ACjTVZy3Mmu/l+yRvWyrIWD+m+eib7+79hMZe6aOrmX
-         fhhw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1757751172; x=1758355972;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:subject:cc:to:from:date:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=UfQhDuSvzHIkemDW8GNUkq4GLhACt1FD+0aGxJPOI+o=;
-        b=rKhWxOULy+XGV8HeaczMiC8R5zJBGpImMe8LwBGokwmH/Ashw4aEtXuey6wIsQaTvY
-         CNKMc7iWgHLwNaZYF6UW3hKrpG5ZMpXVPmZdKJO5iqa010Nyo8DOaOtcp1z4T4qkmnPA
-         zeonHG4ygpYw97HNnrEOGqOXKPo9TDKQT8saVSYXZyt0ojlR8sMbzG5Z26Tf/MKn4AcV
-         rpawoEXSw8TsfhjOxRGSz+Ch9iiu4++7HGUhCI19PUC5se7MO0Us+bO2KeUleGGfULpg
-         mX2tPuwb6k9UAl9zus8IxCcGr7ATN/2lCLzjH0IRzzNTxIroN4dWCVEnRMpgz2po8fId
-         I7/g==
-X-Forwarded-Encrypted: i=1; AJvYcCUAfSLxF0qsO2zhb4gX0ziAcjBk0+nezBW1/Nb6she90QHxJV6MTAjN9ZAX3/mrO3ZZKgYB//2GN5Q=@vger.kernel.org
-X-Gm-Message-State: AOJu0YzJK1pzLusKGfgHKvUxZmUiHwGx3XG8VymlOy8yeJV1XfWVgzg9
-	4ydJ7Gpau7KtQ0+r61wye500aJLxts5xn4JqfWOtRSU+tflgbFIuctEWnABUDg==
-X-Gm-Gg: ASbGncsYxrg8n0DSeD+aWXyPyFSfl98oPSvGtixZbsxNHqpyZOydw6Cgp/3EP/euaYB
-	s6Zis0t/I0A3Dtc8Au5G64zVRR676ciofaJpadPwvUfjMaLReBFbs0kUQ5uKCsIydl+IYdsRSwn
-	WCfCrDGU3ZziYQt2i2bTE2j7qBm+kCvczUH+co3nIW4yMJEJmpDTL5g/1Mt6dK9fxUCRxKumofV
-	Cy+XsXWqxOo4F0WQI8/yJgF8DOQYWQ/QhSkvVMV+zdWYblTouMTV2SitEQH/510C9/1mzGGXjJ1
-	iYlK04kYMEWklBYNlNDGLgUUOUKDUGj3+GQEPauMvhvOD7Cp0rao/jhO2fE7i/ZF7MnQzgHp5ZS
-	hemVwMTPobhjc0lxSuV9A/USjd8fHvRzTyaZjRMnpeSIg8w==
-X-Google-Smtp-Source: AGHT+IH2AD5BXTQAgCsKFKU70bkQeF93I7gukIqkNtAzap8icHw0uG0c2ZukmHH3I/86xL2nJAU//g==
-X-Received: by 2002:a05:6512:6707:b0:571:7b89:b413 with SMTP id 2adb3069b0e04-5717b98f8f3mr1030726e87.5.1757751171469;
-        Sat, 13 Sep 2025 01:12:51 -0700 (PDT)
-Received: from foxbook (bfg216.neoplus.adsl.tpnet.pl. [83.28.44.216])
-        by smtp.gmail.com with ESMTPSA id 2adb3069b0e04-56e5d5e6fd0sm1794103e87.50.2025.09.13.01.12.50
-        (version=TLS1_2 cipher=AES128-SHA bits=128/128);
-        Sat, 13 Sep 2025 01:12:51 -0700 (PDT)
-Date: Sat, 13 Sep 2025 10:12:46 +0200
-From: Michal Pecio <michal.pecio@gmail.com>
-To: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
-Cc: Niklas Neronin <niklas.neronin@linux.intel.com>,
- mathias.nyman@linux.intel.com, linux-usb@vger.kernel.org
-Subject: Re: [PATCH 2/7] usb: xhci: use '%pad' specifier for DMA address
- printing
-Message-ID: <20250913101246.515abfc4.michal.pecio@gmail.com>
-In-Reply-To: <aMRgL4fus--v4QjP@smile.fi.intel.com>
-References: <20250903170127.2190730-1-niklas.neronin@linux.intel.com>
-	<20250903170127.2190730-3-niklas.neronin@linux.intel.com>
-	<20250909115949.610922a3.michal.pecio@gmail.com>
-	<aMAPkH5-4rLdmx_9@smile.fi.intel.com>
-	<20250909224416.691e47c9.michal.pecio@gmail.com>
-	<20250910075630.0389536f.michal.pecio@gmail.com>
-	<aMJ9PbOxn3CCuaYJ@smile.fi.intel.com>
-	<20250911113451.1f5e5ca4.michal.pecio@gmail.com>
-	<aMMtgsAa-dovMqdG@smile.fi.intel.com>
-	<20250912114644.7b9bfe37.michal.pecio@gmail.com>
-	<aMRgL4fus--v4QjP@smile.fi.intel.com>
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Iv9ee/Ab"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1757766840; x=1789302840;
+  h=date:from:to:cc:subject:message-id;
+  bh=g139W4/u+2Dpew3iEWqrs1dvenK+95y+NedNAHqBZ9g=;
+  b=Iv9ee/AbCiMiS+NMF31Cn357XxmONa+yRuKeYwqqmHhgwcOVtDGknbDy
+   lkkxXwG6hN3AxAqUuVbaWcmo+KEMZT7Z3jJFzGdML0TCOxEJ2fWI8DWRJ
+   3aDPf36QTSN4MVgy/Nv0uH//cqJXsiOhys0KNTdPnJw6WELbd0j/4ik2z
+   6Zom+SuYcPRJKlvyXuE1X7KACMFAvyPQslqHnf1FF+rFMGwqBu0pgeXgy
+   CgYNhGyTCvpplRph3joll6wME5r3K2d8v7MiEVxpUOPHyXKbd1gSQfQgP
+   1gJdNXPVQ25Smxp89UKWtW+kMaTpHByRCEKrcmo2iu2OGrIDZK5qduzXa
+   g==;
+X-CSE-ConnectionGUID: 5ldFFyyzRj2Yp8b1gPf2UQ==
+X-CSE-MsgGUID: ibjXBo+uTO+lyODgPQ00vA==
+X-IronPort-AV: E=McAfee;i="6800,10657,11551"; a="47661750"
+X-IronPort-AV: E=Sophos;i="6.18,261,1751266800"; 
+   d="scan'208";a="47661750"
+Received: from orviesa001.jf.intel.com ([10.64.159.141])
+  by fmvoesa110.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 13 Sep 2025 05:33:59 -0700
+X-CSE-ConnectionGUID: 7Y7PGvQIQ9C/VNA3QdWBLQ==
+X-CSE-MsgGUID: CuA/9Lc8SKCCs6Iqc861yA==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.18,261,1751266800"; 
+   d="scan'208";a="211370595"
+Received: from lkp-server02.sh.intel.com (HELO eb5fdfb2a9b7) ([10.239.97.151])
+  by orviesa001.jf.intel.com with ESMTP; 13 Sep 2025 05:33:57 -0700
+Received: from kbuild by eb5fdfb2a9b7 with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1uxPRu-0001WI-2J;
+	Sat, 13 Sep 2025 12:33:51 +0000
+Date: Sat, 13 Sep 2025 20:33:23 +0800
+From: kernel test robot <lkp@intel.com>
+To: "Greg Kroah-Hartman" <gregkh@linuxfoundation.org>
+Cc: linux-usb@vger.kernel.org
+Subject: [usb:usb-linus] BUILD SUCCESS
+ 9dfec4a51df9cf0dcc23cb4ac6fc314bf9e999d0
+Message-ID: <202509132013.EzCdaehP-lkp@intel.com>
+User-Agent: s-nail v14.9.24
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
 
-On Fri, 12 Sep 2025 21:02:23 +0300, Andy Shevchenko wrote:
-> Again, imagine the loop that goes above 4G on a 64-bit machine. Out
-> of a sudden %08llx will be expanded to cover the 64-bit addresses and
-> becomes one digit at a time creating a ladder (ugly looking) output.
-> This is incorrect.
+tree/branch: https://git.kernel.org/pub/scm/linux/kernel/git/gregkh/usb.git usb-linus
+branch HEAD: 9dfec4a51df9cf0dcc23cb4ac6fc314bf9e999d0  USB: core: remove the move buf action
 
-If I equated correctness with ugliness I would equally confidently
-state that unnecessary zero-padding is incorrect. But I don't.
-This is exactly the absurd argument I previously made for padding all
-%x and %d formats to full width. Pad tables, not lone log messages.
+elapsed time: 1454m
 
-> No, it's other way around, we should not put explicit casts in printf() in C
-> as there are plenty of the format specifiers that allows us to be sure that
-> the printed value is correct independently on architecture, endianess, etc.
+configs tested: 99
+configs skipped: 3
 
-At least if you do it, the compiler will also do the right thing:
-- if the cast doesn't match the format, warn (xhci needs a patch here)
-- if it matches, widen the provided value as necessary
+The following configs have been built successfully.
+More configs may be tested in the coming days.
 
-And it works consistently regardless of whether the variable is a
-dma_addr_t or u64, on all architectures, with or without PAE.
+tested configs:
+alpha                             allnoconfig    gcc-15.1.0
+alpha                            allyesconfig    gcc-15.1.0
+arc                              allmodconfig    gcc-15.1.0
+arc                               allnoconfig    gcc-15.1.0
+arc                              allyesconfig    gcc-15.1.0
+arc                   randconfig-001-20250912    gcc-10.5.0
+arc                   randconfig-002-20250912    gcc-12.5.0
+arm                              allmodconfig    gcc-15.1.0
+arm                               allnoconfig    clang-22
+arm                              allyesconfig    gcc-15.1.0
+arm                   randconfig-001-20250912    clang-22
+arm                   randconfig-002-20250912    gcc-14.3.0
+arm                   randconfig-003-20250912    clang-22
+arm                   randconfig-004-20250912    gcc-10.5.0
+arm64                            allmodconfig    clang-19
+arm64                             allnoconfig    gcc-15.1.0
+arm64                 randconfig-001-20250912    clang-20
+arm64                 randconfig-002-20250912    clang-16
+arm64                 randconfig-003-20250912    clang-22
+arm64                 randconfig-004-20250912    clang-19
+csky                              allnoconfig    gcc-15.1.0
+csky                  randconfig-001-20250912    gcc-15.1.0
+csky                  randconfig-002-20250912    gcc-11.5.0
+hexagon                          allmodconfig    clang-17
+hexagon                           allnoconfig    clang-22
+hexagon                          allyesconfig    clang-22
+hexagon               randconfig-001-20250912    clang-22
+hexagon               randconfig-002-20250912    clang-22
+i386        buildonly-randconfig-001-20250912    gcc-14
+i386        buildonly-randconfig-002-20250912    clang-20
+i386        buildonly-randconfig-003-20250912    gcc-13
+i386        buildonly-randconfig-004-20250912    clang-20
+i386        buildonly-randconfig-005-20250912    gcc-14
+i386        buildonly-randconfig-006-20250912    clang-20
+loongarch                        allmodconfig    clang-19
+loongarch                         allnoconfig    clang-22
+loongarch             randconfig-001-20250912    gcc-15.1.0
+loongarch             randconfig-002-20250912    clang-22
+m68k                             allmodconfig    gcc-15.1.0
+m68k                              allnoconfig    gcc-15.1.0
+m68k                             allyesconfig    gcc-15.1.0
+microblaze                       allmodconfig    gcc-15.1.0
+microblaze                        allnoconfig    gcc-15.1.0
+microblaze                       allyesconfig    gcc-15.1.0
+microblaze                          defconfig    gcc-15.1.0
+mips                              allnoconfig    gcc-15.1.0
+nios2                             allnoconfig    gcc-11.5.0
+nios2                               defconfig    gcc-11.5.0
+nios2                 randconfig-001-20250912    gcc-11.5.0
+nios2                 randconfig-002-20250912    gcc-11.5.0
+openrisc                          allnoconfig    gcc-15.1.0
+parisc                            allnoconfig    gcc-15.1.0
+parisc                              defconfig    gcc-15.1.0
+parisc                randconfig-001-20250912    gcc-14.3.0
+parisc                randconfig-002-20250912    gcc-8.5.0
+parisc64                            defconfig    gcc-15.1.0
+powerpc                           allnoconfig    gcc-15.1.0
+powerpc               randconfig-001-20250912    gcc-8.5.0
+powerpc               randconfig-002-20250912    clang-22
+powerpc               randconfig-003-20250912    clang-17
+powerpc64             randconfig-001-20250912    gcc-12.5.0
+powerpc64             randconfig-002-20250912    clang-22
+powerpc64             randconfig-003-20250912    clang-19
+riscv                             allnoconfig    gcc-15.1.0
+riscv                 randconfig-001-20250912    clang-16
+riscv                 randconfig-002-20250912    gcc-9.5.0
+s390                             allmodconfig    clang-18
+s390                              allnoconfig    clang-22
+s390                             allyesconfig    gcc-15.1.0
+s390                  randconfig-001-20250912    gcc-10.5.0
+s390                  randconfig-002-20250912    gcc-10.5.0
+sh                               allmodconfig    gcc-15.1.0
+sh                                allnoconfig    gcc-15.1.0
+sh                               allyesconfig    gcc-15.1.0
+sh                    randconfig-001-20250912    gcc-15.1.0
+sh                    randconfig-002-20250912    gcc-15.1.0
+sparc                            allmodconfig    gcc-15.1.0
+sparc                             allnoconfig    gcc-15.1.0
+sparc                               defconfig    gcc-15.1.0
+sparc                 randconfig-001-20250912    gcc-8.5.0
+sparc                 randconfig-002-20250912    gcc-13.4.0
+sparc64               randconfig-001-20250912    gcc-8.5.0
+sparc64               randconfig-002-20250912    clang-20
+um                               allmodconfig    clang-19
+um                                allnoconfig    clang-22
+um                               allyesconfig    gcc-14
+um                    randconfig-001-20250912    clang-22
+um                    randconfig-002-20250912    gcc-14
+x86_64                            allnoconfig    clang-20
+x86_64      buildonly-randconfig-001-20250912    gcc-14
+x86_64      buildonly-randconfig-002-20250912    gcc-14
+x86_64      buildonly-randconfig-003-20250912    clang-20
+x86_64      buildonly-randconfig-004-20250912    clang-20
+x86_64      buildonly-randconfig-005-20250912    clang-20
+x86_64      buildonly-randconfig-006-20250912    gcc-14
+x86_64                              defconfig    gcc-14
+xtensa                            allnoconfig    gcc-15.1.0
+xtensa                randconfig-001-20250912    gcc-9.5.0
+xtensa                randconfig-002-20250912    gcc-12.5.0
 
-Reminder: this drivers handles DMAs as u64 too, so it will *never*
-print all DMAs as %pad. And if it tries, it will be a silent bug.
-
-> > This brings up another problem with %pad: it is unknown to compilers
-> > so they don't type check it. 
-> > 
-> > but if I switch to %pad and later change my mind and extend 'addr' to
-> > u64 without updating this format, the compiler will eat it up and once
-> > again garbage will be printed on some systems.  
-> 
-> This topic was risen a few times in the past. Somebody proposed to have a GCC
-> plugin with that, somebody else proposed to completely rewrite the %p
-> extensions to be more like Pyhon or C++ ones (when you just specify argument
-> and handler for it). None so far is implemented AFAIK.
-
-Indeed, not holding my breath for the %pad situation improving.
-This includes impossibility of passing it by value - it's forced
-by compilers being unaware of %pad and following usual %p rules.
-
-> But this is not particular problem of %pad, it's for all %p
-> extensions. And the extensions exist for a purpose. What you are
-> proposing here behind the lines is to kill that completely.
-
-Surely people would laugh me off if I actually suggested that.
-If those formats work for their cases, use them.
+--
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
