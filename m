@@ -1,203 +1,134 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from fhigh-a1-smtp.messagingengine.com (fhigh-a1-smtp.messagingengine.com [103.168.172.152])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DC12126CE04;
-	Sun, 14 Sep 2025 12:56:48 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 79AD91C6FF4;
+	Sun, 14 Sep 2025 13:29:34 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=103.168.172.152
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1757854609; cv=none; b=pQVcMaLBSs6ZvkRio6egDiO+7r73E4/nQnt9IDuMRHJ9CshSspp0XnDBKSXcIOAvuprgu2Jw0JgVluh+XfEKv7EYnoJTMPMBaippA02VlB564N95K0VqOkkHcdynk7yyp3HjrLrXo07pSiJWJ86PvjmC5BVcYXqZf1x1s2+RsQc=
+	t=1757856576; cv=none; b=hNvkiwQC2rGnAfZwhEEYk+owaMAW4UUslHjObzhNNYZahvW1hvZohPt++hOMZTXdh7Gf677asbLI1Z79cZhTeYPvgQIwuQtnBSHRl8fxGGBMlrbzIgMXR51tYTMW9kO4sEONkZtrtGZcX+HuTsJQ+va+Qrm5ajnIIujSt1YVBDk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1757854609; c=relaxed/simple;
-	bh=bkv8jzt0SlhPpGAzBP2M8JpCFXBPIbTEJnxp6p0XalI=;
-	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
-	 In-Reply-To:To:Cc; b=Me3lGYLOip8sgKu8lTNVDrWlBngKsm9nIybfs5vqxMVQpyO7Uvs2k+jAzecy4VKKSEm9SdoDj2pETRv8WvzFf4MUP7R6vkh4VVEqZ9wjgIfUOx54ogKJ+ahP+Ey+WcXVVIc5eoc9uCPGQ5p5jCZfB92dEJbadvHuTZ0xJKMMkgk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=DLr8NEOJ; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1757856576; c=relaxed/simple;
+	bh=ynUogUtMc6vDYR4x765+JnL05KuJsA3l4L/avvP9S5w=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=ODhKwJtKucBqdkerR4h3Ixw54bqx0VYpMh/8dLu8LVJHvtsBIC6AehAaJKSz5CbTvRtZtnaVF79lTtTuS+jNStEyK4t4U4D/3VIlY/L8xHIQIDFYHRa/rOqclO1h0gh3vjrH1iTc20yijHMOpDpR5yKTPyH41Aapxwzf/EcYiNQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=jannau.net; spf=pass smtp.mailfrom=jannau.net; dkim=pass (2048-bit key) header.d=jannau.net header.i=@jannau.net header.b=IQgfEDg+; dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b=lfVi7Z2+; arc=none smtp.client-ip=103.168.172.152
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=jannau.net
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=jannau.net
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="DLr8NEOJ"
-Received: by smtp.kernel.org (Postfix) with ESMTPS id 4DB05C4CEFB;
-	Sun, 14 Sep 2025 12:56:48 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1757854608;
-	bh=bkv8jzt0SlhPpGAzBP2M8JpCFXBPIbTEJnxp6p0XalI=;
-	h=From:Date:Subject:References:In-Reply-To:To:Cc:From;
-	b=DLr8NEOJI+EWwgLIw/sjWoQtam15iOEQ5xG5nR4uotN6ha4LFHoa9dHn4XDJp2fqu
-	 kKcHecuYr59bZU4PG4i7UA6dvUq36O+69Vw/whoCqLgDXZLowN7gzJvLWxNOi7m16q
-	 IRQZYOzC8/RjUyAqk7RU1qbbRO/pS39WbPrzMqhXL+wiaqHXTvjhGmqTtYVCbPTgSR
-	 iZk0FI1AJYaBf92UV+66hwvacH8dmreWPOAYRrRHjIX6WnehVGUaBsmsvLgBXOu7yj
-	 0Aye4AlZNtZVHzxL9wlb4x3ClNOhOZFB28RmbTd4z7eNRq+vjSBG+PVUwZ0TgWw2hm
-	 /JD+1z/drr4Ng==
-Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 4650FCAC582;
-	Sun, 14 Sep 2025 12:56:48 +0000 (UTC)
-From: Sven Peter <sven@kernel.org>
-Date: Sun, 14 Sep 2025 12:56:09 +0000
-Subject: [PATCH 04/11] usb: typec: tipd: Trace data status for CD321x
- correctly
+	dkim=pass (2048-bit key) header.d=jannau.net header.i=@jannau.net header.b="IQgfEDg+";
+	dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b="lfVi7Z2+"
+Received: from phl-compute-09.internal (phl-compute-09.internal [10.202.2.49])
+	by mailfhigh.phl.internal (Postfix) with ESMTP id 935AB1400159;
+	Sun, 14 Sep 2025 09:29:33 -0400 (EDT)
+Received: from phl-mailfrontend-02 ([10.202.2.163])
+  by phl-compute-09.internal (MEProxy); Sun, 14 Sep 2025 09:29:33 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=jannau.net; h=cc
+	:cc:content-type:content-type:date:date:from:from:in-reply-to
+	:in-reply-to:message-id:mime-version:references:reply-to:subject
+	:subject:to:to; s=fm3; t=1757856573; x=1757942973; bh=LvsmTEFXWc
+	PhwHybn1QAYEPHsP2aICJv87mnJcBL40Q=; b=IQgfEDg+V+jQq/fGUCNiVStmpK
+	oXzUFOXkQ6/ZAPZaVaVVeC95EiWKWi5NGzEBD5q2/SEX48NHbdMpddPfsfjdSNNK
+	qHG2seezTvBTML7cxiHqiBxbas707WKhaej0pf//0/0yhZIhnybHSl6+GfLAH+AA
+	TvRTz+blNLVwEH7NDbaiGh/iybaD5ZGuHfX5NhLffmX3EC4l77q0bCRHAGa+M56z
+	zGt1Gby+cmz8IrW7LbbjOMfynrbKJHDUryFXWQG+OMko8ny/kdl4+Oymkm471nCj
+	5RcglM4KgIfq0kRwJKxqtJgF9Ex3QLBwSK3MTQiVICg/sFyK3kRfL2G0U8cA==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+	messagingengine.com; h=cc:cc:content-type:content-type:date:date
+	:feedback-id:feedback-id:from:from:in-reply-to:in-reply-to
+	:message-id:mime-version:references:reply-to:subject:subject:to
+	:to:x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=fm1; t=
+	1757856573; x=1757942973; bh=LvsmTEFXWcPhwHybn1QAYEPHsP2aICJv87m
+	nJcBL40Q=; b=lfVi7Z2+L9AAnvqnsmH1l/jCzm64AjOMwM51PY9vTe8wyG/+LAL
+	zORo9AQvItcCvA+nkKEVpjOfUS0PUdkh5AjljL2gYpqkwqiXZixJ+kVLy48rLrs5
+	RLvuPfXIrNrQYiBMaO1OOSls3oh/OLBxlvxazVCLFJ/zyTwpdTVd+gpMS5PUMbhB
+	E89oP8Fa/NsCspBApHst6GsXW7sFvsLgwbNiRxDJzm6sI3aiMCj9NQZEny0PE4rG
+	qSYmlkFMdEXioAd231Zctb+7ni58KnGol4VcJfsEOElRdLE2QM0Q/wz+SHUEHouP
+	3/iuDK4YacmXT442vM582AruqP1v6yipyew==
+X-ME-Sender: <xms:O8PGaOxJ_4eixX8UbkrLeeC0Lz1rH78kfNVEh1kVGnTqOj-t4FMS9w>
+    <xme:O8PGaHpZym2tR0jeNIthcXgqHm2ATq_fKhouXZulW1V06biJOl0LJF16gzMZ6tpcG
+    c-Vb1-sJxHqq5lxwpo>
+X-ME-Received: <xmr:O8PGaHosBq3SqVX1KS0IjpCtfCH7_E8zeamvdW8KEyk6t7cAK_d2RhaShTNkkq6aAcA5VB0yAvB1U0Uy3NRbGrUNEhPY54COHc0>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeeffedrtdeggdefgeelfecutefuodetggdotefrod
+    ftvfcurfhrohhfihhlvgemucfhrghsthforghilhdpuffrtefokffrpgfnqfghnecuuegr
+    ihhlohhuthemuceftddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenucfjug
+    hrpeffhffvvefukfhfgggtuggjsehttdertddttdejnecuhfhrohhmpeflrghnnhgvucfi
+    rhhunhgruhcuoehjsehjrghnnhgruhdrnhgvtheqnecuggftrfgrthhtvghrnhepgfdvff
+    evleegudejfeefheehkeehleehfefgjefffeetudegtefhuedufeehfeetnecuvehluhhs
+    thgvrhfuihiivgeptdenucfrrghrrghmpehmrghilhhfrhhomhepjhesjhgrnhhnrghurd
+    hnvghtpdhnsggprhgtphhtthhopeelpdhmohguvgepshhmthhpohhuthdprhgtphhtthho
+    pehsvhgvnheskhgvrhhnvghlrdhorhhgpdhrtghpthhtohephhgvihhkkhhirdhkrhhogh
+    gvrhhusheslhhinhhugidrihhnthgvlhdrtghomhdprhgtphhtthhopehgrhgvghhkhhes
+    lhhinhhugihfohhunhgurghtihhonhdrohhrghdprhgtphhtthhopehnvggrlhesghhomh
+    hprgdruggvvhdprhgtphhtthhopehlihhnuhigqdhushgssehvghgvrhdrkhgvrhhnvghl
+    rdhorhhgpdhrtghpthhtoheplhhinhhugidqkhgvrhhnvghlsehvghgvrhdrkhgvrhhnvg
+    hlrdhorhhgpdhrtghpthhtoheprghsrghhiheslhhishhtshdrlhhinhhugidruggvvhdp
+    rhgtphhtthhopehlihhnuhigqdgrrhhmqdhkvghrnhgvlheslhhishhtshdrihhnfhhrrg
+    guvggrugdrohhrghdprhgtphhtthhopehmrghrtggrnhesmhgrrhgtrghnrdhsth
+X-ME-Proxy: <xmx:O8PGaPD0zpc_tUdoucETqraXdhPJkYm_iWnRwd8sxl3PUxLU_io26A>
+    <xmx:O8PGaNv630J6Q-86-2yxNnZTHNsvN9m_qxXTYPiSZq3Yxp49E9qByg>
+    <xmx:O8PGaGJTHWqJX_n5T-frTo2-d1C6XMCx4JKOLZLa-xilIYedZmrBlA>
+    <xmx:O8PGaMYSN8RaXUyMnT72wTpo_2VBS08NPqNW7SPhrLTYYnaANbhHKQ>
+    <xmx:PcPGaOqGpExHgXCr2sGckUvN3lNhAAH2HN1ttpohvNhUKO9DIQHHlVAK>
+Feedback-ID: i47b949f6:Fastmail
+Received: by mail.messagingengine.com (Postfix) with ESMTPA; Sun,
+ 14 Sep 2025 09:29:30 -0400 (EDT)
+Date: Sun, 14 Sep 2025 15:29:29 +0200
+From: Janne Grunau <j@jannau.net>
+To: Sven Peter <sven@kernel.org>
+Cc: Heikki Krogerus <heikki.krogerus@linux.intel.com>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	Neal Gompa <neal@gompa.dev>, linux-usb@vger.kernel.org,
+	linux-kernel@vger.kernel.org, asahi@lists.linux.dev,
+	linux-arm-kernel@lists.infradead.org,
+	Hector Martin <marcan@marcan.st>
+Subject: Re: [PATCH 11/11] usb: typec: tipd: Handle mode transitions for
+ CD321x
+Message-ID: <20250914132929.GA1645557@robin.jannau.net>
+References: <20250914-apple-usb3-tipd-v1-0-4e99c8649024@kernel.org>
+ <20250914-apple-usb3-tipd-v1-11-4e99c8649024@kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-Message-Id: <20250914-apple-usb3-tipd-v1-4-4e99c8649024@kernel.org>
-References: <20250914-apple-usb3-tipd-v1-0-4e99c8649024@kernel.org>
-In-Reply-To: <20250914-apple-usb3-tipd-v1-0-4e99c8649024@kernel.org>
-To: Heikki Krogerus <heikki.krogerus@linux.intel.com>, 
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-Cc: Janne Grunau <j@jannau.net>, Neal Gompa <neal@gompa.dev>, 
- linux-usb@vger.kernel.org, linux-kernel@vger.kernel.org, 
- asahi@lists.linux.dev, linux-arm-kernel@lists.infradead.org, 
- Sven Peter <sven@kernel.org>
-X-Mailer: b4 0.14.2
-X-Developer-Signature: v=1; a=openpgp-sha256; l=5739; i=sven@kernel.org;
- h=from:subject:message-id;
- bh=bkv8jzt0SlhPpGAzBP2M8JpCFXBPIbTEJnxp6p0XalI=;
- b=owGbwMvMwCHmIlirolUq95LxtFoSQ8ax3TWOx5a5PDk+//kDq4+bnjO8VtS7GLfdIn6ayaaYu
- 3xVNbcud5SyMIhxMMiKKbJs329v+uThG8Glmy69h5nDygQyhIGLUwAmMsmdkaF7c6PJOa7Q3B0f
- Qn/kPk8KmmF+c6Jx2F2huKD0Ov5zd/cwMkys3p097WyZ0Y69JX+UpkeZNDW+/cS/vTZRr1ymQe5
- OFgsA
-X-Developer-Key: i=sven@kernel.org; a=openpgp;
- fpr=A1E3E34A2B3C820DBC4955E5993B08092F131F93
-X-Endpoint-Received: by B4 Relay for sven@kernel.org/default with
- auth_id=407
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <20250914-apple-usb3-tipd-v1-11-4e99c8649024@kernel.org>
 
-Some bits inside the CD321x TPS_DATA_STATUS register have a different
-function compared to the original tipd chip. Add these and introduce a
-separate trace function to show them correctly.
+On Sun, Sep 14, 2025 at 12:56:16PM +0000, Sven Peter wrote:
+> From: Hector Martin <marcan@marcan.st>
+> 
+> On Apple Silicon machines there is no control over which alt mode is
+> chosen. The CD321x' firmware negotiates the target mode on its own and
+> only lets the main CPU know after the mode has already been chosen.
+> Especially after plugging a new cable in this can result to quick mode
+> changes from e.g. power only -> USB3 only -> USB3+DisplayPort in a short
+> time. It is not possile to influence this in any way and we also do not
+> get direct access to the PDOs or VDOs exchanged via USB PD.
+> 
+> Additionally, mode changes must be tightly synchronized between DWC3 and
+> the Type C PHY and most mode changes require a full reset of DWC3 to
+> make the port work correctly.
+> This is all done synchronously from the role switch handler inside the
+> DWC3 glue driver on these machines to avoid tripping any failsafes or
+> watchdogs inside the Type-C PHY that may, in the worst case, reset the
+> entire SoC.
+> 
+> To be able to control all this we trigger the entire process in the
+> correct order directly from the TIPD driver and de-bounce any mode
+> changes to avoid tearing down and re-setting DWC3 back up multiple times
+> any time a new connection is made.
+> 
+> Signed-off-by: Hector Martin <marcan@marcan.st>
+> Reviewed-by: Heikki Krogerus <heikki.krogerus@linux.intel.com>
+> Reviewed-by: Neal Gompa <neal@gompa.dev>
+> Co-developed-by: Sven Peter <sven@kernel.org>
+> Signed-off-by: Sven Peter <sven@kernel.org>
+> ---
+>  drivers/usb/typec/tipd/core.c | 290 +++++++++++++++++++++++++++++++++++++++++-
+>  1 file changed, 286 insertions(+), 4 deletions(-)
 
-Reviewed-by: Heikki Krogerus <heikki.krogerus@linux.intel.com>
-Reviewed-by: Neal Gompa <neal@gompa.dev>
-Signed-off-by: Sven Peter <sven@kernel.org>
----
- drivers/usb/typec/tipd/core.c     |  8 +++++++-
- drivers/usb/typec/tipd/tps6598x.h |  5 +++++
- drivers/usb/typec/tipd/trace.h    | 39 +++++++++++++++++++++++++++++++++++++++
- 3 files changed, 51 insertions(+), 1 deletion(-)
+Reviewed-by: Janne Grunau <j@jannau.net>
 
-diff --git a/drivers/usb/typec/tipd/core.c b/drivers/usb/typec/tipd/core.c
-index 4815c5c462837865a5f9d37bbc139249c82c2f75..19d713937870304e68325a441b0de63eb5db3b80 100644
---- a/drivers/usb/typec/tipd/core.c
-+++ b/drivers/usb/typec/tipd/core.c
-@@ -114,6 +114,7 @@ struct tipd_data {
- 	irq_handler_t irq_handler;
- 	u64 irq_mask1;
- 	int (*register_port)(struct tps6598x *tps, struct fwnode_handle *node);
-+	void (*trace_data_status)(u32 status);
- 	void (*trace_power_status)(u16 status);
- 	void (*trace_status)(u32 status);
- 	int (*apply_patch)(struct tps6598x *tps);
-@@ -492,7 +493,9 @@ static bool tps6598x_read_data_status(struct tps6598x *tps)
- 		dev_err(tps->dev, "failed to read data status: %d\n", ret);
- 		return false;
- 	}
--	trace_tps6598x_data_status(data_status);
-+
-+	if (tps->data->trace_data_status)
-+		tps->data->trace_data_status(data_status);
- 
- 	return true;
- }
-@@ -1519,6 +1522,7 @@ static const struct tipd_data cd321x_data = {
- 		     APPLE_CD_REG_INT_DATA_STATUS_UPDATE |
- 		     APPLE_CD_REG_INT_PLUG_EVENT,
- 	.register_port = tps6598x_register_port,
-+	.trace_data_status = trace_cd321x_data_status,
- 	.trace_power_status = trace_tps6598x_power_status,
- 	.trace_status = trace_tps6598x_status,
- 	.init = cd321x_init,
-@@ -1532,6 +1536,7 @@ static const struct tipd_data tps6598x_data = {
- 		     TPS_REG_INT_DATA_STATUS_UPDATE |
- 		     TPS_REG_INT_PLUG_EVENT,
- 	.register_port = tps6598x_register_port,
-+	.trace_data_status = trace_tps6598x_data_status,
- 	.trace_power_status = trace_tps6598x_power_status,
- 	.trace_status = trace_tps6598x_status,
- 	.apply_patch = tps6598x_apply_patch,
-@@ -1545,6 +1550,7 @@ static const struct tipd_data tps25750_data = {
- 		     TPS_REG_INT_DATA_STATUS_UPDATE |
- 		     TPS_REG_INT_PLUG_EVENT,
- 	.register_port = tps25750_register_port,
-+	.trace_data_status = trace_tps6598x_data_status,
- 	.trace_power_status = trace_tps25750_power_status,
- 	.trace_status = trace_tps25750_status,
- 	.apply_patch = tps25750_apply_patch,
-diff --git a/drivers/usb/typec/tipd/tps6598x.h b/drivers/usb/typec/tipd/tps6598x.h
-index cecb8d11d23972dab0d8c15458b4052af7510b03..03edbb77bbd6d8093b2560db83e5913e25d06154 100644
---- a/drivers/usb/typec/tipd/tps6598x.h
-+++ b/drivers/usb/typec/tipd/tps6598x.h
-@@ -197,6 +197,11 @@
- #define TPS_DATA_STATUS_FORCE_LSX	     BIT(23)
- #define TPS_DATA_STATUS_POWER_MISMATCH	     BIT(24)
- 
-+/* modified TPS_REG_DATA_STATUS bits for CD321x (and likely also TPS65987DDK) */
-+#define CD321X_DATA_STATUS_HPD_IRQ	     BIT(14)
-+#define CD321X_DATA_STATUS_HPD_LEVEL	     BIT(15)
-+#define CD321X_DATA_STATUS_USB4_CONNECTION   BIT(23)
-+
- #define TPS_DATA_STATUS_DP_PIN_ASSIGNMENT_MASK GENMASK(11, 10)
- #define TPS_DATA_STATUS_DP_PIN_ASSIGNMENT(x) \
- 	TPS_FIELD_GET(TPS_DATA_STATUS_DP_PIN_ASSIGNMENT_MASK, (x))
-diff --git a/drivers/usb/typec/tipd/trace.h b/drivers/usb/typec/tipd/trace.h
-index bea383f2db9de5bbf1804fbad9ee6b134407b932..e9e40425138a01f15e35867f38f62e13623dbcec 100644
---- a/drivers/usb/typec/tipd/trace.h
-+++ b/drivers/usb/typec/tipd/trace.h
-@@ -217,6 +217,26 @@
- 		{ TPS_DATA_STATUS_FORCE_LSX,		"FORCE_LSX" }, \
- 		{ TPS_DATA_STATUS_POWER_MISMATCH,	"POWER_MISMATCH" })
- 
-+#define show_cd321x_data_status_flags(data_status) \
-+	__print_flags(data_status & TPS_DATA_STATUS_FLAGS_MASK, "|", \
-+		{ TPS_DATA_STATUS_DATA_CONNECTION,	"DATA_CONNECTION" }, \
-+		{ TPS_DATA_STATUS_UPSIDE_DOWN,		"DATA_UPSIDE_DOWN" }, \
-+		{ TPS_DATA_STATUS_ACTIVE_CABLE,		"ACTIVE_CABLE" }, \
-+		{ TPS_DATA_STATUS_USB2_CONNECTION,	"USB2_CONNECTION" }, \
-+		{ TPS_DATA_STATUS_USB3_CONNECTION,	"USB3_CONNECTION" }, \
-+		{ TPS_DATA_STATUS_USB3_GEN2,		"USB3_GEN2" }, \
-+		{ TPS_DATA_STATUS_USB_DATA_ROLE,	"USB_DATA_ROLE" }, \
-+		{ TPS_DATA_STATUS_DP_CONNECTION,	"DP_CONNECTION" }, \
-+		{ TPS_DATA_STATUS_DP_SINK,		"DP_SINK" }, \
-+		{ CD321X_DATA_STATUS_HPD_IRQ,		"HPD_IRQ" }, \
-+		{ CD321X_DATA_STATUS_HPD_LEVEL,		"HPD_LEVEL" }, \
-+		{ TPS_DATA_STATUS_TBT_CONNECTION,	"TBT_CONNECTION" }, \
-+		{ TPS_DATA_STATUS_TBT_TYPE,		"TBT_TYPE" }, \
-+		{ TPS_DATA_STATUS_OPTICAL_CABLE,	"OPTICAL_CABLE" }, \
-+		{ TPS_DATA_STATUS_ACTIVE_LINK_TRAIN,	"ACTIVE_LINK_TRAIN" }, \
-+		{ CD321X_DATA_STATUS_USB4_CONNECTION,	"USB4" }, \
-+		{ TPS_DATA_STATUS_POWER_MISMATCH,	"POWER_MISMATCH" })
-+
- #define show_data_status_dp_pin_assignment(data_status) \
- 	__print_symbolic(TPS_DATA_STATUS_DP_SPEC_PIN_ASSIGNMENT(data_status), \
- 		{ TPS_DATA_STATUS_DP_SPEC_PIN_ASSIGNMENT_E, "E" }, \
-@@ -388,6 +408,25 @@ TRACE_EVENT(tps6598x_data_status,
- 		    )
- );
- 
-+TRACE_EVENT(cd321x_data_status,
-+	TP_PROTO(u32 data_status),
-+	TP_ARGS(data_status),
-+
-+	TP_STRUCT__entry(
-+			 __field(u32, data_status)
-+			 ),
-+
-+	TP_fast_assign(
-+		       __entry->data_status = data_status;
-+		       ),
-+
-+	TP_printk("%s%s%s",
-+		  show_cd321x_data_status_flags(__entry->data_status),
-+		  __entry->data_status & TPS_DATA_STATUS_DP_CONNECTION ? ", DP pinout " : "",
-+		  maybe_show_data_status_dp_pin_assignment(__entry->data_status)
-+		)
-+);
-+
- #endif /* _TPS6598X_TRACE_H_ */
- 
- /* This part must be outside protection */
-
--- 
-2.34.1
-
-
+Janne
