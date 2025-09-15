@@ -1,118 +1,133 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id ED8442F5469;
-	Mon, 15 Sep 2025 08:50:14 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+Received: from azure-sdnproxy.icoremail.net (l-sdnproxy.icoremail.net [20.188.111.126])
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 066492F361C;
+	Mon, 15 Sep 2025 08:54:37 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=20.188.111.126
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1757926218; cv=none; b=MpkrBOdG820qzq5nD7NgiTCFZUwG+aExleRDp330iGFtOMypjJIwnrS0BeS6xYVjc7S+qLJpUgDzuSSHBJJKR/qEhvq4if6qM6P3RoBbOEqmL8z2jMo5+YYTKPeNcI8TV96WTVM7QIF8DA793po3vwOZesae0GSkBbBYTpVqtyw=
+	t=1757926482; cv=none; b=mLGuOo+UIb2r8otCZRxwtXh+5VldOUgdlsr3UqitXTna8uZqxodU6eon3xOTEyUiUOkpGFzppEujRtO6MoUeYpEBey0ZkPDrWEUlZQcJ3KfnbBd0cUzimc5n/kLye9FKk3TQa8IIYfKfh3OIJXo8kJeOboj9GUmiK6tB7SRb5W4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1757926218; c=relaxed/simple;
-	bh=BeB7zw1Yr47qwTix1CPy5qpweNbSDIpz6FPY8JF38uY=;
-	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
-	 In-Reply-To:To:Cc; b=h1zaufd8t0nM1wG3b4fNx9yXa6++g3eJI52GS3wfg0DJdxaZwMhJqYYgtpdgPPkS3K7tm/QNV9HRwtImA5nYUZDHrfbGyxHVExA5OZb9Y782txa2/Co2GGLcNpE0pByTd9I0qE1CqljOx9xgKdiM9CzKbtrHEjtOVD48rGYtk+U=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=GtW/eqqH; arc=none smtp.client-ip=10.30.226.201
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="GtW/eqqH"
-Received: by smtp.kernel.org (Postfix) with ESMTPS id 4C38DC2BCAF;
-	Mon, 15 Sep 2025 08:50:14 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1757926214;
-	bh=BeB7zw1Yr47qwTix1CPy5qpweNbSDIpz6FPY8JF38uY=;
-	h=From:Date:Subject:References:In-Reply-To:To:Cc:Reply-To:From;
-	b=GtW/eqqHcWMfuBt5NIeXV7+iQeOo2iS0uYe1NTnn5W3x5FO0PcRCyph/jznGySKK0
-	 NUdElzPv0A+QAs+ziaY7mn25e8r6RhTCoqsy6WSW1SVWt9EcR5Hgn9sm95XAaAbivq
-	 R1lkIzOeaBu32YjyuodbDbx8Lo9uywGsskFP1rgYZEb/0Unr6TAobOYdl10niFjPVV
-	 E4pSOK6x7Ax5nXaZtjsVRQY9ftdX82qv8T8ciZl1d04Ji5EelZlI0Vo9PsEoYAh5X+
-	 uG+bsFupJjndZ9F9XS2H9FtBtc56VUcsGSEjnJp6wKDmVtI223ZD0QUMKOauBBxIzT
-	 r+PSltpPheQiA==
-Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 41D66CAC58E;
-	Mon, 15 Sep 2025 08:50:14 +0000 (UTC)
-From: Fenglin Wu via B4 Relay <devnull+fenglin.wu.oss.qualcomm.com@kernel.org>
-Date: Mon, 15 Sep 2025 16:49:58 +0800
-Subject: [PATCH v4 6/8] dt-bindings: soc: qcom,pmic-glink: Add charge limit
- nvmem properties
+	s=arc-20240116; t=1757926482; c=relaxed/simple;
+	bh=Y/1Xi4Ly8vXCRTp1Q91j/eDYr186iclNRGSqfMFUErM=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=eLkxfQLBAv1zVZnWHUg0z3KJAqbNtj69JXIfOjVY5yqC11SYETPpcjrEjeGisrP+e225EfGlXBGJUCBbQEsCXptKedPYfcQ4EOK76Km6fGbG8i5QMn81hLwiI2phzk1ts5lGd2fQrJR8Jnye0tUYOaQuj/++7Dv90dMv7Nzzl+s=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=eswincomputing.com; spf=pass smtp.mailfrom=eswincomputing.com; arc=none smtp.client-ip=20.188.111.126
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=eswincomputing.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=eswincomputing.com
+Received: from E0006493LT.eswin.cn (unknown [10.127.112.153])
+	by app2 (Coremail) with SMTP id TQJkCgAHmZIq1Mdo3E7RAA--.39265S4;
+	Mon, 15 Sep 2025 16:54:04 +0800 (CST)
+From: caohang@eswincomputing.com
+To: gregkh@linuxfoundation.org,
+	robh@kernel.org,
+	krzk+dt@kernel.org,
+	conor+dt@kernel.org,
+	Thinh.Nguyen@synopsys.com,
+	p.zabel@pengutronix.de,
+	linux-kernel@vger.kernel.org,
+	linux-usb@vger.kernel.org,
+	devicetree@vger.kernel.org
+Cc: ningyu@eswincomputing.com,
+	linmin@eswincomputing.com,
+	pinkesh.vaghela@einfochips.com,
+	Hang Cao <caohang@eswincomputing.com>
+Subject: [PATCH v3 0/2] Add driver support for ESWIN EIC7700 SoC USB controller
+Date: Mon, 15 Sep 2025 16:53:29 +0800
+Message-ID: <20250915085329.2058-1-caohang@eswincomputing.com>
+X-Mailer: git-send-email 2.45.1.windows.1
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-Message-Id: <20250915-qcom_battmgr_update-v4-6-6f6464a41afe@oss.qualcomm.com>
-References: <20250915-qcom_battmgr_update-v4-0-6f6464a41afe@oss.qualcomm.com>
-In-Reply-To: <20250915-qcom_battmgr_update-v4-0-6f6464a41afe@oss.qualcomm.com>
-To: Sebastian Reichel <sre@kernel.org>, 
- Bjorn Andersson <andersson@kernel.org>, 
- Konrad Dybcio <konradybcio@kernel.org>, Rob Herring <robh@kernel.org>, 
- Krzysztof Kozlowski <krzk+dt@kernel.org>, 
- Conor Dooley <conor+dt@kernel.org>, 
- Heikki Krogerus <heikki.krogerus@linux.intel.com>, 
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>, 
- Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>, 
- Bryan O'Donoghue <bryan.odonoghue@linaro.org>, 
- Konrad Dybcio <konrad.dybcio@oss.qualcomm.com>
-Cc: Subbaraman Narayanamurthy <subbaraman.narayanamurthy@oss.qualcomm.com>, 
- David Collins <david.collins@oss.qualcomm.com>, 
- =?utf-8?q?Gy=C3=B6rgy_Kurucz?= <me@kuruczgy.com>, linux-pm@vger.kernel.org, 
- linux-kernel@vger.kernel.org, linux-arm-msm@vger.kernel.org, 
- kernel@oss.qualcomm.com, devicetree@vger.kernel.org, 
- linux-usb@vger.kernel.org, Fenglin Wu <fenglin.wu@oss.qualcomm.com>, 
- Neil Armstrong <neil.armstrong@linaro.org>
-X-Mailer: b4 0.14.2
-X-Developer-Signature: v=1; a=ed25519-sha256; t=1757926212; l=1571;
- i=fenglin.wu@oss.qualcomm.com; s=20240327; h=from:subject:message-id;
- bh=r0dveNAduFjQEgggFyZyipCDUyI6ungTfqPcc80RgpY=;
- b=vTv8yPMPxWkB/XQII+CiZBVMu6B2WX4XZ1krRRGU4nWjaiZJhpzXimt6M8/MWqHaUx1u4VlU8
- zY2ukDgtkDECHaQ2UA16dj81HIz35NOXBOmEgmMPLHCfE3kMPBLRsk1
-X-Developer-Key: i=fenglin.wu@oss.qualcomm.com; a=ed25519;
- pk=BF8SA4IVDk8/EBCwlBehKtn2hp6kipuuAuDAHh9s+K4=
-X-Endpoint-Received: by B4 Relay for fenglin.wu@oss.qualcomm.com/20240327
- with auth_id=406
-X-Original-From: Fenglin Wu <fenglin.wu@oss.qualcomm.com>
-Reply-To: fenglin.wu@oss.qualcomm.com
+Content-Transfer-Encoding: 8bit
+X-CM-TRANSID:TQJkCgAHmZIq1Mdo3E7RAA--.39265S4
+X-Coremail-Antispam: 1UD129KBjvJXoWxXrW8Xw4rGFWDGrWDur4rZrb_yoW5AFWxpa
+	yDKFW5GrZ5JryxtanaqF10vF4fJanrJFW5Gr4Iqw1jvw4q93W7JrWIkF1YyrZrCr93X3yY
+	yFW3GwsYyas8ArJanT9S1TB71UUUUU7qnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
+	9KBjDU0xBIdaVrnRJUUUBv14x267AKxVW8JVW5JwAFc2x0x2IEx4CE42xK8VAvwI8IcIk0
+	rVWrJVCq3wAFIxvE14AKwVWUJVWUGwA2ocxC64kIII0Yj41l84x0c7CEw4AK67xGY2AK02
+	1l84ACjcxK6xIIjxv20xvE14v26w1j6s0DM28EF7xvwVC0I7IYx2IY6xkF7I0E14v26r4U
+	JVWxJr1l84ACjcxK6I8E87Iv67AKxVW0oVCq3wA2z4x0Y4vEx4A2jsIEc7CjxVAFwI0_Gc
+	CE3s1le2I262IYc4CY6c8Ij28IcVAaY2xG8wAqx4xG64xvF2IEw4CE5I8CrVC2j2WlYx0E
+	2Ix0cI8IcVAFwI0_Jr0_Jr4lYx0Ex4A2jsIE14v26r1j6r4UMcvjeVCFs4IE7xkEbVWUJV
+	W8JwACjcxG0xvY0x0EwIxGrwACjI8F5VA0II8E6IAqYI8I648v4I1lFIxGxcIEc7CjxVA2
+	Y2ka0xkIwI1lw4CEc2x0rVAKj4xxMxkF7I0En4kS14v26r1q6r43MxkIecxEwVCm-wCF04
+	k20xvY0x0EwIxGrwCFx2IqxVCFs4IE7xkEbVWUJVW8JwC20s026c02F40E14v26r1j6r18
+	MI8I3I0E7480Y4vE14v26r106r1rMI8E67AF67kF1VAFwI0_Jw0_GFylIxkGc2Ij64vIr4
+	1lIxAIcVC0I7IYx2IY67AKxVWUJVWUCwCI42IY6xIIjxv20xvEc7CjxVAFwI0_Gr0_Cr1l
+	IxAIcVCF04k26cxKx2IYs7xG6r1j6r1xMIIF0xvEx4A2jsIE14v26r1j6r4UMIIF0xvEx4
+	A2jsIEc7CjxVAFwI0_Gr0_Gr1UYxBIdaVFxhVjvjDU0xZFpf9x0JUmjgxUUUUU=
+X-CM-SenderInfo: xfdrxt1qj6v25zlqu0xpsx3x1qjou0bp/
 
-From: Fenglin Wu <fenglin.wu@oss.qualcomm.com>
+From: Hang Cao <caohang@eswincomputing.com>
 
-Add nvmem properties to retrieve charge control configurations
-from the PMIC SDAM registers.
+Add support for ESWIN EIC7700 USB driver controller.
 
-Acked-by: Rob Herring (Arm) <robh@kernel.org>
-Tested-by: Neil Armstrong <neil.armstrong@linaro.org> # on Thinkpad T14S OLED
-Signed-off-by: Fenglin Wu <fenglin.wu@oss.qualcomm.com>
----
- .../devicetree/bindings/soc/qcom/qcom,pmic-glink.yaml      | 14 ++++++++++++++
- 1 file changed, 14 insertions(+)
+Those series of patches depend on config option patch[1]
+- [1] https://lore.kernel.org/lkml/20250616112316.3833343-1-pinkesh.vaghela@einfochips.com/
 
-diff --git a/Documentation/devicetree/bindings/soc/qcom/qcom,pmic-glink.yaml b/Documentation/devicetree/bindings/soc/qcom/qcom,pmic-glink.yaml
-index 4c9e78f29523e3d77aacb4299f64ab96f9b1a831..9d6db4825da389aa14d77f653d2f8a3442e22162 100644
---- a/Documentation/devicetree/bindings/soc/qcom/qcom,pmic-glink.yaml
-+++ b/Documentation/devicetree/bindings/soc/qcom/qcom,pmic-glink.yaml
-@@ -55,6 +55,20 @@ properties:
-       The array should contain a gpio entry for each PMIC Glink connector, in reg order.
-       It is defined that GPIO active level means "CC2" or Reversed/Flipped orientation.
- 
-+  nvmem-cells:
-+    minItems: 3
-+    maxItems: 3
-+    description:
-+      The nvmem cells contain the charge control settings, including the charge control
-+      enable status, the battery state of charge (SoC) threshold for stopping charging,
-+      and the battery SoC delta required to restart charging.
-+
-+  nvmem-cell-names:
-+    items:
-+      - const: charge_limit_en
-+      - const: charge_limit_end
-+      - const: charge_limit_delta
-+
- patternProperties:
-   '^connector@\d$':
-     $ref: /schemas/connector/usb-connector.yaml#
+Changes in v3->v2:
+- Updates: eswin,eic7700-usb.yaml
+  - Sort the attributes according to the DTS coding style.
+  - Remove the #address-cells and #size-cells attributes.
+  - Fold the child node into the parent.
+  - Update commit message.
 
--- 
+- Updates: dwc3-eic7700.c
+  - Use dwc3 core as a library.
+  - Add system and runtime pm.
+  - Use pm_ptr and remove the __maybe_unused tags.
+  - Add new author name
+  - Add prepare and complete function
+  - Update commit message.
+- Link to V2: https://lore.kernel.org/lkml/20250730073953.1623-1-zhangsenchuan@eswincomputing.com/
+
+Changes in v2->v1:
+- Updates: eswin,eic7700-usb.yaml
+  - Drop the redundant descriptions.
+  - Supplement the constraints of resets.
+  - Replace "eswin,hsp_sp_csr" with "eswin,hsp-sp-csr"
+    and add items description.
+  - Drop numa-node-id, This is not necessary.
+  - Add patternProperties and match the rules defined
+    in the "snps,dwc3.yaml" file.
+  - Add "#address-cells" "#size-cells".
+  - Update the space indentation, remove the redundant labels,
+    and sort the attributes according to the DTS encoding style.
+  - Drop the "status = "disabled" attribute.
+  - Update the common usb node names and fold the child
+    nodes into the parent nodes.
+  - The warning detected by the robot has been resolved.
+
+- Updates: dwc3-eic7700.c
+  - Remove dwc3_mode_show dwc3_mode_store dwc3_eswin_get_extcon_dev,
+    dwc3_eswin_device_notifier and dwc3_eswin_host_notifier, usb role
+    detection and switching are not supported.
+  - Remove the hub-rst attribute, remove the dwc3_hub_rst_show and
+    dwc3_hub_rst_store functions, this feature is not supported.
+  - Use syscon_regmap_lookup_by_phandle_args instead of the
+    syscon_regmap_lookup_by_phandle function.
+  - Use dev_err_probe in probe function.
+  - Drop mutex_lock, which is not required.
+  - Remove clk_prepare_enable and of_clk_get, and manage multiple
+    clocks using devm_clk_bulk_get_all_enabled.
+  - Remove the device_init_wakeup related functions, which were
+    used incorrectly.
+  - Remove MODULE_ALIAS, which is used incorrectly.
+  - The warning detected by the robot has been resolved.
+- Link to V1: https://lore.kernel.org/lkml/20250516095237.1516-1-zhangsenchuan@eswincomputing.com/
+
+Hang Cao (2):
+  dt-bindings: usb: Add ESWIN EIC7700 USB controller
+  usb: dwc3: eic7700: Add EIC7700 USB driver
+
+ .../bindings/usb/eswin,eic7700-usb.yaml       |  99 +++++++
+ drivers/usb/dwc3/Kconfig                      |  11 +
+ drivers/usb/dwc3/Makefile                     |   1 +
+ drivers/usb/dwc3/dwc3-eic7700.c               | 261 ++++++++++++++++++
+ 4 files changed, 372 insertions(+)
+ create mode 100644 Documentation/devicetree/bindings/usb/eswin,eic7700-usb.yaml
+ create mode 100644 drivers/usb/dwc3/dwc3-eic7700.c
+
+--
 2.34.1
-
 
