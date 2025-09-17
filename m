@@ -1,400 +1,106 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.15])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0DDE131A818;
-	Wed, 17 Sep 2025 12:46:42 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C54F136D;
+	Wed, 17 Sep 2025 12:50:19 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.15
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1758113203; cv=none; b=B72EKGolLe46OtsHdFRnHRwzPMLN5gHEIDYHfZ1LsfP2Zp16ACGB5GbrZJgQixz5/dWpbMN7DUJ+KPR3rtNhGY359IDEbDEMnFFgPzxUsEc1/W3xGZ3CjAM1RFkUEBClR4E265mfwA1vcOjUM1lB18s63grDFMqkPOWxB/eg9JY=
+	t=1758113421; cv=none; b=oo0NyS3TqthjCD0M9KAaf0xCSPInu9/XG/JEPwj6VQqbGB+WK5VSCZqqrZUSnAc84cppbf9ZB2Ou90oJWDnkJ0Dzj/w9aj2PuQ+v118wGrHmeAuVDwWHa8t6a57CGuCWYYZmM32UBj98ZIFgCYUmn9QeEVDurWa7y6edhzNae2E=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1758113203; c=relaxed/simple;
-	bh=QGfCj+hv3bpWcJg21PQm2lrKAx7uvxOezABFhsG8zWA=;
-	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
-	 In-Reply-To:To:Cc; b=pLXYE1x/Gt4Juj1uhKfepZbihlILVRT9cM5tM28jT6PAVrJmPKeHopiwsvvscH/wO8LBvgIYGlN1p9PWGknSUztz9rr50cN/5S3V28EZifEnv81AxnEKRaT5TP3uwbBcmiFl4FUtNd1pjS2nwZrqN/u2fw/nB/K3c0WL9W9qu0k=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=bEETsYs/; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1758113421; c=relaxed/simple;
+	bh=KRsBp9Gi04Q8OS7/4OHYDrvltmfbgN/visXkqBJSvf8=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=A9OgpcIduZvNzHpkDn5FvGj0UPpeYegSwSrEF1byC9L3Ge3NM3xgBVpSIAnO9h+CdY/23+hIUVCys5jfSlRNNq0eCzrzYGPVxBoT14DLdTj2Da2NklVizpERxOU0+iWIXBL5e28So8R2hs7tNv+VP4yQmUNPP8pSOnxqVTEUfM0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=none smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=ZjVDeEFG; arc=none smtp.client-ip=192.198.163.15
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=linux.intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="bEETsYs/"
-Received: by smtp.kernel.org (Postfix) with ESMTPS id C4B13C4CEFD;
-	Wed, 17 Sep 2025 12:46:42 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1758113202;
-	bh=QGfCj+hv3bpWcJg21PQm2lrKAx7uvxOezABFhsG8zWA=;
-	h=From:Date:Subject:References:In-Reply-To:To:Cc:Reply-To:From;
-	b=bEETsYs/kY/4ngjlmDlI/IoVGPZELXlg2Pl2EF2gMm0uAnQ7CvSnnrK6JVwKe4WpX
-	 +N/6SM4ysONGXjrfP6X/DEz4N87vRSdaiD3OC8H3QZ+IH/OeF87PwPRSpEHdwc+6+Y
-	 kd2Fl5GigCjs8774vvmiTozX4p7HcFM/867DdSIyD+ERSA9kAhL9Bgc+BFgDJnGOJd
-	 /7uM22E5xSwE7pS317qmD0nKz584gtFE9OtVP+FB4syNo5LKmKcQmMHEWVWuecXy4F
-	 Ffzhn+ohu9OeghhxSbGYJDoVgvQzwcILjl1V27JYZTsdNUeEEwoqxwEw+L8X/nDk03
-	 bcEibLuNhB3PQ==
-Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id BB129CAC59A;
-	Wed, 17 Sep 2025 12:46:42 +0000 (UTC)
-From: Cryolitia PukNgae via B4 Relay <devnull+cryolitia.uniontech.com@kernel.org>
-Date: Wed, 17 Sep 2025 20:46:42 +0800
-Subject: [PATCH v3 3/4] ALSA: usb-audio: add module param
- device_quirk_flags
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="ZjVDeEFG"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1758113420; x=1789649420;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:content-transfer-encoding:in-reply-to;
+  bh=KRsBp9Gi04Q8OS7/4OHYDrvltmfbgN/visXkqBJSvf8=;
+  b=ZjVDeEFGgW523xJn3ObPGTZ2sPSvFzQdH9C4qS1lUHmoVBQNOfvdwuQU
+   gL7hquRYFT6rMPDbD/dfbwTBuoWS73bW5DuXN2DmRIM9h8IYCUtlO0k6N
+   2Y+ZnsTkDnpvAXfBar3G/ejIEzOC2QeBRg/Mmcn43SqiqjdlATdmcE/6m
+   VczFxMm9Y7A7wc8zDSYQu7zypsEUKdjPrAlIXRz9ohOA3w55MpeAN3sJ6
+   vJG5fI/inC4mTpRpF1s6GdD6ftU1sUwiUpg0feYqJ548EkPecgU3WP+RA
+   Km92A/HvUO2SOQ13OczSp+lT94E0E3dSxHfhvLBILbExOpawl9wUnyckk
+   A==;
+X-CSE-ConnectionGUID: l/Q5DomcRS+sYnO1SPvhPg==
+X-CSE-MsgGUID: OWXMX+KZT7mkJpX5OD3I1w==
+X-IronPort-AV: E=McAfee;i="6800,10657,11556"; a="60526906"
+X-IronPort-AV: E=Sophos;i="6.18,272,1751266800"; 
+   d="scan'208";a="60526906"
+Received: from fmviesa002.fm.intel.com ([10.60.135.142])
+  by fmvoesa109.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 17 Sep 2025 05:50:19 -0700
+X-CSE-ConnectionGUID: vqszKZX8TyGvI5PixBBnPw==
+X-CSE-MsgGUID: 0ptKBxAnRo2FKLRRpfIsrg==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.18,272,1751266800"; 
+   d="scan'208";a="198924930"
+Received: from black.igk.intel.com ([10.91.253.5])
+  by fmviesa002.fm.intel.com with ESMTP; 17 Sep 2025 05:50:18 -0700
+Received: by black.igk.intel.com (Postfix, from userid 1001)
+	id 076FA98; Wed, 17 Sep 2025 14:50:17 +0200 (CEST)
+Date: Wed, 17 Sep 2025 14:50:17 +0200
+From: Mika Westerberg <mika.westerberg@linux.intel.com>
+To: =?utf-8?B?5p2O5L2z5oCh?= <lijiayi@kylinos.cn>
+Cc: linux-kernel@vger.kernel.org, linux-usb@vger.kernel.org
+Subject: Re: [PATCH RFC] thunderbolt: Re-add DP resources on resume
+Message-ID: <20250917125017.GI2912318@black.igk.intel.com>
+References: <20250917082456.1790252-1-lijiayi@kylinos.cn>
+ <0540df54-efd6-4b79-90f9-ec305e1f5f7e@kylinos.cn>
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-Message-Id: <20250917-sound-v3-3-92ebe9472a0a@uniontech.com>
-References: <20250917-sound-v3-0-92ebe9472a0a@uniontech.com>
-In-Reply-To: <20250917-sound-v3-0-92ebe9472a0a@uniontech.com>
-To: Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>, 
- Jonathan Corbet <corbet@lwn.net>, Luis Chamberlain <mcgrof@kernel.org>, 
- Petr Pavlu <petr.pavlu@suse.com>, Daniel Gomez <da.gomez@kernel.org>, 
- Sami Tolvanen <samitolvanen@google.com>
-Cc: linux-sound@vger.kernel.org, linux-usb@vger.kernel.org, 
- linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org, 
- Mingcong Bai <jeffbai@aosc.io>, Kexy Biscuit <kexybiscuit@aosc.io>, 
- Nie Cheng <niecheng1@uniontech.com>, Zhan Jun <zhanjun@uniontech.com>, 
- Feng Yuan <fengyuan@uniontech.com>, qaqland <anguoli@uniontech.com>, 
- kernel@uniontech.com, linux-modules@vger.kernel.org, 
- Cryolitia PukNgae <cryolitia@uniontech.com>, Takashi Iwai <tiwai@suse.de>
-X-Mailer: b4 0.14.2
-X-Developer-Signature: v=1; a=ed25519-sha256; t=1758113201; l=9508;
- i=cryolitia@uniontech.com; s=20250730; h=from:subject:message-id;
- bh=/Z2DTz0F8Oc71Kb9EfIDDsfeAKHXwOPCabkVyFCDtuY=;
- b=VY0JsmOp90Ai7RzBnpH6c6n7l58BaGwbR7SCLHciQUzCyFH32yreslfuNCQg81sBkmlkoGMm/
- ytgr8o0KWIdBP2uIxAswHak9bxc1/hUiWeRm//zzOx4xcGMtddBubAe
-X-Developer-Key: i=cryolitia@uniontech.com; a=ed25519;
- pk=tZ+U+kQkT45GRGewbMSB4VPmvpD+KkHC/Wv3rMOn/PU=
-X-Endpoint-Received: by B4 Relay for cryolitia@uniontech.com/20250730 with
- auth_id=474
-X-Original-From: Cryolitia PukNgae <cryolitia@uniontech.com>
-Reply-To: cryolitia@uniontech.com
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <0540df54-efd6-4b79-90f9-ec305e1f5f7e@kylinos.cn>
 
-From: Cryolitia PukNgae <cryolitia@uniontech.com>
+On Wed, Sep 17, 2025 at 06:12:31PM +0800, 李佳怡 wrote:
+> 
+> As requested, I've attached the complete dmesg output (from boot to after
+> resume) reproducing the issue.
+> 
+> Testing Methodology:
+> 1. Start with the Targus Thunderbolt dock already connected to the system
+> 2. Enter S3 suspend (sleep) with no DP monitor connected to the dock
+> 3. Resume from S3
+> 4. After the system has fully resumed, connect the DP monitor to the dock
 
-For apply and unapply quirk flags more flexibly though param and sysfs
+Thanks! It is badly line wrapped. I wonder if you can just attach it?
+Anyways I found some unexpected things there:
 
-Co-developed-by: Takashi Iwai <tiwai@suse.de>
-Signed-off-by: Cryolitia PukNgae <cryolitia@uniontech.com>
----
- sound/usb/card.c     | 177 ++++++++++++++++++++++++++++++++++++++++++++++++---
- sound/usb/quirks.c   |  41 ++++++++++++
- sound/usb/quirks.h   |   2 +
- sound/usb/usbaudio.h |  14 ++++
- 4 files changed, 226 insertions(+), 8 deletions(-)
+> [    8.647850] With USB4 patch v1.0.0
 
-diff --git a/sound/usb/card.c b/sound/usb/card.c
-index 0265206a8e8cf31133e8463c98fe0497d8ace89e..743aae910cfdf540c6677c6846061754f36a8c1b 100644
---- a/sound/usb/card.c
-+++ b/sound/usb/card.c
-@@ -73,8 +73,8 @@ static bool lowlatency = true;
- static char *quirk_alias[SNDRV_CARDS];
- static char *delayed_register[SNDRV_CARDS];
- static bool implicit_fb[SNDRV_CARDS];
--static unsigned int quirk_flags[SNDRV_CARDS];
- 
-+char *quirk_flags[SNDRV_CARDS];
- bool snd_usb_use_vmalloc = true;
- bool snd_usb_skip_validation;
- 
-@@ -103,13 +103,161 @@ module_param_array(delayed_register, charp, NULL, 0444);
- MODULE_PARM_DESC(delayed_register, "Quirk for delayed registration, given by id:iface, e.g. 0123abcd:4.");
- module_param_array(implicit_fb, bool, NULL, 0444);
- MODULE_PARM_DESC(implicit_fb, "Apply generic implicit feedback sync mode.");
--module_param_array(quirk_flags, uint, NULL, 0444);
--MODULE_PARM_DESC(quirk_flags, "Driver quirk bit flags.");
- module_param_named(use_vmalloc, snd_usb_use_vmalloc, bool, 0444);
- MODULE_PARM_DESC(use_vmalloc, "Use vmalloc for PCM intermediate buffers (default: yes).");
- module_param_named(skip_validation, snd_usb_skip_validation, bool, 0444);
- MODULE_PARM_DESC(skip_validation, "Skip unit descriptor validation (default: no).");
- 
-+DEFINE_MUTEX(device_quirk_mutex); /* protects quirk_flags && device_quirk_list */
-+LIST_HEAD(device_quirk_list);
-+
-+static void free_device_quirk_list(void)
-+{
-+	struct device_quirk_entry *pos, *tmp;
-+
-+	list_for_each_entry_safe(pos, tmp, &device_quirk_list, list) {
-+		list_del(&pos->list);
-+		kfree(pos);
-+	}
-+}
-+
-+static int device_quirks_param_set(const char *value,
-+				   const struct kernel_param *kp)
-+{
-+	u32 mask_flags, unmask_flags, bit;
-+	struct device_quirk_entry *data;
-+	char *val, *p, *field, *flag;
-+	bool is_unmask;
-+	u16 vid, pid;
-+	int err = 0;
-+	size_t i;
-+
-+	mutex_lock(&device_quirk_mutex);
-+
-+	memset(quirk_flags, 0, sizeof(quirk_flags));
-+
-+	err = param_array_set(value, kp);
-+	if (err)
-+		goto unlock;
-+
-+	free_device_quirk_list();
-+
-+	for (i = 0; i < ARRAY_SIZE(quirk_flags); i++) {
-+		if (!quirk_flags[i] || !*quirk_flags[i])
-+			break;
-+
-+		val = kstrdup(quirk_flags[i], GFP_KERNEL);
-+
-+		if (!val) {
-+			err = -ENOMEM;
-+			goto unlock;
-+		}
-+
-+		for (p = val; p && *p;) {
-+			/* Each entry consists of VID:PID:flags */
-+			field = strsep(&p, ":");
-+			if (!field)
-+				break;
-+
-+			if (strcmp(field, "*") == 0)
-+				vid = 0;
-+			else if (kstrtou16(field, 16, &vid))
-+				break;
-+
-+			field = strsep(&p, ":");
-+			if (!field)
-+				break;
-+
-+			if (strcmp(field, "*") == 0)
-+				pid = 0;
-+			else if (kstrtou16(field, 16, &pid))
-+				break;
-+
-+			field = strsep(&p, ";");
-+			if (!field || !*field)
-+				break;
-+
-+			/* Collect the flags */
-+			mask_flags = 0;
-+			unmask_flags = 0;
-+			while (field && *field) {
-+				flag = strsep(&field, "|");
-+
-+				if (!flag)
-+					break;
-+
-+				if (*flag == '!') {
-+					is_unmask = true;
-+					flag++;
-+				} else {
-+					is_unmask = false;
-+				}
-+
-+				if (!kstrtou32(flag, 16, &bit)) {
-+					if (is_unmask)
-+						unmask_flags |= bit;
-+					else
-+						mask_flags |= bit;
-+
-+					break;
-+				}
-+
-+				bit = snd_usb_quirk_flags_from_name(flag);
-+
-+				if (bit) {
-+					if (is_unmask)
-+						unmask_flags |= bit;
-+					else
-+						mask_flags |= bit;
-+				} else {
-+					pr_warn("snd_usb_audio: unknown flag %s while parsing param device_quirk_flags\n",
-+						field);
-+				}
-+			}
-+
-+			data = kzalloc(sizeof(*data), GFP_KERNEL);
-+
-+			if (!data) {
-+				kfree(val);
-+				err = -ENOMEM;
-+				goto unlock;
-+			}
-+
-+			data->vid = vid;
-+			data->pid = pid;
-+			data->mask_flags = mask_flags;
-+			data->unmask_flags = unmask_flags;
-+
-+			INIT_LIST_HEAD(&data->list);
-+			list_add(&data->list, &device_quirk_list);
-+		}
-+
-+		kfree(val);
-+	}
-+
-+unlock:
-+	mutex_unlock(&device_quirk_mutex);
-+	return err;
-+}
-+
-+static const struct kernel_param_ops quirk_flags_param_ops = {
-+	.set = device_quirks_param_set,
-+	.get = param_array_get,
-+	.free = param_array_free,
-+};
-+
-+static struct kparam_array quirk_flags_param_array = {
-+	.max = SNDRV_CARDS,
-+	.elemsize = sizeof(char *),
-+	.num = NULL,
-+	.ops = &param_ops_charp,
-+	.elem = &quirk_flags,
-+};
-+
-+device_param_cb(quirk_flags, &quirk_flags_param_ops, &quirk_flags_param_array,
-+		0644);
-+MODULE_PARM_DESC(quirk_flags, "Add/modify USB audio quirks");
-+
- /*
-  * we keep the snd_usb_audio_t instances by ourselves for merging
-  * the all interfaces on the same card as one sound device.
-@@ -750,10 +898,7 @@ static int snd_usb_audio_create(struct usb_interface *intf,
- 	INIT_LIST_HEAD(&chip->midi_v2_list);
- 	INIT_LIST_HEAD(&chip->mixer_list);
- 
--	if (quirk_flags[idx])
--		chip->quirk_flags = quirk_flags[idx];
--	else
--		snd_usb_init_quirk_flags(chip);
-+	snd_usb_init_dynamic_quirks(idx, chip);
- 
- 	card->private_free = snd_usb_audio_free;
- 
-@@ -1290,4 +1435,20 @@ static struct usb_driver usb_audio_driver = {
- 	.supports_autosuspend = 1,
- };
- 
--module_usb_driver(usb_audio_driver);
-+static int __init usb_audio_init(void)
-+{
-+	return usb_register_driver(&usb_audio_driver, THIS_MODULE,
-+				   KBUILD_MODNAME);
-+}
-+
-+static void __exit usb_audio_exit(void)
-+{
-+	mutex_lock(&device_quirk_mutex);
-+	free_device_quirk_list();
-+	mutex_unlock(&device_quirk_mutex);
-+
-+	usb_deregister(&usb_audio_driver);
-+}
-+
-+module_init(usb_audio_init);
-+module_exit(usb_audio_exit);
-diff --git a/sound/usb/quirks.c b/sound/usb/quirks.c
-index 94854f352b1702b491e1bf3c8b769f7088e03976..ee531ffa5ab13ac8b24c670e6529d3811f927b46 100644
---- a/sound/usb/quirks.c
-+++ b/sound/usb/quirks.c
-@@ -2537,3 +2537,44 @@ void snd_usb_init_quirk_flags(struct snd_usb_audio *chip)
- 		}
- 	}
- }
-+
-+void snd_usb_init_dynamic_quirks(int idx, struct snd_usb_audio *chip)
-+{
-+	u16 vid = USB_ID_VENDOR(chip->usb_id);
-+	u16 pid = USB_ID_PRODUCT(chip->usb_id);
-+	struct device_quirk_entry *pos;
-+
-+	mutex_lock(&device_quirk_mutex);
-+
-+	/* old style option found: the position-based integer value */
-+	if (quirk_flags[idx] &&
-+	    !kstrtou32(quirk_flags[idx], 0, &chip->quirk_flags)) {
-+		usb_audio_dbg(chip,
-+			      "Set quirk flags 0x%x from param based on position %d for device %04x:%04x\n",
-+			      chip->quirk_flags, idx,
-+			      USB_ID_VENDOR(chip->usb_id),
-+			      USB_ID_PRODUCT(chip->usb_id));
-+
-+		mutex_unlock(&device_quirk_mutex);
-+		return;
-+	}
-+
-+	/* take the default quirk from the quirk table */
-+	snd_usb_init_quirk_flags(chip);
-+
-+	/* add or correct quirk bits from options */
-+	list_for_each_entry(pos, &device_quirk_list, list) {
-+		if (pos->vid == 0 || (vid == pos->vid && pos->pid == 0) ||
-+		    (vid == pos->vid && pid == pos->pid)) {
-+			chip->quirk_flags |= pos->mask_flags;
-+			chip->quirk_flags &= ~pos->unmask_flags;
-+			usb_audio_dbg(chip,
-+				      "Set mask quirk flag 0x%x and unmask quirk flag 0x%x from param for device %04x:%04x\n",
-+				      pos->mask_flags, pos->unmask_flags,
-+				      USB_ID_VENDOR(chip->usb_id),
-+				      USB_ID_PRODUCT(chip->usb_id));
-+		}
-+	}
-+
-+	mutex_unlock(&device_quirk_mutex);
-+}
-diff --git a/sound/usb/quirks.h b/sound/usb/quirks.h
-index bd5baf2b193a1985f3a0e52bf4a77ca741364769..00c2852c4769d0790a9e2a31b92f3414767c9a98 100644
---- a/sound/usb/quirks.h
-+++ b/sound/usb/quirks.h
-@@ -53,4 +53,6 @@ void snd_usb_init_quirk_flags(struct snd_usb_audio *chip);
- const char *snd_usb_quirk_flag_find_name(unsigned long flag);
- u32 snd_usb_quirk_flags_from_name(char *name);
- 
-+void snd_usb_init_dynamic_quirks(int idx, struct snd_usb_audio *chip);
-+
- #endif /* __USBAUDIO_QUIRKS_H */
-diff --git a/sound/usb/usbaudio.h b/sound/usb/usbaudio.h
-index 0a22cb4a02344b2dcf4009c560a759f2da25ca67..3d09d4b7950d884a2076fa48f2180a5e7c87cb3a 100644
---- a/sound/usb/usbaudio.h
-+++ b/sound/usb/usbaudio.h
-@@ -7,6 +7,8 @@
-  *   Copyright (c) 2002 by Takashi Iwai <tiwai@suse.de>
-  */
- 
-+ #include <sound/core.h>
-+
- /* handling of USB vendor/product ID pairs as 32-bit numbers */
- #define USB_ID(vendor, product) (((unsigned int)(vendor) << 16) | (product))
- #define USB_ID_VENDOR(id) ((id) >> 16)
-@@ -162,9 +164,13 @@ DEFINE_CLASS(snd_usb_lock, struct __snd_usb_lock,
- 	     __snd_usb_unlock_shutdown(&(_T)), __snd_usb_lock_shutdown(chip),
- 	     struct snd_usb_audio *chip)
- 
-+extern char *quirk_flags[SNDRV_CARDS];
- extern bool snd_usb_use_vmalloc;
- extern bool snd_usb_skip_validation;
- 
-+extern struct mutex device_quirk_mutex;
-+extern struct list_head device_quirk_list;
-+
- /*
-  * Driver behavior quirk flags, stored in chip->quirk_flags
-  *
-@@ -254,4 +260,12 @@ extern bool snd_usb_skip_validation;
- #define QUIRK_FLAG_MIXER_CAPTURE_MIN_MUTE	(1U << 25)
- /* Please also edit snd_usb_audio_quirk_flag_names */
- 
-+struct device_quirk_entry {
-+	struct list_head list;
-+	u16 vid;
-+	u16 pid;
-+	u32 mask_flags;
-+	u32 unmask_flags;
-+};
-+
- #endif /* __USBAUDIO_H */
+What is this? ;-)
 
--- 
-2.51.0
+> [    8.647860] ACPI: bus type thunderbolt registered
+> [    8.664660] [7] nhi_probe:1326: thunderbolt 0000:2c:00.0: total paths: 21
+> [    8.665209] [7] tb_ring_alloc:586: thunderbolt 0000:2c:00.0: allocating
+> TX ring 0 of size 10
+> [    8.665243] [7] tb_ring_alloc:586: thunderbolt 0000:2c:00.0: allocating
+> RX ring 0 of size 10
+> [    8.665267] [7] tb_ctl_alloc:665: thunderbolt 0000:2c:00.0: control
+> channel created
+> [    8.665272] [7] icm_probe:2549: thunderbolt 0000:2c:00.0: ICM not
+> supported on this controller
+> [    8.665285] [7] tb_ring_free:840: thunderbolt 0000:2c:00.0: freeing RX
+> ring 0
+> [    8.665294] [7] tb_ring_free:840: thunderbolt 0000:2c:00.0: freeing TX
+> ring 0
 
+What is this?
 
+Is this Intel TB/USB4 controller or something else? All USB4 compliant
+controllers should go directly to tb.c as that's the part dealing with
+software connection manager. The above looks like it tries first with the
+firmware connection manager and that should not happen outside of Intel
+Thunderbolt 3 hosts.
