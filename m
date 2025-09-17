@@ -1,58 +1,56 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.14])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.15])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 35AC432E73C
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4ACDB32E73E
 	for <linux-usb@vger.kernel.org>; Wed, 17 Sep 2025 12:59:06 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.14
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.15
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1758113947; cv=none; b=YzaC5hlaR5/0YfTgDV5jHTCKtLWDruKSbhTG+hBf8sJM8zrO1qaX59442/bS0ZRwfEjvcMV7hr2VRL2kcev6MKx8o4s8mXLdVgzELSjvF32OoOYFlEjWexD52S+tRAOrhdToY5x+/UlvwqNVQMe1B38mK+c8Kev/iymAR488HVo=
+	t=1758113947; cv=none; b=uhUN6Y/L/AcHHH4tYnsmlgd/wFR+b5sUX6CP6hcrnqoZlgUiehn0Qp6/f/JvHi8HHSFCoZlGC55lRckl2Bz01mWqE8//tvxLFxOIzP6lSioy58I9b2n39aS6601tlzFnzNrAau9V+KAHVeej9J/0T8adrlVQwWS4pmD5BBi9JAg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
 	s=arc-20240116; t=1758113947; c=relaxed/simple;
-	bh=aec3YRxSf5swrM8ezWrHW4gnz2gva6CoO4N+9MTq9Dk=;
+	bh=k0QFXOY0c/+HQ5ppiIuAZGot0IIBcZafdYta+QP7wno=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=iVj9hrqhGrjjyzsaDF600a3l1d9E32xEutW6HJO5AHjXxdTKJdo+xhYSGVIrEysvyKjxIs/mpoEBDhd1/9atoqgWyM6eSuMkDa4PDwKWlxdU4w6gt5Bsa3wuQQwcedWyWeIQv4ABMRIOztUcSHoQh1axDksFICfhZULLcMcotFc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=none smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=OGdbGMHI; arc=none smtp.client-ip=192.198.163.14
+	 MIME-Version; b=iW0vJQCUs3Wzcqy3aEPevxOUJy2/ffq0ll2kyHWSSns9JjmQdOXxpBz2LawmCjkwwC/DMtlVHPjQJ7Yq+C0Gf44qu++EeJFSpTU/4rOTAVu8lSQ/nt9P6fpKkmva58wZa0LasoftIUYbAisviGQBC37kn7xkGAstUarKFglFfLs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=none smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=kxpIaxsx; arc=none smtp.client-ip=192.198.163.15
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=linux.intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="OGdbGMHI"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="kxpIaxsx"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
   t=1758113946; x=1789649946;
   h=from:to:cc:subject:date:message-id:in-reply-to:
    references:mime-version:content-transfer-encoding;
-  bh=aec3YRxSf5swrM8ezWrHW4gnz2gva6CoO4N+9MTq9Dk=;
-  b=OGdbGMHI2nKejaGkoXV5UPkyuHtcS2vUipH1im68ioIpRzbwkE4g342q
-   yEPWKxchUaym4WzatIheJqcVeE4EmEmAWe7FHykcOmc7RLpTU3S7Jx9Vt
-   Z2/6IU9Vk26NREAjMqSJeN1IyQwxeFxFrSbD5gOr1g3b5aQEhOnyFZb/S
-   tPZGGACpEf1Mx9nIRyvh4Bp6geltsSXBzMUYADZyVMMVq2egFTAUxm3wv
-   371tgp4hYQavqhgXZEH1xgmAjolCS4F8xFr3G1jfE0LKt5h68pL5v63rT
-   MeaqiayimBeES9xKTsd8H9EX1LsV+QpEEJfaxToaO3QTn/x4Qp1HhZzQv
+  bh=k0QFXOY0c/+HQ5ppiIuAZGot0IIBcZafdYta+QP7wno=;
+  b=kxpIaxsx8FZF/8TReMJw32m//7hGwFsKs5IuAazfdU8uiltlPJ6Kne+L
+   kVL4BjYvBaOC4cTVh+Pk/dZCmnqh0ce2qSRbPTIDjm69XXzN93rkkEhYQ
+   0kwIAGAsP67769jUitINm1xv88gR4FjqiGubpoZKnk9i3ZuIq6mRPRR48
+   5Kvx9leILoO1T6yyBavhdxxMhHoWeG+8aBAczH2slmL1DmbgBS2XwcUgd
+   rM0qS07TYDG1A0lRvsEm4YjpDxxYonNYo2WFDFTexMhCPSq1fcmMaQEzV
+   K5/NmRyrm9TqRDetX1nostNec30lTvEetLkZBOaCYTM8Z2etCciVGFaIm
    g==;
-X-CSE-ConnectionGUID: 1oLkaNOcTjyXZAgD0NOo5Q==
-X-CSE-MsgGUID: BRa6JxllSZKavpt0hirkyA==
-X-IronPort-AV: E=McAfee;i="6800,10657,11556"; a="60484586"
+X-CSE-ConnectionGUID: 42q/CTm7QKKL3kVHtJMelA==
+X-CSE-MsgGUID: NlSU0pDCTwaZFkPW+tuHdQ==
+X-IronPort-AV: E=McAfee;i="6800,10657,11556"; a="60527418"
 X-IronPort-AV: E=Sophos;i="6.18,272,1751266800"; 
-   d="scan'208";a="60484586"
-Received: from fmviesa006.fm.intel.com ([10.60.135.146])
-  by fmvoesa108.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 17 Sep 2025 05:59:05 -0700
-X-CSE-ConnectionGUID: Oymii0rfRPu1ZowGVaWl9g==
-X-CSE-MsgGUID: xX4VarsHRWSvLVcRoijGHQ==
+   d="scan'208";a="60527418"
+Received: from fmviesa003.fm.intel.com ([10.60.135.143])
+  by fmvoesa109.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 17 Sep 2025 05:59:06 -0700
+X-CSE-ConnectionGUID: lIiMRckuSKWI58khSWUVxQ==
+X-CSE-MsgGUID: mKkCpGjSRAyd/ajXi7iMmA==
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.18,272,1751266800"; 
-   d="scan'208";a="175159043"
 Received: from black.igk.intel.com ([10.91.253.5])
-  by fmviesa006.fm.intel.com with ESMTP; 17 Sep 2025 05:59:03 -0700
+  by fmviesa003.fm.intel.com with ESMTP; 17 Sep 2025 05:59:04 -0700
 Received: by black.igk.intel.com (Postfix, from userid 1058)
-	id E33719A; Wed, 17 Sep 2025 14:59:02 +0200 (CEST)
+	id 42E2297; Wed, 17 Sep 2025 14:59:04 +0200 (CEST)
 From: Niklas Neronin <niklas.neronin@linux.intel.com>
 To: mathias.nyman@linux.intel.com
 Cc: linux-usb@vger.kernel.org,
 	peter.chen@kernel.org,
 	Niklas Neronin <niklas.neronin@linux.intel.com>
-Subject: [PATCH v2 3/8] usb: xhci: improve xhci_decode_portsc()
-Date: Wed, 17 Sep 2025 14:58:44 +0200
-Message-ID: <20250917125850.3380560-4-niklas.neronin@linux.intel.com>
+Subject: [PATCH v2 6/8] usb: xhci: add USB Port Register Set struct
+Date: Wed, 17 Sep 2025 14:58:47 +0200
+Message-ID: <20250917125850.3380560-7-niklas.neronin@linux.intel.com>
 X-Mailer: git-send-email 2.50.1
 In-Reply-To: <20250917125850.3380560-1-niklas.neronin@linux.intel.com>
 References: <20250917125850.3380560-1-niklas.neronin@linux.intel.com>
@@ -64,114 +62,118 @@ List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-This patch improves xhci_decode_portsc(), which is used in PORTSC tracing.
-The upcoming patch will add tracing to all PORTSC writes.
+Introduce a new struct for the Host Controller USB Port Register Set to
+enhance readability and maintainability.
 
-Read-Write 1 to Clear (RW1C) bits are now grouped together and prefixed
-with "RW1C: " if needed. This is because the meaning of a set RW1C bit
-differs between reading and writing. For instance, when reading 'PORT_PE',
-a value of '1' indicates the port is enabled, while '0' means it is
-disabled. Conversely, writing a '1' to 'PORT_PE' signifies that the port
-is being disabled.
+The Host Controller Operational Registers (struct 'xhci_op_regs') span from
+offset 0x0 to 0x3FF and consist of fixed fields. Following these fixed
+fields are the Host Controller USB Port Register Sets, which are dynamic
+and repeat from 1 to MaxPorts, as defined by HCSPARAMS1.
 
-Add Port Link State Write Strobe (LWS) to the decoder.
+Currently, the struct 'xhci_op_regs' includes:
+ __le32 port_status_base;		The first PORTSC
+ __le32 port_power_base;		The first PORTPMSC
+ __le32 port_link_base;			The first PORTLI
+ __le32 reserved5;			The first PORTHLPMC, not reserved
+ __le32 reserved6[NUM_PORT_REGS*254];	Port registers 2 to MaxPorts
 
-Simplify and reduce the length of the message.
+Replace this with the simpler:
+ struct xhci_port_regs port_regs[];	Port registers 1 to MaxPorts
 
-==== Examples ====
-
-Before:
-0x00201203 Powered Connected Enabled Link:U0 PortSpeed:4 Change: PRC Wake:
-0x0a0002a0 Powered Not-connected Disabled Link:RxDetect PortSpeed:0 \
- Change: Wake: WCE WOE
-
-After:
-0x00201203 Power:1 Connect:1 Link:U0 Speed:4 RW1C: PED PRC
-0x0a0002a0 Power:1 Connect:0 Link:RxDetect Speed:0 WCE WOE
+Host Controller USB Port Register Set:
+| Offset	| Mnemonic	| Register Name
+--------------------------------------------------------------------------
+| 0x0		| PORTSC	| Port Status and Control
+| 0x4		| PORTPMSC	| Port Power Management Status and Control
+| 0x8		| PORTLI	| Port Link Info
+| 0xC		| PORTHLPMC	| Port Hardware LPM Control
 
 Signed-off-by: Niklas Neronin <niklas.neronin@linux.intel.com>
 ---
- drivers/usb/host/xhci.h | 52 +++++++++++++++++++++++------------------
- 1 file changed, 29 insertions(+), 23 deletions(-)
+ drivers/usb/host/xhci-mem.c |  3 +--
+ drivers/usb/host/xhci.h     | 36 ++++++++++++++++--------------------
+ 2 files changed, 17 insertions(+), 22 deletions(-)
 
+diff --git a/drivers/usb/host/xhci-mem.c b/drivers/usb/host/xhci-mem.c
+index c4a6544aa107..5d5b7ae978c0 100644
+--- a/drivers/usb/host/xhci-mem.c
++++ b/drivers/usb/host/xhci-mem.c
+@@ -2204,8 +2204,7 @@ static int xhci_setup_port_arrays(struct xhci_hcd *xhci, gfp_t flags)
+ 		return -ENOMEM;
+ 
+ 	for (i = 0; i < num_ports; i++) {
+-		xhci->hw_ports[i].addr = &xhci->op_regs->port_status_base +
+-			NUM_PORT_REGS * i;
++		xhci->hw_ports[i].addr = &xhci->op_regs->port_regs[i].portsc;
+ 		xhci->hw_ports[i].hw_portnum = i;
+ 
+ 		init_completion(&xhci->hw_ports[i].rexit_done);
 diff --git a/drivers/usb/host/xhci.h b/drivers/usb/host/xhci.h
-index 85d5b964bf1e..7a245745b289 100644
+index 5d9551887c29..67ea03b20bee 100644
 --- a/drivers/usb/host/xhci.h
 +++ b/drivers/usb/host/xhci.h
-@@ -2396,37 +2396,22 @@ static inline const char *xhci_decode_portsc(char *str, u32 portsc)
- 	if (portsc == ~(u32)0)
- 		return str;
+@@ -66,14 +66,25 @@ struct xhci_cap_regs {
+ 	/* Reserved up to (CAPLENGTH - 0x1C) */
+ };
  
--	ret += sprintf(str + ret, "%s %s %s Link:%s PortSpeed:%d ",
--		      portsc & PORT_POWER	? "Powered" : "Powered-off",
--		      portsc & PORT_CONNECT	? "Connected" : "Not-connected",
--		      portsc & PORT_PE		? "Enabled" : "Disabled",
-+	ret += sprintf(str + ret, "Power:%d Connect:%d Link:%s Speed:%d ",
-+		      !!(portsc & PORT_POWER),
-+		      !!(portsc & PORT_CONNECT),
- 		      xhci_portsc_link_state_string(portsc),
- 		      DEV_PORT_SPEED(portsc));
- 
--	if (portsc & PORT_OC)
--		ret += sprintf(str + ret, "OverCurrent ");
-+	/* Read-Write 1 to Set */
- 	if (portsc & PORT_RESET)
- 		ret += sprintf(str + ret, "In-Reset ");
- 
--	ret += sprintf(str + ret, "Change: ");
--	if (portsc & PORT_CSC)
--		ret += sprintf(str + ret, "CSC ");
--	if (portsc & PORT_PEC)
--		ret += sprintf(str + ret, "PEC ");
--	if (portsc & PORT_WRC)
--		ret += sprintf(str + ret, "WRC ");
--	if (portsc & PORT_OCC)
--		ret += sprintf(str + ret, "OCC ");
--	if (portsc & PORT_RC)
--		ret += sprintf(str + ret, "PRC ");
--	if (portsc & PORT_PLC)
--		ret += sprintf(str + ret, "PLC ");
--	if (portsc & PORT_CEC)
--		ret += sprintf(str + ret, "CEC ");
-+	if (portsc & PORT_OC)
-+		ret += sprintf(str + ret, "OCA ");
-+	if (portsc & PORT_LINK_STROBE)
-+		ret += sprintf(str + ret, "LWS ");
- 	if (portsc & PORT_CAS)
- 		ret += sprintf(str + ret, "CAS ");
+-/* Number of registers per port */
+-#define	NUM_PORT_REGS	4
 -
--	ret += sprintf(str + ret, "Wake: ");
- 	if (portsc & PORT_WKCONN_E)
- 		ret += sprintf(str + ret, "WCE ");
- 	if (portsc & PORT_WKDISC_E)
-@@ -2434,6 +2419,27 @@ static inline const char *xhci_decode_portsc(char *str, u32 portsc)
- 	if (portsc & PORT_WKOC_E)
- 		ret += sprintf(str + ret, "WOE ");
+ #define PORTSC		0
+ #define PORTPMSC	1
+ #define PORTLI		2
+ #define PORTHLPMC	3
  
-+	/* Read-Write 1 to Clear */
-+	if (portsc & (PORT_PE | PORT_CHANGE_MASK)) {
-+		ret += sprintf(str + ret, "RW1C: ");
-+		if (portsc & PORT_PE)
-+			ret += sprintf(str + ret, "PED ");
-+		if (portsc & PORT_CSC)
-+			ret += sprintf(str + ret, "CSC ");
-+		if (portsc & PORT_PEC)
-+			ret += sprintf(str + ret, "PEC ");
-+		if (portsc & PORT_WRC)
-+			ret += sprintf(str + ret, "WRC ");
-+		if (portsc & PORT_OCC)
-+			ret += sprintf(str + ret, "OCC ");
-+		if (portsc & PORT_RC)
-+			ret += sprintf(str + ret, "PRC ");
-+		if (portsc & PORT_PLC)
-+			ret += sprintf(str + ret, "PLC ");
-+		if (portsc & PORT_CEC)
-+			ret += sprintf(str + ret, "CEC ");
-+	}
++/*
++ * struct xhci_port_regs - Host Controller USB Port Register Set. xHCI spec 5.4.8
++ * @portsc:	Port Status and Control
++ * @portpmsc:	Port Power Management Status and Control
++ * @portli:	Port Link Info
++ * @porthlmpc:	Port Hardware LPM Control
++ */
++struct xhci_port_regs {
++	__le32	portsc;
++	__le32	portpmsc;
++	__le32	portli;
++	__le32	porthlmpc;
++};
 +
- 	return str;
- }
+ /**
+  * struct xhci_op_regs - xHCI Host Controller Operational Registers.
+  * @command:		USBCMD - xHC command register
+@@ -85,16 +96,7 @@ struct xhci_cap_regs {
+  * @cmd_ring:		CRP - 64-bit Command Ring Pointer
+  * @dcbaa_ptr:		DCBAAP - 64-bit Device Context Base Address Array Pointer
+  * @config_reg:		CONFIG - Configure Register
+- * @port_status_base:	PORTSCn - base address for Port Status and Control
+- * 			Each port has a Port Status and Control register,
+- * 			followed by a Port Power Management Status and Control
+- * 			register, a Port Link Info register, and a reserved
+- * 			register.
+- * @port_power_base:	PORTPMSCn - base address for
+- * 			Port Power Management Status and Control
+- * @port_link_base:	PORTLIn - base address for Port Link Info (current
+- * 			Link PM state and control) for USB 2.1 and USB 3.0
+- * 			devices.
++ * @port_regs:		Port Register Sets, from 1 to MaxPorts (defined by HCSPARAMS1).
+  */
+ struct xhci_op_regs {
+ 	__le32	command;
+@@ -110,13 +112,7 @@ struct xhci_op_regs {
+ 	__le32	config_reg;
+ 	/* rsvd: offset 0x3C-3FF */
+ 	__le32	reserved4[241];
+-	/* port 1 registers, which serve as a base address for other ports */
+-	__le32	port_status_base;
+-	__le32	port_power_base;
+-	__le32	port_link_base;
+-	__le32	reserved5;
+-	/* registers for ports 2-255 */
+-	__le32	reserved6[NUM_PORT_REGS*254];
++	struct xhci_port_regs port_regs[];
+ };
  
+ /* USBCMD - USB command - command bitmasks */
 -- 
 2.50.1
 
