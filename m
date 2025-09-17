@@ -1,99 +1,144 @@
-Received: from out-173.mta1.migadu.com (out-173.mta1.migadu.com [95.215.58.173])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E07D635082E
-	for <linux-usb@vger.kernel.org>; Wed, 17 Sep 2025 10:13:14 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=95.215.58.173
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 73C9E2222D1;
+	Wed, 17 Sep 2025 10:15:30 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1758103999; cv=none; b=JNb5MThpbSvroHMKhSGY8OFfqAGZASKR7KZFEYQ0o7W8tm4xIJTXQrtSEgSGPnZ3/aZ/9SR7Hwbh11dVg0Hfqic+yVB7UIxmR9HuIB6SdkZGDSTEbWb9OI8BuPKMCnNnil3qQSSqcrcYDTV9Ji/vPu+qgFo71bw0XrUHtAa92yc=
+	t=1758104130; cv=none; b=OB9YdHf+tiiSAbMGY5bJrF0umtchy2qGPTnMdYMAf35xHIY9b9zkRIjcdncHaEnvcWCk6QIMjT47CcsVDVWqxl1eMKmrb3yf6Wbck/FAz3a+t3qaPclPwhdstxje1XahxJnABrox18NCXwAcULnXs6OujGVSFpjc3lDz/VAzHJI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1758103999; c=relaxed/simple;
-	bh=vMPTMMaX4DuBqbFZgf9VREQRe7yCtSuApn5Ks/nN3lA=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=hdtS8mQB4JGP6y+SndEOh+uts26R3WPmBZQ7Yr8a7M9ok6AllHjCyOUYO513IY1K8xXZ4WvwfOeKb/QtEpc6DkAJdkC8Kdsbag043ctYi0JRObRWiHn5oSbgrxLk23hWrpTW8PQMCRw23fhXApnc1H6xDIpapqk+BY2FGZn3Bcw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev; spf=pass smtp.mailfrom=linux.dev; dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b=rCCxbLkp; arc=none smtp.client-ip=95.215.58.173
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.dev
+	s=arc-20240116; t=1758104130; c=relaxed/simple;
+	bh=NUKM72dsQsPVocfi0VrAIryfe6vjKQ5F2Pt17V7EWkc=;
+	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
+	 In-Reply-To:To:Cc; b=qasIaLwQnASIKqPGC4AxGx+tdBXCF6muTSzIQhgd4FVLYABxg7xcAXGpEjlBn0+XIRuapje/KEu/NuVpQX6G/RlXRU85RnEuP5gpSJh+NyOwjTTnvDaOj2M9/MOb4OrnxMLCVZqgjRUyRV4w7NT1VCEkr9jK1nQKqtnQ/mwx32w=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=nvXcqzdj; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b="rCCxbLkp"
-X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and include these headers.
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.dev; s=key1;
-	t=1758103992;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:
-	 content-transfer-encoding:content-transfer-encoding;
-	bh=sY4yRTDzSjP2nKXOkMSrPlGsLlDMNjfquCWH7tlNoCE=;
-	b=rCCxbLkpA/Cnzyvzd37H8DFM+iCrFO45c6ilgbwCkHhpB3jY2ratUDb5GYcfVnGsxiLlSI
-	IMAPzinzuZTgxD1O5sVHpSgIjP5yVDgWEzwbMhb57LqxKmJd5wu52YzaL7VC3ssnxzOYQK
-	BbKnbeZEXgjt2EUv6IKFExVYcdQzdnw=
-From: Thorsten Blum <thorsten.blum@linux.dev>
-To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	Mathias Nyman <mathias.nyman@linux.intel.com>,
-	Alan Stern <stern@rowland.harvard.edu>,
-	Stefan Eichenberger <stefan.eichenberger@toradex.com>,
-	Thomas Gleixner <tglx@linutronix.de>,
-	Ingo Molnar <mingo@kernel.org>,
-	Heikki Krogerus <heikki.krogerus@linux.intel.com>,
-	Pawel Laszczak <pawell@cadence.com>,
-	Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-Cc: Thorsten Blum <thorsten.blum@linux.dev>,
-	Ma Ke <make_ruc2021@163.com>,
-	linux-usb@vger.kernel.org,
-	linux-kernel@vger.kernel.org
-Subject: [PATCH] usb: hub: Use max() to improve usb_set_lpm_pel()
-Date: Wed, 17 Sep 2025 12:12:31 +0200
-Message-ID: <20250917101235.58381-2-thorsten.blum@linux.dev>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="nvXcqzdj"
+Received: by smtp.kernel.org (Postfix) with ESMTPS id 1F1DDC4CEF7;
+	Wed, 17 Sep 2025 10:15:30 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1758104130;
+	bh=NUKM72dsQsPVocfi0VrAIryfe6vjKQ5F2Pt17V7EWkc=;
+	h=From:Date:Subject:References:In-Reply-To:To:Cc:Reply-To:From;
+	b=nvXcqzdjK5+hLjE6Tht7GpZdRxuJcN3Cd2qi9t0iZURMhLqU5ckgcKCbAaVJj1J4q
+	 dHPQzqNECICQPmDjqSdWBjqe1sAm+flPkHE9AqWuXz0xqRA/udOe3bcDxfk6h/VOxw
+	 UJLIAvRX8fht13glhS0AjQN3iRx39UmkBaoa/nHva3kg8jkXHPa3wHPnla1b7sIO0N
+	 nWvv3J6Nv3W6BrHRtIAlCfJFCz0X7q9Vo4By94EsOodtjuFv6WaqDdVS+m6OUpraMn
+	 m7L/035IDDikytHgOCJfwSt+qp7apF+WlPls9sAX8qsBW2Unsbvfz9VqEu7AaK7naj
+	 EE5fmHg05iIiw==
+Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 07F69CAC598;
+	Wed, 17 Sep 2025 10:15:30 +0000 (UTC)
+From: Fenglin Wu via B4 Relay <devnull+fenglin.wu.oss.qualcomm.com@kernel.org>
+Date: Wed, 17 Sep 2025 18:15:14 +0800
+Subject: [PATCH v5 1/9] power: supply: core: Add resistance power supply
+ property
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Migadu-Flow: FLOW_OUT
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+Message-Id: <20250917-qcom_battmgr_update-v5-1-270ade9ffe13@oss.qualcomm.com>
+References: <20250917-qcom_battmgr_update-v5-0-270ade9ffe13@oss.qualcomm.com>
+In-Reply-To: <20250917-qcom_battmgr_update-v5-0-270ade9ffe13@oss.qualcomm.com>
+To: Sebastian Reichel <sre@kernel.org>, 
+ Bjorn Andersson <andersson@kernel.org>, 
+ Konrad Dybcio <konradybcio@kernel.org>, Rob Herring <robh@kernel.org>, 
+ Krzysztof Kozlowski <krzk+dt@kernel.org>, 
+ Conor Dooley <conor+dt@kernel.org>, 
+ Heikki Krogerus <heikki.krogerus@linux.intel.com>, 
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>, 
+ Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>, 
+ Bryan O'Donoghue <bryan.odonoghue@linaro.org>, 
+ Konrad Dybcio <konrad.dybcio@oss.qualcomm.com>
+Cc: Subbaraman Narayanamurthy <subbaraman.narayanamurthy@oss.qualcomm.com>, 
+ David Collins <david.collins@oss.qualcomm.com>, 
+ =?utf-8?q?Gy=C3=B6rgy_Kurucz?= <me@kuruczgy.com>, linux-pm@vger.kernel.org, 
+ linux-kernel@vger.kernel.org, linux-arm-msm@vger.kernel.org, 
+ kernel@oss.qualcomm.com, devicetree@vger.kernel.org, 
+ linux-usb@vger.kernel.org, Fenglin Wu <fenglin.wu@oss.qualcomm.com>
+X-Mailer: b4 0.14.2
+X-Developer-Signature: v=1; a=ed25519-sha256; t=1758104128; l=2838;
+ i=fenglin.wu@oss.qualcomm.com; s=20240327; h=from:subject:message-id;
+ bh=PTxob4cVzRUR26yIMTWBec2QDLrpnnMTw9w6sqWmfeM=;
+ b=iGK26AJvMnEB1U6pqbrTAVBKD/VM9E0r4i/umxn9oJIWg+LyIBuQ8Izdrz/OUASRENano95Ru
+ sFlk8lJdI2mCnBVu5izMIXO6Pe3q1rpB50l6YrZ12F5gnSlfRm46wfU
+X-Developer-Key: i=fenglin.wu@oss.qualcomm.com; a=ed25519;
+ pk=BF8SA4IVDk8/EBCwlBehKtn2hp6kipuuAuDAHh9s+K4=
+X-Endpoint-Received: by B4 Relay for fenglin.wu@oss.qualcomm.com/20240327
+ with auth_id=406
+X-Original-From: Fenglin Wu <fenglin.wu@oss.qualcomm.com>
+Reply-To: fenglin.wu@oss.qualcomm.com
 
-Use max() to simplify and improve the readability of usb_set_lpm_pel().
+From: Fenglin Wu <fenglin.wu@oss.qualcomm.com>
 
-Signed-off-by: Thorsten Blum <thorsten.blum@linux.dev>
+Some battery drivers provide the ability to export internal resistance
+as a parameter. Add internal_resistance power supply property for that
+purpose.
+
+Signed-off-by: Fenglin Wu <fenglin.wu@oss.qualcomm.com>
 ---
- drivers/usb/core/hub.c | 11 +++--------
- 1 file changed, 3 insertions(+), 8 deletions(-)
+ Documentation/ABI/testing/sysfs-class-power | 16 ++++++++++++++++
+ drivers/power/supply/power_supply_sysfs.c   |  1 +
+ include/linux/power_supply.h                |  1 +
+ 3 files changed, 18 insertions(+)
 
-diff --git a/drivers/usb/core/hub.c b/drivers/usb/core/hub.c
-index 256fe8c86828..c8a543af3ad9 100644
---- a/drivers/usb/core/hub.c
-+++ b/drivers/usb/core/hub.c
-@@ -28,6 +28,7 @@
- #include <linux/usb/otg.h>
- #include <linux/usb/quirks.h>
- #include <linux/workqueue.h>
-+#include <linux/minmax.h>
- #include <linux/mutex.h>
- #include <linux/random.h>
- #include <linux/pm_qos.h>
-@@ -277,10 +278,7 @@ static void usb_set_lpm_pel(struct usb_device *udev,
- 	 * device and the parent hub into U0.  The exit latency is the bigger of
- 	 * the device exit latency or the hub exit latency.
- 	 */
--	if (udev_exit_latency > hub_exit_latency)
--		first_link_pel = udev_exit_latency * 1000;
--	else
--		first_link_pel = hub_exit_latency * 1000;
-+	first_link_pel = max(udev_exit_latency, hub_exit_latency) * 1000;
+diff --git a/Documentation/ABI/testing/sysfs-class-power b/Documentation/ABI/testing/sysfs-class-power
+index 560124cc31770cde03bcdbbba0d85a5bd78b15a0..cea1a38f5a8fb754d4e6323967ef6cf2e20a68ce 100644
+--- a/Documentation/ABI/testing/sysfs-class-power
++++ b/Documentation/ABI/testing/sysfs-class-power
+@@ -552,6 +552,22 @@ Description:
+ 			Integer > 0: representing full cycles
+ 			Integer = 0: cycle_count info is not available
  
- 	/*
- 	 * When the hub starts to receive the LFPS, there is a slight delay for
-@@ -294,10 +292,7 @@ static void usb_set_lpm_pel(struct usb_device *udev,
- 	 * According to figure C-7 in the USB 3.0 spec, the PEL for this device
- 	 * is the greater of the two exit latencies.
- 	 */
--	if (first_link_pel > hub_pel)
--		udev_lpm_params->pel = first_link_pel;
--	else
--		udev_lpm_params->pel = hub_pel;
-+	udev_lpm_params->pel = max(first_link_pel, hub_pel);
- }
++What:		/sys/class/power_supply/<supply_name>/internal_resistance
++Date:		August 2025
++Contact:	linux-arm-msm@vger.kernel.org
++Description:
++		Represent the battery's internal resistance, often referred
++		to as Equivalent Series Resistance (ESR). It is a dynamic
++		parameter that reflects the opposition to current flow within
++		the cell. It is not a fixed value but varies significantly
++		based on several operational conditions, including battery
++		state of charge (SoC), temperature, and whether the battery
++		is in a charging or discharging state.
++
++		Access: Read
++
++		Valid values: Represented in microohms
++
+ **USB Properties**
  
- /*
+ What:		/sys/class/power_supply/<supply_name>/input_current_limit
+diff --git a/drivers/power/supply/power_supply_sysfs.c b/drivers/power/supply/power_supply_sysfs.c
+index a438f7983d4f6a832e9d479184c7c35453e1757c..cfa8f90a88ebc8fc1c7447198f138e5d2e699e5a 100644
+--- a/drivers/power/supply/power_supply_sysfs.c
++++ b/drivers/power/supply/power_supply_sysfs.c
+@@ -220,6 +220,7 @@ static struct power_supply_attr power_supply_attrs[] __ro_after_init = {
+ 	POWER_SUPPLY_ATTR(MANUFACTURE_YEAR),
+ 	POWER_SUPPLY_ATTR(MANUFACTURE_MONTH),
+ 	POWER_SUPPLY_ATTR(MANUFACTURE_DAY),
++	POWER_SUPPLY_ATTR(INTERNAL_RESISTANCE),
+ 	/* Properties of type `const char *' */
+ 	POWER_SUPPLY_ATTR(MODEL_NAME),
+ 	POWER_SUPPLY_ATTR(MANUFACTURER),
+diff --git a/include/linux/power_supply.h b/include/linux/power_supply.h
+index c4cb854971f53a244ba7742a15ce7a5515da6199..8bc3b7a67eb5693a16db9b7d123e7881711c6bf4 100644
+--- a/include/linux/power_supply.h
++++ b/include/linux/power_supply.h
+@@ -174,6 +174,7 @@ enum power_supply_property {
+ 	POWER_SUPPLY_PROP_MANUFACTURE_YEAR,
+ 	POWER_SUPPLY_PROP_MANUFACTURE_MONTH,
+ 	POWER_SUPPLY_PROP_MANUFACTURE_DAY,
++	POWER_SUPPLY_PROP_INTERNAL_RESISTANCE,
+ 	/* Properties of type `const char *' */
+ 	POWER_SUPPLY_PROP_MODEL_NAME,
+ 	POWER_SUPPLY_PROP_MANUFACTURER,
+
 -- 
-2.50.1
+2.34.1
+
 
