@@ -1,34 +1,34 @@
 Received: from zeniv.linux.org.uk (zeniv.linux.org.uk [62.89.141.173])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 93B002749C5;
-	Sat, 20 Sep 2025 07:48:04 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 52BA827FB0E;
+	Sat, 20 Sep 2025 07:48:06 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=62.89.141.173
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1758354487; cv=none; b=QIY/UtpYiQl95W9+5VY+yApXBFLzzZhp4EjzEmUl9U2Ygw+SYf/MATMLjgeX3nL0Wem/00fhete/dbUk6Y/XvqU9PH6g2JT/X8Urw0/8j+L/AspQBC1ABqQ0UYMm87mREQAom3vDjX+tskZhXSQ+jw7w2jwB3B08oU7LT02a9+M=
+	t=1758354488; cv=none; b=ZdY8j8Trw0dh/mnP4SxYpR3T7+61SafopT9BThZOp20kI9NvD13UfZb+kzwwM+F0X9byvmb5T3TFvI8h1BpLPxSLsCj/g5lwvhFQi1sGua8hV6A3x5B0UdyLD7DZ+J5lYuRnYo/I3inxIOK0G+4rlWZhbDYxKbbvCSmWCn1ET1M=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1758354487; c=relaxed/simple;
-	bh=pfDtlIgV2LBEjsb/aUM9dZDlLqvkBkhHD1AP4d33njU=;
+	s=arc-20240116; t=1758354488; c=relaxed/simple;
+	bh=crs4ccdwJKZxcsWYC1guTQnNH+5A0sVnM21N6toYHsU=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=OoF5mxu5k9vrFsfHuB1xK8st0LmUAQiIMq+Rxrj+LHkCNXKknJ8ScI25Xi7WukKW81miGhVA6SGXwwAduNOM8aoyGbz+j5Yf73+xQ6MNO1ELjB7eUt6c8U8XJ+iuqbC/q/dwaZMIViQSirHQbNffzfECE/E/P78Hvgw0OW5yEtM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=zeniv.linux.org.uk; spf=none smtp.mailfrom=ftp.linux.org.uk; dkim=pass (2048-bit key) header.d=linux.org.uk header.i=@linux.org.uk header.b=t9iONXrV; arc=none smtp.client-ip=62.89.141.173
+	 MIME-Version; b=WM+FESagYc0sLCNyA4rwX3M3IcJeDR17mmmSykr+kraBaajFb6BIbJAJqY3yJCVogJITP5I4n/0UWiKcXOsiOcjuwS41vVZXSh4a2M22N7g4lcrrOmk3Sc6AchlVOG6lMBQyx8HuDRR36tfpVkkIrJjKXL0q9b6lTL66XvXBlJU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=zeniv.linux.org.uk; spf=none smtp.mailfrom=ftp.linux.org.uk; dkim=pass (2048-bit key) header.d=linux.org.uk header.i=@linux.org.uk header.b=t9UrvmM5; arc=none smtp.client-ip=62.89.141.173
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=zeniv.linux.org.uk
 Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=ftp.linux.org.uk
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linux.org.uk header.i=@linux.org.uk header.b="t9iONXrV"
+	dkim=pass (2048-bit key) header.d=linux.org.uk header.i=@linux.org.uk header.b="t9UrvmM5"
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=linux.org.uk; s=zeniv-20220401; h=Sender:Content-Transfer-Encoding:
 	MIME-Version:References:In-Reply-To:Message-ID:Date:Subject:Cc:To:From:
 	Reply-To:Content-Type:Content-ID:Content-Description;
-	bh=Rblw1/+FVpnDSF+tGzA58CitG6ZVFpPLgpN9TawlUAc=; b=t9iONXrVV2xYR0Ohv6Uqq876VT
-	EOLP68t82ONpzCjT6GTEie1WbU4Z5xuFIUQfrY7W3q92BniOaKvWeviTTUUvh/+gK6WzBnInI47DQ
-	x3iQ1kIlshSd70ZWXETqVX7uIwzov3t0WdsszcElheVQ2bY76i0NDZRonXWE7dQyC9EiAmEQ6Bscb
-	CjwXDS52jAujjzTldVIar/giui3Tc2BusRDf1/9QdkxmGstJBQO+kgyXUVlaXTOwelnzqjDTz1r+S
-	6EokSysi9b0Fmqf/9VicVzGeuaGtZddJ9ODEOvwWRo69viMy5RpA5RqkrUcO3jKzhP58lRog6xhzc
-	2jQZqg1A==;
+	bh=4GckmVne9aZbxHVaiffTEmOK19oV0Ap0iZoO6zIdeCU=; b=t9UrvmM5OQYc7vCwJTy5PEGD1w
+	+awUfFUgSon14MdW6tOTa/rhGWa25zM5Hn+6VH4wQba64aQj6KKJrnFmJ++OVTlx3P2goKG4EuiJl
+	cGk3Gk9ZNT7z7lVdTVgv54XlFDXS/qxKTYgRq2cTYtw8wh0ljsNeLSSQndW42cXEJ2FtV5Ti2vXXk
+	C8/t+gbvnHlceS+y5Ov58sDEc40NB84G2TlhtoMZ5m9SiVzwe/BsUoLyqd4kf+mqh/hOGkKGb9gWP
+	BhzBVMXzPDO3WcVMFM9Db8xjakJKm1+HRtA+eMRqSfy3zaK9i5mweZWeRkOnIq1e7WDMrNSaP3tWa
+	I0eE3Zuw==;
 Received: from viro by zeniv.linux.org.uk with local (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1uzsKA-0000000ExEK-1Zwa;
-	Sat, 20 Sep 2025 07:48:02 +0000
+	id 1uzsKB-0000000ExG0-4AXO;
+	Sat, 20 Sep 2025 07:48:04 +0000
 From: Al Viro <viro@zeniv.linux.org.uk>
 To: linux-fsdevel@vger.kernel.org
 Cc: torvalds@linux-foundation.org,
@@ -48,9 +48,9 @@ Cc: torvalds@linux-foundation.org,
 	casey@schaufler-ca.com,
 	linuxppc-dev@lists.ozlabs.org,
 	borntraeger@linux.ibm.com
-Subject: [PATCH 16/39] convert pstore
-Date: Sat, 20 Sep 2025 08:47:35 +0100
-Message-ID: <20250920074759.3564072-16-viro@zeniv.linux.org.uk>
+Subject: [PATCH 23/39] ibmasmfs: get rid of ibmasmfs_dir_ops
+Date: Sat, 20 Sep 2025 08:47:42 +0100
+Message-ID: <20250920074759.3564072-23-viro@zeniv.linux.org.uk>
 X-Mailer: git-send-email 2.49.0
 In-Reply-To: <20250920074759.3564072-1-viro@zeniv.linux.org.uk>
 References: <20250920074156.GK39973@ZenIV>
@@ -64,51 +64,44 @@ MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 Sender: Al Viro <viro@ftp.linux.org.uk>
 
-object creation by d_alloc_name()+d_add() in pstore_mkfile(), removal -
-via normal VFS codepaths (with ->unlink() using simple_unlink()) or
-in pstore_put_backend_records() via locked_recursive_removal()
-
-Replace d_add() with d_make_persistent()+dput() - that's what really
-happens there.  The reference that goes into record->dentry is valid
-only until the unlink (and explicitly cleared by pstore_unlink()).
+it is always equal (and always had been equal) to &simple_dir_operations
 
 Signed-off-by: Al Viro <viro@zeniv.linux.org.uk>
 ---
- fs/pstore/inode.c | 7 ++++---
- 1 file changed, 4 insertions(+), 3 deletions(-)
+ drivers/misc/ibmasm/ibmasmfs.c | 6 ++----
+ 1 file changed, 2 insertions(+), 4 deletions(-)
 
-diff --git a/fs/pstore/inode.c b/fs/pstore/inode.c
-index 1a2e1185426c..bad479fbb0ff 100644
---- a/fs/pstore/inode.c
-+++ b/fs/pstore/inode.c
-@@ -373,7 +373,7 @@ int pstore_mkfile(struct dentry *root, struct pstore_record *record)
- 	if (!dentry)
+diff --git a/drivers/misc/ibmasm/ibmasmfs.c b/drivers/misc/ibmasm/ibmasmfs.c
+index 785ce294f4b9..7427adff2a62 100644
+--- a/drivers/misc/ibmasm/ibmasmfs.c
++++ b/drivers/misc/ibmasm/ibmasmfs.c
+@@ -97,8 +97,6 @@ static const struct super_operations ibmasmfs_s_ops = {
+ 	.drop_inode	= generic_delete_inode,
+ };
+ 
+-static const struct file_operations *ibmasmfs_dir_ops = &simple_dir_operations;
+-
+ static struct file_system_type ibmasmfs_type = {
+ 	.owner          = THIS_MODULE,
+ 	.name           = "ibmasmfs",
+@@ -122,7 +120,7 @@ static int ibmasmfs_fill_super(struct super_block *sb, struct fs_context *fc)
  		return -ENOMEM;
  
--	private->dentry = dentry;
-+	private->dentry = dentry; // borrowed
- 	private->record = record;
- 	inode->i_size = private->total_size = size;
- 	inode->i_private = private;
-@@ -382,7 +382,8 @@ int pstore_mkfile(struct dentry *root, struct pstore_record *record)
- 		inode_set_mtime_to_ts(inode,
- 				      inode_set_ctime_to_ts(inode, record->time));
+ 	root->i_op = &simple_dir_inode_operations;
+-	root->i_fop = ibmasmfs_dir_ops;
++	root->i_fop = &simple_dir_operations;
  
--	d_add(dentry, no_free_ptr(inode));
-+	d_make_persistent(dentry, no_free_ptr(inode));
-+	dput(dentry);
+ 	sb->s_root = d_make_root(root);
+ 	if (!sb->s_root)
+@@ -188,7 +186,7 @@ static struct dentry *ibmasmfs_create_dir(struct dentry *parent,
+ 	}
  
- 	list_add(&(no_free_ptr(private))->list, &records_list);
+ 	inode->i_op = &simple_dir_inode_operations;
+-	inode->i_fop = ibmasmfs_dir_ops;
++	inode->i_fop = &simple_dir_operations;
  
-@@ -465,7 +466,7 @@ static void pstore_kill_sb(struct super_block *sb)
- 	guard(mutex)(&pstore_sb_lock);
- 	WARN_ON(pstore_sb && pstore_sb != sb);
- 
--	kill_litter_super(sb);
-+	kill_anon_super(sb);
- 	pstore_sb = NULL;
- 
- 	guard(mutex)(&records_list_lock);
+ 	d_make_persistent(dentry, inode);
+ 	dput(dentry);
 -- 
 2.47.3
 
