@@ -1,34 +1,34 @@
 Received: from zeniv.linux.org.uk (zeniv.linux.org.uk [62.89.141.173])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1C59D288522;
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CCCE4280014;
 	Sat, 20 Sep 2025 07:48:07 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=62.89.141.173
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1758354489; cv=none; b=IwbLeGg0ZZizBQB168vx3JcceBLAv1H+JABlTfx8g046TEZ4+kzegZTFkdIwfLfk1BRfDnTFeXIAILt0e8khI5fQmfwSz+M8X3aHnb3CH/FIn97mhc+6lqmddT1yUQ9EpK1V/4iOVXHbA+lEdbpgIJNp5qDQC7vHFze1cREU/uc=
+	t=1758354489; cv=none; b=RMCpzYhT89t/A98gMFeFsYyi5eZOnVYqP3bJI0eknAU8I9jfuMxmWYn5s/4939f/Os7TxTSysqrWxq1iK1OmnqdhyP/m2szwrIs3ArR87OAE5yXBD751INCWN/WrYUorG1zEfrNLZrQ+UeMM6BhCeF/UsBnWbMYCu7qScLou9Ks=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
 	s=arc-20240116; t=1758354489; c=relaxed/simple;
-	bh=soHi416DSE0pnYSMl4YmsflCDJfcWBHwcCLNR5cniFg=;
+	bh=g0DzPIcsJ7FGStG4d77ktIfa76GpIX47vIyEYt5ulTE=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=iunXyyRV7CoSivo+8qDvPMw9WyTKU9tY52WUURJ/DftUKmkpvnabcNUfZb58YCRmp6z+BRTimxtDPUIUvxG5BCq20iV2EIlW2D12FUF78xjWOWpoc/Ej7+rjYwI7fsbgrvOanhr61yJCttqm2dqd+T5Y2zvRuEjGu6Oi7vH3xeM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=zeniv.linux.org.uk; spf=none smtp.mailfrom=ftp.linux.org.uk; dkim=pass (2048-bit key) header.d=linux.org.uk header.i=@linux.org.uk header.b=jaQK8cKf; arc=none smtp.client-ip=62.89.141.173
+	 MIME-Version; b=aUCWiHVzAyntX1AvQfwsMsqB5vnC7Jobz7ed4l8akv4ln6CVu3RrvI2cWQ6tFxKgDFZ1On7s7jujmluGQeZOYrIBu4yH/KGq7NvPr2cydKD9qQbchEvGEOt7Wr/c67lgX69+WJY03un+il4EDwUaaFqYu6eyy8cW2q+SdrqDwdg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=zeniv.linux.org.uk; spf=none smtp.mailfrom=ftp.linux.org.uk; dkim=pass (2048-bit key) header.d=linux.org.uk header.i=@linux.org.uk header.b=pQ/jwxDa; arc=none smtp.client-ip=62.89.141.173
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=zeniv.linux.org.uk
 Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=ftp.linux.org.uk
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linux.org.uk header.i=@linux.org.uk header.b="jaQK8cKf"
+	dkim=pass (2048-bit key) header.d=linux.org.uk header.i=@linux.org.uk header.b="pQ/jwxDa"
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=linux.org.uk; s=zeniv-20220401; h=Sender:Content-Transfer-Encoding:
 	MIME-Version:References:In-Reply-To:Message-ID:Date:Subject:Cc:To:From:
 	Reply-To:Content-Type:Content-ID:Content-Description;
-	bh=09KvsjW0ORXF5yAgFsWr4BmJpUanJ8JfB+m1F7eGQps=; b=jaQK8cKfGBnniJ4xeduBuQ4mdy
-	Z8Qh0j68aqBnrjxEeoVTW67vl2L9GR+wcjUmE89Mle6Q0bb7rqeHVynY9bc9tpgu5c4WmNLaHTz8X
-	pFRwaQvcdhRslmEdhfemL9wmhLt/ZRnjNK8/6wVMphnzkYT81oAUr3WBFPmzUNXaKcTJoPn5wwBwc
-	3gT57+VI+M0C00eOsH5pS2UWTzhm3bdqs39h/XrVkl+cBOEFT7NpLQAwdCOKXhmimfGv9/rNxJhf8
-	Nk/W5J5B2wgPV7mcNvQdzkMn0mOJWtnkhY+5Q6eDuX1azINcV1hEDsPAZ76dQYgApjHI3y0T0qVvI
-	VWGDlqAw==;
+	bh=0EOMkT/UFsYLOkQCFILn7xjwHlMa0Zq2h7YoVPTnFkU=; b=pQ/jwxDajkwrHC1Gmh5fg9w79r
+	hzxbGeYIIbrO2n7kvvsAppMq+o2/PZt0XVO7Hm5K72cISh9MXIXn/fM4l8+dNWUVGpUy95MzpWACd
+	7HIgGR0ttc/O7g0IrqwE9x5T+/cz8+Tedp1iHohLeHJQK7iuEQwz48CWspHGgt6EmTOaCstNmQKTT
+	dqlW4Nwp3hygpE/PZ25TXNllPy92fiESt6mhBve+0EyVZmlAH/PjjoGHoBuGpv6Sot54xlq98zHWL
+	TcuYcWLg+f8QCKKFxKUGzaFy3OKKAqj/Fa7tIuQVvSClpRk8R0GmVvgSaKbWWyaXP0cQMjQMUPrQI
+	mNkzVj2g==;
 Received: from viro by zeniv.linux.org.uk with local (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1uzsKC-0000000ExGw-3OF2;
-	Sat, 20 Sep 2025 07:48:04 +0000
+	id 1uzsKD-0000000ExIL-3Leb;
+	Sat, 20 Sep 2025 07:48:05 +0000
 From: Al Viro <viro@zeniv.linux.org.uk>
 To: linux-fsdevel@vger.kernel.org
 Cc: torvalds@linux-foundation.org,
@@ -48,9 +48,9 @@ Cc: torvalds@linux-foundation.org,
 	casey@schaufler-ca.com,
 	linuxppc-dev@lists.ozlabs.org,
 	borntraeger@linux.ibm.com
-Subject: [PATCH 26/39] binderfs_binder_ctl_create(): kill a bogus check
-Date: Sat, 20 Sep 2025 08:47:45 +0100
-Message-ID: <20250920074759.3564072-26-viro@zeniv.linux.org.uk>
+Subject: [PATCH 28/39] autofs_{rmdir,unlink}: dentry->d_fsdata->dentry == dentry there
+Date: Sat, 20 Sep 2025 08:47:47 +0100
+Message-ID: <20250920074759.3564072-28-viro@zeniv.linux.org.uk>
 X-Mailer: git-send-email 2.49.0
 In-Reply-To: <20250920074759.3564072-1-viro@zeniv.linux.org.uk>
 References: <20250920074156.GK39973@ZenIV>
@@ -64,34 +64,38 @@ MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 Sender: Al Viro <viro@ftp.linux.org.uk>
 
-It's called once, during binderfs mount, right after allocating
-root dentry.  Checking that it hadn't been already called is
-only obfuscating things.
-
-Looks like that bogosity had been copied from devpts...
-
 Signed-off-by: Al Viro <viro@zeniv.linux.org.uk>
 ---
- drivers/android/binderfs.c | 6 ------
- 1 file changed, 6 deletions(-)
+ fs/autofs/root.c | 5 ++---
+ 1 file changed, 2 insertions(+), 3 deletions(-)
 
-diff --git a/drivers/android/binderfs.c b/drivers/android/binderfs.c
-index 41a0f3c26fcf..bb81280a3e9f 100644
---- a/drivers/android/binderfs.c
-+++ b/drivers/android/binderfs.c
-@@ -395,12 +395,6 @@ static int binderfs_binder_ctl_create(struct super_block *sb)
- 	if (!device)
- 		return -ENOMEM;
+diff --git a/fs/autofs/root.c b/fs/autofs/root.c
+index 174c7205fee4..39794633d484 100644
+--- a/fs/autofs/root.c
++++ b/fs/autofs/root.c
+@@ -623,12 +623,11 @@ static int autofs_dir_symlink(struct mnt_idmap *idmap,
+ static int autofs_dir_unlink(struct inode *dir, struct dentry *dentry)
+ {
+ 	struct autofs_sb_info *sbi = autofs_sbi(dir->i_sb);
+-	struct autofs_info *ino = autofs_dentry_ino(dentry);
+ 	struct autofs_info *p_ino;
  
--	/* If we have already created a binder-control node, return. */
--	if (info->control_dentry) {
--		ret = 0;
--		goto out;
--	}
--
- 	ret = -ENOMEM;
- 	inode = new_inode(sb);
- 	if (!inode)
+ 	p_ino = autofs_dentry_ino(dentry->d_parent);
+ 	p_ino->count--;
+-	dput(ino->dentry);
++	dput(dentry);
+ 
+ 	d_inode(dentry)->i_size = 0;
+ 	clear_nlink(d_inode(dentry));
+@@ -710,7 +709,7 @@ static int autofs_dir_rmdir(struct inode *dir, struct dentry *dentry)
+ 
+ 	p_ino = autofs_dentry_ino(dentry->d_parent);
+ 	p_ino->count--;
+-	dput(ino->dentry);
++	dput(dentry);
+ 	d_inode(dentry)->i_size = 0;
+ 	clear_nlink(d_inode(dentry));
+ 
 -- 
 2.47.3
 
