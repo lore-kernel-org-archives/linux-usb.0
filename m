@@ -1,161 +1,108 @@
-Received: from mail-m1973186.qiye.163.com (mail-m1973186.qiye.163.com [220.197.31.86])
+Received: from fllvem-ot04.ext.ti.com (fllvem-ot04.ext.ti.com [198.47.19.246])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B3BC61400E;
-	Tue, 23 Sep 2025 09:23:25 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=220.197.31.86
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8434F258CF9;
+	Tue, 23 Sep 2025 09:40:43 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.47.19.246
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1758619410; cv=none; b=D5oSKwht8WwyKMlwrilPgSx4mpy7gsD+MdQ5gKdGorgNseB42IN7tfSl3WFF0Ig3xO7EMT4k1H20Hfav5tkLeg4Zc6QrrD+6k6T9qO0tX6vcnxgQlyUwwtjilA7j+A8/0HXiK+GM4myFdJWgIy9jkPITHG3Ra3Y1Ls48gwd8mak=
+	t=1758620445; cv=none; b=uqQXJ8G4SKKvYo+2jSo9AqsBb0B7vhj0hneFeavfM5OJ9boh8SNdROudj7wQgNg2Xkb9PzUQfGw23uPnRX09wxK5A2232NgC3jJ1gZ6iUEJ9QKLq9MPPSvy7kM6Cd6PA6Xyb0RLICS8Z8oVFxZj2vIZ+pnm9jUvZ7fnS+UTD+PA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1758619410; c=relaxed/simple;
-	bh=YsIYnVzfSPxpVvjt/XAKbJoZbnK0hdwHhRGcmpD5Jhc=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=WFmMQRk/7NSUx8g5+bKBT/ag68T1i/qliMxdFzEZm2PV3TWTszPzhYiFzQgYhAyKSSJlWf9mjSoH5uzJam6vFBwXDMmTGlw8XF80gfVWXZN8NWNdI++5WgIzToZosM1T+tokOAZa43EyrhJSQSsr1sjbnwq/HyjhsK9mNz6Ny8U=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=rock-chips.com; spf=pass smtp.mailfrom=rock-chips.com; dkim=pass (1024-bit key) header.d=rock-chips.com header.i=@rock-chips.com header.b=cbNY1QVT; arc=none smtp.client-ip=220.197.31.86
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=rock-chips.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=rock-chips.com
+	s=arc-20240116; t=1758620445; c=relaxed/simple;
+	bh=q81kQ5xhqohdzpN6BRTaCRJ3bo8nUWkgVBAYZFL2f7M=;
+	h=Date:From:To:CC:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=gxGr6BEE96iHtw1nuGef0fPX2CNUrE/8rcgY8sBbrXJ0WtIy6MM9dvSRE1cYfPQlPZk121Qe9o31kVVXc4QW8h0rTQVNzimB5Pc9581OY37vzIxAw8nQrbCQRm/0yB6TuJkLHA0O6NuAFQJrolaiJxTOyadxh6w4cE9JB0wIhVE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=ti.com; spf=pass smtp.mailfrom=ti.com; dkim=pass (1024-bit key) header.d=ti.com header.i=@ti.com header.b=gyx6BDuj; arc=none smtp.client-ip=198.47.19.246
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=ti.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ti.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=rock-chips.com header.i=@rock-chips.com header.b="cbNY1QVT"
-Received: from [172.16.12.153] (unknown [58.22.7.114])
-	by smtp.qiye.163.com (Hmail) with ESMTP id 23b9177a0;
-	Tue, 23 Sep 2025 11:40:35 +0800 (GMT+08:00)
-Message-ID: <8396dd15-9111-4ceb-a561-6ed57727546f@rock-chips.com>
-Date: Tue, 23 Sep 2025 11:40:33 +0800
+	dkim=pass (1024-bit key) header.d=ti.com header.i=@ti.com header.b="gyx6BDuj"
+Received: from lelvem-sh01.itg.ti.com ([10.180.77.71])
+	by fllvem-ot04.ext.ti.com (8.15.2/8.15.2) with ESMTP id 58N9eMLE1427212;
+	Tue, 23 Sep 2025 04:40:22 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ti.com;
+	s=ti-com-17Q1; t=1758620422;
+	bh=8bg8Oys3ldqONp1rkDm9KHUE8Nsow8X5TQBNQvmAkmM=;
+	h=Date:From:To:CC:Subject:References:In-Reply-To;
+	b=gyx6BDujLPlhRSIYt1R2kGpS4iOH9Y3YRjwHY/C0QD8H6fmioS4w69VaCpOB71bsx
+	 /0tshFMmA7o5ZscQu5RjfNcJEDv4SObCuipjI1YnIz4lnrDlalxaIaQwTR02DdX3gD
+	 W1GsRLHs0bPL0l+QWJjZUco4UENx+pJHvJ5WKfV0=
+Received: from DFLE115.ent.ti.com (dfle115.ent.ti.com [10.64.6.36])
+	by lelvem-sh01.itg.ti.com (8.18.1/8.18.1) with ESMTPS id 58N9eMnJ986154
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-SHA256 bits=128 verify=FAIL);
+	Tue, 23 Sep 2025 04:40:22 -0500
+Received: from DFLE213.ent.ti.com (10.64.6.71) by DFLE115.ent.ti.com
+ (10.64.6.36) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.2507.55; Tue, 23
+ Sep 2025 04:40:21 -0500
+Received: from lelvem-mr05.itg.ti.com (10.180.75.9) by DFLE213.ent.ti.com
+ (10.64.6.71) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.2562.20 via Frontend
+ Transport; Tue, 23 Sep 2025 04:40:21 -0500
+Received: from localhost (lcpd911.dhcp.ti.com [172.24.233.130])
+	by lelvem-mr05.itg.ti.com (8.18.1/8.18.1) with ESMTP id 58N9eKtg101593;
+	Tue, 23 Sep 2025 04:40:21 -0500
+Date: Tue, 23 Sep 2025 15:10:20 +0530
+From: Dhruva Gole <d-gole@ti.com>
+To: Peng Fan <peng.fan@nxp.com>
+CC: "Rafael J. Wysocki" <rafael@kernel.org>, Pavel Machek <pavel@kernel.org>,
+        Len Brown <lenb@kernel.org>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Danilo Krummrich <dakr@kernel.org>,
+        Ulf Hansson <ulf.hansson@linaro.org>,
+        Peter Chen <peter.chen@kernel.org>, Shawn Guo <shawnguo@kernel.org>,
+        Sascha
+ Hauer <s.hauer@pengutronix.de>,
+        Pengutronix Kernel Team
+	<kernel@pengutronix.de>,
+        Fabio Estevam <festevam@gmail.com>,
+        Thinh Nguyen
+	<Thinh.Nguyen@synopsys.com>, <linux-pm@vger.kernel.org>,
+        <linux-kernel@vger.kernel.org>, <linux-usb@vger.kernel.org>,
+        <imx@lists.linux.dev>, <linux-arm-kernel@lists.infradead.org>
+Subject: Re: [PATCH v4 1/5] PM: wakeup: Add out-of-band system wakeup support
+ for devices
+Message-ID: <20250923094020.ogc2nr5nxryxoavq@lcpd911>
+References: <20250922-pm-v4-v4-0-ef48428e8fe0@nxp.com>
+ <20250922-pm-v4-v4-1-ef48428e8fe0@nxp.com>
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v4 2/7] dt-bindings: phy: rockchip: rk3399-typec-phy:
- Support mode-switch
-To: Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
-Cc: Chaoyi Chen <kernel@airkyi.com>, Rob Herring <robh@kernel.org>,
- Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley
- <conor+dt@kernel.org>, Vinod Koul <vkoul@kernel.org>,
- Kishon Vijay Abraham I <kishon@kernel.org>, Heiko Stuebner
- <heiko@sntech.de>, Sandy Huang <hjc@rock-chips.com>,
- Andy Yan <andy.yan@rock-chips.com>,
- Yubing Zhang <yubing.zhang@rock-chips.com>,
- Frank Wang <frank.wang@rock-chips.com>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
- David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
- Amit Sunil Dhamne <amitsd@google.com>,
- Heikki Krogerus <heikki.krogerus@linux.intel.com>,
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
- Dragan Simic <dsimic@manjaro.org>, Johan Jonker <jbx6244@gmail.com>,
- Diederik de Haas <didi.debian@cknow.org>,
- Peter Robinson <pbrobinson@gmail.com>, linux-usb@vger.kernel.org,
- devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
- linux-phy@lists.infradead.org, linux-arm-kernel@lists.infradead.org,
- linux-rockchip@lists.infradead.org, dri-devel@lists.freedesktop.org
-References: <20250922012039.323-1-kernel@airkyi.com>
- <20250922012039.323-3-kernel@airkyi.com>
- <eb6ogrepo5acwcj5gpdolxxyg3xrx7kz6zrbizzseqyavvitfd@cnzurelqeh4t>
- <533d41bd-9293-4808-85f3-8fb6dc8bcda7@rock-chips.com>
- <mpyfe63tzxzxyyqf4vxwmrewzeosnaftlkko7pq2ynld6u3lcz@wlpixckov4hg>
-Content-Language: en-US
-From: Chaoyi Chen <chaoyi.chen@rock-chips.com>
-In-Reply-To: <mpyfe63tzxzxyyqf4vxwmrewzeosnaftlkko7pq2ynld6u3lcz@wlpixckov4hg>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-X-HM-Tid: 0a9974a8abd103abkunm3cf890a4eb55b
-X-HM-MType: 1
-X-HM-Spam-Status: e1kfGhgUHx5ZQUpXWQgPGg8OCBgUHx5ZQUlOS1dZFg8aDwILHllBWSg2Ly
-	tZV1koWUFDSUNOT01LS0k3V1ktWUFJV1kPCRoVCBIfWUFZQ09KH1YfSxoZGkwYThkZS0hWFRQJFh
-	oXVRMBExYaEhckFA4PWVdZGBILWUFZTkNVSUlVTFVKSk9ZV1kWGg8SFR0UWUFZT0tIVUpLSEpPSE
-	xVSktLVUpCS0tZBg++
-DKIM-Signature: a=rsa-sha256;
-	b=cbNY1QVTq4ppl4jyOwF7tumwsvMIakcT3973cK6igiHD2I6Z1e6IdCjrWZtY5ojzKbDSYrp6+0OhklB+Z3gE5YRglgYHRYu9quejf9cfFM4iRQLujzUflTJ5byBxV+O07/oRwbu+7WqoenxLpysHAwH8PRjtVPn5yL+zs82jpdw=; s=default; c=relaxed/relaxed; d=rock-chips.com; v=1;
-	bh=4KUKqQ7mqQ2zVDBXjqLvwFYHz4+0xl7oABzJGnrMKc8=;
-	h=date:mime-version:subject:message-id:from;
+Content-Type: text/plain; charset="us-ascii"
+Content-Disposition: inline
+In-Reply-To: <20250922-pm-v4-v4-1-ef48428e8fe0@nxp.com>
+X-C2ProcessedOrg: 333ef613-75bf-4e12-a4b1-8e3623f5dcea
 
-On 9/23/2025 11:17 AM, Dmitry Baryshkov wrote:
+On Sep 22, 2025 at 10:21:06 +0800, Peng Fan wrote:
+> Some devices can wake up the system from suspend even when their power
+> domains are turned off. This is possible because their system-wakeup logic
+> resides in an always-on power domain - indicating that they support
+> out-of-band system wakeup.
+> 
+> Currently, PM domain core doesn't power off such devices if they are marked
+> as system wakeup sources. To better represent devices with out-of-band
 
-> On Tue, Sep 23, 2025 at 09:53:06AM +0800, Chaoyi Chen wrote:
->> Hi Dmitry,
->>
->> On 9/23/2025 9:12 AM, Dmitry Baryshkov wrote:
->>> On Mon, Sep 22, 2025 at 09:20:34AM +0800, Chaoyi Chen wrote:
->>>> From: Chaoyi Chen <chaoyi.chen@rock-chips.com>
->>>>
->>>> The RK3399 SoC integrates two USB/DP combo PHYs, each of which
->>>> supports software-configurable pin mapping and DisplayPort lane
->>>> assignment. These capabilities enable the PHY itself to handle both
->>>> mode switching and orientation switching, based on the Type-C plug
->>>> orientation and USB PD negotiation results.
->>>>
->>>> While an external Type-C controller is still required to detect cable
->>>> attachment and report USB PD events, the actual mode and orientation
->>>> switching is performed internally by the PHY through software
->>>> configuration. This allows the PHY to act as a Type-C multiplexer for
->>>> both data role and DP altmode configuration.
->>>>
->>>> To reflect this hardware design, this patch introduces a new
->>>> "mode-switch" property for the dp-port node in the device tree bindings.
->>>> This property indicates that the connected PHY is capable of handling
->>>> Type-C mode switching itself.
->>>>
->>>> Signed-off-by: Chaoyi Chen <chaoyi.chen@rock-chips.com>
->>>>
->>>> Acked-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
->>>> ---
->>>>
->>>> Changes in v4:
->>>> - Remove "|" in description.
->>>>
->>>> Changes in v3:
->>>> - Add more descriptions to clarify the role of the PHY in switching.
->>>>
->>>> Changes in v2:
->>>> - Reuse dp-port/usb3-port in rk3399-typec-phy binding.
->>>>
->>>>    .../devicetree/bindings/phy/rockchip,rk3399-typec-phy.yaml  | 6 ++++++
->>>>    1 file changed, 6 insertions(+)
->>>>
->>>> diff --git a/Documentation/devicetree/bindings/phy/rockchip,rk3399-typec-phy.yaml b/Documentation/devicetree/bindings/phy/rockchip,rk3399-typec-phy.yaml
->>>> index 91c011f68cd0..83ebcde096ea 100644
->>>> --- a/Documentation/devicetree/bindings/phy/rockchip,rk3399-typec-phy.yaml
->>>> +++ b/Documentation/devicetree/bindings/phy/rockchip,rk3399-typec-phy.yaml
->>>> @@ -51,6 +51,12 @@ properties:
->>>>          '#phy-cells':
->>>>            const: 0
->>>> +      mode-switch:
->>> Having the mode-switch here is a bit strange. I think the whole PHY
->>> device should be an orientation-switch and mode-switch. Otherwise it
->>> feels weird to me.
->> I think this is a difference in practice. In the previous binding, there was already an orientation-switch under the usb-port. I trying to add both an orientation-switch and a mode-switch to the top-level device in v2. And Krzysztof reminded me that adding a mode-switch under the dp-port would be better, so I changed it to the current form :)
-> I couldn't find the comment on lore. Could you please point it out?
+This commit message makes things much clearer now. Thanks!
 
-Sorry, it is v1. I added an orientation-switch and a mode-switch in the top-level PHY [0]. Comment is here: [1]
+> wakeup capability, this patch introduces a new flag out_band_wakeup in
+> 'struct dev_pm_info'.
+> 
+> Two helper APIs are added:
+>  - device_set_out_band_wakeup() - to mark a device as having out-of-band
+>    wakeup capability.
+>  - device_out_band_wakeup() - to query the flag.
+> 
+> Allow the PM core and drivers to distinguish between regular and
+> out-of-band wakeup sources, enable more accurate power management decision.
+> 
+> Signed-off-by: Peng Fan <peng.fan@nxp.com>
+> ---
 
+Reviewed-by: Dhruva Gole <d-gole@ti.com>
 
-[0] https://lore.kernel.org/all/20250715112456.101-4-kernel@airkyi.com/
-
-[1] https://lore.kernel.org/all/4dfed94c-665d-4e04-b527-ddd34fd3db8f@kernel.org/
-
-
-
->>
->>
->>>> +        description:
->>>> +          Indicates the PHY can handle altmode switching. In this case,
->>>> +          requires an external USB Type-C controller to report USB PD message.
->>>> +        type: boolean
->>>> +
->>>>          port:
->>>>            $ref: /schemas/graph.yaml#/properties/port
->>>>            description: Connection to USB Type-C connector
->>>> -- 
->>>> 2.49.0
->>>>
->> -- 
->> Best,
->> Chaoyi
->>
 -- 
-Best,
-Chaoyi
-
+Best regards,
+Dhruva Gole
+Texas Instruments Incorporated
