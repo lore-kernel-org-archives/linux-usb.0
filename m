@@ -1,102 +1,61 @@
-Received: from mail-lf1-f42.google.com (mail-lf1-f42.google.com [209.85.167.42])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 94525316191
-	for <linux-usb@vger.kernel.org>; Tue, 23 Sep 2025 07:47:22 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.42
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 33AB31DD877;
+	Tue, 23 Sep 2025 08:10:45 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1758613644; cv=none; b=IdB6fGgtlDRY/+LEm5FrilJfqXV/4sCm8axzeN0MNYkA+oTgqZYZ+UzBqNjSsMHb9ugGotQ4/5n2MwdpKVrbIIciykfWpNSCIngM83VGhz0ehrhxv199o3BvGkM02tAUhNAI4G/YAJmpZ8ZgfHKGScLnLkOPc7Un5MMenAzDlzA=
+	t=1758615045; cv=none; b=r3tteOj7d+0lItUbMxO/sGoS6sPCplEno0o8e0v8gxZ12KXB93QjvrYmrDRlLjEZQD5z4A86Dp2AK1wQo9zb3KzJhPwmmMG0udWTeLGDnJR32EKhB1fqdyLYNLetl5ArBM9+X40iCICkunUdmR5P3um/77mV6hseu0x3Rrrbo90=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1758613644; c=relaxed/simple;
-	bh=m6w75x5KmuboRbte2t8Bef+Y5vLZQaZtpC0JTZQjfAs=;
-	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=nHue9zICSbl/cSW9o3Y0vmRIYGx9W6u3WTEaK6JOJzpMQGmghw3Unt6QHEPzRmM4MVBlujCkQbyd1k4Q3k22la9A9z0bEAIkhz1CJICQR0XcndWx8KutWGyDgtzFw3DZ5xAebduCK3PdyyeJiOJGt4NQMVp9VgqrK8bles3O69Q=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=Hb+jRBoa; arc=none smtp.client-ip=209.85.167.42
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1758615045; c=relaxed/simple;
+	bh=iW3WPoagLwoxw6Vm11W1B8DLUUbl+cSm5INVhgNbxS0=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=mxxCBmAUtgjaJ75GnklGnDBN+f5Bre5lBmBbir4gnKx4XcvpttWhMwNDQLkBfvgHWi79nniVG7QbNGSpQ8pJ0fLDISsyd2KPmqALfhe5BJith8GaA+9BYFSN7AMvIuYI9e7Y/piNKc84rGzi+HfhOMfTw8+zTPLBoXH9S1Joe6I=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b=CUu1lvbZ; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Hb+jRBoa"
-Received: by mail-lf1-f42.google.com with SMTP id 2adb3069b0e04-5797c8612b4so5305331e87.2
-        for <linux-usb@vger.kernel.org>; Tue, 23 Sep 2025 00:47:22 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1758613641; x=1759218441; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:subject:cc:to:from:date:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=p3zTrXIgrjNde7MVV+dQe94AXCJb9BQSJNtQ02xJwZs=;
-        b=Hb+jRBoaW25Oj5LVwuGp7pHGOFDrDFFhIeie7Dfkq7+H92LLpf9dwG1qxKUu1KIpXK
-         a/+ETLzxr+qq6Vfu9r4bMk8iF4z14DgqEzefgubl9MbHat1K6GPmHCzsRMZQsn5cli/c
-         y+37BqQKvT056OX1pmV4nkBy1M0tOrXJHHLYTX5/30rCKPjKYURVGchkSCOFrYlF4kYg
-         K9GkjJZS9AVEAOPnwxvU+Ng0lgrJH6AQ0sDuinpD6dC9iZvf9aOw6mklkaMgK1VN7H+v
-         dySneeWOdEqBp330cNJV29C5OkWDgrMoYCVCQzyX13KEXMEYYJrzzMLTweOkWEVbfzqL
-         fAVQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1758613641; x=1759218441;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:subject:cc:to:from:date:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=p3zTrXIgrjNde7MVV+dQe94AXCJb9BQSJNtQ02xJwZs=;
-        b=Y2q+1RTBsYGkMdxcoHsz8VbTVUBXYZ3i/9n4ehIXPFo+pvge05JmXb6AGDlhB19+ZR
-         Ss4zLWnbqZV02a+Lk6qvjjkEQy28H6ccF7fkvjee7se83ZCGWeq7s1QtndjDsVg+HK/A
-         6CwYeWZqFnJy6FKLmdVz+wpuXbURINDneDNrvIwR5B3N1LFHm1AdYcXnwuQ2agDj3xNr
-         F4nMDKNU754cAl2DCzT7gpxTLmRuSTYDkml0eWSX7ssFZHINvw7mDkKWawIHANr0c69/
-         Il2OJqm4gZHT+QYjB+daXZi+NQNOyUfJ5VVrB7FFY0WIXmCNjXP60ZtMtbf0AB/DwvlM
-         X0dQ==
-X-Forwarded-Encrypted: i=1; AJvYcCUaLxADw70BDTgF+GLxhuGhwGYud8neeAN/ulhOYmIipc1xI3P8n6vZYAcjzsnZEzCQez/BWRDpzM4=@vger.kernel.org
-X-Gm-Message-State: AOJu0Ywn9Ydj5sma8rs00NMwNG3JEzqLn46lK9A1otSXjEa7z/pw5iwV
-	T+rCAg3O7jVcPKmoOHj4054+Y5tsx96y2bL7aJrR2sFh5+/K260OSg7s
-X-Gm-Gg: ASbGncvym/dLP116Ni7SoDg4rTNCHTWb1GBc3kU2o3z6gcJL3EkBZeE8tjSY4EtITSa
-	nEdjdbLzzqKvJKt+FnF3hTjmcgjugoNSq0KzBH232GpZQ2W0J84DCoZlgfkbGKwNqDFJLFjXS3k
-	RKUGxJhTgH0/m9+WrgrouhNxJ4EvheRgku8MXV/D9ND10Ip8vrunDMGW9FsdQ6KkqE9askZ+q0u
-	S6KrKpdGdCXgvQAnOmZGT5v0L0Z9Dorokc30dJ9gB6vNpFOv9VCAbccIg20BgDVWnvFp4xGx098
-	ZTQMyAbKcGrSyBwKHBvgy5/SOwYvYWFgDEEswRT0Qesa+ewURpo4fLhpDHir1eCWBMd5peda6QO
-	gMlu/KlzTtUxVxn29U7ahPdK3uMvPf5tq/jY=
-X-Google-Smtp-Source: AGHT+IHdpC5HbX3ix1zT26Flp+EGyUUBeKiByHFSuNEWqr8rJkXfKIJvyKcJk6flJER7ibjGFmTI7Q==
-X-Received: by 2002:a05:6512:4207:b0:57e:1e1b:dde5 with SMTP id 2adb3069b0e04-58071403f46mr357677e87.25.1758613640434;
-        Tue, 23 Sep 2025 00:47:20 -0700 (PDT)
-Received: from foxbook (bfe191.neoplus.adsl.tpnet.pl. [83.28.42.191])
-        by smtp.gmail.com with ESMTPSA id 2adb3069b0e04-57fcb89170asm791542e87.63.2025.09.23.00.47.19
-        (version=TLS1_2 cipher=AES128-SHA bits=128/128);
-        Tue, 23 Sep 2025 00:47:20 -0700 (PDT)
-Date: Tue, 23 Sep 2025 09:47:11 +0200
-From: Michal Pecio <michal.pecio@gmail.com>
-To: Jakub Kicinski <kuba@kernel.org>
-Cc: I Viswanath <viswanathiyyappan@gmail.com>, andrew@lunn.ch,
- andrew+netdev@lunn.ch, davem@davemloft.net, david.hunter.linux@gmail.com,
- edumazet@google.com, linux-kernel-mentees@lists.linux.dev,
- linux-kernel@vger.kernel.org, linux-usb@vger.kernel.org,
- netdev@vger.kernel.org, pabeni@redhat.com, petkan@nucleusys.com,
- skhan@linuxfoundation.org,
- syzbot+78cae3f37c62ad092caa@syzkaller.appspotmail.com
-Subject: Re: [PATCH net v2] net: usb: Remove disruptive netif_wake_queue in
- rtl8150_set_multicast
-Message-ID: <20250923094711.200b96f1.michal.pecio@gmail.com>
-In-Reply-To: <20250922180742.6ef6e2d5@kernel.org>
-References: <83171a57-cb40-4c97-b736-0e62930b9e5c@lunn.ch>
-	<20250920181852.18164-1-viswanathiyyappan@gmail.com>
-	<20250922180742.6ef6e2d5@kernel.org>
+	dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="CUu1lvbZ"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 9BF88C4CEF5;
+	Tue, 23 Sep 2025 08:10:43 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
+	s=korg; t=1758615044;
+	bh=iW3WPoagLwoxw6Vm11W1B8DLUUbl+cSm5INVhgNbxS0=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=CUu1lvbZ9Vi1eiQbP9TyKCBWnxSO+wgYt1w5dZjQNLBYdyQNp1x8oj13nSFHO0dgh
+	 sjOnfLjfTdgRefJ7Ti7MyNKmVPU7anyFQuO3d/EvN39oDlbBs+7nY2MgKdB0As76IL
+	 NzTQk5WZKpQpx4s86jlO4XYnqAhAVOnyTfn93l2U=
+Date: Tue, 23 Sep 2025 10:10:40 +0200
+From: Greg KH <gregkh@linuxfoundation.org>
+To: Al Viro <viro@zeniv.linux.org.uk>
+Cc: linux-fsdevel@vger.kernel.org, torvalds@linux-foundation.org,
+	brauner@kernel.org, jack@suse.cz, raven@themaw.net,
+	miklos@szeredi.hu, a.hindborg@kernel.org, linux-mm@kvack.org,
+	linux-efi@vger.kernel.org, ocfs2-devel@lists.linux.dev,
+	kees@kernel.org, rostedt@goodmis.org, linux-usb@vger.kernel.org,
+	paul@paul-moore.com, casey@schaufler-ca.com,
+	linuxppc-dev@lists.ozlabs.org, borntraeger@linux.ibm.com
+Subject: Re: [PATCH 19/39] debugfs: remove duplicate checks in callers of
+ start_creating()
+Message-ID: <2025092331-magnolia-educated-cd0f@gregkh>
+References: <20250920074156.GK39973@ZenIV>
+ <20250920074759.3564072-1-viro@zeniv.linux.org.uk>
+ <20250920074759.3564072-19-viro@zeniv.linux.org.uk>
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20250920074759.3564072-19-viro@zeniv.linux.org.uk>
 
-On Mon, 22 Sep 2025 18:07:42 -0700, Jakub Kicinski wrote:
-> On Sat, 20 Sep 2025 23:48:52 +0530 I Viswanath wrote:
-> > rtl8150_set_multicast is rtl8150's implementation of ndo_set_rx_mode and
-> > should not be calling netif_stop_queue and notif_start_queue as these handle 
-> > TX queue synchronization.
-> > 
-> > The net core function dev_set_rx_mode handles the synchronization
-> > for rtl8150_set_multicast making it safe to remove these locks.  
+On Sat, Sep 20, 2025 at 08:47:38AM +0100, Al Viro wrote:
+> we'd already verified that DEBUGFS_ALLOW_API was there in
+> start_creating() - it would've failed otherwise
 > 
-> Last time someone tried to add device ID to this driver was 20 years
-> ago. Please post a patch to delete this driver completely. If someone
-> speaks up we'll revert the removal and ask them to test the fix.
+> Signed-off-by: Al Viro <viro@zeniv.linux.org.uk>
+> ---
+>  fs/debugfs/inode.c | 15 ---------------
+>  1 file changed, 15 deletions(-)
 
-These were quite common, I still have one.
-
-What sort of testing do you need?
+Acked-by: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
