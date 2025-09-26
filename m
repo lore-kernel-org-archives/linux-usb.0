@@ -1,64 +1,65 @@
-Received: from mail-lf1-f43.google.com (mail-lf1-f43.google.com [209.85.167.43])
+Received: from mail-lf1-f51.google.com (mail-lf1-f51.google.com [209.85.167.51])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6540C2F7AC1
-	for <linux-usb@vger.kernel.org>; Fri, 26 Sep 2025 13:11:36 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.43
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7D2BB2FAC18
+	for <linux-usb@vger.kernel.org>; Fri, 26 Sep 2025 13:11:39 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.51
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1758892305; cv=none; b=BebuuVFqqUEVFv0ynX3ZCbmSGpA8HnoOqZ+nKRn0kbzhptY2HyCSZD8fkeal+/SyvmYOGI7yGdq7kKs5otlhM7dy+khW8LZAyfQIx/4fBhMxHnno3QnN+7yAk7RPuGp2v7sX9YiWVippgnBoFiw1ukjSjVYXYg+PIc47lcGJu1U=
+	t=1758892307; cv=none; b=b3oD3K2j2bYpfC/06RD0Qw3ZWjkqNVg9hslR8BMUDLPGkn642eENqAm25C1ZOoQR8r2lNzHT+aBfrNaljR5UJ1a2ZYBVF9OpTBs3X9aZthsIU7y9MraYMT0ew/ZPsde+IoeNZVWF6fo+2aqd6YLjLhTzOTEEywUnm+W88WP1omU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1758892305; c=relaxed/simple;
-	bh=7+uj94r/7LeT/xAkBfTGJ8aSRCSPNzAL0fCA+D8DD2o=;
+	s=arc-20240116; t=1758892307; c=relaxed/simple;
+	bh=yNrpERf5BIoxndB/IrDgg7F9IXcRYdRqRLfZtrmT8XA=;
 	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
-	 In-Reply-To:To:Cc; b=c9QPMSm6K4HYl/t8Mysb0tioJKNn/nOOL7wVaOGVu1Cx5iU+O4X+nBnjwCDOqa3X7LnYMH5HPuqNlZkNkwcXdik0hW9Lo23I0n+X093OGlPytSnRDsEUxKVcY84bRmRqYG9DkIJr2TS9sQoJ4/3vXOLREy6tq7nl9InRXFvcwfA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org; spf=pass smtp.mailfrom=chromium.org; dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b=BmGX5Z0P; arc=none smtp.client-ip=209.85.167.43
+	 In-Reply-To:To:Cc; b=oN/iquItg7cTYlm/k3/le4BTmrwJKR1i/mQqcA8Wg8UMPP+G92fLpGbWQLsPfIySLFa0rW6irZhB0C+L85VX3R+cP2V418xZEzKQjFnqudd8mixGWGvIuJL5Kn8QixI8DMEjDuakrYf0J2Cce41SC4YFL8yzuERACXDijSOyWQA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org; spf=pass smtp.mailfrom=chromium.org; dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b=FS/SKx5K; arc=none smtp.client-ip=209.85.167.51
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=chromium.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b="BmGX5Z0P"
-Received: by mail-lf1-f43.google.com with SMTP id 2adb3069b0e04-57bb7ee3142so2297508e87.0
-        for <linux-usb@vger.kernel.org>; Fri, 26 Sep 2025 06:11:35 -0700 (PDT)
+	dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b="FS/SKx5K"
+Received: by mail-lf1-f51.google.com with SMTP id 2adb3069b0e04-5818de29d15so2869400e87.2
+        for <linux-usb@vger.kernel.org>; Fri, 26 Sep 2025 06:11:39 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=chromium.org; s=google; t=1758892294; x=1759497094; darn=vger.kernel.org;
+        d=chromium.org; s=google; t=1758892296; x=1759497096; darn=vger.kernel.org;
         h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
          :mime-version:subject:date:from:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=aCy6Bk8e0KycgUL3e8TXrZ2btc+fiyl+rPdd78IS8Is=;
-        b=BmGX5Z0PvX78ztmXsmk/MgO7YHO5kshdUTFo6L3WtxQhR3b37olVG9YSfVpI3QmYAI
-         EhK0fDcsUSUO3HgE8vLcFK4A664M8X+Bzz0LHtyT64tXMPIS3PsEW6oAJDGLJiSNZl7E
-         dXCAQzyq95/E8D537XqgOO3WqhOEOUoH1rkh8=
+        bh=cjB3MTX3Joa1/7HOctJXxE5CXor1VUYeSlxA+suqIgI=;
+        b=FS/SKx5KlPs+jWLyH4wmJlgYY2EAyt5dORj4RnuYMdbpynQ/AkDgAZJjXC9Ylt/RLC
+         AosBVdJq9E1M/RmODFDre9MaRmNiRBDpP/njUiRMqbitzjlgXMrrhjUd9AbC5rsTZ4lO
+         +nYyunniXwcWawYBCOPp955C6FmII0OMEjbD0=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1758892294; x=1759497094;
+        d=1e100.net; s=20230601; t=1758892296; x=1759497096;
         h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
          :mime-version:subject:date:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=aCy6Bk8e0KycgUL3e8TXrZ2btc+fiyl+rPdd78IS8Is=;
-        b=P6EucRT2rgbYd3UHV8CydsMlS0upAU+7b+q7Amb6Hst9zSQyN7dliDkVM/Y51rp71Z
-         +DuhCx+DCbzgQN8bfc2whvnXv4SOcKML1rFNFiaxiarv7Qwfyb5yJPFVrgRP4M9UWwqj
-         vc40OUsYeHd5lIyqHgGFuT/BgQHrgLE1RKl83ZPtGlAIaJIeO8gm1GoItzsyTB7ZPaXd
-         rcDGkOGZ/Kz+l52wrrcZRy4Pa/ymvI0OvpWBLPM2ZW5/m3eoRg/4zAzfRJClPUT59cci
-         O7NQ8gqJ3bOgv5CfkCOjxZ8luPPkuvieHY2DYjfOXLMD/NxOLU62KTGI/tMsRcezDOiT
-         njEg==
-X-Forwarded-Encrypted: i=1; AJvYcCUfRv/0wfnpOuPQimK8d/R3BvN/NjSdw9vhBr4fuJTzqKsgJeb3FKsSbwlgA10R7FIopWxKKrdLAKI=@vger.kernel.org
-X-Gm-Message-State: AOJu0YyNxlwtYfGlhE9NAS3ugTjbg9MZw/X66TgkQPqX5dSEjriuqYP9
-	j34St/3iIbVK8ZCkgh1LqGrQ73AfkPfTAPbZKy4/GnTPFYJTbhwjVNESmu9bm4INgg==
-X-Gm-Gg: ASbGncsrllCglsbGiVrhBRgJHdJbHAPzEMypnMLeI0raMsfMsyFvLFK9iB9U6kKXTXk
-	phzvQi/NyN3J0o7va20hojamTwS/TH9Zm/JChX2mZj8s3GLrzYTRAOfoQEjUEJMDNWT9jgLJ16M
-	0pGfW6Ay+eVclJPXWJ+mcvQVCpjQtcQ546nk5Spl9gkJ8xSe3md5rFKpPqSRP80Rl2wbWODAp1n
-	FiIgs3Q7xSiHyjt4Q52/xssYpWbf8/U0nbkVTrTlsLHtDzfTFJ3sGqF3hF1dD3vlxCtsELQ3y94
-	S0LaMO/gaHreEWkEhJYlcdj3Po4PIrGNqlrH30EPbT+f06uXj9248iRUotniAuBaxjRKtPV6eRl
-	ciMa6X9mU0x8lhz1gL61D+f48iv/bW6eyzE8ZkfUBOTV4dwmq16GUfzgiWDRKa6CzgaQf6ukOsP
-	sxpQ==
-X-Google-Smtp-Source: AGHT+IFSULi7NpOrywI1NGNOQUbBJbkaKZRrtRNyEnHKO4o1kB5FT5TGBNkhNPYRfI8ePxwjL+x0fg==
-X-Received: by 2002:a05:6512:15a9:b0:57a:2be1:d773 with SMTP id 2adb3069b0e04-582d406b8a4mr1982976e87.53.1758892293940;
-        Fri, 26 Sep 2025 06:11:33 -0700 (PDT)
+        bh=cjB3MTX3Joa1/7HOctJXxE5CXor1VUYeSlxA+suqIgI=;
+        b=j48QT2jmFjOkQ6Qqm6gSILh4jI82X/up5NAsg0MtpChr7AROihqJevkFv9rEc6Oh6z
+         Wb1UaX9CnKKCWzlEOMvikp4Qgc290b+gJhnMGS4NXKPoZfkhsAFkTekxgljWYwtsh3AH
+         naokRzBL438gXJx0Eb3+4gHzraiPKcodFnhDNubCHY2C+LF+dDkN8OegahTUjDL65R6Z
+         t5DpmlFqe/MIJW4hZekVKWKJUcZI4V8VYVcKad5Ckm/NA9IwTX1zprsk82wVLXGMupVB
+         8o4Ct4LYFthMB+BO54JGQuLlc0pT6JDnb7x4CYkk5dMeCWFV/xnO1hYP18/cbNqFjAip
+         u2pw==
+X-Forwarded-Encrypted: i=1; AJvYcCXmxZl2wi/UyksccQLTP0r926Qhbf+uExm8HwPreUc+ZwlIM5TzM9SMThz3l41far54WRaBefSv3mI=@vger.kernel.org
+X-Gm-Message-State: AOJu0YzKHMko4E9eZfCzGTqrCGCrqRcoOdqIb8pXfmSZFvmiibE6FVTb
+	666yuG0mxHKOEaOU3VVqVERO8etb3wP6NKkzzdQ5l4ABD6zQPY4tj3xxC8XBL0lUSA==
+X-Gm-Gg: ASbGncvzX+7TcUH4Hw73A5ItR4PJ9t4i33Py/thDM7BhY3SCN3cE6i6Rl2Gns01IJAC
+	ldiCkrm9/hLqeMbKr931VUb77CSAStBXh/1enKnhVVuZ6CB8AwtFDzpOQo8vGWEZ5uKm238Jbfj
+	/N+rwnQK3WzowCw2w84XafYYaGLCcB/iqBN1C2zMhODOQC0wtxOH2Mwp7DCJNraKjMZbujkw7Jv
+	XIuLEJye3gCmSqxdHVHB5HOYm/y4OouDgOk+A+X0N2M4zhAswAQu7Q4xzcMjIycuCdqRICBdKV4
+	15EUyQL0kIqyBryx6sNEmQ5Duym0SpX8t7L4pL1cl+Fvdhb7Ih6YTWfB22OOhY0I4UiNYYlEIPN
+	tRcfU3b/Dojm9vdZBcgFPVK3FPkd5uUVGSlV4SSMobhgMFDcQhgR2MV/EI+v3R8bngEvn2Qvm10
+	S7cRtsPvVFafm7
+X-Google-Smtp-Source: AGHT+IHWNSHIhM8+wxqoK25vYQcpiuX3y8F3tCAqdPjxFUiAxRPF90tmVAHpAHEn0gJRDF4m3ruBAg==
+X-Received: by 2002:a05:6512:234f:b0:57b:7c83:d33b with SMTP id 2adb3069b0e04-582d34eab93mr2494739e87.47.1758892296391;
+        Fri, 26 Sep 2025 06:11:36 -0700 (PDT)
 Received: from ribalda.c.googlers.com (64.153.228.35.bc.googleusercontent.com. [35.228.153.64])
-        by smtp.gmail.com with ESMTPSA id 2adb3069b0e04-58527c6b014sm123872e87.43.2025.09.26.06.11.33
+        by smtp.gmail.com with ESMTPSA id 2adb3069b0e04-58527c6b014sm123872e87.43.2025.09.26.06.11.35
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 26 Sep 2025 06:11:33 -0700 (PDT)
+        Fri, 26 Sep 2025 06:11:36 -0700 (PDT)
 From: Ricardo Ribalda <ribalda@chromium.org>
-Date: Fri, 26 Sep 2025 13:11:31 +0000
-Subject: [PATCH v3 07/12] dt-bindings: media: Add usb-camera-module
+Date: Fri, 26 Sep 2025 13:11:35 +0000
+Subject: [PATCH v3 11/12] media: uvcvideo: Use current_value for read-only
+ controls
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
@@ -67,7 +68,7 @@ List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20250926-uvc-orientation-v3-7-6dc2fa5b4220@chromium.org>
+Message-Id: <20250926-uvc-orientation-v3-11-6dc2fa5b4220@chromium.org>
 References: <20250926-uvc-orientation-v3-0-6dc2fa5b4220@chromium.org>
 In-Reply-To: <20250926-uvc-orientation-v3-0-6dc2fa5b4220@chromium.org>
 To: Hans de Goede <hansg@kernel.org>, 
@@ -87,91 +88,118 @@ Cc: linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
  acpica-devel@lists.linux.dev, Ricardo Ribalda <ribalda@chromium.org>
 X-Mailer: b4 0.14.2
 
-For fixed cameras modules the OS needs to know where they are mounted.
-This information is used to determine if images need to be rotated or
-not.
-
-ACPI has a property for this purpose, which is parsed by
-acpi_get_physical_device_location():
-https://uefi.org/htmlspecs/ACPI_Spec_6_4_html/06_Device_Configuration/Device_Configuration.html#pld-physical-location-of-device
-
-In DT we have similar properties for video-interface-devices called
-orientation and rotation:
-Documentation/devicetree/bindings/media/video-interface-devices.yaml
-
-Add a new schema that combines usb/usb-device.yaml and
-media/video-interface-devices.yaml
+For read-only controls that do not support GET_MIN, GET_DEF, GET_MAX or
+GET_RES use the current value of the control or a constant number if the
+current value is not available.
 
 Signed-off-by: Ricardo Ribalda <ribalda@chromium.org>
 ---
- .../bindings/media/usb-camera-module.yaml          | 46 ++++++++++++++++++++++
- MAINTAINERS                                        |  1 +
- 2 files changed, 47 insertions(+)
+ drivers/media/usb/uvc/uvc_ctrl.c | 76 +++++++++++++++++++++++++++++-----------
+ 1 file changed, 56 insertions(+), 20 deletions(-)
 
-diff --git a/Documentation/devicetree/bindings/media/usb-camera-module.yaml b/Documentation/devicetree/bindings/media/usb-camera-module.yaml
-new file mode 100644
-index 0000000000000000000000000000000000000000..e4ad6f557b9151751522e49b72ae6584deb0c7ba
---- /dev/null
-+++ b/Documentation/devicetree/bindings/media/usb-camera-module.yaml
-@@ -0,0 +1,46 @@
-+# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
-+%YAML 1.2
-+---
-+$id: http://devicetree.org/schemas/media/usb-camera-module.yaml#
-+$schema: http://devicetree.org/meta-schemas/core.yaml#
+diff --git a/drivers/media/usb/uvc/uvc_ctrl.c b/drivers/media/usb/uvc/uvc_ctrl.c
+index 017165a5c94459f1befd4c08f85a2017c58d61e6..e99fdf4bafbea662556798fe345a48b9ffd8467b 100644
+--- a/drivers/media/usb/uvc/uvc_ctrl.c
++++ b/drivers/media/usb/uvc/uvc_ctrl.c
+@@ -1548,6 +1548,50 @@ static u32 uvc_get_ctrl_bitmap(struct uvc_control *ctrl,
+ 	return ~0;
+ }
+ 
++static s64 uvc_queryctrl_single_boundary(struct uvc_video_chain *chain,
++					 struct uvc_control *ctrl,
++					 struct uvc_control_mapping *mapping,
++					 u8 op)
++{
++	static const u32 query_types[][3] = {
++		{UVC_CTRL_FLAG_GET_DEF, UVC_GET_DEF, UVC_CTRL_DATA_DEF},
++		{UVC_CTRL_FLAG_GET_MIN, UVC_GET_MIN, UVC_CTRL_DATA_MIN},
++		{UVC_CTRL_FLAG_GET_MAX, UVC_GET_MAX, UVC_CTRL_DATA_MAX},
++		{UVC_CTRL_FLAG_GET_RES, UVC_GET_RES, UVC_CTRL_DATA_RES},
++	};
++	int idx = -1;
 +
-+title: USB Camera Module
++	for (unsigned int i = 0; i < ARRAY_SIZE(query_types); i++) {
++		if (op == query_types[i][1]) {
++			idx = i;
++			break;
++		}
++	}
++	if (WARN_ON(idx == -1))
++		return 0;
 +
-+maintainers:
-+  - Ricardo Ribalda <ribalda@chromium.org>
++	if (ctrl->info.flags & query_types[idx][0]) {
++		return uvc_mapping_get_s32(mapping, query_types[idx][1],
++					   uvc_ctrl_data(ctrl,
++							 query_types[idx][2]));
++	}
 +
-+description: |
-+  This schema allows for annotating auxiliary information for fixed camera
-+  modules. This information enables the system to determine if incoming frames
-+  require rotation, mirroring, or other transformations. It also describes the
-+  module's relationship with other hardware elements, such as flash LEDs or
-+  Voice Coil Motors (VCMs).
++	/* Use 1 as the default step value.  */
++	if (op == UVC_GET_RES)
++		return 1;
 +
-+allOf:
-+  - $ref: /schemas/usb/usb-device.yaml#
-+  - $ref: /schemas/media/video-interface-devices.yaml#
++	/* Read-only controls can use GET_CUR as min, max and def. */
++	if (!(ctrl->info.flags & UVC_CTRL_FLAG_SET_CUR) &&
++	    (ctrl->info.flags & UVC_CTRL_FLAG_GET_CUR) &&
++	    __uvc_ctrl_load_cur(chain, ctrl) == 0) {
++		return uvc_mapping_get_s32(mapping, UVC_GET_CUR,
++				uvc_ctrl_data(ctrl, UVC_CTRL_DATA_CURRENT));
++	}
 +
-+properties:
-+  reg:
-+    maxItems: 1
++	/* Otherwise, use 0 as last resource. */
++	return 0;
++}
 +
-+required:
-+  - reg
-+
-+additionalProperties: true
-+
-+examples:
-+  - |
-+    usb@11270000 {
-+        reg = <0x11270000 0x1000>;
-+        interrupts = <0x0 0x4e 0x0>;
-+        #address-cells = <1>;
-+        #size-cells = <0>;
-+
-+        device@1 {
-+            compatible = "usb123,4567";
-+            reg = <2>;
-+            orientation = <0>;
-+            rotation = <90>;
-+        };
-+    };
-diff --git a/MAINTAINERS b/MAINTAINERS
-index ee8cb2db483f6a5e96b62b6f2edd05b1427b69f5..1503502a3aed2625e8ff488456ccd7305cc74ba7 100644
---- a/MAINTAINERS
-+++ b/MAINTAINERS
-@@ -26258,6 +26258,7 @@ L:	linux-media@vger.kernel.org
- S:	Maintained
- W:	http://www.ideasonboard.org/uvc/
- T:	git git://linuxtv.org/media.git
-+F:	Documentation/devicetree/bindings/media/usb-camera-module.yaml
- F:	Documentation/userspace-api/media/drivers/uvcvideo.rst
- F:	Documentation/userspace-api/media/v4l/metafmt-uvc-msxu-1-5.rst
- F:	Documentation/userspace-api/media/v4l/metafmt-uvc.rst
+ /*
+  * Maximum retry count to avoid spurious errors with controls. Increasing this
+  * value does no seem to produce better results in the tested hardware.
+@@ -1573,11 +1617,9 @@ static int __uvc_queryctrl_boundaries(struct uvc_video_chain *chain,
+ 			return ret;
+ 	}
+ 
+-	if (ctrl->info.flags & UVC_CTRL_FLAG_GET_DEF)
+-		v4l2_ctrl->default_value = uvc_mapping_get_s32(mapping,
+-				UVC_GET_DEF, uvc_ctrl_data(ctrl, UVC_CTRL_DATA_DEF));
+-	else
+-		v4l2_ctrl->default_value = 0;
++	v4l2_ctrl->default_value =
++		uvc_queryctrl_single_boundary(chain, ctrl, mapping,
++					      UVC_GET_DEF);
+ 
+ 	switch (mapping->v4l2_type) {
+ 	case V4L2_CTRL_TYPE_MENU:
+@@ -1608,23 +1650,17 @@ static int __uvc_queryctrl_boundaries(struct uvc_video_chain *chain,
+ 		break;
+ 	}
+ 
+-	if (ctrl->info.flags & UVC_CTRL_FLAG_GET_MIN)
+-		v4l2_ctrl->minimum = uvc_mapping_get_s32(mapping, UVC_GET_MIN,
+-				uvc_ctrl_data(ctrl, UVC_CTRL_DATA_MIN));
+-	else
+-		v4l2_ctrl->minimum = 0;
++	v4l2_ctrl->minimum =
++		uvc_queryctrl_single_boundary(chain, ctrl, mapping,
++					      UVC_GET_MIN);
+ 
+-	if (ctrl->info.flags & UVC_CTRL_FLAG_GET_MAX)
+-		v4l2_ctrl->maximum = uvc_mapping_get_s32(mapping, UVC_GET_MAX,
+-				uvc_ctrl_data(ctrl, UVC_CTRL_DATA_MAX));
+-	else
+-		v4l2_ctrl->maximum = 0;
++	v4l2_ctrl->maximum =
++		uvc_queryctrl_single_boundary(chain, ctrl, mapping,
++					      UVC_GET_MAX);
+ 
+-	if (ctrl->info.flags & UVC_CTRL_FLAG_GET_RES)
+-		v4l2_ctrl->step = uvc_mapping_get_s32(mapping, UVC_GET_RES,
+-				uvc_ctrl_data(ctrl, UVC_CTRL_DATA_RES));
+-	else
+-		v4l2_ctrl->step = 0;
++	v4l2_ctrl->step =
++		uvc_queryctrl_single_boundary(chain, ctrl, mapping,
++					      UVC_GET_RES);
+ 
+ 	return 0;
+ }
 
 -- 
 2.51.0.536.g15c5d4f767-goog
