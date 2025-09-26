@@ -1,65 +1,64 @@
-Received: from mail-lf1-f44.google.com (mail-lf1-f44.google.com [209.85.167.44])
+Received: from mail-lf1-f50.google.com (mail-lf1-f50.google.com [209.85.167.50])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E59BC2F747F
-	for <linux-usb@vger.kernel.org>; Fri, 26 Sep 2025 13:11:35 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.44
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CF5DA2F60A1
+	for <linux-usb@vger.kernel.org>; Fri, 26 Sep 2025 13:11:38 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.50
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1758892301; cv=none; b=b7vbRIyEOAeiYvFvFrPtRdrGxQ0DkHouP+oJYtT8uYZQs7udszmqHrYu7Vu/Ex+Odzf1U8n2/27i3AZ+/MxOYIExuTeB6KJXOva/XzM5Qe4/ldfFHnSu3wyv+9s47LPOeBrpKwbPF9BCLEgrB2fbTkM2L8OPBN6b/5PgnC4oyHc=
+	t=1758892304; cv=none; b=RSEf8SXnwl8Fo104ONGHB4m3FzXNYKg7ANeLThkTctCtHlPYqKSSJp8V8z/FZyqWJmbdUC+umdq6NJRWdgOy2W5fJpRifJd9n/Y//ct9545TkLFgxJvWrN+BNip53NMBU+5FYdkrahpuSXi+aCAhKuTx0jQEihQCEurIjkRBY7A=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1758892301; c=relaxed/simple;
-	bh=uQKx1xhIU5eIYcqCEj+wgLYNzIbICgNjQdDV8Jtr5o0=;
+	s=arc-20240116; t=1758892304; c=relaxed/simple;
+	bh=tSZ4e7bBWYDXs+64s5deuA0eU78Hb20V1QttJt4YMDI=;
 	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
-	 In-Reply-To:To:Cc; b=TfulOl1rZzkRjGQWJr/VIAqvF91TlfeF6aFVOOv36RgBtR/Tzomw+x3eK+Jjz3fpXxaMLicrVerhczfHm6y+AOoX0PYzx9YGSsTneFmx+m9GHx8qYOdWFHu7CsBkUmCIqVRZrTwUmDBFYSkuRwFl35/qDuvEMRcb6qJ706gugW4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org; spf=pass smtp.mailfrom=chromium.org; dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b=WIUId/8i; arc=none smtp.client-ip=209.85.167.44
+	 In-Reply-To:To:Cc; b=bnx9tZ22Xzicg5bTxYDS+t9W/zPwr+XjJRaXCdTCvXORRDDZzQMG+60rGYhHuKICx/UsNViRuFGGSprGXAhHW5Jz4eBoWGNYU3KOOVqyNT51Ff2N66Xkai1MVNR8fv1xd8oQ2/JyEVoRjmJsWtnzrfao47i7ItWXXCk9RX7n9FU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org; spf=pass smtp.mailfrom=chromium.org; dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b=jSjP4sHf; arc=none smtp.client-ip=209.85.167.50
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=chromium.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b="WIUId/8i"
-Received: by mail-lf1-f44.google.com with SMTP id 2adb3069b0e04-579d7104c37so2967887e87.3
-        for <linux-usb@vger.kernel.org>; Fri, 26 Sep 2025 06:11:35 -0700 (PDT)
+	dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b="jSjP4sHf"
+Received: by mail-lf1-f50.google.com with SMTP id 2adb3069b0e04-57b35e176dbso2604947e87.1
+        for <linux-usb@vger.kernel.org>; Fri, 26 Sep 2025 06:11:38 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=chromium.org; s=google; t=1758892293; x=1759497093; darn=vger.kernel.org;
+        d=chromium.org; s=google; t=1758892296; x=1759497096; darn=vger.kernel.org;
         h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
          :mime-version:subject:date:from:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=LZ2xc23cnAfVOxiaEtcKmtjDZaiDvCUR7nAT9mLWhLU=;
-        b=WIUId/8iT+6SwyIGvX3TRYP4VupuoS0vQG83UY55JuPAK4lj/4jhPJMhCIp7cHPIwh
-         s+ru4i3wDIGi/NSn+UJ7TJF0Rw23gsui1BQL9MqgyJk2o1FPGQQrEgKR8dWyYzzr4JGf
-         bn+VDC1rE7OFfTOIIzoMOZLZeGqSNlDIaX6SY=
+        bh=bphRunTYPw61AUvJ/YpfJ9I70eYp7wtD0WzfXD7gDd4=;
+        b=jSjP4sHfuhbwLdbt121hI4bjomddVP4C91PLouwDoTn8W45OpvxY9oHbOMYkHXP/Lw
+         c8Hfr/ASTHKxOx1wsdrwLvmuqe5lqMghcXhTd5wC7u8ovPA3zUJyM0m7q3FGh00hLZ+2
+         Smal8XpgJIgcjIV4ePaxghrnTsSwe6osmGAO8=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1758892293; x=1759497093;
+        d=1e100.net; s=20230601; t=1758892296; x=1759497096;
         h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
          :mime-version:subject:date:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=LZ2xc23cnAfVOxiaEtcKmtjDZaiDvCUR7nAT9mLWhLU=;
-        b=qfhxEycptef/GaLpAstY3T34Rg1nTeCpg0+kczfhAd50RvkJxCR5bsq0QRBPJEJWlq
-         u8wGC8Dnj5WfGmhiPqSR26WJd+cEIp0pOi/xGgN1YnJD/qw4hsuBWz0LsZxl7wBJi3LN
-         0Wjn6QQjNC2WaAFI0mGIMEqMuE3gfFlQPKvLnIKiEfed6+iewkNKZHiOF1UKdIqcEZ9D
-         abftqkA2ELWpxyoSW3HhaAuRHHyegkwUf1+eJFvPZN2I7z7D3QVT+7BYnu6dGD6oXWo7
-         HSqr6iHjmF5qhcg3dO50xnajr9IMtGlRO5R81WoJjxYa9ndJt/XxM0YMHlTskuyEpGeF
-         RnqA==
-X-Forwarded-Encrypted: i=1; AJvYcCWZ7Pi4/wQgWewdpmECv2cbGI7kyFp7a0LceO2fynMxI84z6OX4ifVche3xszh7wxvV+YxhogYFO18=@vger.kernel.org
-X-Gm-Message-State: AOJu0YxLKg4PtjALp2OAi08Tw7irT5KiKppQN4JQzk2c3pyMJ0K4UO4s
-	YnsdAIxqsZeF7osRWSVgWNtma4dqNZvMRFhe1IHrdkNt6DgZp4xHo2o5oSNm6Mv4Vw==
-X-Gm-Gg: ASbGncvqazjrhMRCg1oCLfzXI7izgqy7eYgFaXnmJzqrXSVnh1VXSyiMPHh0b9n49MD
-	9Bk9I/A9pHammFNy8UDaDziQwqV00J7gDJkSIRg/Uk8fJ+VZQrUOXYhRbXyr9UNS6kpZmgM6Rqc
-	om+Ge8Hdv6MN6zQUo6+MPH7HvbxCtjwv94wgAEc31+sLL1xkP+42R/VBv+fg0KKXzio//DVPbJb
-	4UyEdHtYl/eUeMx00E4QlbgVv4JpYT1K7PEtEX8t61VhpVygbQM7aLo1Ihi7l1xkw9sQdE8n7Kz
-	kG/4qrIsO90moDq+37lYamFYZcLs0i5sRSew+mI5UZcNti1HbC0FhrRHluLkZBEfX/d0GKrlf/w
-	TLs2Pikr7al6d3y6pIBCCE+M4h3CiuZHDxzlgy3VUiN7FcXcicdyHhC11SKFpUmjE8cbuEMRvPX
-	v3nnWB/siK89dAyNILSens+yI=
-X-Google-Smtp-Source: AGHT+IEc/rDB1XIEkZ7T9M5CIKlYJn+bt+sf74IR95Ks98OS/SI0N6MNxqx7nWfz1ihO3nPV6De8mw==
-X-Received: by 2002:ac2:4183:0:b0:584:2ad8:7ce3 with SMTP id 2adb3069b0e04-5842ad87e22mr755887e87.22.1758892292551;
-        Fri, 26 Sep 2025 06:11:32 -0700 (PDT)
+        bh=bphRunTYPw61AUvJ/YpfJ9I70eYp7wtD0WzfXD7gDd4=;
+        b=gKExIEEQWJ74KMdJymkK0JqQFTYK4Gkv77D8wZCBb94Eh+gF1XnAyuvP91KOSfpNLJ
+         0q8Paks8bt9FQLpXj6Wt0sCU0NBp4h0gwZE1f40jeaHvTqarT1/VjyCGRBdURUwJH+ya
+         MokX+h/jC0U57ljtx3qxElU24fGQaEWucAqBVyTkdoqD91ytltjsLDBYnr0HgOFjQYN/
+         GIGMLE7pG1LKLqn4VMMNRtJm0hn6XjKxYdLHD2MkR+fDQkBuK+vxJ9LbBP2w4PimkdzQ
+         TXGBojKfLe86UqBRIsERQCxV8pNTgsbeD2cWMuK/J1cw1+5U5SrUvLOcOuw1MRxTrAVx
+         OUhQ==
+X-Forwarded-Encrypted: i=1; AJvYcCVF26/ZQqIsJG6FveXK9TocBf/Lf22dKLr7WEI3DxpJtE1CGASAygpu14DwwZSmhnuToxFn9s0TOSs=@vger.kernel.org
+X-Gm-Message-State: AOJu0Ywl+hBOOj40nzHw+l9KovONpH6G59AoUgJMTso2Hct8Yr+YB9zI
+	0YxdvmvjFX5AWqUEzm1vTOshkH89SEFGrpOmZX0GdxoGNzEcNNicuP9E9N8GOSSEXg==
+X-Gm-Gg: ASbGncu41FrL6FVT0+/yfeUy1+jGqi6QibpHUeGYbjJSQUmmjMb3CE69IgC5qrQETGb
+	yFd93Kze05IrFgTFmWUOoiUhNfeOh6S3AH0fHSRfJp/9SF+UEowin1Ianska24kTj+wCju481WY
+	h37K9PNyM4P+QMQIaP5vXoESP21YfLjNvwu2CNt30Vkaxtq7W7h41rgOfMPOskTqaZOWoEfhzid
+	Vyov3oNwUB1SZ3RSMiYn1wBE60uIa7CFBzNaA9uRTCRkEIdSEVWpRJSYVrr8IGl+fkMjlP1qmkc
+	2Op7odU3tpmgAPBE98wbw2w4GHEijutewzeWirSFWsW+DMBLvkb06K/raKC7uZ2M2gywXYhcTwG
+	cs/ISvudUKlE7TtW8myCR9LfFl0TjotPHbENUDTDrELLcbje2GNgZuWAXhMZs4yEHBL7NWKHh7N
+	Om7UQ8YdUQx6MO
+X-Google-Smtp-Source: AGHT+IEv9MbC6V8zP0dxYjK1OB4iFK32py7NZfWALirf9hP7Mf6Qwl9MxHAyd3yZAKgRpXN6nv2Waw==
+X-Received: by 2002:a05:6512:3f1b:b0:571:86bc:423b with SMTP id 2adb3069b0e04-582d3f76d9fmr2145509e87.44.1758892295887;
+        Fri, 26 Sep 2025 06:11:35 -0700 (PDT)
 Received: from ribalda.c.googlers.com (64.153.228.35.bc.googleusercontent.com. [35.228.153.64])
-        by smtp.gmail.com with ESMTPSA id 2adb3069b0e04-58527c6b014sm123872e87.43.2025.09.26.06.11.32
+        by smtp.gmail.com with ESMTPSA id 2adb3069b0e04-58527c6b014sm123872e87.43.2025.09.26.06.11.35
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 26 Sep 2025 06:11:32 -0700 (PDT)
+        Fri, 26 Sep 2025 06:11:35 -0700 (PDT)
 From: Ricardo Ribalda <ribalda@chromium.org>
-Date: Fri, 26 Sep 2025 13:11:29 +0000
-Subject: [PATCH v3 05/12] media: ipu-bridge: Use v4l2_fwnode_device_parse
- helper
+Date: Fri, 26 Sep 2025 13:11:34 +0000
+Subject: [PATCH v3 10/12] media: uvcvideo: Add uvc_ctrl_query_entity helper
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
@@ -68,7 +67,7 @@ List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20250926-uvc-orientation-v3-5-6dc2fa5b4220@chromium.org>
+Message-Id: <20250926-uvc-orientation-v3-10-6dc2fa5b4220@chromium.org>
 References: <20250926-uvc-orientation-v3-0-6dc2fa5b4220@chromium.org>
 In-Reply-To: <20250926-uvc-orientation-v3-0-6dc2fa5b4220@chromium.org>
 To: Hans de Goede <hansg@kernel.org>, 
@@ -88,102 +87,158 @@ Cc: linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
  acpica-devel@lists.linux.dev, Ricardo Ribalda <ribalda@chromium.org>
 X-Mailer: b4 0.14.2
 
-v4l2_fwnode_device_parse now supports ACPI devices as well. Use the
-helper instead of re-implement the logic.
+Create a helper function to query a control. The new function reduces
+the number of arguments, calculates the length of the operation and
+redirects the operation to the hardware or to the entity private
+functions.
 
 Signed-off-by: Ricardo Ribalda <ribalda@chromium.org>
 ---
- drivers/media/pci/intel/Kconfig      |  1 +
- drivers/media/pci/intel/ipu-bridge.c | 42 +++++++++++-------------------------
- 2 files changed, 14 insertions(+), 29 deletions(-)
+ drivers/media/usb/uvc/uvc_ctrl.c | 83 +++++++++++++++++++++-------------------
+ 1 file changed, 43 insertions(+), 40 deletions(-)
 
-diff --git a/drivers/media/pci/intel/Kconfig b/drivers/media/pci/intel/Kconfig
-index d9fcddce028bf736557e2c6c289d4f8056d80756..69e3108ba02c4f0bc56b0e26ddce9f86775099f6 100644
---- a/drivers/media/pci/intel/Kconfig
-+++ b/drivers/media/pci/intel/Kconfig
-@@ -8,6 +8,7 @@ config IPU_BRIDGE
- 	tristate "Intel IPU Bridge"
- 	depends on ACPI || COMPILE_TEST
- 	depends on I2C
-+	select V4L2_FWNODE
- 	help
- 	  The IPU bridge is a helper library for Intel IPU drivers to
- 	  function on systems shipped with Windows.
-diff --git a/drivers/media/pci/intel/ipu-bridge.c b/drivers/media/pci/intel/ipu-bridge.c
-index 4e579352ab2c0be656576fa223429432940747d8..441d1a5979fe94bee4738da68e185a44dbd411d4 100644
---- a/drivers/media/pci/intel/ipu-bridge.c
-+++ b/drivers/media/pci/intel/ipu-bridge.c
-@@ -257,42 +257,22 @@ static u32 ipu_bridge_parse_rotation(struct acpi_device *adev,
- 	}
- }
+diff --git a/drivers/media/usb/uvc/uvc_ctrl.c b/drivers/media/usb/uvc/uvc_ctrl.c
+index 98e454fcdeb2ee36d334068fd750e6203931699d..017165a5c94459f1befd4c08f85a2017c58d61e6 100644
+--- a/drivers/media/usb/uvc/uvc_ctrl.c
++++ b/drivers/media/usb/uvc/uvc_ctrl.c
+@@ -598,6 +598,36 @@ static const struct uvc_control_mapping uvc_ctrl_power_line_mapping_uvc15 = {
+ 				  V4L2_CID_POWER_LINE_FREQUENCY_DISABLED),
+ };
  
--static enum v4l2_fwnode_orientation ipu_bridge_parse_orientation(struct acpi_device *adev)
-+static enum v4l2_fwnode_orientation
-+ipu_bridge_parse_orientation(struct acpi_device *adev,
-+			     struct v4l2_fwnode_device_properties *props)
++static int uvc_ctrl_query_entity(struct uvc_device *dev,
++				 const struct uvc_control *ctrl, u8 query,
++				 void *data)
++{
++	u16 len;
++
++	switch (query) {
++	case UVC_GET_INFO:
++		len = 1;
++		break;
++	case UVC_GET_LEN:
++		len = 2;
++		break;
++	default:
++		len = ctrl->info.size;
++		break;
++	}
++
++	if (query == UVC_GET_CUR && ctrl->entity->get_cur)
++		return ctrl->entity->get_cur(dev, ctrl->entity,
++					     ctrl->info.selector, data, len);
++	else if (query == UVC_GET_INFO && ctrl->entity->get_info)
++		return ctrl->entity->get_info(dev, ctrl->entity,
++					      ctrl->info.selector, data);
++	else
++		return uvc_query_ctrl(dev, query, ctrl->entity->id,
++				      dev->intfnum, ctrl->info.selector, data,
++				      len);
++}
++
+ static const struct uvc_control_mapping *uvc_ctrl_filter_plf_mapping(
+ 	struct uvc_video_chain *chain, struct uvc_control *ctrl)
  {
--	enum v4l2_fwnode_orientation orientation;
--	struct acpi_pld_info *pld = NULL;
--
--	if (!acpi_get_physical_device_location(ACPI_PTR(adev->handle), &pld)) {
--		dev_warn(ADEV_DEV(adev), "_PLD call failed, using default orientation\n");
-+	if (props->orientation == V4L2_FWNODE_PROPERTY_UNSET) {
-+		acpi_handle_warn(acpi_device_handle(adev),
-+				 "Using default orientation\n");
- 		return V4L2_FWNODE_ORIENTATION_EXTERNAL;
- 	}
- 
--	switch (pld->panel) {
--	case ACPI_PLD_PANEL_FRONT:
--		orientation = V4L2_FWNODE_ORIENTATION_FRONT;
--		break;
--	case ACPI_PLD_PANEL_BACK:
--		orientation = V4L2_FWNODE_ORIENTATION_BACK;
--		break;
--	case ACPI_PLD_PANEL_TOP:
--	case ACPI_PLD_PANEL_LEFT:
--	case ACPI_PLD_PANEL_RIGHT:
--	case ACPI_PLD_PANEL_UNKNOWN:
--		orientation = V4L2_FWNODE_ORIENTATION_EXTERNAL;
--		break;
--	default:
--		dev_warn(ADEV_DEV(adev), "Unknown _PLD panel val %d\n",
--			 pld->panel);
--		orientation = V4L2_FWNODE_ORIENTATION_EXTERNAL;
--		break;
--	}
--
--	ACPI_FREE(pld);
--	return orientation;
-+	return props->orientation;
- }
- 
- int ipu_bridge_parse_ssdb(struct acpi_device *adev, struct ipu_sensor *sensor)
- {
-+	struct v4l2_fwnode_device_properties props;
- 	struct ipu_sensor_ssdb ssdb = {};
+@@ -1256,35 +1286,27 @@ static int uvc_ctrl_populate_cache(struct uvc_video_chain *chain,
  	int ret;
  
-@@ -300,6 +280,10 @@ int ipu_bridge_parse_ssdb(struct acpi_device *adev, struct ipu_sensor *sensor)
- 	if (ret)
+ 	if (ctrl->info.flags & UVC_CTRL_FLAG_GET_DEF) {
+-		ret = uvc_query_ctrl(chain->dev, UVC_GET_DEF, ctrl->entity->id,
+-				     chain->dev->intfnum, ctrl->info.selector,
+-				     uvc_ctrl_data(ctrl, UVC_CTRL_DATA_DEF),
+-				     ctrl->info.size);
++		ret = uvc_ctrl_query_entity(chain->dev, ctrl, UVC_GET_DEF,
++					uvc_ctrl_data(ctrl, UVC_CTRL_DATA_DEF));
+ 		if (ret < 0)
+ 			return ret;
+ 	}
+ 
+ 	if (ctrl->info.flags & UVC_CTRL_FLAG_GET_MIN) {
+-		ret = uvc_query_ctrl(chain->dev, UVC_GET_MIN, ctrl->entity->id,
+-				     chain->dev->intfnum, ctrl->info.selector,
+-				     uvc_ctrl_data(ctrl, UVC_CTRL_DATA_MIN),
+-				     ctrl->info.size);
++		ret = uvc_ctrl_query_entity(chain->dev, ctrl, UVC_GET_MIN,
++					uvc_ctrl_data(ctrl, UVC_CTRL_DATA_MIN));
+ 		if (ret < 0)
+ 			return ret;
+ 	}
+ 	if (ctrl->info.flags & UVC_CTRL_FLAG_GET_MAX) {
+-		ret = uvc_query_ctrl(chain->dev, UVC_GET_MAX, ctrl->entity->id,
+-				     chain->dev->intfnum, ctrl->info.selector,
+-				     uvc_ctrl_data(ctrl, UVC_CTRL_DATA_MAX),
+-				     ctrl->info.size);
++		ret = uvc_ctrl_query_entity(chain->dev, ctrl, UVC_GET_MAX,
++					uvc_ctrl_data(ctrl, UVC_CTRL_DATA_MAX));
+ 		if (ret < 0)
+ 			return ret;
+ 	}
+ 	if (ctrl->info.flags & UVC_CTRL_FLAG_GET_RES) {
+-		ret = uvc_query_ctrl(chain->dev, UVC_GET_RES, ctrl->entity->id,
+-				     chain->dev->intfnum, ctrl->info.selector,
+-				     uvc_ctrl_data(ctrl, UVC_CTRL_DATA_RES),
+-				     ctrl->info.size);
++		ret = uvc_ctrl_query_entity(chain->dev, ctrl, UVC_GET_RES,
++					uvc_ctrl_data(ctrl, UVC_CTRL_DATA_RES));
+ 		if (ret < 0) {
+ 			if (UVC_ENTITY_TYPE(ctrl->entity) !=
+ 			    UVC_VC_EXTENSION_UNIT)
+@@ -1325,16 +1347,7 @@ static int __uvc_ctrl_load_cur(struct uvc_video_chain *chain,
+ 		return 0;
+ 	}
+ 
+-	if (ctrl->entity->get_cur)
+-		ret = ctrl->entity->get_cur(chain->dev, ctrl->entity,
+-					    ctrl->info.selector, data,
+-					    ctrl->info.size);
+-	else
+-		ret = uvc_query_ctrl(chain->dev, UVC_GET_CUR,
+-				     ctrl->entity->id, chain->dev->intfnum,
+-				     ctrl->info.selector, data,
+-				     ctrl->info.size);
+-
++	ret = uvc_ctrl_query_entity(chain->dev, ctrl, UVC_GET_CUR, data);
+ 	if (ret < 0)
  		return ret;
  
-+	ret = v4l2_fwnode_device_parse(ADEV_DEV(adev), &props);
-+	if (ret)
-+		return ret;
-+
- 	if (ssdb.vcmtype > ARRAY_SIZE(ipu_vcm_types)) {
- 		dev_warn(ADEV_DEV(adev), "Unknown VCM type %d\n", ssdb.vcmtype);
- 		ssdb.vcmtype = 0;
-@@ -314,7 +298,7 @@ int ipu_bridge_parse_ssdb(struct acpi_device *adev, struct ipu_sensor *sensor)
- 	sensor->lanes = ssdb.lanes;
- 	sensor->mclkspeed = ssdb.mclkspeed;
- 	sensor->rotation = ipu_bridge_parse_rotation(adev, &ssdb);
--	sensor->orientation = ipu_bridge_parse_orientation(adev);
-+	sensor->orientation = ipu_bridge_parse_orientation(adev, &props);
+@@ -2244,11 +2257,8 @@ static int uvc_ctrl_commit_entity(struct uvc_device *dev,
+ 			continue;
  
- 	if (ssdb.vcmtype)
- 		sensor->vcm_type = ipu_vcm_types[ssdb.vcmtype - 1];
+ 		if (!rollback)
+-			ret = uvc_query_ctrl(dev, UVC_SET_CUR, ctrl->entity->id,
+-				dev->intfnum, ctrl->info.selector,
+-				uvc_ctrl_data(ctrl, UVC_CTRL_DATA_CURRENT),
+-				ctrl->info.size);
+-
++			ret = uvc_ctrl_query_entity(dev, ctrl, UVC_SET_CUR,
++				uvc_ctrl_data(ctrl, UVC_CTRL_DATA_CURRENT));
+ 		if (!ret)
+ 			processed_ctrls++;
+ 
+@@ -2650,13 +2660,7 @@ static int uvc_ctrl_get_flags(struct uvc_device *dev,
+ 	if (data == NULL)
+ 		return -ENOMEM;
+ 
+-	if (ctrl->entity->get_info)
+-		ret = ctrl->entity->get_info(dev, ctrl->entity,
+-					     ctrl->info.selector, data);
+-	else
+-		ret = uvc_query_ctrl(dev, UVC_GET_INFO, ctrl->entity->id,
+-				     dev->intfnum, info->selector, data, 1);
+-
++	ret = uvc_ctrl_query_entity(dev, ctrl, UVC_GET_INFO, data);
+ 	if (!ret) {
+ 		info->flags &= ~(UVC_CTRL_FLAG_GET_CUR |
+ 				 UVC_CTRL_FLAG_SET_CUR |
+@@ -2738,8 +2742,7 @@ static int uvc_ctrl_fill_xu_info(struct uvc_device *dev,
+ 	ctrl->info.selector = info->selector;
+ 
+ 	/* Query and verify the control length (GET_LEN) */
+-	ret = uvc_query_ctrl(dev, UVC_GET_LEN, ctrl->entity->id, dev->intfnum,
+-			     info->selector, data, 2);
++	ret = uvc_ctrl_query_entity(dev, ctrl, UVC_GET_LEN, data);
+ 	if (ret < 0) {
+ 		uvc_dbg(dev, CONTROL,
+ 			"GET_LEN failed on control %pUl/%u (%d)\n",
 
 -- 
 2.51.0.536.g15c5d4f767-goog
