@@ -1,38 +1,38 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CED131494A8;
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CED8A27877B;
 	Fri, 26 Sep 2025 18:19:48 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1758910788; cv=none; b=j2gxcJsKu0JV8/yq5u2w7BDE5qKEhlUUQPMyrGQ8U4P0RlSMprP62uNF7XQDEKcf13a3dGW9TT57Fuzlww9BdbD6g0yXXYETxN46VhGKD76JsRmAXND3Em3+zFpvOrOoDvFyq5/MsSjMA0xIZ6L1aEh23X++AznZviaO+8S72iA=
+	t=1758910788; cv=none; b=kq7gG270wzbcC0BbK8ugcj5QjB3B+IUAPG34kzmJMlX0+10i8YOrHNWcANPck7rFU7g9T72x1gvi6UTw0q9OBeMksnK/mBcZlDGtgYsqQ4/jUbbP/qCXLBk5bUwgWJ8v331bK41BB29hCV+dtKvPYbezXrMYox9HbJkJGMSWbxU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
 	s=arc-20240116; t=1758910788; c=relaxed/simple;
-	bh=0CgND4WO16EtwUc3Nse3AAY8I+x8THVa8IhQIsivJLs=;
-	h=From:Subject:Date:Message-Id:MIME-Version:Content-Type:To:Cc; b=uaHO0CKkqSM96YNODruum8ngTTR3NKPDC8kh14V5AQ/S5Wt5QpWJmn/J0I6tYxBIuMrsDN2mZAcFAXXOdS1KumpMPXTdtNU6ALoZlgqepFtq2Zet9tfljBjWeUFpp1crkl0ekBDgpapMZzV70QSjIijESDSKszhK3HBKBMRwbMs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=EFqQZElB; arc=none smtp.client-ip=10.30.226.201
+	bh=Y47BmXQKGcY7pVuayUBb2urB3tQN1uchsdVE/aFIOuk=;
+	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
+	 In-Reply-To:To:Cc; b=GODhwUTg7VJrOuJrJKcM0z+LMPhIMYydzCGsSII49GJoxGGKoldEe8fGgT0nWQoTju1wBooGs601E3CTNmH0yqc3gwYBqVvbuOKyO+KlS7eLs2JOrQpDmriuSpwt3UsCkb1u7BC2AFXum5A+avrR5EMKTKN/Q4xV9QB0u5gx3qA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=pt86/lUg; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="EFqQZElB"
-Received: by smtp.kernel.org (Postfix) with ESMTPS id 61B71C4CEF4;
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="pt86/lUg"
+Received: by smtp.kernel.org (Postfix) with ESMTPS id 7BA09C4AF0B;
 	Fri, 26 Sep 2025 18:19:48 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
 	s=k20201202; t=1758910788;
-	bh=0CgND4WO16EtwUc3Nse3AAY8I+x8THVa8IhQIsivJLs=;
-	h=From:Subject:Date:To:Cc:Reply-To:From;
-	b=EFqQZElBdFonxbZXptHxBGcF7HN72o2kHiE88vBtKb9UJLOLs7JAhSIjcjTBoYI+X
-	 7+psEOnYSFC6rlh9JSWxyYAmyOUnp4O4NgEkT3/RWBDZVQ6yvKE+IHBrPCYoA/UfT9
-	 vf6DCunRU1iF14XAzo5Ctg5IqSTcmI5B7yrC/kxDXWx3KiqquRl0UAwZfAIFw1qM81
-	 tt7KVbLYQdz8i1zZloLF+NE9e2VQQiOmLOl6z5YOr5QsZReG7pigdz0yhr6BsbLDtX
-	 EpjIs+bghQqJNPfjiL0Z5U1RTQj7bHMqx62lR8MOXEcLtoHQWLy3cSgBPagEat/w/J
-	 +LI1Tv+bDexKQ==
+	bh=Y47BmXQKGcY7pVuayUBb2urB3tQN1uchsdVE/aFIOuk=;
+	h=From:Date:Subject:References:In-Reply-To:To:Cc:Reply-To:From;
+	b=pt86/lUgJUIXh12EKHP9nb2/CGaVRq1ccohCi7OxQF944mgTDzlpSwy3HEm50NoAT
+	 x3QXGsniE8yKEE0+sNJ5wWAIyP+fVpvBiQ4+mT4TcZmUIedUu4mkZvbgV6ql9nLb86
+	 YLSLYLCVpiNtwLbuDTuFkF2Qs0aXlhAtqcTx2/fuh9YbYjZBxLfSW7Uo968WqGZ+1k
+	 FPhpMVlbY9HpVCGFbWpdfrtDHaiXyqlNo8L2BmlV3SkJpfsVmaBludrSc/kfuUbSJL
+	 w3yXikRARWge6sWunrpvgGWdFoQE/M1AsY61HgLGumxnmEf+APMQjgrSZmeSthnvm+
+	 9Csmamfyy50QA==
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 450B9CAC5B9;
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 6B65DCAC5BD;
 	Fri, 26 Sep 2025 18:19:48 +0000 (UTC)
 From: Frank Li via B4 Relay <devnull+Frank.Li.nxp.com@kernel.org>
-Subject: [PATCH v4 0/4] usb: dwc3: add layerscape platform driver use
- flatten dwc3 core
-Date: Fri, 26 Sep 2025 14:19:39 -0400
-Message-Id: <20250926-ls_dma_coherence-v4-0-21e9c6bdb5cb@nxp.com>
+Date: Fri, 26 Sep 2025 14:19:41 -0400
+Subject: [PATCH v4 2/4] usb: dwc3: Add software-managed properties for
+ flattened model
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
@@ -41,11 +41,9 @@ List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-X-B4-Tracking: v=1; b=H4sIADzZ1mgC/33OQQqDMBAF0KtI1k2JiR1rV71HKWImYw3UKEkRi
- 3j3Rje1IF3+gff/TCyQtxTYJZmYp8EG27kYskPCsKncg7g1MTMp5EmAkPwZStNWJXYNeXJIHBV
- KDXVeGC1ZZL2n2o5r5e0ec2PDq/PvdWFIl+ufsiHlgiPk2TkzUGnIrm7sj9i1bKka5JcXUu1wu
- XBSaQ6qAG30L1dbDjtcRR7/0ikKJNCb9XmeP6x5Tm0sAQAA
-X-Change-ID: 20250602-ls_dma_coherence-c3c2b6f79db2
+Message-Id: <20250926-ls_dma_coherence-v4-2-21e9c6bdb5cb@nxp.com>
+References: <20250926-ls_dma_coherence-v4-0-21e9c6bdb5cb@nxp.com>
+In-Reply-To: <20250926-ls_dma_coherence-v4-0-21e9c6bdb5cb@nxp.com>
 To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>, 
  Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>, 
  Conor Dooley <conor+dt@kernel.org>, 
@@ -55,11 +53,11 @@ Cc: linux-usb@vger.kernel.org, devicetree@vger.kernel.org,
  bjorn.andersson@oss.qualcomm.com, imx@lists.linux.dev, 
  Frank Li <Frank.Li@nxp.com>, Ze Huang <huang.ze@linux.dev>
 X-Mailer: b4 0.14.2
-X-Developer-Signature: v=1; a=ed25519-sha256; t=1758910787; l=3727;
+X-Developer-Signature: v=1; a=ed25519-sha256; t=1758910787; l=4644;
  i=Frank.Li@nxp.com; s=20240130; h=from:subject:message-id;
- bh=0CgND4WO16EtwUc3Nse3AAY8I+x8THVa8IhQIsivJLs=;
- b=f4VguHT7W5iuk/7l2407RYWfAHOiiw0M3T09v5A7GJ5UaA1ZSGrZAWbO1/F5s3AyWLcNfz3mO
- 8HMzO79XgAlCYvA/HomfsHs5YAzTSKipm2h0N88JNE1Bx7i121o/vlJ
+ bh=foY7RCWiRMtd/hyGD7tQIhJ37+tlwQcoJoyShx+cdpA=;
+ b=4ZuMRKtOLSVANqLsRHaHl5UTKt5HhOR82FNIgvuL5TsDXCivTvcTVaosT3LQWN/QzeqFtGn2Z
+ 1NsApUMpANKDwXAA7gQTvPhma8qDt9cXw6IngPPw0AlSVIfE/wlPCYG
 X-Developer-Key: i=Frank.Li@nxp.com; a=ed25519;
  pk=I0L1sDUfPxpAkRvPKy7MdauTuSENRq+DnA+G4qcS94Q=
 X-Endpoint-Received: by B4 Relay for Frank.Li@nxp.com/20240130 with
@@ -67,95 +65,134 @@ X-Endpoint-Received: by B4 Relay for Frank.Li@nxp.com/20240130 with
 X-Original-From: Frank Li <Frank.Li@nxp.com>
 Reply-To: Frank.Li@nxp.com
 
-Add layerscape platform driver use flatten dwc3 core to enable dma-coherence.
-It needs set gsburstcfg0 to 0x2222.
+From: Frank Li <Frank.Li@nxp.com>
 
-There are some several try before:
-[1] https://lore.kernel.org/imx/20240710-ls-dwc-v1-0-62f8cbed31d7@nxp.com/
-[2] https://lore.kernel.org/imx/20240123170206.3702413-1-Frank.Li@nxp.com/
+Add software-managed properties for the flattened model, which does not
+need to use device tree properties to pass down information to the
+common DWC3 core.
 
-[2]: add new property, which was reject because there are no varience in
-the soc. Fortunately the below commit resolve this problem by use software
-managed property.
+Add 'properties' in dwc3_probe_data and set default values for existing
+users (dwc3-qcom, dwc3-generic-plat).
 
-d504bfa6cfd1a usb: dwc3: enable CCI support for AMD-xilinx DWC3 controller
-
-[1] was reject because there are not actually dwc wrap at layerscape
-platform. Fortunately Bjorn Andersson's below patch to make it possible
-by use correct dts dwc3 node layer out.
-
-613a2e655d4dc usb: dwc3: core: Expose core driver as library
-
-This resolve problem [1] and [2] by use flatten dwc3 core library.
-
-1. add soc specific compatible string at dt-binding.
-2. create platform driver for layerscape chips and pass down gsbuscfg0 if
-dma-coherence enabled.
-3. update layerscape dts files.
-
-To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-To: Rob Herring <robh@kernel.org>
-To: Krzysztof Kozlowski <krzk+dt@kernel.org>
-To: Conor Dooley <conor+dt@kernel.org>
-To: Thinh Nguyen <Thinh.Nguyen@synopsys.com>
-To: Shawn Guo <shawnguo@kernel.org>
-Cc: linux-usb@vger.kernel.org
-Cc: devicetree@vger.kernel.org
-Cc: linux-kernel@vger.kernel.org
-Cc: linux-arm-kernel@lists.infradead.org
-Cc: bjorn.andersson@oss.qualcomm.com
-Cc: imx@lists.linux.dev
+No functional changes.
 
 Signed-off-by: Frank Li <Frank.Li@nxp.com>
 ---
-Changes in v4:
-- Use flatten properties, instead of use dt pass down information to core.
-- Link to v3: https://lore.kernel.org/r/20250926-ls_dma_coherence-v3-0-602b1c0ce6b4@nxp.com
-
-Changes in v3:
-- skipped, accident sendout
-- Link to v2: https://lore.kernel.org/r/20250923-ls_dma_coherence-v2-0-ce3176396bdb@nxp.com
-
-Changes in v2:
-- base on drivers/usb/dwc3/dwc3-generic-plat.c
-
-commit e0b6dc00c701e600e655417aab1e100b73de821a
-Author: Ze Huang <huang.ze@linux.dev>
-Date:   Sat Sep 13 00:53:48 2025 +0800
-
-    usb: dwc3: add generic driver to support flattened
-
-    To support flattened dwc3 dt model and drop the glue layer, introduce the
-    `dwc3-generic` driver. This enables direct binding of the DWC3 core driver
-    and offers an alternative to the existing glue driver `dwc3-of-simple`.
-
-- Link to v1: https://lore.kernel.org/r/20250602-ls_dma_coherence-v1-0-c67484d6ab64@nxp.com
-
+change in v4
+- new patch
 ---
-Frank Li (4):
-      dt-bindings: usb: add missed compatible string for arm64 layerscape
-      usb: dwc3: Add software-managed properties for flattened model
-      usb: dwc3: dwc3-generic-plat: Add layerscape dwc3 support
-      arm64: dts: layerscape: add dma-coherent for usb node
+ drivers/usb/dwc3/core.c              | 12 ++++++++++--
+ drivers/usb/dwc3/dwc3-generic-plat.c |  1 +
+ drivers/usb/dwc3/dwc3-qcom.c         |  1 +
+ drivers/usb/dwc3/glue.h              | 14 ++++++++++++++
+ 4 files changed, 26 insertions(+), 2 deletions(-)
 
- .../devicetree/bindings/usb/fsl,ls1028a.yaml       | 33 ++++++++++++----------
- arch/arm64/boot/dts/freescale/fsl-ls1012a.dtsi     |  3 +-
- arch/arm64/boot/dts/freescale/fsl-ls1028a.dtsi     |  8 ++++--
- arch/arm64/boot/dts/freescale/fsl-ls1043a.dtsi     |  9 ++++--
- arch/arm64/boot/dts/freescale/fsl-ls1046a.dtsi     |  9 ++++--
- arch/arm64/boot/dts/freescale/fsl-ls1088a.dtsi     |  8 ++++--
- arch/arm64/boot/dts/freescale/fsl-lx2160a.dtsi     |  8 ++++--
- drivers/usb/dwc3/core.c                            | 12 ++++++--
- drivers/usb/dwc3/dwc3-generic-plat.c               | 14 +++++++++
- drivers/usb/dwc3/dwc3-qcom.c                       |  1 +
- drivers/usb/dwc3/glue.h                            | 14 +++++++++
- 11 files changed, 89 insertions(+), 30 deletions(-)
----
-base-commit: c45d2c21b3889c520bf141d576eaecb25666895c
-change-id: 20250602-ls_dma_coherence-c3c2b6f79db2
+diff --git a/drivers/usb/dwc3/core.c b/drivers/usb/dwc3/core.c
+index 805cd22f42e0961252b0371da9b16cc804e49342..35f9c566358886c106d360dea84f2e6f1ac19688 100644
+--- a/drivers/usb/dwc3/core.c
++++ b/drivers/usb/dwc3/core.c
+@@ -1668,7 +1668,8 @@ static void dwc3_core_exit_mode(struct dwc3 *dwc)
+ 	dwc3_set_prtcap(dwc, DWC3_GCTL_PRTCAP_DEVICE, true);
+ }
+ 
+-static void dwc3_get_software_properties(struct dwc3 *dwc)
++static void dwc3_get_software_properties(struct dwc3 *dwc,
++					 const struct dwc3_properties *properties)
+ {
+ 	struct device *tmpdev;
+ 	u16 gsbuscfg0_reqinfo;
+@@ -1676,6 +1677,12 @@ static void dwc3_get_software_properties(struct dwc3 *dwc)
+ 
+ 	dwc->gsbuscfg0_reqinfo = DWC3_GSBUSCFG0_REQINFO_UNSPECIFIED;
+ 
++	if (properties->gsbuscfg0_reqinfo !=
++	    DWC3_GSBUSCFG0_REQINFO_UNSPECIFIED) {
++		dwc->gsbuscfg0_reqinfo = properties->gsbuscfg0_reqinfo;
++		return;
++	}
++
+ 	/*
+ 	 * Iterate over all parent nodes for finding swnode properties
+ 	 * and non-DT (non-ABI) properties.
+@@ -2208,7 +2215,7 @@ int dwc3_core_probe(const struct dwc3_probe_data *data)
+ 
+ 	dwc3_get_properties(dwc);
+ 
+-	dwc3_get_software_properties(dwc);
++	dwc3_get_software_properties(dwc, &data->properties);
+ 
+ 	dwc->usb_psy = dwc3_get_usb_power_supply(dwc);
+ 	if (IS_ERR(dwc->usb_psy))
+@@ -2358,6 +2365,7 @@ static int dwc3_probe(struct platform_device *pdev)
+ 
+ 	probe_data.dwc = dwc;
+ 	probe_data.res = res;
++	probe_data.properties = DWC3_DEFAULT_PROPERTIES;
+ 
+ 	return dwc3_core_probe(&probe_data);
+ }
+diff --git a/drivers/usb/dwc3/dwc3-generic-plat.c b/drivers/usb/dwc3/dwc3-generic-plat.c
+index d96b20570002dc619ea813f4d6a8013636a0f346..af95a527dcc27a7a14d38dcc887f74a888ed91e6 100644
+--- a/drivers/usb/dwc3/dwc3-generic-plat.c
++++ b/drivers/usb/dwc3/dwc3-generic-plat.c
+@@ -75,6 +75,7 @@ static int dwc3_generic_probe(struct platform_device *pdev)
+ 	probe_data.dwc = &dwc3g->dwc;
+ 	probe_data.res = res;
+ 	probe_data.ignore_clocks_and_resets = true;
++	probe_data.properties = DWC3_DEFAULT_PROPERTIES;
+ 	ret = dwc3_core_probe(&probe_data);
+ 	if (ret)
+ 		return dev_err_probe(dev, ret, "failed to register DWC3 Core\n");
+diff --git a/drivers/usb/dwc3/dwc3-qcom.c b/drivers/usb/dwc3/dwc3-qcom.c
+index ded2ca86670c0bd7ceadd3cba3fa5ecf9e7e02b5..9ac75547820d978b4a32e570e5f59a2807be68a2 100644
+--- a/drivers/usb/dwc3/dwc3-qcom.c
++++ b/drivers/usb/dwc3/dwc3-qcom.c
+@@ -704,6 +704,7 @@ static int dwc3_qcom_probe(struct platform_device *pdev)
+ 	probe_data.dwc = &qcom->dwc;
+ 	probe_data.res = &res;
+ 	probe_data.ignore_clocks_and_resets = true;
++	probe_data.properties = DWC3_DEFAULT_PROPERTIES;
+ 	ret = dwc3_core_probe(&probe_data);
+ 	if (ret)  {
+ 		ret = dev_err_probe(dev, ret, "failed to register DWC3 Core\n");
+diff --git a/drivers/usb/dwc3/glue.h b/drivers/usb/dwc3/glue.h
+index 2efd00e763be4fc51911f32d43054059e61fb43a..300260e11adecb0e5b581bfe2b61c2c6928e874f 100644
+--- a/drivers/usb/dwc3/glue.h
++++ b/drivers/usb/dwc3/glue.h
+@@ -9,17 +9,31 @@
+ #include <linux/types.h>
+ #include "core.h"
+ 
++/**
++ * dwc3_properties: DWC3 core properties
++ * @gsbuscfg0_reqinfo: Value to be programmed in the GSBUSCFG0.REQINFO field
++ */
++struct dwc3_properties {
++	u32 gsbuscfg0_reqinfo;
++};
++
++#define DWC3_DEFAULT_PROPERTIES ((struct dwc3_properties){		\
++	.gsbuscfg0_reqinfo = DWC3_GSBUSCFG0_REQINFO_UNSPECIFIED,	\
++	})
++
+ /**
+  * dwc3_probe_data: Initialization parameters passed to dwc3_core_probe()
+  * @dwc: Reference to dwc3 context structure
+  * @res: resource for the DWC3 core mmio region
+  * @ignore_clocks_and_resets: clocks and resets defined for the device should
+  *		be ignored by the DWC3 core, as they are managed by the glue
++ * @properties: dwc3 software manage propertyies
+  */
+ struct dwc3_probe_data {
+ 	struct dwc3 *dwc;
+ 	struct resource *res;
+ 	bool ignore_clocks_and_resets;
++	struct dwc3_properties properties;
+ };
+ 
+ int dwc3_core_probe(const struct dwc3_probe_data *data);
 
-Best regards,
---
-Frank Li <Frank.Li@nxp.com>
+-- 
+2.34.1
 
 
