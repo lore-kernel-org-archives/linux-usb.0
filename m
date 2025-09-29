@@ -1,236 +1,248 @@
-Received: from m16.mail.163.com (m16.mail.163.com [220.197.31.4])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-lf1-f48.google.com (mail-lf1-f48.google.com [209.85.167.48])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3F648263F52;
-	Mon, 29 Sep 2025 07:55:15 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=220.197.31.4
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 51BD534BA2D
+	for <linux-usb@vger.kernel.org>; Mon, 29 Sep 2025 08:30:52 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.48
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1759132519; cv=none; b=CdL3DCJR5J4RcLYiIN/zEYHKYBXtS1UDbnZ14rDijD46MDye/SWWYvuCDwVtfYmI/Bc5xSZLDUM35hFlaaB2lxtR25PQSKr/gXQPj1DavjhGGVRY2DVn+mACAjiNFzoYEcOLf2tr4rNPytVXlnSzYbR2AlW6vyV3oj5WbDVAiEc=
+	t=1759134654; cv=none; b=noscezCjiVVSUv0KJf2w3YQdPHW9LdxqxNiCsVkp29OoHVoVhUIx2bonZ873lDhRmt1hIY1+2/IIkWKtYr2xbH5+LCfzbC1RlNklWTSYB5a0zJGMqTpxv240DtwxwRPM3Oean/Rsm1JC0fahS7+fdnEiUWiWv4CxdG6OBH0pRDw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1759132519; c=relaxed/simple;
-	bh=y1QE/W8km7w2lPYgONVEgf6wAKpLWSjvD7ttfAPWznw=;
-	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=pGxeMiUWT1/AfpZvfuVw0EfUyu/1U1LiOn2poahM72m+q98YAzuHqffArbWCn6iN3DpnOE3nVCt+lIaP+wl4yED+i1m01Iwlky2I1qN7mtengr6LDiiLe53E+2+evBCZ9WRZFmcS5S+34KCeiW6n+ISeYrSnOGAVzmD3Kf0hw9A=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=163.com; spf=pass smtp.mailfrom=163.com; dkim=pass (1024-bit key) header.d=163.com header.i=@163.com header.b=gi9We8f0; arc=none smtp.client-ip=220.197.31.4
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=163.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=163.com
+	s=arc-20240116; t=1759134654; c=relaxed/simple;
+	bh=1yWrEi955nPPvBu1m9KwQaY5HyLcEXUxbZckZNeDmWE=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=fbFuxyrOk+e7JrmFmFAqjkkrSEFUeVMhs9CYhpkXR8ZCtdjlLSVyyYeGnZgGOiCiZgqFqazh+8P3Bkv+9dXZ3m3hsgGYcPIFCXlNiMLPi7YOi3Cw8jxChka0tWY4XunrkueaETr9NlLJCsa7yI05ZSBWOCAbz9Mfh+JbUq9TVmU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org; spf=pass smtp.mailfrom=chromium.org; dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b=mjDyHHh3; arc=none smtp.client-ip=209.85.167.48
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=chromium.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=163.com header.i=@163.com header.b="gi9We8f0"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=163.com;
-	s=s110527; h=From:To:Subject:Date:Message-Id:MIME-Version:
-	Content-Type; bh=2iuuoMH8QKC001oZ53wy8yFFv7a0CYpxZPdGXe9xKes=;
-	b=gi9We8f06CF5jnUZOq2ylKu6GHSXTcrLMxJ0EjDKrpKriWS8CXv+1U5Zary+64
-	0Jag8X8m6H24XyjeK/ovRuCoZ+/8nkqCd4sBm6jhOgg2FgvLMhsZSNU2HD25rcyp
-	/RmLtfDWMGOFunqFuBCOalcbPeMYlmG9rqvhDH90hlh5s=
-Received: from localhost.localdomain (unknown [])
-	by gzsmtp1 (Coremail) with SMTP id PCgvCgDnD_0bO9poz8vCAQ--.15003S3;
-	Mon, 29 Sep 2025 15:54:05 +0800 (CST)
-From: yicongsrfy@163.com
-To: michal.pecio@gmail.com,
-	oneukum@suse.com,
-	andrew+netdev@lunn.ch,
-	davem@davemloft.net,
-	edumazet@google.com,
-	kuba@kernel.org
-Cc: marcan@marcan.st,
-	pabeni@redhat.com,
-	linux-usb@vger.kernel.org,
-	netdev@vger.kernel.org,
-	yicong@kylinos.cn
-Subject: [PATCH v3 2/3] net: usb: support quirks in usbnet
-Date: Mon, 29 Sep 2025 15:54:00 +0800
-Message-Id: <20250929075401.3143438-2-yicongsrfy@163.com>
-X-Mailer: git-send-email 2.25.1
-In-Reply-To: <20250929075401.3143438-1-yicongsrfy@163.com>
-References: <20250929054246.3118527-1-yicongsrfy@163.com>
- <20250929075401.3143438-1-yicongsrfy@163.com>
+	dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b="mjDyHHh3"
+Received: by mail-lf1-f48.google.com with SMTP id 2adb3069b0e04-57b35e176dbso5484692e87.1
+        for <linux-usb@vger.kernel.org>; Mon, 29 Sep 2025 01:30:51 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=chromium.org; s=google; t=1759134650; x=1759739450; darn=vger.kernel.org;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:from:to:cc:subject:date:message-id:reply-to;
+        bh=UJONDUXJa/G+AY4kgKaGSYPSvsqZ+MAfDWA2lmXRRpc=;
+        b=mjDyHHh3ZjL4lSx9j24O1CtVr8O7VrJ6GjzBSEoqocKxiLulZc/wSAzuwVTV74Ry9g
+         vxfuz0XGDcerzFquNQSBJcS47g2ZE7wT+IfYS54hkpyzR5P88TbrT65WHnoMcm+b/cVD
+         HM+oUq/iYypI7s7RzSpi/Oi9SB8dN4YLvaKXg=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1759134650; x=1759739450;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=UJONDUXJa/G+AY4kgKaGSYPSvsqZ+MAfDWA2lmXRRpc=;
+        b=fNVA6G/Pi3TqlcZloyNZ5J+0kSZEdBlP5uzWDKPLl0Uutyo1dy5yJg7++2Q4yQSm/0
+         YS7bIZE3klJnNSvgxvBhksySg2+DvbvEVuExRpbF9r7yUsG05aYCkPIwKYmU0PmzoKwR
+         cMTDWuRjsZrdakT5a+pw5nL0SdqlrZS6DUlzs9RDAyVUfDR37ZFUyfViFLYl81kzv8fw
+         pjrsun07IZixkG+fg9XwAPp2yuKn0Sbwo7l1zOOaJ/OuekW8LFuHhYKsQpD4pNylDX+I
+         x6xV+6O1XjYVmqTjyWckF0NmVGIX4M382UCNY/LCZeilJVv2vhFNiGRgZnk6oDqIUwW9
+         TZ5w==
+X-Forwarded-Encrypted: i=1; AJvYcCXye/vPSV7rzFjXpR40F2Td9RHGshhibYZVgKRCUtrDASoYCORGaPpqHWSkv9ibJ+js8k2XUvCRay8=@vger.kernel.org
+X-Gm-Message-State: AOJu0YzM93gx8IbesLIW8TNlK6uOi7emIg6OVkFu1ROg+WL4F59cD7l/
+	lu+4CAOlOD+FQ+BxW2+JAYKS69kGI+jtEg1GKTGqkboIGvfhQOLIborn8pjMG4KN2u2N+2ecB9n
+	cD0w=
+X-Gm-Gg: ASbGncuaQeH63Y2fXN/nOzjBM13kc6bM09MOq5+9AcczGMLZsK1xhJwR6plgy8Z/Ff0
+	3Vet0XG7FFDy76DfFjPd3Ucqd6D0Xkuq+ARLv+f1oQMBYM7XnVJTtiJChfRvQm+TQUhENkQKtbb
+	t0KeaOqUNy+EKCu4oB9090wx+laiwxTLZxBQ14kF6KZrKd1kawYGYbvo1oJ7rUoC0qxJYWUx1i0
+	DtlKd8QvpSHTZdHOl2cPdkk/bDQbo3xmiBqWWZwg36b1UG2po5E5q4tb+m7YjwnM0BM2B2yltMY
+	CeUJUwYlhUNT0Zaxq77O79ka0P0ix4QYxcVBPX6F/Wb4ptNzYH3C0TMy2kgDVuZFlyliJSjwrDS
+	1krRSefcQ/j4VyI8JFztQy1LrkfmxiNugoXlam5ynqxJYQLpTC3xogMafupFo59VTn2X9aQ0=
+X-Google-Smtp-Source: AGHT+IFm4RxCjUjFVSLCa8D/7fLAO/C0cdRrHOgqaFixjYn6iD++8Lm0CV9nM0T5t26LPxulc66jgQ==
+X-Received: by 2002:a05:6512:3d94:b0:576:d5df:fe1b with SMTP id 2adb3069b0e04-582d18cd8a7mr4712844e87.10.1759134650153;
+        Mon, 29 Sep 2025 01:30:50 -0700 (PDT)
+Received: from mail-lf1-f48.google.com (mail-lf1-f48.google.com. [209.85.167.48])
+        by smtp.gmail.com with ESMTPSA id 2adb3069b0e04-58316656353sm4002550e87.88.2025.09.29.01.30.48
+        for <linux-usb@vger.kernel.org>
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Mon, 29 Sep 2025 01:30:48 -0700 (PDT)
+Received: by mail-lf1-f48.google.com with SMTP id 2adb3069b0e04-57bd482dfd2so4973374e87.2
+        for <linux-usb@vger.kernel.org>; Mon, 29 Sep 2025 01:30:48 -0700 (PDT)
+X-Forwarded-Encrypted: i=1; AJvYcCWevIlRbtD01LYUEQfDi1Mf9m6tKXAXaUU6P08SFVTDUul/wPbitdf1ICEDrDbjz0OXhwrQI3VivjE=@vger.kernel.org
+X-Received: by 2002:a05:6512:1102:b0:57c:2474:3740 with SMTP id
+ 2adb3069b0e04-582d3f76e30mr4820322e87.46.1759134647732; Mon, 29 Sep 2025
+ 01:30:47 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-X-CM-TRANSID:PCgvCgDnD_0bO9poz8vCAQ--.15003S3
-X-Coremail-Antispam: 1Uf129KBjvJXoW3XFWkXF1UCF15uw48Ww4Uurg_yoWxAF4xpa
-	nxKrZ3tr4DJr45X34fJr48Za45Xw4kA3y7Cry7X34fX397A34vqr1Ut3ySkF9FyrWrG3Wa
-	vF1UW3yUWr15J3DanT9S1TB71UUUUU7qnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
-	9KBjDUYxBIdaVFxhVjvjDU0xZFpf9x07j2lksUUUUU=
-X-CM-SenderInfo: p1lf00xjvuw5i6rwjhhfrp/1tbiUBbX22jaNUiPfAAAs2
+References: <20250926-uvc-orientation-v3-0-6dc2fa5b4220@chromium.org>
+ <20250926-uvc-orientation-v3-7-6dc2fa5b4220@chromium.org> <20250926-mute-boil-e75839753526@spud>
+In-Reply-To: <20250926-mute-boil-e75839753526@spud>
+From: Ricardo Ribalda <ribalda@chromium.org>
+Date: Mon, 29 Sep 2025 10:30:35 +0200
+X-Gmail-Original-Message-ID: <CANiDSCuddqjeDr80xKsZZP7CXu9qB5qqYPoZujNYLcVjK0kKkg@mail.gmail.com>
+X-Gm-Features: AS18NWDuABHOrlsFlY-rDCN1sMikoapkz5ecsd4Y1lKthbQuEsgF6GxQRq0htYQ
+Message-ID: <CANiDSCuddqjeDr80xKsZZP7CXu9qB5qqYPoZujNYLcVjK0kKkg@mail.gmail.com>
+Subject: Re: [PATCH v3 07/12] dt-bindings: media: Add usb-camera-module
+To: Conor Dooley <conor@kernel.org>, Rob Herring <robh@kernel.org>
+Cc: Hans de Goede <hansg@kernel.org>, Laurent Pinchart <laurent.pinchart@ideasonboard.com>, 
+	Mauro Carvalho Chehab <mchehab@kernel.org>, Sakari Ailus <sakari.ailus@linux.intel.com>, 
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>, 
+	Conor Dooley <conor+dt@kernel.org>, Linus Walleij <linus.walleij@linaro.org>, 
+	Bartosz Golaszewski <brgl@bgdev.pl>, "Rafael J. Wysocki" <rafael@kernel.org>, Len Brown <lenb@kernel.org>, 
+	Robert Moore <robert.moore@intel.com>, Hans Verkuil <hverkuil@kernel.org>, 
+	linux-media@vger.kernel.org, linux-kernel@vger.kernel.org, 
+	linux-usb@vger.kernel.org, devicetree@vger.kernel.org, 
+	linux-gpio@vger.kernel.org, linux-acpi@vger.kernel.org, 
+	acpica-devel@lists.linux.dev
+Content-Type: text/plain; charset="UTF-8"
 
-From: Yi Cong <yicong@kylinos.cn>
+Hi Conor
 
-Some vendors' USB network interface controllers (NICs) may be compatible
-with multiple drivers.
+On Fri, 26 Sept 2025 at 18:55, Conor Dooley <conor@kernel.org> wrote:
+>
+> On Fri, Sep 26, 2025 at 01:11:31PM +0000, Ricardo Ribalda wrote:
+> > For fixed cameras modules the OS needs to know where they are mounted.
+> > This information is used to determine if images need to be rotated or
+> > not.
+> >
+> > ACPI has a property for this purpose, which is parsed by
+> > acpi_get_physical_device_location():
+> > https://uefi.org/htmlspecs/ACPI_Spec_6_4_html/06_Device_Configuration/Device_Configuration.html#pld-physical-location-of-device
+> >
+> > In DT we have similar properties for video-interface-devices called
+> > orientation and rotation:
+> > Documentation/devicetree/bindings/media/video-interface-devices.yaml
+> >
+> > Add a new schema that combines usb/usb-device.yaml and
+> > media/video-interface-devices.yaml
+> >
+> > Signed-off-by: Ricardo Ribalda <ribalda@chromium.org>
+> > ---
+> >  .../bindings/media/usb-camera-module.yaml          | 46 ++++++++++++++++++++++
+> >  MAINTAINERS                                        |  1 +
+> >  2 files changed, 47 insertions(+)
+> >
+> > diff --git a/Documentation/devicetree/bindings/media/usb-camera-module.yaml b/Documentation/devicetree/bindings/media/usb-camera-module.yaml
+> > new file mode 100644
+> > index 0000000000000000000000000000000000000000..e4ad6f557b9151751522e49b72ae6584deb0c7ba
+> > --- /dev/null
+> > +++ b/Documentation/devicetree/bindings/media/usb-camera-module.yaml
+> > @@ -0,0 +1,46 @@
+> > +# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
+> > +%YAML 1.2
+> > +---
+> > +$id: http://devicetree.org/schemas/media/usb-camera-module.yaml#
+> > +$schema: http://devicetree.org/meta-schemas/core.yaml#
+> > +
+> > +title: USB Camera Module
+> > +
+> > +maintainers:
+> > +  - Ricardo Ribalda <ribalda@chromium.org>
+> > +
+> > +description: |
+> > +  This schema allows for annotating auxiliary information for fixed camera
+> > +  modules. This information enables the system to determine if incoming frames
+> > +  require rotation, mirroring, or other transformations. It also describes the
+> > +  module's relationship with other hardware elements, such as flash LEDs or
+> > +  Voice Coil Motors (VCMs).
+> > +
+> > +allOf:
+> > +  - $ref: /schemas/usb/usb-device.yaml#
+> > +  - $ref: /schemas/media/video-interface-devices.yaml#
+> > +
+> > +properties:
+> > +  reg:
+> > +    maxItems: 1
+> > +
+>
+> What actually causes this schema to be applied? Did I miss it getting
+> included somewhere?
 
-I consulted with relevant vendors. Taking the AX88179 chip as an example,
-NICs based on this chip may be used across various OS—for instance,
-cdc_ncm is used on macOS, while ax88179_178a.ko is the intended driver
-on Linux (despite a previous patch having disabled it).
-Therefore, the firmware must support multiple protocols.
+I guess your question is why I have not defined the compatible field?
 
-Currently, both cdc_ncm and ax88179_178a coexist in the Linux kernel.
-Supporting both drivers simultaneously leads to the following issues:
+I tried this change[1] with no luck:
+/usr/local/google/home/ribalda/work/linux/Documentation/devicetree/bindings/media/uvc-camera.example.dtb:
+device@1 (uvc-camera): compatible: ['uvc-camera'] does not contain
+items matching the given schema
 
-1. Inconsistent driver loading order during reboot stress testing:
-   The order in which drivers are loaded can vary across reboots,
-   potentially resulting in the unintended driver being loaded. For
-   example:
-[    4.239893] cdc_ncm 2-1:2.0: MAC-Address: c8:a3:62:ef:99:8e
-[    4.239897] cdc_ncm 2-1:2.0: setting rx_max = 16384
-[    4.240149] cdc_ncm 2-1:2.0: setting tx_max = 16384
-[    4.240583] cdc_ncm 2-1:2.0 usb0: register 'cdc_ncm' at usb-
-xxxxx:00-1, CDC NCM, c8:a3:62:ef:99:8e
-[    4.240627] usbcore: registered new interface driver cdc_ncm
-[    4.240908] usbcore: registered new interface driver ax88179_178a
+I think it failed, because If we add these allOfs as Rob proposed
+https://lore.kernel.org/all/20250625185608.GA2010256-robh@kernel.org/:
+```
+allOf:
+  - $ref: /schemas/usb/usb-device.yaml#
+  - $ref: /schemas/media/video-interface-devices.yaml#
+```
+We cannot (or I do not know how to) have a different compatible than
+the one from usb-device.yaml
 
-In this case, network connectivity functions, but the cdc_ncm driver is
-loaded instead of the expected ax88179_178a.
 
-2. Similar issues during cable plug/unplug testing:
-   The same race condition can occur when reconnecting the USB device:
-[   79.879922] usb 4-1: new SuperSpeed USB device number 3 using xhci_hcd
-[   79.905168] usb 4-1: New USB device found, idVendor=0b95, idProduct=
-1790, bcdDevice= 2.00
-[   79.905185] usb 4-1: New USB device strings: Mfr=1, Product=2,
-SerialNumber=3
-[   79.905191] usb 4-1: Product: AX88179B
-[   79.905198] usb 4-1: Manufacturer: ASIX
-[   79.905201] usb 4-1: SerialNumber: 00EF998E
-[   79.915215] ax88179_probe, bConfigurationValue:2
-[   79.952638] cdc_ncm 4-1:2.0: MAC-Address: c8:a3:62:ef:99:8e
-[   79.952654] cdc_ncm 4-1:2.0: setting rx_max = 16384
-[   79.952919] cdc_ncm 4-1:2.0: setting tx_max = 16384
-[   79.953598] cdc_ncm 4-1:2.0 eth0: register 'cdc_ncm' at usb-0000:04:
-00.2-1, CDC NCM (NO ZLP), c8:a3:62:ef:99:8e
-[   79.954029] cdc_ncm 4-1:2.0 eth0: unregister 'cdc_ncm' usb-0000:04:
-00.2-1, CDC NCM (NO ZLP)
+Any suggestion on how to do this properly will be highly appreciated :)
 
-At this point, the network becomes unusable.
+Thanks!
 
-To resolve these issues, introduce a *quirks* mechanism into the usbnet
-module. By adding chip-specific identification within the generic usbnet
-framework, we can skip the usbnet probe process for devices that require a
-dedicated driver.
 
-v2: Correct the description of usbnet_quirks.h and modify the code style
-v3: Add checking whether the CONFIG_USB_NET_AX88179_178A is enabled
 
-Signed-off-by: Yi Cong <yicong@kylinos.cn>
----
- drivers/net/usb/cdc_ncm.c       |  2 +-
- drivers/net/usb/usbnet.c        | 14 +++++++++++
- drivers/net/usb/usbnet_quirks.h | 41 +++++++++++++++++++++++++++++++++
- include/linux/usb/usbnet.h      |  2 ++
- 4 files changed, 58 insertions(+), 1 deletion(-)
- create mode 100644 drivers/net/usb/usbnet_quirks.h
+[1]
 
-diff --git a/drivers/net/usb/cdc_ncm.c b/drivers/net/usb/cdc_ncm.c
-index 5d123df0a866..6fa03e5bd054 100644
---- a/drivers/net/usb/cdc_ncm.c
-+++ b/drivers/net/usb/cdc_ncm.c
-@@ -2117,7 +2117,7 @@ MODULE_DEVICE_TABLE(usb, cdc_devs);
- static struct usb_driver cdc_ncm_driver = {
- 	.name = "cdc_ncm",
- 	.id_table = cdc_devs,
--	.probe = usbnet_probe,
-+	.probe = usbnet_probe_quirks,
- 	.disconnect = usbnet_disconnect,
- 	.suspend = usbnet_suspend,
- 	.resume = usbnet_resume,
-diff --git a/drivers/net/usb/usbnet.c b/drivers/net/usb/usbnet.c
-index 511c4154cf74..51ba466057f9 100644
---- a/drivers/net/usb/usbnet.c
-+++ b/drivers/net/usb/usbnet.c
-@@ -31,6 +31,7 @@
- #include <linux/kernel.h>
- #include <linux/pm_runtime.h>
- 
-+#include "usbnet_quirks.h"
- /*-------------------------------------------------------------------------*/
- 
- /*
-@@ -1697,6 +1698,19 @@ static const struct device_type wwan_type = {
- 	.name	= "wwan",
- };
- 
-+int usbnet_probe_quirks(struct usb_interface *udev,
-+			const struct usb_device_id *prod)
-+{
-+	/* Should it be ignored? */
-+	if (unlikely(usbnet_ignore(udev))) {
-+		dev_dbg(&udev->dev, "usbnet ignore this device!\n");
-+		return -ENODEV;
-+	}
+@@ -21,10 +21,14 @@ allOf:
+   - $ref: /schemas/media/video-interface-devices.yaml#
+
+ properties:
++  compatible:
++    const: uvc-camera
 +
-+	return usbnet_probe(udev, prod);
-+}
-+EXPORT_SYMBOL_GPL(usbnet_probe_quirks);
-+
- int
- usbnet_probe (struct usb_interface *udev, const struct usb_device_id *prod)
- {
-diff --git a/drivers/net/usb/usbnet_quirks.h b/drivers/net/usb/usbnet_quirks.h
-new file mode 100644
-index 000000000000..859004046a86
---- /dev/null
-+++ b/drivers/net/usb/usbnet_quirks.h
-@@ -0,0 +1,41 @@
-+/* SPDX-License-Identifier: GPL-2.0 */
-+/*
-+ * A collection of chip information to be ignored
-+ */
-+
-+#ifndef __USB_NET_IGNORE_H__
-+#define __USB_NET_IGNORE_H__
-+
-+#include <linux/usb.h>
-+
-+/* usbnet_ignore_list:
-+ * Chip info which already support int vendor specific driver,
-+ * and then should be ignored in generic usbnet
-+ */
-+static const struct usb_device_id usbnet_ignore_list[] = {
-+#if IS_ENABLED(CONFIG_USB_NET_AX88179_178A)
-+	/* Chips already support in ax88179_178a.c */
-+	{ USB_DEVICE(0x0b95, 0x1790) },
-+	{ USB_DEVICE(0x0b95, 0x178a) },
-+	{ USB_DEVICE(0x04b4, 0x3610) },
-+	{ USB_DEVICE(0x2001, 0x4a00) },
-+	{ USB_DEVICE(0x0df6, 0x0072) },
-+	{ USB_DEVICE(0x04e8, 0xa100) },
-+	{ USB_DEVICE(0x17ef, 0x304b) },
-+	{ USB_DEVICE(0x050d, 0x0128) },
-+	{ USB_DEVICE(0x0930, 0x0a13) },
-+	{ USB_DEVICE(0x0711, 0x0179) },
-+	{ USB_DEVICE(0x07c9, 0x000e) },
-+	{ USB_DEVICE(0x07c9, 0x000f) },
-+	{ USB_DEVICE(0x07c9, 0x0010) },
-+	/* End of support in ax88179_178a.c */
-+#endif
-+
-+	{ } /*END*/
-+};
-+
-+static inline bool usbnet_ignore(struct usb_interface *intf)
-+{
-+	return !!usb_match_id(intf, usbnet_ignore_list);
-+}
-+#endif
-diff --git a/include/linux/usb/usbnet.h b/include/linux/usb/usbnet.h
-index a2d54122823d..de198fcaf76d 100644
---- a/include/linux/usb/usbnet.h
-+++ b/include/linux/usb/usbnet.h
-@@ -188,6 +188,8 @@ struct driver_info {
-  * much everything except custom framing and chip-specific stuff.
-  */
- extern int usbnet_probe(struct usb_interface *, const struct usb_device_id *);
-+extern int usbnet_probe_quirks(struct usb_interface *udev,
-+			       const struct usb_device_id *prod);
- extern int usbnet_suspend(struct usb_interface *, pm_message_t);
- extern int usbnet_resume(struct usb_interface *);
- extern void usbnet_disconnect(struct usb_interface *);
--- 
-2.25.1
+   reg:
+     maxItems: 1
 
+ required:
++  - compatible
+   - reg
+
+ additionalProperties: true
+@@ -38,8 +42,8 @@ examples:
+         #size-cells = <0>;
+
+         device@1 {
+-            compatible = "usb123,4567";
++           compatible = "uvc-camera";
+             reg = <2>;
+             orientation = <0>;
+             rotation = <90>;
+         };
+
+>
+> > +required:
+> > +  - reg
+> > +
+> > +additionalProperties: true
+> > +
+> > +examples:
+> > +  - |
+> > +    usb@11270000 {
+> > +        reg = <0x11270000 0x1000>;
+> > +        interrupts = <0x0 0x4e 0x0>;
+> > +        #address-cells = <1>;
+> > +        #size-cells = <0>;
+> > +
+> > +        device@1 {
+> > +            compatible = "usb123,4567";
+> > +            reg = <2>;
+> > +            orientation = <0>;
+> > +            rotation = <90>;
+> > +        };
+> > +    };
+> > diff --git a/MAINTAINERS b/MAINTAINERS
+> > index ee8cb2db483f6a5e96b62b6f2edd05b1427b69f5..1503502a3aed2625e8ff488456ccd7305cc74ba7 100644
+> > --- a/MAINTAINERS
+> > +++ b/MAINTAINERS
+> > @@ -26258,6 +26258,7 @@ L:    linux-media@vger.kernel.org
+> >  S:   Maintained
+> >  W:   http://www.ideasonboard.org/uvc/
+> >  T:   git git://linuxtv.org/media.git
+> > +F:   Documentation/devicetree/bindings/media/usb-camera-module.yaml
+> >  F:   Documentation/userspace-api/media/drivers/uvcvideo.rst
+> >  F:   Documentation/userspace-api/media/v4l/metafmt-uvc-msxu-1-5.rst
+> >  F:   Documentation/userspace-api/media/v4l/metafmt-uvc.rst
+> >
+> > --
+> > 2.51.0.536.g15c5d4f767-goog
+> >
+
+
+
+--
+Ricardo Ribalda
