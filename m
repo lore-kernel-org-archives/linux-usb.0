@@ -1,63 +1,161 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from m16.mail.163.com (m16.mail.163.com [220.197.31.4])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A710333F9;
-	Mon, 29 Sep 2025 04:23:58 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6DBB0194098;
+	Mon, 29 Sep 2025 05:32:29 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=220.197.31.4
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1759119838; cv=none; b=KfmIm2DxdssUEtpNRG+x7FP7wp6QyR76Adq/HW+nkG14J3FtOdiTdKgAMJ6sOExKoQ+GPuWTF6WjOhMl/vV0j5bNlQP8NaFt35/0i25HhDBvzXyefC60xXtY2bfyCEkUPVauQedA0pmli17+RJR8vIz2ilXvVXs8fHkz3nI0GMs=
+	t=1759123952; cv=none; b=lYhB8/6jEqlEcuHGo6arI7kKsl7RWtLTvI0w335EgRa3Q9UDC0QmW8xklCunR9lEPtK/aIOcQyiaQopVz3Nsxi5CdtzK3lz39x/DfZQoENPOk21xPxfO7WFGBH/eMMrUQUix0kHIQZMVFFzlEmG/aDSwdu293FpxkRq5agpe/E8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1759119838; c=relaxed/simple;
-	bh=+1YNLxg2avr4KjleA/PdfbQqRc6bmj4olzvcG6fj0gw=;
-	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=gWIdtKXsp+lQv145VqsWNqHnv3Qzj99fKQx5DGWi35U3j3tePT2kzoGacvANUfr9VwwHtBWP0nM9j9GBH/Tgjve+KxJF6r4EbF9CYZ6apJZ6N1Q10UbQ0XUcMnJW7H12MRHTeSwydewbpmUd9iSFGcjZCu7t7vbq4n8MQbZiMBM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=AC0a7SHn; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1759123952; c=relaxed/simple;
+	bh=9WGAd4vVIKc3s7UlQIBT25/OrUd3rKMdavQMSCnYfy4=;
+	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
+	 MIME-Version; b=kCuNpV0sXikKmVJelm576WnyRD88z1IrET7jJaYXa1ZPWU8M3oq0s1dchbwbIw1W+1ObvUg4gR5oQleqtuduT16Z3GJI+l+8CEi+YLOZ9qrkIHpgwItTmnVsjwp6HJfXE+kKg1XeUA8rvzZJAtpIYtEnxfwuA+9DeS386uW3qHw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=163.com; spf=pass smtp.mailfrom=163.com; dkim=pass (1024-bit key) header.d=163.com header.i=@163.com header.b=TOO9OLAU; arc=none smtp.client-ip=220.197.31.4
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=163.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=163.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="AC0a7SHn"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id AC84CC4CEF4;
-	Mon, 29 Sep 2025 04:23:57 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1759119838;
-	bh=+1YNLxg2avr4KjleA/PdfbQqRc6bmj4olzvcG6fj0gw=;
-	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
-	b=AC0a7SHnoIQcydziwGeEP2JLx/RXO3tHmMyLZX3zYicXxW6oAEvBscIRXRZwqmMy+
-	 M+AX19T8zrUoav4TYP6woz7wqLV/0+eR10MnzjWab7tv1yx9qcwYVdP4syreZsORv1
-	 x4RCOcQMPxhao9rVFGpDNtX4HX6NRU5cD9Mq9aVF+plobekRxuaJjSmr4jOAOyqpXc
-	 oKmjLLMhJuo8UzesnZcIjXwO1iPsIeiw5wauvzjjvVl2xBr715+xHAYhiGtw9iYfA9
-	 juee3C1YAOsIQdyPeLXHoPFV+cvShmn3OwIMOzpvGnMHQwsGds0BLFvaSIKXcZ8JGR
-	 f4N2Kk1SeruRQ==
-Date: Sun, 28 Sep 2025 21:23:51 -0700
-From: Jakub Kicinski <kuba@kernel.org>
-To: yicongsrfy@163.com
-Cc: oliver@neukum.org, andrew+netdev@lunn.ch, davem@davemloft.net,
- edumazet@google.com, marcan@marcan.st, pabeni@redhat.com,
- linux-usb@vger.kernel.org, netdev@vger.kernel.org, yicong@kylinos.cn
-Subject: Re: [PATCH 2/2] net: usb: support quirks in usbnet
-Message-ID: <20250928212351.3b5828c2@kernel.org>
-In-Reply-To: <20250928014631.2832243-2-yicongsrfy@163.com>
-References: <20250928014631.2832243-1-yicongsrfy@163.com>
-	<20250928014631.2832243-2-yicongsrfy@163.com>
+	dkim=pass (1024-bit key) header.d=163.com header.i=@163.com header.b="TOO9OLAU"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=163.com;
+	s=s110527; h=From:To:Subject:Date:Message-Id:MIME-Version; bh=hc
+	njkVa6WlJcQUTouHtEfydAEfTLWoPvCPrVuyQadMo=; b=TOO9OLAUCu4uAawQiW
+	jSbliT5ZOb3rk5ZThS4yLirEmrYmvrtOgB2G4hNDYJuLaKLx9RAwmX1nkJ9VabM+
+	GrmRX/khuk4Dz4GY02dQ1dr58giataFZQm266NDMCSRZ2V/0Xw79Mgpn5hu3ew/p
+	eB4LaECvw/3Hz7XMT+CtobuQQ=
+Received: from localhost.localdomain (unknown [])
+	by gzsmtp2 (Coremail) with SMTP id PSgvCgB3p9vDGdpoadHeAQ--.6422S3;
+	Mon, 29 Sep 2025 13:31:48 +0800 (CST)
+From: yicongsrfy@163.com
+To: oneukum@suse.com,
+	andrew+netdev@lunn.ch,
+	davem@davemloft.net,
+	edumazet@google.com,
+	kuba@kernel.org
+Cc: marcan@marcan.st,
+	pabeni@redhat.com,
+	linux-usb@vger.kernel.org,
+	netdev@vger.kernel.org,
+	yicong@kylinos.cn
+Subject: [PATCH v2 1/3] Revert "net: usb: ax88179_178a: Bind only to vendor-specific interface"
+Date: Mon, 29 Sep 2025 13:31:43 +0800
+Message-Id: <20250929053145.3113394-2-yicongsrfy@163.com>
+X-Mailer: git-send-email 2.25.1
+In-Reply-To: <20250929053145.3113394-1-yicongsrfy@163.com>
+References: <20250928212351.3b5828c2@kernel.org>
+ <20250929053145.3113394-1-yicongsrfy@163.com>
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
+X-CM-TRANSID:PSgvCgB3p9vDGdpoadHeAQ--.6422S3
+X-Coremail-Antispam: 1Uf129KBjvJXoWxJFWDCw17AFWkKFWkXr4fKrg_yoWrCr43pF
+	43KryF9rZxWFW5Krnavr1kua98Aws7K39Ika12gw17Z3Z3JF1SqasxAF47A34UXr4rAw12
+	vr97ArW2kF1kGwUanT9S1TB71UUUUU7qnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
+	9KBjDUYxBIdaVFxhVjvjDU0xZFpf9x07j4c_-UUUUU=
+X-CM-SenderInfo: p1lf00xjvuw5i6rwjhhfrp/xtbBFA3X22jaEB7g0wAEse
 
-On Sun, 28 Sep 2025 09:46:31 +0800 yicongsrfy@163.com wrote:
-> +	const struct usb_device_id *match = usb_match_id(intf,
-> +							 usbnet_ignore_list);
-> +
-> +	return match == NULL ? false : true;
+From: Yi Cong <yicong@kylinos.cn>
 
-coccicheck says:
+This reverts commit c67cc4315a8e605ec875bd3a1210a549e3562ddc.
 
-drivers/net/usb/usbnet_quirks.h:40:24-29: WARNING: conversion to bool not needed here
+Currently, in the Linux kernel, USB NIC with ASIX chips use the cdc_ncm
+driver. However, this driver lacks functionality and performs worse than
+the vendor's proprietary driver. In my testing, I have identified the
+following issues:
 
-this function could be simply:
+1. The cdc_ncm driver does not support changing the link speed via
+   ethtool because the corresponding callback function is set to NULL.
+2. The CDC protocol does not support retrieving the network duplex status.
+3. In TCP_RR and UDP_RR tests, the performance of the cdc_ncm driver
+   is significantly lower than that of the vendor's driver:
+Average of three netperf runs: `netperf -t {TCP/UDP_RR} -H serverIP -l 120`
+- cdc_ncm.ko: TCP_RR: 740, UDP_RR: 750
+- ax88179_178a.ko: TCP_RR: 8900, UDP_RR: 9200
 
-{
-	return !usb_match_id(intf, usbnet_ignore_list);
-}
+Issues related to the vendor's driver ax88179_178a.ko will be addressed
+in the next patch.
+
+Signed-off-by: Yi Cong <yicong@kylinos.cn>
+---
+ drivers/net/usb/ax88179_178a.c | 26 +++++++++++++-------------
+ 1 file changed, 13 insertions(+), 13 deletions(-)
+
+diff --git a/drivers/net/usb/ax88179_178a.c b/drivers/net/usb/ax88179_178a.c
+index b034ef8a73ea..29cbe9ddd610 100644
+--- a/drivers/net/usb/ax88179_178a.c
++++ b/drivers/net/usb/ax88179_178a.c
+@@ -1885,55 +1885,55 @@ static const struct driver_info at_umc2000sp_info = {
+ static const struct usb_device_id products[] = {
+ {
+ 	/* ASIX AX88179 10/100/1000 */
+-	USB_DEVICE_AND_INTERFACE_INFO(0x0b95, 0x1790, 0xff, 0xff, 0),
++	USB_DEVICE(0x0b95, 0x1790),
+ 	.driver_info = (unsigned long)&ax88179_info,
+ }, {
+ 	/* ASIX AX88178A 10/100/1000 */
+-	USB_DEVICE_AND_INTERFACE_INFO(0x0b95, 0x178a, 0xff, 0xff, 0),
++	USB_DEVICE(0x0b95, 0x178a),
+ 	.driver_info = (unsigned long)&ax88178a_info,
+ }, {
+ 	/* Cypress GX3 SuperSpeed to Gigabit Ethernet Bridge Controller */
+-	USB_DEVICE_AND_INTERFACE_INFO(0x04b4, 0x3610, 0xff, 0xff, 0),
++	USB_DEVICE(0x04b4, 0x3610),
+ 	.driver_info = (unsigned long)&cypress_GX3_info,
+ }, {
+ 	/* D-Link DUB-1312 USB 3.0 to Gigabit Ethernet Adapter */
+-	USB_DEVICE_AND_INTERFACE_INFO(0x2001, 0x4a00, 0xff, 0xff, 0),
++	USB_DEVICE(0x2001, 0x4a00),
+ 	.driver_info = (unsigned long)&dlink_dub1312_info,
+ }, {
+ 	/* Sitecom USB 3.0 to Gigabit Adapter */
+-	USB_DEVICE_AND_INTERFACE_INFO(0x0df6, 0x0072, 0xff, 0xff, 0),
++	USB_DEVICE(0x0df6, 0x0072),
+ 	.driver_info = (unsigned long)&sitecom_info,
+ }, {
+ 	/* Samsung USB Ethernet Adapter */
+-	USB_DEVICE_AND_INTERFACE_INFO(0x04e8, 0xa100, 0xff, 0xff, 0),
++	USB_DEVICE(0x04e8, 0xa100),
+ 	.driver_info = (unsigned long)&samsung_info,
+ }, {
+ 	/* Lenovo OneLinkDock Gigabit LAN */
+-	USB_DEVICE_AND_INTERFACE_INFO(0x17ef, 0x304b, 0xff, 0xff, 0),
++	USB_DEVICE(0x17ef, 0x304b),
+ 	.driver_info = (unsigned long)&lenovo_info,
+ }, {
+ 	/* Belkin B2B128 USB 3.0 Hub + Gigabit Ethernet Adapter */
+-	USB_DEVICE_AND_INTERFACE_INFO(0x050d, 0x0128, 0xff, 0xff, 0),
++	USB_DEVICE(0x050d, 0x0128),
+ 	.driver_info = (unsigned long)&belkin_info,
+ }, {
+ 	/* Toshiba USB 3.0 GBit Ethernet Adapter */
+-	USB_DEVICE_AND_INTERFACE_INFO(0x0930, 0x0a13, 0xff, 0xff, 0),
++	USB_DEVICE(0x0930, 0x0a13),
+ 	.driver_info = (unsigned long)&toshiba_info,
+ }, {
+ 	/* Magic Control Technology U3-A9003 USB 3.0 Gigabit Ethernet Adapter */
+-	USB_DEVICE_AND_INTERFACE_INFO(0x0711, 0x0179, 0xff, 0xff, 0),
++	USB_DEVICE(0x0711, 0x0179),
+ 	.driver_info = (unsigned long)&mct_info,
+ }, {
+ 	/* Allied Telesis AT-UMC2000 USB 3.0/USB 3.1 Gen 1 to Gigabit Ethernet Adapter */
+-	USB_DEVICE_AND_INTERFACE_INFO(0x07c9, 0x000e, 0xff, 0xff, 0),
++	USB_DEVICE(0x07c9, 0x000e),
+ 	.driver_info = (unsigned long)&at_umc2000_info,
+ }, {
+ 	/* Allied Telesis AT-UMC200 USB 3.0/USB 3.1 Gen 1 to Fast Ethernet Adapter */
+-	USB_DEVICE_AND_INTERFACE_INFO(0x07c9, 0x000f, 0xff, 0xff, 0),
++	USB_DEVICE(0x07c9, 0x000f),
+ 	.driver_info = (unsigned long)&at_umc200_info,
+ }, {
+ 	/* Allied Telesis AT-UMC2000/SP USB 3.0/USB 3.1 Gen 1 to Gigabit Ethernet Adapter */
+-	USB_DEVICE_AND_INTERFACE_INFO(0x07c9, 0x0010, 0xff, 0xff, 0),
++	USB_DEVICE(0x07c9, 0x0010),
+ 	.driver_info = (unsigned long)&at_umc2000sp_info,
+ },
+ 	{ },
+-- 
+2.25.1
+
