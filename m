@@ -1,29 +1,29 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DF10C2BB17;
-	Tue, 30 Sep 2025 08:37:29 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 85B6C257458;
+	Tue, 30 Sep 2025 08:38:06 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1759221450; cv=none; b=YnATxRUzX41V32q8Rf0LxwqhvkLh42VM5RSWNL51U+ysO7yvxvp0JSGE+QUd7DXC24Odm9dKYRUMjgfF5pT9Z+1RwSq4PIuQ3HxGknUeq9GkhzKsIoYkFHuEL55nw6M1XGUh8mq0PxvK9RCAaNdHK03xNXrbJ/6m+NR8fEWt0Jg=
+	t=1759221486; cv=none; b=CvMhcjgB5yePLKnKp1lzavT95Q+SHTFdOgE0nSZ8q2Wrdk9H/VuKyg41TlK0abqi/PH9H6DQsUFsV+8qN+G76UVn6wukKZKeY+ZHo0lXHkEr02DFsRAnFY4TA28scxCqgnTEAYMzuXAtsa0UijEZWQ94S6ulz0k+x6TrR4jQJZk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1759221450; c=relaxed/simple;
-	bh=PEGpKlMQ4Vo+8ylinenQfplXYyYyVcNZZUgFaJY54no=;
+	s=arc-20240116; t=1759221486; c=relaxed/simple;
+	bh=gsbL75hNEAEaA5dqfpbojQwUG4F+Ojiq2CPj27wn8Sc=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=p+d9297/jwHb+6pBhJh8q3MoO218q0ye7h9WiUxQ2yH+A1kwwf1hXP7okzGIuGnB0gtwizkWZl46czgvv1judIbcMassRg0E2H4XoLTJt1WcSStJrvKD5/8POKOlKJvFb63tP6PaziHz7UloBjMaVA7Bk/pVPl3zGigOfdgIeAg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b=sHlHmKel; arc=none smtp.client-ip=10.30.226.201
+	 Content-Type:Content-Disposition:In-Reply-To; b=aePikoZUWSgh9Peidz5LBPtQEdtnEJKhpUGcM90o9Xk2lb2pxKsiSg7/huEGufsXO29NFQzqPfbgKpHedGx4CFMIDrqTZAfKhFJmIMpEKW2fLK1tN8VnvUgi1vcMGnJr3qsNcUmwducQB/Ltiq3tVLRhlEHlf96VHVXvBFLshZ8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b=cyM7yJcF; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="sHlHmKel"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 953A8C4CEF0;
-	Tue, 30 Sep 2025 08:37:28 +0000 (UTC)
+	dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="cyM7yJcF"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 9DFABC113D0;
+	Tue, 30 Sep 2025 08:38:05 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
-	s=korg; t=1759221449;
-	bh=PEGpKlMQ4Vo+8ylinenQfplXYyYyVcNZZUgFaJY54no=;
+	s=korg; t=1759221486;
+	bh=gsbL75hNEAEaA5dqfpbojQwUG4F+Ojiq2CPj27wn8Sc=;
 	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=sHlHmKelKCb80xLttNs4VPvrSfH4v4+esumTm9jUnS2pskLEq6P5QBI5l+EcZbsdT
-	 YZnQ7jLDrs7ewJI3kXH/8FKQwwMIXgesK3drtQSNj6rrnZ7/KWAF0l863ihEnSZ3pw
-	 rwBAdhoSR7Xr9MpaaZKqngNr6RIXnyTtSe9SqXJE=
-Date: Tue, 30 Sep 2025 10:37:25 +0200
+	b=cyM7yJcF8zpCOOfVPqWWQx4Hk3oNBPxfavEcTKBX2vPb7mUkbqm6H/uN1ZRVWbndj
+	 Uo/S8dIXlk6ifPRDLkY8FLMmlsIlN2lnMP1FtWkn8DW4Oj2wayd50IOfDK+2y2qtj5
+	 2ULloOpoYEnlLL3KPw5HbfM/wOphRdfMk5En3mEw=
+Date: Tue, 30 Sep 2025 10:38:02 +0200
 From: Greg KH <gregkh@linuxfoundation.org>
 To: yicongsrfy@163.com
 Cc: oneukum@suse.com, andrew+netdev@lunn.ch, davem@davemloft.net,
@@ -31,7 +31,7 @@ Cc: oneukum@suse.com, andrew+netdev@lunn.ch, davem@davemloft.net,
 	marcan@marcan.st, netdev@vger.kernel.org, pabeni@redhat.com,
 	yicong@kylinos.cn
 Subject: Re: [PATCH v4 2/3] net: usb: support quirks in cdc_ncm
-Message-ID: <2025093053-chunk-pleat-c95a@gregkh>
+Message-ID: <2025093035-unwoven-humiliate-a315@gregkh>
 References: <5a3b2616-fcfd-483a-81a4-34dd3493a97c@suse.com>
  <20250930080709.3408463-1-yicongsrfy@163.com>
  <20250930080709.3408463-2-yicongsrfy@163.com>
@@ -105,15 +105,38 @@ On Tue, Sep 30, 2025 at 04:07:08PM +0800, yicongsrfy@163.com wrote:
 > v2: Correct the description of usbnet_quirks.h and modify the code style
 > v3: Add checking whether the CONFIG_USB_NET_AX88179_178A is enabled
 > v4: Move quirks from usbnet.ko to cdc_ncm.ko
-
-These "version" lines go below the  --- line.
-
+> 
 > Signed-off-by: Yi Cong <yicong@kylinos.cn>
 > ---
 >  drivers/net/usb/cdc_ncm.c        | 15 +++++++++++-
 >  drivers/net/usb/cdc_ncm_quirks.h | 41 ++++++++++++++++++++++++++++++++
+>  2 files changed, 55 insertions(+), 1 deletion(-)
+>  create mode 100644 drivers/net/usb/cdc_ncm_quirks.h
+> 
+> diff --git a/drivers/net/usb/cdc_ncm.c b/drivers/net/usb/cdc_ncm.c
+> index 5d123df0a866..fc8416af3f11 100644
+> --- a/drivers/net/usb/cdc_ncm.c
+> +++ b/drivers/net/usb/cdc_ncm.c
+> @@ -54,6 +54,8 @@
+>  #include <linux/usb/cdc.h>
+>  #include <linux/usb/cdc_ncm.h>
+>  
+> +#include "cdc_ncm_quirks.h"
+> +
+>  #if IS_ENABLED(CONFIG_USB_NET_CDC_MBIM)
+>  static bool prefer_mbim = true;
+>  #else
+> @@ -2114,10 +2116,21 @@ static const struct usb_device_id cdc_devs[] = {
+>  };
+>  MODULE_DEVICE_TABLE(usb, cdc_devs);
+>  
+> +static int cdc_ncm_probe(struct usb_interface *intf, const struct usb_device_id *prod)
+> +{
+> +	/* Should it be ignored? */
+> +	if (unlikely(cdc_ncm_ignore(intf))) {
 
-No need for this to be a .h file, just put it in the .c file please.
+There is no performance issue here, so please do not use unlikely/likely
+unless you can prove with a benchmark that it is needed.
 
 thanks,
 
