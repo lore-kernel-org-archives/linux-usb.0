@@ -1,78 +1,81 @@
 Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com [205.220.168.131])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C1BC51EA6F
-	for <linux-usb@vger.kernel.org>; Fri,  3 Oct 2025 00:20:48 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 855523AC39
+	for <linux-usb@vger.kernel.org>; Fri,  3 Oct 2025 00:20:50 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.168.131
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1759450854; cv=none; b=Q8T+J48J+SXdelx8OjUpS6qNO9sxFnMR9BeFS5TjiAMqKTo8RqNEl+0+XpZLlnf7QOYWdBYowSg2CGI7H8ssU61y9hfeFr3dx6t7qRkuKVzJqknsqIKShDrfD2gXWr1+uBjDNPZ3/tr86QGh2j1sD8v847eD9GdhX+DM9zed+9o=
+	t=1759450855; cv=none; b=flv6rgJqapM/icVfr3u3ZOD0VrqlLmHleSZH36ORq0VeTGmqct+zCR7nmye+cv1uERjwEpT6yUCsdHvEQDn38wt6fdGlSL+SZmKDs5IY2t3+fH1HuUiwtXVGHD01yLw66+X2pFA+jC0LTfTzuB6UlIYuQoTjpB46BUqIS4aSJig=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1759450854; c=relaxed/simple;
-	bh=E9h7ocI2yzY8vYKQXj21r6gL0XQdWo0Z9RU9W3pJXew=;
-	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=IwI7RAKslcSWhQsfN2Lh9i1OYm8Sxsiw5O6bUOf9ReqLQVOH+ZYn2QZvckYH3KS/NUKYiOj5ugT+1eP4lYnSOIznF4BUSrv6RYPFY9ByFHT9Q8KaJ7b6wGNQL2O5bzQf4FbXrHKrJlNDICsgRxnQGkRZf+4OThj0yFBNoCLb5m8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com; spf=pass smtp.mailfrom=oss.qualcomm.com; dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b=OnzqVd8O; arc=none smtp.client-ip=205.220.168.131
+	s=arc-20240116; t=1759450855; c=relaxed/simple;
+	bh=3cyjRiL4lcUmndU7o/wfFQ0HYsbwM9Aydw3J2N8yu/s=;
+	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
+	 MIME-Version; b=S31T45db2duwiqK/bI+MeKOt6ibtAbGDZCMdQpFsFsJEUTgkD2qYJjcv4fVC5WaZAuKCA5e47B2aanNSYXd9Afi7vzrXQmmB7D5so1zXU+Y31O2gBy4qBe8AlrfW/JREwKinGRGpzmJA6YjxtqZcWMvMuF8BXUoShkHBGGotZrA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com; spf=pass smtp.mailfrom=oss.qualcomm.com; dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b=MmGW/2GY; arc=none smtp.client-ip=205.220.168.131
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=oss.qualcomm.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b="OnzqVd8O"
-Received: from pps.filterd (m0279862.ppops.net [127.0.0.1])
-	by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 592LvVJf005645
-	for <linux-usb@vger.kernel.org>; Fri, 3 Oct 2025 00:20:48 GMT
+	dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b="MmGW/2GY"
+Received: from pps.filterd (m0279866.ppops.net [127.0.0.1])
+	by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 592LVgo8023421
+	for <linux-usb@vger.kernel.org>; Fri, 3 Oct 2025 00:20:49 GMT
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
-	cc:content-transfer-encoding:date:from:message-id:mime-version
-	:subject:to; s=qcppdkim1; bh=c4iZcSe2xkw+a+pWRSy8F3E4RIZyAiFUK38
-	FdntSBBk=; b=OnzqVd8OcOmZ/iaSUlG0nzoF8fEv4jfb9Zt3jH8kFeMpB5oZA5y
-	MduIJQFHyXJ//Dt5WxVPZZxDw5LjoSkvcnLSc5VrTl86N2E8LTb3QySp5N5KtoJg
-	U4IxwsFfhVzuMbGYj2lVO6jgDiA3hE0IgygEeY3Dio68oH+Ia7EB/n0p/P1LA9CU
-	HRE+EpvohYI1itI4/GQwAJNZAQ8jbsvCRCBUwAAxhmvBusZP5LhNEHaxqO40CNAy
-	wYiDS5IpVqHoB6CTZvIFiZAoMjTP6WwVfMcSkZejVvok2/Wm3aoi/uz5n6LiMLnr
-	12a6B2CXJe+vzbvF8aR9ejAYz0UsktOGAQg==
-Received: from mail-pf1-f198.google.com (mail-pf1-f198.google.com [209.85.210.198])
-	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 49e8pds359-1
+	cc:content-transfer-encoding:date:from:in-reply-to:message-id
+	:mime-version:references:subject:to; s=qcppdkim1; bh=QoLaMgeORBf
+	SIAcGQOIMWfUaR1zLHwTW+Dns9so/XPY=; b=MmGW/2GYt1ar2ymIaZ88SxhBtKj
+	t+TdL5Pi3Z/GbZ6ddoObgL0PS8XbaiFtKUhh/NhZLv/PTPzhESJOvPQgzdKtziqK
+	oAwhPxBVPBbYYXdv2j/rM2KRHycLSFwrp9qhWQispPqggImVg7w4yIN3yP8OhePT
+	mwWED7WKUulLnnUE4oCvBQLbX0PPXfmc2qdICVq+E78PpnbewaTwPwbDU5ik4cdb
+	jhAskZavb6Eup1OGUXRhdlzGtMS4keTFN6SZlW4gbLsZpKORB1AcUEeZ1EETaSI8
+	7o/W3ZM9VWS2KJNWihGBKv/bBDFpO8+qByfXGXkxN3CsXDu0JMTE8acuIng==
+Received: from mail-pg1-f200.google.com (mail-pg1-f200.google.com [209.85.215.200])
+	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 49e97815m4-1
 	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT)
-	for <linux-usb@vger.kernel.org>; Fri, 03 Oct 2025 00:20:47 +0000 (GMT)
-Received: by mail-pf1-f198.google.com with SMTP id d2e1a72fcca58-780f9cc532bso1616727b3a.0
-        for <linux-usb@vger.kernel.org>; Thu, 02 Oct 2025 17:20:47 -0700 (PDT)
+	for <linux-usb@vger.kernel.org>; Fri, 03 Oct 2025 00:20:49 +0000 (GMT)
+Received: by mail-pg1-f200.google.com with SMTP id 41be03b00d2f7-b62b7af4fddso276261a12.2
+        for <linux-usb@vger.kernel.org>; Thu, 02 Oct 2025 17:20:49 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1759450847; x=1760055647;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=c4iZcSe2xkw+a+pWRSy8F3E4RIZyAiFUK38FdntSBBk=;
-        b=bPf31bTigUZJjSpcJOUpe/R3bej6vmdiIJ85YeHUE4v9OI+HR4zBRROezE0YglOVnQ
-         RSFvC2BGmkaJMWuN7oR2lZoNbgXYM1N6yhMx1Vr3TAh1ZGml0W46M8HqAN9LEuRUo6Fj
-         fW+GaT3PZljpQSCe4Zi5C43uOl/TLnhT5sUr/rLTHb3TKK7k2zfvJz2dsaOypcqbG0Pr
-         EH6Ejw0peMFakzmkEQmdyHbljJnJnDMjwqnFVWHw3ugywu2EWZxMjG95EgLfc7WWxWvw
-         19EInmwlVHSpibeiq6xStrBvDyprg0Rq2BOT0UmlIFguSGfK2VgqylOomb/F8EUNIKjX
-         GWog==
-X-Forwarded-Encrypted: i=1; AJvYcCWSQrS3vr2HMNAYNfF9iK2yY/k27Uzsvjo939SAvoLwaiYOrXxYM0WxaEbIpV9zb8n1X929vpEOkZY=@vger.kernel.org
-X-Gm-Message-State: AOJu0YzlDHf2tZ7z0JN2naKfV14anxzc0jPpoG1IwpTqc3DjvBU8qI6Q
-	iERztMTRipUAORCkpW9BwY1cduUQ/jdqX3+/r8gKqXmClo7AXD1QL5aEnCaez64gfy0Ba9bsiw0
-	FAI2ScFXDYj8JbDI7PNDySHyEqfcWKDXqo5ccM5KvMa7Ga/AXyo+NZiqK99EACcE=
-X-Gm-Gg: ASbGncu8jUof91xFDsiu58Qha9FWPaSe8f0JlbsHMwSkwJBWHaH3b2nZPJGuM/pmyq1
-	QuhNJgJp8YMFJkOQ+Olgf63iPkgOrcNyGCRd6/zQv4fISY/11rrDqDhiSJ/ZCQ77H9sLgjht4en
-	ro+vFsKr4r8HCRJafETP6TzPGg7Rx4uqua5Qh+6xHd3b98Kvhvdmx2ro77sRR2lKKn5M+W5drH0
-	9vCdzCq+321zCk49m4zWY0SZusv7b7vjDGw/BVERTJgPr8zOFuR8cZXwYks08VXwACQUnr/fpT2
-	vuKMUVTAta61VuoZv0BoM7nu6NXzks4SMsKC8ZXAx2xgcMSTCOEWpcFpLpvHznA3GTSVMJWpPUM
-	ir4bhqdfQDWasfzqAgiF5XecLyWDnLHlj
-X-Received: by 2002:a05:6a20:958f:b0:2ce:67b2:3c41 with SMTP id adf61e73a8af0-32b61b2dafamr1618163637.5.1759450846701;
-        Thu, 02 Oct 2025 17:20:46 -0700 (PDT)
-X-Google-Smtp-Source: AGHT+IFnykMpl6KwBYvLoLXZgMJwIyv5faVFh4HNnhKStdMWFztJtzgZPYdSeuEvbf8LSHJd6OSyoQ==
-X-Received: by 2002:a05:6a20:958f:b0:2ce:67b2:3c41 with SMTP id adf61e73a8af0-32b61b2dafamr1618136637.5.1759450846200;
-        Thu, 02 Oct 2025 17:20:46 -0700 (PDT)
+        d=1e100.net; s=20230601; t=1759450849; x=1760055649;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=QoLaMgeORBfSIAcGQOIMWfUaR1zLHwTW+Dns9so/XPY=;
+        b=WkSsgn7BnrYDe55lnPqmEuW3GIgwCk/BvH0Ac/KKSzj54jQTNOn5wGS/VtbqkYJpGx
+         mBhDeDisnbVJ6v1sHvE6AdL+cJEMQeGi9C0tslrNloY9vE32Cb60bEFLG+ur+3TqW8Dv
+         bCyaLRfG7IfbIaGZdp1ewiInlOPICGOfn0bi3Bx6Sn8eoIcOLUll9E8d1PJUDA1WPGT9
+         6rtkHP3GIuu1uceHTzBjuHqywYu5Y6HJCSNR/jB22tGaONCbeDbjQKSmB+zbH9d9afFB
+         AwVd9WilxxueJqHAOAcoyVO5rcGLHXsrmSnkHcDRJC49BFy3ycUMWTJ0Z4K7Sf/Uf6du
+         TbSQ==
+X-Forwarded-Encrypted: i=1; AJvYcCUCbTzQOh37RASYpMO1HBeAZFEDZuX9Odqv6skHsP0hsiqmhUbmDIW4FfxY/wjL7RH0nlRD1+isS1c=@vger.kernel.org
+X-Gm-Message-State: AOJu0YyOiNZe4FzcFf5QgnNGfbJup3PtkkVQtAotmpjdqjlRcgJv2Mg5
+	jblNT2qcEkTc3mgVZO/5nYmKKC/BkGmgfh8zHI8s8J27INYm5pXEBd+9OK258WWMkgF7UtniewF
+	ZYzttUBXmjcT+r2V1hRb5WpdT4ffVSN/cGgHlCiOMa0AGt7XzVP0E5Nr0XziAEzs=
+X-Gm-Gg: ASbGncsk6SCE753uvtG2PTXe4639ypuUolA4AgnCtLPL8ngLxMhdE/Mm6nz07pkPnOx
+	8z5e8xg+3DlDsMcEiQArS9BW13qaYqDKQC58hH3ITODnipgLCuScIC0LWZdliAib5cPuq3UeiTz
+	kbPNxkmB+DOft5+YfGJDxwXGDWmQSHOjngkAfJxwDPiuhbExO/9MY6tVg/JjyjUIcEPZU8uhH03
+	tdVBvCW7dFSeGwOXEPnvpgi95eCk63VbvfEWdlCDpZRGLmX42HJtufu5d/Kt2GmEQzLrfKEJrsL
+	NUhU4JAnoQhijK4Z7UUI85oY87B0ZyKWyV4K9qFwY1PlEmOuN5kBP2MN5itpNnqy0FVlhSk+S9E
+	H6lisKzi87ncMtFOL69PbqdAds07oA786
+X-Received: by 2002:a05:6a20:7d9c:b0:2c5:f4a:8839 with SMTP id adf61e73a8af0-32b6213ef51mr1369049637.60.1759450848689;
+        Thu, 02 Oct 2025 17:20:48 -0700 (PDT)
+X-Google-Smtp-Source: AGHT+IHhVZuqJXzaWO1w4N5q8KAOpGa6PrhujnxtMK9xFie0UJw2QokcxvzbXUoAjFLCXAyjh9SGVA==
+X-Received: by 2002:a05:6a20:7d9c:b0:2c5:f4a:8839 with SMTP id adf61e73a8af0-32b6213ef51mr1369025637.60.1759450848202;
+        Thu, 02 Oct 2025 17:20:48 -0700 (PDT)
 Received: from hu-amelende-lv.qualcomm.com (Global_NAT1.qualcomm.com. [129.46.96.20])
-        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-78b01f9a3f1sm3128632b3a.12.2025.10.02.17.20.44
+        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-78b01f9a3f1sm3128632b3a.12.2025.10.02.17.20.47
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 02 Oct 2025 17:20:45 -0700 (PDT)
+        Thu, 02 Oct 2025 17:20:47 -0700 (PDT)
 From: Anjelique Melendez <anjelique.melendez@oss.qualcomm.com>
 To: heikki.krogerus@linux.intel.com, gregkh@linuxfoundation.org
 Cc: lumag@kernel.org, neil.armstrong@linaro.org, johan+linaro@kernel.org,
         quic_bjorande@quicinc.com, linux-usb@vger.kernel.org,
         linux-kernel@vger.kernel.org, linux-arm-msm@vger.kernel.org
-Subject: [PATCH v5 0/2] usb: typec: ucsi_glink: Add support UCSI v2
-Date: Thu,  2 Oct 2025 17:20:42 -0700
-Message-Id: <20251003002044.2944497-1-anjelique.melendez@oss.qualcomm.com>
+Subject: [PATCH v5 2/2] usb: typec: ucsi_glink: Increase buffer size to support UCSI v2
+Date: Thu,  2 Oct 2025 17:20:44 -0700
+Message-Id: <20251003002044.2944497-3-anjelique.melendez@oss.qualcomm.com>
 X-Mailer: git-send-email 2.34.1
+In-Reply-To: <20251003002044.2944497-1-anjelique.melendez@oss.qualcomm.com>
+References: <20251003002044.2944497-1-anjelique.melendez@oss.qualcomm.com>
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
@@ -80,64 +83,173 @@ List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-Proofpoint-GUID: EYKaBesoWTjGQXPYt719TZfX8Fw_EJ9M
-X-Authority-Analysis: v=2.4 cv=MYZhep/f c=1 sm=1 tr=0 ts=68df16df cx=c_pps
- a=m5Vt/hrsBiPMCU0y4gIsQw==:117 a=ouPCqIW2jiPt+lZRy3xVPw==:17
- a=x6icFKpwvdMA:10 a=VwQbUJbxAAAA:8 a=EUspDBNiAAAA:8 a=QyXUC8HyAAAA:8
- a=AXDibm61ZLAIF834zmQA:9 a=IoOABgeZipijB_acs4fv:22
-X-Proofpoint-ORIG-GUID: EYKaBesoWTjGQXPYt719TZfX8Fw_EJ9M
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUwOTI3MDAzNiBTYWx0ZWRfXyAAyMz2ynzsW
- OVJIC6dbmJrxZN1hMFz/OhbXNVLiS8DuVdFSrUNZM/D1r1OT1qQe+T71joztf58snBcVzZaOmze
- zpcPJVr8aKv2aaO/ji6bh6ovsJkA99uccjKFcK4QPnwATgyRm8k7dDEwM8rN081U3fFnqx9vl5F
- FphYaQq6wI9ofTwUoH203J/GqJzmqMwvKegZ2tPu2lMXjtMXFPZWMr+Y5mFXTqtwF9RhJmLaadW
- mhMVYzJsIY2u/VYUC440FTSRNtE9IPOX32+zg5d2inq70wtY3923pEXA+ssPo+NUxRkQ7NJondd
- xiexcUoh3Rv3QHcgMHZhuK4OX4xnj7SPVu+qjssjY970H2qNf0qxktPlWcDFPu6e36qP0G9s2ua
- DE604guAR3CAmefIuH55LANP+FkgsQ==
+X-Proofpoint-GUID: 5Nd0rw3xJkLWr6idBmJtzwujV9Uv9QjC
+X-Proofpoint-ORIG-GUID: 5Nd0rw3xJkLWr6idBmJtzwujV9Uv9QjC
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUwOTI3MDA0MyBTYWx0ZWRfX0BhSqQjYSBI5
+ E9SSBQHfZBXEt37QsVhGBEh4FW886pfD7+n7cSPjwmhp1Y8i9eH3bkwUKeFVNP9crodHv2eoJw+
+ vIJpKpi8ohkP3WPDuLfrGwPTYY+oTZEgOdllWiOTAE7wdVMmrvDqZVxq6edp2ru2UvL5HP20ZFU
+ s12XpHlgMnuoyLygEqF5P4WxAq/YrhLLbmCKZ7CmVZtshLIhwREaA04oO7Q3gnf0Dssp/UnKBWG
+ qSJg0jbLf2x+uqAVkP9n0llPa7vigjX4vbp8w5MINiZO9IdxaRXtUApVrHNvE6FKs26adm+qmOv
+ gobeDqLS7urdTSzr17zBlDIj3wRP1vW1NspP0BGVE/csn/9K7JGdv8tfdLHQQSv2JoCyXcHpVoa
+ bJVGuRBYxR8lKez5R9bDLp5yFfcR/Q==
+X-Authority-Analysis: v=2.4 cv=Sf36t/Ru c=1 sm=1 tr=0 ts=68df16e1 cx=c_pps
+ a=oF/VQ+ItUULfLr/lQ2/icg==:117 a=ouPCqIW2jiPt+lZRy3xVPw==:17
+ a=x6icFKpwvdMA:10 a=EUspDBNiAAAA:8 a=bL7WY3GH-9A0ZCLeatoA:9
+ a=3WC7DwWrALyhR5TkjVHa:22
 X-Proofpoint-Virus-Version: vendor=baseguard
  engine=ICAP:2.0.293,Aquarius:18.0.1117,Hydra:6.1.9,FMLib:17.12.80.40
  definitions=2025-10-02_09,2025-10-02_03,2025-03-28_01
 X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- suspectscore=0 clxscore=1015 bulkscore=0 lowpriorityscore=0
- priorityscore=1501 phishscore=0 malwarescore=0 spamscore=0 impostorscore=0
- adultscore=0 classifier=typeunknown authscore=0 authtc= authcc=
+ clxscore=1015 bulkscore=0 suspectscore=0 adultscore=0 spamscore=0
+ priorityscore=1501 malwarescore=0 lowpriorityscore=0 phishscore=0
+ impostorscore=0 classifier=typeunknown authscore=0 authtc= authcc=
  route=outbound adjust=0 reason=mlx scancount=1 engine=8.19.0-2509150000
- definitions=main-2509270036
+ definitions=main-2509270043
 
 UCSI v2 specification has increased the MSG_IN and MSG_OUT size from
 16 bytes to 256 bytes each for the message exchange between OPM and PPM
 This makes the total buffer size increase from 48 bytes to 528 bytes.
 Update the buffer size to support this increase.
 
-While at it also update the UCSI read/request buffers to be packed.
+Signed-off-by: Anjelique Melendez <anjelique.melendez@oss.qualcomm.com>
+---
+ drivers/usb/typec/ucsi/ucsi_glink.c | 76 +++++++++++++++++++++++++----
+ 1 file changed, 66 insertions(+), 10 deletions(-)
 
-Changes since v4:
- - Updated the read/write structs to use a union for the different buffer sizes
-   which depend on UCSI version in patch 2/2 
- - Added a clarifying comment to a size check in patch 2/2
- - link: https://lore.kernel.org/all/20250924232631.644234-1-anjelique.melendez@oss.qualcomm.com/
-Changes since v3:
- - Added "Reviewed-by: Heikki Krogerus <heikki.krogerus@linux.intel.com>" for patch 1/2
- - Fixed if-else if conditional in pmic_glink_ucsi_read_ack() in patch 2/2
- - link: https://lore.kernel.org/all/20250827201241.3111857-1-anjelique.melendez@oss.qualcomm.com/
-Changes since v2:
- - Added "usb: typec: ucsi_glink: Update request/response buffers
-   to be packed" patch
- - Added length checks
- - Updated version checks to use UCSI_VERSION_2_0 instead of UCSI_VERSION_2_1
- - link: https://lore.kernel.org/all/20250716005224.312155-1-anjelique.melendez@oss.qualcomm.com/
-Changes since v1:
- - Defined buf size in terms of other UCSI defines
- - Removed UCSI_BUF_SIZE and used the explicit v1 or v2 buffer size macros
- - Removed Qualcomm copyright
- - link: https://lore.kernel.org/all/20250624222922.2010820-1-anjelique.melendez@oss.qualcomm.com/
-
-Anjelique Melendez (2):
-  usb: typec: ucsi_glink: Update request/response buffers to be packed
-  usb: typec: ucsi_glink: Increase buffer size to support UCSI v2
-
- drivers/usb/typec/ucsi/ucsi_glink.c | 84 ++++++++++++++++++++++++-----
- 1 file changed, 70 insertions(+), 14 deletions(-)
-
+diff --git a/drivers/usb/typec/ucsi/ucsi_glink.c b/drivers/usb/typec/ucsi/ucsi_glink.c
+index 1f9f0d942c1a..a324fadb4e11 100644
+--- a/drivers/usb/typec/ucsi/ucsi_glink.c
++++ b/drivers/usb/typec/ucsi/ucsi_glink.c
+@@ -16,10 +16,10 @@
+ 
+ #define PMIC_GLINK_MAX_PORTS		3
+ 
+-#define UCSI_BUF_SIZE                   48
++#define UCSI_BUF_V1_SIZE		(UCSI_MESSAGE_OUT + (UCSI_MESSAGE_OUT - UCSI_MESSAGE_IN))
++#define UCSI_BUF_V2_SIZE		(UCSIv2_MESSAGE_OUT + (UCSIv2_MESSAGE_OUT - UCSI_MESSAGE_IN))
+ 
+ #define MSG_TYPE_REQ_RESP               1
+-#define UCSI_BUF_SIZE                   48
+ 
+ #define UC_NOTIFY_RECEIVER_UCSI         0x0
+ #define UC_UCSI_READ_BUF_REQ            0x11
+@@ -32,13 +32,19 @@ struct ucsi_read_buf_req_msg {
+ 
+ struct __packed ucsi_read_buf_resp_msg {
+ 	struct pmic_glink_hdr   hdr;
+-	u8                      buf[UCSI_BUF_SIZE];
++	union {
++		u8 v2_buf[UCSI_BUF_V2_SIZE];
++		u8 v1_buf[UCSI_BUF_V1_SIZE];
++	} buf;
+ 	u32                     ret_code;
+ };
+ 
+ struct __packed ucsi_write_buf_req_msg {
+ 	struct pmic_glink_hdr   hdr;
+-	u8                      buf[UCSI_BUF_SIZE];
++	union {
++		u8 v2_buf[UCSI_BUF_V2_SIZE];
++		u8 v1_buf[UCSI_BUF_V1_SIZE];
++	} buf;
+ 	u32                     reserved;
+ };
+ 
+@@ -72,7 +78,7 @@ struct pmic_glink_ucsi {
+ 	bool ucsi_registered;
+ 	bool pd_running;
+ 
+-	u8 read_buf[UCSI_BUF_SIZE];
++	u8 read_buf[UCSI_BUF_V2_SIZE];
+ };
+ 
+ static int pmic_glink_ucsi_read(struct ucsi *__ucsi, unsigned int offset,
+@@ -132,17 +138,35 @@ static int pmic_glink_ucsi_locked_write(struct pmic_glink_ucsi *ucsi, unsigned i
+ 					const void *val, size_t val_len)
+ {
+ 	struct ucsi_write_buf_req_msg req = {};
++	size_t req_len, buf_len;
+ 	unsigned long left;
+ 	int ret;
++	u8 *buf;
+ 
+ 	req.hdr.owner = PMIC_GLINK_OWNER_USBC;
+ 	req.hdr.type = MSG_TYPE_REQ_RESP;
+ 	req.hdr.opcode = UC_UCSI_WRITE_BUF_REQ;
+-	memcpy(&req.buf[offset], val, val_len);
++
++	if (ucsi->ucsi->version >= UCSI_VERSION_2_0) {
++		buf_len = UCSI_BUF_V2_SIZE;
++		buf = req.buf.v2_buf;
++	} else if (ucsi->ucsi->version) {
++		buf_len = UCSI_BUF_V1_SIZE;
++		buf = req.buf.v1_buf;
++	} else {
++		dev_err(ucsi->dev, "UCSI version unknown\n");
++		return -EINVAL;
++	}
++	req_len = sizeof(struct pmic_glink_hdr) + buf_len + sizeof(u32);
++
++	if (offset + val_len > buf_len)
++		return -EINVAL;
++
++	memcpy(&buf[offset], val, val_len);
+ 
+ 	reinit_completion(&ucsi->write_ack);
+ 
+-	ret = pmic_glink_send(ucsi->client, &req, sizeof(req));
++	ret = pmic_glink_send(ucsi->client, &req, req_len);
+ 	if (ret < 0) {
+ 		dev_err(ucsi->dev, "failed to send UCSI write request: %d\n", ret);
+ 		return ret;
+@@ -216,12 +240,44 @@ static const struct ucsi_operations pmic_glink_ucsi_ops = {
+ 
+ static void pmic_glink_ucsi_read_ack(struct pmic_glink_ucsi *ucsi, const void *data, int len)
+ {
+-	const struct ucsi_read_buf_resp_msg *resp = data;
++	u32 ret_code, resp_len, buf_len = 0;
++	u8 *buf;
++
++	if (ucsi->ucsi->version) {
++		if (ucsi->ucsi->version >= UCSI_VERSION_2_0) {
++			buf = ((struct ucsi_read_buf_resp_msg *)data)->buf.v2_buf;
++			buf_len = UCSI_BUF_V2_SIZE;
++		} else {
++			buf = ((struct ucsi_read_buf_resp_msg *)data)->buf.v1_buf;
++			buf_len = UCSI_BUF_V1_SIZE;
++		}
++	} else if (!ucsi->ucsi_registered) {
++		/*
++		 * If UCSI version is not known yet because device is not registered, choose buffer
++		 * size which best fits incoming data
++		 */
++		if (len > sizeof(struct pmic_glink_hdr) + UCSI_BUF_V2_SIZE) {
++			buf = ((struct ucsi_read_buf_resp_msg *)data)->buf.v2_buf;
++			buf_len = UCSI_BUF_V2_SIZE;
++		} else {
++			buf = ((struct ucsi_read_buf_resp_msg *)data)->buf.v1_buf;
++			buf_len = UCSI_BUF_V1_SIZE;
++		}
++	}
++	resp_len = sizeof(struct pmic_glink_hdr) + buf_len + sizeof(u32);
+ 
+-	if (resp->ret_code)
++	if (len > resp_len)
++		return;
++
++	/* Ensure that buffer_len leaves space for ret_code to be read back from memory */
++	if (buf_len > len - sizeof(struct pmic_glink_hdr) - sizeof(u32))
++		buf_len = len - sizeof(struct pmic_glink_hdr) - sizeof(u32);
++
++	memcpy(&ret_code, buf + buf_len, sizeof(u32));
++	if (ret_code)
+ 		return;
+ 
+-	memcpy(ucsi->read_buf, resp->buf, UCSI_BUF_SIZE);
++	memcpy(ucsi->read_buf, buf, buf_len);
+ 	complete(&ucsi->read_ack);
+ }
+ 
 -- 
 2.34.1
 
