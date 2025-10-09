@@ -1,64 +1,88 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.18])
+Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com [205.220.180.131])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7AF4D23F422;
-	Thu,  9 Oct 2025 14:08:58 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 599C4153BE9
+	for <linux-usb@vger.kernel.org>; Thu,  9 Oct 2025 14:38:38 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.180.131
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1760018940; cv=none; b=LwAIMRLiDcwHfJlLL9XrYUTtbAta2hVP65zDSVnULhG8GjztxBADNrxHPZ4ZBugkZw9O1SkJH54Z6VluTEPK4cx+TTbNmYHD9LRSWhGGLyP4bx65YBjhnZpxXiLIwacgfsc5U85FGS+0eLnqu2LcE+Zz7jZ19AiEZtG/2gWiWVw=
+	t=1760020720; cv=none; b=jEXZvQrB2iwvZbUqBC0FMIm1r2McGp0fwRyTl5An5dMlPsvAUjI8Pwr49tsGBda3uaFxJTlToWxFVI1teavGr+/yusm8zv0XR+ie/HJeJFPwHBAxmDkJLsp+lCq8W8mWMOrxZuFzaDrPuUGfOicpI7uH60Kixx5v0LJWmEu8W98=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1760018940; c=relaxed/simple;
-	bh=CGfn1E5Ey1zdUTDGPj9sA6UZ/1URpccJTu0xcaDFBjo=;
-	h=Date:From:To:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=k3kPgOEYgHnZ9N5CQdAgaJv5ZWPTPgsS65hhh+EldnYDaKaQ4craH6ruuijU2/Qe496YszbMg+nNsSOauyMFx+OQEPO7yaO9/r72ZpnYIIVmwluQstbYrykjkZW7J9fFabwmZZVaJqbUir5Ed18ilUpjAnZS2V3hZD2Y2GV/FSM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=pass smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=nSML8mP5; arc=none smtp.client-ip=198.175.65.18
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.intel.com
+	s=arc-20240116; t=1760020720; c=relaxed/simple;
+	bh=vp7VjUXj+As7oOKkaiuaBC5XXitotERlBrJ3mgdUli8=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=qygHQpfYgT6mwOShzfFfYuqO/bGWV8wvGZzE2f09KEwCZ0qBeMVUL/QwaMHxYtcgwKVDil7FzQ/fubQ5brj3ILDgraxI0FMPnFCfhMmKoPHEMWDFe9JxR5WElFepa5JPSfpF2T24t17Oq9HjTM7rgBpjhhcq7v9JQnnOytch0tU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com; spf=pass smtp.mailfrom=oss.qualcomm.com; dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b=h55SnEXO; arc=none smtp.client-ip=205.220.180.131
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=oss.qualcomm.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="nSML8mP5"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1760018938; x=1791554938;
-  h=date:from:to:subject:message-id:references:mime-version:
-   in-reply-to;
-  bh=CGfn1E5Ey1zdUTDGPj9sA6UZ/1URpccJTu0xcaDFBjo=;
-  b=nSML8mP5Kfd9AumYGg/IWyrB1b23CtAHSTm3b+ROlHJ5IEIpoHzJTI6x
-   g+5dNo7ZxsRjRl3sJbSPWgZNHsZZcxJRytYxCTBkqTzSHcYIAhOzRjydQ
-   a7EkRHCy5NDppkZsIoB05viwlNdZCfsk5TnerXX/sdf9DHqeSznUaIakn
-   u9dbIdA2z1has3Y2wyJZnyadOQAE/W1ekrQmeSmE9oAqXWUyDUmCJKLdR
-   9E+0RyU0fj+e3+GMyL9Gf4m+VQiG4MpiADJ4KyOGRQWRrNn4KOZfGzOPD
-   JzJJyHXXJXfAQPeACYZLxFpXnECE9ACDqvr/aio84lsouf+/fFffp8WEJ
-   g==;
-X-CSE-ConnectionGUID: G/xWbL8SQB6yF0hZQEpBpw==
-X-CSE-MsgGUID: 9BfApQ9iTiif12o6Ce4f4w==
-X-IronPort-AV: E=McAfee;i="6800,10657,11577"; a="62271655"
-X-IronPort-AV: E=Sophos;i="6.19,216,1754982000"; 
-   d="scan'208";a="62271655"
-Received: from fmviesa006.fm.intel.com ([10.60.135.146])
-  by orvoesa110.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 09 Oct 2025 07:08:57 -0700
-X-CSE-ConnectionGUID: dSUAPNMQTUe598wjzeCUZw==
-X-CSE-MsgGUID: 3B5vpNqvTvmpIkQsD+yQrg==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.19,216,1754982000"; 
-   d="scan'208";a="180667723"
-Received: from aschofie-mobl2.amr.corp.intel.com (HELO kuha.fi.intel.com) ([10.124.221.27])
-  by fmviesa006.fm.intel.com with SMTP; 09 Oct 2025 07:08:54 -0700
-Received: by kuha.fi.intel.com (sSMTP sendmail emulation); Thu, 09 Oct 2025 17:08:53 +0300
-Date: Thu, 9 Oct 2025 17:08:53 +0300
-From: Heikki Krogerus <heikki.krogerus@linux.intel.com>
-To: "Chia-Lin Kao (AceLan)" <acelan.kao@canonical.com>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>,
-	Andrei Kuchynski <akuchynski@chromium.org>,
-	=?utf-8?Q?=C5=81ukasz?= Bartosik <ukaszb@chromium.org>,
-	Venkat Jayaraman <venkat.jayaraman@intel.com>,
-	linux-usb@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] usb: typec: ucsi: Fix workqueue destruction race during
- connector cleanup
-Message-ID: <aOfB9bdEzlxPFzhg@kuha.fi.intel.com>
-References: <20251002013026.4095030-1-acelan.kao@canonical.com>
- <aOY-OyN90DScHr85@kuha.fi.intel.com>
- <dr5dderec7diwlsiu7n5vziotw4lnnkletyy7hb55miosrdiy7@oy3nqplgcv6s>
+	dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b="h55SnEXO"
+Received: from pps.filterd (m0279870.ppops.net [127.0.0.1])
+	by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 5996EmUJ020142
+	for <linux-usb@vger.kernel.org>; Thu, 9 Oct 2025 14:38:37 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
+	cc:content-type:date:from:in-reply-to:message-id:mime-version
+	:references:subject:to; s=qcppdkim1; bh=4vBhPHQU3f3k1y9DS67UjAgU
+	bNDRpJ4AofTiTYruk3A=; b=h55SnEXOobNRQlQCOCWUy9CbVe6LDj6avqwfogwk
+	qIkxNU4IRyy6eFxbcmOe/xohO9vcljTJ8FDB2qB4MS+HLhrFo95dKIAIO5rbiU2R
+	B3BXtXj/Tbxdd8ACGmjcyoUAjx+YjOvqc4pI/O4rFJbVMwl8jVEsKNuq8jhCEHKZ
+	RJNbuImxdcZbegeiXSstzfYNBfcmhYdf31VPRtwWL1V0tA8Ks2CejTNeOgTb2+bT
+	tH7WfWKsU+t64ggVEhG6anr2TIAMnvo4TUm6XZiAjPW5tc0n1VwhkvejB01nokUB
+	TdndrodXgO1CPpOg/6GkLJwt55aBE0vYUmGbU5QFNKJ7KQ==
+Received: from mail-qt1-f197.google.com (mail-qt1-f197.google.com [209.85.160.197])
+	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 49nv4nu67k-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT)
+	for <linux-usb@vger.kernel.org>; Thu, 09 Oct 2025 14:38:37 +0000 (GMT)
+Received: by mail-qt1-f197.google.com with SMTP id d75a77b69052e-4e5739a388bso36137931cf.2
+        for <linux-usb@vger.kernel.org>; Thu, 09 Oct 2025 07:38:37 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1760020716; x=1760625516;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=4vBhPHQU3f3k1y9DS67UjAgUbNDRpJ4AofTiTYruk3A=;
+        b=w7VVvZ18qSbFJMUXCx7517T7yVfcYyUh50evbvpxR1uXAH77oVTOj9JQ4grmoiQHtq
+         s59NvHP1gB4cuffTX0lYMwi7PdaKOt3cWYVRbbF+zai+KLOUjFZmdccED6/A/1j+sN/e
+         HTlPY8Um5JSajIt/KBWdXOt6BFStu4QoswkUwaJoG7mjSHSPr8BisV3+vP6B3PhroVvc
+         kTWWE609DHEyK/TWlA6u3eIXk5z3jb69W5jZr0K1D7Pfr3CecAYVfNTvrfjnDsVpIs5a
+         V6h/qbjk7FBQ7EbpLAFxEAECRbX1cn6ppqIk4GSS8EI4j2GHOGswVMeXSXec3rn81U4o
+         Pl2Q==
+X-Forwarded-Encrypted: i=1; AJvYcCXbl21VRbkHu4Q2pJTinGbewFMG/eAS0XzhqjG10MEmKpwpBTv0jI6nlCHV5bntIIS5xpY3+XJFlgE=@vger.kernel.org
+X-Gm-Message-State: AOJu0YzOjnE/rMll9jXBrQy55R0eEgYiB4VESUAb+LRt+ph2lLH3AboI
+	VvHCqNVjPc4azyxfid2pVLizkt5udUs2uCeUZkUUP6IZe0neolMp2Ysb4/hkee7U1hxoX/8ct8H
+	pelRAAU0EsDpsNtFi5tjuJcmiRGH8OyG1ddXkr2dNm+2Ysm6pR/lplE4PQHBd03w=
+X-Gm-Gg: ASbGncv1CG+K3lZ9YNT2DMN5bV1PoDXCnLwWa0MwGVdEV/kFtmQJLumxoYSEYJnUxte
+	6KcupJMzNkMD+V1zoWr57mGvvYq9yrYn5fNa4MHnJ8OttvxdntrI4DwosesNNcZsdKe3kKCyo1z
+	S5ePrSJSNa19r6mE1gto6fgCGl8/boP/2x4Xkl3xdFwDi6Dt+GOEo7x4WGRI9Jnt4Js0vSUk5N3
+	l7GEMVqeRlrrX+a7Xb6keP75E4WsS0LOCYv9vrR2NJvH69miW1RQ01RTR1+6XtWmIhpIlifaaZj
+	pJTjYBn+VnHwdurJpyeK5A/cpVG6NRQBOvG1nNmRAB7xSHbqCLfR3vF8aYGYBGNYNfFBisNJwrS
+	n2kP51ge8KbAlker+JCbnux69Yoxv4M8ofbRAbw06pGLPx5S5JnaDQ5JuIw==
+X-Received: by 2002:a05:622a:4812:b0:4d7:bf73:7641 with SMTP id d75a77b69052e-4e6eacb362emr101466811cf.17.1760020716261;
+        Thu, 09 Oct 2025 07:38:36 -0700 (PDT)
+X-Google-Smtp-Source: AGHT+IHJWR/L5QvAdufneVpdCNLbrPazn1qmhQTRqnRIiTH9ugDxuMkMX/Hp2rQmkitaj4be/K7DKQ==
+X-Received: by 2002:a05:622a:4812:b0:4d7:bf73:7641 with SMTP id d75a77b69052e-4e6eacb362emr101465171cf.17.1760020714634;
+        Thu, 09 Oct 2025 07:38:34 -0700 (PDT)
+Received: from umbar.lan (2001-14ba-a0c3-3a00-264b-feff-fe8b-be8a.rev.dnainternet.fi. [2001:14ba:a0c3:3a00:264b:feff:fe8b:be8a])
+        by smtp.gmail.com with ESMTPSA id 38308e7fff4ca-375f39d509bsm29456381fa.12.2025.10.09.07.38.33
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 09 Oct 2025 07:38:33 -0700 (PDT)
+Date: Thu, 9 Oct 2025 17:38:32 +0300
+From: Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
+To: Rob Herring <robh@kernel.org>
+Cc: Krishna Kurapati <krishna.kurapati@oss.qualcomm.com>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Krzysztof Kozlowski <krzk+dt@kernel.org>,
+        Conor Dooley <conor+dt@kernel.org>,
+        Heikki Krogerus <heikki.krogerus@linux.intel.com>,
+        Liam Girdwood <lgirdwood@gmail.com>, Mark Brown <broonie@kernel.org>,
+        Biju Das <biju.das.jz@bp.renesas.com>, linux-usb@vger.kernel.org,
+        devicetree@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v2 1/2] dt-bindings: usb: ti,hd3ss3220: Add support for
+ VBUS based on ID state
+Message-ID: <cbpne2d7yr2vpxmrrveqajlp3irzsglxroxyyjmviuci2ewted@6ewwp6yyybk5>
+References: <20251008175750.1770454-1-krishna.kurapati@oss.qualcomm.com>
+ <20251008175750.1770454-2-krishna.kurapati@oss.qualcomm.com>
+ <odikli6rfdyid5oqavurtqytgnwgh5hpmka2jt5tprpdw7cd72@icpnjnkfowt7>
+ <20251009131543.GA379737-robh@kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
@@ -67,80 +91,84 @@ List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <dr5dderec7diwlsiu7n5vziotw4lnnkletyy7hb55miosrdiy7@oy3nqplgcv6s>
+In-Reply-To: <20251009131543.GA379737-robh@kernel.org>
+X-Proofpoint-ORIG-GUID: BLKBhtMbcyrerONxE7i9u6gQFQH1R45t
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUxMDA4MDEyMSBTYWx0ZWRfXzbCkLZ2sJ8PJ
+ Hm3WUPOvMeAtWE30P3ksDXOT67yFna+VfuOgjXvQgr1wnPig9KF2q9aDEhxeRL9QntXMZmY/Pys
+ +13nJ/bn+VMCagWm5tJ5rQ0xaP2kuJFjQRGF7Nqyfn5F95WB2tWiZJ2ZSDLVhfdVQUeTTPEb0DX
+ GYzI56QIaZg/fVA8sPFf7Kk/GjUU+oGSMlPfpddebtwyY6sG8R6YhS0aXeXmqrWPJe66DF+YTu5
+ 8kxKXqaFb+kK/62KnE158vx2oRX3+3+GRzpcvhS2rDIxzwwHE+E5uw09QzoYPAQHg5UnZR3V8R0
+ 8hJO9FfyjtM0ZXTThovW5eR6UDHni3AP2GvJjKLNmo69OAD5j2nT05DiEQsEHvjMEXwmc4iUFiG
+ CwrqMGCDYgtONDCHxvucoEpfNpmd0w==
+X-Proofpoint-GUID: BLKBhtMbcyrerONxE7i9u6gQFQH1R45t
+X-Authority-Analysis: v=2.4 cv=b6a/I9Gx c=1 sm=1 tr=0 ts=68e7c8ed cx=c_pps
+ a=EVbN6Ke/fEF3bsl7X48z0g==:117 a=xqWC_Br6kY4A:10 a=kj9zAlcOel0A:10
+ a=x6icFKpwvdMA:10 a=EUspDBNiAAAA:8 a=wJJNMdjIKgIFmJVF0V4A:9 a=CjuIK1q_8ugA:10
+ a=a_PwQJl-kcHnX1M80qC6:22
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1117,Hydra:6.1.9,FMLib:17.12.80.40
+ definitions=2025-10-09_05,2025-10-06_01,2025-03-28_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ bulkscore=0 suspectscore=0 lowpriorityscore=0 adultscore=0 phishscore=0
+ clxscore=1015 spamscore=0 impostorscore=0 malwarescore=0 priorityscore=1501
+ classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
+ reason=mlx scancount=1 engine=8.19.0-2510020000 definitions=main-2510080121
 
-On Thu, Oct 09, 2025 at 09:58:22AM +0800, Chia-Lin Kao (AceLan) wrote:
-> On Wed, Oct 08, 2025 at 01:34:35PM +0300, Heikki Krogerus wrote:
-> > On Thu, Oct 02, 2025 at 09:30:26AM +0800, Chia-Lin Kao (AceLan) wrote:
-> > > During UCSI initialization and operation, there is a race condition where
-> > > delayed work items can be scheduled but attempt to queue work after the
-> > > workqueue has been destroyed. This occurs in multiple code paths.
+On Thu, Oct 09, 2025 at 08:15:43AM -0500, Rob Herring wrote:
+> On Wed, Oct 08, 2025 at 09:31:59PM +0300, Dmitry Baryshkov wrote:
+> > On Wed, Oct 08, 2025 at 11:27:49PM +0530, Krishna Kurapati wrote:
+> > > Update the bindings to support reading ID state and VBUS, as per the
+> > > HD3SS3220 data sheet. The ID pin is kept high if VBUS is not at VSafe0V and
+> > > asserted low once VBUS is at VSafe0V, enforcing the Type-C requirement that
+> > > VBUS must be at VSafe0V before re-enabling VBUS.
 > > > 
-> > > The race occurs when:
-> > > 1. ucsi_partner_task() or ucsi_poll_worker() schedule delayed work
-> > > 2. Connector cleanup paths call destroy_workqueue()
-> > > 3. Previously scheduled delayed work timers fire after destruction
-> > > 4. This triggers warnings and crashes in __queue_work()
+> > > Add id-gpios property to describe the input gpio for USB ID pin and vbus-
+> > > supply property to describe the regulator for USB VBUS.
+> > > 
+> > > Signed-off-by: Krishna Kurapati <krishna.kurapati@oss.qualcomm.com>
+> > > ---
+> > >  .../devicetree/bindings/usb/ti,hd3ss3220.yaml       | 13 +++++++++++++
+> > >  1 file changed, 13 insertions(+)
+> > > 
+> > > diff --git a/Documentation/devicetree/bindings/usb/ti,hd3ss3220.yaml b/Documentation/devicetree/bindings/usb/ti,hd3ss3220.yaml
+> > > index bec1c8047bc0..c869eece39a7 100644
+> > > --- a/Documentation/devicetree/bindings/usb/ti,hd3ss3220.yaml
+> > > +++ b/Documentation/devicetree/bindings/usb/ti,hd3ss3220.yaml
+> > > @@ -25,6 +25,19 @@ properties:
+> > >    interrupts:
+> > >      maxItems: 1
+> > >  
+> > > +  id-gpios:
+> > > +    description:
+> > > +      An input gpio for USB ID pin. Upon detecting a UFP device, HD3SS3220
+> > > +      will keep ID pin high if VBUS is not at VSafe0V. Once VBUS is at VSafe0V,
+> > > +      the HD3SS3220 will assert ID pin low. This is done to enforce Type-C
+> > > +      requirement that VBUS must be at VSafe0V before re-enabling VBUS.
+> > > +
 > > 
-> > What warnings?
-> Here is what I got.
+> > Stray empty line?
+> > 
+> > > +    maxItems: 1
+> > > +
+> > > +  vbus-supply:
+> > > +    description: A phandle to the regulator for USB VBUS if needed when host
+> > > +      mode or dual role mode is supported.
+> > 
+> > Why are we adding the property here while we can use the vbus-supply of
+> > the usb-c-connector?
 > 
-> Sep 24 13:24:22 ubuntu kernel: sysfs: cannot create duplicate filename '/devices/platform/USBC000:00/typec/port0/port0.0/partner'
-> Sep 24 13:24:22 ubuntu kernel: CPU: 1 UID: 0 PID: 132 Comm: kworker/u64:1 Tainted: G           O       6.14.0-1012-oem #12-Ubuntu
-> Sep 24 13:24:22 ubuntu kernel: Tainted: [O]=OOT_MODULE
-> Sep 24 13:24:22 ubuntu kernel: Hardware name: Dell Inc. Dell /, BIOS XXXX XX/XX/2025
-> Sep 24 13:24:22 ubuntu kernel: Workqueue: USBC000:00-con1 ucsi_poll_worker [typec_ucsi]
-> Sep 24 13:24:22 ubuntu kernel: Call Trace:
-> Sep 24 13:24:22 ubuntu kernel:  <TASK>
-> Sep 24 13:24:22 ubuntu kernel:  dump_stack_lvl+0x76/0xa0
-> Sep 24 13:24:22 ubuntu kernel:  dump_stack+0x10/0x20
-> Sep 24 13:24:22 ubuntu kernel:  sysfs_warn_dup+0x8a/0xb0
-> Sep 24 13:24:22 ubuntu kernel:  sysfs_do_create_link_sd+0xf1/0x100
-> Sep 24 13:24:22 ubuntu kernel:  sysfs_create_link+0x21/0x50
-> Sep 24 13:24:22 ubuntu kernel:  typec_probe+0x7e/0x100 [typec]
-> Sep 24 13:24:22 ubuntu kernel:  ? driver_sysfs_add+0x66/0xd0
-> Sep 24 13:24:22 ubuntu kernel:  really_probe+0xee/0x3c0
-> Sep 24 13:24:22 ubuntu kernel:  __driver_probe_device+0x8c/0x180
-> Sep 24 13:24:22 ubuntu kernel:  driver_probe_device+0x24/0xd0
-> Sep 24 13:24:22 ubuntu kernel:  __device_attach_driver+0xcd/0x170
-> Sep 24 13:24:22 ubuntu kernel:  ? _pfx__device_attach_driver+0x10/0x10
-> Sep 24 13:24:22 ubuntu kernel:  bus_for_each_drv+0x94/0xf0
-> Sep 24 13:24:22 ubuntu kernel:  __device_attach+0xb6/0x1d0
-> Sep 24 13:24:22 ubuntu kernel:  device_initial_probe+0x13/0x20
-> Sep 24 13:24:22 ubuntu kernel:  bus_probe_device+0x9f/0xb0
-> Sep 24 13:24:22 ubuntu kernel:  device_add+0x513/0x710
-> Sep 24 13:24:22 ubuntu kernel:  device_register+0x1a/0x30
-> Sep 24 13:24:22 ubuntu kernel:  typec_register_altmode+0x253/0x3a0 [typec]
-> Sep 24 13:24:22 ubuntu kernel:  typec_partner_register_altmode+0xe/0x20 [typec]
-> Sep 24 13:24:22 ubuntu kernel:  ucsi_register_altmode.constprop.0+0x30e/0x390 [typec_ucsi]
-> Sep 24 13:24:22 ubuntu kernel:  ucsi_register_altmodes+0x162/0x250 [typec_ucsi]
-> Sep 24 13:24:22 ubuntu kernel:  ucsi_check_altmodes+0x19/0xb0 [typec_ucsi]
-> Sep 24 13:24:22 ubuntu kernel:  ucsi_poll_worker+0x3d/0xf0 [typec_ucsi]
-> Sep 24 13:24:22 ubuntu kernel:  process_one_work+0x178/0x3d0
-> Sep 24 13:24:22 ubuntu kernel:  worker_thread+0x2de/0x410
-> Sep 24 13:24:22 ubuntu kernel:  ? __pfx_worker_thread+0x10/0x10
-> Sep 24 13:24:22 ubuntu kernel:  kthread+0xfb/0x230
-> Sep 24 13:24:22 ubuntu kernel:  ? __pfx_kthread+0x10/0x10
-> Sep 24 13:24:22 ubuntu kernel:  ret_from_fork+0x44/0x70
-> Sep 24 13:24:22 ubuntu kernel:  ? __pfx_kthread+0x10/0x10
-> Sep 24 13:24:22 ubuntu kernel:  ret_from_fork_asm+0x1a/0x30
-> Sep 24 13:24:22 ubuntu kernel:  </TASK>
-> Sep 24 13:24:22 ubuntu kernel: typec-thunderbolt port0-partner.1: failed to create symlinks
-> Sep 24 13:24:22 ubuntu kernel: typec-thunderbolt port0-partner.1: probe with driver typec-thunderbolt failed with error -17
+> Normally, that's my question on both of these, too. However, it does 
+> look like both are connected to the chip. There's VBUS_DET which is 
+> connected to Vbus (thru a 900k resistor). So having these here does look 
+> like accurate representation of the h/w. The commit message should make 
+> this more clear. Honestly, that's really the only part I care about. 
+> How it works is not so important. 
 
-That does not look like anything you described in the commit message?
-
-You have there an attempt to register the same alternate mode twice,
-but the workqueue seems to be very much alive when that happens.
-
-Based on the above this looks like either a race where the driver
-really ends up registering the alternate modes multiple times or, and
-more likely, the firmware is reporting the same alternate mode
-multiple times.
-
-Or am I missing something?
-
-thanks,
+The VBUS_DET pin is used by the controller to detect the VBUS provided
+by the USB-C partner and to identify when it's safe to turn on the
+device's VBUS supply. I think this still fits into the description of
+the connector's vbus-supply.
 
 -- 
-heikki
+With best wishes
+Dmitry
