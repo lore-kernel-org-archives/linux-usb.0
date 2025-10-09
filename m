@@ -1,76 +1,98 @@
-Received: from smtp-190c.mail.infomaniak.ch (smtp-190c.mail.infomaniak.ch [185.125.25.12])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-ed1-f42.google.com (mail-ed1-f42.google.com [209.85.208.42])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3DA082ECEA9
-	for <linux-usb@vger.kernel.org>; Thu,  9 Oct 2025 14:39:40 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.125.25.12
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A52D222B584
+	for <linux-usb@vger.kernel.org>; Thu,  9 Oct 2025 16:57:37 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.42
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1760020786; cv=none; b=Ups8/lt1v0INsdthwecQaFYdmaQrguK0NUmO5KZLZ3wJYIAAUWeapt1XPl/vyE37g9qjUBSJo7eRSEIQeR1W0NeF310KnGBsKf7UFMwLINq6v+n5CfcKwC7oi1TSv7c+TaWZXQXrLxdusJ+dQt2pXhjasJdwSefFywdqCaH8XsQ=
+	t=1760029059; cv=none; b=spHkOLhVYszFkYpWv8HvckAM4jI+oPfTdVH184Vivqbp1TodFuAaCqxO+mYWqLfRt8v9zJx0g63dBmkGysRDx23IM8cHYgXnOOe7UVPtc2A1WR5eX5Tz3c/aA6pWP2mNGwwHOAJsfcWQ73nO5PZ/uL0FesxJVTCUYmkE+JJDsy8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1760020786; c=relaxed/simple;
-	bh=62GmSLRRFn7eaUoP+fyUGE2sSHpiZ/O3B81wH7LkMHg=;
-	h=Date:From:To:Cc:Subject:In-Reply-To:References:MIME-Version:
-	 Content-Type:Message-Id; b=MZUj+14583WSsHMN/IduL+RFr1Qgk+IAKrpl7SHA5bGZuSpLv+LmC9YwplyFtPt7RqqWcn9NetYqNKDO0jSc1gciIikhvdiz2IMYoID4gCWdU84WuzUANUyUbgXkWeW0j3eOCn60debow/5Ihuppf62lBULscc3G2tkXzWuKJ2g=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=ik.me; spf=pass smtp.mailfrom=ik.me; dkim=pass (1024-bit key) header.d=ik.me header.i=@ik.me header.b=TGX9J3+3; arc=none smtp.client-ip=185.125.25.12
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=ik.me
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ik.me
+	s=arc-20240116; t=1760029059; c=relaxed/simple;
+	bh=RF9ZSJQioRunccbOJ8PBKnVv5gI2HqZYf6M8L8RhwBc=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=FEuV/XWhEm6qzDhI+OOpJM1betocRTTZqCAgEsY6fKk/QDV3TkPnSYMMUKcfbj/kGBfISqTBD8AIK5C9gZuSmRNB2OvlpeKhIGnGBiK2GVLn+l3L0fmigt+ytdcoI0sRcIep3Oh46uxXlL61RjbzLCr4QLQf2neRK4mvl2Cp3rk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=A7c8o42W; arc=none smtp.client-ip=209.85.208.42
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=ik.me header.i=@ik.me header.b="TGX9J3+3"
-Received: from smtp-3-0000.mail.infomaniak.ch (smtp-3-0000.mail.infomaniak.ch [10.4.36.107])
-	by smtp-3-3000.mail.infomaniak.ch (Postfix) with ESMTPS id 4cjC4c702QzLcf;
-	Thu,  9 Oct 2025 16:32:00 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ik.me; s=20200325;
-	t=1760020320; bh=5XihrUhHfryx3yfBEzw0WQVx0YJHhW0zlpoYISIn4Gc=;
-	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
-	b=TGX9J3+3434Aj4NGiXGq9uzS54FaDoncMTyJ1bosPAbunAdj9RiZiL/jXtvSHfgok
-	 7ZV/ydp6KAw+CJ7Xf+Q3t15WJ1okzaDFph2qoDf9HWubMsZhavE5IbQULcGDiRx/o5
-	 xumURv9MTtfm8FRFC+FSlW3L7Yo+WpHBGRya/jho=
-Received: from unknown by smtp-3-0000.mail.infomaniak.ch (Postfix) with ESMTPA id 4cjC4c3F8BzrTr;
-	Thu,  9 Oct 2025 16:32:00 +0200 (CEST)
-Date: Thu, 9 Oct 2025 14:31:59 -0000
-From: Pierre Tomon <pierretom+12@ik.me>
-To: Michal Pecio <michal.pecio@gmail.com>
-Cc: Greg KH <gregkh@linuxfoundation.org>, linux-usb@vger.kernel.org
-Subject: Re: USB disconnection after mounting file system
-In-Reply-To: <20251009160731.58dd47bb.michal.pecio@gmail.com>
-References: <4chgTL1WjjzCqn@smtp-3-0000.mail.infomaniak.ch>
-	<2025100905-gestation-founder-3e70@gregkh>
-	<20251009160731.58dd47bb.michal.pecio@gmail.com>
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="A7c8o42W"
+Received: by mail-ed1-f42.google.com with SMTP id 4fb4d7f45d1cf-637e74e9104so1619230a12.1
+        for <linux-usb@vger.kernel.org>; Thu, 09 Oct 2025 09:57:37 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1760029056; x=1760633856; darn=vger.kernel.org;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:from:to:cc:subject:date:message-id:reply-to;
+        bh=RF9ZSJQioRunccbOJ8PBKnVv5gI2HqZYf6M8L8RhwBc=;
+        b=A7c8o42WIGU3OTQiIFlRbbz08yrpvjZUsLCUbGIvzT1sELosdWPF5Q1vKl9XqSFsD2
+         rbAe3BHgfqamjmo98bOTJ0H6jIrz1m3slOoIEZQzoBsqjptIsqBh8eENTgPyxZYlUzW2
+         zmQTk0+ygC6lyXe8G0g59NRXz+0wdCeemkZt+Ul9WTZRpy05R1D3iGo/dysZUnU3nF4U
+         L5EBYrsPDEvtp+BQoWAJGoBGg+CUzjzjWJtFxcz1icMsT2Ch9d0LbWAcZknKyXUv7ntH
+         Ie3VZ2vcp5IKRmEwQ2GjX2b3LboYhQl2PR7I0oH1uEH9+KgUCtg4RNvBn9xO0bKqzbXk
+         321g==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1760029056; x=1760633856;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=RF9ZSJQioRunccbOJ8PBKnVv5gI2HqZYf6M8L8RhwBc=;
+        b=Ng4xDJxTputAFBRHvGJFsRsaZRaWBpg2PREamaj5E2+eQ9PyllL+XSRyDGmOkI3y1h
+         xFIoDXugfpgLWhCs3LuQ+VEbIZnGjXwJfb4T/e0K9om4+igzqow144y9QZ4RT8I6yJOQ
+         HSIskuXYHlFVWIKchjIAjE9GjVPhHQDxYrczJNo4w+FLPmrnLOfJuKIjsgCS75UaL6fi
+         CkxMTD6DZZMD4KRUAG7dAY1A9amGnfAVIPKHupPSslGa0xA8ILZBNlSNycwb2tqDoa47
+         xz5HINZ2O4WO3cFlRHL36Fy4mWs+eZ8/OM/FV6yXROGRbkXgjFKdIGBqmFtBPxUN4qEU
+         TSoA==
+X-Forwarded-Encrypted: i=1; AJvYcCUvm1WaraGcnNvk+ylPLXYALsO6L6NknBojE41f3e1Ve/Zk7keZsf6vQYGB446cpfup3bnM9FVm5+0=@vger.kernel.org
+X-Gm-Message-State: AOJu0YypnNqOTSUWVg19cPNO2W4B1IaPAlA495C6R/GOA41CHl6qEqGI
+	nXAaYasXffAHFnN7mi02QprhGVehmWCnZHN4KYCChsBhFxaNSZBJ7yKbKfR1HkHE5fcPBOWmniE
+	VBMt+um9zEbAQ2A4+8baFU6Sii1DCE6M=
+X-Gm-Gg: ASbGnctXIIeCiTGo3JlI7pkpogAD1KsMfGvE09xx1TyRZ0tEOUOo+jn4jVoxoBvi8YT
+	WZrc6yk6chV0j/zUURzbip5uDtldqRDJqupUIuv3vWUfPsb+JZFUz1Up7+nkzvnMFiA2lAfNZGj
+	UdNDbw1sL1uP6M9OSJwe/ZW/wywqQQVfZAurLmgRzQ0d+SecG5TZJj59Zv4/72BWA6Jxd3vE0t8
+	py2UFLmZiveetcFIlwd4jVCYGSowX2C1+bKtkp4VKqJGsKoxOAtEcPE5t3Gtnj7jJom0Sbk51Y2
+	EvyK
+X-Google-Smtp-Source: AGHT+IHgAXC/qDv6DJSl3IbBYDZyNsei3ooyIM9aY+vI8wPwiiUSx8OQ+G2ng29IMa/tU47rvIJShBZrKGpVq0btB9o=
+X-Received: by 2002:a05:6402:42c2:b0:615:6a10:f048 with SMTP id
+ 4fb4d7f45d1cf-639d5c6f3admr7423302a12.33.1760029055749; Thu, 09 Oct 2025
+ 09:57:35 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-Message-Id: <4cjC4c3F8BzrTr@smtp-3-0000.mail.infomaniak.ch>
-Feedback-ID: :d3dee46c33acd70:ham:d4c4a9452bf4d5d
-X-Infomaniak-Routing: alpha
+References: <20251001131409.155650-1-viswanathiyyappan@gmail.com> <20251006111211.28f018bc@kernel.org>
+In-Reply-To: <20251006111211.28f018bc@kernel.org>
+From: I Viswanath <viswanathiyyappan@gmail.com>
+Date: Thu, 9 Oct 2025 22:27:23 +0530
+X-Gm-Features: AS18NWCKulaivvxFZjI1XomTCbqny61jfhLMROFJeOwz26mAdFKX8RsAFt2auhg
+Message-ID: <CAPrAcgMW=BLZkxhLq0ubRVvHQ7pNKGCCuGLSyoK_xh7XUUXv+Q@mail.gmail.com>
+Subject: Re: [PATCH net] net: usb: lan78xx: fix use of improperly initialized
+ dev->chipid in lan78xx_reset
+To: Jakub Kicinski <kuba@kernel.org>
+Cc: Thangaraj.S@microchip.com, Rengarajan.S@microchip.com, 
+	UNGLinuxDriver@microchip.com, andrew+netdev@lunn.ch, davem@davemloft.net, 
+	edumazet@google.com, pabeni@redhat.com, netdev@vger.kernel.org, 
+	linux-usb@vger.kernel.org, linux-kernel@vger.kernel.org, 
+	skhan@linuxfoundation.org, linux-kernel-mentees@lists.linux.dev, 
+	david.hunter.linux@gmail.com
+Content-Type: text/plain; charset="UTF-8"
 
+On Mon, 6 Oct 2025 at 23:42, Jakub Kicinski <kuba@kernel.org> wrote:
 
-Le Thu, 9 Oct 2025 16:07:31 +0200,
-Michal Pecio <michal.pecio@gmail.com> a écrit :
+> We need a Fixes tag
 
+a0db7d10b76e ("lan78xx: Add to handle mux control per chip id") seems
+to be most suitable commit: It added dev->devid comparisons to
+lan78xx_read_raw_eeprom but did not move the dev->devid read before
+the call (devid is the precursor to chipid and chiprev)
 
-> Potential hypotheses:
-> 1. It is actually *lack* of activity which triggers it.
+I feel like the patch title sounds a bit awkward so should I change it to
 
-As soon as I mount ext4, the activity LED flashes continuously on the
-dock. This does not happen with NTFS.
+"Initialize dev->chipid before use in lan78xx_read_raw_eeprom"
 
-> 2. You need to wait a little longer until you see it happen on NTFS,
->    then stop worrying about filesystems and software ;)
+since that sounds more standard
 
-I tested it for about 10 hours with NTFS, even when the drive was
-asleep, no disconnection.
+in v2
 
-> I too would suggest trying other cables or USB ports (SuperSpeed link
-> quality sometimes varies from port to port). Or xHCI controllers - I
-> don't know which one you have, but those with "broken streams" quirk
-> coincidentally (or not) also tend not to be most reliable, IME.
-
-I'll try that, but I don't think that's where the problem lies.
-
-
-Pierre T.
+Thanks
+I Viswanath
