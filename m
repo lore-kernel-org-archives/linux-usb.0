@@ -1,145 +1,169 @@
-Received: from smtpbgbr1.qq.com (smtpbgbr1.qq.com [54.207.19.206])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.13])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F24262367DF;
-	Sat, 11 Oct 2025 03:33:53 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=54.207.19.206
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 238631DF963;
+	Sat, 11 Oct 2025 03:40:11 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.13
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1760153638; cv=none; b=qDYt+PA/JA5ll7cdn7zHatp7xbvGK7A1CbiAEebRvhJLzuLQ7+QUtEXYHQi7Zz1Wee77ZDhr3eIFxQXTKXcPy5gE2FCOnYMZVRaSl+OqmJWQ+bXekVZPZkgfGfrLT0uTYbrKzPzMaTAjacBWFJv+NQzfFozsSQ3Vzr8sNZ/Hg/I=
+	t=1760154012; cv=none; b=mzCtvqOHLmQKULytC5hg9szHiWJrmEHtfExuyYDK4iGFOeFdYq1dw1sKIhxEMdFog+J8IeKjtO3BL6XwCSnnrwoV3X2F9cTOPI7OdXX4ONqO426vN+/ilfiBTEQnTMkGwzUxwDKsaxZbcA09X8iMqHUXz7nABB+Mh85faZNOVw4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1760153638; c=relaxed/simple;
-	bh=3OiqcRrs7DLfC1hTPje6cpCre8EW3o9TnIIexoI2iuY=;
-	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References; b=fpwR3hOf71PHK/c8taeGfi3CO/Za2JMe06ldTWStsyf8dQzleEpMKboca+I/W21z1tCSRtjH2+0wvdSH6yKd4de9Emg71KzIhR0gFDpU2WQDJf4quYLizeaQSdAGsKjg30GoQtNbU7ddZhMiElCfvbIZiqjKA2cQPigHVIzw6qU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=airkyi.com; spf=pass smtp.mailfrom=airkyi.com; dkim=pass (1024-bit key) header.d=airkyi.com header.i=@airkyi.com header.b=ULzbKR7Q; arc=none smtp.client-ip=54.207.19.206
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=airkyi.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=airkyi.com
+	s=arc-20240116; t=1760154012; c=relaxed/simple;
+	bh=p/Sw6hsNG/Asjp0JRAo06u1WUs6i3eDXjAUi4btbFE4=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=cmhR5gkkHnC9TDJkqxG4Z8Fatoh95IyBQtL59QcDPWG49+Nm/xVIDTyqKCa6c5QHmC02RXjnTqjZXKbEOY8cII3Lb89BrRdceKCQDZsy3P5aE8rRzeImdWylSZYrGuvzzS/cS82oNasmhpgxDladEixDS70LtmZsIRjOUcLVuv0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=d3lxvNWI; arc=none smtp.client-ip=198.175.65.13
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=airkyi.com header.i=@airkyi.com header.b="ULzbKR7Q"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=airkyi.com;
-	s=altu2504; t=1760153587;
-	bh=cDiOxEFqYuonRjIga1t9o2u02p12TN3hXALWFcjKD9c=;
-	h=From:To:Subject:Date:Message-Id;
-	b=ULzbKR7QcbMf0nqC2RApmSGAa83W4Fcpxw5GOgeoJGTcfRtYTvBjdZS1uDF9wL/yk
-	 zHm1l9mTjFd1maOSE8+iUxnqzAkuq7Gqr8ml4i8UJDA5WGijwKEzJZdjDtjVhaXId+
-	 8M+0wvuqeSj82wTJ7LjVRr5kM9HrZ4oUBpDcggCw=
-X-QQ-mid: zesmtpgz4t1760153586t91072ef4
-X-QQ-Originating-IP: aEg4UWYxB0z7r83n8X2tWwn2jWviUUfrqwKQvlQMsCk=
-Received: from DESKTOP-8BT1A2O.localdomain ( [58.22.7.114])
-	by bizesmtp.qq.com (ESMTP) with 
-	id ; Sat, 11 Oct 2025 11:33:03 +0800 (CST)
-X-QQ-SSF: 0000000000000000000000000000000
-X-QQ-GoodBg: 0
-X-BIZMAIL-ID: 15608153798208442778
-From: Chaoyi Chen <kernel@airkyi.com>
-To: Rob Herring <robh@kernel.org>,
-	Krzysztof Kozlowski <krzk+dt@kernel.org>,
-	Conor Dooley <conor+dt@kernel.org>,
-	Vinod Koul <vkoul@kernel.org>,
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="d3lxvNWI"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1760154012; x=1791690012;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=p/Sw6hsNG/Asjp0JRAo06u1WUs6i3eDXjAUi4btbFE4=;
+  b=d3lxvNWI85fwFg1oPznrC2VJeL2c1YqhGLuGgKOcppIVC/tCZwxT0R2b
+   p14OnxYM3SmFr8vkN9IuFaFNemw1Hkg8bycM2AOMeXF4VWAhR4lwqhYBW
+   rQvhRyzdrXPXAiThwgmXmQ40Gf3NdoTHmqgfLB3Ih/p4mFesPOHueVksU
+   1EOuW25HOXqSRENHPcmA2LFGyepqdrBOthq4IK6sv0jk4em6+iJQj+NmA
+   E2nXKJ5QC/TTB7N1burHZHOJiJ+mn3/DpL8W+EdANzPWBf8hEorPON6Em
+   cIWdqmSnr2p5cotoZ5NPT15tk97WE9VyZ2ObLfZHmPBr90CHpXBC5H3q4
+   Q==;
+X-CSE-ConnectionGUID: LXDx0pBURa2rrXlvENz4UQ==
+X-CSE-MsgGUID: 6pILyeEkQ+idl1n3WfkaXQ==
+X-IronPort-AV: E=McAfee;i="6800,10657,11578"; a="73476873"
+X-IronPort-AV: E=Sophos;i="6.19,220,1754982000"; 
+   d="scan'208";a="73476873"
+Received: from orviesa006.jf.intel.com ([10.64.159.146])
+  by orvoesa105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 10 Oct 2025 20:40:11 -0700
+X-CSE-ConnectionGUID: SsZEgcbATqSz7rgWvti7/A==
+X-CSE-MsgGUID: oc8A357CSaCUSoyqDnPI5A==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.19,220,1754982000"; 
+   d="scan'208";a="180236749"
+Received: from lkp-server01.sh.intel.com (HELO 6a630e8620ab) ([10.239.97.150])
+  by orviesa006.jf.intel.com with ESMTP; 10 Oct 2025 20:40:06 -0700
+Received: from kbuild by 6a630e8620ab with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1v7QSh-0003UX-1s;
+	Sat, 11 Oct 2025 03:40:03 +0000
+Date: Sat, 11 Oct 2025 11:39:41 +0800
+From: kernel test robot <lkp@intel.com>
+To: Roy Luo <royluo@google.com>, Vinod Koul <vkoul@kernel.org>,
 	Kishon Vijay Abraham I <kishon@kernel.org>,
-	Heiko Stuebner <heiko@sntech.de>,
-	Sandy Huang <hjc@rock-chips.com>,
-	Andy Yan <andy.yan@rock-chips.com>,
-	Yubing Zhang <yubing.zhang@rock-chips.com>,
-	Frank Wang <frank.wang@rock-chips.com>,
-	Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
-	Maxime Ripard <mripard@kernel.org>,
-	Thomas Zimmermann <tzimmermann@suse.de>,
-	David Airlie <airlied@gmail.com>,
-	Simona Vetter <simona@ffwll.ch>,
-	Amit Sunil Dhamne <amitsd@google.com>,
-	Heikki Krogerus <heikki.krogerus@linux.intel.com>,
+	Rob Herring <robh@kernel.org>,
+	Krzysztof Kozlowski <krzk@kernel.org>,
+	Conor Dooley <conor+dt@kernel.org>,
 	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	Chaoyi Chen <chaoyi.chen@rock-chips.com>,
-	Dragan Simic <dsimic@manjaro.org>,
-	Johan Jonker <jbx6244@gmail.com>,
-	Diederik de Haas <didi.debian@cknow.org>,
-	Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>,
-	Peter Robinson <pbrobinson@gmail.com>
-Cc: linux-usb@vger.kernel.org,
-	devicetree@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	linux-phy@lists.infradead.org,
+	Thinh Nguyen <Thinh.Nguyen@synopsys.com>,
+	Philipp Zabel <p.zabel@pengutronix.de>,
+	Peter Griffin <peter.griffin@linaro.org>,
+	=?iso-8859-1?Q?Andr=E9?= Draszik <andre.draszik@linaro.org>,
+	Tudor Ambarus <tudor.ambarus@linaro.org>
+Cc: oe-kbuild-all@lists.linux.dev, Joy Chakraborty <joychakr@google.com>,
+	Naveen Kumar <mnkumar@google.com>, Roy Luo <royluo@google.com>,
+	linux-phy@lists.infradead.org, devicetree@vger.kernel.org,
+	linux-kernel@vger.kernel.org, linux-usb@vger.kernel.org,
 	linux-arm-kernel@lists.infradead.org,
-	linux-rockchip@lists.infradead.org,
-	dri-devel@lists.freedesktop.org
-Subject: [PATCH v5 7/8] arm64: dts: rockchip: Add missing dp_out port for RK3399 CDN-DP
-Date: Sat, 11 Oct 2025 11:32:32 +0800
-Message-Id: <20251011033233.97-8-kernel@airkyi.com>
-X-Mailer: git-send-email 2.17.1
-In-Reply-To: <20251011033233.97-1-kernel@airkyi.com>
-References: <20251011033233.97-1-kernel@airkyi.com>
-X-QQ-SENDSIZE: 520
-Feedback-ID: zesmtpgz:airkyi.com:qybglogicsvrsz:qybglogicsvrsz4a-0
-X-QQ-XMAILINFO: OQhZ3T0tjf0azpAA8cGSOxM6rfkTHq2GDbtxwIkrrjaK0gql4EL/dTl0
-	pXF3V/BhqFbdQr55S0pIm+2oRV+/kvAqkCQngHFr8KMn82yuSvtuTZ2n6ZKOYLgC2x/L+HP
-	pS/IZ8mo50OGMD5lK4dxvtCAXgOGx1Ax/apMTVjfgSqJkrknIpg0OJ+mn+oI/oT6zcdMua1
-	TCz9TgoyZp7fL562Axniz9Dm+8+pKg41vU+7L5z5E0X7s+UYKGEbqMxF3UK/ipo7ZpgLsSg
-	DpAb+qnb4T/bZS10p9XHDxxAlYIYRij7Lpm8EoZrG2NgBerkinCk2Bkchry2lfDPC9ciWsL
-	4EISFFwpTbW33vabFeVycdqWqHNnuak8MMdItQ+8NTmgOtfv3QBHkDxt6cnYBNmRKEcT6jP
-	WrGrTfnvj23TLkfLHDsDgktQIgp3HrObBGqorh/5NpKoLqHpRlNDhThinE36L7b8mZmGuF9
-	vVWJA7fHItseSzMV3VVX/gj0gAhyFgLbvX2fxOb4qpGIUFa/kAjqtwsa0rwKn3vyP3hKdq2
-	kSlSg6oQprIXswDL/3Ouh8TZbgj7D5NvXQ5nlbOKolobFnih8UC9dd+l+DvEo3atlBoLK8p
-	4KYxPAy65co5Kyw6D6dcRmmqZfqcpiYUPSgzLXDTQJM9d0BE24Wf9FVbG+fADHNThT/YC4j
-	ILpKX684h0L9cW2S5Rtrr/OheH/wRliJ4Q0elNxlTPbcKHzZ8wIzNKpAJqOqX+5Cn5kRuF5
-	PbW8ieXQNqYoY7MlucIzAiovozIa+JVOLEZaGw1AWcLUhmiIOy+Ytkr5kYQyMvl70bZFcCJ
-	t18BCDWdlhiaq/AyXT/r7jXFmMHcaux61FQkzEP1InUHm69OSSyNpQt+j7OTFhe/vr8FUDV
-	sIttHsIQ8aXw7P8zsuyh0fEyJkNIkRjJU5PdVDnGRT8f/EYO/aVp/lcqC8/LYQxbESK7vAk
-	vW/cfhXYf7WnCd/4ugm9fdlw5BvOIrPUajOtaPUx4l63IwnDjhEMxQ6kRCzGRSlap6Gr0q3
-	5y2O5FNK5CoxdJmTpPB3413NiFK2LD3kOp0EVpoORSW2rQn2jP
-X-QQ-XMRINFO: OWPUhxQsoeAVDbp3OJHYyFg=
-X-QQ-RECHKSPAM: 0
+	linux-samsung-soc@vger.kernel.org
+Subject: Re: [PATCH v1 1/4] usb: dwc3: Add Google SoC DWC3 glue driver
+Message-ID: <202510111335.oyOAs9MB-lkp@intel.com>
+References: <20251006232125.1833979-2-royluo@google.com>
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20251006232125.1833979-2-royluo@google.com>
 
-From: Chaoyi Chen <chaoyi.chen@rock-chips.com>
+Hi Roy,
 
-Let's make the ports nodes of cdn_dp in the same style as the other
-display interface, and match the style of ports's yaml.
+kernel test robot noticed the following build warnings:
 
-Signed-off-by: Chaoyi Chen <chaoyi.chen@rock-chips.com>
----
+[auto build test WARNING on e5f0a698b34ed76002dc5cff3804a61c80233a7a]
 
-(no changes since v5)
+url:    https://github.com/intel-lab-lkp/linux/commits/Roy-Luo/usb-dwc3-Add-Google-SoC-DWC3-glue-driver/20251010-092651
+base:   e5f0a698b34ed76002dc5cff3804a61c80233a7a
+patch link:    https://lore.kernel.org/r/20251006232125.1833979-2-royluo%40google.com
+patch subject: [PATCH v1 1/4] usb: dwc3: Add Google SoC DWC3 glue driver
+config: s390-randconfig-002-20251011 (https://download.01.org/0day-ci/archive/20251011/202510111335.oyOAs9MB-lkp@intel.com/config)
+compiler: s390-linux-gcc (GCC) 15.1.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251011/202510111335.oyOAs9MB-lkp@intel.com/reproduce)
 
-Changes in v4:
-- Remove unnecessary #address/#size-cells
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202510111335.oyOAs9MB-lkp@intel.com/
 
-(no changes since v1)
+All warnings (new ones prefixed by >>):
 
- arch/arm64/boot/dts/rockchip/rk3399-base.dtsi | 10 +++++++++-
- 1 file changed, 9 insertions(+), 1 deletion(-)
+>> drivers/usb/dwc3/dwc3-google.c:467:12: warning: 'dwc3_google_resume' defined but not used [-Wunused-function]
+     467 | static int dwc3_google_resume(struct dwc3_google *google, pm_message_t msg)
+         |            ^~~~~~~~~~~~~~~~~~
+>> drivers/usb/dwc3/dwc3-google.c:441:12: warning: 'dwc3_google_suspend' defined but not used [-Wunused-function]
+     441 | static int dwc3_google_suspend(struct dwc3_google *google, pm_message_t msg)
+         |            ^~~~~~~~~~~~~~~~~~~
 
-diff --git a/arch/arm64/boot/dts/rockchip/rk3399-base.dtsi b/arch/arm64/boot/dts/rockchip/rk3399-base.dtsi
-index 4dcceb9136b7..93b42820998f 100644
---- a/arch/arm64/boot/dts/rockchip/rk3399-base.dtsi
-+++ b/arch/arm64/boot/dts/rockchip/rk3399-base.dtsi
-@@ -618,7 +618,11 @@ cdn_dp: dp@fec00000 {
- 		status = "disabled";
- 
- 		ports {
--			dp_in: port {
-+			#address-cells = <1>;
-+			#size-cells = <0>;
-+
-+			dp_in: port@0 {
-+				reg = <0>;
- 				#address-cells = <1>;
- 				#size-cells = <0>;
- 
-@@ -632,6 +636,10 @@ dp_in_vopl: endpoint@1 {
- 					remote-endpoint = <&vopl_out_dp>;
- 				};
- 			};
-+
-+			dp_out: port@1 {
-+				reg = <1>;
-+			};
- 		};
- 	};
- 
+
+vim +/dwc3_google_resume +467 drivers/usb/dwc3/dwc3-google.c
+
+   440	
+ > 441	static int dwc3_google_suspend(struct dwc3_google *google, pm_message_t msg)
+   442	{
+   443		if (pm_runtime_suspended(google->dev))
+   444			return 0;
+   445	
+   446		if (google->dwc.current_dr_role == DWC3_GCTL_PRTCAP_HOST) {
+   447			/*
+   448			 * Follow dwc3_suspend_common() guidelines for deciding between
+   449			 * a full teardown and hibernation.
+   450			 */
+   451			if (PMSG_IS_AUTO(msg) || device_may_wakeup(google->dev)) {
+   452				dev_dbg(google->dev, "enter hibernation");
+   453				pm_runtime_get_sync(google->usb_top_pd);
+   454				device_wakeup_enable(google->usb_top_pd);
+   455				dwc3_google_enable_pme_irq(google);
+   456				google->is_hibernation = true;
+   457				return 0;
+   458			}
+   459		}
+   460	
+   461		reset_control_bulk_assert(google->num_rsts, google->rsts);
+   462		clk_bulk_disable_unprepare(google->num_clks, google->clks);
+   463	
+   464		return 0;
+   465	}
+   466	
+ > 467	static int dwc3_google_resume(struct dwc3_google *google, pm_message_t msg)
+   468	{
+   469		int ret;
+   470	
+   471		if (google->is_hibernation) {
+   472			dev_dbg(google->dev, "exit hibernation");
+   473			dwc3_google_disable_pme_irq(google);
+   474			device_wakeup_disable(google->usb_top_pd);
+   475			pm_runtime_put_sync(google->usb_top_pd);
+   476			google->is_hibernation = false;
+   477			return 0;
+   478		}
+   479	
+   480		ret = clk_bulk_prepare_enable(google->num_clks, google->clks);
+   481		if (ret)
+   482			return ret;
+   483	
+   484		ret = reset_control_bulk_deassert(google->num_rsts, google->rsts);
+   485		if (ret) {
+   486			clk_bulk_disable_unprepare(google->num_clks, google->clks);
+   487			return ret;
+   488		}
+   489	
+   490		return 0;
+   491	}
+   492	
+
 -- 
-2.49.0
-
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
