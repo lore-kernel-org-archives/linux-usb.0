@@ -1,267 +1,101 @@
-Received: from mail-m17243.xmail.ntesmail.com (mail-m17243.xmail.ntesmail.com [45.195.17.243])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pj1-f73.google.com (mail-pj1-f73.google.com [209.85.216.73])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1137C339A8;
-	Mon, 13 Oct 2025 01:41:38 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=45.195.17.243
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A86741CA84
+	for <linux-usb@vger.kernel.org>; Mon, 13 Oct 2025 02:01:40 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.216.73
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1760319703; cv=none; b=ZY6XnYguKd560FEjRPb0IIKFYMKUVCfxs8BT2EgRrguxS0Kzwb6/bdcvqD8nu6OX5cnPFvmgwdduSSDNzepVd9vmrh1p2i0XtpXTVxsHjU6ladigoyXMbRlLcRkbuTygr2Nsw3v3Ye1xVLXwUP636fcOUfdGlXYX8peUei3LijM=
+	t=1760320902; cv=none; b=JCdMZLx1o+CdbjBxblH95o7nZJgE9Dif2vQmfxxthbQUwVMFcESspOdg087se6xg6OBqbACq3n/NpLfOqbWPz8z5fgnxJYMNG+cx8fe42NTlgZeQdU51M6QxkwqMOl5poMMsybLRgsLMkLIPoN7TgT7D3s6uIoVTqqbRf6ZtvfE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1760319703; c=relaxed/simple;
-	bh=pUALq+Vg0O512JJRJUPo//p9SKC75+KGoufzRBdyRNs=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=mzJGKo5Xb6RI+JMcabLp3XntHJbqrNVErM7+VG8QdOWv5lUtspQZFwh15yDFEL6yel2FmOKO/TQgTUJbTwTW/Rjgp/iXr+9yDaMduDe1OIy3IwLio+puk86CNo8XUd5wpzc0l4ETjckmIfQQ76mVBTVta7CHbX4xaW3KYe5xxQI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=rock-chips.com; spf=pass smtp.mailfrom=rock-chips.com; dkim=pass (1024-bit key) header.d=rock-chips.com header.i=@rock-chips.com header.b=EjyvMPU4; arc=none smtp.client-ip=45.195.17.243
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=rock-chips.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=rock-chips.com
+	s=arc-20240116; t=1760320902; c=relaxed/simple;
+	bh=6rOl5TirSFV9ovbqlSzIwyNT5PV/3iS1uNoq79WE41U=;
+	h=Date:Mime-Version:Message-ID:Subject:From:To:Cc:Content-Type; b=XT2NgxIjcFviT65g8hmxusP6CY56c2X98FQ2FPbkdSryuDvSsngu1ceNFtxN2nVe0uV3+Dy6bRak1Ujozi4FmIhTeiHvtJIgRYEZGX6cNDNZhTaDahaQLAaiZVLliepnKO48dMdD9Vx8xRReRNcT8l3zC4H8NzJp2XxubCtOKo4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=flex--khtsai.bounces.google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=dBQyeU6e; arc=none smtp.client-ip=209.85.216.73
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=flex--khtsai.bounces.google.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=rock-chips.com header.i=@rock-chips.com header.b="EjyvMPU4"
-Received: from [127.0.0.1] (unknown [58.22.7.114])
-	by smtp.qiye.163.com (Hmail) with ESMTP id 25a3ed459;
-	Mon, 13 Oct 2025 09:26:12 +0800 (GMT+08:00)
-Message-ID: <08eb7560-c13e-462f-8110-d4ce5ccbd687@rock-chips.com>
-Date: Mon, 13 Oct 2025 09:26:06 +0800
+	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="dBQyeU6e"
+Received: by mail-pj1-f73.google.com with SMTP id 98e67ed59e1d1-32edda89a37so7699101a91.1
+        for <linux-usb@vger.kernel.org>; Sun, 12 Oct 2025 19:01:40 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=google.com; s=20230601; t=1760320900; x=1760925700; darn=vger.kernel.org;
+        h=cc:to:from:subject:message-id:mime-version:date:from:to:cc:subject
+         :date:message-id:reply-to;
+        bh=JpvLI5nP+gyknn6opMKaUZOwwLDmtrVHeM32uuY4r+Q=;
+        b=dBQyeU6e3UWJFCEPxGVx9dwabhw+8B1ynC8dpWZCqoivQkPZZzFM2BAXLa40bBO9Bt
+         tkigoD5Ke5xoyfSarexmMwED6+S9DOX3IWhI8eAkg4SF+dLcQGthDXPeDhL5VVJaKwRg
+         bznvnuhQ1SGyRVW9R8ui+szw3pezECwo7DLsLQm0nCZflEz2DfVfOUqZ3sZJ4C0aOSfr
+         clPxRsmvCHt381euEYHi3MAU7yzp2Fwp3ILutN4g0SOyXCx44eZSCe3hg6xQoNLRlDUs
+         2+TgDK66ET05vcnAhOvGwdSfBIy+Yq8rjy7pOeWQQp2/iOyB297sQE9T3DGsKQv98NSG
+         N4PA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1760320900; x=1760925700;
+        h=cc:to:from:subject:message-id:mime-version:date:x-gm-message-state
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=JpvLI5nP+gyknn6opMKaUZOwwLDmtrVHeM32uuY4r+Q=;
+        b=hj9oTKjPqyP3XSPTVAHy7KQnRq0WUACxgtqwGudVYt9wiLC8kxz4EVHBg2M/eqDxD/
+         riKp6IHVJ8XSQIGMTqJXZrk1deh3HpHzkid+AQByy83wYjip8ueFxDswjpWRzuqbuyav
+         RdP6AywWbPjL6B6AvbbFBbIR6eYiW9q/Z63fAlWY3ctSsTofud4jmMPaAiQcVABJ0OSY
+         UUjzxE6ONYQv0aFkDkzIqEJLoU2g5fA80uEgUmajdjkprHDlHJtt5UZFSHNoKKGewGyx
+         ai+IB+oi0peFMjLJ7FbKGxkVWxIb+risodWrCmXPgzdtXaZfzw/oEf14u+b8GPJtv5H1
+         NymA==
+X-Gm-Message-State: AOJu0YxidF+pKVj2FGuOIOra+xg1F7bgv+5UEMRGI7yqoWXKO8qW00TJ
+	fxim1oz+3nPAdu5zpwdKqcPxLtrpCQBlwwtXHcJzb/aQ/AHWYxaBS06Amdv4LAB5vlj9/E1rKRL
+	MBlA6eg==
+X-Google-Smtp-Source: AGHT+IGSV4Ol9o+z7zxIxvoRhwLVMndDrfeb5+nVBlXaOxuO1evVU3XRexYaQ2WpjeMZq92/z1BnpCgFK+Y=
+X-Received: from pjtp2.prod.google.com ([2002:a17:90a:c002:b0:330:9870:9f18])
+ (user=khtsai job=prod-delivery.src-stubby-dispatcher) by 2002:a17:90b:38ce:b0:32e:5646:d448
+ with SMTP id 98e67ed59e1d1-33b513b2ab9mr24908105a91.21.1760320899866; Sun, 12
+ Oct 2025 19:01:39 -0700 (PDT)
+Date: Mon, 13 Oct 2025 10:01:21 +0800
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v5 6/8] drm/rockchip: cdn-dp: Add multiple bridges to
- support PHY port selection
-To: Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>,
- Chaoyi Chen <kernel@airkyi.com>
-Cc: Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>,
- Conor Dooley <conor+dt@kernel.org>, Vinod Koul <vkoul@kernel.org>,
- Kishon Vijay Abraham I <kishon@kernel.org>, Heiko Stuebner
- <heiko@sntech.de>, Sandy Huang <hjc@rock-chips.com>,
- Andy Yan <andy.yan@rock-chips.com>,
- Yubing Zhang <yubing.zhang@rock-chips.com>,
- Frank Wang <frank.wang@rock-chips.com>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
- David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
- Amit Sunil Dhamne <amitsd@google.com>,
- Heikki Krogerus <heikki.krogerus@linux.intel.com>,
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
- Dragan Simic <dsimic@manjaro.org>, Johan Jonker <jbx6244@gmail.com>,
- Diederik de Haas <didi.debian@cknow.org>,
- Peter Robinson <pbrobinson@gmail.com>, linux-usb@vger.kernel.org,
- devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
- linux-phy@lists.infradead.org, linux-arm-kernel@lists.infradead.org,
- linux-rockchip@lists.infradead.org, dri-devel@lists.freedesktop.org
-References: <20251011033233.97-1-kernel@airkyi.com>
- <20251011033233.97-7-kernel@airkyi.com>
- <qzcdulyj2enho7l6vyvad7ln46zk2u4z7rnsjv2nv4tbw5j6jf@6oenbixoh3sp>
-Content-Language: en-US
-From: Chaoyi Chen <chaoyi.chen@rock-chips.com>
-In-Reply-To: <qzcdulyj2enho7l6vyvad7ln46zk2u4z7rnsjv2nv4tbw5j6jf@6oenbixoh3sp>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-X-HM-Tid: 0a99db2cd45d03abkunmd42693ddf9445f
-X-HM-MType: 1
-X-HM-Spam-Status: e1kfGhgUHx5ZQUpXWQgPGg8OCBgUHx5ZQUlOS1dZFg8aDwILHllBWSg2Ly
-	tZV1koWUFDSUNOT01LS0k3V1ktWUFJV1kPCRoVCBIfWUFZGk5OSFYaSBpPTk4ZHU9LGRlWFRQJFh
-	oXVRMBExYaEhckFA4PWVdZGBILWUFZTkNVSUlVTFVKSk9ZV1kWGg8SFR0UWUFZT0tIVUpLSEpOTE
-	9VSktLVUpCS0tZBg++
-DKIM-Signature: a=rsa-sha256;
-	b=EjyvMPU4l/juR5E7grt0CDa5nAksLXwJ5VSyMK4ffKvPTbojA4mjkwPvG9E+LubLTvHczH6SqzFYhEB9ekfkeIedmR4w5LZG5VwNHPHKQ5/NM7D6BnAM/RoIfnxSquUFCRfpnaYi3kjHcivb3UnSRd+GM0AzJFrS5OviHmcdjQI=; s=default; c=relaxed/relaxed; d=rock-chips.com; v=1;
-	bh=fuqk83w9a4EPvpdBlyDSD5SKGCTTCoHWM86zwqZCw0g=;
-	h=date:mime-version:subject:message-id:from;
+Mime-Version: 1.0
+X-B4-Tracking: v=1; b=H4sIAHFd7GgC/x3MQQqAIBBA0avIrBN0oqKuEi3SppqNxlgRhHdPW
+ r7F/y8kEqYEg3pB6ObEMRTYSoHf57CR5qUY0GBjjUV9JeejkD5l9hw23bWrMb536GqCUh1CKz/ /cZxy/gDvV/PPYQAAAA==
+X-Change-Id: 20251012-usbcore-tracing-76f00c9b2b3e
+X-Developer-Key: i=khtsai@google.com; a=ed25519; pk=abA4Pw6dY2ZufSbSXW9mtp7xiv1AVPtgRhCFWJSEqLE=
+X-Developer-Signature: v=1; a=ed25519-sha256; t=1760320897; l=1014;
+ i=khtsai@google.com; s=20250916; h=from:subject:message-id;
+ bh=6rOl5TirSFV9ovbqlSzIwyNT5PV/3iS1uNoq79WE41U=; b=YY+P8OtFoKB5B2qwpSCuEgDKP9NncBkOqOAnvOShle8YqXY/5iIDKpIZAczOupGq+TfovGCgS
+ 26kzOaY1AirBXEN1QaqbgRX2ldF5HWv2umw+vqpZhAIm6PrAfNgz/Hq
+X-Mailer: b4 0.14.2
+Message-ID: <20251013-usbcore-tracing-v1-0-b885a3121b09@google.com>
+Subject: [PATCH 0/2] usb: core: Improve device lifecycle debuggability
+From: Kuen-Han Tsai <khtsai@google.com>
+To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>, 
+	Mathias Nyman <mathias.nyman@linux.intel.com>, Alan Stern <stern@rowland.harvard.edu>
+Cc: linux-usb@vger.kernel.org, linux-kernel@vger.kernel.org, 
+	Kuen-Han Tsai <khtsai@google.com>
+Content-Type: text/plain; charset="utf-8"
 
-On 10/12/2025 2:52 AM, Dmitry Baryshkov wrote:
+This series enhances USB core debuggability. The first patch refactors
+device state updates into a new update_usb_device_state() helper 
+function, centralizing logic and preparing for tracing.
 
-> On Sat, Oct 11, 2025 at 11:32:31AM +0800, Chaoyi Chen wrote:
->> From: Chaoyi Chen <chaoyi.chen@rock-chips.com>
->>
->> The RK3399 has two USB/DP combo PHY and one CDN-DP controller. And
->> the CDN-DP can be switched to output to one of the PHYs. If both ports
->> are plugged into DP, DP will select the first port for output.
->>
->> This patch adds support for multiple bridges, enabling users to flexibly
->> select the output port. For each PHY port, a separate encoder and bridge
->> are registered.
->>
->> The change is based on the DRM AUX HPD bridge, rather than the
->> extcon approach. This requires the DT to correctly describe the
->> connections between the first bridge in bridge chain and DP
->> controller. For example, the bridge chain may be like this:
->>
->> PHY aux birdge -> fsa4480 analog audio switch bridge ->
->> onnn,nb7vpq904m USB reminder bridge -> USB-C controller AUX HPD bridge
->>
->> In this case, the connection relationships among the PHY aux bridge
->> and the DP contorller need to be described in DT.
->>
->> In addition, the cdn_dp_parse_hpd_bridge_dt() will parses it and
->> determines whether to register one or two bridges.
->>
->> Since there is only one DP controller, only one of the PHY ports can
->> output at a time. The key is how to switch between different PHYs,
->> which is handled by cdn_dp_switch_port() and cdn_dp_enable().
->>
->> There are two cases:
->>
->> 1. Neither bridge is enabled. In this case, both bridges can
->> independently read the EDID, and the PHY port may switch before
->> reading the EDID.
->>
->> 2. One bridge is already enabled. In this case, other bridges are not
->> allowed to read the EDID. So we will try to return the cached EDID.
->>
->> Since the scenario of two ports plug in at the same time is rare,
->> I don't have a board which support two TypeC connector to test this.
->> Therefore, I tested forced switching on a single PHY port, as well as
->> output using a fake PHY port alongside a real PHY port.
->>
->> Signed-off-by: Chaoyi Chen <chaoyi.chen@rock-chips.com>
->> ---
->>
->> Changes in v5:
->> - By parsing the HPD bridge chain, set the connector's of_node to the
->> of_node corresponding to the USB-C connector.
->> - Return EDID cache when other port is already enabled.
->>
->>   drivers/gpu/drm/rockchip/Kconfig       |   2 +
->>   drivers/gpu/drm/rockchip/cdn-dp-core.c | 355 +++++++++++++++++++++----
->>   drivers/gpu/drm/rockchip/cdn-dp-core.h |  24 +-
->>   3 files changed, 324 insertions(+), 57 deletions(-)
->>
->> diff --git a/drivers/gpu/drm/rockchip/Kconfig b/drivers/gpu/drm/rockchip/Kconfig
->> index faf50d872be3..7472ec923cfd 100644
->> --- a/drivers/gpu/drm/rockchip/Kconfig
->> +++ b/drivers/gpu/drm/rockchip/Kconfig
->> @@ -55,6 +55,8 @@ config ROCKCHIP_CDN_DP
->>   	select DRM_DISPLAY_HELPER
->>   	select DRM_BRIDGE_CONNECTOR
->>   	select DRM_DISPLAY_DP_HELPER
->> +	select DRM_AUX_BRIDGE
->> +	select DRM_AUX_HPD_BRIDGE
-> You are not using them in this driver, so this is not correct. Please
-> declare Kconfig dependencies for the drivers that actually call the API,
-> otherwise the LKP or somebody else can get compile errors because this
-> driver wasn't selected.
+The second patch adds tracepoints for USB device allocation and state 
+changes, providing better visibility into the device lifecycle.
 
-Thanks for the clarification. Will fix in v6.
+Signed-off-by: Kuen-Han Tsai <khtsai@google.com>
+---
+Kuen-Han Tsai (2):
+      usb: core: Centralize device state update logic
+      usb: core: Add tracepoints for device allocation and state changes
 
+ drivers/usb/core/Makefile |  4 ++++
+ drivers/usb/core/hub.c    | 30 +++++++++++++----------
+ drivers/usb/core/trace.c  |  6 +++++
+ drivers/usb/core/trace.h  | 61 +++++++++++++++++++++++++++++++++++++++++++++++
+ drivers/usb/core/usb.c    |  2 ++
+ 5 files changed, 91 insertions(+), 12 deletions(-)
+---
+base-commit: 5472d60c129f75282d94ae5ad072ee6dfb7c7246
+change-id: 20251012-usbcore-tracing-76f00c9b2b3e
 
->
->>   	help
->>   	  This selects support for Rockchip SoC specific extensions
->>   	  for the cdn DP driver. If you want to enable Dp on
-> [...]
->
->> +
->> +	/*
->> +	 *
->> +	 * &dp_out {
->> +	 *	dp_controller_output0: endpoint@0 {
->> +	 * 		remote-endpoint = <&dp_phy0_in>
->> +	 * 	};
->> +	 *
->> +	 * 	dp_controller_output1: endpoint@1 {
->> +	 * 		remote-endpoint = <&dp_phy1_in>
->> +	 * 	};
->> +	 * };
->> +	 *
->> +	 * &tcphy0_dp {
->> +	 * 	port {
->> +	 * 		tcphy0_typec_dp: endpoint@0 {
->> +	 * 			reg = <0>;
->> +	 * 			remote-endpoint = <&usbc0_dp>;
->> +	 * 		};
->> +	 *
->> +	 * 		dp_phy0_in: endpoint@1 {
->> +	 * 			reg = <1>;
->> +	 * 			remote-endpoint = <&dp_controller_output0>;
->> +	 * 		};
->> +	 * 	};
->> +	 * };
->> +	 *
->> +	 * &tcphy1_dp {
->> +	 * 	...
->> +	 * };
->> +	 *
->> +	 */
->> +
->> +	/* One endpoint may correspond to one HPD bridge. */
->> +	for_each_of_graph_port_endpoint(port, dp_ep) {
->> +		struct device_node *phy_bridge_node __free(device_node) =
->> +			of_graph_get_remote_port_parent(dp_ep);
->> +
->> +		bridge = of_drm_find_bridge(phy_bridge_node);
->> +		if (!bridge) {
->> +			ret = -EPROBE_DEFER;
->> +			goto out;
->> +		}
->> +
->> +		dp->hpd_bridge_valid = true;
->> +		dp->hpd_bridge_list[count].bridge = bridge;
->> +		dp->hpd_bridge_list[count].parent = dp;
->> +		dp->hpd_bridge_list[count].id = count;
-> This looks misnamed. They are not necessarily HPD bridges. There can be
-> a random chain between your controller and the actual output / connector
-> /etc.
-
-Yes, and more precisely, this should be `pervious_bridge_list` . Will fix in v6.
-
-
-
->
->> +		count++;
->> +	}
->> +
->> +out:
->> +	dp->bridge_count = count ? count : 1;
->> +	return ret;
->> +}
->> +
->> +static int cdn_dp_bind(struct device *dev, struct device *master, void *data)
->> +{
->> +	struct cdn_dp_device *dp = dev_get_drvdata(dev);
->> +	struct drm_bridge *bridge, *hpd_bridge;
->> +	struct drm_encoder *encoder;
->> +	struct cdn_dp_port *port;
->> +	struct drm_device *drm_dev = data;
->> +	struct cdn_dp_bridge *bridge_list;
-> Why is it bridge_list?
-
-Maybe it's still a naming issue. There may be multiple struct cdn_dp_bridge that will eventually be added to a list. It might be better to rename it to `dp_bridge`
-
-
-
->
->> +	int ret, i;
->> +
->> +	ret = cdn_dp_parse_dt(dp);
->> +	if (ret < 0)
->> +		return ret;
->> +
->> +	ret = cdn_dp_parse_hpd_bridge_dt(dp);
->> +	if (ret)
->> +		return ret;
->> +
->> +	dp->drm_dev = drm_dev;
->> +	dp->connected = false;
->> +	dp->active = false;
->> +	dp->active_port = -1;
->> +	dp->fw_loaded = false;
->> +
->> +	for (i = 0; i < dp->bridge_count; i++) {
->> +		bridge_list = devm_drm_bridge_alloc(dev, struct cdn_dp_bridge, bridge,
->> +						    &cdn_dp_bridge_funcs);
->> +		if (IS_ERR(bridge_list))
->> +			return PTR_ERR(bridge_list);
->> +		bridge_list->id = i;
->> +		bridge_list->parent = dp;
->> +		if (!dp->hpd_bridge_valid)
->> +			bridge_list->connected = true;
->> +		dp->bridge_list[i] = bridge_list;
->> +	}
->> +
-
+Best regards,
 -- 
-Best,
-Chaoyi
+Kuen-Han Tsai <khtsai@google.com>
 
