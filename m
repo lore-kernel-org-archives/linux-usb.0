@@ -1,251 +1,205 @@
-Received: from mail-pl1-f201.google.com (mail-pl1-f201.google.com [209.85.214.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com [205.220.180.131])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0F83E280025
-	for <linux-usb@vger.kernel.org>; Mon, 13 Oct 2025 02:01:45 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7EB962A1AA
+	for <linux-usb@vger.kernel.org>; Mon, 13 Oct 2025 02:12:06 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.180.131
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1760320907; cv=none; b=kJRso92QNmDZ/rVjLrTEDArfhHMfVw7HS2/B6QNNx3GsREQLi9r0FCZD9G/znz0lSqW6GYPogIEiGkmfCskDi7rm2dctMAzRx4AWiGondag5534DOGyWk1jChYZ+rZW3SchEwZIk8t5gaXkb3VpHTESqxQO7ENjaUnivmjIcHGA=
+	t=1760321528; cv=none; b=GxoRdN2kvXOTDmQYhyiEjE3zQA2WRWQ7YPRJ/DO0Ncp1M+XD05ArDF+crv97ttWfH9tWNb/Y63e5/vffcfXAu5G0K4jVF03h+G3QNuf1093Pd/D8wnx1yc6I6ziD4badSi1eGoWDRI+ax8tz3mIctazyUMma4p2tSjwtdK1GDpA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1760320907; c=relaxed/simple;
-	bh=cGrDWQbl1KjpVjUGq5IAO3MhdrEeWTCMATf7WJS5b6c=;
-	h=Date:In-Reply-To:Mime-Version:References:Message-ID:Subject:From:
-	 To:Cc:Content-Type; b=TGbKNaGZ5cozGKlm1qtlc5fV6iP6rY/Y3NOQ5LHwkKfgshevK70os9uRMtquz8yLUEn0EzsUguv2xAXeSkXE5HubBtZ+xiIwXNS92J0wzwLYyMVx9LJla3cU8+P8ABxxO/EhP/JBx+spOwaqALniHJz5JQkH5Ed9DkvGmYvBkPM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=flex--khtsai.bounces.google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=UfjByJKw; arc=none smtp.client-ip=209.85.214.201
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=flex--khtsai.bounces.google.com
+	s=arc-20240116; t=1760321528; c=relaxed/simple;
+	bh=x0LwWrdaES//1++J0BCHAr5V+/KFaqAOh04QCmwHVD0=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=paTV/W7t+/cDb+DEmJBgcDCZOTKzbD9Jd3wgtEiqD2SlG/qNIR5UgZP/aVHIKzOU4ZHJrk1JYRBHzHfp19nboLW4rUFY6ugH/ZiyupGyrRPi9VTVFP6WqP7rd51rM81bavs+JY5yVz0pu2RCRO7UP7wnbkpggDjOmDC/fJVYLug=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com; spf=pass smtp.mailfrom=oss.qualcomm.com; dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b=DgBt1V/4; arc=none smtp.client-ip=205.220.180.131
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=oss.qualcomm.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="UfjByJKw"
-Received: by mail-pl1-f201.google.com with SMTP id d9443c01a7336-29053c82f8fso41920055ad.2
-        for <linux-usb@vger.kernel.org>; Sun, 12 Oct 2025 19:01:45 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20230601; t=1760320905; x=1760925705; darn=vger.kernel.org;
-        h=cc:to:from:subject:message-id:references:mime-version:in-reply-to
-         :date:from:to:cc:subject:date:message-id:reply-to;
-        bh=idZeMEzFynmM4Yz87Kr2/ZMpJ43boOVUflCLeT840S8=;
-        b=UfjByJKwVqnF7eul3/s8KI8Q+6uY9h0g67hu9Lz9Q1I31vWkc0XoCIW9KohhhY46tf
-         WBoHN5B4RSN3m3OuA/nD86NT67Ex7gvjigEfMxDz87ijlIFDqIh6l/8bcyz5/AZwSxvD
-         A0gfIU0+qw25CET8gXixBVyVOrZz3iLYC8gwyX1FGr95RVBaeZT8K6ZKoPEuQB2yjCjE
-         A4sB0jCqK4C8yvbgmY7H5wJFpXxagGPutvQQiXxU94nK5vhhbmieau/NjLEuBfXYxRKG
-         /YnbaeKXHUUVCWRmRzaFWa6nQCcs7kvVZmxbL7WcPIL/nnvxQZa+y4eKthTkXoIXMXye
-         vKUA==
+	dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b="DgBt1V/4"
+Received: from pps.filterd (m0279871.ppops.net [127.0.0.1])
+	by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 59CHfnXd005295
+	for <linux-usb@vger.kernel.org>; Mon, 13 Oct 2025 02:12:05 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
+	cc:content-type:date:from:in-reply-to:message-id:mime-version
+	:references:subject:to; s=qcppdkim1; bh=86ZWYyPnzwyBT1SEdx2OYD4Y
+	N65eSOUUs/UhqpCdnLU=; b=DgBt1V/4SL91g2tYdnkd8pnKY7IuVA+EB+yRk0Vq
+	v8PHbqTD0VzuzZyY21lKErYPzBoXYywy+s4e9jCOvA3kPBADojpuhoAXBxGvmtgc
+	BT4BG9IFTTf8n2dEjw2F/8FWrtb31sviYrI5Se30CpVvFpocz165YwzJHDEKo1fX
+	frSI4/nEPXQqFlP2+MjVLT7S48x0lOc+kmYEdEaEKYzGPP5zSJxvf65fBjKr1EPQ
+	38PCMSI5I4C9C61Kd9DqFv0aJrFSHpfv19sw9sqCiu1xKoh27NK5iv8bqgbbvXIi
+	YOqcZu0byPqYfQcYHIC/NJIBC6pMoZTkbHOFEA7f67qLwQ==
+Received: from mail-qk1-f199.google.com (mail-qk1-f199.google.com [209.85.222.199])
+	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 49qfbhtyk6-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT)
+	for <linux-usb@vger.kernel.org>; Mon, 13 Oct 2025 02:12:05 +0000 (GMT)
+Received: by mail-qk1-f199.google.com with SMTP id af79cd13be357-829080582b4so2155622585a.0
+        for <linux-usb@vger.kernel.org>; Sun, 12 Oct 2025 19:12:05 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1760320905; x=1760925705;
-        h=cc:to:from:subject:message-id:references:mime-version:in-reply-to
-         :date:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=idZeMEzFynmM4Yz87Kr2/ZMpJ43boOVUflCLeT840S8=;
-        b=neEBtgs8RrDZ/0yosf9ecxwWrVBwMGBDbVVtFywxBXHw4SzaTxKQ1AVNpJXMTtmTmz
-         4Y5LBj3djsHK8nD2kJNHHm2Ixvb/H+7OP2iEtbaSAqI2knAIgwfqAsJYMNLEk7pgiCiv
-         V6jRP8f2jgSdTxd4Q73p5VBngJtfAum3gA4f6339Yn1anvbvZz01XtkP49lXe0uosm7X
-         XJq3sBkSYMhwppQS5dtINKSMxRBbMoT0TYQ7ZRrE8e16aaBST/nGrqelIhAH2Bu6gqkc
-         I8LhJ3rTYvaZyiNgiR/CgSfPS3IgSQONgaGLdeU2INcPJ/B7w1keyR5s/ryDYiVPXZpM
-         im7A==
-X-Gm-Message-State: AOJu0YzpHrqqz5hgNH00iheblwzrT2nhK9/nEEcwJED+IBIaJ4Mc54Yl
-	Nr3MSVWmIvQjuWdzgt5AFdc/BBUjFnHlS89WmmTaj2emYcOdi9fzlcR9qXOBc8h2a52jVuhQ6nY
-	9f5cu5Q==
-X-Google-Smtp-Source: AGHT+IF3SgXMgz0ThHHx1rlALTh1Z9Z6N/RtNr915FZ2PYaekTLVhQ9rSpxCm3gc/dRa+D3CTTt+F3bexzc=
-X-Received: from pjbsq6.prod.google.com ([2002:a17:90b:5306:b0:32b:ae4c:196c])
- (user=khtsai job=prod-delivery.src-stubby-dispatcher) by 2002:a17:903:2a87:b0:24a:d213:9e74
- with SMTP id d9443c01a7336-290272dfbb7mr264993255ad.49.1760320905070; Sun, 12
- Oct 2025 19:01:45 -0700 (PDT)
-Date: Mon, 13 Oct 2025 10:01:23 +0800
-In-Reply-To: <20251013-usbcore-tracing-v1-0-b885a3121b09@google.com>
+        d=1e100.net; s=20230601; t=1760321524; x=1760926324;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=86ZWYyPnzwyBT1SEdx2OYD4YN65eSOUUs/UhqpCdnLU=;
+        b=SMSVNICd+mGST6AUjGfWkK5eLQ/FEb4CRo3pLaTF+f1eiOiaEgiEMJKZmsz9nkizKW
+         9dhETiwK7XB5zhZd8nRzdh0Tx3ArIP2OPElkDglY54x3GOsLw5EtfyW+MqKOhxv3sG9G
+         4HjS6ocy+1T63eu90xn/60l+heA5mlAYCqU6uAkBbuU6je05J9ut/kVsrv7o9JrGCWaH
+         cmdgz9qgykQ5VM90wCDAxkAZh8kvsUjGO9wwj1BJWQTnbpgHmSlQB1FgmqBKOQiTCbxB
+         FyPLFU1/+9yKbSepBMtn/zQAlzWuz9h3EogKRc9BRMTWoPUkthrRJXSsJ/+cf9APp6yf
+         PX7w==
+X-Forwarded-Encrypted: i=1; AJvYcCVsosu8yBZfpd9t24UKsjjwyyXFJsrBlBSPUux3n+89SbyePzkLqdXiWTKrO0fuC5bLzCIb9q/ClrU=@vger.kernel.org
+X-Gm-Message-State: AOJu0YyAskBY/atQq+KZitODhr5kJz7SzHYKj22xvoMRi7kXQeDkMzB9
+	Q8TcJjZvTpE6VTpfwETVYzx4Y95/ExzrmvJsZgv9vton9MfjumXJPQ93lTVhHPiLHw4CHQjACby
+	d8XX5OVbECyoObtCwVcC3Eb6upI0oaU8d1PRjE8SG/1hnpNiGv6r0gvfmLppjqew=
+X-Gm-Gg: ASbGncv+T62ENtEpGQeS1+mAMp9iCuZjiWYD1ezoEf7dlmnqx5FYB9DstXA5MYM7W+w
+	VRo7fYSIXYi0AoI6nkLUnyg2BxDEX8Y1bv6idW74apc6RSWwZuEh0DSWXzUVBKN6OBJvcCAoIuZ
+	gHeEuT4p1rcnYmifqiLJ+RPtA8zfcwePN0LkVSncxSsSziYBPWxYe3k2wHetlrdbS84Rafe6+Z/
+	jyzU2FVhWQg+9ofWX1/FMtN+6X0SeB031NQack9SKAL4fzIK6s9QxEG5+xqjbkD4oFb4MkIilSe
+	5eueyiPgxgGxbETB/zb6O7JjxM9DdK3Gz8nkDJMdaTnJN+zmrBwm13A21HakrmlnZV4aKEzLRLx
+	jd0U5+1SjWS3zh2JNLId9XHbgfmB4l7V1A680AhstOHndgPt7eDb7
+X-Received: by 2002:a05:620a:1aa7:b0:863:42ea:d687 with SMTP id af79cd13be357-88352d9a142mr2371626785a.78.1760321524317;
+        Sun, 12 Oct 2025 19:12:04 -0700 (PDT)
+X-Google-Smtp-Source: AGHT+IHMoQF7op5MF9g/GW/8bpQeNO9MGh0k/WN4mxk7m/kz0sYWr+GEzFx7kK0Z0muN7KMj1v1Eng==
+X-Received: by 2002:a05:620a:1aa7:b0:863:42ea:d687 with SMTP id af79cd13be357-88352d9a142mr2371624385a.78.1760321523808;
+        Sun, 12 Oct 2025 19:12:03 -0700 (PDT)
+Received: from umbar.lan (2001-14ba-a0c3-3a00-264b-feff-fe8b-be8a.rev.dnainternet.fi. [2001:14ba:a0c3:3a00:264b:feff:fe8b:be8a])
+        by smtp.gmail.com with ESMTPSA id 2adb3069b0e04-5909a119fdbsm2285439e87.112.2025.10.12.19.12.00
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sun, 12 Oct 2025 19:12:01 -0700 (PDT)
+Date: Mon, 13 Oct 2025 05:11:58 +0300
+From: Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
+To: Chaoyi Chen <chaoyi.chen@rock-chips.com>
+Cc: Chaoyi Chen <kernel@airkyi.com>, Rob Herring <robh@kernel.org>,
+        Krzysztof Kozlowski <krzk+dt@kernel.org>,
+        Conor Dooley <conor+dt@kernel.org>, Vinod Koul <vkoul@kernel.org>,
+        Kishon Vijay Abraham I <kishon@kernel.org>,
+        Heiko Stuebner <heiko@sntech.de>, Sandy Huang <hjc@rock-chips.com>,
+        Andy Yan <andy.yan@rock-chips.com>,
+        Yubing Zhang <yubing.zhang@rock-chips.com>,
+        Frank Wang <frank.wang@rock-chips.com>,
+        Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+        Maxime Ripard <mripard@kernel.org>,
+        Thomas Zimmermann <tzimmermann@suse.de>,
+        David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
+        Amit Sunil Dhamne <amitsd@google.com>,
+        Heikki Krogerus <heikki.krogerus@linux.intel.com>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Dragan Simic <dsimic@manjaro.org>, Johan Jonker <jbx6244@gmail.com>,
+        Diederik de Haas <didi.debian@cknow.org>,
+        Peter Robinson <pbrobinson@gmail.com>, linux-usb@vger.kernel.org,
+        devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linux-phy@lists.infradead.org, linux-arm-kernel@lists.infradead.org,
+        linux-rockchip@lists.infradead.org, dri-devel@lists.freedesktop.org
+Subject: Re: [PATCH v5 6/8] drm/rockchip: cdn-dp: Add multiple bridges to
+ support PHY port selection
+Message-ID: <6hilafgpdbsppeeib75b5uamwf22kbu4likcp64ahb4u7zehhw@c3mtlzwx7qcp>
+References: <20251011033233.97-1-kernel@airkyi.com>
+ <20251011033233.97-7-kernel@airkyi.com>
+ <qzcdulyj2enho7l6vyvad7ln46zk2u4z7rnsjv2nv4tbw5j6jf@6oenbixoh3sp>
+ <08eb7560-c13e-462f-8110-d4ce5ccbd687@rock-chips.com>
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
-Mime-Version: 1.0
-References: <20251013-usbcore-tracing-v1-0-b885a3121b09@google.com>
-X-Developer-Key: i=khtsai@google.com; a=ed25519; pk=abA4Pw6dY2ZufSbSXW9mtp7xiv1AVPtgRhCFWJSEqLE=
-X-Developer-Signature: v=1; a=ed25519-sha256; t=1760320897; l=5685;
- i=khtsai@google.com; s=20250916; h=from:subject:message-id;
- bh=cGrDWQbl1KjpVjUGq5IAO3MhdrEeWTCMATf7WJS5b6c=; b=Vg1PNgDDOsJV4tGBIEFwbR414NtO0ueQmvT69trGfXK4aXLtRJrAZxHvFpkjqPIn/CMYzsdaf
- jMzwYaco8lPCtcF8C54VPPO5NM6LgTC1xBoBfQOsXJG/FUO2AH0weGg
-X-Mailer: b4 0.14.2
-Message-ID: <20251013-usbcore-tracing-v1-2-b885a3121b09@google.com>
-Subject: [PATCH 2/2] usb: core: Add tracepoints for device allocation and
- state changes
-From: Kuen-Han Tsai <khtsai@google.com>
-To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>, 
-	Mathias Nyman <mathias.nyman@linux.intel.com>, Alan Stern <stern@rowland.harvard.edu>
-Cc: linux-usb@vger.kernel.org, linux-kernel@vger.kernel.org, 
-	Kuen-Han Tsai <khtsai@google.com>
-Content-Type: text/plain; charset="utf-8"
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <08eb7560-c13e-462f-8110-d4ce5ccbd687@rock-chips.com>
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUxMDExMDAxOCBTYWx0ZWRfX+X5YLYaEknLU
+ FuNzgz4K/7On6QULWZdm/rYzasYNTZkmVoUojlONNepiRJkpvcrR7SSiKkxMuIgz4PZ6Z0EYQ2e
+ fKnHO2pATzjxrZpjw5QasVTMswZl5aXa5vwHgbxS8R0AKwjA4lqmmM3pkCkCYNqsbAuSf/56F0m
+ P+NsVJE0CW6AMyXJvIqcpX+W/bCHKw4dLVWskWnyxZUmNfZTryXDMdhPXOKsGHz7UcDTqAJsmKg
+ E7KlfZdLXhOlk/rIdo09Xnol3VPYsyOgE54gwbM/rii+enCBkKbySrpDvI9UkuxSbR18LN3WZVg
+ AJsTsNBkorBpvv6qgx8yTrYbK76n0RqY6k96hhiv8+fazp1xz7F/J7xFtwSbBMigBM8pFbvwsQy
+ 8jwTWS0rsU3ojCwJNcsHicGgVGVQgQ==
+X-Proofpoint-ORIG-GUID: ynhUZMxrZ7IbFXs5oM6Ogolxw-kOjGM9
+X-Authority-Analysis: v=2.4 cv=bodBxUai c=1 sm=1 tr=0 ts=68ec5ff5 cx=c_pps
+ a=HLyN3IcIa5EE8TELMZ618Q==:117 a=xqWC_Br6kY4A:10 a=kj9zAlcOel0A:10
+ a=x6icFKpwvdMA:10 a=s8YR1HE3AAAA:8 a=46buKmVFnKFTYA1G4KoA:9 a=CjuIK1q_8ugA:10
+ a=bTQJ7kPSJx9SKPbeHEYW:22 a=jGH_LyMDp9YhSvY-UuyI:22
+X-Proofpoint-GUID: ynhUZMxrZ7IbFXs5oM6Ogolxw-kOjGM9
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1117,Hydra:6.1.9,FMLib:17.12.80.40
+ definitions=2025-10-13_01,2025-10-06_01,2025-03-28_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ phishscore=0 lowpriorityscore=0 adultscore=0 impostorscore=0 suspectscore=0
+ bulkscore=0 priorityscore=1501 clxscore=1015 malwarescore=0 spamscore=0
+ classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
+ reason=mlx scancount=1 engine=8.19.0-2510020000 definitions=main-2510110018
 
-Introduce new tracepoints to the USB core to improve debuggability of
-USB device lifecycle events.
+On Mon, Oct 13, 2025 at 09:26:06AM +0800, Chaoyi Chen wrote:
+> On 10/12/2025 2:52 AM, Dmitry Baryshkov wrote:
+> 
+> > On Sat, Oct 11, 2025 at 11:32:31AM +0800, Chaoyi Chen wrote:
+> > > From: Chaoyi Chen <chaoyi.chen@rock-chips.com>
+> > > 
+> > > The RK3399 has two USB/DP combo PHY and one CDN-DP controller. And
+> > > the CDN-DP can be switched to output to one of the PHYs. If both ports
+> > > are plugged into DP, DP will select the first port for output.
+> > > 
+> > > This patch adds support for multiple bridges, enabling users to flexibly
+> > > select the output port. For each PHY port, a separate encoder and bridge
+> > > are registered.
+> > > 
+> > > The change is based on the DRM AUX HPD bridge, rather than the
+> > > extcon approach. This requires the DT to correctly describe the
+> > > connections between the first bridge in bridge chain and DP
+> > > controller. For example, the bridge chain may be like this:
+> > > 
+> > > PHY aux birdge -> fsa4480 analog audio switch bridge ->
+> > > onnn,nb7vpq904m USB reminder bridge -> USB-C controller AUX HPD bridge
+> > > 
+> > > In this case, the connection relationships among the PHY aux bridge
+> > > and the DP contorller need to be described in DT.
+> > > 
+> > > In addition, the cdn_dp_parse_hpd_bridge_dt() will parses it and
+> > > determines whether to register one or two bridges.
+> > > 
+> > > Since there is only one DP controller, only one of the PHY ports can
+> > > output at a time. The key is how to switch between different PHYs,
+> > > which is handled by cdn_dp_switch_port() and cdn_dp_enable().
+> > > 
+> > > There are two cases:
+> > > 
+> > > 1. Neither bridge is enabled. In this case, both bridges can
+> > > independently read the EDID, and the PHY port may switch before
+> > > reading the EDID.
+> > > 
+> > > 2. One bridge is already enabled. In this case, other bridges are not
+> > > allowed to read the EDID. So we will try to return the cached EDID.
+> > > 
+> > > Since the scenario of two ports plug in at the same time is rare,
+> > > I don't have a board which support two TypeC connector to test this.
+> > > Therefore, I tested forced switching on a single PHY port, as well as
+> > > output using a fake PHY port alongside a real PHY port.
+> > > 
+> > > Signed-off-by: Chaoyi Chen <chaoyi.chen@rock-chips.com>
+> > > ---
+> > > 
+> > > +	/* One endpoint may correspond to one HPD bridge. */
+> > > +	for_each_of_graph_port_endpoint(port, dp_ep) {
+> > > +		struct device_node *phy_bridge_node __free(device_node) =
+> > > +			of_graph_get_remote_port_parent(dp_ep);
+> > > +
+> > > +		bridge = of_drm_find_bridge(phy_bridge_node);
+> > > +		if (!bridge) {
+> > > +			ret = -EPROBE_DEFER;
+> > > +			goto out;
+> > > +		}
+> > > +
+> > > +		dp->hpd_bridge_valid = true;
+> > > +		dp->hpd_bridge_list[count].bridge = bridge;
+> > > +		dp->hpd_bridge_list[count].parent = dp;
+> > > +		dp->hpd_bridge_list[count].id = count;
+> > This looks misnamed. They are not necessarily HPD bridges. There can be
+> > a random chain between your controller and the actual output / connector
+> > /etc.
+> 
+> Yes, and more precisely, this should be `pervious_bridge_list` . Will fix in v6.
 
-The following tracepoints are added:
+I think the typical convention is around next_bridge, not previous.
 
-- usb_alloc_dev: Triggered when a new USB device structure is allocated,
-providing insights into early device setup.
-- usb_set_device_state: Triggered when the USB device state changes,
-allowing observation of the device's state transitions.
-
-These tracepoints capture detailed information about the USB device,
-including its name, speed, state, bus current value, and authorized
-flag. This will aid developers in diagnosing issues related to device
-enumeration within the USB subsystem.
-
-Examples:
- usb_alloc_dev: usb 1-1 speed 0 state 1 0mA [authorized]
- usb_set_device_state: usb 1-1 speed 0 state 2 0mA [authorized]
- usb_set_device_state: usb 1-1 speed 2 state 5 500mA [authorized]
- usb_set_device_state: usb 1-1 speed 2 state 5 500mA [authorized]
- usb_set_device_state: usb 1-1 speed 2 state 6 500mA [authorized]
- usb_set_device_state: usb 1-1 speed 2 state 7 500mA [authorized]
- usb_set_device_state: usb 1-1 speed 2 state 8 500mA [authorized]
- usb_set_device_state: usb 1-1 speed 2 state 0 500mA [authorized]
-
-Signed-off-by: Kuen-Han Tsai <khtsai@google.com>
----
- drivers/usb/core/Makefile |  4 ++++
- drivers/usb/core/hub.c    |  2 ++
- drivers/usb/core/trace.c  |  6 +++++
- drivers/usb/core/trace.h  | 61 +++++++++++++++++++++++++++++++++++++++++++++++
- drivers/usb/core/usb.c    |  2 ++
- 5 files changed, 75 insertions(+)
-
-diff --git a/drivers/usb/core/Makefile b/drivers/usb/core/Makefile
-index 766000b4939ef937a04848aa9cc45d8bb8860fe5..11647942ff3ae6c688dac043218f7d886a3e2f88 100644
---- a/drivers/usb/core/Makefile
-+++ b/drivers/usb/core/Makefile
-@@ -3,10 +3,14 @@
- # Makefile for USB Core files and filesystem
- #
- 
-+# define_trace.h needs to know how to find our header
-+CFLAGS_trace.o                  := -I$(src)
-+
- usbcore-y := usb.o hub.o hcd.o urb.o message.o driver.o
- usbcore-y += config.o file.o buffer.o sysfs.o endpoint.o
- usbcore-y += devio.o notify.o generic.o quirks.o devices.o
- usbcore-y += phy.o port.o
-+usbcore-y += trace.o
- 
- usbcore-$(CONFIG_OF)		+= of.o
- usbcore-$(CONFIG_USB_XHCI_SIDEBAND)	+= offload.o
-diff --git a/drivers/usb/core/hub.c b/drivers/usb/core/hub.c
-index ce3d94c960470e9be7979b1021551eab5fd03517..f66a197700c8b3414c624b8ec1bb94c629e3280c 100644
---- a/drivers/usb/core/hub.c
-+++ b/drivers/usb/core/hub.c
-@@ -40,6 +40,7 @@
- #include "hub.h"
- #include "phy.h"
- #include "otg_productlist.h"
-+#include "trace.h"
- 
- #define USB_VENDOR_GENESYS_LOGIC		0x05e3
- #define USB_VENDOR_SMSC				0x0424
-@@ -2159,6 +2160,7 @@ static inline void update_usb_device_state(struct usb_device *udev,
- 
- 	udev->state = new_state;
- 	update_port_device_state(udev);
-+	trace_usb_set_device_state(udev);
- }
- 
- static void recursively_mark_NOTATTACHED(struct usb_device *udev)
-diff --git a/drivers/usb/core/trace.c b/drivers/usb/core/trace.c
-new file mode 100644
-index 0000000000000000000000000000000000000000..607bcf639d27f15a628537a86155fa92df33fa14
---- /dev/null
-+++ b/drivers/usb/core/trace.c
-@@ -0,0 +1,6 @@
-+// SPDX-License-Identifier: GPL-2.0
-+/*
-+ * Copyright (C) 2025 Google LLC
-+ */
-+#define CREATE_TRACE_POINTS
-+#include "trace.h"
-diff --git a/drivers/usb/core/trace.h b/drivers/usb/core/trace.h
-new file mode 100644
-index 0000000000000000000000000000000000000000..db6edf570640e7af0598ccf2c7bd71b187605a42
---- /dev/null
-+++ b/drivers/usb/core/trace.h
-@@ -0,0 +1,61 @@
-+/* SPDX-License-Identifier: GPL-2.0 */
-+/*
-+ * Copyright (C) 2025 Google LLC
-+ */
-+#undef TRACE_SYSTEM
-+#define TRACE_SYSTEM usbcore
-+
-+#if !defined(_USB_CORE_TRACE_H) || defined(TRACE_HEADER_MULTI_READ)
-+#define _USB_CORE_TRACE_H
-+
-+#include <linux/types.h>
-+#include <linux/tracepoint.h>
-+#include <linux/usb.h>
-+
-+DECLARE_EVENT_CLASS(usb_core_log_usb_device,
-+	TP_PROTO(struct usb_device *udev),
-+	TP_ARGS(udev),
-+	TP_STRUCT__entry(
-+		__string(name, dev_name(&udev->dev))
-+		__field(enum usb_device_speed, speed)
-+		__field(enum usb_device_state, state)
-+		__field(unsigned short, bus_mA)
-+		__field(unsigned, authorized)
-+	),
-+	TP_fast_assign(
-+		__assign_str(name);
-+		__entry->speed = udev->speed;
-+		__entry->state = udev->state;
-+		__entry->bus_mA = udev->bus_mA;
-+		__entry->authorized = udev->authorized;
-+	),
-+	TP_printk("usb %s speed %d state %d %dmA [%s]",
-+		__get_str(name),
-+		__entry->speed,
-+		__entry->state,
-+		__entry->bus_mA,
-+		__entry->authorized ? "authorized" : "unauthorized")
-+);
-+
-+DEFINE_EVENT(usb_core_log_usb_device, usb_set_device_state,
-+	TP_PROTO(struct usb_device *udev),
-+	TP_ARGS(udev)
-+);
-+
-+DEFINE_EVENT(usb_core_log_usb_device, usb_alloc_dev,
-+	TP_PROTO(struct usb_device *udev),
-+	TP_ARGS(udev)
-+);
-+
-+
-+#endif /* _USB_CORE_TRACE_H */
-+
-+/* this part has to be here */
-+
-+#undef TRACE_INCLUDE_PATH
-+#define TRACE_INCLUDE_PATH .
-+
-+#undef TRACE_INCLUDE_FILE
-+#define TRACE_INCLUDE_FILE trace
-+
-+#include <trace/define_trace.h>
-diff --git a/drivers/usb/core/usb.c b/drivers/usb/core/usb.c
-index b6b0b84895237e2c49b5e8015627ad2c24ee31c2..e740f7852bcdebdbcc30025dcddb16c062265d47 100644
---- a/drivers/usb/core/usb.c
-+++ b/drivers/usb/core/usb.c
-@@ -46,6 +46,7 @@
- #include <linux/dma-mapping.h>
- 
- #include "hub.h"
-+#include "trace.h"
- 
- const char *usbcore_name = "usbcore";
- 
-@@ -746,6 +747,7 @@ struct usb_device *usb_alloc_dev(struct usb_device *parent,
- #endif
- 
- 	dev->authorized = usb_dev_authorized(dev, usb_hcd);
-+	trace_usb_alloc_dev(dev);
- 	return dev;
- }
- EXPORT_SYMBOL_GPL(usb_alloc_dev);
 
 -- 
-2.51.0.740.g6adb054d12-goog
-
+With best wishes
+Dmitry
