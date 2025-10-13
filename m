@@ -1,126 +1,155 @@
-Received: from mail-m1973177.qiye.163.com (mail-m1973177.qiye.163.com [220.197.31.77])
+Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com [205.220.168.131])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 737A713B797;
-	Mon, 13 Oct 2025 03:53:46 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=220.197.31.77
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4233C1BDCF
+	for <linux-usb@vger.kernel.org>; Mon, 13 Oct 2025 03:59:29 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.168.131
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1760327631; cv=none; b=cCWDQgiiVr2KpAq5xxR2P8FMnkiaHXj3bPU1mHmkB03NvvnbY626inNVg12QtAPXNPKdkb9HW5W/0iqmTnjl94SFRXZPR3n1tWtuJpzWlbQsWX3MCvVJmGSBBsjmGL7/ibNZwNkyGHfMZJYj0DbS5Ipq5jVXWD37OPjK28xiZWQ=
+	t=1760327971; cv=none; b=PIc9OfTKRkieiCeePLcFBVTaIrlLGdl4SWd0zkdvOOx7oNOnCYyR2JWnBcGtiELODGaq4qOZGr2uHbqdt2n73SCxPo6kO4VPU024EgSspiWwY/C183TIpRwtsL7L75c27rjbFAPoIJY4q+33rSsf0Xk98WKGKsRwbbaLLf9JFm4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1760327631; c=relaxed/simple;
-	bh=PbAzsDLcpCjjU+ySuiE6iEnMNY0RjBPQ3C98WW1Xuig=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=fE1T9u3P0fhw+PYKh+pIhDnXlSQvvgQzFXkREq3KWOPCH6+sW6av74VrHOB46qSLjysi7m59wsEBwB63m+KnjL6ng5lwLrZYbXQtSbgwBlToa4+fVl5qRn0nl9N+qpZ8oKyyZfwOL3ggbz5kHrbMdBGYebRs69UaQbrP+3N8sro=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=rock-chips.com; spf=pass smtp.mailfrom=rock-chips.com; dkim=pass (1024-bit key) header.d=rock-chips.com header.i=@rock-chips.com header.b=BtDpGjCh; arc=none smtp.client-ip=220.197.31.77
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=rock-chips.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=rock-chips.com
+	s=arc-20240116; t=1760327971; c=relaxed/simple;
+	bh=4s97OXsE4t41H2WY4gfLk660rhvi503He0pOltw2Gjw=;
+	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=c8yY1Jfc8vf94i2Hg0EuxBAKJCuySd9H7DqrCFsOnmaLoG4oyKQzDHndkEolnvsB10gIhhROmBouTiRdMMawLPerMgFoCUV9i5KQH8GlbKKO6cj4OZXMVeu4jmeAb5mQWZqIGN3AZe7qACNVc+qJS+kHeAqYIk6TIDyRE3HUPFs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com; spf=pass smtp.mailfrom=oss.qualcomm.com; dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b=OsiHS6h/; arc=none smtp.client-ip=205.220.168.131
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=oss.qualcomm.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=rock-chips.com header.i=@rock-chips.com header.b="BtDpGjCh"
-Received: from [127.0.0.1] (unknown [58.22.7.114])
-	by smtp.qiye.163.com (Hmail) with ESMTP id 25a425d33;
-	Mon, 13 Oct 2025 09:31:09 +0800 (GMT+08:00)
-Message-ID: <b0a41372-f28a-4e2f-9590-94fe2a86f7d8@rock-chips.com>
-Date: Mon, 13 Oct 2025 09:31:03 +0800
+	dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b="OsiHS6h/"
+Received: from pps.filterd (m0279862.ppops.net [127.0.0.1])
+	by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 59D2oQUW012872
+	for <linux-usb@vger.kernel.org>; Mon, 13 Oct 2025 03:59:29 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
+	cc:content-transfer-encoding:date:from:message-id:mime-version
+	:subject:to; s=qcppdkim1; bh=RMNDKKR886AjMuufIuUKdsSR0GOZWJ31sPM
+	ac5ueuzg=; b=OsiHS6h/PXetzJ68Vfd9KrL4bPcXsezkfZvFDHjSke8nPXovoLs
+	5NYN1nzjyGwUiXfHvaGbSBOPB6jswbuVxAnRGFpfa22wPFFX0htfrKNS4gZ4+XM9
+	PmwyX1RGR/HwnfHD6jyhHe0g4tbs0SQARIC0VXaugmoQDOrcyUOPyrcar8tafBKY
+	t2WuEJ+MzNXR7QCh+1BfMFQC8bLMWQ+odcrLPTSI7/f43HlgVBVMx+RR1IjzkbuI
+	19lCun8l1FUssEUoHq9KeyLTiURdP6Bua6GMZM1x228w7+8nlfFVxRFc1hJoYfhM
+	OcH5AFCCtU5cisdBb6KDljlDs85DTgqBvFw==
+Received: from mail-pl1-f198.google.com (mail-pl1-f198.google.com [209.85.214.198])
+	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 49qg0bu4a6-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT)
+	for <linux-usb@vger.kernel.org>; Mon, 13 Oct 2025 03:59:29 +0000 (GMT)
+Received: by mail-pl1-f198.google.com with SMTP id d9443c01a7336-28d1747f23bso79232455ad.3
+        for <linux-usb@vger.kernel.org>; Sun, 12 Oct 2025 20:59:29 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1760327968; x=1760932768;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=RMNDKKR886AjMuufIuUKdsSR0GOZWJ31sPMac5ueuzg=;
+        b=ldr9WoiaX+K+rerzaAFT3FOE4Ch8M6Ak4nsB2q8Lvmbqiarti1EwiCgwl1mHdAthEm
+         ajL0hh0xMcLxTr0lujSQ/ZR0gMbvDh0ox3tz4f4pxdF+SOTQ4mwZ1H2RMr3aWuN7SekJ
+         oPMwwciBCJg8h6XpZmDZPUJxv8Px3zXjyRhlX9QbPm0pHotKjGeUrV28LX57Wmhbd83+
+         w1hiSKVndWp73IlNvjv5jTPYHw5LTPqb6i9H4fWNbPUeYYy6g4/0X38llwg+iordVrv6
+         I8cljjp2WiuFua/ymaGYtbT62Zb7UeIq+PKcOwq4LnZN9vmWRy2W4GKJNoq750gt029t
+         YfjA==
+X-Forwarded-Encrypted: i=1; AJvYcCUKsjoWo8MJiipjf6UJUh8MK1jK1E4OgYZ/d6B6aya6N5adY+uc5F4RAxSvQt5PVZVpdJlZo0RFouo=@vger.kernel.org
+X-Gm-Message-State: AOJu0Yxy6TXJBRTBA29EfkSU9+iuRbb+OU22miYq/mrnIs7eo3KweCtA
+	hbjI+uNyXMLWnDM7S0GJhBvYz9OMun4sNQqj2P90TXw24qMyb2UtjcuUkoi7tGRBomzgTVAc8/o
+	s+BbIy3QQM5xN0rncnoBBMfqE33vJj5MF/bbNE3tXOrt3coNN+hbfQgOZBJH81gg=
+X-Gm-Gg: ASbGncvxdRt/HdqlBoCd8s0wwqYEuCyWIO8/kzlxvPr63V7cl86Vfti0xpzy7i45cOZ
+	909pETDeAvZq6fes8ZiGjETrSk0qpuD+U6DQ/ndOcyiXASg+UVCHOdJauLb9jFXVXqmNWfccWEm
+	BwngmZbRWQAzPipl/G42TffHUqyZK4r3BdsW2oKls//gzjw1Mt81gxOA6ZcFBZ6Q9YwCOl8jwi6
+	wIArO7+rI6ToY4ngeoR0/Tacp7ordhyxEHt8QxmfotDosgJZSSHGfMRpQX+ZwVryUrzSoEbVzwh
+	cdDuTnPd7QnxRAdEmue2Qf7ylQNXQylUMLY46Y8AmnVMVeA7FzrAZUs9Jgc1xokiBFbtLIMt1xq
+	aGw==
+X-Received: by 2002:a17:903:40cc:b0:26e:d0aa:7690 with SMTP id d9443c01a7336-29027402c79mr221611325ad.41.1760327968211;
+        Sun, 12 Oct 2025 20:59:28 -0700 (PDT)
+X-Google-Smtp-Source: AGHT+IHHVGLZBxpNB4H/Xm0MJmTnYuQju81RnfMPIBs8IrHHp9PZ9c6HxbnrwU84W6QcEl3NEorCEA==
+X-Received: by 2002:a17:903:40cc:b0:26e:d0aa:7690 with SMTP id d9443c01a7336-29027402c79mr221611125ad.41.1760327967714;
+        Sun, 12 Oct 2025 20:59:27 -0700 (PDT)
+Received: from hu-kriskura-hyd.qualcomm.com ([202.46.22.19])
+        by smtp.gmail.com with ESMTPSA id d9443c01a7336-29034de54c7sm120732305ad.10.2025.10.12.20.59.24
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sun, 12 Oct 2025 20:59:27 -0700 (PDT)
+From: Krishna Kurapati <krishna.kurapati@oss.qualcomm.com>
+To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Rob Herring <robh@kernel.org>,
+        Krzysztof Kozlowski <krzk+dt@kernel.org>,
+        Conor Dooley <conor+dt@kernel.org>,
+        Wesley Cheng <wesley.cheng@oss.qualcomm.com>
+Cc: linux-arm-msm@vger.kernel.org, linux-usb@vger.kernel.org,
+        devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
+        Krishna Kurapati <krishna.kurapati@oss.qualcomm.com>,
+        stable@vger.kernel.org
+Subject: [PATCH v2] dt-bindings: usb: qcom,snps-dwc3: Fix bindings for X1E80100
+Date: Mon, 13 Oct 2025 09:29:20 +0530
+Message-Id: <20251013035920.806485-1-krishna.kurapati@oss.qualcomm.com>
+X-Mailer: git-send-email 2.34.1
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v5 1/8] usb: typec: Add default HPD device when register
- DisplayPort altmode
-To: Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>,
- Chaoyi Chen <kernel@airkyi.com>
-Cc: Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>,
- Conor Dooley <conor+dt@kernel.org>, Vinod Koul <vkoul@kernel.org>,
- Kishon Vijay Abraham I <kishon@kernel.org>, Heiko Stuebner
- <heiko@sntech.de>, Sandy Huang <hjc@rock-chips.com>,
- Andy Yan <andy.yan@rock-chips.com>,
- Yubing Zhang <yubing.zhang@rock-chips.com>,
- Frank Wang <frank.wang@rock-chips.com>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
- David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
- Amit Sunil Dhamne <amitsd@google.com>,
- Heikki Krogerus <heikki.krogerus@linux.intel.com>,
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
- Dragan Simic <dsimic@manjaro.org>, Johan Jonker <jbx6244@gmail.com>,
- Diederik de Haas <didi.debian@cknow.org>,
- Peter Robinson <pbrobinson@gmail.com>, linux-usb@vger.kernel.org,
- devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
- linux-phy@lists.infradead.org, linux-arm-kernel@lists.infradead.org,
- linux-rockchip@lists.infradead.org, dri-devel@lists.freedesktop.org
-References: <20251011033233.97-1-kernel@airkyi.com>
- <20251011033233.97-2-kernel@airkyi.com>
- <4eizpzejw43gqt5jauvkeij65rracols2voa2osflwyjrwbvun@sovgqfuhg6mc>
-Content-Language: en-US
-From: Chaoyi Chen <chaoyi.chen@rock-chips.com>
-In-Reply-To: <4eizpzejw43gqt5jauvkeij65rracols2voa2osflwyjrwbvun@sovgqfuhg6mc>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-X-HM-Tid: 0a99db315d3303abkunmf2c18e8ff96737
-X-HM-MType: 1
-X-HM-Spam-Status: e1kfGhgUHx5ZQUpXWQgPGg8OCBgUHx5ZQUlOS1dZFg8aDwILHllBWSg2Ly
-	tZV1koWUFDSUNOT01LS0k3V1ktWUFJV1kPCRoVCBIfWUFZQkgYS1ZIQh9LSU1ITEJJH0lWFRQJFh
-	oXVRMBExYaEhckFA4PWVdZGBILWUFZTkNVSUlVTFVKSk9ZV1kWGg8SFR0UWUFZT0tIVUpLSEpPSE
-	xVSktLVUpCS0tZBg++
-DKIM-Signature: a=rsa-sha256;
-	b=BtDpGjChpSP48XE1NKo9jcl4Ni8DKvg9gZwmx1ejEbB52Pfa+kRYrhK7oEn5aQ5AakDYb/7RggtO5dn567l+twFPbz45HrVLLzoOI81hMA76pKtG8j7aBsmYKJIDji/YO4B/Lud3EvzLmEHni0K6Bgrj0VWBL7P9W8ve4ol9ntw=; s=default; c=relaxed/relaxed; d=rock-chips.com; v=1;
-	bh=FbJ61tTmug1JcWEYVwCZO9erg1Aurz+LDUFUiiNDiT4=;
-	h=date:mime-version:subject:message-id:from;
+Content-Transfer-Encoding: 8bit
+X-Proofpoint-GUID: QLH5bBrS-VZCjtfGqTr0up1W2T7aiUCx
+X-Proofpoint-ORIG-GUID: QLH5bBrS-VZCjtfGqTr0up1W2T7aiUCx
+X-Authority-Analysis: v=2.4 cv=eaIwvrEH c=1 sm=1 tr=0 ts=68ec7921 cx=c_pps
+ a=MTSHoo12Qbhz2p7MsH1ifg==:117 a=fChuTYTh2wq5r3m49p7fHw==:17
+ a=x6icFKpwvdMA:10 a=VwQbUJbxAAAA:8 a=EUspDBNiAAAA:8 a=ojRqNddluEt3zInEAqUA:9
+ a=GvdueXVYPmCkWapjIL-Q:22
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUxMDExMDAyMiBTYWx0ZWRfX0M0CZhaTr/jZ
+ 4+N0BoZMB01PpxU7RZbi7Y1KYWyfQtwua3Z2inn6TvQiVmVnxpZvdbs7B+JST8D3GxobKHr8n0G
+ O4OQlXS8EWHlh7M7Sz05xywa1m7egIeLHIXY1SJCHyERBiBDMEtLp3mwRI6iRJGVhkMrLbFBT3u
+ 6JAdHs89pKuYYF8q76UC8eKd5GQNwbp9xD/vB8YWTP/gXOulaRTh4EwPxv1nh6cGp3upyk/dSqn
+ XOvzZWJhQ9DIYMnAvSWjV0KVCa4WcHmm+c8bGhMaIyHABdMXnEAUlGHJPVRZZ6o+gBtmEdTKlb3
+ UmQRfOM4K7ob3f4PLu0T9b9QPviWgqi4ly68ptNo/hRI/5B4Xq76RQwGgXO71WdkIZutsFbVzkW
+ mVQFY3ZaBnR3EAn4rgvM1O4o+nj0gg==
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1117,Hydra:6.1.9,FMLib:17.12.80.40
+ definitions=2025-10-13_02,2025-10-06_01,2025-03-28_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ bulkscore=0 priorityscore=1501 spamscore=0 impostorscore=0 phishscore=0
+ adultscore=0 lowpriorityscore=0 clxscore=1015 suspectscore=0 malwarescore=0
+ classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
+ reason=mlx scancount=1 engine=8.19.0-2510020000 definitions=main-2510110022
 
-On 10/12/2025 12:51 AM, Dmitry Baryshkov wrote:
+Add the missing multiport controller binding to target list.
 
-> On Sat, Oct 11, 2025 at 11:32:26AM +0800, Chaoyi Chen wrote:
->> From: Chaoyi Chen <chaoyi.chen@rock-chips.com>
->>
->> Add default DRM AUX HPD bridge device when register DisplayPort
->> altmode. That makes it redundant for each Type-C driver to implement
->> a similar registration process in embedded scenarios.
->>
->> Signed-off-by: Chaoyi Chen <chaoyi.chen@rock-chips.com>
->> ---
->>
->> Changes in v5:
->> - Remove the calls related to `drm_aux_hpd_bridge_notify()`.
->> - Place the helper functions in the same compilation unit.
->> - Add more comments about parent device.
->>
->>   drivers/usb/typec/class.c         | 26 ++++++++++++++++++++++++++
->>   include/linux/usb/typec_altmode.h |  2 ++
->>   2 files changed, 28 insertions(+)
->>
->>   
->> +static void dp_altmode_hpd_device_register(struct typec_altmode *alt)
->> +{
->> +	if (alt->svid != USB_TYPEC_DP_SID)
->> +		return;
->> +
->> +	/*
->> +	 * alt->dev.parent->parent : USB-C controller device
->> +	 * alt->dev.parent         : USB-C connector device
->> +	 */
->> +	alt->hpd_dev = drm_dp_hpd_bridge_register(alt->dev.parent->parent,
->> +						  to_of_node(alt->dev.parent->fwnode));
-> You can not do this, unless you make TYPEC core:
->
-> depends on DRM || DRM=n
-> select DRM_AUX_HPD_BRIDGE if DRM_BRIDGE && OF
+Fix minItems for interrupt-names to avoid the following error on High
+Speed controller:
 
-You are right, Kconfig should be configured by the actual caller. Will fix in v6.
+usb@a200000: interrupt-names: ['dwc_usb3', 'pwr_event', 'dp_hs_phy_irq', 'dm_hs_phy_irq'] is too short
 
+Fixes: 6e762f7b8edc ("dt-bindings: usb: Introduce qcom,snps-dwc3")
+Cc: stable@vger.kernel.org
+Signed-off-by: Krishna Kurapati <krishna.kurapati@oss.qualcomm.com>
+---
+Changes in v2:
+Added fixes tag and put error log in one line.
 
->
->> +	if (IS_ERR(alt->hpd_dev))
->> +		alt->hpd_dev = NULL;
->> +}
->> +
->>   static struct typec_altmode *
->>   typec_register_altmode(struct device *parent,
->>   		       const struct typec_altmode_desc *desc)
+Link to v1:
+https://lore.kernel.org/all/20251013011357.732151-1-krishna.kurapati@oss.qualcomm.com/
 
+ Documentation/devicetree/bindings/usb/qcom,snps-dwc3.yaml | 3 +++
+ 1 file changed, 3 insertions(+)
+
+diff --git a/Documentation/devicetree/bindings/usb/qcom,snps-dwc3.yaml b/Documentation/devicetree/bindings/usb/qcom,snps-dwc3.yaml
+index dfd084ed9024..d49a58d5478f 100644
+--- a/Documentation/devicetree/bindings/usb/qcom,snps-dwc3.yaml
++++ b/Documentation/devicetree/bindings/usb/qcom,snps-dwc3.yaml
+@@ -68,6 +68,7 @@ properties:
+           - qcom,sm8550-dwc3
+           - qcom,sm8650-dwc3
+           - qcom,x1e80100-dwc3
++          - qcom,x1e80100-dwc3-mp
+       - const: qcom,snps-dwc3
+ 
+   reg:
+@@ -460,8 +461,10 @@ allOf:
+     then:
+       properties:
+         interrupts:
++          minItems: 4
+           maxItems: 5
+         interrupt-names:
++          minItems: 4
+           items:
+             - const: dwc_usb3
+             - const: pwr_event
 -- 
-Best,
-Chaoyi
+2.34.1
 
