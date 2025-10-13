@@ -1,127 +1,182 @@
-Received: from mail-yx1-f45.google.com (mail-yx1-f45.google.com [74.125.224.45])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9E471213E6D
-	for <linux-usb@vger.kernel.org>; Mon, 13 Oct 2025 15:43:16 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.224.45
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4EC9A30C603;
+	Mon, 13 Oct 2025 16:03:58 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1760370199; cv=none; b=BCDWDo8pSo4lpjzrx/VN44dJOEXuR6sEXcHL/XJXHrGXDkJUahnTywrNQlVInY6GRBixevp+Cqek+Wb2Rwpkn5W0Afp1/lOsiyEdjYWfsY2Y/cuLqtNJ5r8cAc9mUfX9UIPdz4heSuzerZianFVMtdjgzinK7e9vtU9c9dtQo1U=
+	t=1760371438; cv=none; b=bt8kKf8O9fe8VZxFI+WjgV+SKOSy8J9FkR4yDVPkN4s4dNukpxDWnih9Q5phshvqBATu7Ci8XiwmGyp2NXcpGKNe5S9CzAn1aT8T340oBsbtfWg+XB+OfmBpcuw1dDMZ48sJ21lTZ/KuMr5aNRWeOzyg7+ohkTBYTbLuslWu5/Q=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1760370199; c=relaxed/simple;
-	bh=rIkJZkEluyPo2VWs/yksi6k4Tjq+6xbPUN1bXP0l8SM=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=K0VzooQOREL5w/gCMAnTVXfxnNFT6E3ItdHk/R/tAmF18RgoXw0/At/tCO0eFMCoP6MBd64LFLDqIb0u9FhnwC0MEdZRDTgI4xu9DgQG+k42e2t7xrNdaIxBvPqOgXi7XeprhpN2H9e4hK5L13zAj69NRwmKB29f17b8lv98ka8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=nPXDn8JT; arc=none smtp.client-ip=74.125.224.45
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1760371438; c=relaxed/simple;
+	bh=z/OSrLCIdtmRJvitAMSoC1V/ZcKkiBQ7+CQlgJR3nQ4=;
+	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
+	 In-Reply-To:To:Cc; b=GJytM+VpuP0KyuOFdQUKQMGWfWchEQxf//7raf14C+ZscNLnp2U92K4vVM/HwmHd+F8FIacOb4JLkRVaJk/nDhb5MCJTv7jipSwKTjFTSzzhpyEYYSyeRK53bdZH5PUt0Vi1TK39EAgVfbukCcr2RYLjTTIfYOyqs0+P/3qtqt0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Fl0aqPEr; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="nPXDn8JT"
-Received: by mail-yx1-f45.google.com with SMTP id 956f58d0204a3-63b710f276fso4410497d50.1
-        for <linux-usb@vger.kernel.org>; Mon, 13 Oct 2025 08:43:16 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1760370195; x=1760974995; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=rIkJZkEluyPo2VWs/yksi6k4Tjq+6xbPUN1bXP0l8SM=;
-        b=nPXDn8JTtlzS1VPH0beF1zDGPw/Kn/bysoOmiKJf8qulbZqoRgrZsJL02D8ohtUb+8
-         UJIxuKTfjTS/u2CKZgWvMC5cowGark17akuK6iAkcVHHJaWHoRgfkkwpGAReqEXnQh31
-         YO7wT5Jrb1HABteWS4E35NNlGvwZ2QCledBcxAEyAbBTDZy9jYx1hv/PeNgQx3omCpdb
-         IVF/wuuk/B9dJ+2sRGjlcgTwHf2DGBrfPNG14A8UpySscSSrp8IgZ/aWR+9KBry0K1YK
-         afwGGBZX5DKIIF5uqMq5ncRRJTA7lEgZBrKQnLEPsmZ0vtzQbWsUKDhWV/CeErldpAsI
-         /HeA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1760370195; x=1760974995;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=rIkJZkEluyPo2VWs/yksi6k4Tjq+6xbPUN1bXP0l8SM=;
-        b=TXcsQvHX9H5a1PZxExxRBjgZ8UmceZuitzhTM9a8xK5hnusznLBt1rl0T1MFwEn9eL
-         6zTHYlQXZziH5PmNA0AOA1q0e+CiVvlsvUMnlbxfejqErBft5EW1JQRVg/Gzc3xKGt6q
-         7OI12Oxebqk3YndIOx1HrgZEX4BvV43/41+Wpyc+z73ArlSalF050byIzi65z0VzQZ2W
-         8jd4QvKAEEh0yGy3yo1wYVc7eEDoF5hBLZ47V78H8j2FnDLr3hp6gtFqB8uuivTadJKb
-         xSbT7CZyWItwBGEhF+/LUKAw2sx9dV4que9oH2Poje27hbHTQsz2tFogg3aZ7LCz+QiM
-         HvYQ==
-X-Forwarded-Encrypted: i=1; AJvYcCV6Hj96tJywieFdPHGZhFuAKrwnIYBmPj5OTjrqq1Gs4pwnJtRLoc+vv3uRIwWQ1Fh9tax3dIpv14o=@vger.kernel.org
-X-Gm-Message-State: AOJu0Yw1BQ8eljMbQVmClXEx1myQrr7EWgxH3mRr3+OKteVw1gxCz1Oq
-	ncWgICkNszsnWhvpCaatOs7kikLndnZgXu6HIEBf3YhuaZENwcn9gqscIWmJ6+tJwAgBd1PgnmR
-	Hnr2Rnup5ajs1yTW3sA/nW84JSQA166E=
-X-Gm-Gg: ASbGncsQkdzRs51czSqzT9na8SbVlBAJhOVUWRVcFDkH0KVQQIfAQ6KXBFQA5OUlZL1
-	KStR8Mwp/mSmOeEF8P9v7B9SMt17iYx1TXQvu0rS7aWhaniUR8pIlGTxGppHHBSFUTa3EDHc4Ya
-	FPuH7xfh3xw5ld+q+dvvva9rMl7VDV2IM+ZLp8hiD2rPAoGhEua3xN/XEjBAjCaoU++jvJhdYGp
-	ROOCCQA293+qMFPScl7f1m93IMJNrzqT3o6iZ40hMhcF7JcL8zVqVuv7JSlmRwJDIis2Ib8/F2O
-	9cySPcmmnjh29rQDtUqQc73FQo6E1hmsz6zt
-X-Google-Smtp-Source: AGHT+IGvkl8C+OsIAcsnhtLiNAfhYmbVvPmpSMn5KlkC4kFXG36BsQ2KQosEGuyT5OsgvgqKqwcwRx/Tpr5F2BY/eDM=
-X-Received: by 2002:a05:690e:250f:10b0:63c:eef0:221d with SMTP id
- 956f58d0204a3-63ceef047camr8693129d50.48.1760370195420; Mon, 13 Oct 2025
- 08:43:15 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Fl0aqPEr"
+Received: by smtp.kernel.org (Postfix) with ESMTPS id EFF74C116B1;
+	Mon, 13 Oct 2025 16:03:57 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1760371438;
+	bh=z/OSrLCIdtmRJvitAMSoC1V/ZcKkiBQ7+CQlgJR3nQ4=;
+	h=From:Date:Subject:References:In-Reply-To:To:Cc:From;
+	b=Fl0aqPErkVW14o7xQ6K2Ak8ZjFqCTZEf0HlOb98c7a0rJPv8SVW5qVegVCv2/JnMq
+	 E3YXshFL83zhgF0g2dd1VVeUWFvFvFbhcztLC4sTb+i7XzJ5aREqLdSzE3iPVUa6JQ
+	 ilVVBIBJAQuTDtbrfATuELgnD78aUuF5/wG6o5GaMYvOHP+5cgXwzWxmNQb7+XRGu6
+	 xkXaVkhAUOCLSLi6bYdskKfFxvpjZYuvUPNPkwoZU1LcOYp3LnezOqLlI5tIbwu1nT
+	 JXZqZQiDiqzVgSpuH2FfPjyNvot6zbAZRxCkJoxfqu0vDW5Mea1VABcEiN8hTWaG5F
+	 8a6kvf6lyWIOg==
+Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
+	by smtp.lore.kernel.org (Postfix) with ESMTP id DEF4CCCD18E;
+	Mon, 13 Oct 2025 16:03:57 +0000 (UTC)
+From: Sven Peter <sven@kernel.org>
+Date: Mon, 13 Oct 2025 16:03:25 +0000
+Subject: [PATCH 1/5] dt-bindings: usb: Add Apple dwc3
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <CAMMLpeRU72CMxHdF-rO9y1Nvzj9nPnuQTOZWcCrM4fOJ1byacw@mail.gmail.com>
- <2025101243-ongoing-truce-3aa5@gregkh> <CAMMLpeRrO_E3_c98OB9XvpiGNjhTetrw2ucFyaq5BByPWh58SA@mail.gmail.com>
- <2025101238-mastiff-decibel-4b4f@gregkh> <CAMMLpeQvb1SJ=_kC+N1pGHkh36yrORJq+Der7fDzPj_urzefow@mail.gmail.com>
- <194258bf-e78c-46b8-8229-3b019f2b8ab0@suse.com> <aOzYzH01b39gjIDP@suse.com>
-In-Reply-To: <aOzYzH01b39gjIDP@suse.com>
-From: Alex Henrie <alexhenrie24@gmail.com>
-Date: Mon, 13 Oct 2025 09:42:38 -0600
-X-Gm-Features: AS18NWCZwaElDN_UEYWWWGmhU1JzZGoSUtF7qwa3kbe_oUZxG4pbzS-nVeKLmbU
-Message-ID: <CAMMLpeTZxLCK2sh0qpHoFzHCrntc-vLSWqJJUjicS2xRR2AdNw@mail.gmail.com>
-Subject: Re: ttyACM versus ttyUSB
-To: Vojtech Pavlik <vojtech@suse.com>
-Cc: Oliver Neukum <oneukum@suse.com>, Greg KH <gregkh@linuxfoundation.org>, 
-	linux-usb@vger.kernel.org, Johan Hovold <johan@kernel.org>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+Message-Id: <20251013-b4-aplpe-dwc3-v1-1-12a78000c014@kernel.org>
+References: <20251013-b4-aplpe-dwc3-v1-0-12a78000c014@kernel.org>
+In-Reply-To: <20251013-b4-aplpe-dwc3-v1-0-12a78000c014@kernel.org>
+To: Janne Grunau <j@jannau.net>, Neal Gompa <neal@gompa.dev>, 
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>, 
+ Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>, 
+ Conor Dooley <conor+dt@kernel.org>, 
+ Thinh Nguyen <Thinh.Nguyen@synopsys.com>, 
+ Philipp Zabel <p.zabel@pengutronix.de>
+Cc: asahi@lists.linux.dev, linux-arm-kernel@lists.infradead.org, 
+ linux-usb@vger.kernel.org, devicetree@vger.kernel.org, 
+ linux-kernel@vger.kernel.org, Sven Peter <sven@kernel.org>, 
+ Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+X-Mailer: b4 0.14.2
+X-Developer-Signature: v=1; a=openpgp-sha256; l=3194; i=sven@kernel.org;
+ h=from:subject:message-id;
+ bh=z/OSrLCIdtmRJvitAMSoC1V/ZcKkiBQ7+CQlgJR3nQ4=;
+ b=owGbwMvMwCHmIlirolUq95LxtFoSQ8Zbpccz9skv/7P7evUj9/3eN09drrF6fvLsnTceX5qnG
+ M+asmPpy45SFgYxDgZZMUWW7fvtTZ88fCO4dNOl9zBzWJlAhjBwcQrARAy8Gf7Xai0MeXTJam+Z
+ ieivNVYa5yYdPLF49uZJSt9POjYGGKyVZPjD0bVG/wLTh+Qd/q9ElDZP/NRx85Cq9jGjRMsis6U
+ ZFZV8AA==
+X-Developer-Key: i=sven@kernel.org; a=openpgp;
+ fpr=A1E3E34A2B3C820DBC4955E5993B08092F131F93
+X-Endpoint-Received: by B4 Relay for sven@kernel.org/default with
+ auth_id=407
 
-On Mon, Oct 13, 2025 at 4:47=E2=80=AFAM Vojtech Pavlik <vojtech@suse.com> w=
-rote:
->
-> On Mon, Oct 13, 2025 at 11:28:59AM +0200, Oliver Neukum wrote:
-> > On 12.10.25 21:01, Alex Henrie wrote:
-> >
-> > > I did notice that the ACM protocol has no way to set the baud rate or
-> > > read the CTS line and I wondered if those limitations were the reason
-> > > for keeping its driver separate. Today there are ttyUSB drivers that
-> > > likewise have limitations on the baud rate and the flow control lines
-> > > (some are even based on ACM), but they weren't around in 1999, so I
-> > > can see how the difference in capabilities would have been another
-> > > motivation for the difference in naming conventions.
-> >
-> > You could argue that ACM is intended to be a driver for a _modem_ ,
-> > not a serial line. In principle we are trying to propagate a layering
-> > violation that is so old that we no longer see it as a violation.
->
-> The ttyACM driver is also older than the ttyUSB driver.
->
-> And yes, indeed, USB CDC ACM was intended as a class for USB modems, not
-> for serial ports, so it doesn't directly support pin twiddling.
->
-> One would assume that baud rate setting would also be unnecessary in
-> this usecase, yet, surprisingly enough, many of the early USB modems
-> absolutely failed to work unless a baud rate was explicitly set.
-> (USB_CDC_REQ_SET_LINE_CODING)
+Apple Silicon uses Synopsys DesignWare dwc3 based USB controllers for
+their Type-C ports.
 
-Oh, so there is a way to set the baud rate in ACM after all! I'm
-flabbergasted that I missed that. What exactly are the limitations of
-the ACM protocol compared to the vendor protocols then? It looks to me
-like there's no way to turn hardware flow control on or off, and
-there's no way to query the state of the CTS line. If the only
-differences in capabilities have to do with hardware flow control,
-that seems really minor in light of the fact that many serial devices
-don't have hardware flow control lines at all.
+Reviewed-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+Reviewed-by: Neal Gompa <neal@gompa.dev>
+Signed-off-by: Sven Peter <sven@kernel.org>
+---
+ .../devicetree/bindings/usb/apple,dwc3.yaml        | 80 ++++++++++++++++++++++
+ MAINTAINERS                                        |  1 +
+ 2 files changed, 81 insertions(+)
 
-> Today, some USB-serial chips have the ACM protocol, so perhaps it would
-> make sense to merge the drivers, I certainly would not object.
+diff --git a/Documentation/devicetree/bindings/usb/apple,dwc3.yaml b/Documentation/devicetree/bindings/usb/apple,dwc3.yaml
+new file mode 100644
+index 0000000000000000000000000000000000000000..f70c33f32c5d6172224c524fe8e7218071eb4e9b
+--- /dev/null
++++ b/Documentation/devicetree/bindings/usb/apple,dwc3.yaml
+@@ -0,0 +1,80 @@
++# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
++%YAML 1.2
++---
++$id: http://devicetree.org/schemas/usb/apple,dwc3.yaml#
++$schema: http://devicetree.org/meta-schemas/core.yaml#
++
++title: Apple Silicon DWC3 USB controller
++
++maintainers:
++  - Sven Peter <sven@kernel.org>
++
++description:
++  Apple Silicon SoCs use a Synopsys DesignWare DWC3 based controller for each of
++  their Type-C ports.
++
++allOf:
++  - $ref: snps,dwc3-common.yaml#
++
++properties:
++  compatible:
++    oneOf:
++      - items:
++          - enum:
++              - apple,t6000-dwc3
++              - apple,t6020-dwc3
++              - apple,t8112-dwc3
++          - const: apple,t8103-dwc3
++      - const: apple,t8103-dwc3
++
++  reg:
++    items:
++      - description: Core DWC3 region
++      - description: Apple-specific DWC3 region
++
++  reg-names:
++    items:
++      - const: dwc3-core
++      - const: dwc3-apple
++
++  interrupts:
++    maxItems: 1
++
++  iommus:
++    maxItems: 2
++
++  resets:
++    maxItems: 1
++
++  power-domains:
++    maxItems: 1
++
++required:
++  - compatible
++  - reg
++  - reg-names
++  - interrupts
++  - iommus
++  - resets
++  - power-domains
++  - usb-role-switch
++
++unevaluatedProperties: false
++
++examples:
++  - |
++    #include <dt-bindings/interrupt-controller/apple-aic.h>
++    #include <dt-bindings/interrupt-controller/irq.h>
++
++    usb@82280000 {
++      compatible = "apple,t8103-dwc3";
++      reg = <0x82280000 0xcd00>, <0x8228cd00 0x3200>;
++      reg-names = "dwc3-core", "dwc3-apple";
++      interrupts = <AIC_IRQ 777 IRQ_TYPE_LEVEL_HIGH>;
++      iommus = <&dwc3_0_dart_0 0>, <&dwc3_0_dart_1 1>;
++
++      power-domains = <&ps_atc0_usb>;
++      resets = <&atcphy0>;
++
++      usb-role-switch;
++    };
+diff --git a/MAINTAINERS b/MAINTAINERS
+index 46126ce2f968e4f9260263f1574ee29f5ff0de1c..fa238b5371b9c5942dc89ec4fa6b1d28e2d4dda3 100644
+--- a/MAINTAINERS
++++ b/MAINTAINERS
+@@ -2437,6 +2437,7 @@ F:	Documentation/devicetree/bindings/power/reset/apple,smc-reboot.yaml
+ F:	Documentation/devicetree/bindings/pwm/apple,s5l-fpwm.yaml
+ F:	Documentation/devicetree/bindings/spi/apple,spi.yaml
+ F:	Documentation/devicetree/bindings/spmi/apple,spmi.yaml
++F:	Documentation/devicetree/bindings/usb/apple,dwc3.yaml
+ F:	Documentation/devicetree/bindings/watchdog/apple,wdt.yaml
+ F:	arch/arm64/boot/dts/apple/
+ F:	drivers/bluetooth/hci_bcm4377.c
 
-It is definitely confusing to have to think about whether your USB
-serial device is going to appear as /dev/ttyUSB* or /dev/ttyACM*. On
-the other hand, if we renamed the ttyACM device nodes to ttyUSB to
-reflect the fact that ACM is just another USB serial protocol, how
-many things would that break? In general I like making things make
-sense, but I'm hesitant to be the one to pull the trigger.
+-- 
+2.34.1
 
--Alex
+
