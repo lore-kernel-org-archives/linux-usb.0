@@ -1,26 +1,26 @@
-Received: from mail-m19731101.qiye.163.com (mail-m19731101.qiye.163.com [220.197.31.101])
+Received: from mail-m1973177.qiye.163.com (mail-m1973177.qiye.163.com [220.197.31.77])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 879562EB878;
-	Mon, 13 Oct 2025 02:45:09 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=220.197.31.101
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 737A713B797;
+	Mon, 13 Oct 2025 03:53:46 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=220.197.31.77
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1760323514; cv=none; b=mJ0CovML1UvzQ0Es1NNFnl/tjm2eqDUHk7AI5UQAdpwB1CbkdARZ8qS1l6x62OU4AuL304sG5TluhVp/Yll2jRad3oyO0OAkPZfkb9jDg0K8nQ8+hLkFnsBWZGN8uSQlucGzn309/wIFk4nN5h69KuvqKSPafUvODDtxL67MQHs=
+	t=1760327631; cv=none; b=cCWDQgiiVr2KpAq5xxR2P8FMnkiaHXj3bPU1mHmkB03NvvnbY626inNVg12QtAPXNPKdkb9HW5W/0iqmTnjl94SFRXZPR3n1tWtuJpzWlbQsWX3MCvVJmGSBBsjmGL7/ibNZwNkyGHfMZJYj0DbS5Ipq5jVXWD37OPjK28xiZWQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1760323514; c=relaxed/simple;
-	bh=j+eYq0ONyL/EDb4wrBYDsyUoircdy+3fCu305WH7zMQ=;
+	s=arc-20240116; t=1760327631; c=relaxed/simple;
+	bh=PbAzsDLcpCjjU+ySuiE6iEnMNY0RjBPQ3C98WW1Xuig=;
 	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=g4/7CgzPt+UG/gbia2Og/AEY1q9j5TAZOv5PnH3VjPVohdqg1rwo8ilLeQ2OQ+/vwKGhudDIsDivpivZG6/GGpLnwBxFL6rRUWLELB5SufaEYgs7AWLRZRsVdDJ/KUvfY7KT4a3xrCDX9WbP94Xg91MIVePFCrPDNPKzu/9nEso=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=rock-chips.com; spf=pass smtp.mailfrom=rock-chips.com; dkim=pass (1024-bit key) header.d=rock-chips.com header.i=@rock-chips.com header.b=AdWLh2Zx; arc=none smtp.client-ip=220.197.31.101
+	 In-Reply-To:Content-Type; b=fE1T9u3P0fhw+PYKh+pIhDnXlSQvvgQzFXkREq3KWOPCH6+sW6av74VrHOB46qSLjysi7m59wsEBwB63m+KnjL6ng5lwLrZYbXQtSbgwBlToa4+fVl5qRn0nl9N+qpZ8oKyyZfwOL3ggbz5kHrbMdBGYebRs69UaQbrP+3N8sro=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=rock-chips.com; spf=pass smtp.mailfrom=rock-chips.com; dkim=pass (1024-bit key) header.d=rock-chips.com header.i=@rock-chips.com header.b=BtDpGjCh; arc=none smtp.client-ip=220.197.31.77
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=rock-chips.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=rock-chips.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=rock-chips.com header.i=@rock-chips.com header.b="AdWLh2Zx"
+	dkim=pass (1024-bit key) header.d=rock-chips.com header.i=@rock-chips.com header.b="BtDpGjCh"
 Received: from [127.0.0.1] (unknown [58.22.7.114])
-	by smtp.qiye.163.com (Hmail) with ESMTP id 25a6fe6cd;
-	Mon, 13 Oct 2025 10:44:59 +0800 (GMT+08:00)
-Message-ID: <ca57d854-efd1-42b8-9c25-33b01aaf1065@rock-chips.com>
-Date: Mon, 13 Oct 2025 10:44:53 +0800
+	by smtp.qiye.163.com (Hmail) with ESMTP id 25a425d33;
+	Mon, 13 Oct 2025 09:31:09 +0800 (GMT+08:00)
+Message-ID: <b0a41372-f28a-4e2f-9590-94fe2a86f7d8@rock-chips.com>
+Date: Mon, 13 Oct 2025 09:31:03 +0800
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
@@ -28,12 +28,12 @@ List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v5 6/8] drm/rockchip: cdn-dp: Add multiple bridges to
- support PHY port selection
-To: Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
-Cc: Chaoyi Chen <kernel@airkyi.com>, Rob Herring <robh@kernel.org>,
- Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley
- <conor+dt@kernel.org>, Vinod Koul <vkoul@kernel.org>,
+Subject: Re: [PATCH v5 1/8] usb: typec: Add default HPD device when register
+ DisplayPort altmode
+To: Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>,
+ Chaoyi Chen <kernel@airkyi.com>
+Cc: Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>,
+ Conor Dooley <conor+dt@kernel.org>, Vinod Koul <vkoul@kernel.org>,
  Kishon Vijay Abraham I <kishon@kernel.org>, Heiko Stuebner
  <heiko@sntech.de>, Sandy Huang <hjc@rock-chips.com>,
  Andy Yan <andy.yan@rock-chips.com>,
@@ -52,103 +52,74 @@ Cc: Chaoyi Chen <kernel@airkyi.com>, Rob Herring <robh@kernel.org>,
  linux-phy@lists.infradead.org, linux-arm-kernel@lists.infradead.org,
  linux-rockchip@lists.infradead.org, dri-devel@lists.freedesktop.org
 References: <20251011033233.97-1-kernel@airkyi.com>
- <20251011033233.97-7-kernel@airkyi.com>
- <qzcdulyj2enho7l6vyvad7ln46zk2u4z7rnsjv2nv4tbw5j6jf@6oenbixoh3sp>
- <08eb7560-c13e-462f-8110-d4ce5ccbd687@rock-chips.com>
- <6hilafgpdbsppeeib75b5uamwf22kbu4likcp64ahb4u7zehhw@c3mtlzwx7qcp>
+ <20251011033233.97-2-kernel@airkyi.com>
+ <4eizpzejw43gqt5jauvkeij65rracols2voa2osflwyjrwbvun@sovgqfuhg6mc>
 Content-Language: en-US
 From: Chaoyi Chen <chaoyi.chen@rock-chips.com>
-In-Reply-To: <6hilafgpdbsppeeib75b5uamwf22kbu4likcp64ahb4u7zehhw@c3mtlzwx7qcp>
+In-Reply-To: <4eizpzejw43gqt5jauvkeij65rracols2voa2osflwyjrwbvun@sovgqfuhg6mc>
 Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-X-HM-Tid: 0a99db74f55503abkunm46b4331dfb5aa5
+Content-Transfer-Encoding: 7bit
+X-HM-Tid: 0a99db315d3303abkunmf2c18e8ff96737
 X-HM-MType: 1
 X-HM-Spam-Status: e1kfGhgUHx5ZQUpXWQgPGg8OCBgUHx5ZQUlOS1dZFg8aDwILHllBWSg2Ly
-	tZV1koWUFDSUNOT01LS0k3V1ktWUFJV1kPCRoVCBIfWUFZGU9DT1ZLSh9DGB5DSU1PHRhWFRQJFh
-	oXVRMBExYaEhckFA4PWVdZGBILWUFZTkNVSUlVTFVKSk9ZV1kWGg8SFR0UWUFZT0tIVUpLSEpOTE
-	5VSktLVUpCS0tZBg++
+	tZV1koWUFDSUNOT01LS0k3V1ktWUFJV1kPCRoVCBIfWUFZQkgYS1ZIQh9LSU1ITEJJH0lWFRQJFh
+	oXVRMBExYaEhckFA4PWVdZGBILWUFZTkNVSUlVTFVKSk9ZV1kWGg8SFR0UWUFZT0tIVUpLSEpPSE
+	xVSktLVUpCS0tZBg++
 DKIM-Signature: a=rsa-sha256;
-	b=AdWLh2ZxxKiOLp3FP40kGgGqVwvx1gdP7V9lKWIjP1uZ1bP1cVXxZBe7R674SimMp6W9XjTp3k1sL4Y4mC1b2Tjon4D2FK/n3+hxe4yewtMaYcMzx4TUe2PVgFCMh/I3Y2biNL2Oxw6oAAzt8A4GFeVT1kuJjMutM7t4ZkQC9pY=; s=default; c=relaxed/relaxed; d=rock-chips.com; v=1;
-	bh=HvpR+5epSgdAGZf25SgOvURV9dCVLjxkFsGadPU1WfE=;
+	b=BtDpGjChpSP48XE1NKo9jcl4Ni8DKvg9gZwmx1ejEbB52Pfa+kRYrhK7oEn5aQ5AakDYb/7RggtO5dn567l+twFPbz45HrVLLzoOI81hMA76pKtG8j7aBsmYKJIDji/YO4B/Lud3EvzLmEHni0K6Bgrj0VWBL7P9W8ve4ol9ntw=; s=default; c=relaxed/relaxed; d=rock-chips.com; v=1;
+	bh=FbJ61tTmug1JcWEYVwCZO9erg1Aurz+LDUFUiiNDiT4=;
 	h=date:mime-version:subject:message-id:from;
 
-On 10/13/2025 10:11 AM, Dmitry Baryshkov wrote:
+On 10/12/2025 12:51 AM, Dmitry Baryshkov wrote:
 
-> On Mon, Oct 13, 2025 at 09:26:06AM +0800, Chaoyi Chen wrote:
->> On 10/12/2025 2:52 AM, Dmitry Baryshkov wrote:
+> On Sat, Oct 11, 2025 at 11:32:26AM +0800, Chaoyi Chen wrote:
+>> From: Chaoyi Chen <chaoyi.chen@rock-chips.com>
 >>
->>> On Sat, Oct 11, 2025 at 11:32:31AM +0800, Chaoyi Chen wrote:
->>>> From: Chaoyi Chen <chaoyi.chen@rock-chips.com>
->>>>
->>>> The RK3399 has two USB/DP combo PHY and one CDN-DP controller. And
->>>> the CDN-DP can be switched to output to one of the PHYs. If both ports
->>>> are plugged into DP, DP will select the first port for output.
->>>>
->>>> This patch adds support for multiple bridges, enabling users to flexibly
->>>> select the output port. For each PHY port, a separate encoder and bridge
->>>> are registered.
->>>>
->>>> The change is based on the DRM AUX HPD bridge, rather than the
->>>> extcon approach. This requires the DT to correctly describe the
->>>> connections between the first bridge in bridge chain and DP
->>>> controller. For example, the bridge chain may be like this:
->>>>
->>>> PHY aux birdge -> fsa4480 analog audio switch bridge ->
->>>> onnn,nb7vpq904m USB reminder bridge -> USB-C controller AUX HPD bridge
->>>>
->>>> In this case, the connection relationships among the PHY aux bridge
->>>> and the DP contorller need to be described in DT.
->>>>
->>>> In addition, the cdn_dp_parse_hpd_bridge_dt() will parses it and
->>>> determines whether to register one or two bridges.
->>>>
->>>> Since there is only one DP controller, only one of the PHY ports can
->>>> output at a time. The key is how to switch between different PHYs,
->>>> which is handled by cdn_dp_switch_port() and cdn_dp_enable().
->>>>
->>>> There are two cases:
->>>>
->>>> 1. Neither bridge is enabled. In this case, both bridges can
->>>> independently read the EDID, and the PHY port may switch before
->>>> reading the EDID.
->>>>
->>>> 2. One bridge is already enabled. In this case, other bridges are not
->>>> allowed to read the EDID. So we will try to return the cached EDID.
->>>>
->>>> Since the scenario of two ports plug in at the same time is rare,
->>>> I don't have a board which support two TypeC connector to test this.
->>>> Therefore, I tested forced switching on a single PHY port, as well as
->>>> output using a fake PHY port alongside a real PHY port.
->>>>
->>>> Signed-off-by: Chaoyi Chen <chaoyi.chen@rock-chips.com>
->>>> ---
->>>>
->>>> +	/* One endpoint may correspond to one HPD bridge. */
->>>> +	for_each_of_graph_port_endpoint(port, dp_ep) {
->>>> +		struct device_node *phy_bridge_node __free(device_node) =
->>>> +			of_graph_get_remote_port_parent(dp_ep);
->>>> +
->>>> +		bridge = of_drm_find_bridge(phy_bridge_node);
->>>> +		if (!bridge) {
->>>> +			ret = -EPROBE_DEFER;
->>>> +			goto out;
->>>> +		}
->>>> +
->>>> +		dp->hpd_bridge_valid = true;
->>>> +		dp->hpd_bridge_list[count].bridge = bridge;
->>>> +		dp->hpd_bridge_list[count].parent = dp;
->>>> +		dp->hpd_bridge_list[count].id = count;
->>> This looks misnamed. They are not necessarily HPD bridges. There can be
->>> a random chain between your controller and the actual output / connector
->>> /etc.
->> Yes, and more precisely, this should be `pervious_bridge_list` . Will fix in v6.
-> I think the typical convention is around next_bridge, not previous.
+>> Add default DRM AUX HPD bridge device when register DisplayPort
+>> altmode. That makes it redundant for each Type-C driver to implement
+>> a similar registration process in embedded scenarios.
+>>
+>> Signed-off-by: Chaoyi Chen <chaoyi.chen@rock-chips.com>
+>> ---
+>>
+>> Changes in v5:
+>> - Remove the calls related to `drm_aux_hpd_bridge_notify()`.
+>> - Place the helper functions in the same compilation unit.
+>> - Add more comments about parent device.
+>>
+>>   drivers/usb/typec/class.c         | 26 ++++++++++++++++++++++++++
+>>   include/linux/usb/typec_altmode.h |  2 ++
+>>   2 files changed, 28 insertions(+)
+>>
+>>   
+>> +static void dp_altmode_hpd_device_register(struct typec_altmode *alt)
+>> +{
+>> +	if (alt->svid != USB_TYPEC_DP_SID)
+>> +		return;
+>> +
+>> +	/*
+>> +	 * alt->dev.parent->parent : USB-C controller device
+>> +	 * alt->dev.parent         : USB-C connector device
+>> +	 */
+>> +	alt->hpd_dev = drm_dp_hpd_bridge_register(alt->dev.parent->parent,
+>> +						  to_of_node(alt->dev.parent->fwnode));
+> You can not do this, unless you make TYPEC core:
+>
+> depends on DRM || DRM=n
+> select DRM_AUX_HPD_BRIDGE if DRM_BRIDGE && OF
 
-Oh, that's true.  Will fix this in v6.
+You are right, Kconfig should be configured by the actual caller. Will fix in v6.
 
 
 >
->
+>> +	if (IS_ERR(alt->hpd_dev))
+>> +		alt->hpd_dev = NULL;
+>> +}
+>> +
+>>   static struct typec_altmode *
+>>   typec_register_altmode(struct device *parent,
+>>   		       const struct typec_altmode_desc *desc)
+
 -- 
 Best,
 Chaoyi
