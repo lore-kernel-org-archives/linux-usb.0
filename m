@@ -1,78 +1,89 @@
-Received: from mail.tuxedocomputers.com (mail.tuxedocomputers.com [157.90.84.7])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 758423002B9;
-	Tue, 14 Oct 2025 15:41:00 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=157.90.84.7
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0E92512CD88;
+	Tue, 14 Oct 2025 16:07:21 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1760456464; cv=none; b=AGuR2evMBNuH2hAuHr7QEYW258rUHZQjZS2epCUdW3LqjMiXTy/0UGuGMN0TINlj+Yw8VknVF6f6Zo7CVwpTuBTtUsiBajmANHus38LUN4g9DnYh7zwooEeR3rYQg+rlRJh6TK2em5OET+Aqu0yTvB96v5yqMhybbcAXRAWWdYg=
+	t=1760458042; cv=none; b=rMmoCmBioKaGgNEhUpm9HtC0AOjtoc1AJYorOwL0toKOjXjiNh1v1vY3wCbX6UIBN8OC53AjJeiteoKpVLwBSAvf3gWiaKAq0AWAoTVkTayXDmdHuO6rscIq35Gx5q8J6GZJWFUn1dOtZEY+mtwmMHDempdqv6NX3rjO2Keh8CE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1760456464; c=relaxed/simple;
-	bh=8wBztog1o9RmEJQUw+rIcYfKQ+x7c1yrkIp9siSRrjI=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=umObgCUxq9V+VEtAGNv6n9k1Bnm5JAXY+qB50qsQadxUJnGsH0jOjnmFe6PdIXpBvYajd2Hb9Z+jb6hzioRIyJollb6+KdUjfhZVdQdjsKlrumKMh2Iqwg9KXWVByYkgY3igIW3eoBnz/7LBSzpYv6yGhfZ2Z3y/AkMRFpZM7IA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=tuxedocomputers.com; spf=pass smtp.mailfrom=tuxedocomputers.com; dkim=pass (1024-bit key) header.d=tuxedocomputers.com header.i=@tuxedocomputers.com header.b=jAtqjD12; arc=none smtp.client-ip=157.90.84.7
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=tuxedocomputers.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=tuxedocomputers.com
+	s=arc-20240116; t=1760458042; c=relaxed/simple;
+	bh=oGioMHVrYPjHthz7IOPAwGPjgyiAkYI633zr9YW6Tnk=;
+	h=From:Subject:Date:Message-Id:MIME-Version:Content-Type:To:Cc; b=RygGj27nSN0qLox469sO2NmHPDN+PKt8DvqP9eicUx9XLzf36+UPVU/ZPQIoZsLA4vQiYN3S2jhIDsi6CFCVdFzrTNSXw0UYyDlzWYJzerd9SMjL5HtJ3BVeN9LJmqiKS2tJskloYgtCSP5Q0jdmATYOTt5YahQ0lbiGJQHqlIs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=KeDeYIiH; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=tuxedocomputers.com header.i=@tuxedocomputers.com header.b="jAtqjD12"
-Received: from wse-pc.fritz.box (p508786f1.dip0.t-ipconnect.de [80.135.134.241])
-	(Authenticated sender: wse@tuxedocomputers.com)
-	by mail.tuxedocomputers.com (Postfix) with ESMTPA id CCEB12FC0071;
-	Tue, 14 Oct 2025 17:30:56 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=tuxedocomputers.com;
-	s=default; t=1760455857;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:
-	 content-transfer-encoding:content-transfer-encoding;
-	bh=8l/EM4ApjURTjIpcqPetumckaTRZoeff5AJN3jt7gjQ=;
-	b=jAtqjD12LgZ0V0TPWtsvO1YHTZrZtxBDLFyGi+74X+EAEug9Hp5T4sqNjO7LYZ5cSRsuYB
-	U2ZokIoiCqnuCQQjeU3haYyhNSImww1fT/E4x2mMVIRQDUAqRGP2Fc13jy0tUX7k43mSpS
-	o2NodgQHGtA/KbpVdtfBacQ6jDEeRmI=
-Authentication-Results: mail.tuxedocomputers.com;
-	auth=pass smtp.auth=wse@tuxedocomputers.com smtp.mailfrom=wse@tuxedocomputers.com
-From: Werner Sembach <wse@tuxedocomputers.com>
-To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-Cc: Tim Guttzeit <t.guttzeit@tuxedocomputers.com>,
-	Werner Sembach <wse@tuxedocomputers.com>,
-	linux-usb@vger.kernel.org,
-	linux-kernel@vger.kernel.org
-Subject: [PATCH] usb/core/quirks: Add Huawei ME906S to wakeup quirk.
-Date: Tue, 14 Oct 2025 17:30:05 +0200
-Message-ID: <20251014153049.91722-1-wse@tuxedocomputers.com>
-X-Mailer: git-send-email 2.43.0
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="KeDeYIiH"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id E8A00C4CEF9;
+	Tue, 14 Oct 2025 16:07:17 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1760458041;
+	bh=oGioMHVrYPjHthz7IOPAwGPjgyiAkYI633zr9YW6Tnk=;
+	h=From:Subject:Date:To:Cc:From;
+	b=KeDeYIiHLdAf36xlSHgGY9JJagx9XZCYzM7zfxse2XsjE/NjMvRJUN+lTZeghr7VJ
+	 Wqzr4aM+jU3KsjSh6YCvUkSHwqYExuLjjGKFhIs0I2Y9UIKNNZUUFXYpw+L7DHQK+n
+	 nyTZx5cfW0eX6nxBKZw0QaeYO74ld2y+/nVLqN9AwqJpCRE0zjbgIRR8MAVFQ3O9OW
+	 X0OkPQv60Zrwb+Ab4e2fHayHLXDpBrZKopchgzEAd4uCQkbnMEqQyYOifYul4rUvdf
+	 akvfjGrt3DoAwpwSmyRO5wdV/ErZfsKwFPYO4cha6/YQCZl6FdmPyUeFuBlzluWJH3
+	 +Z7tRQ3Y393hA==
+From: Konrad Dybcio <konradybcio@kernel.org>
+Subject: [PATCH 0/3] TBT3/USB4 support for PS8830
+Date: Tue, 14 Oct 2025 18:06:44 +0200
+Message-Id: <20251014-topic-ps883x_usb4-v1-0-e6adb1a4296e@oss.qualcomm.com>
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+X-B4-Tracking: v=1; b=H4sIABV17mgC/x3MTQqAIBBA4avErBP8K6KrRITpVLMpcSqE6O5Jy
+ 2/x3gOMiZChrx5IeBPTsReougK/uX1FQaEYtNSNkrIV5xHJi8hdZ/J08WyF0cF642bnvILSxYQ
+ L5f85jO/7AaDJagVjAAAA
+X-Change-ID: 20251006-topic-ps883x_usb4-32d4c3abaac1
+To: Heikki Krogerus <heikki.krogerus@linux.intel.com>, 
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+Cc: Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>, 
+ Bjorn Andersson <bjorn.andersson@oss.qualcomm.com>, 
+ Wesley Cheng <wesley.cheng@oss.qualcomm.com>, 
+ Jack Pham <jack.pham@oss.qualcomm.com>, 
+ Raghavendra Thoorpu <rthoorpu@qti.qualcomm.com>, linux-usb@vger.kernel.org, 
+ linux-kernel@vger.kernel.org, 
+ Konrad Dybcio <konrad.dybcio@oss.qualcomm.com>
+X-Mailer: b4 0.14.3
+X-Developer-Signature: v=1; a=ed25519-sha256; t=1760458037; l=993;
+ i=konrad.dybcio@oss.qualcomm.com; s=20230215; h=from:subject:message-id;
+ bh=oGioMHVrYPjHthz7IOPAwGPjgyiAkYI633zr9YW6Tnk=;
+ b=Z5mQj97v7KHFNVHEuSiRV9H2V+7lI4+9oDiItCkEU86p3pnCxxxyJFo9uakYYoZtym6le+2Jr
+ ZoEDH8kr1HoAKugR6t+jQBNNQDmCFJtM0S5TBt4ilNIbwnvGRAPVWHF
+X-Developer-Key: i=konrad.dybcio@oss.qualcomm.com; a=ed25519;
+ pk=iclgkYvtl2w05SSXO5EjjSYlhFKsJ+5OSZBjOkQuEms=
 
-From: Tim Guttzeit <t.guttzeit@tuxedocomputers.com>
+As the product page [1] states, the chip is actually capable of
+retiming USB4 and Thunderbolt 3 (4, even!) signals, while remaining
+spec-compliant.
 
-The list of Huawei LTE modules needing the quirk fixing spurious wakeups
-was missing the IDs of the Huawei ME906S module, therefore suspend did not
-work.
+This series reworks the driver a little and introduces support for the
+new aforementioned modes.
 
-Signed-off-by: Tim Guttzeit <t.guttzeit@tuxedocomputers.com>
-Signed-off-by: Werner Sembach <wse@tuxedocomputers.com>
+I carried Jack's Reviewed-by tags from an internal preview submission,
+which I hope is fine with everyone.
+
+Signed-off-by: Konrad Dybcio <konrad.dybcio@oss.qualcomm.com>
 ---
- drivers/usb/core/quirks.c | 2 ++
- 1 file changed, 2 insertions(+)
+Konrad Dybcio (3):
+      usb: typec: ps883x: Cache register settings, not Type-C mode
+      usb: typec: ps883x: Rework ps883x_set()
+      usb: typec: ps883x: Add USB4 mode and TBT3 altmode support
 
-diff --git a/drivers/usb/core/quirks.c b/drivers/usb/core/quirks.c
-index f5bc538753301..39fbbc31e9a41 100644
---- a/drivers/usb/core/quirks.c
-+++ b/drivers/usb/core/quirks.c
-@@ -469,6 +469,8 @@ static const struct usb_device_id usb_quirk_list[] = {
- 			USB_QUIRK_DISCONNECT_SUSPEND },
- 	{ USB_DEVICE(0x12d1, 0x15c3), .driver_info =
- 			USB_QUIRK_DISCONNECT_SUSPEND },
-+	{ USB_DEVICE(0x12d1, 0x15c1), .driver_info =
-+			USB_QUIRK_DISCONNECT_SUSPEND },
- 
- 	/* SKYMEDI USB_DRIVE */
- 	{ USB_DEVICE(0x1516, 0x8628), .driver_info = USB_QUIRK_RESET_RESUME },
+ drivers/usb/typec/mux/ps883x.c | 129 ++++++++++++++++++++++++++---------------
+ include/linux/usb/typec_tbt.h  |   1 +
+ 2 files changed, 83 insertions(+), 47 deletions(-)
+---
+base-commit: 52ba76324a9d7c39830c850999210a36ef023cde
+change-id: 20251006-topic-ps883x_usb4-32d4c3abaac1
+
+Best regards,
 -- 
-2.43.0
+Konrad Dybcio <konrad.dybcio@oss.qualcomm.com>
 
