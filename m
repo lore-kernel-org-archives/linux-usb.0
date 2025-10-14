@@ -1,72 +1,78 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail.tuxedocomputers.com (mail.tuxedocomputers.com [157.90.84.7])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4A964214204;
-	Tue, 14 Oct 2025 15:36:35 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 758423002B9;
+	Tue, 14 Oct 2025 15:41:00 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=157.90.84.7
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1760456195; cv=none; b=M5RwdK3YSy6CQegmcYtNbKp+/GKveZhrpvT0TOijDofjFugksB+2Fb3FqbFfMhptyqZF+m1Eko88yLJNM6hwDcRPxQ/mYDZ58luRZoWthuKYdLoXo9fS8OIstaHWtgHofJp6fTVT7UJnLpXibH66nJq9botbNwwUsuTNh68K794=
+	t=1760456464; cv=none; b=AGuR2evMBNuH2hAuHr7QEYW258rUHZQjZS2epCUdW3LqjMiXTy/0UGuGMN0TINlj+Yw8VknVF6f6Zo7CVwpTuBTtUsiBajmANHus38LUN4g9DnYh7zwooEeR3rYQg+rlRJh6TK2em5OET+Aqu0yTvB96v5yqMhybbcAXRAWWdYg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1760456195; c=relaxed/simple;
-	bh=VagKz2PhnbcBWgSFvGAIXlZmOza2o54TedTg9Ko6NIY=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=KbSKQodvfARGdowrNdni9lJG92h8y4bC5syZHwYRZb0USXIEw8jW0IThRbbV5ucG1cg8QCSHLoKbUYTMqkOxSfbGeZAQM9DrWKyjsVxcFlp2s+fCvBtXyUMQ/2IZcQJA7mHRyTlQ7WCIwiuLsufhy+Inu3Gfl/ICua4pXUG27xA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=k81eDsS7; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1760456464; c=relaxed/simple;
+	bh=8wBztog1o9RmEJQUw+rIcYfKQ+x7c1yrkIp9siSRrjI=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=umObgCUxq9V+VEtAGNv6n9k1Bnm5JAXY+qB50qsQadxUJnGsH0jOjnmFe6PdIXpBvYajd2Hb9Z+jb6hzioRIyJollb6+KdUjfhZVdQdjsKlrumKMh2Iqwg9KXWVByYkgY3igIW3eoBnz/7LBSzpYv6yGhfZ2Z3y/AkMRFpZM7IA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=tuxedocomputers.com; spf=pass smtp.mailfrom=tuxedocomputers.com; dkim=pass (1024-bit key) header.d=tuxedocomputers.com header.i=@tuxedocomputers.com header.b=jAtqjD12; arc=none smtp.client-ip=157.90.84.7
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=tuxedocomputers.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=tuxedocomputers.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="k81eDsS7"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 26F04C4CEE7;
-	Tue, 14 Oct 2025 15:36:35 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1760456195;
-	bh=VagKz2PhnbcBWgSFvGAIXlZmOza2o54TedTg9Ko6NIY=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=k81eDsS7Vsh3bkfaXfHRidHFpYhx3cWZ9Y8iIue/d1v7QK51HmYFVulPUfM82lkuB
-	 3IzrVbZOB5cLye2qh16cGLL1QVP5fceeAot7SMlg7eIZPvhQNMJxhi+QEK1mKII/5H
-	 pra3N6nUaxmVgVdJk4H9jpEU/4WiMHxh9VonFsBGRIKaVvnRi3G45048LjDtEs+quC
-	 icdagfycsqCqmbS3wse81LeoWt5K+E+hTvR2hmWItFVhKdqcpzqxJWOOkBl3KLsoUv
-	 +z84lsHV6HQKZ3Pl/lrdjPZuMSC8pvyOt7Th4ozxJG4QQ9r2DQSdazWSNrYM9pQYko
-	 6JsQCtfGmcYRQ==
-Received: from johan by xi.lan with local (Exim 4.98.2)
-	(envelope-from <johan@kernel.org>)
-	id 1v8h4j-000000004t8-44xk;
-	Tue, 14 Oct 2025 17:36:34 +0200
-Date: Tue, 14 Oct 2025 17:36:33 +0200
-From: Johan Hovold <johan@kernel.org>
-To: "Ji-Ze Hong (Peter Hong)" <peter_hong@fintek.com.tw>
-Cc: gregkh@linuxfoundation.org, linux-usb@vger.kernel.org,
-	linux-kernel@vger.kernel.org, tom_tsai@fintek.com.tw,
-	yu_chen@fintek.com.tw, hpeter+linux_kernel@gmail.com
-Subject: Re: [PATCH V1 1/1] USB: serial: f81232: fix incomplete serial port
- generation
-Message-ID: <aO5uAUknTLOWdvUY@hovoldconsulting.com>
-References: <20251008023858.227740-1-peter_hong@fintek.com.tw>
+	dkim=pass (1024-bit key) header.d=tuxedocomputers.com header.i=@tuxedocomputers.com header.b="jAtqjD12"
+Received: from wse-pc.fritz.box (p508786f1.dip0.t-ipconnect.de [80.135.134.241])
+	(Authenticated sender: wse@tuxedocomputers.com)
+	by mail.tuxedocomputers.com (Postfix) with ESMTPA id CCEB12FC0071;
+	Tue, 14 Oct 2025 17:30:56 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=tuxedocomputers.com;
+	s=default; t=1760455857;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:
+	 content-transfer-encoding:content-transfer-encoding;
+	bh=8l/EM4ApjURTjIpcqPetumckaTRZoeff5AJN3jt7gjQ=;
+	b=jAtqjD12LgZ0V0TPWtsvO1YHTZrZtxBDLFyGi+74X+EAEug9Hp5T4sqNjO7LYZ5cSRsuYB
+	U2ZokIoiCqnuCQQjeU3haYyhNSImww1fT/E4x2mMVIRQDUAqRGP2Fc13jy0tUX7k43mSpS
+	o2NodgQHGtA/KbpVdtfBacQ6jDEeRmI=
+Authentication-Results: mail.tuxedocomputers.com;
+	auth=pass smtp.auth=wse@tuxedocomputers.com smtp.mailfrom=wse@tuxedocomputers.com
+From: Werner Sembach <wse@tuxedocomputers.com>
+To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+Cc: Tim Guttzeit <t.guttzeit@tuxedocomputers.com>,
+	Werner Sembach <wse@tuxedocomputers.com>,
+	linux-usb@vger.kernel.org,
+	linux-kernel@vger.kernel.org
+Subject: [PATCH] usb/core/quirks: Add Huawei ME906S to wakeup quirk.
+Date: Tue, 14 Oct 2025 17:30:05 +0200
+Message-ID: <20251014153049.91722-1-wse@tuxedocomputers.com>
+X-Mailer: git-send-email 2.43.0
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20251008023858.227740-1-peter_hong@fintek.com.tw>
+Content-Transfer-Encoding: 8bit
 
-On Wed, Oct 08, 2025 at 10:38:58AM +0800, Ji-Ze Hong (Peter Hong) wrote:
-> The Fintek F81532A/534A/535/536 family relies on the
-> F81534A_CTRL_CMD_ENABLE_PORT (116h) register during initialization to
-> both determine serial port status and control port creation. If the
-> driver experiences fast load/unload cycles, the device state may becomes
-> unstable, resulting in the incomplete generation of serial ports.
+From: Tim Guttzeit <t.guttzeit@tuxedocomputers.com>
 
-Do I understand correctly that you're only seeing this issue if you're
-unloading and reloading the module (or rebinding the driver through
-sysfs)?
+The list of Huawei LTE modules needing the quirk fixing spurious wakeups
+was missing the IDs of the Huawei ME906S module, therefore suspend did not
+work.
 
-> Performing a dummy read operation on the register prior to the initial
-> write command resolves the issue. This clears the device's stale internal
-> state. Subsequent write operations will correctly generate all serial
-> ports.
+Signed-off-by: Tim Guttzeit <t.guttzeit@tuxedocomputers.com>
+Signed-off-by: Werner Sembach <wse@tuxedocomputers.com>
+---
+ drivers/usb/core/quirks.c | 2 ++
+ 1 file changed, 2 insertions(+)
 
-Does this mean that the retry loop is no longer needed? Can it now be
-removed in either or both accessor functions perhaps?
+diff --git a/drivers/usb/core/quirks.c b/drivers/usb/core/quirks.c
+index f5bc538753301..39fbbc31e9a41 100644
+--- a/drivers/usb/core/quirks.c
++++ b/drivers/usb/core/quirks.c
+@@ -469,6 +469,8 @@ static const struct usb_device_id usb_quirk_list[] = {
+ 			USB_QUIRK_DISCONNECT_SUSPEND },
+ 	{ USB_DEVICE(0x12d1, 0x15c3), .driver_info =
+ 			USB_QUIRK_DISCONNECT_SUSPEND },
++	{ USB_DEVICE(0x12d1, 0x15c1), .driver_info =
++			USB_QUIRK_DISCONNECT_SUSPEND },
+ 
+ 	/* SKYMEDI USB_DRIVE */
+ 	{ USB_DEVICE(0x1516, 0x8628), .driver_info = USB_QUIRK_RESET_RESUME },
+-- 
+2.43.0
 
-Johan
