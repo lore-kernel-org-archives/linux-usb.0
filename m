@@ -1,37 +1,37 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F1B2B327787;
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F1AAD326D77;
 	Wed, 15 Oct 2025 15:41:09 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1760542870; cv=none; b=u/V+jc77ns/pKoQK6RWm7s8DgwroYdzeZK42QaZy6FEXhyNTGUWtuRc/QIveBM5USTeLZ99G71TumDx+uDnbCD3ul8FLqglS1nuTrLYnSqSWnrqr1BrbKRBQfxUcEE/UOZ7x+FytvWD2XXV7UHkk0VmAQlVYZ0ykeWmLpiKvZ/k=
+	t=1760542870; cv=none; b=iLWTdO69DB40dI4ZBiCyHiaJrC0itmu7u9iouI86DA+Xs19BnO/ySRRoIAkuTPSMGCoAPDoPPusyffy013vw2+KNsU4xOoiBjhq5xSrfPbc4JaJJlwRtkxUSaKBrDLoCWXURiUnc6UxRkiQCq2BRoU4tevGXzo6LM/BCO+IDeJ0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
 	s=arc-20240116; t=1760542870; c=relaxed/simple;
-	bh=jDD1jxLWDqxUDxesIU9RCN0rgJCoWLFeBdfc8PLouSE=;
-	h=From:Subject:Date:Message-Id:MIME-Version:Content-Type:To:Cc; b=P28dcM5yaSB0TqhSH+DseitWmNDBBunuq+osu1HZgXefo54MNj/HtdmezkXmfWeEm0WX3VGCYJpoak/hFTTuhGCYRm1wlY5D1kii1P0fyPy+u5ljpBLdbuUGDo/6WXiO1JWxewkQ3uUzHZjHxi+zfWUT/+WtF0ucR3w553LOYQg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=a6vs4vGq; arc=none smtp.client-ip=10.30.226.201
+	bh=DMGFEJn/13K8pCwgFfOu2qPEs9uFdthFJZx/jrrxzCc=;
+	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
+	 In-Reply-To:To:Cc; b=ccUcioJfNn1UBScyk7Ah1jKGRpxTDA0XKH1kI2AW/YmyUwQM4r4jB+RLBrmjeiOB9Jr35PcPKzg0vNd5bnps7KmXT+/aUT68OtoxV3XsDfj98pSjyWWCqcMC/wzvSNQveJB3bar6+wo8X8Yb/It7cyYc8NKJO7go6J8XsGtG6vc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=UJKinHNk; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="a6vs4vGq"
-Received: by smtp.kernel.org (Postfix) with ESMTPS id 65AABC4CEF8;
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="UJKinHNk"
+Received: by smtp.kernel.org (Postfix) with ESMTPS id 8BC6FC16AAE;
 	Wed, 15 Oct 2025 15:41:09 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
 	s=k20201202; t=1760542869;
-	bh=jDD1jxLWDqxUDxesIU9RCN0rgJCoWLFeBdfc8PLouSE=;
-	h=From:Subject:Date:To:Cc:From;
-	b=a6vs4vGq03raDuXSgrQqg5hENlMl0xnf5Vu6aas3ObbKOIKH780VRpmv2+Y8Bbdfn
-	 bNrvL6vf0CU1rqSE1Ve16c/N6kxxBUsfrAhNLMkJfy0wU+bI9s4EA+ARuiyF2Fk09V
-	 KI6lYhh5w90WeblZDVIOHTI7LMo12jBWJr2yLnmyCItRdmTzhU6k14NzyLKIp94e1E
-	 4M9ywcK/GmxPEb+WprYIujw5IEKl54RcXLirNtIlZiydxf8uIxG2L7MvOW/5YVsR0s
-	 7Zev2ArYnDG1zp9ESpPS1axy/W0rUEsal8w3yYCITQjpTP3eHvlY2H1dg+1JR6NR9o
-	 +5W1t4DSUqJJA==
+	bh=DMGFEJn/13K8pCwgFfOu2qPEs9uFdthFJZx/jrrxzCc=;
+	h=From:Date:Subject:References:In-Reply-To:To:Cc:From;
+	b=UJKinHNkHuv/YhT9h/SGrKXTNHeypMG7qbLqNxoX0fSrT7IuLhQTp0nXMAEaUpRDH
+	 NKfhqiRX/PQmMR9iGrO7DII6VsPDc1nrmZbNxVi2mLgS2WUbHa5W2WVvpKsp4RWEf4
+	 X0J5PLWZKhoz0wO6/L3DsNqg+QJX0PxIZmTurWRpRn/AJ3JE6r0oV7jn7E8QJWqUMi
+	 ZCHJvZC3domSXaVe8SFs6cIoNF5Uzu6vE7eo9p2guRXeOzWtJFxThLjL73Wh549D6+
+	 Ea0Llu0HQGY30AC8Xp87Od31o2YcuF4jF59pcqjJbbiUgCZfcHTo3m6PigI9ealc8t
+	 V7q/t+apbVjzw==
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 596EBCCD199;
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 83AE4CCD19D;
 	Wed, 15 Oct 2025 15:41:09 +0000 (UTC)
 From: Sven Peter <sven@kernel.org>
-Subject: [PATCH usb-next v2 0/5] Apple Silicon USB3 support - dwc3
-Date: Wed, 15 Oct 2025 15:40:40 +0000
-Message-Id: <20251015-b4-aplpe-dwc3-v2-0-cbd65a2d511a@kernel.org>
+Date: Wed, 15 Oct 2025 15:40:43 +0000
+Subject: [PATCH usb-next v2 3/5] usb: dwc3: glue: Add documentation
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
@@ -40,11 +40,9 @@ List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-X-B4-Tracking: v=1; b=H4sIAHjA72gC/3WNQQ6CMBBFr0Jm7ZiZUoO44h6GBZQpNJJCWkQM4
- e427F2+vPz3d4gSnER4ZDsEWV10k0+gLhmYofG9oOsSgyJ1Y+IcW43NPM6C3cfkqG1REpeFZlt
- C2sxBrNvO3hPesUUv2wJ1MoOLyxS+59HKp//TXBkJWTXFnYgMsa5eEryM1yn0UB/H8QMSfIMRt
- QAAAA==
-X-Change-ID: 20251013-b4-aplpe-dwc3-4f79019741f9
+Message-Id: <20251015-b4-aplpe-dwc3-v2-3-cbd65a2d511a@kernel.org>
+References: <20251015-b4-aplpe-dwc3-v2-0-cbd65a2d511a@kernel.org>
+In-Reply-To: <20251015-b4-aplpe-dwc3-v2-0-cbd65a2d511a@kernel.org>
 To: Janne Grunau <j@jannau.net>, Neal Gompa <neal@gompa.dev>, 
  Greg Kroah-Hartman <gregkh@linuxfoundation.org>, 
  Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>, 
@@ -53,73 +51,74 @@ To: Janne Grunau <j@jannau.net>, Neal Gompa <neal@gompa.dev>,
  Philipp Zabel <p.zabel@pengutronix.de>
 Cc: asahi@lists.linux.dev, linux-arm-kernel@lists.infradead.org, 
  linux-usb@vger.kernel.org, devicetree@vger.kernel.org, 
- linux-kernel@vger.kernel.org, Sven Peter <sven@kernel.org>, 
- Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>, stable@kernel.org
+ linux-kernel@vger.kernel.org, Sven Peter <sven@kernel.org>
 X-Mailer: b4 0.14.2
-X-Developer-Signature: v=1; a=openpgp-sha256; l=2138; i=sven@kernel.org;
+X-Developer-Signature: v=1; a=openpgp-sha256; l=2162; i=sven@kernel.org;
  h=from:subject:message-id;
- bh=jDD1jxLWDqxUDxesIU9RCN0rgJCoWLFeBdfc8PLouSE=;
- b=owGbwMvMwCHmIlirolUq95LxtFoSQ8b7A93N2e//l16/ae2y5/XqqMWmLmbfWU6WG6zirWaUS
- e8Pkn/TUcrCIMbBICumyLJ9v73pk4dvBJduuvQeZg4rE8gQBi5OAZiIzl6G/56xG6JyT7r+iFV+
- 9Wvx5YgDi5+ntc2Y5ioaZ/TnaM/r6UsZGaY/errN7IaZ5rYq329vmDVmvvK5f2FC9dElvDN3GoY
- 7tLIBAA==
+ bh=DMGFEJn/13K8pCwgFfOu2qPEs9uFdthFJZx/jrrxzCc=;
+ b=owGbwMvMwCHmIlirolUq95LxtFoSQ8b7AxN27CuRbuBSvboh5cUa/m7xUK/kymuzX22YsPO2S
+ PY8rfS3HaUsDGIcDLJiiizb99ubPnn4RnDppkvvYeawMoEMYeDiFICJ7PJkZJh7crHvoRfbJvLK
+ Ts7JCK01Spd4G1ipwDij7rP/HlbBsAhGhjlvXxvVZnCWHE7kCr7OohSv/1JYjSntzOnLVwL2GHg
+ ycwEA
 X-Developer-Key: i=sven@kernel.org; a=openpgp;
  fpr=A1E3E34A2B3C820DBC4955E5993B08092F131F93
 X-Endpoint-Received: by B4 Relay for sven@kernel.org/default with
  auth_id=407
 
-Hi,
+We're about to add more exported functions to be used inside glue
+driver which will need more detailed documentation explaining how
+they must be used. Let's also add documentation for the functions
+already available.
 
-As discussed in v2 of the combined Apple Silicon USB3 support series
-this one only contains the dwc3 changes without the DTS changes.
-
-Changes since v1 of the dwc3-only series:
-- Link to v1: https://lore.kernel.org/r/20251013-b4-aplpe-dwc3-v1-0-12a78000c014@kernel.org
-- Rebased on usb-testing
-- Fixed a trivial merge conflict in glue.h regarding struct dwc3_properties
-- Added DWC3_DEFAULT_PROPERTIES to dwc3-apple.c
-- Added Thinh's Acks (thanks!)
-
-Link to v2 of the combined series: https://lore.kernel.org/asahi/20250906-atcphy-6-17-v2-0-52c348623ef6@kernel.org/
-Changes since v2 of that series:
-- Documented all functions in glue.h
-- Fixed a typo in the example for the dt-bindings
-- Added detailed documentation about how the dwc3 hardware needs to be
-  driven on this platform to the glue driver
-- Renamed dwc3_apple.mode to state and folded in the probe check into
-  the new DWC3_APPLE_PROBE_PENDING state
-- Collected tags
-
-Best,
-
-Sven
-
+Acked-by: Thinh Nguyen <Thinh.Nguyen@synopsys.com>
 Signed-off-by: Sven Peter <sven@kernel.org>
 ---
----
-Sven Peter (5):
-      dt-bindings: usb: Add Apple dwc3
-      usb: dwc3: dwc3_power_off_all_roothub_ports: Use ioremap_np when required
-      usb: dwc3: glue: Add documentation
-      usb: dwc3: glue: Allow more fine grained control over mode switches
-      usb: dwc3: Add Apple Silicon DWC3 glue layer driver
+ drivers/usb/dwc3/glue.h | 27 +++++++++++++++++++++++++++
+ 1 file changed, 27 insertions(+)
 
- .../devicetree/bindings/usb/apple,dwc3.yaml        |  80 ++++
- MAINTAINERS                                        |   2 +
- drivers/usb/dwc3/Kconfig                           |  11 +
- drivers/usb/dwc3/Makefile                          |   1 +
- drivers/usb/dwc3/core.c                            |  16 +-
- drivers/usb/dwc3/dwc3-apple.c                      | 489 +++++++++++++++++++++
- drivers/usb/dwc3/gadget.c                          |   2 +
- drivers/usb/dwc3/glue.h                            | 143 ++++++
- drivers/usb/dwc3/host.c                            |   7 +-
- 9 files changed, 745 insertions(+), 6 deletions(-)
----
-base-commit: 877c80dfbf788e57a3338627899033b7007037ee
-change-id: 20251013-b4-aplpe-dwc3-4f79019741f9
+diff --git a/drivers/usb/dwc3/glue.h b/drivers/usb/dwc3/glue.h
+index cc6e138bd9ef2500215aba665300e7638f3d5214..bef4d9d68558f130f36a9088d7bb3b1220e4c048 100644
+--- a/drivers/usb/dwc3/glue.h
++++ b/drivers/usb/dwc3/glue.h
+@@ -36,9 +36,36 @@ struct dwc3_probe_data {
+ 	struct dwc3_properties properties;
+ };
+ 
++/**
++ * dwc3_core_probe - Initialize the core dwc3 driver
++ * @data: Initialization and configuration parameters for the controller
++ *
++ * Initializes the DesignWare USB3 core driver by setting up resources,
++ * registering interrupts, performing hardware setup, and preparing
++ * the controller for operation in the appropriate mode (host, gadget,
++ * or OTG). This is the main initialization function called by glue
++ * layer drivers to set up the core controller.
++ *
++ * Return: 0 on success, negative error code on failure
++ */
+ int dwc3_core_probe(const struct dwc3_probe_data *data);
++
++/**
++ * dwc3_core_remove - Deinitialize and remove the core dwc3 driver
++ * @dwc: Pointer to DWC3 controller context
++ *
++ * Cleans up resources and disables the dwc3 core driver. This should be called
++ * during driver removal or when the glue layer needs to shut down the
++ * controller completely.
++ */
+ void dwc3_core_remove(struct dwc3 *dwc);
+ 
++/*
++ * The following callbacks are provided for glue drivers to call from their
++ * own pm callbacks provided in struct dev_pm_ops. Glue drivers can perform
++ * platform-specific work before or after calling these functions and delegate
++ * the core suspend/resume operations to the core driver.
++ */
+ int dwc3_runtime_suspend(struct dwc3 *dwc);
+ int dwc3_runtime_resume(struct dwc3 *dwc);
+ int dwc3_runtime_idle(struct dwc3 *dwc);
 
-Best regards,
 -- 
-Sven Peter <sven@kernel.org>
+2.34.1
 
 
