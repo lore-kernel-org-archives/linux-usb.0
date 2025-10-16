@@ -1,82 +1,213 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from smtpbg154.qq.com (smtpbg154.qq.com [15.184.224.54])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 283C9134BD;
-	Thu, 16 Oct 2025 01:30:21 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 46CBC946C;
+	Thu, 16 Oct 2025 02:28:22 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=15.184.224.54
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1760578222; cv=none; b=HwhX55uankCzUbKHuoKLuXfIa5fIDPsLsPz7aGqZFG2wd8iRBTKcG60Eah/aPA3JN5D+ikjNyqr6OofHBfY0VrJO9WJvBY4uo2cAFuA4m8tbg12q+eLBuH6HBgt9l1Wk0yeiNTZk8vedVmT9MGaFUQ8ijavDA0vrmLTyBYogjdY=
+	t=1760581708; cv=none; b=oD7jnGcMUHvfoRPW6cJPMK/lrhU+0DZB4SK4ojnqSXQF8VMcPhTvl3UZYZB2yTuaTVARpH5gKcljb53NFlT5j1STTunRtarGXSkp9KHnY64VY9XX2WcLZq3Rl6IDuaZKcVQf0PkVNUr7L6hXPeUaIo/xhoTq+wuvh0mXZ+XIC5E=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1760578222; c=relaxed/simple;
-	bh=qPAF4tCa5lAk3X9LnjPJR3cSn3nx/PwYPEI7ZMhNI2Q=;
-	h=Content-Type:MIME-Version:Subject:From:Message-Id:Date:References:
-	 In-Reply-To:To:Cc; b=LD6H+axcm53Y0eL7YGICsRwGSiQK35ayyt9RqTTCnoQx1tRKGNE5jfhlQuzL1Bi+8w7uok/GOJlxQ2JxBP3adIOGLO7OekMTEbfp48WFboDHvoGy8Ie0dbEuHe8gOhj6QBLxEyrK+jXiN9XP6GgWPSnE2ORO6WYOAHvaVkWAgYA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=fKLKWuRq; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1760581708; c=relaxed/simple;
+	bh=UElW6+tvG8/iKEmkoRcs7rVIPtVKGX/BFPBAupTKCEk=;
+	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References; b=m3Coe+TXTli2VAG4PBNhYOD7dLxEw2lXHnEPrZ0OIgwTRreYpGYKxLa3JCQNSz8hsILStFqk7Z3+5ArCLM3VtFvOsE9YC6qVR62N47lp9gmc3+aExZ4Ro7DT30B5wgDylomwMBVs5MQugkFnT6fet1/dHyG6GtwFPVKP5AfwsuY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=airkyi.com; spf=pass smtp.mailfrom=airkyi.com; dkim=pass (1024-bit key) header.d=airkyi.com header.i=@airkyi.com header.b=T73qDtJH; arc=none smtp.client-ip=15.184.224.54
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=airkyi.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=airkyi.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="fKLKWuRq"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 6D456C4CEF8;
-	Thu, 16 Oct 2025 01:30:21 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1760578221;
-	bh=qPAF4tCa5lAk3X9LnjPJR3cSn3nx/PwYPEI7ZMhNI2Q=;
-	h=Subject:From:Date:References:In-Reply-To:To:Cc:From;
-	b=fKLKWuRqhj2j39QB7g253OTrriaQvD33qAZnw9Sk67p1648+deWaX7XyonwYPwo4g
-	 WxyhgeT9X3sM48LeGfKp/sZYZ342AF73fPYFWBKfnhS0JsCJCq9zyarzHXq/AVWOFq
-	 rvvpPORWU6D2xy29ZJBSsief7W8RYoO7ph+IIe8uPll0hYlOy4aiq3zACT9tYDqzc4
-	 wxmA3/d7OlXBnAuvOTbqtRalM6lOkARsaqa1NoP05gaGd/8YIr/9LRPmQUW5AXscwI
-	 yvgufp1dB3fGIZ+MzkAuO+qLp2kMbPs2b2cFQwDanRgrZH56jcExur/APrToHa0UTg
-	 03YNFKy7J4RmQ==
-Received: from [10.30.226.235] (localhost [IPv6:::1])
-	by aws-us-west-2-korg-oddjob-rhel9-1.codeaurora.org (Postfix) with ESMTP id 33DF8380DBE9;
-	Thu, 16 Oct 2025 01:30:07 +0000 (UTC)
-Content-Type: text/plain; charset="utf-8"
+	dkim=pass (1024-bit key) header.d=airkyi.com header.i=@airkyi.com header.b="T73qDtJH"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=airkyi.com;
+	s=altu2504; t=1760581684;
+	bh=AlMiAnu04or0UGQaGW/qka23taZ4VUW7EHDn8WHbWS4=;
+	h=From:To:Subject:Date:Message-Id;
+	b=T73qDtJHdvfokrryu399G/b1QyU4IUWOoEfIlyCt1PiFhmANDZUv4tXuhqZPLSbDi
+	 3BrIU4YMNDkJpplWc+mEe1KPjO8JVIUrW1aeiPt9grdHfjyhFIzyZZLVuMAP23wuW/
+	 5f1iPtTTRiKbSGP6yaW7kJW/WwlohoGCi9gt24wc=
+X-QQ-mid: zesmtpgz1t1760581683t6699f087
+X-QQ-Originating-IP: dRL8Fgzddpf7C4ifv6ilM/yZbCupdu3op2UO1npiUEE=
+Received: from DESKTOP-8BT1A2O.localdomain ( [58.22.7.114])
+	by bizesmtp.qq.com (ESMTP) with 
+	id ; Thu, 16 Oct 2025 10:28:00 +0800 (CST)
+X-QQ-SSF: 0000000000000000000000000000000
+X-QQ-GoodBg: 0
+X-BIZMAIL-ID: 4592435285348485794
+From: Chaoyi Chen <kernel@airkyi.com>
+To: Rob Herring <robh@kernel.org>,
+	Krzysztof Kozlowski <krzk+dt@kernel.org>,
+	Conor Dooley <conor+dt@kernel.org>,
+	Vinod Koul <vkoul@kernel.org>,
+	Kishon Vijay Abraham I <kishon@kernel.org>,
+	Heiko Stuebner <heiko@sntech.de>,
+	Sandy Huang <hjc@rock-chips.com>,
+	Andy Yan <andy.yan@rock-chips.com>,
+	Yubing Zhang <yubing.zhang@rock-chips.com>,
+	Frank Wang <frank.wang@rock-chips.com>,
+	Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+	Maxime Ripard <mripard@kernel.org>,
+	Thomas Zimmermann <tzimmermann@suse.de>,
+	David Airlie <airlied@gmail.com>,
+	Simona Vetter <simona@ffwll.ch>,
+	Amit Sunil Dhamne <amitsd@google.com>,
+	Heikki Krogerus <heikki.krogerus@linux.intel.com>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	Chaoyi Chen <chaoyi.chen@rock-chips.com>,
+	Dragan Simic <dsimic@manjaro.org>,
+	Johan Jonker <jbx6244@gmail.com>,
+	Diederik de Haas <didi.debian@cknow.org>,
+	Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>,
+	Peter Robinson <pbrobinson@gmail.com>
+Cc: linux-usb@vger.kernel.org,
+	devicetree@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	linux-phy@lists.infradead.org,
+	linux-arm-kernel@lists.infradead.org,
+	linux-rockchip@lists.infradead.org,
+	dri-devel@lists.freedesktop.org
+Subject: [PATCH v6 1/8] usb: typec: Add default HPD device when register DisplayPort altmode
+Date: Thu, 16 Oct 2025 10:27:34 +0800
+Message-Id: <20251016022741.91-2-kernel@airkyi.com>
+X-Mailer: git-send-email 2.17.1
+In-Reply-To: <20251016022741.91-1-kernel@airkyi.com>
+References: <20251016022741.91-1-kernel@airkyi.com>
+X-QQ-SENDSIZE: 520
+Feedback-ID: zesmtpgz:airkyi.com:qybglogicsvrsz:qybglogicsvrsz4a-0
+X-QQ-XMAILINFO: NENrrmtYLi890+bHytffGpEWHX0V0f8DHxBLmeek2iRAzA6N7CwxZuJE
+	Xm+mYNomYPGRw0299yrm0+uOm8OOo7MToqEo2XlWweAwpIKFwawwLVxpu8q4W5QMSYeL6sU
+	WiqSNJxHA+FDJqBkEmfdR8i9+61ULclvTX+qpR+j14KaP0ssEFY63aohfnlu85MloxxOta+
+	ZFG7BJ0L0Y7jhQKSCdObIws8YiAeEzQWeZLGXo+/o/uICUod8lU0mEIfzdP82nxPD0tuWSc
+	7Y5v6PDjIzqS1zv+kGLn+Qzd10N+Qvmk0AymVr1W3nKFNkIC9KcDB9qcp9f/qZ5uB6VV2vf
+	amugJ6lG5KqQPdpdC4p+A9gLnM2OCR2Owsv5/xprtTNmdJ41ufio5dDiZ6mBJQUUX0KtW3O
+	d7xQy3gAI9dQXfvDh1vcvdaWVX9ir+MDMI4XY9D7fIIjq/llhf/9mNAf3Rcg8vLSiXPW/X1
+	PuCJFFm+q9Z8d2CSeMXW+Z8j+re1EUt0zqvlDp91aH8JoZ+FbKz0WQmKmof3IkueybC8BO1
+	hVjzbcxyxMJhzoekEWPT0ZdakJwpJZHijv3CX8Zr9OIyKj2095HCfih+hmyZ4qM5z5IwHki
+	oGIdJ3lNqgfBjUpjObpNZHW/2j2giP7uaEsiazX0bKBkDpPIyzdamR/TLQlkZPaDapXJxBc
+	Vlht+kDqGz9erALgV5QePZqbixn+KuRHNS+xCL/ulDxR9tGykYyi+qKsFLxhgQhZKtM2IiQ
+	xQTVIHfIvTnfUmryV7+762kftwD3DGZ9aJa3QkkMyUM+U4D27PRadIUaqwU476kgytEPuoh
+	y7JRB0GqyCQofdXg8jP+6g1oE5/kxC8ahj4gfJI5QhEfLB2jIQZygRct1D/E5XaXs/w9fAA
+	9xrwP0oHiB8u9BRope21qAPsgAAVjsN/s2gqAnYfJh794JYS1tUGz5U71HNIP2O6AlaWDAm
+	C4c9JYDlFfjZ4wmVN7Z21xZnGEJgXKehpA3adcWXIfQBoyjylRBztcXt0OiMX+Gmco0CgaD
+	I/9I1RapKyvH+Mf7gr
+X-QQ-XMRINFO: Nq+8W0+stu50PRdwbJxPCL0=
+X-QQ-RECHKSPAM: 0
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Subject: Re: [PATCH net v2] net: usb: lan78xx: fix use of improperly
- initialized
- dev->chipid in lan78xx_reset
-From: patchwork-bot+netdevbpf@kernel.org
-Message-Id: 
- <176057820601.1123450.11047692270273394800.git-patchwork-notify@kernel.org>
-Date: Thu, 16 Oct 2025 01:30:06 +0000
-References: <20251013181648.35153-1-viswanathiyyappan@gmail.com>
-In-Reply-To: <20251013181648.35153-1-viswanathiyyappan@gmail.com>
-To: I Viswanath <viswanathiyyappan@gmail.com>
-Cc: Thangaraj.S@microchip.com, Rengarajan.S@microchip.com,
- UNGLinuxDriver@microchip.com, andrew+netdev@lunn.ch, davem@davemloft.net,
- edumazet@google.com, kuba@kernel.org, pabeni@redhat.com,
- netdev@vger.kernel.org, linux-usb@vger.kernel.org,
- linux-kernel@vger.kernel.org, skhan@linuxfoundation.org,
- linux-kernel-mentees@lists.linux.dev, david.hunter.linux@gmail.com,
- khalid@kernel.org
 
-Hello:
+From: Chaoyi Chen <chaoyi.chen@rock-chips.com>
 
-This patch was applied to netdev/net.git (main)
-by Jakub Kicinski <kuba@kernel.org>:
+Add default DRM AUX HPD bridge device when register DisplayPort
+altmode. That makes it redundant for each Type-C driver to implement
+a similar registration process in embedded scenarios.
 
-On Mon, 13 Oct 2025 23:46:48 +0530 you wrote:
-> dev->chipid is used in lan78xx_init_mac_address before it's initialized:
-> 
-> lan78xx_reset() {
->     lan78xx_init_mac_address()
->         lan78xx_read_eeprom()
->             lan78xx_read_raw_eeprom() <- dev->chipid is used here
-> 
-> [...]
+Signed-off-by: Chaoyi Chen <chaoyi.chen@rock-chips.com>
+---
 
-Here is the summary with links:
-  - [net,v2] net: usb: lan78xx: fix use of improperly initialized dev->chipid in lan78xx_reset
-    https://git.kernel.org/netdev/net/c/8d93ff40d49d
+Changes in v6:
+- Fix depend in Kconfig.
 
-You are awesome, thank you!
+Changes in v5:
+- Remove the calls related to `drm_aux_hpd_bridge_notify()`.
+- Place the helper functions in the same compilation unit.
+- Add more comments about parent device.
+
+ drivers/usb/typec/Kconfig         |  2 ++
+ drivers/usb/typec/class.c         | 26 ++++++++++++++++++++++++++
+ include/linux/usb/typec_altmode.h |  2 ++
+ 3 files changed, 30 insertions(+)
+
+diff --git a/drivers/usb/typec/Kconfig b/drivers/usb/typec/Kconfig
+index 2f80c2792dbd..a6730fbb576b 100644
+--- a/drivers/usb/typec/Kconfig
++++ b/drivers/usb/typec/Kconfig
+@@ -2,6 +2,8 @@
+ 
+ menuconfig TYPEC
+ 	tristate "USB Type-C Support"
++	depends on DRM || DRM=n
++	select DRM_AUX_HPD_BRIDGE if DRM_BRIDGE && OF
+ 	help
+ 	  USB Type-C Specification defines a cable and connector for USB where
+ 	  only one type of plug is supported on both ends, i.e. there will not
+diff --git a/drivers/usb/typec/class.c b/drivers/usb/typec/class.c
+index 67a533e35150..e9d7772d1a8f 100644
+--- a/drivers/usb/typec/class.c
++++ b/drivers/usb/typec/class.c
+@@ -8,14 +8,18 @@
+ 
+ #include <linux/module.h>
+ #include <linux/mutex.h>
++#include <linux/of.h>
+ #include <linux/property.h>
+ #include <linux/slab.h>
+ #include <linux/string_choices.h>
+ #include <linux/usb/pd_vdo.h>
++#include <linux/usb/typec_dp.h>
+ #include <linux/usb/typec_mux.h>
+ #include <linux/usb/typec_retimer.h>
+ #include <linux/usb.h>
+ 
++#include <drm/bridge/aux-bridge.h>
++
+ #include "bus.h"
+ #include "class.h"
+ #include "pd.h"
+@@ -538,6 +542,21 @@ const struct device_type typec_altmode_dev_type = {
+ 	.release = typec_altmode_release,
+ };
+ 
++static void dp_altmode_hpd_device_register(struct typec_altmode *alt)
++{
++	if (alt->svid != USB_TYPEC_DP_SID)
++		return;
++
++	/*
++	 * alt->dev.parent->parent : USB-C controller device
++	 * alt->dev.parent         : USB-C connector device
++	 */
++	alt->hpd_dev = drm_dp_hpd_bridge_register(alt->dev.parent->parent,
++						  to_of_node(alt->dev.parent->fwnode));
++	if (IS_ERR(alt->hpd_dev))
++		alt->hpd_dev = NULL;
++}
++
+ static struct typec_altmode *
+ typec_register_altmode(struct device *parent,
+ 		       const struct typec_altmode_desc *desc)
+@@ -600,6 +619,13 @@ typec_register_altmode(struct device *parent,
+ 		return ERR_PTR(ret);
+ 	}
+ 
++	/*
++	 * It is too late to register the HPD device when the DisplayPort
++	 * altmode device becomes ready. If the current altmode is DP,
++	 * register a static HPD device.
++	 */
++	dp_altmode_hpd_device_register(&alt->adev);
++
+ 	return &alt->adev;
+ }
+ 
+diff --git a/include/linux/usb/typec_altmode.h b/include/linux/usb/typec_altmode.h
+index b3c0866ea70f..acb0af1b9d5d 100644
+--- a/include/linux/usb/typec_altmode.h
++++ b/include/linux/usb/typec_altmode.h
+@@ -21,6 +21,7 @@ struct typec_altmode_ops;
+  * @desc: Optional human readable description of the mode
+  * @ops: Operations vector from the driver
+  * @cable_ops: Cable operations vector from the driver.
++ * @hpd_dev: HPD device for DisplayPort
+  */
+ struct typec_altmode {
+ 	struct device			dev;
+@@ -32,6 +33,7 @@ struct typec_altmode {
+ 	char				*desc;
+ 	const struct typec_altmode_ops	*ops;
+ 	const struct typec_cable_ops	*cable_ops;
++	struct device			*hpd_dev;
+ };
+ 
+ #define to_typec_altmode(d) container_of(d, struct typec_altmode, dev)
 -- 
-Deet-doot-dot, I am a bot.
-https://korg.docs.kernel.org/patchwork/pwbot.html
-
+2.49.0
 
