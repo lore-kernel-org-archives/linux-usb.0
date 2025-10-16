@@ -1,35 +1,35 @@
-Received: from smtpbgsg1.qq.com (smtpbgsg1.qq.com [54.254.200.92])
+Received: from smtpbg154.qq.com (smtpbg154.qq.com [15.184.224.54])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9DDC8214812;
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B35EA15D5B6;
 	Thu, 16 Oct 2025 02:28:43 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=54.254.200.92
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=15.184.224.54
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1760581726; cv=none; b=qgVSMoJ4h4KhH/V9D50ZTYQEgLqRIQr0mMI3j9IECMt1zylr22XUdccVyT6GJRGVTxKnoqKesFXrZnD6e1v5A6vXFsisuT5SXaKLeixAVqR5SMcN2Vbb/r6o1YyHfbV9b9xZDW9tseMB+/0jHhYJwA7/A5rWRFouifZ/KOch68g=
+	t=1760581729; cv=none; b=VPpQ4UQQOOqUKTlrPcGJ3IsLAo/VQ1443cWnT6MxADf7x43eVVluHTP1M/Q6mJakz2+ayQ11Z4p/m/lkh3YN+9WfN2Wl+oxOp28hD805cdfyHWy2QSpF0P0oq6PtL95VR0OBKcbsk6vqM4KTmICwLmesupjgMimDLnfgt2wduXA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1760581726; c=relaxed/simple;
-	bh=3IrJq2eY7H58BhtqUIT1x/6vJnGaTeTxDX146pHI90M=;
-	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References; b=V5hRl3Hx2MjaqP3m0EeEw9KrY+iy5mG9P3dXuxspb1eYmv2MbGz6xsZstvgkm20w0bfbdfh3k0KWEq/Xiwdqo85rHR5o9DxKE83GbevjVVhDA+shL/7YingrfOTvYLe7zNgZUvDiI4JwNqobLxYXhb4KE3fcVnr8KpFo2x3enTc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=airkyi.com; spf=pass smtp.mailfrom=airkyi.com; dkim=pass (1024-bit key) header.d=airkyi.com header.i=@airkyi.com header.b=GPUk5rh7; arc=none smtp.client-ip=54.254.200.92
+	s=arc-20240116; t=1760581729; c=relaxed/simple;
+	bh=JkC2n3cUcgwqX4mM3+Lhi39ig/OE1/fWWocxtgBRO8k=;
+	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References; b=GnbDtDac++rOf4tJd52WXXJXsjHW9GFmz45m9886wQ/LkE2bPMTwzWFAUpY+Xly0muj6fXXLVFyhG9NeEOVUm4j+eJTMDBvQFIRmru1xCuK1GQ61e/sf5x0WVKcL+yOsYi8SN8MvSOZXw8NVXO39fY8Y7dpnx0bYUfBC+lgNCEE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=airkyi.com; spf=pass smtp.mailfrom=airkyi.com; dkim=pass (1024-bit key) header.d=airkyi.com header.i=@airkyi.com header.b=t1uSJlCh; arc=none smtp.client-ip=15.184.224.54
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=airkyi.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=airkyi.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=airkyi.com header.i=@airkyi.com header.b="GPUk5rh7"
+	dkim=pass (1024-bit key) header.d=airkyi.com header.i=@airkyi.com header.b="t1uSJlCh"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=airkyi.com;
-	s=altu2504; t=1760581695;
-	bh=i25gNlDAtw8b5HK1jAZXBoV/IQCgdqvoMWGREg/E/KM=;
+	s=altu2504; t=1760581688;
+	bh=YHT4Mxhe+zSodIVHd2qzlGnysBWHBxMufel41tGudBs=;
 	h=From:To:Subject:Date:Message-Id;
-	b=GPUk5rh7mMqjgsxEC1/munKSS+h9QPAfQvRACESSoENYcTw5clr8Kpqwis4Zs84un
-	 BqpQjvxAM7BY9mzpV92DqVhakILGXv/0EVPWa6Vd9LwYCDsZeCsPhKDNWqPrFwK/RJ
-	 YNcJycuncnHwcCF2fW9mG1KTTh/EqwbBiV9nTRkQ=
-X-QQ-mid: zesmtpgz1t1760581693tcd70b443
-X-QQ-Originating-IP: VcuS+Dxp0BYExURU8Vsw6C9TnS/E0vZwDdscGFf6LgY=
+	b=t1uSJlCh6BKui0tSWCB4a5j/1fjlPSegptuGjd0kHLT4U15hlYxGxPZFuIKlp+phR
+	 AK0ukJLrBUvej52ujlnMIjCyQwjQyezqBVCBELYgRgdzCYn8VSEbRe7bqUa1xXc1vX
+	 iP5p1RZCoHof+7iUyYKTtjzmW4BpF3iEQ88QrHT4=
+X-QQ-mid: zesmtpgz1t1760581686t5a2ab742
+X-QQ-Originating-IP: Br9MCe7LW7Ki5BF9qcSTZOmwdKejc+6aFdxKCmwAYcg=
 Received: from DESKTOP-8BT1A2O.localdomain ( [58.22.7.114])
 	by bizesmtp.qq.com (ESMTP) with 
-	id ; Thu, 16 Oct 2025 10:28:11 +0800 (CST)
+	id ; Thu, 16 Oct 2025 10:28:04 +0800 (CST)
 X-QQ-SSF: 0000000000000000000000000000000
 X-QQ-GoodBg: 0
-X-BIZMAIL-ID: 12339062551155621707
+X-BIZMAIL-ID: 18423012065782556951
 From: Chaoyi Chen <kernel@airkyi.com>
 To: Rob Herring <robh@kernel.org>,
 	Krzysztof Kozlowski <krzk+dt@kernel.org>,
@@ -62,31 +62,31 @@ Cc: linux-usb@vger.kernel.org,
 	linux-arm-kernel@lists.infradead.org,
 	linux-rockchip@lists.infradead.org,
 	dri-devel@lists.freedesktop.org
-Subject: [PATCH v6 4/8] phy: rockchip: phy-rockchip-typec: Add DRM AUX bridge
-Date: Thu, 16 Oct 2025 10:27:37 +0800
-Message-Id: <20251016022741.91-5-kernel@airkyi.com>
+Subject: [PATCH v6 2/8] dt-bindings: phy: rockchip: rk3399-typec-phy: Support mode-switch
+Date: Thu, 16 Oct 2025 10:27:35 +0800
+Message-Id: <20251016022741.91-3-kernel@airkyi.com>
 X-Mailer: git-send-email 2.17.1
 In-Reply-To: <20251016022741.91-1-kernel@airkyi.com>
 References: <20251016022741.91-1-kernel@airkyi.com>
 X-QQ-SENDSIZE: 520
 Feedback-ID: zesmtpgz:airkyi.com:qybglogicsvrsz:qybglogicsvrsz4a-0
-X-QQ-XMAILINFO: N2bAIxLK0elnxzwM3GPcOMqS01K4312xqBbjR7dK+BPWVl+VPlGReoLj
-	vmqTEScDKZK+c5TBsvDAitd/kYLsI22wObvHJVvy3tj06Y+CJKyR6p5Z5qrjCbmB+MssEb6
-	aHtodOzYBiJDTeyEIC0O0vPK16rtyOD7Q9Bqs1SQGxNKvHMutOEe8ynVz3vpj2+FatLK0aH
-	D/rztYL3jwF/NSKXQBCccgp5lDSS3Dn6oshsODQAsuXLNAem3//0dek5d1YsCApoUwGyxTJ
-	E6hQJZGQVwA/PIlO937X/OisBCx3OjruiFZN81s1cosbh1OkuMLnh4GPWKj/q2H3HVJwbeK
-	xu82FMZxJI6lfTJTpaRSNeERbfk8npm61zguFRu7gnziYW8gUubJONZGEByqvFHH0iFuQS3
-	ni/E00gU2N3qeTAoUm0H4P0DPBc3U5qt1mvJ9X8kJ1fGak8g5Xw1PYWW34mnpLCk3ojwxHI
-	XUiUHa5+6crSiOmQz7Ae5EiOq3qRQCHmQXAdQNCnLk3RYcYk2evcCQkL2Q3ljIPNeqFFk9R
-	gUzCMog/evEY+kEVVaZFNoRSoesWtUnVv9Fne259q/Dhkgujq+HH6J0V55XAZU2fbPBeuAB
-	6Lgtnyfk4yVt60hBSXkfcciiuspqtVQKCtHkN5YB3e1fAND372L9S2Omfi4wykikXc7XPjH
-	N7ESDA8Hp+jp8jF0htTBL7MMy9UI/3IZuP0o/33ipUhMOyoZefPcTuLDne5s/mrdn0A8Wvr
-	MXI+qV16re9DfWaq6VRGPuWd1O0pd2hSicIrGVPYTiGdo7w2BsBEdPRJY0ONPRNkx4rk2wK
-	PwfVcVQJzHwrnGQlA0S4JTbOzVn4D2IV+DPM0AEm00oT0pEz94osWn8o7r5n9SjswkyiwcY
-	wXrl1dq9ss1FrImzXqwtLkboJIWsrlKkbmmtrdLSfWsU+VUVkmYB6nKPa6rUgdGRsCv7p9U
-	k9wjdvxBbS12bXlxO14XkL5gzpkpTPaxHD0D9lewry8ZumSo+kW5UNlwkGzQn13W71rJZl6
-	qHteDqqA==
-X-QQ-XMRINFO: MSVp+SPm3vtS1Vd6Y4Mggwc=
+X-QQ-XMAILINFO: NFzQ23lyTybaJuTmj8KGjQOpMbVaG8xJuoB4qgry0OKY8aYRsbgI0RyM
+	r2whhdbJBMP8IWWrtuHKqk2hX5IMgA8kYGcvO8F2ZmTUWDOBiZ+iOPtJJHGUX30h4UOuX7M
+	2WhrB/H8/OA68OggCVjy/CdLTTeAgYEva+ZknsPIsgIV3ELNs6h06e++X5Xk0H2XLBLJ9e0
+	0WYxS4u3H48UiSXlm2MIXpk2hA9kSzMeWPk4TojWh7KfSPaTeFljyJc7UYqBBNd1Q8xKLm3
+	FyaGgB2fqpZ3LAIBbJUzhBXJzmW595I6XrQHSInogXQulnb7xOVni4kiBdFhYr5QVGrQDYj
+	QzJroEnhg+sZ0OgcSjjZMyZJS76zZL2hI3pJBFNAlALw6pqIkeInFR3b9fPFd2jF+6QGixg
+	utZQvEAXKnBRS+Zln0p2wTm8UL/NqXAhoV++ImP7YiNANNkpxg+ft6EYVcDsPO7MXBF0Jvy
+	uC1JM7T7brTdOK6Qkb+9OObwdSqOmUMyM204RLX6evvHfJoHmptGpZt2tGiHEwIgry/gUiw
+	MJK/DVv1rJDqCb/jAWejf07h9hRhOlnm6OmnkfDdIQ0tnWuKlc5HiBN0zrAVXoGYMXhIiCp
+	roL81eLxZQmFeQPQAs9uyuYoaYoNlV+7L2VmKHTqg11pWaKE8fwuom3ArBX9+a0+/JlQ8Ui
+	6utWmIxAHJxs78nE+nqZuzOjK4G5WewYmKX2Xjv28oA895oOlmROTmt71t0ZGqBFVRIcHqf
+	faI2Rh2jUJ9ly88CYL9VGVSLvcbFZzph5bLKTmhgVQDh+21Sx7uZGBty3Yx9AhliAznRPoq
+	0HOhDjfCkYcBRXkBjyyqnAFHBQfG2fn6c0DJgSp0YNHoS2lzkwFKTE6y9Qab25yes28imXz
+	vwHetVmwEHUxAKaTe/Ir30+//0E/nC+PmgHynTaq432j3fOj+Ajfbam49MWLNi0r8QsDX9u
+	FKCYBWj4IfaH3z2A4vPTXny8/HfW1DDgHjgRSQaVEUZvq5GP7oTALLi2/SibaLtgbXwX42J
+	JUt06X8g==
+X-QQ-XMRINFO: Nq+8W0+stu50PRdwbJxPCL0=
 X-QQ-RECHKSPAM: 0
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
@@ -96,123 +96,59 @@ List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 
 From: Chaoyi Chen <chaoyi.chen@rock-chips.com>
 
-Using the DRM_AUX_BRIDGE helper to create the transparent DRM bridge
-device.
+The RK3399 SoC integrates two USB/DP combo PHYs, each of which
+supports software-configurable pin mapping and DisplayPort lane
+assignment. These capabilities enable the PHY itself to handle both
+mode switching and orientation switching, based on the Type-C plug
+orientation and USB PD negotiation results.
+
+While an external Type-C controller is still required to detect cable
+attachment and report USB PD events, the actual mode and orientation
+switching is performed internally by the PHY through software
+configuration. This allows the PHY to act as a Type-C multiplexer for
+both data role and DP altmode configuration.
+
+To reflect this hardware design, this patch introduces a new
+"mode-switch" property for the dp-port node in the device tree bindings.
+This property indicates that the connected PHY is capable of handling
+Type-C mode switching itself.
 
 Signed-off-by: Chaoyi Chen <chaoyi.chen@rock-chips.com>
+
+Acked-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
 ---
 
-Changes in v6:
-- Fix depend in Kconfig. 
+(no changes since v5)
 
- drivers/phy/rockchip/Kconfig              |  2 +
- drivers/phy/rockchip/phy-rockchip-typec.c | 52 +++++++++++++++++++++++
- 2 files changed, 54 insertions(+)
+Changes in v4:
+- Remove "|" in description.
 
-diff --git a/drivers/phy/rockchip/Kconfig b/drivers/phy/rockchip/Kconfig
-index db4adc7c53da..bcb5476222fc 100644
---- a/drivers/phy/rockchip/Kconfig
-+++ b/drivers/phy/rockchip/Kconfig
-@@ -120,6 +120,8 @@ config PHY_ROCKCHIP_TYPEC
- 	tristate "Rockchip TYPEC PHY Driver"
- 	depends on OF && (ARCH_ROCKCHIP || COMPILE_TEST)
- 	depends on TYPEC || TYPEC=n
-+	depends on DRM || DRM=n
-+	select DRM_AUX_BRIDGE if DRM_BRIDGE
- 	select EXTCON
- 	select GENERIC_PHY
- 	select RESET_CONTROLLER
-diff --git a/drivers/phy/rockchip/phy-rockchip-typec.c b/drivers/phy/rockchip/phy-rockchip-typec.c
-index 1f5b4142cbe4..748a6eb8ad95 100644
---- a/drivers/phy/rockchip/phy-rockchip-typec.c
-+++ b/drivers/phy/rockchip/phy-rockchip-typec.c
-@@ -36,6 +36,7 @@
-  * orientation, false is normal orientation.
-  */
+Changes in v3:
+- Add more descriptions to clarify the role of the PHY in switching.
+
+Changes in v2:
+- Reuse dp-port/usb3-port in rk3399-typec-phy binding.
+
+ .../devicetree/bindings/phy/rockchip,rk3399-typec-phy.yaml  | 6 ++++++
+ 1 file changed, 6 insertions(+)
+
+diff --git a/Documentation/devicetree/bindings/phy/rockchip,rk3399-typec-phy.yaml b/Documentation/devicetree/bindings/phy/rockchip,rk3399-typec-phy.yaml
+index 91c011f68cd0..83ebcde096ea 100644
+--- a/Documentation/devicetree/bindings/phy/rockchip,rk3399-typec-phy.yaml
++++ b/Documentation/devicetree/bindings/phy/rockchip,rk3399-typec-phy.yaml
+@@ -51,6 +51,12 @@ properties:
+       '#phy-cells':
+         const: 0
  
-+#include <linux/auxiliary_bus.h>
- #include <linux/clk.h>
- #include <linux/clk-provider.h>
- #include <linux/delay.h>
-@@ -56,6 +57,7 @@
- #include <linux/phy/phy.h>
- #include <linux/usb/typec_dp.h>
- #include <linux/usb/typec_mux.h>
-+#include <drm/bridge/aux-bridge.h>
- 
- #define CMN_SSM_BANDGAP			(0x21 << 2)
- #define CMN_SSM_BIAS			(0x22 << 2)
-@@ -415,6 +417,7 @@ struct rockchip_usb3phy_port_cfg {
- 
- struct rockchip_typec_phy {
- 	struct device *dev;
-+	struct auxiliary_device dp_port_dev;
- 	void __iomem *base;
- 	struct extcon_dev *extcon;
- 	struct typec_mux_dev *mux;
-@@ -1299,6 +1302,51 @@ static void tcphy_typec_mux_unregister(void *data)
- 	typec_mux_unregister(tcphy->mux);
- }
- 
-+static void tcphy_dp_port_dev_release(struct device *dev)
-+{
-+	struct auxiliary_device *adev = to_auxiliary_dev(dev);
++      mode-switch:
++        description:
++          Indicates the PHY can handle altmode switching. In this case,
++          requires an external USB Type-C controller to report USB PD message.
++        type: boolean
 +
-+	of_node_put(adev->dev.of_node);
-+}
-+
-+static void tcphy_dp_port_unregister_adev(void *_adev)
-+{
-+	struct auxiliary_device *adev = _adev;
-+
-+	auxiliary_device_delete(adev);
-+	auxiliary_device_uninit(adev);
-+}
-+
-+static int tcphy_aux_bridge_register(struct rockchip_typec_phy *tcphy, struct device_node *np)
-+{
-+	struct auxiliary_device *adev = &tcphy->dp_port_dev;
-+	int ret;
-+
-+	adev->name = "dp_port";
-+	adev->dev.parent = tcphy->dev;
-+	adev->dev.of_node = of_node_get(np);
-+	adev->dev.release = tcphy_dp_port_dev_release;
-+
-+	ret = auxiliary_device_init(adev);
-+
-+	if (ret) {
-+		of_node_put(adev->dev.of_node);
-+		return ret;
-+	}
-+
-+	ret = auxiliary_device_add(adev);
-+	if (ret) {
-+		auxiliary_device_uninit(adev);
-+		return ret;
-+	}
-+
-+	devm_add_action_or_reset(tcphy->dev, tcphy_dp_port_unregister_adev, adev);
-+
-+	ret = drm_aux_bridge_register(&adev->dev);
-+
-+	return 0;
-+}
-+
- static int tcphy_setup_typec_mux(struct rockchip_typec_phy *tcphy)
- {
- 	struct typec_mux_desc mux_desc = {};
-@@ -1312,6 +1360,10 @@ static int tcphy_setup_typec_mux(struct rockchip_typec_phy *tcphy)
- 	if (!of_property_read_bool(np, "mode-switch"))
- 		goto put_np;
- 
-+	ret = tcphy_aux_bridge_register(tcphy, np);
-+	if (ret)
-+		goto put_np;
-+
- 	mux_desc.drvdata = tcphy;
- 	mux_desc.fwnode = device_get_named_child_node(tcphy->dev, "dp-port");
- 	mux_desc.set = tcphy_typec_mux_set;
+       port:
+         $ref: /schemas/graph.yaml#/properties/port
+         description: Connection to USB Type-C connector
 -- 
 2.49.0
 
