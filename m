@@ -1,164 +1,144 @@
-Received: from m16.mail.163.com (m16.mail.163.com [117.135.210.4])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 81937DF49;
-	Fri, 17 Oct 2025 03:05:18 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=117.135.210.4
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7E1AB334689;
+	Fri, 17 Oct 2025 04:41:40 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1760670322; cv=none; b=lDoP7bAZLk9D6uQ4mBnaFxdVRdbyG9M5Mid9AeXU0NKHKplAXUhX7vQMYaSaRBrd3hc/Zk4zWFcHeEX+8QKXNG4kVdAiv3yzC9z9MUZ19ShRzQyy730qqe0GjDFvQiKv8B8AM7VJ85NdoyL354oHlu9CKir9JFiDCXSsiYEze4A=
+	t=1760676100; cv=none; b=hWNGD/mEGaHGNQsiaDuXIz9rNLBP8O+J5FaXrdxLZNHvz5vdtr0iwAg4tu460BaBY0LzGTOM2U4wARJy4HDa9prkVrleLGJnL0jLgAYlGCJ4NzloQaWAeHl7OxGKUGPXkxsSddOctfIGa+CYxTolO/6gjIzOaZcY6gocmcKFbdw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1760670322; c=relaxed/simple;
-	bh=I1xB4VaiyzRINcR1oROgy0/pJujGXcgapvyJ7R0q0WI=;
-	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
-	 MIME-Version; b=uyhwhxD1E+MYK2eYe1oFkJxywUZIS5qKpdHhT4Xno2uhmPxjnctr/BkUqF/olPo0E5qeJG+JQR6cYj/zw0hF/Q8jArjy9yNgSngix4e0ETfKwi9/Q1OzsDuilScE8LFU6ur84ff+5Hrx0YOQNjigrF6CYHpSUgXImIZqouv1xJE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=163.com; spf=pass smtp.mailfrom=163.com; dkim=pass (1024-bit key) header.d=163.com header.i=@163.com header.b=FYiIsaIp; arc=none smtp.client-ip=117.135.210.4
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=163.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=163.com
+	s=arc-20240116; t=1760676100; c=relaxed/simple;
+	bh=KYWPYbj9AgafJeUcobj6pYXOKDICTH/bM9n4lOeI20M=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=mBNn0hE1rC9LEokT8jRPf1CFrvkTwwQAjimgZhtRO0bEn+7kPXp+9XxTXxzHb+97DDtQcxc1fZqjWIoJfFX04eUhwp4vZZRNwTnB/MJ7P6xGTBYW/voDzZOYRhne/Pjaf6zbwcM11NrZaNdbvbiMZy3jRWu2uIngEhfrYfbmJns=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=XmLws7r8; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=163.com header.i=@163.com header.b="FYiIsaIp"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=163.com;
-	s=s110527; h=From:To:Subject:Date:Message-Id:MIME-Version; bh=nq
-	5YXELsgHQq0CxtBYWvBU4CiQfXeFNf0YlIUX4EB+w=; b=FYiIsaIpJfirMsvGyK
-	0Hvs3vQ9qYeBJG3SoWPmKE2fyFN5wazUDrcVK+nN08404GUnTFMvQipwZCEpRQEt
-	mReJCaChRE+Mmq3Rcph+iipoGYitRmm+zgpFYzYo52l00EmWSUG+5sdgQUtaJ3YI
-	qz8XnaeykEY7jSBnhKjJIqkrw=
-Received: from localhost.localdomain (unknown [])
-	by gzsmtp5 (Coremail) with SMTP id QCgvCgAn2XPOr_FoPz7CAQ--.949S4;
-	Fri, 17 Oct 2025 10:54:10 +0800 (CST)
-From: yicongsrfy@163.com
-To: michal.pecio@gmail.com,
-	andrew+netdev@lunn.ch,
-	davem@davemloft.net,
-	edumazet@google.com,
-	kuba@kernel.org,
-	oliver@neukum.org,
-	pabeni@redhat.com
-Cc: linux-usb@vger.kernel.org,
-	netdev@vger.kernel.org,
-	Yi Cong <yicong@kylinos.cn>
-Subject: [PATCH net v6 2/3] net: usb: ax88179_178a: add USB device driver for config selection
-Date: Fri, 17 Oct 2025 10:54:03 +0800
-Message-Id: <20251017025404.1962110-3-yicongsrfy@163.com>
-X-Mailer: git-send-email 2.25.1
-In-Reply-To: <20251017025404.1962110-1-yicongsrfy@163.com>
-References: <20251017025404.1962110-1-yicongsrfy@163.com>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="XmLws7r8"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 51051C4CEE7;
+	Fri, 17 Oct 2025 04:41:36 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1760676100;
+	bh=KYWPYbj9AgafJeUcobj6pYXOKDICTH/bM9n4lOeI20M=;
+	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+	b=XmLws7r8GpULkOh63waqJm7oKgNtCNBRmv5zeAjqQD7UyYE9LoRJAk9O+oxS6Jf+g
+	 nvfqRPDubwxUdR0hSb9AajRCqamgjPStE3uW7bkWarP2f6GEIHo7S1INwzGU1Fz/Vx
+	 KoHtdBnBs/SlYezVMIkvMWBsqYwTxDKUhggD0kAPJ5eWeeGTvaZ1nrfidxW+Zevft5
+	 JeR47JaIVrMnfKg6y1Y19tKpsULsblZNtDo+XD0Pv6zIauXYkUy1S94QFHUwNH+wph
+	 Ex0iX7FGggXaJFhBIgRYmRuJX0baubB0fNyjFRtK2GLB1/3OG/odcvgo5jQg0QGU7n
+	 ciRwD03hOrE6Q==
+Message-ID: <bb299df0-58b9-4a6e-9625-305785d38eb4@kernel.org>
+Date: Fri, 17 Oct 2025 06:41:34 +0200
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-CM-TRANSID:QCgvCgAn2XPOr_FoPz7CAQ--.949S4
-X-Coremail-Antispam: 1Uf129KBjvJXoWxCFy8WFWUCFy3XF18Cw17ZFb_yoW5uFWfpF
-	Wjgry5Cr47JrWfJws3J3ykZFy5uan2ka9F9r1xt3Wa9rZ3A34xtw1kKFy5ZF1DGrW8XFy2
-	vw4rKF4a9r4DCr7anT9S1TB71UUUUU7qnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
-	9KBjDUYxBIdaVFxhVjvjDU0xZFpf9x07jIPfQUUUUU=
-X-CM-SenderInfo: p1lf00xjvuw5i6rwjhhfrp/1tbiLALp22jxqzyN9AAAsr
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v5 02/10] dt-bindings: phy: qcom,qmp-usb: Add Glymur USB
+ UNI PHY compatible
+To: Wesley Cheng <wesley.cheng@oss.qualcomm.com>, krzk+dt@kernel.org,
+ conor+dt@kernel.org, konrad.dybcio@oss.qualcomm.com,
+ dmitry.baryshkov@oss.qualcomm.com, kishon@kernel.org, vkoul@kernel.org,
+ gregkh@linuxfoundation.org, robh@kernel.org
+Cc: linux-arm-msm@vger.kernel.org, linux-phy@lists.infradead.org,
+ linux-usb@vger.kernel.org, devicetree@vger.kernel.org,
+ linux-kernel@vger.kernel.org
+References: <20251006222002.2182777-1-wesley.cheng@oss.qualcomm.com>
+ <20251006222002.2182777-3-wesley.cheng@oss.qualcomm.com>
+ <f5e4ae02-b8fa-4406-b2e0-3602b07b7e23@kernel.org>
+ <00408896-2e25-2dd1-6e6e-2195317ee7fb@oss.qualcomm.com>
+ <14bc2a85-0f1d-3834-9b9c-32654348603a@oss.qualcomm.com>
+ <387c707e-613d-433b-a76d-16ef10dabc59@kernel.org>
+ <2a70f878-269c-1b40-2e8c-77b5851de9a1@oss.qualcomm.com>
+ <99ab26d3-eb44-401d-8a7c-1d9efd2a1a10@kernel.org>
+ <b2b68430-5127-5eca-6bd8-4af31eb9fbed@oss.qualcomm.com>
+From: Krzysztof Kozlowski <krzk@kernel.org>
+Content-Language: en-US
+Autocrypt: addr=krzk@kernel.org; keydata=
+ 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 a/A=
+In-Reply-To: <b2b68430-5127-5eca-6bd8-4af31eb9fbed@oss.qualcomm.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 
-From: Yi Cong <yicong@kylinos.cn>
+On 17/10/2025 02:15, Wesley Cheng wrote:
+>>> Technically its all handling the same clock branch (CXO), we have the
+>>> TCSR clkref register that allows us to gate the CXO to the USB PHY, as
+>>
+>>
+>> Ah, exactly. Then clkref is not a clock. You need rather proper clock
+>> hierarchy.
+>>
+>>> CXO is shared across several HW blocks, so it allows us to properly
+>>> powerdown the PHY even though other clients are voting for CXO on.  Then
+>>> we obviously have to remove our vote to the overall CXO, so that it can
+>>> potentially be shutdown.
+>>>
+>>> Maybe we can rename it to "clkref" for the CXO handle and
+>>> "clkref_switch" for the TCSRCC handle?
+>>
+>> Naming is better, but it is still not correct. This is not independent
+>> clock signal. It is the same clock.
+>>
+> 
+> Hmmm... I guess that's why I kept the same clkref tag, to denote that 
+> its the same clock, but one is a switch/gate for it.  Would you happen 
+> to have any suggestions you might have that makes it clearer for 
+> everyone to understand?
+To me it looks like:
 
-A similar reason was raised in commit ec51fbd1b8a2 ("r8152: add USB
-device driver for config selection"):
-Linux prioritizes probing non-vendor-specific configurations.
+|-----|            |-----------|           |------------------|
+|clock|------------|TCSRCC gate|-----------|clkref to this dev|
+|-----|            |-----------|           |------------------|
 
-Referring to the implementation of this patch, cfgselect is also
-used for ax88179 to override the default configuration selection.
+So you need proper clock controller for TCSR (TCSR Clock Controller, in
+short TCSRCC, what a surprise!) which will take input, add gate and
+produce clock for this device.
 
-Signed-off-by: Yi Cong <yicong@kylinos.cn>
-Suggested-by: Michal Pecio <michal.pecio@gmail.com>
-Link: https://lore.kernel.org/all/20251011075314.572741-1-yicongsrfy@163.com/
-Link: https://lore.kernel.org/all/20250928014631.2832243-1-yicongsrfy@163.com/
+Nothing non-standard, all Qualcomm SoCs have it, every other platform
+has it in some way.
 
----
-v2: fix warning from checkpatch.
-v5: 1. use KBUILD_MODNAME to obtain the module name.
-    2. add error handling when usb_register fail.
-    3. use .choose_configuration instead of .probe.
-    4. reorder deregister logic.
-v6: 1. modify the registration order.
-    2. fix error return value.
-    3. delete unuse check in probe.
----
- drivers/net/usb/ax88179_178a.c | 58 ++++++++++++++++++++++++++++++++--
- 1 file changed, 56 insertions(+), 2 deletions(-)
 
-diff --git a/drivers/net/usb/ax88179_178a.c b/drivers/net/usb/ax88179_178a.c
-index b034ef8a73ea..bad306a68644 100644
---- a/drivers/net/usb/ax88179_178a.c
-+++ b/drivers/net/usb/ax88179_178a.c
-@@ -1941,7 +1941,7 @@ static const struct usb_device_id products[] = {
- MODULE_DEVICE_TABLE(usb, products);
- 
- static struct usb_driver ax88179_178a_driver = {
--	.name =		"ax88179_178a",
-+	.name =		KBUILD_MODNAME,
- 	.id_table =	products,
- 	.probe =	usbnet_probe,
- 	.suspend =	ax88179_suspend,
-@@ -1952,7 +1952,61 @@ static struct usb_driver ax88179_178a_driver = {
- 	.disable_hub_initiated_lpm = 1,
- };
- 
--module_usb_driver(ax88179_178a_driver);
-+static int ax88179_cfgselector_choose_configuration(struct usb_device *udev)
-+{
-+	struct usb_host_config *c;
-+	int i, num_configs;
-+
-+	/* The vendor mode is not always config #1, so to find it out. */
-+	c = udev->config;
-+	num_configs = udev->descriptor.bNumConfigurations;
-+	for (i = 0; i < num_configs; (i++, c++)) {
-+		struct usb_interface_descriptor	*desc = NULL;
-+
-+		if (!c->desc.bNumInterfaces)
-+			continue;
-+		desc = &c->intf_cache[0]->altsetting->desc;
-+		if (desc->bInterfaceClass == USB_CLASS_VENDOR_SPEC)
-+			break;
-+	}
-+
-+	if (i == num_configs)
-+		return -ENODEV;
-+
-+	return c->desc.bConfigurationValue;
-+}
-+
-+static struct usb_device_driver ax88179_cfgselector_driver = {
-+	.name =	KBUILD_MODNAME "-cfgselector",
-+	.choose_configuration =	ax88179_cfgselector_choose_configuration,
-+	.id_table = products,
-+	.generic_subclass = 1,
-+	.supports_autosuspend = 1,
-+};
-+
-+static int __init ax88179_driver_init(void)
-+{
-+	int ret;
-+
-+	ret = usb_register(&ax88179_178a_driver);
-+	if (ret)
-+		return ret;
-+
-+	ret = usb_register_device_driver(&ax88179_cfgselector_driver, THIS_MODULE);
-+	if (ret)
-+		usb_deregister(&ax88179_178a_driver);
-+
-+	return ret;
-+}
-+
-+static void __exit ax88179_driver_exit(void)
-+{
-+	usb_deregister_device_driver(&ax88179_cfgselector_driver);
-+	usb_deregister(&ax88179_178a_driver);
-+}
-+
-+module_init(ax88179_driver_init);
-+module_exit(ax88179_driver_exit);
- 
- MODULE_DESCRIPTION("ASIX AX88179/178A based USB 3.0/2.0 Gigabit Ethernet Devices");
- MODULE_LICENSE("GPL");
--- 
-2.25.1
-
+Best regards,
+Krzysztof
