@@ -1,70 +1,123 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9F35726ED33
-	for <linux-usb@vger.kernel.org>; Wed, 22 Oct 2025 14:50:08 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8083934D4F1;
+	Wed, 22 Oct 2025 15:26:54 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1761144609; cv=none; b=ZnScqW1eE6rkcs2xgB2G6f9Zk/itQr07w6bRKcYQyrBNxQuYEBFShfnekAS9PyDdCHHE7nJRQQJEZrW/2h6cvUAV1tpJoaelusXRQvNtYcLJPkYQijVBh6TUT8dJg1r8Rg0IDQfmN8q6rId5LVo0vBFddFYUAxiu1nEbOmtPIZo=
+	t=1761146814; cv=none; b=Jph5mScdFeeVjJoI6Cl/uTTb6I6SzL++W4DNjAVEmwnt2EHw08Fw17HMKCFvfZp7GdUPUR+gB+F4MM10LKg803mO1ZH4sfueXM4KWi94D76HUvloAX5JTEXMZ9h0pwPKspimoRp+AG5uA58NlL/bioxViHgxMXPegDCv4SxJwjk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1761144609; c=relaxed/simple;
-	bh=ZQ5XvRcl4K02isb3AVUE88kbGTIsphk0beHEtOh+kJU=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=upLrnYnRISlMI8b5nVsF9gGYepBpDxGk8m10ZAePHFkMWft2Y2btY/ZI6h5ehe10F6XSko8jg49FOZv9tthqiW4BFMJaZ+s8QN0nocTQSAs9k/dz2uLpgKCHGnTPaV7Qyb8r795rm1D/XiL8gevq5Q2INVSonVDEI4Si1TCzlIw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b=zaO+cCfD; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1761146814; c=relaxed/simple;
+	bh=N9SEG1mjhY5ITcDXuFtE95SgJ+Pu0dWYnfe73PHyEdA=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version; b=WGatbkxdlQ/FyqHdbVpHeDbfalCkPDwpRlrgDeHswUQK00yHGLn2hPDGfwmavoBjxctfw/IFH+y7V/XNyMv2xmjYQyqx/c5v4rJZYOQXyx3OFFDCUQZl1OhitQIfAmoMWhJNRAcerma//+a9AcVFeOBaCds8ge4lTh+lYoOPZyc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=rxwkrXbU; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="zaO+cCfD"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id BB145C4CEF5;
-	Wed, 22 Oct 2025 14:50:07 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
-	s=korg; t=1761144608;
-	bh=ZQ5XvRcl4K02isb3AVUE88kbGTIsphk0beHEtOh+kJU=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=zaO+cCfDl6Ga0eifOaTnXUXNTHOz1O2qrGCFAbnI046+6m5mKnVjtd+eJBvPHr+UC
-	 LZKe5Q3YpQPAQj7Q68VHUniMLj1EK1REElvka1rzuyzgP4V1EcrKDzQiut12csnmIq
-	 UGtl9FAhXZ48taQjpfFAmBZS0yt0vXdWGofqEWwk=
-Date: Wed, 22 Oct 2025 16:50:05 +0200
-From: 'Greg KH' <gregkh@linuxfoundation.org>
-To: Terry Moore <tmm@mcci.com>
-Cc: "'Ruinskiy, Dima'" <dima.ruinskiy@intel.com>,
-	'Oliver Neukum' <oliver@neukum.org>,
-	'Oliver Neukum' <oneukum@suse.com>,
-	'Maciej =?utf-8?Q?=C5=BBenczykowski'?= <maze@google.com>,
-	linux-usb@vger.kernel.org
-Subject: Re: cdc_ncm driver and NCM 1.1 revision
-Message-ID: <2025102208-copper-aspirin-b1bb@gregkh>
-References: <6c22b4d5-7d6d-41ab-9b00-9dccf3ec8963@intel.com>
- <2025102259-purebred-amulet-b6d2@gregkh>
- <00f101dc4361$7a5b8860$6f129920$@mcci.com>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="rxwkrXbU"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 1C6EDC113D0;
+	Wed, 22 Oct 2025 15:26:53 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1761146813;
+	bh=N9SEG1mjhY5ITcDXuFtE95SgJ+Pu0dWYnfe73PHyEdA=;
+	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
+	b=rxwkrXbUrQMUU+8trCZE4X5seegiGALUBJJxZqrPVP4xrhUu1pQa7d/oDAQzTtA5v
+	 Rq/u/Odi58cjnE587dXPwsdVdLpP9J6e1ZgGLiDgT9dT34+J4bD9JJLK4v5ZijNwPH
+	 gljvcB7WjKw7r4AX9cOH5bVixD4f+wA6Xi/NGVrAC9MKSeo0OAf2EvAWlsPmVf2dbW
+	 ZpwfZcBhPZ57vnc+pvo7uTiy7Jpug6tzRt64NItrqs9qNskWk/dn4dLzK9WCdXOVru
+	 X1QaNytieRWpytzIpwJHVtBobgabJ3H1uQQx0J038hlA9/9kpFk9LjhCMrtS4PBn66
+	 nA31zDlpQ9Kng==
+Received: from johan by xi.lan with local (Exim 4.98.2)
+	(envelope-from <johan@kernel.org>)
+	id 1vBajr-000000006JD-2jYt;
+	Wed, 22 Oct 2025 17:26:59 +0200
+From: Johan Hovold <johan@kernel.org>
+To: Johan Hovold <johan@kernel.org>
+Cc: linux-usb@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	stable@vger.kernel.org
+Subject: [PATCH 1/8] USB: serial: belkin_sa: fix TIOCMBIS and TIOCMBIC
+Date: Wed, 22 Oct 2025 17:26:33 +0200
+Message-ID: <20251022152640.24212-2-johan@kernel.org>
+X-Mailer: git-send-email 2.49.1
+In-Reply-To: <20251022152640.24212-1-johan@kernel.org>
+References: <20251022152640.24212-1-johan@kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <00f101dc4361$7a5b8860$6f129920$@mcci.com>
+Content-Transfer-Encoding: 8bit
 
-On Wed, Oct 22, 2025 at 10:38:05AM -0400, Terry Moore wrote:
-> Thanks Greg, Oliver,
-> 
-> I'm the NCM committee chair. 
+Asserting or deasserting a modem control line using TIOCMBIS or TIOCMBIC
+should not deassert any lines that are not in the mask.
 
-Great!
+Fix this long-standing regression dating back to 2003 when the
+tiocmset() callback was introduced.
 
-> Of course, if people can get funding, patches will be pushed. That's not
-> really the reason for establishing the connection.
+Fixes: 1da177e4c3f4 ("Linux-2.6.12-rc2")
+Cc: stable@vger.kernel.org
+Signed-off-by: Johan Hovold <johan@kernel.org>
+---
+ drivers/usb/serial/belkin_sa.c | 28 +++++++++++++++++-----------
+ 1 file changed, 17 insertions(+), 11 deletions(-)
 
-We work off of patches, you all know this :)
+diff --git a/drivers/usb/serial/belkin_sa.c b/drivers/usb/serial/belkin_sa.c
+index 44f5b58beec9..aa6b4c4ad5ec 100644
+--- a/drivers/usb/serial/belkin_sa.c
++++ b/drivers/usb/serial/belkin_sa.c
+@@ -435,7 +435,7 @@ static int belkin_sa_tiocmset(struct tty_struct *tty,
+ 	struct belkin_sa_private *priv = usb_get_serial_port_data(port);
+ 	unsigned long control_state;
+ 	unsigned long flags;
+-	int retval;
++	int retval = 0;
+ 	int rts = 0;
+ 	int dtr = 0;
+ 
+@@ -452,26 +452,32 @@ static int belkin_sa_tiocmset(struct tty_struct *tty,
+ 	}
+ 	if (clear & TIOCM_RTS) {
+ 		control_state &= ~TIOCM_RTS;
+-		rts = 0;
++		rts = 1;
+ 	}
+ 	if (clear & TIOCM_DTR) {
+ 		control_state &= ~TIOCM_DTR;
+-		dtr = 0;
++		dtr = 1;
+ 	}
+ 
+ 	priv->control_state = control_state;
+ 	spin_unlock_irqrestore(&priv->lock, flags);
+ 
+-	retval = BSA_USB_CMD(BELKIN_SA_SET_RTS_REQUEST, rts);
+-	if (retval < 0) {
+-		dev_err(&port->dev, "Set RTS error %d\n", retval);
+-		goto exit;
++	if (rts) {
++		retval = BSA_USB_CMD(BELKIN_SA_SET_RTS_REQUEST,
++					!!(control_state & TIOCM_RTS));
++		if (retval < 0) {
++			dev_err(&port->dev, "Set RTS error %d\n", retval);
++			goto exit;
++		}
+ 	}
+ 
+-	retval = BSA_USB_CMD(BELKIN_SA_SET_DTR_REQUEST, dtr);
+-	if (retval < 0) {
+-		dev_err(&port->dev, "Set DTR error %d\n", retval);
+-		goto exit;
++	if (dtr) {
++		retval = BSA_USB_CMD(BELKIN_SA_SET_DTR_REQUEST,
++					!!(control_state & TIOCM_DTR));
++		if (retval < 0) {
++			dev_err(&port->dev, "Set DTR error %d\n", retval);
++			goto exit;
++		}
+ 	}
+ exit:
+ 	return retval;
+-- 
+2.49.1
 
-> We're working on an interop test in December. We really hope to find any
-> active open-source developers so we get them involved in the interop
-> testing. 
-
-Do you have devices that we can test changes with?  Without that, it's
-going to be hard to implement anything.
-
-thanks,
-
-greg k-h
