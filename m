@@ -1,42 +1,43 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8A12934D4F4;
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7DA3934D4EE;
 	Wed, 22 Oct 2025 15:26:54 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1761146814; cv=none; b=jsohzrR2B5xoYPMbsWuCS+tayeuhPsyrLkJvo2cDsQtrfUobkBD+LmJWsUrKUaPdwy89OjWp/QxgGhGGJGXOk7CIz2FarU0l4+j+wu7xABSFs9mUYGrD+V8oZqq4Fh8QnUIQr9FSTimfyvJ1zrZMfOU3I2Bm5mx/Z02JFRPvl/Q=
+	t=1761146814; cv=none; b=rfBUBGfg21rDnVZpTaBCUNaAQgPw3vpjjdSPIRaNgC0HNMU8BXKICZNg00FHVbaZu+sJV8LCl2b2UqVEy3TVpuRWkAm2WulNilhYhPdNCMTrHdj/1v+Raf9flB5MHwqIUxRefETywcMsM+V/ruT4+19CV8zn2Zdk+zjUYRsLIRs=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
 	s=arc-20240116; t=1761146814; c=relaxed/simple;
-	bh=4QXspED8JrnEGsVaasD9a+i+F8oDDicgcZNuwSuqeIM=;
+	bh=oA3wjbbjuI9VJKX4+gxqJBRq5ZTkS6yh9fDd34QwJ5I=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=fr1GFB4UGvBUvHV541mBlUFozSqX1pSyC5l5EXMddx/FpzRkG9lDinkw8+ciQxpPrLx63K676EJIipKQvgiQqqDzrobmHZUETC2Fok0HCXemURtM0dNWtdV2S/DZ8nH6Z9KQ/5MO22nKrIKnSBiqU5w2C3FNauxNCs8b0lUROKU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Po78gJQb; arc=none smtp.client-ip=10.30.226.201
+	 MIME-Version; b=pEFnmsqDgVcJ6GUgCv5MCzTJPc6mDmgIFNVb9MRHEJ/YpXPlJTVGRFEf4tDyL2AGh10aAsFlSipvXdSLl7NhftU5rdNgHmCmI23cIahJz6xgn6TstIF6VKz/nZY+P0n5KNvjWs1osiIsQgRHZqPrsDk9kMejvHuCnogjJ9W8F24=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=jvuE/DfD; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Po78gJQb"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 2EB5AC116B1;
-	Wed, 22 Oct 2025 15:26:53 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="jvuE/DfD"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id F09DFC4CEF5;
+	Wed, 22 Oct 2025 15:26:52 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
 	s=k20201202; t=1761146813;
-	bh=4QXspED8JrnEGsVaasD9a+i+F8oDDicgcZNuwSuqeIM=;
+	bh=oA3wjbbjuI9VJKX4+gxqJBRq5ZTkS6yh9fDd34QwJ5I=;
 	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=Po78gJQbmTgX01fuV2umKC9/FhPJSCs1Tx87dSH+MPLw8bkJo9VREBHfehj0Yqeem
-	 CGDmvRsomoskE1xaCrF7W/PXDnovkJsb44+EC+MHqAeMNlV/C/QT2YjR+dmMx/ZvFW
-	 pmZlTqwZB61vo5A/cqHu1IffbJF3gyWrnGharryLFtmtE6ssm1pm8eNRZpzFXlXW4N
-	 rGEeCsN7unDGEhPOQI9+Z3CWXz1SL0r8HVGcSW12g7jIXueW8rEwkVKDkCbt7iEWTf
-	 3QZaF0R/MNeFPeG00DhdIgm+ur07Wz/jDDWf8fLOI5gLGGrHRPAkpOBmLgOzLKLNdg
-	 MF/a9sye5MQrg==
+	b=jvuE/DfD4nqRSWWOdUvufiFepbolnoAiaCMsbkScweEkZC5HcX2oV6K2YHX/PL26J
+	 U9p+4JXCOzbRVoRQVles3pOQi9WXEJyWSiW1JblrBV5kunVFH0VPv4KctOTCt2U4sQ
+	 W8YOp2hjRCpNoUlT/iLxwERFhtrXnwiPf990EL70iYHoWQ11g3JWgMaVapOciCWA34
+	 0XIE1wSGGUPMBRu+eQq3Zpstet2L/kYdjTyTWbEhgd9Y8V8V8/3u6UbOIwTwMvCWoo
+	 sHZAs4oZE9oaDajWRcJIVzbxXT1uxfIa2LeBtoRKfgRubeSw4mQPByx93n/XSl/5pi
+	 Je3ZFgwPqOhZA==
 Received: from johan by xi.lan with local (Exim 4.98.2)
 	(envelope-from <johan@kernel.org>)
-	id 1vBajs-000000006JP-059G;
-	Wed, 22 Oct 2025 17:27:00 +0200
+	id 1vBajr-000000006JG-33xk;
+	Wed, 22 Oct 2025 17:26:59 +0200
 From: Johan Hovold <johan@kernel.org>
 To: Johan Hovold <johan@kernel.org>
 Cc: linux-usb@vger.kernel.org,
-	linux-kernel@vger.kernel.org
-Subject: [PATCH 5/8] USB: serial: kobil_sct: clean up device type checks
-Date: Wed, 22 Oct 2025 17:26:37 +0200
-Message-ID: <20251022152640.24212-6-johan@kernel.org>
+	linux-kernel@vger.kernel.org,
+	stable@vger.kernel.org
+Subject: [PATCH 2/8] USB: serial: kobil_sct: fix TIOCMBIS and TIOCMBIC
+Date: Wed, 22 Oct 2025 17:26:34 +0200
+Message-ID: <20251022152640.24212-3-johan@kernel.org>
 X-Mailer: git-send-email 2.49.1
 In-Reply-To: <20251022152640.24212-1-johan@kernel.org>
 References: <20251022152640.24212-1-johan@kernel.org>
@@ -48,74 +49,75 @@ List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-Clean up the driver device type checks by moving logical operators to
-the previous line and using consistent indentation of continuation
-lines.
+Asserting or deasserting a modem control line using TIOCMBIS or TIOCMBIC
+should not deassert any lines that are not in the mask.
 
+Fix this long-standing issue dating back to 2003 when the support for
+these ioctls was added with the introduction of the tiocmset() callback.
+
+Fixes: 1da177e4c3f4 ("Linux-2.6.12-rc2")
+Cc: stable@vger.kernel.org
 Signed-off-by: Johan Hovold <johan@kernel.org>
 ---
- drivers/usb/serial/kobil_sct.c | 19 ++++++++++---------
- 1 file changed, 10 insertions(+), 9 deletions(-)
+ drivers/usb/serial/kobil_sct.c | 18 +++++++++---------
+ 1 file changed, 9 insertions(+), 9 deletions(-)
 
 diff --git a/drivers/usb/serial/kobil_sct.c b/drivers/usb/serial/kobil_sct.c
-index b8169783f6f0..e1015cab2770 100644
+index 464433be2034..96ea571c436a 100644
 --- a/drivers/usb/serial/kobil_sct.c
 +++ b/drivers/usb/serial/kobil_sct.c
-@@ -239,8 +239,8 @@ static int kobil_open(struct tty_struct *tty, struct usb_serial_port *port)
- 		dev_dbg(dev, "%s - Send reset_all_queues URB returns: %i\n", __func__, result);
- 	}
- 	if (priv->device_type == KOBIL_USBTWIN_PRODUCT_ID ||
--	    priv->device_type == KOBIL_ADAPTER_B_PRODUCT_ID ||
--	    priv->device_type == KOBIL_KAAN_SIM_PRODUCT_ID) {
-+			priv->device_type == KOBIL_ADAPTER_B_PRODUCT_ID ||
-+			priv->device_type == KOBIL_KAAN_SIM_PRODUCT_ID) {
- 		/* start reading (Adapter B 'cause PNP string) */
- 		result = usb_submit_urb(port->interrupt_in_urb, GFP_KERNEL);
- 		dev_dbg(dev, "%s - Send read URB returns: %i\n", __func__, result);
-@@ -318,9 +318,10 @@ static int kobil_write(struct tty_struct *tty, struct usb_serial_port *port,
- 	if (((priv->device_type != KOBIL_ADAPTER_B_PRODUCT_ID) && (priv->filled > 2) && (priv->filled >= (priv->buf[1] + 3))) ||
- 	     ((priv->device_type == KOBIL_ADAPTER_B_PRODUCT_ID) && (priv->filled > 3) && (priv->filled >= (priv->buf[2] + 4)))) {
- 		/* stop reading (except TWIN and KAAN SIM) */
--		if ((priv->device_type == KOBIL_ADAPTER_B_PRODUCT_ID)
--			|| (priv->device_type == KOBIL_ADAPTER_K_PRODUCT_ID))
-+		if (priv->device_type == KOBIL_ADAPTER_B_PRODUCT_ID ||
-+				priv->device_type == KOBIL_ADAPTER_K_PRODUCT_ID) {
- 			usb_kill_urb(port->interrupt_in_urb);
-+		}
+@@ -418,7 +418,7 @@ static int kobil_tiocmset(struct tty_struct *tty,
+ 	struct usb_serial_port *port = tty->driver_data;
+ 	struct device *dev = &port->dev;
+ 	struct kobil_private *priv;
+-	int result;
++	int result = 0;
+ 	int dtr = 0;
+ 	int rts = 0;
  
- 		todo = priv->filled - priv->cur_pos;
+@@ -435,12 +435,12 @@ static int kobil_tiocmset(struct tty_struct *tty,
+ 	if (set & TIOCM_DTR)
+ 		dtr = 1;
+ 	if (clear & TIOCM_RTS)
+-		rts = 0;
++		rts = 1;
+ 	if (clear & TIOCM_DTR)
+-		dtr = 0;
++		dtr = 1;
  
-@@ -347,7 +348,7 @@ static int kobil_write(struct tty_struct *tty, struct usb_serial_port *port,
- 
- 		/* start reading (except TWIN and KAAN SIM) */
- 		if (priv->device_type == KOBIL_ADAPTER_B_PRODUCT_ID ||
--			priv->device_type == KOBIL_ADAPTER_K_PRODUCT_ID) {
-+				priv->device_type == KOBIL_ADAPTER_K_PRODUCT_ID) {
- 			result = usb_submit_urb(port->interrupt_in_urb,
- 					GFP_ATOMIC);
- 			dev_dbg(&port->dev, "%s - Send read URB returns: %i\n", __func__, result);
-@@ -373,8 +374,8 @@ static int kobil_tiocmget(struct tty_struct *tty)
- 	int transfer_buffer_length = 8;
- 
- 	priv = usb_get_serial_port_data(port);
--	if (priv->device_type == KOBIL_USBTWIN_PRODUCT_ID
--			|| priv->device_type == KOBIL_KAAN_SIM_PRODUCT_ID) {
-+	if (priv->device_type == KOBIL_USBTWIN_PRODUCT_ID ||
-+			priv->device_type == KOBIL_KAAN_SIM_PRODUCT_ID) {
- 		/* This device doesn't support ioctl calls */
- 		return -EINVAL;
- 	}
-@@ -423,8 +424,8 @@ static int kobil_tiocmset(struct tty_struct *tty,
- 	u16 val = 0;
- 
- 	priv = usb_get_serial_port_data(port);
--	if (priv->device_type == KOBIL_USBTWIN_PRODUCT_ID
--		|| priv->device_type == KOBIL_KAAN_SIM_PRODUCT_ID) {
-+	if (priv->device_type == KOBIL_USBTWIN_PRODUCT_ID ||
-+			priv->device_type == KOBIL_KAAN_SIM_PRODUCT_ID) {
- 		/* This device doesn't support ioctl calls */
- 		return -EINVAL;
- 	}
+-	if (priv->device_type == KOBIL_ADAPTER_B_PRODUCT_ID) {
+-		if (dtr != 0)
++	if (dtr && priv->device_type == KOBIL_ADAPTER_B_PRODUCT_ID) {
++		if (set & TIOCM_DTR)
+ 			dev_dbg(dev, "%s - Setting DTR\n", __func__);
+ 		else
+ 			dev_dbg(dev, "%s - Clearing DTR\n", __func__);
+@@ -448,13 +448,13 @@ static int kobil_tiocmset(struct tty_struct *tty,
+ 			  usb_sndctrlpipe(port->serial->dev, 0),
+ 			  SUSBCRequest_SetStatusLinesOrQueues,
+ 			  USB_TYPE_VENDOR | USB_RECIP_ENDPOINT | USB_DIR_OUT,
+-			  ((dtr != 0) ? SUSBCR_SSL_SETDTR : SUSBCR_SSL_CLRDTR),
++			  ((set & TIOCM_DTR) ? SUSBCR_SSL_SETDTR : SUSBCR_SSL_CLRDTR),
+ 			  0,
+ 			  NULL,
+ 			  0,
+ 			  KOBIL_TIMEOUT);
+-	} else {
+-		if (rts != 0)
++	} else if (rts) {
++		if (set & TIOCM_RTS)
+ 			dev_dbg(dev, "%s - Setting RTS\n", __func__);
+ 		else
+ 			dev_dbg(dev, "%s - Clearing RTS\n", __func__);
+@@ -462,7 +462,7 @@ static int kobil_tiocmset(struct tty_struct *tty,
+ 			usb_sndctrlpipe(port->serial->dev, 0),
+ 			SUSBCRequest_SetStatusLinesOrQueues,
+ 			USB_TYPE_VENDOR | USB_RECIP_ENDPOINT | USB_DIR_OUT,
+-			((rts != 0) ? SUSBCR_SSL_SETRTS : SUSBCR_SSL_CLRRTS),
++			((set & TIOCM_RTS) ? SUSBCR_SSL_SETRTS : SUSBCR_SSL_CLRRTS),
+ 			0,
+ 			NULL,
+ 			0,
 -- 
 2.49.1
 
