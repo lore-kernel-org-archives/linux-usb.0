@@ -1,115 +1,162 @@
-Received: from mail-m49228.qiye.163.com (mail-m49228.qiye.163.com [45.254.49.228])
+Received: from metis.whiteo.stw.pengutronix.de (metis.whiteo.stw.pengutronix.de [185.203.201.7])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EB14B2F7AB9;
-	Fri, 24 Oct 2025 08:51:31 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=45.254.49.228
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 28435309DDB
+	for <linux-usb@vger.kernel.org>; Fri, 24 Oct 2025 09:27:46 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.203.201.7
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1761295896; cv=none; b=EeMGWxzqendwh53eOcj9wC1xg73/kcTHkgm7mlmlVug7THKyobw8jjtsairGp2VohuXoUd9WFarurgJUrxt5y+TtD88UOrJBUAxlMNjR84vbcNyycrjYtIlyfi0C5hpADtmMHdhBh6Iwx0OplcLVk2cTnzfkdJqOfHyNKurg0cg=
+	t=1761298068; cv=none; b=h4Zf6w6nUpl3fqO+I6YCPycO/KxZggPVX7yYhrjnfHvTUaRjmE7WNZa7TX1jlqhInUby0VakoRry0u5N13NUkeaVEkxQQwFIEAGgsGoIE9MIb0t036lv67L4xxzrI5tCLsjXtlESETnvqNLnhJQEQ7Uxm+8Q9y3sgpGl1ISEF3s=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1761295896; c=relaxed/simple;
-	bh=st+YiT6+ntVTsbmWboA5z/ppcN3WvsLFMmnop252vB8=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=mgdzV/qS1hKmiyyiSqmX4Q+jHzd8tY5mIYZDYpvCilZ4kqGI7dni3FbuttplFPsFL6gs9r48M1XRY2t1aJPbzAL181752+HjOBnOq1tep+BECklEgE3wCsIT1mJX8suQIeacgOrs5HuWPqlS+1vu/EbYxMecgDaPLQRdwlnLjMo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=rock-chips.com; spf=pass smtp.mailfrom=rock-chips.com; dkim=pass (1024-bit key) header.d=rock-chips.com header.i=@rock-chips.com header.b=g2jiBWJ+; arc=none smtp.client-ip=45.254.49.228
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=rock-chips.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=rock-chips.com
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=rock-chips.com header.i=@rock-chips.com header.b="g2jiBWJ+"
-Received: from [172.16.12.149] (unknown [58.22.7.114])
-	by smtp.qiye.163.com (Hmail) with ESMTP id 270f3fb7d;
-	Fri, 24 Oct 2025 16:16:01 +0800 (GMT+08:00)
-Message-ID: <836a096a-c6ed-4c9c-9de5-f8b0ee44fac3@rock-chips.com>
-Date: Fri, 24 Oct 2025 16:16:00 +0800
+	s=arc-20240116; t=1761298068; c=relaxed/simple;
+	bh=RzPBYsE9Z+QwcYi1D0hNt0IClKgJXydxPV4v/o8X4Vg=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=fS07KiKydb3r0qnlbCl9WBVo32EqigJbvwRHzcEFt8SCXMEvZ8HgITkel30L7KGwEVgz59CEn56NkZS5ujiMi3D8NzQKl4nV+4hsJZ+7nYoj6ZxSgeGn4G3bdbnvrXUbZqVturF5D0Kq2T6gJYB4XaLtpFnm47T8bRVdjd2W1YI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=pengutronix.de; spf=pass smtp.mailfrom=pengutronix.de; arc=none smtp.client-ip=185.203.201.7
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=pengutronix.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=pengutronix.de
+Received: from drehscheibe.grey.stw.pengutronix.de ([2a0a:edc0:0:c01:1d::a2])
+	by metis.whiteo.stw.pengutronix.de with esmtps (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
+	(Exim 4.92)
+	(envelope-from <mfe@pengutronix.de>)
+	id 1vCE5D-0003tv-Am; Fri, 24 Oct 2025 11:27:39 +0200
+Received: from pty.whiteo.stw.pengutronix.de ([2a0a:edc0:2:b01:1d::c5])
+	by drehscheibe.grey.stw.pengutronix.de with esmtps  (TLS1.3) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
+	(Exim 4.96)
+	(envelope-from <mfe@pengutronix.de>)
+	id 1vCE5C-005CcK-3A;
+	Fri, 24 Oct 2025 11:27:38 +0200
+Received: from mfe by pty.whiteo.stw.pengutronix.de with local (Exim 4.96)
+	(envelope-from <mfe@pengutronix.de>)
+	id 1vCE5C-00F7Ne-2o;
+	Fri, 24 Oct 2025 11:27:38 +0200
+Date: Fri, 24 Oct 2025 11:27:38 +0200
+From: Marco Felsch <m.felsch@pengutronix.de>
+To: Johan Hovold <johan@kernel.org>
+Cc: Rob Herring <robh@kernel.org>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	Jiri Slaby <jirislaby@kernel.org>, linux-serial@vger.kernel.org,
+	linux-kernel@vger.kernel.org, linux-usb@vger.kernel.org
+Subject: Re: [PATCH 0/3] USB-Serial serdev support
+Message-ID: <20251024092738.zao47ehvzckkrsf3@pengutronix.de>
+References: <20240807-v6-10-topic-usb-serial-serdev-v1-0-ed2cc5da591f@pengutronix.de>
+ <Zt7kCxawoszunWq3@hovoldconsulting.com>
+ <20240917044948.i2eog4ondf7vna7q@pengutronix.de>
+ <Z8_wcASfJ8SeAQ8l@hovoldconsulting.com>
+ <20250313194044.t2t3c7j6ktvshjhs@pengutronix.de>
+ <aPogbAozezmqSMuU@hovoldconsulting.com>
+ <20251023134828.2dzq2rhtjplqyyaj@pengutronix.de>
+ <aPs3BX9-og6wJIWR@hovoldconsulting.com>
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v7 2/9] drm/bridge: Implement generic USB Type-C DP HPD
- bridge
-To: Heikki Krogerus <heikki.krogerus@linux.intel.com>
-Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
- Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>,
- Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>,
- Conor Dooley <conor+dt@kernel.org>, Vinod Koul <vkoul@kernel.org>,
- Kishon Vijay Abraham I <kishon@kernel.org>, Heiko Stuebner
- <heiko@sntech.de>, Sandy Huang <hjc@rock-chips.com>,
- Andy Yan <andy.yan@rock-chips.com>,
- Yubing Zhang <yubing.zhang@rock-chips.com>,
- Frank Wang <frank.wang@rock-chips.com>,
- Andrzej Hajda <andrzej.hajda@intel.com>,
- Neil Armstrong <neil.armstrong@linaro.org>, Robert Foss <rfoss@kernel.org>,
- Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
- Jonas Karlman <jonas@kwiboo.se>, Jernej Skrabec <jernej.skrabec@gmail.com>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
- David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
- Amit Sunil Dhamne <amitsd@google.com>,
- Chaoyi Chen <chaoyi.chen@rock-chips.com>, Dragan Simic <dsimic@manjaro.org>,
- Johan Jonker <jbx6244@gmail.com>, Diederik de Haas <didi.debian@cknow.org>,
- Peter Robinson <pbrobinson@gmail.com>, linux-usb@vger.kernel.org,
- devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
- linux-phy@lists.infradead.org, linux-arm-kernel@lists.infradead.org,
- linux-rockchip@lists.infradead.org, dri-devel@lists.freedesktop.org
-References: <20251023033009.90-1-kernel@airkyi.com>
- <20251023033009.90-3-kernel@airkyi.com> <aPsyPTTq3bD2mo87@kuha.fi.intel.com>
-Content-Language: en-US
-From: Chaoyi Chen <chaoyi.chen@rock-chips.com>
-In-Reply-To: <aPsyPTTq3bD2mo87@kuha.fi.intel.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-X-HM-Tid: 0a9a1549fc6403abkunm8ebff3a42f61fa
-X-HM-MType: 1
-X-HM-Spam-Status: e1kfGhgUHx5ZQUpXWQgPGg8OCBgUHx5ZQUlOS1dZFg8aDwILHllBWSg2Ly
-	tZV1koWUFDSUNOT01LS0k3V1ktWUFJV1kPCRoVCBIfWUFZQklPSVZPGkoeGkMYTkNDH0lWFRQJFh
-	oXVRMBExYaEhckFA4PWVdZGBILWUFZTkNVSUlVTFVKSk9ZV1kWGg8SFR0UWUFZT0tIVUpLSUJNS0
-	pVSktLVUtZBg++
-DKIM-Signature: a=rsa-sha256;
-	b=g2jiBWJ+5dWD89nwOEyvWd7ig8i9jlV3bsjkJAfzip9OCKfRVMZ7DwJm4SNDH65hPFNm/b8wbYa+2UzpdVOu94do1TGefahMmFST785Ic9q/7uVSPmL0w+k8+xHAmfVSu8VVKj0qOgXwm9Jo7p28h1IRDDdjnxmfKRmTfLl7vds=; s=default; c=relaxed/relaxed; d=rock-chips.com; v=1;
-	bh=ypCW1dxnbfwi7cFlpQlnKjE4aNK9rTR6Jockrm+i67Q=;
-	h=date:mime-version:subject:message-id:from;
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <aPs3BX9-og6wJIWR@hovoldconsulting.com>
+X-SA-Exim-Connect-IP: 2a0a:edc0:0:c01:1d::a2
+X-SA-Exim-Mail-From: mfe@pengutronix.de
+X-SA-Exim-Scanned: No (on metis.whiteo.stw.pengutronix.de); SAEximRunCond expanded to false
+X-PTX-Original-Recipient: linux-usb@vger.kernel.org
 
-On 10/24/2025 4:01 PM, Heikki Krogerus wrote:
+On 25-10-24, Johan Hovold wrote:
+> On Thu, Oct 23, 2025 at 03:48:28PM +0200, Marco Felsch wrote:
+> > On 25-10-23, Johan Hovold wrote:
+> > > On Thu, Mar 13, 2025 at 08:40:44PM +0100, Marco Felsch wrote:
+> > > > On 25-03-11, Johan Hovold wrote:
+> > > > > On Tue, Sep 17, 2024 at 06:49:48AM +0200, Marco Felsch wrote:
+> > > > > > On 24-09-09, Johan Hovold wrote:
+> 
+> > > > > > > First, as the commit message you refer to below explain, we need some
+> > > > > > > way to describe multiport controllers. Just dropping the 'serial' node
+> > > > > > > does not make that issue go away.
+> 
+> > > There are other USB serial devices that support multiple ports over a
+> > > single USB interface. The DT bindings need to account for that case as
+> > > well, and that probably means we should not be describing the interfaces
+> > > at all but rather the physical ports.
+> > 
+> > Ah okay, I wasn't even aware that this possible too. However this is DT
+> > description and another topic.
+> 
+> It's still one of the issues that need to addressed.
 
-> On Thu, Oct 23, 2025 at 11:30:02AM +0800, Chaoyi Chen wrote:
->> +static int drm_typec_bus_event(struct notifier_block *nb,
->> +			       unsigned long action, void *data)
->> +{
->> +	struct typec_altmode *alt = (struct typec_altmode *)data;
->> +
->> +	if (action != TYPEC_ALTMODE_REGISTERED)
->> +		goto done;
->> +
->> +	if (alt->svid != USB_TYPEC_DP_SID)
->> +		goto done;
->> +
->> +	/*
->> +	 * alt->dev.parent->parent : USB-C controller device
->> +	 * alt->dev.parent         : USB-C connector device
->> +	 */
->> +	drm_dp_hpd_bridge_register(alt->dev.parent->parent,
->> +				   to_of_node(alt->dev.parent->fwnode));
-> Okay, this explains it. So you do need the port altmode.
->
-> So you'll need to export the device types and check that the parent of
-> the altmode is the port instead of partner.
->
->          if (!is_typec_port(alt->dev.parent) || alt->svid != USB_TYPEC_DP_SID)
->                  return NOTIFY_DONE;
->
-> I think we might as well export all the types while at it. Check the
-> attachment.
+Yes but this shouldn't be an issue with this patchset. So far the
+smallest DT-describale USB entities are the interfaces.
 
-Oh, I did miss the existence of partner. Thank you for your code!
+Additional support needs to be added if there are devices which need a
+more fine-grained description. I can't implement this since I don't have
+access to such devices. That beeing said, my patchset doesn't break such
+devices because in that case these devices simply can't be described as
+serdev device within the DT and the ttyUSBx devices are exposed to
+userspace.
+
+If one wants to add the support for it, the support can surely be added
+afterwards too in a backward compatible manner.
+
+> > > > > > > Second, and more importantly, you do not address the main obstacle for
+> > > > > > > enabling serdev for USB serial which is that the serdev cannot handle
+> > > > > > > hotplugging.
+> 
+> > > You will also see the following kind of warnings in the logs:
+> > > 
+> > > ttyUSB ttyUSB0: tty_hangup: tty->count(1) != (#fd's(0) + #kopen's(0))
+> > > ttyUSB ttyUSB0: tty_port_close_start: tty->count = 1 port count = 0
+> > > 
+> > > which are due to the fact that serdev does not support hangups which are
+> > > used during teardown of USB serial ports.
+> > 
+> > IIRC I added the following patch to solve this:
+> > 
+> >  - [PATCH 1/3] serdev: ttyport: make use of tty_kopen_exclusive
+> > 
+> > Sorry for not remembering the details since this conversation/patchset
+> > is quite old but still one of our top prios.
+> 
+> That suppresses the first warning but doesn't address the underlying
+> issue (that hangups are built around file handles which serdev does not
+> use). And you will still see the second one when the serdev driver tries
+> to close the already hung up port during deregistration.
+
+Can you please elaborate how I can check this? I'm not aware of any
+warning yet, but I only tested the hot-(un)plug. If I got your right, I
+should see the issue once I unload the serdev driver, right?
+
+> Also, that commit message needs to more work since you don't really
+> motivate why you think it's needed (e.g. as serdev ports can't be shared
+> with user space).
+
+Maybe it needs some adaptions but:
+
+| The purpose of serdev is to provide kernel drivers for particular serial
+| device, serdev-ttyport is no exception here. Make use of the
+| tty_kopen_exclusive() funciton to mark this tty device as kernel
+| internal device.
+
+the last sentence should address your point that serdev ports can't be
+shared with user-space.
+
+> If it's just about suppressing the warning you could possibly just have
+> set that new flag.
+
+Which new flag? As I have written in my commit message: "Make use of ...
+to mark this tty device as kernel internal device". I thought this was
+the purpose of tty_kopen_exclusive().
+
+Regards,
+  Marco
 
 
->
-> thanks,
->
+> 
+> Johan
+> 
+
 -- 
-Best,
-Chaoyi
+#gernperDu 
+#CallMeByMyFirstName
 
+Pengutronix e.K.                           |                             |
+Steuerwalder Str. 21                       | https://www.pengutronix.de/ |
+31137 Hildesheim, Germany                  | Phone: +49-5121-206917-0    |
+Amtsgericht Hildesheim, HRA 2686           | Fax:   +49-5121-206917-9    |
