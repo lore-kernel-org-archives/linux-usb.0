@@ -1,111 +1,115 @@
-Received: from mailout3.samsung.com (mailout3.samsung.com [203.254.224.33])
+Received: from mail-m49228.qiye.163.com (mail-m49228.qiye.163.com [45.254.49.228])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E48C6303A29
-	for <linux-usb@vger.kernel.org>; Fri, 24 Oct 2025 08:46:21 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=203.254.224.33
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EB14B2F7AB9;
+	Fri, 24 Oct 2025 08:51:31 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=45.254.49.228
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1761295584; cv=none; b=LokUeNSr46o8I+QuxiYruilxpzgUWsqh0vkHfvg/JIRHsjIxfMnq/7+WazyyOfTZQMBfCyAj3voyvhkgluFeHKYDh5WEo64c8Vg9xg3jPKOUvdbPEXltVt3cG9OFgyA6fPO8niNwflUQq2XHcYsAMPgTRgTGcreNQlkYHpqwDt4=
+	t=1761295896; cv=none; b=EeMGWxzqendwh53eOcj9wC1xg73/kcTHkgm7mlmlVug7THKyobw8jjtsairGp2VohuXoUd9WFarurgJUrxt5y+TtD88UOrJBUAxlMNjR84vbcNyycrjYtIlyfi0C5hpADtmMHdhBh6Iwx0OplcLVk2cTnzfkdJqOfHyNKurg0cg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1761295584; c=relaxed/simple;
-	bh=ayhlzx/vDW7RzSzImPHDdqt7SJ15b+qd1tcUvLLy7cg=;
-	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version:Content-Type:
-	 References; b=DsC7WeHRqUQqEyPepFtdV8M8Sy5bb0uoL0AJEsjfd6GosnM/scvDSMh8OE2InA2SASGRcDJ2tiMBy71n9lUawhWyqIQCWx5fa3BmSQxjV7VNymWj4JQtkExrN4+88cnjaFWFBAyWrZrac9fbFOiS018fzcmXffObyhIO9D4blZk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=samsung.com; spf=pass smtp.mailfrom=samsung.com; dkim=pass (1024-bit key) header.d=samsung.com header.i=@samsung.com header.b=OnXWkd2L; arc=none smtp.client-ip=203.254.224.33
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=samsung.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=samsung.com
+	s=arc-20240116; t=1761295896; c=relaxed/simple;
+	bh=st+YiT6+ntVTsbmWboA5z/ppcN3WvsLFMmnop252vB8=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=mgdzV/qS1hKmiyyiSqmX4Q+jHzd8tY5mIYZDYpvCilZ4kqGI7dni3FbuttplFPsFL6gs9r48M1XRY2t1aJPbzAL181752+HjOBnOq1tep+BECklEgE3wCsIT1mJX8suQIeacgOrs5HuWPqlS+1vu/EbYxMecgDaPLQRdwlnLjMo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=rock-chips.com; spf=pass smtp.mailfrom=rock-chips.com; dkim=pass (1024-bit key) header.d=rock-chips.com header.i=@rock-chips.com header.b=g2jiBWJ+; arc=none smtp.client-ip=45.254.49.228
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=rock-chips.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=rock-chips.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=samsung.com header.i=@samsung.com header.b="OnXWkd2L"
-Received: from epcas5p1.samsung.com (unknown [182.195.41.39])
-	by mailout3.samsung.com (KnoxPortal) with ESMTP id 20251024084619epoutp03135ea73716f92dc45570742ef488f38b~xYP98KLpQ2301723017epoutp03j
-	for <linux-usb@vger.kernel.org>; Fri, 24 Oct 2025 08:46:19 +0000 (GMT)
-DKIM-Filter: OpenDKIM Filter v2.11.0 mailout3.samsung.com 20251024084619epoutp03135ea73716f92dc45570742ef488f38b~xYP98KLpQ2301723017epoutp03j
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=samsung.com;
-	s=mail20170921; t=1761295579;
-	bh=Y9f4xNgwsSogW30q4hGrX3EKPf7RBNjTePBnXDJDViI=;
-	h=From:To:Cc:Subject:Date:References:From;
-	b=OnXWkd2L8fwLtzSYnluWuRewH6YvCKPJvJLL6PK8EveokejWkbFh2YQ9URBTdFN9w
-	 QP0CAE6ss25e5eYUHzv5nNPZr548g9JZTFHEoLE5VE3+7VcC8Gi3quS3F4GfdUPcfJ
-	 K3JGoG6Uub/Y8mYy589sPWfOq3/bKYK/AueNx1k0=
-Received: from epsnrtp04.localdomain (unknown [182.195.42.156]) by
-	epcas5p2.samsung.com (KnoxPortal) with ESMTPS id
-	20251024084619epcas5p206e9a5ca00598de80e973089374948ef~xYP9lnHAh1747217472epcas5p2B;
-	Fri, 24 Oct 2025 08:46:19 +0000 (GMT)
-Received: from epcas5p4.samsung.com (unknown [182.195.38.94]) by
-	epsnrtp04.localdomain (Postfix) with ESMTP id 4ctGhp2HR2z6B9mB; Fri, 24 Oct
-	2025 08:46:18 +0000 (GMT)
-Received: from epsmtip2.samsung.com (unknown [182.195.34.31]) by
-	epcas5p3.samsung.com (KnoxPortal) with ESMTPA id
-	20251024084617epcas5p362dde79d9729000cf3345a68db1157ce~xYP8NSx2w2243422434epcas5p3e;
-	Fri, 24 Oct 2025 08:46:17 +0000 (GMT)
-Received: from bose.samsungds.net (unknown [107.108.83.9]) by
-	epsmtip2.samsung.com (KnoxPortal) with ESMTPA id
-	20251024084615epsmtip2459e38e9dd0d72cccc6bc8363fdb4920~xYP56A_0N2244222442epsmtip20;
-	Fri, 24 Oct 2025 08:46:14 +0000 (GMT)
-From: Pritam Manohar Sutar <pritam.sutar@samsung.com>
-To: Thinh.Nguyen@synopsys.com, gregkh@linuxfoundation.org
-Cc: linux-usb@vger.kernel.org, linux-kernel@vger.kernel.org,
-	rosa.pila@samsung.com, dev.tailor@samsung.com, faraz.ata@samsung.com,
-	muhammed.ali@samsung.com, selvarasu.g@samsung.com, Pritam Manohar Sutar
-	<pritam.sutar@samsung.com>
-Subject: [PATCH v2] usb: dwc3: Allow usb role swich control from userspace
-Date: Fri, 24 Oct 2025 14:24:55 +0530
-Message-Id: <20251024085455.789555-1-pritam.sutar@samsung.com>
-X-Mailer: git-send-email 2.34.1
+	dkim=pass (1024-bit key) header.d=rock-chips.com header.i=@rock-chips.com header.b="g2jiBWJ+"
+Received: from [172.16.12.149] (unknown [58.22.7.114])
+	by smtp.qiye.163.com (Hmail) with ESMTP id 270f3fb7d;
+	Fri, 24 Oct 2025 16:16:01 +0800 (GMT+08:00)
+Message-ID: <836a096a-c6ed-4c9c-9de5-f8b0ee44fac3@rock-chips.com>
+Date: Fri, 24 Oct 2025 16:16:00 +0800
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-CMS-MailID: 20251024084617epcas5p362dde79d9729000cf3345a68db1157ce
-X-Msg-Generator: CA
-Content-Type: text/plain; charset="utf-8"
-CMS-TYPE: 105P
-cpgsPolicy: CPGSC10-542,Y
-X-CFilter-Loop: Reflected
-X-CMS-RootMailID: 20251024084617epcas5p362dde79d9729000cf3345a68db1157ce
-References: <CGME20251024084617epcas5p362dde79d9729000cf3345a68db1157ce@epcas5p3.samsung.com>
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v7 2/9] drm/bridge: Implement generic USB Type-C DP HPD
+ bridge
+To: Heikki Krogerus <heikki.krogerus@linux.intel.com>
+Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+ Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>,
+ Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>,
+ Conor Dooley <conor+dt@kernel.org>, Vinod Koul <vkoul@kernel.org>,
+ Kishon Vijay Abraham I <kishon@kernel.org>, Heiko Stuebner
+ <heiko@sntech.de>, Sandy Huang <hjc@rock-chips.com>,
+ Andy Yan <andy.yan@rock-chips.com>,
+ Yubing Zhang <yubing.zhang@rock-chips.com>,
+ Frank Wang <frank.wang@rock-chips.com>,
+ Andrzej Hajda <andrzej.hajda@intel.com>,
+ Neil Armstrong <neil.armstrong@linaro.org>, Robert Foss <rfoss@kernel.org>,
+ Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
+ Jonas Karlman <jonas@kwiboo.se>, Jernej Skrabec <jernej.skrabec@gmail.com>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
+ David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
+ Amit Sunil Dhamne <amitsd@google.com>,
+ Chaoyi Chen <chaoyi.chen@rock-chips.com>, Dragan Simic <dsimic@manjaro.org>,
+ Johan Jonker <jbx6244@gmail.com>, Diederik de Haas <didi.debian@cknow.org>,
+ Peter Robinson <pbrobinson@gmail.com>, linux-usb@vger.kernel.org,
+ devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
+ linux-phy@lists.infradead.org, linux-arm-kernel@lists.infradead.org,
+ linux-rockchip@lists.infradead.org, dri-devel@lists.freedesktop.org
+References: <20251023033009.90-1-kernel@airkyi.com>
+ <20251023033009.90-3-kernel@airkyi.com> <aPsyPTTq3bD2mo87@kuha.fi.intel.com>
+Content-Language: en-US
+From: Chaoyi Chen <chaoyi.chen@rock-chips.com>
+In-Reply-To: <aPsyPTTq3bD2mo87@kuha.fi.intel.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+X-HM-Tid: 0a9a1549fc6403abkunm8ebff3a42f61fa
+X-HM-MType: 1
+X-HM-Spam-Status: e1kfGhgUHx5ZQUpXWQgPGg8OCBgUHx5ZQUlOS1dZFg8aDwILHllBWSg2Ly
+	tZV1koWUFDSUNOT01LS0k3V1ktWUFJV1kPCRoVCBIfWUFZQklPSVZPGkoeGkMYTkNDH0lWFRQJFh
+	oXVRMBExYaEhckFA4PWVdZGBILWUFZTkNVSUlVTFVKSk9ZV1kWGg8SFR0UWUFZT0tIVUpLSUJNS0
+	pVSktLVUtZBg++
+DKIM-Signature: a=rsa-sha256;
+	b=g2jiBWJ+5dWD89nwOEyvWd7ig8i9jlV3bsjkJAfzip9OCKfRVMZ7DwJm4SNDH65hPFNm/b8wbYa+2UzpdVOu94do1TGefahMmFST785Ic9q/7uVSPmL0w+k8+xHAmfVSu8VVKj0qOgXwm9Jo7p28h1IRDDdjnxmfKRmTfLl7vds=; s=default; c=relaxed/relaxed; d=rock-chips.com; v=1;
+	bh=ypCW1dxnbfwi7cFlpQlnKjE4aNK9rTR6Jockrm+i67Q=;
+	h=date:mime-version:subject:message-id:from;
 
-There is a possibility of user needs for USB mode switching on boards
-that lack external hardware support for dynamic host/device role
-detection. This is particularly relevant in automotive applications
-where userspace applications need to switch USB roles (host to device)
-at runtime for CarPlay/Android Auto integration.
+On 10/24/2025 4:01 PM, Heikki Krogerus wrote:
 
-Add an `allow_userspace_control` flag to handle such cases. When
-enabled, it exposes a sysfs attribute that allows userspace to switch
-the USB role manually between host and device. This provides flexibility
-for platforms that cannot rely on hardware-based mode detection.
+> On Thu, Oct 23, 2025 at 11:30:02AM +0800, Chaoyi Chen wrote:
+>> +static int drm_typec_bus_event(struct notifier_block *nb,
+>> +			       unsigned long action, void *data)
+>> +{
+>> +	struct typec_altmode *alt = (struct typec_altmode *)data;
+>> +
+>> +	if (action != TYPEC_ALTMODE_REGISTERED)
+>> +		goto done;
+>> +
+>> +	if (alt->svid != USB_TYPEC_DP_SID)
+>> +		goto done;
+>> +
+>> +	/*
+>> +	 * alt->dev.parent->parent : USB-C controller device
+>> +	 * alt->dev.parent         : USB-C connector device
+>> +	 */
+>> +	drm_dp_hpd_bridge_register(alt->dev.parent->parent,
+>> +				   to_of_node(alt->dev.parent->fwnode));
+> Okay, this explains it. So you do need the port altmode.
+>
+> So you'll need to export the device types and check that the parent of
+> the altmode is the port instead of partner.
+>
+>          if (!is_typec_port(alt->dev.parent) || alt->svid != USB_TYPEC_DP_SID)
+>                  return NOTIFY_DONE;
+>
+> I think we might as well export all the types while at it. Check the
+> attachment.
 
-The role switch can be done as below
-echo host > /sys/class/usb_role/<ADDR>.usb-role-switch/role
-echo device > /sys/class/usb_role/<ADDR>.usb-role-switch/role
+Oh, I did miss the existence of partner. Thank you for your code!
 
-Acked-by: Thinh Nguyen <Thinh.Nguyen@synopsys.com>
-Signed-off-by: Pritam Manohar Sutar <pritam.sutar@samsung.com>
----
-Changes in v2:
-  - updated commit message by mentioning usecase for this change.
-  - added 'Acked-by' tag
-  Link for v1: https://lore.kernel.org/linux-usb/20251020113723.553843-1-pritam.sutar@samsung.com/
 
- drivers/usb/dwc3/drd.c | 1 +
- 1 file changed, 1 insertion(+)
-
-diff --git a/drivers/usb/dwc3/drd.c b/drivers/usb/dwc3/drd.c
-index 4c91240eb429..589bbeb27454 100644
---- a/drivers/usb/dwc3/drd.c
-+++ b/drivers/usb/dwc3/drd.c
-@@ -515,6 +515,7 @@ static int dwc3_setup_role_switch(struct dwc3 *dwc)
- 	dwc3_role_switch.set = dwc3_usb_role_switch_set;
- 	dwc3_role_switch.get = dwc3_usb_role_switch_get;
- 	dwc3_role_switch.driver_data = dwc;
-+	dwc3_role_switch.allow_userspace_control = true;
- 	dwc->role_sw = usb_role_switch_register(dwc->dev, &dwc3_role_switch);
- 	if (IS_ERR(dwc->role_sw))
- 		return PTR_ERR(dwc->role_sw);
---
-2.34.1
+>
+> thanks,
+>
+-- 
+Best,
+Chaoyi
 
