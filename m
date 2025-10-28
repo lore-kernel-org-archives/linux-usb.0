@@ -1,107 +1,97 @@
-Received: from mail-lf1-f49.google.com (mail-lf1-f49.google.com [209.85.167.49])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.19])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C6D4320B212
-	for <linux-usb@vger.kernel.org>; Tue, 28 Oct 2025 05:40:16 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.49
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7492D29E0ED
+	for <linux-usb@vger.kernel.org>; Tue, 28 Oct 2025 06:14:00 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.19
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1761630018; cv=none; b=WPqK2czH2BteBOoTrh26wGG5aOk8KwO7FAuZ8gqBNGG0GnEBUtO+gd3Zjj3S/7ubPTUiqZCIBT+2SSx5Bpf9ESuqHkJL2GGunKnSnvmpcemqMv5G7YM2i6sJWgLykENPED02aucLye6Ey/Gk6YmOcW2bsOESRQAwh5htd9mSWEs=
+	t=1761632042; cv=none; b=Zh0n6Ba6jsCIfGmeRgl7AlKcilHw+m6NHIAnutSTTwijvhmlhQYMuXWqAyM0RSGA8czQFVhkoApuouqwlkK4d/Srfl+5iY3RYnteR/dAQK23tV/0R0EnlnjVo3FRuFlyZn/xrW+FOXc+lRmb3GkaEJEqmdWzaSNY+37reGR0kZM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1761630018; c=relaxed/simple;
-	bh=MBBUGXoG1YUz44tfK9dC7obCvP9yR1LjZ/0B16rOeOU=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=DMR1M3pasB2w2TOIbenrkHGM+Bzvy+JH6iOP1bOK9vctnNqpsV5Gof5OCXS2agzoZp9RCK83mTwqHJi04MRRryu59jQ0q1JVb/x5YgKB5wBv0xzrNF676Vm0FpeOErMCZ2c9D92RfgKkhoBTYkF0APx0ceQ1oN/hg5J6mHurT98=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-foundation.org; spf=pass smtp.mailfrom=linuxfoundation.org; dkim=pass (1024-bit key) header.d=linux-foundation.org header.i=@linux-foundation.org header.b=fwuZd8ZV; arc=none smtp.client-ip=209.85.167.49
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-foundation.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linuxfoundation.org
+	s=arc-20240116; t=1761632042; c=relaxed/simple;
+	bh=4+kN2GUDB98DWhvYZTSkQb7/wd8j3z4BmeQz8zd1JPQ=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version; b=TKfxItsnFakY522mxX8rmwJ020vTHSoDFFrEhXA1HZzzTYV0eIUY3bJTVUj1exrKe/uWfeS5vfP9HrjSN9ER5G6Px94pghhKRR0TMR6QJfySVrSmXHUnoXvuvLmvKWUl/e067MlAu3Va3ZlTz/f57HqbVDKHm4YU/ZFcAQrtA9Q=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=pass smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Dby71CWn; arc=none smtp.client-ip=192.198.163.19
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linux-foundation.org header.i=@linux-foundation.org header.b="fwuZd8ZV"
-Received: by mail-lf1-f49.google.com with SMTP id 2adb3069b0e04-586883eb9fbso6858623e87.1
-        for <linux-usb@vger.kernel.org>; Mon, 27 Oct 2025 22:40:16 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linux-foundation.org; s=google; t=1761630015; x=1762234815; darn=vger.kernel.org;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=3Wy1ynDaI6taIoYDlBwI1sYFOXKyWHxR4eO6K9jXR3Y=;
-        b=fwuZd8ZVEWP4uMu43LltAFWYVk0A0CIeqBXYz7Oio5sw5aovqMwPoCePQPBZK3/Kxb
-         RcBEz8kS5ocqlpv33BCOaIco/SDP0wMXL9476tP/lIJC5QvHanTjSAn/p5Nkcn+SY2pW
-         x+joHfELyuIvp76pusuFv03F08RoqNeutrS8M=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1761630015; x=1762234815;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=3Wy1ynDaI6taIoYDlBwI1sYFOXKyWHxR4eO6K9jXR3Y=;
-        b=sTeoxOHUaqCiv1qHlQ5g+o3QiCP4jWIflLhL1QitwgrHMGA/a7n4O+XAMZdivM4pN4
-         vqqRPF5v1rKfJKZEI70Q7NvUzsMDC/96IETF1cJzagvrFACbuWMhTeTQR35XY08L3vVz
-         Rcd+nv5+dTADYS9sovzHeG5uCDqJc/fZ2IgLb3Tdfux5XNMZvk4Bcl2jQg5RazLctVst
-         q2J2HV0J+bORZSVvqLCKWjWWibW8g72cVLOQAHHb6A3s/SCQuBPOtfUt+FC98UXNM/fy
-         1MDisVba61V0mwlfMRdaBzahcQ9GJO7gZXXIVkzuFnah3KQwMokDMR20I70MgeCIqTi8
-         7LDQ==
-X-Forwarded-Encrypted: i=1; AJvYcCVvwVgywpHAlQhf3uMV3S86gWzFqk8RX1/gCuqxd4F7/bPI5xM7oTeuAiT4hLt7vgYdXfWKVslyAmU=@vger.kernel.org
-X-Gm-Message-State: AOJu0YxqWy2LKUH7ZE/43yplOWLK+bV4kd9EAuYqF6w8ks3uN7COHtdY
-	1T1Lf6rabCXp0rCiPYS0HCKtUVSjmbJC8VOud7igz3wShg0fs8PLCj7Heav9tXCtAyLsSGuFTbJ
-	dM13SoQieIQ==
-X-Gm-Gg: ASbGncve1J8Wi0NwG1uwNk5gz3TV6hJb/Igafb20UzXM8hoyHAkMg3yw6aA7Xrt2sab
-	+bjEZvRVcNHynEaIPL6T/jjmM+XceMNFMZ4NKty90f/JTcYlCypVHWjS/m9fwjnX0ZBk6uJBmx4
-	RGIUi38KszmU2K3mEKaF/VIjYZa2zgqDHn8OcLXBbrH2ed4Yelc9Cdea2+GprhIBeMwXahSuj9c
-	/O8Kh3uEYTDuptS6j14ZK4u+/X0D2vmKSD0V+rYW7tExlWEU4X8gtwdGIJKhpFpxfighOgazpG8
-	E51RJ20HVrt9wCF8tM8zDy05fVEZ08Th0R9BbWe0tIc/NfivjjMSdWTBbM7qs9ltDje3aYaGVRS
-	OsSUVf84hKKWStKC944t5x/gEqGNb2jbAXIO58XJQOhjGRf6wt8PsF3Blqujop8SS+g0/8CNtxV
-	TnsM75of8BWRb7nN5ZS1wQ/oCFH5oRhVA8XEGaIwmjNGItQULcQQ==
-X-Google-Smtp-Source: AGHT+IG0OpotYLas3qnC019qgQvSjJYvRVOcQa7DEFcIQpb5UEONWc/QT8KBe+Zg2p+eLfTjBD+aUA==
-X-Received: by 2002:a05:6512:2344:b0:58b:15b:21df with SMTP id 2adb3069b0e04-5930e9c5352mr930724e87.32.1761630014746;
-        Mon, 27 Oct 2025 22:40:14 -0700 (PDT)
-Received: from mail-lf1-f49.google.com (mail-lf1-f49.google.com. [209.85.167.49])
-        by smtp.gmail.com with ESMTPSA id 2adb3069b0e04-59301f83c96sm2770754e87.101.2025.10.27.22.40.13
-        for <linux-usb@vger.kernel.org>
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Mon, 27 Oct 2025 22:40:13 -0700 (PDT)
-Received: by mail-lf1-f49.google.com with SMTP id 2adb3069b0e04-592f3630b69so6617494e87.2
-        for <linux-usb@vger.kernel.org>; Mon, 27 Oct 2025 22:40:13 -0700 (PDT)
-X-Forwarded-Encrypted: i=1; AJvYcCVZDyG1BV3M2xMQQlLDM8NLN26R9MLoRuZR1Quihjia16OO+e1CtZdQ+CHko8yB84TgtWWZXQvxJhc=@vger.kernel.org
-X-Received: by 2002:a05:6402:5346:20b0:63c:1e15:b9fb with SMTP id
- 4fb4d7f45d1cf-63ed84d11b8mr1725392a12.22.1761629565035; Mon, 27 Oct 2025
- 22:32:45 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Dby71CWn"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1761632040; x=1793168040;
+  h=from:to:cc:subject:date:message-id:in-reply-to:
+   references:mime-version:content-transfer-encoding;
+  bh=4+kN2GUDB98DWhvYZTSkQb7/wd8j3z4BmeQz8zd1JPQ=;
+  b=Dby71CWnwdxJYBc9YWIEdNyAc1t64gLVzZkQSchGUzVunCFxJhxpp0Bp
+   tIPN1Q6Mld+KJead0NCFFjBsDpojhd3PAu7a75u0r3FAgC/6Ya1Zad/3x
+   nG0lZhVl3mGVDdpBNbijwEIJV460sIkrPqlVEBRmX5PCFOxntbLZVkvGx
+   OHcBL1+f9YPiVDU/1UG13Qpt/bnrdS/Kc4WiMSP9Cw5L+3rtOsCk9khjX
+   mb0cLdZRtOmAM5yhsQ4y2nYsaKK4Flkp7VM/YOIybb33MMzAZ+ohCDfTQ
+   dZJqJWvnwMXpmY4n70A9Jg+CcGojQgYO3ETp3BfIU7xg/GesKfnmWZpW7
+   g==;
+X-CSE-ConnectionGUID: IZU1JyBjRg+B0Cxh4EWU/w==
+X-CSE-MsgGUID: vV0TDrQAS3qF2uEAKsSGCw==
+X-IronPort-AV: E=McAfee;i="6800,10657,11586"; a="62754646"
+X-IronPort-AV: E=Sophos;i="6.19,260,1754982000"; 
+   d="scan'208";a="62754646"
+Received: from orviesa001.jf.intel.com ([10.64.159.141])
+  by fmvoesa113.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 27 Oct 2025 23:13:59 -0700
+X-CSE-ConnectionGUID: ofo1Vn9/SSOZquzyrAr8jg==
+X-CSE-MsgGUID: 229oufVXQNGKZpCPZQOxjA==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.19,260,1754982000"; 
+   d="scan'208";a="222463431"
+Received: from black.igk.intel.com ([10.91.253.5])
+  by orviesa001.jf.intel.com with ESMTP; 27 Oct 2025 23:13:58 -0700
+Received: by black.igk.intel.com (Postfix, from userid 1001)
+	id 1C4B197; Tue, 28 Oct 2025 07:13:57 +0100 (CET)
+From: Mika Westerberg <mika.westerberg@linux.intel.com>
+To: linux-usb@vger.kernel.org
+Cc: Yehezkel Bernat <YehezkelShB@gmail.com>,
+	Lukas Wunner <lukas@wunner.de>,
+	Andreas Noever <andreas.noever@gmail.com>,
+	Alan Borzeszkowski <alan.borzeszkowski@linux.intel.com>,
+	Jonathan Corbet <corbet@lwn.net>,
+	Mika Westerberg <mika.westerberg@linux.intel.com>
+Subject: [PATCH 2/2] thunderbolt: Update deprecated firmware update site in icm.c
+Date: Tue, 28 Oct 2025 07:13:57 +0100
+Message-ID: <20251028061357.2164810-3-mika.westerberg@linux.intel.com>
+X-Mailer: git-send-email 2.50.1
+In-Reply-To: <20251028061357.2164810-1-mika.westerberg@linux.intel.com>
+References: <20251028061357.2164810-1-mika.westerberg@linux.intel.com>
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20251028004614.393374-1-viro@zeniv.linux.org.uk>
- <20251028004614.393374-32-viro@zeniv.linux.org.uk> <20251028015553.GM2441659@ZenIV>
-In-Reply-To: <20251028015553.GM2441659@ZenIV>
-From: Linus Torvalds <torvalds@linux-foundation.org>
-Date: Mon, 27 Oct 2025 22:32:28 -0700
-X-Gmail-Original-Message-ID: <CAHk-=whCnWNXcmZAgxfV9p8rKJfjxcceNzaxia41f675+yEdfA@mail.gmail.com>
-X-Gm-Features: AWmQ_bkREqIMu_f1B9dwguEOjRWmmtrQM-BuU5ACiXPx-fVfEkz6aAECfx6yPOQ
-Message-ID: <CAHk-=whCnWNXcmZAgxfV9p8rKJfjxcceNzaxia41f675+yEdfA@mail.gmail.com>
-Subject: Re: [PATCH v2 31/50] convert autofs
-To: Al Viro <viro@zeniv.linux.org.uk>
-Cc: linux-fsdevel@vger.kernel.org, brauner@kernel.org, jack@suse.cz, 
-	raven@themaw.net, miklos@szeredi.hu, neil@brown.name, a.hindborg@kernel.org, 
-	linux-mm@kvack.org, linux-efi@vger.kernel.org, ocfs2-devel@lists.linux.dev, 
-	kees@kernel.org, rostedt@goodmis.org, gregkh@linuxfoundation.org, 
-	linux-usb@vger.kernel.org, paul@paul-moore.com, casey@schaufler-ca.com, 
-	linuxppc-dev@lists.ozlabs.org, john.johansen@canonical.com, 
-	selinux@vger.kernel.org, borntraeger@linux.ibm.com, bpf@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8bit
 
-On Mon, 27 Oct 2025 at 18:55, Al Viro <viro@zeniv.linux.org.uk> wrote:
->
-> BTW, is there any reason why autofs_dir_unlink() does not update
-> ctime of the parent directory?
+From: Alan Borzeszkowski <alan.borzeszkowski@linux.intel.com>
 
-An autofs 'rmdir' is really just an expire, isn't it? It doesn't
-really change anything in the parent, and a lookup will just reinstate
-the directory.
+Update leftover reference to Thunderbolt firmware upgrade site
+(thunderbolttechnology.net) with the preferred method described in
+Documentation/admin-guide/thunderbolt.rst.
 
-So I'd go the other way, and say that the strange thing is that it
-changes mtime...
+Signed-off-by: Alan Borzeszkowski <alan.borzeszkowski@linux.intel.com>
+Signed-off-by: Mika Westerberg <mika.westerberg@linux.intel.com>
+---
+ drivers/thunderbolt/icm.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-That said, exactly *because* it changes mtime, I think the real answer
-is that none of this matters, and it's probably just an oversight, and
-it could easily go either way.
+diff --git a/drivers/thunderbolt/icm.c b/drivers/thunderbolt/icm.c
+index f213d9174dc5..66092febb40d 100644
+--- a/drivers/thunderbolt/icm.c
++++ b/drivers/thunderbolt/icm.c
+@@ -2000,7 +2000,7 @@ static int icm_driver_ready(struct tb *tb)
+ 	if (icm->safe_mode) {
+ 		tb_info(tb, "Thunderbolt host controller is in safe mode.\n");
+ 		tb_info(tb, "You need to update NVM firmware of the controller before it can be used.\n");
+-		tb_info(tb, "For latest updates check https://thunderbolttechnology.net/updates.\n");
++		tb_info(tb, "Use fwupd tool to apply update. Check Documentation/admin-guide/thunderbolt.rst for details.\n");
+ 		return 0;
+ 	}
+ 
+-- 
+2.50.1
 
-               Linus
