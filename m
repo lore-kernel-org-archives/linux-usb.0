@@ -1,86 +1,102 @@
-Received: from zeniv.linux.org.uk (zeniv.linux.org.uk [62.89.141.173])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-ej1-f53.google.com (mail-ej1-f53.google.com [209.85.218.53])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 81E8C263F28;
-	Tue, 28 Oct 2025 01:55:57 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=62.89.141.173
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9565129293D
+	for <linux-usb@vger.kernel.org>; Tue, 28 Oct 2025 05:34:04 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.53
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1761616559; cv=none; b=YYMqFgRVxjerorRHujz+rrsKOADHPiFpTdJ52D0sIU6sw9V2rU0Q9GX7Z9YMqRlOsNt1+FaB+mz4CnHUpHrxuZKCrt9X9QiKYkxmkwU0bjQUMvl5vOMvWKNpXVlKlnLMnykN5zX4AnEpG9PqhmUECu0k0zrhUCgx+FBQMdGnM5s=
+	t=1761629646; cv=none; b=EbaD6DhatjIqO65W/2nHxbfOET6Sc9rlxAkLEB2ufMGcqQ4vQFGe9EQlMr8x6GZS38w7MncEgWl1vida+R+Lc6mX6bnVt11eflCb6xZWtXl4ObdlfQ8bLWmkMb1bUIB/WulCCXuLMCNZ1aeWE4VYU+7pZdKVmG7oc8zS4LeKFbo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1761616559; c=relaxed/simple;
-	bh=2nWzQD7+/4f80rBQ1UVL9YpxO6XOr6j9T92xF5dMgPw=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=OVF0bAGizVRJgw1bpkqJgMneY37pDUlDlfQGRZZk0L2FMPxXvWvPnmDTcCHN2GxIyOonWnh57tzBdS7F/ppfi9lkaVcwlt9o6t6LbFfN4k0R8vtqPjcRkvXNStVgOweyrSQYkMeMj62ZrJ848cqaEfEF3IAzlyYdgSbe7XaSfqQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=zeniv.linux.org.uk; spf=none smtp.mailfrom=ftp.linux.org.uk; dkim=pass (2048-bit key) header.d=linux.org.uk header.i=@linux.org.uk header.b=Le8KjsBu; arc=none smtp.client-ip=62.89.141.173
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=zeniv.linux.org.uk
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=ftp.linux.org.uk
+	s=arc-20240116; t=1761629646; c=relaxed/simple;
+	bh=UX3h0Pes41IJIATGA34ZfcGcoxGHwBRZyrCwKR+AqI4=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=ktPS+6ZMhya1JJKE0qoCk0gQpGEw5ph2sL2JVX5qKpfE2tzDHwsOWOJE6t6eZg9M3w6xFEnejNtlWwBbhg9V27Y5Q4O7csJzVNUHkO1PzSuZ7FYB45uOAruaIzLphFvd6yB9SauBr9npojBoer4VeQBftOarJSF/VaaVczzxLpY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-foundation.org; spf=pass smtp.mailfrom=linuxfoundation.org; dkim=pass (1024-bit key) header.d=linux-foundation.org header.i=@linux-foundation.org header.b=Jrlq/TbA; arc=none smtp.client-ip=209.85.218.53
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-foundation.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linuxfoundation.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linux.org.uk header.i=@linux.org.uk header.b="Le8KjsBu"
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=linux.org.uk; s=zeniv-20220401; h=Sender:In-Reply-To:Content-Type:
-	MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
-	Content-Transfer-Encoding:Content-ID:Content-Description;
-	bh=NMWzOpxOLp7djj4rryockFPgtDMeGtwU0HcuCp9Qs50=; b=Le8KjsBu+85kzt1t4BL8YLSUCP
-	aF48vXMeS/zemSMpkY8HqTGBwm0ZU5YrRhYzEC5oZEVC+l3smpfNXn666wRG/uExh/x7oN9MB9XOj
-	zpeS72wOY36FmbBVPzYMMCQUKinAbkmV3tCxRZIrNthIThSX5espx/xsim9TTv3BqSJ5A3D6OV7Yi
-	rK1NreXBBAvHNZiQc7rChyFRYtgOIkKQZt1TysBJYZfVG3/4CyNNL7QgtACAKJ466GTZWdbgE7ac4
-	BJAPN7UfUYSWmql2NJztc1/1b1yzIJ4W5eLGvarO+t66RFki8ovME3q7knigxC7p/U+4mPtzoxn5X
-	iyn+VxuQ==;
-Received: from viro by zeniv.linux.org.uk with local (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1vDYwD-000000039xT-37LE;
-	Tue, 28 Oct 2025 01:55:53 +0000
-Date: Tue, 28 Oct 2025 01:55:53 +0000
-From: Al Viro <viro@zeniv.linux.org.uk>
-To: linux-fsdevel@vger.kernel.org
-Cc: torvalds@linux-foundation.org, brauner@kernel.org, jack@suse.cz,
-	raven@themaw.net, miklos@szeredi.hu, neil@brown.name,
-	a.hindborg@kernel.org, linux-mm@kvack.org,
-	linux-efi@vger.kernel.org, ocfs2-devel@lists.linux.dev,
-	kees@kernel.org, rostedt@goodmis.org, gregkh@linuxfoundation.org,
-	linux-usb@vger.kernel.org, paul@paul-moore.com,
-	casey@schaufler-ca.com, linuxppc-dev@lists.ozlabs.org,
-	john.johansen@canonical.com, selinux@vger.kernel.org,
-	borntraeger@linux.ibm.com, bpf@vger.kernel.org
-Subject: Re: [PATCH v2 31/50] convert autofs
-Message-ID: <20251028015553.GM2441659@ZenIV>
-References: <20251028004614.393374-1-viro@zeniv.linux.org.uk>
- <20251028004614.393374-32-viro@zeniv.linux.org.uk>
+	dkim=pass (1024-bit key) header.d=linux-foundation.org header.i=@linux-foundation.org header.b="Jrlq/TbA"
+Received: by mail-ej1-f53.google.com with SMTP id a640c23a62f3a-b6d5b756284so1173308566b.1
+        for <linux-usb@vger.kernel.org>; Mon, 27 Oct 2025 22:34:04 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linux-foundation.org; s=google; t=1761629642; x=1762234442; darn=vger.kernel.org;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:from:to:cc:subject:date:message-id:reply-to;
+        bh=kLpGC29sIJuMD8EW6D6+ekLf15xOznYOaep7iLxbnWw=;
+        b=Jrlq/TbAcxUOQXH7JKY2VrMQdRCBUKz+ekMURhnEx2nbc704TyavMsuUcHNNH2Cc5u
+         8HueqF3z2/KRHm5Pq3GkpToz2mHs1rRdxdljMyBrGEgXLSB7qxlfakY+q4O9or322CbM
+         y/3hMeXm9eBufg8l+1GL0chFUHb5ifzWo2sXI=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1761629642; x=1762234442;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=kLpGC29sIJuMD8EW6D6+ekLf15xOznYOaep7iLxbnWw=;
+        b=iYP6I+VIizgLWMDs3nH3RvumlnK2eoxkRr1N0rWRbEeHfGzRTYxbICbRBbms9mR+eP
+         9lWAhPULw+y5xc0OVnIwELpjqVUMGr6DCxvWb7asED1KWQ14dWV3MIh+psgnJsnGUI4y
+         FRHuS43OI8Ywe1pBUBFLLInJcfdNhsN6wuiGGQ5BcmLcMXWnbOZz5giAHqH8Lvv/EqZG
+         Z9jJTX863xbtEn9jDqpCPu70BDey72dCmgBj/LMhSTxsVNG10Gyfp3WBjI3iqOV/bBx2
+         gZ2Hr3hNJ2j/mUOqgDZu4kc1mm/6+6WVPsaMHgF9IJgYNqnDW9KT15Xbcpw3wwIXgygb
+         hBWQ==
+X-Forwarded-Encrypted: i=1; AJvYcCXpuCcQ57M66AfywxiOyMutEzlv4T37HVAvBlo4DQ21RKp5G64MSyOBVcuiKo9omHkkDNOAOs+E3kY=@vger.kernel.org
+X-Gm-Message-State: AOJu0YzLIfxEMfNNfKmQUgn/mkIf03tctxLq+yMGQrWlxaJIEtxtQwSF
+	mVee0ObDAGBkki+cwYS44RaIZhmRB7Y5Fw6hxLfrgCjLTrAUL6tARrsyb0jxrJGoQ5jXVYEuH75
+	hl9HrJ6rNKw==
+X-Gm-Gg: ASbGncu6/UjA7Vnp6aYGqHqbBenv37UAV5VApJrGQ9v7YZ0s4CSISum38RnjRFq7RCi
+	XzRedeL2iO5qEDbghlalokgo5mWmOsilKq3utHDzETo1XX0RzTWuM9S8J3twFOKntT2rSrx8EuQ
+	CCQMU2fMjI0/qip84jii5857Xx/RML4mVihnX/cWuV8mIM/KcTfHCQ5MFPQoI7Rx1gOVXcqhcAK
+	6GzJ7SrjsZMsdSPnh5T+mjptdu9yLd9bkyolZBm+cKNDUOxEChBM/91GvRKUaDK5Ixk9x5Q2e9l
+	Gkcsi6uKC7Dq9FPDD7RCBknnjaWqZtEZoAB+za5WvBvq++FQ4a2M6rLSn2/QMrw8BB37/L++mh4
+	StU7v5448trTwyE2IzRKISzre4ukgCkorMnjKRlfwLUWmzx6LDdTpjEDOPDLAsb3yFmcwGJTGSJ
+	2VG0/JGtQzLHMrXj7vJ1sIJHQqJfEfecY+bM0ALzPSEptll0NyBc1Qrs8KI58B
+X-Google-Smtp-Source: AGHT+IGOMVcF5V3hNmPgEmd93TKoqjL7guouh5ESGuwbRvBzbnqpxKaXrN3+2xZfC748eUDasnvIqA==
+X-Received: by 2002:a17:906:c10f:b0:b3c:896:abdc with SMTP id a640c23a62f3a-b6dba5c0e6cmr200661266b.60.1761629642573;
+        Mon, 27 Oct 2025 22:34:02 -0700 (PDT)
+Received: from mail-ed1-f47.google.com (mail-ed1-f47.google.com. [209.85.208.47])
+        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-b6d8541fb5bsm972352366b.56.2025.10.27.22.34.02
+        for <linux-usb@vger.kernel.org>
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Mon, 27 Oct 2025 22:34:02 -0700 (PDT)
+Received: by mail-ed1-f47.google.com with SMTP id 4fb4d7f45d1cf-63e076e24f2so2483916a12.3
+        for <linux-usb@vger.kernel.org>; Mon, 27 Oct 2025 22:34:02 -0700 (PDT)
+X-Forwarded-Encrypted: i=1; AJvYcCV+la2q9yuij1ktd9qK7F1U1KhVs0GrxGmrpkb+zGmIrsTDmSPDNtBnJ+wQ3bTQvirbBCIh04OLySI=@vger.kernel.org
+X-Received: by 2002:a05:6402:2681:b0:63b:ef0e:dfa7 with SMTP id
+ 4fb4d7f45d1cf-63ed848cba3mr2102592a12.6.1761629641674; Mon, 27 Oct 2025
+ 22:34:01 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20251028004614.393374-32-viro@zeniv.linux.org.uk>
-Sender: Al Viro <viro@ftp.linux.org.uk>
+References: <20251028004614.393374-1-viro@zeniv.linux.org.uk>
+In-Reply-To: <20251028004614.393374-1-viro@zeniv.linux.org.uk>
+From: Linus Torvalds <torvalds@linux-foundation.org>
+Date: Mon, 27 Oct 2025 22:33:45 -0700
+X-Gmail-Original-Message-ID: <CAHk-=wg_FZnLha9Qr2sMQPXa1go4FPq2p5d7CnMoOnCimS2Wzg@mail.gmail.com>
+X-Gm-Features: AWmQ_bkfyF7pn4e6fUY7bNVBhf2DrgjCvQYqt5ZlzergSjGB0BKOD2LLrniXl7E
+Message-ID: <CAHk-=wg_FZnLha9Qr2sMQPXa1go4FPq2p5d7CnMoOnCimS2Wzg@mail.gmail.com>
+Subject: Re: [PATCH v2 00/50] tree-in-dcache stuff
+To: Al Viro <viro@zeniv.linux.org.uk>
+Cc: linux-fsdevel@vger.kernel.org, brauner@kernel.org, jack@suse.cz, 
+	raven@themaw.net, miklos@szeredi.hu, neil@brown.name, a.hindborg@kernel.org, 
+	linux-mm@kvack.org, linux-efi@vger.kernel.org, ocfs2-devel@lists.linux.dev, 
+	kees@kernel.org, rostedt@goodmis.org, gregkh@linuxfoundation.org, 
+	linux-usb@vger.kernel.org, paul@paul-moore.com, casey@schaufler-ca.com, 
+	linuxppc-dev@lists.ozlabs.org, john.johansen@canonical.com, 
+	selinux@vger.kernel.org, borntraeger@linux.ibm.com, bpf@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
 
-On Tue, Oct 28, 2025 at 12:45:50AM +0000, Al Viro wrote:
+On Mon, 27 Oct 2025 at 17:48, Al Viro <viro@zeniv.linux.org.uk> wrote:
+>
+> Things get simpler if we introduce a new dentry flag (DCACHE_PERSISTENT)
+> marking those "leaked" dentries.  Having it set claims responsibility
+> for +1 in refcount.
+>
+> The end result this series is aiming for: [...]
 
-> @@ -627,7 +626,7 @@ static int autofs_dir_unlink(struct inode *dir, struct dentry *dentry)
->  
->  	p_ino = autofs_dentry_ino(dentry->d_parent);
->  	p_ino->count--;
-> -	dput(dentry);
-> +	d_make_discardable(dentry);
->  
->  	d_inode(dentry)->i_size = 0;
->  	clear_nlink(d_inode(dentry));
+The series looks sane to me. Nothing made me really react negatively.
+But that's just from reading the patches: I didn't apply them or -
+shudder - test any of them.
 
-BTW, is there any reason why autofs_dir_unlink() does not update
-ctime of the parent directory?  Try it on a normal filesystem:
-
-; mkdir foo
-; touch foo/bar
-; stat --printf='%z\n' foo
-2025-10-27 21:40:03.489427380 -0400
-; rm foo/bar
-; stat --printf='%z\n' foo
-2025-10-27 21:40:16.853470607 -0400
-
-and note the change of ctime of directory reported after removing
-an entry in it.   All Unices since v7 had been that way...
-
-Why does autofs unlink() need to be different in that respect?
-Some userland reasons?
+            Linus
