@@ -1,34 +1,34 @@
 Received: from zeniv.linux.org.uk (zeniv.linux.org.uk [62.89.141.173])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 754372206BB;
-	Tue, 28 Oct 2025 00:46:23 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 151BF21B9C0;
+	Tue, 28 Oct 2025 00:46:22 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=62.89.141.173
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1761612389; cv=none; b=fytyg2tf5zB0OVZFpYWDuuNoOouzXYUjbZpKTMSpDlMYVSNgvwxUBUY708D7JTumhpmOnMDB9IcHUTPUTv/tZJQmzZxixnaxZlF4zQbJkXDrkHGCNXO/GcAN33yIYV8sl+iiG86hVt0YH+UnWwdMqEcU59tRAfHqvaBgZQQYYpU=
+	t=1761612388; cv=none; b=B65s3KsfhLdzFnWxZvo6YKNB71zchrrjqU+3fzWUWAQt9fX7IWFwjxkslOP6GBjaz2j+mFvGiF/wi+75Ucq1MImq7qLlsoIcNeJmmOGgDq9Ayq09AJSwHVcuM9uZMwYD0lsGxkKDCCqZdIqApyF4YDWHFkjGeJE7YyALmeAKtOs=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1761612389; c=relaxed/simple;
-	bh=uXgtHPP4fZ5x32ZZJpgKfGWzpUpqHbR1ag7zHb6zd34=;
+	s=arc-20240116; t=1761612388; c=relaxed/simple;
+	bh=hvKn4v226vlFPVcEMTmI8vKLyXW8b3xQk740dDR1S7k=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=DllH6AF0liqQrQQJOne26+uGG1AEgMbKVJflpLY0+cI80yIlk/L1NDfTC+nGevkhvyI1QVLBW0TfixmVOgGIFNmi/0unq+DyNe9WJm06evLrVY+uCWz8T2t5Xldz+1MWznHvtwRGpLUstrf/QsToXYgWSdFByeU0sGo4MhDO4Ps=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=zeniv.linux.org.uk; spf=none smtp.mailfrom=ftp.linux.org.uk; dkim=pass (2048-bit key) header.d=linux.org.uk header.i=@linux.org.uk header.b=SPeaTw/n; arc=none smtp.client-ip=62.89.141.173
+	 MIME-Version; b=tavUFj4bilt8Zzb8h3YWY9sXKuScappy1G8leGcCfVAeNW9VTX5tWjPlDJIr1/IYQPfKyHwExA0gVRXdJxIqg7w0GQoCRToeif5yGV7G08WTRdqwDILnPjukg+vK1+NdGQwU85duNLDjyfLsIvEgk0ytVfLXJD241UXH+HGJ6Ew=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=zeniv.linux.org.uk; spf=none smtp.mailfrom=ftp.linux.org.uk; dkim=pass (2048-bit key) header.d=linux.org.uk header.i=@linux.org.uk header.b=w10996o+; arc=none smtp.client-ip=62.89.141.173
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=zeniv.linux.org.uk
 Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=ftp.linux.org.uk
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linux.org.uk header.i=@linux.org.uk header.b="SPeaTw/n"
+	dkim=pass (2048-bit key) header.d=linux.org.uk header.i=@linux.org.uk header.b="w10996o+"
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=linux.org.uk; s=zeniv-20220401; h=Sender:Content-Transfer-Encoding:
 	MIME-Version:References:In-Reply-To:Message-ID:Date:Subject:Cc:To:From:
 	Reply-To:Content-Type:Content-ID:Content-Description;
-	bh=PO4orcfvZ5bdsI3sMLWcxolNLwtTITE6PBUvAzByvrw=; b=SPeaTw/nyjy3X7eXKJP1Yo2DDc
-	jxAU9ebxyJ3uqAioCRXsinsP4hdXnSK3EBdjRepJJQR+F0qsa9cA2+iyil7m/n/jWSTG+5EfoaFW6
-	3W1BW+l4ukWVCnJ8XZNfX8T3/UynVZqDhn3SmVZ/PBeouHxFvuj1V5NHmO9KZdX3+9NwzvW5toQdh
-	PPm0f7c5Ez/cGTPblxxIPh32lwIB2chNg/QWjqUsDl9iWHNtSsArJfPm463zB2zC4AGxCCPQunfJy
-	RCt1ieimN4BBWxdLwb1cd4Ur3mANf8ET7t1DGQaj097pZoNIm9Nge12OX4v7vdzJAkmL849PqvYK7
-	rZfs28jg==;
+	bh=aIO5z+XlaxOUN+dxGxWKQXIfyt7HKUVO8xN2mehuHOs=; b=w10996o+4wBACa8wFc2VJLTe4l
+	AE6SJfEeRlDJBYm9lG/BAJ2sno1dzvFxIr+TtSNTtBOWzrsOCuWNgNAkAt0vBEbh1UMQG+wJlVBHQ
+	sr8OKStPsOoMhX34Qf9DmIY46eYtxaTPX5hENvuK30W7LXSkmdHMOhCs1ztH4929mgSkNcSTduvmQ
+	Ra/dafUsYAby60kk2NLpCI2h5RjB+QHXiUdARFd5c+bM2avsNoSpvSX4Qomh81V30TPn/scJZlW+K
+	oeoNBr+ZulzfdrkHMiokpoHrOb3j9iKluVu8L+IDFhPH2OH6bFaWMaGGhse1QPURBnFF6IceB3uY/
+	fm9paVBw==;
 Received: from viro by zeniv.linux.org.uk with local (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1vDXqv-00000001eo9-1VvL;
-	Tue, 28 Oct 2025 00:46:21 +0000
+	id 1vDXqu-00000001ejA-11In;
+	Tue, 28 Oct 2025 00:46:20 +0000
 From: Al Viro <viro@zeniv.linux.org.uk>
 To: linux-fsdevel@vger.kernel.org
 Cc: torvalds@linux-foundation.org,
@@ -52,9 +52,9 @@ Cc: torvalds@linux-foundation.org,
 	selinux@vger.kernel.org,
 	borntraeger@linux.ibm.com,
 	bpf@vger.kernel.org
-Subject: [PATCH v2 47/50] get rid of kill_litter_super()
-Date: Tue, 28 Oct 2025 00:46:06 +0000
-Message-ID: <20251028004614.393374-48-viro@zeniv.linux.org.uk>
+Subject: [PATCH v2 44/50] convert rpc_pipefs
+Date: Tue, 28 Oct 2025 00:46:03 +0000
+Message-ID: <20251028004614.393374-45-viro@zeniv.linux.org.uk>
 X-Mailer: git-send-email 2.49.0
 In-Reply-To: <20251028004614.393374-1-viro@zeniv.linux.org.uk>
 References: <20251028004614.393374-1-viro@zeniv.linux.org.uk>
@@ -67,120 +67,98 @@ MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 Sender: Al Viro <viro@ftp.linux.org.uk>
 
-Not used anymore.
+Just use d_make_persistent() + dput() (and fold the latter into
+simple_finish_creating()) and that's it...
+
+NOTE: pipe->dentry is a borrowed reference - it does not contribute
+to dentry refcount.
 
 Signed-off-by: Al Viro <viro@zeniv.linux.org.uk>
 ---
- Documentation/filesystems/porting.rst |  7 +++++++
- fs/dcache.c                           | 21 ---------------------
- fs/internal.h                         |  1 -
- fs/super.c                            |  8 --------
- include/linux/dcache.h                |  1 -
- include/linux/fs.h                    |  1 -
- 6 files changed, 7 insertions(+), 32 deletions(-)
+ net/sunrpc/rpc_pipe.c | 27 ++++++++++++---------------
+ 1 file changed, 12 insertions(+), 15 deletions(-)
 
-diff --git a/Documentation/filesystems/porting.rst b/Documentation/filesystems/porting.rst
-index 7233b04668fc..4921b3b0662a 100644
---- a/Documentation/filesystems/porting.rst
-+++ b/Documentation/filesystems/porting.rst
-@@ -1309,3 +1309,10 @@ a different length, use
- 	vfs_parse_fs_qstr(fc, key, &QSTR_LEN(value, len))
+diff --git a/net/sunrpc/rpc_pipe.c b/net/sunrpc/rpc_pipe.c
+index 0bd1df2ebb47..379daefc4847 100644
+--- a/net/sunrpc/rpc_pipe.c
++++ b/net/sunrpc/rpc_pipe.c
+@@ -536,17 +536,16 @@ static int rpc_new_file(struct dentry *parent,
  
- instead.
-+
-+---
-+
-+**mandatory**
-+
-+kill_litter_super() is gone; convert to DCACHE_PERSISTENT use (as all
-+in-tree filesystems have done).
-diff --git a/fs/dcache.c b/fs/dcache.c
-index 3e26039ceca1..a7fab68fb4c9 100644
---- a/fs/dcache.c
-+++ b/fs/dcache.c
-@@ -3159,27 +3159,6 @@ bool is_subdir(struct dentry *new_dentry, struct dentry *old_dentry)
+ 	inode = rpc_get_inode(dir->i_sb, S_IFREG | mode);
+ 	if (unlikely(!inode)) {
+-		dput(dentry);
+-		inode_unlock(dir);
++		simple_done_creating(dentry);
+ 		return -ENOMEM;
+ 	}
+ 	inode->i_ino = iunique(dir->i_sb, 100);
+ 	if (i_fop)
+ 		inode->i_fop = i_fop;
+ 	rpc_inode_setowner(inode, private);
+-	d_instantiate(dentry, inode);
++	d_make_persistent(dentry, inode);
+ 	fsnotify_create(dir, dentry);
+-	inode_unlock(dir);
++	simple_done_creating(dentry);
+ 	return 0;
  }
- EXPORT_SYMBOL(is_subdir);
  
--static enum d_walk_ret d_genocide_kill(void *data, struct dentry *dentry)
--{
--	struct dentry *root = data;
--	if (dentry != root) {
--		if (d_unhashed(dentry) || !dentry->d_inode ||
--		    dentry->d_flags & DCACHE_PERSISTENT)
--			return D_WALK_SKIP;
--
--		if (!(dentry->d_flags & DCACHE_GENOCIDE)) {
--			dentry->d_flags |= DCACHE_GENOCIDE;
--			dentry->d_lockref.count--;
--		}
--	}
--	return D_WALK_CONTINUE;
--}
--
--void d_genocide(struct dentry *parent)
--{
--	d_walk(parent, parent, d_genocide_kill);
--}
--
- void d_mark_tmpfile(struct file *file, struct inode *inode)
- {
- 	struct dentry *dentry = file->f_path.dentry;
-diff --git a/fs/internal.h b/fs/internal.h
-index 9b2b4d116880..144686af6c36 100644
---- a/fs/internal.h
-+++ b/fs/internal.h
-@@ -227,7 +227,6 @@ extern void shrink_dcache_for_umount(struct super_block *);
- extern struct dentry *__d_lookup(const struct dentry *, const struct qstr *);
- extern struct dentry *__d_lookup_rcu(const struct dentry *parent,
- 				const struct qstr *name, unsigned *seq);
--extern void d_genocide(struct dentry *);
+@@ -563,18 +562,17 @@ static struct dentry *rpc_new_dir(struct dentry *parent,
  
- /*
-  * pipe.c
-diff --git a/fs/super.c b/fs/super.c
-index 5bab94fb7e03..ee001f684d2a 100644
---- a/fs/super.c
-+++ b/fs/super.c
-@@ -1284,14 +1284,6 @@ void kill_anon_super(struct super_block *sb)
+ 	inode = rpc_get_inode(dir->i_sb, S_IFDIR | mode);
+ 	if (unlikely(!inode)) {
+-		dput(dentry);
+-		inode_unlock(dir);
++		simple_done_creating(dentry);
+ 		return ERR_PTR(-ENOMEM);
+ 	}
+ 
+ 	inode->i_ino = iunique(dir->i_sb, 100);
+ 	inc_nlink(dir);
+-	d_instantiate(dentry, inode);
++	d_make_persistent(dentry, inode);
+ 	fsnotify_mkdir(dir, dentry);
+-	inode_unlock(dir);
++	simple_done_creating(dentry);
+ 
+-	return dentry;
++	return dentry; // borrowed
  }
- EXPORT_SYMBOL(kill_anon_super);
  
--void kill_litter_super(struct super_block *sb)
--{
--	if (sb->s_root)
--		d_genocide(sb->s_root);
--	kill_anon_super(sb);
--}
--EXPORT_SYMBOL(kill_litter_super);
--
- int set_anon_super_fc(struct super_block *sb, struct fs_context *fc)
- {
- 	return set_anon_super(sb, NULL);
-diff --git a/include/linux/dcache.h b/include/linux/dcache.h
-index 6ec4066825e3..20a85144a00e 100644
---- a/include/linux/dcache.h
-+++ b/include/linux/dcache.h
-@@ -198,7 +198,6 @@ enum dentry_flags {
- 	DCACHE_REFERENCED		= BIT(6),	/* Recently used, don't discard. */
- 	DCACHE_DONTCACHE		= BIT(7),	/* Purge from memory on final dput() */
- 	DCACHE_CANT_MOUNT		= BIT(8),
--	DCACHE_GENOCIDE			= BIT(9),
- 	DCACHE_SHRINK_LIST		= BIT(10),
- 	DCACHE_OP_WEAK_REVALIDATE	= BIT(11),
- 	/*
-diff --git a/include/linux/fs.h b/include/linux/fs.h
-index f5037c556f61..95933ceaae51 100644
---- a/include/linux/fs.h
-+++ b/include/linux/fs.h
-@@ -2728,7 +2728,6 @@ void retire_super(struct super_block *sb);
- void generic_shutdown_super(struct super_block *sb);
- void kill_block_super(struct super_block *sb);
- void kill_anon_super(struct super_block *sb);
--void kill_litter_super(struct super_block *sb);
- void deactivate_super(struct super_block *sb);
- void deactivate_locked_super(struct super_block *sb);
- int set_anon_super(struct super_block *s, void *data);
+ static int rpc_populate(struct dentry *parent,
+@@ -657,8 +655,7 @@ int rpc_mkpipe_dentry(struct dentry *parent, const char *name,
+ 
+ 	inode = rpc_get_inode(dir->i_sb, umode);
+ 	if (unlikely(!inode)) {
+-		dput(dentry);
+-		inode_unlock(dir);
++		simple_done_creating(dentry);
+ 		err = -ENOMEM;
+ 		goto failed;
+ 	}
+@@ -668,10 +665,10 @@ int rpc_mkpipe_dentry(struct dentry *parent, const char *name,
+ 	rpci->private = private;
+ 	rpci->pipe = pipe;
+ 	rpc_inode_setowner(inode, private);
+-	d_instantiate(dentry, inode);
+-	pipe->dentry = dentry;
++	pipe->dentry = dentry; // borrowed
++	d_make_persistent(dentry, inode);
+ 	fsnotify_create(dir, dentry);
+-	inode_unlock(dir);
++	simple_done_creating(dentry);
+ 	return 0;
+ 
+ failed:
+@@ -1206,7 +1203,7 @@ static void rpc_kill_sb(struct super_block *sb)
+ 					   sb);
+ 	mutex_unlock(&sn->pipefs_sb_lock);
+ out:
+-	kill_litter_super(sb);
++	kill_anon_super(sb);
+ 	put_net(net);
+ }
+ 
 -- 
 2.47.3
 
