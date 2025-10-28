@@ -1,34 +1,34 @@
 Received: from zeniv.linux.org.uk (zeniv.linux.org.uk [62.89.141.173])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 44415219A81;
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2537934CDD;
 	Tue, 28 Oct 2025 00:46:21 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=62.89.141.173
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1761612386; cv=none; b=mV8evPm5YjP1uTUipjCOb+fRHBbozGCCJGBBBgyO9M34p9sJiAPwSmLc/pCTsaUENRSzJCMf8YI1KV0f9JgGscS6wFzbzF3qdmFa5GT2loNm2i+bwiXU4YTuuUmZcnA3l4TLl+1IMss0ozCxXcZG4lMLi/3rrOAsFvemlUbeJLM=
+	t=1761612386; cv=none; b=tKMFkP2mSv5Ht2a9Ytgpg+mhJpfiuB/qT1s3iupdgtie4uLAUUsz603f1dOKWnKTUk3n/SIQ4kXgBXR5otHUERVA4QiPd3ZnMZ1wdHitexxvwZhpAhq0jN3u06MWnxz3omuhVyAITncfdavphSxjWap/cSEEdl1cNm5cPETYBCc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
 	s=arc-20240116; t=1761612386; c=relaxed/simple;
-	bh=drdrUYlNf0PCOpfWhx6O/F9lOTCkn1Mjer9awXrbASA=;
+	bh=/LaVkFLh1YjZDdmlfu7Y7iehW4lVeCwtnmZ9ARo1aE0=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=Dqiu/EtrjJc1RJTByre+m/8RiKswG5A7vOC53AVWAtgvZNkQyeW9P1SbmkF2L+B8xfEF7rwzCouoM12I2hivf7JTD9vBut81JBhbbfL7E9KzWYYlePa9hO7FZJrRCQTMvOVnR5krTFN5HallPDNAOJ9TqVv6vgIfZkstaBhZ52k=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=zeniv.linux.org.uk; spf=none smtp.mailfrom=ftp.linux.org.uk; dkim=pass (2048-bit key) header.d=linux.org.uk header.i=@linux.org.uk header.b=N1HyiXqW; arc=none smtp.client-ip=62.89.141.173
+	 MIME-Version; b=hllu43yQcmHBp4Hoin9GL1WI5OxU3ZDYz5AynEoRK479NE+rbYvYfO5ZUPPvh7cOXo7kKG+bszLiyKWU+FIBQkaeX6Nw2beKtcNGwfUs/8rRkhVNBdeNKBgnL66P7B8mgJnxp8nufSwYM/aybFOhzoN1G0w227Rs7lIxnLxcOyo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=zeniv.linux.org.uk; spf=none smtp.mailfrom=ftp.linux.org.uk; dkim=pass (2048-bit key) header.d=linux.org.uk header.i=@linux.org.uk header.b=mZm3qIcQ; arc=none smtp.client-ip=62.89.141.173
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=zeniv.linux.org.uk
 Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=ftp.linux.org.uk
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linux.org.uk header.i=@linux.org.uk header.b="N1HyiXqW"
+	dkim=pass (2048-bit key) header.d=linux.org.uk header.i=@linux.org.uk header.b="mZm3qIcQ"
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=linux.org.uk; s=zeniv-20220401; h=Sender:Content-Transfer-Encoding:
 	MIME-Version:References:In-Reply-To:Message-ID:Date:Subject:Cc:To:From:
 	Reply-To:Content-Type:Content-ID:Content-Description;
-	bh=LZ6yrPf10XyjUbpb0uoz9zDvZV76d0sxqTJxoq2o+VY=; b=N1HyiXqWvHuK6eYbHoqjsKF4yS
-	sRZR3R+AAf6swru+RmI/QN/YSkxT19z6dcL9RxoRt93tDwIfw8aweTO/4iA9n9JU+jR603TVBSnk+
-	Q2YJ74xC/uQLAY75lEg1xiQjThGulXfxJPHOqIx4++XcFlGut3/cwxrsMFTf0DgAoU4re6hB8TA1M
-	3D10mdbSmAzj5Eoeu/6TEUA1WUtGct5NSYbTRd/fYRips79EkV3WYcVtfDidNQWbDxf0wxBszRyaY
-	S8UHHm0pO8PDTgf+NmR2oCic03QfrrrZZGr2Mr642AXlexwRwbP3JkXztjANyhVSGqgVHU/kqDZ6X
-	WD2OlCNw==;
+	bh=AovK4oTG8i9mD8KDrbZrZDCi+2Kh5o4vX35c5oMMEjA=; b=mZm3qIcQePpnJyEcsH2GF3lRaa
+	0e4996QFXgXq2c0ReB/hQGwGdpUNf/1df2YVHWrlLszIlcg3KAT0gTNHH5TFh64MBd3r1mXE5ppuY
+	G6H3+MfifD10Mry27hkYV66FvIo52d/U5q6hu4C6FaEsvaMNwcUDTTLOWTWaBW2jSy6LO3ThgDIZ9
+	r5BXIu9QVukWUjsthtNBRGpPUbvSvpKScRpHUAEXw1YS+thW/UYn0XpW1vhtcmjs+h7dzPgLkuAme
+	ScxYOf2U0QYqPj0W9MdXfysJ9q5OCPlKX/TSkaLBCqo10TlvmtqSSH/2kxBXwlDBIZyj1rX+9OTyW
+	HoO/U3pQ==;
 Received: from viro by zeniv.linux.org.uk with local (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1vDXqq-00000001eYF-3cOg;
-	Tue, 28 Oct 2025 00:46:16 +0000
+	id 1vDXqr-00000001eYj-1BZN;
+	Tue, 28 Oct 2025 00:46:17 +0000
 From: Al Viro <viro@zeniv.linux.org.uk>
 To: linux-fsdevel@vger.kernel.org
 Cc: torvalds@linux-foundation.org,
@@ -52,9 +52,9 @@ Cc: torvalds@linux-foundation.org,
 	selinux@vger.kernel.org,
 	borntraeger@linux.ibm.com,
 	bpf@vger.kernel.org
-Subject: [PATCH v2 21/50] debugfs: remove duplicate checks in callers of start_creating()
-Date: Tue, 28 Oct 2025 00:45:40 +0000
-Message-ID: <20251028004614.393374-22-viro@zeniv.linux.org.uk>
+Subject: [PATCH v2 25/50] ibmasmfs: get rid of ibmasmfs_dir_ops
+Date: Tue, 28 Oct 2025 00:45:44 +0000
+Message-ID: <20251028004614.393374-26-viro@zeniv.linux.org.uk>
 X-Mailer: git-send-email 2.49.0
 In-Reply-To: <20251028004614.393374-1-viro@zeniv.linux.org.uk>
 References: <20251028004614.393374-1-viro@zeniv.linux.org.uk>
@@ -67,55 +67,44 @@ MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 Sender: Al Viro <viro@ftp.linux.org.uk>
 
-we'd already verified that DEBUGFS_ALLOW_API was there in
-start_creating() - it would've failed otherwise
+it is always equal (and always had been equal) to &simple_dir_operations
 
-Acked-by: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
 Signed-off-by: Al Viro <viro@zeniv.linux.org.uk>
 ---
- fs/debugfs/inode.c | 15 ---------------
- 1 file changed, 15 deletions(-)
+ drivers/misc/ibmasm/ibmasmfs.c | 6 ++----
+ 1 file changed, 2 insertions(+), 4 deletions(-)
 
-diff --git a/fs/debugfs/inode.c b/fs/debugfs/inode.c
-index 682120fdbb17..25a554331ac4 100644
---- a/fs/debugfs/inode.c
-+++ b/fs/debugfs/inode.c
-@@ -433,11 +433,6 @@ static struct dentry *__debugfs_create_file(const char *name, umode_t mode,
- 	if (IS_ERR(dentry))
- 		return dentry;
+diff --git a/drivers/misc/ibmasm/ibmasmfs.c b/drivers/misc/ibmasm/ibmasmfs.c
+index a6cde74efb68..824c5b664985 100644
+--- a/drivers/misc/ibmasm/ibmasmfs.c
++++ b/drivers/misc/ibmasm/ibmasmfs.c
+@@ -97,8 +97,6 @@ static const struct super_operations ibmasmfs_s_ops = {
+ 	.drop_inode	= inode_just_drop,
+ };
  
--	if (!(debugfs_allow & DEBUGFS_ALLOW_API)) {
--		failed_creating(dentry);
--		return ERR_PTR(-EPERM);
--	}
+-static const struct file_operations *ibmasmfs_dir_ops = &simple_dir_operations;
 -
- 	inode = debugfs_get_inode(dentry->d_sb);
- 	if (unlikely(!inode)) {
- 		pr_err("out of free dentries, can not create file '%s'\n",
-@@ -583,11 +578,6 @@ struct dentry *debugfs_create_dir(const char *name, struct dentry *parent)
- 	if (IS_ERR(dentry))
- 		return dentry;
+ static struct file_system_type ibmasmfs_type = {
+ 	.owner          = THIS_MODULE,
+ 	.name           = "ibmasmfs",
+@@ -122,7 +120,7 @@ static int ibmasmfs_fill_super(struct super_block *sb, struct fs_context *fc)
+ 		return -ENOMEM;
  
--	if (!(debugfs_allow & DEBUGFS_ALLOW_API)) {
--		failed_creating(dentry);
--		return ERR_PTR(-EPERM);
--	}
--
- 	inode = debugfs_get_inode(dentry->d_sb);
- 	if (unlikely(!inode)) {
- 		pr_err("out of free dentries, can not create directory '%s'\n",
-@@ -630,11 +620,6 @@ struct dentry *debugfs_create_automount(const char *name,
- 	if (IS_ERR(dentry))
- 		return dentry;
+ 	root->i_op = &simple_dir_inode_operations;
+-	root->i_fop = ibmasmfs_dir_ops;
++	root->i_fop = &simple_dir_operations;
  
--	if (!(debugfs_allow & DEBUGFS_ALLOW_API)) {
--		failed_creating(dentry);
--		return ERR_PTR(-EPERM);
--	}
--
- 	inode = debugfs_get_inode(dentry->d_sb);
- 	if (unlikely(!inode)) {
- 		pr_err("out of free dentries, can not create automount '%s'\n",
+ 	sb->s_root = d_make_root(root);
+ 	if (!sb->s_root)
+@@ -188,7 +186,7 @@ static struct dentry *ibmasmfs_create_dir(struct dentry *parent,
+ 	}
+ 
+ 	inode->i_op = &simple_dir_inode_operations;
+-	inode->i_fop = ibmasmfs_dir_ops;
++	inode->i_fop = &simple_dir_operations;
+ 
+ 	d_make_persistent(dentry, inode);
+ 	dput(dentry);
 -- 
 2.47.3
 
