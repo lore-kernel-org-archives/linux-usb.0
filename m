@@ -1,34 +1,34 @@
 Received: from zeniv.linux.org.uk (zeniv.linux.org.uk [62.89.141.173])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 26C1D1FE455;
-	Tue, 28 Oct 2025 00:46:21 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1ADB51DFE22;
+	Tue, 28 Oct 2025 00:46:20 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=62.89.141.173
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1761612389; cv=none; b=EZFLUHMFRCkSqUZhOG/PPlxV8mX+oDHQbnhTlkjIUL2dwcqM7R/btDLabUBLn/0q99vKp+aUmJIVQQZ1t6OMJ7cOpqk/dpF06IyXP7DC5ZYIolttqb9t8361TD+clvi0JpguLReFb7ZxdHqxRiBuqAoOxUfBOhHNUbF/s4t4Ev4=
+	t=1761612386; cv=none; b=bvaDN9Kl/fqCmQsmYqymWMR3KAwq+ff/4X+lpoEYH+o4CNAfveDSMBJpEVD6Jkr7Oys11eRG3wsdgv3mgGf4lkrg4gh1HqrUI6Hq7bWkhpje1rX4cftIZ6SR5ZqkKrKhrGpEaSzRn8O6R6KVpGu9v3zWTzXRWPvenjIhEC5OcUE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1761612389; c=relaxed/simple;
-	bh=39fNloyw2frElbbpNKs4pryCVXUrdW9TazuheCNnoeQ=;
+	s=arc-20240116; t=1761612386; c=relaxed/simple;
+	bh=QetimmBH6HT49Fi7Ybu8uKRDh9dhJDOafoGqQODixqA=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=mrTmv8Iqms7DOQlQx3oSfRYUauJs/KSsMWpzSmUlbUO++rrcYLN4chve4UB7zhcY7oigB8Cvdh6w3cpCECu5lr9MI4M8uhXI6bheOsoklDX96xWBR9b2HRRUhUOTMYfEYS5jviO0NlKjo3jZiw7hG+g7kdP58sJB1zwZ6PbhGGQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=zeniv.linux.org.uk; spf=none smtp.mailfrom=ftp.linux.org.uk; dkim=pass (2048-bit key) header.d=linux.org.uk header.i=@linux.org.uk header.b=Dt+Nd6iW; arc=none smtp.client-ip=62.89.141.173
+	 MIME-Version; b=JHQ3suhSCdL+XjCuYYhs+3W6UZyzbkKVivIgXhfrqvKzn6S/3QKO0MMK88xdZ+F9wtmHiujRtBCElhwyS01GWBg4MX/W9nOVEOI8SI31V1vrmiL64jHJZEeND3zIP0J06s1cLGSeSok7hVZrWqeN/wEbCZRuuskIsxVXhine6tM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=zeniv.linux.org.uk; spf=none smtp.mailfrom=ftp.linux.org.uk; dkim=pass (2048-bit key) header.d=linux.org.uk header.i=@linux.org.uk header.b=EWfgXsdi; arc=none smtp.client-ip=62.89.141.173
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=zeniv.linux.org.uk
 Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=ftp.linux.org.uk
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linux.org.uk header.i=@linux.org.uk header.b="Dt+Nd6iW"
+	dkim=pass (2048-bit key) header.d=linux.org.uk header.i=@linux.org.uk header.b="EWfgXsdi"
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=linux.org.uk; s=zeniv-20220401; h=Sender:Content-Transfer-Encoding:
 	MIME-Version:References:In-Reply-To:Message-ID:Date:Subject:Cc:To:From:
 	Reply-To:Content-Type:Content-ID:Content-Description;
-	bh=bCMcASxW4GQs4KES7qr2omvwcK385DadzCf/GiIFZ/s=; b=Dt+Nd6iW2PWT2BboUeHXj49Qkn
-	Fjms7qsOsZELH0oc4wtwugPD6a8MqzEDL/kpUQIX3zjfUxV9mYiIFlFUAYUbuWKdarDqDFrp6TJAx
-	uCoqjVXJBB1fuw2oijmLSN57dAE6UMl4qU8I/9eZyzeFLK4Q/4CEs7MFZMjXM+A8RC0wZUgZpOUb6
-	BAEZB2v5CZRIw6+UdzV3t1ZgVXXdA7h45mEIKfA1noSQxEBC9IVm8V0x5VYLmxuTvEUS70HMAcq0D
-	hhh+vZb6EzfsVHt1cVFbrbperlGVszCkTRm99S6pflACz5AVgvCPCKE4jG0HNCMo3+o+7dQVIga0R
-	R1uO1oRA==;
+	bh=PCYFuUAfEyL0H++y1+uBZz/Bn18lJwb1nrzO1KgbXu4=; b=EWfgXsdiG3Fd92lYkqqo2qv86G
+	VSuEIsAE3FCOGUjNJxAqt736qqVNAh1feZmW0K78PLH+93EYeUBDi1Xo4NzkphpULJWarhu9Oqrby
+	pl/UZgIXr1W+2G5w/nMVZArRc7KcmUfNCfdq132QezWSLreZgiT2O+z3rW+qSNg88h4YVAyOKJk1k
+	CxGSjVSLupRybFCX39EZff2pJknmU1Pf76gNozocEtWsm6ln0DjNrub4OI2ZwF1En+Jd3/MmNGXlz
+	c4wZPg1r+A42g75MPjf1P4AKIc6OloMhv0P8DZccF6CGOiJ3b0QjBGhDWHq5pAJ98lhyAlfNWeLJD
+	Jx20imGA==;
 Received: from viro by zeniv.linux.org.uk with local (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1vDXqr-00000001eZb-3pWj;
-	Tue, 28 Oct 2025 00:46:17 +0000
+	id 1vDXqq-00000001eYP-45Hh;
+	Tue, 28 Oct 2025 00:46:16 +0000
 From: Al Viro <viro@zeniv.linux.org.uk>
 To: linux-fsdevel@vger.kernel.org
 Cc: torvalds@linux-foundation.org,
@@ -52,9 +52,9 @@ Cc: torvalds@linux-foundation.org,
 	selinux@vger.kernel.org,
 	borntraeger@linux.ibm.com,
 	bpf@vger.kernel.org
-Subject: [PATCH v2 32/50] convert binfmt_misc
-Date: Tue, 28 Oct 2025 00:45:51 +0000
-Message-ID: <20251028004614.393374-33-viro@zeniv.linux.org.uk>
+Subject: [PATCH v2 22/50] convert efivarfs
+Date: Tue, 28 Oct 2025 00:45:41 +0000
+Message-ID: <20251028004614.393374-23-viro@zeniv.linux.org.uk>
 X-Mailer: git-send-email 2.49.0
 In-Reply-To: <20251028004614.393374-1-viro@zeniv.linux.org.uk>
 References: <20251028004614.393374-1-viro@zeniv.linux.org.uk>
@@ -67,115 +67,66 @@ MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 Sender: Al Viro <viro@ftp.linux.org.uk>
 
-removals are done with locked_recursive_removal(); switch creations to
-simple_start_creating()/d_make_persistent()/simple_done_creating() and
-take them to a helper (add_entry()), while we are at it - simpler control
-flow that way.
+Initially filesystem is populated with d_alloc_name() + d_add().
+That becomes d_alloc_name() + d_make_persistent() + dput().
+Dynamic creation is switched to d_make_persistent();
+removal - to simple_unlink() (no point open-coding it in
+efivarfs_unlink(), better call it there)
 
 Signed-off-by: Al Viro <viro@zeniv.linux.org.uk>
 ---
- fs/binfmt_misc.c | 69 ++++++++++++++++++++++--------------------------
- 1 file changed, 32 insertions(+), 37 deletions(-)
+ fs/efivarfs/inode.c | 7 ++-----
+ fs/efivarfs/super.c | 5 +++--
+ 2 files changed, 5 insertions(+), 7 deletions(-)
 
-diff --git a/fs/binfmt_misc.c b/fs/binfmt_misc.c
-index a839f960cd4a..2093f9dcd321 100644
---- a/fs/binfmt_misc.c
-+++ b/fs/binfmt_misc.c
-@@ -765,14 +765,41 @@ static const struct file_operations bm_entry_operations = {
+diff --git a/fs/efivarfs/inode.c b/fs/efivarfs/inode.c
+index 2891614abf8d..95dcad83da11 100644
+--- a/fs/efivarfs/inode.c
++++ b/fs/efivarfs/inode.c
+@@ -113,8 +113,7 @@ static int efivarfs_create(struct mnt_idmap *idmap, struct inode *dir,
  
- /* /register */
+ 	inode->i_private = var;
  
-+/* add to filesystem */
-+static int add_entry(Node *e, struct super_block *sb)
-+{
-+	struct dentry *dentry = simple_start_creating(sb->s_root, e->name);
-+	struct inode *inode;
-+	struct binfmt_misc *misc;
-+
-+	if (IS_ERR(dentry))
-+		return PTR_ERR(dentry);
-+
-+	inode = bm_get_inode(sb, S_IFREG | 0644);
-+	if (unlikely(!inode)) {
-+		simple_done_creating(dentry);
-+		return -ENOMEM;
-+	}
-+
-+	refcount_set(&e->users, 1);
-+	e->dentry = dentry;
-+	inode->i_private = e;
-+	inode->i_fop = &bm_entry_operations;
-+
-+	d_make_persistent(dentry, inode);
-+	misc = i_binfmt_misc(inode);
-+	write_lock(&misc->entries_lock);
-+	list_add(&e->list, &misc->entries);
-+	write_unlock(&misc->entries_lock);
-+	simple_done_creating(dentry);
-+	return 0;
-+}
-+
- static ssize_t bm_register_write(struct file *file, const char __user *buffer,
- 			       size_t count, loff_t *ppos)
- {
- 	Node *e;
--	struct inode *inode;
- 	struct super_block *sb = file_inode(file)->i_sb;
--	struct dentry *root = sb->s_root, *dentry;
--	struct binfmt_misc *misc;
- 	int err = 0;
- 	struct file *f = NULL;
- 
-@@ -803,39 +830,7 @@ static ssize_t bm_register_write(struct file *file, const char __user *buffer,
- 		e->interp_file = f;
- 	}
- 
--	inode_lock(d_inode(root));
--	dentry = lookup_noperm(&QSTR(e->name), root);
--	err = PTR_ERR(dentry);
--	if (IS_ERR(dentry))
--		goto out;
--
--	err = -EEXIST;
--	if (d_really_is_positive(dentry))
--		goto out2;
--
--	inode = bm_get_inode(sb, S_IFREG | 0644);
--
--	err = -ENOMEM;
--	if (!inode)
--		goto out2;
--
--	refcount_set(&e->users, 1);
--	e->dentry = dget(dentry);
--	inode->i_private = e;
--	inode->i_fop = &bm_entry_operations;
--
 -	d_instantiate(dentry, inode);
--	misc = i_binfmt_misc(inode);
--	write_lock(&misc->entries_lock);
--	list_add(&e->list, &misc->entries);
--	write_unlock(&misc->entries_lock);
--
--	err = 0;
--out2:
--	dput(dentry);
--out:
--	inode_unlock(d_inode(root));
--
-+	err = add_entry(e, sb);
- 	if (err) {
- 		if (f)
- 			filp_close(f, NULL);
-@@ -1028,7 +1023,7 @@ static struct file_system_type bm_fs_type = {
- 	.name		= "binfmt_misc",
- 	.init_fs_context = bm_init_fs_context,
- 	.fs_flags	= FS_USERNS_MOUNT,
--	.kill_sb	= kill_litter_super,
-+	.kill_sb	= kill_anon_super,
- };
- MODULE_ALIAS_FS("binfmt_misc");
+-	dget(dentry);
++	d_make_persistent(dentry, inode);
  
+ 	return 0;
+ }
+@@ -126,9 +125,7 @@ static int efivarfs_unlink(struct inode *dir, struct dentry *dentry)
+ 	if (efivar_entry_delete(var))
+ 		return -EINVAL;
+ 
+-	drop_nlink(d_inode(dentry));
+-	dput(dentry);
+-	return 0;
++	return simple_unlink(dir, dentry);
+ };
+ 
+ const struct inode_operations efivarfs_dir_inode_operations = {
+diff --git a/fs/efivarfs/super.c b/fs/efivarfs/super.c
+index 1f4d8ce56667..298ab3c929eb 100644
+--- a/fs/efivarfs/super.c
++++ b/fs/efivarfs/super.c
+@@ -278,7 +278,8 @@ static int efivarfs_create_dentry(struct super_block *sb, efi_char16_t *name16,
+ 	inode->i_private = entry;
+ 	i_size_write(inode, size + sizeof(__u32)); /* attributes + data */
+ 	inode_unlock(inode);
+-	d_add(dentry, inode);
++	d_make_persistent(dentry, inode);
++	dput(dentry);
+ 
+ 	return 0;
+ 
+@@ -522,7 +523,7 @@ static void efivarfs_kill_sb(struct super_block *sb)
+ 	struct efivarfs_fs_info *sfi = sb->s_fs_info;
+ 
+ 	blocking_notifier_chain_unregister(&efivar_ops_nh, &sfi->nb);
+-	kill_litter_super(sb);
++	kill_anon_super(sb);
+ 
+ 	kfree(sfi);
+ }
 -- 
 2.47.3
 
