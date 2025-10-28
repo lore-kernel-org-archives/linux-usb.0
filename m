@@ -1,34 +1,33 @@
 Received: from zeniv.linux.org.uk (zeniv.linux.org.uk [62.89.141.173])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 30E1E2135AD;
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 45A34219A8D;
 	Tue, 28 Oct 2025 00:46:21 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=62.89.141.173
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1761612390; cv=none; b=igWFkqvUCpZW4hQcbunkr8ucebehR2zReFB7LrMmXUP8FXGZhzr3tcZP8qoGTTy09WME0AMXKbqu2+pI6gO9ivEKkbkrHBXBhrdLsRm42LqFzfjgSr2c5+0XGOT1oORAn7xH05gy39ElIWVC3rEgcoGyy2UKhsi+aINsNaKv0Tg=
+	t=1761612390; cv=none; b=oHYDdRcXYJcpkGeBdWMNujRMrnqZ6Spafjj5e+rQWj9UAlkSxgukiRuqn9lPABF/w6t9prk0M+rpNv/4GtT5DlG5mhi49uDbPl5YZBj9S3phEO9TUlVfmgbfXG5f035+jFlDrWFLbPuEDxYB1sd3COAlFq1WisZRVoFdSoBr/N0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
 	s=arc-20240116; t=1761612390; c=relaxed/simple;
-	bh=YpdfPthhLRXpmUgCjlOpSXugzRCtgRbeguqotJmpblU=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=AWEjq7+iqpfBA3QWWZvXgoGoU5ATdRb1/5r2/diVEKFQRjwqjuHtYP7mD4e1lqPn1PyLU9FkrKWxfLUrH04oee8i5iX2V81ooWWSP5jRGBuoSwdhPNPBo750dOrID5jkG2EsIFYWLb1gAxBH7F7H11SwnkwnY41qewm7SCEvaxo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=zeniv.linux.org.uk; spf=none smtp.mailfrom=ftp.linux.org.uk; dkim=pass (2048-bit key) header.d=linux.org.uk header.i=@linux.org.uk header.b=hJkvg9Si; arc=none smtp.client-ip=62.89.141.173
+	bh=VHOkmnB/9PvyDvO+O/Z+3Hjq56tQI29obEctBTT5G/I=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=PDvSHlH47CizLWXnbn4M+Mpr11bKYweD/mnZap9kIofDYl4Ejr3yyFAXE4FbWTS3So36hH5P1VbQqLrZJrNt9ui5DyDnrakwNReROgtYSMqLvS4Lh4vJE4k9jboqePA8gk4VE19eLr68LNcDc0oJr8J2kWISLYhZtlskqrre+/M=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=zeniv.linux.org.uk; spf=none smtp.mailfrom=ftp.linux.org.uk; dkim=pass (2048-bit key) header.d=linux.org.uk header.i=@linux.org.uk header.b=qUrf3iVC; arc=none smtp.client-ip=62.89.141.173
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=zeniv.linux.org.uk
 Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=ftp.linux.org.uk
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linux.org.uk header.i=@linux.org.uk header.b="hJkvg9Si"
+	dkim=pass (2048-bit key) header.d=linux.org.uk header.i=@linux.org.uk header.b="qUrf3iVC"
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=linux.org.uk; s=zeniv-20220401; h=Sender:Content-Transfer-Encoding:
-	MIME-Version:References:In-Reply-To:Message-ID:Date:Subject:Cc:To:From:
-	Reply-To:Content-Type:Content-ID:Content-Description;
-	bh=BBdNK0gxnR7qfZeEdC/f0rBsP+oFzkGGYr3Jch9A6Js=; b=hJkvg9SitMoNdfPHwecrFFEJGO
-	woGIgKvY9Ps8P4MffQZjkg2+bGuwKDOXqFqsQvBx+05CGehRJCcwZV+0hcfc11LC7VRQUSe25npna
-	WLJsTiIG24TBAx+pWZHlURyousvs8kmfSwd/4atIS6Jb9xxb6LS8ZFJyTSe5nOn7I9Z5FY3HtAjXu
-	iEUL2OxtWhPSe9USVVkw9OgUPB3n1J1EB4K21R8NPkVJpx+1hKTCjI+SmfzN3+q8PaL8gGfyzKVz+
-	KHeJNuwnG6Evciq+QRMJsEi+0oHrSWPK1vB5xlDqV1jTYtAUslF4G8q9tlgSSVee6WRYJBMnYQpsm
-	1IGJpALQ==;
+	MIME-Version:Message-ID:Date:Subject:Cc:To:From:Reply-To:Content-Type:
+	Content-ID:Content-Description:In-Reply-To:References;
+	bh=5ME/pVGCOy0Jb+JLf9dI2yLeDW8cBFJkPzOSFDOyz5Y=; b=qUrf3iVC/Npnl6d73w47u6Oa4R
+	zrqTPbfglbVdIPrJRfch5ExLovV2/DlgosTCty9ho+IPlLi36xdYFAMUD8O+hIokG1FBxTJBhOMxM
+	MK0agSJv17yaf4uzQizZ1VLSLosYFLhXqOH1HnXRA3UlIUYbvuZWAfOC9IAcvHxLj2e9tkPi1EAQQ
+	FLljTM38TFxZrY0t7yJcwPWrgjhW+stoRqLFC+AwOjP+jd4j+xPDV1soJFeHjKP9erbpKckHKmOw2
+	/Y94OASfDqEiNUeT9ARs7217/wGzstPuPqW55J0f3HlnblUsip1rp1ieiOuvYuKQVdBkUNbdc36pG
+	Y3DhNePQ==;
 Received: from viro by zeniv.linux.org.uk with local (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1vDXqs-00000001eZz-0kWS;
-	Tue, 28 Oct 2025 00:46:18 +0000
+	id 1vDXqo-00000001eUb-1HIx;
+	Tue, 28 Oct 2025 00:46:14 +0000
 From: Al Viro <viro@zeniv.linux.org.uk>
 To: linux-fsdevel@vger.kernel.org
 Cc: torvalds@linux-foundation.org,
@@ -52,12 +51,10 @@ Cc: torvalds@linux-foundation.org,
 	selinux@vger.kernel.org,
 	borntraeger@linux.ibm.com,
 	bpf@vger.kernel.org
-Subject: [PATCH v2 34/50] selinuxfs: new helper for attaching files to tree
-Date: Tue, 28 Oct 2025 00:45:53 +0000
-Message-ID: <20251028004614.393374-35-viro@zeniv.linux.org.uk>
+Subject: [PATCH v2 00/50] tree-in-dcache stuff
+Date: Tue, 28 Oct 2025 00:45:19 +0000
+Message-ID: <20251028004614.393374-1-viro@zeniv.linux.org.uk>
 X-Mailer: git-send-email 2.49.0
-In-Reply-To: <20251028004614.393374-1-viro@zeniv.linux.org.uk>
-References: <20251028004614.393374-1-viro@zeniv.linux.org.uk>
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
@@ -67,357 +64,309 @@ MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 Sender: Al Viro <viro@ftp.linux.org.uk>
 
-allocating dentry after the inode has been set up reduces the amount
-of boilerplate - "attach this inode under that name and this parent
-or drop inode in case of failure" simplifies quite a few places.
+Some filesystems use a kinda-sorta controlled dentry refcount leak to pin
+dentries of created objects in dcache (and undo it when removing those).
+Reference is grabbed and not released, but it's not actually _stored_
+anywhere.  That works, but it's hard to follow and verify; among other
+things, we have no way to tell _which_ of the increments is intended
+to be an unpaired one.  Worse, on removal we need to decide whether
+the reference had already been dropped, which can be non-trivial if
+that removal is on umount and we need to figure out if this dentry is
+pinned due to e.g. unlink() not done.  Usually that is handled by using
+kill_litter_super() as ->kill_sb(), but there are open-coded special
+cases of the same (consider e.g. /proc/self).
 
-Signed-off-by: Al Viro <viro@zeniv.linux.org.uk>
----
- security/selinux/selinuxfs.c | 160 +++++++++++++++--------------------
- 1 file changed, 66 insertions(+), 94 deletions(-)
+Things get simpler if we introduce a new dentry flag (DCACHE_PERSISTENT)
+marking those "leaked" dentries.  Having it set claims responsibility
+for +1 in refcount.
 
-diff --git a/security/selinux/selinuxfs.c b/security/selinux/selinuxfs.c
-index b39e919c27b1..f088776dbbd3 100644
---- a/security/selinux/selinuxfs.c
-+++ b/security/selinux/selinuxfs.c
-@@ -1197,6 +1197,25 @@ static struct inode *sel_make_inode(struct super_block *sb, umode_t mode)
- 	return ret;
- }
- 
-+static struct dentry *sel_attach(struct dentry *parent, const char *name,
-+				 struct inode *inode)
-+{
-+	struct dentry *dentry = d_alloc_name(parent, name);
-+	if (unlikely(!dentry)) {
-+		iput(inode);
-+		return ERR_PTR(-ENOMEM);
-+	}
-+	d_add(dentry, inode);
-+	return dentry;
-+}
-+
-+static int sel_attach_file(struct dentry *parent, const char *name,
-+			   struct inode *inode)
-+{
-+	struct dentry *dentry = sel_attach(parent, name, inode);
-+	return PTR_ERR_OR_ZERO(dentry);
-+}
-+
- static ssize_t sel_read_bool(struct file *filep, char __user *buf,
- 			     size_t count, loff_t *ppos)
- {
-@@ -1356,8 +1375,7 @@ static int sel_make_bools(struct selinux_policy *newpolicy, struct dentry *bool_
- 	*bool_num = num;
- 	*bool_pending_names = names;
- 
--	for (i = 0; i < num; i++) {
--		struct dentry *dentry;
-+	for (i = 0; !ret && i < num; i++) {
- 		struct inode *inode;
- 		struct inode_security_struct *isec;
- 		ssize_t len;
-@@ -1368,15 +1386,9 @@ static int sel_make_bools(struct selinux_policy *newpolicy, struct dentry *bool_
- 			ret = -ENAMETOOLONG;
- 			break;
- 		}
--		dentry = d_alloc_name(bool_dir, names[i]);
--		if (!dentry) {
--			ret = -ENOMEM;
--			break;
--		}
- 
- 		inode = sel_make_inode(bool_dir->d_sb, S_IFREG | S_IRUGO | S_IWUSR);
- 		if (!inode) {
--			dput(dentry);
- 			ret = -ENOMEM;
- 			break;
- 		}
-@@ -1394,7 +1406,8 @@ static int sel_make_bools(struct selinux_policy *newpolicy, struct dentry *bool_
- 		isec->initialized = LABEL_INITIALIZED;
- 		inode->i_fop = &sel_bool_ops;
- 		inode->i_ino = i|SEL_BOOL_INO_OFFSET;
--		d_add(dentry, inode);
-+
-+		ret = sel_attach_file(bool_dir, names[i], inode);
- 	}
- out:
- 	free_page((unsigned long)page);
-@@ -1579,6 +1592,7 @@ static int sel_make_avc_files(struct dentry *dir)
- 	struct super_block *sb = dir->d_sb;
- 	struct selinux_fs_info *fsi = sb->s_fs_info;
- 	unsigned int i;
-+	int err = 0;
- 	static const struct tree_descr files[] = {
- 		{ "cache_threshold",
- 		  &sel_avc_cache_threshold_ops, S_IRUGO|S_IWUSR },
-@@ -1588,26 +1602,20 @@ static int sel_make_avc_files(struct dentry *dir)
- #endif
- 	};
- 
--	for (i = 0; i < ARRAY_SIZE(files); i++) {
-+	for (i = 0; !err && i < ARRAY_SIZE(files); i++) {
- 		struct inode *inode;
--		struct dentry *dentry;
--
--		dentry = d_alloc_name(dir, files[i].name);
--		if (!dentry)
--			return -ENOMEM;
- 
- 		inode = sel_make_inode(dir->d_sb, S_IFREG|files[i].mode);
--		if (!inode) {
--			dput(dentry);
-+		if (!inode)
- 			return -ENOMEM;
--		}
- 
- 		inode->i_fop = files[i].ops;
- 		inode->i_ino = ++fsi->last_ino;
--		d_add(dentry, inode);
-+
-+		err = sel_attach_file(dir, files[i].name, inode);
- 	}
- 
--	return 0;
-+	return err;
- }
- 
- static int sel_make_ss_files(struct dentry *dir)
-@@ -1615,30 +1623,25 @@ static int sel_make_ss_files(struct dentry *dir)
- 	struct super_block *sb = dir->d_sb;
- 	struct selinux_fs_info *fsi = sb->s_fs_info;
- 	unsigned int i;
-+	int err = 0;
- 	static const struct tree_descr files[] = {
- 		{ "sidtab_hash_stats", &sel_sidtab_hash_stats_ops, S_IRUGO },
- 	};
- 
--	for (i = 0; i < ARRAY_SIZE(files); i++) {
-+	for (i = 0; !err && i < ARRAY_SIZE(files); i++) {
- 		struct inode *inode;
--		struct dentry *dentry;
--
--		dentry = d_alloc_name(dir, files[i].name);
--		if (!dentry)
--			return -ENOMEM;
- 
- 		inode = sel_make_inode(dir->d_sb, S_IFREG|files[i].mode);
--		if (!inode) {
--			dput(dentry);
-+		if (!inode)
- 			return -ENOMEM;
--		}
- 
- 		inode->i_fop = files[i].ops;
- 		inode->i_ino = ++fsi->last_ino;
--		d_add(dentry, inode);
-+
-+		err = sel_attach_file(dir, files[i].name, inode);
- 	}
- 
--	return 0;
-+	return err;
- }
- 
- static ssize_t sel_read_initcon(struct file *file, char __user *buf,
-@@ -1666,30 +1669,25 @@ static const struct file_operations sel_initcon_ops = {
- static int sel_make_initcon_files(struct dentry *dir)
- {
- 	unsigned int i;
-+	int err = 0;
- 
--	for (i = 1; i <= SECINITSID_NUM; i++) {
--		struct inode *inode;
--		struct dentry *dentry;
-+	for (i = 1; !err && i <= SECINITSID_NUM; i++) {
- 		const char *s = security_get_initial_sid_context(i);
-+		struct inode *inode;
- 
- 		if (!s)
- 			continue;
--		dentry = d_alloc_name(dir, s);
--		if (!dentry)
--			return -ENOMEM;
- 
- 		inode = sel_make_inode(dir->d_sb, S_IFREG|S_IRUGO);
--		if (!inode) {
--			dput(dentry);
-+		if (!inode)
- 			return -ENOMEM;
--		}
- 
- 		inode->i_fop = &sel_initcon_ops;
- 		inode->i_ino = i|SEL_INITCON_INO_OFFSET;
--		d_add(dentry, inode);
-+		err = sel_attach_file(dir, s, inode);
- 	}
- 
--	return 0;
-+	return err;
- }
- 
- static inline unsigned long sel_class_to_ino(u16 class)
-@@ -1771,29 +1769,21 @@ static int sel_make_perm_files(struct selinux_policy *newpolicy,
- 	if (rc)
- 		return rc;
- 
--	for (i = 0; i < nperms; i++) {
-+	for (i = 0; !rc && i < nperms; i++) {
- 		struct inode *inode;
--		struct dentry *dentry;
- 
--		rc = -ENOMEM;
--		dentry = d_alloc_name(dir, perms[i]);
--		if (!dentry)
--			goto out;
--
--		rc = -ENOMEM;
- 		inode = sel_make_inode(dir->d_sb, S_IFREG|S_IRUGO);
- 		if (!inode) {
--			dput(dentry);
--			goto out;
-+			rc = -ENOMEM;
-+			break;
- 		}
- 
- 		inode->i_fop = &sel_perm_ops;
- 		/* i+1 since perm values are 1-indexed */
- 		inode->i_ino = sel_perm_to_ino(classvalue, i + 1);
--		d_add(dentry, inode);
-+
-+		rc = sel_attach_file(dir, perms[i], inode);
- 	}
--	rc = 0;
--out:
- 	for (i = 0; i < nperms; i++)
- 		kfree(perms[i]);
- 	kfree(perms);
-@@ -1808,20 +1798,18 @@ static int sel_make_class_dir_entries(struct selinux_policy *newpolicy,
- 	struct selinux_fs_info *fsi = sb->s_fs_info;
- 	struct dentry *dentry = NULL;
- 	struct inode *inode = NULL;
--
--	dentry = d_alloc_name(dir, "index");
--	if (!dentry)
--		return -ENOMEM;
-+	int err;
- 
- 	inode = sel_make_inode(dir->d_sb, S_IFREG|S_IRUGO);
--	if (!inode) {
--		dput(dentry);
-+	if (!inode)
- 		return -ENOMEM;
--	}
- 
- 	inode->i_fop = &sel_class_ops;
- 	inode->i_ino = sel_class_to_ino(index);
--	d_add(dentry, inode);
-+
-+	err = sel_attach_file(dir, "index", inode);
-+	if (err)
-+		return err;
- 
- 	dentry = sel_make_dir(dir, "perms", &fsi->last_class_ino);
- 	if (IS_ERR(dentry))
-@@ -1873,58 +1861,47 @@ static int sel_make_policycap(struct dentry *dir)
- {
- 	struct super_block *sb = dir->d_sb;
- 	unsigned int iter;
--	struct dentry *dentry = NULL;
- 	struct inode *inode = NULL;
-+	int err = 0;
-+
-+	for (iter = 0; !err && iter <= POLICYDB_CAP_MAX; iter++) {
-+		const char *name;
- 
--	for (iter = 0; iter <= POLICYDB_CAP_MAX; iter++) {
- 		if (iter < ARRAY_SIZE(selinux_policycap_names))
--			dentry = d_alloc_name(dir,
--					      selinux_policycap_names[iter]);
-+			name = selinux_policycap_names[iter];
- 		else
--			dentry = d_alloc_name(dir, "unknown");
--
--		if (dentry == NULL)
--			return -ENOMEM;
-+			name = "unknown";
- 
- 		inode = sel_make_inode(sb, S_IFREG | 0444);
--		if (inode == NULL) {
--			dput(dentry);
-+		if (!inode)
- 			return -ENOMEM;
--		}
- 
- 		inode->i_fop = &sel_policycap_ops;
- 		inode->i_ino = iter | SEL_POLICYCAP_INO_OFFSET;
--		d_add(dentry, inode);
-+		err = sel_attach_file(dir, name, inode);
- 	}
- 
--	return 0;
-+	return err;
- }
- 
- static struct dentry *sel_make_dir(struct dentry *dir, const char *name,
- 			unsigned long *ino)
- {
--	struct dentry *dentry = d_alloc_name(dir, name);
- 	struct inode *inode;
- 
--	if (!dentry)
--		return ERR_PTR(-ENOMEM);
--
- 	inode = sel_make_inode(dir->d_sb, S_IFDIR | S_IRUGO | S_IXUGO);
--	if (!inode) {
--		dput(dentry);
-+	if (!inode)
- 		return ERR_PTR(-ENOMEM);
--	}
- 
- 	inode->i_op = &simple_dir_inode_operations;
- 	inode->i_fop = &simple_dir_operations;
- 	inode->i_ino = ++(*ino);
- 	/* directory inodes start off with i_nlink == 2 (for "." entry) */
- 	inc_nlink(inode);
--	d_add(dentry, inode);
- 	/* bump link count on parent directory, too */
- 	inc_nlink(d_inode(dir));
- 
--	return dentry;
-+	return sel_attach(dir, name, inode);
- }
- 
- static int reject_all(struct mnt_idmap *idmap, struct inode *inode, int mask)
-@@ -2012,17 +1989,10 @@ static int sel_fill_super(struct super_block *sb, struct fs_context *fc)
- 		goto err;
- 	}
- 
--	ret = -ENOMEM;
--	dentry = d_alloc_name(sb->s_root, NULL_FILE_NAME);
--	if (!dentry)
--		goto err;
--
- 	ret = -ENOMEM;
- 	inode = sel_make_inode(sb, S_IFCHR | S_IRUGO | S_IWUGO);
--	if (!inode) {
--		dput(dentry);
-+	if (!inode)
- 		goto err;
--	}
- 
- 	inode->i_ino = ++fsi->last_ino;
- 	isec = selinux_inode(inode);
-@@ -2031,7 +2001,9 @@ static int sel_fill_super(struct super_block *sb, struct fs_context *fc)
- 	isec->initialized = LABEL_INITIALIZED;
- 
- 	init_special_inode(inode, S_IFCHR | S_IRUGO | S_IWUGO, MKDEV(MEM_MAJOR, 3));
--	d_add(dentry, inode);
-+	ret = sel_attach_file(sb->s_root, NULL_FILE_NAME, inode);
-+	if (ret)
-+		goto err;
- 
- 	dentry = sel_make_dir(sb->s_root, "avc", &fsi->last_ino);
- 	if (IS_ERR(dentry)) {
+The end result this series is aiming for:
+
+* get these unbalanced dget() and dput() replaced with new primitives that
+  would, in addition to adjusting refcount, set and clear persistency flag.
+* instead of having kill_litter_super() mess with removing the remaining
+  "leaked" references (e.g. for all tmpfs files that hadn't been removed
+  prior to umount), have the regular shrink_dcache_for_umount() strip
+  DCACHE_PERSISTENT of all dentries, dropping the corresponding
+  reference if it had been set.  After that kill_litter_super() becomes
+  an equivalent of kill_anon_super().
+
+Doing that in a single step is not feasible - it would affect too many places
+in too many filesystems.  It has to be split into a series.
+
+This work has really started early in 2024; quite a few preliminary pieces
+have already gone into mainline.  This chunk is finally getting to the
+meat of that stuff - infrastructure and most of the conversions to it.
+
+Some pieces are still sitting in the local branches, but the bulk of
+that stuff is here.
+
+Compared to v[1/50] 
+	* fusectl nlink leak fix
+	* selinuxfs stuff split
+	* rpc_pipe conversion added
+	* nfsctl conversion added
+	* rust_binderfs conversion added
+	* securityfs conversion added
+	* now that the last users are converted, kill_litter_super() is gone.
+	* tracefs leak fix in LOCKDOWN_TRACEFS case added.
+	* shmem_{un,}link() makes use of simple_{un,}link() rather than
+open-coding those.
+	* killed securityfs_recursive_remove() - it's an unused alias for
+securityfs_remove
+	* configfs and apparmorfs switched away from calling simple_unlink()
+and simple_rmdir(), allowing to make d_make_discardable() warn when given
+a dentry that had not been marked persistent.
+
+The branch is -rc3-based; it lives in
+git://git.kernel.org/pub/scm/linux/kernel/git/viro/vfs.git #work.persistency
+individual patches in followups.
+
+Please, help with review and testing; it does appear to survive the local beating,
+but extra eyes on it would be very welcome.
+
+Shortlog:
+      fuse_ctl_add_conn(): fix nlink breakage in case of early failure
+      tracefs: fix a leak in eventfs_create_events_dir()
+      new helper: simple_remove_by_name()
+      new helper: simple_done_creating()
+      introduce a flag for explicitly marking persistently pinned dentries
+      primitives for maintaining persisitency
+      convert simple_{link,unlink,rmdir,rename,fill_super}() to new primitives
+      convert ramfs and tmpfs
+      procfs: make /self and /thread_self dentries persistent
+      configfs, securityfs: kill_litter_super() not needed
+      convert xenfs
+      convert smackfs
+      convert hugetlbfs
+      convert mqueue
+      convert bpf
+      convert dlmfs
+      convert fuse_ctl
+      convert pstore
+      convert tracefs
+      convert debugfs
+      debugfs: remove duplicate checks in callers of start_creating()
+      convert efivarfs
+      convert spufs
+      convert ibmasmfs
+      ibmasmfs: get rid of ibmasmfs_dir_ops
+      convert devpts
+      binderfs: use simple_start_creating()
+      binderfs_binder_ctl_create(): kill a bogus check
+      convert binderfs
+      autofs_{rmdir,unlink}: dentry->d_fsdata->dentry == dentry there
+      convert autofs
+      convert binfmt_misc
+      selinuxfs: don't stash the dentry of /policy_capabilities
+      selinuxfs: new helper for attaching files to tree
+      convert selinuxfs
+      functionfs: switch to simple_remove_by_name()
+      convert functionfs
+      gadgetfs: switch to simple_remove_by_name()
+      convert gadgetfs
+      hypfs: don't pin dentries twice
+      hypfs: switch hypfs_create_str() to returning int
+      hypfs: swich hypfs_create_u64() to returning int
+      convert hypfs
+      convert rpc_pipefs
+      convert nfsctl
+      convert rust_binderfs
+      get rid of kill_litter_super()
+      convert securityfs
+      kill securityfs_recursive_remove()
+      d_make_discardable(): warn if given a non-persistent dentry
+
+Diffstat:
+ Documentation/filesystems/porting.rst     |   7 ++
+ arch/powerpc/platforms/cell/spufs/inode.c |  15 +--
+ arch/s390/hypfs/hypfs.h                   |   6 +-
+ arch/s390/hypfs/hypfs_diag_fs.c           |  60 ++++------
+ arch/s390/hypfs/hypfs_vm_fs.c             |  21 ++--
+ arch/s390/hypfs/inode.c                   |  82 +++++--------
+ drivers/android/binder/rust_binderfs.c    | 121 ++++++-------------
+ drivers/android/binderfs.c                |  82 +++----------
+ drivers/base/devtmpfs.c                   |   2 +-
+ drivers/misc/ibmasm/ibmasmfs.c            |  24 ++--
+ drivers/usb/gadget/function/f_fs.c        |  54 ++++-----
+ drivers/usb/gadget/legacy/inode.c         |  49 ++++----
+ drivers/xen/xenfs/super.c                 |   2 +-
+ fs/autofs/inode.c                         |   2 +-
+ fs/autofs/root.c                          |  11 +-
+ fs/binfmt_misc.c                          |  69 ++++++-----
+ fs/configfs/dir.c                         |  10 +-
+ fs/configfs/inode.c                       |   3 +-
+ fs/configfs/mount.c                       |   2 +-
+ fs/dcache.c                               | 111 +++++++++++-------
+ fs/debugfs/inode.c                        |  32 ++----
+ fs/devpts/inode.c                         |  57 ++++-----
+ fs/efivarfs/inode.c                       |   7 +-
+ fs/efivarfs/super.c                       |   5 +-
+ fs/fuse/control.c                         |  38 +++---
+ fs/hugetlbfs/inode.c                      |  12 +-
+ fs/internal.h                             |   1 -
+ fs/libfs.c                                |  52 +++++++--
+ fs/nfsd/nfsctl.c                          |  18 +--
+ fs/ocfs2/dlmfs/dlmfs.c                    |   8 +-
+ fs/proc/base.c                            |   6 +-
+ fs/proc/internal.h                        |   1 +
+ fs/proc/root.c                            |  14 +--
+ fs/proc/self.c                            |  10 +-
+ fs/proc/thread_self.c                     |  11 +-
+ fs/pstore/inode.c                         |   7 +-
+ fs/ramfs/inode.c                          |   8 +-
+ fs/super.c                                |   8 --
+ fs/tracefs/event_inode.c                  |   7 +-
+ fs/tracefs/inode.c                        |  13 +--
+ include/linux/dcache.h                    |   4 +-
+ include/linux/fs.h                        |   6 +-
+ include/linux/proc_fs.h                   |   2 -
+ include/linux/security.h                  |   2 -
+ init/do_mounts.c                          |   2 +-
+ ipc/mqueue.c                              |  12 +-
+ kernel/bpf/inode.c                        |  15 +--
+ mm/shmem.c                                |  38 ++----
+ net/sunrpc/rpc_pipe.c                     |  27 ++---
+ security/apparmor/apparmorfs.c            |  13 ++-
+ security/inode.c                          |  35 +++---
+ security/selinux/selinuxfs.c              | 185 +++++++++++++-----------------
+ security/smack/smackfs.c                  |   2 +-
+ 53 files changed, 585 insertions(+), 806 deletions(-)
+
+	Overview:
+
+First two commits are bugfixes (fusectl and tracefs resp.)
+
+[1/50] fuse_ctl_add_conn(): fix nlink breakage in case of early failure
+[2/50] tracefs: fix a leak in eventfs_create_events_dir()
+
+Next, two commits adding a couple of useful helpers, the next three adding
+the infrastructure and the rest consists of per-filesystem conversions.
+
+[3/50] new helper: simple_remove_by_name()
+[4/50] new helper: simple_done_creating()
+	end_creating_path() analogue for internal object creation; unlike
+end_creating_path() no mount is passed to it (or guaranteed to exist, for
+that matter - it might be used during the filesystem setup, before the
+superblock gets attached to any mounts).
+
+Infrastructure:
+[5/50] introduce a flag for explicitly marking persistently pinned dentries
+	* introduce the new flag
+	* teach shrink_dcache_for_umount() to handle it (i.e. remove
+and drop refcount on anything that survives to umount with that flag
+still set)
+	* teach kill_litter_super() that anything with that flag does
+*not* need to be unpinned.
+[6/50] primitives for maintaining persisitency
+	* d_make_persistent(dentry, inode) - bump refcount, mark persistent
+and make hashed positive.  Return value is a borrowed reference to dentry;
+it can be used until something removes persistency (at the very least,
+until the parent gets unlocked, but some filesystems may have stronger
+exclusion).
+	* d_make_discardable() - remove persistency mark and drop reference.
+
+NOTE: at that stage d_make_discardable() does not reject dentries not
+marked persistent - it acts as if the mark been set.
+
+Rationale: less noise in series splitup that way.  We want (and on the
+next commit will get) simple_unlink() to do the right thing - remove
+persistency, if it's there.  However, it's used by many filesystems.
+We would have either to convert them all at once or split simple_unlink()
+into "want persistent" and "don't want persistent" versions, the latter
+being the old one.  In the course of the series almost all callers
+would migrate to the replacement, leaving only two pathological cases
+with the old one.  The same goes for simple_rmdir() (two callers left in
+the end), simple_recursive_removal() (all callers gone in the end), etc.
+That's a lot of noise and it's easier to start with d_make_discardable()
+quietly accepting non-persistent dentries, then, in the end, add private
+copies of simple_unlink() and simple_rmdir() for two weird users (configfs
+and apparmorfs) and have those use dput() instead of d_make_discardable().
+At that point we'd be left with all callers of d_make_discardable()
+always passing persistent dentries, allowing to add a warning in it.
+
+[7/50] convert simple_{link,unlink,rmdir,rename,fill_super}() to new primitives
+	See above re quietly accepting non-peristent dentries in
+simple_unlink(), simple_rmdir(), etc.
+
+	Converting filesystems:
+[8/50] convert ramfs and tmpfs
+[9/50] procfs: make /self and /thread_self dentries persistent
+[10/50] configfs, securityfs: kill_litter_super() not needed
+[11/50] convert xenfs
+[12/50] convert smackfs
+[13/50] convert hugetlbfs
+[14/50] convert mqueue
+[15/50] convert bpf
+[16/50] convert dlmfs
+[17/50] convert fuse_ctl
+[18/50] convert pstore
+[19/50] convert tracefs
+[20/50] convert debugfs
+[21/50] debugfs: remove duplicate checks in callers of start_creating()
+[22/50] convert efivarfs
+[23/50] convert spufs
+[24/50] convert ibmasmfs
+[25/50] ibmasmfs: get rid of ibmasmfs_dir_ops
+[26/50] convert devpts
+[27/50] binderfs: use simple_start_creating()
+[28/50] binderfs_binder_ctl_create(): kill a bogus check
+[29/50] convert binderfs
+[30/50] autofs_{rmdir,unlink}: dentry->d_fsdata->dentry == dentry there
+[31/50] convert autofs
+[32/50] convert binfmt_misc
+[33/50] selinuxfs: don't stash the dentry of /policy_capabilities
+[34/50] selinuxfs: new helper for attaching files to tree
+[35/50] convert selinuxfs
+[36/50] functionfs: switch to simple_remove_by_name()
+[37/50] convert functionfs
+[38/50] gadgetfs: switch to simple_remove_by_name()
+[39/50] convert gadgetfs
+[40/50] hypfs: don't pin dentries twice
+[41/50] hypfs: switch hypfs_create_str() to returning int
+[42/50] hypfs: swich hypfs_create_u64() to returning int
+[43/50] convert hypfs
+[44/50] convert rpc_pipefs
+[45/50] convert nfsctl
+[46/50] convert rust_binderfs
+
+	... and no kill_litter_super() callers remain, so we
+can take it out:
+[47/50] get rid of kill_litter_super()
+	
+	Followups:
+[48/50] convert securityfs
+	That was the last remaining user of simple_recursive_removal()
+that did *not* mark things persistent.  Now the only places where
+d_make_discardable() is still called for dentries that are not marked
+persistent are the calls of simple_{unlink,rmdir}() in configfs and
+apparmorfs.
+
+[49/50] kill securityfs_recursive_remove()
+	Unused macro...
+
+[50/50] d_make_discardable(): warn if given a non-persistent dentry
+
+At this point there are very few call chains that might lead to
+d_make_discardable() on a dentry that hadn't been made persistent:
+calls of simple_unlink() and simple_rmdir() in configfs and
+apparmorfs.
+
+Both filesystems do pin (part of) their contents in dcache, but
+they are currently playing very unusual games with that.  Converting
+them to more usual patterns might be possible, but it's definitely
+going to be a long series of changes in both cases.
+
+For now the easiest solution is to have both stop using simple_unlink()
+and simple_rmdir() - that allows to make d_make_discardable() warn
+when given a non-persistent dentry.
+
+Rather than giving them full-blown private copies (with calls of
+d_make_discardable() replaced with dput()), let's pull the parts of
+simple_unlink() and simple_rmdir() that deal with timestamps and link
+counts into separate helpers (__simple_unlink() and __simple_rmdir()
+resp.) and have those used by configfs and apparmorfs.
+
 -- 
 2.47.3
 
