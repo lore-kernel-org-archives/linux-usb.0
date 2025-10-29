@@ -1,196 +1,100 @@
-Received: from omta34.uswest2.a.cloudfilter.net (omta34.uswest2.a.cloudfilter.net [35.89.44.33])
+Received: from mail.garderos.com (mail.garderos.com [213.61.82.113])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 90CD3278E5D
-	for <linux-usb@vger.kernel.org>; Wed, 29 Oct 2025 07:56:36 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=35.89.44.33
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D9A5F3164BC;
+	Wed, 29 Oct 2025 08:07:32 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.61.82.113
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1761724598; cv=none; b=DTSdAezMZGLn5TgQltrYFLZufNM1AO8a0JbLyQutyDGZFxFbLSC42QvjtL1pMlO0iG5wOaXmPYEWeltig3ITJdP+IM1eE/kLeyO7KD3xwIiCb+FJ0tkoE370ATdx4clHX/90Q+4AmM0ibL5hSvt9D4sedApXTuwgDY6I6RphKgs=
+	t=1761725256; cv=none; b=GMCv7wDHW0gFjae3Dqz7tj/tdGdWp8KUxfaMct46qyT7Nj72gm8BnHaz6blt+5n398EL3zQRl/nUh9phcxbQFHBi6eyOwxrclqwQrKH1vQo1lqDE8Jq+vCsDW6uxg+M32xTgd+eXyp82Kd+EHmYNGpCwB6unuNP/tg4ipIO1FXM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1761724598; c=relaxed/simple;
-	bh=TcqAfWFEiFBcSNbPlqwNDfXFwkUKEiArkoH/xUIA7n0=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=VxWkJ8jbc18mhoU/sJzCNjsjo5fUuB9vMXHbS3hvPvjn1LfOdO2VgU3rdC78R9hXyEn36ryQ/zCgt000iExyKDmwvBlI7djmDXeBYZ2QhplvVs6rLvSgwXkrolutcHMXlMDkDZG7wwGQRy0fxpzmg9qEgDWcIKNJBTgZ7CZIm64=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=embeddedor.com; spf=pass smtp.mailfrom=embeddedor.com; dkim=pass (2048-bit key) header.d=embeddedor.com header.i=@embeddedor.com header.b=XAvM3fa1; arc=none smtp.client-ip=35.89.44.33
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=embeddedor.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=embeddedor.com
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=embeddedor.com header.i=@embeddedor.com header.b="XAvM3fa1"
-Received: from eig-obgw-6006b.ext.cloudfilter.net ([10.0.30.211])
-	by cmsmtp with ESMTPS
-	id Dv99vKXQZZx2iE12kva816; Wed, 29 Oct 2025 07:56:30 +0000
-Received: from gator4166.hostgator.com ([108.167.133.22])
-	by cmsmtp with ESMTPS
-	id E12ivwUYse5vdE12ivRm7g; Wed, 29 Oct 2025 07:56:29 +0000
-X-Authority-Analysis: v=2.4 cv=PI0P+eqC c=1 sm=1 tr=0 ts=6901c8ad
- a=1YbLdUo/zbTtOZ3uB5T3HA==:117 a=4oHATN8Nx7vVUZJYxp75bA==:17
- a=IkcTkHD0fZMA:10 a=x6icFKpwvdMA:10 a=7T7KSl7uo7wA:10 a=iox4zFpeAAAA:8
- a=CJyRVPjjBR1MBHXF4zwA:9 a=QEXdDO2ut3YA:10 a=WzC6qhA0u3u7Ye7llzcV:22
- a=xYX6OU9JNrHFPr8prv8u:22
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=embeddedor.com; s=default; h=Content-Transfer-Encoding:Content-Type:
-	In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:Message-ID:Sender
-	:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
-	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:
-	List-Unsubscribe:List-Subscribe:List-Post:List-Owner:List-Archive;
-	bh=5J5C6qYMZNYrU7M3sfVdtvNKg3LL38S/NJb2d99zbh8=; b=XAvM3fa1trYexrpBn4JWU8fxjc
-	Kfvh4mACmELw5YsmSIOXmzAwIR7Z9NSo4nUMm73tDMI8CgGyH03h3dcJzIsH3Z/OpW1+bYqUtXG5k
-	ldTlU4ge+e+8A9UrOWUhWFx/tPT3nbb8or+a+ClMKsP1DcK+XfxFL9S7ZMTwkpfYb17iAzL3Y1C3g
-	/7v++TaFn5tSnbFw5zUplspiZSTO0RVrOlO+ZCWURqKCItSYPa7bspi5mdxv/pnw4r3p6uO3RSf7x
-	r5mo/iHCY9YWGJlVPLCWqsIcHWaQyohX0qP0WjtCAiviU+dNEe1dv4nDZUPSmxIddlwZ4rPGdQY/r
-	gUrGBx4A==;
-Received: from [185.134.146.81] (port=41320 helo=[10.35.193.44])
-	by gator4166.hostgator.com with esmtpsa  (TLS1.2) tls TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256
-	(Exim 4.98.1)
-	(envelope-from <gustavo@embeddedor.com>)
-	id 1vDmnm-00000001MY7-2C5P;
-	Tue, 28 Oct 2025 11:44:07 -0500
-Message-ID: <1564d2d8-7ed5-4599-b9e7-21fb7e887616@embeddedor.com>
-Date: Tue, 28 Oct 2025 16:43:59 +0000
+	s=arc-20240116; t=1761725256; c=relaxed/simple;
+	bh=efbL4jKzMvs2zzBcpTkVLy/R+EysAlOh+9tcvxIqlRg=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=CH0MQLlokRqcMm48oJlltMYhCPwgoqpCnxhb0EKNVwVrkkB2DZFWQhO2XqcY50z7j62e7ofwASwSGVFoBaxfZ6qpc0RP8wxjuU3SIcvWdgu7bx1cbapH4FQbH4bRj/RYQCec1PHIBy9hKEInBnAbCJ40GfU6ZuAL7Nz9vh9/Ivo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=garderos.com; spf=pass smtp.mailfrom=garderos.com; arc=none smtp.client-ip=213.61.82.113
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=garderos.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=garderos.com
+Received: from pc-067.dc.garderos.com (unknown [IPv6:2001:920:18d3:402::175])
+	by mail.garderos.com (Postfix) with ESMTPSA id 617B91C01CD3C;
+	Wed, 29 Oct 2025 08:57:57 +0100 (CET)
+From: qendrim.maxhuni@garderos.com
+To: netdev@vger.kernel.org
+Cc: linux-usb@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	bjorn@mork.no,
+	andrew+netdev@lunn.ch,
+	davem@davemloft.net,
+	edumazet@google.com,
+	kuba@kernel.org,
+	pabeni@redhat.com,
+	Qendrim Maxhuni <qendrim.maxhuni@garderos.com>
+Subject: [PATCH] net: usb: qmi_wwan: initialize MAC header offset in qmimux_rx_fixup
+Date: Wed, 29 Oct 2025 08:57:44 +0100
+Message-ID: <20251029075744.105113-1-qendrim.maxhuni@garderos.com>
+X-Mailer: git-send-email 2.43.0
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 1/1] uapi: cdc.h: cleanly provide for more interfaces and
- countries
-To: Greg KH <gregkh@linuxfoundation.org>,
- "Gustavo A. R. Silva" <gustavoars@kernel.org>,
- Oliver Neukum <oneukum@suse.com>
-Cc: linux-usb@vger.kernel.org
-References: <20251028123254.1888303-1-oneukum@suse.com>
- <2025102858-doorframe-canola-e6c0@gregkh>
- <16a3c8ef-dd3f-48c4-afcd-42ab4b14c429@suse.com>
- <2025102857-surfer-atypical-2857@gregkh>
-Content-Language: en-US
-From: "Gustavo A. R. Silva" <gustavo@embeddedor.com>
-In-Reply-To: <2025102857-surfer-atypical-2857@gregkh>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-X-AntiAbuse: This header was added to track abuse, please include it with any abuse report
-X-AntiAbuse: Primary Hostname - gator4166.hostgator.com
-X-AntiAbuse: Original Domain - vger.kernel.org
-X-AntiAbuse: Originator/Caller UID/GID - [47 12] / [47 12]
-X-AntiAbuse: Sender Address Domain - embeddedor.com
-X-BWhitelist: no
-X-Source-IP: 185.134.146.81
-X-Source-L: No
-X-Exim-ID: 1vDmnm-00000001MY7-2C5P
-X-Source: 
-X-Source-Args: 
-X-Source-Dir: 
-X-Source-Sender: ([10.35.193.44]) [185.134.146.81]:41320
-X-Source-Auth: gustavo@embeddedor.com
-X-Email-Count: 0
-X-Org: HG=hgshared;ORG=hostgator;
-X-Source-Cap: Z3V6aWRpbmU7Z3V6aWRpbmU7Z2F0b3I0MTY2Lmhvc3RnYXRvci5jb20=
-X-Local-Domain: yes
-X-CMAE-Envelope: MS4xfBY0S9ERJdFC/N8CcLzRwdV/i67Pju8DkSTBnhHAtK/4X0ctj84SHuoZBD+UM5vAq/z+O43o6bhUBS5RcbIV0OqCGym1dr8Xzi2XsxhhYknFTARWiEvC
- hYoiditopp83E1e+4d30mL0WT2Frh5/XoZ2s+rBR116JlW/4CawQdxre8zHB8MFz6YYnbtM0q4qnXH8wHQQ+dIyU7o8dd/TNKys=
+Content-Transfer-Encoding: 8bit
 
+From: Qendrim Maxhuni <qendrim.maxhuni@garderos.com>
 
+Raw IP packets have no MAC header, leaving skb->mac_header uninitialized.
+This can trigger kernel panics on ARM64 when xfrm or other subsystems
+access the offset due to strict alignment checks.
 
-On 10/28/25 14:40, Greg KH wrote:
-> On Tue, Oct 28, 2025 at 03:34:40PM +0100, Oliver Neukum wrote:
->> Hi,
->>
->> On 28.10.25 14:32, Greg KH wrote:
->>> On Tue, Oct 28, 2025 at 01:32:22PM +0100, Oliver Neukum wrote:
->>>> The spec requires at least one interface respectively country.
->>>> It allows multiple ones. This needs to be clearly said in the UAPI.
->>>>
->>>> Signed-off-by: Oliver Neukum <oneukum@suse.com>
->>>> ---
->>>>    include/uapi/linux/usb/cdc.h | 4 ++--
->>>>    1 file changed, 2 insertions(+), 2 deletions(-)
->>>>
->>>> diff --git a/include/uapi/linux/usb/cdc.h b/include/uapi/linux/usb/cdc.h
->>>> index 1924cf665448..5fcbce0be133 100644
->>>> --- a/include/uapi/linux/usb/cdc.h
->>>> +++ b/include/uapi/linux/usb/cdc.h
->>>> @@ -105,7 +105,7 @@ struct usb_cdc_union_desc {
->>>>    	__u8	bMasterInterface0;
->>>>    	__u8	bSlaveInterface0;
->>>> -	/* ... and there could be other slave interfaces */
->>>> +	__u8	bSlaveInterfaces[];
->>>
->>> Can this be combined with bSlaveInterface0?  Feels odd to have 0 and
->>> then "more".
->>
->> I am afraid the C language does not allow you to specify
->> that an array must have a minimum length other than zero.
->> In this case bSlaveInterface0 must be present.
->> I don't think using only an array would be the right choice.
+Initialize the MAC header to prevent such crashes.
 
-You can do something like this:
+This can trigger kernel panics on ARM when running IPsec over the
+qmimux0 interface.
 
-@@ -104,8 +104,10 @@ struct usb_cdc_union_desc {
-         __u8    bDescriptorSubType;
+Example trace:
 
-         __u8    bMasterInterface0;
--       __u8    bSlaveInterface0;
--       /* ... and there could be other slave interfaces */
-+       union {
-+               __u8    bSlaveInterface0;
-+               DECLARE_FLEX_ARRAY(__u8, bSlaveInterfaces);
-+       };
-  } __attribute__ ((packed));
+[  276.268068] Internal error: Oops: 000000009600004f [#1] SMP
+[  276.313631] CPU: 0 UID: 0 PID: 0 Comm: swapper/0 Not tainted 6.12.34-gbe78e49cb433 #1
+[  276.321491] Hardware name: LS1028A RDB Board (DT)
+[  276.326207] pstate: 60000005 (nZCv daif -PAN -UAO -TCO -DIT -SSBS BTYPE=--)
+[  276.333194] pc : xfrm_input+0xde8/0x1318
+[  276.337134] lr : xfrm_input+0x61c/0x1318
+[  276.341068] sp : ffff800080003b20
+[  276.416041] Call trace:
+[  276.418489]  xfrm_input+0xde8/0x1318
+[  276.422074]  xfrm6_rcv+0x38/0x44
+[  276.425314]  xfrm6_esp_rcv+0x48/0xa8
+[  276.428898]  ip6_protocol_deliver_rcu+0x94/0x4b0
+[  276.433530]  ip6_input_finish+0x44/0x70
+[  276.437376]  ip6_input+0x44/0xc0
+[  276.440612]  ipv6_rcv+0x6c/0x114
+[  276.443848]  __netif_receive_skb_one_core+0x5c/0x8c
+[  276.448743]  __netif_receive_skb+0x18/0x60
+[  276.452851]  process_backlog+0x78/0x17c
+[  276.456697]  __napi_poll+0x38/0x180
+[  276.460194]  net_rx_action+0x168/0x2f0
 
-Just adjust any related code to account for the fact that the
-"other slave interfaces" will start at bSlaveInterfaces[1].
+Signed-off-by: Qendrim Maxhuni <qendrim.maxhuni@garderos.com>
+---
+ drivers/net/usb/qmi_wwan.c | 6 ++++++
+ 1 file changed, 6 insertions(+)
 
-Something like the following is preferable, but this syntax
-for flexible-array members in unions is only supported starting
-with GCC 15:
-
---- a/include/uapi/linux/usb/cdc.h
-+++ b/include/uapi/linux/usb/cdc.h
-@@ -104,8 +104,10 @@ struct usb_cdc_union_desc {
-         __u8    bDescriptorSubType;
-
-         __u8    bMasterInterface0;
--       __u8    bSlaveInterface0;
--       /* ... and there could be other slave interfaces */
-+       union {
-+               __u8    bSlaveInterface0;
-+               __u8 bSlaveInterfaces[];
-+       };
-  } __attribute__ ((packed));
-
-So, we'll have to wait until that becomes the minimum supported
-version before we can use the above code.
-
-> 
-> bSlaveInterface[1] ?
-
-No, please. One-element arrays when used as flexible arrays are
-deprecated. It took us years to transform those into flexible-array
-members.
-
-> 
-> I'll add Gustavo here, he's done lots of work in this area.
-> 
->>> Also, what determines how many, the overall length?
->>
->> bLength - 4 is the number of slave interfaces, which
->> must at least be 1.
->> We cannot use counted_by in UAPI, can we?
-
-Yes. We _can_ (and do) use __counted_by in UAPI.
-
-The problem is that currently GCC doesn't support expressions
-in __counted_by. So, something like the following is not possible:
-
-__counted_by(bLength - 4)
-
--Gustavo
-
-> 
-> I don't know, Gustavo?
-> 
-> thanks,
-> 
-> greg k-h
+diff --git a/drivers/net/usb/qmi_wwan.c b/drivers/net/usb/qmi_wwan.c
+index 11352d85475a..3a4985b582cb 100644
+--- a/drivers/net/usb/qmi_wwan.c
++++ b/drivers/net/usb/qmi_wwan.c
+@@ -192,6 +192,12 @@ static int qmimux_rx_fixup(struct usbnet *dev, struct sk_buff *skb)
+ 		if (!skbn)
+ 			return 0;
+ 
++	       /* Raw IP packets don't have a MAC header, but other subsystems
++		* (like xfrm) may still access MAC header offsets, so they must
++		* be initialized.
++		*/
++		skb_reset_mac_header(skbn);
++
+ 		switch (skb->data[offset + qmimux_hdr_sz] & 0xf0) {
+ 		case 0x40:
+ 			skbn->protocol = htons(ETH_P_IP);
+-- 
+2.43.0
 
