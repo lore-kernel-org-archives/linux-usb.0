@@ -1,35 +1,35 @@
-Received: from smtpbgbr1.qq.com (smtpbgbr1.qq.com [54.207.19.206])
+Received: from smtpbgau1.qq.com (smtpbgau1.qq.com [54.206.16.166])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0DAD230C635;
-	Wed, 29 Oct 2025 07:15:02 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=54.207.19.206
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2905329E10C;
+	Wed, 29 Oct 2025 07:15:07 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=54.206.16.166
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1761722108; cv=none; b=hcEo+hG0UwwBPH4TgrNMJk53OObT1Z7drOq9bLQaZ2UqqDzcEfhTHc7RUbN7I0+mXvLggZxKNqFAChZR4BA+VdPWSbk6QJyB2lbhoGKV37GIyAi4G1Ax6r9FFHk89dLEa8eODZ/N+Das6/UlCc3Alz0GpmIphXiH3bqoj5P6sg0=
+	t=1761722111; cv=none; b=g66uJf0aLAjvY00Ph6rZuOiL8U2nF2yFIz/fw2dWw7SMfViblLygEIsNKOhOIvy0cMVREJZbJ3AsbzqXFJKAGHw1DIgEaCkSce8tXSB5865OpuLzKS3w0Y3BR/8C3YZTA6DleeIVEy7WXnt2e/iAKpS7sAap3OvjPtZZQp3JF+4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1761722108; c=relaxed/simple;
-	bh=0cv2DaVOvSCRKuK43q4uxtIsFfdtbekWcTaoQMKAUa8=;
-	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References; b=mCKhGxExMc/RFAnOcwzop6nBJ30PjDvrWHcRuLKCo6NznSMbdnnNrJT/AE+/rmXcx0a8JMaFShoy1yECDpw5+zIJtKQlwg7/Qs+1z6csgihmfWPx3biqkDIFt+rkBoCNemtNPi7VJ397ZLjpzdOyM7lyFJ/PXRkW2EeFTrsxk1A=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=airkyi.com; spf=pass smtp.mailfrom=airkyi.com; dkim=pass (1024-bit key) header.d=airkyi.com header.i=@airkyi.com header.b=axDSjnoM; arc=none smtp.client-ip=54.207.19.206
+	s=arc-20240116; t=1761722111; c=relaxed/simple;
+	bh=JkC2n3cUcgwqX4mM3+Lhi39ig/OE1/fWWocxtgBRO8k=;
+	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References; b=VAyDChnk+RiUINdD9UVWg7acTS6/xTF2WXNmZjfyXDM7UTkWqNLsyVTZQTXN1Mp4dkzUzYe3VbFFQTWqnESJnZnAkysiXmx0eLFqYIkr9g0rXOeaMxqnDNIq2GXVIdcf5nDNnj+iwxXd0cVlybXhXIsOnAXobAufUp6MQr05J9M=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=airkyi.com; spf=pass smtp.mailfrom=airkyi.com; dkim=pass (1024-bit key) header.d=airkyi.com header.i=@airkyi.com header.b=ZP0potWU; arc=none smtp.client-ip=54.206.16.166
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=airkyi.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=airkyi.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=airkyi.com header.i=@airkyi.com header.b="axDSjnoM"
+	dkim=pass (1024-bit key) header.d=airkyi.com header.i=@airkyi.com header.b="ZP0potWU"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=airkyi.com;
-	s=altu2504; t=1761722091;
-	bh=j2j9WA1trqT3vAVw/jd1rQawmJe4KSEvtc97hT+jsmc=;
+	s=altu2504; t=1761722105;
+	bh=YHT4Mxhe+zSodIVHd2qzlGnysBWHBxMufel41tGudBs=;
 	h=From:To:Subject:Date:Message-Id;
-	b=axDSjnoMzuC5X6IKwC9o8L+YT8jloY/jdQraAGDAwFUMaGnjlNLYOJirtVl6qZZMj
-	 KneCijyldkDE7fIj9+2B5ZIO+YkhaGeOAIMhQqG3eo8f3ddXdiIzVbfcZnKqBQRTEj
-	 9dpvZ6nagLyzIzSQCBE/WfKsv90ZVTNJhy0lwi0g=
-X-QQ-mid: zesmtpsz6t1761722089t7ff69d0c
-X-QQ-Originating-IP: 7bQdVQ9oUX34jRxfdd7Wtzl35M8B8aqczAbGIlIcToY=
+	b=ZP0potWUGEJJnJlGR0dpTvyFnp+9HW5m8eBLSzghIm1BMioCwhr99HXC/coVmaCMa
+	 HtxkBOqqvDRRNkXj5VRArWuZhbBD+Jo1Ueb0oNmyEFWCq952svOf6Aj4RSiDA+p4up
+	 R3Lk3O7boUzjw4hYgDYBWUnWT7qvtPl0A06J1Adg=
+X-QQ-mid: zesmtpsz6t1761722103tee7fa66f
+X-QQ-Originating-IP: Ik7AVVI+4BnZaf1rl0zVbH4aG4jaNbSh2N+2iERqELk=
 Received: from DESKTOP-8BT1A2O.localdomain ( [58.22.7.114])
 	by bizesmtp.qq.com (ESMTP) with 
-	id ; Wed, 29 Oct 2025 15:14:45 +0800 (CST)
+	id ; Wed, 29 Oct 2025 15:15:00 +0800 (CST)
 X-QQ-SSF: 0000000000000000000000000000000
 X-QQ-GoodBg: 0
-X-BIZMAIL-ID: 376849328953314141
+X-BIZMAIL-ID: 6689497526499472264
 From: Chaoyi Chen <kernel@airkyi.com>
 To: Heikki Krogerus <heikki.krogerus@linux.intel.com>,
 	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
@@ -68,29 +68,30 @@ Cc: linux-usb@vger.kernel.org,
 	linux-arm-kernel@lists.infradead.org,
 	linux-rockchip@lists.infradead.org,
 	dri-devel@lists.freedesktop.org
-Subject: [PATCH v8 01/10] usb: typec: Add notifier functions
-Date: Wed, 29 Oct 2025 15:14:26 +0800
-Message-Id: <20251029071435.88-2-kernel@airkyi.com>
+Subject: [PATCH v8 04/10] dt-bindings: phy: rockchip: rk3399-typec-phy: Support mode-switch
+Date: Wed, 29 Oct 2025 15:14:29 +0800
+Message-Id: <20251029071435.88-5-kernel@airkyi.com>
 X-Mailer: git-send-email 2.17.1
 In-Reply-To: <20251029071435.88-1-kernel@airkyi.com>
 References: <20251029071435.88-1-kernel@airkyi.com>
 X-QQ-SENDSIZE: 520
 Feedback-ID: zesmtpsz:airkyi.com:qybglogicsvrsz:qybglogicsvrsz4a-0
-X-QQ-XMAILINFO: NAeO0+xU6W76d5kq9LLvslz7ZW508fr8c69yiOhYruV3NMGKDn1vocLM
-	J7rn0P2kAfwqrrvGGylmBi4O3zCQmUnSR6y1h/0WXxXIoOmRHcKBwhpf1Xn/B26a8MvXfUr
-	3nkYqynwQBHa3dyH8O5sPhhSVxIkUAZX3QX8TV+m8cI51CdJ8ouUVifMWg6XdH3ENmOHjtx
-	0s4dxDILS2pMLANv2xngwuCmMZ9eqSQck3zFU6BSDZ+xVnvHWF53pDkbA3x6bbWLygs6F9w
-	Jq4KQQKWvWWIyAJc6KHBbGcrkSlMGgPByVRKLWIB+9mCPu2Et1C574ltcInyVEkjzkEhDlE
-	ER+9fWpCGvRvVWggxeauzIMAHRJDKFS7xHdDu6vPSbB/r6zwDuTGZt5UlqxXIrS5DTJtinS
-	1wRHdhf+eZnEy4bZzG+GcLnbDVdfUHn7aFQgxdmpokq577sB2YNS6CtCOrVGKXzBHFm7wZy
-	v8ISz74yEHhA+DBQH6+D1XLDr0qhLxi5Y6ptw8EPln+hE11uRU2ay1BBJUfHYavX6XJKkD1
-	dTpSoLyaf/ME2ari/hOCwNLUH3V15lA1bKhCMJABs37waK7NJhlLJ9pJDhIQkQfrpK/e2ka
-	L8mCaIkWXNMzW2rBggAKveOVHy9iG0zCBnfABlDTPb2KBttzB/h9AmGj4zjiQcvTLfndBhu
-	KMDBUfXDfp6FDIUFNmH9ej8Hyzn9MqzIQDLbBTrFlfBOKoQGwsFq28Ipbi5l9LDNv7+0o6j
-	RU4UaxDVyaB5cZtdzY5WJQjnmud2TvbwiWJ2d5xVbItIMUC4wCTVe4D8RMGtmJiWS3L9F2p
-	5/jYvbjxB1c8b2+FJS6kD+imHkuJNgontYD6QB2qMwsGDMnf/D+iJ0g8P2rEUgfoV/EC/8r
-	NDu0EXtru+szdnXMLRTfKhr30E7vjV0Wt32VETUysFhpW3AgnjFkpuW29/44q5rLYT0Z5S1
-	uijARbBsY70LMOj6O8dObMzMtJZZwSPsFUk8/RhlB2YHr+Xdu/WB9XrcsWcTy2YjCDJA=
+X-QQ-XMAILINFO: MfPMy1ku+mnZBddHcFI414y5/iImlOmf3soke2mSFLtgsK0SrNeXWgkS
+	bkx91z9dsgwbJKJScmHQelUCnd6oAHZ8Ib8QWscnGdPzhBDGsNfzcMBXst4/MF4t7VuB2Jy
+	ErVmfLOUoJYQfDBSIa3E8EiCiqxRMy5h6MdhMeilIqNa0n83NJrZEvRcxwLJ7Ahtc0aVoqH
+	CA5VHKYuANWKvn6ltCDtQ42X9rDRdmSe0VpUwFWfw+xlromCi/jSfeV3csUP5w0iw9Nxg0a
+	KsxHYJOre6Qq0telrfsGo4scLrcKV9uui8xAsq1Q9MHFm8Xm6JYf/m3KLI1ry3iVhRhSA7L
+	fH2sXmFP6ULIGt3+zH+sTqh+BwYAujlAKQbKTmTirWowbwNMOEkRDU70/6KnZ1edU2HSPE2
+	9nMP9DAi4fx+Qv+Xo/PegZ9c+6+JvwCKoJNDn0lq6AhzzY76OFVxS8p/3nW2DT3+w4xCyWD
+	1sonRDcC/+XfFQYcdZHc6o1MSkEPMtuaB8M1pCELYy8SETYnLeV8ryKWmlKPBPFeG9uVu3P
+	vmzJo2sxk+HOqVzyPVplgw2VnOr5iYdjnwnkQAFzBAr25NDNyu+rSatJyx6VzYnfLnPiC3R
+	TIr5BPNF2LgAEYkJOKt2DdFRHtTNnShK7HH/Q2qzF9w1hiiIfKpqA/Wq3RHch4Wt5TrnyDi
+	DvAcB9in4eElt7c3AOsNkfpEMYSSt7ySKWfmptvFr0zp8/MRBLa7HI4frDI2spun8K1Ylj+
+	FCSD95sd/Z8OzneSHLdM0DsPM9JcOPVCoOvm+rMfVh3BAmGgWkTXoWPwpDS9KYqcdDI1sl0
+	n0iPcT4NfKzVX3+qXuR3/jqK290Q7X+AJxiIyi4Cy/P8Z5zHPKCE+i+1x/JEraw+J4CoNFt
+	J48wrbNumNj+RZxUsLIWYRWoK28od1ZVMKtQKwONxGGljPIiULY5Fcg3N8FQ2wZg8jXagXG
+	usG5epOxxYgTrZ5+CqPdFXZmY8UmHKKTLzebQsfuto9YKp6vyDGJf983YfpUZCoAxNGzXje
+	0WWS18LQ==
 X-QQ-XMRINFO: NyFYKkN4Ny6FSmKK/uo/jdU=
 X-QQ-RECHKSPAM: 0
 Precedence: bulk
@@ -101,123 +102,59 @@ List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 
 From: Chaoyi Chen <chaoyi.chen@rock-chips.com>
 
-Some other part of kernel may want to know the event of typec bus.
+The RK3399 SoC integrates two USB/DP combo PHYs, each of which
+supports software-configurable pin mapping and DisplayPort lane
+assignment. These capabilities enable the PHY itself to handle both
+mode switching and orientation switching, based on the Type-C plug
+orientation and USB PD negotiation results.
 
-This patch add common notifier function to notify these event.
+While an external Type-C controller is still required to detect cable
+attachment and report USB PD events, the actual mode and orientation
+switching is performed internally by the PHY through software
+configuration. This allows the PHY to act as a Type-C multiplexer for
+both data role and DP altmode configuration.
+
+To reflect this hardware design, this patch introduces a new
+"mode-switch" property for the dp-port node in the device tree bindings.
+This property indicates that the connected PHY is capable of handling
+Type-C mode switching itself.
 
 Signed-off-by: Chaoyi Chen <chaoyi.chen@rock-chips.com>
+
+Acked-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
 ---
 
-Changes in v8:
-- Fix coding style.
+(no changes since v5)
 
- drivers/usb/typec/Makefile       |  2 +-
- drivers/usb/typec/bus.h          |  2 ++
- drivers/usb/typec/class.c        |  3 +++
- drivers/usb/typec/notify.c       | 24 ++++++++++++++++++++++++
- include/linux/usb/typec_notify.h | 16 ++++++++++++++++
- 5 files changed, 46 insertions(+), 1 deletion(-)
- create mode 100644 drivers/usb/typec/notify.c
- create mode 100644 include/linux/usb/typec_notify.h
+Changes in v4:
+- Remove "|" in description.
 
-diff --git a/drivers/usb/typec/Makefile b/drivers/usb/typec/Makefile
-index 7a368fea61bc..20d09c5314d7 100644
---- a/drivers/usb/typec/Makefile
-+++ b/drivers/usb/typec/Makefile
-@@ -1,6 +1,6 @@
- # SPDX-License-Identifier: GPL-2.0
- obj-$(CONFIG_TYPEC)		+= typec.o
--typec-y				:= class.o mux.o bus.o pd.o retimer.o
-+typec-y				:= class.o mux.o notify.o bus.o pd.o retimer.o
- typec-$(CONFIG_ACPI)		+= port-mapper.o
- obj-$(CONFIG_TYPEC)		+= altmodes/
- obj-$(CONFIG_TYPEC_TCPM)	+= tcpm/
-diff --git a/drivers/usb/typec/bus.h b/drivers/usb/typec/bus.h
-index 643b8c81786d..820b59b6d434 100644
---- a/drivers/usb/typec/bus.h
-+++ b/drivers/usb/typec/bus.h
-@@ -26,6 +26,8 @@ struct altmode {
- 	struct altmode			*plug[2];
- };
+Changes in v3:
+- Add more descriptions to clarify the role of the PHY in switching.
+
+Changes in v2:
+- Reuse dp-port/usb3-port in rk3399-typec-phy binding.
+
+ .../devicetree/bindings/phy/rockchip,rk3399-typec-phy.yaml  | 6 ++++++
+ 1 file changed, 6 insertions(+)
+
+diff --git a/Documentation/devicetree/bindings/phy/rockchip,rk3399-typec-phy.yaml b/Documentation/devicetree/bindings/phy/rockchip,rk3399-typec-phy.yaml
+index 91c011f68cd0..83ebcde096ea 100644
+--- a/Documentation/devicetree/bindings/phy/rockchip,rk3399-typec-phy.yaml
++++ b/Documentation/devicetree/bindings/phy/rockchip,rk3399-typec-phy.yaml
+@@ -51,6 +51,12 @@ properties:
+       '#phy-cells':
+         const: 0
  
-+void typec_notify_event(unsigned long event, void *data);
++      mode-switch:
++        description:
++          Indicates the PHY can handle altmode switching. In this case,
++          requires an external USB Type-C controller to report USB PD message.
++        type: boolean
 +
- #define to_altmode(d) container_of(d, struct altmode, adev)
- 
- extern const struct bus_type typec_bus;
-diff --git a/drivers/usb/typec/class.c b/drivers/usb/typec/class.c
-index 9b2647cb199b..51e971bc68d1 100644
---- a/drivers/usb/typec/class.c
-+++ b/drivers/usb/typec/class.c
-@@ -13,6 +13,7 @@
- #include <linux/string_choices.h>
- #include <linux/usb/pd_vdo.h>
- #include <linux/usb/typec_mux.h>
-+#include <linux/usb/typec_notify.h>
- #include <linux/usb/typec_retimer.h>
- #include <linux/usb.h>
- 
-@@ -600,6 +601,8 @@ typec_register_altmode(struct device *parent,
- 		return ERR_PTR(ret);
- 	}
- 
-+	typec_notify_event(TYPEC_ALTMODE_REGISTERED, &alt->adev);
-+
- 	return &alt->adev;
- }
- 
-diff --git a/drivers/usb/typec/notify.c b/drivers/usb/typec/notify.c
-new file mode 100644
-index 000000000000..0a14d3ae224e
---- /dev/null
-+++ b/drivers/usb/typec/notify.c
-@@ -0,0 +1,24 @@
-+// SPDX-License-Identifier: GPL-2.0
-+#include <linux/notifier.h>
-+#include <linux/usb/typec_notify.h>
-+
-+#include "bus.h"
-+
-+static BLOCKING_NOTIFIER_HEAD(typec_notifier_list);
-+
-+int typec_altmode_register_notify(struct notifier_block *nb)
-+{
-+	return blocking_notifier_chain_register(&typec_notifier_list, nb);
-+}
-+EXPORT_SYMBOL_GPL(typec_altmode_register_notify);
-+
-+int typec_altmode_unregister_notify(struct notifier_block *nb)
-+{
-+	return blocking_notifier_chain_unregister(&typec_notifier_list, nb);
-+}
-+EXPORT_SYMBOL_GPL(typec_altmode_unregister_notify);
-+
-+void typec_notify_event(unsigned long event, void *data)
-+{
-+	blocking_notifier_call_chain(&typec_notifier_list, event, data);
-+}
-diff --git a/include/linux/usb/typec_notify.h b/include/linux/usb/typec_notify.h
-new file mode 100644
-index 000000000000..f3a7b5f5b05b
---- /dev/null
-+++ b/include/linux/usb/typec_notify.h
-@@ -0,0 +1,16 @@
-+/* SPDX-License-Identifier: GPL-2.0 */
-+
-+#ifndef __USB_TYPEC_NOTIFY
-+#define __USB_TYPEC_NOTIFY
-+
-+#include <linux/notifier.h>
-+
-+enum usb_typec_event {
-+	TYPEC_ALTMODE_REGISTERED,
-+	TYPEC_ALTMODE_UNREGISTERED,
-+};
-+
-+int typec_altmode_register_notify(struct notifier_block *nb);
-+int typec_altmode_unregister_notify(struct notifier_block *nb);
-+
-+#endif /* __USB_TYPEC_NOTIFY */
+       port:
+         $ref: /schemas/graph.yaml#/properties/port
+         description: Connection to USB Type-C connector
 -- 
 2.49.0
 
