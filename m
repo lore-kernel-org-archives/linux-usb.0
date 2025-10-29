@@ -1,35 +1,35 @@
-Received: from smtpbgbr2.qq.com (smtpbgbr2.qq.com [54.207.22.56])
+Received: from smtpbgeu2.qq.com (smtpbgeu2.qq.com [18.194.254.142])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1347E2EAB6E;
-	Wed, 29 Oct 2025 07:15:31 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=54.207.22.56
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 40A8C225413;
+	Wed, 29 Oct 2025 07:15:36 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=18.194.254.142
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1761722135; cv=none; b=ZPt8dlKfGv6iejj/BishYv/cjdJ6gxeB1Y2ooYIizONW6jtyVsgKwbQeHbC3Hzoiu6iGKPuu1+XGzD89RhALYPo6TDGWyShaM0ueQyItpZluAyg/PeyPFng8fNtRKjSaKXmAJaiPlIsxhU0Dem/kYSmP08ZXZJAUd0ZvIES6FaU=
+	t=1761722140; cv=none; b=ccp0DjzZWmmeJ9W/3cfzdDch9SCsI6neHOmul1yq0HSKzI7QwYdZIOOULu+8PKM8trPEWqjF9NrQ6rjUBSS8qa+NRzww0PWiIBiPapuPMILrOWr1HLCLeapHLCX1Q821ae4Pn/aB/LSs3dXkEkVOLiLaMcJ8Fcavtz4urrlT4z8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1761722135; c=relaxed/simple;
-	bh=M4nUEX7h4FeSk6XVEQszUpUpBE3mjUtZPXnyDXgdiFI=;
-	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References; b=nbubsgVEQHYejV/MfeFaYNYntErOmVYTXwHv3/SIAzszDLyR5htLSQgKzZeHQqVbvdcSj4iznhqOA5l1JHF9bloxLMIGdzCKc8+l6VS+8/5fUrk9tbvmSCL014mMdXUfD0VRAa9SpH3OMziTANl36hC9GMhvHFi7+d3/9y6Rg3I=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=airkyi.com; spf=pass smtp.mailfrom=airkyi.com; dkim=pass (1024-bit key) header.d=airkyi.com header.i=@airkyi.com header.b=kL5uI8/l; arc=none smtp.client-ip=54.207.22.56
+	s=arc-20240116; t=1761722140; c=relaxed/simple;
+	bh=3OiqcRrs7DLfC1hTPje6cpCre8EW3o9TnIIexoI2iuY=;
+	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References; b=okn/l1X92uXs5f7LiuDmOzK7inJi1+M8B3sRsXhfyWIzWJU0BmwqDm8Ms9/eDDLJ3jOrlIyNnChWCih9lN5T9GU4g4E1pf3XUi6qgqHaQIUiQjVNH6k7YNLHvnXn4DE/L3jE5+VBUBMJz67jDMa/rk+J6ojZgV7Bopphbyyf8rA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=airkyi.com; spf=pass smtp.mailfrom=airkyi.com; dkim=pass (1024-bit key) header.d=airkyi.com header.i=@airkyi.com header.b=Sy8c4HFW; arc=none smtp.client-ip=18.194.254.142
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=airkyi.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=airkyi.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=airkyi.com header.i=@airkyi.com header.b="kL5uI8/l"
+	dkim=pass (1024-bit key) header.d=airkyi.com header.i=@airkyi.com header.b="Sy8c4HFW"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=airkyi.com;
-	s=altu2504; t=1761722121;
-	bh=nQG0w7dhU7Aew5bKV30plkPn0nBnVdgTnfwSbxYLntU=;
+	s=altu2504; t=1761722134;
+	bh=cDiOxEFqYuonRjIga1t9o2u02p12TN3hXALWFcjKD9c=;
 	h=From:To:Subject:Date:Message-Id;
-	b=kL5uI8/lTx+iL+xyOPTtiqHtxM49QpNMQckdTaCCK2C9jKcCHMclMf272p7XIrKTT
-	 Rb4Ny5vaxEqj85biYC8Cw1P1okZVg//3e14Q7E79Z5iMbflK8AdGJt4AgS1HJKp1x+
-	 0VOWxV5DwUR6FBbhDKTg0Lhg1sxLkOyZrkixxBbc=
-X-QQ-mid: zesmtpsz6t1761722120tb092f96d
-X-QQ-Originating-IP: IvyddLy9KbD2cvJM24xB9IzAVzZki3T5MpHuel05bj4=
+	b=Sy8c4HFWY5o434CVWL0VrQJSlxNoGws2p1QMXxoUelIpGbivpBwhf5/a5Jr8im875
+	 kH2jpeoYpUwuE1sAOL/MyOPUobEewdcbkErQWAOYH0hZB3tXE0E87CIhIPATZ1BdC7
+	 5GE/s47fIDAD22YVOi0FzSFonZM8v87ugQ0r0Vxs=
+X-QQ-mid: zesmtpsz6t1761722132t2011f568
+X-QQ-Originating-IP: 7NBRw7TbdpqiA0XMn9RW6Owy6xUxWMzzgSSAg2TdaX4=
 Received: from DESKTOP-8BT1A2O.localdomain ( [58.22.7.114])
 	by bizesmtp.qq.com (ESMTP) with 
-	id ; Wed, 29 Oct 2025 15:15:14 +0800 (CST)
+	id ; Wed, 29 Oct 2025 15:15:27 +0800 (CST)
 X-QQ-SSF: 0000000000000000000000000000000
 X-QQ-GoodBg: 0
-X-BIZMAIL-ID: 2981954368563909056
+X-BIZMAIL-ID: 1472557446544160381
 From: Chaoyi Chen <kernel@airkyi.com>
 To: Heikki Krogerus <heikki.krogerus@linux.intel.com>,
 	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
@@ -68,31 +68,31 @@ Cc: linux-usb@vger.kernel.org,
 	linux-arm-kernel@lists.infradead.org,
 	linux-rockchip@lists.infradead.org,
 	dri-devel@lists.freedesktop.org
-Subject: [PATCH v8 07/10] drm/rockchip: cdn-dp: Support handle lane info without extcon
-Date: Wed, 29 Oct 2025 15:14:32 +0800
-Message-Id: <20251029071435.88-8-kernel@airkyi.com>
+Subject: [PATCH v8 09/10] arm64: dts: rockchip: Add missing dp_out port for RK3399 CDN-DP
+Date: Wed, 29 Oct 2025 15:14:34 +0800
+Message-Id: <20251029071435.88-10-kernel@airkyi.com>
 X-Mailer: git-send-email 2.17.1
 In-Reply-To: <20251029071435.88-1-kernel@airkyi.com>
 References: <20251029071435.88-1-kernel@airkyi.com>
 X-QQ-SENDSIZE: 520
 Feedback-ID: zesmtpsz:airkyi.com:qybglogicsvrsz:qybglogicsvrsz4a-0
-X-QQ-XMAILINFO: NnBlO8MsmACrRff/5IWYDaL08j8BdvDsD8GUTjmSJNz82004yPmrNhUj
-	9muvxY2750j1jDPyIFh2G0v+ixWm3vON2+3hofwfMCdPcVuZZlk+jPIL2VI2rMbPScZwGW4
-	z28E4qt4pzo4cBkSl7fUes53mll7mhyPIkg2MmGXINpfmEw8Y24D70IsDgIzWBETizloA0L
-	pDSJA0BaEJE/zYeD4kTqaJY0Y3qzXOV8YIZp228a9a0g+5+5r5kCwdZ2IihKs58X+oFskvy
-	EmFVlsPdN6KPWgwM0lG9N5lOdiP+sHngu1QmrRy8yEyfH6u/O5tAIOUxNDAEzrTxWInU2EI
-	ituO4EnLbXSP1p1cbQ8IZ1tUSiHgJMfEN6kDljSKS+EWYzKLKJo/5usOvD0XNUHgVkA1Z7C
-	BTP0Xu7OjbU28p8TUKn1Sl5qzDmc5erUEjJ+aguGdrFdrdnPVwJcZ7RJLsqmjiPmptpcyK7
-	UAxnbGxFtpMdXrWqJpzh3l6AFVspqGdbweGy2mkNX5ZrAwNtsz1QFfqw/lcDOkIBMphFjTF
-	rv2Y5oUpzK6R+9O8kJlGYox3lnSb/oVLQwsFSWv4s4vRUcOOpnCjxCGkCkK/4O/AZdtQRUN
-	0Wj3iAGsp5UgL+TYUO04eQ8aVJuVIYqd9+GO62GYElYEb7wR65gqEaXv589ydIh0E5CLFim
-	FhAlZyA0gGInN+4bfgAtKAK8UC8NiGqEo9yoittUwTnegz+eTa63Sz8KU3CpYyCxs4/dSA4
-	AoEKkpsGBsbuYHqTsI192ZDHJIjWXlZp/o0KX1DMcdCTiufQdVym4GnwolIAg2HBZaEwWCx
-	rVV99I5mxiPrrc9BZwqPNZ2vXsKXxzYJdBOLgUqeENbNAExuaRkB8Q3cFTG94DFXwb7Wxiy
-	pLb2t3jD6PfzR2cAkbsyL+Xh1QOBJN+hbLFPpnAfNxVa66T+VXW62Odh6FFqHzovg+fLyOG
-	y9520tCvH0a0x/On+UM4pqBYYJ8qJPqbUHkhpNc9zpNV/TTlug8ScvPAlvoc08MW9k/3KtJ
-	TGPrGFpDY1fbibQdPvG/IlLrDq1kmYmSs6RZrhuw==
-X-QQ-XMRINFO: OWPUhxQsoeAVDbp3OJHYyFg=
+X-QQ-XMAILINFO: MVbvI5amSZ2YjBsber5S6w8cbLdG5azchMi1RlLh3/nxBB3f+K5TREW+
+	rxJLVZbi6RabHQ3TG5mitTZQGRfCFCQ/HG75biGospr4MpGF5MZPQYejGNoZ0nTaUk5/dEU
+	/URLOJh8ziSItipKo0oIAw107EwdzBGDPgPR1qh2exI8tEI3GBXY6hhlVRcUesr11cEmp+H
+	Wo296noCMCStrh/njXS/R35ipQIEUj10OYqVWs4u0O5tOphCHbvB66DxgLel9MriUn1QStZ
+	SP0anpBwQ/m02adVHvV0oisnwPR5gpniFn0/QnLLlbW5cBOkrZm2GMnCwN65Uo9sS9Gq9WA
+	XRggnesMEsPtfK1CKKTLDFv6FnBEUBt/OV+vOXJf6oSdFC/ALSjs2oTXO4Bw2/3osJRn8Ku
+	dUnbB8ed8HHVMDqk1wroZ6RyPqyK7RpGHubG4fEFlBIfrmiBpjqrwBwZDx9DM5EZuJ/2Oja
+	HJTvVWhBwzzEzn0dgLX1qtwlLXEHUconBV/wj9phpd++xo/NV93QcfDyee0WKuArZK3XIgF
+	VAVL+knJjtH3w7CnZ5E5tjSF6rX5MJ0KJO/gB4XEMVot8iXbwqqiPblXRKybJCOhA7GQl9+
+	AayP7U0bP3Iang2Sug+GiqJmebG70yYqSCSVFPco1KG2o6ks/0FGXo1I/P5iH1aywsHordC
+	USudTctc0XY0O/JQVAQIom4ZWgMyFZUOsfGEyLVm+pE1YtWINNEhqtIY6y8K9z/cN/U7iyY
+	XxH/LtCHplz1Nnqq7Ix4XLGIMaGuQQzK2OC00sWULryIR3fDubppCnF7KCfjZDojmTRgc5M
+	24wh63l1vcEpvxh+PD+90rkrvd08JkEqH82dST+bcO0XIzFaT8dLM4xzJZQ6oh3HuX45scn
+	p474xnvS2Vg9CkeHPWNLTeZjAUssbagGxJ3yvGLdadfIOhys9Q/eDFwYhIOZ0jcriSpb0im
+	Gx1GQiFrbjc2K8nKyfjmnJxfuP+5tRqDuXxNSqhEZrpRIJp5bce5xue+dRCiCyaF/USXgvS
+	QwM8RPiv4JnS8no4pbt9IkLLKHYz1kqSD5IOWSxw==
+X-QQ-XMRINFO: Nq+8W0+stu50PRdwbJxPCL0=
 X-QQ-RECHKSPAM: 0
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
@@ -102,13 +102,8 @@ List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 
 From: Chaoyi Chen <chaoyi.chen@rock-chips.com>
 
-This patch add support for get PHY lane info without help of extcon.
-
-There is no extcon needed if the Type-C controller is present. In this
-case, the lane info can be get from PHY instead of extcon.
-
-The extcon device should still be supported if Type-C controller is
-not present.
+Let's make the ports nodes of cdn_dp in the same style as the other
+display interface, and match the style of ports's yaml.
 
 Signed-off-by: Chaoyi Chen <chaoyi.chen@rock-chips.com>
 ---
@@ -116,86 +111,41 @@ Signed-off-by: Chaoyi Chen <chaoyi.chen@rock-chips.com>
 (no changes since v5)
 
 Changes in v4:
-- Remove cdn_dp_hpd_notify().
+- Remove unnecessary #address/#size-cells
 
-(no changes since v3)
+(no changes since v1)
 
-Changes in v2:
-- Ignore duplicate HPD events.
+ arch/arm64/boot/dts/rockchip/rk3399-base.dtsi | 10 +++++++++-
+ 1 file changed, 9 insertions(+), 1 deletion(-)
 
- drivers/gpu/drm/rockchip/cdn-dp-core.c | 25 +++++++++++++++++--------
- 1 file changed, 17 insertions(+), 8 deletions(-)
-
-diff --git a/drivers/gpu/drm/rockchip/cdn-dp-core.c b/drivers/gpu/drm/rockchip/cdn-dp-core.c
-index b7e3f5dcf8d5..1e27301584a4 100644
---- a/drivers/gpu/drm/rockchip/cdn-dp-core.c
-+++ b/drivers/gpu/drm/rockchip/cdn-dp-core.c
-@@ -156,6 +156,9 @@ static int cdn_dp_get_port_lanes(struct cdn_dp_port *port)
- 	int dptx;
- 	u8 lanes;
+diff --git a/arch/arm64/boot/dts/rockchip/rk3399-base.dtsi b/arch/arm64/boot/dts/rockchip/rk3399-base.dtsi
+index 4dcceb9136b7..93b42820998f 100644
+--- a/arch/arm64/boot/dts/rockchip/rk3399-base.dtsi
++++ b/arch/arm64/boot/dts/rockchip/rk3399-base.dtsi
+@@ -618,7 +618,11 @@ cdn_dp: dp@fec00000 {
+ 		status = "disabled";
  
-+	if (!edev)
-+		return phy_get_bus_width(port->phy);
+ 		ports {
+-			dp_in: port {
++			#address-cells = <1>;
++			#size-cells = <0>;
 +
- 	dptx = extcon_get_state(edev, EXTCON_DISP_DP);
- 	if (dptx > 0) {
- 		extcon_get_property(edev, EXTCON_DISP_DP,
-@@ -219,7 +222,7 @@ static bool cdn_dp_check_sink_connection(struct cdn_dp_device *dp)
- 	 * some docks need more time to power up.
- 	 */
- 	while (time_before(jiffies, timeout)) {
--		if (!extcon_get_state(port->extcon, EXTCON_DISP_DP))
-+		if (port->extcon && !extcon_get_state(port->extcon, EXTCON_DISP_DP))
- 			return false;
++			dp_in: port@0 {
++				reg = <0>;
+ 				#address-cells = <1>;
+ 				#size-cells = <0>;
  
- 		if (!cdn_dp_get_sink_count(dp, &sink_count))
-@@ -385,11 +388,14 @@ static int cdn_dp_enable_phy(struct cdn_dp_device *dp, struct cdn_dp_port *port)
- 		goto err_power_on;
- 	}
- 
--	ret = extcon_get_property(port->extcon, EXTCON_DISP_DP,
--				  EXTCON_PROP_USB_TYPEC_POLARITY, &property);
--	if (ret) {
--		DRM_DEV_ERROR(dp->dev, "get property failed\n");
--		goto err_power_on;
-+	property.intval = 0;
-+	if (port->extcon) {
-+		ret = extcon_get_property(port->extcon, EXTCON_DISP_DP,
-+					  EXTCON_PROP_USB_TYPEC_POLARITY, &property);
-+		if (ret) {
-+			DRM_DEV_ERROR(dp->dev, "get property failed\n");
-+			goto err_power_on;
-+		}
- 	}
- 
- 	port->lanes = cdn_dp_get_port_lanes(port);
-@@ -1028,6 +1034,9 @@ static int cdn_dp_bind(struct device *dev, struct device *master, void *data)
- 	for (i = 0; i < dp->ports; i++) {
- 		port = dp->port[i];
- 
-+		if (!port->extcon)
-+			continue;
+@@ -632,6 +636,10 @@ dp_in_vopl: endpoint@1 {
+ 					remote-endpoint = <&vopl_out_dp>;
+ 				};
+ 			};
 +
- 		port->event_nb.notifier_call = cdn_dp_pd_event;
- 		ret = devm_extcon_register_notifier(dp->dev, port->extcon,
- 						    EXTCON_DISP_DP,
-@@ -1120,14 +1129,14 @@ static int cdn_dp_probe(struct platform_device *pdev)
- 		    PTR_ERR(phy) == -EPROBE_DEFER)
- 			return -EPROBE_DEFER;
++			dp_out: port@1 {
++				reg = <1>;
++			};
+ 		};
+ 	};
  
--		if (IS_ERR(extcon) || IS_ERR(phy))
-+		if (IS_ERR(phy) || PTR_ERR(extcon) != -ENODEV)
- 			continue;
- 
- 		port = devm_kzalloc(dev, sizeof(*port), GFP_KERNEL);
- 		if (!port)
- 			return -ENOMEM;
- 
--		port->extcon = extcon;
-+		port->extcon = IS_ERR(extcon) ? NULL : extcon;
- 		port->phy = phy;
- 		port->dp = dp;
- 		port->id = i;
 -- 
 2.49.0
 
