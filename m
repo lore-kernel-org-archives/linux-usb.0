@@ -1,198 +1,184 @@
-Received: from mail-m49233.qiye.163.com (mail-m49233.qiye.163.com [45.254.49.233])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-ej1-f52.google.com (mail-ej1-f52.google.com [209.85.218.52])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9BBB832D0E2;
-	Thu, 30 Oct 2025 08:56:49 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=45.254.49.233
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DFEED33B95D
+	for <linux-usb@vger.kernel.org>; Thu, 30 Oct 2025 09:01:21 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.52
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1761814615; cv=none; b=VYAN7HAGJGDwc5h9MPh6PW2hxm7EJ8XYLsJIQqk3z1ADPPyFmvt5d/ohNz7JvDhOneknSeRnUN/Sht2JHP+yPsLA+Oqzo/4lxalXdL8vwzcWpGIMCsZqUsG7krfqHtQWO2ODf6OT7PpXXDuUOMZbAPt1J3fqcSX0prqIJ7yDSbo=
+	t=1761814883; cv=none; b=nIUbsXb0SmrtL7+JzzoemU68GmNNEsKbJrXi3NyITQhE0wYiUPbuvMtU8/jiaW/UK7dkBJPzwvWiNMMhXl+/twB4bnq0I3BODWweu3EI1x2EB+s9x5QoJGR+HkwGRjTws2uBBtzdKHgiUtyx8kSftmY9hNa7uU9sz20u5AMbDEo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1761814615; c=relaxed/simple;
-	bh=5iOLt0K6++NJo2jrrcX9XRb8mk8Pt+TIBChlFsuvqBY=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=GOPXOx/PQNpCx4asHjS+YzIz+H1vxdom38DYjN2NH0BRCY/boRETHvhJ/OiDqMxctF3Vg1lcruFK/CFrYk0XmUjY17is25KPAVpNg9kLxDzLRDBcmVHEY5clXS+3PUypiXxGVr/idUkr2YLRk/XZQ3zPHFfHCndTAJn3BIXQT7A=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=rock-chips.com; spf=pass smtp.mailfrom=rock-chips.com; dkim=pass (1024-bit key) header.d=rock-chips.com header.i=@rock-chips.com header.b=SQVUwkwv; arc=none smtp.client-ip=45.254.49.233
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=rock-chips.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=rock-chips.com
+	s=arc-20240116; t=1761814883; c=relaxed/simple;
+	bh=oTXH1HSFJLJZw91fOW+WljD2l5wCGInb49O0XJLH7G0=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version; b=HLVQK/rzE4/ImELvGo8BiFdTylFy/L5xUUpcWWYScol/G40kMGHLi4sEqM54yqvhKgtBfEyWZdVGPjK4dWx0GGdSwf5mG8vLty1o4B51f69/wXMaqsa7ew/ZCGPWUSl++k9lfp+j1INsXg6bPdpvvonJiBKrDdVN6jGkycqujX0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=MzSRLFwM; arc=none smtp.client-ip=209.85.218.52
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=rock-chips.com header.i=@rock-chips.com header.b="SQVUwkwv"
-Received: from [172.16.12.149] (unknown [58.22.7.114])
-	by smtp.qiye.163.com (Hmail) with ESMTP id 27b7b5d56;
-	Thu, 30 Oct 2025 11:13:53 +0800 (GMT+08:00)
-Message-ID: <7853bbf0-34e5-4880-a2f4-2d73f25cd5e6@rock-chips.com>
-Date: Thu, 30 Oct 2025 11:13:51 +0800
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="MzSRLFwM"
+Received: by mail-ej1-f52.google.com with SMTP id a640c23a62f3a-b6d855ca585so174136166b.0
+        for <linux-usb@vger.kernel.org>; Thu, 30 Oct 2025 02:01:21 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1761814880; x=1762419680; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=K0I1RDzCXpmn0YP4V5s1DEMEUTTTHY2hb0kzAlUdjY0=;
+        b=MzSRLFwM0r0uUGM0p7U831dgfPk27xw+UgScYTJKI8vtaY8shuUHrajrS6CLO9MzU5
+         ow5BA8n7YW/O9kIY1BmZmHyj/La5Ew3SZBv6Piiede22yTA6RpcHsN68/fxZylBhCpxD
+         diT65E+AMv4rizdfKKzqH5uA2cZ0SEIiTgPb5xfOrCT3TtjJuuzMbMz3eukkUK1luLLz
+         L6ZKO0na0dQJGyo/IBZ/HF2UON9pKSCmqUgUhS6zoOKXZC+IzRtehOXTvlp+fwKmXWci
+         yDhewURuI5nPoFxQASvKi16/TnCnujosExwSWUSQz4fJPKvMtFYoc/lRy4adxuciGl70
+         jxqA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1761814880; x=1762419680;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=K0I1RDzCXpmn0YP4V5s1DEMEUTTTHY2hb0kzAlUdjY0=;
+        b=PhozpyscFp4vqSL5/27TYImygt2BjyZ169md5Jmn0U4jWK3vNxOtZeKXzbKMVlj/KW
+         bGrb496FRqloG4BeeTLiWZM1X3bLIJKrgGkTwWf5O6Z0dzEd/LTguQ7kiUxoM1V0upFY
+         ZgNUNDE8Yv3ylSY4fkwEWYs1hzcuzekICzn8uaZvYCtbgbV8unOpIMIO/6g9QPOeqjcJ
+         hloqsJWZ4/XS8PqK6KpfGe/2IHeVeICO91mGXczWakv/+veJEbK41P7N67HWjzG6IFjP
+         NP9NQprY4NFnIhp+SyWDNduHMiUDRWxbwoGuAMeGcIRGrA0gKrgmmDxNvKCiInl7rJdX
+         TIUA==
+X-Gm-Message-State: AOJu0Yyov4+duPIW+IwtOxrTH4eoS5IwBmxpJFYgCCGIPKafI3j4Hjwb
+	PnbX5NaspzSvpJVxTSJHMpx3sykODxFwJUaTLKm/abwiFKB86waukLa0jVKjpg==
+X-Gm-Gg: ASbGncuCMv+TJ9akEjM/RebpCAgk2m4ofrwiR1cq7YUhnzIyE7Djvv1LoysMHBOND/S
+	McLySvgaBFH+LMEdPDmbBNLAY+qpfWw0N3cdpkUv4WLOwBRdoJb7S4zuoxeIQYDOWkHa41PBWZM
+	TWlnmJTg26ClWmQ8rxt0uFa6v9DxpwzsKoeCkCD9T0yFnM/9JUz2P3nFaRKRtbW2b652FF6H63Z
+	y8IZ4awN0nRfGIQJFAxklzVMxBGfTSn0DCfMP8LS9+r4wJYNJZHxm22Gx2x7T5kbFu/zNd954M/
+	0qtZXWEdjy2FPV3EiZG3qlOSBNSdWhLnjEatCc0pZYgnNFm7WEAGowregek2kiEHRUETcLqw0dX
+	Vmv7E0/Zp+WTPF8iwtULUcMzBzRyEUFAaoRGZ+JuotUcDmZiltZCQLTTqrXfjh1jX1uwLEhRJn5
+	obkk7NlaGu+bErR1iauQ==
+X-Google-Smtp-Source: AGHT+IGkEXaqj19+vVocV4VEjZ7JC+wQatYMwdbAdhHxu79TOdyH9dqrXl6kOlTFI7dE0RDJjHOHXA==
+X-Received: by 2002:a17:906:794e:b0:b6d:536f:ada with SMTP id a640c23a62f3a-b703d5243ddmr637882566b.43.1761814879283;
+        Thu, 30 Oct 2025 02:01:19 -0700 (PDT)
+Received: from Cryo-Lima.localdomain ([91.244.5.14])
+        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-b6d8536968csm1705784366b.29.2025.10.30.02.01.18
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 30 Oct 2025 02:01:18 -0700 (PDT)
+From: Oleksandr Suvorov <cryosay@gmail.com>
+To: linux-usb@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	Johan Hovold <johan@kernel.org>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+Cc: Oleksandr Suvorov <cryosay@gmail.com>
+Subject: [PATCH v2] usb: serial: ftdi_sio: add support for u-blox EVK-M101
+Date: Thu, 30 Oct 2025 11:00:15 +0200
+Message-ID: <20251030090056.3175217-1-cryosay@gmail.com>
+X-Mailer: git-send-email 2.48.1
+In-Reply-To: <aO5kBAjE6EMG2aUE@hovoldconsulting.com>
+References: <aO5kBAjE6EMG2aUE@hovoldconsulting.com>
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v8 10/10] arm64: dts: rockchip: rk3399-evb-ind: Add
- support for DisplayPort
-To: Peter Chen <hzpeterchen@gmail.com>, Chaoyi Chen <kernel@airkyi.com>
-Cc: Heikki Krogerus <heikki.krogerus@linux.intel.com>,
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
- Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>,
- Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>,
- Conor Dooley <conor+dt@kernel.org>, Vinod Koul <vkoul@kernel.org>,
- Kishon Vijay Abraham I <kishon@kernel.org>, Heiko Stuebner
- <heiko@sntech.de>, Sandy Huang <hjc@rock-chips.com>,
- Andy Yan <andy.yan@rock-chips.com>,
- Yubing Zhang <yubing.zhang@rock-chips.com>,
- Frank Wang <frank.wang@rock-chips.com>,
- Andrzej Hajda <andrzej.hajda@intel.com>,
- Neil Armstrong <neil.armstrong@linaro.org>, Robert Foss <rfoss@kernel.org>,
- Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
- Jonas Karlman <jonas@kwiboo.se>, Jernej Skrabec <jernej.skrabec@gmail.com>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
- David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
- Amit Sunil Dhamne <amitsd@google.com>, Dragan Simic <dsimic@manjaro.org>,
- Johan Jonker <jbx6244@gmail.com>, Diederik de Haas <didi.debian@cknow.org>,
- Peter Robinson <pbrobinson@gmail.com>, linux-usb@vger.kernel.org,
- devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
- linux-phy@lists.infradead.org, linux-arm-kernel@lists.infradead.org,
- linux-rockchip@lists.infradead.org, dri-devel@lists.freedesktop.org
-References: <20251029071435.88-1-kernel@airkyi.com>
- <20251029071435.88-11-kernel@airkyi.com>
- <CAL411-o6mF71oBeRsJ-OPZNbLegn4iJ_ELN9xVdppTM3ssUPOw@mail.gmail.com>
- <cc8b583a-77ec-4a7f-97cc-2d148f7fee9f@rock-chips.com>
- <e0c5bda3-7428-49e0-9955-fa23f1e4f35d@rock-chips.com>
- <CAL411-oXfvp-iqN+uRmFHijdmW=1omKwozKOoZ2shxukMHmwPg@mail.gmail.com>
- <C6253E8254C80B0F+839b71d0-1bd8-40b7-9515-7ce4a1eb8673@airkyi.com>
- <CAL411-pULVu4AYybW9oW7kmr4M_kJhdytgBjLPb4y6w_2dj+0w@mail.gmail.com>
-Content-Language: en-US
-From: Chaoyi Chen <chaoyi.chen@rock-chips.com>
-In-Reply-To: <CAL411-pULVu4AYybW9oW7kmr4M_kJhdytgBjLPb4y6w_2dj+0w@mail.gmail.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-X-HM-Tid: 0a9a331b863b03abkunmb7090e2043262e
-X-HM-MType: 1
-X-HM-Spam-Status: e1kfGhgUHx5ZQUpXWQgPGg8OCBgUHx5ZQUlOS1dZFg8aDwILHllBWSg2Ly
-	tZV1koWUFDSUNOT01LS0k3V1ktWUFJV1kPCRoVCBIfWUFZGUJNGFZNQ0tDGU9DGh9MSU1WFRQJFh
-	oXVRMBExYaEhckFA4PWVdZGBILWUFZTkNVSUlVTFVKSk9ZV1kWGg8SFR0UWUFZT0tIVUpLSEpPSE
-	xVSktLVUpCS0tZBg++
-DKIM-Signature: a=rsa-sha256;
-	b=SQVUwkwvxyCWtCdSzsP/tXB93YNtCupIhIhQ00CSdl54mjwHsgiZuOkw9accZWeqDE2m3y5GmX8bLQn1Dz42qXdQqPuIMzqAFw7dir7OI14TX7BSiWvgzFwiCL2OALE2z+GHw55hkOovciBLGJ5HKDcID5cMmDcTqARlrl/WMlY=; s=default; c=relaxed/relaxed; d=rock-chips.com; v=1;
-	bh=u9ztqH78wDt1szeKu+Mrw37tmnOhAVykkfsydy8rr6U=;
-	h=date:mime-version:subject:message-id:from;
+Content-Transfer-Encoding: 7bit
 
-On 10/30/2025 10:50 AM, Peter Chen wrote:
+The U-Blox EVK-M101 enumerates as 1546:0506 [1] with four FTDI interfaces:
+- EVK-M101 current sensors
+- EVK-M101 I2C
+- EVK-M101 UART
+- EVK-M101 port D
 
->>> Okay.  My question is basic: USB2 PHY supplies DP/DM, and the DP/DM is
->>> short for Type-C connector,
->>> and no control is needed for Type-C application.
->>> Why is there a remote-endpoint connection between USB2 PHY and Type-C connector?
->>   From the perspective of Type-C, this should not be added.  Is the approach in v2 correct [0] ?
->>
-> Have you tried debugging based on upstream code?
+Only the third USB interface is a UART. This change lets ftdi_sio probe
+the VID/PID and registers only interface #3 as a TTY, leaving the rest
+available for other drivers.
 
-Yes, I have tried both the v2 and v8 approaches, and both can work.
+[1]
+usb 5-1.3: new high-speed USB device number 11 using xhci_hcd
+usb 5-1.3: New USB device found, idVendor=1546, idProduct=0506, bcdDevice= 8.00
+usb 5-1.3: New USB device strings: Mfr=1, Product=2, SerialNumber=0
+usb 5-1.3: Product: EVK-M101
+usb 5-1.3: Manufacturer: u-blox AG
 
+Datasheet: https://content.u-blox.com/sites/default/files/documents/EVK-M10_UserGuide_UBX-21003949.pdf
 
-> v2 is correct, but the dts needs to improve.
-> - There is a remote-endpoint connection for USB role switch between
-> Type-C connector
-> device and USB controller device
-> - There is a remote-endpoint connection for orientation and lane configuration
-> between Type-C connector device and USB/DP PHY device.
+Link: https://lore.kernel.org/r/20250926060235.3442748-1-cryosay@gmail.com
+Signed-off-by: Oleksandr Suvorov <cryosay@gmail.com>
+---
+v2:
+ - Restrict probing to interface #3 only
+ - Add a device model to commit message
+ - Fix grammar in commit message
+ - Add Link: to v1
+---
+ drivers/usb/serial/ftdi_sio.c     | 25 +++++++++++++++++++++++++
+ drivers/usb/serial/ftdi_sio_ids.h |  1 +
+ 2 files changed, 26 insertions(+)
 
-In v8 patch5, we implemented typec_mux and typec_switch in the USB/DP PHY.
-
-I think the current remote-endpoint connections are all child node of the USB/DP PHY. That is:
-
-
-&tcphy0_dp {
-     mode-switch;
-     ...
-};
-
-
-&tcphy0_usb3 {
-     orientation-switch;
-     ...
-};
-
-
-Does this still need to be improved? Thank you.
-
-
->
-> Peter
->
->> [0]: https://lore.kernel.org/all/20250715112456.101-6-kernel@airkyi.com/
->>
->> Or is the following approach correct?
->>
->>
->> port@0 {
->>       reg = <0>;
->>
->>       usbc_hs: endpoint {
->>           remote-endpoint = <&tcphy0>;
->>       };
->> };
->>
->> port@1 {
->>       reg = <1>;
->>
->>       usbc_ss: endpoint {
->>           remote-endpoint = <&tcphy0>;
->>       };
->> };
->>
->> port@2 {
->>       reg = <2>;
->>
->>       usbc_dp: endpoint {
->>           remote-endpoint = <&tcphy0_typec_dp>;
->>       };
->> };
->>
->>
->>>>>>> +                               port@1 {
->>>>>>> +                                       reg = <1>;
->>>>>>> +
->>>>>>> +                                       usbc_ss: endpoint {
->>>>>>> + remote-endpoint = <&tcphy0_typec_ss>;
->>>>>>> +                                       };
->>>>>>> +                               };
->>>>>>> +
->>>>>>> +                               port@2 {
->>>>>>> +                                       reg = <2>;
->>>>>>> +
->>>>>>> +                                       usbc_dp: endpoint {
->>>>>>> + remote-endpoint = <&tcphy0_typec_dp>;
->>>>>>> +                                       };
->>>>>>> +                               };
->>>>>>> +                       };
->>>>>>> +               };
->>>>>>> +       };
->>>>>>> +};
->>>>>>> +
->>>>>> .....
->>>>>>>     &u2phy0 {
->>>>>>>            status = "okay";
->>>>>>> +
->>>>>>> +       port {
->>>>>>> +               u2phy0_typec_hs: endpoint {
->>>>>>> +                       remote-endpoint = <&usbc_hs>;
->>>>>>> +               };
->>>>>>> +       };
->>>>>>>     };
->>>>>>>
->>>>>> There is no switch and mux, how to co-work with Type-C?
->>>>> I checked the phy-rockchip-inno-usb2.c but did not find any switch or mux. Does this mean that we need to implement them? Thank you.
->>>> Wait a minute, actually we have multiple hardware interfaces, one of which is Type-C, eventually connected to USBDPPHY, and the other is micro-usb connected to U2PHY.
->>> I assume the Micro-USB connector does not use Type-C/PD IC, is it
->>> right? Does it relate to this patch?
->>>
->>> Best regards,
->>> Peter
->>>
->
+diff --git a/drivers/usb/serial/ftdi_sio.c b/drivers/usb/serial/ftdi_sio.c
+index 49666c33b41f..4902b496d6de 100644
+--- a/drivers/usb/serial/ftdi_sio.c
++++ b/drivers/usb/serial/ftdi_sio.c
+@@ -110,6 +110,7 @@ static int   ftdi_jtag_probe(struct usb_serial *serial);
+ static int   ftdi_NDI_device_setup(struct usb_serial *serial);
+ static int   ftdi_stmclite_probe(struct usb_serial *serial);
+ static int   ftdi_8u2232c_probe(struct usb_serial *serial);
++static int   ftdi_evkm101_probe(struct usb_serial *serial);
+ static void  ftdi_USB_UIRT_setup(struct ftdi_private *priv);
+ static void  ftdi_HE_TIRA1_setup(struct ftdi_private *priv);
+ 
+@@ -137,6 +138,10 @@ static const struct ftdi_quirk ftdi_8u2232c_quirk = {
+ 	.probe	= ftdi_8u2232c_probe,
+ };
+ 
++static const struct ftdi_quirk ftdi_evkm101_quirk = {
++	.probe	= ftdi_evkm101_probe,
++};
++
+ /*
+  * The 8U232AM has the same API as the sio except for:
+  * - it can support MUCH higher baudrates; up to:
+@@ -1074,6 +1079,8 @@ static const struct usb_device_id id_table_combined[] = {
+ 	/* U-Blox devices */
+ 	{ USB_DEVICE(UBLOX_VID, UBLOX_C099F9P_ZED_PID) },
+ 	{ USB_DEVICE(UBLOX_VID, UBLOX_C099F9P_ODIN_PID) },
++	{ USB_DEVICE(UBLOX_VID, UBLOX_EVK_M101_PID),
++		.driver_info = (kernel_ulong_t)&ftdi_evkm101_quirk },
+ 	/* FreeCalypso USB adapters */
+ 	{ USB_DEVICE(FTDI_VID, FTDI_FALCONIA_JTAG_BUF_PID),
+ 		.driver_info = (kernel_ulong_t)&ftdi_jtag_quirk },
+@@ -2362,6 +2369,24 @@ static int ftdi_stmclite_probe(struct usb_serial *serial)
+ 	return 0;
+ }
+ 
++/*
++ * 1st, 2nd and 4th ports on U-Blox EVK-M101 using an FTDI FT4232H USB-to-UART
++ * are reserved for non-UART interfaces. The only 3rd port can be used as UART.
++ */
++static int ftdi_evkm101_probe(struct usb_serial *serial)
++{
++	struct usb_interface *intf = serial->interface;
++	int ifnum = intf->cur_altsetting->desc.bInterfaceNumber;
++
++	if (ifnum != 2) {
++		dev_info(&intf->dev,
++			 "Ignoring interface reserved as non-UART\n");
++		return -ENODEV;
++	}
++
++	return 0;
++}
++
+ static void ftdi_port_remove(struct usb_serial_port *port)
+ {
+ 	struct ftdi_private *priv = usb_get_serial_port_data(port);
+diff --git a/drivers/usb/serial/ftdi_sio_ids.h b/drivers/usb/serial/ftdi_sio_ids.h
+index 4cc1fae8acb9..2539b9e2f712 100644
+--- a/drivers/usb/serial/ftdi_sio_ids.h
++++ b/drivers/usb/serial/ftdi_sio_ids.h
+@@ -1614,6 +1614,7 @@
+ #define UBLOX_VID			0x1546
+ #define UBLOX_C099F9P_ZED_PID		0x0502
+ #define UBLOX_C099F9P_ODIN_PID		0x0503
++#define UBLOX_EVK_M101_PID		0x0506
+ 
+ /*
+  * GMC devices
 -- 
-Best,
-Chaoyi
+2.48.1
 
