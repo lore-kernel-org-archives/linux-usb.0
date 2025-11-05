@@ -1,257 +1,175 @@
-Received: from unimail.uni-dortmund.de (mx1.hrz.uni-dortmund.de [129.217.128.51])
+Received: from AS8PR04CU009.outbound.protection.outlook.com (mail-westeuropeazon11011043.outbound.protection.outlook.com [52.101.70.43])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5BBFB33B96D;
-	Wed,  5 Nov 2025 15:47:15 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=129.217.128.51
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1762357640; cv=none; b=Eo233dCG2B5D+dC7QAQb2+rJ6DH3JwP2iFr5Bo0g2VSBb26ddheSFBFgeiIJwQqTtjpimYKLtUnIxh/C8PY8/Yef/yEcUHsGNzJ/M49SrXApGDmE57Mo2Lycu8YreDfuPltm5M4XkgDUU2CvRH39Um1YEVLjkkk0IoXM0q1D+yY=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1762357640; c=relaxed/simple;
-	bh=O2PvKUUds593hhJv0sfT6cPaqkLEQtmgvK+gnKL+Ibs=;
-	h=Message-ID:Date:MIME-Version:Subject:From:To:Cc:References:
-	 In-Reply-To:Content-Type; b=DT3vZf6hQ7+Dgbt4aKDVVWk2i4jjR+tyA2uYwKDDEsJxkgwV+uzeVnnbiLJDtelxHGdG1BXHmA0Xy7Be0GpqNsNoNVD3dRmv06ODyauLWJX3nizk/hTTpRQ/ZpVRD30y16FKEXGzVpM/2A3JASHDZcnEee5D16A8zVg2urug4Y4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=tu-dortmund.de; spf=pass smtp.mailfrom=tu-dortmund.de; dkim=pass (1024-bit key) header.d=tu-dortmund.de header.i=@tu-dortmund.de header.b=Yjzp2hI/; arc=none smtp.client-ip=129.217.128.51
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=tu-dortmund.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=tu-dortmund.de
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 21E112FE078;
+	Wed,  5 Nov 2025 16:13:17 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=52.101.70.43
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1762359199; cv=fail; b=YF+g1OG0BAdkAASrxAb6Y0SXAJhfUDmV+EF9GT4J+kmIAdTaxgX6j/gUMKZpNBCxPEWQ9w0efSVlwWD8DJBWTe6DbPEyGrjbLlkcpUMXMue9CaS1FPeg9wG+uhVu31EWGCMEam7+go9AULwVvBPk34VH2QHekK7AuEq0eueAiL8=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1762359199; c=relaxed/simple;
+	bh=wj3bdUP6E3t/qdvENVDxLcNiJdWO085tudD8ej3qhcA=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:Content-Type:
+	 Content-Disposition:In-Reply-To:MIME-Version; b=OmBbzGTRLWgp3lLuKRcRgvFfyqzYEj1ijmxnVrXEloj150fAInOhB+9ttOvMBHh0kZeOhIHUHOBDnuUvZ46g0uCj4rCGXYlqyUq2vfGzxtTGBBkvQaCdLapvszINpdJXPD5K+9TXNuwPX0QczDI5EXMD3j+SrVFzMJFseODyN5U=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=nxp.com; spf=pass smtp.mailfrom=nxp.com; dkim=pass (2048-bit key) header.d=nxp.com header.i=@nxp.com header.b=bp2WKdEB; arc=fail smtp.client-ip=52.101.70.43
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=nxp.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=nxp.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=tu-dortmund.de header.i=@tu-dortmund.de header.b="Yjzp2hI/"
-Received: from [129.217.186.110] ([129.217.186.110])
-	(authenticated bits=0)
-	by unimail.uni-dortmund.de (8.18.1.10/8.18.1.10) with ESMTPSA id 5A5Fl8Vb013383
-	(version=TLSv1.3 cipher=TLS_AES_256_GCM_SHA384 bits=256 verify=NOT);
-	Wed, 5 Nov 2025 16:47:08 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=tu-dortmund.de;
-	s=unimail; t=1762357629;
-	bh=O2PvKUUds593hhJv0sfT6cPaqkLEQtmgvK+gnKL+Ibs=;
-	h=Date:Subject:From:To:Cc:References:In-Reply-To;
-	b=Yjzp2hI/n4ZMbEDeRY9upUk9Ju/pFdronBalBQiy5hGTia20nbzSeFXIICDmG1qBB
-	 krZ3VXPCBn7h46/nXkOO8ckPywoCKDTFUgSFQoIBMf1lwQxJXsBUgQn4HHK6aY9gJb
-	 JmSf/HphExjkbHGBi1tzXQE8LWAHGPkHMO2Ztl44=
-Message-ID: <64a963ed-400e-4bd2-a4e3-6357f3480367@tu-dortmund.de>
-Date: Wed, 5 Nov 2025 16:47:08 +0100
+	dkim=pass (2048-bit key) header.d=nxp.com header.i=@nxp.com header.b="bp2WKdEB"
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=uAr7+EJ0c+cak+571FQYa83h+g0+Z3j53eh8OyWJceNJlLAHuOVlYdxT+km9cRbbOPJHW/dnYtrq1zvPOz/VXJ7pW9Gtsx/wEpGrU/2hHYBdlTPrCIpjx3q3iwe53QO5Uvtqxsd+pgYrbIPnlUsnVMpFqDgu2cfh14rmYJlqsDXUEVLo7aTc707xOY7b7BHYbP5tQW5iDLGOzL+Lts3F0dFpFULTuvLtmQrFyMhik1kM5XlgcA2LsvK3bD0YG3ZfQ0zZkOcPuskXLPzYzO2butmAiRmSykAa/elvPD+bohqn7dPT/TihGHSg8SX9eQ3kC0pJU+xSpTA51N01K0Sg2A==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=EPtLryQQWx89i+zmKj4fWT5f6CWWHYksI706KvUuijc=;
+ b=ANi3Pd0AfjSkis3Bcb8jdtcoD2s3VLAV1WAZWExvNLj94KvBYLg3BJHtnNWRZVNSzAlPX9Vc8XLgfABcSfkoDT8gPEYQ19kpemnv3+glhkSrafTsnXHvZegTyJP8Ke9gh1SxhhM6QOcrch+vntKE9M4QX0rGCzbeCta/HdYS1UrYImKZnjkBRrMHOYJaA2VHaKL3GsM3MLAk4Vm8nNPbJETDjHgwze3ljcaoZcx2iAfeJBWLqcV17xPTEsmrRcalM5AHfVwthoK5UgvUcS+gRztcMB+wiW7phBk8+BnhVOO7mUFpIt95AXaqP6fYY8R8aKtEFqGnNXXvsh1eJFdilQ==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=nxp.com; dmarc=pass action=none header.from=nxp.com; dkim=pass
+ header.d=nxp.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nxp.com; s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=EPtLryQQWx89i+zmKj4fWT5f6CWWHYksI706KvUuijc=;
+ b=bp2WKdEByi2yCrjF+sXJWcwlW9wvtzcV/mlWhbO44dXw6rV8loLcwOzctG7RjnbxPxWdi9T+XP8b2fuSeCK0qFS3l4mwjUuAawaSE4odzWAB8atAz0Uii2msoPBBbX/cPVlMy72tMkt7lCd+nYQBtjIEF/uNZ8hHNiSmzQ0qbaMDu65aqofv4a/3Ecx1idQlbw+khT+Voaykf6FGow49WTyu+3Te9OeXzNFgPnnPh+kn79A+2L88TR9mbsj4VFbCA7IoWHBTHoYYfO0SYFgdeesvAi8TKA+ILWnjppVEp+vXNFqCpGSQi4s96Jf6vXeOCWm0uWG1pe+ywyV8YpTUfw==
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=nxp.com;
+Received: from PAXPR04MB8829.eurprd04.prod.outlook.com (2603:10a6:102:20c::17)
+ by VI0PR04MB12078.eurprd04.prod.outlook.com (2603:10a6:800:313::18) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9275.16; Wed, 5 Nov
+ 2025 16:13:15 +0000
+Received: from PAXPR04MB8829.eurprd04.prod.outlook.com
+ ([fe80::cdc5:713a:9592:f7ad]) by PAXPR04MB8829.eurprd04.prod.outlook.com
+ ([fe80::cdc5:713a:9592:f7ad%7]) with mapi id 15.20.9298.007; Wed, 5 Nov 2025
+ 16:13:15 +0000
+Date: Thu, 6 Nov 2025 00:06:36 +0800
+From: Xu Yang <xu.yang_2@nxp.com>
+To: Frank Li <Frank.li@nxp.com>
+Cc: Thinh.Nguyen@synopsys.com, gregkh@linuxfoundation.org, 
+	shawnguo@kernel.org, s.hauer@pengutronix.de, kernel@pengutronix.de, 
+	festevam@gmail.com, linux-usb@vger.kernel.org, linux-kernel@vger.kernel.org, 
+	imx@lists.linux.dev, linux-arm-kernel@lists.infradead.org, jun.li@nxp.com
+Subject: Re: [PATCH 2/2] usb: dwc3: imx8mp: disable auto suspend for host role
+Message-ID: <63knf2kyyqmo2znym7suhb5ua2si2xse7ptufoo77jkddldjyu@3hat6xulwgbe>
+References: <20251105074504.1427926-1-xu.yang_2@nxp.com>
+ <20251105074504.1427926-2-xu.yang_2@nxp.com>
+ <aQtw+dNQEWkKxs5D@lizhi-Precision-Tower-5810>
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <aQtw+dNQEWkKxs5D@lizhi-Precision-Tower-5810>
+X-ClientProxiedBy: SG2PR02CA0081.apcprd02.prod.outlook.com
+ (2603:1096:4:90::21) To PAXPR04MB8829.eurprd04.prod.outlook.com
+ (2603:10a6:102:20c::17)
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: [PATCH net-next v1 1/1] usbnet: Add support for Byte Queue Limits
- (BQL)
-From: Simon Schippers <simon.schippers@tu-dortmund.de>
-To: Eric Dumazet <edumazet@google.com>
-Cc: oneukum@suse.com, andrew+netdev@lunn.ch, davem@davemloft.net,
-        kuba@kernel.org, pabeni@redhat.com, netdev@vger.kernel.org,
-        linux-usb@vger.kernel.org, linux-kernel@vger.kernel.org
-References: <20251104161327.41004-1-simon.schippers@tu-dortmund.de>
- <20251104161327.41004-2-simon.schippers@tu-dortmund.de>
- <CANn89iL6MjvOc8qEQpeQJPLX0Y3X0HmqNcmgHL4RzfcijPim5w@mail.gmail.com>
- <66d22955-bb20-44cf-8ad3-743ae272fec7@tu-dortmund.de>
- <CANn89i+oGnt=Gpo1hZh+8uaEoK3mKLQY-gszzHWC+A2enXa7Tw@mail.gmail.com>
- <be77736d-6fde-4f48-b774-f7067a826656@tu-dortmund.de>
- <CANn89iJVW-_qLbUehhJNJO70PRuw1SZVQX0towgZ4K-JvsPKkw@mail.gmail.com>
- <c01c12a8-c19c-4b9f-94d1-2a106e65a074@tu-dortmund.de>
- <CANn89iJpXwmvg0MOvLo8+hVAhaMTL_1_62Afk_6dG1ZEL3tORQ@mail.gmail.com>
- <9ebd72d0-5ae9-4844-b0be-5629c52e6df8@tu-dortmund.de>
-Content-Language: en-US
-In-Reply-To: <9ebd72d0-5ae9-4844-b0be-5629c52e6df8@tu-dortmund.de>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: PAXPR04MB8829:EE_|VI0PR04MB12078:EE_
+X-MS-Office365-Filtering-Correlation-Id: e947cbba-7c4e-4092-ac17-08de1c8639bc
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam:
+	BCL:0;ARA:13230040|52116014|366016|1800799024|376014|7416014|19092799006|38350700014;
+X-Microsoft-Antispam-Message-Info:
+	=?us-ascii?Q?odfF7I980FflcP+U3abM+Vo9lloS59fXIZ8jnrOM3u0BD+hho5rwaNEP7Fw9?=
+ =?us-ascii?Q?SOI4UQFB0T10vcDqYcE2fTdgIvkoPDdIw1PeeKvRFcCiT09B2Nao5EGJxHu5?=
+ =?us-ascii?Q?2lnHpLObLSRgHyCEwSFkUMlgbX/xACUoyMtcHJv5Z72EYBpgD2WQiR5Zz4iP?=
+ =?us-ascii?Q?M22YGYtN+B+4ebPm0UwCVDpJsKWFQcVLkZ9LawyEbqokwhyiycLHf9C/bWL7?=
+ =?us-ascii?Q?kLzZb8ZWERdcaKtMtK/PmN5rQAJRbj/3EJEfaQSiGbH4gRQIVNBJ6M8NHz5J?=
+ =?us-ascii?Q?IsQE71b3q7ZGZeOYyywFFCEgnrICnu89tSvpJPbSaAZL370yoWWuS7uFEp6d?=
+ =?us-ascii?Q?EE/Bs27UOsquBW1nJk8CQPOWD2Bxu7wp63VUSeQYD7BC9Mdtw13jNgu+VTOC?=
+ =?us-ascii?Q?gFDwoi5IEc28bAqXhgXlpGTX4zdzOgx8FMf/f2xSgbPo5nCVReV7Dx/mV4YY?=
+ =?us-ascii?Q?NyJA+P48st3a+EiIJ8kzYelHQMbyNt8czfEUzdB8HXRxi8QBIyzOhoMP2DlC?=
+ =?us-ascii?Q?OR2zlpUY2N/ARvZGyyXXL9pUjpeDgsgD+MO/VaOTYs1WQEY1yrXCz+3RYslh?=
+ =?us-ascii?Q?4i4/TSmHE5ASIU41mfZzyqFaEe4iHxtEPlzXGBylYnUJI+5u2Lsgb8xAaGPo?=
+ =?us-ascii?Q?DGZQ5QOyPCO1Zw7HXrMLHmFoDHpuk+tCX0yefwStlx6LGNLm+AnBsq6+8ehx?=
+ =?us-ascii?Q?BSNUx4X2IzwflOqxx9A7E5YpxNeb894hWnAVMjylcfwszSZp9CwHFmJM/MwH?=
+ =?us-ascii?Q?cbJxFMPT70H1eLlB02sNWDbf8xIG2rbAUdF3z/zos7AgThkRJMKQbr+MIP0V?=
+ =?us-ascii?Q?GDM6lMWXHj9jF1+Xo3CNMQ6nt04ixFPYLkIbz1CmGlSS8gO06q1ZvPFhTi+F?=
+ =?us-ascii?Q?RNgBGUgqYPT7Za93chW3Kk5+KLV9tYC7FDIlQdBRjNEHLseznl38on2kBBjn?=
+ =?us-ascii?Q?P5zDzxggrwpSp5mLfLTNSu6stqdLNn6kzRXDXPQdhZ4ceCSBoAokcm4+HY5U?=
+ =?us-ascii?Q?u3YEdam/l1F+qDCjNCHx4zcUp4lkXcUQxDVtl0Ksz0UGNHOkJnZ0PBEVY+Qi?=
+ =?us-ascii?Q?KKj7S1ptUvlU0lp8IwOad5L1+ss1u46rxuGF2fqlzw4MgaLnN/LU40Kncpy9?=
+ =?us-ascii?Q?eWvTNNgXnDMuzH3qGfAve5n++BpzPVO8eUGkQ/kIoqloKmm9AwwezvdOYjHQ?=
+ =?us-ascii?Q?SolZwo3OJrEDI7teBTc+93PLMJfuurA9seCIe+fVZWnDk0RRUqIVjYxnIaY/?=
+ =?us-ascii?Q?Z6sKbHR7wuZVOkH6RPAqc/I/oNn0aiT456G5FD7wMue/wvS+vf5uU4xowYjc?=
+ =?us-ascii?Q?GV0gsviNMr2DzRduKt3TSX2nH2xS6eCh6mREHIL6ulm1zioU9rUMQlD96aUw?=
+ =?us-ascii?Q?13UiUQFWG81ZR8QumM0ePUYVHgEZhFIujQ8c+i+CLFVavipE5oam/bAYqTg1?=
+ =?us-ascii?Q?nAh4j8Qu1SpHvhXUx+1GZBL6Frfs9CgIrJqFAW46VIX/rG24LAr8rUzJjVup?=
+ =?us-ascii?Q?/l0NrKyFmQYzyx1YvoZCJtWbPCrBV3nFIgq4?=
+X-Forefront-Antispam-Report:
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:PAXPR04MB8829.eurprd04.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(52116014)(366016)(1800799024)(376014)(7416014)(19092799006)(38350700014);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0:
+	=?us-ascii?Q?R8t3ZPcg7SypRbI4tpJKF1i+gOYvr3RHW9YbmCulkXbgSyvNqGNkGQuOR6aE?=
+ =?us-ascii?Q?mGW96p7R0HPayNtg/joz+f8yozaZk7BvhBXd5tYubij4YCoxJ+pYwE+QyL9e?=
+ =?us-ascii?Q?VhUgUG8Lv5gN7towz1bJmDMhgrtW8nduh1s2N3d5JNTex+PdeAr6UsqVn0Gr?=
+ =?us-ascii?Q?jTig94r7glszzz/13ssPmE4XfSomI5U+FA+urZptROWGmGGTC5rKNNvbNAPl?=
+ =?us-ascii?Q?BSzWY93ZjflBk3PkHr5mb4r5QIdrWYzKzh3S1HshcqnlbRJDDubrz9M5TOMZ?=
+ =?us-ascii?Q?vSncs8tMgOk9/YxDe3fAfSrL3VT2Q/W7y7sSGMM3+2WdlTRGt0N7dCqIb5Vj?=
+ =?us-ascii?Q?d8HpfbbiN+ya25I9QK9U7HxvxGDCN6I7I5t0p9oFwDwfkkSrRKda64wj3a6t?=
+ =?us-ascii?Q?XD6fW6YG66a/aUWad4DrlqBQhrFgnbRmXx5uGq4Pli1F5qCDEkVgSpePapoI?=
+ =?us-ascii?Q?/rZTXkEghJKoURf8TyWb68a0b8ntns5c90C//BKnRuvNzpymxDRTaEA9K8WH?=
+ =?us-ascii?Q?nZSkIiQf8jojzXsfqOH3oazUGexuiM5J3cQtWY5wGJbOUKS6hiO0QgPf4jV2?=
+ =?us-ascii?Q?HiKu8gJ3q7t2oU3C9FPlgNo4ZxpAdR6ACOJdneRUPD+6bo8yoS05C0AITyRA?=
+ =?us-ascii?Q?4mkmxcQh7p7YO8Mt4P9B5d1gSZiZe3FPY2fUexTW8mu3N1FSUIjAo0fE0Nuq?=
+ =?us-ascii?Q?Wt97hDOze1C8wRIL/hhUttlKxGNoCk931CiFWhlRZ0CfjmVgdIWdFVivOFEn?=
+ =?us-ascii?Q?HJMIidPJe4as/Iu2ZWbs3q9zaf0RL9qx6XU+3defx9WLNpakrvsDIGPsgLtR?=
+ =?us-ascii?Q?79lXneJxM8zIIaeNUuGE+kVKDHJLVh5yBZj3YQj76f25EzjKcJr+oSivmF+i?=
+ =?us-ascii?Q?ScpddypxrkRFroR5HrTG34B8iaHuq6/fAg40mPP5ec81fK60SZzrooVkQ/87?=
+ =?us-ascii?Q?8G1SljJhfh2MN3zo9Vzwr8w0p+uzjXzWenKWUQwtNx1xY80hDUxrtslmJQRw?=
+ =?us-ascii?Q?+fIZEmOxlP6pEemOAXXm1aCwVQdn6Z5aLX5Id2ITUfQUcWNWMPbHyt6hLsoo?=
+ =?us-ascii?Q?fcPo4Ek2tQbFNNGMNedBtVGjP3/BugboZnb9L+Q4DtPGFhhmh8UhrIZGOKjn?=
+ =?us-ascii?Q?9tp3Qe3GbwnRjhFZXPMCB9896Oj2CAQW6KS3D3gksMEl8PVGfe+Ffl8XRoEG?=
+ =?us-ascii?Q?Yx/+rnNs8RGXjEEy+asrZv6ZM5k+UTwNfucCheyZtau3xQovolBqeFsqrmnt?=
+ =?us-ascii?Q?FHxIy98TjqDDkvNw7QD/SU2OdBmo5sWlVsZaeELw1EmntvwNuvdT6OdV4Lq4?=
+ =?us-ascii?Q?U26yeLh66+jWN8E346JO+MwWq35ExqHKKIpW6+F/fO5EBvE8ACjNWpnP8PfA?=
+ =?us-ascii?Q?3KIIGSC19kMdjKrt/k5LWDLfmAjouK2LKuBKQid3QPe9ctpcDUkHKKbil3YP?=
+ =?us-ascii?Q?tc+VZlGzF5p9zsZQ5qmro9rVETKaQLrqT/Tgl825QsX2CausZ1qwzqUFalSr?=
+ =?us-ascii?Q?NICCM7m0oLK1LaHtl8HwgVpjmymXPGH3EwIJbJKg2KfIdGVpBlX/qGi9m1sl?=
+ =?us-ascii?Q?ngBrYXFJz6ejueLJ/twetkkHVhtJ30OdGURkgOoO?=
+X-OriginatorOrg: nxp.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: e947cbba-7c4e-4092-ac17-08de1c8639bc
+X-MS-Exchange-CrossTenant-AuthSource: PAXPR04MB8829.eurprd04.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 05 Nov 2025 16:13:15.4571
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 686ea1d3-bc2b-4c6f-a92c-d99c5c301635
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: 52shyonmxu9hR1PhzJZbCtboL4t2Pvy+7wyySyZM4fZ6Ai7s8mjbQ1yrvaWOTNHE7WfnPXRqjD/tJ89uvDnNIA==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: VI0PR04MB12078
 
-On 11/5/25 14:29, Simon Schippers wrote:
-> On 11/5/25 14:05, Eric Dumazet wrote:
->> On Wed, Nov 5, 2025 at 4:58 AM Simon Schippers
->> <simon.schippers@tu-dortmund.de> wrote:
->>>
->>> On 11/5/25 13:34, Eric Dumazet wrote:
->>>> On Wed, Nov 5, 2025 at 4:20 AM Simon Schippers
->>>> <simon.schippers@tu-dortmund.de> wrote:
->>>>>
->>>>> On 11/5/25 12:28, Eric Dumazet wrote:
->>>>>> On Wed, Nov 5, 2025 at 2:35 AM Simon Schippers
->>>>>> <simon.schippers@tu-dortmund.de> wrote:
->>>>>>>
->>>>>>> On 11/4/25 18:00, Eric Dumazet wrote:
->>>>>>>> On Tue, Nov 4, 2025 at 8:14 AM Simon Schippers
->>>>>>>> <simon.schippers@tu-dortmund.de> wrote:
->>>>>>>>>
->>>>>>>>> The usbnet driver currently relies on fixed transmit queue lengths, which
->>>>>>>>> can lead to bufferbloat and large latency spikes under load -
->>>>>>>>> particularly with cellular modems.
->>>>>>>>> This patch adds support for Byte Queue Limits (BQL) to dynamically manage
->>>>>>>>> the transmit queue size and reduce latency without sacrificing
->>>>>>>>> throughput.
->>>>>>>>>
->>>>>>>>> Testing was performed on various devices using the usbnet driver for
->>>>>>>>> packet transmission:
->>>>>>>>>
->>>>>>>>> - DELOCK 66045: USB3 to 2.5 GbE adapter (ax88179_178a)
->>>>>>>>> - DELOCK 61969: USB2 to 1 GbE adapter (asix)
->>>>>>>>> - Quectel RM520: 5G modem (qmi_wwan)
->>>>>>>>> - USB2 Android tethering (cdc_ncm)
->>>>>>>>>
->>>>>>>>> No performance degradation was observed for iperf3 TCP or UDP traffic,
->>>>>>>>> while latency for a prioritized ping application was significantly
->>>>>>>>> reduced. For example, using the USB3 to 2.5 GbE adapter, which was fully
->>>>>>>>> utilized by iperf3 UDP traffic, the prioritized ping was improved from
->>>>>>>>> 1.6 ms to 0.6 ms. With the same setup but with a 100 Mbit/s Ethernet
->>>>>>>>> connection, the prioritized ping was improved from 35 ms to 5 ms.
->>>>>>>>>
->>>>>>>>> Signed-off-by: Simon Schippers <simon.schippers@tu-dortmund.de>
->>>>>>>>> ---
->>>>>>>>>  drivers/net/usb/usbnet.c | 8 ++++++++
->>>>>>>>>  1 file changed, 8 insertions(+)
->>>>>>>>>
->>>>>>>>> diff --git a/drivers/net/usb/usbnet.c b/drivers/net/usb/usbnet.c
->>>>>>>>> index 62a85dbad31a..1994f03a78ad 100644
->>>>>>>>> --- a/drivers/net/usb/usbnet.c
->>>>>>>>> +++ b/drivers/net/usb/usbnet.c
->>>>>>>>> @@ -831,6 +831,7 @@ int usbnet_stop(struct net_device *net)
->>>>>>>>>
->>>>>>>>>         clear_bit(EVENT_DEV_OPEN, &dev->flags);
->>>>>>>>>         netif_stop_queue (net);
->>>>>>>>> +       netdev_reset_queue(net);
->>>>>>>>>
->>>>>>>>>         netif_info(dev, ifdown, dev->net,
->>>>>>>>>                    "stop stats: rx/tx %lu/%lu, errs %lu/%lu\n",
->>>>>>>>> @@ -939,6 +940,7 @@ int usbnet_open(struct net_device *net)
->>>>>>>>>         }
->>>>>>>>>
->>>>>>>>>         set_bit(EVENT_DEV_OPEN, &dev->flags);
->>>>>>>>> +       netdev_reset_queue(net);
->>>>>>>>>         netif_start_queue (net);
->>>>>>>>>         netif_info(dev, ifup, dev->net,
->>>>>>>>>                    "open: enable queueing (rx %d, tx %d) mtu %d %s framing\n",
->>>>>>>>> @@ -1500,6 +1502,7 @@ netdev_tx_t usbnet_start_xmit(struct sk_buff *skb, struct net_device *net)
->>>>>>>>>         case 0:
->>>>>>>>>                 netif_trans_update(net);
->>>>>>>>>                 __usbnet_queue_skb(&dev->txq, skb, tx_start);
->>>>>>>>> +               netdev_sent_queue(net, skb->len);
->>>>>>>>>                 if (dev->txq.qlen >= TX_QLEN (dev))
->>>>>>>>>                         netif_stop_queue (net);
->>>>>>>>>         }
->>>>>>>>> @@ -1563,6 +1566,7 @@ static inline void usb_free_skb(struct sk_buff *skb)
->>>>>>>>>  static void usbnet_bh(struct timer_list *t)
->>>>>>>>>  {
->>>>>>>>>         struct usbnet           *dev = timer_container_of(dev, t, delay);
->>>>>>>>> +       unsigned int bytes_compl = 0, pkts_compl = 0;
->>>>>>>>>         struct sk_buff          *skb;
->>>>>>>>>         struct skb_data         *entry;
->>>>>>>>>
->>>>>>>>> @@ -1574,6 +1578,8 @@ static void usbnet_bh(struct timer_list *t)
->>>>>>>>>                                 usb_free_skb(skb);
->>>>>>>>>                         continue;
->>>>>>>>>                 case tx_done:
->>>>>>>>> +                       bytes_compl += skb->len;
->>>>>>>>> +                       pkts_compl++;
->>>>>>>>>                         kfree(entry->urb->sg);
->>>>>>>>>                         fallthrough;
->>>>>>>>>                 case rx_cleanup:
->>>>>>>>> @@ -1584,6 +1590,8 @@ static void usbnet_bh(struct timer_list *t)
->>>>>>>>>                 }
->>>>>>>>>         }
->>>>>>>>>
->>>>>>>>> +       netdev_completed_queue(dev->net, pkts_compl, bytes_compl);
->>>>>>>>> +
->>>>>>>>>         /* restart RX again after disabling due to high error rate */
->>>>>>>>>         clear_bit(EVENT_RX_KILL, &dev->flags);
->>>>>>>>>
->>>>>>>>
->>>>>>>> I think this is racy. usbnet_bh() can run from two different contexts,
->>>>>>>> at the same time (from two cpus)
->>>>>>>>
->>>>>>>> 1) From process context :
->>>>>>>> usbnet_bh_work()
->>>>>>>>
->>>>>>>> 2) From a timer. (dev->delay)
->>>>>>>>
->>>>>>>>
->>>>>>>> To use BQL, you will need to add mutual exclusion.
->>>>>>>
->>>>>>> Yeah, I missed that.
->>>>>>>
->>>>>>> I guess synchronizing with the lock of the sk_buff_head dev->done makes
->>>>>>> sense? The same locking is also done right before in skb_dequeue.
->>>>>>
->>>>>> Or only protect the netdev_completed_queue(dev->net, pkts_compl,
->>>>>> bytes_compl) call,
->>>>>> adding a specific/dedicated spinlock for this purpose.
->>>>>>
->>>>>> spin_lock_bh(&dev->bql_spinlock);
->>>>>> netdev_completed_queue(dev->net, pkts_compl, bytes_compl);
->>>>>> spin_unlock_bh(&dev->bql_spinlock);
->>>>>>
->>>>>> I am assuming no usbnet driver is setting dev->lltx = true (or plan to
->>>>>> in the future)
->>>>>> so usbnet_start_xmit() is protected by HARD_TX_LOCK() already.
->>>>>
->>>>> Yes, I also want to only protect the netdev_completed_queue(dev->net,
->>>>> pkts_compl, bytes_compl) call. However, I am wondering what you mean with
->>>>>
->>>>> spin_lock_bh(&dev->bql_spinlock)
->>>>> ...
->>>>>
->>>>>
->>>>> Do we want to protect against usbnet_start_xmit()? Maybe I am missing
->>>>> something, but other BQL implementations also do not seem to protect
->>>>> against their respective ndo_start_xmit.
->>>>
->>>> BQL has been designed so that producer/consumer can run in //
->>>>
->>>> However, all producers need exclusion (typically done with HARD_TX_LOCK)
->>>> All consumers need exclusion (typically done because of NAPI sched bit)
->>>>
->>>>>
->>>>>
->>>>> My approach would just protect against usbnet_bh calls from another
->>>>> context with the same locking as skb_dequeue():
->>>>>
->>>>> spin_lock_irqsave(&list->lock, flags);
->>>>> netdev_completed_queue(dev->net, pkts_compl, bytes_compl);
->>>>> spin_unlock_irqrestore(&list->lock, flags);
->>>>
->>>> I tend to prefer not masking hard irq unless really necessary.
->>>>
->>>> Also, reusing  a lock for different purposes makes things confusing
->>>> in terms of code maintenance.
->>>>
->>>> usbnet is hardly performance critical, I would keep list->lock only to
->>>> protect the list of skbs :)
->>>
->>> Thanks for the clarification!
->>>
->>>
->>> So in usbnet.h I will just
->>>
->>> #include <linux/spinlock.h>
->>>
->>> and then save the new field
->>>
->>> spinlock_t bql_spinlock;
->>>
->>> in struct usbnet and will then call
->>>
->>> spin_lock_bh(&dev->bql_spinlock);
->>> netdev_completed_queue(dev->net, pkts_compl, bytes_compl);
->>> spin_unlock_bh(&dev->bql_spinlock);
->>>
->>> in usbnet_bh. Am I right?
->>
->> You also need to spin_lock_init() this new lock in setup phase (usbnet_probe)
->>
+On Wed, Nov 05, 2025 at 10:44:57AM -0500, Frank Li wrote:
+> On Wed, Nov 05, 2025 at 03:45:03PM +0800, Xu Yang wrote:
+> > Do dwc3 core auto suspend enable for device and disable for host
+> > , this can make sure dwc3 core device auto suspend setting is
+> > correct all the time, the background of disable dwc3 core device
+> > auto suspend is to make its parent device suspend immediately
+> > (so wakeup enable can be enabled) after xhci-plat device suspended,
 > 
-> Yes, thanks.
+> Does wakeup only enable at runtime pm suspend? why core delay runtime
+
+Yes.
+
+> pm suspend impact wakeup function?
+
+If xhci is suspended, I mean the wakeup function comes from external glue logic.
+
+When xhci is suspended, it will stop host controller (RUN_STOP = 0) which means
+it can't detect connect/disconnect event. Meanwhile, if dwc3 is active, the
+wakeup IRQs (in glue) is still disabled. when a device is attached, xhci can't
+detect this event and the external wakeup logic is still unfunctional. When dwc3
+is suspended, the previous connect event can't be fired again even though wakeup
+IRQ is enabled. So that event will be lost. 
+
+Thanks,
+Xu Yang
+
 > 
->> Test/Run your code after enabling LOCKDEP in your .config
->> (CONFIG_PROVE_LOCKING=y)
+> Frank
 > 
-> Okay, I will test the new code :)
-
-So, I did my first tests.
-
-I compiled it with CONFIG_PROVE_LOCKING and ran iperf3 TCP tests on my
-USB2 to Gbit Ethernet adapter I had at hand. dmesg shows no lockdep
-warnings. What else should I test?
-
-Thanks
+> > for device mode, we keep the dwc3 core device auto suspend is to
+> > give some wait for gadget to be enumerated.
