@@ -1,38 +1,38 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CE3FE27FD51
-	for <linux-usb@vger.kernel.org>; Wed,  5 Nov 2025 18:28:15 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CC30F284880
+	for <linux-usb@vger.kernel.org>; Wed,  5 Nov 2025 18:30:13 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1762367295; cv=none; b=cKHS7/CI1Abhw4leJyudoFerMLRmyDDAXo0Kz36aE8YVRR9ljzR7WoNxIckbMjC5OO6rjAeCi3isl9b6YF9KlR6HI5Q2xE8zcQu49K0rS5yTWEdsCO2QiBQzLG1oNnuP+q3z6lVCw5dLDji3PARS4I3Y4bShqX6pgS8qv5fCGTY=
+	t=1762367413; cv=none; b=e+CSen72QDzqO9HOLw7B8GoZFcrjXHVsGQwRMJg2FD7mBQGAaNd5PPiKAVaSUehlqulO2sih3mzjnnJIZ+85qLLigJzLCa5H+bhAWAZQqw5KkI3Sbs2LIh+/JZ+LsjA+gNQ+jFRFuefl7kh8wn0V7W7G9iX5kKQD5TiKeQ7ocTw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1762367295; c=relaxed/simple;
-	bh=US9R8JjB2OzotXpjwg0XljYFMfwl9HQqSsRRgt5088k=;
+	s=arc-20240116; t=1762367413; c=relaxed/simple;
+	bh=+qYzFspYByXa/Po/8dDw9y93cicoWisKQwGPCFj9u9o=;
 	h=From:To:Subject:Date:Message-ID:In-Reply-To:References:
-	 Content-Type:MIME-Version; b=cFKcypSVI4aqy2yhlLBwubSMrRSM/WRZ0IN05h72PQEX9oNfi/TBKLCxvljSOLmrwN1cNxnVTLSm2/2gVT9Koi1LMYJrQEv5RW4zdHiv3EWQQsQuo8IBce4wc0Q8iXlS2PF/9XN971HJTwbiKjcKql18+eatI1vyJQabSgnRq2c=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=XtXAB1wE; arc=none smtp.client-ip=10.30.226.201
+	 Content-Type:MIME-Version; b=BDQlvl/FJ5xBXNn/hcVbbfcCu2NQ9PPoj7EvX6gQiBbaJ8sRQix9RiCmIipNxepKdsmVGxcxckGY1RsCA4vDgtlBa9JYaPN1VTOVzyBH6KOXNYgkVgdWF8orZxAfOuaI4s4eDr6DD3Yac1H+0w4T98PscMWgJBhJl4UGhF6O6nM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=i2MeqRnX; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="XtXAB1wE"
-Received: by smtp.kernel.org (Postfix) with ESMTPS id 516AAC19424
-	for <linux-usb@vger.kernel.org>; Wed,  5 Nov 2025 18:28:15 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="i2MeqRnX"
+Received: by smtp.kernel.org (Postfix) with ESMTPS id 51391C19421
+	for <linux-usb@vger.kernel.org>; Wed,  5 Nov 2025 18:30:13 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1762367295;
-	bh=US9R8JjB2OzotXpjwg0XljYFMfwl9HQqSsRRgt5088k=;
+	s=k20201202; t=1762367413;
+	bh=+qYzFspYByXa/Po/8dDw9y93cicoWisKQwGPCFj9u9o=;
 	h=From:To:Subject:Date:In-Reply-To:References:From;
-	b=XtXAB1wE9lKfg+f55KIErKC46EiZPwi1OoXz3DhTkryjt/P6FZbhlmRPRICIQQhBz
-	 dtEf0Ts72V4p2Xd3UgJ8E7LyWwzZ9mjDwwhMYp7HhHpaq/u0IxAT5vrizt+jVNNTJh
-	 AHz05yLGgzu2faF4gyXrDrXr8iQVnOyiPth88JanMWd83yASd9DtkbM/q1AFzujEwV
-	 4wnpIa2LsFbd0V6Zq7wKBZvDz6lOIup2NsuRGrOW6+vESOP5RnZl3qHcq/ittm51Nu
-	 Bs0YSmpTpA9Kg++tt+oy6el10CqigjMDl2w+Dm+pDskRi83PxT9bMGnlVxrSnawvBG
-	 ME31Nq9hqCS6g==
+	b=i2MeqRnXr+wrvoisLx75VRXuI42u1WyOUKfVc3Imq6uYh85Hv2iGbBl7aceSPsChj
+	 RjH4AnGJr32ifajxd7Yyxsujrv/AOvBf6OoSF5A7YIUbS1TUdLrMwmPRlzEo2Br1sl
+	 IJCFixjk0oeLybvmkN2VjjxW/q4Y6b+xPFq7/N1v8dylCqWFU6iFy5Up87Y000AKlq
+	 X/6hQO+1ZNfXPNtBbZEbXZ34g9Cr/GrYgoXbc/tgJ+vHZgmrpjpsOm37YYm+vRas3W
+	 QFSkiTJDg9l1zfDZ9on3sVPZX9S5z+ieAuA0QWcCiVkmhgREjGsz2LNtbw8Rtis2sh
+	 DaowZSulykIig==
 Received: by aws-us-west-2-korg-bugzilla-1.web.codeaurora.org (Postfix, from userid 48)
-	id 49A25C41613; Wed,  5 Nov 2025 18:28:15 +0000 (UTC)
+	id 4B9E7C53BC5; Wed,  5 Nov 2025 18:30:13 +0000 (UTC)
 From: bugzilla-daemon@kernel.org
 To: linux-usb@vger.kernel.org
 Subject: [Bug 220748] usb: xhci_queue_isoc_tx_prepare ignore start_frame and
  always assumes URB_ISO_ASAP is set
-Date: Wed, 05 Nov 2025 18:28:14 +0000
+Date: Wed, 05 Nov 2025 18:30:12 +0000
 X-Bugzilla-Reason: None
 X-Bugzilla-Type: changed
 X-Bugzilla-Watch-Reason: AssignedTo drivers_usb@kernel-bugs.kernel.org
@@ -48,7 +48,7 @@ X-Bugzilla-Priority: P3
 X-Bugzilla-Assigned-To: drivers_usb@kernel-bugs.kernel.org
 X-Bugzilla-Flags: 
 X-Bugzilla-Changed-Fields: 
-Message-ID: <bug-220748-208809-x7JuQkyGsg@https.bugzilla.kernel.org/>
+Message-ID: <bug-220748-208809-jzTt4MzZDS@https.bugzilla.kernel.org/>
 In-Reply-To: <bug-220748-208809@https.bugzilla.kernel.org/>
 References: <bug-220748-208809@https.bugzilla.kernel.org/>
 Content-Type: text/plain; charset="UTF-8"
@@ -64,56 +64,10 @@ MIME-Version: 1.0
 
 https://bugzilla.kernel.org/show_bug.cgi?id=3D220748
 
---- Comment #6 from Nicola Lunghi (nick83ola@gmail.com) ---
-(In reply to Alan Stern from comment #5)
-> For anyone who wants to know more about how isochronous scheduling is
-> intended to work in the Linux USB stack, see the description in the
-> kerneldoc for usb_submit_urb() in drivers/usb/core/urb.c.
->=20
-> In short, the start_frame field in struct urb is output-only.  The host
-> controller driver doesn't pay any attention to it when an URB is submitte=
-d,
-> but the frame assigned to the URB's first isochronous packet gets stored =
-in
-> start_frame before the URB completes.  Furthermore, the URB_ISO_ASAP flag
-> only affects what happens to an URB that was submitted too late to keep t=
-he
-> endpoint's queue going (say, because interrupts were blocked for too long=
-).=20
-> If the queue is just starting up, or the URB isn't already too late,
-> URB_ISO_ASAP is ignored.
->=20
-> Also, host controller drivers are not likely to pay attention to the
-> interval field.  They will use the interval specified in the endpoint's
-> descriptor.
-
-Sorry Alan I don't understand your considerations. are you saying that this=
- is
-not valid? the documentation you pointed out states that
-
- With few exceptions, USB device drivers should never access URB fields
- * provided by usbcore or the HCD until its complete() is called.
- * The exceptions relate to periodic transfer scheduling.  For both
- * interrupt and isochronous urbs, as part of successful URB submission
- * urb->interval is modified to reflect the actual transfer period used
- * (normally some power of two units).  And for isochronous urbs,
- * urb->start_frame is modified to reflect when the URB's transfers were
- * scheduled to start.
-
-I also found this documentation from intel
-https://www.intel.com/content/dam/www/public/us/en/documents/technical-spec=
-ifications/extensible-host-controler-interface-usb-xhci.pdf
-
-pag 219 4.11.2.5 describes the start frame field.
-
-I don't have time today I'll try to play with this during the we.
-
-Can someone tell me if my considerations at the beginning are valid and the
-behaviour that we have is missing the start_frame handling, or there's
-something I don't see and the driver is actually doing the right thing?
-
-Thanks,
-Nicola
+--- Comment #7 from Nicola Lunghi (nick83ola@gmail.com) ---
+Sorry just rereading Michael comments they are useful! I'll take a look thi=
+s we
+thanks!
 
 --=20
 You may reply to this email to add a comment.
