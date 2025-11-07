@@ -1,272 +1,224 @@
-Received: from mx0a-00230701.pphosted.com (mx0a-00230701.pphosted.com [148.163.156.19])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pl1-f170.google.com (mail-pl1-f170.google.com [209.85.214.170])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2DB221F8BD6
-	for <linux-usb@vger.kernel.org>; Fri,  7 Nov 2025 00:18:10 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=148.163.156.19
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1762474698; cv=fail; b=qpzNdvtC+DKL+NopzpkMw8ckbjfVy9SNwf/tu1kqakT0vBAe8G5K0n8hqoFEJVDSk/1XeYNa0Cl+Midm9QofIRH6np8406f13i1ALpJgVOW3NnIMGVMt7h2fSp5pilmZet23P0T3Sivp5zfD04jaqo4jk2BX7SkVLriTJKRymKY=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1762474698; c=relaxed/simple;
-	bh=Nsi/KFwbHBstcIlUmyUerO4PYphJlK82D4rPuhSdbCU=;
-	h=From:To:CC:Subject:Date:Message-ID:References:In-Reply-To:
-	 Content-Type:MIME-Version; b=cc3KvkhKOJxyRtE/R2MlVNegijEFajLVdU2IRpBMy0tDzjDtrnTeMfoLIayPeqPrOz5dPSNiFkq9wD2aRSfUUvrbV8zdrZ1uGfsta48yFG2+3GLc8zh3+8vJz79IbWYJLL9GD/air/jL18sREc29F903XZkTatp1R0cCIUzXMTM=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=synopsys.com; spf=pass smtp.mailfrom=synopsys.com; dkim=pass (2048-bit key) header.d=synopsys.com header.i=@synopsys.com header.b=DMaELetv; dkim=pass (2048-bit key) header.d=synopsys.com header.i=@synopsys.com header.b=GFEtjBsK; dkim=fail (1024-bit key) header.d=synopsys.com header.i=@synopsys.com header.b=M14Weyqz reason="signature verification failed"; arc=fail smtp.client-ip=148.163.156.19
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=synopsys.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=synopsys.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9703B2673AA
+	for <linux-usb@vger.kernel.org>; Fri,  7 Nov 2025 00:20:21 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.170
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1762474824; cv=none; b=nwgnOTWiuFhgLHKwEp80HjFeLrmBJFDqPMW391aVYWp3giE969GYgBcue+F75n6FFSgoykD3VdVnruDiVWrweVj3SNUxtNEteSUxVquaNX5iAZXeOnsz/IxEYbL2XopZrTiIwLcMMze/ICOqXKI2/39kTbFx9JKW8u134ExMHYM=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1762474824; c=relaxed/simple;
+	bh=Oi4/QdrGjIUzL+doDtA2MEODAayPQRT18bHsBVMEGcI=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=NZ59FooHF0YwwFRPO7YmzpQJcQTVTYgGTTxqUp9KA1hZBtRXYmnpN0A4LBZd5q0whyV/138T0eKsRRKB0oBjvAV8E0beGyNhFEmiTgaDr4bE++5Opa07iIVx5CgpeqADHASGNprj6ZFMbOMmcK3xRszjO7cx8zwdTyrPD1PlREU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=HIl/BCmt; arc=none smtp.client-ip=209.85.214.170
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=synopsys.com header.i=@synopsys.com header.b="DMaELetv";
-	dkim=pass (2048-bit key) header.d=synopsys.com header.i=@synopsys.com header.b="GFEtjBsK";
-	dkim=fail reason="signature verification failed" (1024-bit key) header.d=synopsys.com header.i=@synopsys.com header.b="M14Weyqz"
-Received: from pps.filterd (m0297266.ppops.net [127.0.0.1])
-	by mx0a-00230701.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 5A6MkPZA4139808;
-	Thu, 6 Nov 2025 16:18:09 -0800
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=synopsys.com; h=
-	cc:content-id:content-transfer-encoding:content-type:date:from
-	:in-reply-to:message-id:mime-version:references:subject:to; s=
-	pfptdkimsnps; bh=Nsi/KFwbHBstcIlUmyUerO4PYphJlK82D4rPuhSdbCU=; b=
-	DMaELetv61vqt8GIGCBCiGS89nwlxC4gu3XxlMQ7B+xVr9OsWQClXDEijufJkAFN
-	WC/GllirXla/oXlnjGjtlzFbwrQZaBs2mBL+D9z5V/3MNAip8fVT3p0tZk8RCtP4
-	pWzZB8XR0mEOwLlG+iXZC8XQnJueyQe2X2qsX5877vBdp11FlhqCSCahm5nEYntg
-	exhxgsso0iKsnAXL0ZFYOz3uf8lpEwMELtVbLVIpJZqB7o3LsW8ZWzHn1cGWjbmA
-	j8evOBNIaCOYi3oQ9a1W8O+7U4FwWM+6jJiSgVxy0BPZvDPxkm46NlLdJg2CUypl
-	NR9FeIdJZU/aiMNJpytW9A==
-Received: from smtprelay-out1.synopsys.com (smtprelay-out1.synopsys.com [149.117.87.133])
-	by mx0a-00230701.pphosted.com (PPS) with ESMTPS id 4a8x352f39-1
-	(version=TLSv1.3 cipher=TLS_AES_256_GCM_SHA384 bits=256 verify=NOT);
-	Thu, 06 Nov 2025 16:18:09 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=synopsys.com; s=mail;
-	t=1762474689; bh=Nsi/KFwbHBstcIlUmyUerO4PYphJlK82D4rPuhSdbCU=;
-	h=From:To:CC:Subject:Date:References:In-Reply-To:From;
-	b=GFEtjBsKOWMPj7WNawBvVESVt+9qpUHgglAEzg9fR83t1SMNTKBAYrdJMdRJ8ml99
-	 9Mn1yyoM1t3mPPnKHztPYyzPmNsp/ZG8cJWSvunfbaFt1MzYjJx2y/yrKKWSIW8bj4
-	 BuUn7q1SqH0GwQ+CDG8b+QQfcfuEFaXkmlFt6z8L1QrNV6x4Yb5IvPVZyC009FNUHy
-	 c+zIaLwvAZbRf3FZViWRnteuQcoOGK+70BmaGuePpru6u+kerGQGPuFtohcLcWXRpk
-	 71DFz4Oof/SUhEvtdkO09ZcJwJ/BPagbwwpwjmcfkFHI3yhcISM1NyOXxUvafrUOnD
-	 eYEm6swGH15Xw==
-Received: from mailhost.synopsys.com (us03-mailhost2.synopsys.com [10.4.17.18])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (2048 bits)
-	 client-signature RSA-PSS (2048 bits))
-	(Client CN "mailhost.synopsys.com", Issuer "SNPSica2" (verified OK))
-	by smtprelay-out1.synopsys.com (Postfix) with ESMTPS id 0FC2340520;
-	Fri,  7 Nov 2025 00:18:08 +0000 (UTC)
-Received: from o365relay-in.synopsys.com (sv2-o365relay1.synopsys.com [10.202.1.137])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (2048 bits)
-	 client-signature RSA-PSS (2048 bits))
-	(Client CN "o365relay-in.synopsys.com", Issuer "Sectigo Public Server Authentication CA OV R36" (not verified))
-	by mailhost.synopsys.com (Postfix) with ESMTPS id AF7B1A006F;
-	Fri,  7 Nov 2025 00:18:08 +0000 (UTC)
-Authentication-Results: o365relay-in.synopsys.com; dmarc=pass (p=reject dis=none) header.from=synopsys.com
-Authentication-Results: o365relay-in.synopsys.com; spf=pass smtp.mailfrom=synopsys.com
-Authentication-Results: o365relay-in.synopsys.com;
-	dkim=pass (1024-bit key; unprotected) header.d=synopsys.com header.i=@synopsys.com header.a=rsa-sha256 header.s=selector1 header.b=M14Weyqz;
-	dkim-atps=neutral
-Received: from DS2PR08CU001.outbound.protection.outlook.com (mail-ds2pr08cu00105.outbound.protection.outlook.com [40.93.13.53])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange ECDHE (P-384) server-signature RSA-PSS (2048 bits) server-digest SHA256
-	 client-signature RSA-PSS (2048 bits) client-digest SHA256)
-	(Client CN "mail.protection.outlook.com", Issuer "DigiCert Cloud Services CA-1" (verified OK))
-	by o365relay-in.synopsys.com (Postfix) with ESMTPS id 6B96B40528;
-	Fri,  7 Nov 2025 00:18:08 +0000 (UTC)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=lLmsLgNwh+Dw041/uJmN5Xg8Uq/WRdZtYEfE0OV7yCgGzy8wZSH836KYQxMfOQ1zyVaNDfPgDaPbKF13cSceCCmZp4cGfXYciwo99njBWTS4wihH1rOHkGZ6lu+n6ekRHEIGSDqZ+bPI+pojSeDX8aHXd6Px1YfLITju3wCDffL2HX0uLtGNZoFvp17hwdinKvi+/Ls8Eso40XCmcwP+tv0dKMACK5k2q+ciCvt6PXdtKTWPPn87UaXhDQfWE6JYosEw3DOU/6xPbNrowpGqrJOilF/lId/IuqVhR5WambYkUnZtXNvKCcIDQP0U0HeeYNvqjn4769jQomF18a/deA==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=Nsi/KFwbHBstcIlUmyUerO4PYphJlK82D4rPuhSdbCU=;
- b=H7jwg1jhC7KC8Tll9IPCh2e3BwC1hzzV0haexlGxX4/sfEXaVSLOKDjcKKf08MOQk1iG/MjXV7j73mKie6QwV69CuM/ePGt/A+eG80PO6xa4tXdTb51Nw1nOP+Wrpy4PIbz7Yzo7LmZ1FTsnH/h2Lw9BOwRJCUICmAQOiPZG0Nb1DucPcJE/8T2F//jhsoJz2DpfItPuJk+Ju26oWRI825+ANVwDevNRnpp22SidNkzAqBeN++/EeTxFr6cRtrjfBgJBzf5qabZEv85uMk6eQAPlFC47GgfA0QllQnKLWdvhsxVQGR7Hw61WhH9hoX27gmOAuEzcNC+Mz4561PL5+Q==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=synopsys.com; dmarc=pass action=none header.from=synopsys.com;
- dkim=pass header.d=synopsys.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=synopsys.com;
- s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=Nsi/KFwbHBstcIlUmyUerO4PYphJlK82D4rPuhSdbCU=;
- b=M14WeyqzQikBl++3uFKbtFjAfD2y/tbUjWEEtA54gMOvW9zVYxbHiX7OLzuWD2oE0y5KWEeb+V3+y6gUKixlq4IFw4X1dU4xEvA++dgl9UAbOyKhRMN+QS5hfAmpoFQsLLb51ggtA7EbHqy8LbiUmkEKDES0tKH5aXyU8TuTglg=
-Received: from LV2PR12MB5990.namprd12.prod.outlook.com (2603:10b6:408:170::16)
- by CH2PR12MB4199.namprd12.prod.outlook.com (2603:10b6:610:a7::13) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9298.12; Fri, 7 Nov
- 2025 00:18:05 +0000
-Received: from LV2PR12MB5990.namprd12.prod.outlook.com
- ([fe80::3d09:f15f:d888:33a8]) by LV2PR12MB5990.namprd12.prod.outlook.com
- ([fe80::3d09:f15f:d888:33a8%4]) with mapi id 15.20.9298.010; Fri, 7 Nov 2025
- 00:18:05 +0000
-X-SNPS-Relay: synopsys.com
-From: Thinh Nguyen <Thinh.Nguyen@synopsys.com>
-To: Heikki Krogerus <heikki.krogerus@linux.intel.com>
-CC: Thinh Nguyen <Thinh.Nguyen@synopsys.com>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        "linux-usb@vger.kernel.org" <linux-usb@vger.kernel.org>
-Subject: Re: [PATCH] usb: dwc3: pci: add support for the Intel Nova Lake -S
-Thread-Topic: [PATCH] usb: dwc3: pci: add support for the Intel Nova Lake -S
-Thread-Index: AQHcTxTRteU0C3iT+UK7D1s4401PrLTmWb8A
-Date: Fri, 7 Nov 2025 00:18:05 +0000
-Message-ID: <20251107001752.pr5mntqbrztgzkm5@synopsys.com>
-References: <20251106115926.2317877-1-heikki.krogerus@linux.intel.com>
-In-Reply-To: <20251106115926.2317877-1-heikki.krogerus@linux.intel.com>
-Accept-Language: en-US
-Content-Language: en-US
-X-MS-Has-Attach:
-X-MS-TNEF-Correlator:
-x-ms-publictraffictype: Email
-x-ms-traffictypediagnostic: LV2PR12MB5990:EE_|CH2PR12MB4199:EE_
-x-ms-office365-filtering-correlation-id: 1fa845fe-1972-4a0f-6ca7-08de1d931f78
-x-ms-exchange-senderadcheck: 1
-x-ms-exchange-antispam-relay: 0
-x-microsoft-antispam: BCL:0;ARA:13230040|376014|1800799024|366016|38070700021;
-x-microsoft-antispam-message-info:
- =?utf-8?B?WFl0ZEtZeVhFa1RSYjFuU1AzRnBjcms0QXlTUkRFZElvNVNoanJZMEVrUXdr?=
- =?utf-8?B?Yjk5dzNhb2Y0cURDWGtvZTlaZlROQlJwc2Q5Smt4OWRySzYrc3dRU3QzNlRX?=
- =?utf-8?B?a0daRHhSNGx3SnRwUVQxelUvcGpnZlk0YVQ4enRlcDcrQ0svVXZUNG9leWQ2?=
- =?utf-8?B?MXFqOGp5alIyRStxREVPY21sNktOVHo5QlBXSEIvaXFINUxkOHl5cERTeUV2?=
- =?utf-8?B?aUxjSjdlelZvWTV3bS8vQ2xnYkw2SGsxb2t6ckJNV2orVnZwUzhvNjNuanU4?=
- =?utf-8?B?Uk1aRzVacUZ1M3k5TC92ZlJnNkJiT2VLOHFYZXRveEx5Vm9ZWHZwQWRMbVdC?=
- =?utf-8?B?Y25UckJJMUlTRFBnOWNxdTNHM054ellzZDNvT1M0SGc4bXo4bGRyMXEwY1U2?=
- =?utf-8?B?RDdKMGJKTkdBRkQrc1Y1SVk0ck5HUEFac1RzZXREUmtTWTRSY2tiUWFhanJ1?=
- =?utf-8?B?ZWRJcGJ2SHhNd3FrQ240T1dmNHExNnF3Z2JNMjJuRy9NK1B6eFFtUmZxVHpI?=
- =?utf-8?B?Ky91ZkZOSFVRZkp6UTVwcThzREQrdG05UmhQUEZDaDFPbzZUQ3lmME9EWFhZ?=
- =?utf-8?B?MUZGU05QNWQ0ZW9JSndxdTFWQldVQVRvKzVBenF3d0Vic3FMdWFBSjMxa00w?=
- =?utf-8?B?SVliTkVhSVRTSkxXd0d6dFdLd1ZqVTcvQXJVdGpEY3Jiay95bWRobm1QZEZX?=
- =?utf-8?B?WUtPNWhzUHZFR24zWDdYMHdxdTlEdHlTQWkxbmJBamx3U0VRVUp4WkRnQUdW?=
- =?utf-8?B?NExvVDFyRmczYnpqZzduOGRWSjhaamFUaGFZK3pOUzZOc0ZSTVc2VXFWdzVX?=
- =?utf-8?B?NlkrWGErYnZKK2owNDE5VFQ0UUFFeE5NaXVMZFpzeG9ISlp1MWpWRkJ6ZDNB?=
- =?utf-8?B?VHNZQzFCSzZEOXlFcUZwTkZ1YzViaG1hY3Rnb3ZXZ1RvWms3T2dFZXRMMldj?=
- =?utf-8?B?QmsvSFFRT0ZIZGVDcUh3cERneVhPZ1RIbWdpYm54Tm1VeGhiV01hc3RJMWxj?=
- =?utf-8?B?NkxWZWtGMnJFY0NrVk5zQ1I3RzdwNWh5ZnNYcjBENGNjZVZzaWloK2daaXhF?=
- =?utf-8?B?bENENDVWdjlsTytPNjlhTHFKUVdiWmhmcGw4aEQraHY5UXpMdWFlbWdlOTBw?=
- =?utf-8?B?c1ovMjA1MUZoa2owWHRPY1FPYzhkalJkVzgzUnByc0FEQmk5UDJhbHV0MmNH?=
- =?utf-8?B?ZmV0a3dYLzJBWjhZR2RRMnN0dmlTSVVLaWh0ZmlrekV2MnE1NExnTFRyZTBN?=
- =?utf-8?B?ZTZFenlvV2RVKzRMT0lGZkl0RHRFSlVIdmpvLzI0MEFnZHlaZVAzZU1iajBa?=
- =?utf-8?B?clEwN2d6Mmwxb1Z6TzFreis4c0h2NHRWTG1SOWI0WmtNR09ZL3hmaHNkQ296?=
- =?utf-8?B?NHJPQmNVYy9GV2dlTjY5MVkzbytBay81dGUvS212L1VrejNlRkJ0UC9INm5M?=
- =?utf-8?B?aWRYVTJnSForMGdEd09qaWNCN2k3ZWNZbGI4dnZmRWtjQnRBK2JBU1JTVEJt?=
- =?utf-8?B?MHJjVDJibHE0djlDOXc4RGdHV2dKRllXOXlhOFJlSVdWbTFBZy8zTHdnTFBz?=
- =?utf-8?B?UE5RMFdRY0VGSnVnamlVS1RBQmZiaGdtS1NMQVRiRDJaOHBwYXNpTkp1ajJ0?=
- =?utf-8?B?WGxQcDJuT3ZjdTkvSVBoaXVROWY3QTU2OW5XQ1BXS0EzS2ViVWtWN3Z2eDYv?=
- =?utf-8?B?eFNGdlNGc01kT0JnSkhGUEx3UjUzUGZ0N0ZrdlY1SHppVmhXb3gvajRBd1Nr?=
- =?utf-8?B?b3VERGtyMis5Qi9xSnZ3eEJ3R1RhRkJER09MZWtoUzdRUTVOTXFES2JuMUY3?=
- =?utf-8?B?TnhuU0lUQUJiMTZOZi9FV2VDWm1NYnNwc1h6eEpocHJ4YUFibFdxSXpjUEEz?=
- =?utf-8?B?ZEx0elpHWkRHMWpIN29zY1dCTXVYbXMrOG1RcDJGSjk3WGFLY0pzSXVJYWpn?=
- =?utf-8?B?eUFiL3FGdkZKSGZyUnhHZ0VGY3RGQXNoRkFKVklBMkFZRFRJK3RPclBMSnUr?=
- =?utf-8?B?UGpzZExKVStyMnA5SlFmbmxKaTUxTUJ2Sjk0cFU4TnNGdEVPenNCSU9HeVR5?=
- =?utf-8?Q?rOoyyr?=
-x-forefront-antispam-report:
- CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:LV2PR12MB5990.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(376014)(1800799024)(366016)(38070700021);DIR:OUT;SFP:1101;
-x-ms-exchange-antispam-messagedata-chunkcount: 1
-x-ms-exchange-antispam-messagedata-0:
- =?utf-8?B?T0hVbjRyRHhMNVlPVHlVM1JmbGtrYmpxTEJKQjlyQWQxR2hGdFRrRGZKa0g3?=
- =?utf-8?B?dmIzbTBKME42ZHkvU2c1SksrMHdtL3VhazZISjFzRUlUK1VTOEVpVmg5c2Nk?=
- =?utf-8?B?MTVCUzNBelZPTytjQ3JZUGdyVWVDaytMRk9GTG9oT1EwVDEwZGpHaVZlYkhw?=
- =?utf-8?B?SWkzc1VDc1h5VmJpNlhaT0JUYjVQUG04ekNwLzY0bDFiZGRQZ2JiOW84Umcw?=
- =?utf-8?B?NmJLRG0rR0J0cENqdzlDUkZDVkw1OFRIYU96TnIxT1U2ajBLVGJtVXRid1Jm?=
- =?utf-8?B?aUtMSkdSUHlTVjJKMVMxNXd6UXhCK0s4MFh1ZlJKTUZ6WFZyN0xNektuRG1S?=
- =?utf-8?B?ampwVlN5cUpKU0VJV2RYTzdSZFkvRUNMV3ViMnFxb3hpaExPNURDWThoaVoy?=
- =?utf-8?B?NmZ3V09PYittWklPQ1ZUZ2t3dGpvTHFiVFppWHh5UWdvMTdXdjIvS3JzVlRF?=
- =?utf-8?B?c01kM3VjcWFtUXVZM29KMjZPVG1KMjZpaFd6WW1tU0daN1lFcGdoWWJtQU12?=
- =?utf-8?B?WjBDQ09UWXBrcXVCeEJzQ2hMbEpxV3Rxd2VRSFlwYXZIdTB3ZXZCbVFGV1ps?=
- =?utf-8?B?cy9MZXRwWGRVV3NraVBiU1VCVVI2YTFRRUdyYldRUGtMK0NpZlN2RmhDNzdO?=
- =?utf-8?B?MjB5OVI1OHRXMnNaY0JUdkhha3FjeVZoQ0k5YkdGN3I1SmdsLzJFTGlndnNR?=
- =?utf-8?B?bFl6dUpIa01vOGFFajRBQ09ibmExUmF6elRXMGswRko3TDRpZWhlSzhYSjlV?=
- =?utf-8?B?a3g3U3NuN2tRL1JFN2tDdzE1b0tNRytFRHh0S2J5OVNOaXF6SUhVc2loTGhY?=
- =?utf-8?B?MXFnTHBrWTAyOGRTQ2o0MVVnY0krbmRqV000eXhyN3dsVm1EWDlZZkE1N1pv?=
- =?utf-8?B?OGlWcER4OFRLK0pBdFVzWlE3MTYyVEE5RzE2bDFHbGdRaU1NTE1zanM1VTFt?=
- =?utf-8?B?TnhtMHhROWVoU25XazgrU2YwOTBIVlhxSThRTUtvSm1USHVMNm13cnZjZlcv?=
- =?utf-8?B?SE1GNklwL0k3bXNhbUdZTzViVUh0WjF0bVlGYlFmSnNXcGRjRkNHMVJLc0JB?=
- =?utf-8?B?MDlITno4OFpMZVo2ZVFoaHNYdlo0VVNCbkhOREFmeVd1UDVVVlJ1bkw3V1B3?=
- =?utf-8?B?YjFEUUIwaVQ3SndhMWlGSktmMGRqZ3F4RnU1RHl3TWxFSkRGZGRTbTUyb3Ns?=
- =?utf-8?B?cDRQZVNvM3VjTndPSEVTVklrWktrMDNxMkRxUlpYaXJKaTVJaWt5K0pJL2FB?=
- =?utf-8?B?bng0N1lYQXdaV0RnZXB5c2ttZmFZMmsvRlYra3pxK1NSRUliYkNhMng2cGdp?=
- =?utf-8?B?WXZVK2VoQzZySVZhY2gyWGRCYWZ5RVdKYmI0VXYwanlKSXBFM0hBaTdlVlVB?=
- =?utf-8?B?dTRpSlhuR1Z0RTJES1dkZ2w0YlNzU3JWWjZtT3owK1RvTlZWNGsvam16MDJL?=
- =?utf-8?B?bWQyaXRLbzlFaDdJOXo0bzZ5ZDgwMmVqSWNUeUYwZHlnL3ByeGRMU1RUYmc0?=
- =?utf-8?B?WnVYMkYydWVhbFBpdS9vc3FoVlJIT0RZNGxvTXVpdU4yRmVCSFY2VmdoKzMx?=
- =?utf-8?B?S1BkSTFaaDBuQlFESHcvL09Tak9PVDhUcGhXREEvK2dGQkptZVlYOGZPYjhQ?=
- =?utf-8?B?V1FSUUhMYng5bk1LSlFvaHFKNWpGallOWHJoTjdqMEZobG4rVTBibkpVQS9M?=
- =?utf-8?B?L3FjbHhkdmZDSk1WMXhadktLa3JCMS9PcTRIM0ROVUVnaUpJckxCRjZkdjVN?=
- =?utf-8?B?aTVFQ04wN2phRDNEWFozeTVvK3pZaS96V3JqR1FnTHk5OExnQWFQK1pIUlNt?=
- =?utf-8?B?citUQ2ZEMjFQbWk0b1IwU1UyV2NHWFJadjJLMFIyY1QyNFNwMmNxUGdzTnlp?=
- =?utf-8?B?Q3ZBRWpyZXhERHNQYzNUQUowRWF3cjlpUzdCdlBZQmVIOTBNNXVPV042dFc3?=
- =?utf-8?B?ZUFwUHc2NEYxbk4waVBQT25iVGxJU3NialhacXVJenBVWU9reVdJcHhyOHdQ?=
- =?utf-8?B?S2JOdzVwUzIwUWlaUTNaODZEamtlZktuUnFWVGtUN0hLZExFZlR1VHpwa0xN?=
- =?utf-8?B?UzBVbFBEaDlZRjNVM1d6T0haNE02OG5yNE5qQ0c3R05GK2dFWmIwUXlXSkkz?=
- =?utf-8?Q?SgRxBw2fUDcha3wSDIKltZ5L+?=
-Content-Type: text/plain; charset="utf-8"
-Content-ID: <C9279DC530FDB84F8C2234F69A8932E2@namprd12.prod.outlook.com>
-Content-Transfer-Encoding: base64
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="HIl/BCmt"
+Received: by mail-pl1-f170.google.com with SMTP id d9443c01a7336-295ceaf8dacso2000735ad.0
+        for <linux-usb@vger.kernel.org>; Thu, 06 Nov 2025 16:20:21 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1762474821; x=1763079621; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=bjWAOI4Myk8E4LnUAJ8odzQrrjel6+dwFmS5BcOTxxA=;
+        b=HIl/BCmteaf6A+kZ+IcsSn9ZV5Fp+003U4X8A/Ql5Vob47ELyyFjB/Ryuk/9HZXYaO
+         Fp2BQkrUFtpCVKASM5H6fpN4Dj4WKFk+s1MLHrSSZnWtl4RXPWsIMVjxDF+S+EC2d3Um
+         9K+XjQ36lNLP8UFum+aaNs68bUWaj04RLoolkdbi2lWw4FSmAkHK0S1+j5xLUfwSxf9O
+         y8cOT4Oblyq/2FGy5Y+YqeGC1PbRmjFUyyJ0I8ye30oWFH8Tv/a4PtfkBRKqxzCNHlVD
+         VxRiIUbz9I6StmlNwow/uuvRlgMbk7Idw9DMfBc/tSHtBdKw6QliW1w2Mt7aJHq+0zo+
+         lFbQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1762474821; x=1763079621;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=bjWAOI4Myk8E4LnUAJ8odzQrrjel6+dwFmS5BcOTxxA=;
+        b=THRxu6qxaNWaBNKNbTqr3mCmklbddbcR8iZijF6FKsc59XjZJVNECxIV5jWBWL2OEX
+         8NW0EFfHYuhb/7e/ltZV7eSII1bFzCZnUxHkjpVucYkMY8H+9R6hCcxb7I58slWyQrhO
+         ttk3QQZAKmvv0ZGH4iJTQaAvLjyf1szNhWe55Kg5JLIbqtKqfdPDjTSVbniwdZcOsd6l
+         7c5dF16kyLT59rWW4/Rhy5pQx9VR+BjKo0tc94Q4FAbySWLnCkjklfJ/xhF11F3fN3Jb
+         BbHvbMnIa057qi8ioN93qxkuJ8GTghKPTIMJV7upUi8R8tKfWKR/cz/U6HFmiUudfqjt
+         NWsA==
+X-Forwarded-Encrypted: i=1; AJvYcCW9DBlTfOBN4ZYR/kAolmHpKcUhaD6yBV3T257DbjUOOH8ksWMO1lV3HQKbYo5h1/3MiaN42fZ1qas=@vger.kernel.org
+X-Gm-Message-State: AOJu0YzxB4YZFPLGmogaxiBRtlHbxGJuR40MKpZu+HBUvEzB0byZNKRd
+	YYGOfpsJZjfcYKF4t1R1pre3DBr2wcPE3dMqZRbm5LRlCjyIZWDXqgun
+X-Gm-Gg: ASbGncvSYOzw5J+enOx3q7aSAtbrNV/Oo5JttRdUPuuS9JWYa5L2js+QkcdBrE7vb1D
+	Z6mrmn2HtPvDaoepPDyh1bSxhE6ghDK8S2jkKB/WMJw87hBbE5QI3dJQ3ce/HroEWC9EKQykhIQ
+	ohmgMWWaHBSQB01Yib5TUyTOunbIOVWVKPtjOe5fgrKkeubhZ9HSwqF8HnRrXgLYcrqgkRA41aS
+	6ntoHXQTl0m+vaomqaIE7MtXRJJM2Pf0zQky7hGxKAA9C8qJJx26RsY0rI4MR676mRdoK+ZGF4R
+	NUmJGdtYzESrJ2Xbse3N1Tj/o/3qQN60sGvSDScVLr4GYnzWHvjFNhnR37SVhxCo1A794blNS0A
+	LL93SUCxh94MGVAbXhybHxRUm1OB3552/GyngsMY2wtK8VEHufKIR0svOTHqQ2pTNyznbM847ha
+	+cMutTWJ6kNTk945lvimYV53CvyicZ
+X-Google-Smtp-Source: AGHT+IFVSMamIdPN/iz5MtxlTNX3uy/J+X4jaEmnDwVwubdmf09y4tB0ReLsumcvjpDrlLvYEdU0MQ==
+X-Received: by 2002:a17:903:178b:b0:295:7453:b580 with SMTP id d9443c01a7336-297c04a122dmr18208705ad.58.1762474820692;
+        Thu, 06 Nov 2025 16:20:20 -0800 (PST)
+Received: from localhost.localdomain ([189.6.209.79])
+        by smtp.gmail.com with ESMTPSA id d9443c01a7336-2965096b8d1sm40357555ad.19.2025.11.06.16.20.16
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 06 Nov 2025 16:20:20 -0800 (PST)
+From: Rodrigo Gobbi <rodrigo.gobbi.7@gmail.com>
+To: gregkh@linuxfoundation.org,
+	robh@kernel.org,
+	krzk+dt@kernel.org,
+	conor+dt@kernel.org,
+	davidm@egauge.net
+Cc: ~lkcamp/patches@lists.sr.ht,
+	linux-usb@vger.kernel.org,
+	devicetree@vger.kernel.org,
+	linux-kernel@vger.kernel.org
+Subject: [PATCH v2] dt-bindings: usb: maxim,max3421: convert to DT schema
+Date: Thu,  6 Nov 2025 21:06:22 -0300
+Message-ID: <20251107001812.10180-1-rodrigo.gobbi.7@gmail.com>
+X-Mailer: git-send-email 2.48.1
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-MS-Exchange-AntiSpam-ExternalHop-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-ExternalHop-MessageData-0:
-	187L46CIRrqci0tB8hogIbVE5/K6Yy7TB8IHz6GzIymcoTUa1IDY/a4mJVLLfePn4vXVsy+hzAsEeS8Ug6ZGX7TDVNlssWkgEQ0R8LLsUUK/twCOeX8IdBgdDHIn8Sl5z4OtRA7lydoxcto2zQnjLRLsxVdfYAQ4u/1rLiTiWWkZ8ShgmpNLsF8e7VCdawEP+B0eZ/bLrF3QGFaHF9fnoerdYXXzq5U4oCT2FW5PeaFpTLJPH1j+/t5Ngg6KtyigghTy2ssyb9ScD81S3l/8Ld9jtIYeDSybZzZtjULafZbwtnKwXNUO38GV6wiCsy2HrDkaUKs8KME/+z2R0/3+7llCIy/JZS3TZoT0Sjf85gnX/6z5hKvHjt1zekeZnfSnt4gEPux98FkOUkgbGCeXCKPz55VKpEeztEMLYAZX7yGMN4qrLdYbm2VZs4XzSdrANDSZV2DPj/t7vl2uQhITdmpizSPdEhwEzJPy8DQ6YNvwzEIQFhspX8S/3HH0Kf0E13z1eUQjQFKKS3IVSy4Q5z1Xk+fhrZc9p12DizzOGzK4QMSsL/qXxnGBInW/1gPL0Ibwfi3yvmyFHr0dAx2JGdF7IIfjdIZf4SiS3jMI0MRcMnodatNduCOgxaM5sFO+zAK6VKFiXEvXYFWcwKktfA==
-X-OriginatorOrg: synopsys.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-AuthSource: LV2PR12MB5990.namprd12.prod.outlook.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 1fa845fe-1972-4a0f-6ca7-08de1d931f78
-X-MS-Exchange-CrossTenant-originalarrivaltime: 07 Nov 2025 00:18:05.8437
- (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: c33c9f88-1eb7-4099-9700-16013fd9e8aa
-X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: UMyB61FjLiRkCv7nf0Zjve87fjm8Pg5kK8ErEjQOyExRJuj+Dg3zhqkbEFiLogFPGC6A71KFEkZGosITsIP5pg==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: CH2PR12MB4199
-X-Proofpoint-GUID: 4Ol7OJVSUrqO0mZgAgi2Vn4s3BAI5pmb
-X-Authority-Analysis: v=2.4 cv=Utdu9uwB c=1 sm=1 tr=0 ts=690d3ac1 cx=c_pps
- a=t4gDRyhI9k+KZ5gXRQysFQ==:117 a=t4gDRyhI9k+KZ5gXRQysFQ==:17
- a=z/mQ4Ysz8XfWz/Q5cLBRGdckG28=:19 a=lCpzRmAYbLLaTzLvsPZ7Mbvzbb8=:19
- a=xqWC_Br6kY4A:10 a=IkcTkHD0fZMA:10 a=6UeiqGixMTsA:10 a=qPHU084jO2kA:10
- a=VkNPw1HP01LnGYTKEx00:22 a=QyXUC8HyAAAA:8 a=jIQo8A4GAAAA:8
- a=doKXG08EfIypHvMW53IA:9 a=QEXdDO2ut3YA:10
-X-Proofpoint-ORIG-GUID: 4Ol7OJVSUrqO0mZgAgi2Vn4s3BAI5pmb
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUxMTA3MDAwMCBTYWx0ZWRfX0Ti3Pd7dkvTf
- jTye3ernGQ6Kv2e78DxGRGhwd+88O6JHdNTDNXarPG8FgjX0QgY1orr5+WAAwafC29yw8+6h3ZO
- msytAyaZSYgt46Of7OWNQt4x0wwzfvNL5EE6mG1SvreZc2+wWzF4iQ7S60AUBcyptQlb9FGLfCZ
- DN2Qk2smSMGiUeY9qt2nMJdWIrHKxyKRiO7/WrcGblcojWXA7KGq5dnOsQWlevo3r6/sGFWl+W4
- dag9MvlzZMy8dCnwTPBB5YxbFAmb9sDVE0DNeU6gtmS5SzMIrwJWWnOdnJUT5kZLCLp3ufTJBTQ
- iH0IJy49FcuEBniyqq1VUK7tPON5W1Knk5hRoiUw+U0jbJKxSMR3I3v27bS8/FByFWifz3Xkyhb
- vrMjSqW/LP5x+wgBbbCrkInD4gSUtA==
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1121,Hydra:6.1.9,FMLib:17.12.100.49
- definitions=2025-11-06_05,2025-11-06_01,2025-10-01_01
-X-Proofpoint-Spam-Details: rule=outbound_active_cloned_notspam
- policy=outbound_active_cloned score=0 adultscore=0 clxscore=1015
- lowpriorityscore=0 suspectscore=0 priorityscore=1501 impostorscore=0
- phishscore=0 malwarescore=0 bulkscore=0 spamscore=0 classifier=typeunknown
- authscore=0 authtc= authcc= route=outbound adjust=0 reason=mlx scancount=1
- engine=8.22.0-2510240001 definitions=main-2511070000
+Content-Transfer-Encoding: 8bit
 
-T24gVGh1LCBOb3YgMDYsIDIwMjUsIEhlaWtraSBLcm9nZXJ1cyB3cm90ZToNCj4gVGhpcyBwYXRj
-aCBhZGRzIHRoZSBuZWNlc3NhcnkgUENJIElEIGZvciBJbnRlbCBOb3ZhIExha2UgLVMNCj4gZGV2
-aWNlcy4NCj4gDQo+IFNpZ25lZC1vZmYtYnk6IEhlaWtraSBLcm9nZXJ1cyA8aGVpa2tpLmtyb2dl
-cnVzQGxpbnV4LmludGVsLmNvbT4NCj4gLS0tDQo+ICBkcml2ZXJzL3VzYi9kd2MzL2R3YzMtcGNp
-LmMgfCAyICsrDQo+ICAxIGZpbGUgY2hhbmdlZCwgMiBpbnNlcnRpb25zKCspDQo+IA0KPiBkaWZm
-IC0tZ2l0IGEvZHJpdmVycy91c2IvZHdjMy9kd2MzLXBjaS5jIGIvZHJpdmVycy91c2IvZHdjMy9k
-d2MzLXBjaS5jDQo+IGluZGV4IDM5YzcyY2I1MmNlNy4uYzJiYWI2ZDRkNTA3IDEwMDY0NA0KPiAt
-LS0gYS9kcml2ZXJzL3VzYi9kd2MzL2R3YzMtcGNpLmMNCj4gKysrIGIvZHJpdmVycy91c2IvZHdj
-My9kd2MzLXBjaS5jDQo+IEBAIC01Myw2ICs1Myw3IEBADQo+ICAjZGVmaW5lIFBDSV9ERVZJQ0Vf
-SURfSU5URUxfTVRMUAkJMHg3ZWMxDQo+ICAjZGVmaW5lIFBDSV9ERVZJQ0VfSURfSU5URUxfTVRM
-UwkJMHg3ZjZmDQo+ICAjZGVmaW5lIFBDSV9ERVZJQ0VfSURfSU5URUxfTVRMCQkJMHg3ZTdlDQo+
-ICsjZGVmaW5lIFBDSV9ERVZJQ0VfSURfSU5URUxfTlZMU19QQ0gJCTB4NmU2Zg0KDQpUaGUgbGlz
-dCBoZXJlIGRvZXNuJ3QgZm9sbG93IGFueSBvcmRlci4gSXMgdGhlIHBsYWNlbWVudCBhcmJpdHJh
-cnk/DQoNCj4gICNkZWZpbmUgUENJX0RFVklDRV9JRF9JTlRFTF9BUkxIX1BDSAkJMHg3NzdlDQo+
-ICAjZGVmaW5lIFBDSV9ERVZJQ0VfSURfSU5URUxfVEdMCQkJMHg5YTE1DQo+ICAjZGVmaW5lIFBD
-SV9ERVZJQ0VfSURfSU5URUxfUFRMSAkJMHhlMzMyDQo+IEBAIC00NDMsNiArNDQ0LDcgQEAgc3Rh
-dGljIGNvbnN0IHN0cnVjdCBwY2lfZGV2aWNlX2lkIGR3YzNfcGNpX2lkX3RhYmxlW10gPSB7DQo+
-ICAJeyBQQ0lfREVWSUNFX0RBVEEoSU5URUwsIE1UTE0sICZkd2MzX3BjaV9pbnRlbF9zd25vZGUp
-IH0sDQo+ICAJeyBQQ0lfREVWSUNFX0RBVEEoSU5URUwsIE1UTFAsICZkd2MzX3BjaV9pbnRlbF9z
-d25vZGUpIH0sDQo+ICAJeyBQQ0lfREVWSUNFX0RBVEEoSU5URUwsIE1UTCwgJmR3YzNfcGNpX2lu
-dGVsX3N3bm9kZSkgfSwNCj4gKwl7IFBDSV9ERVZJQ0VfREFUQShJTlRFTCwgTlZMU19QQ0gsICZk
-d2MzX3BjaV9pbnRlbF9zd25vZGUpIH0sDQo+ICAJeyBQQ0lfREVWSUNFX0RBVEEoSU5URUwsIE1U
-TFMsICZkd2MzX3BjaV9pbnRlbF9zd25vZGUpIH0sDQo+ICAJeyBQQ0lfREVWSUNFX0RBVEEoSU5U
-RUwsIEFSTEhfUENILCAmZHdjM19wY2lfaW50ZWxfc3dub2RlKSB9LA0KPiAgCXsgUENJX0RFVklD
-RV9EQVRBKElOVEVMLCBUR0wsICZkd2MzX3BjaV9pbnRlbF9zd25vZGUpIH0sDQoNCkl0IGJ1Z3Mg
-bWUgYSBsaXR0bGUgaG93IHRoaXMgbGlzdCBkb2Vzbid0IG1hdGNoIHRoZSBvcmRlciBvZiB0aGUg
-cHJvZHVjdA0KSURzIGFib3ZlIGVpdGhlci4NCg0KPiAtLSANCj4gMi41MC4xDQo+IA0KDQpSZWdh
-cmRsZXNzLA0KDQpBY2tlZC1ieTogVGhpbmggTmd1eWVuIDxUaGluaC5OZ3V5ZW5Ac3lub3BzeXMu
-Y29tPg0KDQpCUiwNClRoaW5o
+Convert legacy maxim,max3421.txt to proper format.
+
+Signed-off-by: Rodrigo Gobbi <rodrigo.gobbi.7@gmail.com>
+---
+Hi, all
+
+At this v2, I`m reverting my previous idea about documenting new properties
+because this is just a conversion from txt file. At v1, a question
+was raised about that:
+
+On 10/9/25 22:34, Krzysztof Kozlowski wrote:
+> maxim,vbus-en-pin, maxim,gpx-pin, reset pin and supplies. Also add a
+> Why new properties? You must explain not only the difference but WHY you
+> are doing this.
+In this case, I`ve kept the maxim,vbus-en-pin prop because it was already
+described in the legacy file and the driver expects that property according
+to [1] and [2].
+
+[1] https://github.com/torvalds/linux/blob/a1388fcb52fcad3e0b06e2cdd0ed757a82a5be30/drivers/usb/host/max3421-hcd.c#L1807
+[2] https://github.com/torvalds/linux/blob/a1388fcb52fcad3e0b06e2cdd0ed757a82a5be30/drivers/usb/host/max3421-hcd.c#L1845-L1847
+
+Tks and regards to all!
+
+Changelog:
+v2: - fix subject/commit msg;
+    - remove $ref/desc from spi-max-frequency;
+    - add spi-peripheral-props/unevaluatedProperties;
+    - remove the "new properties";
+    - remove fallback compatible with the 'e' pattern;
+    - fix file name, didn`t notice at previous version;
+v1: https://lore.kernel.org/all/20251009182046.185520-1-rodrigo.gobbi.7@gmail.com/
+---
+ .../devicetree/bindings/usb/maxim,max3421.txt | 23 -------
+ .../bindings/usb/maxim,max3421.yaml           | 67 +++++++++++++++++++
+ 2 files changed, 67 insertions(+), 23 deletions(-)
+ delete mode 100644 Documentation/devicetree/bindings/usb/maxim,max3421.txt
+ create mode 100644 Documentation/devicetree/bindings/usb/maxim,max3421.yaml
+
+diff --git a/Documentation/devicetree/bindings/usb/maxim,max3421.txt b/Documentation/devicetree/bindings/usb/maxim,max3421.txt
+deleted file mode 100644
+index 90495b1aeec2..000000000000
+--- a/Documentation/devicetree/bindings/usb/maxim,max3421.txt
++++ /dev/null
+@@ -1,23 +0,0 @@
+-Maxim Integrated SPI-based USB 2.0 host controller MAX3421E
+-
+-Required properties:
+- - compatible: Should be "maxim,max3421"
+- - spi-max-frequency: maximum frequency for this device must not exceed 26 MHz.
+- - reg: chip select number to which this device is connected.
+- - maxim,vbus-en-pin: <GPOUTx ACTIVE_LEVEL>
+-   GPOUTx is the number (1-8) of the GPOUT pin of MAX3421E to drive Vbus.
+-   ACTIVE_LEVEL is 0 or 1.
+- - interrupts: the interrupt line description for the interrupt controller.
+-   The driver configures MAX3421E for active low level triggered interrupts,
+-   configure your interrupt line accordingly.
+-
+-Example:
+-
+-	usb@0 {
+-		compatible = "maxim,max3421";
+-		reg = <0>;
+-		maxim,vbus-en-pin = <3 1>;
+-		spi-max-frequency = <26000000>;
+-		interrupt-parent = <&PIC>;
+-		interrupts = <42>;
+-	};
+diff --git a/Documentation/devicetree/bindings/usb/maxim,max3421.yaml b/Documentation/devicetree/bindings/usb/maxim,max3421.yaml
+new file mode 100644
+index 000000000000..4639be7ab059
+--- /dev/null
++++ b/Documentation/devicetree/bindings/usb/maxim,max3421.yaml
+@@ -0,0 +1,67 @@
++# SPDX-License-Identifier: (GPL-2.0 OR BSD-2-Clause)
++%YAML 1.2
++---
++$id: http://devicetree.org/schemas/usb/maxim,max3421.yaml#
++$schema: http://devicetree.org/meta-schemas/core.yaml#
++
++title: MAXIM MAX3421e USB Peripheral/Host Controller
++
++maintainers:
++  - David Mosberger <davidm@egauge.net>
++
++description: |
++  The controller provides USB2.0 compliant with Full Speed or Low Speed when in
++  the host mode. At peripheral, it operates at Full Speed. At both cases, it
++  uses a SPI interface.
++  Datasheet at:
++    https://www.analog.com/media/en/technical-documentation/data-sheets/max3421e.pdf
++
++properties:
++  compatible:
++    const: maxim,max3421
++
++  reg:
++    maxItems: 1
++
++  interrupts:
++    maxItems: 1
++
++  spi-max-frequency:
++    maximum: 26000000
++
++  maxim,vbus-en-pin:
++    $ref: /schemas/types.yaml#/definitions/uint32-array
++    description:
++      One of eight GPOUT pins to control external VBUS power and the polarity
++      of the active level. It's an array of GPIO number and the active level of it.
++    minItems: 2
++    maxItems: 2
++
++required:
++  - compatible
++  - reg
++  - interrupts
++  - maxim,vbus-en-pin
++
++allOf:
++  - $ref: /schemas/spi/spi-peripheral-props.yaml#
++
++unevaluatedProperties: false
++
++examples:
++  - |
++    #include <dt-bindings/gpio/gpio.h>
++    #include <dt-bindings/interrupt-controller/irq.h>
++    spi {
++        #address-cells = <1>;
++        #size-cells = <0>;
++
++        usb@0 {
++          compatible = "maxim,max3421";
++          reg = <0>;
++          maxim,vbus-en-pin = <3 1>;
++          spi-max-frequency = <26000000>;
++          interrupt-parent = <&gpio>;
++          interrupts = <42>;
++        };
++    };
+-- 
+2.48.1
+
