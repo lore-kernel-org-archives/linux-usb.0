@@ -1,48 +1,50 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.13])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.17])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3FA9530E0EA
-	for <linux-usb@vger.kernel.org>; Mon, 10 Nov 2025 12:30:56 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.13
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0106030E0E2
+	for <linux-usb@vger.kernel.org>; Mon, 10 Nov 2025 12:30:55 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.17
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1762777857; cv=none; b=WoqYbZ+FH1exXg+PsH2RffPPrCRmlgd0bmTxrED0nmPpPvUJcJX1AT3jVc7N+Vap6wHPUWPO655lGtvRzNMLBoteex2NUaQHJ0mo/RpPW4yMUZKo0liuTBsW4EesBWXyAIuE1agFsp0gKu11zmDJwLZ2NSpvTkP82A/jOznkUVw=
+	t=1762777857; cv=none; b=Fe3v1MIO6mItISDWz6xFnTJz0jS1miAQoK0g5RmuSh2IvDnqas5c+Yna0JhLVm9vH9wEBCuq+ilQPigDRf9P3UeGy2l9TG27TO75+RFB8EA8QEGiVd3Jx5jC/vlwHzXDtQ3cVyszdyMs5RbKgZx11C+tzoABxtJ4r0rqXcDvlKo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
 	s=arc-20240116; t=1762777857; c=relaxed/simple;
-	bh=2SoFwFXFEVHNy6OW6HvsARlE1FPlSl0PxMIlt4SCfCA=;
+	bh=dBelcOAunk2ZtS1Qt2SZn3fZaZBZx0XcSsTeg/tpXA8=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=lxsrocdHFk+ImuEcT/WSvVZ0UH2lAsWYaZPiZhN+0Bjb4HcI/Cq6lCsC63+uT+6uueMP45VnLSqu7/cuU7KXopqtejaP8TWOvlc7ufzagTer/qT0mFtvPFsyPay9jBv/BbbEMtACBNvtsRWdxlFRkp1sF5Xuqw1o/2D8VIruVJU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=pass smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=ndEA9Ioe; arc=none smtp.client-ip=198.175.65.13
+	 MIME-Version; b=IGHTZMVFaMfNUBsVLVynFYcd0Sr2CwOsONBuKLmVGBsYwdpXwjnch43e40Dxdc2YySrWFgpuDjyKsHSlm+jvoE70//xmeJiQqExjMMOc81+9kbiUNqffonFZnxsCX92SqT56uHh5GMEFihzwH8JgkXG74uKRWMmuv0jieTJk51c=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=pass smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=nJPuuYbk; arc=none smtp.client-ip=192.198.163.17
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="ndEA9Ioe"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="nJPuuYbk"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1762777857; x=1794313857;
+  t=1762777856; x=1794313856;
   h=from:to:cc:subject:date:message-id:in-reply-to:
    references:mime-version:content-transfer-encoding;
-  bh=2SoFwFXFEVHNy6OW6HvsARlE1FPlSl0PxMIlt4SCfCA=;
-  b=ndEA9IoeizVtev4KtY01zBosLqddKztWaSsKr+zNJSE9adkurLBqTXIw
-   bqGHx26qfFQhLKrZxZtfSfCncmttc3LL1p2tL+pfl9rWHOGC01CpEiEZt
-   Xe+2tZ3tFYP/CRkT8UVcw8P1m6HbU2NPKKekWaM7/03W22YHwHXeqTXtt
-   WTSHVehKVaUimLrCCZHfe2zoj1Sudi7qFXajvPsTAG1xe+v8w56YeFk40
-   vqinzw2W535myg4ZadGbbIDdZTd1bB00bVFVHB/Bu3gKF7voKi8sds7+z
-   aHDSFZpfaf7lMvQC3hqMOTSfgUjceRUtFSXevm3qJAISABeOciVXzmzY0
-   Q==;
-X-CSE-ConnectionGUID: KoGi3HkfTa+Gfsg3Nm2CXw==
-X-CSE-MsgGUID: ltE4a1XCQ0CzJIr4kqxSIA==
-X-IronPort-AV: E=McAfee;i="6800,10657,11609"; a="75931564"
+  bh=dBelcOAunk2ZtS1Qt2SZn3fZaZBZx0XcSsTeg/tpXA8=;
+  b=nJPuuYbkPVOt03eJNwtVvUQn3R56eMbLf9nnS8Ih+cZyZz0wEV3h4P8J
+   RT/v1NblWZrNhSvBsHvrPImADDpKbTPdnONwFzEeK3XoecL8R0wnufTcG
+   TI/ODWjVDIPRicMxiksqvFPN97XuubpVw+HoupZqANn4//FuGO5x+EXFB
+   b8V0kq+u9mdSV0BlINyWXQisbn4p5e5Ahm68OkzEytxg9dgDz8H52dS3d
+   2KHLb0QUSifS4qgoubtS46mym7LQKFZJ3ZJNp4B+9dVXh9JRynf07TV5y
+   7R6g2y1pa9YOYW6imyW6yvZU2+cmPETxqidkjM/QqaDYXPB+nP/4z3cUx
+   A==;
+X-CSE-ConnectionGUID: 7cbDQQM4RPmJbvEP5TKbxQ==
+X-CSE-MsgGUID: N999vaFJQ4yUOb5NzZpcww==
+X-IronPort-AV: E=McAfee;i="6800,10657,11609"; a="64734702"
 X-IronPort-AV: E=Sophos;i="6.19,293,1754982000"; 
-   d="scan'208";a="75931564"
-Received: from fmviesa003.fm.intel.com ([10.60.135.143])
-  by orvoesa105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 10 Nov 2025 04:30:56 -0800
-X-CSE-ConnectionGUID: QsEQaIh3TYy+9YjtVuS3QA==
-X-CSE-MsgGUID: 0m6B2OGTR862SDqk+doQ2Q==
+   d="scan'208";a="64734702"
+Received: from fmviesa004.fm.intel.com ([10.60.135.144])
+  by fmvoesa111.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 10 Nov 2025 04:30:56 -0800
+X-CSE-ConnectionGUID: g9czHs5lQyeZXjGE4RKNzA==
+X-CSE-MsgGUID: ulC86/4ZSo6pl33a9ZYhaw==
 X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.19,293,1754982000"; 
+   d="scan'208";a="193672529"
 Received: from black.igk.intel.com ([10.91.253.5])
-  by fmviesa003.fm.intel.com with ESMTP; 10 Nov 2025 04:30:53 -0800
+  by fmviesa004.fm.intel.com with ESMTP; 10 Nov 2025 04:30:53 -0800
 Received: by black.igk.intel.com (Postfix, from userid 1001)
-	id 948D79D; Mon, 10 Nov 2025 13:30:50 +0100 (CET)
+	id A73E2A3; Mon, 10 Nov 2025 13:30:50 +0100 (CET)
 From: Mika Westerberg <mika.westerberg@linux.intel.com>
 To: linux-usb@vger.kernel.org
 Cc: Yehezkel Bernat <YehezkelShB@gmail.com>,
@@ -51,9 +53,9 @@ Cc: Yehezkel Bernat <YehezkelShB@gmail.com>,
 	Alan Borzeszkowski <alan.borzeszkowski@linux.intel.com>,
 	Rene Sapiens <rene.sapiens@intel.com>,
 	Mika Westerberg <mika.westerberg@linux.intel.com>
-Subject: [PATCH 08/16] thunderbolt: Fix typos in retimer.c
-Date: Mon, 10 Nov 2025 13:30:42 +0100
-Message-ID: <20251110123050.3959188-9-mika.westerberg@linux.intel.com>
+Subject: [PATCH 14/16] thunderbolt: Fix typos in tunnel.c
+Date: Mon, 10 Nov 2025 13:30:48 +0100
+Message-ID: <20251110123050.3959188-15-mika.westerberg@linux.intel.com>
 X-Mailer: git-send-email 2.50.1
 In-Reply-To: <20251110123050.3959188-1-mika.westerberg@linux.intel.com>
 References: <20251110123050.3959188-1-mika.westerberg@linux.intel.com>
@@ -67,27 +69,67 @@ Content-Transfer-Encoding: 8bit
 
 From: Alan Borzeszkowski <alan.borzeszkowski@linux.intel.com>
 
-Fix typos in retimer.c. No functional changes.
+Fix typos in tunnel.c. No functional changes.
 
 Signed-off-by: Alan Borzeszkowski <alan.borzeszkowski@linux.intel.com>
 Signed-off-by: Mika Westerberg <mika.westerberg@linux.intel.com>
 ---
- drivers/thunderbolt/retimer.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ drivers/thunderbolt/tunnel.c | 14 +++++++-------
+ 1 file changed, 7 insertions(+), 7 deletions(-)
 
-diff --git a/drivers/thunderbolt/retimer.c b/drivers/thunderbolt/retimer.c
-index 3a0f486a24d5..13d64dbd2bc5 100644
---- a/drivers/thunderbolt/retimer.c
-+++ b/drivers/thunderbolt/retimer.c
-@@ -501,7 +501,7 @@ static struct tb_retimer *tb_port_find_retimer(struct tb_port *port, u8 index)
-  * @add: If true also registers found retimers
+diff --git a/drivers/thunderbolt/tunnel.c b/drivers/thunderbolt/tunnel.c
+index bfa0607b5574..9fa95c595ecc 100644
+--- a/drivers/thunderbolt/tunnel.c
++++ b/drivers/thunderbolt/tunnel.c
+@@ -301,7 +301,7 @@ static int tb_pci_set_ext_encapsulation(struct tb_tunnel *tunnel, bool enable)
+ 	struct tb_port *port = tb_upstream_port(tunnel->dst_port->sw);
+ 	int ret;
+ 
+-	/* Only supported of both routers are at least USB4 v2 */
++	/* Only supported if both routers are at least USB4 v2 */
+ 	if ((usb4_switch_version(tunnel->src_port->sw) < 2) ||
+ 	   (usb4_switch_version(tunnel->dst_port->sw) < 2))
+ 		return 0;
+@@ -1170,8 +1170,8 @@ static int tb_dp_bandwidth_mode_maximum_bandwidth(struct tb_tunnel *tunnel,
+ 
+ 	/*
+ 	 * DP IN adapter DP_LOCAL_CAP gets updated to the lowest AUX
+-	 * read parameter values so this so we can use this to determine
+-	 * the maximum possible bandwidth over this link.
++	 * read parameter values so we can use this to determine the
++	 * maximum possible bandwidth over this link.
+ 	 *
+ 	 * See USB4 v2 spec 1.0 10.4.4.5.
+ 	 */
+@@ -1783,8 +1783,8 @@ static int tb_dma_init_rx_path(struct tb_path *path, unsigned int credits)
+ 
+ 	/*
+ 	 * First lane adapter is the one connected to the remote host.
+-	 * We don't tunnel other traffic over this link so can use all
+-	 * the credits (except the ones reserved for control traffic).
++	 * We don't tunnel other traffic over this link so we can use
++	 * all the credits (except the ones reserved for control traffic).
+ 	 */
+ 	hop = &path->hops[0];
+ 	tmp = min(tb_usable_credits(hop->in_port), credits);
+@@ -2044,7 +2044,7 @@ static int tb_usb3_consumed_bandwidth(struct tb_tunnel *tunnel,
+ 
+ 	/*
+ 	 * PCIe tunneling, if enabled, affects the USB3 bandwidth so
+-	 * take that it into account here.
++	 * take that into account here.
+ 	 */
+ 	*consumed_up = tunnel->allocated_up *
+ 		(TB_USB3_WEIGHT + pcie_weight) / TB_USB3_WEIGHT;
+@@ -2605,7 +2605,7 @@ int tb_tunnel_consumed_bandwidth(struct tb_tunnel *tunnel, int *consumed_up,
+  * @tunnel: Tunnel whose unused bandwidth to release
   *
-  * Brings the sideband into a state where retimers can be accessed.
-- * Then Tries to enumerate on-board retimers connected to @port. Found
-+ * Then tries to enumerate on-board retimers connected to @port. Found
-  * retimers are registered as children of @port if @add is set.  Does
-  * not scan for cable retimers for now.
+  * If tunnel supports dynamic bandwidth management (USB3 tunnels at the
+- * moment) this function makes it to release all the unused bandwidth.
++ * moment) this function makes it release all the unused bandwidth.
   *
+  * Return: %0 on success, negative errno otherwise.
+  */
 -- 
 2.50.1
 
