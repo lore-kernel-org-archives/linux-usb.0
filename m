@@ -1,50 +1,50 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.18])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.9])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 29A9730CD99
-	for <linux-usb@vger.kernel.org>; Mon, 10 Nov 2025 12:30:55 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4DDAD309EFC
+	for <linux-usb@vger.kernel.org>; Mon, 10 Nov 2025 12:30:53 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.9
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1762777856; cv=none; b=jBRWjdRoa7y97nlHNu7vG6pOkLfG5rSBlk/SKb+cUuruZpekqBVJp91bdNNS2zNuoeHYTJ+ihxGkiWoHHeQ4smCbNWsd75tcyUEa/Nf5WQrg9fB7qZqJSNjWUGZjnyd4vSFKnd0KE7SEIXntyUs/RK5JPcDH9fNFNf40F6YDwOk=
+	t=1762777857; cv=none; b=a6L6zCAdT2e1m8EsD4rOGbzuSzte+ekllcrQy0QW4yuIsYm26A7+jGcjgsZe8/qvslaxYHMLWt0c2iR5BYUfWEtDBTXxD8TWbDMrJhTwygKGLuqkt2DdpelnwQXK+gSjaja3Hp9VNT21JXYD6p9BKHdseE3Tw9RT5Xohhinl6k8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1762777856; c=relaxed/simple;
-	bh=vgV+bTiFu7ysgqi1bny/g91o7R8KKgVnkvVxnLzbBSA=;
+	s=arc-20240116; t=1762777857; c=relaxed/simple;
+	bh=zP3SRa42I6xlxoEn5G2bRXc2OuF/hgT+4t3nKBj1D+Y=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=W5rZ9RmV5z1jOQIQx3wktPKkn5mFSCgBM2PcHSG2ZEzMobfulvHK1HKH9L3CaNhv1NGiSBy6+nAfrnhhjtHyy1RD8WdDq5mvOEz2rI6yTmcVb0UvTNOOHtjObTpxYCP8iz3hlg+v9Ek2j2RlCqfy+bJQd1YiI+nA6zugEdjqiBc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=pass smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=nezUgiFG; arc=none smtp.client-ip=198.175.65.18
+	 MIME-Version; b=EWSnHJUwJUAJG52ThP5m9jo9nFeGafhv7n8INS+o8YzHQuyC/jmdSrh3hwvFyCtMNNOOkYtcgjXgcA2qeJJc+qF10KQUNi0H20zB0oQ2lpWpLXLQQzRCWmsAR8+cpthHhGqhA/h/xsVw4RtkbBakkSl8npkgZ1jBTJouaH5tGmI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=pass smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=ZBn26qMp; arc=none smtp.client-ip=198.175.65.9
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="nezUgiFG"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="ZBn26qMp"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1762777856; x=1794313856;
+  t=1762777854; x=1794313854;
   h=from:to:cc:subject:date:message-id:in-reply-to:
    references:mime-version:content-transfer-encoding;
-  bh=vgV+bTiFu7ysgqi1bny/g91o7R8KKgVnkvVxnLzbBSA=;
-  b=nezUgiFGgihBk8KBwbfV01XEZ9P2eEENtLoMLbSNpYx0JZltTyDD4i8J
-   RrfKOciUIXapViCs64k84cUkp4CB9AVfCNpm7eZ4WHwRe84Pk6TxLJaOh
-   lRmMxC21RQTqb8ATMR4kpffAfxOkcm1bgwdaXab6sO1eu97fwZ8baDNGz
-   nTJbpI+12EbAywMElNBiDAmNXQjvAwrt/Mu5C6KGe1AwAqjnuBkb1Yt+y
-   cTpb3wbyIFWwjjtu3+E/GiNMdFs2R1HsJlTzt2hKlV75CIrAiRgs4tBii
-   i+/ORalS4sd9NbxJIiHSy6ER+es8xQdESCX6AMd/pcvF5Rzk1eGNcfF1f
-   Q==;
-X-CSE-ConnectionGUID: Q3Mxu5qITMm0623bJ5y8CA==
-X-CSE-MsgGUID: Wvoc4y1WS1eKSwcLtPLQ3A==
-X-IronPort-AV: E=McAfee;i="6800,10657,11609"; a="64866249"
+  bh=zP3SRa42I6xlxoEn5G2bRXc2OuF/hgT+4t3nKBj1D+Y=;
+  b=ZBn26qMpMN+nO5HF4BGDTr+u1vS4CeOScG18bhrfMBsY/8oLcZ1W4rYs
+   Qhu+9J6F1kIKipQfpv8sVHdxuM1TJItBAGDF3OjByC9EW9kFwA1CozqVX
+   hNDe0H8ZXcAImJvFbrX0jm+gknbu24LTfzYyWTDCTvHz4IwMbvShtY9JL
+   ZZn+gaoXYulkjaIU6uPm4BmAQXWaSZbYNd/QLUMDGiaJGJ4X7uf2hyBzS
+   B/n/7jC2NM8l4gOMGHg2cUpjHg/uW8koy4dVwvzCmMMPpnr+dCxOKrFWc
+   ufgf0QATmDSYSDPTEyOfOqQzm4uSPxyh2LNmegV915LRx/3a3RAlgZmMj
+   w==;
+X-CSE-ConnectionGUID: dAnxBtrMQ5ewc9oxZVUfsA==
+X-CSE-MsgGUID: rzA3VwpfRP6yn3eSZ2XFwg==
+X-IronPort-AV: E=McAfee;i="6800,10657,11609"; a="87456952"
 X-IronPort-AV: E=Sophos;i="6.19,293,1754982000"; 
-   d="scan'208";a="64866249"
-Received: from orviesa002.jf.intel.com ([10.64.159.142])
-  by orvoesa110.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 10 Nov 2025 04:30:54 -0800
-X-CSE-ConnectionGUID: 2q9i+L+bR0uSZ4chG4c5SQ==
-X-CSE-MsgGUID: 5zBjdXefT+uOkYprgGjMBQ==
+   d="scan'208";a="87456952"
+Received: from orviesa004.jf.intel.com ([10.64.159.144])
+  by orvoesa101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 10 Nov 2025 04:30:53 -0800
+X-CSE-ConnectionGUID: rTyaEipUTZ+9cuMyBChZQw==
+X-CSE-MsgGUID: Sc0m1qMbQXK9fgUFi+0pNA==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.19,293,1754982000"; 
-   d="scan'208";a="219317011"
+   d="scan'208";a="193044965"
 Received: from black.igk.intel.com ([10.91.253.5])
-  by orviesa002.jf.intel.com with ESMTP; 10 Nov 2025 04:30:52 -0800
+  by orviesa004.jf.intel.com with ESMTP; 10 Nov 2025 04:30:51 -0800
 Received: by black.igk.intel.com (Postfix, from userid 1001)
-	id 8405398; Mon, 10 Nov 2025 13:30:50 +0100 (CET)
+	id 80BC497; Mon, 10 Nov 2025 13:30:50 +0100 (CET)
 From: Mika Westerberg <mika.westerberg@linux.intel.com>
 To: linux-usb@vger.kernel.org
 Cc: Yehezkel Bernat <YehezkelShB@gmail.com>,
@@ -53,9 +53,9 @@ Cc: Yehezkel Bernat <YehezkelShB@gmail.com>,
 	Alan Borzeszkowski <alan.borzeszkowski@linux.intel.com>,
 	Rene Sapiens <rene.sapiens@intel.com>,
 	Mika Westerberg <mika.westerberg@linux.intel.com>
-Subject: [PATCH 03/16] thunderbolt: Fix typos in domain.c
-Date: Mon, 10 Nov 2025 13:30:37 +0100
-Message-ID: <20251110123050.3959188-4-mika.westerberg@linux.intel.com>
+Subject: [PATCH 02/16] thunderbolt: Fix typos in debugfs.c
+Date: Mon, 10 Nov 2025 13:30:36 +0100
+Message-ID: <20251110123050.3959188-3-mika.westerberg@linux.intel.com>
 X-Mailer: git-send-email 2.50.1
 In-Reply-To: <20251110123050.3959188-1-mika.westerberg@linux.intel.com>
 References: <20251110123050.3959188-1-mika.westerberg@linux.intel.com>
@@ -69,27 +69,36 @@ Content-Transfer-Encoding: 8bit
 
 From: Alan Borzeszkowski <alan.borzeszkowski@linux.intel.com>
 
-Fix typos in domain.c. No functional changes.
+Fix typos in debugfs.c. No functional changes.
 
 Signed-off-by: Alan Borzeszkowski <alan.borzeszkowski@linux.intel.com>
 Signed-off-by: Mika Westerberg <mika.westerberg@linux.intel.com>
 ---
- drivers/thunderbolt/domain.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ drivers/thunderbolt/debugfs.c | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
 
-diff --git a/drivers/thunderbolt/domain.c b/drivers/thunderbolt/domain.c
-index 83defc915d33..3ced37b4a869 100644
---- a/drivers/thunderbolt/domain.c
-+++ b/drivers/thunderbolt/domain.c
-@@ -376,7 +376,7 @@ struct tb *tb_domain_alloc(struct tb_nhi *nhi, int timeout_msec, size_t privsize
- 	struct tb *tb;
- 
+diff --git a/drivers/thunderbolt/debugfs.c b/drivers/thunderbolt/debugfs.c
+index 46a2a3550be7..45266ec72f88 100644
+--- a/drivers/thunderbolt/debugfs.c
++++ b/drivers/thunderbolt/debugfs.c
+@@ -201,7 +201,7 @@ static bool parse_line(char **line, u32 *offs, u32 *val, int short_fmt_len,
+ #if IS_ENABLED(CONFIG_USB4_DEBUGFS_WRITE)
+ /*
+  * Path registers need to be written in double word pairs and they both must be
+- * read before written. This writes one double word in patch config space
++ * read before written. This writes one double word in path config space
+  * following the spec flow.
+  */
+ static int path_write_one(struct tb_port *port, u32 val, u32 offset)
+@@ -1196,7 +1196,7 @@ static int validate_margining(struct tb_margining *margining)
+ {
  	/*
--	 * Make sure the structure sizes map with that the hardware
-+	 * Make sure the structure sizes map with what the hardware
- 	 * expects because bit-fields are being used.
+ 	 * For running on RX2 the link must be asymmetric with 3
+-	 * receivers. Because this is can change dynamically, check it
++	 * receivers. Because this can change dynamically, check it
+ 	 * here before we start the margining and report back error if
+ 	 * expectations are not met.
  	 */
- 	BUILD_BUG_ON(sizeof(struct tb_regs_switch_header) != 5 * 4);
 -- 
 2.50.1
 
