@@ -1,50 +1,50 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.17])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.12])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D263730CD89
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F15DE30DEAD
 	for <linux-usb@vger.kernel.org>; Mon, 10 Nov 2025 12:30:55 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.17
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.12
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1762777857; cv=none; b=nUqbOB84w5wOlBH5oQ8TwcCOZC4FvuyYE9xNcs3n8C5oLFlDdk885cZYHxMbMdg6BCuon2oyf276c/40sq02htTwokraChxp5Im8N8L9i7Lh0keoe0vVqtVeolUuT9VnbaB2W5jxH/9Y5y8WBNk5Xs+gEFvrvqYkVH+56wHPACE=
+	t=1762777857; cv=none; b=XeUYZxqk/vdO3JBPZkR/OzqGQ3oxpML/hbv+0PobYPshuOhOdpwa61vlGsynmJVovHRK0oeX+s1Sun8Yk96qJyuPY6eFOqJGwe6eXSzVpTWZHTlURBBbG8ViQhXWGNSqa6xbsQLQ8Tj5+CfDvg6UxPeRvbPQ2puSbJqMOmBOcnQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
 	s=arc-20240116; t=1762777857; c=relaxed/simple;
-	bh=Tk6snZbv5YYy7B1rifgEA88ZGnhucItAmP7gtsI+cQE=;
+	bh=DYMqJEBegiphm3UEdG8mOUc9HXJ7Vnnk+Q+4tYd2ZBA=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=J0CIoazxyk/K8ktJxVbYDPpj8KeLk6AohqOMYVhsaIf3QgtY0WsZcBubHh20UxfggWq1jjDF9GSxvYfu36tWkQevMEFoaAsQCaOxjXnJL9YFv/XbgwDbbgUH9t8EfghRrA/wiwxhz+uQit73ifygt4i1W30QEIbEOr4FotBdrfk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=pass smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=KhF3iHhY; arc=none smtp.client-ip=198.175.65.17
+	 MIME-Version; b=WUlDjuoDklF+ZoDsrekVrdO8p1G85lYyHVvfHM0tfC3cx00UuOKHwtfUwwKDfYhxxMeB+go31fc9W+4wf1GF5B0h9xbS/3hItLTFgo16FGbYmD8IFNXzTC2PO/viIdEX01Bu+L2DurrHerLhf3ao47kz6miGjbKYAvXMyLZazPQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=pass smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=m8cpkz8k; arc=none smtp.client-ip=192.198.163.12
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="KhF3iHhY"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="m8cpkz8k"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
   t=1762777856; x=1794313856;
   h=from:to:cc:subject:date:message-id:in-reply-to:
    references:mime-version:content-transfer-encoding;
-  bh=Tk6snZbv5YYy7B1rifgEA88ZGnhucItAmP7gtsI+cQE=;
-  b=KhF3iHhYee68HlV+iSHf6Z3PO3ESenFg/ixjq2edNKWRuPFxLYVZI80U
-   WJUXncu0wuh9ldWe9dfGv8STqwEqnaKqWakd8YXwo4zCZbjG6rc5COHbZ
-   oFzm3p5Ao4KzsmDB1nackBw+ekJb2JH9AulvzV5RfzOhW5vUbDgKNBjsQ
-   PNcfcUmTSfI3OSnAuD+L8rmIGy00S52w8le0i7MOt9RRPHwgR82Iwf37f
-   bd7HK2Mam557sOglsIJSOYwrbXfOfzhfh1ejtRzlgyfzTAzHbIc0uaCDr
-   2R/L/FKf8lWHhsVQ72We01QwVtEUHSN90SlbHSLS/PUBA3qj0w6jrWARa
-   g==;
-X-CSE-ConnectionGUID: MzgeQ3HjSNiirNcybKw7MQ==
-X-CSE-MsgGUID: KeRCEebTTmuRNQYJSAcHPg==
-X-IronPort-AV: E=McAfee;i="6800,10657,11531"; a="64754353"
-X-IronPort-AV: E=Sophos;i="6.17,312,1747724400"; 
-   d="scan'208";a="64754353"
-Received: from orviesa010.jf.intel.com ([10.64.159.150])
-  by orvoesa109.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 10 Nov 2025 04:30:55 -0800
-X-CSE-ConnectionGUID: bekWQMkyRRCcBwsXEQaWRA==
-X-CSE-MsgGUID: j5BuKG6PQSu2n54G0Pw53w==
+  bh=DYMqJEBegiphm3UEdG8mOUc9HXJ7Vnnk+Q+4tYd2ZBA=;
+  b=m8cpkz8k1G4QSPLWUCQgaBevEoyca2CAyx1MUQmrhxS9GQtvWg2QjA9E
+   9B+9s5uiCimLg1ZT4656MYkU/LFlK2KmeynQLR+HIiTMsnatgziVi+qK0
+   FBMn20FzouqW3hT1k//1oPQXIghPn4oQGK7AW363NY9Ghh2AMlkwqtkgw
+   K2NIqKpCOiF2S2iTxXlr8EESwaCzffRj1PeVhlO4x/uRO850LW0ok+zBN
+   zyknspCznzCzy+bwRJdXFyoQSRa2MfT5sigSOlA7FrdRJOkch8K0zbWA+
+   YVWxStcQKz0he8KqaNvthXjnL1GjHqozFhyYsMdHPZof5cQ7PIoTSIVKR
+   w==;
+X-CSE-ConnectionGUID: wS8+CrbUSx6N/PUp8KW/iQ==
+X-CSE-MsgGUID: GsIgclw9QBiFdrPJrotGgg==
+X-IronPort-AV: E=McAfee;i="6800,10657,11609"; a="68684384"
+X-IronPort-AV: E=Sophos;i="6.19,293,1754982000"; 
+   d="scan'208";a="68684384"
+Received: from orviesa007.jf.intel.com ([10.64.159.147])
+  by fmvoesa106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 10 Nov 2025 04:30:55 -0800
+X-CSE-ConnectionGUID: 9YlVwYZ4TPGqTygWMacfdA==
+X-CSE-MsgGUID: bdjIacnTT7+kSsefmgUS+Q==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.19,293,1754982000"; 
-   d="scan'208";a="187969678"
+   d="scan'208";a="188617560"
 Received: from black.igk.intel.com ([10.91.253.5])
-  by orviesa010.jf.intel.com with ESMTP; 10 Nov 2025 04:30:54 -0800
+  by orviesa007.jf.intel.com with ESMTP; 10 Nov 2025 04:30:54 -0800
 Received: by black.igk.intel.com (Postfix, from userid 1001)
-	id A1229A1; Mon, 10 Nov 2025 13:30:50 +0100 (CET)
+	id 979479E; Mon, 10 Nov 2025 13:30:50 +0100 (CET)
 From: Mika Westerberg <mika.westerberg@linux.intel.com>
 To: linux-usb@vger.kernel.org
 Cc: Yehezkel Bernat <YehezkelShB@gmail.com>,
@@ -53,9 +53,9 @@ Cc: Yehezkel Bernat <YehezkelShB@gmail.com>,
 	Alan Borzeszkowski <alan.borzeszkowski@linux.intel.com>,
 	Rene Sapiens <rene.sapiens@intel.com>,
 	Mika Westerberg <mika.westerberg@linux.intel.com>
-Subject: [PATCH 12/16] thunderbolt: Fix typos in tb_regs.h
-Date: Mon, 10 Nov 2025 13:30:46 +0100
-Message-ID: <20251110123050.3959188-13-mika.westerberg@linux.intel.com>
+Subject: [PATCH 09/16] thunderbolt: Fix typos in switch.c
+Date: Mon, 10 Nov 2025 13:30:43 +0100
+Message-ID: <20251110123050.3959188-10-mika.westerberg@linux.intel.com>
 X-Mailer: git-send-email 2.50.1
 In-Reply-To: <20251110123050.3959188-1-mika.westerberg@linux.intel.com>
 References: <20251110123050.3959188-1-mika.westerberg@linux.intel.com>
@@ -69,38 +69,39 @@ Content-Transfer-Encoding: 8bit
 
 From: Alan Borzeszkowski <alan.borzeszkowski@linux.intel.com>
 
-Fix typos in tb_regs.h. No functional changes.
+Fix typos in switch.c. No functional changes.
 
 Signed-off-by: Alan Borzeszkowski <alan.borzeszkowski@linux.intel.com>
 Signed-off-by: Mika Westerberg <mika.westerberg@linux.intel.com>
 ---
- drivers/thunderbolt/tb_regs.h | 6 +++---
+ drivers/thunderbolt/switch.c | 6 +++---
  1 file changed, 3 insertions(+), 3 deletions(-)
 
-diff --git a/drivers/thunderbolt/tb_regs.h b/drivers/thunderbolt/tb_regs.h
-index 4e43b47f9f11..c0bf136236e6 100644
---- a/drivers/thunderbolt/tb_regs.h
-+++ b/drivers/thunderbolt/tb_regs.h
-@@ -99,7 +99,7 @@ struct tb_cap_extended_long {
- } __packed;
+diff --git a/drivers/thunderbolt/switch.c b/drivers/thunderbolt/switch.c
+index 0e07904aa73b..b3948aad0b95 100644
+--- a/drivers/thunderbolt/switch.c
++++ b/drivers/thunderbolt/switch.c
+@@ -736,9 +736,9 @@ static int tb_init_port(struct tb_port *port)
+ 			port->cap_usb4 = cap;
  
- /**
-- * struct tb_cap_any - Structure capable of hold every capability
-+ * struct tb_cap_any - Structure capable of holding every capability
-  * @basic: Basic capability
-  * @extended_short: Vendor specific capability
-  * @extended_long: Vendor specific extended capability
-@@ -534,8 +534,8 @@ struct tb_regs_hop {
- 
- /*
-  * Used for Titan Ridge only. Bits are part of the same register: TMU_ADP_CS_6
-- * (see above) as in USB4 spec, but these specific bits used for Titan Ridge
-- * only and reserved in USB4 spec.
-+ * (see above) as in USB4 spec, but these specific bits are used for Titan Ridge
-+ * only and are reserved in USB4 spec.
+ 		/*
+-		 * USB4 ports the buffers allocated for the control path
++		 * USB4 port buffers allocated for the control path
+ 		 * can be read from the path config space. Legacy
+-		 * devices we use hard-coded value.
++		 * devices use hard-coded value.
+ 		 */
+ 		if (port->cap_usb4) {
+ 			struct tb_regs_hop hop;
+@@ -3221,7 +3221,7 @@ int tb_switch_configure_link(struct tb_switch *sw)
+  * @sw: Switch whose link is unconfigured
+  *
+  * Sets the link unconfigured so the @sw will be disconnected if the
+- * domain exists sleep.
++ * domain exits sleep.
   */
- #define TMU_ADP_CS_6_DISABLE_TMU_OBJ_MASK	GENMASK(3, 2)
- #define TMU_ADP_CS_6_DISABLE_TMU_OBJ_CL1	BIT(2)
+ void tb_switch_unconfigure_link(struct tb_switch *sw)
+ {
 -- 
 2.50.1
 
