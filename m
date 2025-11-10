@@ -1,50 +1,50 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.13])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.17])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7610D30DD2C
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D263730CD89
 	for <linux-usb@vger.kernel.org>; Mon, 10 Nov 2025 12:30:55 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.13
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.17
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1762777857; cv=none; b=AB/bvVKVSdsHwe3+7MfCVPiFTvvc9Gs/hzjwHit+w/eF2Su0fwS4HBZK6Atu3xuMWwxxYLwSLs6QYH8mDfXBaXe5oIwP9fW/AnDIVjwM0Obp1Xo7x/msJ+6j9Jm6F8XpTugLrYk6ZwC98XT2gSxwNgb+fvjBsHjL+iEJoRcymoU=
+	t=1762777857; cv=none; b=nUqbOB84w5wOlBH5oQ8TwcCOZC4FvuyYE9xNcs3n8C5oLFlDdk885cZYHxMbMdg6BCuon2oyf276c/40sq02htTwokraChxp5Im8N8L9i7Lh0keoe0vVqtVeolUuT9VnbaB2W5jxH/9Y5y8WBNk5Xs+gEFvrvqYkVH+56wHPACE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
 	s=arc-20240116; t=1762777857; c=relaxed/simple;
-	bh=zDfqVo2lIAk/Nq3GVxIPh43JlzC6q++m3XFQ+sIIWLc=;
+	bh=Tk6snZbv5YYy7B1rifgEA88ZGnhucItAmP7gtsI+cQE=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=NtZPYKvw87QgqDhUZ3ym7jVCv0x5xBpFdKnLl98hBtw/h1eExv6Gli/HllQOPilWjEGxXGtcnLD6nkXN32JvUyWHVGAjUcPkaopJy51pCFSStAxWaz30TeN9TZ9l+bVCWb3tGnaFPFCxMNYP1UI9lKjjofO6isz3iBe/kMlsT7k=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=pass smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=ZeXx6H3G; arc=none smtp.client-ip=198.175.65.13
+	 MIME-Version; b=J0CIoazxyk/K8ktJxVbYDPpj8KeLk6AohqOMYVhsaIf3QgtY0WsZcBubHh20UxfggWq1jjDF9GSxvYfu36tWkQevMEFoaAsQCaOxjXnJL9YFv/XbgwDbbgUH9t8EfghRrA/wiwxhz+uQit73ifygt4i1W30QEIbEOr4FotBdrfk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=pass smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=KhF3iHhY; arc=none smtp.client-ip=198.175.65.17
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="ZeXx6H3G"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="KhF3iHhY"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
   t=1762777856; x=1794313856;
   h=from:to:cc:subject:date:message-id:in-reply-to:
    references:mime-version:content-transfer-encoding;
-  bh=zDfqVo2lIAk/Nq3GVxIPh43JlzC6q++m3XFQ+sIIWLc=;
-  b=ZeXx6H3GNgpE1qInhVVeehF9KwJGt4Jj+HiZFsntGQUxb5HoURa5fKt4
-   c6wXMhhtoFvQ1jWu4VK6IODCzosIrLj7fb8Yp6l1dgdmXg7CtUaAdfr8g
-   y4LyNFQPbtkAZdYqPg8w4GjSB5rTmRNwyARwYfrSViyBhBz1HSAY5SxIg
-   QrqiQMObmJCH2A+5KjEgYSbGnO5N32uWX1Mr458tey1GnlgYqcXdPNFyJ
-   leiV2KqkSkTMN9vGQUea7yY5GAuscCPWQ1MPvkwHT2cZSL4Df2A7KmRpt
-   LNI7vHM/x0lLbYJjtKJMMWxWAWGaIyVUkjAbIdqUJ++j2ko9D/0vEh8OD
-   A==;
-X-CSE-ConnectionGUID: 41HU0d76QbGYZlgo4AAojA==
-X-CSE-MsgGUID: TuXeHILvRBeR3drjKOxpeA==
-X-IronPort-AV: E=McAfee;i="6800,10657,11609"; a="75931563"
-X-IronPort-AV: E=Sophos;i="6.19,293,1754982000"; 
-   d="scan'208";a="75931563"
-Received: from orviesa008.jf.intel.com ([10.64.159.148])
-  by orvoesa105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 10 Nov 2025 04:30:56 -0800
-X-CSE-ConnectionGUID: bCI4EmijSA+8alUhLCirxw==
-X-CSE-MsgGUID: gsSE6OcrRuWaqWv2PtCHaQ==
+  bh=Tk6snZbv5YYy7B1rifgEA88ZGnhucItAmP7gtsI+cQE=;
+  b=KhF3iHhYee68HlV+iSHf6Z3PO3ESenFg/ixjq2edNKWRuPFxLYVZI80U
+   WJUXncu0wuh9ldWe9dfGv8STqwEqnaKqWakd8YXwo4zCZbjG6rc5COHbZ
+   oFzm3p5Ao4KzsmDB1nackBw+ekJb2JH9AulvzV5RfzOhW5vUbDgKNBjsQ
+   PNcfcUmTSfI3OSnAuD+L8rmIGy00S52w8le0i7MOt9RRPHwgR82Iwf37f
+   bd7HK2Mam557sOglsIJSOYwrbXfOfzhfh1ejtRzlgyfzTAzHbIc0uaCDr
+   2R/L/FKf8lWHhsVQ72We01QwVtEUHSN90SlbHSLS/PUBA3qj0w6jrWARa
+   g==;
+X-CSE-ConnectionGUID: MzgeQ3HjSNiirNcybKw7MQ==
+X-CSE-MsgGUID: KeRCEebTTmuRNQYJSAcHPg==
+X-IronPort-AV: E=McAfee;i="6800,10657,11531"; a="64754353"
+X-IronPort-AV: E=Sophos;i="6.17,312,1747724400"; 
+   d="scan'208";a="64754353"
+Received: from orviesa010.jf.intel.com ([10.64.159.150])
+  by orvoesa109.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 10 Nov 2025 04:30:55 -0800
+X-CSE-ConnectionGUID: bekWQMkyRRCcBwsXEQaWRA==
+X-CSE-MsgGUID: j5BuKG6PQSu2n54G0Pw53w==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.19,293,1754982000"; 
-   d="scan'208";a="188826829"
+   d="scan'208";a="187969678"
 Received: from black.igk.intel.com ([10.91.253.5])
-  by orviesa008.jf.intel.com with ESMTP; 10 Nov 2025 04:30:53 -0800
+  by orviesa010.jf.intel.com with ESMTP; 10 Nov 2025 04:30:54 -0800
 Received: by black.igk.intel.com (Postfix, from userid 1001)
-	id 8A9D79A; Mon, 10 Nov 2025 13:30:50 +0100 (CET)
+	id A1229A1; Mon, 10 Nov 2025 13:30:50 +0100 (CET)
 From: Mika Westerberg <mika.westerberg@linux.intel.com>
 To: linux-usb@vger.kernel.org
 Cc: Yehezkel Bernat <YehezkelShB@gmail.com>,
@@ -53,9 +53,9 @@ Cc: Yehezkel Bernat <YehezkelShB@gmail.com>,
 	Alan Borzeszkowski <alan.borzeszkowski@linux.intel.com>,
 	Rene Sapiens <rene.sapiens@intel.com>,
 	Mika Westerberg <mika.westerberg@linux.intel.com>
-Subject: [PATCH 05/16] thunderbolt: Fix typos in icm.c
-Date: Mon, 10 Nov 2025 13:30:39 +0100
-Message-ID: <20251110123050.3959188-6-mika.westerberg@linux.intel.com>
+Subject: [PATCH 12/16] thunderbolt: Fix typos in tb_regs.h
+Date: Mon, 10 Nov 2025 13:30:46 +0100
+Message-ID: <20251110123050.3959188-13-mika.westerberg@linux.intel.com>
 X-Mailer: git-send-email 2.50.1
 In-Reply-To: <20251110123050.3959188-1-mika.westerberg@linux.intel.com>
 References: <20251110123050.3959188-1-mika.westerberg@linux.intel.com>
@@ -69,45 +69,38 @@ Content-Transfer-Encoding: 8bit
 
 From: Alan Borzeszkowski <alan.borzeszkowski@linux.intel.com>
 
-Fix typos in icm.c. No functional changes.
+Fix typos in tb_regs.h. No functional changes.
 
 Signed-off-by: Alan Borzeszkowski <alan.borzeszkowski@linux.intel.com>
 Signed-off-by: Mika Westerberg <mika.westerberg@linux.intel.com>
 ---
- drivers/thunderbolt/icm.c | 6 +++---
+ drivers/thunderbolt/tb_regs.h | 6 +++---
  1 file changed, 3 insertions(+), 3 deletions(-)
 
-diff --git a/drivers/thunderbolt/icm.c b/drivers/thunderbolt/icm.c
-index 66092febb40d..d339ba835376 100644
---- a/drivers/thunderbolt/icm.c
-+++ b/drivers/thunderbolt/icm.c
-@@ -787,7 +787,7 @@ icm_fr_device_connected(struct tb *tb, const struct icm_pkg_header *hdr)
- 		 * information might have changed for example by the
- 		 * fact that a switch on a dual-link connection might
- 		 * have been enumerated using the other link now. Make
--		 * sure our book keeping matches that.
-+		 * sure our bookkeeping matches that.
- 		 */
- 		if (sw->depth == depth && sw_phy_port == phy_port &&
- 		    !!sw->authorized == authorized) {
-@@ -969,7 +969,7 @@ icm_fr_xdomain_connected(struct tb *tb, const struct icm_pkg_header *hdr)
+diff --git a/drivers/thunderbolt/tb_regs.h b/drivers/thunderbolt/tb_regs.h
+index 4e43b47f9f11..c0bf136236e6 100644
+--- a/drivers/thunderbolt/tb_regs.h
++++ b/drivers/thunderbolt/tb_regs.h
+@@ -99,7 +99,7 @@ struct tb_cap_extended_long {
+ } __packed;
  
- 	/*
- 	 * Look if there already exists an XDomain in the same place
--	 * than the new one and in that case remove it because it is
-+	 * as the new one and in that case remove it because it is
- 	 * most likely another host that got disconnected.
- 	 */
- 	xd = tb_xdomain_find_by_link_depth(tb, link, depth);
-@@ -2171,7 +2171,7 @@ static int icm_runtime_resume_switch(struct tb_switch *sw)
- static int icm_runtime_resume(struct tb *tb)
- {
- 	/*
--	 * We can reuse the same resume functionality than with system
-+	 * We can reuse the same resume functionality as with system
- 	 * suspend.
- 	 */
- 	icm_complete(tb);
+ /**
+- * struct tb_cap_any - Structure capable of hold every capability
++ * struct tb_cap_any - Structure capable of holding every capability
+  * @basic: Basic capability
+  * @extended_short: Vendor specific capability
+  * @extended_long: Vendor specific extended capability
+@@ -534,8 +534,8 @@ struct tb_regs_hop {
+ 
+ /*
+  * Used for Titan Ridge only. Bits are part of the same register: TMU_ADP_CS_6
+- * (see above) as in USB4 spec, but these specific bits used for Titan Ridge
+- * only and reserved in USB4 spec.
++ * (see above) as in USB4 spec, but these specific bits are used for Titan Ridge
++ * only and are reserved in USB4 spec.
+  */
+ #define TMU_ADP_CS_6_DISABLE_TMU_OBJ_MASK	GENMASK(3, 2)
+ #define TMU_ADP_CS_6_DISABLE_TMU_OBJ_CL1	BIT(2)
 -- 
 2.50.1
 
