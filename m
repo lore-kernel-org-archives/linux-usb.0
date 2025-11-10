@@ -1,34 +1,34 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 941CD3090FB;
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DC423309EF1;
 	Mon, 10 Nov 2025 11:14:52 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1762773292; cv=none; b=LtDSdObewxBzkLoEnEtX5MBCW1+9Xo8DHPFvOLe0VWzl1CV+lrDkrmsJqymju3zINmIF3kStqg0HIepz6/FIgar/dKfFDf9gimgpxMl+G38SaoRwrC6yrpFAQNVPHTEgrlf2vKM7cCurwGKNJcBlWQcnXELeDFRhgTX+k2Pi9O0=
+	t=1762773293; cv=none; b=Y6BiOK0RGmosh/CD1Y4I2XR4V8TBkE97J3vimV6+FHxqBze9XwQgZSVzFAKXWnVE6nJXDdcQUdV/y5uh4TR9qQFMgh2CMN0TZJW9WrQfhUPEpitHT+O5rGznjs5RnFI+MBGf9NmXlCYMFp12Gp2jdDiVRl2KcYyv7tYOOQ3PB4k=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1762773292; c=relaxed/simple;
-	bh=OFYqhoFHCb9z5lCtrXzvza23SjBkOyj647ogbswGaTE=;
+	s=arc-20240116; t=1762773293; c=relaxed/simple;
+	bh=0UwlUDgT3perp5FbE2RK+9MjtXHhAakco6uZEwvthyo=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=AbbBnLo47CZziRWsc5AlMtfTaHH/xFOpzxBkK2ZRVG3XWQ6fjoc+KyC7MQsey8CBQ5WFaCwRcupTgKW10q+hCvMoNl+yaQvI4zK0MqVildsYk5OyisAVVxixL85/h4IRqGvBFdr0f0w1kwomBKFX281GZMxzdl5HuCiLHYvbVsg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=jvkX4q0u; arc=none smtp.client-ip=10.30.226.201
+	 MIME-Version; b=BBUto7yLtzpOqotchlwwtQmxGLF8ax1HiDAAYxvWTVjad0mJmvQ7KhrDHt47syl6esknd8TuDu7UonybEXhJHpIgo0JvJTKKsJZeLXzhlL9KFgDnYK1Ce/EsWIz3TX5c6KaSqLbi6UQUFci72a1/rp77XKYO4splsiHnbvJyp1o=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=GVmHu02Z; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="jvkX4q0u"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id EC239C116D0;
-	Mon, 10 Nov 2025 11:14:51 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="GVmHu02Z"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 4AE7AC19425;
+	Mon, 10 Nov 2025 11:14:52 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
 	s=k20201202; t=1762773292;
-	bh=OFYqhoFHCb9z5lCtrXzvza23SjBkOyj647ogbswGaTE=;
+	bh=0UwlUDgT3perp5FbE2RK+9MjtXHhAakco6uZEwvthyo=;
 	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=jvkX4q0uZa2PNO7Dp+T2n35s2PVi9VO5jrQESLJzDRpNaNRPS9NZz/oPkQ9TFL/mu
-	 2C0rq89OGbb+D6Hc0ts9/XKL4RWMCUsBK1cRBIXXRa9Og8VC5pDYoyx/3xY1vVppj6
-	 oVedrJPnfWcMLVa7Sn926N3s201A9lLYWmTf/JnpA4YrZZhh8hhORaMQ/BFdylW2Ay
-	 Y+lo/40Kizd6MnK6KgXlfmhNTYeiHfUxa6VJB/rTwoh772psPCFe12MbEzj1/K8NEp
-	 ISD8LKJA6z0WJis8TRKlECghOR6gX79Ko9UfTyqTxB4okbFla7pGyVNcEtGvJcFJoa
-	 jiW1XtMy2PKxQ==
+	b=GVmHu02ZtLMlTFpax38NpmDH1B68RQOGCocQlbU78dcWSLwPWtYfrC/7sivg9Qi08
+	 fbaGlKtaSxdO3jFBqcvvk2jyUCScIvGG4EePAvPEgP/hIpT66S9rdi+jSDrsl3myot
+	 D5Z0I1B15sesDn6sxX6ZZPTLZylwTMFYlbCSkjhAqkmRYEW82t3myvi7wLOZST9KPA
+	 65JegDTsFRXZ4qHXRitx5PSuZ5D6AZpkL/Ep7oJ8s8lu0VexFlZ+h663KEAW3zUCyA
+	 Ql+iwPl8BP5iENkmyVtXoWp6UKtyPVLYbTP6IdOGY1tSc7NeXfBeAjfJRN8BfWt9Pr
+	 aZd3whd/8qqmQ==
 Received: from johan by xi.lan with local (Exim 4.98.2)
 	(envelope-from <johan@kernel.org>)
-	id 1vIPrI-0000000007Y-0whP;
+	id 1vIPrI-0000000007j-2G37;
 	Mon, 10 Nov 2025 12:14:52 +0100
 From: Johan Hovold <johan@kernel.org>
 To: Johan Hovold <johan@kernel.org>
@@ -36,11 +36,10 @@ Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
 	Ryan Mann <rmann@ndigital.com>,
 	Andreas Messer <andi@bastelmap.de>,
 	linux-usb@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	stable@vger.kernel.org
-Subject: [PATCH 1/8] USB: serial: ftdi_sio: match on interface number for jtag
-Date: Mon, 10 Nov 2025 12:12:05 +0100
-Message-ID: <20251110111212.32702-2-johan@kernel.org>
+	linux-kernel@vger.kernel.org
+Subject: [PATCH 5/8] USB: serial: ftdi_sio: rename quirk symbols
+Date: Mon, 10 Nov 2025 12:12:09 +0100
+Message-ID: <20251110111212.32702-6-johan@kernel.org>
 X-Mailer: git-send-email 2.51.0
 In-Reply-To: <20251110111212.32702-1-johan@kernel.org>
 References: <20251110111212.32702-1-johan@kernel.org>
@@ -52,174 +51,117 @@ List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-Some FTDI devices have the first port reserved for JTAG and have been
-using a dedicated quirk to prevent binding to it.
+Use lower case names for the quirk symbols and rename the NDI quirk
+probe function for consistency.
 
-As can be inferred directly or indirectly from the commit messages,
-almost all of these devices are dual port devices which means that the
-more recently added macro for matching on interface number can be used
-instead (and some such devices do so already).
-
-This avoids probing interfaces that will never be bound and cleans up
-the match table somewhat.
-
-Note that the JTAG quirk is kept for quad port devices, which would
-otherwise require three match entries.
-
-Cc: stable@vger.kernel.org
 Signed-off-by: Johan Hovold <johan@kernel.org>
 ---
- drivers/usb/serial/ftdi_sio.c | 72 ++++++++++++-----------------------
- 1 file changed, 24 insertions(+), 48 deletions(-)
+ drivers/usb/serial/ftdi_sio.c | 40 +++++++++++++++++------------------
+ 1 file changed, 20 insertions(+), 20 deletions(-)
 
 diff --git a/drivers/usb/serial/ftdi_sio.c b/drivers/usb/serial/ftdi_sio.c
-index b37fa31f5694..9993a5123344 100644
+index 75f354ef6095..d583b39b64cc 100644
 --- a/drivers/usb/serial/ftdi_sio.c
 +++ b/drivers/usb/serial/ftdi_sio.c
-@@ -628,10 +628,8 @@ static const struct usb_device_id id_table_combined[] = {
- 	{ USB_DEVICE(FTDI_VID, FTDI_IBS_PEDO_PID) },
- 	{ USB_DEVICE(FTDI_VID, FTDI_IBS_PROD_PID) },
- 	{ USB_DEVICE(FTDI_VID, FTDI_TAVIR_STK500_PID) },
--	{ USB_DEVICE(FTDI_VID, FTDI_TIAO_UMPA_PID),
--		.driver_info = (kernel_ulong_t)&ftdi_jtag_quirk },
--	{ USB_DEVICE(FTDI_VID, FTDI_NT_ORIONLXM_PID),
--		.driver_info = (kernel_ulong_t)&ftdi_jtag_quirk },
-+	{ USB_DEVICE_INTERFACE_NUMBER(FTDI_VID, FTDI_TIAO_UMPA_PID, 1) },
-+	{ USB_DEVICE_INTERFACE_NUMBER(FTDI_VID, FTDI_NT_ORIONLXM_PID, 1) },
- 	{ USB_DEVICE(FTDI_VID, FTDI_NT_ORIONLX_PLUS_PID) },
- 	{ USB_DEVICE(FTDI_VID, FTDI_NT_ORION_IO_PID) },
- 	{ USB_DEVICE(FTDI_VID, FTDI_NT_ORIONMX_PID) },
-@@ -842,24 +840,17 @@ static const struct usb_device_id id_table_combined[] = {
- 	{ USB_DEVICE(FTDI_VID, FTDI_ELSTER_UNICOM_PID) },
- 	{ USB_DEVICE(FTDI_VID, FTDI_PROPOX_JTAGCABLEII_PID) },
- 	{ USB_DEVICE(FTDI_VID, FTDI_PROPOX_ISPCABLEIII_PID) },
--	{ USB_DEVICE(FTDI_VID, CYBER_CORTEX_AV_PID),
--		.driver_info = (kernel_ulong_t)&ftdi_jtag_quirk },
-+	{ USB_DEVICE_INTERFACE_NUMBER(FTDI_VID, CYBER_CORTEX_AV_PID, 1) },
- 	{ USB_DEVICE_INTERFACE_NUMBER(OLIMEX_VID, OLIMEX_ARM_USB_OCD_PID, 1) },
- 	{ USB_DEVICE_INTERFACE_NUMBER(OLIMEX_VID, OLIMEX_ARM_USB_OCD_H_PID, 1) },
- 	{ USB_DEVICE_INTERFACE_NUMBER(OLIMEX_VID, OLIMEX_ARM_USB_TINY_PID, 1) },
- 	{ USB_DEVICE_INTERFACE_NUMBER(OLIMEX_VID, OLIMEX_ARM_USB_TINY_H_PID, 1) },
--	{ USB_DEVICE(FIC_VID, FIC_NEO1973_DEBUG_PID),
--		.driver_info = (kernel_ulong_t)&ftdi_jtag_quirk },
--	{ USB_DEVICE(FTDI_VID, FTDI_OOCDLINK_PID),
--		.driver_info = (kernel_ulong_t)&ftdi_jtag_quirk },
--	{ USB_DEVICE(FTDI_VID, LMI_LM3S_DEVEL_BOARD_PID),
--		.driver_info = (kernel_ulong_t)&ftdi_jtag_quirk },
--	{ USB_DEVICE(FTDI_VID, LMI_LM3S_EVAL_BOARD_PID),
--		.driver_info = (kernel_ulong_t)&ftdi_jtag_quirk },
--	{ USB_DEVICE(FTDI_VID, LMI_LM3S_ICDI_BOARD_PID),
--		.driver_info = (kernel_ulong_t)&ftdi_jtag_quirk },
--	{ USB_DEVICE(FTDI_VID, FTDI_TURTELIZER_PID),
--		.driver_info = (kernel_ulong_t)&ftdi_jtag_quirk },
-+	{ USB_DEVICE_INTERFACE_NUMBER(FIC_VID, FIC_NEO1973_DEBUG_PID, 1) },
-+	{ USB_DEVICE_INTERFACE_NUMBER(FTDI_VID, FTDI_OOCDLINK_PID, 1) },
-+	{ USB_DEVICE_INTERFACE_NUMBER(FTDI_VID, LMI_LM3S_DEVEL_BOARD_PID, 1) },
-+	{ USB_DEVICE_INTERFACE_NUMBER(FTDI_VID, LMI_LM3S_EVAL_BOARD_PID, 1) },
-+	{ USB_DEVICE_INTERFACE_NUMBER(FTDI_VID, LMI_LM3S_ICDI_BOARD_PID, 1) },
-+	{ USB_DEVICE_INTERFACE_NUMBER(FTDI_VID, FTDI_TURTELIZER_PID, 1) },
- 	{ USB_DEVICE(RATOC_VENDOR_ID, RATOC_PRODUCT_ID_USB60F) },
- 	{ USB_DEVICE(RATOC_VENDOR_ID, RATOC_PRODUCT_ID_SCU18) },
- 	{ USB_DEVICE(FTDI_VID, FTDI_REU_TINY_PID) },
-@@ -901,17 +892,14 @@ static const struct usb_device_id id_table_combined[] = {
- 	{ USB_DEVICE(ATMEL_VID, STK541_PID) },
- 	{ USB_DEVICE(DE_VID, STB_PID) },
- 	{ USB_DEVICE(DE_VID, WHT_PID) },
--	{ USB_DEVICE(ADI_VID, ADI_GNICE_PID),
--		.driver_info = (kernel_ulong_t)&ftdi_jtag_quirk },
--	{ USB_DEVICE(ADI_VID, ADI_GNICEPLUS_PID),
--		.driver_info = (kernel_ulong_t)&ftdi_jtag_quirk },
-+	{ USB_DEVICE_INTERFACE_NUMBER(ADI_VID, ADI_GNICE_PID, 1) },
-+	{ USB_DEVICE_INTERFACE_NUMBER(ADI_VID, ADI_GNICEPLUS_PID, 1) },
- 	{ USB_DEVICE_AND_INTERFACE_INFO(MICROCHIP_VID, MICROCHIP_USB_BOARD_PID,
- 					USB_CLASS_VENDOR_SPEC,
- 					USB_SUBCLASS_VENDOR_SPEC, 0x00) },
- 	{ USB_DEVICE_INTERFACE_NUMBER(ACTEL_VID, MICROSEMI_ARROW_SF2PLUS_BOARD_PID, 2) },
- 	{ USB_DEVICE(JETI_VID, JETI_SPC1201_PID) },
--	{ USB_DEVICE(MARVELL_VID, MARVELL_SHEEVAPLUG_PID),
--		.driver_info = (kernel_ulong_t)&ftdi_jtag_quirk },
-+	{ USB_DEVICE_INTERFACE_NUMBER(MARVELL_VID, MARVELL_SHEEVAPLUG_PID, 1) },
- 	{ USB_DEVICE(LARSENBRUSGAARD_VID, LB_ALTITRACK_PID) },
- 	{ USB_DEVICE(GN_OTOMETRICS_VID, AURICAL_USB_PID) },
- 	{ USB_DEVICE(FTDI_VID, PI_C865_PID) },
-@@ -934,10 +922,8 @@ static const struct usb_device_id id_table_combined[] = {
- 	{ USB_DEVICE(PI_VID, PI_1016_PID) },
- 	{ USB_DEVICE(KONDO_VID, KONDO_USB_SERIAL_PID) },
- 	{ USB_DEVICE(BAYER_VID, BAYER_CONTOUR_CABLE_PID) },
--	{ USB_DEVICE(FTDI_VID, MARVELL_OPENRD_PID),
--		.driver_info = (kernel_ulong_t)&ftdi_jtag_quirk },
--	{ USB_DEVICE(FTDI_VID, TI_XDS100V2_PID),
--		.driver_info = (kernel_ulong_t)&ftdi_jtag_quirk },
-+	{ USB_DEVICE_INTERFACE_NUMBER(FTDI_VID, MARVELL_OPENRD_PID, 1) },
-+	{ USB_DEVICE_INTERFACE_NUMBER(FTDI_VID, TI_XDS100V2_PID, 1) },
- 	{ USB_DEVICE(FTDI_VID, HAMEG_HO820_PID) },
- 	{ USB_DEVICE(FTDI_VID, HAMEG_HO720_PID) },
- 	{ USB_DEVICE(FTDI_VID, HAMEG_HO730_PID) },
-@@ -946,18 +932,14 @@ static const struct usb_device_id id_table_combined[] = {
- 	{ USB_DEVICE(FTDI_VID, MJSG_SR_RADIO_PID) },
- 	{ USB_DEVICE(FTDI_VID, MJSG_HD_RADIO_PID) },
- 	{ USB_DEVICE(FTDI_VID, MJSG_XM_RADIO_PID) },
--	{ USB_DEVICE(FTDI_VID, XVERVE_SIGNALYZER_ST_PID),
--		.driver_info = (kernel_ulong_t)&ftdi_jtag_quirk },
--	{ USB_DEVICE(FTDI_VID, XVERVE_SIGNALYZER_SLITE_PID),
--		.driver_info = (kernel_ulong_t)&ftdi_jtag_quirk },
--	{ USB_DEVICE(FTDI_VID, XVERVE_SIGNALYZER_SH2_PID),
--		.driver_info = (kernel_ulong_t)&ftdi_jtag_quirk },
-+	{ USB_DEVICE_INTERFACE_NUMBER(FTDI_VID, XVERVE_SIGNALYZER_ST_PID, 1) },
-+	{ USB_DEVICE_INTERFACE_NUMBER(FTDI_VID, XVERVE_SIGNALYZER_SLITE_PID, 1) },
-+	{ USB_DEVICE_INTERFACE_NUMBER(FTDI_VID, XVERVE_SIGNALYZER_SH2_PID, 1) },
- 	{ USB_DEVICE(FTDI_VID, XVERVE_SIGNALYZER_SH4_PID),
- 		.driver_info = (kernel_ulong_t)&ftdi_jtag_quirk },
- 	{ USB_DEVICE(FTDI_VID, SEGWAY_RMP200_PID) },
- 	{ USB_DEVICE(FTDI_VID, ACCESIO_COM4SM_PID) },
--	{ USB_DEVICE(IONICS_VID, IONICS_PLUGCOMPUTER_PID),
--		.driver_info = (kernel_ulong_t)&ftdi_jtag_quirk },
-+	{ USB_DEVICE_INTERFACE_NUMBER(IONICS_VID, IONICS_PLUGCOMPUTER_PID, 1) },
- 	{ USB_DEVICE(FTDI_VID, FTDI_CHAMSYS_24_MASTER_WING_PID) },
- 	{ USB_DEVICE(FTDI_VID, FTDI_CHAMSYS_PC_WING_PID) },
- 	{ USB_DEVICE(FTDI_VID, FTDI_CHAMSYS_USB_DMX_PID) },
-@@ -972,15 +954,12 @@ static const struct usb_device_id id_table_combined[] = {
- 	{ USB_DEVICE(FTDI_VID, FTDI_CINTERION_MC55I_PID) },
- 	{ USB_DEVICE(FTDI_VID, FTDI_FHE_PID) },
- 	{ USB_DEVICE(FTDI_VID, FTDI_DOTEC_PID) },
--	{ USB_DEVICE(QIHARDWARE_VID, MILKYMISTONE_JTAGSERIAL_PID),
--		.driver_info = (kernel_ulong_t)&ftdi_jtag_quirk },
--	{ USB_DEVICE(ST_VID, ST_STMCLT_2232_PID),
--		.driver_info = (kernel_ulong_t)&ftdi_jtag_quirk },
-+	{ USB_DEVICE_INTERFACE_NUMBER(QIHARDWARE_VID, MILKYMISTONE_JTAGSERIAL_PID, 1) },
-+	{ USB_DEVICE_INTERFACE_NUMBER(ST_VID, ST_STMCLT_2232_PID, 1) },
- 	{ USB_DEVICE(ST_VID, ST_STMCLT_4232_PID),
- 		.driver_info = (kernel_ulong_t)&ftdi_stmclite_quirk },
- 	{ USB_DEVICE(FTDI_VID, FTDI_RF_R106) },
--	{ USB_DEVICE(FTDI_VID, FTDI_DISTORTEC_JTAG_LOCK_PICK_PID),
--		.driver_info = (kernel_ulong_t)&ftdi_jtag_quirk },
-+	{ USB_DEVICE_INTERFACE_NUMBER(FTDI_VID, FTDI_DISTORTEC_JTAG_LOCK_PICK_PID, 1) },
- 	{ USB_DEVICE(FTDI_VID, FTDI_LUMEL_PD12_PID) },
- 	/* Crucible Devices */
- 	{ USB_DEVICE(FTDI_VID, FTDI_CT_COMET_PID) },
-@@ -1055,8 +1034,7 @@ static const struct usb_device_id id_table_combined[] = {
- 	{ USB_DEVICE(ICPDAS_VID, ICPDAS_I7561U_PID) },
- 	{ USB_DEVICE(ICPDAS_VID, ICPDAS_I7563U_PID) },
- 	{ USB_DEVICE(WICED_VID, WICED_USB20706V2_PID) },
--	{ USB_DEVICE(TI_VID, TI_CC3200_LAUNCHPAD_PID),
--		.driver_info = (kernel_ulong_t)&ftdi_jtag_quirk },
-+	{ USB_DEVICE_INTERFACE_NUMBER(TI_VID, TI_CC3200_LAUNCHPAD_PID, 1) },
- 	{ USB_DEVICE(CYPRESS_VID, CYPRESS_WICED_BT_USB_PID) },
- 	{ USB_DEVICE(CYPRESS_VID, CYPRESS_WICED_WL_USB_PID) },
- 	{ USB_DEVICE(AIRBUS_DS_VID, AIRBUS_DS_P8GR) },
-@@ -1076,10 +1054,8 @@ static const struct usb_device_id id_table_combined[] = {
- 	{ USB_DEVICE(UBLOX_VID, UBLOX_C099F9P_ODIN_PID) },
- 	{ USB_DEVICE_INTERFACE_NUMBER(UBLOX_VID, UBLOX_EVK_M101_PID, 2) },
- 	/* FreeCalypso USB adapters */
--	{ USB_DEVICE(FTDI_VID, FTDI_FALCONIA_JTAG_BUF_PID),
--		.driver_info = (kernel_ulong_t)&ftdi_jtag_quirk },
--	{ USB_DEVICE(FTDI_VID, FTDI_FALCONIA_JTAG_UNBUF_PID),
--		.driver_info = (kernel_ulong_t)&ftdi_jtag_quirk },
-+	{ USB_DEVICE_INTERFACE_NUMBER(FTDI_VID, FTDI_FALCONIA_JTAG_BUF_PID, 1) },
-+	{ USB_DEVICE_INTERFACE_NUMBER(FTDI_VID, FTDI_FALCONIA_JTAG_UNBUF_PID, 1) },
- 	/* GMC devices */
- 	{ USB_DEVICE(GMC_VID, GMC_Z216C_PID) },
- 	/* Altera USB Blaster 3 */
+@@ -107,26 +107,26 @@ struct ftdi_quirk {
+ };
+ 
+ static int   ftdi_jtag_probe(struct usb_serial *serial);
+-static int   ftdi_NDI_device_setup(struct usb_serial *serial);
++static int   ftdi_ndi_probe(struct usb_serial *serial);
+ static int   ftdi_stmclite_probe(struct usb_serial *serial);
+ static int   ftdi_8u2232c_probe(struct usb_serial *serial);
+-static void  ftdi_USB_UIRT_setup(struct ftdi_private *priv);
+-static void  ftdi_HE_TIRA1_setup(struct ftdi_private *priv);
++static void  ftdi_usb_uirt_setup(struct ftdi_private *priv);
++static void  ftdi_he_tira1_setup(struct ftdi_private *priv);
+ 
+ static const struct ftdi_quirk ftdi_jtag_quirk = {
+ 	.probe	= ftdi_jtag_probe,
+ };
+ 
+-static const struct ftdi_quirk ftdi_NDI_device_quirk = {
+-	.probe	= ftdi_NDI_device_setup,
++static const struct ftdi_quirk ftdi_ndi_quirk = {
++	.probe	= ftdi_ndi_probe,
+ };
+ 
+-static const struct ftdi_quirk ftdi_USB_UIRT_quirk = {
+-	.port_probe = ftdi_USB_UIRT_setup,
++static const struct ftdi_quirk ftdi_usb_uirt_quirk = {
++	.port_probe = ftdi_usb_uirt_setup,
+ };
+ 
+-static const struct ftdi_quirk ftdi_HE_TIRA1_quirk = {
+-	.port_probe = ftdi_HE_TIRA1_setup,
++static const struct ftdi_quirk ftdi_he_tira1_quirk = {
++	.port_probe = ftdi_he_tira1_setup,
+ };
+ 
+ static const struct ftdi_quirk ftdi_stmclite_quirk = {
+@@ -590,9 +590,9 @@ static const struct usb_device_id id_table_combined[] = {
+ 	{ USB_DEVICE(OCT_VID, OCT_US101_PID) },
+ 	{ USB_DEVICE(OCT_VID, OCT_DK201_PID) },
+ 	{ USB_DEVICE(FTDI_VID, FTDI_HE_TIRA1_PID),
+-		.driver_info = (kernel_ulong_t)&ftdi_HE_TIRA1_quirk },
++		.driver_info = (kernel_ulong_t)&ftdi_he_tira1_quirk },
+ 	{ USB_DEVICE(FTDI_VID, FTDI_USB_UIRT_PID),
+-		.driver_info = (kernel_ulong_t)&ftdi_USB_UIRT_quirk },
++		.driver_info = (kernel_ulong_t)&ftdi_usb_uirt_quirk },
+ 	{ USB_DEVICE(FTDI_VID, PROTEGO_SPECIAL_1) },
+ 	{ USB_DEVICE(FTDI_VID, PROTEGO_R2X0) },
+ 	{ USB_DEVICE(FTDI_VID, PROTEGO_SPECIAL_3) },
+@@ -792,17 +792,17 @@ static const struct usb_device_id id_table_combined[] = {
+ 	{ USB_DEVICE(FTDI_VID, FTDI_TACTRIX_OPENPORT_13U_PID) },
+ 	{ USB_DEVICE(ELEKTOR_VID, ELEKTOR_FT323R_PID) },
+ 	{ USB_DEVICE(FTDI_VID, FTDI_NDI_HUC_PID),
+-		.driver_info = (kernel_ulong_t)&ftdi_NDI_device_quirk },
++		.driver_info = (kernel_ulong_t)&ftdi_ndi_quirk },
+ 	{ USB_DEVICE(FTDI_VID, FTDI_NDI_SPECTRA_SCU_PID),
+-		.driver_info = (kernel_ulong_t)&ftdi_NDI_device_quirk },
++		.driver_info = (kernel_ulong_t)&ftdi_ndi_quirk },
+ 	{ USB_DEVICE(FTDI_VID, FTDI_NDI_FUTURE_2_PID),
+-		.driver_info = (kernel_ulong_t)&ftdi_NDI_device_quirk },
++		.driver_info = (kernel_ulong_t)&ftdi_ndi_quirk },
+ 	{ USB_DEVICE(FTDI_VID, FTDI_NDI_FUTURE_3_PID),
+-		.driver_info = (kernel_ulong_t)&ftdi_NDI_device_quirk },
++		.driver_info = (kernel_ulong_t)&ftdi_ndi_quirk },
+ 	{ USB_DEVICE(FTDI_VID, FTDI_NDI_AURORA_SCU_PID),
+-		.driver_info = (kernel_ulong_t)&ftdi_NDI_device_quirk },
++		.driver_info = (kernel_ulong_t)&ftdi_ndi_quirk },
+ 	{ USB_DEVICE(FTDI_NDI_VID, FTDI_NDI_EMGUIDE_GEMINI_PID),
+-		.driver_info = (kernel_ulong_t)&ftdi_NDI_device_quirk },
++		.driver_info = (kernel_ulong_t)&ftdi_ndi_quirk },
+ 	{ USB_DEVICE(TELLDUS_VID, TELLDUS_TELLSTICK_PID) },
+ 	{ USB_DEVICE(NOVITUS_VID, NOVITUS_BONO_E_PID) },
+ 	{ USB_DEVICE(FTDI_VID, RTSYSTEMS_USB_VX8_PID) },
+@@ -2235,7 +2235,7 @@ static int ftdi_port_probe(struct usb_serial_port *port)
+  * Setup for the USB-UIRT device, which requires hardwired baudrate
+  * (38400 gets mapped to 312500).
+  */
+-static void ftdi_USB_UIRT_setup(struct ftdi_private *priv)
++static void ftdi_usb_uirt_setup(struct ftdi_private *priv)
+ {
+ 	priv->flags |= ASYNC_SPD_CUST;
+ 	priv->custom_divisor = 77;
+@@ -2246,7 +2246,7 @@ static void ftdi_USB_UIRT_setup(struct ftdi_private *priv)
+  * Setup for the HE-TIRA1 device, which requires hardwired baudrate
+  * (38400 gets mapped to 100000) and RTS-CTS enabled.
+  */
+-static void ftdi_HE_TIRA1_setup(struct ftdi_private *priv)
++static void ftdi_he_tira1_setup(struct ftdi_private *priv)
+ {
+ 	priv->flags |= ASYNC_SPD_CUST;
+ 	priv->custom_divisor = 240;
+@@ -2265,7 +2265,7 @@ static int ndi_latency_timer = 1;
+  * Setup for the NDI FTDI-based USB devices, which requires hardwired
+  * baudrate (19200 gets mapped to 1200000).
+  */
+-static int ftdi_NDI_device_setup(struct usb_serial *serial)
++static int ftdi_ndi_probe(struct usb_serial *serial)
+ {
+ 	struct usb_device *udev = serial->dev;
+ 	int latency = ndi_latency_timer;
 -- 
 2.51.0
 
