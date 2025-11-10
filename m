@@ -1,33 +1,34 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 88916219A8D;
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8897B221542;
 	Mon, 10 Nov 2025 11:14:52 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1762773292; cv=none; b=ck2BckdsjaI8ddDIzY3DHGe9zFXeruB32nFWnxzKsjM9QgEB0/zf6DAGytfn+Db/wQGUTAsLO814BE0hxM7mBto7hXumwQpPs6hGth2eHRMpIY3wG0Q/WtRC5we2U9KaB4UHq1DLd2QicACmH9XV8WIRFvG9FmYQC1r0zI1irZI=
+	t=1762773292; cv=none; b=q+ycue6NytgGAShPI9XYVrPBdpfGQmUcsCfR/kqLvOebq+Z/bC25goOy8J/12ngrC8sQX8Bk3Wiaf7AiwFXzClKVK3vnk2AS2SkKY5wChJTpz6d22RXSo3CSwRJAyhx07xBOTjDQQceN4rbITlNKtrXs5N0EoCt8QhCains3Ip0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
 	s=arc-20240116; t=1762773292; c=relaxed/simple;
-	bh=KmkEv5bRm5BWYgNK7zilaGlWpyAsR6ksgiOjZMe4jj4=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=B0OY/Qmay6A9Zr4NW0nNIo5ZRXap9mAC5Otaq5VjzxJ2ftUMWtLVN3tUigZx0oeyfXYGL7g7li3SRCWuM/XDktrVyXxiADUE+3s+rCHqA9IiPhm0+aB9VXk/3nvCx5BSF/DnVJcmKe5bRPbHNgYZPRyNBVjwucwUnCg3TqO4BUM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=hRb3Lomc; arc=none smtp.client-ip=10.30.226.201
+	bh=kwQY3H5DoP/1fPz7GTUnd4gUvsw6u2ogPid7SVdDGFM=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version; b=V6LEY5Wk3bpv7n0jU4K9pH4PEuEDwS/U0CLds2VV80TWaT703rvXYbOk+tnOFrLp1LJZMLSky5o0PKpJZLEN+LtEyvay0JDLGe49WMZ0XZ1/RXyKEv4LFfL1AbWqLJxdW9P5TpIXQvG5hwQy9hZpIRy1xqt3xnQdQSl9zucGfdw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Xu4gUvaV; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="hRb3Lomc"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 03003C16AAE;
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Xu4gUvaV"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 09854C19421;
 	Mon, 10 Nov 2025 11:14:51 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
 	s=k20201202; t=1762773292;
-	bh=KmkEv5bRm5BWYgNK7zilaGlWpyAsR6ksgiOjZMe4jj4=;
-	h=From:To:Cc:Subject:Date:From;
-	b=hRb3Lomcij6JQVvw6nwNGrv8R1kAt9FpyyRmqUT+IInWw9V5L2GjvnSposxuMs+QT
-	 4eUtoyBqLAkZHOMa5ka6VFeQZ6/+dS/+Jn2c5oUqcQWgUQOxsgX0MQtVSLR/mkpJ/s
-	 FbUVIHs4dym340E6vjTcSEw1QHiKPBUNWhRFMX+c1gvcoC5J3NtrdV+2HZnm/DCvtA
-	 AsWkvVlFXpz/Ad/1H2z8H7QYwLIEvSA5TbJ9aGtaePyOGX7De+fxf2+V067TKcWiU5
-	 fcYPVEOQgb3CfLU0On9a70jitgJaStH8NZb0UBqpnUjSG1jrqrXkRY+/sRlbvV9Iwh
-	 /d5OFYh/bbBeA==
+	bh=kwQY3H5DoP/1fPz7GTUnd4gUvsw6u2ogPid7SVdDGFM=;
+	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
+	b=Xu4gUvaVu8AgWziONxV9OsMhF43ktHbocnLyTcPaSL5H+my9xRlpRbNNFc4fMjNnY
+	 0WgpeF935ouKDI+rKUJzoYteI6+8uC2y0u4FnPw+FrTt22h8aba52Aakl/5GZKvJ7+
+	 BimZ3CBH980oSnVSqWDc22SyqDBIFQqynfsiQy8RbLlDuyfjrUFRe6SdUCbY5775Uj
+	 wf33OCGvaOOKwrM9RgNr+oiVNmMX5yO7dXA0gkWRsuVzOOT4p8ZoXmyPl8I6HLNIy2
+	 PjuRXy5PEuYZx+7LEvtFHO/aVYvgKOIQnK419LArDPf7T45bkPql9eApsf5cBuPJH2
+	 NKwViQfWsbuJw==
 Received: from johan by xi.lan with local (Exim 4.98.2)
 	(envelope-from <johan@kernel.org>)
-	id 1vIPrH-0000000007W-1t3F;
+	id 1vIPrI-0000000007a-1Gn5;
 	Mon, 10 Nov 2025 12:14:52 +0100
 From: Johan Hovold <johan@kernel.org>
 To: Johan Hovold <johan@kernel.org>
@@ -36,10 +37,12 @@ Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
 	Andreas Messer <andi@bastelmap.de>,
 	linux-usb@vger.kernel.org,
 	linux-kernel@vger.kernel.org
-Subject: [PATCH 0/8] USB: serial: ftdi_sio: clean up quirk handling
-Date: Mon, 10 Nov 2025 12:12:04 +0100
-Message-ID: <20251110111212.32702-1-johan@kernel.org>
+Subject: [PATCH 2/8] USB: serial: ftdi_sio: silence jtag probe
+Date: Mon, 10 Nov 2025 12:12:06 +0100
+Message-ID: <20251110111212.32702-3-johan@kernel.org>
 X-Mailer: git-send-email 2.51.0
+In-Reply-To: <20251110111212.32702-1-johan@kernel.org>
+References: <20251110111212.32702-1-johan@kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
@@ -48,25 +51,51 @@ List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-A recent discussion about some JTAG devices made me revisit the ftdi_sio
-quirk handling which could use a bit of cleanup.
+Probe of a device should generally be silent unless errors are
+encountered.
 
-Johan
+Stop logging that the JTAG port is ignored when probing devices with
+such a reserved port.
 
+This also maintains consistency with devices that match on interface
+number to avoid binding to reserved ports.
 
-Johan Hovold (8):
-  USB: serial: ftdi_sio: match on interface number for jtag
-  USB: serial: ftdi_sio: silence jtag probe
-  USB: serial: ftdi_sio: rewrite 8u2232c quirk
-  USB: serial: ftdi_sio: clean up quirk comments
-  USB: serial: ftdi_sio: rename quirk symbols
-  USB: serial: ftdi_sio: enable NDI speed hack consistently
-  USB: serial: ftdi_sio: clean up NDI speed hack
-  USB: serial: ftdi_sio: drop NDI quirk module parameter
+Note that the message is not even correct for the second port of the ST
+Micro Connect Lite.
 
- drivers/usb/serial/ftdi_sio.c | 200 ++++++++++++----------------------
- 1 file changed, 68 insertions(+), 132 deletions(-)
+Signed-off-by: Johan Hovold <johan@kernel.org>
+---
+ drivers/usb/serial/ftdi_sio.c | 8 ++------
+ 1 file changed, 2 insertions(+), 6 deletions(-)
 
+diff --git a/drivers/usb/serial/ftdi_sio.c b/drivers/usb/serial/ftdi_sio.c
+index 9993a5123344..a9d3451cd628 100644
+--- a/drivers/usb/serial/ftdi_sio.c
++++ b/drivers/usb/serial/ftdi_sio.c
+@@ -2295,10 +2295,8 @@ static int ftdi_jtag_probe(struct usb_serial *serial)
+ 	struct usb_interface *intf = serial->interface;
+ 	int ifnum = intf->cur_altsetting->desc.bInterfaceNumber;
+ 
+-	if (ifnum == 0) {
+-		dev_info(&intf->dev, "Ignoring interface reserved for JTAG\n");
++	if (ifnum == 0)
+ 		return -ENODEV;
+-	}
+ 
+ 	return 0;
+ }
+@@ -2331,10 +2329,8 @@ static int ftdi_stmclite_probe(struct usb_serial *serial)
+ 	struct usb_interface *intf = serial->interface;
+ 	int ifnum = intf->cur_altsetting->desc.bInterfaceNumber;
+ 
+-	if (ifnum < 2) {
+-		dev_info(&intf->dev, "Ignoring interface reserved for JTAG\n");
++	if (ifnum < 2)
+ 		return -ENODEV;
+-	}
+ 
+ 	return 0;
+ }
 -- 
 2.51.0
 
