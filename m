@@ -1,119 +1,96 @@
-Received: from mail-ed1-f42.google.com (mail-ed1-f42.google.com [209.85.208.42])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from zeniv.linux.org.uk (zeniv.linux.org.uk [62.89.141.173])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 753E82C028D
-	for <linux-usb@vger.kernel.org>; Tue, 11 Nov 2025 09:16:13 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.42
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E3C092F1FCF;
+	Tue, 11 Nov 2025 09:22:50 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=62.89.141.173
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1762852575; cv=none; b=cAG9yjefqdiDVuk0GvewfklTdnKun46ldUPmdc5VM/M7hZXdKhosJeE53ElsMI5xD75zqf8qxHAHiGEAD/saxUxBTvu88FUZ4CFpX6loHw6GF0Qx08dDHlcPxLwwndO3Di4S/BnKYliZYdyn4iqfABy48BlJZ4rXIf0m29tFeo4=
+	t=1762852974; cv=none; b=FdXbhe1qSyDhGlx233zZGpsKLSed0W7L2rzxzqqXmXqwaC4pj5snwgHsNijgm8YyOIgR0mzahXvujOte5YH1SXQLNeZU2uaKrlQf0MOAoc+zPjJvc+Je07EMbkC8pNlRzToARNrVsl0RdhMwrvi+hOnn93JBNzZbHh93kBmbXUc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1762852575; c=relaxed/simple;
-	bh=hnP6MvOjehHku2Mba8SR807PCuY5/tHtJ5RDALFOZKo=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=froI1KZCQ/AFOLa8pnr+kDbXikO7RaIV3ruImER4C4n5f2CiI6y48qZ/OZ0gvVHwzDBO7BwLh5AdoqGX/UOvAog8MU4LVrB6z2+5NRbZzMD2C+2jYDlTk0ySj9hNXqp5abTodR1St3RYnNp9MCx4FDvIiqaAGAiE+ta+n4OMeis=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=suse.com; spf=pass smtp.mailfrom=suse.com; dkim=pass (2048-bit key) header.d=suse.com header.i=@suse.com header.b=DBvI1/9C; arc=none smtp.client-ip=209.85.208.42
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=suse.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.com
+	s=arc-20240116; t=1762852974; c=relaxed/simple;
+	bh=p9uT5LhYuBjH+4JyrxTaYxUmHijhBh4UdewuaPfrgMw=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=mtxQvz0MYTEhhhaFG9yUqEKK/1nXuXTJpxp73PWV1jGlHe6MOSBUVeG9CQkTiaV3pvUxLpi6wVQ2QSHrSpPaOd8yujVouBfFLM8y3Gbqu3G/t366Q/AfdxpfSkGT6OGM/veutDcakAOPQ6Ct1br6Fblugf/FGdhuBq2Ur9yK+bo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=zeniv.linux.org.uk; spf=none smtp.mailfrom=ftp.linux.org.uk; dkim=pass (2048-bit key) header.d=linux.org.uk header.i=@linux.org.uk header.b=Ctp6Ovrm; arc=none smtp.client-ip=62.89.141.173
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=zeniv.linux.org.uk
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=ftp.linux.org.uk
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=suse.com header.i=@suse.com header.b="DBvI1/9C"
-Received: by mail-ed1-f42.google.com with SMTP id 4fb4d7f45d1cf-640a3317b89so5894609a12.0
-        for <linux-usb@vger.kernel.org>; Tue, 11 Nov 2025 01:16:13 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=suse.com; s=google; t=1762852572; x=1763457372; darn=vger.kernel.org;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=QWPP6QWzDSQG2koCI4Uqgz32StVhYVJIJ4zaGLtn5t8=;
-        b=DBvI1/9Cy/Xuo1tGlbGlyjwRNz4devwwNzyXWJciRnnEbqbrLe5vcTd21Xy1XdI8Bu
-         RHDcT7W01ks4xNszoI0cv70IqdezTFruyOxzgoEIZyFF9GarzzSjoS6K9DUOYwwkfIbp
-         6k3ycOs+p2NH80Irorxuvk7WIGgz8TU+H/tL4ZKfG52GgEMb7aOQ/CKVT1bFPkxAmump
-         RPv1zqxxCBefUdx27KqeN7qCv8v23oncF6jqlJvb6fhRMdE0MqgCGDWL06RFn8+mRG3U
-         EkOIEAb8eE0SDX0B0SD4BzPZHFivRjaEjo84o3LZn1kXQFavcFwHpBOxFSbnWjRcasaE
-         nbgA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1762852572; x=1763457372;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :x-gm-gg:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=QWPP6QWzDSQG2koCI4Uqgz32StVhYVJIJ4zaGLtn5t8=;
-        b=uL546BM6/cETYwFB7XF1+AxfcMF2lN9PUCt2/DsMNIwqDaQCQN3OB6vRJulO7rhlMb
-         CXVynE5Q2rVbVcQ56S6PYfXjhhTi4ks/VP6ImpJTYb2b7QsRyD8SH12jnRcAISpOnXsE
-         cKYImAOT5u4nsIdxraUkl9wU/sxdFyDIZSCkm3DWrVq20HlEzYF+UUam+finLLl9sGL4
-         tWjXIbCiz5Z7ZxXwI3daS4V49bbCeRImx8l0Anh4rWw9B4cFseXGFgOkKdz2YsKa64ti
-         EFY6cmFDHtajF5bdH0y17roQ+Le42ZkNPkQeZC43CBaDXDOM8lMoaEaQWBVNQeYSnxc/
-         1Ijw==
-X-Forwarded-Encrypted: i=1; AJvYcCUm/Uk4c3T5K7p8fDMnyZ3wASM1x8mz7tgkVbSamgTG44v/mmk1r8r70fMOJN3/5NhNxOhtXv/yrJo=@vger.kernel.org
-X-Gm-Message-State: AOJu0Yy9IXQjkqRHPp28imF52kXl722vEET4GZ0em+CoVBTyFSISvA7V
-	tBMF/rXfXhXegjuG3aKoHQJQ5FUPAghjOBJTRfmY1/EV+ON2yS4zzhlOV9R4hqxhcoE=
-X-Gm-Gg: ASbGncv+eb+2hACtEGCvdP+AR/r+Nw7673eNJWn/5MvdOrESjG2D6Q8jASGKlJyg2xG
-	MC5fWZm7RE9UOmTYe7LLcjdVhVUlKeFVHboYpSlGDE4kIra21mINiBLJzkOvjOitL6+lwiO8VEv
-	aRWAEfkOPBEt+Rvq8dEwW0WH9tjlsT33DHFXNWWBJOls57SST/rXhK1oNuKz55SN/zcEPIG4e72
-	Sz1VLcMpVvy8kAGjvPA8GEll2I9yJZRBSmWyz6CbeMNKykzNxkIkm61XvmLPSYCz/q886GHM4K0
-	F9EnxDUaKHStB/O6qe5IcisvwQPW9Lvj7Rf34Y8s4hOWmtFD0Xn22DfEdVTzzBBaRgd5pH0MTTG
-	eFq80fBsojey2tmIw4z0r6RTlH369ma5EQXioiHSCMeOzAHW4iDOPVx5dqEC3/Sb/eYYzyw5oHo
-	GQWw3E2pMyJCJKLLevPDCzKfGOlTT1RSukHIZ42A==
-X-Google-Smtp-Source: AGHT+IH930mFApbAim+hsItNZIanFSAxgWzf+l4tHBB1/03gGvYojtijguoMFNaE7u/zdx8GkYVgoQ==
-X-Received: by 2002:a17:907:7ea4:b0:b6d:7859:61eb with SMTP id a640c23a62f3a-b72e0328ebemr1045116366b.29.1762852571028;
-        Tue, 11 Nov 2025 01:16:11 -0800 (PST)
-Received: from ?IPV6:2001:a61:1328:3001:f150:c1:f1a3:b448? ([2001:a61:1328:3001:f150:c1:f1a3:b448])
-        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-b72bf31286esm1299966766b.21.2025.11.11.01.16.10
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 11 Nov 2025 01:16:10 -0800 (PST)
-Message-ID: <2a6b4d25-e963-4019-857e-28eaba53a69a@suse.com>
-Date: Tue, 11 Nov 2025 10:16:09 +0100
+	dkim=pass (2048-bit key) header.d=linux.org.uk header.i=@linux.org.uk header.b="Ctp6Ovrm"
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+	d=linux.org.uk; s=zeniv-20220401; h=Sender:In-Reply-To:Content-Type:
+	MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
+	Content-Transfer-Encoding:Content-ID:Content-Description;
+	bh=bCwfGiKgiQS98umgjWmA+KBFsrU1nv1bSQtZVL8GWA8=; b=Ctp6OvrmDlcVhrBE/X7ZoCQ3Mm
+	Xi1Kuu3v9A9ck3YoCXmK1op9I0Yetdw8qK2AI5vba1hMAaukWnfiIROdNGM8k5hNagIn8U6f/DbXc
+	7SZCLXg+DPFvAEv7YeV+N51icIvjvJ4BA9fxzcVndktupx8dikc0ru0OeO7NEL1neFlRBRclduioP
+	+A1kk/KvWFGGdvC4O13Hn/THru23xl8DN4aVx/jxZMA3LSZjPRX+yCV6jcDqkkisGDgxSNnWutSwz
+	Dcn0UUwFkqHJ9NqIOreSg8eqyHMhfZXRsou5CfivhK1+HdjFA+eAI2Bchqrs8kQSodD9NTx+AIU8l
+	Ejvj79bw==;
+Received: from viro by zeniv.linux.org.uk with local (Exim 4.98.2 #2 (Red Hat Linux))
+	id 1vIkaK-0000000EqIA-1xuT;
+	Tue, 11 Nov 2025 09:22:44 +0000
+Date: Tue, 11 Nov 2025 09:22:44 +0000
+From: Al Viro <viro@zeniv.linux.org.uk>
+To: bot+bpf-ci@kernel.org
+Cc: linux-fsdevel@vger.kernel.org, torvalds@linux-foundation.org,
+	brauner@kernel.org, jack@suse.cz, raven@themaw.net,
+	miklos@szeredi.hu, neil@brown.name, a.hindborg@kernel.org,
+	linux-mm@kvack.org, linux-efi@vger.kernel.org,
+	ocfs2-devel@lists.linux.dev, kees@kernel.org, rostedt@goodmis.org,
+	gregkh@linuxfoundation.org, linux-usb@vger.kernel.org,
+	paul@paul-moore.com, casey@schaufler-ca.com,
+	linuxppc-dev@lists.ozlabs.org, john.johansen@canonical.com,
+	selinux@vger.kernel.org, borntraeger@linux.ibm.com,
+	bpf@vger.kernel.org, ast@kernel.org, andrii@kernel.org,
+	daniel@iogearbox.net, martin.lau@kernel.org, eddyz87@gmail.com,
+	yonghong.song@linux.dev, clm@meta.com, ihor.solodrai@linux.dev
+Subject: Re: [PATCH v3 36/50] functionfs: switch to simple_remove_by_name()
+Message-ID: <20251111092244.GS2441659@ZenIV>
+References: <20251111065520.2847791-37-viro@zeniv.linux.org.uk>
+ <20754dba9be498daeda5fe856e7276c9c91c271999320ae32331adb25a47cd4f@mail.kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [BUG] Edifier QR30 (2d99:a101, Jieli Technology) reboots itself
- when RGB brightness button is used under Linux
-To: Terry Junge <linuxhid@cosmicgizmosystems.com>,
- The-Luga <lugathe2@gmail.com>, Alan Stern <stern@rowland.harvard.edu>
-Cc: Dmitry Torokhov <dmitry.torokhov@gmail.com>,
- Michal Pecio <michal.pecio@gmail.com>,
- Terry Junge <linuxsound@cosmicgizmosystems.com>,
- linux-sound@vger.kernel.org, linux-usb@vger.kernel.org,
- linux-input@vger.kernel.org, Jiri Kosina <jikos@kernel.org>,
- Benjamin Tissoires <bentiss@kernel.org>
-References: <25f2419a-ee91-41eb-9446-87d238b4c7c4@rowland.harvard.edu>
- <CALvgqEBu_RzQYRSJnbu58XZt5wHX6PRD8i-J7Tovh7+KuhOyag@mail.gmail.com>
- <6999b5b2-a242-432e-8100-5d8ee58bcae8@rowland.harvard.edu>
- <CALvgqEBD05PwMpm00cAbFkpSWpCFP9jaBU0r-8+op+RGPtkktg@mail.gmail.com>
- <7adc816d-169d-4213-bb67-9d070af3c4a7@cosmicgizmosystems.com>
- <30528153-95f1-4ec7-a6bf-5da396441f86@rowland.harvard.edu>
- <xrfmda5rohporc3bjax35fc7xjziai6cmdt5svjak5rps6y6jz@k6h4zlt3jgg2>
- <CALvgqEDZ=g+uvdSYqbD22sL_VP+n6Pda2xXuFAJyKkh3bjm6HQ@mail.gmail.com>
- <CALvgqEC6UW96NEYOCM5v0m4x8Si0A7AwPuMpwXt3PMqkO3eqww@mail.gmail.com>
- <52fc4350-2930-44d3-b844-03f00806f142@cosmicgizmosystems.com>
- <1ac9d1dd-822a-487a-bd42-45c163dfbfe7@rowland.harvard.edu>
- <CALvgqED5NCNjrtv_YSfg9rzerK-xWAE5TaJjZtMBMcY=8MSk3g@mail.gmail.com>
- <c6d506f7-f13b-4d57-a522-a2ccd09e7a1f@cosmicgizmosystems.com>
-Content-Language: en-US
-From: Oliver Neukum <oneukum@suse.com>
-In-Reply-To: <c6d506f7-f13b-4d57-a522-a2ccd09e7a1f@cosmicgizmosystems.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20754dba9be498daeda5fe856e7276c9c91c271999320ae32331adb25a47cd4f@mail.kernel.org>
+Sender: Al Viro <viro@ftp.linux.org.uk>
 
-On 11.11.25 06:11, Terry Junge wrote:
+On Tue, Nov 11, 2025 at 07:53:16AM +0000, bot+bpf-ci@kernel.org wrote:
 
-> Polling for input reports is handled by the hardware at the interval
-> requested by the device during enumeration. There is no intervention by
-> the kernel to poll for an input report. The only way the kernel can stop
-> polling a device for input reports is to suspend it.
-> 
-> So ALWAYS_POLL means never suspend.
+> When ffs_epfiles_create() calls ffs_epfiles_destroy(epfiles, i - 1) after
+> the first ffs_sb_create_file() call fails (when i=1), it passes count=0.
+> The initialization loop starts at i=1, so epfiles[0].ffs is never
+> initialized.
 
-Hi,
+Incorrect.  The loop in question is
 
-that is not exactly correct. ALWAYS_POLL, means that
+	epfile = epfiles;
+	for (i = 1; i <= count; ++i, ++epfile) {
+		epfile->ffs = ffs;
+		mutex_init(&epfile->mutex);
+		mutex_init(&epfile->dmabufs_mutex);
+		INIT_LIST_HEAD(&epfile->dmabufs);
+		if (ffs->user_flags & FUNCTIONFS_VIRTUAL_ADDR)
+			sprintf(epfile->name, "ep%02x", ffs->eps_addrmap[i]);
+		else   
+			sprintf(epfile->name, "ep%u", i);
+		err = ffs_sb_create_file(ffs->sb, epfile->name,
+					 epfile, &ffs_epfile_operations);
+		if (err) {
+			ffs_epfiles_destroy(epfiles, i - 1);
+			return err;
+		}
+	}
 
-a) the device is always polled _while_ it is active
-b) if the device is suspended remote wakeup is always requested
+and invariant maintained through the loop is epfile == epfiles + (i - 1).
+We start with i == 1 and epfile == epfiles, modify neither variable in
+the loop body and increment both i and epfile by the same amount in
+the step.
 
-	Regards
-		Oliver
-
+In other words, on the first pass through the loop we access epfiles[0],
+not epfiles[1].  Granted, the loop could've been more idiomatic, but
+it is actually correct.
