@@ -1,245 +1,152 @@
-Received: from CH4PR04CU002.outbound.protection.outlook.com (mail-northcentralusazon11013038.outbound.protection.outlook.com [40.107.201.38])
+Received: from zeniv.linux.org.uk (zeniv.linux.org.uk [62.89.141.173])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E1CF92D878C;
-	Tue, 11 Nov 2025 06:21:18 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=40.107.201.38
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1762842080; cv=fail; b=d1k1fTrJ8/+W8xsPQ+LY4LeKnDSTlRbYpcPMtGYwBqkOjX182QUR5sKOS3VV6UzopftnVz6dpoujzaWnHgbXKj2yX06C0CztKy5hQeoVgwFtAh7ijK5+0KnnZHUFpeQuuRclivveqlNBLpXBn8FGXN5aH2TZkPWAQUZ2QEsUDQw=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1762842080; c=relaxed/simple;
-	bh=k/TjjbL5jem4FUbUlHLlTVyeB5QpN+wochC1vtP1de8=;
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9F5FF330B17;
+	Tue, 11 Nov 2025 06:55:27 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=62.89.141.173
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1762844130; cv=none; b=lftdVszRxElBmGTaIOjAVJE86fYYx5geAmNxq1V/cV0ualgcg6kyM0w97iw889AJ/9fRJoOERuVX7tz5Pf1xSi3/vqUQlvGiczrAr7YKzubmnDRqwUzzkhNVSYmuJMmIvwBJTwiyTEIhyrjeCGEgu9RII8ATvco/FhvpdAcdxEE=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1762844130; c=relaxed/simple;
+	bh=CyVivJufSb4sh4+oM9l7NXmE+V2B9EmDQGjIticKJ8E=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 Content-Type:MIME-Version; b=R0Ur6/Ch8OQ68CA+W9P8R+oOUXHfiRdK5K9ot2IHUwO9SKg7OpKiacPWt0wImb1sQOdQM3uFFJ6R5vBkvDtcEwAEB90cJfOaxQbytFRKBck/Q3C9HMZ8sFbbotrO6z8PvdtW4bTMKyuyMnCT6Gj9bGVP3IjzPJx3SVbVLQmUWl4=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=altera.com; spf=pass smtp.mailfrom=altera.com; dkim=pass (2048-bit key) header.d=altera.com header.i=@altera.com header.b=DKx0IIxt; arc=fail smtp.client-ip=40.107.201.38
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=altera.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=altera.com
+	 MIME-Version; b=MFJwjVQTKVzkEM8VW+MoWT2Dnnpa0WUfoA4RUT0Kzsgc3bampJrOVjjaTvJACyNF8Apnu16BMAO9zc4hL4U0qel82i3ROxPGAHX+Q6Uah4AFpolMdAUQyHsbR7dazeqW4Ix5xb/bK9nxRsQGfuvj7M6KrJGH/RDkc6LBztoxHeA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=zeniv.linux.org.uk; spf=none smtp.mailfrom=ftp.linux.org.uk; dkim=pass (2048-bit key) header.d=linux.org.uk header.i=@linux.org.uk header.b=bfOYqpnw; arc=none smtp.client-ip=62.89.141.173
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=zeniv.linux.org.uk
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=ftp.linux.org.uk
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=altera.com header.i=@altera.com header.b="DKx0IIxt"
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=LZY62dlieHxzwrbrZJcKnvmFObI2l5oUccj9jj7SVPubNEC+YiPmsc5wVT+fzRDFK/yRm7KMUqU3/YGSXO7aUATotzIpKF5N1hP5efRw7Zft3RXEtbOXGfsDTX5nP3wvOwibht73XBrnQN78r5JqhLamv7lcnopWqt5djuIU6+9ZpO6BNmGNOA+ytGiBqd7y8INt+19beMaZAvXOM04BnET7b17P9UbXy8dQ1t27ZfHysRsZTRteriojWqGfIZHC8mXuOBjP56i3RPY1FyYGtqZPOqDfZH1J+mwnabAvxYygzf8o8xk3A9KoFveaySEwkmmEDNxQ4eoSsZ7udDvZoQ==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=7KNzzFC0TvRcz8JLcx5BtRh2tStRWwyn2lSvklpovrw=;
- b=vmGDjD9GgHD40qAFDchRHYVEh9H+9tqsA1F5scDJX5nj6g4/n9Pmz/5Gtcmh9ka+6GV8fSGN5L9VJ69pgMqZNvn4c+G8COJRYXi0giVCnX6PYLe3ShSt0+6waLmWjJMJ5u2JBtHe1g0nGwZ6lVi1uRrgtkVD7RC3li/DD0PKKQUllVvexFh/PDjlmecBlIZ15qZXU3erPRB9zWgktioAqBZuT34lqLhQJFv81DktHZJ8pi29ddpeRO21SZrf4AL5/yxcew5e0Lr+Fyb2cgAeHuQ/x7A2+QtBUFVOEGPWva/kYEsKag7JpvvTEkhag2s6PGLV+pV81VvLSOa15rwxZA==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=altera.com; dmarc=pass action=none header.from=altera.com;
- dkim=pass header.d=altera.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=altera.com;
- s=selector2;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=7KNzzFC0TvRcz8JLcx5BtRh2tStRWwyn2lSvklpovrw=;
- b=DKx0IIxtVA9zAfWzn+B23cb3ozO4oxoeqdh8SgwV/lngi9jV3hV7b77i3UBHvYMW/dwBRKX0uV8kVoDt3G0RbopCQ6L/FE7tRGyGZ2do/c4xGkCQJeo3QnkelAcmxOgGTPB2MOiSqOuIlGwXayAmi3NmSXSjMcnE1IT9Oo4o0bN9MyNnrFfKXqM+OVd8wVX2uHMIbNifyPhAt0uJxkxblDXQ4/jasSzWuWp+K02QzCncGpxb5R85hLowFSRyUwjcfXTA9msyefGiWlIa/9TJCFx7iF24o3WtdvLz9JWyXNERtHZ7PGZGUwU4q+xaT3X1wImsohZx55iFtP6bvc2WCA==
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=altera.com;
-Received: from DM8PR03MB6230.namprd03.prod.outlook.com (2603:10b6:8:3c::13) by
- DM6PR03MB5049.namprd03.prod.outlook.com (2603:10b6:5:1ee::15) with Microsoft
- SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.9298.16; Tue, 11 Nov 2025 06:21:17 +0000
-Received: from DM8PR03MB6230.namprd03.prod.outlook.com
- ([fe80::abad:9d80:7a13:9542]) by DM8PR03MB6230.namprd03.prod.outlook.com
- ([fe80::abad:9d80:7a13:9542%3]) with mapi id 15.20.9298.015; Tue, 11 Nov 2025
- 06:21:17 +0000
-From: adrianhoyin.ng@altera.com
-To: gregkh@linuxfoundation.org,
-	robh@kernel.org,
-	krzk+dt@kernel.org,
-	conor+dt@kernel.org,
-	dinguyen@kernel.org,
-	Thinh.Nguyen@synopsys.com,
-	devicetree@vger.kernel.org,
+	dkim=pass (2048-bit key) header.d=linux.org.uk header.i=@linux.org.uk header.b="bfOYqpnw"
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+	d=linux.org.uk; s=zeniv-20220401; h=Sender:Content-Transfer-Encoding:
+	MIME-Version:References:In-Reply-To:Message-ID:Date:Subject:Cc:To:From:
+	Reply-To:Content-Type:Content-ID:Content-Description;
+	bh=TcFcmzxfGV+3rJDGgJ/eg0JcSdO3AKCKkQ7NxQ/vrvI=; b=bfOYqpnwRITYWirzu325V+Vjft
+	4P70PiidxpZzvKaDpbtGKJZ7Z7kz6ULfRHNrRj/WhL+Opb09PfOAkeMHjytlfhR5QIfbTxRuY/lkk
+	/SP/qvo6ubJuLtRmW3riFd9ATus8rT+PHyY9X1HWRv2hv7DJJ2L7Ccaz4SET8eWwIQLJ+goThnlDi
+	vkXMMPnDq1aZDyW1sUWNd7e6NenMqgpjtXspP5i7WkLuyOipur7dG97xmgp/Mmhh9IBeuSaH76i9V
+	Rv8y20iWmbTDwzQuWzvArRCwYZiu969sFh4ctU9PLoErZxvGh/parpyMzgOk9czyg9AZyT20F80Sa
+	ixjYrEeA==;
+Received: from viro by zeniv.linux.org.uk with local (Exim 4.98.2 #2 (Red Hat Linux))
+	id 1vIiHl-0000000BwzW-1uyd;
+	Tue, 11 Nov 2025 06:55:25 +0000
+From: Al Viro <viro@zeniv.linux.org.uk>
+To: linux-fsdevel@vger.kernel.org
+Cc: torvalds@linux-foundation.org,
+	brauner@kernel.org,
+	jack@suse.cz,
+	raven@themaw.net,
+	miklos@szeredi.hu,
+	neil@brown.name,
+	a.hindborg@kernel.org,
+	linux-mm@kvack.org,
+	linux-efi@vger.kernel.org,
+	ocfs2-devel@lists.linux.dev,
+	kees@kernel.org,
+	rostedt@goodmis.org,
+	gregkh@linuxfoundation.org,
 	linux-usb@vger.kernel.org,
-	linux-kernel@vger.kernel.org
-Cc: adrianhoyin.ng@altera.com
-Subject: [PATCH 4/4] usb: dwc3: add support for configurable DMA addressable bits
-Date: Tue, 11 Nov 2025 14:18:48 +0800
-Message-ID: <c69076470c19fc03d92fc04cdb10960873bc2bc0.1762839776.git.adrianhoyin.ng@altera.com>
-X-Mailer: git-send-email 2.49.GIT
-In-Reply-To: <cover.1762839776.git.adrianhoyin.ng@altera.com>
-References: <cover.1762839776.git.adrianhoyin.ng@altera.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-X-ClientProxiedBy: KUZPR01CA0024.apcprd01.prod.exchangelabs.com
- (2603:1096:d10:26::14) To DM8PR03MB6230.namprd03.prod.outlook.com
- (2603:10b6:8:3c::13)
+	paul@paul-moore.com,
+	casey@schaufler-ca.com,
+	linuxppc-dev@lists.ozlabs.org,
+	john.johansen@canonical.com,
+	selinux@vger.kernel.org,
+	borntraeger@linux.ibm.com,
+	bpf@vger.kernel.org
+Subject: [PATCH v3 24/50] convert ibmasmfs
+Date: Tue, 11 Nov 2025 06:54:53 +0000
+Message-ID: <20251111065520.2847791-25-viro@zeniv.linux.org.uk>
+X-Mailer: git-send-email 2.49.0
+In-Reply-To: <20251111065520.2847791-1-viro@zeniv.linux.org.uk>
+References: <20251111065520.2847791-1-viro@zeniv.linux.org.uk>
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: DM8PR03MB6230:EE_|DM6PR03MB5049:EE_
-X-MS-Office365-Filtering-Correlation-Id: bbdbb286-5a62-4754-90dc-08de20ea85b0
-X-MS-Exchange-AtpMessageProperties: SA
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;ARA:13230040|1800799024|376014|366016;
-X-Microsoft-Antispam-Message-Info:
-	=?utf-8?B?RjZlOEl5UVVkRXAydEhFQ2pReDdrREhlNmdvZ2Qxb3ZlM1JaMEhuSFB5TWor?=
- =?utf-8?B?eXNwTmUvUCt3ZGlYOGV5aSt6SE42K1hScW1JRmlQb0NEZkQyQkxCbW5WWHJi?=
- =?utf-8?B?bWFrNkVVSnFHYm1jczYrSVdiSkNoK21jeWNRNkQwcktVU3FVL09uT1NrR0NO?=
- =?utf-8?B?QVVXcnRlNWZwcmhhbTlLM1FTSVVDM0p0bXFHclNYaEpVbzBlODliWnRYMC9Q?=
- =?utf-8?B?V2ZyWVYvU3BsYm8zSnZmWmJIVmVodW14U2h6dXA4UFhLVmx6T2NGbCt1bkxU?=
- =?utf-8?B?UVA3ckRWYVQ1VW5YU3lzaG1PUXFXNDVoMUdYSk1Sa0d5NHZteG9neFlIZktS?=
- =?utf-8?B?SWIzQ2gxM1JwcXFOOFZDSFNKTXRUdE5pNHFYKzE5dkF4UnJPbHNrZ2NzMEN4?=
- =?utf-8?B?aGRZV3Q2akVuZXhEdTN6amtocDhZTHowM3V6MlFNZkRxQ2xSSGQvaFdGbWlx?=
- =?utf-8?B?L3h3dlJjUWRmbThlTmhTV1FYdGFoMnYyVTNhVGZSTlN6WkVrSTVrcnQ5SUs2?=
- =?utf-8?B?My93UDdzQUVQd3cxcS96YUh0aUVYdlhyR0c4RlRDQ2l4NUtKUlVaRkFEdndu?=
- =?utf-8?B?SzBramRHVTd4RDgyQlR4TFVYLzYvUS8vcjg5UzZCMTdSNGg1dmxnQ1crVlRz?=
- =?utf-8?B?ZVVSYUttNzVaTlVsM1o2dXBLVy9vd1NUbW1iekFYZURrVy94MXRxTnA4a0Z4?=
- =?utf-8?B?TjZyTGI1b25hU1lTSE5Pb1YxOEZaKzUxWUczY1lMbVZCWHEwa09WQStvQnJJ?=
- =?utf-8?B?NDdyS3gwMXZoQ3hkd3dGMFI1a1YzWVZNK2tGUmdhMFlkakp0c1BwMHUvaTBu?=
- =?utf-8?B?M1lqck9mRFNKY1lPeStSc0JXbkFNbzYza2FpUVprdlltdGN1OWEwdHlJek1w?=
- =?utf-8?B?R1dlTmR6ZnFnMFZ6L1F1WWJ4YWRGMlI2L2p0YjRCblJJOVVDQm9nYjNacXA5?=
- =?utf-8?B?WVcyWnNvYTBhL09DeDlRaVNLVVM2bCtqN2ZWTGJKV0Y4MEFNNGhoMGIvVjN1?=
- =?utf-8?B?MDNCRVZlZkN6R285VVl2SHFlNC8ydTVjWWJ1S1A2NC9hZE15SjdBNTZ6dEIr?=
- =?utf-8?B?ZURmVGJFNTRHeGt4TkRDY3RwT3ZaTGZIOHVkcUk0TDI2Q040dHdsaHhUTXdh?=
- =?utf-8?B?bHByakdiMkRSd01ENkV2YlkrdDAvM2RlVHI1ZlNtZFIzQUlEVldFbjA0UzNU?=
- =?utf-8?B?VUZlVngwT3FFazZwellvVXBuNlQ5RFpGdStWZlZTMXB4MnlhOGtqTUZyM1lm?=
- =?utf-8?B?cGdSNTdGNmtJQTlSL3dQRWYzWEx6QlZ0QjJpS1B2SmMwUFFTcyt5dXlnaDR1?=
- =?utf-8?B?dG1UbnZMRXFhQWdxNnBSYUNSSk1YMXhON0hHK0dzRHQ3OGlpRXBUdWkydE5t?=
- =?utf-8?B?UVFYSGdCSEpBL1p5OEJlazBsUGY4T2hNQzZ2M3dJekIrbDVkeUxiSHdUODcw?=
- =?utf-8?B?T1pITUxraEtHZFpJbGw0TUlWRnhVRHo3dFNTam9CRjI2RS9kb2JRS3dvS0JT?=
- =?utf-8?B?MnQ3d2ZaYUJoS0JiaTY5Y3pkbFA2bUdTcUtLUmVtYUoyYmxzVzljTWx2M3BL?=
- =?utf-8?B?eEY5VW1DMHZrOGtzVk9SVnJYdXQ2WTFOYldUTjR4dEllRENNTlExaEpEYUVh?=
- =?utf-8?B?S3FGVmpSOXc5KzJIdDhFakIybGpTbWZOTEg4ZEZIUmpNZjBzWHl1UFBIOEdn?=
- =?utf-8?B?U1gyVmI2b2hJbXRSQVoyK052WGdZbmpPb3JIR0UwTlZGRGsvdFY3ZGczaWNJ?=
- =?utf-8?B?d1JzR2JQV2VBdFNoelBITTlPT05iaVpuemlwZVpnRVh2NUFGUGhULzZsSkpL?=
- =?utf-8?B?eXM3NVFHYXR3ODVXdzM5UkFYZlo4bVJFT0Z1L1RWQ05tN3RFdTViSERqZm9I?=
- =?utf-8?B?VmswRmtFUjEzenJ6OGwwZVNpbFZZWUpuL1RzN3UrU0w3a3Fmd0pmQjVrdWlB?=
- =?utf-8?Q?Sk2Yf15GyMFACu8Dc3a2ek9dEmBL6ap7?=
-X-Forefront-Antispam-Report:
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:DM8PR03MB6230.namprd03.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(1800799024)(376014)(366016);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0:
-	=?utf-8?B?TitKWUdGT0JxNkN1bEJIT0pLT045VmtFUmVUWkFackdsQndrRU9yY3hVQ1dk?=
- =?utf-8?B?VXBVZ1ZHbmtoZGthYzA4ZG1ZdW9yalduRkxTZWxOblRkTFdjVnZFZGtMVzZC?=
- =?utf-8?B?T3lpM3FuM0p5Zm1XNTErNitrOGVOcmNSSGhzVFhGYXJnK0Y4OUs3R21BOExI?=
- =?utf-8?B?VE9Nb054NFVORHJyZFJOMWUxTzRQRDdoV3hMSU9qL3Q1TW9zMkZyeW81c1Zi?=
- =?utf-8?B?MEtnVXNySmNlSWFuRE00bTh4dHM4Yi9wT0ZXRWNVYThtSGMrUFIva2pxL0Ft?=
- =?utf-8?B?RzczU0M5b0RtUy94cTZnSFE2N040THkwZ2hUZForY2lpS3N4SnViaWFyL3U5?=
- =?utf-8?B?cFNBSTRZK0I4RjdZSVVFTXB0bUVPc2FNWEEvdXdpenplWWp6OXR6M0M3eWU5?=
- =?utf-8?B?RGNISWVKancwd1FXTnNPRUhyNU1OTmp2eDJtdE1pbWR4NFFSUzBQbTQxVWxO?=
- =?utf-8?B?bmU5dTkrUkVFRWgwa1N1bS8xcjY1b1ZFSnNCb3NTamdJWW10WEk0RzBUYjVP?=
- =?utf-8?B?eHRqeTVUeDF4b2lkSGZEL0hQbnBXYmYrbFE4UnZPWEVMdEJaYUFGaG1jUjdU?=
- =?utf-8?B?VSsrUFBqNS9aaklGaTZ3N3hYR0MyS2pNb0luRitHeWZrWXJXZ3NjaWsyKzhK?=
- =?utf-8?B?aUgvaEtHLzNyN1BvRmhtbmNqWHdxWDdNclpwY0pzcTBwRnlzU2VlbDE5RTBi?=
- =?utf-8?B?QkdoZEZnSVdqcSs0dzg2YXI1V1AyNDJhQUJpWGZicnJRUmNTVDROSFFsZDFr?=
- =?utf-8?B?d0hqN0Z0MzBFS0pwWFE0T3NiU1Q4NTg2WVZraFlEMGZJT1hYTTEvM28vSGhl?=
- =?utf-8?B?c0xlSDdacXFDUGVzSnNLcjlPS3h5a0I4elpwZUxidDlyOTVXSGkyc2JGWHZa?=
- =?utf-8?B?SnNaMnBmMXNpU1d5YzhWWkNoLzJzTUNHQkpxZUdsRmZpUHVWSFFNQ0wxbVR1?=
- =?utf-8?B?UDhMeWd0eWxhMXNmOVdQUkNiWEdTUzQ2ODBlNzk2d1JzK205UmVUL1ZnRTlD?=
- =?utf-8?B?NFhuNGs3My9BV0Z2RHdpMnI1eTR6TW1lUEJ2VUZaS003WUgvRnR6QWtuMkZv?=
- =?utf-8?B?dFdzbkxiK0RSSkx6S05JSVdvdWVuZ20zRStwZ0NacmFnZnFsQk0xTTFFWWcr?=
- =?utf-8?B?am9wenVQVkhxbnA0ZlU0bmRpMmdZUWdjclNnUzMrUENYT3ZhRU1oaDlHVmk2?=
- =?utf-8?B?N1ladUgzOU84ZUdPaURsZmltVmhYdENwZUc0ckh4ZWYwRENVUnJQUkVtRGlP?=
- =?utf-8?B?eUZYd0RXdVRqaE1Gc2c4OGRNRVN3c2VHdFhKTDZNSGJXMFRLajFwb2RISEc4?=
- =?utf-8?B?TUtyNVFaYVY4TEJoa3ZVT2sxcXRmL1MvTWdDZVRiNkNCSUFwUFhxZjlVNHVt?=
- =?utf-8?B?U25pek5kcFVRQUpONE1SYUU3ckZYVElNRjJ1bWRSQUlUNGRMZEU0OUd1SkRt?=
- =?utf-8?B?TWNlZTJMSklxa1ZtR29zZzJnbWpnbjlSM1JobnN3WWF2R2twbmRsQ0JBbFpU?=
- =?utf-8?B?R2taVUpELzRjYVRlRnZuZTZ5Q1UzZSt4b2tySDNlbkdjbkl3ZFFvR1ZwaXZj?=
- =?utf-8?B?UjRKNEtCMDBTZzlwTFcrelZnUGFIVC9sd0ZLS1dXdVdJY0FDLzFzQ09vd29w?=
- =?utf-8?B?VmFuT2FLWEdLM3liNkNxQ0svNzMrK2t5aHFpSTM4WE1OMEtDeUVFeENjKy8z?=
- =?utf-8?B?ZzMvSFFUZ1NSeTFycDhRRGMxTUx2QWVjb3pwYUo4SkJxRnEvYk5pMnNpZjk5?=
- =?utf-8?B?YnRpRUpxRTJxSnZ4UU1CTnFjaE1UaEV5VUpTUUtGZ0I4UXZYaHlpc2tUbWVu?=
- =?utf-8?B?MWo5THFjUzUrMnpHU1ZITjBQN3dCclVTaUYrMklwRkJ6SDVGT296NjRhNVhT?=
- =?utf-8?B?VkpzS3ovdVR2RUJ1R0lLQ0Mxd0MwZ2dKbkI0K0ZZZnQ4VmxvUDBaaGJMUWFS?=
- =?utf-8?B?d090K2x5QXlqWHVQeUlsTWRxWlVEK0dMMjdjSmNGUVU5YVVTb1lhRVJQd3ZY?=
- =?utf-8?B?bUVrWExqYTJvUVRPV0oramh6Sk4rRlV0L25PWE9xeVA2U3B5Q3M5SCsvNzhh?=
- =?utf-8?B?RzhPN0g0NlByVDljUjhBUWdVTU5HS2NKMkwzMlVhdUNnaVlwaGZiL2hUejI1?=
- =?utf-8?B?bzRtSTQvMUwvV3Z6VTR1RDljNnhxa3RBaENBc0cxYzg5U1ozeWFkMkMvOGNE?=
- =?utf-8?B?WFE9PQ==?=
-X-OriginatorOrg: altera.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: bbdbb286-5a62-4754-90dc-08de20ea85b0
-X-MS-Exchange-CrossTenant-AuthSource: DM8PR03MB6230.namprd03.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 11 Nov 2025 06:21:17.1309
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: fbd72e03-d4a5-4110-adce-614d51f2077a
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: w2BoAYLZkqw9WxxktW0btxj0/fg5iZV6ovAIqpdOxJk6UGUAeCb+WT7nZiwOfcidhZAbo+zNWcIV6mt7QVOYyGVZVOsGza10i7Pa+JH7xKg=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: DM6PR03MB5049
+Content-Transfer-Encoding: 8bit
+Sender: Al Viro <viro@ftp.linux.org.uk>
 
-From: Adrian Ng Ho Yin <adrianhoyin.ng@altera.com>
+static contents for each "service processor", whatever the fuck it is.
+Congruent subdirectories of root, created at mount time, taken out
+by kill_litter_super().  All dentries created with d_alloc_name() and are
+left pinned.  The odd part is that the list of service providers is
+assumed to be unchanging - no locking, nothing to handle removals or
+extra elements added later on.
 
-Add support for configuring the DMA addressable bit width in the
-Synopsys DesignWare USB3 (DWC3) core driver.
+... and it's a PCI device.  If you ever tell it to remove an instance,
+you are fucked - it doesn't bother with removing its directory from filesystem,
+it has a strange check that presumably wanted to be a check for removed
+devices, but it had never been fleshed out.
 
-Altera Agilex5 supports only 40-bit DMA addressing. Setting an incorrect
-DMA mask (such as the default 64-bit) can lead to address truncation or
-translation faults when the SMMU is enabled.
+Anyway, d_add() -> d_make_persistent()+dput() in ibmasmfs_create_dir() and
+ibmasmfs_create_file(), and make the latter return int - no need to even
+borrow that dentry, callers completely ignore it.
 
-This commit introduces a new field, dma_addressable_bits, in the dwc3
-structure to track the platform’s supported DMA width. The default value
-is set to 64 bits, but for Agilex5 platforms (altr,agilex5-dwc3), the
-value is overridden to 40 bits. This field is then used when setting the
-DMA mask to ensure compatibility with the system’s actual address bus
-capabilities.
-
-Signed-off-by: Adrian Ng Ho Yin <adrianhoyin.ng@altera.com>
+Signed-off-by: Al Viro <viro@zeniv.linux.org.uk>
 ---
- drivers/usb/dwc3/core.c | 9 ++++++++-
- drivers/usb/dwc3/core.h | 3 +++
- 2 files changed, 11 insertions(+), 1 deletion(-)
+ drivers/misc/ibmasm/ibmasmfs.c | 18 ++++++++++--------
+ 1 file changed, 10 insertions(+), 8 deletions(-)
 
-diff --git a/drivers/usb/dwc3/core.c b/drivers/usb/dwc3/core.c
-index ae140c356295..20e655364135 100644
---- a/drivers/usb/dwc3/core.c
-+++ b/drivers/usb/dwc3/core.c
-@@ -2179,6 +2179,9 @@ int dwc3_core_probe(const struct dwc3_probe_data *data)
- 	dwc->xhci_resources[0].flags = res->flags;
- 	dwc->xhci_resources[0].name = res->name;
- 
-+	/* Initialize dma addressable bit to 64 bits as default */
-+	dwc->dma_addressable_bits = 64;
-+
- 	/*
- 	 * Request memory region but exclude xHCI regs,
- 	 * since it will be requested by the xhci-plat driver.
-@@ -2194,6 +2197,9 @@ int dwc3_core_probe(const struct dwc3_probe_data *data)
- 			dwc_res.start += DWC3_RTK_RTD_GLOBALS_REGS_START;
- 		}
- 
-+		if (of_device_is_compatible(parent, "altr,agilex5-dwc3"))
-+			dwc->dma_addressable_bits = 40;
-+
- 		of_node_put(parent);
- 	}
- 
-@@ -2243,7 +2249,8 @@ int dwc3_core_probe(const struct dwc3_probe_data *data)
- 
- 	if (!dwc->sysdev_is_parent &&
- 	    DWC3_GHWPARAMS0_AWIDTH(dwc->hwparams.hwparams0) == 64) {
--		ret = dma_set_mask_and_coherent(dwc->sysdev, DMA_BIT_MASK(64));
-+		ret = dma_set_mask_and_coherent(dwc->sysdev,
-+						DMA_BIT_MASK(dwc->dma_addressable_bits));
- 		if (ret)
- 			goto err_disable_clks;
- 	}
-diff --git a/drivers/usb/dwc3/core.h b/drivers/usb/dwc3/core.h
-index a5fc92c4ffa3..ddc42c88da93 100644
---- a/drivers/usb/dwc3/core.h
-+++ b/drivers/usb/dwc3/core.h
-@@ -1180,6 +1180,8 @@ struct dwc3_glue_ops {
-  * @wakeup_pending_funcs: Indicates whether any interface has requested for
-  *			 function wakeup in bitmap format where bit position
-  *			 represents interface_id.
-+ * @dma_addressable_bits: set if we need to configure a different
-+ *			dma-bit-mask other than 64 bits.
-  */
- struct dwc3 {
- 	struct work_struct	drd_work;
-@@ -1414,6 +1416,7 @@ struct dwc3 {
- 	struct dentry		*debug_root;
- 	u32			gsbuscfg0_reqinfo;
- 	u32			wakeup_pending_funcs;
-+	u32			dma_addressable_bits;
+diff --git a/drivers/misc/ibmasm/ibmasmfs.c b/drivers/misc/ibmasm/ibmasmfs.c
+index b26c930e3edb..a6cde74efb68 100644
+--- a/drivers/misc/ibmasm/ibmasmfs.c
++++ b/drivers/misc/ibmasm/ibmasmfs.c
+@@ -103,7 +103,7 @@ static struct file_system_type ibmasmfs_type = {
+ 	.owner          = THIS_MODULE,
+ 	.name           = "ibmasmfs",
+ 	.init_fs_context = ibmasmfs_init_fs_context,
+-	.kill_sb        = kill_litter_super,
++	.kill_sb        = kill_anon_super,
  };
+ MODULE_ALIAS_FS("ibmasmfs");
  
- #define INCRX_BURST_MODE 0
+@@ -144,7 +144,7 @@ static struct inode *ibmasmfs_make_inode(struct super_block *sb, int mode)
+ 	return ret;
+ }
+ 
+-static struct dentry *ibmasmfs_create_file(struct dentry *parent,
++static int ibmasmfs_create_file(struct dentry *parent,
+ 			const char *name,
+ 			const struct file_operations *fops,
+ 			void *data,
+@@ -155,19 +155,20 @@ static struct dentry *ibmasmfs_create_file(struct dentry *parent,
+ 
+ 	dentry = d_alloc_name(parent, name);
+ 	if (!dentry)
+-		return NULL;
++		return -ENOMEM;
+ 
+ 	inode = ibmasmfs_make_inode(parent->d_sb, S_IFREG | mode);
+ 	if (!inode) {
+ 		dput(dentry);
+-		return NULL;
++		return -ENOMEM;
+ 	}
+ 
+ 	inode->i_fop = fops;
+ 	inode->i_private = data;
+ 
+-	d_add(dentry, inode);
+-	return dentry;
++	d_make_persistent(dentry, inode);
++	dput(dentry);
++	return 0;
+ }
+ 
+ static struct dentry *ibmasmfs_create_dir(struct dentry *parent,
+@@ -189,8 +190,9 @@ static struct dentry *ibmasmfs_create_dir(struct dentry *parent,
+ 	inode->i_op = &simple_dir_inode_operations;
+ 	inode->i_fop = ibmasmfs_dir_ops;
+ 
+-	d_add(dentry, inode);
+-	return dentry;
++	d_make_persistent(dentry, inode);
++	dput(dentry);
++	return dentry; // borrowed
+ }
+ 
+ int ibmasmfs_register(void)
 -- 
-2.49.GIT
+2.47.3
 
