@@ -1,151 +1,92 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.12])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-qt1-f170.google.com (mail-qt1-f170.google.com [209.85.160.170])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2F1FE3375C4
-	for <linux-usb@vger.kernel.org>; Tue, 11 Nov 2025 10:01:30 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.12
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0A5972FDC20
+	for <linux-usb@vger.kernel.org>; Tue, 11 Nov 2025 10:22:51 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.160.170
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1762855293; cv=none; b=EZyXCUBbIcMouRMes559ryWVq61TsjmAAww4aD/0KY13NsPx06MsrbmjvY2gDRhTkpy34W/OZF1VLEN3z3N9eTcXSM7YIf9rBHTO09BnDpewPMvMGnbueyZK/3SwpnnhXanrq4gBVrSgvTF6LDEjr2J2rHvRCyGhNXqVZco4yE4=
+	t=1762856575; cv=none; b=O5jWzb3zuxRS0Ty8wE2xiTxaAp7sHV1LYCUWiO3hEw26liuy3fhQdzgxPGJ+qyr4F1jrIUkAd866TI4e+ny4jCpLB9+Chgbrwna/ZcamQab8ej6ClO89l7Q3DswjawSddkHHenwsoO9tSYAlh/v8aAEHfDoPyM/+MjJ1KqN/Tco=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1762855293; c=relaxed/simple;
-	bh=/TVqiTjU5KiiPK+xQ41EdIpWWk4P2nFDrGfU+Hsk/ko=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=GOKGiW0woyT427onlNqBedTXHxirxfpxfNYA95kLwWLzOIB3of0nhGuRamKIpqhOGQnoPDELaQAxA0agmKYudZZI6ngBZj3md2mCxeiZekBx5WqoXdV3ePZCCYj2/byR3x4PtmB3sur/QKEPEH2Xy6LoeAW0GgXu2d4OPumsT0o=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Nf9DlrVh; arc=none smtp.client-ip=192.198.163.12
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	s=arc-20240116; t=1762856575; c=relaxed/simple;
+	bh=JrxCJS6doR540ni5O4K+fTfT2J1vhfEKtnYrNkU/J6o=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=eYpFhwQ1pBoZb6eZgA1cxrOY3Ldi21V//UcoLn4BKEgB/5iBWbrePl5Si3wZulzFv4Ewf11qa5u5paLog8ftcmL0vaIqR+XevVjhpoKberQ8ZLM9gTzJYXdYNApMYFxKW/YIOdRNVZq03e18Qd8qCeWnnd7R5WrOTuyp2T3cn3E=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=szeredi.hu; spf=pass smtp.mailfrom=szeredi.hu; dkim=pass (1024-bit key) header.d=szeredi.hu header.i=@szeredi.hu header.b=Cxh7bLzT; arc=none smtp.client-ip=209.85.160.170
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=szeredi.hu
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=szeredi.hu
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Nf9DlrVh"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1762855291; x=1794391291;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=/TVqiTjU5KiiPK+xQ41EdIpWWk4P2nFDrGfU+Hsk/ko=;
-  b=Nf9DlrVhfUMLESbUXzF2TE4cBh3sMq+t/RAwS01xOF4nT4n/qfdgPh/O
-   q5ik2w1CFYvgR+GWTw5sHPkIUvO5kT1kCdGNi3k0KU48bjm26r/ILK8Un
-   MpCXlyAWctI4T39wSMShDL/WKjDyECQIGt+W2pZ7nAD4yzyWsIQ+raR3p
-   vGhF8YszozMrYBjZO3Ypu0YbBvKf1Ftb+JpAc8oz9I28DrfGRoeVzC5l7
-   kjW1CGgkDpVf4UYTmKGG99468QlUTQqDeILbzGLAwzD0eCdQuFgr1op0x
-   FF91xXX6u5ohvRlCvn5kDylr4VYFetIXhyWCvCZ3GRHgBk+stuqhIzqT0
-   w==;
-X-CSE-ConnectionGUID: 8Byf1YiSQuieonTqZakf0A==
-X-CSE-MsgGUID: 7lw59KyZT1SjTZEApplDJw==
-X-IronPort-AV: E=McAfee;i="6800,10657,11609"; a="68774962"
-X-IronPort-AV: E=Sophos;i="6.19,296,1754982000"; 
-   d="scan'208";a="68774962"
-Received: from fmviesa005.fm.intel.com ([10.60.135.145])
-  by fmvoesa106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 11 Nov 2025 02:01:18 -0800
-X-CSE-ConnectionGUID: vibqMbh2TW2rlDAMaG/KrA==
-X-CSE-MsgGUID: LteL762QT4esLeyhgjxfNw==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.19,296,1754982000"; 
-   d="scan'208";a="193179539"
-Received: from lkp-server01.sh.intel.com (HELO 7b01c990427b) ([10.239.97.150])
-  by fmviesa005.fm.intel.com with ESMTP; 11 Nov 2025 02:01:16 -0800
-Received: from kbuild by 7b01c990427b with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1vIlBa-000323-18;
-	Tue, 11 Nov 2025 10:01:14 +0000
-Date: Tue, 11 Nov 2025 18:00:15 +0800
-From: kernel test robot <lkp@intel.com>
-To: Niklas Neronin <niklas.neronin@linux.intel.com>,
-	mathias.nyman@linux.intel.com
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
-	linux-usb@vger.kernel.org,
-	Niklas Neronin <niklas.neronin@linux.intel.com>
-Subject: Re: [PATCH 12/13] usb: xhci: standardize multi bit-field macros
-Message-ID: <202511111608.ytw8hqqD-lkp@intel.com>
-References: <20251110151450.635410-13-niklas.neronin@linux.intel.com>
+	dkim=pass (1024-bit key) header.d=szeredi.hu header.i=@szeredi.hu header.b="Cxh7bLzT"
+Received: by mail-qt1-f170.google.com with SMTP id d75a77b69052e-4edb2eef810so32516021cf.0
+        for <linux-usb@vger.kernel.org>; Tue, 11 Nov 2025 02:22:51 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=szeredi.hu; s=google; t=1762856571; x=1763461371; darn=vger.kernel.org;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:from:to:cc:subject:date:message-id:reply-to;
+        bh=Gr4TOuugTT1EseGcVB5iZB82tbqvLcivaLR74+txrKo=;
+        b=Cxh7bLzTrr9BQePvVGjJ40vDC0NZ2fTThVB7BYFO3Iak6qyEFFlUvplymWg0joF7Q3
+         HVvSugfkZBwk1iaxvYjWFo+NLRPZYh1e5zW3LFB3CpoBIX+SjOYunRJ+TM2+q8sIqGZU
+         epcQ5oRizTN8F+VsWK6pLYxh6lReG0wjdPWAg=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1762856571; x=1763461371;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=Gr4TOuugTT1EseGcVB5iZB82tbqvLcivaLR74+txrKo=;
+        b=J6LGGBJ8oT302op1McC/Vx+WZEEdblkMa8j1rkpJqOBsd7HM3TWo3H8UZFhxInL7L7
+         FkDZfYP26mKb7/+7JKHK+WSU1m/NqMBFNl9wtSECWNpeU2eWyJlWqUlZmVl0DFYmHOnK
+         vlShEdbQZ/p503L993DcLzn+E/pnbOt8Y1QfzOVOkruPSY84OMep1gj+GoHLrIZpZzKT
+         35Rgv1NcFUNkvqBgFL/2HyInD93ErX+tBdru3sLmXV6i0iCzco1wuPXZ3nGDq5iryu6O
+         fVYL2UsbH/NJ2Z/k04xvfnFatYSvjG52Z4Sr61kWBZpfryQaBajGj6W0IWTremOJDv/1
+         h32Q==
+X-Forwarded-Encrypted: i=1; AJvYcCU4DJdQ0shjBXD2RbdfUATILSzkxe4PdA2Gbk9ylbXeRnNTyMq+0+0IoNtgTF4293hrdp7LmvzwyFk=@vger.kernel.org
+X-Gm-Message-State: AOJu0YwEiBuy7+U6bcZ+XKhIMaGuwtCmN1aQuiT1JaK6wlbOkMFY5dMY
+	W5qJb0uz3ewhInn3z1eCzrJSeMI42Ryw+0hRYPd8hOMXozF3Beb4v1Gz3guyLvFaD4flSZf1LCB
+	BkUc6bHEiwitPF+/EnYs5yNalIaAdfOd6i0QCeKm5ew==
+X-Gm-Gg: ASbGnctbIUIdL2WRZCN1faL/6rQHKC4zSSOjVGQT9hLbKpq6ylEE6lLhBEOTUMHBZg4
+	/geV50BRIUVarU/4m3vxvED5oKTSj4SZC5rH6Z9mlWw5SpT+LmHBeNwnhFvQaOw/O5TJs6Smxaz
+	Kf49zg1TicPnuS6jvPGG4yLVS4FDjfJX9VNmVRpbri7uxaks2yFuFJTgjd25TUNkyiyVUAUyta0
+	8ggCk2cUrZyesc64FkTkr7ev3b19WIURpzJM3hh+GnEoUB97MDb40Qbc2g=
+X-Google-Smtp-Source: AGHT+IElRIVhqCvDTFpSgFEYkQvi9Gos4SnKPGf8Juir9zGtxxq03gYdBJSCGUUe4Ii0djCwuMFVWPO3CN8YKO0f0p8=
+X-Received: by 2002:ac8:57d3:0:b0:4ec:f073:4239 with SMTP id
+ d75a77b69052e-4eda4e7cbb2mr148255861cf.6.1762856570888; Tue, 11 Nov 2025
+ 02:22:50 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20251110151450.635410-13-niklas.neronin@linux.intel.com>
+References: <20251111065520.2847791-1-viro@zeniv.linux.org.uk> <20251111065520.2847791-2-viro@zeniv.linux.org.uk>
+In-Reply-To: <20251111065520.2847791-2-viro@zeniv.linux.org.uk>
+From: Miklos Szeredi <miklos@szeredi.hu>
+Date: Tue, 11 Nov 2025 11:22:38 +0100
+X-Gm-Features: AWmQ_bn6E4e4WTTnqqQ9ptsMdEgyTHjWIJOU4-smQyjZiT3MKecFKgj620d_-Vc
+Message-ID: <CAJfpeguqvHUDVzR7N=To8keErrF8Bn9kuojoFtM_58sLY_XXDw@mail.gmail.com>
+Subject: Re: [PATCH v3 01/50] fuse_ctl_add_conn(): fix nlink breakage in case
+ of early failure
+To: Al Viro <viro@zeniv.linux.org.uk>
+Cc: linux-fsdevel@vger.kernel.org, torvalds@linux-foundation.org, 
+	brauner@kernel.org, jack@suse.cz, raven@themaw.net, neil@brown.name, 
+	a.hindborg@kernel.org, linux-mm@kvack.org, linux-efi@vger.kernel.org, 
+	ocfs2-devel@lists.linux.dev, kees@kernel.org, rostedt@goodmis.org, 
+	gregkh@linuxfoundation.org, linux-usb@vger.kernel.org, paul@paul-moore.com, 
+	casey@schaufler-ca.com, linuxppc-dev@lists.ozlabs.org, 
+	john.johansen@canonical.com, selinux@vger.kernel.org, 
+	borntraeger@linux.ibm.com, bpf@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
 
-Hi Niklas,
+On Tue, 11 Nov 2025 at 07:55, Al Viro <viro@zeniv.linux.org.uk> wrote:
+>
+> fuse_ctl_remove_conn() used to decrement the link count of root
+> manually; that got subsumed by simple_recursive_removal(), but
+> in case when subdirectory creation has failed the latter won't
+> get called.
+>
+> Just move the modification of parent's link count into
+> fuse_ctl_add_dentry() to keep the things simple.  Allows to
+> get rid of the nlink argument as well...
+>
+> Fixes: fcaac5b42768 "fuse_ctl: use simple_recursive_removal()"
+> Signed-off-by: Al Viro <viro@zeniv.linux.org.uk>
 
-kernel test robot noticed the following build errors:
-
-[auto build test ERROR on usb/usb-testing]
-[also build test ERROR on usb/usb-next usb/usb-linus tegra/for-next westeri-thunderbolt/next linus/master v6.18-rc5 next-20251111]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Niklas-Neronin/usb-xhci-remove-deprecated-TODO-comment/20251110-233045
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/gregkh/usb.git usb-testing
-patch link:    https://lore.kernel.org/r/20251110151450.635410-13-niklas.neronin%40linux.intel.com
-patch subject: [PATCH 12/13] usb: xhci: standardize multi bit-field macros
-config: hexagon-randconfig-002-20251111 (https://download.01.org/0day-ci/archive/20251111/202511111608.ytw8hqqD-lkp@intel.com/config)
-compiler: clang version 16.0.6 (https://github.com/llvm/llvm-project 7cbf1a2591520c2491aa35339f227775f4d3adf6)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251111/202511111608.ytw8hqqD-lkp@intel.com/reproduce)
-
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202511111608.ytw8hqqD-lkp@intel.com/
-
-All errors (new ones prefixed by >>):
-
->> drivers/usb/dwc3/host.c:49:27: error: called object type 'unsigned long' is not a function or function pointer
-                   op_regs_base = HC_LENGTH(readl(xhci_regs));
-                                  ~~~~~~~~~^
-   drivers/usb/dwc3/host.c:51:27: error: called object type 'unsigned long' is not a function or function pointer
-                   port_num = HCS_MAX_PORTS(reg);
-                              ~~~~~~~~~~~~~^
-   2 errors generated.
-
-
-vim +49 drivers/usb/dwc3/host.c
-
-2d2a3349521de1 Ran Wang      2024-01-24  24  
-2d2a3349521de1 Ran Wang      2024-01-24  25  /**
-2d2a3349521de1 Ran Wang      2024-01-24  26   * dwc3_power_off_all_roothub_ports - Power off all Root hub ports
-2d2a3349521de1 Ran Wang      2024-01-24  27   * @dwc: Pointer to our controller context structure
-2d2a3349521de1 Ran Wang      2024-01-24  28   */
-2d2a3349521de1 Ran Wang      2024-01-24  29  static void dwc3_power_off_all_roothub_ports(struct dwc3 *dwc)
-2d2a3349521de1 Ran Wang      2024-01-24  30  {
-2d2a3349521de1 Ran Wang      2024-01-24  31  	void __iomem *xhci_regs;
-2d2a3349521de1 Ran Wang      2024-01-24  32  	u32 op_regs_base;
-2d2a3349521de1 Ran Wang      2024-01-24  33  	int port_num;
-2d2a3349521de1 Ran Wang      2024-01-24  34  	u32 offset;
-2d2a3349521de1 Ran Wang      2024-01-24  35  	u32 reg;
-2d2a3349521de1 Ran Wang      2024-01-24  36  	int i;
-2d2a3349521de1 Ran Wang      2024-01-24  37  
-57d7a6b93822f7 Shen Lichuan  2024-09-30  38  	/* xhci regs are not mapped yet, do it temporarily here */
-2d2a3349521de1 Ran Wang      2024-01-24  39  	if (dwc->xhci_resources[0].start) {
-5ed9cc71432a8a Sven Peter    2025-10-15  40  		if (dwc->xhci_resources[0].flags & IORESOURCE_MEM_NONPOSTED)
-5ed9cc71432a8a Sven Peter    2025-10-15  41  			xhci_regs = ioremap_np(dwc->xhci_resources[0].start, DWC3_XHCI_REGS_END);
-5ed9cc71432a8a Sven Peter    2025-10-15  42  		else
-2d2a3349521de1 Ran Wang      2024-01-24  43  			xhci_regs = ioremap(dwc->xhci_resources[0].start, DWC3_XHCI_REGS_END);
-b65bdf7fd605eb Dan Carpenter 2024-01-31  44  		if (!xhci_regs) {
-2d2a3349521de1 Ran Wang      2024-01-24  45  			dev_err(dwc->dev, "Failed to ioremap xhci_regs\n");
-2d2a3349521de1 Ran Wang      2024-01-24  46  			return;
-2d2a3349521de1 Ran Wang      2024-01-24  47  		}
-2d2a3349521de1 Ran Wang      2024-01-24  48  
-2d2a3349521de1 Ran Wang      2024-01-24 @49  		op_regs_base = HC_LENGTH(readl(xhci_regs));
-2d2a3349521de1 Ran Wang      2024-01-24  50  		reg = readl(xhci_regs + XHCI_HCSPARAMS1);
-2d2a3349521de1 Ran Wang      2024-01-24  51  		port_num = HCS_MAX_PORTS(reg);
-2d2a3349521de1 Ran Wang      2024-01-24  52  
-2d2a3349521de1 Ran Wang      2024-01-24  53  		for (i = 1; i <= port_num; i++) {
-2d2a3349521de1 Ran Wang      2024-01-24  54  			offset = op_regs_base + XHCI_PORTSC_BASE + 0x10 * (i - 1);
-2d2a3349521de1 Ran Wang      2024-01-24  55  			reg = readl(xhci_regs + offset);
-2d2a3349521de1 Ran Wang      2024-01-24  56  			reg &= ~PORT_POWER;
-2d2a3349521de1 Ran Wang      2024-01-24  57  			writel(reg, xhci_regs + offset);
-2d2a3349521de1 Ran Wang      2024-01-24  58  		}
-2d2a3349521de1 Ran Wang      2024-01-24  59  
-2d2a3349521de1 Ran Wang      2024-01-24  60  		iounmap(xhci_regs);
-2d2a3349521de1 Ran Wang      2024-01-24  61  	} else {
-2d2a3349521de1 Ran Wang      2024-01-24  62  		dev_err(dwc->dev, "xhci base reg invalid\n");
-2d2a3349521de1 Ran Wang      2024-01-24  63  	}
-2d2a3349521de1 Ran Wang      2024-01-24  64  }
-2d2a3349521de1 Ran Wang      2024-01-24  65  
-
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+Acked-by: Miklos Szeredi <mszeredi@redhat.com>
