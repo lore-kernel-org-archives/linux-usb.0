@@ -1,34 +1,34 @@
 Received: from zeniv.linux.org.uk (zeniv.linux.org.uk [62.89.141.173])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A7EAC3469E7;
-	Tue, 11 Nov 2025 06:55:27 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0136317555;
+	Tue, 11 Nov 2025 06:55:29 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=62.89.141.173
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1762844138; cv=none; b=L8X/ukg1pSFcpdEfMSLS64/R81yuwUZmUhvdxVDJBnPkrHMoD7BYfYIeOheQSgym3xtl5bMJ/tSTXY+iUAVBVAz6OhuupZEcmF381SUYDVSPxkXsedvOX6a/Vd9HH8TppS0vCo+YWaOmehEkZ+y7vI9qfjT6DgijSU1ea7gHT+Q=
+	t=1762844136; cv=none; b=mpk8Hz+VL4tXveykRBSlRJS/ecWbTwffWAeOkEoW0BnCWUyq622HZIM7dZ0XF6Gn5UL67eCK9+QbWRIX0sHhb14pdfAQjiS114kSj3rB/rochAA0I7vObHIzeSgKcx9vbe12XFnU2QY6iWmoPB5eXR0u30QXXPbFiYhCeorK0hY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1762844138; c=relaxed/simple;
-	bh=aQ8wiaM2Vz5X//su5rT71uA1xpaSvUMrx9j5Y7IQzKU=;
+	s=arc-20240116; t=1762844136; c=relaxed/simple;
+	bh=il8mOVf2818vHOFW/JAhYdqvQSi0sBbx783nwZmQsx4=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=mxNNm3ojhQi2xvTC5j0AWRIW0IlXWlJ/P15USoESzPf8oW+lUPBkdwk6/xmsO1UnQ/1rDugeQV5wZIDQ/O38GH/PmNxGqe0fsVDutUb3LXkoggcH+qovfdT0IIuJXicBDJyYMVFGGDV3Lvfqb0n/Jyyu1o43edQG6R/xPhDBi1E=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=zeniv.linux.org.uk; spf=none smtp.mailfrom=ftp.linux.org.uk; dkim=pass (2048-bit key) header.d=linux.org.uk header.i=@linux.org.uk header.b=mNRfCj7o; arc=none smtp.client-ip=62.89.141.173
+	 MIME-Version; b=Mjar8XE5DgsDZApau/H3ZoVURm0snHy0z/Vo0TWLNDuIhsDFJGzxEuHe8oIxxjuQK9CBT+Lq6kGwuorYWElxTM75km8mclOer0miA5WuHX9wEawZo3rPfVUW+4QPBHxZwNSdRQv569VI1qa+lwns/azCzGtjho5qyC+Qz6pmQVY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=zeniv.linux.org.uk; spf=none smtp.mailfrom=ftp.linux.org.uk; dkim=pass (2048-bit key) header.d=linux.org.uk header.i=@linux.org.uk header.b=DzriejRZ; arc=none smtp.client-ip=62.89.141.173
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=zeniv.linux.org.uk
 Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=ftp.linux.org.uk
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linux.org.uk header.i=@linux.org.uk header.b="mNRfCj7o"
+	dkim=pass (2048-bit key) header.d=linux.org.uk header.i=@linux.org.uk header.b="DzriejRZ"
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=linux.org.uk; s=zeniv-20220401; h=Sender:Content-Transfer-Encoding:
 	MIME-Version:References:In-Reply-To:Message-ID:Date:Subject:Cc:To:From:
 	Reply-To:Content-Type:Content-ID:Content-Description;
-	bh=tZCVSqTQSDDLvQs1X2myYSkLJtZwbiT5pTgxLsDWfWg=; b=mNRfCj7o5DsyadrTOAd3PG913l
-	201C7wMUBSUYG7x8M00Si6M8oYv4ANGn1iKzb+lHWLy0+Lu4uY+ZdiuYrVf4nVdtMwESJEGFGxvEg
-	ddUMj5in/pZybEUgy3WPRJq0oTRhm9nRH3ENr4LQkkaqHtn9JwhQXL2KtntemE79n/9mCYw1tWTfE
-	C8HbTwqu+441Wz5LpaAxDcPcfWvtEtiBRfb3GrswMaYwTuDQc6y012OzP+0oXcxgh/zISf/Q5eAfs
-	kusJonnF9/xByqdJJmx8Pfmts8z1PoUVa7JLLKkc2gdgBbXjFenJ40u0NiNLfONirl3XP70dRc+l/
-	EWpH+UYw==;
+	bh=FZUuqKrs+nqWkpfLt5q4RrHggbnk1CWWQm+NX1Cw0DM=; b=DzriejRZZQpruszS7u6QC+IdRW
+	m8VOUhOtMXPLPfg1uzbUoRaGSvI80iQTbB3p+zXHNIuxZTwBCQVvFgGCz9BSCgvSFvRHYvqidcdDD
+	O7PzWdxvMjtiWFwEvZnkF1dhlqSlBrZIWXop+WsyNUkSms1zy+RxzvMLuWaBLkaKJDNrpJxThD3Jd
+	68X03LVc81pymNdyvH/wtvo3A6N71LJ6iC9TVhNEWZBfDhCjaQEH8e54sTvmm7XBJcnxG7zOCh2xa
+	E7e3c0h19awSVEQDA5mldox9o/Su4zTtUURoXRL+ztaC9dVF/a508XCBHJnnMVFyL66bJV8zCGElE
+	RVN/gSyw==;
 Received: from viro by zeniv.linux.org.uk with local (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1vIiHi-0000000BwxE-1dWe;
-	Tue, 11 Nov 2025 06:55:22 +0000
+	id 1vIiHn-0000000Bx4o-2hjO;
+	Tue, 11 Nov 2025 06:55:27 +0000
 From: Al Viro <viro@zeniv.linux.org.uk>
 To: linux-fsdevel@vger.kernel.org
 Cc: torvalds@linux-foundation.org,
@@ -52,9 +52,9 @@ Cc: torvalds@linux-foundation.org,
 	selinux@vger.kernel.org,
 	borntraeger@linux.ibm.com,
 	bpf@vger.kernel.org
-Subject: [PATCH v3 07/50] convert simple_{link,unlink,rmdir,rename,fill_super}() to new primitives
-Date: Tue, 11 Nov 2025 06:54:36 +0000
-Message-ID: <20251111065520.2847791-8-viro@zeniv.linux.org.uk>
+Subject: [PATCH v3 35/50] convert selinuxfs
+Date: Tue, 11 Nov 2025 06:55:04 +0000
+Message-ID: <20251111065520.2847791-36-viro@zeniv.linux.org.uk>
 X-Mailer: git-send-email 2.49.0
 In-Reply-To: <20251111065520.2847791-1-viro@zeniv.linux.org.uk>
 References: <20251111065520.2847791-1-viro@zeniv.linux.org.uk>
@@ -67,59 +67,61 @@ MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 Sender: Al Viro <viro@ftp.linux.org.uk>
 
-Note that simple_unlink() et.al. are used by many filesystems; for now
-they can not assume that persistency mark will have been set back
-when the object got created.  Once all conversions are done we'll
-have them complain if called for something that had not been marked
-persistent.
+Tree has invariant part + two subtrees that get replaced upon each
+policy load.  Invariant parts stay for the lifetime of filesystem,
+these two subdirs - from policy load to policy load (serialized
+on lock_rename(root, ...)).
 
+All object creations are via d_alloc_name()+d_add() inside selinuxfs,
+all removals are via simple_recursive_removal().
+
+Turn those d_add() into d_make_persistent()+dput() and that's mostly it.
+
+Acked-by: Paul Moore <paul@paul-moore.com>
+Reviewed-by: Stephen Smalley <stephen.smalley.work@gmail.com>
+Tested-by: Stephen Smalley <stephen.smalley.work@gmail.com>
 Signed-off-by: Al Viro <viro@zeniv.linux.org.uk>
 ---
- fs/libfs.c | 10 +++++-----
- 1 file changed, 5 insertions(+), 5 deletions(-)
+ security/selinux/selinuxfs.c | 10 ++++++----
+ 1 file changed, 6 insertions(+), 4 deletions(-)
 
-diff --git a/fs/libfs.c b/fs/libfs.c
-index a033f35493d0..80f288a771e3 100644
---- a/fs/libfs.c
-+++ b/fs/libfs.c
-@@ -630,7 +630,7 @@ static void __simple_recursive_removal(struct dentry *dentry,
- 				if (callback)
- 					callback(victim);
- 				fsnotify_delete(inode, d_inode(victim), victim);
--				dput(victim);		// unpin it
-+				d_make_discardable(victim);
- 			}
- 			if (victim == dentry) {
- 				inode_set_mtime_to_ts(inode,
-@@ -764,8 +764,7 @@ int simple_link(struct dentry *old_dentry, struct inode *dir, struct dentry *den
- 			      inode_set_ctime_to_ts(dir, inode_set_ctime_current(inode)));
- 	inc_nlink(inode);
- 	ihold(inode);
--	dget(dentry);
--	d_instantiate(dentry, inode);
-+	d_make_persistent(dentry, inode);
- 	return 0;
- }
- EXPORT_SYMBOL(simple_link);
-@@ -798,7 +797,7 @@ int simple_unlink(struct inode *dir, struct dentry *dentry)
- 	inode_set_mtime_to_ts(dir,
- 			      inode_set_ctime_to_ts(dir, inode_set_ctime_current(inode)));
- 	drop_nlink(inode);
--	dput(dentry);
-+	d_make_discardable(dentry);
- 	return 0;
- }
- EXPORT_SYMBOL(simple_unlink);
-@@ -1078,7 +1077,8 @@ int simple_fill_super(struct super_block *s, unsigned long magic,
- 		simple_inode_init_ts(inode);
- 		inode->i_fop = files->ops;
- 		inode->i_ino = i;
--		d_add(dentry, inode);
-+		d_make_persistent(dentry, inode);
-+		dput(dentry);
+diff --git a/security/selinux/selinuxfs.c b/security/selinux/selinuxfs.c
+index f088776dbbd3..eae565358db4 100644
+--- a/security/selinux/selinuxfs.c
++++ b/security/selinux/selinuxfs.c
+@@ -1205,7 +1205,8 @@ static struct dentry *sel_attach(struct dentry *parent, const char *name,
+ 		iput(inode);
+ 		return ERR_PTR(-ENOMEM);
  	}
- 	return 0;
+-	d_add(dentry, inode);
++	d_make_persistent(dentry, inode);
++	dput(dentry);
+ 	return dentry;
  }
+ 
+@@ -1934,10 +1935,11 @@ static struct dentry *sel_make_swapover_dir(struct super_block *sb,
+ 	/* directory inodes start off with i_nlink == 2 (for "." entry) */
+ 	inc_nlink(inode);
+ 	inode_lock(sb->s_root->d_inode);
+-	d_add(dentry, inode);
++	d_make_persistent(dentry, inode);
+ 	inc_nlink(sb->s_root->d_inode);
+ 	inode_unlock(sb->s_root->d_inode);
+-	return dentry;
++	dput(dentry);
++	return dentry;	// borrowed
+ }
+ 
+ #define NULL_FILE_NAME "null"
+@@ -2080,7 +2082,7 @@ static int sel_init_fs_context(struct fs_context *fc)
+ static void sel_kill_sb(struct super_block *sb)
+ {
+ 	selinux_fs_info_free(sb);
+-	kill_litter_super(sb);
++	kill_anon_super(sb);
+ }
+ 
+ static struct file_system_type sel_fs_type = {
 -- 
 2.47.3
 
