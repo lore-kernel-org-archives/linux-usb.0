@@ -1,210 +1,277 @@
-Received: from out12-53.antispamcloud.com (out12-53.antispamcloud.com [185.201.16.53])
+Received: from smtpbg150.qq.com (smtpbg150.qq.com [18.132.163.193])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 30380347FF8;
-	Tue, 11 Nov 2025 10:49:21 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.201.16.53
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6D2762F5302;
+	Tue, 11 Nov 2025 10:51:00 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=18.132.163.193
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1762858164; cv=none; b=F3+OBbd3u3x368Ys59cjAKjnUyIHXnEu3RsLLMNztzAt7hmVACncLbmbdWM1pcl8u6hhBhNVX7LePdzY3GMFQfId8F0PI/UOouiJNcBq8/e58ijPY0Pnb7/QGif9bouw2UQZiZhkH0jju40zTc3pfBtMYNSiTdjCcqIo7t1hZx4=
+	t=1762858267; cv=none; b=kweUlQMWZy/U5W0bslfYuvabAUUbP0avvrt/nnHyYALWX25LKuOUd6IXtvjqNPqyZezr97KfsZnumBzHxscrKu4uYOvP0UmGY+9H0VSoiZ1Tex5+4fwdd/hZ1e3jydDgVIHj7mGQIvMRyMsNQWDNvSCGYJ11GIvzuXmaD9Zh/hU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1762858164; c=relaxed/simple;
-	bh=1dSGNHsW/A6Q/Lg6on2gRsPF3sTD2Xo6JnPp5HiOY5w=;
-	h=Message-ID:Subject:From:To:Cc:Date:In-Reply-To:References:
-	 Content-Type:MIME-Version; b=q65U1j2taVQvcDEsR0ihq11VSL7U1tnMAJEG2VCsMJjfIRHSNWIiHnPpyoTL/S9jS1+cXhQvKdjLtWN+e0HwEWrqKrUVAoUxAgj1hVkpVIYy49zg0wqqt4ImigxiGQ/DjJOeP39eTlu7fiZdayKxSWrTwaSdgQb+zv1vA07xjuY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=improbability.net; spf=pass smtp.mailfrom=improbability.net; dkim=pass (2048-bit key) header.d=improbability.net header.i=@improbability.net header.b=henWl7qQ; arc=none smtp.client-ip=185.201.16.53
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=improbability.net
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=improbability.net
+	s=arc-20240116; t=1762858267; c=relaxed/simple;
+	bh=uGU2AVXO7ykCV/puli54M/ue42gFICSvYYSvdmQyZm8=;
+	h=From:To:Cc:Subject:Date:Message-Id; b=CB12963uoafTgf+NXAJ6U8oUB/9mfgBNyy6ZA1kALoWEWYgeTN7l9zpgQZUqkUTSu19UQQa77XGYBtXsFSNmYsVCD2C/Yb3x8IEEbuol1fny7x+HtGCK93JP0jaS6eSqlcjlOrmp5HMQDLBL4hDnC138aD8NA53kbVOuz13OYiI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=airkyi.com; spf=pass smtp.mailfrom=airkyi.com; dkim=pass (1024-bit key) header.d=airkyi.com header.i=@airkyi.com header.b=XtSr45r+; arc=none smtp.client-ip=18.132.163.193
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=airkyi.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=airkyi.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=improbability.net header.i=@improbability.net header.b="henWl7qQ"
-Received: from s1234.lon1.mysecurecloudhost.com ([192.250.239.241])
-	by mx323.antispamcloud.com with esmtps  (TLS1.3) tls TLS_AES_256_GCM_SHA384
-	(Exim 4.94.2)
-	(envelope-from <reiver@improbability.net>)
-	id 1vIkUo-00HChG-Bb; Tue, 11 Nov 2025 10:17:09 +0100
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=improbability.net; s=default; h=MIME-Version:Content-Transfer-Encoding:
-	Content-Type:References:In-Reply-To:Date:Cc:To:From:Subject:Message-ID:Sender
-	:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
-	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:
-	List-Unsubscribe:List-Subscribe:List-Post:List-Owner:List-Archive;
-	bh=qxfEH7hPGa+On03jIM0VIes3D4OUHi4QJqrLF/L7BCg=; b=henWl7qQJgq5tRARztcWqKON7a
-	EhWW3Uz1l5mLIXIZTZdsg3DbqQLlmeXc75sdSSU27KlgujypxlSum5FRwpca8fMVLHcfKfgCPQilr
-	iJUezTueQhCFA7jQ820ht9hIkkeTimDrguk2lilsIRguqi0wm7+T7EhdcA3v6mIgwToDxQ4PGmwa3
-	9ESPylS0k+7GbXfNTjlG4xhJmPfRZJs/GKHndEZi99Fe9WySgK1ojUzB5X04Y/eOyiaeGM381/ht8
-	m4HA1xM2j4uLhCyYjYc6XmKQvTsG/75xKNiYtIr3dxnjPcTMdigKOc0eRgqc+HyE3ei6syJy3H9P3
-	UP9YcQUQ==;
-Received: from slartibartfast.improbability.net ([51.155.134.81]:37600)
-	by s1234.lon1.mysecurecloudhost.com with esmtpsa  (TLS1.3) tls TLS_AES_256_GCM_SHA384
-	(Exim 4.98.2)
-	(envelope-from <reiver@improbability.net>)
-	id 1vIkUl-00000003uN9-2zvy;
-	Tue, 11 Nov 2025 09:16:59 +0000
-Received: from trillian.improbability.net (trillian.improbability.net [192.168.1.20])
-	by slartibartfast.improbability.net (Postfix) with ESMTPSA id CC0553FC98;
-	Tue, 11 Nov 2025 09:16:53 +0000 (GMT)
-Message-ID: <4afce7468aef7b19b32e61d392775d3656097dd1.camel@improbability.net>
-Subject: Re: [PATCH] usb: usb-storage: No additional quirks need to be added
- to the ECD819-SU3 optical drive.
-From: Alan Swanson <reiver@improbability.net>
-To: Alan Stern <stern@rowland.harvard.edu>, ccc194101@163.com, Benjamin
- Tissoires <benjamin.tissoires@redhat.com>
-Cc: gregkh@linuxfoundation.org, linux-usb@vger.kernel.org, 
-	usb-storage@lists.one-eyed-alien.net, linux-kernel@vger.kernel.org, Chen
- Changcheng <chenchangcheng@kylinos.cn>
-Date: Tue, 11 Nov 2025 09:16:53 +0000
-In-Reply-To: <c7bf59b5-8078-4b47-b56a-7b5568272d07@rowland.harvard.edu>
-References: <20251107061046.32339-1-ccc194101@163.com>
-	 <c7bf59b5-8078-4b47-b56a-7b5568272d07@rowland.harvard.edu>
-Content-Type: text/plain; charset="ISO-8859-1"
-Content-Transfer-Encoding: quoted-printable
-User-Agent: Evolution 3.56.2 
+	dkim=pass (1024-bit key) header.d=airkyi.com header.i=@airkyi.com header.b="XtSr45r+"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=airkyi.com;
+	s=altu2504; t=1762858253;
+	bh=Qdarakoh0lu55nEwr1i4FdI827BvE1xKbD7AfhT51Uw=;
+	h=From:To:Subject:Date:Message-Id;
+	b=XtSr45r+fuFx59GsXGQ3fwKFsX4XbQ2KxlHziVTznNmChcZw/uFng9X4UdpNoxUWw
+	 h/zNs9UXYt3aPBOYw1xtsmQd/GlkqQ2/xJTjbbNE1MZfAktN6WWoUB+mE1+tsP6dsV
+	 QSBBTnYA5T3FKE6rG4rgzVqBIFAgosS+xYsx4iFI=
+X-QQ-mid: zesmtpsz9t1762858247t99290bc5
+X-QQ-Originating-IP: xaFyk2tAr9JVxI4G6E1rGJahsyu1PFyvRQQ/B8MzEJU=
+Received: from DESKTOP-8BT1A2O.localdomain ( [58.22.7.114])
+	by bizesmtp.qq.com (ESMTP) with 
+	id ; Tue, 11 Nov 2025 18:50:43 +0800 (CST)
+X-QQ-SSF: 0000000000000000000000000000000
+X-QQ-GoodBg: 0
+X-BIZMAIL-ID: 1823713052325328249
+From: Chaoyi Chen <kernel@airkyi.com>
+To: Heikki Krogerus <heikki.krogerus@linux.intel.com>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>,
+	Peter Chen <hzpeterchen@gmail.com>,
+	Rob Herring <robh@kernel.org>,
+	Krzysztof Kozlowski <krzk+dt@kernel.org>,
+	Conor Dooley <conor+dt@kernel.org>,
+	Vinod Koul <vkoul@kernel.org>,
+	Kishon Vijay Abraham I <kishon@kernel.org>,
+	Heiko Stuebner <heiko@sntech.de>,
+	Sandy Huang <hjc@rock-chips.com>,
+	Andy Yan <andy.yan@rock-chips.com>,
+	Yubing Zhang <yubing.zhang@rock-chips.com>,
+	Frank Wang <frank.wang@rock-chips.com>,
+	Andrzej Hajda <andrzej.hajda@intel.com>,
+	Neil Armstrong <neil.armstrong@linaro.org>,
+	Robert Foss <rfoss@kernel.org>,
+	Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
+	Jonas Karlman <jonas@kwiboo.se>,
+	Jernej Skrabec <jernej.skrabec@gmail.com>,
+	Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+	Maxime Ripard <mripard@kernel.org>,
+	Thomas Zimmermann <tzimmermann@suse.de>,
+	David Airlie <airlied@gmail.com>,
+	Simona Vetter <simona@ffwll.ch>,
+	Amit Sunil Dhamne <amitsd@google.com>,
+	Chaoyi Chen <chaoyi.chen@rock-chips.com>,
+	Dragan Simic <dsimic@manjaro.org>,
+	Johan Jonker <jbx6244@gmail.com>,
+	Diederik de Haas <didi.debian@cknow.org>,
+	Peter Robinson <pbrobinson@gmail.com>
+Cc: linux-usb@vger.kernel.org,
+	devicetree@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	linux-phy@lists.infradead.org,
+	linux-arm-kernel@lists.infradead.org,
+	linux-rockchip@lists.infradead.org,
+	dri-devel@lists.freedesktop.org
+Subject: [PATCH v9 00/10] Add Type-C DP support for RK3399 EVB IND board
+Date: Tue, 11 Nov 2025 18:50:30 +0800
+Message-Id: <20251111105040.94-1-kernel@airkyi.com>
+X-Mailer: git-send-email 2.17.1
+X-QQ-SENDSIZE: 520
+Feedback-ID: zesmtpsz:airkyi.com:qybglogicsvrgz:qybglogicsvrgz6b-0
+X-QQ-XMAILINFO: MhFAoh6gmjppNgUGjKgw7K86FI28KNCryRUtAbrmL8bmhJ9C01Ym/220
+	Lar3r54tI1LpJlYoyVrFKoeWD7dvOLsMAeEIZhZ1hfw5bk//IlrBUn3elPC/ss5RW8vijE1
+	RbKIeF7EX74hTo3ngx5Pcj/k09hzXq83EvgrK/ghLZRG+TCCtEdZbjqBcXRnnAE+c5GZm7C
+	2xJ0XpbVtXADeR+9HC2OuUeG3dMBGkHZQS8x/Ucpyy92a6oIWAH5ac4gaaUekfEWStPCrLu
+	tUF0o9UepycqyGKQMVN354RR/J62u1cmCxaOruQALwHRj4WZxle78Kij8sm97duwOcyPstG
+	XtQ6fSS6hsb0Rcg/DPVHHj/wgxIBu79QBi+mMRonn4k6nS9bjofCJZJQSneUnIqEocQm2vp
+	wKOxYO6rRjYw+M0RXszqmbF86bT12+Dxs7jHObYVE4rGwXUKOKqPNIi7UlWbKCHR7E65kfv
+	phXN40NryYxNMPQ/YXYeMxy6RbOxrWEgV/L3M71SbzrM23sOD0FSvUxMZyDAOZajYSUfekA
+	Jvk7A4VMyBW3viBX4ugmYVH8R7HaqKjZKjfZjSNscP8SUreU8KlZx0vX8ReiVh6/IRiA69W
+	1K1I4gKhyi89ReV/EiwI1ndKNCuchFI6RxQG0vDAn+0r9O6YmaAIV/AEBQ9d3PWLAVTR1sh
+	PgDC7xA1szhHg37hGDdMW3rU17V3gA/SxLFMy5BjL/MiEM/Ez/2+D3qv3XUmjdin5JENXUN
+	IOVgBrA8b/3dNpQ6CLVUeYL7Idxt5mDXjvZku7Tb1iQxSx4VZAdrHK2PebXZ5xRtSuED6h8
+	dSzs+aG5yxeIDcmFspauWRhUQ4096FASEdo7TmPy3O7/hvDjivurmnBkDVJTBgERmdU3DUq
+	yZNjSMylAvoDQ/q2FsAhTJMasr9dtB5OSfjc7AayC0CmXQ39eyTdvZIInX0U5H9P3AdcFGg
+	ytNrVTxbcDYBs+Nvg8W2H/7fpqGPOKFGTscQh+t67HGSLgKse5AnQuPnZxeRkaWBQBtUpRm
+	FVYQKReg==
+X-QQ-XMRINFO: MPJ6Tf5t3I/ycC2BItcBVIA=
+X-QQ-RECHKSPAM: 0
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
-X-Get-Message-Sender-Via: s1234.lon1.mysecurecloudhost.com: authenticated_id: alan@improbability.net
-X-Authenticated-Sender: s1234.lon1.mysecurecloudhost.com: alan@improbability.net
-X-Spampanel-Domain: d1229.lon1.mysecurecloudhost.com
-X-Spampanel-Username: 192.250.239.241
-Authentication-Results: antispamcloud.com; auth=pass smtp.auth=192.250.239.241@d1229.lon1.mysecurecloudhost.com
-X-Spampanel-Outgoing-Class: ham
-X-Spampanel-Outgoing-Evidence: SB/global_tokens (0.0043894851864)
-X-Recommended-Action: accept
-X-Filter-ID: 9kzQTOBWQUFZTohSKvQbgI7ZDo5ubYELi59AwcWUnuXRV6fYilBGTKRNAUznEwVQcxeJ+5QOHW6w
- NV4edBVjSyu2SmbhJN1U9FKs8X3+Nt0WZhm/A7favMlTtMMNvR2DuY5FeE90WzUxH4RDkM+uBZQA
- 0TzuaUrBEDY9PSHFDNHoJI9x5PQ7cU2ndxUXEY3wm4o6+OOHG41bxJ7WNm9w/bHsMNslPCFjpAg9
- IRecn+1fMBVPwy1qm9vOskMrq5tbzctJcUtGEDQswhEiplZLEBOSzdZ/GF80GNJkFDc0xgMS8I2u
- 7zgBBfqRIErs6sICR9790Oz0HjaDUI8Ir9yITSU9n537p1CW2dbfl1gcOLg7QmvsjddsYxwxv6Tt
- 0f7Wb1HgElnnwmI9eQkYzxF3C+ZJoOHj69i0BZRo2CU9catLzXqe6ITS3mkbowtcZzOh0PqfkbqP
- DiZE3Gi3tUzyT/r/3z+Aap+PdRtmkEyNuQfsvRSY3ewS3dqRFaymMKMbzr/2zoXweWNnQgshW94P
- r02TKo2fbQFpqpjXNjYEe5Na4e5q10uVyb78T7glhczlviqwgZJlE30bq/X+Udm0PJ2gglS3uuBv
- bZoNes8GF+I3rgvAsgpTkXEF17wLF36Xb7LLybmhhoq3RkO+UvnR4l/d4HFfSWYNXfSMr4zlS/FI
- Yh0e5hsgm8GdmZRPyMgjb+69oCpor83wcA/rpZmc23ws3TRjaC42FtNJuTWwh7xqbm+zqSM4k6j2
- TH8Swu6fU2Itm39BdCc4FEP6OrUewqJCAQmMLvXikQefbUCVd9DQiNZCUwNFpc2zkFrJyOuvhvGO
- VVI7WeTDH6ZxDPNtY4AQTRo0m20kQNWfj5m+TAtWBb39uS1TjWG2Inx+Ts2QUryYcSJLFEwVd01V
- IyXuC+YO51DVvXHoNVOhxxzoCYVrBZS7JNrGjow/xYyiAN4ild/VYLya6BPOMxZOhLJWyfAMJ1F+
- oCfzoCHVyrP2w1N1yZlV0dwirMfQf4goSwVww6JipksfZg5yrj/4ywfbQiw7dvPAeqUgS+pDASno
- Z/jBGcf2xdasH+nZ6a3Qbn6ZFLSxclWLSn7JdSiBd2PodQO/mb799gO9+KX54Xn6wMUb2ruP8y0I
- syrU/DceoY/L69w3tjz3Rn5otHepytbONY230kB5fZStFNF4ZmgcKaHbSwzSiNUCLdf/Kh3nIOf4
- ZuM7jUXIESohoO51xWmU8V8m3NS9QcOAFgORbyI3tCu0lcKpjvuRc7Yjvlf6cycyen7/FcoXV8lk
- ZNqm4EHQ8gCIIbwZRfIXI+uKLs8bUmLnH5akOJT+IdTS9Ldz2aggvjDKmWdAh+liXkZcVqv3Yon5
- y/vcIKE4+MoDT8NV3zfqvwCQoJhkm/lvZPPSF2dUfeyr3wt4oYbErMkhUCDIzNEeKoFWMa2RVHHx
- qlYbVXCPMxBzegUA6g0aqoYzNpP/MS+4ayUpOtEhdxekWDmK9g==
-X-Report-Abuse-To: spam@quarantine14.antispamcloud.com
-X-Complaints-To: abuse@master.antispamcloud.com
 
-On Fri, 2025-11-07 at 10:49 -0500, Alan Stern wrote:
-> On Fri, Nov 07, 2025 at 02:10:46PM +0800, ccc194101@163.com=A0wrote:
-> > From: Chen Changcheng <chenchangcheng@kylinos.cn>
-> >=20
-> > The optical drive of ECD819-SU3 has the same vid and pid as INIC-
-> > 3069,
-> > as follows:
-> > T:=A0 Bus=3D02 Lev=3D02 Prnt=3D02 Port=3D01 Cnt=3D01 Dev#=3D=A0 3 Spd=
-=3D5000 MxCh=3D 0
-> > D:=A0 Ver=3D 3.00 Cls=3D00(>ifc ) Sub=3D00 Prot=3D00 MxPS=3D 9 #Cfgs=3D=
-=A0 1
-> > P:=A0 Vendor=3D13fd ProdID=3D3940 Rev=3D 3.10
-> > S:=A0 Manufacturer=3DHL-DT-ST
-> > S:=A0 Product=3D DVD+-RW GT80N
-> > S:=A0 SerialNumber=3D423349524E4E38303338323439202020
-> > C:* #Ifs=3D 1 Cfg#=3D 1 Atr=3D80 MxPwr=3D144mA
-> > I:* If#=3D 0 Alt=3D 0 #EPs=3D 2 Cls=3D08(stor.) Sub=3D02 Prot=3D50 Driv=
-er=3Dusb-
-> > storage
-> > E:=A0 Ad=3D83(I) Atr=3D02(Bulk) MxPS=3D1024 Ivl=3D0ms
-> > E:=A0 Ad=3D0a(O) Atr=3D02(Bulk) MxPS=3D1024 Ivl=3D0ms
-> >=20
-> > This will result in the optical drive device also adding
-> > the quirks of US_FL_NO_ATA_1X. When performing an erase operation,
-> > it will fail, and the reason for the failure is as follows:
-> > [=A0 388.967742] sr 5:0:0:0: [sr0] tag#0 Send: scmd
-> > 0x00000000d20c33a7
-> > [=A0 388.967742] sr 5:0:0:0: [sr0] tag#0 CDB: ATA command pass
-> > through(12)/Blank a1 11 00 00 00 00 00 00 00 00 00 00
-> > [=A0 388.967773] sr 5:0:0:0: [sr0] tag#0 Done: SUCCESS Result:
-> > hostbyte=3DDID_TARGET_FAILURE driverbyte=3DDRIVER_OK cmd_age=3D0s
-> > [=A0 388.967773] sr 5:0:0:0: [sr0] tag#0 CDB: ATA command pass
-> > through(12)/Blank a1 11 00 00 00 00 00 00 00 00 00 00
-> > [=A0 388.967803] sr 5:0:0:0: [sr0] tag#0 Sense Key : Illegal Request
-> > [current]
-> > [=A0 388.967803] sr 5:0:0:0: [sr0] tag#0 Add. Sense: Invalid field in
-> > cdb
-> > [=A0 388.967803] sr 5:0:0:0: [sr0] tag#0 scsi host busy 1 failed 0
-> > [=A0 388.967803] sr 5:0:0:0: Notifying upper driver of completion
-> > (result 8100002)
-> > [=A0 388.967834] sr 5:0:0:0: [sr0] tag#0 0 sectors total, 0 bytes
-> > done.
-> >=20
-> > Signed-off-by: Chen Changcheng <chenchangcheng@kylinos.cn>
-> > ---
-> > =A0drivers/usb/storage/unusual_uas.h | 6 ++++++
-> > =A01 file changed, 6 insertions(+)
-> >=20
-> > diff --git a/drivers/usb/storage/unusual_uas.h
-> > b/drivers/usb/storage/unusual_uas.h
-> > index 1477e31d7763..6d32b787bff8 100644
-> > --- a/drivers/usb/storage/unusual_uas.h
-> > +++ b/drivers/usb/storage/unusual_uas.h
-> > @@ -97,6 +97,12 @@ UNUSUAL_DEV(0x125f, 0xa94a, 0x0160, 0x0160,
-> > =A0		USB_SC_DEVICE, USB_PR_DEVICE, NULL,
-> > =A0		US_FL_NO_ATA_1X),
-> > =A0
-> > +UNUSUAL_DEV(0x13fd, 0x3940, 0x0310, 0x0310,
-> > +		"Initio Corporation",
-> > +		"external DVD burner ECD819-SU3",
-> > +		USB_SC_DEVICE, USB_PR_DEVICE, NULL,
-> > +		NULL),
-> > +
-> > =A0/* Reported-by: Benjamin Tissoires <benjamin.tissoires@redhat.com>
-> > */
-> > =A0UNUSUAL_DEV(0x13fd, 0x3940, 0x0000, 0x9999,
-> > =A0		"Initio Corporation",
->=20
-> It's unprecedented to have two quirks with the same VID and PID,
-> where=20
-> the second augments the first by virtue of its wider range of
-> bcdDevice=20
-> values.
->=20
-> As explained in commit 89f23d51defc ("uas: Add US_FL_IGNORE_RESIDUE
-> for=20
-> Initio Corporation INIC-3069"), the original Initio Corporation=20
-> quirk in unusual_uas.h was added as a copy of the corresponding quirk
-> in=20
-> unusual_devs.h, which applies only to bcdDevice =3D 0x0209.=A0 Should we=
-=20
-> simply limit the existing unusual_uas.h quirk in the same way?
->=20
-> Benjamin and Alan, you two appear to be the people who originally
-> reported the need for this uas quirk.=A0 Do you have any objection to=20
-> changing the bcdDevice range from 0x0000 - 0x9999 to 0x0209 -
-> 0x0209?=A0=20
-> Or can you suggest a range that does not include 0x0310?
+From: Chaoyi Chen <chaoyi.chen@rock-chips.com>
 
-Can only provide lsusb details for my device. Still need the residue
-flag for use with MakeMKV.
+This series focuses on adding Type-C DP support for USBDP PHY and DP
+driver. The USBDP PHY and DP will perceive the changes in cable status
+based on the USB PD and Type-C state machines provided by TCPM. Before
+this, the USBDP PHY and DP controller of RK3399 sensed cable state
+changes through extcon, and devices such as the RK3399 Gru-Chromebook
+rely on them. This series should not break them.
 
-Bus 002 Device 002: ID 13fd:3940 Initio Corporation external DVD burner
-ECD819-SU3
-Negotiated speed: SuperSpeed (5Gbps)
-Device Descriptor:
-  bLength                18
-  bDescriptorType         1
-  bcdUSB               3.00
-  bDeviceClass            0 [unknown]
-  bDeviceSubClass         0 [unknown]
-  bDeviceProtocol         0
-  bMaxPacketSize0         9
-  idVendor           0x13fd Initio Corporation
-  idProduct          0x3940 external DVD burner ECD819-SU3
-  bcdDevice            3.09
-  iManufacturer           1 Optiarc
-  iProduct                2 BD ROM BC-5500H
-  iSerial                 3 20202020202020202020202020202020
-  bNumConfigurations      1
+====
+1. DisplayPort HPD status notify
 
---=20
-Alan.
+Before v7, I implemented a variety of DP HPD status notify. However,
+they all had various problems and it was difficult to become a generic
+solution.
+
+Under the guidance of Heikki and Dmitry, a decoupled notification
+method between the TypeC and DRM subsystems was introduced in v7.
+First, a notification is sent when TypeC registers a new altmode.
+Then, a generic DP AUX HPD bridge is implemented on the DRM side.
+
+That makes it redundant for each Type-C controller driver to implement
+a similar DP AUX HPD bridge in embedded scenarios.
+
+====
+2. Altmode switching and orientation switching for USBDP PHY
+
+For USB Type-C interfaces, an external Type-C controller chip assists
+by detecting cable attachment, determining plug orientation, and
+reporting USB PD message. The USB/DP combo PHY supports software
+configurable pin mapping and DisplayPort lane assignment. Based on
+these message, the combo PHY can perform both altmode switching and
+orientation switching via software.
+
+The RK3399 EVB IND board has a Type-C interface DisplayPort. It use
+fusb302 chip as Type-C controller. The connection diagram is shown below:
+
+fusb302 chip +---> USB2.0 PHY ----> DWC3 USB controller
+             |
+             +---> USB/DP PHY0 +--> CDN-DP controller
+                               |
+                               +--> DWC3 USB controller
+
+====
+3. Multiple bridge model for RK3399 CDN-DP
+
+The RK3399 has two USB/DP combo PHY and one CDN-DP controller. And
+the CDN-DP can be switched to output to one of the PHYs.
+
+USB/DP PHY0 ---+
+               | <----> CDN-DP controller
+USB/DP PHY1 ---+
+
+In previous versions, if both PHY ports were connected to DP,
+the CDN-DP driver would select the first PHY port for output.
+
+On Dmitry's suggestion, we introduced a multi-bridge model to support
+flexible selection of the output PHY port. For each PHY port, a
+separate encoder and bridge are registered.
+
+The change is based on the DRM AUX HPD bridge, rather than the
+extcon approach. This requires the DT to correctly describe the
+connections between the first bridge in bridge chain and DP
+controller. And Once the first bridge is obtained, we can get the
+last bridge corresponding to the USB-C connector, and then set the
+DRM connector's fwnode to the corresponding one to enable HPD
+notification.
+
+====
+Patch1 add notifier functions for Type-C core.
+Patch2 export all Type-C device types for identification.
+Patch3 add generic USB Type-C DP HPD bridge.
+Patch4 add new Type-C mode switch for RK3399 USBDP phy binding.
+Patch5 add typec_mux and typec_switch for RK3399 USBDP PHY.
+Patch6 add DRM AUX bridge support for RK3399 USBDP PHY.
+Patch7 drops CDN-DP's extcon dependency when Type-C is present.
+Patch8 add multiple bridges to support PHY port selection.
+Patch9 add missing dp_out port for RK3399 CDN-DP.
+Patch10 add Type-C DP support for RK3399 EVB IND board.
+
+Changes in v9:
+- Link to V8: https://lore.kernel.org/all/20251029071435.88-1-kernel@airkyi.com/
+- Remove the exposed DRM_AUX_HPD_BRIDGE option, and select
+DRM_AUX_HPD_TYPEC_BRIDGE when it is available.
+- Add usb role switch for Type-C.
+- Remove USB2 PHY in Type-C connection.
+- ...
+
+Changes in v8:
+- Link to V7: https://lore.kernel.org/all/20251023033009.90-1-kernel@airkyi.com/
+- Export all typec device types for identification.
+- Merge generic DP HPD bridge into one module.
+- Fix coding style.
+
+Changes in v7:
+- Link to V6: https://lore.kernel.org/all/20251016022741.91-1-kernel@airkyi.com/
+- Add notifier functions for Type-C core.
+- Add generic USB Type-C DP HPD bridge.
+
+Changes in v6:
+- Link to V5: https://lore.kernel.org/all/20251011033233.97-1-kernel@airkyi.com/
+- Fix depend in Kconfig.
+- Check DP svid in tcphy_typec_mux_set().
+- Remove mode setting in tcphy_orien_sw_set().
+- Rename some variable names.
+- Attach the DP bridge to the next bridge.
+
+Changes in v5:
+- Link to V4: https://lore.kernel.org/all/20250922012039.323-1-kernel@airkyi.com/
+- Remove the calls related to `drm_aux_hpd_bridge_notify()`.
+- Place the helper functions in the same compilation unit.
+- Add more comments about parent device.
+- Add DRM AUX bridge support for RK3399 USBDP PHY
+- By parsing the HPD bridge chain, set the connector's of_node to the
+of_node corresponding to the USB-C connector.
+- Return EDID cache when other port is already enabled.
+
+Changes in v4:
+- Link to V3: https://lore.kernel.org/all/20250729090032.97-1-kernel@airkyi.com/
+- Add default HPD device for DisplayPort altmode.
+- Introduce multiple bridges for CDN-DP.
+- ...
+
+Changes in v3:
+- Link to V2: https://lore.kernel.org/all/20250718062619.99-1-kernel@airkyi.com/
+- Add more descriptions to clarify the role of the PHY in switching.
+- Fix wrong vdo value.
+- Fix port node in usb-c-connector.
+
+Changes in v2:
+- Link to V1: https://lore.kernel.org/all/20250715112456.101-1-kernel@airkyi.com/
+- Reuse dp-port/usb3-port in rk3399-typec-phy binding.
+- Fix compile error when CONFIG_TYPEC is not enabled.
+- Notify DP HPD state by USB/DP PHY.
+- Ignore duplicate HPD events.
+- Add endpoint to link DP PHY and DP controller.
+- Fix devicetree coding style.
+
+Chaoyi Chen (10):
+  usb: typec: Add notifier functions
+  usb: typec: Export all typec device types
+  drm/bridge: Implement generic USB Type-C DP HPD bridge
+  dt-bindings: phy: rockchip: rk3399-typec-phy: Support mode-switch
+  phy: rockchip: phy-rockchip-typec: Add typec_mux/typec_switch support
+  phy: rockchip: phy-rockchip-typec: Add DRM AUX bridge
+  drm/rockchip: cdn-dp: Support handle lane info without extcon
+  drm/rockchip: cdn-dp: Add multiple bridges to support PHY port
+    selection
+  arm64: dts: rockchip: Add missing dp_out port for RK3399 CDN-DP
+  arm64: dts: rockchip: rk3399-evb-ind: Add support for DisplayPort
+
+ .../phy/rockchip,rk3399-typec-phy.yaml        |   6 +
+ arch/arm64/boot/dts/rockchip/rk3399-base.dtsi |  10 +-
+ .../boot/dts/rockchip/rk3399-evb-ind.dts      | 147 ++++++
+ drivers/gpu/drm/bridge/Kconfig                |  10 +
+ drivers/gpu/drm/bridge/Makefile               |   1 +
+ .../gpu/drm/bridge/aux-hpd-typec-dp-bridge.c  |  50 +++
+ drivers/gpu/drm/rockchip/Kconfig              |   1 +
+ drivers/gpu/drm/rockchip/cdn-dp-core.c        | 354 ++++++++++++---
+ drivers/gpu/drm/rockchip/cdn-dp-core.h        |  24 +-
+ drivers/phy/rockchip/Kconfig                  |   3 +
+ drivers/phy/rockchip/phy-rockchip-typec.c     | 420 +++++++++++++++++-
+ drivers/usb/typec/Makefile                    |   2 +-
+ drivers/usb/typec/bus.h                       |   2 +
+ drivers/usb/typec/class.c                     |   6 +
+ drivers/usb/typec/class.h                     |  10 -
+ drivers/usb/typec/notify.c                    |  23 +
+ include/linux/usb/typec.h                     |  10 +
+ include/linux/usb/typec_altmode.h             |   9 +
+ 18 files changed, 995 insertions(+), 93 deletions(-)
+ create mode 100644 drivers/gpu/drm/bridge/aux-hpd-typec-dp-bridge.c
+ create mode 100644 drivers/usb/typec/notify.c
+
+-- 
+2.51.1
+
