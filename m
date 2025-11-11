@@ -1,34 +1,34 @@
 Received: from zeniv.linux.org.uk (zeniv.linux.org.uk [62.89.141.173])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B868F346A1B;
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BA9D7346E6E;
 	Tue, 11 Nov 2025 06:55:27 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=62.89.141.173
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1762844132; cv=none; b=euGcok1XizDQJkv7diIr6bhv7SUsJPrvGSBGN3xYV3aOl/EDt0YGuCGlapbk7bA+l7+1Kwgh0TRNY6JINRlb8I6HTw4rQdc6luk7KQC0iGiOeZYI1XiSZlW7zUAstoH0A/zFaIREydCFqdScOEJiolrVwr057dxXhnSlsIdgBBI=
+	t=1762844132; cv=none; b=Ba3+m/RYe9OYKvHm7je1tib2cVMwmHiauZwIOgbZuOWhcxEwtOgrAMf0ZaBterGEiSDbtTelWigznWJsGEmZArbAZz6kMoxx38V4tLlrv6kPxOUu9ClRxzypo0JoNVG0CBccgBhXW0mURFiDwufUAtmD+3TofHCHnYyTfkWG+HY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
 	s=arc-20240116; t=1762844132; c=relaxed/simple;
-	bh=cPOxFMBLc13aTQ6kNNeMr1nHH9VwsrN2XN8U+K2FM4A=;
+	bh=3i0vEkyfqpj2vZHxx9t3FgL7MOX+b5d7ioUJFtXztZ0=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=SMp2qpDrFLXhfYJOpsUcdvUDDOilaNZPmPysH5e+Afix+d4mjpM3dhNK0QGtytc0yo0ZW5Z2L1J1x2dxoaFU6JAokVBQXm+8FZgr+ILvaNxjbN0YyAOuvLY3WEahXP2tFOg8hMZ+wHOwn01vLwenW9JlnAPww+A1CgV85hjJ724=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=zeniv.linux.org.uk; spf=none smtp.mailfrom=ftp.linux.org.uk; dkim=pass (2048-bit key) header.d=linux.org.uk header.i=@linux.org.uk header.b=WXIL7oKW; arc=none smtp.client-ip=62.89.141.173
+	 MIME-Version; b=sF3dGILK3NYnn/FUM1KKP4Bb0JrCk7ZmJfABg5ZETRZSU1uX7q2JgyYSqWGlJGmWXgKObZay5cdA9kKUxbuVAszUco4KfG+2ieu43t9zUV/4pGUUT3yeqUK5Tk/TGW980Q50OEfr5cZEF0lTbbqfsYnC7WW/urlinO861IkEucU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=zeniv.linux.org.uk; spf=none smtp.mailfrom=ftp.linux.org.uk; dkim=pass (2048-bit key) header.d=linux.org.uk header.i=@linux.org.uk header.b=J53TPJ+O; arc=none smtp.client-ip=62.89.141.173
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=zeniv.linux.org.uk
 Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=ftp.linux.org.uk
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linux.org.uk header.i=@linux.org.uk header.b="WXIL7oKW"
+	dkim=pass (2048-bit key) header.d=linux.org.uk header.i=@linux.org.uk header.b="J53TPJ+O"
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=linux.org.uk; s=zeniv-20220401; h=Sender:Content-Transfer-Encoding:
 	MIME-Version:References:In-Reply-To:Message-ID:Date:Subject:Cc:To:From:
 	Reply-To:Content-Type:Content-ID:Content-Description;
-	bh=IpNAvIvaquRQO1Ji53mf5vyLMZJ4O2UIIE/EO15yw64=; b=WXIL7oKWy9HSEHoMSySZvGsg9C
-	HZvXk7ur65/jTDXn6YYUhFwacBQF/Fiuvc10VS9Xsn2QTYNJviwjaUBuekxRtO11Dz6DWxo52FpOW
-	xx+ZAWpH5IdaikOJr+SbHm78dNqDE2qZY+DP1N0bGiBMbz3aP11/TIksIad5bfQV5LMa8w658GqFc
-	PUj46ECxO6udLrf5JY3DFWh513jOhp89Sb2BW1rFbpnxjAhi2kFDDHVq5N9vbQexaMhN/htdPvnVc
-	B0ZK7pnVCrUaDpqBGoNoZ8x2c6t6wD7OjT+9UR9FRgOyeCOzpJ8vK7G4mE4q2vcKe9yJN0K6r6owU
-	UJuGjEKg==;
+	bh=lB/gWST5s3/zNGGpGrNmQn0s9XjLn6XUo6NFB74HdeU=; b=J53TPJ+OZ5kZaHTrq85iExMJ+0
+	ESCvD/mY3AUsQJbPBplyGJvh+DHfa6CJDgQjwYe04T03q5fZxVnFU0fMIh0322RWs9ZOTmhrzBB4F
+	M7pYyqB4AJ1pH5/4yHMfI4b55YVk9UTCBH3TyPGbn2v0fBFizfaZELuSNxzb5Gn9xTdxjsRHFHBov
+	Vbxe51f2IOsquNV3XRN/456KamzLZYI0lkolF+ELEVzocIV/iNa1VqfookQvrhsRG+cJ5VKjQ4CKf
+	g24MHsi3z0nxP8/d+QstBk8c4urCx51+yd1QoDelaMTgnAdd/wT1JKm9FpFgd8pogNRRcXpLYc3aG
+	PGOz2OPQ==;
 Received: from viro by zeniv.linux.org.uk with local (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1vIiHj-0000000Bwy6-0yJJ;
-	Tue, 11 Nov 2025 06:55:23 +0000
+	id 1vIiHh-0000000BwtD-1BG9;
+	Tue, 11 Nov 2025 06:55:21 +0000
 From: Al Viro <viro@zeniv.linux.org.uk>
 To: linux-fsdevel@vger.kernel.org
 Cc: torvalds@linux-foundation.org,
@@ -52,9 +52,9 @@ Cc: torvalds@linux-foundation.org,
 	selinux@vger.kernel.org,
 	borntraeger@linux.ibm.com,
 	bpf@vger.kernel.org
-Subject: [PATCH v3 12/50] convert smackfs
-Date: Tue, 11 Nov 2025 06:54:41 +0000
-Message-ID: <20251111065520.2847791-13-viro@zeniv.linux.org.uk>
+Subject: [PATCH v3 01/50] fuse_ctl_add_conn(): fix nlink breakage in case of early failure
+Date: Tue, 11 Nov 2025 06:54:30 +0000
+Message-ID: <20251111065520.2847791-2-viro@zeniv.linux.org.uk>
 X-Mailer: git-send-email 2.49.0
 In-Reply-To: <20251111065520.2847791-1-viro@zeniv.linux.org.uk>
 References: <20251111065520.2847791-1-viro@zeniv.linux.org.uk>
@@ -67,28 +67,75 @@ MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 Sender: Al Viro <viro@ftp.linux.org.uk>
 
-Entirely static tree populated by simple_fill_super().  Can use
-kill_anon_super() as-is.
+fuse_ctl_remove_conn() used to decrement the link count of root
+manually; that got subsumed by simple_recursive_removal(), but
+in case when subdirectory creation has failed the latter won't
+get called.
 
-Acked-by: Casey Schaufler <casey@schaufler-ca.com>
+Just move the modification of parent's link count into
+fuse_ctl_add_dentry() to keep the things simple.  Allows to
+get rid of the nlink argument as well...
+
+Fixes: fcaac5b42768 "fuse_ctl: use simple_recursive_removal()"
 Signed-off-by: Al Viro <viro@zeniv.linux.org.uk>
 ---
- security/smack/smackfs.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ fs/fuse/control.c | 19 ++++++++++---------
+ 1 file changed, 10 insertions(+), 9 deletions(-)
 
-diff --git a/security/smack/smackfs.c b/security/smack/smackfs.c
-index b1e5e62f5cbd..e989ae3890c7 100644
---- a/security/smack/smackfs.c
-+++ b/security/smack/smackfs.c
-@@ -2960,7 +2960,7 @@ static int smk_init_fs_context(struct fs_context *fc)
- static struct file_system_type smk_fs_type = {
- 	.name		= "smackfs",
- 	.init_fs_context = smk_init_fs_context,
--	.kill_sb	= kill_litter_super,
-+	.kill_sb	= kill_anon_super,
- };
+diff --git a/fs/fuse/control.c b/fs/fuse/control.c
+index bb407705603c..5247df896c5d 100644
+--- a/fs/fuse/control.c
++++ b/fs/fuse/control.c
+@@ -205,8 +205,7 @@ static const struct file_operations fuse_conn_congestion_threshold_ops = {
  
- static struct vfsmount *smackfs_mount;
+ static struct dentry *fuse_ctl_add_dentry(struct dentry *parent,
+ 					  struct fuse_conn *fc,
+-					  const char *name,
+-					  int mode, int nlink,
++					  const char *name, int mode,
+ 					  const struct inode_operations *iop,
+ 					  const struct file_operations *fop)
+ {
+@@ -232,7 +231,10 @@ static struct dentry *fuse_ctl_add_dentry(struct dentry *parent,
+ 	if (iop)
+ 		inode->i_op = iop;
+ 	inode->i_fop = fop;
+-	set_nlink(inode, nlink);
++	if (S_ISDIR(mode)) {
++		inc_nlink(d_inode(parent));
++		inc_nlink(inode);
++	}
+ 	inode->i_private = fc;
+ 	d_add(dentry, inode);
+ 
+@@ -252,22 +254,21 @@ int fuse_ctl_add_conn(struct fuse_conn *fc)
+ 		return 0;
+ 
+ 	parent = fuse_control_sb->s_root;
+-	inc_nlink(d_inode(parent));
+ 	sprintf(name, "%u", fc->dev);
+-	parent = fuse_ctl_add_dentry(parent, fc, name, S_IFDIR | 0500, 2,
++	parent = fuse_ctl_add_dentry(parent, fc, name, S_IFDIR | 0500,
+ 				     &simple_dir_inode_operations,
+ 				     &simple_dir_operations);
+ 	if (!parent)
+ 		goto err;
+ 
+-	if (!fuse_ctl_add_dentry(parent, fc, "waiting", S_IFREG | 0400, 1,
++	if (!fuse_ctl_add_dentry(parent, fc, "waiting", S_IFREG | 0400,
+ 				 NULL, &fuse_ctl_waiting_ops) ||
+-	    !fuse_ctl_add_dentry(parent, fc, "abort", S_IFREG | 0200, 1,
++	    !fuse_ctl_add_dentry(parent, fc, "abort", S_IFREG | 0200,
+ 				 NULL, &fuse_ctl_abort_ops) ||
+ 	    !fuse_ctl_add_dentry(parent, fc, "max_background", S_IFREG | 0600,
+-				 1, NULL, &fuse_conn_max_background_ops) ||
++				 NULL, &fuse_conn_max_background_ops) ||
+ 	    !fuse_ctl_add_dentry(parent, fc, "congestion_threshold",
+-				 S_IFREG | 0600, 1, NULL,
++				 S_IFREG | 0600, NULL,
+ 				 &fuse_conn_congestion_threshold_ops))
+ 		goto err;
+ 
 -- 
 2.47.3
 
