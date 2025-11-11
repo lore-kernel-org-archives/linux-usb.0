@@ -1,34 +1,34 @@
 Received: from zeniv.linux.org.uk (zeniv.linux.org.uk [62.89.141.173])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C2A49346FA6;
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9F7BB343D63;
 	Tue, 11 Nov 2025 06:55:27 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=62.89.141.173
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1762844132; cv=none; b=BR3+mMQ7YDkbGa5dxaqQJBgb/L4B0/syeb4rTXV+umwTYWbaSe8neYUsSqZqiQDTdnPcNRRwilHOn/dcCiEnulDWIe4iT05YeKUC/OG6nVK2HHkYa97FTFRNahn4SQgA0vTJwNzHItrJLu56YLboQwzBVhS/++wt7ESD1fEiGeM=
+	t=1762844133; cv=none; b=ZdQ3At5HADmul+ExP5GTS38g8+vdxCTTuSAN/ES0W3VogDbF2Lal5Jp42wxAMp1duj/sdbAdDK/Mu6TVV2O0r/niN2fpetcBpPnOCKbM6Zvuxn/fnQQuI3GI03bMXZl3Dxfo0NH41NZiFNlT9f1tu/6si3rSUjNjPMLIwid/eN4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1762844132; c=relaxed/simple;
-	bh=0rJZ4ovRi5zcpx7S+ter6YR4mMdmc+sGFQAeyIE+h1s=;
+	s=arc-20240116; t=1762844133; c=relaxed/simple;
+	bh=Iwt5ye99zRJSX9pycRhX5pwplCSLlQAGWoYLgPWULTo=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=GFQsoox6W5jL0S0BSefChtSVZb9AWVqe0WBt/nmEpQbhchZaPb73i7ubjxvJGxkJjWz4bzAnOAPHux1u2r4hVaalBOxCP9kPvSXAjzDrjMaVFqTCJ0hshk9hBlNjJ7OtJTLgMubN04+VnoL9maGutRBna3geRPBL/TJ+MBpub4w=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=zeniv.linux.org.uk; spf=none smtp.mailfrom=ftp.linux.org.uk; dkim=pass (2048-bit key) header.d=linux.org.uk header.i=@linux.org.uk header.b=af7kWl7S; arc=none smtp.client-ip=62.89.141.173
+	 MIME-Version; b=fBO4JHXoKRp6lQ1FHTVJNy109DS3H3Erb2Md2bL1sGakbNGBpgvbO1NJdHESWTQHlEx70djhEF5CPIvYX2bG+ePcBjpXGtEnpe15JUX28Mi6FvRZVQW5MSe6jywVzjg8jJ4TITfyEA3WtIjzdgithn0ZHEYHjGsKY7D3gjtZNQ4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=zeniv.linux.org.uk; spf=none smtp.mailfrom=ftp.linux.org.uk; dkim=pass (2048-bit key) header.d=linux.org.uk header.i=@linux.org.uk header.b=HBJvsBb6; arc=none smtp.client-ip=62.89.141.173
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=zeniv.linux.org.uk
 Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=ftp.linux.org.uk
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linux.org.uk header.i=@linux.org.uk header.b="af7kWl7S"
+	dkim=pass (2048-bit key) header.d=linux.org.uk header.i=@linux.org.uk header.b="HBJvsBb6"
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=linux.org.uk; s=zeniv-20220401; h=Sender:Content-Transfer-Encoding:
 	MIME-Version:References:In-Reply-To:Message-ID:Date:Subject:Cc:To:From:
 	Reply-To:Content-Type:Content-ID:Content-Description;
-	bh=3maaNWdAFQG6lKGkg4q4mAf3fnGzZVX1VVI0dDX3CYE=; b=af7kWl7SJFjT7QdFsmwd1bB+oa
-	7VF4d+2ZD5Otiraw7rQJvFktfdYbXy9putsaQRRkXkOvJ2RRHpQeOkz/XScblzy4AWTDnYkqxk7jI
-	xvXI50CDcJ3cX8iE/4vQHVzOqyIJoFi+dUf84KaD7SvsNct9FO7YtW9WAFxGc7FQ396MDz96SPgRz
-	aMN6g8qg7qqSneL1FzADG34DExFPBmzbA6yQLt0avegFgzzf5TaGU9ndWTrScPkLhVV+zRqofYjyA
-	6KZLqZMKt2p757dZqbtqzRX96ZIr1csj7b+Z3fPzh75G6phFt8ewveWWPDJd8CZfUOOwzM4Ebj77C
-	7W2Byy1g==;
+	bh=Zcrjn9Hoyal2qTn93te4BLRuOf8fYSOuLLeBgOIrdbo=; b=HBJvsBb6G3R2lFHWxQJg4yi7EA
+	ogEbzwl0kV8/dSI+7YYtUq+3QUM9stYqBDD0U2IOJHdWS1hBvExlcyU/aq+QkwPzt9fFREVG7Xk1I
+	5Yp30hFOvB7PfIoU/DXzMICkaIPZ4Lp+c7NZoiQYKvNc2CHe/rt5Kty67e2YrtOWxEdHJp/nBVlrS
+	9+WEP2H13utNb91o6Kjmwvc/Zi67++4qcGAWxn6a1OQ2gy5VvsF0amJuiq7e9InvooUce4BPmarmb
+	/pf6fZAcOdbfS4S2otE5ZvDz3R3u9ud1UB8vDEUZz3VDn3dOp/ouQV7KkUor7sjEFxDjpXUw1IFwx
+	rfQNCOWg==;
 Received: from viro by zeniv.linux.org.uk with local (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1vIiHh-0000000Bww2-47vE;
-	Tue, 11 Nov 2025 06:55:22 +0000
+	id 1vIiHj-0000000BwyR-3IKe;
+	Tue, 11 Nov 2025 06:55:23 +0000
 From: Al Viro <viro@zeniv.linux.org.uk>
 To: linux-fsdevel@vger.kernel.org
 Cc: torvalds@linux-foundation.org,
@@ -52,9 +52,9 @@ Cc: torvalds@linux-foundation.org,
 	selinux@vger.kernel.org,
 	borntraeger@linux.ibm.com,
 	bpf@vger.kernel.org
-Subject: [PATCH v3 04/50] new helper: simple_done_creating()
-Date: Tue, 11 Nov 2025 06:54:33 +0000
-Message-ID: <20251111065520.2847791-5-viro@zeniv.linux.org.uk>
+Subject: [PATCH v3 16/50] convert dlmfs
+Date: Tue, 11 Nov 2025 06:54:45 +0000
+Message-ID: <20251111065520.2847791-17-viro@zeniv.linux.org.uk>
 X-Mailer: git-send-email 2.49.0
 In-Reply-To: <20251111065520.2847791-1-viro@zeniv.linux.org.uk>
 References: <20251111065520.2847791-1-viro@zeniv.linux.org.uk>
@@ -67,43 +67,49 @@ MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 Sender: Al Viro <viro@ftp.linux.org.uk>
 
-should be paired with simple_start_creating() - unlocks parent and
-drops dentry reference.
+All modifications via normal VFS codepaths; just take care of making
+persistent in ->create() and ->mkdir() and that's it (removal side
+doesn't need any changes, since it uses simple_rmdir() for ->rmdir()
+and calls simple_unlink() from ->unlink()).
 
 Signed-off-by: Al Viro <viro@zeniv.linux.org.uk>
 ---
- fs/libfs.c         | 8 ++++++++
- include/linux/fs.h | 1 +
- 2 files changed, 9 insertions(+)
+ fs/ocfs2/dlmfs/dlmfs.c | 8 +++-----
+ 1 file changed, 3 insertions(+), 5 deletions(-)
 
-diff --git a/fs/libfs.c b/fs/libfs.c
-index d029aff41f66..a033f35493d0 100644
---- a/fs/libfs.c
-+++ b/fs/libfs.c
-@@ -2326,3 +2326,11 @@ struct dentry *simple_start_creating(struct dentry *parent, const char *name)
- 	return dentry;
- }
- EXPORT_SYMBOL(simple_start_creating);
-+
-+/* parent must have been held exclusive since simple_start_creating() */
-+void simple_done_creating(struct dentry *child)
-+{
-+	inode_unlock(child->d_parent->d_inode);
-+	dput(child);
-+}
-+EXPORT_SYMBOL(simple_done_creating);
-diff --git a/include/linux/fs.h b/include/linux/fs.h
-index 28bd4e8d3892..f5037c556f61 100644
---- a/include/linux/fs.h
-+++ b/include/linux/fs.h
-@@ -3662,6 +3662,7 @@ extern int simple_fill_super(struct super_block *, unsigned long,
- extern int simple_pin_fs(struct file_system_type *, struct vfsmount **mount, int *count);
- extern void simple_release_fs(struct vfsmount **mount, int *count);
- struct dentry *simple_start_creating(struct dentry *, const char *);
-+void simple_done_creating(struct dentry *);
+diff --git a/fs/ocfs2/dlmfs/dlmfs.c b/fs/ocfs2/dlmfs/dlmfs.c
+index cccaa1d6fbba..339f0b11cdc8 100644
+--- a/fs/ocfs2/dlmfs/dlmfs.c
++++ b/fs/ocfs2/dlmfs/dlmfs.c
+@@ -441,8 +441,7 @@ static struct dentry *dlmfs_mkdir(struct mnt_idmap * idmap,
+ 	ip->ip_conn = conn;
  
- extern ssize_t simple_read_from_buffer(void __user *to, size_t count,
- 			loff_t *ppos, const void *from, size_t available);
+ 	inc_nlink(dir);
+-	d_instantiate(dentry, inode);
+-	dget(dentry);	/* Extra count - pin the dentry in core */
++	d_make_persistent(dentry, inode);
+ 
+ 	status = 0;
+ bail:
+@@ -480,8 +479,7 @@ static int dlmfs_create(struct mnt_idmap *idmap,
+ 		goto bail;
+ 	}
+ 
+-	d_instantiate(dentry, inode);
+-	dget(dentry);	/* Extra count - pin the dentry in core */
++	d_make_persistent(dentry, inode);
+ bail:
+ 	return status;
+ }
+@@ -574,7 +572,7 @@ static int dlmfs_init_fs_context(struct fs_context *fc)
+ static struct file_system_type dlmfs_fs_type = {
+ 	.owner		= THIS_MODULE,
+ 	.name		= "ocfs2_dlmfs",
+-	.kill_sb	= kill_litter_super,
++	.kill_sb	= kill_anon_super,
+ 	.init_fs_context = dlmfs_init_fs_context,
+ };
+ MODULE_ALIAS_FS("ocfs2_dlmfs");
 -- 
 2.47.3
 
