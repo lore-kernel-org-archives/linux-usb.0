@@ -1,35 +1,35 @@
-Received: from smtpbgbr1.qq.com (smtpbgbr1.qq.com [54.207.19.206])
+Received: from smtpbgsg1.qq.com (smtpbgsg1.qq.com [54.254.200.92])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A7CFA3570C5;
-	Tue, 11 Nov 2025 10:51:24 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=54.207.19.206
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B272A3587D7;
+	Tue, 11 Nov 2025 10:51:32 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=54.254.200.92
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1762858289; cv=none; b=kB/p54PGsdpjU7E9p2bM7A0qrXfavsfvYvtUs6l0cOkcX9cJMZ4/o23iwHssxT9ZmCsNQ3MSm5JndBFj+42WYB725AU4GwfpLxlKVRPQFbAeS26OkgdKLYqzm0t88t94Wql1fQ/VyeZnTmaShzSc4y6S5uTzZrb9bYvrAzadHcg=
+	t=1762858295; cv=none; b=t/hJRIvsYERHDa7PylWEWJ8odkuNI7u8gRR7s7os1vYcK9k4U/dvl0n1k5HENXXpc1hxTh+27vv8yx3gLQ+2mi+b7Putc6k1p88SUYnMav9Pg0If++RRYPC9uKn87fT5OHm5L1NIj9hSNxSf37BVqecJaF5OthEkg6F41l5AzYc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1762858289; c=relaxed/simple;
-	bh=uqVYgDBkwXN4jdCDwZamrH9tKaVRuOOIwGDr1iagL6Q=;
-	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References; b=IDhls8OvblrWb+rdh1smWAUj+sC5I/fLrkPLAD0Ei02aJc+E6ggtufhEFLlDezrwQrlLVAASlLNo0CRz8v3VDBQW+8GFDx4O9TPgk5boUo1aMbHW64f2LJ2c/GO4U/k0tDnVhDkeELVyFpnzSI18BQlkTnp7Msw/qEQoCQn5JGE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=airkyi.com; spf=pass smtp.mailfrom=airkyi.com; dkim=pass (1024-bit key) header.d=airkyi.com header.i=@airkyi.com header.b=uC+yPWnK; arc=none smtp.client-ip=54.207.19.206
+	s=arc-20240116; t=1762858295; c=relaxed/simple;
+	bh=UYBXRUGpsPucbSnyCek2T6kQGAmNcIEArFxOg+A85iE=;
+	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References; b=NE4YCHiU8FN77B/En54Qs2UYhuVuFqFtugaCmPo48bVXORFEc2t5IUyx21M8qk00/JYYlxDnPKhJ1x6rLlUghZ0PsGKvp3LKcy5lBxLEIcyf1LEVHJW0/eS68qEIeoV8SURjhtwTZfhwJesUDQ2yL91OWhZVbPAg2wmiAFbDWYs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=airkyi.com; spf=pass smtp.mailfrom=airkyi.com; dkim=pass (1024-bit key) header.d=airkyi.com header.i=@airkyi.com header.b=oqBD5zV6; arc=none smtp.client-ip=54.254.200.92
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=airkyi.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=airkyi.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=airkyi.com header.i=@airkyi.com header.b="uC+yPWnK"
+	dkim=pass (1024-bit key) header.d=airkyi.com header.i=@airkyi.com header.b="oqBD5zV6"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=airkyi.com;
-	s=altu2504; t=1762858279;
-	bh=OWq3Ijzm5puFxMiJhAvdmtx+0UY8U1fFY3/NshKxkPE=;
+	s=altu2504; t=1762858290;
+	bh=pFI7M+6j2JewnD4BwkGRc0QPG+RPFm6rGXiCORxPrVE=;
 	h=From:To:Subject:Date:Message-Id;
-	b=uC+yPWnKZW9+rbYbU3ipHGh/Njq7O/ScwKSkab5yta1/IMzIVq/O8Uw/mVvqyo1dq
-	 Pzn2t2/YV93iTYnkGCelJeC4+W74SU1VcM990uiZTV+Qy63mcyFlmp82RmGlu8dshB
-	 WT0hXgvMGFwtqVskJV6HhkX/HKl5EhdY6FruLc2Y=
-X-QQ-mid: zesmtpsz9t1762858274t6e3b4120
-X-QQ-Originating-IP: 1slQcncYtee985S5MZrVUhNCU3D2mTKl7D9nmZmqz0Q=
+	b=oqBD5zV6YJO40Zi/mJaQijusrScK02HgaGHpiM9DDpi5h964WQ0WaRGZbQ90HbNFt
+	 zk1DITH3UujVUhptbnY4M3+JbWYmZd5l+izjdW5bRthGujjzd0EXVhgw8k2Me47ar6
+	 hK2mOXUtpWbelpfvEBdRXl9PzGAT+DACiiJQNDKw=
+X-QQ-mid: zesmtpsz9t1762858287t5941ed20
+X-QQ-Originating-IP: oggRwoMydKBDH0LmcR8KzliYg47YhSd7rMeyclg9ztc=
 Received: from DESKTOP-8BT1A2O.localdomain ( [58.22.7.114])
 	by bizesmtp.qq.com (ESMTP) with 
-	id ; Tue, 11 Nov 2025 18:51:11 +0800 (CST)
+	id ; Tue, 11 Nov 2025 18:51:24 +0800 (CST)
 X-QQ-SSF: 0000000000000000000000000000000
 X-QQ-GoodBg: 0
-X-BIZMAIL-ID: 7739212322103543834
+X-BIZMAIL-ID: 15062605320672791780
 From: Chaoyi Chen <kernel@airkyi.com>
 To: Heikki Krogerus <heikki.krogerus@linux.intel.com>,
 	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
@@ -69,31 +69,31 @@ Cc: linux-usb@vger.kernel.org,
 	linux-arm-kernel@lists.infradead.org,
 	linux-rockchip@lists.infradead.org,
 	dri-devel@lists.freedesktop.org
-Subject: [PATCH v9 06/10] phy: rockchip: phy-rockchip-typec: Add DRM AUX bridge
-Date: Tue, 11 Nov 2025 18:50:36 +0800
-Message-Id: <20251111105040.94-7-kernel@airkyi.com>
+Subject: [PATCH v9 09/10] arm64: dts: rockchip: Add missing dp_out port for RK3399 CDN-DP
+Date: Tue, 11 Nov 2025 18:50:39 +0800
+Message-Id: <20251111105040.94-10-kernel@airkyi.com>
 X-Mailer: git-send-email 2.17.1
 In-Reply-To: <20251111105040.94-1-kernel@airkyi.com>
 References: <20251111105040.94-1-kernel@airkyi.com>
 X-QQ-SENDSIZE: 520
 Feedback-ID: zesmtpsz:airkyi.com:qybglogicsvrgz:qybglogicsvrgz6b-0
-X-QQ-XMAILINFO: N2xbKkhNGEXwG8tJCForXeMJ7E026c7rxK2mw8Lu3H8pBPgrW9SamnnM
-	AkDfWtJkIl0aWDqIj7pNIzrOA4AxJPSqboQ4KY6YihT9fZ9Y3wYTQ6E6Cz+0RBaSkSh3MHw
-	cVa6nhi+Xjr3/1WmCNqh0CAn8pahCZpU+kOluBPvn7gmlrcvXdZtTnwHu7Fy+m9ezqirV/x
-	VpvgmZwzt8iltPvW8Jsg7xNiseye5PgQYLGvEsJbSt4K1XQSUq2LGZDr8ZwoeI/SN/sgJia
-	prBKpGoSqquI+sFkofmMj+1Tcpzg/4zv7noQlpfucqJEi+Bo/dmKtwqgSsDeMAsMDcV2BR0
-	QxGdLGFphdPzQAu5c39Sv4NbN16f+6/t7EFvL5gMlklldBxeVcMKf2n8Pnm3ZsPlTuCtC3U
-	r1kES/sbqNkVJ5YuXBDiOWNOwgu7Prelnc5Yq3T76UOBtnPvUcjiBS/azp2Gyio8vd+MYk2
-	KozXZQ8iZ7xQmknizCw04+weWDKJEfsnza88+Q9uK3zDfJG2iuvKhn93Xdo2gBa4EiEQZtg
-	XIumDA0KdVVMBqbVqW4JtTePFlgrbb46eAxWpNJ28UMkXVILUvuj3boYQj7K7NcQLtRAnmS
-	eRpFjsaojbLoFkiH61lUJDiqtnfWNZ9DhuNrkfV4Xazq8HKVXANaL3aQFiN/vHBUXMd3HWD
-	XMCX6lBHE8t0CiZLlZGgTIOEZ0TiG5v9/QLTUVI+ALxoZSt5EQNzv7aG4kS2W4Wv51bPuQk
-	cEJg4UyzJwA1x3q+7fdvABMgFWxHnm3KRC5QttdtcEEMZzgBMj6Z96TidyYOqTwqe0s4plD
-	Ta47WGLmVBOtUc7XMtKU5ZAGp8ZfNrz1jvu89OteGhKGZ6m+MC3LcyYpWRsRjrmTs9twOEb
-	Ydp/jUCH0ZtFQ26pCwiEvv7r1OeiFWrrOi9y9wmMlsovFKawKm9ZmgyPssWcXZjaxJnEgB6
-	ESiuqD8MjlFkVCEH3SwI5lUiIEtWVhBxbkaUinz572yA/RZhKYozvmw/bhicUD0IL9ipVrM
-	1YH0u+KOM46+BffQS6Kt5hwDl1puUA1SacAeR7dL+SKUKWk9Rt
-X-QQ-XMRINFO: NyFYKkN4Ny6FSmKK/uo/jdU=
+X-QQ-XMAILINFO: OUksgP1p7wvYcTmCIbAbgPqsFwkz5TEDssB8YMyii1AcuwEqA61bxWOY
+	PLpodXsKH0cvKY/rqj5YXK5Ps3mCuFV2MFOrt+hr5BqnpYqAbiafjfk6gRrhCoY9mIO9Pes
+	IEoLIBHAGOFqo+FosLKsl0qtG6eoGLY1d5EMXZwzddoETlQu8vWNTbCg0j7WyrBlNkmM5k5
+	lxVzH/xJmR65o2tPK+C+C6Uw+Mwjzv2/mjGCpVM4N0wVqGYl2Grz+gmKPMNVery5BCuC+y9
+	v/IGZmo9UzjHsNOIr7jtjK3G+Hvbg64KwjO2z7ZZsZE3tizOWrp8oW+itxmZXzO2JNPzR4x
+	ug+cecIrZIa7raPkhQchWLz211ONqkOEdf2cLsy4VKIAv+pa2uHLhFzUgaY64NQGv4x0iO0
+	2RZ3m1gleLWYP9X7+5XOhXEvWT9RNbd/E127RltXQwQ3f2rGIlzO295tNne25y0eJenKFwd
+	fM1x+zxycqUG7zVFZymzLGYX4E0uMXE67khu9sb6s50wJy0RtillqcxFH508NS91+dk+QJq
+	1zGM6BVEzfnaVwXMpSsChWbFCXFAvaKJYXeUTIkg0NZK3WzKQUzlMb2MoWMe9qZ+fcHP4Re
+	ScemEVA3ypjiBYmg3KdLOcjAB5r97YKygzo9LEfgRhpM3WEirCe1JGJbN0qVgbgTBrK1V5t
+	/faT/giwM9up2njBBw4mNP0zf2T506kYUPVZ9dlMl5Jc5mioprm25Dmwy2MmumNZGahOkQ3
+	7bJ4Zoc76ScFiE2nUDkILJyepQ0tO/ypjKAf7EesHPyumSLeCHnb6Ed+kABhM5h3PtQ5h8A
+	mLupmb9xbrP7XYtIc3hIauAoUfAP+KrO6C7+qfwdy1HdgDmEvVcfYzZMpnTw6OItEbID1JH
+	Fom9OYyUmeOiR5idOkOHyqToc1w3wHVlC2pn7gxncdu0SBv0ThzwJo2oIk49yX+33oC4Ri1
+	Dh4AMyL1GMAITlUDDzL2eJxmcS7ESVLwL3rTLFiKBw+Z/2p1cKdi5LXtdm9o3Lb7HBbtNnv
+	GkE4Ushg==
+X-QQ-XMRINFO: Nq+8W0+stu50PRdwbJxPCL0=
 X-QQ-RECHKSPAM: 0
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
@@ -103,125 +103,50 @@ List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 
 From: Chaoyi Chen <chaoyi.chen@rock-chips.com>
 
-Using the DRM_AUX_BRIDGE helper to create the transparent DRM bridge
-device.
+Let's make the ports nodes of cdn_dp in the same style as the other
+display interface, and match the style of ports's yaml.
 
 Signed-off-by: Chaoyi Chen <chaoyi.chen@rock-chips.com>
 ---
 
-(no changes since v7)
+(no changes since v5)
 
-Changes in v6:
-- Fix depend in Kconfig. 
+Changes in v4:
+- Remove unnecessary #address/#size-cells
 
- drivers/phy/rockchip/Kconfig              |  2 +
- drivers/phy/rockchip/phy-rockchip-typec.c | 52 +++++++++++++++++++++++
- 2 files changed, 54 insertions(+)
+(no changes since v1)
 
-diff --git a/drivers/phy/rockchip/Kconfig b/drivers/phy/rockchip/Kconfig
-index db4adc7c53da..bcb5476222fc 100644
---- a/drivers/phy/rockchip/Kconfig
-+++ b/drivers/phy/rockchip/Kconfig
-@@ -120,6 +120,8 @@ config PHY_ROCKCHIP_TYPEC
- 	tristate "Rockchip TYPEC PHY Driver"
- 	depends on OF && (ARCH_ROCKCHIP || COMPILE_TEST)
- 	depends on TYPEC || TYPEC=n
-+	depends on DRM || DRM=n
-+	select DRM_AUX_BRIDGE if DRM_BRIDGE
- 	select EXTCON
- 	select GENERIC_PHY
- 	select RESET_CONTROLLER
-diff --git a/drivers/phy/rockchip/phy-rockchip-typec.c b/drivers/phy/rockchip/phy-rockchip-typec.c
-index 1f5b4142cbe4..748a6eb8ad95 100644
---- a/drivers/phy/rockchip/phy-rockchip-typec.c
-+++ b/drivers/phy/rockchip/phy-rockchip-typec.c
-@@ -36,6 +36,7 @@
-  * orientation, false is normal orientation.
-  */
+ arch/arm64/boot/dts/rockchip/rk3399-base.dtsi | 10 +++++++++-
+ 1 file changed, 9 insertions(+), 1 deletion(-)
+
+diff --git a/arch/arm64/boot/dts/rockchip/rk3399-base.dtsi b/arch/arm64/boot/dts/rockchip/rk3399-base.dtsi
+index 4dcceb9136b7..93b42820998f 100644
+--- a/arch/arm64/boot/dts/rockchip/rk3399-base.dtsi
++++ b/arch/arm64/boot/dts/rockchip/rk3399-base.dtsi
+@@ -618,7 +618,11 @@ cdn_dp: dp@fec00000 {
+ 		status = "disabled";
  
-+#include <linux/auxiliary_bus.h>
- #include <linux/clk.h>
- #include <linux/clk-provider.h>
- #include <linux/delay.h>
-@@ -56,6 +57,7 @@
- #include <linux/phy/phy.h>
- #include <linux/usb/typec_dp.h>
- #include <linux/usb/typec_mux.h>
-+#include <drm/bridge/aux-bridge.h>
+ 		ports {
+-			dp_in: port {
++			#address-cells = <1>;
++			#size-cells = <0>;
++
++			dp_in: port@0 {
++				reg = <0>;
+ 				#address-cells = <1>;
+ 				#size-cells = <0>;
  
- #define CMN_SSM_BANDGAP			(0x21 << 2)
- #define CMN_SSM_BIAS			(0x22 << 2)
-@@ -415,6 +417,7 @@ struct rockchip_usb3phy_port_cfg {
+@@ -632,6 +636,10 @@ dp_in_vopl: endpoint@1 {
+ 					remote-endpoint = <&vopl_out_dp>;
+ 				};
+ 			};
++
++			dp_out: port@1 {
++				reg = <1>;
++			};
+ 		};
+ 	};
  
- struct rockchip_typec_phy {
- 	struct device *dev;
-+	struct auxiliary_device dp_port_dev;
- 	void __iomem *base;
- 	struct extcon_dev *extcon;
- 	struct typec_mux_dev *mux;
-@@ -1299,6 +1302,51 @@ static void tcphy_typec_mux_unregister(void *data)
- 	typec_mux_unregister(tcphy->mux);
- }
- 
-+static void tcphy_dp_port_dev_release(struct device *dev)
-+{
-+	struct auxiliary_device *adev = to_auxiliary_dev(dev);
-+
-+	of_node_put(adev->dev.of_node);
-+}
-+
-+static void tcphy_dp_port_unregister_adev(void *_adev)
-+{
-+	struct auxiliary_device *adev = _adev;
-+
-+	auxiliary_device_delete(adev);
-+	auxiliary_device_uninit(adev);
-+}
-+
-+static int tcphy_aux_bridge_register(struct rockchip_typec_phy *tcphy, struct device_node *np)
-+{
-+	struct auxiliary_device *adev = &tcphy->dp_port_dev;
-+	int ret;
-+
-+	adev->name = "dp_port";
-+	adev->dev.parent = tcphy->dev;
-+	adev->dev.of_node = of_node_get(np);
-+	adev->dev.release = tcphy_dp_port_dev_release;
-+
-+	ret = auxiliary_device_init(adev);
-+
-+	if (ret) {
-+		of_node_put(adev->dev.of_node);
-+		return ret;
-+	}
-+
-+	ret = auxiliary_device_add(adev);
-+	if (ret) {
-+		auxiliary_device_uninit(adev);
-+		return ret;
-+	}
-+
-+	devm_add_action_or_reset(tcphy->dev, tcphy_dp_port_unregister_adev, adev);
-+
-+	ret = drm_aux_bridge_register(&adev->dev);
-+
-+	return 0;
-+}
-+
- static int tcphy_setup_typec_mux(struct rockchip_typec_phy *tcphy)
- {
- 	struct typec_mux_desc mux_desc = {};
-@@ -1312,6 +1360,10 @@ static int tcphy_setup_typec_mux(struct rockchip_typec_phy *tcphy)
- 	if (!of_property_read_bool(np, "mode-switch"))
- 		goto put_np;
- 
-+	ret = tcphy_aux_bridge_register(tcphy, np);
-+	if (ret)
-+		goto put_np;
-+
- 	mux_desc.drvdata = tcphy;
- 	mux_desc.fwnode = device_get_named_child_node(tcphy->dev, "dp-port");
- 	mux_desc.set = tcphy_typec_mux_set;
 -- 
 2.51.1
 
