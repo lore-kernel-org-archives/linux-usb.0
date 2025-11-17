@@ -1,146 +1,222 @@
-Received: from mail-m3285.qiye.163.com (mail-m3285.qiye.163.com [220.197.32.85])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.15])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E4F2D320A29;
-	Mon, 17 Nov 2025 08:56:30 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=220.197.32.85
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6C1B9322A00;
+	Mon, 17 Nov 2025 09:00:36 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.15
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1763369794; cv=none; b=P8fSuPZd/7rzFU/hLcEzge7ah/S5gcwbdjR6kjv3e5mgG/O/vXjvCXwb7Ah36QzCSTAIWj3Jmc+VcSvBiWPOULinSSrDpOKVX01N+9N+TNgzQkaUyJagL8nBGCGtoFVJpaK1qe1mE7Z7BAsCYxGXk50osCiidCHJN464zjypQNQ=
+	t=1763370039; cv=none; b=RBQBXVzTDjFE7qm7a40UNLmv4tIvpyTpQLfwTJdrYpYRSjleAGfy5hYsph1ZB8ncGXk0Wv4fGSzJvRw8F4Qcc5nGGVM/Pi0Uwzc3lJxU8IHzYW4ktczUTzNX4ph0Wa3G4cEjUSTR6B5uJiiN9vMvSoZlIjf3sUYDAHdczwRV4ys=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1763369794; c=relaxed/simple;
-	bh=s+EbEDT1bM2jm0Uo+6FPZMVkzVuYa7P8MmADyL1dNtw=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=PzD28gYWkDgccmkc+mksK3R1pfZzMXuOtpCnL1MTz9rHkos+u+bjoleLeZ69XC+kVLOPP5LkCzjY6fvpQ3Mezdqo7HHgKb+HYecI+oMn2Lq3RtSlFFuyFHyamEeEp6Yiri/0aBSzvTM54JRG4S8m4q8YC3o2Zse6B1YYbryiFgk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=rock-chips.com; spf=pass smtp.mailfrom=rock-chips.com; dkim=pass (1024-bit key) header.d=rock-chips.com header.i=@rock-chips.com header.b=hOFtIT19; arc=none smtp.client-ip=220.197.32.85
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=rock-chips.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=rock-chips.com
+	s=arc-20240116; t=1763370039; c=relaxed/simple;
+	bh=CnZlH0vV28MtgAwWBkUyO60uq2qIefAgnKLr+qSpUNg=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=kdl+2D+YIUJ3QsZkny7J4DO1Ud3oDLSMTKHmW5Sq2lZyQiYUhiFX55GucSk29ZpZ1hRT7CTyM86+dcfjf4wlQDMImC8cI2eqfntld9+1k9FklULu5MZnJtS61cNLF62BGC/p7lznKgsI0B9T23lHbfV6IVTJ6JpuLDvtWL0wzU4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=pass smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=jB8SC/zV; arc=none smtp.client-ip=198.175.65.15
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=rock-chips.com header.i=@rock-chips.com header.b="hOFtIT19"
-Received: from [172.16.12.51] (unknown [58.22.7.114])
-	by smtp.qiye.163.com (Hmail) with ESMTP id 29d41b62c;
-	Mon, 17 Nov 2025 16:41:08 +0800 (GMT+08:00)
-Message-ID: <a3d80b63-761c-4a15-b7fb-c8a3bba8a5bd@rock-chips.com>
-Date: Mon, 17 Nov 2025 16:41:07 +0800
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="jB8SC/zV"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1763370036; x=1794906036;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=CnZlH0vV28MtgAwWBkUyO60uq2qIefAgnKLr+qSpUNg=;
+  b=jB8SC/zVhRP+ZDFektHFcb/xBd5o0iVcJgkJ4A9fQtA7CzJStKYrGK36
+   HPQdOVlgNcTC++PusoiMNFv4tEumPk8qn4Daa4G9Fu1b+9rBp/Ht0l+6p
+   +1eMFZRgZjWqzbhQyvOdbkz4cDBJm6MOvof+W4VDSRspgYwk8oA7Nskae
+   UJxbHvjLt5qIy14a0oxiuQjThsSMJs0zMOwC8erZ/p33uv+2K+OH0f9Ro
+   LuG2hs0+tlPGPVrTN4wzoZbo7cwTDljAG8E8GRVlQjXG+HIITcStRrNo7
+   nYarn4FzDlfXsml399To1JOM25rgSMGY6063NccSZTAPuR5TZGDIIcRY1
+   Q==;
+X-CSE-ConnectionGUID: /2zGxayCQei+V+FlHdcS+A==
+X-CSE-MsgGUID: hMPEe0QsSqC+dtxgKYY80Q==
+X-IronPort-AV: E=McAfee;i="6800,10657,11615"; a="68984513"
+X-IronPort-AV: E=Sophos;i="6.19,311,1754982000"; 
+   d="scan'208";a="68984513"
+Received: from fmviesa009.fm.intel.com ([10.60.135.149])
+  by orvoesa107.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 17 Nov 2025 01:00:35 -0800
+X-CSE-ConnectionGUID: JJkVzHRaS9qjo3ZDRsWQgA==
+X-CSE-MsgGUID: 4USdg9xTQgGWZrFWZjzC8g==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.19,311,1754982000"; 
+   d="scan'208";a="190837199"
+Received: from mgoodin-mobl3.amr.corp.intel.com (HELO kuha.fi.intel.com) ([10.124.220.176])
+  by fmviesa009.fm.intel.com with SMTP; 17 Nov 2025 01:00:32 -0800
+Received: by kuha.fi.intel.com (sSMTP sendmail emulation); Mon, 17 Nov 2025 11:00:29 +0200
+Date: Mon, 17 Nov 2025 11:00:29 +0200
+From: Heikki Krogerus <heikki.krogerus@linux.intel.com>
+To: "Chia-Lin Kao (AceLan)" <acelan.kao@canonical.com>
+Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>,
+	Fedor Pchelkin <boddah8794@gmail.com>,
+	Andrei Kuchynski <akuchynski@chromium.org>,
+	Venkat Jayaraman <venkat.jayaraman@intel.com>,
+	Myrrh Periwinkle <myrrhperiwinkle@qtmlabs.xyz>,
+	linux-usb@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v2 1/3] usb: typec: ucsi: Detect and skip duplicate
+ altmodes from buggy firmware
+Message-ID: <aRrkLczHJzONnxtT@kuha.fi.intel.com>
+References: <20251111010541.145421-1-acelan.kao@canonical.com>
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v9 01/10] usb: typec: Add notifier functions
-To: Heikki Krogerus <heikki.krogerus@linux.intel.com>,
- Chaoyi Chen <kernel@airkyi.com>
-Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
- Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>,
- Peter Chen <hzpeterchen@gmail.com>, Rob Herring <robh@kernel.org>,
- Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley
- <conor+dt@kernel.org>, Vinod Koul <vkoul@kernel.org>,
- Kishon Vijay Abraham I <kishon@kernel.org>, Heiko Stuebner
- <heiko@sntech.de>, Sandy Huang <hjc@rock-chips.com>,
- Andy Yan <andy.yan@rock-chips.com>,
- Yubing Zhang <yubing.zhang@rock-chips.com>,
- Frank Wang <frank.wang@rock-chips.com>,
- Andrzej Hajda <andrzej.hajda@intel.com>,
- Neil Armstrong <neil.armstrong@linaro.org>, Robert Foss <rfoss@kernel.org>,
- Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
- Jonas Karlman <jonas@kwiboo.se>, Jernej Skrabec <jernej.skrabec@gmail.com>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
- David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
- Amit Sunil Dhamne <amitsd@google.com>, Dragan Simic <dsimic@manjaro.org>,
- Johan Jonker <jbx6244@gmail.com>, Diederik de Haas <didi.debian@cknow.org>,
- Peter Robinson <pbrobinson@gmail.com>, linux-usb@vger.kernel.org,
- devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
- linux-phy@lists.infradead.org, linux-arm-kernel@lists.infradead.org,
- linux-rockchip@lists.infradead.org, dri-devel@lists.freedesktop.org
-References: <20251111105040.94-1-kernel@airkyi.com>
- <20251111105040.94-2-kernel@airkyi.com> <aRrd48unDVdtKYH3@kuha.fi.intel.com>
-Content-Language: en-US
-From: Chaoyi Chen <chaoyi.chen@rock-chips.com>
-In-Reply-To: <aRrd48unDVdtKYH3@kuha.fi.intel.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-X-HM-Tid: 0a9a90f9990e03abkunm4cb37f2e8ef5d7
-X-HM-MType: 1
-X-HM-Spam-Status: e1kfGhgUHx5ZQUpXWQgPGg8OCBgUHx5ZQUlOS1dZFg8aDwILHllBWSg2Ly
-	tZV1koWUFDSUNOT01LS0k3V1ktWUFJV1kPCRoVCBIfWUFZGh9LGVZMTEpKSElOTUgeQhlWFRQJFh
-	oXVRMBExYaEhckFA4PWVdZGBILWUFZTkNVSUlVTFVKSk9ZV1kWGg8SFR0UWUFZT0tIVUpLSEpPSE
-	xVSktLVUpCS0tZBg++
-DKIM-Signature: a=rsa-sha256;
-	b=hOFtIT19tQHGKm/AjIrU3dl9n7oTP30e+3028Vz/xpPVYhiRb5DY+GdzDQAke2B4uTj9X52JMiN7m3Q5PbecpuNBUkv1arKOXPCcGAo1RbjOs6PsLqyySe5MADqb96G35VF9Hr2XNq1Fuhgo/zOfm3gqq8ppid45A8xGVpVncIk=; c=relaxed/relaxed; s=default; d=rock-chips.com; v=1;
-	bh=tB5/oLgZQyjNeula29g1R0qnMwKqvTtythdvgE1DMgw=;
-	h=date:mime-version:subject:message-id:from;
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20251111010541.145421-1-acelan.kao@canonical.com>
 
-On 11/17/2025 4:33 PM, Heikki Krogerus wrote:
+Hi,
 
-> Tue, Nov 11, 2025 at 06:50:31PM +0800, Chaoyi Chen kirjoitti:
->> From: Chaoyi Chen <chaoyi.chen@rock-chips.com>
->>
->> Some other part of kernel may want to know the event of typec bus.
->>
->> This patch add common notifier function to notify these event.
->>
->> Signed-off-by: Chaoyi Chen <chaoyi.chen@rock-chips.com>
->> ---
->>
->> Changes in v9:
->> - Remove redundant header files.
->>
->> Changes in v8:
->> - Fix coding style.
->>
->>   drivers/usb/typec/Makefile        |  2 +-
->>   drivers/usb/typec/bus.h           |  2 ++
->>   drivers/usb/typec/class.c         |  2 ++
->>   drivers/usb/typec/notify.c        | 23 +++++++++++++++++++++++
->>   include/linux/usb/typec_altmode.h |  9 +++++++++
->>   5 files changed, 37 insertions(+), 1 deletion(-)
->>   create mode 100644 drivers/usb/typec/notify.c
->>
->> diff --git a/drivers/usb/typec/Makefile b/drivers/usb/typec/Makefile
->> index 7a368fea61bc..20d09c5314d7 100644
->> --- a/drivers/usb/typec/Makefile
->> +++ b/drivers/usb/typec/Makefile
->> @@ -1,6 +1,6 @@
->>   # SPDX-License-Identifier: GPL-2.0
->>   obj-$(CONFIG_TYPEC)		+= typec.o
->> -typec-y				:= class.o mux.o bus.o pd.o retimer.o
->> +typec-y				:= class.o mux.o notify.o bus.o pd.o retimer.o
->>   typec-$(CONFIG_ACPI)		+= port-mapper.o
->>   obj-$(CONFIG_TYPEC)		+= altmodes/
->>   obj-$(CONFIG_TYPEC_TCPM)	+= tcpm/
->> diff --git a/drivers/usb/typec/bus.h b/drivers/usb/typec/bus.h
->> index 643b8c81786d..820b59b6d434 100644
->> --- a/drivers/usb/typec/bus.h
->> +++ b/drivers/usb/typec/bus.h
->> @@ -26,6 +26,8 @@ struct altmode {
->>   	struct altmode			*plug[2];
->>   };
->>   
->> +void typec_notify_event(unsigned long event, void *data);
->> +
->>   #define to_altmode(d) container_of(d, struct altmode, adev)
->>   
->>   extern const struct bus_type typec_bus;
->> diff --git a/drivers/usb/typec/class.c b/drivers/usb/typec/class.c
->> index 9b2647cb199b..9d2aa3dd3f56 100644
->> --- a/drivers/usb/typec/class.c
->> +++ b/drivers/usb/typec/class.c
->> @@ -600,6 +600,8 @@ typec_register_altmode(struct device *parent,
->>   		return ERR_PTR(ret);
->>   	}
->>   
->> +	typec_notify_event(TYPEC_ALTMODE_REGISTERED, &alt->adev);
->> +
->>   	return &alt->adev;
->>   }
-> You need to also send TYPEC_ALTMODE_UNREGISTERED notification in
-> typec_unregister_altmode().
->
-Sorry, I left that out. I will fix this in v10. Thank you.
+Tue, Nov 11, 2025 at 09:05:39AM +0800, Chia-Lin Kao (AceLan) kirjoitti:
+> Some firmware implementations incorrectly return the same altmode
+> multiple times at different offsets when queried via UCSI_GET_ALTERNATE_MODES.
+> This causes sysfs duplicate filename errors and kernel call traces when
+> the driver attempts to register the same altmode twice:
+> 
+>   sysfs: cannot create duplicate filename '/devices/.../typec/port0/port0.0/partner'
+>   typec-thunderbolt port0-partner.1: failed to create symlinks
+>   typec-thunderbolt port0-partner.1: probe with driver typec-thunderbolt failed with error -17
+> 
+> Detect duplicate altmodes by comparing SVID and VDO before registration.
+> If a duplicate is detected, skip it and print a single clean warning
+> message instead of generating a kernel call trace:
+> 
+>   ucsi_acpi USBC000:00: con2: Firmware bug: duplicate partner altmode SVID 0x8087 (VDO 0x8087a043 vs 0x00000001) at offset 1, ignoring. Please update your system firmware.
+> 
+> This makes the error handling more user-friendly while still alerting
+> users to the firmware bug.
+> 
+> The duplicate detection logic is implemented in a reusable helper
+> function ucsi_altmode_is_duplicate() and used in ucsi_register_altmodes().
+> The fix applies to all three recipient types: partner (SOP), port (CON),
+> and plug (SOP_P) altmodes.
+> 
+> Fixes: a79f16efcd00 ("usb: typec: ucsi: Add support for the partner USB Modes")
+> Cc: stable@vger.kernel.org
+> Signed-off-by: Chia-Lin Kao (AceLan) <acelan.kao@canonical.com>
+> ---
+>  drivers/usb/typec/ucsi/ucsi.c | 77 +++++++++++++++++++++++++++++++++++
+>  1 file changed, 77 insertions(+)
+> 
+> diff --git a/drivers/usb/typec/ucsi/ucsi.c b/drivers/usb/typec/ucsi/ucsi.c
+> index 3f568f790f39..7b79e7491094 100644
+> --- a/drivers/usb/typec/ucsi/ucsi.c
+> +++ b/drivers/usb/typec/ucsi/ucsi.c
+> @@ -556,6 +556,74 @@ ucsi_register_altmodes_nvidia(struct ucsi_connector *con, u8 recipient)
+>  	return 0;
+>  }
+>  
+> +/*
+> + * Check if an altmode is a duplicate. Some firmware implementations
+> + * incorrectly return the same altmode multiple times, causing sysfs errors.
+> + * Returns true if the altmode should be skipped.
+> + */
+> +static bool ucsi_altmode_is_duplicate(struct ucsi_connector *con, u8 recipient,
+> +				      const struct ucsi_altmode *alt_batch, int batch_idx,
+> +				      u16 svid, u32 vdo, int offset)
+> +{
+> +	int k;
+> +
+> +	/* Check for duplicates within the current batch first */
+> +	for (k = 0; k < batch_idx; k++) {
+> +		if (alt_batch[k].svid == svid && alt_batch[k].mid == vdo) {
+> +			dev_warn_once(con->ucsi->dev,
+> +				      "con%d: Firmware bug: duplicate altmode SVID 0x%04x in same response at offset %d, ignoring. Please update your system firmware.\n",
+> +				      con->num, svid, offset);
+> +			return true;
+> +		}
+> +	}
+> +
+> +	/* Check for duplicates in already registered altmodes */
+> +	if (recipient == UCSI_RECIPIENT_SOP) {
+> +		for (k = 0; k < UCSI_MAX_ALTMODES; k++) {
+> +			if (!con->partner_altmode[k])
+> +				break;
+> +			/*
+> +			 * Some buggy firmware returns the same SVID multiple times
+> +			 * with different VDOs. This causes duplicate device registration
+> +			 * and sysfs errors. Check SVID only for partner altmodes.
+> +			 */
+> +			if (con->partner_altmode[k]->svid == svid) {
+
+I'm not sure this works. Some vendor specific modes always come in
+pairs. Check Apple for example. I think you always need to check the
+VID on top of the SVID.
+
+> +				dev_warn(con->ucsi->dev,
+> +					 "con%d: Firmware bug: duplicate partner altmode SVID 0x%04x (VDO 0x%08x vs 0x%08x) at offset %d, ignoring. Please update your system firmware.\n",
+> +					 con->num, svid, con->partner_altmode[k]->vdo,
+> +					 vdo, offset);
+> +				return true;
+> +			}
+> +		}
+> +	} else if (recipient == UCSI_RECIPIENT_CON) {
+> +		for (k = 0; k < UCSI_MAX_ALTMODES; k++) {
+> +			if (!con->port_altmode[k])
+> +				break;
+> +			if (con->port_altmode[k]->svid == svid &&
+> +			    con->port_altmode[k]->vdo == vdo) {
+> +				dev_warn_once(con->ucsi->dev,
+> +					      "con%d: Firmware bug: duplicate port altmode SVID 0x%04x at offset %d, ignoring. Please update your system firmware.\n",
+> +					      con->num, svid, offset);
+> +				return true;
+> +			}
+> +		}
+> +	} else if (recipient == UCSI_RECIPIENT_SOP_P) {
+> +		for (k = 0; k < UCSI_MAX_ALTMODES; k++) {
+> +			if (!con->plug_altmode[k])
+> +				break;
+> +			if (con->plug_altmode[k]->svid == svid &&
+> +			    con->plug_altmode[k]->vdo == vdo) {
+> +				dev_warn_once(con->ucsi->dev,
+> +					      "con%d: Firmware bug: duplicate plug altmode SVID 0x%04x at offset %d, ignoring. Please update your system firmware.\n",
+> +					      con->num, svid, offset);
+> +				return true;
+> +			}
+> +		}
+> +	}
+
+        struct typec_altmode *altmodes;
+
+        switch (recipient) {
+        case UCSI_RECIPIENT_CON:
+                altmodes = con->port->altmode;
+                break;
+        case UCSI_RECIPIENT_SOP_P:
+                altmodes = con->plug_altmode;
+                break;
+        ...
+
+> +
+> +	return false;
+> +}
+> +
+>  static int ucsi_register_altmodes(struct ucsi_connector *con, u8 recipient)
+>  {
+>  	int max_altmodes = UCSI_MAX_ALTMODES;
+> @@ -605,6 +673,15 @@ static int ucsi_register_altmodes(struct ucsi_connector *con, u8 recipient)
+>  			if (!alt[j].svid)
+>  				return 0;
+>  
+> +			/*
+> +			 * Check for duplicates in current batch and already
+> +			 * registered altmodes. Skip if duplicate found.
+> +			 */
+> +			if (ucsi_altmode_is_duplicate(con, recipient, alt, j,
+> +						      alt[j].svid, alt[j].mid,
+> +						      i - num + j))
+> +				continue;
+> +
+>  			memset(&desc, 0, sizeof(desc));
+>  			desc.vdo = alt[j].mid;
+>  			desc.svid = alt[j].svid;
+> -- 
+> 2.43.0
+
+thanks,
 
 -- 
-Best,
-Chaoyi
-
+heikki
