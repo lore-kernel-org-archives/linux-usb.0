@@ -1,85 +1,65 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.16])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.14])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 111AC2EA15C;
-	Mon, 17 Nov 2025 08:40:44 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.16
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3132B30DD2E;
+	Mon, 17 Nov 2025 08:42:37 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.14
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1763368846; cv=none; b=UG/cmaqSueRIAmYWzQXtMJLz4ja9PPp/jrvbH4h6q+doq3ZihOQaVigGF23pXLHTAMTYdIHZb3P1AuiGWoS5cdBiusp982l2XTLtVrAUDAAKIKzdYxvCcn+y/l2wmG3IMNbnzUWutWcOjAYcqGrqUkeCyXmEK7fJAtkkMeT55o4=
+	t=1763368959; cv=none; b=T6EhQnvBy3KKI1qjmPAto+g1+tLh01Cj41bS6KbZcN1S8LbGCSMJCMmhBlCze0zVEdvnq+0KeyHcpxGZegyyYQKXa74Gdg1yyf4ImEXf+zTAYMj4OgAPRlsEhVc8QE9n1l3RY1dvacfb28ZAKF3UtXjW5reANY9JcZB8YRD1S4A=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1763368846; c=relaxed/simple;
-	bh=gkncn3MOxKMpS7fFx8b0bIjvCegdIq2/X6RbhxiwYLI=;
+	s=arc-20240116; t=1763368959; c=relaxed/simple;
+	bh=tgbUpnnd32C+EmoXr6PdoBbpknMJQrY0GnGAY4oC+n8=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=U/S4V6nJKDYnQ50ur4/kuzT8uL2+yj49o1xhu9iRoJRaIn6T+WMz3yPFhODM73+4th2QlFNFYdSjFXf+vQEwMN6bQJXffDLuyNHIL/iuC4t03d+7+IhvXG5pwGXoVRc87Ox6imco1TJ2Mt/WmmHtq2asymEe0oZQihGJrk7sXjY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=pass smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Nvc/dKLs; arc=none smtp.client-ip=192.198.163.16
+	 Content-Type:Content-Disposition:In-Reply-To; b=bDCtTYGp+1B+q6hGVrkth13LeXYfiKV79pdHcDyuz8O5RInlWceqVbh5Ek93vEFhjGPIBBSoKBoYOqPYEEAfmuLEvauH3PususMBEGoKSXCBbUKbAJ+T0XPA/l0N8O+BJOh1Ysxyoaq6n5IDHf+CiaE/yGyawk3sB3TO4DaH3mQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=pass smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=BB6PmX92; arc=none smtp.client-ip=192.198.163.14
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Nvc/dKLs"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="BB6PmX92"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1763368845; x=1794904845;
+  t=1763368958; x=1794904958;
   h=date:from:to:cc:subject:message-id:references:
    mime-version:in-reply-to;
-  bh=gkncn3MOxKMpS7fFx8b0bIjvCegdIq2/X6RbhxiwYLI=;
-  b=Nvc/dKLsbYvDwhqWuUcL7eNNQK6IkogI1Aim9fMsSgqiHkCvbwlnp48p
-   Z78F5Uspj6Qy6Jiw2gsiwTtzT230u+q/IearnsdCpElucNWIYx5cg8IjY
-   qal/i9qaTYLpIET0kOhtjPpIKT+f3WEJxFJ65oFpUCfMO+RQnGAHtvagR
-   lPMIMjXk8rQo/nslpxymClCjMHKE1BpjB1736CMUAwCu43m8+ckQ9kLrm
-   DEihF2uGUcHzff1zYKpygCkLtHNwxsirFJYJeD7vqtCjr3AjGqojkHnbq
-   k2A1odDRM3tW3lK/V8CssPuE6ICZfNgBNf34HVuh9mGTxbPdWDqtTjVUd
-   g==;
-X-CSE-ConnectionGUID: M0jDvNJDRIODb+ufzQNsIA==
-X-CSE-MsgGUID: e3dptxINTQuAkFP5hm/xSA==
-X-IronPort-AV: E=McAfee;i="6800,10657,11615"; a="52930419"
+  bh=tgbUpnnd32C+EmoXr6PdoBbpknMJQrY0GnGAY4oC+n8=;
+  b=BB6PmX92di/jwG0W3YPTek+iWKjf0PLhyt1dq4pVgvYdoACN5SQIbMFY
+   65R5eKPKoIif5iwKSEcgY694l+ZcracZRcCGEwAMvaxbutppzfrbDhbap
+   hVJbIKN01j3peVR4oqI60A3aAiyXOXcKc358SlmMGNjJ6pDyzzNT/4O9v
+   hupW/6sjCfcgsZJDEyt5pZCgmnHtRT45kFgNZYSt7UVDjPuoEyils6atq
+   tdv5Jbp7ceI2EfbhUFn6ttp0Cx84221bBytecDLWIXBz9Ezj49xGnkAQq
+   JVJNqflBxUtZZoRX8GdTqLcH17I8PoJQ+UQo+UZJhsm6wUNf3lSUWCDdM
+   Q==;
+X-CSE-ConnectionGUID: vT6QxAgLQm6FAvc+y+QxHg==
+X-CSE-MsgGUID: oqx5nJJESCmqH8mlRfTZ4A==
+X-IronPort-AV: E=McAfee;i="6800,10657,11615"; a="65398449"
 X-IronPort-AV: E=Sophos;i="6.19,311,1754982000"; 
-   d="scan'208";a="52930419"
-Received: from fmviesa002.fm.intel.com ([10.60.135.142])
-  by fmvoesa110.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 17 Nov 2025 00:40:44 -0800
-X-CSE-ConnectionGUID: +E6Bi6sGSmS+xsZI5u+9Xw==
-X-CSE-MsgGUID: u/K5zt9SSo2D8r6X/N8XtQ==
+   d="scan'208";a="65398449"
+Received: from orviesa006.jf.intel.com ([10.64.159.146])
+  by fmvoesa108.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 17 Nov 2025 00:42:37 -0800
+X-CSE-ConnectionGUID: 2fIpZXy1SH6f5kypKQ4mzQ==
+X-CSE-MsgGUID: 6SRByjMtRUm61rSq34llzg==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.19,311,1754982000"; 
-   d="scan'208";a="213794754"
+   d="scan'208";a="189642075"
 Received: from mgoodin-mobl3.amr.corp.intel.com (HELO kuha.fi.intel.com) ([10.124.220.176])
-  by fmviesa002.fm.intel.com with SMTP; 17 Nov 2025 00:40:33 -0800
-Received: by kuha.fi.intel.com (sSMTP sendmail emulation); Mon, 17 Nov 2025 10:40:30 +0200
-Date: Mon, 17 Nov 2025 10:40:30 +0200
+  by orviesa006.jf.intel.com with SMTP; 17 Nov 2025 00:42:34 -0800
+Received: by kuha.fi.intel.com (sSMTP sendmail emulation); Mon, 17 Nov 2025 10:42:30 +0200
+Date: Mon, 17 Nov 2025 10:42:30 +0200
 From: Heikki Krogerus <heikki.krogerus@linux.intel.com>
-To: Chaoyi Chen <kernel@airkyi.com>
+To: Krishna Kurapati <krishna.kurapati@oss.qualcomm.com>
 Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>,
-	Peter Chen <hzpeterchen@gmail.com>, Rob Herring <robh@kernel.org>,
+	Rob Herring <robh@kernel.org>,
 	Krzysztof Kozlowski <krzk+dt@kernel.org>,
-	Conor Dooley <conor+dt@kernel.org>, Vinod Koul <vkoul@kernel.org>,
-	Kishon Vijay Abraham I <kishon@kernel.org>,
-	Heiko Stuebner <heiko@sntech.de>, Sandy Huang <hjc@rock-chips.com>,
-	Andy Yan <andy.yan@rock-chips.com>,
-	Yubing Zhang <yubing.zhang@rock-chips.com>,
-	Frank Wang <frank.wang@rock-chips.com>,
-	Andrzej Hajda <andrzej.hajda@intel.com>,
-	Neil Armstrong <neil.armstrong@linaro.org>,
-	Robert Foss <rfoss@kernel.org>,
-	Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
-	Jonas Karlman <jonas@kwiboo.se>,
-	Jernej Skrabec <jernej.skrabec@gmail.com>,
-	Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
-	Maxime Ripard <mripard@kernel.org>,
-	Thomas Zimmermann <tzimmermann@suse.de>,
-	David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
-	Amit Sunil Dhamne <amitsd@google.com>,
-	Chaoyi Chen <chaoyi.chen@rock-chips.com>,
-	Dragan Simic <dsimic@manjaro.org>, Johan Jonker <jbx6244@gmail.com>,
-	Diederik de Haas <didi.debian@cknow.org>,
-	Peter Robinson <pbrobinson@gmail.com>, linux-usb@vger.kernel.org,
-	devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
-	linux-phy@lists.infradead.org, linux-arm-kernel@lists.infradead.org,
-	linux-rockchip@lists.infradead.org, dri-devel@lists.freedesktop.org
-Subject: Re: [PATCH v9 03/10] drm/bridge: Implement generic USB Type-C DP HPD
- bridge
-Message-ID: <aRrffpTP5KyAFVnx@kuha.fi.intel.com>
-References: <20251111105040.94-1-kernel@airkyi.com>
- <20251111105040.94-4-kernel@airkyi.com>
+	Conor Dooley <conor+dt@kernel.org>,
+	Biju Das <biju.das.jz@bp.renesas.com>,
+	Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>,
+	linux-usb@vger.kernel.org, devicetree@vger.kernel.org,
+	linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v7 2/2] usb: typec: hd3ss3220: Enable VBUS based on ID
+ pin state
+Message-ID: <aRrf9nzjYbR8esUm@kuha.fi.intel.com>
+References: <20251111072025.2199142-1-krishna.kurapati@oss.qualcomm.com>
+ <20251111072025.2199142-3-krishna.kurapati@oss.qualcomm.com>
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
@@ -88,147 +68,141 @@ List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20251111105040.94-4-kernel@airkyi.com>
+In-Reply-To: <20251111072025.2199142-3-krishna.kurapati@oss.qualcomm.com>
 
-Tue, Nov 11, 2025 at 06:50:33PM +0800, Chaoyi Chen kirjoitti:
-> From: Chaoyi Chen <chaoyi.chen@rock-chips.com>
+Tue, Nov 11, 2025 at 12:50:25PM +0530, Krishna Kurapati kirjoitti:
+> There is a ID pin present on HD3SS3220 controller that can be routed
+> to SoC. As per the datasheet:
 > 
-> The HPD function of Type-C DP is implemented through
-> drm_connector_oob_hotplug_event(). For embedded DP, it is required
-> that the DRM connector fwnode corresponds to the Type-C port fwnode.
+> "Upon detecting a UFP device, HD3SS3220 will keep ID pin high if VBUS is
+> not at VSafe0V. Once VBUS is at VSafe0V, the HD3SS3220 will assert ID pin
+> low. This is done to enforce Type-C requirement that VBUS must be at
+> VSafe0V before re-enabling VBUS"
 > 
-> To describe the relationship between the DP controller and the Type-C
-> port device, we usually using drm_bridge to build a bridge chain.
+> Add support to read the ID pin state and enable VBUS accordingly.
 > 
-> Now several USB-C controller drivers have already implemented the DP
-> HPD bridge function provided by aux-hpd-bridge.c, it will build a DP
-> HPD bridge on USB-C connector port device.
-> 
-> But this requires the USB-C controller driver to manually register the
-> HPD bridge. If the driver does not implement this feature, the bridge
-> will not be create.
-> 
-> So this patch implements a generic DP HPD bridge based on
-> aux-hpd-bridge.c. It will monitor Type-C bus events, and when a
-> Type-C port device containing the DP svid is registered, it will
-> create an HPD bridge for it without the need for the USB-C controller
-> driver to implement it.
-> 
-> Signed-off-by: Chaoyi Chen <chaoyi.chen@rock-chips.com>
-
-Normally there is no "help" section for hidden config options. I
-guess it can not cause any harm? It is a bit confusing, though. But
-FWIW:
+> Signed-off-by: Krishna Kurapati <krishna.kurapati@oss.qualcomm.com>
 
 Reviewed-by: Heikki Krogerus <heikki.krogerus@linux.intel.com>
 
 > ---
+>  drivers/usb/typec/hd3ss3220.c | 75 ++++++++++++++++++++++++++++++++++-
+>  1 file changed, 73 insertions(+), 2 deletions(-)
 > 
-> Changes in v9:
-> - Remove the exposed DRM_AUX_HPD_BRIDGE option, and select
-> DRM_AUX_HPD_TYPEC_BRIDGE when it is available.
-> - Add more commit comment about problem background.
-> 
-> Changes in v8:
-> - Merge generic DP HPD bridge into one module.
-> 
->  drivers/gpu/drm/bridge/Kconfig                | 10 ++++
->  drivers/gpu/drm/bridge/Makefile               |  1 +
->  .../gpu/drm/bridge/aux-hpd-typec-dp-bridge.c  | 50 +++++++++++++++++++
->  3 files changed, 61 insertions(+)
->  create mode 100644 drivers/gpu/drm/bridge/aux-hpd-typec-dp-bridge.c
-> 
-> diff --git a/drivers/gpu/drm/bridge/Kconfig b/drivers/gpu/drm/bridge/Kconfig
-> index a250afd8d662..559487aa09a9 100644
-> --- a/drivers/gpu/drm/bridge/Kconfig
-> +++ b/drivers/gpu/drm/bridge/Kconfig
-> @@ -30,6 +30,16 @@ config DRM_AUX_HPD_BRIDGE
->  	  Simple bridge that terminates the bridge chain and provides HPD
->  	  support.
+> diff --git a/drivers/usb/typec/hd3ss3220.c b/drivers/usb/typec/hd3ss3220.c
+> index 3ecc688dda82..3876f4faead6 100644
+> --- a/drivers/usb/typec/hd3ss3220.c
+> +++ b/drivers/usb/typec/hd3ss3220.c
+> @@ -15,6 +15,9 @@
+>  #include <linux/usb/typec.h>
+>  #include <linux/delay.h>
+>  #include <linux/workqueue.h>
+> +#include <linux/gpio/consumer.h>
+> +#include <linux/regulator/consumer.h>
+> +#include <linux/of_graph.h>
 >  
-> +if DRM_AUX_HPD_BRIDGE
-> +config DRM_AUX_HPD_TYPEC_BRIDGE
-> +	tristate
-> +	depends on TYPEC || !TYPEC
-> +	default TYPEC
-> +	help
-> +	  Simple bridge that terminates the bridge chain and provides HPD
-> +	  support. It build bridge on each USB-C connector device node.
-> +endif
+>  #define HD3SS3220_REG_CN_STAT		0x08
+>  #define HD3SS3220_REG_CN_STAT_CTRL	0x09
+> @@ -54,6 +57,11 @@ struct hd3ss3220 {
+>  	struct delayed_work output_poll_work;
+>  	enum usb_role role_state;
+>  	bool poll;
 > +
->  menu "Display Interface Bridges"
->  	depends on DRM && DRM_BRIDGE
+> +	struct gpio_desc *id_gpiod;
+> +	int id_irq;
+> +
+> +	struct regulator *vbus;
+>  };
 >  
-> diff --git a/drivers/gpu/drm/bridge/Makefile b/drivers/gpu/drm/bridge/Makefile
-> index c7dc03182e59..a3a0393d2e72 100644
-> --- a/drivers/gpu/drm/bridge/Makefile
-> +++ b/drivers/gpu/drm/bridge/Makefile
-> @@ -1,6 +1,7 @@
->  # SPDX-License-Identifier: GPL-2.0
->  obj-$(CONFIG_DRM_AUX_BRIDGE) += aux-bridge.o
->  obj-$(CONFIG_DRM_AUX_HPD_BRIDGE) += aux-hpd-bridge.o
-> +obj-$(CONFIG_DRM_AUX_HPD_TYPEC_BRIDGE) += aux-hpd-typec-dp-bridge.o
->  obj-$(CONFIG_DRM_CHIPONE_ICN6211) += chipone-icn6211.o
->  obj-$(CONFIG_DRM_CHRONTEL_CH7033) += chrontel-ch7033.o
->  obj-$(CONFIG_DRM_CROS_EC_ANX7688) += cros-ec-anx7688.o
-> diff --git a/drivers/gpu/drm/bridge/aux-hpd-typec-dp-bridge.c b/drivers/gpu/drm/bridge/aux-hpd-typec-dp-bridge.c
-> new file mode 100644
-> index 000000000000..9cb6a0cb0f0a
-> --- /dev/null
-> +++ b/drivers/gpu/drm/bridge/aux-hpd-typec-dp-bridge.c
-> @@ -0,0 +1,50 @@
-> +// SPDX-License-Identifier: GPL-2.0+
-> +#include <linux/of.h>
-> +#include <linux/usb/typec_altmode.h>
-> +#include <linux/usb/typec_dp.h>
-> +
-> +#include <drm/bridge/aux-bridge.h>
-> +
-> +static int drm_typec_bus_event(struct notifier_block *nb,
-> +			       unsigned long action, void *data)
+>  static int hd3ss3220_set_power_opmode(struct hd3ss3220 *hd3ss3220, int power_opmode)
+> @@ -319,13 +327,33 @@ static const struct regmap_config config = {
+>  	.max_register = 0x0A,
+>  };
+>  
+> +static irqreturn_t hd3ss3220_id_isr(int irq, void *dev_id)
 > +{
-> +	struct typec_altmode *alt = (struct typec_altmode *)data;
+> +	struct hd3ss3220 *hd3ss3220 = dev_id;
+> +	int ret;
+> +	int id;
 > +
-> +	if (action != TYPEC_ALTMODE_REGISTERED)
-> +		goto done;
+> +	id = gpiod_get_value_cansleep(hd3ss3220->id_gpiod);
+> +	if (!id)
+> +		ret = regulator_enable(hd3ss3220->vbus);
+> +	else
+> +		ret = regulator_disable(hd3ss3220->vbus);
 > +
-> +	if (is_typec_partner(&alt->dev) || alt->svid != USB_TYPEC_DP_SID)
-> +		goto done;
+> +	if (ret)
+> +		dev_err(hd3ss3220->dev,
+> +			"vbus regulator %s failed: %d\n", id ? "disable" : "enable", ret);
 > +
-> +	/*
-> +	 * alt->dev.parent->parent : USB-C controller device
-> +	 * alt->dev.parent         : USB-C connector device
-> +	 */
-> +	drm_dp_hpd_bridge_register(alt->dev.parent->parent,
-> +				   to_of_node(alt->dev.parent->fwnode));
-> +
-> +done:
-> +	return NOTIFY_OK;
+> +	return IRQ_HANDLED;
 > +}
 > +
-> +static struct notifier_block drm_typec_event_nb = {
-> +	.notifier_call = drm_typec_bus_event,
-> +};
+>  static int hd3ss3220_probe(struct i2c_client *client)
+>  {
+>  	struct typec_capability typec_cap = { };
+> -	struct hd3ss3220 *hd3ss3220;
+>  	struct fwnode_handle *connector, *ep;
+> -	int ret;
+> +	struct hd3ss3220 *hd3ss3220;
+> +	struct regulator *vbus;
+>  	unsigned int data;
+> +	int ret;
+>  
+>  	hd3ss3220 = devm_kzalloc(&client->dev, sizeof(struct hd3ss3220),
+>  				 GFP_KERNEL);
+> @@ -359,6 +387,49 @@ static int hd3ss3220_probe(struct i2c_client *client)
+>  		goto err_put_fwnode;
+>  	}
+>  
+> +	vbus = devm_of_regulator_get_optional(hd3ss3220->dev,
+> +					      to_of_node(connector),
+> +					      "vbus");
+> +	if (IS_ERR(vbus) && vbus != ERR_PTR(-ENODEV)) {
+> +		ret = PTR_ERR(vbus);
+> +		dev_err(hd3ss3220->dev, "failed to get vbus: %d", ret);
+> +		goto err_put_fwnode;
+> +	}
 > +
-> +static void drm_aux_hpd_typec_dp_bridge_module_exit(void)
-> +{
-> +	typec_altmode_unregister_notify(&drm_typec_event_nb);
-> +}
+> +	hd3ss3220->vbus = (vbus == ERR_PTR(-ENODEV) ? NULL : vbus);
 > +
-> +static int __init drm_aux_hpd_typec_dp_bridge_module_init(void)
-> +{
-> +	typec_altmode_register_notify(&drm_typec_event_nb);
+> +	if (hd3ss3220->vbus) {
+> +		hd3ss3220->id_gpiod = devm_gpiod_get_optional(hd3ss3220->dev,
+> +							      "id",
+> +							      GPIOD_IN);
+> +		if (IS_ERR(hd3ss3220->id_gpiod)) {
+> +			ret = PTR_ERR(hd3ss3220->id_gpiod);
+> +			goto err_put_fwnode;
+> +		}
+> +	}
 > +
-> +	return 0;
-> +}
+> +	if (hd3ss3220->id_gpiod) {
+> +		hd3ss3220->id_irq = gpiod_to_irq(hd3ss3220->id_gpiod);
+> +		if (hd3ss3220->id_irq < 0) {
+> +			ret = hd3ss3220->id_irq;
+> +			dev_err(hd3ss3220->dev,
+> +				"failed to get ID gpio: %d\n",
+> +				hd3ss3220->id_irq);
+> +			goto err_put_fwnode;
+> +		}
 > +
-> +module_init(drm_aux_hpd_typec_dp_bridge_module_init);
-> +module_exit(drm_aux_hpd_typec_dp_bridge_module_exit);
+> +		ret = devm_request_threaded_irq(hd3ss3220->dev,
+> +						hd3ss3220->id_irq, NULL,
+> +						hd3ss3220_id_isr,
+> +						IRQF_TRIGGER_RISING |
+> +						IRQF_TRIGGER_FALLING | IRQF_ONESHOT,
+> +						dev_name(hd3ss3220->dev), hd3ss3220);
+> +		if (ret < 0) {
+> +			dev_err(hd3ss3220->dev, "failed to get ID irq: %d\n", ret);
+> +			goto err_put_fwnode;
+> +		}
+> +	}
 > +
-> +MODULE_DESCRIPTION("DRM TYPEC DP HPD BRIDGE");
-> +MODULE_LICENSE("GPL");
+>  	typec_cap.prefer_role = TYPEC_NO_PREFERRED_ROLE;
+>  	typec_cap.driver_data = hd3ss3220;
+>  	typec_cap.type = TYPEC_PORT_DRP;
 > -- 
-> 2.51.1
+> 2.34.1
 
 -- 
 heikki
