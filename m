@@ -1,243 +1,150 @@
-Received: from mail-m1973174.qiye.163.com (mail-m1973174.qiye.163.com [220.197.31.74])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-qt1-f169.google.com (mail-qt1-f169.google.com [209.85.160.169])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 620801E4AB;
-	Mon, 17 Nov 2025 01:39:18 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=220.197.31.74
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1A56A23D2AB
+	for <linux-usb@vger.kernel.org>; Mon, 17 Nov 2025 02:12:49 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.160.169
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1763343562; cv=none; b=UhSRX51lTEI6O2V/K81ydd3/RKRnz9uUrysHgkrs6jhm1fr9OOxgJr8QGaqYQyXkJe25cSXu3wx9l7ich9Y92YFT+fpeAUufFUbHv78PKA+YlfrHef0dN2/QfOb9E7WCavn553alFvlFaHgRzQBAFyBfQbmw74qaZxFEHf/d3mk=
+	t=1763345571; cv=none; b=MP/0CB09qfKHLtpgygi5EnRctNqhsWXMEvxdSd31cgP9uWnqfMVAzCAFlBTThvY0Hjl0p+HRFLY+nSjvmTfvDMZ3kclTsE9qiddpA0W9JDvqPCDxha4CeQWKQZryob3gkzkJB7EDQ46spWze2hvj5UUSZDV0LlxSZg9qUGlv+bQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1763343562; c=relaxed/simple;
-	bh=zM0A38nTuhzZLgRcTavee+tBcGhwLywXAPDLdT9sMh4=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=n801OWo8nXP1vo0kBFPFN7hJCgU7ge7sEa7edlFGgnKTO5ROgTMubnTKWaqfCZNrvF0V8UWJWh7iSuHU/59dnARx9zk8ibQTHVa4eAFqjs1CZJTPtXwejkSs+bucHrgcahymIS7vRFNh3dwfYTPstYS/QWXyBHpc74JeMY+Dk/U=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=rock-chips.com; spf=pass smtp.mailfrom=rock-chips.com; dkim=pass (1024-bit key) header.d=rock-chips.com header.i=@rock-chips.com header.b=M0Whx/IN; arc=none smtp.client-ip=220.197.31.74
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=rock-chips.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=rock-chips.com
+	s=arc-20240116; t=1763345571; c=relaxed/simple;
+	bh=5GLZszpKtkmms3GbZx78rJHS969BKMO3S7W+AmR69Cc=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=rP2baI2LnC5VD4xCFaaNwA4pSShbcP5o4vWFTQe25vzBjKAtfnGsfFdYkHr4z7pRTLuQWH3L8ETdxXJFtXjeDpVD1vgb4CJe2CYqJpQkgFuyTj0TmO1ZAsQUKVTk0zKpBBFTUUQJvp0EXtSucELS0VB1MiUHYlBsR3ZkLJFlqMM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=rowland.harvard.edu; spf=fail smtp.mailfrom=g.harvard.edu; dkim=pass (2048-bit key) header.d=rowland.harvard.edu header.i=@rowland.harvard.edu header.b=nwLFMWFJ; arc=none smtp.client-ip=209.85.160.169
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=rowland.harvard.edu
+Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=g.harvard.edu
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=rock-chips.com header.i=@rock-chips.com header.b="M0Whx/IN"
-Received: from [172.16.12.51] (unknown [58.22.7.114])
-	by smtp.qiye.163.com (Hmail) with ESMTP id 29c3ce0df;
-	Mon, 17 Nov 2025 09:33:59 +0800 (GMT+08:00)
-Message-ID: <2ebace6f-d3c4-4516-b6cb-4951de06b6c8@rock-chips.com>
-Date: Mon, 17 Nov 2025 09:33:55 +0800
+	dkim=pass (2048-bit key) header.d=rowland.harvard.edu header.i=@rowland.harvard.edu header.b="nwLFMWFJ"
+Received: by mail-qt1-f169.google.com with SMTP id d75a77b69052e-4ee13dc0c52so10183511cf.2
+        for <linux-usb@vger.kernel.org>; Sun, 16 Nov 2025 18:12:49 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=rowland.harvard.edu; s=google; t=1763345569; x=1763950369; darn=vger.kernel.org;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=kiclg+ICV3isWwwDeMvQP4a8YD6UqUKW5pl+uehC4+8=;
+        b=nwLFMWFJsHh8XI7WU8P/cK7ooC6NNKQ26LmFfGZvm+ihxiOaIDRSRpq8gSIT0vXGhx
+         o7n9BLcNfYH0wCSxKPSErmbq00KaAY2WK+R2W47rbGXq15Z5mX7D3rIxpZ9gWcK2KGaB
+         URzcZLOGSQLpXp8OvjVv60mpbqHnbS5ANHpSFWyiEiBtv4I2RLdVBJsbmsapijPFXgi/
+         PBE3C8MaIRZUew7fmrbHhfukImiF+/yKgkwm7h5hKxP2bSWiIk6YBy78wnsP5GGrRKMH
+         FhmD/Pnumo/7+AalbqTgE3RXsTfJ7clJyBCYsTT87VcGmpfDMzHe2eXHqg6emolWL1uz
+         hOUg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1763345569; x=1763950369;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-gg:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=kiclg+ICV3isWwwDeMvQP4a8YD6UqUKW5pl+uehC4+8=;
+        b=MFC4LMgqzkNr/bsXHwHVLl0Y94sbAiDqq9gecve6ugfy3E/uT1rlMaLeSTJ+P21r3P
+         F9RfT3mdfkPbEaom+7d2LRZCgDaDEgpSpvlRg+sJABJV4TZJ59pKOReOFFihE1gWD/6T
+         Jmn0rkwu6Gb+lX+XghXq8cIl1TL1pUIn+iw9SR8RGNGpNu0vBcbYdPfayTxhnAbdt2U+
+         GS2ivHiqjxdoIGf+Vj5poPy1pxdxglSzD51fsC1lpqbs81E3mPQUkBU/pjoCv0jrJWC/
+         LXJyd32Nqz0E+sK3u6sCT4r++gNeECerOfVyNxyWHnMRDgc/n4hJwsXVoxRVRLcEgtki
+         7c+g==
+X-Forwarded-Encrypted: i=1; AJvYcCVcJ/RtegllNfCcuejrbQWOJ6nM4eGWy0/R3k7GF77GOlMi6uLgUUocOOEakp14sOG15AJB+vZF4ao=@vger.kernel.org
+X-Gm-Message-State: AOJu0Yx4oZqKLSxLpvu8ukjh8dqcMHggD4yEOURt6H89uuRPhYq3GBaH
+	/LQyBztNnQRCPuvg5JMy0oor9A/e2MdG94zKF5l6gA3gPk84HLLkMHzhiODY3+wcTpNRkloD5gh
+	ZIUW3cA==
+X-Gm-Gg: ASbGncuRQ/Y/f1cCzLOtz+lfjyFEYp+Y8kA9H85+Ci0eASCkOlaYX4Hl75Cs3YKzd5v
+	HFmsmuN0fnQ8gbyas78IlP/yL80zfdIQyqeIKTpmKgiw85Gmcgtjasb/fCG8F5g5GOEhe9Pfow3
+	yYtJVv4EI7jW9YiK3dWtTBtYGZsLg3pyIsYjKa9IYaEXx8jc5UBhrn2zKWylePtO23j3QSbzDR4
+	ThQlFrj1U7uccRXwvGVYRY9KlYxcEqXzwfKOrbwgYBzisxGBAjFFFbqpFQki3+3UgvA+YTtdUQB
+	X3UuzZdF/IC7hXXCvcteS6Q3P/lyfzaA04X+dNZbTVcDUjBqYHYggtRmQqE8VvXyTI0IgyFaO/g
+	XAnjgr/BmbGOMzQHaZLyeHHV3c/xWQqq8RdmNFOBsvHoJ0+IwWpsX8OfvxWA+K/sb1Jb+QZIbbh
+	dmvA==
+X-Google-Smtp-Source: AGHT+IF7aGO2MtqCmmlI9cMAEmYhFjVvHTERbxwvkt+rHOGTTynDRbR2K+xvEJ5DiSzvgQDHQlegoA==
+X-Received: by 2002:a05:622a:18a2:b0:4ee:2510:198a with SMTP id d75a77b69052e-4ee25101ab2mr9280681cf.39.1763345568881;
+        Sun, 16 Nov 2025 18:12:48 -0800 (PST)
+Received: from rowland.harvard.edu ([2601:19b:d03:1700::e258])
+        by smtp.gmail.com with ESMTPSA id d75a77b69052e-4ee16389879sm29098271cf.24.2025.11.16.18.12.47
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sun, 16 Nov 2025 18:12:48 -0800 (PST)
+Date: Sun, 16 Nov 2025 21:12:45 -0500
+From: Alan Stern <stern@rowland.harvard.edu>
+To: Ma Ke <make24@iscas.ac.cn>
+Cc: vz@mleia.com, piotr.wojtaszczyk@timesys.com, gregkh@linuxfoundation.org,
+	arnd@arndb.de, stigge@antcom.de, linux-usb@vger.kernel.org,
+	linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org,
+	akpm@linux-foundation.org, stable@vger.kernel.org
+Subject: Re: [PATCH v2] USB: ohci-nxp: Fix error handling in ohci-hcd-nxp
+ driver
+Message-ID: <288508e8-9d97-4c90-a0d4-ef6798110211@rowland.harvard.edu>
+References: <20251117013428.21840-1-make24@iscas.ac.cn>
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v9 08/10] drm/rockchip: cdn-dp: Add multiple bridges to
- support PHY port selection
-To: Luca Ceresoli <luca.ceresoli@bootlin.com>, Chaoyi Chen
- <kernel@airkyi.com>, Heikki Krogerus <heikki.krogerus@linux.intel.com>,
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
- Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>,
- Peter Chen <hzpeterchen@gmail.com>, Rob Herring <robh@kernel.org>,
- Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley
- <conor+dt@kernel.org>, Vinod Koul <vkoul@kernel.org>,
- Kishon Vijay Abraham I <kishon@kernel.org>, Heiko Stuebner
- <heiko@sntech.de>, Sandy Huang <hjc@rock-chips.com>,
- Andy Yan <andy.yan@rock-chips.com>,
- Yubing Zhang <yubing.zhang@rock-chips.com>,
- Frank Wang <frank.wang@rock-chips.com>,
- Andrzej Hajda <andrzej.hajda@intel.com>,
- Neil Armstrong <neil.armstrong@linaro.org>, Robert Foss <rfoss@kernel.org>,
- Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
- Jonas Karlman <jonas@kwiboo.se>, Jernej Skrabec <jernej.skrabec@gmail.com>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
- David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
- Amit Sunil Dhamne <amitsd@google.com>, Dragan Simic <dsimic@manjaro.org>,
- Johan Jonker <jbx6244@gmail.com>, Diederik de Haas <didi.debian@cknow.org>,
- Peter Robinson <pbrobinson@gmail.com>
-Cc: linux-usb@vger.kernel.org, devicetree@vger.kernel.org,
- linux-kernel@vger.kernel.org, linux-phy@lists.infradead.org,
- linux-arm-kernel@lists.infradead.org, linux-rockchip@lists.infradead.org,
- dri-devel@lists.freedesktop.org
-References: <20251111105040.94-1-kernel@airkyi.com>
- <20251111105040.94-9-kernel@airkyi.com>
- <DE5YP3AVGOG3.OHP68Z0F6KBU@bootlin.com>
- <b1a339e7-a011-4b4b-8988-2e3768753c85@rock-chips.com>
-Content-Language: en-US
-From: Chaoyi Chen <chaoyi.chen@rock-chips.com>
-In-Reply-To: <b1a339e7-a011-4b4b-8988-2e3768753c85@rock-chips.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-X-HM-Tid: 0a9a8f728a9203abkunm7f35530083703a
-X-HM-MType: 1
-X-HM-Spam-Status: e1kfGhgUHx5ZQUpXWQgPGg8OCBgUHx5ZQUlOS1dZFg8aDwILHllBWSg2Ly
-	tZV1koWUFDSUNOT01LS0k3V1ktWUFJV1kPCRoVCBIfWUFZGktOGlYYQ04fHUlKSkhNGEhWFRQJFh
-	oXVRMBExYaEhckFA4PWVdZGBILWUFZTkNVSUlVTFVKSk9ZV1kWGg8SFR0UWUFZT0tIVUpLSEpPSE
-	xVSktLVUpCS0tZBg++
-DKIM-Signature: a=rsa-sha256;
-	b=M0Whx/IN7vzwWpGNPYw1m+tNCPRjv3SM+gdWc+WtuhKETcY7rThZlrCaxI2fAlhI3391csTS8ehibRh6ex51cQ/r+4YXK3tXX6w3wypz7DSxUZKNiakt6+eBek5O66Hvb28jfRZ1ZP/4biJPialEUbDiHj1QrwZ1mtTGsdG5MX8=; c=relaxed/relaxed; s=default; d=rock-chips.com; v=1;
-	bh=OCoPxWh+b3eSvtYMRsNlQyefUpu6kD2yKDCWJQ7xR74=;
-	h=date:mime-version:subject:message-id:from;
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20251117013428.21840-1-make24@iscas.ac.cn>
 
-Hi Luca,
+On Mon, Nov 17, 2025 at 09:34:28AM +0800, Ma Ke wrote:
+> When obtaining the ISP1301 I2C client through the device tree, the
+> driver does not release the device reference in the probe failure path
+> or in the remove function. This could cause a reference count leak,
+> which may prevent the device from being properly unbound or freed,
+> leading to resource leakage.
+> 
+> Fix this by storing whether the client was obtained via device tree
+> and only releasing the reference in that case.
+> 
+> Found by code review.
+> 
+> Cc: stable@vger.kernel.org
+> Fixes: 73108aa90cbf ("USB: ohci-nxp: Use isp1301 driver")
+> Signed-off-by: Ma Ke <make24@iscas.ac.cn>
+> ---
+> Changes in v2:
+> - only released the device reference when the ISP1301 client was obtained through device tree, not in the non-DT case where the global variable is used;
+> - removed unnecessary NULL checks as suggested by reviewer.
+> ---
 
-On 11/12/2025 9:37 AM, Chaoyi Chen wrote:
-> Hello Luca,
->
-> On 11/11/2025 11:14 PM, Luca Ceresoli wrote:
->> Hello Chaoyi,
->>
->> On Tue Nov 11, 2025 at 11:50 AM CET, Chaoyi Chen wrote:
->>> From: Chaoyi Chen <chaoyi.chen@rock-chips.com>
->>>
->>> The RK3399 has two USB/DP combo PHY and one CDN-DP controller. And
->>> the CDN-DP can be switched to output to one of the PHYs. If both ports
->>> are plugged into DP, DP will select the first port for output.
->>>
->>> This patch adds support for multiple bridges, enabling users to flexibly
->>> select the output port. For each PHY port, a separate encoder and bridge
->>> are registered.
->>>
->>> The change is based on the DRM AUX HPD bridge, rather than the
->>> extcon approach. This requires the DT to correctly describe the
->>> connections between the first bridge in bridge chain and DP
->>> controller. For example, the bridge chain may be like this:
->>>
->>> PHY aux birdge -> fsa4480 analog audio switch bridge ->
->>> onnn,nb7vpq904m USB reminder bridge -> USB-C controller AUX HPD bridge
->>>
->>> In this case, the connection relationships among the PHY aux bridge
->>> and the DP contorller need to be described in DT.
->>>
->>> In addition, the cdn_dp_parse_next_bridge_dt() will parses it and
->>> determines whether to register one or two bridges.
->>>
->>> Since there is only one DP controller, only one of the PHY ports can
->>> output at a time. The key is how to switch between different PHYs,
->>> which is handled by cdn_dp_switch_port() and cdn_dp_enable().
->>>
->>> There are two cases:
->>>
->>> 1. Neither bridge is enabled. In this case, both bridges can
->>> independently read the EDID, and the PHY port may switch before
->>> reading the EDID.
->>>
->>> 2. One bridge is already enabled. In this case, other bridges are not
->>> allowed to read the EDID. So we will try to return the cached EDID.
->>>
->>> Since the scenario of two ports plug in at the same time is rare,
->>> I don't have a board which support two TypeC connector to test this.
->>> Therefore, I tested forced switching on a single PHY port, as well as
->>> output using a fake PHY port alongside a real PHY port.
->>>
->>> Signed-off-by: Chaoyi Chen <chaoyi.chen@rock-chips.com>
->> [...]
->>
->>> @@ -966,28 +1084,16 @@ static int cdn_dp_pd_event(struct notifier_block *nb,
->>>       return NOTIFY_DONE;
->>>   }
->>>
->>> -static int cdn_dp_bind(struct device *dev, struct device *master, void *data)
->>> +static int cdn_bridge_add(struct device *dev,
->>> +              struct drm_bridge *bridge,
->>> +              struct drm_bridge *next_bridge,
->>> +              struct drm_encoder *encoder)
->>>   {
->>>       struct cdn_dp_device *dp = dev_get_drvdata(dev);
->>> -    struct drm_encoder *encoder;
->>> +    struct drm_device *drm_dev = dp->drm_dev;
->>> +    struct drm_bridge *last_bridge = NULL;
->>>       struct drm_connector *connector;
->>> -    struct cdn_dp_port *port;
->>> -    struct drm_device *drm_dev = data;
->>> -    int ret, i;
->> [...]
->>
->>> +    if (next_bridge) {
->>> +        ret = drm_bridge_attach(encoder, next_bridge, bridge,
->>> +                    DRM_BRIDGE_ATTACH_NO_CONNECTOR);
->>> +        if (ret)
->>> +            return ret;
->>> +
->>> +        last_bridge = next_bridge;
->>> +        while (drm_bridge_get_next_bridge(last_bridge))
->>> +            last_bridge = drm_bridge_get_next_bridge(last_bridge);
->> DRM bridges are now refcounted, and you are not calling drm_bridge_get()
->> and drm_bridge_put() here. But here you can use
->> drm_bridge_chain_get_last_bridge() which will simplify your job.
->>
->> Don't forget to call drm_bridge_put() on the returned bridge when the
->> bridge is not referenced anymore. This should be as easy as adding a
->> cleanup action on the variable declaration above:
->>
->> -    struct drm_bridge *last_bridge = NULL;
->> +    struct drm_bridge *last_bridge __free(drm_bridge_put) = NULL;
->
-> Ah, I have seen your patch about this. Thank you for the reminder, I will fix this in v10.
->
->>
->>> @@ -1029,8 +1147,102 @@ static int cdn_dp_bind(struct device *dev, struct device *master, void *data)
->>>           return ret;
->>>       }
->>>
->>> +    if (last_bridge)
->>> +        connector->fwnode = fwnode_handle_get(of_fwnode_handle(last_bridge->of_node));
->>> +
->>>       drm_connector_attach_encoder(connector, encoder);
->>>
->>> +    return 0;
->>> +}
->>> +
->>> +static int cdn_dp_parse_next_bridge_dt(struct cdn_dp_device *dp)
->>> +{
->>> +    struct device_node *np = dp->dev->of_node;
->>> +    struct device_node *port __free(device_node) = of_graph_get_port_by_id(np, 1);
->>> +    struct drm_bridge *bridge;
->>> +    int count = 0;
->>> +    int ret = 0;
->>> +    int i;
->>> +
->>> +    /* If device use extcon, do not use hpd bridge */
->>> +    for (i = 0; i < dp->ports; i++) {
->>> +        if (dp->port[i]->extcon) {
->>> +            dp->bridge_count = 1;
->>> +            return 0;
->>> +        }
->>> +    }
->>> +
->>> +
->>> +    /* One endpoint may correspond to one next bridge. */
->>> +    for_each_of_graph_port_endpoint(port, dp_ep) {
->>> +        struct device_node *next_bridge_node __free(device_node) =
->>> +            of_graph_get_remote_port_parent(dp_ep);
->>> +
->>> +        bridge = of_drm_find_bridge(next_bridge_node);
->>> +        if (!bridge) {
->>> +            ret = -EPROBE_DEFER;
->>> +            goto out;
->>> +        }
->>> +
->>> +        dp->next_bridge_valid = true;
->>> +        dp->next_bridge_list[count].bridge = bridge;
->> You are storing a reference to a drm_bridge, so have to increment the
->> refcount:
->>
->>         dp->next_bridge_list[count].bridge = drm_bridge_get(bridge);
->>                                              ^^^^^^^^^^^^^^
->>
->> FYI there is a plan to replace of_drm_find_bridge() with a function that
->> increases the bridge refcount before returning the bridge, but it's not
->> there yet. When that will happen, the explicit drm_bridge_get() won't be
->> needed anymore and this code can be updated accordingly.
-
-Out of curiosity, I checked the callers of of_drm_find_bridge(), and it seems that the vast majority of them do not pay attention to the increase or decrease of reference counts. Does this mean that even if we add reference counting in of_drm_find_bridge(), we still need to modify the corresponding functions of their callers and decrease the reference count at the appropriate time? Thank you.
+Acked-by: Alan Stern <stern@rowland.harvard.edu>
 
 
->>
->> Also you have to call drm_bridge_put() to release that reference when the
->> pointer goes away. I guess that should happen in cdn_dp_unbind().
->
-> You're right, this is indeed a pitfall. I will fix it in v10.
->
->
--- 
-Best,
-Chaoyi
-
+>  drivers/usb/host/ohci-nxp.c | 6 ++++++
+>  1 file changed, 6 insertions(+)
+> 
+> diff --git a/drivers/usb/host/ohci-nxp.c b/drivers/usb/host/ohci-nxp.c
+> index 24d5a1dc5056..081b8c7f21a0 100644
+> --- a/drivers/usb/host/ohci-nxp.c
+> +++ b/drivers/usb/host/ohci-nxp.c
+> @@ -50,6 +50,7 @@ static const char hcd_name[] = "ohci-nxp";
+>  static struct hc_driver __read_mostly ohci_nxp_hc_driver;
+>  
+>  static struct i2c_client *isp1301_i2c_client;
+> +static bool isp1301_using_dt;
+>  
+>  static void isp1301_configure_lpc32xx(void)
+>  {
+> @@ -161,6 +162,7 @@ static int ohci_hcd_nxp_probe(struct platform_device *pdev)
+>  	} else {
+>  		isp1301_node = NULL;
+>  	}
+> +	isp1301_using_dt = (isp1301_node != NULL);
+>  
+>  	isp1301_i2c_client = isp1301_get_client(isp1301_node);
+>  	of_node_put(isp1301_node);
+> @@ -223,6 +225,8 @@ static int ohci_hcd_nxp_probe(struct platform_device *pdev)
+>  fail_resource:
+>  	usb_put_hcd(hcd);
+>  fail_disable:
+> +	if (isp1301_using_dt)
+> +		put_device(&isp1301_i2c_client->dev);
+>  	isp1301_i2c_client = NULL;
+>  	return ret;
+>  }
+> @@ -234,6 +238,8 @@ static void ohci_hcd_nxp_remove(struct platform_device *pdev)
+>  	usb_remove_hcd(hcd);
+>  	ohci_nxp_stop_hc();
+>  	usb_put_hcd(hcd);
+> +	if (isp1301_using_dt)
+> +		put_device(&isp1301_i2c_client->dev);
+>  	isp1301_i2c_client = NULL;
+>  }
+>  
+> -- 
+> 2.17.1
+> 
