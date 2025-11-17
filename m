@@ -1,226 +1,284 @@
-Received: from mail-m1973176.qiye.163.com (mail-m1973176.qiye.163.com [220.197.31.76])
+Received: from fout-a8-smtp.messagingengine.com (fout-a8-smtp.messagingengine.com [103.168.172.151])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0BF2E241691;
-	Mon, 17 Nov 2025 08:52:44 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=220.197.31.76
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CE5FC31DD98;
+	Mon, 17 Nov 2025 08:53:54 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=103.168.172.151
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1763369569; cv=none; b=HS+HvfX3mv8pGcEn2NbaizOMpTV5QC1mTmSwtkm6HO8eDOrgxilH7OJN2SbK5OOzT6OiG8E7+YWVSWlr/kRhl7UDe22vXV6XGjgm/66jrWBJsjxfryLNFGgmcYe5MGSj3LP6mc4capkZImZSx11XTiXOGXB3SZKBw/qw9ggyKIQ=
+	t=1763369638; cv=none; b=TOck91Rd5JefuDqXuMT6hcJG9yoP8yoIgr5ruKN9xU8Og1j8LLwIHBQS/807KYJ7cnjxDiGx2j9+QQdhwfT9A/MhLlH+JtaJLWIt5AN6V0xB+AUDjCeCXXzUYglacXpOLzq/98dCdkuRotopvZgULdwkhxlHap9uSS6tQsBdYX8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1763369569; c=relaxed/simple;
-	bh=9M/PZ3geKQeaYE500yl7cwRVd4tkyeyO+eowp0ec8rI=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=IqcsedyqAwqziIRnv3Z8NbCZfg20lrhM/6aiMb6X6mMBeON8eJrkgw/gtiXYY3xTmBgLjDWjbzTI960WooBSvuEL2byMoUd7f/Kov7lrqqvtWNojq3ptkDv2xox2IyAlwr4TIPkGnA5FQWFmrbRpVgMmdqLlK7Y9i9aiSXonTj8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=rock-chips.com; spf=pass smtp.mailfrom=rock-chips.com; dkim=pass (1024-bit key) header.d=rock-chips.com header.i=@rock-chips.com header.b=TxAbeCZF; arc=none smtp.client-ip=220.197.31.76
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=rock-chips.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=rock-chips.com
+	s=arc-20240116; t=1763369638; c=relaxed/simple;
+	bh=+XwGh2InT/jOvLSeEd3s9JoXUK8VNyLLsVvWqjtA/3I=;
+	h=MIME-Version:Date:From:To:Cc:Message-Id:In-Reply-To:References:
+	 Subject:Content-Type; b=Z9jdMcsTbDOxdWImsPoDpGIeWRjhWTqiUlsZ6/ATesqvcJ3rqE8ZMhxfn0wmC4aWM0i0ebEguWZl+MF+rsKfA/vjQK+/9gXhs1m6sHf7MOxlf/NHYj3qkxkOwieSMFCnQRm/nUbiN4aVkqlam6zrDj8AvWGmwkwIfaEdJyTQSRk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arndb.de; spf=pass smtp.mailfrom=arndb.de; dkim=pass (2048-bit key) header.d=arndb.de header.i=@arndb.de header.b=mUFSSRHH; dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b=fj+7GrfF; arc=none smtp.client-ip=103.168.172.151
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arndb.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=arndb.de
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=rock-chips.com header.i=@rock-chips.com header.b="TxAbeCZF"
-Received: from [172.16.12.51] (unknown [58.22.7.114])
-	by smtp.qiye.163.com (Hmail) with ESMTP id 29d4759ae;
-	Mon, 17 Nov 2025 16:47:26 +0800 (GMT+08:00)
-Message-ID: <140cd555-d512-4712-9d71-2d7f188a74fb@rock-chips.com>
-Date: Mon, 17 Nov 2025 16:47:25 +0800
+	dkim=pass (2048-bit key) header.d=arndb.de header.i=@arndb.de header.b="mUFSSRHH";
+	dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b="fj+7GrfF"
+Received: from phl-compute-04.internal (phl-compute-04.internal [10.202.2.44])
+	by mailfout.phl.internal (Postfix) with ESMTP id D971AEC0171;
+	Mon, 17 Nov 2025 03:53:52 -0500 (EST)
+Received: from phl-imap-02 ([10.202.2.81])
+  by phl-compute-04.internal (MEProxy); Mon, 17 Nov 2025 03:53:52 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=arndb.de; h=cc
+	:cc:content-transfer-encoding:content-type:content-type:date
+	:date:from:from:in-reply-to:in-reply-to:message-id:mime-version
+	:references:reply-to:subject:subject:to:to; s=fm2; t=1763369632;
+	 x=1763456032; bh=b7EAVyYC4388fQn/O8BhgvxdKAbjDZgqvyRrtSQ9BZE=; b=
+	mUFSSRHHfKieh0uUiysRstw7VV32oLzs2SUl1Ip6o5KCnMdAhLPT4Lp5nxrgVAQ2
+	ZDhoSUaByLQshOlr2sewPVheOT0j8vfxw9iFrW5MqAHQY8u1A+dUQoQnP6Euhqf7
+	zPBOWRNpt56kGJCdDfOroYkB/45QGUOIV8yKXaMsztbkAZpvUHMcdxY3By4lpT50
+	Kfnl7jnnhq/2QHUObZ+8AgDrSesWsA/LYxmsy+aku+GHgO8ke9UryoWb4pp1JJnl
+	Z7rNDzAu82fV9KYJGZusfxMWoOME0UntQbDnZ6yc1e2E6P09C4NUXcP/WQWVycu/
+	wT7VdRtVy+E8FndCmupuDw==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+	messagingengine.com; h=cc:cc:content-transfer-encoding
+	:content-type:content-type:date:date:feedback-id:feedback-id
+	:from:from:in-reply-to:in-reply-to:message-id:mime-version
+	:references:reply-to:subject:subject:to:to:x-me-proxy
+	:x-me-sender:x-me-sender:x-sasl-enc; s=fm3; t=1763369632; x=
+	1763456032; bh=b7EAVyYC4388fQn/O8BhgvxdKAbjDZgqvyRrtSQ9BZE=; b=f
+	j+7GrfF7d3POP7/iMHRLGwbpgd6fGizfN2G9fUflZFuR6u6f2WdJ4jvn6ub9tlpG
+	kRcHA3tebz9pDn3NNm8KfPutcXi//xc3F0m/uXOtOq+YpdMDrdXCmWwxKXCa7G/P
+	uObpjUZBMupO0sx1HgtLai/pkm+bGi/9EJXYZf+oZUT5yzhYfuSHiVPMlBWa60oA
+	aTj1JuWFcOrhMZBHLdAd1oxa/kqwtyxr0M0tPnGrzUdZqOkGPiXcxUaO1/bSShPc
+	JMCehov34DZ7cSEinLmDlM0I4MHFpcbKeWI5crl6rSScnQsA++4YL5jus1NEfM2j
+	de79nV1D7ZIgGTNUXogtA==
+X-ME-Sender: <xms:n-IaaQBlm_72udvTnx8KuPJXAm9VZ4RF4BLNHyfoI7n3hnvqFIiJeg>
+    <xme:n-IaadXUdvwEJAJZNxIkN7HOYsE4p7Z8y5BY12ocKJN13UNx6k_f1PezXyr_tWBn5
+    p-stwOoFPXxv-tNHGNIxmIbrjVBoiNElXTYrzeqUPeRazXgvuaNDEI>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeeffedrtdeggddvudektdefucetufdoteggodetrf
+    dotffvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfurfetoffkrfgpnffqhgenuceu
+    rghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmnecujf
+    gurhepofggfffhvfevkfgjfhfutgfgsehtjeertdertddtnecuhfhrohhmpedftehrnhgu
+    uceuvghrghhmrghnnhdfuceorghrnhgusegrrhhnuggsrdguvgeqnecuggftrfgrthhtvg
+    hrnhephfdthfdvtdefhedukeetgefggffhjeeggeetfefggfevudegudevledvkefhvdei
+    necuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehmrghilhhfrhhomheprghrnh
+    gusegrrhhnuggsrdguvgdpnhgspghrtghpthhtohepuddupdhmohguvgepshhmthhpohhu
+    thdprhgtphhtthhopehsthhighhgvgesrghnthgtohhmrdguvgdprhgtphhtthhopehmrg
+    hkvgdvgeesihhstggrshdrrggtrdgtnhdprhgtphhtthhopegrkhhpmheslhhinhhugidq
+    fhhouhhnuggrthhiohhnrdhorhhgpdhrtghpthhtohepghhrvghgkhhhsehlihhnuhigfh
+    houhhnuggrthhiohhnrdhorhhgpdhrtghpthhtoheplhhinhhugidqrghrmhdqkhgvrhhn
+    vghlsehlihhsthhsrdhinhhfrhgruggvrggurdhorhhgpdhrtghpthhtohepvhiisehmlh
+    gvihgrrdgtohhmpdhrtghpthhtohepshhtvghrnhesrhhofihlrghnugdrhhgrrhhvrghr
+    ugdrvgguuhdprhgtphhtthhopehpihhothhrrdifohhjthgrshiitgiihihksehtihhmvg
+    hshihsrdgtohhmpdhrtghpthhtoheplhhinhhugidqkhgvrhhnvghlsehvghgvrhdrkhgv
+    rhhnvghlrdhorhhg
+X-ME-Proxy: <xmx:n-IaaT-W4wAKWyR-NET1UzLnPhX3qOVAKOPXZkn-8GBQzn5L4OpECQ>
+    <xmx:n-IaaWERYlC8UZcc3hDUmvAtfF1uktYEllaj0VGgUad5NCfJwj13XA>
+    <xmx:n-IaadStuvWE83BaF8gH8qo8Msjo_LmVApfdiVRX2sL5HlOt5vgyLQ>
+    <xmx:n-IaadQahtVV2LqJfMmqoR08DURcHJyZ0UAKRHvsS49qmVwF2xzduQ>
+    <xmx:oOIaae95SXimFtEFYHXCELJorvkC4rFO44IFaHDw_k2yDCWrT4tRtmlr>
+Feedback-ID: i56a14606:Fastmail
+Received: by mailuser.phl.internal (Postfix, from userid 501)
+	id BF8A2700054; Mon, 17 Nov 2025 03:53:51 -0500 (EST)
+X-Mailer: MessagingEngine.com Webmail Interface
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v9 03/10] drm/bridge: Implement generic USB Type-C DP HPD
- bridge
-To: Heikki Krogerus <heikki.krogerus@linux.intel.com>,
- Chaoyi Chen <kernel@airkyi.com>
-Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
- Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>,
- Peter Chen <hzpeterchen@gmail.com>, Rob Herring <robh@kernel.org>,
- Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley
- <conor+dt@kernel.org>, Vinod Koul <vkoul@kernel.org>,
- Kishon Vijay Abraham I <kishon@kernel.org>, Heiko Stuebner
- <heiko@sntech.de>, Sandy Huang <hjc@rock-chips.com>,
- Andy Yan <andy.yan@rock-chips.com>,
- Yubing Zhang <yubing.zhang@rock-chips.com>,
- Frank Wang <frank.wang@rock-chips.com>,
- Andrzej Hajda <andrzej.hajda@intel.com>,
- Neil Armstrong <neil.armstrong@linaro.org>, Robert Foss <rfoss@kernel.org>,
- Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
- Jonas Karlman <jonas@kwiboo.se>, Jernej Skrabec <jernej.skrabec@gmail.com>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
- David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
- Amit Sunil Dhamne <amitsd@google.com>, Dragan Simic <dsimic@manjaro.org>,
- Johan Jonker <jbx6244@gmail.com>, Diederik de Haas <didi.debian@cknow.org>,
- Peter Robinson <pbrobinson@gmail.com>, linux-usb@vger.kernel.org,
- devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
- linux-phy@lists.infradead.org, linux-arm-kernel@lists.infradead.org,
- linux-rockchip@lists.infradead.org, dri-devel@lists.freedesktop.org
-References: <20251111105040.94-1-kernel@airkyi.com>
- <20251111105040.94-4-kernel@airkyi.com> <aRrffpTP5KyAFVnx@kuha.fi.intel.com>
-Content-Language: en-US
-From: Chaoyi Chen <chaoyi.chen@rock-chips.com>
-In-Reply-To: <aRrffpTP5KyAFVnx@kuha.fi.intel.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
+X-ThreadId: ADv9w-7PmNmc
+Date: Mon, 17 Nov 2025 09:53:21 +0100
+From: "Arnd Bergmann" <arnd@arndb.de>
+To: "Ma Ke" <make24@iscas.ac.cn>, "Alan Stern" <stern@rowland.harvard.edu>,
+ "Vladimir Zapolskiy" <vz@mleia.com>, piotr.wojtaszczyk@timesys.com,
+ "Greg Kroah-Hartman" <gregkh@linuxfoundation.org>, stigge@antcom.de
+Cc: linux-usb@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+ linux-kernel@vger.kernel.org, "Andrew Morton" <akpm@linux-foundation.org>,
+ stable@vger.kernel.org
+Message-Id: <4fe5b63e-072c-419c-a1b9-bc21aec7e083@app.fastmail.com>
+In-Reply-To: <20251117013428.21840-1-make24@iscas.ac.cn>
+References: <20251117013428.21840-1-make24@iscas.ac.cn>
+Subject: Re: [PATCH v2] USB: ohci-nxp: Fix error handling in ohci-hcd-nxp driver
+Content-Type: text/plain
 Content-Transfer-Encoding: 7bit
-X-HM-Tid: 0a9a90ff5e3f03abkunm2a6b77ad8f27ca
-X-HM-MType: 1
-X-HM-Spam-Status: e1kfGhgUHx5ZQUpXWQgPGg8OCBgUHx5ZQUlOS1dZFg8aDwILHllBWSg2Ly
-	tZV1koWUFDSUNOT01LS0k3V1ktWUFJV1kPCRoVCBIfWUFZQkpPQ1ZCHR0ZSE4ZGEkaS0tWFRQJFh
-	oXVRMBExYaEhckFA4PWVdZGBILWUFZTkNVSUlVTFVKSk9ZV1kWGg8SFR0UWUFZT0tIVUpLSEpPSE
-	xVSktLVUpCS0tZBg++
-DKIM-Signature: a=rsa-sha256;
-	b=TxAbeCZFY7eqkjxpcivUMqwOH8QFtRL/B2e4tf+GteqsvSZy467ZXu17S6C/ZqVYLBEPPxecTuUo+uZ16WS5iY68xy9ealSCVZp0U6FKLSNqzRNh1vr58YTSeVBSum2ZFTjltiUSSyEJsWu6PKSkNbO0JitC3s7a642vFVxtj4U=; c=relaxed/relaxed; s=default; d=rock-chips.com; v=1;
-	bh=/VyBu/i0fSLSIZpB/cn2Lo04jmSlwZbXvvGuWwLCrig=;
-	h=date:mime-version:subject:message-id:from;
 
-On 11/17/2025 4:40 PM, Heikki Krogerus wrote:
-
-> Tue, Nov 11, 2025 at 06:50:33PM +0800, Chaoyi Chen kirjoitti:
->> From: Chaoyi Chen <chaoyi.chen@rock-chips.com>
->>
->> The HPD function of Type-C DP is implemented through
->> drm_connector_oob_hotplug_event(). For embedded DP, it is required
->> that the DRM connector fwnode corresponds to the Type-C port fwnode.
->>
->> To describe the relationship between the DP controller and the Type-C
->> port device, we usually using drm_bridge to build a bridge chain.
->>
->> Now several USB-C controller drivers have already implemented the DP
->> HPD bridge function provided by aux-hpd-bridge.c, it will build a DP
->> HPD bridge on USB-C connector port device.
->>
->> But this requires the USB-C controller driver to manually register the
->> HPD bridge. If the driver does not implement this feature, the bridge
->> will not be create.
->>
->> So this patch implements a generic DP HPD bridge based on
->> aux-hpd-bridge.c. It will monitor Type-C bus events, and when a
->> Type-C port device containing the DP svid is registered, it will
->> create an HPD bridge for it without the need for the USB-C controller
->> driver to implement it.
->>
->> Signed-off-by: Chaoyi Chen <chaoyi.chen@rock-chips.com>
-> Normally there is no "help" section for hidden config options. I
-> guess it can not cause any harm? It is a bit confusing, though. But
-> FWIW:
-
-The hidden options "DRM_AUX_BRIDGE" and "DRM_AUX_HPD_BRIDGE" also have a help section.
-
-I think this is just for comment purposes :)
-
-
+On Mon, Nov 17, 2025, at 02:34, Ma Ke wrote:
+> When obtaining the ISP1301 I2C client through the device tree, the
+> driver does not release the device reference in the probe failure path
+> or in the remove function. This could cause a reference count leak,
+> which may prevent the device from being properly unbound or freed,
+> leading to resource leakage.
 >
-> Reviewed-by: Heikki Krogerus <heikki.krogerus@linux.intel.com>
+> Fix this by storing whether the client was obtained via device tree
+> and only releasing the reference in that case.
 >
->> ---
->>
->> Changes in v9:
->> - Remove the exposed DRM_AUX_HPD_BRIDGE option, and select
->> DRM_AUX_HPD_TYPEC_BRIDGE when it is available.
->> - Add more commit comment about problem background.
->>
->> Changes in v8:
->> - Merge generic DP HPD bridge into one module.
->>
->>   drivers/gpu/drm/bridge/Kconfig                | 10 ++++
->>   drivers/gpu/drm/bridge/Makefile               |  1 +
->>   .../gpu/drm/bridge/aux-hpd-typec-dp-bridge.c  | 50 +++++++++++++++++++
->>   3 files changed, 61 insertions(+)
->>   create mode 100644 drivers/gpu/drm/bridge/aux-hpd-typec-dp-bridge.c
->>
->> diff --git a/drivers/gpu/drm/bridge/Kconfig b/drivers/gpu/drm/bridge/Kconfig
->> index a250afd8d662..559487aa09a9 100644
->> --- a/drivers/gpu/drm/bridge/Kconfig
->> +++ b/drivers/gpu/drm/bridge/Kconfig
->> @@ -30,6 +30,16 @@ config DRM_AUX_HPD_BRIDGE
->>   	  Simple bridge that terminates the bridge chain and provides HPD
->>   	  support.
->>   
->> +if DRM_AUX_HPD_BRIDGE
->> +config DRM_AUX_HPD_TYPEC_BRIDGE
->> +	tristate
->> +	depends on TYPEC || !TYPEC
->> +	default TYPEC
->> +	help
->> +	  Simple bridge that terminates the bridge chain and provides HPD
->> +	  support. It build bridge on each USB-C connector device node.
->> +endif
->> +
->>   menu "Display Interface Bridges"
->>   	depends on DRM && DRM_BRIDGE
->>   
->> diff --git a/drivers/gpu/drm/bridge/Makefile b/drivers/gpu/drm/bridge/Makefile
->> index c7dc03182e59..a3a0393d2e72 100644
->> --- a/drivers/gpu/drm/bridge/Makefile
->> +++ b/drivers/gpu/drm/bridge/Makefile
->> @@ -1,6 +1,7 @@
->>   # SPDX-License-Identifier: GPL-2.0
->>   obj-$(CONFIG_DRM_AUX_BRIDGE) += aux-bridge.o
->>   obj-$(CONFIG_DRM_AUX_HPD_BRIDGE) += aux-hpd-bridge.o
->> +obj-$(CONFIG_DRM_AUX_HPD_TYPEC_BRIDGE) += aux-hpd-typec-dp-bridge.o
->>   obj-$(CONFIG_DRM_CHIPONE_ICN6211) += chipone-icn6211.o
->>   obj-$(CONFIG_DRM_CHRONTEL_CH7033) += chrontel-ch7033.o
->>   obj-$(CONFIG_DRM_CROS_EC_ANX7688) += cros-ec-anx7688.o
->> diff --git a/drivers/gpu/drm/bridge/aux-hpd-typec-dp-bridge.c b/drivers/gpu/drm/bridge/aux-hpd-typec-dp-bridge.c
->> new file mode 100644
->> index 000000000000..9cb6a0cb0f0a
->> --- /dev/null
->> +++ b/drivers/gpu/drm/bridge/aux-hpd-typec-dp-bridge.c
->> @@ -0,0 +1,50 @@
->> +// SPDX-License-Identifier: GPL-2.0+
->> +#include <linux/of.h>
->> +#include <linux/usb/typec_altmode.h>
->> +#include <linux/usb/typec_dp.h>
->> +
->> +#include <drm/bridge/aux-bridge.h>
->> +
->> +static int drm_typec_bus_event(struct notifier_block *nb,
->> +			       unsigned long action, void *data)
->> +{
->> +	struct typec_altmode *alt = (struct typec_altmode *)data;
->> +
->> +	if (action != TYPEC_ALTMODE_REGISTERED)
->> +		goto done;
->> +
->> +	if (is_typec_partner(&alt->dev) || alt->svid != USB_TYPEC_DP_SID)
->> +		goto done;
->> +
->> +	/*
->> +	 * alt->dev.parent->parent : USB-C controller device
->> +	 * alt->dev.parent         : USB-C connector device
->> +	 */
->> +	drm_dp_hpd_bridge_register(alt->dev.parent->parent,
->> +				   to_of_node(alt->dev.parent->fwnode));
->> +
->> +done:
->> +	return NOTIFY_OK;
->> +}
->> +
->> +static struct notifier_block drm_typec_event_nb = {
->> +	.notifier_call = drm_typec_bus_event,
->> +};
->> +
->> +static void drm_aux_hpd_typec_dp_bridge_module_exit(void)
->> +{
->> +	typec_altmode_unregister_notify(&drm_typec_event_nb);
->> +}
->> +
->> +static int __init drm_aux_hpd_typec_dp_bridge_module_init(void)
->> +{
->> +	typec_altmode_register_notify(&drm_typec_event_nb);
->> +
->> +	return 0;
->> +}
->> +
->> +module_init(drm_aux_hpd_typec_dp_bridge_module_init);
->> +module_exit(drm_aux_hpd_typec_dp_bridge_module_exit);
->> +
->> +MODULE_DESCRIPTION("DRM TYPEC DP HPD BRIDGE");
->> +MODULE_LICENSE("GPL");
->> -- 
->> 2.51.1
+> Found by code review.
+>
+> Cc: stable@vger.kernel.org
+> Fixes: 73108aa90cbf ("USB: ohci-nxp: Use isp1301 driver")
+> Signed-off-by: Ma Ke <make24@iscas.ac.cn>
 
--- 
-Best,
-Chaoyi
+The patch looks fine in principle, however I don't see any way
+this driver would be probed without devicetree, and I think
+it would be better to remove all the traces of the pre-DT
+logic in it.
 
+The lpc32xx platform was converted to DT back in 2012, so
+any reference to the old variant is dead code. Something like
+the patch below should work here.
+
+Other thoughts on this driver, though I I'm not sure anyone
+is going to have the energy to implement these:
+
+ - the reference to isp1301_i2c_client should be kept in
+   the hcd private data, after allocating a structure, by
+   setting driver->hcd_priv_size.
+ - instead of looking for the i2c device, I would suppose
+   it should look for a usb_phy instead, as there is no
+   guarantee on the initialization being ordered at the
+   moment.
+ - instead of a usb_phy, the driver should probably use
+   a generic phy (a much larger rework).
+
+     Arnd
+
+diff --git a/drivers/usb/host/ohci-nxp.c b/drivers/usb/host/ohci-nxp.c
+index 24d5a1dc5056..4c072ce02f4d 100644
+--- a/drivers/usb/host/ohci-nxp.c
++++ b/drivers/usb/host/ohci-nxp.c
+@@ -155,22 +155,12 @@ static int ohci_hcd_nxp_probe(struct platform_device *pdev)
+ 	struct device_node *isp1301_node;
+ 	struct clk *usb_host_clk;
+ 
+-	if (pdev->dev.of_node) {
+-		isp1301_node = of_parse_phandle(pdev->dev.of_node,
+-						"transceiver", 0);
+-	} else {
+-		isp1301_node = NULL;
+-	}
+-
+-	isp1301_i2c_client = isp1301_get_client(isp1301_node);
++	isp1301_node = of_parse_phandle(pdev->dev.of_node, "transceiver", 0);
++	isp1301_i2c_client = of_find_i2c_device_by_node(isp1301_node);
+ 	of_node_put(isp1301_node);
+ 	if (!isp1301_i2c_client)
+ 		return -EPROBE_DEFER;
+ 
+-	ret = dma_coerce_mask_and_coherent(&pdev->dev, DMA_BIT_MASK(32));
+-	if (ret)
+-		goto fail_disable;
+-
+ 	dev_dbg(&pdev->dev, "%s: " DRIVER_DESC " (nxp)\n", hcd_name);
+ 	if (usb_disabled()) {
+ 		dev_err(&pdev->dev, "USB is disabled\n");
+@@ -223,7 +213,7 @@ static int ohci_hcd_nxp_probe(struct platform_device *pdev)
+ fail_resource:
+ 	usb_put_hcd(hcd);
+ fail_disable:
+-	isp1301_i2c_client = NULL;
++	put_device(isp1301_i2c_client);
+ 	return ret;
+ }
+ 
+@@ -234,24 +224,19 @@ static void ohci_hcd_nxp_remove(struct platform_device *pdev)
+ 	usb_remove_hcd(hcd);
+ 	ohci_nxp_stop_hc();
+ 	usb_put_hcd(hcd);
+-	isp1301_i2c_client = NULL;
++	put_device(isp1301_i2c_client);
+ }
+ 
+-/* work with hotplug and coldplug */
+-MODULE_ALIAS("platform:usb-ohci");
+-
+-#ifdef CONFIG_OF
+ static const struct of_device_id ohci_hcd_nxp_match[] = {
+ 	{ .compatible = "nxp,ohci-nxp" },
+ 	{},
+ };
+ MODULE_DEVICE_TABLE(of, ohci_hcd_nxp_match);
+-#endif
+ 
+ static struct platform_driver ohci_hcd_nxp_driver = {
+ 	.driver = {
+-		.name = "usb-ohci",
+-		.of_match_table = of_match_ptr(ohci_hcd_nxp_match),
++		.name = "usb-ohci-lpc32xx",
++		.of_match_table = ohci_hcd_nxp_match,
+ 	},
+ 	.probe = ohci_hcd_nxp_probe,
+ 	.remove = ohci_hcd_nxp_remove,
+diff --git a/drivers/usb/phy/phy-isp1301.c b/drivers/usb/phy/phy-isp1301.c
+index f9b5c411aee4..3a8fa333a4f7 100644
+--- a/drivers/usb/phy/phy-isp1301.c
++++ b/drivers/usb/phy/phy-isp1301.c
+@@ -24,20 +24,12 @@ struct isp1301 {
+ 
+ #define phy_to_isp(p)		(container_of((p), struct isp1301, phy))
+ 
+-static const struct i2c_device_id isp1301_id[] = {
+-	{ "isp1301" },
+-	{ }
+-};
+-MODULE_DEVICE_TABLE(i2c, isp1301_id);
+-
+ static const struct of_device_id isp1301_of_match[] = {
+ 	{.compatible = "nxp,isp1301" },
+ 	{ },
+ };
+ MODULE_DEVICE_TABLE(of, isp1301_of_match);
+ 
+-static struct i2c_client *isp1301_i2c_client;
+-
+ static int __isp1301_write(struct isp1301 *isp, u8 reg, u8 value, u8 clear)
+ {
+ 	return i2c_smbus_write_byte_data(isp->client, reg | clear, value);
+@@ -114,8 +106,6 @@ static int isp1301_probe(struct i2c_client *client)
+ 	i2c_set_clientdata(client, isp);
+ 	usb_add_phy_dev(phy);
+ 
+-	isp1301_i2c_client = client;
+-
+ 	return 0;
+ }
+ 
+@@ -124,7 +114,6 @@ static void isp1301_remove(struct i2c_client *client)
+ 	struct isp1301 *isp = i2c_get_clientdata(client);
+ 
+ 	usb_remove_phy(&isp->phy);
+-	isp1301_i2c_client = NULL;
+ }
+ 
+ static struct i2c_driver isp1301_driver = {
+@@ -134,25 +123,10 @@ static struct i2c_driver isp1301_driver = {
+ 	},
+ 	.probe = isp1301_probe,
+ 	.remove = isp1301_remove,
+-	.id_table = isp1301_id,
+ };
+ 
+ module_i2c_driver(isp1301_driver);
+ 
+-struct i2c_client *isp1301_get_client(struct device_node *node)
+-{
+-	struct i2c_client *client;
+-
+-	/* reference of ISP1301 I2C node via DT */
+-	client = of_find_i2c_device_by_node(node);
+-	if (client)
+-		return client;
+-
+-	/* non-DT: only one ISP1301 chip supported */
+-	return isp1301_i2c_client;
+-}
+-EXPORT_SYMBOL_GPL(isp1301_get_client);
+-
+ MODULE_AUTHOR("Roland Stigge <stigge@antcom.de>");
+ MODULE_DESCRIPTION("NXP ISP1301 USB transceiver driver");
+ MODULE_LICENSE("GPL");
+diff --git a/include/linux/usb/isp1301.h b/include/linux/usb/isp1301.h
+index fa986b926a12..135dd785d984 100644
+--- a/include/linux/usb/isp1301.h
++++ b/include/linux/usb/isp1301.h
+@@ -66,6 +66,4 @@
+ 
+ #define ISP1301_I2C_REG_CLEAR_ADDR	1	/* Register Address Modifier */
+ 
+-struct i2c_client *isp1301_get_client(struct device_node *node);
+-
+ #endif /* __LINUX_USB_ISP1301_H */
