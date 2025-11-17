@@ -1,130 +1,123 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from cstnet.cn (smtp84.cstnet.cn [159.226.251.84])
+	(using TLSv1.2 with cipher DHE-RSA-AES256-SHA (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E10472E2F1F
-	for <linux-usb@vger.kernel.org>; Sun, 16 Nov 2025 13:28:08 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4C24E23F26A;
+	Mon, 17 Nov 2025 01:34:57 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=159.226.251.84
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1763299690; cv=none; b=HG3fkgCXv0S05UMYAF+z/qp0cxaMhFBvLEjimXPwcbe0UGGxlQL9Nx9FB384iIloNuWQGH2uWX1WjFNclJK0wnxZR/hc23UP2P5KhMWGRTiX2yeY0H2IE7uAiN8AeKo+CnMXbb+7woJZuxmS+lytJVg8Ik1r+GIESlM+M2ZpRUM=
+	t=1763343302; cv=none; b=UAc6v1fLyDFksfI6kAZxYe5BaH0zHgJ3VbTZyHQGHLPXhCm7GtY5p/JWG6ES454ZFUKvVphrWDGjU+I1OSKyTNVMlXQvJf3DfzzmbZrfEaalULNgbPVjiV1Jw252UmdsB06GJR+K1GuLLVwL9DsAUuta8Vi8UZD2pqN4J/OQruA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1763299690; c=relaxed/simple;
-	bh=ZQoKp1pMo4cAGytSctoAgqd4T0pcIg5MnXY+mHXsTfs=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=pm3KcBPzosm4m9s1RwLkuoh8giLjBr6bZEFZQlmgG14Ig1aWb13AS8GTa/InfTU0Ce8jJ1i5ix3ZbdC2gzdhrrcWrUklplDj2KK2/RW3HHc5BdQE9QssfXdZY93e763I6mchhWGjkWlLfKoYwuckUmGJp4VfBkUqHeVp4AJ4998=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b=wLc+3s6c; arc=none smtp.client-ip=10.30.226.201
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="wLc+3s6c"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 9971EC116B1;
-	Sun, 16 Nov 2025 13:28:07 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
-	s=korg; t=1763299687;
-	bh=ZQoKp1pMo4cAGytSctoAgqd4T0pcIg5MnXY+mHXsTfs=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=wLc+3s6cyLrg/GUTnG4hvKwVlabsHVzXLqWzM3u6dQFRMKDo53WFhRSGNUbwu+AMn
-	 sIVyCiuzYrnhNyYJukrPJI7PbJoGE3Eh+2GIs7YOR+ZMkqHeeVKnSZM534SQZHu4OH
-	 IweOwp+7LLPPcZhOftbMbHvwTUjfFUODvxgL/pDQ=
-Date: Sun, 16 Nov 2025 08:28:04 -0500
-From: gregkh <gregkh@linuxfoundation.org>
-To: =?utf-8?B?Zmx5bm5uY2hlbijpmYjlpKnmpZop?= <flynnnchen@tencent.com>
-Cc: linux-usb <linux-usb@vger.kernel.org>
-Subject: Re: Re: [PATCH] usb: storage: sddr55: Reject out-of-bound new_pba
-Message-ID: <2025111615-counting-unsteady-7469@gregkh>
-References: <B2DC73A3EE1E3A1D+202511161322001664687@tencent.com>
- <2025111605-stardust-unvocal-222f@gregkh>
- <EBC31800E75832ED+202511162115037260372@tencent.com>
+	s=arc-20240116; t=1763343302; c=relaxed/simple;
+	bh=YR0JE0NXqs8+tcKOsSAlU2ZlbyfFSpFgZTnKfqti5G8=;
+	h=From:To:Cc:Subject:Date:Message-Id; b=H0Q08Kwwrig4hS9KBaIRaU500NtkUm1rs0nKhZ6SwBi4V5i8Jp87tIDSaoYuLtqKlmWTodIXvZecH00yql5Zy//mxamam/gooLoY8ZMdeqdo50RlWk6w3KYSDDSsJJpNObYVYOsetzFEOf85Vku7AX9Y3WpBtsHGgETGTwqo0Bw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=iscas.ac.cn; spf=pass smtp.mailfrom=iscas.ac.cn; arc=none smtp.client-ip=159.226.251.84
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=iscas.ac.cn
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=iscas.ac.cn
+Received: from localhost.localdomain (unknown [202.112.113.212])
+	by APP-05 (Coremail) with SMTP id zQCowADn4GGlexppPSADAQ--.76S2;
+	Mon, 17 Nov 2025 09:34:38 +0800 (CST)
+From: Ma Ke <make24@iscas.ac.cn>
+To: stern@rowland.harvard.edu,
+	vz@mleia.com,
+	piotr.wojtaszczyk@timesys.com,
+	gregkh@linuxfoundation.org,
+	arnd@arndb.de,
+	stigge@antcom.de
+Cc: linux-usb@vger.kernel.org,
+	linux-arm-kernel@lists.infradead.org,
+	linux-kernel@vger.kernel.org,
+	akpm@linux-foundation.org,
+	Ma Ke <make24@iscas.ac.cn>,
+	stable@vger.kernel.org
+Subject: [PATCH v2] USB: ohci-nxp: Fix error handling in ohci-hcd-nxp driver
+Date: Mon, 17 Nov 2025 09:34:28 +0800
+Message-Id: <20251117013428.21840-1-make24@iscas.ac.cn>
+X-Mailer: git-send-email 2.17.1
+X-CM-TRANSID:zQCowADn4GGlexppPSADAQ--.76S2
+X-Coremail-Antispam: 1UD129KBjvJXoW7CFWxCF13XrWUJr4kAr4fZrb_yoW8uFy7pF
+	nrWa4YkFyDG3yIg3y3AF17XFyIkw47t3yrt3y7Gw17Wan0y3sIvFyvkFyjvF43XrWkGr1F
+	9an8t3yYyw4UAaUanT9S1TB71UUUUU7qnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
+	9KBjDU0xBIdaVrnRJUUUPY14x267AKxVW8JVW5JwAFc2x0x2IEx4CE42xK8VAvwI8IcIk0
+	rVWrJVCq3wAFIxvE14AKwVWUJVWUGwA2ocxC64kIII0Yj41l84x0c7CEw4AK67xGY2AK02
+	1l84ACjcxK6xIIjxv20xvE14v26ryj6F1UM28EF7xvwVC0I7IYx2IY6xkF7I0E14v26r4j
+	6F4UM28EF7xvwVC2z280aVAFwI0_Gr1j6F4UJwA2z4x0Y4vEx4A2jsIEc7CjxVAFwI0_Gr
+	1j6F4UJwAac4AC62xK8xCEY4vEwIxC4wAS0I0E0xvYzxvE52x082IY62kv0487Mc02F40E
+	FcxC0VAKzVAqx4xG6I80ewAv7VC0I7IYx2IY67AKxVWUJVWUGwAv7VC2z280aVAFwI0_Jr
+	0_Gr1lOx8S6xCaFVCjc4AY6r1j6r4UM4x0Y48IcxkI7VAKI48JM4x0x7Aq67IIx4CEVc8v
+	x2IErcIFxwACI402YVCY1x02628vn2kIc2xKxwCY1x0262kKe7AKxVWUtVW8ZwCY02Avz4
+	vE14v_KwCF04k20xvY0x0EwIxGrwCFx2IqxVCFs4IE7xkEbVWUJVW8JwC20s026c02F40E
+	14v26r1j6r18MI8I3I0E7480Y4vE14v26r106r1rMI8E67AF67kF1VAFwI0_Jw0_GFylIx
+	kGc2Ij64vIr41lIxAIcVC0I7IYx2IY67AKxVWUJVWUCwCI42IY6xIIjxv20xvEc7CjxVAF
+	wI0_Gr0_Cr1lIxAIcVCF04k26cxKx2IYs7xG6r1j6r1xMIIF0xvEx4A2jsIE14v26r1j6r
+	4UMIIF0xvEx4A2jsIEc7CjxVAFwI0_Gr0_Gr1UYxBIdaVFxhVjvjDU0xZFpf9x0JUmQ6LU
+	UUUU=
+X-CM-SenderInfo: ppdnvj2u6l2u1dvotugofq/
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <EBC31800E75832ED+202511162115037260372@tencent.com>
 
-On Sun, Nov 16, 2025 at 09:15:05PM +0800, flynnnchen(陈天楚) wrote:
-> On Sun, Nov 16, 2025 at 07:07:57AM -0500, gregkh wrote:
-> 
-> >On Sun, Nov 16, 2025 at 01:22:01PM +0800, flynnnchen(陈天楚) wrote:
-> >> Discovered by Atuin - Automated Vulnerability Discovery Engine.
-> >> 
-> >> new_pba comes from the status packet returned after each write.
-> >> A bogus device could report values beyond the block count derived
-> >> from info->capacity, letting the driver walk off the end of
-> >> pba_to_lba[] and corrupt heap memory.
-> >> 
-> >> Reject PBAs that exceed the computed block count and fail the
-> >> transfer so we avoid touching out-of-range mapping entries.
-> >> 
-> >> Signed-off-by: Tianchu Chen <flynnnchen@tencent.com>
-> >> ---
-> >>  drivers/usb/storage/sddr55.c | 6 ++++++
-> >>  1 file changed, 6 insertions(+)
-> >> 
-> >> diff --git a/drivers/usb/storage/sddr55.c b/drivers/usb/storage/sddr55.c
-> >> index b323f0a36..9d813727e 100644
-> >> --- a/drivers/usb/storage/sddr55.c
-> >> +++ b/drivers/usb/storage/sddr55.c
-> >> @@ -469,6 +469,12 @@ static int sddr55_write_data(struct us_data *us,
-> >>  		new_pba = (status[3] + (status[4] << 8) + (status[5] << 16))
-> >>  						  >> info->blockshift;
-> >>  
-> >> +		/* check if device-reported new_pba is out of range */
-> >> +		if (new_pba >= (info->capacity >> (info->blockshift + info->pageshift))) {
-> >> +			result = USB_STOR_TRANSPORT_FAILED;
-> >> +			goto leave;
-> >> +		}
-> >
-> >Any chance you tested this with real hardware?
-> >
-> >thanks,
-> >
-> >greg k-h
-> 
-> 
-> Unfortunately, I do not own the real hardware, and have not tested it on a
-> a real device.
-> 
-> Some of my thoughts on this patch, from static analysis:
-> 
-> Q: What if this code is called, before info->capacity is set?
-> A: If sddr55_write_data is called before sddr55_get_capacity,
-> info->capacity and pba_to_lba should both be 0, in the patched code it will
-> always fail, while in the original code it will cause NULL-deref.
+When obtaining the ISP1301 I2C client through the device tree, the
+driver does not release the device reference in the probe failure path
+or in the remove function. This could cause a reference count leak,
+which may prevent the device from being properly unbound or freed,
+leading to resource leakage.
 
-But how can that out-of-order calling happen?
+Fix this by storing whether the client was obtained via device tree
+and only releasing the reference in that case.
 
-> Q: Is checking new_pba here essential in all cases?
-> A: Yes, in all the code path beneath it, new_pba is always used to index
-> the array, with no exception.
+Found by code review.
 
-Fair enough :)
+Cc: stable@vger.kernel.org
+Fixes: 73108aa90cbf ("USB: ohci-nxp: Use isp1301 driver")
+Signed-off-by: Ma Ke <make24@iscas.ac.cn>
+---
+Changes in v2:
+- only released the device reference when the ISP1301 client was obtained through device tree, not in the non-DT case where the global variable is used;
+- removed unnecessary NULL checks as suggested by reviewer.
+---
+ drivers/usb/host/ohci-nxp.c | 6 ++++++
+ 1 file changed, 6 insertions(+)
 
-> Q: What if device reports write success, and gives back an OOB new_pba?
-> A: For the patched code, it will fail the write transfer. In the original
-> one, it is very likely to fail as well, because:
-> 
-> 		/* check that new_pba wasn't already being used */
-> 		if (info->pba_to_lba[new_pba] != UNUSED_BLOCK) {  <--- Very likely to fail here
-> 			printk(KERN_ERR "sddr55 error: new PBA %04X already in use for LBA %04X\n",
-> 				new_pba, info->pba_to_lba[new_pba]);
-> 			info->fatal_error = 1;
-> 			set_sense_info (3, 0x31, 0);
-> 			result = USB_STOR_TRANSPORT_FAILED;
-> 			goto leave;
-> 		}
-> 
-> The original code OOB-reads info->pba_to_lba[new_pba], which is very
-> unlikely to equal to UNUSED_BLOCK (i32 0x3ff) by chance, thus the original
-> code will also fail the transfer in most cases.
-> 
-> From my understanding, the patched code solves the OOB issue, while being
-> aligned with the original behavior in most cases I have imagined.
+diff --git a/drivers/usb/host/ohci-nxp.c b/drivers/usb/host/ohci-nxp.c
+index 24d5a1dc5056..081b8c7f21a0 100644
+--- a/drivers/usb/host/ohci-nxp.c
++++ b/drivers/usb/host/ohci-nxp.c
+@@ -50,6 +50,7 @@ static const char hcd_name[] = "ohci-nxp";
+ static struct hc_driver __read_mostly ohci_nxp_hc_driver;
+ 
+ static struct i2c_client *isp1301_i2c_client;
++static bool isp1301_using_dt;
+ 
+ static void isp1301_configure_lpc32xx(void)
+ {
+@@ -161,6 +162,7 @@ static int ohci_hcd_nxp_probe(struct platform_device *pdev)
+ 	} else {
+ 		isp1301_node = NULL;
+ 	}
++	isp1301_using_dt = (isp1301_node != NULL);
+ 
+ 	isp1301_i2c_client = isp1301_get_client(isp1301_node);
+ 	of_node_put(isp1301_node);
+@@ -223,6 +225,8 @@ static int ohci_hcd_nxp_probe(struct platform_device *pdev)
+ fail_resource:
+ 	usb_put_hcd(hcd);
+ fail_disable:
++	if (isp1301_using_dt)
++		put_device(&isp1301_i2c_client->dev);
+ 	isp1301_i2c_client = NULL;
+ 	return ret;
+ }
+@@ -234,6 +238,8 @@ static void ohci_hcd_nxp_remove(struct platform_device *pdev)
+ 	usb_remove_hcd(hcd);
+ 	ohci_nxp_stop_hc();
+ 	usb_put_hcd(hcd);
++	if (isp1301_using_dt)
++		put_device(&isp1301_i2c_client->dev);
+ 	isp1301_i2c_client = NULL;
+ }
+ 
+-- 
+2.17.1
 
-Ok, seems sane, I'll be glad to take this, just wanted to be sure.  I
-kind of doubt anyone has this hardware anymore anyway :)
-
-thanks,
-
-greg k-h
