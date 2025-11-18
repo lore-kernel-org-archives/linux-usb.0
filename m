@@ -1,34 +1,34 @@
 Received: from zeniv.linux.org.uk (zeniv.linux.org.uk [62.89.141.173])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3B5B72BE7D7;
-	Tue, 18 Nov 2025 05:16:11 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0D6E5263F28;
+	Tue, 18 Nov 2025 05:16:10 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=62.89.141.173
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1763442979; cv=none; b=Y+hHxImAaI51MJNm+ErhtgXh4/AzaYVQekzbvLxwXtX7jOTnq1dtFm6P6Jg6ygTI8ish2Sz1ZnoxMANiy+N02bF9e+ysLG18D8FNJqm3WGOmONf9PIWp9BWxqAcFo8x97hZxka2zv6fPBsEvMNRup/E3SisFBifNiTT1cB0XOU4=
+	t=1763442978; cv=none; b=Xk7Y4ynO3JVjfVIHFfe8KDFQ0FNxJEMFBQJc3Fd14l0oWQpHjLhe4zZf5I2VCSLN+KN5fw2ECOaatoiTrkL1T+QbL1Jj1uIKuTF1Z/ySHvgen7WrZ6VoI92Qns0R3wtYW2FZ32ev8wmlevOH1UZeKwCafTakqjVkYgQRMVGu3og=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1763442979; c=relaxed/simple;
-	bh=i2L+1mwZrg68E3CPwwdhAwpHLdwJkVellrabjVoKLow=;
+	s=arc-20240116; t=1763442978; c=relaxed/simple;
+	bh=x0h8MlzTgc4T4rt8y2yx/rckrOB4f9P7D0y01x5RsO0=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=WZzG/avFRbbvc8NG7xGvJnjVaA6zPf33p2o4mph/NyCh7sJ6VFRh/66BQjm0rzOs0sBzaR2fAcdoF8/uR20TKk2paiplS2gvq1heZmpSNGiodhuwcR2en3rzj9RV43PRFRjMqhtmOvKbOBpjqhh9i+3s+f9Udndffx59+kc2U7I=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=zeniv.linux.org.uk; spf=none smtp.mailfrom=ftp.linux.org.uk; dkim=pass (2048-bit key) header.d=linux.org.uk header.i=@linux.org.uk header.b=eyBtxzuw; arc=none smtp.client-ip=62.89.141.173
+	 MIME-Version; b=VQviQolAZso0iJrqR6XSBoiargoDpRoSuiNa5lxaeiOvQE8WjP77UB281V/zWW1xSedNGjwL3guNuZxH3m837vZ5NQ+5kQmdUnXvaOw8Ft4cptK8Tcv6ITFf6UyQF7Me5chs/P3Q451/xeURblmviiCVJSrVAOdYeVZA3cK3kCo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=zeniv.linux.org.uk; spf=none smtp.mailfrom=ftp.linux.org.uk; dkim=pass (2048-bit key) header.d=linux.org.uk header.i=@linux.org.uk header.b=IjzD6SZN; arc=none smtp.client-ip=62.89.141.173
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=zeniv.linux.org.uk
 Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=ftp.linux.org.uk
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linux.org.uk header.i=@linux.org.uk header.b="eyBtxzuw"
+	dkim=pass (2048-bit key) header.d=linux.org.uk header.i=@linux.org.uk header.b="IjzD6SZN"
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=linux.org.uk; s=zeniv-20220401; h=Sender:Content-Transfer-Encoding:
-	Content-Type:MIME-Version:References:In-Reply-To:Message-ID:Date:Subject:Cc:
-	To:From:Reply-To:Content-ID:Content-Description;
-	bh=X8Ik4zuriSM27g5TIHw6N+EULicED7c6xnS6UrwX7a8=; b=eyBtxzuw2W0UkWIMfBVDRF5HnN
-	c8pkSZ6zguaEQHjWZ/2YQVWhKYltYMabKcqdaSVO4M4nSBHEvb7H6hrRgv3jmvTtamxHVz3gp99D1
-	z1QxeZmOHNQ69JiTj+PFPMwzsleOAP2O4YCBcNdYzfNZt/xCwQFsAl/k601PI53kDcXYwe/PyYQ+Q
-	fMuF0SZf5Fj5C1eeAww+b1lbhyqIr9kOw39nNvvF1IVvn19yU0aIzYZm6xS2Bwnd6G+iVYXLguIEx
-	ZCo8D8StM6Q9hNTpWs6R14iTEwhLT2QwOIIypZLis6Qeg5Em6Pv2BptOzgrwHZ36gOkTjqOy6RCtr
-	1d6HSJSQ==;
+	MIME-Version:References:In-Reply-To:Message-ID:Date:Subject:Cc:To:From:
+	Reply-To:Content-Type:Content-ID:Content-Description;
+	bh=W4Rux38+4wafzrtHIPx/pAtSqJiq0rCT3/CghgJ+qB0=; b=IjzD6SZNXZ75C/fjOmEaQfJprG
+	st1rZe+yTGOATslq/EHEeNfCyI3fQTgrrCV/xwDy09PJSc20HZ9/ok0I0a6gCKmEXdF6E8xreFNhp
+	OgidLo1jv4DB8vfCPjI7+oGZVX3/oxkW1jyzqdo2J6X/UdDJYlW2D3R3PLUowglk9et6/yxJjtxYZ
+	KNTgNk9hRf7Szz3u6z00J01G2unFzLttC/ER2KnYlhR10MLCFBlSJTocJz2mk767MUGk7sNN/rxqv
+	o/P8JiVlYvDsCT5f0UsCsVRKt74WvBpr3DKdGHm8BMKE9Iiy6gn6+QnxHbtC7Bfhkk0QlZ5G0yBJ+
+	3ninlNHA==;
 Received: from viro by zeniv.linux.org.uk with local (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1vLE4X-0000000GETc-1Nbr;
-	Tue, 18 Nov 2025 05:16:09 +0000
+	id 1vLE4T-0000000GEPt-1rsH;
+	Tue, 18 Nov 2025 05:16:05 +0000
 From: Al Viro <viro@zeniv.linux.org.uk>
 To: linux-fsdevel@vger.kernel.org
 Cc: torvalds@linux-foundation.org,
@@ -53,9 +53,9 @@ Cc: torvalds@linux-foundation.org,
 	borntraeger@linux.ibm.com,
 	bpf@vger.kernel.org,
 	clm@meta.com
-Subject: [PATCH v4 40/54] functionfs: switch to simple_remove_by_name()
-Date: Tue, 18 Nov 2025 05:15:49 +0000
-Message-ID: <20251118051604.3868588-41-viro@zeniv.linux.org.uk>
+Subject: [PATCH v4 03/54] new helper: simple_remove_by_name()
+Date: Tue, 18 Nov 2025 05:15:12 +0000
+Message-ID: <20251118051604.3868588-4-viro@zeniv.linux.org.uk>
 X-Mailer: git-send-email 2.49.0
 In-Reply-To: <20251118051604.3868588-1-viro@zeniv.linux.org.uk>
 References: <20251118051604.3868588-1-viro@zeniv.linux.org.uk>
@@ -65,161 +65,85 @@ List-Id: <linux-usb.vger.kernel.org>
 List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 Sender: Al Viro <viro@ftp.linux.org.uk>
 
-No need to return dentry from ffs_sb_create_file() or keep it around
-afterwards.
+simple_recursive_removal(), but instead of victim dentry it takes
+parent + name.
 
-To avoid subtle issues with getting to ffs from epfiles in
-ffs_epfiles_destroy(), pass the superblock as explicit argument.
-Callers have it anyway.
+Used to be open-coded in fs/fuse/control.c, but there's no need to expose
+the guts of that thing there and there are other potential users, so
+let's lift it into libfs...
 
-Reviewed-by: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+Acked-by: Miklos Szeredi <mszeredi@redhat.com>
 Signed-off-by: Al Viro <viro@zeniv.linux.org.uk>
 ---
- drivers/usb/gadget/function/f_fs.c | 51 +++++++++++++-----------------
- 1 file changed, 22 insertions(+), 29 deletions(-)
+ fs/fuse/control.c  |  7 +------
+ fs/libfs.c         | 13 +++++++++++++
+ include/linux/fs.h |  2 ++
+ 3 files changed, 16 insertions(+), 6 deletions(-)
 
-diff --git a/drivers/usb/gadget/function/f_fs.c b/drivers/usb/gadget/function/f_fs.c
-index c7cb23a15fd0..40868ceb765c 100644
---- a/drivers/usb/gadget/function/f_fs.c
-+++ b/drivers/usb/gadget/function/f_fs.c
-@@ -160,8 +160,6 @@ struct ffs_epfile {
- 	struct ffs_data			*ffs;
- 	struct ffs_ep			*ep;	/* P: ffs->eps_lock */
- 
--	struct dentry			*dentry;
--
- 	/*
- 	 * Buffer for holding data from partial reads which may happen since
- 	 * we’re rounding user read requests to a multiple of a max packet size.
-@@ -271,11 +269,11 @@ struct ffs_desc_helper {
- };
- 
- static int  __must_check ffs_epfiles_create(struct ffs_data *ffs);
--static void ffs_epfiles_destroy(struct ffs_epfile *epfiles, unsigned count);
-+static void ffs_epfiles_destroy(struct super_block *sb,
-+				struct ffs_epfile *epfiles, unsigned count);
- 
--static struct dentry *
--ffs_sb_create_file(struct super_block *sb, const char *name, void *data,
--		   const struct file_operations *fops);
-+static int ffs_sb_create_file(struct super_block *sb, const char *name,
-+			      void *data, const struct file_operations *fops);
- 
- /* Devices management *******************************************************/
- 
-@@ -1894,9 +1892,8 @@ ffs_sb_make_inode(struct super_block *sb, void *data,
- }
- 
- /* Create "regular" file */
--static struct dentry *ffs_sb_create_file(struct super_block *sb,
--					const char *name, void *data,
--					const struct file_operations *fops)
-+static int ffs_sb_create_file(struct super_block *sb, const char *name,
-+			      void *data, const struct file_operations *fops)
+diff --git a/fs/fuse/control.c b/fs/fuse/control.c
+index 5247df896c5d..3dca752127ff 100644
+--- a/fs/fuse/control.c
++++ b/fs/fuse/control.c
+@@ -290,18 +290,13 @@ static void remove_one(struct dentry *dentry)
+  */
+ void fuse_ctl_remove_conn(struct fuse_conn *fc)
  {
- 	struct ffs_data	*ffs = sb->s_fs_info;
- 	struct dentry	*dentry;
-@@ -1904,16 +1901,16 @@ static struct dentry *ffs_sb_create_file(struct super_block *sb,
+-	struct dentry *dentry;
+ 	char name[32];
  
- 	dentry = d_alloc_name(sb->s_root, name);
- 	if (!dentry)
--		return NULL;
-+		return -ENOMEM;
+ 	if (!fuse_control_sb || fc->no_control)
+ 		return;
  
- 	inode = ffs_sb_make_inode(sb, data, fops, NULL, &ffs->file_perms);
- 	if (!inode) {
- 		dput(dentry);
--		return NULL;
-+		return -ENOMEM;
- 	}
- 
- 	d_add(dentry, inode);
--	return dentry;
-+	return 0;
+ 	sprintf(name, "%u", fc->dev);
+-	dentry = lookup_noperm_positive_unlocked(&QSTR(name), fuse_control_sb->s_root);
+-	if (!IS_ERR(dentry)) {
+-		simple_recursive_removal(dentry, remove_one);
+-		dput(dentry);	// paired with lookup_noperm_positive_unlocked()
+-	}
++	simple_remove_by_name(fuse_control_sb->s_root, name, remove_one);
  }
  
- /* Super block */
-@@ -1956,10 +1953,7 @@ static int ffs_sb_fill(struct super_block *sb, struct fs_context *fc)
- 		return -ENOMEM;
- 
- 	/* EP0 file */
--	if (!ffs_sb_create_file(sb, "ep0", ffs, &ffs_ep0_operations))
--		return -ENOMEM;
--
--	return 0;
-+	return ffs_sb_create_file(sb, "ep0", ffs, &ffs_ep0_operations);
+ static int fuse_ctl_fill_super(struct super_block *sb, struct fs_context *fsc)
+diff --git a/fs/libfs.c b/fs/libfs.c
+index ce8c496a6940..d029aff41f66 100644
+--- a/fs/libfs.c
++++ b/fs/libfs.c
+@@ -655,6 +655,19 @@ void simple_recursive_removal(struct dentry *dentry,
  }
+ EXPORT_SYMBOL(simple_recursive_removal);
  
- enum {
-@@ -2196,7 +2190,7 @@ static void ffs_data_closed(struct ffs_data *ffs)
- 							flags);
- 
- 			if (epfiles)
--				ffs_epfiles_destroy(epfiles,
-+				ffs_epfiles_destroy(ffs->sb, epfiles,
- 						 ffs->eps_count);
- 
- 			if (ffs->setup_state == FFS_SETUP_PENDING)
-@@ -2255,7 +2249,7 @@ static void ffs_data_clear(struct ffs_data *ffs)
- 	 * copy of epfile will save us from use-after-free.
- 	 */
- 	if (epfiles) {
--		ffs_epfiles_destroy(epfiles, ffs->eps_count);
-+		ffs_epfiles_destroy(ffs->sb, epfiles, ffs->eps_count);
- 		ffs->epfiles = NULL;
- 	}
- 
-@@ -2352,6 +2346,7 @@ static int ffs_epfiles_create(struct ffs_data *ffs)
- {
- 	struct ffs_epfile *epfile, *epfiles;
- 	unsigned i, count;
-+	int err;
- 
- 	count = ffs->eps_count;
- 	epfiles = kcalloc(count, sizeof(*epfiles), GFP_KERNEL);
-@@ -2368,12 +2363,11 @@ static int ffs_epfiles_create(struct ffs_data *ffs)
- 			sprintf(epfile->name, "ep%02x", ffs->eps_addrmap[i]);
- 		else
- 			sprintf(epfile->name, "ep%u", i);
--		epfile->dentry = ffs_sb_create_file(ffs->sb, epfile->name,
--						 epfile,
--						 &ffs_epfile_operations);
--		if (!epfile->dentry) {
--			ffs_epfiles_destroy(epfiles, i - 1);
--			return -ENOMEM;
-+		err = ffs_sb_create_file(ffs->sb, epfile->name,
-+					 epfile, &ffs_epfile_operations);
-+		if (err) {
-+			ffs_epfiles_destroy(ffs->sb, epfiles, i - 1);
-+			return err;
- 		}
- 	}
- 
-@@ -2386,16 +2380,15 @@ static void clear_one(struct dentry *dentry)
- 	smp_store_release(&dentry->d_inode->i_private, NULL);
- }
- 
--static void ffs_epfiles_destroy(struct ffs_epfile *epfiles, unsigned count)
-+static void ffs_epfiles_destroy(struct super_block *sb,
-+				struct ffs_epfile *epfiles, unsigned count)
- {
- 	struct ffs_epfile *epfile = epfiles;
-+	struct dentry *root = sb->s_root;
- 
- 	for (; count; --count, ++epfile) {
- 		BUG_ON(mutex_is_locked(&epfile->mutex));
--		if (epfile->dentry) {
--			simple_recursive_removal(epfile->dentry, clear_one);
--			epfile->dentry = NULL;
--		}
-+		simple_remove_by_name(root, epfile->name, clear_one);
- 	}
- 
- 	kfree(epfiles);
++void simple_remove_by_name(struct dentry *parent, const char *name,
++                           void (*callback)(struct dentry *))
++{
++	struct dentry *dentry;
++
++	dentry = lookup_noperm_positive_unlocked(&QSTR(name), parent);
++	if (!IS_ERR(dentry)) {
++		simple_recursive_removal(dentry, callback);
++		dput(dentry);	// paired with lookup_noperm_positive_unlocked()
++	}
++}
++EXPORT_SYMBOL(simple_remove_by_name);
++
+ /* caller holds parent directory with I_MUTEX_PARENT */
+ void locked_recursive_removal(struct dentry *dentry,
+                               void (*callback)(struct dentry *))
+diff --git a/include/linux/fs.h b/include/linux/fs.h
+index c895146c1444..28bd4e8d3892 100644
+--- a/include/linux/fs.h
++++ b/include/linux/fs.h
+@@ -3631,6 +3631,8 @@ extern int simple_rename(struct mnt_idmap *, struct inode *,
+ 			 unsigned int);
+ extern void simple_recursive_removal(struct dentry *,
+                               void (*callback)(struct dentry *));
++extern void simple_remove_by_name(struct dentry *, const char *,
++                              void (*callback)(struct dentry *));
+ extern void locked_recursive_removal(struct dentry *,
+                               void (*callback)(struct dentry *));
+ extern int noop_fsync(struct file *, loff_t, loff_t, int);
 -- 
 2.47.3
 
