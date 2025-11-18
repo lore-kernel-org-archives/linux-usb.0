@@ -1,34 +1,34 @@
 Received: from zeniv.linux.org.uk (zeniv.linux.org.uk [62.89.141.173])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0E1D627281D;
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0D2681FA272;
 	Tue, 18 Nov 2025 05:16:10 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=62.89.141.173
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1763442978; cv=none; b=W1SNI0hcVNG5taZKHy4gaTI4F1JZpB3FxmJsGN9Dpm552q9609vjCYM33lDY715U1Fhygq+Bt2uYjI7IGYusBF3XzRwpyKIymOlQwnu0CJ1n5pBs0ObeMJKcPfLBlpZuuYMKDEUh247Tw7w5/m13tfCfDrnnDhd16ZNIBbAxTdw=
+	t=1763442978; cv=none; b=hBUv7vPvFIPOf3EeHwy6J2wnZhypdWK5XdqTZOAQtcJ2pd4BOzSFP4ff3vcVVkeru47P+Gb+prWa9cM6yHOqd2Xs1TL8XrwCL+YiMW8IhZ8jUJExux3EgUPZvH5Lv9VHKGN+THZY4cll9ZYTl1pgT5y6q6ORGqGjoBDr2SL8xRY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
 	s=arc-20240116; t=1763442978; c=relaxed/simple;
-	bh=rBis+ehDQQlMMa8Sh/rbTbSBnIM0TaWvYjqlG29vpK8=;
+	bh=oZrHg+8ebKXmRjdZOvm9gbjsTdOkh94+42GIC0fJWkE=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=bideVKy+VBsX7/LnMKSugjYBW7apLC02Z9D5IOunf7FCRlKgsff9GwoSk1Qnfy0Bnmyf7f0uWJNp0+uqHdu8mlCPkxBPYWWght/65FeEJZE660EKBTxZ4kGqER44rfwRcQ04XjGyrYeYm+CkztuYgL6FckPt7dJMFiJa6f6vP58=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=zeniv.linux.org.uk; spf=none smtp.mailfrom=ftp.linux.org.uk; dkim=pass (2048-bit key) header.d=linux.org.uk header.i=@linux.org.uk header.b=W2ERGgim; arc=none smtp.client-ip=62.89.141.173
+	 MIME-Version; b=ARZlDCwwagolDghrxMHJUuZMTqR/lu14vOdGyIEc4oy6bIvdH05eT8BsynGc90XjCh27BgjSiGqznFBOGal/IRMU/jt3K26ILWYSVZuxoovPPwstDIk83de5yEq8hgQD6Ua5UmR2jHQAOR/9ySKAU02IVCvp5OFlyQmJo2jfC+E=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=zeniv.linux.org.uk; spf=none smtp.mailfrom=ftp.linux.org.uk; dkim=pass (2048-bit key) header.d=linux.org.uk header.i=@linux.org.uk header.b=PWlONFNy; arc=none smtp.client-ip=62.89.141.173
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=zeniv.linux.org.uk
 Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=ftp.linux.org.uk
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linux.org.uk header.i=@linux.org.uk header.b="W2ERGgim"
+	dkim=pass (2048-bit key) header.d=linux.org.uk header.i=@linux.org.uk header.b="PWlONFNy"
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=linux.org.uk; s=zeniv-20220401; h=Sender:Content-Transfer-Encoding:
 	MIME-Version:References:In-Reply-To:Message-ID:Date:Subject:Cc:To:From:
 	Reply-To:Content-Type:Content-ID:Content-Description;
-	bh=nSvwG6RsfCAVSbS4+/4CBqqk98DhL2WOLYlzO7apNsA=; b=W2ERGgimsMitH58MDtj4At5C7m
-	AqrmsCRI0tB62gk9cbxja28U+q92qkZZRPPOWFgOjbaBNTgwT4mTm+dG3YJn1sISa6CtM2bi/6o3O
-	ViQgIj3GJlBhNZdEPOVR2nGRrCSvoxei553xg2qltmCeiyhUKj8dymcAmwjlKeEBGENFa9aRzgs3N
-	ZOAODjoYvidwdGARmbAMYsRgA1w6N/AZ7RmWnNZDX7wPJa502fEkD6qFFxMHJ4pBVlSHY2f5k95fi
-	6THFMoexw3vnADng1aoo1622q9e2rJ6QInxQA4+CHZ8T9OSNINs/F2XTzM643m+C/s9gVSFJC04NV
-	jC3JSXYA==;
+	bh=wcN8NR1+0HBkSxpdczEOcHVMqeHaVs643Azz1G5uvoU=; b=PWlONFNyoKBcmxnExIHuQJvYp8
+	TEMw4UKqXhsSfIVdQw7lDrpMzeDHAJNWkUJxTq2dniWflhvrAve3vDzIR89pzgL+HEKwVlt2nMRaZ
+	Aaf2PCjJ9VZGYnbPrtD8oBYxGGmbj/FvYjG+vacHCV2/DLKn1Kaw9YziQhUbDiXgPp4dbWdj0MUPz
+	SVUlpKuPvWL08gT6Qsnpquhdois8gnPqPbF+zpT6LDG104DvxlN5f8Vrz1oWdbyqK5BNUl7a6R0Q/
+	xDcMD9HwmtejhbrnYEk1Oe/FlRX09ocCwKUQs4o02cFQdyQaWQccDj/m0nMHApj8YEbGyCVK8knGm
+	Oz0vkyhw==;
 Received: from viro by zeniv.linux.org.uk with local (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1vLE4V-0000000GERT-0FHY;
-	Tue, 18 Nov 2025 05:16:07 +0000
+	id 1vLE4X-0000000GETL-0M8a;
+	Tue, 18 Nov 2025 05:16:09 +0000
 From: Al Viro <viro@zeniv.linux.org.uk>
 To: linux-fsdevel@vger.kernel.org
 Cc: torvalds@linux-foundation.org,
@@ -53,9 +53,9 @@ Cc: torvalds@linux-foundation.org,
 	borntraeger@linux.ibm.com,
 	bpf@vger.kernel.org,
 	clm@meta.com
-Subject: [PATCH v4 18/54] convert pstore
-Date: Tue, 18 Nov 2025 05:15:27 +0000
-Message-ID: <20251118051604.3868588-19-viro@zeniv.linux.org.uk>
+Subject: [PATCH v4 37/54] functionfs: don't bother with ffs->ref in ffs_data_{opened,closed}()
+Date: Tue, 18 Nov 2025 05:15:46 +0000
+Message-ID: <20251118051604.3868588-38-viro@zeniv.linux.org.uk>
 X-Mailer: git-send-email 2.49.0
 In-Reply-To: <20251118051604.3868588-1-viro@zeniv.linux.org.uk>
 References: <20251118051604.3868588-1-viro@zeniv.linux.org.uk>
@@ -68,52 +68,51 @@ MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 Sender: Al Viro <viro@ftp.linux.org.uk>
 
-object creation by d_alloc_name()+d_add() in pstore_mkfile(), removal -
-via normal VFS codepaths (with ->unlink() using simple_unlink()) or
-in pstore_put_backend_records() via locked_recursive_removal()
+A reference is held by the superblock (it's dropped in ffs_kill_sb())
+and filesystem will not get to ->kill_sb() while there are any opened
+files, TYVM...
 
-Replace d_add() with d_make_persistent()+dput() - that's what really
-happens there.  The reference that goes into record->dentry is valid
-only until the unlink (and explicitly cleared by pstore_unlink()).
-
-Reviewed-by: Kees Cook <kees@kernel.org>
+Reviewed-by: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
 Signed-off-by: Al Viro <viro@zeniv.linux.org.uk>
 ---
- fs/pstore/inode.c | 7 ++++---
- 1 file changed, 4 insertions(+), 3 deletions(-)
+ drivers/usb/gadget/function/f_fs.c | 8 +++-----
+ 1 file changed, 3 insertions(+), 5 deletions(-)
 
-diff --git a/fs/pstore/inode.c b/fs/pstore/inode.c
-index b4e55c90f8dc..71deffcc3356 100644
---- a/fs/pstore/inode.c
-+++ b/fs/pstore/inode.c
-@@ -373,7 +373,7 @@ int pstore_mkfile(struct dentry *root, struct pstore_record *record)
- 	if (!dentry)
- 		return -ENOMEM;
+diff --git a/drivers/usb/gadget/function/f_fs.c b/drivers/usb/gadget/function/f_fs.c
+index 43926aca8a40..0bcff49e1f11 100644
+--- a/drivers/usb/gadget/function/f_fs.c
++++ b/drivers/usb/gadget/function/f_fs.c
+@@ -2128,7 +2128,6 @@ static void ffs_data_get(struct ffs_data *ffs)
  
--	private->dentry = dentry;
-+	private->dentry = dentry; // borrowed
- 	private->record = record;
- 	inode->i_size = private->total_size = size;
- 	inode->i_private = private;
-@@ -382,7 +382,8 @@ int pstore_mkfile(struct dentry *root, struct pstore_record *record)
- 		inode_set_mtime_to_ts(inode,
- 				      inode_set_ctime_to_ts(inode, record->time));
+ static void ffs_data_opened(struct ffs_data *ffs)
+ {
+-	refcount_inc(&ffs->ref);
+ 	if (atomic_add_return(1, &ffs->opened) == 1 &&
+ 			ffs->state == FFS_DEACTIVATED) {
+ 		ffs->state = FFS_CLOSING;
+@@ -2153,11 +2152,11 @@ static void ffs_data_put(struct ffs_data *ffs)
  
--	d_add(dentry, no_free_ptr(inode));
-+	d_make_persistent(dentry, no_free_ptr(inode));
-+	dput(dentry);
+ static void ffs_data_closed(struct ffs_data *ffs)
+ {
+-	struct ffs_epfile *epfiles;
+-	unsigned long flags;
+-
+ 	if (atomic_dec_and_test(&ffs->opened)) {
+ 		if (ffs->no_disconnect) {
++			struct ffs_epfile *epfiles;
++			unsigned long flags;
++
+ 			ffs->state = FFS_DEACTIVATED;
+ 			spin_lock_irqsave(&ffs->eps_lock, flags);
+ 			epfiles = ffs->epfiles;
+@@ -2176,7 +2175,6 @@ static void ffs_data_closed(struct ffs_data *ffs)
+ 			ffs_data_reset(ffs);
+ 		}
+ 	}
+-	ffs_data_put(ffs);
+ }
  
- 	list_add(&(no_free_ptr(private))->list, &records_list);
- 
-@@ -465,7 +466,7 @@ static void pstore_kill_sb(struct super_block *sb)
- 	guard(mutex)(&pstore_sb_lock);
- 	WARN_ON(pstore_sb && pstore_sb != sb);
- 
--	kill_litter_super(sb);
-+	kill_anon_super(sb);
- 	pstore_sb = NULL;
- 
- 	guard(mutex)(&records_list_lock);
+ static struct ffs_data *ffs_data_new(const char *dev_name)
 -- 
 2.47.3
 
