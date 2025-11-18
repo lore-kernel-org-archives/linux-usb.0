@@ -1,34 +1,34 @@
 Received: from zeniv.linux.org.uk (zeniv.linux.org.uk [62.89.141.173])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1DEE129AAFD;
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0CF421E3DE5;
 	Tue, 18 Nov 2025 05:16:10 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=62.89.141.173
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1763442977; cv=none; b=n00LK4Uchd/Zm6FQZ55ZaCKqehVSkbmXYnimywtT/byqrMKO6UDIhXyenN+R7fSkeWp148pkpSwfWSIz3MKzeCQe3jZTnsUmZ3TuopAV3rLhK1Ea2GicD74SPMse/FxLuRGHwHBa+eT7yvLnpJ2ptNvCVb94Db2H71UUj2o22nE=
+	t=1763442980; cv=none; b=aaS27J5e1juebb3Cp3n0rENjULKoQcVk0i0s4tmmTE1leivO+Pf6SF+jORlHboDnFYopzSWl7NafQM2eWgiUZ4/bal8suku8lxgvkcERpI6Yw7GqqmYmeqCkE5BuRvka4DaL7cz2XayBO3CFhVU60jt72uJF8bUSea5+rFFNsoc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1763442977; c=relaxed/simple;
-	bh=Zkw5PIqzgZo1iaAu+8HqtP/RCpmxhagt1hjrnfFaxjo=;
+	s=arc-20240116; t=1763442980; c=relaxed/simple;
+	bh=dCgCvctHMZn/4pdh746UkJPY6JB/tha65QwZkN9yA6o=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=XOB25Dhwus5cUQ4Wo7jK7+0LlwD6bXGQC/AgIOYg+jN7AFMaSYTUDQY3XtUFT18Dyzv4SI7wQ0H+RDDZ/021DLidiYVIjJQfvO+lg27nWRf3JcQafZxW5n0Pxq8c3zrnIc9KKTqa2ETbfWjKlVInLiKoTk11XCLVi1WzwN+hm/c=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=zeniv.linux.org.uk; spf=none smtp.mailfrom=ftp.linux.org.uk; dkim=pass (2048-bit key) header.d=linux.org.uk header.i=@linux.org.uk header.b=foJK7sLd; arc=none smtp.client-ip=62.89.141.173
+	 MIME-Version; b=W8S56QtmvKxQpEG1Ko+xAH/pliWS9O7pEWPucBadyXqM+qh95O7HnVQVjKv9FyDalOJhkGFLrQiNzawhPvhJQyxQLh/YNY3qzdHzFCKJ8yi7Vy2uyyJHjuL992RewybPBzrYe9WDNkgaC+n6DtCHX8Lhx2JMptMf3ZTXPpfpcX8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=zeniv.linux.org.uk; spf=none smtp.mailfrom=ftp.linux.org.uk; dkim=pass (2048-bit key) header.d=linux.org.uk header.i=@linux.org.uk header.b=BapOXWjG; arc=none smtp.client-ip=62.89.141.173
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=zeniv.linux.org.uk
 Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=ftp.linux.org.uk
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linux.org.uk header.i=@linux.org.uk header.b="foJK7sLd"
+	dkim=pass (2048-bit key) header.d=linux.org.uk header.i=@linux.org.uk header.b="BapOXWjG"
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=linux.org.uk; s=zeniv-20220401; h=Sender:Content-Transfer-Encoding:
 	MIME-Version:References:In-Reply-To:Message-ID:Date:Subject:Cc:To:From:
 	Reply-To:Content-Type:Content-ID:Content-Description;
-	bh=NeGicC5Z67ZOycdylyHVP58sPv/wzz9kpKbtM8vrBao=; b=foJK7sLdTQuza99mB2bmXypFjg
-	misbqZX+4TBMEHJPS/CtDVLH2McNOV5pxbQLZgbbfKRKtXjjwnk2f01dTbYNr9VJA67kQswAXuh51
-	v7BUg/u2sW2x15WikQA8wQUoxPjQvUSRM40WHr5yWeQrqH6TIN7Q0CfbUthRf/ZPJEgYcaLwIqney
-	EiFj+aQFrcYDib7axbtElcqJ5Z2Zc3O6A2uzMZLefKpMbX2VuLIAZAam2xbQLYKSpMfh0jj6whvUK
-	xLyQ6i2VSFIlc42oPP0Ujsax5Y00fFs/iuT46xZx6+SyspurjtX6r0yUUM8mE4LPm/R5jlmNfWkCw
-	C8m4O0vQ==;
+	bh=4iwuLyMN17JmghA7oE4FXYqqV44QgzYixBKeo+FLe7E=; b=BapOXWjGs2VkVmavXIaruV9LIv
+	fif5sNmvyXkkdrDgGBqvJe+gDqebM9jIRxp8VYwkQif2zT7dd60tH6gnsbnKJeM80HoeSo8cV3S/J
+	7cvPXxsjHToUl2jyND5pdDnRqaqtmtee59nhp5aprgpMxQ49CNkCGicip3k3PR8jUsIkblO/bI4AM
+	FcZG/9n0w2l0fF1uIyvfPbBmcvlR1gvM0n4aSfF2z+EJTtM5gBvSDcBVlz+eaYrnZbMLIYqc+tCHW
+	WlzE5x5ZPhulvSTyNPvpiHrztKiIo4U5K/NsolyfyXElZgmK57FrofPikDQX4EEONIKZdExG+oCeI
+	/m1h14/A==;
 Received: from viro by zeniv.linux.org.uk with local (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1vLE4U-0000000GERB-3NMQ;
-	Tue, 18 Nov 2025 05:16:06 +0000
+	id 1vLE4X-0000000GETR-0lJW;
+	Tue, 18 Nov 2025 05:16:09 +0000
 From: Al Viro <viro@zeniv.linux.org.uk>
 To: linux-fsdevel@vger.kernel.org
 Cc: torvalds@linux-foundation.org,
@@ -53,9 +53,9 @@ Cc: torvalds@linux-foundation.org,
 	borntraeger@linux.ibm.com,
 	bpf@vger.kernel.org,
 	clm@meta.com
-Subject: [PATCH v4 15/54] convert bpf
-Date: Tue, 18 Nov 2025 05:15:24 +0000
-Message-ID: <20251118051604.3868588-16-viro@zeniv.linux.org.uk>
+Subject: [PATCH v4 38/54] functionfs: need to cancel ->reset_work in ->kill_sb()
+Date: Tue, 18 Nov 2025 05:15:47 +0000
+Message-ID: <20251118051604.3868588-39-viro@zeniv.linux.org.uk>
 X-Mailer: git-send-email 2.49.0
 In-Reply-To: <20251118051604.3868588-1-viro@zeniv.linux.org.uk>
 References: <20251118051604.3868588-1-viro@zeniv.linux.org.uk>
@@ -68,66 +68,32 @@ MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 Sender: Al Viro <viro@ftp.linux.org.uk>
 
-object creation goes through the normal VFS paths or approximation
-thereof (user_path_create()/done_path_create() in case of bpf_obj_do_pin(),
-open-coded simple_{start,done}_creating() in bpf_iter_link_pin_kernel()
-at mount time), removals go entirely through the normal VFS paths (and
-->unlink() is simple_unlink() there).
+... otherwise we just might free ffs with ffs->reset_work
+still on queue.  That needs to be done after ffs_data_reset() -
+that's the cutoff point for configfs accesses (serialized
+on gadget_info->lock), which is where the schedule_work()
+would come from.
 
-Enough to have bpf_dentry_finalize() use d_make_persistent() instead
-of dget() and we are done.
-
-Convert bpf_iter_link_pin_kernel() to simple_{start,done}_creating(),
-while we are at it.
-
+Reviewed-by: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
 Signed-off-by: Al Viro <viro@zeniv.linux.org.uk>
 ---
- kernel/bpf/inode.c | 15 +++++----------
- 1 file changed, 5 insertions(+), 10 deletions(-)
+ drivers/usb/gadget/function/f_fs.c | 3 +++
+ 1 file changed, 3 insertions(+)
 
-diff --git a/kernel/bpf/inode.c b/kernel/bpf/inode.c
-index 81780bcf8d25..9f866a010dad 100644
---- a/kernel/bpf/inode.c
-+++ b/kernel/bpf/inode.c
-@@ -144,8 +144,7 @@ static int bpf_inode_type(const struct inode *inode, enum bpf_type *type)
- static void bpf_dentry_finalize(struct dentry *dentry, struct inode *inode,
- 				struct inode *dir)
- {
--	d_instantiate(dentry, inode);
--	dget(dentry);
-+	d_make_persistent(dentry, inode);
- 
- 	inode_set_mtime_to_ts(dir, inode_set_ctime_current(dir));
+diff --git a/drivers/usb/gadget/function/f_fs.c b/drivers/usb/gadget/function/f_fs.c
+index 0bcff49e1f11..27860fc0fd7d 100644
+--- a/drivers/usb/gadget/function/f_fs.c
++++ b/drivers/usb/gadget/function/f_fs.c
+@@ -2081,6 +2081,9 @@ ffs_fs_kill_sb(struct super_block *sb)
+ 		struct ffs_data *ffs = sb->s_fs_info;
+ 		ffs->state = FFS_CLOSING;
+ 		ffs_data_reset(ffs);
++		// no configfs accesses from that point on,
++		// so no further schedule_work() is possible
++		cancel_work_sync(&ffs->reset_work);
+ 		ffs_data_put(ffs);
+ 	}
  }
-@@ -420,16 +419,12 @@ static int bpf_iter_link_pin_kernel(struct dentry *parent,
- 	struct dentry *dentry;
- 	int ret;
- 
--	inode_lock(parent->d_inode);
--	dentry = lookup_noperm(&QSTR(name), parent);
--	if (IS_ERR(dentry)) {
--		inode_unlock(parent->d_inode);
-+	dentry = simple_start_creating(parent, name);
-+	if (IS_ERR(dentry))
- 		return PTR_ERR(dentry);
--	}
- 	ret = bpf_mkobj_ops(dentry, mode, link, &bpf_link_iops,
- 			    &bpf_iter_fops);
--	dput(dentry);
--	inode_unlock(parent->d_inode);
-+	simple_done_creating(dentry);
- 	return ret;
- }
- 
-@@ -1080,7 +1075,7 @@ static void bpf_kill_super(struct super_block *sb)
- {
- 	struct bpf_mount_opts *opts = sb->s_fs_info;
- 
--	kill_litter_super(sb);
-+	kill_anon_super(sb);
- 	kfree(opts);
- }
- 
 -- 
 2.47.3
 
