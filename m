@@ -1,34 +1,34 @@
 Received: from zeniv.linux.org.uk (zeniv.linux.org.uk [62.89.141.173])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0D1581EB9FA;
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0E1D627281D;
 	Tue, 18 Nov 2025 05:16:10 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=62.89.141.173
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1763442977; cv=none; b=eJdgfgecKOJHMc5f8695KVTyLqpKS6vnY2FQVEBR+9HvUcFrQxYMh0pPnQiShFDRPobQojXcNICvGWOk3WaNuApEkRHq/XDIJMqCi5tFQzAMjl0MAmEmeF+IUONKtcPxuIZK6bcG8LaK+m3RCyKxWc21O8m4wLvjHFASLN4UuiA=
+	t=1763442978; cv=none; b=W1SNI0hcVNG5taZKHy4gaTI4F1JZpB3FxmJsGN9Dpm552q9609vjCYM33lDY715U1Fhygq+Bt2uYjI7IGYusBF3XzRwpyKIymOlQwnu0CJ1n5pBs0ObeMJKcPfLBlpZuuYMKDEUh247Tw7w5/m13tfCfDrnnDhd16ZNIBbAxTdw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1763442977; c=relaxed/simple;
-	bh=qQDGAzXgYN6NfbzcXi0oWbzU++36rpBDhX5KI8HQOik=;
+	s=arc-20240116; t=1763442978; c=relaxed/simple;
+	bh=rBis+ehDQQlMMa8Sh/rbTbSBnIM0TaWvYjqlG29vpK8=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=kSrjQMX85upTtth2FTBV+o1FiO3WV4Gvjmk3Auw2buWPpYh7DPZkhnqfpfHiIDMxgdqRVcmJuRA8Vk0eCfvqEIQXp0Nwwr1AatKxaNkQ/3E6wllXAldRJLPKGcsGN8DTIShyikfanu/3cTBdO9A9/QCSenipDieO0REuojsvhXI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=zeniv.linux.org.uk; spf=none smtp.mailfrom=ftp.linux.org.uk; dkim=pass (2048-bit key) header.d=linux.org.uk header.i=@linux.org.uk header.b=RIcNzlCx; arc=none smtp.client-ip=62.89.141.173
+	 MIME-Version; b=bideVKy+VBsX7/LnMKSugjYBW7apLC02Z9D5IOunf7FCRlKgsff9GwoSk1Qnfy0Bnmyf7f0uWJNp0+uqHdu8mlCPkxBPYWWght/65FeEJZE660EKBTxZ4kGqER44rfwRcQ04XjGyrYeYm+CkztuYgL6FckPt7dJMFiJa6f6vP58=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=zeniv.linux.org.uk; spf=none smtp.mailfrom=ftp.linux.org.uk; dkim=pass (2048-bit key) header.d=linux.org.uk header.i=@linux.org.uk header.b=W2ERGgim; arc=none smtp.client-ip=62.89.141.173
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=zeniv.linux.org.uk
 Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=ftp.linux.org.uk
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linux.org.uk header.i=@linux.org.uk header.b="RIcNzlCx"
+	dkim=pass (2048-bit key) header.d=linux.org.uk header.i=@linux.org.uk header.b="W2ERGgim"
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=linux.org.uk; s=zeniv-20220401; h=Sender:Content-Transfer-Encoding:
 	MIME-Version:References:In-Reply-To:Message-ID:Date:Subject:Cc:To:From:
 	Reply-To:Content-Type:Content-ID:Content-Description;
-	bh=IB7wA0wn9kq4oYSSbdEKk+jzajBsWCKDcw62G4pXAEY=; b=RIcNzlCxypdVE8ScZwxqGu7uz3
-	BZZmn19Sfl1c+AGAni1l/B1tw0I7OiittgQdONblK0uvOG0BOnNz18MAfGCHYVSldRYK9HsKrQS6F
-	IE1hZj+Q592h63uzN+w0Zfuipg91jlABb2gf2/EMl7/FnkN31YNe7l4b7Pvl7RbYU0dkWPMh+WK8t
-	/chZNjq3N56pMgEKku1kqYeIfn5/qWNIKiJ/TL32e9O5MsM4nXRu+FZ6BgOxPMgG6M7EWMTmICYiL
-	vZAxw0cbtuWPbRxU7vceiKcHvvHDfsSzRIHPe47ruBNdzMjN6z4LfnWG0cAuOhRQFgAXr10ly4n6N
-	xdIJnDYg==;
+	bh=nSvwG6RsfCAVSbS4+/4CBqqk98DhL2WOLYlzO7apNsA=; b=W2ERGgimsMitH58MDtj4At5C7m
+	AqrmsCRI0tB62gk9cbxja28U+q92qkZZRPPOWFgOjbaBNTgwT4mTm+dG3YJn1sISa6CtM2bi/6o3O
+	ViQgIj3GJlBhNZdEPOVR2nGRrCSvoxei553xg2qltmCeiyhUKj8dymcAmwjlKeEBGENFa9aRzgs3N
+	ZOAODjoYvidwdGARmbAMYsRgA1w6N/AZ7RmWnNZDX7wPJa502fEkD6qFFxMHJ4pBVlSHY2f5k95fi
+	6THFMoexw3vnADng1aoo1622q9e2rJ6QInxQA4+CHZ8T9OSNINs/F2XTzM643m+C/s9gVSFJC04NV
+	jC3JSXYA==;
 Received: from viro by zeniv.linux.org.uk with local (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1vLE4W-0000000GESj-1Ust;
-	Tue, 18 Nov 2025 05:16:08 +0000
+	id 1vLE4V-0000000GERT-0FHY;
+	Tue, 18 Nov 2025 05:16:07 +0000
 From: Al Viro <viro@zeniv.linux.org.uk>
 To: linux-fsdevel@vger.kernel.org
 Cc: torvalds@linux-foundation.org,
@@ -53,9 +53,9 @@ Cc: torvalds@linux-foundation.org,
 	borntraeger@linux.ibm.com,
 	bpf@vger.kernel.org,
 	clm@meta.com
-Subject: [PATCH v4 31/54] convert autofs
-Date: Tue, 18 Nov 2025 05:15:40 +0000
-Message-ID: <20251118051604.3868588-32-viro@zeniv.linux.org.uk>
+Subject: [PATCH v4 18/54] convert pstore
+Date: Tue, 18 Nov 2025 05:15:27 +0000
+Message-ID: <20251118051604.3868588-19-viro@zeniv.linux.org.uk>
 X-Mailer: git-send-email 2.49.0
 In-Reply-To: <20251118051604.3868588-1-viro@zeniv.linux.org.uk>
 References: <20251118051604.3868588-1-viro@zeniv.linux.org.uk>
@@ -68,83 +68,52 @@ MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 Sender: Al Viro <viro@ftp.linux.org.uk>
 
-creation/removal is via normal VFS paths; make ->mkdir() and ->symlink()
-use d_make_persistent(); ->rmdir() and ->unlink() - d_make_discardable()
-instead of dput() and that's it.
+object creation by d_alloc_name()+d_add() in pstore_mkfile(), removal -
+via normal VFS codepaths (with ->unlink() using simple_unlink()) or
+in pstore_put_backend_records() via locked_recursive_removal()
 
-d_make_persistent() works for unhashed just fine...
+Replace d_add() with d_make_persistent()+dput() - that's what really
+happens there.  The reference that goes into record->dentry is valid
+only until the unlink (and explicitly cleared by pstore_unlink()).
 
-Note that only persistent dentries are ever hashed there; unusual absense
-of ->d_delete() in dentry_operations is due to that - anything that has
-refcount reach 0 will be unhashed there, so it won't get to checking
-->d_delete anyway.
-
+Reviewed-by: Kees Cook <kees@kernel.org>
 Signed-off-by: Al Viro <viro@zeniv.linux.org.uk>
 ---
- fs/autofs/inode.c |  2 +-
- fs/autofs/root.c  | 10 ++++------
- 2 files changed, 5 insertions(+), 7 deletions(-)
+ fs/pstore/inode.c | 7 ++++---
+ 1 file changed, 4 insertions(+), 3 deletions(-)
 
-diff --git a/fs/autofs/inode.c b/fs/autofs/inode.c
-index f5c16ffba013..eb86f893efbb 100644
---- a/fs/autofs/inode.c
-+++ b/fs/autofs/inode.c
-@@ -55,7 +55,7 @@ void autofs_kill_sb(struct super_block *sb)
- 	}
+diff --git a/fs/pstore/inode.c b/fs/pstore/inode.c
+index b4e55c90f8dc..71deffcc3356 100644
+--- a/fs/pstore/inode.c
++++ b/fs/pstore/inode.c
+@@ -373,7 +373,7 @@ int pstore_mkfile(struct dentry *root, struct pstore_record *record)
+ 	if (!dentry)
+ 		return -ENOMEM;
  
- 	pr_debug("shutting down\n");
+-	private->dentry = dentry;
++	private->dentry = dentry; // borrowed
+ 	private->record = record;
+ 	inode->i_size = private->total_size = size;
+ 	inode->i_private = private;
+@@ -382,7 +382,8 @@ int pstore_mkfile(struct dentry *root, struct pstore_record *record)
+ 		inode_set_mtime_to_ts(inode,
+ 				      inode_set_ctime_to_ts(inode, record->time));
+ 
+-	d_add(dentry, no_free_ptr(inode));
++	d_make_persistent(dentry, no_free_ptr(inode));
++	dput(dentry);
+ 
+ 	list_add(&(no_free_ptr(private))->list, &records_list);
+ 
+@@ -465,7 +466,7 @@ static void pstore_kill_sb(struct super_block *sb)
+ 	guard(mutex)(&pstore_sb_lock);
+ 	WARN_ON(pstore_sb && pstore_sb != sb);
+ 
 -	kill_litter_super(sb);
 +	kill_anon_super(sb);
- 	if (sbi)
- 		kfree_rcu(sbi, rcu);
- }
-diff --git a/fs/autofs/root.c b/fs/autofs/root.c
-index 39794633d484..fb6c8215456c 100644
---- a/fs/autofs/root.c
-+++ b/fs/autofs/root.c
-@@ -594,9 +594,8 @@ static int autofs_dir_symlink(struct mnt_idmap *idmap,
- 	}
- 	inode->i_private = cp;
- 	inode->i_size = size;
--	d_add(dentry, inode);
+ 	pstore_sb = NULL;
  
--	dget(dentry);
-+	d_make_persistent(dentry, inode);
- 	p_ino = autofs_dentry_ino(dentry->d_parent);
- 	p_ino->count++;
- 
-@@ -627,7 +626,7 @@ static int autofs_dir_unlink(struct inode *dir, struct dentry *dentry)
- 
- 	p_ino = autofs_dentry_ino(dentry->d_parent);
- 	p_ino->count--;
--	dput(dentry);
-+	d_make_discardable(dentry);
- 
- 	d_inode(dentry)->i_size = 0;
- 	clear_nlink(d_inode(dentry));
-@@ -709,7 +708,7 @@ static int autofs_dir_rmdir(struct inode *dir, struct dentry *dentry)
- 
- 	p_ino = autofs_dentry_ino(dentry->d_parent);
- 	p_ino->count--;
--	dput(dentry);
-+	d_make_discardable(dentry);
- 	d_inode(dentry)->i_size = 0;
- 	clear_nlink(d_inode(dentry));
- 
-@@ -739,12 +738,11 @@ static struct dentry *autofs_dir_mkdir(struct mnt_idmap *idmap,
- 	inode = autofs_get_inode(dir->i_sb, S_IFDIR | mode);
- 	if (!inode)
- 		return ERR_PTR(-ENOMEM);
--	d_add(dentry, inode);
- 
- 	if (sbi->version < 5)
- 		autofs_set_leaf_automount_flags(dentry);
- 
--	dget(dentry);
-+	d_make_persistent(dentry, inode);
- 	p_ino = autofs_dentry_ino(dentry->d_parent);
- 	p_ino->count++;
- 	inc_nlink(dir);
+ 	guard(mutex)(&records_list_lock);
 -- 
 2.47.3
 
