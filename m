@@ -1,88 +1,76 @@
-Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com [205.220.180.131])
+Received: from BL0PR03CU003.outbound.protection.outlook.com (mail-eastusazon11012046.outbound.protection.outlook.com [52.101.53.46])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C232430C601
-	for <linux-usb@vger.kernel.org>; Wed, 19 Nov 2025 17:19:33 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.180.131
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1763572775; cv=none; b=J+ovtXPnovzNz+jTIfisPdlNDdFJK2zRgmxJ6dLgqsMoET8giahZXAM8YHzi8BVVQwdy4z4SVy5BFnEKjFb8TUDunkaDzZVe+k2gSmQhqFBFlk45+Z/fThvobMxj7h5PNMOfYyIMXgbER25Sx8b5jPuFe7+ZB8mnOiMxlKLQCG8=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1763572775; c=relaxed/simple;
-	bh=xt0JnG7eaL+BXiskE6UyYQ+9J8ccTDqEFUl7e4yObCQ=;
-	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=TlFurbnEjneHW95zUwQGI/65F78Ammkk6Mcy/0cEpfb113tOlgDCpzOLoGVn56IfO9QSZqOvOLBWvKU89V/vCBogsv5DHNB2MQWnMg0dDAEkNfgF1lMinmV8Vv3NYOaZlJ1LHXureRHlSfZSCsr6ojQwZZEKkowfV7EB0+KXBJ4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com; spf=pass smtp.mailfrom=oss.qualcomm.com; dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b=jsP7xGl2; dkim=pass (2048-bit key) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.b=FTyrkZp0; arc=none smtp.client-ip=205.220.180.131
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=oss.qualcomm.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id ABCB833DED0;
+	Wed, 19 Nov 2025 19:31:01 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=52.101.53.46
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1763580667; cv=fail; b=qm8lcfLtAxtNDwcEPo51nQrFooP/Z6/qIaO8x7uwW/Ksy4Yw9IqiXW7IwhbYvr53Zl374VonXwtaJ/zuokIT3/Jk2VKJZZmGSVioWJpQJxaXcpDtmVPEyMyDFve4NwEAt9NX5WgW77Tr92QsZFeB2PlXj3hYHJYMgHm0bCI0lH4=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1763580667; c=relaxed/simple;
+	bh=Mbq453VbfdE8pfZZWInfnvzBlAWEPGIdgIJOV09Tbj4=;
+	h=From:To:CC:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=pEeoP9cXbvo0mxeT2WGl1ad/3OxLFd4JIQhesE23zaDCyL/68o8n8MQ6j0r8sU1zMD2J1tYO1qG3JbX4OsdNXHp4tBo3eP6INQ203zR1rhUCq1oMcIUVIeRMJL8Fb3DkLm+yK2wsf/MLm0Aqqou0IdRo8Ve0plVupkk2LqR9J/c=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amd.com; spf=fail smtp.mailfrom=amd.com; dkim=pass (1024-bit key) header.d=amd.com header.i=@amd.com header.b=BQ53SPsN; arc=fail smtp.client-ip=52.101.53.46
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amd.com
+Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=amd.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b="jsP7xGl2";
-	dkim=pass (2048-bit key) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.b="FTyrkZp0"
-Received: from pps.filterd (m0279873.ppops.net [127.0.0.1])
-	by mx0a-0031df01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 5AJFkC8p2437965
-	for <linux-usb@vger.kernel.org>; Wed, 19 Nov 2025 17:19:32 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
-	cc:content-transfer-encoding:date:from:message-id:mime-version
-	:subject:to; s=qcppdkim1; bh=y8rNDgsg0qjbaeG5xWAjOWFb3HihIl4x51e
-	nHOT+7O4=; b=jsP7xGl2wW1jQDy6M1WE8GpdJNlD8NI/2lLHcXPn67PvoO3A0/h
-	47A8klGSnflciO/rvkKGird9F9/JfRQQui/3Lwj+hJDEdytn8jdua0ThrJ13B1WJ
-	afxBE03jfn3r+q3OIYSMvGSfaXRVGsL4YBJ3YjUgkWIf+jLTRmDvLeoOAVMoC0hK
-	BACmNGOKJRXgzn4HsAl+INeaNqH+UNqUzXgzd82jTULOFHFmQoE9v8qkqedx4i3k
-	prbo5bB749h4ooTKHRJ2AmYJNlzpez+V+yM7hKRiL+FeKJL+GmeIc9J7+8RQLe6y
-	Kq0yZaUlsTwiDUNdzVhwJv6c24YAUkT2QfA==
-Received: from mail-pl1-f199.google.com (mail-pl1-f199.google.com [209.85.214.199])
-	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 4ah7ant6h3-1
-	(version=TLSv1.3 cipher=TLS_AES_128_GCM_SHA256 bits=128 verify=NOT)
-	for <linux-usb@vger.kernel.org>; Wed, 19 Nov 2025 17:19:32 +0000 (GMT)
-Received: by mail-pl1-f199.google.com with SMTP id d9443c01a7336-297dfae179bso173607885ad.1
-        for <linux-usb@vger.kernel.org>; Wed, 19 Nov 2025 09:19:32 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=oss.qualcomm.com; s=google; t=1763572771; x=1764177571; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=y8rNDgsg0qjbaeG5xWAjOWFb3HihIl4x51enHOT+7O4=;
-        b=FTyrkZp0/Vm8J8uX0maaxSOCxt8+suTDaycQIS6p5lKoEBk/niMg3VmBNtEilRk/61
-         gyQu28ZWeExAyjhMooUXVKbVP5yvkM8e/g3AxpsFN3BIiV52ds1jdrxbWkk90EiXWMwR
-         ZcLBzl6bjCbf1tELQ9tQvreen+mseh9od/YXJ7CMxdwz1siuAD5Elo+X/rY9RW9OdcmZ
-         IaubJo2YmaF8noR2RuP1MJn4NfAoTC49Mp+O0s5MVYqs0QlX156l0FDbBMgjbw+wvGMA
-         4lyBvrHSPUmvnc1YE/ETnd/OiTToUc6tGDhhZFsGBxm2W0oy71Sf71S77xeeAQmZ9RsK
-         v6Rg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1763572771; x=1764177571;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=y8rNDgsg0qjbaeG5xWAjOWFb3HihIl4x51enHOT+7O4=;
-        b=SlcEkYQmx3XKgG4myuQ8iuQUReEjISeMO4U3mmkIc3iR3tZmbf0++2rLShB2PmoHWe
-         Mk9Xxdjxa1XSBfHKizURiXQJsulGhwWBrJiaiYpXL5jErs0bdaZ/cMAeOXLShTUOP9yi
-         nn1ix2mslJQ62C7hLNhDZ5ua8sF076TgZ5meBQUE/N6xwVpJK6x2HLPvyLWIPCqBJMwO
-         rK0UWb/RPAtStWR+LDXPNUgv/ZsYA0G3LpKaeRZ7/9CjGkpSIUh9mHT86CVaT8J452zd
-         tEUuXczHlcFgPB2f8pywd5W3j8OllIIqkhD5ZVe1OiZozKkZqVp+QSKV9fKg9hJpQvyG
-         kM1w==
-X-Gm-Message-State: AOJu0YwKmyv/rToFrOOrz0OJzlsnkn4+iGJ2dODaz1FgUXLW4A6UrGQo
-	plFRemH5/O1DW97YZjeu8+m7SFAe8gNdr6+8VUEPYzygoJkx7MIm8RivZ2x5FL/Z+f6O4vU4/oJ
-	JJDG8cNxI9/BMYDmmTUSDoDTj2uGYdlcmi43BljOcU9cQVQPgJkVvzbBUrwSZWV8=
-X-Gm-Gg: ASbGnctDsXrDwVsiSxszGMgNhCMDn/1zQb47PB56PP9AwRo90Nig8p5Y+/rApdq+oSo
-	t/NP7ZAkbQdGCHmL4me60kZR5EXu+BAzYDYEaPiDMlTEVrMOj3MLhTeLs80HUokXVBx3TLqVoeV
-	rp71xbAT5vEShaGtNADZqoj1GnFLopN+IdBmiiYeVl+saVMi5CJVHJMFCrPVM5p4dWpYXKRA3kc
-	Y89hOhLOca5+I02GXcZf6ZotcqugB/77BSTaUwLZVAX5FIIWwrcDKmydTIJZ/pJATy5hVRolG/2
-	lMjzEbGfrB+JGodVDF+GiygbvR9ls5j9GPkpQYUPkiFnsxbIZKxwk5RkPUa+Uwj58fVi6u9K/mW
-	CmtY5ixEd/xuAX/QCMMnTXaPvZ/oLslPzJXKu2em04cRDn6wsmcQW9XLsvh1YxcL7vyKTanE=
-X-Received: by 2002:a17:903:1a43:b0:298:3545:81e2 with SMTP id d9443c01a7336-29b5b061747mr2262105ad.22.1763572771495;
-        Wed, 19 Nov 2025 09:19:31 -0800 (PST)
-X-Google-Smtp-Source: AGHT+IGtdBQiTGqGdTXLMm2W1bBROrJsb3/UzhGtNWPLbp9moqxQjGVc68bt28q9cBi4jPYR14gQqw==
-X-Received: by 2002:a17:903:1a43:b0:298:3545:81e2 with SMTP id d9443c01a7336-29b5b061747mr2261765ad.22.1763572771021;
-        Wed, 19 Nov 2025 09:19:31 -0800 (PST)
-Received: from hu-mnagar-hyd.qualcomm.com ([202.46.23.25])
-        by smtp.gmail.com with ESMTPSA id d9443c01a7336-29b5b25deefsm334235ad.56.2025.11.19.09.19.29
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 19 Nov 2025 09:19:30 -0800 (PST)
-From: Manish Nagar <manish.nagar@oss.qualcomm.com>
-To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Thinh Nguyen <Thinh.Nguyen@synopsys.com>
-Cc: linux-usb@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: [PATCH v2] usb: dwc3: Fix race condition between concurrent dwc3_remove_requests() call paths
-Date: Wed, 19 Nov 2025 22:49:26 +0530
-Message-Id: <20251119171926.1622603-1-manish.nagar@oss.qualcomm.com>
-X-Mailer: git-send-email 2.25.1
+	dkim=pass (1024-bit key) header.d=amd.com header.i=@amd.com header.b="BQ53SPsN"
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=jXMz9VQHMW9RqKb6Np5G0HxX10/4zPj/KVuMP5Qg/07N4fAG7VYbuVcAVZggavJg+cdedil8RvS3jloMb7gEdzIleniw0oO6TwLIkWaNdbkTSSjUSTN7EBFXQRLLoNUzCHFdgDROzBx+LiNESjxSLSloxuZUeUFhqLPs+eFY2q8WbgYoUnxB7n1q9ROHekv5F/rQdRFaN0ElfkG//v4jgqJ474um1rn6Ajbfst5Yf3T324jr/KTvK4NXnCa1QS7Ya9+KoF1kDT9Njx9jgrJewtS0FCj0TX6PE7n0yqmtVX3UMTkbRtqQPR5rfMp2mqYuf5Awp6IAuAtlvAVv2DKMMA==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=HcqWhB5mlUPsE4isDdF1Ln89Vh0nVVE5rRtY3ptpglk=;
+ b=fkbgh6V1FoWbqNBTLAcE+uJ4lTSK26MbkbQMP8mG1c1HI5oABCS26WYQD2ULeWphxFmsH63afMJQZ0bZNPnWY/u3U/fJ5mN3OomEg9OPJt/+NzjsbBMoYYzdM0S+QO4IxslCzyKmHVsdJSHWfdBMDc2H3TxgsnvTUh9cwUDXZ9Pi3TBFkW/tVKksywiBYTtb2VAUDrKzWEdr2MPSNDRGcRsgo0VkmI6M49rr9J9BCLjElrJVcWZ9tNEPZMfBO59Bg0/FU+iy9Gcv+SPYqyIyg4J42tvGmK7DAStoQ9Z4u95XFl9xJvFQWd5w3h5wYRD/3csKzfotacSPtaVHOLdZjQ==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
+ 165.204.84.17) smtp.rcpttodomain=linuxfoundation.org smtp.mailfrom=amd.com;
+ dmarc=pass (p=quarantine sp=quarantine pct=100) action=none
+ header.from=amd.com; dkim=none (message not signed); arc=none (0)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=HcqWhB5mlUPsE4isDdF1Ln89Vh0nVVE5rRtY3ptpglk=;
+ b=BQ53SPsNSSpO8T9ySfA2cFWOTuevvA4kWeahRAo+QP1FkJzZCofOyi/SiSI6eRoVIOQpZ4kQGbt60mrTun69M/DY8tC4m49BjkDbZrSCx31+/pCKY/7dxFNhnXMESS/cfRYQTNOSNggFfXyqllw18ZOs9PtK6XGWtnfPoJhm1/k=
+Received: from SA1PR02CA0012.namprd02.prod.outlook.com (2603:10b6:806:2cf::17)
+ by DM4PR12MB6011.namprd12.prod.outlook.com (2603:10b6:8:6b::14) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9343.10; Wed, 19 Nov
+ 2025 19:30:50 +0000
+Received: from SN1PEPF0002BA52.namprd03.prod.outlook.com
+ (2603:10b6:806:2cf:cafe::52) by SA1PR02CA0012.outlook.office365.com
+ (2603:10b6:806:2cf::17) with Microsoft SMTP Server (version=TLS1_3,
+ cipher=TLS_AES_256_GCM_SHA384) id 15.20.9343.10 via Frontend Transport; Wed,
+ 19 Nov 2025 19:30:49 +0000
+X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 165.204.84.17)
+ smtp.mailfrom=amd.com; dkim=none (message not signed)
+ header.d=none;dmarc=pass action=none header.from=amd.com;
+Received-SPF: Pass (protection.outlook.com: domain of amd.com designates
+ 165.204.84.17 as permitted sender) receiver=protection.outlook.com;
+ client-ip=165.204.84.17; helo=satlexmb07.amd.com; pr=C
+Received: from satlexmb07.amd.com (165.204.84.17) by
+ SN1PEPF0002BA52.mail.protection.outlook.com (10.167.242.75) with Microsoft
+ SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.20.9343.9 via Frontend Transport; Wed, 19 Nov 2025 19:30:50 +0000
+Received: from satlexmb07.amd.com (10.181.42.216) by satlexmb07.amd.com
+ (10.181.42.216) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.2562.17; Wed, 19 Nov
+ 2025 11:30:48 -0800
+Received: from xhdradheys41.xilinx.com (10.180.168.240) by satlexmb07.amd.com
+ (10.181.42.216) with Microsoft SMTP Server id 15.2.2562.17 via Frontend
+ Transport; Wed, 19 Nov 2025 11:30:45 -0800
+From: Radhey Shyam Pandey <radhey.shyam.pandey@amd.com>
+To: <gregkh@linuxfoundation.org>, <robh@kernel.org>, <krzk+dt@kernel.org>,
+	<conor+dt@kernel.org>, <michal.simek@amd.com>, <Thinh.Nguyen@synopsys.com>,
+	<p.zabel@pengutronix.de>
+CC: <linux-usb@vger.kernel.org>, <devicetree@vger.kernel.org>,
+	<linux-arm-kernel@lists.infradead.org>, <linux-kernel@vger.kernel.org>,
+	<git@amd.com>, Radhey Shyam Pandey <radhey.shyam.pandey@amd.com>
+Subject: [PATCH 1/3] dt-bindings: usb: dwc3-xilinx: Add MMI USB support on Versal Gen2 platform
+Date: Thu, 20 Nov 2025 01:00:34 +0530
+Message-ID: <20251119193036.2666877-2-radhey.shyam.pandey@amd.com>
+X-Mailer: git-send-email 2.34.1
+In-Reply-To: <20251119193036.2666877-1-radhey.shyam.pandey@amd.com>
+References: <20251119193036.2666877-1-radhey.shyam.pandey@amd.com>
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
@@ -90,108 +78,125 @@ List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUxMTE5MDEzNyBTYWx0ZWRfXxjv9949oj9H6
- QDVqRkXB4nRcHt5Tso9VQ1QhGI8sexCG7ReHnRA+l2Q2c54DSMqKfTw9uk4aq5G12vx5g2dOwQD
- AiGMDdq93oLGADKjAUhbzxdrnJN16yeb2lwKVC/crMPAvoY2R8jHzjaol1f7B1GPlcHQmNVpDck
- DV7UGJtBXCTGkj+8ZMCTz2NYoltErb4eZDQjjYrd1Jb8++vlhMHWw37BPm9SoKTLqxnivoE+yL3
- vYpvMdFZTnIItk/YXBMDMy+93P5PSXJVnKlBEPOXv9liXlvS9jLPSapVeIn2x6jmYeSsw9CazRn
- s3j9pN9RwNFJBDPhGxdDEWN5D0v5VwLlcRTMOiRd1eWXgnr9wlCzhgQMyi8dpAEb0CnTGu14cyL
- wynCMDCLWy5LvljD0OAoK58Kvt0pGQ==
-X-Proofpoint-GUID: zRIfW9x9G8drpqy12XqeJtdNzOu81Dab
-X-Authority-Analysis: v=2.4 cv=a7k9NESF c=1 sm=1 tr=0 ts=691dfc24 cx=c_pps
- a=JL+w9abYAAE89/QcEU+0QA==:117 a=ZePRamnt/+rB5gQjfz0u9A==:17
- a=6UeiqGixMTsA:10 a=s4-Qcg_JpJYA:10 a=VkNPw1HP01LnGYTKEx00:22
- a=jIQo8A4GAAAA:8 a=EUspDBNiAAAA:8 a=AwTnkmAtCOg3iBu9MrAA:9
- a=324X-CrmTo6CU4MGRt3R:22
-X-Proofpoint-ORIG-GUID: zRIfW9x9G8drpqy12XqeJtdNzOu81Dab
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1121,Hydra:6.1.9,FMLib:17.12.100.49
- definitions=2025-11-19_05,2025-11-18_02,2025-10-01_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- suspectscore=0 adultscore=0 spamscore=0 priorityscore=1501 impostorscore=0
- phishscore=0 bulkscore=0 clxscore=1015 malwarescore=0 lowpriorityscore=0
- classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
- reason=mlx scancount=1 engine=8.22.0-2510240001 definitions=main-2511190137
+Content-Type: text/plain
+X-EOPAttributedMessage: 0
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: SN1PEPF0002BA52:EE_|DM4PR12MB6011:EE_
+X-MS-Office365-Filtering-Correlation-Id: 23bb7430-f788-4b24-8608-08de27a2258a
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam:
+	BCL:0;ARA:13230040|36860700013|376014|7416014|1800799024|82310400026;
+X-Microsoft-Antispam-Message-Info:
+	=?us-ascii?Q?VNLKLa79fgHDsW6lJtDdaDyaUm3JtPsC62ZMoYFx4uNRPbtyJ00Wz5DNWXsW?=
+ =?us-ascii?Q?Qu+Yvk7SfjceNaIgGuKn+Fh9RnWcEbgoe2NsJLaPQv/9KyN82hODedXjEfkt?=
+ =?us-ascii?Q?odif5KYbSN0VkumjsuLpbj7RGiOfgt/O0ZGlSyxOKNQp1fiI9Qdv3bCHrSpw?=
+ =?us-ascii?Q?21NeoxlkmWdaV9Eq+/v5bgEmOF8U64zM1qaZ1XQ6xuXuDXueKaw2toqzJ5ZA?=
+ =?us-ascii?Q?WBXdOqmDoJplwDZO9aWZ79cWCyblvlSzLeAtDk4jADY21/U1C7jwGfqbt1up?=
+ =?us-ascii?Q?v3mbe3MllUmZRVUHkSdtUDztQkd9cUNtgJ0W/dKcJDMF6AjGgfaMrjvZzx1P?=
+ =?us-ascii?Q?+w7rXbRuBvTyrESap5lQOlDbK51CRvTNgh2SN3DYD0A8N5J33xah5Kj4OD+2?=
+ =?us-ascii?Q?PCwfPkMRuKmfZoU1Ysl+dn23Nvzmy4t9fNGq8jO8R3OMqeV1C3M+R+wfLM/N?=
+ =?us-ascii?Q?q/it1hr/jhua/ZFBIGqvirT7M7pyUcUy2YFqqcTtM60U+0+HOLx6GlEQBfcI?=
+ =?us-ascii?Q?Uy7euKM4YK+Lu1MtUOoitf8mtM98gpVDmRetLcYv1xZBSLFqXYcEyiKzzOjv?=
+ =?us-ascii?Q?fL3npQGFMUD3Txhdd0nMrAFOyJ9FYMucStTZWOzUcoxPfhTJqFpVykOJ+Nc1?=
+ =?us-ascii?Q?m5uQd4hpd1HHOyUKJJZPbgP0bQtZuyaPwFHHTBOJm8hYqcM9kEFnpoYk8EPD?=
+ =?us-ascii?Q?PY4/XiFn17IWdvM6n7NWd1Dik0XFbk/HmX2Hn3oZtvQCPuYxujpVXEx/+25y?=
+ =?us-ascii?Q?3+Ju/K4pSUaBMnTq06uVa0X0L/g45KEgvyKxVvqIA0IwYexCkJJVKgOqbFz7?=
+ =?us-ascii?Q?cr2Kv8E2KgJGGNuDTgrh1pKKP5+ukKSuUqEGeZ5S4hiKNfngvJziquq9niTl?=
+ =?us-ascii?Q?yXoT76OozU+6NxCMI0lOJ6MFtGtUhBGEOESr0maPoIWwjMwT1S8MBD70cgHY?=
+ =?us-ascii?Q?HpIDFjXawomWB29M6zXpzcHw2SqrfsBG6kPLMssFBUomafhqEZRc0Igz4t0T?=
+ =?us-ascii?Q?w5ygVKH8uKjV6uPW1GaO3qS/3nxwEX2OdMzdh20j03aZFtkf+X2nVdrK7l1N?=
+ =?us-ascii?Q?dpJlr71lKcLkGSkfWCqHcBmscHGAaN2aslI0Pmrke0HLWO/06zk09GgihEzZ?=
+ =?us-ascii?Q?MLEXCH3jGIrmKG6KQJAZvAXB19ONuoPNTJ3sW4ngek2qlcU5U2AzsI4hkW34?=
+ =?us-ascii?Q?WZm7pOBCTK9KNkfDDPwNxCDzu3p6mcrzJmrfEl9xye7hFC+pa85bY2Ah7jW7?=
+ =?us-ascii?Q?eirivMtgO9DUrN8+jlnC1Xrxyj/JR3FfrHHFrC/gpY7TipFdbH+DBhM27CbB?=
+ =?us-ascii?Q?W12ydFKVVVvX8zjlw3lrAJsDiuezpP/u81oZpYe3lzm4x3zymNx1q9ErBT1Y?=
+ =?us-ascii?Q?vKMyJSM9sQj07SuP4fP/OL+ch+oJk+QWKif5nPhoeKygNezgvtI13UD03uLy?=
+ =?us-ascii?Q?LPlYC68XKQegOFDBxonnVZQrKPw19qh5lni+uM4g4ukY57MJIhm02fMTyDN9?=
+ =?us-ascii?Q?RDSW1cBWSeszTmcDUsdv/f8DNPO7eJxhdwGlZw9l7tQmjgoNIW8TQklBBA+x?=
+ =?us-ascii?Q?wp4alx7liJnPIfwU4oo=3D?=
+X-Forefront-Antispam-Report:
+	CIP:165.204.84.17;CTRY:US;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:satlexmb07.amd.com;PTR:InfoDomainNonexistent;CAT:NONE;SFS:(13230040)(36860700013)(376014)(7416014)(1800799024)(82310400026);DIR:OUT;SFP:1101;
+X-OriginatorOrg: amd.com
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 19 Nov 2025 19:30:50.0606
+ (UTC)
+X-MS-Exchange-CrossTenant-Network-Message-Id: 23bb7430-f788-4b24-8608-08de27a2258a
+X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
+X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=3dd8961f-e488-4e60-8e11-a82d994e183d;Ip=[165.204.84.17];Helo=[satlexmb07.amd.com]
+X-MS-Exchange-CrossTenant-AuthSource:
+	SN1PEPF0002BA52.namprd03.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Anonymous
+X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: DM4PR12MB6011
 
-Addresses race condition caused by unsynchronized
-execution of multiple call paths invoking `dwc3_remove_requests()`,
-leading to premature freeing of USB requests and subsequent crashes.
+Versal Gen2 platform multimedia integrated (MMI) module has a USB3.2 Gen
+2x1 Dual Role Device IP. Introduce a new compatibility string to support
+it and make reg optional as the register space for USB wrapper IP is moved
+to MMI System-Level Control registers.
 
-Three distinct execution paths interact with `dwc3_remove_requests()`:
-Path 1:
-Triggered via `dwc3_gadget_reset_interrupt()` during USB reset
-handling. The call stack includes:
-- `dwc3_ep0_reset_state()`
-- `dwc3_ep0_stall_and_restart()`
-- `dwc3_ep0_out_start()`
-- `dwc3_remove_requests()`
-- `dwc3_gadget_del_and_unmap_request()`
-
-Path 2:
-Also initiated from `dwc3_gadget_reset_interrupt()`, but through
-`dwc3_stop_active_transfers()`. The call stack includes:
-- `dwc3_stop_active_transfers()`
-- `dwc3_remove_requests()`
-- `dwc3_gadget_del_and_unmap_request()`
-
-Path 3:
-Occurs independently during `adb root` execution, which triggers
-USB function unbind and bind operations. The sequence includes:
-- `gserial_disconnect()`
-- `usb_ep_disable()`
-- `dwc3_gadget_ep_disable()`
-- `dwc3_remove_requests()` with `-ESHUTDOWN` status
-
-Path 3 operates asynchronously and lacks synchronization with Paths
-1 and 2. When Path 3 completes, it disables endpoints and frees 'out'
-requests. If Paths 1 or 2 are still processing these requests,
-accessing freed memory leads to a crash due to use-after-free conditions.
-
-Add check for request completion for eps,  and skip processing giveback
-for eps if already completed and add the request status for ep0 while
-queue via_dwc3_gadget_ep0_queue.
-
-Suggested-by: Thinh Nguyen <Thinh.Nguyen@synopsys.com>
-Signed-off-by: Manish Nagar <manish.nagar@oss.qualcomm.com>
+Signed-off-by: Radhey Shyam Pandey <radhey.shyam.pandey@amd.com>
 ---
-v2:
- - Add a check for request completion, in v1 I am avoiding this
-    by wait for completion for ep0 then process the other eps.
+ .../devicetree/bindings/usb/dwc3-xilinx.yaml  | 19 ++++++++++++++++---
+ 1 file changed, 16 insertions(+), 3 deletions(-)
 
- drivers/usb/dwc3/ep0.c    | 1 +
- drivers/usb/dwc3/gadget.c | 7 +++++++
- 2 files changed, 8 insertions(+)
-
-diff --git a/drivers/usb/dwc3/ep0.c b/drivers/usb/dwc3/ep0.c
-index b4229aa13f37..e0bad5708664 100644
---- a/drivers/usb/dwc3/ep0.c
-+++ b/drivers/usb/dwc3/ep0.c
-@@ -94,6 +94,7 @@ static int __dwc3_gadget_ep0_queue(struct dwc3_ep *dep,
- 	req->request.actual	= 0;
- 	req->request.status	= -EINPROGRESS;
- 	req->epnum		= dep->number;
-+	req->status		= DWC3_REQUEST_STATUS_QUEUED;
+diff --git a/Documentation/devicetree/bindings/usb/dwc3-xilinx.yaml b/Documentation/devicetree/bindings/usb/dwc3-xilinx.yaml
+index d6823ef5f9a7..502294649a6b 100644
+--- a/Documentation/devicetree/bindings/usb/dwc3-xilinx.yaml
++++ b/Documentation/devicetree/bindings/usb/dwc3-xilinx.yaml
+@@ -15,6 +15,7 @@ properties:
+       - enum:
+           - xlnx,zynqmp-dwc3
+           - xlnx,versal-dwc3
++          - xlnx,versal2-mmi-dwc3
+   reg:
+     maxItems: 1
  
- 	list_add_tail(&req->list, &dep->pending_list);
+@@ -37,8 +38,9 @@ properties:
+       A list of phandle and clock-specifier pairs for the clocks
+       listed in clock-names.
+     items:
+-      - description: Master/Core clock, has to be >= 125 MHz
+-          for SS operation and >= 60MHz for HS operation.
++      - description: Master/Core clock, has to be >= 156.25MHz in SSP
++          mode, >= 125 MHz for SS operation and >= 60MHz for HS
++          operation.
+       - description: Clock source to core during PHY power down.
  
-diff --git a/drivers/usb/dwc3/gadget.c b/drivers/usb/dwc3/gadget.c
-index 6f18b4840a25..5e4997f974dd 100644
---- a/drivers/usb/dwc3/gadget.c
-+++ b/drivers/usb/dwc3/gadget.c
-@@ -228,6 +228,13 @@ void dwc3_gadget_giveback(struct dwc3_ep *dep, struct dwc3_request *req,
- {
- 	struct dwc3			*dwc = dep->dwc;
+   clock-names:
+@@ -87,7 +89,6 @@ patternProperties:
  
-+	/*
-+	 * The request might have been processed and completed while the
-+	 * spinlock was released. Skip processing if already completed.
-+	 */
-+	if (req->status == DWC3_REQUEST_STATUS_COMPLETED)
-+		return;
+ required:
+   - compatible
+-  - reg
+   - "#address-cells"
+   - "#size-cells"
+   - ranges
+@@ -104,6 +105,7 @@ allOf:
+           contains:
+             enum:
+               - xlnx,versal-dwc3
++              - xlnx,versal2-mmi-dwc3
+     then:
+       properties:
+         resets:
+@@ -117,6 +119,17 @@ allOf:
+         reset-names:
+           minItems: 3
+ 
++if:
++  properties:
++    compatible:
++      contains:
++        enum:
++          - xlnx,zynqmp-dwc3
++          - xlnx,versal-dwc3
++then:
++  required:
++    - reg
 +
- 	dwc3_gadget_del_and_unmap_request(dep, req, status);
- 	req->status = DWC3_REQUEST_STATUS_COMPLETED;
+ additionalProperties: false
  
+ examples:
 -- 
-2.25.1
+2.34.1
 
