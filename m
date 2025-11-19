@@ -1,56 +1,56 @@
 Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.14])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 672C936996C
-	for <linux-usb@vger.kernel.org>; Wed, 19 Nov 2025 14:24:57 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C5E7836A014
+	for <linux-usb@vger.kernel.org>; Wed, 19 Nov 2025 14:25:00 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.14
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1763562298; cv=none; b=Kz1JbDIIvA6hLe/wrFkl3GCFP8M2rsZsdKqgkSAzqhdWUhPcsRQHKzNt1IK9vFA8U3yFUesE2cTR9p834yJUN9wlXXv118PWrJ8IiQ3jd8p84tvyZxpG1gfYvvhbVakqcIBjJ+Rl3KMrU6tDukN7CKbGDJ9qpN0v8PwdvJTa0fY=
+	t=1763562303; cv=none; b=CqKaYL21M+i+ekD5/Z9T9U95ceR1T5B04c5DlD5Iqg052qnfsK7DRo4ZfDhaI1nI0YTDpJuta/jKkyOkAuy0Ii4cPslrn0zr2WGNNp610YiRbv/gcfm3BNKXcomLDUXV17plSwgIGRvfF4BPL1jTDRjOXx9lzDZd4c31zqrwuWQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1763562298; c=relaxed/simple;
-	bh=DtVlZvPLnbCyfzrfi92SkhoB3jB4F43LSI8pxQitF+E=;
+	s=arc-20240116; t=1763562303; c=relaxed/simple;
+	bh=vqkReJUUNEwoWUIYCv6XAkbYMNFUwl4psp7lOTxqsr8=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=c1gUFNX4WO6PzOblT+tRTAsPqHKX0czjZ3p4s1C41e2CHSZW3HNIJgKzb+GWrTHOCs2JIMqfdFCUej89AIL8h236KMfJF6kOzhINudC6/hVpJfN2CaNogvvDixWjdKcLnfLqLjoP4NJXE6qpwQgQFmx0FZ/8qWvlnftzHs9bwFo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=pass smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=V8fHlUeE; arc=none smtp.client-ip=192.198.163.14
+	 MIME-Version; b=VajpYK2vK0FsHkrB1MC6cORtHy02Ym81y94VFY8DNVva8J1aDDy72bCfRbgWAYzF6zPi4DKhIOGxKP3InAr83h6tgihOiDI/7XeNBpwQy2Udjge73iyAMHIqHG5T7ynUlSDxigzTD8BrPCInATz3/LUAok5cgKrG7E54cpJgfIc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=pass smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=C41ga8lB; arc=none smtp.client-ip=192.198.163.14
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="V8fHlUeE"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="C41ga8lB"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1763562298; x=1795098298;
+  t=1763562302; x=1795098302;
   h=from:to:cc:subject:date:message-id:in-reply-to:
    references:mime-version:content-transfer-encoding;
-  bh=DtVlZvPLnbCyfzrfi92SkhoB3jB4F43LSI8pxQitF+E=;
-  b=V8fHlUeEZJSacEUYhvT04il36S/EAP3tBQ590RZAD8wEAfkXBVhzJq1B
-   dCZYOSiXxPbsYSRSARKHNLRLpGOKfuZKSJb3NXACOnLvbYohkDzsafYpQ
-   Jh987qchahGLFmuz8FsQwh+o5XHTfOzWPYWielKe7OmxxgaCXLTAwpZkg
-   JRSx/RLhS37PUXDlvqXSnZUSbgsge6vTysQQXs+TvglViuweqRkqJkNeN
-   sG6CjVUEAj//ATlL/BeQuFRmKBtJRVlE6g7aWWJxlEMvwI5qKSAgUkIJx
-   ZzFdTt4k6BVa0zkVqUH5hoRc0lG+C/+CigPxA0aJPu/JOCdeDMXiELnAc
-   Q==;
-X-CSE-ConnectionGUID: GuihShfGRJWVW17wbVu7aQ==
-X-CSE-MsgGUID: VE7IiOtDQBap3TbFtMGMuA==
-X-IronPort-AV: E=McAfee;i="6800,10657,11618"; a="65645558"
+  bh=vqkReJUUNEwoWUIYCv6XAkbYMNFUwl4psp7lOTxqsr8=;
+  b=C41ga8lB+yQrD1BHerezbWsHEh7RDK1OVfRULbJ0rDnQrwLetMxYNAgD
+   5IUE27Gv0IYGODBN2tLLf6lVhr9m3EgLe+/tugAImQjqGdnQm1Hrzyx6f
+   kPkl8iLr8NSCMgqWmqDuUw7mLdoNebomqPSHsBkk72ghrN98RItX/IsK9
+   YTsE7PVZjX6b90zM+vkvm6pCSEZNozd6SQr5LytLtmt7ULDam9pVazCHG
+   DzwDPhp0UuMc7/ALw5PPttbZauLLUFAFhOh/ZFReEm5eliYgzpxRGSHgJ
+   R5nu8YsX2kkbb3kSR1oJScnVfyO23fOFH3GZogQ7RPZZ66bTJr61fXVxi
+   A==;
+X-CSE-ConnectionGUID: 59x6EGRGQd6JZ0FKz+HQ6w==
+X-CSE-MsgGUID: 2iVeY3BDS0SC3Nt91xH6EA==
+X-IronPort-AV: E=McAfee;i="6800,10657,11618"; a="65645570"
 X-IronPort-AV: E=Sophos;i="6.19,315,1754982000"; 
-   d="scan'208";a="65645558"
+   d="scan'208";a="65645570"
 Received: from fmviesa001.fm.intel.com ([10.60.135.141])
-  by fmvoesa108.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 19 Nov 2025 06:24:57 -0800
-X-CSE-ConnectionGUID: qcNrLklaQpyO0CDjL9A+hA==
-X-CSE-MsgGUID: hyaNuRnbSN+SDJxSuvqebw==
+  by fmvoesa108.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 19 Nov 2025 06:25:00 -0800
+X-CSE-ConnectionGUID: EwTCTEomRzu6B/HME8cJQw==
+X-CSE-MsgGUID: +rC97H8gRZqk0JsnKyiEug==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.19,315,1754982000"; 
-   d="scan'208";a="221992101"
+   d="scan'208";a="221992123"
 Received: from ijarvine-mobl1.ger.corp.intel.com (HELO mnyman-desk.home) ([10.245.244.20])
-  by smtpauth.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 19 Nov 2025 06:24:56 -0800
+  by smtpauth.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 19 Nov 2025 06:24:59 -0800
 From: Mathias Nyman <mathias.nyman@linux.intel.com>
 To: <gregkh@linuxfoundation.org>
 Cc: <linux-usb@vger.kernel.org>,
 	Niklas Neronin <niklas.neronin@linux.intel.com>,
 	Mathias Nyman <mathias.nyman@linux.intel.com>
-Subject: [PATCH 14/23] usb: xhci: use cached HCSPARAMS1 value
-Date: Wed, 19 Nov 2025 16:24:08 +0200
-Message-ID: <20251119142417.2820519-15-mathias.nyman@linux.intel.com>
+Subject: [PATCH 16/23] usb: xhci: limit number of ports to 127
+Date: Wed, 19 Nov 2025 16:24:10 +0200
+Message-ID: <20251119142417.2820519-17-mathias.nyman@linux.intel.com>
 X-Mailer: git-send-email 2.43.0
 In-Reply-To: <20251119142417.2820519-1-mathias.nyman@linux.intel.com>
 References: <20251119142417.2820519-1-mathias.nyman@linux.intel.com>
@@ -64,34 +64,77 @@ Content-Transfer-Encoding: 8bit
 
 From: Niklas Neronin <niklas.neronin@linux.intel.com>
 
-The Structural Parameters 1 (HCSPARAMS1) register is read and cached in
-'xhci->hcs_params1' during host controller initialization. Since this
-register is read-only and its value remains constant for the lifetime of
-the controller, re-reading it later is unnecessary.
+The xHCI driver allocates various port-related structures based on the
+maximum number of ports reported by the controller. The Number of Ports
+(MaxPorts) field occupies bits 31:24 of the HCSPARAMS1 register and can
+represent values up to 255. However, the 'HCS_MAX_PORTS()' macro currently
+reads bits 30:24, effectively limiting the maximum to 127.
 
-Replace subsequent register reads with the cached 'xhci->hcs_params1'
-value to avoid redundant MMIO access.
+Fixing the macro increases the reported port limit to 255, which in turn
+increases memory usage regardless of how many ports are actually used.
+
+To maintain compatibility and control memory consumption, set
+'xhci->max_ports' to the minimum of the value read from 'HCS_MAX_PORTS()'
+and 127 (MAX_HC_PORTS). This preserves the existing limit while making
+the restriction explicit and easier to adjust in the future.
+
+Summary:
+ * Port allocations are now limited to 127.
+ * HC max ports macro now correctly reads the MaxPorts value.
+ * Macro 'MAX_HC_PORTS' can be modified to set the port limit.
 
 Signed-off-by: Niklas Neronin <niklas.neronin@linux.intel.com>
 Signed-off-by: Mathias Nyman <mathias.nyman@linux.intel.com>
 ---
- drivers/usb/host/xhci.c | 3 +--
- 1 file changed, 1 insertion(+), 2 deletions(-)
+ drivers/usb/host/xhci-caps.h | 4 ++--
+ drivers/usb/host/xhci.c      | 2 +-
+ drivers/usb/host/xhci.h      | 5 ++++-
+ 3 files changed, 7 insertions(+), 4 deletions(-)
 
+diff --git a/drivers/usb/host/xhci-caps.h b/drivers/usb/host/xhci-caps.h
+index 89bc83e4f1eb..8390c969389e 100644
+--- a/drivers/usb/host/xhci-caps.h
++++ b/drivers/usb/host/xhci-caps.h
+@@ -12,8 +12,8 @@
+ #define HCS_SLOTS_MASK		0xff
+ /* bits 8:18, Max Interrupters */
+ #define HCS_MAX_INTRS(p)	(((p) >> 8) & 0x7ff)
+-/* bits 24:31, Max Ports - max value is 0x7F = 127 ports */
+-#define HCS_MAX_PORTS(p)	(((p) >> 24) & 0x7f)
++/* bits 31:24, Max Ports - max value is 255 */
++#define HCS_MAX_PORTS(p)	(((p) >> 24) & 0xff)
+ 
+ /* HCSPARAMS2 - hcs_params2 - bitmasks */
+ /* bits 0:3, frames or uframes that SW needs to queue transactions
 diff --git a/drivers/usb/host/xhci.c b/drivers/usb/host/xhci.c
-index 7ac8198d0d7b..dbe64ea47936 100644
+index ad5ef294d4f3..cb82b15fc203 100644
 --- a/drivers/usb/host/xhci.c
 +++ b/drivers/usb/host/xhci.c
-@@ -4235,8 +4235,7 @@ int xhci_alloc_dev(struct usb_hcd *hcd, struct usb_device *udev)
- 		xhci_err(xhci, "Error while assigning device slot ID: %s\n",
- 			 xhci_trb_comp_code_string(command->status));
- 		xhci_err(xhci, "Max number of devices this xHCI host supports is %u.\n",
--				HCS_MAX_SLOTS(
--					readl(&xhci->cap_regs->hcs_params1)));
-+			 HCS_MAX_SLOTS(xhci->hcs_params1));
- 		xhci_free_command(xhci, command);
- 		return 0;
- 	}
+@@ -5448,7 +5448,7 @@ int xhci_gen_setup(struct usb_hcd *hcd, xhci_get_quirks_t get_quirks)
+ 		xhci->hcc_params2 = readl(&xhci->cap_regs->hcc_params2);
+ 
+ 	xhci->max_slots = HCS_MAX_SLOTS(hcs_params1);
+-	xhci->max_ports = HCS_MAX_PORTS(hcs_params1);
++	xhci->max_ports = min(HCS_MAX_PORTS(hcs_params1), MAX_HC_PORTS);
+ 	/* xhci-plat or xhci-pci might have set max_interrupters already */
+ 	if ((!xhci->max_interrupters) || xhci->max_interrupters > HCS_MAX_INTRS(hcs_params1))
+ 		xhci->max_interrupters = HCS_MAX_INTRS(hcs_params1);
+diff --git a/drivers/usb/host/xhci.h b/drivers/usb/host/xhci.h
+index fface54dbc7a..e04bc491a22b 100644
+--- a/drivers/usb/host/xhci.h
++++ b/drivers/usb/host/xhci.h
+@@ -34,7 +34,10 @@
+ 
+ /* Max number of USB devices for any host controller - limit in section 6.1 */
+ #define MAX_HC_SLOTS		256
+-/* Section 5.3.3 - MaxPorts */
++/*
++ * Max Number of Ports. xHCI specification section 5.3.3
++ * Valid values are in the range of 1 to 255.
++ */
+ #define MAX_HC_PORTS		127
+ 
+ /*
 -- 
 2.43.0
 
