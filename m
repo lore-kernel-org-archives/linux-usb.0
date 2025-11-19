@@ -1,64 +1,65 @@
-Received: from mail-lf1-f41.google.com (mail-lf1-f41.google.com [209.85.167.41])
+Received: from mail-lf1-f52.google.com (mail-lf1-f52.google.com [209.85.167.52])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 60F1C313285
-	for <linux-usb@vger.kernel.org>; Wed, 19 Nov 2025 19:37:14 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.41
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C59BB369231
+	for <linux-usb@vger.kernel.org>; Wed, 19 Nov 2025 19:37:17 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.52
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1763581038; cv=none; b=HHEGC0ESAXeW2lNYNkcpmkvklqLYoY4VfnoBj5rVn7J6d6zcdnPkIaQMjiFrTSfBoMw6EupCxL+BjT1rzgr4anR21eAqDpWz7B77NOi868a9ObA9lTr4BfPNp5SE54T7dJbBEMcknfn4gvKXfqtI8vTLjj0m10XbzQK2cDLiSUw=
+	t=1763581041; cv=none; b=P8TpD53HIwV+6bYwZQThDb6Ks+sG9bD4sjK4zeXEB82JtY5OHP93wgoelnxpSyz+3qoOHwo/47WhHZTnWEWaZqv3qfrLDqTT9KuMnlRGmslRnlRZWYuBZCVcWj1YZwoDxwrfpz+9M9LK5D/zZzsNtQIYJsRIx380noIHnDWAiuE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1763581038; c=relaxed/simple;
-	bh=n8XOm9luf2fVsxqKyrBWhIZuOOg2rhp+w9xSWOV/plE=;
+	s=arc-20240116; t=1763581041; c=relaxed/simple;
+	bh=smsLWyIhFZI4LUQsucb98+3IzvKG+sVE9pphNiqEeWw=;
 	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
-	 In-Reply-To:To:Cc; b=pQlDpdhErTDvBYHlvTwZocHGmE/YTynOlysv2tKWBSO+Y+oreXW9XF6Q+rZpJlpmI6VKzxaEqpY5Iqg4Q7O3H6NuPjEtVrzefariYaUIASKE8Zx8UJaTcp8eFdH/CzBpLWqDmm3pWLyexwZtbeNkqYmIw1V22hbhenIL9SGdHEE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org; spf=pass smtp.mailfrom=chromium.org; dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b=mQgOdslD; arc=none smtp.client-ip=209.85.167.41
+	 In-Reply-To:To:Cc; b=o6y3j7YG9D6UuDDUGLCiOBy6J8AcujstQvvnswp7dkt3t0V3TYPpjMNyhK/oaV2iUtinjVfT29NQNNTWiR/N98fhtfynmHS9Yhpq44QtTHmsBsPq337bbnY5YrhBAMsmOooXZgej9TeYLlqz7nj36pisX/WsLYy4KDYgN4yqUg0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org; spf=pass smtp.mailfrom=chromium.org; dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b=dU0UKT9e; arc=none smtp.client-ip=209.85.167.52
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=chromium.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b="mQgOdslD"
-Received: by mail-lf1-f41.google.com with SMTP id 2adb3069b0e04-59428d2d975so26047e87.3
-        for <linux-usb@vger.kernel.org>; Wed, 19 Nov 2025 11:37:14 -0800 (PST)
+	dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b="dU0UKT9e"
+Received: by mail-lf1-f52.google.com with SMTP id 2adb3069b0e04-59431f57bf6so24925e87.3
+        for <linux-usb@vger.kernel.org>; Wed, 19 Nov 2025 11:37:17 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=chromium.org; s=google; t=1763581033; x=1764185833; darn=vger.kernel.org;
+        d=chromium.org; s=google; t=1763581035; x=1764185835; darn=vger.kernel.org;
         h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
          :mime-version:subject:date:from:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=9t1hhYNW+A5BDerlrM2zvaB6QZgqTCpLkk7E6jVXaDE=;
-        b=mQgOdslD9nPCwG9K3q8zYKNBqSnR9NiIbjnRUyi1hwl/ZqQBNidXW1M+iUuKqIamPV
-         Ctz0G6VHyuPiuqdE7olOliRniJho3p+TfXcvoiVot1nD+TtziHgYFyVvoH3+wKsakH4H
-         565pHVmC6BlTb+dMLmBTfwqDi8Q2ZwjyI3eHM=
+        bh=mhkxKxNdiC2wNdpzuN+YHorPAGBUt1TQOUtGQjnuPb4=;
+        b=dU0UKT9eoCEZn4t9Z0g/7EWmLK7rsez+HGyJCWm6f67AlxFfQ+NWP+LnCr9ukH/By+
+         Rc4ApSfTatVytTGAm9d2W3TJhkTaC3CxVZmy8tY8RLy1n9xZYKZrBqnBWzQz0imSo+7U
+         nk/Bqg79/c5jxBCHcvqqZ5uj4tsubSKXfKfvM=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1763581033; x=1764185833;
+        d=1e100.net; s=20230601; t=1763581035; x=1764185835;
         h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
          :mime-version:subject:date:from:x-gm-gg:x-gm-message-state:from:to
          :cc:subject:date:message-id:reply-to;
-        bh=9t1hhYNW+A5BDerlrM2zvaB6QZgqTCpLkk7E6jVXaDE=;
-        b=ZuR6vlKOGhXkY7mWdFejnKhOb5fP7QmGZ4+D6ARDpl+2t+9Kts+CS1AQyqR82ox4+V
-         J3lkaAbniEB0+SXRLIBBbwGd2usyJc2n3hTPWmdH2KXNby/QnanAAGLu6PvTuAO7J7xR
-         2wxr/YkU4UvbQgDRdnJ+FulCTbIQgDK1++V706GMcjOCEiboImvoJZduVjsLaZK8Eyfg
-         8KSSH+bxBEhvOmJJi0L6+Ay73eNBxuBk5rRtZHxsbPVtEAgUXDDjTbtKhVm0CVii1MRO
-         6LDSQxCBaoHqD9g1ob054GfRtuIAOh0MPX8Gaw3PQjvk+HJNCBEEiVvQUdujvOi1f3t1
-         UfDg==
-X-Forwarded-Encrypted: i=1; AJvYcCVWzF5YBpwM4jn0w/QFx7ga3uy02uIU3lY+AUOvffqbVzSdMQvMpXazt73WoQVD4p3xRXJSd9ABtlc=@vger.kernel.org
-X-Gm-Message-State: AOJu0YwY6RxWsxYE2DC6ifibiJr5nnc8XfQUZsUtJi3tD4RewozitxCF
-	6QHzekQu2/N+sPErPKn3bLkuFBuc/JGtWflBwBXrW+kdezTFXQZinabCz5czR4E5rw==
-X-Gm-Gg: ASbGncu7uRa7MGzYcqsemcE0mOGwejwalJDSmwhjVBLuBCo/tQSflWuZ/HDdrueub+4
-	om1aYzbJKMWikb8moGkqK4tjDO6YlxP5jrUF/kQOUl7NwYCIPFymc6P66zGgx5HnMBHSVPNrNxo
-	9/iCChcZhTO42SXmFI1x5UmwqPDTqD0d88POl6OjGfY5EG+g7OrQYm3deqadDktfe8K3EOcE7J8
-	YFb1rAcX5zYBNQ1IopZjfucowgplzlk2Reh344rBQUhxtxQuSxDdj9/2PlorK07nRMp41mxBqdM
-	eXVEiLVgzoKdesFsDgi9MnQGEeGJwtFl53InXiuwIH0r58qq+TmdhD+iYTBlV8GjnS+gs+Liv1Z
-	X9R/FbwQSJcRM+WUzy1swTGwJxIDGALlNQW5piG5ydOHBhmN4wdTePyu7hGj+GCSvJTvT0EnR/q
-	GDJIU6SQvzrliwb5nDWVpje/AbyRhRGzrTHcMDze43xCJZf/AA5xXDlin/tnTkGg==
-X-Google-Smtp-Source: AGHT+IEzy07FdaBjKY/dhcgvBozZKv1y77WZHmLiavxxJhCZh+QBPAxjEQ2BThdKmAn1PbL0E6rOzg==
-X-Received: by 2002:a05:6512:3e15:b0:594:2f46:391c with SMTP id 2adb3069b0e04-5969e30c2ddmr20533e87.44.1763581033193;
-        Wed, 19 Nov 2025 11:37:13 -0800 (PST)
+        bh=mhkxKxNdiC2wNdpzuN+YHorPAGBUt1TQOUtGQjnuPb4=;
+        b=Z7emdvh9Du07KfVVnwc9AJzielIqw+/dFitKRHndEJf69iR6MODdLEq6Zw2pkYu5g4
+         FzTEZEaL2j9DAGUrR0u42XzXxTEfAr7mgub98r3ec7kdw73vz8Ep4ELPB3Q+YsCez0Iz
+         9PqnuDXUBe1wKDJEdh2ObUFg48zoO5hjfGRwJyATvPrc7esJX/DsviTI1U0/vnqC54Hu
+         WLO0lpHVuPg44R4irywQey1Wp0HIK9WfKPCGxS0/bq0A4ma2qal8zRSSB6SUkfwwWvQQ
+         ia8hqPW91AALS7prTwdNaGWRZwbp1t5RAoRknweQCkNncGgFfXpZ/EGdV+S4z6Xe3DXf
+         GNag==
+X-Forwarded-Encrypted: i=1; AJvYcCW4ILFFXZn3B9X0/62tF7KZtNy1YjqCInTmjBesbFCqtQwCM52ObRJLt4Q/rnrKYPAG/zGJsNGA0e4=@vger.kernel.org
+X-Gm-Message-State: AOJu0YyZXkw+NCBktrJOnbv7qO6lf/N8qb1cw94ZsXdL1w40JESKQ3JP
+	T2P6UQD/N+0dFgGI4QdnlHCxc4aV3elj43EjSgYql26R8+LFuXLMbHAly4LJkrC0Uw==
+X-Gm-Gg: ASbGnctrrZqKIGk4C4+bxxVaXxHpVzrU0WJHTrwqbw7VHd6xJhALPout6vpk2Vz29UE
+	Eio1Z8lrtKo1k0Ci9ZnolPim2Wm6wuaPaTVrY4fMH2WTi2o/Wd4DnptsE6CwM0fniib7ErR4afW
+	Drr184iGjNJiuOLMRWex7tBAARBCdoKkKjicQenVAF+FnhhBeMau1/bJPLlVLqOL0qZDgpvGcyL
+	NIfGLaFBn/hzEiFHFB0G0aX7xnfPvTV2phr8FajG6TfAYNDZqOiX/qR61LirZIfLLcvGOH4aB09
+	6FgOvy6CyfvjV2OBMgtIXq3UR95S0bJUCt84+4B/A1OUyKhLsNAPR0V/WVoDEoWL8fZ99hMqvp0
+	r3gnWJ8sinmQ3vKA9c2tjExf9WgW8RbS+pgbEMnaqQ5qSCpgID6y8wq5qXk11rgGXFFiKrQ4bCg
+	Vpaibbt7BwMzYdHfOnN2LlolURyTHeiJ/RIduT6bJaJ9Ns1rsMJlEZXSCaqtICf/clSbuuo9iL
+X-Google-Smtp-Source: AGHT+IGJe3V2Yc1Ik3PSIeoKVCn2YAJLOADNcKsHyJgQGXCsFRO6F5ZJLhmJqnTvgFCXCK6GL6NZ1g==
+X-Received: by 2002:a05:6512:23a6:b0:594:2f72:2f7f with SMTP id 2adb3069b0e04-5969e2b505emr37039e87.6.1763581034759;
+        Wed, 19 Nov 2025 11:37:14 -0800 (PST)
 Received: from ribalda.c.googlers.com (80.38.88.34.bc.googleusercontent.com. [34.88.38.80])
-        by smtp.gmail.com with ESMTPSA id 2adb3069b0e04-5969dbd15a1sm65790e87.98.2025.11.19.11.37.12
+        by smtp.gmail.com with ESMTPSA id 2adb3069b0e04-5969dbd15a1sm65790e87.98.2025.11.19.11.37.14
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 19 Nov 2025 11:37:12 -0800 (PST)
+        Wed, 19 Nov 2025 11:37:14 -0800 (PST)
 From: Ricardo Ribalda <ribalda@chromium.org>
-Date: Wed, 19 Nov 2025 19:37:10 +0000
-Subject: [PATCH v2 1/6] media: uvcvideo: Remove nodrop parameter
+Date: Wed, 19 Nov 2025 19:37:12 +0000
+Subject: [PATCH v2 3/6] media: uvcvideo: Announce deprecation intentions
+ for UVCIOC_CTRL_MAP
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
@@ -67,7 +68,7 @@ List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20251119-uvcdynctrl-v2-1-0359ffb98c9e@chromium.org>
+Message-Id: <20251119-uvcdynctrl-v2-3-0359ffb98c9e@chromium.org>
 References: <20251119-uvcdynctrl-v2-0-0359ffb98c9e@chromium.org>
 In-Reply-To: <20251119-uvcdynctrl-v2-0-0359ffb98c9e@chromium.org>
 To: Laurent Pinchart <laurent.pinchart@ideasonboard.com>, 
@@ -78,108 +79,54 @@ Cc: linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
  linux-usb@vger.kernel.org, Ricardo Ribalda <ribalda@chromium.org>
 X-Mailer: b4 0.14.2
 
-We announced the deprecation intentions one year ago in the commit
-commit 40ed9e9b2808 ("media: uvcvideo: Announce the user our deprecation
-intentions").
+The UVCIOC_CTRL_MAP lets userspace create a mapping for a custom
+control.
 
-We have not hear any complains, lets remove the nodrop parameter.
+This mapping is usually created by the uvcdynctrl userspace utility. We
+would like to get the mappings into the driver instead.
 
 Reviewed-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
 Signed-off-by: Ricardo Ribalda <ribalda@chromium.org>
 ---
- drivers/media/usb/uvc/uvc_driver.c | 19 -------------------
- drivers/media/usb/uvc/uvc_queue.c  | 25 -------------------------
- drivers/media/usb/uvc/uvcvideo.h   |  1 -
- 3 files changed, 45 deletions(-)
+ Documentation/userspace-api/media/drivers/uvcvideo.rst | 2 ++
+ drivers/media/usb/uvc/uvc_v4l2.c                       | 4 ++++
+ 2 files changed, 6 insertions(+)
 
-diff --git a/drivers/media/usb/uvc/uvc_driver.c b/drivers/media/usb/uvc/uvc_driver.c
-index ee4f54d6834962414979a046afc59c5036455124..71563d8f4bcf581694ccd4b665ff52b629caa0b6 100644
---- a/drivers/media/usb/uvc/uvc_driver.c
-+++ b/drivers/media/usb/uvc/uvc_driver.c
-@@ -32,7 +32,6 @@
+diff --git a/Documentation/userspace-api/media/drivers/uvcvideo.rst b/Documentation/userspace-api/media/drivers/uvcvideo.rst
+index dbb30ad389ae4d53bc734b4269ebea20ecdd7535..b09d2f8ba66ecde67f1e35fd77858a505ad44eb1 100644
+--- a/Documentation/userspace-api/media/drivers/uvcvideo.rst
++++ b/Documentation/userspace-api/media/drivers/uvcvideo.rst
+@@ -109,6 +109,8 @@ IOCTL reference
+ UVCIOC_CTRL_MAP - Map a UVC control to a V4L2 control
+ ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
  
- unsigned int uvc_clock_param = CLOCK_MONOTONIC;
- unsigned int uvc_hw_timestamps_param;
--unsigned int uvc_no_drop_param = 1;
- static unsigned int uvc_quirks_param = -1;
- unsigned int uvc_dbg_param;
- unsigned int uvc_timeout_param = UVC_CTRL_STREAMING_TIMEOUT;
-@@ -2468,24 +2467,6 @@ MODULE_PARM_DESC(clock, "Video buffers timestamp clock");
- module_param_named(hwtimestamps, uvc_hw_timestamps_param, uint, 0644);
- MODULE_PARM_DESC(hwtimestamps, "Use hardware timestamps");
++**This IOCTL is deprecated and will be eventually removed**
++
+ Argument: struct uvc_xu_control_mapping
  
--static int param_set_nodrop(const char *val, const struct kernel_param *kp)
--{
--	pr_warn_once("uvcvideo: "
--		     DEPRECATED
--		     "nodrop parameter will be eventually removed.\n");
--	return param_set_bool(val, kp);
--}
--
--static const struct kernel_param_ops param_ops_nodrop = {
--	.set = param_set_nodrop,
--	.get = param_get_uint,
--};
--
--param_check_uint(nodrop, &uvc_no_drop_param);
--module_param_cb(nodrop, &param_ops_nodrop, &uvc_no_drop_param, 0644);
--__MODULE_PARM_TYPE(nodrop, "uint");
--MODULE_PARM_DESC(nodrop, "Don't drop incomplete frames");
--
- module_param_named(quirks, uvc_quirks_param, uint, 0644);
- MODULE_PARM_DESC(quirks, "Forced device quirks");
- module_param_named(trace, uvc_dbg_param, uint, 0644);
-diff --git a/drivers/media/usb/uvc/uvc_queue.c b/drivers/media/usb/uvc/uvc_queue.c
-index 790184c9843d211d34fa7d66801631d5a07450bd..3bc54456b4d98ed50b1ea250ce8501e67141e1ef 100644
---- a/drivers/media/usb/uvc/uvc_queue.c
-+++ b/drivers/media/usb/uvc/uvc_queue.c
-@@ -331,34 +331,9 @@ struct uvc_buffer *uvc_queue_get_current_buffer(struct uvc_video_queue *queue)
- 	return nextbuf;
- }
+ **Description**:
+diff --git a/drivers/media/usb/uvc/uvc_v4l2.c b/drivers/media/usb/uvc/uvc_v4l2.c
+index 9e4a251eca88085a1b4e0e854370015855be92ee..03c64b5698bf4331fed8437fa6e9c726a07450bd 100644
+--- a/drivers/media/usb/uvc/uvc_v4l2.c
++++ b/drivers/media/usb/uvc/uvc_v4l2.c
+@@ -1044,6 +1044,8 @@ static long uvc_ioctl_default(struct file *file, void *priv, bool valid_prio,
+ 	switch (cmd) {
+ 	/* Dynamic controls. */
+ 	case UVCIOC_CTRL_MAP:
++		pr_warn_once("uvcvideo: " DEPRECATED
++			     "UVCIOC_CTRL_MAP ioctl will be eventually removed.\n");
+ 		return uvc_ioctl_xu_ctrl_map(chain, arg);
  
--/*
-- * uvc_queue_buffer_requeue: Requeue a buffer on our internal irqqueue
-- *
-- * Reuse a buffer through our internal queue without the need to 'prepare'.
-- * The buffer will be returned to userspace through the uvc_buffer_queue call if
-- * the device has been disconnected.
-- */
--static void uvc_queue_buffer_requeue(struct uvc_video_queue *queue,
--		struct uvc_buffer *buf)
--{
--	buf->error = 0;
--	buf->state = UVC_BUF_STATE_QUEUED;
--	buf->bytesused = 0;
--	vb2_set_plane_payload(&buf->buf.vb2_buf, 0, 0);
--
--	uvc_buffer_queue(&buf->buf.vb2_buf);
--}
--
- static void uvc_queue_buffer_complete(struct kref *ref)
- {
- 	struct uvc_buffer *buf = container_of(ref, struct uvc_buffer, ref);
--	struct vb2_buffer *vb = &buf->buf.vb2_buf;
--	struct uvc_video_queue *queue = vb2_get_drv_priv(vb->vb2_queue);
--
--	if (buf->error && !uvc_no_drop_param) {
--		uvc_queue_buffer_requeue(queue, buf);
--		return;
--	}
+ 	case UVCIOC_CTRL_QUERY:
+@@ -1158,6 +1160,8 @@ static long uvc_v4l2_compat_ioctl32(struct file *file,
  
- 	buf->state = buf->error ? UVC_BUF_STATE_ERROR : UVC_BUF_STATE_DONE;
- 	vb2_set_plane_payload(&buf->buf.vb2_buf, 0, buf->bytesused);
-diff --git a/drivers/media/usb/uvc/uvcvideo.h b/drivers/media/usb/uvc/uvcvideo.h
-index ed7bad31f75ca474c1037d666d5310c78dd764df..9a86d7f1f6ea022dace87614030bf0fde0d260f0 100644
---- a/drivers/media/usb/uvc/uvcvideo.h
-+++ b/drivers/media/usb/uvc/uvcvideo.h
-@@ -659,7 +659,6 @@ static inline struct uvc_fh *to_uvc_fh(struct file *filp)
- #define UVC_WARN_XU_GET_RES	2
- 
- extern unsigned int uvc_clock_param;
--extern unsigned int uvc_no_drop_param;
- extern unsigned int uvc_dbg_param;
- extern unsigned int uvc_timeout_param;
- extern unsigned int uvc_hw_timestamps_param;
+ 	switch (cmd) {
+ 	case UVCIOC_CTRL_MAP32:
++		pr_warn_once("uvcvideo: " DEPRECATED
++			     "UVCIOC_CTRL_MAP32 ioctl will be eventually removed.\n");
+ 		ret = uvc_v4l2_get_xu_mapping(&karg.xmap, up);
+ 		if (ret)
+ 			break;
 
 -- 
 2.52.0.rc1.455.g30608eb744-goog
