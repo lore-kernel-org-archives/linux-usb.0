@@ -1,153 +1,126 @@
-Received: from smtpbg154.qq.com (smtpbg154.qq.com [15.184.224.54])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-qt1-f172.google.com (mail-qt1-f172.google.com [209.85.160.172])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id ABD231898F8;
-	Thu, 20 Nov 2025 02:25:24 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=15.184.224.54
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 493CC2D8DC3
+	for <linux-usb@vger.kernel.org>; Thu, 20 Nov 2025 02:59:48 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.160.172
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1763605529; cv=none; b=gH1X83YpjtThjfC7AME6RP8M+v6cRVVZaxxolLTLB93Ov5D+Atc6zujRsEfOpDzqUpPcpSxQLOGRHHQhObetYZNIO+D8sEszsvWd9u/6r41C82ri10Hna8LlX0bKVE4NPbat5KDX4KwypY8GElqBNy9YyAJn/iALuil/08kwMTc=
+	t=1763607589; cv=none; b=K+fawpJeKnWeo6nS5MwVuG+5eus/4l1NjjRMudAysTB5RuCiNz5StFEJ/eSxLS+V27kB+o3wdOzVOSqIkMYaM37JYspVs6WM9u3bTExVO2OaO0L0bamDNEypx8LKLPi29KnfP7y9wBVcB9V2N13SI+Mhg0dUiHXJXSEGROjj3X8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1763605529; c=relaxed/simple;
-	bh=UYBXRUGpsPucbSnyCek2T6kQGAmNcIEArFxOg+A85iE=;
-	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References; b=Nn6NI0TKrJJ7D3/9YAxD/mWjaC9tHEeMtBy2YCM+TCPOMjS3rFVTjMCUnLqxyASGCz738cJA2dGzhvRp4pWNzjCw9FMJKd73FbW+gyCqljRP5MJeq50Xdl0yU/pi0PE4GWogCPS676xo8Db7BMPx6Ws6CCQzi6xy1hxERADDdyQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=airkyi.com; spf=pass smtp.mailfrom=airkyi.com; dkim=pass (1024-bit key) header.d=airkyi.com header.i=@airkyi.com header.b=tfGrBUuO; arc=none smtp.client-ip=15.184.224.54
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=airkyi.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=airkyi.com
+	s=arc-20240116; t=1763607589; c=relaxed/simple;
+	bh=mJ6rSLRJjyPFehPPpN0MOSV2xZt4Vj1w9DGc50/dr4o=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=sEbQDBMOGAiAdJjvyr4z81/jrrRQshkrgs+SONiR1jYjDhBXuKZxgxTk5T1V3oBguotM9dArtQIyspbYa2IVGpGkhpQXiBmY8wuyQBVzX4SxiuoKj9RQE5HokljUpGkWxiuoH8k/N/e0QKJac6Ese+H41kmNKdgk4FNa9GYSfmc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=rowland.harvard.edu; spf=fail smtp.mailfrom=g.harvard.edu; dkim=pass (2048-bit key) header.d=rowland.harvard.edu header.i=@rowland.harvard.edu header.b=Jh0WprxP; arc=none smtp.client-ip=209.85.160.172
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=rowland.harvard.edu
+Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=g.harvard.edu
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=airkyi.com header.i=@airkyi.com header.b="tfGrBUuO"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=airkyi.com;
-	s=altu2504; t=1763605510;
-	bh=pFI7M+6j2JewnD4BwkGRc0QPG+RPFm6rGXiCORxPrVE=;
-	h=From:To:Subject:Date:Message-Id;
-	b=tfGrBUuOPJUpco1zu8sRceRMdZYvazPZBusbEgRCReSDyRXj8OgVXIzCSc8AZxZyM
-	 2JFiu2PZYV1+vxiFmrl+bB4SwukwZDOz6bZEH0o0X0D6Gp6+WbgBmtqiaJUx2YlIYr
-	 xl1fR9h8A8RjjLfrkAkEXp7YouT6ezH9wj0UEsBw=
-X-QQ-mid: zesmtpsz5t1763605475t5758b803
-X-QQ-Originating-IP: pDz7EWZhJzQQujm3af9e2JLj4n12gmSAhoVFGhYNXPk=
-Received: from DESKTOP-8BT1A2O.localdomain ( [58.22.7.114])
-	by bizesmtp.qq.com (ESMTP) with 
-	id ; Thu, 20 Nov 2025 10:24:32 +0800 (CST)
-X-QQ-SSF: 0000000000000000000000000000000
-X-QQ-GoodBg: 0
-X-BIZMAIL-ID: 15460230959253220818
-From: Chaoyi Chen <kernel@airkyi.com>
-To: Heikki Krogerus <heikki.krogerus@linux.intel.com>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>,
-	Peter Chen <hzpeterchen@gmail.com>,
-	Luca Ceresoli <luca.ceresoli@bootlin.com>,
-	Rob Herring <robh@kernel.org>,
-	Krzysztof Kozlowski <krzk+dt@kernel.org>,
-	Conor Dooley <conor+dt@kernel.org>,
-	Vinod Koul <vkoul@kernel.org>,
-	Kishon Vijay Abraham I <kishon@kernel.org>,
-	Heiko Stuebner <heiko@sntech.de>,
-	Sandy Huang <hjc@rock-chips.com>,
-	Andy Yan <andy.yan@rock-chips.com>,
-	Yubing Zhang <yubing.zhang@rock-chips.com>,
-	Frank Wang <frank.wang@rock-chips.com>,
-	Andrzej Hajda <andrzej.hajda@intel.com>,
-	Neil Armstrong <neil.armstrong@linaro.org>,
-	Robert Foss <rfoss@kernel.org>,
-	Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
-	Jonas Karlman <jonas@kwiboo.se>,
-	Jernej Skrabec <jernej.skrabec@gmail.com>,
-	Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
-	Maxime Ripard <mripard@kernel.org>,
-	Thomas Zimmermann <tzimmermann@suse.de>,
-	David Airlie <airlied@gmail.com>,
-	Simona Vetter <simona@ffwll.ch>,
-	Amit Sunil Dhamne <amitsd@google.com>,
-	Chaoyi Chen <chaoyi.chen@rock-chips.com>,
-	Dragan Simic <dsimic@manjaro.org>,
-	Johan Jonker <jbx6244@gmail.com>,
-	Diederik de Haas <didi.debian@cknow.org>,
-	Peter Robinson <pbrobinson@gmail.com>
-Cc: linux-usb@vger.kernel.org,
-	devicetree@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	linux-phy@lists.infradead.org,
-	linux-arm-kernel@lists.infradead.org,
-	linux-rockchip@lists.infradead.org,
-	dri-devel@lists.freedesktop.org
-Subject: [PATCH v10 10/11] arm64: dts: rockchip: Add missing dp_out port for RK3399 CDN-DP
-Date: Thu, 20 Nov 2025 10:23:42 +0800
-Message-Id: <20251120022343.250-11-kernel@airkyi.com>
-X-Mailer: git-send-email 2.17.1
-In-Reply-To: <20251120022343.250-1-kernel@airkyi.com>
-References: <20251120022343.250-1-kernel@airkyi.com>
-X-QQ-SENDSIZE: 520
-Feedback-ID: zesmtpsz:airkyi.com:qybglogicsvrgz:qybglogicsvrgz6b-0
-X-QQ-XMAILINFO: MqN/FiDJuNHiNw/y4jqC1wkFSVC+iexlgRuQzGNsdwHXRvigQHUiqJ6z
-	siW+grUV+gBOojILOLb4eb0YIH4IoJhymUG1ZO/rMZ9K/HUWq0RK6l0qF9WTq+weccZRUo5
-	DkdgnInz16HephMQ/cwRW4zIyuCYoSUiTZZNTaJEaoV9Zk2OLADZjST/3X5lwrNWmHf92QY
-	P2pHHqhAqoebst7TRqLtUOrFvxduKS7Z9qs/+dnJpvQVzmhy+CAk8xhYgTpSUIZXJ3N6QIy
-	Z7VzzGO1T/MJkgb9dz8XqVC4CwFINhQtnusm/l33inzZDwGYG0fzfd3DaM+JaZiXLCh3bHA
-	7jW7iHagprJrlJiKFGt4ByyfsLWAC6JBwsVqkn4dXJEoECeMnL2zjQtKcQOHnD8xD05SBXp
-	LE5jjNn2qbStAR57G2L7SEbusjXgMrJcAY/nLf6hLUMTbgELlfGGU/Ekox4/o1cpp96IkEz
-	ORkC+zWMc9c+8ucXtfiWRVvt78VUnakqS+H8pM7NoymBONn6WcR2QPf4/B4NnRY4jL7dpkz
-	SuJoBd6Xig6Dj4ePgSPsPGypPKE0z7nPcIku/ecouZbkry1XlFtEeFVlZr7YkKyk0yTdCJD
-	yQsM1xpOlMHstytibVt75C8Zhtw4N2V0XlXNZm9lkdXHE0q0Qkml3CBVXllN3NR1N8PyBnB
-	K2qyDAL7rIvY/KAB4BG45AdontOs6Ezgp+l6JYvthAGDPOI8vXo/uM7U0VV9+j+HlhmNyCJ
-	I4kHuRv2TV1hkHcwFPXzJ9y7Vc7Zesibkyd5hiS50Wd120K1pJsOTLNriD8tiigAq+8itKK
-	vXeJyU8lZx39Zofg12WjZOxeF825SGACRapHSbfw+uaJ0w5zrovO7yyaqRMp7bBeG8AdFL4
-	aZvnjEOZ0KsH8dYZxNJ97tDI9cqCOXOPQXw0e/jmB3bOpgIrBlm4Zg7BagDvcFIVJFF0V8/
-	1RaQMZQqpdDyzteBwiKGWP8cwctPb56yAPYU0KE2TKxtNXHk2WknLjYMWyQjzHPe08lBlu2
-	r4KoXiDkGItH5uspkJ
-X-QQ-XMRINFO: OWPUhxQsoeAVDbp3OJHYyFg=
-X-QQ-RECHKSPAM: 0
+	dkim=pass (2048-bit key) header.d=rowland.harvard.edu header.i=@rowland.harvard.edu header.b="Jh0WprxP"
+Received: by mail-qt1-f172.google.com with SMTP id d75a77b69052e-4ee1a3ef624so2820471cf.0
+        for <linux-usb@vger.kernel.org>; Wed, 19 Nov 2025 18:59:48 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=rowland.harvard.edu; s=google; t=1763607587; x=1764212387; darn=vger.kernel.org;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=Hg5aoV0EVn/WBTa/GLeR89EBuuTKQBaW9rd0EBCvO1c=;
+        b=Jh0WprxPSZY/M7TMX2Zd0l4dUSwKubKad2BrGmAdn/YqS2v5HDlzqdDKtTYiB+s3Ux
+         Li8TtvpkNDfFVLSWm92Zlqor92K3AJjYRk5UBF3EcisRMEG/VaPEJs4ojMI2QqWNJ2Pc
+         tEI2WA1qkxwJhoqJg2pfz/HWVsG7gypU7ypcPAVlyEeQ0u8XZ3s1dZo20jR9MwM/lqV3
+         WcpYiAtrboKfnc+Z4Wv4H0P6c5gYdsyOr/1/4wF15CAiGqFFUlTdbqVrcMRyBu91VITT
+         YvTiKXwHNKwO2mpPms2oboGO5EhUM5aV6nMt1tlgeyyXtiqHS/nk1xrQjEuMiJI67wBN
+         bh/g==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1763607587; x=1764212387;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-gg:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=Hg5aoV0EVn/WBTa/GLeR89EBuuTKQBaW9rd0EBCvO1c=;
+        b=LDvto+H3RZeHroLnGC/9ZG2SBfdHy7kZdOzyvwAevuMMjcxoaR7ZJBAowHxrvGvx7W
+         K5+GtT1b3mFV3QL1qndoxVs/VV8sLpx5YJNYhLOvGYIIr2CU2gmffhjAsY3++M7DWZe7
+         H1LSuDRDuJwqhr3TMQ1L+9Myq4A6balpwrk4ZvjmV2+guMGpdVAUUEuLMRqA2K/LxBBm
+         +JC5XHgeKhnIBQW1jawRI091Tt9H4+IWE2ksGG0O4L+q4Tee4wax44a/5+eVyXzkklm/
+         WNOKFuDXZsg6fh3PZHGPT4kv7+M/5o5L1AG0D9eZ0TXAkW+Cz/VpKO/aPm3wMNMOQH0R
+         NPxA==
+X-Forwarded-Encrypted: i=1; AJvYcCUwkDbDa6TpIvyllzvWqMVkazozg4Obowz81m7ZMa9dqGx68RemtUYnWnt10gwC08VEWLGmxcQksjc=@vger.kernel.org
+X-Gm-Message-State: AOJu0YwZxDAStgqeViu6mIK3/wovXio9mY2T9HygaT7BWvlS/lEnFZUf
+	ViCzFUARb2xvBrZhSI3ENxmsKFJxOUm6C7KklN0tFppw37Q4HkrCXhT4w0cFoZBYQw==
+X-Gm-Gg: ASbGncupk2/yGRdRwI1K53RYQZvHLQN3JFahe/iF0jpXyfpwAu2Y2bkr9h0Z1Mz1JI2
+	6eYLaF6wq2eJ9QcZXf291OTP2OF0MKqdApyhFuqT3JZ35oPUozM6IKKg6z4i9Br0ryih47mMyQm
+	3BPh/2NnH0YAvtsv29U7O+sjbk858hM8gMkn40b8kumiUBtfB0yeVOUjEI0CZSxW2ARqVcGDR7F
+	IYq4r+Kt8vK/q2/ua/3+ZuZ2WOzqNypwnuM9UA8SIFT9JvwYIxF6RmeUdsu1r+nLqgRzY3w0Haq
+	4vCBtCTZwBKJcTL9lcecFnx3KxuSz4nSaJMEav1H8ckZ4NUwWlrWb8zWjTCqyasf7hcqms416mD
+	FLn3B8kLOMv64GW9dK3BlRmq6hDXbvWXRBUIPsQ7W7sg60VfdN7MGn8r2L1Z4jtVpkTkmFnp+hP
+	p1y1gpdv6j5eA8
+X-Google-Smtp-Source: AGHT+IGA+dwSSxsq02AcHqmBlz3CVN3Av8o92KGu6tfzv0Cno0N6MuymXHzWKF5QrlQn2ae2vPgchg==
+X-Received: by 2002:ac8:7d53:0:b0:4ee:4512:4a24 with SMTP id d75a77b69052e-4ee4970ab4bmr25490311cf.72.1763607587087;
+        Wed, 19 Nov 2025 18:59:47 -0800 (PST)
+Received: from rowland.harvard.edu ([2601:19b:d03:1700::7632])
+        by smtp.gmail.com with ESMTPSA id 6a1803df08f44-8846e599ac9sm8674486d6.49.2025.11.19.18.59.45
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 19 Nov 2025 18:59:46 -0800 (PST)
+Date: Wed, 19 Nov 2025 21:59:42 -0500
+From: Alan Stern <stern@rowland.harvard.edu>
+To: david.laight.linux@gmail.com
+Cc: linux-kernel@vger.kernel.org, linux-usb@vger.kernel.org,
+	usb-storage@lists.one-eyed-alien.net,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+Subject: Re: [PATCH 28/44] drivers/usb/storage: use min() instead of min_t()
+Message-ID: <4208129f-a768-44e2-843f-309c50ea362f@rowland.harvard.edu>
+References: <20251119224140.8616-1-david.laight.linux@gmail.com>
+ <20251119224140.8616-29-david.laight.linux@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20251119224140.8616-29-david.laight.linux@gmail.com>
 
-From: Chaoyi Chen <chaoyi.chen@rock-chips.com>
+On Wed, Nov 19, 2025 at 10:41:24PM +0000, david.laight.linux@gmail.com wrote:
+> From: David Laight <david.laight.linux@gmail.com>
+> 
+> min_t(unsigned int, a, b) casts an 'unsigned long' to 'unsigned int'.
+> Use min(a, b) instead as it promotes any 'unsigned int' to 'unsigned long'
+> and so cannot discard significant bits.
+> 
+> In this case the 'unsigned long' value is small enough that the result
+> is ok.
+> 
+> Detected by an extra check added to min_t().
 
-Let's make the ports nodes of cdn_dp in the same style as the other
-display interface, and match the style of ports's yaml.
+In fact, min_t(T, a, b) cannot go wrong as long as all the types are 
+unsigned and at least one of a, b has type T or smaller.  Of course, in 
+this situation there's no reason not to simply use min().  (And if both 
+a and b have types larger than T, why would someone use min_t() like 
+this in the first place?)
 
-Signed-off-by: Chaoyi Chen <chaoyi.chen@rock-chips.com>
----
+Regardless, the patch is fine with me.
 
-(no changes since v5)
+Acked-by: Alan Stern <stern@rowland.harvard.edu>
 
-Changes in v4:
-- Remove unnecessary #address/#size-cells
+Alan Stern
 
-(no changes since v1)
-
- arch/arm64/boot/dts/rockchip/rk3399-base.dtsi | 10 +++++++++-
- 1 file changed, 9 insertions(+), 1 deletion(-)
-
-diff --git a/arch/arm64/boot/dts/rockchip/rk3399-base.dtsi b/arch/arm64/boot/dts/rockchip/rk3399-base.dtsi
-index 4dcceb9136b7..93b42820998f 100644
---- a/arch/arm64/boot/dts/rockchip/rk3399-base.dtsi
-+++ b/arch/arm64/boot/dts/rockchip/rk3399-base.dtsi
-@@ -618,7 +618,11 @@ cdn_dp: dp@fec00000 {
- 		status = "disabled";
- 
- 		ports {
--			dp_in: port {
-+			#address-cells = <1>;
-+			#size-cells = <0>;
-+
-+			dp_in: port@0 {
-+				reg = <0>;
- 				#address-cells = <1>;
- 				#size-cells = <0>;
- 
-@@ -632,6 +636,10 @@ dp_in_vopl: endpoint@1 {
- 					remote-endpoint = <&vopl_out_dp>;
- 				};
- 			};
-+
-+			dp_out: port@1 {
-+				reg = <1>;
-+			};
- 		};
- 	};
- 
--- 
-2.51.1
-
+> Signed-off-by: David Laight <david.laight.linux@gmail.com>
+> ---
+>  drivers/usb/storage/protocol.c | 3 +--
+>  1 file changed, 1 insertion(+), 2 deletions(-)
+> 
+> diff --git a/drivers/usb/storage/protocol.c b/drivers/usb/storage/protocol.c
+> index 9033e505db7f..0cff54ad90fa 100644
+> --- a/drivers/usb/storage/protocol.c
+> +++ b/drivers/usb/storage/protocol.c
+> @@ -139,8 +139,7 @@ unsigned int usb_stor_access_xfer_buf(unsigned char *buffer,
+>  		return cnt;
+>  
+>  	while (sg_miter_next(&miter) && cnt < buflen) {
+> -		unsigned int len = min_t(unsigned int, miter.length,
+> -				buflen - cnt);
+> +		unsigned int len = min(miter.length, buflen - cnt);
+>  
+>  		if (dir == FROM_XFER_BUF)
+>  			memcpy(buffer + cnt, miter.addr, len);
+> -- 
+> 2.39.5
+> 
