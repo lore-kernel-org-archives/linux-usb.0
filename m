@@ -1,171 +1,94 @@
-Received: from mail-pg1-f178.google.com (mail-pg1-f178.google.com [209.85.215.178])
+Received: from mail-ej1-f51.google.com (mail-ej1-f51.google.com [209.85.218.51])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8CC2E2F6170
-	for <linux-usb@vger.kernel.org>; Sat, 22 Nov 2025 09:32:34 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.215.178
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AD1CD2FCBF0
+	for <linux-usb@vger.kernel.org>; Sat, 22 Nov 2025 11:04:24 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.51
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1763803956; cv=none; b=b7hg3MGQoUOGt/m+xZjf9JLyq1lQpOrKEByX547CKSIV0/y9tZsL9gd3gI2YLg3ntxtkPeMY5QOUeapZB+OtkBsMKr1KrWIxsFBj+FtrS1CU4k3Rr0h7eLHIWo/xKudQv2XWEnk6X/1VMjtFkJsVgWEORL2hTfCSRKSsQ4cdMp0=
+	t=1763809466; cv=none; b=jk8JW8lgR4I3C6hjd0q8F0uT5eWj2HpeV0T/9Pca3rDZtJ4d9E9nyD6oYTJ3cJu7WCTOrtf5pf+544JVYUDfyCTHUOIyo8m5aJFUhcrqdmvBsu4CxI/Qi8ZI2MOM71xSMs7Ge6ydVs2QJTCg+kuAlNEJrsmg6vS+B6Xp9oa3csE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1763803956; c=relaxed/simple;
-	bh=Q5HPNMlb7k8H4bR8V/awshYeVlGPISIIO6iiMymH7Ps=;
+	s=arc-20240116; t=1763809466; c=relaxed/simple;
+	bh=tsJxznhhsdWk/IcHQzDu5o2LqVbhJTIdpbjmLLnlHxY=;
 	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=LrXjYHFHfVzbdsvosiItKPQC++lSUwUOc7TwipndEnZlEWQNpo5AuLslkjfCqI3sQviKbjEIoZ0hHTXqfQk6fHmhdKBohcNt2QrW9ZOrnWUPtMJ4KolL7baWkyX25uzsWWz/U5xnp90uQFjKR6GgVY+YecGxySWy67WOBInaMCE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=VfEq4Bsy; arc=none smtp.client-ip=209.85.215.178
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=google.com
+	 To:Content-Type; b=DjQnh7Mp6tx40Y6x7IihxMmOAm3TW27+2j+Mn868VYdrRfaFBV+RMS3HXKILe2es+IxhqnooT3GMvOAV64k2FP16WeWz8HK5BXdnrICAxlF3KYbjza/OrsP8g5wKpFt0BuRN/3x5Vkz4yBoTBxlGNXTKLperDoqJF24GX0xB9sE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=huaqin.corp-partner.google.com; spf=pass smtp.mailfrom=huaqin.corp-partner.google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=eKLMUqlk; arc=none smtp.client-ip=209.85.218.51
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=huaqin.corp-partner.google.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=huaqin.corp-partner.google.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="VfEq4Bsy"
-Received: by mail-pg1-f178.google.com with SMTP id 41be03b00d2f7-b98a619f020so2184640a12.2
-        for <linux-usb@vger.kernel.org>; Sat, 22 Nov 2025 01:32:34 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="eKLMUqlk"
+Received: by mail-ej1-f51.google.com with SMTP id a640c23a62f3a-b7355774747so52603666b.2
+        for <linux-usb@vger.kernel.org>; Sat, 22 Nov 2025 03:04:24 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20230601; t=1763803954; x=1764408754; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+        d=google.com; s=20230601; t=1763809463; x=1764414263; darn=vger.kernel.org;
+        h=content-transfer-encoding:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=PwfSbVA0IF+INvF3WYKe7TTnKMqGNeoc7QfEa9rVX5E=;
-        b=VfEq4BsyS9P8xXKArM18nG0gmmHEBz2W36s5LX/OJ3y4A4Li7fB4wy8SNZu6zgRjDv
-         DvVtaTYXR0Td0PdmS7DN7Ti9HJgl/mMhBdA8O0Vb3UCvpVv2PYV1YLnOxm7Cbn9pXVli
-         3IZDa7b+HdpEA/IZL+QggOr3evSLQUK+YU3YMIjT8LzrzwWDo2V3IDElWDGbx8E+05fh
-         iiXqwaYioVQgx2NDP4ATStTzssAxN8Nnc/EB33HQwq1xs+cEHtX+78NKoDqvC37eHXRo
-         p0Wx1ARwbHpRd7eE8+uS/fOdSwxQVqgqPtVkJWkeB4L9aZzyF8H2TGEwBgJSmAa6P5uR
-         QCSw==
+        bh=HIscJlrRu/kRjOauS2L78QjFG0eah53kWGol52SXo6M=;
+        b=eKLMUqlkF5/ChYZV55RAuYsn1EKD9TtpVLegMLNyzaone4N+6WfDZxcW42Bxm67UTD
+         EUx1tMsmowX4hbOSIWUttEN4x/JrTM79DCMHGmC82zXtfgBHlFyXMHFHpmPUQxAKuPGB
+         MkHlaAk8MI1RyJpQLpvJqcFKsDyVOQqnS+o1ciBSvYkr4fA3Qf/S4ZDEbGN0lvwIFchS
+         FBWM4A04eupCNsrOhlESiIjYVbn6YLOVH/aSVrPu0R7+TlsHGnYdQdH2XrtkMxDjZS/b
+         q/0DCaO6KFAONI8E5o3bV7i5Rs+KBxloYDiLIFfleYC7HWcCRnJWatiX66KUXhQxQPXF
+         UWeA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1763803954; x=1764408754;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+        d=1e100.net; s=20230601; t=1763809463; x=1764414263;
+        h=content-transfer-encoding:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
          :to:cc:subject:date:message-id:reply-to;
-        bh=PwfSbVA0IF+INvF3WYKe7TTnKMqGNeoc7QfEa9rVX5E=;
-        b=SuYYxS3HbsdT8i6cfuHPomduBUjtPQaKmBGWngNR1cZwKn6V1gmU+z1NsidUIy8Con
-         Pk2epxl+QDWPdY29+vA4K/zCzf34ifVIU6d6IprPb7yZOOKE348JVPzDGLO/snfW2aEt
-         W6ps/2IP4YSPYwwS5wWxMXCS3exvj9p9RvpW9o/BBuvSOExLBksPl7wp/fjnXbQP/7w/
-         3aEYN92Z9kXRZ9hpaNBObI2+GLVkXXt1td1ufdr6ycR/cgKq0ET24L36aKNGSINuDkZX
-         44pyeyGqe0p0l32RvAjkyC+HglfiaizlQ0MxzymMIjNBpi0CdbxZgYiMeUu8vsY57iGu
-         f4aw==
-X-Forwarded-Encrypted: i=1; AJvYcCWUV1hFGlGiZ9KNmo7mPUh4aLbat5FoQdNvFgg5p3ULzBYl0uPKFTwamRjnX2SO8Td+/DFtVggVEA4=@vger.kernel.org
-X-Gm-Message-State: AOJu0YzRO68niPlRCTR1aPobi5rwAyLKKpucd+hmQcUI4FgZNzdS9nPL
-	qi4/NYEuem08l/HykyFc+m/AYO83KvgaBimzioFRnbuVdDJO/cc0FkqZYDRdXsZZIbOetvw5BF1
-	LhYTIMOsz9XwILOaRyNyq/qtUXbHX5LwcWYwhJDJ1
-X-Gm-Gg: ASbGncugs070W2qYM3KwKa4Uarv9/IbNbmwNOVtZbQtSHxFEITagV3o8Lh+xW0LJM5z
-	hoHfC6S5H0YR0AV0OHOl9EEu55TQyEiXPzjX5iPbdknjMc+M7m95+3UFLTFQ0LST3AplWxZo9x+
-	mQVQt/RrUcEDIqs6l/tfcBBHrKBap2hPLIfxZyqQtlVNyq+xwLfQFW52PNJ5EsVRy1XZ6qKeZzt
-	EpH71fdBnF2H3/U7p4jKj0UipIn3ELkUCHJvwf1E59rNvUuxIH8PUB0XjCn/CJgMJ+ZRrc=
-X-Google-Smtp-Source: AGHT+IEtl9+0xCjdQa9+R+GC+GJziEZM6X7VYbuzp+qoVNZuwKZ3umLayWIhnoniyzbglxAh3nD2e8iWh7BCQ7kfWaI=
-X-Received: by 2002:a05:7022:6727:b0:119:e56c:18a7 with SMTP id
- a92af1059eb24-11c9d712aebmr2102850c88.15.1763803953323; Sat, 22 Nov 2025
- 01:32:33 -0800 (PST)
+        bh=HIscJlrRu/kRjOauS2L78QjFG0eah53kWGol52SXo6M=;
+        b=P1GhM/gnNcYqHZ/xxZkZqFMgf3e5moaJrmJrChSlRvU1Onhrs6xEZ5Ih4p6zjhQ1Ej
+         yLPDbKA9hO+bWp9fMkvmtsYlqdKeHj52dRN0ryO0w/eUMX3SK/zUUvNxrlJnYwGYJRxJ
+         lgOkcoAkHvj+VxhXw/CWrlCVikTZNsbxZez1uPVzduhpboBnzkzowYoWo28XbGQ5qVfi
+         9pwlTibQvhbmtuh3Zh3gFheUdvRGCO4iUGjUi5XryQX7LoyjwiOosdJ8YD+XYCZHYlx+
+         EQVKf82+iEaIythniH8i/c33MkiDAiidN+9MWEllRr6OqedT2WlTPA8G7SRZDQ/f7xCU
+         6+Rg==
+X-Forwarded-Encrypted: i=1; AJvYcCVklskPCZXFH68BYPdpTkNORLM/gKU6Z3W5t0ryA9rUu2t8a50V/G7tsiSYdYhox1JYTfIBcLqHM3I=@vger.kernel.org
+X-Gm-Message-State: AOJu0YwoPf64QcfXAWdzuHwOHa59y+9RIfyLVr5Hw6nm7ec4ru4gHUx/
+	wcSWOkrjf1Xegoc77OLq6wgFTHw3jM8uwRB0ujWqohMYDKu6/1k5/+/2VzRgQv8/0pUnysP+Ajh
+	8/Reja3hItZCNeEeyrnmV1qP/aacYBh0CGwTdPVFY7Q==
+X-Gm-Gg: ASbGnct216fNs/ywPBn5Ev4WKLWQhfB1+zE4XttAYk0y+5Sj2FQA1OKbw7E0kwcBVdN
+	wQdub5/whk19IvYyCTK5Vegm7PNotRaF19tcIiLh5tX89WOfFHcx8xl+q+f+KDe1UqFGWbUHbvN
+	RbUx4m1JjnDJEeriTPUR4o5foV2pcWMitvb7t3UhVa0DaryUkVq+IROBrAYTu8MZWl30Tf5wQL4
+	nl5JPDG5oQUC2RqotLgc6hSasAmJkNXHR2xRdY72tMlxTG10b6LIKzFmBuIgh0H7gKszuXR
+X-Google-Smtp-Source: AGHT+IFwj0wIUS3W02n50SAzmbsXBONNGDPAJuVkICQXGzzp3m7faHtxTsrZQ2QDhMaOqE3Pbb4nQ2w7li+HcQCw9Ys=
+X-Received: by 2002:a17:907:7247:b0:b45:a84e:8b69 with SMTP id
+ a640c23a62f3a-b767185d1a7mr313034466b.5.1763809463031; Sat, 22 Nov 2025
+ 03:04:23 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20251119093749.292926-1-royluo@google.com> <20251119093749.292926-3-royluo@google.com>
- <2025112144-claw-recolor-49c3@gregkh>
-In-Reply-To: <2025112144-claw-recolor-49c3@gregkh>
-From: Roy Luo <royluo@google.com>
-Date: Sat, 22 Nov 2025 17:31:56 +0800
-X-Gm-Features: AWmQ_blaOp8wg2UyednGm_iXI4eOxC8hbQ1lsk34Jq7M1OwHCTll441SPBByo04
-Message-ID: <CA+zupgyEP+_q0uO1SpvR_wpk0ZP2EWf_E6FGQpOCLW63dKp5Fw@mail.gmail.com>
-Subject: Re: [PATCH v7 2/2] usb: dwc3: Add Google Tensor SoC DWC3 glue driver
-To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-Cc: Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>, 
-	Conor Dooley <conor+dt@kernel.org>, Thinh Nguyen <Thinh.Nguyen@synopsys.com>, 
-	Philipp Zabel <p.zabel@pengutronix.de>, Peter Griffin <peter.griffin@linaro.org>, 
-	=?UTF-8?Q?Andr=C3=A9_Draszik?= <andre.draszik@linaro.org>, 
-	Tudor Ambarus <tudor.ambarus@linaro.org>, Joy Chakraborty <joychakr@google.com>, 
-	Naveen Kumar <mnkumar@google.com>, Badhri Jagan Sridharan <badhri@google.com>, 
-	Doug Anderson <dianders@google.com>, devicetree@vger.kernel.org, 
-	linux-kernel@vger.kernel.org, linux-usb@vger.kernel.org, 
-	linux-arm-kernel@lists.infradead.org, linux-samsung-soc@vger.kernel.org
+References: <20251121080905.2237648-1-xiazhengqiao@huaqin.corp-partner.google.com>
+ <2025112159-sermon-grooving-7eb3@gregkh> <CADYyEwQqghzWedZYmZtwk1+R5DxMYg0aMJhVAutrW1w+CTB-7w@mail.gmail.com>
+ <2025112126-leverage-wrongful-85c4@gregkh>
+In-Reply-To: <2025112126-leverage-wrongful-85c4@gregkh>
+From: Zhengqiao Xia <xiazhengqiao@huaqin.corp-partner.google.com>
+Date: Sat, 22 Nov 2025 19:04:11 +0800
+X-Gm-Features: AWmQ_bn4YzHtbFlEZGdhJvUsd172OUkxJmMyGUd9LA4Hg12qa0leAZEr44r3bUc
+Message-ID: <CADYyEwT8XmBFwWx6KQD9Ax2-=wgKXH2njuMJMWU0_SBuyd8dXg@mail.gmail.com>
+Subject: Re: [PATCH] USB: of: filter disabled device node
+To: Greg KH <gregkh@linuxfoundation.org>, linux-usb@vger.kernel.org, 
+	linux-kernel@vger.kernel.org
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
-On Fri, Nov 21, 2025 at 10:26=E2=80=AFPM Greg Kroah-Hartman
-<gregkh@linuxfoundation.org> wrote:
+Greg KH <gregkh@linuxfoundation.org> =E4=BA=8E2025=E5=B9=B411=E6=9C=8821=E6=
+=97=A5=E5=91=A8=E4=BA=94 20:35=E5=86=99=E9=81=93=EF=BC=9A
 >
-> On Wed, Nov 19, 2025 at 09:37:48AM +0000, Roy Luo wrote:
-> > Add support for the DWC3 USB controller found on Google Tensor G5
-> > (codename: laguna). The controller features dual-role functionality
-> > and hibernation.
-> >
-> > The primary focus is implementing hibernation support in host mode,
-> > enabling the controller to enter a low-power state (D3). This is
-> > particularly relevant during system power state transition and
-> > runtime power management for power efficiency.
-> > Highlights:
-> > - Align suspend callback with dwc3_suspend_common() for deciding
-> >   between a full teardown and hibernation in host mode.
-> > - Integration with `psw` (power switchable) and `top` power domains,
-> >   managing their states and device links to support hibernation.
-> > - A notifier callback dwc3_google_usb_psw_pd_notifier() for
-> >   `psw` power domain events to manage controller state
-> >   transitions to/from D3.
-> > - Coordination of the `non_sticky` reset during power state
-> >   transitions, asserting it on D3 entry and deasserting on D0 entry
-> >   in hibernation scenario.
-> > - Handling of high-speed and super-speed PME interrupts
-> >   that are generated by remote wakeup during hibernation.
-> >
-> > Acked-by: Thinh Nguyen <Thinh.Nguyen@synopsys.com>
-> > Co-developed-by: Joy Chakraborty <joychakr@google.com>
-> > Signed-off-by: Joy Chakraborty <joychakr@google.com>
-> > Co-developed-by: Naveen Kumar <mnkumar@google.com>
-> > Signed-off-by: Naveen Kumar <mnkumar@google.com>
-> > Signed-off-by: Roy Luo <royluo@google.com>
-> > ---
-> >  drivers/usb/dwc3/Kconfig       |  10 +
-> >  drivers/usb/dwc3/Makefile      |   1 +
-> >  drivers/usb/dwc3/dwc3-google.c | 628 +++++++++++++++++++++++++++++++++
-> >  3 files changed, 639 insertions(+)
-> >  create mode 100644 drivers/usb/dwc3/dwc3-google.c
-> >
-> > diff --git a/drivers/usb/dwc3/Kconfig b/drivers/usb/dwc3/Kconfig
-> > index 4925d15084f8..bb0e4dc97da3 100644
-> > --- a/drivers/usb/dwc3/Kconfig
-> > +++ b/drivers/usb/dwc3/Kconfig
-> > @@ -200,4 +200,14 @@ config USB_DWC3_GENERIC_PLAT
-> >         the dwc3 child node in the device tree.
-> >         Say 'Y' or 'M' here if your platform integrates DWC3 in a simil=
-ar way.
-> >
-> > +config USB_DWC3_GOOGLE
-> > +     tristate "Google Platform"
-> > +     depends on OF && COMMON_CLK && RESET_CONTROLLER
+> On Fri, Nov 21, 2025 at 08:24:02PM +0800, Zhengqiao Xia wrote:
 >
-> No build testing?
+> <snip>
+>
+> For some reason you sent this only to me, which is a bit rude to
+> everyone else on the mailing list.  I'll be glad to respond if you
+> resend it to everyone.
 
-Will add depends on COMPILE_TEST.
+I am so sorry, I didn't notice this at the time.
 
->
-> > +     default n
->
-> This is always the default, no need to list it here.
-
-Will drop it.
-
->
-> > +     help
-> > +       Support the DesignWare Core USB3 IP found on Google Tensor
-> > +       SoCs, starting with the G5 generation. This driver includes
-> > +       support for hibernation in host mode.
-> > +       Say 'Y' or 'M' if you have one such device.
->
-> You forgot the module name :(
->
-> > +#define to_dwc3_google(d) container_of((d), struct dwc3_google, dwc)
->
-> container_of_const() please.
-
-Ack, will fix it in the next version.
-
->
+I will send it again with my company email
 >
 > thanks,
 >
 > greg k-h
-
-Thanks for the review.
-
-Regards,
-Roy Luo
