@@ -1,41 +1,42 @@
-Received: from smtpout-02.galae.net (smtpout-02.galae.net [185.246.84.56])
+Received: from smtpout-03.galae.net (smtpout-03.galae.net [185.246.85.4])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 83DE032B9A6;
-	Thu, 27 Nov 2025 10:26:32 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.246.84.56
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5455932C947
+	for <linux-usb@vger.kernel.org>; Thu, 27 Nov 2025 10:26:37 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.246.85.4
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1764239196; cv=none; b=A1xkvuvNig6XsPfcUE3slbcW9pMwYqXvhUsbKEF28ILefoku7araS4Yqg2S+A8D2jlzKZx08FN1qnDUGYvPKgR+XYF/cApEOtAOPwxgFmmtxit3Q8aZCk/3APX6GLtDm0KGX2N4rC+fWMnhnb1LLwBxX8idweE4bQ5XlSEi5RFQ=
+	t=1764239199; cv=none; b=k2vS0sjbm16VndwMb5uhPw9TaPHl/o7afUg71Pgf7p6fNuCqTB6KqISJPV+20d3ezPlfLSeW1CMwD7cq+ieCG/z7krlIgpNUv3Oh1rG5iSJj3rN6iBjR91avG28iormSxYbvi2g9A3hW63fUUkhVOq6iQkorrMYGm0PHpnXyO/0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1764239196; c=relaxed/simple;
-	bh=kUSasBOmdwFyT9fWFND+kLjGho8+xX6yoJjLmmVzJ1o=;
-	h=From:Subject:Date:Message-Id:MIME-Version:Content-Type:To:Cc; b=FSq1UMDYPyYJQJhWxKri4KQHp4iysp0hmmgy/nHsAuKJ0L7gGHek3GoRALaQIrhM8spoBVv1pUnXKSXY2J08J4YCbjl3ZIxyRaXy5nEtt1pkfRT0uSS8oTx0ilpBfq7l2vs9I80XFeTQzOiYu8OD9MiaAf8UPMXDjW229VwtCE0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com; spf=pass smtp.mailfrom=bootlin.com; dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b=rSpNp9b1; arc=none smtp.client-ip=185.246.84.56
+	s=arc-20240116; t=1764239199; c=relaxed/simple;
+	bh=tn0StNZReqkKl0wkSYrUp2ZTVG6T5RT9sPvVz2A2EAo=;
+	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
+	 In-Reply-To:To:Cc; b=LMuyuFSOTIawwx3IhqgNFVGi2t7VOOThGTEehfQQJTtserPK505S9Yb8idW3RgdLwnE6ZrfjOTH2eBmHtnp06BoIqwQ46cpfKwKeSlhLBAhnOO0hvB6+nHtzj1jCfhxUqVJNPMRUGuzmmPq4R5qs6OakM2vQWakg27Q35+r/Zro=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com; spf=pass smtp.mailfrom=bootlin.com; dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b=lWPPtEyM; arc=none smtp.client-ip=185.246.85.4
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=bootlin.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b="rSpNp9b1"
+	dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b="lWPPtEyM"
 Received: from smtpout-01.galae.net (smtpout-01.galae.net [212.83.139.233])
-	by smtpout-02.galae.net (Postfix) with ESMTPS id E25121A1DC7;
-	Thu, 27 Nov 2025 10:26:30 +0000 (UTC)
+	by smtpout-03.galae.net (Postfix) with ESMTPS id A15354E4191E;
+	Thu, 27 Nov 2025 10:26:35 +0000 (UTC)
 Received: from mail.galae.net (mail.galae.net [212.83.136.155])
-	by smtpout-01.galae.net (Postfix) with ESMTPS id AE8666068C;
-	Thu, 27 Nov 2025 10:26:30 +0000 (UTC)
-Received: from [127.0.0.1] (localhost [127.0.0.1]) by localhost (Mailerdaemon) with ESMTPSA id F2509102F08C5;
-	Thu, 27 Nov 2025 11:26:25 +0100 (CET)
+	by smtpout-01.galae.net (Postfix) with ESMTPS id 708376072A;
+	Thu, 27 Nov 2025 10:26:35 +0000 (UTC)
+Received: from [127.0.0.1] (localhost [127.0.0.1]) by localhost (Mailerdaemon) with ESMTPSA id 4C0F0102F275A;
+	Thu, 27 Nov 2025 11:26:32 +0100 (CET)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=dkim;
-	t=1764239189; h=from:subject:date:message-id:to:cc:mime-version:content-type:
-	 content-transfer-encoding; bh=7l63rVxiRGiq7jCcyfTKLymE10grTK2AkGEoW3SZhHA=;
-	b=rSpNp9b19kpjD7XE6qxhu1DWOp8N/32yB8SHXNyQAl6gZc/TuusDfoaZoU9z48ntFHryXV
-	mYxnVm37fkMFQRz1BcyNBpRd2iGa+wdDKbKNJ2o++RJ080Qd9t8ZAW2sOQe0jIJZQNphV+
-	i7+9WVvNROgbOEXrPhx+vl45lcoioyxwNIPiaGk/Q1Doztz7TpsYf/mAAmmuu8rY89LxYW
-	KGaXfZ487B7fLe+tJuxHnXo009d+pXv8PutZ8FW7Dk1RhiMsqKV+5QzgDBN425vJCdb+BB
-	OEtS9zaqrDQH7lgHSvZx9rON2oZuSbQycSuedMIKZ2faYOUCdTqpB3gwPtEJng==
+	t=1764239194; h=from:subject:date:message-id:to:cc:mime-version:content-type:
+	 content-transfer-encoding:in-reply-to:references;
+	bh=lFvV4pIsDLWnAbmZyAdOTJZYJAocNppm+NL9MdS0/y0=;
+	b=lWPPtEyMjs2+lAQ/ndRPyoApXSxEuBSRuO5MvPTgTBY/+XSq1eerRt7s6xaVmkjelp7W1f
+	416ddSEWPnyfxy4eSHgieZcESh1ye8Jjzs4dxgw8CjIVnCZKAHqwlY7fkvF//WZhv8F2Ad
+	wA6bfpUEykr7Oz+av1gpGrfAq6flT3j41e7Gts9tO4cXi/sh+GmQ0o/AhaQ4PPArA7xqUO
+	Gy4X6znMCIR/9+FIqxfI8hJd/loPoc2HvirkiHOUiIzqEALJ8WZ3eq4eJtN218LFOy1++a
+	qUAILd+aYh5OyQwTdP381XxKUcDw3FicZEA7AbqpgFrAdiaBpKByeF+ffzBmjw==
 From: Luca Ceresoli <luca.ceresoli@bootlin.com>
-Subject: [PATCH v2 0/2] phy: rockchip: inno-usb2: fix gadget mode
- disconnection after 6 seconds
-Date: Thu, 27 Nov 2025 11:26:15 +0100
-Message-Id: <20251127-rk3308-fix-usb-gadget-phy-disconnect-v2-0-dac8a02cd2ca@bootlin.com>
+Date: Thu, 27 Nov 2025 11:26:17 +0100
+Subject: [PATCH v2 2/2] phy: rockchip: inno-usb2: fix communication
+ disruption in gadget mode
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
@@ -44,11 +45,9 @@ List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 8bit
-X-B4-Tracking: v=1; b=H4sIAEcnKGkC/43NTQ6CMBCG4auQrh3TDpKiK+9hWNA/mKgtaSuRE
- O5uJR7A5TvJfM/Kko1kE7tUK4t2pkTBl8BDxfTY+8ECmdIMOTZcihbiva55C47e8EoKht4MNsM
- 0LmAo6eC91RmMNFYKp7BVJ1ampmjLw87cutIjpRzisquz+F5/AOJ/wCyAA9bnVqLjjRPyqkLID
- /JHHZ6s27btAwt0iRLaAAAA
-X-Change-ID: 20250718-rk3308-fix-usb-gadget-phy-disconnect-d7de71fb28b4
+Message-Id: <20251127-rk3308-fix-usb-gadget-phy-disconnect-v2-2-dac8a02cd2ca@bootlin.com>
+References: <20251127-rk3308-fix-usb-gadget-phy-disconnect-v2-0-dac8a02cd2ca@bootlin.com>
+In-Reply-To: <20251127-rk3308-fix-usb-gadget-phy-disconnect-v2-0-dac8a02cd2ca@bootlin.com>
 To: Vinod Koul <vkoul@kernel.org>, 
  Kishon Vijay Abraham I <kishon@kernel.org>, 
  Heiko Stuebner <heiko@sntech.de>, William Wu <wulf@rock-chips.com>
@@ -66,55 +65,74 @@ Cc: Kever Yang <kever.yang@rock-chips.com>,
 X-Mailer: b4 0.14.3
 X-Last-TLS-Session-Version: TLSv1.3
 
-The USB OTG port of the RK3308 exibits a bug when:
+When the OTG USB port is used to power to SoC, configured as peripheral and
+used in gadget mode, communication stops without notice about 6 seconds
+after the gadget is configured and enumerated.
 
- - configured as peripheral, and
- - used in gadget mode, and
- - the USB cable is connected since before booting
+The problem was observed on a Radxa Rock Pi S board, which can only be
+powered by the only USB-C connector. That connector is the only one usable
+in gadget mode. This implies the USB cable is connected from before boot
+and never disconnects while the kernel runs.
 
-The symptom is: about 6 seconds after configuring gadget mode the device is
-disconnected and then re-enumerated. This happens only once per boot.
+The related code flow in the PHY driver code can be summarized as:
 
-Investigation showed that in this configuration the charger detection code
-turns off the PHY after 6 seconds. Patch 1 avoids this when a cable is
-connected (VBUS present).
+ * the first time chg_detect_work starts (6 seconds after gadget is
+   configured and enumerated)
+   -> rockchip_chg_detect_work():
+       if chg_state is UNDEFINED:
+          property_enable(base, &rphy->phy_cfg->chg_det.opmode, false); [Y]
 
-After patch 1 the connection is stable but communication stops after 6
-seconds. this is addressed by patch 2.
+ * rockchip_chg_detect_work() changes state and re-triggers itself a few
+   times until it reaches the DETECTED state:
+   -> rockchip_chg_detect_work():
+       if chg_state is DETECTED:
+          property_enable(base, &rphy->phy_cfg->chg_det.opmode, true); [Z]
 
-The topic had been discussed in [0]. Thanks Alan and Minas for the
-discussion and Louis for having found the 1st issue, leading to patch 1.
+At [Y] all existing communications stop. E.g. using a CDC serial gadget,
+the /dev/tty* devices are still present on both host and device, but no
+data is transferred anymore. The later call with a 'true' argument at [Z]
+does not restore it.
 
-[0] https://lore.kernel.org/lkml/20250414185458.7767aabc@booty/
+Due to the lack of documentation, what chg_det.opmode does exactly is not
+clear, however by code inspection it seems reasonable that is disables
+something needed to keep the communication working, and testing proves that
+disabling these lines lets gadget mode keep working. So prevent changes to
+chg_det.opmode when there is a cable connected (VBUS present).
 
-Luca
-
+Fixes: 98898f3bc83c ("phy: rockchip-inno-usb2: support otg-port for rk3399")
+Cc: stable@vger.kernel.org
+Closes: https://lore.kernel.org/lkml/20250414185458.7767aabc@booty/
 Signed-off-by: Luca Ceresoli <luca.ceresoli@bootlin.com>
+Reviewed-by: Théo Lebrun <theo.lebrun@bootlin.com>
 ---
-Changes in v2:
-- Patch 1: Fixed Co-developed-by: and SoB line order
-- Added missing Cc: stable@vger.kernel.org
-- Added Théo's Reviewed-by
-- Improved commit message
-- Patch 2: trimmed discussion about "there is no disconnection" from
-  commit message to not distract from the actual issue (writes to
-  chg_det.opmode)
-- Link to v1: https://lore.kernel.org/r/20250722-rk3308-fix-usb-gadget-phy-disconnect-v1-0-239872f05f17@bootlin.com
+ drivers/phy/rockchip/phy-rockchip-inno-usb2.c | 6 ++++--
+ 1 file changed, 4 insertions(+), 2 deletions(-)
 
----
-Louis Chauvet (1):
-      phy: rockchip: inno-usb2: fix disconnection in gadget mode
+diff --git a/drivers/phy/rockchip/phy-rockchip-inno-usb2.c b/drivers/phy/rockchip/phy-rockchip-inno-usb2.c
+index 0106d7b7ae24..e5efae7b0135 100644
+--- a/drivers/phy/rockchip/phy-rockchip-inno-usb2.c
++++ b/drivers/phy/rockchip/phy-rockchip-inno-usb2.c
+@@ -833,7 +833,8 @@ static void rockchip_chg_detect_work(struct work_struct *work)
+ 		if (!rport->suspended && !vbus_attach)
+ 			rockchip_usb2phy_power_off(rport->phy);
+ 		/* put the controller in non-driving mode */
+-		property_enable(base, &rphy->phy_cfg->chg_det.opmode, false);
++		if (!vbus_attach)
++			property_enable(base, &rphy->phy_cfg->chg_det.opmode, false);
+ 		/* Start DCD processing stage 1 */
+ 		rockchip_chg_enable_dcd(rphy, true);
+ 		rphy->chg_state = USB_CHG_STATE_WAIT_FOR_DCD;
+@@ -896,7 +897,8 @@ static void rockchip_chg_detect_work(struct work_struct *work)
+ 		fallthrough;
+ 	case USB_CHG_STATE_DETECTED:
+ 		/* put the controller in normal mode */
+-		property_enable(base, &rphy->phy_cfg->chg_det.opmode, true);
++		if (!vbus_attach)
++			property_enable(base, &rphy->phy_cfg->chg_det.opmode, true);
+ 		rockchip_usb2phy_otg_sm_work(&rport->otg_sm_work.work);
+ 		dev_dbg(&rport->phy->dev, "charger = %s\n",
+ 			 chg_to_string(rphy->chg_type));
 
-Luca Ceresoli (1):
-      phy: rockchip: inno-usb2: fix communication disruption in gadget mode
-
- drivers/phy/rockchip/phy-rockchip-inno-usb2.c | 12 ++++++++----
- 1 file changed, 8 insertions(+), 4 deletions(-)
----
-base-commit: cabb748c4b98ef67bbb088be61a2e0c850ebf70d
-change-id: 20250718-rk3308-fix-usb-gadget-phy-disconnect-d7de71fb28b4
-
-Best regards,
 -- 
-Luca Ceresoli <luca.ceresoli@bootlin.com>
+2.51.1
 
