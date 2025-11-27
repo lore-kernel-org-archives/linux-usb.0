@@ -1,42 +1,86 @@
-Received: from smtpout-04.galae.net (smtpout-04.galae.net [185.171.202.116])
+Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com [205.220.180.131])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A027D329C5E
-	for <linux-usb@vger.kernel.org>; Thu, 27 Nov 2025 10:26:44 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.171.202.116
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 74993327217
+	for <linux-usb@vger.kernel.org>; Thu, 27 Nov 2025 10:32:31 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.180.131
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1764239206; cv=none; b=nOqHUCaSc38J1Eh+KqjpcOO6BAtBzH0pD9Gx20syWRq4PeyjwoGRt91udIFe2SNPfXE2Qa5jTO9ptW0jtg4GpWs0tFuRrQe/5aVH9xRhsSjLbcjIs3hZ8tM6Vrapaza5pURoR4nXoPFJigtvYKCVbINkQ8l343CdmnakhZLTmpA=
+	t=1764239553; cv=none; b=YxpMesdZ1VKNLHiv/ea0Qii7nPJVdA4e8suaNHBiL0JTsaexJ20Ut6SPcXf0gitoYN2HMsc2/Ee7qVjmB7DEJLSKvu2rZDsh7LVZpMwberqynstuTvdQvEsftHUF6VWjdGzC8sT+8bopB9mZXO0AgZ1+4iLWP3Djqq/Z1afBzXM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1764239206; c=relaxed/simple;
-	bh=IbIDrxgoDHoF8aog/iMyWY3FWH7ZnyYgwNXo+F8LmaE=;
-	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
-	 In-Reply-To:To:Cc; b=gXSv+XI6wV/ALeshZkkfsJ6dExDhYF1RulK+0F5WcqLq96hC6T+qUQysBiKjtkUwguD6I+Ef2/t+msnhpVJfuffOj8y+cb3jpUEEg3ckhg3xaAGctDnaKg/cZ6ohElNBHEiKfEg6Ex91vSqRM0nfGL9cVt/fqDzTOZlKoT1oUfo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com; spf=pass smtp.mailfrom=bootlin.com; dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b=Wc30LcY7; arc=none smtp.client-ip=185.171.202.116
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=bootlin.com
+	s=arc-20240116; t=1764239553; c=relaxed/simple;
+	bh=XpQtZpYgohZHl3gAooTdrRQYTIfYtL/nP1rnoS4rsys=;
+	h=From:Subject:Date:Message-Id:MIME-Version:Content-Type:To:Cc; b=pB7ClP0Kr/kqy2Pg1kZRur0jxGDlRQFXxzw22LhiDfpXu4H4j+bVtELTEBW1cjU5ZqrO3d1cw+kUDnJTQ6UKhui9U5tEN1zBhCiyK1sFe/Trz138la8WlTML+hyk4zJxisDAM4L7hlRRp6NPZV661zWEn9ETKXeP0bCgkXbUE6M=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com; spf=pass smtp.mailfrom=oss.qualcomm.com; dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b=MnNIz7ki; dkim=pass (2048-bit key) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.b=EV2QkibC; arc=none smtp.client-ip=205.220.180.131
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=oss.qualcomm.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b="Wc30LcY7"
-Received: from smtpout-01.galae.net (unknown [212.83.139.233])
-	by smtpout-04.galae.net (Postfix) with ESMTPS id 24ECCC16A1B;
-	Thu, 27 Nov 2025 10:26:20 +0000 (UTC)
-Received: from mail.galae.net (mail.galae.net [212.83.136.155])
-	by smtpout-01.galae.net (Postfix) with ESMTPS id E90836068C;
-	Thu, 27 Nov 2025 10:26:32 +0000 (UTC)
-Received: from [127.0.0.1] (localhost [127.0.0.1]) by localhost (Mailerdaemon) with ESMTPSA id 24E03102F275B;
-	Thu, 27 Nov 2025 11:26:30 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=dkim;
-	t=1764239191; h=from:subject:date:message-id:to:cc:mime-version:content-type:
-	 content-transfer-encoding:in-reply-to:references;
-	bh=Ty06Lu9jM47nhD5kJlUx5SDRAvr8cRr/zqTlMHAryT0=;
-	b=Wc30LcY70goGq8iaS1mGSVu5Y0iZMA/xWEDEr+bupHRRWd7a9GFE4e4teqRSRR6pyVB8YE
-	LnD7SV+r4SZYeNSIfoNG9i4+OcYNZEK7xVh1prdAx2i2dHSui/cnQOXTPfhHPKmmiBJFV7
-	+kF9yO9uwv/QdeZYARzn8IIdcYZk61+6j6gi/hk1XjzE41HTEiFtaAkus8pN9otPj1Yws+
-	8haIUY2u3HFmraaWVyjR77tXzDgy/9M+FO/rSUH7vFAbuYD0d5sq5S3ZYyNI0sOYlBOY+N
-	kK4iKRJsX80WCzOi2a+Yd+C74H+JV97zYul1k05CSPggeWkmJDTn9x2wIsY0PA==
-From: Luca Ceresoli <luca.ceresoli@bootlin.com>
-Date: Thu, 27 Nov 2025 11:26:16 +0100
-Subject: [PATCH v2 1/2] phy: rockchip: inno-usb2: fix disconnection in
- gadget mode
+	dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b="MnNIz7ki";
+	dkim=pass (2048-bit key) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.b="EV2QkibC"
+Received: from pps.filterd (m0279872.ppops.net [127.0.0.1])
+	by mx0a-0031df01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 5ARAJvVb3840278
+	for <linux-usb@vger.kernel.org>; Thu, 27 Nov 2025 10:32:30 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
+	cc:content-transfer-encoding:content-type:date:from:message-id
+	:mime-version:subject:to; s=qcppdkim1; bh=Me0mTYqa6XZKWAnCIeXoav
+	rsmUe3XwWATdzt5BMmD8U=; b=MnNIz7kifGH1921lOzZ++3AY4EZueI3Nadk7oT
+	THlVvQaC7+3LltP9tbo+ofmGRHlpez2MbS7lvEZvzd34zBkwR6+DMUH2o5Q3UpYV
+	2FWEDZB078eRtz2EhViPbuIJT2jJb34Bdc3BkOaHQk9ZworDscXUIwyxoMUmRbN8
+	otFd7FpN5DvnrGEYEMwzLaZ0sgpW7EMC3uyq4u4A1JksrzsW1z4XRbu9Zf3myPUM
+	Bzw1ar8/Xm1tT3u33uQFGOM/ZxbcPF0EnRxivL5ywT5evSNVyaQJKSjqvnb5U3gX
+	daCpYPStbWbhfBGS+RjIWuKvS/Kq/VQaz1VqZWvMiVPJlVzA==
+Received: from mail-pf1-f199.google.com (mail-pf1-f199.google.com [209.85.210.199])
+	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 4apdj09bxk-1
+	(version=TLSv1.3 cipher=TLS_AES_128_GCM_SHA256 bits=128 verify=NOT)
+	for <linux-usb@vger.kernel.org>; Thu, 27 Nov 2025 10:32:30 +0000 (GMT)
+Received: by mail-pf1-f199.google.com with SMTP id d2e1a72fcca58-7c1df71b076so1295340b3a.0
+        for <linux-usb@vger.kernel.org>; Thu, 27 Nov 2025 02:32:30 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=oss.qualcomm.com; s=google; t=1764239549; x=1764844349; darn=vger.kernel.org;
+        h=cc:to:content-transfer-encoding:mime-version:message-id:date
+         :subject:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=Me0mTYqa6XZKWAnCIeXoavrsmUe3XwWATdzt5BMmD8U=;
+        b=EV2QkibCFABpe5zZWBVn2YATmeL73sITHJBqeMxNLcwugtnEZw4U9bOqaT9Od2HiZP
+         Qhy+zEYDsHk9DzWrqME96CngjIIz61ZYYQtjvCvAquEeYhbcjUl5zmyxUmyJ3Zl8yu/U
+         RSDmRNbHPx8GMEeexPQGKQTuGuFnD/3ARyab9Z3rJANLnx6pc11IlOSB9bUZdVD9QLrK
+         f9CNAipcrevsOr57wDvQtzW38O0K9+c5dM9RXLikdIPk5XlqohskWNf7jZUwmQynj1Zz
+         JpDB32yjbFqfYxHp1j+G+0mNH2NskfT+c/vNkfY8YsfHIyZ4GUxXNW4WKX1KfpXOJXKy
+         Y+zQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1764239549; x=1764844349;
+        h=cc:to:content-transfer-encoding:mime-version:message-id:date
+         :subject:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=Me0mTYqa6XZKWAnCIeXoavrsmUe3XwWATdzt5BMmD8U=;
+        b=iBtiM82L17EthrMkjnjwXOclBmbu4oEzSvNdseO7B4S/DK+2/kW27arNCmC6Qf+Pkh
+         YqxPJTocNp6RpD9kWABDYB17mgZQZICPJtPVl9T7iAPFe4TbHXAhN+6HNDl5FAvvLRmi
+         fImgOVprnqz6PNxbyaRnM+xi0AjjpP03xr9Zt9OojRd/rEUpH55rWhd3fkYEzLqlzy8s
+         zWLWZl1OK8nt8wFklLpXAohs7vh3aTlI/T/6ct1vlm5sGCZk6arby8mfxI8rajC1QF/C
+         cfJwhWxk2JLNb3YDVzkQpV66pWkd7JdMf2zqnc0bnaReBQAh8J/W9R06YPk0MNvrXyT3
+         Fsjg==
+X-Forwarded-Encrypted: i=1; AJvYcCVFja1Z6/ziyV8hCGwEw0bYX/GFC8ldRzb+J1X/SXk1n+urtTDet4/ScpJSG6rkfMTYP6d3EgKsmug=@vger.kernel.org
+X-Gm-Message-State: AOJu0YzOWigYdpvcNkjmWgO3LBxKDRRet+iVe+A/UlLRhMAWONZyIG6H
+	ohHNyfcZMZLEdBsDGXH19FW2ttgWF0xhpgBgcvOJCCZ/XufB1D7SrWfqMU7mDMgOdHMiWMpGqps
+	+0P2cY3d46qHMl+DJ1CpCIlSjmXr6SpMEtAnwAxWn7X9URS0KP34Z9+s2+CrYQijYcpqzyrY=
+X-Gm-Gg: ASbGncsSBq28UN8/zhBf+Mzu4vckY29+6PzRXHN4cKrMq9Etnfg9mf6W/twU7sRebcI
+	UgN1f7AJl/7NHPxeSmkCN9dHrQ+WOo9zqXwhDriUwlQ2+xaXujn7nnaT8j5xVe+nGVNax+RFghZ
+	9DJGZ7AaK8VLwExKkFBZpKCE9D6OhCGHMVaeqx00Fly1lxusDMrgbbZVfrVuUw87k02Nf/MjvER
+	UXLqEfll8csknWeSR3d5oP5aGFZToNTAfXvi34ona2N/BBTV2SxJJAhuVjFIGKNDb5jlqZENmUR
+	dv9tD7ojLCy4GmOh7q+v2DGx2kz1WUfpOazSLBdl2kRuzvraNznFF6DzELVWqleI6BoGYxWi1A0
+	gs6WReAre/oIn0HBWHhQFtYEtVKch8I05uwpFduA=
+X-Received: by 2002:a05:6a00:9508:b0:7aa:9ca5:da9c with SMTP id d2e1a72fcca58-7c58e50cc8dmr23646241b3a.22.1764239549092;
+        Thu, 27 Nov 2025 02:32:29 -0800 (PST)
+X-Google-Smtp-Source: AGHT+IFh4xDobvpYf000wLtNMXCC3xUKgy8Hb7ZILTY4TEz3RCs72W7MXDq1HxRQ7xCslzY/T2Y3sA==
+X-Received: by 2002:a05:6a00:9508:b0:7aa:9ca5:da9c with SMTP id d2e1a72fcca58-7c58e50cc8dmr23646207b3a.22.1764239548595;
+        Thu, 27 Nov 2025 02:32:28 -0800 (PST)
+Received: from hu-sriramd-hyd.qualcomm.com ([202.46.22.19])
+        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-7d15f457c38sm1479819b3a.54.2025.11.27.02.32.23
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 27 Nov 2025 02:32:28 -0800 (PST)
+From: Sriram Dash <sriram.dash@oss.qualcomm.com>
+Subject: [PATCH 0/2] usb: dwc3: qcom: Add support for firmware-managed
+ resources
+Date: Thu, 27 Nov 2025 16:01:43 +0530
+Message-Id: <20251127-controller_scmi_upstream-v1-0-38bcca513c28@oss.qualcomm.com>
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
@@ -44,105 +88,239 @@ List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 8bit
-Message-Id: <20251127-rk3308-fix-usb-gadget-phy-disconnect-v2-1-dac8a02cd2ca@bootlin.com>
-References: <20251127-rk3308-fix-usb-gadget-phy-disconnect-v2-0-dac8a02cd2ca@bootlin.com>
-In-Reply-To: <20251127-rk3308-fix-usb-gadget-phy-disconnect-v2-0-dac8a02cd2ca@bootlin.com>
-To: Vinod Koul <vkoul@kernel.org>, 
- Kishon Vijay Abraham I <kishon@kernel.org>, 
- Heiko Stuebner <heiko@sntech.de>, William Wu <wulf@rock-chips.com>
-Cc: Kever Yang <kever.yang@rock-chips.com>, 
- Minas Harutyunyan <Minas.Harutyunyan@synopsys.com>, 
- Alan Stern <stern@rowland.harvard.edu>, 
- Louis Chauvet <louis.chauvet@bootlin.com>, 
- =?utf-8?q?Herv=C3=A9_Codina?= <herve.codina@bootlin.com>, 
- Thomas Petazzoni <thomas.petazzoni@bootlin.com>, 
- =?utf-8?q?Th=C3=A9o_Lebrun?= <theo.lebrun@bootlin.com>, 
- linux-phy@lists.infradead.org, linux-rockchip@lists.infradead.org, 
- linux-usb@vger.kernel.org, linux-arm-kernel@lists.infradead.org, 
- linux-kernel@vger.kernel.org, Luca Ceresoli <luca.ceresoli@bootlin.com>, 
- stable@vger.kernel.org
+Content-Transfer-Encoding: 7bit
+X-B4-Tracking: v=1; b=H4sIAI8oKGkC/x3MQQqEMAxA0atI1lOYVmXAq8ggNY0a0FYSFUF69
+ ymzfIv/H1ASJoWuekDoYuUUC+yrAlx8nMlwKAb3dq217mMwxUPSupIMihsP566HkN+Mr5tm9MH
+ VIyKUfBea+P6v+2/OPydaREBqAAAA
+X-Change-ID: 20251127-controller_scmi_upstream-a344bad23bcc
+To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Rob Herring <robh@kernel.org>,
+        Krzysztof Kozlowski <krzk+dt@kernel.org>,
+        Conor Dooley <conor+dt@kernel.org>,
+        Wesley Cheng <quic_wcheng@quicinc.com>,
+        Thinh Nguyen <Thinh.Nguyen@synopsys.com>
+Cc: jack.pham@oss.qualcomm.com, faisal.hassan@oss.qualcomm.com,
+        krishna.kurapati@oss.qualcomm.com, andersson@kernel.org,
+        linux-arm-msm@vger.kernel.org, linux-usb@vger.kernel.org,
+        devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
+        Sriram Dash <sriram.dash@oss.qualcomm.com>,
+        Konrad Dybcio <konradybcio@kernel.org>,
+        Shazad Hussain <shazad.hussain@oss.qualcomm.com>
 X-Mailer: b4 0.14.3
-X-Last-TLS-Session-Version: TLSv1.3
+X-Developer-Signature: v=1; a=ed25519-sha256; t=1764239543; l=15753;
+ i=sriram.dash@oss.qualcomm.com; s=20251022; h=from:subject:message-id;
+ bh=XpQtZpYgohZHl3gAooTdrRQYTIfYtL/nP1rnoS4rsys=;
+ b=cfg1y97rHyz8bE78LH47J69aLLY/TL/ERX1V3qu3uUn3EyDD3eWwMhnBrdviz6pmfkiEPzAil
+ ubOwO8hoA0MCBjeVlnG9ty3J037cN1zo3OrXWkg7Q9RjM9tqrKYWHc+
+X-Developer-Key: i=sriram.dash@oss.qualcomm.com; a=ed25519;
+ pk=balisq+aEVXEJ6Gnze3kqbYZiFlsdHUjTSdCvupAeP4=
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUxMTI3MDA3NyBTYWx0ZWRfX0G3ZLmOc703k
+ GIj/j/I9C9YO+PPjq1vXBdSLHD+nK9ormAkDHjbpCYilnWcDgsQ2PivXAgCvxznhYsUXsMnMRY7
+ CnYrgeRXkgIZyRacLMV1toWT7CJByj0drReC67M+D4Ifqv7MVNSXGpyuEvcIfqw+QUfKXOsK7u6
+ OjNqkyGz2jZz80679izBTeMPXxPmD+Yi5mJSmDEzwrb+aRDNI0OFOkNDvU4nLtyV5iVqFIhE4Z7
+ 5KTHg0Pd+ZO8o8aV8trXPgF6zQmWDI1rb/348Jz96ZicWDyq6fLsAsx3DwclZ+32bN5MbzcPTkf
+ 8saQSaQhHQ3g5rFUxN/jFMSA9ysqVBmaPtPGhV/nYalJiJzGfdE3L8BytthUPywxyeRY1rSq6ce
+ 09kHfiidIpfzscZRWnxwLSS+HXrfZQ==
+X-Proofpoint-GUID: BD79RqE6vYoPReU9fGwRyRCiD1_Av_jw
+X-Proofpoint-ORIG-GUID: BD79RqE6vYoPReU9fGwRyRCiD1_Av_jw
+X-Authority-Analysis: v=2.4 cv=PJoCOPqC c=1 sm=1 tr=0 ts=692828be cx=c_pps
+ a=WW5sKcV1LcKqjgzy2JUPuA==:117 a=fChuTYTh2wq5r3m49p7fHw==:17
+ a=IkcTkHD0fZMA:10 a=6UeiqGixMTsA:10 a=s4-Qcg_JpJYA:10
+ a=VkNPw1HP01LnGYTKEx00:22 a=VwQbUJbxAAAA:8 a=COk6AnOGAAAA:8 a=EUspDBNiAAAA:8
+ a=wCQJ_rpfr0L53EHWLpgA:9 a=QEXdDO2ut3YA:10 a=OpyuDcXvxspvyRM73sMx:22
+ a=TjNXssC_j7lpFel5tvFf:22
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1121,Hydra:6.1.9,FMLib:17.12.100.49
+ definitions=2025-11-25_02,2025-11-26_01,2025-10-01_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ spamscore=0 lowpriorityscore=0 suspectscore=0 phishscore=0 priorityscore=1501
+ clxscore=1011 adultscore=0 impostorscore=0 malwarescore=0 bulkscore=0
+ classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
+ reason=mlx scancount=1 engine=8.22.0-2510240001 definitions=main-2511270077
 
-From: Louis Chauvet <louis.chauvet@bootlin.com>
+On Qualcomm automotive SoC sa8255p, platform resources like clocks,
+interconnect, resets, regulators and GDSC are configured remotely by
+firmware.
 
-When the OTG USB port is used to power the SoC, configured as peripheral
-and used in gadget mode, there is a disconnection about 6 seconds after the
-gadget is configured and enumerated.
+PM OPP is used to abstract these resources in firmware
+and SCMI power protocol is used to request resource operations by using
+runtime PM framework APIs such as pm_runtime_get/put_sync to invoke
+power_on/_off calls from kernel respectively.
 
-The problem was observed on a Radxa Rock Pi S board, which can only be
-powered by the only USB-C connector. That connector is the only one usable
-in gadget mode. This implies the USB cable is connected from before boot
-and never disconnects while the kernel runs.
+"qcom,snps-dwc3-fw-managed" compatible allows the driver to
+determine if device resources are managed by firmware.
+Additionally, it makes the power-domains property mandatory
+and excludes the clocks property for the IPs where resources
+are managed by firmware.
 
-The problem happens because of the PHY driver code flow, summarized as:
+Macros are introduced to represent key lifecycle events:
+initialization, system and runtime suspend/resume, and exit.
+The driver sets the appropriate resource state during probe,
+remove, suspend, and resume operations, enabling bulk ON/OFF
+transitions of grouped resources according to the
+controller's operational state.
 
- * UDC start code (triggered via configfs at any time after boot)
-   -> phy_init
-       -> rockchip_usb2phy_init
-           -> schedule_delayed_work(otg_sm_work [A], 6 sec)
-   -> phy_power_on
-       -> rockchip_usb2phy_power_on
-           -> enable clock
-           -> rockchip_usb2phy_reset
+Below architecture diagram explains the firmware managed resource
+abstraction:
 
- * Now the gadget interface is up and running.
+                                         +--------------------+
+                                         |   Shared Memory    |
+                                         |                    |
+                                         | +----------------+ |       +--------------------+
+  +----------------------------+       +-+->  usb-shmem     <-+---+   |    Linux VM        |
+  |        Firmware VM         |       | | +----------------+ |   |   |   +----------+     |
+  |                            |       | |                    |   |   |   |   USB    |     |
+  | +---------+ f +----------+ |       | |                    |   |   |   |  Driver  |     |
+  | |Drivers  <---+  SCMI    | |   e   | |         |          |   |   |   +--+----^--+     |
+  | | (clks,  | g | Server   +-+-------+ |                    |   |   |      |    |        |
+  | |  GDSC,  +--->          | |   h     |         |          |  b|k  |     a|   l|        |
+  | |  gpio,  |   +--^-----+-+ |         |                    |   |   |      |    |        |
+  | |  resets,|      |     |   |         |         |          |   |   |  +---v----+----+   |
+  | |  etc.)  |      |     |   |         |                    |   +---+--+  USB SCMI   |   |
+  | +---------+      |     |   |         |                    |       |  |  INSTANCE   |   |
+  |                  |     |   |         |  +---------------+ |       |  +-^-----+-----+   |
+  |                  |     |   |         |  |  pcie-shmem   | |       |    |     |         |
+  +------------------+-----+---+         |  +---------------+ |       +----+-----+---------+
+                     |     |             |                    |            |     |
+                     |     |             +--------------------+            |     |
+                    d|IRQ i|HVC                                           j|IRQ c|HVC
+                     |     |                                               |     |
+                     |     |                                               |     |
++--------------------+-----v-----------------------------------------------+-----v---------+
+|                                              HYPERVISOR                                  |
++------------------------------------------------------------------------------------------+
 
- * 6 seconds later otg_sm_work starts [A]
-   -> rockchip_usb2phy_otg_sm_work():
-       if (B_IDLE state && VBUS present && ...):
-           schedule_delayed_work(&rport->chg_work [B], 0);
+     +--------+   +--------+                                           +----------+
+     | CLOCK  |   |  Reset |                                           |   USB    |
+     +--------+   +--------+                                           +----------+
 
- * immediately the chg_detect_work starts [B]
-   -> rockchip_chg_detect_work():
-       if chg_state is UNDEFINED:
-           if (!rport->suspended):
-               rockchip_usb2phy_power_off() <--- [X]
+Below architecture diagram explains the PM suspend and resume
+sequences (the runtime suspend or resume also will follow similar
+flow, using different levels to signal the firmware for managing
+respective resources for the operational states):
 
-At [X], the PHY is powered off, causing a disconnection. This quickly
-triggers a new connection and following re-enumeration, but any connection
-that had been established during the 6 seconds is broken.
+PM Suspend Sequence
 
-The code already checks for !rport->suspended (which, somewhat
-counter-intuitively, means the PHY is powered on), so add a guard for VBUS
-as well to avoid a disconnection when a cable is connected.
++-----------+    +-----------+    +-----------+    +-------+    +-----------+    +----------------+    +----------+
+|Kernel_PM  |    |DWC3_QCOM  |    |DWC3_CORE  |    |  PHY  |    |   PMOPP   |    | SCMI_Transport |    | Firmware |
++-----------+    +-----------+    +-----------+    +-------+    +-----------+    +----------------+    +----------+
+     |                |                |              |              |                  |                  |
+     | Call suspend   |                |              |              |                  |                  |
+     |--------------->|                |              |              |                  |                  |
+     |                | Notify core    |              |              |                  |                  |
+     |                | for suspend    |              |              |                  |                  |
+     |                |--------------->|              |              |                  |                  |
+     |                |                | Trigger PHY  |              |                  |                  |
+     |                |                | exit         |              |                  |                  |
+     |                |                |------------->|              |                  |                  |
+     |                |                | Ack PHY exit |              |                  |                  |
+     |                |                |<-------------|              |                  |                  |
+     |                |                |              |              |                  |                  |
+     |                |  core Suspend  |              |              |                  |                  |
+     |                |    complete    |              |              |                  |                  |
+     |                |<---------------|              |              |                  |                  |
+     |                |                |              |              |                  |                  |
+     |                |                | dev_pm_set_level(SYSTEM_SUSPEND)               |                  |
+     |                |--------------------------------------------->|                  |                  |
+     |                |                |              |              |                  |                  |
+     |                |                |              |              |                  |                  |
+     |                |                |              |              | Forward set_level|                  |
+     |                |                |              |              | (channel A,      |                  |
+     |                |                |              |              | domain B,        |                  |
+     |                |                |              |              | SYSTEM_SUSPEND)  |                  |
+     |                |                |              |              |----------------->|                  |
+     |                |                |              |              |                  | Pass suspend info|
+     |                |                |              |              |                  | (channel A,      |
+     |                |                |              |              |                  | domain B,        |
+     |                |                |              |              |                  | SYSTEM_SUSPEND)  |
+     |                |                |              |              |                  |----------------->|
+     |                |                |              |              |                  |                  | Switch off clocks
+     |                |                |              |              |                  |                  |  interconnects,
+     |                |                |              |              |                  |                  |  disable GDSC,
+     |                |                |              |              |                  |                  |  disable VBUS
+     |                |                |              |              |                  |                  |
+     |                |                |              |              |                  | Ack              |
+     |                |                |              |              |                  |<-----------------|
+     |                |                |              |              | Ack              |                  |
+     |                |                |              |              |<-----------------|                  |
+     |                |                |              | Ack          |                  |                  |
+     |                |<---------------------------------------------|                  |                  |
+     |                |                |              |              |                  |                  |
+     |                |                |              |              |                  |                  |
+     |<---------------|                |              |              |                  |                  |
+     | Suspend        |                |              |              |                  |                  |
+     | complete       |                |              |              |                  |                  |
++-----------+    +-----------+    +-----------+    +-------+    +-----------+    +----------------+    +--------+
 
-Fixes: 98898f3bc83c ("phy: rockchip-inno-usb2: support otg-port for rk3399")
-Cc: stable@vger.kernel.org
-Closes: https://lore.kernel.org/lkml/20250414185458.7767aabc@booty/
-Signed-off-by: Louis Chauvet <louis.chauvet@bootlin.com>
-Co-developed-by: Luca Ceresoli <luca.ceresoli@bootlin.com>
-Signed-off-by: Luca Ceresoli <luca.ceresoli@bootlin.com>
-Reviewed-by: Théo Lebrun <theo.lebrun@bootlin.com>
+PM Resume Sequence
+
++-----------+    +-----------+    +-----------+    +-------+    +-----------+    +----------------+    +----------+
+|Kernel_PM  |    |DWC3_QCOM  |    |DWC3_CORE  |    |  PHY  |    |   PMOPP   |    | SCMI_Transport |    | Firmware |
++-----------+    +-----------+    +-----------+    +-------+    +-----------+    +----------------+    +----------+
+     |                |                |              |              |                  |                  |
+     | Call resume    |                |              |              |                  |                  |
+     |--------------->|                |              |              |                  |                  |
+     |                | Notify core    |              |              |                  |                  |
+     |                | for resume     |              |              |                  |                  |
+     |                |--------------->|              |              |                  |                  |
+     |                |                | Trigger PHY  |              |                  |                  |
+     |                |                | init         |              |                  |                  |
+     |                |                |------------->|              |                  |                  |
+     |                |                | Ack PHY init |              |                  |                  |
+     |                |                |<-------------|              |                  |                  |
+     |                |                |              |              |                  |                  |
+     |                |  core Resume   |              |              |                  |                  |
+     |                |    complete    |              |              |                  |                  |
+     |                |<---------------|              |              |                  |                  |
+     |                |                |              |              |                  |                  |
+     |                |                |              |              |                  |                  |
+     |                |                | dev_pm_set_level(SYSTEM_RESUME)                |                  |
+     |                |--------------------------------------------->|                  |                  |
+     |                |                |              |              | Forward set_level|                  |
+     |                |                |              |              | (channel A,      |                  |
+     |                |                |              |              | domain B,        |                  |
+     |                |                |              |              | SYSTEM_RESUME)   |                  |
+     |                |                |              |              |----------------->|                  |
+     |                |                |              |              |                  | Pass resume info |
+     |                |                |              |              |                  | (channel A,      |
+     |                |                |              |              |                  | domain B,        |
+     |                |                |              |              |                  | SYSTEM_RESUME)   |
+     |                |                |              |              |                  |----------------->|
+     |                |                |              |              |                  |                  | Enable VBUS,
+     |                |                |              |              |                  |                  | enable GDSC,
+     |                |                |              |              |                  |                  | switch ON clocks,
+     |                |                |              |              |                  |                  | interconnects
+     |                |                |              |              |                  |                  |
+     |                |                |              |              |                  | Ack              |
+     |                |                |              |              |                  |<-----------------|
+     |                |                |              |              | Ack              |                  |
+     |                |                |              |              |<-----------------|                  |
+     |                |                |              | Ack          |                  |                  |
+     |                |<---------------------------------------------|                  |                  |
+     |                |                |              |              |                  |                  |
+     |                |                |              |              |                  |                  |
+     |<---------------|                |              |              |                  |                  |
+     | Resume         |                |              |              |                  |                  |
+     | complete       |                |              |              |                  |                  |
++-----------+    +-----------+    +-----------+    +-------+    +-----------+    +----------------+    +--------+
+
+Signed-off-by: Sriram Dash <sriram.dash@oss.qualcomm.com>
 ---
- drivers/phy/rockchip/phy-rockchip-inno-usb2.c | 6 ++++--
- 1 file changed, 4 insertions(+), 2 deletions(-)
+Depends-on: https://lore.kernel.org/all/20250422231249.871995-1-quic_djaggi@quicinc.com/
 
-diff --git a/drivers/phy/rockchip/phy-rockchip-inno-usb2.c b/drivers/phy/rockchip/phy-rockchip-inno-usb2.c
-index b0f23690ec30..0106d7b7ae24 100644
---- a/drivers/phy/rockchip/phy-rockchip-inno-usb2.c
-+++ b/drivers/phy/rockchip/phy-rockchip-inno-usb2.c
-@@ -821,14 +821,16 @@ static void rockchip_chg_detect_work(struct work_struct *work)
- 		container_of(work, struct rockchip_usb2phy_port, chg_work.work);
- 	struct rockchip_usb2phy *rphy = dev_get_drvdata(rport->phy->dev.parent);
- 	struct regmap *base = get_reg_base(rphy);
--	bool is_dcd, tmout, vout;
-+	bool is_dcd, tmout, vout, vbus_attach;
- 	unsigned long delay;
- 
-+	vbus_attach = property_enabled(rphy->grf, &rport->port_cfg->utmi_bvalid);
-+
- 	dev_dbg(&rport->phy->dev, "chg detection work state = %d\n",
- 		rphy->chg_state);
- 	switch (rphy->chg_state) {
- 	case USB_CHG_STATE_UNDEFINED:
--		if (!rport->suspended)
-+		if (!rport->suspended && !vbus_attach)
- 			rockchip_usb2phy_power_off(rport->phy);
- 		/* put the controller in non-driving mode */
- 		property_enable(base, &rphy->phy_cfg->chg_det.opmode, false);
+---
+Sriram Dash (2):
+      dt-bindings: usb: qcom,snps-dwc3: Add support for firmware-managed resources
+      usb: dwc3: qcom: Support firmware-managed resource states for power management
 
+ .../devicetree/bindings/usb/qcom,snps-dwc3.yaml    | 173 +++++++++++++--------
+ drivers/usb/dwc3/dwc3-qcom.c                       |  97 ++++++++++--
+ 2 files changed, 199 insertions(+), 71 deletions(-)
+---
+base-commit: c77a6544d8a2364e4bee1b52890f577be27b7296
+change-id: 20251127-controller_scmi_upstream-a344bad23bcc
+
+Best regards,
 -- 
-2.51.1
+Sriram Dash <sriram.dash@oss.qualcomm.com>
 
