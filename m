@@ -1,231 +1,426 @@
-Received: from mx07-0057a101.pphosted.com (mx07-0057a101.pphosted.com [205.220.184.10])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.21])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DD67B33EB19;
-	Thu,  4 Dec 2025 11:26:03 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=205.220.184.10
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1764847569; cv=fail; b=cvo9eSMJ33Z5Bs1XRalbX9QU9BTlvvch1C0FKYx4lglwbcI0OZPAYvWDVVkcdWkjA1fI+P+78QSgkAZXS7R2WH/YVlcAypj01EPMqHyHYVwvPnEcvUq50f8rQZyv5dfeKwDK1JB7Nl725Lqr5O7qdGr47tNFTk57s4wm1PbCWQg=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1764847569; c=relaxed/simple;
-	bh=tCVxUn3juQ11NlOnkQFOYqgU9UTGh2qp/R+P8X/Iy3M=;
-	h=Date:From:To:Cc:Subject:Message-ID:Content-Type:
-	 Content-Disposition:MIME-Version; b=n5UqHsnDXGaADPdCsgWpYGt+89yQLjjrj1yDmBuM9PmgeRopMUnvJfNNTvaLPrutHpf2mElmsbe2RM9oJFDTQNJ6inVDwYjpZaVsnr2nd85hKmCwvkmmsamzg4ndAAlI6NjckQF8x7GvYXWzQbjKDOlNSX+cWnRyf7J+3RvLBqs=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=westermo.com; spf=pass smtp.mailfrom=westermo.com; dkim=pass (2048-bit key) header.d=westermo.com header.i=@westermo.com header.b=qP+SoJhE; dkim=pass (1024-bit key) header.d=beijerelectronicsab.onmicrosoft.com header.i=@beijerelectronicsab.onmicrosoft.com header.b=GUGIAXaq; arc=fail smtp.client-ip=205.220.184.10
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=westermo.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=westermo.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3351B342501;
+	Thu,  4 Dec 2025 13:15:25 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.21
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1764854128; cv=none; b=T11cAEzolDry/9Oy7SwrGxI5lTxiV4j5n3A6yQ5r7Zykebpc29f7fGWstMWHdyzel/3P0COYxBgw8ZUIc+og6tAUqbJ1ZKPNSf9iRgPN6YDAhBWL56VaB7UVu3f4vHLNkTDPiCMe6weXdPmDFQEFDUKGVqI3cE1OBx9szU/G8Ao=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1764854128; c=relaxed/simple;
+	bh=mbYf9s61hZbO1/3BKVmN4lnCdGsGpn5DBMdhu2GQ5Bs=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=e+shdvhdyGA6jK0gOWIsWrEdmaFhQML4Z2v5pPzVcp9vMjuYsmdoIkyfPFuZPrqiAKVb6eORsANTiIjx/0C9Bm5zQ531eLbF36Nb65KBmiig+whRce13JTLDCeeESEXSXDqkCatRqrOwFh61PhqGn2THS29sjYhMpFgEsJ/rHZw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=pass smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=nqn+97Nb; arc=none smtp.client-ip=198.175.65.21
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=westermo.com header.i=@westermo.com header.b="qP+SoJhE";
-	dkim=pass (1024-bit key) header.d=beijerelectronicsab.onmicrosoft.com header.i=@beijerelectronicsab.onmicrosoft.com header.b="GUGIAXaq"
-Received: from pps.filterd (m0214197.ppops.net [127.0.0.1])
-	by mx07-0057a101.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 5B4ArPHD2378503;
-	Thu, 4 Dec 2025 12:09:21 +0100
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=westermo.com; h=
-	cc:content-transfer-encoding:content-type:date:from:message-id
-	:mime-version:subject:to; s=270620241; bh=t+J95qRZS1pA4gZ/TUWbyw
-	fCg+K4z+zDWNVexJqONyY=; b=qP+SoJhEX0nHwZpftJpw9lpOZebth9xsq21xgX
-	/A8Mk87yaZEpiONEN6p8MdMuEwTaI7R6nE325JTHT/D+Fi2b536FyOx/pNquFaf4
-	uLcGL/K/FRhLrWXgZuzJYnndbHnHiwTbwCzNy+v40bIsbNkPCmMFs+IR73DY92//
-	HuDTqvEsvkPIN4XsD9FdSwjx9uG8jDbiZog2qN4rvIyWYdSDxIFHhTUS4j1XHXC6
-	2G6aG4UdRMiK3xw17pnXCbTaxnVkhxopzdQJ/xFMxgzjatDz8O5XtQnWeANMpvOb
-	S1JaPO1TocCj4PM5ER9CYnN/nvbEdr+1P4Q11oXQw0buMOfg==
-Received: from duzpr83cu001.outbound.protection.outlook.com (mail-northeuropeazon11022116.outbound.protection.outlook.com [52.101.66.116])
-	by mx07-0057a101.pphosted.com (PPS) with ESMTPS id 4au8wy80fj-1
-	(version=TLSv1.3 cipher=TLS_AES_256_GCM_SHA384 bits=256 verify=NOT);
-	Thu, 04 Dec 2025 12:09:20 +0100 (CET)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=TyZX+GM69NGbfUHgPQmxB7pnKeUzUDjD1AcbID8aBLj72JM199m7uUxqJDrJ13eD9tUFFdGH2Uzpw+yznkc4ufW/wrcbOGiX+g8CIHlT8YkYsX63AwAKCsemt094vdEuTiEwUwlwlbnA60kbFgxmrFd+V6jcMJNYZrOdjep0NqcjeB7lBXoEbgGW8sFS2GDVN3+BH0K/1bFXxJcVCq+ODipIksIGsE6snOHncwGrcDA+ZS4uGeO1xbSXqLbm6qzkKziaIrBH5Erl8ry0DgjyXnXG79HlZ/3lNytyapzz1MfZ9fgOBWkKVB09uJePLWw/qN12lTXDHzLUij/Bpt8dZg==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=t+J95qRZS1pA4gZ/TUWbywfCg+K4z+zDWNVexJqONyY=;
- b=aNgn0YrnX980SDCm/pFwSHl67HWcNHOrUraXjeUIA0M59aDwHz4Zxvkp58L+Z4hn+e0Rdoyim0+Dvlb7UpiJAl8y/MYs84Xtr+k8KgFU9yhi0ANgvlh4SAxwhtXvIpwpIwpprR8YvutfkkmKizBWcu/vqCFBJ2LFxGimy+40YArpThp2u0N9zU0FQIxYlIGooR1oKxtBCMbRiv1w3HH29vraWuqAGCZIh/sINLc0C3WQ0BQPHv8juClUNszNt8M5wnqi9WsXGj9v2Ez0eixuMWgOPvwH9MNBJCZpLwK71lPVS8rr2IETDH3jIWnJuMIAp9I+t0/r33LoIOCNmLVZdw==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=westermo.com; dmarc=pass action=none header.from=westermo.com;
- dkim=pass header.d=westermo.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=beijerelectronicsab.onmicrosoft.com;
- s=selector1-beijerelectronicsab-onmicrosoft-com;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=t+J95qRZS1pA4gZ/TUWbywfCg+K4z+zDWNVexJqONyY=;
- b=GUGIAXaqa+PEjh6rNY5c+DM4UO4vzFkDqO6bafB/tLoIVfYeStyKpdI+vkBfFsK/apAK/tEQpO/i20nbN6uoO65mNF0utQLETzZPAMZl498zoqBARLlRXtqDUDfHkyYFSE6y2t2embMcQKRwWbr4BMUkcxSsq5jYRD+aV/c5HBs=
-Received: from FRWP192MB2997.EURP192.PROD.OUTLOOK.COM (2603:10a6:d10:17c::10)
- by GV2P192MB2567.EURP192.PROD.OUTLOOK.COM (2603:10a6:150:26b::16) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9366.17; Thu, 4 Dec
- 2025 11:09:17 +0000
-Received: from FRWP192MB2997.EURP192.PROD.OUTLOOK.COM
- ([fe80::8e66:c97e:57a6:c2b0]) by FRWP192MB2997.EURP192.PROD.OUTLOOK.COM
- ([fe80::8e66:c97e:57a6:c2b0%5]) with mapi id 15.20.9388.003; Thu, 4 Dec 2025
- 11:09:16 +0000
-Date: Thu, 4 Dec 2025 12:09:11 +0100
-From: Alexander Wilhelm <alexander.wilhelm@westermo.com>
-To: Mathias Nyman <mathias.nyman@intel.com>,
-        Thinh Nguyen <Thinh.Nguyen@synopsys.com>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-Cc: linux-usb@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: usb: Error while assigning device slot ID
-Message-ID: <aTFr17xKxnWGG3vU@FUE-ALEWI-WINX>
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-User-Agent: Mutt/2.2.12 (2023-09-09)
-X-ClientProxiedBy: GV3P280CA0045.SWEP280.PROD.OUTLOOK.COM
- (2603:10a6:150:9::18) To FRWP192MB2997.EURP192.PROD.OUTLOOK.COM
- (2603:10a6:d10:17c::10)
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="nqn+97Nb"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1764854127; x=1796390127;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=mbYf9s61hZbO1/3BKVmN4lnCdGsGpn5DBMdhu2GQ5Bs=;
+  b=nqn+97NbdVdzgTt/Ll/cCTn08mOF8P6NZJy+pvsNZfB72kOEUWw/DJVn
+   BtAeiI+sKDs/veEHrR1k72x4GM0Q7rdKXGX17/85Faz4Z4uE+w5rimSDu
+   WOiZ9wYmxkPEciLVkICKY8dBA3AfDxCR6CaLn2Eaq5ZuU7ZmlkHuCpqiJ
+   l78ozf7aIQJ0dRyNZ7V+gRKxFBJQvYzz4WX4Hw6nckKlSzYtyIUDomJws
+   xGnlJ6h65guKvTyXt8ReX4Awb7cWgLXkFbSA2dx3xMGamA/eWcb+on6Qd
+   gpzRCVXNVbQSTSziw2rvj/++GHqMI1ZzTWxZZDHSUDISER61qC17OP0Of
+   A==;
+X-CSE-ConnectionGUID: oqR2nEdXTz2iN7uI0uKNSQ==
+X-CSE-MsgGUID: XrpEx0rTTZyNGbxeUzPLFQ==
+X-IronPort-AV: E=McAfee;i="6800,10657,11632"; a="66804640"
+X-IronPort-AV: E=Sophos;i="6.20,248,1758610800"; 
+   d="scan'208";a="66804640"
+Received: from orviesa003.jf.intel.com ([10.64.159.143])
+  by orvoesa113.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 04 Dec 2025 05:15:26 -0800
+X-CSE-ConnectionGUID: 7W3MHYAbSGydfAtJ1ATcuw==
+X-CSE-MsgGUID: gPH0sPJ2ThWez4OxVgHgag==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.20,248,1758610800"; 
+   d="scan'208";a="199159105"
+Received: from rfrazer-mobl3.amr.corp.intel.com (HELO kuha) ([10.124.220.149])
+  by orviesa003.jf.intel.com with SMTP; 04 Dec 2025 05:15:18 -0800
+Received: by kuha (sSMTP sendmail emulation); Thu, 04 Dec 2025 15:15:08 +0200
+Date: Thu, 4 Dec 2025 15:15:08 +0200
+From: Heikki Krogerus <heikki.krogerus@linux.intel.com>
+To: Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
+Cc: Andrzej Hajda <andrzej.hajda@intel.com>,
+	Neil Armstrong <neil.armstrong@linaro.org>,
+	Robert Foss <rfoss@kernel.org>,
+	Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
+	Jonas Karlman <jonas@kwiboo.se>,
+	Jernej Skrabec <jernej.skrabec@gmail.com>,
+	David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
+	Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+	Maxime Ripard <mripard@kernel.org>,
+	Thomas Zimmermann <tzimmermann@suse.de>,
+	Rob Herring <robh@kernel.org>,
+	Krzysztof Kozlowski <krzk+dt@kernel.org>,
+	Conor Dooley <conor+dt@kernel.org>, Xin Ji <xji@analogixsemi.com>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	dri-devel@lists.freedesktop.org, devicetree@vger.kernel.org,
+	linux-usb@vger.kernel.org, linux-arm-msm@vger.kernel.org,
+	linux-kernel@vger.kernel.org
+Subject: Re: [PATCH RFC 2/2] drm: bridge: anx7625: implement minimal Type-C
+ support
+Message-ID: <aTGJXAnlkK5vQTzk@kuha>
+References: <20251126-anx7625-typec-v1-0-22b30f846a88@oss.qualcomm.com>
+ <20251126-anx7625-typec-v1-2-22b30f846a88@oss.qualcomm.com>
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: FRWP192MB2997:EE_|GV2P192MB2567:EE_
-X-MS-Office365-Filtering-Correlation-Id: 2d7f677f-3f51-4f35-8848-08de332590bc
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;ARA:13230040|1800799024|376014|366016;
-X-Microsoft-Antispam-Message-Info:
-	=?utf-8?B?S1ptNW9SWCtTN2s4eGVtWkpyVHllbXYxT1d1V2NvZXJVSHdaRTU3YlZVUVRC?=
- =?utf-8?B?c1hKRms5M3kwc09TSWIyMFdxd2grWXBBTzVjOEc4dE9ETVZFd2RQQ2lCeTRt?=
- =?utf-8?B?Nk9UTUVHSklxaVNLbk5OSDdKZVQrZHAwbjNZREVpZEpGMWw5RXJtaGliL0tU?=
- =?utf-8?B?OEtLVVhzcEUzSjIyYllkV0lwVk9sL1ovbjNDWVpEVlF1ZitCeDZtMTcxQk4r?=
- =?utf-8?B?bmtkVzJOVGRYbkdWRVF2eHlXaFB3TkplaGxNL0JTR3AyYVE3SWlscUdtQWZ1?=
- =?utf-8?B?NlgxNlZjOFZIcUxRR05vVzh4MS9jcEJSek55bTBOKzUyUlpTWm9mUWliT3hK?=
- =?utf-8?B?eUFlKzl6QURXSWJqQW1YZ1FmQ3g4aW1xS0xMV1Y4UHFnTGxpR01XYWovSUhR?=
- =?utf-8?B?TnZWNyttQ3lBdGhJWlBvMlUwdGRlSXNwS21lcHFubmQ0ak5acHBUN04yOVhq?=
- =?utf-8?B?b0ZhRVpYbFh4SmV6ZzFsOEY2RzdoMFpCUjdGMm9iQTYreWZ5U01uK1VoNU5y?=
- =?utf-8?B?ODlMaHh4TU1ad3RrYllRSStadGZDUDNDUUFGOERzcnhCYjlNeTR5MDRpV1Mw?=
- =?utf-8?B?WTVxWmdpWEFZa3l3SHZIWXFvWndqS2gvWGVBWlljL0Q2bWl6RDFZUlBpcVo2?=
- =?utf-8?B?eHB1TGVkODlBL2xzaUdUTlo0Y3FWRjQ0NUU4eHUvYWQ1RXdGdXdObW1JMnF0?=
- =?utf-8?B?ZTdocC9RdzJLSlVKZUVTNUZEaG5hNml2YTZRejJlUXdmWTdFc0NRaUtTMlhv?=
- =?utf-8?B?bTk4TVFwYTRYcWhwQTdtckZ3d3FWejQ4aGJQemJnRml2cjdSZ3hGMFJlbFly?=
- =?utf-8?B?b2t4YXZYWFkwcHhQbkl1a2xmb01McjhxVVNqdzJvWFVyVXE1Sm9KYkpidTNa?=
- =?utf-8?B?bUk3S3hzUTBYZDlaQUhtb01uMkVidXBwZHZmMy9hZUpVSXhKbTBGMnZQcUll?=
- =?utf-8?B?SDF1cGVnVGE2am02bVJ2enhROWE1dTlVZi9SaHNPNW52U0VQV0J2b3pFN3hx?=
- =?utf-8?B?ODlTby9LbkYyOE9Ud1dvS1dORkZvZmlvN3ZoL0U0Zm16aXhmR1lpcWpTQ0F6?=
- =?utf-8?B?NUFQWkQzN2JpczFGcHMvbHBhZVdtZGJHUUVINUZ3WVlaVGxQbmxINndQMGJU?=
- =?utf-8?B?azVwMHRWVGo2ZWx2RFQyMjhLSEtNYWxUajRteE5Wck9TZzZpUEc5cnpIb2Jm?=
- =?utf-8?B?S0tnSUZ6bUJ4bGVXYkdWMXlwVXdSazNPakhWV3hNbmt6YS91Nk15QWRtM1FT?=
- =?utf-8?B?cmFMZlhudFJ2YTQwQ01LNTZCeTVaS1JVOHFhS1orcWZLZFBLYWpORlFTVTFy?=
- =?utf-8?B?OTNCVTA0ZW1XbmxaY29HUXpxVWVjL2hyTzE1ZTFlVm1kd1N4ZVlieFhFdWpI?=
- =?utf-8?B?aHRBWXI0NktIUWZTcUJmUExPdCs5cithOENPeTdCbmlRUXhVMzZMRkR2OFlm?=
- =?utf-8?B?cjU1SHR4eFF1U2FtNWZVWGVveXFjWm8yQ0Frc2Nxc1JsT044Tk41aWNKWDJH?=
- =?utf-8?B?VTZxczNzTDBoZWRESVVxTzllSTZuTmhVODFVYXV0c3prNTdBTUhpdDNmZ1Bx?=
- =?utf-8?B?TFhyZGhBZllLWXZZMmpNNk0yamVYWlZlTzRFV0NJOC8zNm4zaGVUai9oMDU4?=
- =?utf-8?B?VzV4K2VZRjlBOUlOYk81d3l4US9IV1VscDRjcjNuYUdNdHBkMVBJSDB1RlJQ?=
- =?utf-8?B?T01HZ1c2aFRlN08venlPT250VDRUZURzQnU0dWZyUHBjTHVQeWRJc1dWd2pi?=
- =?utf-8?B?TU1jZTRkTU8rZi81M0VDTE9jeklWRVo2SkdOTWNaS3RnSUpudjBMM242cThX?=
- =?utf-8?B?OFNNSVNEZGNDRDY4a0tORUt1WE9WRkFmSmxsZHJOWjkrKzdCZlVYeTNqREZz?=
- =?utf-8?B?RGdDMU95bTY0UEgwTThyaklqTXhjSHpRNWJFU0JVV1U1Q0ZZaHFQYkN4bkZi?=
- =?utf-8?Q?IFjkAY9vbW1DwNLr7GP/K0D5LBmHM19L?=
-X-Forefront-Antispam-Report:
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:FRWP192MB2997.EURP192.PROD.OUTLOOK.COM;PTR:;CAT:NONE;SFS:(13230040)(1800799024)(376014)(366016);DIR:OUT;SFP:1102;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0:
-	=?utf-8?B?SGRhVGFiOVFLbXhML3AzNHhkMzlBc21ldEdjTXdIZUlrdDQ1RGZJSUNmU05j?=
- =?utf-8?B?cDV6ekYrVUoxYjZpWVFDUk15d040aHJIbndYeGVWc3hKemtkNlJKeXJkbGlo?=
- =?utf-8?B?WktFN2lkOXZwYnRkZTNxZG5rNFJPUEZOaDZZeHBPenlMNXQrVlRGb0dhUk5W?=
- =?utf-8?B?Qy9kbHJXVmlSTERUL3RQVDQyM0FhSDNzOU1HYnB4VTA0K0N2VFRsS21rTG11?=
- =?utf-8?B?YWJOOFZvSGkyVGRDejNnOTd3NVJ1clBBUFRZdjU0MzhmK0ZqdlRmWVpGZ2dM?=
- =?utf-8?B?THV5ZHgvOVVzK2hrZmg1QTAzRnJqTDcycTZMWkJFQUlSYTBhb25RM2s1MGVI?=
- =?utf-8?B?QmpEcXI5bkdFaGNKakFjSWU0M2htazRDeE9UMWwxN3QxQy9IN0JuRkQxN2ZK?=
- =?utf-8?B?UWZXMmJTdURON0Y1UjNqTkpZY3V3elQrWWpNaWtWVnpNcnZFcFJvYnppL042?=
- =?utf-8?B?ek9qcWdXOHFrdHNXczk5RDNaWDR6ZG9hNzh4YVl4MGFtdXlUcXNQV0JRNlVQ?=
- =?utf-8?B?b3A2NVIzdGlOVnpLNFJ4czB1SXhCTHQrb0JXb0ZpaEV2WWE2QW5QU3ZlbDUw?=
- =?utf-8?B?dWQrdDJiMDBtMzYvMkZpQld3VHdSelA3dE03Z1I4S1lZT2p5YlIzWU5wcUpj?=
- =?utf-8?B?RDUyOXNESS9QSy90K1V6M2J1em9FbjNlYmFqR3huUFBxeVpDWitjTjZaRjRz?=
- =?utf-8?B?WEowdWdtKzZXRVpwaXk2cWtzRStzSkV6OGVyNG5XVEhEWnF0QzViS1VIYWs2?=
- =?utf-8?B?a2R5Y0xJcGppSnkxakRHYTNML2pIdWxmNFJkR2h0NHRwb0hmTHVmaWNFa1Zp?=
- =?utf-8?B?TlZKb01yRnZtV01JbW9CREhQQXRndmNITmdNNkYzVjdiSmFNcVpEcTdxRkRL?=
- =?utf-8?B?bGRHM3pobUFWZnpFZTdybTlaa0NZcXVaT3dwUmYzWStOUjRJVnExRnZwVDg4?=
- =?utf-8?B?ckZ5cWVjZnpVTnp1ZkpFWEQ0OUtvMFlZNGo0TFVWNXJTRjYzQXJsTFRVV3dN?=
- =?utf-8?B?NjNOamZYZkVldk5DVFRJTklQMmtBbDFBcWtFRlE4YlJmTjgrYW5lbVFxZURN?=
- =?utf-8?B?TXNHdG9USlRxS0dpOVNRRWZ4NTdpMkZ5S09rN0hqL0NjV0lRVmdXYzFOSXNI?=
- =?utf-8?B?T3daYXlJZ1pOSkpiSDVEOU5BNnBNUG9mNlN0Tm52Snl3K0p1S09NcEhEdDZQ?=
- =?utf-8?B?RWk0MnE4MXg2ZEYrcmhyOHZlZGFkdFBtQmxJUlFURVFEdDM1Tm1aSitkczgx?=
- =?utf-8?B?U2xiTHd1VWIzeHQ0LysxOFdDKzRPcGMzQTAxbnVnSjd0cEdmK0R3TFRCRVRm?=
- =?utf-8?B?MnY3Nkp1dEtRalRLWDlDSDVGV2d5dEQwM1pFUDN6T3ZUczJKaGEzOGcxcTRl?=
- =?utf-8?B?VWpLdzQxbHFRRHo2Yk5DOGNsZ09zVEpEbWxEemM2a2JMQ21JcHVaeE1mN3RV?=
- =?utf-8?B?dENFeTBHWlZvdmNIQ3VLRE8rdjJPL0trMkZib0ZaVUNmYWZWbE9wTUtXYUZM?=
- =?utf-8?B?SVNhWGlyQ0F0SjRRc1QwVGdpd0NVaHFDUEJldXdNTnhNNGR1YjNoL01pZGNT?=
- =?utf-8?B?OVhyMzd6T1BRbkFpNlhEd3Y5WWQ4SzdEM3hTOXFsUkxrTURLNkU3WkFCWExu?=
- =?utf-8?B?b3d5NFNieWFXZ2ErWXNtT0F4Ni9wUE1yV3o3bUpLWkJySnRDSXdobjZhN2h0?=
- =?utf-8?B?aG5VK3IwSUg2SStwdEVlN2hjNzlWVFVtRXFqU3FhSThNVUpuRnVFTHJIbXdq?=
- =?utf-8?B?THgxdFBoL0crS1dTTUV3dVZhbWt3TGluS3BZcGJ6U2tlR1FkcUNFMFBLcmRQ?=
- =?utf-8?B?aDZSb2NYNHhVU2tEU1NQWC9IbEVmWUYxa0I4RnFxQVVQRVZSc1c4SFdnZEpS?=
- =?utf-8?B?QXNJdnNHUGdmbjJQMFdqOXMvdnNaQlhGNWZqYjBLRCt0ZTBJaTdpWTNldG50?=
- =?utf-8?B?cUI1bVk5RHpNRlBpZlYvcTRkeEF4bVlpTHRzejgxVlVoVFgzSE85a2dQbFdD?=
- =?utf-8?B?TkFoWFg4L1RGdWZkMXh6d2pBQXVzNm9wWWFBckh4MkRWZnlhUEl0OUw4N3Jr?=
- =?utf-8?B?VDE1NmZEUStrSWVmUG81WlhMcHVLQjZOVHo5UzN0aU5EVjBmZ3I2YU50bWU5?=
- =?utf-8?Q?XTXNq6KRfIxal2KTYXXWDI/l+?=
-X-MS-Exchange-AntiSpam-ExternalHop-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-ExternalHop-MessageData-0:
-	6cT1CdexhWMjSfwLfr8f0LThw6GEUNMsHNADtzKJzdG5Wlj/JJJtSiLqBgWc1MGPWjnuUWAij5CJlaqGb4LRSFH3xZrVe4+umRvJzbZlE0Ohp5tm06CoMaplIu29EbcfAP24wX2xQxz7AtKVLsFS4uGvuWixEe5Em0O8Nkxp5iJrHLBDMyyicFB5z2b2Syu9LLBbCJWrTTyVy/CDKGxMh+bTR5Ivl+EpUjINmu2eNFPnaqPPnZ7BW0TIZ/VQfCeGBeOd9dvCxOP1rWbeWBLX/0eiFi9r8/UFfNS/kOtaPEThbg3BCdqneK+SCaP88wv0xIV1ZlbUcEzUkdoAQ6tH88GnB3PH3zIuCPfT6W9qu2U0Z7VsZmxmEJGq8X5/5b3/vwv2MecELA9uWjzhRg1ns+f3mMBDmGuN3DKNRdUxgIwfu51bti9sM4Xr3v8yzSAsZHFNhbimDZ3OZ5guyOjSqyE5P7TEJW/VcpxLWp4VXLa+ViziihKaVho7mMYhsULjtzhY+dnlhhYJLaGS+sHfaP8pz82W6bS0BncIs9Z+kNjiUiAv9iWmmy7YWCmV9JjzeLyGD7A83CQEE6cUjw4i3HcTHIm16rjUf+GO55i0JsC4iGR5PEVnyTLi4jvJocWB
-X-OriginatorOrg: westermo.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 2d7f677f-3f51-4f35-8848-08de332590bc
-X-MS-Exchange-CrossTenant-AuthSource: FRWP192MB2997.EURP192.PROD.OUTLOOK.COM
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 04 Dec 2025 11:09:16.8960
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 4b2e9b91-de77-4ca7-8130-c80faee67059
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: 7us3hGG4yw5gOuFMT1X9huhyxH26a0BuUe81+/BfeMuMfsZ4wO4VSiyoqq9UTMuTSOlHQXegKhO+T+0Eesb2mA==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: GV2P192MB2567
-X-MS-Exchange-CrossPremises-AuthSource: FRWP192MB2997.EURP192.PROD.OUTLOOK.COM
-X-MS-Exchange-CrossPremises-AuthAs: Internal
-X-MS-Exchange-CrossPremises-AuthMechanism: 14
-X-MS-Exchange-CrossPremises-Mapi-Admin-Submission:
-X-MS-Exchange-CrossPremises-MessageSource: StoreDriver
-X-MS-Exchange-CrossPremises-BCC:
-X-MS-Exchange-CrossPremises-OriginalClientIPAddress: 104.151.95.196
-X-MS-Exchange-CrossPremises-TransportTrafficType: Email
-X-MS-Exchange-CrossPremises-Antispam-ScanContext:
-	DIR:Originating;SFV:NSPM;SKIP:0;
-X-MS-Exchange-CrossPremises-SCL: 1
-X-MS-Exchange-CrossPremises-Processed-By-Journaling: Journal Agent
-X-OrganizationHeadersPreserved: GV2P192MB2567.EURP192.PROD.OUTLOOK.COM
-X-Authority-Analysis: v=2.4 cv=Vokuwu2n c=1 sm=1 tr=0 ts=69316be0 cx=c_pps
- a=f5BtQftweRdMEbMfvtUAxg==:117 a=6eWqkTHjU83fiwn7nKZWdM+Sl24=:19
- a=z/mQ4Ysz8XfWz/Q5cLBRGdckG28=:19 a=lCpzRmAYbLLaTzLvsPZ7Mbvzbb8=:19
- a=xqWC_Br6kY4A:10 a=IkcTkHD0fZMA:10 a=wP3pNCr1ah4A:10 a=8gLI3H-aZtYA:10
- a=VkNPw1HP01LnGYTKEx00:22 a=ZEtExN4_Fc2T82klrDIA:9 a=3ZKOabzyN94A:10
- a=QEXdDO2ut3YA:10
-X-Proofpoint-ORIG-GUID: z9WX-Ua1DFKXQfLxJ6k75vq0mNfAWLXQ
-X-Proofpoint-GUID: z9WX-Ua1DFKXQfLxJ6k75vq0mNfAWLXQ
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUxMjA0MDA5MSBTYWx0ZWRfX6CqC2QxqTxa4
- e2hk6YjNrN38YGIqsnCOa3UnQho/yWla+c7PKyp5jGIcSoX8C0MSKjwGDd+8/JZE3851sgJ6iIr
- AM77sIWlr0F6w4G13ksfSt45dYdHwa2IYPvV7R5GxK38926QtykbdKqlkXxOjHTJ7CMz0Bo3z/Z
- c98++lMVeDKImtCYdUa8lKWmjHefvV4fDCGC4RBU/zF/For1mv8P7XjUilpS9KYL/TNWkIR3xSY
- Ln0gRbxICRDPFnN8odUOSE3eDYsL963HbiqZrjVzT5v6zA8b/NrcgVT1Q4FABlt1l5QGr+Qx2hG
- De2xbdb3MxCWpJ6xz4ZyFGHXcJPDu0u6JbRe6U0Da4+5wlMz5dbodxO74DvvjC6uv2/gdEh4hhE
- HQVhl5ckWHQzPLrNdKR/YRDdhd78JQ==
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20251126-anx7625-typec-v1-2-22b30f846a88@oss.qualcomm.com>
 
-Hello USB developers,
+Wed, Nov 26, 2025 at 11:41:57AM +0200, Dmitry Baryshkov kirjoitti:
+> ANX7625 can be used as a USB-C controller, handling USB and DP data
+> streams. Provide minimal Type-C support necessary for ANX7625 to
+> register the Type-C port device and properly respond to data / power
+> role events from the Type-C partner.
+> 
+> While ANX7625 provides TCPCI interface, using it would circumvent the
+> on-chip running firmware. Analogix recommended using the higher-level
+> interface instead of TCPCI.
+> 
+> Signed-off-by: Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
 
-I’m using an NXP LS1046A SoC with the integrated DWC3 USB controller in
-host mode. On Linux v5.5.167 my USB flash drive was detected and mountable.
-After upgrading to Linux v6.6.110 the USB flash drive is no longer
-recognized. If it is already plugged in during boot phase I get the
-following errors:
+FWIW:
 
-    xhci-hcd xhci-hcd.2.auto: Error while assigning device slot ID: Command Aborted
-    xhci-hcd xhci-hcd.2.auto: Max number of devices this xHCI host supports is 127
+Reviewed-by: Heikki Krogerus <heikki.krogerus@linux.intel.com>
 
-And here is the kernel debug output:
+> ---
+>  drivers/gpu/drm/bridge/analogix/Kconfig   |   1 +
+>  drivers/gpu/drm/bridge/analogix/anx7625.c | 163 ++++++++++++++++++++++++++++--
+>  drivers/gpu/drm/bridge/analogix/anx7625.h |  21 +++-
+>  3 files changed, 175 insertions(+), 10 deletions(-)
+> 
+> diff --git a/drivers/gpu/drm/bridge/analogix/Kconfig b/drivers/gpu/drm/bridge/analogix/Kconfig
+> index 4846b2e9be7c2a5da18f6a3cdec53ef5766455e0..f3448b0631fea42e7e7ab10368777a93ce33cee7 100644
+> --- a/drivers/gpu/drm/bridge/analogix/Kconfig
+> +++ b/drivers/gpu/drm/bridge/analogix/Kconfig
+> @@ -34,6 +34,7 @@ config DRM_ANALOGIX_ANX7625
+>  	tristate "Analogix Anx7625 MIPI to DP interface support"
+>  	depends on DRM
+>  	depends on OF
+> +	depends on TYPEC || !TYPEC
+>  	select DRM_DISPLAY_DP_HELPER
+>  	select DRM_DISPLAY_HDCP_HELPER
+>  	select DRM_DISPLAY_HELPER
+> diff --git a/drivers/gpu/drm/bridge/analogix/anx7625.c b/drivers/gpu/drm/bridge/analogix/anx7625.c
+> index 6f3fdcb6afdb9d785bc4515300676cf3988c5807..a44405db739669dfd2907b0afd41293a7b173035 100644
+> --- a/drivers/gpu/drm/bridge/analogix/anx7625.c
+> +++ b/drivers/gpu/drm/bridge/analogix/anx7625.c
+> @@ -3,6 +3,7 @@
+>   * Copyright(c) 2020, Analogix Semiconductor. All rights reserved.
+>   *
+>   */
+> +#include <linux/cleanup.h>
+>  #include <linux/gcd.h>
+>  #include <linux/gpio/consumer.h>
+>  #include <linux/i2c.h>
+> @@ -15,6 +16,9 @@
+>  #include <linux/regulator/consumer.h>
+>  #include <linux/slab.h>
+>  #include <linux/types.h>
+> +#include <linux/usb.h>
+> +#include <linux/usb/pd.h>
+> +#include <linux/usb/role.h>
+>  #include <linux/workqueue.h>
+>  
+>  #include <linux/of_graph.h>
+> @@ -1325,7 +1329,7 @@ static int anx7625_read_hpd_gpio_config_status(struct anx7625_data *ctx)
+>  static void anx7625_disable_pd_protocol(struct anx7625_data *ctx)
+>  {
+>  	struct device *dev = ctx->dev;
+> -	int ret, val;
+> +	int ret;
+>  
+>  	/* Reset main ocm */
+>  	ret = anx7625_reg_write(ctx, ctx->i2c.rx_p0_client, 0x88, 0x40);
+> @@ -1339,6 +1343,11 @@ static void anx7625_disable_pd_protocol(struct anx7625_data *ctx)
+>  		DRM_DEV_DEBUG_DRIVER(dev, "disable PD feature fail.\n");
+>  	else
+>  		DRM_DEV_DEBUG_DRIVER(dev, "disable PD feature succeeded.\n");
+> +}
+> +
+> +static void anx7625_configure_hpd(struct anx7625_data *ctx)
+> +{
+> +	int val;
+>  
+>  	/*
+>  	 * Make sure the HPD GPIO already be configured after OCM release before
+> @@ -1369,7 +1378,9 @@ static int anx7625_ocm_loading_check(struct anx7625_data *ctx)
+>  	if ((ret & FLASH_LOAD_STA_CHK) != FLASH_LOAD_STA_CHK)
+>  		return -ENODEV;
+>  
+> -	anx7625_disable_pd_protocol(ctx);
+> +	if (!ctx->typec_port)
+> +		anx7625_disable_pd_protocol(ctx);
+> +	anx7625_configure_hpd(ctx);
+>  
+>  	DRM_DEV_DEBUG_DRIVER(dev, "Firmware ver %02x%02x,",
+>  			     anx7625_reg_read(ctx,
+> @@ -1472,6 +1483,115 @@ static void anx7625_start_dp_work(struct anx7625_data *ctx)
+>  	DRM_DEV_DEBUG_DRIVER(dev, "Secure OCM version=%02x\n", ret);
+>  }
+>  
+> +#if IS_REACHABLE(CONFIG_TYPEC)
+> +static void anx7625_typec_set_orientation(struct anx7625_data *ctx)
+> +{
+> +	u32 val = anx7625_reg_read(ctx, ctx->i2c.rx_p0_client, SYSTEM_STSTUS);
+> +
+> +	if (val & (CC1_RP | CC1_RD))
+> +		typec_set_orientation(ctx->typec_port, TYPEC_ORIENTATION_NORMAL);
+> +	else if (val & (CC2_RP | CC2_RD))
+> +		typec_set_orientation(ctx->typec_port, TYPEC_ORIENTATION_REVERSE);
+> +	else
+> +		typec_set_orientation(ctx->typec_port, TYPEC_ORIENTATION_NONE);
+> +}
+> +
+> +static void anx7625_typec_isr(struct anx7625_data *ctx,
+> +			      unsigned int intr_vector,
+> +			      unsigned int intr_status)
+> +{
+> +	if (intr_vector & CC_STATUS)
+> +		anx7625_typec_set_orientation(ctx);
+> +	if (intr_vector & DATA_ROLE_STATUS) {
+> +		usb_role_switch_set_role(ctx->role_sw,
+> +					 (intr_status & DATA_ROLE_STATUS) ?
+> +					 USB_ROLE_HOST : USB_ROLE_DEVICE);
+> +		typec_set_data_role(ctx->typec_port,
+> +				    (intr_status & DATA_ROLE_STATUS) ?
+> +				    TYPEC_HOST : TYPEC_DEVICE);
+> +	}
+> +	if (intr_vector & VBUS_STATUS)
+> +		typec_set_pwr_role(ctx->typec_port,
+> +				   (intr_status & VBUS_STATUS) ?
+> +				   TYPEC_SOURCE : TYPEC_SINK);
+> +	if (intr_vector & VCONN_STATUS)
+> +		typec_set_vconn_role(ctx->typec_port,
+> +				     (intr_status & VCONN_STATUS) ?
+> +				     TYPEC_SOURCE : TYPEC_SINK);
+> +}
+> +
+> +static int anx7625_typec_register(struct anx7625_data *ctx)
+> +{
+> +	struct typec_capability typec_cap = { };
+> +	struct fwnode_handle *fwnode __free(fwnode_handle) = NULL;
+> +	u32 val;
+> +	int ret;
+> +
+> +	fwnode = device_get_named_child_node(ctx->dev, "connector");
+> +	if (!fwnode)
+> +		return 0;
+> +
+> +	ret = typec_get_fw_cap(&typec_cap, fwnode);
+> +	if (ret < 0)
+> +		return ret;
+> +
+> +	typec_cap.revision = 0x0120;
+> +	typec_cap.pd_revision = 0x0300;
+> +	typec_cap.usb_capability = USB_CAPABILITY_USB2 | USB_CAPABILITY_USB3;
+> +	typec_cap.orientation_aware = true;
+> +
+> +	typec_cap.driver_data = ctx;
+> +
+> +	ctx->typec_port = typec_register_port(ctx->dev, &typec_cap);
+> +	if (IS_ERR(ctx->typec_port))
+> +		return PTR_ERR(ctx->typec_port);
+> +
+> +	ctx->role_sw = fwnode_usb_role_switch_get(fwnode);
+> +	if (IS_ERR(ctx->role_sw)) {
+> +		typec_unregister_port(ctx->typec_port);
+> +		return PTR_ERR(ctx->role_sw);
+> +	}
+> +
+> +	val = anx7625_reg_read(ctx, ctx->i2c.rx_p0_client, SYSTEM_STSTUS);
+> +	anx7625_typec_set_orientation(ctx);
+> +	usb_role_switch_set_role(ctx->role_sw,
+> +				 (val & DATA_ROLE_STATUS) ?
+> +				 USB_ROLE_HOST : USB_ROLE_DEVICE);
+> +	typec_set_data_role(ctx->typec_port,
+> +			    (val & DATA_ROLE_STATUS) ?
+> +			    TYPEC_HOST : TYPEC_DEVICE);
+> +	typec_set_pwr_role(ctx->typec_port,
+> +			    (val & VBUS_STATUS) ?
+> +			    TYPEC_SOURCE : TYPEC_SINK);
+> +	typec_set_vconn_role(ctx->typec_port,
+> +			     (val & VCONN_STATUS) ?
+> +			     TYPEC_SOURCE : TYPEC_SINK);
+> +
+> +	return 0;
+> +}
+> +
+> +static void anx7625_typec_unregister(struct anx7625_data *ctx)
+> +{
+> +	usb_role_switch_put(ctx->role_sw);
+> +	typec_unregister_port(ctx->typec_port);
+> +}
+> +#else
+> +static void anx7625_typec_isr(struct anx7625_data *ctx,
+> +			      unsigned int intr_vector,
+> +			      unsigned int intr_status)
+> +{
+> +}
+> +
+> +static int anx7625_typec_register(struct anx7625_data *ctx)
+> +{
+> +	return 0;
+> +}
+> +
+> +static void anx7625_typec_unregister(struct anx7625_data *ctx)
+> +{
+> +}
+> +#endif
+> +
+>  static int anx7625_read_hpd_status_p0(struct anx7625_data *ctx)
+>  {
+>  	return anx7625_reg_read(ctx, ctx->i2c.rx_p0_client, SYSTEM_STSTUS);
+> @@ -1566,7 +1686,7 @@ static void dp_hpd_change_handler(struct anx7625_data *ctx, bool on)
+>  	}
+>  }
+>  
+> -static int anx7625_hpd_change_detect(struct anx7625_data *ctx)
+> +static int anx7625_intr_status(struct anx7625_data *ctx)
+>  {
+>  	int intr_vector, status;
+>  	struct device *dev = ctx->dev;
+> @@ -1593,9 +1713,6 @@ static int anx7625_hpd_change_detect(struct anx7625_data *ctx)
+>  		return status;
+>  	}
+>  
+> -	if (!(intr_vector & HPD_STATUS_CHANGE))
+> -		return -ENOENT;
+> -
+>  	status = anx7625_reg_read(ctx, ctx->i2c.rx_p0_client,
+>  				  SYSTEM_STSTUS);
+>  	if (status < 0) {
+> @@ -1604,6 +1721,12 @@ static int anx7625_hpd_change_detect(struct anx7625_data *ctx)
+>  	}
+>  
+>  	DRM_DEV_DEBUG_DRIVER(dev, "0x7e:0x45=%x\n", status);
+> +
+> +	anx7625_typec_isr(ctx, intr_vector, status);
+> +
+> +	if (!(intr_vector & HPD_STATUS))
+> +		return -ENOENT;
+> +
+>  	dp_hpd_change_handler(ctx, status & HPD_STATUS);
+>  
+>  	return 0;
+> @@ -1622,7 +1745,7 @@ static void anx7625_work_func(struct work_struct *work)
+>  		return;
+>  	}
+>  
+> -	event = anx7625_hpd_change_detect(ctx);
+> +	event = anx7625_intr_status(ctx);
+>  
+>  	mutex_unlock(&ctx->lock);
+>  
+> @@ -2741,11 +2864,29 @@ static int anx7625_i2c_probe(struct i2c_client *client)
+>  	}
+>  
+>  	if (!platform->pdata.low_power_mode) {
+> -		anx7625_disable_pd_protocol(platform);
+> +		struct fwnode_handle *fwnode;
+> +
+> +		fwnode = device_get_named_child_node(dev, "connector");
+> +		if (fwnode)
+> +			fwnode_handle_put(fwnode);
+> +		else
+> +			anx7625_disable_pd_protocol(platform);
+> +
+> +		anx7625_configure_hpd(platform);
+> +
+>  		pm_runtime_get_sync(dev);
+>  		_anx7625_hpd_polling(platform, 5000 * 100);
+>  	}
+>  
+> +	if (platform->pdata.intp_irq)
+> +		anx7625_reg_write(platform, platform->i2c.rx_p0_client,
+> +				  INTERFACE_CHANGE_INT_MASK, 0);
+> +
+> +	/* After getting runtime handle */
+> +	ret = anx7625_typec_register(platform);
+> +	if (ret)
+> +		goto pm_suspend;
+> +
+>  	/* Add work function */
+>  	if (platform->pdata.intp_irq) {
+>  		enable_irq(platform->pdata.intp_irq);
+> @@ -2759,6 +2900,10 @@ static int anx7625_i2c_probe(struct i2c_client *client)
+>  
+>  	return 0;
+>  
+> +pm_suspend:
+> +	if (!platform->pdata.low_power_mode)
+> +		pm_runtime_put_sync_suspend(&client->dev);
+> +
+>  free_wq:
+>  	if (platform->workqueue)
+>  		destroy_workqueue(platform->workqueue);
+> @@ -2774,6 +2919,8 @@ static void anx7625_i2c_remove(struct i2c_client *client)
+>  {
+>  	struct anx7625_data *platform = i2c_get_clientdata(client);
+>  
+> +	anx7625_typec_unregister(platform);
+> +
+>  	drm_bridge_remove(&platform->bridge);
+>  
+>  	if (platform->pdata.intp_irq)
+> diff --git a/drivers/gpu/drm/bridge/analogix/anx7625.h b/drivers/gpu/drm/bridge/analogix/anx7625.h
+> index eb5580f1ab2f86b48b6f2df4fa4d6c3be603ad48..f9570cd6d22e55fd70a12c15960714cbb783d059 100644
+> --- a/drivers/gpu/drm/bridge/analogix/anx7625.h
+> +++ b/drivers/gpu/drm/bridge/analogix/anx7625.h
+> @@ -51,9 +51,21 @@
+>  #define INTR_RECEIVED_MSG BIT(5)
+>  
+>  #define SYSTEM_STSTUS 0x45
+> +#define INTERFACE_CHANGE_INT_MASK 0x43
+>  #define INTERFACE_CHANGE_INT 0x44
+> -#define HPD_STATUS_CHANGE 0x80
+> -#define HPD_STATUS 0x80
+> +#define VCONN_STATUS	BIT(2)
+> +#define VBUS_STATUS	BIT(3)
+> +#define CC_STATUS	BIT(4)
+> +#define DATA_ROLE_STATUS	BIT(5)
+> +#define HPD_STATUS	BIT(7)
+> +
+> +#define NEW_CC_STATUS 0x46
+> +#define CC1_RD                  BIT(0)
+> +#define CC1_RA                  BIT(1)
+> +#define CC1_RP			(BIT(2) | BIT(3))
+> +#define CC2_RD                  BIT(4)
+> +#define CC2_RA                  BIT(5)
+> +#define CC2_RP			(BIT(6) | BIT(7))
+>  
+>  /******** END of I2C Address 0x58 ********/
+>  
+> @@ -447,9 +459,14 @@ struct anx7625_i2c_client {
+>  	struct i2c_client *tcpc_client;
+>  };
+>  
+> +struct typec_port;
+> +struct usb_role_switch;
+> +
+>  struct anx7625_data {
+>  	struct anx7625_platform_data pdata;
+>  	struct platform_device *audio_pdev;
+> +	struct typec_port *typec_port;
+> +	struct usb_role_switch *role_sw;
+>  	int hpd_status;
+>  	int hpd_high_cnt;
+>  	int dp_en;
+> 
+> -- 
+> 2.47.3
 
-    user@host:~# cat /sys/kernel/debug/usb/xhci/xhci-hcd.3.auto/ports/port01/portsc
-    Powered Connected Disabled Link:Polling PortSpeed:1 Change: Wake: WDE WOE
-
-I’ve also found that the function `xhci_alloc_dev` shows the error message.
-I printed the `command` member variables and see that the `status` is
-`COMP_COMMAND_ABORTED` and `slot_id` remains `0`. I have already seen
-similar error patterns in some forums, but the suggested solutions didn’t
-help me. Between these releases Kconfig has changed significantly; I may be
-missing a config option, but I haven’t found one. Does anyone else see this
-error pattern? Or maybe someone has a hint for me on how to proceed?
-
-
-Best regards
-Alexander Wilhelm
+-- 
+heikki
