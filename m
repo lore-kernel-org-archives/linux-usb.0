@@ -1,24 +1,24 @@
-Received: from mail-m3273.qiye.163.com (mail-m3273.qiye.163.com [220.197.32.73])
+Received: from mail-m3278.qiye.163.com (mail-m3278.qiye.163.com [220.197.32.78])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 066092E7BAD;
-	Mon,  8 Dec 2025 09:25:56 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=220.197.32.73
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5452E2E173F;
+	Mon,  8 Dec 2025 09:26:00 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=220.197.32.78
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1765185959; cv=none; b=tCuJ33YshnDniikWsjljG2ms1mPsqj7QtSq6lslG3WNu/LuM40xnDqXbKBTn10u3mKVG0mZ1PUlgDhNEFFFmhNzX+4AuzfZPZ4uus/pDp77jP4N2vDP19hfHwBTxsD8OTdEPQbycetTZatE8QJwO/fpYvD65c8Zynu8tKXZHjVc=
+	t=1765185965; cv=none; b=r7IGa84fYNgSqmEybh/MxCJ9uYVw2xlYYeWSO3IVsGtAUSW+p98XEpBexEB+xFw2ngy25sgyToIW2nulGYEACgwNMsoulUseEQOsqbX87GcE4dAipBHWNeB6I1x1TklQZuvHsIyB1QZKLvAsJ9NGYg0MTkKqSGgJkLSqQpZkhkg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1765185959; c=relaxed/simple;
-	bh=3lLb8RmZ0hczHzjT4pkBCmJZbg11KbVPJhP8DOpqqNs=;
+	s=arc-20240116; t=1765185965; c=relaxed/simple;
+	bh=/pdtbe3ONhgrRVBxiqIPqrBz2FOcbqKWg6iW4Wzylyw=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=EKJZCI8lGffdWalfW5dMpP6BZwskmN0IOeUwnF1Vb/cAqfiHh2H2aTvK1iG6wH6ypTu9Baz4DG33iGYC91YvgtYzfQh1UAdFsASNmC6FEE0m+zmk6Wb1HnAVTPbaC8EnpVtpC2zT+aG7qlAfoWEorT5AJiRAQuPt3VLqPmIgWSw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=leap-io-kernel.com; spf=pass smtp.mailfrom=leap-io-kernel.com; dkim=pass (2048-bit key) header.d=leap-io-kernel.com header.i=@leap-io-kernel.com header.b=JYWFcobK; arc=none smtp.client-ip=220.197.32.73
+	 MIME-Version:Content-Type; b=otBgPFvmRG4EXPmZIBfFoS9whhCYscZFQGz+zQf8+PuleYAfVeL4vcPyZaHVHeQAY0Do2XhAzcWzvlqyskhnvVwF+oSRY/fDFlQ6UPn8PkYp2B57LDaKKvdxcC5srJgrX1xICmGSZhGFJZwqFHKjjJ6zdKPP2jstkIuVKvzQ3do=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=leap-io-kernel.com; spf=pass smtp.mailfrom=leap-io-kernel.com; dkim=pass (2048-bit key) header.d=leap-io-kernel.com header.i=@leap-io-kernel.com header.b=Zd50LU2/; arc=none smtp.client-ip=220.197.32.78
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=leap-io-kernel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=leap-io-kernel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=leap-io-kernel.com header.i=@leap-io-kernel.com header.b="JYWFcobK"
+	dkim=pass (2048-bit key) header.d=leap-io-kernel.com header.i=@leap-io-kernel.com header.b="Zd50LU2/"
 Received: from server001 (unknown [222.130.22.244])
-	by smtp.qiye.163.com (Hmail) with ESMTP id 2c6535263;
-	Mon, 8 Dec 2025 17:25:47 +0800 (GMT+08:00)
+	by smtp.qiye.163.com (Hmail) with ESMTP id 2c653527c;
+	Mon, 8 Dec 2025 17:25:51 +0800 (GMT+08:00)
 From: Kefan Bai <baikefan@leap-io-kernel.com>
 To: linux-usb@vger.kernel.org,
 	si.yanteng@linux.dev
@@ -28,9 +28,9 @@ Cc: seakeel@gmail.com,
 	corbet@lwn.net,
 	linux-doc@vger.kernel.org,
 	doubled@leap-io-kernel.com
-Subject: [PATCH v5 3/8] docs/zh_CN: Add authorization.rst translation
-Date: Mon,  8 Dec 2025 17:25:33 +0800
-Message-ID: <3e5f7b678ed54a432e2bf3340b4636928276ead0.1765180570.git.baikefan@leap-io-kernel.com>
+Subject: [PATCH v5 5/8] docs/zh_CN: Add dwc3.rst translation
+Date: Mon,  8 Dec 2025 17:25:35 +0800
+Message-ID: <2db4262245b49fcc25e50f2f82ad7a617c04a32f.1765180570.git.baikefan@leap-io-kernel.com>
 X-Mailer: git-send-email 2.52.0
 In-Reply-To: <cover.1765180570.git.baikefan@leap-io-kernel.com>
 References: <cover.1765180570.git.baikefan@leap-io-kernel.com>
@@ -42,40 +42,40 @@ List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-X-HM-Tid: 0a9afd4807e509d5kunm314b94712b4e915
+X-HM-Tid: 0a9afd4815df09d5kunm314b94712b4eb99
 X-HM-MType: 1
 X-HM-Spam-Status: e1kfGhgUHx5ZQUpXWQgPGg8OCBgUHx5ZQUlOS1dZFg8aDwILHllBWSg2Ly
-	tZV1koWUFITzdXWS1ZQUlXWQ8JGhUIEh9ZQVkaShofVkMZHhkZHhoYTxhMQ1YVFAkWGhdVEwETFh
+	tZV1koWUFITzdXWS1ZQUlXWQ8JGhUIEh9ZQVkaThkfVh9LSUlKSUIYSExJGFYVFAkWGhdVEwETFh
 	oSFyQUDg9ZV1kYEgtZQVlJSUlVSkhLVUlJVUlPT1lXWRYaDxIVHRRZQVlPS0hVSktISk5MTlVKS0
 	tVSkJLS1kG
 DKIM-Signature: a=rsa-sha256;
-	b=JYWFcobK7DTalFFbmTT4ohebF0SQwcoeMLcf7GJOz8h9QVerg5wSApYfJFFgrSgTPr9OnL+fZdVbzGMJfZjbf1jhq6dNO7YMKQ1L7A5w/k7QCfJg12R2fIZYE/aXgpjda3fP+9whnPGb8rEp9bkeyeqh9OEMbIBDtJeXnUGEb35vhxdpBlzUEZrB6J5O5Qc66+2DIEAMtXsqCDmsvm4DURJWTQ5qTI8t2CMkpBcSWMxh0yxZMgjbRC3RQmosOVW34I6E2daxTBsHufS3nWrHovuO77G7IbdCI83gyaFLC38pItrG+mAi4BgGzwByVvfpIV58tTwo+Kp0sdMe4vTQ5g==; s=default; c=relaxed/relaxed; d=leap-io-kernel.com; v=1;
-	bh=Q9sDJpFQWwYGCZEmDpOvf047JMrv9TE30fn4EnhU/pM=;
+	b=Zd50LU2/Xdmm9bV3rkvq02k2x04lC0PxqWjc+/qJGWcuTF9rILSxJLJUMsbFd1+g+XZICUhzMmc875PWRE00vuwZwLNxKX/9q8X/iUPiGRt9beKPYz2ATtOm2vkimeeoysyEo3BRstmFqYAw6V2toH8mSIhtR/IM160M1OupH5AfFDCUpnE5gPngRMyDL005WxCljxLZWXoEj+I0dAErK1meMnxWHrQL3V450fr/vMiVB7wOYaKIXJ9oQQE+9p69gnPZVVubG+ImQqKXkULkEkxtiMjLL7/1g3gqWyLlOHfjpMboBkxroj0uzNaP2LqEdIhOjUbMaYiTpTSq1LJhsg==; s=default; c=relaxed/relaxed; d=leap-io-kernel.com; v=1;
+	bh=k+G5tJEasviYUE/icFGCWtslxSl8fqxkMyhQFYUpEIs=;
 	h=date:mime-version:subject:message-id:from;
 
-Translate .../usb/authorization.rst into Chinese
+Translate .../usb/dwc3.rst into Chinese
 
-Update the translation through commit f176638af476
-("USB: Remove Wireless USB and UWB documentation")
+Update the translation through commit ecefae6db042
+("docs: usb: rename files to .rst and add them to drivers-api")
 
 Reviewed-by: Yanteng Si <siyanteng@cqsoftware.com.cn>
 Signed-off-by: Kefan Bai <baikefan@leap-io-kernel.com>
 ---
- .../translations/zh_CN/usb/authorization.rst  | 125 ++++++++++++++++++
- .../translations/zh_CN/usb/index.rst          |   2 +-
- 2 files changed, 126 insertions(+), 1 deletion(-)
- create mode 100644 Documentation/translations/zh_CN/usb/authorization.rst
+ Documentation/translations/zh_CN/usb/dwc3.rst | 60 +++++++++++++++++++
+ .../translations/zh_CN/usb/index.rst          |  2 +-
+ 2 files changed, 61 insertions(+), 1 deletion(-)
+ create mode 100644 Documentation/translations/zh_CN/usb/dwc3.rst
 
-diff --git a/Documentation/translations/zh_CN/usb/authorization.rst b/Documentation/translations/zh_CN/usb/authorization.rst
+diff --git a/Documentation/translations/zh_CN/usb/dwc3.rst b/Documentation/translations/zh_CN/usb/dwc3.rst
 new file mode 100644
-index 000000000000..4a8b743480ae
+index 000000000000..700aee545559
 --- /dev/null
-+++ b/Documentation/translations/zh_CN/usb/authorization.rst
-@@ -0,0 +1,125 @@
++++ b/Documentation/translations/zh_CN/usb/dwc3.rst
+@@ -0,0 +1,60 @@
 +.. SPDX-License-Identifier: GPL-2.0
 +.. include:: ../disclaimer-zh_CN.rst
 +
-+:Original: Documentation/usb/authorization.rst
++:Original: Documentation/usb/dwc3.rst
 +:翻译:
 +
 + 白钶凡 Kefan Bai <baikefan@leap-io-kernel.com>
@@ -83,136 +83,71 @@ index 000000000000..4a8b743480ae
 +:校译:
 +
 +
-+===========================
-+授权或禁止USB设备连接到系统
-+===========================
 +
-+版权 (C) 2007 Inaky Perez-Gonzalez <inaky@linux.intel.com> 英特尔公司
-+
-+此功能允许你控制系统中USB设备的使用权限。
-+你可以借此实现USB设备的锁定，并由用户空间完全控制。
-+
-+目前为止，当插入一个USB设备时，系统会配置该USB设备，其接口会立即对用户开放。
-+通过此修改，只有在root授权配置设备后，用户才能使用它。
++==========
++DWC3 驱动
++==========
 +
 +
-+使用方法
-+=========
++待完成
++~~~~~~
 +
-+授权设备连接::
++在你阅读时可以随便挑点儿东西做 :)
 +
-+	$ echo 1 > /sys/bus/usb/devices/DEVICE/authorized
++- 将中断处理程序转换为基于每端点线程的IRQ
 +
-+禁止设备连接::
-+	$ echo 0 > /sys/bus/usb/devices/DEVICE/authorized
++  事实证明，一些DWC3命令大约需要~1ms才能完成。
++  当前代码会一直自旋等待命令完成，这是不好的设计。
 +
-+将新连接到hostX的设备默认设置为未授权（即：锁定）::
++  实现思路：
 +
-+	$ echo 0 > /sys/bus/usb/devices/usbX/authorized_default
++  - DWC core实现了一个用于按端点解复用中断的IRQ控制器。中断号在
++    probe阶段分配，并归属于该设备。如果硬件通过MSI为每个端点
++    提供独立的中断，那么这个虚拟的IRQ控制器就可以被硬件真实的端点
++    中断所取代。
 +
-+解除锁定::
++  - 在调用usb_ep_enable()时会申请和分配中断资源，
++    在调用usb_ep_disable()时会释放中断资源。
++    最差的情况是32个中断，最少为ep0/1的两个中断。
++  - dwc3_send_gadget_ep_cmd()将在wait_for_completion_timeout()中休眠到命令完成。
++  - 中断处理程序分为以下几个部分：
 +
-+	$ echo 1 > /sys/bus/usb/devices/usbX/authorized_default
++    - 设备的中断处理主程序
++      遍历每个事件，对其调用generic_handle_irq()。
++      在generic_handle_irq()返回后，确认事件计数器，最终完成中断处理。
 +
-+默认情况下，所有USB设备都是授权的。
-+向authorized_default属性写入 "2" 会使内核默认只授权连接到内部USB端口的设备。
++    - 设备的中断处理线程
++      无
 +
-+系统锁定示例（简单示例）
-+------------------------
++    - EP中断的处理主程序
++      读取事件并尝试处理它。所有需要休眠的操作都交给线程处理。
++      事件保存在每个端点的数据结构中。
++      需要注意：一旦把事件交给线程去处理，就要注意不要自己再去处理它，
++      否则可能会导致低优先级的事件先于高优先级事件被处理。
 +
-+假设你想实现一个锁定功能，要求只有类型为XYZ的设备可以连接
-+（例如，它是一个带有可见USB端口的自助服务终端）::
++    - EP中断的处理线程
++      处理剩余的EP工作，这些工作可能会导致休眠，例如等待命令完成。
 +
-+  启动系统
-+  rc.local ->
++  延迟:
 +
-+   for host in /sys/bus/usb/devices/usb*
-+   do
-+      echo 0 > $host/authorized_default
-+   done
-+
-+将一个脚本挂接到udev，当插入新的USB设备时，该脚本就会被自动触发::
-+
-+ if device_is_my_type $DEV
-+ then
-+   echo 1 > $device_path/authorized
-+ done
-+
-+
-+这里的device_is_my_type()就是实现锁定的关键所在。
-+仅仅检查class、type 和protocol是否匹配某个值，
-+是最差的安全验证方式（但对于想要破解的人却是最容易的）。
-+如果你需要真正安全的方案，应使用加密、证书认证等手段。
-+一个针对存储密钥的简单示例::
-+
-+ function device_is_my_type()
-+ {
-+   echo 1 > authorized		# 暂时授权它
-+                                # FIXME: 确保没有人能够挂载它
-+   mount DEVICENODE /mntpoint
-+   sum=$(md5sum /mntpoint/.signature)
-+   if [ $sum = $(cat /etc/lockdown/keysum) ]
-+   then
-+        echo "We are good, connected"
-+        umount /mntpoint
-+        # 添加一些额外的内容，以便其他人也可以使用它
-+   else
-+        echo 0 > authorized
-+   fi
-+ }
-+
-+
-+当然，这种做法很简陋；实际上你应该使用基于PKI的真正证书验证，
-+这样就不会依赖共享密钥之类的东西。不过你明白我的意思。
-+任何拿到设备仿真工具包的人都能伪造描述符和设备信息。
-+所以千万不要信任这些信息。
-+
-+接口授权
-+--------
-+
-+也有类似的方法用于允许或拒绝特定USB接口。这允许只阻止USB设备的一个子集。
-+
-+授权接口::
-+
-+	$ echo 1 > /sys/bus/usb/devices/INTERFACE/authorized
-+
-+取消授权接口::
-+
-+	$ echo 0 > /sys/bus/usb/devices/INTERFACE/authorized
-+
-+也可以更改新接口在特定USB总线上的默认值。
-+
-+默认允许接口::
-+
-+	$ echo 1 > /sys/bus/usb/devices/usbX/interface_authorized_default
-+
-+默认拒绝接口::
-+	$ echo 0 > /sys/bus/usb/devices/usbX/interface_authorized_default
-+
-+默认情况下，interface_authorized_default位为1。
-+因此，所有接口默认都是授权的。
-+
-+注意：
-+  如果要对一个未授权的接口进行授权，则必须通过将INTERFACE写入
-+  /sys/bus/usb/drivers_probe来手动触发驱动程序进行探测。
-+  对于使用多个接口的驱动程序，需要先对所有使用的接口进行授权。
-+  之后应探测驱动程序。这样做可以避免副作用。
++   不应该增加延迟，因为中断线程具有较高优先级，会在用户空间普通任务之前运行
++   （除非用户更改了调度优先级）。
 diff --git a/Documentation/translations/zh_CN/usb/index.rst b/Documentation/translations/zh_CN/usb/index.rst
-index fa7caf75eb8a..68bf02685f99 100644
+index 6b7706e7df9f..e90465f0dc69 100644
 --- a/Documentation/translations/zh_CN/usb/index.rst
 +++ b/Documentation/translations/zh_CN/usb/index.rst
-@@ -18,10 +18,10 @@ USB 支持
-     :maxdepth: 1
-
+@@ -20,10 +20,10 @@ USB 支持
      acm
-+    authorization
+     authorization
+     chipidea
++    dwc3
 
  Todolist:
 
--*   authorization
- *   chipidea
- *   dwc3
+-*   dwc3
  *   ehci
+ *   usbmon
+ *   functionfs
 --
 2.52.0
 
