@@ -1,258 +1,132 @@
-Received: from mailtransmit05.runbox.com (mailtransmit05.runbox.com [185.226.149.38])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wr1-f66.google.com (mail-wr1-f66.google.com [209.85.221.66])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 84C5E3242D8;
-	Tue,  9 Dec 2025 10:03:51 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.226.149.38
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C15462773C1
+	for <linux-usb@vger.kernel.org>; Tue,  9 Dec 2025 10:36:24 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.66
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1765274635; cv=none; b=Y+Ur92valSGoz5wmzQ2W/k9qMzgilsQlKhjA1mT16E+3/Z2efSZr7P+zjZwFoM0a+UbG9iuTkDxgijiXo708NwjvyDFs4sPdmUkuWtgqsFruu795LudssLmcvo9GHuROf8AYj9TmsD7dcDAG3hFI7aB3tmz+LHFnTLDSMIpoSXk=
+	t=1765276586; cv=none; b=emM4E00KPs2q/2IGu5atTjOeMD9NKk9KoYR7tQhvHzfuJ0FyySFLYJlhSpuvGl0XAx2Evd6PocgiOweQt2WZGC3xViyre1rnoSg6BjKG0Ilikc9hGie73J6t1DAeL5H3WqSX6jPLedwtWMTLAWqZdiKSNGd1mgbQ7eJOfuLGnh8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1765274635; c=relaxed/simple;
-	bh=tSCid1sPM0NX+JcS8589gqV/qYOqQ9nwuLmgYPNoSTU=;
-	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
-	 MIME-Version; b=DQVqfX9s4GG7GbHhR4zdUbNzHgEGhDL0ZKojWTFzANxVgb79uD6WbTW1/BBN3oQ58l8rDhExlX1UKARi2Q8N7Ki1hI9OJZOInk7eXJTkWnh0XXV/IiuwvE2FnAh5uRIxSYwV7M4jPDXA+DPvvhV+LmGU9uNui8QzSihJ5p5KH4w=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=runbox.com; dkim=pass (2048-bit key) header.d=runbox.com header.i=@runbox.com header.b=q+8ONBud; arc=none smtp.client-ip=185.226.149.38
-Authentication-Results: smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=runbox.com
+	s=arc-20240116; t=1765276586; c=relaxed/simple;
+	bh=lMF0egJjlq3xAL+hAsO0sIoVt1a5R4W/EzgzPOaxxno=;
+	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=lorce1J5p3I0gKipm9OcmL83bHGXyJC1+iOH7NVyGzHOV27NCvJiQLvFGMgjDj32GFDkbN6HwDKCGFfBBx7AZW9hx6EJwNTmFm66aF/nE3aeNHAc5YknNzwiFtyHC/n5l3O8O2htasgZigYhSiMScEs9CRCXPeskvFXLtMuQ7zM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=XTu86gN5; arc=none smtp.client-ip=209.85.221.66
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=runbox.com header.i=@runbox.com header.b="q+8ONBud"
-Received: from mailtransmit03.runbox ([10.9.9.163] helo=aibo.runbox.com)
-	by mailtransmit05.runbox.com with esmtps  (TLS1.2) tls TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256
-	(Exim 4.93)
-	(envelope-from <david.laight.linux_spam@runbox.com>)
-	id 1vSuZR-00Gz5p-EH; Tue, 09 Dec 2025 11:03:49 +0100
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=runbox.com;
-	 s=selector2; h=Content-Transfer-Encoding:MIME-Version:References:In-Reply-To
-	:Message-Id:Date:Subject:Cc:To:From;
-	bh=OPG7fOtrkSC18N/RtHW1QBQqlawki4Y6k2/a0XZqajk=; b=q+8ONBud9kB/D38Wv1XtzGNYgz
-	1Q1ZbG9xuiuKUQp4/4kM2uKX9UDSELqnfSRW/ilOx+zsdHIpa4T4KI7RztYAW7WMHybSeYJukmfyl
-	L+sY6AmQu1RLKTApX9zviUrpEWDFwcPWFX1oe2QexB51kPP0EHDIaFioBtEbxHOyCQlyFhaE+Z19X
-	hADKVYgueALMBFeik/FUuxqcSlt4wUZTp/LO8J/sGVmBemyLeglQc8MdgbjpWrSnzrvskKaGsOW23
-	UOdVagj3D1KSBlhjSjHVRn2mUeXqsl2PeQheSxERdN1iQXLtG94fO6255X7YjuLOGllEqfh4gYcsS
-	DkOeS7pQ==;
-Received: from [10.9.9.73] (helo=submission02.runbox)
-	by mailtransmit03.runbox with esmtp (Exim 4.86_2)
-	(envelope-from <david.laight.linux_spam@runbox.com>)
-	id 1vSuZQ-00075o-VA; Tue, 09 Dec 2025 11:03:49 +0100
-Received: by submission02.runbox with esmtpsa  [Authenticated ID (1493616)]  (TLS1.2:ECDHE_SECP256R1__RSA_PSS_RSAE_SHA256__AES_256_GCM:256)
-	(Exim 4.93)
-	id 1vSuZ7-00CND9-0p; Tue, 09 Dec 2025 11:03:29 +0100
-From: david.laight.linux@gmail.com
-To: Yury Norov <yury.norov@gmail.com>,
-	Rasmus Villemoes <linux@rasmusvillemoes.dk>,
-	linux-kernel@vger.kernel.org,
-	linux-usb@vger.kernel.org,
-	Geert Uytterhoeven <geert+renesas@glider.be>,
-	Alexandre Belloni <alexandre.belloni@bootlin.com>,
-	Jonathan Cameron <Jonathan.Cameron@huawei.com>,
-	Crt Mori <cmo@melexis.com>,
-	Richard Genoud <richard.genoud@bootlin.com>,
-	Andy Shevchenko <andriy.shevchenko@intel.com>,
-	Luo Jie <quic_luoj@quicinc.com>,
-	Peter Zijlstra <peterz@infradead.org>,
-	Jakub Kicinski <kuba@kernel.org>,
-	netdev@vger.kernel.org,
-	"David S . Miller" <davem@davemloft.net>,
-	Simon Horman <simon.horman@netronome.com>,
-	Mika Westerberg <mika.westerberg@linux.intel.com>,
-	Andreas Noever <andreas.noever@gmail.com>,
-	Yehezkel Bernat <YehezkelShB@gmail.com>,
-	Nicolas Frattaroli <nicolas.frattaroli@collabora.com>
-Cc: David Laight <david.laight.linux@gmail.com>
-Subject: [PATCH 6/9] bitfield: Update sanity checks
-Date: Tue,  9 Dec 2025 10:03:10 +0000
-Message-Id: <20251209100313.2867-7-david.laight.linux@gmail.com>
-X-Mailer: git-send-email 2.39.5
-In-Reply-To: <20251209100313.2867-1-david.laight.linux@gmail.com>
-References: <20251209100313.2867-1-david.laight.linux@gmail.com>
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="XTu86gN5"
+Received: by mail-wr1-f66.google.com with SMTP id ffacd0b85a97d-42f8e39cf89so1132574f8f.3
+        for <linux-usb@vger.kernel.org>; Tue, 09 Dec 2025 02:36:24 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1765276583; x=1765881383; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:subject:cc:to:from:date:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=fv7PBdO3hgpUW0vcVSdnRgEgToyYluEyJcVyXFEQJS8=;
+        b=XTu86gN5dND0EJwcag6OwqXmKrha5A26eG4vxK75kE1atPwA9zotuX47t5MJm6H+if
+         mVk3KNRt5C6feeejifB5jdqpMjhUMm3xSqyraA2pmjcmZ6kZf7Bk90su7VZ2bfrlq/SX
+         cZMW2HI/FFLs4/LOzUIBXExH7wKqfFeuxvbpKQfPlAndvQD8gVLjNDzpMFcJpcWLzT3c
+         iPVux5t2Vwkvs12j4/wWAYO8cSGzDax+30q3rEXnqkLWi2E4KjgNP2FsElRXDNyG7BK7
+         0YtMaPVc0ZHsAdSrbVyGpaOM7feyWRRGXOLKuJjbdy1TWb6pzJeOscPIfSmWcPk7/7RH
+         /ZBg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1765276583; x=1765881383;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:subject:cc:to:from:date:x-gm-gg:x-gm-message-state:from
+         :to:cc:subject:date:message-id:reply-to;
+        bh=fv7PBdO3hgpUW0vcVSdnRgEgToyYluEyJcVyXFEQJS8=;
+        b=QmqauU/hKi6csslrOjPYqwos6lhvO69Zh7T2FaeUo9fpbyAKhSRQTs6Pcr71jkjkY0
+         oKEzcZeGK7Mk7ireikFZMEDv6uJVXKeFXjy0VPRdepZabS2c/ekjSSGGU+uOgMvPQ7yF
+         6n6JCusx8cqTPO8yIoRGqnBodNhFykoa1eJC2wmDRspFn2Nyt5qIhblkeoEWh+SfTRV1
+         vLnIXZXxrVq9z/IxKWc/NZjKHX7z3WOoz9J6oklFwtV/x8UBQzL76eQIDoC1EcYmtE/x
+         xEuJJSNwq0wu8tH4TY0aT4q0rjuN5rYGwJSQ/kD0CW8grbXfF0Go0cyfVlt86v2s7TJ4
+         7y1Q==
+X-Forwarded-Encrypted: i=1; AJvYcCX/Ff62tA7MJ3s49kiPYVozvqoYg7uNR/tawYzyr99TRnwZqbmvLDmGdz5oHYmTbXlyIKqLq84loV4=@vger.kernel.org
+X-Gm-Message-State: AOJu0YyCy5AxUZemtzGV3ZhKbdxDA/m5BZhxPPO2zsyGAViNlY51GoD+
+	tVBb+DXhPYPG5i/paJoMca3EN0w8zyrhMwcE8W8oj9B/UrqmdAtE0dZz
+X-Gm-Gg: ASbGncs7URpekEfcZiKfkf/3OtDulsQoZzSwtyViN9VwR7VdGHdhOaaODYlpP4FHY6I
+	fCLMx9//XzmfoVIKVTgODm/8R8qNJUxL9y12O/Wi15mmW/Ex1SL8Zmi3hIDLoO/QSBgEzL56SWk
+	r99/IWmv3S1xF7IzCI3mGcnXiQoi8d7RaZths78sJwcPYG/UIgLmjfpgmYg4ILEbeAJvlXGqeyK
+	vs8FD2qG40QtB5CPwXaWaJ+hLf7NYAdKP7ha70ZaDgnZFTuz2W4kpNNts9ZhHHEGa2o01U7U0Gl
+	zFZylAogNTiFV885bXty91RU3hgT1ywYdbqfYDABRFMa36o+3mD5nJj8I44GJ4xEfN20PSquDWC
+	FHLjUgFXG1vFRtdz+w9WRMfMSJv00RaXRb7B9WO83zL31OTcSwdauUyMpV/jacIPQtSjLZAEBuN
+	/4GBMPsaqFwOA4/4ykXz3BYXvRWkLzBbu/J55nRr2RsjLUJ8cikDHE
+X-Google-Smtp-Source: AGHT+IGFAgehTmw8PLHj4QJJjd7Gf/VVDyG7X98wpx4H0KiE7+sLs6BmknhUqgwIOLm/fXWIK5/x2g==
+X-Received: by 2002:a05:6000:208a:b0:42b:2e39:6d50 with SMTP id ffacd0b85a97d-42f89f12808mr11214524f8f.19.1765276582774;
+        Tue, 09 Dec 2025 02:36:22 -0800 (PST)
+Received: from pumpkin (82-69-66-36.dsl.in-addr.zen.co.uk. [82.69.66.36])
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-42f7cbfee50sm30637673f8f.14.2025.12.09.02.36.22
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 09 Dec 2025 02:36:22 -0800 (PST)
+Date: Tue, 9 Dec 2025 10:36:21 +0000
+From: David Laight <david.laight.linux@gmail.com>
+To: Greg KH <gregkh@linuxfoundation.org>
+Cc: Yury Norov <yury.norov@gmail.com>, Rasmus Villemoes
+ <linux@rasmusvillemoes.dk>, linux-kernel@vger.kernel.org,
+ linux-usb@vger.kernel.org, Geert Uytterhoeven <geert+renesas@glider.be>
+Subject: Re: [PATCH 2/9] thunderblot: Don't pass a bitfield to FIELD_GET
+Message-ID: <20251209103621.7e6922ab@pumpkin>
+In-Reply-To: <2025120944-grudge-machine-720c@gregkh>
+References: <20251208224250.536159-1-david.laight.linux@gmail.com>
+	<20251208224250.536159-3-david.laight.linux@gmail.com>
+	<2025120944-grudge-machine-720c@gregkh>
+X-Mailer: Claws Mail 4.1.1 (GTK 3.24.38; arm-unknown-linux-gnueabihf)
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
 
-From: David Laight <david.laight.linux@gmail.com>
+On Tue, 9 Dec 2025 07:56:35 +0900
+Greg KH <gregkh@linuxfoundation.org> wrote:
 
-Simplify the check for 'reg' being large enough to hold 'mask' using
-sizeof (reg) rather than a convoluted scheme to generate an unsigned
-type the same size as 'reg'.
+> On Mon, Dec 08, 2025 at 10:42:43PM +0000, david.laight.linux@gmail.com wrote:
+> > From: David Laight <david.laight.linux@gmail.com>
+> > 
+> > FIELD_GET needs to use __auto_type to get the value of the 'reg'
+> > parameter, this can't be used with bifields.
+> > 
+> > FIELD_GET also want to verify the size of 'reg' so can't add zero
+> > to force the type to int.
+> > 
+> > So add a zero here.
+> > 
+> > Signed-off-by: David Laight <david.laight.linux@gmail.com>
+> > ---
+> >  drivers/thunderbolt/tb.h | 2 +-
+> >  1 file changed, 1 insertion(+), 1 deletion(-)
+> > 
+> > diff --git a/drivers/thunderbolt/tb.h b/drivers/thunderbolt/tb.h
+> > index e96474f17067..7ca2b5a0f01e 100644
+> > --- a/drivers/thunderbolt/tb.h
+> > +++ b/drivers/thunderbolt/tb.h
+> > @@ -1307,7 +1307,7 @@ static inline struct tb_retimer *tb_to_retimer(struct device *dev)
+> >   */
+> >  static inline unsigned int usb4_switch_version(const struct tb_switch *sw)
+> >  {
+> > -	return FIELD_GET(USB4_VERSION_MAJOR_MASK, sw->config.thunderbolt_version);
+> > +	return FIELD_GET(USB4_VERSION_MAJOR_MASK, sw->config.thunderbolt_version + 0);  
+> 
+> This is going to be very confusing to people who see this line only.
+> Can we add a comment here to explain why we have to do a "+ 0" and why
+> it can't be removed?  Otherwise I'm going to get a bunch of "cleanup"
+> patches attempting to "fix" this over the next few years.
 
-There are three places where the mask is checked for being non-zero
-and contiguous. Add a simple expression that checks it and use in
-all three places.
+I've added a comment for v2 (but not the resend I did for the cc 'issue').
+I've also fixed the subject blot => bolt.
 
-Three of the five calls to __BF_FIELD_CHECK_MASK() don't have a 'value'
-to check, separate out as was done to __BF_FIELD_CHECK_REG().
+I also noticed that the 'int thunderbolt_version:8' seems to be in a structure
+that maps something read from the hardware.
+That isn't going to be right on any BE system, and isn't guaranteed on LE ones.
 
-There is no point checking a 'val' of zero or a 'reg' of 0ULL (both
-are placeholders) - remove/change the calls.
+	David
 
-There should be a check of __BF_FIELD_CHECK_REG() when __BF_FIELD_GET()
-is called from field_get().
-Move the check from FIELD_GET() into __BF_FIELD_GET().
-
-Delete the now-unused __BF_FIELD_CHECK().
-
-Signed-off-by: David Laight <david.laight.linux@gmail.com>
----
- include/linux/bitfield.h | 74 ++++++++++++++--------------------------
- 1 file changed, 26 insertions(+), 48 deletions(-)
-
-diff --git a/include/linux/bitfield.h b/include/linux/bitfield.h
-index 3e0e8533bb66..7e8d436b6571 100644
---- a/include/linux/bitfield.h
-+++ b/include/linux/bitfield.h
-@@ -45,55 +45,38 @@
- 
- #define __bf_shf(x) (__builtin_ffsll(x) - 1)
- 
--#define __scalar_type_to_unsigned_cases(type)				\
--		unsigned type:	(unsigned type)0,			\
--		signed type:	(unsigned type)0
-+#define __BF_VALIDATE_MASK(mask) \
-+	(!(mask) || ((mask) & ((mask) + ((mask) & -(mask)))))
- 
--#define __unsigned_scalar_typeof(x) typeof(				\
--		_Generic((x),						\
--			char:	(unsigned char)0,			\
--			__scalar_type_to_unsigned_cases(char),		\
--			__scalar_type_to_unsigned_cases(short),		\
--			__scalar_type_to_unsigned_cases(int),		\
--			__scalar_type_to_unsigned_cases(long),		\
--			__scalar_type_to_unsigned_cases(long long),	\
--			default: (x)))
--
--#define __bf_cast_unsigned(type, x)	((__unsigned_scalar_typeof(type))(x))
--
--#define __BF_FIELD_CHECK_MASK(mask, val, pfx)				\
--	({								\
-+#define __BF_FIELD_CHECK_MASK(mask, pfx)				\
-+	do {								\
- 		BUILD_BUG_ON_MSG(!__builtin_constant_p(mask),		\
- 				 pfx "mask is not constant");		\
--		BUILD_BUG_ON_MSG((mask) == 0, _pfx "mask is zero");	\
--		BUILD_BUG_ON_MSG(__builtin_constant_p(val) ?		\
--				 ~((mask) >> __bf_shf(mask)) &		\
--					(0 + (val)) : 0,		\
--				 pfx "value too large for the field");	\
--		__BUILD_BUG_ON_NOT_POWER_OF_2((mask) +			\
--					      (1ULL << __bf_shf(mask))); \
--	})
-+		BUILD_BUG_ON_MSG(__BF_VALIDATE_MASK(mask),		\
-+				 pfx "mask is zero or not contiguous");	\
-+	} while (0)
-+
-+#define __BF_FIELD_CHECK_VAL(mask, val, pfx)			\
-+	BUILD_BUG_ON_MSG(__builtin_constant_p(val) &&		\
-+			 ~((mask) >> __bf_shf(mask)) & (val),	\
-+			 pfx "value too large for the field")
- 
- #define __BF_FIELD_CHECK_REG(mask, reg, pfx)				\
--	BUILD_BUG_ON_MSG(__bf_cast_unsigned(mask, mask) >		\
--			 __bf_cast_unsigned(reg, ~0ull),		\
-+	BUILD_BUG_ON_MSG(mask + 0U + 0UL + 0ULL >			\
-+			 ~0ULL >> (64 - 8 * sizeof (reg)),		\
- 			 pfx "type of reg too small for mask")
- 
--#define __BF_FIELD_CHECK(mask, reg, val, pfx)				\
--	({								\
--		__BF_FIELD_CHECK_MASK(mask, val, pfx);			\
--		__BF_FIELD_CHECK_REG(mask, reg, pfx);			\
--	})
--
- #define __BF_FIELD_PREP(mask, val, pfx)					\
- 	({								\
--		__BF_FIELD_CHECK_MASK(mask, val, pfx);			\
-+		__BF_FIELD_CHECK_MASK(mask, pfx);			\
-+		__BF_FIELD_CHECK_VAL(mask, val, pfx);			\
- 		((val) << __bf_shf(mask)) & (mask);			\
- 	})
- 
- #define __BF_FIELD_GET(mask, reg, pfx)					\
- 	({								\
--		__BF_FIELD_CHECK_MASK(mask, 0U, pfx);			\
-+		__BF_FIELD_CHECK_MASK(mask, pfx);			\
-+		__BF_FIELD_CHECK_REG(mask, reg, pfx);			\
- 		((reg) & (mask)) >> __bf_shf(mask);			\
- 	})
- 
-@@ -107,7 +90,7 @@
- #define FIELD_MAX(mask)							\
- 	({								\
- 		__auto_type _mask = mask;				\
--		__BF_FIELD_CHECK(_mask, 0ULL, 0ULL, "FIELD_MAX: ");	\
-+		__BF_FIELD_CHECK_MASK(_mask, "FIELD_MAX: ");		\
- 		(_mask >> __bf_shf(_mask));				\
- 	})
- 
-@@ -122,7 +105,7 @@
- 	({								\
- 		__auto_type _mask = mask;				\
- 		__auto_type _val = 1 ? (val) : _mask;			\
--		__BF_FIELD_CHECK(_mask, 0ULL, 0ULL, "FIELD_FIT: ");	\
-+		__BF_FIELD_CHECK_MASK(_mask, "FIELD_FIT: ");		\
- 		!((_val << __bf_shf(_mask)) & ~_mask); 			\
- 	})
- 
-@@ -138,12 +121,9 @@
- 	({								\
- 		__auto_type _mask = mask;				\
- 		__auto_type _val = 1 ? (val) : _mask;			\
--		__BF_FIELD_CHECK_REG(_mask, 0ULL, "FIELD_PREP: ");	\
- 		__BF_FIELD_PREP(_mask, _val, "FIELD_PREP: ");		\
- 	})
- 
--#define __BF_CHECK_POW2(n)	BUILD_BUG_ON_ZERO(((n) & ((n) - 1)) != 0)
--
- /**
-  * FIELD_PREP_CONST() - prepare a constant bitfield element
-  * @mask: shifted mask defining the field's length and position
-@@ -158,12 +138,10 @@
-  */
- #define FIELD_PREP_CONST(mask, val)					\
- 	(								\
--		/* mask must be non-zero */				\
--		BUILD_BUG_ON_ZERO((mask) == 0) +			\
-+		/* mask must be non-zero and contiguous */		\
-+		BUILD_BUG_ON_ZERO(__BF_VALIDATE_MASK(mask)) +		\
- 		/* check if value fits */				\
- 		BUILD_BUG_ON_ZERO(~((mask) >> __bf_shf(mask)) & (val)) + \
--		/* check if mask is contiguous */			\
--		__BF_CHECK_POW2((mask) + (1ULL << __bf_shf(mask))) +	\
- 		/* and create the value */				\
- 		(((typeof(mask))(val) << __bf_shf(mask)) & (mask))	\
- 	)
-@@ -180,7 +158,6 @@
- 	({								\
- 		__auto_type _mask = mask;				\
- 		__auto_type _reg = reg;					\
--		__BF_FIELD_CHECK_REG(_mask, _reg, "FIELD_GET: ");	\
- 		__BF_FIELD_GET(_mask, _reg, "FIELD_GET: ");		\
- 	})
- 
-@@ -198,8 +175,9 @@
- 		__auto_type _mask = mask;						\
- 		__auto_type _reg_p = reg_p;						\
- 		__auto_type _val = 1 ? (val) : _mask;					\
--		typecheck_pointer(_reg_p);						\
--		__BF_FIELD_CHECK(_mask, *_reg_p, _val, "FIELD_MODIFY: ");		\
-+		__BF_FIELD_CHECK_MASK(_mask, "FIELD_MODIFY: ");				\
-+		__BF_FIELD_CHECK_VAL(_mask, _val, "FIELD_MODIFY: ");			\
-+		__BF_FIELD_CHECK_REG(_mask, *_reg_p, "FIELD_MODIFY: ");			\
- 		*_reg_p = (*_reg_p & ~_mask) | ((_val << __bf_shf(_mask)) & _mask);	\
- 	})
- 
-@@ -209,7 +187,7 @@ extern void __compiletime_error("bad bitfield mask")
- __bad_mask(void);
- static __always_inline u64 field_multiplier(u64 field)
- {
--	if ((field | (field - 1)) & ((field | (field - 1)) + 1))
-+	if (__BF_VALIDATE_MASK(field))
- 		__bad_mask();
- 	return field & -field;
- }
--- 
-2.39.5
+> 
+> thanks,
+> 
+> greg k-h
 
