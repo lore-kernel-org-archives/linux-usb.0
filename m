@@ -1,139 +1,166 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.11])
+Received: from mout.kundenserver.de (mout.kundenserver.de [212.227.17.24])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 457F427F759;
-	Tue,  9 Dec 2025 15:53:40 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.11
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 87A3119D081;
+	Tue,  9 Dec 2025 16:16:55 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=212.227.17.24
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1765295622; cv=none; b=dyqFVg1g8lQGk9ptTU8N0EtVbTpBCu55NSYxkVkoT4GCD4h2sA45KxRaSQj9RjYhlkdi4lVBj3t4jR/kNh+xkAYeWcOTEEa4f1RhmHZfNjMBLvkV2TBUutSL3ATCIrSFjiZkjw5CLF3apNUwYCPLu5fo0sEmTathxW22wCuePrw=
+	t=1765297018; cv=none; b=DLTb/ZRbMqISiRzN3zSPXLPnfcbj1NlVGx2c0zN+4vE6Arlv5lt2sEdwY/qSId9GT8YqBPFC+BkZUZmRNRIIPHDY7xWbY+xlM5VVgRmL54NLs/Qsnd49UO3HRBG8SDyoeJ0eUWNhbIx6/fDI62ek1mUOYxhqkuTeWPL65nRbDOQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1765295622; c=relaxed/simple;
-	bh=ldAUQ3qlJKlypdnT8395n30k3scG1Hsh/4akiujI2kM=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=XksiIQINafxwQzbReJN2DeHgZf++Yty43Q/K4VE8OwE/MwLR9ydNw7pqTOkhrSrNBQWAwfx9m3gaW7N6BodVAbwBwE2V4z9TKYlY2ki/mADO+qBOuzKXiuWtBgv232WpZBZLaNta0vXXmFZmkNZLvIp6UAce769HS7reZxwFc0Y=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Hi6l+Td6; arc=none smtp.client-ip=192.198.163.11
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	s=arc-20240116; t=1765297018; c=relaxed/simple;
+	bh=w1MiaVHhux0nhduREcUvqRza7kAjMyC/dkPjJEe/Lg0=;
+	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=Yn6r3cvq5SqCjB2P029BQ2ieoXuF1k5ifrJRyTk1LCSatPraW2B+EM4/IUMAz3zCv38Jzq2yJAS9KRjywr6/hVs9yvo8jjUViou8MFv5l1yNMvv88GpXrvZ/SSuKJfYWOUpMvsMWD2q5qY/zPrA9J1rblPKTWCeNOYU6WhhhjjY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=semex-engcon.com; spf=pass smtp.mailfrom=semex-engcon.com; dkim=pass (2048-bit key) header.d=semex-engcon.com header.i=u.mohr@semex-engcon.com header.b=vU/zCy7W; arc=none smtp.client-ip=212.227.17.24
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=semex-engcon.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=semex-engcon.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Hi6l+Td6"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1765295621; x=1796831621;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=ldAUQ3qlJKlypdnT8395n30k3scG1Hsh/4akiujI2kM=;
-  b=Hi6l+Td6884fOkH07XDA+sZb/Np4WMs2XgwO20rEhew2DQisABsHbByl
-   /2bZSjX9nerZL9lHQyDqMJGTpTu7seYC6Ml9sDiQIqAABAyQbXqsJMHvt
-   Hlp6Z7r8CFWaU2KQMtD/bc7rr8x0b+jT0BBXNda3VMhca8Luo9Wb+OG6j
-   srA9ObH60E2GbuHJ+6o8euzn8+zYO6DhDAPZMlPuzJMA0CmhbQ3/j5iYt
-   AsM5NFx+x18GjrlbMhPjSZ57dAcFaCo3OWIWleGA68pW13W/9RVZJbYvV
-   GtvcwpuvQyX0K54n8SzVJaBq0rk5cXyZyyF15fK6ptnE7I9OzTZPgP+oq
-   A==;
-X-CSE-ConnectionGUID: vrZCjXSeRdq9jNNMMol1xw==
-X-CSE-MsgGUID: lfMMAXNVRtCFxuc97jUXOQ==
-X-IronPort-AV: E=McAfee;i="6800,10657,11637"; a="77871103"
-X-IronPort-AV: E=Sophos;i="6.20,261,1758610800"; 
-   d="scan'208";a="77871103"
-Received: from orviesa009.jf.intel.com ([10.64.159.149])
-  by fmvoesa105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 09 Dec 2025 07:53:40 -0800
-X-CSE-ConnectionGUID: ssg/azmWQPiVweOFzVaN/w==
-X-CSE-MsgGUID: LLu7/m6lSSmvCyjtUOkH0w==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.20,261,1758610800"; 
-   d="scan'208";a="196022254"
-Received: from dhhellew-desk2.ger.corp.intel.com (HELO localhost) ([10.245.245.237])
-  by orviesa009-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 09 Dec 2025 07:53:36 -0800
-Date: Tue, 9 Dec 2025 17:53:33 +0200
-From: Andy Shevchenko <andriy.shevchenko@intel.com>
-To: david.laight.linux@gmail.com
-Cc: Yury Norov <yury.norov@gmail.com>,
-	Rasmus Villemoes <linux@rasmusvillemoes.dk>,
-	linux-kernel@vger.kernel.org, linux-usb@vger.kernel.org,
-	Geert Uytterhoeven <geert+renesas@glider.be>,
-	Alexandre Belloni <alexandre.belloni@bootlin.com>,
-	Jonathan Cameron <Jonathan.Cameron@huawei.com>,
-	Crt Mori <cmo@melexis.com>,
-	Richard Genoud <richard.genoud@bootlin.com>,
-	Luo Jie <quic_luoj@quicinc.com>,
-	Peter Zijlstra <peterz@infradead.org>,
-	Jakub Kicinski <kuba@kernel.org>, netdev@vger.kernel.org,
-	"David S . Miller" <davem@davemloft.net>,
-	Simon Horman <simon.horman@netronome.com>,
-	Mika Westerberg <mika.westerberg@linux.intel.com>,
-	Andreas Noever <andreas.noever@gmail.com>,
-	Yehezkel Bernat <YehezkelShB@gmail.com>,
-	Nicolas Frattaroli <nicolas.frattaroli@collabora.com>
-Subject: Re: [PATCH 8/9] bitfield: Add comment block for the host/fixed
- endian functions
-Message-ID: <aThF_cYiyRjS38Ok@smile.fi.intel.com>
-References: <20251209100313.2867-1-david.laight.linux@gmail.com>
- <20251209100313.2867-9-david.laight.linux@gmail.com>
+	dkim=pass (2048-bit key) header.d=semex-engcon.com header.i=u.mohr@semex-engcon.com header.b="vU/zCy7W"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=semex-engcon.com;
+	s=s1-ionos; t=1765297009; x=1765901809; i=u.mohr@semex-engcon.com;
+	bh=ESoXD56etKWTBH1FaIews9Dz2cNmyN1tKeLoAplOYHg=;
+	h=X-UI-Sender-Class:From:To:Cc:Subject:Date:Message-Id:
+	 MIME-Version:Content-Transfer-Encoding:cc:
+	 content-transfer-encoding:content-type:date:from:message-id:
+	 mime-version:reply-to:subject:to;
+	b=vU/zCy7WAKhzU4W3BK6WcVOuq2coifd91RhG/0lW0F1SLddFkzIEzS4Q9W+mTOnd
+	 /Hpg+10D2PoVyVJv2p/OxupaWbPK7xe9gmWsEGAjTk87yctM8SE7g9g932mO4Bcp7
+	 IzlD5dGTziM7FqTHoF6qWa/pLkb2M8DSXATk+0e0FDjnfWiZwP70xsYFWYghewYHY
+	 Vu8qMVz1nSbvJf9U7p49o9bianRAx/+OH80UPYI0gbMYl6zpIWKNA/Negc/jSDzw0
+	 cSWgpfFX3BWyFKxb+nKwt7DzrE00fxg/8W8eYTqL0Iu8Fe94/OkDml0K/fcMAXEVv
+	 /1v69Y9c5JBG/yu5gA==
+X-UI-Sender-Class: 55c96926-9e95-11ee-ae09-1f7a4046a0f6
+Received: from SE-UM-LT.semexengcon.local ([89.246.161.244]) by
+ mrelayeu.kundenserver.de (mreue108 [212.227.15.183]) with ESMTPSA (Nemesis)
+ id 1Mgvn9-1vx89N1fKf-00ewJb; Tue, 09 Dec 2025 16:50:56 +0100
+From: Ulrich Mohr <u.mohr@semex-engcon.com>
+To: linux-usb@vger.kernel.org
+Cc: Johan Hovold <johan@kernel.org>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	linux-kernel@vger.kernel.org,
+	Ulrich Mohr <u.mohr@semex-engcon.com>
+Subject: [PATCH] USB: serial: option: add Telit LE910 MBIM composition
+Date: Tue,  9 Dec 2025 16:50:38 +0100
+Message-Id: <20251209155038.912-1-u.mohr@semex-engcon.com>
+X-Mailer: git-send-email 2.39.5
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20251209100313.2867-9-david.laight.linux@gmail.com>
-Organization: Intel Finland Oy - BIC 0357606-4 - c/o Alberga Business Park, 6
- krs, Bertel Jungin Aukio 5, 02600 Espoo
+Content-Transfer-Encoding: quoted-printable
+X-Provags-ID: V03:K1:fBLIcTbF8DDlWiK81TT9Sfr0HNI36O85MvPODch5SB090F/qEJ8
+ ifn6XlXDGoxtEIPdeVJel22Eisg3L8lv5GbT6KyOOfkISXI9U0ixbv1iWJmzU2rqKxG1CuW
+ sxusMaYqDFZcezNKYhOoGVsmxGb8CnPMXZ/rn427tknTpOCmP0OE2z9Ig6R/VTpPHyFnN1i
+ YLt0hYUGv+yC6yAwBINow==
+X-Spam-Flag: NO
+UI-OutboundReport: notjunk:1;M01:P0:GTHT5XW053g=;SexU9OvV63sbOLze83DMxxUpM4A
+ tRvsIlxsiVuzYpfsB0mvGuiIq3T4x/6NqFOhR2HNK1vzQLlAvUn7X+R56/kaW4narIEWuLpZV
+ IU95qTePqpqNY54wAYKGf1z90xI96GMJPs6i8QoyeHJu7/DoRx4fVTceAtb9Y29qIJ2ta9B9x
+ BzBc77exrlBn5qQ0WjBpi8BmEDEls1G7SE8apKKI9i1AF6e2osAq0TpZuIajMmVM6YdfSgSTS
+ 39EJNI6ZtJ0jAdcMpZsFqWN9KbcVNCkDRzI4XYLDZ56p9OjSAe2LYOvWc8GJg0A19BP4Ua74J
+ KS8DKJTef3QMEYmFZGSMRcR+S+fPJWxGSfRYieDmOFvA4kmcCOm4cFS3l4EBweGTL1xVMBtqK
+ HvhKxpp7s8rS3yEhrUWS5+CwRJkJJ7C86UrgSokCTbkPBruR/qf15SXQSDkVbVLaCiSHk/mJQ
+ 8qs2E1dFtD6uGIvl+xPsEOO96dlA9EwniTJJ92eGvD2U9pmelSdfsrlocZCb+Gh+nthrKl6of
+ spt0uGG9wiuHyP0RCRsC6w25syDzJK32vIS/fvG0nnsqAX2hJOP0d+BNArZJ/jbJYGKp0/Qjj
+ WGamdl+UsHgQkB4Xi4yS703ObE6661dPyUgBV9oXKXhTOyJnyT+1DyuhR0oPuyMAOVsaXQ2zm
+ Z3c07Zziv+SJOtl1QOUfrwD6x1dJ+2skEHrxkKUAqwDGOCxVaBgKCAoSjyNVFBC7gMIx/lECq
+ 5MjX+bcf4IFjzNe7ivdRiga/V79PakQB3X+PpTD7vGf0UqVtTpUIseLY6Hh9d0OsbnpMcyd9V
+ Unkdd4eyiPhke9gHaqbmeEaCQAjqPgW+lvRsBfwvwYyWnJDgXnE0a89g0YVeG5ryuXbvF03AQ
+ TAl9/Vt6oXjpuSkJUBi2GO/SGT3PlG5hPRInO/pHj5jAsdz00rqh1wiCA3u22g/wW4WZ4/Q2w
+ 7U2GR2KdbvYLpaGKBookl/F2yAoBoaW8Sp/yBy9/9UySTM1L4Ka9In+wXmk0nLMHyZpm/gYeH
+ R/NiQb/8wRSQlxLkS7/6sdEC4masodEx/xna53fuxXOFyHgIHy2V4xESOoq7L1YHDyc7bINfX
+ hL9/fWzH0OKynyvxDqqs7CvJsCUeAsfb0CjnArU93Fy5NABL2dhscZGkDX2lzfuTjgM9Je/qA
+ 5zhMZ0/a4rNjkG8FpfdutxoHm8Jh3VnHqaBhcxVXVvlIp0v9QZhts4iMJKArecrzuMWpFWHKL
+ 3ph5/c9XtMkYIyvt7uYKgDGBpohTC+bnI+8tJ0NzG49MXgZsPPSVDP6zZ6hupFQdyAQjp3gPL
+ TBQkK+yj8YV9eqCSzgJ+DU7iS2RzyUqTSUkIX4daXUqhCNZzGoUYSXj2bCRii+07nsH46IiI3
+ Wz887elgAHN9NXCpRf5JqIn53bTvDHsmEX++oLw9tYXAu+4rLP9wuXmVSAOJr3BAAl/fW8zrY
+ aeG6d82VTL1ZB+PZwbUSeuI/KqnNxdpo6TnDagW1YNNVQVQj5L20CTCR18AP/yKozkXM2LZW9
+ 2k9H4nZORARYQk8V78/G60QLt7VFiVZPYBon5NVhra5EwI4Xe0YDzQT0FU0Fg+BuM3kCpWe/A
+ s2vxjzNTlZ00c59FRSmwAfT+CuVO0E5vzwKen2hp37ZHjSis5DD9TCvvQcbm8CgC8BexpBuyO
+ HgJ3i+YwywlFLvHPdRBO1gmlSVr1DYuzGOVEQ1vRSkhQKGVAJvlIV8p45aK9S2M/RuakQbUYP
+ vrq+nYjaweIKUl5Unuz86RSZtbYUQoy1nJj3Z/xh4RHS6c7kFv64AejRtqiWJI1XQIrW1cF3O
+ IyHUfULtXKb7aNTBKX+Z50JhhA==
 
-On Tue, Dec 09, 2025 at 10:03:12AM +0000, david.laight.linux@gmail.com wrote:
+Add support for Telit LE910 module when operating in MBIM composition
+with additional ttys. This usb product ID is used by the module
+when AT#USBCFG is set to 7.
 
-> Copied almost verbatim from the commit message that added the functions.
+0x1052: MBIM + tty(NMEA) + tty(MODM) + tty(MODEM) +SAP
+T:  Bus=3D01 Lev=3D01 Prnt=3D01 Port=3D01 Cnt=3D01 Dev#=3D  2 Spd=3D480  M=
+xCh=3D 0
+D:  Ver=3D 2.00 Cls=3Def(misc ) Sub=3D02 Prot=3D01 MxPS=3D64 #Cfgs=3D  1
+P:  Vendor=3D1bc7 ProdID=3D1252 Rev=3D03.18
+S:  Manufacturer=3DAndroid
+S:  Product=3DLE910C1-EU
+S:  SerialNumber=3D0123456789ABCDEF
+C:  #Ifs=3D 6 Cfg#=3D 1 Atr=3Da0 MxPwr=3D500mA
+I:  If#=3D 0 Alt=3D 0 #EPs=3D 1 Cls=3D02(commc) Sub=3D0e Prot=3D00 Driver=
+=3Dcdc_mbim
+E:  Ad=3D82(I) Atr=3D03(Int.) MxPS=3D  64 Ivl=3D32ms
+I:  If#=3D 1 Alt=3D 1 #EPs=3D 2 Cls=3D0a(data ) Sub=3D00 Prot=3D02 Driver=
+=3Dcdc_mbim
+E:  Ad=3D01(O) Atr=3D02(Bulk) MxPS=3D 512 Ivl=3D0ms
+E:  Ad=3D81(I) Atr=3D02(Bulk) MxPS=3D 512 Ivl=3D0ms
+I:  If#=3D 2 Alt=3D 0 #EPs=3D 3 Cls=3Dff(vend.) Sub=3D00 Prot=3D00 Driver=
+=3Doption
+E:  Ad=3D02(O) Atr=3D02(Bulk) MxPS=3D 512 Ivl=3D0ms
+E:  Ad=3D83(I) Atr=3D02(Bulk) MxPS=3D 512 Ivl=3D0ms
+E:  Ad=3D84(I) Atr=3D03(Int.) MxPS=3D  10 Ivl=3D32ms
+I:  If#=3D 3 Alt=3D 0 #EPs=3D 3 Cls=3Dff(vend.) Sub=3D00 Prot=3D00 Driver=
+=3D(none)
+E:  Ad=3D03(O) Atr=3D02(Bulk) MxPS=3D 512 Ivl=3D0ms
+E:  Ad=3D85(I) Atr=3D02(Bulk) MxPS=3D 512 Ivl=3D0ms
+E:  Ad=3D86(I) Atr=3D03(Int.) MxPS=3D  10 Ivl=3D32ms
+I:  If#=3D 4 Alt=3D 0 #EPs=3D 3 Cls=3Dff(vend.) Sub=3D00 Prot=3D00 Driver=
+=3Doption
+E:  Ad=3D04(O) Atr=3D02(Bulk) MxPS=3D 512 Ivl=3D0ms
+E:  Ad=3D87(I) Atr=3D02(Bulk) MxPS=3D 512 Ivl=3D0ms
+E:  Ad=3D88(I) Atr=3D03(Int.) MxPS=3D  10 Ivl=3D32ms
+I:  If#=3D 5 Alt=3D 0 #EPs=3D 3 Cls=3Dff(vend.) Sub=3D00 Prot=3D00 Driver=
+=3Doption
+E:  Ad=3D05(O) Atr=3D02(Bulk) MxPS=3D 512 Ivl=3D0ms
+E:  Ad=3D89(I) Atr=3D02(Bulk) MxPS=3D 512 Ivl=3D0ms
+E:  Ad=3D8a(I) Atr=3D03(Int.) MxPS=3D  10 Ivl=3D32ms
 
-...
+Signed-off-by: Ulrich Mohr <u.mohr@semex-engcon.com>
+=2D--
+ drivers/usb/serial/option.c | 2 ++
+ 1 file changed, 2 insertions(+)
 
-> +/*
-
-Can it be a global DOC for being processed by kernel-doc?
-
-> + * Primitives for manipulating bitfields both in host- and fixed-endian.
-> + *
-> + * * u32 le32_get_bits(__le32 val, u32 field) extracts the contents of the
-> + *   bitfield specified by @field in little-endian 32bit object @val and
-> + *   converts it to host-endian.
-> + *
-> + * * void le32p_replace_bits(__le32 *p, u32 v, u32 field) replaces
-> + *   the contents of the bitfield specified by @field in little-endian
-> + *   32bit object pointed to by @p with the value of @v.  New value is
-> + *   given in host-endian and stored as little-endian.
-> + *
-> + * * __le32 le32_replace_bits(__le32 old, u32 v, u32 field) is equivalent to
-> + *   ({__le32 tmp = old; le32p_replace_bits(&tmp, v, field); tmp;})
-> + *   In other words, instead of modifying an object in memory, it takes
-> + *   the initial value and returns the modified one.
-> + *
-> + * * __le32 le32_encode_bits(u32 v, u32 field) is equivalent to
-> + *   le32_replace_bits(0, v, field).  In other words, it returns a little-endian
-> + *   32bit object with the bitfield specified by @field containing the
-> + *   value of @v and all bits outside that bitfield being zero.
-> + *
-> + * Such set of helpers is defined for each of little-, big- and host-endian
-> + * types; e.g. u64_get_bits(val, field) will return the contents of the bitfield
-> + * specified by @field in host-endian 64bit object @val, etc.  Of course, for
-> + * host-endian no conversion is involved.
-> + *
-> + * Fields to access are specified as GENMASK() values - an N-bit field
-> + * starting at bit #M is encoded as GENMASK(M + N - 1, M).  Note that
-> + * bit numbers refer to endianness of the object we are working with -
-> + * e.g. GENMASK(11, 0) in __be16 refers to the second byte and the lower
-> + * 4 bits of the first byte.  In __le16 it would refer to the first byte
-> + * and the lower 4 bits of the second byte, etc.
-> + *
-> + * Field specification must be a constant; __builtin_constant_p() doesn't
-> + * have to be true for it, but compiler must be able to evaluate it at
-> + * build time.  If it cannot or if the value does not encode any bitfield,
-> + * the build will fail.
-> + *
-> + * If the value being stored in a bitfield is a constant that does not fit
-> + * into that bitfield, a warning will be generated at compile time.
-> + */
-
--- 
-With Best Regards,
-Andy Shevchenko
-
+diff --git a/drivers/usb/serial/option.c b/drivers/usb/serial/option.c
+index 5de856f65f0d..19921f129c0e 100644
+=2D-- a/drivers/usb/serial/option.c
++++ b/drivers/usb/serial/option.c
+@@ -335,10 +335,11 @@ static void option_instat_callback(struct urb *urb);
+ #define TELIT_PRODUCT_LE920A4_1208		0x1208
+ #define TELIT_PRODUCT_LE920A4_1211		0x1211
+ #define TELIT_PRODUCT_LE920A4_1212		0x1212
+ #define TELIT_PRODUCT_LE920A4_1213		0x1213
+ #define TELIT_PRODUCT_LE920A4_1214		0x1214
++#define TELIT_PRODUCT_LE910_USBCFG7		0x1252
+=20
+ /* ZTE PRODUCTS */
+ #define ZTE_VENDOR_ID				0x19d2
+ #define ZTE_PRODUCT_MF622			0x0001
+ #define ZTE_PRODUCT_MF628			0x0015
+@@ -1489,10 +1490,11 @@ static const struct usb_device_id option_ids[] =3D=
+ {
+ 	{ USB_DEVICE_INTERFACE_CLASS(TELIT_VENDOR_ID, 0x1230, 0xff),	/* Telit LE=
+910Cx (rmnet) */
+ 	  .driver_info =3D NCTRL(0) | RSVD(1) | RSVD(2) },
+ 	{ USB_DEVICE_INTERFACE_CLASS(TELIT_VENDOR_ID, 0x1231, 0xff),	/* Telit LE=
+910Cx (RNDIS) */
+ 	  .driver_info =3D NCTRL(2) | RSVD(3) },
+ 	{ USB_DEVICE_AND_INTERFACE_INFO(TELIT_VENDOR_ID, 0x1250, 0xff, 0x00, 0x0=
+0) },	/* Telit LE910Cx (rmnet) */
++	{ USB_DEVICE_INTERFACE_CLASS(TELIT_VENDOR_ID, TELIT_PRODUCT_LE910_USBCFG=
+7, 0xff) },	/* Telit LE910Cx (MBIM) */
+ 	{ USB_DEVICE(TELIT_VENDOR_ID, 0x1260),
+ 	  .driver_info =3D NCTRL(0) | RSVD(1) | RSVD(2) },
+ 	{ USB_DEVICE(TELIT_VENDOR_ID, 0x1261),
+ 	  .driver_info =3D NCTRL(0) | RSVD(1) | RSVD(2) },
+ 	{ USB_DEVICE(TELIT_VENDOR_ID, 0x1900),				/* Telit LN940 (QMI) */
+=2D-=20
+2.39.5
 
