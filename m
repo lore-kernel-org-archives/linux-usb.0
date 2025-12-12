@@ -1,42 +1,42 @@
 Received: from mailtransmit05.runbox.com (mailtransmit05.runbox.com [185.226.149.38])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 13F7D2DC33D;
-	Fri, 12 Dec 2025 19:38:10 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 68CE428151C;
+	Fri, 12 Dec 2025 19:38:12 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.226.149.38
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1765568295; cv=none; b=uaBtFOyAu5nHSp0wSrMkjNK5cy3ALvtj/RTpMkxFjbMFcmD/JquIDB3GrT8p9ij2HjAYecJq+OiNQxcutUSTnXh/71J+MDghfZLtOESWmCSlowqQx5JAOWPmxdlElhAECFmDne0GGwhuTY6vVBgqKB0vz4z8g0TyHKJWYpCCTsM=
+	t=1765568295; cv=none; b=tJ+1oWZE+iRvN1t3qrs0eS291GSOSfkPGaLbtO/+i/UV9KQJW7Ij5yz1WudHeOVh+Wh1Chu3q4d8leuhTzXMqIuVXci7AQFI4djIqyD6sSnVOB3QVCisBuTho78BBlxGzoxKhiaIP0DZ9ZSlbO+fQtHp7jBqlPi9PLR4VPVxD9c=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
 	s=arc-20240116; t=1765568295; c=relaxed/simple;
-	bh=28J+8dq1JwHHdPRLjgx9Ss18YMj9ZMQlOdRW9yK1NrU=;
+	bh=4DhYdBQ8yGIeD+NXQinvRz/pDWYNEBhrFO/YnPCkfe4=;
 	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
-	 MIME-Version; b=Kho8ezIlpEjde+9XWHM0YwymOvUI5FBP4f6V7POPyj2EyTbJ8whQ7ffy8VPrQTSpzs+vkqPbTLWyu1Eh1cI2p/T3YaxJA8dJU2uWuFbf3GaqMHIjxkrLGDfCC8iDPxIu7zvc5ocfr9WylZe659sa7059QQrK4YYgU0nltE00Dmc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=runbox.com; dkim=pass (2048-bit key) header.d=runbox.com header.i=@runbox.com header.b=ecTP+qUr; arc=none smtp.client-ip=185.226.149.38
+	 MIME-Version; b=UY+B4tSuXic55ZqNg148JwW3WzONNRaiKVjt1uAQDnaNWHXwLPaiQv7wR9ckUt5lRmInh9lSnlYPRixXMcx5gOJyt6OOy9FARelp0q3vQXqeggwl/6+4d6LWhyudC5xS4bPE0SG87LpBq5aFgmLRdZxo+2+jB3G7Jg5dObWPPTg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=runbox.com; dkim=pass (2048-bit key) header.d=runbox.com header.i=@runbox.com header.b=hDKaCwM2; arc=none smtp.client-ip=185.226.149.38
 Authentication-Results: smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=runbox.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=runbox.com header.i=@runbox.com header.b="ecTP+qUr"
+	dkim=pass (2048-bit key) header.d=runbox.com header.i=@runbox.com header.b="hDKaCwM2"
 Received: from mailtransmit03.runbox ([10.9.9.163] helo=aibo.runbox.com)
 	by mailtransmit05.runbox.com with esmtps  (TLS1.2) tls TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256
 	(Exim 4.93)
 	(envelope-from <david.laight.linux_spam@runbox.com>)
-	id 1vU8xs-007TaO-JL; Fri, 12 Dec 2025 20:38:08 +0100
+	id 1vU8xu-007Tac-26; Fri, 12 Dec 2025 20:38:10 +0100
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=runbox.com;
 	 s=selector2; h=Content-Transfer-Encoding:MIME-Version:References:In-Reply-To
 	:Message-Id:Date:Subject:Cc:To:From;
-	bh=6U3T9tjd/hVxKlBQ0Q6ToH9Df4rvaTpY6G/EvE5x9HY=; b=ecTP+qUrIFB7nUlZrQifCzIq+n
-	UKiolkrWT5d3gGeSpYi/PeVGFMp0uTGd3Bmmt5ic+m6Pyutg3SOfNJJFWZkwD2T/oTasjzwVEpf/B
-	v7Onb8w/CEmif23SAVNc/T5so81RbyAM58ORTSFcIJIK7QQACPH2BVzT3mplgqxMng3gDpcgHEzyQ
-	5O2njuu5uNBsjmZGteluX0uhTMdgXKqA8C64uC57gsm1ux771BkGZ/uC0QeyM/Gk932w+fA1zbyyc
-	cHab4Xb959FgaleyYwDNUo1vuCfACcBsHXLiedmguLJiAG8/6XUl6g7ps59u+Sk+oo3cHjha+Huib
-	bUPbL6xQ==;
+	bh=LTG3TP4CYSEEXpFm2SzMNXKADoomq1D1zd91C1jNRlI=; b=hDKaCwM2e1S9f6NaM6UQaKwZ3W
+	P4K4x6XuLm2PNvX0Iu9yIGFzxhLxYBSpnI556EyO1izvFbhpG96TiApCwb7zeBhEeFB5W+8KTLeM8
+	toNuMg89W8hT2OoIqw5aOkvpCetLUYMGiHNTAWiTsSF7dqtR3t9qW38LKzHVMmxnqS86trxsflEIg
+	qbRg5ZDVBlVAmQnltM1U88gzERaK6MF3XQxU1AZGb1gFaAFn+1hWDaSG7bTpwtqBb+hRDAM/PhWME
+	j++vmTVx8StMjK1pJosHas9aHh0GMsU/Miiht7Nsx/7ltdHpWlxMD3jutcLg/8GMM56cJTi54qGpl
+	iOEbZ/ow==;
 Received: from [10.9.9.73] (helo=submission02.runbox)
 	by mailtransmit03.runbox with esmtp (Exim 4.86_2)
 	(envelope-from <david.laight.linux_spam@runbox.com>)
-	id 1vU8xs-00039g-8N; Fri, 12 Dec 2025 20:38:08 +0100
+	id 1vU8xt-00039r-Lp; Fri, 12 Dec 2025 20:38:09 +0100
 Received: by submission02.runbox with esmtpsa  [Authenticated ID (1493616)]  (TLS1.2:ECDHE_SECP256R1__RSA_PSS_RSAE_SHA256__AES_256_GCM:256)
 	(Exim 4.93)
-	id 1vU8xj-0030pR-0B; Fri, 12 Dec 2025 20:37:59 +0100
+	id 1vU8xe-0030pR-RE; Fri, 12 Dec 2025 20:37:54 +0100
 From: david.laight.linux@gmail.com
 To: Yury Norov <yury.norov@gmail.com>,
 	Rasmus Villemoes <linux@rasmusvillemoes.dk>,
@@ -58,9 +58,9 @@ To: Yury Norov <yury.norov@gmail.com>,
 	Yehezkel Bernat <YehezkelShB@gmail.com>,
 	Nicolas Frattaroli <nicolas.frattaroli@collabora.com>
 Cc: David Laight <david.laight.linux@gmail.com>
-Subject: [PATCH v2 10/16] bitfield: Split the 'val' check out of __BF_FIELD_CHECK_MASK()
-Date: Fri, 12 Dec 2025 19:37:15 +0000
-Message-Id: <20251212193721.740055-11-david.laight.linux@gmail.com>
+Subject: [PATCH v2 06/16] bitfield: Remove some pointless casts
+Date: Fri, 12 Dec 2025 19:37:11 +0000
+Message-Id: <20251212193721.740055-7-david.laight.linux@gmail.com>
 X-Mailer: git-send-email 2.39.5
 In-Reply-To: <20251212193721.740055-1-david.laight.linux@gmail.com>
 References: <20251212193721.740055-1-david.laight.linux@gmail.com>
@@ -74,128 +74,72 @@ Content-Transfer-Encoding: 8bit
 
 From: David Laight <david.laight.linux@gmail.com>
 
-Three of the five calls to __BF_FIELD_CHECK_MASK() don't have a 'value'
-to check, separate out as was done to __BF_FIELD_CHECK_REG().
+Now that _val is always large enough to hold _mask there is no need
+to cast it before the shift left.
 
-Since __BF_FIELD_CHECK_MASK() doesn't return a value, use
-do { ... } while (0) rather than ({ ... }).
+This also corrects the incorrect parenthesis in FIELD_FIT(),
+unlikely to be a real problem.
 
-There is no point checking a 'val' of zero or a 'reg' of 0ULL (both
-are placeholders) - remove/change the calls.
+For FIELD_GET() and FIELD_MAX() there is no point casting the
+result of the shift to the type of mask.
+Even if mask were char/short the value will immediately be promoted
+to 'signed int' as soon as it is used.
+All that is likely to happen is an extra and with 0xff.
 
-There should be a check of __BF_FIELD_CHECK_REG() when __BF_FIELD_GET()
-is called from field_get().
-Move the check from FIELD_GET() into __BF_FIELD_GET().
-
-Delete the now-unused __BF_FIELD_CHECK().
+Remove the associated extra (...) around __auto_type variable.
 
 Signed-off-by: David Laight <david.laight.linux@gmail.com>
 ---
- include/linux/bitfield.h | 38 +++++++++++++++++---------------------
- 1 file changed, 17 insertions(+), 21 deletions(-)
+ include/linux/bitfield.h | 10 +++++-----
+ 1 file changed, 5 insertions(+), 5 deletions(-)
 
 diff --git a/include/linux/bitfield.h b/include/linux/bitfield.h
-index ed5735c13a64..138f4c14786d 100644
+index c30120535680..f1859e28df5d 100644
 --- a/include/linux/bitfield.h
 +++ b/include/linux/bitfield.h
-@@ -45,39 +45,36 @@
- 
- #define __bf_shf(x) (__builtin_ffsll(x) - 1)
- 
--#define __BF_FIELD_CHECK_MASK(_mask, _val, _pfx)			\
--	({								\
-+#define __BF_FIELD_CHECK_MASK(_mask, _pfx)				\
-+	do {								\
- 		BUILD_BUG_ON_MSG(!__builtin_constant_p(_mask),		\
- 				 _pfx "mask is not constant");		\
- 		BUILD_BUG_ON_MSG((_mask) == 0, _pfx "mask is zero");	\
--		BUILD_BUG_ON_MSG(__builtin_constant_p(_val) ?		\
--				 ~((_mask) >> __bf_shf(_mask)) &	\
--					(0 + (_val)) : 0,		\
--				 _pfx "value too large for the field"); \
- 		__BUILD_BUG_ON_NOT_POWER_OF_2((_mask) +			\
- 					      (1ULL << __bf_shf(_mask))); \
--	})
-+	} while (0)
-+
-+#define __BF_FIELD_CHECK_VAL(mask, val, pfx)			\
-+	BUILD_BUG_ON_MSG(__builtin_constant_p(val) &&		\
-+			 ~((mask) >> __bf_shf(mask)) & (val),	\
-+			 pfx "value too large for the field")
- 
- #define __BF_FIELD_CHECK_REG(mask, reg, pfx)				\
- 	BUILD_BUG_ON_MSG((mask) + 0U + 0UL + 0ULL >			\
- 			 ~0ULL >> (64 - 8 * sizeof (reg)),		\
- 			 pfx "type of reg too small for mask")
- 
--#define __BF_FIELD_CHECK(mask, reg, val, pfx)				\
--	({								\
--		__BF_FIELD_CHECK_MASK(mask, val, pfx);			\
--		__BF_FIELD_CHECK_REG(mask, reg, pfx);			\
--	})
--
- #define __BF_FIELD_PREP(mask, val, pfx)					\
+@@ -88,13 +88,13 @@
+ #define __FIELD_PREP(mask, val, pfx)					\
  	({								\
--		__BF_FIELD_CHECK_MASK(mask, val, pfx);			\
-+		__BF_FIELD_CHECK_MASK(mask, pfx);			\
-+		__BF_FIELD_CHECK_VAL(mask, val, pfx);			\
- 		((val) << __bf_shf(mask)) & (mask);			\
+ 		__BF_FIELD_CHECK_MASK(mask, val, pfx);			\
+-		((typeof(mask))(val) << __bf_shf(mask)) & (mask);	\
++		((val) << __bf_shf(mask)) & (mask);			\
  	})
  
- #define __BF_FIELD_GET(mask, reg, pfx)					\
+ #define __FIELD_GET(mask, reg, pfx)					\
  	({								\
--		__BF_FIELD_CHECK_MASK(mask, 0U, pfx);			\
-+		__BF_FIELD_CHECK_MASK(mask, pfx);			\
-+		__BF_FIELD_CHECK_REG(mask, reg, pfx);			\
- 		((reg) & (mask)) >> __bf_shf(mask);			\
+ 		__BF_FIELD_CHECK_MASK(mask, 0U, pfx);			\
+-		(typeof(mask))(((reg) & (mask)) >> __bf_shf(mask));	\
++		((reg) & (mask)) >> __bf_shf(mask);			\
  	})
  
-@@ -91,7 +88,7 @@
- #define FIELD_MAX(mask)							\
+ /**
+@@ -108,7 +108,7 @@
  	({								\
  		__auto_type _mask = mask;				\
--		__BF_FIELD_CHECK(_mask, 0ULL, 0ULL, "FIELD_MAX: ");	\
-+		__BF_FIELD_CHECK_MASK(_mask, "FIELD_MAX: ");		\
- 		(_mask >> __bf_shf(_mask));				\
+ 		__BF_FIELD_CHECK(_mask, 0ULL, 0ULL, "FIELD_MAX: ");	\
+-		(typeof(_mask))((_mask) >> __bf_shf(_mask));		\
++		(_mask >> __bf_shf(_mask));				\
  	})
  
-@@ -106,7 +103,7 @@
- 	({								\
+ /**
+@@ -123,7 +123,7 @@
  		__auto_type _mask = mask;				\
  		__auto_type _val = 1 ? (val) : _mask;			\
--		__BF_FIELD_CHECK(_mask, 0ULL, 0ULL, "FIELD_FIT: ");	\
-+		__BF_FIELD_CHECK_MASK(_mask, "FIELD_FIT: ");		\
- 		!((_val << __bf_shf(_mask)) & ~_mask);			\
+ 		__BF_FIELD_CHECK(_mask, 0ULL, 0ULL, "FIELD_FIT: ");	\
+-		!((((typeof(_mask))_val) << __bf_shf(_mask)) & ~(_mask)); \
++		!((_val << __bf_shf(_mask)) & ~_mask);			\
  	})
  
-@@ -122,7 +119,6 @@
- 	({								\
- 		__auto_type _mask = mask;				\
- 		__auto_type _val = 1 ? (val) : _mask;			\
--		__BF_FIELD_CHECK_REG(_mask, 0ULL, "FIELD_PREP: ");	\
- 		__BF_FIELD_PREP(_mask, _val, "FIELD_PREP: ");		\
+ /**
+@@ -201,7 +201,7 @@
+ 		typecheck_pointer(_reg_p);						\
+ 		__BF_FIELD_CHECK(_mask, *(_reg_p), _val, "FIELD_MODIFY: ");		\
+ 		*(_reg_p) &= ~(_mask);							\
+-		*(_reg_p) |= (((typeof(_mask))(_val) << __bf_shf(_mask)) & (_mask));	\
++		*(_reg_p) |= (_val << __bf_shf(_mask)) & _mask;				\
  	})
  
-@@ -164,7 +160,6 @@
- 	({								\
- 		__auto_type _mask = mask;				\
- 		__auto_type _reg = reg;					\
--		__BF_FIELD_CHECK_REG(_mask, _reg, "FIELD_GET: ");	\
- 		__BF_FIELD_GET(_mask, _reg, "FIELD_GET: ");		\
- 	})
- 
-@@ -182,8 +177,9 @@
- 		__auto_type _mask = mask;						\
- 		__auto_type _reg_p = reg_p;						\
- 		__auto_type _val = 1 ? (val) : _mask;					\
--		typecheck_pointer(_reg_p);						\
--		__BF_FIELD_CHECK(_mask, *(_reg_p), _val, "FIELD_MODIFY: ");		\
-+		__BF_FIELD_CHECK_MASK(_mask, "FIELD_MODIFY: ");				\
-+		__BF_FIELD_CHECK_VAL(_mask, _val, "FIELD_MODIFY: ");			\
-+		__BF_FIELD_CHECK_REG(_mask, *_reg_p, "FIELD_MODIFY: ");			\
- 		*_reg_p = (*_reg_p & ~_mask) | ((_val << __bf_shf(_mask)) & _mask);	\
- 	})
- 
+ extern void __compiletime_error("value doesn't fit into mask")
 -- 
 2.39.5
 
