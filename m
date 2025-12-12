@@ -1,42 +1,42 @@
 Received: from mailtransmit05.runbox.com (mailtransmit05.runbox.com [185.226.149.38])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C7DC12F6184;
-	Fri, 12 Dec 2025 19:38:12 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 361D32EFDA2;
+	Fri, 12 Dec 2025 19:38:14 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.226.149.38
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1765568295; cv=none; b=pIYgTIiEsxHjcXon9YO4MvGmjOkjyC5/D0PCO+XFgRoWuiIw3lMaueD/I88obYd2S3L/s35oKAPPhldU+Og/+8B4kf0SK98Z0r9l55ZQfL4LBa4TCCt0vF00tbXL51yNj6P5x5lhH38nEQRma8tVsCH9K3N6+B9WDGOge6TQxuc=
+	t=1765568297; cv=none; b=X7WnQoW8hK78LMtKA6UysoiPPaAatBAx2hD66hzisSPjvgG4cAUXfUfXaVbf4CFWtjHdhkP30fVj2ixUaNWjqephto7ZkmjSV5sPgYZAgJoy+NXGJSewAkwlCiuUWuQEe8TEd/ZOKLC5VAPlVgFsfzK2lENsjAB4L5P+hy/Po80=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1765568295; c=relaxed/simple;
-	bh=CSJsxa9xyu7aDhk6yxlncz4abHbJ8KPOGVhQs3YLKhg=;
+	s=arc-20240116; t=1765568297; c=relaxed/simple;
+	bh=0LivVI6n2Hn6n9OC7XzMKkHYvEuxGTxy2TCbVRFLvp8=;
 	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
-	 MIME-Version; b=AL9Qd6eH8SwPvIxwh1PoPzEukd5JxQVAVlq/ihih3eAy7Y2F3l9VBtwJMK5mrPvWdohZY+/wVA7IHFEYVo5o17UY+4CLM2t5SQLmI7MoJ2idk8y3O3+URYpuaEMGI+klNkbCNWveDlfm9QWpwLe/C5RFH21RcJf91eQ/aFawhVY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=runbox.com; dkim=pass (2048-bit key) header.d=runbox.com header.i=@runbox.com header.b=BFFCouyy; arc=none smtp.client-ip=185.226.149.38
+	 MIME-Version; b=o/Lm1zp8oKfphbsMyy6dpo4jPWaeA+EHFTeivEYSLdCdcfgJFinuc/q+macSFSY7MGNdJWBnot1HpAStXi5oMhmzuv4UpEn1mjtQiVSslVJM9n4Ne/paQTA1pdBOK0Nf+DIIjIHf0UIZ5lGirKf95FxQJTHkKVNZ+uVOWI8uNaU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=runbox.com; dkim=pass (2048-bit key) header.d=runbox.com header.i=@runbox.com header.b=bu2KWORW; arc=none smtp.client-ip=185.226.149.38
 Authentication-Results: smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=runbox.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=runbox.com header.i=@runbox.com header.b="BFFCouyy"
-Received: from mailtransmit03.runbox ([10.9.9.163] helo=aibo.runbox.com)
+	dkim=pass (2048-bit key) header.d=runbox.com header.i=@runbox.com header.b="bu2KWORW"
+Received: from mailtransmit02.runbox ([10.9.9.162] helo=aibo.runbox.com)
 	by mailtransmit05.runbox.com with esmtps  (TLS1.2) tls TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256
 	(Exim 4.93)
 	(envelope-from <david.laight.linux_spam@runbox.com>)
-	id 1vU8xu-007Taj-EW; Fri, 12 Dec 2025 20:38:10 +0100
+	id 1vU8xx-007Tbj-7L; Fri, 12 Dec 2025 20:38:13 +0100
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=runbox.com;
 	 s=selector2; h=Content-Transfer-Encoding:MIME-Version:References:In-Reply-To
 	:Message-Id:Date:Subject:Cc:To:From;
-	bh=6aqv+V5GEVFjOVOl0hKZO1gtT1BRvvjcLF837XqfAaE=; b=BFFCouyyaTIes4oFGBd+WEFrmd
-	B9AuCUlRMZtZuBdy0f0RHN5KOA2O43c7D8uV74I8jpNC2PJ5Dd0GKr7Oe0ipnYK1NHajfEu7ALt+I
-	WvgIZ9v/cnhuptTmRIykKv9ODiSw8G1eNzXO5IAHxSyCiYWLuIMhqa/O27JMIbYEd3Mu/LcSbnFU7
-	Lk79jjsaexlTPu2vmYiRzjx2SZSBnGF0U/lixe4pvAU2zboG8h4NqjrOZB3S6WnQheZdlRpTj/OVT
-	CsHjZI4VvclE/6BS+6JrEHS/AxZZCi/jRfDui6RgmaZ5siMbQHdZikUKDCyJ4UL95gew5Gzg9c7nb
-	G5mi7idw==;
+	bh=K3GjdOlpY6miMHRcMr+AALWLshNL5czI7BOpgFx6os0=; b=bu2KWORW3Adja9xUa9PQSPIHCd
+	m7v/JlPBqaiVxiddGomf5+e//NGcMrmdU14xBevFL7J9CiEQC8gXKX1oG8cMXugLfttp1D24e1Rrp
+	32n3ZR7jQi696/px2IfrAXnxAiPR00U/OdtqSpGLzrcrwDqGbBBvJcndNkokLTOTWdkMWE5F7HwjI
+	2ewng04+DRmokPV05S8vtly1MV5DhE33mBZSoRQGkWPtD7OJz6Iaeif06EszmPEMy/molKwrYSwoG
+	kFycIHX6QmkOtdej9rG0HrlVe1vd7qs/GOgrA0Zx8XY68hKOplySl03QqGgCHzZRG8eV4u99hOXSC
+	o8+W3Sgg==;
 Received: from [10.9.9.73] (helo=submission02.runbox)
-	by mailtransmit03.runbox with esmtp (Exim 4.86_2)
+	by mailtransmit02.runbox with esmtp (Exim 4.86_2)
 	(envelope-from <david.laight.linux_spam@runbox.com>)
-	id 1vU8xu-00039x-5D; Fri, 12 Dec 2025 20:38:10 +0100
+	id 1vU8xw-0006ut-TP; Fri, 12 Dec 2025 20:38:13 +0100
 Received: by submission02.runbox with esmtpsa  [Authenticated ID (1493616)]  (TLS1.2:ECDHE_SECP256R1__RSA_PSS_RSAE_SHA256__AES_256_GCM:256)
 	(Exim 4.93)
-	id 1vU8xl-0030pR-3T; Fri, 12 Dec 2025 20:38:01 +0100
+	id 1vU8xo-0030pR-77; Fri, 12 Dec 2025 20:38:04 +0100
 From: david.laight.linux@gmail.com
 To: Yury Norov <yury.norov@gmail.com>,
 	Rasmus Villemoes <linux@rasmusvillemoes.dk>,
@@ -58,9 +58,9 @@ To: Yury Norov <yury.norov@gmail.com>,
 	Yehezkel Bernat <YehezkelShB@gmail.com>,
 	Nicolas Frattaroli <nicolas.frattaroli@collabora.com>
 Cc: David Laight <david.laight.linux@gmail.com>
-Subject: [PATCH v2 12/16] bitfield: Remove leading _ from #define formal parameter names
-Date: Fri, 12 Dec 2025 19:37:17 +0000
-Message-Id: <20251212193721.740055-13-david.laight.linux@gmail.com>
+Subject: [PATCH v2 15/16] bitfield: Update comments for le/be functions
+Date: Fri, 12 Dec 2025 19:37:20 +0000
+Message-Id: <20251212193721.740055-16-david.laight.linux@gmail.com>
 X-Mailer: git-send-email 2.39.5
 In-Reply-To: <20251212193721.740055-1-david.laight.linux@gmail.com>
 References: <20251212193721.740055-1-david.laight.linux@gmail.com>
@@ -74,66 +74,80 @@ Content-Transfer-Encoding: 8bit
 
 From: David Laight <david.laight.linux@gmail.com>
 
-There is no need to 'protect' formal parameter names from anything
-outside the #define body itself.
+Make it clear the the values are converted to host order before
+being acted on.
+Order the explantions with the simple functions first.
+
+These still need converting to kerneldoc format.
 
 Signed-off-by: David Laight <david.laight.linux@gmail.com>
 ---
- include/linux/bitfield.h | 22 +++++++++++-----------
- 1 file changed, 11 insertions(+), 11 deletions(-)
+ include/linux/bitfield.h | 38 ++++++++++++++++++--------------------
+ 1 file changed, 18 insertions(+), 20 deletions(-)
 
 diff --git a/include/linux/bitfield.h b/include/linux/bitfield.h
-index 6f454ef43d24..753032285754 100644
+index 3bf82121a282..3f43683ebe96 100644
 --- a/include/linux/bitfield.h
 +++ b/include/linux/bitfield.h
-@@ -48,12 +48,12 @@
- #define __BF_VALIDATE_MASK(mask) \
- 	(!(mask) || ((mask) & ((mask) + ((mask) & -(mask)))))
- 
--#define __BF_FIELD_CHECK_MASK(_mask, _pfx)				\
-+#define __BF_FIELD_CHECK_MASK(mask, pfx)				\
- 	do {								\
--		BUILD_BUG_ON_MSG(!__builtin_constant_p(_mask),		\
--				 _pfx "mask is not constant");		\
--		BUILD_BUG_ON_MSG(__BF_VALIDATE_MASK(_mask),		\
--				 _pfx "mask is zero or not contiguous");	\
-+		BUILD_BUG_ON_MSG(!__builtin_constant_p(mask),		\
-+				 pfx "mask is not constant");		\
-+		BUILD_BUG_ON_MSG(__BF_VALIDATE_MASK(mask),		\
-+				 pfx "mask is zero or not contiguous");	\
- 	} while (0)
- 
- #define __BF_FIELD_CHECK_VAL(mask, val, pfx)			\
-@@ -126,8 +126,8 @@
- 
- /**
-  * FIELD_PREP_CONST() - prepare a constant bitfield element
-- * @_mask: shifted mask defining the field's length and position
-- * @_val:  value to put in the field
-+ * @mask: shifted mask defining the field's length and position
-+ * @val:  value to put in the field
+@@ -184,24 +184,24 @@ do {								\
+ /*
+  * Primitives for manipulating bitfields both in host- and fixed-endian.
   *
-  * FIELD_PREP_CONST() masks and shifts up the value.  The result should
-  * be combined with other fields of the bitfield using logical OR.
-@@ -136,14 +136,14 @@
-  * be used in initializers. Error checking is less comfortable for this
-  * version, and non-constant masks cannot be used.
-  */
--#define FIELD_PREP_CONST(_mask, _val)					\
-+#define FIELD_PREP_CONST(mask, val)					\
- 	(								\
- 		/* mask must be non-zero and contiguous */		\
--		BUILD_BUG_ON_ZERO(__BF_VALIDATE_MASK(_mask)) +		\
-+		BUILD_BUG_ON_ZERO(__BF_VALIDATE_MASK(mask)) +		\
- 		/* check if value fits */				\
--		BUILD_BUG_ON_ZERO(~((_mask) >> __bf_shf(_mask)) & (_val)) + \
-+		BUILD_BUG_ON_ZERO(~((mask) >> __bf_shf(mask)) & (val)) + \
- 		/* and create the value */				\
--		(((typeof(_mask))(_val) << __bf_shf(_mask)) & (_mask))	\
-+		(((typeof(mask))(val) << __bf_shf(mask)) & (mask))	\
- 	)
- 
- /**
+- * * u32 le32_get_bits(__le32 val, u32 field) extracts the contents of the
+- *   bitfield specified by @field in little-endian 32bit object @val and
+- *   converts it to host-endian.
+  *
+- * * void le32p_replace_bits(__le32 *p, u32 v, u32 field) replaces
+- *   the contents of the bitfield specified by @field in little-endian
+- *   32bit object pointed to by @p with the value of @v.  New value is
+- *   given in host-endian and stored as little-endian.
++ * * u32 le32_get_bits(__le32 val, u32 field) converts the little-endian 32bit
++ *   object @val to host-endian then extracts the contents of the bitfield
++ *   specified by @field.
++ *
++ * * __le32 le32_encode_bits(u32 v, u32 field) encodes the value of @v into
++ *   the bitfield specified by @field then converts the value to little-endian.
++ *   All the bits outside that bitfield being zero.
+  *
+- * * __le32 le32_replace_bits(__le32 old, u32 v, u32 field) is equivalent to
+- *   ({__le32 tmp = old; le32p_replace_bits(&tmp, v, field); tmp;})
+- *   In other words, instead of modifying an object in memory, it takes
+- *   the initial value and returns the modified one.
++ * * __le32 le32_replace_bits(__le32 old, u32 v, u32 field) converts the
++ *   little-endian 32bit object @old to host order, replaces the contents
++ *   of the bitfield specified by @field with @v, then returns the value
++ *   converted back to little-endian.
+  *
+- * * __le32 le32_encode_bits(u32 v, u32 field) is equivalent to
+- *   le32_replace_bits(0, v, field).  In other words, it returns a little-endian
+- *   32bit object with the bitfield specified by @field containing the
+- *   value of @v and all bits outside that bitfield being zero.
++ * * void le32p_replace_bits(__le32 *p, u32 v, u32 field) replaces
++ *   the contents of the bitfield specified by @field in little-endian
++ *   32bit object pointed to by @p with the value of @v.
++ *   Equivalent to *p = le32_replace_bits(*p, v, field).
+  *
+  * Such set of helpers is defined for each of little-, big- and host-endian
+  * types; e.g. u64_get_bits(val, field) will return the contents of the bitfield
+@@ -210,15 +210,13 @@ do {								\
+  *
+  * Fields to access are specified as GENMASK() values - an N-bit field
+  * starting at bit #M is encoded as GENMASK(M + N - 1, M).  Note that
+- * bit numbers refer to endianness of the object we are working with -
++ * bit numbers refer to the value after being converted to host order -
+  * e.g. GENMASK(11, 0) in __be16 refers to the second byte and the lower
+  * 4 bits of the first byte.  In __le16 it would refer to the first byte
+  * and the lower 4 bits of the second byte, etc.
+  *
+- * Field specification must be a constant; __builtin_constant_p() doesn't
+- * have to be true for it, but compiler must be able to evaluate it at
+- * build time.  If it cannot or if the value does not encode any bitfield,
+- * the build will fail.
++ * Field specification must be a non-zero constant, otherwise the build
++ * will fail.
+  *
+  * If the value being stored in a bitfield is a constant that does not fit
+  * into that bitfield, a warning will be generated at compile time.
 -- 
 2.39.5
 
