@@ -1,42 +1,40 @@
 Received: from mailtransmit04.runbox.com (mailtransmit04.runbox.com [185.226.149.37])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A1D9930C350
-	for <linux-usb@vger.kernel.org>; Fri, 12 Dec 2025 20:11:59 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 70AF22DFA3A;
+	Fri, 12 Dec 2025 20:12:56 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.226.149.37
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1765570322; cv=none; b=gIf/r3aA/D2pr3HxTeC+bC8NyuDEvqBh5hpd1nYhcQ7/PlkQ6M6+gtSNZdyZ71ANz/HCc7scl32Pg6JG4LYCLQwKWpFWoYcel7k/oQuAHQIZoYMMiYQXBLrdkCJ1aouHvhRGYVt7IwnJmIR+6L/55R8cHCvXB8zeC5zOEexx5RE=
+	t=1765570380; cv=none; b=nD9iToPmw7sr+PRR8NfyMQSIXPK2UPknvRfzloBIgJakUqKbX/UqcJ1QS0EMM859yq/5alrJZPG8aKHs/hTW9kUcGAHxBtqa+bhZy3cOoOinIB/95Q960lAR1nI0wXvp8Zmef693KbK6FUwmXT93t22gf//l7chTGP0W7pAEn4I=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1765570322; c=relaxed/simple;
-	bh=zAilw6c1cTSLXleqFwparWwFnbwn1cLEm5G/XlL7Ptg=;
-	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
-	 MIME-Version; b=KP+AvM62ixMcEq2sscpK4APTnrPhPCpNx5/NZBXqEVkbYk3Eryley6Rd+g/q7wqVnPyNqubM+Q2X30xw9YL3JqX+2z9dpuABn+P0yzTqMCr7a6SAAv3Jk10fk0DNkylmqPlmGbrsyQB7BzlhMRNHVjv4hq2e5dSK/T7tiZsLk14=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=runbox.com; dkim=pass (2048-bit key) header.d=runbox.com header.i=@runbox.com header.b=pagUMnJu; arc=none smtp.client-ip=185.226.149.37
+	s=arc-20240116; t=1765570380; c=relaxed/simple;
+	bh=v4FUhHFdi5ZXqVqGPGRtWuk27Ggt9EW1AEDL4D/CxK4=;
+	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=Q5AQyjhmDrEeVIXO4uT1rHNLRuYIVSML91qIsfsFCSTVDluS79vQFPoVCuSX9nYOHtfXzze+LlinWXMk/fsoZON7oSunJxNPniFYaQMwAvE90/23DOId1qMPUBN0dPwbIlFuVtstnKOXURvxF3T/YIBTL7w71JlLv9MLTK1me54=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=runbox.com; dkim=pass (2048-bit key) header.d=runbox.com header.i=@runbox.com header.b=rcQrJ1Uq; arc=none smtp.client-ip=185.226.149.37
 Authentication-Results: smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=runbox.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=runbox.com header.i=@runbox.com header.b="pagUMnJu"
-Received: from mailtransmit02.runbox ([10.9.9.162] helo=aibo.runbox.com)
+	dkim=pass (2048-bit key) header.d=runbox.com header.i=@runbox.com header.b="rcQrJ1Uq"
+Received: from mailtransmit03.runbox ([10.9.9.163] helo=aibo.runbox.com)
 	by mailtransmit04.runbox.com with esmtps  (TLS1.2) tls TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256
 	(Exim 4.93)
 	(envelope-from <david.laight.linux_spam@runbox.com>)
-	id 1vU8xu-0087bq-Uf; Fri, 12 Dec 2025 20:38:10 +0100
+	id 1vU8xb-0087YP-88; Fri, 12 Dec 2025 20:37:51 +0100
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=runbox.com;
-	 s=selector2; h=Content-Transfer-Encoding:MIME-Version:References:In-Reply-To
-	:Message-Id:Date:Subject:Cc:To:From;
-	bh=gClv2ms3a8GLsRYy6HjqpYNYZFcf9BvN9jrm2mdq1WA=; b=pagUMnJuCRnozopuHaivaccyLT
-	r2pGb7PaZDYxLpM6osM7m7vz8KS09ge9xR/l0xhNbNcZow/5z5y66+dlsJgz15f+r7pCjFKDxZWYq
-	gI5jLfMAl7+AQk6/Mk7f6N7C4vX+vNA8/LWkMi0okplFi333u8tX8/KZ6NdNK+6EvYQ1ZKmG5CLf7
-	3hIvLwfScFl3TqOw5jGZ99gP8G0Y/eATz7rtY/9geL6+kFc9DV5EAn+C5Z8HqG/a2+f3FTWhigRjq
-	/97QXdh7j4Fem4VgmPj7yWl5DWNc/YXK7jXffW7tftTH3K0CSuLvHlu/icnlzX8tPSnL68+QZK++0
-	HoiCd0/w==;
+	 s=selector2; h=Content-Transfer-Encoding:MIME-Version:Message-Id:Date:
+	Subject:Cc:To:From; bh=4XbSLZvBmYJ9LzNNMyiNSXY8ll6ZHX2gvyxQipHU0mg=; b=rcQrJ1
+	UqegrICDo4fAnkhXKRRqrV0O8Ls326sDv/JcKcAk6Al2todKLnhlDNHsWwE3AK6hL1vZSqmtNyNVE
+	1OroZmCdGG07T7I6ydVzd/0k9mznWFvrss5MbAQmlkY6gfYbY6wdrXKKJTBvudku0zcOZrcX7kXs6
+	MCA+d2s5ZzuEFiEIdof9pZd6Ezoxs68O7fatVUKHjvMLYTxCWcRixnBFSnf/aJwm0C9NJCGdMjTq5
+	udguTWojDliIij6K8xW7LDs1g/RP381FYb0iKSH4SOcYfKKVbtxo46b/ul2fQTf3YFHb7+4Uta+sI
+	pOo4poy5yN6CaWpipJVUCkx0WELQ==;
 Received: from [10.9.9.73] (helo=submission02.runbox)
-	by mailtransmit02.runbox with esmtp (Exim 4.86_2)
+	by mailtransmit03.runbox with esmtp (Exim 4.86_2)
 	(envelope-from <david.laight.linux_spam@runbox.com>)
-	id 1vU8xu-0006uh-Ig; Fri, 12 Dec 2025 20:38:10 +0100
+	id 1vU8xZ-00039D-A3; Fri, 12 Dec 2025 20:37:49 +0100
 Received: by submission02.runbox with esmtpsa  [Authenticated ID (1493616)]  (TLS1.2:ECDHE_SECP256R1__RSA_PSS_RSAE_SHA256__AES_256_GCM:256)
 	(Exim 4.93)
-	id 1vU8xa-0030pR-JL; Fri, 12 Dec 2025 20:37:50 +0100
+	id 1vU8xY-0030pR-Gm; Fri, 12 Dec 2025 20:37:48 +0100
 From: david.laight.linux@gmail.com
 To: Yury Norov <yury.norov@gmail.com>,
 	Rasmus Villemoes <linux@rasmusvillemoes.dk>,
@@ -58,12 +56,10 @@ To: Yury Norov <yury.norov@gmail.com>,
 	Yehezkel Bernat <YehezkelShB@gmail.com>,
 	Nicolas Frattaroli <nicolas.frattaroli@collabora.com>
 Cc: David Laight <david.laight.linux@gmail.com>
-Subject: [PATCH v2 02/16] thunderbolt: Don't pass a bitfield to FIELD_GET
-Date: Fri, 12 Dec 2025 19:37:07 +0000
-Message-Id: <20251212193721.740055-3-david.laight.linux@gmail.com>
+Subject: [PATCH v2 0/16] bitfield: tidy up bitfield.h
+Date: Fri, 12 Dec 2025 19:37:05 +0000
+Message-Id: <20251212193721.740055-1-david.laight.linux@gmail.com>
 X-Mailer: git-send-email 2.39.5
-In-Reply-To: <20251212193721.740055-1-david.laight.linux@gmail.com>
-References: <20251212193721.740055-1-david.laight.linux@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
@@ -74,60 +70,70 @@ Content-Transfer-Encoding: 8bit
 
 From: David Laight <david.laight.linux@gmail.com>
 
-None of sizeof(), typeof() or __auto_type can be used with bitfields
-which makes it difficult to assign a #define parameter to a local
-without promoting char and short to int.
+I noticed some very long (18KB) error messages from the compiler.
+Turned out they were errors on lines that passed GENMASK() to FIELD_PREP().
+Since most of the #defines are already statement functions the values
+can be copied to locals so the actual parameters only get expanded once.
 
-Change:
-	u32 thunderbolt_version:8;
-to the equivalent:
-	u8 thunderbolt_version;
-(and the other three bytes of 'DWORD 4' to match).
+The 'bloat' is reduced further by using a simple test to ensure 'reg'
+is large enough, slightly simplifying the test for constant 'val' and
+only checking 'reg' and 'val' when the parameters are present.
 
-This is necessary so that FIELD_GET can use sizeof() to verify 'reg'.
+The first two patches are slightly problematic.
 
-Signed-off-by: David Laight <david.laight.linux@gmail.com>
----
+drivers/net/ethernet/netronome/nfp/nfpcore/nfp_nsp_eth.c manages to use
+a #define that should be an internal to bitfield.h, the changed file
+is actually more similar to the previous version.
+
+drivers/thunderbolt/tb.h passes a bifield to FIELD_GET(), these can't
+be used with sizeof, typeof or __auto_type.
+The existing FIELD_GET() uses _Generic(); gcc treats 'u32 foo:8' as
+'unsigned char' and clang treats 'u32 foo:n' as 'unsigned int'.
+So the code currentyly compiles 'by accident', pass 'u32 foo:6' and
+gcc will error the attempt to use typeof with a bitfield.
+For v2 fixed by changing the structure definition to use u8 for the
+relevant field.
+
+Both changes may need to to through the same tree as the header file changes.
+
+The changes are based on 'next' and contain the addition of field_prep()
+and field_get() for non-constant values.
+
+I also know it is the merge window.
+I expect to be generating a v3 in the new year (someone always has a comment).
 
 Changes for v2:
-- Change structure definition instead of call to FIELD_GET().
+- Change thunderbolt header (see above).
+- Fix variable name re-use in FIELD_PREP_WM16()
+- Use 'mask' (not _mask) in __BF_SHIFT().
+The changes to bitfield.h have been split into multiple patches,
+but the actual final file only has whitespace differences.
 
-FIELD_GET currently uses _Generic() which behaves differently for
-gcc and clang (I suspect both are wrong!).
-gcc treats 'u32 foo:8' as 'u8', but will take the 'default' for other
-widths (which will generate an error in FIED_GET().
-clang treats 'u32 foo:n' as 'u32'.
+David Laight (16):
+  nfp: Call FIELD_PREP() in NFP_ETH_SET_BIT_CONFIG() wrapper
+  thunderbolt: Don't pass a bitfield to FIELD_GET
+  bitmap: Use FIELD_PREP() in expansion of FIELD_PREP_WM16()
+  bitfield: Copy #define parameters to locals
+  bitfield: Merge __field_prep/get() into field_prep/get()
+  bitfield: Remove some pointless casts
+  bitfield: FIELD_MODIFY: Only do a single read/write on  the target
+  bitfield: Simplify __BF_FIELD_CHECK_REG()
+  bitfield: Rename __FIELD_PREP/GET() to __BF_FIELD_PREP/GET()
+  bitfield: Split the 'val' check out of __BF_FIELD_CHECK_MASK()
+  bitfield: Common up validation of the mask parameter
+  bitfield: Remove leading _ from #define formal parameter names
+  bitfield: Reduce indentation
+  bitfield: Add comment block for the host/fixed endian functions
+  bitfield: Update comments for le/be functions
+  build_bug.h; Remove __BUILD_BUG_ON_NOT_POWER_OF_2()
 
- drivers/thunderbolt/tb_regs.h | 16 ++++++++--------
- 1 file changed, 8 insertions(+), 8 deletions(-)
+ .../netronome/nfp/nfpcore/nfp_nsp_eth.c       |  16 +-
+ drivers/thunderbolt/tb_regs.h                 |  16 +-
+ include/linux/bitfield.h                      | 278 ++++++++++--------
+ include/linux/build_bug.h                     |   2 -
+ include/linux/hw_bitfield.h                   |  21 +-
+ 5 files changed, 175 insertions(+), 158 deletions(-)
 
-diff --git a/drivers/thunderbolt/tb_regs.h b/drivers/thunderbolt/tb_regs.h
-index c0bf136236e6..f35f062beb34 100644
---- a/drivers/thunderbolt/tb_regs.h
-+++ b/drivers/thunderbolt/tb_regs.h
-@@ -180,14 +180,14 @@ struct tb_regs_switch_header {
- 	u32 route_hi:31;
- 	bool enabled:1;
- 	/* DWORD 4 */
--	u32 plug_events_delay:8; /*
--				  * RW, pause between plug events in
--				  * milliseconds. Writing 0x00 is interpreted
--				  * as 255ms.
--				  */
--	u32 cmuv:8;
--	u32 __unknown4:8;
--	u32 thunderbolt_version:8;
-+	u8 plug_events_delay; /*
-+			       * RW, pause between plug events in
-+			       * milliseconds. Writing 0x00 is interpreted
-+			       * as 255ms.
-+			       */
-+	u8 cmuv;
-+	u8 __unknown4;
-+	u8 thunderbolt_version;
- } __packed;
- 
- /* Used with the router thunderbolt_version */
 -- 
 2.39.5
 
