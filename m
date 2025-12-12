@@ -1,126 +1,201 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from mailtransmit05.runbox.com (mailtransmit05.runbox.com [185.226.149.38])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0DA3726980F;
-	Fri, 12 Dec 2025 17:55:32 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 13F7D2DC33D;
+	Fri, 12 Dec 2025 19:38:10 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.226.149.38
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1765562133; cv=none; b=fLFTht5SGZcIhjWRA8IYl4RPkGBqiPf/T/NRfsoPhHGMf5vqy/RFHV1/aGbxpHCjrJgfwnT+xISxlwlmmCtFqdvpRZuUi5HBkrVeWoUL7Jse2+kgrvcOltan/C51zk7Nw10uAYgHqPkhRBlr83PZCR7OnQvAVBigoaT6AMkT+Xk=
+	t=1765568295; cv=none; b=uaBtFOyAu5nHSp0wSrMkjNK5cy3ALvtj/RTpMkxFjbMFcmD/JquIDB3GrT8p9ij2HjAYecJq+OiNQxcutUSTnXh/71J+MDghfZLtOESWmCSlowqQx5JAOWPmxdlElhAECFmDne0GGwhuTY6vVBgqKB0vz4z8g0TyHKJWYpCCTsM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1765562133; c=relaxed/simple;
-	bh=TT3BjiDXo7vLPijIYy6fIZThrWVyzGnxiLcPa/Xmfuw=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=JV5LkT1S1fqYOSYbAIZqMPipp6DPC5wt/cHoeUsRfPl3JI/ZUT5k2kI+vuhBVoGeCKubw6hlLTm/+5fLxiQ0WTKiivy+KEI86u/7/+zUWfFUiCWltJX2XotpQzT3OH093RsHAdXtBNfP0geyBQySYg95Au98c4VLsn0J0L8ZknE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=HAB0zwkL; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1765568295; c=relaxed/simple;
+	bh=28J+8dq1JwHHdPRLjgx9Ss18YMj9ZMQlOdRW9yK1NrU=;
+	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
+	 MIME-Version; b=Kho8ezIlpEjde+9XWHM0YwymOvUI5FBP4f6V7POPyj2EyTbJ8whQ7ffy8VPrQTSpzs+vkqPbTLWyu1Eh1cI2p/T3YaxJA8dJU2uWuFbf3GaqMHIjxkrLGDfCC8iDPxIu7zvc5ocfr9WylZe659sa7059QQrK4YYgU0nltE00Dmc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=runbox.com; dkim=pass (2048-bit key) header.d=runbox.com header.i=@runbox.com header.b=ecTP+qUr; arc=none smtp.client-ip=185.226.149.38
+Authentication-Results: smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=runbox.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="HAB0zwkL"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 3004AC19421;
-	Fri, 12 Dec 2025 17:55:29 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1765562132;
-	bh=TT3BjiDXo7vLPijIYy6fIZThrWVyzGnxiLcPa/Xmfuw=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=HAB0zwkLUGYg5Vcyi7Ms2WP5CJQHFP5S+cVj3UkFnmqiNW2xTlcmzLOVdkyEPCDpJ
-	 l6baQspDib/b05s84imOxcfD5oi6iPxoY2rhHFyfnvLDG632Yb5C9cpBsjEjA80X9v
-	 7GoDgZQZZ3itPz62rz4J5+qGpwULDouEUKh2jsEJLdhYmi7nv98gALs61leSuqv4OS
-	 A86YdE9JPCe0qNhStkxyUT/tb8i7GqRNr4LcSDcJt4bPYF279MbUPr9BwU/ioXJlA5
-	 GHSSusvNAXbNgmG8JvFMfp4jvBQjQIw5jTzuhADq2TlHkU12uxVFjUFL0KnlsYTgYu
-	 1dRDsSX7Lj/iw==
-Date: Fri, 12 Dec 2025 17:55:26 +0000
-From: Conor Dooley <conor@kernel.org>
-To: Robert Marko <robert.marko@sartura.hr>
-Cc: robh@kernel.org, krzk+dt@kernel.org, conor+dt@kernel.org,
-	gregkh@linuxfoundation.org, nicolas.ferre@microchip.com,
-	claudiu.beznea@tuxon.dev, mturquette@baylibre.com, sboyd@kernel.org,
-	richardcochran@gmail.com, devicetree@vger.kernel.org,
-	linux-kernel@vger.kernel.org, linux-usb@vger.kernel.org,
-	linux-arm-kernel@lists.infradead.org, linux-clk@vger.kernel.org,
-	daniel.machon@microchip.com, UNGLinuxDriver@microchip.com,
-	luka.perkov@sartura.hr
-Subject: Re: [PATCH 2/4] dt-bindings: arm: Document Microchip LAN969x
-Message-ID: <20251212-dazzler-agility-d45940bd27d2@spud>
-References: <20251203122313.1287950-1-robert.marko@sartura.hr>
- <20251203122313.1287950-2-robert.marko@sartura.hr>
- <20251203-duly-leotard-86b83bd840c6@spud>
- <CA+HBbNH6wO2VWOp1Dn52ArrYg6z89FgYnT3x-jsHsTVJ5xSBSA@mail.gmail.com>
- <20251208-absolute-diploma-6575729ab43f@spud>
- <CA+HBbNHuYCq9oV4ZjWGjwnJM=oz-O85p_tqB+UnTBmivzDoowg@mail.gmail.com>
+	dkim=pass (2048-bit key) header.d=runbox.com header.i=@runbox.com header.b="ecTP+qUr"
+Received: from mailtransmit03.runbox ([10.9.9.163] helo=aibo.runbox.com)
+	by mailtransmit05.runbox.com with esmtps  (TLS1.2) tls TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256
+	(Exim 4.93)
+	(envelope-from <david.laight.linux_spam@runbox.com>)
+	id 1vU8xs-007TaO-JL; Fri, 12 Dec 2025 20:38:08 +0100
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=runbox.com;
+	 s=selector2; h=Content-Transfer-Encoding:MIME-Version:References:In-Reply-To
+	:Message-Id:Date:Subject:Cc:To:From;
+	bh=6U3T9tjd/hVxKlBQ0Q6ToH9Df4rvaTpY6G/EvE5x9HY=; b=ecTP+qUrIFB7nUlZrQifCzIq+n
+	UKiolkrWT5d3gGeSpYi/PeVGFMp0uTGd3Bmmt5ic+m6Pyutg3SOfNJJFWZkwD2T/oTasjzwVEpf/B
+	v7Onb8w/CEmif23SAVNc/T5so81RbyAM58ORTSFcIJIK7QQACPH2BVzT3mplgqxMng3gDpcgHEzyQ
+	5O2njuu5uNBsjmZGteluX0uhTMdgXKqA8C64uC57gsm1ux771BkGZ/uC0QeyM/Gk932w+fA1zbyyc
+	cHab4Xb959FgaleyYwDNUo1vuCfACcBsHXLiedmguLJiAG8/6XUl6g7ps59u+Sk+oo3cHjha+Huib
+	bUPbL6xQ==;
+Received: from [10.9.9.73] (helo=submission02.runbox)
+	by mailtransmit03.runbox with esmtp (Exim 4.86_2)
+	(envelope-from <david.laight.linux_spam@runbox.com>)
+	id 1vU8xs-00039g-8N; Fri, 12 Dec 2025 20:38:08 +0100
+Received: by submission02.runbox with esmtpsa  [Authenticated ID (1493616)]  (TLS1.2:ECDHE_SECP256R1__RSA_PSS_RSAE_SHA256__AES_256_GCM:256)
+	(Exim 4.93)
+	id 1vU8xj-0030pR-0B; Fri, 12 Dec 2025 20:37:59 +0100
+From: david.laight.linux@gmail.com
+To: Yury Norov <yury.norov@gmail.com>,
+	Rasmus Villemoes <linux@rasmusvillemoes.dk>,
+	linux-kernel@vger.kernel.org,
+	linux-usb@vger.kernel.org,
+	Geert Uytterhoeven <geert+renesas@glider.be>,
+	Alexandre Belloni <alexandre.belloni@bootlin.com>,
+	Jonathan Cameron <Jonathan.Cameron@huawei.com>,
+	Crt Mori <cmo@melexis.com>,
+	Richard Genoud <richard.genoud@bootlin.com>,
+	Andy Shevchenko <andriy.shevchenko@intel.com>,
+	Luo Jie <quic_luoj@quicinc.com>,
+	Peter Zijlstra <peterz@infradead.org>,
+	Jakub Kicinski <kuba@kernel.org>,
+	netdev@vger.kernel.org,
+	"David S . Miller" <davem@davemloft.net>,
+	Mika Westerberg <mika.westerberg@linux.intel.com>,
+	Andreas Noever <andreas.noever@gmail.com>,
+	Yehezkel Bernat <YehezkelShB@gmail.com>,
+	Nicolas Frattaroli <nicolas.frattaroli@collabora.com>
+Cc: David Laight <david.laight.linux@gmail.com>
+Subject: [PATCH v2 10/16] bitfield: Split the 'val' check out of __BF_FIELD_CHECK_MASK()
+Date: Fri, 12 Dec 2025 19:37:15 +0000
+Message-Id: <20251212193721.740055-11-david.laight.linux@gmail.com>
+X-Mailer: git-send-email 2.39.5
+In-Reply-To: <20251212193721.740055-1-david.laight.linux@gmail.com>
+References: <20251212193721.740055-1-david.laight.linux@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-	protocol="application/pgp-signature"; boundary="2+Dmjsrlr/kIiniW"
-Content-Disposition: inline
-In-Reply-To: <CA+HBbNHuYCq9oV4ZjWGjwnJM=oz-O85p_tqB+UnTBmivzDoowg@mail.gmail.com>
+Content-Transfer-Encoding: 8bit
 
+From: David Laight <david.laight.linux@gmail.com>
 
---2+Dmjsrlr/kIiniW
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+Three of the five calls to __BF_FIELD_CHECK_MASK() don't have a 'value'
+to check, separate out as was done to __BF_FIELD_CHECK_REG().
 
-On Fri, Dec 12, 2025 at 11:09:01AM +0100, Robert Marko wrote:
-> On Mon, Dec 8, 2025 at 6:10=E2=80=AFPM Conor Dooley <conor@kernel.org> wr=
-ote:
-> >
-> > On Mon, Dec 08, 2025 at 11:30:28AM +0100, Robert Marko wrote:
-> > > On Wed, Dec 3, 2025 at 8:19=E2=80=AFPM Conor Dooley <conor@kernel.org=
-> wrote:
-> > > >
-> > > > On Wed, Dec 03, 2025 at 01:21:30PM +0100, Robert Marko wrote:
-> > > > > Microchip LAN969x is a series of multi-port, multi-gigabit switch=
-es based
-> > > > > on ARMv8 Cortex-A53 CPU.
-> > > > >
-> > > > > Signed-off-by: Robert Marko <robert.marko@sartura.hr>
-> > > > > ---
-> > > > >  .../bindings/arm/microchip,lan969x.yaml       | 32 +++++++++++++=
-++++++
-> > > >
-> > > > This should not be in a unique file, put it in with the other micro=
-chip
-> > > > arm devices please. Also, the wildcard in the compatible is not
-> > > > permitted, only way it'd make sense is if these are different binni=
-ngs
-> > > > of the same silicon. If that's the case, you need to explain why,
-> > > > because compatibles are meant to be soc-specific.
-> > >
-> > > Hi Conor,
-> > > The issue is that there is no unique place for Microchip SoC-s,
-> > > LAN966x series is in the AT91 bindings
-> > > while SparX-5 has its own bindings file.
-> > >
-> > > What would you suggest in this case?
-> >
-> > Ideally, arm/atmel-at91.yaml and arm/microchip,sparx5.yaml would just
-> > become arm/microchip.yaml. The axi@600000000 thing in the sparx5 file
-> > looks pointless and can be deleted IMO.
->=20
-> Ok, I merged them all in one generic microchip.yaml binding, but I notice=
-d that
-> arm/atmel-at91.yaml is licensed under GPL-2.0 while arm/microchip,sparx5.=
-yaml
-> is dual-licensed as its preferred for bindings.
->=20
-> Is that going to be an issue?
+Since __BF_FIELD_CHECK_MASK() doesn't return a value, use
+do { ... } while (0) rather than ({ ... }).
 
-I *think* everyone that contributed, other than maybe Wolfram has
-already okayed any binding going to dual license. Just do it as a
-standalone commit in the patchset and make sure you CC Michael Walle
-and Wolfram Sang.
+There is no point checking a 'val' of zero or a 'reg' of 0ULL (both
+are placeholders) - remove/change the calls.
 
---2+Dmjsrlr/kIiniW
-Content-Type: application/pgp-signature; name="signature.asc"
+There should be a check of __BF_FIELD_CHECK_REG() when __BF_FIELD_GET()
+is called from field_get().
+Move the check from FIELD_GET() into __BF_FIELD_GET().
 
------BEGIN PGP SIGNATURE-----
+Delete the now-unused __BF_FIELD_CHECK().
 
-iHUEABYKAB0WIQRh246EGq/8RLhDjO14tDGHoIJi0gUCaTxXCwAKCRB4tDGHoIJi
-0th0AQCeGvXNFnRESx7BYMbBp8z3ebY/JmtThhaK/pvT8fDEAgEA+31CSiBsVH57
-cSVa85MdpgBrlggqpPrz+t3kfd+Vhg0=
-=/YvB
------END PGP SIGNATURE-----
+Signed-off-by: David Laight <david.laight.linux@gmail.com>
+---
+ include/linux/bitfield.h | 38 +++++++++++++++++---------------------
+ 1 file changed, 17 insertions(+), 21 deletions(-)
 
---2+Dmjsrlr/kIiniW--
+diff --git a/include/linux/bitfield.h b/include/linux/bitfield.h
+index ed5735c13a64..138f4c14786d 100644
+--- a/include/linux/bitfield.h
++++ b/include/linux/bitfield.h
+@@ -45,39 +45,36 @@
+ 
+ #define __bf_shf(x) (__builtin_ffsll(x) - 1)
+ 
+-#define __BF_FIELD_CHECK_MASK(_mask, _val, _pfx)			\
+-	({								\
++#define __BF_FIELD_CHECK_MASK(_mask, _pfx)				\
++	do {								\
+ 		BUILD_BUG_ON_MSG(!__builtin_constant_p(_mask),		\
+ 				 _pfx "mask is not constant");		\
+ 		BUILD_BUG_ON_MSG((_mask) == 0, _pfx "mask is zero");	\
+-		BUILD_BUG_ON_MSG(__builtin_constant_p(_val) ?		\
+-				 ~((_mask) >> __bf_shf(_mask)) &	\
+-					(0 + (_val)) : 0,		\
+-				 _pfx "value too large for the field"); \
+ 		__BUILD_BUG_ON_NOT_POWER_OF_2((_mask) +			\
+ 					      (1ULL << __bf_shf(_mask))); \
+-	})
++	} while (0)
++
++#define __BF_FIELD_CHECK_VAL(mask, val, pfx)			\
++	BUILD_BUG_ON_MSG(__builtin_constant_p(val) &&		\
++			 ~((mask) >> __bf_shf(mask)) & (val),	\
++			 pfx "value too large for the field")
+ 
+ #define __BF_FIELD_CHECK_REG(mask, reg, pfx)				\
+ 	BUILD_BUG_ON_MSG((mask) + 0U + 0UL + 0ULL >			\
+ 			 ~0ULL >> (64 - 8 * sizeof (reg)),		\
+ 			 pfx "type of reg too small for mask")
+ 
+-#define __BF_FIELD_CHECK(mask, reg, val, pfx)				\
+-	({								\
+-		__BF_FIELD_CHECK_MASK(mask, val, pfx);			\
+-		__BF_FIELD_CHECK_REG(mask, reg, pfx);			\
+-	})
+-
+ #define __BF_FIELD_PREP(mask, val, pfx)					\
+ 	({								\
+-		__BF_FIELD_CHECK_MASK(mask, val, pfx);			\
++		__BF_FIELD_CHECK_MASK(mask, pfx);			\
++		__BF_FIELD_CHECK_VAL(mask, val, pfx);			\
+ 		((val) << __bf_shf(mask)) & (mask);			\
+ 	})
+ 
+ #define __BF_FIELD_GET(mask, reg, pfx)					\
+ 	({								\
+-		__BF_FIELD_CHECK_MASK(mask, 0U, pfx);			\
++		__BF_FIELD_CHECK_MASK(mask, pfx);			\
++		__BF_FIELD_CHECK_REG(mask, reg, pfx);			\
+ 		((reg) & (mask)) >> __bf_shf(mask);			\
+ 	})
+ 
+@@ -91,7 +88,7 @@
+ #define FIELD_MAX(mask)							\
+ 	({								\
+ 		__auto_type _mask = mask;				\
+-		__BF_FIELD_CHECK(_mask, 0ULL, 0ULL, "FIELD_MAX: ");	\
++		__BF_FIELD_CHECK_MASK(_mask, "FIELD_MAX: ");		\
+ 		(_mask >> __bf_shf(_mask));				\
+ 	})
+ 
+@@ -106,7 +103,7 @@
+ 	({								\
+ 		__auto_type _mask = mask;				\
+ 		__auto_type _val = 1 ? (val) : _mask;			\
+-		__BF_FIELD_CHECK(_mask, 0ULL, 0ULL, "FIELD_FIT: ");	\
++		__BF_FIELD_CHECK_MASK(_mask, "FIELD_FIT: ");		\
+ 		!((_val << __bf_shf(_mask)) & ~_mask);			\
+ 	})
+ 
+@@ -122,7 +119,6 @@
+ 	({								\
+ 		__auto_type _mask = mask;				\
+ 		__auto_type _val = 1 ? (val) : _mask;			\
+-		__BF_FIELD_CHECK_REG(_mask, 0ULL, "FIELD_PREP: ");	\
+ 		__BF_FIELD_PREP(_mask, _val, "FIELD_PREP: ");		\
+ 	})
+ 
+@@ -164,7 +160,6 @@
+ 	({								\
+ 		__auto_type _mask = mask;				\
+ 		__auto_type _reg = reg;					\
+-		__BF_FIELD_CHECK_REG(_mask, _reg, "FIELD_GET: ");	\
+ 		__BF_FIELD_GET(_mask, _reg, "FIELD_GET: ");		\
+ 	})
+ 
+@@ -182,8 +177,9 @@
+ 		__auto_type _mask = mask;						\
+ 		__auto_type _reg_p = reg_p;						\
+ 		__auto_type _val = 1 ? (val) : _mask;					\
+-		typecheck_pointer(_reg_p);						\
+-		__BF_FIELD_CHECK(_mask, *(_reg_p), _val, "FIELD_MODIFY: ");		\
++		__BF_FIELD_CHECK_MASK(_mask, "FIELD_MODIFY: ");				\
++		__BF_FIELD_CHECK_VAL(_mask, _val, "FIELD_MODIFY: ");			\
++		__BF_FIELD_CHECK_REG(_mask, *_reg_p, "FIELD_MODIFY: ");			\
+ 		*_reg_p = (*_reg_p & ~_mask) | ((_val << __bf_shf(_mask)) & _mask);	\
+ 	})
+ 
+-- 
+2.39.5
+
