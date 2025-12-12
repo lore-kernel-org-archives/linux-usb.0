@@ -1,42 +1,42 @@
-Received: from mailtransmit05.runbox.com (mailtransmit05.runbox.com [185.226.149.38])
+Received: from mailtransmit04.runbox.com (mailtransmit04.runbox.com [185.226.149.37])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9CDA93126D8;
-	Fri, 12 Dec 2025 19:38:21 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.226.149.38
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A1D9930C350
+	for <linux-usb@vger.kernel.org>; Fri, 12 Dec 2025 20:11:59 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.226.149.37
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1765568304; cv=none; b=ht0RzKRmzOJF5RhBdafrz30JzkJrgx/TuP6xjxz9Lfr5TjW8zd5wdpIZTMdEH6sQtJrxF85Mcftnxr0EAaZt3xjRgZRdy02ieJjpWsMhCH31yIdc8A7kw62YIZ6xEb+UWqsROH2XZkOr7IzaUGZzqxc+2JXZ7eZX3Bu+fumyREU=
+	t=1765570322; cv=none; b=gIf/r3aA/D2pr3HxTeC+bC8NyuDEvqBh5hpd1nYhcQ7/PlkQ6M6+gtSNZdyZ71ANz/HCc7scl32Pg6JG4LYCLQwKWpFWoYcel7k/oQuAHQIZoYMMiYQXBLrdkCJ1aouHvhRGYVt7IwnJmIR+6L/55R8cHCvXB8zeC5zOEexx5RE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1765568304; c=relaxed/simple;
-	bh=qGRxQF8GFDnNcaSRGguN86dTeYa8fKIIpe8exdR+8yE=;
+	s=arc-20240116; t=1765570322; c=relaxed/simple;
+	bh=zAilw6c1cTSLXleqFwparWwFnbwn1cLEm5G/XlL7Ptg=;
 	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
-	 MIME-Version; b=s8tSaU9sYziGc2JBBH994lRhUnq2D+0doTF+jg5cRUXxQzmCiKOQNcrPvOEe0cpfao3iSl9Nl4/4PiyGLT4sTjz79BfVVSGy+ebtGOnP4ZvsMUjxGGlvhSMVoH5kEYu8lV2kmq0CczK4WiGrSqpB95Echs4243QFgqbsqUpsrvE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=runbox.com; dkim=pass (2048-bit key) header.d=runbox.com header.i=@runbox.com header.b=rcVDa5YA; arc=none smtp.client-ip=185.226.149.38
+	 MIME-Version; b=KP+AvM62ixMcEq2sscpK4APTnrPhPCpNx5/NZBXqEVkbYk3Eryley6Rd+g/q7wqVnPyNqubM+Q2X30xw9YL3JqX+2z9dpuABn+P0yzTqMCr7a6SAAv3Jk10fk0DNkylmqPlmGbrsyQB7BzlhMRNHVjv4hq2e5dSK/T7tiZsLk14=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=runbox.com; dkim=pass (2048-bit key) header.d=runbox.com header.i=@runbox.com header.b=pagUMnJu; arc=none smtp.client-ip=185.226.149.37
 Authentication-Results: smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=runbox.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=runbox.com header.i=@runbox.com header.b="rcVDa5YA"
+	dkim=pass (2048-bit key) header.d=runbox.com header.i=@runbox.com header.b="pagUMnJu"
 Received: from mailtransmit02.runbox ([10.9.9.162] helo=aibo.runbox.com)
-	by mailtransmit05.runbox.com with esmtps  (TLS1.2) tls TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256
+	by mailtransmit04.runbox.com with esmtps  (TLS1.2) tls TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256
 	(Exim 4.93)
 	(envelope-from <david.laight.linux_spam@runbox.com>)
-	id 1vU8xy-007TcT-UY; Fri, 12 Dec 2025 20:38:14 +0100
+	id 1vU8xu-0087bq-Uf; Fri, 12 Dec 2025 20:38:10 +0100
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=runbox.com;
 	 s=selector2; h=Content-Transfer-Encoding:MIME-Version:References:In-Reply-To
 	:Message-Id:Date:Subject:Cc:To:From;
-	bh=Gz2PF6SRur9iX1hthbk/yf6ubztCbT5FrnIggMPjKuA=; b=rcVDa5YAtioXHHVFgViVLZVf/H
-	UsgytYd98oJzotmL6Uz1rLYrBDtNcBajZ6A0uKmzGLd6NpSRstQJ+R62nDgaQvkGegAka3G3QCC11
-	X0oMvTj3XNCvh7LHxM9gCaw4VG6znltNOkSCEL8Osrl/CSMSLXep+vIyNMu5wTYD611YLaBQqE9Y5
-	SKFTjQMeCLSCd39S9LIx/MxqJuXOCJl0/hHzQ/NZFGosKhJN7blvUmwhCw5VoZM89WTrngWC5uMSE
-	Txbo9nWxITLP9PrisAfEmcWMW8D8kbeXnTHh4zcjEJJ+2FNShrHaW3HuPInJ0hJYPO0Z7iYdkHslp
-	hLdlVHPA==;
+	bh=gClv2ms3a8GLsRYy6HjqpYNYZFcf9BvN9jrm2mdq1WA=; b=pagUMnJuCRnozopuHaivaccyLT
+	r2pGb7PaZDYxLpM6osM7m7vz8KS09ge9xR/l0xhNbNcZow/5z5y66+dlsJgz15f+r7pCjFKDxZWYq
+	gI5jLfMAl7+AQk6/Mk7f6N7C4vX+vNA8/LWkMi0okplFi333u8tX8/KZ6NdNK+6EvYQ1ZKmG5CLf7
+	3hIvLwfScFl3TqOw5jGZ99gP8G0Y/eATz7rtY/9geL6+kFc9DV5EAn+C5Z8HqG/a2+f3FTWhigRjq
+	/97QXdh7j4Fem4VgmPj7yWl5DWNc/YXK7jXffW7tftTH3K0CSuLvHlu/icnlzX8tPSnL68+QZK++0
+	HoiCd0/w==;
 Received: from [10.9.9.73] (helo=submission02.runbox)
 	by mailtransmit02.runbox with esmtp (Exim 4.86_2)
 	(envelope-from <david.laight.linux_spam@runbox.com>)
-	id 1vU8xy-0006uz-KF; Fri, 12 Dec 2025 20:38:14 +0100
+	id 1vU8xu-0006uh-Ig; Fri, 12 Dec 2025 20:38:10 +0100
 Received: by submission02.runbox with esmtpsa  [Authenticated ID (1493616)]  (TLS1.2:ECDHE_SECP256R1__RSA_PSS_RSAE_SHA256__AES_256_GCM:256)
 	(Exim 4.93)
-	id 1vU8xf-0030pR-Ru; Fri, 12 Dec 2025 20:37:55 +0100
+	id 1vU8xa-0030pR-JL; Fri, 12 Dec 2025 20:37:50 +0100
 From: david.laight.linux@gmail.com
 To: Yury Norov <yury.norov@gmail.com>,
 	Rasmus Villemoes <linux@rasmusvillemoes.dk>,
@@ -58,9 +58,9 @@ To: Yury Norov <yury.norov@gmail.com>,
 	Yehezkel Bernat <YehezkelShB@gmail.com>,
 	Nicolas Frattaroli <nicolas.frattaroli@collabora.com>
 Cc: David Laight <david.laight.linux@gmail.com>
-Subject: [PATCH v2 07/16] bitfield: FIELD_MODIFY: Only do a single read/write on  the target
-Date: Fri, 12 Dec 2025 19:37:12 +0000
-Message-Id: <20251212193721.740055-8-david.laight.linux@gmail.com>
+Subject: [PATCH v2 02/16] thunderbolt: Don't pass a bitfield to FIELD_GET
+Date: Fri, 12 Dec 2025 19:37:07 +0000
+Message-Id: <20251212193721.740055-3-david.laight.linux@gmail.com>
 X-Mailer: git-send-email 2.39.5
 In-Reply-To: <20251212193721.740055-1-david.laight.linux@gmail.com>
 References: <20251212193721.740055-1-david.laight.linux@gmail.com>
@@ -74,31 +74,60 @@ Content-Transfer-Encoding: 8bit
 
 From: David Laight <david.laight.linux@gmail.com>
 
-Replace the:
-        *reg &= ~mask; *reg |= new_value;
-with a single assignment.
-While the compiler will usually optimise the extra access away
-it isn't guaranteed.
+None of sizeof(), typeof() or __auto_type can be used with bitfields
+which makes it difficult to assign a #define parameter to a local
+without promoting char and short to int.
+
+Change:
+	u32 thunderbolt_version:8;
+to the equivalent:
+	u8 thunderbolt_version;
+(and the other three bytes of 'DWORD 4' to match).
+
+This is necessary so that FIELD_GET can use sizeof() to verify 'reg'.
 
 Signed-off-by: David Laight <david.laight.linux@gmail.com>
 ---
- include/linux/bitfield.h | 3 +--
- 1 file changed, 1 insertion(+), 2 deletions(-)
 
-diff --git a/include/linux/bitfield.h b/include/linux/bitfield.h
-index f1859e28df5d..c354ca2ef1a0 100644
---- a/include/linux/bitfield.h
-+++ b/include/linux/bitfield.h
-@@ -200,8 +200,7 @@
- 		__auto_type _val = 1 ? (val) : _mask;					\
- 		typecheck_pointer(_reg_p);						\
- 		__BF_FIELD_CHECK(_mask, *(_reg_p), _val, "FIELD_MODIFY: ");		\
--		*(_reg_p) &= ~(_mask);							\
--		*(_reg_p) |= (_val << __bf_shf(_mask)) & _mask;				\
-+		*_reg_p = (*_reg_p & ~_mask) | ((_val << __bf_shf(_mask)) & _mask);	\
- 	})
+Changes for v2:
+- Change structure definition instead of call to FIELD_GET().
+
+FIELD_GET currently uses _Generic() which behaves differently for
+gcc and clang (I suspect both are wrong!).
+gcc treats 'u32 foo:8' as 'u8', but will take the 'default' for other
+widths (which will generate an error in FIED_GET().
+clang treats 'u32 foo:n' as 'u32'.
+
+ drivers/thunderbolt/tb_regs.h | 16 ++++++++--------
+ 1 file changed, 8 insertions(+), 8 deletions(-)
+
+diff --git a/drivers/thunderbolt/tb_regs.h b/drivers/thunderbolt/tb_regs.h
+index c0bf136236e6..f35f062beb34 100644
+--- a/drivers/thunderbolt/tb_regs.h
++++ b/drivers/thunderbolt/tb_regs.h
+@@ -180,14 +180,14 @@ struct tb_regs_switch_header {
+ 	u32 route_hi:31;
+ 	bool enabled:1;
+ 	/* DWORD 4 */
+-	u32 plug_events_delay:8; /*
+-				  * RW, pause between plug events in
+-				  * milliseconds. Writing 0x00 is interpreted
+-				  * as 255ms.
+-				  */
+-	u32 cmuv:8;
+-	u32 __unknown4:8;
+-	u32 thunderbolt_version:8;
++	u8 plug_events_delay; /*
++			       * RW, pause between plug events in
++			       * milliseconds. Writing 0x00 is interpreted
++			       * as 255ms.
++			       */
++	u8 cmuv;
++	u8 __unknown4;
++	u8 thunderbolt_version;
+ } __packed;
  
- extern void __compiletime_error("value doesn't fit into mask")
+ /* Used with the router thunderbolt_version */
 -- 
 2.39.5
 
