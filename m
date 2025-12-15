@@ -1,157 +1,138 @@
-Received: from mail-m32105.qiye.163.com (mail-m32105.qiye.163.com [220.197.32.105])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-ed1-f47.google.com (mail-ed1-f47.google.com [209.85.208.47])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C662E1A9B58;
-	Mon, 15 Dec 2025 13:09:05 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=220.197.32.105
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C13561D95A3
+	for <linux-usb@vger.kernel.org>; Mon, 15 Dec 2025 13:31:14 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.47
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1765804151; cv=none; b=cXdsxmTG6WkK+oqaf/V6rKtR2gpHqWsxJHSGS+k2QB3MayJ+xPI+dtbcngTgV4l3qDWqHvE4kSD2anbPUg+vtIiSriyKB3umz/SzgA6PIaSye5teThM21VgQUFkI4hIi1RSPI1jxvW1768zvT+LOQaywuCotGBKosT6T/VV9s2M=
+	t=1765805477; cv=none; b=F82nLzpSWUkAZ3Uu9vck6UAGfYMwDB8SEVAkrXlvO4xeYei5I2uHUaTFZp3/c6xiaf+ID0EfGr6Vu4n9Wev+GfR2mXLlkNVB/g44m1P+gsggdmCU3ToJfSUwnCio252a2cTr17ShdQYrQfF2mEO6nu5AdTpV/IrzrSvwsTei4X0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1765804151; c=relaxed/simple;
-	bh=7UmfIZICh+DAOr6TYFz4yVnxzGwnFtplItLlUz8hHVg=;
-	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=LlqsZH5HPARPJBBaHtdEIUFk9/c/r3gOcdr159Y0mwa2qqeCu5SEOEC1EEP6FgQfmM1RDAEauVAswRtC4BUwZbmyNLXorYb4bpu49xPWaLHdvfTutxs7uPiVPxxeR4d263k3akAt8FwFosmtnFXJRH+YwL784WlhWqeLcrWINkw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=senarytech.com; spf=pass smtp.mailfrom=senarytech.com; dkim=pass (1024-bit key) header.d=senarytech.com header.i=@senarytech.com header.b=SAcjA3jY; arc=none smtp.client-ip=220.197.32.105
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=senarytech.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=senarytech.com
+	s=arc-20240116; t=1765805477; c=relaxed/simple;
+	bh=4IqfV+21sXkT4rpB7ZnZy6NpjdC+V8bm8PwvIB2EC48=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=DoJZ907bbd5hFObZVLq1MEbs6RdcxO/q1seWQ9F77c15jUr0A3i1Yvx7TrPbVSUEj118j0Kpw2mNz69MA1OS/1oOdZR/69sl+QMjHq371grmE8HAHkI9BPaZBHjWqmDg8mLj4ycpN9QkuuJJToTD2fHuQX3njX+UPzZHTUnxmOs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=sartura.hr; spf=pass smtp.mailfrom=sartura.hr; dkim=pass (2048-bit key) header.d=sartura.hr header.i=@sartura.hr header.b=DDc3dK1J; arc=none smtp.client-ip=209.85.208.47
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=sartura.hr
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=sartura.hr
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=senarytech.com header.i=@senarytech.com header.b="SAcjA3jY"
-Received: from localhost.localdomain (unknown [113.98.62.227])
-	by smtp.qiye.163.com (Hmail) with ESMTP id 2d47a7286;
-	Mon, 15 Dec 2025 20:53:37 +0800 (GMT+08:00)
-From: sunqian <sunqian@senarytech.com>
-To: hminas@synopsys.com
-Cc: gregkh@linuxfoundation.org,
-	linux-usb@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	sunqian@senarytech.com
-Subject: [PATCH 1/1] dwc2: Delay resume until device connection is stable
-Date: Mon, 15 Dec 2025 20:53:17 +0800
-Message-Id: <20251215125317.85624-1-sunqian@senarytech.com>
-X-Mailer: git-send-email 2.25.1
+	dkim=pass (2048-bit key) header.d=sartura.hr header.i=@sartura.hr header.b="DDc3dK1J"
+Received: by mail-ed1-f47.google.com with SMTP id 4fb4d7f45d1cf-6418738efa0so6983106a12.1
+        for <linux-usb@vger.kernel.org>; Mon, 15 Dec 2025 05:31:14 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=sartura.hr; s=sartura; t=1765805473; x=1766410273; darn=vger.kernel.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=Bw+VWiqd/R4wFDIFdR2X28ZvT94yjzl0km0pBRnN7OY=;
+        b=DDc3dK1JEMys5rx3jlagp4hyDgT2wdeH3AuguuaL1lwpP3RSnZaB0xLasscVY5r655
+         NoU75j94IxqSRKfmFoB8DKDcGYpRFRds4QwciNrUqJ83gbZ+20nTtgExzWuXDZ/aM899
+         WVCt+m1pS6PRKov5t91SolcAmZzM+Vy0t+OkPxc2Pzk+PirWOZhHgG8L2RYQaZiNPrlS
+         HAa6KtTrxEeowAwLLv/OyrkghYzyTfi3+LbklsvlrRRzFtT1TE6sm+Phsrv7n59n9luQ
+         0HvQEEEAQDPn5cZhaXm4p31cIw+dza2sRvw/6oAJwKHJW5F7CmUMKSPwyECKzL0U0ev8
+         Gezw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1765805473; x=1766410273;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
+         :to:cc:subject:date:message-id:reply-to;
+        bh=Bw+VWiqd/R4wFDIFdR2X28ZvT94yjzl0km0pBRnN7OY=;
+        b=ok9DlLG1N6cIa+hUOZmm6hRJpOa9cHG3QKkh9tY1tJQLpH+htHQMHDVns3ZwR5D4qM
+         7sZfu3/KJbqFm0GVSr28lkWL/dHot+qaT5yPUK1Uy0je5Rm4knxs8MYPpZ0jFSJQxdZX
+         4FnmZLC/3TikKjy/V3GHvIqxw8CmcOxOCfJ6XWJZ0kZ74wQZ7y+zZUJ3UUFjHuxQLL6F
+         gMDNqdapQRpJE/GzCmVV+fXZ1ssd8TfHdJLwMB1sNeFHmIWdt1FWIMhH4pETZuG1tJMD
+         toN0n4Df+K4I+//dJawCXo8suo9yyRU247g315cYhPJ0oy5ZUG53TidV3qEptJxYgB2L
+         kfWQ==
+X-Forwarded-Encrypted: i=1; AJvYcCVdZGBlmC7aq1YzUz34h58EyQSJKbX0BcU4vgvk0m0q4mLkFhmdtuQPs3vo5ZEnxWDdBCFjYQrz3gI=@vger.kernel.org
+X-Gm-Message-State: AOJu0YyBmEOD06ZM6q57N3ENN46AvXJ2M0k0Mu/kg5xkhn/217z/NBo3
+	LtWGvbBlDPS+6Rg5PrSQxzwKQo2yD48n0CtweSVA48BIpxw3DY0afT2m+qF3uxXg5jh9h6g/mo4
+	f7pY7xiPZ0pir6zbMAUZzfTHnIJ/YGGcerLiz362r3A==
+X-Gm-Gg: AY/fxX56vvkWJ57fDy3PFfyHOC8VmWKOk7bL4euRPHU2IOdTc5Zc+WrRvCdbuUFQjzQ
+	2/EXlKx2VABfcTe7r64IAYJu5oEv7bdgoATvza3AFtuwPp3zR08xrGfhHC61Tyzqx0sksTlEyx6
+	+2A7TGhmqQonHB9TY0pxigHkupfG8u6uhMSKUWxGJXF6JDRXqkGOlN8fAbfytkeu62UEtkd8d7t
+	hTn+myxQ34w4QEGwSTFRXPAPLwS7QgrUbCf9Lk8ONxpQeIlb2IJCyxg2C6vTqDmJequmD69
+X-Google-Smtp-Source: AGHT+IH0jOC7I2V4n9q5hO9cE+4qZGL5l0QgmCHa+z37icAIbpE4GF3fcjaXDt2pkrHPiEtG7N6pGTFx3A7hEnLj0+M=
+X-Received: by 2002:a17:907:9496:b0:b7a:1bde:a01b with SMTP id
+ a640c23a62f3a-b7d23d13da0mr931934966b.63.1765805473126; Mon, 15 Dec 2025
+ 05:31:13 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-HM-Tid: 0a9b2212d3e609d6kunm8cf60a2149c273
-X-HM-MType: 1
-X-HM-Spam-Status: e1kfGhgUHx5ZQUpXWQgPGg8OCBgUHx5ZQUlOS1dZFg8aDwILHllBWSg2Ly
-	tZV1koWUFITzdXWS1ZQUlXWQ8JGhUIEh9ZQVlCTR5CVkkaTxpJTxlCTxoaTVYVFAkWGhdVEwETFh
-	oSFyQUDg9ZV1kYEgtZQVlKSkhVQkNVTUlVSUlMWVdZFhoPEhUdFFlBWU9LSFVKS0lPT09IVUpLS1
-	VKQktLWQY+
-DKIM-Signature: a=rsa-sha256;
-	b=SAcjA3jYlzih9R8hZrQFFY9RTPqhMPgWwcyS9UucaWfgoCb6RyMxYP9byHwf2KW0tYXrVGqHt+iPtxJ3j1PFynPslXEnf3KcBqszK6+q2SrmUFEG+aT0e78M3kl1jA3rQyoRhpbiIU/7bppuYtKfOHrEWaWdUNqzSExRVRh5KcQ=; s=default; c=relaxed/relaxed; d=senarytech.com; v=1;
-	bh=hiwqFpUUv3/gTycd1mYNHbIOXRC2K6R8CjhiTZOxRHs=;
-	h=date:mime-version:subject:message-id:from;
+References: <20251203122313.1287950-1-robert.marko@sartura.hr>
+ <20251203122313.1287950-4-robert.marko@sartura.hr> <20251203-splendor-cubbyhole-eda2d6982b46@spud>
+ <CA+HBbNGdd-u=4PtXZtirqRkFBhKwraa5gV-32QChDDjfVARPRg@mail.gmail.com> <173412c8-c2fb-4c38-8de7-5b1c2eebdbf9@microchip.com>
+In-Reply-To: <173412c8-c2fb-4c38-8de7-5b1c2eebdbf9@microchip.com>
+From: Robert Marko <robert.marko@sartura.hr>
+Date: Mon, 15 Dec 2025 14:31:00 +0100
+X-Gm-Features: AQt7F2riRZ6DJPf2Vnc_Dn8R65r6BvztUnfjR9AMbbKZbxLcNxf74LNl1xmAB1k
+Message-ID: <CA+HBbNFzETiySdw-VuzMJx6vdhPU_3d_aU2v9eJ4-_OBaTn2mA@mail.gmail.com>
+Subject: Re: [PATCH 4/4] arm64: dts: microchip: add LAN969x support
+To: Nicolas Ferre <nicolas.ferre@microchip.com>
+Cc: Conor Dooley <conor@kernel.org>, robh@kernel.org, krzk+dt@kernel.org, 
+	conor+dt@kernel.org, gregkh@linuxfoundation.org, claudiu.beznea@tuxon.dev, 
+	mturquette@baylibre.com, sboyd@kernel.org, richardcochran@gmail.com, 
+	devicetree@vger.kernel.org, linux-kernel@vger.kernel.org, 
+	linux-usb@vger.kernel.org, linux-arm-kernel@lists.infradead.org, 
+	linux-clk@vger.kernel.org, daniel.machon@microchip.com, 
+	UNGLinuxDriver@microchip.com, luka.perkov@sartura.hr
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-When DWC2 is used as a host with a dynamically controlled VBUS supply,
-VBUS may be turned off during system suspend and enabled again during
-resume. Some USB devices (e.g. USB mass storage) require additional time
-after VBUS is restored to power up and for the D+/D- line state to settle.
+On Mon, Dec 15, 2025 at 1:32=E2=80=AFPM Nicolas Ferre
+<nicolas.ferre@microchip.com> wrote:
+>
+> Robert,
+>
+> On 15/12/2025 at 12:36, Robert Marko wrote:
+> > On Wed, Dec 3, 2025 at 8:21=E2=80=AFPM Conor Dooley <conor@kernel.org> =
+wrote:
+> >>
+> >> On Wed, Dec 03, 2025 at 01:21:32PM +0100, Robert Marko wrote:
+> >>> Add support for Microchip LAN969x switch SoC, including the EV23X71A
+> >>> EVB board.
+> >>>
+> >>> Signed-off-by: Robert Marko <robert.marko@sartura.hr>
+> >>> ---
+> >>>   arch/arm64/boot/dts/microchip/Makefile        |   2 +
+> >>>   .../boot/dts/microchip/lan9696-ev23x71a.dts   | 761 +++++++++++++++=
++++
+> >>
+> >>>   arch/arm64/boot/dts/microchip/lan969x.dtsi    | 482 +++++++++++
+> >>
+> >> The majority of devices in this file are missing soc-specific
+> >> compatibles.
+> >
+> > Hi,
+> > I missed this before.
+> >
+> > The majority of the devices are simply reused from the AT91 series, so
+> > I thought it was not required to
+> > update all of the bindings to add the LAN9691 compatible.
+> >
+> > If that is required, I will do so in v2.
+> Well, history told us it was better (in addition to be required by DT
+> best practices). Indeed, even if the same IP block is used, sometimes
+> integration subtleties pay game with us and a dedicated compatible
+> string saves us.
 
-The resume sequence may proceed too early, observe HPRT0.CONNSTS as 0,
-and treat an already-connected device as disconnected. This can lead to
-a spurious USB disconnect followed by re-enumeration, making an
-already-mounted filesystem unusable after resume. Even if the device
-reconnects later, the resume does not behave like a true restoration of
-the pre-suspend device state.
+Ok, I will then update the required bindings and include them in the
+series in v2.
 
-Poll HPRT0.CONNSTS for a short, bounded period after enabling the
-external VBUS supply, allowing the controller to report a stable
-connection state and prevent spurious disconnects during resume.
+Regards,
+Robert
+>
+> Regards,
+>    Nicolas
 
-Without this change, resume often results in a disconnect and a new
-device enumeration:
 
-    dwc2_enable_host_interrupts()
-    ClearPortFeature USB_PORT_FEAT_C_SUSPEND
-    ClearPortFeature USB_PORT_FEAT_ENABLE
-    usb 1-1: USB disconnect, device number 3
-    ...
-    usb 1-1: new high-speed USB device number 4 using dwc2
 
-With this change applied, the controller reliably detects the device
-after resume and restores the link without triggering a full disconnect
-and re-enumeration cycle:
-
-    dwc2_enable_host_interrupts()
-    gintsts=05000021  gintmsk=f3000806
-    Device connected after 9 retries
-    ClearPortFeature USB_PORT_FEAT_C_CONNECTION
-    ClearPortFeature USB_PORT_FEAT_C_SUSPEND
-    ...
-    usb 1-1: reset high-speed USB device number 4 using dwc2
-
-As a side effect, when an OTG host adapter is connected but no USB
-device is present, HPRT0.CONNSTS remains deasserted and the polling
-reaches the timeout. In this case, system resume latency may increase
-by the duration of the bounded wait, which is considered an acceptable
-tradeoff to avoid spurious disconnects and filesystem corruption.
-
-Tested on:
-  - Kernel: v5.15.140
-  - Suspend mode: suspend-to-RAM (STR)
-  - dr_mode: OTG (dual-role), host mode via OTG adapter
-  - Devices:
-      * USB mass storage (Aigo, Kingston, SanDisk)
-      * USB HID (mouse, keyboard)
-
-Signed-off-by: sunqian <sunqian@senarytech.com>
----
- drivers/usb/dwc2/hcd.c | 26 ++++++++++++++++++++++++--
- 1 file changed, 24 insertions(+), 2 deletions(-)
-
-diff --git a/drivers/usb/dwc2/hcd.c b/drivers/usb/dwc2/hcd.c
-index 60ef8092259a..96345eeb9e2f 100644
---- a/drivers/usb/dwc2/hcd.c
-+++ b/drivers/usb/dwc2/hcd.c
-@@ -4404,11 +4404,15 @@ static int _dwc2_hcd_suspend(struct usb_hcd *hcd)
- 	return ret;
- }
- 
-+#define CONNSTS_POLL_RETRIES       80
-+#define CONNSTS_POLL_DELAY_US_MIN  3000
-+#define CONNSTS_POLL_DELAY_US_MAX  5000
- static int _dwc2_hcd_resume(struct usb_hcd *hcd)
- {
- 	struct dwc2_hsotg *hsotg = dwc2_hcd_to_hsotg(hcd);
- 	unsigned long flags;
- 	u32 hprt0;
-+	int retry;
- 	int ret = 0;
- 
- 	spin_lock_irqsave(&hsotg->lock, flags);
-@@ -4501,8 +4505,26 @@ static int _dwc2_hcd_resume(struct usb_hcd *hcd)
- 	spin_unlock_irqrestore(&hsotg->lock, flags);
- 	dwc2_vbus_supply_init(hsotg);
- 
--	/* Wait for controller to correctly update D+/D- level */
--	usleep_range(3000, 5000);
-+	/*
-+	 * Wait for device connection to stabilize after VBUS is restored.
-+	 * Some externally powered devices may need time for D+/D- lines to settle.
-+	 * This runs in the resume path where sleeping is allowed.
-+	 */
-+	for (retry = 0; retry < CONNSTS_POLL_RETRIES; retry++) {
-+		spin_lock_irqsave(&hsotg->lock, flags);
-+		hprt0 = dwc2_read_hprt0(hsotg);
-+		spin_unlock_irqrestore(&hsotg->lock, flags);
-+
-+		if (hprt0 & HPRT0_CONNSTS) {
-+			dev_dbg(hsotg->dev,
-+				"Device connected after %d retries\n", retry);
-+			break;
-+		}
-+
-+		usleep_range(CONNSTS_POLL_DELAY_US_MIN,
-+			     CONNSTS_POLL_DELAY_US_MAX);
-+	}
-+
- 	spin_lock_irqsave(&hsotg->lock, flags);
- 
- 	/*
--- 
-2.25.1
-
+--=20
+Robert Marko
+Staff Embedded Linux Engineer
+Sartura d.d.
+Lendavska ulica 16a
+10000 Zagreb, Croatia
+Email: robert.marko@sartura.hr
+Web: www.sartura.hr
