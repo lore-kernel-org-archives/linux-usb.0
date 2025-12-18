@@ -1,105 +1,97 @@
-Received: from mail-qv1-f43.google.com (mail-qv1-f43.google.com [209.85.219.43])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7775E32E142
-	for <linux-usb@vger.kernel.org>; Thu, 18 Dec 2025 15:34:06 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.219.43
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C1CF534F253;
+	Thu, 18 Dec 2025 15:37:24 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1766072048; cv=none; b=a5AOBAfrJTpuXmQ81bO3PtdQsFfAiq38F6DGWR/gJzkoZLKpQDuTw9Mr8/+tQ9VHVcut4wbnH3fBC8unjnk4tZKHyrxzIdJSW9eXw17vP0jIkOySbzAvbEJTIyXKSCKbwjOEeVzzuFub8cN4TQCHzFnoASiAkWsWah3FHkhoLhk=
+	t=1766072244; cv=none; b=GPihLR0t6xYZdcG+iSSB5uzZAqdft8l5RwI3Ad9B3a+WPRc9cuCLWfB37FwAvW0fB/mnjxw3+LsUzOA2DePEiI2DnngMmjaCEcyyxDB+dZaL1hGyGh+JRMKpg1lSM1UR23VfUYiUVCpC7leLD2rUWECAg36UKycNwEqF+/eU6DY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1766072048; c=relaxed/simple;
-	bh=azzl09Wx7rt0wPbIl6zF794mRt/KoBI4Cg5cx5Yj+oY=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=imQ29eZm6gkQXAfh/HvAp3hbYtFX2evG7F3stbrZq2u1+ufcZhcrhBSkHBkw0CXrHv1BX+W/ygCXjsi/Rarsbjj9DaQHj4470TdP4VnU9ETi1lQk3NlEtKo6etxYqYm5HhvjgqFu6axIAAIrkTkPwhHp6jojh7ww3lOeIo/kHb0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org; spf=pass smtp.mailfrom=gmail.com; arc=none smtp.client-ip=209.85.219.43
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-qv1-f43.google.com with SMTP id 6a1803df08f44-88888c41a13so9499616d6.3
-        for <linux-usb@vger.kernel.org>; Thu, 18 Dec 2025 07:34:06 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1766072045; x=1766676845;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=mXHlTDVJTF5vvWPU3rkwyK6a19VuMS7dqDcJr9Xe7V4=;
-        b=LnzWItmgMVT30cTJ3wkXOyjF6XuyoUmIDzt6+rhVML0PCGHDOvHgu3AtI9YwZwu+U3
-         GIi0qE5fMRX8D4TQ2ZaojCFvI7CGrjBMYoDQXh6/U2c6+gyJKb4tYEu9kLxgiVumgQGF
-         k1Omajc/Fr/ZMBJ1/ME+0UWKgskLIU82bUxQBv53vI/QBKtgC07pT5+8Ze+1bWu3/Vmc
-         CULCcXyXfgWajPkzHD21Iyve7Vjn8WoyOxza0z1cpSrfFOxxThkwaLeQ8Q7N+5CV6Z6u
-         smKZPfn9Fcnnquq191sy1gAiDf6mKTaUat4OosC7z/s5B6i0CewIyE2X8GyTBAXNHGZg
-         VW5A==
-X-Forwarded-Encrypted: i=1; AJvYcCVqABcfWgNHxo3lSAnyzklqToMuu8Fs84EB7Gbt4oz/wHFsAN18lbmBwJIcRVwB43RjfVTSLhfwDhE=@vger.kernel.org
-X-Gm-Message-State: AOJu0Yxqzo6VV5YcZyzqLIYbMp4KJdojF53XrDsyA7zxJ0F+hOD3agGW
-	qeF8n+Jpk8K2qtkZHLdzO64rC1Gpq56EqBKnnHjQJa6NtOdw1BLPL9OkoPeGSuIQ
-X-Gm-Gg: AY/fxX52sWhcKNSk68SoDR9jUtq+iXfS7RFSRoGNgumBwVc9spqHUxivUqXpFx+3kw0
-	aRmWZ9IfBzR/h5BprMxbBJ/ZSCeWc04HfbZmIgWtJqpRBRLB/4Vcii3NhluLDSOAQmwFK3Y0sCc
-	sglXKh1bpfkIJqEnz1+4bJxhoE3/cJK/9KquVrJyl2Bdq/EYAK5hMzCl1AXNnBUK6Gx+JQJxlfE
-	/1y4mkM1hI8A8apUOOXNv3EA9i9hIg6qm7rNPS2Mn2v+4RDIHo/pNz3WyXzjXW8KiatI/FyR0CS
-	kjVNn1I9pT+Zas+nU59k6vjR3u295B/pCc6+E6ofWe3NOay/bAM/0CyqWzzFebWYHh0bf6tHG/V
-	F2srdxb5VP/n43/+4DcNQKEnHZm+xqYSXfdq0Us8t1x/hO/hzVlld79PhGTjZu3jWqeVM5xKfz7
-	P+4jk4Z7FP0J7F4FRvY7Hu5LpTvQi3zvFcpBsUA+MDMJQvIVLa
-X-Google-Smtp-Source: AGHT+IGf38/Qmg8aq8qZKTvPTdDkoyEEfZyibQhejLzTJfD7tndBdS8HISPi35odGvpajoLdNPlSPA==
-X-Received: by 2002:a0c:f807:0:b0:880:501f:608 with SMTP id 6a1803df08f44-88d83983b64mr189376d6.46.1766072045091;
-        Thu, 18 Dec 2025 07:34:05 -0800 (PST)
-Received: from mail-qv1-f49.google.com (mail-qv1-f49.google.com. [209.85.219.49])
-        by smtp.gmail.com with ESMTPSA id 6a1803df08f44-88c61372861sm19142986d6.47.2025.12.18.07.34.04
-        for <linux-usb@vger.kernel.org>
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Thu, 18 Dec 2025 07:34:04 -0800 (PST)
-Received: by mail-qv1-f49.google.com with SMTP id 6a1803df08f44-88a2b99d8c5so5335846d6.1
-        for <linux-usb@vger.kernel.org>; Thu, 18 Dec 2025 07:34:04 -0800 (PST)
-X-Forwarded-Encrypted: i=1; AJvYcCXtMCIDqTIT1pbMILtT4YJYmwrUbX43UNx5aIpZSdbf1MK9r+y5nMFMiy57dTAgHJP+rlkbd3QJUKk=@vger.kernel.org
-X-Received: by 2002:a05:6102:14a1:b0:5df:af0f:308c with SMTP id
- ada2fe7eead31-5e827854ca8mr8511390137.38.1766071730637; Thu, 18 Dec 2025
- 07:28:50 -0800 (PST)
+	s=arc-20240116; t=1766072244; c=relaxed/simple;
+	bh=QG3lO4v3c5APo1lagsAKwB1p/Va6baGw435WlXG9FN4=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version; b=ovTazVcSMmkWBZS0fYjd64Htiv+uRLRyO1LUS8GJSapJ5ZZksFwBywcqkw2/HL1TkcoDzyxdtoIksZqFNiz5k4BFDPFOWfpK4gcbvqSnthc7CWADlrKvjf/pOdk9vY8Q9NTeuoKc/5mEmHLFDsa+CTSuTu/ro+rKabQoVBM/tQs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=YqJBFnQt; arc=none smtp.client-ip=10.30.226.201
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="YqJBFnQt"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 79A48C116C6;
+	Thu, 18 Dec 2025 15:37:24 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1766072244;
+	bh=QG3lO4v3c5APo1lagsAKwB1p/Va6baGw435WlXG9FN4=;
+	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
+	b=YqJBFnQtn1R46lfrqM1RigXo6fVaYT8HfBwrzgmfWUAT1w+8iaIRfL4F1DGQ15G9v
+	 gIiDMYi9HjdowC8hjlUCqLiB27d3EmQdD22LV5Fz0DSYIzvJ+VZv2yI90pk2DjvWIo
+	 4dQsPmvost6TQZsVNMzaezJIcqMWGsB4qTuod9Y1B5yP0vcUWAXKe8cFJpX2hIL6y7
+	 qyCN2BIHgEi9c1JR9PhnBEtSCmVZkAfglcmV4C+shs4PfOWElfLlx3WVe4Az3SJ890
+	 T8WAH5ijLoNO836aouWFqD7zgL7vTj4yWt0zbGqVryjt+iCWuClGASwOS1NRsd4m5a
+	 xraN90xe+uthg==
+Received: from johan by xi.lan with local (Exim 4.98.2)
+	(envelope-from <johan@kernel.org>)
+	id 1vWG4B-00000000569-0IkR;
+	Thu, 18 Dec 2025 16:37:23 +0100
+From: Johan Hovold <johan@kernel.org>
+To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+Cc: Vladimir Zapolskiy <vz@mleia.com>,
+	Piotr Wojtaszczyk <piotr.wojtaszczyk@timesys.com>,
+	Alan Stern <stern@rowland.harvard.edu>,
+	Ma Ke <make24@iscas.ac.cn>,
+	linux-usb@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	Johan Hovold <johan@kernel.org>,
+	stable@vger.kernel.org
+Subject: [PATCH v2 2/5] usb: phy: isp1301: fix non-OF device reference imbalance
+Date: Thu, 18 Dec 2025 16:35:16 +0100
+Message-ID: <20251218153519.19453-3-johan@kernel.org>
+X-Mailer: git-send-email 2.51.2
+In-Reply-To: <20251218153519.19453-1-johan@kernel.org>
+References: <20251218153519.19453-1-johan@kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20251218152058.1521806-1-alexander.stein@ew.tq-group.com>
-In-Reply-To: <20251218152058.1521806-1-alexander.stein@ew.tq-group.com>
-From: Geert Uytterhoeven <geert@linux-m68k.org>
-Date: Thu, 18 Dec 2025 16:28:39 +0100
-X-Gmail-Original-Message-ID: <CAMuHMdUkghCNb96J38hbEZ8Jct6m2MPvnPumGp-y_dPfPW9eAg@mail.gmail.com>
-X-Gm-Features: AQt7F2qLc82Kbfmr6BXfh2mc72SoQ2IFZ770WV9-Gsf5ezj4RJc3ZYutw9_Yvk4
-Message-ID: <CAMuHMdUkghCNb96J38hbEZ8Jct6m2MPvnPumGp-y_dPfPW9eAg@mail.gmail.com>
-Subject: Re: [PATCH 0/6] Support TQMa8QM
-To: Alexander Stein <alexander.stein@ew.tq-group.com>
-Cc: Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>, 
-	Conor Dooley <conor+dt@kernel.org>, Michael Turquette <mturquette@baylibre.com>, 
-	Stephen Boyd <sboyd@kernel.org>, Peter Chen <peter.chen@kernel.org>, 
-	Pawel Laszczak <pawell@cadence.com>, Roger Quadros <rogerq@kernel.org>, 
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>, Shawn Guo <shawnguo@kernel.org>, 
-	Sascha Hauer <s.hauer@pengutronix.de>, Pengutronix Kernel Team <kernel@pengutronix.de>, 
-	Fabio Estevam <festevam@gmail.com>, Magnus Damm <magnus.damm@gmail.com>, Marek Vasut <marex@denx.de>, 
-	devicetree@vger.kernel.org, linux-kernel@vger.kernel.org, 
-	linux-renesas-soc@vger.kernel.org, linux-clk@vger.kernel.org, 
-	linux-usb@vger.kernel.org, imx@lists.linux.dev, 
-	linux-arm-kernel@lists.infradead.org, linux@ew.tq-group.com
-Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8bit
 
-Hi Alexander,
+A recent change fixing a device reference leak in a UDC driver
+introduced a potential use-after-free in the non-OF case as the
+isp1301_get_client() helper only increases the reference count for the
+returned I2C device in the OF case.
 
-On Thu, 18 Dec 2025 at 16:22, Alexander Stein
-<alexander.stein@ew.tq-group.com> wrote:
-> this series adds support for TQ's TQMa8QM. The first 3 patches are prepatory:
-> 1. Add support for clock-output-names for clk-renesas-pcie. This is necessary
-> as clk-imx8qxp-lpcg.c (driver for phyx1 phyx2 clock gating) reqiures that
-> property on the parent clock.
+Increment the reference count also for non-OF so that the caller can
+decrement it unconditionally.
 
-Hmm, clock consumers should have no business with the names used by
-clock providers, even less so whether those names are specified in DT
-or not.
+Note that this is inherently racy just as using the returned I2C device
+is since nothing is preventing the PHY driver from being unbound while
+in use.
 
-Gr{oetje,eeting}s,
+Fixes: c84117912bdd ("USB: lpc32xx_udc: Fix error handling in probe")
+Cc: stable@vger.kernel.org
+Cc: Ma Ke <make24@iscas.ac.cn>
+Signed-off-by: Johan Hovold <johan@kernel.org>
+---
+ drivers/usb/phy/phy-isp1301.c | 7 ++++++-
+ 1 file changed, 6 insertions(+), 1 deletion(-)
 
-                        Geert
-
+diff --git a/drivers/usb/phy/phy-isp1301.c b/drivers/usb/phy/phy-isp1301.c
+index f9b5c411aee4..2940f0c84e1b 100644
+--- a/drivers/usb/phy/phy-isp1301.c
++++ b/drivers/usb/phy/phy-isp1301.c
+@@ -149,7 +149,12 @@ struct i2c_client *isp1301_get_client(struct device_node *node)
+ 		return client;
+ 
+ 	/* non-DT: only one ISP1301 chip supported */
+-	return isp1301_i2c_client;
++	if (isp1301_i2c_client) {
++		get_device(&isp1301_i2c_client->dev);
++		return isp1301_i2c_client;
++	}
++
++	return NULL;
+ }
+ EXPORT_SYMBOL_GPL(isp1301_get_client);
+ 
 -- 
-Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
+2.51.2
 
-In personal conversations with technical people, I call myself a hacker. But
-when I'm talking to journalists I just say "programmer" or something like that.
-                                -- Linus Torvalds
