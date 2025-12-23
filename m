@@ -1,179 +1,182 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.16])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pf1-f195.google.com (mail-pf1-f195.google.com [209.85.210.195])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E4973158DA3
-	for <linux-usb@vger.kernel.org>; Tue, 23 Dec 2025 20:18:24 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.16
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D1CFF346796
+	for <linux-usb@vger.kernel.org>; Tue, 23 Dec 2025 20:19:39 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.195
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1766521107; cv=none; b=AKRWCklax2cKdrMDJ4xFc7qYNUFKYkdXz8IxcX8yVVXsByt2QOg/iZX+tLym1Eo6oycbBG0zeWzyhn9+wT4T389rqcRVKoKRl/0yN4isnsu8BjoqwCbEcUTsKwoud1cEShPrkJNOcuc4Q2yegu4SynT5gi9DlUCtLzoJh0P6lpo=
+	t=1766521183; cv=none; b=LHaDtdmS8sLHVw8Aq1bo5itYjzp53/hDMcwWznGBYC1CPytHD8Quo1sH9PifoqqTiPdmxDWLaEPZDEveStw8tfe1GJTYjswe73AJZx+yCqwrXSL0/7BlqqqQgYHTkn+8A1934MxGNTnGOf5RF7/kcIm/cw2LInCHfanqCPN10gA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1766521107; c=relaxed/simple;
-	bh=DObSqsdwx6jQqA/T6TgOtH8v30/kjrtwRtbl+q/tgFA=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=LUBMS6MZsZ4Kmcb8ovF6USQa5kKgvsXjuYZ00QRDrqavRi0p7FOE0dF6bYO4uyDY3NxFFOvYOL+zvQ+x6wKmPffk3z8Qaaj6ZLzLGq3k42EIK6jzbHMA6AbtqQJ3f6oOOSUpjGBeKCJxzrJoo5vC2N/eOfdXf3m4ZmJb6bwVBsk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=pass smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=QFAOQ1iJ; arc=none smtp.client-ip=192.198.163.16
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.intel.com
+	s=arc-20240116; t=1766521183; c=relaxed/simple;
+	bh=dIzeT2bAtbNpWCzGPjuV3B4HClIyvUup/5uZSPzsL1M=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=k0ZpHnK4qxMueqyC8CcsHurmyZRtoZYKtH6uc5uQiRcaJBVCP5468XODzdSJ+gVqjVHUQgY09xgs7xebCMqYyYMobaAEFMLlZMUwUVgIbdBN9Go1CdgQqbKe1qAE+zosxIp1q5aXhfn803WT8UOYnkizoaDUlk7otPOJ7Lewn1s=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=sartura.hr; spf=pass smtp.mailfrom=sartura.hr; dkim=pass (2048-bit key) header.d=sartura.hr header.i=@sartura.hr header.b=sp/p1grd; arc=none smtp.client-ip=209.85.210.195
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=sartura.hr
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=sartura.hr
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="QFAOQ1iJ"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1766521105; x=1798057105;
-  h=message-id:date:mime-version:subject:to:cc:references:
-   from:in-reply-to:content-transfer-encoding;
-  bh=DObSqsdwx6jQqA/T6TgOtH8v30/kjrtwRtbl+q/tgFA=;
-  b=QFAOQ1iJNdFlEFIEVBGbW53seaiEo+3V0SE+VJxuKMp4Ok4Vw2WC8P8O
-   wRuECu0+fOrZmGvgm7WsGCcVDTIQ0J/ZByX96QYdzjqpyKnh8lYVkDVrJ
-   hUjPm8rbw+xPZYXFFgLVBlM/anI8sbl9CxLGDQflL9pRfVsVIMMFXWaCo
-   r9l74zMuDKHQi3REYN/T3liw0J43UZCKmxoKaKH/JAxIDWUAf2+n3/M/w
-   k+2nT3Dbwk0EyKlIJHwspnL6lIyKjMCXpgTrjU/kJFH6L8VUJuiB9tBXf
-   MpMoJ8CiabfWpRstXodkgcoqW/pWKEZeWb6/bKpyHukqc3eTgTP2p1GRZ
-   Q==;
-X-CSE-ConnectionGUID: qCAsdmmbTfSmpnzEsO11vw==
-X-CSE-MsgGUID: EkI+gaoQRDCqHv2Nwhjw0w==
-X-IronPort-AV: E=McAfee;i="6800,10657,11651"; a="55939778"
-X-IronPort-AV: E=Sophos;i="6.21,171,1763452800"; 
-   d="scan'208";a="55939778"
-Received: from orviesa001.jf.intel.com ([10.64.159.141])
-  by fmvoesa110.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 23 Dec 2025 12:18:25 -0800
-X-CSE-ConnectionGUID: Zgeaqw9kQQOYxYx0MBHIBw==
-X-CSE-MsgGUID: kNLVcOVYQv+sULyb+W4Aqw==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.21,171,1763452800"; 
-   d="scan'208";a="237263988"
-Received: from soc-5cg1426swj.clients.intel.com (HELO [10.121.200.125]) ([10.121.200.125])
-  by smtpauth.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 23 Dec 2025 12:18:24 -0800
-Message-ID: <fafdfe91-84ae-48c6-a5c5-193ac3673f5e@linux.intel.com>
-Date: Tue, 23 Dec 2025 12:18:22 -0800
+	dkim=pass (2048-bit key) header.d=sartura.hr header.i=@sartura.hr header.b="sp/p1grd"
+Received: by mail-pf1-f195.google.com with SMTP id d2e1a72fcca58-7aae5f2633dso5381859b3a.3
+        for <linux-usb@vger.kernel.org>; Tue, 23 Dec 2025 12:19:39 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=sartura.hr; s=sartura; t=1766521179; x=1767125979; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=g1vfXs4RxjLrMI0+CYv1SSuI1FXB9RtpNik5CYzHMIg=;
+        b=sp/p1grd5lkwv7sdu7MGJVw2B0P0H5QVE8/lQhc+Z2UZNVOBBoNa5ucm40go5i/fj9
+         3bRj50JzDaFFJsr8MI2FZzYTHMYcmCqt9nTPUe/PVXN/Ps5bwDnjgwZbERarBuwr46lB
+         OuKPXCXNsGCklL60xZHfTLjhhnEY5kVGOl2EbzI7+pE0JMk7XTcTMKO3iF8NqtWdSiPq
+         CtXHKt9XfTwL4LnbC9WBGzL1k8xf/LnpbWEJ8S0okPTAwOoUaB65017hanldfEULAnHn
+         jvXLRNVzVHerjoc6u2P31IfxpTha4cFgFpF8CMffs77aGOMk+4Me/DGg/qiGyEx6ff9o
+         EWtA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1766521179; x=1767125979;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=g1vfXs4RxjLrMI0+CYv1SSuI1FXB9RtpNik5CYzHMIg=;
+        b=QPQFk/dxYRv/Yji96Vzsvf2CYV1jrAGNTf95mvn9OWjpg9grSqR89uq5Ok28qe6A0X
+         OYdCKUimEX7p3PIF7V20eHsLmVYY7mubA89ObvYNAmiawNNryGcldERKwOzh9tnQ9o7T
+         Uo6hzyKExsNmfMwDlktbtevvva2R9eoN+vPvTObQIz96GcdwJlsSEQOD2UyS6jKfIcAC
+         rrXOrSEKn4XrxQ1qe5UTP8aLGXWRGug40apw9lIGU6xkhNYo+1IUm3hhCqUwsuVkD47g
+         qDSauCxwGrGSWyo/EMA+GUQUvsl1545WN9kBqYKr5wTEKGfW/80kAPvilQ3oHAci4TqD
+         tRMw==
+X-Forwarded-Encrypted: i=1; AJvYcCVGnvxpg84P42tVTHYR2woNwDHMQp4CCH7VyPJSA3LmUpBNQBb3QX1AKop1iqQ8Ho0BLG4hOu87K7Q=@vger.kernel.org
+X-Gm-Message-State: AOJu0Ywgoj3qW387mItoAa7CrmNZF02wXog9oS6nGZOdpEKL7E7DMTL/
+	Z07tzTLY4hCeYc+ugrinnwJmf+tS78Br4/q5yHVXzqcSlt06zl2k/HOFVFTZd4Vsnao=
+X-Gm-Gg: AY/fxX6jHQ/8xBiSv9eB3uHh7rjNeg89VGmel8wPPBVDX7JcDLWhsT4rWghPR33GFgT
+	RwH3sPdqpOh/bFIP0DH0UmnBwK3pwYBdUWmrd49IlT8Bq0JG/89XNGdBDSwcMb3NPGygHpi8dLj
+	y72h/WnRWwMmegrb7iqjzuGhXOwRKZmTdJvEPvZg9d5zF7UMsWBbLHb54lagZnub0VMV5x7gy8t
+	N98weMUizdh8BlZK9HQ/U2hGQkfDnMontwIOuUsz0D87LTa0fmMqQAtiFqD7s6DZsoY3uszSQif
+	eMaZ4UOL815D8RBLg4SUJIg66otV60fXdNcN+uDuau/m1bP5OCmirEocfb+pJDgI9p7R3Z7niJc
+	tnmLQa2Tvn7BQFvgXIiCm813T2N/DDZoUX9bYJEikxxgTAYR9WSmRoVp5gfxfkP8WwISqW1vH4v
+	80TC5bWQLiikXHB1619zFur0HHkyDmIefYMzT8cYbcvdAOOzNPm4Vdb+OqrDzmRMnZ5eghZd54l
+	8wsTnIu
+X-Google-Smtp-Source: AGHT+IElu2DeQr7IoImhfsWaHg06ftf4nZ3LUQN+WUZ/izPfinsCvzTpfHsJa/ze8aScZK07T0eUkA==
+X-Received: by 2002:a05:6a20:918d:b0:35d:d477:a801 with SMTP id adf61e73a8af0-376a7eed254mr14238755637.13.1766521179192;
+        Tue, 23 Dec 2025 12:19:39 -0800 (PST)
+Received: from fedora (dh207-15-53.xnet.hr. [88.207.15.53])
+        by smtp.googlemail.com with ESMTPSA id 41be03b00d2f7-c1e7cbfa619sm12567549a12.36.2025.12.23.12.19.30
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 23 Dec 2025 12:19:38 -0800 (PST)
+From: Robert Marko <robert.marko@sartura.hr>
+To: robh@kernel.org,
+	krzk+dt@kernel.org,
+	conor+dt@kernel.org,
+	nicolas.ferre@microchip.com,
+	alexandre.belloni@bootlin.com,
+	claudiu.beznea@tuxon.dev,
+	herbert@gondor.apana.org.au,
+	davem@davemloft.net,
+	vkoul@kernel.org,
+	andi.shyti@kernel.org,
+	lee@kernel.org,
+	andrew+netdev@lunn.ch,
+	edumazet@google.com,
+	kuba@kernel.org,
+	pabeni@redhat.com,
+	linusw@kernel.org,
+	Steen.Hegelund@microchip.com,
+	daniel.machon@microchip.com,
+	UNGLinuxDriver@microchip.com,
+	olivia@selenic.com,
+	radu_nicolae.pirea@upb.ro,
+	richard.genoud@bootlin.com,
+	gregkh@linuxfoundation.org,
+	jirislaby@kernel.org,
+	broonie@kernel.org,
+	mturquette@baylibre.com,
+	sboyd@kernel.org,
+	lars.povlsen@microchip.com,
+	devicetree@vger.kernel.org,
+	linux-arm-kernel@lists.infradead.org,
+	linux-kernel@vger.kernel.org,
+	linux-crypto@vger.kernel.org,
+	dmaengine@vger.kernel.org,
+	linux-i2c@vger.kernel.org,
+	netdev@vger.kernel.org,
+	linux-gpio@vger.kernel.org,
+	linux-spi@vger.kernel.org,
+	linux-serial@vger.kernel.org,
+	linux-usb@vger.kernel.org,
+	linux-clk@vger.kernel.org
+Cc: luka.perkov@sartura.hr,
+	Robert Marko <robert.marko@sartura.hr>
+Subject: [PATCH v3 00/15] Add support for Microchip LAN969x
+Date: Tue, 23 Dec 2025 21:16:11 +0100
+Message-ID: <20251223201921.1332786-1-robert.marko@sartura.hr>
+X-Mailer: git-send-email 2.52.0
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v5 1/4] usb: typec: ucsi: Update UCSI structure to have
- message in and message out fields
-To: Heikki Krogerus <heikki.krogerus@linux.intel.com>,
- Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
-Cc: Pooja Katiyar <pooja.katiyar@intel.com>, linux-usb@vger.kernel.org,
- gregkh@linuxfoundation.org
-References: <cover.1761773881.git.pooja.katiyar@intel.com>
- <214b0a90c3220db33084ab714f4f33a004f70a41.1761773881.git.pooja.katiyar@intel.com>
- <2tlusuyqp2jif37smm57skeo3g2trzdspirv6minlopo5cey7m@z23tworiljkg>
- <66950556-3313-470b-bb51-82e14ce144cd@linux.intel.com>
- <349e1f70-7e40-4e3e-b078-6e001bbb5f1a@oss.qualcomm.com>
- <aUqF1EGxbiY1A1Eq@kuha>
-Content-Language: en-US
-From: "Katiyar, Pooja" <pooja.katiyar@linux.intel.com>
-In-Reply-To: <aUqF1EGxbiY1A1Eq@kuha>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
 
-Hello,
+This series adds support for the Microchip LAN969x switch SoC family.
 
-On Tue, Dec 23, 2025 at 04:06:44AM -0800, Heikki Krogerus wrote:
-> Hi,
-> 
-> Thu, Dec 18, 2025 at 03:22:43AM +0200, Dmitry Baryshkov kirjoitti:
->> On 18/12/2025 03:17, Katiyar, Pooja wrote:
->>> Hello,
->>>
->>> On Fri, Dec 12, 2025 at 06:58:06PM -0800, Dmitry Baryshkov wrote:
->>>> On Thu, Oct 30, 2025 at 07:48:55AM -0700, Pooja Katiyar wrote:
->>>>> Update UCSI structure by adding fields for incoming and outgoing
->>>>> messages. Update .sync_control function and other related functions
->>>>> to use these new fields within the UCSI structure, instead of handling
->>>>> them as separate parameters.
->>>>>
->>>>> Reviewed-by: Heikki Krogerus <heikki.krogerus@linux.intel.com>
->>>>> Signed-off-by: Pooja Katiyar <pooja.katiyar@intel.com>
->>>>> ---
->>>>> Changelog v3:
->>>>> - Added message fields to UCSI structure and updated sync_control handling.
->>>>
->>>> Colleagues, after looking at this patch I have a question. What prevents
->>>> message_{in,out}{,_size} to be modified concurrently? While we have PPM
->>>> lock around command submission, size fields and buffers are modified /
->>>> accessed outside of the lock. Granted all the notifications and async
->>>> nature of the UCSI and USB-C protocols, what prevents two commands from
->>>> being executed at the same time with one of the execution threads
->>>> accessing the results returned by the other command?
->>>>
->>>> In other words:
->>>>
->>>> - thread A sets message_in_size, calls ucsi_send_command(CMD_A), which
->>>>    takes PPM lock
->>>>
->>>>     - meanwhile thread B writes another value to message_in_size and
->>>>       calls ucsi_send_command(CMD_B), which now waits on PPM lock
->>>>
->>>> - thread A finishes execution of the CMD_A, copies data (with the
->>>>    wrong size!) to the message_in_buf, then it releases PPM lock.
->>>>
->>>> - thread A gets preempted
->>>>
->>>>      - thread B gets scheduled, it takes PPM lock, executes CMD_B, gets
->>>>        data into the message_in_buf and finally it releases PPM lock
->>>>
->>>> - finally at some later point thread A gets scheduled, it accesses
->>>>    message_in_buf, reading data that has been overwritten by CMD_B
->>>>    execution.
->>>>
->>>> WDYT?
->>>
->>> Thank you for identifying this race condition. You are correct about the
->>> concurrent access issue with the message buffer fields.
->>>
->>> Here are two potential approaches I see to resolve this:
->>>
->>> Option 1: Separate mutex locks for message variables
->>> Add a dedicated message_lock mutex to protect message_{in,out}{,_size}.
->>> message_{in,out}{,_size} will only be modified within the message_lock
->>> protection.
->>>
->>> 	mutex_lock(&ucsi->message_lock);
->>> 	ucsi->message_in_size = size;
->>> 	ret = ucsi_send_command(ucsi, cmd);
->>> 	memcpy(buffer, ucsi->message_in, size);
->>> 	mutex_unlock(&ucsi->message_lock);
->>>
->>> Option 2: Pass message variables as function arguments
->>> Pass message buffers and sizes as parameters down to where ppm_lock is
->>> acquired, ensuring protection throughout command execution.
->>>
->>> 	int ucsi_send_command(ucsi, cmd, msg_in_buf, msg_in_size, msg_out_buf,
->>> 			      msg_out_size) {
->>>      		mutex_lock(&ucsi->ppm_lock);
->>>      		ucsi->message_in_size = msg_in_size;
->>>      		// execute command and copy results to msg_in_buf
->>> 		memcpy(msg_in_buf, ucsi->message_in, msg_in_size);
->>>      		mutex_unlock(&ucsi->ppm_lock);
->>> 	}
->>>
->>> I'm leaning toward Option 1 as it resolves the concern of passing too many args.
->>> What are your thoughts on the suggested options or do you have alternative
->>> suggestions?
->>
->> I'm slightly biased towards  the second option (it doesn't required extra
->> locks and it also is a bit more idiomatic), but I'm fine either way.
->>
->> Looking forward to seeing the fixing patch!
-> 
-> I don't think you are fully solving the problem.
-> 
-> Pooja, you know my opinion. This whole approach of using separate
-> files is wrong. IMO we should only have a single file for the entire
-> UCSI mailbox, and the mailbox should be allocated searately for
-> everyone that opens the file. I don't think there is any way to
-> guarantee that the data in these separate files isn't for somebody
-> else.
-> 
-> thanks,
-> 
+Series is a bit long since after discussions in previous versions, it was
+recommended[1][2] to add SoC specific compatibles for device nodes so it
+includes the required bindings updates.
 
-Thank you for your feedback! We will work on a redesign for clearer implementation.
+[1] https://lore.kernel.org/all/20251203-splendor-cubbyhole-eda2d6982b46@spud/
+[2] https://lore.kernel.org/all/173412c8-c2fb-4c38-8de7-5b1c2eebdbf9@microchip.com/
+[3] https://lore.kernel.org/all/20251203-duly-leotard-86b83bd840c6@spud/
 
-Regards,
-Pooja
+Signed-off-by: Robert Marko <robert.marko@sartura.hr>
+
+Changes in v3:
+* Pick Acked-by from Conor
+* Drop HWMON binding as it was picked into hwmon already
+* Document EV23X71A into AT91 binding
+* Drop SparX-5 and AT91 bindings merge
+* Apply remark from Conor on DMA binding regarding merging cases
+
+Changes in v2:
+* Change LAN969x wildcards to LAN9691 in patches
+* Split SoC DTSI and evaluation board patches
+* Add the suggested binding changes required for SoC specific compatibles
+* Merge SparX-5 and AT91 bindings as suggested[3]
+
+Robert Marko (15):
+  include: dt-bindings: add LAN969x clock bindings
+  dt-bindings: usb: Add Microchip LAN969x support
+  dt-bindings: mfd: atmel,sama5d2-flexcom: add microchip,lan9691-flexcom
+  dt-bindings: serial: atmel,at91-usart: add microchip,lan9691-usart
+  dt-bindings: spi: at91: add microchip,lan9691-spi
+  dt-bindings: i2c: atmel,at91sam: add microchip,lan9691-i2c
+  dt-bindings: rng: atmel,at91-trng: add microchip,lan9691-trng
+  dt-bindings: crypto: atmel,at91sam9g46-aes: add microchip,lan9691-aes
+  dt-bindings: crypto: atmel,at91sam9g46-sha: add microchip,lan9691-sha
+  dt-bindings: dma: atmel: add microchip,lan9691-dma
+  dt-bindings: net: mscc-miim: add microchip,lan9691-miim
+  dt-bindings: pinctrl: pinctrl-microchip-sgpio: add LAN969x
+  arm64: dts: microchip: add LAN969x support
+  dt-bindings: arm: AT91: document EV23X71A board
+  arm64: dts: microchip: add EV23X71A board
+
+ .../devicetree/bindings/arm/atmel-at91.yaml   |   6 +
+ .../crypto/atmel,at91sam9g46-aes.yaml         |   1 +
+ .../crypto/atmel,at91sam9g46-sha.yaml         |   1 +
+ .../bindings/dma/atmel,sama5d4-dma.yaml       |   4 +-
+ .../bindings/i2c/atmel,at91sam-i2c.yaml       |   1 +
+ .../bindings/mfd/atmel,sama5d2-flexcom.yaml   |   1 +
+ .../devicetree/bindings/net/mscc,miim.yaml    |  11 +-
+ .../pinctrl/microchip,sparx5-sgpio.yaml       |  20 +-
+ .../bindings/rng/atmel,at91-trng.yaml         |   1 +
+ .../bindings/serial/atmel,at91-usart.yaml     |   1 +
+ .../bindings/spi/atmel,at91rm9200-spi.yaml    |   1 +
+ .../bindings/usb/microchip,lan9691-dwc3.yaml  |  68 ++
+ arch/arm64/boot/dts/microchip/Makefile        |   1 +
+ arch/arm64/boot/dts/microchip/lan9691.dtsi    | 487 +++++++++++
+ .../boot/dts/microchip/lan9696-ev23x71a.dts   | 757 ++++++++++++++++++
+ include/dt-bindings/clock/microchip,lan9691.h |  24 +
+ 16 files changed, 1376 insertions(+), 9 deletions(-)
+ create mode 100644 Documentation/devicetree/bindings/usb/microchip,lan9691-dwc3.yaml
+ create mode 100644 arch/arm64/boot/dts/microchip/lan9691.dtsi
+ create mode 100644 arch/arm64/boot/dts/microchip/lan9696-ev23x71a.dts
+ create mode 100644 include/dt-bindings/clock/microchip,lan9691.h
+
+-- 
+2.52.0
 
