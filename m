@@ -1,222 +1,129 @@
-Received: from smtp153-163.sina.com.cn (smtp153-163.sina.com.cn [61.135.153.163])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pf1-f201.google.com (mail-pf1-f201.google.com [209.85.210.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0207C1F3BA4
-	for <linux-usb@vger.kernel.org>; Tue, 30 Dec 2025 09:05:50 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=61.135.153.163
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4B588258CE7
+	for <linux-usb@vger.kernel.org>; Tue, 30 Dec 2025 10:13:32 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1767085559; cv=none; b=dq2FrMPLBtsQO38dQIw2GI0PXSzDCeZPvFs50aLx5+debVr6GfkFDKFth3Fwl3g1AV+ye3fj9QzC1AWV//Wz9Ioy0qitwy7Rm6HSKzp/+aiY5YTBxb828cFrTskF/nx/VkEhT5qE1sK1vd6n7EaZW8esPxlfa3JthgBNpVJa+dE=
+	t=1767089614; cv=none; b=BjjuWHFCGj+THFeicxFuup/itm8FmxiQG5kaGmu1ycF9PBOOd2tTV0YEaJmYNVyLSUTteBzotW+Qnw4WuEYSwx2YwbXDWg50X84/nD0i8OWAX6J/PpnPq5QNmWzS5w6+Vn4dQjXq/jUuZYJIbi2hx+99DUW7N/f8Y2uaR+1VwHA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1767085559; c=relaxed/simple;
-	bh=9Ik39mu2v9hvn1lf/nr6ebiYCdN4FoREP04GtHxzg9M=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=gHYp/BId3nMgFiBUEFNyIo9Jsog/R7CeqG9M5Y8sJWl6MM0e5QD2i/u94Kip2V3YlnXXGc0kelwfm04tyfHfk0Od9XIvhnIYV5yZcUJTNXp7zc5RUZAXl4DCsCnjbfUsFqiA1ZSGfz3JqUUzRrY4zEu98PHYYnkaKfZa1sV+lXY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=sina.com; spf=pass smtp.mailfrom=sina.com; dkim=pass (1024-bit key) header.d=sina.com header.i=@sina.com header.b=wPo++N6q; arc=none smtp.client-ip=61.135.153.163
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=sina.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=sina.com
+	s=arc-20240116; t=1767089614; c=relaxed/simple;
+	bh=GqjS8NhsN2P/EGV88kKMv9onh82daaNIe8QViAbDeFA=;
+	h=Date:Mime-Version:Message-ID:Subject:From:To:Cc:Content-Type; b=sMU4Z9fYQgb55y3cdtQj6vMKqEvXVAmRxqAWEEvewgeVXnObWQ7O5Amns7kqL8ZZnA7UzLACV0nm2RBHTWx6qjuVPOgUQGPV66FEZKGNaSUcFfYAYo/TcZlTxUge4u1+TJvZV6olzwXHG30BO80hbebFmjud9j9FNcoT1hRiqz8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=flex--khtsai.bounces.google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=NIuSXd9t; arc=none smtp.client-ip=209.85.210.201
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=flex--khtsai.bounces.google.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=sina.com header.i=@sina.com header.b="wPo++N6q"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=sina.com; s=201208; t=1767085551;
-	bh=+yloqipr5XRM3SgJts4WQG1jvkHWBhjWaiZ8/dial8I=;
-	h=Message-ID:Date:Subject:From;
-	b=wPo++N6qaiK9MNRmXIRc+AH36xWTo8zTId3Z7L566w2tlQnkgfpIcZL48TyCmbvTO
-	 gw2zScnp39EzKjFairDDZFyMyLtJCb4DmkXeAgRx3SLGAjwyRrxl4oY2xgKsprWmVY
-	 9XhdOtZIOx3gjjZqD9txoEXrh6T3uvLLf+1XnOgc=
-X-SMAIL-HELO: [192.168.2.143]
-Received: from unknown (HELO [192.168.2.143])([223.160.228.242])
-	by sina.com (10.54.253.32) with ESMTP
-	id 695394A4000065AD; Tue, 30 Dec 2025 17:00:24 +0800 (CST)
-X-Sender: atzlinux@sina.com
-X-Auth-ID: atzlinux@sina.com
-Authentication-Results: sina.com;
-	 spf=none smtp.mailfrom=atzlinux@sina.com;
-	 dkim=none header.i=none;
-	 dmarc=none action=none header.from=atzlinux@sina.com
-X-SMAIL-MID: 3547804456886
-X-SMAIL-UIID: 9A38D75C3FC94F998757FF6621AA3EB3-20251230-170024-1
-Message-ID: <511cc15a-1f1a-4dc8-bd63-157c59a179f7@sina.com>
-Date: Tue, 30 Dec 2025 17:00:19 +0800
+	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="NIuSXd9t"
+Received: by mail-pf1-f201.google.com with SMTP id d2e1a72fcca58-7b9090d9f2eso18447994b3a.0
+        for <linux-usb@vger.kernel.org>; Tue, 30 Dec 2025 02:13:32 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=google.com; s=20230601; t=1767089611; x=1767694411; darn=vger.kernel.org;
+        h=cc:to:from:subject:message-id:mime-version:date:from:to:cc:subject
+         :date:message-id:reply-to;
+        bh=urNf4tibA/ClGGMLFCybJdJKvxoBLt6em6cEb4hXuC0=;
+        b=NIuSXd9tc+3zTHD2560j/qvv8P6tFIbZGLarC1LufUG0MJHepvtRBF8NJDVk+R4AR0
+         oOb6ddUUy356fKR+g5L88Qu6vYtWRg9pe0+LmgVKBxeWDq3UNhYcYfB5uUfld28Lc+m3
+         bPhgRywkfqzba+a5Ij3iAo639C4DoBpFaRIlYoHp2XmvJ9WELy9LgmpLizAqP+zpNbD7
+         13OqT9faEdR1O+7zavgcOAgKd4NX7YpBcX/AVLzz+fRbhOY7/4nR6O+j8qqAj9ikubWb
+         yhpfrVaO4q6MydEhu4H5ARAFAAjVkLeLg2C0YPsoQithQpF3dBHlnq/AAu/BSUPFKraO
+         TLag==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1767089611; x=1767694411;
+        h=cc:to:from:subject:message-id:mime-version:date:x-gm-message-state
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=urNf4tibA/ClGGMLFCybJdJKvxoBLt6em6cEb4hXuC0=;
+        b=BKt/NZeomSfBleBhxzVedpTII+UBmgyamdw7T1FMuaFNnjsDpGGcKcwBZyQSx8/8Z7
+         yTsbd3B1hVF5DpynA+cm9LYji04B0CgO0i6Ri6j1kmsSJvQm62/yCXXxHPiCxyITcwl6
+         pw+SuCl6Armidwm9Df9Leo7zAhA4Hzb9R0mR2k6K2sc1kb0aPJhbxwNbxyOZZlixvXLu
+         AHOrpv19JakxycVCIwKBSZKfloIe6F1p2VhWoRF716Dg4rDqFkxnV2cEbf6ipk/vOOFL
+         VZUIc9jmM1JgI5a1va2T6O1KWzlQYY3Ia8JgqOD6yL/Eh86JHW87eNIwN4v1rTvC/52X
+         Qs3g==
+X-Gm-Message-State: AOJu0YyI3hwlFlr99Mc+geOKdEuPI3fxRRVUU0twU3C/0pQLUISBA/7D
+	ICKbgUFM4EoPX2isjkhr8D64Rx5xt1FEb0Lm3vczy+TXtoYTGGTyN0kcC5XpvXScBLn+az0dskD
+	xJly8TQ==
+X-Google-Smtp-Source: AGHT+IFuEt4dfp5NeDiOEVezMAfxVhj7x2iY5wCwSqw2kjLdIRp4jrbxbujwgbHzxeCxyqprmF8jKrEyDHQ=
+X-Received: from pfdr5.prod.google.com ([2002:aa7:8b85:0:b0:77e:32f7:68cd])
+ (user=khtsai job=prod-delivery.src-stubby-dispatcher) by 2002:a05:6a00:4392:b0:7e8:4398:b351
+ with SMTP id d2e1a72fcca58-7ff66079db6mr25933079b3a.36.1767089611501; Tue, 30
+ Dec 2025 02:13:31 -0800 (PST)
+Date: Tue, 30 Dec 2025 18:13:13 +0800
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH] USB: OHCI/UHCI: Add soft dependencies on ehci_hcd
-To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
- Huacai Chen <chenhuacai@loongson.cn>
-Cc: Huacai Chen <chenhuacai@kernel.org>,
- Alan Stern <stern@rowland.harvard.edu>, linux-usb@vger.kernel.org,
- linux-kernel@vger.kernel.org, stable@vger.kernel.org,
- debian-loongarch <debian-loongarch@lists.debian.org>
-References: <20251230080014.3934590-1-chenhuacai@loongson.cn>
- <2025123049-cadillac-straggler-d2fb@gregkh>
-Content-Language: en-US
-From: =?UTF-8?B?eGlhbyBzaGVuZyB3ZW4o6IKW55ub5paHKQ==?= <atzlinux@sina.com>
-Autocrypt: addr=atzlinux@sina.com; keydata=
- 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
- oSclJ9Jocazn/UjtfqI16BsNwzAtg7LgIOWm
-Organization: https://www.atzlinux.com
-In-Reply-To: <2025123049-cadillac-straggler-d2fb@gregkh>
-Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature";
- boundary="------------40EW5O0W09VneiXUoyt0wRGa"
+Mime-Version: 1.0
+X-B4-Tracking: v=1; b=H4sIALmlU2kC/6tWKk4tykwtVrJSqFYqSi3LLM7MzwNyDHUUlJIzE
+ vPSU3UzU4B8JSMDI1NDI2MD3bzkXN2i1LTE5JL8Il1LC4s0y0SzFBNTS0MloJYCoExmBdi46Nj aWgDNx154XgAAAA==
+X-Change-Id: 20251230-ncm-refactor-988f9a6d4591
+X-Developer-Key: i=khtsai@google.com; a=ed25519; pk=abA4Pw6dY2ZufSbSXW9mtp7xiv1AVPtgRhCFWJSEqLE=
+X-Developer-Signature: v=1; a=ed25519-sha256; t=1767089609; l=2412;
+ i=khtsai@google.com; s=20250916; h=from:subject:message-id;
+ bh=GqjS8NhsN2P/EGV88kKMv9onh82daaNIe8QViAbDeFA=; b=AbW/6gIYS6dUtdNHdwNzGMmYpR74iMN1U1MWdqIoFUDMP2XXl613rVEf5hkhz63aTJlDWjq2g
+ e2qMWFM8l1CDuoJPYJBmkFCo6AHWUybbL8cUoiRbdfXOVPwkCfzNDCO
+X-Mailer: b4 0.14.2
+Message-ID: <20251230-ncm-refactor-v1-0-793e347bc7a7@google.com>
+Subject: [PATCH 0/3] usb: gadget: Refactor NCM net_device lifecycle
+From: Kuen-Han Tsai <khtsai@google.com>
+To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>, Felipe Balbi <balbi@ti.com>, 
+	Prashanth K <prashanth.k@oss.qualcomm.com>, Kyungmin Park <kyungmin.park@samsung.com>, 
+	Andrzej Pietrasiewicz <andrzej.p@samsung.com>
+Cc: linux-usb@vger.kernel.org, linux-kernel@vger.kernel.org, 
+	Kuen-Han Tsai <khtsai@google.com>, stable@kernel.org
+Content-Type: text/plain; charset="utf-8"
 
-This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
---------------40EW5O0W09VneiXUoyt0wRGa
-Content-Type: multipart/mixed; boundary="------------0qvKTpUMyr8U9R8exa12WoYn";
- protected-headers="v1"
-From: =?UTF-8?B?eGlhbyBzaGVuZyB3ZW4o6IKW55ub5paHKQ==?= <atzlinux@sina.com>
-To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
- Huacai Chen <chenhuacai@loongson.cn>
-Cc: Huacai Chen <chenhuacai@kernel.org>,
- Alan Stern <stern@rowland.harvard.edu>, linux-usb@vger.kernel.org,
- linux-kernel@vger.kernel.org, stable@vger.kernel.org,
- debian-loongarch <debian-loongarch@lists.debian.org>
-Message-ID: <511cc15a-1f1a-4dc8-bd63-157c59a179f7@sina.com>
-Subject: Re: [PATCH] USB: OHCI/UHCI: Add soft dependencies on ehci_hcd
-References: <20251230080014.3934590-1-chenhuacai@loongson.cn>
- <2025123049-cadillac-straggler-d2fb@gregkh>
-In-Reply-To: <2025123049-cadillac-straggler-d2fb@gregkh>
+Refactor the network device lifecycle management within the USB gadget
+NCM function and the underlying u_ether library.
 
---------------0qvKTpUMyr8U9R8exa12WoYn
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
+The primary goal is to align the net_device lifetime with the USB
+function's bind/unbind events rather than the function instance 
+allocation/deallocation. This resolves issues with dangling sysfs 
+symbolic links and potential use-after-free scenarios when the gadget is
+disconnected, as the net_device could previously outlive its parent
+gadget device.
 
-Hi,
+Other gadget function drivers using u_ether (e.g., ECM, EEM, RNDIS) may
+have similar net_device lifecycle mismatches. While not addressed in 
+this series, they could potentially benefit from a similar refactoring
+in the future.
 
-=E5=9C=A8 2025/12/30 16:15, Greg Kroah-Hartman =E5=86=99=E9=81=93:
-> On Tue, Dec 30, 2025 at 04:00:14PM +0800, Huacai Chen wrote:
->> Commit 9beeee6584b9aa4f ("USB: EHCI: log a warning if ehci-hcd is not
->> loaded first") said that ehci-hcd should be loaded before ohci-hcd and=
+The series is structured as follows:
 
->> uhci-hcd. However, commit 05c92da0c52494ca ("usb: ohci/uhci - add soft=
+1. u_ether: add gether_opts for config caching: Introduce a new struct
+gether_opts to cache network settings (MAC addresses, ifname, etc.)
+from configfs independently of the net_device. This allows deferring
+net_device creation to the bind phase without losing pre-configuration
+capabilities.
 
->> dependencies on ehci_pci") only makes ohci-pci/uhci-pci depend on ehci=
--
->> pci, which is not enough and we may still see the warnings in boot log=
-=2E
->> So fix it by also making ohci-hcd/uhci-hcd depend on ehci-hcd.
->>
->> Cc: stable@vger.kernel.org
->> Reported-by: Shengwen Xiao <atzlinux@sina.com>
->> Signed-off-by: Huacai Chen <chenhuacai@loongson.cn>
->> ---
->>  drivers/usb/host/ohci-hcd.c | 1 +
->>  drivers/usb/host/uhci-hcd.c | 1 +
->>  2 files changed, 2 insertions(+)
->>
->> diff --git a/drivers/usb/host/ohci-hcd.c b/drivers/usb/host/ohci-hcd.c=
+2. u_ether: Add auto-cleanup helper for freeing net_device: Introduce 
+gether_unregister_free_netdev() and DEFINE_FREE to support auto-cleanup
+for net_device within the bind path, preparing for net_device allocation
+changes in f_ncm.
 
->> index 9c7f3008646e..549c965b7fbe 100644
->> --- a/drivers/usb/host/ohci-hcd.c
->> +++ b/drivers/usb/host/ohci-hcd.c
->> @@ -1355,4 +1355,5 @@ static void __exit ohci_hcd_mod_exit(void)
->>  	clear_bit(USB_OHCI_LOADED, &usb_hcds_loaded);
->>  }
->>  module_exit(ohci_hcd_mod_exit);
->> +MODULE_SOFTDEP("pre: ehci_hcd");
->=20
-> Ick, no, this way lies madness.  I hate the "softdep" stuff, it's
-> usually a sign that something is wrong elsewhere.
->=20
-> And don't add this _just_ to fix a warning message in a boot log, if yo=
-u
-> don't like that message, then build the module into your kernel, right?=
+3. f_ncm: align net_device lifecycle with bind/unbind: The main patch
+that moves net_device allocation/registration into ncm_bind() and
+unregistration/freeing into ncm_unbind(). It utilizes the gether_opts
+for applying cached settings and the new cleanup helper.
 
-In Debian kernel config, the USB driver module is config as module.
+Signed-off-by: Kuen-Han Tsai <khtsai@google.com>
+---
+Kuen-Han Tsai (3):
+      usb: gadget: u_ether: add gether_opts for config caching
+      usb: gadget: u_ether: Add auto-cleanup helper for freeing net_device
+      usb: gadget: f_ncm: align net_device lifecycle with bind/unbind
 
-I meet this warning info in my Loongarch machine 3A6000 on Debian:
+ drivers/usb/gadget/function/f_ncm.c            | 128 +++++++++---------
+ drivers/usb/gadget/function/u_ether.c          |  45 +++++++
+ drivers/usb/gadget/function/u_ether.h          |  30 +++++
+ drivers/usb/gadget/function/u_ether_configfs.h | 176 +++++++++++++++++++++++++
+ drivers/usb/gadget/function/u_ncm.h            |   4 +-
+ 5 files changed, 317 insertions(+), 66 deletions(-)
+---
+base-commit: 8f0b4cce4481fb22653697cced8d0d04027cb1e8
+change-id: 20251230-ncm-refactor-988f9a6d4591
 
-[    1.119467] Warning! ehci_hcd should always be loaded before uhci_hcd =
-and ohci_hcd, not after
+Best regards,
+-- 
+Kuen-Han Tsai <khtsai@google.com>
 
-I hope this warning can fix in my Loongarch machine.
-
->=20
-> And I really should just go revert 05c92da0c524 ("usb: ohci/uhci - add
-> soft dependencies on ehci_pci") as well, that feels wrong too.
->=20
-> thanks,
->=20
-> greg k-h
-
-Is there more better way to fix this Warning info?
-
-
-BTW: I'm not a kernel developer, just a Loongarch linux user.
-
-thanks,
---=20
-=E8=82=96=E7=9B=9B=E6=96=87 xiao sheng wen -- Debian Developer(atzlinux)
-Debian QA page: https://qa.debian.org/developer.php?login=3Datzlinux%40de=
-bian.org
-GnuPG Public Key: 0x00186602339240CB
-
-
---------------0qvKTpUMyr8U9R8exa12WoYn--
-
---------------40EW5O0W09VneiXUoyt0wRGa
-Content-Type: application/pgp-signature; name="OpenPGP_signature.asc"
-Content-Description: OpenPGP digital signature
-Content-Disposition: attachment; filename="OpenPGP_signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-wsF5BAABCAAjFiEEvGv7H5NUQYeSuhtTJ2Egg8PSprAFAmlTlKQFAwAAAAAACgkQJ2Egg8PSprAO
-yw//cBvsQ/SkvCv1+bm9Ve6yNsUwNF+xvL2efKbs+3Pin/aiDpHUNeTjGZS7C/UWapiBHKMXfzTi
-6xeIJ4O/RcqFZFdHH1DpgwP87nTw8QF9wbBo+YsM2+/W1o07NT6nU+hYRLkgjrFIvU+SEQtm2fyS
-F6GQhZapfh503E9z7b1XR/oe+WT0yAQxCafGrl4Wbtudleu/c5U1bk4f3pLTRP7V00qwjvvv010f
-QhsgT5c0Orf+4U6is1eLKRDxf3I7ftqTBCurpiTSI5E9saR12No3tuADeRA8KsZuByQRdHSC0V9r
-BaOHy+wPCF7ja+JNA5ZxbYidmP32NVqSVlnRtbOLKC/znn0iuAE/VHihyuQ1jyZo9zBS7nFnUNCG
-bNf7utN4s6Hrh5tcfo4vE7XykByRbcQ11Ls8E2OkblFcUXNIEeXpMTziptHjUYOCQHW4t33QB3u2
-A6T/Rg7F+hsSgWasGZI0M/M5YrHHA31qduSsICEmsw0qTHeTQaMMJVUe8OqcAfSBF0CUb4ZcIw/i
-YR3R6TMZVzwXhPHMZTgQ2g5gTYKAYe7i8bCVi19tQfdvohJqYChWOeVLy5wFlpCTcv4xqvpkcU05
-QO85wYQiYZEEFG7AsMrDLKIzcxbFPkzvEcMcmZ8pIUbiOPrZXk3vAywIn3aE23DNE3fPdX9envoE
-AgI=
-=Ic5n
------END PGP SIGNATURE-----
-
---------------40EW5O0W09VneiXUoyt0wRGa--
