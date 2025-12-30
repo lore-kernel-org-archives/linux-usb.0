@@ -1,22 +1,22 @@
 Received: from cstnet.cn (smtp21.cstnet.cn [159.226.251.21])
 	(using TLSv1.2 with cipher DHE-RSA-AES256-SHA (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7A9FF2D9EFB;
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 218BC2E0418;
 	Tue, 30 Dec 2025 02:37:58 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=159.226.251.21
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1767062281; cv=none; b=KMM4UmOImB4IZHMBTT+CfFJq9wujHrjqKKgOW3jV5/Gv/eCRTvDvFb0jOFJzxXiW32+upT2b1UizNTXywkew+VHWr6/ShNezybVyxkHmrvCnKSyz5yTTlrO+XnG6xjLtutJIsOHTUUUUvaOkAGipPxpR0zbX/0SjKg9dZ+5oGmM=
+	t=1767062281; cv=none; b=RjApJAUWH6WHZuywkSoR9d9c0RNyH903R9413vxkJ7l4L+yMjTes9N0XjE9E53JhVTfm8y6E0x4o+Eqse4OLZKJwkDZpoFiNEUiy4ue+JFdi48Jmo+xB391/erS0UNpNoZT34vXK+AnVEiWDhLGYIYTNrb45+4X9wODxKM4fzrQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
 	s=arc-20240116; t=1767062281; c=relaxed/simple;
-	bh=yNMyl0qFHcHPIgB03TVHeV9mSqzndrb6C3GTAOp8LJA=;
+	bh=S9yMTdl+moTTVgrFezuHN7qN2o2AqmVlH8Z7ugR8IYA=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=Z1Bi3KL7QWc4jJztbf+DwnBvANRjpU3l1+p5DOqNI4o0z+8ytDQOGnKawMSe6zh32Xv/XQCySLbG1KC5Wf55xCO+V+fm2wPUxNft+J+PcEcxUOHyiM9lQHcPHGKuwfwIxJHveKa9cBxksxN3m/NV6D/Y7CCz9bJ9US+g2j7ISXA=
+	 MIME-Version; b=RC2UoKkCjWLc33sWr34yokLSBFQtFfGPrUuuxp7kGrN2NcBT0j1VoRGPyvMzLN4fzpr2zWXpO8RRlGs2V8dMxNrzrsSRbwnv18xpmU4O9q+iYydA/mnFMMKLzrviYR6WzXy1/4+q/UaZq4JgbfTrHDChOJ4s7j6uGjpwNyaOONE=
 ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=isrc.iscas.ac.cn; spf=pass smtp.mailfrom=isrc.iscas.ac.cn; arc=none smtp.client-ip=159.226.251.21
 Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=isrc.iscas.ac.cn
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=isrc.iscas.ac.cn
 Received: from duge-virtual-machine (unknown [223.160.207.108])
-	by APP-01 (Coremail) with SMTP id qwCowACXQW3oOlNpIqZOAg--.5334S4;
-	Tue, 30 Dec 2025 10:37:38 +0800 (CST)
+	by APP-01 (Coremail) with SMTP id qwCowACXQW3oOlNpIqZOAg--.5334S7;
+	Tue, 30 Dec 2025 10:37:45 +0800 (CST)
 From: Jiayu Du <jiayu.riscv@isrc.iscas.ac.cn>
 To: conor@kernel.org
 Cc: vkoul@kernel.org,
@@ -33,9 +33,9 @@ Cc: vkoul@kernel.org,
 	linux-kernel@vger.kernel.org,
 	linux-phy@lists.infradead.org,
 	linux-usb@vger.kernel.org
-Subject: [PATCH 2/5] dt-bindings: soc: canaan: Add top syscon for Canaan K230 SoC
-Date: Tue, 30 Dec 2025 10:37:21 +0800
-Message-ID: <20251230023725.15966-3-jiayu.riscv@isrc.iscas.ac.cn>
+Subject: [PATCH 5/5] riscv: dts: canaan: Add syscon and USB nodes for K230
+Date: Tue, 30 Dec 2025 10:37:24 +0800
+Message-ID: <20251230023725.15966-6-jiayu.riscv@isrc.iscas.ac.cn>
 X-Mailer: git-send-email 2.52.0
 In-Reply-To: <20251230023725.15966-1-jiayu.riscv@isrc.iscas.ac.cn>
 References: <20251230023725.15966-1-jiayu.riscv@isrc.iscas.ac.cn>
@@ -46,109 +46,125 @@ List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-CM-TRANSID:qwCowACXQW3oOlNpIqZOAg--.5334S4
-X-Coremail-Antispam: 1UD129KBjvJXoW7uFyxXr4xuFW7WF1kJr1fWFg_yoW8KrWxpr
-	yxCFyfKrs5WF1aya1SkFy8Wa43Ga97Cr18Aw1ayryDtrn8Ga4jyaya9rW3Za1UXFyxGay2
-	vFWSvFy7Kr1DArJanT9S1TB71UUUUU7qnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
-	9KBjDU0xBIdaVrnRJUUUmj14x267AKxVWrJVCq3wAFc2x0x2IEx4CE42xK8VAvwI8IcIk0
-	rVWUuVWrJwAFIxvE14AKwVWUJVWUGwA2048vs2IY020E87I2jVAFwI0_Jryl82xGYIkIc2
-	x26xkF7I0E14v26ryj6s0DM28lY4IEw2IIxxk0rwA2F7IY1VAKz4vEj48ve4kI8wA2z4x0
-	Y4vE2Ix0cI8IcVAFwI0_Jr0_JF4l84ACjcxK6xIIjxv20xvEc7CjxVAFwI0_Gr0_Cr1l84
-	ACjcxK6I8E87Iv67AKxVWUJVW8JwA2z4x0Y4vEx4A2jsIEc7CjxVAFwI0_Gr0_Gr1UM2AI
-	xVAIcxkEcVAq07x20xvEncxIr21l5I8CrVACY4xI64kE6c02F40Ex7xfMcIj6xIIjxv20x
-	vE14v26r1j6r18McIj6I8E87Iv67AKxVWUJVW8JwAm72CE4IkC6x0Yz7v_Jr0_Gr1lF7xv
-	r2IYc2Ij64vIr41lF7I21c0EjII2zVCS5cI20VAGYxC7M4IIrI8v6xkF7I0E8cxan2IY04
-	v7MxkF7I0En4kS14v26r1q6r43MxAIw28IcxkI7VAKI48JMxC20s026xCaFVCjc4AY6r1j
-	6r4UMI8I3I0E5I8CrVAFwI0_Jr0_Jr4lx2IqxVCjr7xvwVAFwI0_JrI_JrWlx4CE17CEb7
-	AF67AKxVWUtVW8ZwCIc40Y0x0EwIxGrwCI42IY6xIIjxv20xvE14v26r1j6r1xMIIF0xvE
-	2Ix0cI8IcVCY1x0267AKxVW8JVWxJwCI42IY6xAIw20EY4v20xvaj40_Jr0_JF4lIxAIcV
-	C2z280aVAFwI0_Jr0_Gr1lIxAIcVC2z280aVCY1x0267AKxVW8JVW8JrUvcSsGvfC2Kfnx
-	nUUI43ZEXa7VUbH5lUUUUUU==
+X-CM-TRANSID:qwCowACXQW3oOlNpIqZOAg--.5334S7
+X-Coremail-Antispam: 1UD129KBjvJXoWxCFy8KF4xZw1fXr1UXw17GFg_yoW5XFy3p3
+	srCFZ8Kr93Wr4S93W29340gF93GFWkGFyfGrn8AFyUGr4UZa4q9w1rJryfZF1UXF47G3y2
+	yFZYqryxKr4jyw7anT9S1TB71UUUUU7qnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
+	9KBjDU0xBIdaVrnRJUUUmI14x267AKxVWrJVCq3wAFc2x0x2IEx4CE42xK8VAvwI8IcIk0
+	rVWUuVWrJwAFIxvE14AKwVWUJVWUGwA2048vs2IY020E87I2jVAFwI0_JF0E3s1l82xGYI
+	kIc2x26xkF7I0E14v26ryj6s0DM28lY4IEw2IIxxk0rwA2F7IY1VAKz4vEj48ve4kI8wA2
+	z4x0Y4vE2Ix0cI8IcVAFwI0_JFI_Gr1l84ACjcxK6xIIjxv20xvEc7CjxVAFwI0_Cr0_Gr
+	1UM28EF7xvwVC2z280aVAFwI0_Jr0_Gr1l84ACjcxK6I8E87Iv6xkF7I0E14v26r4j6r4U
+	JwAS0I0E0xvYzxvE52x082IY62kv0487Mc02F40EFcxC0VAKzVAqx4xG6I80ewAv7VC0I7
+	IYx2IY67AKxVWUJVWUGwAv7VC2z280aVAFwI0_Jr0_Gr1lOx8S6xCaFVCjc4AY6r1j6r4U
+	M4x0Y48IcxkI7VAKI48JM4x0x7Aq67IIx4CEVc8vx2IErcIFxwACI402YVCY1x02628vn2
+	kIc2xKxwCY1x0262kKe7AKxVWUtVW8ZwCF04k20xvY0x0EwIxGrwCFx2IqxVCFs4IE7xkE
+	bVWUJVW8JwC20s026c02F40E14v26r1j6r18MI8I3I0E7480Y4vE14v26r106r1rMI8E67
+	AF67kF1VAFwI0_Jw0_GFylIxkGc2Ij64vIr41lIxAIcVC0I7IYx2IY67AKxVWUCVW8JwCI
+	42IY6xIIjxv20xvEc7CjxVAFwI0_Cr0_Gr1UMIIF0xvE42xK8VAvwI8IcIk0rVWUJVWUCw
+	CI42IY6I8E87Iv67AKxVWUJVW8JwCI42IY6I8E87Iv6xkF7I0E14v26r4j6r4UJbIYCTnI
+	WIevJa73UjIFyTuYvjfUOyIUUUUUU
 X-CM-SenderInfo: 5mld534oul2uny6l223fol2u1dvotugofq/
 
-The Canaan K230 SoC top system controller provides register access
-to configure related modules. It includes a USB2 PHY and eMMC/SDIO PHY.
+Add top syscon and USB PHY subdevice nodes, USB0/USB1 dwc2 controller
+to K230 DTSI, and enable UART0 and USB0/USB1 in DshanPI DT.
 
 Signed-off-by: Jiayu Du <jiayu.riscv@isrc.iscas.ac.cn>
 ---
- .../soc/canaan/canaan,k230-hisys-cfg.yaml     | 68 +++++++++++++++++++
- 1 file changed, 68 insertions(+)
- create mode 100644 Documentation/devicetree/bindings/soc/canaan/canaan,k230-hisys-cfg.yaml
+ .../boot/dts/canaan/k230-canmv-dshanpi.dts    | 21 ++++++++
+ arch/riscv/boot/dts/canaan/k230.dtsi          | 51 +++++++++++++++++++
+ 2 files changed, 72 insertions(+)
 
-diff --git a/Documentation/devicetree/bindings/soc/canaan/canaan,k230-hisys-cfg.yaml b/Documentation/devicetree/bindings/soc/canaan/canaan,k230-hisys-cfg.yaml
-new file mode 100644
-index 000000000000..77875f2d4f48
---- /dev/null
-+++ b/Documentation/devicetree/bindings/soc/canaan/canaan,k230-hisys-cfg.yaml
-@@ -0,0 +1,68 @@
-+# SPDX-License-Identifier: (GPL-2.0 OR BSD-2-Clause)
-+%YAML 1.2
-+---
-+$id: http://devicetree.org/schemas/soc/canaan/canaan,k230-hisys-cfg.yaml#
-+$schema: http://devicetree.org/meta-schemas/core.yaml#
+diff --git a/arch/riscv/boot/dts/canaan/k230-canmv-dshanpi.dts b/arch/riscv/boot/dts/canaan/k230-canmv-dshanpi.dts
+index 4f95b534ee87..622d273d723a 100644
+--- a/arch/riscv/boot/dts/canaan/k230-canmv-dshanpi.dts
++++ b/arch/riscv/boot/dts/canaan/k230-canmv-dshanpi.dts
+@@ -80,3 +80,24 @@ &uart0 {
+ 	pinctrl-0 = <&uart0_pins>;
+ 	status = "okay";
+ };
 +
-+title: Canaan K230 HiSysConfig system controller
++&usb0 {
++	vusb_d-supply = <&vdd_3v3>;
++	vusb_a-supply = <&vdd_1v8>;
++	status = "okay";
++};
 +
-+maintainers:
-+  - Jiayu Du <jiayu.riscv@isrc.iscas.ac.cn>
++&usb1 {
++	dr_mode = "host";
++	vusb_d-supply = <&vdd_3v3>;
++	vusb_a-supply = <&vdd_1v8>;
++	status = "okay";
++};
 +
-+description:
-+  The Canaan K230 HiSysConfig system controller provides register access to
-+  configure high-speed peripherals (e.g. eMMC/SDIO PHY tuning) and USB PHY
-+  configuration.
++&usbphy0 {
++	status = "okay";
++};
 +
-+properties:
-+  compatible:
-+    items:
-+      - const: canaan,k230-hisys-cfg
-+      - const: syscon
-+      - const: simple-mfd
++&usbphy1 {
++	status = "okay";
++};
+diff --git a/arch/riscv/boot/dts/canaan/k230.dtsi b/arch/riscv/boot/dts/canaan/k230.dtsi
+index b815a65e02b9..825728727425 100644
+--- a/arch/riscv/boot/dts/canaan/k230.dtsi
++++ b/arch/riscv/boot/dts/canaan/k230.dtsi
+@@ -148,5 +148,56 @@ uart4: serial@91404000 {
+ 			reg-shift = <2>;
+ 			status = "disabled";
+ 		};
 +
-+  reg:
-+    maxItems: 1
++		usb0: usb@91500000 {
++			compatible = "canaan,k230-usb", "snps,dwc2";
++			reg = <0x0 0x91500000 0x0 0x40000>;
++			interrupts = <173 IRQ_TYPE_LEVEL_HIGH>;
++			clocks = <&sysclk K230_USB_480M_RATE>;
++			clock-names = "otg";
++			g-rx-fifo-size = <512>;
++			g-np-tx-fifo-size = <64>;
++			g-tx-fifo-size = <512 1024 64 64 64 64>;
++			phys = <&usbphy0>;
++			phy-names = "usb2-phy";
++			status = "disabled";
++		};
 +
-+  "#address-cells":
-+    const: 1
++		usb1: usb@91540000 {
++			compatible = "canaan,k230-usb", "snps,dwc2";
++			reg = <0x0 0x91540000 0x0 0x40000>;
++			interrupts = <174 IRQ_TYPE_LEVEL_HIGH>;
++			clocks = <&sysclk K230_USB_480M_RATE>;
++			clock-names = "otg";
++			g-rx-fifo-size = <512>;
++			g-np-tx-fifo-size = <64>;
++			g-tx-fifo-size = <512 1024 64 64 64 64>;
++			phys = <&usbphy1>;
++			phy-names = "usb2-phy";
++			status = "disabled";
++		};
 +
-+  "#size-cells":
-+    const: 1
++		hi_sys_config: syscon@91585000 {
++			compatible = "canaan,k230-hisys-cfg", "syscon", "simple-mfd";
++			reg = <0x0 0x91585000 0x0 0x400>;
++			#address-cells = <1>;
++			#size-cells = <1>;
 +
-+  usb-phy@70:
-+    $ref: schemas/phy/canaan,k230-usb-phy.yaml#
-+    unevaluatedProperties: false
++			usbphy0: usb-phy@70 {
++				compatible = "canaan,k230-usb-phy";
++				reg = <0x70 0x1C>, <0xb0 0x8>;
++				clocks = <&sysclk K230_HS_USB0_AHB_GATE>;
++				#phy-cells = <0>;
++				status = "disabled";
++			};
 +
-+  usb-phy@90:
-+    $ref: schemas/phy/canaan,k230-usb-phy.yaml#
-+    unevaluatedProperties: false
-+
-+required:
-+  - compatible
-+  - reg
-+
-+additionalProperties: false
-+
-+examples:
-+  - |
-+    hi_sys_config: syscon@91585000 {
-+        compatible = "canaan,k230-hisys-cfg", "syscon", "simple-mfd";
-+        reg = <0x91585000 0x400>;
-+        #address-cells = <1>;
-+        #size-cells = <1>;
-+
-+        usbphy0: usb-phy@70 {
-+            compatible = "canaan,k230-usb-phy";
-+            reg = <0x70 0x1C>, <0xb0 0x8>;
-+            clocks = <&sysclk K230_HS_USB0_AHB_GATE>;
-+            #phy-cells = <0>;
-+        };
-+
-+        usbphy1: usb-phy@90 {
-+            compatible = "canaan,k230-usb-phy";
-+            reg = <0x90 0x1C>, <0xb8 0x8>;
-+            clocks = <&sysclk K230_HS_USB1_AHB_GATE>;
-+            #phy-cells = <0>;
-+        };
-+    };
++			usbphy1: usb-phy@90 {
++				compatible = "canaan,k230-usb-phy";
++				reg = <0x90 0x1C>, <0xb8 0x8>;
++				clocks = <&sysclk K230_HS_USB1_AHB_GATE>;
++				#phy-cells = <0>;
++				status = "disabled";
++			};
++		};
+ 	};
+ };
 -- 
 2.52.0
 
