@@ -1,108 +1,93 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from cstnet.cn (smtp21.cstnet.cn [159.226.251.21])
+	(using TLSv1.2 with cipher DHE-RSA-AES256-SHA (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7C24B3A1E98;
-	Mon, 29 Dec 2025 23:35:14 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4F4341DFE22;
+	Tue, 30 Dec 2025 02:37:55 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=159.226.251.21
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1767051314; cv=none; b=nWz+NC+qDCHmd965raN454xVeWiYCngD3HW/5soEN/Ac9maKnnYKtCV9P094jLi9+fpv0al1k3r5fa61IaDl2tv6TSmShdcuCU3KoPp7Ye6r57Uud2M/EI2nhPO60tyZs3x9Ue2HinxgbxLTuVGPS6G4FydCNy7sFyhloRp5ahA=
+	t=1767062278; cv=none; b=PAgsTLS1GT1gZ3gDQPM8l0rY2yCOZvykS2yoD9CM51yyPWm8bFxJQfJAkKMWdGG5z99pnFPmyOGYdmAE3iTM445yKWWkzdOAcCqQlf92AmeMUKHBDSQ9/E7SDzwuW1JWRiWYHkZFY8AcWbem2A88uNM1jyVM4+jj9zpMsW/l3Wc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1767051314; c=relaxed/simple;
-	bh=sGG51MCoV7W1LUkTO42FAWhTXUFofGiZZFTBsNMdG8I=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=Uu/wJARz23B0tQ7CbFPKsBktRafEmkKBY0LS6qlMPmyD/sSPuHxli4awRb5XPIu65zmDXn/Ok++KVML5/jr0siThqt9Er2cYotuMSy6Hkq0sVxShGu0n4r3TdUOohDnilPse7Sv2BpWdFsHeUuyddVIsUGs1AX9QfWUQUmn6Nxo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=RRXPi6EZ; arc=none smtp.client-ip=10.30.226.201
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="RRXPi6EZ"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id E1A6AC4CEF7;
-	Mon, 29 Dec 2025 23:35:13 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1767051314;
-	bh=sGG51MCoV7W1LUkTO42FAWhTXUFofGiZZFTBsNMdG8I=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=RRXPi6EZ7Gso9xNo+pfIlQpx5ecEiLkR+m1417tHk4qBetbXx2i1Cn6lIbRvAizVi
-	 zYR71qHUgWt5iXBnPTrlHRXc6qW8su3+sVnlGvZ80MA5iGV7wMZQ4T6IgkaW15bWez
-	 YYEoL9FobDylm4WB9Cpv5ToYIe8dDewrqEA5H2/BPxenSawcOfKdlWgY6TtF++OiYm
-	 Aagtli9tv88PZmE8/a9cFIPIiRbhlcgAbQLqYaPRS8mONySFOpr4+cHdUj88SARWSw
-	 fEvjW+SJXi9F8itTfnqr8DdlTqAd96iZ2oj66LQ19B1vJSJKRtGPMtBKDac5r3CKR5
-	 sUGjkABfmWWlw==
-Date: Mon, 29 Dec 2025 17:35:12 -0600
-From: Rob Herring <robh@kernel.org>
-To: Alexander Stein <alexander.stein@ew.tq-group.com>
-Cc: Krzysztof Kozlowski <krzk+dt@kernel.org>,
-	Conor Dooley <conor+dt@kernel.org>,
-	Geert Uytterhoeven <geert+renesas@glider.be>,
-	Michael Turquette <mturquette@baylibre.com>,
-	Stephen Boyd <sboyd@kernel.org>, Peter Chen <peter.chen@kernel.org>,
-	Pawel Laszczak <pawell@cadence.com>,
-	Roger Quadros <rogerq@kernel.org>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	Shawn Guo <shawnguo@kernel.org>,
-	Sascha Hauer <s.hauer@pengutronix.de>,
-	Pengutronix Kernel Team <kernel@pengutronix.de>,
-	Fabio Estevam <festevam@gmail.com>,
-	Magnus Damm <magnus.damm@gmail.com>, Marek Vasut <marex@denx.de>,
-	devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
-	linux-renesas-soc@vger.kernel.org, linux-clk@vger.kernel.org,
-	linux-usb@vger.kernel.org, imx@lists.linux.dev,
-	linux-arm-kernel@lists.infradead.org, linux@ew.tq-group.com
-Subject: Re: [PATCH 2/6] dt-bindings: usb: cdns,usb3: support USB devices in
- DT
-Message-ID: <20251229233512.GA2785770-robh@kernel.org>
-References: <20251218152058.1521806-1-alexander.stein@ew.tq-group.com>
- <20251218152058.1521806-3-alexander.stein@ew.tq-group.com>
+	s=arc-20240116; t=1767062278; c=relaxed/simple;
+	bh=QFRlpOrF1GoMvkpqnwoBl3pjQJ98KpiTbXUh4J+HAIk=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version; b=h3XHaSuQG4Kp/MdouQY7UXpl6abktaJCKjc/BdURi/tGRb15plHu4CSQ906GcUvDty3glBqdUhtvqgcGcVo5Rgbi6sp5OgGuJkT71b4DOkfcsjTdJwhQqpwWzwF0+yth3vcJIu5CLrIJV4M1cnjqmBy0GvBwSQV5m1u+fl91xoQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=isrc.iscas.ac.cn; spf=pass smtp.mailfrom=isrc.iscas.ac.cn; arc=none smtp.client-ip=159.226.251.21
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=isrc.iscas.ac.cn
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=isrc.iscas.ac.cn
+Received: from duge-virtual-machine (unknown [223.160.207.108])
+	by APP-01 (Coremail) with SMTP id qwCowACXQW3oOlNpIqZOAg--.5334S5;
+	Tue, 30 Dec 2025 10:37:40 +0800 (CST)
+From: Jiayu Du <jiayu.riscv@isrc.iscas.ac.cn>
+To: conor@kernel.org
+Cc: vkoul@kernel.org,
+	gregkh@linuxfoundation.org,
+	pjw@kernel.org,
+	palmer@dabbelt.com,
+	aou@eecs.berkeley.edu,
+	alex@ghiti.fr,
+	neil.armstrong@linaro.org,
+	krzk+dt@kernel.org,
+	jiayu.riscv@isrc.iscas.ac.cn,
+	linux-riscv@lists.infradead.org,
+	devicetree@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	linux-phy@lists.infradead.org,
+	linux-usb@vger.kernel.org
+Subject: [PATCH 3/5] dt-bindings: usb: dwc2: Add support for Canaan K230 SoC
+Date: Tue, 30 Dec 2025 10:37:22 +0800
+Message-ID: <20251230023725.15966-4-jiayu.riscv@isrc.iscas.ac.cn>
+X-Mailer: git-send-email 2.52.0
+In-Reply-To: <20251230023725.15966-1-jiayu.riscv@isrc.iscas.ac.cn>
+References: <20251230023725.15966-1-jiayu.riscv@isrc.iscas.ac.cn>
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20251218152058.1521806-3-alexander.stein@ew.tq-group.com>
+Content-Transfer-Encoding: 8bit
+X-CM-TRANSID:qwCowACXQW3oOlNpIqZOAg--.5334S5
+X-Coremail-Antispam: 1UD129KBjvdXoW7JrW3JFWkWw4DZw1ruF1xXwb_yoW3uFg_Z3
+	ZruF4rCFWDJFySqr4qyFs2kF15Zw47trn7uF1qqFn8Cw4j9ws8Wa4ktw13Ar1rCF4Uurn5
+	urs3JrZFgFs7WjkaLaAFLSUrUUUUjb8apTn2vfkv8UJUUUU8Yxn0WfASr-VFAUDa7-sFnT
+	9fnUUIcSsGvfJTRUUUbkkFF20E14v26rWj6s0DM7CY07I20VC2zVCF04k26cxKx2IYs7xG
+	6r1S6rWUM7CIcVAFz4kK6r1j6r18M28IrcIa0xkI8VA2jI8067AKxVWUWwA2048vs2IY02
+	0Ec7CjxVAFwI0_Xr0E3s1l8cAvFVAK0II2c7xJM28CjxkF64kEwVA0rcxSw2x7M28EF7xv
+	wVC0I7IYx2IY67AKxVWUJVWUCwA2z4x0Y4vE2Ix0cI8IcVCY1x0267AKxVWxJVW8Jr1l84
+	ACjcxK6I8E87Iv67AKxVWUJVW8JwA2z4x0Y4vEx4A2jsIEc7CjxVAFwI0_Gr0_Gr1UM2AI
+	xVAIcxkEcVAq07x20xvEncxIr21l5I8CrVACY4xI64kE6c02F40Ex7xfMcIj6xIIjxv20x
+	vE14v26r1j6r18McIj6I8E87Iv67AKxVWUJVW8JwAm72CE4IkC6x0Yz7v_Jr0_Gr1lF7xv
+	r2IYc2Ij64vIr41lF7I21c0EjII2zVCS5cI20VAGYxC7M4IIrI8v6xkF7I0E8cxan2IY04
+	v7MxkF7I0En4kS14v26r1q6r43MxAIw28IcxkI7VAKI48JMxC20s026xCaFVCjc4AY6r1j
+	6r4UMI8I3I0E5I8CrVAFwI0_Jr0_Jr4lx2IqxVCjr7xvwVAFwI0_JrI_JrWlx4CE17CEb7
+	AF67AKxVWUtVW8ZwCIc40Y0x0EwIxGrwCI42IY6xIIjxv20xvE14v26r1j6r1xMIIF0xvE
+	2Ix0cI8IcVCY1x0267AKxVWxJVW8Jr1lIxAIcVCF04k26cxKx2IYs7xG6r1j6r1xMIIF0x
+	vEx4A2jsIE14v26r1j6r4UMIIF0xvEx4A2jsIEc7CjxVAFwI0_Gr0_Gr1UYxBIdaVFxhVj
+	vjDU0xZFpf9x0JUHWlkUUUUU=
+X-CM-SenderInfo: 5mld534oul2uny6l223fol2u1dvotugofq/
 
-On Thu, Dec 18, 2025 at 04:20:49PM +0100, Alexander Stein wrote:
-> Reference usb-hxci.yaml in host mode in order to support on-board USB
-> hubs.
-> 
-> Signed-off-by: Alexander Stein <alexander.stein@ew.tq-group.com>
-> ---
->  Documentation/devicetree/bindings/usb/cdns,usb3.yaml | 11 +++++++++++
->  1 file changed, 11 insertions(+)
-> 
-> diff --git a/Documentation/devicetree/bindings/usb/cdns,usb3.yaml b/Documentation/devicetree/bindings/usb/cdns,usb3.yaml
-> index f454ddd9bbaa6..1f7f0adc3b1ed 100644
-> --- a/Documentation/devicetree/bindings/usb/cdns,usb3.yaml
-> +++ b/Documentation/devicetree/bindings/usb/cdns,usb3.yaml
-> @@ -85,6 +85,17 @@ required:
->  
->  allOf:
->    - $ref: usb-drd.yaml#
-> +  - if:
-> +      properties:
-> +        dr_mode:
-> +          const: peripheral
-> +
-> +      required:
-> +        - dr_mode
-> +    then:
-> +      $ref: usb.yaml#
-> +    else:
-> +      $ref: usb-xhci.yaml#
+Add 'canaan,k230-usb' compatible string with 'snps,dwc2' as fallback
+for the DWC2 IP which is used by Canaan K230.
 
-I would just do:
+Signed-off-by: Jiayu Du <jiayu.riscv@isrc.iscas.ac.cn>
+---
+ Documentation/devicetree/bindings/usb/dwc2.yaml | 3 +++
+ 1 file changed, 3 insertions(+)
 
-allOf:
-  - $ref: usb-drd.yaml#
-  - $ref: usb-xhci.yaml#  (includes usb.yaml)
+diff --git a/Documentation/devicetree/bindings/usb/dwc2.yaml b/Documentation/devicetree/bindings/usb/dwc2.yaml
+index 6c3a10991b8b..352487c6392a 100644
+--- a/Documentation/devicetree/bindings/usb/dwc2.yaml
++++ b/Documentation/devicetree/bindings/usb/dwc2.yaml
+@@ -17,6 +17,9 @@ properties:
+   compatible:
+     oneOf:
+       - const: brcm,bcm2835-usb
++      - items:
++          - const: canaan,k230-usb
++          - const: snps,dwc2
+       - const: hisilicon,hi6220-usb
+       - const: ingenic,jz4775-otg
+       - const: ingenic,jz4780-otg
+-- 
+2.52.0
 
-2 reasons:
-
-As I remember, 'dr_mode' is at least typically what the default mode is 
-rather than the only mode the h/w supports.
-
-Even if you are peripheral only, I don't think it is too important to 
-disallow otherwise valid properties. (It's random, unspecified 
-properties I care about.)
-
-Rob
