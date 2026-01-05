@@ -1,207 +1,160 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.11])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 417882F25E4;
-	Mon,  5 Jan 2026 16:10:26 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.11
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1591932ED4E;
+	Mon,  5 Jan 2026 16:24:31 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1767629429; cv=none; b=uUTGfjnVMSg09h/Itz5egqgdu+enqI1fRI1zqIncxvaOLmHTKghn5Lp0kfYRlqguiIO18L/uR4NGW18eVdM/UuP0VrbMkHtdqet1C/R50sMSBSh6hY/XZrjOrIWbncLtNSPWvRtzZB/zQOKSAbed/ixX1p15z9Hsi9F4LwCInJg=
+	t=1767630272; cv=none; b=YJaOeXTSVA7+7Fxp9UHSPNGmdPv2U5E2csXKEnsQvoJ5WOO7CZs3JCszpVKKNJO5Wh9IFh7HVOAW+Rw+/hIHMgbZIEmTJE7LLfwyzthHRFEsYh31yXD1BhAfFXdJy1l/XvuE37A0VY12pTvGCqmGM7FE/ObXDdmqUlUvinghCCI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1767629429; c=relaxed/simple;
-	bh=kzCRFUztXQTIWieGzaPRB5F9NacR2ZhvKHo9n5T7lCs=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=ZXZ/tSdSRvCf7vP27mCSoNjpiKKBy7FB2Mh2Im6fAaXgLI95bLJU/Aw8kyncSAsA27czDyjBUAVckAu+LRAjc2D0SY9semw9SIrF7z/wnvbinMzK8q6FwbDmi7tTPuVByNOlLjx4NClWt1iyHvAx1haJE8hJILpQjVt9Hl4dg10=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=pass smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=dgQc0b4b; arc=none smtp.client-ip=198.175.65.11
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.intel.com
+	s=arc-20240116; t=1767630272; c=relaxed/simple;
+	bh=lYCW3siDQNRZY+GsyMzVi9UL/1vFDJTQoDJqk5WeLXk=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=PUvhWZsGKme/FwOy8aOpJdL9YGVv1eIY9oSlV1unM22WFLtXOVElbMpydC7vhie17TmiHhvOTagLGVWkXiqnB45dLZh6IlSBI/GLmvtzxB2YJj9m7vB7UUQ0Y8xVvgP3AWUpGA84FvBk8PkDqYo5+WOXtjDBazm6mq7b5KiEOa0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=GPjcKII0; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="dgQc0b4b"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1767629427; x=1799165427;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=kzCRFUztXQTIWieGzaPRB5F9NacR2ZhvKHo9n5T7lCs=;
-  b=dgQc0b4bkVdYXVUk7Sfz79trgYSNc4RnsHIBQuSZyhsnxODh+tDI0pbL
-   Pm6Qqc+F84QfruQ4xUz8iS3xKAk4HWWDV1nL/Tj3kFbvLAV65HYE56cJL
-   TCq6RyalR9CyZTkKfDPlCvdsqagGIptLdukZbnzGifjHaMJhP3F7Xi5l5
-   IaPSoMURAQ7gLqR8nhsq4Q3kW+9O/YRSJaNAr3orkgZC4uMCCgbqYjaR5
-   slCNaSMMM9YHhRsrt+QnyCC3hFPRoeduJIcGDAZjbSjnlEFqK+30V+JKc
-   iLAt575Hj/0/ffEEG5vJfmUcngKZn+L/KN9XyibD5VQgFko6ZuKB8Yf5t
-   Q==;
-X-CSE-ConnectionGUID: WltLiaPeTc+VR7OvQGbH2A==
-X-CSE-MsgGUID: ZnO4oCPJRd6JAVOFyN8jLA==
-X-IronPort-AV: E=McAfee;i="6800,10657,11662"; a="79300044"
-X-IronPort-AV: E=Sophos;i="6.21,203,1763452800"; 
-   d="scan'208";a="79300044"
-Received: from orviesa008.jf.intel.com ([10.64.159.148])
-  by orvoesa103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 05 Jan 2026 08:10:26 -0800
-X-CSE-ConnectionGUID: zs90m1P/T/6PV/+GxPKxMQ==
-X-CSE-MsgGUID: 6BWfqYvcS/SbRp4lnJP65w==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.21,203,1763452800"; 
-   d="scan'208";a="202469155"
-Received: from rfrazer-mobl3.amr.corp.intel.com (HELO kuha) ([10.124.222.12])
-  by orviesa008.jf.intel.com with SMTP; 05 Jan 2026 08:10:20 -0800
-Received: by kuha (sSMTP sendmail emulation); Mon, 05 Jan 2026 18:10:01 +0200
-Date: Mon, 5 Jan 2026 18:10:01 +0200
-From: Heikki Krogerus <heikki.krogerus@linux.intel.com>
-To: amitsd@google.com
-Cc: Sebastian Reichel <sre@kernel.org>, Rob Herring <robh@kernel.org>,
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="GPjcKII0"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 94B09C116D0;
+	Mon,  5 Jan 2026 16:24:30 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1767630270;
+	bh=lYCW3siDQNRZY+GsyMzVi9UL/1vFDJTQoDJqk5WeLXk=;
+	h=From:To:Cc:Subject:Date:From;
+	b=GPjcKII0OHEUX4sJTxAE62ChobNYZmkA/Y73pMem5xTDSVO5jhPzKqBCMAVJTQRwm
+	 7Yt1EsjtuZiZnM77g2ULdAc2Y7y9v9HO0v8QHt8Mb9zMCT5TULXuU1UT7O2UQQc+0a
+	 LbqTZJ4M7wFSU6ZlyR67Ifn9LFgcfup5aOpCujbJLhzK2AgvPzeiG37W4iCOCC2SM9
+	 cep0MaDn6gAKbW7AQVSS57ZwNb4iSGTLg57ur7j1PyZWNEZraKrvYsOpUfD2TlXCvX
+	 OketC79ovpwhXE13BuTiCpBC82BUk2BzQTMsGiFBsBdS4yEs+FIB6gYNicUr7PalTg
+	 tSudURb0MsIEA==
+From: "Rob Herring (Arm)" <robh@kernel.org>
+To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
 	Krzysztof Kozlowski <krzk+dt@kernel.org>,
 	Conor Dooley <conor+dt@kernel.org>,
-	=?iso-8859-1?Q?Andr=E9?= Draszik <andre.draszik@linaro.org>,
-	Lee Jones <lee@kernel.org>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	Badhri Jagan Sridharan <badhri@google.com>,
-	Peter Griffin <peter.griffin@linaro.org>,
-	Tudor Ambarus <tudor.ambarus@linaro.org>,
-	Alim Akhtar <alim.akhtar@samsung.com>, linux-kernel@vger.kernel.org,
-	linux-pm@vger.kernel.org, devicetree@vger.kernel.org,
-	linux-usb@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
-	linux-samsung-soc@vger.kernel.org,
-	RD Babiera <rdbabiera@google.com>, Kyle Tso <kyletso@google.com>
-Subject: Re: [PATCH v3 5/5] usb: typec: tcpm/tcpci_maxim: deprecate WAR for
- setting charger mode
-Message-ID: <aVvhvuq6Ls1v3B_E@kuha>
-References: <20251227-max77759-charger-v3-0-54e664f5ca92@google.com>
- <20251227-max77759-charger-v3-5-54e664f5ca92@google.com>
+	Kunihiko Hayashi <hayashi.kunihiko@socionext.com>,
+	Masami Hiramatsu <mhiramat@kernel.org>
+Cc: linux-usb@vger.kernel.org,
+	devicetree@vger.kernel.org,
+	linux-arm-kernel@lists.infradead.org,
+	linux-kernel@vger.kernel.org
+Subject: [PATCH v2] dt-bindings: usb: Add Socionext Uniphier DWC3 controller
+Date: Mon,  5 Jan 2026 10:24:16 -0600
+Message-ID: <20260105162418.2842825-1-robh@kernel.org>
+X-Mailer: git-send-email 2.51.0
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20251227-max77759-charger-v3-5-54e664f5ca92@google.com>
+Content-Transfer-Encoding: 8bit
 
-Sat, Dec 27, 2025 at 12:04:25AM +0000, Amit Sunil Dhamne via B4 Relay kirjoitti:
-> From: Amit Sunil Dhamne <amitsd@google.com>
-> 
-> TCPCI maxim driver directly writes to the charger's register space to
-> set charger mode depending on the power role. As MAX77759 chg driver
-> exists, this WAR is not required.
-> 
-> Instead, use a regulator interface to source vbus when typec is in
-> source power mode. In other power modes, this regulator will be turned
-> off if active.
-> 
-> Signed-off-by: Amit Sunil Dhamne <amitsd@google.com>
+The Socionext Uniphier DWC3 controller binding is already in use, but
+undocumented. It's a straight-forward binding similar to other DWC3
+bindings.
 
-Reviewed-by: Heikki Krogerus <heikki.krogerus@linux.intel.com>
+Signed-off-by: Rob Herring (Arm) <robh@kernel.org>
+---
+v2:
+ - Allow 1 phy entry for Pro4
+---
+ .../bindings/usb/socionext,uniphier-dwc3.yaml | 89 +++++++++++++++++++
+ 1 file changed, 89 insertions(+)
+ create mode 100644 Documentation/devicetree/bindings/usb/socionext,uniphier-dwc3.yaml
 
-> ---
->  drivers/usb/typec/tcpm/tcpci_maxim.h      |  1 +
->  drivers/usb/typec/tcpm/tcpci_maxim_core.c | 54 +++++++++++++++++++------------
->  2 files changed, 34 insertions(+), 21 deletions(-)
-> 
-> diff --git a/drivers/usb/typec/tcpm/tcpci_maxim.h b/drivers/usb/typec/tcpm/tcpci_maxim.h
-> index b33540a42a95..b314606eb0f6 100644
-> --- a/drivers/usb/typec/tcpm/tcpci_maxim.h
-> +++ b/drivers/usb/typec/tcpm/tcpci_maxim.h
-> @@ -60,6 +60,7 @@ struct max_tcpci_chip {
->  	struct tcpm_port *port;
->  	enum contamiant_state contaminant_state;
->  	bool veto_vconn_swap;
-> +	struct regulator *vbus_reg;
->  };
->  
->  static inline int max_tcpci_read16(struct max_tcpci_chip *chip, unsigned int reg, u16 *val)
-> diff --git a/drivers/usb/typec/tcpm/tcpci_maxim_core.c b/drivers/usb/typec/tcpm/tcpci_maxim_core.c
-> index 19f638650796..e9e2405c5ca0 100644
-> --- a/drivers/usb/typec/tcpm/tcpci_maxim_core.c
-> +++ b/drivers/usb/typec/tcpm/tcpci_maxim_core.c
-> @@ -10,6 +10,7 @@
->  #include <linux/kernel.h>
->  #include <linux/module.h>
->  #include <linux/regmap.h>
-> +#include <linux/regulator/consumer.h>
->  #include <linux/usb/pd.h>
->  #include <linux/usb/tcpci.h>
->  #include <linux/usb/tcpm.h>
-> @@ -35,12 +36,6 @@
->   */
->  #define TCPC_RECEIVE_BUFFER_LEN				32
->  
-> -#define MAX_BUCK_BOOST_SID				0x69
-> -#define MAX_BUCK_BOOST_OP				0xb9
-> -#define MAX_BUCK_BOOST_OFF				0
-> -#define MAX_BUCK_BOOST_SOURCE				0xa
-> -#define MAX_BUCK_BOOST_SINK				0x5
-> -
->  static const struct regmap_range max_tcpci_tcpci_range[] = {
->  	regmap_reg_range(0x00, 0x95)
->  };
-> @@ -202,32 +197,49 @@ static void process_rx(struct max_tcpci_chip *chip, u16 status)
->  	tcpm_pd_receive(chip->port, &msg, rx_type);
->  }
->  
-> +static int get_vbus_regulator_handle(struct max_tcpci_chip *chip)
-> +{
-> +	if (IS_ERR_OR_NULL(chip->vbus_reg)) {
-> +		chip->vbus_reg = devm_regulator_get_exclusive(chip->dev,
-> +							      "vbus");
-> +		if (IS_ERR_OR_NULL(chip->vbus_reg)) {
-> +			dev_err(chip->dev,
-> +				"Failed to get vbus regulator handle");
-> +			return -ENODEV;
-> +		}
-> +	}
-> +
-> +	return 0;
-> +}
-> +
->  static int max_tcpci_set_vbus(struct tcpci *tcpci, struct tcpci_data *tdata, bool source, bool sink)
->  {
->  	struct max_tcpci_chip *chip = tdata_to_max_tcpci(tdata);
-> -	u8 buffer_source[2] = {MAX_BUCK_BOOST_OP, MAX_BUCK_BOOST_SOURCE};
-> -	u8 buffer_sink[2] = {MAX_BUCK_BOOST_OP, MAX_BUCK_BOOST_SINK};
-> -	u8 buffer_none[2] = {MAX_BUCK_BOOST_OP, MAX_BUCK_BOOST_OFF};
-> -	struct i2c_client *i2c = chip->client;
->  	int ret;
->  
-> -	struct i2c_msg msgs[] = {
-> -		{
-> -			.addr = MAX_BUCK_BOOST_SID,
-> -			.flags = i2c->flags & I2C_M_TEN,
-> -			.len = 2,
-> -			.buf = source ? buffer_source : sink ? buffer_sink : buffer_none,
-> -		},
-> -	};
-> -
->  	if (source && sink) {
->  		dev_err(chip->dev, "Both source and sink set\n");
->  		return -EINVAL;
->  	}
->  
-> -	ret = i2c_transfer(i2c->adapter, msgs, 1);
-> +	ret = get_vbus_regulator_handle(chip);
-> +	if (ret) {
-> +		/*
-> +		 * Regulator is not necessary for sink only applications. Return
-> +		 * success in cases where sink mode is being modified.
-> +		 */
-> +		return source ? ret : 1;
-> +	}
-> +
-> +	if (source) {
-> +		if (!regulator_is_enabled(chip->vbus_reg))
-> +			ret = regulator_enable(chip->vbus_reg);
-> +	} else {
-> +		if (regulator_is_enabled(chip->vbus_reg))
-> +			ret = regulator_disable(chip->vbus_reg);
-> +	}
->  
-> -	return  ret < 0 ? ret : 1;
-> +	return ret < 0 ? ret : 1;
->  }
->  
->  static void process_power_status(struct max_tcpci_chip *chip)
-> 
-> -- 
-> 2.52.0.351.gbe84eed79e-goog
-> 
-
+diff --git a/Documentation/devicetree/bindings/usb/socionext,uniphier-dwc3.yaml b/Documentation/devicetree/bindings/usb/socionext,uniphier-dwc3.yaml
+new file mode 100644
+index 000000000000..2b253339c199
+--- /dev/null
++++ b/Documentation/devicetree/bindings/usb/socionext,uniphier-dwc3.yaml
+@@ -0,0 +1,89 @@
++# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
++%YAML 1.2
++---
++$id: http://devicetree.org/schemas/usb/socionext,uniphier-dwc3.yaml#
++$schema: http://devicetree.org/meta-schemas/core.yaml#
++
++title: Socionext Uniphier SuperSpeed DWC3 USB SoC controller
++
++maintainers:
++  - Kunihiko Hayashi <hayashi.kunihiko@socionext.com>
++  - Masami Hiramatsu <mhiramat@kernel.org>
++
++select:
++  properties:
++    compatible:
++      contains:
++        const: socionext,uniphier-dwc3
++  required:
++    - compatible
++
++properties:
++  compatible:
++    items:
++      - const: socionext,uniphier-dwc3
++      - const: snps,dwc3
++
++  reg:
++    maxItems: 1
++
++  interrupts:
++    minItems: 1
++    items:
++      - description: Host or single combined interrupt
++      - description: Peripheral interrupt
++
++  interrupt-names:
++    minItems: 1
++    items:
++      - enum:
++          - dwc_usb3
++          - host
++      - const: peripheral
++
++  clocks:
++    maxItems: 3
++
++  clock-names:
++    items:
++      - const: ref
++      - const: bus_early
++      - const: suspend
++
++  phys:
++    description: 1 to 4 HighSpeed PHYs followed by 1 or 2 SuperSpeed PHYs
++    minItems: 1
++    maxItems: 6
++
++  resets:
++    maxItems: 1
++
++required:
++  - compatible
++  - reg
++  - interrupts
++  - clocks
++  - clock-names
++  - phys
++
++unevaluatedProperties: false
++
++allOf:
++  - $ref: snps,dwc3.yaml#
++
++examples:
++  - |
++    #include <dt-bindings/interrupt-controller/arm-gic.h>
++
++    usb@65a00000 {
++        compatible = "socionext,uniphier-dwc3", "snps,dwc3";
++        reg = <0x65a00000 0xcd00>;
++        interrupt-names = "dwc_usb3";
++        interrupts = <GIC_SPI 134 IRQ_TYPE_LEVEL_HIGH>;
++        clock-names = "ref", "bus_early", "suspend";
++        clocks = <&sys_clk 12>, <&sys_clk 12>, <&sys_clk 12>;
++        resets = <&usb0_rst 15>;
++        phys = <&usb0_hsphy0>, <&usb0_hsphy1>,
++               <&usb0_ssphy0>, <&usb0_ssphy1>;
++        dr_mode = "host";
++    };
 -- 
-heikki
+2.51.0
+
