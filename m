@@ -1,67 +1,133 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 62331346A12
-	for <linux-usb@vger.kernel.org>; Wed,  7 Jan 2026 16:06:47 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 663343A0B08;
+	Wed,  7 Jan 2026 16:40:28 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1767802007; cv=none; b=OgabBbzrakNlSVXavkOD/i3Pk9F7TSWaL91uVdnkXHBgjGycDa8ndkUQvQqE2jIcMfocANRA15jfv1qDoyXC10UjrIOGoc33sMFninjyVUobPjt1pHPQ2+Taq4QoFSSsun2IO/m46IJRMtY7xB3mn9axcc7CRYdpRGxqJOBcwF0=
+	t=1767804028; cv=none; b=kPEJHBKt37hRI6/C79A5/VI9XvSNYHo8SvT81NFpIVt+zPpj+eqo4/wgmkd5esS1bwQ/KYQL5HBFjG8ZvG8e8RlWvfC0scUtEoRdJsCMMs2cZMgNH4YpTNykUa1e3kp1U3qpbrVtfAZl1hMWt1PLL0vRcusTWPSYvhbgou2oZBk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1767802007; c=relaxed/simple;
-	bh=A3uLN2sLXFl+jQQ0nuNHBt9MpYlXFtanOmU/VazI8BM=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=NsHbqDuhDhw5x9bGy0x6DG8igO2KdrsYGzIugb1ECBEvJy/98ao+AvtFclkGEjqhgNha+dSpDgGK6yTdDvSn5HsM7r45wirIg2eb/zDF2xbXJ6m9nmqvgFW3WGlB7MfwQcKJst3hvA64oazaDNCXZLgC/XpcJmABhqatp1gj6M0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b=S2QrhmF6; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1767804028; c=relaxed/simple;
+	bh=z3POv5J4x+meLVYbsQCf7mB/6gWPZ96vXCB8Job/Vvs=;
+	h=Mime-Version:Content-Type:Date:Message-Id:Subject:Cc:To:From:
+	 References:In-Reply-To; b=axs/PjgMijKadLf9YG8M733ZFbJO7ro6viyxvbIiZfGtXbWNO+Dxo+M3gLpSoD7FvrxrzLOdGz5HiVrlCqra6wDgLZ8n6OkMwZXxuOvGBJQPpts+XmgxcfhQFaH7IlGMBPsh6AzGPztHLIEB4LVe7+yVyi98OxNQMGA5OYJ230o=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=eWRXAf6v; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="S2QrhmF6"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id E54F9C4CEF1;
-	Wed,  7 Jan 2026 16:06:44 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
-	s=korg; t=1767802005;
-	bh=A3uLN2sLXFl+jQQ0nuNHBt9MpYlXFtanOmU/VazI8BM=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=S2QrhmF6Azxqe1jX2CJSpz8TVYHRxp2Dl3ufjWYEm87oAlXLTd4yR9ok/tesAMGU8
-	 HF1vA5S3AvvsWWgKyVfPedUlopLLI+mu6hQl3FyydrQbfobSsJ12iizqRXXL2wav6+
-	 hyMTURhwXadDLg1y+28xLowbqpEC3PaQcUQmbFLk=
-Date: Wed, 7 Jan 2026 17:06:42 +0100
-From: Greg KH <gregkh@linuxfoundation.org>
-To: Johannes =?iso-8859-1?Q?Br=FCderl?= <johannes.bruederl@gmail.com>
-Cc: linux-usb@vger.kernel.org, larsm17@gmail.com
-Subject: Re: [PATCH v3 1/1] usb: core: add USB_QUIRK_NO_BOS for devices that
- hang on BOS descriptor
-Message-ID: <2026010722-desecrate-tribunal-9934@gregkh>
-References: <a9088e84-3800-4a87-a639-9a2a48036873@gmail.com>
- <20251207090220.14807-1-johannes.bruederl@gmail.com>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="eWRXAf6v"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id A99E7C4CEF1;
+	Wed,  7 Jan 2026 16:40:22 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1767804026;
+	bh=z3POv5J4x+meLVYbsQCf7mB/6gWPZ96vXCB8Job/Vvs=;
+	h=Date:Subject:Cc:To:From:References:In-Reply-To:From;
+	b=eWRXAf6v4PEvZFPNQ9MSIq4mhg/lKsxd/ojHLmtL2/9VcVDlrbVbiA6snO1GiXnbT
+	 /iNW0LDo1Dz0qk+FFbvfyzNtvX+elFdZITVNrrTvhKVyf/LVuWfqkhsfVQnnYPtiU0
+	 Vnb4F482tZaEa6J/nyNruw4kS+S4lRntIo1DLkfvW7STpDVoBqQARyTGc7zWnmdrb1
+	 o7+QJUM2BvERsQ9+vZbgeOxEiE1VL1Uyg3meBjb3sebKBGMokS+eLWqd2MIVUC4D0C
+	 r/1djN+F3ERXtW3oDP2zqj/ApnebxGZ4HqbnDJX7zrf/gMIL7w8/WtL7SVbyuy07tb
+	 ptDO8D4095e0A==
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <20251207090220.14807-1-johannes.bruederl@gmail.com>
+Mime-Version: 1.0
+Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=UTF-8
+Date: Wed, 07 Jan 2026 17:40:20 +0100
+Message-Id: <DFII83QY76O0.2PKZ73WCTVGPR@kernel.org>
+Subject: Re: [PATCH 0/6] Address race condition with Device::drvdata()
+Cc: <gregkh@linuxfoundation.org>, <rafael@kernel.org>,
+ <igor.korotin.linux@gmail.com>, <ojeda@kernel.org>, <boqun.feng@gmail.com>,
+ <gary@garyguo.net>, <bjorn3_gh@protonmail.com>, <lossin@kernel.org>,
+ <a.hindborg@kernel.org>, <tmgross@umich.edu>, <david.m.ertman@intel.com>,
+ <ira.weiny@intel.com>, <leon@kernel.org>, <bhelgaas@google.com>,
+ <kwilczynski@kernel.org>, <wsa+renesas@sang-engineering.com>,
+ <linux-kernel@vger.kernel.org>, <rust-for-linux@vger.kernel.org>,
+ <linux-pci@vger.kernel.org>, <linux-usb@vger.kernel.org>,
+ <linux-i2c@vger.kernel.org>
+To: "Alice Ryhl" <aliceryhl@google.com>
+From: "Danilo Krummrich" <dakr@kernel.org>
+References: <20260107103511.570525-1-dakr@kernel.org>
+ <aV6BHw-Liv0SVAwO@google.com>
+In-Reply-To: <aV6BHw-Liv0SVAwO@google.com>
 
-On Sun, Dec 07, 2025 at 10:02:20AM +0100, Johannes Brüderl wrote:
-> Add USB_QUIRK_NO_BOS quirk flag to skip requesting the BOS descriptor
-> for devices that cannot handle it.
-> 
-> Add Elgato 4K X (0fd9:009b) to the quirk table. This device hangs when
-> the BOS descriptor is requested at SuperSpeed Plus (10Gbps).
-> 
-> Link: https://bugzilla.kernel.org/show_bug.cgi?id=220027
-> Signed-off-by: Johannes Brüderl <johannes.bruederl@gmail.com>
-> ---
-> Hi Lars,
-> you are right, good catch! This should be correctly sorted now.
-> 
-> v3: Move quirk entry to correct position in sorted VID:PID order.
-> v2: Return -ENOMSG instead of 0 to properly indicate no BOS data.
+On Wed Jan 7, 2026 at 4:51 PM CET, Alice Ryhl wrote:
+> If a &Device<Bound> lets you access a given value, then we must not
+> destroy that value until after the last &Device<Bound> has expired.
+>
+> A &Device<Bound> lets you access the driver private data. And a
+> &Device<Bound> lets you access the contents of a Devres<T>.
+>
+> Thus, the last &Device<Bound> must expire before we destroy driver
+> private data or values inside of Devres<T>. Etc.
 
-Ok, in playing with this some more, I think this is the best thing for
-now.  I'll go queue this up now.
+Yes, the last &Device<Bound> must expire before we destroy the device priva=
+te
+data. This is exactly what is achieved by this patch. The device private da=
+ta is
+destroyed after all devres callbacks have been processed, which guarantees =
+that
+there can't be any contexts left that provide a &Device<Bound>.
 
-thanks,
+As for the values inside of a Devres<T>, this is exactly what I refer to in=
+ my
+paragraph above talking about the unsoundness of the devres cleanup orderin=
+g in
+Rust.
 
-greg k-h
+I also mention that I'm already working on a solution and it is in fact pre=
+tty
+close to the solution you propose below, i.e. a generic mechanism to suppor=
+t
+multiple devres domains (which I also see advantages for in C code).
+
+As mentioned, this will also help with getting the required synchronize_rcu=
+()
+calls down to exactly one per device unbind.
+
+Technically, we could utilize such a devres domain for dropping the device
+private data, but there is no need to have a separate domain just for this,=
+ we
+already have a distinct place for dropping and freeing the device private d=
+ata
+after the device has been fully unbound, which is much simpler than a separ=
+ate
+devres domain.
+
+Now, you may argue we don't need a separate devres domain, and that we coul=
+d use
+the non-early devres domain. However, this would have the following implica=
+tion:
+
+In the destructor of the device private data, drivers could still try to us=
+e
+device resources stored in the device private data through try_access(), wh=
+ich
+may or may not succeed depending on whether the corresponding Devres<T>
+containers are part of the device private data initializer or whether they =
+have
+been allocated separately.
+
+Or in other words it would leave room for drivers to abuse this behavior.
+
+Therefore, the desired order is:
+
+  1. Driver::unbind() (A place for drivers to tear down the device;
+     registrations are up - unless explicitly revoked by the driver (this i=
+s a
+     semantic choice) - and device resources are accessible.)
+
+  2. devm_early_* (Drop all devres guarded registrations.)
+
+  3. No more &Device<Bound> left.
+
+  4. devm_* (Drop all device resources.)
+
+  5. No more device resources left.
+
+  6. Drop and free device private data. (try_access() will never succeed in=
+ the
+     destructor of the device private data.
+
+- Danilo
