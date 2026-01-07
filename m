@@ -1,103 +1,119 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2A6A82417C3;
-	Wed,  7 Jan 2026 10:52:49 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 121AF31A56C;
+	Wed,  7 Jan 2026 12:22:47 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1767783170; cv=none; b=DoWbewsXURv8c1k8EBBztXiPsTXqqQzONBcMNzETV3xJZNLfAGy/IZo4TJChVPcXpWvfPDi87Sc4RekgTTJANJR1Ndras7ooWQEt8vfELtTeEkkzxWKCZfspCmkGKpjJTcjgibeWobH7WVvBUvc+jLuPl97RDB11BDl/cEzrr5Y=
+	t=1767788568; cv=none; b=DnW2PwONgROR4X7uvuScJvmp8CMXUv1tdaB/3UTGclQlfjn0awJUtX/g+sAqONayrs7dWLvKql2ICCdD9Hh6OReW4Di7IxyhBXiThOp868IkM8lT/g4uOkaTwBJVLyAlx/hXnNcbA8Cx1eDFCNn9skDJBqv0UZ+UgIhTQRkjknU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1767783170; c=relaxed/simple;
-	bh=DUPfhQrr6JmsNOZ+CZkxyykOITDhWOpKmSkWkyOkKbs=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=K7eCkATLOFLlQQhI5t+xsxiL3QmRqTCtYKrS6NtVwrkMjw32eKGzHQvy7Kp0Gqzh4B7NshY8CaAIucq7XgPX0br5C6XQm64g8SFn4/7/7Abpbr1Mj9hWVzb2yAOS1u6L2GjXViQBcHt7/7oQZA+E+JMch1fhhWKoiMjnlh6GPHQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=ckVthmuU; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1767788568; c=relaxed/simple;
+	bh=2wz8cf8crD1UXOpgkNkds4yjzWyJDvxV9FNfHAZ7L/I=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=TSVoQpXDNc4R17e/yCD0Q59/xz+Qh3YSvir1qk2D8MZZiTAjCu4Le7AeHYMcQgWwfCtaz9dNnDd45fa7ZW8D/JgRjoPAjVX+ZrEI6Q1StTv0f9eZH++7ashph+70geQo3ZW5W7MvAteWAXyFJmZjmWuIsxrifBh9IvwCredd6NI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b=m/eEQEIk; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="ckVthmuU"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 7C0D6C4CEF7;
-	Wed,  7 Jan 2026 10:52:46 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1767783169;
-	bh=DUPfhQrr6JmsNOZ+CZkxyykOITDhWOpKmSkWkyOkKbs=;
-	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-	b=ckVthmuUcZvDSlqlewy/Kb/0H0z9BF+bBYcIAw27KQ3c3NmdvXya8myv9+GoPEXrA
-	 A5xs9jJ54qtmCIwJAzoSLo6BBxnPuM9s/t0QWsf+tKYaz0kKoS4bGbM5mEwoEb2kXB
-	 W+EYW+kRftV9Q7tbpAx6XgsH2bu1pu80ToV5bcABTzafxespe1jlLasXmZmwxNxd4X
-	 2KTfcVLSTsFiDvQtVlvQOTH7BuY0t3+0OFzw5k0frvDJYAF81W2HIpmTRriSZqheQ1
-	 YO5zupcgJWtnGiJkjaNFgxIcYFUBj3bwGg09gi12jpkYSbqV5oLu1tQ+QPlDQUKNRE
-	 h1vtfC+TizTwQ==
-Message-ID: <080d9ed6-18f9-437e-89d4-aba8f69120fb@kernel.org>
-Date: Wed, 7 Jan 2026 11:52:44 +0100
+	dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="m/eEQEIk"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 0A0F8C4CEF7;
+	Wed,  7 Jan 2026 12:22:47 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
+	s=korg; t=1767788567;
+	bh=2wz8cf8crD1UXOpgkNkds4yjzWyJDvxV9FNfHAZ7L/I=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=m/eEQEIkgULSHDPhdH3kgjBcjWc3w1ilYx/3tnhazTYE9GO+ICCseTorTbXgE9/o7
+	 EE6TKPEe57iUWaPqb5sZfQV/v5Fr6sMuAC0wn6cobdNm2RWJprWOQN1WGVXZAGmUZ6
+	 jOT6A6qj/I0rsJFqqeKIih+hfj+SI736FM5AfISI=
+Date: Wed, 7 Jan 2026 13:22:44 +0100
+From: Greg KH <gregkh@linuxfoundation.org>
+To: Danilo Krummrich <dakr@kernel.org>
+Cc: rafael@kernel.org, igor.korotin.linux@gmail.com, ojeda@kernel.org,
+	boqun.feng@gmail.com, gary@garyguo.net, bjorn3_gh@protonmail.com,
+	lossin@kernel.org, a.hindborg@kernel.org, aliceryhl@google.com,
+	tmgross@umich.edu, david.m.ertman@intel.com, ira.weiny@intel.com,
+	leon@kernel.org, bhelgaas@google.com, kwilczynski@kernel.org,
+	wsa+renesas@sang-engineering.com, linux-kernel@vger.kernel.org,
+	rust-for-linux@vger.kernel.org, linux-pci@vger.kernel.org,
+	linux-usb@vger.kernel.org, linux-i2c@vger.kernel.org
+Subject: Re: [PATCH 6/6] rust: driver: drop device private data post unbind
+Message-ID: <2026010741-wiry-trophy-46ec@gregkh>
+References: <20260107103511.570525-1-dakr@kernel.org>
+ <20260107103511.570525-7-dakr@kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v1 3/3] usb: typec: fusb302: Switch to threaded interrupt
- handler
-To: =?UTF-8?B?5byg5rC45rOi?= <giraffesnn123@gmail.com>
-Cc: Anand Moon <linux.amoon@gmail.com>, Rob Herring <robh@kernel.org>,
- Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley
- <conor+dt@kernel.org>, Heiko Stuebner <heiko@sntech.de>,
- Heikki Krogerus <heikki.krogerus@linux.intel.com>,
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
- Sebastian Reichel <sebastian.reichel@collabora.com>,
- FUKAUMI Naoki <naoki@radxa.com>,
- Nicolas Frattaroli <nicolas.frattaroli@collabora.com>,
- Cristian Ciocaltea <cristian.ciocaltea@collabora.com>,
- "open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS"
- <devicetree@vger.kernel.org>,
- "moderated list:ARM/Rockchip SoC support"
- <linux-arm-kernel@lists.infradead.org>,
- "open list:ARM/Rockchip SoC support" <linux-rockchip@lists.infradead.org>,
- open list <linux-kernel@vger.kernel.org>,
- "open list:USB TYPEC CLASS" <linux-usb@vger.kernel.org>
-References: <20260103083232.9510-1-linux.amoon@gmail.com>
- <20260103083232.9510-4-linux.amoon@gmail.com>
- <6f30a01c-8fc4-4368-88ef-7c513c505515@kernel.org>
- <CACpCAL0GLMV-2p1tKAXe6R+N2c4YadH9vpEG3GdPoHTNTQSuow@mail.gmail.com>
-From: Hans de Goede <hansg@kernel.org>
-Content-Language: en-US, nl
-In-Reply-To: <CACpCAL0GLMV-2p1tKAXe6R+N2c4YadH9vpEG3GdPoHTNTQSuow@mail.gmail.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20260107103511.570525-7-dakr@kernel.org>
 
-Hi,
+On Wed, Jan 07, 2026 at 11:35:05AM +0100, Danilo Krummrich wrote:
+> @@ -548,6 +548,10 @@ static DEVICE_ATTR_RW(state_synced);
+>  static void device_unbind_cleanup(struct device *dev)
+>  {
+>  	devres_release_all(dev);
+> +#ifdef CONFIG_RUST
 
-On 7-Jan-26 10:52, 张永波 wrote:
->> Still ideally we would solve this in another way then
->> switching to a threaded IRQ handler.
->>
->> As the commit message of the mei-vsc fix mentions
->> the root cause of these errors is typically an interrupt
->> chip driver which uses IRQF_NO_THREAD disabling the auto
->> threading of all interrupt handlers in RT mode.
->>
->> So the first question here would be to see if that flag is
->> used in the interrupt chip and if yes, is that flag really
->> necessary ?
-> This is very similar to the issue addressed in commit 24b176d8827d
-> ("drm/msm/dsi: Remove spurious IRQF_ONESHOT flag").
-> The IRQF_ONESHOT flag is preventing forced threading here.
-> 
-> In irq_setup_forced_threading(), the conversion to threaded interrupts
-> is explicitly skipped if any of the IRQF_NO_THREAD, IRQF_PERCPU,
-> or IRQF_ONESHOT flags are present. In this case, IRQF_ONESHOT
-> appears to be the reason.
+Nit, let's not put #ifdef in .c files, the overhead of an empty pointer
+for all drivers is not a big deal.
 
-Ah, well the code effectively does its own IRQF_ONESHOT handling,
-since it needs to do its own threaded-irq like handling for
-suspend/resume reasons. It disables the IRQ when it fires and
-then only re-enables it once the work has done processing the IRQ.
+> +	if (dev->driver->p_cb.post_unbind)
+> +		dev->driver->p_cb.post_unbind(dev);
+> +#endif
+>  	arch_teardown_dma_ops(dev);
+>  	kfree(dev->dma_range_map);
+>  	dev->dma_range_map = NULL;
+> diff --git a/include/linux/device/driver.h b/include/linux/device/driver.h
+> index cd8e0f0a634b..51a9ebdd8a2d 100644
+> --- a/include/linux/device/driver.h
+> +++ b/include/linux/device/driver.h
+> @@ -85,6 +85,8 @@ enum probe_type {
+>   *		uevent.
+>   * @p:		Driver core's private data, no one other than the driver
+>   *		core can touch this.
+> + * @p_cb:	Callbacks private to the driver core; no one other than the
+> + *		driver core is allowed to touch this.
+>   *
+>   * The device driver-model tracks all of the drivers known to the system.
+>   * The main reason for this tracking is to enable the driver core to match
+> @@ -119,6 +121,15 @@ struct device_driver {
+>  	void (*coredump) (struct device *dev);
+>  
+>  	struct driver_private *p;
+> +#ifdef CONFIG_RUST
 
-So it should be perfectly safe to drop the IRQF_ONESHOT flag.
+Again, no #ifdef.
 
-If that also works to resolve the lockdep issue that would be
-the preferred way of fixing this IMHO.
+> +	struct {
+> +		/*
+> +		 * Called after remove() and after all devres entries have been
+> +		 * processed.
+> +		 */
+> +		void (*post_unbind)(struct device *dev);
 
-Regards,
+post_unbind_rust_only()?
 
-Hans
+> -impl<T: RegistrationOps> Registration<T> {
+> +impl<T: RegistrationOps + 'static> Registration<T> {
+> +    extern "C" fn post_unbind_callback(dev: *mut bindings::device) {
+> +        // SAFETY: The driver core only ever calls the post unbind callback with a valid pointer to
+> +        // a `struct device`.
+> +        //
+> +        // INVARIANT: `dev` is valid for the duration of the `post_unbind_callback()`.
+> +        let dev = unsafe { &*dev.cast::<device::Device<device::CoreInternal>>() };
+> +
+> +        // `remove()` and all devres callbacks have been completed at this point, hence drop the
+> +        // driver's device private data.
+> +        //
+> +        // SAFETY: By the safety requirements of the `Driver` trait, `T::DriverData` is the
+> +        // driver's device private data.
+> +        drop(unsafe { dev.drvdata_obtain::<T::DriverData>() });
 
+I don't mind this, but why don't we also do this for all C drivers?
+Just null out the pointer at this point in time so that no one can touch
+it, just like you are doing here (in a way.)
+
+thanks,
+
+greg k-h
