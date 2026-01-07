@@ -1,98 +1,120 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-ot1-f51.google.com (mail-ot1-f51.google.com [209.85.210.51])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6DF8B318B86;
-	Wed,  7 Jan 2026 18:11:11 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F0F0D221FBD
+	for <linux-usb@vger.kernel.org>; Wed,  7 Jan 2026 19:06:26 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.51
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1767809471; cv=none; b=Z+uvfrrfL8OeUZ/eCphl17TipAOrutMWaMkkqaSVnaj2W2xjCdsH4AhDPZPVIo1rbQ4Jm9G5tWQKMBGHRCRqkll3Mtx7olsdFdNMS0p1bj1u1FUZuVOaKwiYBsg1YNZ+LzSF5zG8JY0NRHP7fj4XXb6eIOyQonQGmLKGQft0efU=
+	t=1767812789; cv=none; b=Y0d9vl70nNSxj4SVKESqRkiLFiYCd9VbVwhJimNrkUWsLv+0T8cwCS+RgZwrO0r6kzNOHkEMEX8FnewfXIUsFLmqG0LEJthVr4UcxRsNS2/swJzM0RC/d2gGY4LDpzpUmxwTqsw4AwEWTysfg8e23FSeoZqCITvt1j38jdU5F1o=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1767809471; c=relaxed/simple;
-	bh=yTNbHm4Elx5+p4958R6MqgcPSCwr1JI4nhgkqFvSTQk=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=Ullz0+xaSQQl8kfqBKBhxXehs3uf6htcOZz8vFBsxxa5WxjmyPmJS85AdNOUVbZ7kZqRFhDHxwPJZcghJAEncH9exxoMLQib4QPLARiIhCQumQ0YOQhkVueYobO+7rJLlol9xFmeYelBspkXTVElYp4U3IjtnVxsid4VOuwLOZQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=cfK1G1cT; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1767812789; c=relaxed/simple;
+	bh=mo9f8JN8GAsJLjzlBTgtgtfEI/899McY8QQtapaY2bs=;
+	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=XAwGGXijh0B2gJhM+bUMIxJLGr1TY+v0rQLSeSGXpoHtglWaW65wXvbB/C6Ih3zhgeXkSkS59DK8deAQ7ptGeyMiAX0gezVRfkik1xjAdWgcsM6mtwA0dxhHrRlP2q02Mu4P9EN6cT2LzsjIQfhskKBWt/l+AtvcZso1cNymSC4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=mrYMjEOh; arc=none smtp.client-ip=209.85.210.51
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="cfK1G1cT"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 8804DC4CEF1;
-	Wed,  7 Jan 2026 18:11:10 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1767809471;
-	bh=yTNbHm4Elx5+p4958R6MqgcPSCwr1JI4nhgkqFvSTQk=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=cfK1G1cTgD2fle+eiVWG8uWGL3DLjptNzOtIstqyjt6/KrCcdkcRIYkLMAFg5sqfU
-	 23DJAQ6Ihpdb0VBgZEj5n4w3P/+Tfctp8rOxcqAdwIfRgsibuGYiVVhEMNkpf5BavK
-	 hAE9zfUD/PvELOxL1BnKLd1mySP9UBmDoUgW70rAsQSmNsdrNvRd3AB9QCLwRqAK+j
-	 oxVc3cTy7pQnwCk8nZBquR6VX65USIoYM8/BhK/axE/pa5A6txZuUFQ/C+KsYl/Wdl
-	 MWyiwSl+/46epZ2ay12CbjJus5BTD4FfLSnKm9atA3rN+Tu5UGRZsB7JumYPu4T/PH
-	 iTN8bHn/qzmQA==
-Date: Wed, 7 Jan 2026 19:11:07 +0100
-From: Andi Shyti <andi.shyti@kernel.org>
-To: Robert Marko <robert.marko@sartura.hr>
-Cc: robh@kernel.org, krzk+dt@kernel.org, conor+dt@kernel.org, 
-	nicolas.ferre@microchip.com, alexandre.belloni@bootlin.com, claudiu.beznea@tuxon.dev, 
-	herbert@gondor.apana.org.au, davem@davemloft.net, vkoul@kernel.org, lee@kernel.org, 
-	andrew+netdev@lunn.ch, edumazet@google.com, kuba@kernel.org, pabeni@redhat.com, 
-	linusw@kernel.org, Steen.Hegelund@microchip.com, daniel.machon@microchip.com, 
-	UNGLinuxDriver@microchip.com, olivia@selenic.com, radu_nicolae.pirea@upb.ro, 
-	richard.genoud@bootlin.com, gregkh@linuxfoundation.org, jirislaby@kernel.org, 
-	broonie@kernel.org, lars.povlsen@microchip.com, devicetree@vger.kernel.org, 
-	linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org, linux-crypto@vger.kernel.org, 
-	dmaengine@vger.kernel.org, linux-i2c@vger.kernel.org, netdev@vger.kernel.org, 
-	linux-gpio@vger.kernel.org, linux-spi@vger.kernel.org, linux-serial@vger.kernel.org, 
-	linux-usb@vger.kernel.org, luka.perkov@sartura.hr, 
-	Conor Dooley <conor.dooley@microchip.com>
-Subject: Re: [PATCH v4 05/15] dt-bindings: i2c: atmel,at91sam: add
- microchip,lan9691-i2c
-Message-ID: <aV6hp9_AbKm9IAP9@zenone.zhora.eu>
-References: <20251229184004.571837-1-robert.marko@sartura.hr>
- <20251229184004.571837-6-robert.marko@sartura.hr>
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="mrYMjEOh"
+Received: by mail-ot1-f51.google.com with SMTP id 46e09a7af769-7c6dbdaced8so1948331a34.1
+        for <linux-usb@vger.kernel.org>; Wed, 07 Jan 2026 11:06:26 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1767812786; x=1768417586; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=T2pCwQ7xIIDyyL8BKt+UlW+6LMqGQZaMTa7KhQupEF4=;
+        b=mrYMjEOhVqjZjLBoCWUvo33BajY+xPGz0qHIPAnkEt3YlJyH4lpJqgGQbJHnPOmlz4
+         9mBrxwt96Re8chNMi2anlfXtAE8sbGYNWo9uJxcVUqspulBXiXcg5aLvIGo7ojjLqtoR
+         pS4urnpt2PiIrL0uC0KVfN+fTVe/LTBTp1gA3hm1F+P/iEfzxNf4u1k9rQZdLtGEhKOn
+         7O5quJ4indAZQ0hHUeAaOKboPT78IFjQ5fgrldiSlSMus4qWSSnMjluW/rvEFHpiQ/6Y
+         ZBQNWRGfwZIo7MLF6pYoFckQ9OX1oY6HaZq9iYpZvEogW1L80c8s153C+q9cFdhgR+Iw
+         R9ng==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1767812786; x=1768417586;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=T2pCwQ7xIIDyyL8BKt+UlW+6LMqGQZaMTa7KhQupEF4=;
+        b=fJbJUNFKtLNZQB7US3O/FZV5fOlVPMd6DsaFwwBEH6BQj/IY5g7TN1+CKzcehYZk8z
+         bOmadnsgnfAeCoNXJ0A3CgM+37uNHF8GihhahIDIEEwsBVfjVE5Bs9hwE5cilP8VzNg1
+         LBVDi2A7nqhays9htrAFGC9kq1skM8JCeEXaFu8cUax4313j/pM7L4RW0hoci53jfuPR
+         QuZfuJJmSA+OI5/kTEs1FplFRCErYZa7f0EpYmARtnPOgrLIMmDBQtsSDy5+9e2w/7UT
+         gVl9WYanCA120fcyvr7XIOwj/qI7+neyb14TtYg3xbpiKZkbR4TpLioGeaS+Vq6vMftE
+         yQeg==
+X-Forwarded-Encrypted: i=1; AJvYcCW4rsZDMGqqjnNQg4BxUbIuu55vI4RskPDyQoFXN5sTNG8wrSsWN6mbqyjXhQDfQvd+eWRnqqMusxk=@vger.kernel.org
+X-Gm-Message-State: AOJu0YyekUsA5KQK6s7CJqCaIIl8295MGNyKDxpCGx6QZRE/ulDS7p88
+	sPmuEceitWJq0e28zDHvMpR1s1A1u5nZZNVDMI8+86WYPqSOjikCFVSI
+X-Gm-Gg: AY/fxX64250+KRJ+cRQHkyFKb3qe44jzNuO9S1WPIxmisVMwKRw+fBrApKesjlJ3vUp
+	hNnIiA0LkgVIxgIsjH80WUR2yk57Ao+T2UpKu+GNnJVsM3Lld9Y3oWqgsozZLcIheoQgApVZcUr
+	nNPqUtnU3hE/4KpnJob7t2CXdHcHGPM4Y6GoDIGz5CYccYX4bhQsOdLCHnm6soGeVx1SL3YWiBk
+	MD1GvLVNV7yqlM8Cx7qOkWVTuMKSg1pAjI2ZMh79FjO48tDdzaX7oYmu0BRhlsklXQyQjsYaMEA
+	7eEnC+2kVZ4TiYnLTKkeW8C8DKDIck8Tjgl1Hil7B7kpKOLXoiMCLKUVtkC31Wh+mpuqxcMCek7
+	FCSlSyqzsjCWVSqWmqr6POpkEafKST0/NOzNClZ5Ah/mxBFveVWAfwE5l73pbLIMhtCW2RNyxBT
+	PpG9fnUKd6C5FGHE0U3cEYiWaGIpJwzMThSXn+9f4c/4o=
+X-Google-Smtp-Source: AGHT+IHPdrsMXLuo8RFcL3m7hcu7Ci26TgWVmCMCOgCc1zrCB24qO+Ip+H5K7gfnRLglFF6kk19onw==
+X-Received: by 2002:a05:6830:25c3:b0:7c7:471:55ff with SMTP id 46e09a7af769-7ce508ddce9mr1836539a34.10.1767812785772;
+        Wed, 07 Jan 2026 11:06:25 -0800 (PST)
+Received: from newman.cs.purdue.edu ([128.10.127.250])
+        by smtp.gmail.com with ESMTPSA id 46e09a7af769-7ce4781eecasm3796581a34.10.2026.01.07.11.06.24
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 07 Jan 2026 11:06:25 -0800 (PST)
+From: Jiasheng Jiang <jiashengjiangcool@gmail.com>
+To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	linux-usb@vger.kernel.org
+Cc: Jiasheng Jiang <jiashengjiangcool@gmail.com>,
+	Chen Yufeng <chenyufeng@iie.ac.cn>,
+	linux-kernel@vger.kernel.org
+Subject: [PATCH] usb: gadget: f_tcm: initialize data_len in UAS path for consistency
+Date: Wed,  7 Jan 2026 19:06:22 +0000
+Message-Id: <20260107190622.26070-1-jiashengjiangcool@gmail.com>
+X-Mailer: git-send-email 2.25.1
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20251229184004.571837-6-robert.marko@sartura.hr>
+Content-Transfer-Encoding: 8bit
 
-Hi Robert,
+In usbg_submit_command(), which handles the UAS protocol, the 'data_len'
+member of the 'usbg_cmd' structure was left uninitialized by the
+logic, relying instead on the zeroing performed by usbg_get_cmd().
 
-On Mon, Dec 29, 2025 at 07:37:46PM +0100, Robert Marko wrote:
-> Document Microchip LAN969x I2C compatible.
-> 
-> Signed-off-by: Robert Marko <robert.marko@sartura.hr>
-> Acked-by: Conor Dooley <conor.dooley@microchip.com>
-> Acked-by: Andi Shyti <andi.shyti@kernel.org>
+In contrast, the BOT path (bot_submit_command) explicitly initializes
+this field from the Command Block Wrapper (CBW). This discrepancy is
+evident in error handling paths where __target_init_cmd() is called
+using cmd->data_len.
 
-Just this patch merged to i2c/i2c-host.
+Explicitly initialize cmd->data_len to 0 in the UAS path and use this
+variable when calling target_submit_cmd(). This ensures architectural
+consistency between the UAS and BOT protocols within the driver and
+avoids reliance on implicit memory state during error transitions.
 
-Thanks,
-Andi
+Signed-off-by: Jiasheng Jiang <jiashengjiangcool@gmail.com>
+---
+ drivers/usb/gadget/function/f_tcm.c | 3 ++-
+ 1 file changed, 2 insertions(+), 1 deletion(-)
 
-> ---
-> Changes in v4:
-> * Pick Acked-by from Andi
-> 
-> Changes in v3:
-> * Pick Acked-by from Conor
-> 
->  Documentation/devicetree/bindings/i2c/atmel,at91sam-i2c.yaml | 1 +
->  1 file changed, 1 insertion(+)
-> 
-> diff --git a/Documentation/devicetree/bindings/i2c/atmel,at91sam-i2c.yaml b/Documentation/devicetree/bindings/i2c/atmel,at91sam-i2c.yaml
-> index e61cdb5b16ef..c83674c3183b 100644
-> --- a/Documentation/devicetree/bindings/i2c/atmel,at91sam-i2c.yaml
-> +++ b/Documentation/devicetree/bindings/i2c/atmel,at91sam-i2c.yaml
-> @@ -26,6 +26,7 @@ properties:
->                - microchip,sam9x60-i2c
->        - items:
->            - enum:
-> +              - microchip,lan9691-i2c
->                - microchip,sama7d65-i2c
->                - microchip,sama7g5-i2c
->                - microchip,sam9x7-i2c
-> -- 
-> 2.52.0
-> 
+diff --git a/drivers/usb/gadget/function/f_tcm.c b/drivers/usb/gadget/function/f_tcm.c
+index 6e8804f04baa..822cebc7b405 100644
+--- a/drivers/usb/gadget/function/f_tcm.c
++++ b/drivers/usb/gadget/function/f_tcm.c
+@@ -1227,7 +1227,7 @@ static void usbg_submit_cmd(struct usbg_cmd *cmd)
+ 		goto out;
+ 
+ 	target_submit_cmd(se_cmd, tv_nexus->tvn_se_sess, cmd->cmd_buf,
+-			  cmd->sense_iu.sense, cmd->unpacked_lun, 0,
++			  cmd->sense_iu.sense, cmd->unpacked_lun, cmd->data_len,
+ 			  cmd->prio_attr, dir, flags);
+ 
+ 	return;
+@@ -1389,6 +1389,7 @@ static int usbg_submit_command(struct f_uas *fu, struct usb_request *req)
+ 	cmd->tmr_func = 0;
+ 	cmd->tmr_rsp = RC_RESPONSE_UNKNOWN;
+ 	cmd->flags = 0;
++	cmd->data_len = 0;
+ 
+ 	cmd_iu = (struct command_iu *)iu;
+ 
+-- 
+2.25.1
+
