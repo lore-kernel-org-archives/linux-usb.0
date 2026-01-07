@@ -1,61 +1,68 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from DU2PR03CU002.outbound.protection.outlook.com (mail-northeuropeazon11011011.outbound.protection.outlook.com [52.101.65.11])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1244730DED4;
-	Wed,  7 Jan 2026 10:35:56 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1767782157; cv=none; b=t5cNMiu9cv2chSx81SWGtTeZM8XYd2unm84MhBXBlMrJaU7u31cPhOUg6Uvk5znWg8GAtmmE3FtOZwbhX0pIbWP+w++mkjQ4/YLQqYGZ+qmYtteTc0HOEqo/EbbWp3QNAAm7u9ZAK8Rt44uLFaNtSj6W2pl0V2X/jNS8hUdUSUQ=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1767782157; c=relaxed/simple;
-	bh=N18NZ3MvjG11zo05vBY5H6zEWihoOHUn/jN+IusSagk=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=Wnfu79ptwS4W6bih3FLO9lRYE3Wjq2KfJZYCxOyzsvzPNBKQOW/h6XHCdfOfNJYpgojTWlG5XkxIqaqvnI10v9lBfvlgZlbiOxleH0uFJojVqyPAhYYF1JaxXGJzVWIG1XudHug6Xi/CYhKB5cMhl5Dc++pTnkyRlZp5S+0i+qY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=X70SgUj/; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 100C6330B07
+	for <linux-usb@vger.kernel.org>; Wed,  7 Jan 2026 10:42:28 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=52.101.65.11
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1767782550; cv=fail; b=MsReE5wd+rMPHBCzVk8BvFlnfP3J3UbZPXHqCT7Ku2ilT6a0OUPG3y1oLmBkt5HkwCX5PEVhxCv6/Xt++9zWWbRK9DSKKgJaG1BoJ6U8/SnIeFOO3EdItNh0wco2zOO0sMt+nAlzjFBLZnhk6wINCAb+7WHp54s115feLtuBKuE=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1767782550; c=relaxed/simple;
+	bh=1HwI0V19qdww+3/fLtU0ERi9OL2jZxmcH1uB41yEJgw=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version:Content-Type; b=Dwyf2LoQyYxw+ZsHz3wYrK1CxGlX3K6c4G9BUNmjCaQvSIqIcDNrP2epBWmSqNAdwbdGeIz48KG2++1sx42tUb/Sh5AgWSfz3vmqs0IdHvjDk5FRRdfd5E4AUItQ62UvuHX4fKn7fh95KvEQogdi6DGsijzT9creEc7voXBCp5w=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=leica-geosystems.com; spf=fail smtp.mailfrom=leica-geosystems.com; dkim=pass (1024-bit key) header.d=leica-geosystems.com header.i=@leica-geosystems.com header.b=kKaI5q46; arc=fail smtp.client-ip=52.101.65.11
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=leica-geosystems.com
+Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=leica-geosystems.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="X70SgUj/"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 2EF8AC2BC9E;
-	Wed,  7 Jan 2026 10:35:51 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1767782156;
-	bh=N18NZ3MvjG11zo05vBY5H6zEWihoOHUn/jN+IusSagk=;
-	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=X70SgUj/DeYJ+TJzCQraKyNYXN/wVdOJb0fKPYuP8NfuvTZUmihzX/Bv7IB44HN6x
-	 n5TV+eRigt4iqq8X7WSGfE655xrVHEc60tPaPF2dCzocScNAfpP/s12O4igs/lbdR0
-	 yrWYPU8nS7z6qIM3tpPiI3Fo84DdFZr5cyYsqBZCesWDG3zmcbZQbRjlswrBEqefgj
-	 596hamNn6eURii26t9rKWUx9WMpCNA/QLdPpXDwpYSQN6InXv5K8G1PCNRHRdeh9sq
-	 HH7c2HtRc7dq0T+2luWFdlKQbkY8P2G9qZq86DsrCICLAhbhq0Bj6v/R0hDb8Mcwb6
-	 Vv9Sgzoo7Zr6Q==
-From: Danilo Krummrich <dakr@kernel.org>
-To: gregkh@linuxfoundation.org,
-	rafael@kernel.org,
-	igor.korotin.linux@gmail.com,
-	ojeda@kernel.org,
-	boqun.feng@gmail.com,
-	gary@garyguo.net,
-	bjorn3_gh@protonmail.com,
-	lossin@kernel.org,
-	a.hindborg@kernel.org,
-	aliceryhl@google.com,
-	tmgross@umich.edu,
-	david.m.ertman@intel.com,
-	ira.weiny@intel.com,
-	leon@kernel.org,
-	bhelgaas@google.com,
-	kwilczynski@kernel.org,
-	wsa+renesas@sang-engineering.com
-Cc: linux-kernel@vger.kernel.org,
-	rust-for-linux@vger.kernel.org,
-	linux-pci@vger.kernel.org,
-	linux-usb@vger.kernel.org,
-	linux-i2c@vger.kernel.org,
-	Danilo Krummrich <dakr@kernel.org>
-Subject: [PATCH 6/6] rust: driver: drop device private data post unbind
-Date: Wed,  7 Jan 2026 11:35:05 +0100
-Message-ID: <20260107103511.570525-7-dakr@kernel.org>
-X-Mailer: git-send-email 2.52.0
-In-Reply-To: <20260107103511.570525-1-dakr@kernel.org>
-References: <20260107103511.570525-1-dakr@kernel.org>
+	dkim=pass (1024-bit key) header.d=leica-geosystems.com header.i=@leica-geosystems.com header.b="kKaI5q46"
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=bureRhD5jH1aUenY67utxtgGI5+uzD0w9KTKgfkVstSxR0AhzmX59pFOSRhtEF3FvRMaz3e/xlT8vFIDtW3V6fwNT8+GN93JXANJGeJsqMRL7KaU5/7nlYskwt5qEYCSYyth+8caDDaBlAJQm/6AnZd+4sikCAlYef2Cg6gWdlbxrmwzy+abaqZBITJ/g9u07GnpxHMkoi5zxdM4cE2GrStSdHoDsrZqbkvLs8Bshpoc8JqhCIxTZtCUOeIbkIPpKRdlthPA0+NPoXk110CyA6RssoG0zzHE/3252L1+MGzqv5u4wCKSfBJIJTACabJ4J6nu2/dQyll/0avGbZtiRA==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=Fn+nhSIJ008yJixM3f8oWC+3ywbGu4F7hfJZ7d1RcjA=;
+ b=TRZBEvD1B3IQrye53tRrmhkLJvBU2BOSV2lzfQjWkiU0+hp99GRhFjAefgaKBkXPrv+kb1Sf0O4m6L8p2qo2lYDziqy+WVI1bEQe8fXbzkw7fhJ872gn0buXj33cakeEkFB7if/3LQHsoT8AkchziiuGw3NkwJGyrAQCuMv0f0nNJEzMkjPBJW6KUb/TwqjrWWSVJSQDll54nsjJ5crtrsuNS8800CLOUcSANSPOTnmFCQBqtJnKejNsN4q4xPxUyvOpPwR0+Fj8QCimV8AXBBykOeQYSWF5pmarAPxqZSl0w1spBg7BJGElpGGpr+3jnSXCY57j58gOPwkiS/Pj0A==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
+ 193.8.40.99) smtp.rcpttodomain=vger.kernel.org
+ smtp.mailfrom=leica-geosystems.com; dmarc=pass (p=reject sp=reject pct=100)
+ action=none header.from=leica-geosystems.com; dkim=none (message not signed);
+ arc=none (0)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=leica-geosystems.com;
+ s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=Fn+nhSIJ008yJixM3f8oWC+3ywbGu4F7hfJZ7d1RcjA=;
+ b=kKaI5q46QBQ/U7Ibx4O7E7SDhz/eZqLuFgPrYWw3R5dU4VGrGJtqBzgAJGwVtIUGoMZapzJEK3W0NVcAcDk+pqznIjSVyA1SfgOrv9qlhbtkEv38dbBVSpu0jXSSc8njL4KFf4lc3nNrsXGEEg7MRvnqQw+7fGRI10Dybhm7Aco=
+Received: from DU2PR04CA0190.eurprd04.prod.outlook.com (2603:10a6:10:28d::15)
+ by AS8PR06MB7318.eurprd06.prod.outlook.com (2603:10a6:20b:252::19) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9499.2; Wed, 7 Jan
+ 2026 10:42:25 +0000
+Received: from DB1PEPF000509FB.eurprd03.prod.outlook.com
+ (2603:10a6:10:28d:cafe::a1) by DU2PR04CA0190.outlook.office365.com
+ (2603:10a6:10:28d::15) with Microsoft SMTP Server (version=TLS1_3,
+ cipher=TLS_AES_256_GCM_SHA384) id 15.20.9499.2 via Frontend Transport; Wed, 7
+ Jan 2026 10:42:25 +0000
+X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 193.8.40.99)
+ smtp.mailfrom=leica-geosystems.com; dkim=none (message not signed)
+ header.d=none;dmarc=pass action=none header.from=leica-geosystems.com;
+Received-SPF: Pass (protection.outlook.com: domain of leica-geosystems.com
+ designates 193.8.40.99 as permitted sender) receiver=protection.outlook.com;
+ client-ip=193.8.40.99; helo=hexagon.com; pr=C
+Received: from hexagon.com (193.8.40.99) by
+ DB1PEPF000509FB.mail.protection.outlook.com (10.167.242.37) with Microsoft
+ SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.20.9478.4 via Frontend Transport; Wed, 7 Jan 2026 10:42:25 +0000
+Received: from aherlnxbspsrv01.lgs-net.com ([10.61.228.61]) by hexagon.com with Microsoft SMTPSVC(10.0.17763.1697);
+	 Wed, 7 Jan 2026 11:42:24 +0100
+From: Mario Peter <mario.peter@leica-geosystems.com>
+To: peter.chen@kernel.org,
+	gregkh@linuxfoundation.org
+Cc: linux-usb@vger.kernel.org,
+	Mario Peter <mario.peter@leica-geosystems.com>
+Subject: [PATCH v1] usb: chipidea: otg: use autosuspend in ci_otg_work
+Date: Wed,  7 Jan 2026 10:42:20 +0000
+Message-ID: <20260107104220.419563-1-mario.peter@leica-geosystems.com>
+X-Mailer: git-send-email 2.43.0
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
@@ -63,329 +70,105 @@ List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
+X-OriginalArrivalTime: 07 Jan 2026 10:42:24.0899 (UTC) FILETIME=[4F885530:01DC7FC2]
+X-EOPAttributedMessage: 0
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: DB1PEPF000509FB:EE_|AS8PR06MB7318:EE_
+Content-Type: text/plain
+X-MS-Office365-Filtering-Correlation-Id: dd514162-6573-4092-5d0e-08de4dd97257
+X-SET-LOWER-SCL-SCANNER: YES
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam:
+	BCL:0;ARA:13230040|376014|36860700013|82310400026|1800799024;
+X-Microsoft-Antispam-Message-Info:
+	=?us-ascii?Q?j1mXoz7aIFjV4Kf2SHrkWGYl6fYblWJSh6yq5CZx96HtbC/AC+o/TBs00Pqm?=
+ =?us-ascii?Q?ZsaRrdwptdFUAMsD2f602VgAN9qwCsxpeG2Q+9VWjlHqhyhZae2LfXQ8RTxz?=
+ =?us-ascii?Q?0pPxRcUW9Tgft77Xaa6ER2G/W4ysxe3S/eAuueSQNX31K7hoPtrGaYlaGi3B?=
+ =?us-ascii?Q?1744/21pZMhHyliXVTopGM66EARewzKeSEt2El/ZpMHdzBL5KxzEtahjX/MP?=
+ =?us-ascii?Q?EuEAP8K4+aBgkWqPLJNNE07JQ83GQ2jWIScYwcenJV7SdiriSIkPBBUw4Q15?=
+ =?us-ascii?Q?LAE6gHAqh0US+dbYxmmE638BqFB4CWSZwRuNX46D841xZm97fLeQ2YDxubiT?=
+ =?us-ascii?Q?dJSz3tG+ZtTOqykPDzW9PykI2XoA96dzwkK/F/uGy+ZdJUgXWwAX7jGfHgXB?=
+ =?us-ascii?Q?YV9M5VkBTq5+vOrN2nWptgrXHiykkPl/WTSmL2QPaOfKG6A7LivO3EjNJFMU?=
+ =?us-ascii?Q?h2IXoUOgiDzbyKYFi+U1QqAUgcb3ZmLOgemcBMsR91t27Fm3ndFi/WefVqvf?=
+ =?us-ascii?Q?Aek86gjr9CJHwyGln/Y0MHESN+2Qv+qEgawogzoWSQdSxRTR+QepqoUGD2tg?=
+ =?us-ascii?Q?RhHO3H1PIDZ3oVOROeryIO1xiOKfEczY6c+FTPuvSdYuEQzz4p47iLGXjfh1?=
+ =?us-ascii?Q?NQeeH9ZI0YFpicLnFUFK5L0aJH2nVBQpzreWo3G/pZIdBqPkX7yNYFnR6/HV?=
+ =?us-ascii?Q?Z+fAYOCa7LIkf9Imkd6h7mK2t+4oh46WBSsw4nuWW4yNMa7W+YpkflK1ae0k?=
+ =?us-ascii?Q?fyQ55RVNcDcLdJ3PYr8rmZ3t9WykHtaHPBGGZtLGzKYNm06QCDCnSSXYnnHe?=
+ =?us-ascii?Q?jb+hR6aIbudovRaRQiaKTUPpmAm9BtsQZUP1kRnJ90tFIO6JIOTxaAi8IExs?=
+ =?us-ascii?Q?LzKB/Y98QA7PANV+rnR6lJwT/YyZeLGjifbf19oPlNnXIepWyaIB3sQOrur/?=
+ =?us-ascii?Q?s0JYW1vNhic7aVAECeLIlPGtBKd2Ze1XCkMRtbmrp875CkCsq9xjjr+nfDdv?=
+ =?us-ascii?Q?9xrCgN7YK3JbWHe8xqCnZ8fgmJzra/IGoIvts9xIVzS7z7Ul2NjCgAYRfOaV?=
+ =?us-ascii?Q?FVncI7yg4L0wFhAQ0PSmHW7g1LhOEFoX8SbSnWiM0kRB48YlT7Z9BzTR0FRo?=
+ =?us-ascii?Q?ZiooFXjnZX3mMd53DYMIOYRaN9tYcYrs8uTRkx4aDNG9zlLOr4x4eQ2dCJ9w?=
+ =?us-ascii?Q?8hteciuCtbhzJZ+fOagstUXpJ2lJCWkbQQ1NepUoLhdrkO4wDmhtB1xTXjCO?=
+ =?us-ascii?Q?sZfYvE/L66csUoH2yRAow1I6sCEELz9qyFZegWogkNiRAZ0r6I1bAarDpptS?=
+ =?us-ascii?Q?xT4oFLDty8ch7QOyI2aJgawFrZ6arDUqPEQmv2gOouNzmyi7vvESzzU2/Ji5?=
+ =?us-ascii?Q?yo/d7KSv7NfZ/kBSxhFaP5cbgINTmMrkJXOMrvYyJ/sKwhS2ieuMU8jhnF3x?=
+ =?us-ascii?Q?QkwYLHNqJHb2BeYMxFdnfoLi9RC3ynlwkjNnZcAOxGhWZ6E0SxYscKE+AxkA?=
+ =?us-ascii?Q?319hS8xpQl67y+3ru7NjLzl/cI5MS8PzOUVZs1dgTnqZ+tpMBNQ9love5bNx?=
+ =?us-ascii?Q?tKycR0AXIt2UfgfPm9Y=3D?=
+X-Forefront-Antispam-Report:
+	CIP:193.8.40.99;CTRY:CH;LANG:en;SCL:1;SRV:;IPV:CAL;SFV:NSPM;H:hexagon.com;PTR:ahersrvdom51.leica-geosystems.com;CAT:NONE;SFS:(13230040)(376014)(36860700013)(82310400026)(1800799024);DIR:OUT;SFP:1101;
+X-OriginatorOrg: leica-geosystems.com
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 07 Jan 2026 10:42:25.4067
+ (UTC)
+X-MS-Exchange-CrossTenant-Network-Message-Id: dd514162-6573-4092-5d0e-08de4dd97257
+X-MS-Exchange-CrossTenant-Id: 1b16ab3e-b8f6-4fe3-9f3e-2db7fe549f6a
+X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=1b16ab3e-b8f6-4fe3-9f3e-2db7fe549f6a;Ip=[193.8.40.99];Helo=[hexagon.com]
+X-MS-Exchange-CrossTenant-AuthSource:
+	DB1PEPF000509FB.eurprd03.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Anonymous
+X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: AS8PR06MB7318
 
-Currently, the driver's device private data is allocated and initialized
-from driver core code called from bus abstractions after the driver's
-probe() callback returned the corresponding initializer.
+Switch to autosuspend mechanism in ci_otg_work() to prevent race
+conditions during rapid device plug/unplug cycles.
 
-Similarly, the driver's device private data is dropped within the
-remove() callback of bus abstractions after calling the remove()
-callback of the corresponding driver.
+The current implementation uses pm_runtime_put_sync() which triggers
+immediate runtime suspend. This creates a race condition when a USB
+device is unplugged and quickly replugged. The controller may suspend
+before the new device detection completes, causing detection to fail.
 
-However, commit 6f61a2637abe ("rust: device: introduce
-Device::drvdata()") introduced an accessor for the driver's device
-private data for a Device<Bound>, i.e. a device that is currently bound
-to a driver.
+Replace pm_runtime_put_sync() with pm_runtime_mark_last_busy() and
+pm_runtime_put_sync_autosuspend() as recommended by Section 9 of
+Documentation/power/runtime_pm.rst. This updates the device's last_busy
+timestamp and delays the suspend until after the autosuspend_delay
+period, allowing pending device detection to complete. As documented,
+this approach prevents "bouncing too rapidly between low-power and
+full-power states".
 
-Obviously, this is in conflict with dropping the driver's device private
-data in remove(), since a device can not be considered to be fully
-unbound after remove() has finished:
+The synchronous variant pm_runtime_put_sync_autosuspend() is used
+(rather than the asynchronous __pm_runtime_put_autosuspend()) to match
+the semantics of the original pm_runtime_put_sync() call.
 
-We also have to consider registrations guarded by devres - such as IRQ
-or class device registrations - which are torn down after remove() in
-devres_release_all().
-
-Thus, it can happen that, for instance, a class device or IRQ callback
-still calls Device::drvdata(), which then runs concurrently to remove()
-(which sets dev->driver_data to NULL and drops the driver's device
-private data), before devres_release_all() started to tear down the
-corresponding registration. This is because devres guarded registrations
-can, as expected, access the corresponding Device<Bound> that defines
-their scope.
-
-In C it simply is the driver's responsibility to ensure that its device
-private data is freed after e.g. an IRQ registration is unregistered.
-
-Typically, C drivers achieve this by allocating their device private data
-with e.g. devm_kzalloc() before doing anything else, i.e. before e.g.
-registering an IRQ with devm_request_threaded_irq(), relying on the
-reverse order cleanup of devres.
-
-Technically, we could do something similar in Rust. However, the
-resulting code would be pretty messy:
-
-In Rust we have to differentiate between allocated but uninitialized
-memory and initialized memory in the type system. Thus, we would need to
-somehow keep track of whether the driver's device private data object
-has been initialized (i.e. probe() was successful and returned a valid
-initializer for this memory) and conditionally call the destructor of
-the corresponding object when it is freed.
-
-This is because we'd need to allocate and register the memory of the
-driver's device private data *before* it is initialized by the
-initializer returned by the driver's probe() callback, because the
-driver could already register devres guarded registrations within
-probe() outside of the driver's device private data initializer.
-
-Luckily there is a much simpler solution: Instead of dropping the
-driver's device private data at the end of remove(), we just drop it
-after the device has been fully unbound, i.e. after all devres callbacks
-have been processed.
-
-For this, we introduce a new post_unbind() callback private to the
-driver-core, i.e. the callback is neither exposed to drivers, nor to bus
-abstractions.
-
-This way, the driver-core code can simply continue to conditionally
-allocate the memory for the driver's device private data when the
-driver's initializer is returned from probe() - no change needed - and
-drop it when the driver-core code receives the post_unbind() callback.
-
-Closes: https://lore.kernel.org/all/DEZMS6Y4A7XE.XE7EUBT5SJFJ@kernel.org/
-Fixes: 6f61a2637abe ("rust: device: introduce Device::drvdata()")
-Signed-off-by: Danilo Krummrich <dakr@kernel.org>
+Signed-off-by: Mario Peter <mario.peter@leica-geosystems.com>
 ---
- drivers/base/dd.c             |  4 ++++
- include/linux/device/driver.h | 11 +++++++++++
- rust/kernel/auxiliary.rs      |  4 ++--
- rust/kernel/device.rs         | 20 ++++++++++---------
- rust/kernel/driver.rs         | 36 ++++++++++++++++++++++++++++++++++-
- rust/kernel/i2c.rs            |  4 ++--
- rust/kernel/pci.rs            |  4 ++--
- rust/kernel/platform.rs       |  4 ++--
- rust/kernel/usb.rs            |  4 ++--
- 9 files changed, 71 insertions(+), 20 deletions(-)
 
-diff --git a/drivers/base/dd.c b/drivers/base/dd.c
-index 349f31bedfa1..2d9871503614 100644
---- a/drivers/base/dd.c
-+++ b/drivers/base/dd.c
-@@ -548,6 +548,10 @@ static DEVICE_ATTR_RW(state_synced);
- static void device_unbind_cleanup(struct device *dev)
- {
- 	devres_release_all(dev);
-+#ifdef CONFIG_RUST
-+	if (dev->driver->p_cb.post_unbind)
-+		dev->driver->p_cb.post_unbind(dev);
-+#endif
- 	arch_teardown_dma_ops(dev);
- 	kfree(dev->dma_range_map);
- 	dev->dma_range_map = NULL;
-diff --git a/include/linux/device/driver.h b/include/linux/device/driver.h
-index cd8e0f0a634b..51a9ebdd8a2d 100644
---- a/include/linux/device/driver.h
-+++ b/include/linux/device/driver.h
-@@ -85,6 +85,8 @@ enum probe_type {
-  *		uevent.
-  * @p:		Driver core's private data, no one other than the driver
-  *		core can touch this.
-+ * @p_cb:	Callbacks private to the driver core; no one other than the
-+ *		driver core is allowed to touch this.
-  *
-  * The device driver-model tracks all of the drivers known to the system.
-  * The main reason for this tracking is to enable the driver core to match
-@@ -119,6 +121,15 @@ struct device_driver {
- 	void (*coredump) (struct device *dev);
- 
- 	struct driver_private *p;
-+#ifdef CONFIG_RUST
-+	struct {
-+		/*
-+		 * Called after remove() and after all devres entries have been
-+		 * processed.
-+		 */
-+		void (*post_unbind)(struct device *dev);
-+	} p_cb;
-+#endif
- };
- 
- 
-diff --git a/rust/kernel/auxiliary.rs b/rust/kernel/auxiliary.rs
-index cb26238e95b0..2b4a9aaabb65 100644
---- a/rust/kernel/auxiliary.rs
-+++ b/rust/kernel/auxiliary.rs
-@@ -96,9 +96,9 @@ extern "C" fn remove_callback(adev: *mut bindings::auxiliary_device) {
-         // SAFETY: `remove_callback` is only ever called after a successful call to
-         // `probe_callback`, hence it's guaranteed that `Device::set_drvdata()` has been called
-         // and stored a `Pin<KBox<T>>`.
--        let data = unsafe { adev.as_ref().drvdata_obtain::<T>() };
-+        let data = unsafe { adev.as_ref().drvdata_borrow::<T>() };
- 
--        T::unbind(adev, data.as_ref());
-+        T::unbind(adev, data);
-     }
+Testing was performed using a scripted sequence with a relay to simulate
+USB plug/unplug operations at various timing intervals, verifying that
+devices are consistently detected after replugging.
+
+v1: submitted
+
+ drivers/usb/chipidea/otg.c | 3 ++-
+ 1 file changed, 2 insertions(+), 1 deletion(-)
+
+diff --git a/drivers/usb/chipidea/otg.c b/drivers/usb/chipidea/otg.c
+index 647e98f4e351..8482170c55b4 100644
+--- a/drivers/usb/chipidea/otg.c
++++ b/drivers/usb/chipidea/otg.c
+@@ -230,7 +230,8 @@ static void ci_otg_work(struct work_struct *work)
+ 		ci_handle_vbus_change(ci);
+ 	}
+
+-	pm_runtime_put_sync(ci->dev);
++	pm_runtime_mark_last_busy(ci->dev);
++	pm_runtime_put_sync_autosuspend(ci->dev);
+
+ 	enable_irq(ci->irq);
  }
- 
-diff --git a/rust/kernel/device.rs b/rust/kernel/device.rs
-index 71b200df0f40..031720bf5d8c 100644
---- a/rust/kernel/device.rs
-+++ b/rust/kernel/device.rs
-@@ -232,30 +232,32 @@ pub fn set_drvdata<T: 'static>(&self, data: impl PinInit<T, Error>) -> Result {
-     ///
-     /// # Safety
-     ///
--    /// - Must only be called once after a preceding call to [`Device::set_drvdata`].
-     /// - The type `T` must match the type of the `ForeignOwnable` previously stored by
-     ///   [`Device::set_drvdata`].
--    pub unsafe fn drvdata_obtain<T: 'static>(&self) -> Pin<KBox<T>> {
-+    pub(crate) unsafe fn drvdata_obtain<T: 'static>(&self) -> Option<Pin<KBox<T>>> {
-         // SAFETY: By the type invariants, `self.as_raw()` is a valid pointer to a `struct device`.
-         let ptr = unsafe { bindings::dev_get_drvdata(self.as_raw()) };
- 
-         // SAFETY: By the type invariants, `self.as_raw()` is a valid pointer to a `struct device`.
-         unsafe { bindings::dev_set_drvdata(self.as_raw(), core::ptr::null_mut()) };
- 
-+        if ptr.is_null() {
-+            return None;
-+        }
-+
-         // SAFETY:
--        // - By the safety requirements of this function, `ptr` comes from a previous call to
--        //   `into_foreign()`.
-+        // - If `ptr` is not NULL, it comes from a previous call to `into_foreign()`.
-         // - `dev_get_drvdata()` guarantees to return the same pointer given to `dev_set_drvdata()`
-         //   in `into_foreign()`.
--        unsafe { Pin::<KBox<T>>::from_foreign(ptr.cast()) }
-+        Some(unsafe { Pin::<KBox<T>>::from_foreign(ptr.cast()) })
-     }
- 
-     /// Borrow the driver's private data bound to this [`Device`].
-     ///
-     /// # Safety
-     ///
--    /// - Must only be called after a preceding call to [`Device::set_drvdata`] and before
--    ///   [`Device::drvdata_obtain`].
-+    /// - Must only be called after a preceding call to [`Device::set_drvdata`] and before the
-+    ///   device is fully unbound.
-     /// - The type `T` must match the type of the `ForeignOwnable` previously stored by
-     ///   [`Device::set_drvdata`].
-     pub unsafe fn drvdata_borrow<T: 'static>(&self) -> Pin<&T> {
-@@ -271,7 +273,7 @@ impl Device<Bound> {
-     /// # Safety
-     ///
-     /// - Must only be called after a preceding call to [`Device::set_drvdata`] and before
--    ///   [`Device::drvdata_obtain`].
-+    ///   the device is fully unbound.
-     /// - The type `T` must match the type of the `ForeignOwnable` previously stored by
-     ///   [`Device::set_drvdata`].
-     unsafe fn drvdata_unchecked<T: 'static>(&self) -> Pin<&T> {
-@@ -320,7 +322,7 @@ pub fn drvdata<T: 'static>(&self) -> Result<Pin<&T>> {
- 
-         // SAFETY:
-         // - The above check of `dev_get_drvdata()` guarantees that we are called after
--        //   `set_drvdata()` and before `drvdata_obtain()`.
-+        //   `set_drvdata()`.
-         // - We've just checked that the type of the driver's private data is in fact `T`.
-         Ok(unsafe { self.drvdata_unchecked() })
-     }
-diff --git a/rust/kernel/driver.rs b/rust/kernel/driver.rs
-index 77c1f7434897..6e32376d4c7c 100644
---- a/rust/kernel/driver.rs
-+++ b/rust/kernel/driver.rs
-@@ -177,7 +177,39 @@ unsafe impl<T: RegistrationOps> Sync for Registration<T> {}
- // any thread, so `Registration` is `Send`.
- unsafe impl<T: RegistrationOps> Send for Registration<T> {}
- 
--impl<T: RegistrationOps> Registration<T> {
-+impl<T: RegistrationOps + 'static> Registration<T> {
-+    extern "C" fn post_unbind_callback(dev: *mut bindings::device) {
-+        // SAFETY: The driver core only ever calls the post unbind callback with a valid pointer to
-+        // a `struct device`.
-+        //
-+        // INVARIANT: `dev` is valid for the duration of the `post_unbind_callback()`.
-+        let dev = unsafe { &*dev.cast::<device::Device<device::CoreInternal>>() };
-+
-+        // `remove()` and all devres callbacks have been completed at this point, hence drop the
-+        // driver's device private data.
-+        //
-+        // SAFETY: By the safety requirements of the `Driver` trait, `T::DriverData` is the
-+        // driver's device private data.
-+        drop(unsafe { dev.drvdata_obtain::<T::DriverData>() });
-+    }
-+
-+    /// Attach generic `struct device_driver` callbacks.
-+    fn callbacks_attach(drv: &Opaque<T::DriverType>) {
-+        let ptr = drv.get().cast::<u8>();
-+
-+        // SAFETY:
-+        // - `drv.get()` yields a valid pointer to `Self::DriverType`.
-+        // - Adding `DEVICE_DRIVER_OFFSET` yields the address of the embedded `struct device_driver`
-+        //   as guaranteed by the safety requirements of the `Driver` trait.
-+        let base = unsafe { ptr.add(T::DEVICE_DRIVER_OFFSET) };
-+
-+        // CAST: `base` points to the offset of the embedded `struct device_driver`.
-+        let base = base.cast::<bindings::device_driver>();
-+
-+        // SAFETY: It is safe to set the fields of `struct device_driver` on initialization.
-+        unsafe { (*base).p_cb.post_unbind = Some(Self::post_unbind_callback) };
-+    }
-+
-     /// Creates a new instance of the registration object.
-     pub fn new(name: &'static CStr, module: &'static ThisModule) -> impl PinInit<Self, Error> {
-         try_pin_init!(Self {
-@@ -189,6 +221,8 @@ pub fn new(name: &'static CStr, module: &'static ThisModule) -> impl PinInit<Sel
-                 // just been initialised above, so it's also valid for read.
-                 let drv = unsafe { &*(ptr as *const Opaque<T::DriverType>) };
- 
-+                Self::callbacks_attach(drv);
-+
-                 // SAFETY: `drv` is guaranteed to be pinned until `T::unregister`.
-                 unsafe { T::register(drv, name, module) }
-             }),
-diff --git a/rust/kernel/i2c.rs b/rust/kernel/i2c.rs
-index 6a3923a8b8a7..c1813f94da7a 100644
---- a/rust/kernel/i2c.rs
-+++ b/rust/kernel/i2c.rs
-@@ -178,9 +178,9 @@ extern "C" fn remove_callback(idev: *mut bindings::i2c_client) {
-         // SAFETY: `remove_callback` is only ever called after a successful call to
-         // `probe_callback`, hence it's guaranteed that `I2cClient::set_drvdata()` has been called
-         // and stored a `Pin<KBox<T>>`.
--        let data = unsafe { idev.as_ref().drvdata_obtain::<T>() };
-+        let data = unsafe { idev.as_ref().drvdata_borrow::<T>() };
- 
--        T::unbind(idev, data.as_ref());
-+        T::unbind(idev, data);
-     }
- 
-     extern "C" fn shutdown_callback(idev: *mut bindings::i2c_client) {
-diff --git a/rust/kernel/pci.rs b/rust/kernel/pci.rs
-index fe63b53d55d6..8fdc18faeb4c 100644
---- a/rust/kernel/pci.rs
-+++ b/rust/kernel/pci.rs
-@@ -123,9 +123,9 @@ extern "C" fn remove_callback(pdev: *mut bindings::pci_dev) {
-         // SAFETY: `remove_callback` is only ever called after a successful call to
-         // `probe_callback`, hence it's guaranteed that `Device::set_drvdata()` has been called
-         // and stored a `Pin<KBox<T>>`.
--        let data = unsafe { pdev.as_ref().drvdata_obtain::<T>() };
-+        let data = unsafe { pdev.as_ref().drvdata_borrow::<T>() };
- 
--        T::unbind(pdev, data.as_ref());
-+        T::unbind(pdev, data);
-     }
- }
- 
-diff --git a/rust/kernel/platform.rs b/rust/kernel/platform.rs
-index af94fb58aafb..6f81186a7919 100644
---- a/rust/kernel/platform.rs
-+++ b/rust/kernel/platform.rs
-@@ -101,9 +101,9 @@ extern "C" fn remove_callback(pdev: *mut bindings::platform_device) {
-         // SAFETY: `remove_callback` is only ever called after a successful call to
-         // `probe_callback`, hence it's guaranteed that `Device::set_drvdata()` has been called
-         // and stored a `Pin<KBox<T>>`.
--        let data = unsafe { pdev.as_ref().drvdata_obtain::<T>() };
-+        let data = unsafe { pdev.as_ref().drvdata_borrow::<T>() };
- 
--        T::unbind(pdev, data.as_ref());
-+        T::unbind(pdev, data);
-     }
- }
- 
-diff --git a/rust/kernel/usb.rs b/rust/kernel/usb.rs
-index b09fe8bcca13..e6080955f742 100644
---- a/rust/kernel/usb.rs
-+++ b/rust/kernel/usb.rs
-@@ -103,9 +103,9 @@ extern "C" fn disconnect_callback(intf: *mut bindings::usb_interface) {
-         // SAFETY: `disconnect_callback` is only ever called after a successful call to
-         // `probe_callback`, hence it's guaranteed that `Device::set_drvdata()` has been called
-         // and stored a `Pin<KBox<T>>`.
--        let data = unsafe { dev.drvdata_obtain::<T>() };
-+        let data = unsafe { dev.drvdata_borrow::<T>() };
- 
--        T::disconnect(intf, data.as_ref());
-+        T::disconnect(intf, data);
-     }
- }
- 
--- 
-2.52.0
+--
+2.43.0
 
