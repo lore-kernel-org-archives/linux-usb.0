@@ -1,130 +1,89 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from mail-m49198.qiye.163.com (mail-m49198.qiye.163.com [45.254.49.198])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0298122F77B;
-	Wed,  7 Jan 2026 22:30:23 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BA40320311;
+	Thu,  8 Jan 2026 02:37:20 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=45.254.49.198
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1767825024; cv=none; b=tKc2OSc+3yDsVzob3PowiVYM+otyUjQTIccui2yJomzBrZeIuOeXv3NgoAjeOB19t8Qr6gDTBnOu3nGP/7OFcX8a682tcDCTNWBSfnOOY3rMrczk1ZYTWy64+CL9uhYlzJ4/88faTj7Z4vtCtRATdOC7O9jLFp21WLE2RRefzEc=
+	t=1767839847; cv=none; b=fMb9qrpkL8lRikO3ODxzV76TRiOCB4C/Bpb4X1hPmbXIxnk1j2lFxhr53CM+0b372kKLCTiazqls++OflmWB0/hAM2XZAxNLLYWcfB7+1eVeLLmSULgwDDVzAp7jZE6pQ4gTcwfkJmTbHlcP3fTYzhYtiTKuv6bdGIzviDBcyFI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1767825024; c=relaxed/simple;
-	bh=mSX8X0nDOjeXe2Q25Toz3gwqs42fskhILG5gKtDs/g4=;
-	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
-	 In-Reply-To:To:Cc; b=E4sJan3XpgwZ3+NgidNu83VtxIPyAWQYq5GOLG8/QVDbg4FV1t5mIyduznaS3zgQyb8znAFrurQtVM4fMX+ld2geXToSdtfMGioc9OWJWgaiVNu2oo8SfSi//mFFDCPh6gxdVVqtjwYtTvTvvvxVgpG6N2i4KiAdyzpaMmyyNzA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=UeENLN6p; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1767839847; c=relaxed/simple;
+	bh=uAq3srVZVi2Pvv/CPmsXXgRNsOrx1+acegzL7eUCL/8=;
+	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
+	 MIME-Version; b=XFbNEXyGSOLGDOqVqZLf+wBihcvXZhSkqAmsHBnXHP6jC34PV++sf0RuGAS0hVZVvn5FfRE+hzbkhmnGXJ4mkYXx+aM4Tls27t8N5olZLG+PFdqgeeswA7Vp+9s6/HrW+gd8H22sjEGoteA3fOwkOuiLsI+gS3hZggLvMx32qJw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=seu.edu.cn; spf=pass smtp.mailfrom=seu.edu.cn; dkim=pass (1024-bit key) header.d=seu.edu.cn header.i=@seu.edu.cn header.b=Z4/GnfD5; arc=none smtp.client-ip=45.254.49.198
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=seu.edu.cn
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=seu.edu.cn
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="UeENLN6p"
-Received: by smtp.kernel.org (Postfix) with ESMTPS id 9F900C19421;
-	Wed,  7 Jan 2026 22:30:23 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1767825023;
-	bh=mSX8X0nDOjeXe2Q25Toz3gwqs42fskhILG5gKtDs/g4=;
-	h=From:Date:Subject:References:In-Reply-To:To:Cc:Reply-To:From;
-	b=UeENLN6plgK/uWOPeY0OsPpbvLY45ZxAcPtErmHVQtXjXH3/rkowcGWm0ZAY1LOT8
-	 5mbH0yEttvTdpdZXRqnE4enkakD2LKI0nEfaBmH/j6Byw2bhVAd3sd/t430K6wFzcr
-	 IzgQk2FJw+eyFsW8nb5MMZ4639hm4IFcugk7U/judQsnjU0Lojbe4whMWLdTFA9Rmg
-	 oyfPbp099ex482wQx7eiu2rWC0RFMfX4vC/HctI0uPInyX5JGyhx/nfqZTN2qqjln5
-	 pF1AThxjMGtfJjN+us1b7kQDPaSDBdRCAkJOnVMtv06NRk/BuZsPlCRSq1nfWeX/3j
-	 9bhxassDo2ryA==
-Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 90EE2D0D179;
-	Wed,  7 Jan 2026 22:30:23 +0000 (UTC)
-From: Sam Day via B4 Relay <devnull+me.samcday.com@kernel.org>
-Date: Thu, 08 Jan 2026 08:30:20 +1000
-Subject: [PATCH 1/2] usb: gadget: f_fs: Fix ioctl error handling
+	dkim=pass (1024-bit key) header.d=seu.edu.cn header.i=@seu.edu.cn header.b="Z4/GnfD5"
+Received: from LAPTOP-N070L597.localdomain (unknown [58.241.16.34])
+	by smtp.qiye.163.com (Hmail) with ESMTP id 2fe228c5f;
+	Thu, 8 Jan 2026 10:37:11 +0800 (GMT+08:00)
+From: Zilin Guan <zilin@seu.edu.cn>
+To: gregkh@linuxfoundation.org
+Cc: jianhao.xu@seu.edu.cn,
+	linux-kernel@vger.kernel.org,
+	linux-usb@vger.kernel.org,
+	mathias.nyman@intel.com,
+	zilin@seu.edu.cn
+Subject: Re: [PATCH] usb: xhci: Fix memory leak in xchi_disable_slot()
+Date: Thu,  8 Jan 2026 02:37:10 +0000
+Message-Id: <20260108023710.539893-1-zilin@seu.edu.cn>
+X-Mailer: git-send-email 2.34.1
+In-Reply-To: <2026010723-earshot-staining-6e11@gregkh>
+References: <2026010723-earshot-staining-6e11@gregkh>
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-Message-Id: <20260108-ffs-dmabuf-ioctl-fix-v1-1-e51633891a81@samcday.com>
-References: <20260108-ffs-dmabuf-ioctl-fix-v1-0-e51633891a81@samcday.com>
-In-Reply-To: <20260108-ffs-dmabuf-ioctl-fix-v1-0-e51633891a81@samcday.com>
-To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-Cc: linux-usb@vger.kernel.org, linux-kernel@vger.kernel.org, 
- Sam Day <me@samcday.com>
-X-Mailer: b4 0.14.2
-X-Developer-Signature: v=1; a=ed25519-sha256; t=1767825022; l=2103;
- i=me@samcday.com; s=20240502; h=from:subject:message-id;
- bh=+sgu2dykusg1HSD/3fjxdCUcleWQtBrEsLL9Ec/cHXA=;
- b=oxwqyO9NTmbV96vpdsjWeB2S8TLav+HWSi6CkMSB8muMROJLX7+wolOhFlwfATRY0GQnQ+GwX
- 2Mu5iFkTnyxDgJk6rVTDN+Bsye/msuDhmY3wVaR2KxW30ORHnnl+JH9
-X-Developer-Key: i=me@samcday.com; a=ed25519;
- pk=bzyS0akxWMqr9+AXzgBRIp28KKpEOs+GjYMc2yf+aeU=
-X-Endpoint-Received: by B4 Relay for me@samcday.com/20240502 with
- auth_id=595
-X-Original-From: Sam Day <me@samcday.com>
-Reply-To: me@samcday.com
+Content-Transfer-Encoding: 8bit
+X-HM-Tid: 0a9b9b77167303a1kunm5a375bc824c5e
+X-HM-MType: 10
+X-HM-Spam-Status: e1kfGhgUHx5ZQUpXWQgPGg8OCBgUHx5ZQUlOS1dZFg8aDwILHllBWSg2Ly
+	tZV1koWUFITzdXWS1ZQUlXWQ8JGhUIEh9ZQVlDTUxNVk4ZQ0hJTkgaShlNS1YeHw5VEwETFhoSFy
+	QUDg9ZV1kYEgtZQVlOQ1VJT0pVSk1VSE9ZV1kWGg8SFR0UWUFZT0tIVUJCSU5LVUpLS1VKQktCWQ
+	Y+
+DKIM-Signature: a=rsa-sha256;
+	b=Z4/GnfD5P8S/jaNMz1m0FeUf0pSD6zcJR6L+PfP5wrq5+F+HoztmxAFB4qDEhbPXqF8CLxlBgPO1dVjA7xgu0QXx0QYZACHMKZun/eT797tCFNJ6qTSA48/8XgOcYE3EhHNvto76T/Gzw8yB0wIqjHr8TiUAk9z0iW3sOOO/EfM=; s=default; c=relaxed/relaxed; d=seu.edu.cn; v=1;
+	bh=eYpkigJfej22cePP7HRozqjbT4JtX8laymShYoOv1Ys=;
+	h=date:mime-version:subject:message-id:from;
 
-From: Sam Day <me@samcday.com>
+On Wed, Jan 07, 2026 at 04:04:43PM +0100, Greg KH wrote:
+> On Thu, Dec 25, 2025 at 04:21:19PM +0000, Zilin Guan wrote:
+> > xhci_alloc_command() allocates a command structure and, when the
+> > second argument is true, also allocates a completion structure.
+> > Currently, the error handling path in xhci_disable_slot() only frees
+> > the command structure using kfree(), causing the completion structure
+> > to leak.
+> > 
+> > Fix this by using xhci_free_command() instead of kfree(). This function
+> > correctly frees both the command and the completion structure.
+> > 
+> > Fixes: cd3f1790b006d ("usb: xhci: Fix potential memory leak in xhci_disable_slot()")
+> 
+> No cc: stable?
 
-When ffs_epfile_ioctl handles FUNCTIONFS_DMABUF_* ioctls, it's currently
-falling through when copy_from_user fails.
+My understanding is that the Cc: stable tag is primarily intended for 
+severe bugs. I wasn't sure if this leak was critical enough to warrant 
+backporting, especially since the amount of leaked memory is small. I 
+decided to avoid adding unnecessary noise to the stable tree, but I am 
+happy to include the tag if you advise doing so.
 
-However, this fallthrough isn't being checked properly, so the handler
-continues executing further than it should. It then tries the secondary
-dispatch where it ultimately gives up and returns -ENOTTY.
+> And how was this found?  How was it tested?  
 
-The end result is invalid ioctl invocations will yield a -ENOTTY rather
-than an -EFAULT.
+This issue was reported by our static analysis tool, but we manually verify 
+the bugs.
 
-It's a common pattern elsewhere in the kernel code to directly return
--EFAULT when copy_from_user fails. So we update ffs_epfile_ioctl to do
-the same and fix this issue.
+We enforced a rigorous manual check to trace the code path and confirm 
+the resource leak is genuine specifically to filter out any false 
+positives from the tool.
 
-Signed-off-by: Sam Day <me@samcday.com>
----
- drivers/usb/gadget/function/f_fs.c | 18 ++++++------------
- 1 file changed, 6 insertions(+), 12 deletions(-)
+> What tool created this fix?
 
-diff --git a/drivers/usb/gadget/function/f_fs.c b/drivers/usb/gadget/function/f_fs.c
-index 05c6750702b609565d7a4adc1ebae16ba3ffeeb7..9ea1445bec97531f9c2bed678268bd6f76199bfb 100644
---- a/drivers/usb/gadget/function/f_fs.c
-+++ b/drivers/usb/gadget/function/f_fs.c
-@@ -1748,10 +1748,8 @@ static long ffs_epfile_ioctl(struct file *file, unsigned code,
- 	{
- 		int fd;
- 
--		if (copy_from_user(&fd, (void __user *)value, sizeof(fd))) {
--			ret = -EFAULT;
--			break;
--		}
-+		if (copy_from_user(&fd, (void __user *)value, sizeof(fd)))
-+			return -EFAULT;
- 
- 		return ffs_dmabuf_attach(file, fd);
- 	}
-@@ -1759,10 +1757,8 @@ static long ffs_epfile_ioctl(struct file *file, unsigned code,
- 	{
- 		int fd;
- 
--		if (copy_from_user(&fd, (void __user *)value, sizeof(fd))) {
--			ret = -EFAULT;
--			break;
--		}
-+		if (copy_from_user(&fd, (void __user *)value, sizeof(fd)))
-+			return -EFAULT;
- 
- 		return ffs_dmabuf_detach(file, fd);
- 	}
-@@ -1770,10 +1766,8 @@ static long ffs_epfile_ioctl(struct file *file, unsigned code,
- 	{
- 		struct usb_ffs_dmabuf_transfer_req req;
- 
--		if (copy_from_user(&req, (void __user *)value, sizeof(req))) {
--			ret = -EFAULT;
--			break;
--		}
-+		if (copy_from_user(&req, (void __user *)value, sizeof(req)))
-+			return -EFAULT;
- 
- 		return ffs_dmabuf_transfer(file, &req);
- 	}
+We wrote patch manually.
 
--- 
-2.52.0
-
+Thanks,
+Zilin Guan
 
