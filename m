@@ -1,37 +1,92 @@
-Received: from mail-m49198.qiye.163.com (mail-m49198.qiye.163.com [45.254.49.198])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pf1-f225.google.com (mail-pf1-f225.google.com [209.85.210.225])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1DA743A7DFB;
-	Thu,  8 Jan 2026 09:05:39 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=45.254.49.198
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 619C63ED63C
+	for <linux-usb@vger.kernel.org>; Thu,  8 Jan 2026 09:10:34 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.225
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1767863151; cv=none; b=nvc7m2/C/vagZ03l08KIdPejiHURZl9XO0ZXl3+n721Tdh1TNeXQ8Pz3jiZD6dAwJMzNOvRbcKyipLNf1EKPRSUXKzZtdLN1L7j+4eBCESC25Rz53adfakCxyOg9zrgqwFbkJjg2wswmnps4OF7K1husnd16fG/Kipmn7r+HVno=
+	t=1767863438; cv=none; b=tJdkQZDnViNldwOGMyw8RaqiKBhnXkjqVDLvDCMoRfS7bx0IfKqCgMm/0vUN0aRuezzWQwYd/1wMzvF29oK42cHgwo689yRYqPw9bJf3ynxsxZfQJdaT5nx8PAhoCk0KOU9C/3IOkmecUG+nCCQZmsB6+SwCOmecAmQW2JLIYPM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1767863151; c=relaxed/simple;
-	bh=akzA/w0vNN+AceWHrXiPpydYgcRXSngJWXiBIPMPCkE=;
-	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
-	 MIME-Version; b=OfspeOqY9NKCIW/w4OJmBf74XzW/I1f5OnSj7p5173NzSr6afRLGVppGqz4oEdvL4WttLbSyDXBAHi5pnNtbc5DHLZtnko7DyjwLm43IsfTC9s/VHSoapHjUImKav0ZTsNQK3+mvQvith4y9gynVehzQ0cIIkcoetC174pw+ZNE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=seu.edu.cn; spf=pass smtp.mailfrom=seu.edu.cn; dkim=pass (1024-bit key) header.d=seu.edu.cn header.i=@seu.edu.cn header.b=j8scEZyn; arc=none smtp.client-ip=45.254.49.198
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=seu.edu.cn
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=seu.edu.cn
+	s=arc-20240116; t=1767863438; c=relaxed/simple;
+	bh=My9LdPfbtVFSB3sp0w6t1oa4q3QaS94XKVQNWPjyMq0=;
+	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=ZtkOLtrWjZ/EorGMyWnv3IKk0D0uQA5VAC8SwdnapEDu5wbx8jTWVw4uTrd/xYNPSam3g9kZsWWg7Svz6yzcGfiKa+Hh7CtCTFggi9EisKJT1tmjIwfwm2KGYs/gYN0WTj25EBGtbwF43WhCQeigHZwCqnhaTgdyddN37GWCzV8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=broadcom.com; spf=fail smtp.mailfrom=broadcom.com; dkim=pass (1024-bit key) header.d=broadcom.com header.i=@broadcom.com header.b=YCxRmC+O; arc=none smtp.client-ip=209.85.210.225
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=broadcom.com
+Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=broadcom.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=seu.edu.cn header.i=@seu.edu.cn header.b="j8scEZyn"
-Received: from LAPTOP-N070L597.localdomain (unknown [222.191.246.242])
-	by smtp.qiye.163.com (Hmail) with ESMTP id 2ff02e48b;
-	Thu, 8 Jan 2026 17:05:33 +0800 (GMT+08:00)
-From: Zilin Guan <zilin@seu.edu.cn>
-To: gregkh@linuxfoundation.org
-Cc: jianhao.xu@seu.edu.cn,
-	linux-kernel@vger.kernel.org,
+	dkim=pass (1024-bit key) header.d=broadcom.com header.i=@broadcom.com header.b="YCxRmC+O"
+Received: by mail-pf1-f225.google.com with SMTP id d2e1a72fcca58-7aa9be9f03aso1880473b3a.2
+        for <linux-usb@vger.kernel.org>; Thu, 08 Jan 2026 01:10:33 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1767863429; x=1768468229;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:dkim-signature:x-gm-gg:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=qiMjUjf8apd8PnqE5AATGbYetcy2Uw3TxDHDwt6y7V8=;
+        b=JgV+eMcUhzFxJqYFaPdPeNKtBYmuLFcVrZefVewkyRX1xlBuOqHHXYBArx6lRH9Tt7
+         fZPQFYplojMGwgv34tWJhFMg7mPaylh8ywmA/yOig30z7ARChT94e6ggV5/xtX8bba9J
+         rXxq7Uxy+LMQLaKjLVsvt4WMhnU5ZComFQ/K2TL3lJDFIJyfBwfca5MnkxXwk2sAtw/U
+         na0mHF/ookt2GD/ft1DuA82wS80i+RVw8VgFJnDRyMBOIUyBL4iOpXJe8vyxR3u1hyca
+         AtuiQYIEGvLKM2IrCrv4zJCo/tKzD/DMHQsbzmwYfvH3boDt86DWBBsGJp6LDhDYbE9k
+         YdFQ==
+X-Forwarded-Encrypted: i=1; AJvYcCUBE4byZfa1K7RRbvBDpoNVcgsASF7GlvexqD5w8/7FIjg6S1fgvKlUG1wA4fQsksqnGcnblqSu0hY=@vger.kernel.org
+X-Gm-Message-State: AOJu0YxrJaSF2Nik0atP5Cecch3eUzFOh+0ej5mwKHjRilDV/a5sX2EZ
+	ezbEurCT3u1P1V+pQ1P9CrAnpH8ods5Kq8HkQcX2CRv2+hNKg6qajy4fUqFG4qRUcLcB2+GAOtF
+	PU/IUnG8nOb/r6OZ048s1c1B1A57GjrYzXlsBKdBjvCO1fn0nODVeuTzm9OuoIJDzdbPOy4fP6W
+	SBDF8A+SMSJwJCgKGHPzPx1m4ba/5/FfkO75YWYAN3c88+4xuKijU8ROL5Sk629Piy52uhQ1l9F
+	bLHKMMNHvJoz8WzvXc0pw==
+X-Gm-Gg: AY/fxX7b4S4ZvhnILHASOa4cxoKFZt215W0rAeP1pv8yy1+B135rwewKR9/NwBqdNxC
+	/7QP6zfgoQk1GdEMEShg5JF+c04+TSvlaY8dR0j8DSw9Lq/hXkMdWpFB9UwZe7ITTpM48g9NVcC
+	RCkNQSE7rZADPUbZUqV002F43emCK1QEHd/vmWPfYnF2mmOsNhnkYRlMeCiH/FB3vPilhCGMCxX
+	7u7ExIbRZAXd/yUnpEAwrdbEwG7pnfrvfBbPyciCefud4TlW1xMY2pQDDXUXgFxFrvjUXtMpUnc
+	d5H3V/jHPAexE1y/DjlrSWZR/BCULjuUkXBUBkb1AiQtYp7N8aj7SATgm18WnjurrFvf1Ro1YSE
+	L4pvYNRR7egLExcB5TGu5RZt67EVBmzASjWfp6uxHotAuLci1byBfglFER/wtyLgaR3R77gXWS4
+	oA3zje5sVcT4CB3V+CpgY5FAnO+DS4zz7N5j26Gt2MZyw5voTheAs=
+X-Google-Smtp-Source: AGHT+IF1aar5h1N1Vdrv6rDAO0Z3HsJ1s2NveEMGk/H82/yIMnJeEOGZ1G1ua3TDk7XqA5vQxNAXDJruponE
+X-Received: by 2002:a05:6a00:1bc8:b0:7aa:ac12:2c2e with SMTP id d2e1a72fcca58-81b7d8563a8mr5060076b3a.25.1767863429148;
+        Thu, 08 Jan 2026 01:10:29 -0800 (PST)
+Received: from smtp-us-east1-p01-i01-si01.dlp.protect.broadcom.com (address-144-49-247-120.dlp.protect.broadcom.com. [144.49.247.120])
+        by smtp-relay.gmail.com with ESMTPS id d2e1a72fcca58-819bb0dfa0dsm731698b3a.3.2026.01.08.01.10.28
+        for <linux-usb@vger.kernel.org>
+        (version=TLS1_2 cipher=ECDHE-ECDSA-AES128-GCM-SHA256 bits=128/128);
+        Thu, 08 Jan 2026 01:10:29 -0800 (PST)
+X-Relaying-Domain: broadcom.com
+X-CFilter-Loop: Reflected
+Received: by mail-dl1-f71.google.com with SMTP id a92af1059eb24-11b7dbce216so3498714c88.1
+        for <linux-usb@vger.kernel.org>; Thu, 08 Jan 2026 01:10:28 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=broadcom.com; s=google; t=1767863427; x=1768468227; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=qiMjUjf8apd8PnqE5AATGbYetcy2Uw3TxDHDwt6y7V8=;
+        b=YCxRmC+OsyOi89py4gTyrZZSe+O7wXRx4BNQ133qJOA4+Dfv6Faz7VszQ/D/XAM395
+         UzpUTeLyFBUIIcWnPMeHUEhgs4BN0FDPUmfwoRf4ooGuQtYlI7JSDdHRPh6ZxcJ9Xnv8
+         6CuFtwaJWov3pt65U3NL//GJxIaZe+/DziOlU=
+X-Forwarded-Encrypted: i=1; AJvYcCX6uB8saVkc55xIWvho2/51i34OLr5bhG1xBK5LKKgj9WEiiDFzcVkkvZdTgWXcm2FQBr9n1O230Ig=@vger.kernel.org
+X-Received: by 2002:a05:7022:493:b0:11b:9386:825b with SMTP id a92af1059eb24-121f8b7799dmr4741738c88.48.1767863426953;
+        Thu, 08 Jan 2026 01:10:26 -0800 (PST)
+X-Received: by 2002:a05:7022:493:b0:11b:9386:825b with SMTP id a92af1059eb24-121f8b7799dmr4741707c88.48.1767863426192;
+        Thu, 08 Jan 2026 01:10:26 -0800 (PST)
+Received: from shivania.lvn.broadcom.net ([192.19.161.250])
+        by smtp.gmail.com with ESMTPSA id a92af1059eb24-121f24985d1sm13267619c88.16.2026.01.08.01.10.24
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 08 Jan 2026 01:10:25 -0800 (PST)
+From: Shivani Agarwal <shivani.agarwal@broadcom.com>
+To: stable@vger.kernel.org,
+	gregkh@linuxfoundation.org
+Cc: mathias.nyman@intel.com,
 	linux-usb@vger.kernel.org,
-	mathias.nyman@intel.com,
-	zilin@seu.edu.cn
-Subject: Re: [PATCH] usb: xhci: Fix memory leak in xchi_disable_slot()
-Date: Thu,  8 Jan 2026 09:05:31 +0000
-Message-Id: <20260108090531.788192-1-zilin@seu.edu.cn>
-X-Mailer: git-send-email 2.34.1
-In-Reply-To: <2026010804-commuting-hardly-0204@gregkh>
-References: <2026010804-commuting-hardly-0204@gregkh>
+	linux-kernel@vger.kernel.org,
+	ajay.kaher@broadcom.com,
+	alexey.makhalov@broadcom.com,
+	vamsi-krishna.brahmajosyula@broadcom.com,
+	yin.ding@broadcom.com,
+	tapas.kundu@broadcom.com,
+	Shivani Agarwal <shivani.agarwal@broadcom.com>
+Subject: [PATCH 0/2 v5.10-v6.1] Fix CVE-2025-22022
+Date: Thu,  8 Jan 2026 00:49:25 -0800
+Message-Id: <20260108084927.671785-1-shivani.agarwal@broadcom.com>
+X-Mailer: git-send-email 2.25.1
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
@@ -39,42 +94,23 @@ List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-HM-Tid: 0a9b9cdaa4ff03a1kunmb7e7063b40b0a
-X-HM-MType: 10
-X-HM-Spam-Status: e1kfGhgUHx5ZQUpXWQgPGg8OCBgUHx5ZQUlOS1dZFg8aDwILHllBWSg2Ly
-	tZV1koWUFITzdXWS1ZQUlXWQ8JGhUIEh9ZQVkaHR9PVk0eQ0NMQhhMSxpJQlYeHw5VEwETFhoSFy
-	QUDg9ZV1kYEgtZQVlJSUlVSkJKVUlPTVVJT0lZV1kWGg8SFR0UWUFZT0tIVUJCSU5LVUpLS1VKQk
-	tCWQY+
-DKIM-Signature: a=rsa-sha256;
-	b=j8scEZynWk07LbK0KA0igI0nYSXCsOtmFvjWmqSsQk7kMgwlYkxKyhIgbFOZrI7eQc0q3+Vu2WOpdG04h2NhDSqZguvdMAYuUaq5k4VM/V3nQo4QYz34SY00rdl1d9E0K1kYK0Ezr2ak2rKjUOxLZ+aRKUQGs35DFahb3Zs0Efk=; s=default; c=relaxed/relaxed; d=seu.edu.cn; v=1;
-	bh=k+9OG0AB4YIbUSXWJjhjI0caeY0oLdDZz16CZJL/8pU=;
-	h=date:mime-version:subject:message-id:from;
+X-DetectorID-Processed: b00c1d49-9d2e-4205-b15f-d015386d3d5e
 
-On Thu, Jan 08, 2026 at 06:42:51AM +0100, Greg KH wrote:
-> As per our documentation, you need to describe the tool being used,
-> please read and follow that, otherwise we have no idea of what is
-> happening here.
-> 
-> thanks,
-> 
-> greg k-h
+To fix CVE-2025-22022, commit bb0ba4cb1065 is required; however,
+it depends on commit 7476a2215c07. Therefore, both patches have
+been backported to v5.10-v6.1.
 
-The tool used is an experimental static analysis tool we are developing. 
-It is based on the LLVM framework and specifically designed to detect 
-memory management issues.
+Michal Pecio (1):
+  usb: xhci: Apply the link chain quirk on NEC isoc endpoints
 
-The tool is currently under active development, so we do not have a public 
-repository link at this moment. However, we plan to open-source it once 
-the associated research is published.
+Niklas Neronin (1):
+  usb: xhci: move link chain bit quirk checks into one helper function.
 
-We performed build testing on x86_64 with allyesconfig using GCC=11.4.0. 
-Since triggering these error path in xhci_disable_slot() requires specific 
-hardware conditions or abnormal state, we were unable to construct a test 
-case to reliably trigger these specific error path at runtime.
+ drivers/usb/host/xhci-mem.c  | 10 ++--------
+ drivers/usb/host/xhci-ring.c |  8 ++------
+ drivers/usb/host/xhci.h      | 16 ++++++++++++++--
+ 3 files changed, 18 insertions(+), 16 deletions(-)
 
-I will send a v2 patch with the tool description included in the commit
-message, and I'll further clarify why the proposed fix is safe. Do you
-think there's anything else to add?
+-- 
+2.43.7
 
-Thanks,
-Zilin Guan
