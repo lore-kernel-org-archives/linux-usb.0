@@ -1,145 +1,143 @@
-Received: from smtpbgau1.qq.com (smtpbgau1.qq.com [54.206.16.166])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6537A27472;
-	Mon, 12 Jan 2026 02:31:21 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=54.206.16.166
+Received: from mail.loongson.cn (mail.loongson.cn [114.242.206.163])
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id F1A353451D5;
+	Mon, 12 Jan 2026 08:48:30 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=114.242.206.163
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1768185084; cv=none; b=SS1O1XAhaDvOU8KV7Em/Ij/u45NTlnGmwdKtIIJSl+ufbvvCZ+a9TVEJvdmWBlOpx/nNC1W96MHZi0sX7WDQ8oObTmxh1cmIiAHgxckNsUhRmVzOoKvg/FsAtNk78u6qCMfmSUkxJ476fR1E+zQvFh9nGYaHXpzSY5j0yjkNQ2Q=
+	t=1768207718; cv=none; b=S1k79lGSNZy89sTVHHE/BtGTKh8TsnzcgSmfSb4ron8EbMzAQee4TIfYQWGirK/To1Xne23SpBmcYpYP2S1Eubsc4SZOsf7Xz2As+M9M4KcPIfBGU++7J9g7ltLrROhXRrcjs1JsutgKWxRNLK+kObIbpMJ4gWaFgh2L5WWAmYQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1768185084; c=relaxed/simple;
-	bh=MoMfG/P6UbSnnoMsB+rKCDa1C2zgWOSj5wLA0iReGMs=;
-	h=From:To:Cc:Subject:Date:Message-Id; b=klGvJ53RbJR43sa1D+8NwifhmvtPNJB+/MbxY2sLpCS95Gwgyx9V0ZDG0axE9TvBmbGKqF5bt3rqt2aBF6+f4EVhxB5e9dHACSJXSqQqHng1nQ8I9UmPRsKAc+XH9RByE36icS1iysIqf1NY4QnOqV37nTh8Q0VNULXR4INmdg4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=airkyi.com; spf=pass smtp.mailfrom=airkyi.com; dkim=pass (1024-bit key) header.d=airkyi.com header.i=@airkyi.com header.b=QjVgpA+D; arc=none smtp.client-ip=54.206.16.166
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=airkyi.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=airkyi.com
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=airkyi.com header.i=@airkyi.com header.b="QjVgpA+D"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=airkyi.com;
-	s=altu2504; t=1768184914;
-	bh=5OwuqBa1SKtgkAufTwdNUgHq4LXbcH9yxhfSttEXZd4=;
-	h=From:To:Subject:Date:Message-Id;
-	b=QjVgpA+DN/Tc8QipuykbZtIg3b5K343C1zO1SxXZbyKoZTntCzzs/m54JGrW+mUBR
-	 YiTaueIBiMhHibvjqAHqRaOH3+dS89reMYNyw7DGPqgTwFos4t41FhNM6S8V2dUcEq
-	 qIsYMhf0yV0V9zAmqxw6ZmnlDhPe3Z9yxtBDjnK4=
-X-QQ-mid: zesmtpsz4t1768184911t0d1f0041
-X-QQ-Originating-IP: sntjFapz4HbC+mkqdoSmtzzuUOEeNdmwI5vWgXHYI1c=
-Received: from DESKTOP-8BT1A2O.localdomain ( [58.22.7.114])
-	by bizesmtp.qq.com (ESMTP) with 
-	id ; Mon, 12 Jan 2026 10:28:29 +0800 (CST)
-X-QQ-SSF: 0000000000000000000000000000000
-X-QQ-GoodBg: 0
-X-BIZMAIL-ID: 7699444275135992075
-EX-QQ-RecipientCnt: 23
-From: Chaoyi Chen <kernel@airkyi.com>
-To: Rob Herring <robh@kernel.org>,
-	Krzysztof Kozlowski <krzk+dt@kernel.org>,
-	Conor Dooley <conor+dt@kernel.org>,
-	Heiko Stuebner <heiko@sntech.de>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	Quentin Schulz <quentin.schulz@cherry.de>,
-	Jonas Karlman <jonas@kwiboo.se>,
-	Chaoyi Chen <chaoyi.chen@rock-chips.com>,
-	Hsun Lai <i@chainsx.cn>,
-	John Clark <inindev@gmail.com>,
-	Jimmy Hon <honyuenkwun@gmail.com>,
-	Dragan Simic <dsimic@manjaro.org>,
-	Michael Riesch <michael.riesch@collabora.com>,
-	Peter Robinson <pbrobinson@gmail.com>,
-	Alexey Charkov <alchark@gmail.com>,
-	Shawn Lin <shawn.lin@rock-chips.com>,
-	Sebastian Reichel <sebastian.reichel@collabora.com>,
-	Andy Yan <andy.yan@rock-chips.com>
-Cc: devicetree@vger.kernel.org,
-	linux-arm-kernel@lists.infradead.org,
-	linux-rockchip@lists.infradead.org,
+	s=arc-20240116; t=1768207718; c=relaxed/simple;
+	bh=28tHlwGVJpeLdVGvuinWnZgpn9dScW8S3NEu2YcuCK8=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=mYDd0p8Jr9btVvukNoIIx5x8Z7YCeii/htjc8ofl9QZmXOxgcxGlBIMNcwvPWgIER/SxMTqXwWqx5wZoGYNUfgBO9MUo+MQzhgL2LdQgh2bPbAbDEOlgI1/RBu5QWRwFQN6QlN/0dS8MZYTXxeGj9T72vX/bOygNxQZh1nZ/v+k=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=loongson.cn; spf=pass smtp.mailfrom=loongson.cn; arc=none smtp.client-ip=114.242.206.163
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=loongson.cn
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=loongson.cn
+Received: from loongson.cn (unknown [223.64.69.1])
+	by gateway (Coremail) with SMTP id _____8BxnsNStWRpLM8HAA--.25409S3;
+	Mon, 12 Jan 2026 16:48:18 +0800 (CST)
+Received: from localhost.localdomain (unknown [223.64.69.1])
+	by front1 (Coremail) with SMTP id qMiowJCxmuBLtWRpEtEaAA--.8616S2;
+	Mon, 12 Jan 2026 16:48:14 +0800 (CST)
+From: Huacai Chen <chenhuacai@loongson.cn>
+To: Huacai Chen <chenhuacai@kernel.org>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+Cc: Alan Stern <stern@rowland.harvard.edu>,
+	linux-usb@vger.kernel.org,
 	linux-kernel@vger.kernel.org,
-	linux-usb@vger.kernel.org
-Subject: [PATCH v3 0/3] arm64: dts: rockchip: Add rk3576 evb2 board
-Date: Mon, 12 Jan 2026 10:28:20 +0800
-Message-Id: <20260112022823.91-1-kernel@airkyi.com>
-X-Mailer: git-send-email 2.17.1
-X-QQ-SENDSIZE: 520
-Feedback-ID: zesmtpsz:airkyi.com:qybglogicsvrgz:qybglogicsvrgz6b-0
-X-QQ-XMAILINFO: NUTz4BkILuKLFFWBZfchHmjoVwmwrFRkzImEnehPaR3jbEDZ3g2ylOBP
-	zyU4E/UQau/JqG0PeYlT4U6pgWBWE+dz3C6qZHXrNxQdTPmXYWk2/rXTm/KmjZBoInmvO8R
-	EotUfgw11arf0KDibY23rz6eseGt14yYjcV/l7nn3mE2rhxxFtsdao0nF3AzhZQYAHSf0cb
-	rSjvwX88NQ5890dyhnUVy6Oafvf+Yv5SsmGGqr3gl97hxkXwyqh+u2KapAmNAHVOVQSypkC
-	j0UhMBrOXbOxPL2mRTbmjrmvPqIB9wFo35ysnTLJ2xxonJi9afYAPvBxaYjl9VZ7paLzPGU
-	iir0CBFfcN3OnbYEB58YxJOgXrvSSHwTTgHYH4FI6NON97ylxpDZw0zWrho0zfEJrnsDvF+
-	Muiula7JhKnThdAhuU44mMBmaTUOfNt2trHPepV6T4MhFBLFfie1VUoDl57c5XHr0gVWgqh
-	SedXAWAor0XSlPU0XJzqzFkiS3K8waMzzuHx0SGC8Ocl0ubISUYA5/8EvmQgnnKnL3EOJGs
-	8rsbYVfN5WcuhujPj2PIY8J13mzOEHv+SqH//tQfjGsc1e+yuEqvPxDTzXkf90gLmNCAQD6
-	/KedC02g/OhjvuSuhiuOG3E8BiwTax6F89wK/qAw6fvRUWdh5+gLeIb7NUcJGCgfjve+uhV
-	LreDZq+l0tPSG4nzpVlYmlm2QEKAnXqkSXcisOXco2YDiWsJ3BMzX+8X5Yt4ADWOkImMHtE
-	ZKFMF9iJyJxgjAL11+2yvh5+SK2NYpCHUIzLvV8SGUWcZ7J085spljVfCtF9603VPf4teyl
-	Yw4MM2Qm8Kv9MpVfXAPVnlPkg1pqymKZv4mn16iHBPDyXNFrUhwo4UUa28PjDKwME4l6D1B
-	Q/iHsBR+JHgpPccXJUfS5x5o09+ItdKbLlmy9ICzV8cL+RAoUC70yDoi4+d4xlqAvmpGiPG
-	G6d6fTZx7n/ejU6xylHcfwxu5gMeDukUhdCD3wcWgwwRTl/OOo3wToapeRj7GmbgeBo8WV4
-	8II0ifReXt7EyCKL5H
-X-QQ-XMRINFO: M/715EihBoGS47X28/vv4NpnfpeBLnr4Qg==
-X-QQ-RECHKSPAM: 0
+	Huacai Chen <chenhuacai@loongson.cn>,
+	stable@vger.kernel.org,
+	Shengwen Xiao <atzlinux@sina.com>
+Subject: [PATCH] USB: OHCI/UHCI: Add soft dependencies on ehci_platform
+Date: Mon, 12 Jan 2026 16:48:02 +0800
+Message-ID: <20260112084802.1995923-1-chenhuacai@loongson.cn>
+X-Mailer: git-send-email 2.47.3
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
+MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
+X-CM-TRANSID:qMiowJCxmuBLtWRpEtEaAA--.8616S2
+X-CM-SenderInfo: hfkh0x5xdftxo6or00hjvr0hdfq/
+X-Coremail-Antispam: 1Uk129KBj93XoWxZryrJr45tF17tFWfWryrXwc_yoWrWw43pF
+	45Jr4Syr4kGr12q390k3WUJF42krnIvryDG3WfWa1j939xXw1DXw4UZF1Fy3Z7Xw15Jws8
+	tF1qvrW7CFs8uagCm3ZEXasCq-sJn29KB7ZKAUJUUUU7529EdanIXcx71UUUUU7KY7ZEXa
+	sCq-sGcSsGvfJ3Ic02F40EFcxC0VAKzVAqx4xG6I80ebIjqfuFe4nvWSU5nxnvy29KBjDU
+	0xBIdaVrnRJUUU90b4IE77IF4wAFF20E14v26r1j6r4UM7CY07I20VC2zVCF04k26cxKx2
+	IYs7xG6rWj6s0DM7CIcVAFz4kK6r1Y6r17M28lY4IEw2IIxxk0rwA2F7IY1VAKz4vEj48v
+	e4kI8wA2z4x0Y4vE2Ix0cI8IcVAFwI0_Gr0_Xr1l84ACjcxK6xIIjxv20xvEc7CjxVAFwI
+	0_Gr0_Cr1l84ACjcxK6I8E87Iv67AKxVWxJVW8Jr1l84ACjcxK6I8E87Iv6xkF7I0E14v2
+	6r4UJVWxJr1ln4kS14v26r1Y6r17M2AIxVAIcxkEcVAq07x20xvEncxIr21l57IF6xkI12
+	xvs2x26I8E6xACxx1l5I8CrVACY4xI64kE6c02F40Ex7xfMcIj6xIIjxv20xvE14v26r12
+	6r1DMcIj6I8E87Iv67AKxVWUJVW8JwAm72CE4IkC6x0Yz7v_Jr0_Gr1lF7xvr2IYc2Ij64
+	vIr41l42xK82IYc2Ij64vIr41l4I8I3I0E4IkC6x0Yz7v_Jr0_Gr1l4IxYO2xFxVAFwI0_
+	Jrv_JF1lx2IqxVAqx4xG67AKxVWUJVWUGwC20s026x8GjcxK67AKxVWUGVWUWwC2zVAF1V
+	AY17CE14v26r1q6r43MIIYrxkI7VAKI48JMIIF0xvE2Ix0cI8IcVAFwI0_Jr0_JF4lIxAI
+	cVC0I7IYx2IY6xkF7I0E14v26r1j6r4UMIIF0xvE42xK8VAvwI8IcIk0rVWUJVWUCwCI42
+	IY6I8E87Iv67AKxVWUJVW8JwCI42IY6I8E87Iv6xkF7I0E14v26r1j6r4UYxBIdaVFxhVj
+	vjDU0xZFpf9x07j5xhLUUUUU=
 
-From: Chaoyi Chen <chaoyi.chen@rock-chips.com>
+Commit 9beeee6584b9aa4f ("USB: EHCI: log a warning if ehci-hcd is not
+loaded first") said that ehci-hcd should be loaded before ohci-hcd and
+uhci-hcd. However, commit 05c92da0c52494ca ("usb: ohci/uhci - add soft
+dependencies on ehci_pci") only makes ohci-pci/uhci-pci depend on ehci-
+pci, which is not enough and we may still see the warnings in boot log.
 
-Hi,
+To eliminate the warnings we should make ohci-hcd/uhci-hcd depend on
+ehci-hcd. But Alan said that the warning introduced by 9beeee6584b9aa4f
+is bogus, we only need the soft dependencies in the PCI level rather
+than the HCD level.
 
-This series add support for rk3576 evb2 board.
+However, there is really another neccessary soft dependencies between
+ohci-platform/uhci-platform and ehci-platform, which is added by this
+patch. The boot logs are below.
 
-General features for rk3576 evb2 board:
-    - Rockchip RK3576
-    - LPDDR4/4X
-    - eMMC5.1
-    - RK806-2x2pcs + DiscretePower
-    - 1x HDMI2.1 TX / HDMI2.0 RX
-    - 1x full size DP1.4 TX (Only 2 Lanes)
-    - 2x 10/100/1000M Ethernet
-    - 5x SATA3.0 7Pin Slot
-    - 2x USB3.2 Gen1 Host
-    - 3x USB2.0 Host
-    - WIFI/BT
-    - ...
+1. ohci-platform loaded before ehci-platform:
 
-Changes in v3:
-- Link to v2: https://lore.kernel.org/all/20260107070322.323-1-kernel@airkyi.com/ 
-- Add binding for WCH CH334/CH335 hub controller.
-- Add alias for mmc.
-- Rename some usb vbus regulator.
-- Add DP regulator.
-- Change gmac phy-mode to rgmii-id.
-- Add target-supply for sata.
-- Change vcc-supply for ufshc.
-- Add usb hub.
-- ...
+ ohci-platform 1f058000.usb: Generic Platform OHCI controller
+ ohci-platform 1f058000.usb: new USB bus registered, assigned bus number 1
+ ohci-platform 1f058000.usb: irq 28, io mem 0x1f058000
+ hub 1-0:1.0: USB hub found
+ hub 1-0:1.0: 4 ports detected
+ Warning! ehci_hcd should always be loaded before uhci_hcd and ohci_hcd, not after
+ usb 1-4: new low-speed USB device number 2 using ohci-platform
+ ehci-platform 1f050000.usb: EHCI Host Controller
+ ehci-platform 1f050000.usb: new USB bus registered, assigned bus number 2
+ ehci-platform 1f050000.usb: irq 29, io mem 0x1f050000
+ ehci-platform 1f050000.usb: USB 2.0 started, EHCI 1.00
+ usb 1-4: device descriptor read/all, error -62
+ hub 2-0:1.0: USB hub found
+ hub 2-0:1.0: 4 ports detected
+ usb 1-4: new low-speed USB device number 3 using ohci-platform
+ input: YSPRINGTECH USB OPTICAL MOUSE as /devices/platform/bus@10000000/1f058000.usb/usb1/1-4/1-4:1.0/0003:10C4:8105.0001/input/input0
+ hid-generic 0003:10C4:8105.0001: input,hidraw0: USB HID v1.11 Mouse [YSPRINGTECH USB OPTICAL MOUSE] on usb-1f058000.usb-4/input0
 
-Changes in v2:
-- Link to v1: https://lore.kernel.org/all/20260104023703.118-1-kernel@airkyi.com/
-- Enable hdmi_sound and sai6.
-- Add more cpu-supply.
-- Use regulator to control sata power.
-- Remove "cap-mmc-highspeed" prop in sdmmc.
-- Add regulator supply for ufshc.
-- Add the missing vcc3v3_hubreset regulator.
-- Add otg capability for usb_drd0_dwc3.
+2. ehci-platform loaded before ohci-platform:
 
-Chaoyi Chen (3):
-  dt-bindings: usb: Add binding for WCH CH334/CH335 hub controller
-  dt-bindings: arm: rockchip: Add rk3576 evb2 board
-  arm64: dts: rockchip: Add rk3576 evb2 board
+ ehci-platform 1f050000.usb: EHCI Host Controller
+ ehci-platform 1f050000.usb: new USB bus registered, assigned bus number 1
+ ehci-platform 1f050000.usb: irq 28, io mem 0x1f050000
+ ehci-platform 1f050000.usb: USB 2.0 started, EHCI 1.00
+ hub 1-0:1.0: USB hub found
+ hub 1-0:1.0: 4 ports detected
+ ohci-platform 1f058000.usb: Generic Platform OHCI controller
+ ohci-platform 1f058000.usb: new USB bus registered, assigned bus number 2
+ ohci-platform 1f058000.usb: irq 29, io mem 0x1f058000
+ hub 2-0:1.0: USB hub found
+ hub 2-0:1.0: 4 ports detected
+ usb 2-4: new low-speed USB device number 2 using ohci-platform
+ input: YSPRINGTECH USB OPTICAL MOUSE as /devices/platform/bus@10000000/1f058000.usb/usb2/2-4/2-4:1.0/0003:10C4:8105.0001/input/input0
+ hid-generic 0003:10C4:8105.0001: input,hidraw0: USB HID v1.11 Mouse [YSPRINGTECH USB OPTICAL MOUSE] on usb-1f058000.usb-4/input0
 
- .../devicetree/bindings/arm/rockchip.yaml     |    4 +-
- .../devicetree/bindings/usb/wch,ch334.yaml    |   65 ++
- arch/arm64/boot/dts/rockchip/Makefile         |    1 +
- .../boot/dts/rockchip/rk3576-evb2-v10.dts     | 1002 +++++++++++++++++
- 4 files changed, 1071 insertions(+), 1 deletion(-)
- create mode 100644 Documentation/devicetree/bindings/usb/wch,ch334.yaml
- create mode 100644 arch/arm64/boot/dts/rockchip/rk3576-evb2-v10.dts
+In the later case, there is no re-connection for USB-1.0/1.1 devices,
+which is expected.
 
---
-2.51.1
+Cc: stable@vger.kernel.org
+Reported-by: Shengwen Xiao <atzlinux@sina.com>
+Signed-off-by: Huacai Chen <chenhuacai@loongson.cn>
+---
+ drivers/usb/host/ohci-platform.c | 1 +
+ drivers/usb/host/uhci-platform.c | 1 +
+ 2 files changed, 2 insertions(+)
+
+diff --git a/drivers/usb/host/ohci-platform.c b/drivers/usb/host/ohci-platform.c
+index 2e4bb5cc2165..c801527d5bd2 100644
+--- a/drivers/usb/host/ohci-platform.c
++++ b/drivers/usb/host/ohci-platform.c
+@@ -392,3 +392,4 @@ MODULE_DESCRIPTION(DRIVER_DESC);
+ MODULE_AUTHOR("Hauke Mehrtens");
+ MODULE_AUTHOR("Alan Stern");
+ MODULE_LICENSE("GPL");
++MODULE_SOFTDEP("pre: ehci_platform");
+diff --git a/drivers/usb/host/uhci-platform.c b/drivers/usb/host/uhci-platform.c
+index 5e02f2ceafb6..f4419d4526c4 100644
+--- a/drivers/usb/host/uhci-platform.c
++++ b/drivers/usb/host/uhci-platform.c
+@@ -211,3 +211,4 @@ static struct platform_driver uhci_platform_driver = {
+ 		.of_match_table = platform_uhci_ids,
+ 	},
+ };
++MODULE_SOFTDEP("pre: ehci_platform");
+-- 
+2.47.3
 
