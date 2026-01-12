@@ -1,261 +1,183 @@
-Received: from mail-ed1-f44.google.com (mail-ed1-f44.google.com [209.85.208.44])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtpbgsg2.qq.com (smtpbgsg2.qq.com [54.254.200.128])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 00B7E1607A4
-	for <linux-usb@vger.kernel.org>; Sun, 11 Jan 2026 19:31:53 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.44
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D492A2F691C;
+	Mon, 12 Jan 2026 02:30:03 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=54.254.200.128
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1768159915; cv=none; b=N3yHVCyn0HzdEUv8gac0Sttk64LN13QX8irqQocwtbYYFg7y7yni7iiDH7Te+7SHfGGf8uAbmKnF30UALMuTjrK+P7qYfOn31AcDoxYtMUdCTCcq1RQb30x3TiNmYYVvSjDyfc2d2rMx37mMTqw4XKJ4dxK6xk4ji8jtFvjtYHY=
+	t=1768185006; cv=none; b=jD/kxFMH21+rv4TTzSY8QBccfZSsYZZJVAHsBbfKxT7fyV/L/03V1G+FXxO47YYQog6Q7hGyQocmciAkMWAej0DRUB9At/clwl3Lv4dVHkrzf0CeU0lUihIzcoQSh6GeGGTdOeycAFlYAQ+wR+SrbWm+vyhIGEjNsxtZNRKyAGU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1768159915; c=relaxed/simple;
-	bh=9kRTB7j2+dOj7uuByJTedIf0C2TkNSEV20s7ZNXlfZY=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=RvQz8J72ddIN65PXGQieCuKbxP8XpQwPnma7o5/6xRATUS/leoaB5SfHRl3U9jEWtObq650jLltHnJhfUputRu8S+XK/2k7A6OBBL3zv28gZzk+ns4tqeeTRh2C4WYRrgFQGFAIGbTfjIpA5RqUm/1ER4q09579XapfC6+QVxLg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=jThxqVdL; arc=none smtp.client-ip=209.85.208.44
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1768185006; c=relaxed/simple;
+	bh=ZUk0XCqrPTM2BxD4GagntJD2YihLggmTuoqrB2vQzCs=;
+	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References; b=CZZw8JWz4MNNsHAQC0KKX4+AF7vYIFg5d/EZEtx2M18v5UA4YuoDsUW8WcUihXfV36s/8PNxICyXXegyQp0WHQG4o2OfIC68Rnvi7zBQ9ABDNvi6aEOPsCkL59Tc7YRv8kmDcJYgwdNd4rwCsY4mJI6nwSARKiLllhecTwyZAWY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=airkyi.com; spf=pass smtp.mailfrom=airkyi.com; dkim=pass (1024-bit key) header.d=airkyi.com header.i=@airkyi.com header.b=HsCjhaGy; arc=none smtp.client-ip=54.254.200.128
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=airkyi.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=airkyi.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="jThxqVdL"
-Received: by mail-ed1-f44.google.com with SMTP id 4fb4d7f45d1cf-64b9dfc146fso5092796a12.0
-        for <linux-usb@vger.kernel.org>; Sun, 11 Jan 2026 11:31:53 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1768159912; x=1768764712; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=1llCMASQ3MobTxu6nXqP5vUtdWy7RUn8pLv2JvHCXy0=;
-        b=jThxqVdLpCp4kqxaxjyvWO42xJaX6Iayhf1X6f3ckpIFzzZy803Iu8+0lPGq16K1QF
-         afWiITbBEiW7IaoLDRpCRGoeXQ7lxSMid5m92/H/WVu9kLSNCtNJN1+Ffl9est3BkLe4
-         MOgHf0PFRvDX8o7HN+9p1ErMK9h8F5TaftUTPsVfeimeXpYGjb4cZFGiHlYFPhVoSOTQ
-         oELbtVlOy9m5RjqyFPNFBM+P7eGszFou0X0qUZfJhwiXlXzQSxHvD3B0ZfNnttdvLsn4
-         s3yqLej0U7stWN5TJA60JnfHD04vidh1jxWtlXGWOipvYWS24N5T0DuyGI1Q99OtAI92
-         Nk1A==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1768159912; x=1768764712;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to;
-        bh=1llCMASQ3MobTxu6nXqP5vUtdWy7RUn8pLv2JvHCXy0=;
-        b=UAzGpb5tjYCtptoArTcOoQF8Y+Dgqu3KXtm6yHKNBm9+A+EtNEwOhzLcufXG9iSIbg
-         oOkeBz9uADjtlHsxOJUhusEJahiwYqMNqPjx/7WjyOoSIM5Xitv6LPa9PWFbkAu4XLla
-         6huNGgrWbmmgGl92bMSmsujt7DGtmWzKQJY/WYoTWGDQjjX6S6WxrvTzvL70w2qTjLRP
-         EWsB+QuoYwVMOsZ44slfgE201QbPP6TIzn/AQd2RD+r/MAAE777Ig6Z6nJeIBw743hE5
-         TJKr9JiyBw7vRUvBuLkgXBhzGeKeFOGnpO2NtkLDOM6THqoaZGPxXasyJbK/0sKO4f09
-         azTg==
-X-Forwarded-Encrypted: i=1; AJvYcCUhhPsPtquQt8n65lluLqmQg8dHmpPH7rTu771dMCJxT8zyMcC7Zq2tR3dZc9I5aQxl/VQhJpdINmw=@vger.kernel.org
-X-Gm-Message-State: AOJu0Yw4duQS8rUlB/22tger4k8XD2vKk85LFihD04JOeSk8/4xvaiFR
-	JCQfrTOgYKREtjTyvJe/ziW9ldi8aMZsBHYatDbC7WIAzD2gneDGrcuHMJQ1m4wIRkklVqNr587
-	afKx+E4v/huKonhAJRAPIYgRRVq+zd/A=
-X-Gm-Gg: AY/fxX5WSpgsuP2BcWjtcyUp5D+aF+jle4YGnZMTfSsnQBY31+MT2s2gjhQ1wMMuNOr
-	HS5aKC6sJ/cAjSIPfgK1NiisxENTwTW9su6V43bCxhNsAYsa6QobjvDN3chkgHDxBEihYhWEtyW
-	oBY0ktyb3y/UeOSN+/3N7JxRoZO7L0Ss/+R9CLJPS0nM7y0jH40I39WkKrXDZbPrmdxW7LdcLfw
-	jySXw7lBSYAsRi0GVIy8aArTrWEtmwozcD8dUzx97fn1PhNW/ZOCJLB9T7di0lYIJU=
-X-Google-Smtp-Source: AGHT+IFT/knNVJfiA11bK06YsQejbdfC7KAQjOrTau0qt16Y+07yWK0cpRf4pmTxw0HgBdiPh3Jnl9b4btWgBTwkc7s=
-X-Received: by 2002:a05:6402:1488:b0:64c:ff6b:f56 with SMTP id
- 4fb4d7f45d1cf-6507c0704e4mr14268114a12.9.1768159912220; Sun, 11 Jan 2026
- 11:31:52 -0800 (PST)
+	dkim=pass (1024-bit key) header.d=airkyi.com header.i=@airkyi.com header.b="HsCjhaGy"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=airkyi.com;
+	s=altu2504; t=1768184919;
+	bh=R9TYb4gWx4pQMa+mSrqRnpOcGO3Ou10FWe02WnyGdtE=;
+	h=From:To:Subject:Date:Message-Id;
+	b=HsCjhaGyq6iSWk0sh0vZVCJoTk+47MpM91l65NhLqjRXbYHzokt2NwAgPpb51cdgv
+	 3OWzl6APzUt/iJbkvDxfDr9XLs43Cqbuo7gd7/lws6y6rGVsqN1aQGo1xlS7m+S1Bj
+	 4LvoThSC97EUBUF0fUP12BkmDJz8HdYDDRnMBPUY=
+X-QQ-mid: zesmtpsz4t1768184918tfa46568f
+X-QQ-Originating-IP: NfTxhgrGshMWgayL2mvvN7B9ABsVR4W9bWkJBwKMPOw=
+Received: from DESKTOP-8BT1A2O.localdomain ( [58.22.7.114])
+	by bizesmtp.qq.com (ESMTP) with 
+	id ; Mon, 12 Jan 2026 10:28:34 +0800 (CST)
+X-QQ-SSF: 0000000000000000000000000000000
+X-QQ-GoodBg: 0
+X-BIZMAIL-ID: 7953789143671575021
+EX-QQ-RecipientCnt: 23
+From: Chaoyi Chen <kernel@airkyi.com>
+To: Rob Herring <robh@kernel.org>,
+	Krzysztof Kozlowski <krzk+dt@kernel.org>,
+	Conor Dooley <conor+dt@kernel.org>,
+	Heiko Stuebner <heiko@sntech.de>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	Quentin Schulz <quentin.schulz@cherry.de>,
+	Jonas Karlman <jonas@kwiboo.se>,
+	Chaoyi Chen <chaoyi.chen@rock-chips.com>,
+	Hsun Lai <i@chainsx.cn>,
+	John Clark <inindev@gmail.com>,
+	Jimmy Hon <honyuenkwun@gmail.com>,
+	Dragan Simic <dsimic@manjaro.org>,
+	Michael Riesch <michael.riesch@collabora.com>,
+	Peter Robinson <pbrobinson@gmail.com>,
+	Alexey Charkov <alchark@gmail.com>,
+	Shawn Lin <shawn.lin@rock-chips.com>,
+	Sebastian Reichel <sebastian.reichel@collabora.com>,
+	Andy Yan <andy.yan@rock-chips.com>
+Cc: devicetree@vger.kernel.org,
+	linux-arm-kernel@lists.infradead.org,
+	linux-rockchip@lists.infradead.org,
+	linux-kernel@vger.kernel.org,
+	linux-usb@vger.kernel.org
+Subject: [PATCH v3 1/3] dt-bindings: usb: Add binding for WCH CH334/CH335 hub controller
+Date: Mon, 12 Jan 2026 10:28:21 +0800
+Message-Id: <20260112022823.91-2-kernel@airkyi.com>
+X-Mailer: git-send-email 2.17.1
+In-Reply-To: <20260112022823.91-1-kernel@airkyi.com>
+References: <20260112022823.91-1-kernel@airkyi.com>
+X-QQ-SENDSIZE: 520
+Feedback-ID: zesmtpsz:airkyi.com:qybglogicsvrgz:qybglogicsvrgz6b-0
+X-QQ-XMAILINFO: OX/+6nY/vs4TKOH7OjLM9IBHihBjqbrPr+6EC9hyLD721j9ZGGsnAEDc
+	yFGcGiFe9VIjeDGYLtKpGKDejqqhxMR9AT8CJAULS0DPj31tYnM30cWoYAWuBdtJKHYIGqp
+	p6hFq+m/bMx5iMLk+tE8MPXxopV9E+WP8FlxwU+VlE0PtTlKCzsIxT0lKnlwS5l5C+LfLZr
+	dll5tYy9tijzoG2RRh2R8VWdKccXsz3Qw+8Xhk2ZNTBZCv35iRMqUoZqwTUDNzbtJ+dCtTK
+	eDmxlbJGg9PyY8Q1xMGk4xvZ1C04eUXmgaFVPgy/oz7ATVJD7CAWkUzZ/3F0jtUk3xfWdpR
+	aag5M2jp4Sk617nkw2G8uSLOKas9b5gyLX1ia6tZ4+Q8HUom/qHMvu7ANk2BfpCrr03qys7
+	to8oDbAL6DRsas8gyhvc2nJUZRViU0ebN+gnscFld6Jlg86fRqPsMZd/7S7rO4duJJOLJiT
+	v77YzMU3fEzUCnj+eUvjSNRExuA0QU7+pI4REu/MzoQf+P01gJVZ8BOrXFaGXuxgWSDb1/d
+	l3zsjLW8qRBSfzD79jZF8JQ81+ZEzCnU5LQcZkkMI34QNtNUb/Qz4fAv4m7Yyhbqm8gOHAL
+	cKci1HKLhIFZ/xGJfQuUUQUvDFfVdAWTXfn9QZ9thL5YzCG8EFn8ZohJNCcpr0KKreroMXa
+	UB2BPXlFCJHGsbJuceHnMg6WeN6T8yB0kItZczhusPMUMH+Zc8GCbH/cwt8E8bIlhHJaEMy
+	tgtGPOvO8Fy3VEXPimTVjRb1+0dJ0CVUmjaTerRKinroiFpzyHk6Bq886S9nT6gtoUsVYpp
+	Bu4Kz/+z6P6pTbj72E7XUD+YgM4wFTuv9uy0D+lh/cVVfJSYLSKYVzY5tSIfpLyOAJXzNA+
+	rZzIvVYP8A6VxhMjEyQTH1oFQx4vEh+ef+syQLnXiNadigaRe/0A17225QB9O7lvl/GzXxH
+	fVjse/yZ2VIMmeUVwc+9BN+C70Km1YPxuU8dVqDVIiWC9mFy28QQw1VVTRpF3uV8THFJs0+
+	TtHNsyh2qOVZEonWo7V2muwbD9nmo=
+X-QQ-XMRINFO: OD9hHCdaPRBwH5bRRRw8tsiH4UAatJqXfg==
+X-QQ-RECHKSPAM: 0
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
-References: <20260103083232.9510-1-linux.amoon@gmail.com> <20260103083232.9510-2-linux.amoon@gmail.com>
- <aVke1kQnHJLqWGHi@venus> <CANAwSgSd0TLrkxpnS5qdot8B7vkd4wH76-g8hAixqfbEtH4LyA@mail.gmail.com>
- <aWGJYt3VPWh1kC_v@venus>
-In-Reply-To: <aWGJYt3VPWh1kC_v@venus>
-From: Anand Moon <linux.amoon@gmail.com>
-Date: Mon, 12 Jan 2026 01:01:34 +0530
-X-Gm-Features: AZwV_Qjk0PC1h4-nzgxSMCHjCoYMB6_DfqK9WUaQvz9oLKiSdDPd37nJhqh4lBo
-Message-ID: <CANAwSgTGJ5mqoieWOse3OCO3pFepwn1eQx-Hu+O1Pj6hkpdNXg@mail.gmail.com>
-Subject: Re: [PATCH v1 1/3] arm64: dts: rockchip: rk3588-rock-5b-5bp-5t:
- Correct Type-C pin bias settings
-To: Sebastian Reichel <sebastian.reichel@collabora.com>
-Cc: Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>, 
-	Conor Dooley <conor+dt@kernel.org>, Heiko Stuebner <heiko@sntech.de>, 
-	Heikki Krogerus <heikki.krogerus@linux.intel.com>, 
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>, 
-	Nicolas Frattaroli <nicolas.frattaroli@collabora.com>, FUKAUMI Naoki <naoki@radxa.com>, 
-	Diederik de Haas <didi.debian@cknow.org>, Yongbo Zhang <giraffesnn123@gmail.com>, 
-	"open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS" <devicetree@vger.kernel.org>, 
-	"moderated list:ARM/Rockchip SoC support" <linux-arm-kernel@lists.infradead.org>, 
-	"open list:ARM/Rockchip SoC support" <linux-rockchip@lists.infradead.org>, 
-	open list <linux-kernel@vger.kernel.org>, 
-	"open list:USB TYPEC CLASS" <linux-usb@vger.kernel.org>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
 
-Hi Sebastian,
+From: Chaoyi Chen <chaoyi.chen@rock-chips.com>
 
-I am having difficulty articulating my thoughts clearly right now;
-please bear with me as I try to explain.
+The WCH CH334/CH335[0] are USB2.0 protocol compliant 4-port USB HUB
+controller chips, supporting USB2.0 high-speed and full-speed for
+upstream ports, and USB2.0 high-speed 480Mbps, full-speed 12Mbps and
+low-speed 1.5Mbps for downstream ports, supporting not only low-cost STT
+mode (single TT schedules 4 downstream ports in time share), but also
+supports high performance MTT mode (4 TTs each corresponding to 1 port,
+concurrent processing).
 
-On Sat, 10 Jan 2026 at 04:41, Sebastian Reichel
-<sebastian.reichel@collabora.com> wrote:
->
-> Hi,
->
-> On Thu, Jan 08, 2026 at 12:24:50PM +0530, Anand Moon wrote:
-> > Hi Sebastian,
-> >
-> > Thanks for your review comments.
-> >
-> > On Sat, 3 Jan 2026 at 19:23, Sebastian Reichel
-> > <sebastian.reichel@collabora.com> wrote:
-> > >
-> > > Hi,
-> > >
-> > > On Sat, Jan 03, 2026 at 02:01:17PM +0530, Anand Moon wrote:
-> > > > As pre FUSB302 datasheet interrupt line (INT_N) is an open-drain,
-> > > > active-low signal. It requires a pull-up resistor to maintain a sta=
-ble
-> > > > high state when deasserted. Similarly, the TYPEC5V_PWREN_H enable s=
-ignal
-> > > > requires a pull-down resistor to ensure it defaults to a low state,
-> > > > preventing unintended power delivery during the boot sequence.
-> > > >
-> > > > Update the pinctrl entries to use pcfg_pull_up for usbc0_int and
-> > > > pcfg_pull_down for vbus5v0_typec_en to align with the hardware's
-> > > > electrical requirements.
-> > > >
-> > > > Cc: Sebastian Reichel <sebastian.reichel@collabora.com>
-> > > > Fixes: 67b2c15d8fb3 ("arm64: dts: rockchip: add USB-C support for R=
-OCK 5B/5B+/5T")
-> > > > Signed-off-by: Anand Moon <linux.amoon@gmail.com>
-> > > > ---
-> > > > v1: As per the shematics CC_INT_L interrupt pin is GPIO3_B4_u
-> > > >     As per the shematics TYPEC5V_PWREN_H pin is GPIO2_B6_d
-> > > > ---
-> > >
-> > > Checking the schematics:
-> > >
-> > > 5B v1.45 - CC_INT_L - R2613 10K pull-up resistor
-> > > 5B v1.45 - TYPEC5V_PWREN_H - GPIO is effectively unused because R9503=
-5 is NC
-> > >
-> > > 5B+ v1.2 - CC_INT_L - R2613 10K pull-up resistor
-> > > 5B+ v1.2 - TYPEC5V_PWREN_H - R163 100K pull-down resistor
-> > >
-> > > 5T v1.2 - CC_INT_L - R2613 10K pull-up resistor
-> > > 5T v1.2 - TYPEC5V_PWREN_H - R163 100K pull-down resistor
-> > >
-> > CC_INT_L is gpio interrupt pin to enable the I2C read operation.
-> >
-> > As per FUSB302 datasheet, here is the updated version of the commit mes=
-sage
-> >
-> > Configure CC_INT_L as an active-low, open-drain output. Per the hardwar=
-e design,
-> > this pin utilizes an external pull-up and is driven LOW by the Type-C
-> > controller to
-> > signal the processor to perform I2C register reads.
-> >
-> > The TYPEC5V_PWREN_H pull-down resistor is turned on as a signal to
-> > the Type-C regulator, which has an active-enable-high property. In this=
- context,
-> > the regulator is used to set the polarity of the GPIO used to enable or=
- disable
-> > the regulator.
->
-> I don't understand what you want to say here.
+Add a device tree binding for it.
 
-I'm sorry for not being clear here. Well, while investigating the bug crash=
-,
-I was looking for some more details on this issue.
+[0]: https://www.wch-ic.com/downloads/CH334DS1_PDF.html
 
-Here is the datasheet for fuse302. It shares the interrupt pin details
+Signed-off-by: Chaoyi Chen <chaoyi.chen@rock-chips.com>
+---
+ .../devicetree/bindings/usb/wch,ch334.yaml    | 65 +++++++++++++++++++
+ 1 file changed, 65 insertions(+)
+ create mode 100644 Documentation/devicetree/bindings/usb/wch,ch334.yaml
 
-[1} https://www.onsemi.com/download/data-sheet/pdf/fusb302b-d.pdf
+diff --git a/Documentation/devicetree/bindings/usb/wch,ch334.yaml b/Documentation/devicetree/bindings/usb/wch,ch334.yaml
+new file mode 100644
+index 000000000000..2eeb92f25b4c
+--- /dev/null
++++ b/Documentation/devicetree/bindings/usb/wch,ch334.yaml
+@@ -0,0 +1,65 @@
++# SPDX-License-Identifier: GPL-2.0-only OR BSD-2-Clause
++%YAML 1.2
++---
++$id: http://devicetree.org/schemas/usb/wch,ch334.yaml#
++$schema: http://devicetree.org/meta-schemas/core.yaml#
++
++title: WCH CH334/CH335 USB 2.0 Hub Controller
++
++maintainers:
++  - Chaoyi Chen <kernel@airkyi.com>
++
++allOf:
++  - $ref: usb-hub.yaml#
++
++properties:
++  compatible:
++    enum:
++      - usb1a86,8091
++
++  reg: true
++
++  reset-gpios:
++    description: GPIO controlling the RESET# pin.
++
++  vdd-supply:
++    description:
++      The regulator that provides 3.3V core power to the hub.
++
++  vdd2-supply:
++    description:
++      The regulator that provides 3.3V or 5V power to the hub.
++
++  ports:
++    $ref: /schemas/graph.yaml#/properties/ports
++
++    patternProperties:
++      '^port@':
++        $ref: /schemas/graph.yaml#/properties/port
++
++        properties:
++          reg:
++            minimum: 1
++            maximum: 4
++
++required:
++  - compatible
++  - reg
++
++additionalProperties: false
++
++examples:
++  - |
++    #include <dt-bindings/gpio/gpio.h>
++    usb {
++        dr_mode = "host";
++        #address-cells = <1>;
++        #size-cells = <0>;
++
++        hub: hub@1 {
++            compatible = "usb1a86,8091";
++            reg = <1>;
++            reset-gpios = <&gpio0 2 GPIO_ACTIVE_HIGH>;
++            vdd-supply = <&vcc_3v3>;
++        };
++    };
+-- 
+2.51.1
 
-SCL     Input                          I2C serial clock signal to be
-connected to the phone-based I2C master.
-SDA    Open-Drain I/O          I2C serial data signal to be connected
-to the phone-based I2C master
-INT_N Open-Drain Output    Active LOW open drain interrupt output used
-to prompt the processor to
-                                             read the I2C register bits.
->
-> > > TLDR: All GPIOs have pull resistors in discrete hardware and do not
-> > > need them muxed in the SoC.
-> > >
-> > It depends on the GPIO, pinctrl PMU configuration.
->
-> as I try to say it does not depend on pinctrl configuration for any
-> of the GPIOs you are touching. The pull resistors for them exist as
-> components on the board.
->
-I understand this correctly, but these registers utilize a high-to-low
-state change specifically
-to prevent subthreshold leakage current.
-
-Please check the RK3588 Datasheet V0.1-20210727.pdf  (3.4 Electrical
-Characteristics for General IO)
-[2] https://gitlab.com/rock-chips/rk3588/rk3588-doc/-/raw/master/RK3588%20D=
-atasheet%20V0.1-20210727.pdf?ref_type=3Dheads&inline=3Dtrue
-
-> > I was thinking of converting the vbus5v0_typec regulator to 'regulator-=
-gpio.'
-> > to better reflect the hardware schematics. The TYPEC5V_PWREN_H signal
-> > (GPIO2_B6_d) acts as a state controller rather than a simple enable pin=
-,
-> > and this change ensures the device tree aligns with that design
-> >
-> > [1] https://dl.radxa.com/rock5/5b/docs/hw/radxa_rock_5b_v1450_schematic=
-.pdf
-> > (page 28)
-> >
-> > $ git diff arch/arm64/boot/dts/rockchip/rk3588-rock-5b-5bp-5t.dtsi
-> > diff --git a/arch/arm64/boot/dts/rockchip/rk3588-rock-5b-5bp-5t.dtsi
-> > b/arch/arm64/boot/dts/rockchip/rk3588-rock-5b-5bp-5t.dtsi
-> > index 5f58e339a052..387ff009ec76 100644
-> > --- a/arch/arm64/boot/dts/rockchip/rk3588-rock-5b-5bp-5t.dtsi
-> > +++ b/arch/arm64/boot/dts/rockchip/rk3588-rock-5b-5bp-5t.dtsi
-> > @@ -57,9 +57,10 @@ rfkill-bt {
-> >         };
-> >
-> >         vbus5v0_typec: vbus5v0-typec {
-> > -               compatible =3D "regulator-fixed";
-> > +               compatible =3D "regulator-gpio";
-> >                 enable-active-high;
-> > -               gpio =3D <&gpio2 RK_PB6 GPIO_ACTIVE_HIGH>;
-> > +               gpios =3D <&gpio2 RK_PB6 GPIO_ACTIVE_HIGH>;
-> > +               states =3D <5000000 0x1>, <0 0x0>;
-> >                 pinctrl-names =3D "default";
-> >                 pinctrl-0 =3D <&vbus5v0_typec_en>;
-> >                 regulator-name =3D "vbus5v0_typec";
-> >
-> > Could you please try this at your end?
->
-> This is missing gpios-states, but I also see no point in testing
-> that. Having one state as 0 effectively means this is a complicated
-> version of regulator-fixed. The switch from "gpio" to "gpios" is
-> valid though, since "gpio" is deprecated.
->
-Typically, a regulator-fixed GPIO input pin is used as EN to enable
-the regulator.
-
-However, in this case, TYPEC5V_PWREN_H is being used to signal on/off
-to the FUSB302.
-As the GPIO-controlled interrupt pin is used to enable or disable i2C
-controller.
-This is the reason I want to switch from regulator-fixed to regulator-gpio.
-ok I will add gpios-states=3D <1>;
-
-That=E2=80=99s why I requested these changes to be reviewed and tested.
-
-[2] https://github.com/torvalds/linux/blob/master/Documentation/devicetree/=
-bindings/regulator/gpio-regulator.yaml
-
-Please let me know if these adjustments are incorrect; if so, we can
-discard them.
-Currently, I'm not making the desired progress.
-
-> Greetings,
->
-> -- Sebastian
-Thanks
--Anand
-> _______________________________________________
-> Linux-rockchip mailing list
-> Linux-rockchip@lists.infradead.org
-> http://lists.infradead.org/mailman/listinfo/linux-rockchip
