@@ -1,35 +1,35 @@
-Received: from smtpbg150.qq.com (smtpbg150.qq.com [18.132.163.193])
+Received: from smtpbg154.qq.com (smtpbg154.qq.com [15.184.224.54])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EE5D73815E6;
-	Tue, 13 Jan 2026 09:59:10 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=18.132.163.193
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 50098389DE9;
+	Tue, 13 Jan 2026 09:59:23 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=15.184.224.54
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1768298354; cv=none; b=ioApoJdz6QfFv6CJEiqFNSmpGN/Hs/I9vtu48lgczncP/9dA0nYSSYW6f6obDtohFyrvNIs8InnaFBTAuyps00fJBw2EsmRJ5Iz1Hk2R8Bk+pD1xkMWpA52gf/nED5Uduijhn1XTL5Zqe2up3jd8r4fTEPtuwdQHqdNE3E6qMsE=
+	t=1768298374; cv=none; b=j/dovn83jcIYhQV7i3aUY5+itVgaZU2/UiHsn/ZA8yGfx053wyAUzDFpnPC+Ozh0qWDvt03t+IB5r/KmNmumUHc7Y9vUkPD6SPUhtcozVzHnPgNhrXhTBFRcIm24xu3sxq0BVdr8eW921d+xYNwLK5INy9iVpVzmenb2G3zRLCI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1768298354; c=relaxed/simple;
-	bh=L65M+7Z+spe/sZcMn6cUcnXCT/+UARmucheHIATP9PM=;
-	h=From:To:Cc:Subject:Date:Message-Id; b=W3SRQtn1cIJFt+jGdmYnOVr4oFjbR9faWh8N4UlXDdMc3xArlqKqyGwQUvnaYo+IFx0KBTIpy82li9yXSUKjDsj4Btzvwos3m9zMXc18rBRt2+XPw4POcFfA8WsOVDhuP4tC8i/p0hGaLr0Mm1/wfBCbucDOZyApjFh0f73LQr0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=airkyi.com; spf=pass smtp.mailfrom=airkyi.com; dkim=pass (1024-bit key) header.d=airkyi.com header.i=@airkyi.com header.b=Mnbzhntf; arc=none smtp.client-ip=18.132.163.193
+	s=arc-20240116; t=1768298374; c=relaxed/simple;
+	bh=bT1uQ9drhXxmD/GhPOeu6ouOD2VsmqIIY1NfWguUaJE=;
+	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References; b=doYefulyeM64NLnpDhufRCeJCYL/Nx5N6qTqblk4v62sykCHvwuFPu4sJiQBR0d++r7SHiYYlPKxoRpCm0ozSjLIV1KH/8qECCEg7/AwEW/blAfQBypW5C3jZPi1EikQR90UNtFrxXymnq1/ygOJrt6tAz9WKzwsNbrNs9fNgH0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=airkyi.com; spf=pass smtp.mailfrom=airkyi.com; dkim=pass (1024-bit key) header.d=airkyi.com header.i=@airkyi.com header.b=tpsd08T3; arc=none smtp.client-ip=15.184.224.54
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=airkyi.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=airkyi.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=airkyi.com header.i=@airkyi.com header.b="Mnbzhntf"
+	dkim=pass (1024-bit key) header.d=airkyi.com header.i=@airkyi.com header.b="tpsd08T3"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=airkyi.com;
-	s=altu2504; t=1768298324;
-	bh=mUDgtWuMRKlj6wkMa6HuaRZdURpIO9pXWkSgV4HSZrM=;
+	s=altu2504; t=1768298331;
+	bh=n14gJw1sUD9px9VDJGiSaecDAuTmIrzgbdKTpKKj2bY=;
 	h=From:To:Subject:Date:Message-Id;
-	b=MnbzhntfZYus3jJPMY2gnRQBO73IUCfrEIZUf2fQRlXBbXR3c8MVKNNGmxVuMsyrh
-	 L19fDDHJmvFcPhpnV5b/iAR6v9ML227qBV//gyFZeo6H1nKeleu55dvdEJ1FCLhjvl
-	 hq2LoqXL7KXBu0aBVRN2oFFscDwFZP12k2G/kTHo=
-X-QQ-mid: zesmtpgz5t1768298316t1d4bc7f7
-X-QQ-Originating-IP: lNw7JOveck1k1bw0GGhe7u4FIa4U2S8jHCjQ3As8Ols=
+	b=tpsd08T3hKcySI0Umw38xBCiKMGl80xlOlfJiKTTkPMYiFm0KEN0YuHooLrn1OjAX
+	 fl3XEZqpC0awKOENrSGc0d+/WAE5C3mzN5HIJ25KjZ+VROYD0L4g4UdJZ8lbFKcWqB
+	 l9DnLpr+KcgUwGVrU3UHkM5JVEHdiZ9I9mWfTWUM=
+X-QQ-mid: zesmtpgz5t1768298326t250b0fe2
+X-QQ-Originating-IP: 4rFH5EMm2c5Q2EwqWXxYK5bMdKCpUec8lIl4fJysJJk=
 Received: from DESKTOP-8BT1A2O.localdomain ( [58.22.7.114])
 	by bizesmtp.qq.com (ESMTP) with 
-	id ; Tue, 13 Jan 2026 17:58:34 +0800 (CST)
+	id ; Tue, 13 Jan 2026 17:58:43 +0800 (CST)
 X-QQ-SSF: 0000000000000000000000000000000
 X-QQ-GoodBg: 0
-X-BIZMAIL-ID: 7161545627503197472
+X-BIZMAIL-ID: 2202216565104918497
 From: Chaoyi Chen <kernel@airkyi.com>
 To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
 	Rob Herring <robh@kernel.org>,
@@ -47,28 +47,30 @@ Cc: linux-usb@vger.kernel.org,
 	devicetree@vger.kernel.org,
 	linux-kernel@vger.kernel.org,
 	Chaoyi Chen <chaoyi.chen@rock-chips.com>
-Subject: [PATCH v2 0/2] usb: misc: onboard_dev: Add WCH CH334 USB2.0 Hub (1a86:8091)
-Date: Tue, 13 Jan 2026 17:58:25 +0800
-Message-Id: <20260113095827.115-1-kernel@airkyi.com>
+Subject: [PATCH v2 2/2] usb: misc: onboard_dev: Add WCH CH334 USB2.0 Hub (1a86:8091)
+Date: Tue, 13 Jan 2026 17:58:27 +0800
+Message-Id: <20260113095827.115-3-kernel@airkyi.com>
 X-Mailer: git-send-email 2.17.1
+In-Reply-To: <20260113095827.115-1-kernel@airkyi.com>
+References: <20260113095827.115-1-kernel@airkyi.com>
 X-QQ-SENDSIZE: 520
 Feedback-ID: zesmtpgz:airkyi.com:qybglogicsvrgz:qybglogicsvrgz6b-0
-X-QQ-XMAILINFO: MxdW4jxL6NvXQoGjJXfegqasCpNM/AnCRvrlI0oNG5deYMD6/7LhOh0F
-	e+UbXWTGZLUMzkB7gUa3XVbDFbC082eJQObnWr6mWTklkODZuPSnsy8guTiSCHdXeCllIAj
-	eO6kSjri0jYSGlWHwO8EtIdadSGj5QwnBVcKmLogj97AoDr4Whl8nIGeZ5jX0IXT8MKuCjM
-	VyhNjhPRUGsjgsV8D0iVwkVmj4NIROHYF9vQjkWlyFMTBPENam9tJDXMm8JNCVDZ/zwE2NK
-	1w6A/UIbdIHLRFBBeS432gePUqEHE5L9ypXeoY5wsl5O3Rj1mu/64LVIxGAynQJW00XZ4Xt
-	U8K/CQeLBJ91NShmgMO8fxttQJwR4umHBeEK0qg6EY5hbmp15Rkd95l16PvA6s+7wehe4+W
-	o5i7ZVtuMckbeIJhvzJo5qIgMsrVtozhfHYcvQN4FcCv7uH4cxqoLWGBUoT3UNj9cwQTF/o
-	EFZ/IEz6c4douVFwTLUSlr+cndgWifrTh+lPdKnXCxKs166FwzzkoQaeCkS3KgOcvU0+hHS
-	CFP6tuaXZp1MrTBjSYFVsxOr92YlAEOqAYIALupVS2afRstqdgJ2nl1j/qj7NESTIpCORpy
-	XooPRHdWpXPA9uKGCkB7vgkI0cxSgm6MFo1yuDJ32YQCysjJJjc4M0eh1xKkb+RR/O2r4jx
-	//9RtWYZGRbVrxnOVZmB6h1S/NE7cBfHsGGiMousC1vOllNjtOSljQef1cPWvZHYpdAvVcO
-	IbA6YUGU6NS7rugozAygzcxN2NI6rOappynsimn5l9bbBFGSaXuPjS8hkUb1vJHwgU2jJbq
-	sCAruZH6EfNhSvokUV8vZQF1vxa+QPzyRBUEX6z/pHwhLlq9ju7yZb4RLKRZYvLuR/rHwxH
-	Ex8Fav72SzQwc9lR1mu9fhFJSLEMpvtNdc0VDFcLBH1VoVjhgXb5OhLNKHrPSYrNcLkrjBA
-	Fzfz+xXxH/Ai2Qs0gnDlpycTBQa96Yp3QURystXEIVP1AG41RlD0hhYmFVO/TIuEvwQaonL
-	hAfQl/AQ==
+X-QQ-XMAILINFO: N6FMNTMYeW5JiJ0bknrkSl8L/bzD4OTla3AdjSztrvM8WyXXhntjO85y
+	7lcQASPKTPrmOPcTjV50RIscNIPPfEAZPypDKZatgP2WVVo6KNbSbKVBYW0TJ0d+nSqij9F
+	f8kCBSiflUPL0WLobBFJ3Zz3taiZ3HRVKz3WzYUSnpchzor3UpGAsQ5b5EohlpeJ+c0cCy0
+	aPol1e0+wyjGLUkjmx0bPzA9etd0S8iW5eRjmr+asLAn7zciRB6MgrCDqTCuGjFCVs4I9Ho
+	lNI+YUmkRzYfHOmch3WlFuLDYyBL4sIsJ3gDFwk8SBrtFF7uera6Fy6iN0ndzGWF4ZiJhOm
+	CGqWim1qOEXxWTH/kKizLRegQjd3TCBnYtdh5UbKNbQp/LRfEaHX+NNZIfIfddYwwAMxFez
+	avGixtw7lBH8zBOj/gPsjwlNSY/ODnStdK6Y/QphCcuPM04356FDyV/ARlzgBbb0vkbrwvb
+	KB9T1SodQ1V+DFNM0XymoxdzAHweWctGMId/OjuL/KD/CBlWwDRasJA+8+uernuEYYSgcGK
+	IRo5kfGGU85V/ddmTTG8AEtCytj21zFhQA8WzQLJO6mpKkW81EVPuCAN+Fos1iLcLJDvMBr
+	AywL0z+rnPqzyYEjXi8s38gKiYf5G4BwlknsxSUOeBYfD3CLETzQYi0lDP2tq0jBksh0Pzw
+	Yh8YUQ4viZpp2Oi0KWsNaaTr5zPXWCd5qx53XnhghZmJ3npk1ruRWHiz/+iZ//QUgJtVNVe
+	VW8rdyVJHlGkuuTU1/BTwz6wkGs+xkRXSKWvIsIGfnMWbdyKWprnLYeR19hQJer4A1cKtmR
+	l1+qC8e5T/cLa2Z8+djhk1yJFXRCZsU8n8LChGlIJcnQFzZ5XCJTI+gcdKyosBe7x+0mqxF
+	S5yUlHMNYWDCDXr7L4udNI95D8lfbGJEeBcEyTzFvjPt52msxHXC9qBQqlaoCDPYkCWg3Cg
+	H9WaTU/lyaVHa7w8b1c6YBBqh4xF8VD5OTGbWzJ0ZIrZY4kk/ehrVGDDYgAh3BIrxxlUQX3
+	WAqmCirABmS5i2vCbtrYBU6cFV078=
 X-QQ-XMRINFO: MSVp+SPm3vtSI1QTLgDHQqIV1w2oNKDqfg==
 X-QQ-RECHKSPAM: 0
 Precedence: bulk
@@ -79,25 +81,47 @@ List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 
 From: Chaoyi Chen <chaoyi.chen@rock-chips.com>
 
-Hi,
+The WCH CH334/CH335[0] are USB2.0 protocol compliant 4-port USB HUB
+controller chips, supporting USB2.0 high-speed and full-speed for
+upstream ports, and USB2.0 high-speed 480Mbps, full-speed 12Mbps and
+low-speed 1.5Mbps for downstream ports, supporting not only low-cost STT
+mode (single TT schedules 4 downstream ports in time share), but also
+supports high performance MTT mode (4 TTs each corresponding to 1 port,
+concurrent processing).
 
-This series add support for WCH CH334/CH335 USB2.0 Hub (1a86:8091).
+[0]: https://www.wch-ic.com/downloads/CH334DS1_PDF.html
 
-Changes in v2:
-- Link to v1: https://lore.kernel.org/all/20260112022823.91-2-kernel@airkyi.com/
-- Add missing driver (PATCH 2).
-- Fix the incorrect reset GPIO polarity.
-- Use a more meaningful supply name.
+Signed-off-by: Chaoyi Chen <chaoyi.chen@rock-chips.com>
+---
+ drivers/usb/misc/onboard_usb_dev.h | 8 ++++++++
+ 1 file changed, 8 insertions(+)
 
-Chaoyi Chen (2):
-  dt-bindings: usb: Add binding for WCH CH334/CH335 hub controller
-  usb: misc: onboard_dev: Add WCH CH334 USB2.0 Hub (1a86:8091)
-
- .../devicetree/bindings/usb/wch,ch334.yaml    | 65 +++++++++++++++++++
- drivers/usb/misc/onboard_usb_dev.h            |  8 +++
- 2 files changed, 73 insertions(+)
- create mode 100644 Documentation/devicetree/bindings/usb/wch,ch334.yaml
-
---
+diff --git a/drivers/usb/misc/onboard_usb_dev.h b/drivers/usb/misc/onboard_usb_dev.h
+index c1462be5526d..1a1e86e60e04 100644
+--- a/drivers/usb/misc/onboard_usb_dev.h
++++ b/drivers/usb/misc/onboard_usb_dev.h
+@@ -115,6 +115,13 @@ static const struct onboard_dev_pdata vialab_vl817_data = {
+ 	.is_hub = true,
+ };
+ 
++static const struct onboard_dev_pdata wch_ch334_data = {
++	.reset_us = 14000,
++	.num_supplies = 2,
++	.supply_names = { "vdd33", "v5" },
++	.is_hub = true,
++};
++
+ static const struct onboard_dev_pdata xmos_xvf3500_data = {
+ 	.reset_us = 1,
+ 	.num_supplies = 2,
+@@ -146,6 +153,7 @@ static const struct of_device_id onboard_dev_match[] = {
+ 	{ .compatible = "usbbda,5411", .data = &realtek_rts5411_data, },
+ 	{ .compatible = "usbbda,414", .data = &realtek_rts5411_data, },
+ 	{ .compatible = "usbbda,5414", .data = &realtek_rts5411_data, },
++	{ .compatible = "usb1a86,8091", .data = &wch_ch334_data, },
+ 	{ .compatible = "usb1da0,5511", .data = &parade_ps5511_data, },
+ 	{ .compatible = "usb1da0,55a1", .data = &parade_ps5511_data, },
+ 	{ .compatible = "usb2109,817", .data = &vialab_vl817_data, },
+-- 
 2.51.1
 
