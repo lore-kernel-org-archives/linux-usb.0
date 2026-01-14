@@ -1,195 +1,168 @@
-Received: from dispatch1-us1.ppe-hosted.com (dispatch1-us1.ppe-hosted.com [67.231.154.184])
+Received: from mail-lj1-f180.google.com (mail-lj1-f180.google.com [209.85.208.180])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0E826322C99;
-	Wed, 14 Jan 2026 17:51:54 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=67.231.154.184
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2937C303A18
+	for <linux-usb@vger.kernel.org>; Wed, 14 Jan 2026 18:40:37 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.180
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1768413116; cv=none; b=iKtxCaoBXG2oZ1ZAf2DO3nKS13K8QgtUS2ZfIpGwBwKIXR+NFSADYAbr32vnoj58+HYyZRU5XG7eIiS7+qF938GXTXwd4gQ9MiRfYz3y0vMhNI93KHqfJIVV12GA0qiEruVauH+383hPL/FolVOAyU69wqAqw7Oq/MFXX/qTxQA=
+	t=1768416039; cv=none; b=l5cGzjZu/3UF6dhBWs3hYhI0mzPnOjx4JfB7ZIVoAf9VIBWsRd6/dKXdKJyNxkoA8eIfh/i0xQJbXpCcMQbcPVzQxZ4L7GyZ24LbsaPBhq1FvmmZBEvUTndweibAabiA5HS+3eKj+iKvgonwPuzgdt60IEXPBhXQueOlz/j4lzo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1768413116; c=relaxed/simple;
-	bh=l0sdcZvhEfKLiz2XzP7r6RfxfyyeHUxPt+GghWyCyY8=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=O0rNrskJaAuAWCj/DWQvv+If0LdKdo1BmABs2MESgPUBJY3+iA4oev45fhalP23Agay42mmIqdZP+zjGQx4zf+bq8awnuuIJrIWwFI7Rh7GHs0kyp40zEiNETdPV1zUAd7WVF+oD1tC1lEBRz0sP+RXhllPzY8yxCk1nUvR1F9U=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=candelatech.com; spf=pass smtp.mailfrom=candelatech.com; dkim=pass (1024-bit key) header.d=candelatech.com header.i=@candelatech.com header.b=j6dKobtk; arc=none smtp.client-ip=67.231.154.184
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=candelatech.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=candelatech.com
+	s=arc-20240116; t=1768416039; c=relaxed/simple;
+	bh=gIkLV+3FI+9dZKIY8vmxAnUjUtjc/p76UJ4h1b/KoXo=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=mfLh876TgnC9pXSRZxPomj0Ky5Ox+DnRA10TBLN5VbqjWLTmEaw8EZSZvHQ6cUuGyniJWsZF/aARtWM39KeKMrc/B5k5SVzsKYW0Zk831gqFeIEsosHkvpxbFwmWxgVpmni774cM5aq2NwxWjrT5dAUIsH2OaXbCfUK62gsNVgc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=debian.org; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=k9uKoYII; arc=none smtp.client-ip=209.85.208.180
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=debian.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=candelatech.com header.i=@candelatech.com header.b="j6dKobtk"
-X-Virus-Scanned: Proofpoint Essentials engine
-Received: from mail3.candelatech.com (mail.candelatech.com [208.74.158.173])
-	by mx1-us1.ppe-hosted.com (PPE Hosted ESMTP Server) with ESMTP id 29DF2180070;
-	Wed, 14 Jan 2026 17:51:52 +0000 (UTC)
-Received: from [192.168.100.159] (firewall.candelatech.com [50.251.239.81])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
-	(No client certificate requested)
-	by mail3.candelatech.com (Postfix) with ESMTPSA id C689C13C2B0;
-	Wed, 14 Jan 2026 09:51:48 -0800 (PST)
-DKIM-Filter: OpenDKIM Filter v2.11.0 mail3.candelatech.com C689C13C2B0
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=candelatech.com;
-	s=default; t=1768413108;
-	bh=l0sdcZvhEfKLiz2XzP7r6RfxfyyeHUxPt+GghWyCyY8=;
-	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-	b=j6dKobtkl7hx+0q0Oe/cOvCqgszlqTYAl5PZPnl6rgtLRPsKEcXQcd10sLmXab18R
-	 rK/7hFATvOy3UFAYXvyIBJ58TzF7j4sLTkzzPxWc3PHTZ5Mzxu7amBv80bRzc2aOyL
-	 I0jskROWh1cDr+v0t0qnIB2UhNVVSnvd2NBWLrWU=
-Message-ID: <a721a966-0a4b-cbc4-71ac-a482156ffa48@candelatech.com>
-Date: Wed, 14 Jan 2026 09:51:48 -0800
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="k9uKoYII"
+Received: by mail-lj1-f180.google.com with SMTP id 38308e7fff4ca-382fa0dc9f4so936411fa.3
+        for <linux-usb@vger.kernel.org>; Wed, 14 Jan 2026 10:40:37 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1768416036; x=1769020836; darn=vger.kernel.org;
+        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
+         :sender:from:to:cc:subject:date:message-id:reply-to;
+        bh=lBn8g7AHhTvzdGXVwrOL6JsNt3dO9sitmYqcNNqbO8k=;
+        b=k9uKoYIITpgpgRPY2HKPQ7pWmAv6NvTNAP1wxJkDtEalxC3Hao8maMh/hPz6xuc1If
+         5HA6WxEo4fAv9sjpZpFoSAyRk9NVvvyJkKNCWRxhkD8nBGqpDm3YJcaOodYxO7ZNHqco
+         orBe+Qni3HWnnPyoPy7rN9KsndDNoZyuLpK4G5NjR4jG+BhQCUG5eKH34hZlIAqifYXL
+         UdrXc9MGKAiKcE9sSe2uZxqOhQSTS8G896CTsg0sSZwg2c11IG5q+gFXBQRBw2gwg7Jd
+         9yI/lFw+WidCzS3Xah/MjxfAoKrYacU0LfOQx58YCsJUDO+fJlE+nFox39E92gQTjKZy
+         4AYA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1768416036; x=1769020836;
+        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
+         :sender:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=lBn8g7AHhTvzdGXVwrOL6JsNt3dO9sitmYqcNNqbO8k=;
+        b=Xq44r0Os24BA9NtNgaGjThNWAfxVbXZ5IZwXI3nTbUutuOB/kNCQjxOAV6EOCQgN3E
+         CMfIksKe9d1kSgnYdQRc97YleyXSOa2ARsf+OVDnO8daBL34KGbcWNfr/zliDGJRkrK8
+         Xx9mci/tz7dQEd4a4dcaaJYJMdnq0b4j6TRuuiBMoYnTnTIrni8GUuNebHJF7uSgrrKL
+         VIyGZrrVpybnylRSPlzv1759mQQzycO8TejVyf0HQ/CoOnC5fY9wk7lZDl7LinbNvewS
+         IS9w8xELCpqMyIw0nD4cQGmn3xdl/w/fh1oRGtQ0/D0foxiXUKA1vAG4oLIlP/PtO4If
+         3x5Q==
+X-Gm-Message-State: AOJu0YxByluNTqiairl8eg/dPL+k61i6W2Zz8ZMl3beyjvyG5xvRL0Fn
+	YC0xz5/lRDfShwId+Mbp+ENontlreoDvtgvpel8bScLDAdyZyzCe6ZkScK7dzsgrEYA=
+X-Gm-Gg: AY/fxX4qmUijhTqQmn1v6xTk1Iv00E+KDVL/8GMrpnACFNG0LBhUU53DkXfcW+75C0u
+	hv0kbZz4zeC3zpdnMdE/yjkeScg6lBmvr7iLTPB7CYKeuGliYDxKnRS7VwvwqAJRjcuRyzNSSGi
+	XL/8hy0KQi2/0C7XUFXu8DQkL4o27EjrNgng7gVU3F4CadAi0RacNJr14qxnt8LRP5KJfp00A/O
+	A/eVlsaF2+fwDuEgD8nxhrclybfYWVNfNctxJoTySYc3BvhzECZ/nbhADsEsXDHcjGL8rXkUYTA
+	M8Tgxw5hLBNjdv3RKUdweEKlL+2PY3YKOOmD9GPbALKoWnXGHXOfTveLBbsBRTKk54NvcmKkzWi
+	34emt1easRZU1P/o9n957Nh0fKO53kBYQ6qggfP2DnuHJbl4ch8O6hq9WAqHrrzARzwJ2fIwWR0
+	x2veGZUdswCfrN3gI/QXRwX1mCJeguEiuPVyUpH5aj1hAg
+X-Received: by 2002:a05:600c:1c20:b0:47e:e712:aa88 with SMTP id 5b1f17b1804b1-47ee712ac96mr1739685e9.31.1768409936259;
+        Wed, 14 Jan 2026 08:58:56 -0800 (PST)
+Received: from eldamar.lan (c-82-192-244-13.customer.ggaweb.ch. [82.192.244.13])
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-47f428f1ba7sm1108765e9.15.2026.01.14.08.58.55
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 14 Jan 2026 08:58:55 -0800 (PST)
+Sender: Salvatore Bonaccorso <salvatore.bonaccorso@gmail.com>
+Received: by eldamar.lan (Postfix, from userid 1000)
+	id 39487BE2EE7; Wed, 14 Jan 2026 17:58:54 +0100 (CET)
+Date: Wed, 14 Jan 2026 17:58:54 +0100
+From: Salvatore Bonaccorso <carnil@debian.org>
+To: Heikki Krogerus <heikki.krogerus@linux.intel.com>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>, pdormeau@free.fr
+Cc: linux-usb@vger.kernel.org, linux-kernel@vger.kernel.org,
+	1123987@bugs.debian.org
+Subject: UBSAN: array-index-out-of-bounds in
+ [...]drivers/usb/typec/ucsi/ucsi.c:605:12: index 2 is out of range for type
+ 'ucsi_altmode [2]'
+Message-ID: <176840984804.2144647.10736984532804520381@eldamar.lan>
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.15.1
-Subject: Re: Deadlock in usb subsystem on shutdown, 6.18.3+
-To: Alan Stern <stern@rowland.harvard.edu>
-Cc: Hillf Danton <hdanton@sina.com>, LKML <linux-kernel@vger.kernel.org>,
- linux-usb@vger.kernel.org
-References: <20260114024506.2210-1-hdanton@sina.com>
- <dae8dc09-0e06-446a-b6dd-4c86ec423997@candelatech.com>
- <c52546af-e39e-4096-ad11-9b38bb2d5f7e@rowland.harvard.edu>
-Content-Language: en-US
-From: Ben Greear <greearb@candelatech.com>
-Organization: Candela Technologies
-In-Reply-To: <c52546af-e39e-4096-ad11-9b38bb2d5f7e@rowland.harvard.edu>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-X-MDID: 1768413113-5Yzp3cLHAHhY
-X-PPE-STACK: {"stack":"us5"}
-X-MDID-O:
- us5;at1;1768413113;5Yzp3cLHAHhY;<greearb@candelatech.com>;ee17c9fd100a35a17eab89642fd6028b
-X-PPE-TRUSTED: V=1;DIR=OUT;
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
-On 1/14/26 07:13, Alan Stern wrote:
-> On Wed, Jan 14, 2026 at 06:36:41AM -0800, Ben Greear wrote:
->> On 1/13/26 18:45, Hillf Danton wrote:
->>> On Tue, 13 Jan 2026 16:21:07 -0800 Ben Greear wrote:
->>>> Hello,
->>>>
->>>> We caught a deadlock that appears to be in the USB code during shutdown.
->>>> We do a lot of reboots and normally all goes well, so I don't think we
->>>> can reliably reproduce the problem.
->>>>
->>>> INFO: task systemd-shutdow:1 blocked for more than 180 seconds.
->>>>          Tainted: G S         O        6.18.3+ #33
->>>> "echo 0 > /proc/sys/kernel/hung_task_timeout_secs" disables this message.
->>>> task:systemd-shutdow state:D stack:0     pid:1     tgid:1     ppid:0      task_flags:0x400100 flags:0x00080001
->>>> Call Trace:
->>>>     <TASK>
->>>>     __schedule+0x46b/0x1140
->>>>     schedule+0x23/0xc0
->>>>     schedule_preempt_disabled+0x11/0x20
->>>>     __mutex_lock.constprop.0+0x4f7/0x9a0
->>>>     device_shutdown+0xa0/0x220
->>>>     kernel_restart+0x36/0x90
->>>>     __do_sys_reboot+0x127/0x220
->>>>     ? do_writev+0x76/0x110
->>>>     ? do_writev+0x76/0x110
->>>>     do_syscall_64+0x50/0x6d0
->>>>     entry_SYSCALL_64_after_hwframe+0x4b/0x53
->>>> RIP: 0033:0x7fad03531087
->>>> RSP: 002b:00007ffe137cf918 EFLAGS: 00000246 ORIG_RAX: 00000000000000a9
->>>> RAX: ffffffffffffffda RBX: 0000000000000000 RCX: 00007fad03531087
->>>> RDX: 0000000001234567 RSI: 0000000028121969 RDI: 00000000fee1dead
->>>> RBP: 00007ffe137cfac0 R08: 0000000000000069 R09: 0000000000000000
->>>> R10: 0000000000000000 R11: 0000000000000246 R12: 0000000000000000
->>>> R13: 0000000000000000 R14: 0000000000000000 R15: 0000000000000000
->>>>     </TASK>
->>>> INFO: task systemd-shutdow:1 is blocked on a mutex likely owned by task kworker/4:1:16648.
->>>
->>> This explains why the shutdown stalled.
->>>
->>>> INFO: task kworker/4:2:1520 blocked for more than 360 seconds.
->>>>          Tainted: G S         O        6.18.3+ #33
->>>> "echo 0 > /proc/sys/kernel/hung_task_timeout_secs" disables this message.
->>>> task:kworker/4:2     state:D stack:0     pid:1520  tgid:1520  ppid:2      task_flags:0x4288060 flags:0x00080000
->>>> Workqueue: events __usb_queue_reset_device
->>>> Call Trace:
->>>>     <TASK>
->>>>     __schedule+0x46b/0x1140
->>>>     ? schedule_timeout+0x79/0xf0
->>>>     schedule+0x23/0xc0
->>>>     usb_kill_urb+0x7b/0xc0
->>>>     ? housekeeping_affine+0x30/0x30
->>>>     usb_start_wait_urb+0xd6/0x160
->>>>     usb_control_msg+0xe2/0x140
->>>>     hub_port_init+0x647/0xf70
->>>>     usb_reset_and_verify_device+0x191/0x4a0
->>>>     ? device_release_driver_internal+0x4a/0x200
->>>>     usb_reset_device+0x138/0x280
->>>>     __usb_queue_reset_device+0x35/0x50
->>>>     process_one_work+0x17e/0x390
->>>>     worker_thread+0x2c8/0x3e0
->>>>     ? process_one_work+0x390/0x390
->>>>     kthread+0xf7/0x1f0
->>>>     ? kthreads_online_cpu+0x100/0x100
->>>>     ? kthreads_online_cpu+0x100/0x100
->>>>     ret_from_fork+0x114/0x140
->>>>     ? kthreads_online_cpu+0x100/0x100
->>>>     ret_from_fork_asm+0x11/0x20
->>>>     </TASK>
->>>> INFO: task kworker/4:1:16648 blocked for more than 360 seconds.
->>>>          Tainted: G S         O        6.18.3+ #33
->>>> "echo 0 > /proc/sys/kernel/hung_task_timeout_secs" disables this message.
->>>> task:kworker/4:1     state:D stack:0     pid:16648 tgid:16648 ppid:2      task_flags:0x4288060 flags:0x00080000
->>>> Workqueue: events __usb_queue_reset_device
->>>> Call Trace:
->>>>     <TASK>
->>>>     __schedule+0x46b/0x1140
->>>>     schedule+0x23/0xc0
->>>>     usb_kill_urb+0x7b/0xc0
->>>
->>> Kworker failed to kill urb within 300 seconds, so we know the underlying usb
->>> hardware failed to response within 300s.
->>>
->>> That said, the deadlock in the subject line is incorrect, but task hung due
->>> to hardware glitch.
-> 
-> In fact, we do not know whether this was a hardware glitch or a software
-> bug.
-> 
->> In the case where hardware is not responding, shouldn't we just consider it
->> dead and move on instead of deadlocking the whole OS?
->>
->> In this case, the system was un-plugged from a KVM (usb mouse & keyboard)
->> right around time of shutdown, so I guess that would explain why the USB device
->> didn't respond.
-> 
-> You misunderstand.  What's failing is the USB host controller on the
-> computer, not the attached (or unplugged) USB device.  If the host
-> controller really had a hardware glitch then the host controller driver
-> should have realized it and moved on.  It seems to me at least as likely
-> that the problem is caused by a bug in the host controller driver rather
-> than anything wrong with the hardware.
-> 
-> (Of course, it could be a combination of things going wrong: a glitch in
-> the hardware that the driver wasn't expecting and is unable to cope
-> with.  But even in that case, the proper solution would be to fix the
-> driver since we can't fix the hardware.)
-> 
-> Unfortunately, we have no to tell from the log you collected which host
-> controller driver encountered this problem.  Nor, unless you can
-> replicate the problem, any way to track down exactly where in that
-> driver the bug is -- or even any way to tell whether a proposed fix
-> actually solves the problem.
-> 
-> Alan Stern
+Control: forwarded -1 https://lore.kernel.org/lkml/176840984804.2144647.10736984532804520381@eldamar.lan
+Hi
 
-The system was in the final stage of shutdown, so all we have in this case is serial
-console output.  If we set console to more verbose mode, would that provide what
-you need?
+Pascal reported in Debian in https://bugs.debian.org/1123987 a problem
+catched by UBSAN in drivers/usb/typec/ucsi/ucsi.c:
 
-Or maybe 'dmesg' from when system boots?
+[  +1,022859] ------------[ cut here ]------------
+[  +0,000008] UBSAN: array-index-out-of-bounds in /build/reproducible-path/linux-6.17.13/drivers/usb/typec/ucsi/ucsi.c:605:12
+[  +0,001186] index 2 is out of range for type 'ucsi_altmode [2]'
+[  +0,000578] CPU: 10 UID: 0 PID: 275 Comm: kworker/10:1 Not tainted 6.17.13+deb14-amd64 #1 PREEMPT(lazy)  Debian 6.17.13-1
+[  +0,000005] Hardware name: LENOVO 83J3/LNVNB161216, BIOS PYCN30WW 11/17/2025
+[  +0,000002] Workqueue: events_long ucsi_init_work [typec_ucsi]
+[  +0,000010] Call Trace:
+[  +0,000003]  <TASK>
+[  +0,000003]  dump_stack_lvl+0x5d/0x80
+[  +0,000007]  ubsan_epilogue+0x5/0x2b
+[  +0,000005]  __ubsan_handle_out_of_bounds.cold+0x54/0x59
+[  +0,000007]  ucsi_register_altmodes+0x214/0x250 [typec_ucsi]
+[  +0,000007]  ucsi_check_altmodes+0x1b/0xa0 [typec_ucsi]
+[  +0,000004]  ucsi_init_work+0x919/0x9b0 [typec_ucsi]
+[  +0,000005]  process_one_work+0x192/0x350
+[  +0,000006]  worker_thread+0x25a/0x3a0
+[  +0,000004]  ? __pfx_worker_thread+0x10/0x10
+[  +0,000003]  kthread+0xfc/0x240
+[  +0,000003]  ? __pfx_kthread+0x10/0x10
+[  +0,000002]  ? __pfx_kthread+0x10/0x10
+[  +0,000002]  ret_from_fork+0x197/0x1c0
+[  +0,000005]  ? __pfx_kthread+0x10/0x10
+[  +0,000002]  ret_from_fork_asm+0x1a/0x30
+[  +0,000008]  </TASK>
+[  +0,000001] ---[ end trace ]---
+[  +0,000006] ------------[ cut here ]------------
+[  +0,000002] UBSAN: array-index-out-of-bounds in /build/reproducible-path/linux-6.17.13/drivers/usb/typec/ucsi/ucsi.c:609:18
+[  +0,000579] index 2 is out of range for type 'ucsi_altmode [2]'
+[  +0,000562] CPU: 10 UID: 0 PID: 275 Comm: kworker/10:1 Not tainted 6.17.13+deb14-amd64 #1 PREEMPT(lazy)  Debian 6.17.13-1
+[  +0,000003] Hardware name: LENOVO 83J3/LNVNB161216, BIOS PYCN30WW 11/17/2025
+[  +0,000001] Workqueue: events_long ucsi_init_work [typec_ucsi]
+[  +0,000005] Call Trace:
+[  +0,000001]  <TASK>
+[  +0,000001]  dump_stack_lvl+0x5d/0x80
+[  +0,000004]  ubsan_epilogue+0x5/0x2b
+[  +0,000003]  __ubsan_handle_out_of_bounds.cold+0x54/0x59
+[  +0,000005]  ucsi_register_altmodes+0x233/0x250 [typec_ucsi]
+[  +0,000006]  ucsi_check_altmodes+0x1b/0xa0 [typec_ucsi]
+[  +0,000004]  ucsi_init_work+0x919/0x9b0 [typec_ucsi]
+[  +0,000005]  process_one_work+0x192/0x350
+[  +0,000004]  worker_thread+0x25a/0x3a0
+[  +0,000004]  ? __pfx_worker_thread+0x10/0x10
+[  +0,000003]  kthread+0xfc/0x240
+[  +0,000002]  ? __pfx_kthread+0x10/0x10
+[  +0,000002]  ? __pfx_kthread+0x10/0x10
+[  +0,000003]  ret_from_fork+0x197/0x1c0
+[  +0,000003]  ? __pfx_kthread+0x10/0x10
+[  +0,000002]  ret_from_fork_asm+0x1a/0x30
+[  +0,000006]  </TASK>
+[  +0,000001] ---[ end trace ]---
+[  +0,000006] ------------[ cut here ]------------
+[  +0,000001] UBSAN: array-index-out-of-bounds in /build/reproducible-path/linux-6.17.13/drivers/usb/typec/ucsi/ucsi.c:610:19
+[  +0,000608] index 2 is out of range for type 'ucsi_altmode [2]'
+[  +0,000597] CPU: 10 UID: 0 PID: 275 Comm: kworker/10:1 Not tainted 6.17.13+deb14-amd64 #1 PREEMPT(lazy)  Debian 6.17.13-1
+[  +0,000003] Hardware name: LENOVO 83J3/LNVNB161216, BIOS PYCN30WW 11/17/2025
+[  +0,000001] Workqueue: events_long ucsi_init_work [typec_ucsi]
+[  +0,000004] Call Trace:
+[  +0,000002]  <TASK>
+[  +0,000001]  dump_stack_lvl+0x5d/0x80
+[  +0,000004]  ubsan_epilogue+0x5/0x2b
+[  +0,000003]  __ubsan_handle_out_of_bounds.cold+0x54/0x59
+[  +0,000004]  ucsi_register_altmodes+0x1fa/0x250 [typec_ucsi]
+[  +0,000006]  ucsi_check_altmodes+0x1b/0xa0 [typec_ucsi]
+[  +0,000004]  ucsi_init_work+0x919/0x9b0 [typec_ucsi]
+[  +0,000006]  process_one_work+0x192/0x350
+[  +0,000004]  worker_thread+0x25a/0x3a0
+[  +0,000003]  ? __pfx_worker_thread+0x10/0x10
+[  +0,000003]  kthread+0xfc/0x240
+[  +0,000002]  ? __pfx_kthread+0x10/0x10
+[  +0,000002]  ? __pfx_kthread+0x10/0x10
+[  +0,000003]  ret_from_fork+0x197/0x1c0
+[  +0,000003]  ? __pfx_kthread+0x10/0x10
+[  +0,000002]  ret_from_fork_asm+0x1a/0x30
+[  +0,000006]  </TASK>
+[  +0,000001] ---[ end trace ]---
 
-We can try to reproduce, but need some clues about what to provide to make progress.
+While I initially asked if Pascal can check as well mainline additionally to
+the tested 6.18.2 version, the problematic code seems still present, so I'm
+forwarding it now.
 
-Thanks,
-Ben
-
--- 
-Ben Greear <greearb@candelatech.com>
-Candela Technologies Inc  http://www.candelatech.com
-
-
+Regards,
+Salvatore
