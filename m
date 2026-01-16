@@ -1,39 +1,42 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from vps0.lunn.ch (vps0.lunn.ch [156.67.10.101])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3B15632860B;
-	Fri, 16 Jan 2026 11:22:46 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5CA4A337B91;
+	Fri, 16 Jan 2026 17:32:54 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=156.67.10.101
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1768562566; cv=none; b=O7vgXJDNSeMpofFtHlap4w/nwOy2Oo47WhB66UpBlqmQRb0UwSvN9EiqFYvNkaJDeDeA+7CZl07DkTYpyUE+FQHyMW8xReVUEFipOH+WTJR1LpZiNMeYo9yOb1ijEWd5RA5kYTLa1NbX+OuXpuZbvJV/5NJEVDSUzgB/a/j/CiU=
+	t=1768584775; cv=none; b=IQYZ9Ly2h5ttoEHSm5lzd9SE/00mFqS8XlkdjRX9z4ujR+8ZNot9h3M/qiRK0IX3DTgBdT5JTCUGMQXTqB4DJ82xbI/HqaGgIK9pCQmJUcGDfnjDLViNyf4InKWFp2OZgqnNdBXwYQ7+3F4ijVj8MVCqPG8kJAlXTUmsD8ystdE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1768562566; c=relaxed/simple;
-	bh=6Ujq4Addrw0XCnNAiiK6Ccj72MAnyreFhw5bWByKon4=;
+	s=arc-20240116; t=1768584775; c=relaxed/simple;
+	bh=YyvyrsGhMbFFDQKb6NiNeT+k/FsQborlUQWPjAXpp3o=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=hys/ZkgS1qXvtBAU4y6ewJTg8HCwl3v+Zky1O2uWbkGa5Xdy7e/FvZkmazzMqTth783h2Dcw4xbLRg1KiSLU88pB5IWtNQmP99d3eAAZLSwnBUr2WJT7iqYxAhWHGKJYkDrb8rsZbQEbsytI1Tn2jN1whhkvfMXJfqsR+jFXS+c=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b=QmQygYmH; arc=none smtp.client-ip=10.30.226.201
+	 Content-Type:Content-Disposition:In-Reply-To; b=q1dI2i6fKPjdDR7l4zXTt5gzKcKY8y0N68wNDwVa3v3creJWpKkZM4eke8HwK4MyhDRkFgtSaSwZhzGujn1zPquarmTg+WcalHPcycBICxFC/2WT3kYQlNqk0k38yD57QtEysVe7/2QMrvLT4hy1aXZtdEnkVEcRTm5fHaVx6c0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lunn.ch; spf=pass smtp.mailfrom=lunn.ch; dkim=pass (1024-bit key) header.d=lunn.ch header.i=@lunn.ch header.b=0mrgd8Ss; arc=none smtp.client-ip=156.67.10.101
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lunn.ch
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=lunn.ch
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="QmQygYmH"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id B6E96C116C6;
-	Fri, 16 Jan 2026 11:22:44 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
-	s=korg; t=1768562565;
-	bh=6Ujq4Addrw0XCnNAiiK6Ccj72MAnyreFhw5bWByKon4=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=QmQygYmHPzBMBjPms9Rc5MUKXFdo1ES0BrLEMouqky+uTK53tMcTdcmVeyeb16+6u
-	 0/98HODgbDGGDvEj3qaqU7p62jdDDZ4ItDONe+lG6MX5zOiZ6oc8yH1V6xu4d19TdF
-	 TXzz2yDS6YVz97Y13h1SY6/QZgoiLLnvyS/Mw6qk=
-Date: Fri, 16 Jan 2026 12:22:42 +0100
-From: Greg KH <gregkh@linuxfoundation.org>
-To: xiaopeitux@foxmail.com
-Cc: linux-usb@vger.kernel.org, linux-kernel@vger.kernel.org,
-	Pei Xiao <xiaopei01@kylinos.cn>,
-	Salvatore Bonaccorso <carnil@debian.org>
-Subject: Re: [RFC] usb: typec: ucsi: Fix array index out-of-bounds in altmode
- registration
-Message-ID: <2026011617-phantom-diploma-cd79@gregkh>
-References: <176840984804.2144647.10736984532804520381@eldamar.lan>
- <tencent_A6F79CBEAB47840EB720951FA48D97CD4906@qq.com>
+	dkim=pass (1024-bit key) header.d=lunn.ch header.i=@lunn.ch header.b="0mrgd8Ss"
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=lunn.ch;
+	s=20171124; h=In-Reply-To:Content-Disposition:Content-Type:MIME-Version:
+	References:Message-ID:Subject:Cc:To:From:Date:From:Sender:Reply-To:Subject:
+	Date:Message-ID:To:Cc:MIME-Version:Content-Type:Content-Transfer-Encoding:
+	Content-ID:Content-Description:Content-Disposition:In-Reply-To:References;
+	bh=NLErl4gvK4Y6j6GKoVV2CPKisx29kEhGwGnW45BCQVA=; b=0mrgd8SsKEWO0/U6VH1OOSWZPr
+	Our3oHj2A6KaqaaddV8Gn55ACMyMk6XJ9YE3radbRgYjQ5uGNzRLC7DscGRkw3fNfxLocZbKqSJcw
+	eCI7CGmBfxbxnSP+cuiO1BRKZGT9uY1VT48wusMkv4IqjvPWWavYt8NSupCyc/4DESVU=;
+Received: from andrew by vps0.lunn.ch with local (Exim 4.94.2)
+	(envelope-from <andrew@lunn.ch>)
+	id 1vgngn-0036Fb-Uc; Fri, 16 Jan 2026 18:32:49 +0100
+Date: Fri, 16 Jan 2026 18:32:49 +0100
+From: Andrew Lunn <andrew@lunn.ch>
+To: insyelu <insyelu@gmail.com>
+Cc: andrew+netdev@lunn.ch, davem@davemloft.net, nic_swsd@realtek.com,
+	tiwai@suse.de, hayeswang@realtek.com, linux-usb@vger.kernel.org,
+	netdev@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v2] net: usb: r8152: fix transmit queue timeout
+Message-ID: <974e39e1-490c-4d61-87fc-6d8249cf8c25@lunn.ch>
+References: <20260114025622.24348-1-insyelu@gmail.com>
+ <20260116023725.8095-1-insyelu@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
@@ -42,52 +45,25 @@ List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <tencent_A6F79CBEAB47840EB720951FA48D97CD4906@qq.com>
+In-Reply-To: <20260116023725.8095-1-insyelu@gmail.com>
 
-On Thu, Jan 15, 2026 at 11:32:01AM +0800, xiaopeitux@foxmail.com wrote:
-> From: Pei Xiao <xiaopei01@kylinos.cn>
+On Fri, Jan 16, 2026 at 10:37:25AM +0800, insyelu wrote:
+> When the TX queue length reaches the threshold, the netdev watchdog
+> immediately detects a TX queue timeout.
 > 
-> Add boundary check to prevent array index out-of-bounds when PPM returns
-> more alternate modes than expected.
+> This patch updates the trans_start timestamp of the transmit queue
+> on every asynchronous USB URB submission along the transmit path,
+> ensuring that the network watchdog accurately reflects ongoing
+> transmission activity.
 > 
-> log:
-> UBSAN: array-index-out-of-bounds in /build/reproducible-path/linux-6.17.13/drivers/usb/typec/ucsi/ucsi.c:609:18
-> index 2 is out of range for type 'ucsi_altmode [2]'
-> CPU: 10 UID: 0 PID: 275 Comm: kworker/10:1 Not tainted 6.17.13+deb14-amd64 #1 PREEMPT(lazy)  Debian 6.17.13-1
-> Hardware name: LENOVO 83J3/LNVNB161216, BIOS PYCN30WW 11/17/2025
-> Workqueue: events_long ucsi_init_work [typec_ucsi]
-> Call Trace:
-> <TASK>
-> dump_stack_lvl+0x5d/0x80
-> ubsan_epilogue+0x5/0x2b
-> __ubsan_handle_out_of_bounds.cold+0x54/0x59
-> ucsi_register_altmodes+0x233/0x250 [typec_ucsi]
-> ucsi_check_altmodes+0x1b/0xa0 [typec_ucsi]
-> ucsi_init_work+0x919/0x9b0 [typec_ucsi]
-> process_one_work+0x192/0x350
-> worker_thread+0x25a/0x3a0
-> 
-> Reported-by: Salvatore Bonaccorso <carnil@debian.org>
-> Closes: https://lore.kernel.org/lkml/176840984804.2144647.10736984532804520381@eldamar.lan
-> Signed-off-by: Pei Xiao <xiaopei01@kylinos.cn>
+> Signed-off-by: insyelu <insyelu@gmail.com>
 > ---
->  drivers/usb/typec/ucsi/ucsi.c | 2 ++
->  1 file changed, 2 insertions(+)
-> 
-> diff --git a/drivers/usb/typec/ucsi/ucsi.c b/drivers/usb/typec/ucsi/ucsi.c
-> index a7b388dc7fa0..00575a8720cc 100644
-> --- a/drivers/usb/typec/ucsi/ucsi.c
-> +++ b/drivers/usb/typec/ucsi/ucsi.c
-> @@ -599,6 +599,8 @@ static int ucsi_register_altmodes(struct ucsi_connector *con, u8 recipient)
->  		 * incremented.
->  		 */
->  		num = len / sizeof(alt[0]);
-> +		if (num > ARRAY_SIZE(alt))
-> +			num = ARRAY_SIZE(alt);
+> v2: Update the transmit timestamp when submitting the USB URB.
 
-As Heikki said, this is a broken hardware device, please fix that
-instead as it will not work with any other operating system either :)
+Always create a new thread for a new version of a patch. The CI/CD
+system just thinks this is a discussion comment, so has ignored it.
 
-thanks,
+    Andrew
 
-greg k-h
+---
+pw-bot: cr
