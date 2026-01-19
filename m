@@ -1,22 +1,22 @@
 Received: from cstnet.cn (smtp21.cstnet.cn [159.226.251.21])
 	(using TLSv1.2 with cipher DHE-RSA-AES256-SHA (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 30EF335502D;
-	Mon, 19 Jan 2026 09:18:53 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3C4AB35502D;
+	Mon, 19 Jan 2026 09:18:56 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=159.226.251.21
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1768814336; cv=none; b=H8S1Yg0k4WLlbIFIngEqkJGb1lL6BbkTWB6b0k25SyIxgT21T0CyfAOyCU8TKK7wDg4qzZRBA7gn/2BHoAlPn4qOe0YL/1dydPBfAKc1Pvk+d9b9X7zVZ5Li0+NH/biNbIIz41W8AbFtz9F2JXKsdRuR18g1UfGO626GWxdNR9k=
+	t=1768814353; cv=none; b=ZRPc+boFNosHemV+aEmNj3c++bf6LJIVJt8QOzgu5JvF11O8C+Nn3PrYfs5dhbV9ECP3rCCaO8NF32WhJ4VL2n65DrW8rksCqLmw1wOXyBWWq6acrXM41a7dhkiiOmY0VjwskTzDafpcdOE6UhslmBNGECheECjyiW7Tfq1DexU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1768814336; c=relaxed/simple;
-	bh=LHH/jVssNtLZceFQ87KvZnRvZ3ILU833rXt83gBiD3I=;
+	s=arc-20240116; t=1768814353; c=relaxed/simple;
+	bh=c4sCoz/4M6ijUSEq3encMGsyFdeoz2AZ2LX4xxSmrKM=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=PN5zZbuwmXGFmgCQinFqH7LfEaooTSE46/tew20HQ+s+qz8hHBb7SMza/qyXpuczUpwCTrF1mn9L335uGTnd6MJDpUAaWUyo8eauVf8N10TUNADz4xhdZTGEjtNg05z8FwqZE++3/dNvPlZcVyxtSWstz5kLLRwGzwRdvkA98ZU=
+	 MIME-Version; b=dMJJakXxoXeMUGk3p3a42t2jkBwA9aP31J5Dh4MPXRUdJP201epUbH7CuKm13ZnqnavlCWoUQcHQiHcTtXVHovUDMCRD7hayyAMG+X3Sx7E/Y3FPuk8YnOQH69C1oHiowWXxa40vVyb8Jz7bC1rP0xapG3mIYBif/CyPq2S0/W4=
 ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=isrc.iscas.ac.cn; spf=pass smtp.mailfrom=isrc.iscas.ac.cn; arc=none smtp.client-ip=159.226.251.21
 Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=isrc.iscas.ac.cn
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=isrc.iscas.ac.cn
 Received: from duge-virtual-machine (unknown [223.160.206.18])
-	by APP-01 (Coremail) with SMTP id qwCowADXf2vI9m1pXbZKBQ--.4971S3;
-	Mon, 19 Jan 2026 17:18:04 +0800 (CST)
+	by APP-01 (Coremail) with SMTP id qwCowADXf2vI9m1pXbZKBQ--.4971S5;
+	Mon, 19 Jan 2026 17:18:09 +0800 (CST)
 From: Jiayu Du <jiayu.riscv@isrc.iscas.ac.cn>
 To: vkoul@kernel.org,
 	gregkh@linuxfoundation.org,
@@ -34,9 +34,9 @@ Cc: neil.armstrong@linaro.org,
 	devicetree@vger.kernel.org,
 	linux-riscv@lists.infradead.org,
 	linux-kernel@vger.kernel.org
-Subject: [PATCH v3 1/4] dt-bindings: phy: Add Canaan K230 USB PHY
-Date: Mon, 19 Jan 2026 17:17:50 +0800
-Message-ID: <20260119091753.294073-2-jiayu.riscv@isrc.iscas.ac.cn>
+Subject: [PATCH v3 3/4] phy: usb: Add driver for Canaan K230 USB 2.0 PHY
+Date: Mon, 19 Jan 2026 17:17:52 +0800
+Message-ID: <20260119091753.294073-4-jiayu.riscv@isrc.iscas.ac.cn>
 X-Mailer: git-send-email 2.52.0
 In-Reply-To: <20260119091753.294073-1-jiayu.riscv@isrc.iscas.ac.cn>
 References: <20260119091753.294073-1-jiayu.riscv@isrc.iscas.ac.cn>
@@ -47,76 +47,372 @@ List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-CM-TRANSID:qwCowADXf2vI9m1pXbZKBQ--.4971S3
-X-Coremail-Antispam: 1UD129KBjvJXoW7CrWrJw4fCr18KrWUtryrZwb_yoW8GF1xpa
-	s7uF9FgrsagF4ayws3KF18Ca43ArWkCFyfKr13t34UKr1DW3WYv3yakry5Zw1UJFs7CFWj
-	vFZa9Fy7Kr4qyw7anT9S1TB71UUUUU7qnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
-	9KBjDU0xBIdaVrnRJUUUm014x267AKxVWrJVCq3wAFc2x0x2IEx4CE42xK8VAvwI8IcIk0
-	rVWrJVCq3wAFIxvE14AKwVWUJVWUGwA2048vs2IY020E87I2jVAFwI0_Jr4l82xGYIkIc2
-	x26xkF7I0E14v26r4j6ryUM28lY4IEw2IIxxk0rwA2F7IY1VAKz4vEj48ve4kI8wA2z4x0
-	Y4vE2Ix0cI8IcVAFwI0_Jr0_JF4l84ACjcxK6xIIjxv20xvEc7CjxVAFwI0_Gr0_Cr1l84
-	ACjcxK6I8E87Iv67AKxVW8JVWxJwA2z4x0Y4vEx4A2jsIEc7CjxVAFwI0_Gr1j6F4UJwAS
-	0I0E0xvYzxvE52x082IY62kv0487Mc02F40EFcxC0VAKzVAqx4xG6I80ewAv7VC0I7IYx2
-	IY67AKxVWUJVWUGwAv7VC2z280aVAFwI0_Jr0_Gr1lOx8S6xCaFVCjc4AY6r1j6r4UM4x0
-	Y48IcxkI7VAKI48JM4x0x7Aq67IIx4CEVc8vx2IErcIFxwACI402YVCY1x02628vn2kIc2
-	xKxwCY1x0262kKe7AKxVWUtVW8ZwCF04k20xvY0x0EwIxGrwCFx2IqxVCFs4IE7xkEbVWU
-	JVW8JwC20s026c02F40E14v26r1j6r18MI8I3I0E7480Y4vE14v26r106r1rMI8E67AF67
-	kF1VAFwI0_GFv_WrylIxkGc2Ij64vIr41lIxAIcVC0I7IYx2IY67AKxVWUJVWUCwCI42IY
-	6xIIjxv20xvEc7CjxVAFwI0_Gr0_Cr1lIxAIcVCF04k26cxKx2IYs7xG6r1j6r1xMIIF0x
-	vEx4A2jsIE14v26r1j6r4UMIIF0xvEx4A2jsIEc7CjxVAFwI0_Gr0_Gr1UYxBIdaVFxhVj
-	vjDU0xZFpf9x0JU4OJ5UUUUU=
+X-CM-TRANSID:qwCowADXf2vI9m1pXbZKBQ--.4971S5
+X-Coremail-Antispam: 1UD129KBjvJXoW3Kw47tw4xuw15trWktFWkZwb_yoWDtw1DpF
+	WrA34fKrn7tF4fAw4xGFWDGFyFqanFyry7tw12k398XFy7tr1UZa4ftryrZrnYyFs8GrW3
+	t3Z8Xay29FsxCw7anT9S1TB71UUUUU7qnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
+	9KBjDU0xBIdaVrnRJUUUmF14x267AKxVWrJVCq3wAFc2x0x2IEx4CE42xK8VAvwI8IcIk0
+	rVWrJVCq3wAFIxvE14AKwVWUJVWUGwA2048vs2IY020E87I2jVAFwI0_JrWl82xGYIkIc2
+	x26xkF7I0E14v26ryj6s0DM28lY4IEw2IIxxk0rwA2F7IY1VAKz4vEj48ve4kI8wA2z4x0
+	Y4vE2Ix0cI8IcVAFwI0_Jr0_JF4l84ACjcxK6xIIjxv20xvEc7CjxVAFwI0_Cr0_Gr1UM2
+	8EF7xvwVC2z280aVAFwI0_Gr0_Cr1l84ACjcxK6I8E87Iv6xkF7I0E14v26r4UJVWxJr1l
+	e2I262IYc4CY6c8Ij28IcVAaY2xG8wAqx4xG64xvF2IEw4CE5I8CrVC2j2WlYx0E2Ix0cI
+	8IcVAFwI0_Jr0_Jr4lYx0Ex4A2jsIE14v26r1j6r4UMcvjeVCFs4IE7xkEbVWUJVW8JwAC
+	jcxG0xvY0x0EwIxGrwACjI8F5VA0II8E6IAqYI8I648v4I1lFIxGxcIEc7CjxVA2Y2ka0x
+	kIwI1lc7CjxVAaw2AFwI0_Jw0_GFyl42xK82IYc2Ij64vIr41l4I8I3I0E4IkC6x0Yz7v_
+	Jr0_Gr1lx2IqxVAqx4xG67AKxVWUJVWUGwC20s026x8GjcxK67AKxVWUGVWUWwC2zVAF1V
+	AY17CE14v26r4a6rW5MIIYrxkI7VAKI48JMIIF0xvE2Ix0cI8IcVAFwI0_Jr0_JF4lIxAI
+	cVC0I7IYx2IY6xkF7I0E14v26F4j6r4UJwCI42IY6xAIw20EY4v20xvaj40_Jr0_JF4lIx
+	AIcVC2z280aVAFwI0_Jr0_Gr1lIxAIcVC2z280aVCY1x0267AKxVW8JVW8JrUvcSsGvfC2
+	KfnxnUUI43ZEXa7VUbpwZ7UUUUU==
 X-CM-SenderInfo: 5mld534oul2uny6l223fol2u1dvotugofq/
 
-K230 SoC USB PHY requires configuring registers for control and
-configuration. Add USB phy bindings for K230 SoC.
+Add driver for the USB 2.0 PHY in Canaan K230 SoC, which supports PHY
+initialization and power management.
+
+Add Kconfig/Makefile under drivers/phy/canaan/.
 
 Signed-off-by: Jiayu Du <jiayu.riscv@isrc.iscas.ac.cn>
 ---
- .../bindings/phy/canaan,k230-usb-phy.yaml     | 35 +++++++++++++++++++
- 1 file changed, 35 insertions(+)
- create mode 100644 Documentation/devicetree/bindings/phy/canaan,k230-usb-phy.yaml
+ drivers/phy/Kconfig               |   1 +
+ drivers/phy/Makefile              |   1 +
+ drivers/phy/canaan/Kconfig        |  14 ++
+ drivers/phy/canaan/Makefile       |   2 +
+ drivers/phy/canaan/phy-k230-usb.c | 271 ++++++++++++++++++++++++++++++
+ 5 files changed, 289 insertions(+)
+ create mode 100644 drivers/phy/canaan/Kconfig
+ create mode 100644 drivers/phy/canaan/Makefile
+ create mode 100644 drivers/phy/canaan/phy-k230-usb.c
 
-diff --git a/Documentation/devicetree/bindings/phy/canaan,k230-usb-phy.yaml b/Documentation/devicetree/bindings/phy/canaan,k230-usb-phy.yaml
+diff --git a/drivers/phy/Kconfig b/drivers/phy/Kconfig
+index 142e7b0ef2ef..e37bcceef65a 100644
+--- a/drivers/phy/Kconfig
++++ b/drivers/phy/Kconfig
+@@ -150,6 +150,7 @@ source "drivers/phy/amlogic/Kconfig"
+ source "drivers/phy/apple/Kconfig"
+ source "drivers/phy/broadcom/Kconfig"
+ source "drivers/phy/cadence/Kconfig"
++source "drivers/phy/canaan/Kconfig"
+ source "drivers/phy/freescale/Kconfig"
+ source "drivers/phy/hisilicon/Kconfig"
+ source "drivers/phy/ingenic/Kconfig"
+diff --git a/drivers/phy/Makefile b/drivers/phy/Makefile
+index dcbb060c8207..8cef0a447986 100644
+--- a/drivers/phy/Makefile
++++ b/drivers/phy/Makefile
+@@ -22,6 +22,7 @@ obj-y					+= allwinner/	\
+ 					   apple/	\
+ 					   broadcom/	\
+ 					   cadence/	\
++					   canaan/	\
+ 					   freescale/	\
+ 					   hisilicon/	\
+ 					   ingenic/	\
+diff --git a/drivers/phy/canaan/Kconfig b/drivers/phy/canaan/Kconfig
 new file mode 100644
-index 000000000000..b959b381c44c
+index 000000000000..1ff8831846d5
 --- /dev/null
-+++ b/Documentation/devicetree/bindings/phy/canaan,k230-usb-phy.yaml
-@@ -0,0 +1,35 @@
-+# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
-+%YAML 1.2
-+---
-+$id: http://devicetree.org/schemas/phy/canaan,k230-usb-phy.yaml#
-+$schema: http://devicetree.org/meta-schemas/core.yaml#
++++ b/drivers/phy/canaan/Kconfig
+@@ -0,0 +1,14 @@
++# SPDX-License-Identifier: GPL-2.0-only
++#
++# Phy drivers for Canaan platforms
++#
++config PHY_CANAAN_USB
++	tristate "Canaan USB2 PHY Driver"
++	depends on (ARCH_CANAAN || COMPILE_TEST) && OF
++	select GENERIC_PHY
++	help
++	Enable this driver to support the USB 2.0 PHY controller
++	on Canaan K230 RISC-V SoCs. This PHY controller
++	provides physical layer functionality for USB 2.0 devices.
++	If you have a Canaan K230 board and need USB 2.0 support,
++	say Y or M here.
+diff --git a/drivers/phy/canaan/Makefile b/drivers/phy/canaan/Makefile
+new file mode 100644
+index 000000000000..d73857ba284e
+--- /dev/null
++++ b/drivers/phy/canaan/Makefile
+@@ -0,0 +1,2 @@
++# SPDX-License-Identifier: GPL-2.0
++obj-$(CONFIG_PHY_CANAAN_USB)		+= phy-k230-usb.o
+diff --git a/drivers/phy/canaan/phy-k230-usb.c b/drivers/phy/canaan/phy-k230-usb.c
+new file mode 100644
+index 000000000000..e4bd98aa4e89
+--- /dev/null
++++ b/drivers/phy/canaan/phy-k230-usb.c
+@@ -0,0 +1,271 @@
++// SPDX-License-Identifier: GPL-2.0-only
++/*
++ * Canaan usb PHY driver
++ *
++ * Copyright (C) 2025 Jiayu Du <jiayu.riscv@isrc.iscas.ac.cn>
++ */
 +
-+title: Canaan K230 USB2.0 PHY
++#include <linux/bitfield.h>
++#include <linux/io.h>
++#include <linux/of_address.h>
++#include <linux/phy/phy.h>
++#include <linux/platform_device.h>
 +
-+maintainers:
-+  - Jiayu Du <jiayu.riscv@isrc.iscas.ac.cn>
++#define CTL0_OFFSET		0x00
++#define CTL1_OFFSET		0x04
++#define TEST_CTL3_OFFSET	0x0c
 +
-+properties:
-+  compatible:
-+    const: canaan,k230-usb-phy
++#define USB_IDPULLUP0		BIT(4)
++#define USB_DMPULLDOWN0		BIT(8)
++#define USB_DPPULLDOWN0		BIT(9)
 +
-+  reg:
-+    maxItems: 1
++#define MAX_PHYS		2
 +
-+  "#phy-cells":
-+    const: 1
++/* USB control register 0 in HiSysConfig system controller */
++/* PLL Integral Path Tune */
++#define USB_CTL0_PLLITUNE_MASK		GENMASK(23, 22)
 +
-+required:
-+  - compatible
-+  - reg
-+  - "#phy-cells"
++/* PLL Proportional Path Tune */
++#define USB_CTL0_PLLPTUNE_MASK		GENMASK(21, 18)
 +
-+additionalProperties: false
++/* PLL Bandwidth Adjustment */
++#define USB_CTL0_PLLBTUNE_MASK		GENMASK(17, 17)
 +
-+examples:
-+  - |
-+    usbphy: usb-phy@91585000 {
-+        compatible = "canaan,k230-usb-phy";
-+        reg = <0x91585000 0x400>;
-+        #phy-cells = <1>;
-+    };
++/* VReg18 Bypass Control */
++#define USB_CTL0_VREGBYPASS_MASK	GENMASK(16, 16)
++
++/* Retention Mode Enable */
++#define USB_CTL0_RETENABLEN_MASK	GENMASK(15, 15)
++
++/* Reserved Request Input */
++#define USB_CTL0_RESREQIN_MASK		GENMASK(14, 14)
++
++/* External VBUS Valid Select */
++#define USB_CTL0_VBUSVLDEXTSEL0_MASK	GENMASK(13, 13)
++
++/* OTG Block Disable Control */
++#define USB_CTL0_OTGDISABLE0_MASK	GENMASK(12, 12)
++
++/* Drive VBUS Enable */
++#define USB_CTL0_DRVVBUS0_MASK		GENMASK(11, 11)
++
++/* Autoresume Mode Enable */
++#define USB_CTL0_AUTORSMENB0_MASK	GENMASK(10, 10)
++
++/* HS Transceiver Asynchronous Control */
++#define USB_CTL0_HSXCVREXTCTL0_MASK	GENMASK(9, 9)
++
++/* USB 1.1 Transmit Data */
++#define USB_CTL0_FSDATAEXT0_MASK	GENMASK(8, 8)
++
++/* USB 1.1 SE0 Generation */
++#define USB_CTL0_FSSE0EXT0_MASK		GENMASK(7, 7)
++
++/* USB 1.1 Data Enable */
++#define USB_CTL0_TXENABLEN0_MASK	GENMASK(6, 6)
++
++/* Disconnect Threshold */
++#define USB_CTL0_COMPDISTUNE0_MASK	GENMASK(5, 3)
++
++/* Squelch Threshold */
++#define USB_CTL0_SQRXTUNE0_MASK		GENMASK(2, 0)
++
++/* USB control register 1 in HiSysConfig system controller */
++/* Data Detect Voltage */
++#define USB_CTL1_VDATREFTUNE0_MASK	GENMASK(23, 22)
++
++/* VBUS Valid Threshold */
++#define USB_CTL1_OTGTUNE0_MASK		GENMASK(21, 19)
++
++/* Transmitter High-Speed Crossover */
++#define USB_CTL1_TXHSXVTUNE0_MASK	GENMASK(18, 17)
++
++/* FS/LS Source Impedance */
++#define USB_CTL1_TXFSLSTUNE0_MASK	GENMASK(16, 13)
++
++/* HS DC Voltage Level */
++#define USB_CTL1_TXVREFTUNE0_MASK	GENMASK(12, 9)
++
++/* HS Transmitter Rise/Fall Time */
++#define USB_CTL1_TXRISETUNE0_MASK	GENMASK(8, 7)
++
++/* USB Source Impedance */
++#define USB_CTL1_TXRESTUNE0_MASK	GENMASK(6, 5)
++
++/* HS Transmitter Pre-Emphasis Current Control */
++#define USB_CTL1_TXPREEMPAMPTUNE0_MASK	GENMASK(4, 3)
++
++/* HS Transmitter Pre-Emphasis Duration Control */
++#define USB_CTL1_TXPREEMPPULSETUNE0_MASK	GENMASK(2, 2)
++
++/* charging detection */
++#define USB_CTL1_CHRGSRCPUENB0_MASK	GENMASK(1, 0)
++
++#define K230_PHY_CTL0_VAL \
++( \
++	FIELD_PREP(USB_CTL0_PLLITUNE_MASK, 0x0) | \
++	FIELD_PREP(USB_CTL0_PLLPTUNE_MASK, 0xc) | \
++	FIELD_PREP(USB_CTL0_PLLBTUNE_MASK, 0x1) | \
++	FIELD_PREP(USB_CTL0_VREGBYPASS_MASK, 0x1) | \
++	FIELD_PREP(USB_CTL0_RETENABLEN_MASK, 0x1) | \
++	FIELD_PREP(USB_CTL0_RESREQIN_MASK, 0x0) | \
++	FIELD_PREP(USB_CTL0_VBUSVLDEXTSEL0_MASK, 0x0) | \
++	FIELD_PREP(USB_CTL0_OTGDISABLE0_MASK, 0x0) | \
++	FIELD_PREP(USB_CTL0_DRVVBUS0_MASK, 0x1) | \
++	FIELD_PREP(USB_CTL0_AUTORSMENB0_MASK, 0x0) | \
++	FIELD_PREP(USB_CTL0_HSXCVREXTCTL0_MASK, 0x0) | \
++	FIELD_PREP(USB_CTL0_FSDATAEXT0_MASK, 0x0) | \
++	FIELD_PREP(USB_CTL0_FSSE0EXT0_MASK, 0x0) | \
++	FIELD_PREP(USB_CTL0_TXENABLEN0_MASK, 0x0) | \
++	FIELD_PREP(USB_CTL0_COMPDISTUNE0_MASK, 0x3) | \
++	FIELD_PREP(USB_CTL0_SQRXTUNE0_MASK, 0x3) \
++)
++
++#define K230_PHY_CTL1_VAL \
++( \
++	FIELD_PREP(USB_CTL1_VDATREFTUNE0_MASK, 0x1) | \
++	FIELD_PREP(USB_CTL1_OTGTUNE0_MASK, 0x3) | \
++	FIELD_PREP(USB_CTL1_TXHSXVTUNE0_MASK, 0x3) | \
++	FIELD_PREP(USB_CTL1_TXFSLSTUNE0_MASK, 0x3) | \
++	FIELD_PREP(USB_CTL1_TXVREFTUNE0_MASK, 0x3) | \
++	FIELD_PREP(USB_CTL1_TXRISETUNE0_MASK, 0x1) | \
++	FIELD_PREP(USB_CTL1_TXRESTUNE0_MASK, 0x1) | \
++	FIELD_PREP(USB_CTL1_TXPREEMPAMPTUNE0_MASK, 0x0) | \
++	FIELD_PREP(USB_CTL1_TXPREEMPPULSETUNE0_MASK, 0x0) | \
++	FIELD_PREP(USB_CTL1_CHRGSRCPUENB0_MASK, 0x0) \
++)
++struct k230_usb_phy_global {
++	u32 reg_test_offset[MAX_PHYS];
++	u32 reg_ctl_offset[MAX_PHYS];
++	void __iomem *base;
++};
++
++struct k230_usb_phy_instance {
++	struct k230_usb_phy_global *global;
++	int index;
++};
++
++static int k230_usb_phy_power_on(struct phy *_phy)
++{
++	struct k230_usb_phy_instance *phy_inst = phy_get_drvdata(_phy);
++	struct k230_usb_phy_global *global = phy_inst->global;
++	u32 val;
++
++	writel(K230_PHY_CTL0_VAL, global->base +
++	       global->reg_ctl_offset[phy_inst->index] + CTL0_OFFSET);
++
++	writel(K230_PHY_CTL1_VAL, global->base +
++	       global->reg_ctl_offset[phy_inst->index] + CTL1_OFFSET);
++
++	val = readl(global->base +
++		    global->reg_test_offset[phy_inst->index] +
++		    TEST_CTL3_OFFSET);
++
++	val |= USB_IDPULLUP0;
++	if (phy_inst->index == 1)
++		val |= (USB_DMPULLDOWN0 | USB_DPPULLDOWN0);
++	else
++		val &= ~(USB_DMPULLDOWN0 | USB_DPPULLDOWN0);
++
++	writel(val, global->base +
++	       global->reg_test_offset[phy_inst->index] +
++	       TEST_CTL3_OFFSET);
++
++	return 0;
++}
++
++static int k230_usb_phy_power_off(struct phy *_phy)
++{
++	struct k230_usb_phy_instance *phy_inst = phy_get_drvdata(_phy);
++	struct k230_usb_phy_global *global = phy_inst->global;
++	u32 val;
++
++	val = readl(global->base +
++		    global->reg_test_offset[phy_inst->index] +
++		    TEST_CTL3_OFFSET);
++
++	val &= ~(USB_DMPULLDOWN0 | USB_DPPULLDOWN0);
++
++	writel(val, global->base +
++	       global->reg_test_offset[phy_inst->index] +
++	       TEST_CTL3_OFFSET);
++
++	return 0;
++}
++
++static const struct phy_ops k230_usb_phy_ops = {
++	.power_on = k230_usb_phy_power_on,
++	.power_off = k230_usb_phy_power_off,
++	.owner = THIS_MODULE,
++};
++
++static struct phy *k230_usb_phy_xlate(struct device *dev,
++				      const struct of_phandle_args *args)
++{
++	struct k230_usb_phy_global *global = dev_get_drvdata(dev);
++	struct k230_usb_phy_instance *phy_inst;
++	struct phy *phy;
++
++	if (args->args[0] >= MAX_PHYS)
++		return ERR_PTR(-EINVAL);
++
++	phy_inst = devm_kzalloc(dev, sizeof(*phy_inst), GFP_KERNEL);
++	if (!phy_inst)
++		return ERR_PTR(-ENOMEM);
++
++	phy_inst->global = global;
++	phy_inst->index = args->args[0];
++
++	phy = devm_phy_create(dev, NULL, &k230_usb_phy_ops);
++	if (IS_ERR(phy))
++		return ERR_PTR(PTR_ERR(phy));
++
++	phy_set_drvdata(phy, phy_inst);
++
++	return phy;
++}
++
++static int k230_usb_phy_probe(struct platform_device *pdev)
++{
++	struct k230_usb_phy_global *global;
++	struct device *dev = &pdev->dev;
++	struct phy_provider *provider;
++
++	global = devm_kzalloc(dev, sizeof(*global), GFP_KERNEL);
++	if (!global)
++		return -ENOMEM;
++	dev_set_drvdata(dev, global);
++
++	global->base = devm_platform_ioremap_resource(pdev, 0);
++	if (IS_ERR(global->base))
++		return dev_err_probe(dev, PTR_ERR(global->base),
++				     "ioremap failed\n");
++
++	global->reg_test_offset[0] = 0x70;
++	global->reg_ctl_offset[0] = 0xb0;
++	global->reg_test_offset[1] = 0x90;
++	global->reg_ctl_offset[1] = 0xb8;
++
++	provider = devm_of_phy_provider_register(dev, k230_usb_phy_xlate);
++
++	return 0;
++}
++
++static const struct of_device_id k230_usb_phy_of_match[] = {
++	{ .compatible = "canaan,k230-usb-phy" },
++	{}
++};
++MODULE_DEVICE_TABLE(of, k230_usb_phy_of_match);
++
++static struct platform_driver k230_usb_phy_driver = {
++	.probe = k230_usb_phy_probe,
++	.driver = {
++		.name = "k230-usb-phy",
++		.of_match_table = k230_usb_phy_of_match,
++	},
++};
++module_platform_driver(k230_usb_phy_driver);
++
++MODULE_DESCRIPTION("Canaan Kendryte K230 USB 2.0 PHY driver");
++MODULE_AUTHOR("Jiayu Du <jiayu.riscv@isrc.iscas.ac.cn>");
++MODULE_LICENSE("GPL");
 -- 
 2.52.0
 
