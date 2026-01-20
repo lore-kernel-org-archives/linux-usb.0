@@ -1,419 +1,325 @@
-Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com [205.220.168.131])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-oa1-f80.google.com (mail-oa1-f80.google.com [209.85.160.80])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 516EF2E8DFC
-	for <linux-usb@vger.kernel.org>; Tue, 20 Jan 2026 10:34:29 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.168.131
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 95DE6423157
+	for <linux-usb@vger.kernel.org>; Tue, 20 Jan 2026 11:33:28 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.160.80
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1768905271; cv=none; b=Z6vIWxZZBhlEMdaXlx5lb05/kN/YX7SseA6oXssJ7H2lX1TC8yvU4aToa8vhJ1Wp9q4HHi8KcPP+4Y19c0c8w6W09TIRoyp1UjnAj+wBugzoMyk4siGab/ksfhpBxWYgl6CMHoQTL/SM+1o0wUTLWE0HAXYsZT5pTEmRk7F+I8c=
+	t=1768908810; cv=none; b=UIcU2OnncwB3sOhBYOzS9/8TCkXI2ei3ltwmjMb9Ecn8+3zu4Gb28SsHB16wgkeTdWdXFtj5FyjEqo8pNLtc9OcNUv3XlfMWX8DOREPXLPo/m7BziKzeU7/A7PsUF4x68eouoCZ0MUnFBPjHgVjhYiYHQDrjioaf4RU4AJp2+DU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1768905271; c=relaxed/simple;
-	bh=6XBpg3UYjvv9dbN+i+Qa5FdC+lloQsQwn+x5XqW0Dqk=;
-	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
-	 MIME-Version; b=oB4b8z7HNgZVeKNuRYDTR3GsiHe/kvuJkt2q9dOe8rXDqQwCBQCOvKYaODvkThspBi4bKIhVP0ipexDYUwcqLSrmeby9rKacoGjjhN+KBFGTy+ClrIZC23aWRqGJdRBgh3zbLLChKYl4f+IVDJV2lsdVCW49JHo6EPhqinrjL+g=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com; spf=pass smtp.mailfrom=oss.qualcomm.com; dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b=KECAyF2V; dkim=pass (2048-bit key) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.b=VpP3BnGa; arc=none smtp.client-ip=205.220.168.131
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=oss.qualcomm.com
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b="KECAyF2V";
-	dkim=pass (2048-bit key) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.b="VpP3BnGa"
-Received: from pps.filterd (m0279864.ppops.net [127.0.0.1])
-	by mx0a-0031df01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 60K71Zin1408477
-	for <linux-usb@vger.kernel.org>; Tue, 20 Jan 2026 10:34:28 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
-	cc:content-transfer-encoding:date:from:in-reply-to:message-id
-	:mime-version:references:subject:to; s=qcppdkim1; bh=0FZGZ8ftnsv
-	rjxfmVyY7b7I9ZZQul5ymbIvpf/nMp9w=; b=KECAyF2VnRhdjvLQciBU1POo3GP
-	09yI85JjHOMT4RgSA369q+l6uzTIdetz0JJnH2ZSIFR2XQtrifiW3vzpnkn1QMlQ
-	KRtJr6OXY2CxbQ11ewO5lrq1ubFupeU+z2ekbCs2ByON7CALVN8d8J0hxDScTCJ9
-	Cg9NgE4ulOMggp7wGsHcoIn1VcqF3H9WzfIZWr2CtjXlbcWUU6b4WWYaao7ULey0
-	fpvFpVpum36UP8JOHXqjIXPLrTwfZ2OP9/M6pou+IglSsimFUhtncPSAIEee8vZT
-	29aC1OAxTG6TXa93mTxWWpgvUe8oVPM9YeU3Ma2kj256WgveBA5UW3q8fcg==
-Received: from mail-pj1-f71.google.com (mail-pj1-f71.google.com [209.85.216.71])
-	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 4bt4y2rnbf-1
-	(version=TLSv1.3 cipher=TLS_AES_128_GCM_SHA256 bits=128 verify=NOT)
-	for <linux-usb@vger.kernel.org>; Tue, 20 Jan 2026 10:34:28 +0000 (GMT)
-Received: by mail-pj1-f71.google.com with SMTP id 98e67ed59e1d1-34ab459c051so10629105a91.0
-        for <linux-usb@vger.kernel.org>; Tue, 20 Jan 2026 02:34:28 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=oss.qualcomm.com; s=google; t=1768905268; x=1769510068; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=0FZGZ8ftnsvrjxfmVyY7b7I9ZZQul5ymbIvpf/nMp9w=;
-        b=VpP3BnGa7a8/pAgO7YbzwYeTUQUfsKBFzXo309oP8uoqzYxWn8qEfmHwvR1ejTI44G
-         vlm8YabdddDeycQzMkuTf3SGtjMnOUZ5olS319CummukQ/Qx4WL62LOfX0z9LlJh+xVd
-         4CsLFSCc+HxfBIbDG96dHfrB1kPRkcmzy+ufz3X82fK4wzH2/OgsAAfip4Ti7tGo8WXg
-         eVdaJ3zbSawqW/tGkMJKYyb5E7X/Ft+jlQWszuhoZqsc/DQRykqCVvBpzOanW1J/T/Hb
-         opqt+IjMIoU4dAwboEjYGc1XNPDRJaq6FrBmIXEDi888/dByl2UNIpRxbgNBuKlkS94p
-         BLBA==
+	s=arc-20240116; t=1768908810; c=relaxed/simple;
+	bh=c8OGHlK4BBtriCcGmUNZmXndbqceT2s3iCv3i2RXnEk=;
+	h=MIME-Version:Date:Message-ID:Subject:From:To:Content-Type; b=kd8NUUjCWcydFvP1GgX6YQ7A7wp0HfGe25o+l49nboUYeu3EzGSPn848GMTtYULYp4sLZk4NwsVzL5qJ4QCz/8CQr3EyYJNN1fHWyxJFZB9Aq3BLfnTodtvGh9sa36GPIOgIZXwse3aFVKNepF2WR6mMR0GKr+4fX9nZ2Sb2t8I=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=syzkaller.appspotmail.com; spf=pass smtp.mailfrom=M3KW2WVRGUFZ5GODRSRYTGD7.apphosting.bounces.google.com; arc=none smtp.client-ip=209.85.160.80
+Authentication-Results: smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=syzkaller.appspotmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=M3KW2WVRGUFZ5GODRSRYTGD7.apphosting.bounces.google.com
+Received: by mail-oa1-f80.google.com with SMTP id 586e51a60fabf-4040b9ea153so6746639fac.1
+        for <linux-usb@vger.kernel.org>; Tue, 20 Jan 2026 03:33:28 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1768905268; x=1769510068;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to;
-        bh=0FZGZ8ftnsvrjxfmVyY7b7I9ZZQul5ymbIvpf/nMp9w=;
-        b=PLPCJ+0miccM+tvcYAj/2eq2SMxcwTObem5fuFAZH5yS5gkC6eis/C4dpPbakvxUxs
-         FPK7H01787bP2OaeriBii/DactqJ6ots6mTZHgGFFwX1O5+fX9e5UqBnNTcTXTpAbHhC
-         o3NY4/EzfZDp2FaKQece1tby85rvCNwygR3vkSc4mZzCM30d+S2uW7aMKZyAqD5/M8ru
-         M0hs23yLcLRn/+jWoEnp8tbRjMpPEzkENfCvT0fSQwW3iC9hnk7cc5KwBecerpgCU0z+
-         U7LNszjuQ7CtNLwOscBjncy1nNvyvhqRJ/ISoSRMJEM4XufsMuhLvPTXRYxYG1llZYCA
-         evKw==
-X-Gm-Message-State: AOJu0YzezZl8j8kNxprQzh7q0ORynbbadd8cLaBGipPKAe22EKygs8nn
-	sxtOfHRjHu5uitraUK7jJOXW4+kb1qGEqPkt7ir7wM69MA99WiPOXVNdBCYQk8OMgd4VNGjwlTw
-	AHWfR6FVFVibEYYiQzIq+gIutBL/8/013gwV0YFDP8em0YPXarWnsy2/fXpIF/qY=
-X-Gm-Gg: AY/fxX491YQm2VBwjXE2nEpVjwpK0Xx2+i5anMLNCE3wIUIWTaDxLfmcsaJP518XBgN
-	TvPqb7j3YuurlDMdMBx9dMRTI7lg9nLnkSHJPW1g+zozHNdUxiKOANAGU2ekcXCkycSxZxUwKWC
-	IlnL6d6RLlt9WjQj8RfW2gYChNENoedXsPf6nnWtyCU8zHUOGiIksiXEQuYCWjyZpJCeAnU87AF
-	ZKkknbaEoEnwptxMGY/TEs32H/lLFqDSTk9Bc1s71RIw47dsCSE16483lLGBfPhI8PpO+ZWFpwO
-	RttBnO3hhM940GkndboqUnkR5YYYv39xt/9uCY+Yeu0Tu1Uoa9T3YLNzdEnfjOm85XEKQELs8dk
-	nj/HHGNevQngsl8u1mQRHB5slSnVb899qJT3jcMvGpms=
-X-Received: by 2002:a05:6a21:9988:b0:34e:8864:793c with SMTP id adf61e73a8af0-38dfe62934fmr13174766637.8.1768905267803;
-        Tue, 20 Jan 2026 02:34:27 -0800 (PST)
-X-Received: by 2002:a05:6a21:9988:b0:34e:8864:793c with SMTP id adf61e73a8af0-38dfe62934fmr13174743637.8.1768905267298;
-        Tue, 20 Jan 2026 02:34:27 -0800 (PST)
-Received: from hu-swatagar-hyd.qualcomm.com ([202.46.23.25])
-        by smtp.gmail.com with ESMTPSA id 41be03b00d2f7-c5edf3791e5sm10050709a12.31.2026.01.20.02.34.22
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 20 Jan 2026 02:34:26 -0800 (PST)
-From: Swati Agarwal <swati.agarwal@oss.qualcomm.com>
-To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Rob Herring <robh@kernel.org>,
-        Krzysztof Kozlowski <krzk+dt@kernel.org>,
-        Conor Dooley <conor+dt@kernel.org>, Icenowy Zheng <uwu@icenowy.me>,
-        Matthias Kaehlcke <mka@chromium.org>,
-        Mike Looijmans <mike.looijmans@topic.nl>,
-        Stephen Boyd <swboyd@chromium.org>,
-        Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>,
-        Jens Glathe <jens.glathe@oldschoolsolutions.biz>,
-        Chaoyi Chen <chaoyi.chen@rock-chips.com>,
-        =?UTF-8?q?J=20=2E=20Neusch=C3=A4fer?= <j.ne@posteo.net>,
-        Pin-yen Lin <treapking@chromium.org>,
-        Catalin Popescu <catalin.popescu@leica-geosystems.com>,
-        Bjorn Andersson <andersson@kernel.org>,
-        Konrad Dybcio <konradybcio@kernel.org>
-Cc: linux-usb@vger.kernel.org, devicetree@vger.kernel.org,
-        linux-kernel@vger.kernel.org, linux-arm-msm@vger.kernel.org,
-        Swati Agarwal <swati.agarwal@oss.qualcomm.com>
-Subject: [PATCH v4 4/4] arm64: dts: qcom: lemans-evk: Enable secondary USB controller in host mode
-Date: Tue, 20 Jan 2026 16:03:12 +0530
-Message-Id: <20260120103312.2174727-5-swati.agarwal@oss.qualcomm.com>
-X-Mailer: git-send-email 2.34.1
-In-Reply-To: <20260120103312.2174727-1-swati.agarwal@oss.qualcomm.com>
-References: <20260120103312.2174727-1-swati.agarwal@oss.qualcomm.com>
+        d=1e100.net; s=20230601; t=1768908807; x=1769513607;
+        h=to:from:subject:message-id:date:mime-version:x-gm-message-state
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=sn9Yh8qMYa4QuWPShr6nGLHX87DgFa+xeRwt2QGLZPU=;
+        b=iuMyU+idGSyvGqAlzycOL+A5XM0cytJmGgVMds7sggod2P5Rg2q86/u5tPlXArTUFC
+         pHOBj+tGovl4GkXBdDUjHgXLHYzqFVSaEbEmDjfKYXrsYwAnYiuMlZSYVEPlk3Y5mCZB
+         tVm57xwnRHEPpXH+6eNbRaXZX03zjrb0f6y4oIHLWHN2Dy2pmmgRdwoGFxFkDdeqIKsA
+         und4NLapoOJ5/zmDHDvJooB2OCBf7TVlA8C5VaBY17gBOZgXT555FQ6k3WQL4wXfIeFn
+         XelBRtgKsrKF3210iOPPDTfZniTuInn005N4CYakDJSs9HjUIlN9nJ3r9oNmwf/djrQB
+         p6gg==
+X-Forwarded-Encrypted: i=1; AJvYcCU3+SnLqc6WBor7HioQrjeYERkwub1VAiDt3hQSZLhB2mybOwpAAwppY+rlsMTwAl1NLRZGnjw+w+g=@vger.kernel.org
+X-Gm-Message-State: AOJu0YwMrCaIPDtK4ZO7ixLP1Nx9IPxnszTXJUgOIH65nrqm2enXZWWL
+	qBCO20uTOJHwtIYIUcawGWEhIZfMa0UQLCLiQWNFFljw/HKreZDK8qhrgxZ03/kwGZ4l7MO2MXn
+	sgg1lsOwr57weYDFZhnRPk1Q4OY0GtboR5/yZ8H3/k8uUnC8hzb+7hFMmlyo=
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYwMTIwMDA4NyBTYWx0ZWRfXyE26neXBviLG
- /P22Tge+PPvNHv9OanSCijPjyaBVjHr+PZ6VZpKwTE7D9rSyUYt5VjTtgfZvFrwy8asYet94QO8
- A0ZmE6kZnnZFXsBE8yYScc+BH7y6dPnyIYyB1KYzfQiQfwduMpl++tj234QssuABkUFwRy93N7/
- +YtMbUMupupdv16BTN1Smw0hBZe2wTrDNyOlclXEzjE+QJRH8fTXz4Ili93PPoqV4Jn03TBGvvb
- lBsPvy2RFchu4e3bOMEddzdYmR54qhRLdeSgeTh3Yn6Umf4diFab3fMZInWk+fptVc+nfcf6LFI
- obtIFjcOzNGVJS8X1LpvOEASjzmBwyZRGvev3hyI+krRjaiLC1tw5QcA036W77cGB2GkHBJB5mQ
- 1Ak5tsG3gercdKNFtaXVrzYnxkv1Z7xgJut/wW6dML/7Kl2ajrflMYrqIs5kRP6PQH5dPE4vsX9
- 3mHOEBqi1+fO8vkqV8w==
-X-Authority-Analysis: v=2.4 cv=Ds1bOW/+ c=1 sm=1 tr=0 ts=696f5a34 cx=c_pps
- a=UNFcQwm+pnOIJct1K4W+Mw==:117 a=ZePRamnt/+rB5gQjfz0u9A==:17
- a=vUbySO9Y5rIA:10 a=s4-Qcg_JpJYA:10 a=VkNPw1HP01LnGYTKEx00:22
- a=EUspDBNiAAAA:8 a=5OhgTjSsxmRXjPuCaPMA:9 a=uKXjsCUrEbL0IQVhDsJ9:22
-X-Proofpoint-GUID: 4lDWa5oxBHzg7FDbvrjDfju8fsUuEmHi
-X-Proofpoint-ORIG-GUID: 4lDWa5oxBHzg7FDbvrjDfju8fsUuEmHi
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1121,Hydra:6.1.9,FMLib:17.12.100.49
- definitions=2026-01-20_02,2026-01-19_03,2025-10-01_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- bulkscore=0 malwarescore=0 clxscore=1015 impostorscore=0 spamscore=0
- phishscore=0 lowpriorityscore=0 adultscore=0 suspectscore=0
- priorityscore=1501 classifier=typeunknown authscore=0 authtc= authcc=
- route=outbound adjust=0 reason=mlx scancount=1 engine=8.22.0-2601150000
- definitions=main-2601200087
+X-Received: by 2002:a4a:bb8a:0:b0:661:1b82:ff3c with SMTP id
+ 006d021491bc7-6611b830a0fmr4025842eaf.18.1768908807464; Tue, 20 Jan 2026
+ 03:33:27 -0800 (PST)
+Date: Tue, 20 Jan 2026 03:33:27 -0800
+X-Google-Appengine-App-Id: s~syzkaller
+X-Google-Appengine-App-Id-Alias: syzkaller
+Message-ID: <696f6807.050a0220.4cb9c.0010.GAE@google.com>
+Subject: [syzbot] [usb?] KASAN: slab-use-after-free Read in event_handler
+From: syzbot <syzbot+62c1aa73226b3ac3b107@syzkaller.appspotmail.com>
+To: gregkh@linuxfoundation.org, i@zenithal.me, linux-kernel@vger.kernel.org, 
+	linux-usb@vger.kernel.org, shuah@kernel.org, syzkaller-bugs@googlegroups.com, 
+	valentina.manea.m@gmail.com
+Content-Type: text/plain; charset="UTF-8"
 
-Enable secondary USB controller in host mode on lemans EVK Platform.
+Hello,
 
-Secondary USB controller is connected to a Genesys Logic USB HUB GL3590
-having 4 ports The ports of hub that are present on lemans EVK standalone
-board are used as follows:-
-1) port-1 is connected to HD3SS3220 Type-C port controller.
-2) port-4 is used for the M.2 E key on corekit. Standard core kit uses UART
-for Bluetooth. This port is to be used only if user optionally replaces the
-WiFi card with the NFA765 chip which uses USB for Bluetooth.
+syzbot found the following issue on:
 
-Remaining 2 ports will become functional when the interface plus mezzanine
-board is stacked on top of corekit:
+HEAD commit:    24d479d26b25 Linux 6.19-rc6
+git tree:       upstream
+console output: https://syzkaller.appspot.com/x/log.txt?x=12d11852580000
+kernel config:  https://syzkaller.appspot.com/x/.config?x=c33bf4a3a0c7a4f1
+dashboard link: https://syzkaller.appspot.com/bug?extid=62c1aa73226b3ac3b107
+compiler:       Debian clang version 21.1.8 (++20251221033036+2078da43e25a-1~exp1~20251221153213.50), Debian LLD 21.1.8
 
-3) port-2 is connected to another hub which is present on the mezz through
-which 4 type-A ports are connected.
-4) port-3 is used for the M.2 B key for a 5G card when the mezz is
-connected.
+Unfortunately, I don't have any reproducer for this issue yet.
 
-Mark the second USB controller as host only capable and add the HD3SS3220
-Type-C port controller along with Type-c connector for controlling vbus
-supply.
+Downloadable assets:
+disk image: https://storage.googleapis.com/syzbot-assets/f0555f920605/disk-24d479d2.raw.xz
+vmlinux: https://storage.googleapis.com/syzbot-assets/ae277d28fcd2/vmlinux-24d479d2.xz
+kernel image: https://storage.googleapis.com/syzbot-assets/b4f8db4a51a6/bzImage-24d479d2.xz
 
-Signed-off-by: Swati Agarwal <swati.agarwal@oss.qualcomm.com>
+IMPORTANT: if you fix the issue, please add the following tag to the commit:
+Reported-by: syzbot+62c1aa73226b3ac3b107@syzkaller.appspotmail.com
+
+vhci_hcd vhci_hcd.15: stop threads
+vhci_hcd vhci_hcd.15: release socket
+vhci_hcd vhci_hcd.15: disconnect device
+vhci_hcd vhci_hcd.15: stop threads
+vhci_hcd vhci_hcd.15: relea[   23.071571][   T13] vhci_hcd vhci_hcd.15: release socket
+vhci_hcd vhci_hcd.15: disconnect device
+vhci_hcd vhci_hcd.15: stop threads
+vhci_hcd vhci_hcd.15: release socket
+vhci_hcd vhci_hcd.15: disconnect device
+vhci_hcd vhci_hcd.15: stop threads
+vhci_hcd vhci_hcd.15: release socket
+vhci_hcd vhci_hcd.15: disconnect device
+vhci_hcd vhci_hcd.15: stop threads
+vhci_hcd vhci_hcd.15: release socket
+vhci_hcd vhci_hcd.15: disconnect device
+vhci_hcd vhci_hcd.15: stop threads
+vhci_hcd vhci_hcd.15: release socket
+vhci_hcd vhci_hcd.15: disconnect device
+vhci_hcd vhci_hcd.15: stop threads
+vhci_hcd vhci_hcd.15: release socket
+vhci_hcd vhci_hcd.15: disconnect device
+vhci_hcd vhci_hcd.15: stop threads
+vhci_hcd vhci_hcd.15: release socket
+vhci_hcd vhci_hcd.15: disconnect device
+==================================================================
+BUG: KASAN: slab-use-after-free in __raw_spin_lock_irqsave include/linux/spinlock_api_smp.h:110 [inline]
+BUG: KASAN: slab-use-after-free in _raw_spin_lock_irqsave+0x40/0x60 kernel/locking/spinlock.c:162
+Read of size 1 at addr ffff8881477add10 by task kworker/u8:1/13
+
+CPU: 0 UID: 0 PID: 13 Comm: kworker/u8:1 Not tainted syzkaller #0 PREEMPT_{RT,(full)} 
+Hardware name: Google Google Compute Engine/Google Compute Engine, BIOS Google 10/25/2025
+Workqueue: usbip_event event_handler
+Call Trace:
+ <TASK>
+ dump_stack_lvl+0xe8/0x150 lib/dump_stack.c:120
+ print_address_description mm/kasan/report.c:378 [inline]
+ print_report+0xba/0x230 mm/kasan/report.c:482
+ kasan_report+0x117/0x150 mm/kasan/report.c:595
+ __kasan_check_byte+0x2a/0x40 mm/kasan/common.c:574
+ kasan_check_byte include/linux/kasan.h:402 [inline]
+ lock_acquire+0x84/0x330 kernel/locking/lockdep.c:5842
+ __raw_spin_lock_irqsave include/linux/spinlock_api_smp.h:110 [inline]
+ _raw_spin_lock_irqsave+0x40/0x60 kernel/locking/spinlock.c:162
+ rt_mutex_slowunlock+0xbf/0x8b0 kernel/locking/rtmutex.c:1417
+ spin_unlock_irqrestore include/linux/spinlock_rt.h:122 [inline]
+ __wake_up_common_lock+0x18a/0x1e0 kernel/sched/wait.c:127
+ event_handler+0x3cb/0x4b0 drivers/usb/usbip/usbip_event.c:96
+ process_one_work kernel/workqueue.c:3257 [inline]
+ process_scheduled_works+0xaec/0x17a0 kernel/workqueue.c:3340
+ worker_thread+0x89f/0xd90 kernel/workqueue.c:3421
+ kthread+0x726/0x8b0 kernel/kthread.c:463
+ ret_from_fork+0x51b/0xa40 arch/x86/kernel/process.c:158
+ ret_from_fork_asm+0x1a/0x30 arch/x86/entry/entry_64.S:246
+ </TASK>
+
+Allocated by task 1:
+ kasan_save_stack mm/kasan/common.c:57 [inline]
+ kasan_save_track+0x3e/0x80 mm/kasan/common.c:78
+ poison_kmalloc_redzone mm/kasan/common.c:398 [inline]
+ __kasan_kmalloc+0x93/0xb0 mm/kasan/common.c:415
+ kasan_kmalloc include/linux/kasan.h:263 [inline]
+ __do_kmalloc_node mm/slub.c:5657 [inline]
+ __kmalloc_noprof+0x235/0x7c0 mm/slub.c:5669
+ kmalloc_noprof include/linux/slab.h:961 [inline]
+ kzalloc_noprof include/linux/slab.h:1094 [inline]
+ __usb_create_hcd+0x67/0x920 drivers/usb/core/hcd.c:2570
+ vhci_hcd_probe+0x104/0x3f0 drivers/usb/usbip/vhci_hcd.c:1378
+ platform_probe+0xf9/0x190 drivers/base/platform.c:1446
+ call_driver_probe drivers/base/dd.c:-1 [inline]
+ really_probe+0x26d/0xac0 drivers/base/dd.c:659
+ __driver_probe_device+0x18c/0x320 drivers/base/dd.c:801
+ driver_probe_device+0x4f/0x240 drivers/base/dd.c:831
+ __device_attach_driver+0x279/0x430 drivers/base/dd.c:959
+ bus_for_each_drv+0x25b/0x2f0 drivers/base/bus.c:500
+ __device_attach+0x2c8/0x450 drivers/base/dd.c:1031
+ device_initial_probe+0xa1/0xd0 drivers/base/dd.c:1086
+ bus_probe_device+0x12d/0x220 drivers/base/bus.c:574
+ device_add+0x7b6/0xb80 drivers/base/core.c:3689
+ platform_device_add+0x46a/0x800 drivers/base/platform.c:757
+ platform_device_register_full+0x46c/0x570 drivers/base/platform.c:885
+ vhci_hcd_init+0x1e9/0x390 drivers/usb/usbip/vhci_hcd.c:1557
+ do_one_initcall+0x250/0x840 init/main.c:1378
+ do_initcall_level+0x104/0x190 init/main.c:1440
+ do_initcalls+0x59/0xa0 init/main.c:1456
+ kernel_init_freeable+0x2a6/0x3d0 init/main.c:1688
+ kernel_init+0x1d/0x1d0 init/main.c:1578
+ ret_from_fork+0x51b/0xa40 arch/x86/kernel/process.c:158
+ ret_from_fork_asm+0x1a/0x30 arch/x86/entry/entry_64.S:246
+
+Freed by task 1:
+ kasan_save_stack mm/kasan/common.c:57 [inline]
+ kasan_save_track+0x3e/0x80 mm/kasan/common.c:78
+ kasan_save_free_info+0x46/0x50 mm/kasan/generic.c:584
+ poison_slab_object mm/kasan/common.c:253 [inline]
+ __kasan_slab_free+0x5c/0x80 mm/kasan/common.c:285
+ kasan_slab_free include/linux/kasan.h:235 [inline]
+ slab_free_hook mm/slub.c:2540 [inline]
+ slab_free mm/slub.c:6670 [inline]
+ kfree+0x1bb/0x8f0 mm/slub.c:6878
+ vhci_hcd_probe+0x258/0x3f0 drivers/usb/usbip/vhci_hcd.c:1415
+ platform_probe+0xf9/0x190 drivers/base/platform.c:1446
+ call_driver_probe drivers/base/dd.c:-1 [inline]
+ really_probe+0x26d/0xac0 drivers/base/dd.c:659
+ __driver_probe_device+0x18c/0x320 drivers/base/dd.c:801
+ driver_probe_device+0x4f/0x240 drivers/base/dd.c:831
+ __device_attach_driver+0x279/0x430 drivers/base/dd.c:959
+ bus_for_each_drv+0x25b/0x2f0 drivers/base/bus.c:500
+ __device_attach+0x2c8/0x450 drivers/base/dd.c:1031
+ device_initial_probe+0xa1/0xd0 drivers/base/dd.c:1086
+ bus_probe_device+0x12d/0x220 drivers/base/bus.c:574
+ device_add+0x7b6/0xb80 drivers/base/core.c:3689
+ platform_device_add+0x46a/0x800 drivers/base/platform.c:757
+ platform_device_register_full+0x46c/0x570 drivers/base/platform.c:885
+ vhci_hcd_init+0x1e9/0x390 drivers/usb/usbip/vhci_hcd.c:1557
+ do_one_initcall+0x250/0x840 init/main.c:1378
+ do_initcall_level+0x104/0x190 init/main.c:1440
+ do_initcalls+0x59/0xa0 init/main.c:1456
+ kernel_init_freeable+0x2a6/0x3d0 init/main.c:1688
+ kernel_init+0x1d/0x1d0 init/main.c:1578
+ ret_from_fork+0x51b/0xa40 arch/x86/kernel/process.c:158
+ ret_from_fork_asm+0x1a/0x30 arch/x86/entry/entry_64.S:246
+
+Last potentially related work creation:
+ kasan_save_stack+0x3e/0x60 mm/kasan/common.c:57
+ kasan_record_aux_stack+0xbd/0xd0 mm/kasan/generic.c:556
+ insert_work+0x3d/0x330 kernel/workqueue.c:2180
+ __queue_work+0xcfd/0xff0 kernel/workqueue.c:2335
+ queue_work_on+0x106/0x1c0 kernel/workqueue.c:2386
+ usb_rh_urb_dequeue drivers/usb/core/hcd.c:849 [inline]
+ unlink1+0x34c/0x3f0 drivers/usb/core/hcd.c:1584
+ usb_hcd_unlink_urb+0xda/0x1d0 drivers/usb/core/hcd.c:1621
+ usb_kill_urb+0x10b/0x2f0 drivers/usb/core/urb.c:717
+ hub_quiesce+0x210/0x320 drivers/usb/core/hub.c:1412
+ hub_suspend+0x7e8/0x9b0 drivers/usb/core/hub.c:4008
+ usb_suspend_interface drivers/usb/core/driver.c:1323 [inline]
+ usb_suspend_both+0x31f/0x1310 drivers/usb/core/driver.c:1445
+ usb_runtime_suspend+0x58/0x110 drivers/usb/core/driver.c:1997
+ __rpm_callback+0x2be/0x7a0 drivers/base/power/runtime.c:406
+ rpm_callback drivers/base/power/runtime.c:460 [inline]
+ rpm_suspend+0x87d/0x16e0 drivers/base/power/runtime.c:698
+ __pm_runtime_suspend+0x12c/0x1a0 drivers/base/power/runtime.c:1167
+ pm_runtime_autosuspend include/linux/pm_runtime.h:415 [inline]
+ usb_runtime_idle+0x76/0x90 drivers/usb/core/driver.c:2034
+ rpm_idle+0x383/0x8d0 drivers/base/power/runtime.c:550
+ pm_runtime_work+0x11e/0x1b0 drivers/base/power/runtime.c:995
+ process_one_work kernel/workqueue.c:3257 [inline]
+ process_scheduled_works+0xaec/0x17a0 kernel/workqueue.c:3340
+ worker_thread+0x89f/0xd90 kernel/workqueue.c:3421
+ kthread+0x726/0x8b0 kernel/kthread.c:463
+ ret_from_fork+0x51b/0xa40 arch/x86/kernel/process.c:158
+ ret_from_fork_asm+0x1a/0x30 arch/x86/entry/entry_64.S:246
+
+Second to last potentially related work creation:
+ kasan_save_stack+0x3e/0x60 mm/kasan/common.c:57
+ kasan_record_aux_stack+0xbd/0xd0 mm/kasan/generic.c:556
+ insert_work+0x3d/0x330 kernel/workqueue.c:2180
+ __queue_work+0xcfd/0xff0 kernel/workqueue.c:2335
+ queue_work_on+0x106/0x1c0 kernel/workqueue.c:2386
+ rh_call_control drivers/usb/core/hcd.c:711 [inline]
+ rh_urb_enqueue drivers/usb/core/hcd.c:821 [inline]
+ usb_hcd_submit_urb+0x11db/0x1b50 drivers/usb/core/hcd.c:1542
+ usb_start_wait_urb+0x12b/0x510 drivers/usb/core/message.c:59
+ usb_internal_control_msg drivers/usb/core/message.c:103 [inline]
+ usb_control_msg+0x232/0x3e0 drivers/usb/core/message.c:154
+ get_port_status drivers/usb/core/hub.c:607 [inline]
+ hub_ext_port_status+0x116/0x820 drivers/usb/core/hub.c:624
+ usb_hub_port_status drivers/usb/core/hub.c:674 [inline]
+ hub_activate+0x6eb/0x1a80 drivers/usb/core/hub.c:1185
+ process_one_work kernel/workqueue.c:3257 [inline]
+ process_scheduled_works+0xaec/0x17a0 kernel/workqueue.c:3340
+ worker_thread+0x89f/0xd90 kernel/workqueue.c:3421
+ kthread+0x726/0x8b0 kernel/kthread.c:463
+ ret_from_fork+0x51b/0xa40 arch/x86/kernel/process.c:158
+ ret_from_fork_asm+0x1a/0x30 arch/x86/entry/entry_64.S:246
+
+The buggy address belongs to the object at ffff8881477ac000
+ which belongs to the cache kmalloc-8k of size 8192
+The buggy address is located 7440 bytes inside of
+ freed 8192-byte region [ffff8881477ac000, ffff8881477ae000)
+
+The buggy address belongs to the physical page:
+page: refcount:0 mapcount:0 mapping:0000000000000000 index:0x0 pfn:0x1477a8
+head: order:3 mapcount:0 entire_mapcount:0 nr_pages_mapped:0 pincount:0
+flags: 0x500000000000040(head|node=1|zone=2)
+page_type: f5(slab)
+raw: 0500000000000040 ffff88813fe27280 dead000000000122 0000000000000000
+raw: 0000000000000000 0000000000020002 00000000f5000000 0000000000000000
+head: 0500000000000040 ffff88813fe27280 dead000000000122 0000000000000000
+head: 0000000000000000 0000000000020002 00000000f5000000 0000000000000000
+head: 0500000000000003 ffffea00051dea01 00000000ffffffff 00000000ffffffff
+head: 0000000000000000 0000000000000000 00000000ffffffff 0000000000000008
+page dumped because: kasan: bad access detected
+page_owner tracks the page as allocated
+page last allocated via order 3, migratetype Unmovable, gfp_mask 0xd20c0(__GFP_IO|__GFP_FS|__GFP_NOWARN|__GFP_NORETRY|__GFP_COMP|__GFP_NOMEMALLOC), pid 1, tgid 1 (swapper/0), ts 22636347125, free_ts 0
+ set_page_owner include/linux/page_owner.h:32 [inline]
+ post_alloc_hook+0x228/0x280 mm/page_alloc.c:1884
+ prep_new_page mm/page_alloc.c:1892 [inline]
+ get_page_from_freelist+0x28bb/0x2950 mm/page_alloc.c:3945
+ __alloc_frozen_pages_noprof+0x18d/0x380 mm/page_alloc.c:5240
+ alloc_pages_mpol+0xd1/0x380 mm/mempolicy.c:2486
+ alloc_slab_page mm/slub.c:3075 [inline]
+ allocate_slab+0x86/0x3a0 mm/slub.c:3248
+ new_slab mm/slub.c:3302 [inline]
+ ___slab_alloc+0xaf8/0x13d0 mm/slub.c:4656
+ __slab_alloc+0xc5/0x1f0 mm/slub.c:4779
+ __slab_alloc_node mm/slub.c:4855 [inline]
+ slab_alloc_node mm/slub.c:5251 [inline]
+ __do_kmalloc_node mm/slub.c:5656 [inline]
+ __kmalloc_noprof+0x15e/0x7c0 mm/slub.c:5669
+ kmalloc_noprof include/linux/slab.h:961 [inline]
+ kzalloc_noprof include/linux/slab.h:1094 [inline]
+ __usb_create_hcd+0x67/0x920 drivers/usb/core/hcd.c:2570
+ vhci_hcd_probe+0x1e6/0x3f0 drivers/usb/usbip/vhci_hcd.c:1394
+ platform_probe+0xf9/0x190 drivers/base/platform.c:1446
+ call_driver_probe drivers/base/dd.c:-1 [inline]
+ really_probe+0x26d/0xac0 drivers/base/dd.c:659
+ __driver_probe_device+0x18c/0x320 drivers/base/dd.c:801
+ driver_probe_device+0x4f/0x240 drivers/base/dd.c:831
+ __device_attach_driver+0x279/0x430 drivers/base/dd.c:959
+ bus_for_each_drv+0x25b/0x2f0 drivers/base/bus.c:500
+page_owner free stack trace missing
+
+Memory state around the buggy address:
+ ffff8881477adc00: fb fb fb fb fb fb fb fb fb fb fb fb fb fb fb fb
+ ffff8881477adc80: fb fb fb fb fb fb fb fb fb fb fb fb fb fb fb fb
+>ffff8881477add00: fb fb fb fb fb fb fb fb fb fb fb fb fb fb fb fb
+                         ^
+ ffff8881477add80: fb fb fb fb fb fb fb fb fb fb fb fb fb fb fb fb
+ ffff8881477ade00: fb fb fb fb fb fb fb fb fb fb fb fb fb fb fb fb
+==================================================================
+
+
 ---
- arch/arm64/boot/dts/qcom/lemans-evk.dts | 209 ++++++++++++++++++++++++
- 1 file changed, 209 insertions(+)
+This report is generated by a bot. It may contain errors.
+See https://goo.gl/tpsmEJ for more information about syzbot.
+syzbot engineers can be reached at syzkaller@googlegroups.com.
 
-diff --git a/arch/arm64/boot/dts/qcom/lemans-evk.dts b/arch/arm64/boot/dts/qcom/lemans-evk.dts
-index 074a1edd0334..328b30576a0b 100644
---- a/arch/arm64/boot/dts/qcom/lemans-evk.dts
-+++ b/arch/arm64/boot/dts/qcom/lemans-evk.dts
-@@ -68,6 +68,45 @@ usb0_con_ss_ep: endpoint {
- 		};
- 	};
- 
-+	connector-1 {
-+		compatible = "usb-c-connector";
-+		label = "USB1-Type-C";
-+		data-role = "host";
-+		power-role = "source";
-+
-+		vbus-supply = <&vbus_supply_regulator_1>;
-+
-+		ports {
-+			#address-cells = <1>;
-+			#size-cells = <0>;
-+
-+			port@0 {
-+				reg = <0>;
-+
-+				usb1_con_ss_ep: endpoint {
-+					remote-endpoint = <&hd3ss3220_1_in_ep>;
-+				};
-+			};
-+
-+			port@1 {
-+				reg = <1>;
-+
-+				usb1_hs_in: endpoint {
-+					remote-endpoint = <&usb_hub_2_1>;
-+				};
-+
-+			};
-+
-+			port@2 {
-+				reg = <2>;
-+
-+				usb1_ss_in: endpoint {
-+					remote-endpoint = <&usb_hub_3_1>;
-+				};
-+			};
-+		};
-+	};
-+
- 	edp0-connector {
- 		compatible = "dp-connector";
- 		label = "EDP0";
-@@ -141,6 +180,16 @@ vbus_supply_regulator_0: regulator-vbus-supply-0 {
- 		enable-active-high;
- 	};
- 
-+	vbus_supply_regulator_1: regulator-vbus-supply-1 {
-+		compatible = "regulator-fixed";
-+		regulator-name = "vbus_supply_1";
-+		gpio = <&expander1 3 GPIO_ACTIVE_HIGH>;
-+		regulator-min-microvolt = <5000000>;
-+		regulator-max-microvolt = <5000000>;
-+		regulator-boot-on;
-+		enable-active-high;
-+	};
-+
- 	vmmc_sdc: regulator-vmmc-sdc {
- 		compatible = "regulator-fixed";
- 
-@@ -536,6 +585,32 @@ hd3ss3220_0_out_ep: endpoint {
- 			};
- 		};
- 	};
-+
-+	usb-typec@47 {
-+		compatible = "ti,hd3ss3220";
-+		reg = <0x47>;
-+
-+		interrupts-extended = <&pmm8654au_2_gpios 6 IRQ_TYPE_EDGE_FALLING>;
-+
-+		id-gpios = <&tlmm 51 GPIO_ACTIVE_HIGH>;
-+
-+		pinctrl-0 = <&usb1_id>, <&usb1_intr>;
-+		pinctrl-names = "default";
-+
-+		ports {
-+			#address-cells = <1>;
-+			#size-cells = <0>;
-+
-+			port@0 {
-+				reg = <0>;
-+
-+				hd3ss3220_1_in_ep: endpoint {
-+					remote-endpoint = <&usb1_con_ss_ep>;
-+				};
-+			};
-+		};
-+	};
-+
- };
- 
- &i2c18 {
-@@ -699,6 +774,14 @@ usb0_intr_state: usb0-intr-state {
- 		bias-pull-up;
- 		power-source = <0>;
- 	};
-+
-+	usb1_intr: usb1-intr-state {
-+		pins = "gpio6";
-+		function = "normal";
-+		input-enable;
-+		bias-pull-up;
-+		power-source = <0>;
-+	};
- };
- 
- &qup_i2c19_default {
-@@ -868,6 +951,12 @@ usb_id: usb-id-state {
- 		function = "gpio";
- 		bias-pull-up;
- 	};
-+
-+	usb1_id: usb1-id-state {
-+		pins = "gpio51";
-+		function = "gpio";
-+		bias-pull-up;
-+	};
- };
- 
- &uart10 {
-@@ -922,6 +1011,126 @@ &usb_0_qmpphy {
- 	status = "okay";
- };
- 
-+&usb_1 {
-+	dr_mode = "host";
-+
-+	#address-cells = <1>;
-+	#size-cells = <0>;
-+
-+	status = "okay";
-+
-+	usb_hub_2_x: hub@1 {
-+		compatible = "usb5e3,610";
-+		reg = <1>;
-+
-+		peer-hub = <&usb_hub_3_x>;
-+
-+		ports {
-+			#address-cells = <1>;
-+			#size-cells = <0>;
-+
-+			port@1 {
-+				reg = <1>;
-+
-+				usb_hub_2_1: endpoint {
-+					remote-endpoint = <&usb1_hs_in>;
-+				};
-+			};
-+
-+			/*
-+			 * Port2 is connected to another hub which is present on the interface
-+			 * plus mezz through which 4 type-A ports are connected.
-+			 */
-+			port@2 {
-+				reg = <2>;
-+
-+				usb_hub_2_2: endpoint {
-+				};
-+			};
-+
-+			/*
-+			 * Port3 is used for the M.2 B key for a 5G card when the interface
-+			 * plus mezz is connected.
-+			 */
-+			port@3 {
-+				reg = <3>;
-+
-+				usb_hub_2_3: endpoint {
-+				};
-+			};
-+
-+			/*
-+			 * Port-4 is used for the M.2 E key on corekit. Standard core kit uses
-+			 * UART for Bluetooth. This port is to be used only if user optionally
-+			 * replaces the WiFi card with the NFA765 chip which uses USB for
-+			 * Bluetooth.
-+			 */
-+			port@4 {
-+				reg = <4>;
-+
-+				usb_hub_2_4: endpoint {
-+				};
-+			};
-+		};
-+	};
-+
-+	usb_hub_3_x: hub@2 {
-+		compatible = "usb5e3,625";
-+		reg = <2>;
-+
-+		peer-hub = <&usb_hub_2_x>;
-+
-+		ports {
-+			#address-cells = <1>;
-+			#size-cells = <0>;
-+
-+			port@1 {
-+				reg = <1>;
-+
-+				usb_hub_3_1: endpoint {
-+					remote-endpoint = <&usb1_ss_in>;
-+				};
-+			};
-+
-+			port@2 {
-+				reg = <2>;
-+
-+				usb_hub_3_2: endpoint {
-+				};
-+			};
-+
-+			port@3 {
-+				reg = <3>;
-+
-+				usb_hub_3_3: endpoint {
-+				};
-+			};
-+
-+			port@4 {
-+				reg = <4>;
-+
-+				usb_hub_3_4: endpoint {
-+				};
-+			};
-+		};
-+	};
-+};
-+
-+&usb_1_hsphy {
-+	vdda-pll-supply = <&vreg_l7a>;
-+	vdda18-supply = <&vreg_l6c>;
-+	vdda33-supply = <&vreg_l9a>;
-+
-+	status = "okay";
-+};
-+
-+&usb_1_qmpphy {
-+	vdda-phy-supply = <&vreg_l1c>;
-+	vdda-pll-supply = <&vreg_l7a>;
-+
-+	status = "okay";
-+};
-+
- &xo_board_clk {
- 	clock-frequency = <38400000>;
- };
--- 
-2.34.1
+syzbot will keep track of this issue. See:
+https://goo.gl/tpsmEJ#status for how to communicate with syzbot.
 
+If the report is already addressed, let syzbot know by replying with:
+#syz fix: exact-commit-title
+
+If you want to overwrite report's subsystems, reply with:
+#syz set subsystems: new-subsystem
+(See the list of subsystem names on the web dashboard)
+
+If the report is a duplicate of another one, reply with:
+#syz dup: exact-subject-of-another-report
+
+If you want to undo deduplication, reply with:
+#syz undup
