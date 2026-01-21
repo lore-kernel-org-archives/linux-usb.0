@@ -1,482 +1,78 @@
-Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com [205.220.168.131])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from cstnet.cn (smtp81.cstnet.cn [159.226.251.81])
+	(using TLSv1.2 with cipher DHE-RSA-AES256-SHA (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 25FA7481220
-	for <linux-usb@vger.kernel.org>; Wed, 21 Jan 2026 10:15:52 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.168.131
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 77FEC48123F;
+	Wed, 21 Jan 2026 13:55:22 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=159.226.251.81
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1768990555; cv=none; b=RwkGFXnv3Uh2xUI7OgefvSB4pnxXkHoEbSgo+tvUQXKV02Dyo3TLGsq0EmQEytFYKhOFN3WoWzotDuItEG+P4Hxmg98eMjv63/T0msMasUzhNk4TQgm0fY1Z9lDsaRI8t//bn7Q7VHFXUYv4DiID1Brr433T5DShkBwgws0Y1RU=
+	t=1769003731; cv=none; b=DEYRh0QV5k+artfs39b63epDvodoXa2pplCrRK8IQe0gwM5Bs0dtcQgZh8yWpbUopzEqSgrRl9UuPxDKhBw28zPiS7CUWBZW551sCan0ddROEEv+L6w8PQNstIaCW1mOsWLcl+GzjpLspxDVyAxQMjWbDsH9I12QfdF5xIXoCyE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1768990555; c=relaxed/simple;
-	bh=030jphXscriwHQLoSXlSrjsNzVEBqnZzXewHZtj1eL8=;
-	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
-	 In-Reply-To:To:Cc; b=fKAX7MbZJstcRSVZclZ7eN8UuiPNKOJrprmiE+uJ4ii4ZiXYW7qDHOkDyBVFoBqsD0gxdO+3ROjUt64C5NH+QNfh3O+w6Z+vgMbEgExgBaVG9+zTu22y1ABk5aFeYIEDcOI5bEWnXLlyLmq5oeW0KWf/5n/9NYdJtDJeVyme52I=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com; spf=pass smtp.mailfrom=oss.qualcomm.com; dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b=OgLoGsDJ; dkim=pass (2048-bit key) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.b=RSbFJx6k; arc=none smtp.client-ip=205.220.168.131
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=oss.qualcomm.com
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b="OgLoGsDJ";
-	dkim=pass (2048-bit key) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.b="RSbFJx6k"
-Received: from pps.filterd (m0279866.ppops.net [127.0.0.1])
-	by mx0a-0031df01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 60L6KJ5w1037150
-	for <linux-usb@vger.kernel.org>; Wed, 21 Jan 2026 10:15:51 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
-	cc:content-transfer-encoding:content-type:date:from:in-reply-to
-	:message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
-	4vcfsLd7iQ6cPaiGJNN7blnxYZsf9LKmcSLtSOyoSjk=; b=OgLoGsDJBqXucNAA
-	2SgXa5MRxCXbB2r5pGEYabLOnGiKug/k3e3c1QSRMQGgcJgFZkj4YYy2BzPfF+aM
-	EDgYGZI9dgKCSHuRPrPV9elXr1ae1nJmELHogeZUMIHaKYHBTaZR6EhzisryJH3u
-	hfIwcV6sOZPfeZrS6TWH/6lnx/ZXWw2LY90wyfys7VQNPdV+fj95YHRJBs+hgZuF
-	9nB9Bfwpjxakcwlt3ey2GiOtoU+/kKbM8Hr4jGeikGn+dWNMgSlX5j8fzIeailGO
-	4/5bVFUnK5Pc9HbgweaLY8lGHXXjLWFTx8VbuizOVWmUO3st1leVZIWmwFslf6W6
-	yW3oGw==
-Received: from mail-qk1-f199.google.com (mail-qk1-f199.google.com [209.85.222.199])
-	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 4bth55jvcm-1
-	(version=TLSv1.3 cipher=TLS_AES_128_GCM_SHA256 bits=128 verify=NOT)
-	for <linux-usb@vger.kernel.org>; Wed, 21 Jan 2026 10:15:51 +0000 (GMT)
-Received: by mail-qk1-f199.google.com with SMTP id af79cd13be357-8c6a341ac9fso308165985a.3
-        for <linux-usb@vger.kernel.org>; Wed, 21 Jan 2026 02:15:51 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=oss.qualcomm.com; s=google; t=1768990550; x=1769595350; darn=vger.kernel.org;
-        h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
-         :mime-version:subject:date:from:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=4vcfsLd7iQ6cPaiGJNN7blnxYZsf9LKmcSLtSOyoSjk=;
-        b=RSbFJx6ksSvY0C3OSMk2wbRg7xs//8AE5FfnqHt+hkPOPrsDc+yF1zOIwKNCqf/vi9
-         +deX9F24voy6CfCAu7bhC5CMCY7/pHyFeeqFlhGYquOh5TBN96Ll0Q00kQI2WHkJXxnU
-         fLc7wJOJ0OZu0OhB597//PNqHZ//TYSqy+Tgm8e4NfunLt03z4NPx9+lbQHMFlTlOuBU
-         tIieJxmpugrFJ1wtg5xrSKaDVJwScO2zqkwLyLEwxGQQmD9qFDyFtWnF5tLNdhXCA46n
-         7xvPZFK+J6pf0ZflBrsfUSinLwrMhM1qAiD7r5/ZyJKPqgcSqHxOarO6LTBGRH0lKLSc
-         BbCQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1768990550; x=1769595350;
-        h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
-         :mime-version:subject:date:from:x-gm-gg:x-gm-message-state:from:to
-         :cc:subject:date:message-id:reply-to;
-        bh=4vcfsLd7iQ6cPaiGJNN7blnxYZsf9LKmcSLtSOyoSjk=;
-        b=Wma6pKDNsOlMJemjd14PHN9Ct78v5oN+IPRDsdh7cBJfZ2m1XgCMyR0HxnQdtvTJ0o
-         Gij3C/Lk8y1n0l+4OkcXKwKdY89i1C1fGBNoj3uCml7p+qana9+0YfKyoXMib0Fa2sNl
-         y2eTiW8I3MJaTYI/RIFi9xYYHcAAKAVsHnbzn2i7RipT0JouiHm+3+Bs3Jhm70lbP2kg
-         1aEjDmvEnUeDHC+VL4upcmlT7Sx05epJG7mj5V66B7XDxpXJJdecrF+24ibyJd9kN4Ps
-         MHNBOFhvDcT6ovYHRTH4+IBey3gtz/SapxPvkBmdh7n6db6uZsIZfZOAn+WNMXoKWpIQ
-         52rw==
-X-Forwarded-Encrypted: i=1; AJvYcCXl8qh1RIprIfP/eMxgnSOPVon7eDj6yza4AlNHs2fOOkQ1ZqTw6QCRa3yQvlMdPPR8/m1VOqKGu2M=@vger.kernel.org
-X-Gm-Message-State: AOJu0YySUlJ9f/pVNyzKaK+BXKVdA/f3drlDC5fA0p3nwX+IvMO8NX7k
-	hi6lSZqYzJca9nNWBiG2pAy4p1LPxo7P3RFbqaOCtGVRcJNuaXXe+J9yQg8nQKXm5uRTH378a6S
-	ecjPBLgEaTPzBWJ7K/s+uNYrfbuE9PB3ehqKjSpRUuHMgfXQt0DKHiHV9cTjk6bo=
-X-Gm-Gg: AZuq6aLKUZ+bIUK0k6+lfnKDgeml17D5qHgZPbwBAlJKP433gPp6NTLnkOYHNN4MzeS
-	8VdOFmUDPgilrXyxZAx2na4qPZkyblmILTzlvY1wHk4OB9Gvl0hxJqId9xi81Pebn6RnS4FwVWX
-	wwAjKZ+hIiV0f8Z7NvSG0zy2sXxUfUbWTNW/Jcv7g0zG+JzBZeb1XDnKMDYg0KdgVXcZWQH9V/q
-	fPcLGfgP1PKzuIDh/PQo/3wfMJC7xE+bCdqbugzHenIsDzS2dSM82pUQv8YKx+pcdcrnjNDekER
-	xb05mAFpqY/FnpA2Kueywaqlq5Mk625KWJl6EHzAxSivRSLHmW86Fi3s8YbhGDt/cHhtSMDzGJ7
-	aZyyoyP+WB5TIBDMsu7GmqeqCdOHthOftKubGFzuxL6xL4z7J2IZSNgZ/C0iE/0kr72qVq4DQuF
-	0NrI+IQ11TupigqCMbcfv7CNg=
-X-Received: by 2002:a05:620a:4709:b0:8b1:5f62:a5d5 with SMTP id af79cd13be357-8c6cce3b4e0mr597666485a.62.1768990549999;
-        Wed, 21 Jan 2026 02:15:49 -0800 (PST)
-X-Received: by 2002:a05:620a:4709:b0:8b1:5f62:a5d5 with SMTP id af79cd13be357-8c6cce3b4e0mr597662985a.62.1768990549420;
-        Wed, 21 Jan 2026 02:15:49 -0800 (PST)
-Received: from umbar.lan (2001-14ba-a073-af00-264b-feff-fe8b-be8a.rev.dnainternet.fi. [2001:14ba:a073:af00:264b:feff:fe8b:be8a])
-        by smtp.gmail.com with ESMTPSA id 2adb3069b0e04-59baf397785sm4720733e87.51.2026.01.21.02.15.48
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 21 Jan 2026 02:15:48 -0800 (PST)
-From: Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
-Date: Wed, 21 Jan 2026 12:15:46 +0200
-Subject: [PATCH v2 2/3] drm: bridge: anx7625: implement minimal Type-C
- support
+	s=arc-20240116; t=1769003731; c=relaxed/simple;
+	bh=zQ788XQEfllG3nQ/GgyLRlAAXrNCGe6TAOHctPZutlg=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=ON+xcbbZtCP6c01C/3Ft1q0oBYZTrhyBQGl4EiLGKbF3eDN3SYNx7ZRW1/pGr+q6/Kb4eoczrP49sA7z8YUOMdQB6pHkDlkMLBVMX2PgWQFVxam9chqed3/M+4JIEsk95iMFQoodlCjGxgqVSLiIXnron8HkHi2x2aAepCCvY+o=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=isrc.iscas.ac.cn; spf=pass smtp.mailfrom=isrc.iscas.ac.cn; arc=none smtp.client-ip=159.226.251.81
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=isrc.iscas.ac.cn
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=isrc.iscas.ac.cn
+Received: from duge-virtual-machine (unknown [183.192.221.134])
+	by APP-03 (Coremail) with SMTP id rQCowAAXOuG+2nBp3sIgBg--.24067S2;
+	Wed, 21 Jan 2026 21:55:12 +0800 (CST)
+Date: Wed, 21 Jan 2026 21:55:10 +0800
+From: Jiayu Du <jiayu.riscv@isrc.iscas.ac.cn>
+To: Vinod Koul <vkoul@kernel.org>
+Cc: gregkh@linuxfoundation.org, conor@kernel.org, neil.armstrong@linaro.org,
+	robh@kernel.org, krzk+dt@kernel.org, pjw@kernel.org,
+	palmer@dabbelt.com, aou@eecs.berkeley.edu, alex@ghiti.fr,
+	linux-phy@lists.infradead.org, linux-usb@vger.kernel.org,
+	devicetree@vger.kernel.org, linux-riscv@lists.infradead.org,
+	linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v4 3/4] phy: usb: Add driver for Canaan K230 USB 2.0 PHY
+Message-ID: <aXDavrU8ATmUyWHE@duge-virtual-machine>
+References: <20260120143243.71937-1-jiayu.riscv@isrc.iscas.ac.cn>
+ <20260120143243.71937-4-jiayu.riscv@isrc.iscas.ac.cn>
+ <aXB7GqQaxtgKReVa@vaman>
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-Message-Id: <20260121-anx7625-typec-v2-2-d14f31256a17@oss.qualcomm.com>
-References: <20260121-anx7625-typec-v2-0-d14f31256a17@oss.qualcomm.com>
-In-Reply-To: <20260121-anx7625-typec-v2-0-d14f31256a17@oss.qualcomm.com>
-To: Andrzej Hajda <andrzej.hajda@intel.com>,
-        Neil Armstrong <neil.armstrong@linaro.org>,
-        Robert Foss <rfoss@kernel.org>,
-        Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
-        Jonas Karlman <jonas@kwiboo.se>,
-        Jernej Skrabec <jernej.skrabec@gmail.com>,
-        David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
-        Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
-        Maxime Ripard <mripard@kernel.org>,
-        Thomas Zimmermann <tzimmermann@suse.de>, Rob Herring <robh@kernel.org>,
-        Krzysztof Kozlowski <krzk+dt@kernel.org>,
-        Conor Dooley <conor+dt@kernel.org>, Xin Ji <xji@analogixsemi.com>,
-        Heikki Krogerus <heikki.krogerus@linux.intel.com>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-Cc: dri-devel@lists.freedesktop.org, devicetree@vger.kernel.org,
-        linux-usb@vger.kernel.org, linux-arm-msm@vger.kernel.org,
-        linux-kernel@vger.kernel.org
-X-Mailer: b4 0.14.3
-X-Developer-Signature: v=1; a=openpgp-sha256; l=10293;
- i=dmitry.baryshkov@oss.qualcomm.com; h=from:subject:message-id;
- bh=030jphXscriwHQLoSXlSrjsNzVEBqnZzXewHZtj1eL8=;
- b=owEBbQGS/pANAwAKAYs8ij4CKSjVAcsmYgBpcKdRCnJSOhd06BkSPaadnxegpK2SsA4X9ebla
- xUOOgLTGMeJATMEAAEKAB0WIQRMcISVXLJjVvC4lX+LPIo+Aiko1QUCaXCnUQAKCRCLPIo+Aiko
- 1df/B/9GadOcj5rVesVEmUuaeq7OBGGnx3B4o4bnSgVAr7T0tZCtDH8AUvJEhtb7nhBsYY/1R5a
- Cw5uUmkNSg+Zsn45P+9gG7RCYoktkyHRuNPhUUG9bgx9znTgAm7mdO+5B9QfS+1SnPOafAXsFl+
- 0YCjlEyuLIary/SyNLUUr1iPVFrjA83XOihPUZlgDSrfLr2rlLjBvbJzJP9w1Pwt21BPlzv2eIX
- oZ0leHPbtMsoq/yF1MdCL7MtaVrmWGAB+RKj5hjCM3xXIJswXxlW1MJLQVx3/2ec9+EKNHq0dOu
- liCFl/BISeYNs9gUdo0mB8JEaofQ3KyWyTBmkUd5pMVTEHL+
-X-Developer-Key: i=dmitry.baryshkov@oss.qualcomm.com; a=openpgp;
- fpr=8F88381DD5C873E4AE487DA5199BF1243632046A
-X-Proofpoint-ORIG-GUID: L5ii52SXag7FdQUCyFQSOUbMKpKywHTN
-X-Authority-Analysis: v=2.4 cv=Oa6VzxTY c=1 sm=1 tr=0 ts=6970a757 cx=c_pps
- a=HLyN3IcIa5EE8TELMZ618Q==:117 a=xqWC_Br6kY4A:10 a=IkcTkHD0fZMA:10
- a=vUbySO9Y5rIA:10 a=s4-Qcg_JpJYA:10 a=VkNPw1HP01LnGYTKEx00:22
- a=bbNUuHX0AAAA:8 a=QyXUC8HyAAAA:8 a=EUspDBNiAAAA:8 a=N6laaNus9HEbtwgti6QA:9
- a=QEXdDO2ut3YA:10 a=bTQJ7kPSJx9SKPbeHEYW:22 a=3b-t3vAtY4IUXy2q2Ylb:22
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYwMTIxMDA4NiBTYWx0ZWRfX7zg3/FNPpVtx
- 8qgcCSfTyML74ZBakg0IoZNjweaGUyYGg1h/BeZi10PD8iThhEjUuz8k/TwEewO/mk3AjhXiu7a
- DR/YxvrXYj+dd7GJgmKimkw1OzGXqDE8hbmwWHRFm13ro4wVL1q78mOfAr8PQyouaNsexbyTEku
- GDjATv2PyGy0Z/uipLTJWg9jD/nmJA0bzBDQ4MQ57mo+uZveDZvRRjvHecCByoOO8kVCb++M5i8
- B+Y1feH+Q/7zH3lbXDAOg19W1UmE4CnWEDSE/PyW7pcSIZ4+WKpOTbFvBqjgNDQzSWVo0AQCCnq
- 7drpHsrRluDK/D99s+ocM1+aLQNx1ajSXRLQ3Njk8d88zP8d5GcUwi8nSugMhkTO/FVqeEvkmK2
- c9tNditD1MI9qPdmji6wLtJSIyi08VL468Wyn3sZRySVElhAvV6+pm9aeinyOJ15vMSs0xgvx3S
- IjyFQvViuuPqpGffilg==
-X-Proofpoint-GUID: L5ii52SXag7FdQUCyFQSOUbMKpKywHTN
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1121,Hydra:6.1.20,FMLib:17.12.100.49
- definitions=2026-01-21_01,2026-01-20_01,2025-10-01_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- adultscore=0 malwarescore=0 suspectscore=0 priorityscore=1501 impostorscore=0
- bulkscore=0 spamscore=0 clxscore=1015 lowpriorityscore=0 phishscore=0
- classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
- reason=mlx scancount=1 engine=8.22.0-2601150000 definitions=main-2601210086
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <aXB7GqQaxtgKReVa@vaman>
+X-CM-TRANSID:rQCowAAXOuG+2nBp3sIgBg--.24067S2
+X-Coremail-Antispam: 1UD129KBjDUn29KB7ZKAUJUUUUU529EdanIXcx71UUUUU7v73
+	VFW2AGmfu7bjvjm3AaLaJ3UjIYCTnIWjp_UUUY67k0a2IF6w1UM7kC6x804xWl14x267AK
+	xVW8JVW5JwAFc2x0x2IEx4CE42xK8VAvwI8IcIk0rVWrJVCq3wAFIxvE14AKwVWUJVWUGw
+	A2ocxC64kIII0Yj41l84x0c7CEw4AK67xGY2AK021l84ACjcxK6xIIjxv20xvE14v26r1j
+	6r1xM28EF7xvwVC0I7IYx2IY6xkF7I0E14v26r4j6F4UM28EF7xvwVC2z280aVAFwI0_Gr
+	0_Cr1l84ACjcxK6I8E87Iv6xkF7I0E14v26r4j6r4UJwAS0I0E0xvYzxvE52x082IY62kv
+	0487Mc02F40EFcxC0VAKzVAqx4xG6I80ewAv7VC0I7IYx2IY67AKxVWUJVWUGwAv7VC2z2
+	80aVAFwI0_Jr0_Gr1lOx8S6xCaFVCjc4AY6r1j6r4UM4x0Y48IcVAKI48JM4IIrI8v6xkF
+	7I0E8cxan2IY04v7MxAIw28IcxkI7VAKI48JMxAqzxv26xkF7I0En4kS14v26r1q6r43Mx
+	C20s026xCaFVCjc4AY6r1j6r4UMI8I3I0E5I8CrVAFwI0_Jr0_Jr4lx2IqxVCjr7xvwVAF
+	wI0_JrI_JrWlx4CE17CEb7AF67AKxVWUtVW8ZwCIc40Y0x0EwIxGrwCI42IY6xIIjxv20x
+	vE14v26r1j6r1xMIIF0xvE2Ix0cI8IcVCY1x0267AKxVW8JVWxJwCI42IY6xAIw20EY4v2
+	0xvaj40_Jr0_JF4lIxAIcVC2z280aVAFwI0_Jr0_Gr1lIxAIcVC2z280aVCY1x0267AKxV
+	W8JVW8JrUvcSsGvfC2KfnxnUUI43ZEXa7IU8489tUUUUU==
+X-CM-SenderInfo: 5mld534oul2uny6l223fol2u1dvotugofq/
 
-ANX7625 can be used as a USB-C controller, handling USB and DP data
-streams. Provide minimal Type-C support necessary for ANX7625 to
-register the Type-C port device and properly respond to data / power
-role events from the Type-C partner.
+On Wed, Jan 21, 2026 at 12:37:06PM +0530, Vinod Koul wrote:
+> On 20-01-26, 22:32, Jiayu Du wrote:
+> > + * Copyright (C) 2025 Jiayu Du <jiayu.riscv@isrc.iscas.ac.cn>
+> 
+> 2026 now!
+> 
+...
+> > +	void __iomem *base = global->base;
+> > +	u32 val;
+> 
+> blank line here please
+> 
+...
+> > +    /* Configure test register (pull-ups/pull-downs) */
+> 
+> wrong alignment above, pls fix it
 
-While ANX7625 provides TCPCI interface, using it would circumvent the
-on-chip running firmware. Analogix recommended using the higher-level
-interface instead of TCPCI.
-
-Reviewed-by: Xin Ji <xji@analogixsemi.com>
-Reviewed-by: Heikki Krogerus <heikki.krogerus@linux.intel.com>
-Signed-off-by: Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
----
- drivers/gpu/drm/bridge/analogix/Kconfig   |   1 +
- drivers/gpu/drm/bridge/analogix/anx7625.c | 155 ++++++++++++++++++++++++++++--
- drivers/gpu/drm/bridge/analogix/anx7625.h |  22 ++++-
- 3 files changed, 168 insertions(+), 10 deletions(-)
-
-diff --git a/drivers/gpu/drm/bridge/analogix/Kconfig b/drivers/gpu/drm/bridge/analogix/Kconfig
-index 4846b2e9be7c..f3448b0631fe 100644
---- a/drivers/gpu/drm/bridge/analogix/Kconfig
-+++ b/drivers/gpu/drm/bridge/analogix/Kconfig
-@@ -34,6 +34,7 @@ config DRM_ANALOGIX_ANX7625
- 	tristate "Analogix Anx7625 MIPI to DP interface support"
- 	depends on DRM
- 	depends on OF
-+	depends on TYPEC || !TYPEC
- 	select DRM_DISPLAY_DP_HELPER
- 	select DRM_DISPLAY_HDCP_HELPER
- 	select DRM_DISPLAY_HELPER
-diff --git a/drivers/gpu/drm/bridge/analogix/anx7625.c b/drivers/gpu/drm/bridge/analogix/anx7625.c
-index 4e49e4f28d55..8dc6e3b16968 100644
---- a/drivers/gpu/drm/bridge/analogix/anx7625.c
-+++ b/drivers/gpu/drm/bridge/analogix/anx7625.c
-@@ -3,6 +3,7 @@
-  * Copyright(c) 2020, Analogix Semiconductor. All rights reserved.
-  *
-  */
-+#include <linux/cleanup.h>
- #include <linux/gcd.h>
- #include <linux/gpio/consumer.h>
- #include <linux/i2c.h>
-@@ -15,6 +16,9 @@
- #include <linux/regulator/consumer.h>
- #include <linux/slab.h>
- #include <linux/types.h>
-+#include <linux/usb.h>
-+#include <linux/usb/pd.h>
-+#include <linux/usb/role.h>
- #include <linux/workqueue.h>
- 
- #include <linux/of_graph.h>
-@@ -1325,7 +1329,7 @@ static int anx7625_read_hpd_gpio_config_status(struct anx7625_data *ctx)
- static void anx7625_disable_pd_protocol(struct anx7625_data *ctx)
- {
- 	struct device *dev = ctx->dev;
--	int ret, val;
-+	int ret;
- 
- 	/* Reset main ocm */
- 	ret = anx7625_reg_write(ctx, ctx->i2c.rx_p0_client, 0x88, 0x40);
-@@ -1339,6 +1343,11 @@ static void anx7625_disable_pd_protocol(struct anx7625_data *ctx)
- 		DRM_DEV_DEBUG_DRIVER(dev, "disable PD feature fail.\n");
- 	else
- 		DRM_DEV_DEBUG_DRIVER(dev, "disable PD feature succeeded.\n");
-+}
-+
-+static void anx7625_configure_hpd(struct anx7625_data *ctx)
-+{
-+	int val;
- 
- 	/*
- 	 * Make sure the HPD GPIO already be configured after OCM release before
-@@ -1369,7 +1378,9 @@ static int anx7625_ocm_loading_check(struct anx7625_data *ctx)
- 	if ((ret & FLASH_LOAD_STA_CHK) != FLASH_LOAD_STA_CHK)
- 		return -ENODEV;
- 
--	anx7625_disable_pd_protocol(ctx);
-+	if (!ctx->typec_port)
-+		anx7625_disable_pd_protocol(ctx);
-+	anx7625_configure_hpd(ctx);
- 
- 	DRM_DEV_DEBUG_DRIVER(dev, "Firmware ver %02x%02x,",
- 			     anx7625_reg_read(ctx,
-@@ -1472,6 +1483,107 @@ static void anx7625_start_dp_work(struct anx7625_data *ctx)
- 	DRM_DEV_DEBUG_DRIVER(dev, "Secure OCM version=%02x\n", ret);
- }
- 
-+#if IS_REACHABLE(CONFIG_TYPEC)
-+static void anx7625_typec_set_orientation(struct anx7625_data *ctx)
-+{
-+	u32 val = anx7625_reg_read(ctx, ctx->i2c.rx_p0_client, SYSTEM_STSTUS);
-+
-+	if (val & (CC1_RP | CC1_RD))
-+		typec_set_orientation(ctx->typec_port, TYPEC_ORIENTATION_NORMAL);
-+	else if (val & (CC2_RP | CC2_RD))
-+		typec_set_orientation(ctx->typec_port, TYPEC_ORIENTATION_REVERSE);
-+	else
-+		typec_set_orientation(ctx->typec_port, TYPEC_ORIENTATION_NONE);
-+}
-+
-+static void anx7625_typec_set_status(struct anx7625_data *ctx,
-+				     unsigned int intr_status,
-+				     unsigned int intr_vector)
-+{
-+	if (intr_vector & CC_STATUS)
-+		anx7625_typec_set_orientation(ctx);
-+	if (intr_vector & DATA_ROLE_STATUS) {
-+		enum typec_data_role data_role = (intr_status & DATA_ROLE_STATUS) ?
-+			TYPEC_HOST : TYPEC_DEVICE;
-+		usb_role_switch_set_role(ctx->role_sw,
-+					 (intr_status & DATA_ROLE_STATUS) ?
-+					 USB_ROLE_HOST : USB_ROLE_DEVICE);
-+		typec_set_data_role(ctx->typec_port, data_role);
-+		ctx->typec_data_role = data_role;
-+	}
-+	if (intr_vector & VBUS_STATUS)
-+		typec_set_pwr_role(ctx->typec_port,
-+				   (intr_status & VBUS_STATUS) ?
-+				   TYPEC_SOURCE : TYPEC_SINK);
-+	if (intr_vector & VCONN_STATUS)
-+		typec_set_vconn_role(ctx->typec_port,
-+				     (intr_status & VCONN_STATUS) ?
-+				     TYPEC_SOURCE : TYPEC_SINK);
-+}
-+
-+static int anx7625_typec_register(struct anx7625_data *ctx)
-+{
-+	struct typec_capability typec_cap = { };
-+	struct fwnode_handle *fwnode __free(fwnode_handle) =
-+		device_get_named_child_node(ctx->dev, "connector");
-+	u32 val;
-+	int ret;
-+
-+	if (!fwnode)
-+		return 0;
-+
-+	ret = typec_get_fw_cap(&typec_cap, fwnode);
-+	if (ret < 0)
-+		return ret;
-+
-+	typec_cap.revision = 0x0120;
-+	typec_cap.pd_revision = 0x0300;
-+	typec_cap.usb_capability = USB_CAPABILITY_USB2 | USB_CAPABILITY_USB3;
-+	typec_cap.orientation_aware = true;
-+
-+	typec_cap.driver_data = ctx;
-+
-+	ctx->typec_port = typec_register_port(ctx->dev, &typec_cap);
-+	if (IS_ERR(ctx->typec_port))
-+		return PTR_ERR(ctx->typec_port);
-+
-+	ctx->role_sw = fwnode_usb_role_switch_get(fwnode);
-+	if (IS_ERR(ctx->role_sw)) {
-+		typec_unregister_port(ctx->typec_port);
-+		return PTR_ERR(ctx->role_sw);
-+	}
-+
-+	val = anx7625_reg_read(ctx, ctx->i2c.rx_p0_client, SYSTEM_STSTUS);
-+
-+	anx7625_typec_set_status(ctx, val,
-+				 CC_STATUS | DATA_ROLE_STATUS |
-+				 VBUS_STATUS | VCONN_STATUS);
-+
-+	return 0;
-+}
-+
-+static void anx7625_typec_unregister(struct anx7625_data *ctx)
-+{
-+	usb_role_switch_put(ctx->role_sw);
-+	typec_unregister_port(ctx->typec_port);
-+}
-+#else
-+static void anx7625_typec_set_status(struct anx7625_data *ctx,
-+				     unsigned int intr_status,
-+				     unsigned int intr_vector)
-+{
-+}
-+
-+static int anx7625_typec_register(struct anx7625_data *ctx)
-+{
-+	return 0;
-+}
-+
-+static void anx7625_typec_unregister(struct anx7625_data *ctx)
-+{
-+}
-+#endif
-+
- static int anx7625_read_hpd_status_p0(struct anx7625_data *ctx)
- {
- 	return anx7625_reg_read(ctx, ctx->i2c.rx_p0_client, SYSTEM_STSTUS);
-@@ -1566,7 +1678,7 @@ static void dp_hpd_change_handler(struct anx7625_data *ctx, bool on)
- 	}
- }
- 
--static int anx7625_hpd_change_detect(struct anx7625_data *ctx)
-+static int anx7625_intr_status(struct anx7625_data *ctx)
- {
- 	int intr_vector, status;
- 	struct device *dev = ctx->dev;
-@@ -1593,9 +1705,6 @@ static int anx7625_hpd_change_detect(struct anx7625_data *ctx)
- 		return status;
- 	}
- 
--	if (!(intr_vector & HPD_STATUS_CHANGE))
--		return -ENOENT;
--
- 	status = anx7625_reg_read(ctx, ctx->i2c.rx_p0_client,
- 				  SYSTEM_STSTUS);
- 	if (status < 0) {
-@@ -1604,6 +1713,12 @@ static int anx7625_hpd_change_detect(struct anx7625_data *ctx)
- 	}
- 
- 	DRM_DEV_DEBUG_DRIVER(dev, "0x7e:0x45=%x\n", status);
-+
-+	anx7625_typec_set_status(ctx, status, intr_vector);
-+
-+	if (!(intr_vector & HPD_STATUS))
-+		return -ENOENT;
-+
- 	dp_hpd_change_handler(ctx, status & HPD_STATUS);
- 
- 	return 0;
-@@ -1622,7 +1737,7 @@ static void anx7625_work_func(struct work_struct *work)
- 		return;
- 	}
- 
--	event = anx7625_hpd_change_detect(ctx);
-+	event = anx7625_intr_status(ctx);
- 
- 	mutex_unlock(&ctx->lock);
- 
-@@ -2741,11 +2856,29 @@ static int anx7625_i2c_probe(struct i2c_client *client)
- 	}
- 
- 	if (!platform->pdata.low_power_mode) {
--		anx7625_disable_pd_protocol(platform);
-+		struct fwnode_handle *fwnode;
-+
-+		fwnode = device_get_named_child_node(dev, "connector");
-+		if (fwnode)
-+			fwnode_handle_put(fwnode);
-+		else
-+			anx7625_disable_pd_protocol(platform);
-+
-+		anx7625_configure_hpd(platform);
-+
- 		pm_runtime_get_sync(dev);
- 		_anx7625_hpd_polling(platform, 5000 * 100);
- 	}
- 
-+	if (platform->pdata.intp_irq)
-+		anx7625_reg_write(platform, platform->i2c.rx_p0_client,
-+				  INTERFACE_CHANGE_INT_MASK, 0);
-+
-+	/* After getting runtime handle */
-+	ret = anx7625_typec_register(platform);
-+	if (ret)
-+		goto pm_suspend;
-+
- 	/* Add work function */
- 	if (platform->pdata.intp_irq) {
- 		enable_irq(platform->pdata.intp_irq);
-@@ -2759,6 +2892,10 @@ static int anx7625_i2c_probe(struct i2c_client *client)
- 
- 	return 0;
- 
-+pm_suspend:
-+	if (!platform->pdata.low_power_mode)
-+		pm_runtime_put_sync_suspend(&client->dev);
-+
- free_wq:
- 	if (platform->workqueue)
- 		destroy_workqueue(platform->workqueue);
-@@ -2774,6 +2911,8 @@ static void anx7625_i2c_remove(struct i2c_client *client)
- {
- 	struct anx7625_data *platform = i2c_get_clientdata(client);
- 
-+	anx7625_typec_unregister(platform);
-+
- 	drm_bridge_remove(&platform->bridge);
- 
- 	if (platform->pdata.intp_irq)
-diff --git a/drivers/gpu/drm/bridge/analogix/anx7625.h b/drivers/gpu/drm/bridge/analogix/anx7625.h
-index eb5580f1ab2f..a18561c213af 100644
---- a/drivers/gpu/drm/bridge/analogix/anx7625.h
-+++ b/drivers/gpu/drm/bridge/analogix/anx7625.h
-@@ -51,9 +51,21 @@
- #define INTR_RECEIVED_MSG BIT(5)
- 
- #define SYSTEM_STSTUS 0x45
-+#define INTERFACE_CHANGE_INT_MASK 0x43
- #define INTERFACE_CHANGE_INT 0x44
--#define HPD_STATUS_CHANGE 0x80
--#define HPD_STATUS 0x80
-+#define VCONN_STATUS	BIT(2)
-+#define VBUS_STATUS	BIT(3)
-+#define CC_STATUS	BIT(4)
-+#define DATA_ROLE_STATUS	BIT(5)
-+#define HPD_STATUS	BIT(7)
-+
-+#define NEW_CC_STATUS 0x46
-+#define CC1_RD                  BIT(0)
-+#define CC1_RA                  BIT(1)
-+#define CC1_RP			(BIT(2) | BIT(3))
-+#define CC2_RD                  BIT(4)
-+#define CC2_RA                  BIT(5)
-+#define CC2_RP			(BIT(6) | BIT(7))
- 
- /******** END of I2C Address 0x58 ********/
- 
-@@ -447,9 +459,15 @@ struct anx7625_i2c_client {
- 	struct i2c_client *tcpc_client;
- };
- 
-+struct typec_port;
-+struct usb_role_switch;
-+
- struct anx7625_data {
- 	struct anx7625_platform_data pdata;
- 	struct platform_device *audio_pdev;
-+	struct typec_port *typec_port;
-+	struct usb_role_switch *role_sw;
-+	int typec_data_role;
- 	int hpd_status;
- 	int hpd_high_cnt;
- 	int dp_en;
-
--- 
-2.47.3
+Thanks for pointing out these issues. I will fix them in v5.
 
