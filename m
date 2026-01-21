@@ -1,28 +1,28 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2887C481648;
-	Wed, 21 Jan 2026 14:11:32 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C4C9A48AE32;
+	Wed, 21 Jan 2026 14:11:34 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1769004694; cv=none; b=As3/dl2R8FnH1ykrqoBt/Q5LuWblwiDA9GVYE1HvAZhYxeGe6RGwpCA4S4M7ej39koqAIaNUiVwJ4RH4sexdQPWVxO/2HoVQizem5FxQoxIkiaE83Bt80mI3s6XJOykcONf29QOndIg3Ss3KORs3pJ0X0ikIgoemXHoVnp/BTxM=
+	t=1769004694; cv=none; b=EpFy+Ge5tb9zDy6Xlh7V/pq7E5UvtP/JfPQ8Gycz7g8GrGnpcJ+1aBSQSqMSNZq3tLJ/42A2oHlxJhieZ1j0GECwWKXAL6BHrBHYu7VYd/MZLMLljbuQNYGHMG2hYnAKOlOEhJs54d8OxuabRoxr8uEni7DZhs35mbbYsaGXGWw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
 	s=arc-20240116; t=1769004694; c=relaxed/simple;
-	bh=bTMo10SlkojFeqNM7uZ/l/Lwpv6fap2MUX1NzsAplUE=;
+	bh=r9WccWp0ajtLu0rLDpt+6kp79yZiT+r3M0SVKJZ6gXE=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=KJZCV8Ch0CSHtXYDvMyUnOBqkuC6eubJi9CRl36q470vnxXLzCBPKvNuVaWNJiEI4uJ7I6qwZZRn7WmatQ9NdZGR8E1mxoQIGGXVvLNey/ycErHNt2S4rkOEMGrQ39n2d1d0BMmdvtZ/dIEFbM1aPF499xFRhYAtCMMnvvKiDMw=
+	 MIME-Version; b=Gppux/tYtwsdUXO2yEefaRkRvJ0gB7gGyum6bXPwdEcc5zis89vm/WQXqq5rKbuqe91zWtGneKOK8HnvZQJipK6ifmIXRPF+K+DbR+fKOHLSqcTgtHAVQwbYjyDHIhGOM7Sv/g3Qp0C/PkZlhTTEGE/MjVZg57uCA8dU8b3zffA=
 ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 95B05C116D0;
-	Wed, 21 Jan 2026 14:11:31 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 2AF20C4CEF1;
+	Wed, 21 Jan 2026 14:11:33 +0000 (UTC)
 From: Geert Uytterhoeven <geert+renesas@glider.be>
 To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
 Cc: linux-usb@vger.kernel.org,
 	linux-renesas-soc@vger.kernel.org,
 	linux-kernel@vger.kernel.org,
 	Geert Uytterhoeven <geert+renesas@glider.be>
-Subject: [PATCH 1/4] usb: phy: generic: Always use dev in usb_phy_generic_probe()
-Date: Wed, 21 Jan 2026 15:11:20 +0100
-Message-ID: <df4ce4bac088f0a4703dd8a3d1255b9072c0b8c6.1769004444.git.geert+renesas@glider.be>
+Subject: [PATCH 2/4] usb: phy: generic: Convert to devm_clk_get_optional()
+Date: Wed, 21 Jan 2026 15:11:21 +0100
+Message-ID: <5cc21d821edf5d40f56a74cd251bb1b982876b72.1769004444.git.geert+renesas@glider.be>
 X-Mailer: git-send-email 2.43.0
 In-Reply-To: <cover.1769004444.git.geert+renesas@glider.be>
 References: <cover.1769004444.git.geert+renesas@glider.be>
@@ -34,52 +34,104 @@ List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-usb_phy_generic_probe() already has a "dev" variable that serves as a
-shorthand for "&pdev->dev".  Use it where appropriate, to shorten the
-code.
+The generic USB PHY driver uses the existence of the "clocks" property
+to see if a clock is optional or not.  Use devm_clk_get_optional()
+instead, which exists for this purpose.  As usb_phy_generic.clk is now
+either a valid clock pointer or NULL, and all clock operations handle
+NULL pointers gracefully, several IS_ERR() checks can be removed,
+simplifying the code.
 
 Signed-off-by: Geert Uytterhoeven <geert+renesas@glider.be>
+
+...
 ---
- drivers/usb/phy/phy-generic.c | 9 ++++-----
- 1 file changed, 4 insertions(+), 5 deletions(-)
+ drivers/usb/phy/phy-generic.c | 28 +++++++++-------------------
+ 1 file changed, 9 insertions(+), 19 deletions(-)
 
 diff --git a/drivers/usb/phy/phy-generic.c b/drivers/usb/phy/phy-generic.c
-index 8423be59ec0ffbe8..13bd16668932dc90 100644
+index 13bd16668932dc90..53b0262e6e306ada 100644
 --- a/drivers/usb/phy/phy-generic.c
 +++ b/drivers/usb/phy/phy-generic.c
-@@ -294,13 +294,13 @@ static int usb_phy_generic_probe(struct platform_device *pdev)
- 	if (err)
- 		return err;
- 	if (nop->gpiod_vbus) {
--		err = devm_request_threaded_irq(&pdev->dev,
-+		err = devm_request_threaded_irq(dev,
- 						gpiod_to_irq(nop->gpiod_vbus),
- 						NULL, nop_gpio_vbus_thread,
- 						VBUS_IRQ_FLAGS, "vbus_detect",
- 						nop);
- 		if (err) {
--			dev_err(&pdev->dev, "can't request irq %i, err: %d\n",
-+			dev_err(dev, "can't request irq %i, err: %d\n",
- 				gpiod_to_irq(nop->gpiod_vbus), err);
- 			return err;
- 		}
-@@ -313,14 +313,13 @@ static int usb_phy_generic_probe(struct platform_device *pdev)
+@@ -49,15 +49,13 @@ static int nop_set_suspend(struct usb_phy *x, int suspend)
+ 	int ret = 0;
  
- 	err = usb_add_phy_dev(&nop->phy);
- 	if (err) {
--		dev_err(&pdev->dev, "can't register transceiver, err: %d\n",
--			err);
-+		dev_err(dev, "can't register transceiver, err: %d\n", err);
- 		return err;
+ 	if (suspend) {
+-		if (!IS_ERR(nop->clk))
+-			clk_disable_unprepare(nop->clk);
++		clk_disable_unprepare(nop->clk);
+ 		if (!IS_ERR(nop->vcc) && !device_may_wakeup(x->dev))
+ 			ret = regulator_disable(nop->vcc);
+ 	} else {
+ 		if (!IS_ERR(nop->vcc) && !device_may_wakeup(x->dev))
+ 			ret = regulator_enable(nop->vcc);
+-		if (!IS_ERR(nop->clk))
+-			clk_prepare_enable(nop->clk);
++		clk_prepare_enable(nop->clk);
  	}
  
- 	platform_set_drvdata(pdev, nop);
+ 	return ret;
+@@ -137,11 +135,9 @@ int usb_gen_phy_init(struct usb_phy *phy)
+ 			dev_err(phy->dev, "Failed to enable power\n");
+ 	}
  
--	device_set_wakeup_capable(&pdev->dev,
-+	device_set_wakeup_capable(dev,
- 				  of_property_read_bool(dn, "wakeup-source"));
+-	if (!IS_ERR(nop->clk)) {
+-		ret = clk_prepare_enable(nop->clk);
+-		if (ret)
+-			return ret;
+-	}
++	ret = clk_prepare_enable(nop->clk);
++	if (ret)
++		return ret;
  
- 	return 0;
+ 	nop_reset(nop);
+ 
+@@ -155,8 +151,7 @@ void usb_gen_phy_shutdown(struct usb_phy *phy)
+ 
+ 	gpiod_set_value_cansleep(nop->gpiod_reset, 1);
+ 
+-	if (!IS_ERR(nop->clk))
+-		clk_disable_unprepare(nop->clk);
++	clk_disable_unprepare(nop->clk);
+ 
+ 	if (!IS_ERR(nop->vcc)) {
+ 		if (regulator_disable(nop->vcc))
+@@ -202,17 +197,13 @@ int usb_phy_gen_create_phy(struct device *dev, struct usb_phy_generic *nop)
+ {
+ 	enum usb_phy_type type = USB_PHY_TYPE_USB2;
+ 	int err = 0;
+-
+ 	u32 clk_rate = 0;
+-	bool needs_clk = false;
+ 
+ 	if (dev->of_node) {
+ 		struct device_node *node = dev->of_node;
+ 
+ 		if (of_property_read_u32(node, "clock-frequency", &clk_rate))
+ 			clk_rate = 0;
+-
+-		needs_clk = of_property_present(node, "clocks");
+ 	}
+ 	nop->gpiod_reset = devm_gpiod_get_optional(dev, "reset",
+ 						   GPIOD_ASIS);
+@@ -235,15 +226,14 @@ int usb_phy_gen_create_phy(struct device *dev, struct usb_phy_generic *nop)
+ 	if (!nop->phy.otg)
+ 		return -ENOMEM;
+ 
+-	nop->clk = devm_clk_get(dev, "main_clk");
++	nop->clk = devm_clk_get_optional(dev, "main_clk");
+ 	if (IS_ERR(nop->clk)) {
+ 		dev_dbg(dev, "Can't get phy clock: %ld\n",
+ 					PTR_ERR(nop->clk));
+-		if (needs_clk)
+-			return PTR_ERR(nop->clk);
++		return PTR_ERR(nop->clk);
+ 	}
+ 
+-	if (!IS_ERR(nop->clk) && clk_rate) {
++	if (clk_rate) {
+ 		err = clk_set_rate(nop->clk, clk_rate);
+ 		if (err) {
+ 			dev_err(dev, "Error setting clock rate\n");
 -- 
 2.43.0
 
