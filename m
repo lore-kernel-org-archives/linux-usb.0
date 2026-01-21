@@ -1,108 +1,130 @@
-Received: from mail-pj1-f44.google.com (mail-pj1-f44.google.com [209.85.216.44])
+Received: from mail-wm1-f47.google.com (mail-wm1-f47.google.com [209.85.128.47])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A1E60314B7C
-	for <linux-usb@vger.kernel.org>; Wed, 21 Jan 2026 16:57:02 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.216.44
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A8E5634FF65
+	for <linux-usb@vger.kernel.org>; Wed, 21 Jan 2026 18:59:07 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.47
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1769014624; cv=none; b=p4cNg2LkJW7glgzvYbXZ+4v2l9UMOa3c5mF1bktQfMHjieDB2clO/f4RLIKaZQjS2UyCk5oN9fkeDB2PEjcWZ8KfdOGtPEAcrnxu4kLn0pFnJ0lF1T2GmW1ehw/6Pf7TNTo05ochwx0oDDUnhcuqreSmudpF2WoSgyQn3StQH8g=
+	t=1769021949; cv=none; b=cbHZ6PaZYPS6WUEhPN1jnvPIxAmde0p1DgYxtEk9kIkFkxDIm3xRTHOAnClvk9R1XzaFi7KZ8GomkkRoVRmsOuuETq85kFcPDfDQ0oOKusPYB6/NRYd3VZpfrLdiLxszCMZvBMjI4D8FitMuScDCE3xKKVo5E5gwDnIo7H/M3nc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1769014624; c=relaxed/simple;
-	bh=Z7VKEEbh/Mgf1KxHQovLwFtrWR4g8Q6l3XL5VtPDtHU=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=aN/dvVUlJfrTfO90GzxkO6MHL2HA+VXec0TtPaI5Js4/kDM55a49JH49HnazHo1fz96jaD+E4gYtBkUoqh6/PK4ZUIxrGIDloNxdgl+pqTz3vZmrng6AKpdTxthZ+n6LUyZynldq0nTSilHsPWz9fJO/8rk8afG/HPdFIsgIVaU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org; spf=pass smtp.mailfrom=gmail.com; arc=none smtp.client-ip=209.85.216.44
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org
+	s=arc-20240116; t=1769021949; c=relaxed/simple;
+	bh=wrxxGjfP+5GnkRibkSGpyCxIsIz43rN4YQvaQ7oPfIo=;
+	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=k6MaxKM+0UFBhtC/fMkZajJpUQcLQO5aT/9ON19eRSDNu3PXeWhDFa29f9rkcTHkWj/s2EDB546TEBZvEJG07YD6u/ZIbSHFjgd0Anh9Z8XDnjbuFESrq7oa2wkT/qOwRMmDF5tirQBE2U8sOPhWlNThCQPiFqnQpv6b2nV+MhY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=QCobc10W; arc=none smtp.client-ip=209.85.128.47
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-pj1-f44.google.com with SMTP id 98e67ed59e1d1-3530e7b3dc2so77919a91.3
-        for <linux-usb@vger.kernel.org>; Wed, 21 Jan 2026 08:57:02 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1769014622; x=1769619422;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="QCobc10W"
+Received: by mail-wm1-f47.google.com with SMTP id 5b1f17b1804b1-4801d24d91bso1739155e9.2
+        for <linux-usb@vger.kernel.org>; Wed, 21 Jan 2026 10:59:07 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1769021946; x=1769626746; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:subject:cc:to:from:date:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=qfo6ycbyZBbclnkJIZoIDjxzdLcGep03l3zua5CmEAY=;
-        b=OojLIGw1yybQZFoj//GWzT8Lv94cDY1fTnXq6pz1qRIuDICRlHJ0qmwAUYbDmbHMQJ
-         cW4AtushzEgLppMWuozPtbtJ4zVZr1nLJch9aQpqmnwOdf2J1lLkijA7kwsqt9IBmt18
-         6N81iVGlraFwpNcAlFdZ8FU9G59cd4JqsJVvN2oJzkx45wbGzX6SDsX936ctmz+AC8Av
-         hosc4zzXyxpfPyuulJIhbFXOMCtmycA+MSWftnKXJehNS/ygiND/LswrDdhJKfkIA+jj
-         3w21UkOuZypVwe9TM6t9HvOrh4M/tgPB0/h18qrLkHQ1+o+bx2haIF+k44f1ZOW7eIri
-         jA2A==
-X-Forwarded-Encrypted: i=1; AJvYcCVxqANOLnI/3Rvi64ij4XjjvL4RUqj1zYTFvU1lJ9N7Lv9u/sdSs8DjKbOYDmxSQRm5ymZ6frfKvR8=@vger.kernel.org
-X-Gm-Message-State: AOJu0Yx467JB6+4zurffJJULbwLrns3FBk3AUXMb2IG/YS0mEp3kYZzd
-	sgZ5YC9Hz8iFJstiLQTmH2XWUYO/ktsZb7kVcurA0qTlCGQnPm9kR2vg8URlMJ4U
-X-Gm-Gg: AZuq6aIt6YiN+7e3nnT6fDmdCqw1X1hoV4I/3ehTppYb1+Ewipk16owv1qkEUZpyBse
-	+8Yq29WtDczubWOkBoZLiyN6QFA0e8QGUeAFw3YTWXa7NcMR5FMeOnrXujI+fzA4AlZH3shB1Gq
-	xVeKX+nhif7Sq6+dWLsYcCPfTSD/txASLjdYh8NXgT8ZO5hySNV2J9jDV7WcWrAd8sHwr4gmL3W
-	sN2T0B+8MMuOxMjkhXcxeicX1/zYmKDfkEDoWGAGNXWem7G3banqFnv8bJGkE0mbeEO4YwfPDcE
-	072wQiKN4Vos6FxGD8KG3uBPdzvVvD6SFelylD2soEvUOLozJCfne9Lv39o/BStId0LWaJX+IKC
-	qsnS2D+0gbUu6NU7feKu/eJ3z+zDgcIGEAdZGIouLpghcx5K8TrIuu/3jpbq2aq2alkckqlyuYz
-	NYRXShC9PLwcAyWp/Rp0x2P0BRnblIC36uVLX4e69bYRInbbcYWxNXaM6Ob+WjeQE=
-X-Received: by 2002:a17:90b:3e4e:b0:340:d81d:7874 with SMTP id 98e67ed59e1d1-352c40a9cf1mr5632202a91.26.1769014621709;
-        Wed, 21 Jan 2026 08:57:01 -0800 (PST)
-Received: from mail-pf1-f172.google.com (mail-pf1-f172.google.com. [209.85.210.172])
-        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-35335205a2fsm37532a91.2.2026.01.21.08.57.01
-        for <linux-usb@vger.kernel.org>
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Wed, 21 Jan 2026 08:57:01 -0800 (PST)
-Received: by mail-pf1-f172.google.com with SMTP id d2e1a72fcca58-81f5381d168so85647b3a.2
-        for <linux-usb@vger.kernel.org>; Wed, 21 Jan 2026 08:57:01 -0800 (PST)
-X-Forwarded-Encrypted: i=1; AJvYcCV5EBNa1nyPBMs1fvUSHFW08aFcg9TGagjWJLFLm2tIyyFHd6od2ZUY7B4qvUXlNULssSz/ajshIoA=@vger.kernel.org
-X-Received: by 2002:a05:6102:162b:b0:5ef:b3b7:6e3f with SMTP id
- ada2fe7eead31-5f50aaa8a2fmr1678275137.3.1769014232636; Wed, 21 Jan 2026
- 08:50:32 -0800 (PST)
+        bh=v3CiRXfW7OiyeqDRS/V5H9jo7jqnwu85t2dfMJoFCM0=;
+        b=QCobc10W8qh+W1kpAc54iwiZcOtuAkIgrjliU3QHFE3QfrE0ZElvW/B8q4Fu0Avo6b
+         J7Tl1wtv6oz7OvvXArZGOh4PNag0ch/56cJdZye2pvyjoe/bCkh3s+suNIa4Se4XPsxm
+         68PFZ8kuHOFYnLxowd7ufvcJFD9phNt8cDE3yn+1+2dMXsdv9Iw3ajMS3CXhfnoQOFOH
+         jg0XBcX29zU5DTN8AH6VNwG1MpBbptPi0kdlsrRo7UvE93VMghaAoyWQsjsOer9R0h1q
+         nGdD3TcAVvC3iiOg7/1h+0QZYom3x61VXzj0wrUt0m5s8/jpcN7TlC0mrspnNbvuXpKs
+         a/oQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1769021946; x=1769626746;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:subject:cc:to:from:date:x-gm-gg:x-gm-message-state:from
+         :to:cc:subject:date:message-id:reply-to;
+        bh=v3CiRXfW7OiyeqDRS/V5H9jo7jqnwu85t2dfMJoFCM0=;
+        b=JccnX2p1NmWgrA8j9lu6RhkDmyKkxaC29IQAtbd7BqjM3y70vm/0q1KW+J9dAGgh0y
+         yYKzTMVO9605YdremTDREbnnGLHpTyZb/CBCBkM1+CWajXKb4bre260/IYICrTZN2L5z
+         PwDJia3IfNXcUsRmsaQG+NosT0kDQSFhc+xhkTWx98kRXCUdmYvTpJ+701vJNNrZ74eY
+         qSoMfwNUNWeLdueP171O4jQ1x05YFSYrXTC3rFxpjYtsdIbPiRM3Mop/UgYsCsYoWdNA
+         y3zDjUQoflnmhp2et31OwQ+LjI7iGKkWGkxLqx6N8vP6xI7tmItsKaSA7EqopkVJLHfF
+         EDcg==
+X-Forwarded-Encrypted: i=1; AJvYcCVePtKffMK8NkEZkwEwxM0MA8lVvWNF4jk3Uyq6nFYX+P5+4zpdyeCbKenZqbk0WYMRACk4RT8MDiQ=@vger.kernel.org
+X-Gm-Message-State: AOJu0YxIHWC43SNldFDW1UQmHAEpHd+eWOV8k4C8mZBAL3FOFqXrRz7a
+	mOx5ojl/EQpIkx/k5r83NUvtAONhnw1uqkzGC2qXx3i5NbjkdFVI6YnW
+X-Gm-Gg: AZuq6aIOWtRsPjHd7jY/wPB/q1nca+Fa2KpZbKTm3bsiDcPHQiytQs9j0Ye8ZhqP14Q
+	2k2d1/YXZHcD3ttdMEu6qgyykxhAH5sJ9l8Sk1L72d6cNbtuhikyZINPi5nFGD1vyPaWUGge+f4
+	6bWubjODSmHqYBwEoJNeNpkOuKrTRi9LzTKk9QOYKp4HIfrZMWwfyZuz9wu27/ymAJWTvWjZIXn
+	UYnMWmnGr/hzNMkCoV5vIbwtyNis/XLIxVYeOl9COfwyZLOudyRU9Ep9rVGumjOeDN9aaiwRVQF
+	oRJoEJargVub7yoMDb3DZLsY/w8colp24Wn+ga8XK0uQiBDB7W933IHx403/P9rEewuD/pulN3e
+	w5pEOlKBNf1A/KgWa3Cj9syp+arCLTpg2bYLZECTYEoMj7jPctPGkpha57Ih5nmzo9FELo3ngnO
+	RAzJzLrxponcrg7Xuei71eWLVc0VEIIIZxg9c/v9QFZzk2TILWyUmc
+X-Received: by 2002:a05:600c:1f87:b0:480:1e92:dc65 with SMTP id 5b1f17b1804b1-4803e7f3c8emr99522385e9.31.1769021945554;
+        Wed, 21 Jan 2026 10:59:05 -0800 (PST)
+Received: from pumpkin (82-69-66-36.dsl.in-addr.zen.co.uk. [82.69.66.36])
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-4804245320dsm9691175e9.0.2026.01.21.10.59.04
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 21 Jan 2026 10:59:05 -0800 (PST)
+Date: Wed, 21 Jan 2026 18:59:03 +0000
+From: David Laight <david.laight.linux@gmail.com>
+To: Geert Uytterhoeven <geert@linux-m68k.org>
+Cc: Yury Norov <yury.norov@gmail.com>, Rasmus Villemoes
+ <linux@rasmusvillemoes.dk>, linux-kernel@vger.kernel.org,
+ linux-usb@vger.kernel.org, Alexandre Belloni
+ <alexandre.belloni@bootlin.com>, Jonathan Cameron
+ <Jonathan.Cameron@huawei.com>, Crt Mori <cmo@melexis.com>, Richard Genoud
+ <richard.genoud@bootlin.com>, Andy Shevchenko
+ <andriy.shevchenko@intel.com>, Luo Jie <quic_luoj@quicinc.com>, Peter
+ Zijlstra <peterz@infradead.org>, Jakub Kicinski <kuba@kernel.org>,
+ netdev@vger.kernel.org, "David S . Miller" <davem@davemloft.net>, Mika
+ Westerberg <mika.westerberg@linux.intel.com>, Andreas Noever
+ <andreas.noever@gmail.com>, Yehezkel Bernat <YehezkelShB@gmail.com>,
+ Nicolas Frattaroli <nicolas.frattaroli@collabora.com>
+Subject: Re: [PATCH v2 03/16] bitmap: Use FIELD_PREP() in expansion of
+ FIELD_PREP_WM16()
+Message-ID: <20260121185903.201abe71@pumpkin>
+In-Reply-To: <CAMuHMdUo_Xow2YwMaDzPUW8w-3O12nqguzvoR6ij0X3R+syvOA@mail.gmail.com>
+References: <20251212193721.740055-1-david.laight.linux@gmail.com>
+	<20251212193721.740055-4-david.laight.linux@gmail.com>
+	<CAMuHMdV3WAxshZL9gw4+NeovX-9FjUZrk+coUAA7+=y6GmPECA@mail.gmail.com>
+	<CAMuHMdUo_Xow2YwMaDzPUW8w-3O12nqguzvoR6ij0X3R+syvOA@mail.gmail.com>
+X-Mailer: Claws Mail 4.1.1 (GTK 3.24.38; arm-unknown-linux-gnueabihf)
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20251212193721.740055-1-david.laight.linux@gmail.com> <20251212193721.740055-4-david.laight.linux@gmail.com>
-In-Reply-To: <20251212193721.740055-4-david.laight.linux@gmail.com>
-From: Geert Uytterhoeven <geert@linux-m68k.org>
-Date: Wed, 21 Jan 2026 17:50:21 +0100
-X-Gmail-Original-Message-ID: <CAMuHMdV3WAxshZL9gw4+NeovX-9FjUZrk+coUAA7+=y6GmPECA@mail.gmail.com>
-X-Gm-Features: AZwV_QiqIMwt_a12kTPgIHFmNfmJbn0zP9R9-I36H0fdo0DzJDyqVo7w364KYOw
-Message-ID: <CAMuHMdV3WAxshZL9gw4+NeovX-9FjUZrk+coUAA7+=y6GmPECA@mail.gmail.com>
-Subject: Re: [PATCH v2 03/16] bitmap: Use FIELD_PREP() in expansion of FIELD_PREP_WM16()
-To: david.laight.linux@gmail.com
-Cc: Yury Norov <yury.norov@gmail.com>, Rasmus Villemoes <linux@rasmusvillemoes.dk>, 
-	linux-kernel@vger.kernel.org, linux-usb@vger.kernel.org, 
-	Alexandre Belloni <alexandre.belloni@bootlin.com>, 
-	Jonathan Cameron <Jonathan.Cameron@huawei.com>, Crt Mori <cmo@melexis.com>, 
-	Richard Genoud <richard.genoud@bootlin.com>, Andy Shevchenko <andriy.shevchenko@intel.com>, 
-	Luo Jie <quic_luoj@quicinc.com>, Peter Zijlstra <peterz@infradead.org>, 
-	Jakub Kicinski <kuba@kernel.org>, netdev@vger.kernel.org, 
-	"David S . Miller" <davem@davemloft.net>, Mika Westerberg <mika.westerberg@linux.intel.com>, 
-	Andreas Noever <andreas.noever@gmail.com>, Yehezkel Bernat <YehezkelShB@gmail.com>, 
-	Nicolas Frattaroli <nicolas.frattaroli@collabora.com>
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
 
-On Fri, 12 Dec 2025 at 20:38, <david.laight.linux@gmail.com> wrote:
-> From: David Laight <david.laight.linux@gmail.com>
->
-> Instead of directly expanding __BF_FIELD_CHECK() (which really ought
-> not be used outside bitfield) and open-coding the generation of the
-> masked value, just call FIELD_PREP() and add an extra check for
-> the mask being at most 16 bits.
-> The extra check is added after calling FIELD_PREP() to get a sane
-> error message if 'mask' isn't constant.
->
-> Remove the leading _ from the formal parameter names.
-> Prefix the local variables with _wm16_ to hopefully make them
-> unique.
->
-> Signed-off-by: David Laight <david.laight.linux@gmail.com>
+On Wed, 21 Jan 2026 17:52:29 +0100
+Geert Uytterhoeven <geert@linux-m68k.org> wrote:
 
-Reviewed-by: Geert Uytterhoeven <geert+renesas@glider.be>
+> On Wed, 21 Jan 2026 at 17:50, Geert Uytterhoeven <geert@linux-m68k.org> wrote:
+> > On Fri, 12 Dec 2025 at 20:38, <david.laight.linux@gmail.com> wrote:  
+> > > From: David Laight <david.laight.linux@gmail.com>
+> > >
+> > > Instead of directly expanding __BF_FIELD_CHECK() (which really ought
+> > > not be used outside bitfield) and open-coding the generation of the
+> > > masked value, just call FIELD_PREP() and add an extra check for
+> > > the mask being at most 16 bits.
+> > > The extra check is added after calling FIELD_PREP() to get a sane
+> > > error message if 'mask' isn't constant.
+> > >
+> > > Remove the leading _ from the formal parameter names.
+> > > Prefix the local variables with _wm16_ to hopefully make them
+> > > unique.
+> > >
+> > > Signed-off-by: David Laight <david.laight.linux@gmail.com>  
+> >
+> > Reviewed-by: Geert Uytterhoeven <geert+renesas@glider.be>  
+> 
+> Oops, just noticed  commit 2fb6915fa22dc552
+> ("compiler_types.h: add "auto" as a macro for "__auto_type""),
+> so you want to do s/__auto_type/auto/g.
 
-Gr{oetje,eeting}s,
+That wasn't there when I was writing the series.
+I knew it was coming but didn't want build breakages.
 
-                        Geert
+	David
 
--- 
-Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
+> 
+> Gr{oetje,eeting}s,
+> 
+>                         Geert
+> 
 
-In personal conversations with technical people, I call myself a hacker. But
-when I'm talking to journalists I just say "programmer" or something like that.
-                                -- Linus Torvalds
