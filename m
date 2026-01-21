@@ -1,58 +1,58 @@
-Received: from mail-oi1-f169.google.com (mail-oi1-f169.google.com [209.85.167.169])
+Received: from mail-ot1-f49.google.com (mail-ot1-f49.google.com [209.85.210.49])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 146F4314A95
-	for <linux-usb@vger.kernel.org>; Wed, 21 Jan 2026 16:37:24 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.169
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A0828481FD0
+	for <linux-usb@vger.kernel.org>; Wed, 21 Jan 2026 16:51:58 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.49
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1769013447; cv=none; b=traHaa32bdZSmxQWij/p27olNFVJDH43mMf8HbP2JRN37rXwo3n45ZTgOhF8kVSXhN68/ekfTLGzxrv7wHTjbfGqC8VhB5sDu7NWJtsGjLbyMwEu6wJnk3KkglQpUdd3bfsS5d9c/mB3VLHhM4h3P7NWE+pYheO3d9mzXFFDEyM=
+	t=1769014321; cv=none; b=DRU2NJsxOl5zl9+MgbIeD8wheHX8rS0+B/Q0eF1gqoADs1774JVMmrxDDlQaPiYsBCApSzOxcXqkTuPLDS6/qvjlVmaA+AjBZvR7MRIVeD7Y3IYAZNbstzYH/+NqEkLBk8Y6cpWgm7ZLjVBIKyfBj6kxlGUoXwXqjDYh+9CzGU4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1769013447; c=relaxed/simple;
-	bh=ORLqTIWPIiuat4QwAVPOZnmfmYJ6ZMYHUtl8Rmgnqow=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=LEzx/GLqErlbrhuS3G4GNx21F5QAmD/6tS78Hjb2KeMqJEe63FVmWAd10TtPcs7BDjx91l8LLm+iF4Q4vHn8sx72+TOpL+97e/tLCSRduSDmyAbplEeij9pQijv5xhV1bqXE0/jhZMcJxyN+Ghh6WuLEV3nNFEmY7Qi3AHtRUSA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linuxfoundation.org; spf=pass smtp.mailfrom=linuxfoundation.org; dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b=QG0U62PW; arc=none smtp.client-ip=209.85.167.169
+	s=arc-20240116; t=1769014321; c=relaxed/simple;
+	bh=J2KlbxlXxnBv/Z3eotJpClvqg//zYndwVmqTs81NL30=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=drX98ykQTwer4lG2TnHRc6e/ltajkmZJPEi0bC2PEAHIGpMBawPMY9iilaBeaBzQBVbQc+oiVpCfx+5CtEteLoZ0HPz/zWtAgw1wxV8ZEWD2BiiscW87M0EdP0j4WnrTFX1wcGEqhuTr31tn+ikRwFp8oSuOYebGXSZaS6dpgB8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linuxfoundation.org; spf=pass smtp.mailfrom=linuxfoundation.org; dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b=INLtldtP; arc=none smtp.client-ip=209.85.210.49
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linuxfoundation.org
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linuxfoundation.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="QG0U62PW"
-Received: by mail-oi1-f169.google.com with SMTP id 5614622812f47-45c8984fac8so21429b6e.3
-        for <linux-usb@vger.kernel.org>; Wed, 21 Jan 2026 08:37:24 -0800 (PST)
+	dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="INLtldtP"
+Received: by mail-ot1-f49.google.com with SMTP id 46e09a7af769-7d122733808so21414a34.2
+        for <linux-usb@vger.kernel.org>; Wed, 21 Jan 2026 08:51:58 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linuxfoundation.org; s=google; t=1769013444; x=1769618244; darn=vger.kernel.org;
+        d=linuxfoundation.org; s=google; t=1769014317; x=1769619117; darn=vger.kernel.org;
         h=content-transfer-encoding:mime-version:message-id:date:subject:cc
          :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=N4lAhXN1HmnaRMb9l7lSPcYI4Yng0ZWppyulkwxG0+k=;
-        b=QG0U62PWou++RfoIQtB+2zUV7C0ybnOyT3T/Z8sTqdSJtdrTHXqKGUSGIVRGCKzhRJ
-         OoDuCySjxC/Q0wH85x17QUiuwNawsUIDjPPnyQvuuh3LstXqVSnJDVi0JbRUhhLkZ2pi
-         HXEG5PRsW7ED10n1leC6vPfNerc8kr3o4+CZs=
+        bh=TpYUUbJ5aqOqspZ1DTvcPHqXjq9oGVafce549lbxQ6s=;
+        b=INLtldtPuWc+TY6OVCojXtkKLAlCW5Gj7IadtcD7OtE0c1bt7muKUQflY+rmX3ueg5
+         C+Wq1z3zIg95rO+cOniWO75bWSrCQepSHtZjKq7J06MPfGjc+rZG1MfNH6n8uH5O34F6
+         D/0SQKZb+diMI9S+ae3t86XH9jdHZVLtQsHPI=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1769013444; x=1769618244;
+        d=1e100.net; s=20230601; t=1769014317; x=1769619117;
         h=content-transfer-encoding:mime-version:message-id:date:subject:cc
          :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=N4lAhXN1HmnaRMb9l7lSPcYI4Yng0ZWppyulkwxG0+k=;
-        b=lLkE6TchOvPGW2Z3SMKCqMhi3TW0JwLVXNGaMkiT0hm4Adq3lmY+QVBehlHPAha2dF
-         lztNeYanhtpN53/Y/7X38pZVo8h9We58zj5/HlbUwq+OVNliNlxbRuNtvWNW1NKvkjIG
-         +ebqZz1aDZmdymRSnfJz8MUGZtPEU6iY2K4tDqBj/OmdFFGrmiIyEr6QqFD9VgQ9fpPV
-         owlgd9w2/N3RjLOLb/2gomXSZVrYZxmT8vOU+pJ84kNbyasQC7V1O8M0FZ3PwytilmEl
-         +3yVkIctVtgwkmluxN28/MWPlhZkBcd/5p6DpFhkGwdnqBqr1dHnv1Mrf2eEbLLSoa40
-         aFlw==
-X-Forwarded-Encrypted: i=1; AJvYcCV77d+5WYOBtLZaIUlO1iaAh0RIdHHiKHMbbcfTEc7gmEuEekkkE8ZSuEMStDTgePGQqPSj6C6oJ/o=@vger.kernel.org
-X-Gm-Message-State: AOJu0Yxceteg7ggC91hX2ttbNq46NNcARupOP5u3Q+ZufxO7he+pPBpf
-	illVQwnxtk+0i023XCpaAuFLVZqZHKeI/iwDJkJU9xJINsaZD4iho7B+tW1LNYV5zoQ=
-X-Gm-Gg: AZuq6aKMoIvny7wsf1JfHQeB7/S5G8W+4qODKefezD6eqFClsgJuMmoMIiMPGAIlJsZ
-	RlQNqzbLYskwh2zHUt4NJP7EC30yQFOTwsYcHhV1CcrxiEYtEkwmbC62X/r3ZDlB80hvIy8sxaI
-	YEz+MWPt+lsylI4EgEvNMnBQQuKsHYOD8/SYiX5devbm0kXQWYAlQbjTJYnswXb52HpShj3C7TF
-	H1sikNdg8a9I0Zw8Ma77BjbSVJoE0tXsMZtbD7rUPUmXh/STK4TS2849YU+GFddBxAyyd31tGdg
-	C+PTjKQu0OO+ArRZq28+0hWvptD6Kz2lotbrbqVBZyJ8maMIRpAyN2conVggOK0ZrJQiExk7w6F
-	QuwIVaj6zvTI2XZdMH55DuEuizNjdHzWGCRGUPITeoD14Zo1n/2fuoqAaMPbyuhTd1EBpyxJs4A
-	t4brxu6Id7/8Afl7MS1dE1UqRcOXr3xLoGCZXb
-X-Received: by 2002:a05:6808:2507:b0:450:bcc7:18ea with SMTP id 5614622812f47-45c9c01ec83mr6437125b6e.29.1769013443911;
-        Wed, 21 Jan 2026 08:37:23 -0800 (PST)
+        bh=TpYUUbJ5aqOqspZ1DTvcPHqXjq9oGVafce549lbxQ6s=;
+        b=IXWmKlbTf2gG15LhoyIivwrZKSnYTAjrSIHSYygzAUg00g2AUL68gjzYBLo0qiLKEb
+         PNPAAz9HQ6rd2livGiYM8KPU4j0BG59YQpVbtmyKtDsPskRcL2cMgPQWdEdRNnQ+oO65
+         JO/GZM817pNB4nDFez2H+4OWD6ex6LlQcXaji+JSAhH4j5xaixPrfwOLnNp6ui6Tputk
+         F5YK9G2u2tDqPImWMagDM7zC/BE2Zu55SIVh5meukJcYDoOmhsc2qhVZhX/AZy9rdWoX
+         IzY5MPS8WfLpkjccepEoEpSl27m5u6gRZK0qEPAS0LkTnatr5fntS49YEvkSZgBl1ON5
+         bbIQ==
+X-Forwarded-Encrypted: i=1; AJvYcCXkfaNdDXFg8KmIXxrREu+KyaaU2VmrL6aaVXzZOD7+0Qivm1H49Claia1n7ZR+C22PpTqFkORr8nI=@vger.kernel.org
+X-Gm-Message-State: AOJu0YwaHT3K3bdcolDsW9MNxnxFfI4tSdefn6aXa/MNTkRxpOY/OFda
+	43TBd2ceRnwyMChIsD8YJCehKjElQyJGIdik3dSEQkuBeCyAikMQz1y+tilimAwAgPU=
+X-Gm-Gg: AZuq6aKIs65G1ZxWCst/hAK8XpKUNM162+XyPjtIcvyW7Sw3/f+aeEELRKdPgL2DvVK
+	uR9PO+r26M0H//lw2iYOnVpqsBKVKZgk0M3CHC2W5PPt5Ri9pEGF+kT9+kbpvHIuP7tE6/2eey2
+	rVNWxbHbWFrABdAVarUozqJ+A7OW3znKnzXvrU4I+uyxv+6mzAy+ki9VjtESju31rF8S1OuGJTt
+	SYsj+CJNfCkFHPr5IqwnfUAg5rRnLIMgDxOJ2V6ss1hXzAtm1MdZXiN0Y4JD6lTIDI2xW0cdchw
+	0oS4FZAe2GrHNw3HIBjqtgeWPIaM1CNN0Ku61z6xKzAMrNbr60/2V03xXs1gLWCHzplAk1fukb3
+	7TRv3x2AZrjWW5v3LQWFdiOZIKshphLGDe6pTIv6vl2ZeLQjlih8JbLnu1LmCJmIAnSKvlLuOVc
+	s41Z7VsUjmLRTb0fvL9kxXRHW1O39/F1nfatn0
+X-Received: by 2002:a05:6830:6735:b0:7cf:d1b7:c319 with SMTP id 46e09a7af769-7cfe00d95aamr9993847a34.2.1769014317421;
+        Wed, 21 Jan 2026 08:51:57 -0800 (PST)
 Received: from shuah-framework.internal ([38.175.187.108])
-        by smtp.gmail.com with ESMTPSA id 5614622812f47-45c9e03e924sm8441674b6e.19.2026.01.21.08.37.23
+        by smtp.gmail.com with ESMTPSA id 46e09a7af769-7cfdf000b80sm10830804a34.0.2026.01.21.08.51.56
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 21 Jan 2026 08:37:23 -0800 (PST)
+        Wed, 21 Jan 2026 08:51:56 -0800 (PST)
 From: Shuah Khan <skhan@linuxfoundation.org>
 To: valentina.manea.m@gmail.com,
 	shuah@kernel.org,
@@ -62,9 +62,9 @@ To: valentina.manea.m@gmail.com,
 Cc: Shuah Khan <skhan@linuxfoundation.org>,
 	linux-usb@vger.kernel.org,
 	linux-kernel@vger.kernel.org
-Subject: [PATCH] usbip: Reduce CONNRESET message noise in dmesg from stub
-Date: Wed, 21 Jan 2026 09:37:19 -0700
-Message-ID: <20260121163721.11933-1-skhan@linuxfoundation.org>
+Subject: [PATCH] tools: usb: usbip: remove dead-link from README
+Date: Wed, 21 Jan 2026 09:51:54 -0700
+Message-ID: <20260121165155.13550-1-skhan@linuxfoundation.org>
 X-Mailer: git-send-email 2.51.0
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
@@ -74,30 +74,32 @@ List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-stub_complete() prints informational messages for each urb unlink
-filling dmesg. Change the message to dev_dbg() similar to vhci
-reports the CONNRESET condition.
+Remove dead-link to Debug Tips document on usbip project wiki
+http://usbip.wiki.sourceforge.net/how-to-debug-usbip
+
+Tried and failed find the file in archives. It would be nice to
+locate the file and add this to usbip tool.
 
 Reported-by: Ignacio Hernandez-Ros <ignacio@hernandez-ros.com>
-Closes: https://lore.kernel.org/all/0101019b92e81c20-09906fb4-d5e8-40a6-9192-ab693eef4179-000000@us-west-2.amazonses.com/
+Closes: https://lore.kernel.org/all/0101019bdf6ca137-60344502-51d2-4767-a34b-6a7cf1bfdf4a-000000@us-west-2.amazonses.com/
 Signed-off-by: Shuah Khan <skhan@linuxfoundation.org>
 ---
- drivers/usb/usbip/stub_tx.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ tools/usb/usbip/README | 2 --
+ 1 file changed, 2 deletions(-)
 
-diff --git a/drivers/usb/usbip/stub_tx.c b/drivers/usb/usbip/stub_tx.c
-index 55919c3762ba..4cae452bfadb 100644
---- a/drivers/usb/usbip/stub_tx.c
-+++ b/drivers/usb/usbip/stub_tx.c
-@@ -55,7 +55,7 @@ void stub_complete(struct urb *urb)
- 			 "stopped by a call to usb_kill_urb() because of cleaning up a virtual connection\n");
- 		return;
- 	case -ECONNRESET:
--		dev_info(&urb->dev->dev,
-+		dev_dbg(&urb->dev->dev,
- 			 "unlinked by a call to usb_unlink_urb()\n");
- 		break;
- 	case -EPIPE:
+diff --git a/tools/usb/usbip/README b/tools/usb/usbip/README
+index 2fc021c0eae1..11971538f03e 100644
+--- a/tools/usb/usbip/README
++++ b/tools/usb/usbip/README
+@@ -241,8 +241,6 @@ Detach the imported device:
+ 
+ 
+ [Checklist]
+-    - See 'Debug Tips' on the project wiki.
+-	- http://usbip.wiki.sourceforge.net/how-to-debug-usbip
+     - usbip-host.ko must be bound to the target device.
+ 	- See /sys/kernel/debug/usb/devices and find "Driver=..." lines of the device.
+     - Target USB gadget must be bound to vudc
 -- 
 2.51.0
 
