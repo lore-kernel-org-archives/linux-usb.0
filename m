@@ -1,123 +1,90 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3A601395731;
-	Thu, 22 Jan 2026 17:06:53 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9FCDD3803EE
+	for <linux-usb@vger.kernel.org>; Thu, 22 Jan 2026 19:38:03 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1769101613; cv=none; b=RqDtlEhamefCAgJ191Xra1ZbUmeSi8TsulFWWBQwGAOn5DV58KVluHsFXUpfTpqGDywD3P8Kfj9u/rIGdc9TAaH1GtsJL8YslwbRFboP0CGoi6r68ya57ejKNgfHC1031CjRMx2jkGgUFzk3PAi6haSdjGFXDn9djiUlTw/+5oA=
+	t=1769110683; cv=none; b=M2p++gJD4bmIBitzSaHHxvfaq6ZW+XxVDR/ISmIv/ZTBeBKsGZOBXa/VEF2I7RWjx291/aTsQTAvlAnz+RkkYB5RfuhY3KlivXFPjJNHjh/oYoM6PMx31FxGGmi0CI0k4Gwn0IACVuLaOJ++qDtg/m6S/ELjym7g1gDo23XgkBw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1769101613; c=relaxed/simple;
-	bh=riDE5Q5BDE4FI/xKxhVniW2Qhd4SP6QksPMOACfu2/M=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=eIdc2sIjuXVp3279iw5s3f7IPJ1t3RECCiqLF+IRq8R33C6FtxrP3sqIrvSLo6D1y49SGs0XK3BdCKbpvKh/Nx8s9xx5PvigSN/Q2bfyBhqIbOTi/2KO28JuNyV3FTY1zeUkmxaEMTsd+DZhTG/PSEZG5skDmZPnw2nQu14LOas=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=hdKExb2s; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1769110683; c=relaxed/simple;
+	bh=YOz2HhCbiWKOnnroW1rgmPl9l0qvLq8bzycAVgB3rNc=;
+	h=From:To:Subject:Date:Message-ID:In-Reply-To:References:
+	 Content-Type:MIME-Version; b=Kv3f22hUvN24XznPXBK42Q6FPbZtCIe0O2CBIQi3Ust7qEeZSGVP4kN2Rl0j7SXwnXVHw+PUQsO0YfZweR0tLn8pKzYtkxbkZJjS1/KlPakLbEThmiXUr61hVAmFAiEmlTJRZKxGekBynDpFhFETBkGZF47SIq0SM8rnLnEgG+E=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=uVmyuUaX; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="hdKExb2s"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 67534C116C6;
-	Thu, 22 Jan 2026 17:06:52 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="uVmyuUaX"
+Received: by smtp.kernel.org (Postfix) with ESMTPS id 44126C2BC86
+	for <linux-usb@vger.kernel.org>; Thu, 22 Jan 2026 19:38:02 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1769101612;
-	bh=riDE5Q5BDE4FI/xKxhVniW2Qhd4SP6QksPMOACfu2/M=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=hdKExb2sEIKcJjvZGqffcSS2/X1AbgL8H287wRZVxqjkqCCbFN1zOCtIIEQbe5wIb
-	 4k7gBZsR10FwWyAWuMxTfoKU+/bTstVr8Lz+O6adTPPZcd0J3wZ0grO7m0ViRY4avz
-	 UvBap2V2rT1pkXTDA6WCvjM/Fr4sZ7AVhHM+hj1wlZtpTNh4zWhGkySOAKGJbpc13T
-	 SFTgMAAqdot1fp++cyL8dV9y/2yN7As4npdSyjcwh1b81uTGyUlCVFuNh75Df/kuIM
-	 DxohTvbNOtq4sTCMi6H51wwLtpbw4iqICx2x89XzacTd1mUd7HKWrKvR7aZx/FPVCB
-	 ZZFDPfqpcTN8w==
-Date: Thu, 22 Jan 2026 11:06:51 -0600
-From: Rob Herring <robh@kernel.org>
-To: Swati Agarwal <swati.agarwal@oss.qualcomm.com>
-Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	Krzysztof Kozlowski <krzk+dt@kernel.org>,
-	Conor Dooley <conor+dt@kernel.org>, Icenowy Zheng <uwu@icenowy.me>,
-	Matthias Kaehlcke <mka@chromium.org>,
-	Mike Looijmans <mike.looijmans@topic.nl>,
-	Stephen Boyd <swboyd@chromium.org>,
-	Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>,
-	Jens Glathe <jens.glathe@oldschoolsolutions.biz>,
-	Chaoyi Chen <chaoyi.chen@rock-chips.com>,
-	J =?iso-8859-1?Q?=2E_Neusch=E4fer?= <j.ne@posteo.net>,
-	Pin-yen Lin <treapking@chromium.org>,
-	Catalin Popescu <catalin.popescu@leica-geosystems.com>,
-	Bjorn Andersson <andersson@kernel.org>,
-	Konrad Dybcio <konradybcio@kernel.org>, linux-usb@vger.kernel.org,
-	devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
-	linux-arm-msm@vger.kernel.org
-Subject: Re: [PATCH v5 1/4] dt-bindings: usb: Add binding for Genesys Logic
- GL3590 hub
-Message-ID: <20260122170651.GA2632938-robh@kernel.org>
-References: <20260122092852.887624-1-swati.agarwal@oss.qualcomm.com>
- <20260122092852.887624-2-swati.agarwal@oss.qualcomm.com>
+	s=k20201202; t=1769110682;
+	bh=YOz2HhCbiWKOnnroW1rgmPl9l0qvLq8bzycAVgB3rNc=;
+	h=From:To:Subject:Date:In-Reply-To:References:From;
+	b=uVmyuUaXVWxc5oh56kqj65S8wCbYBgWZOjTRMVgQUj2P4K9xL//VWY5XiRLlUGyZu
+	 8KWUaPzbMd+GkjSRqZAplXra0whW+b9MnD7QA9t2Q35vob1eH1dwTOQX5ZvmeVcjZ1
+	 +1oybU2PVy5uDNJEfrumUl/aUhbnHOyymRk09sQ6bztfgHIKlLo+3kLTYDTXQdtNMz
+	 Mu2KP/z98paE9stNLWa11CBKJj1hplwoWoF+EKaksDcdCtBil4cE2uYO6vpgHnTAea
+	 l2o1j3SjFz4Wf18h9n0/TmzSnnUvaFAoZFum+TEavtyX/2IKiiw8tjdNV7r0tig88d
+	 S5hs6Bh0M9COg==
+Received: by aws-us-west-2-korg-bugzilla-1.web.codeaurora.org (Postfix, from userid 48)
+	id 3A329C41616; Thu, 22 Jan 2026 19:38:02 +0000 (UTC)
+From: bugzilla-daemon@kernel.org
+To: linux-usb@vger.kernel.org
+Subject: [Bug 215740] kernel warning: DMA-API: xhci_hcd: cacheline tracking
+ EEXIST, overlapping mappings aren't supported
+Date: Thu, 22 Jan 2026 19:38:01 +0000
+X-Bugzilla-Reason: None
+X-Bugzilla-Type: changed
+X-Bugzilla-Watch-Reason: AssignedTo drivers_usb@kernel-bugs.kernel.org
+X-Bugzilla-Product: Drivers
+X-Bugzilla-Component: USB
+X-Bugzilla-Version: 2.5
+X-Bugzilla-Keywords: 
+X-Bugzilla-Severity: normal
+X-Bugzilla-Who: linux@roeck-us.net
+X-Bugzilla-Status: NEW
+X-Bugzilla-Resolution: 
+X-Bugzilla-Priority: P1
+X-Bugzilla-Assigned-To: drivers_usb@kernel-bugs.kernel.org
+X-Bugzilla-Flags: 
+X-Bugzilla-Changed-Fields: 
+Message-ID: <bug-215740-208809-ezFKorXPdR@https.bugzilla.kernel.org/>
+In-Reply-To: <bug-215740-208809@https.bugzilla.kernel.org/>
+References: <bug-215740-208809@https.bugzilla.kernel.org/>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+X-Bugzilla-URL: https://bugzilla.kernel.org/
+Auto-Submitted: auto-generated
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20260122092852.887624-2-swati.agarwal@oss.qualcomm.com>
 
-On Thu, Jan 22, 2026 at 02:58:49PM +0530, Swati Agarwal wrote:
-> Add the binding for the USB3.2 Genesys Logic GL3590 hub.
-> GL3590 hub requires 1.2V and 3.3V supplies for operation.
-> 
-> Signed-off-by: Swati Agarwal <swati.agarwal@oss.qualcomm.com>
-> ---
->  .../bindings/usb/genesys,gl850g.yaml          | 19 +++++++++++++++++++
->  1 file changed, 19 insertions(+)
-> 
-> diff --git a/Documentation/devicetree/bindings/usb/genesys,gl850g.yaml b/Documentation/devicetree/bindings/usb/genesys,gl850g.yaml
-> index 9a94b2a74a1e..6ab13785e832 100644
-> --- a/Documentation/devicetree/bindings/usb/genesys,gl850g.yaml
-> +++ b/Documentation/devicetree/bindings/usb/genesys,gl850g.yaml
-> @@ -15,6 +15,7 @@ properties:
->        - usb5e3,608
->        - usb5e3,610
->        - usb5e3,620
-> +      - usb5e3,625
->        - usb5e3,626
->  
->    reg: true
-> @@ -26,6 +27,10 @@ properties:
->      description:
->        The regulator that provides 3.3V or 5.0V core power to the hub.
->  
-> +  vdd12-supply:
-> +    description:
-> +      The regulator that provides 1.2V power to the hub.
-> +
->    peer-hub: true
->  
->    ports:
-> @@ -56,6 +61,7 @@ allOf:
->        properties:
->          peer-hub: false
->          vdd-supply: false
-> +        vdd12-supply: false
->  
->    - if:
->        properties:
-> @@ -68,6 +74,19 @@ allOf:
->        properties:
->          peer-hub: true
->          vdd-supply: true
-> +        vdd12-supply: false
-> +
-> +  - if:
-> +      properties:
-> +        compatible:
-> +          contains:
-> +            enum:
-> +              - usb5e3,625
-> +    then:
-> +      properties:
-> +        peer-hub: true
-> +        vdd-supply: true
-> +        vdd12-supply: true
+https://bugzilla.kernel.org/show_bug.cgi?id=3D215740
 
-Comment on v4 still applies. All the 'true' lines are pointless.
+--- Comment #47 from Guenter Roeck (linux@roeck-us.net) ---
+I (and Google, for that matter) long since went beyond that after the above
+feedback ("Equally important, however, is the question of why the people
+experiencing this problem turned on CONFIG_DMA_API_DEBUG in the first place.
+That setting is meant only for kernel testing and it drastically reduces
+performance.").
 
-Rob
+For context, we don't enable CONFIG_DMA_API_DEBUG in production images. We
+enable it in test images to catch problems which are only caught in debug
+images. Getting false positives in such images doesn't help and hides real
+problems.
+
+So we gave up trying to fix the problem in the upstream kernel and implemen=
+ted
+a (downstream) workaround which excludes the "hub" and "xhcd_hcd" drivers f=
+rom
+DMA cacheline tracking. That may not be perfect, but it does the trick for =
+us.
+
+--=20
+You may reply to this email to add a comment.
+
+You are receiving this mail because:
+You are watching the assignee of the bug.=
