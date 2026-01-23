@@ -1,38 +1,41 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2596318871F;
-	Fri, 23 Jan 2026 14:40:42 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A1C7B3161B7;
+	Fri, 23 Jan 2026 14:40:44 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1769179243; cv=none; b=Xm9qfuZO9Ccm3zslz04FqjyrwQg/WjI/Fd072lpKprRGLlsYwQMt7aO8a3aLeYygUE5eSOTk8joxzefVdjBe6gqxv/d7mOQ2oW6aDkj+IpKkyLaxQiWfQP615P9eP80/43vxz5n8cjVcxjh8Xbm7oraP3Zgk35FMpbw3uJS+YFk=
+	t=1769179244; cv=none; b=BEaO+k/VQ8gBlUq3d8A2Rk771kQednCN8NjJx4VZqzRhaXJyrdKvDy9ON8leZCXdFOji8uDe+AXL99LqC9B11CSQw1K+FmbYbMExPz7Dq++E8kWGqZ05h9OuEnnpqoqTWnc3xaXvfWJcMhR8o3quic0XXpOjui8WJdyzefCr0mg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1769179243; c=relaxed/simple;
-	bh=RM/u0mMYX/c6heLOS8lzSGY+Fvd3U44e6SbPjj271Q0=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=APDLptam7NpTD3N4VaWZTFQIdcd2Mv9DlI8yTv8FsDCbSNfFlEt1YEtEMA6IrGtPw+maUKZARUhSMk3w6dfUEvUhbeOul+m0xXr5QwrOoUGcZEZJIWZ8zl6IggkFlOln1X1X6LnVCvCgMzavD2PEJ3npyX9fXq6FpqUBFrg65Ls=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=QMIsjO2H; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1769179244; c=relaxed/simple;
+	bh=R2CAiDfcDP3Eo61qh/HUCedZo29HtW7cEMWCjEHbQKI=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version; b=ezqi+m72WL64kxdI8JITGURCvBoApBcrhTlKBQWbAnGBPSl17xkTxI430Bmj0A1wmiCmEGgNBH7UVx8fJslj3Mp7Gsw9uA//qlSuUvU7mL0GN87YaC81FXcpsx5d8QqPY9VnBBX9R/fU4txegrJlEuKVFNj9di6dM/lous9cAJA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=V+OQqKTE; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="QMIsjO2H"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 79F3AC4CEF1;
-	Fri, 23 Jan 2026 14:40:39 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="V+OQqKTE"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 3C988C19421;
+	Fri, 23 Jan 2026 14:40:43 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1769179242;
-	bh=RM/u0mMYX/c6heLOS8lzSGY+Fvd3U44e6SbPjj271Q0=;
-	h=From:To:Cc:Subject:Date:From;
-	b=QMIsjO2HyUc3zH50tM9476/unXR9kcpHVerxjLwLjzZCKghkjEHGfReeGUh9WeAe/
-	 AmvUAVqvxxNKQxhoQz3+x5hbd/Cyh2mUIUONriGufg+80xmN1S9eHLJ/sgASBLgTgJ
-	 CdB9iyzq9LIoow6Rb4C8Ai1ks29W7LCDWRlmEJH8Gz0VKBb5156vypXOsDTIqDONl6
-	 ryyA90Xiq2L2HIO20US7VSS7KcwjLmdxUpggjZglgF4G9d7+1AThmAV59uoMg3xbwL
-	 9QSQ8z7mtGLWr/jQLDbvnmHDJnQdvbtX8S9oMi9ucGGmu5nZjJyZ2iooT8+pwIwx2I
-	 mK0mX/maHaJTQ==
+	s=k20201202; t=1769179244;
+	bh=R2CAiDfcDP3Eo61qh/HUCedZo29HtW7cEMWCjEHbQKI=;
+	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
+	b=V+OQqKTETREMXZ6UYfihncl40OaEA9QXJSvbzBJyrbtFkdAnt8mWyG4o6TCbIahib
+	 Vgru5jGBKbJRpQwRRgBPwsP1AhVDuV8wmTiEG3edViO7UK6pOLvuePDEwYhjFGztjh
+	 fh+TEdJl1/PPi7D/YR2f7O7cUfS9HcWo6t+KddvfKiyMlT21iJTgdOK2KJ4gR+Q+Hw
+	 gqSiZf4C+t8JQ5jSThZc1oRRpuubZHsn8U2T3a+yDu22qne9ww9UN9kTjSPXu4yhHr
+	 p6nG+qGIHgglM3outB3AtACLUUW4KiVZvMDMDrbY74URcAXG3+VK8sqheSivsi+nb3
+	 PuI5fEzZjkyuw==
 From: Jisheng Zhang <jszhang@kernel.org>
 To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
 Cc: linux-usb@vger.kernel.org,
 	linux-kernel@vger.kernel.org
-Subject: [PATCH 0/3] usb: gadget: Add a prefix to log messages
-Date: Fri, 23 Jan 2026 22:22:18 +0800
-Message-ID: <20260123142221.14285-1-jszhang@kernel.org>
+Subject: [PATCH 1/3] usb: gadget: f_fs: Add a prefix to log messages
+Date: Fri, 23 Jan 2026 22:22:19 +0800
+Message-ID: <20260123142221.14285-2-jszhang@kernel.org>
 X-Mailer: git-send-email 2.51.0
+In-Reply-To: <20260123142221.14285-1-jszhang@kernel.org>
+References: <20260123142221.14285-1-jszhang@kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
@@ -47,23 +50,29 @@ I met some log as below:
 
 To be honest, if I'm not familiar with the usb gadget framework, I dunno
 which component is complaining. Add a prefix to log messages, so the
-above messages will be look as below:
+above messages will look like:
 
 [  581.262476] usb_f_fs: read descriptors
 [  581.265558] usb_f_fs: bcdVersion must be 0x0100, stored in Little Endian order...
 
-Then solve similar issues for f_mass_storage and f_tcm.
+Signed-off-by: Jisheng Zhang <jszhang@kernel.org>
+---
+ drivers/usb/gadget/function/f_fs.c | 2 ++
+ 1 file changed, 2 insertions(+)
 
-Jisheng Zhang (3):
-  usb: gadget: f_fs: Add a prefix to log messages
-  usb: gadget: f_mass_storage: Add a prefix to log messages
-  usb: gadget: f_tcm: Add a prefix to log messages
-
- drivers/usb/gadget/function/f_fs.c           | 2 ++
- drivers/usb/gadget/function/f_mass_storage.c | 2 ++
- drivers/usb/gadget/function/f_tcm.c          | 3 +++
- 3 files changed, 7 insertions(+)
-
+diff --git a/drivers/usb/gadget/function/f_fs.c b/drivers/usb/gadget/function/f_fs.c
+index 05c6750702b6..97c7f0052327 100644
+--- a/drivers/usb/gadget/function/f_fs.c
++++ b/drivers/usb/gadget/function/f_fs.c
+@@ -14,6 +14,8 @@
+ /* #define DEBUG */
+ /* #define VERBOSE_DEBUG */
+ 
++#define pr_fmt(fmt) KBUILD_MODNAME ": " fmt
++
+ #include <linux/blkdev.h>
+ #include <linux/dma-buf.h>
+ #include <linux/dma-fence.h>
 -- 
 2.51.0
 
