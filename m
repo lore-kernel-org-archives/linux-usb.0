@@ -1,60 +1,97 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.10])
+Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com [205.220.168.131])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1592D3002D6
-	for <linux-usb@vger.kernel.org>; Mon, 26 Jan 2026 22:02:35 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.10
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B11F530FF1C
+	for <linux-usb@vger.kernel.org>; Mon, 26 Jan 2026 23:38:35 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.168.131
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1769464960; cv=none; b=fkkCIg5HREcXa6U5mtUbuq6hYSGdmQc9nhkQV7j8MfSA4AWM+Gllq2p2njE7s2kr/NxM9EyZjWrXyPN1f7pIIuNjXj4wAwQqmy3Wthr3SOuXmm4pI0KrXU3OAhSXUJXRMH9dCtrb8VQVEZj9cW7shDQK4D/hYG/MZW5dXyLkFCA=
+	t=1769470717; cv=none; b=oLZXnuJN+CVE4q357trpSZzCi9L41reodIoZKv+gj2tVSDqM75DCsG9m4SZoTmJvIMU7/Sbb54Gp17FgGTWqHmNW6zthg/98DR3YSVv+kHGSYpjg2lqi7d9vQ+aoUcsMFJLjnhz4EK5QBATSQgOm4T7oTarPtPuG0Gs9NAr791Y=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1769464960; c=relaxed/simple;
-	bh=iH3lkHgtWBYYmaF68KXP93FDCUBST90as0m4XRGr6GQ=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=sbzQowA6CKxTXVk2sigZ662cLJIr2kI+jUpqNevi/uhRRNqHSlEZY+rkIWHdUBbPFG27R19RVw8b6AiGaPeuE/fOxhJM/pAuWPFujNsNsr2DxQ3knyqdDJTJlSyWCRTb6rmrJUOVJHvVsGWmEYThvML4O2rqIDuzhFKuZvhr85U=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=pass smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=SeUWIERu; arc=none smtp.client-ip=192.198.163.10
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.intel.com
+	s=arc-20240116; t=1769470717; c=relaxed/simple;
+	bh=xMUCXc+T1mxqitUAHJsbyD7zN0MBtP33MxPyki89jC0=;
+	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
+	 MIME-Version; b=RBxkhFEKryJxfVZgBwhOtN9E0WGnGAIvW9e9Y+QDLzsb4+JY7AAQGyD1BmsRHph0rUevDRjGOu7b+SjNRmIGi/pvNZVEwjO6z55Nen5ZrPtyHdAOMEAXTIXex03E8HWHf0Oml6x95RFsdsiXs5BirIjSQC1rD+YeX1ivdXZnrsE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com; spf=pass smtp.mailfrom=oss.qualcomm.com; dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b=LQM47yFy; dkim=pass (2048-bit key) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.b=jC6Htphu; arc=none smtp.client-ip=205.220.168.131
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=oss.qualcomm.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="SeUWIERu"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1769464956; x=1801000956;
-  h=from:to:cc:subject:date:message-id:in-reply-to:
-   references:mime-version:content-transfer-encoding;
-  bh=iH3lkHgtWBYYmaF68KXP93FDCUBST90as0m4XRGr6GQ=;
-  b=SeUWIERuCNSJfXwbD3r5cy2XnshXukxDGR210CzjjbuuAZxa41SWn/Bi
-   VCTWy7mS8f7y3t6/2KjwHiRa7umt+hYAJ1WoySnlxta8Bh5BG0aB4puCO
-   uHMIQYGZED46e5Ap9KN0eAbBcu8O74gjkqvSUZh7bCQjZoeKg9lRy0UFc
-   6j0TQQClOoxi84luFqu8Dw+1atSh5iy7CygeqxDhVWV2Nrq8sHiUJkEpC
-   oXmN57v4G9g3AIMd9eaTtZNHCUbQI/j42TnjjyPPEfAc1FThAuKmtSbl8
-   Q7wXmprQ+U2LM93y4BAXexAG5lgyn1OCow4xo1N2Po9QKICaHa6Ks3O7N
-   A==;
-X-CSE-ConnectionGUID: of1hx3IQRtqZlZCZYZmjHg==
-X-CSE-MsgGUID: wTmUgK/7Rp2K7+hdnLGB1g==
-X-IronPort-AV: E=McAfee;i="6800,10657,11683"; a="82019780"
-X-IronPort-AV: E=Sophos;i="6.21,256,1763452800"; 
-   d="scan'208";a="82019780"
-Received: from fmviesa003.fm.intel.com ([10.60.135.143])
-  by fmvoesa104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 26 Jan 2026 14:02:35 -0800
-X-CSE-ConnectionGUID: rB9McJlFS66b5Ss1eSoJ1A==
-X-CSE-MsgGUID: vjovlaMfTCqe9Jvyaj9qng==
-X-ExtLoop1: 1
-Received: from cdjpc409-it.jer.intel.com ([10.12.50.120])
-  by fmviesa003.fm.intel.com with ESMTP; 26 Jan 2026 14:02:33 -0800
-From: Gil Fine <gil.fine@linux.intel.com>
-To: andreas.noever@gmail.com,
-	mika.westerberg@linux.intel.com,
-	YehezkelShB@gmail.com
-Cc: gil.fine@intel.com,
-	linux-usb@vger.kernel.org,
-	lukas@wunner.de,
-	Gil Fine <gil.fine@linux.intel.com>
-Subject: [PATCH 5/5] thunderbolt: Increase Notification Timeout to 255 ms for USB4 routers
-Date: Tue, 27 Jan 2026 00:06:06 +0200
-Message-ID: <20260126220606.3476657-6-gil.fine@linux.intel.com>
-X-Mailer: git-send-email 2.43.0
-In-Reply-To: <20260126220606.3476657-1-gil.fine@linux.intel.com>
-References: <20260126220606.3476657-1-gil.fine@linux.intel.com>
+	dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b="LQM47yFy";
+	dkim=pass (2048-bit key) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.b="jC6Htphu"
+Received: from pps.filterd (m0279867.ppops.net [127.0.0.1])
+	by mx0a-0031df01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 60QKggSr3481573
+	for <linux-usb@vger.kernel.org>; Mon, 26 Jan 2026 23:38:35 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
+	cc:content-transfer-encoding:date:from:in-reply-to:message-id
+	:mime-version:references:subject:to; s=qcppdkim1; bh=X71iaS2pCQJ
+	5JwChEZnH7egZFDTUof/Ft5BQu4Wr5X8=; b=LQM47yFyeyh8lDyXc7+YIA53FFW
+	Y/WCEZJiHdNW8Unkb1fmCh5B9uXfUcqi/hm5kQrRf0mwACtfwGayJB+QxUaG0e+N
+	GjpFbW3BAs2rlxSJAYjQy40++u4EDyQf/HaSQf/0vd1MB23UeGuWYmZjj6wlBt/3
+	dRwtNAO2L+w+JVF3LhXcTLwvTpvs/6kbHGaESrhnb1gOyC0UCP9P43v1qFuKR0pF
+	E9vnlvt1JJe/y4o84gC6Vh6Bsp3gQ+IKODr1R/pDWL8nmB8VpM8E+QV1xct187ox
+	w10soBVm5Mmmh5n5VgwoVsiT5y5HAtLU/5Hz/HoLZ2MOdJ1Z0JuFR68RGNQ==
+Received: from mail-dy1-f198.google.com (mail-dy1-f198.google.com [74.125.82.198])
+	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 4bx0v32yh7-1
+	(version=TLSv1.3 cipher=TLS_AES_128_GCM_SHA256 bits=128 verify=NOT)
+	for <linux-usb@vger.kernel.org>; Mon, 26 Jan 2026 23:38:34 +0000 (GMT)
+Received: by mail-dy1-f198.google.com with SMTP id 5a478bee46e88-2b722bc1be1so22419560eec.0
+        for <linux-usb@vger.kernel.org>; Mon, 26 Jan 2026 15:38:34 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=oss.qualcomm.com; s=google; t=1769470714; x=1770075514; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=X71iaS2pCQJ5JwChEZnH7egZFDTUof/Ft5BQu4Wr5X8=;
+        b=jC6HtphudHaGci2yxAPdgNRxZnuGACF4blVXNU+3xUEj/WnhbKU1VoP6qyHukVP2+i
+         vYClwKtteSmrmtUdTOSFn0iciQ/uAkMsRs+Nq1QD9Uu90npWtbRp0Bum6UF5IvDPQEan
+         /4D4h9UqUEvlbgRlxQSjR12YH0c6yCwa31bsVeqTdNbDMJQIT+vBQOWCNgCCh8m38DUC
+         U1jLPu9M3fwChJOFw0V9pAQxe0peAqezZwfj18dloFgzZe2dxmHCC60lEtVbx8ZUn5yg
+         RTwNGIGLNxPQTkl7CU0FIEcPs6V2Zt1CM7AUKFmyeDDtW2NJdJ2KAs5qouo4XK2nrgBQ
+         0LgA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1769470714; x=1770075514;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
+         :to:cc:subject:date:message-id:reply-to;
+        bh=X71iaS2pCQJ5JwChEZnH7egZFDTUof/Ft5BQu4Wr5X8=;
+        b=BImw5GCJ2lSFvFJD2GJjFMhFd5IiFspeZZzZWfK4XJfoIIzMbxeJbgPkRVyRic7rQg
+         eC9mVtcTzpGF5VPYlKcticVjlk5rufXyI3NYvWTEMAG34sV8+cOpXh0DuDw7RHe9TbYJ
+         AZc0ONyCbcDfKpetNQARWSq4c8/Nh7XOSgEL+XkQZh9HRS8IQen6Aos7DPpg5tVxbhI/
+         ePjjt/XJayTszis1YEgmH/dWlplhkYe8vJSPcBoYJ8vLRYIKqYDi3fIUpW78lU6TH4Up
+         wlTCMY5n+qBVMfgqcOu5ThHZZMEeD5uLkw2IXiiti2+EFUPIE1C4VerVGQsHzaQBjV3a
+         id3A==
+X-Forwarded-Encrypted: i=1; AJvYcCVYob1A2CkchHRLTS25fAaZ3OYXJIos1NJEq0+ZhmN4LjtJosL4tWV20eswhJaHpPTdRfk/L56admg=@vger.kernel.org
+X-Gm-Message-State: AOJu0YyeFJGWPX4F66OtLCDVo5L2uI5xUJwiB7ZscKL2F59l4/EzhUxT
+	s2G0FRHkoVssgJawbW47x36Y7aKF/vjv+Yg7s67zDQj1NT9J9mAYaYbe9y1EBqHgrXnd3aRIx5G
+	6Z3wG7ln8qqXQsluNFzN+OuiZQ7abi2aG+ohBrbZHzz7sqalSLQeLFM0y+NhPPw4=
+X-Gm-Gg: AZuq6aIts41MAFmrx6S6NYjfUrV2LW9TGIZ2SZK4OnkCdyvucyMvX5yvBz/MkOvU4NT
+	in4CJxW5j+OnfvTxyMkZ8BTrOWl99IRHCPl5gIaWt9RbmNUiYDxLhYV30hr4RAudxKka0AC9Xu4
+	CIGygl+pz5Zv/A9L5TT2dnDInwCEvukFesyTgM86vksHB0gzhqMDXgDyvG0L8cILO5O3nATm/it
+	XWoXwqjfhdZtauLpOORLPgYp8VPooF9FYF0DIq0x2NFfjdVqrLBBqM4J+zz/Ict78SlwEpzg20K
+	Mj7bLFMphgPfDj/1OKievgQOGaOrfU4wr61qf798n+rIbH7bJOJlBp21Ui6ZnHUiq3Aet5EREsJ
+	GYQtIHXszk+y0nKfLGlZ9zo7ExOv2gQFvwRr+CFOsxckO6FDJFIbAw9l9Rgfu7qU=
+X-Received: by 2002:a05:7022:699e:b0:11b:9386:a3cc with SMTP id a92af1059eb24-1248ec9c731mr3816966c88.45.1769470714192;
+        Mon, 26 Jan 2026 15:38:34 -0800 (PST)
+X-Received: by 2002:a05:7022:699e:b0:11b:9386:a3cc with SMTP id a92af1059eb24-1248ec9c731mr3816945c88.45.1769470713660;
+        Mon, 26 Jan 2026 15:38:33 -0800 (PST)
+Received: from hu-eserrao-lv.qualcomm.com (Global_NAT1.qualcomm.com. [129.46.96.20])
+        by smtp.gmail.com with ESMTPSA id a92af1059eb24-1247d90ce0dsm19948967c88.4.2026.01.26.15.38.33
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 26 Jan 2026 15:38:33 -0800 (PST)
+From: Elson Serrao <elson.serrao@oss.qualcomm.com>
+To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Bjorn Andersson <andersson@kernel.org>,
+        Konrad Dybcio <konradybcio@kernel.org>, Rob Herring <robh@kernel.org>,
+        Krzysztof Kozlowski <krzk+dt@kernel.org>,
+        Conor Dooley <conor+dt@kernel.org>,
+        Souradeep Chowdhury <quic_schowdhu@quicinc.com>
+Cc: linux-arm-msm@vger.kernel.org, devicetree@vger.kernel.org,
+        linux-usb@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: [PATCH v2 2/9] usb: misc: qcom_eud: add sysfs attribute for port selection
+Date: Mon, 26 Jan 2026 15:38:23 -0800
+Message-Id: <20260126233830.2193816-3-elson.serrao@oss.qualcomm.com>
+X-Mailer: git-send-email 2.34.1
+In-Reply-To: <20260126233830.2193816-1-elson.serrao@oss.qualcomm.com>
+References: <20260126233830.2193816-1-elson.serrao@oss.qualcomm.com>
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
@@ -62,91 +99,138 @@ List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYwMTI2MDIwMiBTYWx0ZWRfX3TtfUD7ri0QW
+ IQODyjM+ereVRzcfBd5NxXzcPD2ZKLZEzSFwlQOUlF78A9+jCismCVesK2419JdJRlFMid074cq
+ ufotwJgxnUk3UYit6liZXXiRF3RMb0axzo8zpmD9PlRzmj4WPsz8YH9bv7bwyri/3FsDCbQkNUK
+ TiEWJT2nTbmaJEE+6w0OStMS5aJXCqJGXXqH6ONc6lkc5K1tuvk+8+/vSU+2J1ED5CItBJ9y+EA
+ vQCA0B2ZwC1uJGcmgnANlyTrqlhqJ71DNQc0FVl4tD75te4++lnVtGUdUIoHNf4fG/uslRAA0xC
+ ZUtQI3ap71NM5NPJmeIiUT1Nu8C3uM0c2pUShTq3Y7BvvFWRp4jVU1OK5RCTeegV5QfqGX5SYTI
+ 8RIMumnWyP1CZDnts28PX/nVu539JMYpJ/AVekbPwiuQO66lXvcNodaIgRm7tFiHNkuUyfOj3Sv
+ PaxMh3wF/MPLWTx4krw==
+X-Proofpoint-GUID: eHfF5DnRoVFCMjWStNP93zwDd3_UoYsD
+X-Proofpoint-ORIG-GUID: eHfF5DnRoVFCMjWStNP93zwDd3_UoYsD
+X-Authority-Analysis: v=2.4 cv=JYyxbEKV c=1 sm=1 tr=0 ts=6977fafa cx=c_pps
+ a=wEP8DlPgTf/vqF+yE6f9lg==:117 a=ouPCqIW2jiPt+lZRy3xVPw==:17
+ a=vUbySO9Y5rIA:10 a=s4-Qcg_JpJYA:10 a=VkNPw1HP01LnGYTKEx00:22
+ a=EUspDBNiAAAA:8 a=un400R04Xmhap_XYEvQA:9 a=bBxd6f-gb0O0v-kibOvt:22
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1121,Hydra:6.1.20,FMLib:17.12.100.49
+ definitions=2026-01-26_04,2026-01-26_01,2025-10-01_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ spamscore=0 lowpriorityscore=0 adultscore=0 bulkscore=0 clxscore=1015
+ impostorscore=0 phishscore=0 suspectscore=0 malwarescore=0 priorityscore=1501
+ classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
+ reason=mlx scancount=1 engine=8.22.0-2601150000 definitions=main-2601260202
 
-Currently we set the Notification Timeout field in ROUTER_CS_4 for USB4
-routers to 10 ms, which is unnecessarily short and may cause unnecessary
-retransmissions of Hot Plug packets by the router in case of slow
-software response.
+EUD can be mapped to either the primary USB port or the secondary USB port
+depending on the value of the EUD_PORT_SEL register. Add a 'port' sysfs
+attribute to allow userspace to select which port EUD should operate on
+and update the ABI documentation. This is needed for systems with dual
+USB ports where EUD needs to be accessible on either port depending on the
+system configuration and use case.
 
-Change Notification Timeout for USB4 routers to use 255 ms, aligning
-their behavior with Thunderbolt 3 and providing adequate time for
-software to process Hot Plug Events.
-
-While there, also fix the comment describing the Notification Timeout
-field to match the USB4 specification.
-
-Signed-off-by: Gil Fine <gil.fine@linux.intel.com>
+Signed-off-by: Elson Serrao <elson.serrao@oss.qualcomm.com>
 ---
- drivers/thunderbolt/switch.c  | 13 +++----------
- drivers/thunderbolt/tb_regs.h |  3 +--
- 2 files changed, 4 insertions(+), 12 deletions(-)
+ Documentation/ABI/testing/sysfs-driver-eud | 16 ++++++++
+ drivers/usb/misc/qcom_eud.c                | 43 ++++++++++++++++++++++
+ 2 files changed, 59 insertions(+)
 
-diff --git a/drivers/thunderbolt/switch.c b/drivers/thunderbolt/switch.c
-index 11e8c1dd3090..7962a7e9d4b3 100644
---- a/drivers/thunderbolt/switch.c
-+++ b/drivers/thunderbolt/switch.c
-@@ -1742,8 +1742,6 @@ int tb_switch_wait_for_bit(struct tb_switch *sw, u32 offset, u32 bit,
- /*
-  * tb_plug_events_active() - enable/disable plug events on a switch
-  *
-- * Also configures a sane plug_events_delay of 255ms.
-- *
-  * Return: %0 on success, negative errno otherwise.
-  */
- static int tb_plug_events_active(struct tb_switch *sw, bool active)
-@@ -1754,11 +1752,6 @@ static int tb_plug_events_active(struct tb_switch *sw, bool active)
- 	if (tb_switch_is_icm(sw) || tb_switch_is_usb4(sw))
- 		return 0;
+diff --git a/Documentation/ABI/testing/sysfs-driver-eud b/Documentation/ABI/testing/sysfs-driver-eud
+index 2bab0db2d2f0..67223f73ee60 100644
+--- a/Documentation/ABI/testing/sysfs-driver-eud
++++ b/Documentation/ABI/testing/sysfs-driver-eud
+@@ -7,3 +7,19 @@ Description:
+ 		EUD based on a 1 or a 0 value. By enabling EUD,
+ 		the user is able to activate the mini-usb hub of
+ 		EUD for debug and trace capabilities.
++
++What:		/sys/bus/platform/drivers/qcom_eud/.../port
++Date:		January 2026
++Contact:	Elson Serrao <elson.serrao@oss.qualcomm.com>
++Description:
++		Selects which USB port the Embedded USB Debugger (EUD)
++		is mapped to on platforms providing multiple High-Speed
++		USB ports.
++
++		Valid values:
++		  0 - Primary USB port
++		  1 - Secondary USB port
++
++		The attribute is writable only while EUD is disabled.
++		Reading the attribute returns the currently selected
++		USB port number.
+diff --git a/drivers/usb/misc/qcom_eud.c b/drivers/usb/misc/qcom_eud.c
+index 926419ca560f..1a136f8f1ae5 100644
+--- a/drivers/usb/misc/qcom_eud.c
++++ b/drivers/usb/misc/qcom_eud.c
+@@ -23,8 +23,11 @@
+ #define EUD_REG_VBUS_INT_CLR	0x0080
+ #define EUD_REG_CSR_EUD_EN	0x1014
+ #define EUD_REG_SW_ATTACH_DET	0x1018
++#define EUD_REG_PORT_SEL	0x1028
+ #define EUD_REG_EUD_EN2		0x0000
  
--	sw->config.plug_events_delay = 0xff;
--	res = tb_sw_write(sw, ((u32 *) &sw->config) + 4, TB_CFG_SWITCH, 4, 1);
--	if (res)
--		return res;
--
- 	res = tb_sw_read(sw, &data, TB_CFG_SWITCH, sw->cap_plug_events + 1, 1);
- 	if (res)
- 		return res;
-@@ -2620,7 +2613,8 @@ int tb_switch_configure(struct tb_switch *sw)
- 	       tb_route_length(route), sw->config.upstream_port_number);
++#define EUD_MAX_PORTS		2
++
+ #define EUD_ENABLE		BIT(0)
+ #define EUD_INT_PET_EUD		BIT(0)
+ #define EUD_INT_VBUS		BIT(2)
+@@ -40,6 +43,7 @@ struct eud_chip {
+ 	int				irq;
+ 	bool				enabled;
+ 	bool				usb_attached;
++	u8				port_idx;
+ };
  
- 	sw->config.enabled = 1;
--
-+	/* Set Notification Timeout to 255 ms for all routers */
-+	sw->config.plug_events_delay = 0xff;
- 	if (tb_switch_is_usb4(sw)) {
- 		/*
- 		 * For USB4 devices, we need to program the CM version
-@@ -2632,7 +2626,6 @@ int tb_switch_configure(struct tb_switch *sw)
- 			sw->config.cmuv = ROUTER_CS_4_CMUV_V1;
- 		else
- 			sw->config.cmuv = ROUTER_CS_4_CMUV_V2;
--		sw->config.plug_events_delay = 0xa;
+ static int enable_eud(struct eud_chip *priv)
+@@ -104,8 +108,47 @@ static ssize_t enable_store(struct device *dev,
  
- 		/* Enumerate the switch */
- 		ret = tb_sw_write(sw, (u32 *)&sw->config + 1, TB_CFG_SWITCH,
-@@ -2658,7 +2651,7 @@ int tb_switch_configure(struct tb_switch *sw)
+ static DEVICE_ATTR_RW(enable);
  
- 		/* Enumerate the switch */
- 		ret = tb_sw_write(sw, (u32 *)&sw->config + 1, TB_CFG_SWITCH,
--				  ROUTER_CS_1, 3);
-+				  ROUTER_CS_1, 4);
- 	}
- 	if (ret)
- 		return ret;
-diff --git a/drivers/thunderbolt/tb_regs.h b/drivers/thunderbolt/tb_regs.h
-index 7e65bc9bcb12..f8a84e07969f 100644
---- a/drivers/thunderbolt/tb_regs.h
-+++ b/drivers/thunderbolt/tb_regs.h
-@@ -182,8 +182,7 @@ struct tb_regs_switch_header {
- 	/* DWORD 4 */
- 	u32 plug_events_delay:8; /*
- 				  * RW, pause between plug events in
--				  * milliseconds. Writing 0x00 is interpreted
--				  * as 255ms.
-+				  * milliseconds.
- 				  */
- 	u32 cmuv:8;
- 	u32 __unknown4:8;
++static ssize_t port_show(struct device *dev,
++		struct device_attribute *attr, char *buf)
++{
++	struct eud_chip *chip = dev_get_drvdata(dev);
++
++	return sysfs_emit(buf, "%u\n", chip->port_idx);
++}
++
++static ssize_t port_store(struct device *dev,
++		struct device_attribute *attr,
++		const char *buf, size_t count)
++{
++	struct eud_chip *chip = dev_get_drvdata(dev);
++	u8 port;
++	int ret;
++
++	ret = kstrtou8(buf, 0, &port);
++	if (ret)
++		return ret;
++
++	/* Only port 0 and port 1 are valid */
++	if (port >= EUD_MAX_PORTS)
++		return -EINVAL;
++
++	/* Port selection must be done before enabling EUD */
++	if (chip->enabled) {
++		dev_err(chip->dev, "Cannot change port while EUD is enabled\n");
++		return -EBUSY;
++	}
++
++	writel(port, chip->base + EUD_REG_PORT_SEL);
++	chip->port_idx = port;
++
++	return count;
++}
++
++static DEVICE_ATTR_RW(port);
++
+ static struct attribute *eud_attrs[] = {
+ 	&dev_attr_enable.attr,
++	&dev_attr_port.attr,
+ 	NULL,
+ };
+ ATTRIBUTE_GROUPS(eud);
 -- 
-2.43.0
+2.34.1
 
