@@ -1,183 +1,148 @@
-Received: from mail-m9385.xmail.ntesmail.com (mail-m9385.xmail.ntesmail.com [103.126.93.85])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-dy1-f178.google.com (mail-dy1-f178.google.com [74.125.82.178])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7876E295511;
-	Mon, 26 Jan 2026 04:37:47 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=103.126.93.85
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1769402272; cv=none; b=VboQkq09/DYOJZZm85P1iMaGj9f/0c4ifjU4Tci+P68G/9ewlT9NmRcKs9zMCFizFoBweEeiPk/1dhHU0ZaP4tgqERNU/1aUe+b7NevpkSlwnTHOWmBuG0Z2rA2sxBj7E7AhpGsqXLaMMaDhh6esPpCQ620a+2MqA4+1c4Uq20w=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1769402272; c=relaxed/simple;
-	bh=KxdiUG9egsJV9lthQx3mXfwgqlVy2KJKmtGhOzpcP3U=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=EOSHCVRScrjetAQF48zZtFh1Y5+5BdS3rCEmz63p4vBK48WwBM5rhck7OJhRHia7LR3NGMjGvLYPkdXCEwEizB81anXFINLaEcNNIYS9emWvhtapr8Tbax3nG18Oml29gx4XE2DUFZlCdsBK7Bkp84InvxEPLzyEvvH4kAGP8U4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=rock-chips.com; spf=pass smtp.mailfrom=rock-chips.com; dkim=pass (1024-bit key) header.d=rock-chips.com header.i=@rock-chips.com header.b=VJjllPb6; arc=none smtp.client-ip=103.126.93.85
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=rock-chips.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=rock-chips.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 570F52253AB
+	for <linux-usb@vger.kernel.org>; Mon, 26 Jan 2026 05:08:19 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=74.125.82.178
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1769404101; cv=pass; b=sdrpgK6TyBaUq7GhTknd60nY9H76/yY5K+JRaITzUxgDgozSoiAQ/ZsDU4hO3x8s7upM3/m/aSmF8im9P/GoYGxL/9JY//rOwaryLHfUds1LW5EEeMup5CEQ7a+hDGzwBOxqomQAPpQPfHUvQGHnWLHQpa2NhUqUW/9BufKFUlM=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1769404101; c=relaxed/simple;
+	bh=ZBsVD6kxKzurT7H7DtCLfcoGufza6/gI7cdcVlj4q0M=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=FCMcHDxUuHya2oRNvS3gWURscMwGHN7+Zq7lHo8RNBwZotIKGSxq0LkC3zbEZblwZW90vkhQd3pUd1lQzUA9OCh1cQp1dRJUI1qydovtOIaxiskmwbrAiNGP3ZxYWq11mYbWClx6aaVIjYSI6lHMf2RYWqwlMnBf2yAhZW7pqAw=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=k9kfJBC+; arc=pass smtp.client-ip=74.125.82.178
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=rock-chips.com header.i=@rock-chips.com header.b="VJjllPb6"
-Received: from [172.16.12.51] (unknown [58.22.7.114])
-	by smtp.qiye.163.com (Hmail) with ESMTP id 31ed5cbf8;
-	Mon, 26 Jan 2026 11:22:06 +0800 (GMT+08:00)
-Message-ID: <e1b172bd-443f-40a5-9d9e-9e575b0b551e@rock-chips.com>
-Date: Mon, 26 Jan 2026 11:22:04 +0800
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="k9kfJBC+"
+Received: by mail-dy1-f178.google.com with SMTP id 5a478bee46e88-2b6a868ad45so434177eec.0
+        for <linux-usb@vger.kernel.org>; Sun, 25 Jan 2026 21:08:19 -0800 (PST)
+ARC-Seal: i=1; a=rsa-sha256; t=1769404098; cv=none;
+        d=google.com; s=arc-20240605;
+        b=QaFI7Ra0dqpGi40AcLhB096uk6nXZ7zCKVEs+By0Nelqbnj3wbSEHeXWa0zLcoK5Z1
+         kNKiqdani6pOcL5lYIqAQRnH9t/hAioQC4TS66Lm/U3jOW7qWInSE0kDgtpJq+/RRl+p
+         EJniKKzEOR1tKINsSWg1D6X48Y/YXycDAtYX9oRrT0r27CKmVyFqbDtvPXH2Tyoid4Bt
+         cN38cy5OtWUGHdeEp1owO1zf6/DB8nZwcxIG6P8nJ+xSrdEvO7KGw96HmUyjkT/t9W8A
+         TO3WHw6mvM7fsKkvbEyUUGsF7Z2WgnaoijEofgwyPwY4rPq9KFkPX3k07hfQjH6S49n/
+         jNCQ==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:dkim-signature;
+        bh=bsbA3S4vvXnWg6PVwhDAv4/t5NunrqZ0yk7Z9wsyNZU=;
+        fh=cTeHPUnIe6l0DZ/7O6gQih6GWYV+G4b4+9Gby7Ewyso=;
+        b=hznkdEgGx2trCHQnQnQJYSHc3U9ZGkV1zXrL/xdePDAPTPujGkXO3u4YisCD0gf2v2
+         6qF48Famv6hGAOkCQRfVLNO9gmwK6FETVL8T6V3gLQeDm//mOZfI8sORIaCz/eDmwqax
+         vYgDLhkLc4L/fhBvuv7IEtkMSfIeyR9arqHTXUzwnShLW4R69P5NF+Pwz8ja82cLHHFo
+         8BOg66EJJrKq0QV9gWksVuMgclYkwt1M3o4CnEe3liQvaVLMk6UYC80+V3q9ST/hipmx
+         Jy7n70HAbZI7XTo7pvaJIVnXH9YtzUdRbmpZS/Hzg8MRq+bMFoa0E8hY7pWhEjCUBWMG
+         a3RQ==;
+        darn=vger.kernel.org
+ARC-Authentication-Results: i=1; mx.google.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1769404098; x=1770008898; darn=vger.kernel.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=bsbA3S4vvXnWg6PVwhDAv4/t5NunrqZ0yk7Z9wsyNZU=;
+        b=k9kfJBC+ldCHGEir2hpwOAhElO6egoRCIxzj0IKfTEqmro2/yY4nV/+ZWVpPnASaL2
+         +mKMYxEvPEWQ3mA0MifDdWsjJxAV9WDFd60bga1tQmEuwjCMbcYXGnmdKnOy0gkl2ch2
+         Mwj8Ks7ue/Tv0fi0t1I2FGHTzLLGzLT7EpWkOR1/bqd5u34W9Lgxxo6NypTHOKYsnB2Z
+         KCh6L7ducVKh/8PXfUb+iHCyyPnIdAB5ON83DnVEVnBfpqvtvEurIJrSHBLvIkSub/iU
+         dCIDy2cliqsDj+61/J2ss/bUZVs3zCGOy2Q26lc2sW5MOSWlOjMrzV8iWQUqiUi0YrGB
+         4lrA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1769404098; x=1770008898;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
+         :to:cc:subject:date:message-id:reply-to;
+        bh=bsbA3S4vvXnWg6PVwhDAv4/t5NunrqZ0yk7Z9wsyNZU=;
+        b=ao1V83P5f+ry1+OJjnie2cCTilXaF8UewGYZou/Q7v2CxEBd0CD1DuX2i5IsAXnMUi
+         kVPz8YGFWvDYYxneUc7fempq1lgnDCuUti1KlUfY5bUNOQhfLUDvqjQTTdHWthMomUfv
+         1ppwWG325R5vdW5+xJTZJwOVUIt2y3I9qVFTEsJaTwij9Pgow1XkMr6WKZlUATvCF629
+         UliqgX2t9lmoHDSK6uDLRAWVNBZdVZ+1BrmAJvu1k5P24dHeKAE/AbDeEO4FKYV7BKkC
+         GPG920+2jKEWELyWjoPxNSslc5Y0uHAFaUCQ2RHFxkw73fGGJoKsNPyLzHCgNQBR2Om1
+         7oPg==
+X-Forwarded-Encrypted: i=1; AJvYcCUABdTNbDghAkbbWE2TjQKf8RtYcgnFwmrpi4oi2lnc6OULxtFlaAP8MAHRYkAnAN5A6aW8ytievAs=@vger.kernel.org
+X-Gm-Message-State: AOJu0YwOE/TUpCeAeRyJZbc8SrJYYVJSJLM7mGvWo7hh64viukHpfYe+
+	OgXZG7vXsuoMnMeEWPko2a/rO8OE1ZREX4ON+Rv6fqgbS0LEuqAgmY4G6vmQX8+JivzVyFiRJNP
+	vUzxk7k5aeSoIqio7uOJHDzwU8yfsSVQ=
+X-Gm-Gg: AZuq6aIoJZnRg0eQwH9MJD4j6cAQ/YVcVlg/AOm+v+Hk4saiEZVst1So3w1ylkAup36
+	hEMlRWBOevqI6JolwG4qEd+wmTNDb+w2KsyRNfgSrLQlqm/JkV6jg4WyuSx803wJmKrtdo66toW
+	V4c0VDZxWnFGPgD/ox+ww8nI2snbmFHV+fPRwbLU/aauYIi2a59+ggnv7gDdx7+/FULYjuljusR
+	73BBLRhcxXWlszyEZ6RkjkWjohDXvbpWvgZxkeNHSFlLjuvc6jat92rXWPuI+xtf2TvZf5dJAfa
+	eqK7HXXk9q5pFXf14Bwj2m9ZjQwrepuD2k6g6cICSgVcYHZPl086a+RgtnWT9BizOCCBVzI11KF
+	NobbvLZxRAYYN
+X-Received: by 2002:a05:7301:3d10:b0:2ae:5b8c:324a with SMTP id
+ 5a478bee46e88-2b7644f41dbmr855051eec.4.1769404098278; Sun, 25 Jan 2026
+ 21:08:18 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v14 0/9] Add Type-C DP support for RK3399 EVB IND board
-To: Hugh Cole-Baker <sigmaris@gmail.com>
-Cc: Chaoyi Chen <kernel@airkyi.com>,
- Heikki Krogerus <heikki.krogerus@linux.intel.com>,
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
- Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>,
- Peter Chen <hzpeterchen@gmail.com>, Luca Ceresoli
- <luca.ceresoli@bootlin.com>, Rob Herring <robh@kernel.org>,
- Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley
- <conor+dt@kernel.org>, Vinod Koul <vkoul@kernel.org>,
- Kishon Vijay Abraham I <kishon@kernel.org>, Heiko Stuebner
- <heiko@sntech.de>, Sandy Huang <hjc@rock-chips.com>,
- Andy Yan <andy.yan@rock-chips.com>,
- Yubing Zhang <yubing.zhang@rock-chips.com>,
- Frank Wang <frank.wang@rock-chips.com>,
- Andrzej Hajda <andrzej.hajda@intel.com>,
- Neil Armstrong <neil.armstrong@linaro.org>, Robert Foss <rfoss@kernel.org>,
- Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
- Jonas Karlman <jonas@kwiboo.se>, Jernej Skrabec <jernej.skrabec@gmail.com>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
- David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
- Amit Sunil Dhamne <amitsd@google.com>, Dragan Simic <dsimic@manjaro.org>,
- Johan Jonker <jbx6244@gmail.com>, Diederik de Haas <didi.debian@cknow.org>,
- Peter Robinson <pbrobinson@gmail.com>, linux-usb@vger.kernel.org,
- devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
- linux-phy@lists.infradead.org, linux-arm-kernel@lists.infradead.org,
- linux-rockchip@lists.infradead.org, dri-devel@lists.freedesktop.org
-References: <20260119073100.143-1-kernel@airkyi.com>
- <c9dd365b-ad8f-410e-96f8-f914f03634b2@gmail.com>
-Content-Language: en-US
-From: Chaoyi Chen <chaoyi.chen@rock-chips.com>
-In-Reply-To: <c9dd365b-ad8f-410e-96f8-f914f03634b2@gmail.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
-X-HM-Tid: 0a9bf852ab9103abkunm5b6bca956138b8
-X-HM-MType: 1
-X-HM-Spam-Status: e1kfGhgUHx5ZQUpXWQgPGg8OCBgUHx5ZQUlOS1dZFg8aDwILHllBWSg2Ly
-	tZV1koWUFDSUNOT01LS0k3V1ktWUFJV1kPCRoVCBIfWUFZGR4eTVZNSU4aHhgaSR9OQktWFRQJFh
-	oXVRMBExYaEhckFA4PWVdZGBILWUFZTkNVSUlVTFVKSk9ZV1kWGg8SFR0UWUFZT0tIVUpLSEpOTE
-	5VSktLVUpCS0tZBg++
-DKIM-Signature: a=rsa-sha256;
-	b=VJjllPb6UrdOVvskGBEx5XXVF18/enOJ6dktrusjWEltCBQ2HBc40/45+3muptxFTNRsh5zWw83F/nrsw+EUOzPjFV7cp1ky0Z9ohtxvTtYRy1/DzherP7nIjaITF7eNsDSUzzlqDuN3e0AVdcnZhQslauskZ8mzWFvL6L2x/eY=; c=relaxed/relaxed; s=default; d=rock-chips.com; v=1;
-	bh=pb2Tq6er4BO41TvKoQ35Jkzeqoj8YX2rwjW5soWNUEk=;
-	h=date:mime-version:subject:message-id:from;
+References: <20260105-define-rust-helper-v2-0-51da5f454a67@google.com>
+In-Reply-To: <20260105-define-rust-helper-v2-0-51da5f454a67@google.com>
+From: Miguel Ojeda <miguel.ojeda.sandonis@gmail.com>
+Date: Mon, 26 Jan 2026 06:08:03 +0100
+X-Gm-Features: AZwV_QjC45jcqbNpvCzRgWaUDtcYZvulw1uksmCYv_NCU9WJD69mYzMDZ_yhpJo
+Message-ID: <CANiq72m4hBinKM4jRrkpZ5nM_wraQ8FMsYtjgKRkNDmK5sS8dw@mail.gmail.com>
+Subject: Re: [PATCH v2 00/27] Allow inlining C helpers into Rust when using LTO
+To: Alice Ryhl <aliceryhl@google.com>
+Cc: rust-for-linux@vger.kernel.org, linux-kernel@vger.kernel.org, 
+	Boqun Feng <boqun.feng@gmail.com>, Gary Guo <gary@garyguo.net>, 
+	Peter Zijlstra <peterz@infradead.org>, Elle Rhumsaa <elle@weathered-steel.dev>, 
+	Andreas Hindborg <a.hindborg@kernel.org>, linux-block@vger.kernel.org, 
+	FUJITA Tomonori <fujita.tomonori@gmail.com>, Miguel Ojeda <ojeda@kernel.org>, 
+	Michael Turquette <mturquette@baylibre.com>, Stephen Boyd <sboyd@kernel.org>, linux-clk@vger.kernel.org, 
+	Benno Lossin <lossin@kernel.org>, Danilo Krummrich <dakr@kernel.org>, 
+	Thomas Gleixner <tglx@linutronix.de>, Paul Moore <paul@paul-moore.com>, 
+	Serge Hallyn <sergeh@kernel.org>, linux-security-module@vger.kernel.org, 
+	Josh Poimboeuf <jpoimboe@kernel.org>, Jason Baron <jbaron@akamai.com>, 
+	Steven Rostedt <rostedt@goodmis.org>, Ard Biesheuvel <ardb@kernel.org>, 
+	Andrew Ballance <andrewjballance@gmail.com>, Andrew Morton <akpm@linux-foundation.org>, 
+	"Liam R. Howlett" <Liam.Howlett@oracle.com>, maple-tree@lists.infradead.org, 
+	linux-mm@kvack.org, Lorenzo Stoakes <lorenzo.stoakes@oracle.com>, 
+	Uladzislau Rezki <urezki@gmail.com>, Vitaly Wool <vitaly.wool@konsulko.se>, 
+	Rob Herring <robh@kernel.org>, devicetree@vger.kernel.org, 
+	Daniel Almeida <daniel.almeida@collabora.com>, Michal Wilczynski <m.wilczynski@samsung.com>, 
+	linux-pwm@vger.kernel.org, "Paul E. McKenney" <paulmck@kernel.org>, rcu@vger.kernel.org, 
+	Will Deacon <will@kernel.org>, Fiona Behrens <me@kloenk.dev>, 
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>, Vlastimil Babka <vbabka@suse.cz>, 
+	Christoph Lameter <cl@gentwo.org>, David Rientjes <rientjes@google.com>, Ingo Molnar <mingo@redhat.com>, 
+	Waiman Long <longman@redhat.com>, Mitchell Levy <levymitchell0@gmail.com>, 
+	Frederic Weisbecker <frederic@kernel.org>, Lyude Paul <lyude@redhat.com>, 
+	Anna-Maria Behnsen <anna-maria@linutronix.de>, John Stultz <jstultz@google.com>, linux-usb@vger.kernel.org, 
+	Tejun Heo <tj@kernel.org>, Lai Jiangshan <jiangshanlai@gmail.com>, 
+	Matthew Wilcox <willy@infradead.org>, Tamir Duberstein <tamird@gmail.com>, linux-fsdevel@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-Hello,
-
-On 1/26/2026 3:42 AM, Hugh Cole-Baker wrote:
-> On 19/01/2026 07:30, Chaoyi Chen wrote:
->> From: Chaoyi Chen <chaoyi.chen@rock-chips.com>
->>
->> This series focuses on adding Type-C DP support for USBDP PHY and DP
->> driver. The USBDP PHY and DP will perceive the changes in cable status
->> based on the USB PD and Type-C state machines provided by TCPM. Before
->> this, the USBDP PHY and DP controller of RK3399 sensed cable state
->> changes through extcon, and devices such as the RK3399 Gru-Chromebook
->> rely on them. This series should not break them.
->>
->> ====
->> 1. DisplayPort HPD status notify
->>
->> Before v7, I implemented a variety of DP HPD status notify. However,
->> they all had various problems and it was difficult to become a generic
->> solution.
->>
->> Under the guidance of Heikki and Dmitry, a decoupled notification
->> method between the TypeC and DRM subsystems was introduced in v7.
->> First, a notification is sent when TypeC registers a new altmode.
->> Then, a generic DP AUX HPD bridge is implemented on the DRM side.
->>
->> During v7-v10, we added a new notifier in typec to notify the altmode
->> device register event. With the help of Greg and Heikki, we implemented
->> the reuse of notifiers for the type bus itself in patch1 of v11.
->>
->> The USB subsystem related parts have already been merged into the
->> usb-next branch in v13 [0][1]. Therefore, this series no longer includes
->> these patches starting from v14. Thanks to Greg and Heikki!
->>
->> [0]: https://git.kernel.org/pub/scm/linux/kernel/git/gregkh/usb.git/commit/?h=usb-next&id=67ab45426215c7fdccb65aecd4cac15bbe4dfcbb
->> [1]: https://git.kernel.org/pub/scm/linux/kernel/git/gregkh/usb.git/commit/?h=usb-next&id=4dee13db29de6dd869af9b3827e1ff569644e838
->>
->> That makes it redundant for each Type-C controller driver to implement
->> a similar DP AUX HPD bridge in embedded scenarios.
->>
->> ====
->> 2. Altmode switching and orientation switching for USBDP PHY
->>
->> For USB Type-C interfaces, an external Type-C controller chip assists
->> by detecting cable attachment, determining plug orientation, and
->> reporting USB PD message. The USB/DP combo PHY supports software
->> configurable pin mapping and DisplayPort lane assignment. Based on
->> these message, the combo PHY can perform both altmode switching and
->> orientation switching via software.
->>
->> The RK3399 EVB IND board has a Type-C interface DisplayPort. It use
->> fusb302 chip as Type-C controller. The connection diagram is shown below:
->>
->> fusb302 chip +---> USB2.0 PHY ----> DWC3 USB controller
->>              |
->>              +---> USB/DP PHY0 +--> CDN-DP controller
->>                                |
->>                                +--> DWC3 USB controller
->>
->> ====
->> 3. Multiple bridge model for RK3399 CDN-DP
->>
->> The RK3399 has two USB/DP combo PHY and one CDN-DP controller. And
->> the CDN-DP can be switched to output to one of the PHYs.
->>
->> USB/DP PHY0 ---+
->>                | <----> CDN-DP controller
->> USB/DP PHY1 ---+
->>
->> In previous versions, if both PHY ports were connected to DP,
->> the CDN-DP driver would select the first PHY port for output.
->>
->> On Dmitry's suggestion, we introduced a multi-bridge model to support
->> flexible selection of the output PHY port. For each PHY port, a
->> separate encoder and bridge are registered.
->>
->> The change is based on the DRM AUX HPD bridge, rather than the
->> extcon approach. This requires the DT to correctly describe the
->> connections between the first bridge in bridge chain and DP
->> controller. And Once the first bridge is obtained, we can get the
->> last bridge corresponding to the USB-C connector, and then set the
->> DRM connector's fwnode to the corresponding one to enable HPD
->> notification.
-> 
-> With a similar dts patch [1] on top of this series I tested a type-C to
-> DP adapter/cable for display output on the ROCKPro64 board, which also
-> pairs a FUSB302 with RK3399. Booting it up with the cable plugged in
-> works, as does hotplugging the cable after booting in both orientations.
-> The correct mode for the display is detected. I wasn't able to test
-> audio, only video output, as this display doesn't have speakers.
-> 
-> I did once, after unplugging and reconnecting the cable a few times,
-> see it get into a state where it didn't detect the attached display.
-> Logs from that unplug/reconnect attempt are here [2] if of interest.
-> Nevertheless, hotplug seems to work the majority of the time, so
-> 
-> Tested-by: Hugh Cole-Baker <sigmaris@gmail.com>
-> 
-> [1]: https://github.com/sigmaris/linux/commit/91724088b19bee7d248946442a801423e8cd0634
-> [2]: https://gist.github.com/sigmaris/fa107384a7492583ceee1c2962f5030a
+On Mon, Jan 5, 2026 at 1:42=E2=80=AFPM Alice Ryhl <aliceryhl@google.com> wr=
+ote:
 >
+>       rust: bug: add __rust_helper to helpers
+>       rust: err: add __rust_helper to helpers
+>       rust: maple_tree: add __rust_helper to helpers
+>       rust: mm: add __rust_helper to helpers
+>       rust: of: add __rust_helper to helpers
+>       rust: rbtree: add __rust_helper to helpers
+>       rust: slab: add __rust_helper to helpers
+>       rust: uaccess: add __rust_helper to helpers
+>       rust: workqueue: add __rust_helper to helpers
 
-Thank you for the test. I also have the same board, and I will
-try it later :)
+Applied these to `rust-next` -- thanks everyone!
 
--- 
-Best, 
-Chaoyi
+If someone did not intend for me to take it even if the Acked-by is
+there (e.g. perhaps Andrew wanted to pick those nevertheless?), then
+please shout.
+
+With this, and if I didn't miss any message (plus looking at
+linux-next where I see Greg picked usb), then only clk and jump_label
+remain (plus any new incoming one).
+
+Let's see if we can get them done next cycle then.
+
+Cheers,
+Miguel
