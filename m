@@ -1,190 +1,194 @@
-Received: from DU2PR03CU002.outbound.protection.outlook.com (mail-northeuropeazon11021073.outbound.protection.outlook.com [52.101.65.73])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-qk1-f195.google.com (mail-qk1-f195.google.com [209.85.222.195])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 666DB2264A9;
-	Tue, 27 Jan 2026 15:37:34 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=52.101.65.73
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1769528256; cv=fail; b=nF4KHkq4S8GdGDeB5z+cnuQOa5N2bHQPL/eC4M7j8p3RP3CfemM7lx7hmOX3H+yOyi/gZLii2xGknn9mskUmbP9YCT17M9wjEhZ0/Qk49NkNoi9EPw0GCD6Ljt6WmCjOowZT3bhI2O/JC/cK1VlOQAwIsLBIaaVBMZUkUuUY2cs=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1769528256; c=relaxed/simple;
-	bh=lFiR4nvrN2EtNcNGrlSMfjONsYiF7M+/jmgcl4kpA6g=;
-	h=From:Date:Subject:MIME-Version:Content-Type:Message-ID:To:CC; b=iRG8HmRZJO4OaO1KOBPv730k+cdCXoaDpCiajtneyAfwKja9prfsD/0fr2z61jxYODGd5MyIvPwJqAcH3PHOeQBWBvZKw21Z7PHNDdQBfa/Vp28g5lT3404nI/P2TNAk+Lss5UQE4TKrJxas6ETYX8eTP+i7miMz4A1IeMncxHI=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=phytec.de; spf=pass smtp.mailfrom=phytec.de; dkim=pass (2048-bit key) header.d=phytec.de header.i=@phytec.de header.b=R0gkJ1Cq; arc=fail smtp.client-ip=52.101.65.73
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=phytec.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=phytec.de
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=phytec.de header.i=@phytec.de header.b="R0gkJ1Cq"
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=hlc/6NTPaT4bX+6GozS3CunNp778Cr/oVYGpxVL0Flz+RLB9KNDcCRC41NjUcpO5Cxyzfx7VuOujwy6bn1KEIljnjvz43fMjNvFPCV3tjA1fvgsltOZyhvTysUcCCBCu2SLbKBLpkbAgJWeYyAD/SOJJxefeLOQRfH1xmSHwXKMVgxS+rbN0CCF8GFn4ueRrq+VBc9kq1aFNCZ+Nbw0+HwdUZBUIt27hHz7EQnmoykjHYqm7jA9lwzwxEtiiwpr4+Iqf/jI3ZsFnMuN3H6TzNvYqiPbCeWoxQqRciAUWpDLAEeZwXkm40j8Wemvu37L1a/QqnnvkWA9TAdVL0n49tw==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=v8OkAnPrY5yRFYm06THM7Nzui96muj9kjOw/fVXr7Zw=;
- b=nLt41S3avuEDDaTAq7bcadF3zajIjb02ayU2SmeYJxVSVmK6gAEF+sWTVchwfu3STKjli8SLnB5Vc5sYiTqHuUVJx8EtocJyRq1eN0eBlwEUDIBAOJJe4fyRjUSM/yCeIOUzro4DSK82mWe1hx8VlXeAMGT3Q2/TTfhcElbfzbVGoiUDBIZ7DKgOjXkUCqoBucbJUbrrmgiqx51ULQwuT5oCEunkgQ7txIXmPQJA+Me6RP6ofD5Fur9EThT8NdNAFWTIxZoFl8VjVs/A/RSdHEtfTkU0gKllfw9cLWWGML2IbcS4MhU+Y+ZAjUwN2h/onc/OrktO0cX2LGDn8Ffhqg==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=softfail (sender ip
- is 91.26.50.189) smtp.rcpttodomain=vger.kernel.org smtp.mailfrom=phytec.de;
- dmarc=fail (p=quarantine sp=quarantine pct=100) action=quarantine
- header.from=phytec.de; dkim=none (message not signed); arc=none (0)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=phytec.de;
- s=selector2;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=v8OkAnPrY5yRFYm06THM7Nzui96muj9kjOw/fVXr7Zw=;
- b=R0gkJ1Cq+vC8VtyHwrNhPZQs75P05enrZlp2B774C/Ff1Fi654l7SHlz5uqk365hJkI78O/cddlg9s6rx2CgEfde9R9ajCG6+pfI9zi+UiMjlG2hwgTuTA8pYy6nZ6AuZtRocgrxveTEfCwpjt83q81LCg6Nzat3iUnWSK+/cMWB1iwxXcz6n97cYJZTMiNj0RksWCv10364pdN1z2kM1I2Ragcx6yHrZTzrY+uRJM3pFS/g4Zmo4eBI+d8CLdUGNJLakP0//5ufsbgWIXso/0iSgX+I6p5ZZn/kLp/moHGmmi1vmRkctJtYSi3RsU/pkSyGLhm2Hnw6VM2TCZ5onA==
-Received: from AM8P191CA0008.EURP191.PROD.OUTLOOK.COM (2603:10a6:20b:21a::13)
- by DU7PPF2541BF4ED.EURP195.PROD.OUTLOOK.COM (2603:10a6:18:3::bc9) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9542.16; Tue, 27 Jan
- 2026 15:37:30 +0000
-Received: from AM2PEPF0001C715.eurprd05.prod.outlook.com
- (2603:10a6:20b:21a:cafe::a2) by AM8P191CA0008.outlook.office365.com
- (2603:10a6:20b:21a::13) with Microsoft SMTP Server (version=TLS1_3,
- cipher=TLS_AES_256_GCM_SHA384) id 15.20.9542.16 via Frontend Transport; Tue,
- 27 Jan 2026 15:37:25 +0000
-X-MS-Exchange-Authentication-Results: spf=softfail (sender IP is 91.26.50.189)
- smtp.mailfrom=phytec.de; dkim=none (message not signed)
- header.d=none;dmarc=fail action=quarantine header.from=phytec.de;
-Received-SPF: SoftFail (protection.outlook.com: domain of transitioning
- phytec.de discourages use of 91.26.50.189 as permitted sender)
-Received: from Postix.phytec.de (91.26.50.189) by
- AM2PEPF0001C715.mail.protection.outlook.com (10.167.16.185) with Microsoft
- SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.9564.3 via Frontend Transport; Tue, 27 Jan 2026 15:37:30 +0000
-Received: from llp-jremmet.phytec.de (172.25.39.81) by Postix.phytec.de
- (172.25.0.11) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.2562.35; Tue, 27 Jan
- 2026 16:37:30 +0100
-From: Jan Remmet <j.remmet@phytec.de>
-Date: Tue, 27 Jan 2026 16:37:16 +0100
-Subject: [PATCH v3] usb: typec: hd3ss3220: Check if regulator needs to be
- switched
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BEDDE3064A9
+	for <linux-usb@vger.kernel.org>; Tue, 27 Jan 2026 15:40:42 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.222.195
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1769528444; cv=none; b=NluTgUNCN4Y8tt+/pONFKkfNQzp0X9ix4aoHXH9WYYc8nw3Pmtwhb2bRIx3VtdEC5DsWms0OgfLfk1ZpV3Nh/unqFrn6NHpsrmI55UtkFTHwy/kpfrNewx4sDGJO5WSEIK8wu04e3/exSGVz5xZxkBj7MmR+lEVdUgko/QEU0jg=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1769528444; c=relaxed/simple;
+	bh=QPF7Zu2r+fCfqNyJkt1Bte+V+ziLRm+jV4lSeXPHZEA=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=FGxe5/UoIHGgtutj3lgYJNqk1SLMp1Hays+4IPDbSu7kxiZsNgsJmAu6dF/Seb6P2egDlcH9aEQIjLxT5gVntf9akNQ7VbZV9/WrDiy7yWd4PYovW6cSvRuQ3R0DE11EnDeLdNZSySv8XnmQQyrXfMTuFn017KWQNjX5Z+sATG8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org; spf=pass smtp.mailfrom=gmail.com; arc=none smtp.client-ip=209.85.222.195
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Received: by mail-qk1-f195.google.com with SMTP id af79cd13be357-8c6d76b9145so713304385a.2
+        for <linux-usb@vger.kernel.org>; Tue, 27 Jan 2026 07:40:42 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1769528442; x=1770133242;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=y3iP0W+rICWiFtIz9Lnj4u7VRlu+Bycye5GdS1BEDSM=;
+        b=mhn6/3jsskgC4ld2CPOlz/wYtZ6/hM2d+1imPPgPmYsm+txSJcrPmncemHjsVOEXzQ
+         uTEZr5H8RYH08A2LHN2NSJDcERJ9/M1+MA0dm4tP0AX5h8yISO/TY22j24i4G3zGNSMP
+         UE0blb8IYlzivYZblyKyYaZBIfZ/CD28EIN3LpgGnMpTUVAs9aAkvDSdPAwRBrgTJlsZ
+         bLMjo5bzOriUlH93p1ZTIv9pj3SSBzEsFrzSSOEQ0EX6blcnKs3WsXmmZiFj0qekuHuJ
+         rtYazF3C9TLyWlPlM7s692D7K9YcAOAn7oTmP2eIz26HW8m2vjlKpU+C2Vj4LYJtW6Bv
+         Hx7Q==
+X-Forwarded-Encrypted: i=1; AJvYcCVlI+Or35PWze1aZSWRQtPy/jRT7Hj/6AEcgYVfCMcxGbA3ZskNVT8SWdCtmuwTK63Ppb+CiOvH7ZU=@vger.kernel.org
+X-Gm-Message-State: AOJu0YwIcT0bZzyXGcFtFG8wZgm/U/83wReEN4Cm0MoIQaGbdWxjyYQ5
+	72gIoEYh/b+UvAIokNMW2/OCuAIB5AuNcuVLtVaWRfT6vN305WSAwA2/xpniHYZLuIOYHA==
+X-Gm-Gg: AZuq6aKJ8Y03Cky/Tdqg22QFGaMBXSYYa7Cfv1JJGt+uRwDZ3orCPhA7NffehiIEXkd
+	zLeUasl2XRuPzPLqfsXEsrd0NXUOlw5KROqfdQrzDTf/x91Cf/nQV3OHYZ98MauV7Dhe/BtarxH
+	5cA7AB7FeMBB42hfRizd1UINCZTzLMHWH7WnTlwkS8upUmFdlS2zkUjpJIe3H5k6cekScG4x4WB
+	GqDTb9YeQ/zapMdUaBgziHKyXeMxa/VPotB/GQ59ENY3KV1ksehZJK8WgEr4sBZchX4AK+y/Mim
+	dA7+ml+WdarIfvv8O2jNFR+3vcu5A54PGk0jsFIwGqGw1x4B/8o/jx+lcl9v5Isbg5LhWKMVzpe
+	LC3HhdukRlt+YvLZ1iseshr2wDSv7UzMgJFMGjEG4Tb8gNaCEEPWN8NF7/wFKbmpRJaVmQt4i7t
+	LqYv41NGm1WhKKV4EYALKUx/qoNkE8M2EIFEQbvhrrhVNSF97vP9kj
+X-Received: by 2002:a05:6122:3b87:b0:563:83b2:ef2d with SMTP id 71dfb90a1353d-566795c905dmr786113e0c.16.1769522554222;
+        Tue, 27 Jan 2026 06:02:34 -0800 (PST)
+Received: from mail-vk1-f172.google.com (mail-vk1-f172.google.com. [209.85.221.172])
+        by smtp.gmail.com with ESMTPSA id a1e0cc1a2514c-9484fe51d53sm1182159241.12.2026.01.27.06.02.28
+        for <linux-usb@vger.kernel.org>
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Tue, 27 Jan 2026 06:02:31 -0800 (PST)
+Received: by mail-vk1-f172.google.com with SMTP id 71dfb90a1353d-559f4801609so2515705e0c.0
+        for <linux-usb@vger.kernel.org>; Tue, 27 Jan 2026 06:02:28 -0800 (PST)
+X-Forwarded-Encrypted: i=1; AJvYcCVLu1zf905HM5f/mG52b6dQFfYYlStcBXiywRxyZ4+Bfgy9EfG524kcd4EeWKCtwEqepPkOagJurOI=@vger.kernel.org
+X-Received: by 2002:a05:6122:340e:b0:566:2568:df1b with SMTP id
+ 71dfb90a1353d-566794c0a54mr742458e0c.2.1769522547250; Tue, 27 Jan 2026
+ 06:02:27 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-Message-ID: <20260127-wip-jremmet-hd3ss3220_vbus_split-v3-1-009772f38265@phytec.de>
-X-B4-Tracking: v=1; b=H4sIAKvbeGkC/5WOyw6CMBQFf4V0bQ291AKu/A9jCI+L1AjUtlQJ4
- d8tuJClLucsZs5EDGqJhhyDiWh00si+8xDtAlI2eXdFKivPBEIQIQNBn1LRm8a2RUubKjImAgg
- zVwwmM+ouLU25SELgcYpJSrxGaazla02cLx/W+Bh8yX7HRhrb63G94diy/lF0jDJaQO3LNct5j
- ifVjBbLfYVkkTvYCuMfhOCFtWCHimOSiIhvhfM8vwFpfeNMNgEAAA==
-X-Change-ID: 20260126-wip-jremmet-hd3ss3220_vbus_split-946802479e89
-To: Heikki Krogerus <heikki.krogerus@linux.intel.com>, Greg Kroah-Hartman
-	<gregkh@linuxfoundation.org>, Krishna Kurapati
-	<krishna.kurapati@oss.qualcomm.com>
-CC: <linux-usb@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
-	<upstream@lists.phytec.de>
-X-Mailer: b4 0.14.2
-X-ClientProxiedBy: Postix.phytec.de (172.25.0.11) To Postix.phytec.de
- (172.25.0.11)
-X-EOPAttributedMessage: 0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: AM2PEPF0001C715:EE_|DU7PPF2541BF4ED:EE_
-X-MS-Office365-Filtering-Correlation-Id: e72ff4f2-f477-4df8-f87a-08de5db9fbc0
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam:
-	BCL:0;ARA:13230040|82310400026|376014|36860700013|1800799024;
-X-Microsoft-Antispam-Message-Info:
-	=?utf-8?B?Q3BReXJjaVhpd05yQ3VGNlRYNi9kT1lSYUI3MFczeXlNeUE2K0s4Ritkb3Vm?=
- =?utf-8?B?MVdIekVVOG1ONmpZTFZoeDVOa3hQbzhTSmNmbmg0SlducjU5RUJTMEY3T05J?=
- =?utf-8?B?VGlUZkR0NHR2d0dKdkc5OWFRTElzemh4aW96SGFzWkVmbzlYT1ZwZzV1TmJL?=
- =?utf-8?B?UmllRzNXbHFQWWlrMUJDY2JxTjhoY2tRWkFWTkRlUzUwMXdLQWdZK3JJTFd0?=
- =?utf-8?B?WTRaQVo5dlV4ZWcvWitnL3BBOHRXY2FtNlhieTBEYWQ2bVpUSDJoTTdkSGY5?=
- =?utf-8?B?ZkFCTGluYWdoVEZ6NVkrZUxidjlBVWlGcUNTU1BoUkJzbFJrUHJwaDNHcjV3?=
- =?utf-8?B?L25BK2Y1YS9SaHp6OXVEQlg0ak0rUHIwWndsOWhNdXA0OU1xa1dOSElNN3N4?=
- =?utf-8?B?VHZxNmdkZnAxODlMbmo1WlF1Zy82ZGo4RTJhc0JlNmdmdmxQeSthU1lZVzJS?=
- =?utf-8?B?alRzRDFQWktTMERaM3VYbEFnMndqSTNrMlRpTXAvZkJqNU9JSmpaVExmM0Ns?=
- =?utf-8?B?YmZkNm9mYnc3YUMyYzluOHV0K2YyMXQ0N0JweHlmdFhEMy9qWlJTbVg2UjNK?=
- =?utf-8?B?aVpOTFNhWmNBMlhnQ1NQQ3dSV3JnR2ZCNWZBcjdUYkZwY0tpaXBXU3ZaVGtQ?=
- =?utf-8?B?MmFhNTdmdzNqNERMM3dyWWlCdEI1ZTlpS3JqM3RSODR0dEVNNUdrdGRTMjhm?=
- =?utf-8?B?cVBURjdEZWJVZ3RVdEZYbGI5K2JSaWtldWl1QzJkbE53clpyd1FDallVblRY?=
- =?utf-8?B?Mk9FZnk2Y1dlNW5iNGJJd09jMzh0eWlPYTdiOFVrV1ZISytwTkZ0RFFxcEIv?=
- =?utf-8?B?MGRjMDdkUnJDY2FQM3kybHhnK0M3S0FZQnVWN2Y1QVgyZGtuMTBLbWVYOUNG?=
- =?utf-8?B?QXVaUlNVT0JNZ05pWVhOZU04Z1V4dnpucUpoV2RWTDlUc21tV2NmZ0VTUlBQ?=
- =?utf-8?B?UXlCWkdBSHlpRmhvQjc5azF5aU5hcEd6dXpMQVhLWW1TTUpnSkZ6N29vbFNr?=
- =?utf-8?B?VlUzUzQ1UDU2Ni96S1FSdWRWckhpSW5EV3dPYkZ6aldKRjhxUkpDWGg0c1kv?=
- =?utf-8?B?VTZNK2t3V1RmVlcrUmVyRGZaa0FidnYxUE5udWVrbXgxbHZIbHVXVG1jdm83?=
- =?utf-8?B?RXZ0STd1cjljeGtzWUF5MW8yeVpRRHpOaW9OTUNmeVdRMXRpSFFJWitvSWli?=
- =?utf-8?B?UXU0SWdvRjFnVFVmTlc5RWI3bDN0dzJwTkFJUCtwZWhYU0ZSenY5N29IOTlH?=
- =?utf-8?B?YjFVMk4vdUNCbklTcWMxVkNxUklkMUthRjhBZit6T3VFa0FUNFRMTnJxMG5w?=
- =?utf-8?B?d1Zub3hDZGtVKzNEVkhEV2tHdndFbVZMOE5udWVzRWZCWGpkSE5mVzZMK041?=
- =?utf-8?B?L0NvOW1oOWh5RUFJbmhONlNkb1RyalphblFqOG4vUmxLVHlKWFN2bWF0aTNS?=
- =?utf-8?B?UlN3TG1LemZrMUt1MVJhUHE5czlSR0xkKzhpdTZsV1pXU1NWUmEyTWFqNjlD?=
- =?utf-8?B?ekc0ZXNEZWdXZmhwdnVnMkJ1aUFxdFRLYVNLeDU3M0JtamJNbzhKcVlqc3Zo?=
- =?utf-8?B?ekZjU3BiZngxNHY1MXFzUjFNbUxwd0tFa215aGdLVlVSZ0VFYmF6clZTck81?=
- =?utf-8?B?eWNMVjgyb2ZoUGptNDYzWGxRa3M4MERleERXSllVWEE1bXFZb0NFTGl2a3pT?=
- =?utf-8?B?eFNGYTluZ1IzbUxncjBIeHNhV3hmS1FTdHhLSnVIdU9Sdyt0ai9PK3JaT2ww?=
- =?utf-8?B?R00zVTZ2MUUyRVRoRmhEcmRVVk0xcHl6VmhxT1FZQkdWNzdLS08xSzRvOWtX?=
- =?utf-8?B?V2NSNnRNWFRxQ0ZMTEtjeEIxZ2d1Y0NwNmVIVGJod3hpMGxYUFZ2QzZzbHM3?=
- =?utf-8?B?UDVwSnFucWNpa1BSdVBkZTVRYlhUVmVEZHVsYzVJYjN1NmlrK1JFU0paTXd4?=
- =?utf-8?B?aCtETU9ZenNHYXVkUFAxQ3JyWHF0TFFXd0dkWThUYzg0N3ZjemF6R2ZWMXRD?=
- =?utf-8?B?QUxFNXhDcGxlbmsrTGRUMjhESGlRUXhaK2tWWURUclR1K3dqc3JDemlnQjB3?=
- =?utf-8?B?WXN0bGgrQUlnUlhYSU5EMVpvL3ZRUjFzTVJCYTVjaDZaV3VPSHp3Q0FYTWQ3?=
- =?utf-8?B?RGRYZWVOWTJQY2RWQW5pYmFnRlByZVhaR1RmMkFmR05HU1JEL3B4OGhRL1Q5?=
- =?utf-8?B?Sko3Y2o4NGZEdXV3aGRWNkJFdXBZdVNLblhlUHJDUzVLcTUwbHpEUVd0OEVS?=
- =?utf-8?B?TUwreXpEd0NxOUx6a0NMeG5KTk5RPT0=?=
-X-Forefront-Antispam-Report:
-	CIP:91.26.50.189;CTRY:DE;LANG:en;SCL:1;SRV:;IPV:CAL;SFV:NSPM;H:Postix.phytec.de;PTR:InfoDomainNonexistent;CAT:NONE;SFS:(13230040)(82310400026)(376014)(36860700013)(1800799024);DIR:OUT;SFP:1102;
-X-OriginatorOrg: phytec.de
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 27 Jan 2026 15:37:30.6829
- (UTC)
-X-MS-Exchange-CrossTenant-Network-Message-Id: e72ff4f2-f477-4df8-f87a-08de5db9fbc0
-X-MS-Exchange-CrossTenant-Id: e609157c-80e2-446d-9be3-9c99c2399d29
-X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=e609157c-80e2-446d-9be3-9c99c2399d29;Ip=[91.26.50.189];Helo=[Postix.phytec.de]
-X-MS-Exchange-CrossTenant-AuthSource:
-	AM2PEPF0001C715.eurprd05.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Anonymous
-X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: DU7PPF2541BF4ED
+References: <20260127-topic-sm8650-ayaneo-pocket-s2-base-v2-0-c55ec1b5d8bf@linaro.org>
+ <20260127-topic-sm8650-ayaneo-pocket-s2-base-v2-1-c55ec1b5d8bf@linaro.org>
+ <CAMuHMdU9HcK3xX=itqe2di1HS1SJvV6=ySqKyrtj7Yr1yXyuqQ@mail.gmail.com> <6e8c3d6b-8cba-42da-bafa-28becfa15d60@linaro.org>
+In-Reply-To: <6e8c3d6b-8cba-42da-bafa-28becfa15d60@linaro.org>
+From: Geert Uytterhoeven <geert@linux-m68k.org>
+Date: Tue, 27 Jan 2026 15:02:16 +0100
+X-Gmail-Original-Message-ID: <CAMuHMdV=u280N2HUgpiHtRXuMv0RhtDeEFDaSLFQ0Wg8frt+6A@mail.gmail.com>
+X-Gm-Features: AZwV_QhN9K-WsMdmqL2nfJrvZ40lsYIN6kZoo7JRPE4M6cKNWw4lsg30FvWZJqY
+Message-ID: <CAMuHMdV=u280N2HUgpiHtRXuMv0RhtDeEFDaSLFQ0Wg8frt+6A@mail.gmail.com>
+Subject: Re: [PATCH v2 1/7] dt-bindings: usb: document the Renesas
+ UPD720201/UPD720202 USB 3.0 xHCI Host Controller
+To: Neil Armstrong <neil.armstrong@linaro.org>
+Cc: Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>, 
+	Conor Dooley <conor+dt@kernel.org>, Bjorn Andersson <andersson@kernel.org>, 
+	Konrad Dybcio <konradybcio@kernel.org>, Rob Clark <robin.clark@oss.qualcomm.com>, 
+	Dmitry Baryshkov <lumag@kernel.org>, Abhinav Kumar <abhinav.kumar@linux.dev>, 
+	Jessica Zhang <jesszhan0024@gmail.com>, Sean Paul <sean@poorly.run>, 
+	Marijn Suijten <marijn.suijten@somainline.org>, David Airlie <airlied@gmail.com>, 
+	Simona Vetter <simona@ffwll.ch>, Greg Kroah-Hartman <gregkh@linuxfoundation.org>, 
+	Geert Uytterhoeven <geert+renesas@glider.be>, Magnus Damm <magnus.damm@gmail.com>, 
+	Bartosz Golaszewski <brgl@kernel.org>, Manivannan Sadhasivam <mani@kernel.org>, Bjorn Helgaas <bhelgaas@google.com>, 
+	devicetree@vger.kernel.org, linux-kernel@vger.kernel.org, 
+	linux-arm-msm@vger.kernel.org, dri-devel@lists.freedesktop.org, 
+	freedreno@lists.freedesktop.org, linux-usb@vger.kernel.org, 
+	linux-renesas-soc@vger.kernel.org, linux-pci@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
 
-Check regulator state as peripheral and detach can disable vbus.
-Without this check we will try to disable the regulator twice if
-we disconnect host and then connect as device.
+Hi Neil,
 
-Fixes: 27fbc19e52b9 ("usb: typec: hd3ss3220: Enable VBUS based on role state")
+On Tue, 27 Jan 2026 at 14:55, Neil Armstrong <neil.armstrong@linaro.org> wrote:
+> On 1/27/26 11:20, Geert Uytterhoeven wrote:
+> > On Tue, 27 Jan 2026 at 10:57, Neil Armstrong <neil.armstrong@linaro.org> wrote:
+> >> Document the Renesas UPD720201/UPD720202 USB 3.0 xHCI Host Controller,
+> >> which connects over PCIe and requires specific power supplies to
+> >
+> > Here: "requires"...
+>
+> Sorry I don't understand
 
-Signed-off-by: Jan Remmet <j.remmet@phytec.de>
----
-This is a fixup from
-- Link to v1: https://lore.kernel.org/r/20260115-wip-jremmet-hd3ss3220_vbus-v1-1-b7d9adfbe346@phytec.de
-To
-- Link to v2: https://lore.kernel.org/r/20260123-wip-jremmet-hd3ss3220_vbus-v2-1-bcad313ce92b@phytec.de
----
-Changes in v3:
-- Fixed the fixme reference, sorry again...
-- Link to v2: https://lore.kernel.org/r/20260127-wip-jremmet-hd3ss3220_vbus_split-v2-1-f615d4e88634@phytec.de
+Please read below the continuations ("...") below...
 
-Changes in v2:
-- added Fixes tag for the patch applied on usb-next
-- Link to v1: https://lore.kernel.org/r/20260126-wip-jremmet-hd3ss3220_vbus_split-v1-1-b2f946f1a4ae@phytec.de
----
- drivers/usb/typec/hd3ss3220.c | 3 +++
- 1 file changed, 3 insertions(+)
+>
+> >
+> >> start up.
+> >>
+> >> Signed-off-by: Neil Armstrong <neil.armstrong@linaro.org>
 
-diff --git a/drivers/usb/typec/hd3ss3220.c b/drivers/usb/typec/hd3ss3220.c
-index a7c54aa8635f70d6979d98c95f80d4dac277fef2..3e39b800e6b5f4d0cbba957c0dd66c18f781ff38 100644
---- a/drivers/usb/typec/hd3ss3220.c
-+++ b/drivers/usb/typec/hd3ss3220.c
-@@ -208,6 +208,9 @@ static void hd3ss3220_regulator_control(struct hd3ss3220 *hd3ss3220, bool on)
- {
- 	int ret;
- 
-+	if (regulator_is_enabled(hd3ss3220->vbus) == on)
-+		return;
-+
- 	if (on)
- 		ret = regulator_enable(hd3ss3220->vbus);
- 	else
+> >> --- /dev/null
+> >> +++ b/Documentation/devicetree/bindings/usb/renesas,upd720201-pci.yaml
+> >> @@ -0,0 +1,55 @@
+> >> +# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
+> >> +%YAML 1.2
+> >> +---
+> >> +$id: http://devicetree.org/schemas/usb/renesas,upd720201-pci.yaml#
+> >> +$schema: http://devicetree.org/meta-schemas/core.yaml#
+> >> +
+> >> +title: UPD720201/UPD720202 USB 3.0 xHCI Host Controller (PCIe)
+> >> +
+> >> +maintainers:
+> >> +  - Neil Armstrong <neil.armstrong@linaro.org>
+> >> +
+> >> +description:
+> >> +  UPD720201 USB 3.0 xHCI Host Controller via PCIe x1 Gen2 interface.
+> >> +  The UPD720202 up to two downstream ports, while UPD720201 supports up to
+> >> +  four downstream USB 3.0 rev1.0 ports.
+> >> +
+> >> +properties:
+> >> +  compatible:
+> >> +    const: pci1912,0014
+> >
+> > Just wondering: how does having a new driver
+> > drivers/pci/pwrctrl/pci-pwrctrl-upd720201.c matching against this
+> > compatible play well with normal PCI discovery and probing of
+> > drivers/usb/host/xhci-pci-renesas.c?
+>
+> In Linux, power control is implemented as a platform device driver,
+> so it doesn't collide with the pci driver.
+>
+> The pci driver won't probe until the device shows up on the bus anyway,
+> so he power control will attach as platform for this purpose.
 
----
-base-commit: 8acc379b664ec987dcc7eca25a5f5c4a9a4eb9c4
-change-id: 20260126-wip-jremmet-hd3ss3220_vbus_split-946802479e89
+OK.
 
-Best regards,
+> >> +  avdd33-supply:
+> >> +    description: +3.3 V power supply for analog circuit
+> >> +
+> >> +  vdd10-supply:
+> >> +    description: +1.05 V power supply
+> >> +
+> >> +  vdd33-supply:
+> >> +    description: +3.3 V power supply
+> >> +
+> >> +required:
+> >> +  - compatible
+> >> +  - reg
+> >
+> > ... but no power supplies are listed here? ...
+>
+> None are stricly required, they can be supplied directly without
+> a passive regulator. Not sure they should be required
+
+So the goal of this binding is to document the required power supplies
+which are not required? I am confused (but that could just be me ;-)...
+
+> >> +examples:
+> >> +  - |
+> >> +    pcie@0 {
+> >> +        reg = <0x0 0x1000>;
+> >> +        ranges = <0x02000000 0x0 0x100000 0x10000000 0x0 0x0>;
+> >> +        #address-cells = <3>;
+> >> +        #size-cells = <2>;
+> >> +        device_type = "pci";
+> >> +
+> >> +        usb@0 {
+> >
+> > The actual DTS uses "usb-controller".
+> >
+> >> +            compatible = "pci1912,0014";
+> >> +            reg = <0x0 0x0 0x0 0x0 0x0>;
+> >
+> > ... also not in the example?
+> >
+> >> +        };
+> >> +    };
+
+Gr{oetje,eeting}s,
+
+                        Geert
+
 -- 
-Jan Remmet <j.remmet@phytec.de>
+Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
 
+In personal conversations with technical people, I call myself a hacker. But
+when I'm talking to journalists I just say "programmer" or something like that.
+                                -- Linus Torvalds
