@@ -1,55 +1,78 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B324530AAD4;
-	Tue, 27 Jan 2026 03:26:13 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C340C30C36B;
+	Tue, 27 Jan 2026 03:40:21 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1769484373; cv=none; b=uKnpf3ZbqrAbNyO8LQfNg9P1WDl2aQTxfQF8WqNK5sW6sdlk+U04ndXyjJ2yLn2edUlB2C/Ff2YI2h5ltsvFn+gUIdQzvWcpTt+8sU2iNdJTZak9SDQKnfoFU9Yxrs8z9GQ8wwp75Lf+Kmi2luXUNpH8M88Li5NqfvA4bFDxZCY=
+	t=1769485221; cv=none; b=Kxf1DRyXhIAWajrFJpdVwQVQ6JKTeY/gOcHDYPZa3I9wYvsQcwij8FZWjPYGtzY9AiUtog7G7MSa3SqWTZIc2/atykLqUtFXAzkW7CWEMl7i7Ei+oMub3Fy15u7WGTFUKfY5oXAUjNIzd/d260je0VOACzSegGRkMGThjQRUMqA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1769484373; c=relaxed/simple;
-	bh=VWFT2HK8lhAJqIqtWpl4sBYhEGC7xC+w6rj3d1c8KIM=;
-	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=PyA4YIQHFyf5sBNx8cd8qIy/1y7o45v7yYPp/2T+d2h23A5TP1dgJ7mPTkKFfaSsQ/66GV0OxVBEA9lVQ9uwKUrnEf2E8hwMynWgki2xgdpTW6ZhWzKl60fNyLYbNW+nkbqPmNOy6UqtgaE0TuGB1vWGy+IhAt5r8fs9V1JCQk4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=rqBZJIAF; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1769485221; c=relaxed/simple;
+	bh=oYyPoYMb5h8Yw2IlLwjf2IcTt7LrLh0+aqCgEhQ/GTw=;
+	h=Content-Type:MIME-Version:Subject:From:Message-Id:Date:References:
+	 In-Reply-To:To:Cc; b=I/DzOAGXb7MDzrCFgIqNED5uOhTnHwM8TEl38gZYm+M4Lftd8iblthCQUvDmejZir6vPkIfGO9K344WPZj+0AzO3gXK74rbVRpsd693E63OCtnV9WTc5lSm7lKyh7syieu64XUxEqTez2T7NtsWDWjSciKamDUzv5hAM/8i7pTU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=K2XPz5KU; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="rqBZJIAF"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id C1496C116C6;
-	Tue, 27 Jan 2026 03:26:12 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="K2XPz5KU"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 22480C116C6;
+	Tue, 27 Jan 2026 03:40:21 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1769484373;
-	bh=VWFT2HK8lhAJqIqtWpl4sBYhEGC7xC+w6rj3d1c8KIM=;
-	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
-	b=rqBZJIAFP5v3VMNkgZuFc5mKGmCyWQ12gBSzz4Mi1I7XeDSJ6tbD3+JUNj89epI97
-	 P/EniW5JbzPN2Y5hspUdPrsgv6Vcq6smVQFS8WDakcV/8NUkHQBBP5eIfqvhzJai7G
-	 HBNqQyzjj+DifN3Z7hh8HZW9GcE3ZjHO1tWCaK8hbnv0nV2sokzFbsMf+7rkXewj/M
-	 fX3/nepaPNLRalHv5lVURs/wOtT+ua4+rOlGWngg4UZ9BU2GttBpwjQwvKE3jfQKdb
-	 L5bfLFtPpKdSWwqOZPvFmLqUUpDnPdO2TvHHWkLBURo5gaYZQuxERCG6NMFPMTuu1j
-	 eA12odtD/H00A==
-Date: Mon, 26 Jan 2026 19:26:11 -0800
-From: Jakub Kicinski <kuba@kernel.org>
-To: Ethan Nelson-Moore <enelsonmoore@gmail.com>
-Cc: netdev@vger.kernel.org, linux-usb@vger.kernel.org, Andrew Lunn
- <andrew+netdev@lunn.ch>, "David S. Miller" <davem@davemloft.net>, Eric
- Dumazet <edumazet@google.com>, Paolo Abeni <pabeni@redhat.com>, Simon
- Horman <horms@kernel.org>, Peter Korsgaard <peter@korsgaard.com>
-Subject: Re: [PATCH net-next] net: usb: sr9700: remove code to drive
- nonexistent multicast filter
-Message-ID: <20260126192611.5ca0e9f1@kernel.org>
-In-Reply-To: <20260123065842.53669-1-enelsonmoore@gmail.com>
-References: <20260123065842.53669-1-enelsonmoore@gmail.com>
+	s=k20201202; t=1769485221;
+	bh=oYyPoYMb5h8Yw2IlLwjf2IcTt7LrLh0+aqCgEhQ/GTw=;
+	h=Subject:From:Date:References:In-Reply-To:To:Cc:From;
+	b=K2XPz5KU+TD0yVkG6vXvE2yr10c9Z1BC00RVpjS7OPKZXpqbeh6mU7RLTFws5BJDA
+	 cTAlDFkQ/9cAiK4VwMJM9MU0liIHOG5QZr8B8LeAEnpZx4gW/kuVnKjhxlQZgPGZis
+	 0P7nXGVSBWNm6/zDq7AxLNLduW0RJJVrISLHY1FltDl+DNFp0fu1LHvaQJFoi+SmHU
+	 8U9Afvp7h21WIICiCq2fJ3E1UFB04qR4DeqE8CAkdp4ef8NBfCOjIPOo0AyJ+jLwN+
+	 q8HaBMrCTViHDrqWLBMjy8xfbo+x0mzwputss4y8vlZZpJVGANQvUT/aSnb7yUm2W5
+	 BsJb+2IMOT6Yw==
+Received: from [10.30.226.235] (localhost [IPv6:::1])
+	by aws-us-west-2-korg-oddjob-rhel9-1.codeaurora.org (Postfix) with ESMTP id 8BD23380A961;
+	Tue, 27 Jan 2026 03:40:16 +0000 (UTC)
+Content-Type: text/plain; charset="utf-8"
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
+Subject: Re: [PATCH net-next] net: usb: replace unnecessary get_link functions
+ with usbnet_get_link
+From: patchwork-bot+netdevbpf@kernel.org
+Message-Id: 
+ <176948521535.672496.6577810918389237201.git-patchwork-notify@kernel.org>
+Date: Tue, 27 Jan 2026 03:40:15 +0000
+References: <20260124082217.82351-1-enelsonmoore@gmail.com>
+In-Reply-To: <20260124082217.82351-1-enelsonmoore@gmail.com>
+To: Ethan Nelson-Moore <enelsonmoore@gmail.com>
+Cc: netdev@vger.kernel.org, linux-usb@vger.kernel.org, andrew+netdev@lunn.ch,
+ davem@davemloft.net, edumazet@google.com, kuba@kernel.org, pabeni@redhat.com,
+ peter@korsgaard.com, o.rempel@pengutronix.de, max.schulze@online.de,
+ khalasa@piap.pl
 
-On Thu, 22 Jan 2026 22:58:32 -0800 Ethan Nelson-Moore wrote:
-> +	else if (netdev->flags & IFF_ALLMULTI || netdev_mc_count(netdev) > 0)
+Hello:
 
-nit: netdev_mc_empty()
+This patch was applied to netdev/net-next.git (main)
+by Jakub Kicinski <kuba@kernel.org>:
+
+On Sat, 24 Jan 2026 00:22:06 -0800 you wrote:
+> usbnet_get_link calls mii_link_ok if the device has a MII defined in
+> its usbnet struct and no check_connect function defined there. This is
+> true of these drivers, so their custom get_link functions which call
+> mii_link_ok are useless. Remove them in favor of usbnet_get_link.
+> 
+> Signed-off-by: Ethan Nelson-Moore <enelsonmoore@gmail.com>
+> 
+> [...]
+
+Here is the summary with links:
+  - [net-next] net: usb: replace unnecessary get_link functions with usbnet_get_link
+    https://git.kernel.org/netdev/net-next/c/bd323fab96fb
+
+You are awesome, thank you!
 -- 
-pw-bot: cr
+Deet-doot-dot, I am a bot.
+https://korg.docs.kernel.org/patchwork/pwbot.html
+
+
