@@ -1,115 +1,298 @@
-Received: from smtp1.tecnico.ulisboa.pt (smtp1.tecnico.ulisboa.pt [193.136.128.21])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pl1-f181.google.com (mail-pl1-f181.google.com [209.85.214.181])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9DCF735CBCA;
-	Tue, 27 Jan 2026 15:21:47 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=193.136.128.21
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 33F7E361DDD
+	for <linux-usb@vger.kernel.org>; Tue, 27 Jan 2026 15:26:40 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.181
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1769527312; cv=none; b=VADZUgXS+DO4iOt47EzZs558y6zufHQgN/QHk5Re41WCSdGHuI8HtDK4aoyeyiZjBXtVz0Q3MhGKDvlEnbk+5S1OYrCbZ4J48LYVxhicc26qSH4YlWBGDLJSTJ3jqy/KMJ1jhTKhqGvzZIriNo8qwpObq80SfwpuA8ZEEm3FrEQ=
+	t=1769527601; cv=none; b=PdzNA4H2Oc16jM19Vzo/TMWe2Mou8NOxi7Vgg5sLfhh1+TmRji2HNBE62lZRyT4bGeAuofFQComWDD7vI8zjzg4/KW3OVzdI6eSbwWH3+YiN4FvcehFdYPUsbgFOh53BkfVnIO1pzvnzUKAJk3EtPuFbDXy22Hj1Ob5PLdQC1yE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1769527312; c=relaxed/simple;
-	bh=tPxLgImUSfLaPO0hTIiojepsSdUOwrfSQUsTniiVYsM=;
-	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
-	 In-Reply-To:To:Cc; b=iwgYO+NSqKBVPL+dR3RVhEAJD9ml8/0UVT2ZdSd2X3+LittwoumIDCQd634grmGHsvS7z6QDJE87jQA7ffKtZba6R8c3WM0ByH4vk7DtgjputsgI+LPMrFf6F+rOctPrt/K6PsmgZyq9ToUAWfK7/79SPNEk58yu+FEiZIWvr/M=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=tecnico.ulisboa.pt; spf=pass smtp.mailfrom=tecnico.ulisboa.pt; dkim=pass (2048-bit key) header.d=tecnico.ulisboa.pt header.i=@tecnico.ulisboa.pt header.b=CNBbIwBk; arc=none smtp.client-ip=193.136.128.21
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=tecnico.ulisboa.pt
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=tecnico.ulisboa.pt
+	s=arc-20240116; t=1769527601; c=relaxed/simple;
+	bh=vx3jLTsBw4rxu7hoSeZBPfSAXJs751JIn0jAWWF5Xbs=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=Db0N3tKoM1jj6JO+uysZhmuhXar2wp3V1Wgn/z6uXRynu4OrkxGTynd4EPkryyxsqUIH9o6EmQWjIjtXvaz8t8K3QN1Koljm0zK71JOCnyHAUrscPijDkS7ZPLZ32O/A8ClQRO2r929BdtBSW+UUBqbvuS9MMg8oI5EFlxmr59w=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=QGP4ffXF; arc=none smtp.client-ip=209.85.214.181
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=tecnico.ulisboa.pt header.i=@tecnico.ulisboa.pt header.b="CNBbIwBk"
-Received: from localhost (localhost.localdomain [127.0.0.1])
-	by smtp1.tecnico.ulisboa.pt (Postfix) with ESMTP id 5DB75600086A;
-	Tue, 27 Jan 2026 15:12:11 +0000 (WET)
-X-Virus-Scanned: by amavis-2.13.0 (20230106) (Debian) at tecnico.ulisboa.pt
-Received: from smtp1.tecnico.ulisboa.pt ([127.0.0.1])
- by localhost (smtp1.tecnico.ulisboa.pt [127.0.0.1]) (amavis, port 10025)
- with LMTP id lWw2rW8RwuwY; Tue, 27 Jan 2026 15:12:09 +0000 (WET)
-Received: from mail1.tecnico.ulisboa.pt (mail1.ist.utl.pt [193.136.128.10])
-	by smtp1.tecnico.ulisboa.pt (Postfix) with ESMTPS id ABE236002307;
-	Tue, 27 Jan 2026 15:12:08 +0000 (WET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=tecnico.ulisboa.pt;
-	s=mail2; t=1769526728;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=V0ixqb1WmQNGUgreQanqk1a+bFFp4h/i7hFLQvfziag=;
-	b=CNBbIwBkCSTZbT4CWZdM+DSeMHTH1ylUgotr24CkI9OfQDo7P8woRbtOVCMKcMhihTYR0t
-	DnIvtnzoa59ivt8UzQhGJj+H+7XSPePszgZSFFwEUGu18G/acDw5NPPjFquLr4uyABWT8A
-	2pvJ4ZScImp5XJc9kv7HL1Q6iFJcKsa888VKEkI5k6DsMt+/2u53ajsihZupsjyrO/8ynZ
-	2jZhwmD8wV+ks0wwRlK3ILVUWzbB6z2qr5w4Q5H6tOZ4m8lJbWJs+eP1gogJCNP32d8+aT
-	iTRiisQp2+vnaMxicF9005WfDJ2WrauyZsml6nAE5Cy9PqgZ22midOLfCIweyw==
-Received: from [192.168.2.110] (unknown [148.63.39.39])
-	(Authenticated sender: ist187313)
-	by mail1.tecnico.ulisboa.pt (Postfix) with ESMTPSA id 586353600FC;
-	Tue, 27 Jan 2026 15:12:08 +0000 (WET)
-From: Diogo Ivo <diogo.ivo@tecnico.ulisboa.pt>
-Date: Tue, 27 Jan 2026 15:11:48 +0000
-Subject: [PATCH v2 2/6] usb: xhci: tegra: Remove redundant mutex when
- setting phy mode
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="QGP4ffXF"
+Received: by mail-pl1-f181.google.com with SMTP id d9443c01a7336-2a09a3bd9c5so42654605ad.3
+        for <linux-usb@vger.kernel.org>; Tue, 27 Jan 2026 07:26:40 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1769527599; x=1770132399; darn=vger.kernel.org;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=M/fsCYTkIXDItTcE/n6muZz7y6GpmWCERYqeftONhwg=;
+        b=QGP4ffXFHYsQg3cvB0lFgrynOjqO413hWZG7svBN6ys0WSKS5O9r1+eOhhxNc6eYVT
+         vI+x1rHcenB6SMnKYfePU2+mVHaA88dAHf5tpIKpAoGpVq6joM0sDVeeL3l36983x+sF
+         FQp7mDPHg1b3NU4jhQNl1zKBy0izeeanmPhEl0qdroxWyTsORsOq69xmXa8Yjq6koIxV
+         Z0WCZbkvUHjQ4qz8xvc0KUh24fwlZ1YK/2UW/Og1wso0U70DWxmQs9uSbTBvc/UjJLs2
+         CNcN6GPNbCA+OCtiAf4E4CbfZ3hPDqkh1BUBM6126zZcgrtSYWeV7bwhushMLKPRfTCI
+         RiUg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1769527599; x=1770132399;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :x-gm-gg:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=M/fsCYTkIXDItTcE/n6muZz7y6GpmWCERYqeftONhwg=;
+        b=VvZ2yO32XA1Clm4Ve2rI20pM8T0J0grTkTWZ2QaOKd059RTNJ0z/f+7aCN8wSod75c
+         7M4xicE3uSAM/P5yc34gaAoXoDpj0gCHk1mlrfaeidbBdYNpb1DfrBAKII8+Zdx50DAg
+         VKTW2buROcD8flR7qYfa4YBlX7BCbW4ALJECUG1li0WKuqC6zjdXlBohUFc2n/Vx+lgT
+         BBvz1sijh7Uc7pR/JajYmi7aKz1bPQuYdA2/G9cDzfWcGNamwYpVTCRD+Gnime8JGmEL
+         4A2uTFukaO9pjJ3TK+niGuig67AlzoJLm57NRZISt414wwI8clxHaF9+sesE1gYGfZBU
+         1A6Q==
+X-Forwarded-Encrypted: i=1; AJvYcCWWJod+7JwdELOHZpsAIGPmvlIAs0lJcHwapxsVsMU2QR43x6qYaoAz49PUjJ1NhOXQ7PANHRSt5gw=@vger.kernel.org
+X-Gm-Message-State: AOJu0Ywfncmjvgv5TVfI3NyFbSwwtIOcOwvq/3D3zDLM6fhvd7TcUFWQ
+	KT221FkMCKkzyz+miC6/yluj0/lFMMswp8MusaGbLLtqBCUnxajF7GF2
+X-Gm-Gg: AZuq6aJIROOOZ04qSffhypjvwSYKevVIyXpp2rLo1FRXRtTCnfLCOqKo5kkJUWdiP0T
+	niQVIrs2tbMR05ln8VzBplwUGewZ+KplfjsM5FypQQR39veJl2MEi7QEdrmARWYys6jb2g/Mvxl
+	/0hiMes7RYqe/4YoVwGhDqm9w2fEZTqd2+Lou9VSvIeiuPZELgfpCdfPEL0nh+j7+Pmv0frv5oJ
+	TcBc9lkCMbz6FhnGqoLl4rHu/wlvmP5jIiPJIGq0ACvFlHzgnICRHM9vxZkqNBIqzi86cNCnIb7
+	a/H8+2jgVn8weqmI8fUWLV3Px/nNCh0qKRgq/nsKgwjKTx66Z+eQlhcBtVxqq73c0mkus/zYKCE
+	M5gOI1KgOOZqPqhJjsBl+T4Ig07xbPe5yDDkDNXWlCJc0T69Cg6qzDgbq4rY54pw48YHrfKoWFg
+	vOgpCIwKVoK/VqwOXsHo7DP56WizwLJa5tEZE=
+X-Received: by 2002:a17:903:2cf:b0:295:1e50:e7cb with SMTP id d9443c01a7336-2a870d7446cmr22169425ad.23.1769527599292;
+        Tue, 27 Jan 2026 07:26:39 -0800 (PST)
+Received: from [192.168.1.5] ([115.99.251.203])
+        by smtp.gmail.com with ESMTPSA id d9443c01a7336-2a802fdd70asm123437515ad.92.2026.01.27.07.26.36
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Tue, 27 Jan 2026 07:26:38 -0800 (PST)
+Message-ID: <e1b2b86f-6762-4b6b-bcb9-f8c7349e8077@gmail.com>
+Date: Tue, 27 Jan 2026 20:56:34 +0530
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH 1/2] dt-bindings: usb: ti,omap4-musb: convert to DT schema
+To: Rob Herring <robh@kernel.org>
+Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+ Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley
+ <conor+dt@kernel.org>, Felipe Balbi <balbi@ti.com>,
+ linux-usb@vger.kernel.org, devicetree@vger.kernel.org,
+ linux-kernel@vger.kernel.org
+References: <20260126-ti-usb-v1-0-2855c129eb6d@gmail.com>
+ <20260126-ti-usb-v1-1-2855c129eb6d@gmail.com>
+ <20260126160610.GA2471873-robh@kernel.org>
+Content-Language: en-US
+From: Charan Pedumuru <charan.pedumuru@gmail.com>
+In-Reply-To: <20260126160610.GA2471873-robh@kernel.org>
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
-Message-Id: <20260127-diogo-tegra_phy-v2-2-787b9eed3ed5@tecnico.ulisboa.pt>
-References: <20260127-diogo-tegra_phy-v2-0-787b9eed3ed5@tecnico.ulisboa.pt>
-In-Reply-To: <20260127-diogo-tegra_phy-v2-0-787b9eed3ed5@tecnico.ulisboa.pt>
-To: Mathias Nyman <mathias.nyman@intel.com>, 
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>, 
- Thierry Reding <thierry.reding@gmail.com>, 
- Jonathan Hunter <jonathanh@nvidia.com>, JC Kuo <jckuo@nvidia.com>, 
- Vinod Koul <vkoul@kernel.org>, Kishon Vijay Abraham I <kishon@kernel.org>, 
- Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>, 
- Conor Dooley <conor+dt@kernel.org>, 
- Neil Armstrong <neil.armstrong@linaro.org>
-Cc: linux-usb@vger.kernel.org, linux-tegra@vger.kernel.org, 
- linux-kernel@vger.kernel.org, linux-phy@lists.infradead.org, 
- devicetree@vger.kernel.org, Diogo Ivo <diogo.ivo@tecnico.ulisboa.pt>
-X-Mailer: b4 0.14.3
-X-Developer-Signature: v=1; a=ed25519-sha256; t=1769526725; l=1033;
- i=diogo.ivo@tecnico.ulisboa.pt; s=20240529; h=from:subject:message-id;
- bh=tPxLgImUSfLaPO0hTIiojepsSdUOwrfSQUsTniiVYsM=;
- b=aaqsA3rbn08ZXBt45VmehvpQaYP+AdUvjAwXu//GfD98G9fWXZi5Z+r+bS6F+oCyZKHlHf3l6
- 0amw7mlT1pPDbSPq6fAIxwDEDeCDafVvh0VFU/BPG10byRsmRFvz3tg
-X-Developer-Key: i=diogo.ivo@tecnico.ulisboa.pt; a=ed25519;
- pk=BRGXhMh1q5KDlZ9y2B8SodFFY8FGupal+NMtJPwRpUQ=
 
-As the PHY subsystem already synchronizes concurrent accesses to a PHY
-instance with a core-internal mutex remove the driver specific mutex
-synchronization.
 
-Signed-off-by: Diogo Ivo <diogo.ivo@tecnico.ulisboa.pt>
----
-v1->v2:
-- New patch
----
- drivers/usb/host/xhci-tegra.c | 4 ----
- 1 file changed, 4 deletions(-)
 
-diff --git a/drivers/usb/host/xhci-tegra.c b/drivers/usb/host/xhci-tegra.c
-index 8b492871d21d..927861ca14f2 100644
---- a/drivers/usb/host/xhci-tegra.c
-+++ b/drivers/usb/host/xhci-tegra.c
-@@ -1357,15 +1357,11 @@ static void tegra_xhci_id_work(struct work_struct *work)
- 
- 	dev_dbg(tegra->dev, "host mode %s\n", str_on_off(tegra->host_mode));
- 
--	mutex_lock(&tegra->lock);
--
- 	if (tegra->host_mode)
- 		phy_set_mode_ext(phy, PHY_MODE_USB_OTG, USB_ROLE_HOST);
- 	else
- 		phy_set_mode_ext(phy, PHY_MODE_USB_OTG, USB_ROLE_NONE);
- 
--	mutex_unlock(&tegra->lock);
--
- 	tegra->otg_usb3_port = tegra_xusb_padctl_get_usb3_companion(tegra->padctl,
- 								    tegra->otg_usb2_port);
- 
+On 26-01-2026 21:36, Rob Herring wrote:
+> On Mon, Jan 26, 2026 at 01:22:04PM +0000, Charan Pedumuru wrote:
+>> Convert OMAP MUSB USB OTG Controller binding to DT schema.
+>> Changes during conversion:
+>> - Introduce new compatible string patterns "am35x_otg_hs" and "usb_otg_hs"
+>>   to properly match existing nodes already defined in the DT sources.
+>> - Include "interrupts" and "interrupt-names" properties in the YAML, as
+>>   they are used by many in-tree DTS files.
+>> - Extend the "power" property to allow the value 150 (in addition to
+>>   existing values), since this is present in several in-tree DTS examples.
+>>
+>> Signed-off-by: Charan Pedumuru <charan.pedumuru@gmail.com>
+>> ---
+>>  .../devicetree/bindings/usb/ti,omap4-musb.yaml     | 133 +++++++++++++++++++++
+>>  1 file changed, 133 insertions(+)
+>>
+>> diff --git a/Documentation/devicetree/bindings/usb/ti,omap4-musb.yaml b/Documentation/devicetree/bindings/usb/ti,omap4-musb.yaml
+>> new file mode 100644
+>> index 000000000000..16e95fe4c38d
+>> --- /dev/null
+>> +++ b/Documentation/devicetree/bindings/usb/ti,omap4-musb.yaml
+>> @@ -0,0 +1,133 @@
+>> +# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
+>> +%YAML 1.2
+>> +---
+>> +$id: http://devicetree.org/schemas/usb/ti,omap4-musb.yaml#
+>> +$schema: http://devicetree.org/meta-schemas/core.yaml#
+>> +
+>> +title: Texas Instruments OMAP MUSB USB OTG Controller
+>> +
+>> +maintainers:
+>> +  - Felipe Balbi <balbi@ti.com
+> 
+> Missing '>'
+
+Yeah, I missed it, will add in the next rev.
+
+> 
+>> +
+>> +description:
+>> +  Texas Instruments glue layer for the Mentor Graphics MUSB OTG controller.
+>> +  Handles SoC-specific integration including PHY interface bridging(ULPI/
+>> +  UTMI), interrupt aggregation, DMA engine coordination (internal/
+>> +  external), VBUS/session control via control module mailbox, and
+>> +  clock/reset management. Provides fixed hardware configuration parameters
+>> +  to the generic MUSB core driver.
+>> +
+>> +properties:
+>> +  $nodename:
+>> +    pattern: "^(am35x_otg_hs|usb_otg_hs|usb)@[0-9a-f]+$"
+> 
+> Again, do not document non-standard names. That's anything not in the DT 
+> spec.
+
+Sure, I will remove pattern entirely.
+
+> 
+>> +
+>> +  compatible:
+>> +    enum:
+>> +      - ti,omap3-musb
+>> +      - ti,omap4-musb
+>> +
+>> +  reg:
+>> +    maxItems: 1
+>> +
+>> +  ti,hwmods:
+>> +    $ref: /schemas/types.yaml#/definitions/string
+>> +    description:
+>> +      Specifies the name of the TI PRCM (Power, Reset and Clock Management)
+>> +      hardware module that must be enabled (powered and clocked) for this
+>> +      device node to operate. The value "usb_otg_hs" refers to the USB
+>> +      On-The-Go High-Speed controller IP block.
+>> +    const: usb_otg_hs
+> 
+> deprecated: true
+> 
+> (I think we want that everywhere?)
+> 
+> Actually, looks like only omap2430 sets this, but that's not covered by 
+> this schema. Unless you need to add "ti,omap2-musb"?
+
+Okay, in that case I will drop the property.
+
+> 
+>> +
+>> +  interrupts:
+>> +    minItems: 1
+>> +    maxItems: 2
+>> +
+>> +  interrupt-names:
+>> +    minItems: 1
+>> +    maxItems: 2
+>> +    items:
+>> +      enum: [mc, dma]
+> 
+> I would assume only 'dma' is optional? Does this work?:
+> 
+> items:
+>   - const: mc
+>   - const: dma
+
+Yes, this works.
+
+> 
+>> +
+>> +  multipoint:
+>> +    $ref: /schemas/types.yaml#/definitions/uint32
+>> +    description:
+>> +      Indicates the MUSB controller supports multipoint. This is a MUSB
+>> +      configuration-specific setting.
+>> +    const: 1
+>> +
+>> +  num-eps:
+>> +    $ref: /schemas/types.yaml#/definitions/uint32
+>> +    description:
+>> +      Specifies the number of endpoints. This is a MUSB configuration
+>> +      specific setting.
+>> +    const: 16
+>> +
+>> +  ram-bits:
+>> +    description:
+>> +      Specifies the RAM address size.
+>> +    const: 12
+>> +
+>> +  interface-type:
+>> +    $ref: /schemas/types.yaml#/definitions/uint32
+>> +    description:
+>> +      Describes the type of interface between the controller and the PHY.
+>> +      0 for ULPI, 1 for UTMI.
+>> +    enum: [0, 1]
+>> +
+>> +  mode:
+>> +    $ref: /schemas/types.yaml#/definitions/uint32
+>> +    description: 1 for HOST, 2 for PERIPHERAL, 3 for OTG.
+>> +    enum: [1, 2, 3]
+>> +
+>> +  power:
+>> +    $ref: /schemas/types.yaml#/definitions/uint32
+>> +    description:
+>> +      Signifies the controller can supply up to 100mA when operating
+>> +      in host mode.
+>> +    enum: [50, 150]
+> 
+> Which value corresponds to 100mA?
+
+50 corresponds to 100mA, I will add it to the description.
+
+> 
+>> +
+>> +  phys:
+>> +    maxItems: 1
+>> +
+>> +  phy-names:
+>> +    const: usb2-phy
+>> +
+>> +  usb-phy:
+>> +    $ref: /schemas/types.yaml#/definitions/phandle-array
+>> +    description: Phandle for the PHY device.
+>> +    deprecated: true
+>> +
+>> +  ctrl-module:
+>> +    $ref: /schemas/types.yaml#/definitions/phandle
+>> +    description:
+>> +      Phandle of the control module this glue uses to write to mailbox.
+>> +
+>> +required:
+>> +  - reg
+>> +  - compatible
+>> +  - interrupts
+>> +  - interrupt-names
+>> +
+>> +unevaluatedProperties: false
+>> +
+>> +examples:
+>> +  - |
+>> +    #include <dt-bindings/interrupt-controller/arm-gic.h>
+>> +    usb_otg_hs@4a0ab000 {
+> 
+> usb@...
+
+Okay.
+
+> 
+>> +        compatible = "ti,omap4-musb";
+>> +        reg = <0x4a0ab000 0x1000>;
+>> +        interrupts = <GIC_SPI 92 IRQ_TYPE_LEVEL_HIGH>,
+>> +                     <GIC_SPI 93 IRQ_TYPE_LEVEL_HIGH>;
+>> +        interrupt-names = "mc", "dma";
+>> +        ti,hwmods = "usb_otg_hs";
+>> +        multipoint = <1>;
+>> +        num-eps = <16>;
+>> +        ram-bits = <12>;
+>> +        ctrl-module = <&omap_control_usb>;
+>> +        phys = <&usb2_phy>;
+>> +        phy-names = "usb2-phy";
+>> +        interface-type = <1>;
+>> +        mode = <3>;
+>> +        power = <50>;
+>> +    };
+>> +...
+>>
+>> -- 
+>> 2.52.0
+>>
 
 -- 
-2.52.0
+Best Regards,
+Charan.
 
