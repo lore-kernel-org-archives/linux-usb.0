@@ -1,181 +1,114 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.14])
+Received: from smtpbgsg1.qq.com (smtpbgsg1.qq.com [54.254.200.92])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0EF2F2FD68D;
-	Tue, 27 Jan 2026 10:17:16 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.14
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E70AE278E63
+	for <linux-usb@vger.kernel.org>; Tue, 27 Jan 2026 10:56:01 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=54.254.200.92
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1769509038; cv=none; b=WJzPWPlaG2XsSuZRxkQKUU1RChNz2v2VcQHmT795CSCC5nB8Q0sagAE4y6jDkmwINo2Y3voTpeWlsh2JnGFpArJnGfbpdvEdsldu9U+dBtonoyXjQMUxAMcj7sFrb3F8A0loG93TOEvKJP3hTA3B1Ornn8Qh7rryGKA4j6Y213c=
+	t=1769511366; cv=none; b=CUc9A12XR3Hb4CEcLLtGme9u40xy9KZZDCaKR1EgvsV0Fw5OIF1Q8R9oMpa7RRAFfz9UiwfUvGPED6PBXCx949S5Z9OgJlcWYNLsMpuiLoqgGMTqKnRoXQx74CFf7HeLbkNLc8xzTeUFv0uiIFX1Cj5Q2LuY/taVPjuO3qM2s6M=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1769509038; c=relaxed/simple;
-	bh=PrR8vMRbyp+E9yXQ2WimHpfLjRywIuvrQ8sYfKLa5/c=;
-	h=Date:From:To:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=W0YBSzv1Q8KyH2VoXJrsENDhsypr1iCnjrNvvajiXSYg+txbJSXiX0Ubf/9hHT2garnuUSiTU9zFUexwLFlyrhuzRzrvcNlaQ4kBvLC2U8ykXqNPiOOTliyte1OWTC0wfALRHPTA6UJl6b98IW2F3VnCa+Fup5MSkDFnnoWEw24=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=pass smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=T5bthBv5; arc=none smtp.client-ip=198.175.65.14
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.intel.com
+	s=arc-20240116; t=1769511366; c=relaxed/simple;
+	bh=2WTtsp6tRtLH8sv3ozSHBRHTD3nUy0RjoCrUDtlHFss=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version; b=cHRJQA4dFZGLVKYD1SFvEmz/pzHpVbhfqU0vrOUTdqCUWWtK0VDR8WhRGBm9DfBg8BKCyBSlN2hN7JhDV6zaCB4cd4zzp3PF87BOkIJCKSFqB6ZPRoDwUHOp9svW2JHsfISkAAHwiFv4BVFkwkZCAxIF6GCQKzTfamCSGfsn3jI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=uniontech.com; spf=pass smtp.mailfrom=uniontech.com; dkim=pass (1024-bit key) header.d=uniontech.com header.i=@uniontech.com header.b=VUGzRSEE; arc=none smtp.client-ip=54.254.200.92
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=uniontech.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=uniontech.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="T5bthBv5"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1769509037; x=1801045037;
-  h=date:from:to:subject:message-id:references:mime-version:
-   content-transfer-encoding:in-reply-to;
-  bh=PrR8vMRbyp+E9yXQ2WimHpfLjRywIuvrQ8sYfKLa5/c=;
-  b=T5bthBv5vAxgL1mj0e8AatPQUZtz7N5rxZZRShnWq2VBZkEmbWclry1S
-   qlLna32MblMy+gzkiI35IVPDcWR9uWp2HN+FvCvJ/8W21g+Cx/KR2aYED
-   nb5f5ZOeaSme1aPXRe0PcnnlmwV09bp4ayIkGFaUbut/XHLowxDKfhDU1
-   x/j+12+wz7ANGLmM1RaqdlQkED/qfUiQ6BAi7PQXEpQXwxBDdBBt6Tjvs
-   DoXqqGWw8XathGWtLG05CDKVHkVtU/BqvQ3IV3AaHu1syjtC1nMKLkypp
-   Pq79sFYCc89r7nlgm7F/4zbgdcGRHvmcJRuceFJgJ+0RK4nUk4wnA0uuX
-   g==;
-X-CSE-ConnectionGUID: U9lWTSefRpCw9Sa5jmaayA==
-X-CSE-MsgGUID: VgSFSItQR2i1ZIefg+JejA==
-X-IronPort-AV: E=McAfee;i="6800,10657,11683"; a="74545072"
-X-IronPort-AV: E=Sophos;i="6.21,256,1763452800"; 
-   d="scan'208";a="74545072"
-Received: from fmviesa007.fm.intel.com ([10.60.135.147])
-  by orvoesa106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 27 Jan 2026 02:17:05 -0800
-X-CSE-ConnectionGUID: /jpESvQeSQiVVTTUpzSRuQ==
-X-CSE-MsgGUID: uyHAH1DoRey7g4hjKGvmXA==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.21,256,1763452800"; 
-   d="scan'208";a="207562022"
-Received: from black.igk.intel.com ([10.91.253.5])
-  by fmviesa007.fm.intel.com with ESMTP; 27 Jan 2026 02:17:03 -0800
-Received: by black.igk.intel.com (Postfix, from userid 1001)
-	id CF9DE98; Tue, 27 Jan 2026 11:17:01 +0100 (CET)
-Date: Tue, 27 Jan 2026 11:17:01 +0100
-From: Mika Westerberg <mika.westerberg@linux.intel.com>
-To: "Chia-Lin Kao (AceLan)" <acelan.kao@canonical.com>,
-	Andreas Noever <andreas.noever@gmail.com>,
-	Mika Westerberg <westeri@kernel.org>,
-	Yehezkel Bernat <YehezkelShB@gmail.com>, linux-usb@vger.kernel.org,
-	linux-kernel@vger.kernel.org, Gil Fine <gil.fine@linux.intel.com>
-Subject: Re: [PATCH] thunderbolt: Fix PCIe device enumeration with delayed
- rescan
-Message-ID: <20260127101701.GI2275908@black.igk.intel.com>
-References: <20260121052744.233517-1-acelan.kao@canonical.com>
- <20260121060142.GJ2275908@black.igk.intel.com>
- <aXLM5vk0gDNjLPyY@acelan-Precision-5480>
- <20260123120112.GQ2275908@black.igk.intel.com>
- <aXbTfLUJ-lEfNzgX@acelan-Precision-5480>
- <20260126054231.GR2275908@black.igk.intel.com>
- <aXcWNw9Qfo5L9WVi@acelan-Precision-5480>
- <20260126115654.GS2275908@black.igk.intel.com>
- <aXg1eBudRAaCZpmR@acelan-Precision-5480>
- <20260127084513.GC2275908@black.igk.intel.com>
+	dkim=pass (1024-bit key) header.d=uniontech.com header.i=@uniontech.com header.b="VUGzRSEE"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=uniontech.com;
+	s=onoh2408; t=1769511330;
+	bh=2WTtsp6tRtLH8sv3ozSHBRHTD3nUy0RjoCrUDtlHFss=;
+	h=From:To:Subject:Date:Message-ID:MIME-Version;
+	b=VUGzRSEE4Ip0BdvmQWRZe3n9N33zfqjN9J5fwv7faUz5kOvcRM4IE/UHGSzN8HyPm
+	 hRdlorMcCrfphAgGczPndCnI24zeWzOD6S2gG7eN4o2Dx9CE+spsRNGqsppJmYTmAS
+	 BUhP6iolebXhE8a4dp0q0bwyfsqU6wbYn0W3V4Qw=
+X-QQ-mid: zesmtpip3t1769511323t79a9b861
+X-QQ-Originating-IP: guhlO2vJa0JqS6+d/3g0D9BYP/n4qFh7Ec8cDC3I70M=
+Received: from uos-PC ( [localhost])
+	by bizesmtp.qq.com (ESMTP) with 
+	id ; Tue, 27 Jan 2026 18:55:22 +0800 (CST)
+X-QQ-SSF: 0000000000000000000000000000000
+X-QQ-GoodBg: 1
+X-BIZMAIL-ID: 13224395584093145331
+EX-QQ-RecipientCnt: 8
+From: raoxu <raoxu@uniontech.com>
+To: gregkh@linuxfoundation.org
+Cc: kenny@panix.com,
+	linux-usb@vger.kernel.org,
+	mathias.nyman@linux.intel.com,
+	michal.pecio@gmail.com,
+	niklas.neronin@linux.intel.com,
+	raoxu@uniontech.com,
+	zhanjun@uniontech.com
+Subject: Re: [PATCH v11 2/2] usb: xhci: enable secondary interrupters and route transfers per slot
+Date: Tue, 27 Jan 2026 18:55:22 +0800
+Message-ID: <B1C5B74BDE1826C9+20260127105522.3628982-1-raoxu@uniontech.com>
+X-Mailer: git-send-email 2.50.1
+In-Reply-To: <2026012754-ferocity-operator-e3b2@gregkh>
+References: <2026012754-ferocity-operator-e3b2@gregkh>
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <20260127084513.GC2275908@black.igk.intel.com>
+X-QQ-SENDSIZE: 520
+Feedback-ID: zesmtpip:uniontech.com:qybglogicsvrgz:qybglogicsvrgz6b-0
+X-QQ-XMAILINFO: NwakYKAl7PbLJXUQXLNB76rVcM7sqcGRHL4qmPXXtN2uvoAwkII3tM1A
+	DrPC3YyJjma+4UxnVcxadGS7u8XtPxHGbfA5Z2+rhNP5bccneXiMmG+uU5IowrrcX8LZZBy
+	rnyXi/0c1vLO+cvQ2j2vMqPmjurkz2LTAcmgHxSw2VDWNYvKAemJmnKbL/2rRnbVzFuiPCW
+	HzmFjSEaZr26HVdg2QMTg3tDGtxS+HAiTq/uNMcvIJcyiWvkEbgc2XRyk1QbfNpaxFYsGZl
+	Jv6zSMyD5NsX1VqPLEdJaqoOHWagEnm1qa/piYuAbdvzK5Keuvn6nQoY+4e7VU2cd6hl0qC
+	V8Vhy0BjjQN6XNpEEf90Ot7DgtNo3HgLNQLiND+XD2lpwVJVG/r1HHmTuBVuxjYqFpcHorH
+	TC/GGPWkwe39LILWrtKg51mZo9Z2eLgp3s6X9/Y/wlze89ijLbvQ5SAs166+uGY4lwBFbeE
+	PPymSgGyGUFDIm6oDam2ojzutvljRU4MTFMUhpopnR8bT1Nb6KE27GZKyn6kOM3juqgrhlx
+	6QJvAqEzSwJq5DABcUEkAAJxkWH98+yEGenTt8CrbqKthZPw+8Skps8jCvywTNUU3uTv0eb
+	mbN+5tJ5SnY+7zTNrDRqQVL3LFFmI5MuzQ62dxl8Ntru0PB2Z/bDmIhI4Ee5oB/oDAsGkVf
+	7/x1o5xpK9G9w7FJVbgkdgDag89k2fxpeGdZkSxQuHyYi17hDXEUi+KoxaWIWZh4ttoK3b5
+	7BN+rBpxaZBddyb+TMrp2VQnzwCtkWmBViPNUqkfsdYgtuLsJ3dNN0nRL2ZLZWRjSzLZjlD
+	EY/GnGo3bF1ZoT0C7fTmCJ0tLKDC598VtmfGwZhAoHOzNFkO7xNRmfTTOafAg/xgQzAHUl8
+	tor1BpWMOBoZZNrsF8upWqCs4SwnA5RVd4GbBUbnrUfPtCpYLbjIBb5kIep818FikOZctWl
+	0X31II2KTSQO4xrXV9HmpTvv/Z4w07EHDj1mJclEYKNncAedd5IJCyNcCDlH1J8Zrd0u02J
+	0z1i1WXbBKlBqbj2miiEO4fzwhu2sa8A/Ermo/Tfs2/kyJyBLCTBZkZyBzwYOjYpJWt7XPV
+	J2F4zuXF3LK8sMXTIAFp2Ioob/6PG5LWE6xCctO38tx7TVPV2PG1CjgY6fgvF7uBw==
+X-QQ-XMRINFO: MPJ6Tf5t3I/ylTmHUqvI8+Wpn+Gzalws3A==
+X-QQ-RECHKSPAM: 0
 
-On Tue, Jan 27, 2026 at 09:45:13AM +0100, Mika Westerberg wrote:
-> On Tue, Jan 27, 2026 at 01:04:20PM +0800, Chia-Lin Kao (AceLan) wrote:
-> > On Mon, Jan 26, 2026 at 12:56:54PM +0100, Mika Westerberg wrote:
-> > > On Mon, Jan 26, 2026 at 03:48:48PM +0800, Chia-Lin Kao (AceLan) wrote:
-> > > > On Mon, Jan 26, 2026 at 06:42:31AM +0100, Mika Westerberg wrote:
-> > > > > On Mon, Jan 26, 2026 at 11:30:47AM +0800, Chia-Lin Kao (AceLan) wrote:
-> > > > > > Hi,
-> > > > > > On Fri, Jan 23, 2026 at 01:01:12PM +0100, Mika Westerberg wrote:
-> > > > > > > Hi,
-> > > > > > >
-> > > > > > > On Fri, Jan 23, 2026 at 10:04:11AM +0800, Chia-Lin Kao (AceLan) wrote:
-> > > > > > > > > Can you comment out call to tb_switch_xhci_connect() and see if that
-> > > > > > > > > changes anything?
-> > > > > > > >
-> > > > > > > > Here is what I modified, and the problem becomes a little bit complicated.
-> > > > > > >
-> > > > > > > Okay I see it did not change anything (well this is kind of what I
-> > > > > > > expected). Thanks for trying.
-> > > > > > >
-> > > > > > > I see in your log that the PCIe tunnel is established just fine. It's just
-> > > > > > > that there is no PCIe hotplug happening or it is happening but the PCIe
-> > > > > > > Downstream Port is not waking up.
-> > > > > > >
-> > > > > > > I figured you have following USB4/TB topology, right?
-> > > > > > >
-> > > > > > >   AMD Host <-> GR Hub <-> TB3 Hub
-> > > > > > >                   ^
-> > > > > > >                   |
-> > > > > > >                 TB3 Hub
-> > > > > > Should be more like this
-> > > > > >   AMD Host <-> Dell TB4 Dock <-> OWC Envoy Express (1-502)
-> > > > > >                              \
-> > > > > >                               <-> OWC Envoy Express (1-702)
-> > > > > > or
-> > > > > >   AMD Host (1-0, domain1)
-> > > > > >       |
-> > > > > >       └─ Port 2 ──→ Dell Thunderbolt 4 Dock (1-2)
-> > > > > >                       ├─ Port 5 ──→ OWC Envoy Express (1-502)
-> > > > > >                       └─ Port 7 ──→ OWC Envoy Express (1-702)
-> > > > >
-> > > > > Okay so the same ;-)
-> > > > >
-> > > > > > > What if you run 'lspci' after the issue reproduces? Does that bring the
-> > > > > > > missing PCIe devices? I suspect that this is due to older TB3 devices that
-> > > > > > > they may need bit more time to get the PCIe link (going over the tunnel) up
-> > > > > > > and running.
-> > > > > > lspci doesn't bring back the missing tbt storage.
-> > > > >
-> > > > > Forgot to mention that let it (the whole topology) enter runtime suspend
-> > > > > before you run lspci.
-> > > >
-> > > > https://people.canonical.com/~acelan/bugs/tbt_storage/dmesg_lspci.log
-> > > >
-> > > > The behavior is strange, the following 3 devices keep entering D3cold and then comes back
-> > > > to D0 quickly. So, I'm not sure if the lspci do the actions you want.
-> > >
-> > > Yes. I should have mentioned so the lspci is there exactly to trigger
-> > > runtime resume of the topology. I was hoping the PCIe links get
-> > > re-established properly then.
-> > >
-> > > Can you do so that you:
-> > >
-> > > 1. Plug in the dock.
-> > > 2. Plug in the other storage to the dock.
-> > > 3. Block runtime PM from the PCIe Downstream Port that should lead to the
-> > >    second storage device PCIe Upstream Port
-> > >
-> > >  # echo on > /sys/bus/pci/devices/DEVICE/power/control
-> > >
-> > > 4. Connect the second storage device and enable PCIe tunnel.
-> > >
-> > > Does that make it work each time?
-> > Yes, follow the steps makes it work.
-> > 
-> >    echo on | sudo tee /sys/bus/pci/devices/*/*/power/control
-> > 
-> > Re-plug the dock, need to disable the runpm again.
-> 
-> But can you just block it from the PCIe Downstream Port that leads to the
-> "non-working" storage before you enable PCIe tunnel? Not for all the
-> devices.
-> 
-> (let me know if you want help locating the correct device).
-> 
-> Does it still work?
+Hi greg,
 
-(+Gil)
+Thanks for the review. Below is why I believe enabling secondary
+interrupters is justified.
 
-There is also one patch that fixes the driver to follow more closely the CM
-guide and that's related to the PCIe tunneling and may actually explain the
-issue you see:
+Legitimacy
+Most modern xHCI controllers report Max Interrupters > 1 and expose
+multiple MSI/MSI-X vectors. Each interrupter has its own event ring,
+ERST and IMAN/IMOD. This series only enables what HW advertises and what
+PCI allocates, bounded by a small software cap, with a clean fallback to
+vector 0.
 
-  https://lore.kernel.org/linux-usb/20260127094953.GF2275908@black.igk.intel.com/
+Why it still matters
+Even if USB link latency is high, the IRQ/event path is still a CPU-side
+serialization point today: all completions funnel into one event ring and
+one handler under the global xhci->lock. Under mixed workloads (e.g. isoc
+video + periodic audio/bulk), unrelated devices can queue behind the same
+lock/handler and increase jitter/tail latency.
 
-Note it only does that for USB4 routers so you may need to tune that so
-that it skips that check but there is complication because IIRC LTTSM bits
-do not match the USB4 ones. One thing to try is to just check the USB4 PCIe
-adapter side that it is in detect.
+Sideband reference
+Upstream xhci-sideband work has already exercised and validated the
+multi-interrupter/event-ring plumbing in the core driver. Using secondary
+interrupters is therefore a proven in-tree mechanism, not an experimental
+path unique to this series.
 
-Second thing to try is to disable PCIe ASPM L1. We can do that from CM side
-like we do already in tb_switch_pcie_l1_enable(). If possible you can try
-so that you disable it from the BIOS (but don't use the pcie_aspm=  command
-lne parameter).
+Why v11 may benchmark flat
+v11 still takes the global xhci->lock in the IRQ/event path, so it does
+not claim true parallel event processing yet. The goal is to make
+multi-vector routing and lifecycle correctness solid (request/free/sync,
+run/stop/resume, quiesce/teardown) and establish per-slot routing. This
+is the required groundwork for a follow-up to reduce lock scope so
+different devices' completions do not wait on the same lock.
+
+thanks,
+
+Xu Rao
