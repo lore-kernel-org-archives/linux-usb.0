@@ -1,171 +1,191 @@
-Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com [205.220.180.131])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-dl1-f66.google.com (mail-dl1-f66.google.com [74.125.82.66])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9DA5234AB0B
-	for <linux-usb@vger.kernel.org>; Tue, 27 Jan 2026 11:46:11 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.180.131
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7E23A1F4181
+	for <linux-usb@vger.kernel.org>; Tue, 27 Jan 2026 12:17:53 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.82.66
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1769514373; cv=none; b=cYptHkMGpn46626xNYKf3fbnhWX+Z8znZoNbedJa/8rrR1tjYvmpToK3I5j2gmgftkDAXXFqYty4DJIC46CCFr/wsmtpDa/h2RnLRgWwS0U19O+HFCl9dSQC6NI6LIXkger4HvrIvo7lVfCWy/0//N0Qu9RpwUP8DFxewECDo/c=
+	t=1769516274; cv=none; b=KbJEpEMhpjLeKpRaf+PzAYIikNpLU232izB7YaWEAgrYHb2kho3O/2oUa4LM/JV49/tLScF6QqOBdALzap6ar+3C2Ouf27NDz8FekctdhGQ79Zyv2TAONIiQ17Bns9dvKYncVTe/GRbhcxAxm+wJ1ZTxNl38wshsk7wivGs7b14=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1769514373; c=relaxed/simple;
-	bh=8Y1fnVKjp6IEWN6IZPMX6ZFWAIUDi7MjIKUCO35bMEg=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=pIH3uhkTq2H6aenQ4DrTtaBv1Ljv2bf5JaeooA33YBVXprRdlDhGTKJD6TSHeyrejCTekxzW4xfhglqIxgeu69GkplE4vQpXlDI18ecOjW0eq0HpWUYZQppn5wvw/HtnDHR8X0kBaC4y3rlceyXJjb3ImW6iD/byQeT3GDK874w=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com; spf=pass smtp.mailfrom=oss.qualcomm.com; dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b=S+v+KWlN; dkim=pass (2048-bit key) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.b=hoIBrLSp; arc=none smtp.client-ip=205.220.180.131
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=oss.qualcomm.com
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b="S+v+KWlN";
-	dkim=pass (2048-bit key) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.b="hoIBrLSp"
-Received: from pps.filterd (m0279869.ppops.net [127.0.0.1])
-	by mx0a-0031df01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 60RAbvs01268765
-	for <linux-usb@vger.kernel.org>; Tue, 27 Jan 2026 11:46:10 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
-	cc:content-transfer-encoding:content-type:date:from:in-reply-to
-	:message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
-	camxT/u1sDFfuBtTBfipsSGIU73/JXukIB+LwjhlfJQ=; b=S+v+KWlNoBsmq0h1
-	1ygpjflBgFfM84y7N/gN9fxPKfNywRPj+E/ge1sItcHEZliiycD5xqClekCfYeva
-	ndpplnAOpnJFvJw/7BcZdSMIwFsEILZILJF7Br20hTyE19UftprZpuGPh0QFNdab
-	fFJnt+vbiNAdN/wXU0jy1Jxg1HE0ZEsv3YObNLubTPbJpM7IixvJxqTL0EUKT/c+
-	UeLKYzyv8ppImS0GT4nl44bMFd9dtUXjGLL3HzBx3wK/RG8541rt0yOMyH5/SGWS
-	0/p5Yfcw45oD/MNFRLzmz9TUwEirYTV40pNBYpq4854KQ2vSQjOf4oRhE12ukgx0
-	ZmNbTg==
-Received: from mail-qk1-f200.google.com (mail-qk1-f200.google.com [209.85.222.200])
-	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 4bxnyashmq-1
-	(version=TLSv1.3 cipher=TLS_AES_128_GCM_SHA256 bits=128 verify=NOT)
-	for <linux-usb@vger.kernel.org>; Tue, 27 Jan 2026 11:46:10 +0000 (GMT)
-Received: by mail-qk1-f200.google.com with SMTP id af79cd13be357-8c52de12a65so114750285a.2
-        for <linux-usb@vger.kernel.org>; Tue, 27 Jan 2026 03:46:10 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=oss.qualcomm.com; s=google; t=1769514370; x=1770119170; darn=vger.kernel.org;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=camxT/u1sDFfuBtTBfipsSGIU73/JXukIB+LwjhlfJQ=;
-        b=hoIBrLSpaGvz0NqSsMTTcUhlh1nbd53uXJ40+z/jTh4xzt4by8fOxOuqSlNckw2wg5
-         TgtSCedO7FPbgEr3EjuK7Gl64bnFgyvq5rNlAq3XG2YpKveXZSqI8wVVGyFfexcnUjF7
-         oSEsvodVRH/opc+jGRwiXUTr0QU2STjRxR7A0Z4uqgkP5xpGwWpaGSQxBi0rcBvPBQkk
-         rvnKSdXgHGZubaGJ2TfFk/MiAFG9YAAMaoWnZmGJVFeoloV/8rCbxAs2iABkGIFilLml
-         Odd+hZHgh+J38biL3otiIKvJqDYAUgAjX5xhs73OyovP7VJ3HgEGXdf2VQqptJDw2gS6
-         Xx5A==
+	s=arc-20240116; t=1769516274; c=relaxed/simple;
+	bh=VR7NKRn1EzgAvvzhExxtxmFQMZZBrouxWpYgT74wAco=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=Jn11a4aZBgENFsPKG/mAAUDVyBotDZ+kJJ8WulRbhu9r2PGKaMsEHiXZILfthjNhpsCl5joNhiiANte5lfLvjKcdW0U3CxISbdfhVq+ZVbfxQJD58DU4wjpFY4r0mEZUtxKFxZfX/8KgWc3VhSkmEw9fUdSUTsySLWNiaVUaUL8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org; spf=pass smtp.mailfrom=gmail.com; arc=none smtp.client-ip=74.125.82.66
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Received: by mail-dl1-f66.google.com with SMTP id a92af1059eb24-12331482b8fso3323016c88.1
+        for <linux-usb@vger.kernel.org>; Tue, 27 Jan 2026 04:17:53 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1769514370; x=1770119170;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :x-gm-gg:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=camxT/u1sDFfuBtTBfipsSGIU73/JXukIB+LwjhlfJQ=;
-        b=IJP4iqfOHZVfPQ7hj+635klYevZfrb4kslBK3/LrDGzD/vfBFwKUxsameeoAJLCgZL
-         GPh6rHUFkTLZuUZ4srfznzcWdePlTrzx9ZWiYrPyc4Ketm0pJAkBrHz0LOrAR9yDxV28
-         jacCc9wjxp6Qw14gEYPhJy6QN4FubyreAbgnA0sqtIT0ebQ+dYb18x8VpSNfQT43B69Y
-         Q9NVF9JStWU0enS0FMaN7eZjStSwCNN9yiG9OpmHMIgsgkfQUK6JjlOUSpM+CSR9MpfX
-         bIfP+ZrDTPGzegLU2Gqbabi9wy7BEKG5Sx7cZS6NP1lufRDqHopG0JItFC+6/F7x4eIy
-         XTnQ==
-X-Forwarded-Encrypted: i=1; AJvYcCV+RbBydyculcHr4eDapFq9Ea6Dt4T8u7xZy/aelMZp7fA4GC3aQOckEFS0Zl83MWsnUoKZ0VEdIuk=@vger.kernel.org
-X-Gm-Message-State: AOJu0Yw9FVNBfPuKAsgcAnkidnzCHLiwBMvmUgYhCR1b0NXl6Xz8znQ0
-	H857zofepNJwpkO5htdJ5Z5+cnoKZXdzPzPJ3fffznAPZUO4RfyuZQtx7OLaJiKITlht0erWn/a
-	X55LsU6zqn/QQ81F5DMS554syWTl9tpXZMIxEgFkJGy9bdcyNWN5UORPT6xLVmIM=
-X-Gm-Gg: AZuq6aL3QKCkn4PXFkmbM92PaCQfTYVmAIgIshVOLOt16AIVOcBbJ+xG0vxAplIpCgH
-	XLAkmASzVmpz0dljKhD+Ywifc1lQvweMFZaGqMehuYTUIKPp2DuYZ+cMobIInED1AApF+nPWQqI
-	tGIH+Byjbqtu1ZernqTCb85Koc5vbl0vRu+FSyNSUBGSkseyQUNzqQAPyWGedb6607H7x/IjjWT
-	obvEz5gP1Ec69hkGTg/3ffYUwMP/D0wTY3+jeUFZiIVqPoEuTIvAetHtgOC/N8jUBL5IiHSYME6
-	ozmiJTz3AkFB9X0FRqxV/MVY7EdO2LxYaGgZlXLXcvSjPgwYZ1376++PyacKZ+uyHKLCWeKPwfB
-	GRWhYiI8KCMIb2iJfV8zpA/m22oQKmLU9uzqY/m8mjsUZ9jW4/L8QtdgDB50BTRjPm6U=
-X-Received: by 2002:a05:620a:190a:b0:8b2:e346:de7b with SMTP id af79cd13be357-8c70b84a25bmr120912985a.1.1769514369759;
-        Tue, 27 Jan 2026 03:46:09 -0800 (PST)
-X-Received: by 2002:a05:620a:190a:b0:8b2:e346:de7b with SMTP id af79cd13be357-8c70b84a25bmr120909885a.1.1769514369228;
-        Tue, 27 Jan 2026 03:46:09 -0800 (PST)
-Received: from [192.168.119.254] (078088045245.garwolin.vectranet.pl. [78.88.45.245])
-        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-b885b6fe45asm784820066b.35.2026.01.27.03.46.07
+        d=1e100.net; s=20230601; t=1769516273; x=1770121073;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=h95kKSGuxlIi6DsiBy3i3OTVnWNnI1FQj5Fv8XU8C14=;
+        b=wZ6/l6e+iDlw7tH1DFZVyEWJoItNem6qVbse79wxosjOItNTJ7GFq2Lpw4aymGyIrK
+         kMbNeAGHsglDW/2CwZBoT83YuS5Ga3+5aOxBkM7faE93CbZFrZy6A6lFzwrsmpRFPPOL
+         cphUZclR2ul2bYRRa/S8M99sedoRmAp9njeNbVoWWNlHPPNLdpc2vrhYinQNOLZsPq+b
+         OnVv00nefBrtYGFcylfaNG1NyO8H86eaqKBCb1HgZzWn/gO5eThynRpHV17vyAIoW3Y9
+         U/MfNu2o622a/8nFb8v0vkjdE3obOMwR+gsl5doOJBb0vaaXdPGIuLv+ZqkrFyU7DpXN
+         sipw==
+X-Forwarded-Encrypted: i=1; AJvYcCUaj7fmEGlbEYywITXZJPAc1GMb0DEEKgxuTCYhcqC5W+zJDmvMy7r8IOBmhJk51QMA7awhQJNOzRc=@vger.kernel.org
+X-Gm-Message-State: AOJu0YyDzglDyWUDV9pSNqxJSlFzeTw6T63h6PesC4Z5kMfWr87RV0Bh
+	zF9FjvPHgifddWvnf2sjqmYCkcx3FUqlDCrZmmkSoZwqCSMsIhWvWHeuNUIwbzwy
+X-Gm-Gg: AZuq6aJEMHPnv+1aZSdnfc3N730SwToyinZCDItgX31/wl3t5mDyEGXhf1uXvhyfARG
+	IGVw142VMgmelu2iCzCUjNnoZKhe76Fk9jqchEivTIpO66U0EAVzvnOEGHy1lxvTnEb7g45eoHi
+	qjArsSE6h+WN853datMeP0dgHjPh4RvFvdJspJuR88IWtDaL6qV41V8J+smTKvfu/RcWe54bVlr
+	lFY8j6gubpgzEiqKjLpJl+pVbNyBqwAgXgJy65YhOI27SD57fjp9E34/HNH5vMueEd5IUMTX942
+	6FBCEBA2IsmdhWWgXB5QxaAoZ+t3YkejjmHpIj2yPuWXEO7W8y0tRH7CO51iALlHx30ubN5MmDN
+	E0nIhnGR0ylBm+dRCH1nXANY4hg3E4KsMKFz4hzMCaxEQ6r1P/MS4rrinBUCdCtJ+OwdHSDPxxE
+	vU143l9CSpgjW9sGZs9UiPelO5pFK7oMDwfnWVQhLYQhe81m42sBpBm4cY9po=
+X-Received: by 2002:a05:6122:319b:b0:566:354d:9f4a with SMTP id 71dfb90a1353d-5667949f0c8mr440970e0c.1.1769509271438;
+        Tue, 27 Jan 2026 02:21:11 -0800 (PST)
+Received: from mail-ua1-f53.google.com (mail-ua1-f53.google.com. [209.85.222.53])
+        by smtp.gmail.com with ESMTPSA id a1e0cc1a2514c-9482e2ab629sm2286816241.1.2026.01.27.02.21.10
+        for <linux-usb@vger.kernel.org>
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 27 Jan 2026 03:46:08 -0800 (PST)
-Message-ID: <4632ad3a-c893-449a-b0d1-48d9c93da7e9@oss.qualcomm.com>
-Date: Tue, 27 Jan 2026 12:46:05 +0100
+        Tue, 27 Jan 2026 02:21:11 -0800 (PST)
+Received: by mail-ua1-f53.google.com with SMTP id a1e0cc1a2514c-941063da73eso3072953241.3
+        for <linux-usb@vger.kernel.org>; Tue, 27 Jan 2026 02:21:10 -0800 (PST)
+X-Forwarded-Encrypted: i=1; AJvYcCVkMRvVik56RY7TsWBomceFB1x2oZw+DRolAnyKSAOvYT47mdob1TqvHdy4DV/r/UP8mi/vc67YWXQ=@vger.kernel.org
+X-Received: by 2002:a05:6102:32c4:b0:5db:ca9e:b57d with SMTP id
+ ada2fe7eead31-5f72368a7cbmr661077137.19.1769509270640; Tue, 27 Jan 2026
+ 02:21:10 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH RFT 2/3] arm64: dts: qcom: glymur: Add USB related nodes
-To: Abel Vesa <abel.vesa@oss.qualcomm.com>
-Cc: Bjorn Andersson <andersson@kernel.org>,
-        Konrad Dybcio <konradybcio@kernel.org>, Rob Herring <robh@kernel.org>,
-        Krzysztof Kozlowski <krzk+dt@kernel.org>,
-        Conor Dooley
- <conor+dt@kernel.org>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Wesley Cheng <quic_wcheng@quicinc.com>,
-        Pankaj Patil <pankaj.patil@oss.qualcomm.com>,
-        linux-arm-msm@vger.kernel.org, devicetree@vger.kernel.org,
-        linux-kernel@vger.kernel.org, linux-usb@vger.kernel.org,
-        Wesley Cheng <wesley.cheng@oss.qualcomm.com>
-References: <20260113-dts-qcom-glymur-add-usb-support-v1-0-98d6d387df01@oss.qualcomm.com>
- <20260113-dts-qcom-glymur-add-usb-support-v1-2-98d6d387df01@oss.qualcomm.com>
- <01de4054-eebf-4ef3-ad74-c806b208a848@oss.qualcomm.com>
- <6lieos5uudkgynizozrmzrj5ov57frzzl65b2fpanwbhbmehot@z5uhyv4ipyet>
-Content-Language: en-US
-From: Konrad Dybcio <konrad.dybcio@oss.qualcomm.com>
-In-Reply-To: <6lieos5uudkgynizozrmzrj5ov57frzzl65b2fpanwbhbmehot@z5uhyv4ipyet>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
-X-Proofpoint-GUID: A_O8OWbwKwyFSUalYC9KUViJnk3VlV5b
-X-Authority-Analysis: v=2.4 cv=JZqxbEKV c=1 sm=1 tr=0 ts=6978a582 cx=c_pps
- a=hnmNkyzTK/kJ09Xio7VxxA==:117 a=FpWmc02/iXfjRdCD7H54yg==:17
- a=IkcTkHD0fZMA:10 a=vUbySO9Y5rIA:10 a=s4-Qcg_JpJYA:10
- a=VkNPw1HP01LnGYTKEx00:22 a=EUspDBNiAAAA:8 a=qn_fkN7zqQ4dxzFuYcEA:9
- a=QEXdDO2ut3YA:10 a=PEH46H7Ffwr30OY-TuGO:22
-X-Proofpoint-ORIG-GUID: A_O8OWbwKwyFSUalYC9KUViJnk3VlV5b
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYwMTI3MDA5NiBTYWx0ZWRfX0azHeKt66KNv
- UODfUfsJ2mqjX0wucz6yuwi4qPztHWyApWx3tjF5frXUJIFnpP0iOghrmh61n8Htm8SsnKZw1e9
- ugpp0esyrmWTPHDFU48HkBKSg4UvihKkiHPN/YiMZWo6tVNmpEvB5Mg2tGDFWJoz2ek7CABJ4/7
- Pl1ylPuwUQOxsNkz3J30us5K/GNN+ppR+YZEg01WH3Xsohf4nAhmuem9fq4JbQTYFh6ShgBPbAo
- xhzB4nRgUo5Lq4rG3QPTsly+MojvPAOEsCAJ271/hmCIEPVFHnu9e7VYPfZSqnnK9bVn8IoaCuD
- X95ftRVnkMP/Y71nOnYsek5H4dIQ0dpW7UWrxwXGtDEQIyL47KZrddCbWoNM04dXSqZ+c6IO/jD
- 3AnGlwUVmZwp1fL5m3gyRP5fAXMpM+WdFLHktYH0oEgY0a0Vg5t8A5bhXOnv8JsUsXTaB/MTKiX
- WQlHsdum1nOm2wjFYDw==
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1121,Hydra:6.1.20,FMLib:17.12.100.49
- definitions=2026-01-27_02,2026-01-26_01,2025-10-01_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- priorityscore=1501 impostorscore=0 suspectscore=0 lowpriorityscore=0
- malwarescore=0 spamscore=0 adultscore=0 clxscore=1015 phishscore=0
- bulkscore=0 classifier=typeunknown authscore=0 authtc= authcc= route=outbound
- adjust=0 reason=mlx scancount=1 engine=8.22.0-2601150000
- definitions=main-2601270096
+References: <20260127-topic-sm8650-ayaneo-pocket-s2-base-v2-0-c55ec1b5d8bf@linaro.org>
+ <20260127-topic-sm8650-ayaneo-pocket-s2-base-v2-1-c55ec1b5d8bf@linaro.org>
+In-Reply-To: <20260127-topic-sm8650-ayaneo-pocket-s2-base-v2-1-c55ec1b5d8bf@linaro.org>
+From: Geert Uytterhoeven <geert@linux-m68k.org>
+Date: Tue, 27 Jan 2026 11:20:59 +0100
+X-Gmail-Original-Message-ID: <CAMuHMdU9HcK3xX=itqe2di1HS1SJvV6=ySqKyrtj7Yr1yXyuqQ@mail.gmail.com>
+X-Gm-Features: AZwV_QgWv7FB_90Ca_fAZmW1VQjnUFaVdHL_S5QmJWKKvUrnnNh7whB0F4bfOtQ
+Message-ID: <CAMuHMdU9HcK3xX=itqe2di1HS1SJvV6=ySqKyrtj7Yr1yXyuqQ@mail.gmail.com>
+Subject: Re: [PATCH v2 1/7] dt-bindings: usb: document the Renesas
+ UPD720201/UPD720202 USB 3.0 xHCI Host Controller
+To: Neil Armstrong <neil.armstrong@linaro.org>
+Cc: Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>, 
+	Conor Dooley <conor+dt@kernel.org>, Bjorn Andersson <andersson@kernel.org>, 
+	Konrad Dybcio <konradybcio@kernel.org>, Rob Clark <robin.clark@oss.qualcomm.com>, 
+	Dmitry Baryshkov <lumag@kernel.org>, Abhinav Kumar <abhinav.kumar@linux.dev>, 
+	Jessica Zhang <jesszhan0024@gmail.com>, Sean Paul <sean@poorly.run>, 
+	Marijn Suijten <marijn.suijten@somainline.org>, David Airlie <airlied@gmail.com>, 
+	Simona Vetter <simona@ffwll.ch>, Greg Kroah-Hartman <gregkh@linuxfoundation.org>, 
+	Geert Uytterhoeven <geert+renesas@glider.be>, Magnus Damm <magnus.damm@gmail.com>, 
+	Bartosz Golaszewski <brgl@kernel.org>, Manivannan Sadhasivam <mani@kernel.org>, Bjorn Helgaas <bhelgaas@google.com>, 
+	devicetree@vger.kernel.org, linux-kernel@vger.kernel.org, 
+	linux-arm-msm@vger.kernel.org, dri-devel@lists.freedesktop.org, 
+	freedreno@lists.freedesktop.org, linux-usb@vger.kernel.org, 
+	linux-renesas-soc@vger.kernel.org, linux-pci@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
 
-On 1/27/26 12:41 PM, Abel Vesa wrote:
-> On 26-01-13 14:13:32, Konrad Dybcio wrote:
->> On 1/13/26 1:33 PM, Abel Vesa wrote:
->>> From: Wesley Cheng <wesley.cheng@oss.qualcomm.com>
->>>
->>> The Glymur USB system contains 3 USB type C ports, 1 USB multiport
->>> controller and a USB 2.0 only controller. This encompasses 5 SS USB QMP
->>> PHYs (3 combo and 2 uni) and 6 M31 eUSB2 PHYs. All controllers are SNPS
->>> DWC3 based, so describe them as flattened DWC3 QCOM nodes.
->>>
->>> Signed-off-by: Wesley Cheng <wesley.cheng@oss.qualcomm.com>
->>> Co-developed-by: Abel Vesa <abel.vesa@oss.qualcomm.com>
->>> Signed-off-by: Abel Vesa <abel.vesa@oss.qualcomm.com>
->>> ---
->>
->> [...]
->>
->>> +			snps,dis_u2_susphy_quirk;
->>> +			snps,dis_enblslpm_quirk;
->>> +			snps,dis_u3_susphy_quirk;
->>> +			snps,usb2-lpm-disable;
->>
->> Other SoCs have a list that's much longer, please consult Wesley if
->> this list is enough
-> 
-> Checked with Wesley. He confirmed that this trimmed list is fine.
-> He said he dropped the rest since they are related to the power saving
-> features like USB2/3 LPM (l1 or u1/u2) and we don't seem need those.
+Hi Neil,
 
-Is that to say that those erratas were fixed in this hardware?
+On Tue, 27 Jan 2026 at 10:57, Neil Armstrong <neil.armstrong@linaro.org> wrote:
+> Document the Renesas UPD720201/UPD720202 USB 3.0 xHCI Host Controller,
+> which connects over PCIe and requires specific power supplies to
 
-Low-power states of the link are no less than desired is possible..
+Here: "requires"...
 
-Konrad
+> start up.
+>
+> Signed-off-by: Neil Armstrong <neil.armstrong@linaro.org>
+> ---
+>  .../bindings/usb/renesas,upd720201-pci.yaml        | 55 ++++++++++++++++++++++
+>  1 file changed, 55 insertions(+)
+>
+> diff --git a/Documentation/devicetree/bindings/usb/renesas,upd720201-pci.yaml b/Documentation/devicetree/bindings/usb/renesas,upd720201-pci.yaml
+> new file mode 100644
+> index 000000000000..df3cdcf44747
+> --- /dev/null
+> +++ b/Documentation/devicetree/bindings/usb/renesas,upd720201-pci.yaml
+> @@ -0,0 +1,55 @@
+> +# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
+> +%YAML 1.2
+> +---
+> +$id: http://devicetree.org/schemas/usb/renesas,upd720201-pci.yaml#
+> +$schema: http://devicetree.org/meta-schemas/core.yaml#
+> +
+> +title: UPD720201/UPD720202 USB 3.0 xHCI Host Controller (PCIe)
+> +
+> +maintainers:
+> +  - Neil Armstrong <neil.armstrong@linaro.org>
+> +
+> +description:
+> +  UPD720201 USB 3.0 xHCI Host Controller via PCIe x1 Gen2 interface.
+> +  The UPD720202 up to two downstream ports, while UPD720201 supports up to
+> +  four downstream USB 3.0 rev1.0 ports.
+> +
+> +properties:
+> +  compatible:
+> +    const: pci1912,0014
+
+Just wondering: how does having a new driver
+drivers/pci/pwrctrl/pci-pwrctrl-upd720201.c matching against this
+compatible play well with normal PCI discovery and probing of
+drivers/usb/host/xhci-pci-renesas.c?
+
+> +
+> +  reg:
+> +    maxItems: 1
+> +
+> +  avdd33-supply:
+> +    description: +3.3 V power supply for analog circuit
+> +
+> +  vdd10-supply:
+> +    description: +1.05 V power supply
+> +
+> +  vdd33-supply:
+> +    description: +3.3 V power supply
+> +
+> +required:
+> +  - compatible
+> +  - reg
+
+... but no power supplies are listed here? ...
+
+> +
+> +allOf:
+> +  - $ref: usb-xhci.yaml
+> +
+> +additionalProperties: false
+> +
+> +examples:
+> +  - |
+> +    pcie@0 {
+> +        reg = <0x0 0x1000>;
+> +        ranges = <0x02000000 0x0 0x100000 0x10000000 0x0 0x0>;
+> +        #address-cells = <3>;
+> +        #size-cells = <2>;
+> +        device_type = "pci";
+> +
+> +        usb@0 {
+
+The actual DTS uses "usb-controller".
+
+> +            compatible = "pci1912,0014";
+> +            reg = <0x0 0x0 0x0 0x0 0x0>;
+
+... also not in the example?
+
+> +        };
+> +    };
+>
+> --
+> 2.34.1
+
+Gr{oetje,eeting}s,
+
+                        Geert
+
+
+--
+Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
+
+In personal conversations with technical people, I call myself a hacker. But
+when I'm talking to journalists I just say "programmer" or something like that.
+                                -- Linus Torvalds
