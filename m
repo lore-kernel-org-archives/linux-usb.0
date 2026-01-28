@@ -1,251 +1,166 @@
-Received: from mail-m1973184.qiye.163.com (mail-m1973184.qiye.163.com [220.197.31.84])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pl1-f175.google.com (mail-pl1-f175.google.com [209.85.214.175])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E4F0938DF9;
-	Wed, 28 Jan 2026 06:58:30 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=220.197.31.84
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C816821257E
+	for <linux-usb@vger.kernel.org>; Wed, 28 Jan 2026 07:02:39 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.175
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1769583516; cv=none; b=llm7aKksMgzJnHV+A1x4MGwrycHE/rh/ck4kjuoSx6/dQetqj4HNGZuM20K9eT7zwkOxPaQfLHj6EnW2D9/8S0vJ3L2PmOXEMinYVkIlFrvN8qivWjN695Oahvz9iZe2XwQ52P4NUIj1KYECS4+vp82LWMXd/m2ni6pcFDVWFjc=
+	t=1769583762; cv=none; b=R/t6EecnltqVkDgOULOETC+oGm2b/SFmo1DeYYH4wIaKqEAwZjzioUUVsSzN32bZe7mOBxlSCUW+StWxPTZFNyKjRAU/IiFKByso/UlKOY3btO7oqVmTSO6hqEvrxQZsKwDFCwa1OG5DYDIvjhLuKhrH5c5q0sYebrH+GoZiLPs=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1769583516; c=relaxed/simple;
-	bh=LsMBBI8dZt9lK7TD9B4uXQKjmlMXrO/V8MQb2+8Pkh0=;
-	h=Message-ID:Date:MIME-Version:Cc:Subject:To:References:From:
-	 In-Reply-To:Content-Type; b=O0d7tUIckPrHsGwG95TAKRrPhmP7LN3QwMRosFtimWsumjMddtXcH6sR46Sq55kzSVQY1CnvgJhOigi96fhdL6HUZlfRVxtYXleeeQlNIrmLCRBOt8A/hf8UqE/h7GNskbUA5QM1mqS8IUCeuSkjLO7AjPb4lSl0dllHqCJbHFY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=rock-chips.com; spf=pass smtp.mailfrom=rock-chips.com; dkim=pass (1024-bit key) header.d=rock-chips.com header.i=@rock-chips.com header.b=de5YgG5y; arc=none smtp.client-ip=220.197.31.84
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=rock-chips.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=rock-chips.com
+	s=arc-20240116; t=1769583762; c=relaxed/simple;
+	bh=jNWVs3NoJCDLt3Uob6MZkTWfmT/4JmZ5ZegDFFtHMQ8=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=opGtizx5zx3cUhfR9A9g+fHsLofz7nMc/KS8oGTD22G/+fpI1G++hDIhSbVc5fG+pJme3LaQeYQ5J25XyAijzrchdsJf/0vCs1ZSgjTPN553A+V7ZxfAn6ns+EHWV8GdpuVEbf4itaX6PuWN8h7uFnEjRQVb+io8/0XKfhsTQFE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org; spf=pass smtp.mailfrom=chromium.org; dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b=Eu/btvwj; arc=none smtp.client-ip=209.85.214.175
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=chromium.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=rock-chips.com header.i=@rock-chips.com header.b="de5YgG5y"
-Received: from [172.16.12.14] (unknown [58.22.7.114])
-	by smtp.qiye.163.com (Hmail) with ESMTP id 323dec204;
-	Wed, 28 Jan 2026 14:22:51 +0800 (GMT+08:00)
-Message-ID: <33bbb3ec-5659-4d50-a5ff-dafa44e291dd@rock-chips.com>
-Date: Wed, 28 Jan 2026 14:22:50 +0800
+	dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b="Eu/btvwj"
+Received: by mail-pl1-f175.google.com with SMTP id d9443c01a7336-29f30233d8aso43696815ad.0
+        for <linux-usb@vger.kernel.org>; Tue, 27 Jan 2026 23:02:39 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=chromium.org; s=google; t=1769583759; x=1770188559; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=zpz1+E5bIfL6Vl+vGItOAAFJ78Sq/brE0PF9AQXfuD0=;
+        b=Eu/btvwjDHWSVkM9sBMw1iYxgv4q/mCO7Cw+OEWWYn2R9r5ftSc8DJ4Zsx+LGvcBM9
+         +nfPnxxJETpAAKIx6p2eYeI5qqEO/fgie7iWQwsITNKGv3DW1SUF8lmPFHc52nWdZ4ZS
+         eLCJcB3xtHYc4uz9gNZQmv5pfyjMpXzC5cpBs=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1769583759; x=1770188559;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=zpz1+E5bIfL6Vl+vGItOAAFJ78Sq/brE0PF9AQXfuD0=;
+        b=NNl0LWIdOAG75Za++iLyrqBXzyEULKJJ8QSPo92sAklJU6Bfr0gbGl7EYL2vs5z6IK
+         TtTeR4IDig1dDi0ZpcAfQciyLtYaVXG4d5B0YrCjhtqZlw+Na48lvRCfYNjAW4JgA/eg
+         7eRAy5OMhPSGNflqP1unNH8HdljoChIkSlbubKQagZXCE7+OGx1Ecqtg1blSMIy+MlRF
+         L8Bz5ZztmgWkLKdpiXgZ8I6T4jBllbtkfJd1PEZ1Dq/vqQ4IlV1C1FXmI9shoHQzS5sJ
+         Jl3eU4FDyikMsKcb2a5vH0Gnq0Le03ledtA7Z4+h6+7PXVzPkfnZwHa9ythL3mpJLEJV
+         7eEg==
+X-Forwarded-Encrypted: i=1; AJvYcCUD+sJE8Q+qx99DoIIgeKWPLt8EessKkqvip3Ci5RFB/tH52GSW5ZTy6IA1sXqJOSFVcAS/M/loBt0=@vger.kernel.org
+X-Gm-Message-State: AOJu0Yw7Y0mV+Z0pw9LIHKkX4pOd6vA7DlaxK9A44HdeDl75Y50TTMkK
+	796zIMR/EyQWNBDkimIGSxozZVW4ECVH/o8Gcvzq1yc1E6/nqcwpMMRV13KsOUYvkw==
+X-Gm-Gg: AZuq6aKgmWEjyvirjnMeuH+gPkzMj3hpFq/P2G+QiEciVTpqU18Bq2ANJ2TL0Ki/Pv/
+	ZT3IhZcy8lF/lJt5v8lSa/Y72iCiaAZpdrJY5R95On/GXqvFCNFH56d8Xc3U6O/ykG2M1dP8ijr
+	2ESWNZPgl/XI8uRieNivFSwHXRiRigoDxryin2NWoFH1nv4TsSm8MhUBXWvVgBMCevAB5kDcyoq
+	ii/byijAN6zsBFSiteSnR5WMrkq0Qvw56exn5tk6dhE/BChX7oQSle0jQrn2PtXXC8n+cIgwI+V
+	thzr/RSoncRqtx/80p0gWY2jgZFsvujb0jWzKIFKplnInsw1f32mJOIoYbZQbzaBry0sUB4MHBT
+	TVeA70PyzvYbSxpC16qFqmDtu61j7cWc7Ksw5F89Ledu9c9kmu4WdnOJIyNdWtFwyp7dHJhp7gi
+	yvZmsdh/d2+l9+4hcNxlfoafEdrrVo1dcUnOlRGo8KWdNIYuIlwwkDcBxgxXiT2Y/v6JCg/NM9
+X-Received: by 2002:a17:903:40ca:b0:2a0:f0db:690e with SMTP id d9443c01a7336-2a870e8ac0bmr41142995ad.52.1769583758569;
+        Tue, 27 Jan 2026 23:02:38 -0800 (PST)
+Received: from tigerii.tok.corp.google.com ([2a00:79e0:2031:6:bf24:413d:1e8a:6aa])
+        by smtp.gmail.com with ESMTPSA id d9443c01a7336-2a88b3eedd0sm12975735ad.3.2026.01.27.23.02.36
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 27 Jan 2026 23:02:37 -0800 (PST)
+From: Sergey Senozhatsky <senozhatsky@chromium.org>
+To: Paolo Abeni <pabeni@redhat.com>,
+	Jakub Kicinski <kuba@kernel.org>,
+	Eric Dumazet <edumazet@google.com>,
+	"David S. Miller" <davem@davemloft.net>,
+	Andrew Lunn <andrew+netdev@lunn.ch>
+Cc: Douglas Anderson <dianders@chromium.org>,
+	Tomasz Figa <tfiga@chromium.org>,
+	linux-usb@vger.kernel.org,
+	netdev@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	Sergey Senozhatsky <senozhatsky@chromium.org>
+Subject: [PATCH] net: usb: r8152: fix resume reset deadlock
+Date: Wed, 28 Jan 2026 16:01:52 +0900
+Message-ID: <20260128070222.3393746-1-senozhatsky@chromium.org>
+X-Mailer: git-send-email 2.53.0.rc1.225.gd81095ad13-goog
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Cc: shawn.lin@rock-chips.com, Rob Herring <robh@kernel.org>,
- Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley
- <conor+dt@kernel.org>, Bjorn Andersson <andersson@kernel.org>,
- Konrad Dybcio <konradybcio@kernel.org>,
- Rob Clark <robin.clark@oss.qualcomm.com>, Dmitry Baryshkov
- <lumag@kernel.org>, Abhinav Kumar <abhinav.kumar@linux.dev>,
- Jessica Zhang <jesszhan0024@gmail.com>, Sean Paul <sean@poorly.run>,
- Marijn Suijten <marijn.suijten@somainline.org>,
- David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
- Geert Uytterhoeven <geert+renesas@glider.be>,
- Magnus Damm <magnus.damm@gmail.com>, Bartosz Golaszewski <brgl@kernel.org>,
- Bjorn Helgaas <bhelgaas@google.com>, devicetree@vger.kernel.org,
- linux-kernel@vger.kernel.org, linux-arm-msm@vger.kernel.org,
- dri-devel@lists.freedesktop.org, freedreno@lists.freedesktop.org,
- linux-usb@vger.kernel.org, linux-renesas-soc@vger.kernel.org,
- linux-pci@vger.kernel.org
-Subject: Re: [PATCH v2 2/7] pci: pwrctrl: add PCI pwrctrl driver for the
- UPD720201/UPD720202 USB 3.0 xHCI Host Controller
-To: Neil Armstrong <neil.armstrong@linaro.org>,
- Manivannan Sadhasivam <mani@kernel.org>
-References: <20260127-topic-sm8650-ayaneo-pocket-s2-base-v2-0-c55ec1b5d8bf@linaro.org>
- <20260127-topic-sm8650-ayaneo-pocket-s2-base-v2-2-c55ec1b5d8bf@linaro.org>
- <llbnkm72mgcsrucnp7pdkwbgyzenvhe4kudxkdixplgaoirdem@3q3me34o5drf>
- <0104896e-44d0-485a-a44e-694864c819b7@linaro.org>
-From: Shawn Lin <shawn.lin@rock-chips.com>
-In-Reply-To: <0104896e-44d0-485a-a44e-694864c819b7@linaro.org>
-Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
-X-HM-Tid: 0a9c0344df9609cckunmfeac2e531bd066
-X-HM-MType: 1
-X-HM-Spam-Status: e1kfGhgUHx5ZQUpXWQgPGg8OCBgUHx5ZQUlOS1dZFg8aDwILHllBWSg2Ly
-	tZV1koWUFDSUNOT01LS0k3V1ktWUFJV1kPCRoVCBIfWUFZGkxLSFZNSUsaHkMZQ01MGB5WFRQJFh
-	oXVRMBExYaEhckFA4PWVdZGBILWUFZTkNVSUlVTFVKSk9ZV1kWGg8SFR0UWUFZT0tIVUpLSEpKQk
-	xVSktLVUpCS0tZBg++
-DKIM-Signature: a=rsa-sha256;
-	b=de5YgG5yXN9uH1U/29igFPjzMtVXZjG11RVK1ox3PS+J0OxMUsWTNCOPROu8id+oUwcmJpuixHyc9xQu9wm+e011mhPVPHSDxOEQqVX7UmuUb4yIv1FjZ8cKPaXr4zOp8OU4D4CKufl7NjYy2zQtn0eUL36w0+D3ewWucOSsJ/4=; s=default; c=relaxed/relaxed; d=rock-chips.com; v=1;
-	bh=MAfz+13K76TPUxvO+5QDm/lgQXp/YWJ9M/nw8Kebqcw=;
-	h=date:mime-version:subject:message-id:from;
 
-在 2026/01/28 星期三 5:53, Neil Armstrong 写道:
-> On 1/27/26 16:53, Manivannan Sadhasivam wrote:
->> On Tue, Jan 27, 2026 at 10:57:29AM +0100, Neil Armstrong wrote:
->>> Add support fo the Renesas UPD720201/UPD720202 USB 3.0 xHCI Host 
->>> Controller
->>> power control which connects over PCIe and requires specific power 
->>> supplies
->>> to start up.
->>>
->>
->> This driver only handles the supplies. So why can't you use the existing
->> pwrctrl-slot driver as a fallback?
-> 
-> It would fit with no change, but the name "slot" doesn't match the goal 
-> here,
-> it's not a slot at all, it's an actual pcie IC.
-> 
+rtl8152 can trigger device reset during reset which
+potentially can result in a deadlock:
 
-How about renaming slot.cto something like pci-pwrctrl-simple.c, 
-especially if most power sequences fit into this category? This would 
-follow the naming example seen in other subsystems, such as 
-drivers/mmc/core/pwrseq_simple.c.
+ **** DPM device timeout after 10 seconds; 15 seconds until panic ****
+ Call Trace:
+ <TASK>
+ schedule+0x483/0x1370
+ schedule_preempt_disabled+0x15/0x30
+ __mutex_lock_common+0x1fd/0x470
+ __rtl8152_set_mac_address+0x80/0x1f0
+ dev_set_mac_address+0x7f/0x150
+ rtl8152_post_reset+0x72/0x150
+ usb_reset_device+0x1d0/0x220
+ rtl8152_resume+0x99/0xc0
+ usb_resume_interface+0x3e/0xc0
+ usb_resume_both+0x104/0x150
+ usb_resume+0x22/0x110
 
-> Neil
-> 
->>
->> - Mani
->>
->>> Signed-off-by: Neil Armstrong <neil.armstrong@linaro.org>
->>> ---
->>>   drivers/pci/pwrctrl/Kconfig                 | 10 ++++
->>>   drivers/pci/pwrctrl/Makefile                |  2 +
->>>   drivers/pci/pwrctrl/pci-pwrctrl-upd720201.c | 88 ++++++++++++++++++ 
->>> +++++++++++
->>>   3 files changed, 100 insertions(+)
->>>
->>> diff --git a/drivers/pci/pwrctrl/Kconfig b/drivers/pci/pwrctrl/Kconfig
->>> index e0f999f299bb..5a94e60d0d3e 100644
->>> --- a/drivers/pci/pwrctrl/Kconfig
->>> +++ b/drivers/pci/pwrctrl/Kconfig
->>> @@ -11,6 +11,16 @@ config PCI_PWRCTRL_PWRSEQ
->>>       select POWER_SEQUENCING
->>>       select PCI_PWRCTRL
->>> +config PCI_PWRCTRL_UPD720201
->>> +    tristate "PCI Power Control driver for the UPD720201 USB3 Host 
->>> Controller"
->>> +    select PCI_PWRCTRL
->>> +    help
->>> +      Say Y here to enable the PCI Power Control driver of the 
->>> UPD720201
->>> +      USB3 Host Controller.
->>> +
->>> +      The voltage regulators powering the rails of the PCI slots
->>> +      are expected to be defined in the devicetree node of the PCI 
->>> device.
->>> +
->>>   config PCI_PWRCTRL_SLOT
->>>       tristate "PCI Power Control driver for PCI slots"
->>>       select PCI_PWRCTRL
->>> diff --git a/drivers/pci/pwrctrl/Makefile b/drivers/pci/pwrctrl/Makefile
->>> index 13b02282106c..a99f85de8a3d 100644
->>> --- a/drivers/pci/pwrctrl/Makefile
->>> +++ b/drivers/pci/pwrctrl/Makefile
->>> @@ -5,6 +5,8 @@ pci-pwrctrl-core-y            := core.o
->>>   obj-$(CONFIG_PCI_PWRCTRL_PWRSEQ)    += pci-pwrctrl-pwrseq.o
->>> +obj-$(CONFIG_PCI_PWRCTRL_UPD720201)    += pci-pwrctrl-upd720201.o
->>> +
->>>   obj-$(CONFIG_PCI_PWRCTRL_SLOT)        += pci-pwrctrl-slot.o
->>>   pci-pwrctrl-slot-y            := slot.o
->>> diff --git a/drivers/pci/pwrctrl/pci-pwrctrl-upd720201.c b/drivers/ 
->>> pci/pwrctrl/pci-pwrctrl-upd720201.c
->>> new file mode 100644
->>> index 000000000000..db96bbb69c21
->>> --- /dev/null
->>> +++ b/drivers/pci/pwrctrl/pci-pwrctrl-upd720201.c
->>> @@ -0,0 +1,88 @@
->>> +// SPDX-License-Identifier: GPL-2.0-only
->>> +/*
->>> + * Based on upd720201.c:
->>> + * Copyright (C) 2024 Linaro Ltd.
->>> + * Author: Manivannan Sadhasivam <manivannan.sadhasivam@linaro.org>
->>> + */
->>> +
->>> +#include <linux/device.h>
->>> +#include <linux/mod_devicetable.h>
->>> +#include <linux/module.h>
->>> +#include <linux/pci-pwrctrl.h>
->>> +#include <linux/platform_device.h>
->>> +#include <linux/regulator/consumer.h>
->>> +#include <linux/slab.h>
->>> +
->>> +struct pci_pwrctrl_upd720201_data {
->>> +    struct pci_pwrctrl ctx;
->>> +    struct regulator_bulk_data *supplies;
->>> +    int num_supplies;
->>> +};
->>> +
->>> +static void devm_pci_pwrctrl_upd720201_power_off(void *data)
->>> +{
->>> +    struct pci_pwrctrl_upd720201_data *upd720201 = data;
->>> +
->>> +    regulator_bulk_disable(upd720201->num_supplies, upd720201- 
->>> >supplies);
->>> +    regulator_bulk_free(upd720201->num_supplies, upd720201->supplies);
->>> +}
->>> +
->>> +static int pci_pwrctrl_upd720201_probe(struct platform_device *pdev)
->>> +{
->>> +    struct pci_pwrctrl_upd720201_data *upd720201;
->>> +    struct device *dev = &pdev->dev;
->>> +    int ret;
->>> +
->>> +    upd720201 = devm_kzalloc(dev, sizeof(*upd720201), GFP_KERNEL);
->>> +    if (!upd720201)
->>> +        return -ENOMEM;
->>> +
->>> +    ret = of_regulator_bulk_get_all(dev, dev_of_node(dev),
->>> +                    &upd720201->supplies);
->>> +    if (ret < 0) {
->>> +        dev_err_probe(dev, ret, "Failed to get upd720201 
->>> regulators\n");
->>> +        return ret;
->>> +    }
->>> +
->>> +    upd720201->num_supplies = ret;
->>> +    ret = regulator_bulk_enable(upd720201->num_supplies, upd720201- 
->>> >supplies);
->>> +    if (ret < 0) {
->>> +        dev_err_probe(dev, ret, "Failed to enable upd720201 
->>> regulators\n");
->>> +        regulator_bulk_free(upd720201->num_supplies, upd720201- 
->>> >supplies);
->>> +        return ret;
->>> +    }
->>> +
->>> +    ret = devm_add_action_or_reset(dev, 
->>> devm_pci_pwrctrl_upd720201_power_off,
->>> +                       upd720201);
->>> +    if (ret)
->>> +        return ret;
->>> +
->>> +    pci_pwrctrl_init(&upd720201->ctx, dev);
->>> +
->>> +    ret = devm_pci_pwrctrl_device_set_ready(dev, &upd720201->ctx);
->>> +    if (ret)
->>> +        return dev_err_probe(dev, ret, "Failed to register pwrctrl 
->>> driver\n");
->>> +
->>> +    return 0;
->>> +}
->>> +
->>> +static const struct of_device_id pci_pwrctrl_upd720201_of_match[] = {
->>> +    {
->>> +        .compatible = "pci1912,0014",
->>> +    },
->>> +    { }
->>> +};
->>> +MODULE_DEVICE_TABLE(of, pci_pwrctrl_upd720201_of_match);
->>> +
->>> +static struct platform_driver pci_pwrctrl_upd720201_driver = {
->>> +    .driver = {
->>> +        .name = "pci-pwrctrl-upd720201",
->>> +        .of_match_table = pci_pwrctrl_upd720201_of_match,
->>> +    },
->>> +    .probe = pci_pwrctrl_upd720201_probe,
->>> +};
->>> +module_platform_driver(pci_pwrctrl_upd720201_driver);
->>> +
->>> +MODULE_AUTHOR("Neil Armstrong <neil.armstrong@linaro.org>");
->>> +MODULE_DESCRIPTION("PCI Power Control driver for UPD720201 USB3 Host 
->>> Controller");
->>> +MODULE_LICENSE("GPL");
->>>
->>> -- 
->>> 2.34.1
->>>
->>
-> 
-> 
-> 
+The problem is that rtl8152 resume calls reset under
+tp->control mutex while reset basically re-enters rtl8152
+and attempts to acquire the same tp->control lock once
+again.
+
+Reset INACCESSIBLE device outside of tp->control mutex
+scope to avoid recursive mutex_lock() deadlock.
+
+Fixes: 4933b066fefb ("r8152: If inaccessible at resume time, issue a reset")
+Signed-off-by: Sergey Senozhatsky <senozhatsky@chromium.org>
+---
+ drivers/net/usb/r8152.c | 27 ++++++++++++++-------------
+ 1 file changed, 14 insertions(+), 13 deletions(-)
+
+diff --git a/drivers/net/usb/r8152.c b/drivers/net/usb/r8152.c
+index 30f937527cd2..c4f4e6a35ff4 100644
+--- a/drivers/net/usb/r8152.c
++++ b/drivers/net/usb/r8152.c
+@@ -8538,19 +8538,6 @@ static int rtl8152_system_resume(struct r8152 *tp)
+ 		usb_submit_urb(tp->intr_urb, GFP_NOIO);
+ 	}
+ 
+-	/* If the device is RTL8152_INACCESSIBLE here then we should do a
+-	 * reset. This is important because the usb_lock_device_for_reset()
+-	 * that happens as a result of usb_queue_reset_device() will silently
+-	 * fail if the device was suspended or if too much time passed.
+-	 *
+-	 * NOTE: The device is locked here so we can directly do the reset.
+-	 * We don't need usb_lock_device_for_reset() because that's just a
+-	 * wrapper over device_lock() and device_resume() (which calls us)
+-	 * does that for us.
+-	 */
+-	if (test_bit(RTL8152_INACCESSIBLE, &tp->flags))
+-		usb_reset_device(tp->udev);
+-
+ 	return 0;
+ }
+ 
+@@ -8661,6 +8648,7 @@ static int rtl8152_suspend(struct usb_interface *intf, pm_message_t message)
+ static int rtl8152_resume(struct usb_interface *intf)
+ {
+ 	struct r8152 *tp = usb_get_intfdata(intf);
++	bool system_resume = !test_bit(SELECTIVE_SUSPEND, &tp->flags);
+ 	int ret;
+ 
+ 	mutex_lock(&tp->control);
+@@ -8674,6 +8662,19 @@ static int rtl8152_resume(struct usb_interface *intf)
+ 
+ 	mutex_unlock(&tp->control);
+ 
++	/* If the device is RTL8152_INACCESSIBLE here then we should do a
++	 * reset. This is important because the usb_lock_device_for_reset()
++	 * that happens as a result of usb_queue_reset_device() will silently
++	 * fail if the device was suspended or if too much time passed.
++	 *
++	 * NOTE: The device is locked here so we can directly do the reset.
++	 * We don't need usb_lock_device_for_reset() because that's just a
++	 * wrapper over device_lock() and device_resume() (which calls us)
++	 * does that for us.
++	 */
++	if (system_resume && test_bit(RTL8152_INACCESSIBLE, &tp->flags))
++		ret = usb_reset_device(tp->udev);
++
+ 	return ret;
+ }
+ 
+-- 
+2.53.0.rc1.225.gd81095ad13-goog
 
