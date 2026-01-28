@@ -1,49 +1,52 @@
-Received: from smtpbguseast2.qq.com (smtpbguseast2.qq.com [54.204.34.130])
+Received: from smtpbgeu1.qq.com (smtpbgeu1.qq.com [52.59.177.22])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 033B628CF6F
-	for <linux-usb@vger.kernel.org>; Wed, 28 Jan 2026 10:49:08 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=54.204.34.130
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C1F21332904
+	for <linux-usb@vger.kernel.org>; Wed, 28 Jan 2026 10:53:02 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=52.59.177.22
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1769597353; cv=none; b=VUm/kTv6Z/pPPvpR65UZWjjEPl6QKA1O8HBYk5FC99NlUbc6i7+UWw2g0pyKKv6OFpEBunMF4fD9ve5Zu0gmwxQFvJX976LCA4hUIsel/YhM8/SYHc0jvXZsv/jFqDAus1cRAC8ZI+eN4VK+QGoasfxRFZ2DYDsjDQ0KSgqjxIw=
+	t=1769597587; cv=none; b=YMs1e6Zvaeuy/0mSts7Q6LEMJh54+NteKgAwSgwKBAnv1ByHdXRya7sG/AIdM+9NZgUMBHL0q71OVngFt1fJz1IKC2nDkkbkdfAGm/iX6YDg38NROrMb8dYg5HcpNf+B2hvADR2sLLARYqxnnggU5crWdvufVuHDUAnOi2YNPks=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1769597353; c=relaxed/simple;
-	bh=uXXJZF+wkQGu5fVTjwNjO92I9DblA+KvIHt+WzmMZCs=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=BQuulLNSa/8ObbJxQV6KCfjAQ9DtF62Cu64IwViNWN1hC/ERUyrPNR8gjXSNhnpRHszbNmpb46tmWWNslaqsLGlJ7e6jM5Fnpy5H1xdTVHIElRmtzHs1BYqJls/kFN5iuNAKeBAOsOz89TvEBMaMT1RBjoEAcwWjhuoq0ODF4Qg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=uniontech.com; spf=pass smtp.mailfrom=uniontech.com; dkim=pass (1024-bit key) header.d=uniontech.com header.i=@uniontech.com header.b=LGXYiVN1; arc=none smtp.client-ip=54.204.34.130
+	s=arc-20240116; t=1769597587; c=relaxed/simple;
+	bh=k5pabxdiMtld13KRX0BEpy5Cx6+JXZwCjNttHWa2Gmw=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version; b=MrJjo30MynUJ8x+X6P/0bBYz2kVb/W7VeeREJkIAFKghhMc2nc2QVRseXEi6mo1SmWL7RQmVYfAoAYN1t2L06BUjT6sRKxik8VyEk8z3sa6Whx7U1UGucUdwUm55SUGHffoyqR5fdaNVF4O27Ohl9ppJpBg0+d7ETLQQWXAbPXM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=uniontech.com; spf=pass smtp.mailfrom=uniontech.com; dkim=pass (1024-bit key) header.d=uniontech.com header.i=@uniontech.com header.b=nChDGJXH; arc=none smtp.client-ip=52.59.177.22
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=uniontech.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=uniontech.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=uniontech.com header.i=@uniontech.com header.b="LGXYiVN1"
+	dkim=pass (1024-bit key) header.d=uniontech.com header.i=@uniontech.com header.b="nChDGJXH"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=uniontech.com;
-	s=onoh2408; t=1769597305;
-	bh=gKHxVP3HmG+O36kYZ114cRKwU4lpHEDveX4UCd1cE2s=;
+	s=onoh2408; t=1769597552;
+	bh=/8FEOIakysfUtP5bxBnNKJK28jt9QeKGj+wU/FrTG4I=;
 	h=From:To:Subject:Date:Message-ID:MIME-Version;
-	b=LGXYiVN1mt09Lgs17Bd/PQ9Y7br8JmVx6NcBKoMz8Q2jSQT35cUH5cV1eyIJlQoBX
-	 noZz9VlLjdBeBn9QAT6V7s5MfVppOI61eAFKrGn1m9In+Ckkrz9Hb3TH7jFMEgB2hD
-	 3uKqonchDep+XwoX697VV/l2NOvh5jNqg/4At2uE=
-X-QQ-mid: zesmtpip4t1769597299ta9eaa635
-X-QQ-Originating-IP: OmwksQZD2ytpz3gGf0e9zHjGKgokjy7tnvL9VI6SbfU=
+	b=nChDGJXHPSCqcjcc3Xcyt5iezROPbXNdTVVEW9zJqbngMMUT4KuO9l6pcH//3p9Fj
+	 QhdrzBjOgTOm3/LETPPLRM2P/qOu4Y0Iu+/BhrTG4yaQdWhMum0FyIm2k0OvHvljdh
+	 inR2xD8iPEZPwXIF2tZQkKjI2FRbqr0i0ZlgMGxo=
+X-QQ-mid: zesmtpip4t1769597545t14d85803
+X-QQ-Originating-IP: Nsnrxqbdzt/2gGajSfho/EQMHfvPNxMBhqLk75ezMQY=
 Received: from uos-PC ( [localhost])
 	by bizesmtp.qq.com (ESMTP) with 
-	id ; Wed, 28 Jan 2026 18:48:17 +0800 (CST)
+	id ; Wed, 28 Jan 2026 18:52:24 +0800 (CST)
 X-QQ-SSF: 0000000000000000000000000000000
 X-QQ-GoodBg: 1
-X-BIZMAIL-ID: 13200120327605676448
+X-BIZMAIL-ID: 13854524553313919348
 EX-QQ-RecipientCnt: 8
 From: raoxu <raoxu@uniontech.com>
-To: mathias.nyman@linux.intel.com
+To: raoxu@uniontech.com
 Cc: gregkh@linuxfoundation.org,
+	kenny@panix.com,
 	linux-usb@vger.kernel.org,
+	mathias.nyman@linux.intel.com,
 	michal.pecio@gmail.com,
 	niklas.neronin@linux.intel.com,
-	raoxu@uniontech.com,
-	zhanjun@uniontech.com,
-	kenny@panix.com
-Subject: [PATCH v12 0/2] usb: xhci: route device to secondary interrupters
-Date: Wed, 28 Jan 2026 18:48:15 +0800
-Message-ID: <35BBAFB9EDB17421+20260128104815.2535380-1-raoxu@uniontech.com>
+	zhanjun@uniontech.com
+Subject: [PATCH v12 1/2] usb: xhci: refactor IRQ/interrupter plumbing for multi-vector support
+Date: Wed, 28 Jan 2026 18:52:22 +0800
+Message-ID: <6DFDC6161BD3FD52+20260128105222.2540911-1-raoxu@uniontech.com>
 X-Mailer: git-send-email 2.50.1
+In-Reply-To: <35BBAFB9EDB17421+20260128104815.2535380-1-raoxu@uniontech.com>
+References: <35BBAFB9EDB17421+20260128104815.2535380-1-raoxu@uniontech.com>
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
@@ -53,121 +56,304 @@ MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-QQ-SENDSIZE: 520
 Feedback-ID: zesmtpip:uniontech.com:qybglogicsvrgz:qybglogicsvrgz6b-0
-X-QQ-XMAILINFO: Ni68Q0J6fxe2M2TGKrFMbeQUPjm33RsGsBScdJfQA4MdAw9pXmkQxo5A
-	GhaGdDo7ladzznNeSS1qZlnxjvDv9LZCJVNnc0CuHT/URK23d0F4b6GRDljQR6Cdb9gn+we
-	If1fwFmJzDAClMcQN5R8vmOTuL6Ly0avsM76rx5UMLqWGdTdDupFVbzE5ujXdZOvgjvjqWE
-	OsHsrRZgLFPZDdjjpVf23va1LhqQxruF/E+Vga7rxo4p08zHG9fnwVGjGLQS1B/OUCHKQt6
-	OSBWsl7MO/+2jCpZoC9En5ljtH73EIoJBs4gW1zPHWMlASFYSDriZPar0hAf9Xbp3Ra81Ou
-	iT4fBFRDlZ00p14phUWhcuzlsJCwTDQzBzNcAD+iGDi4aEOT8S599/N9QaLXdlqaEP2AIlW
-	DF7iVASmUVBguOqpDLJmyLdlSmSbbSyUWY/NwxUronRSjC9u3u/SWuMQHU89mYM1AB1VVkb
-	MV1LquIjaPkY1Zu1LHfi6jp34fIZkXHx6uUNsPSS0pPul9tBGM2JUIKrSKl6RxFXNcDspzc
-	IKbcKodiNBheyM2EeTiV5kbULBszJva2g+RRYsiWubTloENirZqaKFlp8ix30pOImr8ZbVZ
-	ooU2yu/EUElbRh3oCVfzHbJZO+Nz+3GuVpvt78dGz989DI5Z+J+Vmdj5+T311ZwNYNVxNcR
-	A65wjiysqLbUddwtiW0qe/ReDigMYLAcZFSF4PY4ppEI+l5KLbAg2xfs4nwxuSOPGjtVVJA
-	jlrtrXWC6AGeLt+1V6TdtK+T4ZCpDwwCvUueVQSv2eMw9L1SVO1R/4dDxHwI+V2LKYDGdTm
-	NiYghqdriXPIicF1VvCrBgqkD60rFaMBNATxo3uFE9CP6QCMttfr75qN9FH/sIyTjq/zjSe
-	RVxGDBDnsUmctHzhwovPoxve8D/DmS40q4zeg8bPkAEPtTOuqoaExxcskpZK2KAQtWzoOs5
-	IEVDVXAgDf2G8UmDPBUkfaQYOLWr/bbEPKqnfis+sGTD7tTl2jaFkfthjjnpHhANikXzl3V
-	KG1AO2v0ShlUR8LpWcIRc/ohdrD/2aeovsR6zG3X6nZbG2aLsoLE6dInmXeYyQdde5PJtbQ
-	AtU00ucMBOX
-X-QQ-XMRINFO: NI4Ajvh11aEjEMj13RCX7UuhPEoou2bs1g==
+X-QQ-XMAILINFO: NvmHdt7+acqZqUM6uhT+Xaivos5z3QKTSrDAmJl88kVmjP/Pose3winy
+	HdmBpvFitGs5RkmASPJhAkkB4wTAfvgn46O2CJdnYomsC6L/YjwAXChg/OrvNMO3E55KOYO
+	TtoKhbdmiMM1zGdSTKL1IfMcCrBLIrVs5vMVtsT8knqkm908Cc7wZLVxt7EH9bS0RFhzOER
+	ELpcslcf+9JggG4kv1IZQZUFNEawT8Zt4fZ6JmpHWrm3MKc2e8vSsnhYIibLhc9u06e5Btl
+	4gjnwkDhgqjo6T0EQrEIG4wjrIb9kV4mJ8fadNe+4u0SslK0DSJXqnNSKV+jefkudBRvUgX
+	72zZDpdn6qC9HZM+NdrQgpvLU6vz8+r5GXs+mPGyCg+tyjfjGtHimCdS6XiGRKGz2tQdtUf
+	0ZUk4JznihaO0/1S+ZHYhi9SaQFxilE24y8iTbDbVKDuK3vT23pnb//UnLIFcdMxHVn+1wE
+	VICGoJ+LsqgoRlV9iGtyKsqmtP6K4lz9U0XdzGTR4/B7eHTSUMm5S1yZRVTNK/oEDcgzvCb
+	nm6TU1xV8Tc0QOiaARVCwtbmoZLtZZlZRaEEAydLuFODqkoKc0CsKVVvlthLTJEV5rcOlfG
+	VMM8hoRMBiS5xpnRoTaM4mE01apurzMrkhI177SWljseYXx99/8RzbYCuSi1WuZxQR81oJy
+	hoQaPZy25F68axY+7Waq8ZTYhOF5WYG3nFHOHy6K0uLssG3+8SxfaIKDRNOlnoGEhrpDwxP
+	6wR3qi/DnjVd+FrCL2/u8xB+fDfCy4Kcp78XDe7TzagBiEmTYJcItC41OwhC4Xzpl+ZY9+3
+	GEWNzNOawEI0hzTJb66FtBbAMrndStN6AI/CHjDKOiCcXJPaXARLVA42cPLHfOIjlXHSSBr
+	ATBZoN1rYlyZUGpCrxXs+foRkPEeCF+uYP6U/gU5NcBLdcWxiTJ8YXXk62vH3eAhKvKVwOI
+	0y080HSwZQgPmI6CShP8+lDRfrx8f7acSeIJdbQz1KcjlnYdTQIJbJI1Rfr5PpZe6ZLm9R8
+	MX8SUXiNdROBfUfciEvMcS80xtEeb5LManXpYs1VYcPIyr6mmEjKf6gLeKstS3WM6cdhSFT
+	7KeJGYpTQdX
+X-QQ-XMRINFO: OD9hHCdaPRBwH5bRRRw8tsiH4UAatJqXfg==
 X-QQ-RECHKSPAM: 0
 
 From: Xu Rao <raoxu@uniontech.com>
 
-This series is split into two steps: patch 1/2 refactors xHCI IRQ and
-interrupter handling to make multi-vector operation possible without
-changing behavior; patch 2/2 then enables a small capped set of secondary
-interrupters/vectors and routes transfer completions per device (slot) to
-reduce contention on interrupter 0.
+Prepare xHCI for multiple IRQ vectors/interrupters without changing the
+current behavior.
 
-This is not about increasing USB link throughput, but about avoiding a
-driver-imposed single hot spot. On hosts that already provide multiple
-MSI/MSI-X vectors and independent event rings, routing all completions
-through interrupter 0 creates unnecessary contention (serialized event
-handling/locks and coupled moderation), increasing CPU cost and tail
-latency under many active devices/endpoints. Using secondary interrupters
-simply matches the hardware's design, similar in spirit to merged
-xHCI-sideband work: exploit available parallel paths rather than
-funneling all events through one.
+Introduce a per-vector irq context (hcd + intr_num) to use as request_irq()
+dev_id, and track the active vector count in xhci->irqs_enabled.  Use this
+single bound to enable/disable interrupters consistently across run/stop/
+resume and to sync/free IRQs.
 
-Xu Rao (2):
-  usb: xhci: refactor IRQ/interrupter plumbing for multi-vector support
-  usb: xhci: enable secondary interrupters and route transfers per slot
+Legacy IRQ fallback also keeps irqs_enabled >= 1 so interrupter 0 remains
+functional when MSI/MSI-X is unavailable.
+
+No functional change intended: still uses interrupter 0 only.
 
 Signed-off-by: Xu Rao <raoxu@uniontech.com>
+
 ---
-Changelog:
-v1 -> v2:
-  - Bind interrupters to endpoints at enable time instead of selecting
-    per transfer.
-  - Store the selected interrupter in struct xhci_virt_ep and program
-    TRB_INTR_TARGET() from the bound interrupter.
-  - Use a single IRQ handler for both primary and secondary vectors,
-    with STS_EINT handling restricted to interrupter 0.
-  - Keep a common dev_id for IRQ registration to match the existing
-    xhci_cleanup_msix() teardown constraints and avoid dev_id
-    lifetime issues.
-  - Clarify secondary interrupter teardown to avoid double-free or
-    use-after-free during xHCI removal.
-v2 -> v3:
-  - modify commit information
-v3 -> v4:
-  - Bind interrupters per USB device (slot) via struct xhci_virt_device,
-    program TRB_INTR_TARGET() from vdev->interrupter for bulk/ctrl/isoc.
-  - Drop xfer_interrupters and unify on xhci->interrupters[] for both
-    primary and secondary event rings and IRQ routing.
-  - Allocate secondary interrupters in xhci_mem_init; on any allocation
-    failure, rollback and continue with primary interrupter only.
-  - Cap secondary interrupter creation with MAX_SECONDARY_INTRNUM,
-    defaulting to 4.
-  - Route xhci_msi_irq by irq handler_data token (intr_num + 1) to keep
-    correct interrupter selection across resume/power_lost.
-  - Apply MSI-X affinity hints for secondary vectors.
-v4 -> v5:
-  - Fix min() signedness build error reported by 0day CI.
-  - Rebase onto v6.19-rc2.
-v5 -> v6:
-  - Route secondary MSI/MSI-X IRQs by storing struct xhci_interrupter in
-    irq handler_data, instead of using an (intr_num + 1) token mapping.
-  - Program Slot Context Interrupter Target (tt_info[31:22]) from
-    vdev->interrupter to keep slot default routing aligned with TRB
-    TRB_INTR_TARGET() selection.
-v6 -> v7:
-  - Add xhci_quiesce_interrupter() and use it for secondary
-    interrupters in xhci_stop() and the power_lost path of xhci_resume(),
-    ensuring IMAN.IP (RW1C) and ERDP.EHB are properly cleared.
-v7 -> v8:
-  - Sync secondary MSI/MSI-X vectors in xhci_msix_sync_irqs() with
-    synchronize_irq().
-  - Fix build errors by adding missing header includes for the IRQ helper APIs.
-v8 -> v9:
-  - Use PCI_IRQ_AFFINITY to let PCI core spread MSI/MSI-X vectors across CPUs.
-  - Route each MSI/MSI-X vector to its interrupter via per-vector irq_ctx dev_id.
-  - Fix modpost error: xhci_msix_set_handler_data undefined (0-day CI).
-    https://lore.kernel.org/oe-kbuild-all/202601171743.omq3DpnM-lkp@intel.com/
-  - Rebase onto v6.19-rc6.
-v9 -> v10:
-  - refactor IRQ/interrupter plumbing for multi-vector support.
-  - add xhci_handle_slot_secondary_events to handle secondary event ring.
-v10 -> v11:
-  - Fix build warnings:-Wsometimes-uninitialized.
-    Closes: https://lore.kernel.org/oe-kbuild-all/202601262208.UybEjc9X-lkp@intel.com/
-v11 -> v12:
-  - Patch 1/2: Keep the "Add allocated interrupters" initialization in
-    xhci_init() to preserve the existing initialization flow, and fix
-    intr_num to use the proper type. Also drop the meaningless code move in
-    xhci_msix_sync_irqs() (no functional change).
-  - Patch 2/2: Make secondary MSI/MSI-X vector request_irq() failures
-    non-fatal by rolling back any secondary vectors already requested and
-    falling back to primary-only operation. Refresh comments and add extra
-    guard conditions in xhci_handle_slot_secondary_events() to better handle
-    corner cases when draining secondary ring.
----
- drivers/usb/host/xhci-mem.c  |  33 ++++++++
- drivers/usb/host/xhci-pci.c  |  68 +++++++++++++--
- drivers/usb/host/xhci-ring.c | 156 +++++++++++++++++++++++++++++------
- drivers/usb/host/xhci.c      |  48 +++++++++--
- drivers/usb/host/xhci.h      |  26 +++++-
- 5 files changed, 287 insertions(+), 44 deletions(-)
----
+ drivers/usb/host/xhci-pci.c  | 29 +++++++++++++++++++++------
+ drivers/usb/host/xhci-ring.c |  9 +++++++--
+ drivers/usb/host/xhci.c      | 38 +++++++++++++++++++++++++++---------
+ drivers/usb/host/xhci.h      | 16 ++++++++++++++-
+ 4 files changed, 74 insertions(+), 18 deletions(-)
+
+diff --git a/drivers/usb/host/xhci-pci.c b/drivers/usb/host/xhci-pci.c
+index 585b2f3117b0..3e019f2811e7 100644
+--- a/drivers/usb/host/xhci-pci.c
++++ b/drivers/usb/host/xhci-pci.c
+@@ -116,12 +116,12 @@ static const struct xhci_driver_overrides xhci_pci_overrides __initconst = {
+ static void xhci_msix_sync_irqs(struct xhci_hcd *xhci)
+ {
+ 	struct usb_hcd *hcd = xhci_to_hcd(xhci);
++	int i;
+
+ 	if (hcd->msix_enabled) {
+ 		struct pci_dev *pdev = to_pci_dev(hcd->self.controller);
+-
+-		/* for now, the driver only supports one primary interrupter */
+-		synchronize_irq(pci_irq_vector(pdev, 0));
++		for (i = 0; i < xhci->irqs_enabled; i++)
++			synchronize_irq(pci_irq_vector(pdev, i));
+ 	}
+ }
+
+@@ -130,11 +130,17 @@ static void xhci_cleanup_msix(struct xhci_hcd *xhci)
+ {
+ 	struct usb_hcd *hcd = xhci_to_hcd(xhci);
+ 	struct pci_dev *pdev = to_pci_dev(hcd->self.controller);
++	int i;
+
+ 	if (hcd->irq > 0)
+ 		return;
+
+-	free_irq(pci_irq_vector(pdev, 0), xhci_to_hcd(xhci));
++	for (i = 0; i < xhci->irqs_enabled; i++)
++		free_irq(pci_irq_vector(pdev, i), &xhci->irq_ctx[i]);
++
++	xhci->irqs_enabled = 0;
++	memset(xhci->irq_ctx, 0, sizeof(xhci->irq_ctx));
++
+ 	pci_free_irq_vectors(pdev);
+ 	hcd->msix_enabled = 0;
+ }
+@@ -145,6 +151,7 @@ static int xhci_try_enable_msi(struct usb_hcd *hcd)
+ 	struct pci_dev *pdev = to_pci_dev(hcd->self.controller);
+ 	struct xhci_hcd *xhci = hcd_to_xhci(hcd);
+ 	int ret;
++	struct xhci_irq_ctx *ctx;
+
+ 	/*
+ 	 * Some Fresco Logic host controllers advertise MSI, but fail to
+@@ -174,11 +181,17 @@ static int xhci_try_enable_msi(struct usb_hcd *hcd)
+ 		goto legacy_irq;
+ 	}
+
+-	ret = request_irq(pci_irq_vector(pdev, 0), xhci_msi_irq, 0, "xhci_hcd",
+-			  xhci_to_hcd(xhci));
++	memset(xhci->irq_ctx, 0, sizeof(xhci->irq_ctx));
++	xhci->irqs_enabled = 0;
++
++	ctx = &xhci->irq_ctx[0];
++	ctx->hcd = hcd;
++	ctx->intr_num = 0;
++	ret = request_irq(pci_irq_vector(pdev, 0), xhci_msi_irq, 0, "xhci_hcd", ctx);
+ 	if (ret)
+ 		goto free_irq_vectors;
+
++	xhci->irqs_enabled = 1;
+ 	hcd->msi_enabled = 1;
+ 	hcd->msix_enabled = pdev->msix_enabled;
+ 	return 0;
+@@ -186,6 +199,7 @@ static int xhci_try_enable_msi(struct usb_hcd *hcd)
+ free_irq_vectors:
+ 	xhci_dbg_trace(xhci, trace_xhci_dbg_init, "disable %s interrupt",
+ 		       pdev->msix_enabled ? "MSI-X" : "MSI");
++	xhci->irqs_enabled = 0;
+ 	pci_free_irq_vectors(pdev);
+
+ legacy_irq:
+@@ -198,6 +212,9 @@ static int xhci_try_enable_msi(struct usb_hcd *hcd)
+ 		snprintf(hcd->irq_descr, sizeof(hcd->irq_descr), "%s:usb%d",
+ 			 hcd->driver->description, hcd->self.busnum);
+
++	/* legacy IRQ path still needs interrupter 0 */
++	xhci->irqs_enabled = 1;
++
+ 	/* fall back to legacy interrupt */
+ 	ret = request_irq(pdev->irq, &usb_hcd_irq, IRQF_SHARED, hcd->irq_descr, hcd);
+ 	if (ret) {
+diff --git a/drivers/usb/host/xhci-ring.c b/drivers/usb/host/xhci-ring.c
+index 9315ba18310d..3ea134c07c5f 100644
+--- a/drivers/usb/host/xhci-ring.c
++++ b/drivers/usb/host/xhci-ring.c
+@@ -3220,9 +3220,14 @@ irqreturn_t xhci_irq(struct usb_hcd *hcd)
+ 	return ret;
+ }
+
+-irqreturn_t xhci_msi_irq(int irq, void *hcd)
++irqreturn_t xhci_msi_irq(int irq, void *data)
+ {
+-	return xhci_irq(hcd);
++	struct xhci_irq_ctx *ctx = data;
++
++	/* For now only vector 0 is requested; keep behavior unchanged. */
++	if (!ctx || !ctx->hcd)
++		return IRQ_NONE;
++	return xhci_irq(ctx->hcd);
+ }
+ EXPORT_SYMBOL_GPL(xhci_msi_irq);
+
+diff --git a/drivers/usb/host/xhci.c b/drivers/usb/host/xhci.c
+index b3ba16b9718c..18d3093b688a 100644
+--- a/drivers/usb/host/xhci.c
++++ b/drivers/usb/host/xhci.c
+@@ -547,6 +547,7 @@ static int xhci_init(struct usb_hcd *hcd)
+ {
+ 	struct xhci_hcd *xhci = hcd_to_xhci(hcd);
+ 	int retval;
++	int i;
+
+ 	xhci_dbg_trace(xhci, trace_xhci_dbg_init, "Starting %s", __func__);
+ 	spin_lock_init(&xhci->lock);
+@@ -576,9 +577,21 @@ static int xhci_init(struct usb_hcd *hcd)
+ 	/* Set USB 3.0 device notifications for function remote wake */
+ 	xhci_set_dev_notifications(xhci);
+
+-	/* Initialize the Primary interrupter */
+-	xhci_add_interrupter(xhci, 0);
+-	xhci->interrupters[0]->isoc_bei_interval = AVOID_BEI_INTERVAL_MAX;
++	/* Since only the main interrupt is used, secondary_irqs_alloc is set to 0. */
++	xhci->secondary_irqs_alloc = 0;
++
++	/*
++	 * Initialize all allocated interrupters here.
++	 * Use allocated count as loop bound to avoid touching non-allocated
++	 * or non-operational interrupters.
++	 */
++	xhci_dbg_trace(xhci, trace_xhci_dbg_init, "Add allocated interrupters");
++	for (i = 0; i < xhci->secondary_irqs_alloc + 1; i++) {
++		if (!xhci->interrupters[i])
++			continue;
++		xhci_add_interrupter(xhci, i);
++		xhci->interrupters[i]->isoc_bei_interval = AVOID_BEI_INTERVAL_MAX;
++	}
+
+ 	/* Initializing Compliance Mode Recovery Data If Needed */
+ 	if (xhci_compliance_mode_recovery_timer_quirk_check()) {
+@@ -594,9 +607,9 @@ static int xhci_init(struct usb_hcd *hcd)
+
+ static int xhci_run_finished(struct xhci_hcd *xhci)
+ {
+-	struct xhci_interrupter *ir = xhci->interrupters[0];
+ 	unsigned long	flags;
+ 	u32		temp;
++	int		i;
+
+ 	/*
+ 	 * Enable interrupts before starting the host (xhci 4.2 and 5.5.2).
+@@ -609,8 +622,10 @@ static int xhci_run_finished(struct xhci_hcd *xhci)
+ 	temp |= (CMD_EIE);
+ 	writel(temp, &xhci->op_regs->command);
+
+-	xhci_dbg_trace(xhci, trace_xhci_dbg_init, "Enable primary interrupter");
+-	xhci_enable_interrupter(ir);
++	xhci_dbg_trace(xhci, trace_xhci_dbg_init, "Enable all interrupters");
++	for (i = 0; i < xhci->irqs_enabled; i++)
++		if (xhci->interrupters[i])
++			xhci_enable_interrupter(xhci->interrupters[i]);
+
+ 	if (xhci_start(xhci)) {
+ 		xhci_halt(xhci);
+@@ -707,7 +722,7 @@ void xhci_stop(struct usb_hcd *hcd)
+ {
+ 	u32 temp;
+ 	struct xhci_hcd *xhci = hcd_to_xhci(hcd);
+-	struct xhci_interrupter *ir = xhci->interrupters[0];
++	int i;
+
+ 	mutex_lock(&xhci->mutex);
+
+@@ -742,7 +757,9 @@ void xhci_stop(struct usb_hcd *hcd)
+ 			"// Disabling event ring interrupts");
+ 	temp = readl(&xhci->op_regs->status);
+ 	writel((temp & ~0x1fff) | STS_EINT, &xhci->op_regs->status);
+-	xhci_disable_interrupter(xhci, ir);
++	for (i = 0; i < xhci->irqs_enabled; i++)
++		if (xhci->interrupters[i])
++			xhci_disable_interrupter(xhci, xhci->interrupters[i]);
+
+ 	xhci_dbg_trace(xhci, trace_xhci_dbg_init, "cleaning up memory");
+ 	xhci_mem_cleanup(xhci);
+@@ -1087,6 +1104,7 @@ int xhci_resume(struct xhci_hcd *xhci, bool power_lost, bool is_auto_resume)
+ 	bool			comp_timer_running = false;
+ 	bool			pending_portevent = false;
+ 	bool			suspended_usb3_devs = false;
++	int			i;
+
+ 	if (!hcd->state)
+ 		return 0;
+@@ -1180,7 +1198,9 @@ int xhci_resume(struct xhci_hcd *xhci, bool power_lost, bool is_auto_resume)
+ 		xhci_dbg(xhci, "// Disabling event ring interrupts\n");
+ 		temp = readl(&xhci->op_regs->status);
+ 		writel((temp & ~0x1fff) | STS_EINT, &xhci->op_regs->status);
+-		xhci_disable_interrupter(xhci, xhci->interrupters[0]);
++		for (i = 0; i < xhci->irqs_enabled; i++)
++			if (xhci->interrupters[i])
++				xhci_disable_interrupter(xhci, xhci->interrupters[i]);
+
+ 		xhci_dbg(xhci, "cleaning up memory\n");
+ 		xhci_mem_cleanup(xhci);
+diff --git a/drivers/usb/host/xhci.h b/drivers/usb/host/xhci.h
+index 2b0796f6d00e..90d4ba6b3573 100644
+--- a/drivers/usb/host/xhci.h
++++ b/drivers/usb/host/xhci.h
+@@ -45,6 +45,9 @@
+  */
+ #define MAX_HC_INTRS		128
+
++/* Software cap for secondary interrupters; not a hardware limit. */
++#define MAX_SECONDARY_INTRNUM	4
++
+ /*
+  * xHCI register interface.
+  * This corresponds to the eXtensible Host Controller Interface (xHCI)
+@@ -1497,6 +1500,11 @@ struct xhci_hub {
+ 	u8			min_rev;
+ };
+
++struct xhci_irq_ctx {
++	struct usb_hcd	*hcd;
++	unsigned int	intr_num;
++};
++
+ /* There is one xhci_hcd structure per controller */
+ struct xhci_hcd {
+ 	struct usb_hcd *main_hcd;
+@@ -1533,6 +1541,12 @@ struct xhci_hcd {
+ 	/* data structures */
+ 	struct xhci_device_context_array *dcbaa;
+ 	struct xhci_interrupter **interrupters;
++	/* Number of secondary interrupters successfully allocated */
++	unsigned int		secondary_irqs_alloc;
++	/* Number of IRQ vectors successfully requested (includes vector 0) */
++	unsigned int		irqs_enabled;
++	/* MSI/MSI-X vector contexts. Vector 0 uses [0], secondary use [1..] */
++	struct xhci_irq_ctx	irq_ctx[MAX_SECONDARY_INTRNUM + 1];
+ 	struct xhci_ring	*cmd_ring;
+ 	unsigned int            cmd_ring_state;
+ #define CMD_RING_STATE_RUNNING         (1 << 0)
+@@ -1895,7 +1909,7 @@ int xhci_suspend(struct xhci_hcd *xhci, bool do_wakeup);
+ int xhci_resume(struct xhci_hcd *xhci, bool power_lost, bool is_auto_resume);
+
+ irqreturn_t xhci_irq(struct usb_hcd *hcd);
+-irqreturn_t xhci_msi_irq(int irq, void *hcd);
++irqreturn_t xhci_msi_irq(int irq, void *data);
+ int xhci_alloc_dev(struct usb_hcd *hcd, struct usb_device *udev);
+ int xhci_alloc_tt_info(struct xhci_hcd *xhci,
+ 		struct xhci_virt_device *virt_dev,
+--
+2.50.1
+
