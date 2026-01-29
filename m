@@ -1,260 +1,336 @@
-Received: from mail-wm1-f50.google.com (mail-wm1-f50.google.com [209.85.128.50])
+Received: from mail-wr1-f43.google.com (mail-wr1-f43.google.com [209.85.221.43])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E8B002C11EF
-	for <linux-usb@vger.kernel.org>; Thu, 29 Jan 2026 04:04:07 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.128.50
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1769659451; cv=pass; b=PrwDdcTlgQ6gpUpwzcKH/0UdxMJqMTnZnNiEfSJY2gZMoevnG+Gj/4zMj1rpTZ2WU9GXi6tZq4FtaaZS3DD7EpsU7uRnf3T8uJBedV1QLbfAMvIvpKdyIPCdlH0lKFCqITRAHm3zj4alQRolWAQDpGxQ+sIRoz5e98BVSmHh+v8=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1769659451; c=relaxed/simple;
-	bh=R75KpgPT2svi5yuefu1FJ+5zC76yTcT1WCQs9LHGTVA=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=tovjra6jJQQHl5kO6vzZ+DLCcoUvOu7dRzydkmuC8lFta9o8shuY7S8gbn7QBbpx9GbLMQYyNQtz9gs0+V9BLB2NqNTnZQ0ObKmESOk5A0MtwUyiujMJFSY86KehU63OZDgA7lTUGcoU8beOnHOP3/g74ATY+h0EAFDVae+MFiA=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=ctNmNQBt; arc=pass smtp.client-ip=209.85.128.50
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=google.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1708723E23C
+	for <linux-usb@vger.kernel.org>; Thu, 29 Jan 2026 05:45:59 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.43
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1769665562; cv=none; b=DX9Hscf60SBLXlouZaz9XgA4K0CDXvoYBbHr0qANDisXTZ5s6OPUTf8Q1D7JmfoWqZeirtMSLEwOIhQ4zPvC1eJJSB0L3fw8OU8UaXInn9XQxsPQ6Cwt/5dTPEy5ceCX4gqscldrzWcSxvBAkI/jyW7d9PgFAEy8uzCtd9wy5sw=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1769665562; c=relaxed/simple;
+	bh=ahZ4+3lXTp9ovPIjlAbor/1CpZ8t+hMCoYg1Z0mPVp8=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=HmkyXZ8zPzA0vpZEJnr00fRJVilxrQjR/wiUwml3WoFFNba+XgkWVG+I4l0rnFvkIfFHsjOP1e4n4wBMIP3SS/nMkifDbzTJDlto+IfWZSx4kAzvCIn33pmQ2CtErzQLJY362g+dDO7X4i9B3RVvHx4HegZeNRqS/zPUBvHRruI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=fail (p=reject dis=none) header.from=canonical.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=IliNbB64; arc=none smtp.client-ip=209.85.221.43
+Authentication-Results: smtp.subspace.kernel.org; dmarc=fail (p=reject dis=none) header.from=canonical.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="ctNmNQBt"
-Received: by mail-wm1-f50.google.com with SMTP id 5b1f17b1804b1-47a95a96d42so25145e9.1
-        for <linux-usb@vger.kernel.org>; Wed, 28 Jan 2026 20:04:06 -0800 (PST)
-ARC-Seal: i=1; a=rsa-sha256; t=1769659445; cv=none;
-        d=google.com; s=arc-20240605;
-        b=Xh9/dWyH9j1H9UuUoJiiWshmDmKIZyqNkVpWXXhGc4k4wwugpGlWkPHuEQzYTA2iyN
-         C4tGe2NCSCAlZm66yqSrdtuOMDBKF2vB6uAOVVWnzLUrCgsPudU01cLVSED8FnakJlw1
-         IaJaIEDjtyQA+BscPi+65+9TYGw+mM6O4w+OM48K1LsQOvawTojA05n4JZ/XUlHT0Zof
-         xV0j/coPZKD4Fz3EEnOuKZkhGK+dbHzGiDIys47ymBWELN8F24ti27SdZK9JTxaNM4vx
-         PPzIwFBXeakdX2tOP6adV8ljHylr5ucUPsE9GCzJzi3T1ovTLfAt2/vW7Ie0StfEL740
-         qSfQ==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:dkim-signature;
-        bh=WsGxxEybDOlow6ycYq74FgbGsjTuD8K6q1LcRz+02HA=;
-        fh=srCnbwOC6G8SBFrC8C1aorU71olOL57MuOD5k4JT1uk=;
-        b=fYjGWIA0qthNdH7IXfSiVlAREHMThzbg6eX3LSLfl5rx8ji6aqsTcX4gCAZdOBNQNa
-         5l9d68m2jYfuXJMLzjMh5h90Jg+daTf5OCZgjp0taz7R/Icl8m6GQD+0zfsOVfm/CFSl
-         2bU5ZJDUIA08Y/wljEL3I5OE42W7W9gCeA4T4StRRWQpM0Dl8y3IiNaAVxGLWbvwNGuf
-         C90t5jxZZb4AdE/yTihy2t9LvWrA6Y0Xaxs88OTQtJEeh8RW2gxwex6+jU2hlnIRedxx
-         iI//Md+y0lwYPz2+Segg0WccQtz3vRkhy4sBqqEpFer0nAUtzUiUvebnfbW2c9ymncsy
-         WtAg==;
-        darn=vger.kernel.org
-ARC-Authentication-Results: i=1; mx.google.com; arc=none
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="IliNbB64"
+Received: by mail-wr1-f43.google.com with SMTP id ffacd0b85a97d-435903c4040so382048f8f.3
+        for <linux-usb@vger.kernel.org>; Wed, 28 Jan 2026 21:45:59 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20230601; t=1769659445; x=1770264245; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=WsGxxEybDOlow6ycYq74FgbGsjTuD8K6q1LcRz+02HA=;
-        b=ctNmNQBtWy9KKfcxoPvLDwiNVYN9tKcjwxH9YJ7DYl5xzeKWAXD/bJb+NMlEi9t6eo
-         oOVO8ZO6N5IvdQeqxuQxe13cgGluZ2HUEEU0qT7EJwGVWPThNOxfLCdr/lsSW4EZ2A4p
-         uYgHrrGcZQOIj52Y+FntgFi0j+rNjMYsXHWqPw6jNlA/wAjvcIRLHQ/C0XOTqE1NpBgX
-         tc3MWAcl7dPXaaoqz0azU5dbZh2ZmqjBmwbITeDjc2+a6k/hY5MJ3vhNB6kQhyyB6frJ
-         RM/dBPQFsRpmiMKa2b+NbwUIb+jFJcMp5mdLkVk42Z2Yfio970Fav6bWXjl7gw5+gA7S
-         mMcw==
+        d=gmail.com; s=20230601; t=1769665558; x=1770270358; darn=vger.kernel.org;
+        h=in-reply-to:content-transfer-encoding:content-disposition
+         :mime-version:references:mail-followup-to:message-id:subject:cc:to
+         :from:date:sender:from:to:cc:subject:date:message-id:reply-to;
+        bh=1yR8SsWcInqczfEeaCasTva/BWk1U73Hf+JCzmtLtvU=;
+        b=IliNbB64Z9xuk8jGEY5NnfuPfw8NATTMrDaoO0+ncmgpfwLJwbXbVJnXwtkn7Gws0Z
+         TkZPtYruJc6cDHuE9vibuJPqhn1iSAZm9c8utWTxu0FXpLiT3n+f1vGC6dXWAamjaG7g
+         vfghguP1870tetLLDt5jd28p19gDPJPPWTAELEsugwprZ74QXHV1/MINI02tgz8yJJxC
+         rReUsrSdehon9kuvzYfZOjF42XihFPJmF1YAw4reXhoIl4mcl//M9z1KvGPl9mG0+gC6
+         8aDjjKeSA72kqxNIaIVrwZic8vdMb3mu2GQceFLH05J/BpAbrqC1Hya7XsLAVCSAeaEJ
+         pzkg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1769659445; x=1770264245;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to;
-        bh=WsGxxEybDOlow6ycYq74FgbGsjTuD8K6q1LcRz+02HA=;
-        b=CFrLEegipOC+8vN3z0tGiBYxv89BTsYLlgqz42d4zccVJCkRcaEWJZr8cnmzwnenTp
-         LLInFX9gOJVIvHXmaaOcqxWnJ4mKia/NTqd3+DpVzSbaykr9vH5HhNHorE/4zGykGQbZ
-         NSuduEggtLQImAlQtWwABuTZYUp/X+4BfGzKEWpcCqydabqzTxfDi5pqfZGG9w49X08k
-         f7eLHF5c2tNWiZm5m3COx7Tz41v/RmDQGQC9dZKWYn7HRvo4Kt5U7oRJnvoyOsR21N3G
-         2LDbRpJqcwpJhcC3gP7PiKMG2m6AQoqKZNaelqYn08gz/8FUD+JK09PmGk/uhAG8mS8S
-         e4/w==
-X-Forwarded-Encrypted: i=1; AJvYcCXhG+8m+zZ5HqLA5rGOBFyVOcEWHrhJQrUOv2HdniYB3QItb8+HoP9TxK6kGXNXs+0eHINrBHLnTz8=@vger.kernel.org
-X-Gm-Message-State: AOJu0Yyl4fFQJ6BIzzHUqJN5rJXctwN4VBRRurFpLgJru4FX7OjIu5/9
-	dImaMFPICgomDeJudKO/8mYLLVInFws/C8V7t4WorAnKob0EsACsHtf4dUjx6po5RuPZXsNvoJC
-	QggL7tduw/PMTK2l99wx6qPDuYXZmLROCwRDm9Ppp
-X-Gm-Gg: AZuq6aJYOi8uaUa3Z+JQLm4C2iMzzgo3hN2pHEaU7h1OiBhqF9rDDtX1tJoP/kJLPH5
-	cq9OKxdni+t0IrBmn8TyPa4pqxqecntJsjzmFQnH4JM8wvhPtj302ugAjHwBw9JIv9Xf6w+k4x9
-	gcq2uoosTyQJ8BxxahtYNtMz7PrP4Knk6LOutoys9c8pYt8NfhA54jRKhAcvVucjmKzK68o6HOV
-	OLVRetiiLLPeewOhQd06j2GA1BKFyk4/BXieZRw3V8teCifoJjOdVYUiXBxVa9jfbdXwLpaVoQr
-	V7JZ3w==
-X-Received: by 2002:a05:600c:1c26:b0:477:95a8:3805 with SMTP id
- 5b1f17b1804b1-48189bf495dmr392125e9.15.1769659445200; Wed, 28 Jan 2026
- 20:04:05 -0800 (PST)
+        d=1e100.net; s=20230601; t=1769665558; x=1770270358;
+        h=in-reply-to:content-transfer-encoding:content-disposition
+         :mime-version:references:mail-followup-to:message-id:subject:cc:to
+         :from:date:sender:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=1yR8SsWcInqczfEeaCasTva/BWk1U73Hf+JCzmtLtvU=;
+        b=WHLCL+0z9JA7XshKD+mpGTXnmGZPunGY7xNKAoGhWQaZd/GT5/59U3ZgmuV1sTNGfZ
+         +jYvG93ET5ILba/eTXjQlhF4CIR4RLSumrZm2XUDWEihcDPlxL7ihz+CmcOowzv4qNkH
+         JgdWo/C3t9GlhFUP7p/6kkOR3Y3b7D2RDiM+7fEwNxNBOzKvyVnFeI2Yfq/Qqr5XSoqQ
+         RVMrqsqWT18+s5QLTw2L83hUftjcLayhz+a445oqzbhLSb4qiASjrxxNT1FBHSFcIPbj
+         5OxN8KO8bFdTEg6uGqOwM5Q/4eUSiQAaSZamoPM9dk3fFrUsiGfidGUj+n4g5OPQwdWx
+         FBCA==
+X-Forwarded-Encrypted: i=1; AJvYcCWQ98xlwR9Mcoc2harg9rfUkN26KkMhCeYQugulvXOulL0xmpBtoQDPpHRmBsenStFbh+gWOx8lva4=@vger.kernel.org
+X-Gm-Message-State: AOJu0YzU2vNm8LmgANRB0LMpSnvufbTZRgMt1cSYxDDnm9PXbhyOZ2wR
+	pUiqCI639bzfX55GHDzaG99izgoUA5PIxZcMNQX/Ww3ITaezpECcJPh3FGdcULNe
+X-Gm-Gg: AZuq6aI1LHlM5IwAcQRVYu1otyUHYtTkuczNBdRMrU/r6Brq6onUMkzooETAlj1RqfP
+	UP9dXB6V2Y3c06qHUqaUYrMDhjalmBLZnur1OrGwcQuKutwSM0SwazA+a8SDL4dL7I4gmiPfKUJ
+	RbTL9lqr9A0pXgeYJXkX/iCAK7J3GWOvKR564LECsInWzDqwemBsVmwfEE7l3RT0rT2ywkA0MQb
+	z1rWV2dvuy7C2dDL02no7MC5L8ptr9+6jEls/9jIE4MDq9KukmNwPyWUD/ilxHjtA/c1DzZ1KVn
+	c224vsVr7W9Rcx5n+6MJhAO1KZ5Fnw3usDV0m0lQYu+bnMihG0UsuYRIyaib5W+HmuBTtcbKMMM
+	cQATX7PIK4eaKPmwRiiBHoGW/qnQdVpmERvq9f4Z0xu/LLSZI6s9lBJOPJQfp1ec/mQj0sly3Cx
+	p3tzDE
+X-Received: by 2002:a05:6000:438a:b0:435:a8e7:62de with SMTP id ffacd0b85a97d-435dd1cdfc1mr11417105f8f.58.1769665558157;
+        Wed, 28 Jan 2026 21:45:58 -0800 (PST)
+Received: from localhost ([2001:67c:1562:8007::aac:4468])
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-435e131ce93sm11495753f8f.24.2026.01.28.21.45.55
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 28 Jan 2026 21:45:57 -0800 (PST)
+Sender: AceLan Kao <acelan@gmail.com>
+Date: Thu, 29 Jan 2026 13:45:51 +0800
+From: "Chia-Lin Kao (AceLan)" <acelan.kao@canonical.com>
+To: Mika Westerberg <mika.westerberg@linux.intel.com>
+Cc: Andreas Noever <andreas.noever@gmail.com>, 
+	Mika Westerberg <westeri@kernel.org>, Yehezkel Bernat <YehezkelShB@gmail.com>, 
+	linux-usb@vger.kernel.org, linux-kernel@vger.kernel.org, 
+	Gil Fine <gil.fine@linux.intel.com>
+Subject: Re: [PATCH] thunderbolt: Fix PCIe device enumeration with delayed
+ rescan
+Message-ID: <aXrZK-WigVeqxBTT@acelan-Precision-5480>
+Mail-Followup-To: "Chia-Lin Kao (AceLan)" <acelan.kao@canonical.com>, 
+	Mika Westerberg <mika.westerberg@linux.intel.com>, Andreas Noever <andreas.noever@gmail.com>, 
+	Mika Westerberg <westeri@kernel.org>, Yehezkel Bernat <YehezkelShB@gmail.com>, 
+	linux-usb@vger.kernel.org, linux-kernel@vger.kernel.org, 
+	Gil Fine <gil.fine@linux.intel.com>
+References: <20260121060142.GJ2275908@black.igk.intel.com>
+ <aXLM5vk0gDNjLPyY@acelan-Precision-5480>
+ <20260123120112.GQ2275908@black.igk.intel.com>
+ <aXbTfLUJ-lEfNzgX@acelan-Precision-5480>
+ <20260126054231.GR2275908@black.igk.intel.com>
+ <aXcWNw9Qfo5L9WVi@acelan-Precision-5480>
+ <20260126115654.GS2275908@black.igk.intel.com>
+ <aXg1eBudRAaCZpmR@acelan-Precision-5480>
+ <20260127084513.GC2275908@black.igk.intel.com>
+ <20260127101701.GI2275908@black.igk.intel.com>
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <GV2PR06MB10809D32F05C864813CC36C10D791A@GV2PR06MB10809.eurprd06.prod.outlook.com>
-In-Reply-To: <GV2PR06MB10809D32F05C864813CC36C10D791A@GV2PR06MB10809.eurprd06.prod.outlook.com>
-From: Kuen-Han Tsai <khtsai@google.com>
-Date: Thu, 29 Jan 2026 12:03:38 +0800
-X-Gm-Features: AZwV_Qgm9__lyxyDkWAmCn2zZ0JItY11Ta114jsH5fJxqtefa-FOpMSHt0Lx7Pk
-Message-ID: <CAKzKK0qdNaHSR8Kr7tvXbt8rK4J89iy_6ZDv8M3w_Uz+668c6w@mail.gmail.com>
-Subject: Re: [PATCH] usb: gadget: f_ncm: Fix Kernel Panic due to access of
- invalid gadget ptr
-To: LI Qingwu <qing-wu.li@leica-geosystems.com.cn>
-Cc: "hgajjar@de.adit-jv.com" <hgajjar@de.adit-jv.com>, 
-	"eugeniu.rosca@bosch.com" <eugeniu.rosca@bosch.com>, 
-	"gregkh@linuxfoundation.org" <gregkh@linuxfoundation.org>, "guofeng.li@gm.com" <guofeng.li@gm.com>, 
-	"hardik.gajjar@bosch.com" <hardik.gajjar@bosch.com>, 
-	"linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>, 
-	"linux-usb@vger.kernel.org" <linux-usb@vger.kernel.org>, "maze@google.com" <maze@google.com>, 
-	"quic_kriskura@quicinc.com" <quic_kriskura@quicinc.com>, 
-	"quic_linyyuan@quicinc.com" <quic_linyyuan@quicinc.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <20260127101701.GI2275908@black.igk.intel.com>
 
-On Wed, Jan 28, 2026 at 6:49=E2=80=AFPM LI Qingwu
-<qing-wu.li@leica-geosystems.com.cn> wrote:
->
-> > On Mon, Mar 11, 2024 at 01:04:18PM +0100, Hardik Gajjar wrote:
-> > > On Fri, Mar 08, 2024 at 05:47:37PM +0530, Krishna Kurapati PSSNV wrot=
-e:
-> > > >
-> > > >
-> > > > On 3/8/2024 5:25 PM, Hardik Gajjar wrote:
-> > > > > On Thu, Mar 07, 2024 at 11:12:07PM +0530, Krishna Kurapati PSSNV =
-wrote:
+On Tue, Jan 27, 2026 at 11:17:01AM +0100, Mika Westerberg wrote:
+> On Tue, Jan 27, 2026 at 09:45:13AM +0100, Mika Westerberg wrote:
+> > On Tue, Jan 27, 2026 at 01:04:20PM +0800, Chia-Lin Kao (AceLan) wrote:
+> > > On Mon, Jan 26, 2026 at 12:56:54PM +0100, Mika Westerberg wrote:
+> > > > On Mon, Jan 26, 2026 at 03:48:48PM +0800, Chia-Lin Kao (AceLan) wrote:
+> > > > > On Mon, Jan 26, 2026 at 06:42:31AM +0100, Mika Westerberg wrote:
+> > > > > > On Mon, Jan 26, 2026 at 11:30:47AM +0800, Chia-Lin Kao (AceLan) wrote:
+> > > > > > > Hi,
+> > > > > > > On Fri, Jan 23, 2026 at 01:01:12PM +0100, Mika Westerberg wrote:
+> > > > > > > > Hi,
+> > > > > > > >
+> > > > > > > > On Fri, Jan 23, 2026 at 10:04:11AM +0800, Chia-Lin Kao (AceLan) wrote:
+> > > > > > > > > > Can you comment out call to tb_switch_xhci_connect() and see if that
+> > > > > > > > > > changes anything?
+> > > > > > > > >
+> > > > > > > > > Here is what I modified, and the problem becomes a little bit complicated.
+> > > > > > > >
+> > > > > > > > Okay I see it did not change anything (well this is kind of what I
+> > > > > > > > expected). Thanks for trying.
+> > > > > > > >
+> > > > > > > > I see in your log that the PCIe tunnel is established just fine. It's just
+> > > > > > > > that there is no PCIe hotplug happening or it is happening but the PCIe
+> > > > > > > > Downstream Port is not waking up.
+> > > > > > > >
+> > > > > > > > I figured you have following USB4/TB topology, right?
+> > > > > > > >
+> > > > > > > >   AMD Host <-> GR Hub <-> TB3 Hub
+> > > > > > > >                   ^
+> > > > > > > >                   |
+> > > > > > > >                 TB3 Hub
+> > > > > > > Should be more like this
+> > > > > > >   AMD Host <-> Dell TB4 Dock <-> OWC Envoy Express (1-502)
+> > > > > > >                              \
+> > > > > > >                               <-> OWC Envoy Express (1-702)
+> > > > > > > or
+> > > > > > >   AMD Host (1-0, domain1)
+> > > > > > >       |
+> > > > > > >       └─ Port 2 ──→ Dell Thunderbolt 4 Dock (1-2)
+> > > > > > >                       ├─ Port 5 ──→ OWC Envoy Express (1-502)
+> > > > > > >                       └─ Port 7 ──→ OWC Envoy Express (1-702)
 > > > > > >
-> > > >
-> > > > [...]
-> > > >
+> > > > > > Okay so the same ;-)
+> > > > > >
+> > > > > > > > What if you run 'lspci' after the issue reproduces? Does that bring the
+> > > > > > > > missing PCIe devices? I suspect that this is due to older TB3 devices that
+> > > > > > > > they may need bit more time to get the PCIe link (going over the tunnel) up
+> > > > > > > > and running.
+> > > > > > > lspci doesn't bring back the missing tbt storage.
+> > > > > >
+> > > > > > Forgot to mention that let it (the whole topology) enter runtime suspend
+> > > > > > before you run lspci.
 > > > > >
-> > > > > I believe using gether_cleanup altogether may not be an optimal s=
-olution.
-> > > > > The creation and deletion of network interfaces should align with=
- the behavior of each specific network driver.
+> > > > > https://people.canonical.com/~acelan/bugs/tbt_storage/dmesg_lspci.log
 > > > > >
-> > > > > For instance, in the case of NCM, the usb0 interface is created u=
-pon the creation of a directory
-> > > > > in config/usb_gadget/gX/functions/ncm.usb0, and it is removed whe=
-n the corresponding directory
-> > > > > is deleted. This follows a standard flow observed in many network=
- drivers, where interfaces are
-> > > > > created during driver loading/probing and deleted during removal.
-> > > > >
+> > > > > The behavior is strange, the following 3 devices keep entering D3cold and then comes back
+> > > > > to D0 quickly. So, I'm not sure if the lspci do the actions you want.
 > > > >
-> > > > Hi Hardik,
+> > > > Yes. I should have mentioned so the lspci is there exactly to trigger
+> > > > runtime resume of the topology. I was hoping the PCIe links get
+> > > > re-established properly then.
 > > > >
-> > > >  Yeah. I observed this behavior.
+> > > > Can you do so that you:
 > > > >
-> > > > > Typically, deleting the gadget on every disconnection is not cons=
-idered a good practice, as it can
-> > > > > negatively impact the user experience when accessing the gadget.
-> > > > >
+> > > > 1. Plug in the dock.
+> > > > 2. Plug in the other storage to the dock.
+> > > > 3. Block runtime PM from the PCIe Downstream Port that should lead to the
+> > > >    second storage device PCIe Upstream Port
 > > > >
-> > > > Got it. I was suspecting issues might come up during fast Plug-In/ =
-Plug-Out
-> > > > cases as setting and cleanup of network interface might take some t=
-ime.
+> > > >  # echo on > /sys/bus/pci/devices/DEVICE/power/control
 > > > >
-> > > > > In our specific scenario, retaining the usb0 network interface ha=
-s proven to enhance performance
-> > > > > and stabilize connections. Previous attempts to remove it resulte=
-d in an observed increase in time of 300ms,
-> > > > > particularly at the start of Apple CarPlay sessions.
-> > > > >
+> > > > 4. Connect the second storage device and enable PCIe tunnel.
 > > > >
-> > > > Thanks for this info. Makes sense to keep it in free_inst only. But=
- my
-> > > > initial doubt only stemmed from the fact that actions taken during =
-bind must
-> > > > be reversed during unbind.
-> > > >
-> > > > > Furthermore, it's important to highlight that in Qualcomm product=
-s and msm kernels, the inclusion of gether_cleanup
-> > > > > in the unbind process was eventually reverted. While the specific=
- reason for reverting the patch is unknown,
-> > > > > it suggests that the addition may not have yielded the intended o=
-r required results
-> > > > >
-> > > > > Following is the revert patch details in msm-5.4 kernel, if you w=
-ant check it.
-> > > > >
-> > > > > Revert "usb: gadget: f_ncm: allocate/free net device upon driver =
-bind/unbind"
-> > > > >
-> > > > > This reverts commit 006d8adf555a8c6d34113f564ade312d68abd3b3.
-> > > > >
-> > > > > Move back the allocation of netdevice to alloc_inst(), one-time
-> > > > > registration to bind(), deregistration and free to rm_inst(). The
-> > > > > UI update issue will be taken up with proper stakeholders.
-> > > > >
-> > > > > Change-Id: I56448b08f6796a43ec5b0dfe0dd2d42cdc0eec14
-> > > > >
-> > > >
-> > > > Agree. This was merged first in 4.19 downstream (most probably for =
-car play
-> > > > use case only) and then reverted in 5.4. But present 4.19 code in Q=
-C still
-> > > > keeps it in unbind path. The only reason I suspect it was reverted =
-was to
-> > > > get back on to same page with upstream driver (atleast starting fro=
-m 5.10,
-> > > > this was the reasoning to remove gether_cleanup in unbind path and =
-put it
-> > > > back in free_inst).
-> > > >
-> > > > Thanks,
-> > > > Krishna,
+> > > > Does that make it work each time?
+> > > Yes, follow the steps makes it work.
 > > >
-> > > Thanks Krinshna for your comment
-> > > Come to the first comment from Greg.
+> > >    echo on | sudo tee /sys/bus/pci/devices/*/*/power/control
 > > >
-> > > > What commit id does this fix?
-> > > >
-> > > > thanks,
-> > > >
-> > > > greg k-h
-> > >
-> > > >Hi Greg,
-> > >
-> > > >The network device parent is not being properly cleaned up during un=
-bind since the \
-> > > >initial commit of the driver. In that case, should I mention the Fir=
-st commit ID of \
-> > > >the driver as broken commit or would you advice to say, For example =
-"Clean up netdev \
-> > > >parent in unbind".
-> > >
-> > > >Thanks,
-> > > >Hardik
-> > >
-> > > @Greg,
-> > >
-> > > Can you please provide guidance on how to proceed? Should I update th=
-e commit message to exclude the term 'Fix' in the title?
-> > >
-> > > Thanks,
-> > > Hardik
+> > > Re-plug the dock, need to disable the runpm again.
 > >
-> > Hi Greg,
+> > But can you just block it from the PCIe Downstream Port that leads to the
+> > "non-working" storage before you enable PCIe tunnel? Not for all the
+> > devices.
 > >
-> > Should we move forward if there are no further comments?
+> > (let me know if you want help locating the correct device).
 > >
-> > Thanks,
-> > Hardik
->
->
-> Hi Hardik and all,
->
-> Gentle ping on this patch. I wanted to follow up on the status and see if
-> there have been any updates or alternative fixes applied.
->
-> I have recently tested this patch on NXP iMX8MP platforms and can confirm=
- it
-> successfully resolves the use-after-free panic issue.
->
-> Best Regards
-> Li Qingwu
+> > Does it still work?
+Here's the full PCI device chain graph:
 
-Hi Qingwu,
+    0000:00:01.2 - AMD PCI Root Port
+        |
+        └─ 0000:61:00.0 - Intel Thunderbolt 4 Bridge [Goshen Ridge 2020]
+               |
+               └─ 0000:62:02.0 - Intel Thunderbolt 4 Bridge [Goshen Ridge 2020]
+                      |
+                      └─ 0000:83:00.0 - Intel TBT3 Bridge (Upstream Port) [Alpine Ridge LP]
+                             |
+                             └─ 0000:84:01.0 - Intel TBT3 Bridge (Downstream Port) [Alpine Ridge LP]
+                                    |
+                                    └─ 0000:85:00.0 - Sandisk PC SN740 NVMe SSD (nvme2)
 
-I recently submitted a patchset to address the lifetime mismatch
-between the network device and its parent gadget device for the NCM
-driver [1].
+When the tbt storage is not recognized, we don't have 83:00.0 and its
+downstream port 84:01.0.
 
-Could you please verify if this series resolves the problem for you?
+$ ls /sys/bus/pci/devices
+0000:00:00.0  0000:00:02.1  0000:00:08.1  0000:00:18.1  0000:00:18.7  0000:62:04.0  0000:c3:00.0  0000:c5:00.5  0000:c7:00.4
+0000:00:00.2  0000:00:02.3  0000:00:08.2  0000:00:18.2  0000:61:00.0  0000:a2:00.0  0000:c4:00.0  0000:c5:00.7  0000:c7:00.5
+0000:00:01.0  0000:00:02.4  0000:00:08.3  0000:00:18.3  0000:62:00.0  0000:a3:01.0  0000:c5:00.0  0000:c6:00.0  0000:c7:00.6
+0000:00:01.1  0000:00:02.5  0000:00:14.0  0000:00:18.4  0000:62:01.0  0000:a4:00.0  0000:c5:00.1  0000:c6:00.1
+0000:00:01.2  0000:00:03.0  0000:00:14.3  0000:00:18.5  0000:62:02.0  0000:c1:00.0  0000:c5:00.2  0000:c7:00.0
+0000:00:02.0  0000:00:08.0  0000:00:18.0  0000:00:18.6  0000:62:03.0  0000:c2:00.0  0000:c5:00.4  0000:c7:00.3
 
-[1] https://lore.kernel.org/all/20251230-ncm-refactor-v1-0-793e347bc7a7@goo=
-gle.com/
+Disable runpm on 62:02.0, then we have 83:00.0 and its downstream port
+84:01.0 and 85:00.0, and then the tbt storage is recognized.
 
-Regards,
-Kuen-Han
+$ echo on | sudo tee /sys/bus/pci/devices/0000:62:02.0/power/control
+on
+
+$ ls /sys/bus/pci/devices
+0000:00:00.0  0000:00:02.1  0000:00:08.1  0000:00:18.1  0000:00:18.7  0000:62:04.0  0000:a4:00.0  0000:c5:00.1  0000:c6:00.1
+0000:00:00.2  0000:00:02.3  0000:00:08.2  0000:00:18.2  0000:61:00.0  0000:83:00.0  0000:c1:00.0  0000:c5:00.2  0000:c7:00.0
+0000:00:01.0  0000:00:02.4  0000:00:08.3  0000:00:18.3  0000:62:00.0  0000:84:01.0  0000:c2:00.0  0000:c5:00.4  0000:c7:00.3
+0000:00:01.1  0000:00:02.5  0000:00:14.0  0000:00:18.4  0000:62:01.0  0000:85:00.0  0000:c3:00.0  0000:c5:00.5  0000:c7:00.4
+0000:00:01.2  0000:00:03.0  0000:00:14.3  0000:00:18.5  0000:62:02.0  0000:a2:00.0  0000:c4:00.0  0000:c5:00.7  0000:c7:00.5
+0000:00:02.0  0000:00:08.0  0000:00:18.0  0000:00:18.6  0000:62:03.0  0000:a3:01.0  0000:c5:00.0  0000:c6:00.0  0000:c7:00.6
+
+BTW, rescan also workaround the issue
+
+$ echo 1 | sudo tee /sys/bus/pci/devices/0000:62:02.0/rescan
+>
+> (+Gil)
+>
+> There is also one patch that fixes the driver to follow more closely the CM
+> guide and that's related to the PCIe tunneling and may actually explain the
+> issue you see:
+>
+>   https://lore.kernel.org/linux-usb/20260127094953.GF2275908@black.igk.intel.com/
+>
+> Note it only does that for USB4 routers so you may need to tune that so
+> that it skips that check but there is complication because IIRC LTTSM bits
+> do not match the USB4 ones. One thing to try is to just check the USB4 PCIe
+> adapter side that it is in detect.
+I applied this series directly on top of 6.19-rc6, and the issue
+persists.
+
+Here is the modification I tried, but it doesn't work.
+
+diff --git a/drivers/thunderbolt/tunnel.c b/drivers/thunderbolt/tunnel.c
+index 51fd05b3e341..0672d3e3c24e 100644
+--- a/drivers/thunderbolt/tunnel.c
++++ b/drivers/thunderbolt/tunnel.c
+@@ -302,14 +302,38 @@ static int tb_pci_pre_activate(struct tb_tunnel *tunnel)
+        struct tb_port *up = tunnel->dst_port;
+        int ret;
+
+-       if (!tb_switch_is_usb4(down->sw) || !tb_switch_is_usb4(up->sw))
+-               return 0;
++       /*
++        * Try checking LTSSM state for both USB4 and TBT3 devices.
++        * Check at least the USB4 side if only one side is USB4.
++        */
++       tb_port_dbg(down, "PCIe downstream port: USB4=%d\n", tb_switch_is_usb4(down->sw));
++       tb_port_dbg(up, "PCIe upstream port: USB4=%d\n", tb_switch_is_usb4(up->sw));
+
+-       ret = usb4_pci_port_check_ltssm_state(down, TB_PCIE_LTSSM_DETECT);
+-       if (ret)
+-               return ret;
++       if (tb_switch_is_usb4(down->sw)) {
++               tb_port_dbg(down, "Checking PCIe downstream LTSSM state\n");
++               ret = usb4_pci_port_check_ltssm_state(down, TB_PCIE_LTSSM_DETECT);
++               if (ret) {
++                       tb_port_warn(down, "PCIe adapter not in detect state: %d\n", ret);
++                       return ret;
++               }
++               tb_port_dbg(down, "PCIe downstream adapter in detect state\n");
++       } else {
++               tb_port_dbg(down, "Skipping LTSSM check (not USB4)\n");
++       }
++
++       if (tb_switch_is_usb4(up->sw)) {
++               tb_port_dbg(up, "Checking PCIe upstream LTSSM state\n");
++               ret = usb4_pci_port_check_ltssm_state(up, TB_PCIE_LTSSM_DETECT);
++               if (ret) {
++                       tb_port_warn(up, "PCIe adapter not in detect state: %d\n", ret);
++                       return ret;
++               }
++               tb_port_dbg(up, "PCIe upstream adapter in detect state\n");
++       } else {
++               tb_port_dbg(up, "Skipping LTSSM check (not USB4)\n");
++       }
+
+-       return usb4_pci_port_check_ltssm_state(up, TB_PCIE_LTSSM_DETECT);
++       return 0;
+ }
+
+ static int tb_pci_set_ext_encapsulation(struct tb_tunnel *tunnel, bool enable)
+
+$ sudo dmesg | egrep "PCIe|USB4"
+
+Plug the first tbt storage,
+
+[  460.465644] [1668] thunderbolt 0000:c7:00.6:  Port 4: 8086:15c0 (Revision: 1, TB Version: 1, Type: PCIe (0x100102))
+[  460.891208] [3953] thunderbolt 0000:c7:00.6: 2:12: PCIe downstream port: USB4=1
+[  460.891210] [3953] thunderbolt 0000:c7:00.6: 702:4: PCIe upstream port: USB4=0
+[  460.891212] [3953] thunderbolt 0000:c7:00.6: 2:12: Checking PCIe downstream LTSSM state
+[  460.891327] [3953] thunderbolt 0000:c7:00.6: 2:12: PCIe downstream adapter in detect state
+[  460.891328] [3953] thunderbolt 0000:c7:00.6: 702:4: Skipping LTSSM check (not USB4)
+[  460.891329] [3953] thunderbolt 0000:c7:00.6: activating PCIe Down path from 2:12 to 702:4
+[  460.891849] [3953] thunderbolt 0000:c7:00.6: PCIe Down path activation complete
+[  460.891850] [3953] thunderbolt 0000:c7:00.6: activating PCIe Up path from 702:4 to 2:12
+[  460.892375] [3953] thunderbolt 0000:c7:00.6: PCIe Up path activation complete
+[  461.018893] pci 0000:a2:00.0: [8086:15c0] type 01 class 0x060400 PCIe Switch Upstream Port
+[  461.019746] pci 0000:a2:00.0: 2.000 Gb/s available PCIe bandwidth, limited by 2.5 GT/s PCIe x1 link at 0000:00:01.2 (capable of 8.000 Gb/s with 2.5 GT/s PCIe x4 link)
+[  461.020620] pci 0000:a3:01.0: [8086:15c0] type 01 class 0x060400 PCIe Switch Downstream Port
+[  461.021846] pci 0000:a4:00.0: [144d:a809] type 00 class 0x010802 PCIe Endpoint
+[  461.022555] pci 0000:a4:00.0: 2.000 Gb/s available PCIe bandwidth, limited by 2.5 GT/s PCIe x1 link at 0000:00:01.2 (capable of 31.504 Gb/s with 8.0 GT/s PCIe x4 link)
+
+And then the second tbt storage,
+
+[  472.025559] [1668] thunderbolt 0000:c7:00.6:  Port 4: 8086:15c0 (Revision: 1, TB Version: 1, Type: PCIe (0x100102))
+[  472.451726] [3953] thunderbolt 0000:c7:00.6: 2:11: PCIe downstream port: USB4=1
+[  472.451728] [3953] thunderbolt 0000:c7:00.6: 502:4: PCIe upstream port: USB4=0
+[  472.451729] [3953] thunderbolt 0000:c7:00.6: 2:11: Checking PCIe downstream LTSSM state
+[  472.451851] [3953] thunderbolt 0000:c7:00.6: 2:11: PCIe downstream adapter in detect state
+[  472.451852] [3953] thunderbolt 0000:c7:00.6: 502:4: Skipping LTSSM check (not USB4)
+[  472.451853] [3953] thunderbolt 0000:c7:00.6: activating PCIe Down path from 2:11 to 502:4
+[  472.452373] [3953] thunderbolt 0000:c7:00.6: PCIe Down path activation complete
+[  472.452374] [3953] thunderbolt 0000:c7:00.6: activating PCIe Up path from 502:4 to 2:11
+[  472.452893] [3953] thunderbolt 0000:c7:00.6: PCIe Up path activation complete
+
+My issue should be happening after the PCIe tunnel is activated.
+
+>
+> Second thing to try is to disable PCIe ASPM L1. We can do that from CM side
+> like we do already in tb_switch_pcie_l1_enable(). If possible you can try
+> so that you disable it from the BIOS (but don't use the pcie_aspm=  command
+> lne parameter).
+I can't disable PCIe ASPM L1 from the driver, and there is no option in
+the BIOS to switch it off.
