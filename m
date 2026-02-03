@@ -1,125 +1,115 @@
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AA1F536214A
-	for <linux-usb@vger.kernel.org>; Tue,  3 Feb 2026 22:17:00 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.129.124
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5DE4D2E2DF3;
+	Tue,  3 Feb 2026 22:51:16 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1770157022; cv=none; b=WFPnhVTc9rxznIt7RsQI9V9GGVPj3ruLn47aDFLH6w8L7SVQX7Q+6BWAuDpl7QO+JeOf7xWGJRBu/mWlZWn9bqxzjXzap2qZk0k+2Bp8gYGTLed8vGctxx8KweA0LmCmY3ekBojmCb7VT6L8MtRy29XM0axJ7oi2cmspt/P3iw8=
+	t=1770159076; cv=none; b=OjsFQ6SHYU37sgWJ4x5avL00QcYABmNp8DGzyYywUjbodxToJbJHOAoGZ150H7nL3bpSGKcZkZ3eme0MdhD6P1l7zMJSP9nW2NvtkkNqsizosDiCAytjd8ZAacOK6O9wCWVv989yGyoHxHz+c+ES0p8kgBFOdpqXCGhXI7mGpQI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1770157022; c=relaxed/simple;
-	bh=pYxYPURvz3MhNYNsewL0ZKU73YmQFgpw+7Rw6Nsrd3Y=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=JJBFcdubdU2GitGg7Qg1h4agj6KOEQfKamUvoFT4dEIAH+ft7w+8mjpUbD8AArjcCrlE/AGk33hpRRXGDq/k8LauK5KwT2a5HJklMmskB5acly/Gz1//oCc+VaHLjCUIBlFYOSZ8Ojf1ciuajAEq97X6iwuhoIX6tSacEpu0LiI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=AX3j4OtX; arc=none smtp.client-ip=170.10.129.124
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
+	s=arc-20240116; t=1770159076; c=relaxed/simple;
+	bh=X91nXiYbk2aQj3hTKjb9O56r5Vxnbn/eV6DtlpDzA8Y=;
+	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
+	 In-Reply-To:To:Cc; b=sPcPoekdt48NU4MdNuF5DIuQsnd1VjlrO+BkAhkr/Lmh8ir5r4ws2CKZ/DR089TB6DHEojrpnPUj3ZkuGjqLAPcVv2jh9FGbm62zM3OiqM0agToTtCQ1jA0yPr6V6TgILHCsPgsk0pRs4e/8hY5VZo+ZARq5beiMuFZU0REI5QY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=lwcq5ALi; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="AX3j4OtX"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1770157019;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=GFYAOGiLZN4gRTgbQkbegN6tbXaotzgssD6BTvxd+5U=;
-	b=AX3j4OtXr7tnu4DCnxTt0+2wUbxCW/dOBHtYV3nMkfca28YFJxENsR7Okqf7movhhDyGKo
-	hiKvmzfNcQBv+xoCORI8XAVsiijelR/iWUNzVgYNSEwTRV9eGOWWjIac1HOypwgevI+MRr
-	giglHz9h4ZkKUbY3piOIIsNEC4/9qFo=
-Received: from mx-prod-mc-05.mail-002.prod.us-west-2.aws.redhat.com
- (ec2-54-186-198-63.us-west-2.compute.amazonaws.com [54.186.198.63]) by
- relay.mimecast.com with ESMTP with STARTTLS (version=TLSv1.3,
- cipher=TLS_AES_256_GCM_SHA384) id us-mta-47-VQuSGUDNPk2YMyEgj0iwDg-1; Tue,
- 03 Feb 2026 17:16:55 -0500
-X-MC-Unique: VQuSGUDNPk2YMyEgj0iwDg-1
-X-Mimecast-MFC-AGG-ID: VQuSGUDNPk2YMyEgj0iwDg_1770157014
-Received: from mx-prod-int-06.mail-002.prod.us-west-2.aws.redhat.com (mx-prod-int-06.mail-002.prod.us-west-2.aws.redhat.com [10.30.177.93])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
-	(No client certificate requested)
-	by mx-prod-mc-05.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTPS id B2B95195608F;
-	Tue,  3 Feb 2026 22:16:53 +0000 (UTC)
-Received: from GoldenWind.redhat.com (unknown [10.22.80.51])
-	by mx-prod-int-06.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTP id 01AFE180009E;
-	Tue,  3 Feb 2026 22:16:51 +0000 (UTC)
-From: Lyude Paul <lyude@redhat.com>
-To: linux-kernel@vger.kernel.org,
-	linux-usb@vger.kernel.org
-Cc: "Jiayi Li" <lijiayi@kylinos.cn>,
-	"Mathias Nyman" <mathias.nyman@linux.intel.com>,
-	"Oliver Neukum" <oneukum@suse.com>,
-	"Miao Li" <limiao@kylinos.cn>,
-	=?UTF-8?q?Johannes=20Br=C3=BCderl?= <johannes.bruederl@gmail.com>,
-	"Lei Huang" <huanglei@kylinos.cn>,
-	"Lyude Paul" <lyude@redhat.com>,
-	"Greg Kroah-Hartman" <gregkh@linuxfoundation.org>
-Subject: [PATCH 1/1] usb: core: Add quirk for Gigabyte Aorus Waterforce X II AIO coolers
-Date: Tue,  3 Feb 2026 17:10:27 -0500
-Message-ID: <20260203221452.198682-2-lyude@redhat.com>
-In-Reply-To: <20260203221452.198682-1-lyude@redhat.com>
-References: <20260203221452.198682-1-lyude@redhat.com>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="lwcq5ALi"
+Received: by smtp.kernel.org (Postfix) with ESMTPS id 23749C2BC9E;
+	Tue,  3 Feb 2026 22:51:16 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1770159076;
+	bh=X91nXiYbk2aQj3hTKjb9O56r5Vxnbn/eV6DtlpDzA8Y=;
+	h=From:Date:Subject:References:In-Reply-To:To:Cc:Reply-To:From;
+	b=lwcq5ALiB+OesFqKvXvjJGqKqOTw5MtaYfUki/k4eFuthqEyuvSoTwvoqLWGQ+0v7
+	 u07J0Fgx31qXN6MzMuwBdyX8B1fITA+/O4SL1j9sfDdDM2FUZlIreRmp1RVcV2eFGh
+	 ZTPaNlVwfkqK9L3vZ7Z18oVXwLj5uYRzaiSmcJ5gUgpjbRZRBfR8CCwl3awcG/UBtu
+	 QRJbA4rkqVQ6mjFm5QLmiMWmXpFocLYQH0/PHKkBWSHVUU2Ry+MBqO8K2qWI9u1+d/
+	 XEFiv3Yv0eqS5Jp+Rzmz60PjwTH9cEqKhY2F8gKmCpaV8TxtMFgu/AABq0DnYhtpBN
+	 +VI+1oXB3UAwA==
+Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 0CB35E8B37C;
+	Tue,  3 Feb 2026 22:51:16 +0000 (UTC)
+From: Amit Sunil Dhamne via B4 Relay <devnull+amitsd.google.com@kernel.org>
+Date: Tue, 03 Feb 2026 22:50:28 +0000
+Subject: [PATCH v5 2/5] dt-bindings: usb: maxim,max33359: Add supply
+ property for vbus
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Scanned-By: MIMEDefang 3.4.1 on 10.30.177.93
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+Message-Id: <20260203-max77759-charger-v5-2-b50395376a5f@google.com>
+References: <20260203-max77759-charger-v5-0-b50395376a5f@google.com>
+In-Reply-To: <20260203-max77759-charger-v5-0-b50395376a5f@google.com>
+To: Sebastian Reichel <sre@kernel.org>, Rob Herring <robh@kernel.org>, 
+ Krzysztof Kozlowski <krzk+dt@kernel.org>, 
+ Conor Dooley <conor+dt@kernel.org>, 
+ =?utf-8?q?Andr=C3=A9_Draszik?= <andre.draszik@linaro.org>, 
+ Lee Jones <lee@kernel.org>, Greg Kroah-Hartman <gregkh@linuxfoundation.org>, 
+ Badhri Jagan Sridharan <badhri@google.com>, 
+ Heikki Krogerus <heikki.krogerus@linux.intel.com>, 
+ Peter Griffin <peter.griffin@linaro.org>, 
+ Tudor Ambarus <tudor.ambarus@linaro.org>, 
+ Alim Akhtar <alim.akhtar@samsung.com>
+Cc: linux-kernel@vger.kernel.org, linux-pm@vger.kernel.org, 
+ devicetree@vger.kernel.org, linux-usb@vger.kernel.org, 
+ linux-arm-kernel@lists.infradead.org, linux-samsung-soc@vger.kernel.org, 
+ RD Babiera <rdbabiera@google.com>, Kyle Tso <kyletso@google.com>, 
+ Amit Sunil Dhamne <amitsd@google.com>, 
+ Krzysztof Kozlowski <krzysztof.kozlowski@oss.qualcomm.com>
+X-Mailer: b4 0.14.2
+X-Developer-Signature: v=1; a=ed25519-sha256; t=1770159074; l=1332;
+ i=amitsd@google.com; s=20241031; h=from:subject:message-id;
+ bh=qjOKPP6fH2LqYd2U1uPm5o7hj5uICSO7E5/ipdyMADM=;
+ b=YRz56XUmrW3hJ51fTWbWJBHEqUxLf7rdB7vONG+KoIlUJ8W8akgzcJXY0QXf54c+pH+jBIDy2
+ CDY4TPj5s5eDzwPGwhEvnMjjvC6bE1TlkXiH/eA7dBLZyQ8xmGXakvC
+X-Developer-Key: i=amitsd@google.com; a=ed25519;
+ pk=wD+XZSST4dmnNZf62/lqJpLm7fiyT8iv462zmQ3H6bI=
+X-Endpoint-Received: by B4 Relay for amitsd@google.com/20241031 with
+ auth_id=262
+X-Original-From: Amit Sunil Dhamne <amitsd@google.com>
+Reply-To: amitsd@google.com
 
-The "Aorus Waterforce" is one of those fancy gaming water coolers that
-comes with fun LEDs and an entire dedicated LCD screen. A minor issue I've
-noticed with this cooler on Linux, is that we fail to actually
-reset the device when coming out of standby, ish:
+From: Amit Sunil Dhamne <amitsd@google.com>
 
-  [  281.652184] usb 7-10.4: reset high-speed USB device number 7 using xhci_hcd
-  [  287.179843] usb 7-10.4: PM: dpm_run_callback(): usb_dev_resume returns -5
-  [  287.179854] usb 7-10.4: PM: failed to resume async: error -5
+Add a regulator supply property for vbus. This notifies the regulator
+provider to source vbus when Type-C operates in Source power mode,
+while turn off sourcing vbus when operating in Sink mode or
+disconnected.
 
-Generally this isn't fatal, as even when the water cooler doesn't resume it
-will still reconnect itself moments later:
-
-  15:48:12 GoldenWind kernel: usb 7-10.4: USB disconnect, device number 14
-  15:48:12 GoldenWind kernel: usb 7-10.4: new high-speed USB device number
-     15 using xhci_hcd
-  15:48:14 GoldenWind kernel: usb 7-10.4: New USB device found,
-     idVendor=0414, idProduct=7a5e, bcdDevice= 2.00
-  15:48:14 GoldenWind kernel: usb 7-10.4: New USB device strings: Mfr=1,
-     Product=2, SerialNumber=0
-  15:48:14 GoldenWind kernel: usb 7-10.4: Product: Castor3
-  15:48:14 GoldenWind kernel: usb 7-10.4: Manufacturer: ITE Tech.
-  15:48:14 GoldenWind kernel: hid-generic 0003:0414:7A5E.000D:
-     hiddev98,hidraw2: USB HID v1.01 Device [ITE Tech. Castor3] on
-     usb-0000:74:00.0-10.4/input0
-
-My guess here is that the device simply doesn't support resets properly -
-since that seems to be the only quirk I've found that actually works. Note
-that the device still ends up disconnecting and reconnecting after resume,
-but this seems to be normal behavior.
-
-So, let's fix this by adding the USB_QUIRK_RESET quirk for this USB device.
-This seems to work perfectly fine and prevents us from getting the
-aforementioned errors on resume.
-
-Signed-off-by: Lyude Paul <lyude@redhat.com>
+Signed-off-by: Amit Sunil Dhamne <amitsd@google.com>
+Acked-by: Krzysztof Kozlowski <krzysztof.kozlowski@oss.qualcomm.com>
 ---
- drivers/usb/core/quirks.c | 3 +++
- 1 file changed, 3 insertions(+)
+ Documentation/devicetree/bindings/usb/maxim,max33359.yaml | 4 ++++
+ 1 file changed, 4 insertions(+)
 
-diff --git a/drivers/usb/core/quirks.c b/drivers/usb/core/quirks.c
-index c4d85089d19b1..9a81994ee725b 100644
---- a/drivers/usb/core/quirks.c
-+++ b/drivers/usb/core/quirks.c
-@@ -584,6 +584,9 @@ static const struct usb_device_id usb_quirk_list[] = {
- 	/* INTEL VALUE SSD */
- 	{ USB_DEVICE(0x8086, 0xf1a5), .driver_info = USB_QUIRK_RESET_RESUME },
+diff --git a/Documentation/devicetree/bindings/usb/maxim,max33359.yaml b/Documentation/devicetree/bindings/usb/maxim,max33359.yaml
+index 3de4dc40b79192b60443421b557bd2fb18683bf7..e652a24902eac93396fc61281cc9e2cb1d37a390 100644
+--- a/Documentation/devicetree/bindings/usb/maxim,max33359.yaml
++++ b/Documentation/devicetree/bindings/usb/maxim,max33359.yaml
+@@ -32,6 +32,9 @@ properties:
+     description:
+       Properties for usb c connector.
  
-+	/* Gigabyte ITE Tech. Castor3 (Aorus Waterforce X II AIO coolers) */
-+	{ USB_DEVICE(0x0414, 0x7a5e), .driver_info = USB_QUIRK_RESET },
++  vbus-supply:
++    description: Regulator to control sourcing Vbus.
 +
- 	{ }  /* terminating entry must be last */
- };
+ required:
+   - compatible
+   - reg
+@@ -53,6 +56,7 @@ examples:
+             reg = <0x25>;
+             interrupt-parent = <&gpa8>;
+             interrupts = <2 IRQ_TYPE_LEVEL_LOW>;
++            vbus-supply = <&chgin_otg_reg>;
  
+             connector {
+                 compatible = "usb-c-connector";
+
 -- 
-2.52.0
+2.53.0.rc2.204.g2597b5adb4-goog
+
 
