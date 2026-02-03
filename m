@@ -1,71 +1,70 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.7])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.21])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 54097396D09;
-	Tue,  3 Feb 2026 09:40:01 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.7
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A63CE30FF1E;
+	Tue,  3 Feb 2026 09:49:33 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.21
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1770111602; cv=none; b=biaXx/fLRKjuvL6xhu6UQv/CMVD5CkQbYMiY4/O0kQLkX+kWUjtesuuo95ndUhzkk9jiyK3eBotAGcE6qjh26S+kXaLCGuzbmu7Q2BwOHuLQEzhACCj1HLEA9vaVi9+MucgXdtJxx8/rdhKYY8qb9bcZtYO8AA1t+uNDsFmHYgE=
+	t=1770112175; cv=none; b=cLE8xB0I6HZQf8MpZURgyBCdIFGcwT56C9rjDZfg4iFKIXhihXf7HmialQ1TpqltzCVTVOUeq0ur5aEIFeQ6mCu1sT25YF+4Y2/nT9E7tt0vfZ1/W49A0FOqluHALGVIJvdbA7yQlAnPnVsIrRgbEGvtYnAMSH/ZSwVW4SC7KRI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1770111602; c=relaxed/simple;
-	bh=j4PVeRa+fJfHfjKSgXXVVZ2S/GOd4n0CnA0DfhaVwBU=;
+	s=arc-20240116; t=1770112175; c=relaxed/simple;
+	bh=Yvv8PdiJk4vferQPdXd1xsgzuanXzMbWFOfsBrfoLOM=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=OX3ct2tiTjyj03l8vXXBcRAbVBCvWHnRh3ebpzxDGvga2ducFs/GkXPGVQfQe2YDSjdM/C9bVmveR5WBqx39goX/Q1H4b5t40uevpqr+2uWRRWKvZUJOEme2kXx8cM/hgbcuQwY+7CCYFME5N3Ku/8gYcwxDucB8FHE0bBzLNDY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=pass smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=BXtyOJKl; arc=none smtp.client-ip=192.198.163.7
+	 Content-Type:Content-Disposition:In-Reply-To; b=VsIneYq/A3jHhRRifOa9B4vIaLBjNSqZfqGP6ZzcEGdEtb0SU0KP3X4UeiP/NWHxMlubpeDbXJ4DtgqkJt8lLm6zfCct0L3zJgR5wHl7NrySvNw1q4Jgo4nEmHOsLYNizgjNnexP+TJN/uOJgIIDkQeEvTv0pa2yFsmTRYeQgS0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=pass smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=RwGYWHD3; arc=none smtp.client-ip=198.175.65.21
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="BXtyOJKl"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="RwGYWHD3"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1770111602; x=1801647602;
+  t=1770112174; x=1801648174;
   h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=j4PVeRa+fJfHfjKSgXXVVZ2S/GOd4n0CnA0DfhaVwBU=;
-  b=BXtyOJKlDSwPaZqMR5xotV1VI9jiAbDIdEgx8p8mz4y01Opwaj56o4MP
-   OqN52SuCKKfvI8jApj9sbKfBv4silsKwDblWvvQtBiUSDj6bmwt1uecsc
-   0sTLhy3/zMTdMtPvDYDmTqPgjUb/TU0MuvPn8f1wxH585z7ncGhY/o1p9
-   et/hebOIXEAXrmsxVcqfYLoXDU0VdsA8Vwl+vNVxyN6VsQG+rg796/xdu
-   0DEXogTDA+qCvHVuE+xiBTZXQmodCLaSiQXghSVGrzPDFcudxREhOPAcp
-   SDz01jkBzszgXZx5h+K6x4JFXr7CwP1W7B8LM/GZx1yhuNIoG3kXCZGrd
-   A==;
-X-CSE-ConnectionGUID: y1vDTMkAQ3uYxMuwsyXAxA==
-X-CSE-MsgGUID: u+tiX19wT4ycc+5R8owy5g==
-X-IronPort-AV: E=McAfee;i="6800,10657,11690"; a="96735864"
+   mime-version:content-transfer-encoding:in-reply-to;
+  bh=Yvv8PdiJk4vferQPdXd1xsgzuanXzMbWFOfsBrfoLOM=;
+  b=RwGYWHD3p4M8FuP4t0+vNRw5G5jEV+xh9vXqhmgUy/cXJ4Sdo4yFuOPa
+   L7vVjJeu3vn7Un+JjHUwQT18Lrn/w3rHDVzCwGtkkg7nUsG2LvdIIhbV5
+   LSKDkIqRTQJby/OXJS4s9nPSx7bpFQWs2wJZZCBHXxeJyzWvDLDeSik7U
+   u+5NhbxfC24np5+3HUVdTFbvEtqs0HZONPx9tlFazWotJsUsMgl/KINdO
+   /FaI/vMvOvyEGwD8Cve4U8pltebk5CMv9Rd7bkkzpWH6QzY8G6GVIpbRN
+   hOXEnVCSc5rpdE7qyseoIFqBLjiX1CBvKzEoO2RWSVr2PeWDp9nmXpsgB
+   g==;
+X-CSE-ConnectionGUID: WkrSdiQtTBKvXc9hs5InSw==
+X-CSE-MsgGUID: Zh+znDpTSHWx3dW/IabATA==
+X-IronPort-AV: E=McAfee;i="6800,10657,11690"; a="71185739"
 X-IronPort-AV: E=Sophos;i="6.21,270,1763452800"; 
-   d="scan'208";a="96735864"
-Received: from orviesa005.jf.intel.com ([10.64.159.145])
-  by fmvoesa101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 03 Feb 2026 01:40:01 -0800
-X-CSE-ConnectionGUID: FGXX/W9IRuydwDBTgmTwoA==
-X-CSE-MsgGUID: iVdDi93cSKWWxYSAE30lmg==
+   d="scan'208";a="71185739"
+Received: from orviesa001.jf.intel.com ([10.64.159.141])
+  by orvoesa113.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 03 Feb 2026 01:49:33 -0800
+X-CSE-ConnectionGUID: xOfB06JITtCoOp841Qer0w==
+X-CSE-MsgGUID: wVyZksmhT5GQwaBw3xZcoQ==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.21,270,1763452800"; 
-   d="scan'208";a="214758183"
-Received: from black.igk.intel.com ([10.91.253.5])
-  by orviesa005.jf.intel.com with ESMTP; 03 Feb 2026 01:39:58 -0800
-Received: by black.igk.intel.com (Postfix, from userid 1001)
-	id 3C69795; Tue, 03 Feb 2026 10:39:57 +0100 (CET)
-Date: Tue, 3 Feb 2026 10:39:57 +0100
-From: Mika Westerberg <mika.westerberg@linux.intel.com>
-To: Jayi Li <lijiayi@kylinos.cn>
-Cc: "Chia-Lin Kao (AceLan)" <acelan.kao@canonical.com>,
-	Andreas Noever <andreas.noever@gmail.com>,
-	Mika Westerberg <westeri@kernel.org>,
-	Yehezkel Bernat <YehezkelShB@gmail.com>, linux-usb@vger.kernel.org,
-	linux-kernel@vger.kernel.org, Gil Fine <gil.fine@linux.intel.com>
-Subject: Re: [PATCH] thunderbolt: Fix PCIe device enumeration with delayed
- rescan
-Message-ID: <20260203093957.GD2275908@black.igk.intel.com>
-References: <aXbTfLUJ-lEfNzgX@acelan-Precision-5480>
- <20260126054231.GR2275908@black.igk.intel.com>
- <aXcWNw9Qfo5L9WVi@acelan-Precision-5480>
- <20260126115654.GS2275908@black.igk.intel.com>
- <aXg1eBudRAaCZpmR@acelan-Precision-5480>
- <20260127084513.GC2275908@black.igk.intel.com>
- <20260127101701.GI2275908@black.igk.intel.com>
- <aXrZK-WigVeqxBTT@acelan-Precision-5480>
- <20260129065003.GS2275908@black.igk.intel.com>
- <cd006977-513f-43d6-9238-1b9f39313976@kylinos.cn>
+   d="scan'208";a="247406072"
+Received: from pgcooper-mobl3.ger.corp.intel.com (HELO localhost) ([10.245.245.99])
+  by smtpauth.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 03 Feb 2026 01:49:29 -0800
+Date: Tue, 3 Feb 2026 11:49:26 +0200
+From: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
+To: Ethan Nelson-Moore <enelsonmoore@gmail.com>
+Cc: linux-usb@vger.kernel.org, netdev@vger.kernel.org,
+	Vadim Fedorenko <vadim.fedorenko@linux.dev>,
+	Andrew Lunn <andrew@lunn.ch>, Andrew Lunn <andrew+netdev@lunn.ch>,
+	"David S. Miller" <davem@davemloft.net>,
+	Eric Dumazet <edumazet@google.com>,
+	Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>,
+	Peter Korsgaard <peter@korsgaard.com>,
+	Steve Glendinning <steve.glendinning@shawell.net>,
+	Oliver Neukum <oneukum@suse.com>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	Oleksij Rempel <o.rempel@pengutronix.de>,
+	Max Schulze <max.schulze@online.de>,
+	Krzysztof =?utf-8?Q?Ha=C5=82asa?= <khalasa@piap.pl>
+Subject: Re: [PATCH net-next v4] net: usb: introduce usbnet_mii_ioctl helper
+ function
+Message-ID: <aYHEplTvRrfhCRQu@smile.fi.intel.com>
+References: <20260203013517.26170-1-enelsonmoore@gmail.com>
+ <aYGw80IvE0TG7WOx@smile.fi.intel.com>
+ <CADkSEUgmX1tk-qJ7ee=P3EYcvriW91nVJZ6AFDpVEVjj7O8pJg@mail.gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
@@ -74,45 +73,27 @@ List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <cd006977-513f-43d6-9238-1b9f39313976@kylinos.cn>
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <CADkSEUgmX1tk-qJ7ee=P3EYcvriW91nVJZ6AFDpVEVjj7O8pJg@mail.gmail.com>
+Organization: Intel Finland Oy - BIC 0357606-4 - c/o Alberga Business Park, 6
+ krs, Bertel Jungin Aukio 5, 02600 Espoo
 
-Hi,
+On Tue, Feb 03, 2026 at 12:49:57AM -0800, Ethan Nelson-Moore wrote:
+> On Tue, Feb 3, 2026 at 12:25 AM Andy Shevchenko
+> <andriy.shevchenko@linux.intel.com> wrote:
+> > > +extern int usbnet_mii_ioctl(struct net_device *net, struct ifreq *rq, int cmd);
+> >
+> > Do we still need to populate 'extern'? Can we get rid of this redundancy?
+> In my opinion, while you're right that it isn't necessary because all
+> functions (unlike variables) are implied to be extern, the use of
+> extern to indicate functions that are exported/intended to be part of
+> the API is a good idea.
 
-On Tue, Feb 03, 2026 at 05:04:53PM +0800, Jayi Li wrote:
-> > If you do this on Intel host do you see the same?
-> 
-> I also encountered a similar issue where the PCIe hotplug IRQ is not
-> received
-> after path setup completion. This was observed specifically during
-> Thunderbolt 3
-> device hotplug testing.
-> 
-> To investigate, I applied a debug patch (attached below) to dump
-> ADP_PCIE_CS_0.
-> I observed that when the issue occurs, the PCIe upstream port's LTSSM is not
-> in the DETECT state,
-> yet the PE (Port Enable) bit remains set to 1.
+I'm not sure. This makes it harder to read for no benefit. All non-static
+functions are part of the API.
 
-The PCIe Upstream Port is TB3 device?
+-- 
+With Best Regards,
+Andy Shevchenko
 
-For TB3 there is no LTTSM state in that register so the value you read can
-be anything.
 
-We can do it for USB4, like with this patch:
-
-https://lore.kernel.org/linux-usb/20260127094953.GF2275908@black.igk.intel.com/
-
-It should be modified so that it just checks for the USB4 side.
-
-> My workaround is to check the LTSSM state before the path setup.
-> If this specific anomaly is detected, I explicitly set PE to 0 to reset the
-> link state.
-> With this change, the link returns to the correct state. After the path
-> setup completes,
-> the PCIe hotplug IRQ is received correctly.
-> 
-> I'm not sure if this is relevant to this issue, but sharing just in case.
-
-Thanks for sharing!
-
-It could be. What device this is? 
