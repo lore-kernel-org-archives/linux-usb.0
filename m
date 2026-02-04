@@ -1,90 +1,116 @@
-Received: from a4i635.smtp2go.com (a4i635.smtp2go.com [158.120.82.123])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-qk1-f194.google.com (mail-qk1-f194.google.com [209.85.222.194])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A55F8158535
-	for <linux-usb@vger.kernel.org>; Wed,  4 Feb 2026 03:44:58 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=158.120.82.123
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1770176700; cv=none; b=tzsp5zt0rSL6nvjK7tVP95SLSbUFu9p4EB0IiribEaHckRoZNMXAlMg7xMoB5fy1ObsngeVi7NhUdT1e7zUmMhzr7DloiRHyczLVOwiEN/xYznRyeb84VOpRJCfZ47D/G6vVT0ej7XurCP45Q0e5SL8/W7ZzLDWTKD1JNGyho4c=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1770176700; c=relaxed/simple;
-	bh=qCxNbV4yZVn2dX6kAU93c08AZ2lXfknYpCjWEbIrzNo=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=OiHAZFo78GLaHfm6KiH5VT3koqQ5bxeKsTPJyDRR7/PCwRjE4yUynsfoROayYoW+PW2D6Ke5VtSHtam7IbbVBpYT3LGcfA2R6x+xAvC/lOudLfdraPyahSwCuXKz+2rDlb8rnFb9guXiVTSGlBVFi7pA5ZRw36yGte2FvltrjGU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=a1rm4x.com; spf=pass smtp.mailfrom=em938170.a1rm4x.com; dkim=pass (2048-bit key) header.d=a1rm4x.com header.i=@a1rm4x.com header.b=TEAck+hH; arc=none smtp.client-ip=158.120.82.123
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=a1rm4x.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=em938170.a1rm4x.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E57A51D61B7
+	for <linux-usb@vger.kernel.org>; Wed,  4 Feb 2026 03:46:43 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.222.194
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1770176805; cv=pass; b=UOCM0emzXXOI0QTFmHJQvG0iqQoYzL0HSjD0KXWW3wXGN1vpC1Ay27XEsyKz0rWM6gGiGviwzFLG7/alqWgR66UusfLDZ3qJbSECxJcVZSKniAASMwdLFy7EmDhO5/enMR4O2oJ6tUNLWMqMOInXKAU1q7GuPrWZeq9GTNSk70U=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1770176805; c=relaxed/simple;
+	bh=+zZ69uJdXjUv4UzmPsfk6198FDhvAKQzPdCVmWWhBg4=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=IIVvTWbuRJ0yJtmoKwjaVStqKiW37X56BJ89m3rmyu+m7z3G8TjdxZ0CLjQNkOi4VOa7tCdmg/nmdRqlsqjXVEl+KJApiO7WtQ7D3FMzxh+VHY7xMB7GMyNH9VLwfKQhgK7HlKXEI4zQksL9cgsac97qZ99pQc098te2A4AWQjY=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=ZxwnGbCt; arc=pass smtp.client-ip=209.85.222.194
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=a1rm4x.com header.i=@a1rm4x.com header.b="TEAck+hH"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=a1rm4x.com;
- i=@a1rm4x.com; q=dns/txt; s=s938170; t=1770175791; h=from : subject :
- to : message-id : date;
- bh=2GrKHkv/Zgf2VQ+fqdcFvgQEBZvm4VAIDZViPyKU5eY=;
- b=TEAck+hHoJGJQvjvVPFfuBQWexajv7iFd4TGj6EN9asspWsyT3gLDizJUWhVwe5Ljgue3
- 0zcbt8fJJTk4xEpSfPSocaiWCoin9G6thtQ7l2Q/BHBOsGbQ4Dz+7FbDO9u2bk0jS0H7HBJ
- 3Q4V0n3sVaUPWg0UuzIcwWT6Le4gclG2ZjrvzWz0C7oSs87QdPepq6SM3BQSa02qpgkSTQJ
- 5FsTT/PU7vOLyiJ5CblRS2+4+BfAeD2W/aqBPWHCTGXSvEttkcno0UIvGGT0kA7drQ20GE0
- iG2Wozez3uodfOBqjklhxZN4bU0gaYg3DmkxtHki3RRvKcf/5b4tdgZo5adA==
-Received: from [10.172.245.14] (helo=CachyOSBTW)
-	by smtpcorp.com with esmtpsa (TLS1.3:ECDHE_X25519__RSA_PSS_RSAE_SHA256__AES_256_GCM:256)
-	(Exim 4.99.1-S2G)
-	(envelope-from <A1RM4X@A1RM4X.com>)
-	id 1vnTaO-4o5NDgrhkvk-dU5O;
-	Wed, 04 Feb 2026 03:29:48 +0000
-From: A1RM4X <dev@a1rm4x.com>
-To: linux-usb@vger.kernel.org
-Cc: gregkh@linuxfoundation.org,
-	limiao@kylinos.cn,
-	oneukum@suse.com,
-	huanglei@kylinos.cn,
-	lijiayi@kylinos.cn,
-	dev@a1rm4x.com,
-	johannes.bruederl@gmail.com,
-	linux-kernel@vger.kernel.org
-Subject: [PATCH] usb: add QUIRK_NO_BOS for several devices
-Date: Tue,  3 Feb 2026 22:29:38 -0500
-Message-ID: <20260204032938.61553-1-dev@a1rm4x.com>
-X-Mailer: git-send-email 2.53.0
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="ZxwnGbCt"
+Received: by mail-qk1-f194.google.com with SMTP id af79cd13be357-8c7146b0854so707405485a.2
+        for <linux-usb@vger.kernel.org>; Tue, 03 Feb 2026 19:46:43 -0800 (PST)
+ARC-Seal: i=1; a=rsa-sha256; t=1770176803; cv=none;
+        d=google.com; s=arc-20240605;
+        b=KVZYW/7YS31WgV3iE81aeYDR8MmfrSwBSltpMeCh10i42V/VTg1c0CxXKYYyjinSZr
+         uCrDNLVBAgwzsoUP7++rUtFpITV6zkZkmVQ0mysUwGSgQVjAPjwF57kjTUKAMax9DLfD
+         Gb9Ypx5lcmpFFYpZ3L6COXgTV8ujomTn83TqqzxswMm1P291YyTUQGIexqNUk9Tzf2l6
+         97zgDNLUKnZL/3O8uxySBmW/dwyrR12Zdiu6I1nw2yMvOK+oxVtbjc6CxUmRYfxnbm4e
+         RuoY43UPSA8+JsW0KG196d+yglPGOXpZ1x/a3oG2qqIY4E5pBsM9acbSwc+EpV0kY0cp
+         bHUw==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:dkim-signature;
+        bh=+zZ69uJdXjUv4UzmPsfk6198FDhvAKQzPdCVmWWhBg4=;
+        fh=65PHb0nD7dl9Z6MWAtojt2ypKBNvvI85mDLKSNgEhFo=;
+        b=h6/A7bQmJHYvd4LN4oJQoZbd+pUiMSapbVSbVn4hYCB80jX/E0L2lW5M7C56qtLenY
+         M3out0ikUSW1sipnNCGgQAxkZhY+IHEkGCw6D4jTXq8Hd8g2AQBA/9XpxPljJtsk6Hqj
+         SHZZawPI1meCjNnPeJp1qnQWfohFll7YKaCdkz21aoY34xjnw7KqZqVdEYDPnTPBj3mP
+         jVFwpcIi7/J+tUPwtxgM7+r7GsIvubyKkoOZ7cs7ghEXlmIq8E+HBghVZmlhVZRQsxEC
+         /FAqDIQ6InmoYMZSDbHC8ICpZ27UhTd+FaZN+dH9j/W948eNfb6TzWhyGtHf66md/i7Z
+         LMwA==;
+        darn=vger.kernel.org
+ARC-Authentication-Results: i=1; mx.google.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1770176803; x=1770781603; darn=vger.kernel.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=+zZ69uJdXjUv4UzmPsfk6198FDhvAKQzPdCVmWWhBg4=;
+        b=ZxwnGbCtvsGKLAOXYinkyIhDTj7+3xhPmWY5LYOdl7qEK6TWfG8YA7xa/D4gh/KZZB
+         62mL/mseYDF2WMXS/jCfu70U9Qro4hc8TnEThmF6kbcclJT8gtdbdoEiZEVPnCct3Ojc
+         Lzy4MyhEbHUc2CNFTMyXCAUe2W2QLb1C1j0x/r1lPnC09IkUxfYr1PKo85XSCHrPZHfP
+         f1BVpeW8nPGjyPe/EtGj3yO/QESg9M0jEIr8PCqf1T+hvtO1ByYF2JT2xLYJnod9T3dD
+         WXiv/qegpinYeNO7pYfjoewjFniBtYOxyP7CVeEdBDhrifmWAzJBQ3nVLZmNtCH6Ofnn
+         ksSQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1770176803; x=1770781603;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
+         :to:cc:subject:date:message-id:reply-to;
+        bh=+zZ69uJdXjUv4UzmPsfk6198FDhvAKQzPdCVmWWhBg4=;
+        b=PlJepdo/SXxfCB6nElX7LIDEVzj6Bk3xZ0JHN0X4mn7m7TG7c51He2nSvieddlQEZ6
+         1Z/ge0gErUlWm+XrQd9TcHyx+8Z6Dlfgz9lr11vd2MGZXrIhNZmImR5ye4o4+3NzbaO9
+         FCZc93RbI1ZPENmiQNBi47irOMC6WJaqEmlYx01HBTRVNpZvGHfBsErHEuzkc9pempfz
+         2tQ1KWaWXkrwWkUUD+q3QmVwBybyt4+mjWFhbhe2e72PFjNBxtxAnswN2Hkvt72Yz7yS
+         h3hZhjwUfMMfE0ex7nWIREMUkoGkXPWAxAU+5UgDw/I7H4qrYnNOLOZsvkVDdFcg+QEL
+         pFVA==
+X-Gm-Message-State: AOJu0YxKGrXKIwMnHeocWFCyjWs7zyhr71f/2fmkx8LdJXDnVGF9Q75C
+	My6WGzDqjq2GVnsvEIqI2PaOXRO4i3owRsst7xuXiJ2gylfx32bAdcba630iE+5Cw692sH3w0SD
+	J2PpmCoARzw+lujaicBGmTkhKorw0rO/oeZj7
+X-Gm-Gg: AZuq6aIVQhmGfPb+3XfL/1atRqlzrssi8jP6rkp8izlNOiq1/5ci1Mjnhkc6TsroVNs
+	H8+Y/sJOhT2aci6eYhrGGx0UvFZnWyCarSD1byPPxcokgPhVkmJr9OfFM8PcmAy5yXfxOz7db3u
+	qiSsH78T3SDjpAnoo8OMwghinemA9z5wr0f4aVLFvlT/PsvpN5C205UKGNbGQxbir+Wkrri9Odr
+	7OP/BLJvjz7d4Xm/06K1GqdA9aLJLRFXrp6UpU792zIgKg2sGut9TA5SB4S/UUhBO9cIYecHnqy
+	2KYVRc+A55z7ND87Q4J382566L4yroCPb5nhDvbMhUkDyGmTDnwfqnwz
+X-Received: by 2002:a05:620a:2a07:b0:8c7:fdc:e871 with SMTP id
+ af79cd13be357-8ca2f861783mr230977685a.34.1770176802874; Tue, 03 Feb 2026
+ 19:46:42 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Report-Abuse: Please forward a copy of this message, including all headers, to <abuse-report@smtp2go.com>
-Feedback-ID: 938170m:938170ab7bWmC:938170sZy9LOp2eM
-X-smtpcorp-track: zfF0Yzv_n8rn.m5MuCUkz044R.4SRZPA7hAlA
+References: <20260203013924.28582-1-enelsonmoore@gmail.com>
+ <20260203194317.07432b29@kernel.org> <20260203194447.0ce4ffd7@kernel.org>
+In-Reply-To: <20260203194447.0ce4ffd7@kernel.org>
+From: Ethan Nelson-Moore <enelsonmoore@gmail.com>
+Date: Tue, 3 Feb 2026 19:46:32 -0800
+X-Gm-Features: AZwV_QjJJWZn3YATkwJHIc0Jls6kF3BwllQz6vEvZ-iE5Q2T_u_GTfWm_amU-cY
+Message-ID: <CADkSEUgoOyeUqGHXqimczdo1M0S6C20GOpKH5OuEeaRhFnSTDA@mail.gmail.com>
+Subject: Re: [PATCH net-next v3] net: usb: sr9700: remove code to drive
+ nonexistent multicast filter
+To: Jakub Kicinski <kuba@kernel.org>
+Cc: linux-usb@vger.kernel.org, netdev@vger.kernel.org, 
+	Simon Horman <horms@kernel.org>, Andrew Lunn <andrew+netdev@lunn.ch>, 
+	"David S. Miller" <davem@davemloft.net>, Eric Dumazet <edumazet@google.com>, 
+	Paolo Abeni <pabeni@redhat.com>, Oleksij Rempel <o.rempel@pengutronix.de>, 
+	Eric Biggers <ebiggers@google.com>, "Russell King (Oracle)" <rmk+kernel@armlinux.org.uk>, 
+	Peter Korsgaard <peter@korsgaard.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-Add QUIRK_NO_BOS entries for:
- * ASUS TUF 4K PRO (0x0b05:0x1ab9)
- * Avermedia Live Gamer Ultra 2.1 (0x07ca:0x2553)
- * UGREEN 35871 (0x2b89:0x5871)
+On Tue, Feb 3, 2026 at 7:44=E2=80=AFPM Jakub Kicinski <kuba@kernel.org> wro=
+te:
+>
+> On Tue, 3 Feb 2026 19:43:17 -0800 Jakub Kicinski wrote:
+> > Not sure these annotation on the get are useful
+>
+> * annotations on the review tags
+>
+> synapses misfiring over here.
 
-Signed-off-by: A1RM4X <dev@a1rm4x.com>
----
- drivers/usb/core/quirks.c | 9 +++++++++
- 1 file changed, 9 insertions(+)
+I will start moving them to the changelog in the future.
+Do you want me to send a new version with them removed, or are you
+going to do that when you add your tag? Either is fine with me.
 
-diff --git a/drivers/usb/core/quirks.c b/drivers/usb/core/quirks.c
-index c4d85089d19b..ddce45ce9f6c 100644
---- a/drivers/usb/core/quirks.c
-+++ b/drivers/usb/core/quirks.c
-@@ -453,6 +453,15 @@ static const struct usb_device_id usb_quirk_list[] = {
- 	/* Elgato 4K X - BOS descriptor fetch hangs at SuperSpeed Plus */
- 	{ USB_DEVICE(0x0fd9, 0x009b), .driver_info = USB_QUIRK_NO_BOS },
- 
-+	/* ASUS TUF 4K PRO - BOS descriptor fetch hangs at SuperSpeed Plus */
-+	{ USB_DEVICE(0x0b05, 0x1ab9), .driver_info = USB_QUIRK_NO_BOS },
-+
-+	/* Avermedia Live Gamer Ultra 2.1 (GC553G2) - BOS descriptor fetch hangs at SuperSpeed Plus */
-+	{ USB_DEVICE(0x07ca, 0x2553), .driver_info = USB_QUIRK_NO_BOS },
-+
-+	/* UGREEN 35871 - BOS descriptor fetch hangs at SuperSpeed Plus */
-+	{ USB_DEVICE(0x2b89, 0x5871), .driver_info = USB_QUIRK_NO_BOS },
-+
- 	/* Sony Xperia XZ1 Compact (lilac) smartphone in fastboot mode */
- 	{ USB_DEVICE(0x0fce, 0x0dde), .driver_info = USB_QUIRK_NO_LPM },
- 
--- 
-2.53.0
-
+Ethan
