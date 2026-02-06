@@ -1,66 +1,66 @@
-Received: from mail-wm1-f68.google.com (mail-wm1-f68.google.com [209.85.128.68])
+Received: from mail-wm1-f65.google.com (mail-wm1-f65.google.com [209.85.128.65])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 34476426EAB
-	for <linux-usb@vger.kernel.org>; Fri,  6 Feb 2026 14:50:47 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.68
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E713A428498
+	for <linux-usb@vger.kernel.org>; Fri,  6 Feb 2026 14:50:48 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.65
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1770389447; cv=none; b=BlVVUAV7aG/JUzaa8O2445wRW1iNySn3iraxP2PtcKokOuUKhTowsz4nrOI12Zbk91srSra03rOrprQLbyO+5QMGywsQJAn+yV+t19am2msxo9vD78vr3ZK/bqy4qy4QZMxk9pMSixp8ODCZd+yddIZjoo2okkZ7cfmkdtKCs40=
+	t=1770389449; cv=none; b=c6Lw9NmIHVxBJdm71mLsGEn4Y4ildll/PxkVdC/o9KuVPANtxV8SXUw7V10M7LGP48LrBUvZKmxXpdrSDE8xuKvQNRfA9RDXM/JRYbLyJ2RLGsXdmpdCimVhan430nX4odJPUDcSpSNL3d3R+Zpbnt3YY54KuDOO2NnrVgKqXR8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1770389447; c=relaxed/simple;
-	bh=xjSbwzZtG5gO7c0c14CObzQrxd0ynl2lj1Czc800QEA=;
+	s=arc-20240116; t=1770389449; c=relaxed/simple;
+	bh=UhlMaTJRZ9fLa8E4fuLuIg9nXiWgxX4wZpZOm+FPpVM=;
 	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
-	 In-Reply-To:To:Cc; b=kex9vM/8YFvu28NuuWYGefnIgFIhoeeT4FqeYz4HY1xd9R/TcF60yKyq8IHDTNAtiXGrIy+UymxYtFmhnXxLb6Scdf2UYnLxS2S38txRvjnqCRASNCkFEx4qK4DG6djGEQ0aTqkcpVUeag9YP1yjWbxsRPatMAyC0r2ZIpE00Ck=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=i0aorkFC; arc=none smtp.client-ip=209.85.128.68
+	 In-Reply-To:To:Cc; b=JpEVveNZtowaOkeVA7VdC/OEhQ07AFExfQiui1fXbePG8Ch8k0vkElLBWc0S8xOOokQkKq8HyyblF7FGPzNBLJWR4YDXxvjhcqxVKgZxZ5ftSeYXZ7UtNiiUakR1BkfS1p90HOP1NC5/JuyBhkvN24Zkp/jx2qmRwfhIZo5KJfs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=l3F17T1x; arc=none smtp.client-ip=209.85.128.65
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="i0aorkFC"
-Received: by mail-wm1-f68.google.com with SMTP id 5b1f17b1804b1-4806d23e9f1so25817425e9.2
-        for <linux-usb@vger.kernel.org>; Fri, 06 Feb 2026 06:50:47 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="l3F17T1x"
+Received: by mail-wm1-f65.google.com with SMTP id 5b1f17b1804b1-4801c2fae63so17769365e9.2
+        for <linux-usb@vger.kernel.org>; Fri, 06 Feb 2026 06:50:48 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1770389446; x=1770994246; darn=vger.kernel.org;
+        d=linaro.org; s=google; t=1770389447; x=1770994247; darn=vger.kernel.org;
         h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
          :mime-version:subject:date:from:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=/S0eg0m7isWhJo/g2N8HxsSID1GAb0gdwF9PpLKomXQ=;
-        b=i0aorkFCznCoPibSub6kpOKyeDFgw5BAx5m46zB8uf0JmChu/HrIa6mLHKmJSJfY+m
-         6rBYFgwgO0q6FG4WvR+q8EtB7oJaWn17GJ/GZIkWleOmyDAyj4mJmJ0uaIrPMVkR2Soc
-         VSYQMxUvKzoMw5S5Y/H6hHwckh7Fok8SghmJRtbxu1TO/8bno7LNk3ZNQWEjdWwRJdLB
-         tCV2tKH5QlzL1k6BRhICQmzaToV0BX3vvKZLfWCkFoHeGYHZZug+1nrqIioAFo6A3B0J
-         XC0r9UvK9B9VcxGoOKByiKXfSAcupguIGoF6aoIQu/sGan3So7ZLYq5hM0VNsanF74L8
-         hEjw==
+        bh=lZLm3gI01t7k0CB1F3RPdej8cy0OV8XKyJkxMLlBgyY=;
+        b=l3F17T1x5KmKDPKefmsOelWKnrkIGrn0+Tr36gcjkJ6TFZrRVMSXBRZcYQdIEJo0Zz
+         KDhSIfKvCYpuEQo/Lw0lgeZGJWPF64dQy2R0B/CHP+sBTfdkf2E0sU7F7X+VlP07K4Sg
+         9OGVa07wG8/BLOdb19Qy8TM46vtJiGb7FRAEAcaaaaHiBpYB1/XdgCT9ZFJb1hFpvzqW
+         nZwAyfNIfRJiGeYWweoQ9UYHSfxJRFOrjPZusbyOCxa37cmB9io8WvLUogWe8kbFvai7
+         yP2D3zeyP6vwL5bDnmjXiv4W1kqd3XTzh0v/tEPl9Ecm6dzZOI0Yea7R3Yue6Zpioiu+
+         YDGg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1770389446; x=1770994246;
+        d=1e100.net; s=20230601; t=1770389447; x=1770994247;
         h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
          :mime-version:subject:date:from:x-gm-gg:x-gm-message-state:from:to
          :cc:subject:date:message-id:reply-to;
-        bh=/S0eg0m7isWhJo/g2N8HxsSID1GAb0gdwF9PpLKomXQ=;
-        b=rfseuGXcwqqHzgtW99aE0Jdc1EvF8G+stFa1Hpwtu4eOPEI4w6e3mQEDMzKDfKlVPb
-         LQB/a1Mhh3mEzJLxJPVvi0VaqaprpVumUfrg27l9LaxL6nfLZrkQ+PbGUIzAuiqNE6Lv
-         6rTb7pCFb4yYcaJgKMFbFHflQmlSfFvEAEZHMW3CFQeA9cl6KPXSLl8d2EAP5Luh0LGQ
-         IqQhmcozvZ00BOHP/OVfDkc76brFcg2sbpQRC2EpdYwoCZFiCWy1QQ/MPMLhOICx1Zr+
-         trr3tu/y6rNBZrNLiMXzog7MBDm8pHbfITsySzuzr0uzZXMDdPEhEaOtJjWr/410fejH
-         bhDA==
-X-Gm-Message-State: AOJu0Yw8/4+fbQsHFR8Wn2mvjP+YIGtBMXetsnz1/M7uXPPEmJVCUrgz
-	qsphP/nRu9/Q7GaqI3fPLyanZdDss+aEkdj3NE+/NQtCMlbtwYyURhXUrqVG2RjNpx8=
-X-Gm-Gg: AZuq6aJCjNxk6Bq+EvYwj941RwmxZ8VWOhzhNpw0TsmAeyosQyUaF/qm2dYPEoM8r9U
-	FB6XqNmF9GFNb4nL+5b4lVKzZlUIK7O7VSaL0MGD0s+rg0ZN3zYcYObO2douLcndjhwwpWqqZdE
-	LHBqR7sSlbqUf3lbkkfLqAmuhD7pAvDBRSVh37b6MNv1VqBXmEWT/AXWQhEEtiJqsMNeKxepX9t
-	+vFKFZekFFOZSDG6GAfMdPf6l+gOaeagTdEZD3W7AtxQsR2x2chGhCxkurqUmd2e2/wLb1KEYzo
-	NiWJV/bDN8Ou5T5rC2+7ewgr6VVILkBXz2DJzI3HMQWTxOosaok1xBymHb+cO3tjJCwd5MIj5N6
-	glg33bgVwL2Yih3dc1H00TH7Fjh9Si4RMZRTspjy79hTp6OPqxFTnP88btE7npxL4LgpqHCmtrk
-	IV7Mg/yjGEyB/3OUml6VdZd8dqKRLe7Wgb
-X-Received: by 2002:a05:600c:3f08:b0:477:a246:8398 with SMTP id 5b1f17b1804b1-483201dcfc4mr45291315e9.2.1770389445562;
-        Fri, 06 Feb 2026 06:50:45 -0800 (PST)
+        bh=lZLm3gI01t7k0CB1F3RPdej8cy0OV8XKyJkxMLlBgyY=;
+        b=GoY/tOTwwjfzJcYlqsqw/6hY75xkGptyOoFkZLg6OJD0AZRuXmUE6pbMDB494Fxlu/
+         lQz2BG2ysLBfAkwpZ3SzgKZivly/sxVlCJPZ1K2wqFKFwxU9Dq/GX8IN5MLmZwA8FYGR
+         pXIt3dBhRO73RSBWqsPD2r+sNKMILZiuvc2MKtb13veI0swtvdghx/aTROCVqtKXBkUa
+         uNpInlfj4UA6DU+xf82EHhQ+8Ptwfr4lVs6y6bwJVLFcMQRgOGm1uoyAy1m3WYOftmxT
+         ZR8zvwAwqP+IoIM07ejLOuw+kCZe4pyY1szse7jjpOMP3auwjYGLZyyyF4MSY+1MFAFw
+         DQFA==
+X-Gm-Message-State: AOJu0YyN3eH6w8Fx5sVHRXoVhNB5rtzd0778VQKkC88RGLvSV3ChtCAs
+	JzbrEQZt4uxM5cYrvYXksuxwimciBB5cu69qMU2Wh5hMUUbFqtcMwVDt6F5E2N0xp4k=
+X-Gm-Gg: AZuq6aLSO6KTfAzjPWDFMi8vY9s3UeMO5lAs/UBeDuxhe7fpxgW/6YcE1WzeCQ6I+V/
+	ORxKyCbrKTOhx41D/elbZm5uC8ePAqXm9+iPv1jeoNHYinGM4an3WyJHiEHZzbVuM9OcpT86Z9o
+	n+mvrUphvKlFtZmOTMe8kdA0x93BsimKAlKOIZCWzU7q+p/3quFjOx2MyfC+FuLWmF2/buHchvQ
+	t5KsTRe9dqMJb9JpV1mIxI9hHZV+90zu36HlBJbs7aCEs7VQuG9pUfbk8/5Mk0FoCnCuo4G4tX0
+	T5J00ZYxaGsbEVYPlFFIKDQoMDKblGb8YuvneYWGvCl3b5QUYIuruR5c+vKG9HgTLZ3rB+eke5Y
+	uDSe2vFXUb3p/esCPpOYP0E6GepjUCePnrJzrE5uYA7XZB/b5wnlJFdqfY66I9eOyqNxFC7yMno
+	t02//+sY7AdNhlKX96wjhMm1h6UPmksE98
+X-Received: by 2002:a05:600c:c04b:20b0:477:7af8:c88b with SMTP id 5b1f17b1804b1-483201dd234mr30633915e9.11.1770389447403;
+        Fri, 06 Feb 2026 06:50:47 -0800 (PST)
 Received: from arrakeen.starnux.net ([2a01:e0a:106d:1080:8261:5fff:fe11:bdda])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-4832a38425asm3825805e9.7.2026.02.06.06.50.44
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-4832a38425asm3825805e9.7.2026.02.06.06.50.46
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 06 Feb 2026 06:50:45 -0800 (PST)
+        Fri, 06 Feb 2026 06:50:47 -0800 (PST)
 From: Neil Armstrong <neil.armstrong@linaro.org>
-Date: Fri, 06 Feb 2026 15:50:34 +0100
-Subject: [PATCH v3 6/9] dt-binding: vendor-prefixes: document the Ayaneo
- brand
+Date: Fri, 06 Feb 2026 15:50:36 +0100
+Subject: [PATCH v3 8/9] arm64: dts: qcom: sm8650: Add sound DAI prefix for
+ DP
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
@@ -69,7 +69,7 @@ List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20260206-topic-sm8650-ayaneo-pocket-s2-base-v3-6-5b79c5d61a03@linaro.org>
+Message-Id: <20260206-topic-sm8650-ayaneo-pocket-s2-base-v3-8-5b79c5d61a03@linaro.org>
 References: <20260206-topic-sm8650-ayaneo-pocket-s2-base-v3-0-5b79c5d61a03@linaro.org>
 In-Reply-To: <20260206-topic-sm8650-ayaneo-pocket-s2-base-v3-0-5b79c5d61a03@linaro.org>
 To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>, 
@@ -84,48 +84,49 @@ Cc: linux-usb@vger.kernel.org, devicetree@vger.kernel.org,
  linux-kernel@vger.kernel.org, linux-renesas-soc@vger.kernel.org, 
  linux-pci@vger.kernel.org, linux-arm-msm@vger.kernel.org, 
  Neil Armstrong <neil.armstrong@linaro.org>, 
- Krzysztof Kozlowski <krzysztof.kozlowski@oss.qualcomm.com>
+ Konrad Dybcio <konrad.dybcio@oss.qualcomm.com>, 
+ Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
 X-Mailer: b4 0.14.3
-X-Developer-Signature: v=1; a=openpgp-sha256; l=982;
+X-Developer-Signature: v=1; a=openpgp-sha256; l=911;
  i=neil.armstrong@linaro.org; h=from:subject:message-id;
- bh=xjSbwzZtG5gO7c0c14CObzQrxd0ynl2lj1Czc800QEA=;
- b=owEBbQKS/ZANAwAKAXfc29rIyEnRAcsmYgBphf+8g+1NPjgeJYwBAdgU+CA8HJk/PsNY/WtwXdyu
- i3Q1KXSJAjMEAAEKAB0WIQQ9U8YmyFYF/h30LIt33NvayMhJ0QUCaYX/vAAKCRB33NvayMhJ0TJiEA
- DK9zFBLu9rmXyXa5in0iqKaKheQVxSDqnHAbfbf3BXqiEmnHuedAe9egyNmclZSJ4NOohRn8GVe3pk
- ztmewIdHh/6pQLHWjZMt8i5/l2vXZ0wosRXVom0ot+22LwCh5oufi/RMCiJff+JhdM9Ru+epbf3KFM
- J1s1rIUMDnF/fd5N0Eu6BVklVQh2UIQCn0C1Ya4kAhj/6ElouepZllyAR/jaK5H6z4pNuu14imyfSW
- 38xlF8sBmpyXsoYXTZMRqe61qh5eR02Q4tZHjrK9QGPMWJkUtbKf1WzwJZ87M5O5aLuqnJtjTlv+j2
- NTy4RCxKQzMRLMK8qUOFZ+bsapALsB1ZOstCRRPKPCZRJgwLhkiT9kWltlsVqgj2yb1gaALM4MndTc
- 32X2SgvyxLg2lrxXoqBZUdxRx1ZJDSShwWZdZo8OyISYBoPbwEx2ZuwhWtXft1BHvjpvQlFLhkS1mP
- nvyF+1u5TbBY39cCom+gUh1Kkwx5o9Tz+w2+pQCAm0gUNuakVgGe8ABOHnPo7m6TrDtP2mHZByH3oC
- +7hvPhq+a1J6jKmkjqQbJCYRkZvAYykYHoU81FiPo4+EaOU4yVZkFXxOqX1Cm45FDeFk7N6MbpniOk
- zRFxYjShLB6j8itkdh1lveosi+F0TgjtrGcm82hsfNFR3yFBVTGjWvO+b7og==
+ bh=UhlMaTJRZ9fLa8E4fuLuIg9nXiWgxX4wZpZOm+FPpVM=;
+ b=owEBbQKS/ZANAwAKAXfc29rIyEnRAcsmYgBphf+9dOWkQJdFemEvoKTFH8uS+Q1yurC4xUWEq+04
+ Ez4l+PWJAjMEAAEKAB0WIQQ9U8YmyFYF/h30LIt33NvayMhJ0QUCaYX/vQAKCRB33NvayMhJ0SWWEA
+ Cllz+WrqIxsNn6L+HEzJo0XSTb99cY1OZnLekrQchzm8OSteWlk0Kkjo77xwJ3O0OckSF/v80Cqcar
+ BFD4sAhTbleidT1MrwOiI9kLphkIHuyce3SrFjA8H4BTI3fjHrdMPPU9DeS0jw0PgG3YZkIWhZZr5b
+ zLv6LfGiuvFkikodToYoH3vrbT/FzRSNWzh3W33qMUpfpVCzwtOgbcyFYcD/RuRmE//y4odhejSVRs
+ sWy10lGRKxgk1dLCZsTM8AnGXFTKI3/l1+GAhYYVKyTskZZFzhFyLQa4keb3+T5JeT3LtXFO+d7QdD
+ J9LEjWTlxcCiDl8gpLLGEGQCZr8llsp6ORuWu94QlTiGIHZdVxPMS0T03u2y4j/n8IF3cFIrKzzU79
+ 5CHgeY9Rphxai1kHkQoYMNRN4sP9UTfj/tpH6SvJB5Vjsfz87PrjfU6tx3jLPlaiCXDUpEdZAramb0
+ fSSj4hJ+QCI2dH/kjrpPOCewEv2EiyyHjRQRGnckASODzh0Ah37uY727Yi9L8Zxsj04ubdKWzTtQ77
+ 6j4UKKPiNDJ3JmFzfJFOfZrKneNLTXQnQUpbs2x4RBBcKqQE3EHyN6jjzfPyWCaxY/jTtmXrX5Yun8
+ VMctwj3AjUmzm3OwGz0p6iHVDwiWB2qOyRTUzKx5NeIXqWw6/PXzpfyMlQdA==
 X-Developer-Key: i=neil.armstrong@linaro.org; a=openpgp;
  fpr=89EC3D058446217450F22848169AB7B1A4CFF8AE
 
-Document the Ayaneo from the Anyun Intelligent Technology
-(Hong Kong) Co., Ltd company.
-Website: https://www.ayaneo.com/product/ayaneobrand.html
+Sound DAI devices exposing same set of mixers, e.g. each DisplayPort
+controller, need to add dedicated prefix for these mixers to avoid
+conflicts and to allow ALSA to properly configure given instance.
 
-Acked-by: Krzysztof Kozlowski <krzysztof.kozlowski@oss.qualcomm.com>
+Reviewed-by: Konrad Dybcio <konrad.dybcio@oss.qualcomm.com>
+Reviewed-by: Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
 Signed-off-by: Neil Armstrong <neil.armstrong@linaro.org>
 ---
- Documentation/devicetree/bindings/vendor-prefixes.yaml | 2 ++
- 1 file changed, 2 insertions(+)
+ arch/arm64/boot/dts/qcom/sm8650.dtsi | 1 +
+ 1 file changed, 1 insertion(+)
 
-diff --git a/Documentation/devicetree/bindings/vendor-prefixes.yaml b/Documentation/devicetree/bindings/vendor-prefixes.yaml
-index c7591b2aec2a..45fb1a3a3a06 100644
---- a/Documentation/devicetree/bindings/vendor-prefixes.yaml
-+++ b/Documentation/devicetree/bindings/vendor-prefixes.yaml
-@@ -217,6 +217,8 @@ patternProperties:
-     description: Axiado Corporation
-   "^axis,.*":
-     description: Axis Communications AB
-+  "^ayaneo,.*":
-+    description: Anyun Intelligent Technology (Hong Kong) Co., Ltd
-   "^azoteq,.*":
-     description: Azoteq (Pty) Ltd
-   "^azw,.*":
+diff --git a/arch/arm64/boot/dts/qcom/sm8650.dtsi b/arch/arm64/boot/dts/qcom/sm8650.dtsi
+index a7a06f78e564..6098d6201002 100644
+--- a/arch/arm64/boot/dts/qcom/sm8650.dtsi
++++ b/arch/arm64/boot/dts/qcom/sm8650.dtsi
+@@ -5773,6 +5773,7 @@ mdss_dp0: displayport-controller@af54000 {
+ 				phy-names = "dp";
+ 
+ 				#sound-dai-cells = <0>;
++				sound-name-prefix = "DisplayPort0";
+ 
+ 				status = "disabled";
+ 
 
 -- 
 2.34.1
