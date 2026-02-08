@@ -1,75 +1,149 @@
-Received: from hosting4.idealhosting.org (hosting4.idealhosting.org [185.87.26.194])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-qv1-f44.google.com (mail-qv1-f44.google.com [209.85.219.44])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D51331ACEDF
-	for <linux-usb@vger.kernel.org>; Sun,  8 Feb 2026 12:55:46 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.87.26.194
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E6E101C6B4
+	for <linux-usb@vger.kernel.org>; Sun,  8 Feb 2026 14:47:49 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.219.44
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1770555348; cv=none; b=f7gealHrI3oyTS1bOuEAUxxkMur1n+URF6ZX3cHBjK9wHiA6B651Vd/UWvOa1QjGYuUruyB9pB0NgZfw+hGyKUcglzB1Y6cVs/EqP/3N/gOpnfUsbRJOiyjOhzfKLUoXgimwj71pC8lrzLB+Wml8zdQfgo7KeZYv5C61pSxt7MY=
+	t=1770562070; cv=none; b=LVbPnmg94gC1AvkgAshuh7Nrr7a29hNCjt62YnzRm4LtaQpQoW3N4gYBKLhlnGGLi48EqS6Tlfi7E/qM8KEFBoahleqJVKu9XCPzaZ9Ydi2MNFkomlFAWpNvx/Al8zDwYHvDDtRrpodpQ+OtYCq6fq1seX/w132rArUH/z8x+iI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1770555348; c=relaxed/simple;
-	bh=JExkBDb+FhnDhbnHIRgecQ7xFnq9d0/tC0z32LDSHDY=;
-	h=From:To:Subject:Date:Message-ID:MIME-Version:Content-Type; b=si6EQFv3hhBDTrx60rp7oVuvmX/9++cegQEb8e9K5RGmSUKbIx7j5D3PYMyMyVfS6lir1xioQS59allbYHqhg4NWKQsP18Gfg9S7/v088DGk/mUok6JsMDqBYxzmfrZNoG/6HBL/EzdJWttqQ208NpmPOkoLaeMBBEoHG4220rE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=investurk.com.tr; spf=fail smtp.mailfrom=investurk.com.tr; dkim=pass (2048-bit key) header.d=investurk.com.tr header.i=@investurk.com.tr header.b=vVatcZON; arc=none smtp.client-ip=185.87.26.194
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=investurk.com.tr
-Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=investurk.com.tr
+	s=arc-20240116; t=1770562070; c=relaxed/simple;
+	bh=U9b15+I/4hgieeATc22/j/H7wME6jqaUG0c3GEvfn2Y=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=S28TM56zIdyATrvnuEmBkX85MhoBrfRlGjWfQHKPckq5UkTuHhI5hCg33GoOaR0KMlfYUjSKJTpOy3l431LvBlyI6s+Iofuq5/syqrNWUsyQEyDYp1SH6/yv1f9H3Px+Q5jVhtFRUtO/NlBvdK5zDwIggaNQFkezw8LetIBpdSg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=rowland.harvard.edu; spf=fail smtp.mailfrom=g.harvard.edu; dkim=pass (2048-bit key) header.d=rowland.harvard.edu header.i=@rowland.harvard.edu header.b=tZT1AkeR; arc=none smtp.client-ip=209.85.219.44
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=rowland.harvard.edu
+Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=g.harvard.edu
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=investurk.com.tr header.i=@investurk.com.tr header.b="vVatcZON"
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=investurk.com.tr; s=default; h=Content-Transfer-Encoding:Content-Type:
-	MIME-Version:Message-ID:Date:Subject:To:From:Reply-To:Sender:Cc:Content-ID:
-	Content-Description:Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc
-	:Resent-Message-ID:In-Reply-To:References:List-Id:List-Help:List-Unsubscribe:
-	List-Subscribe:List-Post:List-Owner:List-Archive;
-	bh=JExkBDb+FhnDhbnHIRgecQ7xFnq9d0/tC0z32LDSHDY=; b=vVatcZONNnqvFESMF1vCws2XOE
-	/r56tFJHlRYYNDh+R/HxgAWhF3kJv6OyIYyqkUPv32OaWbCRjda+jvCmeIcHu0iCm1efVWvzTRrn3
-	CmVwkz54JivDtA5zOGLULuL/PdSHRPfj7CPzRRggPYP00/m6Ck67+X3qbweg/Vu39aoLq9G9YLYwo
-	b6s2T6+rSHyKSrm9ih+SO8N+WTXpXDBar145ktxVSnFklH8/3YmH7dvD/qodR4CmlMco4MtpwUCIA
-	aC/LJHqSbNp9oWZvNyL2ME+ozPp33p5mu2UK7Z7CwOFCkU1qX/+oXCzsBymLJUtpmgSb10uHP0he+
-	MJKs076A==;
-Received: from [130.131.125.197] (port=53707)
-	by hosting4.idealhosting.org with esmtpsa  (TLS1.2) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
-	(Exim 4.96.2)
-	(envelope-from <emreaydin@investurk.com.tr>)
-	id 1vp4KF-00Ct46-0L
-	for linux-usb@vger.kernel.org;
-	Sun, 08 Feb 2026 15:55:43 +0300
-Reply-To: mrdhakergnaba@centfinancialslt.com
-From: emreaydin@investurk.com.tr
-To: linux-usb@vger.kernel.org
-Subject: 2.5% Interest Rate financing
-Date: 8 Feb 2026 12:55:43 +0000
-Message-ID: <20260208125543.EB18B13843B1094C@investurk.com.tr>
+	dkim=pass (2048-bit key) header.d=rowland.harvard.edu header.i=@rowland.harvard.edu header.b="tZT1AkeR"
+Received: by mail-qv1-f44.google.com with SMTP id 6a1803df08f44-896fa834290so4274436d6.1
+        for <linux-usb@vger.kernel.org>; Sun, 08 Feb 2026 06:47:49 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=rowland.harvard.edu; s=google; t=1770562069; x=1771166869; darn=vger.kernel.org;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=xp9MhrSmHRJJVHNx4gX5aDap1N1pfiJxz45voArw034=;
+        b=tZT1AkeR1ytDpNGi6awsjKsbtUMQl9gBqyBK6bVekmVZfdFw4ddjRNJwQdGMxCWe9Q
+         f/VObndrMY0emMzM8ZC7kFVcIsrC9BODXUxqZ2410xuDY3AyvSgOZqeEfTHfMNVIRodd
+         xd0iiviRx+h6WmlzFkZyvPO5664yFfJ/eV+fXWOMII/Pu6F9gt7l/rN0Oggp5y1qQn+8
+         3ulRbiR4Lz6hU43245Va1Dgh0cPfY4/iHEkWcKY5S5vYCvDJLsp5kz3BR4uPoHYD0oiG
+         7blmY53oc3ovPSy7eWYNkijCbr1mN1R9HLL32y9FUg5frOk3SSdwZ4adAcGvX0CEtTWX
+         pQiw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1770562069; x=1771166869;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-gg:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=xp9MhrSmHRJJVHNx4gX5aDap1N1pfiJxz45voArw034=;
+        b=WjKwtUxjyFszsjV4WJteHk5+PLW28Q1DoUPlha+LjWBT9YRYDSyQXOj8VRBxPthNxp
+         1iqjgqg2mWUsQKw65KalmVlquAFjqSLTxrWlCrl2dtZpRGrty0T/DHLj+tqVB4k2WZJR
+         77EG5KXMzniG3/YJptA2qdsJWXpwp9x0wk4SNj1lcSVn++20po7CNVteSuVt9g2iSquN
+         jIzy1FogYFhtSLCxZyCKWBpPJrWvTT/HnsjIApdZ2J1EfthckVvqpZnF6za/7qm4Dk04
+         cgUQyE3X9V7B5TXJeilA4a2cQCIVU2TaIr2ZFaRdU4y4ypxAf2b8RRVjxQl8yJJfuD5e
+         sFnA==
+X-Forwarded-Encrypted: i=1; AJvYcCUIJAXHgBqwiG+mZtPKKOLadOiGEN/adRqpJap+YuN/ewFmCxe+gX5rjlHI/FL2IYBJ8+FeCB9Tp/U=@vger.kernel.org
+X-Gm-Message-State: AOJu0YwzMu+JqA90mSD6Z5rw50/Icxk7PAD3FIVRQV38yPbIvps+cmK6
+	d8Wu7BM/7b1ND45AFnWn0YwGrfmpfKWvxrT+hFqwn9kRkuQU7qoc60dXFdYbwb66kg==
+X-Gm-Gg: AZuq6aJgEa4VLvJsnkPjxC93GVjQ7d6IBGRcTzY+DGzxPmSbyFvuaT1W8WG2RG3TxBD
+	HNhvWSXYkarD0Cy1KYjpkTFJEW/44yDUMwmqmhyaj0e3G67VhkQNYhEuMpkA+Z7pFxgDmIr8D6+
+	CvisI6KmTMZzxfxgof8ngu+uSa7GTq56j59g+WFy/6Mdr39VTEaTVA5o9Ud7KwnOj9j68xXfpAp
+	3xFDPaD0rRCij4C/79ugsorvnEea961YZjiOtYUH11Ny0QlDFu8UYKA5gvS3Tyap4e9IH8O1Eya
+	sjI665Lsf20x0wHtCfCf7VWd9q0HNa1dlZ4isqf9mEH4GoCAhTdZfuqrCF4F1jzjOf8OBViwuVS
+	cDi/R3RPrGvUEs1tL+7sAT6SzUBDbufZtdBdqpVDwUYwbHXK2KtW0BJ6TmpanJ01ShQQRRVgDI1
+	LVIJ7rVCF+8P7+
+X-Received: by 2002:a05:6214:f21:b0:896:fb99:f692 with SMTP id 6a1803df08f44-896fb9a8f86mr14805046d6.0.1770562068860;
+        Sun, 08 Feb 2026 06:47:48 -0800 (PST)
+Received: from rowland.harvard.edu ([2601:19b:d03:1700::94e8])
+        by smtp.gmail.com with ESMTPSA id 6a1803df08f44-89546b09f77sm42179576d6.31.2026.02.08.06.47.47
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sun, 08 Feb 2026 06:47:48 -0800 (PST)
+Date: Sun, 8 Feb 2026 09:47:45 -0500
+From: Alan Stern <stern@rowland.harvard.edu>
+To: Hillf Danton <hdanton@sina.com>
+Cc: syzbot <syzbot+25ba18e2c5040447585d@syzkaller.appspotmail.com>,
+	Michal Pecio <michal.pecio@gmail.com>,
+	Ben Greear <greearb@candelatech.com>,
+	Oliver Neukum <oneukum@suse.com>, linux-kernel@vger.kernel.org,
+	linux-usb@vger.kernel.org, syzkaller-bugs@googlegroups.com
+Subject: Re: [syzbot] [usb?] INFO: task hung in usb_bulk_msg (2)
+Message-ID: <17f32422-a93b-492b-a879-ff0a9469b668@rowland.harvard.edu>
+References: <69882e77.a00a0220.34fa92.003d.GAE@google.com>
+ <20260208085532.2639-1-hdanton@sina.com>
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain;
-	charset="utf-8"
-Content-Transfer-Encoding: quoted-printable
-X-AntiAbuse: This header was added to track abuse, please include it with any abuse report
-X-AntiAbuse: Primary Hostname - hosting4.idealhosting.org
-X-AntiAbuse: Original Domain - vger.kernel.org
-X-AntiAbuse: Originator/Caller UID/GID - [47 12] / [47 12]
-X-AntiAbuse: Sender Address Domain - investurk.com.tr
-X-Get-Message-Sender-Via: hosting4.idealhosting.org: authenticated_id: emreaydin@investurk.com.tr
-X-Authenticated-Sender: hosting4.idealhosting.org: emreaydin@investurk.com.tr
-X-Source: 
-X-Source-Args: 
-X-Source-Dir: 
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20260208085532.2639-1-hdanton@sina.com>
 
-Dear Sir/Madam,
+On Sun, Feb 08, 2026 at 04:55:30PM +0800, Hillf Danton wrote:
+> > Date: Sat, 07 Feb 2026 22:34:31 -0800
+> > Hello,
+> > 
+> > syzbot found the following issue on:
+> > 
+> > HEAD commit:    da87d45b1951 usb: typec: ucsi: Add Thunderbolt alternate m..
+> > git tree:       https://git.kernel.org/pub/scm/linux/kernel/git/gregkh/usb.git usb-testing
+> > console output: https://syzkaller.appspot.com/x/log.txt?x=15ee9402580000
+> > kernel config:  https://syzkaller.appspot.com/x/.config?x=a04e768f944f1aa0
+> > dashboard link: https://syzkaller.appspot.com/bug?extid=25ba18e2c5040447585d
+> > compiler:       gcc (Debian 14.2.0-19) 14.2.0, GNU ld (GNU Binutils for Debian) 2.44
+> > syz repro:      https://syzkaller.appspot.com/x/repro.syz?x=137967fa580000
+> > C reproducer:   https://syzkaller.appspot.com/x/repro.c?x=142fab22580000
+> > 
+> If the hung can be reproduced with PREEMPT(full) instead of (voluntary), this is
+> a better case for spotting the reason why the underlying hardware failed to
+> response within two minutes.
 
-Warm greetings from Cent Financial Solution LLC.
+What hardware are you talking about?  This test doesn't involve any 
+specific hardware.
 
-We would be pleased to hear from you should you or your client
-have a viable project requiring funding. Please feel free to
-contact us to discuss potential opportunities for collaboration.
+Let's get some diagnostics.
 
-Yours sincerely,
+Alan Stern
 
-Mr. Dhaker Gnaba
-Director
-Cent Financial Solution LLC
+#syz test: https://git.kernel.org/pub/scm/linux/kernel/git/gregkh/usb.git da87d45b1951
+
+Index: usb-devel/drivers/usb/class/usbtmc.c
+===================================================================
+--- usb-devel.orig/drivers/usb/class/usbtmc.c
++++ usb-devel/drivers/usb/class/usbtmc.c
+@@ -1362,7 +1362,6 @@ static int send_request_dev_dep_msg_in(s
+ 		data->bTag++;
+ 
+ 	kfree(buffer);
+-	if (retval < 0)
+ 		dev_err(&data->intf->dev, "%s returned %d\n",
+ 			__func__, retval);
+ 
+@@ -1404,7 +1403,7 @@ static ssize_t usbtmc_read(struct file *
+ 	if (count > INT_MAX)
+ 		count = INT_MAX;
+ 
+-	dev_dbg(dev, "%s(count:%zu)\n", __func__, count);
++	dev_info(dev, "%s(count:%zu)\n", __func__, count);
+ 
+ 	retval = send_request_dev_dep_msg_in(file_data, count);
+ 
+@@ -1425,7 +1424,7 @@ static ssize_t usbtmc_read(struct file *
+ 			      buffer, bufsize, &actual,
+ 			      file_data->timeout);
+ 
+-	dev_dbg(dev, "%s: bulk_msg retval(%u), actual(%d)\n",
++	dev_info(dev, "%s: bulk_msg retval(%u), actual(%d)\n",
+ 		__func__, retval, actual);
+ 
+ 	/* Store bTag (in case we need to abort) */
+@@ -1470,7 +1469,7 @@ static ssize_t usbtmc_read(struct file *
+ 
+ 	file_data->bmTransferAttributes = buffer[8];
+ 
+-	dev_dbg(dev, "Bulk-IN header: N_characters(%u), bTransAttr(%u)\n",
++	dev_info(dev, "Bulk-IN header: N_characters(%u), bTransAttr(%u)\n",
+ 		n_characters, buffer[8]);
+ 
+ 	if (n_characters > remaining) {
+
