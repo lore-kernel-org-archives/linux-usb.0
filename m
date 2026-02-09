@@ -1,89 +1,63 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from vps0.lunn.ch (vps0.lunn.ch [156.67.10.101])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 022EB36BCF5
-	for <linux-usb@vger.kernel.org>; Mon,  9 Feb 2026 13:40:51 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F11463793DF;
+	Mon,  9 Feb 2026 13:56:11 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=156.67.10.101
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1770644452; cv=none; b=EUFkVl15cq7Hv19Qq9HP/QNIoY5/eIF40l2wfaVALkDDl172f3jnPtoUxVN9rYqhuM/pFFvNSyHEXtHzQTPkj4wxryviRXpp2eqkbYE1NgcNYku56APeffaQeinG4XrM3MC6LvkoxffYcixbwUkQ6VCt7xyaafr7GSa1BNBP1VA=
+	t=1770645372; cv=none; b=RcuoSWutSWZ2QYcwKshTreNXoS9eQOIS6UDqA7KfZy0psHcRrJMP7Oamd2QnA3mh9ETnrXjPm5US5tWf1EjY7d8Yvv/fow5lqKjlJI1HlKNW7WN6Z+m5lXP43A5uuRxd47+FRCWnZB0/HpsksYcWyBDVfMPnRz14hOHmiUy+uNM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1770644452; c=relaxed/simple;
-	bh=WF61ypo5YbAtEwNx38uiJegRKr7lUECFiozJBBJeuVk=;
-	h=From:To:Subject:Date:Message-ID:In-Reply-To:References:
-	 Content-Type:MIME-Version; b=bahyFsszFhwBcs8CbI9s4CmZhCK07n6yz0ZUe7mV7p8taRjl72Er683fGAL7qvAkk7Ex0WbkO7MAYnFUoAvjFj6m6jKXhIhnhJzbr8YO85fafb9XASfvvBoMaRFEJYHKkViZ3CUGQjkja/ix313+NrgPZSE8lRBmK6/agEuqNiU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Xay/mUlX; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1770645372; c=relaxed/simple;
+	bh=rBL1bBvkjTPgCykjgiqbVv+dDMCeoT/dfKbtap1Pryg=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=FrulAoupnFqmsILwaCMANA/GAg/leY1QUOKoWwWT3jgjzxHoaLIZ1Kcl/Otn5MmDeHkjn5ZNAUvJG0mFKAhTN610dLTAWw1aY2l62USU6iR3W3eQcn4y7qsadXQb82XoGYWSZY4w/EVF9A5DvY7jLnp/btjVAZRCpE6oH5rgXU4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lunn.ch; spf=pass smtp.mailfrom=lunn.ch; dkim=pass (1024-bit key) header.d=lunn.ch header.i=@lunn.ch header.b=tYTQv7n9; arc=none smtp.client-ip=156.67.10.101
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lunn.ch
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=lunn.ch
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Xay/mUlX"
-Received: by smtp.kernel.org (Postfix) with ESMTPS id 95643C19423
-	for <linux-usb@vger.kernel.org>; Mon,  9 Feb 2026 13:40:51 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1770644451;
-	bh=WF61ypo5YbAtEwNx38uiJegRKr7lUECFiozJBBJeuVk=;
-	h=From:To:Subject:Date:In-Reply-To:References:From;
-	b=Xay/mUlX1+pUvaGKtA3kw68pwfNlJYBPVhA7w2EU11bSI+02elsetOngxP/kju+oU
-	 MYeJ0KiNS0Rl24L6RZLRXwDA8nOdUNg8ityUr8Ef6MFeri0+8MlGm2Dwn9ajcVwGTC
-	 nIKIAnHckfKrrmnbyCh2H7B5QNrIYejFWQ4+5Dpj97oRLIDGHyIomeeHki4KmMwoj9
-	 PVlvL+dWqAxfxpZawYW8yPTLnkjqhihMROwhE0/OCBZiv7YReFO/kfZAo5wMGGBlTQ
-	 T2uk/ALEfcRS6fO/yOQa2gQGVJxuLRRFY6dS+Lp6C7rGRJslQaluYWY2hAI6Hm/xxb
-	 08+2v4+cddDKA==
-Received: by aws-us-west-2-korg-bugzilla-1.web.codeaurora.org (Postfix, from userid 48)
-	id 89753C53BBF; Mon,  9 Feb 2026 13:40:51 +0000 (UTC)
-From: bugzilla-daemon@kernel.org
-To: linux-usb@vger.kernel.org
-Subject: [Bug 221022] [REGRESSION] Kernel panic in ucsi_reset_ppm on 6.1.0-42
- after HP USB-C Dock G5 firmware update
-Date: Mon, 09 Feb 2026 13:40:51 +0000
-X-Bugzilla-Reason: None
-X-Bugzilla-Type: changed
-X-Bugzilla-Watch-Reason: AssignedTo drivers_usb@kernel-bugs.kernel.org
-X-Bugzilla-Product: Drivers
-X-Bugzilla-Component: USB
-X-Bugzilla-Version: 2.5
-X-Bugzilla-Keywords: 
-X-Bugzilla-Severity: low
-X-Bugzilla-Who: regressions@leemhuis.info
-X-Bugzilla-Status: NEW
-X-Bugzilla-Resolution: 
-X-Bugzilla-Priority: P3
-X-Bugzilla-Assigned-To: drivers_usb@kernel-bugs.kernel.org
-X-Bugzilla-Flags: 
-X-Bugzilla-Changed-Fields: cc
-Message-ID: <bug-221022-208809-fFFxSHLpQw@https.bugzilla.kernel.org/>
-In-Reply-To: <bug-221022-208809@https.bugzilla.kernel.org/>
-References: <bug-221022-208809@https.bugzilla.kernel.org/>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-X-Bugzilla-URL: https://bugzilla.kernel.org/
-Auto-Submitted: auto-generated
+	dkim=pass (1024-bit key) header.d=lunn.ch header.i=@lunn.ch header.b="tYTQv7n9"
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=lunn.ch;
+	s=20171124; h=In-Reply-To:Content-Disposition:Content-Type:MIME-Version:
+	References:Message-ID:Subject:Cc:To:From:Date:From:Sender:Reply-To:Subject:
+	Date:Message-ID:To:Cc:MIME-Version:Content-Type:Content-Transfer-Encoding:
+	Content-ID:Content-Description:Content-Disposition:In-Reply-To:References;
+	bh=kacjq2rEcfQB30IBAxC28QfPwUJPcJ/L6ti1cdxg2ME=; b=tYTQv7n9d34Tc3ERpKjTpLAREf
+	u+uy40WbpgRgG5Q711xisNoXonQVrgM7Av/tV6101c3qzkbSq6Kz0VmM6Exn5vt/6Zrnzvlm0zIZ/
+	xcrVsQDSckspPS4JcQD0Ijyp85mF/Xv39BdPSLpHwPVzMiRYorE0bKth3vwNumgOZqC4=;
+Received: from andrew by vps0.lunn.ch with local (Exim 4.94.2)
+	(envelope-from <andrew@lunn.ch>)
+	id 1vpRkB-006jGu-61; Mon, 09 Feb 2026 14:56:03 +0100
+Date: Mon, 9 Feb 2026 14:56:03 +0100
+From: Andrew Lunn <andrew@lunn.ch>
+To: Ziyi Guo <n7l8m4@u.northwestern.edu>
+Cc: Andrew Lunn <andrew+netdev@lunn.ch>,
+	"David S . Miller" <davem@davemloft.net>,
+	Eric Dumazet <edumazet@google.com>,
+	Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>,
+	linux-usb@vger.kernel.org, netdev@vger.kernel.org,
+	linux-kernel@vger.kernel.org
+Subject: Re: [PATCH] net: usb: kaweth: remove TX queue manipulation in
+ kaweth_set_rx_mode
+Message-ID: <d697a88f-dd8c-4ec1-ae4d-c97578a98498@lunn.ch>
+References: <20260209053013.1701134-1-n7l8m4@u.northwestern.edu>
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20260209053013.1701134-1-n7l8m4@u.northwestern.edu>
 
-https://bugzilla.kernel.org/show_bug.cgi?id=3D221022
+On Mon, Feb 09, 2026 at 05:30:13AM +0000, Ziyi Guo wrote:
+> kaweth_set_rx_mode(), the ndo_set_rx_mode callback, calls
+> netif_stop_queue() and netif_wake_queue(). These are TX queue flow
+> control functions unrelated to RX multicast configuration.
 
-The Linux kernel's regression tracker (Thorsten Leemhuis) (regressions@leem=
-huis.info) changed:
+I think there needs to be a better explanation why it is safe to
+remove these stop and wake queue operations. r8152 does the same. Is
+it also broken? Rather than removing these, should we actually be
+waiting for the completion of the urb?
 
-           What    |Removed                     |Added
-----------------------------------------------------------------------------
-                 CC|                            |regressions@leemhuis.info
-
---- Comment #1 from The Linux kernel's regression tracker (Thorsten Leemhui=
-s) (regressions@leemhuis.info) ---
-Could you please bisect and check if mainline is affected, too? See
-https://docs.kernel.org/admin-guide/verify-bugs-and-bisect-regressions.html=
- for
-details. And a more complete stack trace when things hang would be helpful =
-(and
-might avoid the need for a bisection if you are lucky).
-
-Without these details nobody might look into this.
-
---=20
-You may reply to this email to add a comment.
-
-You are receiving this mail because:
-You are watching the assignee of the bug.=
+	Andrew
