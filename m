@@ -1,101 +1,72 @@
-Received: from mailgw.kylinos.cn (mailgw.kylinos.cn [124.126.103.232])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-oa1-f72.google.com (mail-oa1-f72.google.com [209.85.160.72])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 584991925BC;
-	Mon,  9 Feb 2026 01:31:10 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=124.126.103.232
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6A9EB1F8691
+	for <linux-usb@vger.kernel.org>; Mon,  9 Feb 2026 01:46:04 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.160.72
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1770600672; cv=none; b=rfBtajTpj0AZTqvNxVCNyCpRXRwkaHlqydgzm2qOVPmaq2QRzdcSz+l97KcI2zDj/dHC5CEggvG2iKUArwSjUNmJnrHizBGy71nxGHlzi8D8UdfzcUTcFsLMMzJ7sKvb3GOEJpR1NifduUGMd6YxuiHM+MNy33aVtr6efxLNQjM=
+	t=1770601564; cv=none; b=k2ADGbqI8rAGnstr4NyLv1XDb2QivnNh0qyhUiG9kLW/EWe/wn2k4R5WlXkZxbL9Wwo+y8lZzZRAj9uEGYrD+RlbHqje7YZi4z+2l0Jq/WMvQAYBNNi685C7GC8FVG33lVy2d6tMZsOgVKnpXnxfk/tHFkjMAuTEgRlbxJlEpZI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1770600672; c=relaxed/simple;
-	bh=x7LHKpvF+d0LWLpYeCgkXvk8kvvjOKVmhtE6FKTgaQY=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=r/ZFnF8wl1kXotSupPhdRsJwhvycHiQ7MwGOf/JMyn0S/YN1q1jbUvoM75jtkBLk0yNa3ql6isnwREhRRaKx7gdubY+mOMhGnwXbE0SeJZGV0PugQRu4fsBB1WL23oCeHEXVX0UNbP88NZM1pSlnMF7FmO1G3zSt3+U71D5GSs8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=kylinos.cn; spf=pass smtp.mailfrom=kylinos.cn; arc=none smtp.client-ip=124.126.103.232
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=kylinos.cn
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=kylinos.cn
-X-UUID: fadbb426055611f1b0f03b4cfa9209d1-20260209
-X-CID-P-RULE: Release_Ham
-X-CID-O-INFO: VERSION:1.3.6,REQID:6ace31f6-78a8-4621-bb8f-08c31c5f8d77,IP:0,UR
-	L:0,TC:0,Content:0,EDM:0,RT:0,SF:0,FILE:0,BULK:0,RULE:Release_Ham,ACTION:r
-	elease,TS:0
-X-CID-META: VersionHash:a9d874c,CLOUDID:32efe39474c2ac9ca01f4240f189e716,BulkI
-	D:nil,BulkQuantity:0,Recheck:0,SF:80|81|82|83|102|898,TC:nil,Content:0|15|
-	52,EDM:-3,IP:nil,URL:0,File:nil,RT:nil,Bulk:nil,QS:nil,BEC:nil,COL:0,OSI:0
-	,OSA:0,AV:0,LES:1,SPR:NO,DKR:0,DKP:0,BRR:0,BRE:0,ARC:0
-X-CID-BVR: 2,SSN|SDN
-X-CID-BAS: 2,SSN|SDN,0,_
-X-CID-FACTOR: TF_CID_SPAM_SNR
-X-CID-RHF: D41D8CD98F00B204E9800998ECF8427E
-X-UUID: fadbb426055611f1b0f03b4cfa9209d1-20260209
-X-User: lijiayi@kylinos.cn
-Received: from [172.25.120.57] [(10.44.16.150)] by mailgw.kylinos.cn
-	(envelope-from <lijiayi@kylinos.cn>)
-	(Generic MTA with TLSv1.3 TLS_AES_128_GCM_SHA256 128/128)
-	with ESMTP id 657636025; Mon, 09 Feb 2026 09:30:55 +0800
-Message-ID: <41656cd5-9348-453f-95e3-c311a1f59d22@kylinos.cn>
-Date: Mon, 9 Feb 2026 09:30:53 +0800
+	s=arc-20240116; t=1770601564; c=relaxed/simple;
+	bh=MHu2NaVyoKXu2qjo5aItoAuEh/EeE8HMUDqrTgPll7I=;
+	h=MIME-Version:Date:In-Reply-To:Message-ID:Subject:From:To:
+	 Content-Type; b=RP9J6PHaqaItrm2/ldqL2MZra0U7qZmDaVFtahZj9iiwNfCD+Tx/EoSZ5PGacIVAMy9DKGYiy1LH1gwr3K4AFzQlqPIF0i84CucEfEtbBKkxHdtgNQ0wrl/i4jyt6yhTwjp0nafvQpFGQpGTDTDXAbtdiFmfc88Jm5iGmb6svxE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=syzkaller.appspotmail.com; spf=pass smtp.mailfrom=M3KW2WVRGUFZ5GODRSRYTGD7.apphosting.bounces.google.com; arc=none smtp.client-ip=209.85.160.72
+Authentication-Results: smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=syzkaller.appspotmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=M3KW2WVRGUFZ5GODRSRYTGD7.apphosting.bounces.google.com
+Received: by mail-oa1-f72.google.com with SMTP id 586e51a60fabf-4046864f5e7so6124164fac.0
+        for <linux-usb@vger.kernel.org>; Sun, 08 Feb 2026 17:46:04 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1770601563; x=1771206363;
+        h=to:from:subject:message-id:in-reply-to:date:mime-version
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=3diEtA+C91S1X961tCYfiJD5tez2mjtAe95mtAjdMLg=;
+        b=UwtQfxMSyMyCz+ZCppsPMpvbdiT8Dkf7+Zn0M1BSwdtGP5gBysHvvDttd2/YZcMcOy
+         XpikNEKAhVbAzrZ5Gj/P40uBJg+FEfB7QFMaS81bvlOQuObpi+8wiTl1kW4QprqKlZuH
+         XOh2NZMp+HuRyI2PytER6nUnHQZmu9Zmgt6bM3dbB+5/1Ga42x0MTvBYkP7LfxXrVg/t
+         GMU7uvKg0kQg1vNcVeP0kyVIhT1RM8Mku2e5LH2j79b4gQFx/yZMTncgm4bLOqztdSPZ
+         R2ktjNv6EN86seWjPscmp3mVEhBx+zkEfbSr0lVy0utbTtzhyxy6YJrs8Do2IjYzqXhW
+         iWzQ==
+X-Forwarded-Encrypted: i=1; AJvYcCVh8+1Dz5LMiZMhaMItiWYrxiVClwnata3CjsecfEEHE22hsuEEuLIFJ95SaGcNPQ9IxKv6TLAaNgw=@vger.kernel.org
+X-Gm-Message-State: AOJu0YyL3yJf/O/+BXo9Vw3RD5kKSB+NehkTNRxz23bGc30Pe/oyArEG
+	NMkyxUjH/5Zhc/D9OBE6IDytX5j2LGzvcZCWgJtONAt7Pw/iqZJmDL3WhbWQi88KaWPxoKLky1E
+	o8JQ8FotQ7CM5buO361/3ulxFhyaSBR3m+ftZk/vhtotLOssqG/bxn4N6oCQ=
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH] thunderbolt: Fix PCIe device enumeration with delayed
- rescan
-To: Mika Westerberg <mika.westerberg@linux.intel.com>
-Cc: "Chia-Lin Kao (AceLan)" <acelan.kao@canonical.com>,
- Andreas Noever <andreas.noever@gmail.com>,
- Mika Westerberg <westeri@kernel.org>, Yehezkel Bernat
- <YehezkelShB@gmail.com>, linux-usb@vger.kernel.org,
- linux-kernel@vger.kernel.org, Gil Fine <gil.fine@linux.intel.com>
-References: <aXg1eBudRAaCZpmR@acelan-Precision-5480>
- <20260127084513.GC2275908@black.igk.intel.com>
- <20260127101701.GI2275908@black.igk.intel.com>
- <aXrZK-WigVeqxBTT@acelan-Precision-5480>
- <20260129065003.GS2275908@black.igk.intel.com>
- <cd006977-513f-43d6-9238-1b9f39313976@kylinos.cn>
- <20260203093957.GD2275908@black.igk.intel.com>
- <087dcbe3-ad68-4f45-877b-8f78721efa4b@kylinos.cn>
- <20260203100752.GF2275908@black.igk.intel.com>
- <8a4874ef-90d4-4d88-a72d-1efa791a5b9b@kylinos.cn>
- <20260204123702.GO2275908@black.igk.intel.com>
-From: Jayi Li <lijiayi@kylinos.cn>
-In-Reply-To: <20260204123702.GO2275908@black.igk.intel.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
+X-Received: by 2002:a4a:ce8b:0:b0:66e:4279:3df4 with SMTP id
+ 006d021491bc7-66e427a0122mr2537870eaf.59.1770601563434; Sun, 08 Feb 2026
+ 17:46:03 -0800 (PST)
+Date: Sun, 08 Feb 2026 17:46:03 -0800
+In-Reply-To: <0b508f72-7248-479c-ad26-b9385e52c094@rowland.harvard.edu>
+X-Google-Appengine-App-Id: s~syzkaller
+X-Google-Appengine-App-Id-Alias: syzkaller
+Message-ID: <69893c5b.050a0220.1ad825.000a.GAE@google.com>
+Subject: Re: [syzbot] [usb?] INFO: task hung in usb_bulk_msg (2)
+From: syzbot <syzbot+25ba18e2c5040447585d@syzkaller.appspotmail.com>
+To: greearb@candelatech.com, hdanton@sina.com, linux-kernel@vger.kernel.org, 
+	linux-usb@vger.kernel.org, michal.pecio@gmail.com, oneukum@suse.com, 
+	stern@rowland.harvard.edu, syzkaller-bugs@googlegroups.com
+Content-Type: text/plain; charset="UTF-8"
 
+Hello,
 
-在 2026/2/4 20:37, Mika Westerberg 写道:
-> On Wed, Feb 04, 2026 at 10:37:58AM +0800, Jayi Li wrote:
->> 在 2026/2/3 18:07, Mika Westerberg 写道:
->>> On Tue, Feb 03, 2026 at 06:00:06PM +0800, Jayi Li wrote:
->>>>>> I'm not sure if this is relevant to this issue, but sharing just in case.
->>>>> Thanks for sharing!
->>>>>
->>>>> It could be. What device this is?
->>>> The device is Targus DOCK221.
->>> Is the host Intel or AMD (well can you share bit more details about the
->>> topology)? Then if you block runtime PM of the PCIe Downstream Port that
->>> leads to the TB3 device like:
->>>
->>>    # echo on > /sys/bus/pci/devices/DEVICE/power/control
->>>
->>> Does it work?
->> The host is ASMedia.
-> Ah okay. I don't have any experience with ASMedia host. What system/laptop
-> comes with that?
->
->>   ASMedia Host (0-0, domain0)
->>           |
->>          └─ Port 3 ──→ Thunderbolt 3 Dock (0-3)
->>
->> I tried disabling runtime PM by writing 'on' to power/control for the
->> downstream port, but it did not work.
-> I think that's integrated into the SoC, right? So it's a PCIe root port
-> used for tunneling. What does 'sudo lspci -vv' say?
-Thanks for your help. The issue I encountered occurred during a testing 
-phase. I will try to verify it later on an Intel/AMD host system and 
-provide updates if available. Sorry that I can't offer more details at 
-the moment.
+syzbot has tested the proposed patch and the reproducer did not trigger any issue:
+
+Reported-by: syzbot+25ba18e2c5040447585d@syzkaller.appspotmail.com
+Tested-by: syzbot+25ba18e2c5040447585d@syzkaller.appspotmail.com
+
+Tested on:
+
+commit:         da87d45b usb: typec: ucsi: Add Thunderbolt alternate m..
+git tree:       https://git.kernel.org/pub/scm/linux/kernel/git/gregkh/usb.git
+console output: https://syzkaller.appspot.com/x/log.txt?x=161c17fa580000
+kernel config:  https://syzkaller.appspot.com/x/.config?x=a04e768f944f1aa0
+dashboard link: https://syzkaller.appspot.com/bug?extid=25ba18e2c5040447585d
+compiler:       gcc (Debian 14.2.0-19) 14.2.0, GNU ld (GNU Binutils for Debian) 2.44
+patch:          https://syzkaller.appspot.com/x/patch.diff?x=120a765a580000
+
+Note: testing is done by a robot and is best-effort only.
