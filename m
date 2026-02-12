@@ -1,174 +1,112 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-qt1-f174.google.com (mail-qt1-f174.google.com [209.85.160.174])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EE9F534EF14;
-	Wed, 11 Feb 2026 23:25:53 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 124C2150997
+	for <linux-usb@vger.kernel.org>; Thu, 12 Feb 2026 02:34:10 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.160.174
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1770852354; cv=none; b=eVu4+fQ/wVdWZ2N4Aep1lVmzsYygM3Ku4QhyXQsztdt6Ko2qRgQML/TzksKSb5Qpd1fxn9iUS2/X5uVQSY9v3r5LpPnry1Ot9UNBNfaJeh3v3385ygt0SwzJ/tOF8VRcLSB8XM9ElSKUBLfdV99BWVyqnlnrasNv6zQfQMgnmCI=
+	t=1770863652; cv=none; b=kKbnP+k0lgGiWVpeg2fP3X09hnIqnLywlRvjB1bIz7XuX2Xn36uZsoAK68ZNHlzZQIIXGgvE/L9FHlR18ideVXL9CAlje/C+xD6q8EJcxR/MOGKLGjTFGyjnYTtmGsOTgaaY3PzQpdorcRfErfxVxCjrdHfaHGnV26wMNOd+JDs=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1770852354; c=relaxed/simple;
-	bh=PlwEmw3A4E0VP3WkGD5smTIJlIwmqzK8kRIVO8EOQW0=;
-	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
-	 In-Reply-To:To:Cc; b=sSJJvSCn8x0T3ijRAZQUibReNsHHrdapnyoIiDDP/ZW2ZiPVGKmVOLA1BgJImvfI9D8UGPfBarCPvi+H09MSr7sijYXutNkAHqLC0drjO32qkkDmKEGsNsmvxuNO3uS57PMR4UCNWfZz4qiknw9dgScldw35NL8s9W9aoPCn3aQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=r9eKW+0F; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1770863652; c=relaxed/simple;
+	bh=w+Iul60NR0NV4uvWFbkJmGq5lZBIIyzmn+CZGPLolME=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=UAITv3WXs5ZD+BeAQGxOUunM3fc4HDKI/we5+hKhzAU/SotFfcW6bcVPQzV6cUe6JCY1Cfxmtr2n9wrLuCaIks4ModNBrLQXeANrl1CVr6O2CTBPi1jOx9Po1EXwYMA97eHho18bsKQY+4M+lXoO1ZEhvaqhQeEit9MSNdMGCww=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=rowland.harvard.edu; spf=fail smtp.mailfrom=g.harvard.edu; dkim=pass (2048-bit key) header.d=rowland.harvard.edu header.i=@rowland.harvard.edu header.b=PxWWyrUg; arc=none smtp.client-ip=209.85.160.174
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=rowland.harvard.edu
+Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=g.harvard.edu
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="r9eKW+0F"
-Received: by smtp.kernel.org (Postfix) with ESMTPS id A627AC16AAE;
-	Wed, 11 Feb 2026 23:25:53 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1770852353;
-	bh=PlwEmw3A4E0VP3WkGD5smTIJlIwmqzK8kRIVO8EOQW0=;
-	h=From:Date:Subject:References:In-Reply-To:To:Cc:Reply-To:From;
-	b=r9eKW+0FVErzbqjbLV/oTWzDBEsplM6XG7Gt8SeI0arDNA3g2MY4EgNoMP5AbcPBz
-	 QW8mVIczQg7zkBBnXMjsT7ZaeYCFgf5AP8N/CYGd0R/lwo8leEqPsMd6lloS2uZ//+
-	 COqVNovNdNW2JETpf09BB2HT1SgKb5ap5+f+/u0ye2RolPH/0in/ehzQnBcI3tFlIU
-	 cu4ARglTgIo6wS4SXDsVKc5b/U7ERrf/LaAH1XQhq9JrFR3uZAMvzBIAE0cXVE/8Qu
-	 kTjg4Jy9OtZdteys++lpiOKtXGtlEyVvyho0xFzHQN6OiyVprRkac18OsorTzMTgvg
-	 wd0pLSXapaYgQ==
-Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 93D2CECD6F9;
-	Wed, 11 Feb 2026 23:25:53 +0000 (UTC)
-From: Amit Sunil Dhamne via B4 Relay <devnull+amitsd.google.com@kernel.org>
-Date: Wed, 11 Feb 2026 23:25:35 +0000
-Subject: [PATCH 1/2] dt-bindings: connector: Add sink properties to comply
- with PD 3.1 spec
+	dkim=pass (2048-bit key) header.d=rowland.harvard.edu header.i=@rowland.harvard.edu header.b="PxWWyrUg"
+Received: by mail-qt1-f174.google.com with SMTP id d75a77b69052e-5033387c80aso20321111cf.0
+        for <linux-usb@vger.kernel.org>; Wed, 11 Feb 2026 18:34:10 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=rowland.harvard.edu; s=google; t=1770863650; x=1771468450; darn=vger.kernel.org;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=60+hXao+2fy6ms13TTKq5DQiZsqbZfrZOc1cMiKKTec=;
+        b=PxWWyrUgAbFVKtAQM+M+0Hs0g3QqI31UhtjJ/5ouP7LFAWVLEqC+JXwmg36YvYME22
+         CZWzevYpx/Eh62upK/dimmOUTbxh3s242rPVDlpLC9rrQYv3aueyDHY63qXN8fYkJLIY
+         RmR14Ukd7oNkqCpamjKaCFeCPvNCrM1SKNYxANPubLlbrMOYqyaD4K9Skd9Y3IZVU4vZ
+         nEEGziz5ejQF8uJHZ8dtVwJGPkXOKacLZIBeRrOinSCXVX/462eVfJJ3dcZnO4rrTAPA
+         Y3HTdFwSQG1wWeIY88FtA2G8pmtUV7Wp17/MW2hUvC4J8KsMXYy7WISvqGBuvhhgovIj
+         KO7w==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1770863650; x=1771468450;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-gg:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=60+hXao+2fy6ms13TTKq5DQiZsqbZfrZOc1cMiKKTec=;
+        b=wBn06oyBiGyCmX7565XUBDOyy05cU9H525EC3me/qDe3jtEtzDWxfqOTTM2NnI33oe
+         ypnkiZHLsPW7dhrLa8lehFrAJd64fYs8SYN49V60XArlycDQixPlDSQf+t0npFIzys7t
+         QIf2R4ND+O/WeL1LknjI1ObLh2cZ6gqAuqfV2Tnd3gbfKSzqZP/bVg21MCC7jSydqxWo
+         0xow1hRXXZ7TOiaX6jntT0s97/Z9nDFn2Ld66SiNEWQf5G/fF08FEaVYNLI1IdTlfc9a
+         H/Mp7C0y8QIEWlwKpqk+C7wyyvVNY4h12OWPG719a2TPvdD9zaG8iHMfe2dcZTJmMf7t
+         BDJA==
+X-Forwarded-Encrypted: i=1; AJvYcCXBrcmvhZ90whsww84MYfPrVUQJNAyeqVunsJF6HTnl9Gf0Sqk/9w21dj96VHTNrB8Yy8kM9GwLrf4=@vger.kernel.org
+X-Gm-Message-State: AOJu0YybZ5p889H4gD/ivBINR7HcJ5j1Da9bYT0SbWKjFlap3Tx3NvBA
+	eW+crj+jv0NFHmDuelo5u9o+nseCSVeiww/hwxXhs8ZyPbzawevSvzAdcEB+cwd/eA==
+X-Gm-Gg: AZuq6aIXmyUu7Szu0Dq6IQugLKN7R50FcHIr4p4XLsy0uYQcw1YEPdjmku7RDTmiGrp
+	DoROHfJImmkB70Fs8xGYVQyQsBf12exp29uOSxL7os88qr7aFbyf2/+iLXT+ND7sNuRAM2LpSot
+	a510fG5RfcTxHEQeDnINu+pP0XqoUk7S+Fa+nGnB7zqvxFuK84Uvr82KrLcEfP6jjQYMae6Ab5E
+	jj8odIf9I8fVTeFwOrxwrkTjbQIiTTmeTrTh1sLGnA3d47iMVDUku6sJAGV4vP0G79bYtK5PNx0
+	aZKQSroGJjZRLQEDVCjJB8UK52LOUcEdpzR/0yl+OlJ1fVvOnEDjLxX+F2pHoHWuGv3se9PQq0f
+	gmuwpoHpooycMiU0RCFdEiepWugAWp8GYALJzpnj2cFaCjdSN1MtwfBgkML4cP7s/ZBnIf8/v7Q
+	bFm1rxd2AUDESThQ67213SqMxv
+X-Received: by 2002:ac8:5ac3:0:b0:501:45d7:10cd with SMTP id d75a77b69052e-50693497729mr16204651cf.20.1770863649860;
+        Wed, 11 Feb 2026 18:34:09 -0800 (PST)
+Received: from rowland.harvard.edu ([2601:19b:d03:1700::94e8])
+        by smtp.gmail.com with ESMTPSA id 6a1803df08f44-8971cda8b1fsm28218286d6.37.2026.02.11.18.34.08
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 11 Feb 2026 18:34:09 -0800 (PST)
+Date: Wed, 11 Feb 2026 21:34:07 -0500
+From: Alan Stern <stern@rowland.harvard.edu>
+To: Oliver Neukum <oneukum@suse.com>
+Cc: Greg KH <gregkh@linuxfoundation.org>,
+	USB mailing list <linux-usb@vger.kernel.org>
+Subject: Re: [PATCH 2/2] USB: usbtmc: Don't accept very long timeouts
+Message-ID: <631119a4-6ac4-4142-8200-98a92a71bc8d@rowland.harvard.edu>
+References: <237c76a9-fcf5-418b-a3a7-51929af1d69f@rowland.harvard.edu>
+ <fa1e3282-0559-4ddc-97ec-be07a41ab27e@suse.com>
+ <c6802a96-33d4-453a-b1b6-e74b4911555b@rowland.harvard.edu>
+ <79868062-41e5-414b-a0b7-7aa162dbf4d6@suse.com>
+ <313e86fd-0870-4b6b-b4ee-1ba3eb9d9d0b@rowland.harvard.edu>
+ <83f20400-fc25-43d9-87ad-da51fa029c64@suse.com>
+ <7403a3e8-764b-476d-ac45-f2de9e6b67ab@rowland.harvard.edu>
+ <efbd1b4e-13c4-4531-bc11-4a9c541a7813@suse.com>
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-Message-Id: <20260211-skedb-v1-1-616340426cdc@google.com>
-References: <20260211-skedb-v1-0-616340426cdc@google.com>
-In-Reply-To: <20260211-skedb-v1-0-616340426cdc@google.com>
-To: Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>, 
- Conor Dooley <conor+dt@kernel.org>, 
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>, 
- Badhri Jagan Sridharan <badhri@google.com>, 
- Heikki Krogerus <heikki.krogerus@linux.intel.com>
-Cc: devicetree@vger.kernel.org, linux-kernel@vger.kernel.org, 
- linux-usb@vger.kernel.org, Kyle Tso <kyletso@google.com>, 
- RD Babiera <rdbabiera@google.com>, Amit Sunil Dhamne <amitsd@google.com>
-X-Mailer: b4 0.14.3
-X-Developer-Signature: v=1; a=ed25519-sha256; t=1770852352; l=4787;
- i=amitsd@google.com; s=20241031; h=from:subject:message-id;
- bh=40ogrCcivnEF/evwbFDrjls1wMnY+vyXmAsgygJKhzE=;
- b=smnhzMHObSMHKVKd34C+12b8BOSyLH1WkwhnrzCDQ7JCFOMmY/TBOsuOB9RcAFdwYMAq8LUf1
- IOJavVJfL+oBGZWDor//g05X9ZjBggfDgGC4f/TVYEYFYdI/5RPb96Y
-X-Developer-Key: i=amitsd@google.com; a=ed25519;
- pk=wD+XZSST4dmnNZf62/lqJpLm7fiyT8iv462zmQ3H6bI=
-X-Endpoint-Received: by B4 Relay for amitsd@google.com/20241031 with
- auth_id=262
-X-Original-From: Amit Sunil Dhamne <amitsd@google.com>
-Reply-To: amitsd@google.com
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <efbd1b4e-13c4-4531-bc11-4a9c541a7813@suse.com>
 
-From: Amit Sunil Dhamne <amitsd@google.com>
+On Wed, Feb 11, 2026 at 06:59:17PM +0100, Oliver Neukum wrote:
+> On 11.02.26 17:18, Alan Stern wrote:
+> 
+> > Under what circumstances would the transfer be killed?  And how would
+> > the user be able to do this?  Would you temporarily block all signals
+> > except for a few like SIGINT, SIGTERM, SIGQUIT, and SIGKILL?  How would
+> > you choose which ones, exactly?
+> 
+> In abstract that is a good question, but it is for user space to solve.
+> TASK_KILLABLE does the job for us. In fact I'd suggest that you use
+> wait_event_killable() which should delegate the issue fully.
+> > It all depends on what you want to accomplish.  In this case we don't
+> > really know what those calls in the usbtmc driver are meant to do.  At
+> > least, I don't.
+> 
+> I share that problem. In that case, as little as we can get away with
+> and still solve the issue. "Little" being defined with as little
+> impact.
 
-Add additional properties for ports supporting sink mode. The properties
-define certain hardware and electrical properties such as sink load
-step, sink load characteristics, sink compliance and charging adapter
-Power Delivery Profile (PDP) for the connector. These properties need to
-be defined for a Type-C port in compliance with the PD 3.1 spec.
+In fact, is there any reason not to make usb_start_wait_urb() use 
+wait_for_completion_killable_timeout() always?  Presumably a lot of the 
+usages occur in the context of kernel threads that don't receive 
+signals, and that ones that occur in the context of user threads 
+arguably _should_ be killable.
 
-Signed-off-by: Amit Sunil Dhamne <amitsd@google.com>
----
- .../bindings/connector/usb-connector.yaml          | 34 ++++++++++++++++++++++
- .../devicetree/bindings/usb/maxim,max33359.yaml    |  4 +++
- include/dt-bindings/usb/pd.h                       | 18 ++++++++++++
- 3 files changed, 56 insertions(+)
+If that was changed then usbtmc wouldn't need any revisions at all.
 
-diff --git a/Documentation/devicetree/bindings/connector/usb-connector.yaml b/Documentation/devicetree/bindings/connector/usb-connector.yaml
-index 11e40d225b9f..901986de3e2b 100644
---- a/Documentation/devicetree/bindings/connector/usb-connector.yaml
-+++ b/Documentation/devicetree/bindings/connector/usb-connector.yaml
-@@ -300,6 +300,40 @@ properties:
-     $ref: /schemas/types.yaml#/definitions/uint8-array
-     maxItems: 4
- 
-+  sink-load-step:
-+    description: Indicates the preferred load step slew rate in mA/usec for
-+      the port (in sink mode). This property is defined in "6.5.13.7" of
-+      "USB Power Delivery Specification Revision 3.1 Version 1.8".
-+    $ref: /schemas/types.yaml#/definitions/uint32
-+    enum: [150, 500]
-+    default: 150
-+
-+  sink-load-characteristics:
-+    description: Indicates the port's (in sink mode) preferred load
-+      characteristics. Users can leverage SINK_LOAD_CHAR() defined in
-+      dt-bindings/usb/pd.h to populate this field. This property is defined in
-+      "6.5.13.8" of "USB Power Delivery Specification Revision 3.1 Version 1.8".
-+    $ref: /schemas/types.yaml#/definitions/uint16
-+
-+  sink-compliance:
-+    description: Represents the types of sources the sink device has been tested
-+      and certified with. This property is defined in "6.5.13.9" of
-+      "USB Power Delivery Specification Revision 3.1 Version 1.8"
-+      Bit 0 when set indicates it has been tested on LPS compliant source
-+      Bit 1 when set indicates it has been tested on PS1 compliant source
-+      Bit 2 when set indicates it has been tested on PS2 compliant source
-+    $ref: /schemas/types.yaml#/definitions/uint8
-+    maximum: 7
-+
-+  charging-adapter-pdp-milliwatt:
-+    description: This corresponds to the Power Delivery Profile rating of the
-+      charging adapter shipped or recommended for use with the connector port.
-+      This property is a requirement to infer the USB PD property
-+      "SPR Sink Operational PDP" given in "6.5.13.14" of
-+      "USB Power Delivery Specification Revision 3.1 Version 1.8".
-+    minimum: 0
-+    maximum: 100000
-+
- dependencies:
-   sink-vdos-v1: [ sink-vdos ]
-   sink-vdos: [ sink-vdos-v1 ]
-diff --git a/Documentation/devicetree/bindings/usb/maxim,max33359.yaml b/Documentation/devicetree/bindings/usb/maxim,max33359.yaml
-index 3de4dc40b791..46a3748c8be4 100644
---- a/Documentation/devicetree/bindings/usb/maxim,max33359.yaml
-+++ b/Documentation/devicetree/bindings/usb/maxim,max33359.yaml
-@@ -75,6 +75,10 @@ examples:
-                                        PDO_FIXED(9000, 2000, 0)>;
-                 sink-bc12-completion-time-ms = <500>;
-                 pd-revision = /bits/ 8 <0x03 0x01 0x01 0x08>;
-+                sink-load-step = <150>;
-+                sink-load-characteristics = /bits/ 16 <SINK_LOAD_CHAR(0, 1, 1, 2)>;
-+                sink-compliance = /bits/ 8 <(COMPLIANCE_LPS | COMPLIANCE_PS1)>;
-+                charging-adapter-pdp-milliwatt = <18000>;
-             };
-         };
-     };
-diff --git a/include/dt-bindings/usb/pd.h b/include/dt-bindings/usb/pd.h
-index e6526b138174..6cff2339bda3 100644
---- a/include/dt-bindings/usb/pd.h
-+++ b/include/dt-bindings/usb/pd.h
-@@ -465,4 +465,22 @@
- 	 | ((vbm) & 0x3) << 15 | (curr) << 14 | ((vbi) & 0x3f) << 7	\
- 	 | ((gi) & 0x3f) << 1 | (ct))
- 
-+/*
-+ * Sink Load Characteristics
-+ * -------------------------
-+ *  <15>    :: Can tolerate vbus voltage droop
-+ *  <11:14> :: Duty cycle in 5% increments when bits 4:0 are non-zero
-+ *  <10:5>  :: Overload period in 20ms when bits 4:0 are non-zero
-+ *  <4:0>   :: Percent overload in 10% increments. Values higher than 25 are
-+ *             clipped to 250%
-+ */
-+#define SINK_LOAD_CHAR(vdroop, duty_cycle, period, percent_ol)		\
-+	(((vdroop) & 0x1) << 15 | ((duty_cycle) & 0xf) << 11 |		\
-+	 ((period) & 0x3f) << 5 | ((percent_ol) & 0x1f))
-+
-+/* Compliance */
-+#define COMPLIANCE_LPS		(1 << 0)
-+#define COMPLIANCE_PS1		(1 << 1)
-+#define COMPLIANCE_PS2		(1 << 2)
-+
- #endif /* __DT_POWER_DELIVERY_H */
-
--- 
-2.53.0.239.g8d8fc8a987-goog
-
-
+Alan Stern
