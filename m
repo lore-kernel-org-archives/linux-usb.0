@@ -1,43 +1,44 @@
 Received: from bali.collaboradmins.com (bali.collaboradmins.com [148.251.105.195])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E9973280014;
-	Fri, 13 Feb 2026 19:23:31 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A92E023EA88;
+	Fri, 13 Feb 2026 19:48:50 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=148.251.105.195
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1771010614; cv=none; b=cWPgrtIaseVIOQzDpTlpa7LE903epBIOIU6yGm9K9q+PYJA4eisgtyqy6NN2xKRN2iggk4f208gq6Hx+AS+S3CTWUIe9giMt9v92MJQbVBtkicKtStW2PLFCDSK2nqC3XFCWsgw8BkUBQBV4J/EFs959+QLDzxXwmFbgpr0iqck=
+	t=1771012132; cv=none; b=hZiWj1al59AsZn7BvZyOP0AFclr4C1hC0vc4vT2SBQSXSj3FnDeCXVRyrP9tTqNQdV99/wZUi1fHEbCMmcNWBS5Tdeaa7jBYa26S+GY5mh3jNHWwkKo+SO91sQufKe0R2JRjLSt6epy+4Z2+agdYsvaUy58LnyMOva67BWP8hj4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1771010614; c=relaxed/simple;
-	bh=lrQE9yMTiCZJMvErc9Qumch/oyi82L9FeVKRfh89GgM=;
-	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
-	 In-Reply-To:To:Cc; b=GEuwTskuGVQ1mMHLlA4Od+c7fFwEfbFapf7t1GJ+t/0f3juTNGzxRd5ZJpw4Ohbdf13DQ2nkKISQQGXl37yhm6vbW5X3uZWA6WiJWD9X9wLcVevO2VNXLI91w5/ztuVM/A0h/MLXzfuwBDcAEpSPZ/scKnZ4wMMoHqyQcpU8M1s=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=collabora.com; spf=pass smtp.mailfrom=collabora.com; dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b=VWdYdc6j; arc=none smtp.client-ip=148.251.105.195
+	s=arc-20240116; t=1771012132; c=relaxed/simple;
+	bh=hXJ71/STFgbTYEJsFBdReJTeGxTPe+HGc/WJX2Wf9e4=;
+	h=From:Subject:Date:Message-Id:MIME-Version:Content-Type:To:Cc; b=OYOOyFt3Q4wpxSR4I0nWa0DSiieffcwAbbafZspz9TpUUPXDtau4NdkWz44txA6FRg1tE2XZ+7RzUJ2I3w+nZ97xwQk41p97nDVq7PriM97667YnXvjWEaXf1sWXuYdWCyJlUTU+onQimQnpJnGSpE0+BWTueR1K11uEauHtCbY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=collabora.com; spf=pass smtp.mailfrom=collabora.com; dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b=UoDpoC6/; arc=none smtp.client-ip=148.251.105.195
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=collabora.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=collabora.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b="VWdYdc6j"
+	dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b="UoDpoC6/"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
-	s=mail; t=1771010610;
-	bh=lrQE9yMTiCZJMvErc9Qumch/oyi82L9FeVKRfh89GgM=;
-	h=From:Date:Subject:References:In-Reply-To:To:Cc:From;
-	b=VWdYdc6jfF1afbkLFPRUALMAktACqGzcst4rtJHyo1vA+NCuiqHz8qKniPLwvyZIE
-	 yvAjLe1h1XF4ciK+lGw4jN/NXW4aDKYx9jHVpBc/7TnQp1Gbx3/v1c9JDyYNn/TmGa
-	 v3ITujqozNY+onXRFCAZQrTBvuFL3UkbRMJBh4hoZmCmDrkpUsUjxRVDtLSibioMLf
-	 eYnA3VzyMb/3pwvqvaAwzWt7rydI+04hpqKZ+wbSwA1RB7KRedQgZ+/OStSfCTggW+
-	 lQR53VyQ/xcs1fDVAV/0Xa4Tfpu10fyjEpQo3JMgGloS3JlXD7keHbzSLxRONhu6mx
-	 luK78e5TWafJA==
+	s=mail; t=1771012128;
+	bh=hXJ71/STFgbTYEJsFBdReJTeGxTPe+HGc/WJX2Wf9e4=;
+	h=From:Subject:Date:To:Cc:From;
+	b=UoDpoC6/8u/GgD2VFhW8uTwbMyzAndHU3Ns6g2j/agpj5FVnAFgbCKsv20oJcfRGH
+	 ail7vAmnhk/KqWECOpJVT4byQPN8Z6EPp2psLA+14FlNaOVX7/s7gq+5g3O/Z87n2N
+	 Cyd/NfpKOK5K6RX8X1nchwD0ZVqAkVPkC40Bx8hcVp2yE4nF5WeN6kuVpjuH0h4beq
+	 jax8ewWVjx2Jxx+ka3C+Nsz9+JQ4djwzHyCHqhAUzaYDvoNs3kr27wd7l7knV8lJZF
+	 vKfSoOlKIlknhYb1LS8awy2NGl3e1HqBnvZ8fS9Tnb5Znn1a+Wn54IYgtSf8jJNOsI
+	 mIASFpePGdcoQ==
 Received: from jupiter.universe (dyndsl-091-248-188-214.ewe-ip-backbone.de [91.248.188.214])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (4096 bits))
 	(No client certificate requested)
 	(Authenticated sender: sre)
-	by bali.collaboradmins.com (Postfix) with ESMTPSA id 3ACAD17E1352;
-	Fri, 13 Feb 2026 20:23:30 +0100 (CET)
+	by bali.collaboradmins.com (Postfix) with ESMTPSA id D7D7117E1406;
+	Fri, 13 Feb 2026 20:48:48 +0100 (CET)
 Received: by jupiter.universe (Postfix, from userid 1000)
-	id D0387480023; Fri, 13 Feb 2026 20:23:29 +0100 (CET)
+	id 95A90480024; Fri, 13 Feb 2026 20:48:48 +0100 (CET)
 From: Sebastian Reichel <sebastian.reichel@collabora.com>
-Date: Fri, 13 Feb 2026 20:23:28 +0100
-Subject: [PATCH 1/2] usb: typec: mux: avoid duplicated orientation switches
+Subject: [PATCH 0/2] usb: typec: tcpm: improve handling of DISCOVER_MODES
+ failures
+Date: Fri, 13 Feb 2026 20:48:43 +0100
+Message-Id: <20260213-tcpm-discover-modes-nak-fix-v1-0-9bcb5adb4ef6@collabora.com>
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
@@ -46,79 +47,67 @@ List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20260213-typec-mux-duplication-fix-v1-1-70076a7c5691@collabora.com>
-References: <20260213-typec-mux-duplication-fix-v1-0-70076a7c5691@collabora.com>
-In-Reply-To: <20260213-typec-mux-duplication-fix-v1-0-70076a7c5691@collabora.com>
-To: Heikki Krogerus <heikki.krogerus@linux.intel.com>, 
+X-B4-Tracking: v=1; b=H4sIABuAj2kC/x3MwQpAQBCA4VfRnE2NFeJV5MDuYJJd7UhK3t3m+
+ P2H/wHlKKzQZQ9EvkQl+IQiz8Cuo18YxSWDIVOTKUo87bGjE7Xh4oh7cKzoxw1nuZFaamiaKtP
+ aCtLhiJzyf++H9/0ANpH8xG0AAAA=
+X-Change-ID: 20260213-tcpm-discover-modes-nak-fix-09070bb529c5
+To: Badhri Jagan Sridharan <badhri@google.com>, 
+ Heikki Krogerus <heikki.krogerus@linux.intel.com>, 
  Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-Cc: linux-rockchip@lists.infradead.org, linux-usb@vger.kernel.org, 
- linux-kernel@vger.kernel.org, kernel@collabora.com, 
- Sebastian Reichel <sebastian.reichel@collabora.com>
+Cc: linux-usb@vger.kernel.org, linux-kernel@vger.kernel.org, 
+ kernel@collabora.com, Sebastian Reichel <sebastian.reichel@collabora.com>
 X-Mailer: b4 0.14.3
-X-Developer-Signature: v=1; a=openpgp-sha256; l=1450;
+X-Developer-Signature: v=1; a=openpgp-sha256; l=1650;
  i=sebastian.reichel@collabora.com; h=from:subject:message-id;
- bh=lrQE9yMTiCZJMvErc9Qumch/oyi82L9FeVKRfh89GgM=;
- b=owJ4nAFtApL9kA0DAAoB2O7X88g7+poByyZiAGmPejGtfmdy8ijV3DWGAAoO4KHY/762ZVR8W
- iIqFDnF9Aovt4kCMwQAAQoAHRYhBO9mDQdGP4tyanlUE9ju1/PIO/qaBQJpj3oxAAoJENju1/PI
- O/qaQbMQAIZFL4Lnr6H6UO66I2PbRZ8aS0XnmqkyXJsTZ+BhoISC98HMSd5tzb0bqbdBlMlzgzX
- wljqeozzBSdveosjo8jH/vWjzhKcxi69fabR42WwKo9ju23qJ1UtzztBmXJksJ7/CbnF/bLUT2U
- Q+fb1HDJLo6NoxLKfHgbM/f7T5eUnbzLJAFRbp34UEwibBGxlsCw9IdhxZhaDSTYueDhZltimzq
- 4jQTqYQD2GWhsMc3/UH17pk/ped+P0ZyJQhUcQO1FKFPr4Vpy1rpR2Wn1ZVJ8z3g2e7balzY6Qq
- 60v1Qmp1VLmImX4khpgmCgDd+aQf335l/WX+tBIhKgvtEf7YZUyjvsYIZx3KdZEcAZIRYZTpdB+
- lXZKDqlFhCa0We8RPPiOV51WkcccxsxAxd8Wyy6lPzGpPaJOv+av9SlrZi8MrwJYtFC+tG/dIXx
- 5CyqZ2J+UzP64rgJzUC8+4nh9gtJw20nvOqrp+9tkyNLMa0cPoJ7j7X+6yDNn1nLfTOQRKWcNlh
- v/0cWQxHKgi2RqfdWd6t4VHGrfyFdT/JjRWu6BUWI73smh3csCuCl+Y41hfXctQFQ6AUm0luH/U
- dEs5AEfIdoBYQ6G99HB+Ye0pbARXcRrznPVH6f/6NQbAExtZ73tpCq/UOCPmohjO9K25RqKAq4p
- aRXTogUDIhbXNxXuv0FoyWg==
+ bh=hXJ71/STFgbTYEJsFBdReJTeGxTPe+HGc/WJX2Wf9e4=;
+ b=owJ4nAFtApL9kA0DAAoB2O7X88g7+poByyZiAGmPgCDxW7L4PQ0+cIACPrPAqCEQ3mK05gRt8
+ qT8hXbquXEjUYkCMwQAAQoAHRYhBO9mDQdGP4tyanlUE9ju1/PIO/qaBQJpj4AgAAoJENju1/PI
+ O/qaNO8QAKiA027Ecb4xRqV7zYuqxoNkRgKpK9i1QXUmSlx/8j4FpDW0VIOTX9ZlcJRiB08/NKw
+ W5ucjyXcorMi5E07Mdzqo7IAGT4dhRn+Ml6xEHUuIWu6ICVnsiDqefgegZyUTU50lzdH04rmlOp
+ JEa7YW4UkkQrIH8YS/IfM//QYTaRC75X/F97Q2sr/ANU7poFULpxr1R9nfzj5Wh3w4hiDjlRwY0
+ DUt0+1JpYex87WdvoRF5Filh60kmn0OaC//MizJQk+0TbPTD9VGF1V1sCEwdKb9LLQROCvtOus4
+ QTtjWeivaa6wuwI/BZWMSCnbu1D1zgYx9VPsVyO8FATG67Sui27JUWyKYXj2l+Sw04Kcz9jSXkY
+ dkFO7vde0+/N0aWPCzjXXIwK00FILSa2XYfVUSrw4ChwyeuK1caXFHPg3o+sTmEplflYU1zmkoZ
+ d46HlICY7eEM3/XOnltnxTS6mwS3zhHIdPi3fFNBZaIVevsK5S4JXqw+nsGhFZKjAVSZAgBs9Xj
+ /Z3aa1ETgcLGOW+mOaXs07R1c5bSrpazNfJfK9IhJ3KgBRpAIOn0S02oYqoeC3mDx+NUZhbh4Sj
+ LNBwueJrCQMZIFqxj5hkZCNQdbsbK+xZcJH5MJOaCEb0LgeKrI+69GSNDlruFcFCLcJfVHSp9yI
+ arx7OYYz63pCH3e0rHTIqpA==
 X-Developer-Key: i=sebastian.reichel@collabora.com; a=openpgp;
  fpr=EF660D07463F8B726A795413D8EED7F3C83BFA9A
 
-Some devices use combo PHYs (i.e. USB3 + DisplayPort), which also
-handle the orientation mux. These PHYs are referenced twice from
-the USB-C connector (USB super-speed lines and SBU/AUX lines)
-resulting in the switch being configured twice. Avoid this by
-dropping duplicates.
+UGREEN USB-C Multifunction Adapter Model CM512 (AKA "Revodok 107")
+exposes two SVIDs: 0xff01 (DP Alt Mode) and 0x1d5c. The DISCOVER_MODES
+step succeeds for 0xff01 and gets a NAK for 0x1d5c. Currently this
+results in DP Alt Mode not being registered either, since the modes
+are only registered once all of them have been discovered. The NAK
+results in the processing being stopped and thus no Alt modes being
+registered.
+    
+Improve the situation by handling the NAK gracefully and continue
+processing the other modes.
+
+The second patch moves the discover modes handling for ACK and NAK cases
+into its own function to avoid code duplication and having less code in
+total. If this is considered cleaner, I can send a v2 with it squashed
+into the first patch. I've not done so in v1, so that you can see both
+versions as I'm not sure which one is better. So far the processing
+logic is fully contained within tcpm_pd_svdm(), which would no longer
+be the case after the new function is added. Also the function itself
+is quite ugly with the huge amount of arguments.
 
 Signed-off-by: Sebastian Reichel <sebastian.reichel@collabora.com>
 ---
- drivers/usb/typec/mux.c | 14 +++++++++++++-
- 1 file changed, 13 insertions(+), 1 deletion(-)
+Sebastian Reichel (2):
+      usb: typec: tcpm: improve handling of DISCOVER_MODES failures
+      usb: typec: tcpm: create helper function for DISCOVER_MODES
 
-diff --git a/drivers/usb/typec/mux.c b/drivers/usb/typec/mux.c
-index 182c902c42f6..db35b7398343 100644
---- a/drivers/usb/typec/mux.c
-+++ b/drivers/usb/typec/mux.c
-@@ -72,9 +72,9 @@ struct typec_switch *fwnode_typec_switch_get(struct fwnode_handle *fwnode)
- {
- 	struct typec_switch_dev *sw_devs[TYPEC_MUX_MAX_DEVS];
- 	struct typec_switch *sw;
-+	int i, j, k;
- 	int count;
- 	int err;
--	int i;
- 
- 	sw = kzalloc(sizeof(*sw), GFP_KERNEL);
- 	if (!sw)
-@@ -96,6 +96,18 @@ struct typec_switch *fwnode_typec_switch_get(struct fwnode_handle *fwnode)
- 		}
- 	}
- 
-+	/* eliminate duplicates */
-+	for (i = 0; i < count; i++) {
-+		for (j = i + 1; j < count; j++) {
-+			if (sw_devs[j] == sw_devs[i]) {
-+				put_device(&sw_devs[j]->dev);
-+				for (k = j; k < count; k++)
-+					sw_devs[k] = sw_devs[k+1];
-+				count--;
-+			}
-+		}
-+	}
-+
- 	for (i = 0; i < count; i++) {
- 		WARN_ON(!try_module_get(sw_devs[i]->dev.parent->driver->owner));
- 		sw->sw_devs[i] = sw_devs[i];
+ drivers/usb/typec/tcpm/tcpm.c | 99 +++++++++++++++++++++++++++----------------
+ 1 file changed, 63 insertions(+), 36 deletions(-)
+---
+base-commit: 05f7e89ab9731565d8a62e3b5d1ec206485eeb0b
+change-id: 20260213-tcpm-discover-modes-nak-fix-09070bb529c5
 
+Best regards,
 -- 
-2.51.0
+Sebastian Reichel <sebastian.reichel@collabora.com>
 
