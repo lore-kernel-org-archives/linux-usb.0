@@ -1,230 +1,117 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0AF333EBF2C;
-	Sat, 14 Feb 2026 01:03:10 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 229CD17D2;
+	Sat, 14 Feb 2026 03:13:51 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1771030991; cv=none; b=p/YWYNXSCJOocmvdK6HvmM3MyYKFAZkOyro6qoD3NPa9VhHwG2BAyQ7/yxTriLOoO4uBUszOeTozvW7VDFtCqPlDXyE2LyG3z6ugV4tFXCnKuH3GlVdd38eGIJVl0KaOxjpEE8sMJSWnRK44Ja0HoH1sxM14dW7kmwWkmxwFs44=
+	t=1771038831; cv=none; b=ADQ93G7n6dXrUuO5tg6jVSKoxDJNIFm0acHFJUxJpUeoenNX0HuI5ZO4V3tg2ocwrk2ZMlcfL/4A9tPSbAryexqAfXEsXtoa0KRJqWLakfVSnsPGZa7ZEqjLjmiJIRt2Obs5tXN5Ztg2rvIx2lEYv6UOhCOObRZ1F2QU7cn5yw4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1771030991; c=relaxed/simple;
-	bh=gaA3jb1vSP5RLu1ltGFAqS2zH//J+KBUkCpHH0YIUoM=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=QEqGF849k1gijDOYN0EbocJND+/1HSpppN+VTBffveQ98CuSIKhtEhCfSJe+tM/8xLe5mSLPAVaPz/bsCiFwyyfOeI8/pkChsnU4JgJ0xo4SI5zvAkoLLWT9K8YyQL9NkSglBI3f83JR84HPYbDaqYkSQ2Fe98d4/3/p9fqMbUY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=CTAxUgYk; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1771038831; c=relaxed/simple;
+	bh=WLZmkmhFYdcNnkh/XlxKeigsMzqlyV8nVr425RZELOY=;
+	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
+	 In-Reply-To:To:Cc; b=F0HFklkbRerDFdebB1L0QKFCm/2qQ20vvqQ0FAWjNVoBQimK9tNMdIWbVoA3kHwmJcPymR4jo8JveltWR2vKS8MEdNbehkjGbXqj/eTcRjAThMvSqoWolcjr2jAw0+3PP5mlv9lT028Yd80aK4HLdUvOhIHd0wXMEpoSaezg7Tw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=ZKqilFZW; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="CTAxUgYk"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id CBC4BC116C6;
-	Sat, 14 Feb 2026 01:03:09 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="ZKqilFZW"
+Received: by smtp.kernel.org (Postfix) with ESMTPS id E1979C19425;
+	Sat, 14 Feb 2026 03:13:50 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1771030990;
-	bh=gaA3jb1vSP5RLu1ltGFAqS2zH//J+KBUkCpHH0YIUoM=;
-	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=CTAxUgYk/qWjqbdIFt9SOv6Ma7XK1ktVXZZX+ABvLbj7yj9F7jHC3bKjjoAsEnNKG
-	 EJn5JKvkqMPAkyCt+1rwu9XYaiGQxxbcNVwbSzmhRuxfcbFbMx//UvwiA/5MSeqrwL
-	 I2t9lOM4OGocwlJAAvJ3zvcjrYwro5AAzzkwYCMOvPNgpEBGGWrztaAHehjZJ5QZer
-	 HtSEiNoV5SkpIYAcIvc1vbQiuogdt/TVPMlU3XccHhaYTLZKZIcAIkO0exXL2C8Al5
-	 Ll8wngNbghXgcEF9iCFk33RffyJqpnPFfLY+Z4npuMaFMh3mAOkbnYs4tBmtNHbrma
-	 KbeHsvhzj7Sig==
-From: Sasha Levin <sashal@kernel.org>
-To: patches@lists.linux.dev,
-	stable@vger.kernel.org
-Cc: =?UTF-8?q?Tomasz=20Paku=C5=82a?= <tomasz.pakula.oficjalny@gmail.com>,
-	Jiri Kosina <jkosina@suse.com>,
-	Sasha Levin <sashal@kernel.org>,
-	jikos@kernel.org,
-	bentiss@kernel.org,
-	linux-usb@vger.kernel.org
-Subject: [PATCH AUTOSEL 6.19-6.18] HID: pidff: Do not set out of range trigger button
-Date: Fri, 13 Feb 2026 19:58:15 -0500
-Message-ID: <20260214010245.3671907-15-sashal@kernel.org>
-X-Mailer: git-send-email 2.51.0
-In-Reply-To: <20260214010245.3671907-1-sashal@kernel.org>
-References: <20260214010245.3671907-1-sashal@kernel.org>
+	s=k20201202; t=1771038831;
+	bh=WLZmkmhFYdcNnkh/XlxKeigsMzqlyV8nVr425RZELOY=;
+	h=From:Date:Subject:References:In-Reply-To:To:Cc:Reply-To:From;
+	b=ZKqilFZWmSoSKUwCgKgROLveLP11R8Be9GMSSQhRDDwNx1yYdSDGYscxAbkMt9GzA
+	 1wDx1g++MnUor0vrC6fqp7Wynp2Za6s+sPqFdNMifsLAPowzzvNssZyFhUL4JwwGFz
+	 nvMyHh6xtj4Gw+eq8bnPg3Ba+kz34bCmFiuQhQfMtARVo6LSQJ1IMjzo5z2meN4NYp
+	 4/MikdRGHSq0jU/g7vfe4oRbVKTKnLh7KbbOC6lo5XaNj/doe0EEUvKReVj8cODShU
+	 ez5j4k9QrCon3XT1RacRnGE7LayT/c0w+kjnibZ6USnQVctpMGCUjlG7iLlXwodtQ3
+	 HtCssdj2BoTBw==
+Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
+	by smtp.lore.kernel.org (Postfix) with ESMTP id D6039EF99F3;
+	Sat, 14 Feb 2026 03:13:50 +0000 (UTC)
+From: Amit Sunil Dhamne via B4 Relay <devnull+amitsd.google.com@kernel.org>
+Date: Sat, 14 Feb 2026 03:12:38 +0000
+Subject: [PATCH v6 2/6] dt-bindings: usb: maxim,max33359: Add supply
+ property for vbus
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-X-stable: review
-X-Patchwork-Hint: Ignore
-X-stable-base: Linux 6.19
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+Message-Id: <20260214-max77759-charger-v6-2-28c09bda74b4@google.com>
+References: <20260214-max77759-charger-v6-0-28c09bda74b4@google.com>
+In-Reply-To: <20260214-max77759-charger-v6-0-28c09bda74b4@google.com>
+To: Sebastian Reichel <sre@kernel.org>, Rob Herring <robh@kernel.org>, 
+ Krzysztof Kozlowski <krzk+dt@kernel.org>, 
+ Conor Dooley <conor+dt@kernel.org>, 
+ =?utf-8?q?Andr=C3=A9_Draszik?= <andre.draszik@linaro.org>, 
+ Lee Jones <lee@kernel.org>, Greg Kroah-Hartman <gregkh@linuxfoundation.org>, 
+ Badhri Jagan Sridharan <badhri@google.com>, 
+ Heikki Krogerus <heikki.krogerus@linux.intel.com>, 
+ Peter Griffin <peter.griffin@linaro.org>, 
+ Tudor Ambarus <tudor.ambarus@linaro.org>, 
+ Alim Akhtar <alim.akhtar@samsung.com>, Mark Brown <broonie@kernel.org>, 
+ Matti Vaittinen <mazziesaccount@gmail.com>, 
+ Andrew Morton <akpm@linux-foundation.org>
+Cc: linux-kernel@vger.kernel.org, linux-pm@vger.kernel.org, 
+ devicetree@vger.kernel.org, linux-usb@vger.kernel.org, 
+ linux-arm-kernel@lists.infradead.org, linux-samsung-soc@vger.kernel.org, 
+ RD Babiera <rdbabiera@google.com>, Kyle Tso <kyletso@google.com>, 
+ Amit Sunil Dhamne <amitsd@google.com>, 
+ Krzysztof Kozlowski <krzysztof.kozlowski@oss.qualcomm.com>
+X-Mailer: b4 0.14.3
+X-Developer-Signature: v=1; a=ed25519-sha256; t=1771038829; l=1272;
+ i=amitsd@google.com; s=20241031; h=from:subject:message-id;
+ bh=hO3jE5vZwcs3nIUa5JIBhqGJMZgYUXM9f+tqxZAu+xk=;
+ b=hCGK4erO8B1fAgK9uQXf2wXvuvyimeTZbcILZPRCyogMUIqzeEBokOvBHBLxwcVfSb1QqOz57
+ UfMEU9JUEH1BBVk/U3r+uFv9hRyGwCRZTek39pNLWaS3Plow2csEfO4
+X-Developer-Key: i=amitsd@google.com; a=ed25519;
+ pk=wD+XZSST4dmnNZf62/lqJpLm7fiyT8iv462zmQ3H6bI=
+X-Endpoint-Received: by B4 Relay for amitsd@google.com/20241031 with
+ auth_id=262
+X-Original-From: Amit Sunil Dhamne <amitsd@google.com>
+Reply-To: amitsd@google.com
 
-From: Tomasz Pakuła <tomasz.pakula.oficjalny@gmail.com>
+From: Amit Sunil Dhamne <amitsd@google.com>
 
-[ Upstream commit e01a029654f7fb67d7151365410aa22be4e63dbe ]
+Add a regulator supply property for vbus. This notifies the regulator
+provider to source vbus when Type-C operates in Source power mode,
+while turn off sourcing vbus when operating in Sink mode or
+disconnected.
 
-Some games (mainly observed with Kylotonn's WRC Serises) set trigger
-button to a random value, or always the same one, out of range.
-I observed 307 and other values but, for example, my Moza R9 only
-exposes 128 buttons AND it's trigger button field is 8-bit. This causes
-errors to appear in dmesg.
-
-Only set the trigger button and trigger interval in the trigger button
-is in range of the field.
-
-Signed-off-by: Tomasz Pakuła <tomasz.pakula.oficjalny@gmail.com>
-Signed-off-by: Jiri Kosina <jkosina@suse.com>
-Signed-off-by: Sasha Levin <sashal@kernel.org>
+Signed-off-by: Amit Sunil Dhamne <amitsd@google.com>
+Acked-by: Krzysztof Kozlowski <krzysztof.kozlowski@oss.qualcomm.com>
 ---
+ Documentation/devicetree/bindings/usb/maxim,max33359.yaml | 4 ++++
+ 1 file changed, 4 insertions(+)
 
-LLM Generated explanations, may be completely bogus:
-
-Now I have a complete picture. Let me provide my analysis.
-
-## Detailed Analysis
-
-### 1. Commit Message Analysis
-
-The commit clearly describes a **real-world bug**: games (specifically
-Kylotonn's WRC Series) set the trigger button to random out-of-range
-values (e.g., 307) when the hardware only supports 128 buttons with an
-8-bit field. This causes errors in dmesg. The author is the driver's
-2025 co-maintainer (Tomasz Pakula, noted at line 6 of the file).
-
-### 2. Code Change Analysis
-
-**The bug mechanism:** In `pidff_set_effect_report()`, the trigger
-button value from userspace (`effect->trigger.button`) is written
-directly to the HID field value without any bounds checking:
-
-```526:526:drivers/hid/usbhid/hid-pidff.c
-        pidff->set_effect[PID_TRIGGER_BUTTON].value[0] =
-effect->trigger.button;
-```
-
-When this value exceeds what the HID field can hold (e.g., 307 in an
-8-bit field with max 128), the `implement()` function in `hid-core.c`
-catches it and emits a **non-rate-limited** warning:
-
-```1472:1477:drivers/hid/hid-core.c
-                if (unlikely(value > m)) {
-                        hid_warn(hid,
-                                 "%s() called with too large value %d
-(n: %d)! (%s)\n",
-                                 __func__, value, n, current->comm);
-                        value &= m;
-                }
-```
-
-`hid_warn` maps to `dev_warn()` which is **not rate-limited** (unlike
-`hid_warn_ratelimited`). Since force feedback effects can be updated at
-frame rate (60-144+ Hz), this can produce hundreds of kernel warnings
-per second during gameplay.
-
-**The fix adds a simple bounds check:** If `trigger.button` exceeds
-`field->logical_maximum`, both trigger button and trigger repeat
-interval are set to 0 (disabled), which is the correct semantic - an
-invalid trigger button should mean "no trigger." Otherwise, the values
-pass through normally. The fix is +10 lines of straightforward
-validation logic.
-
-### 3. Impact Assessment
-
-- **Who is affected:** Users of HID PID force feedback devices (racing
-  wheels like Moza R9, Thrustmaster, etc.) playing games that set out-
-  of-range trigger button values (WRC Series and likely others).
-- **What happens without the fix:**
-  1. **Kernel log flooding** - unrestricted `hid_warn()` called per-
-     frame can fill system logs
-  2. **Silent value corruption** - `implement()` masks the value with `&
-     m`, mapping to a random valid button rather than disabling the
-     trigger
-  3. **Performance degradation** from excessive logging
-- **Severity:** Moderate - causes persistent dmesg spam and incorrect
-  device behavior, but no crash/corruption/security issue.
-
-### 4. Scope and Risk
-
-- **Size:** Very small - 10 lines added in one function in one file
-- **Risk:** Near-zero regression risk. Only adds an `if/else` bounds
-  check with a sensible default
-- **Subsystem:** HID force feedback - well-contained, affects only FF-
-  capable USB HID devices
-
-### 5. Backport Applicability
-
-- **v6.18.y:** Patch applies cleanly (function matches HEAD context)
-- **v6.15-v6.17:** Function has same structure with `pidff_set_time()` -
-  minor context adjustment needed
-- **v6.14 and earlier (LTS: v6.12.y, v6.6.y, v6.1.y, v5.15.y):**
-  Function uses old code pattern (direct `.value[0]` assignment instead
-  of `pidff_set_time()`). The fix concept is trivially portable but the
-  patch won't apply as-is. The old code at v6.14 is:
-  ```c
-  pidff->set_effect[PID_TRIGGER_BUTTON].value[0] =
-  effect->trigger.button;
-  pidff->set_effect[PID_TRIGGER_REPEAT_INT].value[0] =
-  effect->trigger.interval;
-  ```
-  The bug has existed since the driver was created (~2007).
-
-### 6. Stable Criteria Assessment
-
-| Criteria | Assessment |
-|---|---|
-| Obviously correct and tested | Yes - simple bounds check, tested with
-Moza R9 + WRC games |
-| Fixes a real bug | Yes - out-of-range values cause log spam and wrong
-behavior |
-| Important issue | Moderate - dmesg flooding + incorrect FF behavior |
-| Small and contained | Yes - 10 lines in one function |
-| No new features | Correct - pure input validation |
-
-### 7. Concerns
-
-- The patch uses C99 mixed declarations (`s32 trigger_button_max = ...`
-  in the middle of the function body). While this is accepted in modern
-  kernel coding, some older stable trees may have stricter compilation
-  settings. For LTS backports, this should be declared at function
-  scope.
-- For LTS trees (6.12.y and earlier), a hand-adapted backport is needed
-  since the 2025 refactoring isn't present.
-
-### Conclusion
-
-This is a valid input validation fix that prevents kernel log flooding
-and incorrect force feedback behavior caused by userspace (games)
-sending out-of-range trigger button values. The fix is small, obviously
-correct, zero-risk, and addresses a real-world problem reported by force
-feedback device users. Despite needing adaptation for older LTS trees,
-the concept is trivially portable.
-
-**YES**
-
- drivers/hid/usbhid/hid-pidff.c | 16 +++++++++++++---
- 1 file changed, 13 insertions(+), 3 deletions(-)
-
-diff --git a/drivers/hid/usbhid/hid-pidff.c b/drivers/hid/usbhid/hid-pidff.c
-index 95377c5f63356..a4e700b40ba9b 100644
---- a/drivers/hid/usbhid/hid-pidff.c
-+++ b/drivers/hid/usbhid/hid-pidff.c
-@@ -523,9 +523,19 @@ static void pidff_set_effect_report(struct pidff_device *pidff,
- 	pidff_set_duration(&pidff->set_effect[PID_DURATION],
- 			   effect->replay.length);
+diff --git a/Documentation/devicetree/bindings/usb/maxim,max33359.yaml b/Documentation/devicetree/bindings/usb/maxim,max33359.yaml
+index 3de4dc40b791..e652a24902ea 100644
+--- a/Documentation/devicetree/bindings/usb/maxim,max33359.yaml
++++ b/Documentation/devicetree/bindings/usb/maxim,max33359.yaml
+@@ -32,6 +32,9 @@ properties:
+     description:
+       Properties for usb c connector.
  
--	pidff->set_effect[PID_TRIGGER_BUTTON].value[0] = effect->trigger.button;
--	pidff_set_time(&pidff->set_effect[PID_TRIGGER_REPEAT_INT],
--		       effect->trigger.interval);
-+	/* Some games set this to random values that can be out of range */
-+	s32 trigger_button_max =
-+		pidff->set_effect[PID_TRIGGER_BUTTON].field->logical_maximum;
-+	if (effect->trigger.button <= trigger_button_max) {
-+		pidff->set_effect[PID_TRIGGER_BUTTON].value[0] =
-+			effect->trigger.button;
-+		pidff_set_time(&pidff->set_effect[PID_TRIGGER_REPEAT_INT],
-+			       effect->trigger.interval);
-+	} else {
-+		pidff->set_effect[PID_TRIGGER_BUTTON].value[0] = 0;
-+		pidff->set_effect[PID_TRIGGER_REPEAT_INT].value[0] = 0;
-+	}
++  vbus-supply:
++    description: Regulator to control sourcing Vbus.
 +
- 	pidff->set_effect[PID_GAIN].value[0] =
- 		pidff->set_effect[PID_GAIN].field->logical_maximum;
+ required:
+   - compatible
+   - reg
+@@ -53,6 +56,7 @@ examples:
+             reg = <0x25>;
+             interrupt-parent = <&gpa8>;
+             interrupts = <2 IRQ_TYPE_LEVEL_LOW>;
++            vbus-supply = <&chgin_otg_reg>;
  
+             connector {
+                 compatible = "usb-c-connector";
+
 -- 
-2.51.0
+2.53.0.273.g2a3d683680-goog
+
 
