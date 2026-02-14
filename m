@@ -1,38 +1,38 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7A50729AB02;
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CD4082BFC7B;
 	Sat, 14 Feb 2026 03:13:51 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1771038831; cv=none; b=lSx0Y6COwEjifdF4PqjapshPBfj4BLafbzGZ2LyzzFBDdPmspAyCvC8ugGBqou/vA6wQG63o8yiZVmTez1d1wuPirDkjb9WgSlntADRxguwDl3GDa8/dZByRuhKeLn6wY+QrmXRg8XQJvX5dvf2P9VKVx1VIYjaJisL8HhnAku0=
+	t=1771038831; cv=none; b=LLSjzCBwuqBEAm/LNMEJw2Tckfskwy4KTx5afQvDlRLE2u7vbpHCOtjdAvHAQC7biKXIt38tTJ8BQp2xz0MmBo/1mFSndf5WW/GTZPAYShPn7POtM3Nv5hP3WOXfX0EiP6yBCheULLe9JEGqYKQVt7ncxxba74H0Zv+OtZY3ot0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
 	s=arc-20240116; t=1771038831; c=relaxed/simple;
-	bh=NEX6wiIU0Pu9wCjwqFxlx1o3cZBcQ0jou3x+WtZcdW8=;
+	bh=T0is8WAjNIQTH7n3SjjQrYJ5o0lOncKHPOxPG7gCwVk=;
 	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
-	 In-Reply-To:To:Cc; b=RFg0VZylwRHchdIE7xV2le0awo1GE4NIns02nI22FYc/daaZrUpCuI1P8whg4dutxtmY8zvtlhw6mRPhcPF5/ZcdZx482HE3qQR8Kfztq/u6+BVHFXMXgaf+ZjnFtuX7aQh1lKS9TvamIiOYUJsftzk6LTlxktIZOSYhNTYQU04=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=dVCGP2zC; arc=none smtp.client-ip=10.30.226.201
+	 In-Reply-To:To:Cc; b=nvF4unG+dD0uiy5nCy2Q2UZSMlHMuDmOEWR7iOzM3YyAhXd9c9kHr0CxfxaKRBILJ5iuYkrKGVoJUn/vuxoCRw7cpaHn3gxkNrCXTN2rigQAM+CQg5hbgzoclUnDywotzSSybfrYYjszXOJFgd4cxauCi8uwBGqhmZG0F3CMbV0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=s+17zbrU; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="dVCGP2zC"
-Received: by smtp.kernel.org (Postfix) with ESMTPS id 4E4FFC2BC87;
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="s+17zbrU"
+Received: by smtp.kernel.org (Postfix) with ESMTPS id A3AF2C2BC9E;
 	Sat, 14 Feb 2026 03:13:51 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
 	s=k20201202; t=1771038831;
-	bh=NEX6wiIU0Pu9wCjwqFxlx1o3cZBcQ0jou3x+WtZcdW8=;
+	bh=T0is8WAjNIQTH7n3SjjQrYJ5o0lOncKHPOxPG7gCwVk=;
 	h=From:Date:Subject:References:In-Reply-To:To:Cc:Reply-To:From;
-	b=dVCGP2zCdcB6PXkidzvipJQ6CUz6bJC6P9hxkFXeTeSHZTAU1pC191aCORag5yFyP
-	 I49idaudZK6rL3mZZXsV1E3hRHmny0QS/cQ7Pdh54X0yahMTz+RUxhw64nRS6z1mc/
-	 mA3puT8Oh1vR3NZN1tHGDlwZCDmJCyDFc58dL1CgbKZe6qGu94Rs90/UVUxNanmix0
-	 1tttebO7VxJ4IO5shGn9R3aWe+ANxAZN95hC6izfYSRJMmr+MAujkjGYfqCzICAzBi
-	 ibvz5ZW6zjer+gl2vnTAjOGeNtLfcfjXASwgndZ22OApp7EyNFsf340lDnRVr5DYGB
-	 z5nDFj+EG3vbw==
+	b=s+17zbrUUXMO9ZtVcIc5PlEKHT3CSI8T+rxRHvAN1PXdVrQ2IcT+nTWqeXm8KvBaX
+	 CfYKYAVwLDRST51HpUOfCmDLjwiYOb0nR1PWYhQktG3Ji3fnfqgJCBXfv9WPMJydpG
+	 /3j4q8uQPy/LJDRDRc5UGRQPMTmm8QUdJMmmfWlq086vyc/WEm8DVIeA80Jq2Mp5Dg
+	 ktE+dBXRa38vKvJ+wZL7f3XLRTnHmUdPvH76AfK3bbQqn8qJ2m2qpYJ6YgE1BTMxH9
+	 MlDmuUA/J8CLs7icyfRaVUy3oY46brgpXz59RnsKdtIsBX9eIQWisxe6exhMTdc8+B
+	 ZejbjtjY3824w==
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 40659EF99F3;
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 8FF3DEF99F3;
 	Sat, 14 Feb 2026 03:13:51 +0000 (UTC)
 From: Amit Sunil Dhamne via B4 Relay <devnull+amitsd.google.com@kernel.org>
-Date: Sat, 14 Feb 2026 03:12:40 +0000
-Subject: [PATCH v6 4/6] lib/linear_ranges: Add
- linear_range_get_selector_high_array
+Date: Sat, 14 Feb 2026 03:12:42 +0000
+Subject: [PATCH v6 6/6] usb: typec: tcpm/tcpci_maxim: deprecate WAR for
+ setting charger mode
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
@@ -40,8 +40,8 @@ List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-Message-Id: <20260214-max77759-charger-v6-4-28c09bda74b4@google.com>
+Content-Transfer-Encoding: 8bit
+Message-Id: <20260214-max77759-charger-v6-6-28c09bda74b4@google.com>
 References: <20260214-max77759-charger-v6-0-28c09bda74b4@google.com>
 In-Reply-To: <20260214-max77759-charger-v6-0-28c09bda74b4@google.com>
 To: Sebastian Reichel <sre@kernel.org>, Rob Herring <robh@kernel.org>, 
@@ -62,11 +62,11 @@ Cc: linux-kernel@vger.kernel.org, linux-pm@vger.kernel.org,
  RD Babiera <rdbabiera@google.com>, Kyle Tso <kyletso@google.com>, 
  Amit Sunil Dhamne <amitsd@google.com>
 X-Mailer: b4 0.14.3
-X-Developer-Signature: v=1; a=ed25519-sha256; t=1771038829; l=2903;
+X-Developer-Signature: v=1; a=ed25519-sha256; t=1771038829; l=3931;
  i=amitsd@google.com; s=20241031; h=from:subject:message-id;
- bh=h/h1RxmtgZ8cYlZDWufw7EoQID32BVVp1LlJ3v3N0UU=;
- b=RVqxcTavOqnvmDC5ffcWhKUukC/ahcX0DQO5rw03LALrucXeDLBYkxAEg+hEcEboMceLw4SAc
- WG0Fyb3J9GkAbqMzD2j6nYgzqrXSpj7uRZpj2I4/Dw837V1NXtKMAJZ
+ bh=SV82ZDWtKqKM+e3skWinWqYZFA5ClNos8oIG2Fwiwec=;
+ b=a30VK9AaA+r4F0YLcvsI9TPp5BZthNhQKAN+p0/lbmZTThPFt8DwCap4nnbURWF2U9wLnN0+O
+ xkootuhzxRVAUyw0dA555RfwKE9URbBjaE+lEONm+TH3WWugHpfY3ht
 X-Developer-Key: i=amitsd@google.com; a=ed25519;
  pk=wD+XZSST4dmnNZf62/lqJpLm7fiyT8iv462zmQ3H6bI=
 X-Endpoint-Received: by B4 Relay for amitsd@google.com/20241031 with
@@ -76,76 +76,124 @@ Reply-To: amitsd@google.com
 
 From: Amit Sunil Dhamne <amitsd@google.com>
 
-Add a helper function to find the selector for a given value in a linear
-range array. The selector should be such that the value it represents
-should be higher or equal to the given value.
+TCPCI maxim driver directly writes to the charger's register space to
+set charger mode depending on the power role. As MAX77759 chg driver
+exists, this WAR is not required.
+
+Instead, use a regulator interface to source vbus when typec is in
+source power mode. In other power modes, this regulator will be turned
+off if active.
 
 Signed-off-by: Amit Sunil Dhamne <amitsd@google.com>
+Reviewed-by: Heikki Krogerus <heikki.krogerus@linux.intel.com>
+Reviewed-by: André Draszik <andre.draszik@linaro.org>
 ---
- include/linux/linear_range.h |  3 +++
- lib/linear_ranges.c          | 36 ++++++++++++++++++++++++++++++++++++
- 2 files changed, 39 insertions(+)
+ drivers/usb/typec/tcpm/tcpci_maxim.h      |  1 +
+ drivers/usb/typec/tcpm/tcpci_maxim_core.c | 54 +++++++++++++++++++------------
+ 2 files changed, 34 insertions(+), 21 deletions(-)
 
-diff --git a/include/linux/linear_range.h b/include/linux/linear_range.h
-index 2e4f4c3539c0..0f3037f1a94f 100644
---- a/include/linux/linear_range.h
-+++ b/include/linux/linear_range.h
-@@ -57,5 +57,8 @@ void linear_range_get_selector_within(const struct linear_range *r,
- int linear_range_get_selector_low_array(const struct linear_range *r,
- 					int ranges, unsigned int val,
- 					unsigned int *selector, bool *found);
-+int linear_range_get_selector_high_array(const struct linear_range *r,
-+					 int ranges, unsigned int val,
-+					 unsigned int *selector, bool *found);
+diff --git a/drivers/usb/typec/tcpm/tcpci_maxim.h b/drivers/usb/typec/tcpm/tcpci_maxim.h
+index b33540a42a95..b314606eb0f6 100644
+--- a/drivers/usb/typec/tcpm/tcpci_maxim.h
++++ b/drivers/usb/typec/tcpm/tcpci_maxim.h
+@@ -60,6 +60,7 @@ struct max_tcpci_chip {
+ 	struct tcpm_port *port;
+ 	enum contamiant_state contaminant_state;
+ 	bool veto_vconn_swap;
++	struct regulator *vbus_reg;
+ };
  
- #endif
-diff --git a/lib/linear_ranges.c b/lib/linear_ranges.c
-index a1a7dfa881de..c85583678f6b 100644
---- a/lib/linear_ranges.c
-+++ b/lib/linear_ranges.c
-@@ -241,6 +241,42 @@ int linear_range_get_selector_high(const struct linear_range *r,
+ static inline int max_tcpci_read16(struct max_tcpci_chip *chip, unsigned int reg, u16 *val)
+diff --git a/drivers/usb/typec/tcpm/tcpci_maxim_core.c b/drivers/usb/typec/tcpm/tcpci_maxim_core.c
+index 19f638650796..e9e2405c5ca0 100644
+--- a/drivers/usb/typec/tcpm/tcpci_maxim_core.c
++++ b/drivers/usb/typec/tcpm/tcpci_maxim_core.c
+@@ -10,6 +10,7 @@
+ #include <linux/kernel.h>
+ #include <linux/module.h>
+ #include <linux/regmap.h>
++#include <linux/regulator/consumer.h>
+ #include <linux/usb/pd.h>
+ #include <linux/usb/tcpci.h>
+ #include <linux/usb/tcpm.h>
+@@ -35,12 +36,6 @@
+  */
+ #define TCPC_RECEIVE_BUFFER_LEN				32
+ 
+-#define MAX_BUCK_BOOST_SID				0x69
+-#define MAX_BUCK_BOOST_OP				0xb9
+-#define MAX_BUCK_BOOST_OFF				0
+-#define MAX_BUCK_BOOST_SOURCE				0xa
+-#define MAX_BUCK_BOOST_SINK				0x5
+-
+ static const struct regmap_range max_tcpci_tcpci_range[] = {
+ 	regmap_reg_range(0x00, 0x95)
+ };
+@@ -202,32 +197,49 @@ static void process_rx(struct max_tcpci_chip *chip, u16 status)
+ 	tcpm_pd_receive(chip->port, &msg, rx_type);
  }
- EXPORT_SYMBOL_GPL(linear_range_get_selector_high);
  
-+/**
-+ * linear_range_get_selector_high_array - return linear range selector for value
-+ * @r:		pointer to array of linear ranges where selector is looked from
-+ * @ranges:	amount of ranges to scan from array
-+ * @val:	value for which the selector is searched
-+ * @selector:	address where found selector value is updated
-+ * @found:	flag to indicate that given value was in the range
-+ *
-+ * Scan array of ranges for selector for which range value matches given
-+ * input value. Value is matching if it is equal or higher than given value
-+ * If given value is found to be in a range scanning is stopped and @found is
-+ * set true. If a range with values greater than given value is found
-+ * but the range min is being greater than given value, then the range's
-+ * lowest selector is updated to @selector and scanning is stopped.
-+ *
-+ * Return: 0 on success, -EINVAL if range array is invalid or does not contain
-+ * range with a value greater or equal to given value
-+ */
-+int linear_range_get_selector_high_array(const struct linear_range *r,
-+					 int ranges, unsigned int val,
-+					 unsigned int *selector, bool *found)
++static int get_vbus_regulator_handle(struct max_tcpci_chip *chip)
 +{
-+	int i;
-+	int ret;
-+
-+	for (i = 0; i < ranges; i++) {
-+		ret = linear_range_get_selector_high(&r[i], val, selector,
-+						     found);
-+		if (!ret)
-+			return 0;
++	if (IS_ERR_OR_NULL(chip->vbus_reg)) {
++		chip->vbus_reg = devm_regulator_get_exclusive(chip->dev,
++							      "vbus");
++		if (IS_ERR_OR_NULL(chip->vbus_reg)) {
++			dev_err(chip->dev,
++				"Failed to get vbus regulator handle");
++			return -ENODEV;
++		}
 +	}
 +
-+	return -EINVAL;
++	return 0;
 +}
-+EXPORT_SYMBOL_GPL(linear_range_get_selector_high_array);
 +
- /**
-  * linear_range_get_selector_within - return linear range selector for value
-  * @r:		pointer to linear range where selector is looked from
+ static int max_tcpci_set_vbus(struct tcpci *tcpci, struct tcpci_data *tdata, bool source, bool sink)
+ {
+ 	struct max_tcpci_chip *chip = tdata_to_max_tcpci(tdata);
+-	u8 buffer_source[2] = {MAX_BUCK_BOOST_OP, MAX_BUCK_BOOST_SOURCE};
+-	u8 buffer_sink[2] = {MAX_BUCK_BOOST_OP, MAX_BUCK_BOOST_SINK};
+-	u8 buffer_none[2] = {MAX_BUCK_BOOST_OP, MAX_BUCK_BOOST_OFF};
+-	struct i2c_client *i2c = chip->client;
+ 	int ret;
+ 
+-	struct i2c_msg msgs[] = {
+-		{
+-			.addr = MAX_BUCK_BOOST_SID,
+-			.flags = i2c->flags & I2C_M_TEN,
+-			.len = 2,
+-			.buf = source ? buffer_source : sink ? buffer_sink : buffer_none,
+-		},
+-	};
+-
+ 	if (source && sink) {
+ 		dev_err(chip->dev, "Both source and sink set\n");
+ 		return -EINVAL;
+ 	}
+ 
+-	ret = i2c_transfer(i2c->adapter, msgs, 1);
++	ret = get_vbus_regulator_handle(chip);
++	if (ret) {
++		/*
++		 * Regulator is not necessary for sink only applications. Return
++		 * success in cases where sink mode is being modified.
++		 */
++		return source ? ret : 1;
++	}
++
++	if (source) {
++		if (!regulator_is_enabled(chip->vbus_reg))
++			ret = regulator_enable(chip->vbus_reg);
++	} else {
++		if (regulator_is_enabled(chip->vbus_reg))
++			ret = regulator_disable(chip->vbus_reg);
++	}
+ 
+-	return  ret < 0 ? ret : 1;
++	return ret < 0 ? ret : 1;
+ }
+ 
+ static void process_power_status(struct max_tcpci_chip *chip)
 
 -- 
 2.53.0.273.g2a3d683680-goog
