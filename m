@@ -1,79 +1,93 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7DD3E32D7F3;
-	Tue, 17 Feb 2026 11:00:13 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 281852848BA
+	for <linux-usb@vger.kernel.org>; Tue, 17 Feb 2026 11:44:51 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1771326013; cv=none; b=FTYTfVAFdmmZKwQoFWvj7ECpEKSY1YzXD0CJJLZ4s+NwSWGu8xfIwn9Vs3mbzpOoXFQ0dj8iDZvgmBmNdmvRCtpd75ne5MDjRD6tsjPe5ZMgvSLAy/zoPx502r3VaNusBDf4vyVLhJ1kyslSJmfeAbeDyoKhqBJlQcnynciCyfc=
+	t=1771328692; cv=none; b=XOZiibpW0lc5mAi55MUL6HjVWzdVEnN9XXeMUTpqvIShJcoL42CuhBo8ubx+n6F9hTDIz4//cC/WW/YdBrCeJRyK/x2EOB2zOs+7ncXMCOLp96oTxvG0JJa5kP8Z5m6pLVV54dlf2yxwN38ywXENS6YWc+ig0dSqHrp88ky6mrI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1771326013; c=relaxed/simple;
-	bh=EtUSxvpqqES11XXGrvIkxPTLX8QUY/JSJrLWU+jOhl8=;
-	h=Content-Type:MIME-Version:Subject:From:Message-Id:Date:References:
-	 In-Reply-To:To:Cc; b=AQ0hBmWcd9cZIrsBuMXE7P7MxMtf3xld7UzzWp2+BL+c5l3JEH86YjKf/eI/JPAMjVyT9PvgoMaXEXwXeQYyppfCaxQffd7mNng6fed1/lfA+Vimozs+jW0X2lQRLENQeNFtAMGXCt9DPQq4uCNwSlAf77e1+FHFghfm7z3oGrs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=P82GCK7V; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1771328692; c=relaxed/simple;
+	bh=uuTaIXFTPu2/qzZuUs/jF/6wWEG131Z0iBFEDrNbk5c=;
+	h=From:To:Subject:Date:Message-ID:In-Reply-To:References:
+	 Content-Type:MIME-Version; b=Tho0xKajNRG3u/eYsGUmBFU5ZpXaoJ96/FSZP7AOTif46wEEsYLyyOMGtOtKfj5d4E8PRKrIRAsdZ/gCttYN1mX4oTLoB4ahhimNsXdCSi3K/YUbD4q7vg8zbrrZnUHwXPsytznT+N9IfHOQKqjf5cqCM8D5LaLza7GGKfi7urU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=L+t/8/s3; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="P82GCK7V"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 0E13EC4CEF7;
-	Tue, 17 Feb 2026 11:00:13 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="L+t/8/s3"
+Received: by smtp.kernel.org (Postfix) with ESMTPS id C5529C19423
+	for <linux-usb@vger.kernel.org>; Tue, 17 Feb 2026 11:44:51 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1771326013;
-	bh=EtUSxvpqqES11XXGrvIkxPTLX8QUY/JSJrLWU+jOhl8=;
-	h=Subject:From:Date:References:In-Reply-To:To:Cc:From;
-	b=P82GCK7VDmYVXpjlvPCWYm6ov7GGx3jleZlP9MVBr/pYmJHVvs0vMZdrd0C8gcI2O
-	 SCD5Nt/TFBzxdxrRIODtUuckKbvbu62U9SIzy0dCSVxPY8oy5JMWVsVJD4D9rkzu3J
-	 rwKJ8LRbm+gGOYPu7hZB6CU/q1BXcTDXEOSH9vRo2OQzZUF0SCf0Cv6lnWnFyhTu62
-	 wEssLXdENs6ymi+iDlai9AajYl1Agiur2VSQWmynBV5Wvw2h2YdT29DyI5H3HEKI+u
-	 FVmTb/UcfKKqXiBefugyx+vgi6YWJVIbl4qaj1SGaOTwtjA9SynwqnvV1PeB3KTJSZ
-	 i630ChWDaWXUg==
-Received: from [10.30.226.235] (localhost [IPv6:::1])
-	by aws-us-west-2-korg-oddjob-rhel9-1.codeaurora.org (Postfix) with ESMTP id 4808E380AAD0;
-	Tue, 17 Feb 2026 11:00:06 +0000 (UTC)
-Content-Type: text/plain; charset="utf-8"
+	s=k20201202; t=1771328691;
+	bh=uuTaIXFTPu2/qzZuUs/jF/6wWEG131Z0iBFEDrNbk5c=;
+	h=From:To:Subject:Date:In-Reply-To:References:From;
+	b=L+t/8/s3P4y5trGmcHvLAT4oiQMd2vYyLT3chFfYn+P6Ii4cesII8ms0wRH9ZXyDe
+	 wfzGg8LIav2TUXy6uEt76fomT5qC5MDgpcVdQBRD5HjuQTOttnh4uKnYw/YOGKafJY
+	 cGyOQhWHKUsnbFctWbiCrP7k8lU3Qux0pfD58ifI0B5Dfw66yhWPiRxKiecfH7KZrl
+	 0c3/inR6vYDgqVAyfJkibTwp417/tnNQQLEOhhXTpq+qXyybiZbQc1BBKLk8VOhrqI
+	 fjIJy4536Wruzt3mwR7n5kuISh0nfzyJiVEELmof108v7v9qkFgv77wJGGlqvX+VEr
+	 261hw4j8hy5QA==
+Received: by aws-us-west-2-korg-bugzilla-1.web.codeaurora.org (Postfix, from userid 48)
+	id B5D7CC41612; Tue, 17 Feb 2026 11:44:51 +0000 (UTC)
+From: bugzilla-daemon@kernel.org
+To: linux-usb@vger.kernel.org
+Subject: [Bug 220904] [BUG] ucsi_acpi: USB 3.0 SuperSpeed not negotiated on
+ USB-C hot-plug
+Date: Tue, 17 Feb 2026 11:44:51 +0000
+X-Bugzilla-Reason: None
+X-Bugzilla-Type: changed
+X-Bugzilla-Watch-Reason: AssignedTo drivers_usb@kernel-bugs.kernel.org
+X-Bugzilla-Product: Drivers
+X-Bugzilla-Component: USB
+X-Bugzilla-Version: 2.5
+X-Bugzilla-Keywords: 
+X-Bugzilla-Severity: normal
+X-Bugzilla-Who: thomas@jetzinger.com
+X-Bugzilla-Status: NEW
+X-Bugzilla-Resolution: 
+X-Bugzilla-Priority: P3
+X-Bugzilla-Assigned-To: drivers_usb@kernel-bugs.kernel.org
+X-Bugzilla-Flags: 
+X-Bugzilla-Changed-Fields: attachments.created
+Message-ID: <bug-220904-208809-EkqfWodzIe@https.bugzilla.kernel.org/>
+In-Reply-To: <bug-220904-208809@https.bugzilla.kernel.org/>
+References: <bug-220904-208809@https.bugzilla.kernel.org/>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+X-Bugzilla-URL: https://bugzilla.kernel.org/
+Auto-Submitted: auto-generated
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Subject: Re: [PATCH net v2] net: usb: catc: enable basic endpoint checking
-From: patchwork-bot+netdevbpf@kernel.org
-Message-Id: 
- <177132600483.21044.10447255090282222235.git-patchwork-notify@kernel.org>
-Date: Tue, 17 Feb 2026 11:00:04 +0000
-References: <20260212214154.3609844-1-n7l8m4@u.northwestern.edu>
-In-Reply-To: <20260212214154.3609844-1-n7l8m4@u.northwestern.edu>
-To: Ziyi Guo <n7l8m4@u.northwestern.edu>
-Cc: andrew+netdev@lunn.ch, davem@davemloft.net, edumazet@google.com,
- kuba@kernel.org, pabeni@redhat.com, horms@kernel.org,
- linux-usb@vger.kernel.org, netdev@vger.kernel.org,
- linux-kernel@vger.kernel.org
 
-Hello:
+https://bugzilla.kernel.org/show_bug.cgi?id=3D220904
 
-This patch was applied to netdev/net.git (main)
-by Paolo Abeni <pabeni@redhat.com>:
+--- Comment #14 from Thomas Jetzinger (thomas@jetzinger.com) ---
+Created attachment 309395
+  --> https://bugzilla.kernel.org/attachment.cgi?id=3D309395&action=3Dedit
+Removed xhci_hcd.quirks=3D0x80 from kernel command line as suggested.
 
-On Thu, 12 Feb 2026 21:41:54 +0000 you wrote:
-> catc_probe() fills three URBs with hardcoded endpoint pipes without
-> verifying the endpoint descriptors:
-> 
->   - usb_sndbulkpipe(usbdev, 1) and usb_rcvbulkpipe(usbdev, 1) for TX/RX
->   - usb_rcvintpipe(usbdev, 2) for interrupt status
-> 
-> A malformed USB device can present these endpoints with transfer types
-> that differ from what the driver assumes.
-> 
-> [...]
+Suspend/resume now works correctly:
 
-Here is the summary with links:
-  - [net,v2] net: usb: catc: enable basic endpoint checking
-    https://git.kernel.org/netdev/net/c/9e7021d2aeae
+  PM: suspend entry (s2idle)
+  xhci_hcd 0000:00:0d.0: xhci_suspend: stopping usb1 port polling.
+  xhci_hcd 0000:00:14.0: xhci_suspend: stopping usb3 port polling.
+  xhci_hcd 0000:00:0d.0: xhci_resume: starting usb1 port polling.
+  xhci_hcd 0000:00:14.0: xhci_resume: starting usb3 port polling.
+  r8152-cfgselector 2-3.1: usb resume
+  r8152-cfgselector 2-3.1: finish resume
+  r8152 2-3.1:1.0 enp0s13f0u3u1: carrier on
+  PM: suspend exit
 
-You are awesome, thank you!
--- 
-Deet-doot-dot, I am a bot.
-https://korg.docs.kernel.org/patchwork/pwbot.html
+No "root hub lost power" messages. Ethernet recovers at SuperSpeed.
+Full dmesg with xhci_hcd and usbcore debug attached.
 
+Thanks for identifying the root cause.
 
+--=20
+You may reply to this email to add a comment.
+
+You are receiving this mail because:
+You are watching the assignee of the bug.=
