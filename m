@@ -1,100 +1,111 @@
-Received: from mail-wr1-f45.google.com (mail-wr1-f45.google.com [209.85.221.45])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 11DD32222B2
-	for <linux-usb@vger.kernel.org>; Thu, 19 Feb 2026 08:09:08 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.45
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 24E7A70830
+	for <linux-usb@vger.kernel.org>; Thu, 19 Feb 2026 09:33:44 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1771488550; cv=none; b=D2V7fwruqS0VjgeAdUJaswV/ok/ZPGKPdaxkt5CPoyBkdQ+lZV+bU+hgcAnOGfH8wAOJA0q/+luB31w9WkzLEGxh9XFi2AVNXqfPEhSyyj/Qr4w53x+kSw2EaIg2dX2AcBPb0+trEfn1XundBkxRS5vJkjZnznFGoPdk9Q8Nb/o=
+	t=1771493625; cv=none; b=Wdf0V8aWZmN+xo97yRG2QjjlynvcqfqZHl6oLva+6XD5Z0vRDvMv0wGdCA2MpwLYm2kgLuqNI4Wmxvj2E3qmkvGSHh5Tb16onjmesq9jRW1HMED2ekeYxfbtqhBbdsXBMgu4c9NijwxXhh5O2TEMWsn3OyTZjaM8gLCRrd1HjWI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1771488550; c=relaxed/simple;
-	bh=/Q4AmlP+4lJPGGPF3wETm57Xx4uatixq0+Q6oWZSS7c=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=tkySgBXMxfM+Vn9ltBgPe+GVtpeV0cHSl0Agm/RhR5dnjpdcWPfqyeHQSWzMixIIBhMt3nAdtV/vA9M23hEwsHGkpGjvLvEmzATh9vfennQ0jxmk+3D/e6LruSMseOdFoXOmj5JD0updy5o0/3gGzvseo9OpIHF2xk5tMoXoJ/4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=suse.com; spf=pass smtp.mailfrom=suse.com; dkim=pass (2048-bit key) header.d=suse.com header.i=@suse.com header.b=X97xdriM; arc=none smtp.client-ip=209.85.221.45
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=suse.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.com
+	s=arc-20240116; t=1771493625; c=relaxed/simple;
+	bh=HXVMkcoy8BnPffyr3PMe3Kcz9tLAdIDnjM9ZvSp4MsQ=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=uTblODkoWsEzOPKfkxoTdJtxcifzP6IHqSacRj3w/iRK1SCvpS7Rn3pZsig1pz0fjJXtG57nMGRqeXSpYojIYh3w5EOmtoKG3XgRUK+zemTXAC16PsrTg+EyXLCavde6ToCfcJfi7cZLLb6pZvPkP6gUnATjcI1s0eZP4Z88okI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b=xwg+tByc; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=suse.com header.i=@suse.com header.b="X97xdriM"
-Received: by mail-wr1-f45.google.com with SMTP id ffacd0b85a97d-4376de3f128so404961f8f.0
-        for <linux-usb@vger.kernel.org>; Thu, 19 Feb 2026 00:09:08 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=suse.com; s=google; t=1771488547; x=1772093347; darn=vger.kernel.org;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=wqizv7wuQKBTah/B5F09fRjT5PNlXqSdnUyt/x8aryA=;
-        b=X97xdriMWY3xbflJhqeO6B0qFUbmlkiKyYHceGNDNk2uJqo25HdiB/3eDP9ZoicfSG
-         waXqQfqYOMv24oowCv232u1JGYBqmIDHMVshUndpK9DzY3sXIfC4q++2Br/LnWm85q+y
-         JKljgG94PvoRL0ajwD571CDDyrMa/BY5uJ7HD1DdvB9BP+X6cISF+uxgt1wNY/JtRPvW
-         6kahokiExaLoCLaB3WsM57K6TOa+aEWkw60YwGTUHqVlAgVif2eDXLwaqLpCDSMDw6qA
-         Pyqjb+y3IuVJJ2LEEZ6DJawcb21aWvFx3+velRAF5+Ud75NSIwmKVRlYewDD+n/Os7HP
-         aTQA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1771488547; x=1772093347;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :x-gm-gg:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=wqizv7wuQKBTah/B5F09fRjT5PNlXqSdnUyt/x8aryA=;
-        b=SfpjDB/dfS8qJfvuFTcQBmJWxSHegh+NPInSEFjLgmKB644X/WcFkp7yaHHbScicma
-         MY7D1A0njLXB0ZJaFTvoel0rJQEEtipqI8haNYZQTxm9zPR5DA/JsmpzbVr5UI66Bm1M
-         k+LabObeV3g0SPm49JD720XZ7d3uIEtBhjzx2v3cLz4jDBkEr6HgOhyh1EwsHC5pb+Ug
-         eY+uBTy/iGZzPpwEksspY//fepf0SYD0gqcAE75GN99JxeROF/28WM5Yu56rivpovYw3
-         K0OGT9svQZdZRPKGSjzzwjsOfR5b08/IjN6+0bckDaf/JuBY64zZU0dPxKMw4JlhAsE/
-         dIFQ==
-X-Forwarded-Encrypted: i=1; AJvYcCUVVponxSF28Hslu18atIDYQGDi2KYfXhUbClcay7wC+ng3eHU3LxS74nomK0tH9u7KGOdJlUbhgN0=@vger.kernel.org
-X-Gm-Message-State: AOJu0YyA15l4GjOoO2nqMfC57w56oYSFcN6IIx6H59xChwnSVqyubtBl
-	ut9i9MWLWgomWr/Sul9rEWukAjMA4l4593esk75mjj2L2kdouvOlj8p/c1VNLCaAuWo=
-X-Gm-Gg: AZuq6aJVZ+xFrf3X3ARrtxqD1CIkYPcyXv5MBPNsvA1S5IyYqiocZxWrFm8uRAoLTel
-	NmCNX1u8m5j4Gkj+yvA/J6j/h+00pnF/1RrueZm27udhPU+1b65c3HTa+BFea19mI3X+8ybmLRk
-	d2sG8cod9rAJWI3hKs5m/PtEwwCAutd3RavGub1OBzepWzvVbdvMaXqbvxWkveNC59DdwYF93uM
-	hLxu9qwrppsK+pNnyUrblijwkNwWLfjujQN08lmUfer7LBTte6UrHQmiMzGa7IimPHz0Iq+RfVK
-	oJ/JWOcuif5uvMGcZppS4m0yfju8Dqceo7F0CKZO+Xh0Zh3BNI67G5N09rB16o5+Wtuw93oAN/m
-	HRsVqZKVKG/o16CEgfcQhypJdqr/aH+t+5REpZ5HvL+ExKphUvzToTR8Pc8AULn6Vny6wreYSQU
-	XgReEoVg5nzVj/CrVGyV86VAJ1CqdYGuL/V20BLdrlxJj6VfNgv61Ga3fscRlwC5YMuKb+oi8Mx
-	E0Yww==
-X-Received: by 2002:a5d:5d05:0:b0:437:771b:26b with SMTP id ffacd0b85a97d-4379db71b34mr33231060f8f.26.1771488547076;
-        Thu, 19 Feb 2026 00:09:07 -0800 (PST)
-Received: from ?IPV6:2001:a61:13da:3801:6d37:5b4f:1853:c2db? ([2001:a61:13da:3801:6d37:5b4f:1853:c2db])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-43796ad009bsm46029799f8f.39.2026.02.19.00.09.06
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Thu, 19 Feb 2026 00:09:06 -0800 (PST)
-Message-ID: <d6d185e9-137e-4220-af96-891e88518c39@suse.com>
-Date: Thu, 19 Feb 2026 09:09:01 +0100
+	dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="xwg+tByc"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 50FFEC4CEF7;
+	Thu, 19 Feb 2026 09:33:44 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
+	s=korg; t=1771493624;
+	bh=HXVMkcoy8BnPffyr3PMe3Kcz9tLAdIDnjM9ZvSp4MsQ=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=xwg+tByckKGS+gbEhQ6JFY4KJdMWrBnOLPTCFP1+LZ7kLnZCzd5ZKqGUKYVTMfHV3
+	 zFH6MII8KdFjnGOgr9z6fx7FMeEeQRFoSfY7J27IsNIISpAALxdNe06WTsG0HsBhVm
+	 q0vFney16OfO9yCpJ4HWVebQJnjLMjO3EoX4eutk=
+Date: Wed, 18 Feb 2026 06:12:27 +0100
+From: Greg KH <gregkh@linuxfoundation.org>
+To: Nicholas Carlini <npc@anthropic.com>
+Cc: linux-usb@vger.kernel.org
+Subject: Re: Stack buffer overflow (write) in kvaser_usb_leaf_wait_cmd via
+ malicious USB
+Message-ID: <2026021847-acclaim-coil-fe7a@gregkh>
+References: <CAOt5ifARcQqqGc65hHXR2JNTDg0hT0cF55Kb-6USEsqjEPM1nA@mail.gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v2 1/3] USB: usbcore: Introduce usb_bulk_msg_killable()
-To: Alan Stern <stern@rowland.harvard.edu>
-Cc: Greg KH <gregkh@linuxfoundation.org>,
- USB mailing list <linux-usb@vger.kernel.org>
-References: <32a96517-104c-423a-b1b1-8dd139192900@rowland.harvard.edu>
- <7cbb32ef-944d-4d03-9209-5249bd7ae1d0@suse.com>
- <9bc181a5-25e7-4f9d-a6b4-23c716e75269@rowland.harvard.edu>
-Content-Language: en-US
-From: Oliver Neukum <oneukum@suse.com>
-In-Reply-To: <9bc181a5-25e7-4f9d-a6b4-23c716e75269@rowland.harvard.edu>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <CAOt5ifARcQqqGc65hHXR2JNTDg0hT0cF55Kb-6USEsqjEPM1nA@mail.gmail.com>
 
-
-
-On 18.02.26 16:02, Alan Stern wrote:
-> On Wed, Feb 18, 2026 at 01:54:31PM +0100, Oliver Neukum wrote:
-
->> This still leaves the quesion why a timeout can be negative.
+On Tue, Feb 17, 2026 at 06:13:30PM -0800, Nicholas Carlini wrote:
+> My best guess at a fix would be to check the bounds of the output
+> buffer as well. Below I've written an attempt at a patch. (I know that
+> it will fail to merge because gmail will break patches, sorry about
+> that, I'm working on getting myself permissions to download an email
+> client onto my work laptop that will let me send well-formatted
+> patches to you all asap.)
 > 
-> My best guess is that the original API was written carelessly.  In any
-> case, I don't want to change it now -- it's a separate issue.
+> Author: Nicholas Carlini <nicholas@carlini.com>
+> Date:   Mon Feb 16 18:12:33 2026 +0000
+> 
+>     can: kvaser_usb: fix stack buffer overflow in kvaser_usb_leaf_wait_cmd()
+> 
+>     kvaser_usb_leaf_wait_cmd() copies a command response from a USB device into
+>     a caller-provided struct kvaser_cmd on the stack. The length of the copy is
+>     provided by the command byte on the USB data (tmp->len), which can be fully
+>     controlled by a malicious USB device. The maximum size of tmp->len is 255,
+>     but the destination buffer is only sizeof(struct kvaser_cmd) bytes (~32).
+> 
+>     Add a bounds check to ensure that tmp->len does not exceed sizeof(*cmd)
+>     before memcpy.
+> 
+>     Fixes: 080f40a6fa28 ("can: kvaser_usb: Add support for Kvaser
+> CAN/USB devices")
+>     Signed-off-by: Nicholas Carlini <nicholas@carlini.com>
+> 
+> diff --git a/drivers/net/can/usb/kvaser_usb/kvaser_usb_leaf.c
+> b/drivers/net/can/usb/kvaser_usb/kvaser_usb_leaf.c
+> index 1167d38344f1..465c3a6801e4 100644
+> --- a/drivers/net/can/usb/kvaser_usb/kvaser_usb_leaf.c
+> +++ b/drivers/net/can/usb/kvaser_usb/kvaser_usb_leaf.c
+> @@ -698,6 +698,13 @@ static int kvaser_usb_leaf_wait_cmd(const struct
+> kvaser_usb *dev, u8 id,
+>                         }
+> 
+>                         if (tmp->id == id) {
+> +                               if (tmp->len > sizeof(*cmd)) {
+> +                                       dev_err_ratelimited(&dev->intf->dev,
+> +                                               "Command %u too long
+> (%u, max %zu)\n",
+> +                                               tmp->id, tmp->len,
+> sizeof(*cmd));
+> +                                       err = -EIO;
+> +                                       goto end;
+> +                               }
+>                                 memcpy(cmd, tmp, tmp->len);
+>                                 goto end;
+>                         }
+> 
 
-Fair enough. It is an explanation. It should be addressed separately.
-I shall send a series of patches for such issues.
+Can you just resend this patch, in proper format so that we can actually
+apply it?  It is totally corrupted and will not work.
 
-	Regards
-		Oliver
+Also, you need to use your corporate email address, as the signed-off-by
+line does not match up with your From: line on your email :)
 
+But, I don't think the patch should be spamming the kernel log for a
+broken device like this.  Just error out and all will be fine.
+
+And is this the only place in this driver where it treats data in an
+untrusted way?  As you know, once a driver is bound to a device, we
+trust the hardware to work properly, so this really is just a "let's be
+careful" type of fix, not any real bug to be handled as a real device
+will not trigger this.
+
+thanks,
+
+greg k-h
