@@ -1,111 +1,160 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wr1-f52.google.com (mail-wr1-f52.google.com [209.85.221.52])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 24E7A70830
-	for <linux-usb@vger.kernel.org>; Thu, 19 Feb 2026 09:33:44 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 44B0134A786
+	for <linux-usb@vger.kernel.org>; Thu, 19 Feb 2026 15:52:28 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.52
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1771493625; cv=none; b=Wdf0V8aWZmN+xo97yRG2QjjlynvcqfqZHl6oLva+6XD5Z0vRDvMv0wGdCA2MpwLYm2kgLuqNI4Wmxvj2E3qmkvGSHh5Tb16onjmesq9jRW1HMED2ekeYxfbtqhBbdsXBMgu4c9NijwxXhh5O2TEMWsn3OyTZjaM8gLCRrd1HjWI=
+	t=1771516349; cv=none; b=FYi/bllnuvONAc3prDW0Yma7f5S5e8hwqDDvHKYJbema0GWYjLNqofwbw5vBjJ/ZNinNRYZuMMluuHUk8/4i9WGIWr8ggceuHWUdQTe4gHeAz/Sm7UV3kPqa0OnQyQKVVstCEY8ztlnHqLpM0QVzoHoo14yN3iCz+CR/DOysk3E=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1771493625; c=relaxed/simple;
-	bh=HXVMkcoy8BnPffyr3PMe3Kcz9tLAdIDnjM9ZvSp4MsQ=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=uTblODkoWsEzOPKfkxoTdJtxcifzP6IHqSacRj3w/iRK1SCvpS7Rn3pZsig1pz0fjJXtG57nMGRqeXSpYojIYh3w5EOmtoKG3XgRUK+zemTXAC16PsrTg+EyXLCavde6ToCfcJfi7cZLLb6pZvPkP6gUnATjcI1s0eZP4Z88okI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b=xwg+tByc; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1771516349; c=relaxed/simple;
+	bh=hUVMfsGdV0aDbsIFOhfMsdPp5kAixuq61G/flR5Alxg=;
+	h=Message-ID:Subject:From:To:Cc:Date:In-Reply-To:References:
+	 Content-Type:MIME-Version; b=j+Gt46gm+8H+t+C9ecVuhfgIufExotJFpSdwXzCXUBeTg3RtkloPPmGy7WxoYJMclq43TgdZ65i9ayrXDTEOIQqY1NR47N7jJTAA9HkPASEm7cMMENtEqlyUSFolehWJ6GUKpuqDZq0wyd9aNF4iHm1fVmWjYaUhLSCHgdU3t2Q=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=yV9ak2c9; arc=none smtp.client-ip=209.85.221.52
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="xwg+tByc"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 50FFEC4CEF7;
-	Thu, 19 Feb 2026 09:33:44 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
-	s=korg; t=1771493624;
-	bh=HXVMkcoy8BnPffyr3PMe3Kcz9tLAdIDnjM9ZvSp4MsQ=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=xwg+tByckKGS+gbEhQ6JFY4KJdMWrBnOLPTCFP1+LZ7kLnZCzd5ZKqGUKYVTMfHV3
-	 zFH6MII8KdFjnGOgr9z6fx7FMeEeQRFoSfY7J27IsNIISpAALxdNe06WTsG0HsBhVm
-	 q0vFney16OfO9yCpJ4HWVebQJnjLMjO3EoX4eutk=
-Date: Wed, 18 Feb 2026 06:12:27 +0100
-From: Greg KH <gregkh@linuxfoundation.org>
-To: Nicholas Carlini <npc@anthropic.com>
-Cc: linux-usb@vger.kernel.org
-Subject: Re: Stack buffer overflow (write) in kvaser_usb_leaf_wait_cmd via
- malicious USB
-Message-ID: <2026021847-acclaim-coil-fe7a@gregkh>
-References: <CAOt5ifARcQqqGc65hHXR2JNTDg0hT0cF55Kb-6USEsqjEPM1nA@mail.gmail.com>
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="yV9ak2c9"
+Received: by mail-wr1-f52.google.com with SMTP id ffacd0b85a97d-436e8758b91so874041f8f.0
+        for <linux-usb@vger.kernel.org>; Thu, 19 Feb 2026 07:52:28 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google; t=1771516346; x=1772121146; darn=vger.kernel.org;
+        h=mime-version:user-agent:content-transfer-encoding:references
+         :in-reply-to:date:cc:to:from:subject:message-id:from:to:cc:subject
+         :date:message-id:reply-to;
+        bh=ausNYp9VNOhe1fBHOC525G26Oe60ih9EhrjdJ5sgpHg=;
+        b=yV9ak2c9B8AV5lOFP2+ASu81htz4cub/EZEvHYTW6zwjxUR0sbJ3wNLOLEVTKUmniP
+         Qg8C9YIASU2HiwGMvPlurEY5c/W3ET39r5gHOJ7kUZ+EdIEmraU0C24ueJM7mACg4PmJ
+         ZfaKOqaNq0ptYYVRRMX/2DHWJTvP5sWZtMhaFvPE44b9l5mW1CNB56MV1wLIGMvN3ZCF
+         SFryge4s8mXDYNGrOiOCuw+MdBh1Y8yKQFnXe/eIgdyxSV7zBpnVZgUyCFBwgsdcqv/m
+         m6kcXoAB49/10DVAJsXRUI1I8nt1XhrdEw8XOexD0Wc8vDpyODntZbRxMsk8939vdZAE
+         JvOA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1771516346; x=1772121146;
+        h=mime-version:user-agent:content-transfer-encoding:references
+         :in-reply-to:date:cc:to:from:subject:message-id:x-gm-gg
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=ausNYp9VNOhe1fBHOC525G26Oe60ih9EhrjdJ5sgpHg=;
+        b=kZ+NaOJa1lCOPIBcB4Oumov16U4lCaHtXwPg9K0xGaf483CY0dcLW1iwjOsugOFA//
+         4RWXwYq4VukYA/PaZ05wW+5/8FVf6aSKSp0Epg9zObWrx9D9zbIY+VbTVcgQ4vonXVhY
+         wEqQwi4tNDcxraW+0oeNWhKaOJqAqPqkvwZCDtgMNHScBxwpeSJBmTu4xKrTPdOXWrvK
+         esY3RnuuV12WFYgc/3k/yeqKcoTQVVZdKKJWuFLjavGK9eeC3zHZjvaCVIFtXQEYVFqK
+         ziSI953J93ntkDyQPsVNylViz+fgXGGPs7TV50QNRUz7rVeM8KOAEbD6DhVaIWtTJvg7
+         /EDw==
+X-Forwarded-Encrypted: i=1; AJvYcCX9YCV0BWRpDW6rJUFqr/NTr3RnordZUgR/UISyozk4nMvJnbrEz2ab868dxV4CJfXbhFjSYmmU600=@vger.kernel.org
+X-Gm-Message-State: AOJu0YznmHEnBp92cvhPn6gLq5p+5PbH4M/HJQWR/cY1liKEfgJ8HQHC
+	5kip/NYxdNPdcOBfjrEmYDjBLfMcsn6+cvgz94XEMNrYPs3ToZGz7BC1K8taKgFtwJM=
+X-Gm-Gg: AZuq6aJhuCQT/EcuSUWpfTM5cJ9UrHWmyCwx9gGbohVDBjtGHPFSav4ccGFZE/+u6T/
+	T8SbbSZlLJgj3fVlm/0oa6vwYctRbwH2YORNcN9H3+2fw/ormGHQtqjTZxorsK62tw+Oa7qeO57
+	sP/S85kpng9V9p+8Ng6TRkI+ba3Cb4R7RLPDDqW6nkgK7fB2e04NKlj+lEORIaefTI9ZIsUJiTR
+	6PDR57OiPTl9jCnxNQua3e8xRSSrWjEj4iOxGbMD4OnrNDYniCEJzaJof9SVWJxC1NKW1qrrK4y
+	X4/RlRZCPFKXmMT0+bX77RcOB/HexVMiPI0aBswrg2J0k6XwyVR2sWKP9rMuXIwSEQ6/iu9QI/N
+	JswixdtYfhDM/zdNH95u4/OL17q+7AFG+wm2mASVUdNLlo/VTgllC7mLPdxW3zB/NJwAQwaXAZ4
+	2qowiz8f9gA0V6gXsERIa1t3PTnWFo+w==
+X-Received: by 2002:a05:6000:2001:b0:436:3475:4737 with SMTP id ffacd0b85a97d-4379db8cfddmr32328493f8f.30.1771516346564;
+        Thu, 19 Feb 2026 07:52:26 -0800 (PST)
+Received: from draszik.lan ([212.129.80.248])
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-43796a5ac7csm47748995f8f.7.2026.02.19.07.52.25
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 19 Feb 2026 07:52:26 -0800 (PST)
+Message-ID: <f46fa180198ec103aeb1e1c06286c6a2a0fb8b7f.camel@linaro.org>
+Subject: Re: [PATCH v7 5/6] power: supply: max77759: add charger driver
+From: =?ISO-8859-1?Q?Andr=E9?= Draszik <andre.draszik@linaro.org>
+To: amitsd@google.com, Sebastian Reichel <sre@kernel.org>, Rob Herring	
+ <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley	
+ <conor+dt@kernel.org>, Lee Jones <lee@kernel.org>, Greg Kroah-Hartman	
+ <gregkh@linuxfoundation.org>, Badhri Jagan Sridharan <badhri@google.com>, 
+ Heikki Krogerus <heikki.krogerus@linux.intel.com>, Peter Griffin
+ <peter.griffin@linaro.org>, Tudor Ambarus	 <tudor.ambarus@linaro.org>, Alim
+ Akhtar <alim.akhtar@samsung.com>, Mark Brown	 <broonie@kernel.org>, Matti
+ Vaittinen <mazziesaccount@gmail.com>, Andrew Morton	
+ <akpm@linux-foundation.org>
+Cc: linux-kernel@vger.kernel.org, linux-pm@vger.kernel.org, 
+	devicetree@vger.kernel.org, linux-usb@vger.kernel.org, 
+	linux-arm-kernel@lists.infradead.org, linux-samsung-soc@vger.kernel.org, RD
+ Babiera <rdbabiera@google.com>, Kyle Tso <kyletso@google.com>
+Date: Thu, 19 Feb 2026 15:52:55 +0000
+In-Reply-To: <20260218-max77759-charger-v7-5-e8d907ce69c5@google.com>
+References: <20260218-max77759-charger-v7-0-e8d907ce69c5@google.com>
+	 <20260218-max77759-charger-v7-5-e8d907ce69c5@google.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+User-Agent: Evolution 3.56.2-2+build4 
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <CAOt5ifARcQqqGc65hHXR2JNTDg0hT0cF55Kb-6USEsqjEPM1nA@mail.gmail.com>
 
-On Tue, Feb 17, 2026 at 06:13:30PM -0800, Nicholas Carlini wrote:
-> My best guess at a fix would be to check the bounds of the output
-> buffer as well. Below I've written an attempt at a patch. (I know that
-> it will fail to merge because gmail will break patches, sorry about
-> that, I'm working on getting myself permissions to download an email
-> client onto my work laptop that will let me send well-formatted
-> patches to you all asap.)
-> 
-> Author: Nicholas Carlini <nicholas@carlini.com>
-> Date:   Mon Feb 16 18:12:33 2026 +0000
-> 
->     can: kvaser_usb: fix stack buffer overflow in kvaser_usb_leaf_wait_cmd()
-> 
->     kvaser_usb_leaf_wait_cmd() copies a command response from a USB device into
->     a caller-provided struct kvaser_cmd on the stack. The length of the copy is
->     provided by the command byte on the USB data (tmp->len), which can be fully
->     controlled by a malicious USB device. The maximum size of tmp->len is 255,
->     but the destination buffer is only sizeof(struct kvaser_cmd) bytes (~32).
-> 
->     Add a bounds check to ensure that tmp->len does not exceed sizeof(*cmd)
->     before memcpy.
-> 
->     Fixes: 080f40a6fa28 ("can: kvaser_usb: Add support for Kvaser
-> CAN/USB devices")
->     Signed-off-by: Nicholas Carlini <nicholas@carlini.com>
-> 
-> diff --git a/drivers/net/can/usb/kvaser_usb/kvaser_usb_leaf.c
-> b/drivers/net/can/usb/kvaser_usb/kvaser_usb_leaf.c
-> index 1167d38344f1..465c3a6801e4 100644
-> --- a/drivers/net/can/usb/kvaser_usb/kvaser_usb_leaf.c
-> +++ b/drivers/net/can/usb/kvaser_usb/kvaser_usb_leaf.c
-> @@ -698,6 +698,13 @@ static int kvaser_usb_leaf_wait_cmd(const struct
-> kvaser_usb *dev, u8 id,
->                         }
-> 
->                         if (tmp->id == id) {
-> +                               if (tmp->len > sizeof(*cmd)) {
-> +                                       dev_err_ratelimited(&dev->intf->dev,
-> +                                               "Command %u too long
-> (%u, max %zu)\n",
-> +                                               tmp->id, tmp->len,
-> sizeof(*cmd));
-> +                                       err = -EIO;
-> +                                       goto end;
-> +                               }
->                                 memcpy(cmd, tmp, tmp->len);
->                                 goto end;
->                         }
-> 
+Hi Amit,
 
-Can you just resend this patch, in proper format so that we can actually
-apply it?  It is totally corrupted and will not work.
+I was trying out your series and noticed a few things that I didn't before:
 
-Also, you need to use your corporate email address, as the signed-off-by
-line does not match up with your From: line on your email :)
+On Wed, 2026-02-18 at 21:59 +0000, Amit Sunil Dhamne via B4 Relay wrote:
 
-But, I don't think the patch should be spamming the kernel log for a
-broken device like this.  Just error out and all will be fine.
+[...]
 
-And is this the only place in this driver where it treats data in an
-untrusted way?  As you know, once a driver is bound to a device, we
-trust the hardware to work properly, so this really is just a "let's be
-careful" type of fix, not any real bug to be handled as a real device
-will not trigger this.
+>=20
+> diff --git a/drivers/power/supply/max77759_charger.c b/drivers/power/supp=
+ly/max77759_charger.c
+> new file mode 100644
+> index 0000000000000000000000000000000000000000..035f16822d85de94c7707ce11=
+c49345c714cd559
+> --- /dev/null
+> +++ b/drivers/power/supply/max77759_charger.c
 
-thanks,
+[...]
 
-greg k-h
+> +		dev_err(chg->dev, "Invalid mode transition from %d to %d",
+> +			chg->mode, mode);
+
+All your format strings are missing the final \n throughout this patch.
+
+[...]
+
+> +static int max77759_charger_probe(struct platform_device *pdev)
+> +{
+> +	struct regulator_config chgin_otg_reg_cfg;
+> +	struct power_supply_config psy_cfg;
+> +	struct device *dev =3D &pdev->dev;
+> +	struct max77759_charger *chg;
+> +	int ret;
+> +
+> +	device_set_of_node_from_dev(dev, dev->parent);
+> +	chg =3D devm_kzalloc(dev, sizeof(*chg), GFP_KERNEL);
+> +	if (!chg)
+> +		return -ENOMEM;
+> +
+> +	platform_set_drvdata(pdev, chg);
+> +	chg->dev =3D dev;
+> +	chg->regmap =3D dev_get_regmap(dev->parent, "charger");
+> +	if (!chg->regmap)
+> +		return dev_err_probe(dev, -ENODEV, "Missing regmap");
+> +
+> +	ret =3D devm_mutex_init(dev, &chg->lock);
+> +	if (ret)
+> +		return dev_err_probe(dev, ret, "Failed to initialize lock");
+> +
+> +	ret =3D devm_mutex_init(dev, &chg->retry_lock);
+> +	if (ret)
+> +		return dev_err_probe(dev, ret,
+> +				=C2=A0=C2=A0=C2=A0=C2=A0 "Failed to initialize retry_lock");
+> +
+> +	psy_cfg.fwnode =3D dev_fwnode(dev);
+> +	psy_cfg.drv_data =3D chg;
+> +	chg->psy =3D devm_power_supply_register(dev, &max77759_charger_desc,
+> +					=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 &psy_cfg);
+> +	if (IS_ERR(chg->psy))
+> +		return dev_err_probe(dev, -EPROBE_DEFER,
+> +				=C2=A0=C2=A0=C2=A0=C2=A0 "Failed to register psy, ret=3D%ld",
+> +				=C2=A0=C2=A0=C2=A0=C2=A0 PTR_ERR(chg->psy));
+
+Why are you returning -EPROBE_DEFER here instead of the original error? Thi=
+s
+is quite unusual.
+
+
+Cheers,
+Andre'
