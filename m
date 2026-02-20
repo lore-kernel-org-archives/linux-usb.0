@@ -1,88 +1,75 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2083A3126AB
-	for <linux-usb@vger.kernel.org>; Fri, 20 Feb 2026 15:25:05 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4DCDC2FE58F
+	for <linux-usb@vger.kernel.org>; Fri, 20 Feb 2026 17:18:30 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1771601106; cv=none; b=aGp1FmAwcsfs6cA+Q4ZiuYxq00bsQW6TyfPalDYGrAgDDONv/VICGRwxrB8iycpJEHd7dgavz6qC40+v6hBXEpkZz84XZmzRZxUHeSzYR9pviMMkkM7pMPGMn9a5pbEW7lw2O21YKfNDP98g52UsgEJBYhCc/ARtu2yRZc561rM=
+	t=1771607910; cv=none; b=p9KhjoUoZX5YFe3kPRl7I1zRNZ7wqS/eNtyR/CTL89kYOHbg5Fwxiv5a/pWeSmbOgbyw6NppMfelkCGqIVTq57oJxEqFI3nb/FU69Ti1RCDDf3hcCDXwGroeAnwWfntc7zUdZOB8WWgj9JVNQYrDXhq5wQr2OwJ9Ycba3N+TJ4U=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1771601106; c=relaxed/simple;
-	bh=lKVxjqNxF857pAdRUQYqyfaci6ru2qb/KBUUw7NA2lM=;
-	h=From:In-Reply-To:MIME-Version:References:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=uhgBCAFB7hR27vMiFz8P2fKNT0DnrrdynD7vuptl/vyhGym652bQGLqvDww+io20eobGDXyyNBjiWC50S5o7Um3yMWUOUTbsLY6IGSFaJrjFPt4jXLIRJwTQJuGST0Q16ZmW67zKuv7cIFh4N0rSivBhaCOKnYMXo3/AMPvpnvU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=pWfoKbps; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1771607910; c=relaxed/simple;
+	bh=M+N0WlKY7BgSThGM/+yClxBLHz2rZ2hRtGbDXeUgnkY=;
+	h=From:To:Subject:Date:Message-ID:In-Reply-To:References:
+	 Content-Type:MIME-Version; b=ep7V59BOwcDHWR3+6cZEpJg1+Qu1t9jQYX/K3XfZBgGceERtzUivTaZb8kDRTEI/lu4P3328OkvZIj/F6id1h3KrL4vCcldoBy+KyFWBi1vwrkzVM8E/+zkCRr8cL02P96UGHj+d4bppGhrh5gjnsSPjRS0cyT/fFuZaVdQmYyY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=jG3FWfIF; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="pWfoKbps"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id B3EEFC19425
-	for <linux-usb@vger.kernel.org>; Fri, 20 Feb 2026 15:25:05 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="jG3FWfIF"
+Received: by smtp.kernel.org (Postfix) with ESMTPS id ECBE0C2BC86
+	for <linux-usb@vger.kernel.org>; Fri, 20 Feb 2026 17:18:29 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1771601105;
-	bh=lKVxjqNxF857pAdRUQYqyfaci6ru2qb/KBUUw7NA2lM=;
-	h=From:In-Reply-To:References:Date:Subject:To:Cc:From;
-	b=pWfoKbpsXan5D/t3nFJaa0vDMqgj4sAtyDMS/0ulQ0jye0eYCQ4aKNDvSq0Py8D76
-	 qsUuQggJ+7YA6rX56BsvSBM2uM5fSyGsnYahPujNnWv5sRqmWjvcEgVOVyLzpesu3B
-	 JJTzqh6fEs6TnIQFfPRc5EsG7W8QbcsgOBzyUnwKh2hLRlP2uC/ZK461yJe1lyukor
-	 xddrZs86oQfWjztM6rhcusQqLmK9ZIDccqZGWJGeEAn3HIBt9oWAWz+XfAYX3EQDle
-	 isTGu4JVq0KheCVyC7wI0vvwiiLoUTnaIrJSMGoHSXm56f6EtYNU3K19UWccLfi4gX
-	 k/RlkEjEjO8dg==
-Received: by mail-lj1-f172.google.com with SMTP id 38308e7fff4ca-386b553c70eso18681401fa.0
-        for <linux-usb@vger.kernel.org>; Fri, 20 Feb 2026 07:25:05 -0800 (PST)
-X-Gm-Message-State: AOJu0YwCdnNL9Cq+H7aru/vA+E3CpO797hI8hNi3q1viycwAMTFcMxB3
-	RRMAoPkqNJq3TvZ1liTmo8aoZBpa+IIzVGONu+N/GLkLdRYYnUQfhg2gmmytZt/92Yxo/ll8eFL
-	QLW8e613PthPJos8Ebv864X9jePJ202TmDZj9upsvew==
-X-Received: by 2002:a05:651c:198c:b0:385:dd91:a6ce with SMTP id
- 38308e7fff4ca-389a5c4c7a0mr483661fa.38.1771601104331; Fri, 20 Feb 2026
- 07:25:04 -0800 (PST)
-Received: from 969154062570 named unknown by gmailapi.google.com with
- HTTPREST; Fri, 20 Feb 2026 07:25:02 -0800
-Received: from 969154062570 named unknown by gmailapi.google.com with
- HTTPREST; Fri, 20 Feb 2026 07:25:02 -0800
-From: Bartosz Golaszewski <brgl@kernel.org>
-In-Reply-To: <20260220-topic-sm8650-ayaneo-pocket-s2-base-v5-9-1ad79caa1efa@linaro.org>
+	s=k20201202; t=1771607910;
+	bh=M+N0WlKY7BgSThGM/+yClxBLHz2rZ2hRtGbDXeUgnkY=;
+	h=From:To:Subject:Date:In-Reply-To:References:From;
+	b=jG3FWfIFFXnHLMQFRTxDR6ef+kBKo8p4Y6TMihQT39tirqKWGbhL0gPkvW3ReJDN5
+	 dVQwaU61KPtzJwil9CO/a4jPC0DYpsZHUfRJG+nkiVowcGn8L6Bx+O+KGtDm2z+uhm
+	 OCarAJeKRj6j/IgT+ADV0lN+nXShFH25GBV58wNyG4qOQoojbv2pAsz8VLYZX03NQn
+	 aIsh+90ulIj5vW3DMU46NRIwpspY6p0AWcg3elumwu/2lQo0DfGgjx1AxyMsB6ZPqP
+	 UEHKSUukiC8d0OPamUrESypgxAJ/klVGSX+R5IaG5Ym9Y2GAZTniRS1Wzcamf1Ssux
+	 Fc1PV9dTtPAoQ==
+Received: by aws-us-west-2-korg-bugzilla-1.web.codeaurora.org (Postfix, from userid 48)
+	id E11EAC41613; Fri, 20 Feb 2026 17:18:29 +0000 (UTC)
+From: bugzilla-daemon@kernel.org
+To: linux-usb@vger.kernel.org
+Subject: [Bug 221103] xhci_hcd: System lockup under CPU load during usbfs
+ polling of USB devices on AMD platforms
+Date: Fri, 20 Feb 2026 17:18:29 +0000
+X-Bugzilla-Reason: None
+X-Bugzilla-Type: changed
+X-Bugzilla-Watch-Reason: AssignedTo drivers_usb@kernel-bugs.kernel.org
+X-Bugzilla-Product: Drivers
+X-Bugzilla-Component: USB
+X-Bugzilla-Version: 2.5
+X-Bugzilla-Keywords: 
+X-Bugzilla-Severity: normal
+X-Bugzilla-Who: stern@rowland.harvard.edu
+X-Bugzilla-Status: NEW
+X-Bugzilla-Resolution: 
+X-Bugzilla-Priority: P3
+X-Bugzilla-Assigned-To: drivers_usb@kernel-bugs.kernel.org
+X-Bugzilla-Flags: 
+X-Bugzilla-Changed-Fields: 
+Message-ID: <bug-221103-208809-SimaSIhGRx@https.bugzilla.kernel.org/>
+In-Reply-To: <bug-221103-208809@https.bugzilla.kernel.org/>
+References: <bug-221103-208809@https.bugzilla.kernel.org/>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+X-Bugzilla-URL: https://bugzilla.kernel.org/
+Auto-Submitted: auto-generated
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20260220-topic-sm8650-ayaneo-pocket-s2-base-v5-0-1ad79caa1efa@linaro.org>
- <20260220-topic-sm8650-ayaneo-pocket-s2-base-v5-9-1ad79caa1efa@linaro.org>
-Date: Fri, 20 Feb 2026 07:25:02 -0800
-X-Gmail-Original-Message-ID: <CAMRc=Md1xjJNFdL5nxYwxNwvbOXkUWC8U=T+EzrRsBX0FBKL6A@mail.gmail.com>
-X-Gm-Features: AaiRm51Nhl9KxWCs3gI3CqS9MKsh2wHc0CQSKdKPuOuRAl0wbHi5oLezOZ6XOMI
-Message-ID: <CAMRc=Md1xjJNFdL5nxYwxNwvbOXkUWC8U=T+EzrRsBX0FBKL6A@mail.gmail.com>
-Subject: Re: [PATCH v5 9/9] arm64: dts: qcom: add basic devicetree for Ayaneo
- Pocket S2 gaming console
-To: Neil Armstrong <neil.armstrong@linaro.org>
-Cc: linux-usb@vger.kernel.org, devicetree@vger.kernel.org, 
-	linux-kernel@vger.kernel.org, linux-renesas-soc@vger.kernel.org, 
-	linux-pci@vger.kernel.org, linux-arm-msm@vger.kernel.org, 
-	KancyJoe <kancy2333@outlook.com>, Konrad Dybcio <konrad.dybcio@oss.qualcomm.com>, 
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>, Rob Herring <robh@kernel.org>, 
-	Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, 
-	Geert Uytterhoeven <geert+renesas@glider.be>, Magnus Damm <magnus.damm@gmail.com>, 
-	Bartosz Golaszewski <brgl@kernel.org>, Manivannan Sadhasivam <mani@kernel.org>, Bjorn Helgaas <bhelgaas@google.com>, 
-	Bjorn Andersson <andersson@kernel.org>, Konrad Dybcio <konradybcio@kernel.org>, 
-	Lorenzo Pieralisi <lpieralisi@kernel.org>, =?UTF-8?Q?Krzysztof_Wilczy=C5=84ski?= <kwilczynski@kernel.org>
-Content-Type: text/plain; charset="UTF-8"
 
-On Fri, 20 Feb 2026 16:04:48 +0100, Neil Armstrong
-<neil.armstrong@linaro.org> said:
-> From: KancyJoe <kancy2333@outlook.com>
->
-> Add initial Device Tree for the Ayaneo Pocket S2 gaming console based
-> on the Qualcomm Snapdragon 8 Gen 3 platform.
->
-> The design is similar to a phone without the modem, the game control
-> is handled via a standalone controller connected to a PCIe USB
-> controller.
->
-> Display panel support will be added in a second time.
->
-> Signed-off-by: KancyJoe <kancy2333@outlook.com>
-> Reviewed-by: Konrad Dybcio <konrad.dybcio@oss.qualcomm.com>
-> Signed-off-by: Neil Armstrong <neil.armstrong@linaro.org>
-> ---
+https://bugzilla.kernel.org/show_bug.cgi?id=3D221103
 
-Reviewed-by: Bartosz Golaszewski <bartosz.golaszewski@oss.qualcomm.com>
+--- Comment #14 from Alan Stern (stern@rowland.harvard.edu) ---
+Have you tried disabling runtime PM?  Run any of the test scenarios after
+booting with "usbcore.autosuspend=3D-1" on the boot command line.
+
+--=20
+You may reply to this email to add a comment.
+
+You are receiving this mail because:
+You are watching the assignee of the bug.=
