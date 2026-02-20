@@ -1,59 +1,124 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-qv1-f68.google.com (mail-qv1-f68.google.com [209.85.219.68])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BD961237707
-	for <linux-usb@vger.kernel.org>; Fri, 20 Feb 2026 06:09:51 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4DD75303A07
+	for <linux-usb@vger.kernel.org>; Fri, 20 Feb 2026 06:23:10 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.219.68
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1771567791; cv=none; b=QYdOtlg3Ct8oBNyeJpNYS7iyNsYXzEwRXaB8y8dMA0MvObX4w/S9JEWgh2jE7qWYw8CbzvUFldwww3Y9uE+PEeFvaSDuj7FL7euc6dEzkEyOytWewmZ9oXkv7h9FCTwmg6Wet8D3qp8ZHjfniWkg1vosnDV5uYmXKmvPODl+lAM=
+	t=1771568591; cv=none; b=WPE0TKXGzwUZtRIT6zgGcTfgIdBgawoRIMrXZNMB9B0AMs/OgxytZmSAWiveVbxV9/ItFY/MfFssKXYppWLgu8OGK8OTix85GaQbFWrEbppt6bG7NoUYwpGmA2HXVfGstghOib0KWwtzNslk3nHHbZaN7MsXI0xMDwmePEqUJKg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1771567791; c=relaxed/simple;
-	bh=02ldnRAs5IrlSKH5eCJK9iiEuFvpHx9evK1GLRZkf20=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=mlNlb72PYv/hTlEZtHkjzubDBZWGZk5U3lPD+NDKzzxDPBXaNOY4Xwz3Dzikz2DF4fY7BUX/8XNWH2/gURMLtrNjJEJmUVKY3sNJoukV10FziRVsXvBcBD3tjnbu0Sjy1d+h/jhancKG/sQtlkf3SkA9PB0NsConcREu9vXTg6k=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b=oxRo2y3N; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1771568591; c=relaxed/simple;
+	bh=mUB+oWFMPId9h1Gwcmlg2XD1GQALPtczn82jDplWb+w=;
+	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
+	 In-Reply-To:To:Cc; b=T6J4rfeGWg05nZ7TR5QItw/39LoohDl8+Cir8UCmsje17OmCxD6vuLUd0Wr5db/cF7BVr4yh4sBKY+4DQkKdA9e/IBtAxDGYz/rbBt58mGHqThQ31VhpPVShmUUi+6S+TeCTxpBmfTIHE5JdtbwPAW2bwgDOAdS6iDgl3bae8nY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=QaTAP/CV; arc=none smtp.client-ip=209.85.219.68
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="oxRo2y3N"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 23685C116D0;
-	Fri, 20 Feb 2026 06:09:50 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
-	s=korg; t=1771567791;
-	bh=02ldnRAs5IrlSKH5eCJK9iiEuFvpHx9evK1GLRZkf20=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=oxRo2y3NtFXWe+ewVaE3pVtyWcZ6PoeVyJqzduoSiBxmONRADdKJz5Dg0m+/QAP6/
-	 bbMLj82BGgH7kDAWLof+o61KSSN0mc6bK3SXWZsUgfRfZn8b4KpDLesQSMoBs0Wi0Z
-	 noMDTUuD9WgLrlO227hPszMe06IRs4b92Zj65I/8=
-Date: Fri, 20 Feb 2026 07:09:48 +0100
-From: Greg KH <gregkh@linuxfoundation.org>
-To: Nathan Rebello <nathan.c.rebello@gmail.com>
-Cc: linux-usb@vger.kernel.org, heikki.krogerus@linux.intel.com
-Subject: Re: [PATCH 1/2] usb: typec: ucsi: validate connector number in
- ucsi_connector_change()
-Message-ID: <2026022023-shakable-squatting-8747@gregkh>
-References: <20260219164925.3249-1-nathan.c.rebello@gmail.com>
- <20260219164925.3249-2-nathan.c.rebello@gmail.com>
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="QaTAP/CV"
+Received: by mail-qv1-f68.google.com with SMTP id 6a1803df08f44-896f44dc48dso15384926d6.2
+        for <linux-usb@vger.kernel.org>; Thu, 19 Feb 2026 22:23:10 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1771568589; x=1772173389; darn=vger.kernel.org;
+        h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
+         :mime-version:subject:date:from:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=LCKrSxgbtkE6sBorbcneokbI0mX+kuYA9Blctjh+gpw=;
+        b=QaTAP/CVhdNPsKziDVSvEKQk/XeiNHOrtZ/LrvaGUSWVHt/lXHA0gICCxUGtYvAAAh
+         277gep20Ewkc3x2bfEDfxAAiXlwfz07EGKPcqVdcwZy1SJ1MXV7/I68OMOFLOUlCgXSC
+         wAzTKEoT5teIMioshAWW2wzr5lEsPjUkworNV/kpPuB9NV3HDUKmNeucwXATwLXdJlTt
+         wISetCdwKLX92peo+d6qyZYLoB3VTu8+3g8dtlpSVdILMzUy08P+VDI8h3I5GK+5nsiN
+         9iqTWTSrg1G7/2wnlB9K6MDj6dS/ZWGn0ci2ac7PhbEYiCgTNzeZ0oD9o9cmhxUTTjV0
+         J4lQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1771568589; x=1772173389;
+        h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
+         :mime-version:subject:date:from:x-gm-gg:x-gm-message-state:from:to
+         :cc:subject:date:message-id:reply-to;
+        bh=LCKrSxgbtkE6sBorbcneokbI0mX+kuYA9Blctjh+gpw=;
+        b=QvBeXIMF7cX9uemw8AWSU2bFCCyrnzCVNDxui5VsImgAGRSbs7a8f0Ln6kI97stSNf
+         Ju5w3J0rOlo6I0witxiefLJ1B/KszGTC8/2/NhbIl2ZdOFfbKQWU/+7O+XxWqWzhfY24
+         p+w79oRN5Wpoc8kf+ENxp2E/Fk5K6tRoJM6Qwm7ZavmKD7nZYgAhXRpZN8CEMSgUAL9r
+         nqBNZVGvRDKygf/AfRPK9ZqFfB/rzXoIlNWk5lCDIIxFF685FSG+hU+PDHBNgQlo4QJj
+         mTK5oGNtZcOuxP/PpahRjbV1cnKRCSYjoDiPJCrKAK4d+7sgpGMXwrQfMTBR37PiYhl0
+         YsCQ==
+X-Gm-Message-State: AOJu0YzBWrdb9HFEHUj5gwnrZ1gPfsr1+XGJIsVZDiVgl9KAOL9vCKke
+	6HA0De+Gck8oR4LlH/+t9QJkTsA45Gom+KNw3P0vZIGX1lvwOUlLWG9g
+X-Gm-Gg: AZuq6aKTwzG8Y85VZUpc/7ErJ8G2RKXf/HUhtPHbhRVit/xHQRUAGUNK5VwNjl15ldo
+	4ci+qN1hFSk6ngwF4x2kkxrqRVJ3A7epKscSWNm2JSbGHUcHB6on6kMVLmur03GKTKXAvSacKTO
+	wvO00VmK6AJ8iNWgHDZqSVWdCYKbJeBYKAIXFNtlvfiiaboxkVxLoiNwtSxxCeFGXPS/EmnO2fg
+	ei52zcmXBL+YMDDFaVZ5pl15BGMXL+UwpVyjfKGgEogoH2oum+Mxtz2t3qCXzgh/fP3pCmgqejy
+	XCpQ9RRT8zEa18Oqv7cV+B6WGEpUJD/XwFrnqj8N6V1w8QX1l60/8WrJifrQR2z+OhIKcDiZNhK
+	OVkw4Ad0vvqQ5VxiUjInrjlG7hlQZdTZwhyBwA2IQ/1sUgI2vdkOGRHTsAy+nVrY8nAWVjSjFZw
+	7WUJH3q+r7Dj2K3HDj11LC0PqzS38=
+X-Received: by 2002:a05:6214:2301:b0:896:f767:966d with SMTP id 6a1803df08f44-89961fc1196mr69841406d6.11.1771568589064;
+        Thu, 19 Feb 2026 22:23:09 -0800 (PST)
+Received: from [172.17.0.2] ([134.128.219.200])
+        by smtp.gmail.com with ESMTPSA id 6a1803df08f44-8971cd8a5ccsm234206306d6.25.2026.02.19.22.23.08
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 19 Feb 2026 22:23:08 -0800 (PST)
+From: Yuanshen Cao <alex.caoys@gmail.com>
+Date: Fri, 20 Feb 2026 06:22:40 +0000
+Subject: [PATCH v3 1/2] dt-bindings: usb: document the Etek ET7304 USB
+ Type-C Port Controller
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20260219164925.3249-2-nathan.c.rebello@gmail.com>
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+Message-Id: <20260220-et7304-v3-1-ede2d9634957@gmail.com>
+References: <20260220-et7304-v3-0-ede2d9634957@gmail.com>
+In-Reply-To: <20260220-et7304-v3-0-ede2d9634957@gmail.com>
+To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>, 
+ Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>, 
+ Conor Dooley <conor+dt@kernel.org>, 
+ Heikki Krogerus <heikki.krogerus@linux.intel.com>
+Cc: linux-usb@vger.kernel.org, devicetree@vger.kernel.org, 
+ linux-kernel@vger.kernel.org, Yuanshen Cao <alex.caoys@gmail.com>
+X-Mailer: b4 0.14.3
 
-On Thu, Feb 19, 2026 at 11:49:23AM -0500, Nathan Rebello wrote:
-> ucsi_connector_change() uses the connector number from the CCI as an
-> index into the connector array without first verifying it falls within
-> the valid range. The connector number is extracted from the CCI register
-> via UCSI_CCI_CONNECTOR(), which returns a 7-bit value (1-127), but the
-> connector array is typically only 2-4 entries.
-> 
-> A malicious or malfunctioning device could report an out-of-range
-> connector number, causing an out-of-bounds array access.
+Document the ETEK Micro ET7304 USB Type-C Port Controller with USB-PD.
 
-Is this before, or after, the device has been bound to the driver?
+Signed-off-by: Yuanshen Cao <alex.caoys@gmail.com>
+---
+ Documentation/devicetree/bindings/usb/richtek,rt1711h.yaml | 3 ++-
+ Documentation/devicetree/bindings/vendor-prefixes.yaml     | 2 ++
+ 2 files changed, 4 insertions(+), 1 deletion(-)
 
-thanks,
+diff --git a/Documentation/devicetree/bindings/usb/richtek,rt1711h.yaml b/Documentation/devicetree/bindings/usb/richtek,rt1711h.yaml
+index ae611f7e57ca..1eb611f35998 100644
+--- a/Documentation/devicetree/bindings/usb/richtek,rt1711h.yaml
++++ b/Documentation/devicetree/bindings/usb/richtek,rt1711h.yaml
+@@ -19,10 +19,11 @@ description: |
+ properties:
+   compatible:
+     enum:
++      - etekmicro,et7304
+       - richtek,rt1711h
+       - richtek,rt1715
+     description:
+-      RT1711H support PD20, RT1715 support PD30 except Fast Role Swap.
++      RT1711H support PD20, ET7304 and RT1715 support PD30 except Fast Role Swap.
+ 
+   reg:
+     maxItems: 1
+diff --git a/Documentation/devicetree/bindings/vendor-prefixes.yaml b/Documentation/devicetree/bindings/vendor-prefixes.yaml
+index ee7fd3cfe203..5e504cebbcda 100644
+--- a/Documentation/devicetree/bindings/vendor-prefixes.yaml
++++ b/Documentation/devicetree/bindings/vendor-prefixes.yaml
+@@ -541,6 +541,8 @@ patternProperties:
+     description: ESTeem Wireless Modems
+   "^eswin,.*":
+     description: Beijing ESWIN Technology Group Co. Ltd.
++  "^etekmicro,.*":
++    description: Wuxi ETEK Micro-Electronics Co.,Ltd.
+   "^ettus,.*":
+     description: NI Ettus Research
+   "^eukrea,.*":
 
-greg k-h
+-- 
+2.53.0
+
