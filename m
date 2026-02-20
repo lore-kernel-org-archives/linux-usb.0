@@ -1,38 +1,38 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 30734320A22
-	for <linux-usb@vger.kernel.org>; Fri, 20 Feb 2026 09:28:05 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E8BD7318ED2
+	for <linux-usb@vger.kernel.org>; Fri, 20 Feb 2026 09:40:05 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1771579685; cv=none; b=f+dd7T74VpwoMuzBD0CytaMC24J09jDxT5iGexS7Rb1NiCf7r2mUCZIXVtkKB6RljYOVNyeXp4wo+JAZzlhL36NqJBK8ZLxnC4ludNpxF05a0RyAJ9IUn4GSvyoDSwot28ByMx5tajTqO3xO04BHdDzucBGqq83xlaK4EpsrGYU=
+	t=1771580406; cv=none; b=si+eeQhMplvW5dDbcPIfvDzvGV7GZsv1zsZpvJhudMI5Z6tcHd6Jur4Ptlrw3r5fvZAE7lxWeOc4I2bk4XXlVO57qYrq31bROT4jv2IEoGX7dt0uQ6HxSPgSZ2RP7DHl7lRW7wLkYeY8eiEVtOh9LzzZv6mzNn9T9LbEKqvI/vY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1771579685; c=relaxed/simple;
-	bh=/rDmq7tG0akQRH2SICcpdQIx0pvBz104jDkb3Be5rU8=;
+	s=arc-20240116; t=1771580406; c=relaxed/simple;
+	bh=97jmE8h/rLxbNEsxk7Q0LiwkIpCdnj7sqHxvZP/DMbY=;
 	h=From:To:Subject:Date:Message-ID:In-Reply-To:References:
-	 Content-Type:MIME-Version; b=Ri6xPXyxFDLvTmM7P1zaUG1EFVTDMsRG1XhTIspJ2lrWpkcFjv6ksWPr/y/pkomd+U7Jfj7nH3alEe9NoiUPkm/T0SUFO04P3J35g3h40EmCG0GWi3ScI6LDADxTAB5qLdR31Stdbdu2FS+m7ok4lLrRmzt+qa00wRqFHr8mHZM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Sza5gOK4; arc=none smtp.client-ip=10.30.226.201
+	 Content-Type:MIME-Version; b=Qt6GxTtsH0mOUvjd20pOgrKubNkH58PCKhZtf1P3TZ4cBnCHFJBiCGBGdg/PdRpLPnXct5ueV+iLhgqKnblFHty8D3LisJ67FfMcH8baWDDpKvuLQMUraCVYukaiGSHffal8NLG5hS9uwJt9COgW/BGJkqHSJDvyWicc4n45AnE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=JImijxWx; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Sza5gOK4"
-Received: by smtp.kernel.org (Postfix) with ESMTPS id 128D5C19424
-	for <linux-usb@vger.kernel.org>; Fri, 20 Feb 2026 09:28:05 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="JImijxWx"
+Received: by smtp.kernel.org (Postfix) with ESMTPS id 88BF3C116D0
+	for <linux-usb@vger.kernel.org>; Fri, 20 Feb 2026 09:40:05 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1771579685;
-	bh=/rDmq7tG0akQRH2SICcpdQIx0pvBz104jDkb3Be5rU8=;
+	s=k20201202; t=1771580405;
+	bh=97jmE8h/rLxbNEsxk7Q0LiwkIpCdnj7sqHxvZP/DMbY=;
 	h=From:To:Subject:Date:In-Reply-To:References:From;
-	b=Sza5gOK4r7bKpcKPdjsLl0GJVxm/rwUNFUr0sP0FEdDA+El/L1L6hGZJE8Y8934G/
-	 IS/JvbL8Ju1iISID6PWzCC0EtSHO1GUE/51hpaDZBX102XMQwHS1AbyRmCwdxrj6iH
-	 VrgKQgLyxuc3lyCLT5EgU+HwWG1sa3E4+67mCRQ2lJOmkzq7ZNbNAM2pL6EEZPTyM6
-	 97Tx/Jl2y2w2s7lUbtTzxekUyvh/jBJdXiUbOrbSPnzGvz3BOu+Jw69Gb9gvoaVD7l
-	 FJ1ey+Dj8HPY9USiKLQRerHF6KQL9ASllxIGqF6rYK7mF6KViz1PTCGvfgTNJkzVKU
-	 DbvoHLhqtkOtg==
+	b=JImijxWxRV6VfyHN9uuv6htF4rE9Ja7BxCjJnCGyz13FU3397xj4MIr6dOMwTpls0
+	 5jH2KYNNDuotarVayzsCPHjn/M1q9rXfso8oGEqLwNQg8mLrA6H/+cgKqjiTfmQDPp
+	 w9lRAZAlvXywCd8cXC2JuSr2K0wy09LxGxfD/RS70B7f28mvPwFK3I3s5tOkPchwK8
+	 l4No6qjKxjNIBclO0uTc+Eu2NtbEHVzyxm8GMA8V5qEJcD9NBfaPEEscJ190+TTJ1Z
+	 FMSXTK6mf/lA9HyzqCM2x9Y977hbQ30JlQmi/3Nui6tMyR9eqhB9NaiLUZgMCNIphL
+	 tV+Kzx1BQrQSw==
 Received: by aws-us-west-2-korg-bugzilla-1.web.codeaurora.org (Postfix, from userid 48)
-	id 0B0BEC433E1; Fri, 20 Feb 2026 09:28:05 +0000 (UTC)
+	id 739ECC3279F; Fri, 20 Feb 2026 09:40:05 +0000 (UTC)
 From: bugzilla-daemon@kernel.org
 To: linux-usb@vger.kernel.org
 Subject: [Bug 221103] xhci_hcd: System lockup under CPU load during usbfs
  polling of USB devices on AMD platforms
-Date: Fri, 20 Feb 2026 09:28:04 +0000
+Date: Fri, 20 Feb 2026 09:40:05 +0000
 X-Bugzilla-Reason: None
 X-Bugzilla-Type: changed
 X-Bugzilla-Watch-Reason: AssignedTo drivers_usb@kernel-bugs.kernel.org
@@ -48,7 +48,7 @@ X-Bugzilla-Priority: P3
 X-Bugzilla-Assigned-To: drivers_usb@kernel-bugs.kernel.org
 X-Bugzilla-Flags: 
 X-Bugzilla-Changed-Fields: 
-Message-ID: <bug-221103-208809-PyUKmI9a3I@https.bugzilla.kernel.org/>
+Message-ID: <bug-221103-208809-rtbdyQhXhR@https.bugzilla.kernel.org/>
 In-Reply-To: <bug-221103-208809@https.bugzilla.kernel.org/>
 References: <bug-221103-208809@https.bugzilla.kernel.org/>
 Content-Type: text/plain; charset="UTF-8"
@@ -64,20 +64,15 @@ MIME-Version: 1.0
 
 https://bugzilla.kernel.org/show_bug.cgi?id=3D221103
 
---- Comment #7 from Micha=C5=82 Pecio (michal.pecio@gmail.com) ---
-(In reply to Paul Alesius from comment #3)
-> I just tried with "dmesg -W" (follow mode so it prints messages directly)
-> and it didn't print anything before the system freeze, and there's nothing
-> in the logs, reflecting the experience of the others in the ADB bug repor=
-t.
-That's a waste of time, if the system locks up completely or panics then yo=
-ur
-dmesg will never get a chance to run again and print anything. Neither will
-Xorg or wayland.
+--- Comment #8 from Micha=C5=82 Pecio (michal.pecio@gmail.com) ---
+Or perhaps simply this would crash it?
 
-This needs a serial cable or netconsole (never tried it myself but AFAIK pe=
-ople
-use it for panics too) or DRM_PANIC or something like that.
+while sleep .1 ; do true </dev/bus/usb/010/001 ; done
+
+Chances are that sleep isn't necessary. This seems equivalent to what you a=
+re
+doing and it triggers some code in xhci_hub.c, but no crash so far on my AM4
+system.
 
 --=20
 You may reply to this email to add a comment.
