@@ -1,76 +1,102 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from metis.whiteo.stw.pengutronix.de (metis.whiteo.stw.pengutronix.de [185.203.201.7])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4EA8C2DB78E;
-	Mon, 23 Feb 2026 11:17:40 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0E203361643
+	for <linux-usb@vger.kernel.org>; Mon, 23 Feb 2026 11:27:48 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.203.201.7
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1771845460; cv=none; b=CRqqUClpopA7mHBd7yQXJCop9S2RXqioI/b2wjywX7Cjxrp3+n4o0qumcT8j3QJv+Z7xDbCpyWDEB9R7sz09M0lrzueDNdcvL8AxwhNQ+jvhdkjr12u4ZbxXKzvyw4+1dt07SWMaMks/aNIJOxWlYzLaBhIz2NF5EtwJ7rfgrmM=
+	t=1771846069; cv=none; b=W88SwilOCrfekkyY00Z64LeBU5+qM0NxIOHg8GrPlMwb1V/nFr4031dBJGdI8wNJHoL7xZUVA7mnRD3959+1MKIRRqN9Y0Zgk+p7pyTBq6TKGS4C26vH+bKsVPdSPJ8zYnzXmCK7sQfZDfqmBgOWNUZVYEOn+yMcTsC2CQxaDpk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1771845460; c=relaxed/simple;
-	bh=OEhR7fs7Ght3DkeUoZ9h9YopFiYrGR95NurfdI4BB/I=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=tvWgcRRAH6BpUAmhtysa9rMXbmu0w+WOYhf18RBbBlIFsMKSsB7ZQfGAq8+wI0Oekxh8iJj8OYO0NHvr5ivzMsujZGVsEqIquMArvXzXOwDuhRvRpL5xYaArpWTaL+AteUuAbat2KCu7K5guOveBrd+7jj/UH5t7Q4tQYJhgVuM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b=n/gSy/W+; arc=none smtp.client-ip=10.30.226.201
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="n/gSy/W+"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id C2D20C116C6;
-	Mon, 23 Feb 2026 11:17:38 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
-	s=korg; t=1771845459;
-	bh=OEhR7fs7Ght3DkeUoZ9h9YopFiYrGR95NurfdI4BB/I=;
-	h=From:To:Cc:Subject:Date:From;
-	b=n/gSy/W+Y4ULFZazi1spq3ilEImPTnVa49z+FHPCG9/OAyZ5L58Y5En83HQjyvZgA
-	 iiWzc1gMbK2Xp7km8DOkH1JmDZG/zEvyLn2Gzcyzbavk/O4EOO9NSRxtBemFLWqZ48
-	 f8WB9+gKqgaPK2lLSOJmqvzVgjyM0gKPXtDbwGW0=
-From: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-To: linux-usb@vger.kernel.org
-Cc: linux-kernel@vger.kernel.org,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	stable <stable@kernel.org>
-Subject: [PATCH v2] usb: misc: uss720: properly clean up reference in uss720_probe()
-Date: Mon, 23 Feb 2026 12:17:27 +0100
-Message-ID: <2026022327-exhaust-constrain-e21d@gregkh>
-X-Mailer: git-send-email 2.53.0
+	s=arc-20240116; t=1771846069; c=relaxed/simple;
+	bh=X99J4EYETaDcZTtHLmSJ/pCmG96o3v4GJbDAz+8Lxno=;
+	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
+	 In-Reply-To:To:Cc; b=FjVI7Cy8n1YPSpzWttlANYoiAOPJ3nr/9Oe7vv0oERudBGH86jGJhLgnhF0x5w17v5Nun9H7nhO/847uAz/YBcBbMdmv3etVlitGItTq7WlnxQh4PD74icSDIPfNkPNwp8EeMTdz2hDOXtfdZxyAQS2+R09+SY9ocGZniyJFwLk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=pengutronix.de; spf=pass smtp.mailfrom=pengutronix.de; arc=none smtp.client-ip=185.203.201.7
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=pengutronix.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=pengutronix.de
+Received: from dude02.red.stw.pengutronix.de ([2a0a:edc0:0:1101:1d::28])
+	by metis.whiteo.stw.pengutronix.de with esmtp (Exim 4.92)
+	(envelope-from <m.felsch@pengutronix.de>)
+	id 1vuU6C-0007VH-9v; Mon, 23 Feb 2026 12:27:36 +0100
+From: Marco Felsch <m.felsch@pengutronix.de>
+Date: Mon, 23 Feb 2026 12:27:36 +0100
+Subject: [PATCH v5 3/4] dt-bindings: usb: usb-device: add usb hub port
+ vbus-supply suppport
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-Developer-Signature: v=1; a=openpgp-sha256; l=1036; i=gregkh@linuxfoundation.org; h=from:subject:message-id; bh=OEhR7fs7Ght3DkeUoZ9h9YopFiYrGR95NurfdI4BB/I=; b=owGbwMvMwCRo6H6F97bub03G02pJDJlzzN1nKd5MVVh1uvzji0WneydI+InZxvjo3ry2KGX3z zX8XF3KHbEsDIJMDLJiiixftvEc3V9xSNHL0PY0zBxWJpAhDFycAjARJzGGORwHqy9+iUhnq3m+ Z4HrdW/eZxMFdRnm1/5ukdFnTY9wdV3bK3jyusyLzxuVAA==
-X-Developer-Key: i=gregkh@linuxfoundation.org; a=openpgp; fpr=F4B60CC5BF78C2214A313DCB3147D40DDB2DFB29
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+Message-Id: <20260223-v6-16-topic-usb-onboard-dev-v5-3-28d3018a8026@pengutronix.de>
+References: <20260223-v6-16-topic-usb-onboard-dev-v5-0-28d3018a8026@pengutronix.de>
+In-Reply-To: <20260223-v6-16-topic-usb-onboard-dev-v5-0-28d3018a8026@pengutronix.de>
+To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>, 
+ Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>, 
+ Conor Dooley <conor+dt@kernel.org>, Fabio Estevam <festevam@gmail.com>, 
+ Matthias Kaehlcke <mka@chromium.org>, Liam Girdwood <lgirdwood@gmail.com>, 
+ Mark Brown <broonie@kernel.org>
+Cc: linux-usb@vger.kernel.org, linux-kernel@vger.kernel.org, 
+ devicetree@vger.kernel.org, kernel@pengutronix.de, 
+ Marco Felsch <m.felsch@pengutronix.de>
+X-Mailer: b4 0.14.2
+X-SA-Exim-Connect-IP: 2a0a:edc0:0:1101:1d::28
+X-SA-Exim-Mail-From: m.felsch@pengutronix.de
+X-SA-Exim-Scanned: No (on metis.whiteo.stw.pengutronix.de); SAEximRunCond expanded to false
+X-PTX-Original-Recipient: linux-usb@vger.kernel.org
 
-If get_1284_register() fails, the usb device reference count is
-incorrect and needs to be properly dropped before returning.
+Some PCB designs don't use the dedicated USB hub port power control GPIO
+to control the port VBUS supply. Instead host managed GPIOs are used to
+control the VBUS supply.
 
-Cc: stable <stable@kernel.org>
-Assisted-by: gkh_clanker_2000
-Signed-off-by: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+Signed-off-by: Marco Felsch <m.felsch@pengutronix.de>
 ---
- v2: properly clean up the previously allocated resources by jumping to
-     the error path and not just retrning directly
+ Documentation/devicetree/bindings/usb/usb-device.yaml | 15 +++++++++++++++
+ 1 file changed, 15 insertions(+)
 
- drivers/usb/misc/uss720.c | 6 ++++--
- 1 file changed, 4 insertions(+), 2 deletions(-)
-
-diff --git a/drivers/usb/misc/uss720.c b/drivers/usb/misc/uss720.c
-index ec8bd968c4de..54107bf280df 100644
---- a/drivers/usb/misc/uss720.c
-+++ b/drivers/usb/misc/uss720.c
-@@ -735,8 +735,10 @@ static int uss720_probe(struct usb_interface *intf,
- 	 * here. */
- 	ret = get_1284_register(pp, 0, &reg, GFP_KERNEL);
- 	dev_dbg(&intf->dev, "reg: %7ph\n", priv->reg);
--	if (ret < 0)
--		return ret;
-+	if (ret < 0) {
-+		usb_put_dev(usbdev);
-+		goto probe_abort;
-+	}
+diff --git a/Documentation/devicetree/bindings/usb/usb-device.yaml b/Documentation/devicetree/bindings/usb/usb-device.yaml
+index 09fceb469f10525e9dcdb91435b142b0d21964b8..c9abdbea0e5348dc25f8f9484142089cf60bd514 100644
+--- a/Documentation/devicetree/bindings/usb/usb-device.yaml
++++ b/Documentation/devicetree/bindings/usb/usb-device.yaml
+@@ -53,6 +53,12 @@ properties:
+   "#size-cells":
+     const: 0
  
- 	ret = usb_find_last_int_in_endpoint(interface, &epd);
- 	if (!ret) {
++  vbus-supply:
++    description: USB hub port VBUS supply.
++      The host managed regulator which controls the USB hub port VBUS. This
++      regulator is only required if the hub internal control signals aren't
++      used to control the VBUS regulators.
++
+ patternProperties:
+   "^interface@[0-9a-f]{1,2}(,[0-9a-f]{1,2})$":
+     type: object
+@@ -85,6 +91,7 @@ additionalProperties: true
+ 
+ examples:
+   # hub connected to port 1
++  # device connected to hub port 2, vbus controlled by ext. regulator
+   # device connected to port 2
+   # device connected to port 3
+   #    interface 0 of configuration 1
+@@ -99,6 +106,14 @@ examples:
+         hub@1 {
+             compatible = "usb5e3,608";
+             reg = <1>;
++            #address-cells = <1>;
++            #size-cells = <0>;
++
++            device@2 {
++                compatible = "usb123,4321";
++                reg = <2>;
++                vbus-supply = <&reg_5v0_vbus>;
++            };
+         };
+ 
+         device@2 {
+
 -- 
-2.53.0
+2.47.3
 
