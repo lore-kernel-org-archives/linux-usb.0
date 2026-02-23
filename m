@@ -1,175 +1,220 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from mail-m2489.xmail.ntesmail.com (mail-m2489.xmail.ntesmail.com [45.195.24.89])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1094536C0C2;
-	Mon, 23 Feb 2026 20:05:37 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E0A52F4F1;
+	Mon, 23 Feb 2026 21:15:30 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=45.195.24.89
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1771877138; cv=none; b=vGNFtUMeyKnYNtXdPOFrVRMJLA4YM/TO2wN7S4PaHpEeQu52JAy5KyMdbWlROSljTBqkBKfrq6Cpolq7QQMwBAHqWyye0N+lANP+g+MAez4TKZwTEeFTF1qW5ywydCGbRImhj2VZhtA5Rdkd82CEcnA2sIMyAeWzfeDDX27QX8U=
+	t=1771881338; cv=none; b=XIzvgnF5YHIvLQ5rvQ2Fp6GSRNSTOuJl0gWB9tA80rI7ELoF7VP5JGCNCpwHs3mZXu/mZ5VeXVDovRe0X7fpK6fwEAQD6p1xoZigHWiFviMeXVkTtpj5AhsZB6eGNv8oV032o//jIPER2lrAMgzIyThwyzLr7uEXs9TmPcIJdag=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1771877138; c=relaxed/simple;
-	bh=yS0FaWfkpmHEikMpMYRQQxRjgfhNjAFnVJW9DERmNM8=;
-	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
-	 In-Reply-To:To:Cc; b=anwusoCc9CXvPCNg5+tfrdvBOYO5QJrVFXFUwK16AcFqC4fCIPUZs8S8r1x35iJvipT2mVKkPmuqbQnoccEA/9m2uUGb1aOWbFYBSB1MxNXf3OBEhXNMSIxeYIr+NgwBV2UTcOnoXh4dFUHDcTOJ+UNrOUFy6eKcxWqGIWawJkg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=q+xQ0PPn; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1771881338; c=relaxed/simple;
+	bh=Zq2IirUyfEPFzMu6m9iwUulfmXx1dT5LTcM+Mxmn32U=;
+	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References; b=dsFWsyABv064nHcTNUQ6KXGD+JLy6v2oGHDMVluIPYUfcq/t0OvUwiuRNhF1P+d0ysqUlxao3g9emPtNMdyj65954rNAVQQb1THqCzAnbj1w0z/wOqLoBeGofYeorsnkWCp1Qcx3ikE9PRCQS9tFncv66UvJ+5Ed1ikQdGcNv9A=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=rock-chips.com; spf=pass smtp.mailfrom=rock-chips.com; dkim=pass (1024-bit key) header.d=rock-chips.com header.i=@rock-chips.com header.b=hesEBWpu; arc=none smtp.client-ip=45.195.24.89
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=rock-chips.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=rock-chips.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="q+xQ0PPn"
-Received: by smtp.kernel.org (Postfix) with ESMTPS id C66E3C19421;
-	Mon, 23 Feb 2026 20:05:37 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1771877137;
-	bh=yS0FaWfkpmHEikMpMYRQQxRjgfhNjAFnVJW9DERmNM8=;
-	h=From:Date:Subject:References:In-Reply-To:To:Cc:Reply-To:From;
-	b=q+xQ0PPnqKHww8nXcpe8My0UYMEswRVcwqSPKjgw3ezf4nRxie9wtxXioyw3H7Pqo
-	 7UQsp37cN0nVY8s+o0tF7h7fQuY/Ue3AdKoHHfktenxXydSZ8yjT74iE/UAC9GTLsa
-	 NuG7m1jNKIP0gZRRoQvkRCGXNq/Ms2OxkWSgOLyXV+smf8ANtGnUKk0FAXmbXy+pJu
-	 cDh1+hZnH1+Ncfqj0GiTFVZ75VmjAU3JsC47GbrPQLTb44px6+nPY4uszC+gOwqOqI
-	 2sNNxYlMFwiSb5hiKQHjfK+xazZ9ugAvEl5/vj8Jn9B4Lz2MEDHJKFAgw7Imlr/7OI
-	 6grR8J+QM5vEg==
-Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id B6B07EC112B;
-	Mon, 23 Feb 2026 20:05:37 +0000 (UTC)
-From: Amit Sunil Dhamne via B4 Relay <devnull+amitsd.google.com@kernel.org>
-Date: Mon, 23 Feb 2026 20:05:37 +0000
-Subject: [PATCH v2 1/2] dt-bindings: connector: Add sink properties to
- comply with PD 3.1 spec
+	dkim=pass (1024-bit key) header.d=rock-chips.com header.i=@rock-chips.com header.b="hesEBWpu"
+Received: from localhost.localdomain (unknown [58.22.7.114])
+	by smtp.qiye.163.com (Hmail) with ESMTP id 34b37f77f;
+	Mon, 23 Feb 2026 23:31:55 +0800 (GMT+08:00)
+From: Shawn Lin <shawn.lin@rock-chips.com>
+To: Bjorn Helgaas <bhelgaas@google.com>,
+	"Vaibhaav Ram T . L" <vaibhaavram.tl@microchip.com>,
+	Kumaravel Thiagarajan <kumaravel.thiagarajan@microchip.com>,
+	Even Xu <even.xu@intel.com>,
+	Xinpeng Sun <xinpeng.sun@intel.com>,
+	Srinivas Pandruvada <srinivas.pandruvada@linux.intel.com>,
+	Jiri Kosina <jikos@kernel.org>,
+	Alexandre Belloni <alexandre.belloni@bootlin.com>,
+	Zhou Wang <wangzhou1@hisilicon.com>,
+	Longfang Liu <liulongfang@huawei.com>,
+	Vinod Koul <vkoul@kernel.org>,
+	Lee Jones <lee@kernel.org>,
+	Jijie Shao <shaojijie@huawei.com>,
+	Jian Shen <shenjian15@huawei.com>,
+	Sunil Goutham <sgoutham@marvell.com>,
+	Andrew Lunn <andrew+netdev@lunn.ch>,
+	Heiner Kallweit <hkallweit1@gmail.com>,
+	"David S . Miller" <davem@davemloft.net>,
+	Jeff Hugo <jeff.hugo@oss.qualcomm.com>,
+	Oded Gabbay <ogabbay@kernel.org>,
+	Maciej Falkowski <maciej.falkowski@linux.intel.com>,
+	Karol Wachowski <karol.wachowski@linux.intel.com>,
+	Min Ma <mamin506@gmail.com>,
+	Lizhi Hou <lizhi.hou@amd.com>,
+	Andreas Noever <andreas.noever@gmail.com>,
+	Mika Westerberg <westeri@kernel.org>,
+	Tomasz Jeznach <tjeznach@rivosinc.com>,
+	Will Deacon <will@kernel.org>,
+	Xinliang Liu <xinliang.liu@linaro.org>,
+	Tian Tao <tiantao6@hisilicon.com>,
+	Davidlohr Bueso <dave@stgolabs.net>,
+	Jonathan Cameron <jonathan.cameron@huawei.com>,
+	Srujana Challa <schalla@marvell.com>,
+	Bharat Bhushan <bbhushan2@marvell.com>,
+	Antoine Tenart <atenart@kernel.org>,
+	Herbert Xu <herbert@gondor.apana.org.au>,
+	Raag Jadav <raag.jadav@intel.com>,
+	Hans de Goede <hansg@kernel.org>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	Jiri Slaby <jirislaby@kernel.org>,
+	Andy Shevchenko <andy@kernel.org>,
+	Manivannan Sadhasivam <mani@kernel.org>,
+	Mika Westerberg <mika.westerberg@linux.intel.com>,
+	Andi Shyti <andi.shyti@kernel.org>,
+	Robert Richter <rric@kernel.org>,
+	Mark Brown <broonie@kernel.org>,
+	Nirmal Patel <nirmal.patel@linux.intel.com>,
+	Kurt Schwemmer <kurt.schwemmer@microsemi.com>,
+	Logan Gunthorpe <logang@deltatee.com>,
+	Linus Walleij <linusw@kernel.org>,
+	Bartosz Golaszewski <brgl@kernel.org>,
+	Sakari Ailus <sakari.ailus@linux.intel.com>,
+	Bingbu Cao <bingbu.cao@intel.com>,
+	Ulf Hansson <ulf.hansson@linaro.org>
+Cc: Arnd Bergmann <arnd@arndb.de>,
+	Benjamin Tissoires <bentiss@kernel.org>,
+	linux-input@vger.kernel.org,
+	linux-i3c@lists.infradead.org,
+	dmaengine@vger.kernel.org,
+	Philipp Stanner <phasta@kernel.org>,
+	netdev@vger.kernel.org,
+	nic_swsd@realtek.com,
+	linux-arm-msm@vger.kernel.org,
+	dri-devel@lists.freedesktop.org,
+	linux-usb@vger.kernel.org,
+	iommu@lists.linux.dev,
+	linux-riscv@lists.infradead.org,
+	David Airlie <airlied@gmail.com>,
+	Simona Vetter <simona@ffwll.ch>,
+	linux-cxl@vger.kernel.org,
+	linux-crypto@vger.kernel.org,
+	platform-driver-x86@vger.kernel.org,
+	linux-serial@vger.kernel.org,
+	mhi@lists.linux.dev,
+	Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
+	Jan Dabros <jsd@semihalf.com>,
+	linux-i2c@vger.kernel.org,
+	Daniel Mack <daniel@zonque.org>,
+	Haojian Zhuang <haojian.zhuang@gmail.com>,
+	linux-spi@vger.kernel.org,
+	Jonathan Derrick <jonathan.derrick@linux.dev>,
+	linux-pci@vger.kernel.org,
+	linux-gpio@vger.kernel.org,
+	Mauro Carvalho Chehab <mchehab@kernel.org>,
+	linux-media@vger.kernel.org,
+	linux-mmc@vger.kernel.org,
+	Shawn Lin <shawn.lin@rock-chips.com>
+Subject: [PATCH 01/37] PCI/MSI: Add Devres managed IRQ vectors allocation
+Date: Mon, 23 Feb 2026 23:29:40 +0800
+Message-Id: <1771860581-82092-2-git-send-email-shawn.lin@rock-chips.com>
+X-Mailer: git-send-email 2.7.4
+In-Reply-To: <1771860581-82092-1-git-send-email-shawn.lin@rock-chips.com>
+References: <1771860581-82092-1-git-send-email-shawn.lin@rock-chips.com>
+X-HM-Tid: 0a9c8b20e63209cckunm6946b3c7986369
+X-HM-MType: 1
+X-HM-Spam-Status: e1kfGhgUHx5ZQUtXWQgPGg8OCBgUHx5ZQUlOS1dZFg8aDwILHllBWSg2Ly
+	tZV1koWUFDSUNOT01LS0k3V1ktWUFJV1kPCRoVCBIfWUFZGh5JGFYdQhpNQ0tOHx8aQhpWFRQJFh
+	oXVRMBExYaEhckFA4PWVdZGBILWUFZTkNVSUlVTFVKSk9ZV1kWGg8SFR0UWUFZS1VLVUtVS1kG
+DKIM-Signature: a=rsa-sha256;
+	b=hesEBWpuUfkngcgz1f2Ig1nlGmmzRwW4WQwqVSHNJo/8mDrQHyi2jBXfpRejbQ5213Bi/x3y5ZKsO4yPdU29saCaBfjZuhiQPZrXuFi/nfbjzR0kpb+gL5Eft5gNlVXtMsgoBjIOykghNIgFG4xZvqITu8wqjNed5lf17v/+SjU=; s=default; c=relaxed/relaxed; d=rock-chips.com; v=1;
+	bh=j3H95hgVRLs6dldnhhXVuqSGrPI2yynu10KTCXrGKLk=;
+	h=date:mime-version:subject:message-id:from;
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-Message-Id: <20260223-skedb-v2-1-60675765bc7e@google.com>
-References: <20260223-skedb-v2-0-60675765bc7e@google.com>
-In-Reply-To: <20260223-skedb-v2-0-60675765bc7e@google.com>
-To: Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>, 
- Conor Dooley <conor+dt@kernel.org>, 
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>, 
- Badhri Jagan Sridharan <badhri@google.com>, 
- Heikki Krogerus <heikki.krogerus@linux.intel.com>
-Cc: devicetree@vger.kernel.org, linux-kernel@vger.kernel.org, 
- linux-usb@vger.kernel.org, Kyle Tso <kyletso@google.com>, 
- RD Babiera <rdbabiera@google.com>, Amit Sunil Dhamne <amitsd@google.com>
-X-Mailer: b4 0.14.2
-X-Developer-Signature: v=1; a=ed25519-sha256; t=1771877137; l=5005;
- i=amitsd@google.com; s=20241031; h=from:subject:message-id;
- bh=itAb/PFy1mTfeBP3j6zX7HovF8nRNtIK4I8TOhIQRWs=;
- b=gOkLUA0mTKyTHT3HQBh6EBJAolQp30L9Wydf3EI8g4F+vDDakOCmY9D44qlV719DumoKoBMQE
- EXOnNqvdwApAGo21CRz0nXpqiZ2Y7UgdekxGGd2kE9O9KleMkxr0zaI
-X-Developer-Key: i=amitsd@google.com; a=ed25519;
- pk=wD+XZSST4dmnNZf62/lqJpLm7fiyT8iv462zmQ3H6bI=
-X-Endpoint-Received: by B4 Relay for amitsd@google.com/20241031 with
- auth_id=262
-X-Original-From: Amit Sunil Dhamne <amitsd@google.com>
-Reply-To: amitsd@google.com
 
-From: Amit Sunil Dhamne <amitsd@google.com>
+pcim_alloc_irq_vectors() and pcim_alloc_irq_vectors_affinity() are created for
+pci device drivers which rely on the devres machinery to help cleanup the IRQ
+vectors.
 
-Add additional properties for ports supporting sink mode. The properties
-define certain hardware and electrical properties such as sink load
-step, sink load characteristics, sink compliance and charging adapter
-Power Delivery Profile (PDP) for the connector. These properties need to
-be defined for a Type-C port in compliance with the PD 3.1 spec.
-
-Signed-off-by: Amit Sunil Dhamne <amitsd@google.com>
-Reviewed-by: Rob Herring (Arm) <robh@kernel.org>
+Signed-off-by: Shawn Lin <shawn.lin@rock-chips.com>
 ---
- .../bindings/connector/usb-connector.yaml          | 34 ++++++++++++++++++++++
- .../devicetree/bindings/usb/maxim,max33359.yaml    |  4 +++
- include/dt-bindings/usb/pd.h                       | 18 ++++++++++++
- 3 files changed, 56 insertions(+)
 
-diff --git a/Documentation/devicetree/bindings/connector/usb-connector.yaml b/Documentation/devicetree/bindings/connector/usb-connector.yaml
-index 11e40d225b9f3a0d0aeea7bf764f1c00a719d615..901986de3e2b2734452c99eea8076f4b03c4a688 100644
---- a/Documentation/devicetree/bindings/connector/usb-connector.yaml
-+++ b/Documentation/devicetree/bindings/connector/usb-connector.yaml
-@@ -300,6 +300,40 @@ properties:
-     $ref: /schemas/types.yaml#/definitions/uint8-array
-     maxItems: 4
+ drivers/pci/msi/api.c | 26 ++++++++++++++++++++++++++
+ include/linux/pci.h   | 22 ++++++++++++++++++++++
+ 2 files changed, 48 insertions(+)
+
+diff --git a/drivers/pci/msi/api.c b/drivers/pci/msi/api.c
+index c18559b..2362fca 100644
+--- a/drivers/pci/msi/api.c
++++ b/drivers/pci/msi/api.c
+@@ -297,6 +297,32 @@ int pci_alloc_irq_vectors_affinity(struct pci_dev *dev, unsigned int min_vecs,
+ EXPORT_SYMBOL(pci_alloc_irq_vectors_affinity);
  
-+  sink-load-step:
-+    description: Indicates the preferred load step slew rate in mA/usec for
-+      the port (in sink mode). This property is defined in "6.5.13.7" of
-+      "USB Power Delivery Specification Revision 3.1 Version 1.8".
-+    $ref: /schemas/types.yaml#/definitions/uint32
-+    enum: [150, 500]
-+    default: 150
-+
-+  sink-load-characteristics:
-+    description: Indicates the port's (in sink mode) preferred load
-+      characteristics. Users can leverage SINK_LOAD_CHAR() defined in
-+      dt-bindings/usb/pd.h to populate this field. This property is defined in
-+      "6.5.13.8" of "USB Power Delivery Specification Revision 3.1 Version 1.8".
-+    $ref: /schemas/types.yaml#/definitions/uint16
-+
-+  sink-compliance:
-+    description: Represents the types of sources the sink device has been tested
-+      and certified with. This property is defined in "6.5.13.9" of
-+      "USB Power Delivery Specification Revision 3.1 Version 1.8"
-+      Bit 0 when set indicates it has been tested on LPS compliant source
-+      Bit 1 when set indicates it has been tested on PS1 compliant source
-+      Bit 2 when set indicates it has been tested on PS2 compliant source
-+    $ref: /schemas/types.yaml#/definitions/uint8
-+    maximum: 7
-+
-+  charging-adapter-pdp-milliwatt:
-+    description: This corresponds to the Power Delivery Profile rating of the
-+      charging adapter shipped or recommended for use with the connector port.
-+      This property is a requirement to infer the USB PD property
-+      "SPR Sink Operational PDP" given in "6.5.13.14" of
-+      "USB Power Delivery Specification Revision 3.1 Version 1.8".
-+    minimum: 0
-+    maximum: 100000
-+
- dependencies:
-   sink-vdos-v1: [ sink-vdos ]
-   sink-vdos: [ sink-vdos-v1 ]
-diff --git a/Documentation/devicetree/bindings/usb/maxim,max33359.yaml b/Documentation/devicetree/bindings/usb/maxim,max33359.yaml
-index 3de4dc40b79192b60443421b557bd2fb18683bf7..46a3748c8be4dd1972c69cac6f90a990f7315953 100644
---- a/Documentation/devicetree/bindings/usb/maxim,max33359.yaml
-+++ b/Documentation/devicetree/bindings/usb/maxim,max33359.yaml
-@@ -75,6 +75,10 @@ examples:
-                                        PDO_FIXED(9000, 2000, 0)>;
-                 sink-bc12-completion-time-ms = <500>;
-                 pd-revision = /bits/ 8 <0x03 0x01 0x01 0x08>;
-+                sink-load-step = <150>;
-+                sink-load-characteristics = /bits/ 16 <SINK_LOAD_CHAR(0, 1, 1, 2)>;
-+                sink-compliance = /bits/ 8 <(COMPLIANCE_LPS | COMPLIANCE_PS1)>;
-+                charging-adapter-pdp-milliwatt = <18000>;
-             };
-         };
-     };
-diff --git a/include/dt-bindings/usb/pd.h b/include/dt-bindings/usb/pd.h
-index e6526b13817452abd7ec74bc64e94183feddd39e..6cff2339bda3967e017166cc3cc3bd24e2f7d4b0 100644
---- a/include/dt-bindings/usb/pd.h
-+++ b/include/dt-bindings/usb/pd.h
-@@ -465,4 +465,22 @@
- 	 | ((vbm) & 0x3) << 15 | (curr) << 14 | ((vbi) & 0x3f) << 7	\
- 	 | ((gi) & 0x3f) << 1 | (ct))
- 
-+/*
-+ * Sink Load Characteristics
-+ * -------------------------
-+ *  <15>    :: Can tolerate vbus voltage droop
-+ *  <11:14> :: Duty cycle in 5% increments when bits 4:0 are non-zero
-+ *  <10:5>  :: Overload period in 20ms when bits 4:0 are non-zero
-+ *  <4:0>   :: Percent overload in 10% increments. Values higher than 25 are
-+ *             clipped to 250%
+ /**
++ * pcim_alloc_irq_vectors() - devres managed pci_alloc_irq_vectors()
++ * Interrupt vectors are automatically freed by the devres machinery
 + */
-+#define SINK_LOAD_CHAR(vdroop, duty_cycle, period, percent_ol)		\
-+	(((vdroop) & 0x1) << 15 | ((duty_cycle) & 0xf) << 11 |		\
-+	 ((period) & 0x3f) << 5 | ((percent_ol) & 0x1f))
++int pcim_alloc_irq_vectors(struct pci_dev *dev, unsigned int min_vecs,
++			   unsigned int max_vecs, unsigned int flags)
++{
++	return pcim_alloc_irq_vectors_affinity(dev, min_vecs, max_vecs,
++					       flags, NULL);
++}
++EXPORT_SYMBOL(pcim_alloc_irq_vectors);
 +
-+/* Compliance */
-+#define COMPLIANCE_LPS		(1 << 0)
-+#define COMPLIANCE_PS1		(1 << 1)
-+#define COMPLIANCE_PS2		(1 << 2)
++/**
++ * pcim_alloc_irq_vectors_affinity() - devres managed pci_alloc_irq_vectors_affinity()
++ * Interrupt vectors are automatically freed by the devres machinery
++ */
++int pcim_alloc_irq_vectors_affinity(struct pci_dev *dev, unsigned int min_vecs,
++				   unsigned int max_vecs, unsigned int flags,
++				   struct irq_affinity *affd)
++{
++	dev->is_msi_managed = true;
++	return pci_alloc_irq_vectors_affinity(dev, min_vecs, max_vecs,
++					      flags, affd);
++}
++EXPORT_SYMBOL(pcim_alloc_irq_vectors_affinity);
 +
- #endif /* __DT_POWER_DELIVERY_H */
-
++/**
+  * pci_irq_vector() - Get Linux IRQ number of a device interrupt vector
+  * @dev: the PCI device to operate on
+  * @nr:  device-relative interrupt vector index (0-based); has different
+diff --git a/include/linux/pci.h b/include/linux/pci.h
+index d5ec0f8..ae58f70 100644
+--- a/include/linux/pci.h
++++ b/include/linux/pci.h
+@@ -1764,6 +1764,12 @@ int pci_alloc_irq_vectors_affinity(struct pci_dev *dev, unsigned int min_vecs,
+ 				   unsigned int max_vecs, unsigned int flags,
+ 				   struct irq_affinity *affd);
+ 
++int pcim_alloc_irq_vectors(struct pci_dev *dev, unsigned int min_vecs,
++			  unsigned int max_vecs, unsigned int flags);
++int pcim_alloc_irq_vectors_affinity(struct pci_dev *dev, unsigned int min_vecs,
++				   unsigned int max_vecs, unsigned int flags,
++				   struct irq_affinity *affd);
++
+ bool pci_msix_can_alloc_dyn(struct pci_dev *dev);
+ struct msi_map pci_msix_alloc_irq_at(struct pci_dev *dev, unsigned int index,
+ 				     const struct irq_affinity_desc *affdesc);
+@@ -1806,6 +1812,22 @@ pci_alloc_irq_vectors(struct pci_dev *dev, unsigned int min_vecs,
+ 					      flags, NULL);
+ }
+ 
++static inline int
++pcim_alloc_irq_vectors_affinity(struct pci_dev *dev, unsigned int min_vecs,
++			       unsigned int max_vecs, unsigned int flags,
++			       struct irq_affinity *aff_desc)
++{
++	return pci_alloc_irq_vectors_affinity(dev, min_vecs, max_vecs,
++					      flags, aff_desc);
++}
++static inline int
++pcim_alloc_irq_vectors(struct pci_dev *dev, unsigned int min_vecs,
++		      unsigned int max_vecs, unsigned int flags)
++{
++	return pcim_alloc_irq_vectors_affinity(dev, min_vecs, max_vecs,
++					      flags, NULL);
++}
++
+ static inline bool pci_msix_can_alloc_dyn(struct pci_dev *dev)
+ { return false; }
+ static inline struct msi_map pci_msix_alloc_irq_at(struct pci_dev *dev, unsigned int index,
 -- 
-2.53.0.371.g1d285c8824-goog
-
+2.7.4
 
