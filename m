@@ -1,27 +1,27 @@
 Received: from metis.whiteo.stw.pengutronix.de (metis.whiteo.stw.pengutronix.de [185.203.201.7])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E3DD0361679
-	for <linux-usb@vger.kernel.org>; Mon, 23 Feb 2026 11:27:48 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 64654361DC1
+	for <linux-usb@vger.kernel.org>; Mon, 23 Feb 2026 11:27:49 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.203.201.7
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1771846070; cv=none; b=WsBmsGKuj8mY1ul79f7cBnQnz1q9CVCtKsd7uC9+oKu/Bju7th0YzGm8SxaUOcC4T7G+0NvSSof+cEI7qvQ6XtgM5YHUaJhNk8DMnDotGzusgB5HRyUFy2gRHkqTpK0znApM5gWIlN8tMRmYaI1r4MjvoadsCfaYMbUqL86AoaU=
+	t=1771846070; cv=none; b=hVl6Ql4oXDtBYMYscmYQIdVKzbAaRivGWDAARP7BVr1eizDkApOjyEWditiyPccFoXtwxTMDZqQd9MTYLezYh0gIYKn/U07Jiy8XtIkWNIkdDOcUJQ7F7LjcAyzJuZ3/OjM3HsTUAbO9YKz8q07I0rbSFkqINXyBizAPkM294DU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
 	s=arc-20240116; t=1771846070; c=relaxed/simple;
-	bh=WLjLX4fFTrjRDe7fmnzKRUWhyDRziRi/Dp4t5UD44DE=;
-	h=From:Subject:Date:Message-Id:MIME-Version:Content-Type:To:Cc; b=M0LZL4mpgQvxGBRBJvt8CY2z+hi5vwT/8VkXQU1OdwebLEvFMA/Sbwl9D//XLvXEYPmDPPiYp7DKzjXc1gDUQup7YgCFWZoUoJx2Ljl6NlTaI3NczTh7RRcDu8vNipXCiskewRACzeRjL+25HTBM4S/CKnTUlsC2EoTtbUuTi8U=
+	bh=iiju3CLfKh8GuTQUBQJ/jbKACfrd1x+FVzb9ZYuX1+Q=;
+	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
+	 In-Reply-To:To:Cc; b=Rtu1iy4v4KUth0TRKiP2uHNJGz9dTsPYlNE5NnGlf933RekN1Z+zmr9SQkiE2j3R5wWhRYJua5Fxoi6U9hGnBmvYSy0NdDXXGF2WiJjEdV0FpBXY40Bf9aPcioyaP7izLtBks8o81CLFoT41EpeuLLPx+XZ3upZ4toQXstrtI1s=
 ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=pengutronix.de; spf=pass smtp.mailfrom=pengutronix.de; arc=none smtp.client-ip=185.203.201.7
 Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=pengutronix.de
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=pengutronix.de
 Received: from dude02.red.stw.pengutronix.de ([2a0a:edc0:0:1101:1d::28])
 	by metis.whiteo.stw.pengutronix.de with esmtp (Exim 4.92)
 	(envelope-from <m.felsch@pengutronix.de>)
-	id 1vuU6C-0007VH-4J; Mon, 23 Feb 2026 12:27:36 +0100
+	id 1vuU6C-0007VH-89; Mon, 23 Feb 2026 12:27:36 +0100
 From: Marco Felsch <m.felsch@pengutronix.de>
-Subject: [PATCH v5 0/4] Add onboard-dev USB hub host managed vbus handling
- support
-Date: Mon, 23 Feb 2026 12:27:33 +0100
-Message-Id: <20260223-v6-16-topic-usb-onboard-dev-v5-0-28d3018a8026@pengutronix.de>
+Date: Mon, 23 Feb 2026 12:27:35 +0100
+Subject: [PATCH v5 2/4] usb: hub: add infrastructure to pass onboard_dev
+ port features
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
@@ -30,11 +30,9 @@ List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-X-B4-Tracking: v=1; b=H4sIAKU5nGkC/43NsQ6CMBSF4Vchnb2mLVCvTr6HcSjcAl1a0kKDI
- by7hcXBQcf/DN9ZWTTBmshuxcqCSTZa73LUp4K1g3a9AUu5meSy5igFJAVCweRH28IcG/Cu8To
- QkEnQIFUkCDVHxbIwBtPZ5dAfz9yDjZMPr+Mslfv6n5tK4KBINiXqmlDgfTSun6fgnV3OZNiOp
- +oDXsUPsMqg0J1EFLKmS/UFbtv2Bg4lqi4cAQAA
-X-Change-ID: 20250821-v6-16-topic-usb-onboard-dev-b8d4d1d8a086
+Message-Id: <20260223-v6-16-topic-usb-onboard-dev-v5-2-28d3018a8026@pengutronix.de>
+References: <20260223-v6-16-topic-usb-onboard-dev-v5-0-28d3018a8026@pengutronix.de>
+In-Reply-To: <20260223-v6-16-topic-usb-onboard-dev-v5-0-28d3018a8026@pengutronix.de>
 To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>, 
  Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>, 
  Conor Dooley <conor+dt@kernel.org>, Fabio Estevam <festevam@gmail.com>, 
@@ -49,57 +47,132 @@ X-SA-Exim-Mail-From: m.felsch@pengutronix.de
 X-SA-Exim-Scanned: No (on metis.whiteo.stw.pengutronix.de); SAEximRunCond expanded to false
 X-PTX-Original-Recipient: linux-usb@vger.kernel.org
 
-Hi,
+On board devices may require special handling for en-/disable port
+features due to PCB design decisions e.g. enable/disable the VBUS power
+on the port via a host controlled regulator or GPIO.
 
-the whole purpose of this series is to make it possible to control the
-USB VBUS regulators of an USB hub via host managed regulators.
+This commit adds the necessary infrastructure to prepare the common code
+base for such use-cases.
 
-Regards,
-  Marco
-
+Signed-off-by: Marco Felsch <m.felsch@pengutronix.de>
 ---
-Changes in v5:
-- Link to v4: https://lore.kernel.org/r/20250911-v6-16-topic-usb-onboard-dev-v4-0-1af288125d74@pengutronix.de
-- rebase on top of v7.0-rc1
-- dt-bindings: fix typo
-- dt-bindings: move example into usb-device.yaml
+ drivers/usb/core/hub.c | 55 ++++++++++++++++++++++++++++++++++++++++++++++++--
+ drivers/usb/core/hub.h |  2 ++
+ include/linux/usb.h    |  3 +++
+ 3 files changed, 58 insertions(+), 2 deletions(-)
 
-Changes in v4:
-- dt-bindings: change to vbus-supply and shift doc to usb-device.yaml
-- onboard_dev: make use of new regulator API to parse child device
-               regulators.
-- onboard_dev: drop hard coded downstream port number and make it more
-               dynamic
-- onboard_dev: drop limiting support to SMSC hubs
-- Link to v3: https://lore.kernel.org/r/20250821-v6-16-topic-usb-onboard-dev-v3-0-6d2b38a5d818@pengutronix.de
+diff --git a/drivers/usb/core/hub.c b/drivers/usb/core/hub.c
+index 24960ba9caa915f12a4f5582269808fdebd1ee11..9fdfd2f0aacc9b1994cd3761330968e052167c67 100644
+--- a/drivers/usb/core/hub.c
++++ b/drivers/usb/core/hub.c
+@@ -453,9 +453,19 @@ static int clear_hub_feature(struct usb_device *hdev, int feature)
+  */
+ int usb_clear_port_feature(struct usb_device *hdev, int port1, int feature)
+ {
+-	return usb_control_msg(hdev, usb_sndctrlpipe(hdev, 0),
++	struct usb_hub *hub = usb_hub_to_struct_hub(hdev);
++	int ret;
++
++	ret = usb_control_msg(hdev, usb_sndctrlpipe(hdev, 0),
+ 		USB_REQ_CLEAR_FEATURE, USB_RT_PORT, feature, port1,
+ 		NULL, 0, 1000);
++	if (ret)
++		return ret;
++
++	if (hub->onboard_hub_clear_port_feature)
++		ret = hub->onboard_hub_clear_port_feature(hdev, feature, port1);
++
++	return ret;
+ }
+ 
+ /*
+@@ -463,9 +473,19 @@ int usb_clear_port_feature(struct usb_device *hdev, int port1, int feature)
+  */
+ static int set_port_feature(struct usb_device *hdev, int port1, int feature)
+ {
+-	return usb_control_msg(hdev, usb_sndctrlpipe(hdev, 0),
++	struct usb_hub *hub = usb_hub_to_struct_hub(hdev);
++	int ret;
++
++	ret = usb_control_msg(hdev, usb_sndctrlpipe(hdev, 0),
+ 		USB_REQ_SET_FEATURE, USB_RT_PORT, feature, port1,
+ 		NULL, 0, 1000);
++	if (ret)
++		return ret;
++
++	if (hub->onboard_hub_set_port_feature)
++		ret = hub->onboard_hub_set_port_feature(hdev, feature, port1);
++
++	return ret;
+ }
+ 
+ static char *to_led_name(int selector)
+@@ -6545,6 +6565,37 @@ void usb_hub_adjust_deviceremovable(struct usb_device *hdev,
+ 	}
+ }
+ 
++/**
++ * usb_hub_register_port_feature_hooks - Register port set/get feature hooks
++ * @hdev: USB device belonging to the usb hub
++ * @set_port_feature: set_feature hook which gets called by the hub core
++ * @clear_port_feature: clear_feature hook which gets called by the hub core
++ *
++ * Register set/get_port_feature hooks for a onboard_dev hub.
++ */
++void usb_hub_register_port_feature_hooks(struct usb_device *hdev,
++		int (*set_port_feature)(struct usb_device *, int, int),
++		int (*clear_port_feature)(struct usb_device *, int, int))
++{
++	struct usb_hub *hub = usb_hub_to_struct_hub(hdev);
++
++	if (WARN_ON_ONCE(is_root_hub(hdev) || !hub))
++		return;
++
++	if (set_port_feature)
++		hub->onboard_hub_set_port_feature = set_port_feature;
++	if (clear_port_feature)
++		hub->onboard_hub_clear_port_feature = clear_port_feature;
++
++	/*
++	 * Keep it simple for now. Just check the power state and re-sync it
++	 * after adding the hooks since the onboard-dev may do some additional
++	 * logic e.g. controlling regulators.
++	 */
++	hub_power_on(hub, false);
++}
++EXPORT_SYMBOL_GPL(usb_hub_register_port_feature_hooks);
++
+ #ifdef CONFIG_ACPI
+ /**
+  * usb_get_hub_port_acpi_handle - Get the usb port's acpi handle
+diff --git a/drivers/usb/core/hub.h b/drivers/usb/core/hub.h
+index 297adf2c6078809ca582104f228e5222c464f999..31800b5922ba896dc7cac5f9e3ed1a77e7c5a801 100644
+--- a/drivers/usb/core/hub.h
++++ b/drivers/usb/core/hub.h
+@@ -76,6 +76,8 @@ struct usb_hub {
+ 	struct timer_list	irq_urb_retry;
+ 	struct usb_port		**ports;
+ 	struct list_head        onboard_devs;
++	int (*onboard_hub_set_port_feature)(struct usb_device *udev, int feature, int port1);
++	int (*onboard_hub_clear_port_feature)(struct usb_device *udev, int feature, int port1);
+ };
+ 
+ /**
+diff --git a/include/linux/usb.h b/include/linux/usb.h
+index fbfcc70b07fbe5dbaa1ca1be55af127c62294cf7..5f68a066029ea0508fad461daf7ebe6f534778d2 100644
+--- a/include/linux/usb.h
++++ b/include/linux/usb.h
+@@ -946,6 +946,9 @@ int usb_hub_claim_port(struct usb_device *hdev, unsigned port1,
+ 		struct usb_dev_state *owner);
+ int usb_hub_release_port(struct usb_device *hdev, unsigned port1,
+ 		struct usb_dev_state *owner);
++void usb_hub_register_port_feature_hooks(struct usb_device *hdev,
++		int (*set_port_feature)(struct usb_device *, int, int),
++		int (*clear_port_feature)(struct usb_device *, int, int));
+ 
+ /**
+  * usb_make_path - returns stable device path in the usb tree
 
-Changes in v3:
-- fix dt-bindings issues
-- Link to v2: https://lore.kernel.org/all/20250327172803.3404615-1-m.felsch@pengutronix.de/
-
-Changes in v2:
-- fix compile time errors in case the module builds
-- Link to v1: https://lore.kernel.org/all/20240807-b4-v6-10-topic-usb-onboard-dev-v1-0-f33ce21353c9@pengutronix.de/
-
----
-Marco Felsch (4):
-      usb: port: track the disabled state
-      usb: hub: add infrastructure to pass onboard_dev port features
-      dt-bindings: usb: usb-device: add usb hub port vbus-supply suppport
-      usb: misc: onboard_dev: add hub downstream port host vbus-supply handling
-
- .../devicetree/bindings/usb/usb-device.yaml        |  15 +++
- drivers/usb/core/hub.c                             |  55 +++++++++-
- drivers/usb/core/hub.h                             |   4 +
- drivers/usb/core/port.c                            |   6 ++
- drivers/usb/misc/onboard_usb_dev.c                 | 117 +++++++++++++++++++++
- include/linux/usb.h                                |   3 +
- 6 files changed, 198 insertions(+), 2 deletions(-)
----
-base-commit: 6de23f81a5e08be8fbf5e8d7e9febc72a5b5f27f
-change-id: 20250821-v6-16-topic-usb-onboard-dev-b8d4d1d8a086
-
-Best regards,
 -- 
-Marco Felsch <m.felsch@pengutronix.de>
+2.47.3
 
