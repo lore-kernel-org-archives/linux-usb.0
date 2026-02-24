@@ -1,77 +1,61 @@
-Received: from mail-pl1-f196.google.com (mail-pl1-f196.google.com [209.85.214.196])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.9])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 167AE303A32
-	for <linux-usb@vger.kernel.org>; Tue, 24 Feb 2026 06:44:37 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.196
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A373C1FE47B
+	for <linux-usb@vger.kernel.org>; Tue, 24 Feb 2026 07:01:53 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.9
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1771915479; cv=none; b=dWboQ4d0M5rM9kZ0c3YUHgYVmPZuP5ctkBwyGl+vQHXFru8a8YvXZV808EKfRsy6Q/ZtYD4BbkaJtuJfX1Dt84a/HmlVYA1eM3HO/XjMHgo88j8Qf7OgrcS8f4SxF8fF2Spk4QEEgEvz6erseK3I5yCbsGXwdV65yf7l59PhSBA=
+	t=1771916514; cv=none; b=mJgiLBDMoYrPeR8ousLkLuUdBVZbcYNctWfZv/iAEZWHSECBBaGe1Oh9/WlCss8ZTH/xYv35sLT0HuEt0n/iz6fsEWzYs9kfjejkckNuvMYarBQ5LHt3rVch1gncY7++fGqw9Y8QcCEuwjuypHF93pOjCoBlql2v5sJ2cOwDzE0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1771915479; c=relaxed/simple;
-	bh=/+UE2MdC/Z98Gw4ktgFVgpkHLwDCLqq9BwXUszP2DsQ=;
+	s=arc-20240116; t=1771916514; c=relaxed/simple;
+	bh=QivVIROHPp2B/VhAIFmgRR4aHluGirAezDag7X79jNs=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=jsU8qGQu2EkwlsXnrdQvdgJPH4nv7xtrtVIUi4BNawmGBSK3RrUO9vmlFimrzWWCJwx/LyM7v8/lLWhY5dI1I7mHYZaTJd1pMxFaR+NtGBpMrl+ZIJlyY879DH+aJOaypDZpSwylwLPJORjVXoCIsGoU4L4jyVeQhZF6p9OyN0U=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=nqPvVpfY; arc=none smtp.client-ip=209.85.214.196
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	 MIME-Version; b=dBn/MHE20Ss1cWLnC6wbdfsTY+yob10idpMaELuUScejOH/5qBXQgMxYEBcy36Sn2rJH5/zyNyEWdpMthgUUDDmiiFoEmxWkKhdCyPMXOHH1sTmZ4N8GkyPfeH6RlapY3S6xFW8PnPeplA+163veTzdEDHrS7X/fPIkrEeN8FC0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=pass smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Uai5Gvgz; arc=none smtp.client-ip=198.175.65.9
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="nqPvVpfY"
-Received: by mail-pl1-f196.google.com with SMTP id d9443c01a7336-2a91215c158so34160275ad.0
-        for <linux-usb@vger.kernel.org>; Mon, 23 Feb 2026 22:44:37 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1771915477; x=1772520277; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=+AYD+S/OiWSSC/r1ggCFAOv+uWX9aAv5ZZhpGGUpWFM=;
-        b=nqPvVpfYRReSwKXp41H9JiMM90wrHCUDRjp6fXkU7NQ+xZTc6xNwU+B1G2+jRCZRha
-         4xMl1V2uFABkvMaldreY5CkwmFFrsSmvaLw5wWJ88PLIMEPI28EPUQiUZedyCY70SM4j
-         hw1flZSYRgntbFQnS+v6xYbKkzJe527YzHhC13DeS385Sw66ULCLMZOzwYa0/oQN6qHV
-         0MILk38UtC0yYKg4tlAV4nVayZHvZvMVtgrisdxAmlBlihV6KLWL3LFA3x2XtY0v7MoY
-         qQiRVQEOUzHyI8JYqzNvvDi9PX9uI+Rr0tOdSChJuXJfAE4ujl2Ih2vFhCJUcWJcVHpv
-         yAJg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1771915477; x=1772520277;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to;
-        bh=+AYD+S/OiWSSC/r1ggCFAOv+uWX9aAv5ZZhpGGUpWFM=;
-        b=h+kJssZxqivSLdy1E+8xct+ApYnmLsZh342yyz0lk+qtVn4epcnErG6SddM/lgFebk
-         kEOWZ0xJOn/Rsvjfuxvrjh6IZ1SJIbN7xjJjwQWASd+AOPn53usnRyqRCbONwL0qCZg1
-         HuVmaqU9XaZlVI71njGaqiZDhQhKUjswSoQm6RgE7HBC+462jUpsfPUDewbKE4blsbR8
-         tWixxaPxzppGgXlIQg8o2uIl+UMBKQArkbnNIoiNBBJhVwr7qWN7FHTKKECuzMju1yme
-         fMP7K3iiyVS5HzNSyf2cqnvyU9OKO11W3/fw410V/yKlTEAib0a83aeSuXp7LEjg9nCX
-         MjCA==
-X-Forwarded-Encrypted: i=1; AJvYcCX/v7o6UX+jjl/upMsbOMLJwlsVq49ooVgDupj4sVWOqaEFqPNTlSs/YKijbZc+b/DsT7ZQI1wzKB8=@vger.kernel.org
-X-Gm-Message-State: AOJu0YxSRr/TYRw/iGf2lOZkJUlvcUFaxEOnKXVQq87bcfFaGMiiN8qd
-	FgMjfi2wWmAKw6XgWCR3fA6tW4e13O56eO2rUFEdUAMa72R1DZaQ0lDy
-X-Gm-Gg: ATEYQzxU3ZnWgGjq9IjX+pvlWjWEJUCmtiM10KvUgzC/kAMfQFxLGb7IpWtY92A6eOu
-	cvG0AAK/2a3mDfugDzDq/ji97pJMXY9P4I23MFEUC18jFwLyKa5pSUlv+fZ7Lq6R0+kEuTpY8mw
-	UHFkds3vq2QmgoLXC7cWFFCvWo8G0PPYSEBF0TTkbE+6L9/bcsYdeMlo0g11gJ0WlNHgELruFKQ
-	pk2QbkVSlVAqY7uCShOSerAsOquwFjJNbycguyCDlZWv+2dVFoSinhltPwaInH761CP+e1V0cFh
-	4Pi3NYfMj3h3koKLdaE/85rGawQQsk3mboBoz0Wmub/HxTjyxWzWno/jN2qN1Gtn2RQ6gEIusOa
-	1K9bsVGgdGBZM9HoqQqDrFi7iIXidzZYCT3h7jX4hV4vlshnSvqEtMKztUa5XZR5wOtsTph7/P6
-	ZB6ZHFTOD569Ij6QBFYlWj/8qZWyrGiw6aFYPwJCx3dyMf5i5oH0Li2WLBY+a7zohW0Vgo
-X-Received: by 2002:a17:902:f652:b0:2a9:5f11:3a34 with SMTP id d9443c01a7336-2ad7441c3c4mr82580705ad.13.1771915477360;
-        Mon, 23 Feb 2026 22:44:37 -0800 (PST)
-Received: from zeeshan-Standard-PC-Q35-ICH9-2009.. ([110.93.227.54])
-        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-3589d8e3edcsm12402391a91.13.2026.02.23.22.44.30
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 23 Feb 2026 22:44:36 -0800 (PST)
-From: Zeeshan Ahmad <zeeshanahmad022019@gmail.com>
-To: Thinh Nguyen <Thinh.Nguyen@synopsys.com>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-Cc: Dan Carpenter <dan.carpenter@linaro.org>,
-	linux-usb@vger.kernel.org,
-	kernel-janitors@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	Zeeshan Ahmad <zeeshanahmad022019@gmail.com>
-Subject: Re: [PATCH] usb: dwc3: qcom: simplify error check in dwc3_qcom_find_num_ports()
-Date: Tue, 24 Feb 2026 11:44:09 +0500
-Message-ID: <20260224064409.3888-1-zeeshanahmad022019@gmail.com>
-X-Mailer: git-send-email 2.43.0
-In-Reply-To: <20260224004126.ue3nfgzlf66rayfz@synopsys.com>
-References: <20260224004126.ue3nfgzlf66rayfz@synopsys.com>
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Uai5Gvgz"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1771916514; x=1803452514;
+  h=from:to:cc:subject:date:message-id:in-reply-to:
+   references:mime-version:content-transfer-encoding;
+  bh=QivVIROHPp2B/VhAIFmgRR4aHluGirAezDag7X79jNs=;
+  b=Uai5GvgzZMvhFzILACQLsu2WY+bBNLi4OoH29jA1TAkbQi9yDMIlOmvz
+   VtmX6dzjImmQLeJzCJBBpx0fgMQ8T70sBNjTlRLq+Enajj4tKW3p/VhNP
+   /tQCy+psntF6pVoBXegybNjjMqzCZADmRCIqU/pSBWuNIs2miyBsNgqXj
+   WyZReSjx0lasCMCKXpmyVvP2IwicniYU+LZwM+3VK9RWI95LyZtvt5CgL
+   0grOXF9qzH/Ag8+pCp3u4ODP3jfPtWTHckJAAtRRslekVHUZfV14AYlNJ
+   YySVV4+Aa+KHs10W+B7wdMnIcDwWQ5ea0u1f+eRRFfb3r9Zct3VgHk4uk
+   Q==;
+X-CSE-ConnectionGUID: O+6Ly3sPSOqpexK0SDnxYQ==
+X-CSE-MsgGUID: Q88RpSAuQeOVJ6MXGVyVWw==
+X-IronPort-AV: E=McAfee;i="6800,10657,11710"; a="95539947"
+X-IronPort-AV: E=Sophos;i="6.21,308,1763452800"; 
+   d="scan'208";a="95539947"
+Received: from fmviesa003.fm.intel.com ([10.60.135.143])
+  by orvoesa101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 23 Feb 2026 23:01:53 -0800
+X-CSE-ConnectionGUID: PDkJ8rDTQ8K45fDlXTPc/w==
+X-CSE-MsgGUID: jb0wwi9iQhWgZVYqlPPcQA==
+X-ExtLoop1: 1
+Received: from black.igk.intel.com ([10.91.253.5])
+  by fmviesa003.fm.intel.com with ESMTP; 23 Feb 2026 23:01:51 -0800
+Received: by black.igk.intel.com (Postfix, from userid 1001)
+	id 8C96B99; Tue, 24 Feb 2026 08:01:50 +0100 (CET)
+From: Mika Westerberg <mika.westerberg@linux.intel.com>
+To: linux-usb@vger.kernel.org
+Cc: Yehezkel Bernat <YehezkelShB@gmail.com>,
+	Lukas Wunner <lukas@wunner.de>,
+	Andreas Noever <andreas.noever@gmail.com>,
+	Rene Sapiens <rene.sapiens@linux.intel.com>,
+	Mika Westerberg <mika.westerberg@linux.intel.com>
+Subject: [PATCH 2/2] thunderbolt: Disable CLx on Titan Ridge-based devices with old firmware
+Date: Tue, 24 Feb 2026 08:01:50 +0100
+Message-ID: <20260224070150.3320641-3-mika.westerberg@linux.intel.com>
+X-Mailer: git-send-email 2.50.1
+In-Reply-To: <20260224070150.3320641-1-mika.westerberg@linux.intel.com>
+References: <20260224070150.3320641-1-mika.westerberg@linux.intel.com>
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
@@ -80,14 +64,47 @@ List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-Hi Thinh,
+From: Rene Sapiens <rene.sapiens@linux.intel.com>
 
-Thank you for the suggestion. I have audited the modern 
-drivers/usb/dwc3/dwc3-qcom.c driver on the latest usb-next branch 
-and confirmed that it contains the same redundant IRQ error checks.
+Thunderbolt 3 devices based on Titan Ridge routers with NVM firmware
+version < 0x65 have been observed to become unstable when CL states are
+enabled. This can lead to link disconnect events and the device failing
+to enumerate.
 
-I will drop the previous patch for the legacy driver and submit a 
-new patch targeting the main dwc3-qcom driver shortly.
+Enable CLx on Titan Ridge only when the running NVM firmware version
+is >= 0x65.
 
-Regards,
-Zeeshan
+Signed-off-by: Rene Sapiens <rene.sapiens@linux.intel.com>
+Signed-off-by: Mika Westerberg <mika.westerberg@linux.intel.com>
+---
+ drivers/thunderbolt/quirks.c | 7 +++++++
+ 1 file changed, 7 insertions(+)
+
+diff --git a/drivers/thunderbolt/quirks.c b/drivers/thunderbolt/quirks.c
+index e81de9c30eac..9f7914ac2f48 100644
+--- a/drivers/thunderbolt/quirks.c
++++ b/drivers/thunderbolt/quirks.c
+@@ -23,6 +23,9 @@ static void quirk_dp_credit_allocation(struct tb_switch *sw)
+ 
+ static void quirk_clx_disable(struct tb_switch *sw)
+ {
++	if (tb_switch_is_titan_ridge(sw) && sw->nvm && sw->nvm->major >= 0x65)
++		return;
++
+ 	sw->quirks |= QUIRK_NO_CLX;
+ 	tb_sw_dbg(sw, "disabling CL states\n");
+ }
+@@ -61,6 +64,10 @@ static const struct tb_quirk tb_quirks[] = {
+ 	/* Dell WD19TB supports self-authentication on unplug */
+ 	{ 0x0000, 0x0000, 0x00d4, 0xb070, quirk_force_power_link },
+ 	{ 0x0000, 0x0000, 0x00d4, 0xb071, quirk_force_power_link },
++
++	/* Intel Titan Ridge CLx is unstable on early firmware versions */
++	{ 0x8086, PCI_DEVICE_ID_INTEL_TITAN_RIDGE_DD_BRIDGE, 0x0000, 0x0000,
++		  quirk_clx_disable },
+ 	/*
+ 	 * Intel Goshen Ridge NVM 27 and before report wrong number of
+ 	 * DP buffers.
+-- 
+2.50.1
+
