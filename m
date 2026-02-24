@@ -1,23 +1,23 @@
 Received: from air.basealt.ru (air.basealt.ru [193.43.8.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4C7E9341642;
-	Tue, 24 Feb 2026 21:55:17 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C4BC034107E;
+	Tue, 24 Feb 2026 21:55:18 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=193.43.8.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1771970119; cv=none; b=YU9MgKjCfiW17Ch65LTGWVu70ZOUvAEW0K5YCDxXHdrH8mIus9eW0tsSrq+x4/+4MRk9pcW6hJEO8G9Ac3TVyTfFRBLBtqRWNOkPS8XwrB7uTphs68yJbzJTmBRLL1H0eOYHuFeD9Y0ABHhIgJTaUbUHgyCVhOcbD+2AU6yRQ3I=
+	t=1771970120; cv=none; b=S11sZu5ZBvK+xbIH+a5Gs7cs14YFUFntvgTVgsAx5R/OyQtrA4hYhOlkIvSeq0DOWMxqeP3me/zThUN2UWoQl/cWL737f6xA7khLO4kqjfWuoDUXxCNR/rdyCkhXxZfXjvg+skHrqqg3yD7UzMGDxr/IePmq61hL5whLPb2VP/Y=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1771970119; c=relaxed/simple;
-	bh=VQGlgbWOd6hgVjz/scuAbiwqxES4rmBFm3AcIJWso/8=;
+	s=arc-20240116; t=1771970120; c=relaxed/simple;
+	bh=CNk9HIZSLGI29vt9avohT0zTyP+ESDDVU4T46jgcJBg=;
 	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
-	 MIME-Version; b=AKlJtp7/MMEbWJD95HKDr8a1xFOh7M0g9yL2W8M2dwfxlsbgPRKruCbcVLoQXCsiL+m56HpO8uYoeil6iEvmfllX70GnZ+X+QkXmpz1bUKP0rxd2lJfKcCg6LzYbNEK1QWXCHCSYcYlL03vRIq9yNTVUirOSMP9ySPZ3mXPPhQY=
+	 MIME-Version; b=ZOf7knZw3qvy31tUPg/nWG8zgkEM4C9901Lhaj/Ysec3DceIVxM3hNxUxOeAwk9aBp9D08MP+M0F36rzFN9ZF6VRmE0JwNIRcBZszaMps5Z/LOr/JT0zLwWKUvQO9ga5vrPNOOj6d3DmNAXQTx+dFwB0mNaJbTspz/8mpYR7HFQ=
 ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=altlinux.org; spf=pass smtp.mailfrom=altlinux.org; arc=none smtp.client-ip=193.43.8.18
 Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=altlinux.org
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=altlinux.org
 Received: from altlinux.ipa.basealt.ru (unknown [193.43.11.2])
 	(Authenticated sender: kovalevvv)
-	by air.basealt.ru (Postfix) with ESMTPSA id 0CB812338C;
-	Wed, 25 Feb 2026 00:55:08 +0300 (MSK)
+	by air.basealt.ru (Postfix) with ESMTPSA id 6843C2338D;
+	Wed, 25 Feb 2026 00:55:10 +0300 (MSK)
 From: Vasiliy Kovalev <kovalev@altlinux.org>
 To: Thomas Winischhofer <thomas@winischhofer.net>,
 	Greg Kroah-Hartman <gregkh@linuxfoundation.org>
@@ -25,9 +25,9 @@ Cc: linux-usb@vger.kernel.org,
 	linux-kernel@vger.kernel.org,
 	lvc-project@linuxtesting.org,
 	kovalev@altlinux.org
-Subject: [PATCH v2 1/2] USB: sisusbvga: Fix integer overflow in sisusb_clear_vram
-Date: Wed, 25 Feb 2026 00:55:06 +0300
-Message-Id: <20260224215507.1736020-2-kovalev@altlinux.org>
+Subject: [PATCH v2 2/2] USB: sisusbvga: Fix NULL pointer dereference in sisusb_read_mem_bulk
+Date: Wed, 25 Feb 2026 00:55:07 +0300
+Message-Id: <20260224215507.1736020-3-kovalev@altlinux.org>
 X-Mailer: git-send-email 2.33.8
 In-Reply-To: <20260224215507.1736020-1-kovalev@altlinux.org>
 References: <20260224215507.1736020-1-kovalev@altlinux.org>
@@ -39,64 +39,73 @@ List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-The boundary check in sisusb_clear_vram():
+sisusb_read_mem_bulk() accepts two buffer parameters: kernbuffer for
+kernel-space data and userbuffer for userspace data. The function's logic
+assumes at least one of them is non-NULL:
 
-    if (address + length > sisusb->vrambase + sisusb->vramsize)
-        length = sisusb->vrambase + sisusb->vramsize - address;
+    if (userbuffer) {
+        /* userspace path */
+    } else {
+        /* kernel buffer path - dereferences kernbuffer */
+        swap32 = *((u32 *)kernbuffer);
+    }
 
-is subject to unsigned 32-bit integer overflow. When address is close to
-UINT32_MAX and length is non-trivial, their sum wraps around and the
-guard evaluates incorrectly, allowing the check to be bypassed.
+However, when called from sisusb_read() with buffer == NULL, both
+kernbuffer and userbuffer are NULL, causing immediate kernel panic:
 
-The overflow condition requires length > UINT32_MAX - address. Since
-address belongs to [vrambase; vrambase + vramsize) where vrambase is
-0xd0000000, and length comes from userspace via SUCMD_CLRSCR as a 24-bit
-value (max 0xFFFFFF), overflow is only reachable when sisusb->vramsize
-exceeds 1 GiB. A compromised USB device can return an arbitrary value for
-sisusb->vramsize via SR[0x14], making this condition reachable.
+  Oops: general protection fault, probably for non-canonical
+        address 0xdffffc0000000000: 0000 [#1] SMP KASAN NOPTI
+  KASAN: null-ptr-deref in range [0x0000000000000000-0x0000000000000007]
+  CPU: 3 UID: 0 PID: 370 Comm: sisusbvga-fops- Not tainted 6.19.0-next-20260217 #1
+  RIP: 0010:sisusb_read_mem_bulk.constprop.0 (drivers/usb/misc/sisusbvga/sisusbvga.c:1171)
+  Call Trace:
+   <TASK>
+   __pfx_sisusb_read_mem_bulk.constprop.0 (drivers/usb/misc/sisusbvga/sisusbvga.c:1092)
+   sisusb_read (drivers/usb/misc/sisusbvga/sisusbvga.c:2396)
+   vfs_read (fs/read_write.c:572)
+   ksys_read (fs/read_write.c:718)
+   do_syscall_64 (arch/x86/entry/syscall_64.c:94)
+   entry_SYSCALL_64_after_hwframe (arch/x86/entry/entry_64.S:130)
+   RIP: 0033:0x7f335af3fefc
+   </TASK>
 
-Use check_add_overflow() to detect the overflow explicitly and return 1.
-This ensures the driver correctly rejects invalid parameters instead of
-proceeding with wrapped-around values.
+Add parameter validation at the API level: reject the call with -EINVAL
+if both buffers are NULL.
 
 Found by Linux Verification Center (linuxtesting.org) with Svace.
 Tested with 'USB Gadget Tests'[1]:
 
-$ TEST=sisusbvga-fops-svace-int-overflow
+$ TEST=sisusbvga-fops-svace-null-deref
 $ echo $TEST > tests/list.txt && make && sudo ./check.sh
 
 [1] Link: https://github.com/kovalev0/usb-gadget-tests
 Fixes: 1da177e4c3f4 ("Linux-2.6.12-rc2")
+Suggested-by: Fedor Pchelkin <pchelkin@ispras.ru>
 Cc: <stable@vger.kernel.org>
 Signed-off-by: Vasiliy Kovalev <kovalev@altlinux.org>
 ---
- drivers/usb/misc/sisusbvga/sisusbvga.c | 6 +++++-
- 1 file changed, 5 insertions(+), 1 deletion(-)
+v2: Move NULL check into sisusb_read_mem_bulk() and
+return -EINVAL (suggested by Fedor Pchelkin)
+
+v1: https://lore.kernel.org/all/20260218005523.1259725-3-kovalev@altlinux.org/
+---
+ drivers/usb/misc/sisusbvga/sisusbvga.c | 3 +++
+ 1 file changed, 3 insertions(+)
 
 diff --git a/drivers/usb/misc/sisusbvga/sisusbvga.c b/drivers/usb/misc/sisusbvga/sisusbvga.c
-index febf34f9f049..89d566d192aa 100644
+index 89d566d192aa..abda425199ee 100644
 --- a/drivers/usb/misc/sisusbvga/sisusbvga.c
 +++ b/drivers/usb/misc/sisusbvga/sisusbvga.c
-@@ -1301,6 +1301,7 @@ static int sisusb_clear_vram(struct sisusb_usb_data *sisusb,
- {
- 	int ret, i;
- 	ssize_t j;
-+	u32 end_addr;
+@@ -1098,6 +1098,9 @@ static int sisusb_read_mem_bulk(struct sisusb_usb_data *sisusb, u32 addr,
+ 	u16 swap16;
+ 	u32 swap32;
  
- 	if (address < sisusb->vrambase)
- 		return 1;
-@@ -1308,7 +1309,10 @@ static int sisusb_clear_vram(struct sisusb_usb_data *sisusb,
- 	if (address >= sisusb->vrambase + sisusb->vramsize)
- 		return 1;
- 
--	if (address + length > sisusb->vrambase + sisusb->vramsize)
-+	if (check_add_overflow(address, (u32)length, &end_addr))
-+		return 1;
++	if (!kernbuffer && !userbuffer)
++		return -EINVAL;
 +
-+	if (end_addr > sisusb->vrambase + sisusb->vramsize)
- 		length = sisusb->vrambase + sisusb->vramsize - address;
+ 	(*bytes_read = 0);
  
- 	if (length <= 0)
+ 	length &= 0x00ffffff;
 -- 
 2.50.1
 
