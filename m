@@ -1,60 +1,73 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.20])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pf1-f195.google.com (mail-pf1-f195.google.com [209.85.210.195])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 48BEB30ACE6
-	for <linux-usb@vger.kernel.org>; Tue, 24 Feb 2026 07:01:56 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.20
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A783230BBBF
+	for <linux-usb@vger.kernel.org>; Tue, 24 Feb 2026 07:33:03 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.195
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1771916517; cv=none; b=nzuOfk8bC8XFiRAnLCzx7ou9Ii08Fp8ISVzMF2wlGrlJyPMBHsOyljEugd3pGOwLKBYB4c5tWPa6GKv6G/BUVedetElos0qemdekKfQcoOybHG9vglOcW9Y2rmDfAo0Sb7trTkwixq0ipImT29rO9yYqlGkNf30+JRFPEyAS6I4=
+	t=1771918384; cv=none; b=u/uy1rBjPBXIYFXxdBAp1Toc5b8xdqd38rtsKcipU7PBEAhYYVm8xHcm9TCfr8wW3F7cvLTMXVFDRctPO/O3rNb87F0WYCqW5FLzY/VtFCfS+MT8oGxwSCl/BjyXTuyOaTa6klP7a6Ra1hpfykGQo82qoddRq3r5aV7yl+DkjNY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1771916517; c=relaxed/simple;
-	bh=OK/6qDvX3VbI4iiB3hsRjXZNgdaOQwtRHeYQ4xN7fvM=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=SxuczXukqvt7sABAW8rX7EpwjrcDL7vlygGfyabUDwCPVEv8+FZCSTKYlefOcHc/GVJ9NgY+twxCpURcp4UZxjVTFoTerLu36laKtwFI9lRseY7MPlXKKYHQvnB+BGrulXxgUvhpnVpZ9LSMm45MmUDQTPNFC3XmY9rV092b0GQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=pass smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=QHOaY1D3; arc=none smtp.client-ip=198.175.65.20
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.intel.com
+	s=arc-20240116; t=1771918384; c=relaxed/simple;
+	bh=dGJkN6SnVshmKW6KFF4UVx9o8lSkn1Lt8gx8YuivxlU=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=EKOixeBQaKj9iGa4Dq0uDpHY4ygpDc5d9RrLG8f9m9RMzDGKgrwvFtsJ49Do3OYTp1vFMvvLdX9iaCnuY6VnhmTZv66eHJR1YjgQSoyw1ko7h/7KWn49lR+hQUsVLhdcUKIJ9SxT/zKOuy9v8HebDxbWaDdej0cY9qS77MPi6F4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=IpCXJcaA; arc=none smtp.client-ip=209.85.210.195
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="QHOaY1D3"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1771916517; x=1803452517;
-  h=from:to:cc:subject:date:message-id:mime-version:
-   content-transfer-encoding;
-  bh=OK/6qDvX3VbI4iiB3hsRjXZNgdaOQwtRHeYQ4xN7fvM=;
-  b=QHOaY1D3V3a+5WhZ4nBJZqjCqJ3UuSit3wRJpVOK/TTNKGkRjZ875dEd
-   fcsTZPYpBG01tQrZS6gVHyKWwDpOoUk0UNrDLZvtmr6pg0IRrPRORDVPo
-   A7ViXDs1+WauaXlFMtNrlt94GtP7o2WeppMvWzLIg9hxxXZR+Ti7Cn6ZK
-   c1Y1Xh8VPdjgxRkt2Pd8boWfW23YBU4SniuOQQtu6aciWJXcNTRX71cGA
-   sK5/kTCPY31KHueGl88rx1NAw7H+BPKzauoVwIYMjVVlVMZa4tTbcrIvw
-   0z35HZgb6voCxVta8o4L8IOpiSUg5r5192mCY9U1bdxJmCgA+rjuH2LGF
-   g==;
-X-CSE-ConnectionGUID: /KQcbJo6QqSqz8Esvq9Wjw==
-X-CSE-MsgGUID: QstGZSmLTbGj+B2EMfIeaQ==
-X-IronPort-AV: E=McAfee;i="6800,10657,11710"; a="72627995"
-X-IronPort-AV: E=Sophos;i="6.21,308,1763452800"; 
-   d="scan'208";a="72627995"
-Received: from fmviesa004.fm.intel.com ([10.60.135.144])
-  by orvoesa112.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 23 Feb 2026 23:01:54 -0800
-X-CSE-ConnectionGUID: 9VPa4xb/SBKAan6Ay3nDyw==
-X-CSE-MsgGUID: mwUG2ZZuSpuSoQU1eXObRQ==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.21,308,1763452800"; 
-   d="scan'208";a="219313082"
-Received: from black.igk.intel.com ([10.91.253.5])
-  by fmviesa004.fm.intel.com with ESMTP; 23 Feb 2026 23:01:51 -0800
-Received: by black.igk.intel.com (Postfix, from userid 1001)
-	id 86C8895; Tue, 24 Feb 2026 08:01:50 +0100 (CET)
-From: Mika Westerberg <mika.westerberg@linux.intel.com>
-To: linux-usb@vger.kernel.org
-Cc: Yehezkel Bernat <YehezkelShB@gmail.com>,
-	Lukas Wunner <lukas@wunner.de>,
-	Andreas Noever <andreas.noever@gmail.com>,
-	Rene Sapiens <rene.sapiens@linux.intel.com>,
-	Mika Westerberg <mika.westerberg@linux.intel.com>
-Subject: [PATCH 0/2] thunderbolt: Disable CL states on older Titan Ridge firmware
-Date: Tue, 24 Feb 2026 08:01:48 +0100
-Message-ID: <20260224070150.3320641-1-mika.westerberg@linux.intel.com>
-X-Mailer: git-send-email 2.50.1
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="IpCXJcaA"
+Received: by mail-pf1-f195.google.com with SMTP id d2e1a72fcca58-8220bd582ddso2348837b3a.2
+        for <linux-usb@vger.kernel.org>; Mon, 23 Feb 2026 23:33:03 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1771918383; x=1772523183; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=1j2htuqmQpTTkLQ6035xROAKmDGpEfPVgSnXewPmtLo=;
+        b=IpCXJcaAK7k0hT6f4MwikAdkW+l7zxShjxPvEpC2htMGtQOgaqMZnr9giLDTsH//fh
+         ytpldfUj2cs1t5mPEL0aAFrtfK2epgtX/P/grDXIPEeMyvrwB92m0cTdjlyVJp8OuTsH
+         e9wSN8MrRR33M4Q8JbNG1visBoAv2rXgIeoMHemWBZgPTMpf2lVWk1NSt3Wp5jnQ8Vrk
+         Aqu+I6jWvxqkepKcXWCCUuOf53K5gMIwOCKs8G3XDXvM1n9n1C7ka4tDqAi7plMfey6J
+         71uWVrmzb3LG6eVaOJsBu9jC3wbL9KmXrq2tpqBxk7OatCdP0btoxj/5zwOBNttxfFuw
+         Ay2g==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1771918383; x=1772523183;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=1j2htuqmQpTTkLQ6035xROAKmDGpEfPVgSnXewPmtLo=;
+        b=Vm2KXh0AotzS6Z5IocHrnfVNVAYlSfyFD1nXguViMyxptrePhrkC4XgSGGkQG7ji5Q
+         caFFi0vp0+Gw5WsgBr3SgouxEs+qzaAx55e4UH1JoW1r9j4JH77Rs4hw9Bd49Fb1IW4q
+         jOqShWQcbehYJRkCUarAB02953YZaSXG5dIpZyxMGh2PW27arQYZkFvgUfmtsPXwvdKH
+         l2WmIC7nxg8Iw3obEy2E3yw2UcWywx+beGzG4NSucTPCHdpTl1BkQXFDWrwwDgTf+hTt
+         Bn76QQipIRzXHVpGLNgnveuNByLRTKwz0iSlRH39+BEMJ8klnuUPeMbc9o9S8u1MjRtj
+         yJHA==
+X-Forwarded-Encrypted: i=1; AJvYcCVkVFUNmgDp0EnFkwEI78xFm4zxSJddJYi+/+VlQdhM5lsVXU2as1WcYawTQjbne62wvHI8slzDvvU=@vger.kernel.org
+X-Gm-Message-State: AOJu0YwAioSncEB9Wnc8QM4OgjcnIa35+pJV1Al7BF6QM/bIaj535Eiz
+	JfRdLM0+bbPq6osEwi1k+z1+/t0PUfu1DePseyF4EXP4yaQt5rHCaU0B
+X-Gm-Gg: ATEYQzy2nMNx1PRWS0Ws4b5ID+v+1cFR8CCP1czvl5m+eLhl3VrPrvJSDIkYFSvmah/
+	Pl/FjxZldUk7o4eH+98EoYvcHyA1dMeZe/zRyCRLd4EAEaLCDVxbm2G8FLmDJT9BKbJhN2MVvYl
+	JojtwfVpblsIsHtXeFgwtCQun6TvBi6154Nq6HqkU2uynzJxsfk2VfPceYu67nQXSwxl30Hu6pw
+	JZOLFAi/Yvq069hB5JYFgz2nWKeE2sPgTe9rn1zzbH8ExcTTyBU6aU3wkjwgtCCwQDd90LcIWYq
+	QsAFs4gc8BfJC33qmalYFWdh2mmmlQ9wxtC2yt/aCHTSDAJxf6uSigDzPjPwWmc3UnXtEhjltTZ
+	8/puQ0efatILUGg6eqaKxCeGzI/qsmJbWKaFE3z+KhbNttOeQsRjVMnyBcbVo18iRS2GfLzx0n8
+	sjKUjtobwJSkkX6kCgf0jLTRP+0exs66VEbiirsYMlkUjcqUh6XZO0lSV24PnQMSIlukBw
+X-Received: by 2002:a05:6a00:2886:b0:81f:4294:6080 with SMTP id d2e1a72fcca58-826da8f1ab5mr11354487b3a.20.1771918383031;
+        Mon, 23 Feb 2026 23:33:03 -0800 (PST)
+Received: from zeeshan-Standard-PC-Q35-ICH9-2009.. ([110.93.227.54])
+        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-826dd8cbb02sm9994587b3a.57.2026.02.23.23.32.56
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 23 Feb 2026 23:33:02 -0800 (PST)
+From: Zeeshan Ahmad <zeeshanahmad022019@gmail.com>
+To: Thinh Nguyen <Thinh.Nguyen@synopsys.com>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+Cc: Dan Carpenter <dan.carpenter@linaro.org>,
+	linux-usb@vger.kernel.org,
+	kernel-janitors@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	Zeeshan Ahmad <zeeshanahmad022019@gmail.com>
+Subject: [PATCH] usb: dwc3: qcom: simplify error check in dwc3_qcom_find_num_ports()
+Date: Tue, 24 Feb 2026 12:32:43 +0500
+Message-ID: <20260224073243.9053-1-zeeshanahmad022019@gmail.com>
+X-Mailer: git-send-email 2.43.0
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
@@ -63,20 +76,42 @@ List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-Hi,
+The platform_get_irq_byname_optional() function returns a non-zero
+IRQ number on success and a negative error code on failure. It
+never returns zero.
 
-There is known issue on Titan Ridge with older firmware that makes the link
-unstable if CL states are enabled. This series adds a quirk that disables
-them for older NVM firmware.
+The current implementation in the modern dwc3-qcom driver checks for
+a return value less than or equal to zero. Since zero is not a
+valid return value, simplify the check to only look for negative
+error codes. This aligns the logic with the standard return contract
+of the platform IRQ APIs.
 
-Rene Sapiens (2):
-  thunderbolt: Read router NVM version before applying quirks
-  thunderbolt: Disable CLx on Titan Ridge-based devices with old firmware
+Signed-off-by: Zeeshan Ahmad <zeeshanahmad022019@gmail.com>
+---
+ drivers/usb/dwc3/dwc3-qcom.c | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
 
- drivers/thunderbolt/quirks.c |  7 +++++++
- drivers/thunderbolt/switch.c | 30 ++++++++++++++++++++++++++----
- 2 files changed, 33 insertions(+), 4 deletions(-)
-
+diff --git a/drivers/usb/dwc3/dwc3-qcom.c b/drivers/usb/dwc3/dwc3-qcom.c
+index 9ac75547820d..f43f73ac36ff 100644
+--- a/drivers/usb/dwc3/dwc3-qcom.c
++++ b/drivers/usb/dwc3/dwc3-qcom.c
+@@ -526,14 +526,14 @@ static int dwc3_qcom_find_num_ports(struct platform_device *pdev)
+ 	int irq;
+ 
+ 	irq = platform_get_irq_byname_optional(pdev, "dp_hs_phy_1");
+-	if (irq <= 0)
++	if (irq < 0)
+ 		return 1;
+ 
+ 	for (port_num = 2; port_num <= DWC3_QCOM_MAX_PORTS; port_num++) {
+ 		sprintf(irq_name, "dp_hs_phy_%d", port_num);
+ 
+ 		irq = platform_get_irq_byname_optional(pdev, irq_name);
+-		if (irq <= 0)
++		if (irq < 0)
+ 			return port_num - 1;
+ 	}
+ 
 -- 
-2.50.1
+2.43.0
 
