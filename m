@@ -1,136 +1,117 @@
 Received: from bm.lauterbach.com (bm.lauterbach.com [62.154.241.218])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 16D183451BB
-	for <linux-usb@vger.kernel.org>; Wed, 25 Feb 2026 12:50:01 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2D46C314B82
+	for <linux-usb@vger.kernel.org>; Wed, 25 Feb 2026 13:03:36 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=62.154.241.218
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1772023805; cv=none; b=HCY0QxZjvZpqIwAfEReLoaC6bFgQrSZPJ64schGceQZjzr+I9jo9kxUjjlJLJwf6V6ZXSw/DcUy6PhFYcP5PZPnivMCrCRY/jzTwUf8L0jFqhOze/hqBrg5Y77XtYrw7RXLbIPYpAVkt/5lauygmr8dK5B1PftsIzOrywTeZ5Jw=
+	t=1772024617; cv=none; b=n4fwL0WWlv4r89N79y8Of9jhHe8paxn4WXWEpXTTXxazyhbUs0paeOtMukhf2O+RBjxOwM4lwrHLaZhklSiFT4ibQ1KTeRuCXvzST3658j3rqEs5SBv+YSx6AGj9RCe1A934tTgHmnolVV5jUf47T02Iw0caYzhdKtZSZsutFWI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1772023805; c=relaxed/simple;
-	bh=kQHJQ31+MdmA1hhfUleG2SzGoQCyhUgQtY3Qh/+g/+g=;
-	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=GVJxdns/HQl5awFd9JvbNfWH6/JKE+RYRh/YybeMXAhgQ5wKRO/FmXRu/WhjbdhqhkUhY3zy9KwgRLBR8l15wgFmxGRJoAOEgfWbJPap7WcLKe5rwp/ZSgK6aKSgGchUVos4soKu54JdH87MuJaY+4ZoELNOnyc0Au/Ev0YJU5g=
+	s=arc-20240116; t=1772024617; c=relaxed/simple;
+	bh=zbO9Wbz2h0I20y8cGQcU0uwHT7nNFtSMmSF87klCFhs=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version; b=tE22w/3EpnHyFE0HaiYfqKquQDPF+27MesZjZSuW2lW+zeOtWqWoGjaOg64h63gqtpoprc1IHI0BNFg9xINqAh+Os1vLePtk9CaGcHQ9+uaXMGSiNyH/uBUvX/88x+vnvObdoG7XHMhwYZ1VxejoBmXmehMwdZ9qgEceKx8RX8w=
 ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=lauterbach.com; spf=pass smtp.mailfrom=lauterbach.com; arc=none smtp.client-ip=62.154.241.218
 Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=lauterbach.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=lauterbach.com
 Received: from ingpc2.intern.lauterbach.com (unknown [10.2.10.44])
 	(Authenticated sender: ingo.rohloff@lauterbach.com)
-	by bm.lauterbach.com (Postfix) with ESMTPSA id 7DBEE1E0B5CB1;
-	Wed, 25 Feb 2026 13:49:59 +0100 (CET)
-Date: Wed, 25 Feb 2026 13:49:59 +0100
+	by bm.lauterbach.com (Postfix) with ESMTPSA id 46C1D1E2A9C5D;
+	Wed, 25 Feb 2026 14:03:34 +0100 (CET)
 From: Ingo Rohloff <ingo.rohloff@lauterbach.com>
-To: Thinh Nguyen <Thinh.Nguyen@synopsys.com>
-Cc: "gregkh@linuxfoundation.org" <gregkh@linuxfoundation.org>,
- "linux-usb@vger.kernel.org" <linux-usb@vger.kernel.org>
-Subject: Re: [PATCH] usb: dwc3: Support for USB3340x ULPI PHY, via
- "snps,enable_xcvrdly_quirk"
-Message-ID: <20260225134959.39e775ff@ingpc2.intern.lauterbach.com>
-In-Reply-To: <20260225000512.tle2eu4gkd4ut6bf@synopsys.com>
-References: <20260224141438.39524-1-ingo.rohloff@lauterbach.com>
-	<20260225000512.tle2eu4gkd4ut6bf@synopsys.com>
-Organization: Lauterbach GmbH
-X-Mailer: Claws Mail 4.3.1 (GTK 3.24.50; x86_64-unknown-linux-gnu)
+To: Thinh.Nguyen@synopsys.com
+Cc: linux-usb@vger.kernel.org,
+	Ingo Rohloff <ingo.rohloff@lauterbach.com>
+Subject: [PATCH v2 1/2] usb: dwc3: Support USB3340x ULPI PHY high-speed negotiation.
+Date: Wed, 25 Feb 2026 14:03:22 +0100
+Message-ID: <20260225130323.24606-2-ingo.rohloff@lauterbach.com>
+X-Mailer: git-send-email 2.52.0
+In-Reply-To: <20260225130323.24606-1-ingo.rohloff@lauterbach.com>
+References: <20260225000512.tle2eu4gkd4ut6bf@synopsys.com>
+ <20260225130323.24606-1-ingo.rohloff@lauterbach.com>
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
 X-Bm-Milter-Handled: 166a2dfb-2e12-4590-8fa5-72e30323519f
-X-Bm-Transport-Timestamp: 1772023799563
+X-Bm-Transport-Timestamp: 1772024614343
 
-On Wed, 25 Feb 2026 00:05:17 +0000
-Thinh Nguyen <Thinh.Nguyen@synopsys.com> wrote:
+The Microchip USB3340x ULPI PHY requires a delay when switching to the
+high-speed transmitter. See:
+    http://ww1.microchip.com/downloads/en/DeviceDoc/80000645A.pdf
+    Module 2 "Device Enumeration Failure with Link IP Systems"
 
-> > +	/*
-> > +	 * Fixes High-speed negotiation issue with USB3340, see:
-> > +	 * https://.../80000645A.pdf
-> > +	 *    "Device Enumeration Failure with Link IP Systems"  
-> 
-> This platform specific info and how it was found should go into the
-> commit message and not here.
->
+For details on the behavior and fix, refer to the AMD (formerly Xilinx)
+forum post: "USB stuck in full speed mode with USB3340 ULPI PHY, ZynqMP."
 
-Done.
+Signed-off-by: Ingo Rohloff <ingo.rohloff@lauterbach.com>
+---
+ drivers/usb/dwc3/core.c | 12 ++++++++++++
+ drivers/usb/dwc3/core.h |  4 ++++
+ 2 files changed, 16 insertions(+)
 
-> > +	 * According to documentation on the Internet,  
-> 
-> We should not just reference the "Internet". If you want to reference
-> some documentation, please provide the DWC_usb3x document section and
-> version.
->
+diff --git a/drivers/usb/dwc3/core.c b/drivers/usb/dwc3/core.c
+index 161a4d58b2ce..903ee0cc2787 100644
+--- a/drivers/usb/dwc3/core.c
++++ b/drivers/usb/dwc3/core.c
+@@ -777,6 +777,15 @@ static int dwc3_hs_phy_setup(struct dwc3 *dwc, int index)
+ 	if (dwc->ulpi_ext_vbus_drv)
+ 		reg |= DWC3_GUSB2PHYCFG_ULPIEXTVBUSDRV;
+ 
++	/*
++	 * DWC3_GUSB2PHYCFG_XCVRDLY:
++	 *    Adds a delay between the assertion of the
++	 *    ULPI/UTMI Transceiver Select signal (for HS) and
++	 *    the assertion of the TxValid signal during a HS Chirp.
++	 */
++	if (dwc->enable_usb2_transceiver_delay)
++		reg |= DWC3_GUSB2PHYCFG_XCVRDLY;
++
+ 	dwc3_writel(dwc, DWC3_GUSB2PHYCFG(index), reg);
+ 
+ 	return 0;
+@@ -1855,6 +1864,9 @@ static void dwc3_get_properties(struct dwc3 *dwc)
+ 	dwc->dis_split_quirk = device_property_read_bool(dev,
+ 				"snps,dis-split-quirk");
+ 
++	dwc->enable_usb2_transceiver_delay = device_property_read_bool(dev,
++				"snps,enable-usb2-transceiver-delay");
++
+ 	dwc->lpm_nyet_threshold = lpm_nyet_threshold;
+ 	dwc->tx_de_emphasis = tx_de_emphasis;
+ 
+diff --git a/drivers/usb/dwc3/core.h b/drivers/usb/dwc3/core.h
+index a35b3db1f9f3..ba58a14095f4 100644
+--- a/drivers/usb/dwc3/core.h
++++ b/drivers/usb/dwc3/core.h
+@@ -302,6 +302,7 @@
+ #define DWC3_GUSB2PHYCFG_SUSPHY		BIT(6)
+ #define DWC3_GUSB2PHYCFG_ULPI_UTMI	BIT(4)
+ #define DWC3_GUSB2PHYCFG_ENBLSLPM	BIT(8)
++#define DWC3_GUSB2PHYCFG_XCVRDLY	BIT(9)
+ #define DWC3_GUSB2PHYCFG_PHYIF(n)	(n << 3)
+ #define DWC3_GUSB2PHYCFG_PHYIF_MASK	DWC3_GUSB2PHYCFG_PHYIF(1)
+ #define DWC3_GUSB2PHYCFG_USBTRDTIM(n)	(n << 10)
+@@ -1161,6 +1162,8 @@ struct dwc3_glue_ops {
+  *	3	- Reserved
+  * @dis_metastability_quirk: set to disable metastability quirk.
+  * @dis_split_quirk: set to disable split boundary.
++ * @enable_usb2_transceiver_delay: Set to insert a delay before the
++ *                  assertion of the TxValid signal during a HS Chirp.
+  * @sys_wakeup: set if the device may do system wakeup.
+  * @wakeup_configured: set if the device is configured for remote wakeup.
+  * @suspended: set to track suspend event due to U3/L2.
+@@ -1403,6 +1406,7 @@ struct dwc3 {
+ 	unsigned		dis_metastability_quirk:1;
+ 
+ 	unsigned		dis_split_quirk:1;
++	unsigned		enable_usb2_transceiver_delay:1;
+ 	unsigned		async_callbacks:1;
+ 	unsigned		sys_wakeup:1;
+ 	unsigned		wakeup_configured:1;
+-- 
+2.52.0
 
-I would love to, but Synopsys was completely unwilling to provide
-a programming manual to me.
-
-Synopsys told me I should contact Xilinx (now AMD) for access to the
-programming manual; and of course Xilinx refused, because Xilinx
-has signed an NDA.
-
-The "Internet" was the only source, where I found this information.
-The description I provide is from the forum post I now mention in the
-commit message.
-I put the description in the code, because I am afraid, that the forum
-post vanishes and then this information is lost to the public.
-
-I guess, if I were to gain access to the official programming manual,
-citing it might be a violation of the NDA I likely would have signed,
-but I am not a lawyer.
-
-> 
-> > +	 * DWC3_GUSB2PHYCFG_XCVRDLY:
-> > +	 *    Adds a delay between the assertion of the
-> > +	 *    ULPI Transceiver Select signal (for HS) and  
-> 
-> It can be for both ULPI and UTMI.
-> 
-
-Ah of course :-)
-I now mention both: ULPI/UTMI.
-
-
-> > +	dwc->enable_xcvrdly_quirk = device_property_read_bool(dev,
-> > +				"snps,enable_xcvrdly_quirk");  
-> 
-> Use "-" instead of "_" for property name, and change it to
-> "snps,enable-usb2-transceiver-delay"
-> 
-> ...
-> > +	unsigned		enable_xcvrdly_quirk:1;  
-> 
-> Document the new field. Rename to enable_usb2_transceiver_delay.
-
-Done.
-Note: I used "-" before to avoid having different strings for the
-member variable and the property name to make it easier to grep
-for both at the same time.
-
-> Also, how are you passing this quirk? Through devicetree or software
-> node? I don't see the user of this property.
-> 
-
-On the hardware I have got (Xilinx Ultrascale+ ZynqMP) I pass it via
-devicetree. I now added a 2nd commit, which adds documentation for the
-devicetree bindings.
-
-with best regards
-  Ingo Rohloff
-
--------------------------------------------------------------------------
-Dipl.-Inform.
-Ingo ROHLOFF
-Senior Staff Embedded Systems Engineering
-phone +49 8102 9876-142 - ingo.rohloff@lauterbach.com
-
-Lauterbach Engineering GmbH & Co. KG
-Altlaufstrasse 40, 85635 Hoehenkirchen-Siegertsbrunn, GERMANY
-www.lauterbach.com
-
-Registered Office: Hoehenkirchen-Siegertsbrunn, Germany,
-Local Court: Munich, HRA 87406, VAT ID: DE246770537,
-Managing Directors: Lothar Lauterbach, Stephan Lauterbach, Dr. Thomas Ullmann
-
--------------------------------------------------------------------------
