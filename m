@@ -1,239 +1,433 @@
-Received: from GVXPR05CU001.outbound.protection.outlook.com (mail-swedencentralazon11013003.outbound.protection.outlook.com [52.101.83.3])
+Received: from mailout1.samsung.com (mailout1.samsung.com [203.254.224.24])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5D2FB2DE6E3;
-	Thu, 26 Feb 2026 10:58:53 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=52.101.83.3
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1772103534; cv=fail; b=XZPNLEgYKkJDF76UYBFTM2hTD0uGBxjnh4YyT+RIgJeSPWjqPxeTVLSaCpulRv/vJZPgREPQkH/+fYXshTDngY19bXjP/A6neofoBuf+pQ5EDadDFWhG0WkvtCCRgCqn/dpYe8g2KQkLVBGNFOrc/lq/pV1Cs4XtGkdJVAHf5T4=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1772103534; c=relaxed/simple;
-	bh=ioTU+vjAfJzzyyzu1hTlZ4UoFFiLKbB+pN542vX/GDc=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:Content-Type:
-	 Content-Disposition:In-Reply-To:MIME-Version; b=LN5rbwARAgqHa37OnMFMpkIZSws6JYGwTYD04Dc+wTySGxbdc6tsFk6T7k9UUvBqbmX7mdlbaasNZs7oNFcqOe0RKKqRMW0CP+963lKpZTwHzMxviU3rfRUv3XA4MgxaoOXfUMtRE00oh+bZSbelrS9MLAjcsAE0sa3S3mTEPEo=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=nxp.com; spf=pass smtp.mailfrom=nxp.com; dkim=pass (2048-bit key) header.d=nxp.com header.i=@nxp.com header.b=dZ0hLR7I; arc=fail smtp.client-ip=52.101.83.3
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=nxp.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=nxp.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 499C031B13B
+	for <linux-usb@vger.kernel.org>; Thu, 26 Feb 2026 11:00:06 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=203.254.224.24
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1772103609; cv=none; b=b9HHAwFtOl+bLf6tDsctQzmElnnCFSq2b5dXGu3w46xdQyNXZoQdDvD5ikOwiGg2h7RZpos+dVQGie/bPMLuwbPMhb/ZMqWEqwtditclwxzMHyaaVfcJ1liPlR9PskaSsGtJrX25ID0iCA8F7HoRFBzakr07c5SHZAs7rwBAp2U=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1772103609; c=relaxed/simple;
+	bh=gieEH8K96UPNel83M+RWW21YtyLgXoaQin5xHiogz1o=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:From:In-Reply-To:
+	 Content-Type:References; b=d1MfY8z80X+gadjD1khCTcsq6gLPQd792kWzIMKVULSqtV3bhPXdZMI8DZ2KufrNZhqAh+k13v0dHn/HunrT0RS/7yYGefIBZ8Z6r5jSjxBvf3U1nLiJ2nfa+u6KmNUoa+oejQqz//ydnMkMmmADX2OlMeZVnrwaKz8uqp4wcvE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=samsung.com; spf=pass smtp.mailfrom=samsung.com; dkim=pass (1024-bit key) header.d=samsung.com header.i=@samsung.com header.b=k+dgBE+J; arc=none smtp.client-ip=203.254.224.24
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=samsung.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=samsung.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=nxp.com header.i=@nxp.com header.b="dZ0hLR7I"
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=Q4qsg2fO7Ou/BcjBVZO918F61e8KF3TTOK14YTKDKS6cY++RoDjS8fKADmxVGrCCP/DHyKGX0bCV8wUKQu2jw04Kzh48Lke2DwbWe9UIHbm2tOxx0/tBFIthWSqk2hUXWWOXhtOaVnHu5QYmH93sHgT5MMNF8IoUGyp5xydLYlSgbPE/TUxb9907Hx2CXqBiNlCH0NWvl3izMirrWQnrEamXhxWt8u0SssrJG4q4SFmPE1BqAdf9gr9N2g8JZG7wVwBY7NEYr8QK1LffWAqi08k8IgVqDCKouS6Ch5OeoI8KRHDn/U7IlUAQV8t4ERh1PR3varD/a39yYr6P0+eCGw==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=XFHtejPoxK9CfCspbtw72xLzYtf/WljI31sL+6ScVVQ=;
- b=vcUuLULI0ODxQqWAkIih49DP3f25Q2Iv0Qv9agwHtegScVJulN0jz4iqzB0PO/ERpIWZ509GkN1Ikh3HrVRq0yEqk0p0FDh693pSMz6wujDdX0EW7mEpjB/f6ng79Od0fPjFt+GLRCJYdTLsn7Iog7oIdO9I8tJnKKC60y4gLj31XhvN3851oObsF7k8pecY68SBXBpzbQMf9FG7+mxj9+q6H7ZAv8yBYi3lNrME554zCUZ9ZrNfdXtwcvB7pJOYMJOCPpMJkrMYBDUY24ksUvTEYaRSUvgwHSFr9gww+SsSKgYmzjoELq0iDMLjmUwKkKrNsGZ17w3fxIFQqmqsqg==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=nxp.com; dmarc=pass action=none header.from=nxp.com; dkim=pass
- header.d=nxp.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nxp.com; s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=XFHtejPoxK9CfCspbtw72xLzYtf/WljI31sL+6ScVVQ=;
- b=dZ0hLR7IYCedZIWNZvvbliu5/lKcotYd7avWqZTtbJBiXb5LimXyCACUurWXuiAs3d9K8NcKsjJpXbxAPwdC3ITYQD6BO0xVzrTz2OmJBVxe6lqedyJVBPjk/GsChUgoM8iiQ4mytDeoMzoa9wyq4VgKu8fRTAJb2IJ/Vl2ovjhmamlgW8NEL4j9/mDwGhQr9FjziwHiXa2Lh5+y6vW7U4aDiSMVng7fiQm4KOmUTFo7P9QV4sgEGtW4rtiS8ckgW5Z1QsRnWj8OqXxfHEj/dAp+1sgqCYdgaJwZvGIpXByhZdHMwmAHfhpy/n6XlN+okqHYQlRoG/uqWiSIEPL3jw==
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=nxp.com;
-Received: from AM9PR04MB8825.eurprd04.prod.outlook.com (2603:10a6:20b:408::7)
- by AMBPR04MB11762.eurprd04.prod.outlook.com (2603:10a6:20b:6f1::14) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9654.13; Thu, 26 Feb
- 2026 10:58:47 +0000
-Received: from AM9PR04MB8825.eurprd04.prod.outlook.com
- ([fe80::49d0:5fa7:d131:7781]) by AM9PR04MB8825.eurprd04.prod.outlook.com
- ([fe80::49d0:5fa7:d131:7781%6]) with mapi id 15.20.9654.013; Thu, 26 Feb 2026
- 10:58:47 +0000
-Date: Thu, 26 Feb 2026 18:51:07 +0800
-From: Xu Yang <xu.yang_2@nxp.com>
-To: Fabio Estevam <festevam@gmail.com>
-Cc: gregkh@linuxfoundation.org, m.grzeschik@pengutronix.de, 
-	stern@rowland.harvard.edu, linux-usb@vger.kernel.org, linux-kernel@vger.kernel.org, 
-	imx@lists.linux.dev, jun.li@nxp.com, Marco Felsch <m.felsch@pengutronix.de>
-Subject: Re: [PATCH v2] usb: port: add delay after usb_hub_set_port_power()
-Message-ID: <srg6y4zggr4vqofigb4hn5hfvwwci4bdspzq3hfuo5nelykw3t@n7ywcsb5savf>
-References: <20260224031909.3546487-1-xu.yang_2@nxp.com>
- <CAOMZO5Br6uEJ5ffq4JCary5p3Di+bF4MDmUtOEdDqpU6xs6VJA@mail.gmail.com>
- <2r3pvujs6vdl5si5rnplgnezw4nllyunshipetvztowkngkv3h@glsewrhncjvl>
- <CAOMZO5De8a88+1uFzBv_aDNFz7KRd4Y-+AL-eeBcK_d+i+COWA@mail.gmail.com>
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <CAOMZO5De8a88+1uFzBv_aDNFz7KRd4Y-+AL-eeBcK_d+i+COWA@mail.gmail.com>
-X-ClientProxiedBy: SG2PR01CA0185.apcprd01.prod.exchangelabs.com
- (2603:1096:4:189::19) To AM9PR04MB8825.eurprd04.prod.outlook.com
- (2603:10a6:20b:408::7)
+	dkim=pass (1024-bit key) header.d=samsung.com header.i=@samsung.com header.b="k+dgBE+J"
+Received: from epcas5p1.samsung.com (unknown [182.195.41.39])
+	by mailout1.samsung.com (KnoxPortal) with ESMTP id 20260226110004epoutp0166819de4efb25831dd5570cedec518c0~XxtbHVMLd1327013270epoutp01N
+	for <linux-usb@vger.kernel.org>; Thu, 26 Feb 2026 11:00:04 +0000 (GMT)
+DKIM-Filter: OpenDKIM Filter v2.11.0 mailout1.samsung.com 20260226110004epoutp0166819de4efb25831dd5570cedec518c0~XxtbHVMLd1327013270epoutp01N
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=samsung.com;
+	s=mail20170921; t=1772103604;
+	bh=OE/1JwvYgxzCAc14VBywGHq+byYs/c5MBIpAQRfy4m4=;
+	h=Date:Subject:To:Cc:From:In-Reply-To:References:From;
+	b=k+dgBE+JThIE1505gC33Bl7U6RMhI01rUdpEVfwJp4jLbSdSo1HbpwW38dKEUJxQt
+	 pE+9vA4AIfuXrMED2kBOzHmkwGfJdq4dq2fxJQIRE0ONopfNVkFxmQ01IFQk9Jw0+k
+	 kADH4aPFNWEZpJRyHBtRZc0yswQvEXYdVAMFV9NA=
+Received: from epsnrtp02.localdomain (unknown [182.195.42.154]) by
+	epcas5p2.samsung.com (KnoxPortal) with ESMTPS id
+	20260226110003epcas5p2fd570de868b6a641d51f9f3c3dccc4de~XxtazSUkN1588815888epcas5p2Z;
+	Thu, 26 Feb 2026 11:00:03 +0000 (GMT)
+Received: from epcas5p4.samsung.com (unknown [182.195.38.92]) by
+	epsnrtp02.localdomain (Postfix) with ESMTP id 4fM7lQ16fSz2SSKj; Thu, 26 Feb
+	2026 11:00:02 +0000 (GMT)
+Received: from epsmtip1.samsung.com (unknown [182.195.34.30]) by
+	epcas5p2.samsung.com (KnoxPortal) with ESMTPA id
+	20260226110001epcas5p28add4711e73a7829277a863ba1753a51~XxtYxEW__1588815888epcas5p2Q;
+	Thu, 26 Feb 2026 11:00:01 +0000 (GMT)
+Received: from [107.122.5.126] (unknown [107.122.5.126]) by
+	epsmtip1.samsung.com (KnoxPortal) with ESMTPA id
+	20260226105959epsmtip182f6e751b58b9906dd2bb295b88b7345~XxtWt75nq0619706197epsmtip1s;
+	Thu, 26 Feb 2026 10:59:59 +0000 (GMT)
+Message-ID: <264c4448-8e67-4918-8d5d-60b6bba1162f@samsung.com>
+Date: Thu, 26 Feb 2026 16:29:46 +0530
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: AM9PR04MB8825:EE_|AMBPR04MB11762:EE_
-X-MS-Office365-Filtering-Correlation-Id: b861a1e5-4af6-4e5d-29b6-08de752603a4
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam:
-	BCL:0;ARA:13230040|19092799006|376014|52116014|1800799024|366016|38350700014;
-X-Microsoft-Antispam-Message-Info:
-	Mc8/dSKPdtOGW/c7i2lJ3SH6bViM3W+BKfTd2//gK8BanqIiaFjAQ4ptmW1MwNJnr7zMMH3kM9KXdzironJstV6zLlcR9oXBJWciG0g+zNmO8BXq5XXvezjO6WxrxlhCTpgsw/LO+NzBE2EZJ7RFLP7PRV85vDxfkHhBiOsCSVmegsS02JDzpmyvLq4IpyjL00urBYMWBAJ2Q6UsJoeS6citdg/kbahkI+ZXI8dcvk9VGRiQTOnrSi/OFyo1gVMsbk6Fg3Lb7XeuLghBUH5dlm7KKp3czfBRQJllZT1ND1mRxUM4LCuTN6XruVUPnqbGyXa87EDyhGLWBXcx3AuSN+tn8KWYwhGJYiBEzfbObuA+l0KQQYm6k8LA7bMcKVyV8/ZOuhk6hvmeC4HtjaFIi7v2AhsGEDmICEF0PNoDoq5sBvk/7PAOns0ZVYG9Xs37J/wohrYl5SyeEqBaTD+or9mtWmEECw55tMVQRxW3JoErMiLOPhCJlPcaRvoHXUyI483BieN9WffmXikMwIKkKjQoTVL4x7GQQrjcN2/T6ynCUQT0pMEQhaTqwNYcxOjrYenkbqWQW/mDpVSyBvZp2Bw0tOhVlPQ5mMGMOh+S8as6QSMxZX+Btdyohi91HMxdB9yhw91RXV9458p/pLb9WYLPWLK5mhEsmk2EQM6dFiPqIrZalnXPHs4Lsv72cccoyZHGh9mNi+AfrBXvvEse1VbexoCKIby9iOZYVtDgeYkwJPMqn0j2aM4D0McFE44O
-X-Forefront-Antispam-Report:
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:AM9PR04MB8825.eurprd04.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(19092799006)(376014)(52116014)(1800799024)(366016)(38350700014);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0:
-	=?utf-8?B?ZW91L2xpcktaSStZaXFtMHNMbG8rVG1td1BxeGs3SG9XbXVqQnNDS2Q5dVVP?=
- =?utf-8?B?WTNYWHRnejBNUXNYaytUZUNSbENlN1dreDFxU09YU2ZhVm5sZndlQWxlbEZp?=
- =?utf-8?B?R1BVZnlXOW1TMU00UXpJYVRlMlJRQ0JmeWdNRStjaWwwMGlZNHpDWVlreUVh?=
- =?utf-8?B?ck50cE1iN240VFduUnlQY051L0RvdkNJVWs1VmZIRDlWKyt5UEZLZTYwU3ZP?=
- =?utf-8?B?RnJ0a25pWTY5Sm5JU1NxL1EvaVVHUFJiWGVGd1hRQ1ZuK0FHU0lzZjdqLzFL?=
- =?utf-8?B?WmpxUllueG1wa0Z5Yyt5bSs5bnNybjZ3d1F5ZlpiNXpBM2FCRFBrcmhZVkMx?=
- =?utf-8?B?c2hnbUI4THZ4UCtiUVNKcVdTSGtmRXhERm5aK1M1NHdJQkczeEZhV1VHR0Mz?=
- =?utf-8?B?ZTBYVXJoQUVKUmszZG5rL2duZU5uWU1OZXcvYjdGYUZ5M2JuaG9ndUlwS2Zn?=
- =?utf-8?B?Y3RiWlRFMWlhYlNxaFMzaEc2cndSUUVnbVVsMS83WWVzY281SnhpVjA2RFFs?=
- =?utf-8?B?NS9XN2xUQmhiQk85UjdCU3dnWW5sOEN3anB2b003MlJDY0wyR0VMQ1dUODRQ?=
- =?utf-8?B?UjZVeG9xUXd0Q0FwbHhHQ1piZ0lXRGxUZHVoVEtzRk04WGkvNGhyMHZ1NGlD?=
- =?utf-8?B?a2k0Y1R1aXBtWUYzb3VLbTNCc2ExS2JJcm9LVFBpa09nbitYUXVzYmJtUnRO?=
- =?utf-8?B?WTR6YU1kN1VFZWF6ZFFpVHFQMmljSXNha1VKUjZDUDVyZm4vVDJWTjJnY2ZK?=
- =?utf-8?B?SFZON3oyWjllRTI0Y1ozT3NPcnU4M0lhRkRRTStxdEpXZTZoVGR0VHF4QWJ2?=
- =?utf-8?B?RldFYU16Uk5NNFd5MndOUjhSLytOY2I1VE54SlRLQVVLSWdqRXozVHlaelFD?=
- =?utf-8?B?R1hWSWEzQ1JrNmVzVGVUL0s4UkUrcXhWR0YvYlJ0aUlBMTdjcWZUcUJZaDZQ?=
- =?utf-8?B?WU1pVE9DVkJZc1N5UUhZd29JZ1pWMUlsMlhOV1lCZW94WmNPU2VmS05GdEYw?=
- =?utf-8?B?b3AySXBudDFZUmtxeUxITUk4anBYT2Z6ayszajB3d3JsbWhjU0JuTXlEenNK?=
- =?utf-8?B?TGhHbGdUekFnNXkrSk9ldUg1c0xLbE5JSlZ5dTlwd2JIZ1J3TXFrM3pnOC94?=
- =?utf-8?B?NjVtMFE4SWtWcS9NYmhPWmlpU1I5QlJwYTIrdHVGQU9HelNjRU5mY3N3bi9K?=
- =?utf-8?B?QkpaTWp3V2xDbUs0MVl6Qmh5cDRUZHhlV3RrZzBRQ2xmRkNDMjRUNncyZCt0?=
- =?utf-8?B?SVhsSHRKSi81bGNyeG9XZnVGaW9OU05od0RMLzhOSllmUStXbG0yMFo5MEpH?=
- =?utf-8?B?NlBHRzhJcitOYVZKVHNnVVAyZTJGbnlsVjVYbzR6QnpCUHBPRWZTNzZDd3Y4?=
- =?utf-8?B?bm5XTTJtR1pzQ2FnM1U3L0FSeFViV2FFNUs2L3E0WW9RdmNxOWxCZjBxeUU0?=
- =?utf-8?B?NWJvLzQ3N1p4a002d3FhS2M0cG5kSzRGVExoUm1jZFBQVTN2R3MyZlpSc2Fa?=
- =?utf-8?B?b0Q5ODBmaUp6NTJjalkzVSt5Wjc5dmlpUkZlb1UwdGduUXZXeTh6cVZScDg4?=
- =?utf-8?B?eXIwUWsxUkZRY3hmc2gzV0R6VE5SRnUyTmprTTFWUmlQMXFobFhxYXpmeDdu?=
- =?utf-8?B?OC9XMUFOM2VGcnpZcC9sbmN2TERpY3Y4WFoxd1p3b0x2OVJSVzE4SFZUQlNR?=
- =?utf-8?B?dU41RXp4dkRlMEdVL1l6WVlzNktSQ3lUUWczR0RtSTZ1NEJVTURxT1piOHM4?=
- =?utf-8?B?RXRqU1VNNUJrbnQzVXBDT2lCL2YrL3EvOTFKNDV3L3grOUZNN3Q5b1FYQzZa?=
- =?utf-8?B?R3g5ZVlNUXBuWGlKZ0IxVHFqQ0ZDaElrUFhQbVRaelQ0bFVPZ0lzWCtjeW1n?=
- =?utf-8?B?MTlVMFZRWXB2ZlNYeTFTY0JaUzJ2QTMzZFBFMmkzY0ZRQi93K2FYdFFieU9B?=
- =?utf-8?B?WGlObFNVNU9BRjZTVk9BQ0RldVlqSzhBbnowUGVTOC93NVlRVEdQVnNycXpG?=
- =?utf-8?B?ZUVnWllXS3pFcWxmdnh5ZUlQY1dtWlRwUmlydnhCNHF6TW5udjhqK2JPSEdG?=
- =?utf-8?B?RFg2V0RrK1lQTDZGV0tOZ0hmcVQwd1YzVW9kMExCeDZPd1BGMHVWVnBtZloz?=
- =?utf-8?B?OWtwN2ZCOUFFRE5xQmczcUFpQkNLdy9oaUYvd3BuQndXZmwzUzRkU0lMakt2?=
- =?utf-8?B?TFVlVUdFb3cwRHlEdDU3VHIwUEliRDJZN2I5MjVKQVdDRDIyM25oNWVWVFFB?=
- =?utf-8?B?L3FjSHRMdWxocEU0N09qTTBUUE04aXptUFgxK1RDU01Db1BDTkNrRjZaWkFS?=
- =?utf-8?B?ajRQb21DbWYzZjNJNFhqeHdZaWpDSWlFeVo0eThaYVBqS0M2KzdXUT09?=
-X-OriginatorOrg: nxp.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: b861a1e5-4af6-4e5d-29b6-08de752603a4
-X-MS-Exchange-CrossTenant-AuthSource: AM9PR04MB8825.eurprd04.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 26 Feb 2026 10:58:47.1076
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 686ea1d3-bc2b-4c6f-a92c-d99c5c301635
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: 0mGIPhg7lhhUSowcZHQ/LFg+G4N81RHM25RgEB+nmqG8PVQf6hy0iAeoy+dEa5wpDajyBlBaJ2/HwWxk3RJ7Ew==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: AMBPR04MB11762
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v2] usb: dwc3: gadget: Prevent EPs resource conflict
+ during StartTransfer
+To: Thinh Nguyen <Thinh.Nguyen@synopsys.com>
+Cc: Alan Stern <stern@rowland.harvard.edu>, "gregkh@linuxfoundation.org"
+	<gregkh@linuxfoundation.org>, "linux-usb@vger.kernel.org"
+	<linux-usb@vger.kernel.org>, "linux-kernel@vger.kernel.org"
+	<linux-kernel@vger.kernel.org>, "jh0801.jung@samsung.com"
+	<jh0801.jung@samsung.com>, "dh10.jung@samsung.com" <dh10.jung@samsung.com>,
+	"naushad@samsung.com" <naushad@samsung.com>, "akash.m5@samsung.com"
+	<akash.m5@samsung.com>, "h10.kim@samsung.com" <h10.kim@samsung.com>,
+	"eomji.oh@samsung.com" <eomji.oh@samsung.com>, "alim.akhtar@samsung.com"
+	<alim.akhtar@samsung.com>, "thiagu.r@samsung.com" <thiagu.r@samsung.com>,
+	"stable@vger.kernel.org" <stable@vger.kernel.org>
+Content-Language: en-US
+From: Selvarasu Ganesan <selvarasu.g@samsung.com>
+In-Reply-To: <20251212012108.wjn2pavyg6qaiytt@synopsys.com>
+Content-Transfer-Encoding: 8bit
+X-CMS-MailID: 20260226110001epcas5p28add4711e73a7829277a863ba1753a51
+X-Msg-Generator: CA
+Content-Type: text/plain; charset="utf-8"
+CMS-TYPE: 105P
+cpgsPolicy: CPGSC10-542,Y
+X-CFilter-Loop: Reflected
+X-CMS-RootMailID: 20251204015221epcas5p3ed1b6174589b47629ea9333e3ddbb176
+References: <2b944e45-c39a-4c34-b159-ba91dd627fe4@rowland.harvard.edu>
+	<20251121022156.vbnheb6r2ytov7bt@synopsys.com>
+	<f6bba9d1-2221-4bad-a7d7-564a5a311de1@rowland.harvard.edu>
+	<4e82c0dd-4a36-4e1d-a93a-9bef5d63aa50@samsung.com>
+	<CGME20251204015221epcas5p3ed1b6174589b47629ea9333e3ddbb176@epcas5p3.samsung.com>
+	<20251204015125.qgio53oimdes5kjr@synopsys.com>
+	<9d309a6f-39b2-43da-96a6-b7c59b98431e@samsung.com>
+	<20251205003723.rum7bexy2tazcdwb@synopsys.com>
+	<20251205011823.6ujxcjimlyetpjvj@synopsys.com>
+	<28035b59-3138-40e6-beb3-1a3793e8df84@samsung.com>
+	<20251212012108.wjn2pavyg6qaiytt@synopsys.com>
 
-On Wed, Feb 25, 2026 at 05:13:17PM -0300, Fabio Estevam wrote:
-> Hi Xu Yang,
-> 
-> On Wed, Feb 25, 2026 at 4:47 AM Xu Yang <xu.yang_2@nxp.com> wrote:
-> >
-> > Hi Fabio,
-> >
-> > On Tue, Feb 24, 2026 at 09:19:51AM -0300, Fabio Estevam wrote:
-> > > Hi Xu Yang,
-> > >
-> > > On Tue, Feb 24, 2026 at 12:17 AM Xu Yang <xu.yang_2@nxp.com> wrote:
-> > > >
-> > > > When a port is disabled, an attached device will be disconnected.  This
-> > > > causes a port-status-change event, which will race with hub autosuspend
-> > > > (if the disabled port was the only connected port on its hub), causing
-> > > > an immediate resume and a second autosuspend.  Both of these can be
-> > > > avoided by adding a short delay after the call to
-> > > > usb_hub_set_port_power().
-> > > >
-> > > > Below log shows what is happening:
-> > > >
-> > > > $ echo 1 > usb1-port1/disable
-> > > > [   37.958239] usb 1-1: USB disconnect, device number 2
-> > > > [   37.964101] usb 1-1: unregistering device
-> > > > [   37.970070] hub 1-0:1.0: hub_suspend
-> > > > [   37.971305] hub 1-0:1.0: state 7 ports 1 chg 0000 evt 0002
-> > > > [   37.974412] usb usb1: bus auto-suspend, wakeup 1
-> > > > [   37.988175] usb usb1: suspend raced with wakeup event         <---
-> > > > [   37.993947] usb usb1: usb auto-resume
-> > > > [   37.998401] hub 1-0:1.0: hub_resume
-> > > > [   38.105688] usb usb1-port1: status 0000, change 0000, 12 Mb/s
-> > > > [   38.112399] hub 1-0:1.0: state 7 ports 1 chg 0000 evt 0000
-> > > > [   38.118645] hub 1-0:1.0: hub_suspend
-> > > > [   38.122963] usb usb1: bus auto-suspend, wakeup 1
-> > > > [   38.200368] usb usb1: usb wakeup-resume
-> > > > [   38.204982] usb usb1: usb auto-resume
-> > > > [   38.209376] hub 1-0:1.0: hub_resume
-> > > > [   38.213676] usb usb1-port1: status 0101 change 0001
-> > > > [   38.321552] hub 1-0:1.0: state 7 ports 1 chg 0002 evt 0000
-> > > > [   38.327978] usb usb1-port1: status 0101, change 0000, 12 Mb/s
-> > > > [   38.457429] usb 1-1: new high-speed USB device number 3 using ci_hdrc
-> > > >
-> > > > Then, port change bit will be fixed to the final state and
-> > > > usb_clear_port_feature() can correctly clear it after this period. This
-> > > > will also avoid usb runtime suspend routine to run because
-> > > > usb_autopm_put_interface() not run yet.
-> > > >
-> > > > Fixes: f061f43d7418 ("usb: hub: port: add sysfs entry to switch port power")
-> > > > Cc: stable@kernel.org
-> > > > Signed-off-by: Xu Yang <xu.yang_2@nxp.com>
-> > >
-> > > On an imx6x-sdb board, I still get the inconsistency below even after
-> > > applying your patch:
-> > >
-> > > # echo 1 >  /sys/bus/usb/devices/1-0\:1.0/usb1-port1/disable
-> > > [   20.656414] usb 1-1: USB disconnect, device number 2
-> > >
-> > > # echo 1 >  /sys/bus/usb/devices/1-0\:1.0/usb1-port1/disable
-> > > [   28.263516] usb 1-1: new high-speed USB device number 3 using ci_hdrc
-> > > [   28.466813] usb 1-1: New USB device found, idVendor=0457,
-> > > idProduct=0151, bcdDevice= 1.00
-> > > [   28.466949] usb 1-1: New USB device strings: Mfr=1, Product=2, SerialNumber=3
-> > > [   28.467039] usb 1-1: Product: USB Mass Storage Device
-> > > [   28.467086] usb 1-1: Manufacturer: USBest Technology
-> > > [   28.467126] usb 1-1: SerialNumber: 000000000003FF
-> > > [   28.501826] usb-storage 1-1:1.0: USB Mass Storage device detected
-> > > [   28.510452] usb-storage 1-1:1.0: Quirks match for vid 0457 pid 0151: 80
-> > > [   28.517597] scsi host0: usb-storage 1-1:1.0
-> > > [   28.524066] usb 1-1: USB disconnect, device number 3
-> >
-> > It's another different problem.
-> >
-> > For ports which VBUS are not controlled by PORTSC.PP (always on VBUS
-> > regulator or Type-C controlled VBUS), they are still powered on after
-> > you disable the ports. This will cause PORTSC.CCS still be set after it.
-> >
-> > When usb_autopm_get_interface() gets called, hub_resume will check CCS
-> > bit and check new connection again. So you see new device is reported.
-> >
-> > Below patch will be a workaround for the issue when you disable the port
-> > many times:
-> > https://lore.kernel.org/linux-usb/20260223-v6-16-topic-usb-onboard-dev-v5-1-28d3018a8026@pengutronix.de/
-> 
-> I applied Marco's patch, and it fixes the inconsistent state that I
-> reported before on the imx6sx-sdb:
-> 
-> # echo 1 >  /sys/bus/usb/devices/1-0\:1.0/usb1-port1/disable
-> [  110.494838] usb 1-1: USB disconnect, device number 3
-> # echo 1 >  /sys/bus/usb/devices/1-0\:1.0/usb1-port1/disable
-> # echo 1 >  /sys/bus/usb/devices/1-0\:1.0/usb1-port1/disable
-> # echo 1 >  /sys/bus/usb/devices/1-0\:1.0/usb1-port1/disable
-> # echo 1 >  /sys/bus/usb/devices/1-0\:1.0/usb1-port1/disable
-> # echo 1 >  /sys/bus/usb/devices/1-0\:1.0/usb1-port1/disable
-> 
-> Now I want the USB OTG2 VBUS to be turned off.
-> 
-> I understand that the chipidea driver does not turn off VBUS when
-> vbus-supply is passed, so I tried using the pin as
-> MX6SX_PAD_GPIO1_IO12__USB_OTG2_PWR:
 
-No. You can't do this because CI_HDRC_TURN_VBUS_EARLY_ON won't take effect
-as we talked in previous thread. Then, USB phy will work abnormally.
+On 12/12/2025 6:51 AM, Thinh Nguyen wrote:
+> On Thu, Dec 11, 2025, Selvarasu Ganesan wrote:
+>> On 12/5/2025 6:48 AM, Thinh Nguyen wrote:
+>>>> I was hoping that the dwc3_gadget_ep_queue() won't come early to run
+>>>> into this scenario. What I've provided will only mitigate and will not
+>>>> resolve for all cases. It seems adding more checks in dwc3 will be
+>>>> more messy.
+>>
+>> Hi Thinh,
+>>
+>>
+>> Thank you for the insightful comments. I agree that adding more checks
+>> directly in the dwc3 driver would be messy, and a comprehensive rework
+>> of the dwc3 ep disable would ultimately be the cleaner solution.
+>>
+>> In the meantime, Introducing additional checks for
+>> DWC3_EP_TRANSFER_STARTED in dwc3 driver is the most practical way to
+>> unblock the current issue while we work toward that longer‑term fix.
+>> We have applied the patches and performed additional testing, no
+>> regressions or new issues were observed.
+>>
+>> Could you please confirm whether below interim fix is acceptable along
+>> with your proposed earlier patch for unblocking the current development
+>> flow?
+>>
+>>
+>> Patch 2: usb: dwc3: protect dep->flags from concurrent modify in
+>> dwc3_gadget_ep_disable
+>> =======================================================================================
+>>
+>> Subject: [PATCH] usb: dwc3: protect dep->flags from concurrent modify in
+>> dwc3_gadget_ep_disable
+>> The below warnings in `dwc3_gadget_ep_queue` observed during the RNDIS
+>> enable/disable test is caused by a race between `dwc3_gadget_ep_disable`
+>> and `dwc3_gadget_ep_queue`. Both functions manipulate `dep->flags`, and
+>> the lock released temporarily by `dwc3_gadget_giveback` (called from
+>> `dwc3_gadget_ep_disable`) can be acquired by `dwc3_gadget_ep_queue`
+>> before `dwc3_gadget_ep_disable` has finished. This leads to an
+>> inconsistent state of the `DWC3_EP_TRANSFER_STARTED` dep->flag.
+>>
+>> To fix this issue by add a condition check when masking `dep->flags`
+>> in `dwc3_gadget_ep_disable` to ensure the `DWC3_EP_TRANSFER_STARTED`
+>> flag is not cleared when it is actually set. This prevents the spurious
+>> warning and eliminates the race.
+>>
+>> Thread#1:
+>> dwc3_gadget_ep_disable
+>>     ->__dwc3_gadget_ep_disable
+>>      ->dwc3_remove_requests
+>>       ->dwc3_stop_active_transfer
+>>        ->__dwc3_stop_active_transfer
+>>         -> dwc3_send_gadget_ep_cmd (cmd =DWC3_DEPCMD_ENDTRANSFER)
+>>          ->if(!interrupt)dep->flags &= ~DWC3_EP_TRANSFER_STARTED;
+>>           ->dwc3_gadget_giveback
+>>            ->spin_unlock(&dwc->lock)
+>>              ...
+>>              While Thread#1 is still running, Thread#2 starts:
+>>
+>> Thread#2:
+>> usb_ep_queue
+>>     ->dwc3_gadget_ep_queue
+>>      ->__dwc3_gadget_kick_transfer
+>>       -> starting = !(dep->flags & DWC3_EP_TRANSFER_STARTED);
+>>        ->if(starting)
+>>          ->dwc3_send_gadget_ep_cmd (cmd = DWC3_DEPCMD_STARTTRANSFER)
+>>           ->dep->flags |= DWC3_EP_TRANSFER_STARTED;
+>>             ...
+>>              ->__dwc3_gadget_ep_disable
+>>               ->mask = DWC3_EP_TXFIFO_RESIZED |DWC3_EP_RESOURCE_ALLOCATED;
+>>                ->dep->flags &= mask; --> // Possible of clears
+>>                    DWC3_EP_TRANSFER_STARTED flag as well without
+>>                    sending DWC3_DEPCMD_ENDTRANSFER
+>>
+>>    ------------[ cut here ]------------
+>>     dwc3 13200000.dwc3: No resource for ep1in
+>>     WARNING: CPU: 7 PID: 1748 at drivers/usb/dwc3/gadget.c:398
+>> dwc3_send_gadget_ep_cmd+0x2f8/0x76c
+>>     pc : dwc3_send_gadget_ep_cmd+0x2f8/0x76c
+>>     lr : dwc3_send_gadget_ep_cmd+0x2f8/0x76c
+>>     Call trace:
+>>       dwc3_send_gadget_ep_cmd+0x2f8/0x76c
+>>       __dwc3_gadget_kick_transfer+0x2ec/0x3f4
+>>       dwc3_gadget_ep_queue+0x140/0x1f0
+>>       usb_ep_queue+0x60/0xec
+>>       mp_tx_task+0x100/0x134
+>>       mp_tx_timeout+0xd0/0x1e0
+>>       __hrtimer_run_queues+0x130/0x318
+>>       hrtimer_interrupt+0xe8/0x340
+>>       exynos_mct_comp_isr+0x58/0x80
+>>       __handle_irq_event_percpu+0xcc/0x25c
+>>       handle_irq_event+0x40/0x9c
+>>       handle_fasteoi_irq+0x154/0x2c8
+>>       generic_handle_domain_irq+0x58/0x80
+>>       gic_handle_irq+0x48/0x104
+>>       call_on_irq_stack+0x3c/0x50
+>>       do_interrupt_handler+0x4c/0x84
+>>       el1_interrupt+0x34/0x58
+>>       el1h_64_irq_handler+0x18/0x24
+>>       el1h_64_irq+0x68/0x6c
+>>
+>> Change-Id: Ib6a77ce5130e25d0162f72d0e52c845dbb1d18f5
+>> Signed-off-by: Selvarasu Ganesan <selvarasu.g@samsung.com>
+>> ---
+>>    drivers/usb/dwc3/gadget.c | 16 ++++++++++++++++
+>>    1 file changed, 16 insertions(+)
+>>
+>> diff --git a/drivers/usb/dwc3/gadget.c b/drivers/usb/dwc3/gadget.c
+>> index b42d225b67408..1dc5798072120 100644
+>> --- a/drivers/usb/dwc3/gadget.c
+>> +++ b/drivers/usb/dwc3/gadget.c
+>> @@ -1051,6 +1051,22 @@ static int __dwc3_gadget_ep_disable(struct
+>> dwc3_ep *dep)
+>>         */
+>>        if (dep->flags & DWC3_EP_DELAY_STOP)
+>>            mask |= (DWC3_EP_DELAY_STOP | DWC3_EP_TRANSFER_STARTED);
+>> +
+>> +    /*
+>> +     * When dwc3_gadget_ep_disable() calls dwc3_gadget_giveback(),
+>> +     * the  dwc->lock is temporarily released.  If dwc3_gadget_ep_queue()
+>> +     * runs in that window it may set the DWC3_EP_TRANSFER_STARTED flag as
+>> +     * part of dwc3_send_gadget_ep_cmd. The original code cleared the flag
+>> +     * unconditionally, which could overwrite the concurrent modification.
+>> +     *
+>> +     * The added check ensures the DWC3_EP_TRANSFER_STARTED flag is only
+>> +     * cleared if it is not set already, preserving the state updated
+>> by the
+>> +     * concurrent ep_queue path and eliminating the EP resource conflict
+>> +     * warning.
+>> +     */
+> We need to explain the underlining problem here and in the commit
+> message. The function usb_ep_disable() is expected be used interrupt
+> context, and it's being used in interrupt context in the composite
+> framework. There's no wait for flushing of endpoint is handled before
+> usb_ep_disable completes.
+>
+> We are adding a temporary workaround to handle the endpoint
+> reconfiguration and restart before the flushing completed.
+>
+>> +    if (dep->flags & DWC3_EP_TRANSFER_STARTED)
+>> +        mask |= DWC3_EP_TRANSFER_STARTED;
+>> +
+>>        dep->flags &= mask;
+>>
+>>        /* Clear out the ep descriptors for non-ep0 */
+>> -- 
+>>
+>> 2.31.1
+>>
+>>
+> For your case, it may work because the endpoint is probably reconfigured
+> to be the same in usb_ep_enable(). If we reconfigure the endpoint before
+> the endpoint is stopped, the behavior is underfined.
+>
+> You can create the patches and Cc stable. However, I would not add the
+> "Fixes" tag since they (IMHO) are not really fixes. May also need to
+> note that under the "---" in the commit explain why there's no Fixes tag
+> also.
+>
+> Thanks,
+> Thinh
 
-I recommend to unbind/bind the device for switching VBUS off/on. 
 
-Thanks,
-Xu Yang
+Hi Thinh,
+
+This is a followup regarding the temporary workaround patches.
+
+In v3, I will incorporate the actual underlying issue into the commit 
+message proper, and include a note under the '---' separator explaining 
+why the Fixes tag was not added.
+
+Please review the updated patches in below and let me know if you have 
+any concerns.
+
+
+
+Subject: [PATCH v3 1/2] usb: dwc3: gadget: Prevent EPs resource conflict
+during StartTransfer
+MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+
+The below “No resource for ep” warning appears when a StartTransfer
+command is issued for bulk or interrupt endpoints in
+`dwc3_gadget_ep_enable` while a previous StartTransfer on the same
+endpoint is still in progress. The gadget functions drivers can invoke
+`usb_ep_enable` (which triggers a new StartTransfer command) before the
+earlier transfer has completed. Because the previous StartTransfer is
+still active, `dwc3_gadget_ep_disable` can skip the required
+`EndTransfer` due to `DWC3_EP_DELAY_STOP`, leading to the endpoint
+resources are busy for previous StartTransfer and warning ("No resource
+for ep") from dwc3 driver.
+
+The underlying framework issue is that `usb_ep_disable()` is expected to
+complete pending requests before returning, but is allowed to be called
+from interrupt context where sleeping to wait for completion is not
+possible.
+
+Add a temporary workaround to handle the endpoint reconfiguration and
+restart before the flushing completed. Specifically, a check is added to
+`dwc3_gadget_ep_enable` that checks the `DWC3_EP_TRANSFER_STARTED`
+flag before issuing a new StartTransfer. By preventing a second
+StartTransfer on an already busy endpoint, the resource conflict is
+eliminated, the warning disappears, and potential kernel panics caused
+by `panic_on_warn` are avoided.
+
+------------[ cut here ]------------
+dwc3 13200000.dwc3: No resource for ep1out
+WARNING: CPU: 0 PID: 700 at drivers/usb/dwc3/gadget.c:398 
+dwc3_send_gadget_ep_cmd+0x2f8/0x76c
+Call trace:
+dwc3_send_gadget_ep_cmd+0x2f8/0x76c
+__dwc3_gadget_ep_enable+0x490/0x7c0
+dwc3_gadget_ep_enable+0x6c/0xe4
+usb_ep_enable+0x5c/0x15c
+mp_eth_stop+0xd4/0x11c
+__dev_close_many+0x160/0x1c8
+__dev_change_flags+0xfc/0x220
+dev_change_flags+0x24/0x70
+devinet_ioctl+0x434/0x524
+inet_ioctl+0xa8/0x224
+sock_do_ioctl+0x74/0x128
+sock_ioctl+0x3bc/0x468
+__arm64_sys_ioctl+0xa8/0xe4
+invoke_syscall+0x58/0x10c
+el0_svc_common+0xa8/0xdc
+do_el0_svc+0x1c/0x28
+el0_svc+0x38/0x88
+el0t_64_sync_handler+0x70/0xbc
+el0t_64_sync+0x1a8/0x1ac
+
+Cc: stable@vger.kernel.org
+Signed-off-by: Selvarasu Ganesan <selvarasu.g@samsung.com>
+---
+
+Note: No Fixes tag is added because this is a workaround for the
+gadget framework issue where the gadget framework calls usb_ep_disable()
+in interrupt context without ensuring endpoint flushing completes.
+A proper fix requires refactoring the framework to make sure
+usb_ep_disable is invoked in process context.
+---
+drivers/usb/dwc3/gadget.c | 5 +++--
+1 file changed, 3 insertions(+), 2 deletions(-)
+
+diff --git a/drivers/usb/dwc3/gadget.c b/drivers/usb/dwc3/gadget.c
+index 502d54ce13bc..949a9e6b176a 100644
+--- a/drivers/usb/dwc3/gadget.c
++++ b/drivers/usb/dwc3/gadget.c
+@@ -951,8 +951,9 @@ static int __dwc3_gadget_ep_enable(struct dwc3_ep 
+*dep, unsigned int action)
+* Issue StartTransfer here with no-op TRB so we can always rely on No
+* Response Update Transfer command.
+*/
+- if (usb_endpoint_xfer_bulk(desc) ||
+- usb_endpoint_xfer_int(desc)) {
++ if ((usb_endpoint_xfer_bulk(desc) ||
++ usb_endpoint_xfer_int(desc)) &&
++ !(dep->flags & DWC3_EP_TRANSFER_STARTED)) {
+struct dwc3_gadget_ep_cmd_params params;
+struct dwc3_trb *trb;
+dma_addr_t trb_dma;
+--
+2.34.1
+
+
+
+Subject: [PATCH v3 2/2] usb: dwc3: gadget: Protect endpoint flags during
+  concurrent ep disable and queue
+
+A race condition exists between dwc3_gadget_ep_disable() and
+dwc3_gadget_ep_queue() when manipulating dep->flags. The underlying
+framework issue is that usb_ep_disable() is expected be used interrupt
+context, and it's being used in interrupt context in the composite
+framework. There's no wait for flushing of endpoint is handled before
+usb_ep_disable completes.
+
+In the race scenario: when dwc3_gadget_ep_disable() calls
+dwc3_gadget_giveback(), the dwc->lock is temporarily released. If
+dwc3_gadget_ep_queue() runs in that window, it set the
+DWC3_EP_TRANSFER_STARTED flag via dwc3_send_gadget_ep_cmd(). When
+ep_disable resumes, it unconditionally clears all flags except those
+explicitly masked, potentially clearing DWC3_EP_TRANSFER_STARTED even
+though a new transfer has started. This leads to "No resource ep"
+warnings on subsequent StartTransfer attempts.
+
+As a temporary workaround for the framework limitation, add a condition
+check when masking `dep->flags` in `dwc3_gadget_ep_disable` to ensure
+the `DWC3_EP_TRANSFER_STARTED` flag is not cleared when it is actually
+set. This prevents the spurious warning and eliminates the race.
+
+Cc: stable@vger.kernel.org
+Signed-off-by: Selvarasu Ganesan <selvarasu.g@samsung.com>
+---
+
+Note: No Fixes tag is added because this is a workaround for the
+gadget framework issue where the gadget framework calls usb_ep_disable()
+in interrupt context without ensuring endpoint flushing completes.
+A proper fix requires refactoring the framework to make sure
+usb_ep_disable is invoked in process context.
+---
+  drivers/usb/dwc3/gadget.c | 17 +++++++++++++++++
+  1 file changed, 17 insertions(+)
+
+diff --git a/drivers/usb/dwc3/gadget.c b/drivers/usb/dwc3/gadget.c
+index 949a9e6b176a..1b16d103d94e 100644
+--- a/drivers/usb/dwc3/gadget.c
++++ b/drivers/usb/dwc3/gadget.c
+@@ -1078,6 +1078,23 @@ static int __dwc3_gadget_ep_disable(struct 
+dwc3_ep *dep)
+          */
+         if (dep->flags & DWC3_EP_DELAY_STOP)
+                 mask |= (DWC3_EP_DELAY_STOP | DWC3_EP_TRANSFER_STARTED);
++
++       /*
++        * When dwc3_gadget_ep_disable() calls dwc3_gadget_giveback(),
++        * the dwc->lock is temporarily released. If dwc3_gadget_ep_queue()
++        * runs in that window it may set the DWC3_EP_TRANSFER_STARTED 
+flag as
++        * part of dwc3_send_gadget_ep_cmd. The original code cleared 
+the flag
++        * unconditionally in the mask operation, which could overwrite the
++        * concurrent modification.
++        *
++        * As a workaround for the interrupt context constraint where we 
+cannot
++        * wait for endpoint flushing, preserve the DWC3_EP_TRANSFER_STARTED
++        * flag if it is set, avoiding resource conflicts until the 
+framework
++        * is fixed to properly synchronize endpoint lifecycle management.
++        */
++       if (dep->flags & DWC3_EP_TRANSFER_STARTED)
++               mask |= DWC3_EP_TRANSFER_STARTED;
++
+         dep->flags &= mask;
+
+         /* Clear out the ep descriptors for non-ep0 */
+--
+2.34.1
+
+
+Thnaks,
+Selva
+
+
