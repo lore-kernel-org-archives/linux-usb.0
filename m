@@ -1,44 +1,45 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 461613290D3;
-	Thu, 26 Feb 2026 17:39:13 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0924035A39E
+	for <linux-usb@vger.kernel.org>; Thu, 26 Feb 2026 18:05:51 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1772127554; cv=none; b=a/n0sXJooMqTyN6QCfu75trfUmGXiPt6bp8h/nO+/aV2o6WQKfvzEIqN0v1KkWzqleXJ2waw4zUoERVCn5++llDv6ccti+8dBFtkScmm4EiJbebmGirHdrU2sRhHfLTz+KZ8geOzI/jX2Y1FOt+09MUSurkqJxxmVFbtz9hCyiA=
+	t=1772129152; cv=none; b=e5XhN40dkcI/nv4bm9p5KgkDKa1K3CVUIv0MJBRFuvKVEBApmKOYHARoHQa8S3i/D0rlph+YGGq8oF1ztzk6qz5SAXMdcDGV1xaLz6izq04UlZSHTo+u43+DpkP6EJPohQdu6tyd/a205HUbGKGMxuv/b7e36xWaglcfRvzVToI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1772127554; c=relaxed/simple;
-	bh=nThCQLbabJ0yq+l47grbVRbkwAW8YTIAhiJzvLJHKX4=;
+	s=arc-20240116; t=1772129152; c=relaxed/simple;
+	bh=wvqgfYErGwvobg3QLY82S65S75lVpHGk5u3Ckga6WnI=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=FLOaX5SSzwdUHZopKCYxseLYu2Pl7DjDptxhskAIiXStna2agefS3zvEI0K4B3v+utNPMJthciyO6TupUC50izexmTPjeAgOvZy83r/2kYaZxLQmhyijU+4hH4ih4MpZcGETia9ZONJuuSFuUHXJqigHrYPqYqtnT7R/HYQ9Ftg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=RwugQ86/; arc=none smtp.client-ip=10.30.226.201
+	 Content-Type:Content-Disposition:In-Reply-To; b=lsGGAkG7LPmmUJk236OxxVX6y0SXAaNfCE8iHJX0UeY3/YToT+1KhLVSE++b93KQGhjUJnhpRlIxa5BfAwwEY753M++L/DywvnonsuzI/Bw0+9aLvX0CcfXr9L6Q+gurErW/42xI9KnX8dmnvOCBweltYc1vPmbBwpOUeBfJcDY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=tjodYNDm; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="RwugQ86/"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id CDAD9C116C6;
-	Thu, 26 Feb 2026 17:39:11 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="tjodYNDm"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 98416C116C6;
+	Thu, 26 Feb 2026 18:05:51 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1772127553;
-	bh=nThCQLbabJ0yq+l47grbVRbkwAW8YTIAhiJzvLJHKX4=;
+	s=k20201202; t=1772129151;
+	bh=wvqgfYErGwvobg3QLY82S65S75lVpHGk5u3Ckga6WnI=;
 	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=RwugQ86/npjsesdwAJsYp2Ax+O2Pngm5aol5NZ55QZJ7T1ahJAkwWQQ2B2OMAFQNt
-	 vvdRAwhJN/5OBlwYrJcnz3QuG41dimSLOXm3zd42wyBClcB6Jzuawao30M0A6fJoSl
-	 feYmXZR44DaBYDiMJlCAwNdAB0WBYOYuDVDA7TYOYWvjFwrphLsqglbNvIypSPNKRw
-	 ZYdurlezM0nrCHqs2jwIg4uTT6CeqXx9YFGZc4ttk8y3B8bMsJY2EOu2jr/VPq5g/M
-	 8LDwDHr2kc2FsYyb6DGCJqN48VEKdUyIhPPYvEeWDR+m2tg7IgZbSCfM9N8iAIKG2N
-	 8WNUpBR13S4Ng==
-Date: Thu, 26 Feb 2026 17:39:09 +0000
-From: Simon Horman <horms@kernel.org>
-To: Birger Koblitz <mail@birger-koblitz.de>
-Cc: andrew+netdev@lunn.ch, davem@davemloft.net, pabeni@redhat.com,
-	linux-kernel@vger.kernel.org, kuba@kernel.org,
-	linux-usb@vger.kernel.org, netdev@vger.kernel.org,
-	edumazet@google.com, opensource@vdorst.com
-Subject: Re: [net-next,v2] r8152: Add 2500baseT EEE status/configuration
- support
-Message-ID: <aaCFPZ2JYur6hdha@horms.kernel.org>
-References: <20260224-b4-eee2g5-v2-1-cf5c83df036e@birger-koblitz.de>
- <20260225194848.188081-2-horms@kernel.org>
- <875598e7-5fa1-49b0-be14-181b18ae97fe@birger-koblitz.de>
+	b=tjodYNDmKyRiXeuPmEF/lOXSjHhAwQK8OILq3Y7AaTf/t5hoJosbJCwpN07T8h+Ro
+	 3LmgFG+lYQXNr5dR3kQ4L0Qu8EVPIz7Tbfk31gXTwfyvdJLIHJYvwrmFZKsr5U+5rv
+	 pAzeDwA4R6hmb820f364D3HsdyQ0xzwgFSu7ysZPtjUtHESzvr9PKa/UfQkrTq1ELH
+	 R0BuNdCPXoRXCHc+thkT7xroV+hY5MpOooJgA4bZGPMQxM+2gmrBuEUvIJpVlHxssN
+	 Oj22im2tE8LFMVvtsgxxjyqJXHOjKsAVeIcaRPMC4xxUQrUMa9XaHYtw/uqh0wgYrV
+	 ppqAeyB3eZJmg==
+Date: Thu, 26 Feb 2026 10:05:51 -0800
+From: Kees Cook <kees@kernel.org>
+To: pip-izony <eeodqql09@gmail.com>
+Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	Kyungtae Kim <Kyungtae.Kim@dartmouth.edu>,
+	Christophe JAILLET <christophe.jaillet@wanadoo.fr>,
+	Yuping Luo <Yuping.Luo@csr.com>, Felipe Balbi <balbi@ti.com>,
+	Michal Nazarewicz <mina86@mina86.com>,
+	Alan Stern <stern@rowland.harvard.edu>,
+	Barry Song <baohua@kernel.org>, linux-usb@vger.kernel.org
+Subject: Re: [PATCH v2] usb: gadget: f_mass_storage: Fix potential integer
+ overflow in check_command_size_in_blocks()
+Message-ID: <202602261001.4387F04112@keescook>
+References: <20260226155556.1439672-3-eeodqql09@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
@@ -47,199 +48,82 @@ List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <875598e7-5fa1-49b0-be14-181b18ae97fe@birger-koblitz.de>
+In-Reply-To: <20260226155556.1439672-3-eeodqql09@gmail.com>
 
-On Wed, Feb 25, 2026 at 11:02:17PM +0100, Birger Koblitz wrote:
-> Hi Simon,
+On Thu, Feb 26, 2026 at 10:55:58AM -0500, pip-izony wrote:
+> From: Seungjin Bae <eeodqql09@gmail.com>
 > 
-> Thanks for the thorough analysis!
+> The `check_command_size_in_blocks()` function calculates the data size
+> in bytes by left shifting `common->data_size_from_cmnd` by the block
+> size (`common->curlun->blkbits`). However, it does not validate whether
+> this shift operation will cause an integer overflow.
 > 
-> On 25/02/2026 8:48 pm, Simon Horman wrote:
+> Initially, the block size is set up in `fsg_lun_open()` , and the
+> `common->data_size_from_cmnd` is set up in `do_scsi_command()`. During
+> initialization, there is no integer overflow check for the interaction
+> between two variables.
 > 
-> > 
-> > > @@ -8922,7 +8924,8 @@ static void rtl8152_get_strings(struct net_device *dev, u32 stringset, u8 *data)
-> > > 
-> > >   static int r8152_get_eee(struct r8152 *tp, struct ethtool_keee *eee)
-> > >   {
-> > > -	__ETHTOOL_DECLARE_LINK_MODE_MASK(common);
-> > > +	__ETHTOOL_DECLARE_LINK_MODE_MASK(common) = {};
-> > > +	u16 speed = rtl8152_get_speed(tp);
-> > >   	u16 val;
-> > > 
-> > >   	val = r8152_mmd_read(tp, MDIO_MMD_PCS, MDIO_PCS_EEE_ABLE);
-> > 
-> > This isn't a bug, but the variable declarations are not in reverse
-> > Christmas tree order. Simon Horman's AI review raised this in v1, you
-> > acknowledged it and said it would be fixed in v2, but the ordering issue
-> > remains. The longest line should come first, followed by shorter lines.
-> > Should be:
-> > 
-> > 	__ETHTOOL_DECLARE_LINK_MODE_MASK(common) = {};
-> > 	u16 speed = rtl8152_get_speed(tp);
-> > 	u16 val;
-> > 
-> I do not understand what the AI is complaining about, here. The lines in the
-> v2 patch are in exactly the order you requested:
-> -	__ETHTOOL_DECLARE_LINK_MODE_MASK(common);
-> +	__ETHTOOL_DECLARE_LINK_MODE_MASK(common) = {};
-> +	u16 speed = rtl8152_get_speed(tp);
->  	u16 val;
-> gives
-> 	__ETHTOOL_DECLARE_LINK_MODE_MASK(common) = {};
-> 	u16 speed = rtl8152_get_speed(tp);
->  	u16 val;
-
-Sorry, there was supposed to be some commentary from me included in
-my previous email. But somehow it got lost.
-
-I agree the AI is wrong here.
-
+> So if a malicious USB host sends a SCSI READ or WRITE command
+> requesting a large amount of data (`common->data_size_from_cmnd`), the
+> left shift operation can wrap around. This results in a truncated data
+> size, which can bypass boundary checks and potentially lead to memory
+> corruption or out-of-bounds accesses.
 > 
-> > (Reference: https://lore.kernel.org/all/20260224170206.146491-3-horms@kernel.org/)
-> > 
-> > [ ... ]
-> > 
-> > > @@ -8956,7 +8968,8 @@ static int r8152_set_eee(struct r8152 *tp, struct ethtool_keee *eee)
-> > > 
-> > >   static int r8153_get_eee(struct r8152 *tp, struct ethtool_keee *eee)
-> > >   {
-> > > -	__ETHTOOL_DECLARE_LINK_MODE_MASK(common);
-> > > +	__ETHTOOL_DECLARE_LINK_MODE_MASK(common) = {};
-> > > +	u16 speed = rtl8152_get_speed(tp);
-> > >   	u16 val;
-> > > 
-> > >   	val = ocp_reg_read(tp, OCP_EEE_ABLE);
-> > 
-> > Same reverse Christmas tree order issue here. The same pattern should be
-> > applied as in r8152_get_eee().
-> Same argument as above.
-
-Agreed.
-
-> > [ ... ]
-> > 
-> > > @@ -8968,10 +8981,29 @@ static int r8153_get_eee(struct r8152 *tp, struct ethtool_keee *eee)
-> > >   	val = ocp_reg_read(tp, OCP_EEE_LPABLE);
-> > >   	mii_eee_cap1_mod_linkmode_t(eee->lp_advertised, val);
-> > > 
-> > > +	if (tp->support_2500full) {
-> > > +		linkmode_set_bit(ETHTOOL_LINK_MODE_2500baseT_Full_BIT, eee->supported);
-> > > +
-> > > +		val = ocp_reg_read(tp, OCP_EEE_ADV2);
-> > > +		mii_eee_cap2_mod_linkmode_adv_t(eee->advertised, val);
-> > > +
-> > > +		val = ocp_reg_read(tp, OCP_EEE_LPABLE2);
-> > > +		mii_eee_cap2_mod_linkmode_adv_t(eee->lp_advertised, val);
-> > > +
-> > > +		if (speed & _2500bps)
-> > > +			linkmode_set_bit(ETHTOOL_LINK_MODE_2500baseT_Full_BIT, common);
-> > > +	}
-> > > +
-> > >   	eee->eee_enabled = tp->eee_en;
-> > > 
-> > > -	linkmode_and(common, eee->advertised, eee->lp_advertised);
-> > > -	eee->eee_active = phy_check_valid(tp->speed, tp->duplex, common);
-> > > +	if (speed & _1000bps)
-> > > +		linkmode_set_bit(ETHTOOL_LINK_MODE_1000baseT_Full_BIT, common);
-> > > +	if (speed & _100bps)
-> > > +		linkmode_set_bit(ETHTOOL_LINK_MODE_100baseT_Full_BIT, common);
-> > > +
-> > > +	linkmode_and(common, common, eee->advertised);
-> > > +	linkmode_and(common, common, eee->lp_advertised);
-> > > +	eee->eee_active = !linkmode_empty(common);
-> > > 
-> > >   	return 0;
-> > >   }
-> > 
-> > The eee_active determination logic is now duplicated between
-> > r8152_get_eee() and r8153_get_eee(). Both functions convert speed
-> > register bits to linkmode bits, AND with advertised and lp_advertised,
-> > and test emptiness in the same way. Would it make sense to factor this
-> > into a shared helper to reduce maintenance burden?
-> This could make sense, but I tried to make this as minimally intrusive as
-> possible and was already at a doubt whether I should even fix the RTL8152
-> version of get_eee() to correctly depend on the actual, not the desired
-> speed. Then I decided for fixing this incorrect behavior and have
-> consistency. The style of the existing code has plenty of duplicate code for
-> the different chip-versions and is already difficult to follow to this point
-> depending on the chip version. Personally, I find the readability improved
-> if the few lines of code are repeated instead of separating this out into
-> yet another nested function, and readability also helps code maintenance.
-> Plus, it is quite likely that these functions further diverge with e.g.
-> support for the RTL8157 (5GBit/s).
-
-Understood. I did think this point was worth raising.
-And I appreciate your feedback. We can let this one go for now.
-
+> Fix this by using the check_shl_overflow() macro to safely perform the
+> shift and catch any overflows.
 > 
-> > 
-> > > @@ -9512,6 +9544,7 @@ static int rtl_ops_init(struct r8152 *tp)
-> > >   	case RTL_VER_11:
-> > >   		tp->eee_en		= true;
-> > >   		tp->eee_adv		= MDIO_EEE_1000T | MDIO_EEE_100TX;
-> > > +		tp->eee_adv2		= MDIO_EEE_2_5GT;
-> > >   		fallthrough;
-> > >   	case RTL_VER_10:
-> > >   		ops->init		= r8156_init;
-> > 
-> > [ ... ]
-> > 
-> > > @@ -9537,6 +9570,7 @@ static int rtl_ops_init(struct r8152 *tp)
-> > >   	case RTL_VER_15:
-> > >   		tp->eee_en		= true;
-> > >   		tp->eee_adv		= MDIO_EEE_1000T | MDIO_EEE_100TX;
-> > > +		tp->eee_adv2		= MDIO_EEE_2_5GT;
-> > >   		ops->init		= r8156b_init;
-> > >   		ops->enable		= rtl8156b_enable;
-> > >   		ops->disable		= rtl8153_disable;
-> > 
-> > Does RTL_VER_15 support 2.5G links? Looking at the code, only RTL_VER_12
-> > and RTL_VER_13 set tp->support_2500full before falling through, but
-> > RTL_VER_15 does not. With this change, tp->eee_adv2 = MDIO_EEE_2_5GT is
-> > set for VER_15.
-> VER 15 supports 2.5GBit links. The existing code enabled 2.5GBit EEE
-> unconditionally in rtl_eee_enable():
-> 	case RTL_VER_10:
-> 	case RTL_VER_11:
-> 	case RTL_VER_12:
-> 	case RTL_VER_13:
-> 	case RTL_VER_15:
-> 		if (enable) {
-> 			r8156_eee_en(tp, true);
-> 			ocp_reg_write(tp, OCP_EEE_ADV, tp->eee_adv);
-> 		} else {
-> 			r8156_eee_en(tp, false);
-> 			ocp_reg_write(tp, OCP_EEE_ADV, 0);
-> 		}
-> 		break;
-> Note that previously r8156_eee_en() did not conditionally enable the 2.5GBit
-> advertisement depending on tp->eee_adv2, but always enabled it, also for VER
-> 15.
+> Fixes: 144974e7f9e3 ("usb: gadget: mass_storage: support multi-luns with different logic block size")
+> Signed-off-by: Seungjin Bae <eeodqql09@gmail.com>
+> ---
+>  v1 -> v2: Removed the cmnd_size check and applied the check_shl_overflow() macro
+> 
+>  drivers/usb/gadget/function/f_mass_storage.c | 14 ++++++++++++--
+>  1 file changed, 12 insertions(+), 2 deletions(-)
+> 
+> diff --git a/drivers/usb/gadget/function/f_mass_storage.c b/drivers/usb/gadget/function/f_mass_storage.c
+> index 6af96e2b44eb..cb885153a31e 100644
+> --- a/drivers/usb/gadget/function/f_mass_storage.c
+> +++ b/drivers/usb/gadget/function/f_mass_storage.c
+> @@ -180,6 +180,7 @@
+>  #include <linux/kthread.h>
+>  #include <linux/sched/signal.h>
+>  #include <linux/limits.h>
+> +#include <linux/overflow.h>
+>  #include <linux/pagemap.h>
+>  #include <linux/rwsem.h>
+>  #include <linux/slab.h>
+> @@ -1853,8 +1854,17 @@ static int check_command_size_in_blocks(struct fsg_common *common,
+>  		int cmnd_size, enum data_direction data_dir,
+>  		unsigned int mask, int needs_medium, const char *name)
+>  {
+> -	if (common->curlun)
+> -		common->data_size_from_cmnd <<= common->curlun->blkbits;
+> +	unsigned int blkbits;
+> +
+> +	if (common->curlun) {
+> +		blkbits = common->curlun->blkbits;
+> +		if (check_shl_overflow(common->data_size_from_cmnd, blkbits,
+> +							   &common->data_size_from_cmnd)) {
+> +			common->phase_error = 1;
+> +			return -EINVAL;
+> +		}
+> +	}
 
-Sorry, I missed that when reviewing the AI generated feedback.
+Right, as Alan suggested, I would expect the code style to be:
 
-> > When r8156_eee_en() is called for a VER_15 device with EEE enabled:
-> > 
-> > static void r8156_eee_en(struct r8152 *tp, bool enable)
-> > {
-> > 	u16 config;
-> > 
-> > 	config = ocp_reg_read(tp, OCP_EEE_ADV2);
-> > 
-> > 	if (enable && (tp->eee_adv2 & MDIO_EEE_2_5GT))
-> > 		config |= MDIO_EEE_2_5GT;
-> > 
-> > The condition (tp->eee_adv2 & MDIO_EEE_2_5GT) will be true, causing
-> > MDIO_EEE_2_5GT to be written into the OCP_EEE_ADV2 hardware register.
-> > This would advertise 2.5G EEE capability to the link partner on a device
-> > that does not support 2.5Gbit links.
-> > 
-> > Should the eee_adv2 initialization be moved into the RTL_VER_12/13 block
-> > (before the fallthrough), or should RTL_VER_15 be given eee_adv2 = 0 to
-> > remain consistent with its lack of support_2500full?
-> No, see above.
+	if (common->curlen) {
+		if (check_shl_overflow(common->data_size_from_cmnd,
+				       common->curlun->blkbits,
+				       &common->data_size_from_cmnd)) {
+			common->phase_error = 1;
+			return -EINVAL;
+		}
+	}
 
-Ack.
+I would have expected scripts/checkpatch.pl to complain about the
+indentation. Did you check your patch with that?
 
-It looks like the AI was all false positives this time.
-And I'll mark it accordingly in the system. Thanks for looking over it.
+-Kees
+
+-- 
+Kees Cook
