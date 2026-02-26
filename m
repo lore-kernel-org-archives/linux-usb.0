@@ -1,152 +1,121 @@
-Received: from bm.lauterbach.com (bm.lauterbach.com [62.154.241.218])
+Received: from mr07.mx01.tldhost.de (mr07.mx01.tldhost.de [62.108.44.247])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0AD43368967
-	for <linux-usb@vger.kernel.org>; Thu, 26 Feb 2026 16:12:26 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=62.154.241.218
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 62F504418F2
+	for <linux-usb@vger.kernel.org>; Thu, 26 Feb 2026 16:37:33 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=62.108.44.247
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1772122349; cv=none; b=SxYLFxE8LxkMLAPevzI1sKyi6cdHtzBfmweJJI/MvAmpPMTdYe+6R4Q0bqwA/f5X9cc2OC+WlatFFmqAb4hvI9+4Uzfz6ZioH4DIznk/hxyfoPuWCz9KsyKY5bQci5Pmn0TkDoKtGiz+qiH+W1MMkHSDVt2Xw2UJATlVXP8li+8=
+	t=1772123856; cv=none; b=jNlG4lJ4gKQLhgNNrPsIz8PM9Ae7LXT9u4zIRaEIofBjGFNf3lV60XuoTE1lAvTa+/nHtFR+gPy3lyKdZdhDff8c4vCLqWxrvfjfJuu9qtxvz5DoXvDunbrOctQgCdhMEm4rlYa35nqpACjTBD1O/vPbrB1Bd9iaMrLz9kRNOU0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1772122349; c=relaxed/simple;
-	bh=eyP8TjwavLnPd/uf0N8VhxgNdhRvxWu1fuR/aW4Xe3E=;
-	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=VXwIDcY1QEpN0tCZYEX7OYhxZnB1efGRQC5rpwBAo9XToi4Y4EH7G1DCHz4BAGXFW+yQHRG/U4xmFsdEyhZWKFd3AXRFXxgn9XqbJi1vhDAnNxg0vkTMEq7FaNlAJP42Ek5A+aXzbWYb836paL185BfylrR6OOFtTSuMc5Xkmrg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=lauterbach.com; spf=pass smtp.mailfrom=lauterbach.com; arc=none smtp.client-ip=62.154.241.218
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=lauterbach.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=lauterbach.com
-Received: from ingpc2.intern.lauterbach.com (unknown [10.2.10.44])
-	(Authenticated sender: ingo.rohloff@lauterbach.com)
-	by bm.lauterbach.com (Postfix) with ESMTPSA id D4FB98A0EA;
-	Thu, 26 Feb 2026 17:12:24 +0100 (CET)
-Date: Thu, 26 Feb 2026 17:12:24 +0100
-From: Ingo Rohloff <ingo.rohloff@lauterbach.com>
-To: Krzysztof Kozlowski <krzk@kernel.org>
-Cc: Thinh.Nguyen@synopsys.com, linux-usb@vger.kernel.org
-Subject: Re: [PATCH v2 2/2] dt-bindings: usb: dwc3: Add property to insert
- delay before TxValid.
-Message-ID: <20260226171224.3ab6b68f@ingpc2.intern.lauterbach.com>
-In-Reply-To: <9d59395b-ae39-40b3-af21-75468ec34cd8@kernel.org>
-References: <20260225000512.tle2eu4gkd4ut6bf@synopsys.com>
-	<20260225130323.24606-1-ingo.rohloff@lauterbach.com>
-	<20260225130323.24606-3-ingo.rohloff@lauterbach.com>
-	<9d59395b-ae39-40b3-af21-75468ec34cd8@kernel.org>
-Organization: Lauterbach GmbH
-X-Mailer: Claws Mail 4.3.1 (GTK 3.24.50; x86_64-unknown-linux-gnu)
+	s=arc-20240116; t=1772123856; c=relaxed/simple;
+	bh=pQAdIVrwckzR1Ph1GSFoKQGSQvSM/39SquFnz/NnkSo=;
+	h=MIME-Version:Date:From:To:Cc:Subject:Message-ID:Content-Type; b=XNmnWeXY2IyeUJep9/hjV5AaNYYB2m/4eZiP6Jzf7KSbkUOSBYoThFOWztOEaEwqE6to6Ztvd4zwpyfeAhTmtDR6JLzImQ6fBOLHQIqaFbF7x0WSXLz1/ylOgVd45U2dOJTlQblmq873wcO8UYmkWmw0vt24IITKH6qttYjpAzY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=kiener-muenchen.de; spf=pass smtp.mailfrom=tldhost.de; arc=none smtp.client-ip=62.108.44.247
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=kiener-muenchen.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=tldhost.de
+Received: from mx01.tldhost.de (localhost [127.0.0.1])
+	by mx01.tldhost.de (Postfix) with ESMTP id E43C4122CBC
+	for <linux-usb@vger.kernel.org>; Thu, 26 Feb 2026 17:25:53 +0100 (CET)
+Received: by mx01.tldhost.de (Postfix, from userid 1001)
+	id D515E122B86; Thu, 26 Feb 2026 17:25:53 +0100 (CET)
+Received: from server12.tldhost.de (server12.tldhost.de [84.19.26.112])
+	by mx01.tldhost.de (Postfix) with ESMTPS id F0C4B122CBC;
+	Thu, 26 Feb 2026 17:25:51 +0100 (CET)
+Authentication-Results: server12.tldhost.de;
+        spf=pass (sender IP is ::1) smtp.mailfrom=guido@kiener-muenchen.de smtp.helo=webmail.kiener-muenchen.de
+Received-SPF: pass (server12.tldhost.de: connection is authenticated)
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
+Date: Thu, 26 Feb 2026 17:25:51 +0100
+From: guido@kiener-muenchen.de
+To: Alan Stern <stern@rowland.harvard.edu>, Greg KH
+ <gregkh@linuxfoundation.org>, oneukum@suse.com
+Cc: USB mailing list <linux-usb@vger.kernel.org>
+Subject: RE: [Newsletter] [PATCH v3 2/3] USB: usbtmc: Use
+ usb_bulk_msg_killable() with user-specified timeouts
+Message-ID: <35723ad6dbc4a44df0a7dfa014e72d7f@kiener-muenchen.de>
+X-Sender: guido@kiener-muenchen.de
+Content-Type: text/plain; charset=US-ASCII;
+ format=flowed
 Content-Transfer-Encoding: 7bit
-X-Bm-Milter-Handled: 166a2dfb-2e12-4590-8fa5-72e30323519f
-X-Bm-Transport-Timestamp: 1772122344927
+X-PPP-Message-ID: 
+ <177212315181.3858985.10700307176605420388@server12.tldhost.de>
+X-PPP-Vhost: kiener-muenchen.de
+X-POWERED-BY: TLDHost.de - AV:CLEAN SPAM:OK
 
-Hello Krzysztof,
-
-On Thu, 26 Feb 2026 11:51:27 +0100
-Krzysztof Kozlowski <krzk@kernel.org> wrote:
-
-> On 25/02/2026 14:03, Ingo Rohloff wrote:
-> > The Microchip USB3340x ULPI PHY requires a delay when switching to the
-> > high-speed transmitter. See:
-> >     http://ww1.microchip.com/downloads/en/DeviceDoc/80000645A.pdf
-> >     Module 2 "Device Enumeration Failure with Link IP Systems"  
+> -----Original Message-----
+> Subject: [Newsletter] [PATCH v3 2/3] USB: usbtmc: Use
+> usb_bulk_msg_killable() with user-specified timeouts
 > 
-> So that's deducible from the compatible and you do not need this
-> property at all?
+> The usbtmc driver accepts timeout values specified by the user in an 
+> ioctl
+> command, and uses these timeouts for some usb_bulk_msg() calls.
+> Since the user can specify arbitrarily long timeouts and
+> usb_bulk_msg() uses unkillable waits, call usb_bulk_msg_killable() 
+> instead to avoid
+> the possibility of the user hanging a kernel thread indefinitely.
 > 
+> 
+> ---
+> 
+> v1: Reject ioctls trying to set the timeout to a value larger than
+> the maximum.
+> 
+> v2: Don't reject overly large timeout values. Instead call
+> usb_bulk_msg_killable() rather than usb_bulk_msg().
+> 
+> v3: Add the revision log that was left out of v2.
+> 
+> drivers/usb/class/usbtmc.c | 6 +++---
+> 1 file changed, 3 insertions(+), 3 deletions(-)
+> 
+> Index: usb-devel/drivers/usb/class/usbtmc.c
+> ===============================================================
+> ====
+> --- usb-devel.orig/drivers/usb/class/usbtmc.c
+> +++ usb-devel/drivers/usb/class/usbtmc.c
+> @@ -727,7 +727,7 @@ static int usbtmc488_ioctl_trigger(struc
+> buffer[1] = data->bTag;
+> buffer[2] = ~data->bTag;
+> 
+> - retval = usb_bulk_msg(data->usb_dev,
+> + retval = usb_bulk_msg_killable(data->usb_dev,
+> usb_sndbulkpipe(data->usb_dev,
+> data->bulk_out),
+> buffer, USBTMC_HEADER_SIZE,
+> @@ -1347,7 +1347,7 @@ static int send_request_dev_dep_msg_in(s
+> buffer[11] = 0; /* Reserved */
+> 
+> /* Send bulk URB */
+> - retval = usb_bulk_msg(data->usb_dev,
+> + retval = usb_bulk_msg_killable(data->usb_dev,
+> usb_sndbulkpipe(data->usb_dev,
+> data->bulk_out),
+> buffer, USBTMC_HEADER_SIZE,
+> @@ -1419,7 +1419,7 @@ static ssize_t usbtmc_read(struct file *
+> actual = 0;
+> 
+> /* Send bulk URB */
+> - retval = usb_bulk_msg(data->usb_dev,
+> + retval = usb_bulk_msg_killable(data->usb_dev,
+> usb_rcvbulkpipe(data->usb_dev,
+> data->bulk_in),
+> buffer, bufsize, &actual,
 
-Thanks for giving me a new idea :-)
+Sorry, when you get this mail twice (HTML problem with my mail client).
+It's indeed a problem that an application can block a thread for a very 
+long time. Typically, an application should be able to be terminated 
+within a few seconds. I assume this is now possible with 
+usb_bulk_msg_killable().
+Also, when a USB connection is closed, any current I/O operation should 
+be completed. The function usbtmc488_ioctl_wait_srq() illustrates this 
+issue; it is terminated when usbtmc_flush() is invoked from a separate 
+thread.
+Dave Penkler and I will investigate the timeout problem and find a 
+solution to replace the longterm blocking usb_bulk_msg().
 
-The problem is, that the original device trees provided by Xilinx do not
-mention the external ULPI PHY at all, which means I do not have a
-"compatible" property to match to.
-
-Additionally: The patch only works for the DWC3 controller, because this
-particular USB controller has the necessary hardware support to insert the
-needed delay.
-Of course other USB controllers might not even need this fix at all,
-because other controllers might always have the required delay.
-
-Right now the patch by me uses a device tree property to tell the DWC3
-controller to set the XCVRDLY bit to insert a delay (completely
-autonomously done in hardware).
-
-Which means: The system designer needs to know if this is necessary or
-not, depending on the used ULPI PHY. If the delay is needed, the system
-designer then sets the according device tree property.
-
-I searched other device trees, but almost none of them have a device tree
-"ulpi" node.
-
-The DWC3 code does call ulpi_register_interface() and this function does
-look for an "ulpi" device tree node (which currently doesn't exist in my
-device tree).
-
-By inserting such a device tree node, I can at least make
-"drivers/usb/common/ulpi.c" read out the vendor and product ID of the ULPI
-PHY via ulpi_read_id().
-
-Using this product/vendor ID the DWC3 controller driver could
-automatically set the XCVRDLY bit to support this particular PHY.
-
-The condition is:
-* If you have a DWC3 controller, which uses an external ULPI PHY
-* and the external ULPI PHY is a Microchip USB3340 chip
-  (detected via Vendor/Product ID)
-then set the XCVRDLY bit in the DWC3 controller.
-
-I am not sure what the right way is to implement this kind of automagic
-and if this kind of automagic is wanted at all.
-
-@Thinh: I need some advice:
-
-Should the DWC3 controller really match to specific
-ULPI Vendor/Product IDs to decide if to set the XCVRDLY bit or not?
-
-How does the DWC3 controller get access to the
-ULPI Vendor/Product ID or to the information that the XCVRDLY should be
-set?
-
-Reading the code I think an alternative way might be:
-Implement a "struct ulpi_driver" for this specific USB3340 ULPI PHY.
-Make this ulpi_driver create a software node to tell the DWC3 controller
-to set the XCVRDLY bit.
-
-Does this sound sensible at all?
-This sounds like a lot of work to only fix this particular combination
-of hardware.
-
-
-
-
-> Please use scripts/get_maintainers.pl to get a list of necessary people
-> and lists to CC....
-
-I am sorry: I did not re-run get_maintainers.pl on v2 patch version.
-I will do better for the next version.
-
-with best regards
-  Ingo
-
--- 
-
-
--------------------------------------------------------------------------
-Dipl.-Inform.
-Ingo ROHLOFF
-Senior Staff Embedded Systems Engineering
-phone +49 8102 9876-142 - ingo.rohloff@lauterbach.com
-
-Lauterbach Engineering GmbH & Co. KG
-Altlaufstrasse 40, 85635 Hoehenkirchen-Siegertsbrunn, GERMANY
-www.lauterbach.com
-
-Registered Office: Hoehenkirchen-Siegertsbrunn, Germany,
-Local Court: Munich, HRA 87406, VAT ID: DE246770537,
-Managing Directors: Lothar Lauterbach, Stephan Lauterbach, Dr. Thomas
-Ullmann
-
--------------------------------------------------------------------------
+Guido
