@@ -1,144 +1,130 @@
-Received: from mail-qk1-f172.google.com (mail-qk1-f172.google.com [209.85.222.172])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mx-relay50-hz3.antispameurope.com (mx-relay50-hz3.antispameurope.com [94.100.134.239])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 712F73EFD13
-	for <linux-usb@vger.kernel.org>; Thu, 26 Feb 2026 15:31:25 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.222.172
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1772119887; cv=none; b=ElUTUQrKvvTXMq/JI9KaNVsIKvSFM7cG+3yWzjoGkrvx7PAnPv+SwCE7CK3MwiqNU3ilww1Res4IOLggrViKxOrRFLJlxLiheXtgI/vzY0JHUSALO5BjdmYDXQzU5rTsGPEgDu+NXyAUAlaMKrVhRVivjfL3bAq838ICuedL2/Y=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1772119887; c=relaxed/simple;
-	bh=tS/5+s2qy96s4nfeia8V6t/o4A6nX2pPB5PckP91eFk=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=KH30b//nOwGJkAoVlHH3ojWdSqL8aLMUM4Y/n3eR6UPk+IeIyCH/ZbscuniC5bTMI+72OLZUURVvGIgO0KqgVvV0BaugeYy94WnqhLp3FzURtYGv+xyW/7ujI5EBHLLAuBqZ4Fqo+x9wAo5Ka5eMeE5dLnvA9GMmbgvrbkC3O2o=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=rowland.harvard.edu; spf=fail smtp.mailfrom=g.harvard.edu; dkim=pass (2048-bit key) header.d=rowland.harvard.edu header.i=@rowland.harvard.edu header.b=DL9tDrvn; arc=none smtp.client-ip=209.85.222.172
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=rowland.harvard.edu
-Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=g.harvard.edu
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 70A2840FD80
+	for <linux-usb@vger.kernel.org>; Thu, 26 Feb 2026 15:39:36 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=94.100.134.239
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1772120380; cv=pass; b=UNE44axjC3URymAK+uBXubh9MkeH1B/1yEQYi27LIvbIX20XwzxTTxb5cyTFFoxqFPr+WYgqYdcrNny7ckOZ7XuPoE9uslRHe4sjct89egvzRlAvUpakSn4Y3g9JI26NsqJsg+bODK0FC4eNNIfqHo8hdYR2XmS3B48dyLESjU8=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1772120380; c=relaxed/simple;
+	bh=8xptqJuqr6y/XZ8cnubujeOx86XkzhzmPx/rVf1SSn4=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version; b=JdAHFdLaeA/D1SVPgRyLZJzkz4DgTdsc1HHVcz7xoLfdmrxs+gDlxLL2+jb9YvYeXI/gOHeb/Ed7vcMOxP7VbZKNUBIrt0UUwm+69Hq/bEVTG01EhY1b6iVVVmmRPFRGd+aneLcJF6AYoLX13aCmzlgiYCuDn7lVlGdlbLtQ/TY=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=ew.tq-group.com; spf=pass smtp.mailfrom=ew.tq-group.com; dkim=pass (2048-bit key) header.d=ew.tq-group.com header.i=@ew.tq-group.com header.b=GSoBSH89; arc=pass smtp.client-ip=94.100.134.239
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=ew.tq-group.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ew.tq-group.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=rowland.harvard.edu header.i=@rowland.harvard.edu header.b="DL9tDrvn"
-Received: by mail-qk1-f172.google.com with SMTP id af79cd13be357-8cb39647a70so87153885a.0
-        for <linux-usb@vger.kernel.org>; Thu, 26 Feb 2026 07:31:25 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=rowland.harvard.edu; s=google; t=1772119884; x=1772724684; darn=vger.kernel.org;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=N6X/gMmY66SWl2eWr1aMLFZgJdYPA0TPgB14Mg4UwHM=;
-        b=DL9tDrvnn0gYsCmPUE64hc3Sa8yisVzNJ3oMipyD7m12k/ZP0d7hYbFxTVhCgKD56i
-         6sF3wex/6rRvXtY7o1pXD5LpytT+FWzLYG+1TX4C6SeO+/kcmGEb8dx/tdkqx/3055R4
-         LNJUGohHJnDXUOsFOTaTQNCM9jtSSTu0Kq7g2+/iKzdVDK+kHujIGVMuoptNZLqc7yZC
-         CipfBUBJOxpt77/EVjTW324N1iPjKeVk5/PWZI17LRBHAfPcKO/rrFySN0u1kNsJ74lu
-         eyyda2+R1i+gBL+bfcn4WsDnOqzZ+67CXAFywouDtwId0LCtOlTxE6Q4m3MB5pOarQea
-         3+gA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1772119884; x=1772724684;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-gg:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=N6X/gMmY66SWl2eWr1aMLFZgJdYPA0TPgB14Mg4UwHM=;
-        b=wtSLB1AgEFsN9sRO1xHSFyxRHmSShlQwh0G5MHgdMD7lxj7Hy6B7AQszhXp956JeVa
-         OWjK1sH4Zw5ypIyLrlVtp51jQdfoi6YcPb4eLgob38a3vAcofUgiXo4P6cGw4p30+VPm
-         tGTc9ZwobXoSawj9Erdl5fonHg2ZxMRM84pnJBbfZ0by6TN/9tHgs8yCyBZG0q7SkGp7
-         1DsqngZuTPKqT/R5jlDwY+kRadmQGhqXbr0OoQiQg64KihPzRHVDZdydtXQdEFokxh5O
-         nfNEKxJDiHuU92RMO6LMLYxRLeeGWp42k3ZeJT+OZnkQAWMdHvqf4xakAseXxjP2WFmr
-         os1A==
-X-Forwarded-Encrypted: i=1; AJvYcCUvjkOO9DCOO2ZaDl/s7orAjf3WgACZFu372GB+Lfo+ko1aXy4v3Rien0eA55x3rYs0zEXz8Gny2ls=@vger.kernel.org
-X-Gm-Message-State: AOJu0Yxk0fCGr4mr2ZmcRTfSFYaOb+qc9HQx25zW6dicKa3D1YdKiop6
-	fNZoeyqzpiDk2Uk8cX40uLgvG/cC/1JSuuOEJqmyXkabNkKhF/LP+Eo/z+hTF/fF9IXS1wJ1CRX
-	7eyk=
-X-Gm-Gg: ATEYQzxJ4hCljNDcDaggm+aD0m9U5pkt5X/obiI3mHPRSM5jumSnSlYOg9QDGjuNO4E
-	Pi4rpmztxTREDDDTeGfAZAqPAYb0p/B0sesAzHHlEJUXEXAE4P/Yr+wjjQXqnRnWv5WFtJdf9so
-	+MDyAB/ww5txNgjTe6hqWnPJ7EaPk2Csq3i8qKa6Eb2BLnXPxUoAOoL1O7tWJXtjNg3Q47wy5qv
-	21IZvtNZQ1Mvi67PGPTb/Cm2Fh8aNGe+FvxPI/rjU+nKTK9J40kr7PvkyC6pKPLaZVC+N42M/Qi
-	PrQgnh0IKKA5jdJti0SRwNfY/Q2/VKUoE3LSOHFgOztI6GFkku2kKmeW2FeefvjNM23OsvqvgXp
-	VzgDm71OlNDwNUeL4Wik/RV/RSCISgc3bEVqMnz8++CHxvRMNmlqUOIgVZME3R6fbeamJevMUtR
-	UeC5e7Ho+ekdHJdWeMcDJrYm9xS7dPvfOXZs9D/q04pw==
-X-Received: by 2002:ac8:7fc9:0:b0:506:a617:175a with SMTP id d75a77b69052e-50741f2cff7mr64283101cf.22.1772119859896;
-        Thu, 26 Feb 2026 07:30:59 -0800 (PST)
-Received: from rowland.harvard.edu ([140.247.181.15])
-        by smtp.gmail.com with ESMTPSA id d75a77b69052e-50744ab3f52sm22311771cf.22.2026.02.26.07.30.58
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 26 Feb 2026 07:30:59 -0800 (PST)
-Date: Thu, 26 Feb 2026 10:30:56 -0500
-From: Alan Stern <stern@rowland.harvard.edu>
-To: Jie Deng <dengjie03@kylinos.cn>
-Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	linux-usb@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] usb: core: new quirk to handle devices with zero
- configurations
-Message-ID: <69dfd06e-3745-463d-a634-c6eaf946d962@rowland.harvard.edu>
-References: <20260226094737.1306471-1-dengjie03@kylinos.cn>
+	dkim=pass (2048-bit key) header.d=ew.tq-group.com header.i=@ew.tq-group.com header.b="GSoBSH89"
+ARC-Authentication-Results: i=1; mx-gate50-hz3.hornetsecurity.com 1; spf=pass
+ reason=mailfrom (ip=94.100.132.6, headerfrom=ew.tq-group.com)
+ smtp.mailfrom=ew.tq-group.com smtp.helo=smtp-out01-hz1.hornetsecurity.com;
+ dmarc=pass header.from=ew.tq-group.com orig.disposition=pass
+ARC-Message-Signature: a=rsa-sha256;
+ bh=EG/8db4PuO6Ccr1+6/OtMXqyxNl4kd3+f1XyzIZeMRg=; c=relaxed/relaxed;
+ d=hornetsecurity.com; h=from:to:date:subject:mime-version:; i=1; s=hse1;
+ t=1772120361;
+ b=dswsB7z+F9tcx+7VZJHADReWBM7/H08Z/ckjsbyZ1wMI7bRcoOo27DTJxfCN+VMlo7ZgrJpy
+ HD7ef4XxS3CLb0HeQ60dkgQm9JRuDICtByH27XfqICl9tKgdyTQjVm0NFQWg8UIhWHqGtgFrN8O
+ oHj2DwNB/dlN6VQcnjEJme542SWLBQPcyIV66HOh9g3iR0nJCdXH+JDvhqRKyKmp1EJsF41wBAD
+ gxm/QgnxKw/8j+kI5f5eNfXbDKFe2m21nqitj/nK0A6P/lNZDY/eeTerJGTGnWNTu3XjBEfjPHI
+ LsiyzR5Z+hr9EAmlhRkbD4i76N4AQsujDyZul4vb3YGyQ==
+ARC-Seal: a=rsa-sha256; cv=none; d=hornetsecurity.com; i=1; s=hse1;
+ t=1772120361;
+ b=WB+5y5JYLNsjS87KM8SNmXZfJFwXmiBJ4TnSrzq69C01y3GVvCKDZmMU0s83zFhDs8FDbc/H
+ iYF5rJ6dcyJNCovzZTgZvqbQh98NG2QVV8aWszXAslceLfxcXt4svwPWkPrZaHmyx+zEljog7R2
+ 3XTfNMF0uj3fzULYM07J8nGFxU10G6THMTJEOBnKP+w06RiJFjVhMVPF+7TUIZcUdIHKSC3kq7Q
+ Kd2HTsEH/sET2JhqgUZ9shdwOW4LWwYymwXh7+dBCrT80O9cgUwHSl19cdNlq7VkizRNIk/4WX+
+ nm4IAcKvaWo4Tm3gm5EKZjNGysZ+lRqpC+o09mPg4dqOw==
+Received: from he-nlb01-hz1.hornetsecurity.com ([94.100.132.6]) by mx-relay50-hz3.antispameurope.com;
+ Thu, 26 Feb 2026 16:39:21 +0100
+Received: from steina-w.tq-net.de (host-82-135-125-110.customer.m-online.net [82.135.125.110])
+	(Authenticated sender: alexander.stein@ew.tq-group.com)
+	by smtp-out01-hz1.hornetsecurity.com (Postfix) with ESMTPSA id B4D43A40F28;
+	Thu, 26 Feb 2026 16:39:02 +0100 (CET)
+From: Alexander Stein <alexander.stein@ew.tq-group.com>
+To: Rob Herring <robh@kernel.org>,
+	Krzysztof Kozlowski <krzk+dt@kernel.org>,
+	Conor Dooley <conor+dt@kernel.org>,
+	Geert Uytterhoeven <geert+renesas@glider.be>,
+	Michael Turquette <mturquette@baylibre.com>,
+	Stephen Boyd <sboyd@kernel.org>,
+	Peter Chen <peter.chen@kernel.org>,
+	Pawel Laszczak <pawell@cadence.com>,
+	Roger Quadros <rogerq@kernel.org>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	Shawn Guo <shawnguo@kernel.org>,
+	Sascha Hauer <s.hauer@pengutronix.de>,
+	Pengutronix Kernel Team <kernel@pengutronix.de>,
+	Fabio Estevam <festevam@gmail.com>,
+	Magnus Damm <magnus.damm@gmail.com>,
+	Marek Vasut <marex@denx.de>
+Cc: Alexander Stein <alexander.stein@ew.tq-group.com>,
+	devicetree@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	linux-renesas-soc@vger.kernel.org,
+	linux-clk@vger.kernel.org,
+	linux-usb@vger.kernel.org,
+	imx@lists.linux.dev,
+	linux-arm-kernel@lists.infradead.org,
+	linux@ew.tq-group.com
+Subject: [PATCH v3 1/5] dt-bindings: usb: cdns,usb3: support USB devices in DT
+Date: Thu, 26 Feb 2026 16:38:50 +0100
+Message-ID: <20260226153859.665901-2-alexander.stein@ew.tq-group.com>
+X-Mailer: git-send-email 2.43.0
+In-Reply-To: <20260226153859.665901-1-alexander.stein@ew.tq-group.com>
+References: <20260226153859.665901-1-alexander.stein@ew.tq-group.com>
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20260226094737.1306471-1-dengjie03@kylinos.cn>
+Content-Transfer-Encoding: 8bit
+X-cloud-security-sender:alexander.stein@ew.tq-group.com
+X-cloud-security-recipient:linux-usb@vger.kernel.org
+X-cloud-security-crypt: load encryption module
+X-cloud-security-Mailarchiv: E-Mail archived for: alexander.stein@ew.tq-group.com
+X-cloud-security-Mailarchivtype:outbound
+X-cloud-security-Virusscan:CLEAN
+X-cloud-security-disclaimer: This E-Mail was scanned by E-Mailservice on mx-relay50-hz3.antispameurope.com with 4fMFxN1L01z2nGBP
+X-cloud-security-connect: he-nlb01-hz1.hornetsecurity.com[94.100.132.6], TLS=1, IP=94.100.132.6
+X-cloud-security-Digest:99766f1dadc9c0fd76839a32754897e4
+X-cloud-security:scantime:1.750
+DKIM-Signature: a=rsa-sha256;
+ bh=EG/8db4PuO6Ccr1+6/OtMXqyxNl4kd3+f1XyzIZeMRg=; c=relaxed/relaxed;
+ d=ew.tq-group.com;
+ h=content-type:mime-version:subject:from:to:message-id:date; s=hse1;
+ t=1772120361; v=1;
+ b=GSoBSH89gFsTfU/C9MD1/IEMEiZ1mi3v21+rOmdrx40OZt1VAikdTbvQGQ/ZeAF6gVDPIUHg
+ d3llBrMOaw/bCYa8kYslGsrW3VFPiR0ZZ/inekkAyeT4HMkjLFGyJA3ivSW8gR4UeuFRYVZu1K4
+ 7Ym0XQaJSY5bV5mR+CuD8BPZ+0ZUOm8ACLz8RIc42nSLxdGjbFDBDEnKBQArcuM7KHb3xCaG1Mz
+ jj4Fszww8eyac4KQfnZ8xTT6q8ZumEGzqZTXeuWZM82G1rpw8wAteODviZxYoXWDrvNazbf3LsI
+ IzrEyFXdQvaR1PbSmhcjWD0IMRro9F0vnIdUs3gv3gVog==
 
-On Thu, Feb 26, 2026 at 05:47:37PM +0800, Jie Deng wrote:
-> Some USB devices incorrectly report bNumConfigurations as 0 in their
-> device descriptor, which causes the USB core to reject them during
-> enumeration.
-> logs:
-> usb 1-2: device descriptor read/64, error -71
-> usb 1-2: no configurations
-> usb 1-2: can't read configurations, error -22
-> 
-> However, these devices actually work correctly when
-> treated as having a single configuration.
-> 
-> Add a new quirk USB_QUIRK_FORCE_ONE_CONFIG to handle such devices.
-> When this quirk is set, assume the device has 1 configuration instead
-> of failing with -EINVAL.
-> 
-> This quirk is applied to the device with VID:PID 5131:2007 which
-> exhibits this behavior.
-> 
-> Signed-off-by: Jie Deng <dengjie03@kylinos.cn>
-> ---
->  Documentation/admin-guide/kernel-parameters.txt | 3 +++
->  drivers/usb/core/config.c                       | 7 ++++++-
->  drivers/usb/core/quirks.c                       | 5 +++++
->  include/linux/usb/quirks.h                      | 3 +++
->  4 files changed, 17 insertions(+), 1 deletion(-)
-> 
-> diff --git a/Documentation/admin-guide/kernel-parameters.txt b/Documentation/admin-guide/kernel-parameters.txt
-> index cb850e5290c2..63e6d3ebbd7a 100644
-> --- a/Documentation/admin-guide/kernel-parameters.txt
-> +++ b/Documentation/admin-guide/kernel-parameters.txt
-> @@ -8183,6 +8183,9 @@ Kernel parameters
->  				p = USB_QUIRK_SHORT_SET_ADDRESS_REQ_TIMEOUT
->  					(Reduce timeout of the SET_ADDRESS
->  					request from 5000 ms to 500 ms);
-> +				r = USB_QUIRK_FORCE_ONE_CONFIG (Device
-> +					claims zero configurations,
-> +					forcing to 1);
->  			Example: quirks=0781:5580:bk,0a5c:5834:gij
->  
->  	usbhid.mousepoll=
-> diff --git a/drivers/usb/core/config.c b/drivers/usb/core/config.c
-> index 1cd5fa61dc76..f60fed224cbb 100644
-> --- a/drivers/usb/core/config.c
-> +++ b/drivers/usb/core/config.c
-> @@ -927,7 +927,12 @@ int usb_get_configuration(struct usb_device *dev)
->  		dev->descriptor.bNumConfigurations = ncfg = USB_MAXCONFIG;
->  	}
->  
-> -	if (ncfg < 1) {
-> +	if (dev->quirks & USB_QUIRK_FORCE_ONE_CONFIG) {
-> +		dev_info(ddev, "Device claims zero configurations,
-> +				forcing to 1\n");
-> +		dev->descriptor.bNumConfigurations = 1;
-> +		ncfg = 1;
+Reference usb-xhci.yaml in host mode in order to support on-board USB
+hubs.
 
-What if a device claims to have 2 configurations but the flag is set?  
-This will cause the kernel to ignore the second configuration.
+Signed-off-by: Alexander Stein <alexander.stein@ew.tq-group.com>
+---
+Changes in v3:
+* Fix commit message typo
 
-> +	} esle if (ncfg < 1) {
------------^^
+ Documentation/devicetree/bindings/usb/cdns,usb3.yaml | 1 +
+ 1 file changed, 1 insertion(+)
 
-Clearly you never compiled this code.
+diff --git a/Documentation/devicetree/bindings/usb/cdns,usb3.yaml b/Documentation/devicetree/bindings/usb/cdns,usb3.yaml
+index f454ddd9bbaa6..a199e5ba64161 100644
+--- a/Documentation/devicetree/bindings/usb/cdns,usb3.yaml
++++ b/Documentation/devicetree/bindings/usb/cdns,usb3.yaml
+@@ -85,6 +85,7 @@ required:
+ 
+ allOf:
+   - $ref: usb-drd.yaml#
++  - $ref: usb-xhci.yaml#
+ 
+ unevaluatedProperties: false
+ 
+-- 
+2.43.0
 
-Alan Stern
