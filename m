@@ -1,35 +1,71 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-qk1-f172.google.com (mail-qk1-f172.google.com [209.85.222.172])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C3A163C1996;
-	Thu, 26 Feb 2026 14:28:21 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 712F73EFD13
+	for <linux-usb@vger.kernel.org>; Thu, 26 Feb 2026 15:31:25 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.222.172
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1772116101; cv=none; b=HI8V38CzSLBwysiEXKL+aLfTMJBOIHbXgATQLTZ607Ots0erCWU3patvCPPud0yMmK3xb9sNLByXP8CZlBrphndxInrzdzfzrW7f9lyBzldEMtgGHTEs3pnL6yxqphhT4xjoRiLvfnG8ibblej0/19P0iIyrpVi2W+B8t63eAmY=
+	t=1772119887; cv=none; b=ElUTUQrKvvTXMq/JI9KaNVsIKvSFM7cG+3yWzjoGkrvx7PAnPv+SwCE7CK3MwiqNU3ilww1Res4IOLggrViKxOrRFLJlxLiheXtgI/vzY0JHUSALO5BjdmYDXQzU5rTsGPEgDu+NXyAUAlaMKrVhRVivjfL3bAq838ICuedL2/Y=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1772116101; c=relaxed/simple;
-	bh=h/Ht9sOd7QkAcbG9CxFnerLXL9ddwwrtd7ORZjFe+ok=;
+	s=arc-20240116; t=1772119887; c=relaxed/simple;
+	bh=tS/5+s2qy96s4nfeia8V6t/o4A6nX2pPB5PckP91eFk=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=fG/eSgF2BCjwp/dmgzFw/jsFif2fUetdj1zSp65W1KgjZTPxGa3jGJ2oA6qeGJ8Ciyz+Qzdfh+7YQnE72+0akNzjvZADoJZbyhJ5WQR5B6ujKbacGcuOOIvhdeDsWWRxL5HiPnKwU06nKlpGi3DDsb4B3rQ5/5WojBPrlRq60MQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b=2kM/iweh; arc=none smtp.client-ip=10.30.226.201
+	 Content-Type:Content-Disposition:In-Reply-To; b=KH30b//nOwGJkAoVlHH3ojWdSqL8aLMUM4Y/n3eR6UPk+IeIyCH/ZbscuniC5bTMI+72OLZUURVvGIgO0KqgVvV0BaugeYy94WnqhLp3FzURtYGv+xyW/7ujI5EBHLLAuBqZ4Fqo+x9wAo5Ka5eMeE5dLnvA9GMmbgvrbkC3O2o=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=rowland.harvard.edu; spf=fail smtp.mailfrom=g.harvard.edu; dkim=pass (2048-bit key) header.d=rowland.harvard.edu header.i=@rowland.harvard.edu header.b=DL9tDrvn; arc=none smtp.client-ip=209.85.222.172
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=rowland.harvard.edu
+Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=g.harvard.edu
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="2kM/iweh"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 3853BC116C6;
-	Thu, 26 Feb 2026 14:28:21 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
-	s=korg; t=1772116101;
-	bh=h/Ht9sOd7QkAcbG9CxFnerLXL9ddwwrtd7ORZjFe+ok=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=2kM/iwehz/0Q9bNjfRV1Du+0tLEm7aJOGE9isl68Xi+144i7/kecQ17Qtjq4rAFar
-	 oltK6EMF4JS/uzbI/VWte1rVkEXjHKWToma1NdyFKitvu/+XyKxvWFsiuCt7fJFN9q
-	 FMQ4rmJ2+aMuIhDTEclXsR41LV3wD0+S02f+NekE=
-Date: Thu, 26 Feb 2026 06:28:12 -0800
-From: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+	dkim=pass (2048-bit key) header.d=rowland.harvard.edu header.i=@rowland.harvard.edu header.b="DL9tDrvn"
+Received: by mail-qk1-f172.google.com with SMTP id af79cd13be357-8cb39647a70so87153885a.0
+        for <linux-usb@vger.kernel.org>; Thu, 26 Feb 2026 07:31:25 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=rowland.harvard.edu; s=google; t=1772119884; x=1772724684; darn=vger.kernel.org;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=N6X/gMmY66SWl2eWr1aMLFZgJdYPA0TPgB14Mg4UwHM=;
+        b=DL9tDrvnn0gYsCmPUE64hc3Sa8yisVzNJ3oMipyD7m12k/ZP0d7hYbFxTVhCgKD56i
+         6sF3wex/6rRvXtY7o1pXD5LpytT+FWzLYG+1TX4C6SeO+/kcmGEb8dx/tdkqx/3055R4
+         LNJUGohHJnDXUOsFOTaTQNCM9jtSSTu0Kq7g2+/iKzdVDK+kHujIGVMuoptNZLqc7yZC
+         CipfBUBJOxpt77/EVjTW324N1iPjKeVk5/PWZI17LRBHAfPcKO/rrFySN0u1kNsJ74lu
+         eyyda2+R1i+gBL+bfcn4WsDnOqzZ+67CXAFywouDtwId0LCtOlTxE6Q4m3MB5pOarQea
+         3+gA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1772119884; x=1772724684;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-gg:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=N6X/gMmY66SWl2eWr1aMLFZgJdYPA0TPgB14Mg4UwHM=;
+        b=wtSLB1AgEFsN9sRO1xHSFyxRHmSShlQwh0G5MHgdMD7lxj7Hy6B7AQszhXp956JeVa
+         OWjK1sH4Zw5ypIyLrlVtp51jQdfoi6YcPb4eLgob38a3vAcofUgiXo4P6cGw4p30+VPm
+         tGTc9ZwobXoSawj9Erdl5fonHg2ZxMRM84pnJBbfZ0by6TN/9tHgs8yCyBZG0q7SkGp7
+         1DsqngZuTPKqT/R5jlDwY+kRadmQGhqXbr0OoQiQg64KihPzRHVDZdydtXQdEFokxh5O
+         nfNEKxJDiHuU92RMO6LMLYxRLeeGWp42k3ZeJT+OZnkQAWMdHvqf4xakAseXxjP2WFmr
+         os1A==
+X-Forwarded-Encrypted: i=1; AJvYcCUvjkOO9DCOO2ZaDl/s7orAjf3WgACZFu372GB+Lfo+ko1aXy4v3Rien0eA55x3rYs0zEXz8Gny2ls=@vger.kernel.org
+X-Gm-Message-State: AOJu0Yxk0fCGr4mr2ZmcRTfSFYaOb+qc9HQx25zW6dicKa3D1YdKiop6
+	fNZoeyqzpiDk2Uk8cX40uLgvG/cC/1JSuuOEJqmyXkabNkKhF/LP+Eo/z+hTF/fF9IXS1wJ1CRX
+	7eyk=
+X-Gm-Gg: ATEYQzxJ4hCljNDcDaggm+aD0m9U5pkt5X/obiI3mHPRSM5jumSnSlYOg9QDGjuNO4E
+	Pi4rpmztxTREDDDTeGfAZAqPAYb0p/B0sesAzHHlEJUXEXAE4P/Yr+wjjQXqnRnWv5WFtJdf9so
+	+MDyAB/ww5txNgjTe6hqWnPJ7EaPk2Csq3i8qKa6Eb2BLnXPxUoAOoL1O7tWJXtjNg3Q47wy5qv
+	21IZvtNZQ1Mvi67PGPTb/Cm2Fh8aNGe+FvxPI/rjU+nKTK9J40kr7PvkyC6pKPLaZVC+N42M/Qi
+	PrQgnh0IKKA5jdJti0SRwNfY/Q2/VKUoE3LSOHFgOztI6GFkku2kKmeW2FeefvjNM23OsvqvgXp
+	VzgDm71OlNDwNUeL4Wik/RV/RSCISgc3bEVqMnz8++CHxvRMNmlqUOIgVZME3R6fbeamJevMUtR
+	UeC5e7Ho+ekdHJdWeMcDJrYm9xS7dPvfOXZs9D/q04pw==
+X-Received: by 2002:ac8:7fc9:0:b0:506:a617:175a with SMTP id d75a77b69052e-50741f2cff7mr64283101cf.22.1772119859896;
+        Thu, 26 Feb 2026 07:30:59 -0800 (PST)
+Received: from rowland.harvard.edu ([140.247.181.15])
+        by smtp.gmail.com with ESMTPSA id d75a77b69052e-50744ab3f52sm22311771cf.22.2026.02.26.07.30.58
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 26 Feb 2026 07:30:59 -0800 (PST)
+Date: Thu, 26 Feb 2026 10:30:56 -0500
+From: Alan Stern <stern@rowland.harvard.edu>
 To: Jie Deng <dengjie03@kylinos.cn>
-Cc: linux-usb@vger.kernel.org, linux-kernel@vger.kernel.org
+Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	linux-usb@vger.kernel.org, linux-kernel@vger.kernel.org
 Subject: Re: [PATCH] usb: core: new quirk to handle devices with zero
  configurations
-Message-ID: <2026022600-employee-unjustly-3db4@gregkh>
+Message-ID: <69dfd06e-3745-463d-a634-c6eaf946d962@rowland.harvard.edu>
 References: <20260226094737.1306471-1-dengjie03@kylinos.cn>
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
@@ -52,9 +88,7 @@ On Thu, Feb 26, 2026 at 05:47:37PM +0800, Jie Deng wrote:
 > 
 > However, these devices actually work correctly when
 > treated as having a single configuration.
-
-Really?  Don't devices like this violate the USB spec?
-
+> 
 > Add a new quirk USB_QUIRK_FORCE_ONE_CONFIG to handle such devices.
 > When this quirk is set, assume the device has 1 configuration instead
 > of failing with -EINVAL.
@@ -81,9 +115,6 @@ Really?  Don't devices like this violate the USB spec?
 > +				r = USB_QUIRK_FORCE_ONE_CONFIG (Device
 > +					claims zero configurations,
 > +					forcing to 1);
-
-Why "r"?
-
 >  			Example: quirks=0781:5580:bk,0a5c:5834:gij
 >  
 >  	usbhid.mousepoll=
@@ -102,9 +133,12 @@ Why "r"?
 > +		dev->descriptor.bNumConfigurations = 1;
 > +		ncfg = 1;
 
-But is the configuration descriptor actually present?  This feels odd to
-me.
+What if a device claims to have 2 configurations but the flag is set?  
+This will cause the kernel to ignore the second configuration.
 
-thanks,
+> +	} esle if (ncfg < 1) {
+-----------^^
 
-greg k-h
+Clearly you never compiled this code.
+
+Alan Stern
