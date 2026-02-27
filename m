@@ -1,60 +1,61 @@
-Received: from mail-pl1-f174.google.com (mail-pl1-f174.google.com [209.85.214.174])
+Received: from mail-pl1-f169.google.com (mail-pl1-f169.google.com [209.85.214.169])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9C8743603EA
-	for <linux-usb@vger.kernel.org>; Fri, 27 Feb 2026 18:23:25 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.174
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3BDEA37755B
+	for <linux-usb@vger.kernel.org>; Fri, 27 Feb 2026 18:25:02 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.169
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1772216607; cv=none; b=KG4aQqIe/Onwh9NSRE/7OToyjMnRG88lhG8V9PhqoTBO4vSKFSN252vgt176SpW0mGpl2pGmc5z3QBghr+Eiw/m72GXrYO+Oy9nthG+gpfmuYMn50kmiA3yXwAkTAg3dBwNBqDQUDriyl0Hl9e0OHouBPFnRROdu9yB5JRVX55A=
+	t=1772216708; cv=none; b=sriCgWo6layj1FsAehXKJ9QnjFc5KqP9f8ZMZqqXxlXDwZh1jgcwRvjYIDCq+45B3mjOWUq3KHIXFxiZ9MfybtZ0uhKcinNVpuOhpkiV0KPsYcVg0id+dgj4LBd/3MQkY/58dK6DMFM/lbYJWTJp1dGn7UPHP+vcmcg9UAg4eAI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1772216607; c=relaxed/simple;
+	s=arc-20240116; t=1772216708; c=relaxed/simple;
 	bh=lxCoA2uvMLy2TxnZo+jKDxVDjVgoo7OUvqvrpC4Rcls=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=hbp6bTgFTQCudm+mwAbDudY8TX3lRMCQqtQPudEzdzMaxqHtzSt61IFj7GvciHlbCPx+cbK9NpSlaOt41DghkmPo4d+EJZ6tN6a7yCcftDn4u8baAkxIokGZo9U1HLY7rY6j1Tfy+GfZn5fSYwwopGVA82P2lHchPznVx4Ijg/Y=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=EqlYLwD6; arc=none smtp.client-ip=209.85.214.174
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=U+OzuyYbBsfkwA4UfZjGf1rxgr94sTYhpYhsgN+SEgFKzCsIqsRg9IAWqmqp4e0os8WOl5A0spnYwjr+sGEEUy1yRPqr+NnTAKjCom1W/V623D+UPdfLEN0YCay9Y1IV5zwnvU5ljy+Fh8AFnhITtHW/R4zSdZ/rzQufw1c1o0U=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=iycdcgnA; arc=none smtp.client-ip=209.85.214.169
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="EqlYLwD6"
-Received: by mail-pl1-f174.google.com with SMTP id d9443c01a7336-2ad9f2ee29aso14673715ad.1
-        for <linux-usb@vger.kernel.org>; Fri, 27 Feb 2026 10:23:25 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="iycdcgnA"
+Received: by mail-pl1-f169.google.com with SMTP id d9443c01a7336-2ad9a9be502so16203075ad.0
+        for <linux-usb@vger.kernel.org>; Fri, 27 Feb 2026 10:25:02 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1772216605; x=1772821405; darn=vger.kernel.org;
+        d=gmail.com; s=20230601; t=1772216702; x=1772821502; darn=vger.kernel.org;
         h=content-transfer-encoding:mime-version:message-id:date:subject:cc
          :to:from:from:to:cc:subject:date:message-id:reply-to;
         bh=KWo54tPqkdRAAogk0aSIsm6ksATm/ufoE9BN+ZmicHI=;
-        b=EqlYLwD6FbKmM/e7G4TZyFIJlpTAOem7ceL0HRA8vDYByX0ZMVIDGRgdKiAh/F4IH7
-         zojf3rbxW/3zbr7+Wfbnb/mC5qD+ER8kq68Fg2AZgTeyRoRaoMQjRsd3yXAg2Whmw3BI
-         /3pfXLoaQy4MtNkE5ggeJG3dM0byksRigRtdVXLoQZAJSjF/jRs8F7e+wCNEQzMfIU5K
-         jvlYjKNJeg1EyS8fd/KopG8tF5abzuxpuPuuLsIBtgf0dN9AcwWSeh0CKG6E/TVh6Zbd
-         3EGRAazA6drU2zQ2kYlsMPSfXL6uob1KKdI32At9tb6nqRYtrZ98wMuI94uaXoHK2+kp
-         Z35g==
+        b=iycdcgnAacKGMz1He3tf4L9FKZthxVnymZk/EgfIQeq1kNw0SzpMwzncsIWiVrW9Ld
+         sNpy65P+9mIaZAju9iL/SJVWvnEyuBSTc7LmqFTiyX6sT0yzSkm0MkqGZJx09EXFxlk2
+         rpT8pY1ARsK94u2oZ+rBkUmeI4MK2K4461WWUpGnlaBL8Uda+bpsSk4rWLZ1Ky9D8rFy
+         YKrQ8uqfKA4Zp+1bXFUTZeIMApHJNXvz5ZpFRHFGqKyRpx0tx+s+XUqFaG/zuXLQMJYF
+         nlevDhEfFmpcUIXXWqdT5Jh4UjsCjtvYVlQTlk1eU9Jb6Gh0C4QTiMBf3lWVcybBg9vx
+         IBcg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1772216605; x=1772821405;
+        d=1e100.net; s=20230601; t=1772216702; x=1772821502;
         h=content-transfer-encoding:mime-version:message-id:date:subject:cc
          :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
          :message-id:reply-to;
         bh=KWo54tPqkdRAAogk0aSIsm6ksATm/ufoE9BN+ZmicHI=;
-        b=F3VE8cJE0McYpFyAKpM+xeV0tYSZTpd4/AEaDw6xEzMu8d1arIQn+6CQ51/OV3ZO9F
-         GDfZAoIPc3du5bGHxv591Q5tKrT7BrIgOxxMDFAxgtmp6BIOVmjH5DiUYkeCw+Wicg09
-         VEL8hssP7ufN6GsnEjTXBk41F6bhcZ+yFc4Mp3R0zllvn9GkDQQKLtbgxt4X0/CWfucG
-         hVbK0ETGDPGhL16lOSe13QuVS6JqT17w3HRyZRfq9xj3ffmzT8giA81AzAexyNp4hmga
-         cf9GO0Wfo07Kg/mIK6080k8lw2ap22G5vDYABx2B/gxaXrswTMt8BXJ807fwKDYYgItf
-         yWIA==
-X-Gm-Message-State: AOJu0YwG6JIc71gwZoVGGD4CVeRzr92NdRgcXUAsHA5FxIIHYQYhFpuO
-	49VOfxPEhHY6lYdVeEP/L1NiZCW+IUoq74aBp7u14xu6UXtldz8KBz9F
-X-Gm-Gg: ATEYQzxPpGM4E4v2LEx1mC/EftjwE/pm6X+QA/r3XcU/Zbe6u7lUw6lFwI4IlUG9ZsA
-	iRm9GTpikUQJxlkJVY+eIBUJRBf950UL2LOLZow3opSKkWPyrNbPb9bwSoFZyy04FrHg/3Gzpeg
-	DCb9cXGQ1VrdM93tNy3gpk2YTHtTcVCfG7QAlu59i1iDwkA+QaE8PB8k80ksP5zlftabVU49aW3
-	s1JxnYtoOV1uY+onuCDZovIpXNEB1nI31C/ZeCbaUD0C451sLFG3G/tk8IHh4buUDwD+8g+qqWR
-	IqSAwFh4CWZ5R/WzQRy9VzuRbB09Ohjl8s/73yoGk938XxvWxYpgQDT/i5rZhD9nJmHBpw00PGR
-	9PnsqEOtizJQGZ3ZiqQmx2M7LcPkTO0HM8IO5XYbGczMEOWyTzSLC82ZzVEq0D2gjijFR9LZpJ5
-	KUvJRbR8uEowRhN9zyNMNRDYBBxM9KJ6TRVsrZZcHQBwfkDZlckk3mF16YpQxqiXyV3MtNcm4=
-X-Received: by 2002:a17:903:4b07:b0:2ad:ad0f:bbbe with SMTP id d9443c01a7336-2ae2e4b0a5dmr42459345ad.29.1772216604753;
-        Fri, 27 Feb 2026 10:23:24 -0800 (PST)
+        b=Z42nH9f5A/kpnWk6MZ5U2RIz0S/MOwEfMgvwagsBXL0AZnTRL0YrRUS+EcaE985Kmz
+         PA4olEyBL5qkM8jjG++lxclGyNqYGG3NC7ybMfB9eRzfu3al50IzT4hYRDZHDiSDJtZr
+         TzJNwODGzDUzW0DoKMeA242EuWaIIsbDALrNhxupopJtif0IBX3WZWzH4aOCEpKkE4iQ
+         YOBoO98EyqXIremtEj0FhyN5SuQLFdvotpWN09v+3aBieCHXEzydei1HjYwhjwyaj4Ld
+         RLS7UtErfhvcYjW0rQPtGdbdiEn3bVr5+81NMXUfs7gtroRBjuU7RE3jv2+PND5YkRYX
+         t2dw==
+X-Gm-Message-State: AOJu0YyHPEEN4padoAXNaiP65B5Z8/ZOl4pMY3zBsAppTAyLRzrySs8J
+	oXP5e1SWAeKfIURaMIMHHhxRKJ/yC6xiAJ3+T1Rew2SfJpqheqHjwMiCPMGQAwUA
+X-Gm-Gg: ATEYQzxb6HL7TcZ/Jhqv1Ekf9t9RzIgdwlhYQdE5JCGB6jibWE86W3/2VhkU9pK22E5
+	bzEzfZeIjrBrErLoB9zmrgPOEoOzKTLvRnTF9ZdyaScQ+0FRsR8OHjyD9ZNExhk3vDZw7DBjyWQ
+	aV6wPz/vzH7L/fKqY7/Uis+YF/NqEv//JNIiYYHO9TG0FB10oJwvFaWc7T8C6TPg+sJ5S7GF7A0
+	/007QuZcUDyHd4e867AJcwRGzdsJHH1AWZcPPO7b9dRGjY9+EgdC3dAPbETbZOAI2I7Yw+i7W8t
+	JJt9m4Tje7r9Ygq98wwYi8JOVQqSd7KmXAy3JqXkE23gWNjjkMcmBs/eWjzI1Hlw2RRSbIlt39O
+	NF0nNIOXsLliro7g21Vsm9vHvoe31Y6s7wXNnWJtroWSrI+2loYs7o6wKnHxZ8IjvaXYKWu/U24
+	D0W2BiD07iqD415AJEhf5PX0UNMnOZcDOOZTZm/mtI8Q+w7XGsZCUeKKKAuldy+BWjpOFC69F2O
+	kw8WY+BJQ==
+X-Received: by 2002:a17:903:196b:b0:2ae:38d3:a6f1 with SMTP id d9443c01a7336-2ae38d3a70emr5176005ad.45.1772216701513;
+        Fri, 27 Feb 2026 10:25:01 -0800 (PST)
 Received: from HRD-WDG8GDY3.roa.hexagonmetrology.com ([49.43.203.209])
-        by smtp.gmail.com with ESMTPSA id d9443c01a7336-2adfb5b03ffsm81774985ad.1.2026.02.27.10.23.21
+        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-35912fe1040sm3541975a91.4.2026.02.27.10.24.59
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 27 Feb 2026 10:23:23 -0800 (PST)
+        Fri, 27 Feb 2026 10:25:01 -0800 (PST)
 From: Venkata Swamy Kassa <venkatswamy7@gmail.com>
 X-Google-Original-From: Venkata Swamy Kassa <venkata.swamy.kassa@hexagon.com>
 To: heikki.krogerus@linux.intel.com,
@@ -63,8 +64,8 @@ Cc: linux-usb@vger.kernel.org,
 	linux-kernel@vger.kernel.org,
 	Venkata Swamy Kassa <venkata.swamy.kassa@hexagon.com>
 Subject: [PATCH] usb: typec: hd3ss3220: Add sysfs attribute for USB role state
-Date: Fri, 27 Feb 2026 18:23:16 +0000
-Message-ID: <20260227182316.761518-1-venkata.swamy.kassa@hexagon.com>
+Date: Fri, 27 Feb 2026 18:24:54 +0000
+Message-ID: <20260227182454.761925-1-venkata.swamy.kassa@hexagon.com>
 X-Mailer: git-send-email 2.43.0
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
