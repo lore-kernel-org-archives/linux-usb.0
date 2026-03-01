@@ -1,96 +1,112 @@
-Received: from mail-oo1-f71.google.com (mail-oo1-f71.google.com [209.85.161.71])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 19CE5286D7D
-	for <linux-usb@vger.kernel.org>; Sun,  1 Mar 2026 06:22:32 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.161.71
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E08A432470F;
+	Sun,  1 Mar 2026 12:44:47 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1772346153; cv=none; b=S/Si9JAn7ADBwTuvRBFFXQO1HWm87+ESHCYyfTxoS/UJV56LQ/Q5ZDQIHkohnAEddvqigQA0K9m6B1ulujS9+pd9X5+vdGfzjPEsXxVdGLkVtrLSDbmFSEFDCz35lqZprvl0lDsJKty7HOsfNPC06XPOaOsOO952pcSQpQemrBA=
+	t=1772369088; cv=none; b=Hht4ceOJc9KXZX1eBjvi1OiYITV2K7xA5+cZXufqHmEtB0gL4n/lmpKfo2bMRaqWzpXznXhHdZnOWEgZSENjdlJXLnx86VVRecrjN6xuF+fVwgmsCQStxMLOS9mvUs2g9Zgns9sqB9So2Slizn5vcs4OdRXqzgGrWyi0xLb90K0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1772346153; c=relaxed/simple;
-	bh=spGUCmiK4pUf3x7l/ulh4b36jPDkAtOW+Vm0Wq22Ycc=;
-	h=MIME-Version:Date:Message-ID:Subject:From:To:Content-Type; b=f7uQfui2/jsXjaV6a0RAWb4VJHqbYFHPvcEJIN/COCSr8JK3dC1EzYN4fxX6y32B/aAVdv2joeNM8NQBZg7RE8w9/uS9n0VL3+Fi+xGCatdVPVkCkyiSFqnobQrpZcAHk8W2OpbjFPdOxw2Yx24CuCU0AT6tMb9ZiXadr5n/xNg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=syzkaller.appspotmail.com; spf=pass smtp.mailfrom=M3KW2WVRGUFZ5GODRSRYTGD7.apphosting.bounces.google.com; arc=none smtp.client-ip=209.85.161.71
-Authentication-Results: smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=syzkaller.appspotmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=M3KW2WVRGUFZ5GODRSRYTGD7.apphosting.bounces.google.com
-Received: by mail-oo1-f71.google.com with SMTP id 006d021491bc7-679c44ae7abso88598406eaf.1
-        for <linux-usb@vger.kernel.org>; Sat, 28 Feb 2026 22:22:32 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1772346151; x=1772950951;
-        h=to:from:subject:message-id:date:mime-version:x-gm-message-state
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=VTqvGwRrEgZP0aDTqKDifd3G2AqaoNfo5cgh3uDMDYI=;
-        b=i3sAk26YdnR/JnbwD5L0bbmcG1K9elRTfBrvu4H/JsxGoF5DzbFx8yxDROlQ1KzSyp
-         2GR3nDWEs/CatY1Fo8IAb7OMEFBaFGhTHyJVm7804lB1Gi31Y6DoouUQ8MCKC8absI1r
-         9I9F3oF7GO7mreIKFGOfyD/CzGnIei1IG9jr6Jq/MhS7qq03lkCOjFV6eRxY7FDrl/C0
-         YLEYXhA5ziATDDkwIRvT4ZqRiExYO12tbGuc/9M/qW/jHdHb01NsME/Ckl/upKJ+O6Gd
-         yvajv3C6EWFaDe0PDqEb5oT0hdNoaAFD3TK/QWPcFIez0eULFLqK+GBmaO6GggBT15nz
-         jFBw==
-X-Forwarded-Encrypted: i=1; AJvYcCUdWfdNgMspVOB3MUPH4VsRI0iHzw/IoXHfLKi8gq1J9GNam5Ros7sVHTVTU123y5Plxq0Mzo8lA+8=@vger.kernel.org
-X-Gm-Message-State: AOJu0YzCTUJr1lkBGxvbSw2hxgDdOJZVtDcMq+EWtGw691wL4LeASId8
-	0nGqvbimhRwXMcT+cLyUYybn6WdqnqLLxvbN747UUpeiB/Kje0gKSeHDiQfjpIpNyFtBIDgrfcy
-	Vrv0o+UC8ucmVfzbQbu1+rhv0XmVmT62sf26jK9dqScCb6dV8ujGZrQ1NA4k=
+	s=arc-20240116; t=1772369088; c=relaxed/simple;
+	bh=c0O1o6E/FKKOB1cD9nHfj9XMKn6pEYlcjVQe6vhxUz4=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=f9ANci69/oC7hQy9Mm5jXA6SB5/cbOZ8iRsAmzEGsfRTcztnY0ouQvbPyi3KJ4UPhrhRiF3k1N+fLa4R13Dk4vZ8LTw0zMTcFHCMZjBBmBVUFEVpBOqf/UP+GHZjF/kDaGSM2VBHkTcyIStDuqqKOrYwH00XR39Mz1lCveTd1w4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=dWrltFQo; arc=none smtp.client-ip=10.30.226.201
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="dWrltFQo"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 7B40FC116C6;
+	Sun,  1 Mar 2026 12:44:47 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1772369087;
+	bh=c0O1o6E/FKKOB1cD9nHfj9XMKn6pEYlcjVQe6vhxUz4=;
+	h=From:To:Cc:Subject:Date:From;
+	b=dWrltFQo7z0es0hF9ILRPuDIhLxmy14/3tV+OYHQreIcHytVa6yAADKJrPZNeFYBn
+	 sZ1l7yddZwv4yXX5G83xaS0PBqSMQTBLqmPHo+rO4n+boY6mJ1NsC8ezn7vh5V9Zfh
+	 Nzd/zF6KP7am9wypfbiO81+5fjnOG/9F8YlUyoSj8hz3JSXi2iWfVJVs1yVu03l38U
+	 aILSHb4XmF/9rutbKjHwAisRmMW3FzSS3FsaCIpdkdknxNb6gNzsBorn9BrxVktW6b
+	 JcWthw3KBuFlb72T8VbnDPXntUccsbXtORgi8QL63wgbZWy7SA6koj7OPKXpiRN4eC
+	 zyP16FNIaFgqA==
+Received: from sofa.misterjones.org ([185.219.108.64] helo=valley-girl.lan)
+	by disco-boy.misterjones.org with esmtpsa  (TLS1.3) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
+	(Exim 4.98.2)
+	(envelope-from <maz@kernel.org>)
+	id 1vwgA9-0000000EwV8-1Wem;
+	Sun, 01 Mar 2026 12:44:45 +0000
+From: Marc Zyngier <maz@kernel.org>
+To: linux-usb@vger.kernel.org,
+	linux-kernel@vger.kernel.org
+Cc: stable@vger.kernel.org,
+	Oliver Neukum <oneukum@suse.com>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+Subject: [PATCH] usb: cdc-acm: Restore CAP_BRK functionnality to CH343
+Date: Sun,  1 Mar 2026 12:44:40 +0000
+Message-ID: <20260301124440.1192752-1-maz@kernel.org>
+X-Mailer: git-send-email 2.47.3
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-Received: by 2002:a05:6820:985:b0:679:f3c6:6f26 with SMTP id
- 006d021491bc7-679f3c67070mr7088328eaf.38.1772346151274; Sat, 28 Feb 2026
- 22:22:31 -0800 (PST)
-Date: Sat, 28 Feb 2026 22:22:31 -0800
-X-Google-Appengine-App-Id: s~syzkaller
-X-Google-Appengine-App-Id-Alias: syzkaller
-Message-ID: <69a3db27.050a0220.3a55be.0052.GAE@google.com>
-Subject: [syzbot] Monthly usb report (Mar 2026)
-From: syzbot <syzbot+list2ca2bc194bf5b27fd5ca@syzkaller.appspotmail.com>
-To: linux-kernel@vger.kernel.org, linux-usb@vger.kernel.org, 
-	syzkaller-bugs@googlegroups.com
-Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8bit
+X-SA-Exim-Connect-IP: 185.219.108.64
+X-SA-Exim-Rcpt-To: linux-usb@vger.kernel.org, linux-kernel@vger.kernel.org, stable@vger.kernel.org, oneukum@suse.com, gregkh@linuxfoundation.org
+X-SA-Exim-Mail-From: maz@kernel.org
+X-SA-Exim-Scanned: No (on disco-boy.misterjones.org); SAEximRunCond expanded to false
 
-Hello usb maintainers/developers,
+The CH343 USB/serial adapter is as buggy as it is popular (very).
+One of its quirks is that despite being capable of signalling a
+BREAK condition, it doesn't advertise it.
 
-This is a 31-day syzbot report for the usb subsystem.
-All related reports/information can be found at:
-https://syzkaller.appspot.com/upstream/s/usb
+This used to work nonetheless until 66aad7d8d3ec5 ("usb: cdc-acm:
+return correct error code on unsupported break") applied some
+reasonable restrictions, preventing breaks from being emitted on
+devices that do not advertise CAP_BRK.
 
-During the period, 3 new issues were detected and 0 were fixed.
-In total, 83 issues are still open and 413 have already been fixed.
+Add a quirk for this particular device, so that breaks can still
+be produced on some of my machines attached to my console server.
 
-Some of the still happening issues:
-
-Ref  Crashes Repro Title
-<1>  7466    Yes   KASAN: use-after-free Read in v4l2_fh_init
-                   https://syzkaller.appspot.com/bug?extid=c025d34b8eaa54c571b8
-<2>  5143    Yes   WARNING in usb_free_urb
-                   https://syzkaller.appspot.com/bug?extid=b466336413a1fba398a5
-<3>  3627    Yes   KASAN: use-after-free Read in v4l2_fh_open
-                   https://syzkaller.appspot.com/bug?extid=b2391895514ed9ef4a8e
-<4>  2462    Yes   INFO: task hung in usbdev_open (2)
-                   https://syzkaller.appspot.com/bug?extid=b73659f5bb96fac34820
-<5>  2456    Yes   possible deadlock in input_inject_event
-                   https://syzkaller.appspot.com/bug?extid=79c403850e6816dc39cf
-<6>  2169    Yes   INFO: task hung in jbd2_journal_commit_transaction (5)
-                   https://syzkaller.appspot.com/bug?extid=3071bdd0a9953bc0d177
-<7>  1865    Yes   WARNING in usb_tx_block/usb_submit_urb
-                   https://syzkaller.appspot.com/bug?extid=355c68b459d1d96c4d06
-<8>  1417    Yes   KASAN: use-after-free Read in em28xx_init_extension (2)
-                   https://syzkaller.appspot.com/bug?extid=99d6c66dbbc484f50e1c
-<9>  1403    Yes   WARNING in enable_work
-                   https://syzkaller.appspot.com/bug?extid=7053fbd8757fecbbe492
-<10> 1051    No    KASAN: vmalloc-out-of-bounds Read in kcov_remote_start
-                   https://syzkaller.appspot.com/bug?extid=8a173e13208949931dc7
-
+Fixes: 66aad7d8d3ec5 ("usb: cdc-acm: return correct error code on unsupported break")
+Signed-off-by: Marc Zyngier <maz@kernel.org>
+Cc: stable@vger.kernel.org
+Cc: Oliver Neukum <oneukum@suse.com>
+Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
 ---
-This report is generated by a bot. It may contain errors.
-See https://goo.gl/tpsmEJ for more information about syzbot.
-syzbot engineers can be reached at syzkaller@googlegroups.com.
+ drivers/usb/class/cdc-acm.c | 5 +++++
+ drivers/usb/class/cdc-acm.h | 1 +
+ 2 files changed, 6 insertions(+)
 
-To disable reminders for individual bugs, reply with the following command:
-#syz set <Ref> no-reminders
+diff --git a/drivers/usb/class/cdc-acm.c b/drivers/usb/class/cdc-acm.c
+index ad38c746270af..7ede29d4c7c13 100644
+--- a/drivers/usb/class/cdc-acm.c
++++ b/drivers/usb/class/cdc-acm.c
+@@ -1379,6 +1379,8 @@ static int acm_probe(struct usb_interface *intf,
+ 		acm->ctrl_caps = h.usb_cdc_acm_descriptor->bmCapabilities;
+ 	if (quirks & NO_CAP_LINE)
+ 		acm->ctrl_caps &= ~USB_CDC_CAP_LINE;
++	if (quirks & MISSING_CAP_BRK)
++		acm->ctrl_caps |= USB_CDC_CAP_BRK;
+ 	acm->ctrlsize = ctrlsize;
+ 	acm->readsize = readsize;
+ 	acm->rx_buflimit = num_rx_buf;
+@@ -2002,6 +2004,9 @@ static const struct usb_device_id acm_ids[] = {
+ 	.driver_info = IGNORE_DEVICE,
+ 	},
+ 
++	/* CH343 supports CAP_BRK, but doesn't advertise it */
++	{ USB_DEVICE(0x1a86, 0x55d3), .driver_info = MISSING_CAP_BRK, },
++
+ 	/* control interfaces without any protocol set */
+ 	{ USB_INTERFACE_INFO(USB_CLASS_COMM, USB_CDC_SUBCLASS_ACM,
+ 		USB_CDC_PROTO_NONE) },
+diff --git a/drivers/usb/class/cdc-acm.h b/drivers/usb/class/cdc-acm.h
+index 759ac15631d3e..76f73853a60b6 100644
+--- a/drivers/usb/class/cdc-acm.h
++++ b/drivers/usb/class/cdc-acm.h
+@@ -113,3 +113,4 @@ struct acm {
+ #define CLEAR_HALT_CONDITIONS		BIT(5)
+ #define SEND_ZERO_PACKET		BIT(6)
+ #define DISABLE_ECHO			BIT(7)
++#define MISSING_CAP_BRK			BIT(8)
+-- 
+2.47.3
 
-To change bug's subsystems, reply with:
-#syz set <Ref> subsystems: new-subsystem
-
-You may send multiple commands in a single email message.
