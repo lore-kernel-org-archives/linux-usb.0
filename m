@@ -1,38 +1,38 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2740C330D43
-	for <linux-usb@vger.kernel.org>; Mon,  2 Mar 2026 18:08:40 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EE9FF3431E6
+	for <linux-usb@vger.kernel.org>; Mon,  2 Mar 2026 18:14:45 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1772474921; cv=none; b=q5xikSaXsxm1Neb8W1/4gGp+v7/5JtyJoIx08snbZx7dWI2hKTEGkFSvePs5iUCpXHhc38t9gY1ZHkEvWeNW/3pJL7ISf999F+wUucw/6WaVzzBDa6ROEhJ+HCgqAVvLdTCrJ1qFBssAJBq7w1k3iLl1z2BpkJQXVd+mryaVs/w=
+	t=1772475286; cv=none; b=r/xkvigcKF+ZpzSUm3hTSX99BmvamQTuJTJ5eRaakOvIMV7lSNwy1Isz54fPE9/Oa/+5M3I0lPnZu9N1Y5TF6NGQiNjFhZPBx/dITclK9TMvaFYlbSInS2VBki43bMgvoURuw0zXwIO0tmsuSRo3vi6SX5DLzLeWU+r4uxC2WaE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1772474921; c=relaxed/simple;
-	bh=YTUgimEo6vrbzzocS5x4yrPXbv9IlhKtmyOEnRXAaFw=;
+	s=arc-20240116; t=1772475286; c=relaxed/simple;
+	bh=xxVCPEftg989myYwLnRGeBOWoYoZNNRCt7ZMi2rWtQQ=;
 	h=From:To:Subject:Date:Message-ID:In-Reply-To:References:
-	 Content-Type:MIME-Version; b=jCcXjlS3IWqwoi3NrzeDw06mxHFq9tVIOBbUPHA//8NdpFlu5IJj61sVigdZwmpeALMhUnYdeYPODNHXJy90mTp8DKf81JhPgGTUxk00pbQ7v2dNF76/jlb7JYQwb4247Lj/aYzXnO5rkWgL4S2PXrvh+h3t90QO/Id1X6WQhHQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=THtb3Yhl; arc=none smtp.client-ip=10.30.226.201
+	 Content-Type:MIME-Version; b=ZKTI57NzinFcwRU7/9qk2ozFeHJxg+uM6NX61OFLtAESZAk9V84VhqA5zqFM6ZOoch0Pt6S9M4SyCkMM2gCP5s+/W/wxZEoW+iGucN86x+nFYaCnEps1umEVJINyS0JybOrNE3r3S6zR1MHJYwWoBy7/Efbceje2E4ziCuwmog0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=JhY5V651; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="THtb3Yhl"
-Received: by smtp.kernel.org (Postfix) with ESMTPS id B75FEC19423
-	for <linux-usb@vger.kernel.org>; Mon,  2 Mar 2026 18:08:40 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="JhY5V651"
+Received: by smtp.kernel.org (Postfix) with ESMTPS id 900B1C2BCB1
+	for <linux-usb@vger.kernel.org>; Mon,  2 Mar 2026 18:14:45 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1772474920;
-	bh=YTUgimEo6vrbzzocS5x4yrPXbv9IlhKtmyOEnRXAaFw=;
+	s=k20201202; t=1772475285;
+	bh=xxVCPEftg989myYwLnRGeBOWoYoZNNRCt7ZMi2rWtQQ=;
 	h=From:To:Subject:Date:In-Reply-To:References:From;
-	b=THtb3Yhl5hmJCCNnYkv4scpRCVlr0QvrVSCvSjf//DG+/ZGaUXsBCa79BX1dN0DSO
-	 4BbnQZPnuLNYCPvWSpRnjZHnc9P0dgm9TNLgxy71PNcPgiRzjUiyxAOy/4HcCbkzhM
-	 kmNwf7R1h0IVhYIdrgd+lQgNmGYiC4tOZkjKxJ1RW4u9mqndF7ENX6TbukOCXx4Qdz
-	 cSsmdmiC8wAzZjkDhDFysdmLAFiutVVv8FhBE8m4bcZ3KqpjREwSbGuiswNynN3Ia0
-	 ENi91jZiO390E2q9oFPaZgaSyATLhPpYYAYLuMDs0j1PrLbSuFROkqz5WiUVGi64oL
-	 DURkfQSpjFVqg==
+	b=JhY5V651kOWazpff/5aChLzNn8bPGVU51SiZBHHoUJD71bsFmfYikjMq06r7bH5S4
+	 ASnNQ+zFSRI8THu9ARkK91fG0brVT4kMnAEZoptBsp4ob4hyNGgcKNFBVWdIYvD6Wp
+	 OlmR92mQl1hikyU/1zdHHcuLNmiQyYucPWBVXpiHbo1H4GwrV8GL8OFzXGWCs3j7Qu
+	 qmdVuFiAJeWbrcp8/qUAD8q3b9ilpB5IcPb+584Ezrctqxlp/USJpAUFMGLRQjeIg9
+	 Ukang8KV3iHYPfZYufFY60ujtN2zBPsndHVBvuZJv+7iIZZR6u86gGeYcx5pFIyXwO
+	 SR0GenB75lacw==
 Received: by aws-us-west-2-korg-bugzilla-1.web.codeaurora.org (Postfix, from userid 48)
-	id AC277C53BBF; Mon,  2 Mar 2026 18:08:40 +0000 (UTC)
+	id 84C92C53BC5; Mon,  2 Mar 2026 18:14:45 +0000 (UTC)
 From: bugzilla-daemon@kernel.org
 To: linux-usb@vger.kernel.org
 Subject: [Bug 221073] xHCI host controller dies on resume from s2idle on AMD
  Strix Halo [1022:1587]
-Date: Mon, 02 Mar 2026 18:08:40 +0000
+Date: Mon, 02 Mar 2026 18:14:45 +0000
 X-Bugzilla-Reason: None
 X-Bugzilla-Type: changed
 X-Bugzilla-Watch-Reason: AssignedTo drivers_usb@kernel-bugs.kernel.org
@@ -41,14 +41,14 @@ X-Bugzilla-Component: USB
 X-Bugzilla-Version: 2.5
 X-Bugzilla-Keywords: 
 X-Bugzilla-Severity: normal
-X-Bugzilla-Who: michal.pecio@gmail.com
+X-Bugzilla-Who: mario.limonciello@amd.com
 X-Bugzilla-Status: NEEDINFO
 X-Bugzilla-Resolution: 
 X-Bugzilla-Priority: P3
 X-Bugzilla-Assigned-To: drivers_usb@kernel-bugs.kernel.org
 X-Bugzilla-Flags: 
 X-Bugzilla-Changed-Fields: 
-Message-ID: <bug-221073-208809-xCjXo27Uds@https.bugzilla.kernel.org/>
+Message-ID: <bug-221073-208809-W5cVVkx96K@https.bugzilla.kernel.org/>
 In-Reply-To: <bug-221073-208809@https.bugzilla.kernel.org/>
 References: <bug-221073-208809@https.bugzilla.kernel.org/>
 Content-Type: text/plain; charset="UTF-8"
@@ -64,18 +64,8 @@ MIME-Version: 1.0
 
 https://bugzilla.kernel.org/show_bug.cgi?id=3D221073
 
---- Comment #17 from Micha=C5=82 Pecio (michal.pecio@gmail.com) ---
-That code won't even run, because the HC resumes normally. And it appears to
-function normally too, we just aren't getting interrupts so things time out=
- and
-the driver gives up trying.
-
-Considering that we have two similar bugs affecting different generations of
-same hardware and (in this case) xHCI reset doesn't help but rebinding the =
-PCI
-driver does, I think a power management bug in HW or PCI/x86 subsystems is =
-more
-likely.
+--- Comment #18 from Mario Limonciello (AMD) (mario.limonciello@amd.com) ---
+Ah right, thanks.  I tend to think this feels like a race.
 
 --=20
 You may reply to this email to add a comment.
