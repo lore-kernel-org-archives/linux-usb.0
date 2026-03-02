@@ -1,39 +1,38 @@
-Received: from TYPPR03CU001.outbound.protection.outlook.com (mail-japaneastazon11022111.outbound.protection.outlook.com [52.101.126.111])
+Received: from TYDPR03CU002.outbound.protection.outlook.com (mail-japaneastazon11023078.outbound.protection.outlook.com [52.101.127.78])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 36C17250C06;
-	Mon,  2 Mar 2026 03:03:44 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=52.101.126.111
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2345623D283;
+	Mon,  2 Mar 2026 03:03:45 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=52.101.127.78
 ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1772420628; cv=fail; b=ZYmPygJlP4EU87qVlX0U62rQuq7t123XWoiRi1D0M1oIW83a4RcyWhRaluvb/sJ52LpJbb27F9raWS7U+l0NFLQWfEJW7G9d47omXTw1CzFPh9175nkS1HI5XGB9sNPFlG5nsP1fWOJ1PrY4a6nO7y9eYAcrM7Np9M1m/1QGjKU=
+	t=1772420628; cv=fail; b=a6Rc1MKYQ23wPmbGS39CH+4vX3HTL+SjXc4LDmXia9U5hJxscJ8j+nbsV72I10h+57dyXtQl8qvoKt0ycvpP3nhi/W2e6/9Qj+4leetXZ4Bz4psFzWw/o8DVsVIprgTBmZGzYS0hanXipfuIWj684V5y2bVl87/AqdFs7R48wzg=
 ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
 	s=arc-20240116; t=1772420628; c=relaxed/simple;
-	bh=RNk/godFhQlXSGrSvE1nfORSJhCAwTIPnA392tY19ks=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=XE+2Xz0258V9la1wAYI+t4iOhUC7MRz4ajzi2PYjevph+ewb5FrgPs4tNK+t6A9A3zj+wSQy11eIv+JWtk7s6OhefLW++56o5FSJQWVuj/gGy3bb+08Yn+EYVH+YLPbvywDwHN1lEI3dTJMKuRn5swRKjp+D5/f+c/YEsB1FrpE=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=cixtech.com; spf=pass smtp.mailfrom=cixtech.com; arc=fail smtp.client-ip=52.101.126.111
+	bh=/359U/ShJTn4ezWTViUCOC1ckBu20S0UEjaXcL94XrI=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version:Content-Type; b=ZAEpljTvcRj3leVgtyGbemzSyCntCHuv7cIbqn3qzBNLMV4C59u6ynKxB0FlopYml8MYzfct8alODpJcyFkJ1lOAyVCmvwiJ7EBGWyc2Rt3UbXQ3fvNXkOCzCfT29ydHxbDHx949ckodAUy0fTJtuFHrSVAWr15BhGzF+Wvv/Pk=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=cixtech.com; spf=pass smtp.mailfrom=cixtech.com; arc=fail smtp.client-ip=52.101.127.78
 Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=cixtech.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=cixtech.com
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=PBwfyAdN+6EqxODxl6hrTyO6zy8NZeCQe1CbkQmGZa5PexZNHblhJ96oFCOSqLo9Pdpu8FJfIAWyf40R48xJMbTCruDu1Gc/ns80i5P2tToAXNatQ++NH/bmR68assRT79mHRz0L0tV/7Lr02kyKbXonP3fH0ViiO3dCzKDds7ts7XDJfz2XO6bWc9JWbFVRVSTQCg7ZoThRVECKK0djk5PYPEG+RkN5vxirg+JdzVyRE7+ysskqEs6R89584CdZceRhHCkYoNu5rKbISjrdejBGNdi6ds7QBz1navQVOFwATf6hRpf3z37k5ngsii2B//rzm5klOf3QgN9vlgoXeA==
+ b=bzdeSNrMUT5ZnpKHZe0dY/WPQi2tDiz575e7KP8BVzvLMNtrnb+qRiWnTGanTsuOEGSdVl+CsXIL5NpLTeg/TrH+2GeMpjFw2yDgw9YXFIFP43crm4O+SnsY5DhVlZMuNAoLWZYOK4NvBy+uBtLZrfWBkB5vcSR/vYPhobfFwGouiGvv2OSzi9iizeQSxZRjehL1EJU2Qo2/djWuLw5qdvt2T+YkrVUUzNJl1lWdbO2RNP94IkSdp4QkWSvWjYt0ARcG3G48x1WfHGZMPFyjc0V5MNky00QQqqySfEFko7PAjYu74kPTq7kMwySZgC+chNPJ+8ltPlTZRcbij4xWrw==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
  s=arcselector10001;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=k2HfCtX+1ohWJFmOZVTNZoH0ZUVXvGN0TzDW2OgyhyQ=;
- b=cMUoUnz9mPPyJRLrEXz3Ib/SXX+nqtOAKUuIQ8MY4zOTWHcDXDJobaAjSJaGudlkGM9QxVQAboAEGTVEsHgzhKnZLQJ0b+i06c8tlASVTspR2FfmGDOUwdrMVpEMK4DV12EirIaA8MoCFAOBBa5dJYCpAZjmkg1hQEa7puj4jrdzkyehd+sZrbxU8RqqI+cWZoKszZgjgp1FewBqzGrU6+H79BHV9wDdetSLXghs1un1Tiho5uBUrtbJ0/CeVILox5gVtz+Ct/6fRvpvkg8xVJ+ZMRU+hqvP38gQEF6rqFKtONRobhhYRb5JUGk9IBnt3i7NevEtv0BlAJ+hoce4Ew==
+ bh=0+UaYOW9GDO66SRwkj+6UeTfeR/9BAsIZGe+ZmibH24=;
+ b=szq+z4iXyZH/8jUUPaEKgevLpgEVoYOESJX4gbiBqZLQkmGOQOV2GOF8QKrcTlVXwyFOv/+o3cUe3ka8qpI0BAFauIK/D34bsXN3WtZdTv4nDU2F79HHz/ozkqAWFxOSWpTOI+c0YMCc1WI/7EeqpPfd4j3X+32fmxfN6j9m11NoI3nE0tFEmfUX/SLOryswyMgbWIIkRIZpXe5G8TuYNNwqrJEG54Z3kX9X8gO9ALaIW+x18BiqkpEZ/KmqxbVnKo4Nz3V4hs1OVV2JKqlDwCf8Yg8eQUL0lGP/BhAU303tTW9Sk71fx4JNbQ6O6wjsRDbL6IuM2btPnixA2vXiNg==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
  222.71.101.198) smtp.rcpttodomain=cadence.com smtp.mailfrom=cixtech.com;
  dmarc=bestguesspass action=none header.from=cixtech.com; dkim=none (message
  not signed); arc=none (0)
-Received: from SI2PR01CA0030.apcprd01.prod.exchangelabs.com
- (2603:1096:4:192::15) by TYZPR06MB5784.apcprd06.prod.outlook.com
- (2603:1096:400:268::9) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9654.18; Mon, 2 Mar
- 2026 03:03:41 +0000
-Received: from SG2PEPF000B66CE.apcprd03.prod.outlook.com
- (2603:1096:4:192:cafe::f2) by SI2PR01CA0030.outlook.office365.com
- (2603:1096:4:192::15) with Microsoft SMTP Server (version=TLS1_3,
- cipher=TLS_AES_256_GCM_SHA384) id 15.20.9654.20 via Frontend Transport; Mon,
+Received: from TYCP301CA0052.JPNP301.PROD.OUTLOOK.COM (2603:1096:400:384::15)
+ by JH0PR06MB6774.apcprd06.prod.outlook.com (2603:1096:990:3a::7) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9654.19; Mon, 2 Mar
+ 2026 03:03:43 +0000
+Received: from TY2PEPF0000AB8A.apcprd03.prod.outlook.com
+ (2603:1096:400:384:cafe::c8) by TYCP301CA0052.outlook.office365.com
+ (2603:1096:400:384::15) with Microsoft SMTP Server (version=TLS1_3,
+ cipher=TLS_AES_256_GCM_SHA384) id 15.20.9654.19 via Frontend Transport; Mon,
  2 Mar 2026 03:03:38 +0000
 X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 222.71.101.198)
  smtp.mailfrom=cixtech.com; dkim=none (message not signed)
@@ -42,11 +41,11 @@ Received-SPF: Pass (protection.outlook.com: domain of cixtech.com designates
  222.71.101.198 as permitted sender) receiver=protection.outlook.com;
  client-ip=222.71.101.198; helo=smtprelay.cixcomputing.com; pr=C
 Received: from smtprelay.cixcomputing.com (222.71.101.198) by
- SG2PEPF000B66CE.mail.protection.outlook.com (10.167.240.21) with Microsoft
+ TY2PEPF0000AB8A.mail.protection.outlook.com (10.167.253.8) with Microsoft
  SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
  15.20.9654.16 via Frontend Transport; Mon, 2 Mar 2026 03:03:40 +0000
 Received: from nchen-desktop (unknown [172.16.64.25])
-	by smtprelay.cixcomputing.com (Postfix) with ESMTPSA id 76C73435071F;
+	by smtprelay.cixcomputing.com (Postfix) with ESMTPSA id 705FC4350701;
 	Mon,  2 Mar 2026 11:03:39 +0800 (CST)
 From: Peter Chen <peter.chen@cixtech.com>
 To: robh@kernel.org,
@@ -60,140 +59,94 @@ Cc: devicetree@vger.kernel.org,
 	linux-usb@vger.kernel.org,
 	cix-kernel-upstream@cixtech.com,
 	Peter Chen <peter.chen@cixtech.com>
-Subject: [PATCH 2/2] dt-bindings: usb: cdns,usb3: Add support for USBSSP
-Date: Mon,  2 Mar 2026 11:03:34 +0800
-Message-ID: <20260302030339.324196-3-peter.chen@cixtech.com>
+Subject: [PATCH 0/2] usb: cdns3: USBSSP platform driver support
+Date: Mon,  2 Mar 2026 11:03:32 +0800
+Message-ID: <20260302030339.324196-1-peter.chen@cixtech.com>
 X-Mailer: git-send-email 2.50.1
-In-Reply-To: <20260302030339.324196-1-peter.chen@cixtech.com>
-References: <20260302030339.324196-1-peter.chen@cixtech.com>
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 X-EOPAttributedMessage: 0
 X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: SG2PEPF000B66CE:EE_|TYZPR06MB5784:EE_
-Content-Type: text/plain
-X-MS-Office365-Filtering-Correlation-Id: 12737f35-8966-4484-afd9-08de78084e52
+X-MS-TrafficTypeDiagnostic: TY2PEPF0000AB8A:EE_|JH0PR06MB6774:EE_
+X-MS-Office365-Filtering-Correlation-Id: 49078fb1-5866-47fa-9053-08de78084e8e
 X-MS-Exchange-SenderADCheck: 1
 X-MS-Exchange-AntiSpam-Relay: 0
 X-Microsoft-Antispam:
-	BCL:0;ARA:13230040|36860700013|82310400026|376014|1800799024|7053199007;
+	BCL:0;ARA:13230040|376014|82310400026|36860700013|1800799024;
 X-Microsoft-Antispam-Message-Info:
-	3TCT5hYaZXLLfLlCRg9KZXgnO1HyU+1dtBB5wlPPbf02IZUPdwrkDhveBxcz/tzwMV8pnu2YcdhmudLv6llS9W92rRzvo8kFeI+Z417VJdWcycLpsth5mD1B4c4UFGufalAmCFn03kRfDWGwtwj2Id8/ND0sbHNDgwPotS7l61I3MtEIeEjg+tiWQaiMbZJsJaMd0DJqAPouxB0mYhZ64bBT5nFrOkksw9tL4Zo0XL7JKO2/CSCj81uoI30qRymWmsu9e8GrZzlmzZIZvsgI5iuEpYycCdjBbIaJlc3YqZ1FohaM0Zq+BY6WIWZS9SW0GV9Pkn3/mmyYNbMx4icUcuAS3TfuTsbN/lsaCw5SqFZ2ypENVYx2i+YXSgT4lUlSho7aoOJh5l5bwXcCIIjC8TYbkQQNDRCk8CnDBMOzifLj+yIrqK3c0zpjhAtXqh+2+NZT2HY2rPnGlRkKhc+qM5JBpqgggoivMnJys1UWNosPq8pvh6Ojmd1loLQy0NvXx4QPl54Yqb/TiR3cCj+vjuMfbZOMKYCFcGtZ0/90SrELr5pQGkxsLiq6oJO7JYsUi/C4OKztJ5fKOJ+XPc/xyKpfHFJv1hrD+iw3yETSS6iQtnkYKznky+xQneBNJw1JyuDU3tROrCDiHHY/d73J8xtvwlC8U/dqcc++AhxTcV8fFMbwh2bJNHQdgeCH5le+yiu+/Z8D52HqLtLwwR6vFxWhbFDC/y1O+AHmcggM/WLUyPnvwYJPj0v1QHjPl4imtczxk8mXZqb0mept3ZcLhV6seB5ReTVDKhQZEJ0LAtU=
+	isg87cbXf9/wM6MFokyJmTJ8/E8RAtwIbH6vqNVLXrE9qItRT2OjZU1JuCwY2cFS2UO7z92bcpwvMOcgir0AHCsFi0afZh3eTyWS7o06Ai36WDu6OH5Q1KSsl5iWv/GJfn9QenEnBj+WDmRoHYc6cxhtaqyRHgzGGUUURW0RndK871iq7kXYz10VZ3rXnFqFz7rGFb3ULe9dpiMlhnDQQxjL61rnEJNsqTpb17o9XsTaos6+kemk1qQoaGsutXnIv1ZwqZT4ul3REkPxUo9LqZRFKrxiHT1xrbc7FKhqcL6Fno5hZY2hda58kQmmD5lQ0xuiDSoLrelyzdqNqvIHL+KFYh/cQoO9cgJJSOlDrqx6CteF1AlrqUdK9avy+27Z46n+5QX/kbVlyga7/lV77F61W1cVr4Oy7KyLmc0RDmOx2PRCgUVOJQW0c4nA676z9ToCqiBiGhyUdAChrxUZ4rnDpAWy+ekjqzdNxt71q3NYHR3M113vrtwcCmLgJBh7XARtoDtcTVW6ca00CjyaYnmY3WkWQ7vEQeKnPekhKPoLRD/TpWh2+2WXG+XFxArFSHJOafqJ6INtJ7f5/jzpegHq6P5F4Fny4pcMX6yLzyPPJEZmN4eGtfoyzFOZodi21ngIPP+fOmihwhVswVrb9fLgwrJE3qNTkKvRBqBh6k6GisBDtWPBxCmbly34lxhbW6Ncl1Zw2QljQVoQAdAywHXjfXKKdgmbXQMZ0rtmtXUzxpOnludcaI2YSgtvrSa4Il5hsSz21eDK+FloIQhqYyT+c+FOJX8QYZnhbWO8subaTndkNlqf5Cpihr8VXJhP
 X-Forefront-Antispam-Report:
-	CIP:222.71.101.198;CTRY:CN;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:smtprelay.cixcomputing.com;PTR:InfoDomainNonexistent;CAT:NONE;SFS:(13230040)(36860700013)(82310400026)(376014)(1800799024)(7053199007);DIR:OUT;SFP:1102;
+	CIP:222.71.101.198;CTRY:CN;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:smtprelay.cixcomputing.com;PTR:InfoDomainNonexistent;CAT:NONE;SFS:(13230040)(376014)(82310400026)(36860700013)(1800799024);DIR:OUT;SFP:1102;
 X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
 X-MS-Exchange-AntiSpam-MessageData-0:
-	VAE5fscWEz5+rMw6cunpoKqc3waLfbg6zccdt9mlSP+XpvhWOdzkGJ+4TuQMmEJwgpxxBRN4CJ94fSSn7KqiPQmsMiv8D+6tfw9PLi4UTPYsYglYZtfW4lPv+RQFKaHMaKVYDiBtNdBl8mijXI3BVrJv+zBPHUjDbOE40mEv0NofIXp6naRDjE62USjZiSbFJkW53XDNg9eseiwOnvYkTaEqW7JYV+r+E8S7GkJVALvryoF+nrXSIAFspcbeVo49NqjlrzezhlZG5oPTYfzKFKtFFRVT9KjxXfAt820Na/Yi9rZb71KRsqoZhuXxgkn5oo83k9BaSZguAlkcXv71iR9E/SC6zQhMURyaNwHlQnUTDlsTk/GDLAE1IWqQGRE+oDnJy7qa7ICZPcIPdkb0Dg2qQN/eNsCn8ZP8C1hNp9xba6bSCN0GW6+0qo9ZjRjz
+	Wv/bgkGuhj5rx0T+/qeevukzi2GqInmHM3uTR6eXcgHvXkSyE395BkzAqhLYFnWrdhULMTRPUWB1Ke4OoPvm3E+bDkEDh6sjm9rswNYhBH4Qr9UZJP6C6LCP7PFIq1zKa635z2mzl7tnjaauLUaweT9GAv65YYjcvmj9HNclLGlsMGuuWxK0D2gRGgdDACwr5jgHg9wS5ujAYmZ6EzQfIUyVSS1tpVmfNrWPlz62JKcsZtKTBuQxI+NfDAcF9OPHKMDrAvmMeDq89nV7allOT8Xq4AtdPm6nzoYtrFOWQ8c+Rv0MR50cTP0uy499hkxTb7BFwnmG4WB4TVFpmRnGEj8zcV9JMnpQUtWiDuzW/MGAvnEqlkrct4nV8QY1Yirbh9OfkgxNkdD+WzkPZNXulTyR3hlMJFc6hhF4lLQHAka6JQ2CJaLaGyXCRiCtmZ6Z
 X-OriginatorOrg: cixtech.com
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 02 Mar 2026 03:03:40.0459
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 02 Mar 2026 03:03:40.3583
  (UTC)
-X-MS-Exchange-CrossTenant-Network-Message-Id: 12737f35-8966-4484-afd9-08de78084e52
+X-MS-Exchange-CrossTenant-Network-Message-Id: 49078fb1-5866-47fa-9053-08de78084e8e
 X-MS-Exchange-CrossTenant-Id: 0409f77a-e53d-4d23-943e-ccade7cb4811
 X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=0409f77a-e53d-4d23-943e-ccade7cb4811;Ip=[222.71.101.198];Helo=[smtprelay.cixcomputing.com]
 X-MS-Exchange-CrossTenant-AuthSource:
-	SG2PEPF000B66CE.apcprd03.prod.outlook.com
+	TY2PEPF0000AB8A.apcprd03.prod.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Anonymous
 X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: TYZPR06MB5784
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: JH0PR06MB6774
 
-Extend the Cadence USBSS DRD binding to also cover the USBSSP
-controller by adding "cdns,usbssp" to the compatible enum.
+Hi Pawel,
 
-The USBSSP is the next-generation Cadence USB controller IP. It adds
-SuperSpeed Plus (USB 3.1 gen2x1, 10 Gbps) support and uses an
-XHCI-based device controller. The register layout and resource model
-(otg/xhci/dev memory regions; host/peripheral/otg interrupts) are
-identical to the USBSS, so both controllers share the same binding
-and the same platform driver (cdns3-plat.c).
+The Cadence USBSSP (CDNSP) controller was previously only accessible
+through PCI, coupling the gadget driver with the PCI glue layer into a
+single monolithic module (cdnsp-udc-pci). This prevented using the
+CDNSP IP on SoC/platform designs that expose the controller through
+device tree, eg, CIX Sky1 SoC.
 
-Changes to the binding:
-- compatible: const -> enum with cdns,usb3 and cdns,usbssp
-- maximum-speed: add super-speed-plus
-- Add USBSSP example
+In this series, it restructures the driver to decouple the CDNSP gadget
+from PCI, and refactor cdnsp-pci.c into a thin PCI-to-platform wrapper (similar
+to cdns3-pci-wrap.c) that registers a platform device and passes
+PCI resources and platform data to the common platform driver. So, please
+help test it in your platform.
+
+The changes are tested with random configuration combination tests.
+
+============================================================
+ALL TESTS COMPLETE. Summary:
+============================================================
+Starting cdns3 config combination tests...
+Timestamp: 2026年 03月 02日 星期一 09:34:47 CST
+
+PASS: all-builtin (SUPPORT=y CDNS3=y GADGET=y HOST=y CDNSP=y CDNSP_G=y CDNSP_H=y)
+PASS: support-y_cdns3-m_gadget-y (SUPPORT=y CDNS3=m GADGET=y HOST=y CDNSP=y CDNSP_G=y CDNSP_H=y)
+PASS: support-y_cdns3-m_gadget-n (SUPPORT=y CDNS3=m GADGET=n HOST=y CDNSP=y CDNSP_G=y CDNSP_H=y)
+PASS: support-y_cdnsp-m_gadget-y (SUPPORT=y CDNS3=y GADGET=y HOST=y CDNSP=m CDNSP_G=y CDNSP_H=y)
+PASS: all-module (SUPPORT=m CDNS3=m GADGET=y HOST=y CDNSP=m CDNSP_G=y CDNSP_H=y)
+PASS: no-cdns3 (SUPPORT=y CDNS3=n GADGET=n HOST=n CDNSP=y CDNSP_G=y CDNSP_H=y)
+PASS: no-gadget (SUPPORT=y CDNS3=y GADGET=n HOST=y CDNSP=y CDNSP_G=n CDNSP_H=y)
+PASS: support-y_both-m_gadget-y (SUPPORT=y CDNS3=m GADGET=y HOST=y CDNSP=m CDNSP_G=y CDNSP_H=y)
+PASS: minimal-module (SUPPORT=m CDNS3=m GADGET=n HOST=n CDNSP=m CDNSP_G=n CDNSP_H=n)
 
 This patch was developed with assistance from Anthropic Claude Opus 4.6.
 
-Signed-off-by: Peter Chen <peter.chen@cixtech.com>
----
- .../devicetree/bindings/usb/cdns,usb3.yaml    | 36 +++++++++++++++++--
- 1 file changed, 33 insertions(+), 3 deletions(-)
+Peter Chen (2):
+  usb: cdns3: Add USBSSP platform driver support
+  dt-bindings: usb: cdns,usb3: Add support for USBSSP
 
-diff --git a/Documentation/devicetree/bindings/usb/cdns,usb3.yaml b/Documentation/devicetree/bindings/usb/cdns,usb3.yaml
-index f454ddd9bbaa..f79333e7fc1f 100644
---- a/Documentation/devicetree/bindings/usb/cdns,usb3.yaml
-+++ b/Documentation/devicetree/bindings/usb/cdns,usb3.yaml
-@@ -4,14 +4,22 @@
- $id: http://devicetree.org/schemas/usb/cdns,usb3.yaml#
- $schema: http://devicetree.org/meta-schemas/core.yaml#
- 
--title: Cadence USBSS-DRD controller
-+title: Cadence USBSS/USBSSP DRD controller
- 
- maintainers:
-   - Pawel Laszczak <pawell@cadence.com>
- 
-+description:
-+  Cadence USB dual-role controllers. USBSS (cdns,usb3) supports up to
-+  SuperSpeed (USB 3.0). USBSSP (cdns,usbssp) is the next generation with
-+  SuperSpeed Plus (USB 3.1 gen2x1) and XHCI-based device controller. Both
-+  share the same register layout and resource model.
-+
- properties:
-   compatible:
--    const: cdns,usb3
-+    enum:
-+      - cdns,usb3
-+      - cdns,usbssp
- 
-   reg:
-     items:
-@@ -49,7 +57,7 @@ properties:
-       cdns3 to type C connector.
- 
-   maximum-speed:
--    enum: [super-speed, high-speed, full-speed]
-+    enum: [super-speed-plus, super-speed, high-speed, full-speed]
- 
-   phys:
-     minItems: 1
-@@ -90,6 +98,7 @@ unevaluatedProperties: false
- 
- examples:
-   - |
-+    // USBSS example (SuperSpeed)
-     #include <dt-bindings/interrupt-controller/arm-gic.h>
-     bus {
-         #address-cells = <2>;
-@@ -109,3 +118,24 @@ examples:
-             dr_mode = "otg";
-         };
-     };
-+  - |
-+    // USBSSP example (SuperSpeed Plus)
-+    #include <dt-bindings/interrupt-controller/arm-gic.h>
-+    bus {
-+        #address-cells = <2>;
-+        #size-cells = <2>;
-+
-+        usb@a0000000 {
-+            compatible = "cdns,usbssp";
-+            reg = <0x00 0xa0000000 0x00 0x10000>,
-+                  <0x00 0xa0010000 0x00 0x10000>,
-+                  <0x00 0xa0020000 0x00 0x10000>;
-+            reg-names = "otg", "xhci", "dev";
-+            interrupts = <GIC_SPI 96 IRQ_TYPE_LEVEL_HIGH>,
-+                         <GIC_SPI 102 IRQ_TYPE_LEVEL_HIGH>,
-+                         <GIC_SPI 120 IRQ_TYPE_LEVEL_HIGH>;
-+            interrupt-names = "host", "peripheral", "otg";
-+            maximum-speed = "super-speed-plus";
-+            dr_mode = "otg";
-+        };
-+    };
+ .../devicetree/bindings/usb/cdns,usb3.yaml    |  36 ++-
+ drivers/usb/cdns3/Kconfig                     |  44 ++--
+ drivers/usb/cdns3/Makefile                    |  30 +--
+ drivers/usb/cdns3/cdns3-gadget.c              |   4 +
+ drivers/usb/cdns3/cdns3-plat.c                |  14 +-
+ drivers/usb/cdns3/cdnsp-gadget.c              |   4 +
+ drivers/usb/cdns3/cdnsp-pci.c                 | 221 ++++++++----------
+ drivers/usb/cdns3/core.h                      |   1 +
+ drivers/usb/cdns3/gadget-export.h             |   4 +-
+ 9 files changed, 184 insertions(+), 174 deletions(-)
+
 -- 
 2.50.1
 
