@@ -1,102 +1,148 @@
-Received: from mail-wm1-f54.google.com (mail-wm1-f54.google.com [209.85.128.54])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E042D392828
-	for <linux-usb@vger.kernel.org>; Mon,  2 Mar 2026 10:27:40 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.54
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3CF4A394470
+	for <linux-usb@vger.kernel.org>; Mon,  2 Mar 2026 10:28:35 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.129.124
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1772447262; cv=none; b=PVsX6EDPrYXXFCHGycw/m5L4bCMMGeX7Lk5A7InauTNj9loDXgYgqvawgZC2zNUZ+SiKRrQMgp9fC5Hxzw0fgfwpFgOE6sHrzZI604UYFEIHQysr7m/uZmG1pScFgiWFPzApP8GgtN0oyk8JDaNAAM4jGcdTbrlmc9TKoj+nUmU=
+	t=1772447316; cv=none; b=HpEks9Xx2WkIqAjtXJpFPe5tjqIOPcxsEOzDM9bKdjHlRAwNuFsgg/SVSDIcZX7zeIQqcMneB2qHqxJDNHQqrjFp3aA8BZDQ3Ek0QTiO0BxAMt7t6J2ADiOCpRWsiboXcJ4BwuphusLsLO8PQ2CV/im+MSHn7CELUyUoYNlDsy8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1772447262; c=relaxed/simple;
-	bh=GjDGPMlDcf/MXxjNRrknNuVswFh75rCI363yIZeLzcw=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=BpEkhQsuSL/ojR/ZjQ9YyaANP5OtAFoFb3E1KScB9pFS4DdnZ9LMQwFCTQMr6w/yeVEQODHpKV3E4fC5FcyLs7ofaSqb570a4TyW6P6QePUFAdEz4jKhoZo5QerlOjwLQ+iaQPN6wo/K4FPkSH0jf+pAoUa5ay9QPMudsuUYaEM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=suse.com; spf=pass smtp.mailfrom=suse.com; dkim=pass (2048-bit key) header.d=suse.com header.i=@suse.com header.b=AYosUoW4; arc=none smtp.client-ip=209.85.128.54
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=suse.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.com
+	s=arc-20240116; t=1772447316; c=relaxed/simple;
+	bh=3Ek4YwwN0iALLUmx6aIRwN9VWVamLWFry2CPHmZdgR0=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=fjpGMw26P8GQ/CYrLWxrmYHFVM5JXQLjs/4euK8k1kP3imn+CqP0uF3qnKlob3rTjLO97CEBR9UG3i+Nv5obB99EAJa23gH35BzTTq+VWQa/iM6691gfIBmR152+tOSawzQlbTc/MmL5p7TrbdJX5dc9PXnG2ZaBVr8u/L2rmfk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=FmXzMFLK; arc=none smtp.client-ip=170.10.129.124
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=suse.com header.i=@suse.com header.b="AYosUoW4"
-Received: by mail-wm1-f54.google.com with SMTP id 5b1f17b1804b1-4837634de51so17044965e9.1
-        for <linux-usb@vger.kernel.org>; Mon, 02 Mar 2026 02:27:40 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=suse.com; s=google; t=1772447259; x=1773052059; darn=vger.kernel.org;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=mac6iCuh/FaCEK5onqKP3LNwRHPgUG6JylTUvWKnd9c=;
-        b=AYosUoW4daR8bCmOB3yCVseWGZHUossoZQp7lDSe6ybSMlP334+JRt6yM0HwCP2gC8
-         qMClbS0irnF79MxCqPrBp0J7c7m86QaUxG0zLZ363Wpk58+E6B3UMMf2cWC5IDZLHNz4
-         M1F4GSzF2ievY5CGkVtNPEwCwLfnh0J+BnlobV4YSWVA0mwrk5Q0b4wPj32iG9qaJsCz
-         JWzcfuwm3oz5+bOBI1brdrwD4lrtWK69fEMLJL+mrZYJsexBk1PTRRV/DrFBx5YEiKnB
-         4Ppa7yACM9esNd3de0KOU8xcK+cy9LlIIm5ccdWS3btZvBACUVvW526p1NF0Taa9isDX
-         Xu8w==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1772447259; x=1773052059;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :x-gm-gg:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=mac6iCuh/FaCEK5onqKP3LNwRHPgUG6JylTUvWKnd9c=;
-        b=BFDWDs0TdAXV38CdsE9LpcqmfXPgDYdUyGaCJ2nJPdqsuP1yH6LfFNPDCPJcUTI3Jh
-         L6Dm8Xg4/iU8PYGbOptjfSzuqE5+2jQ0hjOQj9oCQAXSFdisx3q3ESGuEB4OqFqGXD/h
-         yuSkA695gCGyZXGcmECNUBrCBfF//T6LW4HnLQAnDCF9EMf3D5RahJ/Uaf0ZEU+TkpYC
-         VMv6kUwgDH1baSiP0MP2JSO2mH6qYlThzOoF/hli+HFVWc97voYx4iqd40+L+9P/R5l6
-         wTNu5SWia0fyP8DLsuXgyE/mNO5uFIqfnv4NLZmum3LmQIaaRdxYpkCB2DU79gpSwat0
-         eyhg==
-X-Forwarded-Encrypted: i=1; AJvYcCVjYuFzBW/djuCPNsGeR9S3COEIFA+hZyhomZr6QspHqPGJQlLdCSEUiDH5R+iwfsNuxNwhHlb26aM=@vger.kernel.org
-X-Gm-Message-State: AOJu0YziB9dFsB/yMiLSBg9IJe8G5xc+usgwiuaW9+KNf7Xs1SpIChDg
-	yOUdBTF07yqbWIcA62aS9/yCLrvLhaTGN5NzKc5Fx0ysHXG23Psf95wLwKj0TWo07Wc=
-X-Gm-Gg: ATEYQzy8oZIYx24ofOUksfIXAgqwMB6UydQ/i89ypYZgGhbZWPdOKzsO5bfTfMdbBdK
-	40tSFndl8CipQoS2Ng9oghJcM3s0hAgtSScI0pYN8+2DY4Ap869TD6gOtmU2XmuHLl6BFV0m1Bv
-	JnUk6HL7Oq8vDh2w+f6ZJnus/uAyNTx1JixkybJPr6aBmsujVcA5v7sd4sWe65B/M/MJ4BIeOxY
-	v1e/RMzPiertX4/R3ZoGsXOejGf+PnfnKJQ7P+lkQWPSg8e44U+N2P26crwkBkhOC1XM8RO03DR
-	D9BRCwYh2WPY4/+jCyHwAiX9MyYjRcGmytlixgXcmGF7RhT455Hc52QjCH6ru65cKFwafPSsoRQ
-	z4YAY/Bu3XKcgoC7XUB1GPldWJGeN5BU3sElbGlOUZnO5LicfrHPZUAV8W+xmwJ5HEr1De+N1na
-	5HDSdaqNYbb8izLWUXYTZ5N99LSrzm/vCgGnkCRtWoFQ0JKv2ClKT5tO55UW7BMMry
-X-Received: by 2002:a05:600c:46c4:b0:483:7ae2:1737 with SMTP id 5b1f17b1804b1-483c9c1bbe9mr210916375e9.17.1772447259308;
-        Mon, 02 Mar 2026 02:27:39 -0800 (PST)
-Received: from ?IPV6:2001:a61:1346:4701:62aa:40c:8866:519d? ([2001:a61:1346:4701:62aa:40c:8866:519d])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-483bfcbd781sm237871075e9.8.2026.03.02.02.27.38
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Mon, 02 Mar 2026 02:27:39 -0800 (PST)
-Message-ID: <46b003fb-c3b2-4ad6-a3a5-c73e2e248a26@suse.com>
-Date: Mon, 2 Mar 2026 11:27:23 +0100
+	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="FmXzMFLK"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+	s=mimecast20190719; t=1772447314;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:
+	 content-transfer-encoding:content-transfer-encoding;
+	bh=hvw7wOLhNfMOHZ6J4wCB8Ewfi6ITUfrSGx/wZCr55HM=;
+	b=FmXzMFLK7OcQihLO77/gfYzW5mLNb0EEqoqF497VySKFLBgPMqVoDRoBiKE5Jt0CJDnBZG
+	Jlf0QbuewkTvs2E1B2rZbMdnH3n51ogXffd+14Gm2Bai9m5d5KJeEZx68HWL4bocazMDWR
+	S86aAaqF7bTb915riPa6wOkaV3wZ5Sk=
+Received: from mx-prod-mc-06.mail-002.prod.us-west-2.aws.redhat.com
+ (ec2-35-165-154-97.us-west-2.compute.amazonaws.com [35.165.154.97]) by
+ relay.mimecast.com with ESMTP with STARTTLS (version=TLSv1.3,
+ cipher=TLS_AES_256_GCM_SHA384) id us-mta-685-T1xHSYiONteNIYVSDCg0Hg-1; Mon,
+ 02 Mar 2026 05:28:31 -0500
+X-MC-Unique: T1xHSYiONteNIYVSDCg0Hg-1
+X-Mimecast-MFC-AGG-ID: T1xHSYiONteNIYVSDCg0Hg_1772447310
+Received: from mx-prod-int-08.mail-002.prod.us-west-2.aws.redhat.com (mx-prod-int-08.mail-002.prod.us-west-2.aws.redhat.com [10.30.177.111])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+	(No client certificate requested)
+	by mx-prod-mc-06.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTPS id 09B461800451;
+	Mon,  2 Mar 2026 10:28:30 +0000 (UTC)
+Received: from lenovo-t14s.redhat.com (unknown [10.45.224.171])
+	by mx-prod-int-08.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTP id 806981800296;
+	Mon,  2 Mar 2026 10:28:27 +0000 (UTC)
+From: Laurent Vivier <lvivier@redhat.com>
+To: Jakub Kicinski <kuba@kernel.org>
+Cc: linux-kernel@vger.kernel.org,
+	Daniele Palmas <dnlplm@gmail.com>,
+	Stefano Brivio <sbrivio@redhat.com>,
+	Koen Vandeputte <koen.vandeputte@citymesh.com>,
+	linux-usb@vger.kernel.org,
+	netdev@vger.kernel.org,
+	Laurent Vivier <lvivier@redhat.com>
+Subject: [PATCH] qmi_wwan: allow max_mtu above hard_mtu to control rx_urb_size
+Date: Mon,  2 Mar 2026 11:28:25 +0100
+Message-ID: <20260302102825.274385-1-lvivier@redhat.com>
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH] usb: cdc-acm: Restore CAP_BRK functionnality to CH343
-To: Marc Zyngier <maz@kernel.org>, linux-usb@vger.kernel.org,
- linux-kernel@vger.kernel.org
-Cc: stable@vger.kernel.org, Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-References: <20260301124440.1192752-1-maz@kernel.org>
-Content-Language: en-US
-From: Oliver Neukum <oneukum@suse.com>
-In-Reply-To: <20260301124440.1192752-1-maz@kernel.org>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
+X-Scanned-By: MIMEDefang 3.4.1 on 10.30.177.111
 
+Commit c7159e960f14 ("usbnet: limit max_mtu based on device's hard_mtu")
+capped net->max_mtu to the device's hard_mtu in usbnet_probe(). While
+this correctly prevents oversized packets on standard USB network
+devices, it breaks the qmi_wwan driver.
 
+qmi_wwan relies on userspace (e.g. ModemManager) setting a large MTU on
+the wwan0 interface to configure rx_urb_size via usbnet_change_mtu().
+QMI modems negotiate USB transfer sizes of 16,383 or 32,767 bytes, and
+the USB receive buffers must be sized accordingly. With max_mtu capped
+to hard_mtu (~1500 bytes), userspace can no longer raise the MTU, the
+receive buffers remain small, and download speeds drop from >300 Mbps
+to ~0.8 Mbps.
 
-On 01.03.26 13:44, Marc Zyngier wrote:
-> The CH343 USB/serial adapter is as buggy as it is popular (very).
-> One of its quirks is that despite being capable of signalling a
-> BREAK condition, it doesn't advertise it.
-> 
-> This used to work nonetheless until 66aad7d8d3ec5 ("usb: cdc-acm:
-> return correct error code on unsupported break") applied some
-> reasonable restrictions, preventing breaks from being emitted on
-> devices that do not advertise CAP_BRK.
-> 
-> Add a quirk for this particular device, so that breaks can still
-> be produced on some of my machines attached to my console server.
-> 
-> Fixes: 66aad7d8d3ec5 ("usb: cdc-acm: return correct error code on unsupported break")
-> Signed-off-by: Marc Zyngier <maz@kernel.org>
-> Cc: stable@vger.kernel.org
-> Cc: Oliver Neukum <oneukum@suse.com>
-> Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-Acked-by: Oliver Neukum <oneukum@suse.com>
+Introduce a FLAG_NOMAXMTU driver flag that allows individual usbnet
+drivers to opt out of the max_mtu cap. Set this flag in qmi_wwan's
+driver_info structures to restore the previous behavior for QMI devices,
+while keeping the safety fix in place for all other usbnet drivers.
+
+Fixes: c7159e960f14 ("usbnet: limit max_mtu based on device's hard_mtu")
+Reported-by: Koen Vandeputte <koen.vandeputte@citymesh.com>
+Tested-by: Daniele Palmas <dnlplm@gmail.com>
+Signed-off-by: Laurent Vivier <lvivier@redhat.com>
+---
+ drivers/net/usb/qmi_wwan.c | 4 ++--
+ drivers/net/usb/usbnet.c   | 7 ++++---
+ include/linux/usb/usbnet.h | 1 +
+ 3 files changed, 7 insertions(+), 5 deletions(-)
+
+diff --git a/drivers/net/usb/qmi_wwan.c b/drivers/net/usb/qmi_wwan.c
+index 3a4985b582cb..05acac10cd2b 100644
+--- a/drivers/net/usb/qmi_wwan.c
++++ b/drivers/net/usb/qmi_wwan.c
+@@ -928,7 +928,7 @@ static int qmi_wwan_resume(struct usb_interface *intf)
+ 
+ static const struct driver_info	qmi_wwan_info = {
+ 	.description	= "WWAN/QMI device",
+-	.flags		= FLAG_WWAN | FLAG_SEND_ZLP,
++	.flags		= FLAG_WWAN | FLAG_NOMAXMTU | FLAG_SEND_ZLP,
+ 	.bind		= qmi_wwan_bind,
+ 	.unbind		= qmi_wwan_unbind,
+ 	.manage_power	= qmi_wwan_manage_power,
+@@ -937,7 +937,7 @@ static const struct driver_info	qmi_wwan_info = {
+ 
+ static const struct driver_info	qmi_wwan_info_quirk_dtr = {
+ 	.description	= "WWAN/QMI device",
+-	.flags		= FLAG_WWAN | FLAG_SEND_ZLP,
++	.flags		= FLAG_WWAN | FLAG_NOMAXMTU | FLAG_SEND_ZLP,
+ 	.bind		= qmi_wwan_bind,
+ 	.unbind		= qmi_wwan_unbind,
+ 	.manage_power	= qmi_wwan_manage_power,
+diff --git a/drivers/net/usb/usbnet.c b/drivers/net/usb/usbnet.c
+index ed86ba87ca4e..b72ba0803392 100644
+--- a/drivers/net/usb/usbnet.c
++++ b/drivers/net/usb/usbnet.c
+@@ -1829,11 +1829,12 @@ usbnet_probe(struct usb_interface *udev, const struct usb_device_id *prod)
+ 		if ((dev->driver_info->flags & FLAG_NOARP) != 0)
+ 			net->flags |= IFF_NOARP;
+ 
+-		if (net->max_mtu > (dev->hard_mtu - net->hard_header_len))
++		if ((dev->driver_info->flags & FLAG_NOMAXMTU) == 0 &&
++		    net->max_mtu > (dev->hard_mtu - net->hard_header_len))
+ 			net->max_mtu = dev->hard_mtu - net->hard_header_len;
+ 
+-		if (net->mtu > net->max_mtu)
+-			net->mtu = net->max_mtu;
++		if (net->mtu > (dev->hard_mtu - net->hard_header_len))
++			net->mtu = dev->hard_mtu - net->hard_header_len;
+ 
+ 	} else if (!info->in || !info->out)
+ 		status = usbnet_get_endpoints(dev, udev);
+diff --git a/include/linux/usb/usbnet.h b/include/linux/usb/usbnet.h
+index b0e84896e6ac..bbf799ccf3b3 100644
+--- a/include/linux/usb/usbnet.h
++++ b/include/linux/usb/usbnet.h
+@@ -132,6 +132,7 @@ struct driver_info {
+ #define FLAG_MULTI_PACKET	0x2000
+ #define FLAG_RX_ASSEMBLE	0x4000	/* rx packets may span >1 frames */
+ #define FLAG_NOARP		0x8000	/* device can't do ARP */
++#define FLAG_NOMAXMTU		0x10000	/* allow max_mtu above hard_mtu */
+ 
+ 	/* init device ... can sleep, or cause probe() failure */
+ 	int	(*bind)(struct usbnet *, struct usb_interface *);
+-- 
+2.53.0
+
