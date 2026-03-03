@@ -1,38 +1,38 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 311B73C276D
-	for <linux-usb@vger.kernel.org>; Tue,  3 Mar 2026 14:56:08 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6B3672FDC28
+	for <linux-usb@vger.kernel.org>; Tue,  3 Mar 2026 15:05:34 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1772549768; cv=none; b=bcHuBlI3U1a6KeFs1G1NfJcOXA3fFePKlMUqASzv0iyTVXt0y+1FfQvgUHEFS2wqwTN4zPyjGdBmgwypc3HR6PzUmbjBJ48DFW7s/TrKwsmUxs0kxdr7TrXf0YvTqPln8bPzrJ/FccHzogRItfsP/TMrV0vaiJZF+SmYcwGaFGQ=
+	t=1772550334; cv=none; b=TJC0qtHpQTWGVcKpolAgoT/F/O2ByQyOB+khVFu+4bhOv8/tMN1zxYmqKcWVZX5jWYiDY7F3fNGFFNnFbOumMOJAhBacT3Z81x8VIrcByNHGIDvr4+obMZcx3lkJ/5JnSzC8JnwyN8eHLqN6CY44bYlNeMC09dlq3wvCbnkoV/Y=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1772549768; c=relaxed/simple;
-	bh=6tcgibjX2+3jGlcB3REJfdAE0VoiqGiX8rG7EVxXCtc=;
+	s=arc-20240116; t=1772550334; c=relaxed/simple;
+	bh=QpX0Gyja++niu1+PVBn4/2gMOICxBjKzDQMew7qfEFo=;
 	h=From:To:Subject:Date:Message-ID:In-Reply-To:References:
-	 Content-Type:MIME-Version; b=MS/HiDv8Hk5t58H9VEwvTz2XbjbXoePrfcEjfFWfzJwnXxMvl/DVpxb83jCNIsOQ4W/XeVIJ6OfkwoI+QrhLmheb1H+9dMEcQT3eNVFU+Da0jGHzPqBkcoBmG7UrJlkH8R/qkKFqRWsS54/8w4hrn0+f5Gv5sAkNoohKgIfc4GI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=NMff7k/2; arc=none smtp.client-ip=10.30.226.201
+	 Content-Type:MIME-Version; b=jzfH64a/tj/57I0nOk36v+PUbYrXKp8pckvZXZyqN3oyL7v9GnNWyHlxKyOf/IKr4zFYLrYimyjzZoelF1OVJT1zsQnN20va0KHnfEGDXo85O7i7zlBu9FvtfsNCBldkX3Cp2pKxepVEsV8FoeyZeraEZDW4vvub09x8BqNEHVY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=UPLUY4Yr; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="NMff7k/2"
-Received: by smtp.kernel.org (Postfix) with ESMTPS id E38EFC2BCAF
-	for <linux-usb@vger.kernel.org>; Tue,  3 Mar 2026 14:56:07 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="UPLUY4Yr"
+Received: by smtp.kernel.org (Postfix) with ESMTPS id D6508C2BCB1
+	for <linux-usb@vger.kernel.org>; Tue,  3 Mar 2026 15:05:33 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1772549767;
-	bh=6tcgibjX2+3jGlcB3REJfdAE0VoiqGiX8rG7EVxXCtc=;
+	s=k20201202; t=1772550333;
+	bh=QpX0Gyja++niu1+PVBn4/2gMOICxBjKzDQMew7qfEFo=;
 	h=From:To:Subject:Date:In-Reply-To:References:From;
-	b=NMff7k/2rSn9t5Qql/L9vYkXNQmMC/Vh5E281di+Otl50U4XnKRZLx9ypwhxgOEVt
-	 es431aOng6vAgv7a+5MRHFpp9O5fDzHVDUGrHsY1uO02RurUo2LAaioEyPC8hnaef7
-	 9EEW7ohb8lTX7zffq8aJ3kqKKUBOWpMRgTMv/QA+lk6QHU7fxoUYgySp3Jl94topc2
-	 9aLR6UanHIJffpqOTCOdgNNnoSikR9SpbqOZzyn49tm441balfJ+4RAmS+cRoiJISC
-	 g5CAW0WTmCJbTT6LO+TMP9P/rhU1b4DhA62DyBDwrvRglykyfggC8/enhNUIIuytSL
-	 9saMln2PrEMQg==
+	b=UPLUY4YrELchBw4zhF43zKY1XwLJ5hMdfXUMRAQM2sRrPa1QRHOINuDpl8AxuWB9S
+	 9jtdKg4i6s1iUuHNA2Ax6nWoHoHG32zYKLiEoNZUE3xQel4L0rwFD46S4vbsyG40hg
+	 9zidjAOW8z9qFdUwandhBlJyWIQaCsh9a7x0BJCiYkN01O188lFbxvXmekGM9tZfTf
+	 1t40VV2dYvsCUq5EWCMhoV/+J1lFpxeaoongGbWsr7gX2rE8vQBmIY1u4HmonJN/VL
+	 RyI6XmH5Jd8terk1iF13nZSrSPAUsQ6uVdvHtodfiIvzags5rNq+lw13Akm09G5Ln3
+	 Tf4RpR4HkJwsw==
 Received: by aws-us-west-2-korg-bugzilla-1.web.codeaurora.org (Postfix, from userid 48)
-	id DBAF1C433E1; Tue,  3 Mar 2026 14:56:07 +0000 (UTC)
+	id CDF87C53BC7; Tue,  3 Mar 2026 15:05:33 +0000 (UTC)
 From: bugzilla-daemon@kernel.org
 To: linux-usb@vger.kernel.org
 Subject: [Bug 221073] xHCI host controller dies on resume from s2idle on AMD
  Strix Halo [1022:1587]
-Date: Tue, 03 Mar 2026 14:56:07 +0000
+Date: Tue, 03 Mar 2026 15:05:33 +0000
 X-Bugzilla-Reason: None
 X-Bugzilla-Type: changed
 X-Bugzilla-Watch-Reason: AssignedTo drivers_usb@kernel-bugs.kernel.org
@@ -41,14 +41,14 @@ X-Bugzilla-Component: USB
 X-Bugzilla-Version: 2.5
 X-Bugzilla-Keywords: 
 X-Bugzilla-Severity: normal
-X-Bugzilla-Who: david.c.hubbard@gmail.com
+X-Bugzilla-Who: superveridical@gmail.com
 X-Bugzilla-Status: NEEDINFO
 X-Bugzilla-Resolution: 
 X-Bugzilla-Priority: P3
 X-Bugzilla-Assigned-To: drivers_usb@kernel-bugs.kernel.org
 X-Bugzilla-Flags: 
-X-Bugzilla-Changed-Fields: attachments.created
-Message-ID: <bug-221073-208809-m3m2f5fRG1@https.bugzilla.kernel.org/>
+X-Bugzilla-Changed-Fields: 
+Message-ID: <bug-221073-208809-LqfOzSLyTu@https.bugzilla.kernel.org/>
 In-Reply-To: <bug-221073-208809@https.bugzilla.kernel.org/>
 References: <bug-221073-208809@https.bugzilla.kernel.org/>
 Content-Type: text/plain; charset="UTF-8"
@@ -64,64 +64,11 @@ MIME-Version: 1.0
 
 https://bugzilla.kernel.org/show_bug.cgi?id=3D221073
 
---- Comment #23 from David Hubbard (david.c.hubbard@gmail.com) ---
-Created attachment 309526
-  --> https://bugzilla.kernel.org/attachment.cgi?id=3D309526&action=3Dedit
-comment16-dmesg02.gz
-
-I'm fascinated with diagnosing the xHC USBSTS with the EINT bit set, using =
-the
-instructions in comment #5. I'm zeroing in on that. Maybe the issues with
-resume taking 10 seconds in comment #19 can be considered separately in a
-different bug?
-
-My kernel has hand-applied patches I backported from
-https://github.com/mkopec/linux/tree/hdmi_frl to 6.17.7 (ROCm 6.4 is still =
-10%
-faster than newer ROCm versions). I also applied the Mediatek driver patche=
-s in
-https://zbowling.github.io/mt7925/.
-
-Anyway, I took a few interesting captures:
-
-Cap1: used power button to resume. Can anyone else confirm this is a
-workaround? The bug did not appear for this attempt.
-
-* For some reason, debugfs files were all 0 in size?
-
-Cap2: used space bar on keyboard to resume. Bug appeared.
-
-* For some reason, debugfs files were all 0 in size?
-
-
-# free
-               total        used        free      shared  buff/cache=20=20
-available
-Mem:        32636908     4008008    27282920       35664     1764500=20=20=
-=20
-28628900
-Swap:              0           0           0
-
-# (this shows 32GB free because the BIOS setting is iGPU =3D custom, iGPU m=
-emory
-=3D 96GB)
-# echo "module xhci_hcd +p" >/proc/dynamic_debug/control
-# systemctl suspend
-# (wait 2 minutes, press power button to resume, no bug)
-# tar czf cap01.tgz /sys/kernel/debug/usb/xhci/0000\:c2\:00.4
-# dmesg | gzip > dmesg01.gz
-# systelctl shutdown
-
-# (press power button, wait for system to boot)
-# echo "module xhci_hcd +p" >/proc/dynamic_debug/control
-# systemctl suspend
-# (wait 2 minutes, press spacebar, get this in dmesg)
-[  243.002269] xhci_hcd 0000:c2:00.4: xHCI host controller not responding,
-assume dead
-# (unplug usb hub from c2:00.4 and plug it into c4:00.0, keyboard and mouse
-alive again)
-# tar czf cap02.tgz /sys/kernel/debug/usb/xhci/0000\:c2\:00.4
-# dmesg | gzip > dmesg02.gz
+--- Comment #24 from Alexander F (superveridical@gmail.com) ---
+Debugfs files were zeroed because tar gzing them directly doesn't work(due =
+to
+stat call, or something else). You should cp it into a temp directory before
+archiving.
 
 --=20
 You may reply to this email to add a comment.
