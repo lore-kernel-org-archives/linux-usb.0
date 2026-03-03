@@ -1,80 +1,100 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 944F5351C1C
-	for <linux-usb@vger.kernel.org>; Tue,  3 Mar 2026 17:05:53 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9D3483A5E8B;
+	Tue,  3 Mar 2026 17:08:37 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1772557553; cv=none; b=pzmkn6ANX0eOsIfeq5bBEnVQTcV99txh7k1WUMwrTIoHVMraOuWKdmqn17utIhZOD2NNIgp5PY1vg8HBKlcMFhAl1Vq4lJjGOLOSVEtNhn3CwrIgY8mmepkMAFENla39LN8j4Jm5t5yIUS5qdm32A0/rlp2iqXd+jO0Fy2SD964=
+	t=1772557717; cv=none; b=AAICmyXvSQ20k1lkwrn9XINVs30ClwHaVIVnXTDnc6NFvfNGQjPbpR3tfXp9PovWsSslfUQF4uFcyBCa5RMMMB53B3SUVRmiZJ+gmWu0o8CWT/QAs+/liNHl7hyC/G3tlVG/+KGJa0yK4j+brW/xrG5cBFfDMW6jJ/7yt8KI3tQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1772557553; c=relaxed/simple;
-	bh=5y5Kv76WSgEjU6A3D6PRAOFiohKC1hHlmzKJNsGmvGU=;
-	h=From:To:Subject:Date:Message-ID:In-Reply-To:References:
-	 Content-Type:MIME-Version; b=VfnybcYv8XMdYjlq8Vw44otRm03DTO6lKlo+O80B04ToNJiGXc9Yk4O/QCgYfb3iWa2RYNY8/SItdM6qRhN2M/1XisosaVzz75x1YPKws/7U0jTqnCvLLONT2AH2C8RDphP3mp88TwEEX1J6/ZTpi2i2+G+DnjJiP0wdwVFA50I=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=jaPXjxyB; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1772557717; c=relaxed/simple;
+	bh=85T4a9tDQeqQgooF6tLkpLk28kfophnD+5HJrDO7yL4=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version; b=uF52vEvKnP9NuOA4aVinAAGoiD2ke2jyBefcK0huhQ7X9W8GfZBZ5lNYRL9Fh9+mjmSFqUDIidzxdeWNbphHz8NPMqyjDAl9bgaEAU4l0TQwIwCgEVnLZaPwwgnOtXTjCMArA5jHfGyOHAbkFAlevzjhO/NvEuM7GP8x+o4PyzU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=bn7Ejcfv; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="jaPXjxyB"
-Received: by smtp.kernel.org (Postfix) with ESMTPS id 40488C2BCB0
-	for <linux-usb@vger.kernel.org>; Tue,  3 Mar 2026 17:05:53 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="bn7Ejcfv"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 4121CC116C6;
+	Tue,  3 Mar 2026 17:08:37 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1772557553;
-	bh=5y5Kv76WSgEjU6A3D6PRAOFiohKC1hHlmzKJNsGmvGU=;
-	h=From:To:Subject:Date:In-Reply-To:References:From;
-	b=jaPXjxyB2h2RWMB/SDiTp5oK71uNOO9pli3zUPwrkBaoT5mUIROq+5UHLNXjmRMbT
-	 GTErKcWmqLV+Oy6wRT/+2LOgiZZUYe2KdxGRo5+51dTH0DQmhMN9P08+J0p8J8z+81
-	 CAX990pGw1eyQyDVU14qvSExY4kWhCD0cR10mvmCWe0EYOWXvpwdgc5OfLtkcQl/os
-	 e3Srfsosh9p1njY7uc74OVuuN5hr0nCR0Fl+Y0C8eieMNRipMIOshOvTbE0coS4z9t
-	 3jCtZ/QdVbwwrdJb2pN+OkJsmobvc+dp8WhWkk+F/TMSKh9xiZypYJt+X6IkTmgiDk
-	 Iv/Jc6ls+4dlg==
-Received: by aws-us-west-2-korg-bugzilla-1.web.codeaurora.org (Postfix, from userid 48)
-	id 38B87C3279F; Tue,  3 Mar 2026 17:05:53 +0000 (UTC)
-From: bugzilla-daemon@kernel.org
-To: linux-usb@vger.kernel.org
-Subject: [Bug 221073] xHCI host controller dies on resume from s2idle on AMD
- Strix Halo [1022:1587]
-Date: Tue, 03 Mar 2026 17:05:52 +0000
-X-Bugzilla-Reason: None
-X-Bugzilla-Type: changed
-X-Bugzilla-Watch-Reason: AssignedTo drivers_usb@kernel-bugs.kernel.org
-X-Bugzilla-Product: Drivers
-X-Bugzilla-Component: USB
-X-Bugzilla-Version: 2.5
-X-Bugzilla-Keywords: 
-X-Bugzilla-Severity: normal
-X-Bugzilla-Who: david.c.hubbard@gmail.com
-X-Bugzilla-Status: NEEDINFO
-X-Bugzilla-Resolution: 
-X-Bugzilla-Priority: P3
-X-Bugzilla-Assigned-To: drivers_usb@kernel-bugs.kernel.org
-X-Bugzilla-Flags: 
-X-Bugzilla-Changed-Fields: 
-Message-ID: <bug-221073-208809-uU24yHA1w7@https.bugzilla.kernel.org/>
-In-Reply-To: <bug-221073-208809@https.bugzilla.kernel.org/>
-References: <bug-221073-208809@https.bugzilla.kernel.org/>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-X-Bugzilla-URL: https://bugzilla.kernel.org/
-Auto-Submitted: auto-generated
+	s=k20201202; t=1772557717;
+	bh=85T4a9tDQeqQgooF6tLkpLk28kfophnD+5HJrDO7yL4=;
+	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
+	b=bn7EjcfvRbg+Thd6vuxfhpPxFqqEEcwc382lrTPGG4QOEhN77ueGA/wkLWHXHipMr
+	 Pgf1mQp/IUc5oJR0HEWBSV5qmNjsTjpeJkFJXf2Ls0eJvGotkbjKaCYXpxv/OJUEs5
+	 96sdGA3e1z0XAB5lSLpdAkpLWCCcOPTXIPUsPjAYH3mKVcSein0UPvppqUS/Qw4MYR
+	 U971430TKLY6+eI9I9BTjKuWiSiTh2y+cHhj9zWmU1d1E7amZyFh1qk4QDKwsMPG1D
+	 ckITIwpFSy03VlAuvl7jgrXxyFCSjTjLR1cCv/kTh2GrwUjM94/JRIyVrDgAnwKwtA
+	 /JqV98R/gUH4Q==
+Received: from johan by xi.lan with local (Exim 4.98.2)
+	(envelope-from <johan@kernel.org>)
+	id 1vxTEZ-000000001CE-0JaU;
+	Tue, 03 Mar 2026 18:08:35 +0100
+From: Johan Hovold <johan@kernel.org>
+To: Dave Penkler <dpenkler@gmail.com>
+Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	linux-usb@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	Johan Hovold <johan@kernel.org>,
+	stable@vger.kernel.org
+Subject: [PATCH 1/2] gpib: fix unintended binding of FTDI 8U232AM devices
+Date: Tue,  3 Mar 2026 18:07:21 +0100
+Message-ID: <20260303170722.4516-2-johan@kernel.org>
+X-Mailer: git-send-email 2.52.0
+In-Reply-To: <20260303170722.4516-1-johan@kernel.org>
+References: <20260303170722.4516-1-johan@kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
 
-https://bugzilla.kernel.org/show_bug.cgi?id=3D221073
+The LPVO USB GPIB adapter apparently uses an FTDI 8U232AM with the
+default PID, but this device id is already handled by the ftdi_sio
+serial driver.
 
---- Comment #28 from David Hubbard (david.c.hubbard@gmail.com) ---
->So it looks like it's your issue that could be a different bug.=20
->
->Have you tried the 0x40 quirk?
+Stop binding to the default PID to avoid breaking existing setups with
+FTDI 8U232AM.
 
-I'd like to help with this bug, it's fine if we decide not to resolve the
-message "xhci_hcd 0000:c2:00.4: xHCI host controller not responding, assume
-dead"
+Anyone using this driver should blacklist the ftdi_sio driver and add
+the device id manually through sysfs (e.g. using udev rules).
 
---=20
-You may reply to this email to add a comment.
+Fixes: fce79512a96a ("staging: gpib: Add LPVO DIY USB GPIB driver")
+Fixes: e6ab504633e4 ("staging: gpib: Destage gpib")
+Cc: Dave Penkler <dpenkler@gmail.com>
+Cc: stable@vger.kernel.org
+Signed-off-by: Johan Hovold <johan@kernel.org>
+---
+ drivers/gpib/lpvo_usb_gpib/lpvo_usb_gpib.c | 7 ++++---
+ 1 file changed, 4 insertions(+), 3 deletions(-)
 
-You are receiving this mail because:
-You are watching the assignee of the bug.=
+diff --git a/drivers/gpib/lpvo_usb_gpib/lpvo_usb_gpib.c b/drivers/gpib/lpvo_usb_gpib/lpvo_usb_gpib.c
+index 6fc4e3452b88..ee781d2f0b8e 100644
+--- a/drivers/gpib/lpvo_usb_gpib/lpvo_usb_gpib.c
++++ b/drivers/gpib/lpvo_usb_gpib/lpvo_usb_gpib.c
+@@ -38,8 +38,10 @@ MODULE_DESCRIPTION("GPIB driver for LPVO usb devices");
+ /*
+  * Table of devices that work with this driver.
+  *
+- * Currently, only one device is known to be used in the
+- * lpvo_usb_gpib adapter (FTDI 0403:6001).
++ * Currently, only one device is known to be used in the lpvo_usb_gpib
++ * adapter (FTDI 0403:6001) but as this device id is already handled by the
++ * ftdi_sio USB serial driver the LPVO driver must not bind to it by default.
++ *
+  * If your adapter uses a different chip, insert a line
+  * in the following table with proper <Vendor-id>, <Product-id>.
+  *
+@@ -50,7 +52,6 @@ MODULE_DESCRIPTION("GPIB driver for LPVO usb devices");
+  */
+ 
+ static const struct usb_device_id skel_table[] = {
+-	{ USB_DEVICE(0x0403, 0x6001) },
+ 	{ }					   /* Terminating entry */
+ };
+ MODULE_DEVICE_TABLE(usb, skel_table);
+-- 
+2.52.0
+
