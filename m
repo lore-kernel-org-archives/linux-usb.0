@@ -1,75 +1,59 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A1C14358D27;
-	Wed,  4 Mar 2026 20:14:20 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7B08C24293C;
+	Wed,  4 Mar 2026 20:46:28 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1772655260; cv=none; b=bkWJY/nWmbH7VVz7Ucw//x8nZsnCbM9N6cHeTB23GfS1MCZ66zXxL0nM5tv4m0E7am3Gkrx+5d5gmPpI05wIRtOGBx2L0Sr5URG1lzrm8ZYyd7uQ0YWL5ZcK8nhmm3B8lOXuWR1neg7GurB/42tblPN8otyAbgqRiYiTA1TYwtI=
+	t=1772657188; cv=none; b=ExijEkxP1QjN5mylf1ybveMVz8iI1poCcaIvFHfMSH5mDOnM/UE8HIOyNB32lUhx86sXYrh6Vbbl0Ulf5Rp/OIhOZM1ePX/87k7PocdT0WxsXjpA52r+Z0QoAh3d8tu+xEG+nE4qR9y8wQ+St7Emb40oUap5e/fpXjLhAKovWuw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1772655260; c=relaxed/simple;
-	bh=7LbZg6skQwe1JIVxe4uIFooiyh42caVjXi8zFEyCeHA=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=iZ9UDgd83iPUOtMblhlHii8wwZ8KWBZA4QRHj+dllJDtX9r8Zr2SC5e4N8aIDAiA+tN01r0soH3y++FJ5qLGIczWNHiggwpXmUOY5/bufrIhrKGCSxvJT8bkkORIKopupg1z6cje5otXM173yP7GorPTjrZWzVpJeblXN7EcyJE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=vOSWAYP0; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1772657188; c=relaxed/simple;
+	bh=hyjTjj0+B73bWM8z567dz4+PxRwCQl3Y/TAy7WBED8g=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=uuhwwO2uEZB+z9EUAjiWRe55xjFOdyMxzyey9CkpydJbhZ/L0NYyyERyTXUO8Sa5LJnetorSRXrdcyet5AAhqtpu9bN4JHp5Okllw1jh4JoDmMIdMQqJ1V0HnHvlWq4GVxY7AXwO6TfM0Ey6ln4qGqPM1Maaiz5cZ2elm4X97Rg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b=EZ6sHSez; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="vOSWAYP0"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id B5684C4CEF7;
-	Wed,  4 Mar 2026 20:14:16 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1772655260;
-	bh=7LbZg6skQwe1JIVxe4uIFooiyh42caVjXi8zFEyCeHA=;
-	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-	b=vOSWAYP0ASIUMPrNsRctEnLesB/qOpdMCrQy6ahbi4pLYMii7O8IIBA8F63PZsyg0
-	 ZcCnF1kj3cVmc84Vx9h9Kq96VZaMCMHxuCArllf1CYolj2oqppgnv3vXM3w6laZHlz
-	 NOtq23rucRl5IE/Bb02Fai9gX/5ewV1hAPdziT8RA9B2ev0oqJbQtiikHUnSW5L9q5
-	 Uk7uAI6xqy1wRgSUh7h36AH8oidWLE77AQilsTltHa4bvKQfckiIg6DJMG3yRydPNA
-	 OvbzcQS3k3wio6bMSaigTPS0yMDQddq1Qx4b83K8C3Iv2VNsdfZAH1Ox9lzB5Wl3zL
-	 iEzLjD3XL6GFw==
-Message-ID: <679dbfdd-9e46-4265-a01c-faf163924ec3@kernel.org>
-Date: Thu, 5 Mar 2026 05:14:14 +0900
+	dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="EZ6sHSez"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 97EABC4CEF7;
+	Wed,  4 Mar 2026 20:46:27 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
+	s=korg; t=1772657188;
+	bh=hyjTjj0+B73bWM8z567dz4+PxRwCQl3Y/TAy7WBED8g=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=EZ6sHSezrRGJeaaLVTsYiIUp7qOWNS393chb47Z8eI9tU1rlP3tFpWUDTySEDQbon
+	 JW/+5wAz+5cmajvyVMs0+MQUlYq8HqPyv6lUWioBhf66LgE5hdmhKfjvHzQsE46MXK
+	 UyXwPMx6X8/3xAGhUodUcXiakRcoWoLucdx0oaSg=
+Date: Wed, 4 Mar 2026 21:46:14 +0100
+From: Greg KH <gregkh@linuxfoundation.org>
+To: Mark Adamenko <marusik.adamenko@gmail.com>
+Cc: linux-usb@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v3] usb: core: remove unnecessary goto in
+ usb_create_newid_files()
+Message-ID: <2026030432-thursday-sliced-4963@gregkh>
+References: <20260304155812.4559-1-marusik.adamenko@gmail.com>
+ <2026030412-trace-sneer-60bf@gregkh>
+ <e8e05846-1af7-4cdf-8167-e566cf7db8c8@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH phy-next 01/22] ata: add <linux/pm_runtime.h> where
- missing
-To: Vladimir Oltean <vladimir.oltean@nxp.com>, linux-phy@lists.infradead.org
-Cc: Vinod Koul <vkoul@kernel.org>, Neil Armstrong
- <neil.armstrong@linaro.org>, dri-devel@lists.freedesktop.org,
- freedreno@lists.freedesktop.org, linux-arm-kernel@lists.infradead.org,
- linux-arm-msm@vger.kernel.org, linux-can@vger.kernel.org,
- linux-gpio@vger.kernel.org, linux-ide@vger.kernel.org,
- linux-kernel@vger.kernel.org, linux-media@vger.kernel.org,
- linux-pci@vger.kernel.org, linux-renesas-soc@vger.kernel.org,
- linux-riscv@lists.infradead.org, linux-rockchip@lists.infradead.org,
- linux-samsung-soc@vger.kernel.org, linux-sunxi@lists.linux.dev,
- linux-tegra@vger.kernel.org, linux-usb@vger.kernel.org,
- netdev@vger.kernel.org, spacemit@lists.linux.dev,
- UNGLinuxDriver@microchip.com, Niklas Cassel <cassel@kernel.org>
-References: <20260304175735.2660419-1-vladimir.oltean@nxp.com>
- <20260304175735.2660419-2-vladimir.oltean@nxp.com>
-Content-Language: en-US
-From: Damien Le Moal <dlemoal@kernel.org>
-Organization: Western Digital Research
-In-Reply-To: <20260304175735.2660419-2-vladimir.oltean@nxp.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <e8e05846-1af7-4cdf-8167-e566cf7db8c8@gmail.com>
 
-On 3/5/26 02:57, Vladimir Oltean wrote:
-> It appears that libahci.c, ahci.c as well as the ahci_brcm, ahci_ceva
-> and ahci_qoriq drivers are using runtime PM operations without including
-> <linux/pm_runtime.h>. This header is somehow being indirectly provided
-> by <linux/phy/phy.h>, which would like to drop it (none of the functions
-> it exports need it).
-> 
-> Signed-off-by: Vladimir Oltean <vladimir.oltean@nxp.com>
+On Wed, Mar 04, 2026 at 09:35:42AM -0800, Mark Adamenko wrote:
+> Thanks for responding,
+> I wasn't suggested by any tool. I was advised that if I want to become a
+> contributor, I should start by finding something small,
 
-Acked-by: Damien Le Moal <dlemoal@kernel.org>
+I recommend starting in drivers/staging/ and not causing unnecessary
+churn in other parts of the kernel, as you learn the development
+process.  That's what that part of the kernel is for.
 
--- 
-Damien Le Moal
-Western Digital Research
+Also, please don't top-post :)
+
+thanks,
+
+greg k-h
