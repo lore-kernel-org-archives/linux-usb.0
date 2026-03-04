@@ -1,108 +1,104 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pf1-f196.google.com (mail-pf1-f196.google.com [209.85.210.196])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5DC9237C91A;
-	Wed,  4 Mar 2026 08:57:47 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 982F23914E2
+	for <linux-usb@vger.kernel.org>; Wed,  4 Mar 2026 09:04:39 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.196
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1772614667; cv=none; b=gU4q0eHZONXUwyE6UOiHWsk1yy2sCdhbP7VBZ47K/GJ7vprOUi5kryqg0ZxRuRwQiH0N8S9vChwM8lm971abyx7KTTE9d4K9yRXLkilw84U9g5VErVqCGx1J3195CllxVWMfOzNJgIswQHOKJw31KoRQ/BZwhrH63WRRNRS7G2o=
+	t=1772615080; cv=none; b=cO9sRnyGTb8s7qIVQF3U3z2ee0L0dw4R4iwcoeTeGPb2aZkoB/j54nTJ/v6FTWXMGKK4lsBd73eOMHBqNWVZ5SfB85n9j4d5qpv45A6p6qclkRGGKdLRZkxqpljclX8EqnadnvFz8l6fkt7AXpQlZFRG/WCNiwhQ119QDG4iCTo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1772614667; c=relaxed/simple;
-	bh=zk4mZUD99XuyJ9kO5nUDaVSjJ65UdTAwp1sOVrs4xuI=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=be21DNFWoijITdo7TalcDN0hKTEeWn4nll7TPeBOxUiAIKy1kRhkYjL0wru1iFyGSRkdVOQdd+fAHdoUdN8h3MGqQ09/clKxaslh7YNBqV5lBSzC1r2sbbmtIrwz6jAwQg+51FdIuMjNzOY64lVA/2DxnXQLgnl+3wR9PzSlgiA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b=y72TNB7G; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1772615080; c=relaxed/simple;
+	bh=cjlqw66ZCYKJklPuy0cnk/Q74c0mTFKWUE3TU4Zpzxs=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=SERr7rq3Jf8GjY0Z5SCgEl8cSi2dUmONxbqG+RqJCgOlI9Dj+Mv+i7BApgLz//9+gS8kioxVkR74ltX9EAn01mKvmguCFzsP7QBDFQDXcNjSs3L4KFLe5FirPCQu/nDAx8nvBIC7tXhAtNR2zDNbmJTgrIAHDHeHSlKsnbCIWdU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=Cvs5XUBb; arc=none smtp.client-ip=209.85.210.196
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="y72TNB7G"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 7DBFAC19423;
-	Wed,  4 Mar 2026 08:57:46 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
-	s=korg; t=1772614666;
-	bh=zk4mZUD99XuyJ9kO5nUDaVSjJ65UdTAwp1sOVrs4xuI=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=y72TNB7GXGmhicNwVvw4hlqk6eojRbIc7Vo4LKhiAC+R0WsPnLIJ8iVGZTpvnDKPB
-	 wijRfej8bjUUyPfkUSCLix+6EMww4YDd3R1IB2LZY9ci/KuR07lqePdYyfvn8Ckjwy
-	 V7fg2NvPVLCWsop2CEj/kOv61mNfnxxAu4qhJm48=
-Date: Wed, 4 Mar 2026 09:57:33 +0100
-From: Greg KH <gregkh@linuxfoundation.org>
-To: Mark Adamenko <marusik.adamenko@gmail.com>
-Cc: linux-usb@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v2] usb: core: remove unnecessary goto in
- usb_create_newid_files()
-Message-ID: <2026030419-retract-level-7101@gregkh>
-References: <20260304064646.6612-1-marusik.adamenko@gmail.com>
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Cvs5XUBb"
+Received: by mail-pf1-f196.google.com with SMTP id d2e1a72fcca58-8274843810cso3809016b3a.3
+        for <linux-usb@vger.kernel.org>; Wed, 04 Mar 2026 01:04:39 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1772615079; x=1773219879; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=MA2Kae2LZw/5v8o3dz8POaX4QQD8BHSG9UQQmMGQYfs=;
+        b=Cvs5XUBbk8VEfeA6wjdRnGsUUgDIOcrwbvoiXbTVh4gKe3z7CLnvdixdorOTv/3p4B
+         ZG89H8sCA2DqN4KDBqupmpfY7WhUZmWhTmyrJiIFFNn5vwIRI7/iAivTgO+1f8v+R82G
+         yOYJjU2iflXspq2P9YSsCFsYTpehBV315KN7w9dkmYyzolStSMO96QHDXKN0RQymsgKY
+         H0rhzWvTKe2T2RzVD9jqUJ3eKg+S6S/5Eli+HWj+v6tQ4144rt9aqLPXW24jT53iJKa6
+         yiCWo//awuZJXgD/1l2h6E5g9xBRLU+gTizKrjh4j5qp0MfpjSBJQxrvRtZDKSKp8zJJ
+         pKuA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1772615079; x=1773219879;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=MA2Kae2LZw/5v8o3dz8POaX4QQD8BHSG9UQQmMGQYfs=;
+        b=BfmCVfTngwWcM37GEsPJXuiqaZIb+PF3UXwWMWMQCaC5u+TMUd1XPQxWC4RiWX9tXb
+         DYz4DU8pXfaN6ZcOY8elZBy6/8Mlsjd+zrUphm0BPI7QahkecmG1XAith2m/ziS4Nqmt
+         Lqz9XFshWSIlPlH4cke9tfD3bLwLwzz2yxKlO3bxpU7mjS/l04cyaMGa6RhLFxPPLgPn
+         EjnbggV2bct4sTAntqXnMHNwCIs20bM514kT/LOjKZv2mjlCVm3yI9BNMzAEmkZiyANB
+         CmdmltXVusSHdqzefR53FcfmX+d0g4fPmXU4E4ufq8D1MdZhzd7Zh9OiEmgkXFs8jpfM
+         WKqg==
+X-Forwarded-Encrypted: i=1; AJvYcCU/Mm1Z2DUVQYA/GmSdQIBNCQN90kSYFrb4YjHXD4rtisQHYGM2Y3GhbffFK4bMVUbLJ6S7T5fDk6Y=@vger.kernel.org
+X-Gm-Message-State: AOJu0YwhvxM2j7sLMaR7FT3wvRWF7SjSc9KONMhGMifyrh4dIJ69xC+d
+	/EOVaNO8I5tO2f97M+FR6D7p30/0q67O0L6M1BHw5gj/JIuJp3mTfTmpUr8LtLPli7g=
+X-Gm-Gg: ATEYQzxlxpcRpelB6ClIExRer3kcTxP4pynbdnrBLH2vmvsB0cTbsFgnZ/a5s/QqJYQ
+	ly2V4Ovv6FXDUtoB0RS6KaNnCfx+18J3yIv7vLWxJ2udN90YrsEGMF2B21yj4RcyQH6xZP7WNuY
+	co01hzUeztNaJjk/CYK+jhDL++Oaex7IlNBzw5GvV+/MhgEmRcKEyDHO06b+uxePCZ/H0VOM2US
+	Ck5CEThKPqNy2svyaNvd8xvVIzakMbWsMpx2iXzcQWKvt8sxSFG2l5z+LeSGKeZspptBJv3ym1W
+	F9HloxkJ68LW82LGys2U3vOLGXRaum/pJ1KzNfNRafHs6j9ESqPz/5V2xI3J2+BFVUPzdKqkGcV
+	znu2aOws2l9pA8bPHlKq0WAwF45Y6tVo5ucNa2iU6gvTaW8IZC/Y6MK3BHY7wrTRZ65lFRja5bN
+	+KqZyicjxmp1+KXC74Gerd+2fYzs5Q/lwfBchGReobX0LfwdFV50cW7imjt0br9iuUVNkL8Xzxk
+	jbI4N4=
+X-Received: by 2002:a05:6a00:1824:b0:7f6:4922:89c4 with SMTP id d2e1a72fcca58-82972cff3f2mr1143780b3a.55.1772615078885;
+        Wed, 04 Mar 2026 01:04:38 -0800 (PST)
+Received: from zeeshan-Standard-PC-Q35-ICH9-2009.. ([110.93.227.54])
+        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-82739ff372fsm18070598b3a.31.2026.03.04.01.04.34
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 04 Mar 2026 01:04:38 -0800 (PST)
+From: Zeeshan Ahmad <zeeshanahmad022019@gmail.com>
+To: Dan Carpenter <dan.carpenter@linaro.org>
+Cc: smatch@vger.kernel.org,
+	linux-usb@vger.kernel.org,
+	Zeeshan Ahmad <zeeshanahmad022019@gmail.com>
+Subject: Smatch: False positive in __dwc3_gadget_kick_transfer()
+Date: Wed,  4 Mar 2026 14:04:08 +0500
+Message-ID: <20260304090408.36774-1-zeeshanahmad022019@gmail.com>
+X-Mailer: git-send-email 2.43.0
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20260304064646.6612-1-marusik.adamenko@gmail.com>
+Content-Transfer-Encoding: 8bit
 
-On Tue, Mar 03, 2026 at 10:46:46PM -0800, Mark Adamenko wrote:
-> The goto to 'exit' only returns the already initialized variable
-> 'error', which would be 0. At that point it could not yet be anything
-> else. Replacing with an early return 0 removes the
-> need for the label entirely.
-> 
-> Signed-off-by: Mark Adamenko <marusik.adamenko@gmail.com>
-> ---
->  drivers/usb/core/driver.c | 4 ++--
->  1 file changed, 2 insertions(+), 2 deletions(-)
-> 
-> diff --git a/drivers/usb/core/driver.c b/drivers/usb/core/driver.c
-> index 2574e65bc640..752ff84a8dc1 100644
-> --- a/drivers/usb/core/driver.c
-> +++ b/drivers/usb/core/driver.c
-> @@ -186,7 +186,7 @@ static int usb_create_newid_files(struct usb_driver *usb_drv)
->  	int error = 0;
->  
->  	if (usb_drv->no_dynamic_id)
-> -		goto exit;
-> +		return 0;
->  
->  	if (usb_drv->probe != NULL) {
->  		error = driver_create_file(&usb_drv->driver,
-> @@ -199,7 +199,7 @@ static int usb_create_newid_files(struct usb_driver *usb_drv)
->  						&driver_attr_new_id);
->  		}
->  	}
-> -exit:
-> +
->  	return error;
->  }
->  
-> -- 
-> 2.53.0
-> 
-> 
+Hi Dan,
 
-Hi,
+I am performing a logic audit of the DWC3 driver and encountered a 
+consistent Smatch warning in drivers/usb/dwc3/gadget.c that appears 
+to be a false positive.
 
-This is the friendly patch-bot of Greg Kroah-Hartman.  You have sent him
-a patch that has triggered this response.  He used to manually respond
-to these common problems, but in order to save his sanity (he kept
-writing the same thing over and over, yet to different people), I was
-created.  Hopefully you will not take offence and will fix the problem
-in your patch and resubmit it so that it can be accepted into the Linux
-kernel tree.
+The warning:
+drivers/usb/dwc3/gadget.c:1691 __dwc3_gadget_kick_transfer() warn: missing error code? 'ret'
 
-You are receiving this message because of the following common error(s)
-as indicated below:
+The code:
+1680:         ret = dwc3_prepare_trbs(dep);
+1681:         if (ret < 0)
+1682:                 return ret;
+...
+1690:         if (!ret && !starting)
+1691:                 return ret;
 
-- This looks like a new version of a previously submitted patch, but you
-  did not list below the --- line any changes from the previous version.
-  Please read the section entitled "The canonical patch format" in the
-  kernel file, Documentation/process/submitting-patches.rst for what
-  needs to be done here to properly describe this.
+In this context, ret = 0 is a valid success state. As noted in the 
+comment at line 1676, it is normal to have no new TRBs prepared. 
+The return at line 1691 signifies that no update to the transfer 
+is required, which is a successful "no-op" rather than a failure.
 
-If you wish to discuss this problem further, or you have questions about
-how to resolve this issue, please feel free to respond to this email and
-Greg will reply once he has dug out from the pending patches received
-from other developers.
+It seems Smatch is flagging this because it expects a non-zero 
+error code when the primary logic of a function is bypassed by 
+a conditional check.
 
-thanks,
-
-greg k-h's patch email bot
+Best regards,
+Zeeshan Ahmad
