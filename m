@@ -1,250 +1,152 @@
-Received: from smtpbguseast3.qq.com (smtpbguseast3.qq.com [54.243.244.52])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-ed1-f46.google.com (mail-ed1-f46.google.com [209.85.208.46])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7880D39D6C9;
-	Wed,  4 Mar 2026 09:42:42 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=54.243.244.52
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 296DE39A05A
+	for <linux-usb@vger.kernel.org>; Wed,  4 Mar 2026 09:42:48 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.46
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1772617366; cv=none; b=QAy+U6yJhEi969p7yS8axLv/oAUoMSU6CP/z3G44B2stkE1LPsXgu8WzHeJLhpcwLRa9W4WOoTY0DPTvP8gyFuAEDmgzne0mL5Itm/NKqtO/RpI/6bj9x83jNxhpTyKx47mNXRVUZY+KVCnRs95jtSbPaEvR4NjtfziPZZ4gRh0=
+	t=1772617370; cv=none; b=iJxW67UHV8RbCSVYnfBAWl+Pl97R3RYP6jsIwAFQvyjSOB880k2scjPhJPkdziztRap2i9saHPqnB8SIwiG8eTHgQ7NwqDW/Z8HXlmyfqKx1sBslZMh6c1LPDzeDQKjMakT7d5dljgrmW0P3fdxwBkv3jl/jyoe5LuogV+soJ4g=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1772617366; c=relaxed/simple;
-	bh=xUSsOkydNp3uq6fFe9PAhbwC4yfTInu6czge2AyPPYU=;
-	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References; b=GiVv364852Ix64p9YbQYxdgW/BNoWoMzUy7J0r9ENgupwE5fQPj5cLBeLQpD3KHbYzeEPr7IjdcRMQF5THadNK93QA9eBFByzypD74E5Yq0HJAH16tnkBd7idnhzLWkJOYnw1YRRfgZhD06X0ewP8ZwoEkBfsY5nmM6YWG0rN9g=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=airkyi.com; spf=pass smtp.mailfrom=airkyi.com; dkim=pass (1024-bit key) header.d=airkyi.com header.i=@airkyi.com header.b=q2fs4vJJ; arc=none smtp.client-ip=54.243.244.52
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=airkyi.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=airkyi.com
+	s=arc-20240116; t=1772617370; c=relaxed/simple;
+	bh=eO0yI6aojN9eXRGjr9n4XK9BW+Eh5aLi71uSowiURyg=;
+	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=TyyXIf7dBiuM/d481Wk6qKdDBOkmXmyJrkrwTALFDNZDfpiFETNoqIEvwy3vhU/ai28JdA6RWYPb/GbedaFXl52ZQnXtVGVhJtbd9jxZ3HWT58f05Xz5jzY/X5y6WqxL16S5oerLR7maNI8X0HKMdR84EjKdujs1+w3G5z0pG1g=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=Fa9H9MKV; arc=none smtp.client-ip=209.85.208.46
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=airkyi.com header.i=@airkyi.com header.b="q2fs4vJJ"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=airkyi.com;
-	s=altu2504; t=1772617335;
-	bh=OToeNz4t2oXNHYHV6Pu5IF6zpl5lN3hD9z93ek1ZgZE=;
-	h=From:To:Subject:Date:Message-Id;
-	b=q2fs4vJJ9Pg953M8YSK2nQHMIMiRHdNz52yKawru9WahwbK86GCNmPcX/0a9JcAqW
-	 mO4LoKqucSamaECPmvWfaZsAX7j4dsyuWCYEsoAurS30PO7X9rG1v5fxjqFWDroZ9X
-	 W3w+aKT/LpzRlxh1g3pvC3mIK2o2TWJ9uQIH+thk=
-X-QQ-mid: esmtpsz11t1772617328tcb692adf
-X-QQ-Originating-IP: eI4sld9gb/MYkTQBflnzN3OZF8EXbfFF/XhG0TH49SM=
-Received: from DESKTOP-8BT1A2O.localdomain ( [58.22.7.114])
-	by bizesmtp.qq.com (ESMTP) with 
-	id ; Wed, 04 Mar 2026 17:42:03 +0800 (CST)
-X-QQ-SSF: 0000000000000000000000000000000
-X-QQ-GoodBg: 0
-X-BIZMAIL-ID: 2636057480523225983
-From: Chaoyi Chen <kernel@airkyi.com>
-To: Heikki Krogerus <heikki.krogerus@linux.intel.com>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>,
-	Peter Chen <hzpeterchen@gmail.com>,
-	Luca Ceresoli <luca.ceresoli@bootlin.com>,
-	Rob Herring <robh@kernel.org>,
-	Krzysztof Kozlowski <krzk+dt@kernel.org>,
-	Conor Dooley <conor+dt@kernel.org>,
-	Vinod Koul <vkoul@kernel.org>,
-	Kishon Vijay Abraham I <kishon@kernel.org>,
-	Heiko Stuebner <heiko@sntech.de>,
-	Sandy Huang <hjc@rock-chips.com>,
-	Andy Yan <andy.yan@rock-chips.com>,
-	Yubing Zhang <yubing.zhang@rock-chips.com>,
-	Frank Wang <frank.wang@rock-chips.com>,
-	Andrzej Hajda <andrzej.hajda@intel.com>,
-	Neil Armstrong <neil.armstrong@linaro.org>,
-	Robert Foss <rfoss@kernel.org>,
-	Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
-	Jonas Karlman <jonas@kwiboo.se>,
-	Jernej Skrabec <jernej.skrabec@gmail.com>,
-	Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
-	Maxime Ripard <mripard@kernel.org>,
-	Thomas Zimmermann <tzimmermann@suse.de>,
-	David Airlie <airlied@gmail.com>,
-	Simona Vetter <simona@ffwll.ch>,
-	Amit Sunil Dhamne <amitsd@google.com>,
-	Dragan Simic <dsimic@manjaro.org>,
-	Johan Jonker <jbx6244@gmail.com>,
-	Diederik de Haas <didi.debian@cknow.org>,
-	Peter Robinson <pbrobinson@gmail.com>,
-	Hugh Cole-Baker <sigmaris@gmail.com>
-Cc: linux-usb@vger.kernel.org,
-	devicetree@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	linux-phy@lists.infradead.org,
-	linux-arm-kernel@lists.infradead.org,
-	linux-rockchip@lists.infradead.org,
-	dri-devel@lists.freedesktop.org,
-	Chaoyi Chen <chaoyi.chen@rock-chips.com>
-Subject: [PATCH v15 1/9] drm/bridge: Implement generic USB Type-C DP HPD bridge
-Date: Wed,  4 Mar 2026 17:41:44 +0800
-Message-Id: <20260304094152.92-2-kernel@airkyi.com>
-X-Mailer: git-send-email 2.17.1
-In-Reply-To: <20260304094152.92-1-kernel@airkyi.com>
-References: <20260304094152.92-1-kernel@airkyi.com>
-X-QQ-SENDSIZE: 520
-Feedback-ID: esmtpsz:airkyi.com:qybglogicsvrgz:qybglogicsvrgz6b-0
-X-QQ-XMAILINFO: MpO6L0LObisW8Yg5hLugK0zi9RCJcIL0K36m+Rd24XVYe2mRdfwIkBxv
-	uvC8ZZXX5XZ80iW0pWPmv4vvgStOiY4RTMg/lXD6Gs7VLk4IKUi/4LDhrW4+e6x4h22IeQW
-	Kwp8k9ttdsczmc274mAElzdfMnSMmjvF8yhcnkPyhPcrmDSoVLy7iDX+BnsjT0wEkQ/dsQy
-	1XkND4PT3wBJScYByvs6TfvMQAYod4CMqgf3N5XaZgsCXXRunT04WoDSFwyrZoURDc0Nr33
-	jKdd/X3CXnbwFl7pSye4cTAQzG8i8Hy3aLXET69aJSjryrBBQK5kcuxphU2+RW3PyjHSnDE
-	fj2Ds8fSv7nGB1vvOphP5CQpdsUac64Pdk0b4FrEzGMjaWNuEkwsjAgHD5tF11ed6LRFTFS
-	kEAJTRZe5P7woiiJ6aBaZxAXCOiL8etQmOxiCA5oz2Xm8EUDxPpUt0QPC7DHTgLpJ4/TXD1
-	Q24mxeW5Lw/iOhW247cwmcBsrI3UK8INVNo/VDXakTmqTptvJIkzegRejtYLkKRWaPWYmYh
-	/lvkBppy3u7yHRdQkfVYUj9tUstGkQ4SwM1DyFSmYLVP0NK7NMqzdDm5ji8BVlK2rj37QHE
-	Sus1AFD/86YY4ieEcrxEttaBxQ4ZjiOkMS2FE7gSHcKPePYTPNLaCeMbwU5vI5V4E1Lt64M
-	BMiTkAsnfrb+c96Q4bvNjdmZLF3KSDFNcYznXXDbzOqiAJUI1fzZfANtzPcckjAvmS7OktU
-	oF8KhBvemAMzlnuiF+RA+quAQ8XrGvEmsBftodGQEnNfUZgWcL9PkRxrhsMblMbKBx4haLA
-	aj7gl2jhj8Dbb5qXKZ/jKdZlYkBJwKO14zh6mi0wWl8TS0KK1NIEnrCTaRAku4Dq3hATlgs
-	22CNspAJZcnhPdLI3lNdt22an/qqncbaw8TDjSuyu4sT6+qqzfwc+6PremvJciGj4gQ745W
-	Fx6W/0EI4usiNN3BdreRCjiW/8igccK0ZfUnRNFUMiVl40qkEdCeAQusZ8dmuQ1ebmnxzGP
-	lMcFlbZ5BF+wAsTFGp
-X-QQ-XMRINFO: NyFYKkN4Ny6FuXrnB5Ye7Aabb3ujjtK+gg==
-X-QQ-RECHKSPAM: 0
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Fa9H9MKV"
+Received: by mail-ed1-f46.google.com with SMTP id 4fb4d7f45d1cf-660d2e4846cso377564a12.2
+        for <linux-usb@vger.kernel.org>; Wed, 04 Mar 2026 01:42:48 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1772617367; x=1773222167; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:subject:cc:to:from:date:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=HN6rdcIbLsRxQD4oh3MaVWieTlIlwPUMb/Noz+XjGoI=;
+        b=Fa9H9MKVin7K2OABS1ImU5tH6FO2akSft2tcZjyJtdEAVphS43dXfBNkxNmR1tWJXj
+         O2IWtB+ufY1mJ5ojEZz9tHeg+vWgMl8vdvtv2WSAVxg2B9JK29yOk9MM+qaGOyilr/lF
+         e8H1XvjrU0Iel5YWBBe3kHizFxOugQBlMFgk71rf3XhlBkn/DqfI7ewJ9mxM49VpQheu
+         lNm+s6trvwl+eYrMgrgC5OZprnqnpt2PEqS5EuxD8lsU9J9bobGuYboqKd/Nm/fwbHbF
+         4gG/QCSUQxlSjoPXG6OT6sot0584if0UstRrrdduolx1IzvcBky/jWiHAIjg4geLwice
+         w23w==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1772617367; x=1773222167;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:subject:cc:to:from:date:x-gm-gg:x-gm-message-state:from
+         :to:cc:subject:date:message-id:reply-to;
+        bh=HN6rdcIbLsRxQD4oh3MaVWieTlIlwPUMb/Noz+XjGoI=;
+        b=cYEfOMvXg1WCVgyx6nJYm+v6tTiPDEDMB01EvlsnhCIxNaNXg343PF6N1ptBZn4Uhd
+         1D7gELiC6IBsSL92H/EY9QsMu5GJYODFMckmdTjCrQIWf+XXt+BtLqoQcMx1DsoDXDpS
+         ue6CQOUkNqpOWuTJxhuWcJV75PEX9wkITn+E1qgw4QQaG9uDYWtGieBp+pyTm3+mhHJE
+         EMyOgrjFj7Y2JsdVTuy8KKiW/2cWOCrui+fYvvtdjo3E/afw8RQ3hckMZ2nuHz0huXSy
+         pc4B/rU/+WnfbiuOVyehwhQwyu3nX2+4WG6gJZXoV8L9si8xtpPSiEU5AhtKp5DkbvJX
+         /MOg==
+X-Forwarded-Encrypted: i=1; AJvYcCU/pBDTvZGZL7zkl/7HMUROoPxLp0TVGACA6ffFJnvka7/4u/LObsRYSdFMrC7sNvacuFV/Qe6UUMw=@vger.kernel.org
+X-Gm-Message-State: AOJu0YzQMW+JEJgTCPuajjRH78DumplAQYpC4qJ+Yfz2ipT7MOsJFTLm
+	WKn/t2kpZrjK3KlnZXnWAuiVLAq25J8Rd47KGpaoqEiOXC/850G93T/8kO+huw==
+X-Gm-Gg: ATEYQzyrODd6ebx76h/NktWyJF4u5+RztTex+I5UT1h8GHKzjxIGEmMEOLiUFXkVGar
+	PEBOQR3XuzH/q+/VGtg94WllMUFVlPOKBDXnmdmrLjkEJEYKokP8/NeM5bhNMekll9AqbkXMbiR
+	gh1cLyHeI1c03UIQakRmyideGAqNpmpsKYFqvajaoDFjnSHUw2mQEnKH6hoSjtfd9ELvTJglTTW
+	eXF2/914HwH4DmODroU6Qod8NujaZzzpwS7Gg8UE81TVACN0ZXTlPjLv1ywrOGSjEybGYSsFcGt
+	//0GBJ6CkDoYj06N0negvXGSQOO0Yuhn1NoaLJp5vW+Cqla57iYYL4eQpIUwfpuiH0dJ90ZDrlb
+	VUhiRMb+zHoFxW+NkdKRqy7p6g2XdGQG6yTxRh94jsOE/BTh+paTfujUb6vEkFUdoASCy/ml+Dn
+	3RWXCh8uy8HABm/Ls8lOM091jjZOx4nsp2
+X-Received: by 2002:a17:907:9284:b0:b93:a02d:2ef3 with SMTP id a640c23a62f3a-b93f14504femr79843766b.41.1772617367128;
+        Wed, 04 Mar 2026 01:42:47 -0800 (PST)
+Received: from foxbook (bfj19.neoplus.adsl.tpnet.pl. [83.28.47.19])
+        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-b935aee3ab4sm709792066b.61.2026.03.04.01.42.46
+        (version=TLS1_2 cipher=AES128-SHA bits=128/128);
+        Wed, 04 Mar 2026 01:42:46 -0800 (PST)
+Date: Wed, 4 Mar 2026 10:42:44 +0100
+From: Michal Pecio <michal.pecio@gmail.com>
+To: Mathias Nyman <mathias.nyman@linux.intel.com>
+Cc: <gregkh@linuxfoundation.org>, <linux-usb@vger.kernel.org>, "Rai
+ Amardeep" <amardeep.rai@intel.com>
+Subject: Re: [PATCH 23/23] usb: xhci: Add debugfs support for xHCI Port Link
+ Info (PORTLI) register.
+Message-ID: <20260304103856.48b785fd.michal.pecio@gmail.com>
+In-Reply-To: <20251119142417.2820519-24-mathias.nyman@linux.intel.com>
+References: <20251119142417.2820519-1-mathias.nyman@linux.intel.com>
+	<20251119142417.2820519-24-mathias.nyman@linux.intel.com>
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
 
-From: Chaoyi Chen <chaoyi.chen@rock-chips.com>
+On Wed, 19 Nov 2025 16:24:17 +0200, Mathias Nyman wrote:
+> From: "Rai, Amardeep" <amardeep.rai@intel.com>
+> 
+> Each xHCI roothub port has a Port Link Info (PORTLI) register that is
+> used by USB3 and eUSB2V2 ports.
+> 
+> USB3 ports show link error count, rx lane count, and tx lane count.
+> 
+> eUSB2V2 ports show Rx Data Rate (RDR) and Tx Data Rate (TDR).
+> 
+> Rx/Tx Data Rate is a multiple of USB2 2.0 HS 480 Mb/s data rates,
+> and is only valid if a eUSB2V2 device is connected (CCS=1).
+> 
+> 0 = "USB 2.0 HS" normal HS 480 Mb/s, no eUSB2V2 in use
+> 1 = "HS1" Assymetric eUSB2V2 where this direction runs normal 480Mb/s
+> 2 = "HS2" 960Mb/s
+> ...
+> 10 = "HS10" 4.8 Gb/s, max eUSB2V2 rate
+> 
+> PORTLI is Reserved and preserve "RsvdP" for normal USB2 ports
+> 
+> Sample output of USB3 port PORTLI:
+> cat /sys/kernel/debug/usb/xhci/0000:00:14.0/ports/port14/portli
+> 0x00000000 LEC=0 RLC=0 TLC=0
+> 
+> Signed-off-by: Rai, Amardeep <amardeep.rai@intel.com>
+> Co-developed-by: Mathias Nyman <mathias.nyman@linux.intel.com>
+> Signed-off-by: Mathias Nyman <mathias.nyman@linux.intel.com>
 
-The HPD function of Type-C DP is implemented through
-drm_connector_oob_hotplug_event(). For embedded DP, it is required
-that the DRM connector fwnode corresponds to the Type-C port fwnode.
+Hi,
 
-To describe the relationship between the DP controller and the Type-C
-port device, we usually using drm_bridge to build a bridge chain.
+This patch causes an oops when there are more port registers counted in
+xhci->max_ports than ports reported by Supported Protocol capabilities.
+On my HW it's due to max_ports being more than maximum port number, but
+it seems that gaps between ports of different speeds are also possible.
 
-Now several USB-C controller drivers have already implemented the DP
-HPD bridge function provided by aux-hpd-bridge.c, it will build a DP
-HPD bridge on USB-C connector port device.
+> +static int xhci_portli_show(struct seq_file *s, void *unused)
+> +{
+> +	struct xhci_port	*port = s->private;
+> +	struct xhci_hcd		*xhci = hcd_to_xhci(port->rhub->hcd);
 
-But this requires the USB-C controller driver to manually register the
-HPD bridge. If the driver does not implement this feature, the bridge
-will not be create.
+In such cases port->rhub will be NULL so we can't reach xhci. One
+obvious solution (which works for me) is an explicit NULL check here
+and another seq_printf just for this case, followed by early return.
 
-So this patch implements a generic DP HPD bridge based on
-aux-hpd-bridge.c. It will monitor Type-C bus events, and when a
-Type-C port device containing the DP svid is registered, it will
-create an HPD bridge for it without the need for the USB-C controller
-driver to implement it.
+Or maybe not bother printing anything and just return?
+Or make this check before creating the files in the first place?
 
-Signed-off-by: Chaoyi Chen <chaoyi.chen@rock-chips.com>
-Reviewed-by: Heikki Krogerus <heikki.krogerus@linux.intel.com>
----
+> +	u32			portli;
+> +
+> +	portli = readl(&port->port_reg->portli);
+> +
+> +	/* PORTLI fields are valid if port is a USB3 or eUSB2V2 port */
+> +	if (port->rhub == &xhci->usb3_rhub)
+> +		seq_printf(s, "0x%08x LEC=%u RLC=%u TLC=%u\n", portli,
+> +			   PORT_LEC(portli), PORT_RX_LANES(portli), PORT_TX_LANES(portli));
+> +	else if (xhci->hcc_params2 & HCC2_E2V2C)
+> +		seq_printf(s, "0x%08x RDR=%u TDR=%u\n", portli,
+> +			   PORTLI_RDR(portli), PORTLI_TDR(portli));
 
-(no changes since v14)
+Or I suppose we could alternatively use PORTSC to determine speed
+and remove the dependency on hcc_params2 by always decoding eUSB2v2
+fields whether the HW supports it or not. It's debugfs, who cares.
 
-Changes in v13:
-- Only register drm dp hpd bridge for typec port altmode device.
+> +	else
+> +		seq_printf(s, "0x%08x RsvdP\n", portli);
+> +
+> +	return 0;
+> +}
 
-(no changes since v12)
-
-Changes in v11:
-- Switch to using typec bus notifiers.
-
-(no changes since v10)
-
-Changes in v9:
-- Remove the exposed DRM_AUX_HPD_BRIDGE option, and select
-DRM_AUX_HPD_TYPEC_BRIDGE when it is available.
-- Add more commit comment about problem background.
-
-Changes in v8:
-- Merge generic DP HPD bridge into one module.
----
-
- drivers/gpu/drm/bridge/Kconfig                | 10 ++++
- drivers/gpu/drm/bridge/Makefile               |  1 +
- .../gpu/drm/bridge/aux-hpd-typec-dp-bridge.c  | 49 +++++++++++++++++++
- 3 files changed, 60 insertions(+)
- create mode 100644 drivers/gpu/drm/bridge/aux-hpd-typec-dp-bridge.c
-
-diff --git a/drivers/gpu/drm/bridge/Kconfig b/drivers/gpu/drm/bridge/Kconfig
-index a250afd8d662..559487aa09a9 100644
---- a/drivers/gpu/drm/bridge/Kconfig
-+++ b/drivers/gpu/drm/bridge/Kconfig
-@@ -30,6 +30,16 @@ config DRM_AUX_HPD_BRIDGE
- 	  Simple bridge that terminates the bridge chain and provides HPD
- 	  support.
- 
-+if DRM_AUX_HPD_BRIDGE
-+config DRM_AUX_HPD_TYPEC_BRIDGE
-+	tristate
-+	depends on TYPEC || !TYPEC
-+	default TYPEC
-+	help
-+	  Simple bridge that terminates the bridge chain and provides HPD
-+	  support. It build bridge on each USB-C connector device node.
-+endif
-+
- menu "Display Interface Bridges"
- 	depends on DRM && DRM_BRIDGE
- 
-diff --git a/drivers/gpu/drm/bridge/Makefile b/drivers/gpu/drm/bridge/Makefile
-index c7dc03182e59..a3a0393d2e72 100644
---- a/drivers/gpu/drm/bridge/Makefile
-+++ b/drivers/gpu/drm/bridge/Makefile
-@@ -1,6 +1,7 @@
- # SPDX-License-Identifier: GPL-2.0
- obj-$(CONFIG_DRM_AUX_BRIDGE) += aux-bridge.o
- obj-$(CONFIG_DRM_AUX_HPD_BRIDGE) += aux-hpd-bridge.o
-+obj-$(CONFIG_DRM_AUX_HPD_TYPEC_BRIDGE) += aux-hpd-typec-dp-bridge.o
- obj-$(CONFIG_DRM_CHIPONE_ICN6211) += chipone-icn6211.o
- obj-$(CONFIG_DRM_CHRONTEL_CH7033) += chrontel-ch7033.o
- obj-$(CONFIG_DRM_CROS_EC_ANX7688) += cros-ec-anx7688.o
-diff --git a/drivers/gpu/drm/bridge/aux-hpd-typec-dp-bridge.c b/drivers/gpu/drm/bridge/aux-hpd-typec-dp-bridge.c
-new file mode 100644
-index 000000000000..d915e0fb0668
---- /dev/null
-+++ b/drivers/gpu/drm/bridge/aux-hpd-typec-dp-bridge.c
-@@ -0,0 +1,49 @@
-+// SPDX-License-Identifier: GPL-2.0+
-+#include <linux/of.h>
-+#include <linux/usb/typec_altmode.h>
-+#include <linux/usb/typec_dp.h>
-+
-+#include <drm/bridge/aux-bridge.h>
-+
-+static int drm_typec_bus_event(struct notifier_block *nb,
-+			       unsigned long action, void *data)
-+{
-+	struct device *dev = (struct device *)data;
-+	struct typec_altmode *alt = to_typec_altmode(dev);
-+
-+	if (action != BUS_NOTIFY_ADD_DEVICE)
-+		goto done;
-+
-+	/*
-+	 * alt->dev.parent->parent : USB-C controller device
-+	 * alt->dev.parent         : USB-C connector device
-+	 */
-+	if (is_typec_port_altmode(&alt->dev) && alt->svid == USB_TYPEC_DP_SID)
-+		drm_dp_hpd_bridge_register(alt->dev.parent->parent,
-+					   to_of_node(alt->dev.parent->fwnode));
-+
-+done:
-+	return NOTIFY_OK;
-+}
-+
-+static struct notifier_block drm_typec_event_nb = {
-+	.notifier_call = drm_typec_bus_event,
-+};
-+
-+static void drm_aux_hpd_typec_dp_bridge_module_exit(void)
-+{
-+	bus_unregister_notifier(&typec_bus, &drm_typec_event_nb);
-+}
-+
-+static int __init drm_aux_hpd_typec_dp_bridge_module_init(void)
-+{
-+	bus_register_notifier(&typec_bus, &drm_typec_event_nb);
-+
-+	return 0;
-+}
-+
-+module_init(drm_aux_hpd_typec_dp_bridge_module_init);
-+module_exit(drm_aux_hpd_typec_dp_bridge_module_exit);
-+
-+MODULE_DESCRIPTION("DRM TYPEC DP HPD BRIDGE");
-+MODULE_LICENSE("GPL");
--- 
-2.51.1
-
+Regards,
+Michal
