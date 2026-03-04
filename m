@@ -1,172 +1,69 @@
-Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.223.130])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 00E7D349B02
-	for <linux-usb@vger.kernel.org>; Wed,  4 Mar 2026 16:07:43 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.130
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 806DD33E7;
+	Wed,  4 Mar 2026 16:11:46 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1772640465; cv=none; b=goOCjBb21+kWJ6Ac56k/cXXoTovMpdYOkelpt8LcFknXEmtURCgL29Is3A/c3jYne61Ivr4AORaR6N59cuQSWIvQxJnP1aopcwDWVX37n+g00on2HoXe3oL5bdeMx/R58S5lAP0gnmFQqc+zToljq4rjXouTWDRutGRhHCwXVz8=
+	t=1772640706; cv=none; b=VQ179dcXXKFej/V5q6gG186Y+OUMKZxkxR4uoOUTkLiTcYses3oYQcbKhltXDmmvPDfsKMKr8cGLuuGw7JrJd1tMZiEsOYZNDFdU1rcyiMYtLW3lHNxAIM8Ht+3QQx2kcU/NwhBZJfFKhy9acYBYmm0DuDyZ42qXMyV4epuMWK4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1772640465; c=relaxed/simple;
-	bh=YgFmx+v98zs8g17Xh6aLFsCHK5Rb1tvpJaqlxcX9gBw=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=MHtnVL1KJqyj8uvZ7/GdvTL2rdHHk3j1gj7BhwWEXrWacNRyXoLK1JHPVgJgLwrhSru0yqQgtRCIYqMwoeHry3gLQwhqHTvM+JTfubI8RormnrXQDG1wJZ5rBbdj90q1G4E+zH5llynYmsk50De2hGPY39bhKzbUNotLSvaFcf0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=suse.com; spf=pass smtp.mailfrom=suse.com; dkim=pass (1024-bit key) header.d=suse.com header.i=@suse.com header.b=r1S2AEmR; dkim=pass (1024-bit key) header.d=suse.com header.i=@suse.com header.b=r1S2AEmR; arc=none smtp.client-ip=195.135.223.130
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=suse.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.com
+	s=arc-20240116; t=1772640706; c=relaxed/simple;
+	bh=qk4doE/6U6idW6ZjQOxlCDoRpBaNMvr1KYawbH7dg44=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=guABQQACf5DxLEG/vh4mqCQsiYZVzELhbtZTyuG6GLF3qxne2vRm5XYm2sxi52p8tlrWAgSGvOf4NhSjIMDwVTlFTDQpD1JMNUQAfQdO09YO90RxNlPr25SzZ81J8WtCBRiYp0HB+h6JzOmViPX1429b1m9iq3W8GtJ0prZUI6g=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b=yAh+Tg1u; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=suse.com header.i=@suse.com header.b="r1S2AEmR";
-	dkim=pass (1024-bit key) header.d=suse.com header.i=@suse.com header.b="r1S2AEmR"
-Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org [IPv6:2a07:de40:b281:104:10:150:64:97])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by smtp-out1.suse.de (Postfix) with ESMTPS id 25F7F3F811;
-	Wed,  4 Mar 2026 16:07:42 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.com; s=susede1;
-	t=1772640462; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:  content-transfer-encoding:content-transfer-encoding;
-	bh=YFv0qgYpEEHKoKFpwPmGqyU5qAbeZQaG6tOk9+qgdCQ=;
-	b=r1S2AEmRPLzR2paRo3/pmCZwTLg0DCrzDFGQimKEwO+chthkJwrz0x6+Nx9lqwlf4+5N0j
-	e9lgGNEyXoZ9VZbSxGmM0wx+ZSh3A6c5e9134gyYhOvvWy97O/anJrqqpDxXmVQFbdJVRd
-	AsQT05/m9BGG9JibzOvhyiVT7L7pPB8=
-Authentication-Results: smtp-out1.suse.de;
-	dkim=pass header.d=suse.com header.s=susede1 header.b=r1S2AEmR
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.com; s=susede1;
-	t=1772640462; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:  content-transfer-encoding:content-transfer-encoding;
-	bh=YFv0qgYpEEHKoKFpwPmGqyU5qAbeZQaG6tOk9+qgdCQ=;
-	b=r1S2AEmRPLzR2paRo3/pmCZwTLg0DCrzDFGQimKEwO+chthkJwrz0x6+Nx9lqwlf4+5N0j
-	e9lgGNEyXoZ9VZbSxGmM0wx+ZSh3A6c5e9134gyYhOvvWy97O/anJrqqpDxXmVQFbdJVRd
-	AsQT05/m9BGG9JibzOvhyiVT7L7pPB8=
-Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 038343EA69;
-	Wed,  4 Mar 2026 16:07:41 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
-	by imap1.dmz-prg2.suse.org with ESMTPSA
-	id tQ9AO81YqGnqfAAAD6G6ig
-	(envelope-from <oneukum@suse.com>); Wed, 04 Mar 2026 16:07:41 +0000
-From: Oliver Neukum <oneukum@suse.com>
-To: gregkh@linuxfoundation.org,
-	kees@kernel.org,
-	linux-usb@vger.kernel.org
-Cc: Oliver Neukum <oneukum@suse.com>
-Subject: [PATCH] usb: uss720: unify error handling in probe
-Date: Wed,  4 Mar 2026 17:07:30 +0100
-Message-ID: <20260304160734.1742200-1-oneukum@suse.com>
-X-Mailer: git-send-email 2.53.0
+	dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="yAh+Tg1u"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id BD2C9C4CEF7;
+	Wed,  4 Mar 2026 16:11:45 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
+	s=korg; t=1772640706;
+	bh=qk4doE/6U6idW6ZjQOxlCDoRpBaNMvr1KYawbH7dg44=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=yAh+Tg1uQeXE0vS0SKwy26+9UAlLOYPZAVhAQzt3Z7EfLFGq9u0vAZwexwyebYehb
+	 P2jonRbK8cWJ2oc5rSEiGGU8YrGL0e9byL/U0kjIJM6ruWBRtTSxCVt5Vzc6qc9C/m
+	 JTAkgjgi28ildUqEYWgE7mhCi2btsqxkwwIf1E2M=
+Date: Wed, 4 Mar 2026 17:11:32 +0100
+From: Greg KH <gregkh@linuxfoundation.org>
+To: Mark Adamenko <marusik.adamenko@gmail.com>
+Cc: linux-usb@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v3] usb: core: remove unnecessary goto in
+ usb_create_newid_files()
+Message-ID: <2026030412-trace-sneer-60bf@gregkh>
+References: <20260304155812.4559-1-marusik.adamenko@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Rspamd-Action: no action
-X-Rspamd-Server: rspamd2.dmz-prg2.suse.org
-X-Spamd-Result: default: False [-3.01 / 50.00];
-	BAYES_HAM(-3.00)[99.99%];
-	MID_CONTAINS_FROM(1.00)[];
-	NEURAL_HAM_LONG(-1.00)[-1.000];
-	R_MISSING_CHARSET(0.50)[];
-	R_DKIM_ALLOW(-0.20)[suse.com:s=susede1];
-	NEURAL_HAM_SHORT(-0.20)[-1.000];
-	MIME_GOOD(-0.10)[text/plain];
-	MX_GOOD(-0.01)[];
-	TO_MATCH_ENVRCPT_ALL(0.00)[];
-	MIME_TRACE(0.00)[0:+];
-	ARC_NA(0.00)[];
-	TO_DN_SOME(0.00)[];
-	DKIM_SIGNED(0.00)[suse.com:s=susede1];
-	RBL_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:104:10:150:64:97:from];
-	FUZZY_RATELIMITED(0.00)[rspamd.com];
-	RCVD_TLS_ALL(0.00)[];
-	DKIM_TRACE(0.00)[suse.com:+];
-	RCVD_COUNT_TWO(0.00)[2];
-	FROM_EQ_ENVFROM(0.00)[];
-	FROM_HAS_DN(0.00)[];
-	SPAMHAUS_XBL(0.00)[2a07:de40:b281:104:10:150:64:97:from];
-	DNSWL_BLOCKED(0.00)[2a07:de40:b281:104:10:150:64:97:from,2a07:de40:b281:106:10:150:64:167:received];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
-	RECEIVED_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:106:10:150:64:167:received];
-	RCPT_COUNT_THREE(0.00)[4];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[suse.com:dkim,suse.com:mid,suse.com:email,imap1.dmz-prg2.suse.org:helo,imap1.dmz-prg2.suse.org:rdns]
-X-Rspamd-Queue-Id: 25F7F3F811
-X-Spam-Flag: NO
-X-Spam-Score: -3.01
-X-Spam-Level: 
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20260304155812.4559-1-marusik.adamenko@gmail.com>
 
-There is a lot of code duplication.
-Unify it.
+On Wed, Mar 04, 2026 at 07:58:12AM -0800, Mark Adamenko wrote:
+> The goto to 'exit' only returns the already initialized variable
+> 'error', which would be 0. At that point it could not yet be anything
+> else. Replacing with an early return 0 removes the
+> need for the label entirely.
 
-Signed-off-by: Oliver Neukum <oneukum@suse.com>
----
- drivers/usb/misc/uss720.c | 27 ++++++++++++++-------------
- 1 file changed, 14 insertions(+), 13 deletions(-)
+Odd text wrapping :(
 
-diff --git a/drivers/usb/misc/uss720.c b/drivers/usb/misc/uss720.c
-index ec8bd968c4de..616c92ce5e1a 100644
---- a/drivers/usb/misc/uss720.c
-+++ b/drivers/usb/misc/uss720.c
-@@ -677,35 +677,32 @@ static int uss720_probe(struct usb_interface *intf,
- 	struct parport_uss720_private *priv;
- 	struct parport *pp;
- 	unsigned char reg;
--	int ret;
-+	int ret = -ENODEV;
- 
- 	dev_dbg(&intf->dev, "probe: vendor id 0x%x, device id 0x%x\n",
- 		le16_to_cpu(usbdev->descriptor.idVendor),
- 		le16_to_cpu(usbdev->descriptor.idProduct));
- 
- 	/* our known interfaces have 3 alternate settings */
--	if (intf->num_altsetting != 3) {
--		usb_put_dev(usbdev);
--		return -ENODEV;
--	}
-+	if (intf->num_altsetting != 3)
-+		goto bail_out_early;
-+
- 	ret = usb_set_interface(usbdev, intf->altsetting->desc.bInterfaceNumber, 2);
- 	dev_dbg(&intf->dev, "set interface result %d\n", ret);
- 
- 	interface = intf->cur_altsetting;
- 
--	if (interface->desc.bNumEndpoints < 2) {
--		usb_put_dev(usbdev);
--		return -ENODEV;
--	}
-+	if (interface->desc.bNumEndpoints < 2)
-+		goto bail_out_early;
- 
- 	/*
- 	 * Allocate parport interface 
- 	 */
-+	ret = -ENOMEM;
- 	priv = kzalloc_obj(struct parport_uss720_private);
--	if (!priv) {
--		usb_put_dev(usbdev);
--		return -ENOMEM;
--	}
-+	if (!priv)
-+		goto bail_out_early;
-+
- 	priv->pp = NULL;
- 	priv->usbdev = usbdev;
- 	kref_init(&priv->ref_count);
-@@ -752,6 +749,10 @@ static int uss720_probe(struct usb_interface *intf,
- 	kill_all_async_requests_priv(priv);
- 	kref_put(&priv->ref_count, destroy_priv);
- 	return -ENODEV;
-+
-+bail_out_early:
-+	usb_put_dev(usbdev);
-+	return ret;
- }
- 
- static void uss720_disconnect(struct usb_interface *intf)
--- 
-2.53.0
+> 
+> Signed-off-by: Mark Adamenko <marusik.adamenko@gmail.com>
+> ---
+> v3: fix missing return statement at end of function
+> ---
 
+You forgot the other versions listed here :(
+
+>  drivers/usb/core/driver.c | 4 ++--
+>  1 file changed, 2 insertions(+), 2 deletions(-)
+
+But first, why?  There's no real need for this change, why make it at
+all?  It follows the "standard" way of jumping to the end of the
+function to exit.  What tool asked you to make this change?
+
+thanks,
+
+greg k-h
