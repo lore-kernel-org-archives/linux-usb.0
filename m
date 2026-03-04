@@ -1,152 +1,163 @@
-Received: from mail-ed1-f46.google.com (mail-ed1-f46.google.com [209.85.208.46])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtpbg150.qq.com (smtpbg150.qq.com [18.132.163.193])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 296DE39A05A
-	for <linux-usb@vger.kernel.org>; Wed,  4 Mar 2026 09:42:48 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.46
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9956336DA12;
+	Wed,  4 Mar 2026 09:43:00 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=18.132.163.193
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1772617370; cv=none; b=iJxW67UHV8RbCSVYnfBAWl+Pl97R3RYP6jsIwAFQvyjSOB880k2scjPhJPkdziztRap2i9saHPqnB8SIwiG8eTHgQ7NwqDW/Z8HXlmyfqKx1sBslZMh6c1LPDzeDQKjMakT7d5dljgrmW0P3fdxwBkv3jl/jyoe5LuogV+soJ4g=
+	t=1772617383; cv=none; b=M39/ZqxCJhKFSaM/jpxkCxrzzNjoLNrDgxvze2dmNtIWHkhGNfK9yX3JDcST3+hQs4q5Glayw8zL8acJ+3wg+gMsuv5JVIL510X2KRtKBiQ2hZSdQqp9e1gd4Ig5wHp5Vt8QP9oMa2DMOyKJgZPSDvfClccEI4jf4GPDrwI0D3g=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1772617370; c=relaxed/simple;
-	bh=eO0yI6aojN9eXRGjr9n4XK9BW+Eh5aLi71uSowiURyg=;
-	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=TyyXIf7dBiuM/d481Wk6qKdDBOkmXmyJrkrwTALFDNZDfpiFETNoqIEvwy3vhU/ai28JdA6RWYPb/GbedaFXl52ZQnXtVGVhJtbd9jxZ3HWT58f05Xz5jzY/X5y6WqxL16S5oerLR7maNI8X0HKMdR84EjKdujs1+w3G5z0pG1g=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=Fa9H9MKV; arc=none smtp.client-ip=209.85.208.46
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1772617383; c=relaxed/simple;
+	bh=yNNivodlTIieW/Vd3vihN5C8kuvtirtl4pr8GWh/M90=;
+	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References; b=tUhsNxve1KjaO2b4+CQrsqzih5qGOiaGA7U2sRo2qpUvkR0WZC9h60kJC66c0GU4Thp+VbFIicuZ4du4j00ZLZNi0m453Im5jl9lNHWTqBRAEbos2O+Ld6E1T6qz+q9Z2jCvNM2/g4pMWB0bXiACwv7HB+nDKyIfUjdnBlE67MY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=airkyi.com; spf=pass smtp.mailfrom=airkyi.com; dkim=pass (1024-bit key) header.d=airkyi.com header.i=@airkyi.com header.b=lwf8qXq8; arc=none smtp.client-ip=18.132.163.193
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=airkyi.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=airkyi.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Fa9H9MKV"
-Received: by mail-ed1-f46.google.com with SMTP id 4fb4d7f45d1cf-660d2e4846cso377564a12.2
-        for <linux-usb@vger.kernel.org>; Wed, 04 Mar 2026 01:42:48 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1772617367; x=1773222167; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:subject:cc:to:from:date:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=HN6rdcIbLsRxQD4oh3MaVWieTlIlwPUMb/Noz+XjGoI=;
-        b=Fa9H9MKVin7K2OABS1ImU5tH6FO2akSft2tcZjyJtdEAVphS43dXfBNkxNmR1tWJXj
-         O2IWtB+ufY1mJ5ojEZz9tHeg+vWgMl8vdvtv2WSAVxg2B9JK29yOk9MM+qaGOyilr/lF
-         e8H1XvjrU0Iel5YWBBe3kHizFxOugQBlMFgk71rf3XhlBkn/DqfI7ewJ9mxM49VpQheu
-         lNm+s6trvwl+eYrMgrgC5OZprnqnpt2PEqS5EuxD8lsU9J9bobGuYboqKd/Nm/fwbHbF
-         4gG/QCSUQxlSjoPXG6OT6sot0584if0UstRrrdduolx1IzvcBky/jWiHAIjg4geLwice
-         w23w==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1772617367; x=1773222167;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:subject:cc:to:from:date:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to;
-        bh=HN6rdcIbLsRxQD4oh3MaVWieTlIlwPUMb/Noz+XjGoI=;
-        b=cYEfOMvXg1WCVgyx6nJYm+v6tTiPDEDMB01EvlsnhCIxNaNXg343PF6N1ptBZn4Uhd
-         1D7gELiC6IBsSL92H/EY9QsMu5GJYODFMckmdTjCrQIWf+XXt+BtLqoQcMx1DsoDXDpS
-         ue6CQOUkNqpOWuTJxhuWcJV75PEX9wkITn+E1qgw4QQaG9uDYWtGieBp+pyTm3+mhHJE
-         EMyOgrjFj7Y2JsdVTuy8KKiW/2cWOCrui+fYvvtdjo3E/afw8RQ3hckMZ2nuHz0huXSy
-         pc4B/rU/+WnfbiuOVyehwhQwyu3nX2+4WG6gJZXoV8L9si8xtpPSiEU5AhtKp5DkbvJX
-         /MOg==
-X-Forwarded-Encrypted: i=1; AJvYcCU/pBDTvZGZL7zkl/7HMUROoPxLp0TVGACA6ffFJnvka7/4u/LObsRYSdFMrC7sNvacuFV/Qe6UUMw=@vger.kernel.org
-X-Gm-Message-State: AOJu0YzQMW+JEJgTCPuajjRH78DumplAQYpC4qJ+Yfz2ipT7MOsJFTLm
-	WKn/t2kpZrjK3KlnZXnWAuiVLAq25J8Rd47KGpaoqEiOXC/850G93T/8kO+huw==
-X-Gm-Gg: ATEYQzyrODd6ebx76h/NktWyJF4u5+RztTex+I5UT1h8GHKzjxIGEmMEOLiUFXkVGar
-	PEBOQR3XuzH/q+/VGtg94WllMUFVlPOKBDXnmdmrLjkEJEYKokP8/NeM5bhNMekll9AqbkXMbiR
-	gh1cLyHeI1c03UIQakRmyideGAqNpmpsKYFqvajaoDFjnSHUw2mQEnKH6hoSjtfd9ELvTJglTTW
-	eXF2/914HwH4DmODroU6Qod8NujaZzzpwS7Gg8UE81TVACN0ZXTlPjLv1ywrOGSjEybGYSsFcGt
-	//0GBJ6CkDoYj06N0negvXGSQOO0Yuhn1NoaLJp5vW+Cqla57iYYL4eQpIUwfpuiH0dJ90ZDrlb
-	VUhiRMb+zHoFxW+NkdKRqy7p6g2XdGQG6yTxRh94jsOE/BTh+paTfujUb6vEkFUdoASCy/ml+Dn
-	3RWXCh8uy8HABm/Ls8lOM091jjZOx4nsp2
-X-Received: by 2002:a17:907:9284:b0:b93:a02d:2ef3 with SMTP id a640c23a62f3a-b93f14504femr79843766b.41.1772617367128;
-        Wed, 04 Mar 2026 01:42:47 -0800 (PST)
-Received: from foxbook (bfj19.neoplus.adsl.tpnet.pl. [83.28.47.19])
-        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-b935aee3ab4sm709792066b.61.2026.03.04.01.42.46
-        (version=TLS1_2 cipher=AES128-SHA bits=128/128);
-        Wed, 04 Mar 2026 01:42:46 -0800 (PST)
-Date: Wed, 4 Mar 2026 10:42:44 +0100
-From: Michal Pecio <michal.pecio@gmail.com>
-To: Mathias Nyman <mathias.nyman@linux.intel.com>
-Cc: <gregkh@linuxfoundation.org>, <linux-usb@vger.kernel.org>, "Rai
- Amardeep" <amardeep.rai@intel.com>
-Subject: Re: [PATCH 23/23] usb: xhci: Add debugfs support for xHCI Port Link
- Info (PORTLI) register.
-Message-ID: <20260304103856.48b785fd.michal.pecio@gmail.com>
-In-Reply-To: <20251119142417.2820519-24-mathias.nyman@linux.intel.com>
-References: <20251119142417.2820519-1-mathias.nyman@linux.intel.com>
-	<20251119142417.2820519-24-mathias.nyman@linux.intel.com>
+	dkim=pass (1024-bit key) header.d=airkyi.com header.i=@airkyi.com header.b="lwf8qXq8"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=airkyi.com;
+	s=altu2504; t=1772617353;
+	bh=Js8LohQ5FKnKhCP/1X+pjHvtWvmL3//jFEdtasdSj/c=;
+	h=From:To:Subject:Date:Message-Id;
+	b=lwf8qXq8cWxcBLOvbGNzseBUtJB9tTf2CdQDEAP0+7AA0eRB1Nox0ipkSULDbovkl
+	 Senr5zwkgsuOrKFYHgzFWi54cTGDc797mTUSYMs97aAhXtAzpAG8boAbfPSCUigk40
+	 iKxvxscvIWb8U9jf6HCfoxiSyv/V0wZjmE7p3Sns=
+X-QQ-mid: esmtpsz11t1772617346t06159e3c
+X-QQ-Originating-IP: nbNoMgw+sJlbtFbTwzXrCmqsHBTzGYwt94vd+Sw6pgk=
+Received: from DESKTOP-8BT1A2O.localdomain ( [58.22.7.114])
+	by bizesmtp.qq.com (ESMTP) with 
+	id ; Wed, 04 Mar 2026 17:42:19 +0800 (CST)
+X-QQ-SSF: 0000000000000000000000000000000
+X-QQ-GoodBg: 0
+X-BIZMAIL-ID: 5088075739087231184
+From: Chaoyi Chen <kernel@airkyi.com>
+To: Heikki Krogerus <heikki.krogerus@linux.intel.com>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>,
+	Peter Chen <hzpeterchen@gmail.com>,
+	Luca Ceresoli <luca.ceresoli@bootlin.com>,
+	Rob Herring <robh@kernel.org>,
+	Krzysztof Kozlowski <krzk+dt@kernel.org>,
+	Conor Dooley <conor+dt@kernel.org>,
+	Vinod Koul <vkoul@kernel.org>,
+	Kishon Vijay Abraham I <kishon@kernel.org>,
+	Heiko Stuebner <heiko@sntech.de>,
+	Sandy Huang <hjc@rock-chips.com>,
+	Andy Yan <andy.yan@rock-chips.com>,
+	Yubing Zhang <yubing.zhang@rock-chips.com>,
+	Frank Wang <frank.wang@rock-chips.com>,
+	Andrzej Hajda <andrzej.hajda@intel.com>,
+	Neil Armstrong <neil.armstrong@linaro.org>,
+	Robert Foss <rfoss@kernel.org>,
+	Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
+	Jonas Karlman <jonas@kwiboo.se>,
+	Jernej Skrabec <jernej.skrabec@gmail.com>,
+	Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+	Maxime Ripard <mripard@kernel.org>,
+	Thomas Zimmermann <tzimmermann@suse.de>,
+	David Airlie <airlied@gmail.com>,
+	Simona Vetter <simona@ffwll.ch>,
+	Amit Sunil Dhamne <amitsd@google.com>,
+	Dragan Simic <dsimic@manjaro.org>,
+	Johan Jonker <jbx6244@gmail.com>,
+	Diederik de Haas <didi.debian@cknow.org>,
+	Peter Robinson <pbrobinson@gmail.com>,
+	Hugh Cole-Baker <sigmaris@gmail.com>
+Cc: linux-usb@vger.kernel.org,
+	devicetree@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	linux-phy@lists.infradead.org,
+	linux-arm-kernel@lists.infradead.org,
+	linux-rockchip@lists.infradead.org,
+	dri-devel@lists.freedesktop.org,
+	Chaoyi Chen <chaoyi.chen@rock-chips.com>
+Subject: [PATCH v15 3/9] dt-bindings: phy: rockchip: rk3399-typec-phy: Support mode-switch
+Date: Wed,  4 Mar 2026 17:41:46 +0800
+Message-Id: <20260304094152.92-4-kernel@airkyi.com>
+X-Mailer: git-send-email 2.17.1
+In-Reply-To: <20260304094152.92-1-kernel@airkyi.com>
+References: <20260304094152.92-1-kernel@airkyi.com>
+X-QQ-SENDSIZE: 520
+Feedback-ID: esmtpsz:airkyi.com:qybglogicsvrgz:qybglogicsvrgz6b-0
+X-QQ-XMAILINFO: Nu7meyJZV74I8XuhR8TLd5rhoqztOBQ3SrKiyZiosZiV7ibcJ29VlVdZ
+	Uodw4QxeSoptIdULBJc5hNwvT1qTbHVCVBMiPnL5ORKVq8RtfdA8QyFKjclAFoU8hqWlVbx
+	vl39LqE4DCsVqxA8z7QIXVGUmPAsexJ81djZrM8oGJY1kzJKorW+ptvp9bbHh3RnNUkThWN
+	Kty3S3Byl8+7PPC8Bu5LZT0u1RwjtsyPTtrubWfGub4u8BSqq1+bKSAEpeZDLD7LQ7LTfKf
+	tKalh+yrPnerjzswBeKjjseJoOaiNCmBXy7wxc0tSrcIMxW9VRyUxfFUatiHtWkx+gg+8iB
+	98+sKfGP+mu2LVjI6O1aK5Fk+1Bt+8OspU/xigcGODSKApNZKLLBZGvGSpNY2HNGL5hiyFx
+	11zgN6ZhVgeA4FdRK2IOKQ+f+oKoC0D3au/oH53ldz1YT+wafVkPzcqSSFXV4kk6RBRR/3M
+	DVsTwSeSG/CGqVqZgD7QEjqDsZrcOnGn1Hw2yjQwyi5AqgxqO89ogFjxV903WAg7352ZUl3
+	W+AdWIeU1SWg+qmgcXbg2PzGlL5iG1Z8wUGv2UfQ3cME/CEvCQEe6BssSOhSVJxWrlbUSLc
+	Qo/nYzS0w68BCnzG/ZPdyuGXRhB/eUqy0EwfPQKkAK2yEQ6O7hzy1YpeQR5wWOXxBZXouKO
+	EVf/6Xcmuc/OZQIv3Ke3tJ8VnvbPWgsk55LGvmDP4h3Rrno1dGFLduyKxQX6EibdHHJqc0J
+	XAxo17kFITkoVnsupR3tkqpP5gOTEyxtElMk3KH08kOKi3P0P2CRqXm293LEL2YeiVsV+2H
+	aNIxryAgLe6Y44wZxP7qsg4Ocj3qUHqaEdQwulvXJ56ANYHMCbGTHes3Eaf/kHkDs0qrEBZ
+	y3MMPHYhPuDk9rvfI49R+wRPr0yd0KVOjY8AzlulQ1yYl/CZaHbhnPJxXNBaNsxmHzKxWjq
+	xqtfY0gB63zNdoRdzGTSfvZ3iGueNHYfyrQP9Xen01kexxU5JZZ6RqRU4/KqezMEAb5IbeX
+	n166nCSpXGZMPW4cnvcC1a0WE/l70=
+X-QQ-XMRINFO: Nq+8W0+stu50tPAe92KXseR0ZZmBTk3gLg==
+X-QQ-RECHKSPAM: 0
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
 
-On Wed, 19 Nov 2025 16:24:17 +0200, Mathias Nyman wrote:
-> From: "Rai, Amardeep" <amardeep.rai@intel.com>
-> 
-> Each xHCI roothub port has a Port Link Info (PORTLI) register that is
-> used by USB3 and eUSB2V2 ports.
-> 
-> USB3 ports show link error count, rx lane count, and tx lane count.
-> 
-> eUSB2V2 ports show Rx Data Rate (RDR) and Tx Data Rate (TDR).
-> 
-> Rx/Tx Data Rate is a multiple of USB2 2.0 HS 480 Mb/s data rates,
-> and is only valid if a eUSB2V2 device is connected (CCS=1).
-> 
-> 0 = "USB 2.0 HS" normal HS 480 Mb/s, no eUSB2V2 in use
-> 1 = "HS1" Assymetric eUSB2V2 where this direction runs normal 480Mb/s
-> 2 = "HS2" 960Mb/s
-> ...
-> 10 = "HS10" 4.8 Gb/s, max eUSB2V2 rate
-> 
-> PORTLI is Reserved and preserve "RsvdP" for normal USB2 ports
-> 
-> Sample output of USB3 port PORTLI:
-> cat /sys/kernel/debug/usb/xhci/0000:00:14.0/ports/port14/portli
-> 0x00000000 LEC=0 RLC=0 TLC=0
-> 
-> Signed-off-by: Rai, Amardeep <amardeep.rai@intel.com>
-> Co-developed-by: Mathias Nyman <mathias.nyman@linux.intel.com>
-> Signed-off-by: Mathias Nyman <mathias.nyman@linux.intel.com>
+From: Chaoyi Chen <chaoyi.chen@rock-chips.com>
 
-Hi,
+The RK3399 SoC integrates two USB/DP combo PHYs, each of which
+supports software-configurable pin mapping and DisplayPort lane
+assignment. These capabilities enable the PHY itself to handle both
+mode switching and orientation switching, based on the Type-C plug
+orientation and USB PD negotiation results.
 
-This patch causes an oops when there are more port registers counted in
-xhci->max_ports than ports reported by Supported Protocol capabilities.
-On my HW it's due to max_ports being more than maximum port number, but
-it seems that gaps between ports of different speeds are also possible.
+While an external Type-C controller is still required to detect cable
+attachment and report USB PD events, the actual mode and orientation
+switching is performed internally by the PHY through software
+configuration. This allows the PHY to act as a Type-C multiplexer for
+both data role and DP altmode configuration.
 
-> +static int xhci_portli_show(struct seq_file *s, void *unused)
-> +{
-> +	struct xhci_port	*port = s->private;
-> +	struct xhci_hcd		*xhci = hcd_to_xhci(port->rhub->hcd);
+To reflect this hardware design, this patch introduces a new
+"mode-switch" property for the dp-port node in the device tree bindings.
+This property indicates that the connected PHY is capable of handling
+Type-C mode switching itself.
 
-In such cases port->rhub will be NULL so we can't reach xhci. One
-obvious solution (which works for me) is an explicit NULL check here
-and another seq_printf just for this case, followed by early return.
+Signed-off-by: Chaoyi Chen <chaoyi.chen@rock-chips.com>
+Acked-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+---
 
-Or maybe not bother printing anything and just return?
-Or make this check before creating the files in the first place?
+(no changes since v5)
 
-> +	u32			portli;
-> +
-> +	portli = readl(&port->port_reg->portli);
-> +
-> +	/* PORTLI fields are valid if port is a USB3 or eUSB2V2 port */
-> +	if (port->rhub == &xhci->usb3_rhub)
-> +		seq_printf(s, "0x%08x LEC=%u RLC=%u TLC=%u\n", portli,
-> +			   PORT_LEC(portli), PORT_RX_LANES(portli), PORT_TX_LANES(portli));
-> +	else if (xhci->hcc_params2 & HCC2_E2V2C)
-> +		seq_printf(s, "0x%08x RDR=%u TDR=%u\n", portli,
-> +			   PORTLI_RDR(portli), PORTLI_TDR(portli));
+Changes in v4:
+- Remove "|" in description.
 
-Or I suppose we could alternatively use PORTSC to determine speed
-and remove the dependency on hcc_params2 by always decoding eUSB2v2
-fields whether the HW supports it or not. It's debugfs, who cares.
+Changes in v3:
+- Add more descriptions to clarify the role of the PHY in switching.
 
-> +	else
-> +		seq_printf(s, "0x%08x RsvdP\n", portli);
-> +
-> +	return 0;
-> +}
+Changes in v2:
+- Reuse dp-port/usb3-port in rk3399-typec-phy binding.
+---
 
-Regards,
-Michal
+ .../devicetree/bindings/phy/rockchip,rk3399-typec-phy.yaml  | 6 ++++++
+ 1 file changed, 6 insertions(+)
+
+diff --git a/Documentation/devicetree/bindings/phy/rockchip,rk3399-typec-phy.yaml b/Documentation/devicetree/bindings/phy/rockchip,rk3399-typec-phy.yaml
+index 91c011f68cd0..83ebcde096ea 100644
+--- a/Documentation/devicetree/bindings/phy/rockchip,rk3399-typec-phy.yaml
++++ b/Documentation/devicetree/bindings/phy/rockchip,rk3399-typec-phy.yaml
+@@ -51,6 +51,12 @@ properties:
+       '#phy-cells':
+         const: 0
+ 
++      mode-switch:
++        description:
++          Indicates the PHY can handle altmode switching. In this case,
++          requires an external USB Type-C controller to report USB PD message.
++        type: boolean
++
+       port:
+         $ref: /schemas/graph.yaml#/properties/port
+         description: Connection to USB Type-C connector
+-- 
+2.51.1
+
