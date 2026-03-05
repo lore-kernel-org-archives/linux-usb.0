@@ -1,103 +1,105 @@
-Received: from mail-m49219.qiye.163.com (mail-m49219.qiye.163.com [45.254.49.219])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pl1-f177.google.com (mail-pl1-f177.google.com [209.85.214.177])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6A12239A066;
-	Thu,  5 Mar 2026 12:55:01 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=45.254.49.219
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 70E5939A7FD
+	for <linux-usb@vger.kernel.org>; Thu,  5 Mar 2026 13:01:52 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.177
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1772715306; cv=none; b=EbmGebhwxK3zKO23Rwo2ILY38gDFyZS9zPeAs6m51mgXZmggWr6qlyC5V1ZpI31FS05SV8ZVWNV7VobYg3JF3YY0WvIPN59JFSdLe18m2TEO+271+iEfo/O/7ORp7rPmKU86t11a4SNFCmzmQFYeNu+OfopoZKyO4OuHK/L3+kA=
+	t=1772715713; cv=none; b=iAOqJQdOVlP4d7Ecaz3Dw+a3rVHIVbT1mbvHQ3NkRFylAAD9CrZLHEt3M8ouWVm0H/Rqf7A7EHX0Iz8nuRk1xwZTxeCjqx1J1KRaUtEwV60j6k3IN8s4UA+yBDC2eHzUndl0z8jWR6lI2C23OZ9LPmHpkReHoAQwHhWTSOg5Ph0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1772715306; c=relaxed/simple;
-	bh=qwvSwYba19jJlXmtjjdzLM+ULHTaOqxxHHdeNvPUlUo=;
-	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=MTjhOsOASufPISZVNIVLfOW0QB4coeVuuojMGZC9fc0/BRfEew4Ntp3CK2Kdkd1+PIgB51K3CLn+Ca/yTesBfiul4GzORk1CosLKv/ZeQsiPM56Lw1K/0zTTO5t+ml6C3hIxpdyFqYHoToekXFtFRH4e/KwXpfX9b0j3gPHNFfI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=leap-io-kernel.com; spf=pass smtp.mailfrom=leap-io-kernel.com; dkim=pass (2048-bit key) header.d=leap-io-kernel.com header.i=@leap-io-kernel.com header.b=Ts1fVfqQ; arc=none smtp.client-ip=45.254.49.219
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=leap-io-kernel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=leap-io-kernel.com
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=leap-io-kernel.com header.i=@leap-io-kernel.com header.b="Ts1fVfqQ"
-Received: from localhost (unknown [222.130.22.244])
-	by smtp.qiye.163.com (Hmail) with ESMTP id 35e22f452;
-	Thu, 5 Mar 2026 20:19:32 +0800 (GMT+08:00)
-Date: Thu, 5 Mar 2026 20:19:30 +0800
-From: BaiKefan <baikefan@leap-io-kernel.com>
-To: Alex Shi <seakeel@gmail.com>, Greg KH <gregkh@linuxfoundation.org>
-Cc: si.yanteng@linux.dev, linux-usb@vger.kernel.org, alexs@kernel.org,
- dzm91@hust.edu.cn, corbet@lwn.net, linux-doc@vger.kernel.org,
- doubled@leap-io-kernel.com
-Subject: Re: [PATCH v5 0/8] Add Chinese translation for USB subsystem
-Message-ID: <20260305201930.00006c0b@leap-io-kernel.com>
-In-Reply-To: <9e1d404b-2145-481d-930d-c3ba5be0a520@gmail.com>
-References: <cover.1765180570.git.baikefan@leap-io-kernel.com>
-	<20260303194105.00004696@leap-io-kernel.com>
-	<2026030412-mystify-ride-9103@gregkh>
-	<9e1d404b-2145-481d-930d-c3ba5be0a520@gmail.com>
+	s=arc-20240116; t=1772715713; c=relaxed/simple;
+	bh=mzxuHFEBJ8rIbeR5gmZexUBLMULkEpRVqRmwwCFyU/8=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=SdXfxmNg5b3UesVlPAvwn18zFUYQ5l1HPFeEbB/eCEkZYWA92Hu7BemczR8n1KQ/AUGevbJuVRyeqLHoPG/Pxa8VPEy9J3JqIgNj7SI41QpXWn4eWryIGhp7MBxsdycUQv5jwI8gFBJv5yQahqShyxs1WCoyUC/+D3VENxCV8ic=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=linux.com; spf=pass smtp.mailfrom=gmail.com; arc=none smtp.client-ip=209.85.214.177
+Authentication-Results: smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=linux.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Received: by mail-pl1-f177.google.com with SMTP id d9443c01a7336-2aaf43014d0so59794025ad.2
+        for <linux-usb@vger.kernel.org>; Thu, 05 Mar 2026 05:01:52 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1772715712; x=1773320512;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-gg:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=7IxpxVkGnClS/pzWnTPcTEx+bl+pPZR21vGpLksfVXc=;
+        b=bInHZxgkYsavy93lf6xGndrZsl/u4oWy9rW7icU1K7rqAzLXnshINkgpvMT04dl7nt
+         U1XpKT4f4dv4XZl+ZSxU/NPicKSRkQopDzUyp5LBGVJgz+PgiM79WfLLCT2+d279lNTw
+         O9cI7nCcqVrrwWJiZ6igWJYezM7wxnoyb7yzHEg6AInkaq2UlQad3CTVIi50z3awqR2H
+         z0jfBg8mKW39XC3XaEoT83RM+EhrTEfU5VUbErvXY65eEubrZBGVcuXAGmzLffLgHJD1
+         X94sPxYl/R7xp1zxDLNs6XZD2vE4dep2EvvHw3cIWu0/I6Z7jo5VRKpdFMSo/Z7W1Xpb
+         8BBA==
+X-Forwarded-Encrypted: i=1; AJvYcCVayymDvQcEawJPpfCm+4arqI6RafoEhcCeSXZK9ExnMlAwRK/s3q0+M/zSd1XBE1twVCVwfe1qT50=@vger.kernel.org
+X-Gm-Message-State: AOJu0YzirnRtmRaekfZcFz8HgJ6RnALG10o8NYolI0+uKG4wE0YmQQjY
+	aRq3I4CBFBxi2U0bjFijU6hpF+Cg9VDSmqIYPUWOnzPHKuqCzpTjRytR
+X-Gm-Gg: ATEYQzwQ2aNf1bNICMhN4mXY2zhSZoTS1pDj05d3rEWMwxGeJMhu0AOLzZkBmXJfH+N
+	tSVVaw8wMzZ92MbprzDYvyFoC/e4yMwxAZjQNdbSV1njXLybTalcGk4fpXFhFw1VpGW05FN11pM
+	w9ibJHLxHhPcsx149LVzctg9UfxMSnrX69Ou4iewdg0JDkBAB58KC1pTfjYtpX1yquTt21/wiU9
+	Nyoyvqat4o44GPvRSPmK1MditOFta7MnCjDtDbFqna+6g9/1Ljoh18YpOqRzUXIyFxyq0JD9zc9
+	GodQJZhzvyNm1LHQsEM1yfoHVmjp5gid3z2NN9PwfoBpYia8CaYfNseRxrSxpCfLFECOHYHUyBQ
+	yvghTHf4efRN7ZaqVJYBB0vzL0E0kdXcvA05+P5/NbhVew8wyCvthMuZms2v8wSbO4tE2mR44Gj
+	C5Y4DDRew7mW9cEEDh2k/dEDFMZzDrAseiR0PFSWce2WTUVCx6PgTISa+1YH0LTNiYNTONNz/oM
+	FYRZbn8He2a059gSsZXUFxQ/R1xRCt9sK3xxvcM6CvUFJ6ey+OGHOjZcyQJZA==
+X-Received: by 2002:a17:902:ce03:b0:2ae:5b52:3818 with SMTP id d9443c01a7336-2ae6a9deb2amr60551085ad.8.1772715711782;
+        Thu, 05 Mar 2026 05:01:51 -0800 (PST)
+Received: from localhost (fpd11144dd.ap.nuro.jp. [209.17.68.221])
+        by smtp.gmail.com with ESMTPSA id d9443c01a7336-2ae54136b28sm115696425ad.73.2026.03.05.05.01.50
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 05 Mar 2026 05:01:50 -0800 (PST)
+Date: Thu, 5 Mar 2026 22:01:49 +0900
+From: Krzysztof =?utf-8?Q?Wilczy=C5=84ski?= <kw@linux.com>
+To: "Russell King (Oracle)" <linux@armlinux.org.uk>
+Cc: Vladimir Oltean <vladimir.oltean@nxp.com>,
+	Joe Perches <joe@perches.com>,
+	Konrad Dybcio <konrad.dybcio@oss.qualcomm.com>,
+	linux-phy@lists.infradead.org, Vinod Koul <vkoul@kernel.org>,
+	Neil Armstrong <neil.armstrong@linaro.org>,
+	dri-devel@lists.freedesktop.org, freedreno@lists.freedesktop.org,
+	linux-arm-kernel@lists.infradead.org, linux-arm-msm@vger.kernel.org,
+	linux-can@vger.kernel.org, linux-gpio@vger.kernel.org,
+	linux-ide@vger.kernel.org, linux-kernel@vger.kernel.org,
+	linux-media@vger.kernel.org, linux-pci@vger.kernel.org,
+	linux-renesas-soc@vger.kernel.org, linux-riscv@lists.infradead.org,
+	linux-rockchip@lists.infradead.org,
+	linux-samsung-soc@vger.kernel.org, linux-sunxi@lists.linux.dev,
+	linux-tegra@vger.kernel.org, linux-usb@vger.kernel.org,
+	netdev@vger.kernel.org, spacemit@lists.linux.dev,
+	UNGLinuxDriver@microchip.com
+Subject: Re: [PATCH phy-next 22/22] MAINTAINERS: add regex for linux-phy
+Message-ID: <20260305130149.GA1659133@rocinante>
+References: <20260304175735.2660419-1-vladimir.oltean@nxp.com>
+ <20260304175735.2660419-23-vladimir.oltean@nxp.com>
+ <a8fee1cd-1e69-4a9e-8533-c0988c480fb9@oss.qualcomm.com>
+ <20260305085148.7cwo3yflp7vcfldf@skbuf>
+ <f3a5aa3df78553ffc0fd0024f5fd36a4e2158c88.camel@perches.com>
+ <20260305114352.2f7btqixg4tu5bzl@skbuf>
+ <20260305121532.GA1649635@rocinante>
+ <20260305122957.GA1652563@rocinante>
+ <20260305123956.ojkt4k3ly64xz7fu@skbuf>
+ <aal6kWDx_3XRGB4K@shell.armlinux.org.uk>
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-X-HM-Tid: 0a9cbdf05e6c09d5kunm7938b13fcc5c14
-X-HM-MType: 1
-X-HM-Spam-Status: e1kfGhgUHx5ZQUpXWQgPGg8OCBgUHx5ZQUlOS1dZFg8aDwILHllBWSg2Ly
-	tZV1koWUFITzdXWS1ZQUlXWQ8JGhUIEh9ZQVlCQk1IVk5KHUIaS0seGEJLHlYVFAkWGhdVEwETFh
-	oSFyQUDg9ZV1kYEgtZQVlJSUlVSkhLVUlJVUlPT1lXWRYaDxIVHRRZQVlPS0hVSktISk5MSVVKS0
-	tVSkJLS1kG
-DKIM-Signature: a=rsa-sha256;
-	b=Ts1fVfqQu2zuY/OhsvcltWFJIquLv0WWqk+wuYzZxmtU3erLXvuO2oJIy+R0ZWlM662+e6l+BkYJPbuox/UgeeHH614MdndgTR6OkBCHQ10b7IMqpA8orx7Rnn3zGcOj/6uDDiOSGKSGSANuUtJzfM4MGiJX8PAEDhFGltU/kt//4wHrceKKectPyEZx56A1jmpAIkXuLWcDGvYRdn3G8F/GPRKohzhJK/3lkopNR7PLlkUnZTPeYg8N1Tl0J1rz2QLyKGCWwF1TWqf7gnGYexnJ1cb7ridLfjP4trFXxDU0a24YOEziCgfXr7ePnPtNaUcboG0zvZbQC14jf2DmbQ==; c=relaxed/relaxed; s=default; d=leap-io-kernel.com; v=1;
-	bh=Z6f7UgrbRcIQ/IcPMyGkShWzDBGiW/B99fzjRD7oIFs=;
-	h=date:mime-version:subject:message-id:from;
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <aal6kWDx_3XRGB4K@shell.armlinux.org.uk>
 
+Hello,
 
-Hi Greg, Alex,
-
-To clarify, I did send this patchset to the USB subsystem maintainers
-in Dec 2025. At that time, I received Greg’s patch-bot auto-reply
-noting the tree was closed during the merge window, so no further
-review occurred, which made me assume it had been noted but was still
-pending.
-
-Per Alex’s suggestion, I will rebase on the latest docs-next, retest,
-and resend to the USB maintainers.
-
-Thanks for your guidance and patience.
-
-Best regards,
-Kefan
-
-
-On Thu, 5 Mar 2026 09:36:39 +0800
-Alex Shi <seakeel@gmail.com> wrote:
-
-> Hi Baikefan,
-> 
-> Please rebase the patchset on latest Jon's tree 
-> (git://git.lwn.net/linux.git docs-next) and cc to USB maintainers
-> with all testing you past.
-> 
-> Thanks
-> Alex
-> 
-> On 2026/3/4 22:51, Greg KH wrote:
-> > On Tue, Mar 03, 2026 at 07:41:05PM +0800, BaiKefan wrote:  
-> >> Hi Yanteng and Alexs,
-> >>
-> >> A few months ago, I submitted a patch for the Chinese translation
-> >> of the USB documentation.
-> >>
-> >> Following your suggestion, I forwarded it to the USB subsystem
-> >> maintainer for further review, but I haven’t received any response
-> >> yet.  
-> > I do not see the forward to the USB subsystem maintainer, where did
-> > that happen?
+> > > For content match, it could also be:
+> > > 
+> > >   K:    phy
+> > > 
+> > > I believe this would match everything of interest?
 > > 
-> > thanks,
-> > 
-> > greg k-h  
+> > Yeah, and way more. Think USB PHY, network PHY, etc. Don't want to drown
+> > the linux-phy mailing list in unrelated patches, either.
 > 
-> 
-> 
+> Also phylink, any memory management / DMA stuff that happens to mention
+> "physical", and probably numerous other examples.
 
+Makes sense!  Sorry for the commotion here, then. :)
+
+	Krzysztof
