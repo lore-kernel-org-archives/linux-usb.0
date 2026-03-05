@@ -1,68 +1,48 @@
-Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.223.131])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B91EF37C117
-	for <linux-usb@vger.kernel.org>; Thu,  5 Mar 2026 10:29:26 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.131
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3BF2636F40E;
+	Thu,  5 Mar 2026 11:15:28 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1772706568; cv=none; b=Pc7c0mEP/jzF4WDgrvMoM8Rjhi6Gp/3ENtX1xZGeSEAPUdtR9fOJqvNkwMDfXKU+6mUddGMSgBqDascGAsYyx6m2vBqpWtukH8ZH4ifksIUu/SFFwSPh3zn/Bb6i0gTqUJ7qhSgWXGw1xtT3OdV5MZCFcIGv8kXL0Yl4ck9C15c=
+	t=1772709328; cv=none; b=jhTicf6PVOowf7h4nJ2N3qyVt/Q45IBWn73TRg7S2vOIym7pahzvxtAukMaDIoizEZO4v8MNvRnMCkbPJdVZbE0ngiewKJqAX2LCw1qCe3JMZnW24oRZRfM/m8U98zocgU6WOPDY0M8voCE8WOH11EgyN03N8/inzotRw8MdaJQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1772706568; c=relaxed/simple;
-	bh=FDI2T2e8KxAyEYfkXTFQSJmmkHBPNrkHmbT77SJ3PVA=;
+	s=arc-20240116; t=1772709328; c=relaxed/simple;
+	bh=YX6VeJZoImKept7XZEeAhxhhHVTyX4TzApXk5bpoRrM=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=rZZ6y//eIToudc/sz/GOqjTu/ouJNVZiWconWw0/5bG2lArlCzP9FBMPRdw5e0Txwbfr+Vlhv+t8pjsRmpiH7l7O/AchXj3bNAr4stAlKEF2gx5C0ae5NBGMZ5p654+xRh4fp216cCO4YS0FSMdL/pmc5+EBP3t6L8SsFG34+no=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=suse.com; spf=pass smtp.mailfrom=suse.com; dkim=pass (1024-bit key) header.d=suse.com header.i=@suse.com header.b=fGeM0VTH; dkim=pass (1024-bit key) header.d=suse.com header.i=@suse.com header.b=USe7tcVp; arc=none smtp.client-ip=195.135.223.131
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=suse.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.com
+	 MIME-Version; b=o3h6bG6gH0RWuNkIvk8Cxe876nSrAG91vmEs2jUNVwokaPLstrOcKCpsyR4YkcTY2ZtmzhUpxmoENaYX6B4zRAnvHgq4LrcRxhgs5x4My1GGwvx0i8VH1BjX18TBqUUSdWvR1BxuRGOCwd8VlT/+Is1kPa/EZaIfvWipEyjTUcc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=EC3YoEtv; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=suse.com header.i=@suse.com header.b="fGeM0VTH";
-	dkim=pass (1024-bit key) header.d=suse.com header.i=@suse.com header.b="USe7tcVp"
-Received: from imap1.dmz-prg2.suse.org (unknown [10.150.64.97])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by smtp-out2.suse.de (Postfix) with ESMTPS id F1B035BD57;
-	Thu,  5 Mar 2026 10:29:13 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.com; s=susede1;
-	t=1772706554; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=zyMCpV3tpOVj50sWLyrqjDfNLiBHb0HskVUV/OC+KbU=;
-	b=fGeM0VTHEskPCuJhERwECjSWAn/xwfv4R1hGhfjZiAbDkczS8Iq0Y/sHzLN65u+7vIQI2L
-	FlVQipglGIertP+RkuPsEhdGMjFMzFkI17ka8Tiyxt2CbVsEbxUlpNnak18deI19H6YyqQ
-	YfTOylPjOEO+rm1ddkjukZD55qowCso=
-Authentication-Results: smtp-out2.suse.de;
-	none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.com; s=susede1;
-	t=1772706553; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=zyMCpV3tpOVj50sWLyrqjDfNLiBHb0HskVUV/OC+KbU=;
-	b=USe7tcVptfaF6g6P6a3XNVwGL/9uMY/ZLhDOenvBbGESyoDs6Xg2eA1VKJf3wXtIHzqyq8
-	B4yxk/n62jg0N6CR6j/b7mXokmz81v0IyO7GqlkaoorUN+YnvHOxMLlJASUzhm4+1glrWH
-	3PYCbHV4sncGPmjk8Ew/TCFBTjK+r2k=
-Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id D53B23EA76;
-	Thu,  5 Mar 2026 10:29:13 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
-	by imap1.dmz-prg2.suse.org with ESMTPSA
-	id qCTnMvlaqWkubwAAD6G6ig
-	(envelope-from <oneukum@suse.com>); Thu, 05 Mar 2026 10:29:13 +0000
-From: Oliver Neukum <oneukum@suse.com>
-To: gregkh@linuxfoundation.org,
-	linux-usb@vger.kernel.org
-Cc: Oliver Neukum <oneukum@suse.com>
-Subject: [PATCH 5/5] usb: image: microtek: use dev_warn and dev_err
-Date: Thu,  5 Mar 2026 11:28:35 +0100
-Message-ID: <20260305102905.2392512-5-oneukum@suse.com>
-X-Mailer: git-send-email 2.53.0
-In-Reply-To: <20260305102905.2392512-1-oneukum@suse.com>
-References: <20260305102905.2392512-1-oneukum@suse.com>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="EC3YoEtv"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 1296EC2BC87;
+	Thu,  5 Mar 2026 11:15:28 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1772709328;
+	bh=YX6VeJZoImKept7XZEeAhxhhHVTyX4TzApXk5bpoRrM=;
+	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
+	b=EC3YoEtvNkWDguq9ApRsCFWsrWCZzppYRYqKnU6rd9/plfXVz70WL4PEIIwY4IFFs
+	 GtxcqW1O4uSvaFVO2N7bnwVONt4NmiWHVENT2+iXlQPjTsmhhOVWFZG89Mh5jPl7jE
+	 vIgFZPoNmdtWikRAIjLZ0F7mcxyIGuNtQqyKXHX7rTT4xEx+TrACf1Pwov9cJ5w+DV
+	 CLiqCn3JaNQsjPNUxVictqCBum5QqzmDxOK47B69+Bgy3CNvjH1GBtxBqf+DNQP2u8
+	 zzLjiD2puVOzU+3PC0FVrdiIPtNS6l1xL1JQKtakocOklLAhQfyCT+ZceVrako4yiY
+	 qTcbqt+uoUSGA==
+Received: from johan by xi.lan with local (Exim 4.98.2)
+	(envelope-from <johan@kernel.org>)
+	id 1vy6ft-000000004ni-3r1G;
+	Thu, 05 Mar 2026 12:15:25 +0100
+From: Johan Hovold <johan@kernel.org>
+To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+Cc: Lixu Zhang <lixu.zhang@intel.com>,
+	Sakari Ailus <sakari.ailus@linux.intel.com>,
+	linux-usb@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	Johan Hovold <johan@kernel.org>
+Subject: [PATCH 3/5] USB: ljca: drop redundant interface reference
+Date: Thu,  5 Mar 2026 12:15:09 +0100
+Message-ID: <20260305111511.18386-4-johan@kernel.org>
+X-Mailer: git-send-email 2.52.0
+In-Reply-To: <20260305111511.18386-1-johan@kernel.org>
+References: <20260305111511.18386-1-johan@kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
@@ -70,131 +50,80 @@ List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-Spamd-Result: default: False [-2.80 / 50.00];
-	BAYES_HAM(-3.00)[100.00%];
-	NEURAL_HAM_LONG(-1.00)[-1.000];
-	MID_CONTAINS_FROM(1.00)[];
-	R_MISSING_CHARSET(0.50)[];
-	NEURAL_HAM_SHORT(-0.20)[-1.000];
-	MIME_GOOD(-0.10)[text/plain];
-	TO_MATCH_ENVRCPT_ALL(0.00)[];
-	FROM_HAS_DN(0.00)[];
-	ARC_NA(0.00)[];
-	MIME_TRACE(0.00)[0:+];
-	TO_DN_SOME(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[imap1.dmz-prg2.suse.org:helo,suse.com:mid,suse.com:email];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
-	FROM_EQ_ENVFROM(0.00)[];
-	RCVD_COUNT_TWO(0.00)[2];
-	FUZZY_RATELIMITED(0.00)[rspamd.com];
-	DKIM_SIGNED(0.00)[suse.com:s=susede1];
-	RCPT_COUNT_THREE(0.00)[3];
-	RCVD_TLS_ALL(0.00)[]
-X-Spam-Flag: NO
-X-Spam-Score: -2.80
-X-Spam-Level: 
 
-Do not use useless private macros
+Driver core holds a reference to the USB interface while it is bound to
+a driver and there is no need to take another reference unless the
+interface is needed after disconnect.
 
-Signed-off-by: Oliver Neukum <oneukum@suse.com>
+Drop the redundant interface reference to reduce cargo culting, make it
+easier to spot drivers where an extra reference is needed, and reduce
+the risk of memory leaks when drivers fail to release it.
+
+Signed-off-by: Johan Hovold <johan@kernel.org>
 ---
- drivers/usb/image/microtek.c | 30 ++++++++++++------------------
- 1 file changed, 12 insertions(+), 18 deletions(-)
+ drivers/usb/misc/usb-ljca.c | 15 +++++----------
+ 1 file changed, 5 insertions(+), 10 deletions(-)
 
-diff --git a/drivers/usb/image/microtek.c b/drivers/usb/image/microtek.c
-index cd68aa27639e..1f0b3c44d388 100644
---- a/drivers/usb/image/microtek.c
-+++ b/drivers/usb/image/microtek.c
-@@ -169,13 +169,6 @@ static struct usb_driver mts_usb_driver = {
- #define MTS_VERSION	"0.4.3"
- #define MTS_NAME	"microtek usb (rev " MTS_VERSION "): "
+diff --git a/drivers/usb/misc/usb-ljca.c b/drivers/usb/misc/usb-ljca.c
+index 7e85fd12da56..c60121faa3da 100644
+--- a/drivers/usb/misc/usb-ljca.c
++++ b/drivers/usb/misc/usb-ljca.c
+@@ -776,7 +776,7 @@ static int ljca_probe(struct usb_interface *interface,
+ 	init_completion(&adap->cmd_completion);
+ 	INIT_LIST_HEAD(&adap->client_list);
  
--#define MTS_WARNING(x...) \
--	printk( KERN_WARNING MTS_NAME x )
--#define MTS_ERROR(x...) \
--	printk( KERN_ERR MTS_NAME x )
--#define MTS_INT_ERROR(x...) \
--	MTS_ERROR(x)
+-	adap->intf = usb_get_intf(interface);
++	adap->intf = interface;
+ 	adap->usb_dev = usb_dev;
+ 	adap->dev = dev;
+ 
+@@ -787,7 +787,7 @@ static int ljca_probe(struct usb_interface *interface,
+ 	ret = usb_find_common_endpoints(alt, &ep_in, &ep_out, NULL, NULL);
+ 	if (ret) {
+ 		dev_err(dev, "bulk endpoints not found\n");
+-		goto err_put;
++		goto err_destroy_mutex;
+ 	}
+ 	adap->rx_pipe = usb_rcvbulkpipe(usb_dev, usb_endpoint_num(ep_in));
+ 	adap->tx_pipe = usb_sndbulkpipe(usb_dev, usb_endpoint_num(ep_out));
+@@ -797,14 +797,14 @@ static int ljca_probe(struct usb_interface *interface,
+ 	adap->rx_buf = devm_kzalloc(dev, adap->rx_len, GFP_KERNEL);
+ 	if (!adap->rx_buf) {
+ 		ret = -ENOMEM;
+-		goto err_put;
++		goto err_destroy_mutex;
+ 	}
+ 
+ 	/* alloc rx urb */
+ 	adap->rx_urb = usb_alloc_urb(0, GFP_KERNEL);
+ 	if (!adap->rx_urb) {
+ 		ret = -ENOMEM;
+-		goto err_put;
++		goto err_destroy_mutex;
+ 	}
+ 	usb_fill_bulk_urb(adap->rx_urb, usb_dev, adap->rx_pipe,
+ 			  adap->rx_buf, adap->rx_len, ljca_recv, adap);
+@@ -836,10 +836,7 @@ static int ljca_probe(struct usb_interface *interface,
+ 
+ err_free:
+ 	usb_free_urb(adap->rx_urb);
 -
- #if defined MTS_DO_DEBUG
+-err_put:
+-	usb_put_intf(adap->intf);
+-
++err_destroy_mutex:
+ 	mutex_destroy(&adap->mutex);
  
- #define MTS_DEBUG(x...) \
-@@ -375,7 +368,8 @@ void mts_int_submit_urb (struct urb* transfer,
+ 	return ret;
+@@ -864,8 +861,6 @@ static void ljca_disconnect(struct usb_interface *interface)
  
- 	res = usb_submit_urb( transfer, GFP_ATOMIC );
- 	if ( unlikely(res) ) {
--		MTS_INT_ERROR( "could not submit URB! Error was %d\n",(int)res );
-+		dev_err(&context->instance->usb_dev->dev,
-+			"could not submit URB! Error was %d\n",(int)res );
- 		set_host_byte(context->srb, DID_ERROR);
- 		mts_transfer_cleanup(transfer);
- 	}
-@@ -584,7 +578,7 @@ static enum scsi_qc_status mts_scsi_queuecommand_lck(struct scsi_cmnd *srb)
- 	res=usb_submit_urb(desc->urb, GFP_ATOMIC);
+ 	usb_free_urb(adap->rx_urb);
  
- 	if(unlikely(res)){
--		MTS_ERROR("error %d submitting URB\n",(int)res);
-+		dev_err(&desc->usb_dev->dev, "error %d submitting URB\n",(int)res);
- 		set_host_byte(srb, DID_ERROR);
+-	usb_put_intf(adap->intf);
+-
+ 	mutex_destroy(&adap->mutex);
+ }
  
- 		if(likely(callback != NULL))
-@@ -661,7 +655,7 @@ static int mts_usb_probe(struct usb_interface *intf,
- 	/* Check if the config is sane */
- 
- 	if ( altsetting->desc.bNumEndpoints != MTS_EP_TOTAL ) {
--		MTS_WARNING( "expecting %d got %d endpoints! Bailing out.\n",
-+		dev_warn(&dev->dev, "expecting %d got %d endpoints! Bailing out.\n",
- 			     (int)MTS_EP_TOTAL, (int)altsetting->desc.bNumEndpoints );
- 		return -ENODEV;
- 	}
-@@ -673,23 +667,23 @@ static int mts_usb_probe(struct usb_interface *intf,
- 			if (ep_out == -1) {
- 				ep_out = usb_endpoint_num(&altsetting->endpoint[i].desc);
- 			} else {
--				MTS_WARNING( "can only deal with bulk endpoints; endpoint %d is not bulk.\n",
-+				dev_warn(&dev->dev, "can only deal with bulk endpoints; endpoint %d is not bulk.\n",
- 						usb_endpoint_num(&altsetting->endpoint[i].desc));
- 				return -ENODEV;
- 			}
- 		} else {
--			MTS_WARNING( "can only deal with bulk endpoints; endpoint %d is not bulk.\n",
--					(int)altsetting->endpoint[i].desc.bEndpointAddress );
-+			dev_warn(&dev->dev, "can only deal with bulk endpoints; endpoint %d is not bulk.\n",
-+					usb_endpoint_num(&altsetting->endpoint[i].desc));
- 		}
- 	}
- 
- 	if (ep_in_current != &ep_in_set[2]) {
--		MTS_WARNING("couldn't find two input bulk endpoints. Bailing out.\n");
-+		dev_warn(&dev->dev, "couldn't find two input bulk endpoints. Bailing out.\n");
- 		return -ENODEV;
- 	}
- 
- 	if ( ep_out == -1 ) {
--		MTS_WARNING( "couldn't find an output bulk endpoint. Bailing out.\n" );
-+		dev_warn(&dev->dev, "couldn't find an output bulk endpoint. Bailing out.\n" );
- 		return -ENODEV;
- 	}
- 
-@@ -715,15 +709,15 @@ static int mts_usb_probe(struct usb_interface *intf,
- 	new_desc->ep_image = ep_in_set[1];
- 
- 	if ( new_desc->ep_out != MTS_EP_OUT )
--		MTS_WARNING( "will this work? Command EP is not usually %d\n",
-+		dev_warn(&dev->dev, "will this work? Command EP is not usually %d\n",
- 			     (int)new_desc->ep_out );
- 
- 	if ( new_desc->ep_response != MTS_EP_RESPONSE )
--		MTS_WARNING( "will this work? Response EP is not usually %d\n",
-+		dev_warn(&dev->dev, "will this work? Response EP is not usually %d\n",
- 			     (int)new_desc->ep_response );
- 
- 	if ( new_desc->ep_image != MTS_EP_IMAGE )
--		MTS_WARNING( "will this work? Image data EP is not usually %d\n",
-+		dev_warn(&dev->dev, "will this work? Image data EP is not usually %d\n",
- 			     (int)new_desc->ep_image );
- 
- 	new_desc->host = scsi_host_alloc(&mts_scsi_host_template,
 -- 
-2.53.0
+2.52.0
 
