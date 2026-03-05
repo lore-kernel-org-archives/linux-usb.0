@@ -1,328 +1,284 @@
-Received: from mail-wr1-f48.google.com (mail-wr1-f48.google.com [209.85.221.48])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from DU2PR03CU002.outbound.protection.outlook.com (mail-northeuropeazon11011060.outbound.protection.outlook.com [52.101.65.60])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 603733793BD
-	for <linux-usb@vger.kernel.org>; Thu,  5 Mar 2026 09:36:26 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.48
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1772703396; cv=none; b=S2R02ohhdJAYzTPyqj10RvTW/KVxU+PMOeYemyKC9L25/drgG+Az3pcbe89aAmnhyljUWGt5vpcrzCOQKN2Qmy0JMsEP3zn5hh2iaWYYM7ZEdGO/Pg8f9LzqY99gH7/OhlOLTvasRkR5k6hxXVsK67V35aeKq8MPnhzeb/sxwwk=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1772703396; c=relaxed/simple;
-	bh=CMgXM6u7309Wn3e+oqvoc7hX9vYREWTZOtF5JH1MCY8=;
-	h=Mime-Version:Content-Type:Date:Message-Id:From:To:Cc:Subject:
-	 References:In-Reply-To; b=PI04G8AKXAxreUovAppPMokaxG3y86CnibPtjYNLxDcpV9oAbV8u9H+bRo6R/kS61T+3KDOWA7HcGMZDWnRfoBVBKnItvtAWYkD7gHDURnWoEpm4WDa08a6IRxT8aGoL3OGa89pnsvcugZIJzbwJVC+dqyF7qUFXzaS+iV6cYe0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=baylibre.com; spf=pass smtp.mailfrom=baylibre.com; dkim=pass (2048-bit key) header.d=baylibre-com.20230601.gappssmtp.com header.i=@baylibre-com.20230601.gappssmtp.com header.b=r8n3aZlu; arc=none smtp.client-ip=209.85.221.48
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=baylibre.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=baylibre.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 75BDE34EEE2;
+	Thu,  5 Mar 2026 09:45:36 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=52.101.65.60
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1772703938; cv=fail; b=dwhfpdJxcUldouDkb+xzvIzhY5exLk1TiwgV6fo7g+VXswPbIfLsBHanc2vX9OQfxXhJ2aKYQp17BuOxwNrZ5E+bA26aFJcaogz/EUmX24YR6kC7pEgpbcOlXID85KRMU8hvaP9cMyUKWGmlWoVqPuZYSDqrT5/hKJFuTbeD5mA=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1772703938; c=relaxed/simple;
+	bh=YDXodeREeoZBXiudKjM2+ffQ4epdBdlEfrnMGr+U/n8=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:Content-Type:
+	 Content-Disposition:In-Reply-To:MIME-Version; b=HIWC8arSEDAFSTHjs8exm2vzjO9XNieBtAzbjdVlavm58VzRv1i2U8LjmUsrrHryt5Y6dh1JsO3SOU3uhRwu/FuafeiuH2xdeypHaSW+nHikC/a0Qu7MiMonEKS0J2vxxULxpMrff9A3CjS2GaoSpTaPq5nIW0Pg6c6XLVCW41s=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=est.tech; spf=pass smtp.mailfrom=est.tech; dkim=fail (2048-bit key) header.d=est.tech header.i=@est.tech header.b=hbJgWFSJ reason="signature verification failed"; arc=fail smtp.client-ip=52.101.65.60
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=est.tech
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=est.tech
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=baylibre-com.20230601.gappssmtp.com header.i=@baylibre-com.20230601.gappssmtp.com header.b="r8n3aZlu"
-Received: by mail-wr1-f48.google.com with SMTP id ffacd0b85a97d-439af7d77f0so4252876f8f.0
-        for <linux-usb@vger.kernel.org>; Thu, 05 Mar 2026 01:36:26 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=baylibre-com.20230601.gappssmtp.com; s=20230601; t=1772703385; x=1773308185; darn=vger.kernel.org;
-        h=in-reply-to:references:subject:cc:to:from:message-id:date
-         :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=Mbidr/A9XxccdAFsJsVKLL2bBtmGRz8XUrt7LUMLgOs=;
-        b=r8n3aZluVhBTCfb7BQuBR7rtMDtwMt/hhUveTeZDZQAO4wJxkqYdVnWInamwTvoasd
-         njRsc4y1mlFqY6e8h+MrxsQmTwUtFPEr4bGcC2jwn78y+TT5X2hBUAy+EkXK3GfkPnMc
-         efI7YRWZmXX4iWMH3mdtVwJdLQgh9b+NgkxQAUiokU1kYqlHFgrFqn8X6Kh54oqNRJvL
-         W9KF9PgfXi06d+0sZ2isvDvqnFTaI47uFjf39desDXwhsR9fNqaB6S1RhpTym+6cBpi7
-         37SVpkS6dpjv/ggxoqRfyQPvFp9lVwc3QY78bUWB4dZgVEV/oWO3UY/ChIwfz5zMSHTu
-         wMIg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1772703385; x=1773308185;
-        h=in-reply-to:references:subject:cc:to:from:message-id:date
-         :mime-version:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=Mbidr/A9XxccdAFsJsVKLL2bBtmGRz8XUrt7LUMLgOs=;
-        b=s1sOxuwnX9TVRSp/+gSSsxlyemp3BZc/NPPJirrm/oLX0A/FBeXwHjzdk0cMM2loW8
-         Tgjv1B166ls4mu6s947vfabUBvW4fYugb/atSsbvhKT70el5/G4o8kCqpQRIKw6zV2yc
-         GqckceR8gST+n5ByVow5eIErNoEcFlYBKmjUYh1QJV42jZdacqr7/G6IeXstYzEJH+1z
-         gmAx98OYQhMSrPb+EdTSdjNr9pF8Gkusj1eYaTCtipW67xaLwKmAPSz6kK4Dx/lHZLFk
-         Pi77DHthXfUJsvw5TV7+eOMgdWzfUXrAU30Pql6yqMaej+E42A8PgldD0i4txOHlvMKn
-         q8Yg==
-X-Forwarded-Encrypted: i=1; AJvYcCWWuFEZjVn0E3FBlqQOkHK1gdlzNeP10CRB0Nsvt+eYsxysrWDl6wuNPKysp0tCPXLWoAgc1qc6mmo=@vger.kernel.org
-X-Gm-Message-State: AOJu0YzipaZebHyxrRF47IvPJVxXB5i4wPAgecjJ6MVZ3Ya37lRkyg/E
-	3qJTgkJzBb9jQ3ZfpV6EuKgymPWM75GHLa3slDrPJ3IK7VdhqLuztHrIUNcp9WxjPmQ=
-X-Gm-Gg: ATEYQzwW1ESjMjIhNODYTuMI6eAGeG35KU9R2JRP58cP/VMFlFoOFaJ4gxF4JrE0H+N
-	2nSSrLFoifn0g4E3CrsybYwDqZOuDcIWF0s6r9lQoa29Gmc79tHEJwTwLfDCCc4kqwsvRUyZRIc
-	LUxBiKUzh70BRdcDn6egcheGIccfi6O7zCj/+JDqtbRIBE2YTtwTpnFZkXlDk9Hw6YgD2z7yqp/
-	5Pm7cnxUzvtYhluJHchrhOue3VzXzR0keFCW3N2GpawW6XFz1WyBQ2QxCXapvula2H/vpku7zM/
-	gzhAQL7OOkzy73nuWJPKI/OAPHIhgmNmWvRSbm9WpIq5jOe3nFIFgb1bBFxiIEpDMoS+mYFD1QG
-	AtF3nvC9oRPnJxhgebkYB5Tie7o84iMCRw5gfuVerwjt9LxipoSyGmOaFOkFpvy54AAIOITNLJh
-	y6rxT/1wW7mI5i0Bo=
-X-Received: by 2002:a05:6000:144f:b0:439:b564:7a6c with SMTP id ffacd0b85a97d-439c7f6a2c9mr9158913f8f.4.1772703384539;
-        Thu, 05 Mar 2026 01:36:24 -0800 (PST)
-Received: from localhost ([195.52.25.213])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-439c2f7eca1sm14966458f8f.11.2026.03.05.01.36.22
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 05 Mar 2026 01:36:22 -0800 (PST)
+	dkim=fail reason="signature verification failed" (2048-bit key) header.d=est.tech header.i=@est.tech header.b="hbJgWFSJ"
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=jpgsIcFWM7Qns5MfyMf2ItV4LJIEZe460BUGCEvQugHMlAhQFIAQjvRme2PxqM98f752jGhun37q6hwAkS/glFfbgi0zZW/xEwgVG7nuC3Ong1XKajE7+eNblzjbVA996I0nEsfym6lYqBu4pvNRlbSbJCw4vOsAw6cEAvjzeUPzxF73vae8uVqcixgZq0F5rSaH1AG5Uc5xWyw4tF7EZ+laY9QFc8RMT65KuDe7vvv55H3pX0DpSkb3TOQe+j/DDjxfqt83P8Jeso13HOnDy5DBN9dwnxl0HQnUjrxHmw3qTYGr+xiRyndEkrxf9lDUHn8PBruKA/HncwyBkBNPeQ==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=rICrF1WaucgmxWPRx12C5aCjvqAwYMUihBK/qX2DUUo=;
+ b=SxsuqMC47eMnPSo4UnKtebwut3t/+zbIcyFXTqIR54tigaVsd3nUemGMwcMoCixAJnOpDoyVNmenWpV3k5sGAedNsyfotd7IGsKm4ztQznHvYzFYlgf9KLU606ZPzPGwxBFnuxGMmTv0oVUCoTiPd+4Zywm7yLy2hKkrIChmof9YohKtAxM1uGEBjO88SgsFgVSsAejc43zbfYNHl8Sh2/97a59SrXGgHp587BtY3Y1vVt6DOd0/k8ZiDKh+Ojiv1+YTv2V2dnit+E2ZU0mxX6tmYl5f1PpKcFrqcVxC60oJZvnw8ZIdKlvz+A5LARlyxc1UXk9141iTKlgbcmhl/A==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=est.tech; dmarc=pass action=none header.from=est.tech;
+ dkim=pass header.d=est.tech; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=est.tech; s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=rICrF1WaucgmxWPRx12C5aCjvqAwYMUihBK/qX2DUUo=;
+ b=hbJgWFSJ27iHs7sIY9jJF+6hUgXlMNqX7vF+rUJPQlhIyEVGYhgDhdIbfWNbXAXcDPRz5V/dsmp9MfAGZTnK4p1nNK16cNWDA1OuFEQdWMI0mp8lBbCs6hUWcuxnpKY6AbtzhvOzpBYGTu9WcTk6EqJLW26HKByAEGLOl2faxU/nPDoNuTONiVjQ4l489r+mA3jFaWot5iHmg6iJd3Hqj2gG1eq9Rcf39E0oIZt8gfipTcS8oghjFw+xb8BBR5Ws845ueHsInBBVqGTwW9oxo7Kskk14mb0bq4iiyFJ6Ejj3ThQCa03uWRq4qtbzwMJmXG6dXpoK84NH8qdGUssZdw==
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=est.tech;
+Received: from GVXP189MB2053.EURP189.PROD.OUTLOOK.COM (2603:10a6:150:6c::22)
+ by DU2P189MB2541.EURP189.PROD.OUTLOOK.COM (2603:10a6:10:494::19) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9678.17; Thu, 5 Mar
+ 2026 09:45:32 +0000
+Received: from GVXP189MB2053.EURP189.PROD.OUTLOOK.COM
+ ([fe80::9996:4371:88cd:bc04]) by GVXP189MB2053.EURP189.PROD.OUTLOOK.COM
+ ([fe80::9996:4371:88cd:bc04%6]) with mapi id 15.20.9654.022; Thu, 5 Mar 2026
+ 09:45:31 +0000
+Date: Thu, 5 Mar 2026 10:45:30 +0100
+From: Ravineet Singh <ravineet.a.singh@est.tech>
+To: Thinh Nguyen <Thinh.Nguyen@synopsys.com>
+Cc: Mike Looijmans <mike.looijmans@topic.nl>, 
+	"linux-usb@vger.kernel.org" <linux-usb@vger.kernel.org>, Greg Kroah-Hartman <gregkh@linuxfoundation.org>, 
+	"linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>, jura@vukad.in, malin.jonsson@est.tech
+Subject: Re: [PATCH] usb: dwc3: gadget: Inform system of suspended state
+Message-ID: <2j6o5atwkm5wl25adcusadiadme7gqpx4vqmscl42wnxgjyh7b@b5om47iesajo>
+References: <1b153bce-a66a-45ee-a5c6-963ea6fb1c82.949ef384-8293-46b8-903f-40a477c056ae.c5f44c79-75b2-43c1-a791-806fe8b693cd@emailsignatures365.codetwo.com>
+ <20240603131304.233403-1-mike.looijmans@topic.nl>
+ <20240604010256.4dxamwvcjxug6xfb@synopsys.com>
+ <0fceefc4-2b3c-41a4-a6ac-d0b6dbacc1f7@topic.nl>
+ <20240604230624.dk3pssivd7g3qb7p@synopsys.com>
+ <23bf65a8-b3b2-459e-bee7-ca7c4e4993de@topic.nl>
+ <20240606002909.f6a7fwfh7ccb6pxq@synopsys.com>
+Content-Type: multipart/mixed; boundary="em3xqypvsvj66tfm"
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <20240606002909.f6a7fwfh7ccb6pxq@synopsys.com>
+X-ClientProxiedBy: GV2PEPF0002395B.SWEP280.PROD.OUTLOOK.COM
+ (2603:10a6:158:400::355) To GVXP189MB2053.EURP189.PROD.OUTLOOK.COM
+ (2603:10a6:150:6c::22)
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
-Mime-Version: 1.0
-Content-Type: multipart/signed;
- boundary=b895f1e89350da7f8491f35b99d431866030fe6df54b62358155e9918430;
- micalg=pgp-sha512; protocol="application/pgp-signature"
-Date: Thu, 05 Mar 2026 10:36:14 +0100
-Message-Id: <DGUQWFYCPRQZ.17SO07GXW2DYA@baylibre.com>
-From: "Markus Schneider-Pargmann" <msp@baylibre.com>
-To: "Vladimir Oltean" <vladimir.oltean@nxp.com>,
- <linux-phy@lists.infradead.org>
-Cc: "Vinod Koul" <vkoul@kernel.org>, "Neil Armstrong"
- <neil.armstrong@linaro.org>, <dri-devel@lists.freedesktop.org>,
- <freedreno@lists.freedesktop.org>, <linux-arm-kernel@lists.infradead.org>,
- <linux-arm-msm@vger.kernel.org>, <linux-can@vger.kernel.org>,
- <linux-gpio@vger.kernel.org>, <linux-ide@vger.kernel.org>,
- <linux-kernel@vger.kernel.org>, <linux-media@vger.kernel.org>,
- <linux-pci@vger.kernel.org>, <linux-renesas-soc@vger.kernel.org>,
- <linux-riscv@lists.infradead.org>, <linux-rockchip@lists.infradead.org>,
- <linux-samsung-soc@vger.kernel.org>, <linux-sunxi@lists.linux.dev>,
- <linux-tegra@vger.kernel.org>, <linux-usb@vger.kernel.org>,
- <netdev@vger.kernel.org>, <spacemit@lists.linux.dev>,
- <UNGLinuxDriver@microchip.com>, "Andrzej Hajda" <andrzej.hajda@intel.com>,
- "Robert Foss" <rfoss@kernel.org>, "Laurent Pinchart"
- <Laurent.pinchart@ideasonboard.com>, "Jonas Karlman" <jonas@kwiboo.se>,
- "Jernej Skrabec" <jernej.skrabec@gmail.com>, "Maarten Lankhorst"
- <maarten.lankhorst@linux.intel.com>, "Maxime Ripard" <mripard@kernel.org>,
- "Thomas Zimmermann" <tzimmermann@suse.de>, "David Airlie"
- <airlied@gmail.com>, "Simona Vetter" <simona@ffwll.ch>, "Andy Yan"
- <andy.yan@rock-chips.com>, "Marc Kleine-Budde" <mkl@pengutronix.de>,
- "Vincent Mailhol" <mailhol@kernel.org>, "Nicolas Ferre"
- <nicolas.ferre@microchip.com>, "Alexandre Belloni"
- <alexandre.belloni@bootlin.com>, "Claudiu Beznea"
- <claudiu.beznea@tuxon.dev>, "Markus Schneider-Pargmann" <msp@baylibre.com>,
- "Geert Uytterhoeven" <geert+renesas@glider.be>, "Magnus Damm"
- <magnus.damm@gmail.com>
-Subject: Re: [PATCH phy-next 13/22] phy: introduce phy_get_max_link_rate()
- helper for consumers
-X-Mailer: aerc 0.21.0
-References: <20260304175735.2660419-1-vladimir.oltean@nxp.com>
- <20260304175735.2660419-14-vladimir.oltean@nxp.com>
-In-Reply-To: <20260304175735.2660419-14-vladimir.oltean@nxp.com>
+MIME-Version: 1.0
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: GVXP189MB2053:EE_|DU2P189MB2541:EE_
+X-MS-Office365-Filtering-Correlation-Id: 6a0c7bfa-8c80-4ebf-d1fa-08de7a9bf107
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam:
+	BCL:0;ARA:13230040|376014|1800799024|10070799003|366016|6049299003|4053099003;
+X-Microsoft-Antispam-Message-Info:
+	H5OiLP5d9KzRTJeRPY/rxq2e/4BGX/nEHKqqqwNRUYaDKfc4hw1cZxhCvK35j6vY7NFyTlAnZVENv7bBn4StEjWB/DJCVyPpl++1EKN3vh3zmsFRkb2A3VRSMWXzWS/ZQagi0ZXcFuxoyfyhEO0zTlKj7uYGjcNvlOyftQHsHEfHR5Jxt8c4KUyYdfE1KJ483TCzZvhrSu12+a2ZEmxiTdcJ9U5kXAk3TJrYRxKnBD1jhxaOKo2ajfwxcw/7mt2aGmt2ZPig8wPlawx63EhHrPZMwlA1HguRc3+L7e5KxPEY7Zp/7VTfrvncgnpTUdzFKFudAxNo6XJ7DlJKef+BLFnhnCM16rF27Ev1J66kAJYg460EsB7KZm/sJl9kX9ijfuiwAD8HOm14nxPRRSbMyP7JXmmCoK0sIUdkrqjrLY3o7zDgquSJsAfoye6mm+5ceB4rc3MnAveSShdUKRYVn8y05pjjufwr3EeOiaRD9UcDeBFO9iqoCsNS6E7iuf4PgRDNmiv9smk35ERQg7xI+B9CLO/wOPML2gkhP8raYQ+TdS63K66i53cslEktn3AQGnHig6+14jONOd800veWk5J25ygYvOlYzWcvxILIR8ieY8V/oOBn4JSuXVoOhH/xJWiD294FiaFuI6A8DioU78BGPTL3aXxION4/N1nefcnLzdT/QaWyNyWvSXbuGX8+MVDi8AuwdJZURsUgbGaaQUu26fWQxY/eNn4GpNDvjizdjGTTVC6+B9nPLzkT0/UT
+X-Forefront-Antispam-Report:
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:GVXP189MB2053.EURP189.PROD.OUTLOOK.COM;PTR:;CAT:NONE;SFS:(13230040)(376014)(1800799024)(10070799003)(366016)(6049299003)(4053099003);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0:
+	=?iso-8859-1?Q?xSe6zPq/Vbs/4ownFLq1QL/rQCKNta94vA2U+K6OTKlxQaIl+gN6lLcZSY?=
+ =?iso-8859-1?Q?erzYP+imI0eiyGWE6BNACpQlSXkk6NyOASx1YSKHZT+hbClq+YWhRZ2C6Z?=
+ =?iso-8859-1?Q?cND0ln9RDTDJjG7+fpwmZUZq6edy0nOKoVgr4EumX7l0pKP7ZpAcDnxLXw?=
+ =?iso-8859-1?Q?OuETq+jym7BFGoXLPrceAqG5O6jmWpRJoslX8YX8wvsV+vDuIOeeLS0iIQ?=
+ =?iso-8859-1?Q?L7HeEeAXYgYrnMVIc6UgQnEn4NnKiXLErVBPiPQq19IRGz3sGRRquE7+kY?=
+ =?iso-8859-1?Q?2ooD2Rhh7MrjmovDCoQkDXQNvOBBPac4UQHVOYx5LfC231Csh7k3V1Rm3O?=
+ =?iso-8859-1?Q?5Trk0TSFIAMK+pBM9+jcXK552vLFKvTcKDVYyp6pNFu2FkTC93dBlpNo8o?=
+ =?iso-8859-1?Q?BWqCx49qohV9mMHWYad9kkGqgkC7HKD4GOK24vfTUSWQg9sBEPhDTb3334?=
+ =?iso-8859-1?Q?Cf9gZHI55vEL9HrwuTGRwNmg9UR08VznzH0v7DHnPvP0qn/U6vZTOQrcPU?=
+ =?iso-8859-1?Q?Ic49+naCdmZ3efko2naYEoPxRtFEpbLCMPPgfB9U9dgBtKlsxrUzdmwVrO?=
+ =?iso-8859-1?Q?VviKt9revsMjNb2dnUk3n8XKyCuef6CCFuF1t8jy54KW8PK6GprvN6U29+?=
+ =?iso-8859-1?Q?6LQbL4/4U1sAU/M6zriXmlemZ1VZxR4IhNxZHpqVoBoKq2QziT+kGwWzAE?=
+ =?iso-8859-1?Q?p2/FNAqrGXy3tlR3cFjrSfObZL1HbRkSUsYMjKEVjC3ig5R25fA7vLCzri?=
+ =?iso-8859-1?Q?gdtKfV61/ts73rW3ZIpgamNO4C5ZHWPxOzliXzgGSZEZpv/p1fbRtV0/vq?=
+ =?iso-8859-1?Q?z0v4YpHTwYiBz7wCUubmxiyIVn9MFUObYpABKodRNO8kBY4DqlZh4eNgCm?=
+ =?iso-8859-1?Q?qOuAftInHeOFc9uLSz4aS3VEB0VIEQmcIFZKMLepEqMMxja0wtnKi/4bL7?=
+ =?iso-8859-1?Q?wYw5dnVSGliDbaiXRjlBoa8xoEqJvzCuI7wNUzs82dqzSuKEjG0ccwHL+F?=
+ =?iso-8859-1?Q?l+080YycSVptiQdwwgq+SUzvD9B/lry90/ZSz6Rwu79unmdpZ+nFTMbCbI?=
+ =?iso-8859-1?Q?++MdaMWhQc1oPjGZbqm9VAE40HV7an6sMNslXS/aGYk7zZbAEkPlbONgOp?=
+ =?iso-8859-1?Q?g+ZznntH88NHFQiwOgzBfkGGs3EfbsqUENslJE0UuBCSkg9f2U5YzhWJmk?=
+ =?iso-8859-1?Q?3/xwOo7jLGGPjQRVkQuJ45aesYHNIf4qoIU906JXGeyZbMzIl4JhUYcLOE?=
+ =?iso-8859-1?Q?m6GwPOeGKgQaKeIzc85si/2b+0CvMLrValBES23NLvTTnTyr7rqOroGjN/?=
+ =?iso-8859-1?Q?WkGgOZKBBJmxgIGNRP9Zg4njq6WEO6fGICLhPWgcay46IblYmgzr2DJX4M?=
+ =?iso-8859-1?Q?u9OK7TzToXTEIb1tvdGk0k82myxd+SJY9eV4w4QOggNkRAmW82fLVOBSgv?=
+ =?iso-8859-1?Q?j7cJyBddl//NMy7thExyvY6302QfoAGai2FiRfwHT9zo+dN77QkEqR8fD4?=
+ =?iso-8859-1?Q?YcemE150tRfLEZASI0XfVurlCzcQ5idsXpjbTk9FD6oDsQj8TDL1TW5qgL?=
+ =?iso-8859-1?Q?WmGUYDIFBGZQAdqJDeTFQ+VNEa6ta9oqYe+v3iRQCOfAR/HOYonmCQwTi6?=
+ =?iso-8859-1?Q?oFQHDYSnV5FkjHW9cRfBWOBjOlqBymjPFJGzXnGDC6et+9xwMQSgT4WaRo?=
+ =?iso-8859-1?Q?+MfuPg8hzRnQvPZt9hlH0tgVN6ujaCXJFV2qfZVEo22oZwYe837T3V/Hl/?=
+ =?iso-8859-1?Q?DMvxUYWlRhUirlUh+mAFiaRpfr/R7zuzYYsAt0W0x9E1dR2ryFE6OPIurI?=
+ =?iso-8859-1?Q?f/8XW4IreVEyiCDmMfmKltV0o/JpkwMBE3ynKGOeoLDOz5+DWBcc?=
+X-OriginatorOrg: est.tech
+X-MS-Exchange-CrossTenant-Network-Message-Id: 6a0c7bfa-8c80-4ebf-d1fa-08de7a9bf107
+X-MS-Exchange-CrossTenant-AuthSource: GVXP189MB2053.EURP189.PROD.OUTLOOK.COM
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 05 Mar 2026 09:45:31.7653
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: d2585e63-66b9-44b6-a76e-4f4b217d97fd
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: i3m5fDkS+bDTNWTi6wztuDiTXjcPV7GWVjDYtftoUEFQu7fzFBc+kzTQUgxcDijGPhXQG6vWqccqaQSwQGTs/R6U5xIaZJaTyp7hY+r0qt0=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: DU2P189MB2541
 
---b895f1e89350da7f8491f35b99d431866030fe6df54b62358155e9918430
-Content-Transfer-Encoding: quoted-printable
-Content-Type: text/plain; charset=UTF-8
+--em3xqypvsvj66tfm
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
 
-Hi,
+Hi.
 
-On Wed Mar 4, 2026 at 6:57 PM CET, Vladimir Oltean wrote:
-> Consumer drivers shouldn't dereference struct phy, not even to get to
-> its attributes.
+Sorry to resurrect this old thread but as far as I can see,
+this issue was dropped.
+As we have the same issue, not receiving a disconnect when cable is disconnected,
+we altered the patch and this version works for us.
+
+Any thought on the patch?
+
+Regards
+/Ravineet
+
+
+
+On Thu, Jun 06, 2024 at 12:29:13AM +0000, Thinh Nguyen wrote:
+> On Wed, Jun 05, 2024, Mike Looijmans wrote:
+> > On 05-06-2024 01:06, Thinh Nguyen wrote:
+> > > Hi,
+> > >
+> > > On Tue, Jun 04, 2024, Mike Looijmans wrote:
+> > > > On 04-06-2024 03:03, Thinh Nguyen wrote:
+> > > > > Hi,
+> > > > >
+> > > > > On Mon, Jun 03, 2024, Mike Looijmans wrote:
+> > > > > > When disconnecting the USB cable on an LS1028 device, nothing happens
+> > > > > > in userspace, which keeps thinking everything is still up and running.
+> > > > > > Turns out that the DWC3 controller only sends DWC3_DEVICE_EVENT_SUSPEND
+> > > > > > in that case, and not a DWC3_DEVICE_EVENT_DISCONNECT as one would
+> > > > > > expect. As a result, sysfs attribute "state" remains "configured"
+> > > > > > until something resets it.
+> > > > > >
+> > > > > > Forward the "suspended" state to sysfs, so that the "state" at least
+> > > > > > changes into "suspended" when one removes the cable, and hence also
+> > > > > > matches the gadget's state when really suspended.
+> > > > > On disconnection, did you see disconnect interrupt? If so, it should
+> > > > > transition to USB_STATE_NOATTACHED. This change doesn't seem to directly
+> > > > > address your issue. Can you provide the driver tracepoints?
+> > > > The device doesn't issue a disconnect event, I didn't have tracing enabled
+> > > > in the kernel but added some dev_info() calls to determine what was going
+> > > > on. Added this to dwc3_process_event_entry():
+> > > >
+> > > > dev_info(dwc->dev, "event: 0x%x type=0x%x", event->raw, event->type.type);
+> > > >
+> > > > When disconnecting the cable from the host, I see this:
+> > > >
+> > > > [   50.841411] dwc3 3110000.usb: event: 0x6084 type=0x42
+> > > > [   50.841457] dwc3 3110000.usb: event: 0x4086 type=0x43
+> > > > [   50.841494] dwc3 3110000.usb: event: 0x6084 type=0x42
+> > > > [   50.841534] dwc3 3110000.usb: event: 0x4086 type=0x43
+> > > > [   50.841571] dwc3 3110000.usb: event: 0x4086 type=0x43
+> > > > [   52.650990] dwc3 3110000.usb: event: 0x30601 type=0x0
+> > > >
+> > > > The "0x4086" and "0x6084" messages are endpoint events that occur all the
+> > > > time while connected. The last event is the "suspend" one. After that, total
+> > > > silence.
+> > > >
+> > > > If you need traces, please point me to a description on how to obtain them.
+> > > >
+> > > >
+> > > Let me know if you run into issues following this instructions to
+> > > capture the tracepoints:
+> > > https://urldefense.com/v3/__https://docs.kernel.org/driver-api/usb/dwc3.html*required-information__;Iw!!A4F2R9G_pg!epxtPmXHiizMg5_5igEYiKU483OZb1zcYK1M3afqXxIfgsw_cU_kdz9Rlpf1w-30JF0v4UUkxBViJtx4Prv3ZWchjKNHkKE$
+> > >
+> > >  From the patch you provided, you only apply the change for the usb
+> > > suspend. But did your device go through system suspend? If that's the
+> > > case, then the dwc3 driver will cause a soft-disconnect. Currently that
+> > > will not prompt a state change. We need the tracepoint to know more
+> > > detail.
+> > >
+> > > Until we have the tracepoints, you can experiment with this test patch.
+> > > If my suspiction is correct, then this may resolve your issue:
+> > >
+> > > diff --git a/drivers/usb/dwc3/gadget.c b/drivers/usb/dwc3/gadget.c
+> > > index 89fc690fdf34..29dbb889a0e2 100644
+> > > --- a/drivers/usb/dwc3/gadget.c
+> > > +++ b/drivers/usb/dwc3/gadget.c
+> > > @@ -2682,6 +2682,8 @@ static int dwc3_gadget_soft_disconnect(struct dwc3 *dwc)
+> > >           */
+> > >          ret = dwc3_gadget_run_stop(dwc, false);
+> > > +       usb_gadget_set_state(dwc->gadget, USB_STATE_NOTATTACHED);
+> > > +
+> > >          /*
+> > >           * Stop the gadget after controller is halted, so that if needed, the
+> > >           * events to update EP0 state can still occur while the run/stop
+> >
+> > I tried the patch above, but it doesn't work. Apparently
+> > dwc3_gadget_soft_disconnect() doesn't get called when I unplug the cable.
+> >
 >
-> We have phy_get_bus_width() as a precedent for getting the bus_width
-> attribute, so let's add phy_get_max_link_rate() and use it in DRM and
-> CAN drivers.
+> Thanks for testing. There's no system suspend, so that's expected.
 >
-> Signed-off-by: Vladimir Oltean <vladimir.oltean@nxp.com>
-> ---
-> Cc: Andrzej Hajda <andrzej.hajda@intel.com>
-> Cc: Neil Armstrong <neil.armstrong@linaro.org>
-> Cc: Robert Foss <rfoss@kernel.org>
-> Cc: Laurent Pinchart <Laurent.pinchart@ideasonboard.com>
-> Cc: Jonas Karlman <jonas@kwiboo.se>
-> Cc: Jernej Skrabec <jernej.skrabec@gmail.com>
-> Cc: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>
-> Cc: Maxime Ripard <mripard@kernel.org>
-> Cc: Thomas Zimmermann <tzimmermann@suse.de>
-> Cc: David Airlie <airlied@gmail.com>
-> Cc: Simona Vetter <simona@ffwll.ch>
-> Cc: Andy Yan <andy.yan@rock-chips.com>
-> Cc: Marc Kleine-Budde <mkl@pengutronix.de>
-> Cc: Vincent Mailhol <mailhol@kernel.org>
-> Cc: Nicolas Ferre <nicolas.ferre@microchip.com>
-> Cc: Alexandre Belloni <alexandre.belloni@bootlin.com>
-> Cc: Claudiu Beznea <claudiu.beznea@tuxon.dev>
-> Cc: Markus Schneider-Pargmann <msp@baylibre.com>
-> Cc: Geert Uytterhoeven <geert+renesas@glider.be>
-> Cc: Magnus Damm <magnus.damm@gmail.com>
-> ---
->  drivers/gpu/drm/bridge/cadence/cdns-mhdp8546-core.c | 4 ++--
->  drivers/gpu/drm/bridge/synopsys/dw-dp.c             | 2 +-
->  drivers/net/can/at91_can.c                          | 2 +-
->  drivers/net/can/flexcan/flexcan-core.c              | 2 +-
->  drivers/net/can/m_can/m_can_platform.c              | 2 +-
->  drivers/net/can/rcar/rcar_canfd.c                   | 2 +-
->  drivers/phy/phy-core.c                              | 6 ++++++
->  include/linux/phy/phy.h                             | 6 ++++++
->  8 files changed, 19 insertions(+), 7 deletions(-)
->
-> diff --git a/drivers/gpu/drm/bridge/cadence/cdns-mhdp8546-core.c b/driver=
-s/gpu/drm/bridge/cadence/cdns-mhdp8546-core.c
-> index a8b6ae58cb0a..ed7ed82ddb64 100644
-> --- a/drivers/gpu/drm/bridge/cadence/cdns-mhdp8546-core.c
-> +++ b/drivers/gpu/drm/bridge/cadence/cdns-mhdp8546-core.c
-> @@ -1300,7 +1300,7 @@ static u32 cdns_mhdp_get_training_interval_us(struc=
-t cdns_mhdp_device *mhdp,
-> =20
->  static void cdns_mhdp_fill_host_caps(struct cdns_mhdp_device *mhdp)
->  {
-> -	unsigned int link_rate;
-> +	u32 link_rate;
-> =20
->  	/* Get source capabilities based on PHY attributes */
-> =20
-> @@ -1308,7 +1308,7 @@ static void cdns_mhdp_fill_host_caps(struct cdns_mh=
-dp_device *mhdp)
->  	if (!mhdp->host.lanes_cnt)
->  		mhdp->host.lanes_cnt =3D 4;
-> =20
-> -	link_rate =3D mhdp->phy->attrs.max_link_rate;
-> +	link_rate =3D phy_get_max_link_rate(mhdp->phy);
->  	if (!link_rate)
->  		link_rate =3D drm_dp_bw_code_to_link_rate(DP_LINK_BW_8_1);
->  	else
-> diff --git a/drivers/gpu/drm/bridge/synopsys/dw-dp.c b/drivers/gpu/drm/br=
-idge/synopsys/dw-dp.c
-> index 4ab6922dd79c..79c72ee8e263 100644
-> --- a/drivers/gpu/drm/bridge/synopsys/dw-dp.c
-> +++ b/drivers/gpu/drm/bridge/synopsys/dw-dp.c
-> @@ -536,7 +536,7 @@ static int dw_dp_link_parse(struct dw_dp *dp, struct =
-drm_connector *connector)
-> =20
->  	link->revision =3D link->dpcd[DP_DPCD_REV];
->  	link->rate =3D min_t(u32, min(dp->plat_data.max_link_rate,
-> -				    dp->phy->attrs.max_link_rate * 100),
-> +				    phy_get_max_link_rate(dp->phy) * 100),
->  			   drm_dp_max_link_rate(link->dpcd));
->  	link->lanes =3D min_t(u8, phy_get_bus_width(dp->phy),
->  			    drm_dp_max_lane_count(link->dpcd));
-> diff --git a/drivers/net/can/at91_can.c b/drivers/net/can/at91_can.c
-> index 58da323f14d7..b56db253f02d 100644
-> --- a/drivers/net/can/at91_can.c
-> +++ b/drivers/net/can/at91_can.c
-> @@ -1126,7 +1126,7 @@ static int at91_can_probe(struct platform_device *p=
-dev)
->  	can_rx_offload_add_timestamp(dev, &priv->offload);
-> =20
->  	if (transceiver)
-> -		priv->can.bitrate_max =3D transceiver->attrs.max_link_rate;
-> +		priv->can.bitrate_max =3D phy_get_max_link_rate(transceiver);
-> =20
->  	if (at91_is_sam9263(priv))
->  		dev->sysfs_groups[0] =3D &at91_sysfs_attr_group;
-> diff --git a/drivers/net/can/flexcan/flexcan-core.c b/drivers/net/can/fle=
-xcan/flexcan-core.c
-> index f5d22c61503f..3a4307bc1d61 100644
-> --- a/drivers/net/can/flexcan/flexcan-core.c
-> +++ b/drivers/net/can/flexcan/flexcan-core.c
-> @@ -2211,7 +2211,7 @@ static int flexcan_probe(struct platform_device *pd=
-ev)
->  	priv->transceiver =3D transceiver;
-> =20
->  	if (transceiver)
-> -		priv->can.bitrate_max =3D transceiver->attrs.max_link_rate;
-> +		priv->can.bitrate_max =3D phy_get_max_link_rate(transceiver);
-> =20
->  	if (priv->devtype_data.quirks & FLEXCAN_QUIRK_NR_IRQ_3) {
->  		priv->irq_boff =3D platform_get_irq(pdev, 1);
-> diff --git a/drivers/net/can/m_can/m_can_platform.c b/drivers/net/can/m_c=
-an/m_can_platform.c
-> index 56da411878af..73525be6566b 100644
-> --- a/drivers/net/can/m_can/m_can_platform.c
-> +++ b/drivers/net/can/m_can/m_can_platform.c
-> @@ -132,7 +132,7 @@ static int m_can_plat_probe(struct platform_device *p=
-dev)
->  	}
-> =20
->  	if (transceiver)
-> -		mcan_class->can.bitrate_max =3D transceiver->attrs.max_link_rate;
-> +		mcan_class->can.bitrate_max =3D phy_get_max_link_rate(transceiver);
-> =20
->  	priv->base =3D addr;
->  	priv->mram_base =3D mram_addr;
-> diff --git a/drivers/net/can/rcar/rcar_canfd.c b/drivers/net/can/rcar/rca=
-r_canfd.c
-> index eaf8cac78038..645d5671705d 100644
-> --- a/drivers/net/can/rcar/rcar_canfd.c
-> +++ b/drivers/net/can/rcar/rcar_canfd.c
-> @@ -1885,7 +1885,7 @@ static int rcar_canfd_channel_probe(struct rcar_can=
-fd_global *gpriv, u32 ch,
->  	priv->channel =3D ch;
->  	priv->gpriv =3D gpriv;
->  	if (transceiver)
-> -		priv->can.bitrate_max =3D transceiver->attrs.max_link_rate;
-> +		priv->can.bitrate_max =3D phy_get_max_link_rate(transceiver);
->  	priv->can.clock.freq =3D fcan_freq;
->  	dev_info(dev, "can_clk rate is %u\n", priv->can.clock.freq);
-> =20
-> diff --git a/drivers/phy/phy-core.c b/drivers/phy/phy-core.c
-> index a1aff00fba7c..89f7410241aa 100644
-> --- a/drivers/phy/phy-core.c
-> +++ b/drivers/phy/phy-core.c
-> @@ -640,6 +640,12 @@ void phy_set_bus_width(struct phy *phy, int bus_widt=
-h)
->  }
->  EXPORT_SYMBOL_GPL(phy_set_bus_width);
-> =20
-> +u32 phy_get_max_link_rate(struct phy *phy)
-> +{
+> BR,
+> Thinh
 
-All of the can drivers that would use this function are checking phy
-before assigning the max_link_rate:
+--em3xqypvsvj66tfm
+Content-Type: text/x-diff; charset=us-ascii
+Content-Disposition: attachment;
+	filename="0001-usb-dwc3-gadget-set-device-in-disconnected-state-whe.patch"
 
-  if (transceiver)
-          priv->can.bitrate_max =3D transceiver->attrs.max_link_rate;
+From a689256e5d6cacdea09299014746522ae928f7c5 Mon Sep 17 00:00:00 2001
+From: Ravineet Singh <ravineet.a.singh@est.tech>
+Date: Mon, 2 Mar 2026 16:44:46 +0100
+Subject: [PATCH] usb: dwc3: gadget: set device in disconnected state when
+ unplugged
 
-Would it be reasonable to have
+When a USB cable is disconnected on an LS1028 device, the DWC3
+controller only sends DWC3_DEVICE_EVENT_SUSPEND and not a
+DWC3_DEVICE_EVENT_DISCONNECT.
 
-  if (!phy)
-          return 0;
+Set device in disconnected state by issuing
+DWC3_DEVICE_EVENT_DISCONNECT.
 
-in this function to be able to drop these individual checks of the
-drivers? This would be similar to clk_get_rate() which does the same
-check and return 0 for convenience.
+Signed-off-by: Ravineet Singh <ravineet.a.singh@est.tech>
+---
+ drivers/usb/dwc3/gadget.c | 19 ++++++++++++++++---
+ 1 file changed, 16 insertions(+), 3 deletions(-)
 
-Best
-Markus
-
-> +	return phy->attrs.max_link_rate;
-> +}
-> +EXPORT_SYMBOL_GPL(phy_get_max_link_rate);
-> +
->  /**
->   * _of_phy_get() - lookup and obtain a reference to a phy by phandle
->   * @np: device_node for which to get the phy
-> diff --git a/include/linux/phy/phy.h b/include/linux/phy/phy.h
-> index 36307e47760d..af9c3e795786 100644
-> --- a/include/linux/phy/phy.h
-> +++ b/include/linux/phy/phy.h
-> @@ -57,6 +57,7 @@ int phy_notify_disconnect(struct phy *phy, int port);
->  int phy_notify_state(struct phy *phy, union phy_notify state);
->  int phy_get_bus_width(struct phy *phy);
->  void phy_set_bus_width(struct phy *phy, int bus_width);
-> +u32 phy_get_max_link_rate(struct phy *phy);
->  #else
->  static inline struct phy *phy_get(struct device *dev, const char *string=
-)
->  {
-> @@ -256,6 +257,11 @@ static inline int phy_get_bus_width(struct phy *phy)
->  static inline void phy_set_bus_width(struct phy *phy, int bus_width)
->  {
->  }
-> +
-> +static inline u32 phy_get_max_link_rate(struct phy *phy)
-> +{
-> +	return 0;
-> +}
->  #endif /* IS_ENABLED(CONFIG_GENERIC_PHY) */
-> =20
->  #endif /* __PHY_CONSUMER_H */
+diff --git a/drivers/usb/dwc3/gadget.c b/drivers/usb/dwc3/gadget.c
+index 6e90f2ad0426..94e191a9ceb8 100644
+--- a/drivers/usb/dwc3/gadget.c
++++ b/drivers/usb/dwc3/gadget.c
+@@ -4440,9 +4440,22 @@ static void dwc3_gadget_suspend_interrupt(struct dwc3 *dwc,
+ {
+ 	enum dwc3_link_state next = evtinfo & DWC3_LINK_STATE_MASK;
+ 
+-	if (!dwc->suspended && next == DWC3_LINK_STATE_U3) {
+-		dwc->suspended = true;
+-		dwc3_suspend_gadget(dwc);
++	if (next == DWC3_LINK_STATE_U3) {
++		u8 speed;
++		u32 reg;
++
++		reg = dwc3_readl(dwc->regs, DWC3_DSTS);
++		speed = reg & DWC3_DSTS_CONNECTSPD;
++		if (dwc->gadget->speed != USB_SPEED_UNKNOWN &&
++		    speed == USB_SPEED_UNKNOWN) {
++			dwc3_gadget_disconnect_interrupt(dwc);
++			return;
++		}
++
++		if (!dwc->suspended) {
++			dwc->suspended = true;
++			dwc3_suspend_gadget(dwc);
++		}
+ 	}
+ 
+ 	dwc->link_state = next;
+-- 
+2.43.0
 
 
---b895f1e89350da7f8491f35b99d431866030fe6df54b62358155e9918430
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iKMEABYKAEsWIQSJYVVm/x+5xmOiprOFwVZpkBVKUwUCaalOjxsUgAAAAAAEAA5t
-YW51MiwyLjUrMS4xMSwyLDIRHG1zcEBiYXlsaWJyZS5jb20ACgkQhcFWaZAVSlPc
-SwEAt3Fg0ly9qnS+HJQv96JGhcc9ssPHPspnN0LcoiUH76oBAJJ1UWuuXcnIsBb3
-namewJQN1U0nDnFUFRtJbSq49LcK
-=6g8b
------END PGP SIGNATURE-----
-
---b895f1e89350da7f8491f35b99d431866030fe6df54b62358155e9918430--
+--em3xqypvsvj66tfm--
