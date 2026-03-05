@@ -1,60 +1,59 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.15])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CC32A39E6F4
-	for <linux-usb@vger.kernel.org>; Thu,  5 Mar 2026 14:48:57 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.15
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 66B333A874B
+	for <linux-usb@vger.kernel.org>; Thu,  5 Mar 2026 14:48:58 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1772722139; cv=none; b=a44MJw11K46Lb+Pzn5OuMtWdWjOrXAc92HX5yqrM1hASOcbwMBgciGUlFoSyCbksdZ5pr3F2t4pmLS44VVFMapI5l19z74Qnk1AKUt47UbbM95z6qSPX20BHHBJNDow+0mb0mb0fgQxT9TTa9vQlE8nzXZ2E3xWfdbQ0rCMj8NE=
+	t=1772722139; cv=none; b=EWp31FG2laNCM2my8K0YSij0Evg/BZXfLbX+YypHbUcH/pqF1hEqQD7likrsC3uI4IxkPq27yMSO8IwhlezujUrAQphc5fLiqfzFTt6W5PqLQWGVQaAQaFjcBUv1dbxIj1Mjm7XGGkKkydL5M4AReFR58kvDY78wflDcch/AzIo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
 	s=arc-20240116; t=1772722139; c=relaxed/simple;
-	bh=xQWxdfk+FLvxMHq51C/OwX/yusnN8lw+kU0JeFPfqn8=;
+	bh=WdTS+H+tlbCpDjkBXXR05BG08HPWbq3pcVVTF+zRt5Y=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=p7UXK3UCCGQzepeQnO0C9XVEbf2ECVtliNj0qElZbXggM5x12wq7xG2xrD23S0SQuO1LAjMIcMQxrssaEAl5gh927ZNZAFtl8OXTur2aINOfxtFv7OxSlYw4P3b4DpoVfgMRdnamxr3Y6JN2zp4jikQ0s/FCjJ9dumDCyuDQjm0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=pass smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=HeJW7h3w; arc=none smtp.client-ip=198.175.65.15
+	 MIME-Version; b=ppncP2DWz05yu7zCWe0eZ+akCk3qaNuKc54+fM9MYxiJdk/E5HA5bW1D2pOxpa24dYne69QIph4HYl5DJef1bZ5fkUA8WFX2NZ703n4aSwSNOSsy2q+ZxKK8LN/QYUpnxqnE8rrf38j3bRmnqOfL/LC5kBYVPXLW2pa6iBIKNyk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=pass smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=GFhfWKSg; arc=none smtp.client-ip=198.175.65.18
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="HeJW7h3w"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="GFhfWKSg"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
   t=1772722138; x=1804258138;
   h=from:to:cc:subject:date:message-id:in-reply-to:
    references:mime-version:content-transfer-encoding;
-  bh=xQWxdfk+FLvxMHq51C/OwX/yusnN8lw+kU0JeFPfqn8=;
-  b=HeJW7h3wfKqdT3z34f7oXj4fL/v5KU8UKzCs7TCVNgSLuic22eCrTMsO
-   /ZRLhFZuKLvmFLqtrBSNNgBWOMxJzfyNRkflBdeOEU+7xcEKb9qmqNq5w
-   Bu+ZJc6TmIWBNndYT/lbGrHdCGG8+1TLJCPQavPgzroJP1+rAv6utxF+7
-   rDuocBrQL/RzqJynpOnpGks+UrTUMR+EzvUHtzdv+jd1b5BrS1tfR4tku
-   nHY1isCp7cC0HJTTG2oX2Qt/CWBzqWrZZqDN7ETjWaEdV8JILlEPIC95K
-   0iNU+Mr/tWdekw6xB/q0QoVxPmukts7w7r46KoqQT3/1fi6basv1I+5Ul
-   A==;
-X-CSE-ConnectionGUID: tipOIRYaQ5yGKDDnYW2Lcw==
-X-CSE-MsgGUID: PkOuJykyTMOX5+uEhoYdEQ==
-X-IronPort-AV: E=McAfee;i="6800,10657,11720"; a="77411851"
+  bh=WdTS+H+tlbCpDjkBXXR05BG08HPWbq3pcVVTF+zRt5Y=;
+  b=GFhfWKSgeawaaB+pGKlujTHdbVpLF5md6SHYBAxEueCZ0FbH6v1mk8Z8
+   W8p6dnu7UuZujY3CYikEOt52WjSoGgvppJhshm1q1aa/mmDF4a9u78s9s
+   r8/+HjFeL68X/CqP4d8ioJvQXY368kLN7VLfjJcfjawXlaE5tMcgZ4pPe
+   Qknx51Zw3vlT/mVPBVsYDxl6Owf/gh82JhwAiBJuxA5nADySJULulKi4G
+   fdIV1lriwfNyEN8Tz9i4GXMNw2kWWqGPf7FFics5cG1Z/h98gJImuzJWZ
+   xer0txtCbGr7t0ZHqcMW2TDaZcBBmhobyplfjL3LaNG0Zt064mmRaHx2Q
+   Q==;
+X-CSE-ConnectionGUID: woR9nK6wTDmWofCs+5Rsng==
+X-CSE-MsgGUID: P4xtxnH9SIiQUXJpeOI9oA==
+X-IronPort-AV: E=McAfee;i="6800,10657,11720"; a="73857694"
 X-IronPort-AV: E=Sophos;i="6.23,103,1770624000"; 
-   d="scan'208";a="77411851"
-Received: from orviesa009.jf.intel.com ([10.64.159.149])
-  by orvoesa107.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 05 Mar 2026 06:48:55 -0800
-X-CSE-ConnectionGUID: OhKp0NLfTcarEhg6XWIoMQ==
-X-CSE-MsgGUID: JYHdRv8TRiWacvj6qSUtYg==
+   d="scan'208";a="73857694"
+Received: from orviesa002.jf.intel.com ([10.64.159.142])
+  by orvoesa110.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 05 Mar 2026 06:48:57 -0800
+X-CSE-ConnectionGUID: pZHekqgaRHiTSb8G91L82A==
+X-CSE-MsgGUID: 8pTLYgm9TuKU0PdG2Je65Q==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.23,103,1770624000"; 
-   d="scan'208";a="218659792"
+   d="scan'208";a="249163766"
 Received: from black.igk.intel.com ([10.91.253.5])
-  by orviesa009.jf.intel.com with ESMTP; 05 Mar 2026 06:48:53 -0800
+  by orviesa002.jf.intel.com with ESMTP; 05 Mar 2026 06:48:55 -0800
 Received: by black.igk.intel.com (Postfix, from userid 1058)
-	id 1936C95; Thu, 05 Mar 2026 15:48:52 +0100 (CET)
+	id A58D499; Thu, 05 Mar 2026 15:48:54 +0100 (CET)
 From: Niklas Neronin <niklas.neronin@linux.intel.com>
 To: mathias.nyman@linux.intel.com
 Cc: linux-usb@vger.kernel.org,
 	raoxu@uniontech.com,
 	Thinh.Nguyen@synopsys.com,
-	Niklas Neronin <niklas.neronin@linux.intel.com>,
-	Andy Shevchenko <andriy.shevchenko@intel.com>
-Subject: [RFC PATCH 03/12] usb: xhci: simplify USBSTS register reset
-Date: Thu,  5 Mar 2026 15:48:15 +0100
-Message-ID: <20260305144824.3264408-4-niklas.neronin@linux.intel.com>
+	Niklas Neronin <niklas.neronin@linux.intel.com>
+Subject: [RFC PATCH 06/12] usb: xhci: move initialization for lifetime objects
+Date: Thu,  5 Mar 2026 15:48:18 +0100
+Message-ID: <20260305144824.3264408-7-niklas.neronin@linux.intel.com>
 X-Mailer: git-send-email 2.50.1
 In-Reply-To: <20260305144824.3264408-1-niklas.neronin@linux.intel.com>
 References: <20260305144824.3264408-1-niklas.neronin@linux.intel.com>
@@ -66,62 +65,61 @@ List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-The current code clears the USB Status Register (USBSTS) and then sets
-the Enable Interrupt (EINT) bit to '1'. A mask (~0x1fff) is used to avoid
-modifying reserved bits 31:13, but it also inadvertently excludes reserved
-bits 7:5, 1. These fields are defined as RsvdZ, so writing '0' to them has
-no effect.
+Initialize objects that exist for the lifetime of the driver only once,
+rather than repeatedly. These objects do not require re-initialization
+after events such as S4 (suspend-to-disk).
 
-According to the xHCI specification, section 5.1.1:
-"System software shall mask all reserved fields (Rsvd, RsvdP or RsvdZ) to
- '0' before evaluating a register or data structure value. This will enable
- current system software to run with future xHCI implementations that
- define the reserved fields."
-
-Given this, it is safe to write zero to all bits of USBSTS except EINT.
-This allows the mask and the register read to be removed, simplifying the
-code, avoiding potential future issues and removing unexplained hex.
-
-USB Status Register; xHCI Specification, version 1.2 section 5.4.2
-
-Reviewed-by: Andy Shevchenko <andriy.shevchenko@intel.com>
 Signed-off-by: Niklas Neronin <niklas.neronin@linux.intel.com>
 ---
- drivers/usb/host/xhci.c | 7 ++-----
- 1 file changed, 2 insertions(+), 5 deletions(-)
+ drivers/usb/host/xhci-mem.c |  1 -
+ drivers/usb/host/xhci.c     | 15 ++++++++-------
+ 2 files changed, 8 insertions(+), 8 deletions(-)
 
+diff --git a/drivers/usb/host/xhci-mem.c b/drivers/usb/host/xhci-mem.c
+index 005b7bc1bfda..fae75969e49a 100644
+--- a/drivers/usb/host/xhci-mem.c
++++ b/drivers/usb/host/xhci-mem.c
+@@ -2001,7 +2001,6 @@ void xhci_mem_cleanup(struct xhci_hcd *xhci)
+ 	xhci->port_caps = NULL;
+ 	xhci->interrupters = NULL;
+ 
+-	xhci->page_size = 0;
+ 	xhci->usb2_rhub.bus_state.bus_suspended = 0;
+ 	xhci->usb3_rhub.bus_state.bus_suspended = 0;
+ }
 diff --git a/drivers/usb/host/xhci.c b/drivers/usb/host/xhci.c
-index a288f59c604c..ad095768ed48 100644
+index d9519a9e9e17..338e93f39937 100644
 --- a/drivers/usb/host/xhci.c
 +++ b/drivers/usb/host/xhci.c
-@@ -705,7 +705,6 @@ EXPORT_SYMBOL_GPL(xhci_run);
-  */
- void xhci_stop(struct usb_hcd *hcd)
- {
--	u32 temp;
- 	struct xhci_hcd *xhci = hcd_to_xhci(hcd);
- 	struct xhci_interrupter *ir = xhci->interrupters[0];
+@@ -549,13 +549,6 @@ static int xhci_init(struct usb_hcd *hcd)
+ 	int retval;
  
-@@ -740,8 +739,7 @@ void xhci_stop(struct usb_hcd *hcd)
+ 	xhci_dbg_trace(xhci, trace_xhci_dbg_init, "Starting %s", __func__);
+-	spin_lock_init(&xhci->lock);
+-
+-	INIT_LIST_HEAD(&xhci->cmd_list);
+-	INIT_DELAYED_WORK(&xhci->cmd_timer, xhci_handle_command_timeout);
+-	init_completion(&xhci->cmd_ring_stop_completion);
+-	xhci_hcd_page_size(xhci);
+-	memset(xhci->devs, 0, MAX_HC_SLOTS * sizeof(*xhci->devs));
  
- 	xhci_dbg_trace(xhci, trace_xhci_dbg_init,
- 			"// Disabling event ring interrupts");
--	temp = readl(&xhci->op_regs->status);
--	writel((temp & ~0x1fff) | STS_EINT, &xhci->op_regs->status);
-+	writel(STS_EINT, &xhci->op_regs->status);
- 	xhci_disable_interrupter(xhci, ir);
+ 	retval = xhci_mem_init(xhci, GFP_KERNEL);
+ 	if (retval)
+@@ -5522,6 +5515,14 @@ int xhci_gen_setup(struct usb_hcd *hcd, xhci_get_quirks_t get_quirks)
+ 		dma_set_coherent_mask(dev, DMA_BIT_MASK(32));
+ 	}
  
- 	xhci_dbg_trace(xhci, trace_xhci_dbg_init, "cleaning up memory");
-@@ -1174,8 +1172,7 @@ int xhci_resume(struct xhci_hcd *xhci, bool power_lost, bool is_auto_resume)
- 			return retval;
- 
- 		xhci_dbg(xhci, "// Disabling event ring interrupts\n");
--		temp = readl(&xhci->op_regs->status);
--		writel((temp & ~0x1fff) | STS_EINT, &xhci->op_regs->status);
-+		writel(STS_EINT, &xhci->op_regs->status);
- 		xhci_disable_interrupter(xhci, xhci->interrupters[0]);
- 
- 		xhci_dbg(xhci, "cleaning up memory\n");
++	spin_lock_init(&xhci->lock);
++	INIT_LIST_HEAD(&xhci->cmd_list);
++	INIT_DELAYED_WORK(&xhci->cmd_timer, xhci_handle_command_timeout);
++	init_completion(&xhci->cmd_ring_stop_completion);
++	xhci_hcd_page_size(xhci);
++
++	memset(xhci->devs, 0, MAX_HC_SLOTS * sizeof(*xhci->devs));
++
+ 	xhci_dbg(xhci, "Calling HCD init\n");
+ 	/* Initialize HCD and host controller data structures. */
+ 	retval = xhci_init(hcd);
 -- 
 2.50.1
 
