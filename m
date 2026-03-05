@@ -1,173 +1,112 @@
-Received: from DUZPR83CU001.outbound.protection.outlook.com (mail-northeuropeazon11012043.outbound.protection.outlook.com [52.101.66.43])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-vs1-f51.google.com (mail-vs1-f51.google.com [209.85.217.51])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 899C230FF27;
-	Thu,  5 Mar 2026 07:26:22 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=52.101.66.43
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1772695583; cv=fail; b=FNMpcU82xPQmkmGdXPt5TOwGX1FXu+dIXkGJ1yq1P3BjpcNog8nLScjFq+mAKXZjztg90KklfZx92JYOmYzdO+1ev2oqnO5Oqa5sKmZZCvkHSXikpVbG734dSkvlJcKdtlBaMMbbNju9Rw8BzjxyRoynowoT8HRQMB8PH59pQJM=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1772695583; c=relaxed/simple;
-	bh=CZNDdmgEzeWPEYKgJehFVgvWZ39aa3XfQkc7FgNuos4=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:Content-Type:
-	 Content-Disposition:In-Reply-To:MIME-Version; b=QCC5hMb4CHDw9v0yzY/f7NJw7+5KXZoJ72tAN/1lv1mwRPgIVlhoiXnq7jRDwv4kUzfldVEWP5trTBShCLBC6MzL/S8OksWHA0nl16yTsNyUMWxcrK0QqVieR5sABC1Px4gtSDzOYQCZdJUxwTJ0oLzQIY35W1bIFb3BmnXRp9Q=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=nxp.com; spf=pass smtp.mailfrom=nxp.com; dkim=pass (2048-bit key) header.d=nxp.com header.i=@nxp.com header.b=bJZV+P4R; arc=fail smtp.client-ip=52.101.66.43
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=nxp.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=nxp.com
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=nxp.com header.i=@nxp.com header.b="bJZV+P4R"
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=Asm02ui/67bwDfoQWO+qphwRbFWrk62kLJKB3gvWmmHWPbmdCFPhEJh96uvGjrviShnmFn15LzN5gKZaoX6yEYy22zTSn84IqFMIhI2DywYgqKD093BuqF40r/5YBOIBGf3Wh99yrQmmQVzZh3fn+2HhbJhiiw3jibEpwmiwuyeo3HBkyoDECGJvLk9ij9FWG3p6WHiftFV8XfYuDw7WEpVqGt2wE8yvhuYVQvcso8y6Muqz/fH4/ttqswspEjPn8UZOfhXVrS/o8F43iTAuP8A1xQ8VBG4Hc6Qgt21V7nF9tK1TBfVpE/AJZnylAoiRv1SldUKEiMNT4pFtMUR9IA==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=MRF9jEkwT/5RVZR0cX00VEsHHHFVgLEdV4/op8o1CK8=;
- b=gvaBB1MiDVTW6S9vOd+e8FXRDwHN7Gr+A/Zv9934ZjHPypFSIwPiylrZVGGrrAWR1Yiu7OWVJW27myx+FhsrphvNL3Ul01noZY3vnxwU5AgTFGNfTLYsit0WwrTTGN6QVzQG4j3D91/BCNrPLn1228hUucy6j7hAMwAohzYq28OfpjxrrR1W0SnkfldD2fDLWfqy3x18baPTXA6YbWOM49RsCTxf9jszW0TzH+7ApwyTZCLUOmFvWmwnTL/Q3siYB/NXr5RbcD3iH6UWHD+WLD6YMvd4N6xbHF4tJGXrHqL7yfVUfENv/HrZbs0mgHeF6lwG2VLV8jrgjnwiAwZDog==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=nxp.com; dmarc=pass action=none header.from=nxp.com; dkim=pass
- header.d=nxp.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nxp.com; s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=MRF9jEkwT/5RVZR0cX00VEsHHHFVgLEdV4/op8o1CK8=;
- b=bJZV+P4R7ksbLpGQ2nOcCAwVHoIYVpYFx57O3oTgK1Bki8gXTaFTeCUPEHEr4IIsavIxMekhWffQAX4MPYsOQ/qc4LECzgx2x3fqgFnUzlid28DJKHJEmR2WIc6I0iW3hxvo9pKnoD+sAVrXp5k7lMNllIs4wshe9JesuJevbwQ7mr85G8fepNEN/f217WW0jU+wCwuVu+XHJhOj9UGFEovwSJqGvOYWQ+WrkXzXzOlq9wzYV7zVGyE4OtD9MNXK4UdBJwj1JyEXw2PrZsEBjgVPc8jE9cu+0wizU7lBG1c/jGegBpfPRcbx7S4vPP3AlI/oGWLZVzTn7a2DcqJ24Q==
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=nxp.com;
-Received: from PAXPR04MB8829.eurprd04.prod.outlook.com (2603:10a6:102:20c::17)
- by AS8PR04MB7848.eurprd04.prod.outlook.com (2603:10a6:20b:288::13) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9678.17; Thu, 5 Mar
- 2026 07:26:19 +0000
-Received: from PAXPR04MB8829.eurprd04.prod.outlook.com
- ([fe80::52de:f9c9:8c2e:7dd5]) by PAXPR04MB8829.eurprd04.prod.outlook.com
- ([fe80::52de:f9c9:8c2e:7dd5%5]) with mapi id 15.20.9678.017; Thu, 5 Mar 2026
- 07:26:19 +0000
-Date: Thu, 5 Mar 2026 15:18:29 +0800
-From: Xu Yang <xu.yang_2@nxp.com>
-To: Alan Stern <stern@rowland.harvard.edu>
-Cc: Mathias Nyman <mathias.nyman@intel.com>, gregkh@linuxfoundation.org, 
-	tglx@kernel.org, mingo@kernel.org, claudiu.beznea.uj@bp.renesas.com, 
-	kees@kernel.org, bigeasy@linutronix.de, ulf.hansson@linaro.org, 
-	rafael.j.wysocki@intel.com, linux-usb@vger.kernel.org, linux-kernel@vger.kernel.org, 
-	imx@lists.linux.dev, jun.li@nxp.com
-Subject: Re: [PATCH] usb: hcd: queue wakeup_work to system_freezable_wq
- workqueue
-Message-ID: <dia6g5nbekt6brmi73dovchyklugjnd6ok3tsifbd6nfcjnnvd@xus2sw5wodhe>
-References: <20260304115729.857136-1-xu.yang_2@nxp.com>
- <c35d4aae-038f-428c-9b69-09230043dd60@rowland.harvard.edu>
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <c35d4aae-038f-428c-9b69-09230043dd60@rowland.harvard.edu>
-X-ClientProxiedBy: FR4P281CA0193.DEUP281.PROD.OUTLOOK.COM
- (2603:10a6:d10:ca::17) To PAXPR04MB8829.eurprd04.prod.outlook.com
- (2603:10a6:102:20c::17)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 181DB26F2A1
+	for <linux-usb@vger.kernel.org>; Thu,  5 Mar 2026 07:45:36 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.217.51
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1772696738; cv=none; b=QuSc7mHVV8wDNJFAAEeLkI5rlUuuuQkz8DbhZL4HlZqBIryq269RKmP0Iqg8fTSRxody1QNV5VOEPfTYplEtEqDlsJrfk3kCUDt3sEloKMI6ZfzhJGzpebG3Ux6i0NIHK1FnRog3gNi5LTj+1eur+qnTx9UQ1Zh4ifGR70rZF2o=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1772696738; c=relaxed/simple;
+	bh=1VrdyW7eBzn3eIzcJ/qwIsXSzypVzRQDxfUgekinKYA=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=OX94XmptZoSnuM1oDnLJNQAFLiwUu4vgCO7tX+8P4sSSa/etfxj3pV4IG+1ZzvKkuOyYu1Kd9R1c3qNAQhE9V4F1t1gA7FWyy+R2gof3Oz503j6AiWc9e2QxGc9Eo+e/YUyCH7OfFPGoOrVAIn1hNbTy3gwiX+GHsO8ygzw/TJU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org; spf=pass smtp.mailfrom=gmail.com; arc=none smtp.client-ip=209.85.217.51
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Received: by mail-vs1-f51.google.com with SMTP id ada2fe7eead31-5ffa0b23a1aso801722137.3
+        for <linux-usb@vger.kernel.org>; Wed, 04 Mar 2026 23:45:36 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1772696736; x=1773301536;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=KLWXJFRzKXYfvRWexgs1gCb/dTgnevi1M5AetCjur0g=;
+        b=LYHaO4QeP4Xmq2DbxbaHM/ZDusbUm95KDvsh583SAcFXhAhfBE0btHldcem0clt+y/
+         VXTE8wfiPs6b1mEbaJMA+T0khYAJkjMTdqYJN9yYrD7RY1YreaepqC1DacL4tNbudLsa
+         I76AvdCKbpnUD/lf1GLsLwPVONsctrdggX1NbAS0UcyElaV/WcpSft0e+x177NRewDgc
+         qiDvuPs6QsnvcBPZivzIHyn3rdJIDfFWkOAbX1oyk0ZYWNhmlAgKQzrSP8xhmw7utqyL
+         dGYviwnvPP7yER7ajMV9PYkies2IvWGPnoWeLSeZlMu4k3xjlV3/p/1gyplXQZnVF4a4
+         TBaQ==
+X-Forwarded-Encrypted: i=1; AJvYcCUyXEna1kv5EH+R21BEo/ewYQOyKtOBZcuNEi6I1ScrvSe1wmrLAf2/QZUpcq1+HtZgCWg5hNWA0ec=@vger.kernel.org
+X-Gm-Message-State: AOJu0YzlsTnL5GGyJhpjsmfHcxYjhOUkhRSDescPbdmDGwUxpXH+MCFr
+	hz70YqAvW82+igvYzWm4NH5sfOh9haJ0krnckzGMYanZtwrTB/lvCrvyaIdovMXN
+X-Gm-Gg: ATEYQzyU/T32Ap4LNYzMfTvbofksU35tqTIu1RIpke2JHHFWq9sxbpys6Tv7ZlB5Wlp
+	DyKbpXVx1SMa05OdrbeR5j2sHwx7mAcvksZmn8hfQNyqbsToqrFjLTfedB1P5Ld7JUfoyIGT44k
+	xKvtmc2SwSRL31yDbGIVlLcRTTQYbOTbnkIY87woUluuC3mAl/uxgwzvcdeT1SV688nFFg8Gh+6
+	goY5R0XrfBSlBzQnnItY4H5xBr9h8VcrvcZttrE5aglM7gvsP3UvKYCXtnqKPJtmRD56dX2mOQA
+	OVsGnwwKhOeHklU9jJyl2KIeemVbQC/jAqiv5vZDk+VAZmj1jPtHAfgI1hp9IuWA/zKlh8gP1m4
+	dYVe7Svd6dhnuy1I+HXEci74y+np/mp31eAhXKNOOV+kOe2SQytsbyLds5z8dcDDu+3X9vWJklN
+	kSNxKgEGDyZZTn0VU0qKAzqp0vrYt2GK/USXUKsuWPswpQR0QhyeGG43c3Yp9l
+X-Received: by 2002:a05:6102:4194:b0:5ff:d1c8:a85e with SMTP id ada2fe7eead31-5ffd1c8c4famr111808137.32.1772696735975;
+        Wed, 04 Mar 2026 23:45:35 -0800 (PST)
+Received: from mail-ua1-f44.google.com (mail-ua1-f44.google.com. [209.85.222.44])
+        by smtp.gmail.com with ESMTPSA id a1e0cc1a2514c-94df6577a4fsm21589353241.10.2026.03.04.23.45.34
+        for <linux-usb@vger.kernel.org>
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Wed, 04 Mar 2026 23:45:35 -0800 (PST)
+Received: by mail-ua1-f44.google.com with SMTP id a1e0cc1a2514c-94dda16ff9fso2323252241.1
+        for <linux-usb@vger.kernel.org>; Wed, 04 Mar 2026 23:45:34 -0800 (PST)
+X-Forwarded-Encrypted: i=1; AJvYcCVjbLCZlR45g+z8pQg4zOJGlk2d1IkcBsDYukmyMhoqPCkeoonuq15A/4Yv6YTTT4v4btkhkKhbxp0=@vger.kernel.org
+X-Received: by 2002:a05:6102:441c:b0:5f9:3a22:85a2 with SMTP id
+ ada2fe7eead31-5ffaac72675mr2059267137.12.1772696734612; Wed, 04 Mar 2026
+ 23:45:34 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: PAXPR04MB8829:EE_|AS8PR04MB7848:EE_
-X-MS-Office365-Filtering-Correlation-Id: 4ab0d2db-38ed-4475-48cc-08de7a8879f2
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam:
-	BCL:0;ARA:13230040|366016|1800799024|19092799006|52116014|7416014|376014|38350700014;
-X-Microsoft-Antispam-Message-Info:
-	G8spS4LGvJ5HkqgexK8TeyvRGj2JT4fNJQFtQkmFWnCz0zOeuSu+kGARZm/dPEMaeBN7NAwZWA6hZu0eQWhTOPvGxt7QOVzi+kUG9x63L0qww+S1aX3qpmT/gFNDNtgy14NTwkCJ3PAB25fCpsKZV7MrKGbsCTwSHoJmTBvi3DhGwBvtfPNS6SWRdmIZT85lenYqUB98JRAZfEd+PxspvHro02cs5JEi8ncA/bxKNn1DTQhicn3dcoSKPnJVhtYtd7WDRBm5D7X0VJsqqZAVV14ULsVs87P++HTZhm+ZXu2xsB3uJDDd9orX7J2TnEzfEJIARB//tR837z+3/n7mogzfxaxYRxuX05HTBIqmQYkYz6UH9kx8wjLjQL+XUq/3+aSRFV/dGpk4Uz8L14JPRAVt62xrqGmobq8N2e2AKpx59IJ/DoftChNDcLW+zbVrlbYoK2JG166jhdgo/Bo6pCZLc4pfrDoLgjoNTL/s7r/M5O3+Ts1mIVIcv2PVovXI5xrMBLZPkCUY4ulC3PKCgqbLM2fzECiW+K8OK2GnpUEiKWrMrTfsPIVwXJKLioxmXKzJKkXefzEH16Z6FvOdZiS6N5kgVp5aMvgfrLAWYGtR7FbIB6y18Nx3+VEzE5jMtwuwA/PIT6VONVxke0QMKPVz8MuSMvr62RCVyZ1Fan+FLkuiJqUxgQ1FEGKwXT/tnDnUVr7+4Jft8QP6sCTes11297bKXYzh2o5UrkUWRHHW6g7LjglMt6i+rDejM75dx5ll4lDj0YksFPcnXN/NfmWkTAd8Aq4NhS+2GkKZfeA=
-X-Forefront-Antispam-Report:
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:PAXPR04MB8829.eurprd04.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(366016)(1800799024)(19092799006)(52116014)(7416014)(376014)(38350700014);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0:
-	=?us-ascii?Q?ty20KpgL92g34kIWeXR+vZ5r/CQIOIBnkaT1O8w/wVqJ7TEm7OiBGjtnFzTJ?=
- =?us-ascii?Q?RlPZAG4uysJezqOna7HGsF64t6gcwWZnLJlLrXgDlvYlT6OTtyl5vFbXApRt?=
- =?us-ascii?Q?mF+PzN9g75p5DmgOLMIvul0q5u28lSBItvxNFUSSA0RsBq0IuwNQB4XZunSN?=
- =?us-ascii?Q?K3mcbFL9lImxBIbxv9pmhzu0IksoB3/Ukf9JMh1FKoze7nLNAzDum21wwYzI?=
- =?us-ascii?Q?fbNniw1J6EycrbQqN/68ugEGyp8sm04SYZpUyS3jYKFcN8xHHtdAYfzRLxuZ?=
- =?us-ascii?Q?zNQ5Nxmts7m9JlaLvEa95XlxcLDc7ocGzMbTAsGM7vfxlnLMyPOgVe6j4K5x?=
- =?us-ascii?Q?aV4HvEs5XUkNc9S4hd31SCvLIDM9ErtuIqKpqf0daTAwPcRElf5hNDwOv1bR?=
- =?us-ascii?Q?N5ev/LbGbm8YtRaDtO0NbLZgGtCyp+JqfS8IQeaYUftxmNv/SNE9S9Ql+9nK?=
- =?us-ascii?Q?JGarLRFSVfeGTN5SjJYFTBU4VbfGXcZpxaFnVeHEZHN+IeW2CD/+GBJL12Jh?=
- =?us-ascii?Q?+KpWejfJP1gJnn79RteRQbGRTFGm+za+acLb5Tevff2Sxp6WV6o8mic5qOfz?=
- =?us-ascii?Q?EidEIJHftkR+0uTi6HybquqIzBvHVchPzHj7MAc5i7P0Zd9h02vjAHXJd5vr?=
- =?us-ascii?Q?fOdiTxDKpxh/1fQp+VNCoZHj4ixB2fELN0vyEPlpwuiiveP47E/nqR++N8/g?=
- =?us-ascii?Q?BG1niPen5KofnnvBtOAvtKlDJSc6odXxYasKINyQIoEd+zQiBqIQSk/gW38L?=
- =?us-ascii?Q?2gQp4WmdtAee9xOf2zfRJhmdabRZmF8089nGTgTw+u2qm6spfMUWmtk9cLmz?=
- =?us-ascii?Q?Hkwz+PuvDwx9Ss8DXcyUQU5BOLyIbw1pkRJxeqNP8FYT1Qb8r3qxes/fHoGO?=
- =?us-ascii?Q?zO9lcYZMhJzT9dFb5nalGHRJEcnn/mP8ifFu1WhBJ7JoKMpUihxtYPUVRycC?=
- =?us-ascii?Q?XMuRJNLCxvEmjbrR/YZKwLjsLPjDZpK5tsenk5cXADWvt4HuogQ71M5R+tAx?=
- =?us-ascii?Q?JD8zzzGw7Qj3XPLb+omUexiX/7dfTk3GPQmF71rMvrrYRQuBSrhmqDtDhym0?=
- =?us-ascii?Q?cpM2NyB1fhVKQaPNIKxzkCvk3jcdKbW3x8vS42ohTZxg5lFlZy7uEbJnllij?=
- =?us-ascii?Q?YYvu5iU/2dFlXNJ2leDZPtNUka0/59z2lN86ogo9G7Q6zAkPq5FGJCoB/rxy?=
- =?us-ascii?Q?sr1a5C5nA7Feru8xOOqE+hFtNYEHTwm8CUlniSALx2siRwWgydx2JiPLTGd3?=
- =?us-ascii?Q?b7W1x2FllbnAaKHYrjwp8MXiWTwJ8xo0iqTL/NGRLlzTr51pVsAc7l/X6woX?=
- =?us-ascii?Q?T7TnykQomswliA+3NHVio5GEQLzdNss38d0kdkrSuY6GxYv7tBA/m1AoD3i6?=
- =?us-ascii?Q?7/cFDtt+LC8cZ04tJ/wcyEYynm4ko4sPFpiRqnZmsLaBIWLVLQnvN8QKIcLr?=
- =?us-ascii?Q?V/K+XXZSdSO0vswQhTRDr0Za/C2aeYYfMbz2damun3sUQWf5btNWMD+3RcOX?=
- =?us-ascii?Q?hZ/L0PMDPWzsvpcfTM+9w7DeTpa57ZgWsjAD3531YSwGW0U6G6ap16zpMsVv?=
- =?us-ascii?Q?hp6OnrLfQJzNsOfB1wjGVLKJg9taQXyEFwsO+bWSpZtcsBoSdAXgLOUyWwND?=
- =?us-ascii?Q?Bu680mX143TrkwQlMefVcCrGWQKgkpNiZb6maOZ1qOLIov8t7sqjBYo7KrzL?=
- =?us-ascii?Q?6FmtOShQPlgK6PeYIqsE6wqdU5U6bJSploxMBA+m2imY/Icjkn8xX7x3jyk1?=
- =?us-ascii?Q?G9ArNx2SqQ=3D=3D?=
-X-OriginatorOrg: nxp.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 4ab0d2db-38ed-4475-48cc-08de7a8879f2
-X-MS-Exchange-CrossTenant-AuthSource: PAXPR04MB8829.eurprd04.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 05 Mar 2026 07:26:19.7502
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 686ea1d3-bc2b-4c6f-a92c-d99c5c301635
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: cBR5WAFZIwpj0RmtZzoHYOXMzPXTgCpuBjre2YjUTkQiaiGwoQYrNAhGmEW2Kgd+AOnxm9kCJiy5jW2Qqz7rZw==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: AS8PR04MB7848
+References: <20260304175735.2660419-1-vladimir.oltean@nxp.com> <20260304175735.2660419-6-vladimir.oltean@nxp.com>
+In-Reply-To: <20260304175735.2660419-6-vladimir.oltean@nxp.com>
+From: Geert Uytterhoeven <geert@linux-m68k.org>
+Date: Thu, 5 Mar 2026 08:45:23 +0100
+X-Gmail-Original-Message-ID: <CAMuHMdXA67BO8Umz8-4jRg1SLvtZUSEzK0p7WxSvomnBk+WiyA@mail.gmail.com>
+X-Gm-Features: AaiRm52ziEM93YxO07h7pOV0rTYZnULijxTOwLRm9EW_k_lOxLulmwK4PITV2jw
+Message-ID: <CAMuHMdXA67BO8Umz8-4jRg1SLvtZUSEzK0p7WxSvomnBk+WiyA@mail.gmail.com>
+Subject: Re: [PATCH phy-next 05/22] phy: add <linux/pm_runtime.h> where missing
+To: Vladimir Oltean <vladimir.oltean@nxp.com>
+Cc: linux-phy@lists.infradead.org, Vinod Koul <vkoul@kernel.org>, 
+	Neil Armstrong <neil.armstrong@linaro.org>, dri-devel@lists.freedesktop.org, 
+	freedreno@lists.freedesktop.org, linux-arm-kernel@lists.infradead.org, 
+	linux-arm-msm@vger.kernel.org, linux-can@vger.kernel.org, 
+	linux-gpio@vger.kernel.org, linux-ide@vger.kernel.org, 
+	linux-kernel@vger.kernel.org, linux-media@vger.kernel.org, 
+	linux-pci@vger.kernel.org, linux-renesas-soc@vger.kernel.org, 
+	linux-riscv@lists.infradead.org, linux-rockchip@lists.infradead.org, 
+	linux-samsung-soc@vger.kernel.org, linux-sunxi@lists.linux.dev, 
+	linux-tegra@vger.kernel.org, linux-usb@vger.kernel.org, 
+	netdev@vger.kernel.org, spacemit@lists.linux.dev, 
+	UNGLinuxDriver@microchip.com, Peter Griffin <peter.griffin@linaro.org>, 
+	=?UTF-8?Q?Andr=C3=A9_Draszik?= <andre.draszik@linaro.org>, 
+	Tudor Ambarus <tudor.ambarus@linaro.org>, Geert Uytterhoeven <geert+renesas@glider.be>, 
+	Magnus Damm <magnus.damm@gmail.com>, Heiko Stuebner <heiko@sntech.de>
+Content-Type: text/plain; charset="UTF-8"
 
-On Wed, Mar 04, 2026 at 10:24:09AM -0500, Alan Stern wrote:
-> On Wed, Mar 04, 2026 at 07:57:29PM +0800, Xu Yang wrote:
-> > After commit 4fb352df14de ("PM: sleep: Do not flag runtime PM workqueue
-> > as freezable"), pm_wq workqueue will be unfreezable during system pm. This
-> > brings issue as below:
-> 
-> ...
-> 
-> > The reason is if the host controller resume routine xhci_resume() call
-> > usb_hcd_resume_root_hub(), wakeup_work will be queued and run immediately.
-> > Then usb_autoresume_device() will be called and usb device will exit
-> > runtime suspended state (if it was suspended before). For a hub device,
-> > hub_resume()/hub_reset_resume() will be called accordingly.
-> > 
-> > After the host controller device system resume is finished, the root hub
-> > usb device "usb1" will do system resume too. Then hub_resume() will be
-> > called again.
-> > 
-> > Above sequence will cause hub->urb to be submitted twice. To avoid this
-> > issue, restore the previous behavior by queuing wakeup_work to
-> > system_freezable_wq workqueue.
-> 
-> I don't think this patch is an appropriate fix for the problem.  One 
-> indication of this is the fact that you have not considered the reasons 
-> for making the runtime PM workqueue freezable in the first place, as 
-> described in the 4fb352df14de commit.
+On Wed, 4 Mar 2026 at 19:00, Vladimir Oltean <vladimir.oltean@nxp.com> wrote:
+> It appears that the phy-mapphone-mdm6600, phy-qcom-snps-femto-v2,
+> phy-rcar-gen3-pcie, r8a779f0-ether-serdes and phy-rockchip-typec drivers
+> call runtime PM operations without including the proper header.
+>
+> This was provided by <linux/phy/phy.h> but no function exported by this
+> header directly needs it. So we need to drop it from there, and fix up
+> drivers that used to depend on that.
+>
+> Signed-off-by: Vladimir Oltean <vladimir.oltean@nxp.com>
 
-Making runtime PM workqueue freezable is to prevent runtime PM tasks from
-interfering with the system PM tasks. We also don't want usb wakeup work
-to affect the root hub device system resume process, right?
+>  drivers/phy/renesas/phy-rcar-gen3-pcie.c       | 1 +
+>  drivers/phy/renesas/r8a779f0-ether-serdes.c    | 1 +
 
-> 
-> A better question to ask would be: Why does xhci_resume() call 
-> usb_hcd_resume_root_hub()?  That does not seem like the right thing to 
-> do -- at least, not in this scenario.  The proper time to resume the 
-> root hub after a system sleep is when the PM core calls its resume 
-> routine.
+For the Renesas parts:
+Reviewed-by: Geert Uytterhoeven <geert+renesas@glider.be>
 
-Good question, it seems like commit 79989bd4ab86 ("xhci: always resume
-roothubs if xHC was reset during resume") is added to fix some issues.
+Gr{oetje,eeting}s,
 
-I also find ohci_resume will do the same thing: a8b43c00ef06 ("USB: Fix
-runtime wakeup on OHCI")
+                        Geert
 
-Assume the above fixes are necessary, then switch to system_freezable_wq
-should be a proper fix. Because this just restores it to a previous state.
-Otherwise, the fixes need to be implemented in other ways.
+-- 
+Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
 
-Thanks,
-Xu Yang
+In personal conversations with technical people, I call myself a hacker. But
+when I'm talking to journalists I just say "programmer" or something like that.
+                                -- Linus Torvalds
