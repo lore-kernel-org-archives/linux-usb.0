@@ -1,65 +1,65 @@
-Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.223.130])
+Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.223.131])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 596F737F00F
-	for <linux-usb@vger.kernel.org>; Thu,  5 Mar 2026 10:29:21 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.130
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B91EF37C117
+	for <linux-usb@vger.kernel.org>; Thu,  5 Mar 2026 10:29:26 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.131
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1772706562; cv=none; b=hlH6/z5rC0H05B1K+3VIiC/lLND1ReQrYjCMuMVTo53pfwq8zQHZ/HxT+X0JSbWlqVzXsp5aVVg5Lgfg8aZAYP1XVSKFt8o4hmmzygCYfiGwDbSkGOsGGRX8IxSsD9fAaxA7lOLKes6a6RyKjsU9L8v1QiG48/VBsSxysAnP1cQ=
+	t=1772706568; cv=none; b=Pc7c0mEP/jzF4WDgrvMoM8Rjhi6Gp/3ENtX1xZGeSEAPUdtR9fOJqvNkwMDfXKU+6mUddGMSgBqDascGAsYyx6m2vBqpWtukH8ZH4ifksIUu/SFFwSPh3zn/Bb6i0gTqUJ7qhSgWXGw1xtT3OdV5MZCFcIGv8kXL0Yl4ck9C15c=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1772706562; c=relaxed/simple;
-	bh=DRoIFJx8+wyox+DiksafH7DXZgxdMBcujM7/1dqSrZA=;
+	s=arc-20240116; t=1772706568; c=relaxed/simple;
+	bh=FDI2T2e8KxAyEYfkXTFQSJmmkHBPNrkHmbT77SJ3PVA=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=aaI421+rlAp8OOxPR3KgNVGEF5fxnFY0PQkjk+PTBi7chj8Tz72X9du/uRHz9AADBreb1X8dph5XqRAORLXEjlcVb8jqncwo4xX/lnGIe0ejvaPOGAR3Tac42oFPyFu6OgxSOto1ZtJp8/JrPjMLyBCmXYBrDoYf1WTZS2nKwCY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=suse.com; spf=pass smtp.mailfrom=suse.com; dkim=pass (1024-bit key) header.d=suse.com header.i=@suse.com header.b=RqGCGDAi; dkim=pass (1024-bit key) header.d=suse.com header.i=@suse.com header.b=RqGCGDAi; arc=none smtp.client-ip=195.135.223.130
+	 MIME-Version; b=rZZ6y//eIToudc/sz/GOqjTu/ouJNVZiWconWw0/5bG2lArlCzP9FBMPRdw5e0Txwbfr+Vlhv+t8pjsRmpiH7l7O/AchXj3bNAr4stAlKEF2gx5C0ae5NBGMZ5p654+xRh4fp216cCO4YS0FSMdL/pmc5+EBP3t6L8SsFG34+no=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=suse.com; spf=pass smtp.mailfrom=suse.com; dkim=pass (1024-bit key) header.d=suse.com header.i=@suse.com header.b=fGeM0VTH; dkim=pass (1024-bit key) header.d=suse.com header.i=@suse.com header.b=USe7tcVp; arc=none smtp.client-ip=195.135.223.131
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=suse.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=suse.com header.i=@suse.com header.b="RqGCGDAi";
-	dkim=pass (1024-bit key) header.d=suse.com header.i=@suse.com header.b="RqGCGDAi"
+	dkim=pass (1024-bit key) header.d=suse.com header.i=@suse.com header.b="fGeM0VTH";
+	dkim=pass (1024-bit key) header.d=suse.com header.i=@suse.com header.b="USe7tcVp"
 Received: from imap1.dmz-prg2.suse.org (unknown [10.150.64.97])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
 	(No client certificate requested)
-	by smtp-out1.suse.de (Postfix) with ESMTPS id A24F73F839;
+	by smtp-out2.suse.de (Postfix) with ESMTPS id F1B035BD57;
 	Thu,  5 Mar 2026 10:29:13 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.com; s=susede1;
-	t=1772706553; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	t=1772706554; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
 	 mime-version:mime-version:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=TyIg2bz9bJqppQoXfWnZCQHQ/XZctE3DCiMUIGl2h7s=;
-	b=RqGCGDAioMNKA3h385Mznq2rM6fv86Oy5JC5Mne8E3P+2OOIxIia5+dxres+/h9bqKbJrZ
-	C5b7Ttrn/ORD5OHeF820mTzvGLQHNubFdww8u2byYbGg4FS/2b2stoA/BP74zEJh6pDnDw
-	mO7FhzJQLuo6tSq3exWpk8PeZmUVNK4=
-Authentication-Results: smtp-out1.suse.de;
+	bh=zyMCpV3tpOVj50sWLyrqjDfNLiBHb0HskVUV/OC+KbU=;
+	b=fGeM0VTHEskPCuJhERwECjSWAn/xwfv4R1hGhfjZiAbDkczS8Iq0Y/sHzLN65u+7vIQI2L
+	FlVQipglGIertP+RkuPsEhdGMjFMzFkI17ka8Tiyxt2CbVsEbxUlpNnak18deI19H6YyqQ
+	YfTOylPjOEO+rm1ddkjukZD55qowCso=
+Authentication-Results: smtp-out2.suse.de;
 	none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.com; s=susede1;
 	t=1772706553; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
 	 mime-version:mime-version:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=TyIg2bz9bJqppQoXfWnZCQHQ/XZctE3DCiMUIGl2h7s=;
-	b=RqGCGDAioMNKA3h385Mznq2rM6fv86Oy5JC5Mne8E3P+2OOIxIia5+dxres+/h9bqKbJrZ
-	C5b7Ttrn/ORD5OHeF820mTzvGLQHNubFdww8u2byYbGg4FS/2b2stoA/BP74zEJh6pDnDw
-	mO7FhzJQLuo6tSq3exWpk8PeZmUVNK4=
+	bh=zyMCpV3tpOVj50sWLyrqjDfNLiBHb0HskVUV/OC+KbU=;
+	b=USe7tcVptfaF6g6P6a3XNVwGL/9uMY/ZLhDOenvBbGESyoDs6Xg2eA1VKJf3wXtIHzqyq8
+	B4yxk/n62jg0N6CR6j/b7mXokmz81v0IyO7GqlkaoorUN+YnvHOxMLlJASUzhm4+1glrWH
+	3PYCbHV4sncGPmjk8Ew/TCFBTjK+r2k=
 Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
 	(No client certificate requested)
-	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 7A4D43EA77;
+	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id D53B23EA76;
 	Thu,  5 Mar 2026 10:29:13 +0000 (UTC)
 Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
 	by imap1.dmz-prg2.suse.org with ESMTPSA
-	id 2LSrHPlaqWkubwAAD6G6ig
+	id qCTnMvlaqWkubwAAD6G6ig
 	(envelope-from <oneukum@suse.com>); Thu, 05 Mar 2026 10:29:13 +0000
 From: Oliver Neukum <oneukum@suse.com>
 To: gregkh@linuxfoundation.org,
 	linux-usb@vger.kernel.org
 Cc: Oliver Neukum <oneukum@suse.com>
-Subject: [PATCH 3/5] usb: image: microtek: remove outdated comment
-Date: Thu,  5 Mar 2026 11:28:33 +0100
-Message-ID: <20260305102905.2392512-3-oneukum@suse.com>
+Subject: [PATCH 5/5] usb: image: microtek: use dev_warn and dev_err
+Date: Thu,  5 Mar 2026 11:28:35 +0100
+Message-ID: <20260305102905.2392512-5-oneukum@suse.com>
 X-Mailer: git-send-email 2.53.0
 In-Reply-To: <20260305102905.2392512-1-oneukum@suse.com>
 References: <20260305102905.2392512-1-oneukum@suse.com>
@@ -71,7 +71,7 @@ List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-Spamd-Result: default: False [-2.80 / 50.00];
-	BAYES_HAM(-3.00)[99.99%];
+	BAYES_HAM(-3.00)[100.00%];
 	NEURAL_HAM_LONG(-1.00)[-1.000];
 	MID_CONTAINS_FROM(1.00)[];
 	R_MISSING_CHARSET(0.50)[];
@@ -82,7 +82,7 @@ X-Spamd-Result: default: False [-2.80 / 50.00];
 	ARC_NA(0.00)[];
 	MIME_TRACE(0.00)[0:+];
 	TO_DN_SOME(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[suse.com:mid,suse.com:email,imap1.dmz-prg2.suse.org:helo];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[imap1.dmz-prg2.suse.org:helo,suse.com:mid,suse.com:email];
 	RCVD_VIA_SMTP_AUTH(0.00)[];
 	FROM_EQ_ENVFROM(0.00)[];
 	RCVD_COUNT_TWO(0.00)[2];
@@ -94,25 +94,107 @@ X-Spam-Flag: NO
 X-Spam-Score: -2.80
 X-Spam-Level: 
 
-The comment is no longer true
+Do not use useless private macros
 
 Signed-off-by: Oliver Neukum <oneukum@suse.com>
 ---
- drivers/usb/image/microtek.c | 1 -
- 1 file changed, 1 deletion(-)
+ drivers/usb/image/microtek.c | 30 ++++++++++++------------------
+ 1 file changed, 12 insertions(+), 18 deletions(-)
 
 diff --git a/drivers/usb/image/microtek.c b/drivers/usb/image/microtek.c
-index 5a5999c7e2cb..4de1de31681a 100644
+index cd68aa27639e..1f0b3c44d388 100644
 --- a/drivers/usb/image/microtek.c
 +++ b/drivers/usb/image/microtek.c
-@@ -55,7 +55,6 @@
-  * Status:
-  *
-  *	Untested with multiple scanners.
-- *	Untested on SMP.
-  *	Untested on a bigendian machine.
-  *
-  * History:
+@@ -169,13 +169,6 @@ static struct usb_driver mts_usb_driver = {
+ #define MTS_VERSION	"0.4.3"
+ #define MTS_NAME	"microtek usb (rev " MTS_VERSION "): "
+ 
+-#define MTS_WARNING(x...) \
+-	printk( KERN_WARNING MTS_NAME x )
+-#define MTS_ERROR(x...) \
+-	printk( KERN_ERR MTS_NAME x )
+-#define MTS_INT_ERROR(x...) \
+-	MTS_ERROR(x)
+-
+ #if defined MTS_DO_DEBUG
+ 
+ #define MTS_DEBUG(x...) \
+@@ -375,7 +368,8 @@ void mts_int_submit_urb (struct urb* transfer,
+ 
+ 	res = usb_submit_urb( transfer, GFP_ATOMIC );
+ 	if ( unlikely(res) ) {
+-		MTS_INT_ERROR( "could not submit URB! Error was %d\n",(int)res );
++		dev_err(&context->instance->usb_dev->dev,
++			"could not submit URB! Error was %d\n",(int)res );
+ 		set_host_byte(context->srb, DID_ERROR);
+ 		mts_transfer_cleanup(transfer);
+ 	}
+@@ -584,7 +578,7 @@ static enum scsi_qc_status mts_scsi_queuecommand_lck(struct scsi_cmnd *srb)
+ 	res=usb_submit_urb(desc->urb, GFP_ATOMIC);
+ 
+ 	if(unlikely(res)){
+-		MTS_ERROR("error %d submitting URB\n",(int)res);
++		dev_err(&desc->usb_dev->dev, "error %d submitting URB\n",(int)res);
+ 		set_host_byte(srb, DID_ERROR);
+ 
+ 		if(likely(callback != NULL))
+@@ -661,7 +655,7 @@ static int mts_usb_probe(struct usb_interface *intf,
+ 	/* Check if the config is sane */
+ 
+ 	if ( altsetting->desc.bNumEndpoints != MTS_EP_TOTAL ) {
+-		MTS_WARNING( "expecting %d got %d endpoints! Bailing out.\n",
++		dev_warn(&dev->dev, "expecting %d got %d endpoints! Bailing out.\n",
+ 			     (int)MTS_EP_TOTAL, (int)altsetting->desc.bNumEndpoints );
+ 		return -ENODEV;
+ 	}
+@@ -673,23 +667,23 @@ static int mts_usb_probe(struct usb_interface *intf,
+ 			if (ep_out == -1) {
+ 				ep_out = usb_endpoint_num(&altsetting->endpoint[i].desc);
+ 			} else {
+-				MTS_WARNING( "can only deal with bulk endpoints; endpoint %d is not bulk.\n",
++				dev_warn(&dev->dev, "can only deal with bulk endpoints; endpoint %d is not bulk.\n",
+ 						usb_endpoint_num(&altsetting->endpoint[i].desc));
+ 				return -ENODEV;
+ 			}
+ 		} else {
+-			MTS_WARNING( "can only deal with bulk endpoints; endpoint %d is not bulk.\n",
+-					(int)altsetting->endpoint[i].desc.bEndpointAddress );
++			dev_warn(&dev->dev, "can only deal with bulk endpoints; endpoint %d is not bulk.\n",
++					usb_endpoint_num(&altsetting->endpoint[i].desc));
+ 		}
+ 	}
+ 
+ 	if (ep_in_current != &ep_in_set[2]) {
+-		MTS_WARNING("couldn't find two input bulk endpoints. Bailing out.\n");
++		dev_warn(&dev->dev, "couldn't find two input bulk endpoints. Bailing out.\n");
+ 		return -ENODEV;
+ 	}
+ 
+ 	if ( ep_out == -1 ) {
+-		MTS_WARNING( "couldn't find an output bulk endpoint. Bailing out.\n" );
++		dev_warn(&dev->dev, "couldn't find an output bulk endpoint. Bailing out.\n" );
+ 		return -ENODEV;
+ 	}
+ 
+@@ -715,15 +709,15 @@ static int mts_usb_probe(struct usb_interface *intf,
+ 	new_desc->ep_image = ep_in_set[1];
+ 
+ 	if ( new_desc->ep_out != MTS_EP_OUT )
+-		MTS_WARNING( "will this work? Command EP is not usually %d\n",
++		dev_warn(&dev->dev, "will this work? Command EP is not usually %d\n",
+ 			     (int)new_desc->ep_out );
+ 
+ 	if ( new_desc->ep_response != MTS_EP_RESPONSE )
+-		MTS_WARNING( "will this work? Response EP is not usually %d\n",
++		dev_warn(&dev->dev, "will this work? Response EP is not usually %d\n",
+ 			     (int)new_desc->ep_response );
+ 
+ 	if ( new_desc->ep_image != MTS_EP_IMAGE )
+-		MTS_WARNING( "will this work? Image data EP is not usually %d\n",
++		dev_warn(&dev->dev, "will this work? Image data EP is not usually %d\n",
+ 			     (int)new_desc->ep_image );
+ 
+ 	new_desc->host = scsi_host_alloc(&mts_scsi_host_template,
 -- 
 2.53.0
 
