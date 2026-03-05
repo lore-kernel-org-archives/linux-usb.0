@@ -1,34 +1,34 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3BF2636F40E;
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 47AD7370D6F;
 	Thu,  5 Mar 2026 11:15:28 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1772709328; cv=none; b=jhTicf6PVOowf7h4nJ2N3qyVt/Q45IBWn73TRg7S2vOIym7pahzvxtAukMaDIoizEZO4v8MNvRnMCkbPJdVZbE0ngiewKJqAX2LCw1qCe3JMZnW24oRZRfM/m8U98zocgU6WOPDY0M8voCE8WOH11EgyN03N8/inzotRw8MdaJQ=
+	t=1772709328; cv=none; b=WcngKOTSBslBSKa6UQPvayhxA9yhlRcev74xhUHYOB4aZyz6J50Du/lAGJ2RPrKuCRFcJcFyeDKjBirUuMGEcWD1qb+fysNvRmn9r6sbUbs4fV/AElkr8vr4tcEcE2/7rx2KA0E/+jXnU7ZuahrG5V+sfwCe/mKZoQPR0DJY76Q=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
 	s=arc-20240116; t=1772709328; c=relaxed/simple;
-	bh=YX6VeJZoImKept7XZEeAhxhhHVTyX4TzApXk5bpoRrM=;
+	bh=KiK5Y9NZw9Swe3ZOWiVZxoM5uaXwYIAh7q6GAC/OnmE=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=o3h6bG6gH0RWuNkIvk8Cxe876nSrAG91vmEs2jUNVwokaPLstrOcKCpsyR4YkcTY2ZtmzhUpxmoENaYX6B4zRAnvHgq4LrcRxhgs5x4My1GGwvx0i8VH1BjX18TBqUUSdWvR1BxuRGOCwd8VlT/+Is1kPa/EZaIfvWipEyjTUcc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=EC3YoEtv; arc=none smtp.client-ip=10.30.226.201
+	 MIME-Version; b=COZ76G9HskdBtyRlrIR2EkqCMQtiT4Iq6tQr2PDPiuqfTZmunO9Cw+p0whFNFqtTpMEDtSRi4gceFy1iXzdZ8npRhbQdHnqtReoARoUX22x+3GnREkXW96oAZ5qTgLvQzE5Q9GmfERs5FLq+IjwHd3VcwIRpxSef+mL3aZfNu+8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=p2vRjvai; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="EC3YoEtv"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 1296EC2BC87;
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="p2vRjvai"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 0E17DC2BC9E;
 	Thu,  5 Mar 2026 11:15:28 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
 	s=k20201202; t=1772709328;
-	bh=YX6VeJZoImKept7XZEeAhxhhHVTyX4TzApXk5bpoRrM=;
+	bh=KiK5Y9NZw9Swe3ZOWiVZxoM5uaXwYIAh7q6GAC/OnmE=;
 	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=EC3YoEtvNkWDguq9ApRsCFWsrWCZzppYRYqKnU6rd9/plfXVz70WL4PEIIwY4IFFs
-	 GtxcqW1O4uSvaFVO2N7bnwVONt4NmiWHVENT2+iXlQPjTsmhhOVWFZG89Mh5jPl7jE
-	 vIgFZPoNmdtWikRAIjLZ0F7mcxyIGuNtQqyKXHX7rTT4xEx+TrACf1Pwov9cJ5w+DV
-	 CLiqCn3JaNQsjPNUxVictqCBum5QqzmDxOK47B69+Bgy3CNvjH1GBtxBqf+DNQP2u8
-	 zzLjiD2puVOzU+3PC0FVrdiIPtNS6l1xL1JQKtakocOklLAhQfyCT+ZceVrako4yiY
-	 qTcbqt+uoUSGA==
+	b=p2vRjvaiKkbuvo9rWcQdHrTxPReL/3YqQgSmc8ig+jpXVcAdNovnasuzukjZ8vJ9l
+	 T/5bnkzMD/XVHYF03rFcLgbyKTzPmWO8tga6g++CCeX9wOQCQSN5DL2XezRzt56BbZ
+	 CAWG3dBBBAzng+6tlqwWC1VyfsMPkq5AfBpZijnCKtaOG6ai1aSygHFjnj16P+JPFX
+	 NWZ4AUSOf41Xnap96m8R9GyGbM308M2OH0s3u8wT9glXM50e9KgZ3fncyS54frGwaL
+	 OA376x0nd6w7fCr7ci+pKOQj9GbiLfu7NSygBOHCwdsr8MazW0mu/pjoMJOPzJ35vm
+	 y4t4og3jZwzTQ==
 Received: from johan by xi.lan with local (Exim 4.98.2)
 	(envelope-from <johan@kernel.org>)
-	id 1vy6ft-000000004ni-3r1G;
+	id 1vy6ft-000000004nm-3wTI;
 	Thu, 05 Mar 2026 12:15:25 +0100
 From: Johan Hovold <johan@kernel.org>
 To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
@@ -37,9 +37,9 @@ Cc: Lixu Zhang <lixu.zhang@intel.com>,
 	linux-usb@vger.kernel.org,
 	linux-kernel@vger.kernel.org,
 	Johan Hovold <johan@kernel.org>
-Subject: [PATCH 3/5] USB: ljca: drop redundant interface reference
-Date: Thu,  5 Mar 2026 12:15:09 +0100
-Message-ID: <20260305111511.18386-4-johan@kernel.org>
+Subject: [PATCH 5/5] USB: usbsevseg: drop redundant device reference
+Date: Thu,  5 Mar 2026 12:15:11 +0100
+Message-ID: <20260305111511.18386-6-johan@kernel.org>
 X-Mailer: git-send-email 2.52.0
 In-Reply-To: <20260305111511.18386-1-johan@kernel.org>
 References: <20260305111511.18386-1-johan@kernel.org>
@@ -51,79 +51,41 @@ List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-Driver core holds a reference to the USB interface while it is bound to
-a driver and there is no need to take another reference unless the
-interface is needed after disconnect.
+Driver core holds a reference to the USB interface and its parent USB
+device while the interface is bound to a driver and there is no need to
+take additional references unless the structures are needed after
+disconnect.
 
-Drop the redundant interface reference to reduce cargo culting, make it
+Drop the redundant device reference to reduce cargo culting, make it
 easier to spot drivers where an extra reference is needed, and reduce
 the risk of memory leaks when drivers fail to release it.
 
 Signed-off-by: Johan Hovold <johan@kernel.org>
 ---
- drivers/usb/misc/usb-ljca.c | 15 +++++----------
- 1 file changed, 5 insertions(+), 10 deletions(-)
+ drivers/usb/misc/usbsevseg.c | 3 +--
+ 1 file changed, 1 insertion(+), 2 deletions(-)
 
-diff --git a/drivers/usb/misc/usb-ljca.c b/drivers/usb/misc/usb-ljca.c
-index 7e85fd12da56..c60121faa3da 100644
---- a/drivers/usb/misc/usb-ljca.c
-+++ b/drivers/usb/misc/usb-ljca.c
-@@ -776,7 +776,7 @@ static int ljca_probe(struct usb_interface *interface,
- 	init_completion(&adap->cmd_completion);
- 	INIT_LIST_HEAD(&adap->client_list);
+diff --git a/drivers/usb/misc/usbsevseg.c b/drivers/usb/misc/usbsevseg.c
+index b37bf53dd54f..89d25fcef642 100644
+--- a/drivers/usb/misc/usbsevseg.c
++++ b/drivers/usb/misc/usbsevseg.c
+@@ -312,7 +312,7 @@ static int sevseg_probe(struct usb_interface *interface,
+ 	if (!mydev)
+ 		goto error_mem;
  
--	adap->intf = usb_get_intf(interface);
-+	adap->intf = interface;
- 	adap->usb_dev = usb_dev;
- 	adap->dev = dev;
+-	mydev->udev = usb_get_dev(udev);
++	mydev->udev = udev;
+ 	mydev->intf = interface;
+ 	usb_set_intfdata(interface, mydev);
  
-@@ -787,7 +787,7 @@ static int ljca_probe(struct usb_interface *interface,
- 	ret = usb_find_common_endpoints(alt, &ep_in, &ep_out, NULL, NULL);
- 	if (ret) {
- 		dev_err(dev, "bulk endpoints not found\n");
--		goto err_put;
-+		goto err_destroy_mutex;
- 	}
- 	adap->rx_pipe = usb_rcvbulkpipe(usb_dev, usb_endpoint_num(ep_in));
- 	adap->tx_pipe = usb_sndbulkpipe(usb_dev, usb_endpoint_num(ep_out));
-@@ -797,14 +797,14 @@ static int ljca_probe(struct usb_interface *interface,
- 	adap->rx_buf = devm_kzalloc(dev, adap->rx_len, GFP_KERNEL);
- 	if (!adap->rx_buf) {
- 		ret = -ENOMEM;
--		goto err_put;
-+		goto err_destroy_mutex;
- 	}
+@@ -338,7 +338,6 @@ static void sevseg_disconnect(struct usb_interface *interface)
  
- 	/* alloc rx urb */
- 	adap->rx_urb = usb_alloc_urb(0, GFP_KERNEL);
- 	if (!adap->rx_urb) {
- 		ret = -ENOMEM;
--		goto err_put;
-+		goto err_destroy_mutex;
- 	}
- 	usb_fill_bulk_urb(adap->rx_urb, usb_dev, adap->rx_pipe,
- 			  adap->rx_buf, adap->rx_len, ljca_recv, adap);
-@@ -836,10 +836,7 @@ static int ljca_probe(struct usb_interface *interface,
- 
- err_free:
- 	usb_free_urb(adap->rx_urb);
--
--err_put:
--	usb_put_intf(adap->intf);
--
-+err_destroy_mutex:
- 	mutex_destroy(&adap->mutex);
- 
- 	return ret;
-@@ -864,8 +861,6 @@ static void ljca_disconnect(struct usb_interface *interface)
- 
- 	usb_free_urb(adap->rx_urb);
- 
--	usb_put_intf(adap->intf);
--
- 	mutex_destroy(&adap->mutex);
+ 	mydev = usb_get_intfdata(interface);
+ 	usb_set_intfdata(interface, NULL);
+-	usb_put_dev(mydev->udev);
+ 	kfree(mydev);
+ 	dev_info(&interface->dev, "USB 7 Segment now disconnected\n");
  }
- 
 -- 
 2.52.0
 
