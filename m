@@ -1,91 +1,126 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from metis.whiteo.stw.pengutronix.de (metis.whiteo.stw.pengutronix.de [185.203.201.7])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 61901386431;
-	Thu,  5 Mar 2026 11:15:28 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5D67D3783AA
+	for <linux-usb@vger.kernel.org>; Thu,  5 Mar 2026 11:30:01 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.203.201.7
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1772709328; cv=none; b=kdtE45vE1ECxa9wUY3gBuAA0UVPBgyd4hPkIv77La6zPB59kk52hyuRI51hiEUTGkaSah7Qc568kaMgimOsLlbgMhJqtI7a5Ipd1bYmIr3d92Dzuy+OqPO4h+gbDk6/CukO1Ne34h2r3BdqWl6LGouryw2Vu4riacF4KLVP2KMM=
+	t=1772710203; cv=none; b=qZZRDblrCQr7FV34EP+Sg/0j7ulyzTncn8TuKPRP/R6qyh9Osnrz0JW2leNK2qMs1jMqFdD8HLoe79fg4iXlU8oiFPzdSQAAf/6UM6AGCgzxrNDNdt/thCybXgX8KT9ysh3a0n9izu31wA33bJXOLdzv10WO/+V9pwpItQ+ewwY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1772709328; c=relaxed/simple;
-	bh=1AiE2nAY8josHKUT6kRxF3mlw9VySkREoY8DEdUcpGM=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=Z+tK8aQlPmeinL5HJVknJe102TioOGzAmzdwFQCqkSplr+5xIU1YLBn+YazBouP+Jaj2qUn4ZRcQsLu7KTTlBiSL0tlu1JnNEM5N6bRqgPMqJTUGQDMHPj63kkw+XhnvvgHGc9CVr09Q+uBjtEkihHCRrIsAXKb0V4T17j8mk3U=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=MkG59GJq; arc=none smtp.client-ip=10.30.226.201
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="MkG59GJq"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 3BF7AC2BCB5;
-	Thu,  5 Mar 2026 11:15:28 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1772709328;
-	bh=1AiE2nAY8josHKUT6kRxF3mlw9VySkREoY8DEdUcpGM=;
-	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=MkG59GJq43BLzxauzkA2VuaFTA51HPRcraXUuKuFZHJRj1RPPpVWUFDN1yr5Olq0J
-	 nCkZIckUM+czN1a6txyttOr53oW8kU5+YOeui6YBRL4gtd44OmrLIvE6gLRqpzcoxU
-	 wNzlLVYd+u0rNqMzG0IzLrLYJ2gJ6QjbZ1F/FRR6Se+R44JVfZUXvbyUP/ORzpAUQ0
-	 d0wtE9ZLUUd7Mw/0pFZ94ldqAq+y47AIuxDMnaYhieZ4hDkVj8px1YiSpMJgp5LmFG
-	 LkcO3pw5v8Q7M2uqAxN8ZYKzUDPw0SCXIJh4RM+G+ByYuv04N5FBTFk7vOINaGjeVI
-	 nJqLXqENhukNg==
-Received: from johan by xi.lan with local (Exim 4.98.2)
-	(envelope-from <johan@kernel.org>)
-	id 1vy6ft-000000004nk-3tki;
-	Thu, 05 Mar 2026 12:15:25 +0100
-From: Johan Hovold <johan@kernel.org>
-To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-Cc: Lixu Zhang <lixu.zhang@intel.com>,
-	Sakari Ailus <sakari.ailus@linux.intel.com>,
-	linux-usb@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	Johan Hovold <johan@kernel.org>
-Subject: [PATCH 4/5] USB: trancevibrator: drop redundant device reference
-Date: Thu,  5 Mar 2026 12:15:10 +0100
-Message-ID: <20260305111511.18386-5-johan@kernel.org>
-X-Mailer: git-send-email 2.52.0
-In-Reply-To: <20260305111511.18386-1-johan@kernel.org>
-References: <20260305111511.18386-1-johan@kernel.org>
+	s=arc-20240116; t=1772710203; c=relaxed/simple;
+	bh=i49Cs4XafC1S95n14RluXR/r2KJdT5Jfa5LHpWXYbe4=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=L5Xlb0916nBrlTSY77FiRH5owb59qXtGyUjK7FwmGie13LEVdm2EZ3cGQdngJ8GUjEuj1yXVaG7szmG6/S5XtBWT2jGZ83tGXrbT1dUF6XwcThAir4ZGobbFGD4btl3Q3hyIvuit8LFrueIVoVM7cbApLJHoL/BBa9DUTxTy400=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=pengutronix.de; spf=pass smtp.mailfrom=pengutronix.de; arc=none smtp.client-ip=185.203.201.7
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=pengutronix.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=pengutronix.de
+Received: from drehscheibe.grey.stw.pengutronix.de ([2a0a:edc0:0:c01:1d::a2])
+	by metis.whiteo.stw.pengutronix.de with esmtps (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
+	(Exim 4.92)
+	(envelope-from <mfe@pengutronix.de>)
+	id 1vy6td-0000OG-Ap; Thu, 05 Mar 2026 12:29:37 +0100
+Received: from pty.whiteo.stw.pengutronix.de ([2a0a:edc0:2:b01:1d::c5])
+	by drehscheibe.grey.stw.pengutronix.de with esmtps  (TLS1.3) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
+	(Exim 4.96)
+	(envelope-from <mfe@pengutronix.de>)
+	id 1vy6tb-003sKU-10;
+	Thu, 05 Mar 2026 12:29:36 +0100
+Received: from mfe by pty.whiteo.stw.pengutronix.de with local (Exim 4.98.2)
+	(envelope-from <mfe@pengutronix.de>)
+	id 1vy6tc-00000002JRi-2K2H;
+	Thu, 05 Mar 2026 12:29:36 +0100
+Date: Thu, 5 Mar 2026 12:29:36 +0100
+From: Marco Felsch <m.felsch@pengutronix.de>
+To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>, 
+	Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>, 
+	Conor Dooley <conor+dt@kernel.org>, Fabio Estevam <festevam@gmail.com>, 
+	Matthias Kaehlcke <mka@chromium.org>, Liam Girdwood <lgirdwood@gmail.com>, 
+	Mark Brown <broonie@kernel.org>, huang.ze@linux.dev
+Cc: linux-usb@vger.kernel.org, linux-kernel@vger.kernel.org, 
+	devicetree@vger.kernel.org, kernel@pengutronix.de
+Subject: Re: [PATCH v5 0/4] Add onboard-dev USB hub host managed vbus
+ handling support
+Message-ID: <shnrtu77frks3yd5r66tzpeca3bxxuu4jpfaqxzerc3tl7j6hr@4ewe2trbh746>
+References: <20260223-v6-16-topic-usb-onboard-dev-v5-0-28d3018a8026@pengutronix.de>
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20260223-v6-16-topic-usb-onboard-dev-v5-0-28d3018a8026@pengutronix.de>
+X-SA-Exim-Connect-IP: 2a0a:edc0:0:c01:1d::a2
+X-SA-Exim-Mail-From: mfe@pengutronix.de
+X-SA-Exim-Scanned: No (on metis.whiteo.stw.pengutronix.de); SAEximRunCond expanded to false
+X-PTX-Original-Recipient: linux-usb@vger.kernel.org
 
-Driver core holds a reference to the USB interface and its parent USB
-device while the interface is bound to a driver and there is no need to
-take additional references unless the structures are needed after
-disconnect.
+Hi,
 
-Drop the redundant device reference to reduce cargo culting, make it
-easier to spot drivers where an extra reference is needed, and reduce
-the risk of memory leaks when drivers fail to release it.
++To: huang.ze@linux.dev
 
-Signed-off-by: Johan Hovold <johan@kernel.org>
----
- drivers/usb/misc/trancevibrator.c | 3 +--
- 1 file changed, 1 insertion(+), 2 deletions(-)
+On 26-02-23, Marco Felsch wrote:
+> Hi,
+> 
+> the whole purpose of this series is to make it possible to control the
+> USB VBUS regulators of an USB hub via host managed regulators.
+> 
+> Regards,
+>   Marco
+> 
+> ---
+> Changes in v5:
+> - Link to v4: https://lore.kernel.org/r/20250911-v6-16-topic-usb-onboard-dev-v4-0-1af288125d74@pengutronix.de
+> - rebase on top of v7.0-rc1
+> - dt-bindings: fix typo
+> - dt-bindings: move example into usb-device.yaml
+> 
+> Changes in v4:
+> - dt-bindings: change to vbus-supply and shift doc to usb-device.yaml
+> - onboard_dev: make use of new regulator API to parse child device
+>                regulators.
+> - onboard_dev: drop hard coded downstream port number and make it more
+>                dynamic
+> - onboard_dev: drop limiting support to SMSC hubs
+> - Link to v3: https://lore.kernel.org/r/20250821-v6-16-topic-usb-onboard-dev-v3-0-6d2b38a5d818@pengutronix.de
+> 
+> Changes in v3:
+> - fix dt-bindings issues
+> - Link to v2: https://lore.kernel.org/all/20250327172803.3404615-1-m.felsch@pengutronix.de/
+> 
+> Changes in v2:
+> - fix compile time errors in case the module builds
+> - Link to v1: https://lore.kernel.org/all/20240807-b4-v6-10-topic-usb-onboard-dev-v1-0-f33ce21353c9@pengutronix.de/
+> 
+> ---
+> Marco Felsch (4):
+>       usb: port: track the disabled state
+>       usb: hub: add infrastructure to pass onboard_dev port features
+>       dt-bindings: usb: usb-device: add usb hub port vbus-supply suppport
+>       usb: misc: onboard_dev: add hub downstream port host vbus-supply handling
+> 
+>  .../devicetree/bindings/usb/usb-device.yaml        |  15 +++
+>  drivers/usb/core/hub.c                             |  55 +++++++++-
+>  drivers/usb/core/hub.h                             |   4 +
+>  drivers/usb/core/port.c                            |   6 ++
+>  drivers/usb/misc/onboard_usb_dev.c                 | 117 +++++++++++++++++++++
+>  include/linux/usb.h                                |   3 +
+>  6 files changed, 198 insertions(+), 2 deletions(-)
+> ---
+> base-commit: 6de23f81a5e08be8fbf5e8d7e9febc72a5b5f27f
+> change-id: 20250821-v6-16-topic-usb-onboard-dev-b8d4d1d8a086
+> 
+> Best regards,
+> -- 
+> Marco Felsch <m.felsch@pengutronix.de>
+> 
 
-diff --git a/drivers/usb/misc/trancevibrator.c b/drivers/usb/misc/trancevibrator.c
-index 6aaec2db360b..37f6b79889a6 100644
---- a/drivers/usb/misc/trancevibrator.c
-+++ b/drivers/usb/misc/trancevibrator.c
-@@ -92,7 +92,7 @@ static int tv_probe(struct usb_interface *interface,
- 		goto error;
- 	}
- 
--	dev->udev = usb_get_dev(udev);
-+	dev->udev = udev;
- 	usb_set_intfdata(interface, dev);
- 
- 	return 0;
-@@ -108,7 +108,6 @@ static void tv_disconnect(struct usb_interface *interface)
- 
- 	dev = usb_get_intfdata (interface);
- 	usb_set_intfdata(interface, NULL);
--	usb_put_dev(dev->udev);
- 	kfree(dev);
- }
- 
 -- 
-2.52.0
+#gernperDu 
+#CallMeByMyFirstName
 
+Pengutronix e.K.                           |                             |
+Steuerwalder Str. 21                       | https://www.pengutronix.de/ |
+31137 Hildesheim, Germany                  | Phone: +49-5121-206917-0    |
+Amtsgericht Hildesheim, HRA 2686           | Fax:   +49-5121-206917-9    |
