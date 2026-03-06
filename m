@@ -1,82 +1,176 @@
-Received: from mail.tuxedocomputers.com (mail.tuxedocomputers.com [157.90.84.7])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from omta036.useast.a.cloudfilter.net (omta036.useast.a.cloudfilter.net [44.202.169.35])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DB23523D7E3;
-	Fri,  6 Mar 2026 17:28:30 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=157.90.84.7
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4163E35B643
+	for <linux-usb@vger.kernel.org>; Fri,  6 Mar 2026 18:54:17 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=44.202.169.35
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1772818113; cv=none; b=AtIwGuAxU6zLh/+aXDzqB+e2Tx08DHj20SXTZss8r1L8VoBaDvFHi3yqUnQ57BjvxWbYVDidgBRk7mrOEYj6BR8rNzz5M7OLpve8jJZ5aB4N0CDStr3XdgXtNS5jWenfeQbxOBq96YpwYW4dyj6UKmR75FN1FdU/F8u8xVZxyPE=
+	t=1772823258; cv=none; b=h9DSdLnDV2P9xQ/0Dlk99JuJ99+sht9JOKE9wAUBNLiIbqD/8/kUnwOCgT7P8xUKI/RdhPAhOkKOXAeiM+ufkYeeAVFhGV1AROjrlH9a7OLbwsTgAdyr8a8gj2akhlV7OBeUKQkxpLCRe/iuNbQdVOYu9LB6QI8of31v0E06/4I=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1772818113; c=relaxed/simple;
-	bh=N/P24nZoCmMlbcQBipztX3lwKawdjzRLDU5X7YBh/vw=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=ZHEsCKFifVLAgz3IlAWnEK2Ev11P9PZU41iHy8Vr2TOzP6o2Hxiz2P4dyMkvtyPfj6BUjI05yoD84NsQD+4UEevA6O0xLcOx4VzKFTOgzJSQwhR5ZHUDZUNAoGnFZM22kX65WOLReGrm5Yjaeo3dTTsRYymqzSBGnbXo1GgyVt0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=tuxedocomputers.com; spf=pass smtp.mailfrom=tuxedocomputers.com; dkim=pass (1024-bit key) header.d=tuxedocomputers.com header.i=@tuxedocomputers.com header.b=YhojszNY; arc=none smtp.client-ip=157.90.84.7
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=tuxedocomputers.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=tuxedocomputers.com
+	s=arc-20240116; t=1772823258; c=relaxed/simple;
+	bh=3l6axKbntefNBNgasKFf9eLo6XFZId1HJ0Th4Igut9w=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=Qajy5sMv8m2WhxIhrj2F031v6hgk9HadG4S6FiezUFKmVOrptFoRl7JB4BDOpdTNjp9MZ0alA4n+jhCbH7AX9RzBMCLndXo199rdj5If/zpbWtwmLf1KgOxfvRwcej0kTCx97edVeIRig6c6bUS6OCSK83lpfj2sIrS2Dj24Gm8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=embeddedor.com; spf=pass smtp.mailfrom=embeddedor.com; dkim=pass (2048-bit key) header.d=embeddedor.com header.i=@embeddedor.com header.b=rEds6i2a; arc=none smtp.client-ip=44.202.169.35
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=embeddedor.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=embeddedor.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=tuxedocomputers.com header.i=@tuxedocomputers.com header.b="YhojszNY"
-Received: from wse-pc.fritz.box (i5C75F5CE.versanet.de [92.117.245.206])
-	(Authenticated sender: wse@tuxedocomputers.com)
-	by mail.tuxedocomputers.com (Postfix) with ESMTPA id 773282FC0059;
-	Fri,  6 Mar 2026 18:28:22 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=tuxedocomputers.com;
-	s=default; t=1772818102;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:
-	 content-transfer-encoding:content-transfer-encoding;
-	bh=R+FTGnV8AStwtejc6y2exKJO35qFNDWZKnq2oF8dPRA=;
-	b=YhojszNYJfSIYZoue35kStfu09UJb6Bdq7TlZCidu1l0ueRtOuDWjDzomR/cCu89mRPPOC
-	b+HUzEcrGccMCsv3A0iepB3P14Kx9TqeIx8p2EDyxoskeZ9coUZZMPAVP5zxA7KfUWusfL
-	oeYSVjQwoHfsT4JobHr7k4UhWF036uM=
-Authentication-Results: mail.tuxedocomputers.com;
-	auth=pass smtp.auth=wse@tuxedocomputers.com smtp.mailfrom=wse@tuxedocomputers.com
-From: Werner Sembach <wse@tuxedocomputers.com>
-To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-Cc: Christoffer Sandberg <cs@tuxedo.de>,
-	Werner Sembach <wse@tuxedocomputers.com>,
-	linux-usb@vger.kernel.org,
-	linux-kernel@vger.kernel.org
-Subject: [PATCH] usb/core/quirks: Add Huawei ME906S-device to wakeup quirk
-Date: Fri,  6 Mar 2026 18:28:14 +0100
-Message-ID: <20260306172817.2098898-1-wse@tuxedocomputers.com>
-X-Mailer: git-send-email 2.43.0
+	dkim=pass (2048-bit key) header.d=embeddedor.com header.i=@embeddedor.com header.b="rEds6i2a"
+Received: from eig-obgw-6006b.ext.cloudfilter.net ([10.0.30.211])
+	by cmsmtp with ESMTPS
+	id yQXgvA760KXDJyaJUvp0gc; Fri, 06 Mar 2026 18:54:16 +0000
+Received: from gator4166.hostgator.com ([108.167.133.22])
+	by cmsmtp with ESMTPS
+	id yaJQvwPo6vXvHyaJQvYDpg; Fri, 06 Mar 2026 18:54:12 +0000
+X-Authority-Analysis: v=2.4 cv=e4IGSbp/ c=1 sm=1 tr=0 ts=69ab22d7
+ a=1YbLdUo/zbTtOZ3uB5T3HA==:117 a=k5Y5iPg+dmTXVWgYE/XtfQ==:17
+ a=IkcTkHD0fZMA:10 a=Yq5XynenixoA:10 a=7T7KSl7uo7wA:10 a=pGLkceISAAAA:8
+ a=VwQbUJbxAAAA:8 a=Y9novZUF53J6TEI7N0YA:9 a=QEXdDO2ut3YA:10
+ a=2aFnImwKRvkU0tJ3nQRT:22
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+	d=embeddedor.com; s=default; h=Content-Transfer-Encoding:Content-Type:
+	In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:Message-ID:Sender
+	:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
+	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:
+	List-Unsubscribe:List-Subscribe:List-Post:List-Owner:List-Archive;
+	bh=N2ZGgiIxstN9ddSFJ9TuTpNAOos5JnaKJWqWEDoDITc=; b=rEds6i2a/eiBoSa86IneISGdXO
+	Col85M6u8yZLZIyLkcMJBsNrWLfiVTzk1uVFoyo8I1q6e3aYxsINXHpHtNXrpxXlMyffoI1qyU1ku
+	aL0AuuXaAS7iMenxH+DfK3/q/s0dxFYSb+2E083CrzE7QW2tBA4y/zJebFYyf98qCZ1NR5y6+Nve3
+	toe9j47d/E+DnY/dTKpaM6O8gYthoI+ZUS/cTZJmjIksWBXwBHq75sG7/vfrOV9a7NczbFwRnItzE
+	y31EWEGNKukbkXHm9UvAZaeCh8XF26IAE7UQTFKN+T2TXZuUvtK5s7+erAu0LcTXhI3mw/Gl8ffZc
+	lvkcROxw==;
+Received: from [177.238.16.13] (port=47446 helo=[192.168.0.21])
+	by gator4166.hostgator.com with esmtpsa  (TLS1.2) tls TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256
+	(Exim 4.99.1)
+	(envelope-from <gustavo@embeddedor.com>)
+	id 1vyaJP-00000000k3w-2pb9;
+	Fri, 06 Mar 2026 12:54:11 -0600
+Message-ID: <be17111e-1c78-49ca-8bae-fadcd7af6905@embeddedor.com>
+Date: Fri, 6 Mar 2026 12:53:39 +0900
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH] usb: typec: tcpm: kzalloc + kcalloc to kzalloc_flex
+To: Rosen Penev <rosenp@gmail.com>, linux-usb@vger.kernel.org
+Cc: Badhri Jagan Sridharan <badhri@google.com>,
+ Heikki Krogerus <heikki.krogerus@linux.intel.com>,
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>, Kees Cook
+ <kees@kernel.org>, "Gustavo A. R. Silva" <gustavoars@kernel.org>,
+ open list <linux-kernel@vger.kernel.org>,
+ open "list:KERNEL" HARDENING "(not" covered by other
+ "areas):Keyword:b__counted_by(_le|_be)?b" <linux-hardening@vger.kernel.org>
+References: <20260306031639.46942-1-rosenp@gmail.com>
+Content-Language: en-US
+From: "Gustavo A. R. Silva" <gustavo@embeddedor.com>
+In-Reply-To: <20260306031639.46942-1-rosenp@gmail.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+X-AntiAbuse: This header was added to track abuse, please include it with any abuse report
+X-AntiAbuse: Primary Hostname - gator4166.hostgator.com
+X-AntiAbuse: Original Domain - vger.kernel.org
+X-AntiAbuse: Originator/Caller UID/GID - [47 12] / [47 12]
+X-AntiAbuse: Sender Address Domain - embeddedor.com
+X-BWhitelist: no
+X-Source-IP: 177.238.16.13
+X-Source-L: No
+X-Exim-ID: 1vyaJP-00000000k3w-2pb9
+X-Source: 
+X-Source-Args: 
+X-Source-Dir: 
+X-Source-Sender: ([192.168.0.21]) [177.238.16.13]:47446
+X-Source-Auth: gustavo@embeddedor.com
+X-Email-Count: 8
+X-Org: HG=hgshared;ORG=hostgator;
+X-Source-Cap: Z3V6aWRpbmU7Z3V6aWRpbmU7Z2F0b3I0MTY2Lmhvc3RnYXRvci5jb20=
+X-Local-Domain: yes
+X-CMAE-Envelope: MS4xfI/G3XXL4IIDsy16DekSbfzJkmFpRWlv2JKPHvTCjPBjBsO6W9KnUUwFA0gHIa3oQlhpqGRSBEwuSzRA6dteB18OA4Cjshur8Q3DTDy8QfcrA5FPx3Ts
+ gwUede7To/O8t0QfSWvPg+ewRSRUuGIYJT7m8NHYKS8O5WiiWE1nbCEtuIa4f9FynPSUsKGmIzAIld4EQfW2342nmHpNYib4ung=
 
-From: Christoffer Sandberg <cs@tuxedo.de>
 
-Similar to other Huawei LTE modules using this quirk, this version with
-another vid/pid suffers from spurious wakeups.
 
-Setting the quirk fixes the issue for this device as well.
+On 3/6/26 12:16, Rosen Penev wrote:
+> Simplifies allocation and allows using __counted_by for extra runtime
+> analysis.
 
-Cc: stable@vger.kernel.org
-Signed-off-by: Christoffer Sandberg <cs@tuxedo.de>
-Signed-off-by: Werner Sembach <wse@tuxedocomputers.com>
----
- drivers/usb/core/quirks.c | 4 ++++
- 1 file changed, 4 insertions(+)
+Are you finding these with Coccinelle or any other tool?
 
-diff --git a/drivers/usb/core/quirks.c b/drivers/usb/core/quirks.c
-index c4d85089d19b1..f8bd12b4482a7 100644
---- a/drivers/usb/core/quirks.c
-+++ b/drivers/usb/core/quirks.c
-@@ -208,6 +208,10 @@ static const struct usb_device_id usb_quirk_list[] = {
- 	/* HP v222w 16GB Mini USB Drive */
- 	{ USB_DEVICE(0x03f0, 0x3f40), .driver_info = USB_QUIRK_DELAY_INIT },
- 
-+	/* Huawei 4G LTE module ME906S  */
-+	{ USB_DEVICE(0x03f0, 0xa31d), .driver_info =
-+			USB_QUIRK_DISCONNECT_SUSPEND },
-+
- 	/* Creative SB Audigy 2 NX */
- 	{ USB_DEVICE(0x041e, 0x3020), .driver_info = USB_QUIRK_RESET_RESUME },
- 
--- 
-2.43.0
+> 
+> Signed-off-by: Rosen Penev <rosenp@gmail.com>
+
+Reviewed-by: Gustavo A. R. Silva <gustavoars@kernel.org>
+
+Thanks
+-Gustavo
+
+> ---
+>   drivers/usb/typec/tcpm/tcpm.c | 19 +++++--------------
+>   1 file changed, 5 insertions(+), 14 deletions(-)
+> 
+> diff --git a/drivers/usb/typec/tcpm/tcpm.c b/drivers/usb/typec/tcpm/tcpm.c
+> index 1d2f3af034c5..272f9187b12d 100644
+> --- a/drivers/usb/typec/tcpm/tcpm.c
+> +++ b/drivers/usb/typec/tcpm/tcpm.c
+> @@ -605,9 +605,9 @@ struct altmode_vdm_event {
+>   	struct kthread_work work;
+>   	struct tcpm_port *port;
+>   	u32 header;
+> -	u32 *data;
+>   	int cnt;
+>   	enum tcpm_transmit_type tx_sop_type;
+> +	u32 data[] __counted_by(cnt);
+>   };
+>   
+>   static const char * const pd_rev[] = {
+> @@ -1653,7 +1653,6 @@ static void tcpm_queue_vdm_work(struct kthread_work *work)
+>   	tcpm_queue_vdm(port, event->header, event->data, event->cnt, event->tx_sop_type);
+>   
+>   port_unlock:
+> -	kfree(event->data);
+>   	kfree(event);
+>   	mutex_unlock(&port->lock);
+>   }
+> @@ -1662,35 +1661,27 @@ static int tcpm_queue_vdm_unlocked(struct tcpm_port *port, const u32 header,
+>   				   const u32 *data, int cnt, enum tcpm_transmit_type tx_sop_type)
+>   {
+>   	struct altmode_vdm_event *event;
+> -	u32 *data_cpy;
+>   	int ret = -ENOMEM;
+>   
+> -	event = kzalloc_obj(*event);
+> +	event = kzalloc_flex(*event, data, cnt);
+>   	if (!event)
+>   		goto err_event;
+>   
+> -	data_cpy = kcalloc(cnt, sizeof(u32), GFP_KERNEL);
+> -	if (!data_cpy)
+> -		goto err_data;
+> -
+>   	kthread_init_work(&event->work, tcpm_queue_vdm_work);
+> +	event->cnt = cnt;
+>   	event->port = port;
+>   	event->header = header;
+> -	memcpy(data_cpy, data, sizeof(u32) * cnt);
+> -	event->data = data_cpy;
+> -	event->cnt = cnt;
+> +	memcpy(event->data, data, sizeof(u32) * cnt);
+>   	event->tx_sop_type = tx_sop_type;
+>   
+>   	ret = kthread_queue_work(port->wq, &event->work);
+>   	if (!ret) {
+>   		ret = -EBUSY;
+> -		goto err_queue;
+> +		goto err_data;
+>   	}
+>   
+>   	return 0;
+>   
+> -err_queue:
+> -	kfree(data_cpy);
+>   err_data:
+>   	kfree(event);
+>   err_event:
 
