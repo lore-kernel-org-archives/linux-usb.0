@@ -1,176 +1,196 @@
-Received: from omta036.useast.a.cloudfilter.net (omta036.useast.a.cloudfilter.net [44.202.169.35])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-ej1-f41.google.com (mail-ej1-f41.google.com [209.85.218.41])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4163E35B643
-	for <linux-usb@vger.kernel.org>; Fri,  6 Mar 2026 18:54:17 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=44.202.169.35
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1772823258; cv=none; b=h9DSdLnDV2P9xQ/0Dlk99JuJ99+sht9JOKE9wAUBNLiIbqD/8/kUnwOCgT7P8xUKI/RdhPAhOkKOXAeiM+ufkYeeAVFhGV1AROjrlH9a7OLbwsTgAdyr8a8gj2akhlV7OBeUKQkxpLCRe/iuNbQdVOYu9LB6QI8of31v0E06/4I=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1772823258; c=relaxed/simple;
-	bh=3l6axKbntefNBNgasKFf9eLo6XFZId1HJ0Th4Igut9w=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=Qajy5sMv8m2WhxIhrj2F031v6hgk9HadG4S6FiezUFKmVOrptFoRl7JB4BDOpdTNjp9MZ0alA4n+jhCbH7AX9RzBMCLndXo199rdj5If/zpbWtwmLf1KgOxfvRwcej0kTCx97edVeIRig6c6bUS6OCSK83lpfj2sIrS2Dj24Gm8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=embeddedor.com; spf=pass smtp.mailfrom=embeddedor.com; dkim=pass (2048-bit key) header.d=embeddedor.com header.i=@embeddedor.com header.b=rEds6i2a; arc=none smtp.client-ip=44.202.169.35
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=embeddedor.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=embeddedor.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8E7F325A2C9
+	for <linux-usb@vger.kernel.org>; Fri,  6 Mar 2026 19:16:36 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.218.41
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1772824597; cv=pass; b=QoCXmE9LiyKJXm8Uz/NpjQ0u3WQaX3i8/YvGyxYl2OdsFGUADWOjb90Uknqm9lUPP6IpvTrvdBr04X+/8fzGx+1BlQskAk107ASlBnk1VFQY0DqmmWJ2enu0WtZqftNpyOpHaJVWZjthpfWCuEydYV0jqqwvErrSqMBCuKHQu2M=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1772824597; c=relaxed/simple;
+	bh=9g511vcaQ68wgb3bgfddkmWSMclMBk8o4icbii7da0I=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=NrUDY/+a/rqslPrqD1tSYxaiRTcJioA1vkX5XODzDWbr1Jqj0ZZAfbuuQ756ZrUPPQdxx5eRsMkH2Z3yNu3tW63G6aQghyyGj44rdfVcFGpILKbi4CQJltMGBtC5IIaV2zZE/2Mop5EaSGkHlqUbKImQH/xARZFuWbIvGxVDg/k=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=i6mjE6ZM; arc=pass smtp.client-ip=209.85.218.41
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=embeddedor.com header.i=@embeddedor.com header.b="rEds6i2a"
-Received: from eig-obgw-6006b.ext.cloudfilter.net ([10.0.30.211])
-	by cmsmtp with ESMTPS
-	id yQXgvA760KXDJyaJUvp0gc; Fri, 06 Mar 2026 18:54:16 +0000
-Received: from gator4166.hostgator.com ([108.167.133.22])
-	by cmsmtp with ESMTPS
-	id yaJQvwPo6vXvHyaJQvYDpg; Fri, 06 Mar 2026 18:54:12 +0000
-X-Authority-Analysis: v=2.4 cv=e4IGSbp/ c=1 sm=1 tr=0 ts=69ab22d7
- a=1YbLdUo/zbTtOZ3uB5T3HA==:117 a=k5Y5iPg+dmTXVWgYE/XtfQ==:17
- a=IkcTkHD0fZMA:10 a=Yq5XynenixoA:10 a=7T7KSl7uo7wA:10 a=pGLkceISAAAA:8
- a=VwQbUJbxAAAA:8 a=Y9novZUF53J6TEI7N0YA:9 a=QEXdDO2ut3YA:10
- a=2aFnImwKRvkU0tJ3nQRT:22
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=embeddedor.com; s=default; h=Content-Transfer-Encoding:Content-Type:
-	In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:Message-ID:Sender
-	:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
-	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:
-	List-Unsubscribe:List-Subscribe:List-Post:List-Owner:List-Archive;
-	bh=N2ZGgiIxstN9ddSFJ9TuTpNAOos5JnaKJWqWEDoDITc=; b=rEds6i2a/eiBoSa86IneISGdXO
-	Col85M6u8yZLZIyLkcMJBsNrWLfiVTzk1uVFoyo8I1q6e3aYxsINXHpHtNXrpxXlMyffoI1qyU1ku
-	aL0AuuXaAS7iMenxH+DfK3/q/s0dxFYSb+2E083CrzE7QW2tBA4y/zJebFYyf98qCZ1NR5y6+Nve3
-	toe9j47d/E+DnY/dTKpaM6O8gYthoI+ZUS/cTZJmjIksWBXwBHq75sG7/vfrOV9a7NczbFwRnItzE
-	y31EWEGNKukbkXHm9UvAZaeCh8XF26IAE7UQTFKN+T2TXZuUvtK5s7+erAu0LcTXhI3mw/Gl8ffZc
-	lvkcROxw==;
-Received: from [177.238.16.13] (port=47446 helo=[192.168.0.21])
-	by gator4166.hostgator.com with esmtpsa  (TLS1.2) tls TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256
-	(Exim 4.99.1)
-	(envelope-from <gustavo@embeddedor.com>)
-	id 1vyaJP-00000000k3w-2pb9;
-	Fri, 06 Mar 2026 12:54:11 -0600
-Message-ID: <be17111e-1c78-49ca-8bae-fadcd7af6905@embeddedor.com>
-Date: Fri, 6 Mar 2026 12:53:39 +0900
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="i6mjE6ZM"
+Received: by mail-ej1-f41.google.com with SMTP id a640c23a62f3a-b8f9568e074so1626305566b.0
+        for <linux-usb@vger.kernel.org>; Fri, 06 Mar 2026 11:16:36 -0800 (PST)
+ARC-Seal: i=1; a=rsa-sha256; t=1772824595; cv=none;
+        d=google.com; s=arc-20240605;
+        b=GRsSabxhEKqGZWxkqPQqwT+wNRc2cUoq+UqFYIHOVartFAGAJgr3zfmB8cKLjAqdnZ
+         mcrpvtJ8o3QJgnwrH1if/aGl11qIp0VJ6vHnrsduRkso0uSvcqFgM6sXpvvA4dBOYqXT
+         nPp55ME5VuXFu3yOtWoNIMpcXmL9yKlFsEPgbD5o2RJXEEU01hmJL1fzMM3waENN8zlX
+         hIWEPRtZ79UoYiKLQJXgzdZnk3uIUu7LPSrGDMf22CrTb1mZEmruvwnBh/F/wICphPo2
+         wmwHDEVHDItH3fKHggSyKvvyQTF/n69ZxUSi993HS8kTU/d6PEL2YG30WoxDQeH2M5qX
+         bAWg==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:dkim-signature;
+        bh=RQl/k7H5TnGsHgAzmX0qeb615hkvz32yF+5OyK+sVKA=;
+        fh=Z0P26Pv3h13WFpd/3ZF9oAAxRdevk2u/gsaVD0BbWrE=;
+        b=M3Sk1hCEMJ0ASgMc3lrEBfs88AZT+NFQ675WRLVHwVoMGE62zQtaXjn0LLDIyTC5dP
+         4JW+rHhzqpiD2NeWmodk7ABOXssjhlDssUlRMCgD68/3U3HaBkOLrFIDFgmH1IhT2BWK
+         kHGi054Sgyy/eyr/xzLKDuRmIDyD7acVRGXDT7TVJ9sAvRQiKVGe8cHfCwjWo/ecHKAY
+         b1mJr0RaPSiELJHFTdlQ/gbg1nOhUGUsPRhn+bKgC6qHamuDihbwYotf/7q7ej2uq9uI
+         AyNOS4Axw+vMkfS2eEFsrmQ0ahTXbqT9PbQLiOLHl6uTChB2a8ShKfos9+IBSV80YdIX
+         9bSQ==;
+        darn=vger.kernel.org
+ARC-Authentication-Results: i=1; mx.google.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1772824595; x=1773429395; darn=vger.kernel.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=RQl/k7H5TnGsHgAzmX0qeb615hkvz32yF+5OyK+sVKA=;
+        b=i6mjE6ZMC7PD48yo7brB/zqSXwNRdoR1wsPtOWzGWet9aOJ196OnPx+4kJFKVQ+JIF
+         RsTHSDbIipZN2D1jYUGdWZMBaqKFn23emJy1x7xHzjX/Q89i5uDNrTJCJGWmFMntKP4H
+         oGkOnC6iRl+TiGB8dKXE1x77kh+3RFHnRI7cf9gMax1cxzqLuzgKUuOWRA5z9fHHR4/b
+         msavt7vfEq5TGW6FIx6VVWNaxW1A/l2GpTw+TxO2eBFeASI6boTTYPOnw5+mCgYYdENc
+         kMVmSikK7ShXQxVb/T1vCMqwmJjWzdVkl2z2j3vQraZQ48EZHn6Fk1ZL98vC/TA8tBTm
+         RUiA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1772824595; x=1773429395;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
+         :to:cc:subject:date:message-id:reply-to;
+        bh=RQl/k7H5TnGsHgAzmX0qeb615hkvz32yF+5OyK+sVKA=;
+        b=hQWqX4dDCwu/LMw6Tv9UhbOywzhoqHiMkZK8eqq3eMk2e4VBqeeCGOdvUBP8KQwsRL
+         er2wJQ88nMWsXiS81mXeHGgxdZ20+Peol8T7+qrU/2cex0DpD/DGsb18DVZv5zc4MO+h
+         SsSIBpYQN0n16IfBq1LCKQay8nfEf4HfjJf2EHQ+bbv1f7+zpBzF48rpB2SiR+bipW4F
+         5q7WhKPtxRl1YRND+LIW+O9sOfXg5K6xy0aJpa7IkW8batAybqeB/bggFecReIXZEi5g
+         zdgXKBpCzjktXRNRbJuAGAPRb+N23CMZ5UQccuje5DDxyR5+h8umbq9fNIifisVmIOmV
+         rB9A==
+X-Gm-Message-State: AOJu0YwDwFE8NOqrZzKXJs6uu/UyLSFXwFTdsT9jKMSvOQn5a8DxZBUX
+	p1Wm0/pYrFgqTar1z5HhsMf67vqIBmDHUIVCxb9ow2E68xgF9aqLIxNBrHUOLY+COYhpAsjeoCn
+	Sspt1aP+RyvLx2XK9zxTT0KI9y0xXXaM=
+X-Gm-Gg: ATEYQzxrz2VUJ3dt2XLwWjpJWunBtJI9l0DNQkvJiLhNnObExm85emoXZD3UTTVs7HV
+	IB+sAzbhdr3YpAeJwJVcjU5drAM92oZ0Rvn6EIT+sEGaN0xEbusV9i4DeKhA15JE4/krSDvq4YP
+	xHQaP0OpxrIKVES2XwkLMBt1u4KEzEvtXWFZ0e+g+0zMWTK/EzQnaId2CEp8KyZ+snDW4kIuk1Z
+	uR0Nl7kmQEVEQiLXP82wN0FP19YtgnCVV7o+k+TbNu8kuSpr1H1CBHINPZVPy/VGQBAX9XSgoqc
+	1jXjKNPy5EPu0Xj0OSohYREu/IbyTyqXrH3u/hWDC7sGpkN3K+/azFhx7/mo/aU10P1+m5CaRsY
+	JltnkP7COfy9vHiJ7
+X-Received: by 2002:a17:907:96a3:b0:b8e:4790:d7cf with SMTP id
+ a640c23a62f3a-b942e0249b9mr197709866b.53.1772824594561; Fri, 06 Mar 2026
+ 11:16:34 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
+References: <20260306031639.46942-1-rosenp@gmail.com> <be17111e-1c78-49ca-8bae-fadcd7af6905@embeddedor.com>
+In-Reply-To: <be17111e-1c78-49ca-8bae-fadcd7af6905@embeddedor.com>
+From: Rosen Penev <rosenp@gmail.com>
+Date: Fri, 6 Mar 2026 11:16:23 -0800
+X-Gm-Features: AaiRm50wLh1_AThkRv_BjNof7MflCw4QqkJP8CGHD5V--3_dfluZWxf4oemtoVM
+Message-ID: <CAKxU2N_qu73NFFaJqd+ejg855L-RvaPvQvEmGLqTUpnO5iOUxQ@mail.gmail.com>
 Subject: Re: [PATCH] usb: typec: tcpm: kzalloc + kcalloc to kzalloc_flex
-To: Rosen Penev <rosenp@gmail.com>, linux-usb@vger.kernel.org
-Cc: Badhri Jagan Sridharan <badhri@google.com>,
- Heikki Krogerus <heikki.krogerus@linux.intel.com>,
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>, Kees Cook
- <kees@kernel.org>, "Gustavo A. R. Silva" <gustavoars@kernel.org>,
- open list <linux-kernel@vger.kernel.org>,
- open "list:KERNEL" HARDENING "(not" covered by other
- "areas):Keyword:b__counted_by(_le|_be)?b" <linux-hardening@vger.kernel.org>
-References: <20260306031639.46942-1-rosenp@gmail.com>
-Content-Language: en-US
-From: "Gustavo A. R. Silva" <gustavo@embeddedor.com>
-In-Reply-To: <20260306031639.46942-1-rosenp@gmail.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-X-AntiAbuse: This header was added to track abuse, please include it with any abuse report
-X-AntiAbuse: Primary Hostname - gator4166.hostgator.com
-X-AntiAbuse: Original Domain - vger.kernel.org
-X-AntiAbuse: Originator/Caller UID/GID - [47 12] / [47 12]
-X-AntiAbuse: Sender Address Domain - embeddedor.com
-X-BWhitelist: no
-X-Source-IP: 177.238.16.13
-X-Source-L: No
-X-Exim-ID: 1vyaJP-00000000k3w-2pb9
-X-Source: 
-X-Source-Args: 
-X-Source-Dir: 
-X-Source-Sender: ([192.168.0.21]) [177.238.16.13]:47446
-X-Source-Auth: gustavo@embeddedor.com
-X-Email-Count: 8
-X-Org: HG=hgshared;ORG=hostgator;
-X-Source-Cap: Z3V6aWRpbmU7Z3V6aWRpbmU7Z2F0b3I0MTY2Lmhvc3RnYXRvci5jb20=
-X-Local-Domain: yes
-X-CMAE-Envelope: MS4xfI/G3XXL4IIDsy16DekSbfzJkmFpRWlv2JKPHvTCjPBjBsO6W9KnUUwFA0gHIa3oQlhpqGRSBEwuSzRA6dteB18OA4Cjshur8Q3DTDy8QfcrA5FPx3Ts
- gwUede7To/O8t0QfSWvPg+ewRSRUuGIYJT7m8NHYKS8O5WiiWE1nbCEtuIa4f9FynPSUsKGmIzAIld4EQfW2342nmHpNYib4ung=
+To: "Gustavo A. R. Silva" <gustavo@embeddedor.com>
+Cc: linux-usb@vger.kernel.org, Badhri Jagan Sridharan <badhri@google.com>, 
+	Heikki Krogerus <heikki.krogerus@linux.intel.com>, 
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>, Kees Cook <kees@kernel.org>, 
+	"Gustavo A. R. Silva" <gustavoars@kernel.org>, open list <linux-kernel@vger.kernel.org>, 
+	"open list:KERNEL HARDENING (not covered by other areas):Keyword:b__counted_by(_le|_be)?b" <linux-hardening@vger.kernel.org>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
+On Fri, Mar 6, 2026 at 10:54=E2=80=AFAM Gustavo A. R. Silva
+<gustavo@embeddedor.com> wrote:
+>
+>
+>
+> On 3/6/26 12:16, Rosen Penev wrote:
+> > Simplifies allocation and allows using __counted_by for extra runtime
+> > analysis.
+>
+> Are you finding these with Coccinelle or any other tool?
+git grep -B 10 zalloc_objs\( | grep zalloc\(
+git grep -B 10 calloc\( | grep zalloc\(
 
-
-On 3/6/26 12:16, Rosen Penev wrote:
-> Simplifies allocation and allows using __counted_by for extra runtime
-> analysis.
-
-Are you finding these with Coccinelle or any other tool?
-
-> 
-> Signed-off-by: Rosen Penev <rosenp@gmail.com>
-
-Reviewed-by: Gustavo A. R. Silva <gustavoars@kernel.org>
-
-Thanks
--Gustavo
-
-> ---
->   drivers/usb/typec/tcpm/tcpm.c | 19 +++++--------------
->   1 file changed, 5 insertions(+), 14 deletions(-)
-> 
-> diff --git a/drivers/usb/typec/tcpm/tcpm.c b/drivers/usb/typec/tcpm/tcpm.c
-> index 1d2f3af034c5..272f9187b12d 100644
-> --- a/drivers/usb/typec/tcpm/tcpm.c
-> +++ b/drivers/usb/typec/tcpm/tcpm.c
-> @@ -605,9 +605,9 @@ struct altmode_vdm_event {
->   	struct kthread_work work;
->   	struct tcpm_port *port;
->   	u32 header;
-> -	u32 *data;
->   	int cnt;
->   	enum tcpm_transmit_type tx_sop_type;
-> +	u32 data[] __counted_by(cnt);
->   };
->   
->   static const char * const pd_rev[] = {
-> @@ -1653,7 +1653,6 @@ static void tcpm_queue_vdm_work(struct kthread_work *work)
->   	tcpm_queue_vdm(port, event->header, event->data, event->cnt, event->tx_sop_type);
->   
->   port_unlock:
-> -	kfree(event->data);
->   	kfree(event);
->   	mutex_unlock(&port->lock);
->   }
-> @@ -1662,35 +1661,27 @@ static int tcpm_queue_vdm_unlocked(struct tcpm_port *port, const u32 header,
->   				   const u32 *data, int cnt, enum tcpm_transmit_type tx_sop_type)
->   {
->   	struct altmode_vdm_event *event;
-> -	u32 *data_cpy;
->   	int ret = -ENOMEM;
->   
-> -	event = kzalloc_obj(*event);
-> +	event = kzalloc_flex(*event, data, cnt);
->   	if (!event)
->   		goto err_event;
->   
-> -	data_cpy = kcalloc(cnt, sizeof(u32), GFP_KERNEL);
-> -	if (!data_cpy)
-> -		goto err_data;
-> -
->   	kthread_init_work(&event->work, tcpm_queue_vdm_work);
-> +	event->cnt = cnt;
->   	event->port = port;
->   	event->header = header;
-> -	memcpy(data_cpy, data, sizeof(u32) * cnt);
-> -	event->data = data_cpy;
-> -	event->cnt = cnt;
-> +	memcpy(event->data, data, sizeof(u32) * cnt);
->   	event->tx_sop_type = tx_sop_type;
->   
->   	ret = kthread_queue_work(port->wq, &event->work);
->   	if (!ret) {
->   		ret = -EBUSY;
-> -		goto err_queue;
-> +		goto err_data;
->   	}
->   
->   	return 0;
->   
-> -err_queue:
-> -	kfree(data_cpy);
->   err_data:
->   	kfree(event);
->   err_event:
-
+And seeing if it's something that can easily be dealt with. The
+__counted_by thing is usually clear in _probe if it's correct.
+>
+> >
+> > Signed-off-by: Rosen Penev <rosenp@gmail.com>
+>
+> Reviewed-by: Gustavo A. R. Silva <gustavoars@kernel.org>
+>
+> Thanks
+> -Gustavo
+>
+> > ---
+> >   drivers/usb/typec/tcpm/tcpm.c | 19 +++++--------------
+> >   1 file changed, 5 insertions(+), 14 deletions(-)
+> >
+> > diff --git a/drivers/usb/typec/tcpm/tcpm.c b/drivers/usb/typec/tcpm/tcp=
+m.c
+> > index 1d2f3af034c5..272f9187b12d 100644
+> > --- a/drivers/usb/typec/tcpm/tcpm.c
+> > +++ b/drivers/usb/typec/tcpm/tcpm.c
+> > @@ -605,9 +605,9 @@ struct altmode_vdm_event {
+> >       struct kthread_work work;
+> >       struct tcpm_port *port;
+> >       u32 header;
+> > -     u32 *data;
+> >       int cnt;
+> >       enum tcpm_transmit_type tx_sop_type;
+> > +     u32 data[] __counted_by(cnt);
+> >   };
+> >
+> >   static const char * const pd_rev[] =3D {
+> > @@ -1653,7 +1653,6 @@ static void tcpm_queue_vdm_work(struct kthread_wo=
+rk *work)
+> >       tcpm_queue_vdm(port, event->header, event->data, event->cnt, even=
+t->tx_sop_type);
+> >
+> >   port_unlock:
+> > -     kfree(event->data);
+> >       kfree(event);
+> >       mutex_unlock(&port->lock);
+> >   }
+> > @@ -1662,35 +1661,27 @@ static int tcpm_queue_vdm_unlocked(struct tcpm_=
+port *port, const u32 header,
+> >                                  const u32 *data, int cnt, enum tcpm_tr=
+ansmit_type tx_sop_type)
+> >   {
+> >       struct altmode_vdm_event *event;
+> > -     u32 *data_cpy;
+> >       int ret =3D -ENOMEM;
+> >
+> > -     event =3D kzalloc_obj(*event);
+> > +     event =3D kzalloc_flex(*event, data, cnt);
+> >       if (!event)
+> >               goto err_event;
+> >
+> > -     data_cpy =3D kcalloc(cnt, sizeof(u32), GFP_KERNEL);
+> > -     if (!data_cpy)
+> > -             goto err_data;
+> > -
+> >       kthread_init_work(&event->work, tcpm_queue_vdm_work);
+> > +     event->cnt =3D cnt;
+> >       event->port =3D port;
+> >       event->header =3D header;
+> > -     memcpy(data_cpy, data, sizeof(u32) * cnt);
+> > -     event->data =3D data_cpy;
+> > -     event->cnt =3D cnt;
+> > +     memcpy(event->data, data, sizeof(u32) * cnt);
+> >       event->tx_sop_type =3D tx_sop_type;
+> >
+> >       ret =3D kthread_queue_work(port->wq, &event->work);
+> >       if (!ret) {
+> >               ret =3D -EBUSY;
+> > -             goto err_queue;
+> > +             goto err_data;
+> >       }
+> >
+> >       return 0;
+> >
+> > -err_queue:
+> > -     kfree(data_cpy);
+> >   err_data:
+> >       kfree(event);
+> >   err_event:
+>
