@@ -1,49 +1,40 @@
-Received: from mailout2.samsung.com (mailout2.samsung.com [203.254.224.25])
+Received: from bali.collaboradmins.com (bali.collaboradmins.com [148.251.105.195])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DE62B38F25B
-	for <linux-usb@vger.kernel.org>; Fri,  6 Mar 2026 13:06:53 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=203.254.224.25
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 09531378D8C;
+	Fri,  6 Mar 2026 16:24:45 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=148.251.105.195
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1772802417; cv=none; b=sAyADLUuNhBrc1f+/FAoul2zYbnU+8t3m0QPqP1zyjmWnqXSt8BojJ3CzkGY5KUjydHbdxDhAwph4+3FKLw9ITjEQAevA7jBf6J31Rv9F5nmq3yzq03SutgJmgBkCHlX3RnD+RGOfVsSPuNthO9JSYtu+nD8LHohDpQfGr55JgA=
+	t=1772814287; cv=none; b=o+kuCoDedEHQVmZQd6F80EUGOl9OFQDY6BU17U5qBsSnFHLwAV5kKnreIVXWiI2sC8h/WJYmxTZGMA/gQ88ZziToLxNII4PRUFrT4C1Rs8ST4WOYA0lLiTINdhYSeq57HeqCEWtvi2A4kIREjEcns1tkfn2zMzxChWaX5obUFus=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1772802417; c=relaxed/simple;
-	bh=sub6SrAvM26hT3A2v1j2XexzqEbSiD12Hc10869wByM=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:From:In-Reply-To:
-	 Content-Type:References; b=Z2CDvHgodAXkwRFtAWO6qEEkKX5iIBy/D3XGsVZRCvdDRHE0O9dNGFkePqVbzoY4ZiHNwh9M/6AYbJn7ZZIlJhQagK0fhp1xgxwaiRbpSEGn65bMJP21bUjvJn3AbpFQRPiLyi+ifIcTxhesUqrLsdr7kSpL8POuIdV7lAeSvHo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=samsung.com; spf=pass smtp.mailfrom=samsung.com; dkim=pass (1024-bit key) header.d=samsung.com header.i=@samsung.com header.b=m5pqdISy; arc=none smtp.client-ip=203.254.224.25
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=samsung.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=samsung.com
+	s=arc-20240116; t=1772814287; c=relaxed/simple;
+	bh=mVUOZgbOS6DXJitOQxj/krcy0RsEcW4DOajHXSahOI4=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=ZP9NV+4uD3dAers6rn49Hf26ZUB06pZsGrMedmGrglpIora22YyXU5NcQ8tN38NAkpcgkqSJsufxoQCHl8H0eL4A+Nmoa5PJGf/Db0KShMrj7tUu5526MJcSITEMfdzHap1g8uggII7/jpcy/bsvbdDk0J7pItRfasul3eFIFP8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=collabora.com; spf=pass smtp.mailfrom=collabora.com; dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b=oS8FfrAG; arc=none smtp.client-ip=148.251.105.195
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=collabora.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=collabora.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=samsung.com header.i=@samsung.com header.b="m5pqdISy"
-Received: from epcas5p3.samsung.com (unknown [182.195.41.41])
-	by mailout2.samsung.com (KnoxPortal) with ESMTP id 20260306130651epoutp0259b5893a45fa25aa886b137ad27eb34d~aQmaGZ-1D1499614996epoutp02F
-	for <linux-usb@vger.kernel.org>; Fri,  6 Mar 2026 13:06:51 +0000 (GMT)
-DKIM-Filter: OpenDKIM Filter v2.11.0 mailout2.samsung.com 20260306130651epoutp0259b5893a45fa25aa886b137ad27eb34d~aQmaGZ-1D1499614996epoutp02F
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=samsung.com;
-	s=mail20170921; t=1772802411;
-	bh=n3LMl5Zi4sPPlfpsm0WvuuN09+O7qYxWpTXVegp0u14=;
-	h=Date:Subject:To:Cc:From:In-Reply-To:References:From;
-	b=m5pqdISyFXDRuxBalvh5BrUf7MmOCfvNnphXnL9LDFPUG2g2Ln/D/ocC+tqnT3GkH
-	 dC3sOpEnfT7g1t28X3O6L7rDNC6MRZqgFKDF7ly4qlZuLVTJtNyuS9L4WSH0SWcgMd
-	 qXJSquMN0MiMME3hNRsBOFXqPofsol9tWUjONtBY=
-Received: from epsnrtp02.localdomain (unknown [182.195.42.154]) by
-	epcas5p3.samsung.com (KnoxPortal) with ESMTPS id
-	20260306130651epcas5p3b0853477fb4af80b127ecabfec9c7ba8~aQmZxUpm90362403624epcas5p3v;
-	Fri,  6 Mar 2026 13:06:51 +0000 (GMT)
-Received: from epcas5p1.samsung.com (unknown [182.195.38.87]) by
-	epsnrtp02.localdomain (Postfix) with ESMTP id 4fS6B20lPzz2SSKX; Fri,  6 Mar
-	2026 13:06:50 +0000 (GMT)
-Received: from epsmtip1.samsung.com (unknown [182.195.34.30]) by
-	epcas5p1.samsung.com (KnoxPortal) with ESMTPA id
-	20260306130649epcas5p192fe5f950447e3c51232a2a9bb2821bb~aQmX2Lpxm1152411524epcas5p1S;
-	Fri,  6 Mar 2026 13:06:49 +0000 (GMT)
-Received: from [107.122.5.126] (unknown [107.122.5.126]) by
-	epsmtip1.samsung.com (KnoxPortal) with ESMTPA id
-	20260306130642epsmtip1ba292795323ba4ed525b25da8cf5b772~aQmSPjo3m1863218632epsmtip1c;
-	Fri,  6 Mar 2026 13:06:42 +0000 (GMT)
-Message-ID: <08273adc-d8cf-48b3-ba45-853d363af0e6@samsung.com>
-Date: Fri, 6 Mar 2026 18:36:31 +0530
+	dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b="oS8FfrAG"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
+	s=mail; t=1772814284;
+	bh=mVUOZgbOS6DXJitOQxj/krcy0RsEcW4DOajHXSahOI4=;
+	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+	b=oS8FfrAG3CtxyX5R8gOSkNaq42QIwQgNT1EOA8DQ4gmIi0draP1YVLYybBuE711i2
+	 gARIKjTE/OdfbTlyVWcobOFYLhAIwWNMzOY/Un1+K8fFynaIxqmWQV4yDaNwzvhZ8d
+	 cJsLJAT+OkxIRWO/5FjVhD8dJunjx1lyZbL/SRLImRqRKtS5u1i8xMyfb8gWcxER8u
+	 oGA+g46pZra/RTSCw9QSELKAt56yb5UCTQ3a9iVJ26D8MldGikauTcMld4lrH1tq2b
+	 ddtzdVOtj1sE9zHOokumlZC6zrVUBvp6RD3XfEzPhGJEguUiQbVO1VzbBKUFod+RXT
+	 dIfjpF1Lsy1HA==
+Received: from [IPV6:2a01:e0a:212:79f0:be92:a52a:153f:7a60] (unknown [IPv6:2a01:e0a:212:79f0:be92:a52a:153f:7a60])
+	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	(Authenticated sender: aferraris)
+	by bali.collaboradmins.com (Postfix) with ESMTPSA id DFF8117E0EAC;
+	Fri,  6 Mar 2026 17:24:43 +0100 (CET)
+Message-ID: <736aabca-e39b-4cef-b914-a894e0867bba@collabora.com>
+Date: Fri, 6 Mar 2026 17:24:43 +0100
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
@@ -51,207 +42,189 @@ List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v3] usb: dwc3: gadget: Prevent EP resource conflicts
- during StartTransfer
-To: Thinh Nguyen <Thinh.Nguyen@synopsys.com>
-Cc: "gregkh@linuxfoundation.org" <gregkh@linuxfoundation.org>,
-	"linux-usb@vger.kernel.org" <linux-usb@vger.kernel.org>,
-	"linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
-	"jh0801.jung@samsung.com" <jh0801.jung@samsung.com>, "dh10.jung@samsung.com"
-	<dh10.jung@samsung.com>, "akash.m5@samsung.com" <akash.m5@samsung.com>,
-	"hongpooh.kim@samsung.com" <hongpooh.kim@samsung.com>,
-	"eomji.oh@samsung.com" <eomji.oh@samsung.com>, "h10.kim@samsung.com"
-	<h10.kim@samsung.com>, "shijie.cai@samsung.com" <shijie.cai@samsung.com>,
-	"alim.akhtar@samsung.com" <alim.akhtar@samsung.com>,
-	"muhammed.ali@samsung.com" <muhammed.ali@samsung.com>,
-	"thiagu.r@samsung.com" <thiagu.r@samsung.com>, "pritam.sutar@samsung.com"
-	<pritam.sutar@samsung.com>, "stable@vger.kernel.org"
-	<stable@vger.kernel.org>
-Content-Language: en-US
-From: Selvarasu Ganesan <selvarasu.g@samsung.com>
-In-Reply-To: <20260303003955.5lbb6xdrg7tp3zzi@synopsys.com>
+Subject: Re: [PATCH] Revert "tcpm: allow looking for role_sw device in the
+ main node"
+To: Xu Yang <xu.yang_2@nxp.com>
+Cc: badhri@google.com, heikki.krogerus@linux.intel.com,
+ gregkh@linuxfoundation.org, dsimic@manjaro.org, linux-usb@vger.kernel.org,
+ linux-kernel@vger.kernel.org, imx@lists.linux.dev, jun.li@nxp.com
+References: <20260224110139.3812757-1-xu.yang_2@nxp.com>
+ <30bc5aeb-382b-49e0-824a-303230110313@collabora.com>
+ <im3nnajzv2hdu3kv2hknxi3jaz3oam5pujdoapva4hs5rzguky@t45ryche6n5k>
+ <073cbeb3-04a8-4b26-a7b6-ef0b7654c34c@collabora.com>
+ <xcfp6d2ma2j2xnsmifpvufofovqixwije7ld6332hg3zeeyxip@mocrjvsmjlqh>
+ <cb73e1ac-649e-45cb-be5e-3fdd73dce7a0@collabora.com>
+ <46zvnvkhnoa5w27o72tkex2rw6ha3fuisyeomhmsl5s5453x7b@fib4tezyywke>
+From: Arnaud Ferraris <arnaud.ferraris@collabora.com>
+Content-Language: en-US, fr
+Autocrypt: addr=arnaud.ferraris@collabora.com; keydata=
+ xsFNBF6V3oEBEADExzr1s9YngScJ0KNMGen7k3cH1sn0h7tf7AFlXA94jXBgFyzIMT5lqey0
+ 9LwcO6AIkFF+gRVAKIblkeacsy5W6OQXgdFMitx936oAcU0XYQ2X5NxCQHzEsWYzkLIZnFTB
+ Ur3CW9HtAjAircED5KVJzA1GM8BEFfG3LoonWsw0CO9UN2arwT1uLARSPgL6LPpmo1IOSwJh
+ D6vtOyzlRrLkw4KHzUobEiIjxzjXttH8TC3I6OSb8kavG08cmA+DMf/nLFxK0QbdOP2wSZ0w
+ UTU6RBikuLmDBaT4PphuwtAgVwhO9l0PNRoYzugrXuRF0RCLpmJN05tz/o/w7Y8ieLgQE8Om
+ xGKXJyo0T4wlUl9ARM9Y0ZIRhdI1alFspBcF63oyZmOAT+2fPLr6W0fEfmtMBhDaZun2ZdKR
+ M1JwTTkh8jVLs3svM3Ch2JjiH0kgYA0oza5fXaB9s4Fa4fxpmacx8fawKR5r/BhmYNK15PPd
+ YxIZJqnTJgCDI2G4tQ9K+Eev1rBo6i8n96rDqxTxdyQixMhxMmGtj6/bknpVIN947ABKDHdt
+ UsWa4E+qwFrYDXT7RxhL+JGn4VrtIR1kpTJHfmVXnn+RW7JKdDkalvEuXJSOArszcgpDlYRq
+ +ZT/ybdcmdtuz8+Ev0fig/9WdPBHwg5oKDlT6+iN0oISAzoFSQARAQABzS9Bcm5hdWQgRmVy
+ cmFyaXMgPGFybmF1ZC5mZXJyYXJpc0Bjb2xsYWJvcmEuY29tPsLBlAQTAQgAPgIbAwULCQgH
+ AwUVCgkICwUWAgMBAAIeAQIXgBYhBHlts5PcP/QCIrbqItPrtZZruZGWBQJlp4UlBQkMOAKk
+ AAoJENPrtZZruZGW/jsP/iY7xHszgSsLpmm/Nei09de28i5+KQgOfOFPEIUwY6e+SJDlc0CN
+ 5wBEGsiehI+ntDyYXjaQaWzwZbZ+iclSvZpINyekIeYFgfCwfraXMQ2rf0Hl1msu5BGZs7nz
+ w9aQyNKRaS7mkMQlUKZAjV/rqmdrYyQX2b05Pznc/tI8Qj+QDnE097smlqwcPsCLMFjvEpdy
+ t1iVfqM7rlEjCZR+agb/amAdG9FYDHuUaqhewgB/jVTnA7m19QI1hGDVhZ3pI7DFFQC5+Q7m
+ 4E7snHk9mdnzQKZO+w6DBjRgnRBtiifzlbb3UqTv6yZgVqrL3ENedco7Y1umVyXoqT4nz5SZ
+ 2CdWaEJx00JDQP/P1Fc4KBj40DrKScib2ZzIXVpzej4Ab2S0Kq7UuS/8fPA8Z7wUwPs4AXrb
+ KZ3pNnh0t5uAWS3sh7IRTvEBquwa9F129EB2HoalJl+fpSJz0qTCTknrPkMY9KhRcXH43CjX
+ mvvSaqkFs2R0jO01tZBpWUlyfQoJgrqMw4A+EcmjLg2NeVgRNrPaH2hPtdBegcAdKqc6nuBa
+ HZ8m01cVCQw6hC3rceWBx42GeFt8F4we8LzbAbfo67hXASyWBRHfzt84zoPOy25mpNaIJB/u
+ 7/bO+63d64NxuRlZiLvGZxABTpLI2pBKeZFwnFMkh4aMvS9P4ymdPdGIzsFNBF6V3oEBEAC2
+ wPaxEIKrqMR3f58Tj2j/fIaTxzqv5g449HN5+mkMzl05fNtlkWMpxDQhMPKaNDYgayaVBujP
+ GSr0x3Na3nf7olOF1MWe396vhhHsOgsCglpdpZnOu6VBfUBjUnwtFr0GldBfGKsFQcC5/lOo
+ FFLF6mUJgvXhfBEcaFkqBXjndRSIYI/6Jo3ryTbUZGuorOVlC97RZEZYOS8detm/MPyuoXMN
+ Wp+UKXMrHe9b6+GW0r1qtoP9arCS0wVsE6pFsUnAXtjre4tsFf6CZIBZG9+JsQpHuk4ooeac
+ hYKnYu+KN4cxbjozheeRQmLCcis6sZ3OnlwEroYKKzH88sAOJRSSlF2DtuyqEHJkzuhZxauR
+ Qr1IV1zYQxVTncga7Qv18mOBhvQUoZHMbZUlKMlPgvEofzvim6mKWuMa7wrZEYpmwu4O+hv0
+ cJiddomrfqjVJVXYOPL7Wln6B+2MSzx7tlkErGOzRqnaFURh4ozFj5MI/p4aFSjVnwvhm8bW
+ ha26I4pEV2uwSiDWPuUN4DBwbic5HRB5/zM5tdKJ1k95NXAMShtdIR5095fc+4RgDYXWlSk4
+ GO30TrRq79jWvwZM4Zi1UzdzQoQKx4CerOqKHsr2JgAcYhMZ2iIJeLanxfMhKPXm7gZSMBM9
+ RbR+LbURmbUuBltRveD1u+W0u/hYoVk5jwARAQABwsF2BBgBCAAgAhsMFiEEeW2zk9w/9AIi
+ tuoi0+u1lmu5kZYFAmWnhAkACgkQ0+u1lmu5kZbj+A//WQWE3YEn1aAXyb89DYEWALeASiWX
+ a1PMAZRP5sYtpzBUwL8Ch9VRrb08eipZg8NvYfPoPUCgGOcn+ZCp/4xT+LbmLQ6Bt90i8LPP
+ liNlPLpkmBK57CXfD6f/0ntwRbNmEBoJGUpEe4mDVEHlle+RQO4aLxOjLcpTqocMc28vZp6u
+ 1ZRNP7YDq3OqUmUR5C3KxIGAPuqc8ODktRZaWKUHJBnvqzUEElVdDbKnSXtrQbG6oP84wabX
+ Do8NPonMd2AY0ATKX1xVHf1C+xqdzcChd+NaxmJ4uGuMojRQa2y991wM1cep0eWr34W5dN7i
+ AKo0yD8kNk73guU43PCFT5SJ20+LtbwLEN13MSvOxfLwf4/wy+OU1cCm1gN617D59Vym7nGo
+ H2zdM9IA5dIALuLOksesRqzO8ZV8yD8q1WqpKwWpy32piEmW/2w1eEHsgRbsX68D8qO0ad0d
+ 67AW3CmTtpLg58/3CpBN7l2yQ55iqqQcHHhxJSAxGgzBQ4wyOau6q/1i17FCYoXfSQI0mJZx
+ OSAczP+kGnkQKkgo4xMODyU3aWmCEFfDP1gxZlhPLbd0qR39h3do3bx5D16yF1mjm9r1GhKh
+ OnYrUe4QH6N7K+DMJh0j7XIzQmwhEH26f2TUesr7deZEms4GGOyzREbD9y0UBYOIl8YHMdd9
+ L9jD4jU=
+In-Reply-To: <46zvnvkhnoa5w27o72tkex2rw6ha3fuisyeomhmsl5s5453x7b@fib4tezyywke>
+Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
-X-CMS-MailID: 20260306130649epcas5p192fe5f950447e3c51232a2a9bb2821bb
-X-Msg-Generator: CA
-Content-Type: text/plain; charset="utf-8"
-CMS-TYPE: 105P
-cpgsPolicy: CPGSC10-542,Y
-X-CFilter-Loop: Reflected
-X-CMS-RootMailID: 20260227121338epcas5p4baebb406db37f07223545b2f85751bf2
-References: <CGME20260227121338epcas5p4baebb406db37f07223545b2f85751bf2@epcas5p4.samsung.com>
-	<20260227121236.963-1-selvarasu.g@samsung.com>
-	<20260228002711.e442cuxwld4s2f66@synopsys.com>
-	<20260303003955.5lbb6xdrg7tp3zzi@synopsys.com>
 
+Hi Xu,
 
-On 3/3/2026 6:09 AM, Thinh Nguyen wrote:
-> On Sat, Feb 28, 2026, Thinh Nguyen wrote:
->> On Fri, Feb 27, 2026, Selvarasu Ganesan wrote:
->>> The below “No resource for ep” warning appears when a StartTransfer
->>> command is issued for bulk or interrupt endpoints in
->>> `dwc3_gadget_ep_enable` while a previous StartTransfer on the same
->>> endpoint is still in progress. The gadget functions drivers can invoke
->>> `usb_ep_enable` (which triggers a new StartTransfer command) before the
->>> earlier transfer has completed. Because the previous StartTransfer is
->>> still active, `dwc3_gadget_ep_disable` can skip the required
->>> `EndTransfer` due to `DWC3_EP_DELAY_STOP`, leading to the endpoint
->>> resources are busy for previous StartTransfer and warning ("No resource
->>> for ep") from dwc3 driver.
->>>
->>> Additionally, a race condition exists between dwc3_gadget_ep_disable()
->>> and dwc3_gadget_ep_queue() when manipulating dep->flags. When
->>> dwc3_gadget_ep_disable() calls dwc3_gadget_giveback(), the dwc->lock is
->>> temporarily released. If dwc3_gadget_ep_queue() runs in that window, it
->>> may set the DWC3_EP_TRANSFER_STARTED flag as part of
->>> dwc3_send_gadget_ep_cmd(). When ep_disable resumes, it unconditionally
->>> clears all flags except those explicitly masked, potentially clearing
->>> DWC3_EP_TRANSFER_STARTED even though a new transfer has started. This
->>> leads to "No resource for ep" warnings on subsequent StartTransfer
->>> attempts.
->>>
->>> The underlying framework issue is that usb_ep_disable() is expected to
->>> complete pending requests before returning, but is allowed to be called
->>> from interrupt context where sleeping to wait for completion is not
->>> possible.
->>>
->>> As temporary workarounds for this framework limitation:
->>>
->>> 1. In __dwc3_gadget_ep_enable(), add a check for the
->>>     DWC3_EP_TRANSFER_STARTED flag before issuing a new StartTransfer.
->>>     This prevents a second StartTransfer on an already busy endpoint,
->>>     eliminating the resource conflict.
->>>
->>> 2. In __dwc3_gadget_ep_disable(), preserve the DWC3_EP_TRANSFER_STARTED
->>>     flag when masking dep->flags if it is actually set, preventing the
->>>     race with dwc3_gadget_ep_queue() from corrupting the flag state.
->>>
->>> These changes eliminate the "No resource for ep" warnings and potential
->>> kernel panics caused by panic_on_warn.
->>>
->>> dwc3 13200000.dwc3: No resource for ep1out
->>> WARNING: CPU: 0 PID: 700 at drivers/usb/dwc3/gadget.c:398 dwc3_send_gadget_ep_cmd+0x2f8/0x76c
->>> Call trace:
->>> dwc3_send_gadget_ep_cmd+0x2f8/0x76c
->>> __dwc3_gadget_ep_enable+0x490/0x7c0
->>> dwc3_gadget_ep_enable+0x6c/0xe4
->>> usb_ep_enable+0x5c/0x15c
->>> mp_eth_stop+0xd4/0x11c
->>> __dev_close_many+0x160/0x1c8
->>> __dev_change_flags+0xfc/0x220
->>> dev_change_flags+0x24/0x70
->>> devinet_ioctl+0x434/0x524
->>> inet_ioctl+0xa8/0x224
->>> sock_do_ioctl+0x74/0x128
->>> sock_ioctl+0x3bc/0x468
->>> __arm64_sys_ioctl+0xa8/0xe4
->>> invoke_syscall+0x58/0x10c
->>> el0_svc_common+0xa8/0xdc
->>> do_el0_svc+0x1c/0x28
->>> el0_svc+0x38/0x88
->>> el0t_64_sync_handler+0x70/0xbc
->>> el0t_64_sync+0x1a8/0x1ac
->>>
->>> Cc: stable@vger.kernel.org
->>> Signed-off-by: Selvarasu Ganesan <selvarasu.g@samsung.com>
->>> ---
->>>
->>> Note: No Fixes tag is added because this is a workaround for the
->>> gadget framework issue where the gadget framework calls usb_ep_disable()
->>> in interrupt context without ensuring endpoint flushing completes.
->>> A proper fix requires refactoring the framework to make sure
->>> usb_ep_disable is invoked in process context.
->>>
->>> Changes in v3:
->>>   - Revised the commit message to detail the real gadget framework issue
->>>     pointed out by the reviewer.
->>>   - Merged the two fixes for the same ep wringing into one patch.
->>> Link to v2: https://urldefense.com/v3/__https://lore.kernel.org/linux-usb/20251117155920.643-1-selvarasu.g@samsung.com/__;!!A4F2R9G_pg!cQzQQ5kAWF6CE5hQe7VqFdnaxqwzsTB1ZGNT1GvCH28GoB_nESZR5Y2jtxdZBls6wBIM4OtpvG4dSaylvNC3qbh547k$
->>>
->>> Changes in v2:
->>> - Removed change-id.
->>> - Updated commit message.
->>> Link to v1: https://urldefense.com/v3/__https://lore.kernel.org/linux-usb/20251117152812.622-1-selvarasu.g@samsung.com/__;!!A4F2R9G_pg!cQzQQ5kAWF6CE5hQe7VqFdnaxqwzsTB1ZGNT1GvCH28GoB_nESZR5Y2jtxdZBls6wBIM4OtpvG4dSaylvNC38z-CRD4$
->>> ---
->>>   drivers/usb/dwc3/gadget.c | 22 ++++++++++++++++++++--
->>>   1 file changed, 20 insertions(+), 2 deletions(-)
->>>
->>> diff --git a/drivers/usb/dwc3/gadget.c b/drivers/usb/dwc3/gadget.c
->>> index 0a688904ce8c5..3af1bbfe3d92b 100644
->>> --- a/drivers/usb/dwc3/gadget.c
->>> +++ b/drivers/usb/dwc3/gadget.c
->>> @@ -971,8 +971,9 @@ static int __dwc3_gadget_ep_enable(struct dwc3_ep *dep, unsigned int action)
->>>   	 * Issue StartTransfer here with no-op TRB so we can always rely on No
->>>   	 * Response Update Transfer command.
->>>   	 */
->>> -	if (usb_endpoint_xfer_bulk(desc) ||
->>> -			usb_endpoint_xfer_int(desc)) {
->>> +	if ((usb_endpoint_xfer_bulk(desc) ||
->>> +			usb_endpoint_xfer_int(desc)) &&
->>> +			!(dep->flags & DWC3_EP_TRANSFER_STARTED)) {
->>>   		struct dwc3_gadget_ep_cmd_params params;
->>>   		struct dwc3_trb	*trb;
->>>   		dma_addr_t trb_dma;
->>> @@ -1096,6 +1097,23 @@ static int __dwc3_gadget_ep_disable(struct dwc3_ep *dep)
->>>   	 */
->>>   	if (dep->flags & DWC3_EP_DELAY_STOP)
->>>   		mask |= (DWC3_EP_DELAY_STOP | DWC3_EP_TRANSFER_STARTED);
->>> +
->>> +	/*
->>> +	 * When dwc3_gadget_ep_disable() calls dwc3_gadget_giveback(),
->>> +	 * the dwc->lock is temporarily released. If dwc3_gadget_ep_queue()
->>> +	 * runs in that window it may set the DWC3_EP_TRANSFER_STARTED flag as
->>> +	 * part of dwc3_send_gadget_ep_cmd. The original code cleared the flag
->>> +	 * unconditionally in the mask operation, which could overwrite the
->>> +	 * concurrent modification.
->>> +	 *
->>> +	 * As a workaround for the interrupt context constraint where we cannot
->>> +	 * wait for endpoint flushing, preserve the DWC3_EP_TRANSFER_STARTED
->>> +	 * flag if it is set, avoiding resource conflicts until the framework
->>> +	 * is fixed to properly synchronize endpoint lifecycle management.
->>> +	 */
->>> +	if (dep->flags & DWC3_EP_TRANSFER_STARTED)
->>> +		mask |= DWC3_EP_TRANSFER_STARTED;
->>> +
->>>   	dep->flags &= mask;
->>>   
->>>   	/* Clear out the ep descriptors for non-ep0 */
->>> -- 
->>> 2.34.1
->>>
->> Acked-by: Thinh Nguyen <Thinh.Nguyen@synopsys.com>
+Le 06/03/2026 à 10:52, Xu Yang a écrit :
+> Hi Arnaud,
+> 
+> On Thu, Mar 05, 2026 at 05:36:08PM +0100, Arnaud Ferraris wrote:
+>> Hi Xu,
 >>
-> Oh wait, don't pick this patch up yet.
->
-> This will cause a regression for UAS device. When switching alt-setting
-> interface for BOT to UASP, the device needs to issue a Start Transfer
-> command.
->
-> This workaround won't work. Can we fix the usb_ep_disable() interface
-> and rework this instead?
->
-> BR,
-> Thinh
+>> Le 05/03/2026 à 10:40, Xu Yang a écrit :
+>>> On Fri, Feb 27, 2026 at 04:45:30PM +0100, Arnaud Ferraris wrote:
+>>>> Hi Xu,
+>>>>
+>>>> Le 25/02/2026 à 03:57, Xu Yang a écrit :
+>>>>> Hi Arnaud,
+>>>>>
+>>>>> On Tue, Feb 24, 2026 at 12:33:33PM +0100, Arnaud Ferraris wrote:
+>>>>>> Hi,
+>>>>>>
+>>>>>> Le 24/02/2026 à 12:01, Xu Yang a écrit :
+>>>>>>> This reverts commit 1366cd228b0c67b60a2c0c26ef37fe9f7cfedb7f.
+>>>>>>
+>>>>>> I believe a plain revert isn't the right solution here, as we'll get to the
+>>>>>> same point as we were before 1366cd228b0c, where some devices stopped
+>>>>>> working properly with newer kernels.
+>>>>>
+>>>>> I don't think 1366cd228b0c fix the real root problem because the description
+>>>>> should be wrong in the commit message. If -EPROBE_DEFER is returned by
+>>>>> fwnode_usb_role_switch_get(), the ports node should be in connector node
+>>>>> instead of tcpc node. However, you get the error when ports in tcpc node.
+>>>>>
+>>>>> Could you double check the issue, so we can find a proper solution and avoid
+>>>>> the further regression?
+>>>>
+>>>> Sure, I'll come up with more details asap, either tomorrow or early next
+>>>> week.
+>>>
+>>> Do you have any updates about this?
+>>
+>> I do, sorry it took so long...
+>>
+>> So fwnode_usb_role_switch_get() does indeed return -EPROBE_DEFER, then
+>> keeps doing so on later attempts if I revert my patch. However,
+>> usb_role_switch_get() succeeds on first try.
+>>
+>> Please note that:
+>> 1. I don't understand much (if any) of the Linux typec stack, and only
+>>     noticed 2d8713f807 broke my device, hence my attempted fix
+>> 2. said device is the PinePhone Pro, using an out-of-tree dts (and many
+>>     drivers) from https://codeberg.org/megi/linux
+>>
+>> The proper solution likely lies somewhere in the "get proper drivers
+>> and upstream dts for this device" land, although I definitely can't
+>> commit to this.
+>>
+>> I think saving the fwnode_usb_role_switch_get() return value and
+>> restoring it if usb_role_switch_get() fails would be a decent
+>> workaround, although I'm definitely open to suggestions.
+>>
+>> Feel free to let me know if there's any other test I could run, I'll do
+>> my best at replying promptly.
+> 
+> Thanks for your update!
+> 
+> After review the dts file, I finally find you meet the issue with:
+> 
+> 	usb-role-switch = <&typec_extcon_bridge>;
+> 
+> instead of using below device graph port node.
+> 
+> 	fusb0: typec-portc@22 {
+> 		compatible = "fcs,fusb302";
+> 		...
+> 
+> 		port {
+> 			remote-endpoint = <&typec_extcon_bridge>;
+> 		};
+> 
+> 		connector {
+> 			...
+> 		};
+> 	};
+> 
+> The commit 1366cd228b0 message "If ports are defined in the tcpc main node"
+> has confused me at the beginning.
 
-Hi Thinh,
+Right, that's where my lack of understanding played its part, sorry for 
+the confusion...
 
-We’re trying to see how this change could cause a regression for UAS 
-devices.
-Could you explain why the workaround might be a problem for UAS? Are you 
-concerned that it could miss a valid StartTransfer when a previous 
-transfer finishes later than expected as part of ep_disable?
+> 
+> Anyway, it should be another potential issue. Can you test whether below
+> patch fix your issue?
+> 
+> diff --git a/drivers/usb/roles/class.c b/drivers/usb/roles/class.c
+> index b8e28ceca51e..edec139b68b5 100644
+> --- a/drivers/usb/roles/class.c
+> +++ b/drivers/usb/roles/class.c
+> @@ -139,9 +139,14 @@ static void *usb_role_switch_match(const struct fwnode_handle *fwnode, const cha
+>   static struct usb_role_switch *
+>   usb_role_switch_is_parent(struct fwnode_handle *fwnode)
+>   {
+> -       struct fwnode_handle *parent = fwnode_get_parent(fwnode);
+> +       struct fwnode_handle *parent;
+>          struct device *dev;
+> 
+> +       if (!fwnode_device_is_compatible(fwnode, "usb-b-connector"))
+> +               return NULL;
+> +
+> +       parent = fwnode_get_parent(fwnode);
+> +
+>          if (!fwnode_property_present(parent, "usb-role-switch")) {
+>                  fwnode_handle_put(parent);
+>                  return NULL;
 
-If we don’t use this temporary fix, the driver can still report “EP 
-resource busy” when an earlier StartTransfer hasn’t finished 
-before ep_disable returns. That can happen when a UAS device needs to 
-start a new transfer during ep_enable while the prior transfer is still 
-pending.
-
-The patch simply blocks a second StartTransfer when the same endpoint 
-already has a transfer in progress to prevent a “EP resource busy” issue.
-
-And it can cause a new StartTransfer to be issued later from ep_queue 
-while the starttransfer that should have been started during ep_enable 
-is skipped.
+I can confirm that reverting 1366cd228b0 and applying the above works on 
+this device.
 
 Thanks,
-Selva
+Arnaud
+
+> 
+> Thanks,
+> Xu Yang
+
