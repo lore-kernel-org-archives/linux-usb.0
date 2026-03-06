@@ -1,146 +1,111 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.20])
+Received: from esa.microchip.iphmx.com (esa.microchip.iphmx.com [68.232.153.233])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1996E1448E0
-	for <linux-usb@vger.kernel.org>; Fri,  6 Mar 2026 09:47:29 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.20
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0BE0734D915;
+	Fri,  6 Mar 2026 09:56:44 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=68.232.153.233
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1772790451; cv=none; b=nAgsdhZ2rvPOO8lEl6tQZgVD02tkja2S3Yy/lTvUX/9t17czvg9uiiX0uKXnVyrE4IaWIJjgAE0agwl+D56Jw584aahznj2/XDOt+rcTpIbJBwcXmzPcQ4KABa9u49WIGkW6TN2773xcurkHkXEAmn03p9NIG4c3SHIWYPVaJbY=
+	t=1772791007; cv=none; b=V9QSwx5EPstEGFXJb3PgZ3Ol+T3rY9qusyFA1CbKcriN/uoCsdaDzA4bP+LvJS+RaOjNzN8MM/F6HdXARZ4Ej+0cQeYh/p4RdXekk7+fOBTvi8cs12pJmI4O7r/oXXeTFaDwgbW1KBued60E9H7fxqVfzBpA6X1NND6N1pLzTG4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1772790451; c=relaxed/simple;
-	bh=YBkFaitqfqPTgrTFQgdTKpT04CwRiL9tlyoM7VSnOpg=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=OgL2/DMzkCwk+GYbIpNiaBjGW06cZ0P8TpyXxkL8tdIZVQCQNQIBIvT04+W5ieTEYCIE4EchLBKpZAzHg2yoh86BxjDIYYaj8s+7fhM3qQPCUWZiVqqWR9xXK27RxvpdFc4tcMAgdT+7LmX/aoab2cjeMlpsj5HDHKqyvMXU9Bw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=pass smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=l3Qjwi/P; arc=none smtp.client-ip=198.175.65.20
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.intel.com
+	s=arc-20240116; t=1772791007; c=relaxed/simple;
+	bh=M0XofkcuBdV1zkdsuj7RJ1maZEJbks9g3VqYv60iJnU=;
+	h=Date:From:To:CC:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=Ea1+hzL+QxNHhc4NtkXjce7NRYEPUt7SEScJMnDDVSgt1WO7VwDxTfQZ6lC+uKKm7Mapo8x3lUsbLwvvFmKw+/+ksx5Ntnsb66twL7erxoY5VVCbkSx3L/C64b1yDTIUUFY5Y5asIiMHZ5I1Xlj6vhhvqoLzq3Gw6Om8WSMTLY8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=microchip.com; spf=pass smtp.mailfrom=microchip.com; dkim=pass (2048-bit key) header.d=microchip.com header.i=@microchip.com header.b=zKN16av/; arc=none smtp.client-ip=68.232.153.233
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=microchip.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=microchip.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="l3Qjwi/P"
+	dkim=pass (2048-bit key) header.d=microchip.com header.i=@microchip.com header.b="zKN16av/"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1772790450; x=1804326450;
-  h=message-id:date:mime-version:subject:to:cc:references:
-   from:in-reply-to:content-transfer-encoding;
-  bh=YBkFaitqfqPTgrTFQgdTKpT04CwRiL9tlyoM7VSnOpg=;
-  b=l3Qjwi/PA6lnWmvdJHs/mR4vtxSxkYT29dZP3msKQ4b0f9JmbX9cT8iR
-   BrIa+DeEQ+IAxAaF4iIUnH+XU1LPxaBjS0HIhZSFalcS+/W6VEmsrErkh
-   mOxF83aRn7gE2sYW/l6PglmGxWEqWbaAyyKK1D3ZvKOp+xTSz9TSRpKWN
-   xKCfTlkxfTJiL+5uuqf2nrMiLABdVBlJpwaZwR5iybpBBTvU0nk3K2jx/
-   AfgBR64ESUjnO+GJrrMgOIZCHQaNQPXFBDqjOMHQ8OdnHEBTKq+kQNmuA
-   cl6P7aLkLRT9xHCRwr5v/wM2cZYL+JvdzKF6mRw8qFjJmguwfBkifCxKd
+  d=microchip.com; i=@microchip.com; q=dns/txt; s=mchp;
+  t=1772791005; x=1804327005;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=M0XofkcuBdV1zkdsuj7RJ1maZEJbks9g3VqYv60iJnU=;
+  b=zKN16av/YcO/gYHjYaU16mSlJXQ6p8l1+9SLEVylGTpIj/UUfrvtXmdU
+   tIDzYrUw2kzuJQUrZxG6H0zx3Tu7WgCu/QWT4ns5+NNhGFoN66mZrPBow
+   I3/Siw34DF23sIXntNqI43ZmqpI9T4ZM5TvEyZ6ZwfhOdkwyZCHAlm93t
+   ARqOmyQnDoje5m8zxU4ltfRHWqOaZDj1KEdIMcrBCIGjSQted+Gbb3M7w
+   2rpcnbqrQMG9iLcisYRqkaXdNT+KC5bI8IUNnH2pLhTDa4oYgycdBWYO1
+   5COuiQr+77VAHpvbv09JIVJiBN9H+vkuVmRzCfa97IrV9/qGKW3hr2WEf
    Q==;
-X-CSE-ConnectionGUID: LBam7u+ERCmLJxvWlMou4g==
-X-CSE-MsgGUID: x6OxFHy4S/qAO3Eo6aCmZg==
-X-IronPort-AV: E=McAfee;i="6800,10657,11720"; a="73596854"
-X-IronPort-AV: E=Sophos;i="6.23,104,1770624000"; 
-   d="scan'208";a="73596854"
-Received: from orviesa003.jf.intel.com ([10.64.159.143])
-  by orvoesa112.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 06 Mar 2026 01:47:29 -0800
-X-CSE-ConnectionGUID: z1cATZwlRQ2PMPUGuT5GFA==
-X-CSE-MsgGUID: eq959Zd5RIqS/3VCrp46ag==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.23,104,1770624000"; 
-   d="scan'208";a="223090851"
-Received: from nneronin-mobl1.ger.corp.intel.com (HELO [10.94.250.130]) ([10.94.250.130])
-  by ORVIESA003-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 06 Mar 2026 01:47:27 -0800
-Message-ID: <f64abf52-6b9b-4eb3-b9de-a215cd7e2e82@linux.intel.com>
-Date: Fri, 6 Mar 2026 11:47:18 +0200
+X-CSE-ConnectionGUID: kkklftjzTt+tmC5CjQykRw==
+X-CSE-MsgGUID: y9hzzWGpTbWY5hyCt1eJ5w==
+X-IronPort-AV: E=Sophos;i="6.23,104,1770620400"; 
+   d="scan'208";a="54313383"
+X-Amp-Result: SKIPPED(no attachment in message)
+Received: from unknown (HELO email.microchip.com) ([170.129.1.10])
+  by esa3.microchip.iphmx.com with ESMTP/TLS/ECDHE-RSA-AES128-GCM-SHA256; 06 Mar 2026 02:56:43 -0700
+Received: from chn-vm-ex01.mchp-main.com (10.10.85.143) by
+ chn-vm-ex04.mchp-main.com (10.10.85.152) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2507.58; Fri, 6 Mar 2026 02:56:27 -0700
+Received: from DEN-DL-M70577 (10.10.85.11) by chn-vm-ex01.mchp-main.com
+ (10.10.85.143) with Microsoft SMTP Server id 15.1.2507.58 via Frontend
+ Transport; Fri, 6 Mar 2026 02:56:22 -0700
+Date: Fri, 6 Mar 2026 10:56:22 +0100
+From: Daniel Machon <daniel.machon@microchip.com>
+To: Vladimir Oltean <vladimir.oltean@nxp.com>
+CC: <linux-phy@lists.infradead.org>, Vinod Koul <vkoul@kernel.org>, "Neil
+ Armstrong" <neil.armstrong@linaro.org>, <dri-devel@lists.freedesktop.org>,
+	<freedreno@lists.freedesktop.org>, <linux-arm-kernel@lists.infradead.org>,
+	<linux-arm-msm@vger.kernel.org>, <linux-can@vger.kernel.org>,
+	<linux-gpio@vger.kernel.org>, <linux-ide@vger.kernel.org>,
+	<linux-kernel@vger.kernel.org>, <linux-media@vger.kernel.org>,
+	<linux-pci@vger.kernel.org>, <linux-renesas-soc@vger.kernel.org>,
+	<linux-riscv@lists.infradead.org>, <linux-rockchip@lists.infradead.org>,
+	<linux-samsung-soc@vger.kernel.org>, <linux-sunxi@lists.linux.dev>,
+	<linux-tegra@vger.kernel.org>, <linux-usb@vger.kernel.org>,
+	<netdev@vger.kernel.org>, <spacemit@lists.linux.dev>,
+	<UNGLinuxDriver@microchip.com>, Andrew Lunn <andrew+netdev@lunn.ch>, "David
+ S. Miller" <davem@davemloft.net>, Eric Dumazet <edumazet@google.com>, "Jakub
+ Kicinski" <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>, Steen Hegelund
+	<Steen.Hegelund@microchip.com>
+Subject: Re: [PATCH phy-next 07/22] net: lan969x: include missing <linux/of.h>
+Message-ID: <20260306095622.rh3sje3wnexbdsqb@DEN-DL-M70577>
+References: <20260304175735.2660419-1-vladimir.oltean@nxp.com>
+ <20260304175735.2660419-8-vladimir.oltean@nxp.com>
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [RFC PATCH 06/12] usb: xhci: move initialization for lifetime
- objects
-To: Michal Pecio <michal.pecio@gmail.com>
-Cc: mathias.nyman@linux.intel.com, linux-usb@vger.kernel.org,
- raoxu@uniontech.com, Thinh.Nguyen@synopsys.com
-References: <20260305144824.3264408-1-niklas.neronin@linux.intel.com>
- <20260305144824.3264408-7-niklas.neronin@linux.intel.com>
- <20260305231417.4415aa36.michal.pecio@gmail.com>
-Content-Language: en-US
-From: "Neronin, Niklas" <niklas.neronin@linux.intel.com>
-In-Reply-To: <20260305231417.4415aa36.michal.pecio@gmail.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset="us-ascii"
+Content-Disposition: inline
+In-Reply-To: <20260304175735.2660419-8-vladimir.oltean@nxp.com>
 
-
-
-On 06/03/2026 0.14, Michal Pecio wrote:
-> On Thu,  5 Mar 2026 15:48:18 +0100, Niklas Neronin wrote:
->> Initialize objects that exist for the lifetime of the driver only once,
->> rather than repeatedly. These objects do not require re-initialization
->> after events such as S4 (suspend-to-disk).
->>
->> Signed-off-by: Niklas Neronin <niklas.neronin@linux.intel.com>
->> ---
->>  drivers/usb/host/xhci-mem.c |  1 -
->>  drivers/usb/host/xhci.c     | 15 ++++++++-------
->>  2 files changed, 8 insertions(+), 8 deletions(-)
->>
->> diff --git a/drivers/usb/host/xhci-mem.c b/drivers/usb/host/xhci-mem.c
->> index 005b7bc1bfda..fae75969e49a 100644
->> --- a/drivers/usb/host/xhci-mem.c
->> +++ b/drivers/usb/host/xhci-mem.c
->> @@ -2001,7 +2001,6 @@ void xhci_mem_cleanup(struct xhci_hcd *xhci)
->>  	xhci->port_caps = NULL;
->>  	xhci->interrupters = NULL;
->>  
->> -	xhci->page_size = 0;
->>  	xhci->usb2_rhub.bus_state.bus_suspended = 0;
->>  	xhci->usb3_rhub.bus_state.bus_suspended = 0;
->>  }
->> diff --git a/drivers/usb/host/xhci.c b/drivers/usb/host/xhci.c
->> index d9519a9e9e17..338e93f39937 100644
->> --- a/drivers/usb/host/xhci.c
->> +++ b/drivers/usb/host/xhci.c
->> @@ -549,13 +549,6 @@ static int xhci_init(struct usb_hcd *hcd)
->>  	int retval;
->>  
->>  	xhci_dbg_trace(xhci, trace_xhci_dbg_init, "Starting %s", __func__);
->> -	spin_lock_init(&xhci->lock);
->> -
->> -	INIT_LIST_HEAD(&xhci->cmd_list);
+> This file is calling of_property_read_u32() without including the proper
+> header for it. It is provided by <linux/phy/phy.h>, which wants to get
+> rid of it.
 > 
-> Can we prove that this list is empty?
+> Signed-off-by: Vladimir Oltean <vladimir.oltean@nxp.com>
+> ---
+> Cc: Daniel Machon <daniel.machon@microchip.com>
+> Cc: Andrew Lunn <andrew+netdev@lunn.ch>
+> Cc: "David S. Miller" <davem@davemloft.net>
+> Cc: Eric Dumazet <edumazet@google.com>
+> Cc: Jakub Kicinski <kuba@kernel.org>
+> Cc: Paolo Abeni <pabeni@redhat.com>
+> Cc: Steen Hegelund <Steen.Hegelund@microchip.com>
+> ---
+>  drivers/net/ethernet/microchip/sparx5/lan969x/lan969x_rgmii.c | 1 +
+>  1 file changed, 1 insertion(+)
 > 
-> If there is any leftover garbage there, INIT_LIST_HEAD simply leaks it.
-> Without it, the garbage stays on the list.
-
-I assume you are referring to the resume path.
-In this case xhci_cleanup_command_queue() is called before xhci_init().
-
-xhci_resume()
-├─xhci_mem_cleanup()
-│  └─xhci_cleanup_command_queue()
-└─xhci_init()
-
+> diff --git a/drivers/net/ethernet/microchip/sparx5/lan969x/lan969x_rgmii.c b/drivers/net/ethernet/microchip/sparx5/lan969x/lan969x_rgmii.c
+> index 4e422ca50828..249114b40c42 100644
+> --- a/drivers/net/ethernet/microchip/sparx5/lan969x/lan969x_rgmii.c
+> +++ b/drivers/net/ethernet/microchip/sparx5/lan969x/lan969x_rgmii.c
+> @@ -4,6 +4,7 @@
+>   * Copyright (c) 2024 Microchip Technology Inc. and its subsidiaries.
+>   */
 > 
->> -	INIT_DELAYED_WORK(&xhci->cmd_timer, xhci_handle_command_timeout);
->> -	init_completion(&xhci->cmd_ring_stop_completion);
->> -	xhci_hcd_page_size(xhci);
->> -	memset(xhci->devs, 0, MAX_HC_SLOTS * sizeof(*xhci->devs));
->>  
->>  	retval = xhci_mem_init(xhci, GFP_KERNEL);
->>  	if (retval)
->> @@ -5522,6 +5515,14 @@ int xhci_gen_setup(struct usb_hcd *hcd, xhci_get_quirks_t get_quirks)
->>  		dma_set_coherent_mask(dev, DMA_BIT_MASK(32));
->>  	}
->>  
->> +	spin_lock_init(&xhci->lock);
->> +	INIT_LIST_HEAD(&xhci->cmd_list);
->> +	INIT_DELAYED_WORK(&xhci->cmd_timer, xhci_handle_command_timeout);
->> +	init_completion(&xhci->cmd_ring_stop_completion);
->> +	xhci_hcd_page_size(xhci);
->> +
->> +	memset(xhci->devs, 0, MAX_HC_SLOTS * sizeof(*xhci->devs));
->> +
->>  	xhci_dbg(xhci, "Calling HCD init\n");
->>  	/* Initialize HCD and host controller data structures. */
->>  	retval = xhci_init(hcd);
->> -- 
->> 2.50.1
->>
+> +#include <linux/of.h>
+>  #include "lan969x.h"
+> 
+>  /* Tx clock selectors */
+> --
+> 2.43.0
+>
 
+Acked-by: Daniel Machon <daniel.machon@microchip.com>
