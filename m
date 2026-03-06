@@ -1,118 +1,120 @@
-Received: from smtpbguseast3.qq.com (smtpbguseast3.qq.com [54.243.244.52])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-ed1-f65.google.com (mail-ed1-f65.google.com [209.85.208.65])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BE6F123FC5A;
-	Fri,  6 Mar 2026 03:30:50 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=54.243.244.52
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1772767856; cv=none; b=E7Iq8R88YMtx+Dsr8SzbjBk8CsPiJj/wfVMMHzZGF5MSa3tIpu+BM0mVFOwNrRGfMJfTDrORr/8GCXNJSr/ESzIfKKbgz7S/+Y2mOBHkauwIQH2LC/8xbTjOHjvb70ScmPrcR1SySawamjOEcD2prlut26ow7usuDKl+NGWmajM=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1772767856; c=relaxed/simple;
-	bh=9JD6kBkSfcMgcL1f24JUH05YEvcrs2BAYO8Lh88O1+4=;
-	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:To:Cc; b=kGDcSECwptAtrSBCgBAUtTpZOcANHuHHo6obL7KxWG4HhR1bSpK4KTB1t+WLvQ8rerL79whcKFOqmK+dINizpmpyYgGFFoUSjxfRA04JE1RYe5FdgCstjNC6bx5FXxXjeAtnkQ/JrRT02qtto2dx8N4elWzZ9UXUlB4tW1zwTDg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux.spacemit.com; spf=none smtp.mailfrom=linux.spacemit.com; dkim=pass (1024-bit key) header.d=linux.spacemit.com header.i=@linux.spacemit.com header.b=x/9//8zZ; arc=none smtp.client-ip=54.243.244.52
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux.spacemit.com
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=linux.spacemit.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5A38937187E
+	for <linux-usb@vger.kernel.org>; Fri,  6 Mar 2026 06:35:22 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.208.65
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1772778923; cv=pass; b=b4mjt275yS1yAmirAg0FeVBVwpoeWeGmPsPPw/k5+tZz39BSvNlsyojcn3KK1GV+6kYwqEsWoyqpHG1hjGXpxR0rz3Ym6YLxbPxeRv3W8gozSC0FmytAhApqHpl8Rq1ycZZ1LrLcXDt7ImSkxq4BcqucBWzsGAq/4vTvOBcNhCk=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1772778923; c=relaxed/simple;
+	bh=LLL7f8AoH9xuYgZ/2JpqWyPvosYePGD9rCowFPjNoF8=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=coluSXH6B0Gl9zjb+wqDQrFuuIBEStgpvrKVnemHZ8hF0YO2b31NhjGZV+1027mMmj8MlWp59raB78/fumZnMxvRG8JAOR7ll5VsFI1OHfvUoub6/Iiq4bbPizNG8MeKIVMA4n9JH03qTLI/H7MnMEPFXcbrgTq0mwKv94eh/RQ=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=N6MFIjBN; arc=pass smtp.client-ip=209.85.208.65
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linux.spacemit.com header.i=@linux.spacemit.com header.b="x/9//8zZ"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.spacemit.com;
-	s=mxsw2412; t=1772767815;
-	bh=glyq+F+BtseRvj5gR/MbcEWW00ve4s02FxEWiBBWcqQ=;
-	h=From:Date:Subject:MIME-Version:Message-Id:To;
-	b=x/9//8zZ9FY3CAjeSOywIFkPhN1s4xyqiVo3M+NdhM/tnQ+3XN3CCRzTFdh2UuRS0
-	 ZgXvfLEUCBeR7T4MIj7ScZZy8LNaCkjBkpuIG1nqIaN7t8MEJBsYkQM3OGuiX7KODa
-	 ev7Dq+Y9rcP7doprN9d5uk5IeO1bAVkzztf8xA9M=
-X-QQ-mid: esmtpgz14t1772767813tef51b2a8
-X-QQ-Originating-IP: q5sbB4QY4DiPKFW1XvuMDhNDZLnpT6hQegF4Oki3utY=
-Received: from LT-PANJUNZHONG.dc.com ( [120.237.158.181])
-	by bizesmtp.qq.com (ESMTP) with 
-	id ; Fri, 06 Mar 2026 11:30:12 +0800 (CST)
-X-QQ-SSF: 0000000000000000000000000000000
-X-QQ-GoodBg: 0
-X-BIZMAIL-ID: 3452352524430289917
-EX-QQ-RecipientCnt: 7
-From: Junzhong Pan <panjunzhong@linux.spacemit.com>
-Date: Fri, 06 Mar 2026 11:30:09 +0800
-Subject: [PATCH] usb: gadget: uvc: fix interval_duration calculation
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="N6MFIjBN"
+Received: by mail-ed1-f65.google.com with SMTP id 4fb4d7f45d1cf-66151557d0cso2402202a12.3
+        for <linux-usb@vger.kernel.org>; Thu, 05 Mar 2026 22:35:22 -0800 (PST)
+ARC-Seal: i=1; a=rsa-sha256; t=1772778921; cv=none;
+        d=google.com; s=arc-20240605;
+        b=DO/B4I+AOHH9QrlEKQgkx8jMpofWEoiCIei9PBjr9Ja68vYMcqJmhjR7bhi/EhGILl
+         6qaJ2vZLNCJFBMLH3U9Bmy1ySpW0GcuFAzYkixUstN8SJ4xRARt6KSTqDlRaczuIi796
+         riBSNJFjKE5kHqxO7D/9i60Hn05tFejulOsMNCL588JbkJj3t6PxGXKA+DGZJveKCMjA
+         n5vvZ2jX8y9B+F+8qfXlGwBKZ91Skn0FqxsgR8/wND45IKu2Bpuq6ZvU+i1mDAgWdhVm
+         vvxumyTU8A4TT5b3t9kZwbo//HPN8PbJXPgvv5Jh67+LMchZOPk7je5KGu8Vk4skpkBB
+         B3rw==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:dkim-signature;
+        bh=xNL4jAlivYRTfLBLAHWr2rZcCkwi45HNIOhMdjJ3bBY=;
+        fh=4z2PlWcVfBpwRJ0qt8crGuJQpbdAMXxDVtTtkZHyvtM=;
+        b=UaSfx8BVC89PLRa95NTEAvKhTKjUsumNdCwQh0n3IeCOzI1lWHRJ2Z1XU2JspwTIcU
+         wokYCAtcC1KE9Pqcv5KYxf7UqoZNjbOuM+7qbqUueDIMrmepMP9O2SWpxCK4L5urVNZF
+         2lOCh5qb7yw1/0s3qdqFxtPWiY/8bhnpcYNWpV1p8xEj1hndoh9UOZGFD331kwWUmqgU
+         IOoiyMexm4sxy30jwTpLZSvT8MK02ztsp2P7OwZ3AjlwrBWDWNxlksdcdj/rDPgzoQ95
+         knbi8PoFLZDI4U/BBeJuVZ5dWn+Qj04GUDvzEUEOnR+LCMbDpDGVP1HB7+FOt1DrZweK
+         /cUQ==;
+        darn=vger.kernel.org
+ARC-Authentication-Results: i=1; mx.google.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1772778921; x=1773383721; darn=vger.kernel.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=xNL4jAlivYRTfLBLAHWr2rZcCkwi45HNIOhMdjJ3bBY=;
+        b=N6MFIjBNR7icMQ4rktVVpSE/Q9xo+uRMjk4T/0NaiWgAQI+lEksNQqI8IBU6a79u57
+         0KTwmd59M4O27RtGz8vEX1kSWGujmIHPTdV4FKqYKrz3mzG7mh5Z8+NFtm6cYXWG0EOm
+         8KVU+PAoexGRp3R01J8PzWjop4tsjL8yzCN+AJbvskyglTObVJirTlO5KP3C4sH4WL3p
+         7MPpa5SuVHMRW3dK7orrYjKiv5hScrjTo3Jr8UrQ8PJhM+e/bRz3YykqWhosdxknMhbx
+         I5gKcuzB2myQUKt4PuFwVhWCV2LEqCXf6xiJMOVyMUHPFtDthE2VhmPYW9ORN/WKdmYT
+         onjQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1772778921; x=1773383721;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
+         :to:cc:subject:date:message-id:reply-to;
+        bh=xNL4jAlivYRTfLBLAHWr2rZcCkwi45HNIOhMdjJ3bBY=;
+        b=YsY6oURZLELeF0Xnp5fmR6t4L/4Nv+tX1SpMJ5yN7sO3EsqwZFUKl8iNLG02yXohJf
+         NPV5wWJ9d663O/Gnv3K3gc8WwPqTbqVpjosAmW7WnSXT7jarH7Y+K2LO1xWZx7YooyJw
+         pJdxLtk6QkWwbXQee2RtGkBJVszX0kUocW0KeCPX7SAbmEZ4exbiISj92OfE6jq1Chor
+         b8KCLb3kXuztodrYauyyRUxiFkHLHG/1nSjFJ81M3Gee8ws7ilIHxQ+SxNUhDJ8lTW7b
+         XBlWW8NdTj7N5lQoudejf6oVXcB1SIoEX86tF3/CoP9Zzqb/+Bj70p4zQ0gJANGuSX0m
+         I+mQ==
+X-Forwarded-Encrypted: i=1; AJvYcCVQp3rsavxJaaWVbLuVtkMtLd9ZGnLEZ91p7ZpvdzWQjaekRymy2bcu5uHU0vcs9ISgUQm3WOFh/90=@vger.kernel.org
+X-Gm-Message-State: AOJu0YzRTWcSAexh8aW+HAtxQXd/A0f1FmM1Y59gSpKWvuSMj5SZeikb
+	UUpcPr4mqIdqLbKnA13pt5llKO/nb+uRiMZxM2pkcl7GqQqfxwftMVhSLtyQjWsuvjLYX3Sn6ok
+	nUf3sP+uCRiAPj0eceWo0uWzr7onkR6+fCRm/A1doJw==
+X-Gm-Gg: ATEYQzzAep79JQaBs4q3OhxVg+TDQoRh10MrObLBDIN6NXe6FEVtjmgxqVw1/FopWOO
+	1UbavKJPdO/rIlAlsEEJMf+OqgK7vBat1C4CQt/j+yMy9xgvq7AqWBJhtUZiGk3ggvjWXiKYXJa
+	Xa5qHF8Wd+1mzgesjGy1/p+I61qI018VcjRV9UKKdP4SZ+M+iUArkOnwkQs54fMITQUaq8uwer5
+	tf8wO9paaQZfp1WXn/VdjnwpSSZaFRNtMnaRBwrhj5K0gmUSW4s5+ynlTwWcVegEbUfReYuPT0W
+	CWCu93Sp1/FT4DNSFTMwGA==
+X-Received: by 2002:a05:6402:430c:b0:65a:2ec5:99c0 with SMTP id
+ 4fb4d7f45d1cf-6619d4565b4mr515487a12.3.1772778920490; Thu, 05 Mar 2026
+ 22:35:20 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-Message-Id: <20260306-fix-uvc-interval-v1-1-9a2df6859859@linux.spacemit.com>
-X-B4-Tracking: v=1; b=H4sIAEBKqmkC/x2MQQqAIBAAvyJ7bsE0JPpKdDDdaiEstCQI/550H
- JiZFxJFpgSDeCFS5sRHqNA2Atxmw0rIvjIoqYzU0uDCD97ZIYeLYrY7Su+08bOnrieo2RmpOv9
- ynEr5ABtuZidiAAAA
-X-Change-ID: 20260306-fix-uvc-interval-0dc36dbde48e
-To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>, 
- Frank Li <Frank.Li@nxp.com>, Xu Yang <xu.yang_2@nxp.com>
-Cc: linux-usb@vger.kernel.org, linux-kernel@vger.kernel.org, 
- stable@vger.kernel.org, Junzhong Pan <panjunzhong@linux.spacemit.com>
-X-Mailer: b4 0.14.3
-X-Developer-Signature: v=1; a=ed25519-sha256; t=1772767812; l=1195;
- i=panjunzhong@linux.spacemit.com; s=20260306; h=from:subject:message-id;
- bh=9JD6kBkSfcMgcL1f24JUH05YEvcrs2BAYO8Lh88O1+4=;
- b=Ml0gZ8h12QkGWcIz9pcDjz8GbJKk2RitH5gEqV+Tw3Lr7CL+GPow8qBIdunAa8L5QXBgYUuh6
- q7E2l+sfDRtA0e5+Xf1wJAT8yqzNhHXgNrGIO3dQAFM03gnxxx65IRJ
-X-Developer-Key: i=panjunzhong@linux.spacemit.com; a=ed25519;
- pk=bY08BOg2T9H93/jG8fEE/tVmdXoQQMp9M2rtzPFoyJg=
-X-QQ-SENDSIZE: 520
-Feedback-ID: esmtpgz:linux.spacemit.com:qybglogicsvrgz:qybglogicsvrgz5b-2
-X-QQ-XMAILINFO: ME/Ngba2Rsnv8Y3zloXp1i7IPbHLqbocAzRR3qbaMa13gIcGZKyzKB8i
-	MWIEzHTsg7e2uN1SW8bytzLmKErCo1PAGjQTvMm6/ybgZbW1UW2n8i91PHUo1jlC4AvUKua
-	tFs9otJ3zs3aWCXZ3O7udtmNhsZtvZvzOWGpAba/cysPqnuj54YAEhQvaGc6LFC0paj30wz
-	fsGJefHKF9KJ2avkMu/tP+6SXad1EzX77GNP3byj/AFFu4dm9HbwYoBPugbOi9RYsZ+5/pU
-	xLhzu5dcF38JlnMWZbjqTdqsyJG2nKPj3J3vHwpLly1AqrzdXQ0Se9Pm9MO/BwfM2vPlip5
-	xlB2i1fKX49VA0dPGMrO7hP2kYcPBByYXBpU4L7C8lwO+6aBiZeaX/H/lsRWH4pf9Apcras
-	FIj9+kUQXwEJ7aQ8r/8WTpv5EcqI5+AtkJJbLwgMPW0kyt0ondqKlSvjhQU7ugirXnsuQ5k
-	6c0i3x49S/u1dAPp+Hb44JchhodQofdTC4kjfPNt4/vhuGLmdv6zTl2DmAT0wygwAZ2AFbF
-	BYWfPyIAKMcujQOVMh11bBD5S876eMEVJ1a0Iujp+jo2337ZD4orz33UY9qJoopbQEqIPYe
-	g0Gen+xVdJ5Q/PmfD2QS5urZzaz/zzu/PT3SYMvzA0ckSDXo+ao0Oq3Fkr//+paDsMIG59g
-	iPkIivDIqD7IcMcqic+qS3XzUNofrA8K4l3t5/7L+bkr6MrEG4UygpAQsw1bHB87baiDce4
-	Oel9sTcTmx9zGt3njm2NSBjLVXtCb5hPp4C/l6xnKArcsAkgQ7CCfKRunZ30HHRCikayNwo
-	i55vxZy/EdCwgafu8TJFK2ioFXcRBtHRah8JXxoxpL3fmvxWhjK/l9DF/bXEL+BVhAcYJ3H
-	i7Z7irFKaqxdxKCgEXNNDQ1/m6wG/+lD5yWI+x28mCMTyFkhAP/uN3xPy6DNnThpbiqjEqs
-	lLYeqbwrUBBSjfviIYFNxRIKl4s9I2lzQvEZtWtlKeOkE298xAMC1kmmf6+VTBT3qHHgbrc
-	fghKAlGdwkPzRweOmGTwGk6QJT9iUwbjjHTGQtzN1T09sNehsiqJonazuL9b9HlYBRVJCcg
-	F+nylkDThJz9KbNwwYWeFgmgPZ/nZ0dfrCI+RO1xITu
-X-QQ-XMRINFO: NS+P29fieYNwqS3WCnRCOn9D1NpZuCnCRA==
-X-QQ-RECHKSPAM: 0
+References: <20260304090408.36774-1-zeeshanahmad022019@gmail.com> <aag8-unh5oLLajDh@stanley.mountain>
+In-Reply-To: <aag8-unh5oLLajDh@stanley.mountain>
+From: Zeeshan Ahmad <zeeshanahmad022019@gmail.com>
+Date: Fri, 6 Mar 2026 11:35:08 +0500
+X-Gm-Features: AaiRm526t-4j_wOAfYCQliw0R7nmZCx5RMU5GQA0Od974ipJqdE4kEYaJurCOA0
+Message-ID: <CAPBWGpEi77+sksNLazw=dtyA3d6fBn-r10917k1rEzwzT3M=gA@mail.gmail.com>
+Subject: Re: Smatch: False positive in __dwc3_gadget_kick_transfer()
+To: Dan Carpenter <dan.carpenter@linaro.org>
+Cc: smatch@vger.kernel.org, linux-usb@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-To correctly convert bInterval as interval_duration:
-  interval_duration = 2^(bInterval-1) * frame_interval
+Hi Dan,
 
-Current code uses a wrong left shift operand, computing 2^bInterval
-instead of 2^(bInterval-1).
+Thank you for the explanation and the manager's joke.
 
-Fixes: 010dc57cb516 ("usb: gadget: uvc: fix interval_duration calculation")
-Cc: stable@vger.kernel.org
-Signed-off-by: Junzhong Pan <panjunzhong@linux.spacemit.com>
----
- drivers/usb/gadget/function/uvc_video.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+On Wed, Mar 4, 2026 at 7:09=E2=80=AFPM Dan Carpenter <dan.carpenter@linaro.=
+org> wrote:
 
-diff --git a/drivers/usb/gadget/function/uvc_video.c b/drivers/usb/gadget/function/uvc_video.c
-index 7cea641b06b4..2f9700b3f1b6 100644
---- a/drivers/usb/gadget/function/uvc_video.c
-+++ b/drivers/usb/gadget/function/uvc_video.c
-@@ -513,7 +513,7 @@ uvc_video_prep_requests(struct uvc_video *video)
- 		return;
- 	}
- 
--	interval_duration = 2 << (video->ep->desc->bInterval - 1);
-+	interval_duration = 1 << (video->ep->desc->bInterval - 1);
- 	if (cdev->gadget->speed < USB_SPEED_HIGH)
- 		interval_duration *= 10000;
- 	else
+> Just do "return 0;"  It's more readable, since it removes a level of
+> indirection and we don't have to think about what ret is.
 
----
-base-commit: 5ee8dbf54602dc340d6235b1d6aa17c0f283f48c
-change-id: 20260306-fix-uvc-interval-0dc36dbde48e
+I agree. Since the !ret condition ensures that ret is 0 at that
+point, using an explicit return makes the successful "no-op" path
+immediately clear to the reader and removes the logical overhead of
+tracking the variable.
+
+> I always recall a discuss between my managers:
+> Q: But if we do that then how will they know where the zero comes from?
+> A: We'll make our zeroes will *extra* round.  :P
+
+I will ensure my zeros are extra round in the patch. I'll prepare a
+clean-up patch for the USB tree to implement this and silence the
+warning.
 
 Best regards,
--- 
-Junzhong Pan <panjunzhong@linux.spacemit.com>
-
+Zeeshan
