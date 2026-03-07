@@ -1,38 +1,38 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A6E25219A8A
-	for <linux-usb@vger.kernel.org>; Sat,  7 Mar 2026 11:58:09 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 83F543191D3
+	for <linux-usb@vger.kernel.org>; Sat,  7 Mar 2026 16:51:56 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1772884689; cv=none; b=GWNcgQsjVSB+gjvSC7eHHMz4pVGOl8k0g8zjeF5UJmEx/yowqRDWDhV68pFLpD/sXCsMTT/3UdFLk/OdPPoLBMOhVAublk05mGPXhtR17Zniuoc16ps/Fw8OCXAJpRQeYBjJTkIgm6EuWzb2v4AF4JfZvmAlYkuaal6PbJyb3Y8=
+	t=1772902316; cv=none; b=dRCOErUwZjJsvOTfrgDc+UT+xdPaeMwZ0p8VHk8x1luT4gp5HbhS1Hjv6KBUMTlT3Jh9RjvW6jzE9GBwMXHeCxWWI/bV26qrRz7OHRBsAhQQDhNjo2uHCBKCio8RcQ+NcItdX93pLVQCLLzmrTWjkYS3/2Vj7GcwNFZvlo9gGYA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1772884689; c=relaxed/simple;
-	bh=Hbm73ni0Hr7zwrgVKFMCZ08ChIJsfDVR8hypGDHxOZk=;
+	s=arc-20240116; t=1772902316; c=relaxed/simple;
+	bh=06kr+tCZKklKOEilw2czHVzqV9P0fA4APCj/o+WR9+M=;
 	h=From:To:Subject:Date:Message-ID:In-Reply-To:References:
-	 Content-Type:MIME-Version; b=OSQouQWjfN8u1rxT0IxpfsLaDlnUbqgA5hzxex233o9eBs8BdiyBYwxDqp+09AOy1Lla7HKLcOnX1MyG4/vos07ZPUU+OW4JT+7pETzIcKuMGY2oVSX3DhRyA9DsFlEKRrzpCnKyP9TRxXpAhbsUNz1iKTqKYlTnRtj9+NeVb90=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=DsY6SaFU; arc=none smtp.client-ip=10.30.226.201
+	 Content-Type:MIME-Version; b=qUMXid9h6riS6oU41vYXRtWba7QoDjvX2nMs8zRdhBgRO+JQW5ISyXzmdzp3ZhVByKPd8o/EabaSZGmtfE1IJ9VBqL8OX09K8oL9q67JXVqfME7eEGGLx4xJdWFWOoCGcUgEXL0XrISjeju260pozDS8ttM3asaqI7J5TWG7ra4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=LJoJVHY/; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="DsY6SaFU"
-Received: by smtp.kernel.org (Postfix) with ESMTPS id 4B8A5C19422
-	for <linux-usb@vger.kernel.org>; Sat,  7 Mar 2026 11:58:09 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="LJoJVHY/"
+Received: by smtp.kernel.org (Postfix) with ESMTPS id 32ABFC19422
+	for <linux-usb@vger.kernel.org>; Sat,  7 Mar 2026 16:51:56 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1772884689;
-	bh=Hbm73ni0Hr7zwrgVKFMCZ08ChIJsfDVR8hypGDHxOZk=;
+	s=k20201202; t=1772902316;
+	bh=06kr+tCZKklKOEilw2czHVzqV9P0fA4APCj/o+WR9+M=;
 	h=From:To:Subject:Date:In-Reply-To:References:From;
-	b=DsY6SaFUCC+pI148aOuWYhBi7d7T59l8+Ys9iT8DeRtbyk8dvw8nfd0eE4ZIY7xSx
-	 SBw9eXHik6F6JutX3wjoXpMW5s6vf8N7Z282NTLaryNk8UaHoQ7v/uUzZhPVBUecsh
-	 /4zqAoCMIywCkWlvkOWkSAiyU+woEyqeXyL+N0w8m+IscbsAzQLg/1IvBtE5PKiMWw
-	 oeb24mOGi6/Tb5TSDGOtYPCiKviYSjU+8zG9ZnjpYOP1hGvMCXAZyAswJMJ9Ynrvxh
-	 3RO1EFJbJ6ABlHvEl4MxC1SxlPuryah8UO2KOxUTql4YiZsSAokICtVlfgfmEnqUsx
-	 sxUxYsfTl23Sg==
+	b=LJoJVHY/3NzLJx/6aIIPkWPohW6iugcRW5kmpL5xbS0jTx8vbeVow/Trcv0uwYfp+
+	 otRbHbtwsBtPRelTqoJvRVMEv2qfcJj3tns+XLftCNmubz9k2tQsufOZSD36jSO6c5
+	 tNR6mZJC+VqV7suXeVNLUtp2N7B1j3FASqRWqiKP720HZj0X1KaM9L0eZNHduju7Yx
+	 FdgSB1DsaKIF3hPmzLPNmute4iTE47zeYs0Z8arueEXcpgXCRtu3g3CvidwKUFYRfG
+	 oPXqUJpdvMq30JnEZJ6zUU2e76B0BcYY+tjjKpAFB3cUBN821KTDJbCKqNKMNBjbnb
+	 nq9sBlKDKImqg==
 Received: by aws-us-west-2-korg-bugzilla-1.web.codeaurora.org (Postfix, from userid 48)
-	id 3C6DFC3279F; Sat,  7 Mar 2026 11:58:09 +0000 (UTC)
+	id 27C9DC433E1; Sat,  7 Mar 2026 16:51:56 +0000 (UTC)
 From: bugzilla-daemon@kernel.org
 To: linux-usb@vger.kernel.org
 Subject: [Bug 221184] mouse/keyboard (connected via hub) usb reset under
  system load with weak cpu
-Date: Sat, 07 Mar 2026 11:58:09 +0000
+Date: Sat, 07 Mar 2026 16:51:56 +0000
 X-Bugzilla-Reason: None
 X-Bugzilla-Type: changed
 X-Bugzilla-Watch-Reason: AssignedTo drivers_usb@kernel-bugs.kernel.org
@@ -41,14 +41,14 @@ X-Bugzilla-Component: USB
 X-Bugzilla-Version: 2.5
 X-Bugzilla-Keywords: 
 X-Bugzilla-Severity: normal
-X-Bugzilla-Who: roxmail@list.ru
+X-Bugzilla-Who: stern@rowland.harvard.edu
 X-Bugzilla-Status: NEW
 X-Bugzilla-Resolution: 
 X-Bugzilla-Priority: P3
 X-Bugzilla-Assigned-To: drivers_usb@kernel-bugs.kernel.org
 X-Bugzilla-Flags: 
-X-Bugzilla-Changed-Fields: attachments.created
-Message-ID: <bug-221184-208809-j1O8ukDS1J@https.bugzilla.kernel.org/>
+X-Bugzilla-Changed-Fields: 
+Message-ID: <bug-221184-208809-fH9Db5Muqm@https.bugzilla.kernel.org/>
 In-Reply-To: <bug-221184-208809@https.bugzilla.kernel.org/>
 References: <bug-221184-208809@https.bugzilla.kernel.org/>
 Content-Type: text/plain; charset="UTF-8"
@@ -64,10 +64,17 @@ MIME-Version: 1.0
 
 https://bugzilla.kernel.org/show_bug.cgi?id=3D221184
 
---- Comment #2 from Roman Elshin (roxmail@list.ru) ---
-Created attachment 309566
-  --> https://bugzilla.kernel.org/attachment.cgi?id=3D309566&action=3Dedit
-patch
+--- Comment #3 from Alan Stern (stern@rowland.harvard.edu) ---
+Can you carry out your test, without the patch in comment #2, while collect=
+ing
+a usbmon trace of the affected bus?  The trace ought to show us what's going
+on, in some detail.
+
+You don't unplug any USB devices while the test is running, do you?
+
+Can you describe the effect of the patch and explain why returning early sh=
+ould
+be the right thing to do?
 
 --=20
 You may reply to this email to add a comment.
