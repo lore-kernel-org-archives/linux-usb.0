@@ -1,75 +1,72 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-oo1-f70.google.com (mail-oo1-f70.google.com [209.85.161.70])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 17D981F4CBB
-	for <linux-usb@vger.kernel.org>; Sun,  8 Mar 2026 15:39:05 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E92E729B204
+	for <linux-usb@vger.kernel.org>; Sun,  8 Mar 2026 16:01:02 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.161.70
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1772984346; cv=none; b=UPrXNnyt9R7/ZnjNjHq5qPcpW6OhyNhFVgWxVhpDIOA0pm9qREmfFno1OOZ23NF+weDFsm20lYNyf7Gc4TVfntXumQC/zT+Co8gvIi+dsYJxILnlknbuAvyxjjarVAFPP7oS8nKcc58k4H5UI+R6MQy2mVSdUAAGUoQSVcdwG0E=
+	t=1772985664; cv=none; b=XO11qSuy8q1pkFr8g41J24ZoAB21m6mXXstV1uM2cCZfTkfQo3xDK4ZIz7x7rkrV2FIeZAA3qJshP/YnOPh+k0+K5alZkadsQv4Vw3XB9vmABwDas1xEkRocxH2ERJGucslyAJoQkuk4SdTHxHGWjIPtTbC+uPW8Il6bfJ68Lro=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1772984346; c=relaxed/simple;
-	bh=niJyMnkrWUEXl7T+15qxPlhTGAmZKK5LIiwJEpvClFY=;
-	h=From:To:Subject:Date:Message-ID:In-Reply-To:References:
-	 Content-Type:MIME-Version; b=a2aEIOMq3lgcYHSI1iCpfHoPtD0oOHuw7BdzeM+DBuNv6ZEYdtfOPrnZmiXs4cbcTDCw9BFcVcGaqnSV8X1Lov0X9RH/2dCqfQTZLTnCOjVH/K8z5b1bEjn5x4sPLRU+TeTPSOqohe8XzqrcQfzat/BM6HLe5thPpQAeUZfAhzY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=uM542rdC; arc=none smtp.client-ip=10.30.226.201
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="uM542rdC"
-Received: by smtp.kernel.org (Postfix) with ESMTPS id 921DCC19423
-	for <linux-usb@vger.kernel.org>; Sun,  8 Mar 2026 15:39:05 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1772984345;
-	bh=niJyMnkrWUEXl7T+15qxPlhTGAmZKK5LIiwJEpvClFY=;
-	h=From:To:Subject:Date:In-Reply-To:References:From;
-	b=uM542rdCfSust5Xm76AqtnSLoCQfiL4KB94EbKJSCnOK3iiEzLkQS/SHwEe9EANFD
-	 b38RFSP1oA6sIihSfTXY4fF+8yLXw4uNQWLoYZLA6hUz1TeVQDGCSG8WK/vmwgGJvV
-	 c/OA8XOdeU++yYMGbFbL+PP2Rj7c2XcsjAwiBrENPEbvyErwj+8JyKIDt4uYpELhLx
-	 j0/N6bvPKcWc2wE+LdQfFl+FFTOFwe89GBlNP+rNbhb5QKQskd5q0dSmu8tlLG+eiC
-	 VqPuEvKIQ267xR3ieZMhFta+d2PNb8dL73M9fCppuQJddM4yYNwebCRFzAz+oghp/b
-	 9DOROMhhGe7eQ==
-Received: by aws-us-west-2-korg-bugzilla-1.web.codeaurora.org (Postfix, from userid 48)
-	id 83EFBC41614; Sun,  8 Mar 2026 15:39:05 +0000 (UTC)
-From: bugzilla-daemon@kernel.org
-To: linux-usb@vger.kernel.org
-Subject: [Bug 221184] mouse/keyboard (connected via hub) usb reset under
- system load with weak cpu
-Date: Sun, 08 Mar 2026 15:39:05 +0000
-X-Bugzilla-Reason: None
-X-Bugzilla-Type: changed
-X-Bugzilla-Watch-Reason: AssignedTo drivers_usb@kernel-bugs.kernel.org
-X-Bugzilla-Product: Drivers
-X-Bugzilla-Component: USB
-X-Bugzilla-Version: 2.5
-X-Bugzilla-Keywords: 
-X-Bugzilla-Severity: normal
-X-Bugzilla-Who: stern@rowland.harvard.edu
-X-Bugzilla-Status: NEW
-X-Bugzilla-Resolution: 
-X-Bugzilla-Priority: P3
-X-Bugzilla-Assigned-To: drivers_usb@kernel-bugs.kernel.org
-X-Bugzilla-Flags: 
-X-Bugzilla-Changed-Fields: 
-Message-ID: <bug-221184-208809-URvA2Tk7w0@https.bugzilla.kernel.org/>
-In-Reply-To: <bug-221184-208809@https.bugzilla.kernel.org/>
-References: <bug-221184-208809@https.bugzilla.kernel.org/>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-X-Bugzilla-URL: https://bugzilla.kernel.org/
-Auto-Submitted: auto-generated
+	s=arc-20240116; t=1772985664; c=relaxed/simple;
+	bh=HsEuan7z7Q9ibP+RuZkRxItSfhc6Ghcs8s8uIjPmDek=;
+	h=MIME-Version:Date:In-Reply-To:Message-ID:Subject:From:To:
+	 Content-Type; b=SxcYvJzHvT7+kqcX8HDuogjimXu2YXaQOjucA3VjInDWXvRrZW+rpU51SOqCf23h8LIwlP0Wk4N1q6bZRqL6PRfH0TFkdOodjC5INOVaS0LtEdYzxhsBLsusrjPbUJ76y1xbjpiYnNAJPZJFa2pgL7Ai78Hr7VbRF7AhbXLYKfs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=syzkaller.appspotmail.com; spf=pass smtp.mailfrom=M3KW2WVRGUFZ5GODRSRYTGD7.apphosting.bounces.google.com; arc=none smtp.client-ip=209.85.161.70
+Authentication-Results: smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=syzkaller.appspotmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=M3KW2WVRGUFZ5GODRSRYTGD7.apphosting.bounces.google.com
+Received: by mail-oo1-f70.google.com with SMTP id 006d021491bc7-67ba8d8546cso16072457eaf.1
+        for <linux-usb@vger.kernel.org>; Sun, 08 Mar 2026 09:01:02 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1772985662; x=1773590462;
+        h=to:from:subject:message-id:in-reply-to:date:mime-version
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=ZK7KmR6ohJDpueftcW91mHxIvoeljfGJ/ECTb9DnA4c=;
+        b=ef+6kMHMyT18aGvRfJveJsM5hnL6ifOMqO5E9+0YLyEXJbpTO3qEfUjh1grxIduvYr
+         pBVCsSbkriRA6kE4yrV0Kv6t+ij8i9QTRZmQWgWlg3nYyy0drg6edeY0fkARpHHynWkW
+         pK/SmU0zU8ieuXLKmJFLswrqG8VBsFIdZ2+9pmwkOputuO9O8XnrsBeZOFhL9nJtQH9r
+         Ckc84Wy//RsC0fsG6M8ERdD1F7DK2d4ZdU4oRnbHiRBfU4OQFrjFiIL5y2t8zSXId0g5
+         HZvC6sGlEqmmgU/96oGk80LWMAreFXjK6r/e30ri96IDFNw4h3Z5a25BTl80SKc+b73Y
+         i8Ow==
+X-Forwarded-Encrypted: i=1; AJvYcCWunNIuHX6mFXmSm16jjSWbhBmUD77gS0RC66TvzWmKrP+K7jJyspcr0MfXOvNj53GeDQ/vBku3IpE=@vger.kernel.org
+X-Gm-Message-State: AOJu0Yy3zf0yo90LKVGBWfn43mRUEYjJDRO5Q+mZmG2X2Yi+WOT1A9L8
+	0s6k30SZtuSuQ3wWNtvcMzrhwCusw+k30zZhwskaM2zAR7e9wVgrqdXzeQb0C2F2MIIP2ObGDWh
+	iRLQvy/3vIW2IpUnjHfE5/gcQlke8V5ZnUz5yE7yS96u/tp5MWd7iekb3L/o=
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
+X-Received: by 2002:a05:6820:1b05:b0:679:ddd1:a4d4 with SMTP id
+ 006d021491bc7-67b9bd0d35cmr5251548eaf.44.1772985662009; Sun, 08 Mar 2026
+ 09:01:02 -0700 (PDT)
+Date: Sun, 08 Mar 2026 09:01:01 -0700
+In-Reply-To: <6f521b75-5e13-43b6-9e1d-d2a052c68597@rowland.harvard.edu>
+X-Google-Appengine-App-Id: s~syzkaller
+X-Google-Appengine-App-Id-Alias: syzkaller
+Message-ID: <69ad9d3d.050a0220.310d8.000e.GAE@google.com>
+Subject: Re: [syzbot] [usb?] general protection fault in usb_gadget_udc_reset (4)
+From: syzbot <syzbot+19bed92c97bee999e5db@syzkaller.appspotmail.com>
+To: gregkh@linuxfoundation.org, linux-kernel@vger.kernel.org, 
+	linux-usb@vger.kernel.org, stern@rowland.harvard.edu, 
+	syzkaller-bugs@googlegroups.com
+Content-Type: text/plain; charset="UTF-8"
 
-https://bugzilla.kernel.org/show_bug.cgi?id=3D221184
+Hello,
 
---- Comment #13 from Alan Stern (stern@rowland.harvard.edu) ---
-In the patch's email thread, Liam and I are discussing other possible
-approaches.  One of them might help a lot with your problem.
+syzbot has tested the proposed patch and the reproducer did not trigger any issue:
 
---=20
-You may reply to this email to add a comment.
+Reported-by: syzbot+19bed92c97bee999e5db@syzkaller.appspotmail.com
+Tested-by: syzbot+19bed92c97bee999e5db@syzkaller.appspotmail.com
 
-You are receiving this mail because:
-You are watching the assignee of the bug.=
+Tested on:
+
+commit:         65169048 Merge tag 'spi-fix-v7.0-rc2' of git://git.ker..
+git tree:       git://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git
+console output: https://syzkaller.appspot.com/x/log.txt?x=133f3fe6580000
+kernel config:  https://syzkaller.appspot.com/x/.config?x=2a019678b1a3a692
+dashboard link: https://syzkaller.appspot.com/bug?extid=19bed92c97bee999e5db
+compiler:       Debian clang version 21.1.8 (++20251221033036+2078da43e25a-1~exp1~20251221153213.50), Debian LLD 21.1.8
+patch:          https://syzkaller.appspot.com/x/patch.diff?x=178dc8ba580000
+
+Note: testing is done by a robot and is best-effort only.
