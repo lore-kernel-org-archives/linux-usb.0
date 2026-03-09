@@ -1,38 +1,38 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9D8153B4EB9
-	for <linux-usb@vger.kernel.org>; Mon,  9 Mar 2026 16:02:01 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 816BC3BFE21
+	for <linux-usb@vger.kernel.org>; Mon,  9 Mar 2026 16:08:39 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1773072121; cv=none; b=VBuW7KAnNZBkcHUDsUiVHDldA7EWQbUIyhAdw0K1odi0teS8c+JcxvtgiJ4+MJAcXPDvIGoh1zm/eUCYLFlrwB9tEsIDVHGZlqKFgjhNqc6luRxiiU/hHvHwwJQwyBjBE2sgSgMhSvV/C/ecndWuBbQFnMrsENh+x5Lg+s/zTW8=
+	t=1773072519; cv=none; b=PgBZH4K1lAXg2UEZ0w//qhV8hKOl2hUtUUI3eWzcGDnYFY4GTooqjbtRuRR2aWGAXJVHcT2rxlDjsJ5eLpTSVrV5rztXoBuM/h2Brj+XfGoZdvw518P4yVlm17u3+kLM09916G6/JwQ/qRiVw2JAXmOqDQs4U/j+drPrNNylUEY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1773072121; c=relaxed/simple;
-	bh=+HqybHorcFJKNpo+URkvMGv4O4VRGDn88hBOO2/ePNo=;
+	s=arc-20240116; t=1773072519; c=relaxed/simple;
+	bh=K/BM2/Gp+Dqs8xtTnizuLd4jsSem+mnjssqgGG2c41I=;
 	h=From:To:Subject:Date:Message-ID:In-Reply-To:References:
-	 Content-Type:MIME-Version; b=QCO0CvkwcOLtozY/1M8sDymP7e/WheUE/+e7EsH+lVtQR8mBBXz2EI1T3y+b/QQVn60IiK+dG/t4+Su7Wgy8fizLrFAJfqI009g5LJ+J9AXfZ2Cg7tRes2aw8hJUc6U32pSAZ0Fyvc7jotJCi/b556R5p0P7wzYp+LBVsF9YNKk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=bcFNKRiY; arc=none smtp.client-ip=10.30.226.201
+	 Content-Type:MIME-Version; b=h9lZFXGaZCrkoyRphKCKn6HU60cmBNJHJW4g9E7nms2jtazSwk79tL65aBzDOABeWE+EhInGo3hujc5zq3ghwTMXxifAcqrSDgrjv7xv/m9CPsHeB4i4NHaUTslpRacEBm9gSW2C/DGB8duY6mLRkGilfnrp5bOxD+pOH5Er618=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=vKbTLHnX; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="bcFNKRiY"
-Received: by smtp.kernel.org (Postfix) with ESMTPS id 44049C2BC86
-	for <linux-usb@vger.kernel.org>; Mon,  9 Mar 2026 16:02:01 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="vKbTLHnX"
+Received: by smtp.kernel.org (Postfix) with ESMTPS id 0E0D8C4CEF7
+	for <linux-usb@vger.kernel.org>; Mon,  9 Mar 2026 16:08:39 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1773072121;
-	bh=+HqybHorcFJKNpo+URkvMGv4O4VRGDn88hBOO2/ePNo=;
+	s=k20201202; t=1773072519;
+	bh=K/BM2/Gp+Dqs8xtTnizuLd4jsSem+mnjssqgGG2c41I=;
 	h=From:To:Subject:Date:In-Reply-To:References:From;
-	b=bcFNKRiY+hj1JVxGvNMjAtTy9BFKkcCKgvKzBV95C+89QdNv8sklsZlnoi4nOXMte
-	 xKCWp+Dh46yIIA+4bSHfFKiES7s+7l2RWb73CQiLb1I8JY7XDq+EQ+sF71rkKNChz+
-	 bGGTzLo/hIPsrxGpjnIR8VkxQGhoPlRNFeC2oZRKFHQmj7uxxhtC2xVCtlhONAhOV8
-	 a4nwgvJ41CvY+I11WJQ5i7xM+78IO5SdQizk5WCXbbd4TeHICxYkaCEEotT+oZSR/s
-	 ufBwWNO4d2uQktCR2KlFl7hK+zDa1g8dXfHI+ZmXaz5uw6i/uylLFWmW+6UP08FPpm
-	 lMPPmvya3820g==
+	b=vKbTLHnXd7LQ/c7S8erBdYjlNKT6A09Le9RJAAqlb9eNtEiLDrOOIR9CUn3gyz4v4
+	 oeZ1Gz4BVkG+SsllHVjdoMXj6mtdX+XDVIRoHw164OahjKaj3BIAaunj09g6YsjdZq
+	 /8o337kpCd2CMp5t1uFMmh2LUokurKl27Pr5Yp7UG2svwMgoEPOHxmLF2Ri0AC34gJ
+	 jBe5guxrQHiOt05V00YoDyf+aqQ/1CwsZJK2k7hM8eqWCcAF0PO6Qo1TwaCIvyo/EQ
+	 DVxlwZv9uGL7tMXjuHM2WnCARfvuAgmlLu5/ayaoF6IqHR7zdSsLXplST0BDPU2Q5T
+	 NdYJRrUz3+LfA==
 Received: by aws-us-west-2-korg-bugzilla-1.web.codeaurora.org (Postfix, from userid 48)
-	id 3B15AC433E1; Mon,  9 Mar 2026 16:02:01 +0000 (UTC)
+	id 02A0DC3279F; Mon,  9 Mar 2026 16:08:39 +0000 (UTC)
 From: bugzilla-daemon@kernel.org
 To: linux-usb@vger.kernel.org
 Subject: [Bug 221184] mouse/keyboard (connected via hub) usb reset under
  system load with weak cpu
-Date: Mon, 09 Mar 2026 16:02:01 +0000
+Date: Mon, 09 Mar 2026 16:08:38 +0000
 X-Bugzilla-Reason: None
 X-Bugzilla-Type: changed
 X-Bugzilla-Watch-Reason: AssignedTo drivers_usb@kernel-bugs.kernel.org
@@ -41,14 +41,14 @@ X-Bugzilla-Component: USB
 X-Bugzilla-Version: 2.5
 X-Bugzilla-Keywords: 
 X-Bugzilla-Severity: normal
-X-Bugzilla-Who: roxmail@list.ru
+X-Bugzilla-Who: stern@rowland.harvard.edu
 X-Bugzilla-Status: NEW
 X-Bugzilla-Resolution: 
 X-Bugzilla-Priority: P3
 X-Bugzilla-Assigned-To: drivers_usb@kernel-bugs.kernel.org
 X-Bugzilla-Flags: 
 X-Bugzilla-Changed-Fields: 
-Message-ID: <bug-221184-208809-b4OLkbDPDt@https.bugzilla.kernel.org/>
+Message-ID: <bug-221184-208809-KhDFbPwRVP@https.bugzilla.kernel.org/>
 In-Reply-To: <bug-221184-208809@https.bugzilla.kernel.org/>
 References: <bug-221184-208809@https.bugzilla.kernel.org/>
 Content-Type: text/plain; charset="UTF-8"
@@ -64,12 +64,16 @@ MIME-Version: 1.0
 
 https://bugzilla.kernel.org/show_bug.cgi?id=3D221184
 
---- Comment #24 from Roman Elshin (roxmail@list.ru) ---
-> yes, but question was about is it right? (as it broke my mouse)=20
+--- Comment #25 from Alan Stern (stern@rowland.harvard.edu) ---
+The change was correct, in the sense that it made the kernel do the right t=
+hing
+whereas before it would sometimes do the wrong thing.
 
-It is not possible edit reply here, sorry it should be :
-
-yes, but question a still about is it right? (as it broke my mouse)
+Making the mouse more difficult to use was an unfortunate side effect.  Fix=
+ing
+that difficulty is the subject of Liam's work.  Try his new patch from comm=
+ent
+#23; I expect it will improve your situation a lot.
 
 --=20
 You may reply to this email to add a comment.
