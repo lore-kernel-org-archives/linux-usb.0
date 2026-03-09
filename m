@@ -1,394 +1,289 @@
-Received: from mail-pl1-f201.google.com (mail-pl1-f201.google.com [209.85.214.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.21])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 898623AA1A6
-	for <linux-usb@vger.kernel.org>; Mon,  9 Mar 2026 12:05:28 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E17C339B497;
+	Mon,  9 Mar 2026 12:34:45 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.21
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1773057937; cv=none; b=tfmIbTf6GNPBm/rFEnEoNcUmO9RraaZY/USrUkiqENSlGdalRlO12o6nazI1ESqqBnmKZfosGgr+nCLYwbkq4xXPp4Z9r6unRMfeBwveK3WgwIh68Rq8052603cxuG178gQk9xTA1v5s7OKtauOT3w7WxOeGLMjmeS5RDgpM7OU=
+	t=1773059689; cv=none; b=OHW+Yp7kMCllW5MAJ2ma7R+4TVhcW0KGxSWtu/2UD090dujUbVKZlgx0ptsLW+eSeA1aabp9kBWA1hkjjvEb3VzROKMjiwzATmHkOq2Z5cAUMvwJefTcpbohIH+bkbdX1gskyP9AY7SBfTeYey5jb44DAa8Zqc+qXu0ES6KI+Z8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1773057937; c=relaxed/simple;
-	bh=/m3b4zqGc1iZkhOBcgJHOpbEiI99gvlL58opOGTdGyE=;
-	h=Date:In-Reply-To:Mime-Version:References:Message-ID:Subject:From:
-	 To:Cc:Content-Type; b=X4v/uMW7ByPQL6FOxoBoeknEThhExRgTs3TjzR/YVrxW8uC/JtS+vq30wH6ZGwDUCb0lL9ap3yZqHWZSe1L5za5T8QaEeJXkj8+o2ubDn1sJ0G9W1NoitIuU7xUdBcssOXMz6H+gP3ClDdEJ60EN0cR44XOrb2ms4ne5HxkenXo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=flex--khtsai.bounces.google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=ZnlqewVy; arc=none smtp.client-ip=209.85.214.201
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=flex--khtsai.bounces.google.com
+	s=arc-20240116; t=1773059689; c=relaxed/simple;
+	bh=wg8mg67bFchKR6v8pq2bgoEz70tjgDBBfZfCusw7MDI=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=XgxTOubvXKO8AiaaLZHUnSKhmollHpEbHnYnsMdeVODF/Pou0FO8zWqW4cmSEdoz4Q09itA+fZt+V6YzzCEVaoLzEAmARLe7PkKpZjDJDP6BmbGDT6AVkg+5LMmtP2BfFP/nx8awRdmswMWQTnVUu+G/1WZMBmOt7yCWJECRicg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=ks+zwjWs; arc=none smtp.client-ip=198.175.65.21
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="ZnlqewVy"
-Received: by mail-pl1-f201.google.com with SMTP id d9443c01a7336-2adef9d486bso103308135ad.2
-        for <linux-usb@vger.kernel.org>; Mon, 09 Mar 2026 05:05:28 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20230601; t=1773057928; x=1773662728; darn=vger.kernel.org;
-        h=cc:to:from:subject:message-id:references:mime-version:in-reply-to
-         :date:from:to:cc:subject:date:message-id:reply-to;
-        bh=I/6AkYd5gYPDrKscM6W7dnA+in+IO1rRT3m4qc7cgao=;
-        b=ZnlqewVyBJAqJ3o/liioT+rBtQGmDUX8cZHY7Grj0bO9shhQ2i965vAeE3Lwy7URVM
-         41ki/pGMBWHZuPMb6ctMBNsKcmaSA9r0RyDBYUrQdhmC349hg/Yro1UOimvQVE99Dkd2
-         9o0covG0y4Xv1UR9snTBeSaHzaLnzSP2jDZSdfQTdZIqLVeMsFrzPkftOrTjOOUJWxLx
-         zm4GgBZ3U3YrigKfEwbOSNduEEDEwU3TA55aL1lTBPd14LEBscgX48W/VNOYLcNuHqbe
-         iaQjbgnn5CYzbciLargajMsvxxN4U8q0wIhH5He01Qng0f9JaW9hV2caeCGyxj4c9pHo
-         /XFA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1773057928; x=1773662728;
-        h=cc:to:from:subject:message-id:references:mime-version:in-reply-to
-         :date:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=I/6AkYd5gYPDrKscM6W7dnA+in+IO1rRT3m4qc7cgao=;
-        b=hp5XNQgjX0NSfiTfdGD9ir0GAAVlsQNKwhzo+qZOcSh0nlGPEaIqX4Jd8WP5uf+jJN
-         +emzMihOxsqYax2NMrEd6/yJtSOwE69SXeyUTpRIWAT5H859PDjlucO1fvl7M9E6TSXm
-         kg+aHP5jz4aF6BFZoKGY9Pc2yZ19tplAFuomebyVoODuRDdLoy0wocOJMySTob33L3NJ
-         Scv8y3YvBNy+npc/J/Upf7trO8uysrKURH1VYJ3vQq2tssBt8snDYbmzfWKbePLyhjgS
-         RVO1+zd4LvwZAR5kpJ9LTZah1KrVNe23+BW6B2Fuu+q5j5SvcGn3dXnx+dUFWFu1UHg9
-         mIlg==
-X-Forwarded-Encrypted: i=1; AJvYcCWfanZ8zNDoVOVYUPtF8l67jdsNpIVx2dyYcxwdtzEjBXurKOWHEjKqH9bLAPWpIxrP8wnQb/GVuwM=@vger.kernel.org
-X-Gm-Message-State: AOJu0YyQR/KSG/7NlkMHWXCv4x79zepN4zMxXo99/tZeM0FrbKVAfSCm
-	hZKX66pE5vMxSS8Kjtw1pSdCs3empINO4JX/s2M3VKRJOdd9rfW73IccaxdifTz60NvbtL6nBWy
-	2HWKCoA==
-X-Received: from pluo12.prod.google.com ([2002:a17:903:4b0c:b0:2a9:6366:197c])
- (user=khtsai job=prod-delivery.src-stubby-dispatcher) by 2002:a17:903:3bc7:b0:2ae:3bb2:a8cb
- with SMTP id d9443c01a7336-2ae825046e0mr105886065ad.40.1773057927790; Mon, 09
- Mar 2026 05:05:27 -0700 (PDT)
-Date: Mon, 09 Mar 2026 20:04:51 +0800
-In-Reply-To: <20260309-f-ncm-revert-v2-0-ea2afbc7d9b2@google.com>
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="ks+zwjWs"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1773059687; x=1804595687;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=wg8mg67bFchKR6v8pq2bgoEz70tjgDBBfZfCusw7MDI=;
+  b=ks+zwjWseahKp/NCxIzahYuJnYugY/Ckz4kOCxaNcauOe+3Ksx54oBmW
+   H3H8abEAD0TIhe7LBi2WnxfpKVBOCHMnAM3LrprtASzvqGVefoNpFnCmb
+   9/vTgXqrilO85N04grRc7i0aYn0RmRdXKgGpD/8V/Od0cmHUqKTrdXzkw
+   44E/8IeHBQA5hxMuLt9y7HUglOn2O4VFUpg9FDlw5NN/2g4mZmqeCuC83
+   XQ1oGo3rdGxCGpsJBqtwGLb4UT0xbY2emBwQQ5deq04U8sXMa35ThM/rV
+   1uiSq1I7FSTwG5G9Pzja/zPt/+5KEwEF5iDC/DOJYPXY4qGgSHhSliVQj
+   w==;
+X-CSE-ConnectionGUID: vFt3yaXdRIu8drU4firY5A==
+X-CSE-MsgGUID: tqMiT+jiSymW4UUzOQR8Rg==
+X-IronPort-AV: E=McAfee;i="6800,10657,11723"; a="73957781"
+X-IronPort-AV: E=Sophos;i="6.23,109,1770624000"; 
+   d="scan'208";a="73957781"
+Received: from fmviesa005.fm.intel.com ([10.60.135.145])
+  by orvoesa113.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 09 Mar 2026 05:34:46 -0700
+X-CSE-ConnectionGUID: +gRFDYFiSqySHoRVZ6kxKg==
+X-CSE-MsgGUID: kdNVr1ghSlSqyE5hPjuTvQ==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.23,109,1770624000"; 
+   d="scan'208";a="224439229"
+Received: from black.igk.intel.com ([10.91.253.5])
+  by fmviesa005.fm.intel.com with ESMTP; 09 Mar 2026 05:34:43 -0700
+Received: by black.igk.intel.com (Postfix, from userid 1008)
+	id 0282198; Mon, 09 Mar 2026 13:34:42 +0100 (CET)
+Date: Mon, 9 Mar 2026 14:34:01 +0200
+From: Heikki Krogerus <heikki.krogerus@linux.intel.com>
+To: Sebastian Reichel <sebastian.reichel@collabora.com>
+Cc: Badhri Jagan Sridharan <badhri@google.com>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	RD Babiera <rdbabiera@google.com>, linux-usb@vger.kernel.org,
+	linux-kernel@vger.kernel.org, kernel@collabora.com,
+	stable@vger.kernel.org
+Subject: Re: [PATCH v2] usb: typec: tcpm: improve handling of DISCOVER_MODES
+ failures
+Message-ID: <aa6-OfD4JQ68uBCL@kuha>
+References: <20260303-tcpm-discover-modes-nak-fix-v2-1-5a630070025a@collabora.com>
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
-Mime-Version: 1.0
-References: <20260309-f-ncm-revert-v2-0-ea2afbc7d9b2@google.com>
-X-Developer-Key: i=khtsai@google.com; a=ed25519; pk=abA4Pw6dY2ZufSbSXW9mtp7xiv1AVPtgRhCFWJSEqLE=
-X-Developer-Signature: v=1; a=ed25519-sha256; t=1773057914; l=11207;
- i=khtsai@google.com; s=20250916; h=from:subject:message-id;
- bh=/m3b4zqGc1iZkhOBcgJHOpbEiI99gvlL58opOGTdGyE=; b=4kp8mfQy1hVr+bmdAXORHtGyriFERkOL/AeLV25sn3IsDmaEp9u9IqK99qP8andRF1HDrFEXk
- YPo8DYN8ljcBwWmHiDTnHl6Rg5M4JSfjFJl8OIwDEVF2i21jjwuKEkQ
-X-Mailer: b4 0.14.3
-Message-ID: <20260309-f-ncm-revert-v2-6-ea2afbc7d9b2@google.com>
-Subject: [PATCH v2 6/7] Revert "usb: gadget: u_ether: add gether_opts for
- config caching"
-From: Kuen-Han Tsai <khtsai@google.com>
-To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>, Felipe Balbi <balbi@ti.com>, 
-	Kyungmin Park <kyungmin.park@samsung.com>
-Cc: David Heidelberg <david@ixit.cz>, Ernest Van Hoecke <ernest.vanhoecke@toradex.com>, 
-	Jon Hunter <jonathanh@nvidia.com>, LI Qingwu <Qing-wu.Li@leica-geosystems.com.cn>, 
-	linux-usb@vger.kernel.org, linux-kernel@vger.kernel.org, 
-	Kuen-Han Tsai <khtsai@google.com>
-Content-Type: text/plain; charset="utf-8"
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20260303-tcpm-discover-modes-nak-fix-v2-1-5a630070025a@collabora.com>
 
-This reverts commit e065c6a7e46c2ee9c677fdbf50035323d2de1215.
+Tue, Mar 03, 2026 at 05:29:10PM +0100, Sebastian Reichel kirjoitti:
+> UGREEN USB-C Multifunction Adapter Model CM512 (AKA "Revodok 107")
+> exposes two SVIDs: 0xff01 (DP Alt Mode) and 0x1d5c. The DISCOVER_MODES
+> step succeeds for 0xff01 and gets a NAK for 0x1d5c. Currently this
+> results in DP Alt Mode not being registered either, since the modes
+> are only registered once all of them have been discovered. The NAK
+> results in the processing being stopped and thus no Alt modes being
+> registered.
+> 
+> Improve the situation by handling the NAK gracefully and continue
+> processing the other modes.
+> 
+> Before this change, the TCPM log ends like this:
+> 
+> (more log entries before this)
+> [    5.028287] AMS DISCOVER_SVIDS finished
+> [    5.028291] cc:=4
+> [    5.040040] SVID 1: 0xff01
+> [    5.040054] SVID 2: 0x1d5c
+> [    5.040082] AMS DISCOVER_MODES start
+> [    5.040096] PD TX, header: 0x1b6f
+> [    5.050946] PD TX complete, status: 0
+> [    5.059609] PD RX, header: 0x264f [1]
+> [    5.059626] Rx VDM cmd 0xff018043 type 1 cmd 3 len 2
+> [    5.059640] AMS DISCOVER_MODES finished
+> [    5.059644] cc:=4
+> [    5.069994]  Alternate mode 0: SVID 0xff01, VDO 1: 0x000c0045
+> [    5.070029] AMS DISCOVER_MODES start
+> [    5.070043] PD TX, header: 0x1d6f
+> [    5.081139] PD TX complete, status: 0
+> [    5.087498] PD RX, header: 0x184f [1]
+> [    5.087515] Rx VDM cmd 0x1d5c8083 type 2 cmd 3 len 1
+> [    5.087529] AMS DISCOVER_MODES finished
+> [    5.087534] cc:=4
+> (no further log entries after this point)
+> 
+> After this patch the TCPM log looks exactly the same, but then
+> continues like this:
+> 
+> [    5.100222] Skip SVID 0x1d5c (failed to discover mode)
+> [    5.101699] AMS DFP_TO_UFP_ENTER_MODE start
+> (log goes on as the system initializes DP AltMode)
+> 
+> Cc: stable@vger.kernel.org
+> Fixes: 41d9d75344d9 ("usb: typec: tcpm: add discover svids and discover modes support for sop'")
+> Signed-off-by: Sebastian Reichel <sebastian.reichel@collabora.com>
+> ---
+> Changes in v2:
+> - Link to v1: https://lore.kernel.org/r/20260213-tcpm-discover-modes-nak-fix-v1-0-9bcb5adb4ef6@collabora.com
+> - Squash patches (Badhri Jagan Sridharan)
+> - Add Fixes tag (Badhri Jagan Sridharan)
+> - Move common svdm_consume_modes out of conditional statement (Badhri Jagan Sridharan)
+> - Add TCPM log to commit message (Badhri Jagan Sridharan)
+> ---
+>  drivers/usb/typec/tcpm/tcpm.c | 97 +++++++++++++++++++++++++++----------------
+>  1 file changed, 61 insertions(+), 36 deletions(-)
+> 
+> diff --git a/drivers/usb/typec/tcpm/tcpm.c b/drivers/usb/typec/tcpm/tcpm.c
+> index 1d2f3af034c5..cd5260f408fb 100644
+> --- a/drivers/usb/typec/tcpm/tcpm.c
+> +++ b/drivers/usb/typec/tcpm/tcpm.c
+> @@ -1995,6 +1995,55 @@ static bool tcpm_cable_vdm_supported(struct tcpm_port *port)
+>  	       tcpm_can_communicate_sop_prime(port);
+>  }
+>  
+> +static void tcpm_handle_discover_mode(struct tcpm_port *port,
+> +				      const u32 *p, int cnt, u32 *response,
+> +				      enum tcpm_transmit_type rx_sop_type,
+> +				      enum tcpm_transmit_type *response_tx_sop_type,
+> +				      struct pd_mode_data *modep,
+> +				      struct pd_mode_data *modep_prime,
+> +				      int svdm_version, int *rlen,
+> +				      bool success)
+> +
 
-This commit is being reverted as part of a series-wide revert.
+Extra newline.
 
-By deferring the net_device allocation to the bind() phase, a single
-function instance will spawn multiple network devices if it is symlinked
-to multiple USB configurations.
+Why not just make this function return rlen?
 
-This causes regressions for userspace tools (like the postmarketOS DHCP
-daemon) that rely on reading the interface name (e.g., "usb0") from
-configfs. Currently, configfs returns the template "usb%d", causing the
-userspace network setup to fail.
+> +{
+> +	struct typec_port *typec = port->typec_port;
+> +
+> +	/* 6.4.4.3.3 */
+> +	if (success)
+> +		svdm_consume_modes(port, p, cnt, rx_sop_type);
 
-Crucially, because this patch breaks the 1:1 mapping between the
-function instance and the network device, this naming issue cannot
-simply be patched. Configfs only exposes a single 'ifname' attribute per
-instance, making it impossible to accurately report the actual interface
-name when multiple underlying network devices can exist for that single
-instance.
+This condition does not look very useful.
 
-All configurations tied to the same function instance are meant to share
-a single network device. Revert this change to restore the 1:1 mapping
-by allocating the network device at the instance level (alloc_inst).
+> +	if (rx_sop_type == TCPC_TX_SOP) {
+> +		modep->svid_index++;
+> +		if (modep->svid_index < modep->nsvids) {
+> +			u16 svid = modep->svids[modep->svid_index];
+> +			*response_tx_sop_type = TCPC_TX_SOP;
+> +			response[0] = VDO(svid, 1, svdm_version,
+> +					  CMD_DISCOVER_MODES);
+> +			*rlen = 1;
+> +		} else if (tcpm_cable_vdm_supported(port)) {
+> +			*response_tx_sop_type = TCPC_TX_SOP_PRIME;
+> +			response[0] = VDO(USB_SID_PD, 1,
+> +					  typec_get_cable_svdm_version(typec),
+> +					  CMD_DISCOVER_SVID);
+> +			*rlen = 1;
+> +		} else {
+> +			tcpm_register_partner_altmodes(port);
+> +		}
+> +	} else if (rx_sop_type == TCPC_TX_SOP_PRIME) {
+> +		modep_prime->svid_index++;
+> +		if (modep_prime->svid_index < modep_prime->nsvids) {
+> +			u16 svid = modep_prime->svids[modep_prime->svid_index];
+> +			*response_tx_sop_type = TCPC_TX_SOP_PRIME;
+> +			response[0] = VDO(svid, 1,
+> +					  typec_get_cable_svdm_version(typec),
 
-Reported-by: David Heidelberg <david@ixit.cz>
-Closes: https://lore.kernel.org/linux-usb/70b558ea-a12e-4170-9b8e-c951131249af@ixit.cz/
-Fixes: 56a512a9b410 ("usb: gadget: f_ncm: align net_device lifecycle with bind/unbind")
-Signed-off-by: Kuen-Han Tsai <khtsai@google.com>
----
- drivers/usb/gadget/function/u_ether.c          |  30 -----
- drivers/usb/gadget/function/u_ether.h          |  28 ----
- drivers/usb/gadget/function/u_ether_configfs.h | 176 -------------------------
- 3 files changed, 234 deletions(-)
+You could use svdm_version in this case too, no?
 
-diff --git a/drivers/usb/gadget/function/u_ether.c b/drivers/usb/gadget/function/u_ether.c
-index 15685b2f8887..c47965d850d4 100644
---- a/drivers/usb/gadget/function/u_ether.c
-+++ b/drivers/usb/gadget/function/u_ether.c
-@@ -1040,36 +1040,6 @@ int gether_set_ifname(struct net_device *net, const char *name, int len)
- }
- EXPORT_SYMBOL_GPL(gether_set_ifname);
- 
--void gether_setup_opts_default(struct gether_opts *opts, const char *name)
--{
--	opts->qmult = QMULT_DEFAULT;
--	snprintf(opts->name, sizeof(opts->name), "%s%%d", name);
--	eth_random_addr(opts->dev_mac);
--	opts->addr_assign_type = NET_ADDR_RANDOM;
--	eth_random_addr(opts->host_mac);
--}
--EXPORT_SYMBOL_GPL(gether_setup_opts_default);
--
--void gether_apply_opts(struct net_device *net, struct gether_opts *opts)
--{
--	struct eth_dev *dev = netdev_priv(net);
--
--	dev->qmult = opts->qmult;
--
--	if (opts->ifname_set) {
--		strscpy(net->name, opts->name, sizeof(net->name));
--		dev->ifname_set = true;
--	}
--
--	memcpy(dev->host_mac, opts->host_mac, sizeof(dev->host_mac));
--
--	if (opts->addr_assign_type == NET_ADDR_SET) {
--		memcpy(dev->dev_mac, opts->dev_mac, sizeof(dev->dev_mac));
--		net->addr_assign_type = opts->addr_assign_type;
--	}
--}
--EXPORT_SYMBOL_GPL(gether_apply_opts);
--
- void gether_suspend(struct gether *link)
- {
- 	struct eth_dev *dev = link->ioport;
-diff --git a/drivers/usb/gadget/function/u_ether.h b/drivers/usb/gadget/function/u_ether.h
-index 63a0240df4d7..34be220cef77 100644
---- a/drivers/usb/gadget/function/u_ether.h
-+++ b/drivers/usb/gadget/function/u_ether.h
-@@ -38,31 +38,6 @@
- 
- struct eth_dev;
- 
--/**
-- * struct gether_opts - Options for Ethernet gadget function instances
-- * @name: Pattern for the network interface name (e.g., "usb%d").
-- *        Used to generate the net device name.
-- * @qmult: Queue length multiplier for high/super speed.
-- * @host_mac: The MAC address to be used by the host side.
-- * @dev_mac: The MAC address to be used by the device side.
-- * @ifname_set: True if the interface name pattern has been set by userspace.
-- * @addr_assign_type: The method used for assigning the device MAC address
-- *                    (e.g., NET_ADDR_RANDOM, NET_ADDR_SET).
-- *
-- * This structure caches network-related settings provided through configfs
-- * before the net_device is fully instantiated. This allows for early
-- * configuration while deferring net_device allocation until the function
-- * is bound.
-- */
--struct gether_opts {
--	char			name[IFNAMSIZ];
--	unsigned int		qmult;
--	u8			host_mac[ETH_ALEN];
--	u8			dev_mac[ETH_ALEN];
--	bool			ifname_set;
--	unsigned char		addr_assign_type;
--};
--
- /*
-  * This represents the USB side of an "ethernet" link, managed by a USB
-  * function which provides control and (maybe) framing.  Two functions
-@@ -284,9 +259,6 @@ int gether_set_ifname(struct net_device *net, const char *name, int len);
- 
- void gether_cleanup(struct eth_dev *dev);
- 
--void gether_setup_opts_default(struct gether_opts *opts, const char *name);
--void gether_apply_opts(struct net_device *net, struct gether_opts *opts);
--
- void gether_suspend(struct gether *link);
- void gether_resume(struct gether *link);
- 
-diff --git a/drivers/usb/gadget/function/u_ether_configfs.h b/drivers/usb/gadget/function/u_ether_configfs.h
-index 39d3a261496d..51f0d79e5eca 100644
---- a/drivers/usb/gadget/function/u_ether_configfs.h
-+++ b/drivers/usb/gadget/function/u_ether_configfs.h
-@@ -13,12 +13,6 @@
- #ifndef __U_ETHER_CONFIGFS_H
- #define __U_ETHER_CONFIGFS_H
- 
--#include <linux/cleanup.h>
--#include <linux/if_ether.h>
--#include <linux/mutex.h>
--#include <linux/netdevice.h>
--#include <linux/rtnetlink.h>
--
- #define USB_ETHERNET_CONFIGFS_ITEM(_f_)					\
- 	static void _f_##_attr_release(struct config_item *item)	\
- 	{								\
-@@ -203,174 +197,4 @@ out:									\
- 									\
- 	CONFIGFS_ATTR(_f_##_opts_, _n_)
- 
--#define USB_ETHER_OPTS_ITEM(_f_)						\
--	static void _f_##_attr_release(struct config_item *item)		\
--	{									\
--		struct f_##_f_##_opts *opts = to_f_##_f_##_opts(item);		\
--										\
--		usb_put_function_instance(&opts->func_inst);			\
--	}									\
--										\
--	static struct configfs_item_operations _f_##_item_ops = {		\
--		.release	= _f_##_attr_release,				\
--	}
--
--#define USB_ETHER_OPTS_ATTR_DEV_ADDR(_f_)					\
--	static ssize_t _f_##_opts_dev_addr_show(struct config_item *item,	\
--						char *page)			\
--	{									\
--		struct f_##_f_##_opts *opts = to_f_##_f_##_opts(item);		\
--										\
--		guard(mutex)(&opts->lock);					\
--		return sysfs_emit(page, "%pM\n", opts->net_opts.dev_mac);	\
--	}									\
--										\
--	static ssize_t _f_##_opts_dev_addr_store(struct config_item *item,	\
--						 const char *page, size_t len)	\
--	{									\
--		struct f_##_f_##_opts *opts = to_f_##_f_##_opts(item);		\
--		u8 new_addr[ETH_ALEN];						\
--		const char *p = page;						\
--										\
--		guard(mutex)(&opts->lock);					\
--		if (opts->refcnt)						\
--			return -EBUSY;						\
--										\
--		for (int i = 0; i < ETH_ALEN; i++) {				\
--			unsigned char num;					\
--			if ((*p == '.') || (*p == ':'))				\
--				p++;						\
--			num = hex_to_bin(*p++) << 4;				\
--			num |= hex_to_bin(*p++);				\
--			new_addr[i] = num;					\
--		}								\
--		if (!is_valid_ether_addr(new_addr))				\
--			return -EINVAL;						\
--		memcpy(opts->net_opts.dev_mac, new_addr, ETH_ALEN);		\
--		opts->net_opts.addr_assign_type = NET_ADDR_SET;			\
--		return len;							\
--	}									\
--										\
--	CONFIGFS_ATTR(_f_##_opts_, dev_addr)
--
--#define USB_ETHER_OPTS_ATTR_HOST_ADDR(_f_)					\
--	static ssize_t _f_##_opts_host_addr_show(struct config_item *item,	\
--						 char *page)			\
--	{									\
--		struct f_##_f_##_opts *opts = to_f_##_f_##_opts(item);		\
--										\
--		guard(mutex)(&opts->lock);					\
--		return sysfs_emit(page, "%pM\n", opts->net_opts.host_mac);	\
--	}									\
--										\
--	static ssize_t _f_##_opts_host_addr_store(struct config_item *item,	\
--						  const char *page, size_t len)	\
--	{									\
--		struct f_##_f_##_opts *opts = to_f_##_f_##_opts(item);		\
--		u8 new_addr[ETH_ALEN];						\
--		const char *p = page;						\
--										\
--		guard(mutex)(&opts->lock);					\
--		if (opts->refcnt)						\
--			return -EBUSY;						\
--										\
--		for (int i = 0; i < ETH_ALEN; i++) {				\
--			unsigned char num;					\
--			if ((*p == '.') || (*p == ':'))				\
--				p++;						\
--			num = hex_to_bin(*p++) << 4;				\
--			num |= hex_to_bin(*p++);				\
--			new_addr[i] = num;					\
--		}								\
--		if (!is_valid_ether_addr(new_addr))				\
--			return -EINVAL;						\
--		memcpy(opts->net_opts.host_mac, new_addr, ETH_ALEN);		\
--		return len;							\
--	}									\
--										\
--	CONFIGFS_ATTR(_f_##_opts_, host_addr)
--
--#define USB_ETHER_OPTS_ATTR_QMULT(_f_)						\
--	static ssize_t _f_##_opts_qmult_show(struct config_item *item,		\
--					     char *page)			\
--	{									\
--		struct f_##_f_##_opts *opts = to_f_##_f_##_opts(item);		\
--										\
--		guard(mutex)(&opts->lock);					\
--		return sysfs_emit(page, "%u\n", opts->net_opts.qmult);		\
--	}									\
--										\
--	static ssize_t _f_##_opts_qmult_store(struct config_item *item,		\
--					      const char *page, size_t len)	\
--	{									\
--		struct f_##_f_##_opts *opts = to_f_##_f_##_opts(item);		\
--		u32 val;							\
--		int ret;							\
--										\
--		guard(mutex)(&opts->lock);					\
--		if (opts->refcnt)						\
--			return -EBUSY;						\
--										\
--		ret = kstrtou32(page, 0, &val);					\
--		if (ret)							\
--			return ret;						\
--										\
--		opts->net_opts.qmult = val;					\
--		return len;							\
--	}									\
--										\
--	CONFIGFS_ATTR(_f_##_opts_, qmult)
--
--#define USB_ETHER_OPTS_ATTR_IFNAME(_f_)						\
--	static ssize_t _f_##_opts_ifname_show(struct config_item *item,		\
--					      char *page)			\
--	{									\
--		struct f_##_f_##_opts *opts = to_f_##_f_##_opts(item);		\
--		const char *name;						\
--										\
--		guard(mutex)(&opts->lock);					\
--		rtnl_lock();							\
--		if (opts->net_opts.ifname_set)					\
--			name = opts->net_opts.name;				\
--		else if (opts->net)						\
--			name = netdev_name(opts->net);				\
--		else								\
--			name = "(inactive net_device)";				\
--		rtnl_unlock();							\
--		return sysfs_emit(page, "%s\n", name);				\
--	}									\
--										\
--	static ssize_t _f_##_opts_ifname_store(struct config_item *item,	\
--					       const char *page, size_t len)	\
--	{									\
--		struct f_##_f_##_opts *opts = to_f_##_f_##_opts(item);		\
--		char tmp[IFNAMSIZ];						\
--		const char *p;							\
--		size_t c_len = len;						\
--										\
--		if (c_len > 0 && page[c_len - 1] == '\n')			\
--			c_len--;						\
--										\
--		if (c_len >= sizeof(tmp))					\
--			return -E2BIG;						\
--										\
--		strscpy(tmp, page, c_len + 1);					\
--		if (!dev_valid_name(tmp))					\
--			return -EINVAL;						\
--										\
--		/* Require exactly one %d */					\
--		p = strchr(tmp, '%');						\
--		if (!p || p[1] != 'd' || strchr(p + 2, '%'))			\
--			return -EINVAL;						\
--										\
--		guard(mutex)(&opts->lock);					\
--		if (opts->refcnt)						\
--			return -EBUSY;						\
--		strscpy(opts->net_opts.name, tmp, sizeof(opts->net_opts.name));	\
--		opts->net_opts.ifname_set = true;				\
--		return len;							\
--	}									\
--										\
--	CONFIGFS_ATTR(_f_##_opts_, ifname)
--
- #endif /* __U_ETHER_CONFIGFS_H */
+If you read it separately like that, then you might as well do the
+same with typec_get_negotiated_svdm_version() in the other condition.
+
+> +					  CMD_DISCOVER_MODES);
+> +			*rlen = 1;
+> +		} else {
+> +			tcpm_register_plug_altmodes(port);
+> +			tcpm_register_partner_altmodes(port);
+> +		}
+> +	}
+> +}
+> +
+>  static int tcpm_pd_svdm(struct tcpm_port *port, struct typec_altmode *adev,
+>  			const u32 *p, int cnt, u32 *response,
+>  			enum adev_actions *adev_action,
+> @@ -2252,41 +2301,10 @@ static int tcpm_pd_svdm(struct tcpm_port *port, struct typec_altmode *adev,
+>  			}
+>  			break;
+>  		case CMD_DISCOVER_MODES:
+> -			if (rx_sop_type == TCPC_TX_SOP) {
+> -				/* 6.4.4.3.3 */
+> -				svdm_consume_modes(port, p, cnt, rx_sop_type);
+> -				modep->svid_index++;
+> -				if (modep->svid_index < modep->nsvids) {
+> -					u16 svid = modep->svids[modep->svid_index];
+> -					*response_tx_sop_type = TCPC_TX_SOP;
+> -					response[0] = VDO(svid, 1, svdm_version,
+> -							  CMD_DISCOVER_MODES);
+> -					rlen = 1;
+> -				} else if (tcpm_cable_vdm_supported(port)) {
+> -					*response_tx_sop_type = TCPC_TX_SOP_PRIME;
+> -					response[0] = VDO(USB_SID_PD, 1,
+> -							  typec_get_cable_svdm_version(typec),
+> -							  CMD_DISCOVER_SVID);
+> -					rlen = 1;
+> -				} else {
+> -					tcpm_register_partner_altmodes(port);
+> -				}
+> -			} else if (rx_sop_type == TCPC_TX_SOP_PRIME) {
+> -				/* 6.4.4.3.3 */
+> -				svdm_consume_modes(port, p, cnt, rx_sop_type);
+> -				modep_prime->svid_index++;
+> -				if (modep_prime->svid_index < modep_prime->nsvids) {
+> -					u16 svid = modep_prime->svids[modep_prime->svid_index];
+> -					*response_tx_sop_type = TCPC_TX_SOP_PRIME;
+> -					response[0] = VDO(svid, 1,
+> -							  typec_get_cable_svdm_version(typec),
+> -							  CMD_DISCOVER_MODES);
+> -					rlen = 1;
+> -				} else {
+> -					tcpm_register_plug_altmodes(port);
+> -					tcpm_register_partner_altmodes(port);
+> -				}
+> -			}
+> +			tcpm_handle_discover_mode(port, p, cnt, response,
+> +						  rx_sop_type, response_tx_sop_type,
+> +						  modep, modep_prime, svdm_version,
+> +						  &rlen, true);
+
+Just call svdm_consume_modes() directly from here and drop a few
+parameters from that tcpm_handle_discover_mode() function:
+
+        		svdm_consume_modes(port, p, cnt, rx_sop_type);
+			tcpm_handle_discover_mode(port, response,
+						  rx_sop_type, response_tx_sop_type,
+						  modep, modep_prime, svdm_version,
+						  &rlen);
+
+>  			break;
+>  		case CMD_ENTER_MODE:
+>  			*response_tx_sop_type = rx_sop_type;
+> @@ -2329,9 +2347,16 @@ static int tcpm_pd_svdm(struct tcpm_port *port, struct typec_altmode *adev,
+>  		switch (cmd) {
+>  		case CMD_DISCOVER_IDENT:
+>  		case CMD_DISCOVER_SVID:
+> -		case CMD_DISCOVER_MODES:
+>  		case VDO_CMD_VENDOR(0) ... VDO_CMD_VENDOR(15):
+>  			break;
+> +		case CMD_DISCOVER_MODES:
+> +			tcpm_log(port, "Skip SVID 0x%04x (failed to discover mode)",
+> +				 PD_VDO_SVID_SVID0(p[0]));
+> +			tcpm_handle_discover_mode(port, p, cnt, response,
+> +						  rx_sop_type, response_tx_sop_type,
+> +						  modep, modep_prime, svdm_version,
+> +						  &rlen, false);
+> +			break;
+>  		case CMD_ENTER_MODE:
+>  			/* Back to USB Operation */
+>  			*adev_action = ADEV_NOTIFY_USB_AND_QUEUE_VDM;
+
+
+I would also use local variable for modep (modep_prime is modep in
+case of TCPC_TX_SOP_PRIME) instead of passing both modep and
+modep_prime to the function.
+
+With all these changes, the prototype would look like this:
+
+static int tcpm_handle_discover_mode(struct tcpm_port *port, u32 *response,
+				     enum tcpm_transmit_type rx_sop_type,
+				     enum tcpm_transmit_type *response_tx_sop_type);
+
+thanks,
 
 -- 
-2.53.0.473.g4a7958ca14-goog
-
+heikki
