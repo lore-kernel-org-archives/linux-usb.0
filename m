@@ -1,128 +1,114 @@
-Received: from mail-yx1-f53.google.com (mail-yx1-f53.google.com [74.125.224.53])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id ABED025B305
-	for <linux-usb@vger.kernel.org>; Mon,  9 Mar 2026 03:02:53 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.224.53
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E85B6155326
+	for <linux-usb@vger.kernel.org>; Mon,  9 Mar 2026 03:43:57 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1773025375; cv=none; b=jctTgBZYGakbkyMVEm2oSdl1+IBCUzry3VB5WdpAXESp3yGnkvggIgdEjPmQx4/fDeGnng+NZleLzQ7oF77lbC/UfC8hdos4Pd91PfZhnJU/sbGYmWVh7LWeEaN+/qH6uY4t7Uh6pd0SVthxXTkPJMFX+WuzGILlaiHN4YmfNzY=
+	t=1773027838; cv=none; b=B6pTQlN/9Mkj048ENGC3DyLwcky4nRR0AQZFCzaqc1mhI5HHMW+mcFSICeYR6QPIK2ts52oF8+guKCLvxTikdfj/a6iYf52i/SsU57Hv+6xPnkc48JZglEMwfUuKKTBAYFD6LzhUEYHFsU+YwuaHcEUCwRcOSwUXa0jziQSKDz4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1773025375; c=relaxed/simple;
-	bh=BGjkXwXFeJle68octNDMR19EHMWwrZil3s7gHM3J0bg=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=tWoo9JuWnwdRshxakisO6+1CKzBMmZ2fVUYEFboMRoz3GuNqLR2fZ9hcfKbydLDfjry8w+cb6kw1oB6Kz7UweD7CL8y9uPGdriRZKfcfSi4nLa/XhepwOuwb0wgTJxuuQZDrXuI3rADKKpkW3r8JUfLzINlruUNVWrKuzqhvj2k=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=EyjJwkFV; arc=none smtp.client-ip=74.125.224.53
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=google.com
+	s=arc-20240116; t=1773027838; c=relaxed/simple;
+	bh=S2egcwUSxpwrAmIBvwmNSS6sEedtmeWDTz1KsTpfKSE=;
+	h=From:To:Subject:Date:Message-ID:In-Reply-To:References:
+	 Content-Type:MIME-Version; b=RRJijrHzDQLa6gYUpNDeWXi0HVLoyzW5ZZeozyAsB/JoFJisjetp/sQkX2IjMaUuGq7cd9zEqYp0hu5HRepYq7HrQh6JSfAmq42BZy8NaE+X8wlums4MX+vPg8pSed0bgsZPfs50Q3KGYEdIuM0P1XJhKP1Jj4fRewGtzSZp2kM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=SMG/cnNS; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="EyjJwkFV"
-Received: by mail-yx1-f53.google.com with SMTP id 956f58d0204a3-64c9cabfe5dso13740859d50.0
-        for <linux-usb@vger.kernel.org>; Sun, 08 Mar 2026 20:02:53 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20230601; t=1773025373; x=1773630173; darn=vger.kernel.org;
-        h=content-transfer-encoding:in-reply-to:content-language:from
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=DRC/SSBoLNJpBv7w3HXObuyQkJlK3e7PgCYEr0NFv4U=;
-        b=EyjJwkFVWzJNjMAd6yOjTRBmZI7d9gOhHIWC21TOHKITr6YTn9n4l80Xu7Pv18+KyU
-         kfWBI6ymCmL4PPjGirEcqKsY4XEHfQ+nt2VQwUr5YItaGNOJNOpIzLggBVIP4zMt5Exy
-         gt0gHwPViT7fTLnvyFaqp80/4bj6v3USQOkZr3LbykPGuBMqRF5NSX+IZerO/8k1qPrM
-         wph0+noQ0rCJyoiBOpuaE1cEaGDY3fDA0Fh7DCydJN4afYBApqo080AIjY7REwMFbghg
-         YPZAmb7nF1afmRviKdDmGihbZWLeodHLdKmQSrywDUC1oea6A9eyaDCXwYVmWvcuwSEw
-         3WNg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1773025373; x=1773630173;
-        h=content-transfer-encoding:in-reply-to:content-language:from
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :x-gm-gg:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=DRC/SSBoLNJpBv7w3HXObuyQkJlK3e7PgCYEr0NFv4U=;
-        b=VMu+pBDMpIkBPVjcHeteJKLpbdjMSXez1spKTfmZdV3LVS9gUja32J9fsV/jKpnJ8/
-         p96Nsn8FDb1I+USdl6xfrMDjkmT1Edu5lsnhCcUtdfzDJW8Itue0C/U3/hiOvQslTec2
-         Pjp9Ki5PDaKl8UdqE+bG+UQDan1pQBz7BJad+xEQUPUvUssoryd69D8cQ92FPMYWhyNn
-         aEqX0UCfzDZImIXOO/8wFXKhHrkkrBeoeslxSJowHdl/Z581i70cQiV4PS/AdHrg/lkD
-         GtvssSGcWdNR9vT9qSxaw+weHzNjziA7e6Vu2sJ21d6Nr6ej1Y5XkZQ5u/EtGFV9915j
-         b8dw==
-X-Forwarded-Encrypted: i=1; AJvYcCX+kpi1UGd/wRbFHjkM1tAPaA0Wa2qBWzsUY67Jrl7f4SPNwVra44wgqbeOdThcmm528sZyh4iC9w4=@vger.kernel.org
-X-Gm-Message-State: AOJu0YxGfU09lG5e/NpbPeMmEdu9W6GXKeXhn6cBcRJ0M0Q5G1QiIARV
-	t++LenmGTCET9fr9vlF0ytO0d6r0FTW3zsIV7cSHGG861lNWsRFe6kLm4fuAgqLw8w==
-X-Gm-Gg: ATEYQzzaYXgCkdjLBEkd3RRsrbCfiWlX9+CUvXh5OBuke3HTiyCUfOcHrci+eMtGPSR
-	mVZtIj1wwhGrJCPX3M4060IeJOXTYmmBQ3A2UPGHqgVcRvnOt/Q56GiDoFCs6uYUiV5TpeqRNGG
-	th2nWg9wMS5TSFH7I1mKLDonQBgLIf0S1k5l7tPCflktWLCCA6KDud71t1uC7EkSl+NRBttdsMV
-	zz2kAI8xaHmqxjz9xllO9Szx3UXn5jIhp+/G0B6Nm/lm7d4W+LrVTGDI2G8CVMtP0+EOuXkjMny
-	Gcz01Rw+mehnZyTfqY1A5L5fK/Xfxlfu+FL2m7hCULt/g9yT8YpDGeA6CHTjQFNV8L6efgto4/T
-	VXiI1mM3C7ukn8gSZXgzqruJ/NcHye2QS7a8mcZqEmbvKklDCy6+OXYjr7vCtp1q0UknutPI0Ca
-	44QYE1TmIvRqNur2LeDBAcexl56Mg2hi0tIdaiiGkvF/Rd/dbO9Xb/PKFUMWYktq6MaalvEvI=
-X-Received: by 2002:a05:690e:1186:b0:64a:7bf2:3afa with SMTP id 956f58d0204a3-64d0715a07dmr12447389d50.28.1773025372369;
-        Sun, 08 Mar 2026 20:02:52 -0700 (PDT)
-Received: from ?IPV6:2600:1700:4570:89a0:3329:ea09:3c41:e7ec? ([2600:1700:4570:89a0:3329:ea09:3c41:e7ec])
-        by smtp.gmail.com with ESMTPSA id 956f58d0204a3-64d176c59dbsm4094408d50.11.2026.03.08.20.02.49
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Sun, 08 Mar 2026 20:02:51 -0700 (PDT)
-Message-ID: <103a2828-c567-4b95-8583-e2358ccfc1f6@google.com>
-Date: Sun, 8 Mar 2026 20:02:42 -0700
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="SMG/cnNS"
+Received: by smtp.kernel.org (Postfix) with ESMTPS id 99438C4CEF7
+	for <linux-usb@vger.kernel.org>; Mon,  9 Mar 2026 03:43:57 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1773027837;
+	bh=S2egcwUSxpwrAmIBvwmNSS6sEedtmeWDTz1KsTpfKSE=;
+	h=From:To:Subject:Date:In-Reply-To:References:From;
+	b=SMG/cnNSZFClhJ+3DT5dboNPHDEYYjIORr0y8HMWOA1EecfBS+rlkp2riTero68Cf
+	 eCxogKyNQhdCqQ/41yyP4/1SZJ+qUpKZ/nEAtCuuUCZGZIXbqRvl/OijFLsl/0WxzX
+	 n/wylzR9kMQozYvo/eFH0AWUZZ7bpDYBlZfuTYMjZMb1zkLYhFAVqnDTXKkF7LQiyG
+	 ronv0eb8ir4pAhHCw+a8fCHDKC2hQRQWwGb4ztTRulycewpPOX2lUfkEILBtXAqQ9R
+	 qCHFMyi798HJ13afmhILIUInq9VMF7pNWhLd1Am//vq2tiXyhT7gCHvxpGrI1Hymrs
+	 DLDDBPNb3M3TA==
+Received: by aws-us-west-2-korg-bugzilla-1.web.codeaurora.org (Postfix, from userid 48)
+	id 88BA9C3279F; Mon,  9 Mar 2026 03:43:57 +0000 (UTC)
+From: bugzilla-daemon@kernel.org
+To: linux-usb@vger.kernel.org
+Subject: [Bug 221184] mouse/keyboard (connected via hub) usb reset under
+ system load with weak cpu
+Date: Mon, 09 Mar 2026 03:43:57 +0000
+X-Bugzilla-Reason: None
+X-Bugzilla-Type: changed
+X-Bugzilla-Watch-Reason: AssignedTo drivers_usb@kernel-bugs.kernel.org
+X-Bugzilla-Product: Drivers
+X-Bugzilla-Component: USB
+X-Bugzilla-Version: 2.5
+X-Bugzilla-Keywords: 
+X-Bugzilla-Severity: normal
+X-Bugzilla-Who: roxmail@list.ru
+X-Bugzilla-Status: NEW
+X-Bugzilla-Resolution: 
+X-Bugzilla-Priority: P3
+X-Bugzilla-Assigned-To: drivers_usb@kernel-bugs.kernel.org
+X-Bugzilla-Flags: 
+X-Bugzilla-Changed-Fields: 
+Message-ID: <bug-221184-208809-OMPOJeCRvK@https.bugzilla.kernel.org/>
+In-Reply-To: <bug-221184-208809@https.bugzilla.kernel.org/>
+References: <bug-221184-208809@https.bugzilla.kernel.org/>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+X-Bugzilla-URL: https://bugzilla.kernel.org/
+Auto-Submitted: auto-generated
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v8 3/6] mfd: max77759: add register bitmasks and modify
- irq configs for charger
-To: Lee Jones <lee@kernel.org>
-Cc: Sebastian Reichel <sre@kernel.org>, Rob Herring <robh@kernel.org>,
- Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley
- <conor+dt@kernel.org>, =?UTF-8?Q?Andr=C3=A9_Draszik?=
- <andre.draszik@linaro.org>, Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
- Badhri Jagan Sridharan <badhri@google.com>,
- Heikki Krogerus <heikki.krogerus@linux.intel.com>,
- Peter Griffin <peter.griffin@linaro.org>,
- Tudor Ambarus <tudor.ambarus@linaro.org>,
- Alim Akhtar <alim.akhtar@samsung.com>, Mark Brown <broonie@kernel.org>,
- Matti Vaittinen <mazziesaccount@gmail.com>,
- Andrew Morton <akpm@linux-foundation.org>, linux-kernel@vger.kernel.org,
- linux-pm@vger.kernel.org, devicetree@vger.kernel.org,
- linux-usb@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
- linux-samsung-soc@vger.kernel.org, RD Babiera <rdbabiera@google.com>,
- Kyle Tso <kyletso@google.com>
-References: <20260224-max77759-charger-v8-0-eb86bd570e9c@google.com>
- <20260224-max77759-charger-v8-3-eb86bd570e9c@google.com>
- <20260306130031.GK183676@google.com>
-From: Amit Sunil Dhamne <amitsd@google.com>
-Content-Language: en-US
-In-Reply-To: <20260306130031.GK183676@google.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
 
-Hi Lee,
+https://bugzilla.kernel.org/show_bug.cgi?id=3D221184
 
-On 3/6/26 5:00 AM, Lee Jones wrote:
-> On Tue, 24 Feb 2026, Amit Sunil Dhamne via B4 Relay wrote:
->
->> From: Amit Sunil Dhamne <amitsd@google.com>
->>
->> Add register bitmasks for charger function.
->> In addition split the charger IRQs further such that each bit represents
->> an IRQ downstream of charger regmap irq chip. In addition populate the
->> ack_base to offload irq ack to the regmap irq chip framework.
->>
->> Signed-off-by: Amit Sunil Dhamne <amitsd@google.com>
->> Reviewed-by: André Draszik <andre.draszik@linaro.org>
->> ---
->>  drivers/mfd/max77759.c       |  91 ++++++++++++++++++++--
->>  include/linux/mfd/max77759.h | 176 ++++++++++++++++++++++++++++++++++++-------
->>  2 files changed, 230 insertions(+), 37 deletions(-)
-> Does this patch have any dependents or dependencies?
->
-This patch does not depend on any other patch.
+--- Comment #16 from Roman Elshin (roxmail@list.ru) ---
+> Re comment #8: Are you sure that other operating system versions really a=
+re
+> working fine?  Have you tried collecting a usbmon trace under another OS
+> version while running your load test, and looking through the trace for -=
+71
+> errors?
 
-The patch that depends on this one is:
-https://lore.kernel.org/all/20260224-max77759-charger-v8-5-eb86bd570e9c@google.com/
+Error reason are -EPROTO from ehci, and at least for mouse was introduced by
+64cc3f12d1c7dd054a215bc1ff9cc2abcfe35832, reverting this fixing at least mo=
+use
+resets (need retest with current kernel), looking at code i am wonder if it
+ever correct, code part (ehci-q.c):
+---------------------------------------------------------------------------
+                /*
+                 * When MMF is active and PID Code is IN, queue is halted.
+                 * EHCI Specification, Table 4-13.
+                 */
+                } else if ((token & QTD_STS_MMF) &&
+                                        (QTD_PID(token) =3D=3D PID_CODE_IN)=
+) {
+                        status =3D -EPROTO;
+                /* CERR nonzero + halt --> stall */
+                } else if (QTD_CERR(token)) {
+                        status =3D -EPIPE;
 
+                /* In theory, more than one of the following bits can be set
+                 * since they are sticky and the transaction is retried.
+                 * Which to test first is rather arbitrary.
+                 */
+                } else if (token & QTD_STS_MMF) {
+                        /* fs/ls interrupt xfer missed the complete-split */
+                        status =3D -EPROTO;
+---------------------------------------------------------------------------=
+--
+why additional check:
 
-Thanks,
+((token & QTD_STS_MMF) && (QTD_PID(token) =3D=3D PID_CODE_IN))
 
-Amit
+needed here (it was introduced by 64cc3f12d1c7dd054a215bc1ff9cc2abcfe35832),
+there are (token & QTD_STS_MMF) already check with same return status later=
+ ?
 
+--=20
+You may reply to this email to add a comment.
 
+You are receiving this mail because:
+You are watching the assignee of the bug.=
