@@ -1,38 +1,38 @@
 Received: from mail.avm.de (mail.avm.de [212.42.244.120])
 	(using TLSv1.2 with cipher DHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2B4B748A2C0;
-	Tue, 10 Mar 2026 11:55:49 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EC454480967;
+	Tue, 10 Mar 2026 11:55:48 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=212.42.244.120
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1773143760; cv=none; b=W69EqyLyl05kRCl4eq/BdYWiFhbDtqcUSCZU/qZseDEoYq3La+rW1qtEcDees5vh6C2pN+0Tt/55G6MSWqjHR2BvAHJXRUlJ3tHfMKcr/fpvDEJqi+Qfl27CjDi6/bmkZWoZUgBOwLCOIAAQl4pl2UyAC6vQWRdwi2gEniv7PVQ=
+	t=1773143757; cv=none; b=iZkmxEfcPEU/CX7u8LrlWxHSuwhOxdvm9AETOsiGd/GvkzB2KerNDDISewUj1pcF1YxaeVPaFFCymPHGXOYF0BPGleVs8RyWZaJCqY1PxT+MDD69+rzdMU9rcMb8IgNOCiCfZ6kMCmb02e/mXBvnxBmkG46Cqh3kI22Wov9Ta/Q=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1773143760; c=relaxed/simple;
-	bh=sIEabNGpfTtaNmN5jdtpnoUYPpUdFMe596BbQNmq6Ew=;
+	s=arc-20240116; t=1773143757; c=relaxed/simple;
+	bh=ZbyyRff0LT6QULh5d8SMPc41iTaBzP0/3JVOQy1bx0k=;
 	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
-	 In-Reply-To:To:Cc; b=YWeUrJrmx6U6FNN1EeGPgz+pC4C1BvkUdidgx7Ekx7bvV8NJMLpnPko9qZ9kN3kEqF1S1+JKYp0/N8AWbrnR9gQBbgDxdNxy15Wdkbv7d9mK5QoETBnPkRPAHnChAg1GXlXCVGGc/1wa37+eMFEtFhyob7W+DzIH7RRqFMohK5Q=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=avm.de; spf=pass smtp.mailfrom=avm.de; dkim=pass (1024-bit key) header.d=avm.de header.i=@avm.de header.b=WAbmYdz4; arc=none smtp.client-ip=212.42.244.120
+	 In-Reply-To:To:Cc; b=qYx1vJUBQgtY6rESLHnE1KGikGSnYYF2/pAk8Q4ExfI9Qr+pZrK1s9Ea0EvTgahnFtvOSm4xQT3r7N5A9aNJqGIcUZdLfCW9IcdSaXBEGNf+6ILTo2E9bmTYs4m8vCSWjvQF04mH9c2uPEMOqcLd5Wu+buIVjgZIyy2NLnIrdJk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=avm.de; spf=pass smtp.mailfrom=avm.de; dkim=pass (1024-bit key) header.d=avm.de header.i=@avm.de header.b=HV8nrF4k; arc=none smtp.client-ip=212.42.244.120
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=avm.de
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=avm.de
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=avm.de header.i=@avm.de header.b="WAbmYdz4"
+	dkim=pass (1024-bit key) header.d=avm.de header.i=@avm.de header.b="HV8nrF4k"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=avm.de; s=mail;
-	t=1773143727; bh=sIEabNGpfTtaNmN5jdtpnoUYPpUdFMe596BbQNmq6Ew=;
+	t=1773143727; bh=ZbyyRff0LT6QULh5d8SMPc41iTaBzP0/3JVOQy1bx0k=;
 	h=From:Date:Subject:References:In-Reply-To:To:Cc:From;
-	b=WAbmYdz494rciwrDoxwpIOKzHQhWufBdviqWuph7/jFiyvmTIGFFIlMkKBhHelMwI
-	 lKmaXMdlNGCG5P8FB8yuF4MKINdmgebVx0Q53ySyQoqw9rwtHHS8QlKwVVfbLFfqFc
-	 b/p/xxKNkWKbGkIf6oo6Ul7qDmTKGOohK30a7UH0=
+	b=HV8nrF4k8f8j1nqCXCo11OycnQoLgSJ9E+iEvd5pugXzP6VQoTJpM3fnKn+IdxmfS
+	 GuEf8SJsm6Aj2OJiTdvqet18rFTZDh3+xLvd8WXhX3ExeglzL5A0LB1MTyjdEUg5vI
+	 SXPZf1SpChG18sz+QPMqBgkzimh/yol90pGz3iF0=
 Received: from [2001:bf0:244:244::71] (helo=mail.avm.de)
 	by mail.avm.de with ESMTP (eXpurgate 4.55.2)
 	(envelope-from <phahn-oss@avm.de>)
-	id 69b006af-b734-7f0000032729-7f0000019c58-1
-	for <multiple-recipients>; Tue, 10 Mar 2026 12:55:27 +0100
+	id 69b006ae-b734-7f0000032729-7f000001c0b6-1
+	for <multiple-recipients>; Tue, 10 Mar 2026 12:55:26 +0100
 Received: from mail-auth.avm.de (dovecot-mx-01.avm.de [IPv6:2001:bf0:244:244::71])
 	by mail.avm.de (Postfix) with ESMTPS;
-	Tue, 10 Mar 2026 12:55:27 +0100 (CET)
+	Tue, 10 Mar 2026 12:55:26 +0100 (CET)
 From: Philipp Hahn <phahn-oss@avm.de>
-Date: Tue, 10 Mar 2026 12:49:19 +0100
-Subject: [PATCH 53/61] hyperv: Prefer IS_ERR_OR_NULL over manual NULL check
+Date: Tue, 10 Mar 2026 12:49:15 +0100
+Subject: [PATCH 49/61] media: Prefer IS_ERR_OR_NULL over manual NULL check
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
@@ -41,7 +41,7 @@ List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20260310-b4-is_err_or_null-v1-53-bd63b656022d@avm.de>
+Message-Id: <20260310-b4-is_err_or_null-v1-49-bd63b656022d@avm.de>
 References: <20260310-b4-is_err_or_null-v1-0-bd63b656022d@avm.de>
 In-Reply-To: <20260310-b4-is_err_or_null-v1-0-bd63b656022d@avm.de>
 To: amd-gfx@lists.freedesktop.org, apparmor@lists.ubuntu.com, 
@@ -71,23 +71,23 @@ To: amd-gfx@lists.freedesktop.org, apparmor@lists.ubuntu.com,
  sched-ext@lists.linux.dev, target-devel@vger.kernel.org, 
  tipc-discussion@lists.sourceforge.net, v9fs@lists.linux.dev, 
  Philipp Hahn <phahn-oss@avm.de>
-Cc: "K. Y. Srinivasan" <kys@microsoft.com>, 
- Haiyang Zhang <haiyangz@microsoft.com>, Wei Liu <wei.liu@kernel.org>, 
- Dexuan Cui <decui@microsoft.com>, Long Li <longli@microsoft.com>
-X-Developer-Signature: v=1; a=openpgp-sha256; l=1146; i=phahn-oss@avm.de;
- h=from:subject:message-id; bh=sIEabNGpfTtaNmN5jdtpnoUYPpUdFMe596BbQNmq6Ew=;
- b=owEBbQGS/pANAwAKATQtBlPRrKzbAcsmYgBpsAaKQPK6RykE0QE2RJD5htL1ZvRNh+zI6jTmu
- VOYpL5CXyeJATMEAAEKAB0WIQQ5bPBtrWDUcDQCppg0LQZT0ays2wUCabAGigAKCRA0LQZT0ays
- 29fzB/oCGLAMazrUNiEmwKr9nq0MNT5XdhZH3wkJWE4yJ+UKMd35Xi9PPSb65qZMk+N4uMiZj2H
- T6Td1MreYgfIRLT7kTJk/n1BuSWWFP55nfvFZFjjhY5aoonvuH6RpMC7x9+9tNKQtJ7ne+y8JUp
- qmDL3C1GxXXFNKbwYmtZySONDO5gXmgMnGjDdckVFucnIkQYwHywWpIrPTZv3zUS9k6qS6F4HLs
- npSrcLjQ++9xnCfmtppGIezlVuCbkGtNbWVtJ6RuDAqRXXu4e1NER6f7pIlU/5AgYfpLOxyecDo
- JLi+d7tyzKhXU/h5ql9oJc0IZPZktOy6eLbVlaElpfc4YFhD
+Cc: Shuah Khan <skhan@linuxfoundation.org>, 
+ Kieran Bingham <kieran.bingham@ideasonboard.com>, 
+ Mauro Carvalho Chehab <mchehab@kernel.org>
+X-Developer-Signature: v=1; a=openpgp-sha256; l=1137; i=phahn-oss@avm.de;
+ h=from:subject:message-id; bh=ZbyyRff0LT6QULh5d8SMPc41iTaBzP0/3JVOQy1bx0k=;
+ b=owGbwMvMwMVoossWfHHNmtuMp9WSGDI3sNXOaG8LSpQxY8hSPVKqIh1pc5sxIOPz7VZbeXXdX
+ ZHfDi7vZDRmYWDkYpAVU2SxzPmQuzbhSoEJ07IZMINYmUCmMHBxCsBETr7kYJhV9Mu9xk6ccYGt
+ z5eI8srl4dfXXYqUXRzEX+fI1uJjH6WxrLeo7biojv5WpVXreE2zezbYn9tpWFQcfdhA7GboGts
+ YsRtM2Sv+M4kcacuwnNqZvb/GZGJWrZS8LE8bh/QGFvGyvRsUfnm1/N3xyXReUlT8crHiVPEW88
+ th9t3G59lklUJeXporbNhhPOddhfW2O0w/bnRvOz2h//fC3tr8X+mn7tezeLhE/9TY8ugub9qq6
+ ED20BjzW2dmxov+rXp6lOvAkub/n+Z/6nD5cFX/zdFNpRcPRKxfsPR8nlf6/VdXbs812Sme8b7r
+ xv6PtjP3CotJpB81uFK+Mnp2gw1/TIQQc7bV7OyuT17mAA==
 X-Developer-Key: i=phahn-oss@avm.de; a=openpgp;
  fpr=58AF7C2E007CDBE62C59E078F50EFDCF8AD04B1A
-X-purgate-ID: 149429::1773143727-D1DEAA3D-A02B5664/0/0
+X-purgate-ID: 149429::1773143726-C8585A3D-9FEF7DDF/0/0
 X-purgate-type: clean
-X-purgate-size: 1148
+X-purgate-size: 1139
 X-purgate-Ad: Categorized by eleven eXpurgate (R) https://www.eleven.de
 X-purgate: This mail is considered clean (visit https://www.eleven.de for further information)
 X-purgate: clean
@@ -97,35 +97,29 @@ check.
 
 Change generated with coccinelle.
 
-To: "K. Y. Srinivasan" <kys@microsoft.com>
-To: Haiyang Zhang <haiyangz@microsoft.com>
-To: Wei Liu <wei.liu@kernel.org>
-To: Dexuan Cui <decui@microsoft.com>
-To: Long Li <longli@microsoft.com>
-Cc: linux-hyperv@vger.kernel.org
+To: Shuah Khan <skhan@linuxfoundation.org>
+To: Kieran Bingham <kieran.bingham@ideasonboard.com>
+To: Mauro Carvalho Chehab <mchehab@kernel.org>
+Cc: linux-media@vger.kernel.org
 Cc: linux-kernel@vger.kernel.org
 Signed-off-by: Philipp Hahn <phahn-oss@avm.de>
 ---
- drivers/hv/mshv_eventfd.c | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
+ drivers/media/test-drivers/vimc/vimc-streamer.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/drivers/hv/mshv_eventfd.c b/drivers/hv/mshv_eventfd.c
-index d8471546e6a0c7e6eca933c640459f1d02152cb2..24dff7a498ac9c3edd31f4c9bc2f23729ba2a6ce 100644
---- a/drivers/hv/mshv_eventfd.c
-+++ b/drivers/hv/mshv_eventfd.c
-@@ -516,10 +516,10 @@ static int mshv_irqfd_assign(struct mshv_partition *pt,
- 	if (irqfd->irqfd_resampler)
- 		mshv_irqfd_resampler_shutdown(irqfd);
- 
--	if (resamplefd && !IS_ERR(resamplefd))
-+	if (!IS_ERR_OR_NULL(resamplefd))
- 		eventfd_ctx_put(resamplefd);
- 
--	if (eventfd && !IS_ERR(eventfd))
-+	if (!IS_ERR_OR_NULL(eventfd))
- 		eventfd_ctx_put(eventfd);
- 
- out:
+diff --git a/drivers/media/test-drivers/vimc/vimc-streamer.c b/drivers/media/test-drivers/vimc/vimc-streamer.c
+index 15d863f97cbf96b7ca7fbf3d7b6b6ec39fcc8ae3..da5aca50bcb4990c06f28e5a883eb398606991e9 100644
+--- a/drivers/media/test-drivers/vimc/vimc-streamer.c
++++ b/drivers/media/test-drivers/vimc/vimc-streamer.c
+@@ -167,7 +167,7 @@ static int vimc_streamer_thread(void *data)
+ 		for (i = stream->pipe_size - 1; i >= 0; i--) {
+ 			frame = stream->ved_pipeline[i]->process_frame(
+ 					stream->ved_pipeline[i], frame);
+-			if (!frame || IS_ERR(frame))
++			if (IS_ERR_OR_NULL(frame))
+ 				break;
+ 		}
+ 		//wait for 60hz
 
 -- 
 2.43.0
