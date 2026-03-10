@@ -1,89 +1,111 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-qv1-f41.google.com (mail-qv1-f41.google.com [209.85.219.41])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 612F8368975
-	for <linux-usb@vger.kernel.org>; Tue, 10 Mar 2026 21:41:17 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5FA4736B05F
+	for <linux-usb@vger.kernel.org>; Tue, 10 Mar 2026 21:51:44 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.219.41
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1773178877; cv=none; b=LE+W+cbIZHfWcSjw/jSvx7e2mm4n2X3FIIMeD/Sy/4lkC7P7jdNeUQCAGZAnKY5QRf+3chWeJPcLiwAKzntTrzyf1S/HD1ODyUKT2yBmDHP1hH7d6PywdNEJz1v5uQ/tIscqthX68H/avpfdcpbRWtV0RnZ2jinnVauBCFiGFTI=
+	t=1773179505; cv=none; b=PIqUvzJaJ5Lf3nZnFJUHq9IzP036M0sdEetIMaab8VHsJpK+BUpDtHf9Z4ssdsY3U+Keq0Qm4tft6r9CXPKy3BxpBEcPJ6Nz5kTkbQNxmi1SCtYJd8YfK5374WyRINPbe2JV1x6xuIjcfwScpOKUPx6/n/xtWfXMsttPSVFurfY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1773178877; c=relaxed/simple;
-	bh=pfTcfJ2FginIpiSVfg/CrrLWmhQICatv12CLS2ktWN8=;
-	h=From:To:Subject:Date:Message-ID:In-Reply-To:References:
-	 Content-Type:MIME-Version; b=r92y5gBIgRgpNfIG3HZbkfctHFp0DOw94llYX3IW78qmDqMDP9mDeKKXOeGS4nGUvH6BojCVDH5PCW19/KBoE7MwFe4Q3EOZnyZiyafqu7Wgv2j5BUVOiy0i0X+Zibj+qWwdzmcfYZudL4cOqxp+wsHVajEKkSe6zq0qKBQAl9E=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=GNKDsnt8; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1773179505; c=relaxed/simple;
+	bh=5jFwpdm4F865nFToowbZNNLOqXArLK8lbWEAUbeUW1I=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=BWC1bp/o4kPJvaDWEhz/wZ+3IrmzzhP3617XyjUZnscKZdIs9ZjlqntaQZd2j9jzLoebZafulWcA0yRDewWbxqeIZ6fboHYgxHvWsrvCZwCMucs+3P+YvJujBPljKOljZJ9wMtYX3zTCGWuK7T9Dl8SUPycAZ2xCYazWkDmQEsw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linuxfoundation.org; spf=pass smtp.mailfrom=linuxfoundation.org; dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b=agrDekfh; arc=none smtp.client-ip=209.85.219.41
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linuxfoundation.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linuxfoundation.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="GNKDsnt8"
-Received: by smtp.kernel.org (Postfix) with ESMTPS id 05790C2BCAF
-	for <linux-usb@vger.kernel.org>; Tue, 10 Mar 2026 21:41:17 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1773178877;
-	bh=pfTcfJ2FginIpiSVfg/CrrLWmhQICatv12CLS2ktWN8=;
-	h=From:To:Subject:Date:In-Reply-To:References:From;
-	b=GNKDsnt8Mw6SuLjwxos01GNUHoNo5OqzSLrRdJJmd2dzZyj9s79Hs1HkJ1FPE0LJA
-	 bIe0KALykGFAjRf4J2BewKYgc7Ga8GpxO0tSgk/l0DrJ49xcGr3yYuNe84aRp84iFN
-	 otKdClyNAiXPZJ6wWY8bGYT4bYC0JIi77F9hPfQn+XQA+A6L3eUApjWA3UhRn3zrXA
-	 7Vnz/wZ9Bd6LMH4SkiN2QYQBkoWV0c40a3CqRMcikZCcJnstSQSKS4QCdkSg4pBVrZ
-	 M6DjB7sb0qF7dm0wrLzcG1q2tfkqhbtILFlsiOsJoQ1FrhkOqXvem9G6EjzFD371Ok
-	 8H+tg1TL+Fq3g==
-Received: by aws-us-west-2-korg-bugzilla-1.web.codeaurora.org (Postfix, from userid 48)
-	id F0C29C41614; Tue, 10 Mar 2026 21:41:16 +0000 (UTC)
-From: bugzilla-daemon@kernel.org
-To: linux-usb@vger.kernel.org
-Subject: [Bug 221184] mouse/keyboard (connected via hub) usb reset under
- system load with weak cpu
-Date: Tue, 10 Mar 2026 21:41:16 +0000
-X-Bugzilla-Reason: None
-X-Bugzilla-Type: changed
-X-Bugzilla-Watch-Reason: AssignedTo drivers_usb@kernel-bugs.kernel.org
-X-Bugzilla-Product: Drivers
-X-Bugzilla-Component: USB
-X-Bugzilla-Version: 2.5
-X-Bugzilla-Keywords: 
-X-Bugzilla-Severity: normal
-X-Bugzilla-Who: stern@rowland.harvard.edu
-X-Bugzilla-Status: NEW
-X-Bugzilla-Resolution: 
-X-Bugzilla-Priority: P3
-X-Bugzilla-Assigned-To: drivers_usb@kernel-bugs.kernel.org
-X-Bugzilla-Flags: 
-X-Bugzilla-Changed-Fields: 
-Message-ID: <bug-221184-208809-XbrUkPawpM@https.bugzilla.kernel.org/>
-In-Reply-To: <bug-221184-208809@https.bugzilla.kernel.org/>
-References: <bug-221184-208809@https.bugzilla.kernel.org/>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-X-Bugzilla-URL: https://bugzilla.kernel.org/
-Auto-Submitted: auto-generated
+	dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="agrDekfh"
+Received: by mail-qv1-f41.google.com with SMTP id 6a1803df08f44-89a1d7cc7f0so59584846d6.1
+        for <linux-usb@vger.kernel.org>; Tue, 10 Mar 2026 14:51:44 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linuxfoundation.org; s=google; t=1773179503; x=1773784303; darn=vger.kernel.org;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=L1vUhAEqcvWgjmawKDwZyP12GKPpRd3m8G2VHGenhtM=;
+        b=agrDekfhGyn84snMnaTOrjCVaaYaLMJuTIDtVeMb8Ej+iVXArWLdlQp20vWTATMEQO
+         js6xptErlDXnt/glcGY579KEm/HUR4t30dLWhEtw3IbfflFOGEj3OEk0Y1k7fuZoQryL
+         +3e7WqALqCulVU9wTx8aTfRlaBi7/7lvNQoAU=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1773179503; x=1773784303;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :x-gm-gg:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=L1vUhAEqcvWgjmawKDwZyP12GKPpRd3m8G2VHGenhtM=;
+        b=JwGSpxsqTUvr6V6DF7nS8avKe40mcVVIJmT793IMtTKHDzG62NQo0FASh7VkzUzjc3
+         52XNccSSFGzx6VJZc+aLzdwa6JDzJ0RjPkzfYUgTNKfGPNlulTDQDoLSSlzEm0p73qEw
+         wUPUA1/yzlnorsj6c7e01kMTOnr8XWKz3ItqL1RJu/GEvUdUtm1biq+tuup7qwfCkKUC
+         QOyES24T9P0Ww5F65quO715YN68WV6fO2xpw+lBJcVK2l+113sUcJF2KuF/Qxe0XT5EA
+         AlwmIYZn7kOBDzLdCGdSURaOqV0KZoWZPYoBLKtPCKgpekazjjG4MUe5O1CZFhjkuRwP
+         lruw==
+X-Forwarded-Encrypted: i=1; AJvYcCWZ+uXFVTX5XeNTKitHd+KP5mMgAy175qqsvocFVXW3OQi//UjIZ9j38njVXpo2bwfKfp/LC5wWYz0=@vger.kernel.org
+X-Gm-Message-State: AOJu0Yx9EL4sfSZDjel4Nck21D1HszSyYr3H1FpJKFdWCw+ShNJziV50
+	+RZK0wzqhvs3QYqDIMjOU8bSGjmX8oAltvfmUBEmjVXYVcnS4nONidy9UHcHudKRYrA=
+X-Gm-Gg: ATEYQzx7Hg6iPr1Ps8otkAw823ii2F2B42+V5aIRTdkF1QUJPMUXasXfSvh9hDCuMUw
+	/uLqrVTZXcOLJxCGFjYO6TtCOHA9PqlsUOwDRnEPPU0eS2m0glh9U7tzFcGQHenRCaLLxeEquMV
+	aVl8NMNGu6hhEO+JdX7ormj8tSijQ4cuVa/ohxKbl1cDDgJi5+4Hr1z3cvarSvnENs91QER7tNR
+	1f972VpzHXP8Kh3E3A0xNCKpcQIIk41DPAtQT+heSQ7whFHAf4mu1fQCEmILs/d/MB7AimHx3pO
+	eF1433CrduRTbq9KvwFAVH5NGdSXDXCjgxQY7LxefqX9xHOUXKRGyht5/SW3JYZT2o9L41U9hls
+	ml0sKoAZgjjfD7a/H+v4h9Xiyhgvra62mKkmtQqQwJ122knwidU2xtVU9d/ZUUKawUhnATtROqb
+	1R7vazUn8FjJz2xGM0aI1GGSNCMR1S3qmNcSk=
+X-Received: by 2002:a05:6214:242e:b0:89a:321:a198 with SMTP id 6a1803df08f44-89a66a8affdmr2399896d6.45.1773179503269;
+        Tue, 10 Mar 2026 14:51:43 -0700 (PDT)
+Received: from [192.168.1.14] ([38.175.187.108])
+        by smtp.gmail.com with ESMTPSA id 6a1803df08f44-89a65d2160asm2176056d6.52.2026.03.10.14.51.41
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Tue, 10 Mar 2026 14:51:42 -0700 (PDT)
+Message-ID: <55fcc500-afa5-4ee7-bde8-c5eec6932764@linuxfoundation.org>
+Date: Tue, 10 Mar 2026 15:51:41 -0600
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH 2/2] USB: usbip: drop redundant device reference
+To: Johan Hovold <johan@kernel.org>
+Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+ Bastien Nocera <hadess@hadess.net>,
+ Valentina Manea <valentina.manea.m@gmail.com>, Shuah Khan
+ <shuah@kernel.org>, Hongren Zheng <i@zenithal.me>,
+ linux-usb@vger.kernel.org, linux-kernel@vger.kernel.org,
+ Shuah Khan <skhan@linuxfoundation.org>
+References: <20260305133851.2952-1-johan@kernel.org>
+ <20260305133851.2952-3-johan@kernel.org>
+ <9d727cd2-701e-4c5b-9646-82874f2d0a4a@linuxfoundation.org>
+ <aa_X1qNsCGll04zj@hovoldconsulting.com>
+Content-Language: en-US
+From: Shuah Khan <skhan@linuxfoundation.org>
+In-Reply-To: <aa_X1qNsCGll04zj@hovoldconsulting.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 
-https://bugzilla.kernel.org/show_bug.cgi?id=3D221184
+On 3/10/26 02:35, Johan Hovold wrote:
+> On Mon, Mar 09, 2026 at 02:26:03PM -0600, Shuah Khan wrote:
+>> On 3/5/26 06:38, Johan Hovold wrote:
+>>> Driver core holds a reference to the USB device while it is bound to a
+>>> driver and there is no need to take additional references unless the
+>>> structure is needed after disconnect.
+>>
+>> In this case it is necessary for stub driver to hang on to the reference
+>> to maintain exported device status.
+> 
+> But the driver does not hold on to the reference taken at probe after
+> disconnect returns. The stub device itself is even freed at disconnect
+> and cannot be used to release the reference.
+> 
+> Which exported device status are you referring to here?
 
---- Comment #35 from Alan Stern (stern@rowland.harvard.edu) ---
-Yes, EPROTO represents a communication failure.  However, it only means that
-the host thinks there was a failure; there's no way to know what the device
-thinks.  Furthermore, xHCI controllers require an endpoint reset in order to
-recover from the failure.
+I am referring to the device status that usbip host exports to
+the client side. The interaction between host and client is
+handled from stub rx, tx, and also event handler.
 
-As a result of these two facts, it is entirely possible that the endpoint s=
-tate
-held in the host is no longer in agreement with the state held in the devic=
-e.=20
-If it isn't, a retry would apparently succeed but in fact the device would
-ignore the data that was sent or repeat the data that it sent previously, or
-maybe not respond at all.
+Having the reference to the device helps so the device sticks
+around until the stub driver no longer needs it so we don't see
+use after free type issues.
 
-The only way to make sure the two states are back in agreement is to reset =
-them
-both.  That's what usb_clear_halt() does.
-
---=20
-You may reply to this email to add a comment.
-
-You are receiving this mail because:
-You are watching the assignee of the bug.=
+thanks,
+-- Shuah
