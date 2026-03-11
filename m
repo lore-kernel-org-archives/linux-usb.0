@@ -1,91 +1,107 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wm1-f42.google.com (mail-wm1-f42.google.com [209.85.128.42])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 432DA3C4571
-	for <linux-usb@vger.kernel.org>; Wed, 11 Mar 2026 14:38:30 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E5D313CF048
+	for <linux-usb@vger.kernel.org>; Wed, 11 Mar 2026 14:39:23 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.42
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1773239911; cv=none; b=CMd7Y/LoBHl4E522lPVm0lIgn5nfbc2Eiiics7NEIWy0b001sMhiYGjS9DSw4gEe6V7h7rp5+wRAizmmQUZ7h8Jz8zz8spcvnMyUZp64HyNLRu5SMKFY33kC2Ke/aHcVKH+o3ZvhgR9R+BN8HUPZ0BDjpGvKaIEzTn/AC8M/c7U=
+	t=1773239965; cv=none; b=GfF8nIC7C4CEc4dTmkbaA6T55WEjmbETRjQhQdZtJz4OJyxqqI9NuiEqGWqJQZnWB926Pxe++InsIBmig8Y3BNF3VmpDKVIQimbHi9mJTcyAUBywSAqRem7C58jw2zn5N4tOjyRZbJLCI3sf9YjPUiEmCqlK1zkGCwvTKu0Gw1o=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1773239911; c=relaxed/simple;
-	bh=ETzv97zDgruShPzK93Eq5JH+jzzPKS63r24y/2vXXO4=;
-	h=From:To:Subject:Date:Message-ID:In-Reply-To:References:
-	 Content-Type:MIME-Version; b=IOU1tvY8Dcj7t6AZh2KwDz54au6c7/PUpdYSi+OAC1pltRaqiPYrhrWpRuOMtrDFTOHH/IWSkW3NzpALqtkt9Dh0ThaWNAqZxnHQDWMzyUGdsqqu2jI/6D3mNIe6AURo6dmqGp7Fsuyahl9dKp38d5XnnCvhcpug7xWXOojveTg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=kKlbhlaX; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1773239965; c=relaxed/simple;
+	bh=ksNXnFXq6w3qFH8+DIA9pBCSr2lZUl9iANcgP+cBfBY=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=Zm3PXcKcWUbPT17FoPma1oNiMYzT0x1GXpsNNuDkaHWhr46uPAR8ziLm7xcnNZOWPB8wWaYURmlno85E43wrosRGzj3ts3klekLJXIr9ueLIu9XFvLHXsVAIQbHsCJzhYqfchPUxqZ5Itbihj0jBE9PF05aV03BI4fl2uI7L8o8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=J6oGWZBC; arc=none smtp.client-ip=209.85.128.42
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="kKlbhlaX"
-Received: by smtp.kernel.org (Postfix) with ESMTPS id D66A0C19425
-	for <linux-usb@vger.kernel.org>; Wed, 11 Mar 2026 14:38:30 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1773239910;
-	bh=ETzv97zDgruShPzK93Eq5JH+jzzPKS63r24y/2vXXO4=;
-	h=From:To:Subject:Date:In-Reply-To:References:From;
-	b=kKlbhlaXivUGNvoDMXLUePJMBsf2aBh6HNjiOP18mmEwSbPT1eDkz+uz6OOeNfN3M
-	 ofFKcNrs3OBlr6WajmLSZPiJgfMI8/HER+dct5/SHY3bSufYjMimxHseGkRZOO+kAV
-	 GhWuVt9FmdtLRm7NctpHGdWUQxTbJZculalR8rjvDsm/6euJvBZ4W1eD/hHvi1De8w
-	 Gm8Ergm69jSpGmoq+D0BV4qnYigkkcrv7MQEtkQU3VNaToRE+zQ61Vv09k/AXXyNu/
-	 s4iv9Jmqe0D+ngJhfDdnpV+DgmLhXYNweyv1rCqU7SwxpPlgyP5kwRiIhUXqzkz+Mu
-	 wnYDqIjgb+cjg==
-Received: by aws-us-west-2-korg-bugzilla-1.web.codeaurora.org (Postfix, from userid 48)
-	id CD315C41614; Wed, 11 Mar 2026 14:38:30 +0000 (UTC)
-From: bugzilla-daemon@kernel.org
-To: linux-usb@vger.kernel.org
-Subject: [Bug 221184] mouse/keyboard (connected via hub) usb reset under
- system load with weak cpu
-Date: Wed, 11 Mar 2026 14:38:30 +0000
-X-Bugzilla-Reason: None
-X-Bugzilla-Type: changed
-X-Bugzilla-Watch-Reason: AssignedTo drivers_usb@kernel-bugs.kernel.org
-X-Bugzilla-Product: Drivers
-X-Bugzilla-Component: USB
-X-Bugzilla-Version: 2.5
-X-Bugzilla-Keywords: 
-X-Bugzilla-Severity: normal
-X-Bugzilla-Who: stern@rowland.harvard.edu
-X-Bugzilla-Status: NEW
-X-Bugzilla-Resolution: 
-X-Bugzilla-Priority: P3
-X-Bugzilla-Assigned-To: drivers_usb@kernel-bugs.kernel.org
-X-Bugzilla-Flags: 
-X-Bugzilla-Changed-Fields: 
-Message-ID: <bug-221184-208809-Vyc2KHy5TS@https.bugzilla.kernel.org/>
-In-Reply-To: <bug-221184-208809@https.bugzilla.kernel.org/>
-References: <bug-221184-208809@https.bugzilla.kernel.org/>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-X-Bugzilla-URL: https://bugzilla.kernel.org/
-Auto-Submitted: auto-generated
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="J6oGWZBC"
+Received: by mail-wm1-f42.google.com with SMTP id 5b1f17b1804b1-4852fdb36a8so51879935e9.2
+        for <linux-usb@vger.kernel.org>; Wed, 11 Mar 2026 07:39:23 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google; t=1773239962; x=1773844762; darn=vger.kernel.org;
+        h=content-transfer-encoding:in-reply-to:content-language:from
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=ejjctz4Z1Yb0RYsrK7yI5hs1ap7d4xFirfs/hSHU4Tc=;
+        b=J6oGWZBCLkAFn/H85t56PtY6baurO46tB2+GyAHGPOhx+ERfBuk8q1VzdNVLhOljwa
+         nyfVYnkBbjUc6qqzRqjspZou4C1MsQfwDIZSy2ldbaUaRJSLhkz3ma7IfkDpLK6U1P09
+         Rqb6D7sC1DUiwNg91cJ6iMpyrKQdklwaPPvfxzzSWlehTZ1kNky1WpFxSxxGTolJZ2nJ
+         7Xt8bcPQXERHIGeoTvP7mq9wJN10/jZtJTnT71oqhil5PI6/XX4XRY2o/trmR2M9HaRg
+         RStyM52/C37sokcaf8EG/seX4Q0Yg/ORSOXNQlg9KN/UeX7Et0Cnus70rHvrUpKUcS6P
+         zZkA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1773239962; x=1773844762;
+        h=content-transfer-encoding:in-reply-to:content-language:from
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :x-gm-gg:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=ejjctz4Z1Yb0RYsrK7yI5hs1ap7d4xFirfs/hSHU4Tc=;
+        b=QUOVXKsVbbxLP96mwClfvTPyy2lx0wFei2kmDxKi12AdNPr4K27G9sYS/u2sf5lC5h
+         27i4QL5SNEhH6gniuh1cH2ESYa+BB3xu3Zt8A1qIakFGbcOg7ygUo+5Q+KQ8Dq303Ymg
+         IR9ZYEoNuHhNcZX0iJAj4gOVqOl17DivH9Xy0R4q8WM3EZUJTcTJ382oev45BH+QkHZT
+         8z00B5kIy8CyCPO+b51IAPg35p1VuVDvKp5svtAEFgWuyURTgvmQuZOlSRrkSf4Im0+V
+         uaJdq0Vup6gek7OyHWtCw3cdNnf0QPn2GHzUySlUJPGCu7CBmSur919Hg+yo+dfAHmp6
+         6nNg==
+X-Forwarded-Encrypted: i=1; AJvYcCVMNy+RJ1LAba2zaHiiP2Y/cA3xOqW24vRJ0m7zbMqG7J6jfxCqDSxW0q85x+tuIJZXx2rSsa3QSAY=@vger.kernel.org
+X-Gm-Message-State: AOJu0Yw/cRRqVP0tzvE6jtkiI/nF3oB35J8CfYWl0Wyd/ZeopOCXt+2O
+	35eog2UMROz1ppkZW2fn9SSq2iMcSyxBPN36RWscEgn9pd+U3rg1TXBeqsPIRXZze+g=
+X-Gm-Gg: ATEYQzxaVQ+OVA8f7joWp5IcINqhrv0SuaUnWH2pE04dIKqErsirjtzrlVSyGmfrXcW
+	w91UvfbWOHAupZbqUZ8tUls2/c2FlSoGYHAJJqkphbXu6WJgUQdFu+nTT9cr0v1dbjtWekQIpHv
+	lHtWiSyweuf7vB/sUwg4uFZWkUoNR6/lUNimXdxMKEhZ+ph+eX0tJ6TO3hfL5a4bCHr5+gwG8cz
+	Kti0lWC6MmAjilyit4mqmNFLZaew8whJyOPkPgo0pdHtVyEYyxI+4EuwtMWgN8Jtt9PJRwamX2Z
+	Y4GCj5XSWEjo0B84SkzUXqk5YhuuMg11AZYTl7XlEGeIYs8bM+llBwkwf3Vo7sLDpUW8fSNj6uH
+	i4PTYFNuhJ6LQC4pdMnijxVFEyqCCdgWD96DLRAhVPBjzKDOe1nU73jRYcEw38dZukt67zhbL6v
+	pEiY8dBrxsJLxZbcCzS2q4sx1lZgys6kmjzAPf
+X-Received: by 2002:a05:600c:8b05:b0:485:303b:c50a with SMTP id 5b1f17b1804b1-4854b0f064emr50867255e9.13.1773239962225;
+        Wed, 11 Mar 2026 07:39:22 -0700 (PDT)
+Received: from [192.168.0.101] ([109.76.250.155])
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-48541ab9f9esm163646375e9.4.2026.03.11.07.39.21
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Wed, 11 Mar 2026 07:39:21 -0700 (PDT)
+Message-ID: <1295e256-ad5c-4d20-b928-792b251fa9fe@linaro.org>
+Date: Wed, 11 Mar 2026 14:39:20 +0000
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH RFC 2/2] usb: typec: qcom: Add support for shared USBIN
+ VBUS detection
+To: Konrad Dybcio <konrad.dybcio@oss.qualcomm.com>,
+ Alexander Koskovich <AKoskovich@pm.me>,
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+ Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>,
+ Conor Dooley <conor+dt@kernel.org>,
+ Heikki Krogerus <heikki.krogerus@linux.intel.com>
+Cc: linux-arm-msm@vger.kernel.org, linux-usb@vger.kernel.org,
+ devicetree@vger.kernel.org, linux-kernel@vger.kernel.org
+References: <20260308-qcom-typec-shared-vbus-v1-0-7d574b91052a@pm.me>
+ <20260308-qcom-typec-shared-vbus-v1-2-7d574b91052a@pm.me>
+ <5304144a-0907-4b7e-8c65-d0d37e74e9f8@oss.qualcomm.com>
+From: Bryan O'Donoghue <bryan.odonoghue@linaro.org>
+Content-Language: en-US
+In-Reply-To: <5304144a-0907-4b7e-8c65-d0d37e74e9f8@oss.qualcomm.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 
-https://bugzilla.kernel.org/show_bug.cgi?id=3D221184
+On 11/03/2026 13:01, Konrad Dybcio wrote:
+>> +	pmic_typec_port->vbus_detect_gpio = devm_gpiod_get_optional(dev, "vbus-detect",
+>> +								 GPIOD_IN);
+> I thought the intent here was to have 2 GPIOs, one per port - could
+> you please shed some light on this?
 
---- Comment #40 from Alan Stern (stern@rowland.harvard.edu) ---
-For USB-2, mismatched toggles usually don't hurt.  Mismatches occur when an=
- ACK
-packet is lost, so the sender thinks its data wasn't received but the recei=
-ver
-thinks it was.  When this happens, the sender will resend the same data usi=
-ng
-the old toggle value; the receiver will note the mismatch and ignore the
-duplicate data while acknowledging it.  This is part of the reason why the =
-USB
-stack historically has not included much error handling for EPROTO errors.
+You should have two instances of the driver. One for each port so one 
+GPIO detect in-lieu of VBUS per port.
 
-USB-3 is more complicated, and the host controller hardware keeps track of =
-more
-information that USB-2 host controllers do.  Re-establishing correct
-synchronization after an error is therefore all the more difficult.  It wou=
-ld
-be worth some effort to find a solution that can work for both USB-2 and US=
-B-3.
+So for this board we would expect to see
 
---=20
-You may reply to this email to add a comment.
+- pmic@2::pm8150b_typec: typec@1500
+- pmic@3::pm8150b_typec: typec@1500
 
-You are receiving this mail because:
-You are watching the assignee of the bug.=
+and a VBUS GPIO associated with each type-c connector.
+
+---
+bod
