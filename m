@@ -1,36 +1,37 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 486F3274B42;
-	Wed, 11 Mar 2026 14:19:03 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3D82429DB86;
+	Wed, 11 Mar 2026 14:21:16 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1773238743; cv=none; b=h/rzSNx4rm5IXck3qlKNTWACixuMYkLiRJIIDpuRYBfAMAfQdFWA445+Zin+gDN2wH2BROUJt08E0mN1s16FD+xuz+qhUYUO3djOfRlCm46qlmv7OQWlQ/bdkbGDsE+lYN5yc33PQ858fpj8fx4eivR6zoTFIA+tgqkz97tYeDc=
+	t=1773238877; cv=none; b=gLMbeEYgpNGDLlBj7gbU/ye9QEbZV6n0XuUXfV05QkFYuIojSatZ8x9Tt2t/L83UXZDa76S4p15W9u4qyFrlY7zTbGkfv2kBA6RNJt4vxzv82s51PT3tCM2uy5YNu9agAykgJnDUGCkicvZhxcRePZaNlHAGalmExWzPgx0aW+k=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1773238743; c=relaxed/simple;
-	bh=/sk99tCwuu/9AUz7BoXM5pAgmalSJ1+HPib99dYb6wk=;
+	s=arc-20240116; t=1773238877; c=relaxed/simple;
+	bh=UP3PbV2rdo09pgZAO6gal6+SbbUEGNzsKIU6D1w6gJI=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=GOQUTfV98kp910acoizDxtbWYVtlNyFzoyUAj7p0QoF6LTe3iyKV+fkKTmPf8qLqX4HsFhvnZg0Nmv0pi/e+MFUoUufbpJRwsn/d2aTT/HJLndX+ZzMqM/gikSdiyPZqi73uWekY/9a/pDVWvIzK01HlFfNSlail64xRHvi7Zc4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b=wf7WzOW1; arc=none smtp.client-ip=10.30.226.201
+	 Content-Type:Content-Disposition:In-Reply-To; b=gFW2UzcpoeAte53I54DbjA/BlwT56VVlPiUnNadDk4F7F4ABSLjYCg3qQ/JPTxKuSGDn7rJWf7/AKQDlShy7+KORV9YsT88Y6YJM8BdAsDJ0/uBgHeoyKRT8lJccE15UkMyavR8LU0/HHmf8X/y3zScAoMeQR29+Iphnii7FtLw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b=yLauF2L6; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="wf7WzOW1"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 4A3E0C4CEF7;
-	Wed, 11 Mar 2026 14:19:01 +0000 (UTC)
+	dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="yLauF2L6"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 73CA2C4CEF7;
+	Wed, 11 Mar 2026 14:21:16 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
-	s=korg; t=1773238742;
-	bh=/sk99tCwuu/9AUz7BoXM5pAgmalSJ1+HPib99dYb6wk=;
+	s=korg; t=1773238876;
+	bh=UP3PbV2rdo09pgZAO6gal6+SbbUEGNzsKIU6D1w6gJI=;
 	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=wf7WzOW1lvNCBVkJss5PThkD10FmrBxezfPv9SpYCj9rP+w+zxAh62JkGxXqNXg89
-	 y4IXYv90em1adWGARyISnrJKG+H96KI+JDMztX/yatM34iM06V+0gM1UFyeyPJVleL
-	 iAEfOOwPTujtg+xK+qUdy+vKbV7GObzdeYpzvlhI=
-Date: Wed, 11 Mar 2026 15:18:58 +0100
-From: Greg KH <gregkh@linuxfoundation.org>
-To: Pengpeng Hou <pengpeng.hou@isrc.iscas.ac.cn>
-Cc: peter.chen@kernel.org, linux-usb@vger.kernel.org,
-	linux-kernel@vger.kernel.org, 18291782795@163.com
-Subject: Re: [PATCH] usb: chipidea: scope ci_ulpi_resume() to CONFIG_PM
-Message-ID: <2026031109-hardhat-dispersed-6b5c@gregkh>
-References: <20260309084523.718431-1-pengpeng.hou@isrc.iscas.ac.cn>
+	b=yLauF2L6pSiEgBDBnBBGg/Nb+AuzJPxJIK1yDolOzrWO197jaTP8cZvI4hljyG+Uy
+	 8CEVbU69xg7kqs5dQmmbww6I/ZgiyhLqIMQzK77PFACVrQSOq9dqCg2jUME8HVfB3w
+	 RwvRyxzOp+c8sT5auQOyzELXtCGwLtOO9476DczI=
+Date: Wed, 11 Mar 2026 15:21:13 +0100
+From: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+To: Johan Hovold <johan@kernel.org>
+Cc: Dave Penkler <dpenkler@gmail.com>, linux-usb@vger.kernel.org,
+	linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v2 2/2] gpib: lpvo_usb: rename driver symbol prefix
+Message-ID: <2026031155-brownnose-voyage-b696@gregkh>
+References: <20260305151729.10501-1-johan@kernel.org>
+ <20260305151729.10501-3-johan@kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
@@ -39,25 +40,15 @@ List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20260309084523.718431-1-pengpeng.hou@isrc.iscas.ac.cn>
+In-Reply-To: <20260305151729.10501-3-johan@kernel.org>
 
-On Mon, Mar 09, 2026 at 08:45:23AM +0000, Pengpeng Hou wrote:
-> In current linux.git (1954c4f01220), ci_ulpi_resume() is defined
+On Thu, Mar 05, 2026 at 04:17:29PM +0100, Johan Hovold wrote:
+> The LPVO driver apparently includes a more or less verbatim copy of the
+> USB skeleton driver.
 
-No need to reference the tree like this, that's not the normal way.
+Ick, and the copyright of that file was not referenced in this file
+either :(
 
-> and declared unconditionally. However, its only in-tree caller is within
-> ci_controller_resume() in drivers/usb/chipidea/core.c, which is already
-> guarded by #ifdef CONFIG_PM.
-> 
-> Match the helper scope to its caller by wrapping the definition in
-> CONFIG_PM and providing a no-op stub in the header. This fixes the
-> config-scope mismatch and avoids unnecessary code inclusion when
-> power management is disabled.
-
-How much does this actually save?  Why is only resume() needed to be
-#ifdef here, not suspend?
-
-thanks,
+thanks for these changes, I'll go queue them up.
 
 greg k-h
