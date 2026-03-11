@@ -1,41 +1,38 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 282EE19D89E;
-	Wed, 11 Mar 2026 12:31:35 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 46EFE31F9B9
+	for <linux-usb@vger.kernel.org>; Wed, 11 Mar 2026 12:35:55 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1773232296; cv=none; b=FupyYK/QfgI8fotAnwiPMpTVWz7Hmh6zRGkeQi6bGtonvPVKxMUVA+TemrMUreJzAsMrG4k50f68FQJDQLym9AIcKTi0dLWLgDfGs2AYdDr/oQThuApHwx7TrfjJxBOClTg6gQZypaZZV47j19kDS010Oj4JhlUCLK2fz+8t/8M=
+	t=1773232555; cv=none; b=mrR/Y/luCTrcHVSDBF2JcvaZBVHZtVht+dx7oPX15GByN0DGkzmt1ATxKvuZyNE90E+beJI1TLUUbskPBtIyhi0I8llstEe1gTK8Bnxo8VkxMPwWBzkBNHms+9xkbLzNkeXVH4S6bQxc7SsnFehFhcPiO/lk8uWt3y6pLtw6Q2A=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1773232296; c=relaxed/simple;
-	bh=8FO5JQyUdTtvjjiHusgWZwBFkP9+9Rfi0T2kj3nS7/k=;
+	s=arc-20240116; t=1773232555; c=relaxed/simple;
+	bh=bRH42KYXdwL1T2cf8rRdMe6bM4LlNCASgHS1XXC0voc=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=j5a8rtOne5UR1W9naOlVUdnkjF1fKHm61ED2ztkbCHDEb8d/9xe7Q/nOFB+eyJPiX2MqwSfWJ/cdfG6nYbfhNSveIMip0QzWMphtoBEsSiX3eIgsy8tukTCLz+SY16wb0ecXD1I5uIR5xvsK4iCJR9FABNvqPnob83h7q+3AowA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b=y334Cv2p; arc=none smtp.client-ip=10.30.226.201
+	 Content-Type:Content-Disposition:In-Reply-To; b=LbHKw20tyUy4l1gIdJHewhHXRXBVGtaiKTCsbD2XgxbYbjJyGqHzVPUv+Tmgalmk/fRq+n2lRYXZDwsKwEzAnYwFFlI0e6TbpYXqDPPNlisxZxPKWmxkXt87rb5WAjwZ033hoC2QgCHmqkaGz55/yGafncZHX8sLTYpyGfzoMsU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b=C8Wbagil; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="y334Cv2p"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id E0ED8C4CEF7;
-	Wed, 11 Mar 2026 12:31:34 +0000 (UTC)
+	dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="C8Wbagil"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 31303C4CEF7;
+	Wed, 11 Mar 2026 12:35:53 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
-	s=korg; t=1773232295;
-	bh=8FO5JQyUdTtvjjiHusgWZwBFkP9+9Rfi0T2kj3nS7/k=;
+	s=korg; t=1773232554;
+	bh=bRH42KYXdwL1T2cf8rRdMe6bM4LlNCASgHS1XXC0voc=;
 	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=y334Cv2pg/qqS247eo0chrhcWYxfmmxKEwRvJXdsJej3UYrDhxm1etLftQQ01pyQk
-	 ufUGIffxfbrDJFMGlqQfZjmy+IXxmpzKHT1Fl8sZSXs+AQLlWo6f7N/mo4YGCdlynq
-	 9TxuBcLEwaxQC030xBN1R6jujBnbV6JtykbFk7l8=
-Date: Wed, 11 Mar 2026 13:31:31 +0100
+	b=C8WbagilqRbol7famfrOuNntPFiWCPgUh7FB8qWQzm9OTi2ZeejJMhDCLbx34fh1R
+	 HrQFMjI8nwm1O8Fd+Z7xSCzVSS52cTaSd2+h3idsRSVpK/1xPATVo6uYvqNAhtStrv
+	 A1VYfOe18qSmWFnfs9O3sRtz/xr207SWO6UR5LRU=
+Date: Wed, 11 Mar 2026 13:35:49 +0100
 From: Greg KH <gregkh@linuxfoundation.org>
-To: Guan-Yu Lin <guanyulin@google.com>
-Cc: mathias.nyman@intel.com, perex@perex.cz, tiwai@suse.com,
-	quic_wcheng@quicinc.com, broonie@kernel.org, arnd@arndb.de,
-	christophe.jaillet@wanadoo.fr, xiaopei01@kylinos.cn,
-	wesley.cheng@oss.qualcomm.com, linux-usb@vger.kernel.org,
-	linux-kernel@vger.kernel.org, linux-sound@vger.kernel.org,
-	stable@vger.kernel.org
-Subject: Re: [PATCH v2 2/2] ALSA: usb: qcom: manage offload device usage
-Message-ID: <2026031115-unboxed-spouse-1dcd@gregkh>
-References: <20260309022205.28136-1-guanyulin@google.com>
- <20260309022205.28136-3-guanyulin@google.com>
+To: Nils Reuter <nils.reuter@gmx.net>
+Cc: linux-usb@vger.kernel.org
+Subject: Re: [PATCH] USB: storage: UAS: ignore UAS on Realtek RTL9210B with
+ firmware f0.01
+Message-ID: <2026031146-acclimate-attic-d402@gregkh>
+References: <151d1ec4-275a-43d6-bc06-26e013695b7b@gmx.net>
+ <2026030817-cupping-reason-0bb9@gregkh>
+ <1b015499-70b0-47c0-8600-4fb1555f9978@gmx.net>
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
@@ -44,184 +41,54 @@ List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20260309022205.28136-3-guanyulin@google.com>
+In-Reply-To: <1b015499-70b0-47c0-8600-4fb1555f9978@gmx.net>
 
-On Mon, Mar 09, 2026 at 02:22:05AM +0000, Guan-Yu Lin wrote:
-> The Qualcomm USB audio offload driver currently does not report its offload
-> activity to the USB core. This prevents the USB core from properly tracking
-> active offload sessions, which could allow the device to auto-suspend while
-> audio offloading is in progress.
+On Sun, Mar 08, 2026 at 08:37:28PM +0100, Nils Reuter wrote:
+> Hi Greg,
 > 
-> Integrate usb_offload_get() and usb_offload_put() calls into the offload
-> stream setup and teardown paths. Specifically, call usb_offload_get() when
-> initializing the event ring and usb_offload_put() when freeing it.
+> Thanks for the feedback. As requested, here is the patch to add the UAS
+> quirk for the Realtek RTL9210B (bcdDevice f0.01).
 > 
-> Since the updated usb_offload_get() and usb_offload_put() APIs require the
-> caller to hold the USB device lock, add the necessary device locking in
-> handle_uaudio_stream_req() and qmi_stop_session() to satisfy this
-> requirement.
+> Regards,
+> Nils
 > 
-> Cc: stable@vger.kernel.org
-> Fixes: ef82a4803aab ("xhci: sideband: add api to trace sideband usage")
-> Signed-off-by: Guan-Yu Lin <guanyulin@google.com>
 > ---
->  sound/usb/qcom/qc_audio_offload.c | 102 ++++++++++++++++++------------
->  1 file changed, 60 insertions(+), 42 deletions(-)
 > 
-> diff --git a/sound/usb/qcom/qc_audio_offload.c b/sound/usb/qcom/qc_audio_offload.c
-> index cfb30a195364..1da243662327 100644
-> --- a/sound/usb/qcom/qc_audio_offload.c
-> +++ b/sound/usb/qcom/qc_audio_offload.c
-> @@ -699,6 +699,7 @@ static void uaudio_event_ring_cleanup_free(struct uaudio_dev *dev)
->  		uaudio_iommu_unmap(MEM_EVENT_RING, IOVA_BASE, PAGE_SIZE,
->  				   PAGE_SIZE);
->  		xhci_sideband_remove_interrupter(uadev[dev->chip->card->number].sb);
-> +		usb_offload_put(dev->udev);
->  	}
->  }
+> From cb1f8118e802be51a06f4564bb01f91110a51b53 Mon Sep 17 00:00:00 2001
+> From: Nils Reuter <nils.reuter@gmx.net>
+> Date: Sun, 8 Mar 2026 19:39:21 +0100
+> Subject: [PATCH] USB: storage: UAS: ignore UAS on Realtek RTL9210B with
+>  firmware f0.01
+> 
+> The Realtek RTL9210B (0bda:9210) with firmware version f0.01 suffers
+> from UAS protocol hangs under heavy I/O load, leading to device
+> resets and read-only remounts. Disabling UAS via the IGNORE_UAS
+> quirk stabilizes the connection.
+> 
+> Signed-off-by: Nils Reuter <nils.reuter@gmx.net>
+> ---
+>  drivers/usb/storage/unusual_uas.h | 7 +++++++
+>  1 file changed, 7 insertions(+)
+> 
+> diff --git a/drivers/usb/storage/unusual_uas.h b/drivers/usb/storage/unusual_uas.h
+> index 939a98c2d..f17469f8c 100644
+> --- a/drivers/usb/storage/unusual_uas.h
+> +++ b/drivers/usb/storage/unusual_uas.h
+> @@ -90,6 +90,13 @@ UNUSUAL_DEV(0x0bc2, 0x331a, 0x0000, 0x9999,
+>  		USB_SC_DEVICE, USB_PR_DEVICE, NULL,
+>  		US_FL_NO_REPORT_LUNS),
 >  
-> @@ -750,6 +751,7 @@ static void qmi_stop_session(void)
->  	struct snd_usb_substream *subs;
->  	struct usb_host_endpoint *ep;
->  	struct snd_usb_audio *chip;
-> +	struct usb_device *udev;
->  	struct intf_info *info;
->  	int pcm_card_num;
->  	int if_idx;
-> @@ -791,8 +793,13 @@ static void qmi_stop_session(void)
->  			disable_audio_stream(subs);
->  		}
->  		atomic_set(&uadev[idx].in_use, 0);
-> -		guard(mutex)(&chip->mutex);
-> -		uaudio_dev_cleanup(&uadev[idx]);
-> +
-> +		udev = uadev[idx].udev;
-> +		if (udev) {
-> +			guard(device)(&udev->dev);
-> +			guard(mutex)(&chip->mutex);
-> +			uaudio_dev_cleanup(&uadev[idx]);
+> +/* Reported-by: Nils Reuter <nils.reuter@gmx.net> */
+> +UNUSUAL_DEV(0x0bda, 0x9210, 0xf001, 0xf001,
+> +		"Realtek",
+> +		"RTL9210B",
+> +		USB_SC_DEVICE, USB_PR_DEVICE, NULL,
+> +		US_FL_IGNORE_UAS),
 
-Two locks?  For one structure?  Is this caller verifying that those
-locks are held?
-
-> +		}
->  	}
->  }
->  
-> @@ -1183,11 +1190,15 @@ static int uaudio_event_ring_setup(struct snd_usb_substream *subs,
->  	er_pa = 0;
->  
->  	/* event ring */
-> +	ret = usb_offload_get(subs->dev);
-> +	if (ret < 0)
-> +		goto exit;
-
-Where is the lock being held here?
-
-This pushing the lock for USB calls "higher" up the call chain is rough,
-and almost impossible to audit, given changes like this:
-
-> @@ -1597,50 +1612,53 @@ static void handle_uaudio_stream_req(struct qmi_handle *handle,
->  
->  	uadev[pcm_card_num].ctrl_intf = chip->ctrl_intf;
->  
-> -	if (req_msg->enable) {
-> -		ret = enable_audio_stream(subs,
-> -					  map_pcm_format(req_msg->audio_format),
-> -					  req_msg->number_of_ch, req_msg->bit_rate,
-> -					  datainterval);
-> -
-> -		if (!ret)
-> -			ret = prepare_qmi_response(subs, req_msg, &resp,
-> -						   info_idx);
-> -		if (ret < 0) {
-> -			guard(mutex)(&chip->mutex);
-> -			subs->opened = 0;
-> -		}
-> -	} else {
-> -		info = &uadev[pcm_card_num].info[info_idx];
-> -		if (info->data_ep_pipe) {
-> -			ep = usb_pipe_endpoint(uadev[pcm_card_num].udev,
-> -					       info->data_ep_pipe);
-> -			if (ep) {
-> -				xhci_sideband_stop_endpoint(uadev[pcm_card_num].sb,
-> -							    ep);
-> -				xhci_sideband_remove_endpoint(uadev[pcm_card_num].sb,
-> -							      ep);
-> +	udev = subs->dev;
-> +	scoped_guard(device, &udev->dev) {
-> +		if (req_msg->enable) {
-> +			ret = enable_audio_stream(subs,
-> +						map_pcm_format(req_msg->audio_format),
-> +						req_msg->number_of_ch, req_msg->bit_rate,
-> +						datainterval);
-> +
-> +			if (!ret)
-> +				ret = prepare_qmi_response(subs, req_msg, &resp,
-> +							info_idx);
-> +			if (ret < 0) {
-> +				guard(mutex)(&chip->mutex);
-> +				subs->opened = 0;
-> +			}
-> +		} else {
-> +			info = &uadev[pcm_card_num].info[info_idx];
-> +			if (info->data_ep_pipe) {
-> +				ep = usb_pipe_endpoint(uadev[pcm_card_num].udev,
-> +							info->data_ep_pipe);
-> +				if (ep) {
-> +					xhci_sideband_stop_endpoint(uadev[pcm_card_num].sb,
-> +									ep);
-> +					xhci_sideband_remove_endpoint(uadev[pcm_card_num].sb,
-> +									ep);
-> +				}
-> +
-> +				info->data_ep_pipe = 0;
->  			}
->  
-> -			info->data_ep_pipe = 0;
-> -		}
-> -
-> -		if (info->sync_ep_pipe) {
-> -			ep = usb_pipe_endpoint(uadev[pcm_card_num].udev,
-> -					       info->sync_ep_pipe);
-> -			if (ep) {
-> -				xhci_sideband_stop_endpoint(uadev[pcm_card_num].sb,
-> -							    ep);
-> -				xhci_sideband_remove_endpoint(uadev[pcm_card_num].sb,
-> -							      ep);
-> +			if (info->sync_ep_pipe) {
-> +				ep = usb_pipe_endpoint(uadev[pcm_card_num].udev,
-> +							info->sync_ep_pipe);
-> +				if (ep) {
-> +					xhci_sideband_stop_endpoint(uadev[pcm_card_num].sb,
-> +									ep);
-> +					xhci_sideband_remove_endpoint(uadev[pcm_card_num].sb,
-> +									ep);
-> +				}
-> +
-> +				info->sync_ep_pipe = 0;
->  			}
->  
-> -			info->sync_ep_pipe = 0;
-> +			disable_audio_stream(subs);
-> +			guard(mutex)(&chip->mutex);
-> +			subs->opened = 0;
->  		}
-> -
-> -		disable_audio_stream(subs);
-> -		guard(mutex)(&chip->mutex);
-> -		subs->opened = 0;
-
-You have multiple levels of locks here, which is always a sign that
-something has gone really wrong.  This looks even more fragile and easy
-to get wrong than before.  Are you _SURE_ this is the only way to solve
-this?  The whole usb_offload_get() api seems more wrong to me than
-before (and I didn't like it even then...)
-
-In other words, this patch set feels rough, and adds more complexity
-overall, requiring a reviewer to "know" where locks are held and not
-held while before they did not.  That's a lot to push onto us for
-something that feels like is due to a broken hardware design?
+This is a VERY heavy hammer for this type of device.  You say that the
+device just starts to time out, which implies it overheats or something
+else?  Are you sure that slowing it down like this is the best overall
+solution?  What does other operating systems do for this device?
 
 thanks,
 
