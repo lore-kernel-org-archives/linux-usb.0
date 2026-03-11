@@ -1,89 +1,81 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2577723C4F2
-	for <linux-usb@vger.kernel.org>; Wed, 11 Mar 2026 18:37:28 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D6CA71A682F;
+	Wed, 11 Mar 2026 18:44:06 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1773254249; cv=none; b=cl8nIvTTigTN7vrDEd0tDkcUdmHbqmwAn7GPdFyV3uIUec8/QqCoo/sc5Ii62oBWV540Z3B8G94qH6RJ49rUxdRrXFbd9IYEppzd8R5vU+NMSlopICfZ4ZhbDwJeIrmp1ed2o6NvHrL+k56XmRxBg8BQwLI4ME7su9cvwXWd6KE=
+	t=1773254646; cv=none; b=OjccFS/pHEVCsQsGf/iuRAvUcLrUtFRjOw5eaAEgnCYZ4VwjuqswvR0FkPz1mFthUD78YoRvdTTw53wzCcUJ05JifqJrg0OmO71Lah7OmtzwLEU2k/GGpw2i0KFFnHdHaGkScMWhHdYd/Z8D0U2cA21fDfqmpPlvbApmzudhC+U=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1773254249; c=relaxed/simple;
-	bh=xIRE/W9v65bFyxv9f3ZELVrJgs9XOWPjbm+YapES8/Y=;
-	h=From:To:Subject:Date:Message-ID:In-Reply-To:References:
-	 Content-Type:MIME-Version; b=sLrJPT8TBJgzPm9Y1HFNZjBHExtf/dNS73awfkaYLODETJ4DWgERiW3VFX6rIqNxCVykhBFsLq/Ye1LW2M7mKsKerSv/ZJFo8ESP1o4mH7bTB5x26KT9sVvSk18WOZ7FDCn4E8BXDS1kY45Aa7JvQkNmtdCRkWxqcTSjDlPDa0c=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=TxBCZ78U; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1773254646; c=relaxed/simple;
+	bh=lLDUMyEV38aCw8V0nWb79qsOsKSW/XYdptR0FCzveEE=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=o6hQ/VAlS+m8weHQcFBQdKHL4SgSH0vjlJx0L4fdouCn+obNeR542+x9wO5vTAOUk9MnsGw3a2Ow8g2dTDIrTCt7uD95V54MvZlVYKIiwjodjPI0W7fAPeT1PBaHZXEkK9efqJnYf3BCPOXCPuvlHv8yKodKy7/k14tXh6ekFnU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=T4owwLaY; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="TxBCZ78U"
-Received: by smtp.kernel.org (Postfix) with ESMTPS id B7C46C4CEF7
-	for <linux-usb@vger.kernel.org>; Wed, 11 Mar 2026 18:37:28 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="T4owwLaY"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 95FB5C4CEF7;
+	Wed, 11 Mar 2026 18:44:04 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1773254248;
-	bh=xIRE/W9v65bFyxv9f3ZELVrJgs9XOWPjbm+YapES8/Y=;
-	h=From:To:Subject:Date:In-Reply-To:References:From;
-	b=TxBCZ78Ulxif2VaY1Jk7Ipdxml9Vuuxly8yyZpb2wdbMi97cIIJB4ZgGQ/3ohzbqh
-	 r2DlYimh5t4nGus6lOq4yS0GbqtDBs7OgoTB+mba9y9Qj26Rno+iEPrtnLVKSMBlLL
-	 MI9O2Nlva3ia39gT+V7Sm2oNl3mFWf9TdR+UFzAs9ThdRXHzMB824taNcYV/9MeW1R
-	 MZVJoDms8c5rmA+W5TL+ECHa0x5txKOSnokoLE9LTgEswz4HIT7jJpymW6w5Y9OVB/
-	 MSkneYtHoz879uHm9wMVw/0UV2vPQd2ZJ79ogtgiTHTqgZPAERB35jDSxKI6zfv21f
-	 eeJXoMPkt90rg==
-Received: by aws-us-west-2-korg-bugzilla-1.web.codeaurora.org (Postfix, from userid 48)
-	id B27D6C41612; Wed, 11 Mar 2026 18:37:28 +0000 (UTC)
-From: bugzilla-daemon@kernel.org
-To: linux-usb@vger.kernel.org
-Subject: [Bug 221184] mouse/keyboard (connected via hub) usb reset under
- system load with weak cpu
-Date: Wed, 11 Mar 2026 18:37:28 +0000
-X-Bugzilla-Reason: None
-X-Bugzilla-Type: changed
-X-Bugzilla-Watch-Reason: AssignedTo drivers_usb@kernel-bugs.kernel.org
-X-Bugzilla-Product: Drivers
-X-Bugzilla-Component: USB
-X-Bugzilla-Version: 2.5
-X-Bugzilla-Keywords: 
-X-Bugzilla-Severity: normal
-X-Bugzilla-Who: roxmail@list.ru
-X-Bugzilla-Status: NEW
-X-Bugzilla-Resolution: 
-X-Bugzilla-Priority: P3
-X-Bugzilla-Assigned-To: drivers_usb@kernel-bugs.kernel.org
-X-Bugzilla-Flags: 
-X-Bugzilla-Changed-Fields: 
-Message-ID: <bug-221184-208809-s1qumQgsRB@https.bugzilla.kernel.org/>
-In-Reply-To: <bug-221184-208809@https.bugzilla.kernel.org/>
-References: <bug-221184-208809@https.bugzilla.kernel.org/>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-X-Bugzilla-URL: https://bugzilla.kernel.org/
-Auto-Submitted: auto-generated
+	s=k20201202; t=1773254646;
+	bh=lLDUMyEV38aCw8V0nWb79qsOsKSW/XYdptR0FCzveEE=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=T4owwLaY8gUh5KvDcwuiCGIjbcjFnjtNWloM7SvYoLRNw2XPzaLn8ALVMaGsClunf
+	 Y02IqO/fbSwQZolDqguxzkqi/3UbV9LlW9JUx4IEuQJlFfi/J4TfmFbxMM1aD3l0B1
+	 1EJ1xg4Jibth4F2LL/GMO/HeLzUSVzz1sFcf/oO0v4P3yizU/gyttVNGCYtPZQB6Qg
+	 CfC1R3/ogp2CNuH6rqyioEcElXbdCblXEMkUpxQTRVS0V7lK1QfqGgi5rnUfcTPfEr
+	 ahAN99L18pEAkHj0RjuTOAKgDbYpOzWsh3HURZpwTm5iGfWcDAvt7HHCxcLM2eYiYH
+	 B5GoeWzRLxQJw==
+Date: Wed, 11 Mar 2026 18:44:02 +0000
+From: Conor Dooley <conor@kernel.org>
+To: Alexey Charkov <alchark@flipper.net>
+Cc: Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>,
+	Conor Dooley <conor+dt@kernel.org>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	Matthias Kaehlcke <mka@chromium.org>, devicetree@vger.kernel.org,
+	linux-kernel@vger.kernel.org, linux-usb@vger.kernel.org
+Subject: Re: [PATCH 1/3] dt-bindings: vendor-prefixes: Add Shenzhen Corechips
+ Microelectronics
+Message-ID: <20260311-lubricate-figment-ec2fcf71f786@spud>
+References: <20260311-sl6341-v1-0-0a890056f054@flipper.net>
+ <20260311-sl6341-v1-1-0a890056f054@flipper.net>
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
+Content-Type: multipart/signed; micalg=pgp-sha512;
+	protocol="application/pgp-signature"; boundary="SjfPcaz6RMqsvFCA"
+Content-Disposition: inline
+In-Reply-To: <20260311-sl6341-v1-1-0a890056f054@flipper.net>
 
-https://bugzilla.kernel.org/show_bug.cgi?id=3D221184
 
---- Comment #41 from Roman Elshin (roxmail@list.ru) ---
-> I wonder if this change would help for any of the xHCI problems mentioned
-> here? And what effect it has on the EHCI problems?
+--SjfPcaz6RMqsvFCA
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-1. There are some improvements with FL1100 - while test mouse silently stops
-working sometimes, but after reconnecting it works again. Now i remember
-looking similar issue on much more recent system with i7-13700, but it very
-rare there (was`t pay mach attention on it so not sure about conditions).
+On Wed, Mar 11, 2026 at 07:20:21PM +0400, Alexey Charkov wrote:
+> Add Shenzhen Corechips Microelectronics Co., Ltd., which is a company
+> producing chips for USB accessories
+>=20
+> Link: http://www.corechip-sz.com/enproducts.asp
+> Signed-off-by: Alexey Charkov <alchark@flipper.net>
 
-2. ASM1042A seems no changes.
+Sure.
+Acked-by: Conor Dooley <conor.dooley@microchip.com>
+pw-bot: not-applicable
 
-3. VIA VL805 without load seems better, but while test it looks similar as
-before.
+--SjfPcaz6RMqsvFCA
+Content-Type: application/pgp-signature; name="signature.asc"
 
-With EHCI it looks similar reverting 64cc3f12d1c7dd054a215bc1ff9cc2abcfe358=
-32
-(i.e. mouse works, keyboard resets while test).
+-----BEGIN PGP SIGNATURE-----
 
---=20
-You may reply to this email to add a comment.
+iHUEABYKAB0WIQRh246EGq/8RLhDjO14tDGHoIJi0gUCabG38gAKCRB4tDGHoIJi
+0tOsAQDSlEn8I+c5I8GGpZl8hvteI6FGHPixABlqDJMULTAkhAD/ab7Mem0iZLZb
+pRuCoURzJNJ/+qJ+jDEBq6rxwMvOpgg=
+=qNPp
+-----END PGP SIGNATURE-----
 
-You are receiving this mail because:
-You are watching the assignee of the bug.=
+--SjfPcaz6RMqsvFCA--
