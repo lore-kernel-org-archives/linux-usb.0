@@ -1,37 +1,44 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8E03425CC79
-	for <linux-usb@vger.kernel.org>; Wed, 11 Mar 2026 13:10:33 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B79732F5474;
+	Wed, 11 Mar 2026 13:16:56 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1773234633; cv=none; b=nJemfKWLep4F+XXLjrkRzddvWosmD/uI3xt78MdtoOD+KcFgJLLTRVx/gahdWrWkSpQu2D76tcIwYsX+ZQpMxkIP9hjQ8EKTRyT+czz8Au6uiZdB3t8FXKR6SIRPycJWDrJI6IYuZBnwJwo6shre8AYwpa3ujCUaxHj/1hd8HNM=
+	t=1773235016; cv=none; b=ju2dz83ggqajP06RoC8b2eAXBlEkougkUUmuVx127fniFxjzXQ7JjVijfW5ZyrB7ir21LyJTViOAMJe6YMSazN1wqyuaTOoeca/wdw0orAZHVt8BchIa70nPq3dnLPZZkLqPc6n+K/9L1xvueICnnvil48NA0LsvJ4nAZOaKMU4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1773234633; c=relaxed/simple;
-	bh=ZCjsKcKrd5cM7xc0gKPL5+/ZPrvnCW7/RoFaa9cMHac=;
+	s=arc-20240116; t=1773235016; c=relaxed/simple;
+	bh=U13aFlwZAety379snMOfNociaZUEB0cGKCSE9d/m9OU=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=oFIVV2EmgX1i1XQSJs2/8KKJPe6LY0Zc/2BpjEtyhV1f+7pDRir1fgMeFn5aCDO531yWc6OaBXXAGOPTEvAcSC3/T9xEUh/PD1eSZnbtaoaxt7A98MCwm64UrYAwn81Moum5JRWNE9VcICOLgWMNlU3xrVXqlJhVWUCC8Wj3F8A=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b=KwIxzNEI; arc=none smtp.client-ip=10.30.226.201
+	 Content-Type:Content-Disposition:In-Reply-To; b=YD8hLy7HKhWhf03ND5fF3amZZxXZkQr495mW3F237zz/F4rv4FjXz1YfYUHGgCCyab+fV4Mf4Wb0PM3vAJwrUJ4+O6UwYGBvZCYtpynzg54zvINBByQ1plqCpF8m1QNR8gDe4kLI1sDFjosLs7L23jraE+yOibn/hynW3HySaRc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b=d/1/ZTIm; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="KwIxzNEI"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id A4A8AC19425;
-	Wed, 11 Mar 2026 13:10:32 +0000 (UTC)
+	dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="d/1/ZTIm"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id B873FC4CEF7;
+	Wed, 11 Mar 2026 13:16:55 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
-	s=korg; t=1773234633;
-	bh=ZCjsKcKrd5cM7xc0gKPL5+/ZPrvnCW7/RoFaa9cMHac=;
+	s=korg; t=1773235016;
+	bh=U13aFlwZAety379snMOfNociaZUEB0cGKCSE9d/m9OU=;
 	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=KwIxzNEIkllpIBdg6FBHftwd6/ngFFC5bpQatK0BOYZxG6vkRPKMEWQ3PvI+AXZ4y
-	 zu2Ea9/06AMfIxVb9ADKJsNNSGqOagKh2pvE99DEkC3cH8FBbKGP2uFkd06TV676rV
-	 iqQnajlJmsJ033ww9iRN0r9/BGT/YoCvxw0KM4a4=
-Date: Wed, 11 Mar 2026 14:10:28 +0100
-From: Greg KH <gregkh@linuxfoundation.org>
-To: Nathan Rebello <nathan.c.rebello@gmail.com>
-Cc: linux-usb@vger.kernel.org, heikki.krogerus@linux.intel.com
-Subject: Re: [PATCH 1/2] usb: typec: ucsi: validate connector number in
- ucsi_connector_change()
-Message-ID: <2026031109-scrunch-aviator-0e2b@gregkh>
-References: <20260219164925.3249-1-nathan.c.rebello@gmail.com>
- <20260219164925.3249-2-nathan.c.rebello@gmail.com>
+	b=d/1/ZTImJAB9+0FsHXXtaZgczILjEjx5Qa4DOIye7nSXW05U44v0UCX8KlpwNghoS
+	 tvj3RWIbNws/7DJErRm4dSAnfQAwOEmodTawYZLQpH2U9OjCISQ1alaldZW5VZ8xwb
+	 FggafbRywmXw2rTywpppWcvPobLjFHj0aQppt5lE=
+Date: Wed, 11 Mar 2026 14:16:50 +0100
+From: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+To: Elson Serrao <elson.serrao@oss.qualcomm.com>
+Cc: Bjorn Andersson <andersson@kernel.org>,
+	Konrad Dybcio <konradybcio@kernel.org>,
+	Rob Herring <robh@kernel.org>,
+	Krzysztof Kozlowski <krzk+dt@kernel.org>,
+	Conor Dooley <conor+dt@kernel.org>,
+	Souradeep Chowdhury <quic_schowdhu@quicinc.com>,
+	linux-arm-msm@vger.kernel.org, devicetree@vger.kernel.org,
+	linux-usb@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH RFC v3 02/10] usb: misc: qcom_eud: add sysfs attribute
+ for port selection
+Message-ID: <2026031101-cornstalk-partner-a30e@gregkh>
+References: <20260309203337.803986-1-elson.serrao@oss.qualcomm.com>
+ <20260309203337.803986-3-elson.serrao@oss.qualcomm.com>
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
@@ -40,53 +47,88 @@ List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20260219164925.3249-2-nathan.c.rebello@gmail.com>
+In-Reply-To: <20260309203337.803986-3-elson.serrao@oss.qualcomm.com>
 
-On Thu, Feb 19, 2026 at 11:49:23AM -0500, Nathan Rebello wrote:
-> ucsi_connector_change() uses the connector number from the CCI as an
-> index into the connector array without first verifying it falls within
-> the valid range. The connector number is extracted from the CCI register
-> via UCSI_CCI_CONNECTOR(), which returns a 7-bit value (1-127), but the
-> connector array is typically only 2-4 entries.
+On Mon, Mar 09, 2026 at 01:33:29PM -0700, Elson Serrao wrote:
+> EUD can be mapped to either the primary USB port or the secondary USB port
+> depending on the value of the EUD_PORT_SEL register. Add a 'port' sysfs
+> attribute to allow userspace to select which port EUD should operate on
+> and update the ABI documentation. This is needed for systems with dual
+> USB ports where EUD needs to be accessible on either port depending on the
+> system configuration and use case.
 > 
-> A malicious or malfunctioning device could report an out-of-range
-> connector number, causing an out-of-bounds array access.
-> 
-> Add a bounds check to reject invalid connector numbers before indexing.
-> 
-> Fixes: bdc62f2bae8f ("usb: typec: ucsi: Simplified registration and I/O API")
-> Signed-off-by: Nathan Rebello <nathan.c.rebello@gmail.com>
+> Signed-off-by: Elson Serrao <elson.serrao@oss.qualcomm.com>
 > ---
->  drivers/usb/typec/ucsi/ucsi.c | 9 ++++++++-
->  1 file changed, 8 insertions(+), 1 deletion(-)
+>  Documentation/ABI/testing/sysfs-driver-eud | 16 ++++++++
+>  drivers/usb/misc/qcom_eud.c                | 43 ++++++++++++++++++++++
+>  2 files changed, 59 insertions(+)
 > 
-> diff --git a/drivers/usb/typec/ucsi/ucsi.c b/drivers/usb/typec/ucsi/ucsi.c
-> index a7b388dc7fa0..7109d3bd39b4 100644
-> --- a/drivers/usb/typec/ucsi/ucsi.c
-> +++ b/drivers/usb/typec/ucsi/ucsi.c
-> @@ -1345,7 +1345,14 @@ static void ucsi_handle_connector_change(struct work_struct *work)
->   */
->  void ucsi_connector_change(struct ucsi *ucsi, u8 num)
->  {
-> -	struct ucsi_connector *con = &ucsi->connector[num - 1];
-> +	struct ucsi_connector *con;
+> diff --git a/Documentation/ABI/testing/sysfs-driver-eud b/Documentation/ABI/testing/sysfs-driver-eud
+> index 2bab0db2d2f0..67223f73ee60 100644
+> --- a/Documentation/ABI/testing/sysfs-driver-eud
+> +++ b/Documentation/ABI/testing/sysfs-driver-eud
+> @@ -7,3 +7,19 @@ Description:
+>  		EUD based on a 1 or a 0 value. By enabling EUD,
+>  		the user is able to activate the mini-usb hub of
+>  		EUD for debug and trace capabilities.
 > +
-> +	if (num < 1 || num > ucsi->cap.num_connectors) {
-> +		dev_warn(ucsi->dev, "invalid connector number %d\n", num);
-> +		return;
+> +What:		/sys/bus/platform/drivers/qcom_eud/.../port
+> +Date:		January 2026
+> +Contact:	Elson Serrao <elson.serrao@oss.qualcomm.com>
+> +Description:
+> +		Selects which USB port the Embedded USB Debugger (EUD)
+> +		is mapped to on platforms providing multiple High-Speed
+> +		USB ports.
+> +
+> +		Valid values:
+> +		  0 - Primary USB port
+> +		  1 - Secondary USB port
 
-Shouldn't this return an error and have the caller stop what it was
-attempting to do?  When this is called in ucsi_init(), the
-num_connectors is already parsed, so how can this be wrong?  Shouldn't
-these values all be verified in one single place and then if any of the
-descriptors are "incorrect", the device rejected at that point in time
-and not require "deep" changes in the logic here to try to find these
-types of errors?
+Why not use "primary" and "secondary" as values instead?  That makes
+this much simpler to understand.
 
-in short, let's validate the device once, and after that is done, we can
-"trust" that it is correct and not need to check this stuff all over the
-place.
 
-thanks,
+> +
+> +		The attribute is writable only while EUD is disabled.
+> +		Reading the attribute returns the currently selected
+> +		USB port number.
+> diff --git a/drivers/usb/misc/qcom_eud.c b/drivers/usb/misc/qcom_eud.c
+> index 926419ca560f..1a136f8f1ae5 100644
+> --- a/drivers/usb/misc/qcom_eud.c
+> +++ b/drivers/usb/misc/qcom_eud.c
+> @@ -23,8 +23,11 @@
+>  #define EUD_REG_VBUS_INT_CLR	0x0080
+>  #define EUD_REG_CSR_EUD_EN	0x1014
+>  #define EUD_REG_SW_ATTACH_DET	0x1018
+> +#define EUD_REG_PORT_SEL	0x1028
+>  #define EUD_REG_EUD_EN2		0x0000
+>  
+> +#define EUD_MAX_PORTS		2
+> +
+>  #define EUD_ENABLE		BIT(0)
+>  #define EUD_INT_PET_EUD		BIT(0)
+>  #define EUD_INT_VBUS		BIT(2)
+> @@ -40,6 +43,7 @@ struct eud_chip {
+>  	int				irq;
+>  	bool				enabled;
+>  	bool				usb_attached;
+> +	u8				port_idx;
+>  };
+>  
+>  static int enable_eud(struct eud_chip *priv)
+> @@ -104,8 +108,47 @@ static ssize_t enable_store(struct device *dev,
+>  
+>  static DEVICE_ATTR_RW(enable);
+>  
+> +static ssize_t port_show(struct device *dev,
+> +		struct device_attribute *attr, char *buf)
+> +{
+> +	struct eud_chip *chip = dev_get_drvdata(dev);
+> +
+> +	return sysfs_emit(buf, "%u\n", chip->port_idx);
+
+Wait, you are returning a 0/1 here, yet using a u8?  How can that work?
+
+confused,
 
 greg k-h
