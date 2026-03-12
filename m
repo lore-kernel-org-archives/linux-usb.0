@@ -1,94 +1,128 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.223.130])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5F50C7080E;
-	Thu, 12 Mar 2026 12:31:37 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 787222D6E6C
+	for <linux-usb@vger.kernel.org>; Thu, 12 Mar 2026 12:34:44 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.130
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1773318697; cv=none; b=AOx4lutkKPNJkAW+htMCvkOSI3ZPcfHKe+T8IBgWmeSy69FJCTgt17sDUG3eKF5+Z9BUTJjY5x+q6ewsCajeJH4gmngqpNAUcszBvjMtV0L55f+vB4Ad6CWia36ymz10oD7AzsqZzzKR1puolEmzGaY+IUh/CdyTqfVzxFiEu7s=
+	t=1773318885; cv=none; b=cG3boVQx2NSOCYqoQJcB+dS8p03J7mppqgHPIrAZZUSbrISx1WKJOoby/OBmHaHppajGQYMgnibR82HWg/n0YcdBvX3kSydL0OevzafiaexWlpgrAV+4Sqs7t0JMBuf3DYkvTaQ7FA0zvtqFqKFV94KnUbPbB64UXUaXBcrqafk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1773318697; c=relaxed/simple;
-	bh=81okZrd1UlY9T52gDN7wLEuy0mbxKF8ZDAxHQskLTYI=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=awSLNDdaQJ/6KG0rFj2u3NWvsqWBBWTyKUMUrRAoIkoRK3bxwkeliykVell4dTjMhXrIc7KgTefVso+mnjsudnIiKa/am0BKxVxG3jNUxSKmIXKd+WwXHPClvbGTHyoKYerUE5a6ffjGnFHNNPrHaJB5pqakvbN49r6dQKMiLr8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=eJfMWkxM; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1773318885; c=relaxed/simple;
+	bh=igItnAsSb1k+AhL+GwCFoP0GoYjYGPfESY7tck5+QgY=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=O48ItEh5Aq8IDR5kgRYUkmzXOsplESPIYLTZZ4Pb/9TijFMSAh4LAQddcV35kWZtVLlM3qJNl5SByFJj1DZpwq7ULpjbODXTl2WG/hRFgZ79b5JATKPs7spso/bXxKM/g4cchPsAjiFJrYYAUwm/swUl/d/CrT4drvIu5ok0gpI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=suse.com; spf=pass smtp.mailfrom=suse.com; dkim=pass (1024-bit key) header.d=suse.com header.i=@suse.com header.b=sCT6cRlS; dkim=pass (1024-bit key) header.d=suse.com header.i=@suse.com header.b=sCT6cRlS; arc=none smtp.client-ip=195.135.223.130
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=suse.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="eJfMWkxM"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 06704C19424;
-	Thu, 12 Mar 2026 12:31:37 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1773318697;
-	bh=81okZrd1UlY9T52gDN7wLEuy0mbxKF8ZDAxHQskLTYI=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=eJfMWkxMcusxc/h7WsROfsdCetuMRU+gVO5nX42hZ3WDIwnPHUJYSmNjA5rtV967u
-	 sj9CLwjaPc8GLgjn5E7EAIX2K41WGButGTWF0qw33/zDELWqodg2I1IgQmM6NbNlh4
-	 TtJw8yxqMNHD3BgZuOVsDYdUTdYhxoJAH83bRgjkhNYQESfH4oZMTwu01+VMxlxhte
-	 qA9O0VImLUt0jzQPvoB/SorAT5ItEwTsx/qOuQ4bV/5nydtYlQTXwd79FTrQT+r+DL
-	 pXccagd4M2bMk1XXEsGCuumgt7jLaWxYTMSRLQ0305LdSsI3QqpfzOGZy8bVIG+qzm
-	 vs7opZViv9srQ==
-Received: from johan by xi.lan with local (Exim 4.98.2)
-	(envelope-from <johan@kernel.org>)
-	id 1w0fCQ-000000003aB-2Vhe;
-	Thu, 12 Mar 2026 13:31:34 +0100
-Date: Thu, 12 Mar 2026 13:31:34 +0100
-From: Johan Hovold <johan@kernel.org>
-To: zwq2226404116@163.com
-Cc: gregkh@linuxfoundation.org, linux-usb@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	Wanquan Zhong <wanquan.zhong@fibocom.com>
-Subject: Re: [PATCH] usb: serial: add RW135R-GL (33f8:1003) support
-Message-ID: <abKyJsH7oJf06BDf@hovoldconsulting.com>
-References: <20260312113214.27549-1-zwq2226404116@163.com>
+	dkim=pass (1024-bit key) header.d=suse.com header.i=@suse.com header.b="sCT6cRlS";
+	dkim=pass (1024-bit key) header.d=suse.com header.i=@suse.com header.b="sCT6cRlS"
+Received: from imap1.dmz-prg2.suse.org (unknown [10.150.64.97])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by smtp-out1.suse.de (Postfix) with ESMTPS id C227C4D1F6;
+	Thu, 12 Mar 2026 12:34:42 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.com; s=susede1;
+	t=1773318882; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:  content-transfer-encoding:content-transfer-encoding;
+	bh=LGMNGuVLn0s6gxANSoH9qwtJjwT3xqJkugCEGrAjspc=;
+	b=sCT6cRlS7+roZu2BllX7YLuLVMv50cQm6pcs6S3D/PN82HZlqk5rnn85BcMd6jtyLD2hXp
+	MavbNcloBQqhjEjPb0S8Mt5gqlpN9dWr2CPLdJUM6SHGju12HqPXixOqtJTVbal+Dv32gi
+	Y8Qal0LGHlgwjyW2+geo//mcdqFtlgw=
+Authentication-Results: smtp-out1.suse.de;
+	none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.com; s=susede1;
+	t=1773318882; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:  content-transfer-encoding:content-transfer-encoding;
+	bh=LGMNGuVLn0s6gxANSoH9qwtJjwT3xqJkugCEGrAjspc=;
+	b=sCT6cRlS7+roZu2BllX7YLuLVMv50cQm6pcs6S3D/PN82HZlqk5rnn85BcMd6jtyLD2hXp
+	MavbNcloBQqhjEjPb0S8Mt5gqlpN9dWr2CPLdJUM6SHGju12HqPXixOqtJTVbal+Dv32gi
+	Y8Qal0LGHlgwjyW2+geo//mcdqFtlgw=
+Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 9DF4C3FF86;
+	Thu, 12 Mar 2026 12:34:42 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
+	by imap1.dmz-prg2.suse.org with ESMTPSA
+	id 2VV7JeKysmn/egAAD6G6ig
+	(envelope-from <oneukum@suse.com>); Thu, 12 Mar 2026 12:34:42 +0000
+From: Oliver Neukum <oneukum@suse.com>
+To: gregkh@linuxfoundation.org,
+	stern@rowland.harvard.edu,
+	linux-usb@vger.kernel.org,
+	usb-storage@lists.one-eyed-alien.net
+Cc: Oliver Neukum <oneukum@suse.com>
+Subject: [PATCH] USB: uas: give the error handler the correct name
+Date: Thu, 12 Mar 2026 13:34:27 +0100
+Message-ID: <20260312123435.2015029-1-oneukum@suse.com>
+X-Mailer: git-send-email 2.53.0
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20260312113214.27549-1-zwq2226404116@163.com>
+Content-Transfer-Encoding: 8bit
+X-Spam-Score: -2.80
+X-Spam-Level: 
+X-Spamd-Result: default: False [-2.80 / 50.00];
+	BAYES_HAM(-3.00)[99.99%];
+	NEURAL_HAM_LONG(-1.00)[-1.000];
+	MID_CONTAINS_FROM(1.00)[];
+	R_MISSING_CHARSET(0.50)[];
+	NEURAL_HAM_SHORT(-0.20)[-1.000];
+	MIME_GOOD(-0.10)[text/plain];
+	TO_MATCH_ENVRCPT_ALL(0.00)[];
+	FROM_HAS_DN(0.00)[];
+	ARC_NA(0.00)[];
+	MIME_TRACE(0.00)[0:+];
+	TO_DN_SOME(0.00)[];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[suse.com:mid,suse.com:email,imap1.dmz-prg2.suse.org:helo];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	FROM_EQ_ENVFROM(0.00)[];
+	RCVD_COUNT_TWO(0.00)[2];
+	FUZZY_RATELIMITED(0.00)[rspamd.com];
+	DKIM_SIGNED(0.00)[suse.com:s=susede1];
+	RCPT_COUNT_FIVE(0.00)[5];
+	RCVD_TLS_ALL(0.00)[]
+X-Spam-Flag: NO
 
-On Thu, Mar 12, 2026 at 07:32:14PM +0800, zwq2226404116@163.com wrote:
-> From: Wanquan Zhong <wanquan.zhong@fibocom.com>
-> 
-> Add VID/PID 33f8:1003 for the Rolling Wireless RW135R-GL M.2 module,
-> used in laptop debug cards with MBIM interface for Linux/Chrome OS.
-> The device supports mbim, diag, adb and AT commands.
-> 
-> Device info from lsusb:
-> Bus 03 Device 12: ID 33f8:1003 Rolling Wireless S.a.r.l.
+A UAS device can in principle contain multiple busses.
+A reset on the USB level will reset them all. We
+cannot reset a single bus.
+In practical terms this does not matter, as only
+one method of reset is implemented, but we should
+not lie.
 
-Please include the output from usb-devices which includes details about
-the interfaces (see commit ae420771551b ("USB: serial: option: add
-Rolling RW350-GL variants") for an example).
+Signed-off-by : Oliver Neukum <oneukum@suse.com>
+---
+ drivers/usb/storage/uas.c | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
 
-> Signed-off-by: Wanquan Zhong <wanquan.zhong@fibocom.com>
-> ---
->  drivers/usb/serial/option.c | 3 +++
->  1 file changed, 3 insertions(+)
-> 
-> diff --git a/drivers/usb/serial/option.c b/drivers/usb/serial/option.c
-> index e349ed66d2ac..abeeb7c66977 100644
-> --- a/drivers/usb/serial/option.c
-> +++ b/drivers/usb/serial/option.c
-> @@ -2449,6 +2449,9 @@ static const struct usb_device_id option_ids[] = {
->  	  .driver_info = RSVD(4) | RSVD(5) },
->  	{ USB_DEVICE_INTERFACE_CLASS(0x33f8, 0x0115, 0xff),			/* Rolling RW135-GL (laptop MBIM) */
->  	  .driver_info = RSVD(5) },
-> +	/* Rolling RW135R-GL (laptop MBIM) */
+diff --git a/drivers/usb/storage/uas.c b/drivers/usb/storage/uas.c
+index 0a9902d2b118..265162981269 100644
+--- a/drivers/usb/storage/uas.c
++++ b/drivers/usb/storage/uas.c
+@@ -772,7 +772,7 @@ static int uas_eh_abort_handler(struct scsi_cmnd *cmnd)
+ 	return FAILED;
+ }
+ 
+-static int uas_eh_device_reset_handler(struct scsi_cmnd *cmnd)
++static int uas_eh_host_reset_handler(struct scsi_cmnd *cmnd)
+ {
+ 	struct scsi_device *sdev = cmnd->device;
+ 	struct uas_dev_info *devinfo = sdev->hostdata;
+@@ -918,7 +918,7 @@ static const struct scsi_host_template uas_host_template = {
+ 	.sdev_init = uas_sdev_init,
+ 	.sdev_configure = uas_sdev_configure,
+ 	.eh_abort_handler = uas_eh_abort_handler,
+-	.eh_device_reset_handler = uas_eh_device_reset_handler,
++	.eh_host_reset_handler = uas_eh_host_reset_handler,
+ 	.this_id = -1,
+ 	.skip_settle_delay = 1,
+ 	/*
+-- 
+2.53.0
 
-The comment should go after the entry (it's fine to ignore checkpatch
-warnings about long lines here).
-
-> +	{ USB_DEVICE_INTERFACE_CLASS(0x33f8, 0x1003, 0xff),
-
-And please try to keep the entries sorted by VID/PID (i.e. put the new
-one after Rolling RW350-GL).
-
-> +	  .driver_info = RSVD(5) },
->  	{ USB_DEVICE_INTERFACE_CLASS(0x33f8, 0x01a2, 0xff) },			/* Rolling RW101-GL (laptop MBIM) */
->  	{ USB_DEVICE_INTERFACE_CLASS(0x33f8, 0x01a3, 0xff) },			/* Rolling RW101-GL (laptop MBIM) */
->  	{ USB_DEVICE_INTERFACE_CLASS(0x33f8, 0x01a4, 0xff),			/* Rolling RW101-GL (laptop MBIM) */
-
-Johan
