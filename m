@@ -1,175 +1,170 @@
-Received: from mail-ej1-f42.google.com (mail-ej1-f42.google.com [209.85.218.42])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from AM0PR83CU005.outbound.protection.outlook.com (mail-westeuropeazon11010001.outbound.protection.outlook.com [52.101.69.1])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 75E90381B13
-	for <linux-usb@vger.kernel.org>; Thu, 12 Mar 2026 07:09:59 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.218.42
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 93A9C3164DF;
+	Thu, 12 Mar 2026 08:06:07 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=52.101.69.1
 ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1773299401; cv=pass; b=BqvfslppuAwVDWYjNLA+/i/oseREYHuzKCxGMLKZBZYDzxniZK+2QOPhhR/zBTzH1MGiIy05DtWvSjaodM4d87BkAeM+CunQK5c/niwuolv/L6QxHBfU0IoboWcK0pS4DdhH+1P0D6cCoPb0jkf769STcYo8la/lpBfy2Dy5fo0=
+	t=1773302768; cv=fail; b=RTBnny9FS2QdkxObyASAwym1W0clgpOYeW++5aE8fLbc9VfPsYw7zjYGJOTbKuqS/+MjV59xEb2H6+prcJHsIR+zS2dVunoKKUJe1dwyKx2bzJOrM1eUA5MtZOKH2ytudbqARcl4eaAamw7dUf95H+4aJKyTqK3hm4LTLiWvsMk=
 ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1773299401; c=relaxed/simple;
-	bh=//7rLSOz4jMO+zUV0Bv/vdwo9WVbaATXrhHdz7hzAzk=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=MlPCQTG0kmCtAGnsCiMpvqN4pZwCgjv74dZOgpjCpEnzI0auQ6PDTE+NKF5PsWZjWiJQJCs9ijSRRi9hyYlPy4ROTeexFZzz49G+qJHsx2nfoM5+0k9TJXJCRZGDcwoWephGy3P4DrgeEo3OlSX21/JGSgWcF45kd6Fa1Fcjn5Q=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=flipper.net; spf=pass smtp.mailfrom=flipper.net; dkim=pass (2048-bit key) header.d=flipper.net header.i=@flipper.net header.b=YG+J32kQ; arc=pass smtp.client-ip=209.85.218.42
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=flipper.net
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=flipper.net
+	s=arc-20240116; t=1773302768; c=relaxed/simple;
+	bh=i6Rs/XCLa0crGjvSWfQw00AkDSz1/f6Xkf3jToF6D7w=;
+	h=From:Subject:Date:Message-Id:Content-Type:To:Cc:MIME-Version; b=dXCvV1TBiBWkjPECtrbciPtxRpvFD8jvPz8NYl2nHQtf7v8bn/1pfcU7KJ6pZ5sdZqeSyKjXsnsgSxVXjc79HgmGbkcIy2u7Lb6ts1811HGwO6dB1XD3ERU44PNaL5wHvvPEYmg4UeYjlvElKkxnUwAOA6f7PFCXOecBQAumb9Y=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=nxp.com; spf=pass smtp.mailfrom=nxp.com; dkim=pass (2048-bit key) header.d=nxp.com header.i=@nxp.com header.b=Snm3hwua; arc=fail smtp.client-ip=52.101.69.1
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=nxp.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=nxp.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=flipper.net header.i=@flipper.net header.b="YG+J32kQ"
-Received: by mail-ej1-f42.google.com with SMTP id a640c23a62f3a-b941d924534so71389966b.3
-        for <linux-usb@vger.kernel.org>; Thu, 12 Mar 2026 00:09:59 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1773299398; cv=none;
-        d=google.com; s=arc-20240605;
-        b=Evk/uFH4hedvgl0Zj/SoMIOjJ0VmgHIg1ViJjHbxqHFrq7wUvWqfk6QP3HbEe9jAl/
-         fW63yAB0qcMWmMV1JuuF+kW22M0hXPW9atXMFc5fmKtDz0C1yNtvUmlS/8pCM8tiIMDy
-         m+jTZIcPqVPzRvOLtWGDK/cKGzM71jjpHoNvmMc2Pr5Yh1RLa85iA8BkJ29/ceS6wJ2A
-         bJCFrVYN1jIgkqZdgsGty8J2ybGCj0JoXn1qtPGGLhNcq+o7wBt8jpm72sncejEXh4dh
-         q/25Qjt/EQv3yMMp4ayK/6ueao1Xx/buQ8oEBtumBShsJlaJpkOD2OvlGX9V9Ib4Crx6
-         jEYg==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:dkim-signature;
-        bh=rIO8XUP7143gVJLUd0FUXnb9BilWdnCaidVriG8lVsM=;
-        fh=m3q4UFTxMP4Ja3dnf5pR4PwqFWfmkMlLrZVsXAjG9Zw=;
-        b=Me35R76hEwfPA5RffVvTw3gP7oGFQhg128Mpi2Vosxc4NacYwOiAngNNdN5SYg+VcK
-         o2jOanFL+ZID1BiJciL1NfODYCd7JjCGKm4OfwLIVKdCIgLMlj3FCbPMX6gsysyG6KQG
-         NB+3y2P7yVGqWc9rISLEAzcmvZi7c7hNBWUNjc6X9hZW5uq2FRrx4LG0xAv4xh11vhAO
-         /XQYsO+n4TSE6W9RkDsp+nMLkqfdEyUsOH11PFK0p8SJs5I7crnYL7k2CGXXa7Yq2PiP
-         VgexHL8o2hQEbAPWKLsIhj6FhwM5DFPnUMLL5+PtCDHvQ7mr6EeIfYz9WuX3olRra/HE
-         QfcQ==;
-        darn=vger.kernel.org
-ARC-Authentication-Results: i=1; mx.google.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=flipper.net; s=google; t=1773299398; x=1773904198; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=rIO8XUP7143gVJLUd0FUXnb9BilWdnCaidVriG8lVsM=;
-        b=YG+J32kQ71zNvFjxjpXIBgYJIUA4nOP4qkq7jY2FPS96usAnt+cZpkOWa7IPl9xmbI
-         ahw1gmpsqSZ8anWuAhhdMSp0xfB5htf4B5upXa36cMnxZJUv3JShkPm4mNSAfWQHD8Z4
-         /4AyD7gMNDWNBL+A59pzJ6cyRzjvWH5MaBNbS0MRHOvjmx7zCvqMojp201ECkLsEMLLq
-         d7Ye7G567CP4fqRq07q2MQM0NA6nDnpXaxNES1bAqaMMhflgJP6QzhB6WanupTVL5S42
-         XBOzoweDFj0C4J17aGOYuxE+7mhh25SHLOS2IXjfpLzebniCFKGDkai7440vce196CFH
-         1QSA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1773299398; x=1773904198;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to;
-        bh=rIO8XUP7143gVJLUd0FUXnb9BilWdnCaidVriG8lVsM=;
-        b=n/UvnTAsIgKIFany0FPW2NtQmb1kpIqfkJyIljlTq5MVZjtRgfbrffEeOcbSyVKf/P
-         IrEI5s/BG94cUeeMFNFaR3ND8eY9CsmosXmlG9LCzMkSrlukpO9JBZmCIW+R2H7TA33n
-         YCce8dpQvYnxoSeuk9YxrJX6WKMdghtLolsJ58GMROwP8y7IQCFT/ibHfNKBOoPeoqwj
-         urIFezbQcRtN0v06FbRmvjil4gtSTveDHLlxOdwnmOtH0aPIZdEW4E1ZAXdvi0o59UYx
-         Byo3pq/WOXmBmzLl0uCFMZIBCHLD/8REuhYHGNmsV6BoceCpWChIEdi2F26ngVM6ke2v
-         U0Vg==
-X-Forwarded-Encrypted: i=1; AJvYcCVBeaSWrqKWSYl53HkEIrx4xv/4Oguc5DhLe+oMlb8bI0Q2Yab9WBCjcmJ+RNQbN85V3s4qstwQEW0=@vger.kernel.org
-X-Gm-Message-State: AOJu0Yzx/3skRfVo7FbPBNgmoKDRiSWW4DEs+qc4VgN+4r5q4dKkALAu
-	19ENqsZ8I6q14loLDJQu1rR2h3NzMzEuUqAVe1ZYp2vWZDxh3jrTDrrc0kvbcREOolhzo0m3zgp
-	Qzp8npwvTWdIpgGuauo+qakVaK9zlGinZuPmyiJB9mw==
-X-Gm-Gg: ATEYQzw1oh4rLXuMrVl4z7rJ8O5XA+4DR2oCbP3j4iJ7nWjZ+zb+IcHq7J/H7MqHfBd
-	CehI9CoTLtT5Jrnh6mL+VVj9xWIzbi2jBy2orEze3DzLmTG0kY5vpy6DzYo604GMSlcbiaax9CD
-	UAEQQ4m24ckDyf89HcyMena7cUW36JrfqZhkwrff/TCz0hmnt6j9HIC79k38mHk1zDnnScQFWL/
-	C9v+cFBaHBWkRn0M66M/2X6DWy5lH7n4aKiuiQ9gvkoUctbyKq6vv/8lvt9fcTX7I3AdLLByaYW
-	VWBf7rw=
-X-Received: by 2002:a17:907:d20:b0:b96:dd1c:9408 with SMTP id
- a640c23a62f3a-b972e5a7e72mr299557966b.54.1773299397660; Thu, 12 Mar 2026
- 00:09:57 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=nxp.com header.i=@nxp.com header.b="Snm3hwua"
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=IoJm/K6D2wGYYqmZWzu6UB3mEsS1b3b/yenbpXsE49Jj2nLZrPei0q/91wa673Myx60xhhdYmPQ1zs9B26DYACDavpVXG8r2kjHTUlN4oF0SzCIarJPXyymckX3O23k7KAMAGYwa/w+C8l9cPROIx2nilf4poH6qDkBay6uqqWdkfYNHO3FLGLweKr321VSt5riTCwmiXdIvxfzpsB83VqCK/5ElCIRuhlq4v53Tg8jJ7n8T8pNPG9btYs320nWuXHBCBSOTtSM1uedH15xuc01zBOuaF+epUHQHPJmGgZz1DwkbB4GoLg0mKo7IzudObVVKzPLBvcbuf9iYHmmitg==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=gcKOF3aV0QQjo097KRv+1mTGAPyYccUy8KPDl+8jT8M=;
+ b=MzPUyeeX40GU/1CVexvvb6+B2AoxX6jDjbrjZvECUy2J/xbzWoluYAs4paNQ7oWw/CyE74CFAGbvcaNJYih33csGKpBlbLG5gVD28BQzcFg9mPrtkJY3bIdWl6KxMqAsiE2xZsxV7oUjH9QZ6ilOl+CdZJtcHQ9AK8CZGUwfvGQnwObLBDSqVZV0Jdrmbul1OPQEpTPVA3sRiLGOFcvnYPxxhVO3UDY/q9cD72gdk5oEZ4bYKhhh9xhKDwE9JIflRHKJqYvsRP0yP/ZwokTs/7siMHcC2U/oD3eyb0aJvQLP/zxueYXMaP29/oCReZxetic9xCLTuL6Go36ZhQkCBA==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=nxp.com; dmarc=pass action=none header.from=nxp.com; dkim=pass
+ header.d=nxp.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nxp.com; s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=gcKOF3aV0QQjo097KRv+1mTGAPyYccUy8KPDl+8jT8M=;
+ b=Snm3hwua9WYx6S8o+SPx/775La9AKHLbqWXBRMzhYpQMC+k6843LJ15G1okuP/Y8zJdwKUqo8frGi69sgrxBsWoV8fH+8CXZcufYzEs6pb2RVRsavdDWOTO/21ZzQg1o4+vZOTchoQUPYLPkf8wh4bxlvwtu4Y8NsBJAfURjTcoueafEHQqSjfHU7KwGPYrSDKyYNxW005HQi5j6Jgbr8WS7OoVYLrw1Q0iEN8ee9dsWRaJoCwJ3+QOXN3I3jg0yUbfdaAyHuLjfmsDnKFAAn/7kWFkr7dFQwLI5S9nHy2/+qUmDRbgxE+Ov2TSH66/HK8vC6D1s8GtXfdmt6e0tyQ==
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=nxp.com;
+Received: from PAXPR04MB8829.eurprd04.prod.outlook.com (2603:10a6:102:20c::17)
+ by PAXPR04MB8427.eurprd04.prod.outlook.com (2603:10a6:102:1cd::13) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9700.15; Thu, 12 Mar
+ 2026 08:05:59 +0000
+Received: from PAXPR04MB8829.eurprd04.prod.outlook.com
+ ([fe80::52de:f9c9:8c2e:7dd5]) by PAXPR04MB8829.eurprd04.prod.outlook.com
+ ([fe80::52de:f9c9:8c2e:7dd5%5]) with mapi id 15.20.9700.010; Thu, 12 Mar 2026
+ 08:05:56 +0000
+From: Xu Yang <xu.yang_2@nxp.com>
+Subject: [PATCH v2 0/2] usb: typec: tcpci: support setting orientation via
+ GPIO
+Date: Thu, 12 Mar 2026 16:07:23 +0800
+Message-Id: <20260312-support-setting-orientation-use-gpio-v2-0-59c523a09f12@nxp.com>
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+X-B4-Tracking: v=1; b=H4sIADt0smkC/5WNQQ6CMBBFr0Jm7Zi2IAmuvIdhUdsRZmHbdArBE
+ O5u9QYu30/efzsIZSaBa7NDppWFY6hgTg242YaJkH1lMMr0qtUKZUkp5oJCpXCYMFY9FFuqh4s
+ QTokjXobO+MGqhzEE9SplevL2y9zHyjNLifn9q676u/4ZWDUq9LbV3vXO952+hS2dXXzBeBzHB
+ +D+c3HWAAAA
+X-Change-ID: 20260310-support-setting-orientation-use-gpio-5942d9a0b22e
+To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>, 
+ Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>, 
+ Conor Dooley <conor+dt@kernel.org>, Li Jun <jun.li@nxp.com>, 
+ Badhri Jagan Sridharan <badhri@google.com>, 
+ Heikki Krogerus <heikki.krogerus@linux.intel.com>
+Cc: linux-usb@vger.kernel.org, imx@lists.linux.dev, 
+ devicetree@vger.kernel.org, linux-kernel@vger.kernel.org, 
+ Xu Yang <xu.yang_2@nxp.com>
+X-Mailer: b4 0.14.3
+X-Developer-Signature: v=1; a=ed25519-sha256; t=1773302893; l=974;
+ i=xu.yang_2@nxp.com; s=20250815; h=from:subject:message-id;
+ bh=i6Rs/XCLa0crGjvSWfQw00AkDSz1/f6Xkf3jToF6D7w=;
+ b=7Bmk/oMC6GXkRNQLyHCwAt7X0YPd9P7+8CJ8vIEekJWTWuhQiX/ub9U5mUEmaK9u6KI/OggMD
+ Qd3jSTdcsN0BQknIBsYIgu405AsYYurjpBydz3BSTIRaM2oOsu9IQkW
+X-Developer-Key: i=xu.yang_2@nxp.com; a=ed25519;
+ pk=5c2HwftfKxFlMJboUe40+xawMtfnp5F8iEiv5CiKS+4=
+X-ClientProxiedBy: MA5PR01CA0103.INDPRD01.PROD.OUTLOOK.COM
+ (2603:1096:a01:1d1::7) To PAXPR04MB8829.eurprd04.prod.outlook.com
+ (2603:10a6:102:20c::17)
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20260311-husb311-v1-0-f25bcb58cff7@flipper.net>
- <20260311-husb311-v1-3-f25bcb58cff7@flipper.net> <20260311-married-democrat-f6eb1c651e97@spud>
-In-Reply-To: <20260311-married-democrat-f6eb1c651e97@spud>
-From: Alexey Charkov <alchark@flipper.net>
-Date: Thu, 12 Mar 2026 11:09:43 +0400
-X-Gm-Features: AaiRm53JoSVHPKKchRGU0H0o0pu24aIAgKHDs-WeWrrs5xSsEXLakFZd28fKT1k
-Message-ID: <CAKTNdwFQnySkhpLDrFh5kwX=_tvci=g0Y6Q5y-15Qsogd=FxOw@mail.gmail.com>
-Subject: Re: [PATCH 3/4] usb: typec: tcpci_rt1711h: Add support for Hynetek HUSB311
-To: Conor Dooley <conor@kernel.org>
-Cc: Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>, 
-	Conor Dooley <conor+dt@kernel.org>, Heikki Krogerus <heikki.krogerus@linux.intel.com>, 
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>, Gene Chen <gene_chen@richtek.com>, 
-	Heiko Stuebner <heiko@sntech.de>, Sebastian Reichel <sebastian.reichel@collabora.com>, 
-	devicetree@vger.kernel.org, linux-kernel@vger.kernel.org, 
-	linux-usb@vger.kernel.org, linux-arm-kernel@lists.infradead.org, 
-	linux-rockchip@lists.infradead.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: PAXPR04MB8829:EE_|PAXPR04MB8427:EE_
+X-MS-Office365-Filtering-Correlation-Id: 637de469-72f6-4886-e776-08de800e3015
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam:
+	BCL:0;ARA:13230040|19092799006|1800799024|366016|7416014|52116014|376014|38350700014|56012099003|18002099003;
+X-Microsoft-Antispam-Message-Info:
+	62sTO4WLQlQJCpvSNLVOBfIfnP4Vgicp9eS+3h+8pxs3fk3Qs9W3sF4rRxMYEAUBYa69zmh6lNhAXYXfDy5PLkdvLhfIh6ZERbslloijmOPPylgTSnc2hY5h0Iu1koGXyOIqEScQHU1c+BcYKv8Lg9kB46u5OHSZbDlDgvDg7L/8GzuwN+MuLA0JwkvApnd0YVES1NQipua8dBweblExw8s53ClIngfCUVRLMovvnPyQZqPhKMWrzcNWEkxPW7qqC6pDiukG1mF2CVqlRVJ1ke7+i/1Ka1JLj1X8/sJ07esUEWcuUd7hxX+kurPOaq8g0EEWV54Fkb9UQbpMOx95HfFGeXUekgmAbfpxX8GgCLxq85Lwo227v70thOw3kakcZSrQQ203k4KbWf3HDK9jkssdZUM/U6Cg2Ge+w+x0uc+ZnfyJCQOGb7i5sfLHF605T+YoqsZezUgsOO08Qc9CNDlUb+Ol8fL4moazDseheF6RTC5yCyv2tAMbe3jkcdNOVRhAkp+fhSf5VQYnq/Qd4iM3HIS8s+tyU8Y+i2oZAvXzDqpDrjpFDLUT9O7O2cg/nbCSdt3sCITbv+zMENcTN0rf2IxLMww0DtrqumN0VSG0va+ltwEs+TbxvQ98SekV4b6hYxE6kc+w7GIUG4DMJLLQCFin4wbaxhLBtCP8v34LZgbOe9ooHJn+pC/eRysRwOcCZp98kdrp8FesnJRzYa2aAhzkuEkDF5HXfyJJzTCIE3ZpYC9So7/dldVkoA30GLAj+yEBslMtcoNq8CVEDpBcCup5cvAaG8kHpgxlBg8=
+X-Forefront-Antispam-Report:
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:PAXPR04MB8829.eurprd04.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(19092799006)(1800799024)(366016)(7416014)(52116014)(376014)(38350700014)(56012099003)(18002099003);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0:
+	=?utf-8?B?bG9XQXRiOVpYZWFnc0htT0tmeW9PVEhHcllacFhBc1NtRURMdVM1M0ZlcWRL?=
+ =?utf-8?B?aTdpM1E3T0hBWDFXMFBZR1BBMjZHTGdGQ0VxbXNrVGViOUFVMkE0SkhCalpU?=
+ =?utf-8?B?ckE1bjQ4SWozR1JEd0gvMzMzSkdqRXJab2syVWhXNjdQWUQ0bEtmWGlIZjFm?=
+ =?utf-8?B?QzRkMTdlTHdPNC9JVkRNbmNyTVBRbnVUcUhhSmVVamc2alEwWEJQaklEQTNK?=
+ =?utf-8?B?ODZHbW54cWFmN3Y0UlpFTEQvMUMzWWRsTG5jRHhDZTRCNnNudm5pY3ZnbEl3?=
+ =?utf-8?B?UnAyUnFFdm9DVVgrZ1ZnOFVqbndRZmJEQXFyR3hlN2tReEp2K2pUY3dGZjJy?=
+ =?utf-8?B?N052ZTM2dWhJZElnY21KZmd2OWQ5T29oTnhidzdwKzFGaDdEakp4M3FzdnhF?=
+ =?utf-8?B?NEZpaVFKQ3FnRGltcE1MRmpkT0owV1BuZHZOaHZERXNXMFQ5L0JBLzBVQ3B1?=
+ =?utf-8?B?ekc3Z1pJeGdWN0RvRjFMdi9jRHlRa2VvcnF1TjVidzB4QmE4cWRTc2ZoQzI0?=
+ =?utf-8?B?UkZBSnJQdHV6VHZaOTE2NjFzYzJGQWZQZVFBUFZ5dnNZWWkxVGZZWE9veHVE?=
+ =?utf-8?B?byszRWNkS1JTZy9RZjBYeXI5VmY0NEJZem9vWnEweTNrR000L09ieUVoWGNm?=
+ =?utf-8?B?dGtiQ2NuRS9NU1l3clNRVDNISG5VV3RXczk4NUY0KzFUUjczVHVLT3JUR2ph?=
+ =?utf-8?B?OE1YWkpHTmw2NWhHdXdyVkFXc0lFYWp2VW1xOE5qeEFJVzZmZHZDdHZJQVgy?=
+ =?utf-8?B?YnBmWEw2MmM5WGswamFBQ1JOSXVpNU43bUdTeXZOZlFXenUza3lXNzlHWnJI?=
+ =?utf-8?B?cHhydVJKL00rcGFMNGVrUnJsbTdqMjc3RzVCQWtsekFJaGFISmJFYTFYd0Nr?=
+ =?utf-8?B?YUNWRWVDU3RGUnpjN3pndFJ3VGRyb0I1LytIalNtQVFhWUdIekZNVnAyNzRx?=
+ =?utf-8?B?dXhielFnNlV2QWhSYzNSK3FnaFRFQ3VIdTJWRGJXK1VuM1A5WHRieUExby9S?=
+ =?utf-8?B?OUh1dWhiVGFhU2gxQUwzU3FHeHBGL3dOVHN3K1V4RUJlRk56ZjB1VEgzZmRw?=
+ =?utf-8?B?RTVrZkMvUXNqZGlwdWdPSlorQnlFM0Rxa3VtSWRSbkh4azNZODVoRCswOE40?=
+ =?utf-8?B?U21kbWFJa1RnTUtYZjlnczFsRVVFZkZSelRGL3IvdjRVUjVZenY4YXNQbUJ5?=
+ =?utf-8?B?V1pmNERVMS8yaHE1aHpNVU1sckh5bW0rS01QV0RtbzN3dzFjcGZ6c3llK0Zr?=
+ =?utf-8?B?cXpaVmg2NkRHTzhjRHI2VERjb2ZMNFluTEZsYUNTUmpTNlRnd3FTQzE0Q1pC?=
+ =?utf-8?B?MkZCYWhoWCtySU0ra1h5Tm16MmZIaWtnUlVYZDA0Zys3VE5uUXpVQlhpMVhD?=
+ =?utf-8?B?TnB2SUJTZkwwaGxWNDBuVEdhaG5lNm1DWVBJMFFQR1JWVGVzdWtidFM1NTNz?=
+ =?utf-8?B?TkNUV1BRZ3ppN2lzTXkxYzlZVUdxQ0hWbEYzMVVST0Z0TFV4aytXcDljL1VJ?=
+ =?utf-8?B?VXpST3FiMmhRM3hYQkxjV2FUdlI4U2hBVGRrcWwwTjd3M1BLWFdZMDRhd2Mw?=
+ =?utf-8?B?N3JwRjVxZTJRbFpmaEFIRGE3N0I0YjlVWjd6R0ZiZTRaRGdxV3pBRmhWT29m?=
+ =?utf-8?B?d2NaSFlhMnp2eDVZeGdVd3Z0RVpUamRYMW5xTFdqTVBzTkV0L0pON3g1MlB2?=
+ =?utf-8?B?S240aGlBVkVWOE9YTkw2Q1Rxa004VFNSZXg1WnprT1NEbGIzVVFaV1Z2NlRD?=
+ =?utf-8?B?dTAzbk1tYllTZ3BlZzl1eFk4Y0N2SFltc3IrcGFRdkYwNURsL3RSOWxvRWEx?=
+ =?utf-8?B?TDRCMVRZUzBmT21uVWp1QnlMVXg2RzBBeloxeVpUZngxNzJHVFZzRmlvTFk1?=
+ =?utf-8?B?aExVTHpKY2tNVnlvenZ0a1ZOU0hlOUJOM0VUT2ltSkxRazNSZVhQanRQL2tt?=
+ =?utf-8?B?WjJVUlNaZ2pZUGtOQnhCOEI2N0wrQndML1FUVDVwNzd0MHo4dkJ5SVVkM0ph?=
+ =?utf-8?B?NU95TmUvNFdiYW5hVlRoc2Q4OTd2SjJqOHVqbkdhM01LQk5YVy9hMklkbHZj?=
+ =?utf-8?B?RlhLeTJPd1ZjUkYrQVZ6elJibmxuVnRuREkvcWMvQmMyTTZjdlJtclRqVmdx?=
+ =?utf-8?B?Z3ZubW9LcDVxWVdCSUtrR0kxd3VXMC9UeEhpUTVoNGNQYm9hV3NEYzFRZlZE?=
+ =?utf-8?B?eHRoaHlMWXE5VVdWZVMrYThKZENodnVNSEVicXFpcXA3STRuQ0preEVLb1Bh?=
+ =?utf-8?B?SDJudmNoRUFxZklSanNHTFl1VzkwRXA2NFdzb2hFM2VKWHhoeFZCdzEwMzBr?=
+ =?utf-8?B?MUNDaFdVbUxsaC9VajVsVmwrOXdYMTFRYmpaK1NmTU5LYXliNkExUT09?=
+X-OriginatorOrg: nxp.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 637de469-72f6-4886-e776-08de800e3015
+X-MS-Exchange-CrossTenant-AuthSource: PAXPR04MB8829.eurprd04.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 12 Mar 2026 08:05:56.0872
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 686ea1d3-bc2b-4c6f-a92c-d99c5c301635
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: BChH5MxhY7f2ns5WR4zx/BhfOA+/C9e7d2n4BE9HL7EGlmyj/MdatL5G7JQYRLNkeK1BgZDCLFevkc4LIwX6LA==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: PAXPR04MB8427
 
-On Wed, Mar 11, 2026 at 10:33=E2=80=AFPM Conor Dooley <conor@kernel.org> wr=
-ote:
->
-> On Wed, Mar 11, 2026 at 08:20:46PM +0400, Alexey Charkov wrote:
-> > HUSB311 is a pin-compatible and register-compatible drop-in replacement
-> > for RT1711H, so add its IDs to the existing driver.
-> >
-> > Link: https://www.hynetek.com/uploadfiles/site/219/news/0863c0c7-f535-4=
-f09-bacd-0440d2c21088.pdf
-> > Link: https://dl.xkwy2018.com/downloads/RK3588S/03_Product%20Line%20Bra=
-nch_Tablet/02_Key%20Device%20Specifications/HUSB311%20introduction%20202105=
-26.pdf
-> > Signed-off-by: Alexey Charkov <alchark@flipper.net>
-> > ---
-> >  drivers/usb/typec/tcpm/tcpci_rt1711h.c | 21 +++++++++++++++++++--
-> >  1 file changed, 19 insertions(+), 2 deletions(-)
-> >
-> > diff --git a/drivers/usb/typec/tcpm/tcpci_rt1711h.c b/drivers/usb/typec=
-/tcpm/tcpci_rt1711h.c
-> > index 88c50b984e8a..ac5917c1e253 100644
-> > --- a/drivers/usb/typec/tcpm/tcpci_rt1711h.c
-> > +++ b/drivers/usb/typec/tcpm/tcpci_rt1711h.c
-> > @@ -18,6 +18,9 @@
-> >  #include <linux/regmap.h>
-> >  #include <linux/regulator/consumer.h>
-> >
-> > +#define HUSB311_VID          0x2E99
-> > +#define HUSB311_PID          0x0311
-> > +#define HUSB311_DID          0x0000
-> >  #define RT1711H_VID          0x29CF
-> >  #define RT1711H_PID          0x1711
-> >  #define RT1711H_DID          0x2171
-> > @@ -55,6 +58,8 @@
-> >
-> >  struct rt1711h_chip_info {
-> >       u32 rxdz_sel;
-> > +     u16 vid;
-> > +     u16 pid;
-> >       u16 did;
-> >       bool enable_pd30_extended_message;
-> >  };
-> > @@ -308,14 +313,14 @@ static int rt1711h_check_revision(struct i2c_clie=
-nt *i2c, struct rt1711h_chip *c
-> >       ret =3D i2c_smbus_read_word_data(i2c, TCPC_VENDOR_ID);
-> >       if (ret < 0)
-> >               return ret;
-> > -     if (ret !=3D RT1711H_VID) {
-> > +     if (ret !=3D chip->info->vid) {
-> >               dev_err(&i2c->dev, "vid is not correct, 0x%04x\n", ret);
->
-> Why are we checking vids and pids here? Rejecting a non-match prevents
-> using fallback compatibles, so I'd like to know why the code exists.
->
-> Is it just here for the sake of it, or to prevent some actual issues?
-> Not really familiar with USB devices unfortunately.
+This patchset will add support to set orientation via a simple GPIO in
+case the tcpci compatible chip doesn't present "Connection Orientation"
+standard output capability.
 
-Hi Conor,
+---
+Changes in v2:
+- rename the property as orientation-gpios
+- add maxItems to the property and modify description
+- improve tcpci_set_orientation()
+- Link to v1: https://lore.kernel.org/r/20260310-support-setting-orientation-use-gpio-v1-0-da31dc6cd641@nxp.com
 
-It looks like a relic of some original vendor provided driver code.
-Rockchip's implementation of a HUSB311 driver [1] contains similar
-checks but I don't think it adds practical value in the world of
-Device Tree (after all, it's just an I2C device - I haven't seen many
-I2C drivers reject a DT match based on hardware IDs found in
-registers). I chose to avoid removing them with my patch though,
-because I don't have any Richtek hardware to test such a change.
+---
+Xu Yang (2):
+      dt-bindings: usb: nxp,ptn5110: add optional orientation-gpios property
+      usb: typec: tcpci: support setting orientation via GPIO
 
-Maybe the error could be downgraded to a warning though.
+ Documentation/devicetree/bindings/usb/nxp,ptn5110.yaml |  4 ++++
+ drivers/usb/typec/tcpm/tcpci.c                         | 18 ++++++++++++++++++
+ 2 files changed, 22 insertions(+)
+---
+base-commit: bb375c251ab40bdbc5272008fcf2bc6cd5266610
+change-id: 20260310-support-setting-orientation-use-gpio-5942d9a0b22e
 
 Best regards,
-Alexey
+-- 
+Xu Yang <xu.yang_2@nxp.com>
 
-https://github.com/rockchip-linux/kernel/blob/develop-6.6/drivers/usb/typec=
-/tcpm/tcpci_husb311.c#L217-L244
