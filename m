@@ -1,38 +1,38 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9F2D539A04E
-	for <linux-usb@vger.kernel.org>; Thu, 12 Mar 2026 17:30:38 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B38733FE356
+	for <linux-usb@vger.kernel.org>; Thu, 12 Mar 2026 17:35:54 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1773336638; cv=none; b=RfRrY2S7n9JXGA+o6PpubzT1t+F/HB13iOrVoAxIfpuCTEGOfNq7zjqtqmi/4s8pZvaMElnBwIlFBvYx4nJBSpbpnnaC5Zsi9IF1XlKMAEsASzWT5kACUxjnsdxTWZFJ3PhUSWXu1ULwkMWB0btFHEbO3kA16aXvDwJAXhqqVvg=
+	t=1773336954; cv=none; b=mBr4HH5lrRCgSNDHikPd5F5ASTzcQsv1cMgfhFqjB7rbr7Us5HFqFXR5Bf8ItOEtX0s5cS+tTm34ZywWqOyNUY8QXMbeR8dhfw96SfHMzOlCYTlc/fyZLbUcy6mWvLFQnjFyPBUUDuyrfFZ2uV6iS2dAELvgKun0XdI1c0uebeA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1773336638; c=relaxed/simple;
-	bh=W49QW7M4WFumM80s/nF7FQ67GFQPYo+wjQz7zxHx1wg=;
+	s=arc-20240116; t=1773336954; c=relaxed/simple;
+	bh=iolAq1knoVqaHMv/Uu54ZOfxy8yHWpcre6ApoUqwlT8=;
 	h=From:To:Subject:Date:Message-ID:In-Reply-To:References:
-	 Content-Type:MIME-Version; b=LMlIePVZQpJ8kiVXRCPiEki7W8kJLTTUhX6jGS+uLmNdpbpqy6O7AuPq9p6BTR1AuDIX72fQLiQq9gjYtb4lHpvWrKl/w3K1gAGYFHDHFM4Rp0Ah/8+dyBlQrvgoxoRiZssTk3Vw6/3DMNCApw8eHoPKZVqsKucUCANtSEVtmrE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=jcU2qcbN; arc=none smtp.client-ip=10.30.226.201
+	 Content-Type:MIME-Version; b=siLLPE9okAvhImUgMGQtXkVkL8fSq26Bf1zm90BgKQBoG6IwuxRvWlCiacSo2EKxu/Ad4VTSsSO5z4kJmb8vyv9atitMmud63IaPogutf9nhEKDyRYIY+nwmzMGnsinjKgv9ScK8glvg9Ts2qGYS/wcJYh6k3jmEHcmX12D4ebo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=JpY56/U2; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="jcU2qcbN"
-Received: by smtp.kernel.org (Postfix) with ESMTPS id 39EC3C2BC86
-	for <linux-usb@vger.kernel.org>; Thu, 12 Mar 2026 17:30:38 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="JpY56/U2"
+Received: by smtp.kernel.org (Postfix) with ESMTPS id 65864C116C6
+	for <linux-usb@vger.kernel.org>; Thu, 12 Mar 2026 17:35:54 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1773336638;
-	bh=W49QW7M4WFumM80s/nF7FQ67GFQPYo+wjQz7zxHx1wg=;
+	s=k20201202; t=1773336954;
+	bh=iolAq1knoVqaHMv/Uu54ZOfxy8yHWpcre6ApoUqwlT8=;
 	h=From:To:Subject:Date:In-Reply-To:References:From;
-	b=jcU2qcbNo9kjwbdcnI6TTntMN4JJFcFrGQ2WaB5VujIFvT0Qq9rR39c07kNRo1ri9
-	 U9epNb/IJbG/cu1PCas/RkHWk8mtcDxQ6JPBiNYgO3ehviFf+djzZ1KJWEYizJ3FKT
-	 IIsG2ufsI/O7wYotAhy1Yg1NWY6J5xom4T276jLzL0q5jC6BMmimq95rDO4CHc9Cui
-	 3ex8eoEycOnp3FUOxwcqfURzMitWunmy5HUkrepqbjLT2QN/8AQvkgcrqw/QyccunI
-	 +aM9+3pm7B1d0cl3xkF/0XE5GyqBQGNTmC2Llhc9mnXD9EWxBsNYCj7y5gEADfORMy
-	 O9wXsDQUes9uw==
+	b=JpY56/U24lbuAtlHFA0kcvHYZIJ23DFT9KlDnfaUZgkQh+LSp/jxiN9OT7L4gR4RG
+	 7gNblynWmtV47bCUFCi6YL2I/BDLhojxEQaZ7QjroIHMjw8VdCnSZhHyXoz6DMs4RB
+	 p9wd+pvI7l8KXxgGrddLeDrKM3EEU/LjHac3cAbEouT66vshWszIboTR6O4NarDNu1
+	 meRnF2WnGTKzcN5WKJKmp35QCi598XGY/GtbjktIYe3K8LUs2BINzpEy7KfMkD9u+4
+	 o4Ol/1EPuVNsHk94Gli+8hTUguWRtV63NzRFOGqfXOeYgwU6iuzWaHFtdHoYUd9ydG
+	 8ziGbhm9+hd/A==
 Received: by aws-us-west-2-korg-bugzilla-1.web.codeaurora.org (Postfix, from userid 48)
-	id 31FCFC4160E; Thu, 12 Mar 2026 17:30:38 +0000 (UTC)
+	id 56DCFC4160E; Thu, 12 Mar 2026 17:35:54 +0000 (UTC)
 From: bugzilla-daemon@kernel.org
 To: linux-usb@vger.kernel.org
 Subject: [Bug 221216] ezcap401 needs USB_QUIRK_NO_BOS to function on 10gbs
  usb speed
-Date: Thu, 12 Mar 2026 17:30:38 +0000
+Date: Thu, 12 Mar 2026 17:35:54 +0000
 X-Bugzilla-Reason: None
 X-Bugzilla-Type: changed
 X-Bugzilla-Watch-Reason: AssignedTo drivers_usb@kernel-bugs.kernel.org
@@ -41,14 +41,14 @@ X-Bugzilla-Component: USB
 X-Bugzilla-Version: 2.5
 X-Bugzilla-Keywords: 
 X-Bugzilla-Severity: normal
-X-Bugzilla-Who: gregkh@linuxfoundation.org
+X-Bugzilla-Who: vahnenko2003@gmail.com
 X-Bugzilla-Status: NEW
 X-Bugzilla-Resolution: 
 X-Bugzilla-Priority: P3
 X-Bugzilla-Assigned-To: drivers_usb@kernel-bugs.kernel.org
 X-Bugzilla-Flags: 
 X-Bugzilla-Changed-Fields: 
-Message-ID: <bug-221216-208809-vKznTAkHlz@https.bugzilla.kernel.org/>
+Message-ID: <bug-221216-208809-GXt7FqXiOZ@https.bugzilla.kernel.org/>
 In-Reply-To: <bug-221216-208809@https.bugzilla.kernel.org/>
 References: <bug-221216-208809@https.bugzilla.kernel.org/>
 Content-Type: text/plain; charset="UTF-8"
@@ -64,21 +64,10 @@ MIME-Version: 1.0
 
 https://bugzilla.kernel.org/show_bug.cgi?id=3D221216
 
---- Comment #1 from gregkh@linuxfoundation.org ---
-On Thu, Mar 12, 2026 at 05:15:47PM +0000, bugzilla-daemon@kernel.org wrote:
-> Hello, my new capture card works only in 5gbs usb speed, with deepseek's =
-help
-> I
-> applied { USB_DEVICE(0x32ed, 0x0401), .driver_info =3D USB_QUIRK_NO_BOS }=
-, to
-> drivers/usb/core/quirks.c quirk and now it's working at full speed.
-
-Can you send a patch that adds this entry to the kernel so that you get
-this fixed properly?
-
-thanks,
-
-greg k-h
+--- Comment #2 from Vyacheslav (vahnenko2003@gmail.com) ---
+Sorry I did this kinda junky without actual git patch, I just edited file, =
+I'll
+attach it. Added 2 lines in 596 and 597
 
 --=20
 You may reply to this email to add a comment.
