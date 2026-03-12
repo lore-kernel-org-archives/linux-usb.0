@@ -1,213 +1,166 @@
-Received: from m16.mail.163.com (m16.mail.163.com [117.135.210.5])
+Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com [205.220.168.131])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 813F51A680F;
-	Thu, 12 Mar 2026 02:18:14 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=117.135.210.5
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E3F8737C926
+	for <linux-usb@vger.kernel.org>; Thu, 12 Mar 2026 02:34:50 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.168.131
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1773281897; cv=none; b=uo4VpoAb6lnTxRGs0Rv3/ThQ7aXHYEEfSg7UAsdLFRq5rW7j62GA3WOebAhMp4zCheLaYvVw0r3iINMMBZSIqFBFIwV7tU8oeI/povKstcVGh//o1XDgwrcthZS80/1VfMwZadrGd2FmivQ0f0BJudvWZBogAQTWQKhHBdXjJ3s=
+	t=1773282892; cv=none; b=ih28DwVT8+a+WxBngM2isJLQiN4Xb28QYa4HD7wS5erh4eAnhlwgOG2OrfqmbeHuE/IEqo2LXPBXG7yoFykqifwVD5EO4GFq8MewZ4nvJsaWr2dIK5ziQqpbsuLWDAo7JiT1N2vdsUp8uouugLPR0aR2yARpc92Vh/2vy8sVePw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1773281897; c=relaxed/simple;
-	bh=G3qhTtVi0sLXEkDmgEgKp+6H6ytiMms2w0cMBOyA9+s=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=Yg9e5yHaiuP4SQxldZ/0tZHnkrskrm8m/QvUQj8l8jw0x/Benvd65C/8JwKIl2uRbF3Bjm0/GZbBlOWbsDcKq2Beq66KHDHZjMVpPh4R6pyb9knqLEw6Wj3YqzJhTaLQRpn1ajtCHpIvgzuqmm343YR0zZtlRW2kdHdlxeI1Wgw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=163.com; spf=pass smtp.mailfrom=163.com; dkim=pass (1024-bit key) header.d=163.com header.i=@163.com header.b=KHjXsa7J; arc=none smtp.client-ip=117.135.210.5
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=163.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=163.com
+	s=arc-20240116; t=1773282892; c=relaxed/simple;
+	bh=/nqZ+f2nVivSgfHE253neYkKdpWA3AR30w8tm2ouLLM=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=Lo8Np/In1h2N4QaxJz1y3p5PNtgNblUtVchWVsq8sJeVlaDPk2oCGTPnjF2qZiM2R36OxsAVncN757MlGkBMEsOGWI8zPxNMeRhSlDIxTCkphvGOLaEk5f2t+UPYHi5odlbyIpNdAZnIm3aKt6tKfV9LS9HB+MRO9wOVvR7/p/4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com; spf=pass smtp.mailfrom=oss.qualcomm.com; dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b=bU9DG/0n; dkim=pass (2048-bit key) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.b=DFvuEXS6; arc=none smtp.client-ip=205.220.168.131
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=oss.qualcomm.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=163.com header.i=@163.com header.b="KHjXsa7J"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=163.com;
-	s=s110527; h=Message-ID:Date:MIME-Version:Subject:To:From:
-	Content-Type; bh=Wh/cG5WuehZBjOv/XDOCO3VMceoWbs8HaJ5OagqfHeU=;
-	b=KHjXsa7J0YvlNtgYTwZHF3eofU7ECrm586UzpRZs2HAbkNx5vvCPOUHu90BYbB
-	3Zzyzh2IEFgHC5jpAC2SY4AcefqRSyRLJccuoqjeQ+VD6y9Gfe7D4JCqwNVGYVCc
-	BenWyeXuPDXMWHIr1tNn5rBDVN0BzraS+E3JjI5o/f++E=
-Received: from [10.42.12.46] (unknown [])
-	by gzsmtp3 (Coremail) with SMTP id PigvCgDXrOdMIrJpDUEpSQ--.27S2;
-	Thu, 12 Mar 2026 10:17:51 +0800 (CST)
-Message-ID: <bf5faa3f-6b59-4977-a29f-811049289b14@163.com>
-Date: Thu, 12 Mar 2026 10:17:48 +0800
+	dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b="bU9DG/0n";
+	dkim=pass (2048-bit key) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.b="DFvuEXS6"
+Received: from pps.filterd (m0279865.ppops.net [127.0.0.1])
+	by mx0a-0031df01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 62BMP6G3588310
+	for <linux-usb@vger.kernel.org>; Thu, 12 Mar 2026 02:34:50 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
+	cc:content-type:date:from:in-reply-to:message-id:mime-version
+	:references:subject:to; s=qcppdkim1; bh=iEWRLawKUMcKcgnXaUTfRx6G
+	DeVA4xrQwkEkodh5kUE=; b=bU9DG/0nTc66IonE7idQ4MmHRQkftf2PntUcGNH0
+	WVCTWF9nT163RZsGB3ONPocLRXedGPpSKEk9yGg7YfLGiDFJ2JV7NxJK5vDtg+yB
+	ql+baT1dlxX45Z8JQbN9elr43UoQtzuUNDYvEQ6ZbXekZha7zz/EaPKbDU0LQlTq
+	dlg+8KEyATszjHGXvnML4oPNDioD/UvpYCKOFLxoGIR2V2RdxcCC6Vn3rGYNKTyq
+	CSIOnnz/J8gJeXp+0FrLw9rFKXNEbNTyrHZjeLVfFD0zTqdsI6VABJsTbR9/qmBC
+	qUu7SZgQINJgaLTnVQ3W93uwnmfj0xBpOzBTO5My8PBz0Q==
+Received: from mail-qk1-f198.google.com (mail-qk1-f198.google.com [209.85.222.198])
+	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 4cuh5q0m0d-1
+	(version=TLSv1.3 cipher=TLS_AES_128_GCM_SHA256 bits=128 verify=NOT)
+	for <linux-usb@vger.kernel.org>; Thu, 12 Mar 2026 02:34:50 +0000 (GMT)
+Received: by mail-qk1-f198.google.com with SMTP id af79cd13be357-8cd7fc27cf7so280503985a.1
+        for <linux-usb@vger.kernel.org>; Wed, 11 Mar 2026 19:34:50 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=oss.qualcomm.com; s=google; t=1773282889; x=1773887689; darn=vger.kernel.org;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=iEWRLawKUMcKcgnXaUTfRx6GDeVA4xrQwkEkodh5kUE=;
+        b=DFvuEXS67t5MU/eOFubbpLoM396Db2me0bk5AqmVAuorb2nfQV/ICzrq/TlSlOD7JJ
+         CNPhqgAa3xms/nLdmZ+kyG32XdgpKCy2Ud/gxjvQbj/OmiJ23DT55I3r2C+jdfVcr4Pm
+         E2468X3xz8LgDAl5/4BqTzh0s123YGcFBgUjFXXEQGPsFh4JymtpOk+zO9EkIS7Mw3Po
+         mxOS0ZrxuizX5tlC9eIXbyKszImEE4s+EeHT8+Yw22dJ2qT4MScQsYrXnbDSUK2n/O/F
+         zd/RPsNz5cvGmbRp3EDJHckBdFG9VlpAIaXSKCuEOL1Hot3eFiYfoXl70j7pKDcSUvuG
+         D+8A==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1773282889; x=1773887689;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-gg:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=iEWRLawKUMcKcgnXaUTfRx6GDeVA4xrQwkEkodh5kUE=;
+        b=mJhPHCPPxLmS0DwSP3lStiPUwhS8FE2fqkCo/xbmTXzWSg2QKzwcURvMOmfbEjWPrc
+         rL9BRVk/06Rxs6eAId1ofhJ7JfxhFJrR8STljNjmfA9uNjYbjZS1edhJW6Y9SBV+wkJL
+         BEYfwIirt2muDZeKx56u8pGEN2eJH/PXasKtrFbmTaG5fvg36cGdQ8iTyz6+Ph+p5nnd
+         ywQTxa7n75qzlLeFd/jvLP0xDET2XE1+cNGHg1e7ZCK356HqOP9M2YZ8erbTkOcN31EJ
+         T5UTKZ/sRDJZnTRZC/ODqFO/KsnLcbqM0nO3wZ8osTyaHVNNw8dym2+FMKheqw1bM9cV
+         Ap0g==
+X-Forwarded-Encrypted: i=1; AJvYcCXGiNs9mXELsOETJXKiWxU0rZxU1UqMluWni1QOGBoFltwO8LJoolSrGIBNFkSGCZw3UhB6notJnII=@vger.kernel.org
+X-Gm-Message-State: AOJu0Yxw/yr2v3AfRk5JX+YiI2xnzHgrqbm8uhhSl9fCwzf8oARMA76X
+	LMW+/J4UgpJj6kAvCc0pQBl2ElMV4LRkSrEQ9ILCKiSyziFjtJOiwqhEWlTCMfipnHaQOLDu6z8
+	8BmeLwLl8T+u9dAyZWDxPc9SNshNwvjxPP0ON0XYaRturpm9tarD2jvSgtkSjnLQ=
+X-Gm-Gg: ATEYQzx20zvnPK65Xeuu929KfhEIxGSnuIAXjIHu7tvU4diqiN7U1uzlLc+1h8vMJlr
+	n3ftUnA/QA8V0Cyx3dhk4GxCMOGz+PHlRakih0zf1xBCDM2t7k0eJFrt3EIV8fzUHAZgB2WkmmT
+	Jy+yOMG6AIDxNOHBUQPF7p47PEZvupS/RwwdccQ25cXiVCbCRAn+lRhixsVFnaRfRzwiBFFs82l
+	98ZYUU8EWthhYFjslpIuhcaBOt4lkNjvU1KrZbsB9ebkB1gVpxJhIExv/3oFi7dh0IrnLt+f0+o
+	16DP5VD3u+hV5y+9t3YEVrWw9Rf03bSHX2jviWeJrJGKD6x+9zk+ULbJd/fiLa1p5pPB0h4osUw
+	qT59GW72JFGP4oBNsT46pP3or/qFyPmhUiHqvnH+LZEuYKP6zPKcvs32dUrqxMC40tilBI1XLoA
+	LUAxZoiJO/uyVv90pxPJw7pNe3+kYpQGo+6DI=
+X-Received: by 2002:a05:620a:2688:b0:8cd:8d79:6c63 with SMTP id af79cd13be357-8cda1ad7ad7mr618461085a.68.1773282889229;
+        Wed, 11 Mar 2026 19:34:49 -0700 (PDT)
+X-Received: by 2002:a05:620a:2688:b0:8cd:8d79:6c63 with SMTP id af79cd13be357-8cda1ad7ad7mr618458885a.68.1773282888804;
+        Wed, 11 Mar 2026 19:34:48 -0700 (PDT)
+Received: from umbar.lan (2001-14ba-a073-af00-264b-feff-fe8b-be8a.rev.dnainternet.fi. [2001:14ba:a073:af00:264b:feff:fe8b:be8a])
+        by smtp.gmail.com with ESMTPSA id 2adb3069b0e04-5a15602e2e1sm693900e87.24.2026.03.11.19.34.44
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 11 Mar 2026 19:34:46 -0700 (PDT)
+Date: Thu, 12 Mar 2026 04:34:43 +0200
+From: Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
+To: Alexander Koskovich <AKoskovich@pm.me>
+Cc: Bryan O'Donoghue <bryan.odonoghue@linaro.org>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Rob Herring <robh@kernel.org>,
+        Krzysztof Kozlowski <krzk+dt@kernel.org>,
+        Conor Dooley <conor+dt@kernel.org>,
+        Heikki Krogerus <heikki.krogerus@linux.intel.com>,
+        linux-arm-msm@vger.kernel.org, linux-usb@vger.kernel.org,
+        devicetree@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH RFC 1/2] dt-bindings: usb: qcom,pmic-typec: Document
+ vbus-detect-gpios property
+Message-ID: <m326m6tjiiatutb3s7jhr472grmlvkbg25cqf5gijusioaszxm@6bkxef6s3pyy>
+References: <20260308-qcom-typec-shared-vbus-v1-0-7d574b91052a@pm.me>
+ <20260308-qcom-typec-shared-vbus-v1-1-7d574b91052a@pm.me>
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH] usbip: tools: Add usbip host driver availability check
-To: Shuah Khan <skhan@linuxfoundation.org>, valentina.manea.m@gmail.com,
- shuah@kernel.org, i@zenithal.me, Greg KH <gregkh@linuxfoundation.org>
-Cc: linux-usb@vger.kernel.org, linux-kernel@vger.kernel.org,
- Zongmin Zhou <zhouzongmin@kylinos.cn>
-References: <20260303081720.84868-1-min_halo@163.com>
- <190cf50b-7b1d-4b97-9f9c-86242cff1391@linuxfoundation.org>
-Content-Language: en-US
-From: Zongmin Zhou <min_halo@163.com>
-In-Reply-To: <190cf50b-7b1d-4b97-9f9c-86242cff1391@linuxfoundation.org>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-X-CM-TRANSID:PigvCgDXrOdMIrJpDUEpSQ--.27S2
-X-Coremail-Antispam: 1Uf129KBjvJXoW3AF1kZry5Xr45Zw1kCrWDCFg_yoW7KFWrpF
-	WUJFWFkrW8JFsrXwsFqF1rAay0qwsxt3y0gr1fJw15urnFv347W3sxtFn5uFWfGr4UWFnF
-	yFs0vasrGFyUG3DanT9S1TB71UUUUU7qnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
-	9KBjDUYxBIdaVFxhVjvjDU0xZFpf9x07UseOXUUUUU=
-X-CM-SenderInfo: pplqsxxdorqiywtou0bp/xtbC8w+iTmmyIk-E0QAA3z
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20260308-qcom-typec-shared-vbus-v1-1-7d574b91052a@pm.me>
+X-Proofpoint-ORIG-GUID: xwc1yjt-ZoT2UJ6KEai_nzvtXhgbjuJj
+X-Authority-Analysis: v=2.4 cv=CIUnnBrD c=1 sm=1 tr=0 ts=69b2264a cx=c_pps
+ a=qKBjSQ1v91RyAK45QCPf5w==:117 a=xqWC_Br6kY4A:10 a=kj9zAlcOel0A:10
+ a=Yq5XynenixoA:10 a=s4-Qcg_JpJYA:10 a=VkNPw1HP01LnGYTKEx00:22
+ a=u7WPNUs3qKkmUXheDGA7:22 a=Um2Pa8k9VHT-vaBCBUpS:22 a=843x3jrLC61IQHLzAyoA:9
+ a=CjuIK1q_8ugA:10 a=NFOGd7dJGGMPyQGDc5-O:22
+X-Proofpoint-GUID: xwc1yjt-ZoT2UJ6KEai_nzvtXhgbjuJj
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYwMzEyMDAxOCBTYWx0ZWRfX9KbdHrfzrk0w
+ m62p6+wyyGRtIvneJdVFr/WL9fgvyUppqhb4klL9ozR5ygeD7RRQD+voP8p/zSuexfSmikpAnWF
+ jVqhVItI0dBuCXBBR35AfnpealEzOby1nWlekTMq1bymCpEe7HSEwe74PAzGi0hffZV3lUkwCW8
+ HKm5V4LzZCAYHsbRBm6J+jRfeqEzps2cElrgvhcAjnBYpC1lZMuFgu2dPgjD74boIhxDjpw0F6G
+ WtUauml5QS+IC8RXiOuVYuYk4R1W/5UQz9UD5Xny6OmL3NIRrOy5qmGZfT/x42Mbd2Sw0GceGdU
+ 3IeY6AQOiOJ1sOY73qUfrqlCvkQCNkbiXfZ0ZPaEqo1KeDSZBZoKdDy7YndG6Q31QIOaz/T+V6K
+ Y6BrbXGDsxb2PGsNsxhUQoe9dCG5D5PqRR4koTsrelz00b+UJpKghbRXddPdXfmCVxabU42EJSW
+ WYAOUJSXA3WJTC5s3VQ==
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1143,Hydra:6.1.51,FMLib:17.12.100.49
+ definitions=2026-03-11_02,2026-03-09_02,2025-10-01_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ phishscore=0 spamscore=0 lowpriorityscore=0 adultscore=0 priorityscore=1501
+ bulkscore=0 clxscore=1015 suspectscore=0 impostorscore=0 malwarescore=0
+ classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
+ reason=mlx scancount=1 engine=8.22.0-2603050001 definitions=main-2603120018
 
+On Sun, Mar 08, 2026 at 11:20:27PM +0000, Alexander Koskovich wrote:
+> Add the optional vbus-detect-gpios property for devices where the PMIC's
+> built-in VBUS detection is unreliable.
+> 
+> Signed-off-by: Alexander Koskovich <akoskovich@pm.me>
+> ---
+>  Documentation/devicetree/bindings/usb/qcom,pmic-typec.yaml | 6 ++++++
+>  1 file changed, 6 insertions(+)
+> 
+> diff --git a/Documentation/devicetree/bindings/usb/qcom,pmic-typec.yaml b/Documentation/devicetree/bindings/usb/qcom,pmic-typec.yaml
+> index 6d3fa2bc9cee..f45bf3e34c03 100644
+> --- a/Documentation/devicetree/bindings/usb/qcom,pmic-typec.yaml
+> +++ b/Documentation/devicetree/bindings/usb/qcom,pmic-typec.yaml
+> @@ -78,6 +78,12 @@ properties:
+>        - const: msg-rx-discarded
+>        - const: fr-swap
+>  
+> +  vbus-detect-gpios:
+> +    maxItems: 1
+> +    description:
+> +      GPIO used to detect VBUS presence when the PMIC's built-in VBUS
+> +      detection is unreliable.
 
-On 2026/3/11 06:28, Shuah Khan wrote:
-> On 3/3/26 01:17, Zongmin Zhou wrote:
->> From: Zongmin Zhou <zhouzongmin@kylinos.cn>
->>
->> Currently, usbip_generic_driver_open() doesn't verify that the required
->> kernel module (usbip-host or usbip-vudc) is actually loaded.
->> The function returns success even when no driver is present,
->> leading to usbipd daemon run success without driver loaded.
->
-> Doesn't usbip_generic_driver_open() try to refresh exported
-> device list and fail? It returns error if it can't find fetch
-> them.
->
-> usbipd starts and the when usbip_host is loaded it works correctly.
-> Doesn't it?
-Actually, refresh_exported_devices() does not return an error
-when the driver is not loaded,it consistently returns 0.
-It only results in hdriver->ndevs being set to 0 if no exportable usbip 
-devices are found.
-Consequently, if the driver is missing, usbipd will start successfully 
-in silence,
-but subsequent usbip attach operations will fail.
-The lack of explicit error messages makes it difficult for users to 
-troubleshoot the root cause.
-By adding a check to verify if the driver is loaded during the usbip 
-daemon startup,
-we can prevent these silent exceptions and ensure users are alerted to
-the missing kernel module before they attempt to use the service.
->>
->> So add a check function to ensure usbip host driver has been loaded.
->>
->> Signed-off-by: Zongmin Zhou <zhouzongmin@kylinos.cn>
->> ---
->>   tools/usb/usbip/libsrc/usbip_device_driver.c |  2 ++
->>   tools/usb/usbip/libsrc/usbip_host_common.c   | 31 ++++++++++++++++++++
->>   tools/usb/usbip/libsrc/usbip_host_common.h   |  2 ++
->>   tools/usb/usbip/libsrc/usbip_host_driver.c   |  2 ++
->>   4 files changed, 37 insertions(+)
->>
->> diff --git a/tools/usb/usbip/libsrc/usbip_device_driver.c 
->> b/tools/usb/usbip/libsrc/usbip_device_driver.c
->> index 927a151fa9aa..6da000fab26d 100644
->> --- a/tools/usb/usbip/libsrc/usbip_device_driver.c
->> +++ b/tools/usb/usbip/libsrc/usbip_device_driver.c
->> @@ -147,6 +147,8 @@ static int usbip_device_driver_open(struct 
->> usbip_host_driver *hdriver)
->>   struct usbip_host_driver device_driver = {
->>       .edev_list = LIST_HEAD_INIT(device_driver.edev_list),
->>       .udev_subsystem = "udc",
->> +    .bus_type = "platform",
->
-> Why are we adding this here - user-space shouldn't need to
-> know what kind of driver this is?
-The reason I added the bus_type and drv_name fields is to
-construct the specific sysfs paths required for the availability check.
-Although usbip-host and usbip-vudc share the same 
-usbip_generic_driver_open() interface ,
-they operate on different bus types and have different driver names.
-These fields allow the generic open function to dynamically verify
-the correct driver path in sysfs based on the specific driver type being 
-initialized.
-If you prefer not to expose these in the this structure,
-I'm happy to adjust further based on your suggestions.
->
->> +    .drv_name = USBIP_DEVICE_DRV_NAME,
->
-> And the name?
->
->>       .ops = {
->>           .open = usbip_device_driver_open,
->>           .close = usbip_generic_driver_close,
->> diff --git a/tools/usb/usbip/libsrc/usbip_host_common.c 
->> b/tools/usb/usbip/libsrc/usbip_host_common.c
->> index ca78aa368476..900370095b61 100644
->> --- a/tools/usb/usbip/libsrc/usbip_host_common.c
->> +++ b/tools/usb/usbip/libsrc/usbip_host_common.c
->> @@ -164,6 +164,31 @@ static void usbip_exported_device_destroy(struct 
->> list_head *devs)
->>       }
->>   }
->>   +/* Check if the usbip host driver is available in sysfs */
->> +static int check_driver_available(struct usbip_host_driver *hdriver)
->> +{
->> +    char driver_path[SYSFS_PATH_MAX];
->> +    struct stat st;
->> +    int ret;
->> +
->> +    if (!hdriver->drv_name || !hdriver->bus_type)
->> +        return 0;
->> +
->> +    //Check if the usbip-host or usbip-vudc driver directory exists 
->> in sysfs.
->> +    snprintf(driver_path, sizeof(driver_path), "%s/%s/%s/%s/%s",
->> +        SYSFS_MNT_PATH, SYSFS_BUS_NAME, hdriver->bus_type,
->> +        SYSFS_DRIVERS_NAME, hdriver->drv_name);
->> +
->> +    ret = stat(driver_path, &st);
->> +    if (ret == 0 && S_ISDIR(st.st_mode)) {
->> +        dbg("driver '%s' is available", hdriver->drv_name);
->> +        return 1;
->> +    }
->> +
->> +    return 0;
->> +}
->> +
->> +
->>   int usbip_generic_driver_open(struct usbip_host_driver *hdriver)
->>   {
->>       int rc;
->> @@ -174,6 +199,12 @@ int usbip_generic_driver_open(struct 
->> usbip_host_driver *hdriver)
->>           return -1;
->>       }
->>   +    //Check if the required driver is actually available.
->> +    if (!check_driver_available(hdriver)) {
->> +        err("please load '%s' kernel module", hdriver->drv_name);
->> +        goto err;
->> +    }
->> +
->>       rc = refresh_exported_devices(hdriver);
->>       if (rc < 0)
->>           goto err;
->> diff --git a/tools/usb/usbip/libsrc/usbip_host_common.h 
->> b/tools/usb/usbip/libsrc/usbip_host_common.h
->> index f46967c0aa18..cf9bd60846cf 100644
->> --- a/tools/usb/usbip/libsrc/usbip_host_common.h
->> +++ b/tools/usb/usbip/libsrc/usbip_host_common.h
->> @@ -40,6 +40,8 @@ struct usbip_host_driver {
->>       /* list of exported device */
->>       struct list_head edev_list;
->>       const char *udev_subsystem;
->> +    const char *bus_type;
->> +    const char *drv_name;
->>       struct usbip_host_driver_ops ops;
->>   };
->>   diff --git a/tools/usb/usbip/libsrc/usbip_host_driver.c 
->> b/tools/usb/usbip/libsrc/usbip_host_driver.c
->> index 573e73ec36bd..e8f9d2ee2497 100644
->> --- a/tools/usb/usbip/libsrc/usbip_host_driver.c
->> +++ b/tools/usb/usbip/libsrc/usbip_host_driver.c
->> @@ -41,6 +41,8 @@ static int usbip_host_driver_open(struct 
->> usbip_host_driver *hdriver)
->>   struct usbip_host_driver host_driver = {
->>       .edev_list = LIST_HEAD_INIT(host_driver.edev_list),
->>       .udev_subsystem = "usb",
->> +    .bus_type = "usb",
->> +    .drv_name = USBIP_HOST_DRV_NAME,
->
->>       .ops = {
->>           .open = usbip_host_driver_open,
->>           .close = usbip_generic_driver_close,
->
-> I need more to justify these changes.
->
-> thanks,
-> -- Shuah
+Can we use vbus-gpios from the usb-connector instead?
 
+> +
+>    vdd-vbus-supply:
+>      description: VBUS power supply.
+>  
+> 
+> -- 
+> 2.53.0
+> 
+> 
+
+-- 
+With best wishes
+Dmitry
