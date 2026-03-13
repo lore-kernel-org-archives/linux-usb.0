@@ -1,150 +1,217 @@
-Received: from mail-pf1-f179.google.com (mail-pf1-f179.google.com [209.85.210.179])
+Received: from mail-qk1-f178.google.com (mail-qk1-f178.google.com [209.85.222.178])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7EBE11C8634
-	for <linux-usb@vger.kernel.org>; Fri, 13 Mar 2026 00:35:14 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.179
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1871B24DFF3
+	for <linux-usb@vger.kernel.org>; Fri, 13 Mar 2026 02:05:46 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.222.178
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1773362115; cv=none; b=DDUnh29OrIlb4o7f/5XUpMTiU5EBRyN2mID5qFG7i9fc1CdHlU9aOzFhBVIv3gBSoFZmBkYl9niCrhfXc6Atzptb9chYC9n3F21BYBNRmdlI8WYusQufxQvJrGf4PBJ3C1bge3q2CXUwjWUdv1WdgJCM0h4hFqQkl8ebUT2IqPQ=
+	t=1773367549; cv=none; b=C/UhYWNS3WkO02+tV1S5e/GLP6QPOkwvMju768UfxuPZ3ch9q69ZItxU4rDPHnIKro2KJyrCvCx0v9DypeRXoKFGYTVhl1YSrwRBdIyIsDr7QFWI9hzhibfDRwV5q2iLfF4Ve223XPQHqI4hC/ZhaPa7Zsir8c3cI7o6IzY2oPA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1773362115; c=relaxed/simple;
-	bh=w+4eBmfvEhip5bCDa4fv8QpZ35nYLDz1KYW1f0RZbes=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=GCvcQBAwD0gaSHKWSTMLLDWQ7+m/fGMwIXywZNnnG1ufbElMNV7+t46cmI0zx7+OfCN0dJrWGVq4+aLRQ9BztxjxFLFy9KWh/f/snRTzxJTtq3gLYgy1FdO9cNH25jOOO8U/U+ZLD7dtnCgNz8VOn/0yMaOf/lphqphJGo94igU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=G9gW4T/8; arc=none smtp.client-ip=209.85.210.179
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1773367549; c=relaxed/simple;
+	bh=maxARhZzAcvfpPisDRhV/0FrQVZUoqi2Xbe92QGOJX8=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=uYI96vOcim5l3WRKwXHbbci7PPzBPFnzvv0rQBI0cvJxWd8mV/sP2Xff/Q+WuPQCkw7d7lAp4Yd6C9UiLW6ZxCYfhip2lLdWoEG4MzlbVfPOUDsTdM9dOz3JcuVWybD1HMWa/35s8UfpCBKmPdLaHsjU9Nyon3l8tRyY10KsmSw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=rowland.harvard.edu; spf=fail smtp.mailfrom=g.harvard.edu; dkim=pass (2048-bit key) header.d=rowland.harvard.edu header.i=@rowland.harvard.edu header.b=BEKr8otk; arc=none smtp.client-ip=209.85.222.178
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=rowland.harvard.edu
+Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=g.harvard.edu
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="G9gW4T/8"
-Received: by mail-pf1-f179.google.com with SMTP id d2e1a72fcca58-8297e0b27e5so1036379b3a.1
-        for <linux-usb@vger.kernel.org>; Thu, 12 Mar 2026 17:35:14 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=rowland.harvard.edu header.i=@rowland.harvard.edu header.b="BEKr8otk"
+Received: by mail-qk1-f178.google.com with SMTP id af79cd13be357-8cd71fb9f06so112423285a.2
+        for <linux-usb@vger.kernel.org>; Thu, 12 Mar 2026 19:05:46 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1773362113; x=1773966913; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=5g1oxOZuD0TjRJopzLlGiiDsTi7txtKncHU5UC9/URc=;
-        b=G9gW4T/8oz0UAiw+37C6LcNiL8J9cEKvHyQUdWaG+ZzMoz9UozGsRI76SPcmhQwDuO
-         ahxiJcsMQsieo2UoD8lyRMZxLpl1nuYEDEKDwdUWK0kTp/1nypP/qQ1D+aRQReLii60x
-         skc663FGHYdDnpff/VMUDN6oSEePAhkg0yMFe78g2rNCGlIKb9X82hok3WXS1j0tVAom
-         P8VDPbW+t6fGk0wbaEHvTo0CCq8FA9FhLei5I/bRpGS1qKqAB53wr7+Xo90rh9MaKKvt
-         OCngVtBmhP7u5l5K7FOa5nOhIv11ipPZrUtMBInXfTc0Sb/qGN9CRr9crbQxc7uu4+EP
-         5YZA==
+        d=rowland.harvard.edu; s=google; t=1773367546; x=1773972346; darn=vger.kernel.org;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=28DGSLfHR+wN3KbsQ08x7PSot9AjqSfqHOJZEHa8E9A=;
+        b=BEKr8otkDAb0I58zL0u/RWyY719cvGa7iipDC1Z6kPE3Guo6JtWd4RuIsxYY5ww1P6
+         A1YCE4JE6rJALZa3aOWW+C29/bUcqSOgLnr7ZSBv9Y4W94yiakRu1tLV6l6Be9TSViuw
+         Zk+UnnWy6aL8/DwWC6VRsKpPUOLnyyPVSODq5gnHastXnXNgb+2wHsx3CgVXlIe1V5Dd
+         1fIH2IRQDMh9WHNwzjM/MrsYrTrIi7wDvaa2KR8yQENZXj8TPICYMLY7UQVMh0Jtzi4v
+         ePHSfd1cYibMXU61VefLt2ktQqLdJ99i27VcJkzEzCyYKlwIwt5ZLH4M5KIPz/PO/UxV
+         v5Mw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1773362113; x=1773966913;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=5g1oxOZuD0TjRJopzLlGiiDsTi7txtKncHU5UC9/URc=;
-        b=aATOeu2dw+zggAMsa30po1ewjR4CCL/oWmc0jQki6fALiPYT9XnGNbjNtPHzdx751R
-         tT2y4V4E3pFpKPvLjaAdW+zcJpOoeJs2TfraZkpItXE2MC4lytYJsreenWIihXp/1reh
-         K/PTGj/nfKbi/2qVituDOLZmC5XRwQ312MMs6Vjux98HJRaBANa9kfp3w+y7mjedrYVn
-         O9U/w0mREw7aKCC3nEusJsko6Kdb2RO3YQQLTbbaY3LW5VhLWp3GHUm+VT50eED0t5n8
-         59JJyxMxTmKCFkBUQBsynMNmwWcuPEXrqzidnpnCkikXCEYyf3DkcW27aNjBlJULYFDM
-         NEig==
-X-Gm-Message-State: AOJu0YxPo6mS3LEq3LFJfeIgJ4J+cRAM96f1cU6bHaIUB/QnNqyreH91
-	15FvisdxIJNmIcH3ttZQU3EM6xWhZ8jEtEQgLFnNoSNY16IMq/X5GiXlFpy347fH
-X-Gm-Gg: ATEYQzzZ8uGUqlq88KpsbCACdCgmxpgj+7p+uN3hVVK/QhcKjzG4tQrsOatEF2BTn5I
-	H7Rbpw9oEk2XzWC4/XVUP25FLNbGm7fw5i4skO53YtrJgJ8uquCZKkfsOgoS+TzVBd7jQfQvQTH
-	gsa5w2nAKvNCFHmiywnAJs2XdCxE1IHFFBA21zCA94/R40pyP68HUqovQzPmGPHjrA1/1K0Jdmj
-	N1R83Qih0oQSJajDdEYulnA2sr917FhcJSgo07v6YqE8bvsEeHK87Z4lYVQesn/WiA4prEG+x6q
-	MaZyuQ/07aXTuYBeA3vGBq45kVLB2JDSRWe7fvH+NFcVhRSatB6E2DyiP03/UNHNt7IC5hu0mpD
-	w1k/YrRTkm5dG5laZUnzYtK4hfrrA8E2v73irriQssX7iDSPchkVIa4OJ/lwue1NVgvVbsr2pkN
-	5/XijDrsC1kpTLy9labCJBLKsPUnwTC3+GrHeW9GVhq2uPDQOY6zk7ztR3UxIfab9i
-X-Received: by 2002:a05:6a00:2e90:b0:82a:1380:417d with SMTP id d2e1a72fcca58-82a198fcf29mr1117576b3a.52.1773362113369;
-        Thu, 12 Mar 2026 17:35:13 -0700 (PDT)
-Received: from ryzen ([2601:644:8000:56f5::8bd])
-        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-82a0727f2fcsm4032305b3a.28.2026.03.12.17.35.12
+        d=1e100.net; s=20251104; t=1773367546; x=1773972346;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-gg:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=28DGSLfHR+wN3KbsQ08x7PSot9AjqSfqHOJZEHa8E9A=;
+        b=aOt7CSuuKMYTRq75jMc+lfD/fxLNKuJPlxJLTOZUA5tS92QEEN/Oh1nAmutpXB6wMB
+         mIJ16HXZLBshdtRKSqS4YW48m3afnQS/f0vHLwVxsC4ld5YPwvhgiZ5carBTPMWumPpn
+         h9OHLWxRVPz/dWLa03Ahw2fuwJuxfcKjW8bVao2jPNTqTSkhDf5CB8VIz5rFlCMKuo+D
+         j4rviCLeaEcfq2WghITDJyyid19/ArUupXfeB3m2+W51b4miDeDQjrJ7FlqyoBIBO72N
+         axRDa35IA/+h1FUacbKcKslZZHm00ysNipWMh0scubdlwI1bDGaBkdi+sW3YaFEr0xHF
+         XOmA==
+X-Forwarded-Encrypted: i=1; AJvYcCVqHzvpOKRsaogPfDsSK1qwAK6O4MNnMYPrmFYwC3x28tytHHDZsdzlF6XVXuU/HcVzl6uoLDXb3ks=@vger.kernel.org
+X-Gm-Message-State: AOJu0Yz7IITTFQ4NeXtP0uq4TTWM+63aoiaY9LYX1gAzFGHTxSasBIrb
+	CVW5sYaF/TDtkIerO1L7WVpKdG9FZaen3Yhtjyn7quUMAxVcJfYh/iTSqJoGuIQrzg==
+X-Gm-Gg: ATEYQzxwQlv4z9Wn/pi0aWMcsFuvAdnP7sfrB+cVS0JXCBm3vAEcYNohzLVEDJotfX5
+	OI7OdVW4A57OA+kc/8OYbAR9Rxv48tBPolOyH6yDIGqPfPVtutYcJJiNhniumzNCW4FyirR++1H
+	Yi6ZJL2vwbItdT2mCH+eGGAQMBs6Uw9Y/UcQpHFlrZns/wQwe6BzSxc14kiWT837yUr/3XirOML
+	KX/v+Ccend0MK1OisvgEs87xxTkMGmlC3zHkYnIbFxqFgw9lxR/i8YJHrj/em0wmZT5Mv2h8s6k
+	5wlj2bvjgYM6clddL0d2SZjVFkR0jzB2/uEf2KQa1Oq6thO0oXqJsSKcFVibFtanvm2rBulqemL
+	WlXZ8YI/u80Wgdh7kGzrgpABzAeZAlKHeAsV1z8+9tiWMeTNIl+Co7lidlQ253xlaAN6pEH733r
+	4J4ajrRSwq7giiSMLG5zwlUQsjQqpRnxULgSY=
+X-Received: by 2002:a05:620a:444f:b0:8c6:db05:8eb5 with SMTP id af79cd13be357-8cdb5b5627amr244975785a.67.1773367545862;
+        Thu, 12 Mar 2026 19:05:45 -0700 (PDT)
+Received: from rowland.harvard.edu ([2601:19b:d01:d210::687c])
+        by smtp.gmail.com with ESMTPSA id af79cd13be357-8cda1fbcc5fsm514808485a.4.2026.03.12.19.05.44
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 12 Mar 2026 17:35:12 -0700 (PDT)
-From: Rosen Penev <rosenp@gmail.com>
-To: linux-usb@vger.kernel.org
-Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	Kees Cook <kees@kernel.org>,
-	"Gustavo A. R. Silva" <gustavoars@kernel.org>,
-	linux-kernel@vger.kernel.org (open list),
-	linux-hardening@vger.kernel.org (open list:KERNEL HARDENING (not covered by other areas):Keyword:\b__counted_by(_le|_be)?\b)
-Subject: [PATCH] usb: fhci: use kzalloc_flex for priv struct
-Date: Thu, 12 Mar 2026 17:34:55 -0700
-Message-ID: <20260313003456.124270-1-rosenp@gmail.com>
-X-Mailer: git-send-email 2.53.0
+        Thu, 12 Mar 2026 19:05:45 -0700 (PDT)
+Date: Thu, 12 Mar 2026 22:05:43 -0400
+From: Alan Stern <stern@rowland.harvard.edu>
+To: syzbot <syzbot+19bed92c97bee999e5db@syzkaller.appspotmail.com>
+Cc: gregkh@linuxfoundation.org, linux-kernel@vger.kernel.org,
+	linux-usb@vger.kernel.org, syzkaller-bugs@googlegroups.com
+Subject: Re: [syzbot] [usb?] general protection fault in usb_gadget_udc_reset
+ (4)
+Message-ID: <b8357bfb-1df3-47a5-9187-85f67ea20289@rowland.harvard.edu>
+References: <76ea1412-ee4d-4eaf-b8a8-5866ad960b52@rowland.harvard.edu>
+ <69b305ef.050a0220.24f2ac.0022.GAE@google.com>
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <69b305ef.050a0220.24f2ac.0022.GAE@google.com>
 
-Convert kzalloc_obj(s) to kzalloc_flex to save an allocation.
+On Thu, Mar 12, 2026 at 11:29:03AM -0700, syzbot wrote:
+> Hello,
+> 
+> syzbot has tested the proposed patch but the reproducer is still triggering an issue:
+> general protection fault in usb_gadget_udc_reset
+> 
+> raw-gadget.1 gadget.3: Inc usage: 1 A
+> Oops: general protection fault, probably for non-canonical address 0xdffffc0000000008: 0000 [#1] SMP KASAN PTI
 
-Add __counted_by to get extra runtime analysis. Move counting variable
-assignment immediately after allocation as required by __counted_by.
+Apparently one of the events I thought was a reset is actually a 
+disconnect?  Let's get even more info.
 
-Signed-off-by: Rosen Penev <rosenp@gmail.com>
----
- drivers/usb/host/fhci-hcd.c | 15 +++------------
- drivers/usb/host/fhci.h     |  3 ++-
- 2 files changed, 5 insertions(+), 13 deletions(-)
+Alan Stern
 
-diff --git a/drivers/usb/host/fhci-hcd.c b/drivers/usb/host/fhci-hcd.c
-index 271bcbe9b326..71e785f445a3 100644
---- a/drivers/usb/host/fhci-hcd.c
-+++ b/drivers/usb/host/fhci-hcd.c
-@@ -426,16 +426,11 @@ static int fhci_urb_enqueue(struct usb_hcd *hcd, struct urb *urb,
+#syz test: upstream 651690480a96
+
+Index: usb-devel/drivers/usb/gadget/udc/dummy_hcd.c
+===================================================================
+--- usb-devel.orig/drivers/usb/gadget/udc/dummy_hcd.c
++++ usb-devel/drivers/usb/gadget/udc/dummy_hcd.c
+@@ -460,21 +460,27 @@ static void set_link_state(struct dummy_
+ 		unsigned int reset = USB_PORT_STAT_RESET &
+ 				(~dum_hcd->old_status) & dum_hcd->port_status;
+ 
++		dev_info(&dum->gadget.dev, "Dummy disconnect %d reset %d, ints_enabled %d\n", disconnect, reset, dum->ints_enabled);
++
+ 		/* Report reset and disconnect events to the driver */
+ 		if (dum->ints_enabled && (disconnect || reset)) {
+ 			stop_activity(dum);
+ 			++dum->callback_usage;
++			dev_info(&dum->gadget.dev, "Inc usage: %d X\n", dum->callback_usage);
+ 			spin_unlock(&dum->lock);
++			udelay(1000);
+ 			if (reset)
+ 				usb_gadget_udc_reset(&dum->gadget, dum->driver);
+ 			else
+ 				dum->driver->disconnect(&dum->gadget);
+ 			spin_lock(&dum->lock);
+ 			--dum->callback_usage;
++			dev_info(&dum->gadget.dev, "Dec usage: %d X\n", dum->callback_usage);
+ 		}
+ 	} else if (dum_hcd->active != dum_hcd->old_active &&
+ 			dum->ints_enabled) {
+ 		++dum->callback_usage;
++		dev_info(&dum->gadget.dev, "Inc usage: %d Y\n", dum->callback_usage);
+ 		spin_unlock(&dum->lock);
+ 		if (dum_hcd->old_active && dum->driver->suspend)
+ 			dum->driver->suspend(&dum->gadget);
+@@ -482,6 +488,7 @@ static void set_link_state(struct dummy_
+ 			dum->driver->resume(&dum->gadget);
+ 		spin_lock(&dum->lock);
+ 		--dum->callback_usage;
++		dev_info(&dum->gadget.dev, "Dec usage: %d Y\n", dum->callback_usage);
  	}
  
- 	/* allocate the private part of the URB */
--	urb_priv = kzalloc_obj(*urb_priv, mem_flags);
-+	urb_priv = kzalloc_flex(*urb_priv, tds, size, mem_flags);
- 	if (!urb_priv)
- 		return -ENOMEM;
- 
--	/* allocate the private part of the URB */
--	urb_priv->tds = kzalloc_objs(*urb_priv->tds, size, mem_flags);
--	if (!urb_priv->tds) {
--		kfree(urb_priv);
--		return -ENOMEM;
+ 	dum_hcd->old_status = dum_hcd->port_status;
+@@ -908,21 +915,6 @@ static int dummy_pullup(struct usb_gadge
+ 	spin_lock_irqsave(&dum->lock, flags);
+ 	dum->pullup = (value != 0);
+ 	set_link_state(dum_hcd);
+-	if (value == 0) {
+-		/*
+-		 * Emulate synchronize_irq(): wait for callbacks to finish.
+-		 * This seems to be the best place to emulate the call to
+-		 * synchronize_irq() that's in usb_gadget_remove_driver().
+-		 * Doing it in dummy_udc_stop() would be too late since it
+-		 * is called after the unbind callback and unbind shouldn't
+-		 * be invoked until all the other callbacks are finished.
+-		 */
+-		while (dum->callback_usage > 0) {
+-			spin_unlock_irqrestore(&dum->lock, flags);
+-			usleep_range(1000, 2000);
+-			spin_lock_irqsave(&dum->lock, flags);
+-		}
 -	}
-+	urb_priv->num_of_tds = size;
+ 	spin_unlock_irqrestore(&dum->lock, flags);
  
- 	spin_lock_irqsave(&fhci->lock, flags);
+ 	usb_hcd_poll_rh_status(dummy_hcd_to_hcd(dum_hcd));
+@@ -945,6 +937,27 @@ static void dummy_udc_async_callbacks(st
  
-@@ -444,8 +439,6 @@ static int fhci_urb_enqueue(struct usb_hcd *hcd, struct urb *urb,
- 		goto err;
- 
- 	/* fill the private part of the URB */
--	urb_priv->num_of_tds = size;
--
- 	urb->status = -EINPROGRESS;
- 	urb->actual_length = 0;
- 	urb->error_count = 0;
-@@ -453,10 +446,8 @@ static int fhci_urb_enqueue(struct usb_hcd *hcd, struct urb *urb,
- 
- 	fhci_queue_urb(fhci, urb);
- err:
--	if (ret) {
--		kfree(urb_priv->tds);
-+	if (ret)
- 		kfree(urb_priv);
--	}
- 	spin_unlock_irqrestore(&fhci->lock, flags);
- 	return ret;
+ 	spin_lock_irq(&dum->lock);
+ 	dum->ints_enabled = enable;
++	dev_info(&_gadget->dev, "Dummy ints_enabled <- %d A\n", dum->ints_enabled);
++	if (!enable) {
++		dev_info(&dum->gadget.dev, "Wait usage %d\n", dum->callback_usage);
++		/*
++		 * Emulate synchronize_irq(): wait for callbacks to finish.
++		 * This seems to be the best place to emulate the call to
++		 * synchronize_irq() that's in usb_gadget_remove_driver().
++		 * It has to come after dum->ints_enabled is clear.  But
++		 * doing it in dummy_udc_stop() would be too late since that
++		 * routine is called after the unbind callback, and unbind
++		 * shouldn't be invoked until all the other callbacks are
++		 * finished.
++		 */
++		while (dum->callback_usage > 0) {
++			spin_unlock_irq(&dum->lock);
++			usleep_range(1000, 2000);
++			spin_lock_irq(&dum->lock);
++		}
++		if (dum->ints_enabled)
++			dev_info(&_gadget->dev, "Dummy ints_enabled = %d !\n", dum->ints_enabled);
++	}
+ 	spin_unlock_irq(&dum->lock);
  }
-diff --git a/drivers/usb/host/fhci.h b/drivers/usb/host/fhci.h
-index 1f57b0989485..e221b28e8608 100644
---- a/drivers/usb/host/fhci.h
-+++ b/drivers/usb/host/fhci.h
-@@ -387,9 +387,10 @@ struct urb_priv {
- 	int tds_cnt;
- 	int state;
  
--	struct td **tds;
- 	struct ed *ed;
- 	struct timer_list time_out;
-+
-+	struct td *tds[] __counted_by(num_of_tds);
- };
+@@ -1020,6 +1033,8 @@ static int dummy_udc_start(struct usb_ga
+ 	spin_lock_irq(&dum->lock);
+ 	dum->devstatus = 0;
+ 	dum->driver = driver;
++	dev_info(&dum->gadget.dev, "Start on bus %d\n",
++			dummy_hcd_to_hcd(dum_hcd)->self.busnum);
+ 	spin_unlock_irq(&dum->lock);
  
- struct endpoint {
--- 
-2.53.0
+ 	return 0;
+@@ -1032,6 +1047,7 @@ static int dummy_udc_stop(struct usb_gad
+ 
+ 	spin_lock_irq(&dum->lock);
+ 	dum->ints_enabled = 0;
++	dev_info(&g->dev, "Dummy ints_enabled <- %d B\n", dum->ints_enabled);
+ 	stop_activity(dum);
+ 	dum->driver = NULL;
+ 	spin_unlock_irq(&dum->lock);
+@@ -1923,11 +1939,13 @@ restart:
+ 			 */
+ 			if (value > 0) {
+ 				++dum->callback_usage;
++				dev_info(&dum->gadget.dev, "Inc usage: %d Z\n", dum->callback_usage);
+ 				spin_unlock(&dum->lock);
+ 				value = dum->driver->setup(&dum->gadget,
+ 						&setup);
+ 				spin_lock(&dum->lock);
+ 				--dum->callback_usage;
++				dev_info(&dum->gadget.dev, "Dec usage: %d Z\n", dum->callback_usage);
+ 
+ 				if (value >= 0) {
+ 					/* no delays (max 64KB data stage) */
 
