@@ -1,59 +1,36 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.19])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 423CC2690F9;
-	Fri, 13 Mar 2026 11:40:34 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.19
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 32AF03909B0
+	for <linux-usb@vger.kernel.org>; Fri, 13 Mar 2026 12:04:47 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1773402035; cv=none; b=r9UzRZ1b/lBr8QMk2aNHnMYFq/2Tv23lyr0f74G7cFqYFOLLDFA9oT1HARssm4P9oWS/6XduN07z512xiW+YWVcbkqeHGJnOQpdmrXpAx0hqWNy8tPNGEQfq/p3NOnG0LYdH4BuXv+YsilYuR3+jrON5DHEAKupbyznzQjIbxKU=
+	t=1773403488; cv=none; b=iVoEqC8i63HrsWMw8ABcPcpeLdo5ccbZJpVuYeJdmSy+kY1F/RzfiSbkcS4IXUWh01ypLR5x0tJGseLlEsCCR9uhW2lXNSDHyEPlcqDcpe/W1NAY4sXArQfsxuGiA8C/jJHEhWCraivBc993DRVYCyaXhgnL5PP00i6EHOxqilg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1773402035; c=relaxed/simple;
-	bh=eUdyEt1K9ktTe15IY+RAwo7+xmEZBt2VpLieo0Mn23k=;
+	s=arc-20240116; t=1773403488; c=relaxed/simple;
+	bh=uaTH2WFyrakbtrHqg7pSFlUr96ikdaN4gFtFZCG6UHk=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=bA2cojxMTDTriAinWjuDpmqz8QM4wTlJ4N5gPYLmGWBEND7FG3CO5cygQOw/4fJk6wwlM9XFKVidsnQFtffuhL8XusraTh4uURe2Rd1f83sHgT5WAZZ8fnQTPvGztwPgyCmghpMw1dZtY/o6nVl5nHMwGQuoVhBdS+K/ZMDD7nM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=DavXPohB; arc=none smtp.client-ip=192.198.163.19
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	 Content-Type:Content-Disposition:In-Reply-To; b=uilanwtE89gfL4YIS4kOHqiGc0pW0jqI/c1LB2nxaqRx23YBDylbC3GxFmci4V1GPrN61R/+pde7Hl0kOXyUjN0SuwBx3sy0J3JMGukOtkRizy/mAd3VcMrPvg5y+ikcoNGd5wpHmqpo4D9viVVZpzkDufDXXMQk/hOHXO3k6fM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b=m/J044Bc; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="DavXPohB"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1773402034; x=1804938034;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=eUdyEt1K9ktTe15IY+RAwo7+xmEZBt2VpLieo0Mn23k=;
-  b=DavXPohBiyMkSAg/fdI/APCYvLX//bpCAAs5TDau1LR5ZRkjvJ6r2CNH
-   XuTKcLy8ykNPPsPoAx5T/ms+oF78tfy4mVHIo+gsslPC/+W484Vs1hV/D
-   6VPw74WdJ0hPevIrkStk7O90YuBKA9YYujaz+91GaNjQqgmDotG8mO5QN
-   qB7qDX9xOkBopAEnEcpEST0N0RDB+VExKk8xDQUdzzN46lIIxdJ21i2TY
-   sCxQcjCgmygMladZvWLfgw0Z56xLuUeQbAEdgN+pAvTdoM6fQiw3I3Zqu
-   7RtGaZIrY6Mmhtsmgh/EjXgTpjGAvp0ufaoWXOjmCAbEx6iusB2snGSh+
-   A==;
-X-CSE-ConnectionGUID: n4yddnsATI+lCHmnD9BIVQ==
-X-CSE-MsgGUID: p13HI7JWQCegYH2BP5zxGA==
-X-IronPort-AV: E=McAfee;i="6800,10657,11727"; a="73523637"
-X-IronPort-AV: E=Sophos;i="6.23,118,1770624000"; 
-   d="scan'208";a="73523637"
-Received: from fmviesa007.fm.intel.com ([10.60.135.147])
-  by fmvoesa113.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 13 Mar 2026 04:40:34 -0700
-X-CSE-ConnectionGUID: AiKMpy6gQMmcdWwyYb2cmg==
-X-CSE-MsgGUID: JWhztHe/RRiAJEUpdgjAjg==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.23,118,1770624000"; 
-   d="scan'208";a="218483914"
-Received: from black.igk.intel.com ([10.91.253.5])
-  by fmviesa007.fm.intel.com with ESMTP; 13 Mar 2026 04:40:33 -0700
-Received: by black.igk.intel.com (Postfix, from userid 1008)
-	id 1277F95; Fri, 13 Mar 2026 12:40:32 +0100 (CET)
-Date: Fri, 13 Mar 2026 13:39:47 +0200
-From: Heikki Krogerus <heikki.krogerus@linux.intel.com>
-To: Kit Dallege <xaum.io@gmail.com>
-Cc: gregkh@linuxfoundation.org, linux-usb@vger.kernel.org,
-	linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v2] usb: typec: add kernel-doc for priority and
- mode_selection members
-Message-ID: <abP3g8bHPDNYqWHw@kuha>
-References: <CAAZVx99U8a4w7cZihEyysaKD4R=pgXs4fKEegmvHv0Q3avJg7w@mail.gmail.com>
+	dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="m/J044Bc"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 58885C19421;
+	Fri, 13 Mar 2026 12:04:47 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
+	s=korg; t=1773403487;
+	bh=uaTH2WFyrakbtrHqg7pSFlUr96ikdaN4gFtFZCG6UHk=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=m/J044BcpcMJ6Wx0jQlgGrlxCCkiDgl0ITtpoHxjMLHllT3irHVfnxoTNPjKeeLug
+	 h9qjl+SY268A+2OrZi5RIr9GTXQu8B7FiaN6uVQB++zV9DDMwehEldh4f1WaVdpUts
+	 acApoAPRlgsoeiUpXi1j6Zie3bW5ah/tiWYGtwcs=
+Date: Fri, 13 Mar 2026 13:04:42 +0100
+From: Greg KH <gregkh@linuxfoundation.org>
+To: Vyacheslav Vahnenko <vahnenko2003@gmail.com>
+Cc: linux-usb@vger.kernel.org
+Subject: Re:
+Message-ID: <2026031332-askew-policy-c4ec@gregkh>
+References: <2026031334-luxury-sheath-81aa@gregkh>
+ <20260313110141.26264-1-vahnenko2003@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
@@ -62,45 +39,40 @@ List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <CAAZVx99U8a4w7cZihEyysaKD4R=pgXs4fKEegmvHv0Q3avJg7w@mail.gmail.com>
+In-Reply-To: <20260313110141.26264-1-vahnenko2003@gmail.com>
 
-Fri, Mar 13, 2026 at 12:29:56PM +0100, Kit Dallege kirjoitti:
-> Document the priority and mode_selection members of struct
-> typec_altmode that were added without kernel-doc descriptions.
+On Fri, Mar 13, 2026 at 02:01:41PM +0300, Vyacheslav Vahnenko wrote:
+> Add USB_QUIRK_NO_BOS for ezcap401 capture card, without it dmesg will show "unable to get BOS descriptor or descriptor too short"
+> and "unable to read config index 0 descriptor/start: -71" errors and device will not able to work at full speed at 10gbs
 > 
-> This fixes the following warnings when building with W=1:
-> 
->   include/linux/usb/typec_altmode.h: struct member 'priority' not
-> described in 'typec_altmode'
->   include/linux/usb/typec_altmode.h: struct member 'mode_selection'
-> not described in 'typec_altmode'
-> 
-> Signed-off-by: Kit Dallege <xaum.io@gmail.com>
+> Subject: ezcap401 needs USB_QUIRK_NO_BOS to function on 10gbs usb speed
 
-Reviewed-by: Heikki Krogerus <heikki.krogerus@linux.intel.com>
+Close, this should actually be the subject line, you forgot to have one
+entirely in your email :)
 
+And can you wrap the changelog text at 72 columns, like your editor
+should have asked you to when making this change?  If you run your patch
+through scripts/checkpatch.pl before sending it, it should tell you
+about these types of things.
+
+> Signed-off-by: Vyacheslav Vahnenko <vahnenko2003@gmail.com>
 > ---
-> v2: resend so From matches Signed-off-by (Greg KH)
+>  drivers/usb/core/quirks.c | 3 +++
+>  1 file changed, 3 insertions(+)
 > 
->  include/linux/usb/typec_altmode.h | 2 ++
->  1 file changed, 2 insertions(+)
-> 
-> diff --git a/include/linux/usb/typec_altmode.h
-> b/include/linux/usb/typec_altmode.h
-> index 0513d333b797..c7cfc4629484 100644
-> --- a/include/linux/usb/typec_altmode.h
-> +++ b/include/linux/usb/typec_altmode.h
-> @@ -26,6 +26,8 @@ struct typec_altmode_ops;
->   * @mode: Index of the Mode
->   * @vdo: VDO returned by Discover Modes USB PD command
->   * @active: Tells has the mode been entered or not
-> + * @priority: Numeric priority for alternate mode selection ordering
-> + * @mode_selection: Indicates support for the mode selection feature
->   * @desc: Optional human readable description of the mode
->   * @ops: Operations vector from the driver
->   * @cable_ops: Cable operations vector from the driver.
-> --
-> 2.53.0
+> diff --git a/drivers/usb/core/quirks.c b/drivers/usb/core/quirks.c
+> index 9e7e49712..0010f41a3 100644
+> --- a/drivers/usb/core/quirks.c
+> +++ b/drivers/usb/core/quirks.c
+> @@ -574,6 +574,9 @@ static const struct usb_device_id usb_quirk_list[] = {
+>  	/* Alcor Link AK9563 SC Reader used in 2022 Lenovo ThinkPads */
+>  	{ USB_DEVICE(0x2ce3, 0x9563), .driver_info = USB_QUIRK_NO_LPM },
+>  
+> +	/* ezcap401 - BOS descriptor fetch hangs at SuperSpeed Plus */
+> +	{ USB_DEVICE(0x32ed, 0x0401), .driver_info = USB_QUIRK_NO_BOS },
 
--- 
-heikki
+This looks good, thanks for putting it in the right place.
+
+Almost there!
+
+greg k-h
