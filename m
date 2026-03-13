@@ -1,138 +1,98 @@
-Received: from AS8PR04CU009.outbound.protection.outlook.com (mail-westeuropeazon11011053.outbound.protection.outlook.com [52.101.70.53])
+Received: from m16.mail.163.com (m16.mail.163.com [220.197.31.4])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0C2C533C502;
-	Fri, 13 Mar 2026 02:11:16 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=52.101.70.53
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1773367878; cv=fail; b=XkwldB9iirS4axFHQjbk3f4+da7BSl1m98CsI9aMHK0CyvN2luDiTyX69WZ6g5rHGePUHiJEF2Tp02AaPwhQz6u85Ree70DpkEzJcz6pGEh+B3MfrQjcIVddaUZlpJ3Mx1MlkLSS3C6AWYi00bHrULGZBzmuwM29ZAZNFswevpE=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1773367878; c=relaxed/simple;
-	bh=jUC78+k4EWcwDuPe25cUmljvzB8U8qAiaI5VVX0nTYo=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:Content-Type:
-	 Content-Disposition:In-Reply-To:MIME-Version; b=gxqz4cCkmVMunMjXf0MgNx1EzcB+wVS3hqMMJxtxLr8wWchbOGx8Dszv3w2tXCXcY+N69qiUhFVj2XdcBLvVMUB4hR43cucbFGqZI7hvLdhsv8/UtBfxUym6AhZ8xkrYYD3OchJp2ojiR6tjoTVTtnOlc+dpD7J8boW6YW/8ftE=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=nxp.com; spf=pass smtp.mailfrom=nxp.com; dkim=pass (2048-bit key) header.d=nxp.com header.i=@nxp.com header.b=EZKUrwQW; arc=fail smtp.client-ip=52.101.70.53
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=nxp.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=nxp.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 39DB15474F;
+	Fri, 13 Mar 2026 02:36:28 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=220.197.31.4
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1773369393; cv=none; b=hOZI10E25cJChwNi6LvPEAz08yhWTQt5ZzoAX1HdkB6qlbBbtmvTmKYBqg5OnHuH/edrNW4vVJmORv2pVPUPwWJCXffAda94bxYp6yQdftSneGlpJNW+uCG8iC/Csgw4uzpH4GdgVPmEqVyZ+NMq3hlVNXjmILWpby+X/wPc+gE=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1773369393; c=relaxed/simple;
+	bh=KthvbWwzFGACwtADxAcJA4DYKJoaX1X5HfQ4p86aEnQ=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=HO6IfXrbnsakTd+mO9J542RQNdpRK3FsTuPaCnM8ZRzEPfrFzRQDEDLur6qpG6Sfa75oaxTo4W8ZDb+PjgII2+Id7mrf4MpzHayF5LvAEp2r49Gdf4k2DVfe3f1h9RCx74/9fMyBRX8W1+0fAtkd8etMOMXDbihpchYYU4MmgdQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=163.com; spf=pass smtp.mailfrom=163.com; dkim=pass (1024-bit key) header.d=163.com header.i=@163.com header.b=SO5JqTIH; arc=none smtp.client-ip=220.197.31.4
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=163.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=163.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=nxp.com header.i=@nxp.com header.b="EZKUrwQW"
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=TExLfAfhP8tAszV5RG1c2ZeK/qQdTA/HbdgluKX6+daHyxMnDijLrB30QE1x0KoSO/egyrJ35Tgwbt5O+q2OTIkuAwNqGnoPPjBh1bCDVuvcj6edL5LNJyD350jzeQCaHT7Fv2sPH/Jtz9YboRZ5FOd4/O8WFIoghmE6OwnuaYLRv96vxV9vosW+oDnTslkQ949ghkXUFovA0dShGpQQhFtdlTmlar4wyu0w7mJmBQKzdNJXdPHgqXGqE+eWmAWJVOpKhBazlwaw2woCYpyx6K1DAA5auFARB/zuEV2kktVsfPjvX6csqwQp6ukmzIc3nJFYGs+yVFelqLBs+zbM4w==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=m4n4t1xwkhweCs9OXZdy5DafQK/x9uHP1DmHf/5Ly+8=;
- b=pFBn4pDXuJ6a8fbhzsWuquGtnj8m7Gqd/MOnJoW9C8lRwHg1/oAKyjs/OHvzTkJaFLIPvShBemKeebkjLXH/FkEBWvCRd/7XM3WYbR3jOxBvynGoMX0B+1yRb1aHhKezhR+BBzHq4ajype/qHobySzd7ZrRvikC9imkTarHEokmzQgQMU3HlNvrXntCOapkGRdL2v2ROfcC2SiHE3ZiGYPsxBnap/mCoOduHujdjk1/f/X2SQZbEfMw4F3aHeT7MgTRMqrCtYHf/zwa8747yNGQiUP0YNFwXPk99CqUVZTUzkvz/WP9oMaG95XWkfRz3pE0PhrBdqdRLlI9kEykctw==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=nxp.com; dmarc=pass action=none header.from=nxp.com; dkim=pass
- header.d=nxp.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nxp.com; s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=m4n4t1xwkhweCs9OXZdy5DafQK/x9uHP1DmHf/5Ly+8=;
- b=EZKUrwQWeljcYRpvU084H+N189M8RRjTAwHkDdlihqi0ZNYlLh1s3lEplZfoS9x/eagpQ0CfkAqBJS6HiQWJut8ciBXBuiQBEWdM8UL+Wt9ZjB/kZgJxoeWQ5qzwcyX6HJYGqzwTHEyj7fl1iZ9VcQZw073xTMud8rTrZdhKhhLML6QCu1RFIfKKfBUG2hzLS9Pez80hrFCk16c2MXPx1DYHVZK7/vPtW2JPZ5utGZsTsYlr8yOguLEBwTZogw5XHajRlk4xh8bw+iBekIiu3j1VONECCWT3CnMmh+xRIdPlRmKWzrrYSOgoz19VDnQGGehm6ILjc+IkMQaoiFMZLg==
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=nxp.com;
-Received: from DU2PR04MB8822.eurprd04.prod.outlook.com (2603:10a6:10:2e1::11)
- by DB9PR04MB8074.eurprd04.prod.outlook.com (2603:10a6:10:24a::8) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9700.12; Fri, 13 Mar
- 2026 02:11:10 +0000
-Received: from DU2PR04MB8822.eurprd04.prod.outlook.com
- ([fe80::c67b:71cd:6338:9dce]) by DU2PR04MB8822.eurprd04.prod.outlook.com
- ([fe80::c67b:71cd:6338:9dce%5]) with mapi id 15.20.9700.015; Fri, 13 Mar 2026
- 02:11:12 +0000
-Date: Fri, 13 Mar 2026 10:03:31 +0800
-From: Xu Yang <xu.yang_2@nxp.com>
-To: Frank Li <Frank.Li@nxp.com>
-Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>, 
-	Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>, 
-	Conor Dooley <conor+dt@kernel.org>, Li Jun <jun.li@nxp.com>, 
-	Badhri Jagan Sridharan <badhri@google.com>, Heikki Krogerus <heikki.krogerus@linux.intel.com>, 
-	linux-usb@vger.kernel.org, imx@lists.linux.dev, devicetree@vger.kernel.org, 
-	linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v2 2/2] usb: typec: tcpci: support setting orientation
- via GPIO
-Message-ID: <2leugp4tlfx2rgltqyp27olzn2xatqmk55iyfdd4qa3gpcnv5a@eag6rqwsi2lt>
-References: <20260312-support-setting-orientation-use-gpio-v2-2-59c523a09f12@nxp.com>
- <20260312191243.3479247-1-Frank.Li@nxp.com>
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20260312191243.3479247-1-Frank.Li@nxp.com>
-X-ClientProxiedBy: FR4P281CA0415.DEUP281.PROD.OUTLOOK.COM
- (2603:10a6:d10:d0::12) To DU2PR04MB8822.eurprd04.prod.outlook.com
- (2603:10a6:10:2e1::11)
+	dkim=pass (1024-bit key) header.d=163.com header.i=@163.com header.b="SO5JqTIH"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=163.com;
+	s=s110527; h=From:To:Subject:Date:Message-ID:MIME-Version; bh=sv
+	f6BpVqoEQlRPcB2Q567p4ViWAbsmefhYYec6q5l3M=; b=SO5JqTIHD84SCo9AQV
+	+rMI/efbz7MnEpgBh2phIlnupqt7qiT1WF1EB3RAfBhIYb7BtaSUd0HwTnmG3bjZ
+	Xdq+R7gIJv9OjqDlGsX4/8Y4+BUCML3XpwaYdSDESz0qGpp/VZDaG24+c3DtnnB4
+	nUTXzeb+dVNrPZcVNbE+ILo2Q=
+Received: from GHT-5854251031.localdomain (unknown [])
+	by gzga-smtp-mtada-g1-2 (Coremail) with SMTP id _____wDXfxIbeLNpmHe3Ag--.16335S2;
+	Fri, 13 Mar 2026 10:36:12 +0800 (CST)
+From: zwq2226404116@163.com
+To: johan@kernel.org,
+	gregkh@linuxfoundation.org
+Cc: linux-usb@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	zwq2226404116@163.com,
+	Wanquan Zhong <wanquan.zhong@fibocom.com>
+Subject: [PATCH] usb: serial: add support for Rolling Wireless RW135R-GL (33f8:1003)
+Date: Fri, 13 Mar 2026 10:36:05 +0800
+Message-ID: <20260313023606.177760-1-zwq2226404116@163.com>
+X-Mailer: git-send-email 2.43.0
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: DU2PR04MB8822:EE_|DB9PR04MB8074:EE_
-X-MS-Office365-Filtering-Correlation-Id: 0e417fb3-fbba-4e2f-2404-08de80a5cc8a
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam:
-	BCL:0;ARA:13230040|366016|1800799024|19092799006|52116014|7416014|376014|38350700014|56012099003|22082099003|18002099003;
-X-Microsoft-Antispam-Message-Info:
-	dN4cbDE8GkoT0N79iqKcKNQZpVp/1AbuoQl3rlaHSac6UlMEXzjYyq5TJvHebvKLDW3jgOJt/YYmYYQHtyEy5r9NPv3V8K2Sjj7wFTXiOlxlIMizpt4HXJXVfJK3xDv/Hc3eYjlrFFtehWtJ51Lr1K7jX2bk4Hg1W9hVZ1i7ikBpz1JOwZQRzFZs1sKhnLeHL+NAcn8RRuvUoFWQhYtN0HSiUENmme92hLD3ruWmBENRn/ZcvkibfJHHpTIk5QTeQAM/jW/mz14Kjmy+oOl1sBJzMev1EWcc0ao9QtuBgXNgE2d9lt7kkVhzTLpThBM/wXlDQxwkhYYDpbTt0qYf74oMnb1IN6Y+7TbOQLrnc0Ycwn454kFvbtGPyv2F90JXw9ySwgAPmnnHrM7p+fS3aW1twafWtRm22M47bDe4rX8KIPI0N49Nj/Rg3B/GbSMHRVa2KSKrZGdKNbpkiBiaoF7L9qjMjqfSSEA1BPBTHDmDLKW2UzvJGU2+L56tDhII5qPceWpLwmH4eMNOc8MOaxsJZ8+6ONhvD/t2HmZ1YQpZcoM92BLnU4qdZX+oYzS5YTDue8d+w679zn+pmS7a0ACdIBKQCRjM2BfwRwhn2K+4m5aFLjbcjPxCXzrlKKjkM/dEGkVDK5IfLjQ4AMRYMn/hY8MoCubcK0dokpSjMfNfSvL8S3SRwKQadq3rDdNuPVBOvHZBUhxWwizvA2vxzj3iCc29pH1gBpoD9C/+lxuQC9MHoadsILWQ3xOiQVoyxzbenahfYxXOutp2IUar18QzbGUaU+sZC7E5nYrkVIA=
-X-Forefront-Antispam-Report:
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:DU2PR04MB8822.eurprd04.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(366016)(1800799024)(19092799006)(52116014)(7416014)(376014)(38350700014)(56012099003)(22082099003)(18002099003);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0:
-	=?us-ascii?Q?N6diMM1qmaFXqhQbujfxegvt7zWmjkvX4pdkd3k1RIxeLytoRsjIFYETJ0vv?=
- =?us-ascii?Q?qy3bRfnNG3ywrE6pna/33M23kCYmqNhNfebMD52fb5WdPZrMOEkLMNSaK1X7?=
- =?us-ascii?Q?yqWwrv+pAxYj/b7Q8IRyt2mlYfmrCI5wgEvSvMNN1woj1FdlAmdnT5/LTQgT?=
- =?us-ascii?Q?vLI8fz8bnIIseGnn9/CkEs1iZWRslcWbMwS7n0+3XiRcXzBEzIrwLY3sPPFD?=
- =?us-ascii?Q?lyH37+FuN20jEZ4CU131XYbBPE4ig3TvpDA2/O/JkLkzzavEcsfvxZwcZhJb?=
- =?us-ascii?Q?voU73PvXS17CIxp7zFY7UP4/weHQjYggoxxv7J25j9nfczJQ+AaQ0h8wKmU0?=
- =?us-ascii?Q?dNww/kDbvcbt7zKtANZJbTS9cAGRFw+QQyq7cb34qPTYCcipJSFCotNFw0gi?=
- =?us-ascii?Q?5PtRW8CB+7EUoaJwcUZeZUNaOUHaL4BzsrlbQPbrnqTUGjcg+bqKofWWcZg2?=
- =?us-ascii?Q?28J8PWF2VaShzVEaQDKB1Z43VmgiUyNY3ePLfANUajNGMxyXehXGx+bQn8VZ?=
- =?us-ascii?Q?Bq2BcJDzyEyYqErdXDN+bOKjdlgzXcB+RoM8pG2Ptt87HROtuNycxZU3x5Xa?=
- =?us-ascii?Q?/TPQh5xAWh26sFfmiV8Fz3IBtnbeKqELYAPL0hDwz235SR5DZUalkXBEwdim?=
- =?us-ascii?Q?qvAWmD7PkR692zjOdS+sasDq/4ylu9jr0HL57cNCBz3BdHl3x6zaHwHWa1+D?=
- =?us-ascii?Q?D5JSlhdbG4pSsFUjQ0Mxh3oULGVlXVwa/DOhKXJx59AEX2OQhkW8ly4YRH5T?=
- =?us-ascii?Q?cSr/UNZcMr6ogSmqfD4xgoKsyKSJw5QANt/AXEJOKOeEgFz0jMyXlD0SzcNk?=
- =?us-ascii?Q?FEwYsSB/7Eb6/dy2gzYz6ltXlof/c97zUnFqcLtss8+5azhKfdxOAyzBw0RW?=
- =?us-ascii?Q?H9Lcyl9dE/1BpWg9Qu/k1XCbYMLP1R5WjZwiAinb4i4Fp1aB+nUZ/mN8RtTX?=
- =?us-ascii?Q?hSVgEM6g/fY4yYYw7wCflZKhcg6VxhhMJ8dM6mibEY2iThS/La8nX+FZzMv9?=
- =?us-ascii?Q?sQ3f7HvBiRNBfFSVNMRhkSxMxu5cpF3We1Roh1/DaTaaK3kKftnbnFN1WkFt?=
- =?us-ascii?Q?MqtSOSe/1T6r5q1um7VbYU9uo6gPgqm3T7Jv+B1uO0JLawhZvFoWZCKNyl2H?=
- =?us-ascii?Q?WuIacHswJr8hG/R/1OZ20CykH46lvrXcRZRUenym8BVbg4U1cJNSEpAEQS7y?=
- =?us-ascii?Q?rzCyfMefJodlCi+wDMcCGXeQ9DNIZO3E6218+PsQlbOU/tkQBoG399mynMwJ?=
- =?us-ascii?Q?e4pcePy6SHUFaSqSM2v4e2WW/4XJdJr5iRFVVhVEq0Ue4smTrqs4F2OgBCeN?=
- =?us-ascii?Q?SDGdmmOlm7RHnh/fh+yGleN9hKR3jw4mLhNd0rCpckDzxbSnQw5uZL4D0Iz1?=
- =?us-ascii?Q?wwYz27egzqqfB/i1Vszco3KDYiYYBUVQ9RAVsdFYXjrSXA3DK0+f8Cttz7ax?=
- =?us-ascii?Q?IVPFAtisxuz9dgfu7iW0YlFRQrPSAiEAh/OW/ClDC97DRe6hYFZISA+pUriw?=
- =?us-ascii?Q?6o9WsatHJ9bh/V4BDcdx+1lgyBF7yF3bNOaudoPm0xeN5s45lcBxfoVR9ZeH?=
- =?us-ascii?Q?lw4C89mnSX0wqAikKcAVHbmz8F1qFKg9od4jO9vk2hQH0go3pqNj49uq+nLW?=
- =?us-ascii?Q?CL1CaBv9VV+88Hpz3UQcWchgfNrH61uG7x8d2NhHavSTg/LSETNfaYgl11pa?=
- =?us-ascii?Q?US4FMmpwhreMA2j6cVEsw/5aj/H7mwETTCsZ0+7UUGphRHOHMoQkmEdB7vpn?=
- =?us-ascii?Q?Z4u7R7oIYA=3D=3D?=
-X-OriginatorOrg: nxp.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 0e417fb3-fbba-4e2f-2404-08de80a5cc8a
-X-MS-Exchange-CrossTenant-AuthSource: DU2PR04MB8822.eurprd04.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 13 Mar 2026 02:11:12.3833
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 686ea1d3-bc2b-4c6f-a92c-d99c5c301635
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: gCXFBFxLxoHQau20/uA4eyZsQQWG+KkXbRdZHhKG4cHv8PS8HyaAgJch9qplsSNUohagB1D36cHBk54z/yRoAA==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: DB9PR04MB8074
+Content-Transfer-Encoding: 8bit
+X-CM-TRANSID:_____wDXfxIbeLNpmHe3Ag--.16335S2
+X-Coremail-Antispam: 1Uf129KBjvJXoW7Cw4ftFWkKrWxtrWUWF43Awb_yoW8uF1rpF
+	1rJFW5XFZ8X345XF1UCrn5uFWrua9Fkry7GayDGw4SgF4Syw4xK34jyrWFgF129a1fCr4q
+	qas8Kr4UGayxGrJanT9S1TB71UUUUU7qnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
+	9KBjDUYxBIdaVFxhVjvjDU0xZFpf9x0pRrsq9UUUUU=
+X-CM-SenderInfo: h2ztjjaswuikqrrwqiywtou0bp/xtbC0Rxsw2mzeBzyzQAA3j
 
-On Thu, Mar 12, 2026 at 03:12:41PM -0400, Frank Li wrote:
-> From: Frank Li (AI-BOT) <frank.li@nxp.com>
-> 
-> 
-> > +		err = orient_gpio ? 1 : 0;
-> 
-> AI: Redundant ternary. Use `err = !!orient_gpio;` or `err = orient_gpio != NULL;`
-> for clarity.
+From: Wanquan Zhong <wanquan.zhong@fibocom.com>
 
-It was "err = !!orient_gpio;" in V1. But the AI-BOT complained about it.
-I will return it back in V3.
+Add VID/PID 33f8:1003 for the Rolling Wireless RW135R-GL M.2 module,
+which is used in laptop debug cards with MBIM interface for
+Linux/Chrome OS. The device supports mbim, diag, adb and AT command
+functionalities.
 
-Thanks,
-Xu Yang
+Here are the outputs of usb-devices:
+T:  Bus=04 Lev=01 Prnt=01 Port=02 Cnt=01 Dev#=  2 Spd=5000 MxCh= 0
+D:  Ver= 3.20 Cls=00(>ifc ) Sub=00 Prot=00 MxPS= 9 #Cfgs=  1
+P:  Vendor=33f8 ProdID=1003 Rev=05.15
+S:  Manufacturer=Rolling Wireless S.a.r.l.
+S:  Product=Rolling RW135R-GL Module
+S:  SerialNumber=12345678
+C:  #Ifs= 3 Cfg#= 1 Atr=a0 MxPwr=896mA
+I:  If#= 0 Alt= 0 #EPs= 1 Cls=02(commc) Sub=0e Prot=00 Driver=cdc_mbim
+E:  Ad=81(I) Atr=03(Int.) MxPS=  64 Ivl=32ms
+I:  If#= 1 Alt= 1 #EPs= 2 Cls=0a(data ) Sub=00 Prot=02 Driver=cdc_mbim
+E:  Ad=0f(O) Atr=02(Bulk) MxPS=1024 Ivl=0ms
+E:  Ad=8e(I) Atr=02(Bulk) MxPS=1024 Ivl=0ms
+I:  If#= 2 Alt= 0 #EPs= 3 Cls=ff(vend.) Sub=00 Prot=40 Driver=option
+E:  Ad=01(O) Atr=02(Bulk) MxPS=1024 Ivl=0ms
+E:  Ad=82(I) Atr=02(Bulk) MxPS=1024 Ivl=0ms
+E:  Ad=83(I) Atr=03(Int.) MxPS=  10 Ivl=32ms
+
+Signed-off-by: Wanquan Zhong <wanquan.zhong@fibocom.com>
+---
+ drivers/usb/serial/option.c | 3 +++
+ 1 file changed, 3 insertions(+)
+
+diff --git a/drivers/usb/serial/option.c b/drivers/usb/serial/option.c
+index e349ed66d2ac..abeeb7c66977 100644
+--- a/drivers/usb/serial/option.c
++++ b/drivers/usb/serial/option.c
+@@ -2449,6 +2449,9 @@ static const struct usb_device_id option_ids[] = {
+ 	  .driver_info = RSVD(4) | RSVD(5) },
+ 	{ USB_DEVICE_INTERFACE_CLASS(0x33f8, 0x0115, 0xff),			/* Rolling RW135-GL (laptop MBIM) */
+ 	  .driver_info = RSVD(5) },
++	/* Rolling RW135R-GL (laptop MBIM) */
++	{ USB_DEVICE_INTERFACE_CLASS(0x33f8, 0x1003, 0xff),
++	  .driver_info = RSVD(5) },
+ 	{ USB_DEVICE_INTERFACE_CLASS(0x33f8, 0x01a2, 0xff) },			/* Rolling RW101-GL (laptop MBIM) */
+ 	{ USB_DEVICE_INTERFACE_CLASS(0x33f8, 0x01a3, 0xff) },			/* Rolling RW101-GL (laptop MBIM) */
+ 	{ USB_DEVICE_INTERFACE_CLASS(0x33f8, 0x01a4, 0xff),			/* Rolling RW101-GL (laptop MBIM) */
+-- 
+2.43.0
+
