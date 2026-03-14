@@ -1,51 +1,52 @@
 Received: from bkemail.birger-koblitz.de (bkemail.birger-koblitz.de [23.88.97.239])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 46A6733B97F;
-	Sat, 14 Mar 2026 09:31:54 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A707831E859;
+	Sat, 14 Mar 2026 09:41:06 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=23.88.97.239
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1773480717; cv=none; b=kX46xgcstotlpmHmmTO/4xBN4plv5naI5zVn39l07Y0TSHXX6VrUwyHKNQTojiZ6La3MHNaVCWZ0ys8ZZY4O2KqPildEw2PkxKVw9umrM4sWQBToScV4wvLqB1wJagGH764WrcJLLl9bG7wBeiTzMXI0HhryZegYsaoGlxqbzrM=
+	t=1773481267; cv=none; b=Uh11CWrUBuxHGrZIDoEAiPR8C86ePjGRq8oGXC0//aprqnsb4IkuwRSD3aL1vqLrnh5mVyszqPIAu/w6RiqqK/A+0NaTnG7fzn4HpCQ2VfXz6aj4662f0TDoz0yaRxurFh0eYU6p78wibUxS0v3r05n8UuMOHjqMWJGCpp30Y/c=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1773480717; c=relaxed/simple;
-	bh=RKyQzshGVUa1z7B29iBMApIzTeMOOhOdYaPyb4r/zIw=;
-	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
-	 In-Reply-To:To:Cc; b=Db1oeNHHpvMbaxWxESVKIjdA4sVahP8S80tlL1u3x+QeIe6XQQajMoxx7Tp3BzEPYYD2tzoK7KlkpRLmTyfj1sIDJ2Si83dieFP9Qy0VJ5XTYgdeAX/5QQrXcb62mU1KGjqBGi/6b5yc8Xfc0qZPTV65e437akHPp1rP47dQBOk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=birger-koblitz.de; spf=pass smtp.mailfrom=birger-koblitz.de; dkim=pass (2048-bit key) header.d=birger-koblitz.de header.i=@birger-koblitz.de header.b=fQlvGUCu; dkim=pass (2048-bit key) header.d=birger-koblitz.de header.i=@birger-koblitz.de header.b=JPrT6dta; arc=none smtp.client-ip=23.88.97.239
+	s=arc-20240116; t=1773481267; c=relaxed/simple;
+	bh=H/kSyRr0L2VYaxHlrNL1/UDci7GYRLAyO6lHLHMf8O4=;
+	h=From:Subject:Date:Message-Id:MIME-Version:Content-Type:To:Cc; b=am+B7fzTu+4jRcAQ5yyNxytR4BjSqgKOoxsQZSt77cf0EwmoJTsPKoHKySpG6fLnE/rDf35DoT+IlB9JYE0e/a5g6GvLG2Iq6uGlsukcElDay6YDLfEq+ChxGfzBhrRp89vKQ21F1kp7zalZQQxdKyBd+W1Lf3IfTwWyI7vosYM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=birger-koblitz.de; spf=pass smtp.mailfrom=birger-koblitz.de; dkim=pass (2048-bit key) header.d=birger-koblitz.de header.i=@birger-koblitz.de header.b=F5lSuzgx; dkim=pass (2048-bit key) header.d=birger-koblitz.de header.i=@birger-koblitz.de header.b=F5lSuzgx; arc=none smtp.client-ip=23.88.97.239
 Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=birger-koblitz.de
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=birger-koblitz.de
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=birger-koblitz.de header.i=@birger-koblitz.de header.b="fQlvGUCu";
-	dkim=pass (2048-bit key) header.d=birger-koblitz.de header.i=@birger-koblitz.de header.b="JPrT6dta"
+	dkim=pass (2048-bit key) header.d=birger-koblitz.de header.i=@birger-koblitz.de header.b="F5lSuzgx";
+	dkim=pass (2048-bit key) header.d=birger-koblitz.de header.i=@birger-koblitz.de header.b="F5lSuzgx"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=birger-koblitz.de;
-	s=default; t=1773480709;
-	bh=RKyQzshGVUa1z7B29iBMApIzTeMOOhOdYaPyb4r/zIw=;
-	h=From:Date:Subject:References:In-Reply-To:To:Cc:From;
-	b=fQlvGUCudHeCI2lGd0BNmy0VYVUynfluGxcidgVa5QEZ0LVguScCDstX8MLH1v09h
-	 /wS7p2MCKOWJiHP/pWEZMTCFHeUlKzWxb0iXp/M+oxdKWVyXStldZSPOt8AT+fOCJ2
-	 4gxv8LaPfLKBHEtYABV3rjnuyJGNi4PACryPwSXCudarz0WIGDCw1Ppfeor+Jdh2I6
-	 sGCdvlPMx9MleD5SA9d1+nWkrDOmtBkbAofEmgds9cmepI5ZVxZAzaB5KoO1Qi1q8k
-	 4Fm/40bAfKsVC1Xt+VW58WSpFa0B99knRq0JRMSh57bcqav+p9tqTY87o83x0UpWty
-	 fmLJWVOs6vddA==
+	s=default; t=1773480702;
+	bh=H/kSyRr0L2VYaxHlrNL1/UDci7GYRLAyO6lHLHMf8O4=;
+	h=From:Subject:Date:To:Cc:From;
+	b=F5lSuzgxG3Zr9R4tlPViYUykAJT7Zr5Yw2T8pUVswE4tP8y8EgsL295zmg1l1dpUL
+	 YoLVA8GFHOwje7e6+GmqvO7lH6hwWBFE+7p7XNYRwdwAG9EydPDcLHAUEXEbsQD//Z
+	 B19u5hotimACcg8JWbgjpTKC1J3OQ2oBesXSZo379ITh+OwSYRiu/jOgP99fJjzkBS
+	 T/6kvmprMwXD3ONYOibMOVIWCnV391mi9sc8w+bAZmmQ4E0dWQHpCbbeHNn34iEkpL
+	 3Ff2I4Jfz8dY51zRRnpdC0muUfigD1cBWUkIt84H0gdwx7Q7qea/oynFaxVjxhvaaX
+	 NKWiKCUsZesIQ==
 Received: by bkemail.birger-koblitz.de (Postfix, from userid 109)
-	id 781793FCCB; Sat, 14 Mar 2026 09:31:49 +0000 (UTC)
+	id D31513FCB9; Sat, 14 Mar 2026 09:31:42 +0000 (UTC)
 X-Spam-Level: 
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=birger-koblitz.de;
-	s=default; t=1773480704;
-	bh=RKyQzshGVUa1z7B29iBMApIzTeMOOhOdYaPyb4r/zIw=;
-	h=From:Date:Subject:References:In-Reply-To:To:Cc:From;
-	b=JPrT6dta8VgPFGcPhFLhj0qlenSaO332HRM16QpuwTWSOZ+KSOh52DYbpzB8gprq/
-	 3eXsFXPehs8Sl4vbM4WpdE+TmCrH8NEAtou9hUHLm7K5Mlq1sW/rj9kb+gvHA0WszO
-	 Hn28yZLEmZha83wVGRKrlpGDSaPk7ro5JqQl72k8Jjan5/Ituk1vaLkOOdcb8MaCIr
-	 IK2s5lftHVfItJrQngiB9oepacOelPdzEaIyHnpAPBct+NLL+zL/xqQXDbv0i06FBB
-	 nQqqYTLDTChjfx3FJV3yDSEOsWpJ6un1fVJlOMyoYwSshD1H5MlDjf1PCjQzjt/qDa
-	 uq4z3INwgjVUw==
+	s=default; t=1773480702;
+	bh=H/kSyRr0L2VYaxHlrNL1/UDci7GYRLAyO6lHLHMf8O4=;
+	h=From:Subject:Date:To:Cc:From;
+	b=F5lSuzgxG3Zr9R4tlPViYUykAJT7Zr5Yw2T8pUVswE4tP8y8EgsL295zmg1l1dpUL
+	 YoLVA8GFHOwje7e6+GmqvO7lH6hwWBFE+7p7XNYRwdwAG9EydPDcLHAUEXEbsQD//Z
+	 B19u5hotimACcg8JWbgjpTKC1J3OQ2oBesXSZo379ITh+OwSYRiu/jOgP99fJjzkBS
+	 T/6kvmprMwXD3ONYOibMOVIWCnV391mi9sc8w+bAZmmQ4E0dWQHpCbbeHNn34iEkpL
+	 3Ff2I4Jfz8dY51zRRnpdC0muUfigD1cBWUkIt84H0gdwx7Q7qea/oynFaxVjxhvaaX
+	 NKWiKCUsZesIQ==
 Received: from AMDDesktop.lan (unknown [IPv6:2a00:6020:47a3:e800:271c:c6c5:9fde:77cb])
-	by bkemail.birger-koblitz.de (Postfix) with ESMTPSA id 2BEA73FCCD;
-	Sat, 14 Mar 2026 09:31:44 +0000 (UTC)
+	by bkemail.birger-koblitz.de (Postfix) with ESMTPSA id 146673FC9A;
+	Sat, 14 Mar 2026 09:31:42 +0000 (UTC)
 From: Birger Koblitz <mail@birger-koblitz.de>
-Date: Sat, 14 Mar 2026 10:31:44 +0100
-Subject: [PATCH net-next 8/9] r8152: Add support for 5GBit EEE
+Subject: [PATCH net-next 0/9] r8152: Add support for the RTL8157 5Gbit USB
+ Ethernet chip
+Date: Sat, 14 Mar 2026 10:31:36 +0100
+Message-Id: <20260314-rtl8157_next-v1-0-9ba77b428afd@birger-koblitz.de>
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
@@ -54,9 +55,10 @@ List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20260314-rtl8157_next-v1-8-9ba77b428afd@birger-koblitz.de>
-References: <20260314-rtl8157_next-v1-0-9ba77b428afd@birger-koblitz.de>
-In-Reply-To: <20260314-rtl8157_next-v1-0-9ba77b428afd@birger-koblitz.de>
+X-B4-Tracking: v=1; b=H4sIAPgqtWkC/x2M7QpAMBhGb0XvbyszH8utSBoevKXRtqTk3o2fp
+ 845N3k4hqcmucnhZM+7jSDThMbV2AWCp8iUZ3mVKVkIFzYty7q3uIIwkLrSCkMxG4rJ4TDz9e9
+ asgjis6h7nhdJU8YoaAAAAA==
+X-Change-ID: 20260314-rtl8157_next-ae18683eb4fa
 To: Andrew Lunn <andrew+netdev@lunn.ch>, 
  "David S. Miller" <davem@davemloft.net>, Eric Dumazet <edumazet@google.com>, 
  Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>
@@ -64,54 +66,64 @@ Cc: linux-usb@vger.kernel.org, netdev@vger.kernel.org,
  linux-kernel@vger.kernel.org, Birger Koblitz <mail@birger-koblitz.de>
 X-Mailer: b4 0.14.2
 
-The RTL8157 supports 5GBit EEE. Add functionality for setup and ethtool
-get/set methods.
+Add support for the RTL8157, which is a 5GBit USB-Ethernet adapter
+chip in the RTL815x family of chips.
+
+The RTL8157 uses a different frame descriptor format, and different
+SRAM/ADV access methods, plus offers 5GBit/s Ethernet, so support for these
+features is added in addition to chip initialization and configuration.
+
+The module was tested with an OEM RTL8157 USB adapter:
+[25758.328238] usb 4-1: new SuperSpeed Plus Gen 2x1 USB device number 2 using xhci_hcd
+[25758.345565] usb 4-1: New USB device found, idVendor=0bda, idProduct=8157, bcdDevice=30.00
+[25758.345585] usb 4-1: New USB device strings: Mfr=1, Product=2, SerialNumber=7
+[25758.345593] usb 4-1: Product: USB 10/100/1G/2.5G/5G LAN
+[25758.345599] usb 4-1: Manufacturer: Realtek
+[25758.345605] usb 4-1: SerialNumber: 000300E04C68xxxx
+[25758.534241] r8152-cfgselector 4-1: reset SuperSpeed Plus Gen 2x1 USB device number 2 using xhci_hcd
+[25758.603511] r8152 4-1:1.0: skip request firmware
+[25758.653351] r8152 4-1:1.0 eth0: v1.12.13
+[25758.689271] r8152 4-1:1.0 enx00e04c68xxxx: renamed from eth0
+[25763.271682] r8152 4-1:1.0 enx00e04c68xxxx: carrier on
+
+The RTL8157 adapter was tested against an AQC107 PCIe-card supporting
+10GBit/s and an RTL8126 5Gbit PCIe-card supporting 5GBit/s for
+performance, link speed and EEE negotiation. Using USB3.2 Gen 1 with
+the RTL8157 USB adapter and running iperf3 against the AQC107 PCIe
+card resulted in 3.47 Gbits/sec, whereas using USB3.2 Gen2 resulted
+in 4.70 Gbits/sec, speeds against the RTL8126-card were the same.
+
+As the code integrates the RTL8157-specific code with existing RTL8156 code
+in order to improve code maintainability (instead of adding RTL8157-specific
+functions duplicaing most of the RTL8156 code), regression tests were done
+with an Edimax EU-4307 V1.0 USB-Ethernet adapter with RTL8156.
+
+The code is based on the out-of-tree r8152 driver published by Realtek under
+the GPL.
+
+This patch is on top of linux-next as the code re-uses the 2.5 Gbit EEE
+recently added in r8152.c.
 
 Signed-off-by: Birger Koblitz <mail@birger-koblitz.de>
 ---
- drivers/net/usb/r8152.c | 14 +++++++++++++-
- 1 file changed, 13 insertions(+), 1 deletion(-)
+Birger Koblitz (9):
+      r8152: Add support for RTL8157 RX/TX descriptor format
+      r8152: Add support for RTL8157 SRAM access and ADV indirect access
+      r8152: Add support for configuring the PHY of the RTL8157
+      r8152: Add RTL8157 initialization
+      r8152: Add RTL8157 startup
+      r8152: Add support for chip version RTL_VER_16
+      r8152: Add support for 5Gbit Link Speeds
+      r8152: Add support for 5GBit EEE
+      r8152: Detect RTL8157 and setup
 
-diff --git a/drivers/net/usb/r8152.c b/drivers/net/usb/r8152.c
-index f9498c39dc6ec8bf4605b17e2c81bbe180b1b2d3..427a05d166ad98622a113df994b01a96ad6b2872 100644
---- a/drivers/net/usb/r8152.c
-+++ b/drivers/net/usb/r8152.c
-@@ -5815,6 +5815,11 @@ static void r8156_eee_en(struct r8152 *tp, bool enable)
- 	else
- 		config &= ~MDIO_EEE_2_5GT;
- 
-+	if (enable && (tp->eee_adv2 & MDIO_EEE_5GT))
-+		config |= MDIO_EEE_5GT;
-+	else
-+		config &= ~MDIO_EEE_5GT;
-+
- 	ocp_reg_write(tp, OCP_EEE_ADV2, config);
- }
- 
-@@ -9473,7 +9478,7 @@ static int r8152_set_eee(struct r8152 *tp, struct ethtool_keee *eee)
- 
- 	tp->eee_en = eee->eee_enabled;
- 	tp->eee_adv = val;
--	if (tp->support_2500full) {
-+	if (tp->support_2500full || tp->support_5000full) {
- 		val = linkmode_to_mii_eee_cap2_t(eee->advertised);
- 		tp->eee_adv2 = val;
- 	}
-@@ -9510,6 +9515,13 @@ static int r8153_get_eee(struct r8152 *tp, struct ethtool_keee *eee)
- 			linkmode_set_bit(ETHTOOL_LINK_MODE_2500baseT_Full_BIT, common);
- 	}
- 
-+	if (tp->support_5000full) {
-+		linkmode_set_bit(ETHTOOL_LINK_MODE_5000baseT_Full_BIT, eee->supported);
-+
-+		if (speed & _5000bps)
-+			linkmode_set_bit(ETHTOOL_LINK_MODE_5000baseT_Full_BIT, common);
-+	}
-+
- 	eee->eee_enabled = tp->eee_en;
- 
- 	if (speed & _1000bps)
+ drivers/net/usb/r8152.c | 1092 ++++++++++++++++++++++++++++++++++++-----------
+ 1 file changed, 845 insertions(+), 247 deletions(-)
+---
+base-commit: 5c9e55fecf9365890c64f14761a80f9413a3b1d1
+change-id: 20260314-rtl8157_next-ae18683eb4fa
 
+Best regards,
 -- 
-2.47.3
+Birger Koblitz <mail@birger-koblitz.de>
 
