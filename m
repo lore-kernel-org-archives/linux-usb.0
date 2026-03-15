@@ -1,237 +1,154 @@
-Received: from mail-wm1-f41.google.com (mail-wm1-f41.google.com [209.85.128.41])
+Received: from mail-qv1-f43.google.com (mail-qv1-f43.google.com [209.85.219.43])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2460D33970F
-	for <linux-usb@vger.kernel.org>; Sun, 15 Mar 2026 11:55:09 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.41
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6214B33A6F0
+	for <linux-usb@vger.kernel.org>; Sun, 15 Mar 2026 14:44:36 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.219.43
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1773575711; cv=none; b=o2wVayrKF9tUcsQmBv0JaXg/Dve9Gcq3TPeff93yED834ZeJYBpaDiraVt4Cn+avoxAasCAzkyXgZIAzzFeimgC0LECVsMCAD/d/jy7eAnzIbsCJfa0jmgyd5qvcPKmnLJzUUmTkfc8x3nagl+QYFR/yt7mumwuIk5au0TAAeLA=
+	t=1773585877; cv=none; b=p8SWiD83Tvg470II3THIbyXaoxpJtBUSgGUd+zoWJvzLTVSZuRpp06EBsAdfHoKAi4rSFwTCcrVcqXgkfuRn0OiKLVTWqxYNJetOV8634OXvwqZ5cbwkTOX7HZZscOCdOP5JLm4c/5tfdmwcU48+zQX+g09iDFnb8HVyh/nbEBI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1773575711; c=relaxed/simple;
-	bh=bcZKlzzXwwY0EJtmDoUOqgBEwQ5NCQTilsLXeIa/wss=;
-	h=From:Content-Type:Mime-Version:Subject:Message-Id:Date:Cc:To; b=e50JtZ8M7BZHqyWnPxidqt8gdFC4EdD9jnQEcIGWK5dGGUUVv6AmkqpNHraVof1uSGucmVDf0oRtKpqEK1IU+S3URubpst/wIwQ/p+hCR0OGl1y4WRhYBEP2ApMix5P9wtF+ZSuNHd4x9CejJVmb00mr97yp505FaAfk1Zf+Wyo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=T5ti6TGw; arc=none smtp.client-ip=209.85.128.41
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1773585877; c=relaxed/simple;
+	bh=+15PsdfpJXtE+2GqEcj6TOzPq7c14GA3e2d03olf0Po=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=BjEljJDKB+W+c04EFqXnbLXCrYBZ5I6CCPoOU4RQV8gp6JyzYAGqS4giDI7DnA4KW0EFa9Fybs/VMl993fD+4ma9DNfqCOQJz13/yMBEXnamGs45Z6PjLDEGPrL11gkZwyUC3IiN5yNASKY6JQyJ3Ga4MkGzI+4FoFG4wDrSzrc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=rowland.harvard.edu; spf=fail smtp.mailfrom=g.harvard.edu; dkim=pass (2048-bit key) header.d=rowland.harvard.edu header.i=@rowland.harvard.edu header.b=slXTfGGW; arc=none smtp.client-ip=209.85.219.43
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=rowland.harvard.edu
+Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=g.harvard.edu
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="T5ti6TGw"
-Received: by mail-wm1-f41.google.com with SMTP id 5b1f17b1804b1-4852c9b4158so31520135e9.0
-        for <linux-usb@vger.kernel.org>; Sun, 15 Mar 2026 04:55:09 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=rowland.harvard.edu header.i=@rowland.harvard.edu header.b="slXTfGGW"
+Received: by mail-qv1-f43.google.com with SMTP id 6a1803df08f44-89a07f66f4eso46494846d6.1
+        for <linux-usb@vger.kernel.org>; Sun, 15 Mar 2026 07:44:36 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1773575708; x=1774180508; darn=vger.kernel.org;
-        h=to:cc:date:message-id:subject:mime-version
-         :content-transfer-encoding:from:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=vDKnJT0wYCQGOysz22h2bC3jeqtbf0HHcGTBrmEn6hA=;
-        b=T5ti6TGwXmE0br6mUCi0AQzzW4rR97FKomaAbVRY7LXeHGN7/FJd/qz6QIc9WSV43t
-         W+uLyzV4OQTUDPFqw0miRAZPMjEaUBHpfrJLKew7Xq7bCJbxG5L687SC/gg9+nVWW/Tc
-         5sCCP0g1NBZ9DPXL9XVtlmnRcvEpQB+ym2KbEQ1quycOxztnZrJHXNhNnFuAq+uNpWed
-         KPnuKq5B1kzzcdwcDgm62xEWdFEt8HzmbLCVHCjB7lwiN5yDnijyhLon+bj6aoyH6xfJ
-         oZun+wWwmN2NJzg7qgfV1FrVbYwG4IbjldzjMNpgWpe+nxWlNaR2ukrGjxz6cPKUBHOK
-         481Q==
+        d=rowland.harvard.edu; s=google; t=1773585875; x=1774190675; darn=vger.kernel.org;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=O8OKAHs7uT+2ajQgggqXPZOP0fLTZcG9HX/RZUryyHY=;
+        b=slXTfGGWFCS1T1pmBbQdb54rNWeW16zniqfn439Fq1P5mSLCBQbH0wya4wQAibwjNH
+         uSQmn3rE3dHAKxl1quJSE2WQOUaLVYw8I7bO23sXSZuhYwRFBnvP80MmBTu5xXhgGM9y
+         yoigU3GECGHEOPwD48qdZzy+xkElrzEfnjh7hI70gbSuY4J8qZIad1dvCwwAIlO5kWNA
+         lCYzitybNnZI0xq6cU2WnIWmdb04L9cRcqbh9L3EWkK+ffkyPR6aeA9Y0J/2GlVm7q26
+         BycgtmZ+jUkuX+4gvsa5fP1f6/dRsUhfkf8vHWySgZ6fR6JFbh7IE9u1Bqr7MC6NdnXS
+         V38g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1773575708; x=1774180508;
-        h=to:cc:date:message-id:subject:mime-version
-         :content-transfer-encoding:from:x-gm-gg:x-gm-message-state:from:to
-         :cc:subject:date:message-id:reply-to;
-        bh=vDKnJT0wYCQGOysz22h2bC3jeqtbf0HHcGTBrmEn6hA=;
-        b=mX3HRk5mKNfMJI/gpWkOsU46PtRUEOJ98VCgX9+X3FS8nHEWZjj1Ja0ZsBYR+AccEE
-         6HxXlrwwylLyf9T2QnMSu+ypHdYvVlVQEDYdH3wRKiU4HeyYsijjtYc9xy51j3V6pZkj
-         iE3p0v93YkOJdCGzgGDUtwep98N4dl2WvwyS1p8Kflq5N+Gi4uO/28ibpX1MZyOVMg5V
-         Mi1FzfCp2AHxTBnHDjfJy8oZoMiSTwPfr85CKrwR/dDKxZ0c2Ovrim/7YypKXi8Unhy2
-         HcSzAarqT1D5f/FRoWvVfKaGb8g6MTzBux6CI3/ZFvGrlzXm0R4J6/z1lCs7gsrkR1s/
-         MuaQ==
-X-Gm-Message-State: AOJu0Yz6PXUipkdyGt6uV/kWPuobmOByZzYI5OK/4uYx8LXv9anJ7GWI
-	w9R7QW08Dxm+IKjyK6JF5/SlDytlxKmwp0t7LmL7oFb24lTydgqRnzdh
-X-Gm-Gg: ATEYQzxRw57bXW8KnMOlLZGryd3can5J4rcAx9xWl+Kd7NDuYh0ZK71Gbz/WnI/iDSs
-	vLke9pjLZgGp31MlPB5u7nigudglkADdTlZHayfBD5TuQUgoWnXh2PWPjp7E8y7qQx0N5/1VHVN
-	EcnU/EQvbtZKoevclueV9NcRL4bflfzqcwPuKXBefNU+ca906UfbvC0Ki/u+9Q9CbeYddVs8MDS
-	BVwohTfyNIw77lrd3jVbrrcHCP30W20ByG9yw8G5xt6wTwjT+IqeEvH2UcaUR2VXOkGEP4X/p/i
-	KMRJ9Ym4m3soBbrmMPnvfQAYzP2H7z1UxDgUbMCKXcQ8rGlyWkOdARCA8hrskPkhRfCTIUZc0P7
-	wLRzmmbx5UEL/U4tfLtNvglRS1zE8Rn7Q6c8pwC7o3Df50xubcOGtO4pjELUPYdv9igOK+boeSI
-	GA4uJTtRTfvpsGJ/4zlB4Wc+48eiSoAXqw0XFZBtoB3vQl/1wcL8QuvN8hLaeKYoKZxk+KloHYn
-	00PRUdO0dzmMhMv4kvOedD1M4BkAQJrfjqwJPyYVtS0DCUzFWL0Ufp6fgnQYeWsgxI=
-X-Received: by 2002:a05:600d:4453:20b0:477:a54a:acba with SMTP id 5b1f17b1804b1-485567031a2mr113887695e9.17.1773575708139;
-        Sun, 15 Mar 2026 04:55:08 -0700 (PDT)
-Received: from smtpclient.apple (dynamic-2a00-1028-83a2-5386-5c13-9ccd-a54b-eed2.ipv6.o2.cz. [2a00:1028:83a2:5386:5c13:9ccd:a54b:eed2])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-4854b6756e4sm401505415e9.15.2026.03.15.04.55.07
-        (version=TLS1_2 cipher=ECDHE-ECDSA-AES128-GCM-SHA256 bits=128/128);
-        Sun, 15 Mar 2026 04:55:07 -0700 (PDT)
-From: =?utf-8?Q?Michal_Babi=C4=8Dka?= <michal.babka@gmail.com>
-Content-Type: text/plain;
-	charset=us-ascii
-Content-Transfer-Encoding: quoted-printable
+        d=1e100.net; s=20251104; t=1773585875; x=1774190675;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-gg:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=O8OKAHs7uT+2ajQgggqXPZOP0fLTZcG9HX/RZUryyHY=;
+        b=U1AHCfEoa282gDBPGw0ICqueHI7xSnnYzwF+wfgY4sOO4sTAn2Ey0nPz4eOKRZAV3Z
+         x8RN+08N/HmxAS7VQFn1WiiZp2DQp6bUbfLk+9okg6QO8Zwcyue+4MK+GXLQcU/abgZI
+         9gWTeR9H3ptsjfQhfAxfKCUKQSvJ176HpOSb4HSv0KnzuXj98kCzIvBQH24raq9ZsuK5
+         8//AHrPa5n6nHFN6LpmyBzR3LJ5o7I9fZjxx8ybmVYbAm+CeSK3Kyh+oWuUBH/iHhBGo
+         gxPCqVO/I8sFxc1ahhA35ePUYhuGTxHfrs6awPj8FwL91sOgspArKYEiR9yEA0DJPv2+
+         MFUw==
+X-Forwarded-Encrypted: i=1; AJvYcCWA3QSXRzyKBO66ekVeAaPv5jYEQ7G0LArn++z93l1BnMxkUCYu/IcVRUkmdqbts63YXCzdfvSEAZ4=@vger.kernel.org
+X-Gm-Message-State: AOJu0YyJ5NzYYhb5Or5dIxchsyU4D0HmmsSm1bc/xy3+S86xKbdS7Tqe
+	R+BKPz7VqXIqGM2e+oHuvnrMoLprTzNDVz+X/R2IKaD4eLTGSMgxp9yTN4JY2TTnlg==
+X-Gm-Gg: ATEYQzwwGGpZBTxjuEim3QjqvHCR9iSzt0ar1cIetfBsWOFDxAYizuHL3RYCWV4xnV+
+	+FUyCJSOc1JaR7e0Dxf5o03nfWsXpwAwrbzYQRry3Ou7Zt2S1NWQo73KAgued/bCyC6Gb3x0V4z
+	g3zjPMi3U6ofxrqyO1XrbCXVyPuAzaa1O4M+/2F8A++tmhQ7Rax1gUYrvmI8A3HpTuO2TYOX7xf
+	nd/kgcePWsZaL8Uywfq46TvXdQWZpSPek4WndrMYaFDHYIYrrp25Y84cTxcXBGADphDuq85gJm0
+	cqGW529gpwJb8WUp1usPwpvi/oUt8/f9AUWMDv+eESyKD6uuJQc5YvOSuPfpHewwZcf1GfByu6B
+	lPD/wtSTxypVlIeOK0Bs6dLd5zDv2vvqdm7De/tcJQQAzDG1qxD/r2Vc8eAMRcJaSQev+u81Ffp
+	o5WGx32X4FFTswKWVsIGckLtrR
+X-Received: by 2002:a05:6214:76b:b0:89a:6142:377a with SMTP id 6a1803df08f44-89a81c76c42mr139201406d6.2.1773585875264;
+        Sun, 15 Mar 2026 07:44:35 -0700 (PDT)
+Received: from rowland.harvard.edu ([2601:19b:d01:d210::687c])
+        by smtp.gmail.com with ESMTPSA id 6a1803df08f44-89a6947c4b8sm97506126d6.20.2026.03.15.07.44.34
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sun, 15 Mar 2026 07:44:34 -0700 (PDT)
+Date: Sun, 15 Mar 2026 10:44:31 -0400
+From: Alan Stern <stern@rowland.harvard.edu>
+To: Sebastian Urban <surban@surban.net>
+Cc: gregkh@linuxfoundation.org, linux-usb@vger.kernel.org,
+	linux-kernel@vger.kernel.org
+Subject: Re: [PATCH] usb: gadget: dummy_hcd: fix data corruption with queued
+ requests
+Message-ID: <9f2c403b-5955-4e6b-a356-330cebead7ed@rowland.harvard.edu>
+References: <20260315090307.304644-1-surban@surban.net>
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
-Mime-Version: 1.0 (Mac OS X Mail 16.0 \(3864.400.21\))
-Subject: [BUG] Apple Mac mini 2018 + Thunderbolt 3 eGPU: PCI bridge window /
- BAR allocation failure prevents NVIDIA and AMD GPUs from initializing 
-Message-Id: <FCEB17D3-3DC5-49C8-8C56-8051C875E2F9@gmail.com>
-Date: Sun, 15 Mar 2026 12:54:56 +0100
-Cc: linux-usb@vger.kernel.org,
- linux-acpi@vger.kernel.org,
- regressions@lists.linux.dev,
- linux-kernel@vger.kernel.org
-To: linux-pci@vger.kernel.org
-X-Mailer: Apple Mail (2.3864.400.21)
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20260315090307.304644-1-surban@surban.net>
 
-Subject: Apple Mac mini 2018 + Thunderbolt 3 eGPU: PCI bridge window / =
-BAR allocation failure prevents NVIDIA and AMD GPUs from initializing
+On Sun, Mar 15, 2026 at 10:03:07AM +0100, Sebastian Urban wrote:
+> The transfer() function in dummy_hcd iterates over all queued gadget
+> requests for a given endpoint via list_for_each_entry(). When the
+> per-frame bandwidth budget is exhausted mid-request, leaving a
+> partially-transferred gadget request, the loop continues to the next
+> queued request instead of stopping.
 
-Hardware / platform:
-- Host: Apple Mac mini 2018
-- Connection: Thunderbolt 3
-- eGPU enclosure: Razer Core X Chroma
-- Tested GPUs:
-  - NVIDIA Quadro P400
-  - NVIDIA Quadro P4000
-  - AMD Radeon Vega 64
+Why do you say this?  Did you not see the code (at line 1445 
+approximately):
 
-Linux distributions / kernels tested:
-- Ubuntu-based systems
-- Zorin OS 18 Pro
-- Multiple kernels tested, including 6.12.x and 6.17.x
+		if (unlikely(len == 0))
+			is_short = 1;
+		else {
+			/* not enough bandwidth left? */
+			if (limit < ep->ep.maxpacket && limit < len)
+				break;
 
-Problem summary:
-On Apple Mac mini 2018, an external GPU connected through Thunderbolt 3 =
-in a Razer Core X Chroma enclosure is detected and enumerates on the PCI =
-bus, but GPU initialization fails because PCI bridge windows / BAR =
-resources are not assigned correctly.
+It does break out of the loop when there is not enough space remaining 
+in the bandwidth budget for another transaction.  But it does so at the 
+start of the iteration following the last allowed transfer, rather than 
+at the end of last transfer's iteration (as your patch does).
 
-This is reproducible across different Linux installations and with GPUs =
-from different vendors, which strongly suggests a =
-platform/topology-level PCIe resource allocation problem rather than a =
-bug in one specific GPU driver.
+Furthermore, this test can't be removed, as there might not be enough 
+space remaining for even a single transaction.
 
-Observed behavior:
-- The Thunderbolt enclosure is detected correctly.
-- boltctl shows the enclosure as connected / authorized.
-- The GPU appears in lspci.
-- The kernel loads the vendor driver module.
-- GPU initialization then fails.
+>  This breaks data ordering in the
+> URB transfer buffer.
+> 
+> Two consequences:
+> 
+>   1. Data corruption: bytes from subsequent requests are written into
+>      the URB buffer ahead of the remaining bytes from the incomplete
+>      request. On the next timer tick the incomplete request resumes,
+>      appending its remaining data after the out-of-order bytes.
+> 
+>   2. Premature URB completion: if the next request is a ZLP or shorter
+>      than the remaining host buffer, it triggers the is_short path and
+>      completes the URB before all data has been transferred.
+> 
+> Fix this by breaking out of the loop when the current request has
+> remaining data (req->req.actual < req->req.length). The request
+> resumes on the next timer tick, preserving data ordering.
 
-For NVIDIA, nvidia-smi reports:
-  "NVIDIA-SMI has failed because it couldn't communicate with the NVIDIA =
-driver."
+As far as I can tell, this change is not necessary.  While it would 
+avoid executing a few extra statements in the unlikely case where a 
+request spans multiple URBs, in most situations it just adds a redundant 
+test.
 
-Relevant NVIDIA kernel messages include:
-- "BAR 1 [mem size 0x10000000 64bit pref]: can't assign; no space"
-- "BAR 3 [mem size 0x02000000 64bit pref]: can't assign; no space"
-- "This PCI I/O region assigned to your NVIDIA device is invalid"
-- "BAR1 is 0M @ 0x0"
-- "RmInitAdapter failed"
-- in some attempts also:
-  "fallen off the bus and is not responding to commands"
+Alan Stern
 
-With NVIDIA Quadro P4000, the same general failure pattern was observed:
-- the GPU is detected on the PCI bus,
-- the NVIDIA kernel module loads,
-- initialization fails,
-- and the logs again point to invalid / missing BAR assignments and =
-resource allocation problems behind the Thunderbolt PCIe bridge =
-hierarchy.
-
-For nouveau, the failure is visible as BAR/resource allocation failure =
-as well, for example:
-- "bar: one-time init failed, -12"
-- "init failed with -12"
-- "Device allocation failed: -12"
-
-With AMD Radeon Vega 64 installed in the same enclosure on the same =
-host, the same fundamental problem occurs:
-- the enclosure is detected,
-- the GPU enumerates,
-- initialization fails,
-- and the overall behavior indicates the same lower-level PCI resource / =
-bridge window allocation issue.
-
-This strongly suggests the issue is not NVIDIA-specific.
-
-Thunderbolt state:
-boltctl reports the Razer Core X Chroma enclosure as =
-connected/authorized correctly, for example:
-- type: peripheral
-- generation: Thunderbolt 3
-- status: authorized
-- rx speed: 40 Gb/s
-- tx speed: 40 Gb/s
-
-Important conclusion:
-Thunderbolt authorization itself appears to work.
-PCI enumeration also works.
-The failure happens later, at PCI resource assignment / bridge window =
-sizing / BAR allocation time.
-
-Key dmesg patterns observed:
-- multiple "can't assign; no space" messages for PCI bridges and BARs
-- BAR1 / BAR3 of the GPU not assigned
-- bridge windows under the Thunderbolt hierarchy not large enough
-- reassignment attempts that still leave required windows unassigned or =
-invalid
-- vendor driver subsequently failing device initialization
-
-Examples of affected topology in logs:
-- 0000:00:01.1
-- 0000:05:00.0
-- 0000:06:01.0
-- 0000:0b:00.0
-- in other boots, the same problem may appear under a different BDF =
-address after Thunderbolt re-enumeration
-
-Representative log excerpts:
-- pci 0000:0b:00.0: BAR 1 [mem size 0x10000000 64bit pref]: can't =
-assign; no space
-- pci 0000:0b:00.0: BAR 3 [mem size 0x02000000 64bit pref]: can't =
-assign; no space
-- pci 0000:06:01.0: bridge window [mem size 0x10000000]: can't assign; =
-no space
-- pci 0000:05:00.0: bridge window [mem size 0x20200000]: can't assign; =
-no space
-- NVRM: BAR1 is 0M @ 0x0
-- NVRM: RmInitAdapter failed
-- NVRM: The NVIDIA GPU ... has fallen off the bus and is not responding =
-to commands
-- nouveau ... Device allocation failed: -12
-
-Kernel command line options already tested:
-The following boot parameters were tested in various combinations:
-- pci=3Drealloc=3Don
-- pci=3Dhpbussize=3D0x33,hpmemsize=3D256M,hpiosize=3D2M
-- pcie_aspm=3Doff
-- pci=3Dnommconf
-- pci=3Dnoaer
-
-These mitigations did not resolve the issue.
-
-Why this looks platform/topology specific:
-- The same Thunderbolt eGPU enclosure is recognized correctly.
-- The same failure pattern appears with NVIDIA Quadro P400, NVIDIA =
-Quadro P4000, and AMD Radeon Vega 64.
-- The common denominator is Apple Mac mini 2018 + Thunderbolt PCIe =
-topology under Linux.
-- The failure mode is centered around PCI bridge window sizing / BAR =
-placement, not around one vendor-specific driver alone.
-
-Expected behavior:
-The Thunderbolt eGPU should receive valid PCI bridge windows and valid =
-BAR assignments so that the GPU driver can initialize the device =
-successfully.
-
-Actual behavior:
-The GPU is visible on the bus, but bridge windows and BAR resources are =
-not fully assigned, which leaves the device unusable and prevents the =
-driver from completing initialization.
-
-Request:
-Please investigate PCI resource allocation / bridge window sizing for =
-Thunderbolt eGPU topologies on Apple Mac mini 2018 under Linux, =
-especially where large GPU BARs must be assigned behind multiple =
-Thunderbolt / PCIe bridges.
-
-Cross-vendor reproducibility on the same enclosure and same host =
-strongly suggests that the root cause is in PCIe/Thunderbolt resource =
-allocation on this platform rather than in a specific NVIDIA or AMD =
-driver.=
+> Signed-off-by: Sebastian Urban <surban@surban.net>
+> ---
+>  drivers/usb/gadget/udc/dummy_hcd.c | 6 ++++++
+>  1 file changed, 6 insertions(+)
+> 
+> diff --git a/drivers/usb/gadget/udc/dummy_hcd.c b/drivers/usb/gadget/udc/dummy_hcd.c
+> index 1cefca660..0eead4a85 100644
+> --- a/drivers/usb/gadget/udc/dummy_hcd.c
+> +++ b/drivers/usb/gadget/udc/dummy_hcd.c
+> @@ -1534,6 +1534,12 @@ static int transfer(struct dummy_hcd *dum_hcd, struct urb *urb,
+>  		/* rescan to continue with any other queued i/o */
+>  		if (rescan)
+>  			goto top;
+> +
+> +		/* request not fully transferred; stop iterating to
+> +		 * preserve data ordering across queued requests.
+> +		 */
+> +		if (req->req.actual < req->req.length)
+> +			break;
+>  	}
+>  	return sent;
+>  }
+> -- 
+> 2.53.0
+> 
+> 
