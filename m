@@ -1,230 +1,155 @@
-Received: from mail-lf1-f43.google.com (mail-lf1-f43.google.com [209.85.167.43])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from SEYPR02CU001.outbound.protection.outlook.com (mail-koreacentralazon11023121.outbound.protection.outlook.com [40.107.44.121])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BA1B65CDF1
-	for <linux-usb@vger.kernel.org>; Mon, 16 Mar 2026 06:48:12 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.167.43
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0B03820468E;
+	Mon, 16 Mar 2026 06:48:36 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=40.107.44.121
 ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1773643694; cv=pass; b=QZKQXRcWR6u/M/YCReEXsjlLo2mwtwNl9D1RSsQ1E7bsB4b+QfLVb85sXvk4BtzzIpN19KXAq4dRrNyWC7kCz+FI2GfSVAaUNsZSdD6GxJT2ZRQ3ZziSFJxACWwpX8lHSFM3zlXWJgkcYQ0u4phvc3UshtGlWB3rGbrfxX+5X7o=
+	t=1773643720; cv=fail; b=QY0Mvb/vRjDhRUBHtxQ7LD3jBBFOlkjwMGfbli0DOD88y4aJszL+q9E9qLsaj5+dzXb9SphiNQFNYW2KmAhvXu+rhL8w/ETj1uP1eFeb17EK0EI9riIAQH3Ji8Kk+Wu1n5cpi7eEbsk8SxP3FbCmDbJc72n6B3a8n08zOOEMRTc=
 ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1773643694; c=relaxed/simple;
-	bh=IwIr9o98bJTORcYX84PPKdI0NjV59Kyb+bURc4al5qw=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=FPum5Fz4LTBnzxd670DQ/f8Aaq5xdXUtFb8SRQvpckL0bcMO1D2/f+j8YVXhDqLMG7yKgZMFEx8Oo/tf9/3c1wot8TxPeh6hphiE5PfYsvhalkqZXg/a39kX7Riyca9TbULpi+KIBKGxmuf/C1cpxb7U+ccnBT5Up4cR5hPrvpo=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=VcuGq0Fv; arc=pass smtp.client-ip=209.85.167.43
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=google.com
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="VcuGq0Fv"
-Received: by mail-lf1-f43.google.com with SMTP id 2adb3069b0e04-5a10a116145so5626e87.1
-        for <linux-usb@vger.kernel.org>; Sun, 15 Mar 2026 23:48:12 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1773643691; cv=none;
-        d=google.com; s=arc-20240605;
-        b=L/Sqt+dCVqwJ5w1nakeCKoyfcR4w47Hxx06Ay6bc+3gVQ1yrfHo965HLjdbjl1MYDZ
-         YraUugLi/2oU6Jzg7CwSFbE1MqimA2mH8N0kYNgXfbE7cUT9pmPMr4ysMwR2//UMqn4x
-         Zq3RupvAVXXbbO2Jcw/aCPE5tVcRee5izHNfrCo4SDr959D86wYwEcqlvjE7sTgWnovp
-         e8cRPw7WBd0xTCRo7jvhoUDlFDSbtSizCShX01Cur5RI1jMSKtl9zjwtTbz+0hjm/vkl
-         /NNkm5E/JQsHsLnytLZqU0VBPW1B1XJvIE+vUcS4piXPGfy6xVqrv71p1uXJfzVOOZ+f
-         U7RA==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:dkim-signature;
-        bh=C7cmvO/0MW2U1VRJ9E+rD7BZwt4DNdAA3P/GEMYHIi0=;
-        fh=Iw2DXgNOiUF8wV1maThd9bOLQUertlwoBiJ6NW2hdmo=;
-        b=TZNKjYwuwwwVKi8SYtD6EX2QP5hnMLYeqamnRxP/lDB0FtIYjmEeIbU/ioNUbFXWNc
-         lZWOynO9gwFwrzeJBiSF38vBjbUdfMBMk6y0iNn6liigie0vH5O4E7P8TXxi+i0SZct4
-         wpu1to9zdKZuf4maLzI21QMHIa2tvliQF5Wl94hpCjFhracZvv7aNrOrq4TE5tJlDG11
-         yninuKg74k4VGsX/06mSjLituRByHfzWa+k6R4qycerA0vPMDYE3PD4JkWtp1Ks/YdEn
-         4sByIC4+F7ci3P/7ZKacJxPqIiw+dlVhWnuO1IczF1nVEBWpkNMMlHHNgC/zmL61ARc4
-         P7UQ==;
-        darn=vger.kernel.org
-ARC-Authentication-Results: i=1; mx.google.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20251104; t=1773643691; x=1774248491; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=C7cmvO/0MW2U1VRJ9E+rD7BZwt4DNdAA3P/GEMYHIi0=;
-        b=VcuGq0FviiaOAB+TBjzAv30inBd4B2emzWF1/PDb1YLNw12dVliUmk7r1lqTPj80Xc
-         9kYYPfeAwJe5uhXgfUlZtgUONe9CuNINypq5wi2l6v5lsrzTWXP8wIt8a4KqlKSFRMmn
-         YllVSWvyLNLkl5ZOKEB7t6/YDLNHd4+fLi/h2EjIYDmmcCPYPY/nWBTNSyQGWxe7U+vy
-         aYF0eVlUm7PFZMEan/B9h8xZHo25PjogBI870zhembWM5aO/eP3Hg1uHrHJu4QRCUnpJ
-         ++Ic8r7TztnSutaFAZtftu7Khbq8aIT4hSWrYbowJr+L1bo7eoCObx+Vx/JKpaoVjaQm
-         T0Kw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1773643691; x=1774248491;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to;
-        bh=C7cmvO/0MW2U1VRJ9E+rD7BZwt4DNdAA3P/GEMYHIi0=;
-        b=J6hhqEB5QNhXz3dTDHnKIIEdHk9Vee+ddui8bVt8y2N+U/uxhefrqAUrsqQNd9JCIO
-         W63MEHEVh4MHwjng6e4aMPjlL9YloHlfka1/8HUx0Ak+RlTwUAkSgRSGPBcFFWztsMeG
-         k37zSzJir8q1KydI4kokUpnlc5I9Nn+7xb9D9Xav4i4uL/KnzxfhuBHC23JX/ydneIpG
-         wOX/XZWw2nOjNy4NtYhuKzlfoa9ynJnjLDCqv+QdDt9RfnHtQbUeOUW54+/m1jL1axeW
-         toews9dI9Z4UGGEFoGbmpinr7XoFdN4IyMBtlgo5j4CzcrJEiFYAYoMW5SBephT4bVLl
-         GaPQ==
-X-Forwarded-Encrypted: i=1; AJvYcCVkperRfBN3rjPdmcpvqlpx/PsA8c2HxbYi51/TzNDIqyWoVOMDBZx4RZu3lQfNGWKJMfpzu6Y2qfc=@vger.kernel.org
-X-Gm-Message-State: AOJu0Yyt8u1P0dsSCkOdSDsRhBnalciZq+2XZIMUJR9BC4rUR3WW/i7Z
-	PMTGgumGCUucevtPDIPDki/lVADHzPVM8F12xnWkMv9VgsEqLcVfGflXd+39/NK53g7tu+KnyYI
-	JBU7f4897wUrRforTGMeW4okZZt3Rsu3iu50YgOdU
-X-Gm-Gg: ATEYQzzjZRPyC/juo6K7lr2WfbqJ+JJ8kCSZJv0we5cUaZCLE5/87AS85vKoafzuhwf
-	ZlHJ/Ua6mxlr6wtta+TAnUVe0uSgOnSj7Yivpww5K8r0pci93DBh4LHBOu0+bvQ0J2FEY5OdHKQ
-	qt62+LpDCy9w4F6NnPGAyGc1zDuAl4uZ2ZJoA0UMwT9qzWvWHDUnVzdmUiCSVm1Qxo6yt3CISP/
-	4vCqSlczeHZh/bXntvq8uHnIVg+YCivnGzTNnvvt4vmpDKjDTgN8T6G3wXBr665Prufu/hDuCAk
-	QVJbZeU+4HCNTQw535JttoVQhnyzz2oPlbrTDTcqyalU
-X-Received: by 2002:ac2:47f5:0:b0:5a1:156e:6a39 with SMTP id
- 2adb3069b0e04-5a168c77c49mr151363e87.10.1773643690434; Sun, 15 Mar 2026
- 23:48:10 -0700 (PDT)
+	s=arc-20240116; t=1773643720; c=relaxed/simple;
+	bh=Z3GdLqnrFsh38eRhnmEKYt+MRYvjfHGtAVF/ReQqvMU=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=nrK+PAEw34S4ZHSXXcygaxAavss81+VwOKFqtopQxZz3TME035IqbC04cpU/VkChgMonTUiQQGy3xxqw2n6Qc67dNFSW02FHdkc2FiiSe9afm1+Hre8aUmUOmFxMYLm/gegSd1H79yZt2GvxwpqSoyktZsM53SyVuVZrvqT21z4=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=cixtech.com; spf=pass smtp.mailfrom=cixtech.com; arc=fail smtp.client-ip=40.107.44.121
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=cixtech.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=cixtech.com
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=GX1dgIoROvC2+jTtLjrK9adB9QrGgavNTp4OeDeUo82fBAMAPB1hY68WsBetRd6iVkjkwZMN/r6Of2YJkZJG3tnfMh8tkQEaT2VryhlsTtrJiYY4vMAAQ8EG/AUH1Me1j0fBbKGpyt5dZ+z9OP8oWlzq0sMUGDtEpF7228EiT2pPgGVkefjwEAOJOUX7ioLA3H/gIDkJ009vyLkfCw8tNnbGwclwXxxeSYZ+vR0pIvqu4W5tby99TinhZF6ff2EFeePDJtZBIM3nBXBfjfESsQiZaXOUrFKZyF+92jO3ykXuqIWqn/6qmImp8Rbhc7IQNrIkbeLYUXf9IRLvgPonEw==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=sXDSnA+Ere+2fWtuh5VlU/p2cZ40qwmiFd6570xMffc=;
+ b=dgGN0jem0hy9KQ+6CeWExpvqNCIbbvwwF9/DDmGPyJvmikWAhCDbLa+ZrdUdX4YrePaJ0DHp1KaflDdhnkkCAISGHKh5SAI91OECmJhXDvGrEzlXHXqLiwHxmUVoKvhAKV8rYWUQTFWGiX/6ALkTGlR3Wi+k2oyb5puAoOiLzHpVJ/YWwbx69YLlOHLN9wjcjQAX2Hq2XH6PlomOit2upBzWD2ydzBV7pDtVy/vjWTZts7vJtXB3f8i/V2WaEJ3YvDWQht0j338BradEk6GfyNC0cmzYVcd7rpJLb7NUENw1Ny2wgvmcimZBkmLfTg/ceAHmHmE1LTx+LlkuzFBJ7w==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
+ 222.71.101.198) smtp.rcpttodomain=cadence.com smtp.mailfrom=cixtech.com;
+ dmarc=bestguesspass action=none header.from=cixtech.com; dkim=none (message
+ not signed); arc=none (0)
+Received: from TYCP286CA0170.JPNP286.PROD.OUTLOOK.COM (2603:1096:400:3c6::11)
+ by SEYPR06MB6484.apcprd06.prod.outlook.com (2603:1096:101:171::5) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9700.24; Mon, 16 Mar
+ 2026 06:48:33 +0000
+Received: from TY2PEPF0000AB87.apcprd03.prod.outlook.com
+ (2603:1096:400:3c6:cafe::7a) by TYCP286CA0170.outlook.office365.com
+ (2603:1096:400:3c6::11) with Microsoft SMTP Server (version=TLS1_3,
+ cipher=TLS_AES_256_GCM_SHA384) id 15.20.9700.24 via Frontend Transport; Mon,
+ 16 Mar 2026 06:48:31 +0000
+X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 222.71.101.198)
+ smtp.mailfrom=cixtech.com; dkim=none (message not signed)
+ header.d=none;dmarc=bestguesspass action=none header.from=cixtech.com;
+Received-SPF: Pass (protection.outlook.com: domain of cixtech.com designates
+ 222.71.101.198 as permitted sender) receiver=protection.outlook.com;
+ client-ip=222.71.101.198; helo=smtprelay.cixcomputing.com; pr=C
+Received: from smtprelay.cixcomputing.com (222.71.101.198) by
+ TY2PEPF0000AB87.mail.protection.outlook.com (10.167.253.6) with Microsoft
+ SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.20.9700.17 via Frontend Transport; Mon, 16 Mar 2026 06:48:32 +0000
+Received: from nchen-desktop (unknown [172.16.64.25])
+	by smtprelay.cixcomputing.com (Postfix) with ESMTPSA id 728AB4126F87;
+	Mon, 16 Mar 2026 14:48:31 +0800 (CST)
+From: Peter Chen <peter.chen@cixtech.com>
+To: robh@kernel.org,
+	krzk+dt@kernel.org,
+	conor+dt@kernel.org,
+	gregkh@linuxfoundation.org,
+	pawell@cadence.com,
+	rogerq@kernel.org
+Cc: devicetree@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	linux-usb@vger.kernel.org,
+	cix-kernel-upstream@cixtech.com,
+	Peter Chen <peter.chen@cixtech.com>
+Subject: [PATCH v2 1/2] dt-bindings: usb: cdns,usb3: document USBSSP controller support
+Date: Mon, 16 Mar 2026 14:48:30 +0800
+Message-ID: <20260316064831.274865-2-peter.chen@cixtech.com>
+X-Mailer: git-send-email 2.50.1
+In-Reply-To: <20260316064831.274865-1-peter.chen@cixtech.com>
+References: <20260316064831.274865-1-peter.chen@cixtech.com>
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20260309-f-ncm-revert-v2-0-ea2afbc7d9b2@google.com>
- <DH1NU7GOPTJY.149SPB0645W7G@fairphone.com> <CAKzKK0pEgC683icYco8YqPDSMWh47SKiZf_g1TX8N3syB2FhBw@mail.gmail.com>
- <2026031632-catwalk-reshuffle-c819@gregkh>
-In-Reply-To: <2026031632-catwalk-reshuffle-c819@gregkh>
-From: Kuen-Han Tsai <khtsai@google.com>
-Date: Mon, 16 Mar 2026 14:47:43 +0800
-X-Gm-Features: AaiRm51ZAdzM-I8PDbeuJ32Cya6bFaza2U6YzLxfe-NU5zwEEDQ0Shx4CcY3FbA
-Message-ID: <CAKzKK0oA+oYGOz1okET+FaSiTh7GVVnGnRRXBuRdLr4HsYCWSg@mail.gmail.com>
-Subject: Re: [PATCH v2 0/7] usb: gadget: Fix net_device lifecycle with device_move
-To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-Cc: Luca Weiss <luca.weiss@fairphone.com>, Felipe Balbi <balbi@ti.com>, 
-	Kyungmin Park <kyungmin.park@samsung.com>, David Heidelberg <david@ixit.cz>, 
-	Ernest Van Hoecke <ernest.vanhoecke@toradex.com>, Jon Hunter <jonathanh@nvidia.com>, 
-	LI Qingwu <Qing-wu.Li@leica-geosystems.com.cn>, linux-usb@vger.kernel.org, 
-	linux-kernel@vger.kernel.org, stable@kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+X-EOPAttributedMessage: 0
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: TY2PEPF0000AB87:EE_|SEYPR06MB6484:EE_
+X-MS-Office365-Filtering-Correlation-Id: 9028ad1b-9473-42b1-1563-08de83280a56
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam:
+	BCL:0;ARA:13230040|36860700016|82310400026|1800799024|376014|18002099003|22082099003|56012099003|7053199007;
+X-Microsoft-Antispam-Message-Info:
+	EzNRkBIHikWLjTb+TpMnzbnO+9GMo8DzKoensDQwZPoV3lzkqwkibsdjEjpslLMVqifEpusDgExQJByRwmfCP730SrSqLoNKQ4ppavp1/LD28RiSsoLebeLojAV661XUo7hkZ96jcNVZQ82/Phd8Zq230/SQiiuWPHPJetqojdkUaMCaSySwlulZ8efz7quDfp/gTLVJNWOyHfziWqqWGwOHoIZMQ9DV60oYAk2rSZ0s5BB9jEWdfothfzgHFG5X+1goWQ69kPioYTHljbNul8LBQuNVYyRCo+NOzncft4rBLUo45EJ1H7sPK/lsEcUAwHaZtbFU1RmtqeDiDU0Ei8Mall7YdqgOmmIEAP/74zF+CXlOen8ZzgZab8ZvKt/4dJU7R2R6v2hjNeTzuLq95a6EUGzeNabeff8NvIk/cbF6mIwDuN8G4YEzcS0dzuBubyDM+uCZp0sevzQkoRrmfAXs4vfZBkRSDCTz7Rxz9OhoTnzyeUGOFn3FK01cgeqlIWyCUwHga+rbkrFEWXMtwpVby/2M5ib6zBE7MTGt0zy0Cc0TdoMcGlVr0GI1ea8rnaiyNHDOQ2LRQebVbACME5uEvWZKTS55M/KXG6CV3zddik736A/6JE5NMyd3tnA+cijFXsQSkJZzv9aArQtmjSMnm6FA2LLJTkcqDbmgo/Rm0T4Wl9s5Qgoky04vCv4xr6GhgKmIrqduXnwfJk7ZRkr8XUU4b13y0ucvzxyAPTo=
+X-Forefront-Antispam-Report:
+	CIP:222.71.101.198;CTRY:CN;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:smtprelay.cixcomputing.com;PTR:ErrorRetry;CAT:NONE;SFS:(13230040)(36860700016)(82310400026)(1800799024)(376014)(18002099003)(22082099003)(56012099003)(7053199007);DIR:OUT;SFP:1102;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0:
+	hua1lM5yQx4aDDRIwDl29LIjxh9In5Y1uX+5AHmLbrB9PzwRHfTcMo4F8OBy7K0/W2g2aoRH/WdJm92fvRHi/LqBrNbio/KPTqB18PSxThYV5ycMh2X9/awFAmaLjqxjdKvINY4dW4f0Id6OZLSDElGE78puvOXlDOBxPVacn8VobbBk4g6Bqt8B3gtZlomCNQ9/JINLp7Ea3lUOf50HaL5U7PkFnIgSQHA8orSywMHLqgRefa0e99cr6GrgTAf40D1QJjhY6OoORqeTnhWvg4teO7FjlqXbxRlJeIs1Qp0QHdCVVfoStTz3DsZ9PcA7m+CwW2l1gUh7IDru+vj3rowzLBVowVI0mfbnqAarCFQ82ShC/4zeRV6AHtsL5RmtW/qrjypmJPkDANnvch+ruppvUoYMkGhN2Nhes2Kaq8nUs652I+iRGgzPIjg/bnQ9
+X-OriginatorOrg: cixtech.com
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 16 Mar 2026 06:48:32.5893
+ (UTC)
+X-MS-Exchange-CrossTenant-Network-Message-Id: 9028ad1b-9473-42b1-1563-08de83280a56
+X-MS-Exchange-CrossTenant-Id: 0409f77a-e53d-4d23-943e-ccade7cb4811
+X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=0409f77a-e53d-4d23-943e-ccade7cb4811;Ip=[222.71.101.198];Helo=[smtprelay.cixcomputing.com]
+X-MS-Exchange-CrossTenant-AuthSource:
+	TY2PEPF0000AB87.apcprd03.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Anonymous
+X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: SEYPR06MB6484
 
-On Mon, Mar 16, 2026 at 2:36=E2=80=AFPM Greg Kroah-Hartman
-<gregkh@linuxfoundation.org> wrote:
->
-> On Mon, Mar 16, 2026 at 02:17:09PM +0800, Kuen-Han Tsai wrote:
-> > Hi Luca,
-> >
-> > On Fri, Mar 13, 2026 at 8:40=E2=80=AFPM Luca Weiss <luca.weiss@fairphon=
-e.com> wrote:
-> > >
-> > > Hi Kuen-Han,
-> > >
-> > > On Mon Mar 9, 2026 at 1:04 PM CET, Kuen-Han Tsai wrote:
-> > > > PROBLEMS
-> > > > --------
-> > > > The net_device in f_ncm is allocated at function instance creation
-> > > > and registered at bind time with the gadget device as its sysfs par=
-ent.
-> > > > When the gadget unbinds, the parent device is destroyed but the
-> > > > net_device survives, leaving dangling sysfs symlinks and a NULL poi=
-nter
-> > > > dereference when userspace accesses the orphaned interface:
-> > > >
-> > > > Problem 1: Unable to handle kernel NULL pointer dereference
-> > > >  Call trace:
-> > > >    __pi_strlen+0x14/0x150
-> > > >    rtnl_fill_ifinfo+0x6b4/0x708
-> > > >    rtmsg_ifinfo_build_skb+0xd8/0x13c
-> > > >    ...
-> > > >    netlink_sendmsg+0x2e0/0x3d4
-> > > >
-> > > > Problem 2: Dangling sysfs symlinks
-> > > >  console:/ # ls -l /sys/class/net/ncm0
-> > > >  lrwxrwxrwx ... /sys/class/net/ncm0 ->
-> > > >  /sys/devices/platform/.../gadget.0/net/ncm0
-> > > >  console:/ # ls -l /sys/devices/platform/.../gadget.0/net/ncm0
-> > > >  ls: .../gadget.0/net/ncm0: No such file or directory
-> > > >
-> > > > BACKGROUND & THE REVERTS
-> > > > ------------------------
-> > > > The deferred allocation causes a regression for userspace tools dur=
-ing
-> > > > network setup (such as the postmarketOS DHCP daemon). By moving the
-> > > > allocation out of alloc_inst, configfs returns the name pattern "us=
-b%d"
-> > > > instead of the actual interface name (e.g., "usb0") when userspace =
-reads
-> > > > the 'ifname' attribute.
-> > > >
-> > > > Investigating a fix for this naming issue revealed a deeper
-> > > > architectural flaw introduced by the series. Deferring the allocati=
-on to
-> > > > bind() means that a single function instance will spawn multiple ne=
-twork
-> > > > devices if it is symlinked to multiple USB configurations.
-> > > >
-> > > > Because all configurations tied to the same function instance are
-> > > > architecturally designed to share a single network device, and conf=
-igfs
-> > > > only exposes a single 'ifname' attribute per instance, this 1-to-ma=
-ny
-> > > > bug cannot be safely patched.
-> > > >
-> > > > To restore the correct 1:1 mapping and resolve the userspace
-> > > > regressions, this series reverts the changes in reverse order, retu=
-rning
-> > > > the net_device allocation back to the instance level (alloc_inst).
-> > > >
-> > > > THE NEW SOLUTION
-> > > > ----------------
-> > > > Use device_move() to reparent the net_device between the gadget dev=
-ice
-> > > > tree and /sys/devices/virtual across bind/unbind cycles. On the las=
-t
-> > > > unbind, device_move(NULL) moves the net_device to the virtual devic=
-e
-> > > > tree before the gadget device is destroyed. On rebind, device_move(=
-)
-> > > > reparents it back under the new gadget, restoring proper sysfs topo=
-logy
-> > > > and power management ordering.
-> > > >
-> > > > The 1:1 mapping between function instance and net_device is maintai=
-ned,
-> > > > and configfs always reports the resolved interface name.
-> > > >
-> > > > A bind_count tracks how many configurations reference the function
-> > > > instance, ensuring device_move fires only on the first bind.
-> > > > __free(detach_gadget) ensures the net_device is moved back to virtu=
-al
-> > > > if bind fails after a successful device_move, preventing dangling
-> > > > sysfs on partial bind failure.
-> > >
-> > > Applying this series on v7.0-rc3 fixes the reported issues for me on
-> > > Qualcomm-based Fairphone (Gen. 6). For v7.0-rc3 the first two commits
-> > > need to be skipped, looks like the original commits are only in -next
-> > > and not in v7.0-rc?
-> > >
-> > > Tested-by: Luca Weiss <luca.weiss@fairphone.com> # milos-fairphone-fp=
-6
-> > >
-> > > Thanks for fixing this!
-> > >
-> > > Regards
-> > > Luca
-> >
-> > Thanks for testing.
-> >
-> > That is correct. The first two commits:
-> >
-> > - [Patch v2 1/7] Revert "usb: gadget: f_ncm: Fix atomic context locking=
- issue"
-> > - [Patch v2 2/7] Revert "usb: legacy: ncm: Fix NPE in gncm_bind"
-> >
-> > have not been merged into the mainline yet, so skipping them for your
-> > test was the right move. This series is based on Greg's usb-linus
-> > branch rather than the Linux's master branch.
->
-> These should all now be in 7.0-rc4, right?
->
+Update the Cadence USBSS DRD binding to document that it also covers
+the USBSSP (SuperSpeed Plus, USB 3.1 gen2x1) controller. Both USBSS
+and USBSSP share the same DRD/OTG register interface, so the driver
+auto-detects the controller version at runtime — no additional
+compatible string is needed.
 
-Right, I saw all these patchsets land in 7.0-rc4 [1].
+Changes to the binding:
+- Update title and add description
+- maximum-speed: add super-speed-plus
 
-Thanks for the review and for merging these.
+This patch is Assisted-by: Cursor:claude-4.6-opus
 
-[1] https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/log/=
-drivers/usb/gadget?h=3Dv7.0-rc4
+Signed-off-by: Peter Chen <peter.chen@cixtech.com>
+---
+ Documentation/devicetree/bindings/usb/cdns,usb3.yaml | 10 ++++++++--
+ 1 file changed, 8 insertions(+), 2 deletions(-)
 
-Regards,
-Kuen-Han
+diff --git a/Documentation/devicetree/bindings/usb/cdns,usb3.yaml b/Documentation/devicetree/bindings/usb/cdns,usb3.yaml
+index f454ddd9bbaa..ad5acf956edf 100644
+--- a/Documentation/devicetree/bindings/usb/cdns,usb3.yaml
++++ b/Documentation/devicetree/bindings/usb/cdns,usb3.yaml
+@@ -4,11 +4,17 @@
+ $id: http://devicetree.org/schemas/usb/cdns,usb3.yaml#
+ $schema: http://devicetree.org/meta-schemas/core.yaml#
+ 
+-title: Cadence USBSS-DRD controller
++title: Cadence USBSS and USBSSP DRD controller
+ 
+ maintainers:
+   - Pawel Laszczak <pawell@cadence.com>
+ 
++description:
++  Cadence USB dual-role controller. Covers USBSS (SuperSpeed, USB 3.0) and
++  USBSSP (SuperSpeed Plus, USB 3.1 gen2x1). Both variants share the same
++  DRD/OTG register interface, so the driver auto-detects the controller
++  version at runtime.
++
+ properties:
+   compatible:
+     const: cdns,usb3
+@@ -49,7 +55,7 @@ properties:
+       cdns3 to type C connector.
+ 
+   maximum-speed:
+-    enum: [super-speed, high-speed, full-speed]
++    enum: [super-speed-plus, super-speed, high-speed, full-speed]
+ 
+   phys:
+     minItems: 1
+-- 
+2.50.1
+
