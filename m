@@ -1,154 +1,245 @@
-Received: from mail-ua1-f53.google.com (mail-ua1-f53.google.com [209.85.222.53])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from bkemail.birger-koblitz.de (bkemail.birger-koblitz.de [23.88.97.239])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 340542D0C72
-	for <linux-usb@vger.kernel.org>; Tue, 17 Mar 2026 18:03:48 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.222.53
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4BDA737EFED;
+	Tue, 17 Mar 2026 18:07:26 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=23.88.97.239
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1773770629; cv=none; b=SW3DQHNrCs21dTUUpDfEeziG3mo8fHTnupGTmb16Vfd8VlynmsDbxkwQdTUp0BYVaMnA5/RfLbXWQMnPSuEvgje62Q8kjk2qnIK8YL2rctAtzoShUxEqkdFglL6DLgRLaEpo1oLjNX9wOqhuF0fBZqnZj82EUG7Kc6sPcf/ea7g=
+	t=1773770847; cv=none; b=LCuOiZKLX8iUOhs5v1rmYXYOlw0abJuk6TJz0Hg/QXMbRPf7Y9vIyMOq2avbWSTfzTEb1Pjj7H2SNZ/uxEu5Jwg+BXaQYo/NqQuzM6neio5pfQ+poERqrE2MXhrAWh9OnT0uV4n+bFzKZB7XweSHLssJCfvukxE8dbly4QngNlI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1773770629; c=relaxed/simple;
-	bh=4daLZFcBEvytYTTiRkP6Pk6I2vJV111wL0823RlSFm4=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=st1FTAbDU9Cw6gVtesx1y6tFm2AuYjo55gHTIdruO536JMyEboQuxSUSWtGMsvoEAAiilruPfUFTyBBu3SPx/BJPrVVagUNp9jaJlCRRe8PvtJJfjR2C7q4QaVrkRT3iqGxCVWdhZnegvHchkeqoxNpLuAtqvamADnZAdHQDkKg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=rowland.harvard.edu; spf=fail smtp.mailfrom=g.harvard.edu; dkim=pass (2048-bit key) header.d=rowland.harvard.edu header.i=@rowland.harvard.edu header.b=RQrNQP7h; arc=none smtp.client-ip=209.85.222.53
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=rowland.harvard.edu
-Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=g.harvard.edu
+	s=arc-20240116; t=1773770847; c=relaxed/simple;
+	bh=BDvwioO8gC1x/W8UZX2A6UuH8D3nEdqWNTqn6htIJP8=;
+	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
+	 In-Reply-To:To:Cc; b=VtwYl8shihmCe3kUpx07d6mdAAU3IlrOz06wrpUPevZJRgNM/DdVxsb+6uWJ8bWRLAp6AkN4PNpTcoFMNPIdNgC/B2OOF55zb8DJHI7cm28I/DslGBmYvAbqlgbpYEMhZkbGJMgr7ov+bgNd+tP7a/K4HBkfXONUJhEaEA6XI24=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=birger-koblitz.de; spf=pass smtp.mailfrom=birger-koblitz.de; dkim=pass (2048-bit key) header.d=birger-koblitz.de header.i=@birger-koblitz.de header.b=DoqzXXFV; dkim=pass (2048-bit key) header.d=birger-koblitz.de header.i=@birger-koblitz.de header.b=I1B0C5Jx; arc=none smtp.client-ip=23.88.97.239
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=birger-koblitz.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=birger-koblitz.de
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=rowland.harvard.edu header.i=@rowland.harvard.edu header.b="RQrNQP7h"
-Received: by mail-ua1-f53.google.com with SMTP id a1e0cc1a2514c-950d235b500so773882241.0
-        for <linux-usb@vger.kernel.org>; Tue, 17 Mar 2026 11:03:48 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=rowland.harvard.edu; s=google; t=1773770627; x=1774375427; darn=vger.kernel.org;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=ruMgQJj2J1L7blZ/0i0FPqIRVHd5OUJfIsy+yiawL3s=;
-        b=RQrNQP7hfgrhIQ3jOqkE1HOBTcSfUx4iscn3HLySfvE5H9BHfFUPnlV1oPpQoEeN7i
-         iY4aQq0ZgJTGcpbLExCi++VPNauh59tq22Kbn4L+9GteRYiAfDhFjmWPvwpN1SgiNzRO
-         VyM9AAB72CNGyjqjIyPVdOIPth210B6MZ4bB+yGrv2c7T1DfiTQlUTPH5nQMCOmOaeCM
-         ntq4FN+NT2yYz3H6QU81rcXJDxPeJ7SwbdVzcIdIeqrLLQ/tZiPuZL0hCCLkJBcUbcaq
-         YrdHcMnndCPJaosCI852u7oclm+c9GHRzZiDuM1kS1jMrJw6QXSt1EBQP3UsTde66pR4
-         xuJQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1773770627; x=1774375427;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-gg:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=ruMgQJj2J1L7blZ/0i0FPqIRVHd5OUJfIsy+yiawL3s=;
-        b=bU7nzmUp7hIZJAVpL65f2ID0bKJkdUVFZaT1YSG1Lq4mJQDvx8zM4nDgzniWw/jHlb
-         DRXe7BJrPeDr4qAPcd3lHlIT2rSSxAX/DBzW0i8sd1q399jmaGIY+wU6/35XroUxm8vq
-         AZpifVDN4S+Y01k9lVKMaCBGKqoQNrRSDb2Vi55y/fl0mBlzfLzfpf7R85rGwNmgXiIg
-         Qxx947dQFhIDQ+iSrWhQfkCfQh1AuZdnkwV4PNzN71O8vYGoRer7wrGxc2dX3MLuvVCq
-         VhPcVdpP3Si3f4AzHL6HsydI78d70b4xa2vJ9qhBa5NEdDZPuk5MGGhJdeFjHqoq11/j
-         EKYw==
-X-Forwarded-Encrypted: i=1; AJvYcCV9B2Jf+IwOcGpP+v1rU0YsI0pZULOQaXdXE3Rud0fOAziC4rPWCB/JRCEzgOsXusgBY7BbXF+Njpc=@vger.kernel.org
-X-Gm-Message-State: AOJu0YwxvTlkomtqY8DjYxm70u6wyd/iP4mhlAbTA+zF+Rk3dzH9RHkr
-	JBYOVZgbwsBb5OSFvH4fn8/WHYWZhlvG9Vau4VWfPkEdS4yykfIGOjavJLG0sB2lGw==
-X-Gm-Gg: ATEYQzwFHJfsb2cp0NoQuefPLE9sXgpZ5RSZu3nImakAx2Of+pkFwq15e8A7An2KZXS
-	n9rro75HcgdsnYcGIxIhfEwfpPPiFTM/LEYJW3jnbRGCCrrECQcCpxz9mHJQjR3PQUNAGyqdvJ/
-	ClG1PAAH/9wwHRTQeISuxhVCHtuEtxe6FGe8cEZSmqv0TiVbMxUS3QTd9Vxd1qUwHkk4JXT4BQq
-	rtGIL6kPSKtZeLmVxAADfEUZtFmhMJFuOKNcyj8/g1EV+qWt1A4ulCGT3/h8PPJh0XTHhl0FR9Z
-	/e6B6nmBytgLgLu3D8TVha+KNp1fgJ+w0omlT6xQ11snCaKXtruS4S31HcIDv4+DxPV8F9p0+DU
-	h/JxcUK40fYu6gGRZrAgHD1Nw4+/x1vniLorD1j10MsE4L0aY8H6WNMDwpK4EAhfp3Yqk2WszKx
-	/fFVYjC9KqFRWv0xFLEIH5s8kb
-X-Received: by 2002:a05:6102:2ad5:b0:5ff:f9d9:ce73 with SMTP id ada2fe7eead31-6027d0a660cmr376903137.5.1773770627050;
-        Tue, 17 Mar 2026 11:03:47 -0700 (PDT)
-Received: from rowland.harvard.edu ([2601:19b:d01:d210::687c])
-        by smtp.gmail.com with ESMTPSA id 6a1803df08f44-89c6b90d2b4sm3202106d6.19.2026.03.17.11.03.45
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 17 Mar 2026 11:03:46 -0700 (PDT)
-Date: Tue, 17 Mar 2026 14:03:43 -0400
-From: Alan Stern <stern@rowland.harvard.edu>
-To: Oliver Neukum <oneukum@suse.com>
-Cc: Thinh Nguyen <Thinh.Nguyen@synopsys.com>,
-	Michal Pecio <michal.pecio@gmail.com>,
-	=?iso-8859-1?Q?Bj=F8rn?= Mork <bjorn@mork.no>,
-	USB list <linux-usb@vger.kernel.org>
-Subject: Re: correctly handling EPROTO
-Message-ID: <4ada5d68-56f1-41b7-82d9-463901c927db@rowland.harvard.edu>
-References: <9da0ac4f-12bf-4270-af6f-e08b5a89611b@rowland.harvard.edu>
- <20260313224528.dp6utjqzbdguwlbf@synopsys.com>
- <a6934c14-aeb5-40d0-865c-14199943e2a2@rowland.harvard.edu>
- <3028610a-f05a-4bc8-9037-cca152e46c52@suse.com>
- <437037d6-3fe1-4f81-b74a-21bea00725e0@rowland.harvard.edu>
- <0b45d0e4-53f8-4960-b41c-63639b496dac@suse.com>
- <4f8b9942-307b-4c31-86f3-1b7b20b34a16@rowland.harvard.edu>
- <d1674f98-cbbf-4a16-8c76-996a0494d931@suse.com>
- <abcd2076-c2d4-403d-8ab8-af747b335075@rowland.harvard.edu>
- <87a692e2-559a-4765-8321-a422751d3589@suse.com>
+	dkim=pass (2048-bit key) header.d=birger-koblitz.de header.i=@birger-koblitz.de header.b="DoqzXXFV";
+	dkim=pass (2048-bit key) header.d=birger-koblitz.de header.i=@birger-koblitz.de header.b="I1B0C5Jx"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=birger-koblitz.de;
+	s=default; t=1773770844;
+	bh=BDvwioO8gC1x/W8UZX2A6UuH8D3nEdqWNTqn6htIJP8=;
+	h=From:Date:Subject:References:In-Reply-To:To:Cc:From;
+	b=DoqzXXFVYCKkRYwUFubEg0P4UVadDOTTN/c+aZ4nzAT4n9/kbWwuxabN6vTeJ/evG
+	 QbdGtb5kPCTuJMQNXW7vAWTByKdurHMW/EBuBe97YYRkPyjqBIGmF05xHcAxu9eZcX
+	 EcCsxh8MkKawDQ0q/zqkCwixuUc+rVBsFeyrEBhFso4fiNRGeENRNPaWGdQUP6N451
+	 xK+5ZJ1ifFAODwFVJP95H4Nm61j4fxthFm5Txrslm0DK9bO2TcK1jUjYN4CKQBdjdZ
+	 80Ph+VKAs+nd1o5Y7eUrsH5KOTSHrSnNt1ropzKqibl8qJAPFvJjeWwtfJS3eho7YM
+	 5QXfRt1hpAshw==
+Received: by bkemail.birger-koblitz.de (Postfix, from userid 109)
+	id D65503FE10; Tue, 17 Mar 2026 18:07:24 +0000 (UTC)
+X-Spam-Level: 
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=birger-koblitz.de;
+	s=default; t=1773770843;
+	bh=BDvwioO8gC1x/W8UZX2A6UuH8D3nEdqWNTqn6htIJP8=;
+	h=From:Date:Subject:References:In-Reply-To:To:Cc:From;
+	b=I1B0C5Jxhfedt9KUhVRCuZdXV8fv6yqgkKiEtaBUnIKEuEokRgXnOdovo5IBn5Ig0
+	 osSifaAbUPmLwIG9pna6qZUoA6cxLuhwUXBuYSh0c3qbQX8icdKxWZ5xbNTrEnzGz+
+	 9uQ0dDSxLBrFxFl3JyCygxMyXiJlHmDVRrf2Rcqn5xLiVODSS6vcuHGzxcEgf89uoO
+	 beCWa1zOteliMtFMm6U9gA0jr+8GOiOTZWL+Cf/zARPrbvXAEJrdsNJ5BqYsjumoPw
+	 t+G9B8nLgdUi/2OHyqgbZDE7vkjkfwynmOzeO/ED3j5BVcKItZZkEkEPOFjOEpId6v
+	 EML/0BzKgAfRA==
+Received: from AMDDesktop.lan (unknown [IPv6:2a00:6020:47a3:e800:271c:c6c5:9fde:77cb])
+	by bkemail.birger-koblitz.de (Postfix) with ESMTPSA id 647EF3FDEE;
+	Tue, 17 Mar 2026 18:07:23 +0000 (UTC)
+From: Birger Koblitz <mail@birger-koblitz.de>
+Date: Tue, 17 Mar 2026 19:07:14 +0100
+Subject: [PATCH net-next v2 1/2] r8152: Add support for 5Gbit Link Speeds
+ and EEE
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <87a692e2-559a-4765-8321-a422751d3589@suse.com>
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+Message-Id: <20260317-rtl8157_next-v2-1-10ea1fa488d1@birger-koblitz.de>
+References: <20260317-rtl8157_next-v2-0-10ea1fa488d1@birger-koblitz.de>
+In-Reply-To: <20260317-rtl8157_next-v2-0-10ea1fa488d1@birger-koblitz.de>
+To: Andrew Lunn <andrew+netdev@lunn.ch>, 
+ "David S. Miller" <davem@davemloft.net>, Eric Dumazet <edumazet@google.com>, 
+ Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>
+Cc: linux-usb@vger.kernel.org, netdev@vger.kernel.org, 
+ linux-kernel@vger.kernel.org, Birger Koblitz <mail@birger-koblitz.de>
+X-Mailer: b4 0.14.2
 
-On Tue, Mar 17, 2026 at 05:20:37PM +0100, Oliver Neukum wrote:
-> 
-> 
-> On 17.03.26 15:31, Alan Stern wrote:
-> > Following the clear-halt, the URBs need to be resubmitted.  Should this
-> > be done by the driver or by the library routine?
-> 
-> My preference would be by the driver, because it is not clear whether
-> simply repeating the IO is the action the driver wants to take. The IO
-> may have become obsolete for example.
-> Yet the endpoint must be made usable again.
+The RTL8157 supports 5GBit Link speeds. Add support for this speed
+in the setup and setting/getting through ethool. Also add 5GBit EEE.
+Add functionality for setup and ethtool get/set methods.
 
-You know, with a USB-2 host controller, transaction errors don't make an 
-endpoint unusable, and clear-halt isn't necessary.  I wonder if xhci-hcd 
-couldn't be adjusted to behave the same way (issuing its own clear-halt 
-internally, if that is needed).  That would make things simpler.
+Signed-off-by: Birger Koblitz <mail@birger-koblitz.de>
+---
+ drivers/net/usb/r8152.c | 56 ++++++++++++++++++++++++++++++++++++++++++++++---
+ 1 file changed, 53 insertions(+), 3 deletions(-)
 
-Another possibility is to change usbcore to automatically unlink all 
-the endpoint's pending URBs as soon as a transaction error occurs.  Then 
-drivers wouldn't have to worry about it.  But even then, drivers would 
-need to know how to react when it happened.
+diff --git a/drivers/net/usb/r8152.c b/drivers/net/usb/r8152.c
+index 3b6d4252d34c63ead8f11a120e212325a5f7d505..bab8e10e5f99afcb332e333c2739ed7509b03419 100644
+--- a/drivers/net/usb/r8152.c
++++ b/drivers/net/usb/r8152.c
+@@ -604,6 +604,7 @@ enum spd_duplex {
+ 	FORCE_100M_FULL,
+ 	FORCE_1000M_FULL,
+ 	NWAY_2500M_FULL,
++	NWAY_5000M_FULL,
+ };
+ 
+ /* OCP_ALDPS_CONFIG */
+@@ -725,6 +726,7 @@ enum spd_duplex {
+ #define BP4_SUPER_ONLY		0x1578	/* RTL_VER_04 only */
+ 
+ enum rtl_register_content {
++	_5000bps	= BIT(12),
+ 	_2500bps	= BIT(10),
+ 	_1250bps	= BIT(9),
+ 	_500bps		= BIT(8),
+@@ -738,6 +740,7 @@ enum rtl_register_content {
+ };
+ 
+ #define is_speed_2500(_speed)	(((_speed) & (_2500bps | LINK_STATUS)) == (_2500bps | LINK_STATUS))
++#define is_speed_5000(_speed)	(((_speed) & (_5000bps | LINK_STATUS)) == (_5000bps | LINK_STATUS))
+ #define is_flow_control(_speed)	(((_speed) & (_tx_flow | _rx_flow)) == (_tx_flow | _rx_flow))
+ 
+ #define RTL8152_MAX_TX		4
+@@ -944,6 +947,7 @@ struct r8152 {
+ 	unsigned int pipe_in, pipe_out, pipe_intr, pipe_ctrl_in, pipe_ctrl_out;
+ 
+ 	u32 support_2500full:1;
++	u32 support_5000full:1;
+ 	u32 lenovo_macpassthru:1;
+ 	u32 dell_tb_rx_agg_bug:1;
+ 	u16 ocp_base;
+@@ -1194,6 +1198,7 @@ enum tx_csum_stat {
+ #define RTL_ADVERTISED_1000_HALF		BIT(4)
+ #define RTL_ADVERTISED_1000_FULL		BIT(5)
+ #define RTL_ADVERTISED_2500_FULL		BIT(6)
++#define RTL_ADVERTISED_5000_FULL		BIT(7)
+ 
+ /* Maximum number of multicast addresses to filter (vs. Rx-all-multicast).
+  * The RTL chips use a 64 element hash table based on the Ethernet CRC.
+@@ -5400,6 +5405,11 @@ static void r8156_eee_en(struct r8152 *tp, bool enable)
+ 	else
+ 		config &= ~MDIO_EEE_2_5GT;
+ 
++	if (enable && (tp->eee_adv2 & MDIO_EEE_5GT))
++		config |= MDIO_EEE_5GT;
++	else
++		config &= ~MDIO_EEE_5GT;
++
+ 	ocp_reg_write(tp, OCP_EEE_ADV2, config);
+ }
+ 
+@@ -6298,6 +6308,9 @@ static int rtl8152_set_speed(struct r8152 *tp, u8 autoneg, u32 speed, u8 duplex,
+ 
+ 			if (tp->support_2500full)
+ 				support |= RTL_ADVERTISED_2500_FULL;
++
++			if (tp->support_5000full)
++				support |= RTL_ADVERTISED_5000_FULL;
+ 		}
+ 
+ 		if (!(advertising & support))
+@@ -6343,15 +6356,20 @@ static int rtl8152_set_speed(struct r8152 *tp, u8 autoneg, u32 speed, u8 duplex,
+ 				r8152_mdio_write(tp, MII_CTRL1000, new1);
+ 		}
+ 
+-		if (tp->support_2500full) {
++		if (tp->support_2500full || tp->support_5000full) {
+ 			orig = ocp_reg_read(tp, OCP_10GBT_CTRL);
+-			new1 = orig & ~MDIO_AN_10GBT_CTRL_ADV2_5G;
++			new1 = orig & ~(MDIO_AN_10GBT_CTRL_ADV2_5G | MDIO_AN_10GBT_CTRL_ADV5G);
+ 
+ 			if (advertising & RTL_ADVERTISED_2500_FULL) {
+ 				new1 |= MDIO_AN_10GBT_CTRL_ADV2_5G;
+ 				tp->ups_info.speed_duplex = NWAY_2500M_FULL;
+ 			}
+ 
++			if (advertising & RTL_ADVERTISED_5000_FULL) {
++				new1 |= MDIO_AN_10GBT_CTRL_ADV5G;
++				tp->ups_info.speed_duplex = NWAY_5000M_FULL;
++			}
++
+ 			if (orig != new1)
+ 				ocp_reg_write(tp, OCP_10GBT_CTRL, new1);
+ 		}
+@@ -8780,6 +8798,9 @@ int rtl8152_get_link_ksettings(struct net_device *netdev,
+ 	linkmode_mod_bit(ETHTOOL_LINK_MODE_2500baseT_Full_BIT,
+ 			 cmd->link_modes.supported, tp->support_2500full);
+ 
++	linkmode_mod_bit(ETHTOOL_LINK_MODE_5000baseT_Full_BIT,
++			 cmd->link_modes.supported, tp->support_5000full);
++
+ 	if (tp->support_2500full) {
+ 		linkmode_mod_bit(ETHTOOL_LINK_MODE_2500baseT_Full_BIT,
+ 				 cmd->link_modes.advertising,
+@@ -8793,6 +8814,19 @@ int rtl8152_get_link_ksettings(struct net_device *netdev,
+ 			cmd->base.speed = SPEED_2500;
+ 	}
+ 
++	if (tp->support_5000full) {
++		linkmode_mod_bit(ETHTOOL_LINK_MODE_5000baseT_Full_BIT,
++				 cmd->link_modes.advertising,
++				 ocp_reg_read(tp, OCP_10GBT_CTRL) & MDIO_AN_10GBT_CTRL_ADV5G);
++
++		linkmode_mod_bit(ETHTOOL_LINK_MODE_5000baseT_Full_BIT,
++				 cmd->link_modes.lp_advertising,
++				 ocp_reg_read(tp, OCP_10GBT_STAT) & MDIO_AN_10GBT_STAT_LP5G);
++
++		if (is_speed_5000(rtl8152_get_speed(tp)))
++			cmd->base.speed = SPEED_5000;
++	}
++
+ 	mutex_unlock(&tp->control);
+ 
+ 	usb_autopm_put_interface(tp->intf);
+@@ -8840,6 +8874,10 @@ static int rtl8152_set_link_ksettings(struct net_device *dev,
+ 		     cmd->link_modes.advertising))
+ 		advertising |= RTL_ADVERTISED_2500_FULL;
+ 
++	if (test_bit(ETHTOOL_LINK_MODE_5000baseT_Full_BIT,
++		     cmd->link_modes.advertising))
++		advertising |= RTL_ADVERTISED_5000_FULL;
++
+ 	mutex_lock(&tp->control);
+ 
+ 	ret = rtl8152_set_speed(tp, cmd->base.autoneg, cmd->base.speed,
+@@ -8957,7 +8995,7 @@ static int r8152_set_eee(struct r8152 *tp, struct ethtool_keee *eee)
+ 
+ 	tp->eee_en = eee->eee_enabled;
+ 	tp->eee_adv = val;
+-	if (tp->support_2500full) {
++	if (tp->support_2500full || tp->support_5000full) {
+ 		val = linkmode_to_mii_eee_cap2_t(eee->advertised);
+ 		tp->eee_adv2 = val;
+ 	}
+@@ -8994,6 +9032,13 @@ static int r8153_get_eee(struct r8152 *tp, struct ethtool_keee *eee)
+ 			linkmode_set_bit(ETHTOOL_LINK_MODE_2500baseT_Full_BIT, common);
+ 	}
+ 
++	if (tp->support_5000full) {
++		linkmode_set_bit(ETHTOOL_LINK_MODE_5000baseT_Full_BIT, eee->supported);
++
++		if (speed & _5000bps)
++			linkmode_set_bit(ETHTOOL_LINK_MODE_5000baseT_Full_BIT, common);
++	}
++
+ 	eee->eee_enabled = tp->eee_en;
+ 
+ 	if (speed & _1000bps)
+@@ -9934,6 +9979,11 @@ static int rtl8152_probe_once(struct usb_interface *intf,
+ 		} else {
+ 			tp->speed = SPEED_1000;
+ 		}
++		if (tp->support_5000full &&
++		    tp->udev->speed >= USB_SPEED_SUPER) {
++			tp->speed = SPEED_5000;
++			tp->advertising |= RTL_ADVERTISED_5000_FULL;
++		}
+ 		tp->advertising |= RTL_ADVERTISED_1000_FULL;
+ 	}
+ 	tp->duplex = DUPLEX_FULL;
 
-> > When the library finishes its work, it needs to tell the driver either
-> > to start running again or to give up.  Presumably by means of some
-> > callback.
-> 
-> Yes, but we cannot assume that a full device reset is always the next
-> stage. Nor, and that really hurts, can we assume that only a single driver
-> of the device is involved.
+-- 
+2.47.3
 
-Reset isn't always the next step.  In some cases the driver should just 
-give up.  For instance, if the device has been unplugged.
-
-> > How will the library keep track of recent error recovery attempts?  It
-> > needs to know when to stop doing clear-halts & retries and instead issue
-> > a reset.  How will this reset interact with the driver's recovery
-> > mechanism?
-> 
-> In principle we know how a reset is handled, don't we?
-> Again, we cannot know whether a driver is the first, let alone only, driver
-> to request error handling.
-> If we decide to reset there is no point in clearing a halt and resubmitting
-> URBs would be wrong.
-
-In practice, does resetting ever help?  With usb-storage and uas, yes, 
-occasionally.  But those are unusual drivers; what about all the other 
-ones?
-
-> > It's a good deal of reasonably complex code, which should not be copied
-> > to every other USB driver.  While the approach is sound, the problem is
-> > finding a reasonable way to implement it.
-> 
-> How else would you handle errors of this kind. It seems to me that we
-> need to make the delays and number of retries tunable, but other than that
-> what can you do generically?
-
-You're right that those are the only things to be done.  The question is 
-whether they can be done in a way that will be easy for all drivers to 
-adopt.
-
-Consider that while error recovery is in progress, the rest of the 
-driver has to remain essentially dormant because the endpoint cannot be 
-used.  I don't think many drivers are written to support such an 
-operating mode.
-
-Alan Stern
