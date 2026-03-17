@@ -1,59 +1,76 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9B4CA2D878D;
-	Tue, 17 Mar 2026 15:55:32 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B8E962FB97B
+	for <linux-usb@vger.kernel.org>; Tue, 17 Mar 2026 16:18:35 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1773762932; cv=none; b=Uv8PTsQ8YhtWqoMkbYlMNQJCSB7NV/xY8vvNjqpEQEbL1JmVMi6+Q76yt/eivSgjDV5V4JPvM9AIu9F8RjP5blUg+dc2AjcgY2xyXKKTnbuBQ+5EikDpF4ts3LY/AfXiCQGXqZJFtHGjsSYfWd0fly2zTLEtuD+9foZLNcgfci4=
+	t=1773764315; cv=none; b=isIQImFkM9ocG3vrHHlmdZo1Ej4EOqyoxKCOB8y4rKx4F1iNuxpCr54VZbpzTKcjMdVDlQEHYlpUb4DojrY6leT7fX8O5rA6mKRIMQszCEaqllNbE0YsgC9xKV30/Vjgr+ZQxIm36WbtZGHuQ9UYaCB+/RwcfOFdzTwmHxGKNKE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1773762932; c=relaxed/simple;
-	bh=sdxc17hjDvTbV8HLPbMxuIDiB/Y91gmpH6ASytKM/Tk=;
-	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=DbdwJZXpf4K2KTVBlimUMpDXeUxTthVnm4L8iI5flP+vVZimxZFF8XCC8+MHm19WT9NTMq1oQcJ8/OjI6E0YaarQxmcwrzLmyObBillFpqzy1bI/rw25WvdRDk+zTBVoxTCTsPZLHKyALs8akhdvOjDIhVZdGDFkG2TJXVw1eII=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=X4dA4sjj; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1773764315; c=relaxed/simple;
+	bh=GsG8KG14HRphzjxIc4BdNuLif46n635dpGjcfbvoIpY=;
+	h=From:To:Subject:Date:Message-ID:In-Reply-To:References:
+	 Content-Type:MIME-Version; b=mvqtlqvsIw3UHT+vQx1lv7xDcn7PJL67nPlubSL09Am7NgYDytrWYiNnjtKGktNZm0U96sxWQYUIAJHEvLl7EAyRkb7r3b0hBqWsnCYQrBXgONQbjCW8O0hH6+9wKJCMGz+h3lhXJVq9lO5xRJ4wKPM79aLI48txTDgDfpoF+1I=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Y3SZmKqx; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="X4dA4sjj"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id E6835C4CEF7;
-	Tue, 17 Mar 2026 15:55:31 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Y3SZmKqx"
+Received: by smtp.kernel.org (Postfix) with ESMTPS id 5E837C2BCB5
+	for <linux-usb@vger.kernel.org>; Tue, 17 Mar 2026 16:18:35 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1773762932;
-	bh=sdxc17hjDvTbV8HLPbMxuIDiB/Y91gmpH6ASytKM/Tk=;
-	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
-	b=X4dA4sjj1looa+b5wTefcyhkj+2WL4lLnQHRSOHBTGlVnDIZeOYpFKfDbJAnEa8qu
-	 f+V9e9LYrOCadGrPOF3yRi9yM2VdWeExoPWiPcw7ZFCSIwwFv18Xqv0N/s6tzYrXiS
-	 wMR8XCQqNOBxtIZbFu4yzMr/TQjp15/boOL0qFxiyKdvpB2YKgUlR8ldOS4KlsNoEk
-	 IULKg3AtCNMejQ2wB9h1NqA7mfLeCTQIopJBMnbRViSsc37IokuJCB8+xbe2svLgi5
-	 rRxdCf5ywuYjN0TRicKfZrAmc4DmAoO7Wg1ZnQSQAfREpFscgmqBh2ZYWWBUkHoPL2
-	 BBPwI+lhFX2eQ==
-Date: Tue, 17 Mar 2026 08:55:31 -0700
-From: Jakub Kicinski <kuba@kernel.org>
-To: Birger Koblitz <mail@birger-koblitz.de>
-Cc: Andrew Lunn <andrew+netdev@lunn.ch>, "David S. Miller"
- <davem@davemloft.net>, Eric Dumazet <edumazet@google.com>, Paolo Abeni
- <pabeni@redhat.com>, linux-usb@vger.kernel.org, netdev@vger.kernel.org,
- linux-kernel@vger.kernel.org
-Subject: Re: [PATCH net-next 1/9] r8152: Add support for RTL8157 RX/TX
- descriptor format
-Message-ID: <20260317085531.3ddff582@kernel.org>
-In-Reply-To: <2094f5a3-e692-4d8b-9b66-0368e5142b98@birger-koblitz.de>
-References: <20260314-rtl8157_next-v1-0-9ba77b428afd@birger-koblitz.de>
-	<20260314-rtl8157_next-v1-1-9ba77b428afd@birger-koblitz.de>
-	<20260316175123.45b8d6e1@kernel.org>
-	<2094f5a3-e692-4d8b-9b66-0368e5142b98@birger-koblitz.de>
+	s=k20201202; t=1773764315;
+	bh=GsG8KG14HRphzjxIc4BdNuLif46n635dpGjcfbvoIpY=;
+	h=From:To:Subject:Date:In-Reply-To:References:From;
+	b=Y3SZmKqxkUGG7/XJ4uoDB9v0QtH00tvHIggLP4VrmDEAXbzLW4ovmHdSgkgqZFB51
+	 PSpsgfqcFuRcjxQJmuNu7rpf4P07E6QlSgPoZEN9G0rw7ObQl2mTQST0oq9Quz6pKv
+	 QOAPALuwaxchuOKnsWLJifXJuf6zwpThu219UmE+VUk70BcH64sS9OpeaRCmfxK2JB
+	 ZXHCDuHlNlLHyTxXc3TJPZ3HrqPY6mcyS8JHBKVguEhtRJs5hfdlnA3PM6zwPWcb6H
+	 Ugh0aDlCdNs5XAAkERxb2w8f+hdSGbVC9xIL6A1Eej7E8TD43vI/o6g+2MTKnzUZh5
+	 gxtokq155Ockw==
+Received: by aws-us-west-2-korg-bugzilla-1.web.codeaurora.org (Postfix, from userid 48)
+	id 57E31C41614; Tue, 17 Mar 2026 16:18:35 +0000 (UTC)
+From: bugzilla-daemon@kernel.org
+To: linux-usb@vger.kernel.org
+Subject: [Bug 215740] kernel warning: DMA-API: xhci_hcd: cacheline tracking
+ EEXIST, overlapping mappings aren't supported
+Date: Tue, 17 Mar 2026 16:18:34 +0000
+X-Bugzilla-Reason: None
+X-Bugzilla-Type: changed
+X-Bugzilla-Watch-Reason: AssignedTo drivers_usb@kernel-bugs.kernel.org
+X-Bugzilla-Product: Drivers
+X-Bugzilla-Component: USB
+X-Bugzilla-Version: 2.5
+X-Bugzilla-Keywords: 
+X-Bugzilla-Severity: normal
+X-Bugzilla-Who: stern@rowland.harvard.edu
+X-Bugzilla-Status: NEW
+X-Bugzilla-Resolution: 
+X-Bugzilla-Priority: P1
+X-Bugzilla-Assigned-To: drivers_usb@kernel-bugs.kernel.org
+X-Bugzilla-Flags: 
+X-Bugzilla-Changed-Fields: 
+Message-ID: <bug-215740-208809-7HdeB0Yv5j@https.bugzilla.kernel.org/>
+In-Reply-To: <bug-215740-208809@https.bugzilla.kernel.org/>
+References: <bug-215740-208809@https.bugzilla.kernel.org/>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+X-Bugzilla-URL: https://bugzilla.kernel.org/
+Auto-Submitted: auto-generated
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
 
-On Tue, 17 Mar 2026 06:04:34 +0100 Birger Koblitz wrote:
-> I would prefer to have individual patches in the series adding support 
-> for the new functionality of the RTL8157 in parts that also allow 
-> developers to understand the differences, even if this functionality is 
-> used only in the last part of the series.
+https://bugzilla.kernel.org/show_bug.cgi?id=3D215740
 
-Functions should be added with the first caller.
+--- Comment #49 from Alan Stern (stern@rowland.harvard.edu) ---
+As far as I'm concerned, the patch in comment #43 seems to be the most
+generally applicable solution.  If anyone has any better ideas, they should
+speak up.
+
+--=20
+You may reply to this email to add a comment.
+
+You are receiving this mail because:
+You are watching the assignee of the bug.=
