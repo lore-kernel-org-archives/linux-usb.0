@@ -1,68 +1,68 @@
-Received: from mail-wr1-f51.google.com (mail-wr1-f51.google.com [209.85.221.51])
+Received: from mail-wr1-f54.google.com (mail-wr1-f54.google.com [209.85.221.54])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9062137F8DF
-	for <linux-usb@vger.kernel.org>; Tue, 17 Mar 2026 18:08:13 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.51
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 903373F54D7
+	for <linux-usb@vger.kernel.org>; Tue, 17 Mar 2026 18:08:19 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.54
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1773770898; cv=none; b=ldzr+NCNtBTZ61MZg/syz2osTHANvm5FnzLzu0O2+jO9mogYwU5QZUlRpAIkH9GCXAbStMjhGf6lu9msoEP9qWXFb8NDG33jjQ/Jme/8L6f/YrJlMiIKkDclrKFkRvCp/8AyodNVKTtzlZx3oeMPQxS47/TRlAfwHuiMwQxcLw4=
+	t=1773770901; cv=none; b=ADe65Y+G9g3/ta+gXZmvFrNgRDUPl5rr95QZnYXGI7romhTibyi66suDrhJ7wpHrglX6dpaftxUwDYUln031XjynRifhyUd3+e4Yq1zi6B+QyBIyBK1h4TYyDfNhOtLD8LJmro25t+C3pZTieDkceAkQna4KU4mHUEht/hSq27o=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1773770898; c=relaxed/simple;
-	bh=T+J1OY8trN/7RzkbAWgyzywsuUmbTSqBleeNAx93u6E=;
+	s=arc-20240116; t=1773770901; c=relaxed/simple;
+	bh=epfoYBJ5kMhEqlncsOICDIG4Pcj2iVFAfms6oCh1jN0=;
 	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
-	 In-Reply-To:To:Cc; b=OwcAEkr/7aaHWrYwVugQVHqM5kxTS9DqyCxGblPr4uvm742SmYc05s08vUDs82WYtzTNc3Nm0Q5BBgjNDotP7dyiP5RAq5/ni3l/SkoQ97U3w7Jam/ryvsNZ+m8VEvWUbcIBLlZXB/Nri69rGz8PghmDcGkg4kh7LTjU+0OBKOY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=flipper.net; spf=pass smtp.mailfrom=flipper.net; dkim=pass (2048-bit key) header.d=flipper.net header.i=@flipper.net header.b=7RchHNvA; arc=none smtp.client-ip=209.85.221.51
+	 In-Reply-To:To:Cc; b=rS1wROwpHm+vIAvEYTOyY1e5UDSPhMMuqKchYQP/EPuWFLKy2lfgX/xMNemvVWyQ2vv8MgllGcps65JdrFzSorjy2ZaCfmdNyAmWttwAckzqIqwysSMJThoibRu69xQf5C9lQs5B3B8NhgD2d+K3U4G8VAhjOn8rVZsvs4jQdAY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=flipper.net; spf=pass smtp.mailfrom=flipper.net; dkim=pass (2048-bit key) header.d=flipper.net header.i=@flipper.net header.b=vuKgi6LM; arc=none smtp.client-ip=209.85.221.54
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=flipper.net
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=flipper.net
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=flipper.net header.i=@flipper.net header.b="7RchHNvA"
-Received: by mail-wr1-f51.google.com with SMTP id ffacd0b85a97d-439d8dc4ae4so5928813f8f.2
-        for <linux-usb@vger.kernel.org>; Tue, 17 Mar 2026 11:08:13 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=flipper.net header.i=@flipper.net header.b="vuKgi6LM"
+Received: by mail-wr1-f54.google.com with SMTP id ffacd0b85a97d-439b7c2788dso3743356f8f.1
+        for <linux-usb@vger.kernel.org>; Tue, 17 Mar 2026 11:08:19 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=flipper.net; s=google; t=1773770892; x=1774375692; darn=vger.kernel.org;
+        d=flipper.net; s=google; t=1773770898; x=1774375698; darn=vger.kernel.org;
         h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
          :mime-version:subject:date:from:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=S9sCFNxATE1UQcKX1OKooIck8dS1xOFB94Y0TqD1Dbc=;
-        b=7RchHNvANxRoBoM/Dddt2pCx0uq+VrKATQ+lZPt4fyhHFwTRk+h7JKduDpDz76NQW6
-         yYIj8gWlnfVlP5C78OzGw2qqQ2MtqbS65upsEToCjeatBzHguX+JUr9szIvY8I8yT2tf
-         F2s/zPGqUIxt0yEZDtdG7t5L+MS6+63yHGSZI4y+zq5O9o3Un9v96KUocigEFOhWwtIc
-         Y81pnHi8hZXlyfa+y9+PGVqzwP6AgvcMGy7bNm2qQ4RtWpGYSt4RKSwwQsW/+MYJoYKp
-         HaaXQMEByRam+5ezQSu06GMRS30VcxhRDSvu1RJHyzEeFAiPmN/vYppkrgZ5HgKUWwGo
-         GK+A==
+        bh=731Ga6b9jk+vDTqIbd2aR5h/exqq5f25J8gBUSvhBrw=;
+        b=vuKgi6LMlydkn/zoJzrc+dwM8+D6vf3DiXg1lSdiJHXWveacf0Wofzv0YD8+/6cQzP
+         Vjn9w1FNycDyy5xEG8JS6bnQ89JuT7eSScLuncq7wCiDyXugphcVcSkk9BXz2JgLhNu7
+         UBr1Y+/Mt4T5FJouhFdgQTq4tosDJ2KtQF9arX4x7AFMHJm0wWW/nLD0igPuW1lQYEGk
+         oBx4s6gXW5N5TLOUmf8jqnlNY5WNjajuQHpYkbqISSW7cKriD9TODm+TTjrwfbfFWiFb
+         CC9NmDeguUSPIk5UTeOe/h5AQj+TIp6KYc5jd0Ma74OnSKJ0BRxplsgTsWebTWRw5dy3
+         9esg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1773770892; x=1774375692;
+        d=1e100.net; s=20251104; t=1773770898; x=1774375698;
         h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
          :mime-version:subject:date:from:x-gm-gg:x-gm-message-state:from:to
          :cc:subject:date:message-id:reply-to;
-        bh=S9sCFNxATE1UQcKX1OKooIck8dS1xOFB94Y0TqD1Dbc=;
-        b=Ik/insLE5ZqruSp1CBMvWXEptJLOjSb3TPZXNaTsynEz02vy00Qp2BGFihsV+2hcib
-         3MlRHdktjnnAKfvmZXAXxmJfx/jVeAT/IUE5TXXyMKRPYjpy2EqLaR4Q4LenCnL6OUVI
-         SAnrzRROVt5r8c6KQt0bihkGuUToM6VBziP9BaBvXaMA5egUjBMoNmVFcfLaPodSpXok
-         oLkLQS+tfK1WcW/yC1fkhArx81UcJ4qOl6W9dFFBtlSbGx5OSGcIAzWBnq++XBFhwILV
-         QGYPWOFKBjQlWd8VzInvERkgw4wlpNBYRdGZmHVN1C0oQ6vtH/u3zm4K9TJXUR1P32Xs
-         RLaQ==
-X-Forwarded-Encrypted: i=1; AJvYcCVL3plmXZqldT/YeMVDjhY/Kq0+YZ1eQE6aoo/qCwupsLvIK0mk1Z+aA11TzUccENAGo4yZ5KqQkz8=@vger.kernel.org
-X-Gm-Message-State: AOJu0YxjaCyLZ07WekY6PymFtUcpHeQQCpeVLGEOIBTwOXJSjhfaFfOv
-	d2xMu2dtldP6gxN2dKfQZsyROf2jfnVYI1JVai0Y9PekF2QwjluYb8NS+Xz57G05rRg=
-X-Gm-Gg: ATEYQzzaenX48tytumeAtTj6/KEaxhnSllihCzmuxMJAomEd0olK4Y6e9OBVBQSKiac
-	iBLqZpnYmuXil2yZDASDdGnZsm3/9XX59kaaMCvRRasQtUV1zetxmIMaNOl9bwivlD3IiFaJuyw
-	z+RTAoz3C+bxcHplhlb7Rvwcmc/19vfvhi9s0PLTzFiXm92mzyWKRiA9L79PCyloyGFM7zRXXob
-	C7mTITDveS+7d8vnVs/5G3aktGjQi+J1foyVVRNfYADiaSOC7nQ2B5gVrtz1oJ+wHfmsEoK+6PP
-	KjdzcJr2QiJYFeVUGJS6Vdxeg6QOzzoEZl8bUr9hivAvbjIkCW3WUv7E/WdkbUvl3zEWy46WyBD
-	dGsaEdSlyiDarmqv34eFI+I+g0wJIlg/CmFZn1gqbQnrTwzDsnyKIzbVH0WezRGA7rSSFNhDurv
-	FrXwkqaIlGqynx9LLnm7qRY4r9bPUaATvHmrRjBkNbct49byUiCI34JJZ8h17lHwmIorqLlFD80
-	o9QlqXrA70cwc5B
-X-Received: by 2002:a05:6000:608:b0:43b:447a:11a6 with SMTP id ffacd0b85a97d-43b527a0871mr372127f8f.8.1773770892007;
-        Tue, 17 Mar 2026 11:08:12 -0700 (PDT)
+        bh=731Ga6b9jk+vDTqIbd2aR5h/exqq5f25J8gBUSvhBrw=;
+        b=QBdY3POFFem4k/LsCFjB9Cgv+PMApMv1HB21CPnr/4g0BS0Urt/c/FjHTSMQw5IjqC
+         GHLRgwEMG7a6NF8gjXmxukacWX00+0AHNgbZWM6Iiq0fh/cFdsG0a8rzUTYXghDtHp8R
+         acfIYe7eEB0CaRjC3ggugpj4HuHoDIGwlXwd8xXd4k0OmMq13FSmPS/IKN90xMG0ZXZp
+         bIl3MQaAEoBtSew9quZyf3GZPkkSbOo148MHi4QKqZgM8D+EKuBGUXqhU6d8Jh/bg9D4
+         8erNKNuVK2yQp0d7z214v1xLCZ1ZtgT3Pcn+kUvgNPI6N39D5Xr+Ng6eWBODBkeGVfQo
+         aoKw==
+X-Forwarded-Encrypted: i=1; AJvYcCUXRrY+1aB3musqRflGcY0T7R6ZxPFZl58gOXFP6gIEExDpHtX4wxxDILdJUkbara6/uklzqMJcT6E=@vger.kernel.org
+X-Gm-Message-State: AOJu0Yyd2AM1kidQ8tgwnE74YNY+8fM1/9dKUCEaH9i5b7NBElqZUCTv
+	3BNQUQ5GgA0YbU80V2lv1Sv3o1ScFUhTpw3I+gV3NKjrx52v/DVWl9+2MQR9vLnbbDY=
+X-Gm-Gg: ATEYQzzMCLV2Xpo7h7ewV+8yh4MsXhA4+oj3ggwz9NwiKZOBT5NoVBGrVtseYsxQsJ8
+	H/huSOlYODNVGMfKPZfbwF2Ey/lPNenGK2H5qfAwIzt7UnJ7I0X26ltaducMehrT5pnTGvF6Vi9
+	8N21O0LZXl96Xvdw6FAtaV51njSV02lH5MciOhE9u4R0qFQ0d/uUrKuFQsJYx8Qi100mkWoXFOm
+	U9cvV1A9x1V5C3ggbCy1dxDow7fkDWybPk8Lfn41/TZOSAqa8jsG9otrHpbdK3U/v/vGGinMa4Q
+	9+80Oa/CNnQD+fHrC8cjf6CrLcV48f0MfYDNTKdg4RKjtmw2MDDeJzJc9GtUyigAOgl3a6tTXaY
+	yhzti/AEQkBwisTU0qsSNu1DESdYbeImYIa/3C1y5yKH2ixGFZ5LT/P0R5vDL68ncMI3Le66ZNe
+	k9GKD/JkGIIEW9foZvbNzjK7jUkRO8JwqsfQJ0mNkhmr1bjTMs8VH7mqTenek0ZhA/zwr2l174+
+	iLeXQ==
+X-Received: by 2002:a05:6000:4008:b0:439:d769:ec56 with SMTP id ffacd0b85a97d-43b5264e4bemr458317f8f.0.1773770897921;
+        Tue, 17 Mar 2026 11:08:17 -0700 (PDT)
 Received: from alchark-surface.localdomain (bba-86-98-192-109.alshamil.net.ae. [86.98.192.109])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-43b5184b8b9sm1436536f8f.1.2026.03.17.11.08.09
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-43b5184b8b9sm1436536f8f.1.2026.03.17.11.08.15
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 17 Mar 2026 11:08:11 -0700 (PDT)
+        Tue, 17 Mar 2026 11:08:17 -0700 (PDT)
 From: Alexey Charkov <alchark@flipper.net>
-Date: Tue, 17 Mar 2026 22:07:58 +0400
-Subject: [PATCH v2 1/5] dt-bindings: vendor-prefixes: Add Hynetek
- Semiconductor Co., Ltd.
+Date: Tue, 17 Mar 2026 22:08:00 +0400
+Subject: [PATCH v2 3/5] dt-bindings: usb: richtek,rt1711h: Add Hynetek
+ HUSB311
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
@@ -71,7 +71,7 @@ List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20260317-husb311-v2-1-03c17c986abe@flipper.net>
+Message-Id: <20260317-husb311-v2-3-03c17c986abe@flipper.net>
 References: <20260317-husb311-v2-0-03c17c986abe@flipper.net>
 In-Reply-To: <20260317-husb311-v2-0-03c17c986abe@flipper.net>
 To: Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>, 
@@ -85,42 +85,50 @@ Cc: Sebastian Reichel <sebastian.reichel@collabora.com>,
  linux-usb@vger.kernel.org, linux-arm-kernel@lists.infradead.org, 
  linux-rockchip@lists.infradead.org, 
  Krzysztof Kozlowski <krzysztof.kozlowski@oss.qualcomm.com>, 
- Alexey Charkov <alchark@flipper.net>, 
- Conor Dooley <conor.dooley@microchip.com>
+ Alexey Charkov <alchark@flipper.net>
 X-Mailer: b4 0.14.3
-X-Developer-Signature: v=1; a=openpgp-sha256; l=1010; i=alchark@flipper.net;
- h=from:subject:message-id; bh=T+J1OY8trN/7RzkbAWgyzywsuUmbTSqBleeNAx93u6E=;
- b=owGbwMvMwCW2adGNfoHIK0sZT6slMWTunNGWxX9hHu/TwgdqBXVCqw4uu3hAfLto+YSe6Y4V/
- iZeR0tOdkxkYRDjYrAUU2SZ+22J7VQjvlm7PDy+wsxhZQIZIi3SwAAELAx8uYl5pUY6Rnqm2oZ6
- hoY6xjpGDFycAjDVdVEM/0NfeRv6vWLZMTvtw74F/0IO1V7YEBDr9utKA/e3c/67I30Z/oesDEj
- NE718LvnIupknltQoM00srGFWk8jRvWsp1/pEjxMA
+X-Developer-Signature: v=1; a=openpgp-sha256; l=1494; i=alchark@flipper.net;
+ h=from:subject:message-id; bh=epfoYBJ5kMhEqlncsOICDIG4Pcj2iVFAfms6oCh1jN0=;
+ b=owGbwMvMwCW2adGNfoHIK0sZT6slMWTunNHmffKk5btH2plnp4uJynx2/ndxw7b1215POnEx9
+ +DrzqspcR0TWRjEuBgsxRRZ5n5bYjvViG/WLg+PrzBzWJlAhkiLNDAAAQsDX25iXqmRjpGeqbah
+ nqGhjrGOEQMXpwBMdaYJw//Yf0HnHzzy9WXnKZH0vuPgp/5X+do7deXsTyYPLzzenH6V4X/05/e
+ TXzNb5SSHz7zzd/1exUQl/hU3hQwXnDcQLEw7u4QRAA==
 X-Developer-Key: i=alchark@flipper.net; a=openpgp;
  fpr=9DF6A43D95320E9ABA4848F5B2A2D88F1059D4A5
 
-Hynetek Semiconductor Co., Ltd. focuses on intelligent energy control
-technology, mainly for the intelligent fast charging and digital energy
-fields.
+HUSB311 is a pin-compatible and register-compatible drop-in replacement
+for RT1711H, so add its compatible string to the existing binding.
 
-Link: https://en.hynetek.com/
-Acked-by: Conor Dooley <conor.dooley@microchip.com>
+Link: https://www.hynetek.com/uploadfiles/site/219/news/0863c0c7-f535-4f09-bacd-0440d2c21088.pdf
+Link: https://dl.xkwy2018.com/downloads/RK3588S/03_Product%20Line%20Branch_Tablet/02_Key%20Device%20Specifications/HUSB311%20introduction%2020210526.pdf
+Link: https://www.richtek.com/assets/product_file/RT1711H/DS1711H-04.pdf
 Signed-off-by: Alexey Charkov <alchark@flipper.net>
 ---
- Documentation/devicetree/bindings/vendor-prefixes.yaml | 2 ++
- 1 file changed, 2 insertions(+)
+ Documentation/devicetree/bindings/usb/richtek,rt1711h.yaml | 5 +++++
+ 1 file changed, 5 insertions(+)
 
-diff --git a/Documentation/devicetree/bindings/vendor-prefixes.yaml b/Documentation/devicetree/bindings/vendor-prefixes.yaml
-index 5a806faf7170..3ffb1a8e24af 100644
---- a/Documentation/devicetree/bindings/vendor-prefixes.yaml
-+++ b/Documentation/devicetree/bindings/vendor-prefixes.yaml
-@@ -747,6 +747,8 @@ patternProperties:
-     description: Hycon Technology Corp.
-   "^hydis,.*":
-     description: Hydis Technologies
-+  "^hynetek,.*":
-+    description: Hynetek Semiconductor Co., Ltd.
-   "^hynitron,.*":
-     description: Shanghai Hynitron Microelectronics Co. Ltd.
-   "^hynix,.*":
+diff --git a/Documentation/devicetree/bindings/usb/richtek,rt1711h.yaml b/Documentation/devicetree/bindings/usb/richtek,rt1711h.yaml
+index 62169daddb4c..f818d07d39c6 100644
+--- a/Documentation/devicetree/bindings/usb/richtek,rt1711h.yaml
++++ b/Documentation/devicetree/bindings/usb/richtek,rt1711h.yaml
+@@ -21,12 +21,17 @@ properties:
+     oneOf:
+       - const: richtek,rt1711h
+       - const: richtek,rt1715
++      - items:
++          - enum:
++              - hynetek,husb311
++          - const: richtek,rt1711h
+       - items:
+           - enum:
+               - etekmicro,et7304
+           - const: richtek,rt1715
+     description:
+       RT1711H support PD20, ET7304 and RT1715 support PD30 except Fast Role Swap.
++      HUSB311 is a rebrand of RT1711H which is pin and register compatible.
+ 
+   reg:
+     maxItems: 1
 
 -- 
 2.52.0
