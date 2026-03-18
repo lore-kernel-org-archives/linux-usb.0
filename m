@@ -1,125 +1,83 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id ABFB125C80E;
-	Wed, 18 Mar 2026 06:37:31 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 12DC73314BF;
+	Wed, 18 Mar 2026 07:01:14 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1773815851; cv=none; b=AyYDZ7C/69Bdbb7tsyVCa5r/OQ5mrNGpAxewJ0jb8HA37pNUV8hPf6RQqMXn5W1Vn81YmMYxk9PkX/f7akehksJuv4trn5LVEFTfR1VVBodccvDcd2e2RQoJoT53o3pBEeIkRCJlKTxQSfgvjBVkPgP6NsrEw1KSgVNteevUjwo=
+	t=1773817275; cv=none; b=DevfVAU8srFGNDe2UBQdhThPaIjVBA5pdUzdqrRmV6/Npjkf9GWH//LFkFk37LO2ywh2H4ri03aCZBK+Kjr9+0XIMQhydsFRCVKR1dL11JfAyzjd280Bfd6GiH0F0UVjR8NL45+jyLtoFWgir0lSq6fJfQ+IB7t7JKfJs71X2do=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1773815851; c=relaxed/simple;
-	bh=MmY12uRNDdhfGh7T/XYLMYSoZmpnUMejZkZjvuvpHRE=;
+	s=arc-20240116; t=1773817275; c=relaxed/simple;
+	bh=HTxLQs3QFVzm6RIWwR2ITebygYXn4sB3p88/LdMHG0I=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=bmuq8w/FCI18FaWCS8/gopnMnikdTJ11bPpV1Z3O36lAwJz9RYGdIJ8G3e6uA0sEuR9vbzy5oYoBoB9pDhl9R6uEwSH3JO/rjHjHDaRQmJqciljPE1LloEEj8ZJcZ+ALaEMzTrJi4ytf0qvAlmIvNVjjIoAYUiHR2n9qjbsewrw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b=yDKhSlRR; arc=none smtp.client-ip=10.30.226.201
+	 Content-Type:Content-Disposition:In-Reply-To; b=WyKcS/tEVSD+hdAzfQ24SH0gNLgIjlYI9lO1rDm9FDn+aPOcg6/gzokEydzIXMcQ5Pol+eGfQE18dUDxFdoUoKM+qsb0ltAw2ZidN9zZd4scDFrTw/p8a3HUuMutQBqf6ZWxQyBKrV0vvPZ3hNS79vw30CZps59XjGaEdqUpt5Q=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=S7CbR3HA; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="yDKhSlRR"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id E6937C19421;
-	Wed, 18 Mar 2026 06:37:30 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
-	s=korg; t=1773815851;
-	bh=MmY12uRNDdhfGh7T/XYLMYSoZmpnUMejZkZjvuvpHRE=;
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="S7CbR3HA"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 25592C19421;
+	Wed, 18 Mar 2026 07:01:13 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1773817274;
+	bh=HTxLQs3QFVzm6RIWwR2ITebygYXn4sB3p88/LdMHG0I=;
 	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=yDKhSlRRPuRXcV2Imh7yPJa4eoRUif2NWvEvAr89riGfEopv7LrWSiSdg6kKGHYeS
-	 O9MxU+45mwTKBoSFz/D+Cb9YorEH+XmCoygXU8bq27scrEclBOk+//aEUYZKdSi3Od
-	 MEhu3AD96RBuEzd9MADNNXn/I8iLwbVoxLyoXFCo=
-Date: Wed, 18 Mar 2026 07:37:12 +0100
-From: Greg KH <gregkh@linuxfoundation.org>
-To: Omer Zalman <omerzalman42@gmail.com>
-Cc: oliver@neukum.org, andrew+netdev@lunn.ch, davem@davemloft.net,
-	edumazet@google.com, kuba@kernel.org, pabeni@redhat.com,
-	linux-usb@vger.kernel.org, netdev@vger.kernel.org
-Subject: Re: [PATCH 2/2] net: usb: cdc_ncm: prevent silent u16 truncation in
- min_tx_pkt_store()
-Message-ID: <2026031801-skiing-decade-eccd@gregkh>
-References: <20260318040632.69531-1-omerzalman42@gmail.com>
- <20260318040632.69531-2-omerzalman42@gmail.com>
+	b=S7CbR3HAGCKAcUdpb3A8Wb+DLoq5OHDFaD4WRJ9gW8G1jHCUnapFRA4TaC/jgbD0V
+	 1OAOdaKDW8rcEZHt5pyZ8ZjwoveNuvUGLafX+YkS2iKTYpxRwBHXNnSadGQBjoSv0Y
+	 h6fVVuya69Nnlq0oXEMJfcjV1R/KODL+B/gtkzY7DJCJEFrpaouBRkneUQjWyn/mEC
+	 wogaLeMBRJzYmNe9uoGJhjvNmRFHBs85ZBo9uIg/+bP4Ev5bEy9ru0a2SVJhloBvBY
+	 gzW7M12MLlrLgprMrkppd74sWxhF5mf4DRf1fboa4i5cb4d/lVu+MsdNT5mYcM080q
+	 aNSgSQ8pqPVew==
+Date: Wed, 18 Mar 2026 08:01:12 +0100
+From: Krzysztof Kozlowski <krzk@kernel.org>
+To: Swati Agarwal <swati.agarwal@oss.qualcomm.com>
+Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>, 
+	Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>, 
+	Conor Dooley <conor+dt@kernel.org>, Icenowy Zheng <uwu@icenowy.me>, 
+	Matthias Kaehlcke <mka@chromium.org>, Mike Looijmans <mike.looijmans@topic.nl>, 
+	Pin-yen Lin <treapking@chromium.org>, Chaoyi Chen <chaoyi.chen@rock-chips.com>, 
+	J =?utf-8?Q?=2E_Neusch=C3=A4fer?= <j.ne@posteo.net>, Jens Glathe <jens.glathe@oldschoolsolutions.biz>, 
+	Bjorn Andersson <andersson@kernel.org>, Konrad Dybcio <konradybcio@kernel.org>, 
+	linux-usb@vger.kernel.org, devicetree@vger.kernel.org, linux-kernel@vger.kernel.org, 
+	linux-arm-msm@vger.kernel.org
+Subject: Re: [PATCH v6 1/4] dt-bindings: usb: Add binding for Genesys Logic
+ GL3590 hub
+Message-ID: <20260318-devious-spider-of-endurance-ede46f@quoll>
+References: <20260318040644.3591478-1-swati.agarwal@oss.qualcomm.com>
+ <20260318040644.3591478-2-swati.agarwal@oss.qualcomm.com>
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <20260318040632.69531-2-omerzalman42@gmail.com>
+In-Reply-To: <20260318040644.3591478-2-swati.agarwal@oss.qualcomm.com>
 
-On Tue, Mar 17, 2026 at 11:06:32PM -0500, Omer Zalman wrote:
-> min_tx_pkt is a u16 field but the sysfs store handler accepted any
-> unsigned long and assigned it directly. Values that do not fit in 16
-> bits silently truncate: writing 65537 wraps to 1, turning a
-> "never pad" intent into "always pad".
-> 
-> ctx->tx_max can itself reach 65537 because cdc_ncm_update_rxtx_max()
-> increments the negotiated NTB size by one pad byte when it is an exact
-> multiple of the USB maxpacket size.
-> 
-> Clamp the stored value to min(tx_max, U16_MAX). Any value above tx_max
-> is already semantically equivalent to tx_max since frame lengths never
-> exceed it; the U16_MAX cap ensures the result is always representable
-> in the u16 field without wrapping.
-> 
-> Fixes: 39eb7e0e8c88 ("net: cdc_ncm: allow tuning min_tx_pkt")
-> Signed-off-by: Omer Zalman <omerzalman42@gmail.com>
-> ---
->  drivers/net/usb/cdc_ncm.c | 10 ++++++++--
->  1 file changed, 8 insertions(+), 2 deletions(-)
-> 
-> diff --git a/drivers/net/usb/cdc_ncm.c b/drivers/net/usb/cdc_ncm.c
-> index 6fcb4d711a64..edd69f4e1596 100644
-> --- a/drivers/net/usb/cdc_ncm.c
-> +++ b/drivers/net/usb/cdc_ncm.c
-> @@ -242,11 +242,17 @@ static ssize_t min_tx_pkt_store(struct device *d,
->  	struct cdc_ncm_ctx *ctx = (struct cdc_ncm_ctx *)dev->data[0];
->  	unsigned long val;
+On Wed, Mar 18, 2026 at 09:36:41AM +0530, Swati Agarwal wrote:
+
+A nit, subject: drop second/last, redundant "binding fir". The
+"dt-bindings" prefix is already stating that these are bindings.
+See also:
+https://elixir.bootlin.com/linux/v6.17-rc3/source/Documentation/devicetree/bindings/submitting-patches.rst#L18
+
+>    reg: true
+> @@ -26,6 +27,10 @@ properties:
+>      description:
+>        The regulator that provides 3.3V or 5.0V core power to the hub.
 >  
-> -	/* no need to restrict values - anything from 0 to infinity is OK */
->  	if (kstrtoul(buf, 0, &val))
->  		return -EINVAL;
+> +  vdd12-supply:
+> +    description:
+> +      The regulator that provides 1.2V power to the hub.
+> +
+>    peer-hub: true
 >  
-> -	ctx->min_tx_pkt = val;
-> +	/* Clamp to tx_max: the frame length can never exceed tx_max,
-> +	 * so any threshold above it has the same effect (padding is
-> +	 * never applied).  Also cap at U16_MAX since min_tx_pkt is
-> +	 * a u16 - without this, values like 65537 silently wrap to 1
-> +	 * and invert the intended behavior.
-> +	 */
-> +	ctx->min_tx_pkt = min_t(unsigned long, val,
-> +				min_t(u32, ctx->tx_max, U16_MAX));
->  	return len;
->  }
->  
-> -- 
-> 2.39.5 (Apple Git-154)
-> 
-> 
+>    ports:
+> @@ -69,6 +74,17 @@ allOf:
+>          peer-hub: true
+>          vdd-supply: true
 
-Hi,
+Here and in other cases you forgot to forbid new property (: false).
 
-This is the friendly patch-bot of Greg Kroah-Hartman.  You have sent him
-a patch that has triggered this response.  He used to manually respond
-to these common problems, but in order to save his sanity (he kept
-writing the same thing over and over, yet to different people), I was
-created.  Hopefully you will not take offence and will fix the problem
-in your patch and resubmit it so that it can be accepted into the Linux
-kernel tree.
+Best regards,
+Krzysztof
 
-You are receiving this message because of the following common error(s)
-as indicated below:
-
-- You have marked a patch with a "Fixes:" tag for a commit that is in an
-  older released kernel, yet you do not have a cc: stable line in the
-  signed-off-by area at all, which means that the patch will not be
-  applied to any older kernel releases.  To properly fix this, please
-  follow the documented rules in the
-  Documentation/process/stable-kernel-rules.rst file for how to resolve
-  this.
-
-If you wish to discuss this problem further, or you have questions about
-how to resolve this issue, please feel free to respond to this email and
-Greg will reply once he has dug out from the pending patches received
-from other developers.
-
-thanks,
-
-greg k-h's patch email bot
