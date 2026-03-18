@@ -1,35 +1,35 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8C5233D8108
-	for <linux-usb@vger.kernel.org>; Wed, 18 Mar 2026 14:13:55 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 74B613DA5CF
+	for <linux-usb@vger.kernel.org>; Wed, 18 Mar 2026 14:14:22 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1773843235; cv=none; b=Y8QEtBK4abVEDET9pfYtFAiPEqXTnbtlnen5r64Lt6R+/PUDrkSSzAuytkHHL3sR6R+m4KJGDwBaE+S02PpFIgl3zivw7LaC6Ww1qsa1Oov/lPSiUNc9yDYYvADgCO4JoZbKENiYSjHMdZOpESCnVvJKJzMnBS62dSVjmrGiyAQ=
+	t=1773843262; cv=none; b=Po52tn2Y3KBGm3widUVHOZodqVmQkGucLKOpx+B2NEfFJCyvLvaU97QlQaDpj5BXOnZ5HXu5Kos2GsnOgWbDJMYbEVojEfZ5qIPj4ax7IU144VIWz8M4at3L8xDvL4u2xU9Fzo7Z/1BdM0y4GHS2c2Xg9S8YtVbAw/CWJh07QJc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1773843235; c=relaxed/simple;
-	bh=T3YFrtCmPcyzBYKr/rwj7VCqX3IIGcIdJIqkDUIPdXA=;
+	s=arc-20240116; t=1773843262; c=relaxed/simple;
+	bh=LDPsTmqVOQi/Q3SMosi3u6ribwOvIxr1Z+DXp1t/F64=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=kKY9aJKkPSvd4FyAJlaZ3j/CmtBHOiObRbksnVDSj8G6wQ+7CyFNrWiCiu/LAz2bx8I8GeGQdht2UfIX6HXrqJr5VwmTRWOYkaR+dP8HKufyaN9AkcopBk+InkXZD4yw+5fhHB7Dk8rVxPZlsOHqv3xXlE5ythnY13fkWgfvUsc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b=WHkwsmN5; arc=none smtp.client-ip=10.30.226.201
+	 Content-Type:Content-Disposition:In-Reply-To; b=pjGg6zlSaZFRgpzGWr4S1sbrKDYS/F6ZGwXLiibEDabMZ3PcpMYbf3vVvym3Eb7TX+qGGHH41Ssk6MQhBLI7mhTulfgp1gtun5OCvCrGJhxG0J07wbAZWAO2dxbw/PD5xBSaENRhzmQTzvfZ61uoICRhRtjRIwcTW0lD4Rlqwz4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b=0mYAUvaj; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="WHkwsmN5"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id D4EEDC19421;
-	Wed, 18 Mar 2026 14:13:54 +0000 (UTC)
+	dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="0mYAUvaj"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 8F634C19421;
+	Wed, 18 Mar 2026 14:14:21 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
-	s=korg; t=1773843235;
-	bh=T3YFrtCmPcyzBYKr/rwj7VCqX3IIGcIdJIqkDUIPdXA=;
+	s=korg; t=1773843262;
+	bh=LDPsTmqVOQi/Q3SMosi3u6ribwOvIxr1Z+DXp1t/F64=;
 	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=WHkwsmN5uPP1p2dTMy5I82Qr4zWndEyXCAkEExLwV08UCshnJiHY/tiw1wbsl1ayE
-	 XMHPBvM9q2ZDnQPUQ77hlJxhuX/Y5Uiy5JqaxukV8XrJYLoAY+NYil0wJwuj1MeZ6s
-	 BYG5CAX7OK7VhN3h7sA2UJW5aV9EZVX5WBVyUed0=
-Date: Wed, 18 Mar 2026 15:13:51 +0100
+	b=0mYAUvaj7YdVXcNkWxuHmkSWzWwRl3dkQRBI72HYbsMVzPaIZ3nzdkQWL/RiyxsdS
+	 x92bgcU/TBj/e+g45V00Zw2GacsN2UZ/w1nikJL2RyVSbtX4m8K61MT9ny2PpNV58z
+	 hfqD5rVT33Crpxcywgtesj45c5pJNSMULMu7a2Co=
+Date: Wed, 18 Mar 2026 15:14:18 +0100
 From: Greg KH <gregkh@linuxfoundation.org>
 To: justin.chen@broadcom.com
 Cc: linux-usb@vger.kernel.org, bcm-kernel-feedback-list@broadcom.com,
 	alcooperx@gmail.com, stern@rowland.harvard.edu
 Subject: Re: [PATCH] usb: ehci-brcm: fix sleep during atomic
-Message-ID: <2026031819-awoke-overdrawn-4287@gregkh>
+Message-ID: <2026031801-spinster-scraggly-7504@gregkh>
 References: <20260312190825.3596757-1-justin.chen@broadcom.net>
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
@@ -49,9 +49,33 @@ On Thu, Mar 12, 2026 at 12:08:25PM -0700, justin.chen@broadcom.com wrote:
 > to fix the warning.
 > 
 > Fixes: ("9df231511bd6 usb: ehci: Add new EHCI driver for Broadcom STB SoC's")
+> Signed-off-by: Justin Chen <justin.chen@broadcom.com>
+> ---
+>  drivers/usb/host/ehci-brcm.c | 4 ++--
+>  1 file changed, 2 insertions(+), 2 deletions(-)
+> 
+> diff --git a/drivers/usb/host/ehci-brcm.c b/drivers/usb/host/ehci-brcm.c
+> index 888e8f6670d2..5e3156f94cc6 100644
+> --- a/drivers/usb/host/ehci-brcm.c
+> +++ b/drivers/usb/host/ehci-brcm.c
+> @@ -31,8 +31,8 @@ static inline void ehci_brcm_wait_for_sof(struct ehci_hcd *ehci, u32 delay)
+>  	int res;
+>  
+>  	/* Wait for next microframe (every 125 usecs) */
+> -	res = readl_relaxed_poll_timeout(&ehci->regs->frame_index, val,
+> -					 val != frame_idx, 1, 130);
+> +	res = readl_relaxed_poll_timeout_atomic(&ehci->regs->frame_index,
+> +						val, val != frame_idx, 1, 130);
+>  	if (res)
+>  		ehci_err(ehci, "Error waiting for SOF\n");
+>  	udelay(delay);
+> -- 
+> 2.34.1
+> 
+> 
 
-Can you resend this with the proper format for how Fixes: lines should
-be?  It's in the documentation, otherwise our scripts will reject this.
+Why is something that has been around for so long just now suddenly
+being seen?  What changed to trigger this?
 
 thanks,
 
