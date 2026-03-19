@@ -1,33 +1,33 @@
 Received: from vps0.lunn.ch (vps0.lunn.ch [156.67.10.101])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C53693E8C78;
-	Thu, 19 Mar 2026 15:53:42 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6C8D03ECBFA;
+	Thu, 19 Mar 2026 16:29:36 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=156.67.10.101
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1773935624; cv=none; b=J0GyBQasNDtKx+/mkIym4W5p8EZ0UQvf24v1RdxRCRbZSC7DuAHXt7NDWQtq6YFqyxgyJQUYc6BSXhXS5QHUq12QvRuochg88kG6WBV/I4CwA+GKZ6KR9WF94mNe/TZKkauA3aHy5IIaay8kMlYBY6Vuyjk0PqiUOuzp1b65L88=
+	t=1773937785; cv=none; b=n8v+LuIGpqB7DY/+PJkH21XBgE/HvFk+souXju4Q+SRoT3stpzoNh8va3kSyTQlG2b+XiM7LE5cDLpATXLDqAnvz32rlYTyJg4o+Of9aTqJZI6Ugqditf4kJsI4HQaqMXs+VarUWSxIk0B+Kvn8o4x5GCbpx+A12eWsYdjxoXtg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1773935624; c=relaxed/simple;
-	bh=PyWcQUs/CwOXw1ONa3nPZtkK0b8+U9fg5fPTG1r9oWY=;
+	s=arc-20240116; t=1773937785; c=relaxed/simple;
+	bh=cLg1mxABsqTXm6/LqWoGIcU9uDV0pgkgZMVb0/SrzUk=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=Ar1nZEQ4fmsZDLcE5NLb4McUcjkRuU/wWzrEmAS+tIQFNgibj1pU/LzUsZYtW7QNbHGVeuNqk0Dr0v7K4QyI4kJfz+t/NmbTWsV9DfHflwD/993OCKFKKCcMQYb2CuCu7GcEnru3pHq3erl3x3EM3cpEPC8xpKPI9btiDRjGdHI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lunn.ch; spf=pass smtp.mailfrom=lunn.ch; dkim=pass (1024-bit key) header.d=lunn.ch header.i=@lunn.ch header.b=A0riGY0q; arc=none smtp.client-ip=156.67.10.101
+	 Content-Type:Content-Disposition:In-Reply-To; b=EgRqGI+mS8zCPqhw/0W5D1MB9JxzfqA1D0dVTUF06T+5LFc3VMH+Qk5HpNzSDsUwDXenycQgLS2UXOU4F9Jlh4+p8DAsXpPh3D1CaP0kd1CBpaOApVSZRfPIHa2MnsgE+iSp2sn3G6f/Pv75KOmMZPF/9fhvMhP7RltwN8ziua8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lunn.ch; spf=pass smtp.mailfrom=lunn.ch; dkim=pass (1024-bit key) header.d=lunn.ch header.i=@lunn.ch header.b=FLtO8zzh; arc=none smtp.client-ip=156.67.10.101
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lunn.ch
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=lunn.ch
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=lunn.ch header.i=@lunn.ch header.b="A0riGY0q"
+	dkim=pass (1024-bit key) header.d=lunn.ch header.i=@lunn.ch header.b="FLtO8zzh"
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=lunn.ch;
 	s=20171124; h=In-Reply-To:Content-Disposition:Content-Type:MIME-Version:
 	References:Message-ID:Subject:Cc:To:From:Date:From:Sender:Reply-To:Subject:
 	Date:Message-ID:To:Cc:MIME-Version:Content-Type:Content-Transfer-Encoding:
 	Content-ID:Content-Description:Content-Disposition:In-Reply-To:References;
-	bh=J0Jn7FRpfsVh6xJoXGSk8kCSSD4azZ4tiRFyJZ/ByxM=; b=A0riGY0qWjb4UcHpG57UUNNvrj
-	HqLLQrleN75OO8WmQDfc0TXdBAg07rAJMloz0hNd8O9VsX01brW7A1YswFAgK/uNfoLCftOVirAoe
-	ORb/ma/q9Oo5eeKdgkP+ofpS7qCZr2tSXPHAG+ypqtEN5DCJLsBNDX5TacVcN9S2RDY8=;
+	bh=3QDjeYDJRij/oqghj/n7hihwJOYcYJc8bDcHllbXJZQ=; b=FLtO8zzhTn8/B+JQZYL3JDjF6h
+	MIQ1basL/BXn4A/E8AY7RsMGNvKjKUtKPJdaJpWAaHS8dfXv1FX+vvhcZFiLyIzZ9//5ze4Jltr/h
+	2cz+9koa7qL/V2jAqo3LPr8R19dRVfsXoy81clzZr511I1LsYFpmHNBTN+ycDpGvly2s=;
 Received: from andrew by vps0.lunn.ch with local (Exim 4.94.2)
 	(envelope-from <andrew@lunn.ch>)
-	id 1w3Fgj-00CPJU-5r; Thu, 19 Mar 2026 16:53:33 +0100
-Date: Thu, 19 Mar 2026 16:53:33 +0100
+	id 1w3GFU-00CPic-8E; Thu, 19 Mar 2026 17:29:28 +0100
+Date: Thu, 19 Mar 2026 17:29:28 +0100
 From: Andrew Lunn <andrew@lunn.ch>
 To: Birger Koblitz <mail@birger-koblitz.de>
 Cc: Andrew Lunn <andrew+netdev@lunn.ch>,
@@ -36,10 +36,11 @@ Cc: Andrew Lunn <andrew+netdev@lunn.ch>,
 	Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>,
 	linux-usb@vger.kernel.org, netdev@vger.kernel.org,
 	linux-kernel@vger.kernel.org
-Subject: Re: [PATCH net-next v2 0/2] r8152: Add support for the RTL8157 5Gbit
- USB Ethernet chip
-Message-ID: <339655b1-59e3-42d6-a460-b8424d7fd279@lunn.ch>
+Subject: Re: [PATCH net-next v2 1/2] r8152: Add support for 5Gbit Link Speeds
+ and EEE
+Message-ID: <9efbf132-f367-487b-aa66-8a9610d91d2d@lunn.ch>
 References: <20260317-rtl8157_next-v2-0-10ea1fa488d1@birger-koblitz.de>
+ <20260317-rtl8157_next-v2-1-10ea1fa488d1@birger-koblitz.de>
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
@@ -48,12 +49,58 @@ List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20260317-rtl8157_next-v2-0-10ea1fa488d1@birger-koblitz.de>
+In-Reply-To: <20260317-rtl8157_next-v2-1-10ea1fa488d1@birger-koblitz.de>
 
-> This patch is on top of linux-next as the code re-uses the 2.5 Gbit EEE
-> recently added in r8152.c.
+On Tue, Mar 17, 2026 at 07:07:14PM +0100, Birger Koblitz wrote:
+> The RTL8157 supports 5GBit Link speeds. Add support for this speed
+> in the setup and setting/getting through ethool. Also add 5GBit EEE.
+> Add functionality for setup and ethtool get/set methods.
+> 
+> Signed-off-by: Birger Koblitz <mail@birger-koblitz.de>
+> ---
+>  drivers/net/usb/r8152.c | 56 ++++++++++++++++++++++++++++++++++++++++++++++---
+>  1 file changed, 53 insertions(+), 3 deletions(-)
+> 
+> diff --git a/drivers/net/usb/r8152.c b/drivers/net/usb/r8152.c
+> index 3b6d4252d34c63ead8f11a120e212325a5f7d505..bab8e10e5f99afcb332e333c2739ed7509b03419 100644
+> --- a/drivers/net/usb/r8152.c
+> +++ b/drivers/net/usb/r8152.c
+> @@ -604,6 +604,7 @@ enum spd_duplex {
+>  	FORCE_100M_FULL,
+>  	FORCE_1000M_FULL,
+>  	NWAY_2500M_FULL,
+> +	NWAY_5000M_FULL,
+>  };
+>  
+>  /* OCP_ALDPS_CONFIG */
+> @@ -725,6 +726,7 @@ enum spd_duplex {
+>  #define BP4_SUPER_ONLY		0x1578	/* RTL_VER_04 only */
+>  
+>  enum rtl_register_content {
+> +	_5000bps	= BIT(12),
+>  	_2500bps	= BIT(10),
 
-Is 'linux-next' a typo? net-next should also have the EEE code, that
-is the patch networking code takes.
+Any idea what bit 11 is for? There is not normally any speed between
+2.5G and 5G.
 
-	Andrew
+> @@ -9934,6 +9979,11 @@ static int rtl8152_probe_once(struct usb_interface *intf,
+>  		} else {
+>  			tp->speed = SPEED_1000;
+>  		}
+> +		if (tp->support_5000full &&
+> +		    tp->udev->speed >= USB_SPEED_SUPER) {
+> +			tp->speed = SPEED_5000;
+> +			tp->advertising |= RTL_ADVERTISED_5000_FULL;
+> +		}
+
+Let me check i understand this.
+
+ethtool supported will indicate 5G, independent of the USB speed? But
+it will only advertise 5G if the USB bus is USB 3.0 or higher, which
+can do 5G. The user can however use ethtool to advertise 5G, for USB
+2.0?
+
+I suppose the question is, are there any link partners which do 2.5G
+and/or 5G, but not 1G? I guess not.
+
+       Andrew
