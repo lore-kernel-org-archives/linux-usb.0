@@ -1,65 +1,66 @@
-Received: from mail-wr1-f45.google.com (mail-wr1-f45.google.com [209.85.221.45])
+Received: from mail-wr1-f44.google.com (mail-wr1-f44.google.com [209.85.221.44])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6D2233AEF2F
-	for <linux-usb@vger.kernel.org>; Thu, 19 Mar 2026 08:55:14 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.45
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 70A213AEF40
+	for <linux-usb@vger.kernel.org>; Thu, 19 Mar 2026 08:55:15 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.44
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1773910516; cv=none; b=MtRg0RG0NdL3PM/9dU4g6TJyW3/mr9adiEaS39NptmV+lH1MR0O1/0+F0JQ7VD3YPZlOlkGhyk3rotJP1DX7X6QkyGm+jMeisGYKkNRALpYH0UxczY4K3VC8xMKkOMbJsiIgRIZy/eOXTph+BIhLm7oxACk6+m/YaqHbo/jzQlU=
+	t=1773910517; cv=none; b=bU7aKcSch7kK+ZeBiI4mg8hdFOmmkj9LVlkoXm19+ouvg4UrC0prtxloEbxaMN8oPmS1wj95JFTkE5Xx/XQdKrgUUyycvIJI8Izg0RGtRN9XxdfN/xjgi9bg3rgZH2gP3NKwgtH1M5fGx8u1VqauAoS6veJGy95fmeg18RpGWa0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1773910516; c=relaxed/simple;
-	bh=zrw23kbaB6w9Tx36goqR08XFMojlC5+6mg4vLV+ld8M=;
-	h=From:Subject:Date:Message-Id:MIME-Version:Content-Type:To:Cc; b=KpAYlHw77uArjwRlSLDiJBjcu+NW1HB2ATyluDo48XCYnMAWw/89s9MB7C8W+P8U+tn//vUMgE0LEOnRxsST7RBBLxqRcniPdaW9+IEQ+nUQs3JNictZHNVQpvm/qB2zFMwW3jCtXcXTtKtiAGK7l5JZL0pNbCVUJVOub/scpFw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=akZdPIUn; arc=none smtp.client-ip=209.85.221.45
+	s=arc-20240116; t=1773910517; c=relaxed/simple;
+	bh=XvC/+pHwVb5NzB52XjoWhWvsP0QalYMxdzFh9h/c8IU=;
+	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
+	 In-Reply-To:To:Cc; b=OdU3+BHguhogQSxFVOY8Due7MTARaOn4oqpgkAVpCOmyKfevP72qQVd1Mw5As82sJmn9m9UWEqQLfLQarHOYILIWCEW0H9pvsGfUiiW/kLagKGLqykcuFPg7QCZNflS5jUKEPx1iN5LkgxYgbCM/VVtZoSpwtkiqEkGpT2nLvPs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=PvPbnmpL; arc=none smtp.client-ip=209.85.221.44
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="akZdPIUn"
-Received: by mail-wr1-f45.google.com with SMTP id ffacd0b85a97d-439af7d77f0so293131f8f.0
-        for <linux-usb@vger.kernel.org>; Thu, 19 Mar 2026 01:55:14 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="PvPbnmpL"
+Received: by mail-wr1-f44.google.com with SMTP id ffacd0b85a97d-43b4121c40aso417603f8f.0
+        for <linux-usb@vger.kernel.org>; Thu, 19 Mar 2026 01:55:15 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1773910513; x=1774515313; darn=vger.kernel.org;
-        h=cc:to:content-transfer-encoding:mime-version:message-id:date
-         :subject:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=g2aJhnD/vRwXSeh3Fhk/ZXgYYRMhSjsCNQv0oxpRs+s=;
-        b=akZdPIUnHy2Bpu0VmBS89IRTh+tGrmxEp7YSD5pMx6k6Q0M7cwIawhE1dUnVfzuBZL
-         Bydk+pmdfnpAHmZOifBJxBArZG2RjTrs1oVOPUnYIyw2S7M8GEodGz800WDaQSNnYPsE
-         utHN2D+D6ybg0Nu7PdSgfP9zVeskmHXr6KmcKln7Mf6EnT6eIZMcPLTPeJvvNa1Ekc5q
-         u294kHDen4HGTcv7ujHvECi4OirHLBN+YngZlY73x8FEJ3YiGT93JbNcJCkkq7ZAS6W/
-         z/khAcM8I8zsbhQDXgEql6Lix9w6GgiD947qjdk3NJ8MXqNE0p1ibyZKcPGRewTNLCk+
-         llZA==
+        d=linaro.org; s=google; t=1773910514; x=1774515314; darn=vger.kernel.org;
+        h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
+         :mime-version:subject:date:from:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=u2I3d/W72WxunPTgbW/r5o2nF4g/KFg/bIY0fMyHO7s=;
+        b=PvPbnmpLZqwUTwx9SWESa78OKPrdCWncJDzn/y73jLgxkvUJEJRoKDWf45RJFVknnb
+         E/qpfQAud9zdgHdMcl/Ys9zrSgaLeFkBJTBOhwMCXWpSqyN/igYPDe0dkCN/HyCaHgk0
+         jP+++enAzNM7RoCoNwIw6/dTXRWM94tzEt5s4dA4whgv8RHP3BAAwABEccM7VOqXS5eM
+         ve86KtvNMKYVb4GgrA1mID9u0roVJq1FrH4muahx8U3fsp6hBBijhHElMX8Ajg21tLJg
+         TwTH3B1J5unPoKM3OCpjDcDXImQhuZrST74yqgeZWHGlPBTTApF8wZjE/x+zryKwbkgw
+         Qm0A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1773910513; x=1774515313;
-        h=cc:to:content-transfer-encoding:mime-version:message-id:date
-         :subject:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=g2aJhnD/vRwXSeh3Fhk/ZXgYYRMhSjsCNQv0oxpRs+s=;
-        b=QCXHdaN+8fK2ImPaz29HsLVa/IB+weDztOaGOKYwXBhI3kDM3Nqu/cZw1gFssKJmfQ
-         kVNhzehyKFQB9PFk07ctJEy8jjqVqWGnLGfFRTEntqF9nzA478C7z+lmT2TLnRGhRJJU
-         do4yifpk+h0x3HIhEIBE1D6XwtIkbf8BDQLye2ev0rYd2kWflWEwUzDjyaWEYjkO3AoM
-         FHIairPWdq8a02aIY/CeVSxuCVIYox6DBorR8ilwBeiS0b8WXLBmFpzTcfTftisPx1vn
-         T0iqd05WItzE07VBeZxwqYmUh19A0Zbr6kBZsAa2UMApIVNWKHFN4Y1S1HJDt3mtvkhI
-         p4zA==
-X-Gm-Message-State: AOJu0YzFjuDimWDQHrJl57YiQe4VztlxwWKF8HqfA7yhCBEahmOOSyZP
-	+/jAElkfsipxhwIHxtZCZP+X9lIyFu/gyvB7EVXIhRVJuZhbQydeoMAAjLrtRrW1C8E=
-X-Gm-Gg: ATEYQzzSgRTLvbQYeOkItNPZEAPX4hvoLQ3I+YX706wGfmBRO/Q2VqJajYHFwnvixZw
-	zbBkXv6f/rOqqyivZQ3sIdggAy6Ei5y7oVu6/MQioeZv4REQFivTVzT8pJo+voJbzmMBm7cQ7Hi
-	T9C7d5BBFgfygqpqa1y+2LcaBgHrBrMp678Z6yfSrKxypWDzivUf5aOCZLJjhY08bvK0yETustb
-	hzabchNPPJ4IQlYvY39tL9ogWvOaORLE4x3bGIbElPNUOsjXLvefEpNb+OMqsen6p+mzJk/c4lF
-	i4/GINEp1xVGt4Jmo2CMg7HCHyJ3swBBdw0QZhBmNrEGi/HYleAzgxZvHgqNzPIn6rmUm7l+VYK
-	e5X3DCc9VKXExMMYRT21o+/8y9pQRlxd7JhN6SVcUJMDn93Px5PJINDghfUcL8teGAyJRmVtp7d
-	wUtrR5GLLpVm/thVCCWW7EC/ItuHMo00peWXq4Ddr8k1yT
-X-Received: by 2002:a05:6000:40cb:b0:43b:4f97:9608 with SMTP id ffacd0b85a97d-43b527a7368mr11451596f8f.14.1773910512637;
-        Thu, 19 Mar 2026 01:55:12 -0700 (PDT)
+        d=1e100.net; s=20251104; t=1773910514; x=1774515314;
+        h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
+         :mime-version:subject:date:from:x-gm-gg:x-gm-message-state:from:to
+         :cc:subject:date:message-id:reply-to;
+        bh=u2I3d/W72WxunPTgbW/r5o2nF4g/KFg/bIY0fMyHO7s=;
+        b=VLNiLKPTI20ZbOoMLrWsf74DBpuVZnB+TMUSaNqKk7TRmLIxejWH6HvE4TFxkVe7ha
+         L1A0OC6Fj8BlxDRUF+FKJJisRTzCd+1l4ClOPfv3XN9gV6EUbtUvQBCspvHykAcwYj5f
+         MDlRl0lb5nTsguvRqrsEpvBhgbq8v2U/B/K9Ua0fUXSD7rbahlhSRiuBHhGo01iQe0y0
+         2udu1+2prtshInqH5X2DU1+Yo+b1R9IFV+wWxvNPgjkvsJ/56i3VAt5zKpmzEAyZS86T
+         ePGrYE0NHGCYJ/EXjE9qZeXmebKe2qSgvX37kAAIAnmIyYDT6P72oQS9Ob7YSI9/iKqf
+         TzIw==
+X-Gm-Message-State: AOJu0YwXO7KFS1z2hTkRm1dxAZnNDzn3mlF8V8KhTYeZpMoHx5qrFpsZ
+	1ZdYMUTGybha3R3y5xCqkMuv3A1nBJhpQibVLYcm4Hkbb+gjKZhA64bYF/UN8wjqF1o=
+X-Gm-Gg: ATEYQzysd+ae9+UMkD7itVbmbfR8qw3u/qMD5TLxwKje/CPLfXFSNvVwNp1DRniKyr1
+	4cUzjROiNP0eCu4TO26eBzQW22LgzdosQAzUpdhSa7ZBcjxwSIkyzkyWyL+UNjxHaLWlkpvcHOO
+	MTJxDJj/8itU1M4ky+j/2EOSnRQ2Z+VWzNKBXsB0Ip8KiNLxBXblrjcTISlA4IBQDJDFUhgTbiQ
+	NV5oI7+8YpbpG/js6rYEfnPp639hXELmvIz7RYuDqFTTvKqyuOC0zVMqbQcCPs/YcBE+YOMieTe
+	86SgzD5HlDbJ8juz0h7G0vwXQwADIXl8RpJJVS7J/5n7Y2IuGzCBTS8fQckgnyoqExtZr17iXZm
+	fq7AA72zarhTg4fUvl97RIgq2mRbU6RhMDBfsVrvQuq6xx85UjFNFFoa7U78DRpYXk4yPiBJ1+I
+	EL67/qtAhgerwaz0Fq1EMcTiOiSng7bY/Y4mjgeZtlCzZy
+X-Received: by 2002:a5d:5f82:0:b0:43b:45d1:f44f with SMTP id ffacd0b85a97d-43b527c89fbmr11259355f8f.41.1773910513729;
+        Thu, 19 Mar 2026 01:55:13 -0700 (PDT)
 Received: from arrakeen.starnux.net ([2a01:e0a:106d:1080:52eb:f6ff:feb3:451a])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-43b518588a0sm23072267f8f.16.2026.03.19.01.55.11
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-43b518588a0sm23072267f8f.16.2026.03.19.01.55.12
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 19 Mar 2026 01:55:12 -0700 (PDT)
+        Thu, 19 Mar 2026 01:55:13 -0700 (PDT)
 From: Neil Armstrong <neil.armstrong@linaro.org>
-Subject: [PATCH v6 0/5] arm64: dts: qcom: Add support for the Ayaneo Pocket
- S2
-Date: Thu, 19 Mar 2026 09:55:06 +0100
-Message-Id: <20260319-topic-sm8650-ayaneo-pocket-s2-base-v6-0-797bf96df771@linaro.org>
+Date: Thu, 19 Mar 2026 09:55:07 +0100
+Subject: [PATCH v6 1/5] arm64: defconfig: enable pci-pwrctrl-generic as
+ module
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
@@ -68,12 +69,9 @@ List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-X-B4-Tracking: v=1; b=H4sIAOq5u2kC/5XOTW7DIBCG4atErEvFgAfjrnqPqgt+hgS1NRZYV
- qPIdy/Jpq68cZfvLJ5vbqxSSVTZy+nGCi2ppjy20E8n5i92PBNPoTWTQmoBEvicp+R5/TIaBbd
- XO1LmU/YfNPMqubOVuECvOkMxGB1Yg6ZCMX0/Rt7eW19SnXO5PjYXuF//xS/ABXdOxQEjeGHw9
- TONtuTnXM7s7i9ya/aHTNlMj0geHAbj4s5Uv6YU+pCpmomuHzwGDVaondltTDhmds00Qnoj+wE
- 7BTsTN6YUh0xsJtjQHrUWKNo/5rquP3vSoaolAgAA
-X-Change-ID: 20260121-topic-sm8650-ayaneo-pocket-s2-base-05c348efd86d
+Message-Id: <20260319-topic-sm8650-ayaneo-pocket-s2-base-v6-1-797bf96df771@linaro.org>
+References: <20260319-topic-sm8650-ayaneo-pocket-s2-base-v6-0-797bf96df771@linaro.org>
+In-Reply-To: <20260319-topic-sm8650-ayaneo-pocket-s2-base-v6-0-797bf96df771@linaro.org>
 To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>, 
  Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>, 
  Conor Dooley <conor+dt@kernel.org>, 
@@ -88,109 +86,49 @@ Cc: linux-usb@vger.kernel.org, devicetree@vger.kernel.org,
  linux-kernel@vger.kernel.org, linux-renesas-soc@vger.kernel.org, 
  linux-pci@vger.kernel.org, linux-arm-msm@vger.kernel.org, 
  Neil Armstrong <neil.armstrong@linaro.org>, 
- Bartosz Golaszewski <bartosz.golaszewski@oss.qualcomm.com>, 
- Krzysztof Kozlowski <krzysztof.kozlowski@oss.qualcomm.com>, 
- Konrad Dybcio <konrad.dybcio@oss.qualcomm.com>, 
- Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>, 
- KancyJoe <kancy2333@outlook.com>
+ Bartosz Golaszewski <bartosz.golaszewski@oss.qualcomm.com>
 X-Mailer: b4 0.14.3
-X-Developer-Signature: v=1; a=openpgp-sha256; l=3500;
+X-Developer-Signature: v=1; a=openpgp-sha256; l=859;
  i=neil.armstrong@linaro.org; h=from:subject:message-id;
- bh=zrw23kbaB6w9Tx36goqR08XFMojlC5+6mg4vLV+ld8M=;
- b=owEBbQKS/ZANAwAKAXfc29rIyEnRAcsmYgBpu7nsszJs/FqL3KMrYDOOOifv9EJW3hrIP7kVI0ui
- uHuA9oyJAjMEAAEKAB0WIQQ9U8YmyFYF/h30LIt33NvayMhJ0QUCabu57AAKCRB33NvayMhJ0WoYD/
- 9MFI3MCQ8UwJfOb/HO9DZgqVoTf0uRjzlLchxD1CyAp9CUoDyxcavBJ/57z0HqE4ACNfK7ebavrOlX
- 4556xHWTIMurKfERPtQ8d9CEeAvE8aYRSwlKDmH2Nr0fvII7822w1SsAG+Eq3AXA8xc82iYEPjYqDB
- 0wuWK8wYK2LKeYpbr/m+foyYoyOT89Sn9Kaq4GDumRVEAc7URBD3qL7xfDr+V0SWgWExwM+BP8Gr5a
- Y35rzHBVeg5ByZFtOxl8RiGnHv3RQuvRkNcSHAaN/rTjmbRSBQyHndaddbLHMfZs9z9J5v2UvD84qK
- z51CuHMtckrfBt/mp4633LbJSnUU6wIEEkU3cI08HjsEErOy4v0oQkzsYRRQ+kjHskM3mSQFvC4Ipr
- cfW03ElcQqwrUo1KT5TH21WDstsCtWI82Wuz0R+fi9Lr3BBn8N9xAJsNgSbg+RCX3m2dAAR6ETxJ9H
- E3bf6QXK2FN/svBw7lL8oeZvcE0WNWv/UjzGeLx6Y31/X0vNeIIBmJ2Ke0vWwJ2OA46/8Drm0fIs9O
- xlKC32YG8wJzqGB7X3IjEaaqUPDzNt117bJBpIU7axXSbLHnfacXMKCI7vz0e6emAyR5UbiH0EjsYj
- XOfsUiCI/XivfXokXW9DD+wd1qSN4W3Maoj7hZEs2TkpNB84PCncSfuxDf/A==
+ bh=XvC/+pHwVb5NzB52XjoWhWvsP0QalYMxdzFh9h/c8IU=;
+ b=owEBbQKS/ZANAwAKAXfc29rIyEnRAcsmYgBpu7ntK92VjPgJU6LusU96CCjpdrZznIp+B8cqAhWc
+ IjaiDqqJAjMEAAEKAB0WIQQ9U8YmyFYF/h30LIt33NvayMhJ0QUCabu57QAKCRB33NvayMhJ0a1PD/
+ 9imeLObUOro2ziHQTn0Y0AKF4JJ+zd3UMzIolL+jH1PiXN/0saQQY/LYb2CTMEpRWBQPN78SQPEibW
+ A79nzVQUJzwY2rAmo6OGLM5O+AfAOHEPJu9AvUWyMik8IopXmKxM6ph6Yck7Y0d0Qa2vWAykpXqONk
+ EMucxj79YcQZaYTQtbJmUrrwTcEhimGlRdK2j3iO8S7BqANzmgBMeqQPHn1SoHniv2r2/uBVqRfkje
+ 3v9VkJzSkqgbI+uxuqLvs6S0+bAl1RrFUey7aqR8Q2PcNy2+2UIQ1AvrpgSJyNDFuLr07FJPDEmCgT
+ lNkFjmisl1+JNf3ScVXykx7SJyhOlivlY8/kLyEZceIsSHrBiNn6E6MHWTKObG7Cy9KsNx/dN4da7N
+ piE8v8n636zjFsYRaWEyZR341bccb1fqXXuVHpWSOIAov8IQloVj/Ln9htwhqds2a9dcebRcoaTUyn
+ INHsmZGLeopDkjv44/JbirLyGJJuN8GE884Vc8DGFcWG3LkVh3s/dEN8MvgLUW/Ev9ABxsMT3lfeIZ
+ XmLHFVXKegUPUnyfZtuRdSqwg7XHchxRSzbjK50/+335qj1WcUivl7Up2Bc7+XW8KzO6brgDzColmN
+ 2cfm8i4ex5gyxpd3iG2KIB6FG6rkDbe2BQSCc2rJrLAp16kD5RctSRRJzevQ==
 X-Developer-Key: i=neil.armstrong@linaro.org; a=openpgp;
  fpr=89EC3D058446217450F22848169AB7B1A4CFF8AE
 
-The Ayaneo Pocket S2 is a gaming console based on the Qualcomm
-Snapdragon 8 Gen 3. It has an internal UFS storage, WiFi,
-Bluetooth, gaming buttons, SDCard, 2K display and USB-C
-connector.
+Enable the generic power control driver module since it's required
+to power up the PCIe USB3 controller found on the Ayaneo Pocket S2
+gaming console.
 
-Product Page [1].
-
-The Initial linux port was done by KancyJoe (Sunflower2333)
-at [2].
-
-The UPD720201 binding patch has been sent separately in [3]
-and is ready to be merged. The pci/pwrctrl changes were merged
-in the pci tree.
-
-[1] https://www.ayaneo.com/goods/9344082149621
-[2] https://github.com/sunflower2333/linux/tree/master
-[3] https://lore.kernel.org/all/20260319-topic-sm8650-ayaneo-pocket-s2-upd-bindings-v1-1-84e4ef564022@linaro.org/
-
+Acked-by: Manivannan Sadhasivam <mani@kernel.org>
+Reviewed-by: Bartosz Golaszewski <bartosz.golaszewski@oss.qualcomm.com>
 Signed-off-by: Neil Armstrong <neil.armstrong@linaro.org>
 ---
-Changes in v6:
-- Added the review tags
-- Dropped all the pci/pwrctrl applied patches
-- Sent the UPD720201 bindings in a separate patch
-- Link to v5: https://patch.msgid.link/20260220-topic-sm8650-ayaneo-pocket-s2-base-v5-0-1ad79caa1efa@linaro.org
+ arch/arm64/configs/defconfig | 1 +
+ 1 file changed, 1 insertion(+)
 
-Changes in v5:
-- Rebased on -next
-- Collected tags
-- Rebased/renamed slot to generic based on changes from Bjorn
-- Link to v4: https://patch.msgid.link/20260216-topic-sm8650-ayaneo-pocket-s2-base-v4-0-802c82795431@linaro.org
+diff --git a/arch/arm64/configs/defconfig b/arch/arm64/configs/defconfig
+index 18881bd239f9..47347da14900 100644
+--- a/arch/arm64/configs/defconfig
++++ b/arch/arm64/configs/defconfig
+@@ -258,6 +258,7 @@ CONFIG_PCIE_LAYERSCAPE_GEN4=y
+ CONFIG_PCI_ENDPOINT=y
+ CONFIG_PCI_ENDPOINT_CONFIGFS=y
+ CONFIG_PCI_EPF_TEST=m
++CONFIG_PCI_PWRCTRL_GENERIC=m
+ CONFIG_DEVTMPFS=y
+ CONFIG_DEVTMPFS_MOUNT=y
+ CONFIG_FW_LOADER_USER_HELPER=y
 
-Changes in v4:
-- Renamed slot to generic, in the code as well, fixed Kconfig & commit message
-- Switched the UPD72020x bindings additionalProperties to true to allow devices subnodes
-- Collected acks
-- Link to v3: https://patch.msgid.link/20260206-topic-sm8650-ayaneo-pocket-s2-base-v3-0-5b79c5d61a03@linaro.org
-
-Changes in v3:
-- Made renesas,upd720201-pci bindings supplies required
-- Fixed description and example of renesas,upd720201-pci bindings
-- Renamed slot to generic, added renesas,upd720201-pci entry
-- Used PMIC_GPIO_STRENGTH_LOW instead of numbers
-- Removed all output-low in pinconf
-- Link to v2: https://patch.msgid.link/20260127-topic-sm8650-ayaneo-pocket-s2-base-v2-0-c55ec1b5d8bf@linaro.org
-
-Changes in v2:
-- Add proper regulators for the USB controller, with bindings & power ctrl
-- Add proper regulators for FAN
-- Dropped support for headset over USB-C, audio is connected to a jack port
-- Cleaned up Audio routing and fixed the DP endpoint index
-- Added i2c clk frequencies
-- Renamed fan node and used interrupts-extended
-- Dropped the usb-c self-powered
-- Reordered nodes alphabetically
-- Renamed pcieport1 to pcie1_port0
-- Link to v1: https://patch.msgid.link/20260121-topic-sm8650-ayaneo-pocket-s2-base-v1-0-bb3f95f1c085@linaro.org
-
----
-KancyJoe (1):
-      arm64: dts: qcom: add basic devicetree for Ayaneo Pocket S2 gaming console
-
-Neil Armstrong (4):
-      arm64: defconfig: enable pci-pwrctrl-generic as module
-      dt-binding: vendor-prefixes: document the Ayaneo brand
-      dt-bindings: arm: qcom: document the Ayaneo Pocket S2
-      arm64: dts: qcom: sm8650: Add sound DAI prefix for DP
-
- Documentation/devicetree/bindings/arm/qcom.yaml    |    1 +
- .../devicetree/bindings/vendor-prefixes.yaml       |    2 +
- arch/arm64/boot/dts/qcom/Makefile                  |    1 +
- .../boot/dts/qcom/sm8650-ayaneo-pocket-s2.dts      | 1551 ++++++++++++++++++++
- arch/arm64/boot/dts/qcom/sm8650.dtsi               |   47 +-
- arch/arm64/configs/defconfig                       |    1 +
- 6 files changed, 1580 insertions(+), 23 deletions(-)
----
-base-commit: 8e42d2514a7e8eb8d740d0ba82339dd6c0b6463f
-change-id: 20260121-topic-sm8650-ayaneo-pocket-s2-base-05c348efd86d
-
-Best regards,
 -- 
-Neil Armstrong <neil.armstrong@linaro.org>
+2.34.1
 
