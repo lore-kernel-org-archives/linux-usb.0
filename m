@@ -1,119 +1,100 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.10])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6BC14296BA4;
-	Thu, 19 Mar 2026 07:51:32 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6D2F13A783C
+	for <linux-usb@vger.kernel.org>; Thu, 19 Mar 2026 08:40:36 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.10
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1773906694; cv=none; b=bxigeB8iJP1MXOiv+Ks+Q6qW5uHp0kqoHGpv8hTFlIRJS86fCCRptj3UyzU0woGUf3XVqnb4iw1Ui2lpM9EF1D659L7/sycar4sDwRSRTqVuPb0lJ6mbkYHw711qOCmjg9UStjg0ADsAHwvoX9pHUHtRS8ryeobz8F1Nkf/8JHc=
+	t=1773909638; cv=none; b=IlrfgyGXPbJRLbYosKR6p7bZrAmnrx/q2f4rhavGDLVphJwmPSjB03A6bzZbAFYh6YqSc+8+eq3A0iQ5duLqtqYhGnt+UWq326omQ0A/nRLeXA+4p/RKy9ByduOTi0HOExsYMcGHpXOiKa6OND3RXNh6xAcA9MGSQHtC7RfNG7g=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1773906694; c=relaxed/simple;
-	bh=IkvVtG/HwHUaGSddu+08TQT396kKULKkFGF77Q0VPTs=;
-	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
-	 In-Reply-To:To:Cc; b=DS8U0ehEe32hnZ1ZMTHwYOwM490b7bUA+Ms/341h7z9XtdB/IVAvU1/9srnmyZx4gIIRzgElMIJF4R8WUeKNJrE3Jlj4f4MNvBRCTKdnjZPwnglGn/80aeqosUBtiZeZs3kG5jeDs/UczwsnCJ5bAAPs+cYZHjDb2iF25oMv7vA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=POizJ7+M; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1773909638; c=relaxed/simple;
+	bh=oJGZOLOUeEinYwd+OPWiXnsex5raaI8UMVp7k8OFfwM=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=l/LUwCAlOJQau30EjPge4Ge5LteDPtl8dKSttBK4qS5sTCVjM1hrOT/qZZT0emqRipiFaMR6vnLvel3Tm+123EUHcBglXCLSN3KO67vW97lIXJrp7WziPaap1wOQX6FrvzUaJt49YDtQVRcS19zUNjwGW+EL5AkPFhTPH8D+hC4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=pass smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=GaGu55Zf; arc=none smtp.client-ip=198.175.65.10
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="POizJ7+M"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 80B9CC2BCB0;
-	Thu, 19 Mar 2026 07:51:28 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1773906692;
-	bh=IkvVtG/HwHUaGSddu+08TQT396kKULKkFGF77Q0VPTs=;
-	h=From:Date:Subject:References:In-Reply-To:To:Cc:From;
-	b=POizJ7+Mv2OfginoQbbYVFt59eEYtW94BTEP2AJBScspPOUxGFTXJc/7C/lylBF41
-	 xIvLDbrHjleQJ3Ao015i6EofQFIofWugrseeuQ9lXjAUvLMjyTBVTyvEVVgqtSBUL8
-	 gWN6MjaiFWfiMykDsiewBhWPi5Uyi1X3Qn7dn9s10BTlev37wWhhVykobuyp99WMq0
-	 qz09H2VCDBPGrjOqhaH5pYWffq8K8b25IAgEfYiYoufTAS39/iLfbMeAs04eKV64f6
-	 klbkReFOLb/83R2MGWn/XNxSS2Aoo/SUtEFKuRNekJ7nYXSfDq1dre8SpgE9vZZYSN
-	 tFwibuuRXke4g==
-From: Yixun Lan <dlan@kernel.org>
-Date: Thu, 19 Mar 2026 07:51:04 +0000
-Subject: [PATCH v2 2/2] usb: misc: onboard_usb_dev: Add Terminus FE1.1s
- USB2.0 Hub (1a40:0101)
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="GaGu55Zf"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1773909637; x=1805445637;
+  h=message-id:date:mime-version:subject:to:cc:references:
+   from:in-reply-to:content-transfer-encoding;
+  bh=oJGZOLOUeEinYwd+OPWiXnsex5raaI8UMVp7k8OFfwM=;
+  b=GaGu55Zfm98FjfAbn10ajXpIlFAh+kCFvi/EqPq8Q9VGWgiFK24lSU+b
+   GCcv9qaBQHHeH75Tsj7+DqOwVGIxD3GHioymRoS9FVgRa1rN7BaY0FZpS
+   bEsIi5K70VzwvX871nwh35RYiwwG0kNH2/38HBqLWC65lkyFGTnHo/ZBZ
+   /sT1oI32Wm6b7RnabwAXpJYjgpujQQEwRsYYGwYkWk9CvCTGpOp8+rMpP
+   UYuMBay9q978rFtIExQZSKXgY5VYFWRY//Haco6gHyNBcYI7YcRw99KpL
+   SyMXsYOL9wFkfmyZxwT6mtinvdFhcA1jY0E09IRKZNhgZtP62+MTQXOM9
+   g==;
+X-CSE-ConnectionGUID: OgKn6YCMTYOKSg/H6gLfKQ==
+X-CSE-MsgGUID: lzww/AsAQnmPHaiQn4cNTQ==
+X-IronPort-AV: E=McAfee;i="6800,10657,11733"; a="92358616"
+X-IronPort-AV: E=Sophos;i="6.23,129,1770624000"; 
+   d="scan'208";a="92358616"
+Received: from orviesa005.jf.intel.com ([10.64.159.145])
+  by orvoesa102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 19 Mar 2026 01:40:36 -0700
+X-CSE-ConnectionGUID: u/Xu2jd3TBmZRJFOqfQ2zg==
+X-CSE-MsgGUID: Gz1rqaMNRlGvEmFZyx0HFg==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.23,129,1770624000"; 
+   d="scan'208";a="227839932"
+Received: from abityuts-desk.ger.corp.intel.com (HELO [10.245.244.144]) ([10.245.244.144])
+  by orviesa005-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 19 Mar 2026 01:40:34 -0700
+Message-ID: <903fa309-775c-4562-bbf2-01ef8ac88cc7@linux.intel.com>
+Date: Thu, 19 Mar 2026 10:40:31 +0200
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
+User-Agent: Mozilla Thunderbird
+Subject: Re: correctly handling EPROTO
+To: Alan Stern <stern@rowland.harvard.edu>,
+ Michal Pecio <michal.pecio@gmail.com>
+Cc: Oliver Neukum <oneukum@suse.com>, Thinh Nguyen
+ <Thinh.Nguyen@synopsys.com>, =?UTF-8?Q?Bj=C3=B8rn_Mork?= <bjorn@mork.no>,
+ USB list <linux-usb@vger.kernel.org>
+References: <437037d6-3fe1-4f81-b74a-21bea00725e0@rowland.harvard.edu>
+ <0b45d0e4-53f8-4960-b41c-63639b496dac@suse.com>
+ <4f8b9942-307b-4c31-86f3-1b7b20b34a16@rowland.harvard.edu>
+ <d1674f98-cbbf-4a16-8c76-996a0494d931@suse.com>
+ <abcd2076-c2d4-403d-8ab8-af747b335075@rowland.harvard.edu>
+ <87a692e2-559a-4765-8321-a422751d3589@suse.com>
+ <4ada5d68-56f1-41b7-82d9-463901c927db@rowland.harvard.edu>
+ <8a14fe29-0d92-4ce5-a7e2-2c084c710727@suse.com>
+ <b0217cdc-f263-418c-b8b5-584520d0b1db@rowland.harvard.edu>
+ <20260318223851.1f6d07d7.michal.pecio@gmail.com>
+ <4a35e3dc-620a-4596-9bf3-783865f29e8f@rowland.harvard.edu>
+Content-Language: en-US
+From: Mathias Nyman <mathias.nyman@linux.intel.com>
+In-Reply-To: <4a35e3dc-620a-4596-9bf3-783865f29e8f@rowland.harvard.edu>
+Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
-Message-Id: <20260319-03-usb-hub-fe1-v2-2-e4e26809dd7d@kernel.org>
-References: <20260319-03-usb-hub-fe1-v2-0-e4e26809dd7d@kernel.org>
-In-Reply-To: <20260319-03-usb-hub-fe1-v2-0-e4e26809dd7d@kernel.org>
-To: Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>, 
- Conor Dooley <conor+dt@kernel.org>, 
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>, 
- Matthias Kaehlcke <mka@chromium.org>
-Cc: Junzhong Pan <panjunzhong@linux.spacemit.com>, 
- Inochi Amaoto <inochiama@gmail.com>, spacemit@lists.linux.dev, 
- devicetree@vger.kernel.org, linux-kernel@vger.kernel.org, 
- linux-usb@vger.kernel.org, Yixun Lan <dlan@kernel.org>
-X-Mailer: b4 0.14.3
-X-Developer-Signature: v=1; a=openpgp-sha256; l=2418; i=dlan@kernel.org;
- h=from:subject:message-id; bh=IkvVtG/HwHUaGSddu+08TQT396kKULKkFGF77Q0VPTs=;
- b=owEB6QIW/ZANAwAKATGq6kdZTbvtAcsmYgBpu6r0cV5SrrXvhwaq9QwljBnbuoxcv4AK/zuk5
- b24vjXj4G2JAq8EAAEKAJkWIQS1urjJwxtxFWcCI9wxqupHWU277QUCabuq9BsUgAAAAAAEAA5t
- YW51MiwyLjUrMS4xMSwyLDJfFIAAAAAALgAoaXNzdWVyLWZwckBub3RhdGlvbnMub3BlbnBncC5
- maWZ0aGhvcnNlbWFuLm5ldEI1QkFCOEM5QzMxQjcxMTU2NzAyMjNEQzMxQUFFQTQ3NTk0REJCRU
- QACgkQMarqR1lNu+2CDw/+NANUB85esiF2p68Cy8EHCAJ6mg6kQl9cLGK1IvV5G/zpO0ZulX+xy
- cl1Xm60bfLK7cv7ciAoo7iqUspvjCSw2L+8PJA0ZVJkKcjAP58SFGzAw20ejkpOOQGBpwHn19lw
- qpa4+ibA8WdxgmwMxgsyMOvpvUO4xJH1FPdYqLwsuCDpiZCg359mct4jLtgYht32jdIzInBMhc3
- XwvtMhJdGhpdz4999ItYXQXPVFcE8dmAYznY2z/4jnkyokL1OCWkWYvTMIV5Gb+toEfEu9yOhF6
- 5ZZ1lpu1G5IGYn4fa1CgaP9zYL0yaz2fPvOC3p+Y7sPS48JpccvsQC4Eru8hq3e4UWSFWpmKqgX
- r1LklOK8uf4TVo+cijcwblwZ5v0S4zMQmN3S9hmOv5v6/YQ3nBi8XxzkWmRXiDhhF/VSuCTh+Yi
- or+GXUdXHlM4JOH7GfDLBxnVv0/CJIvisctsV9bwRvuyM8hPL47M80CiIZS2kPWC0rnzu4G2YXZ
- /CGVxG2h4taugBkU/HeUjihNUEmZJm37gncHNhEVSJiK8S6F4ZA18hCZ1AmUqDWL2v1RZ9PdO8D
- qXMFzgAK7DN4gsLzXBAZ61e4yd9p3K7MkI2ZET8/WycV5nfPM78jJxm0hkmHDYnSRCQPh5rPPqM
- 4/EtXRHzwdDVUgZdi1DDnMCGNmTEUs=
-X-Developer-Key: i=dlan@kernel.org; a=openpgp;
- fpr=50B03A1A5CBCD33576EF8CD7920C0DBCAABEFD55
 
-Terminus FE1.1s is USB2.0 protocol compliant 4-port USB HUB, It support
-MTT (Multiple Transaction Translator) mode, the upstream port supports
-high-speed 480MHz and full-speed 12MHz modes, also it has integrated 5V
-to 3.3V/1.8V regulator and Power-On-Reset circuit.
+On 3/19/26 03:56, Alan Stern wrote:
 
-Link: https://terminus-usa.com/wp-content/uploads/2024/06/FE1.1s-Product-Brief-Rev.-2.0-2023.pdf [1]
-Signed-off-by: Yixun Lan <dlan@kernel.org>
----
- drivers/usb/misc/onboard_usb_dev.c | 2 ++
- drivers/usb/misc/onboard_usb_dev.h | 1 +
- 2 files changed, 3 insertions(+)
+> Just to be clear, are you saying there's no way for an xHC to restart a
+> (host-side) halted non-SuperSpeed endpoint without setting the toggle
+> back to 0?
 
-diff --git a/drivers/usb/misc/onboard_usb_dev.c b/drivers/usb/misc/onboard_usb_dev.c
-index ba37eb99efba..5732843c6687 100644
---- a/drivers/usb/misc/onboard_usb_dev.c
-+++ b/drivers/usb/misc/onboard_usb_dev.c
-@@ -570,6 +570,7 @@ static struct platform_driver onboard_dev_driver = {
- #define VENDOR_ID_MICROCHIP	0x0424
- #define VENDOR_ID_PARADE	0x1da0
- #define VENDOR_ID_REALTEK	0x0bda
-+#define VENDOR_ID_TERMINUS	0x1a40
- #define VENDOR_ID_TI		0x0451
- #define VENDOR_ID_VIA		0x2109
- #define VENDOR_ID_XMOS		0x20B1
-@@ -673,6 +674,7 @@ static const struct usb_device_id onboard_dev_id_table[] = {
- 	{ USB_DEVICE(VENDOR_ID_REALTEK, 0x0414) }, /* RTS5414 USB 3.2 HUB */
- 	{ USB_DEVICE(VENDOR_ID_REALTEK, 0x5414) }, /* RTS5414 USB 2.1 HUB */
- 	{ USB_DEVICE(VENDOR_ID_REALTEK, 0x0179) }, /* RTL8188ETV 2.4GHz WiFi */
-+	{ USB_DEVICE(VENDOR_ID_TERMINUS, 0x0101) }, /* Terminus FE1.1s 2.0 HUB */
- 	{ USB_DEVICE(VENDOR_ID_TI, 0x8025) }, /* TI USB8020B 3.0 HUB */
- 	{ USB_DEVICE(VENDOR_ID_TI, 0x8027) }, /* TI USB8020B 2.0 HUB */
- 	{ USB_DEVICE(VENDOR_ID_TI, 0x8140) }, /* TI USB8041 3.0 HUB */
-diff --git a/drivers/usb/misc/onboard_usb_dev.h b/drivers/usb/misc/onboard_usb_dev.h
-index 1a1e86e60e04..9284bc072f7c 100644
---- a/drivers/usb/misc/onboard_usb_dev.h
-+++ b/drivers/usb/misc/onboard_usb_dev.h
-@@ -153,6 +153,7 @@ static const struct of_device_id onboard_dev_match[] = {
- 	{ .compatible = "usbbda,5411", .data = &realtek_rts5411_data, },
- 	{ .compatible = "usbbda,414", .data = &realtek_rts5411_data, },
- 	{ .compatible = "usbbda,5414", .data = &realtek_rts5411_data, },
-+	{ .compatible = "usb1a40,0101", .data = &vialab_vl817_data, },
- 	{ .compatible = "usb1a86,8091", .data = &wch_ch334_data, },
- 	{ .compatible = "usb1da0,5511", .data = &parade_ps5511_data, },
- 	{ .compatible = "usb1da0,55a1", .data = &parade_ps5511_data, },
+There is.
+A reset endpoint command with a TSP flag (transfer state preserve)
+clear the host side halt and preserve the toggle state.
 
--- 
-2.53.0
+It's used for soft-retry purposes, retrying a transfer after
+a transaction error. This is also the only use-case described in xHCI specification.
+
+Unclear what happens if we clear the host side halt, preserving the toggle, and
+then ask host to move to the next URB
+
+Could be worth giving people a way to try it out somehow.
+Maybe option to enable it via debugfs, maybe a quirk, or event just provide a patch.
+See how different xHC hosts behave
+
+-Mathias
+
 
