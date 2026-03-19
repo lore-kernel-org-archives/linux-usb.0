@@ -1,61 +1,48 @@
-Received: from out203-205-221-221.mail.qq.com (out203-205-221-221.mail.qq.com [203.205.221.221])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E6B56202F71;
-	Thu, 19 Mar 2026 16:49:52 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=203.205.221.221
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 54CC33E556B;
+	Thu, 19 Mar 2026 16:51:18 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1773938995; cv=none; b=Aor/fgSyjKxM8/mOWvt3DbH4WR1iFMYIfxuweGTYxLvVHFTurcfarP2/z47Nb6Qsom4UoIceVetGtWk0BlSB4I5Jyl9yTOvhNUgNUvcnNfPYk4VSCWeIuhYomyaxhfuZYEzDHRcLBMC84MaREjFqE7uFsWZcQQT99/tR9QcNxdQ=
+	t=1773939078; cv=none; b=YlLwG0DWp3CWv9zxHIoTqMs9nXFCMvzlwxGlcQt/drxsv1xnjDFAJVcEX30i3p1e3P4h8AvYagUl5LbuShbjKLSD8yJuwAczTTOQ4lZii9ACQ0LSx7JXSWxyniVhEXFalYqIOEBX1DJPIn0Vyo/sg6rUZAirSBHo3qZ9BMzbSOE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1773938995; c=relaxed/simple;
-	bh=dAvH8q9/3FwRqb3G8NwMs6fNW//AgtM156im8GZyxjk=;
-	h=Message-ID:From:To:Cc:Subject:Date:In-Reply-To:References:
-	 MIME-Version; b=JJSDjA0OFp+i+ikw5oXKZ6PfK1SC5YiCha3PHMh7W2JpQKStNeTuMMW3zFAoqHOMZxsmG+Rs99L1Y2GHPkSZSSmnswGoW6M2QnpuWCypBhpVA2F0nnzX+p0kePPsIMOnv7N8ue5KL9jCfF25rl3AzKQm0oi2nCaQgT9Yk2wDW2g=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=qq.com; spf=pass smtp.mailfrom=qq.com; dkim=pass (1024-bit key) header.d=qq.com header.i=@qq.com header.b=Dl/L9v5B; arc=none smtp.client-ip=203.205.221.221
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=qq.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=qq.com
+	s=arc-20240116; t=1773939078; c=relaxed/simple;
+	bh=iL5eYh59l7EnTE8x2HzIToT3IPqQ1IexUOy86xguE08=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version; b=pPiIRQXNY2yMsA+pxAqH5snnBst2MGmcDzPtByrCB/Rgn19ON0KHwlcQXxOTy/X9iEsuVK70Kk5kFcRRXasOKrVWQKloPsK2qrhb6ieK83yCs++j4lSDKHBzS3baEUn7EyQ7Z8DBxB6nMWkRnOzdGpZ4oCz3snc3FcxNa6cLmvo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=CPlA2Hou; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=qq.com header.i=@qq.com header.b="Dl/L9v5B"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qq.com; s=s201512;
-	t=1773938985; bh=klqaFugiT/gumnkvniog5k96mzRuSPm3cWLnPT0oFGo=;
-	h=From:To:Cc:Subject:Date:In-Reply-To:References;
-	b=Dl/L9v5BbFJvRjEEUZn4fRw+WPTNABJhWwbDrE3XLcQv+TWsuTSmQ326gi40dn/V3
-	 meAKr9yY/D06uo+DfGRh4lHJEX6jDHwslhgwuxEurb2uO1Gym3eVkL87eygrVzTJjv
-	 bbpKryxLt5fq+P74VnLQ5sSJ5nbfIJeWv8Eg3LWg=
-Received: from lxu-ped-host.. ([111.198.231.89])
-	by newxmesmtplogicsvrszb43-0.qq.com (NewEsmtp) with SMTP
-	id C6B03E28; Fri, 20 Mar 2026 00:49:43 +0800
-X-QQ-mid: xmsmtpt1773938983t9f6r39rf
-Message-ID: <tencent_5DCCB375C3694964A3A5A44677775777E605@qq.com>
-X-QQ-XMAILINFO: ONZF21EM6mfKP70nL+BYTyXIdodHlU7dvRWlwZxc3Plsebq7e/jX92Stu5Llnb
-	 NRB6dRKwpedQXUjXFCD1QtUO+TT45om7fMu6pA34+oMq5O7oiZE2KP2qSu3UoekfBP+DgWhkLpYs
-	 7EzNfgzia7aW3FSl0+7m6Hq36LcVcTW8D1m8/bA/E74LpPPUYpyvXrq0SbojOlk0Nd98HM9Ugarv
-	 r/KRfuAGdPwKwLRC784KLmcFp8HEhVnNTaKshQTYQk/Tf4p3dn77Uf09torWJ5DqgKwEmUTMrGb7
-	 +vY8l+d4UrK7M5ySEpy3bxN/sTHU+7BTRq5F9d1b+n2zBDlcc5DDXiXgnOVG26jHC/yQIlJ8TayY
-	 czz0Mw2mwlB1Fw07Ada6J0LM2reZ02yCj9BKb8UlfFoIYKovyTLCbnwfUL1zYLhbmFfFbAXUOXYs
-	 36DvbAvZUfFIEQXQs/wv6jc966qdhbIjyXzffwwlPIclgm8fmI5TshG7+woWEVIGSdIuYI55sSZN
-	 iJTLh/nJkEfkPemNw0n1HP0NL4sNv+TevOaOOb7JBT98mmUuwi8o8yOYVTfAr9BSeWO6++y55Ud9
-	 FrDhQj0sZ3CuI0aqlyXXrxHNf78ktbIRhaUlMsp6pfoCEg3bsRu+gl1SWvfECc5oDJhGPcmfviJI
-	 jCgvDvnMwVfplA7nNTz51cV0KRRBl7nLHA+6E85XZ6sX5SDzs83G7Vvbw9eaf1vZsRva0sgaQPEd
-	 6wtYPmSpX+v7j+VTmssRZlDhWm6FCSY5HfR1DBIm0Cw653RFXgtlOMXxRmLMvP4Ll6y6b272iGI7
-	 cT2Vzzy1UGRgdjZYaVDdbIn/WqDh+v2Gr5w+TQWMtZ6WnsFav+vxhqTXW22xF1xSazHayTZZFUGO
-	 lhK5rGctHtOW8IBAIuhT7SIHzLy0X87cWZ8hTKsV2XP/fCAesI+nRsLftWirwkPeedfAhn6AfWp9
-	 JJfwhlMk2COOipKDXbJUORUs+btMos9+giurtW3Og6Ou5psUhT4ezx+KjM4JTBg85/AaKYKkoDKf
-	 3eidU50ezTiK9Vglfk
-X-QQ-XMRINFO: M/715EihBoGS47X28/vv4NpnfpeBLnr4Qg==
-From: Edward Adam Davis <eadavis@qq.com>
-To: syzbot+1a7507a194fff09e5c44@syzkaller.appspotmail.com
-Cc: linux-kernel@vger.kernel.org,
-	linux-media@vger.kernel.org,
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="CPlA2Hou"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id F142DC19424;
+	Thu, 19 Mar 2026 16:51:15 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1773939077;
+	bh=iL5eYh59l7EnTE8x2HzIToT3IPqQ1IexUOy86xguE08=;
+	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
+	b=CPlA2HouK74FyFpyPK9ywdOYDvERQ6UmBtZZHpbGU0zDT3ymIfszu/h/79KHRPoN8
+	 ZqTyTVSXj8CfUiKKwUQF/dewe/ITDSnf8EusjAr0o9ucIq7YpcIgi0XZsIYYpz894x
+	 VEB37gsyN9S8LnnrkqVHR85UJEWVkN1Vjr0mAvjw4xAeEm3RveRnmzSCL0RaYO7+qc
+	 d1KJi+oPPJfYAPwaMc4hCgU1+bL5LeaNoljrsCrwdAJObwRDG26uPd5C7cN5oWAofl
+	 FlRZhqOgrWlQDSPXgcX9FpJa1Axi3GkV4DPxO0TjKZ45rNnI5tyJDnYlegwhuTWefV
+	 Qvc6F7o3bRg7A==
+From: Simon Horman <horms@kernel.org>
+To: mail@birger-koblitz.de
+Cc: Simon Horman <horms@kernel.org>,
+	edumazet@google.com,
+	linux-kernel@vger.kernel.org,
+	netdev@vger.kernel.org,
 	linux-usb@vger.kernel.org,
-	mchehab@kernel.org,
-	syzkaller-bugs@googlegroups.com
-Subject: [PATCH] media: usb: em28xx: fix the race condition between init extension and open
-Date: Fri, 20 Mar 2026 00:49:43 +0800
-X-OQ-MSGID: <20260319164942.296914-2-eadavis@qq.com>
-X-Mailer: git-send-email 2.43.0
-In-Reply-To: <69bba3fe.050a0220.227207.0030.GAE@google.com>
-References: <69bba3fe.050a0220.227207.0030.GAE@google.com>
+	pabeni@redhat.com,
+	kuba@kernel.org,
+	andrew+netdev@lunn.ch,
+	davem@davemloft.net
+Subject: Re: [PATCH net-next v2 1/2] r8152: Add support for 5Gbit Link Speeds and EEE
+Date: Thu, 19 Mar 2026 16:51:00 +0000
+Message-ID: <20260319165100.1988286-1-horms@kernel.org>
+X-Mailer: git-send-email 2.53.0
+In-Reply-To: <20260317-rtl8157_next-v2-1-10ea1fa488d1@birger-koblitz.de>
+References: <20260317-rtl8157_next-v2-1-10ea1fa488d1@birger-koblitz.de>
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
@@ -64,64 +51,134 @@ List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-The em28xx video device utilizes the same em28xx->lock during both the
-extension initialization process and the open system call. This design
-creates a race condition: if the extension initialization fails, the
-video device undergoes a unregister a video4linux device process; 
-should an open call be initiated during this unregister, it is highly
-likely to enter the open routine within the em28xx driver. At this
-juncture, however, em28xx->lock remains held by the kwork responsible
-for the extension initialization. Consequently, the open routine is
-forced to wait for the unregister process to complete before it can
-acquire em28xx->lock, once the lock is finally acquired, the subsequent
-code execution proceeds to access the video device instance, an instance
-that has, by that time, already been deregistered, thereby triggering
-the uaf described in [1].
+This is an AI-generated review of your patch. The human sending this
+email has considered the AI review valid, or at least plausible.
 
-To mitigate this issue and prevent the UAF resulting from lock contention
-over em28xx->lock between the open call and the extension initialization
-routine, the lock acquisition method within the em28xx open call has been
-modified to use trylock.
-
-[1]
-BUG: KASAN: slab-use-after-free in v4l2_open+0x395/0x3a0 drivers/media/v4l2-core/v4l2-dev.c:444
-Call Trace:
- v4l2_open+0x395/0x3a0 drivers/media/v4l2-core/v4l2-dev.c:444
- chrdev_open+0x4cd/0x5e0 fs/char_dev.c:411
- do_dentry_open+0x785/0x14e0 fs/open.c:949
- vfs_open+0x3b/0x340 fs/open.c:1081
-
-Allocated by task 809:
- em28xx_v4l2_init+0x10b/0x2e70 drivers/media/usb/em28xx/em28xx-video.c:2538
- em28xx_init_extension+0x120/0x1c0 drivers/media/usb/em28xx/em28xx-core.c:1117
-
-Freed by task 809:
- em28xx_free_v4l2 drivers/media/usb/em28xx/em28xx-video.c:2118 [inline]
- kref_put include/linux/kref.h:65 [inline]
- em28xx_v4l2_init+0x1683/0x2e70 drivers/media/usb/em28xx/em28xx-video.c:2907
- em28xx_init_extension+0x120/0x1c0 drivers/media/usb/em28xx/em28xx-core.c:1117
-
-Reported-by: syzbot+1a7507a194fff09e5c44@syzkaller.appspotmail.com
-Closes: https://syzkaller.appspot.com/bug?extid=1a7507a194fff09e5c44
-Tested-by: syzbot+1a7507a194fff09e5c44@syzkaller.appspotmail.com
-Signed-off-by: Edward Adam Davis <eadavis@qq.com>
+For local reproduction steps see https://netdev-ai.bots.linux.dev/ai-local.html
 ---
- drivers/media/usb/em28xx/em28xx-video.c |  2 +-
- 1 file changed, 1 insertions(+), 1 deletions(-)
+r8152: Add support for 5Gbit Link Speeds and EEE
 
-diff --git a/drivers/media/usb/em28xx/em28xx-video.c b/drivers/media/usb/em28xx/em28xx-video.c
-index b0c184f237a7..563b4267588e 100644
---- a/drivers/media/usb/em28xx/em28xx-video.c
-+++ b/drivers/media/usb/em28xx/em28xx-video.c
-@@ -2147,7 +2147,7 @@ static int em28xx_v4l2_open(struct file *filp)
- 			video_device_node_name(vdev), v4l2_type_names[fh_type],
- 			v4l2->users);
- 
--	if (mutex_lock_interruptible(&dev->lock))
-+	if (!mutex_trylock(&dev->lock))
- 		return -ERESTARTSYS;
- 
- 	ret = v4l2_fh_open(filp);
--- 
-2.43.0
+The RTL8157 supports 5GBit Link speeds. This commit adds support for this
+speed in the setup and setting/getting through ethtool, along with 5GBit
+EEE functionality for setup and ethtool get/set methods.
 
+> The RTL8157 supports 5GBit Link speeds. Add support for this speed
+> in the setup and setting/getting through ethool. Also add 5GBit EEE.
+                                          ^^^^^^
+This isn't a bug, but there's a typo: 'ethool' should be 'ethtool'.
+
+> diff --git a/drivers/net/usb/r8152.c b/drivers/net/usb/r8152.c
+> index 3b6d4252d34c..bab8e10e5f99 100644
+> --- a/drivers/net/usb/r8152.c
+> +++ b/drivers/net/usb/r8152.c
+
+[ ... ]
+
+> @@ -6343,15 +6356,20 @@ static int rtl8152_set_speed(struct r8152 *tp, u8 autoneg, u32 speed, u8 duplex,
+>  			r8152_mdio_write(tp, MII_CTRL1000, new1);
+>  	}
+>
+> -	if (tp->support_2500full) {
+> +	if (tp->support_2500full || tp->support_5000full) {
+>  		orig = ocp_reg_read(tp, OCP_10GBT_CTRL);
+> -		new1 = orig & ~MDIO_AN_10GBT_CTRL_ADV2_5G;
+> +		new1 = orig & ~(MDIO_AN_10GBT_CTRL_ADV2_5G | MDIO_AN_10GBT_CTRL_ADV5G);
+>
+>  		if (advertising & RTL_ADVERTISED_2500_FULL) {
+>  			new1 |= MDIO_AN_10GBT_CTRL_ADV2_5G;
+>  			tp->ups_info.speed_duplex = NWAY_2500M_FULL;
+>  		}
+>
+> +		if (advertising & RTL_ADVERTISED_5000_FULL) {
+> +			new1 |= MDIO_AN_10GBT_CTRL_ADV5G;
+> +			tp->ups_info.speed_duplex = NWAY_5000M_FULL;
+> +		}
+> +
+>  		if (orig != new1)
+>  			ocp_reg_write(tp, OCP_10GBT_CTRL, new1);
+>  	}
+
+Does r8156_ups_flags() handle the new NWAY_5000M_FULL value?
+
+Looking at r8156_ups_flags() in drivers/net/usb/r8152.c, the function
+switches on tp->ups_info.speed_duplex:
+
+static u16 r8156_ups_flags(struct r8152 *tp)
+{
+	u16 ups_flags = 0;
+
+	if (tp->ups_info.green)
+		ups_flags |= UPS_FLAGS_EN_GREEN;
+
+	if (tp->ups_info.aldps)
+		ups_flags |= UPS_FLAGS_EN_ALDPS;
+
+	if (tp->ups_info.eee)
+		ups_flags |= UPS_FLAGS_EN_EEE;
+
+	if (tp->ups_info.flow_control)
+		ups_flags |= UPS_FLAGS_EN_FLOW_CONTROL;
+
+	if (tp->ups_info.eee_ckdiv)
+		ups_flags |= UPS_FLAGS_EN_EEE_CKDIV;
+
+	if (tp->ups_info._10m_ckdiv)
+		ups_flags |= UPS_FLAGS_EN_10M_CKDIV;
+
+	if (tp->ups_info.eee_cmod_lv)
+		ups_flags |= UPS_FLAGS_EEE_CMOD_LV_EN;
+
+	if (tp->ups_info._250m_ckdiv)
+		ups_flags |= UPS_FLAGS_250M_CKDIV;
+
+	switch (tp->ups_info.speed_duplex) {
+	case FORCE_10M_HALF:
+		ups_flags |= ups_flags_speed(0);
+		break;
+	case FORCE_10M_FULL:
+		ups_flags |= ups_flags_speed(1);
+		break;
+	case FORCE_100M_HALF:
+		ups_flags |= ups_flags_speed(2);
+		break;
+	case FORCE_100M_FULL:
+		ups_flags |= ups_flags_speed(3);
+		break;
+	case NWAY_10M_HALF:
+		ups_flags |= ups_flags_speed(4);
+		break;
+	case NWAY_10M_FULL:
+		ups_flags |= ups_flags_speed(5);
+		break;
+	case NWAY_100M_HALF:
+		ups_flags |= ups_flags_speed(6);
+		break;
+	case NWAY_100M_FULL:
+		ups_flags |= ups_flags_speed(7);
+		break;
+	case NWAY_1000M_FULL:
+		ups_flags |= ups_flags_speed(8);
+		break;
+	case NWAY_2500M_FULL:
+		ups_flags |= ups_flags_speed(9);
+		break;
+	default:
+		break;
+	}
+
+	return ups_flags;
+}
+
+When rtl8152_set_speed() sets tp->ups_info.speed_duplex = NWAY_5000M_FULL
+and r8156_ups_en(enable=true) subsequently calls r8156_ups_flags(), the
+switch falls through to the default case and no speed bits are set in the
+UPS flags word.
+
+Is the UPS power management configuration incorrect for 5Gbit link speeds
+without a case for NWAY_5000M_FULL in r8156_ups_flags()?
+
+This path is activated by the next commit in the series (58ba3b6c476d
+'r8152: Add support for the RTL8157 hardware') which sets
+support_5000full = 1.
+
+[ ... ]
