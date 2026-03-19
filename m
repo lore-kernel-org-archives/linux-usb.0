@@ -1,269 +1,100 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.17])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wm1-f47.google.com (mail-wm1-f47.google.com [209.85.128.47])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4F0173ACF0B
-	for <linux-usb@vger.kernel.org>; Thu, 19 Mar 2026 13:57:09 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.17
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 073262EDD45
+	for <linux-usb@vger.kernel.org>; Thu, 19 Mar 2026 14:10:20 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.47
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1773928631; cv=none; b=sM+ExOxbO5kUq55KPG1CZhZgSuNFSqT1GhiS/tKcDatlWhR2F78Y1HjpU7cAPje52slLqQGeFr+OXJE13c5GuNiySQz16K7X8U0bT9DLyaBH7ri8sQXOwC9dp3pQcaQDacmMCUC8NAeKc90Kg+nsLFTV5bG08V3X8s9N3M8cNqY=
+	t=1773929426; cv=none; b=U+CR3HPt37FV6F81ka8cLPybEZZy8FEjHrhmqoC+O75rGSaKCU0bpNS+fwBpMMy2AHgfx/UCET3bC17ZYZMuew9NpMf4x5X8CuHzd2lljGbyjD8g7qarPlrnwuB8vqNF3JvR9vfXrLC3DpLXcz6ze6TBVgXjYHDpSv3paEWkd2Y=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1773928631; c=relaxed/simple;
-	bh=lJJCpb6yEshWb9sH6Vzr5xc0JqjY6ooro/k3j9dEBIg=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=JcpDiJRFvSK1rCOXFYFPEwE6g0+4kwW8mzgt/yvYmPqfotyq10KU6jKDUm3XYcKsGJKhE8yjLDY1oNXLCOPutUdtXOImaD9bJm7oF/M+TdpB6bc2BqMhGQ9YRdIv/ht6g/ZG0r5rkidBrma4c1yz4tDxeWNWVLLvEeJehfqwKYo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=pass smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=A0uGwDyR; arc=none smtp.client-ip=198.175.65.17
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.intel.com
+	s=arc-20240116; t=1773929426; c=relaxed/simple;
+	bh=3FpX8OJxqBa8gwdiP9aZE8MdNK+2u1/n4TnG7eZd05Y=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=KQnmw6KWcbWoeAFNPkH47iKWVXwpmHwowLkDgcU5HvrLKi8sO+LwUG/yV8xivnbbUnC7XtN/7MOMuhQAqiC8qnayR0elPHDJAjHDPXf5hsZqYt8ex4XiUqTGVdt85DnH2q/yRyKTtC6PTY3M4Rp/XsNKe/PbbMuXdOp2AoU46ls=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=suse.com; spf=pass smtp.mailfrom=suse.com; dkim=pass (2048-bit key) header.d=suse.com header.i=@suse.com header.b=KaKmziBI; arc=none smtp.client-ip=209.85.128.47
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=suse.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="A0uGwDyR"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1773928629; x=1805464629;
-  h=from:to:cc:subject:date:message-id:in-reply-to:
-   references:mime-version:content-transfer-encoding;
-  bh=lJJCpb6yEshWb9sH6Vzr5xc0JqjY6ooro/k3j9dEBIg=;
-  b=A0uGwDyRVBXhjZtX6wE2kXqpL5QqXX9LXEbutuWczwozOUov/x7odvQi
-   ZIqnWfCipeobuubIlwiR5t9gFKwZrhOIu66wvW0ybOWL3Mixx0PfYZBQ0
-   EOMSYHS8Dr8tBr5pa1CKUHUm3eU1qlG/uQ0VyydESgEMua/w0xBx2WWw+
-   rzzG5uYSc98qUDnSpw9Y2fXpElodcXkKCOik3RWfq8Pp4AY9GzH+Z1D4U
-   JoxXdjZTdT93Q3EiIDyUvr6JXPtUavAce/58Wp7Ejkc1jtcrIswTsHq7h
-   L4LrlxTvPVxmg/sL/SBGkRyQ1P0FB+oRjtDZ300x2BrpVovoKuuNzPxXa
-   w==;
-X-CSE-ConnectionGUID: GgPRd4hERpGO0/0YoFeh7Q==
-X-CSE-MsgGUID: L0ja6uFVQ/SJVu7V945u2w==
-X-IronPort-AV: E=McAfee;i="6800,10657,11734"; a="74971451"
-X-IronPort-AV: E=Sophos;i="6.23,129,1770624000"; 
-   d="scan'208";a="74971451"
-Received: from orviesa007.jf.intel.com ([10.64.159.147])
-  by orvoesa109.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 19 Mar 2026 06:57:09 -0700
-X-CSE-ConnectionGUID: RKOvomrFSje8xgP/MRei+w==
-X-CSE-MsgGUID: jGZxeeVWRzyaCgzF3hj8mw==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.23,129,1770624000"; 
-   d="scan'208";a="223185562"
-Received: from black.igk.intel.com ([10.91.253.5])
-  by orviesa007.jf.intel.com with ESMTP; 19 Mar 2026 06:57:08 -0700
-Received: by black.igk.intel.com (Postfix, from userid 1058)
-	id 4F2BB9D; Thu, 19 Mar 2026 14:57:07 +0100 (CET)
-From: Niklas Neronin <niklas.neronin@linux.intel.com>
-To: mathias.nyman@linux.intel.com
-Cc: linux-usb@vger.kernel.org,
-	Niklas Neronin <niklas.neronin@linux.intel.com>
-Subject: [PATCH 8/9] usb: xhci: rename parameter to match argument 'portsc'
-Date: Thu, 19 Mar 2026 14:56:23 +0100
-Message-ID: <20260319135626.3077643-9-niklas.neronin@linux.intel.com>
-X-Mailer: git-send-email 2.50.1
-In-Reply-To: <20260319135626.3077643-1-niklas.neronin@linux.intel.com>
-References: <20260319135626.3077643-1-niklas.neronin@linux.intel.com>
+	dkim=pass (2048-bit key) header.d=suse.com header.i=@suse.com header.b="KaKmziBI"
+Received: by mail-wm1-f47.google.com with SMTP id 5b1f17b1804b1-486b96760easo10963175e9.2
+        for <linux-usb@vger.kernel.org>; Thu, 19 Mar 2026 07:10:20 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=suse.com; s=google; t=1773929419; x=1774534219; darn=vger.kernel.org;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=u/lUQzaDLX9G5vwASRv/N/w/bLqcMJFq4CzwCojc9sg=;
+        b=KaKmziBI/MgMycx7+AtxCqE/M5K7rU4OFi1RHbZH+Xr8M9onenWruaoavVOy/tFQ2v
+         t9hY4ZATkNCYW4I60w9j3f1JDg9xt7kqtkiLwbaqIkG7Vcbt13qG1kBoAFQGyKQwAjgW
+         boMZ+AkVlxY/6kSgPQ3AoHIR985IRqaP87SFGpPHSi77khHnihO2ndBtTcdIbo2bdcvR
+         8ZJ0/FMWCuXgHFCwliBNBkv8XKP/Y2RO+pECQT85WKFFjs7PhW0pRXJJXSsnwd27QF5q
+         1dNe8u/cDYzintJW5uPpx/zMCeig76RsmvIRQAv+juHwbDwZFNERJon9dXhg/uZ9Gwo1
+         iUFw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1773929419; x=1774534219;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :x-gm-gg:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=u/lUQzaDLX9G5vwASRv/N/w/bLqcMJFq4CzwCojc9sg=;
+        b=okWflpw/1YOTZstT3bAYzJ8fbpC0tl1Vy/ubrEOxDATeNNuPnzF0I1phyJ3+g937sA
+         V78JA8n5OlXkjNZqDq9UNVyoJPdU7Nl3vg/s3OrI+74yo78ivA/4XTrcauIzGt0Wud9/
+         jgnPn5rlfv2rLKSAYULqvoerZBll6HaJpM0bWcbUP4aR87EvsagAZ/nfcq9KgZ9IZB95
+         XFSCf/M1TYvAYH2opaekSPt4zYSQm4NFo6ZGsryezYGf2gk56R2x0PW6jiQgY2Feln53
+         Nf5CYRwHuL8B2MFpPOR2Mc2pXDhfcJYbmUK9XojtVDY9XPgX4KMzHJVBmTIoUsoMmMps
+         xpYA==
+X-Gm-Message-State: AOJu0YzvuzzR8RvPkD8uSnaiOvnmTWSHt3H22bAeyiar9l4rUhOVpmdq
+	+h3EdvMsh0nCTlfqTvV3/T9TJZwpm0WaTJz5zcwa/qBDonVMAPGpgYnn+0sIcfulmHewDWTKZ4X
+	mtcFI
+X-Gm-Gg: ATEYQzyESs/XibmT9EOx34QgZlRamOYFAMNg0QsG4qS5H4z2sHCsE7AgabOJNeVBtPw
+	v3zWb8q3CbxFWDDVSDQah/hOD3/029w2Xc9b6ZaU5eQDTL/HSBkO+byg6xdollskJg4dnjdHDSJ
+	AaFGLeacfaXQjI5VrRxqfvyvfZ9WmcQEdhGqwwAEwZjEfpP+KONbpj5KUrxhWkFD7b48EVFWoAx
+	KeCFFCbohJxkuclMCbjT8vieVzPzDMhCukPCILKBi4WsW1z9axwFCYOfx1OjTlhiGU+qXE2uKKx
+	XNxXJ+YZSf2oOkOlE1J/5IkJ96Vyh8l0tQN5sfDMRiYaMcAG6UIxZW9JUtfkGJOuHpXIcfU0t26
+	7DGAeEabTPeI6ZdzUdsUB69IXunxl15idW/qqKRRGe+3tqr5QLBG4yGccBRh5Pfw7DE0bOIbyTu
+	JpVT+NkXBoQ4GdvjcCOvnhmIxb4+HbOaxCFkn9QBY9CAlEummYVWjzt5NY537vMpHzlA==
+X-Received: by 2002:a05:600c:3e8d:b0:485:4eaf:eb53 with SMTP id 5b1f17b1804b1-486f447503emr116225005e9.19.1773929419281;
+        Thu, 19 Mar 2026 07:10:19 -0700 (PDT)
+Received: from ?IPV6:2001:a61:1301:b601:321d:fd64:6ebf:9f7d? ([2001:a61:1301:b601:321d:fd64:6ebf:9f7d])
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-486f463c9f3sm66438135e9.3.2026.03.19.07.10.18
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Thu, 19 Mar 2026 07:10:18 -0700 (PDT)
+Message-ID: <34b85317-29aa-440c-88a8-54a454784759@suse.com>
+Date: Thu, 19 Mar 2026 15:10:12 +0100
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH 1/9] usb: xhci: stop treating 'wIndex' as a mutable port
+ number
+To: Niklas Neronin <niklas.neronin@linux.intel.com>,
+ mathias.nyman@linux.intel.com
+Cc: linux-usb@vger.kernel.org
+References: <20260319135626.3077643-1-niklas.neronin@linux.intel.com>
+ <20260319135626.3077643-2-niklas.neronin@linux.intel.com>
+Content-Language: en-US
+From: Oliver Neukum <oneukum@suse.com>
+In-Reply-To: <20260319135626.3077643-2-niklas.neronin@linux.intel.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 
-A previous patch renamed the temporary variable holding the value read
-from the PORTSC register from 'temp' to 'portsc'. This patch follows up
-by updating the parameter names of all helper functions called from
-xhci_hub_control() that receive a PORTSC value, as well as the functions
-they call.
+Hi,
 
-Function changed:
-xhci_get_port_status()
- L xhci_get_usb3_port_status()
-    L xhci_hub_report_usb3_link_state()
-    L xhci_del_comp_mod_timer()
-xhci_get_ext_port_status()
-xhci_port_state_to_neutral()
-xhci_clear_port_change_bit()
-xhci_port_speed()
+On 19.03.26 14:56, Niklas Neronin wrote:
 
-The reason for the rename is to differentiate between port
-status/change bit to be written to PORTSC and replying to hub-class
-USB requests. Each of them use their specific macros.
+> @@ -1258,11 +1257,11 @@ int xhci_hub_control(struct usb_hcd *hcd, u16 typeReq, u16 wValue,
+>   		spin_unlock_irqrestore(&xhci->lock, flags);
+>   		return retval;
+>   	case GetPortStatus:
+> -		if (!portnum1 || portnum1 > max_ports)
+> +		portnum = (wIndex & 0xff) - 1;
 
-Use "portsc" name for PORTSC values and "status" for values intended
-for replying to hub-class USB request.
+Should this be a macro like usb_index_to_portnum() or something
+similar?
 
-A dedicated structure for USB hub port status responses
-('struct usb_port_status' from ch11.h) exists and will be integrated in
-a later patch.
-
-Signed-off-by: Niklas Neronin <niklas.neronin@linux.intel.com>
----
- drivers/usb/host/xhci-hub.c | 61 ++++++++++++++++++-------------------
- 1 file changed, 30 insertions(+), 31 deletions(-)
-
-diff --git a/drivers/usb/host/xhci-hub.c b/drivers/usb/host/xhci-hub.c
-index 9cd64d6989c9..8e134f6b4e37 100644
---- a/drivers/usb/host/xhci-hub.c
-+++ b/drivers/usb/host/xhci-hub.c
-@@ -375,11 +375,11 @@ static void xhci_hub_descriptor(struct usb_hcd *hcd, struct xhci_hcd *xhci,
- 
- }
- 
--static unsigned int xhci_port_speed(unsigned int port_status)
-+static unsigned int xhci_port_speed(int portsc)
- {
--	if (DEV_LOWSPEED(port_status))
-+	if (DEV_LOWSPEED(portsc))
- 		return USB_PORT_STAT_LOW_SPEED;
--	if (DEV_HIGHSPEED(port_status))
-+	if (DEV_HIGHSPEED(portsc))
- 		return USB_PORT_STAT_HIGH_SPEED;
- 	/*
- 	 * FIXME: Yes, we should check for full speed, but the core uses that as
-@@ -429,9 +429,9 @@ static unsigned int xhci_port_speed(unsigned int port_status)
- 
- /**
-  * xhci_port_state_to_neutral() - Clean up read portsc value back into writeable
-- * @state: u32 port value read from portsc register to be cleanup up
-+ * @portsc: u32 port value read from portsc register to be cleanup up
-  *
-- * Given a port state, this function returns a value that would result in the
-+ * Given a portsc, this function returns a value that would result in the
-  * port being in the same state, if the value was written to the port status
-  * control register.
-  * Save Read Only (RO) bits and save read/write bits where
-@@ -442,10 +442,10 @@ static unsigned int xhci_port_speed(unsigned int port_status)
-  * changing port state.
-  */
- 
--u32 xhci_port_state_to_neutral(u32 state)
-+u32 xhci_port_state_to_neutral(u32 portsc)
- {
- 	/* Save read-only status and port state */
--	return (state & XHCI_PORT_RO) | (state & XHCI_PORT_RWS);
-+	return (portsc & XHCI_PORT_RO) | (portsc & XHCI_PORT_RWS);
- }
- EXPORT_SYMBOL_GPL(xhci_port_state_to_neutral);
- 
-@@ -578,7 +578,7 @@ static void xhci_disable_port(struct xhci_hcd *xhci, struct xhci_port *port)
- }
- 
- static void xhci_clear_port_change_bit(struct xhci_hcd *xhci, u16 wValue, struct xhci_port *port,
--				       u32 port_status)
-+				       u32 portsc)
- {
- 	char *port_change_bit;
- 	u32 status;
-@@ -621,11 +621,11 @@ static void xhci_clear_port_change_bit(struct xhci_hcd *xhci, u16 wValue, struct
- 		return;
- 	}
- 	/* Change bits are all write 1 to clear */
--	xhci_portsc_writel(port, port_status | status);
--	port_status = xhci_portsc_readl(port);
-+	xhci_portsc_writel(port, portsc | status);
-+	portsc = xhci_portsc_readl(port);
- 
- 	xhci_dbg(xhci, "clear port%d %s change, portsc: 0x%x\n",
--		 port->hcd_portnum + 1, port_change_bit, port_status);
-+		 port->hcd_portnum + 1, port_change_bit, portsc);
- }
- 
- struct xhci_hub *xhci_get_rhub(struct usb_hcd *hcd)
-@@ -851,14 +851,14 @@ void xhci_test_and_clear_bit(struct xhci_hcd *xhci, struct xhci_port *port,
- 
- /* Updates Link Status for super Speed port */
- static void xhci_hub_report_usb3_link_state(struct xhci_hcd *xhci,
--		u32 *status, u32 status_reg)
-+		u32 *status, u32 portsc)
- {
--	u32 pls = status_reg & PORT_PLS_MASK;
-+	u32 pls = portsc & PORT_PLS_MASK;
- 
- 	/* When the CAS bit is set then warm reset
- 	 * should be performed on port
- 	 */
--	if (status_reg & PORT_CAS) {
-+	if (portsc & PORT_CAS) {
- 		/* The CAS bit can be set while the port is
- 		 * in any link state.
- 		 * Only roothubs have CAS bit, so we
-@@ -910,10 +910,10 @@ static void xhci_hub_report_usb3_link_state(struct xhci_hcd *xhci,
-  * the compliance mode timer is deleted. A port won't enter
-  * compliance mode if it has previously entered U0.
-  */
--static void xhci_del_comp_mod_timer(struct xhci_hcd *xhci, u32 status, int portnum)
-+static void xhci_del_comp_mod_timer(struct xhci_hcd *xhci, u32 portsc, int portnum)
- {
- 	u32 all_ports_seen_u0 = ((1 << xhci->usb3_rhub.num_ports) - 1);
--	bool port_in_u0 = ((status & PORT_PLS_MASK) == XDEV_U0);
-+	bool port_in_u0 = ((portsc & PORT_PLS_MASK) == XDEV_U0);
- 
- 	if (!(xhci->quirks & XHCI_COMP_MODE_QUIRK))
- 		return;
-@@ -1018,13 +1018,13 @@ static int xhci_handle_usb2_port_link_resume(struct xhci_port *port,
- 	return 0;
- }
- 
--static u32 xhci_get_ext_port_status(u32 raw_port_status, u32 port_li)
-+static u32 xhci_get_ext_port_status(u32 portsc, u32 port_li)
- {
- 	u32 ext_stat = 0;
- 	int speed_id;
- 
- 	/* only support rx and tx lane counts of 1 in usb3.1 spec */
--	speed_id = DEV_PORT_SPEED(raw_port_status);
-+	speed_id = DEV_PORT_SPEED(portsc);
- 	ext_stat |= speed_id;		/* bits 3:0, RX speed id */
- 	ext_stat |= speed_id << 4;	/* bits 7:4, TX speed id */
- 
-@@ -1150,7 +1150,7 @@ static void xhci_get_usb2_port_status(struct xhci_port *port, u32 *status,
-  *  - Drop and reacquire the xHCI lock, in order to wait for port resume.
-  */
- static u32 xhci_get_port_status(struct usb_hcd *hcd, struct xhci_bus_state *bus_state,
--				int portnum, u32 raw_port_status, unsigned long *flags)
-+				int portnum, u32 portsc, unsigned long *flags)
- 	__releases(&xhci->lock)
- 	__acquires(&xhci->lock)
- {
-@@ -1162,33 +1162,32 @@ static u32 xhci_get_port_status(struct usb_hcd *hcd, struct xhci_bus_state *bus_
- 	port = rhub->ports[portnum];
- 
- 	/* common wPortChange bits */
--	if (raw_port_status & PORT_CSC)
-+	if (portsc & PORT_CSC)
- 		status |= USB_PORT_STAT_C_CONNECTION << 16;
--	if (raw_port_status & PORT_PEC)
-+	if (portsc & PORT_PEC)
- 		status |= USB_PORT_STAT_C_ENABLE << 16;
--	if ((raw_port_status & PORT_OCC))
-+	if (portsc & PORT_OCC)
- 		status |= USB_PORT_STAT_C_OVERCURRENT << 16;
--	if ((raw_port_status & PORT_RC))
-+	if (portsc & PORT_RC)
- 		status |= USB_PORT_STAT_C_RESET << 16;
- 
- 	/* common wPortStatus bits */
--	if (raw_port_status & PORT_CONNECT) {
-+	if (portsc & PORT_CONNECT) {
- 		status |= USB_PORT_STAT_CONNECTION;
--		status |= xhci_port_speed(raw_port_status);
-+		status |= xhci_port_speed(portsc);
- 	}
--	if (raw_port_status & PORT_PE)
-+	if (portsc & PORT_PE)
- 		status |= USB_PORT_STAT_ENABLE;
--	if (raw_port_status & PORT_OC)
-+	if (portsc & PORT_OC)
- 		status |= USB_PORT_STAT_OVERCURRENT;
--	if (raw_port_status & PORT_RESET)
-+	if (portsc & PORT_RESET)
- 		status |= USB_PORT_STAT_RESET;
- 
- 	/* USB2 and USB3 specific bits, including Port Link State */
- 	if (hcd->speed >= HCD_USB3)
--		xhci_get_usb3_port_status(port, &status, raw_port_status);
-+		xhci_get_usb3_port_status(port, &status, portsc);
- 	else
--		xhci_get_usb2_port_status(port, &status, raw_port_status,
--					  flags);
-+		xhci_get_usb2_port_status(port, &status, portsc, flags);
- 
- 	if (bus_state->port_c_suspend & (1 << portnum))
- 		status |= USB_PORT_STAT_C_SUSPEND << 16;
--- 
-2.50.1
+	Regards
+		Oliver
 
