@@ -1,263 +1,120 @@
-Received: from mail-pj1-f74.google.com (mail-pj1-f74.google.com [209.85.216.74])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from out-174.mta0.migadu.com (out-174.mta0.migadu.com [91.218.175.174])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DFC5A375ABA
-	for <linux-usb@vger.kernel.org>; Fri, 20 Mar 2026 08:55:29 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.216.74
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 88BE433D6D5
+	for <linux-usb@vger.kernel.org>; Fri, 20 Mar 2026 09:51:58 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=91.218.175.174
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1773996933; cv=none; b=r1wiueDF2bOls5mrhLa+s21sOYop4MQE5Igujvy8fKaO9XT3HWFRD5WxTM59YQfFfqX16o/1bKwKEuxeWfLAS5/TE0JXf2GUeSoBnLvCF2U2UbG4mECLXDigmsywFtY8tA79zaMFp5IxeYTMu5cR11PboHRzEhdBH/O9EcL+cwo=
+	t=1774000319; cv=none; b=XLtJTLYKg74rVHnSN2lfj1utQ1jvuIVNjrGKxrXxXOZfpNgb1gLyCY/vvx3PYaLPAye0WwVxjebtza7sg79XNy033A0iGw8cdsCtyPpm+FzZFZ/r6ovXO+9v7bh/pNx4Qsy2geSTExgUsnlfZU+TOzLMd5kB2DJs6ECftw0DmAk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1773996933; c=relaxed/simple;
-	bh=WVxp0ZIk0xYVRKf3pptNJWqovoLfJ9UKaReWVwYXoRI=;
-	h=Date:In-Reply-To:Mime-Version:References:Message-ID:Subject:From:
-	 To:Cc:Content-Type; b=iFIGULv7D+VZeax051QABjHdwZaxeYw9C/UOZFsuPXylBu4YfM1koHSOEt3/kFPL8GUN9IViI3gV1HZeRRSEdjM7VPhAlE9KVAcoyh5l/F8XSm5PUiRh9m1/stXK3yGuZ1Vfjcly1W/TJPKxCWD11jTrAjHY+xIKMF+X5dVUuVA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=flex--khtsai.bounces.google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=bEVhC4aw; arc=none smtp.client-ip=209.85.216.74
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=flex--khtsai.bounces.google.com
+	s=arc-20240116; t=1774000319; c=relaxed/simple;
+	bh=tBusV8I1xKXUrGEu9BjwwnL+Ldksq8Sarqj0TThaMqk=;
+	h=Mime-Version:Content-Type:Date:Message-Id:Cc:Subject:From:To:
+	 References:In-Reply-To; b=ewlSNeIT+9LZyOTFXKohYrX8o4OSybIJCMFaoZ+1LnANxy/JOy02xeErpCcILosFa5qeJKEkP+bWlzY3q5R9KSCCFyTnoxwug9W5J05kliV8A9PUrQDUXT8eMUBzlSWpbktoE1iEG52y6sSJ3qZueuhcAq8V+4oSR8fO1UjqBfg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev; spf=pass smtp.mailfrom=linux.dev; dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b=ux7sY9yw; arc=none smtp.client-ip=91.218.175.174
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.dev
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="bEVhC4aw"
-Received: by mail-pj1-f74.google.com with SMTP id 98e67ed59e1d1-358f058973fso2855590a91.1
-        for <linux-usb@vger.kernel.org>; Fri, 20 Mar 2026 01:55:29 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20251104; t=1773996929; x=1774601729; darn=vger.kernel.org;
-        h=cc:to:from:subject:message-id:references:mime-version:in-reply-to
-         :date:from:to:cc:subject:date:message-id:reply-to;
-        bh=+3atbIaOInnERa/VoAz+UbgXjD5q1aDENcAUOzWrVcA=;
-        b=bEVhC4awlShF1WmqjoI6zSEJSx2dXkmLUCt+YJmASCgduC4kLe2sBcqW9zcqiiwkfZ
-         MCSzwC9ngh+/LPsMBlfnxX+3g/F/ZHooL43I06cR4gnt3a0EHHFRtrq3rtHVNF6+7l76
-         LcWsFhGQNYBNpw7ij3oX7eczi13QaD1edVdU1wKIRvMq2bbm5UrwS278vvBbHSNjJVWE
-         tYHfHBzQeZ77vAUl7YuZbYFAFUGK43KcDvDtptHTycHs4TN1IFsYNwW7XPHDTeO/nlZ2
-         /vHfM7/hXiphn8cgMr5Rgok0Xfcui5ekuBzKvO/IxTJ/1v8nVQj0buXZrbu167FY9htp
-         zCiA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1773996929; x=1774601729;
-        h=cc:to:from:subject:message-id:references:mime-version:in-reply-to
-         :date:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=+3atbIaOInnERa/VoAz+UbgXjD5q1aDENcAUOzWrVcA=;
-        b=KW2lqsE/AJT0qklKYjgeIGVWbJz7jKFovJCiwG2HZkyadAehgi3xRCyRs4YnHNVsKg
-         GNH5IJ0eIxs4MbXU5QRT5WztH64jF3u87AkDIX/mZeOLl9a0rkJrJ6EZcbpQjQ3MQ4vM
-         sAP3htRH3XGj5RMJjghwhTP2ojPrBMmojGdL9HFKU2W/wkPLFD5F+DXYNdgkH8GfsLns
-         BS2rTqLgfYWf1zt0xMX7egLcrAWxbyzFbw1d5hfUflxlgv2OWs9e8ZHANz8Kr1cS557R
-         UMEANJ2Oya06CQrItHWDhc8oeTvIlZwG1Lh7kgr5HS8XhtzxBVN2TqrnBJClyoa2p51O
-         gMkg==
-X-Gm-Message-State: AOJu0YzTBL8QriB5xpgWfCReRK3iuL7eP9BH/tAdbPSCMcITm3T4DRdi
-	AMGWogdTTV9UV9MMYse5D0pqF25IVD/G02HRMgGQvV1vOgl4BT/A4rc41BYvBBaa236FHxNvll6
-	dJoUVRg==
-X-Received: from pjzg1.prod.google.com ([2002:a17:90a:e581:b0:359:fee7:eac2])
- (user=khtsai job=prod-delivery.src-stubby-dispatcher) by 2002:a17:90b:1dcb:b0:34c:c514:ee1f
- with SMTP id 98e67ed59e1d1-35bd2bf4d56mr1966801a91.11.1773996929139; Fri, 20
- Mar 2026 01:55:29 -0700 (PDT)
-Date: Fri, 20 Mar 2026 16:54:49 +0800
-In-Reply-To: <20260320-usb-net-lifecycle-v1-0-4886b578161b@google.com>
+	dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b="ux7sY9yw"
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 Mime-Version: 1.0
-References: <20260320-usb-net-lifecycle-v1-0-4886b578161b@google.com>
-X-Developer-Key: i=khtsai@google.com; a=ed25519; pk=abA4Pw6dY2ZufSbSXW9mtp7xiv1AVPtgRhCFWJSEqLE=
-X-Developer-Signature: v=1; a=ed25519-sha256; t=1773996915; l=6962;
- i=khtsai@google.com; s=20250916; h=from:subject:message-id;
- bh=WVxp0ZIk0xYVRKf3pptNJWqovoLfJ9UKaReWVwYXoRI=; b=Gm9M57ASM4csFeNKTWED3B6hzlFROTR2MCxjFTnBBaRH7Cim2LsP4p6D8c4rZ8WLy7LIwR+EE
- QivIVHCuroPC8xdZHIGQRZnxB0eHFuqYdqbYpX0HkExsR5UpbnzzPNI
-X-Mailer: b4 0.14.3
-Message-ID: <20260320-usb-net-lifecycle-v1-6-4886b578161b@google.com>
-Subject: [PATCH 6/7] usb: gadget: f_subset: Fix net_device lifecycle with device_move
-From: Kuen-Han Tsai <khtsai@google.com>
-To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>, Kyungmin Park <kyungmin.park@samsung.com>, 
-	Felipe Balbi <balbi@kernel.org>, David Lechner <david@lechnology.com>
-Cc: linux-usb@vger.kernel.org, linux-kernel@vger.kernel.org, 
-	Kuen-Han Tsai <khtsai@google.com>, stable@vger.kernel.org
-Content-Type: text/plain; charset="utf-8"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.dev; s=key1;
+	t=1774000306;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=SB0KpBn5A09Moyx+zjJpQCHUxGkKOb8xwpecR+YoJT4=;
+	b=ux7sY9ywu+wS45NR3bq7PywwA4yYp30v4K9OZ3Eua2QuPZ2luZmhd+98gprsJzH8xMB6Nf
+	bXJjA8h8o5i/Y29DqWrnoMESdqi7RX+zRDB2jAHBO9x1sk9Lwda/m2n2LHrDjmm2dXUlqt
+	i6aWySuiFz498jMm/x8VCqt1OVKoXpU=
+Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=UTF-8
+Date: Fri, 20 Mar 2026 17:50:50 +0800
+Message-Id: <DH7ILSL8DXBO.ZR74CL1QEUBU@linux.dev>
+Cc: <dlan@kernel.org>, <gregkh@linuxfoundation.org>,
+ <linux-kernel@vger.kernel.org>, <linux-riscv@lists.infradead.org>,
+ <linux-usb@vger.kernel.org>, <spacemit@lists.linux.dev>,
+ <thinh.nguyen@synopsys.com>
+Subject: Re: [PATCH 1/1] usb: dwc3: dwc3-generic-plat: Add optional VBUS
+ regulator support
+X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and include these headers.
+From: "Ze Huang" <huang.ze@linux.dev>
+To: "Chukun Pan" <amadeus@jmu.edu.cn>, <huang.ze@linux.dev>
+References: <DH7FXPBMB1K5.28IT6DZQ280ZV@linux.dev>
+ <20260320081826.1331721-1-amadeus@jmu.edu.cn>
+In-Reply-To: <20260320081826.1331721-1-amadeus@jmu.edu.cn>
+X-Migadu-Flow: FLOW_OUT
 
-The net_device is allocated during function instance creation and
-registered during the bind phase with the gadget device as its sysfs
-parent. When the function unbinds, the parent device is destroyed, but
-the net_device survives, resulting in dangling sysfs symlinks:
+Hi Chukun
 
-  console:/ # ls -l /sys/class/net/usb0
-  lrwxrwxrwx ... /sys/class/net/usb0 ->
-  /sys/devices/platform/.../gadget.0/net/usb0
-  console:/ # ls -l /sys/devices/platform/.../gadget.0/net/usb0
-  ls: .../gadget.0/net/usb0: No such file or directory
+On Fri Mar 20, 2026 at 4:18 PM CST, Chukun Pan wrote:
+> Hi,
+>
+>> I don't think it's a good idea to tie this optional VBUS regulator
+>> implementation to the SpacemiT K1 platform.
+>>
+>> While the K1 SoC does have a DRD controller, current boards in the wild
+>> (like Jupiter[1], OrangePi RV2[2], and Banana Pi F3[3]) all route this
+>> port to an onboard hub[4][5]. IMHO, managing the downstream VBUS regulat=
+or
+>> via the onboard_usb_dev driver is the correct approach for us.
+>
+> I'm sorry, but I don't quite understand why it's necessary to use
+> onboard_usb_dev driver instead.
+>
 
-Use device_move() to reparent the net_device between the gadget device
-tree and /sys/devices/virtual across bind and unbind cycles. During the
-final unbind, calling device_move(NULL) moves the net_device to the
-virtual device tree before the gadget device is destroyed. On rebinding,
-device_move() reparents the device back under the new gadget, ensuring
-proper sysfs topology and power management ordering.
+I think it's better to align the driver with the actual hardware. I'm not
+opposed to managing any regulators in usb host/device drivers. But if we
+do have an onboard hub, and regulator belongs to the downstream ports of
+the hub, then it's hub's job, right?
 
-To maintain compatibility with legacy composite drivers (e.g., multi.c),
-the bound flag is used to indicate whether the network device is shared
-and pre-registered during the legacy driver's bind phase.
+>
+> The DRD controller is connected to the onboard USB hub, so it can
+> only operate in host mode. If all downstream ports of the USB hub
+> use the same VBUS supply, then what's the problem with using this?
 
-Fixes: 8cedba7c73af ("usb: gadget: f_subset: convert to new function interface with backward compatibility")
-Cc: stable@vger.kernel.org
-Signed-off-by: Kuen-Han Tsai <khtsai@google.com>
----
- drivers/usb/gadget/function/f_subset.c | 57 +++++++++++++++++-----------------
- drivers/usb/gadget/function/u_gether.h | 22 ++++++++-----
- 2 files changed, 44 insertions(+), 35 deletions(-)
+It does work.
 
-diff --git a/drivers/usb/gadget/function/f_subset.c b/drivers/usb/gadget/function/f_subset.c
-index 74dc6da5c767..6e3265b8a3a0 100644
---- a/drivers/usb/gadget/function/f_subset.c
-+++ b/drivers/usb/gadget/function/f_subset.c
-@@ -299,25 +299,22 @@ geth_bind(struct usb_configuration *c, struct usb_function *f)
- 	struct usb_ep		*ep;
- 
- 	struct f_gether_opts	*gether_opts;
-+	struct net_device	*net __free(detach_gadget) = NULL;
- 
- 	gether_opts = container_of(f->fi, struct f_gether_opts, func_inst);
- 
--	/*
--	 * in drivers/usb/gadget/configfs.c:configfs_composite_bind()
--	 * configurations are bound in sequence with list_for_each_entry,
--	 * in each configuration its functions are bound in sequence
--	 * with list_for_each_entry, so we assume no race condition
--	 * with regard to gether_opts->bound access
--	 */
--	if (!gether_opts->bound) {
--		mutex_lock(&gether_opts->lock);
--		gether_set_gadget(gether_opts->net, cdev->gadget);
--		status = gether_register_netdev(gether_opts->net);
--		mutex_unlock(&gether_opts->lock);
--		if (status)
--			return status;
--		gether_opts->bound = true;
--	}
-+	scoped_guard(mutex, &gether_opts->lock)
-+		if (gether_opts->bind_count == 0 && !gether_opts->bound) {
-+			if (!device_is_registered(&gether_opts->net->dev)) {
-+				gether_set_gadget(gether_opts->net, cdev->gadget);
-+				status = gether_register_netdev(gether_opts->net);
-+			} else
-+				status = gether_attach_gadget(gether_opts->net, cdev->gadget);
-+
-+			if (status)
-+				return status;
-+			net = gether_opts->net;
-+		}
- 
- 	us = usb_gstrings_attach(cdev, geth_strings,
- 				 ARRAY_SIZE(geth_string_defs));
-@@ -330,20 +327,18 @@ geth_bind(struct usb_configuration *c, struct usb_function *f)
- 	/* allocate instance-specific interface IDs */
- 	status = usb_interface_id(c, f);
- 	if (status < 0)
--		goto fail;
-+		return status;
- 	subset_data_intf.bInterfaceNumber = status;
- 
--	status = -ENODEV;
--
- 	/* allocate instance-specific endpoints */
- 	ep = usb_ep_autoconfig(cdev->gadget, &fs_subset_in_desc);
- 	if (!ep)
--		goto fail;
-+		return -ENODEV;
- 	geth->port.in_ep = ep;
- 
- 	ep = usb_ep_autoconfig(cdev->gadget, &fs_subset_out_desc);
- 	if (!ep)
--		goto fail;
-+		return -ENODEV;
- 	geth->port.out_ep = ep;
- 
- 	/* support all relevant hardware speeds... we expect that when
-@@ -361,21 +356,19 @@ geth_bind(struct usb_configuration *c, struct usb_function *f)
- 	status = usb_assign_descriptors(f, fs_eth_function, hs_eth_function,
- 			ss_eth_function, ss_eth_function);
- 	if (status)
--		goto fail;
-+		return status;
- 
- 	/* NOTE:  all that is done without knowing or caring about
- 	 * the network link ... which is unavailable to this code
- 	 * until we're activated via set_alt().
- 	 */
- 
-+	gether_opts->bind_count++;
-+	retain_and_null_ptr(net);
-+
- 	DBG(cdev, "CDC Subset: IN/%s OUT/%s\n",
- 			geth->port.in_ep->name, geth->port.out_ep->name);
- 	return 0;
--
--fail:
--	ERROR(cdev, "%s: can't bind, err %d\n", f->name, status);
--
--	return status;
- }
- 
- static inline struct f_gether_opts *to_f_gether_opts(struct config_item *item)
-@@ -418,7 +411,7 @@ static void geth_free_inst(struct usb_function_instance *f)
- 	struct f_gether_opts *opts;
- 
- 	opts = container_of(f, struct f_gether_opts, func_inst);
--	if (opts->bound)
-+	if (device_is_registered(&opts->net->dev))
- 		gether_cleanup(netdev_priv(opts->net));
- 	else
- 		free_netdev(opts->net);
-@@ -462,8 +455,16 @@ static void geth_free(struct usb_function *f)
- 
- static void geth_unbind(struct usb_configuration *c, struct usb_function *f)
- {
-+	struct f_gether_opts *opts;
-+
-+	opts = container_of(f->fi, struct f_gether_opts, func_inst);
-+
- 	geth_string_defs[0].id = 0;
- 	usb_free_all_descriptors(f);
-+
-+	opts->bind_count--;
-+	if (opts->bind_count == 0 && !opts->bound)
-+		gether_detach_gadget(opts->net);
- }
- 
- static struct usb_function *geth_alloc(struct usb_function_instance *fi)
-diff --git a/drivers/usb/gadget/function/u_gether.h b/drivers/usb/gadget/function/u_gether.h
-index 2f7a373ed449..e7b6b51f69c1 100644
---- a/drivers/usb/gadget/function/u_gether.h
-+++ b/drivers/usb/gadget/function/u_gether.h
-@@ -15,17 +15,25 @@
- 
- #include <linux/usb/composite.h>
- 
-+/**
-+ * struct f_gether_opts - subset function options
-+ * @func_inst: USB function instance.
-+ * @net: The net_device associated with the subset function.
-+ * @bound: True if the net_device is shared and pre-registered during the
-+ *         legacy composite driver's bind phase (e.g., multi.c). If false,
-+ *         the subset function will register the net_device during its own
-+ *         bind phase.
-+ * @bind_count: Tracks the number of configurations the subset function is
-+ *              bound to, preventing double-registration of the @net device.
-+ * @lock: Protects the data from concurrent access by configfs read/write
-+ *        and create symlink/remove symlink operations.
-+ * @refcnt: Reference counter for the function instance.
-+ */
- struct f_gether_opts {
- 	struct usb_function_instance	func_inst;
- 	struct net_device		*net;
- 	bool				bound;
--
--	/*
--	 * Read/write access to configfs attributes is handled by configfs.
--	 *
--	 * This is to protect the data from concurrent access by read/write
--	 * and create symlink/remove symlink.
--	 */
-+	int				bind_count;
- 	struct mutex			lock;
- 	int				refcnt;
- };
+Many boards leave gpio controlled regulators always on, that's what we
+want to solve. If we have to choose the parent of these regulators, why
+not put them in the correct hierarchy?
 
--- 
-2.53.0.959.g497ff81fa9-goog
+>
+>> K1 platform currently does not need this feature here.
+>>
+>> Considering the role switch, I think it would be better to hold off on
+>> this until there is an actual board/user that relies on it.
+>
+> There is a board without onboard USB hub,
 
+If such a board really need the regulator, IMO, your patch is the way to go=
+.
+
+>
+> such as the OrangePi R2S.
+> So this is possible for boards that don't have onboard USB hub?
+
+OrangePi haven't released the schematic yet.
+
+That's what I could find [1], which seems similar to RV2.
+
+    &usb3hub {
+    	vbus-gpios =3D <&gpio 123 0>;	/* gpio_123 for usb3 hub pwr and output =
+vbus */
+    	status =3D "okay";
+    };
+
+[1] https://github.com/orangepi-xunlong/linux-orangepi/blob/orange-pi-6.6-k=
+y/arch/riscv/boot/dts/ky/x1_orangepi-r2s.dts#L762
+
+>
+> Thanks,
+> Chukun
+
+Thanks,
+Ze
