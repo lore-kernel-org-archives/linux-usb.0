@@ -1,81 +1,69 @@
-Received: from mail-qv1-f42.google.com (mail-qv1-f42.google.com [209.85.219.42])
+Received: from mail-qk1-f180.google.com (mail-qk1-f180.google.com [209.85.222.180])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E9397184
-	for <linux-usb@vger.kernel.org>; Sat, 21 Mar 2026 15:58:57 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.219.42
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A27FC35AC16
+	for <linux-usb@vger.kernel.org>; Sat, 21 Mar 2026 19:57:09 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.222.180
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1774108739; cv=none; b=BMp3BrVZfO+mIpVCX35tb5Sn8YPQ5N6ZxB/75NAdoTbfF13YMI3nos4WLW7FJpEnc7Xz9AG3HAClNblZlStYvgRnBjnkGWC4uSBSrqMDwivOm6bbI17wUftbRZwc9kgn5Zm8BDCXJCKurgeTFG+xScZpwjv8Zq+v28tSKGT7Phc=
+	t=1774123030; cv=none; b=bHNF7hUfkg9KECS0KL6VPhOtVClqepyqF5sxGe7uIypyYKCvxhY/V+yWOW5qQDG8N60frZ4fg8B/lxw5GMYQIzl6ugzyhJ9UVwP/a+7ycl5SDGuKNEtHXccO/t9n0XodGfMrdXvaiDUKfims9loULEKiUoTPn6MYR0hS44POT8U=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1774108739; c=relaxed/simple;
-	bh=SiodWoSXu9+caLrSXyvdSQnn2ekiWv17t8Jn3ctG73A=;
+	s=arc-20240116; t=1774123030; c=relaxed/simple;
+	bh=6+k+E1vTFoCa0tawp3RExkgVqSi6qTqO+2Z700v34t4=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=oTyLYIJBe68G/IMz32bnSwJjxSV+R/XXiL8skCVrm/B7TsYJhRyPICvyAmLoi2BgMmoGKbsFrAulzy5TZSC0/R7aKpnnYbBTEv7tdWLCdtiPAjBdBqGPwtbjOnECs+A7g73Wl2Z6PgQG3NIDz+wwsyIIRVTQRQIB7SrZTUL2t4w=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=rowland.harvard.edu; spf=fail smtp.mailfrom=g.harvard.edu; dkim=pass (2048-bit key) header.d=rowland.harvard.edu header.i=@rowland.harvard.edu header.b=d7cFh1oN; arc=none smtp.client-ip=209.85.219.42
+	 Content-Type:Content-Disposition:In-Reply-To; b=iEv7qWqc4o/lSo1YULek4bEg4/VNUL3t/k7FWOQFw+8ooSv0vtWTLSlpKlAfGg5X9tJXV/IYFNXFoWmxexkLvUYoTPbcTCr1CWo9cnQs/sbfdQ4J30TcFse8Mg1zIP9ViRus+/atDziU+VfgKeLbDoALkl13wpb4lxTnsdgMhb8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=rowland.harvard.edu; spf=fail smtp.mailfrom=g.harvard.edu; dkim=pass (2048-bit key) header.d=rowland.harvard.edu header.i=@rowland.harvard.edu header.b=o82YPimU; arc=none smtp.client-ip=209.85.222.180
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=rowland.harvard.edu
 Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=g.harvard.edu
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=rowland.harvard.edu header.i=@rowland.harvard.edu header.b="d7cFh1oN"
-Received: by mail-qv1-f42.google.com with SMTP id 6a1803df08f44-899ee491af3so32248366d6.1
-        for <linux-usb@vger.kernel.org>; Sat, 21 Mar 2026 08:58:57 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=rowland.harvard.edu header.i=@rowland.harvard.edu header.b="o82YPimU"
+Received: by mail-qk1-f180.google.com with SMTP id af79cd13be357-8cfc1aced74so253387085a.2
+        for <linux-usb@vger.kernel.org>; Sat, 21 Mar 2026 12:57:09 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=rowland.harvard.edu; s=google; t=1774108737; x=1774713537; darn=vger.kernel.org;
+        d=rowland.harvard.edu; s=google; t=1774123028; x=1774727828; darn=vger.kernel.org;
         h=in-reply-to:content-disposition:mime-version:references:message-id
          :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=RKVhUOfkuzK/fGCk0GqCxgldiTxu/DepeOIIv4MLeYY=;
-        b=d7cFh1oNuQKaHqZEKPNua+WP1lYMG1X/j3DZzl+2uPRvwm4/6CdJTkE2QTIlDgrakj
-         z8ljO9rueSIsdtWZ2tRvbJuM+i+N9AYZP4XcpnpTGMIpfAnVZpQhRZS7/x5Ry+TpexJi
-         5IxD9TwQ9kEb3izIeEOtu/l+tTmffidIlP1M/1KQpkuntAYgBhlWdwpWN+pkQY0+cNIs
-         NL9QdMzOg1P6C1X1vJ1X4sPDVKPTS5/gKn109XVZN6mQFT/+maUkVGpe1yAvz5w3rMWX
-         QPMm1jdSbROsOeas7dv1cc9/Z5ZAz4G1vU9c0UzC8TdmDW853X2FqrCP/qn0qc5IJ5X4
-         HpsQ==
+        bh=JVMNxkIfKzuT+eIT1AEccX2jGV9VfbLq1NKhm9uoWtU=;
+        b=o82YPimUpI1n5pXNMYQgIvPEn1zymyWNvnRfgP85QAXjQkPfeUxkdmlwt9rPfcV/4Z
+         46h9aKIjkM3uw0XGAe8RLhy7Y6nKBosCiKWXuX2o3wx+sDzYEZ+KGS16/x8tB1zxTIqb
+         txrMQLyoPEcerlbtoOXx5eBBiWvnoKRgALoQgwFCs7y2jGnQGHXA2w7io32HmkOpK8Av
+         TGpnh0Y6GMcI+OBoON5C9KD6xjbc38tbAK2o1VlnyIornEZ10GP6hJW+QwE872zqQbYa
+         RKEfX8eIz7gwQ3uE52soMUaf9KsNUh5HAJDBDBHCIaiec2AdhXwl8MlUoBU/lvr5LjHN
+         5CEA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1774108737; x=1774713537;
+        d=1e100.net; s=20251104; t=1774123028; x=1774727828;
         h=in-reply-to:content-disposition:mime-version:references:message-id
          :subject:cc:to:from:date:x-gm-gg:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=RKVhUOfkuzK/fGCk0GqCxgldiTxu/DepeOIIv4MLeYY=;
-        b=q/+kKrHkUvPwctZbf68ZhicDVUm6HOg6Hki30bTTfqczU9b2chss4Lhg+jfykcehwK
-         l0rPrwHYikstRLRh9ZF6MbanTW7i2ZZ858/WYbzzqsnpqEP8pTLJH2D6qAMfmywwld9a
-         a31iFslN3R1I2HoZtDBdACPIFeGk69SuTHHNgix6tdz19fSemQ2e6Dz2rZDUAiduY7l1
-         3B/D5/gbnaF8coNcRePhio5ghcmubrWCiHAWLJRFPwNngBewzgiixgqF/euW8IAaodBg
-         9/NMhLm99ly/t4HR5kZNxLllRMArQLFnTygDhAy9u0MUNfvoFBrM+FuJCrrsamjrLIKG
-         m11A==
-X-Forwarded-Encrypted: i=1; AJvYcCVeTSMWb0Ryueqc2kEeHkyE4WL7iAWraTajgSw2QKsvYCyrInYqqD/GBbDeE4/4FDAzb52vg/MQEu8=@vger.kernel.org
-X-Gm-Message-State: AOJu0Yxjy+xJav2KkgbkZBoweP3OW+C4wHrjhZCzelKFbsVZppATILYf
-	HlPshepCtJjLEWEczSnKxBKPPExZ3Jyl/W2Qr+lVtWRzT3+aNxXYcl/fwRq21VtT3A==
-X-Gm-Gg: ATEYQzzEuIFXtlTzqvjfpEWMjjKVQwkRDFYXmS8xDny1X+vin+1DNlXevF2NBNGdR9N
-	fWzt6LYK/duh7XJj/dHYIcqLzepBcKtgsL0v9GG2WBUROdtPgT2b41ByJm/RhblE5/3ijbbBEyd
-	SzhPIDvvm/n4H9SoSQT2QGo2ebzkDUxaOvvvD6mnOXlAxatZmIhsDbNRkPoHTYfkQ8BjUTJcR1f
-	H6CfT8epjHcgxa8+PawLmvluCChX6r1CGdzIWKiJH/E8mwGwL8TXmpPfpZGmW8lBlHLqmqz+Fs+
-	fetMWZFOeHc1PdyYFZTus9JA4wImTQZnenIH8dwG7Z6o/CRrPhxkJJFLY/+5vIZQAbw0vi6ff9N
-	RODvgE7NqhDYHeGo9QnaISKcty+QxWjz3YYDjcMhAL6RJfXSBjE8nf4564A4uHmfyr16PWh4Nsl
-	sV9WPofwR1WF4ELFoeWL9oAAmJVqg9l2Wc6w==
-X-Received: by 2002:ad4:5e8d:0:b0:89a:3013:be02 with SMTP id 6a1803df08f44-89c85a379dcmr117723006d6.34.1774108736872;
-        Sat, 21 Mar 2026 08:58:56 -0700 (PDT)
+        bh=JVMNxkIfKzuT+eIT1AEccX2jGV9VfbLq1NKhm9uoWtU=;
+        b=Ea0kCeoNmatoP+JyGP3Igdy6UKRrA9IohCUCexjo7rfpArlr5YNRMNkKDq9Pc1eedC
+         9IS7DveAj/WzcszBu0WMSHPzy3quLHn2qp5l/2T13Dsehew7oN3UsejGo8BGQ/bfNrg3
+         1of/xxU4lyVT5z5XIVm+K+L2YfM1nnRj3gGubMJqj5beWJsKxZVDHqrLI3E2Rq+sAIJ6
+         YHFyYZAH0SRiIxLbSKP/Ni2HIKPsjymptSTSR/OMGJ/ZiYOBTgxP3jFt0RKYchOdBY3q
+         gORVXGYPvrOP0ttnuBTD12PhuYmOXb+iIl7WUnHnRK8OKd6kHEmrlNHj9pCPbLYm72HT
+         wEEg==
+X-Gm-Message-State: AOJu0Yzz/CoCcPhI6SlT29EA7mVjsO/KO34Go1AnvhqHsFcgYq4iMeY2
+	wU4ZjirlXU50ZB9GNCEJ0+4pIiWBUUaYrCEdD/+Ze8IbIoSz7wsM+rCBCOX0q36pYdpXEXZwCtN
+	VivQ=
+X-Gm-Gg: ATEYQzxuo3TFLhaP62PHKrZ/YP5S+UeNno8Dzv1L4A7izm1ayLd/LiW+/jyLea5yiBw
+	yBN/hB7QwhGjWgbHIoS14UZilhaUCbSJGbs7+rhG/OsiqWomfl8PHFCEeIZAZhwy6OH1TljjxbJ
+	1q+Z62twhV4h6xLSUy4HmrDR2hu8K4DW/P7LXhirfsZkXIL8ZE9qJmhKZ1ah+GATszEM7DPPoMR
+	iOL2tCHq/IE1jUuJ//nAFTxyS4/3HWpJ4JNoYGvMK50Ln22zqwxf0YNFuiXsuxq0NEZM0mK/JVk
+	w81aVNDppTegCrwYm7RL/g2zK4/p9s9boraxPrPdCfDOq2MgnKCxJbuaNBkTybBKujfkSOD3FtH
+	NTIJpNgXxUCbi8BTdde4/2iotojWab7/vBa44EyU6jPj34m9jbk8U+BwFhyVRT6ElQXBp+Gf+KC
+	KG/d0/hSoqYgGkoGEVm0D3520=
+X-Received: by 2002:a05:622a:44e:b0:50b:4ec8:9e66 with SMTP id d75a77b69052e-50b4ec8afeemr30667201cf.16.1774123028500;
+        Sat, 21 Mar 2026 12:57:08 -0700 (PDT)
 Received: from rowland.harvard.edu ([2601:19b:d01:d210::b00])
-        by smtp.gmail.com with ESMTPSA id 6a1803df08f44-89c96cb614dsm15687136d6.22.2026.03.21.08.58.55
+        by smtp.gmail.com with ESMTPSA id d75a77b69052e-50b36e352f7sm46500701cf.16.2026.03.21.12.57.06
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sat, 21 Mar 2026 08:58:56 -0700 (PDT)
-Date: Sat, 21 Mar 2026 11:58:53 -0400
+        Sat, 21 Mar 2026 12:57:07 -0700 (PDT)
+Date: Sat, 21 Mar 2026 15:57:04 -0400
 From: Alan Stern <stern@rowland.harvard.edu>
-To: Michal Pecio <michal.pecio@gmail.com>
-Cc: Thinh Nguyen <Thinh.Nguyen@synopsys.com>,
-	Oliver Neukum <oneukum@suse.com>,
-	=?iso-8859-1?Q?Bj=F8rn?= Mork <bjorn@mork.no>,
-	USB list <linux-usb@vger.kernel.org>
-Subject: Re: correctly handling EPROTO
-Message-ID: <d3fd1c0b-d0cf-40e2-9f21-b4c5de1c421b@rowland.harvard.edu>
-References: <4ada5d68-56f1-41b7-82d9-463901c927db@rowland.harvard.edu>
- <8a14fe29-0d92-4ce5-a7e2-2c084c710727@suse.com>
- <b0217cdc-f263-418c-b8b5-584520d0b1db@rowland.harvard.edu>
- <20260318223851.1f6d07d7.michal.pecio@gmail.com>
- <20260318235920.ioek26hdr25rkksp@synopsys.com>
- <1eaf4cf3-4278-4d04-87aa-8b6069d544e1@rowland.harvard.edu>
- <20260319231620.3ukqxsrwqikp5zbd@synopsys.com>
- <2929d47c-fc02-49d2-873e-758f24c43071@rowland.harvard.edu>
- <20260321021439.7pmcdrpb5oxbivct@synopsys.com>
- <20260321065424.76a80508.michal.pecio@gmail.com>
+To: Mark Harmstone <maharmstone@fb.com>
+Cc: linux-usb@vger.kernel.org
+Subject: Re: hub problems on high CPU load
+Message-ID: <f80e5a6a-3caa-4579-b6c0-f5cbbb964302@rowland.harvard.edu>
+References: <2303186b-1555-4796-8bcf-8b95adab4bc2@fb.com>
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
@@ -84,25 +72,26 @@ List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20260321065424.76a80508.michal.pecio@gmail.com>
+In-Reply-To: <2303186b-1555-4796-8bcf-8b95adab4bc2@fb.com>
 
-On Sat, Mar 21, 2026 at 06:54:24AM +0100, Michal Pecio wrote:
-> > The clear-halt doesn't have to be done after the unlinking of URBs.
-> > The xhci endpoint is in stopped state after a reset ep command. As
-> > long as the class driver doesn't submit a new URB to trigger a
-> > doorbell ring, the xhci driver can send a clear-halt after a reset ep
-> > command and no transfer will start.
+On Thu, Mar 19, 2026 at 05:32:32PM +0000, Mark Harmstone wrote:
+> Hi all,
 > 
-> Nope, for many years now, if not forever, xhci-hcd has been restarting
-> the endpoint after giving back the failed URB if its completion hasn't
-> unlinked all remaining URBs.
+> I have a monitor with an inbuilt KVM switch - it has USB ports into which my
+> mouse and keyboard are plugged in, and appears to the host as a USB hub.
+> 
+> Twice today I've been working on my laptop with my desktop running Gentoo
+> doing "emerge qtwebengine" in the background, and when I've gone to switch
+> back the mouse and keyboard don't work. The first time I rebooted, but the
+> second time I unplugged the hub and plugged it back in and it seems to have
+> fixed it.
+> 
+> This is on 6.19.0, I don't recall anything similar happening on previous
+> kernels. I think it's high CPU load rather than an OOM as there's nothing in
+> the log about anything being killed.
 
-How can that work in the presence of BH givebacks?  xhci-hcd doesn't 
-really know when the completion handler runs.
-
-> Changing this is one of the issues under discussion here. It would take
-> a few tweaks to the driver.
-
-I think this is something that should be done in any case.
+If you're sure that the problems started happening with 6.19.0,
+perhaps you can do a bisection between it and 6.18.0 to find out which
+change to the kernel was responsible.
 
 Alan Stern
