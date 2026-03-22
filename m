@@ -1,92 +1,97 @@
-Received: from mout-p-202.mailbox.org (mout-p-202.mailbox.org [80.241.56.172])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-ed1-f49.google.com (mail-ed1-f49.google.com [209.85.208.49])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E7FC837F8D8;
-	Sun, 22 Mar 2026 03:44:07 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=80.241.56.172
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 70F47175A6E
+	for <linux-usb@vger.kernel.org>; Sun, 22 Mar 2026 04:54:02 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.49
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1774151049; cv=none; b=j0wXO2+iiwu+OzNrIVTMbYNW+UzgO/A8+qIbESAhTaHbOJrrpdS0eLtg8uQy6SBOwvvL/qN9JKnvgQKG3VWYAcvdBsOJdVIQ97Qn4w5p9g9G0jq1BFW4MNcAcqApgooMEWv4K2l9dDHubZWu4W5i4hFuVYr8ZGJPRjJp7PrL6MI=
+	t=1774155243; cv=none; b=AltbGUX6tWhVHSlnJoMVIFT0P0aT9fHlMa4zY8XlP+hzbHDa8RSXR3IQiuUndFNaKe4Xyr3i+PhQ1miYgIk3RIa0eWnDfEdz9v5dQHIu/srQoL3nIQHWhGQH+W32iKk33QTJZbXIknU3WZJli7+a5cK+ODfR73oNEwYw0D7wlag=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1774151049; c=relaxed/simple;
-	bh=y5zq2D3lOiI0Qw3PR34/ItRcvLMn+HjX7/inOrvLOHk=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=TXEvCdq46iENX3GSIlLnECot6Z7jUHnnElmmAEXCZDFHznKyDzJEf1CZ8XlRL8LYN0M9gecqZKRRtUL2boIk2UAhC9tyjVMueWAS/qLj7NNH8ejl4b6LNrEOKjOlXxQHo1KgGvmbaHELrzXP4t6tXQlSesRBl0cVHtu7+68lCX4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=mailbox.org; spf=pass smtp.mailfrom=mailbox.org; dkim=pass (2048-bit key) header.d=mailbox.org header.i=@mailbox.org header.b=RySlusss; dkim=pass (2048-bit key) header.d=mailbox.org header.i=@mailbox.org header.b=yhFUUf3K; arc=none smtp.client-ip=80.241.56.172
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=mailbox.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=mailbox.org
+	s=arc-20240116; t=1774155243; c=relaxed/simple;
+	bh=4NO9JUJhyayWXRGH7TucTjOwS9UYDPyhXQDSeG2XibM=;
+	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=VHC6WLTUkvV6cXFOtm2tCaHk1Y/gpuwAvL93nx373/mxaEQzXcXPNJxe2atR/9sxqq/NkkIY7dfBsnkcSm4ilXfIXpUrAkP+E6yPos6UxGZXm7mliRxVtHSZEy7pPOgD25whh7ZCzVZaG3J05aHOTuXODW+rCcm8KxpbniqHbmg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=nZNrn4N8; arc=none smtp.client-ip=209.85.208.49
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=mailbox.org header.i=@mailbox.org header.b="RySlusss";
-	dkim=pass (2048-bit key) header.d=mailbox.org header.i=@mailbox.org header.b="yhFUUf3K"
-Received: from smtp2.mailbox.org (smtp2.mailbox.org [10.196.197.2])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by mout-p-202.mailbox.org (Postfix) with ESMTPS id 4fdhxD1Cvqz9tn7;
-	Sun, 22 Mar 2026 04:44:00 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=mailbox.org; s=mail20150812;
-	t=1774151040;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=7pPmmUr2rdYksgu0/4NHiyOVIMPthGnBqroydjCMUJA=;
-	b=RySlusss3CTCUBE78BS8aXqfbboUE1Z1SicgUIk2VKxEJ2DWD0wwsa6GlRv1KfKJRQMys+
-	8sSYPF4MqxtaZkSvsZOI4lGIpJQRJYVVx6Ntg9HYd9HzHzQ6r4yqi86gO3iKBSxYsUE0WW
-	OU8WawIEdLlA665CNn+OFwmfWRIaAU3UqtvAbP4uyFHZPaz8xPe82zF1/VhPNE9ftsXOS0
-	T0CBDb1LpUxCYM7IX5rmzSd6sIvKUdVx4OiEkMRuLmep+rbSqj9YHJRLOSOo6vBSxk+MAL
-	lWrZC/eyC3lmHhtz5Af1FoBdzR2qZJIFiibopUN68O24t8nPYOk8BKestlk41A==
-Message-ID: <78d477a1-9f02-49e1-802e-4108b63141eb@mailbox.org>
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=mailbox.org; s=mail20150812;
-	t=1774151038;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=7pPmmUr2rdYksgu0/4NHiyOVIMPthGnBqroydjCMUJA=;
-	b=yhFUUf3K1QVHAVbFAXyB66CAuhcs55jnwqqzHajoRG3esaKpWUMboXmW04Ypp3C6fATRot
-	LE+X7Bsd21XRQq6U1Nmx5eETTYi+gt2U836HcZ2AaVesGftQFQA/FjYNLvH151Pb/Qc3X4
-	Yu7pQ2OJiGHNTDrerqWANrCTbVLDGtWFOK86Fv4qpV9C4DsWUCrdtrd5tPd2C1AT6YpJxo
-	4+hW2d9ZB1FZEHQWAhcg+h0OaLlw/F38anRmtKmC0ZX5AD+3anLwdiMUt/TVoBwrEiy/uw
-	D9wWYXDfezVNcEObz2WcQQciVlFEa2v1FNbLvLLBvRmsmS1zTB8279UUSGMj+g==
-Date: Sat, 21 Mar 2026 19:52:57 +0100
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="nZNrn4N8"
+Received: by mail-ed1-f49.google.com with SMTP id 4fb4d7f45d1cf-668d4751a3bso2750256a12.2
+        for <linux-usb@vger.kernel.org>; Sat, 21 Mar 2026 21:54:02 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1774155241; x=1774760041; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:subject:cc:to:from:date:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=rceXIYjkxGxkrV6mCBwPxwxWKyKTu91DLeOrWHZGrOQ=;
+        b=nZNrn4N8GRWlH5KJICEUmAgZUc1+B/qUxslhAgsp/m/5UABEM1Gnld63W0RapXk+24
+         qkVhn9CyppMkWGUmeePCgAPzvNUpbiAK00tBKq0fFP36qkZS+UX36S5p3OZuC2tLWQRe
+         I03BIUXUMIJg5SSQ4np6EjEZHuGlpP7UJndNe0L1r5VFOAM/RM6kQG6UYNYkrs4wHp4g
+         V2DfGrlhU5+RDGAbgHEQ8zVew4lvlvY1LVxSaqNaCexegR6nNu50GYV9+FnhgGkmjNp9
+         i64TZ8DbEI6hLwopvaNalrWVZnxFRSOFf+EjJyK7BiSfR/dlvdO6N1CgUxamFzgi/oSM
+         izqQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1774155241; x=1774760041;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:subject:cc:to:from:date:x-gm-gg:x-gm-message-state:from
+         :to:cc:subject:date:message-id:reply-to;
+        bh=rceXIYjkxGxkrV6mCBwPxwxWKyKTu91DLeOrWHZGrOQ=;
+        b=TSYZ3x4uqWVxnzARofmLYPGfJ+qfIuwyc0q/RnNlAwKWLWQezRZ4+iudeZZdog7ul4
+         5JoUKXjb0GRWQpb8YmNmG/xS8xYT6oqcGyOkXjZwLaqjr68kFs8mFVOGEBkYs9RaAdYe
+         gpWVGsm0CZeMk9XBnvCHJBhymyDKR4Z7xtLNMYJzVaS7r7T2sug19GwueRQpxYJRuEgH
+         9PJOJ3aVK6NSPeCE881sXCWoiA8GjNbI3RDYGDbmqXIUtFc+RiDcLYHrThV3bfYVmKal
+         DUaHxzINXEffQzd9QFp5v/9PjmTKMvTcS1OSOPJC0WCQDQogg+Ao13FY8Ig1LyRUWmfx
+         5UOw==
+X-Forwarded-Encrypted: i=1; AJvYcCUV31A9wEGm5jCV1dfQ9w/IlzJ1PizmdvS5ZNu80UDYqgmEtIkTGVz9rCeX/20BaKFQN6ZBqS/0BBs=@vger.kernel.org
+X-Gm-Message-State: AOJu0YxfgFFJLQQ2kS4BE2pq+wWd6IRQPVv3yuaC7ApxiVbJJUwrwXju
+	3gNjcAFJngoVzL9pmTpSjAC9oUpgXyd8RtWp1SJU4mdcJbkTozjYY6zb
+X-Gm-Gg: ATEYQzwBKWwKGtJ3RcnvYjnbiMZc8CuSv+jq5SJ9KzII4NDOsmcCmVFGJb9eh9UfMsw
+	fkshPY2DoGudc51qP+wgnK5o6nPyO3M9JNORiVTLQLjVQC30Kf3iA6BikVsquZi/JbURJInH39S
+	EGEnPwK5KxS4k5u2mN0KnE3PM4bf57uPrmkZkYRcg1TXPX5+bajgCM99UqlDbAqCXYFbMamyYKh
+	RHYNC+VptAEvuYxS+p0iUrSsQSFtOvUkhIUzLrNI+S7d5eZII/xjC7jmsRQu6E+Ffj0sZyRq8CX
+	W9FKg525qtSVOic15l3jBT73AWNTs7jRBlt5tZAB8NdWQZ2Ln9/WZhmIMWF3YnC/Qusuy3GDRt9
+	gM+U7a4ju07byHM8tC7JDSdQoNAtktr328lzXdVnlBlc2MEFXbNBy12rVMp8OqFlslR1kCyOCbD
+	V7EiX1pHFrUys+COs23B1wFSV4v1PgROy4Vc0=
+X-Received: by 2002:a17:907:a807:b0:b96:d6cd:29e6 with SMTP id a640c23a62f3a-b982f0c00e5mr517986566b.2.1774155240526;
+        Sat, 21 Mar 2026 21:54:00 -0700 (PDT)
+Received: from foxbook (bfk214.neoplus.adsl.tpnet.pl. [83.28.48.214])
+        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-b9832f43c3bsm333532066b.2.2026.03.21.21.53.58
+        (version=TLS1_2 cipher=AES128-SHA bits=128/128);
+        Sat, 21 Mar 2026 21:53:59 -0700 (PDT)
+Date: Sun, 22 Mar 2026 05:53:54 +0100
+From: Michal Pecio <michal.pecio@gmail.com>
+To: JP Hein <jp@jphein.com>
+Cc: Laurent Pinchart <laurent.pinchart@ideasonboard.com>, Hans de Goede
+ <hansg@kernel.org>, Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+ linux-media@vger.kernel.org, linux-usb@vger.kernel.org,
+ stable@vger.kernel.org
+Subject: Re: [PATCH 0/3] USB/UVC: Add quirks to prevent Razer Kiyo Pro xHCI
+ cascade failure
+Message-ID: <20260322055354.03399a32.michal.pecio@gmail.com>
+In-Reply-To: <20260321223713.1219297-1-jp@jphein.com>
+References: <20260321223713.1219297-1-jp@jphein.com>
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Subject: Re: [PATCH] dt-bindings: usb: document the Renesas
- UPD720201/UPD720202 USB 3.0 xHCI Host Controller
-To: Neil Armstrong <neil.armstrong@linaro.org>,
- Geert Uytterhoeven <geert@linux-m68k.org>
-Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
- Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>,
- Conor Dooley <conor+dt@kernel.org>, Magnus Damm <magnus.damm@gmail.com>,
- linux-usb@vger.kernel.org, devicetree@vger.kernel.org,
- linux-kernel@vger.kernel.org, linux-renesas-soc@vger.kernel.org,
- Marek Vasut <marek.vasut+renesas@mailbox.org>
-References: <20260319-topic-sm8650-ayaneo-pocket-s2-upd-bindings-v1-1-84e4ef564022@linaro.org>
- <CAMuHMdUACGC4rdXfvO-N-cgNAEzhczB0VYbMoxZMyazSAp6jWg@mail.gmail.com>
- <c8d878e2-8ce8-4526-9dbc-96e4f42be4cf@mailbox.org>
- <6c3829c4-3e1e-41ee-b969-820948d10611@linaro.org>
-Content-Language: en-US
-From: Marek Vasut <marek.vasut@mailbox.org>
-In-Reply-To: <6c3829c4-3e1e-41ee-b969-820948d10611@linaro.org>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-X-MBO-RS-ID: 9f572a9e99c9b97cc2c
-X-MBO-RS-META: 9nomey8gwtghgdcywd5hib1z1ngije3q
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
 
-On 3/21/26 10:26 AM, Neil Armstrong wrote:
-> Le 21/03/2026 à 02:36, Marek Vasut a écrit :
->> On 3/19/26 10:22 AM, Geert Uytterhoeven wrote:
->>> CC Marek (for Sparrow Hawk)
->>
->> The upstream supplies to which the USB controller on SH would attach 
->> are not described in SH DT yet, and they are always on, so I don't 
->> think we need to describe the controller in SH DT yet, do we ?
-> 
-> Indeed, not necessarily, describing it would be required for power 
-> control and eventually to describe usb hubs as subnodes if they also 
-> need reset and power control.
-ACK, thank you for clarifying !
+On Sat, 21 Mar 2026 15:37:02 -0700, JP Hein wrote:
+> This has been reported as Ubuntu Launchpad Bug #2061177 and affects
+> multiple kernel versions (tested on 6.5.x through 6.8.x).
+
+> Tested on:
+>   - Kernel: 6.8.0-106-generic (Ubuntu 24.04)
+
+How many of those problems still exist on current releases,
+where hese patches would end up applied?
+
+Does anyone have a repro?
+
+How does it behave on non-Intel USB controllers?
+
+Regards,
+Michal
