@@ -1,1187 +1,173 @@
-Received: from rtits2.realtek.com.tw (rtits2.realtek.com [211.75.126.72])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com [205.220.168.131])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 789E83803C8;
-	Mon, 23 Mar 2026 08:40:32 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=211.75.126.72
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8A5C9382F1A
+	for <linux-usb@vger.kernel.org>; Mon, 23 Mar 2026 08:54:28 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.168.131
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1774255238; cv=none; b=KO6SI0M9NbcTn73P4o5+7NyaypANSEbdGSJhE6o2Y7BRJjqDlV3uEYy3f5D7RL1Sgf5KmdfyF4hFSGQ9pPEQvbdygPo0u8lB50NF1rb7DH0Zo0jZpfKxJmcJ/2Wc9wY7Vt8AOyQG37mVR+RjL8qmiWgibuRLdFmAX4yWbLAF+2E=
+	t=1774256069; cv=none; b=E80BvULF3YncuuIydQOpjLfEAsbhI6XQxrBHvFGxh7OPaGxuYPGMl1xXNmwyTsyOQGiWejDtZ7sDxhinKeH3eH5DCnm+N4RVQ4WwJYPaDsm0DWWQVsHM9pttDV+eeLDy2kTQevGcA19nMDdF1LnpKyZqIDOc1av+mUMCyX1QfiQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1774255238; c=relaxed/simple;
-	bh=85Vin4DQCr/ySsnd8XMOvwVHwtB+7i8oAobg12pFtQ8=;
-	h=From:To:CC:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=Jdcc7koSz+2ADda1+1rBrYGj56Z1wo5aBlz+sBTQ4gZyi4ad8a3MdIJ6TLlzuu1PF9VN2TrtUYyxbvBBrBebtraMJ2YhDrG5EBeT3vKpKNjmPktoDSYOz2ZQlANMEPoPv9bqyxlSE7FTSss1rBlqNAmjOFk/3hgfPUad17TbjqA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=realtek.com; spf=pass smtp.mailfrom=realtek.com; dkim=pass (2048-bit key) header.d=realtek.com header.i=@realtek.com header.b=UwmE5f5w; arc=none smtp.client-ip=211.75.126.72
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=realtek.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=realtek.com
+	s=arc-20240116; t=1774256069; c=relaxed/simple;
+	bh=IWg7Fq4uiHk+iIE/mg58Tl+eNsaNW7if6QcneB+1peA=;
+	h=From:Subject:Date:Message-Id:MIME-Version:Content-Type:To:Cc; b=gihOX0OfFTHEuOVQtenvlP3MrcMCbClxHg1ZGs5WN0N8RdUuAbqpadCY4Xh9LCgIdbIt6g0cmD/L12UuDFVYvxlE6SYKso+Kxm0g1FC//G++Wa1iQf24KzLSmLVAK69CcGP8q1lgpva2lynmCxHHFzOawJ11anXPvAc2ZPjOFzA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com; spf=pass smtp.mailfrom=oss.qualcomm.com; dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b=cKcAuvrY; dkim=pass (2048-bit key) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.b=jFQ60tOO; arc=none smtp.client-ip=205.220.168.131
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=oss.qualcomm.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=realtek.com header.i=@realtek.com header.b="UwmE5f5w"
-X-SpamFilter-By: ArmorX SpamTrap 5.80 with qID 62N8e5pQ52802685, This message is accepted by code: ctloc85258
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=realtek.com; s=dkim;
-	t=1774255205; bh=yDTLBgUBfkEr3EoqLIV89ZrV5ojF5Fl3vMnsqarfAR0=;
-	h=From:To:CC:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Transfer-Encoding:Content-Type;
-	b=UwmE5f5wMW3+OMg3n15nLFWgOmvZMB6GMEHpiVyTJPbJ4c5GFEes0IMZgJSWaGTqC
-	 3zV1NgCUqRSLi0J9HPxMEPsnX+gLanlDPLfcvjyMR8e5mRXUUBsuToDp4t338ia8Zb
-	 LrDKYbzMiSZDAzZjS8bh50bYNzRpjREk9Hv5kDdFUtYQ65L40oUAPLxCQAe+frNL9J
-	 6IpYXCIYe4WL1iXhS+3iL1sXXDHft/cnzUWJiQuUtOSfTV0mcu8T9CSLQshgsM+VEv
-	 WY0xeF+iJQ/wp3k+oIflmSbrFdcRifQGTLteyuKlctyXxvcdi+fqKNOlSSdVTgdUUv
-	 WywzfkUNRqSGA==
-Received: from mail.realtek.com (rtkexhmbs02.realtek.com.tw[172.21.6.41])
-	by rtits2.realtek.com.tw (8.15.2/3.21/5.94) with ESMTPS id 62N8e5pQ52802685
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
-	Mon, 23 Mar 2026 16:40:05 +0800
-Received: from RTKEXHMBS01.realtek.com.tw (172.21.6.40) by
- RTKEXHMBS02.realtek.com.tw (172.21.6.41) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.1748.10; Mon, 23 Mar 2026 16:23:38 +0800
-Received: from RTKEXHMBS06.realtek.com.tw (10.21.1.56) by
- RTKEXHMBS01.realtek.com.tw (172.21.6.40) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.2562.17; Mon, 23 Mar 2026 16:23:37 +0800
-Received: from fc40.realtek.com.tw (172.22.241.7) by
- RTKEXHMBS06.realtek.com.tw (10.21.1.56) with Microsoft SMTP Server id
- 15.2.1748.10 via Frontend Transport; Mon, 23 Mar 2026 16:23:37 +0800
-From: Chih Kai Hsu <hsu.chih.kai@realtek.com>
-To: <kuba@kernel.org>, <davem@davemloft.net>
-CC: <netdev@vger.kernel.org>, <nic_swsd@realtek.com>,
-        <linux-kernel@vger.kernel.org>, <linux-usb@vger.kernel.org>,
-        <edumazet@google.com>, <bjorn@mork.no>, <pabeni@redhat.com>,
-        Chih Kai Hsu
-	<hsu.chih.kai@realtek.com>
-Subject: [PATCH net-next v3 2/2] r8152: add helper functions for PHY OCP registers
-Date: Mon, 23 Mar 2026 16:22:26 +0800
-Message-ID: <20260323082226.2601-452-nic_swsd@realtek.com>
-X-Mailer: git-send-email 2.53.0
-In-Reply-To: <20260323082226.2601-450-nic_swsd@realtek.com>
-References: <20260323082226.2601-450-nic_swsd@realtek.com>
+	dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b="cKcAuvrY";
+	dkim=pass (2048-bit key) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.b="jFQ60tOO"
+Received: from pps.filterd (m0279864.ppops.net [127.0.0.1])
+	by mx0a-0031df01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 62N768es1497563
+	for <linux-usb@vger.kernel.org>; Mon, 23 Mar 2026 08:54:28 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
+	cc:content-transfer-encoding:content-type:date:from:message-id
+	:mime-version:subject:to; s=qcppdkim1; bh=sEcniXN4CmVf2S5jjfl6bW
+	59q+mApatBSj6Rx2JSu44=; b=cKcAuvrYgpSZ7Hb1rFspuUKBKDQQKKydTFSVsH
+	3K4JQJNUIv+zJzhyclz7HbRCzoMWoa9Zdj7Iavp7yhnxv/P+OoPKskzaDjy4Nfbr
+	6Zd+GIXxuFMRe0OJE+jbganVuxh2nC0tHyJXQ9ueYUTb+C9qFuz7ljZzaK4FswAv
+	Y/2BaImMUb4EQHEgQW26ST2SkK/MT4f16VreBhmPj29t8FgXRV/VYhWk1RveG7IX
+	O3aYImO2MijmWzcz4dP0HtX2l0pF7sGufdAF/fJtYjb+nQXCEcWPdPuMgBNLl76B
+	0PBUIrf/f8CNJI1qCCo+0GoAmtSz4huveHeIUpRRNOoNzzFg==
+Received: from mail-qt1-f200.google.com (mail-qt1-f200.google.com [209.85.160.200])
+	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 4d1mghcenw-1
+	(version=TLSv1.3 cipher=TLS_AES_128_GCM_SHA256 bits=128 verify=NOT)
+	for <linux-usb@vger.kernel.org>; Mon, 23 Mar 2026 08:54:28 +0000 (GMT)
+Received: by mail-qt1-f200.google.com with SMTP id d75a77b69052e-50b31cff27fso23750201cf.3
+        for <linux-usb@vger.kernel.org>; Mon, 23 Mar 2026 01:54:27 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=oss.qualcomm.com; s=google; t=1774256067; x=1774860867; darn=vger.kernel.org;
+        h=cc:to:content-transfer-encoding:mime-version:message-id:date
+         :subject:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=sEcniXN4CmVf2S5jjfl6bW59q+mApatBSj6Rx2JSu44=;
+        b=jFQ60tOOz+M0yajazoO9gn6LY5Mmoa/G5yLuI0l0ra5a+EZwBfrkXw/qJUCczvo5Zb
+         phrii6myzigSy3cEPg5Emnbz57yTPpsABru88mFWrY8yltBMkEb9DZ/BKEi9IlLEUXLY
+         sfF2S2CGDt6Qb7ofWYtoakN4VSrGYxRLLKEBkvN7q8KtAA3aDSCvwgdE30aTJIoR3zqA
+         +c9Z7UBZKAf0FS2y8jT7LtS6vvjEqw0dZ8KFkfxp2CDALHIhn9mWZ459+BwLwv2CSfbp
+         qyyhG/cU7Y5AQBWPazAMVukmV3GSjDdxilOJLge8C8XB7GEa/R+Jz2n3AQZTvbf2HITW
+         7uTA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1774256067; x=1774860867;
+        h=cc:to:content-transfer-encoding:mime-version:message-id:date
+         :subject:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=sEcniXN4CmVf2S5jjfl6bW59q+mApatBSj6Rx2JSu44=;
+        b=hg93NuGWME6pLVMO7PNAze00fOjgooNjmHx8SLkX2bt4f8+ohYPy5ELIXbkToQVkoH
+         5UfitG2YrB8fX6KUVzNrxn67Yk5IJ6B3ZkSQ+LbfVboz1klMDuYrU//mh8xpMdwj64Ye
+         56NBQbmxgw90cLvGdxYIof7dS5wwktfjuhIVznNccZA2WL26n5368qTGMVEaRijrisJO
+         e16f4NgX2Y1NfU7UdKBo9TeM15lmSILJP25drj5pFHDCnEDp3pYpDUMDUf3u0pJEET+V
+         vurQZPqc4Qy+Eg/CsEGzt5FSVuJPpjnSqZDeUhDBW3A+xdg2MRU0HmyrpgLBoYYCtyh7
+         b8RQ==
+X-Forwarded-Encrypted: i=1; AJvYcCVaNwB0gDFJPFIo8+eAPDOrfHSc7znZf9UDkB9g2YlZrap7PSah8CrCOs/uA+vQOf/wjCjchXhYd2s=@vger.kernel.org
+X-Gm-Message-State: AOJu0Yw26KLZQ9kTuNifiv49QF1SEjmdY/II8iNlCjKbGQmVSGDQIbS/
+	c+Hsqhropg6PwLKJF3l5iSwtStOfVNdSmOR04bonf2eZOEpFwKDyFeH8W69K5Da/ue2YKB2F6YB
+	UNqR7ZdH+znr7NHK4Mp2NUBHclRJPTn+iR89obNYa02InwCy+JHNGgM73XDG7xykwbonlLZc=
+X-Gm-Gg: ATEYQzx9cZfgWijO5f4aL2qTSN0GdBafLXDSPHiUPdeZ1chnGmLExEFHg1LfrBnes63
+	VP0BLAhJKap/frHgnNAsnjL+pqaYn+3Q8ybtLSVF6BnSL4dArKCJabnPNXUop2OlZ7Z7kezGGCW
+	98b6M6Ae513TQmb7gu9J/0ERhNu89nkObTS+KL0R+yh+VHk5m5QsPjHz9+7OLu66OIxwulxrrRK
+	JNosRKvZ4O0sEnnLGTOhxcwh46/5LOHvBnx4Bwp9pdISHZvpQ3hO1QHDqVHtrfRr3ENnGJmonh9
+	DwG/THg+oax7PBamu/RFjfByv2fbgvDS4LbznvCnk2stLAnPzta94rv+bG7J6aK7LWLQwTJJIyg
+	bMYWDY6/MWFWbvnmd7zoez8B3O1LiSfW1ocEGmHhqcg6X
+X-Received: by 2002:ac8:5f52:0:b0:50b:6a80:ec17 with SMTP id d75a77b69052e-50b6a80ef20mr1491401cf.40.1774256066683;
+        Mon, 23 Mar 2026 01:54:26 -0700 (PDT)
+X-Received: by 2002:ac8:5f52:0:b0:50b:6a80:ec17 with SMTP id d75a77b69052e-50b6a80ef20mr1491231cf.40.1774256066252;
+        Mon, 23 Mar 2026 01:54:26 -0700 (PDT)
+Received: from [127.0.1.1] ([178.197.219.94])
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-43b64703c27sm27911739f8f.18.2026.03.23.01.54.24
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 23 Mar 2026 01:54:25 -0700 (PDT)
+From: Krzysztof Kozlowski <krzysztof.kozlowski@oss.qualcomm.com>
+Subject: [PATCH v2 0/5] dt-bindings: USB: qcom,snps-dwc3: cleanup of
+ existing bindings
+Date: Mon, 23 Mar 2026 09:54:11 +0100
+Message-Id: <20260323-dt-bindings-snps-qcom-dwc3-cleanup-v2-0-3bcd37c0a5b5@oss.qualcomm.com>
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+X-B4-Tracking: v=1; b=H4sIALP/wGkC/yXNwQrCMAyA4VcZORuoLQz0VcTD2mRbRLPabCqMv
+ budHr/L/69gXIQNzs0KhV9iMmmFPzSQxk4HRqFq8M63LviANGMUJdHB0DQbPtP0QHqngOnOnS4
+ Zw8lRe+wjsQ9QQ7lwL5/f5HL925Z44zTvZdi2LzC03RWGAAAA
+X-Change-ID: 20260323-dt-bindings-snps-qcom-dwc3-cleanup-390d61fbde23
+To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Rob Herring <robh@kernel.org>,
+        Krzysztof Kozlowski <krzk+dt@kernel.org>,
+        Conor Dooley <conor+dt@kernel.org>,
+        Wesley Cheng <quic_wcheng@quicinc.com>
+Cc: linux-arm-msm@vger.kernel.org, linux-usb@vger.kernel.org,
+        devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
+        Krzysztof Kozlowski <krzysztof.kozlowski@oss.qualcomm.com>
+X-Mailer: b4 0.15.0
+X-Developer-Signature: v=1; a=openpgp-sha256; l=1059;
+ i=krzysztof.kozlowski@oss.qualcomm.com; h=from:subject:message-id;
+ bh=IWg7Fq4uiHk+iIE/mg58Tl+eNsaNW7if6QcneB+1peA=;
+ b=owEBbQKS/ZANAwAKAcE3ZuaGi4PXAcsmYgBpwP+4OC4cTz7PsEXOkFfZ01wSxGTI/CQNraAA9
+ rO2mF8emAaJAjMEAAEKAB0WIQTd0mIoPREbIztuuKjBN2bmhouD1wUCacD/uAAKCRDBN2bmhouD
+ 19eFEACbMsXVDHKisEvwV5kaxElgVAPuJpxX/j2+HBcdCXi3HnO6SCluHFrCLS8JhSejqE24lSz
+ b6PVRsQrxFEmJI0XstCivFUcaSQOHoOfpvwWYAl8I3sGscxqPRgOZMHOTjFWJKV217PiFxfI8ud
+ gq6IiFqV1Gi0XfH3kopTdS4ebRAHf50irahpBVYAAhrduP2ztTowVeg0VMzHBB4EOnwotADdOYl
+ AiozwI0Ng6X4v+vgCjQAmpRXtasJnHYaA0vXixpeikBAebvdViprmF3eC9UAss32C/FkdCcgasm
+ 781TjXL9B8yBJxRjvIDA22Mty2ky7/EQlt8eCLgEdPLNZl0Pkn6LgkyJKC4PMjQjWlW0Id8mWtn
+ ARnP+5Cf0yvAcg/b+K0uZvE5Ecnavodv0jhwQJGBDohxdQ4TcmpWVeGbQNyb9Wk+E6vZ7AjSeMI
+ NdA0x2VTqe6wrsZf9DM1k4Yp+zfPFP2JKIYewbiXMBSzkssltKwJpx68fjVsl4b5lu1/bhQqbB8
+ ppniGuS49WgFAFaUatS/fI6Zs8y2gnHqu1DYMSC6mhcZlqJ2GGQ+giFwOCDnPgSDsKTWLeLhTBf
+ qgZXpNoNJ+RG324DG4tjZ9H8tWxUDvpbYMZlGUPFw+gQb1Y1VCrxZKkzUtVbJWSCZBljLJGaGFR
+ YB4B4umwszJWXDA==
+X-Developer-Key: i=krzysztof.kozlowski@oss.qualcomm.com; a=openpgp;
+ fpr=9BD07E0E0C51F8D59677B7541B93437D3B41629B
+X-Authority-Analysis: v=2.4 cv=HI7O14tv c=1 sm=1 tr=0 ts=69c0ffc4 cx=c_pps
+ a=JbAStetqSzwMeJznSMzCyw==:117 a=gOEeR9iKwsj33Yj5oN/cWg==:17
+ a=IkcTkHD0fZMA:10 a=Yq5XynenixoA:10 a=s4-Qcg_JpJYA:10
+ a=VkNPw1HP01LnGYTKEx00:22 a=u7WPNUs3qKkmUXheDGA7:22 a=DJpcGTmdVt4CTyJn9g5Z:22
+ a=VwQbUJbxAAAA:8 a=EUspDBNiAAAA:8 a=D-rwtq3xYFyqOEHTDRwA:9 a=QEXdDO2ut3YA:10
+ a=uxP6HrT_eTzRwkO_Te1X:22
+X-Proofpoint-ORIG-GUID: UOJt9sLVMxJO1FoQHMd09wHs42RHgzNl
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYwMzIzMDA2OCBTYWx0ZWRfX78Axk1vT8KNA
+ ieL6uLT7RpEQFV4J40edrATlGCItnSbO46wrnHMja2jVEn9KZ7/YyoHYFPt0Wb2jvHU01d9oib9
+ MHNcOC0bvcxnOPsF+PJcvB5cec4EGQxBgCcQTzD2nc9V7jfHsllxFxiyFqLmb1pEFFuJYbWiR3e
+ ZyMQIBnNqoKKw0QmYaxM0e6alJ2CD3NDoJwUsvdgL7q3DjJtdB+cypZ0azB9BVF9c5bJjoAVpSS
+ 3/34ZTdVh5xphnR4guJ59RKZ4WmVpuM7OswsvmA1qOAvGwskHT0ZLXLMhhJvJyXGLaLWm77sGcm
+ QHRuDv+Lk7KalhJ7z38JE5IzGIXl+xpNkhzJBLYEB9F1tjXa+Kj00e+lw9Lsy9nCQ3TV+d+hK7n
+ Kz1cbJ+5wZ5cy9vOg6uNbvLC1C6AkWw8wHGRvC2DMKnoNmWhdIn2ivCNRq0fco0JP+ww3fGSSY5
+ z71FhprHaDhOJZyflIg==
+X-Proofpoint-GUID: UOJt9sLVMxJO1FoQHMd09wHs42RHgzNl
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1143,Hydra:6.1.51,FMLib:17.12.100.49
+ definitions=2026-03-23_02,2026-03-20_02,2025-10-01_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ priorityscore=1501 clxscore=1015 phishscore=0 malwarescore=0 bulkscore=0
+ impostorscore=0 suspectscore=0 spamscore=0 adultscore=0 lowpriorityscore=0
+ classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
+ reason=mlx scancount=1 engine=8.22.0-2603050001 definitions=main-2603230068
 
-Add the following bitwise operation functions for PHY OCP registers to
-simplify the code.
+Changes in v2:
+1. Three new patches, combine previous two into one patchset.
 
-- ocp_reg_w0w1()
-- ocp_reg_clr_bits()
-- ocp_reg_set_bits()
-- sram_write_w0w1()
-- sram clr_bits()
-- sram_set_bits()
-- r8152_mdio_clr_bit()
-- r8152_mdio_set_bit()
-- r8152_mdio_test_and_clr_bit()
+Previous postings:
+https://lore.kernel.org/r/20260319091709.20981-2-krzysztof.kozlowski@oss.qualcomm.com/
+https://lore.kernel.org/r/20260319092348.35237-2-krzysztof.kozlowski@oss.qualcomm.com/
 
-In addition, remove variable set but not used from r8153_init(),
-r8153b_init() and r8153c_init().
+Best regards,
+Krzysztof
 
-Signed-off-by: Chih Kai Hsu <hsu.chih.kai@realtek.com>
 ---
- drivers/net/usb/r8152.c | 697 +++++++++++++---------------------------
- 1 file changed, 226 insertions(+), 471 deletions(-)
+Krzysztof Kozlowski (5):
+      dt-bindings: usb: qcom,snps-dwc3: Drop stale child node comment
+      dt-bindings: usb: qcom,snps-dwc3: Add missing clocks and interrupts constraints
+      dt-bindings: usb: qcom,snps-dwc3: Add constraints for SM6375
+      dt-bindings: usb: qcom,snps-dwc3: Add constraints for SM4250
+      dt-bindings: usb: qcom,snps-dwc3: Add constraints for IPQ5424 and IPQ9574
 
-diff --git a/drivers/net/usb/r8152.c b/drivers/net/usb/r8152.c
-index ba6dc4dbfd80..caeed74c497e 100644
---- a/drivers/net/usb/r8152.c
-+++ b/drivers/net/usb/r8152.c
-@@ -1726,6 +1726,71 @@ static void ocp_byte_set_bits(struct r8152 *tp, u16 type, u16 index, u8 set)
- 	ocp_byte_w0w1(tp, type, index, 0, set);
- }
- 
-+static void ocp_reg_w0w1(struct r8152 *tp, u16 addr, u16 clear, u16 set)
-+{
-+	u16 data;
-+
-+	data = ocp_reg_read(tp, addr);
-+	data = (data & ~clear) | set;
-+	ocp_reg_write(tp, addr, data);
-+}
-+
-+static void ocp_reg_clr_bits(struct r8152 *tp, u16 addr, u16 clear)
-+{
-+	ocp_reg_w0w1(tp, addr, clear, 0);
-+}
-+
-+static void ocp_reg_set_bits(struct r8152 *tp, u16 addr, u16 set)
-+{
-+	ocp_reg_w0w1(tp, addr, 0, set);
-+}
-+
-+static void sram_write_w0w1(struct r8152 *tp, u16 addr, u16 clear, u16 set)
-+{
-+	u16 data;
-+
-+	data = sram_read(tp, addr);
-+	data = (data & ~clear) | set;
-+	ocp_reg_write(tp, OCP_SRAM_DATA, data);
-+}
-+
-+static void sram_clr_bits(struct r8152 *tp, u16 addr, u16 clear)
-+{
-+	sram_write_w0w1(tp, addr, clear, 0);
-+}
-+
-+static void sram_set_bits(struct r8152 *tp, u16 addr, u16 set)
-+{
-+	sram_write_w0w1(tp, addr, 0, set);
-+}
-+
-+static void r8152_mdio_clr_bit(struct r8152 *tp, u16 addr, u16 clear)
-+{
-+	int data;
-+
-+	data = r8152_mdio_read(tp, addr);
-+	r8152_mdio_write(tp, addr, data & ~clear);
-+}
-+
-+static void r8152_mdio_set_bit(struct r8152 *tp, u16 addr, u16 set)
-+{
-+	int data;
-+
-+	data = r8152_mdio_read(tp, addr);
-+	r8152_mdio_write(tp, addr, data | set);
-+}
-+
-+static int r8152_mdio_test_and_clr_bit(struct r8152 *tp, u16 addr, u16 clear)
-+{
-+	int data;
-+
-+	data = r8152_mdio_read(tp, addr);
-+	if (data & clear)
-+		r8152_mdio_write(tp, addr, data & ~clear);
-+
-+	return data & clear;
-+}
-+
- static int
- r8152_submit_rx(struct r8152 *tp, struct rx_agg *agg, gfp_t mem_flags);
- 
-@@ -3740,14 +3805,10 @@ static void r8156_ups_flags(struct r8152 *tp)
- 
- static void rtl_green_en(struct r8152 *tp, bool enable)
- {
--	u16 data;
--
--	data = sram_read(tp, SRAM_GREEN_CFG);
- 	if (enable)
--		data |= GREEN_ETH_EN;
-+		sram_set_bits(tp, SRAM_GREEN_CFG, GREEN_ETH_EN);
- 	else
--		data &= ~GREEN_ETH_EN;
--	sram_write(tp, SRAM_GREEN_CFG, data);
-+		sram_clr_bits(tp, SRAM_GREEN_CFG, GREEN_ETH_EN);
- 
- 	tp->ups_info.green = enable;
- }
-@@ -4143,18 +4204,16 @@ static inline void rtl_reset_ocp_base(struct r8152 *tp)
- 
- static int rtl_phy_patch_request(struct r8152 *tp, bool request, bool wait)
- {
--	u16 data, check;
-+	u16 check;
- 	int i;
- 
--	data = ocp_reg_read(tp, OCP_PHY_PATCH_CMD);
- 	if (request) {
--		data |= PATCH_REQUEST;
-+		ocp_reg_set_bits(tp, OCP_PHY_PATCH_CMD, PATCH_REQUEST);
- 		check = 0;
- 	} else {
--		data &= ~PATCH_REQUEST;
-+		ocp_reg_clr_bits(tp, OCP_PHY_PATCH_CMD, PATCH_REQUEST);
- 		check = PATCH_READY;
- 	}
--	ocp_reg_write(tp, OCP_PHY_PATCH_CMD, data);
- 
- 	for (i = 0; wait && i < 5000; i++) {
- 		u32 ocp_data;
-@@ -4184,14 +4243,8 @@ static void rtl_patch_key_set(struct r8152 *tp, u16 key_addr, u16 patch_key)
- 		sram_write(tp, key_addr, patch_key);
- 		sram_write(tp, SRAM_PHY_LOCK, PHY_PATCH_LOCK);
- 	} else if (key_addr) {
--		u16 data;
--
- 		sram_write(tp, 0x0000, 0x0000);
--
--		data = ocp_reg_read(tp, OCP_PHY_LOCK);
--		data &= ~PATCH_LOCK;
--		ocp_reg_write(tp, OCP_PHY_LOCK, data);
--
-+		ocp_reg_clr_bits(tp, OCP_PHY_LOCK, PATCH_LOCK);
- 		sram_write(tp, key_addr, 0x0000);
- 	} else {
- 		WARN_ON_ONCE(1);
-@@ -5299,69 +5352,58 @@ static void r8152_mmd_write(struct r8152 *tp, u16 dev, u16 reg, u16 data)
- 
- static void r8152_eee_en(struct r8152 *tp, bool enable)
- {
--	u16 config1, config2, config3;
--
--	config1 = ocp_reg_read(tp, OCP_EEE_CONFIG1) & ~sd_rise_time_mask;
--	config2 = ocp_reg_read(tp, OCP_EEE_CONFIG2);
--	config3 = ocp_reg_read(tp, OCP_EEE_CONFIG3) & ~fast_snr_mask;
--
- 	if (enable) {
- 		ocp_word_set_bits(tp, MCU_TYPE_PLA, PLA_EEE_CR,
- 				  EEE_RX_EN | EEE_TX_EN);
--		config1 |= EEE_10_CAP | EEE_NWAY_EN | TX_QUIET_EN | RX_QUIET_EN;
--		config1 |= sd_rise_time(1);
--		config2 |= RG_DACQUIET_EN | RG_LDVQUIET_EN;
--		config3 |= fast_snr(42);
-+
-+		ocp_reg_w0w1(tp, OCP_EEE_CONFIG1, sd_rise_time_mask,
-+			     EEE_10_CAP | EEE_NWAY_EN | TX_QUIET_EN |
-+			     RX_QUIET_EN | sd_rise_time(1));
-+
-+		ocp_reg_set_bits(tp, OCP_EEE_CONFIG2,
-+				 RG_DACQUIET_EN | RG_LDVQUIET_EN);
-+
-+		ocp_reg_w0w1(tp, OCP_EEE_CONFIG3, fast_snr_mask, fast_snr(42));
- 	} else {
- 		ocp_word_clr_bits(tp, MCU_TYPE_PLA, PLA_EEE_CR,
- 				  EEE_RX_EN | EEE_TX_EN);
--		config1 &= ~(EEE_10_CAP | EEE_NWAY_EN | TX_QUIET_EN |
--			     RX_QUIET_EN);
--		config1 |= sd_rise_time(7);
--		config2 &= ~(RG_DACQUIET_EN | RG_LDVQUIET_EN);
--		config3 |= fast_snr(511);
--	}
- 
--	ocp_reg_write(tp, OCP_EEE_CONFIG1, config1);
--	ocp_reg_write(tp, OCP_EEE_CONFIG2, config2);
--	ocp_reg_write(tp, OCP_EEE_CONFIG3, config3);
-+		ocp_reg_w0w1(tp, OCP_EEE_CONFIG1, sd_rise_time_mask |
-+			     EEE_10_CAP | EEE_NWAY_EN | TX_QUIET_EN |
-+			     RX_QUIET_EN, sd_rise_time(7));
-+
-+		ocp_reg_clr_bits(tp, OCP_EEE_CONFIG2,
-+				 RG_DACQUIET_EN | RG_LDVQUIET_EN);
-+
-+		ocp_reg_w0w1(tp, OCP_EEE_CONFIG3, fast_snr_mask, fast_snr(511));
-+	}
- }
- 
- static void r8153_eee_en(struct r8152 *tp, bool enable)
- {
--	u16 config;
--
--	config = ocp_reg_read(tp, OCP_EEE_CFG);
--
- 	if (enable) {
- 		ocp_word_set_bits(tp, MCU_TYPE_PLA, PLA_EEE_CR,
- 				  EEE_RX_EN | EEE_TX_EN);
--		config |= EEE10_EN;
-+
-+		ocp_reg_set_bits(tp, OCP_EEE_CFG, EEE10_EN);
- 	} else {
- 		ocp_word_clr_bits(tp, MCU_TYPE_PLA, PLA_EEE_CR,
- 				  EEE_RX_EN | EEE_TX_EN);
--		config &= ~EEE10_EN;
--	}
- 
--	ocp_reg_write(tp, OCP_EEE_CFG, config);
-+		ocp_reg_clr_bits(tp, OCP_EEE_CFG, EEE10_EN);
-+	}
- 
- 	tp->ups_info.eee = enable;
- }
- 
- static void r8156_eee_en(struct r8152 *tp, bool enable)
- {
--	u16 config;
--
- 	r8153_eee_en(tp, enable);
- 
--	config = ocp_reg_read(tp, OCP_EEE_ADV2);
--
- 	if (enable && (tp->eee_adv2 & MDIO_EEE_2_5GT))
--		config |= MDIO_EEE_2_5GT;
-+		ocp_reg_set_bits(tp, OCP_EEE_ADV2, MDIO_EEE_2_5GT);
- 	else
--		config &= ~MDIO_EEE_2_5GT;
--
--	ocp_reg_write(tp, OCP_EEE_ADV2, config);
-+		ocp_reg_clr_bits(tp, OCP_EEE_ADV2, MDIO_EEE_2_5GT);
- }
- 
- static void rtl_eee_enable(struct r8152 *tp, bool enable)
-@@ -5414,11 +5456,8 @@ static void rtl_eee_enable(struct r8152 *tp, bool enable)
- 
- static void r8152b_enable_fc(struct r8152 *tp)
- {
--	u16 anar;
--
--	anar = r8152_mdio_read(tp, MII_ADVERTISE);
--	anar |= ADVERTISE_PAUSE_CAP | ADVERTISE_PAUSE_ASYM;
--	r8152_mdio_write(tp, MII_ADVERTISE, anar);
-+	r8152_mdio_set_bit(tp, MII_ADVERTISE,
-+			   ADVERTISE_PAUSE_CAP | ADVERTISE_PAUSE_ASYM);
- 
- 	tp->ups_info.flow_control = true;
- }
-@@ -5674,17 +5713,12 @@ static int r8156a_post_firmware_1(struct r8152 *tp)
- 
- static void r8153_aldps_en(struct r8152 *tp, bool enable)
- {
--	u16 data;
--
--	data = ocp_reg_read(tp, OCP_POWER_CFG);
- 	if (enable) {
--		data |= EN_ALDPS;
--		ocp_reg_write(tp, OCP_POWER_CFG, data);
-+		ocp_reg_set_bits(tp, OCP_POWER_CFG, EN_ALDPS);
- 	} else {
- 		int i;
- 
--		data &= ~EN_ALDPS;
--		ocp_reg_write(tp, OCP_POWER_CFG, data);
-+		ocp_reg_clr_bits(tp, OCP_POWER_CFG, EN_ALDPS);
- 		for (i = 0; i < 20; i++) {
- 			if (test_bit(RTL8152_INACCESSIBLE, &tp->flags))
- 				return;
-@@ -5699,8 +5733,6 @@ static void r8153_aldps_en(struct r8152 *tp, bool enable)
- 
- static void r8153_hw_phy_cfg(struct r8152 *tp)
- {
--	u16 data;
--
- 	/* disable ALDPS before updating the PHY parameters */
- 	r8153_aldps_en(tp, false);
- 
-@@ -5709,22 +5741,14 @@ static void r8153_hw_phy_cfg(struct r8152 *tp)
- 
- 	rtl8152_apply_firmware(tp, false);
- 
--	if (tp->version == RTL_VER_03) {
--		data = ocp_reg_read(tp, OCP_EEE_CFG);
--		data &= ~CTAP_SHORT_EN;
--		ocp_reg_write(tp, OCP_EEE_CFG, data);
--	}
-+	if (tp->version == RTL_VER_03)
-+		ocp_reg_clr_bits(tp, OCP_EEE_CFG, CTAP_SHORT_EN);
-+
-+	ocp_reg_set_bits(tp, OCP_POWER_CFG, EEE_CLKDIV_EN);
- 
--	data = ocp_reg_read(tp, OCP_POWER_CFG);
--	data |= EEE_CLKDIV_EN;
--	ocp_reg_write(tp, OCP_POWER_CFG, data);
-+	ocp_reg_set_bits(tp, OCP_DOWN_SPEED, EN_10M_BGOFF);
- 
--	data = ocp_reg_read(tp, OCP_DOWN_SPEED);
--	data |= EN_10M_BGOFF;
--	ocp_reg_write(tp, OCP_DOWN_SPEED, data);
--	data = ocp_reg_read(tp, OCP_POWER_CFG);
--	data |= EN_10M_PLLOFF;
--	ocp_reg_write(tp, OCP_POWER_CFG, data);
-+	ocp_reg_set_bits(tp, OCP_POWER_CFG, EN_10M_PLLOFF);
- 
- 	sram_write(tp, SRAM_IMPEDANCE, 0x0b13);
- 
-@@ -5792,9 +5816,7 @@ static void r8153b_hw_phy_cfg(struct r8152 *tp)
- 	case PHY_STAT_EXT_INIT:
- 		rtl8152_apply_firmware(tp, true);
- 
--		data = r8152_mdio_read(tp, MII_BMCR);
--		data &= ~BMCR_PDOWN;
--		r8152_mdio_write(tp, MII_BMCR, data);
-+		r8152_mdio_clr_bit(tp, MII_BMCR, BMCR_PDOWN);
- 		break;
- 	case PHY_STAT_LAN_ON:
- 	default:
-@@ -5804,12 +5826,9 @@ static void r8153b_hw_phy_cfg(struct r8152 *tp)
- 
- 	r8153b_green_en(tp, test_bit(GREEN_ETHERNET, &tp->flags));
- 
--	data = sram_read(tp, SRAM_GREEN_CFG);
--	data |= R_TUNE_EN;
--	sram_write(tp, SRAM_GREEN_CFG, data);
--	data = ocp_reg_read(tp, OCP_NCTL_CFG);
--	data |= PGA_RETURN_EN;
--	ocp_reg_write(tp, OCP_NCTL_CFG, data);
-+	sram_set_bits(tp, SRAM_GREEN_CFG, R_TUNE_EN);
-+
-+	ocp_reg_set_bits(tp, OCP_NCTL_CFG, PGA_RETURN_EN);
- 
- 	/* ADC Bias Calibration:
- 	 * read efuse offset 0x7d to get a 17-bit data. Remove the dummy/fake
-@@ -5839,14 +5858,11 @@ static void r8153b_hw_phy_cfg(struct r8152 *tp)
- 
- 	/* Advnace EEE */
- 	if (!rtl_phy_patch_request(tp, true, true)) {
--		data = ocp_reg_read(tp, OCP_POWER_CFG);
--		data |= EEE_CLKDIV_EN;
--		ocp_reg_write(tp, OCP_POWER_CFG, data);
-+		ocp_reg_set_bits(tp, OCP_POWER_CFG, EEE_CLKDIV_EN);
- 		tp->ups_info.eee_ckdiv = true;
- 
--		data = ocp_reg_read(tp, OCP_DOWN_SPEED);
--		data |= EN_EEE_CMODE | EN_EEE_1000 | EN_10M_CLKDIV;
--		ocp_reg_write(tp, OCP_DOWN_SPEED, data);
-+		ocp_reg_set_bits(tp, OCP_DOWN_SPEED,
-+				 EN_EEE_CMODE | EN_EEE_1000 | EN_10M_CLKDIV);
- 		tp->ups_info.eee_cmod_lv = true;
- 		tp->ups_info._10m_ckdiv = true;
- 		tp->ups_info.eee_plloff_giga = true;
-@@ -6812,16 +6828,11 @@ static void rtl_tally_reset(struct r8152 *tp)
- static void r8152b_init(struct r8152 *tp)
- {
- 	u32 ocp_data;
--	u16 data;
- 
- 	if (test_bit(RTL8152_INACCESSIBLE, &tp->flags))
- 		return;
- 
--	data = r8152_mdio_read(tp, MII_BMCR);
--	if (data & BMCR_PDOWN) {
--		data &= ~BMCR_PDOWN;
--		r8152_mdio_write(tp, MII_BMCR, data);
--	}
-+	r8152_mdio_test_and_clr_bit(tp, MII_BMCR, BMCR_PDOWN);
- 
- 	r8152_aldps_en(tp, false);
- 
-@@ -6851,7 +6862,6 @@ static void r8152b_init(struct r8152 *tp)
- static void r8153_init(struct r8152 *tp)
- {
- 	u32 ocp_data;
--	u16 data;
- 	int i;
- 
- 	if (test_bit(RTL8152_INACCESSIBLE, &tp->flags))
-@@ -6869,19 +6879,15 @@ static void r8153_init(struct r8152 *tp)
- 			break;
- 	}
- 
--	data = r8153_phy_status(tp, 0);
-+	r8153_phy_status(tp, 0);
- 
- 	if (tp->version == RTL_VER_03 || tp->version == RTL_VER_04 ||
- 	    tp->version == RTL_VER_05)
- 		ocp_reg_write(tp, OCP_ADC_CFG, CKADSEL_L | ADC_EN | EN_EMI_L);
- 
--	data = r8152_mdio_read(tp, MII_BMCR);
--	if (data & BMCR_PDOWN) {
--		data &= ~BMCR_PDOWN;
--		r8152_mdio_write(tp, MII_BMCR, data);
--	}
-+	r8152_mdio_test_and_clr_bit(tp, MII_BMCR, BMCR_PDOWN);
- 
--	data = r8153_phy_status(tp, PHY_STAT_LAN_ON);
-+	r8153_phy_status(tp, PHY_STAT_LAN_ON);
- 
- 	r8153_u2p3en(tp, false);
- 
-@@ -6972,7 +6978,6 @@ static void r8153_init(struct r8152 *tp)
- 
- static void r8153b_init(struct r8152 *tp)
- {
--	u16 data;
- 	int i;
- 
- 	if (test_bit(RTL8152_INACCESSIBLE, &tp->flags))
-@@ -6990,15 +6995,11 @@ static void r8153b_init(struct r8152 *tp)
- 			break;
- 	}
- 
--	data = r8153_phy_status(tp, 0);
-+	r8153_phy_status(tp, 0);
- 
--	data = r8152_mdio_read(tp, MII_BMCR);
--	if (data & BMCR_PDOWN) {
--		data &= ~BMCR_PDOWN;
--		r8152_mdio_write(tp, MII_BMCR, data);
--	}
-+	r8152_mdio_test_and_clr_bit(tp, MII_BMCR, BMCR_PDOWN);
- 
--	data = r8153_phy_status(tp, PHY_STAT_LAN_ON);
-+	r8153_phy_status(tp, PHY_STAT_LAN_ON);
- 
- 	r8153_u2p3en(tp, false);
- 
-@@ -7047,7 +7048,6 @@ static void r8153b_init(struct r8152 *tp)
- 
- static void r8153c_init(struct r8152 *tp)
- {
--	u16 data;
- 	int i;
- 
- 	if (test_bit(RTL8152_INACCESSIBLE, &tp->flags))
-@@ -7072,15 +7072,11 @@ static void r8153c_init(struct r8152 *tp)
- 			return;
- 	}
- 
--	data = r8153_phy_status(tp, 0);
-+	r8153_phy_status(tp, 0);
- 
--	data = r8152_mdio_read(tp, MII_BMCR);
--	if (data & BMCR_PDOWN) {
--		data &= ~BMCR_PDOWN;
--		r8152_mdio_write(tp, MII_BMCR, data);
--	}
-+	r8152_mdio_test_and_clr_bit(tp, MII_BMCR, BMCR_PDOWN);
- 
--	data = r8153_phy_status(tp, PHY_STAT_LAN_ON);
-+	r8153_phy_status(tp, PHY_STAT_LAN_ON);
- 
- 	r8153_u2p3en(tp, false);
- 
-@@ -7130,9 +7126,7 @@ static void r8156_hw_phy_cfg(struct r8152 *tp)
- 	case PHY_STAT_EXT_INIT:
- 		rtl8152_apply_firmware(tp, true);
- 
--		data = ocp_reg_read(tp, 0xa468);
--		data &= ~(BIT(3) | BIT(1));
--		ocp_reg_write(tp, 0xa468, data);
-+		ocp_reg_clr_bits(tp, 0xa468, BIT(3) | BIT(1));
- 		break;
- 	case PHY_STAT_LAN_ON:
- 	case PHY_STAT_PWRDN:
-@@ -7154,153 +7148,57 @@ static void r8156_hw_phy_cfg(struct r8152 *tp)
- 
- 	switch (tp->version) {
- 	case RTL_VER_10:
--		data = ocp_reg_read(tp, 0xad40);
--		data &= ~0x3ff;
--		data |= BIT(7) | BIT(2);
--		ocp_reg_write(tp, 0xad40, data);
--
--		data = ocp_reg_read(tp, 0xad4e);
--		data |= BIT(4);
--		ocp_reg_write(tp, 0xad4e, data);
--		data = ocp_reg_read(tp, 0xad16);
--		data &= ~0x3ff;
--		data |= 0x6;
--		ocp_reg_write(tp, 0xad16, data);
--		data = ocp_reg_read(tp, 0xad32);
--		data &= ~0x3f;
--		data |= 6;
--		ocp_reg_write(tp, 0xad32, data);
--		data = ocp_reg_read(tp, 0xac08);
--		data &= ~(BIT(12) | BIT(8));
--		ocp_reg_write(tp, 0xac08, data);
--		data = ocp_reg_read(tp, 0xac8a);
--		data |= BIT(12) | BIT(13) | BIT(14);
--		data &= ~BIT(15);
--		ocp_reg_write(tp, 0xac8a, data);
--		data = ocp_reg_read(tp, 0xad18);
--		data |= BIT(10);
--		ocp_reg_write(tp, 0xad18, data);
--		data = ocp_reg_read(tp, 0xad1a);
--		data |= 0x3ff;
--		ocp_reg_write(tp, 0xad1a, data);
--		data = ocp_reg_read(tp, 0xad1c);
--		data |= 0x3ff;
--		ocp_reg_write(tp, 0xad1c, data);
--
--		data = sram_read(tp, 0x80ea);
--		data &= ~0xff00;
--		data |= 0xc400;
--		sram_write(tp, 0x80ea, data);
--		data = sram_read(tp, 0x80eb);
--		data &= ~0x0700;
--		data |= 0x0300;
--		sram_write(tp, 0x80eb, data);
--		data = sram_read(tp, 0x80f8);
--		data &= ~0xff00;
--		data |= 0x1c00;
--		sram_write(tp, 0x80f8, data);
--		data = sram_read(tp, 0x80f1);
--		data &= ~0xff00;
--		data |= 0x3000;
--		sram_write(tp, 0x80f1, data);
--
--		data = sram_read(tp, 0x80fe);
--		data &= ~0xff00;
--		data |= 0xa500;
--		sram_write(tp, 0x80fe, data);
--		data = sram_read(tp, 0x8102);
--		data &= ~0xff00;
--		data |= 0x5000;
--		sram_write(tp, 0x8102, data);
--		data = sram_read(tp, 0x8015);
--		data &= ~0xff00;
--		data |= 0x3300;
--		sram_write(tp, 0x8015, data);
--		data = sram_read(tp, 0x8100);
--		data &= ~0xff00;
--		data |= 0x7000;
--		sram_write(tp, 0x8100, data);
--		data = sram_read(tp, 0x8014);
--		data &= ~0xff00;
--		data |= 0xf000;
--		sram_write(tp, 0x8014, data);
--		data = sram_read(tp, 0x8016);
--		data &= ~0xff00;
--		data |= 0x6500;
--		sram_write(tp, 0x8016, data);
--		data = sram_read(tp, 0x80dc);
--		data &= ~0xff00;
--		data |= 0xed00;
--		sram_write(tp, 0x80dc, data);
--		data = sram_read(tp, 0x80df);
--		data |= BIT(8);
--		sram_write(tp, 0x80df, data);
--		data = sram_read(tp, 0x80e1);
--		data &= ~BIT(8);
--		sram_write(tp, 0x80e1, data);
--
--		data = ocp_reg_read(tp, 0xbf06);
--		data &= ~0x003f;
--		data |= 0x0038;
--		ocp_reg_write(tp, 0xbf06, data);
-+		ocp_reg_w0w1(tp, 0xad40, 0x3ff, BIT(7) | BIT(2));
-+
-+		ocp_reg_set_bits(tp, 0xad4e, BIT(4));
-+		ocp_reg_w0w1(tp, 0xad16, 0x3ff, 0x6);
-+		ocp_reg_w0w1(tp, 0xad32, 0x3f, 0x6);
-+		ocp_reg_clr_bits(tp, 0xac08, BIT(12) | BIT(8));
-+		ocp_reg_w0w1(tp, 0xac8a, BIT(15), BIT(12) | BIT(13) | BIT(14));
-+		ocp_reg_set_bits(tp, 0xad18, BIT(10));
-+		ocp_reg_set_bits(tp, 0xad1a, 0x3ff);
-+		ocp_reg_set_bits(tp, 0xad1c, 0x3ff);
-+
-+		sram_write_w0w1(tp, 0x80ea, 0xff00, 0xc400);
-+		sram_write_w0w1(tp, 0x80eb, 0x0700, 0x0300);
-+		sram_write_w0w1(tp, 0x80f8, 0xff00, 0x1c00);
-+		sram_write_w0w1(tp, 0x80f1, 0xff00, 0x3000);
-+
-+		sram_write_w0w1(tp, 0x80fe, 0xff00, 0xa500);
-+		sram_write_w0w1(tp, 0x8102, 0xff00, 0x5000);
-+		sram_write_w0w1(tp, 0x8015, 0xff00, 0x3300);
-+		sram_write_w0w1(tp, 0x8100, 0xff00, 0x7000);
-+		sram_write_w0w1(tp, 0x8014, 0xff00, 0xf000);
-+		sram_write_w0w1(tp, 0x8016, 0xff00, 0x6500);
-+		sram_write_w0w1(tp, 0x80dc, 0xff00, 0xed00);
-+		sram_set_bits(tp, 0x80df, BIT(8));
-+		sram_clr_bits(tp, 0x80e1, BIT(8));
-+
-+		ocp_reg_w0w1(tp, 0xbf06, 0x003f, 0x0038);
- 
- 		sram_write(tp, 0x819f, 0xddb6);
- 
- 		ocp_reg_write(tp, 0xbc34, 0x5555);
--		data = ocp_reg_read(tp, 0xbf0a);
--		data &= ~0x0e00;
--		data |= 0x0a00;
--		ocp_reg_write(tp, 0xbf0a, data);
-+		ocp_reg_w0w1(tp, 0xbf0a, 0x0e00, 0x0a00);
- 
--		data = ocp_reg_read(tp, 0xbd2c);
--		data &= ~BIT(13);
--		ocp_reg_write(tp, 0xbd2c, data);
-+		ocp_reg_clr_bits(tp, 0xbd2c, BIT(13));
- 		break;
- 	case RTL_VER_11:
--		data = ocp_reg_read(tp, 0xad16);
--		data |= 0x3ff;
--		ocp_reg_write(tp, 0xad16, data);
--		data = ocp_reg_read(tp, 0xad32);
--		data &= ~0x3f;
--		data |= 6;
--		ocp_reg_write(tp, 0xad32, data);
--		data = ocp_reg_read(tp, 0xac08);
--		data &= ~(BIT(12) | BIT(8));
--		ocp_reg_write(tp, 0xac08, data);
--		data = ocp_reg_read(tp, 0xacc0);
--		data &= ~0x3;
--		data |= BIT(1);
--		ocp_reg_write(tp, 0xacc0, data);
--		data = ocp_reg_read(tp, 0xad40);
--		data &= ~0xe7;
--		data |= BIT(6) | BIT(2);
--		ocp_reg_write(tp, 0xad40, data);
--		data = ocp_reg_read(tp, 0xac14);
--		data &= ~BIT(7);
--		ocp_reg_write(tp, 0xac14, data);
--		data = ocp_reg_read(tp, 0xac80);
--		data &= ~(BIT(8) | BIT(9));
--		ocp_reg_write(tp, 0xac80, data);
--		data = ocp_reg_read(tp, 0xac5e);
--		data &= ~0x7;
--		data |= BIT(1);
--		ocp_reg_write(tp, 0xac5e, data);
-+		ocp_reg_set_bits(tp, 0xad16, 0x3ff);
-+		ocp_reg_w0w1(tp, 0xad32, 0x3f, 0x6);
-+		ocp_reg_clr_bits(tp, 0xac08, BIT(12) | BIT(8));
-+		ocp_reg_w0w1(tp, 0xacc0, 0x3, BIT(1));
-+		ocp_reg_w0w1(tp, 0xad40, 0xe7, BIT(6) | BIT(2));
-+		ocp_reg_clr_bits(tp, 0xac14, BIT(7));
-+		ocp_reg_clr_bits(tp, 0xac80, BIT(8) | BIT(9));
-+		ocp_reg_w0w1(tp, 0xac5e, 0x7, BIT(1));
- 		ocp_reg_write(tp, 0xad4c, 0x00a8);
- 		ocp_reg_write(tp, 0xac5c, 0x01ff);
--		data = ocp_reg_read(tp, 0xac8a);
--		data &= ~0xf0;
--		data |= BIT(4) | BIT(5);
--		ocp_reg_write(tp, 0xac8a, data);
-+		ocp_reg_w0w1(tp, 0xac8a, 0xf0, BIT(4) | BIT(5));
- 		ocp_reg_write(tp, 0xb87c, 0x8157);
--		data = ocp_reg_read(tp, 0xb87e);
--		data &= ~0xff00;
--		data |= 0x0500;
--		ocp_reg_write(tp, 0xb87e, data);
-+		ocp_reg_w0w1(tp, 0xb87e, 0xff00, 0x0500);
- 		ocp_reg_write(tp, 0xb87c, 0x8159);
--		data = ocp_reg_read(tp, 0xb87e);
--		data &= ~0xff00;
--		data |= 0x0700;
--		ocp_reg_write(tp, 0xb87e, data);
-+		ocp_reg_w0w1(tp, 0xb87e, 0xff00, 0x0700);
- 
- 		/* AAGC */
- 		ocp_reg_write(tp, 0xb87c, 0x80a2);
-@@ -7324,17 +7222,13 @@ static void r8156_hw_phy_cfg(struct r8152 *tp)
- 		ocp_word_set_bits(tp, MCU_TYPE_PLA, PLA_MAC_PWR_CTRL4,
- 				  EEE_SPDWN_EN);
- 
--		data = ocp_reg_read(tp, OCP_DOWN_SPEED);
--		data &= ~(EN_EEE_100 | EN_EEE_1000);
--		data |= EN_10M_CLKDIV;
--		ocp_reg_write(tp, OCP_DOWN_SPEED, data);
-+		ocp_reg_w0w1(tp, OCP_DOWN_SPEED, EN_EEE_100 | EN_EEE_1000,
-+			     EN_10M_CLKDIV);
- 		tp->ups_info._10m_ckdiv = true;
- 		tp->ups_info.eee_plloff_100 = false;
- 		tp->ups_info.eee_plloff_giga = false;
- 
--		data = ocp_reg_read(tp, OCP_POWER_CFG);
--		data &= ~EEE_CLKDIV_EN;
--		ocp_reg_write(tp, OCP_POWER_CFG, data);
-+		ocp_reg_clr_bits(tp, OCP_POWER_CFG, EEE_CLKDIV_EN);
- 		tp->ups_info.eee_ckdiv = false;
- 
- 		ocp_reg_write(tp, OCP_SYSCLK_CFG, 0);
-@@ -7344,34 +7238,19 @@ static void r8156_hw_phy_cfg(struct r8152 *tp)
- 		rtl_phy_patch_request(tp, false, true);
- 
- 		/* enable ADC Ibias Cal */
--		data = ocp_reg_read(tp, 0xd068);
--		data |= BIT(13);
--		ocp_reg_write(tp, 0xd068, data);
-+		ocp_reg_set_bits(tp, 0xd068, BIT(13));
- 
- 		/* enable Thermal Sensor */
--		data = sram_read(tp, 0x81a2);
--		data &= ~BIT(8);
--		sram_write(tp, 0x81a2, data);
--		data = ocp_reg_read(tp, 0xb54c);
--		data &= ~0xff00;
--		data |= 0xdb00;
--		ocp_reg_write(tp, 0xb54c, data);
-+		sram_clr_bits(tp, 0x81a2, BIT(8));
-+		ocp_reg_w0w1(tp, 0xb54c, 0xff00, 0xdb00);
- 
- 		/* Nway 2.5G Lite */
--		data = ocp_reg_read(tp, 0xa454);
--		data &= ~BIT(0);
--		ocp_reg_write(tp, 0xa454, data);
-+		ocp_reg_clr_bits(tp, 0xa454, BIT(0));
- 
- 		/* CS DSP solution */
--		data = ocp_reg_read(tp, OCP_10GBT_CTRL);
--		data |= RTL_ADV2_5G_F_R;
--		ocp_reg_write(tp, OCP_10GBT_CTRL, data);
--		data = ocp_reg_read(tp, 0xad4e);
--		data &= ~BIT(4);
--		ocp_reg_write(tp, 0xad4e, data);
--		data = ocp_reg_read(tp, 0xa86a);
--		data &= ~BIT(0);
--		ocp_reg_write(tp, 0xa86a, data);
-+		ocp_reg_set_bits(tp, OCP_10GBT_CTRL, RTL_ADV2_5G_F_R);
-+		ocp_reg_clr_bits(tp, 0xad4e, BIT(4));
-+		ocp_reg_clr_bits(tp, 0xa86a, BIT(0));
- 
- 		/* MDI SWAP */
- 		if ((ocp_read_word(tp, MCU_TYPE_USB, USB_UPS_CFG) & MID_REVERSE) &&
-@@ -7432,9 +7311,7 @@ static void r8156_hw_phy_cfg(struct r8152 *tp)
- 		}
- 
- 		/* Notify the MAC when the speed is changed to force mode. */
--		data = ocp_reg_read(tp, OCP_INTR_EN);
--		data |= INTR_SPEED_FORCE;
--		ocp_reg_write(tp, OCP_INTR_EN, data);
-+		ocp_reg_set_bits(tp, OCP_INTR_EN, INTR_SPEED_FORCE);
- 		break;
- 	default:
- 		break;
-@@ -7442,12 +7319,8 @@ static void r8156_hw_phy_cfg(struct r8152 *tp)
- 
- 	rtl_green_en(tp, test_bit(GREEN_ETHERNET, &tp->flags));
- 
--	data = ocp_reg_read(tp, 0xa428);
--	data &= ~BIT(9);
--	ocp_reg_write(tp, 0xa428, data);
--	data = ocp_reg_read(tp, 0xa5ea);
--	data &= ~BIT(0);
--	ocp_reg_write(tp, 0xa5ea, data);
-+	ocp_reg_clr_bits(tp, 0xa428, BIT(9));
-+	ocp_reg_clr_bits(tp, 0xa5ea, BIT(0));
- 	tp->ups_info.lite_mode = 0;
- 
- 	if (tp->eee_en)
-@@ -7467,21 +7340,12 @@ static void r8156b_hw_phy_cfg(struct r8152 *tp)
- 	switch (tp->version) {
- 	case RTL_VER_12:
- 		ocp_reg_write(tp, 0xbf86, 0x9000);
--		data = ocp_reg_read(tp, 0xc402);
--		data |= BIT(10);
--		ocp_reg_write(tp, 0xc402, data);
--		data &= ~BIT(10);
--		ocp_reg_write(tp, 0xc402, data);
-+		ocp_reg_set_bits(tp, 0xc402, BIT(10));
-+		ocp_reg_clr_bits(tp, 0xc402, BIT(10));
- 		ocp_reg_write(tp, 0xbd86, 0x1010);
- 		ocp_reg_write(tp, 0xbd88, 0x1010);
--		data = ocp_reg_read(tp, 0xbd4e);
--		data &= ~(BIT(10) | BIT(11));
--		data |= BIT(11);
--		ocp_reg_write(tp, 0xbd4e, data);
--		data = ocp_reg_read(tp, 0xbf46);
--		data &= ~0xf00;
--		data |= 0x700;
--		ocp_reg_write(tp, 0xbf46, data);
-+		ocp_reg_w0w1(tp, 0xbd4e, BIT(10) | BIT(11), BIT(11));
-+		ocp_reg_w0w1(tp, 0xbf46, 0xf00, 0x700);
- 		break;
- 	case RTL_VER_13:
- 	case RTL_VER_15:
-@@ -7498,13 +7362,8 @@ static void r8156b_hw_phy_cfg(struct r8152 *tp)
- 	case PHY_STAT_EXT_INIT:
- 		rtl8152_apply_firmware(tp, true);
- 
--		data = ocp_reg_read(tp, 0xa466);
--		data &= ~BIT(0);
--		ocp_reg_write(tp, 0xa466, data);
--
--		data = ocp_reg_read(tp, 0xa468);
--		data &= ~(BIT(3) | BIT(1));
--		ocp_reg_write(tp, 0xa468, data);
-+		ocp_reg_clr_bits(tp, 0xa466, BIT(0));
-+		ocp_reg_clr_bits(tp, 0xa468, BIT(3) | BIT(1));
- 		break;
- 	case PHY_STAT_LAN_ON:
- 	case PHY_STAT_PWRDN:
-@@ -7513,11 +7372,7 @@ static void r8156b_hw_phy_cfg(struct r8152 *tp)
- 		break;
- 	}
- 
--	data = r8152_mdio_read(tp, MII_BMCR);
--	if (data & BMCR_PDOWN) {
--		data &= ~BMCR_PDOWN;
--		r8152_mdio_write(tp, MII_BMCR, data);
--	}
-+	r8152_mdio_test_and_clr_bit(tp, MII_BMCR, BMCR_PDOWN);
- 
- 	/* disable ALDPS before updating the PHY parameters */
- 	r8153_aldps_en(tp, false);
-@@ -7532,21 +7387,12 @@ static void r8156b_hw_phy_cfg(struct r8152 *tp)
- 
- 	switch (tp->version) {
- 	case RTL_VER_12:
--		data = ocp_reg_read(tp, 0xbc08);
--		data |= BIT(3) | BIT(2);
--		ocp_reg_write(tp, 0xbc08, data);
--
--		data = sram_read(tp, 0x8fff);
--		data &= ~0xff00;
--		data |= 0x0400;
--		sram_write(tp, 0x8fff, data);
--
--		data = ocp_reg_read(tp, 0xacda);
--		data |= 0xff00;
--		ocp_reg_write(tp, 0xacda, data);
--		data = ocp_reg_read(tp, 0xacde);
--		data |= 0xf000;
--		ocp_reg_write(tp, 0xacde, data);
-+		ocp_reg_set_bits(tp, 0xbc08, BIT(3) | BIT(2));
-+
-+		sram_write_w0w1(tp, 0x8fff, 0xff00, 0x0400);
-+
-+		ocp_reg_set_bits(tp, 0xacda, 0xff00);
-+		ocp_reg_set_bits(tp, 0xacde, 0xf000);
- 		ocp_reg_write(tp, 0xac8c, 0x0ffc);
- 		ocp_reg_write(tp, 0xac46, 0xb7b4);
- 		ocp_reg_write(tp, 0xac50, 0x0fbc);
-@@ -7624,21 +7470,15 @@ static void r8156b_hw_phy_cfg(struct r8152 *tp)
- 		ocp_reg_write(tp, 0xb87e, 0x790e);
- 		ocp_reg_write(tp, 0xb87c, 0x80b0);
- 		ocp_reg_write(tp, 0xb87e, 0x0f31);
--		data = ocp_reg_read(tp, 0xbf4c);
--		data |= BIT(1);
--		ocp_reg_write(tp, 0xbf4c, data);
--		data = ocp_reg_read(tp, 0xbcca);
--		data |= BIT(9) | BIT(8);
--		ocp_reg_write(tp, 0xbcca, data);
-+		ocp_reg_set_bits(tp, 0xbf4c, BIT(1));
-+		ocp_reg_set_bits(tp, 0xbcca, BIT(9) | BIT(8));
- 		ocp_reg_write(tp, 0xb87c, 0x8141);
- 		ocp_reg_write(tp, 0xb87e, 0x320e);
- 		ocp_reg_write(tp, 0xb87c, 0x8153);
- 		ocp_reg_write(tp, 0xb87e, 0x720e);
- 		ocp_reg_write(tp, 0xb87c, 0x8529);
- 		ocp_reg_write(tp, 0xb87e, 0x050e);
--		data = ocp_reg_read(tp, OCP_EEE_CFG);
--		data &= ~CTAP_SHORT_EN;
--		ocp_reg_write(tp, OCP_EEE_CFG, data);
-+		ocp_reg_clr_bits(tp, OCP_EEE_CFG, CTAP_SHORT_EN);
- 
- 		sram_write(tp, 0x816c, 0xc4a0);
- 		sram_write(tp, 0x8170, 0xc4a0);
-@@ -7671,64 +7511,33 @@ static void r8156b_hw_phy_cfg(struct r8152 *tp)
- 		ocp_reg_write(tp, 0xb87c, 0x817b);
- 		ocp_reg_write(tp, 0xb87e, 0x1d0a);
- 
--		data = sram_read(tp, 0x8217);
--		data &= ~0xff00;
--		data |= 0x5000;
--		sram_write(tp, 0x8217, data);
--		data = sram_read(tp, 0x821a);
--		data &= ~0xff00;
--		data |= 0x5000;
--		sram_write(tp, 0x821a, data);
-+		sram_write_w0w1(tp, 0x8217, 0xff00, 0x5000);
-+		sram_write_w0w1(tp, 0x821a, 0xff00, 0x5000);
- 		sram_write(tp, 0x80da, 0x0403);
--		data = sram_read(tp, 0x80dc);
--		data &= ~0xff00;
--		data |= 0x1000;
--		sram_write(tp, 0x80dc, data);
-+		sram_write_w0w1(tp, 0x80dc, 0xff00, 0x1000);
- 		sram_write(tp, 0x80b3, 0x0384);
- 		sram_write(tp, 0x80b7, 0x2007);
--		data = sram_read(tp, 0x80ba);
--		data &= ~0xff00;
--		data |= 0x6c00;
--		sram_write(tp, 0x80ba, data);
-+		sram_write_w0w1(tp, 0x80ba, 0xff00, 0x6c00);
- 		sram_write(tp, 0x80b5, 0xf009);
--		data = sram_read(tp, 0x80bd);
--		data &= ~0xff00;
--		data |= 0x9f00;
--		sram_write(tp, 0x80bd, data);
-+		sram_write_w0w1(tp, 0x80bd, 0xff00, 0x9f00);
- 		sram_write(tp, 0x80c7, 0xf083);
- 		sram_write(tp, 0x80dd, 0x03f0);
--		data = sram_read(tp, 0x80df);
--		data &= ~0xff00;
--		data |= 0x1000;
--		sram_write(tp, 0x80df, data);
-+		sram_write_w0w1(tp, 0x80df, 0xff00, 0x1000);
- 		sram_write(tp, 0x80cb, 0x2007);
--		data = sram_read(tp, 0x80ce);
--		data &= ~0xff00;
--		data |= 0x6c00;
--		sram_write(tp, 0x80ce, data);
-+		sram_write_w0w1(tp, 0x80ce, 0xff00, 0x6c00);
- 		sram_write(tp, 0x80c9, 0x8009);
--		data = sram_read(tp, 0x80d1);
--		data &= ~0xff00;
--		data |= 0x8000;
--		sram_write(tp, 0x80d1, data);
-+		sram_write_w0w1(tp, 0x80d1, 0xff00, 0x8000);
- 		sram_write(tp, 0x80a3, 0x200a);
- 		sram_write(tp, 0x80a5, 0xf0ad);
- 		sram_write(tp, 0x809f, 0x6073);
- 		sram_write(tp, 0x80a1, 0x000b);
--		data = sram_read(tp, 0x80a9);
--		data &= ~0xff00;
--		data |= 0xc000;
--		sram_write(tp, 0x80a9, data);
-+		sram_write_w0w1(tp, 0x80a9, 0xff00, 0xc000);
- 
- 		if (rtl_phy_patch_request(tp, true, true))
- 			return;
- 
--		data = ocp_reg_read(tp, 0xb896);
--		data &= ~BIT(0);
--		ocp_reg_write(tp, 0xb896, data);
--		data = ocp_reg_read(tp, 0xb892);
--		data &= ~0xff00;
--		ocp_reg_write(tp, 0xb892, data);
-+		ocp_reg_clr_bits(tp, 0xb896, BIT(0));
-+		ocp_reg_clr_bits(tp, 0xb892, 0xff00);
- 		ocp_reg_write(tp, 0xb88e, 0xc23e);
- 		ocp_reg_write(tp, 0xb890, 0x0000);
- 		ocp_reg_write(tp, 0xb88e, 0xc240);
-@@ -7743,41 +7552,25 @@ static void r8156b_hw_phy_cfg(struct r8152 *tp)
- 		ocp_reg_write(tp, 0xb890, 0x1012);
- 		ocp_reg_write(tp, 0xb88e, 0xc24a);
- 		ocp_reg_write(tp, 0xb890, 0x1416);
--		data = ocp_reg_read(tp, 0xb896);
--		data |= BIT(0);
--		ocp_reg_write(tp, 0xb896, data);
-+		ocp_reg_set_bits(tp, 0xb896, BIT(0));
- 
- 		rtl_phy_patch_request(tp, false, true);
- 
--		data = ocp_reg_read(tp, 0xa86a);
--		data |= BIT(0);
--		ocp_reg_write(tp, 0xa86a, data);
--		data = ocp_reg_read(tp, 0xa6f0);
--		data |= BIT(0);
--		ocp_reg_write(tp, 0xa6f0, data);
-+		ocp_reg_set_bits(tp, 0xa86a, BIT(0));
-+		ocp_reg_set_bits(tp, 0xa6f0, BIT(0));
- 
- 		ocp_reg_write(tp, 0xbfa0, 0xd70d);
- 		ocp_reg_write(tp, 0xbfa2, 0x4100);
- 		ocp_reg_write(tp, 0xbfa4, 0xe868);
- 		ocp_reg_write(tp, 0xbfa6, 0xdc59);
- 		ocp_reg_write(tp, 0xb54c, 0x3c18);
--		data = ocp_reg_read(tp, 0xbfa4);
--		data &= ~BIT(5);
--		ocp_reg_write(tp, 0xbfa4, data);
--		data = sram_read(tp, 0x817d);
--		data |= BIT(12);
--		sram_write(tp, 0x817d, data);
-+		ocp_reg_clr_bits(tp, 0xbfa4, BIT(5));
-+		sram_set_bits(tp, 0x817d, BIT(12));
- 		break;
- 	case RTL_VER_13:
- 		/* 2.5G INRX */
--		data = ocp_reg_read(tp, 0xac46);
--		data &= ~0x00f0;
--		data |= 0x0090;
--		ocp_reg_write(tp, 0xac46, data);
--		data = ocp_reg_read(tp, 0xad30);
--		data &= ~0x0003;
--		data |= 0x0001;
--		ocp_reg_write(tp, 0xad30, data);
-+		ocp_reg_w0w1(tp, 0xac46, 0x00f0, 0x0090);
-+		ocp_reg_w0w1(tp, 0xad30, 0x0003, 0x0001);
- 		fallthrough;
- 	case RTL_VER_15:
- 		/* EEE parameter */
-@@ -7786,20 +7579,11 @@ static void r8156b_hw_phy_cfg(struct r8152 *tp)
- 		ocp_reg_write(tp, 0xb87c, 0x8107);
- 		ocp_reg_write(tp, 0xb87e, 0x360e);
- 		ocp_reg_write(tp, 0xb87c, 0x8551);
--		data = ocp_reg_read(tp, 0xb87e);
--		data &= ~0xff00;
--		data |= 0x0800;
--		ocp_reg_write(tp, 0xb87e, data);
-+		ocp_reg_w0w1(tp, 0xb87e, 0xff00, 0x0800);
- 
- 		/* ADC_PGA parameter */
--		data = ocp_reg_read(tp, 0xbf00);
--		data &= ~0xe000;
--		data |= 0xa000;
--		ocp_reg_write(tp, 0xbf00, data);
--		data = ocp_reg_read(tp, 0xbf46);
--		data &= ~0x0f00;
--		data |= 0x0300;
--		ocp_reg_write(tp, 0xbf46, data);
-+		ocp_reg_w0w1(tp, 0xbf00, 0xe000, 0xa000);
-+		ocp_reg_w0w1(tp, 0xbf46, 0x0f00, 0x0300);
- 
- 		/* Green Table-PGA, 1G full viterbi */
- 		sram_write(tp, 0x8044, 0x2417);
-@@ -7814,48 +7598,35 @@ static void r8156b_hw_phy_cfg(struct r8152 *tp)
- 		sram_write(tp, 0x807a, 0x2417);
- 
- 		/* XG PLL */
--		data = ocp_reg_read(tp, 0xbf84);
--		data &= ~0xe000;
--		data |= 0xa000;
--		ocp_reg_write(tp, 0xbf84, data);
-+		ocp_reg_w0w1(tp, 0xbf84, 0xe000, 0xa000);
- 		break;
- 	default:
- 		break;
- 	}
- 
- 	/* Notify the MAC when the speed is changed to force mode. */
--	data = ocp_reg_read(tp, OCP_INTR_EN);
--	data |= INTR_SPEED_FORCE;
--	ocp_reg_write(tp, OCP_INTR_EN, data);
-+	ocp_reg_set_bits(tp, OCP_INTR_EN, INTR_SPEED_FORCE);
- 
- 	if (rtl_phy_patch_request(tp, true, true))
- 		return;
- 
- 	ocp_word_set_bits(tp, MCU_TYPE_PLA, PLA_MAC_PWR_CTRL4, EEE_SPDWN_EN);
- 
--	data = ocp_reg_read(tp, OCP_DOWN_SPEED);
--	data &= ~(EN_EEE_100 | EN_EEE_1000);
--	data |= EN_10M_CLKDIV;
--	ocp_reg_write(tp, OCP_DOWN_SPEED, data);
-+	ocp_reg_w0w1(tp, OCP_DOWN_SPEED, EN_EEE_100 | EN_EEE_1000,
-+		     EN_10M_CLKDIV);
- 	tp->ups_info._10m_ckdiv = true;
- 	tp->ups_info.eee_plloff_100 = false;
- 	tp->ups_info.eee_plloff_giga = false;
- 
--	data = ocp_reg_read(tp, OCP_POWER_CFG);
--	data &= ~EEE_CLKDIV_EN;
--	ocp_reg_write(tp, OCP_POWER_CFG, data);
-+	ocp_reg_clr_bits(tp, OCP_POWER_CFG, EEE_CLKDIV_EN);
- 	tp->ups_info.eee_ckdiv = false;
- 
- 	rtl_phy_patch_request(tp, false, true);
- 
- 	rtl_green_en(tp, test_bit(GREEN_ETHERNET, &tp->flags));
- 
--	data = ocp_reg_read(tp, 0xa428);
--	data &= ~BIT(9);
--	ocp_reg_write(tp, 0xa428, data);
--	data = ocp_reg_read(tp, 0xa5ea);
--	data &= ~BIT(0);
--	ocp_reg_write(tp, 0xa5ea, data);
-+	ocp_reg_clr_bits(tp, 0xa428, BIT(9));
-+	ocp_reg_clr_bits(tp, 0xa5ea, BIT(0));
- 	tp->ups_info.lite_mode = 0;
- 
- 	if (tp->eee_en)
-@@ -7895,17 +7666,10 @@ static void r8156_init(struct r8152 *tp)
- 	}
- 
- 	data = r8153_phy_status(tp, 0);
--	if (data == PHY_STAT_EXT_INIT) {
--		data = ocp_reg_read(tp, 0xa468);
--		data &= ~(BIT(3) | BIT(1));
--		ocp_reg_write(tp, 0xa468, data);
--	}
-+	if (data == PHY_STAT_EXT_INIT)
-+		ocp_reg_clr_bits(tp, 0xa468, BIT(3) | BIT(1));
- 
--	data = r8152_mdio_read(tp, MII_BMCR);
--	if (data & BMCR_PDOWN) {
--		data &= ~BMCR_PDOWN;
--		r8152_mdio_write(tp, MII_BMCR, data);
--	}
-+	r8152_mdio_test_and_clr_bit(tp, MII_BMCR, BMCR_PDOWN);
- 
- 	data = r8153_phy_status(tp, PHY_STAT_LAN_ON);
- 	WARN_ON_ONCE(data != PHY_STAT_LAN_ON);
-@@ -7993,20 +7757,11 @@ static void r8156b_init(struct r8152 *tp)
- 
- 	data = r8153_phy_status(tp, 0);
- 	if (data == PHY_STAT_EXT_INIT) {
--		data = ocp_reg_read(tp, 0xa468);
--		data &= ~(BIT(3) | BIT(1));
--		ocp_reg_write(tp, 0xa468, data);
--
--		data = ocp_reg_read(tp, 0xa466);
--		data &= ~BIT(0);
--		ocp_reg_write(tp, 0xa466, data);
-+		ocp_reg_clr_bits(tp, 0xa468, BIT(3) | BIT(1));
-+		ocp_reg_clr_bits(tp, 0xa466, BIT(0));
- 	}
- 
--	data = r8152_mdio_read(tp, MII_BMCR);
--	if (data & BMCR_PDOWN) {
--		data &= ~BMCR_PDOWN;
--		r8152_mdio_write(tp, MII_BMCR, data);
--	}
-+	r8152_mdio_test_and_clr_bit(tp, MII_BMCR, BMCR_PDOWN);
- 
- 	data = r8153_phy_status(tp, PHY_STAT_LAN_ON);
- 
--- 
-2.34.1
+ .../devicetree/bindings/usb/qcom,snps-dwc3.yaml    | 36 ++++++++++++++++++++--
+ 1 file changed, 33 insertions(+), 3 deletions(-)
+---
+base-commit: 785f0eb2f85decbe7c1ef9ae922931f0194ffc2e
+change-id: 20260323-dt-bindings-snps-qcom-dwc3-cleanup-390d61fbde23
+
+Best regards,
+--  
+Krzysztof Kozlowski <krzysztof.kozlowski@oss.qualcomm.com>
 
