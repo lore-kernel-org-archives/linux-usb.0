@@ -1,115 +1,141 @@
-Received: from zebra.wilibox.com (zebra.wilibox.com [62.77.155.212])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mailout1.samsung.com (mailout1.samsung.com [203.254.224.24])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AE21723BF9B;
-	Mon, 23 Mar 2026 14:47:53 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=62.77.155.212
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4AEAD3B6BF2
+	for <linux-usb@vger.kernel.org>; Mon, 23 Mar 2026 15:38:08 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=203.254.224.24
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1774277275; cv=none; b=U3RXCbLt7qs15pyDFxt60/tcqEiTtqspziw84VwcuUX7aOI7Y5osKwkOfZ7l0X+zLDPAumRYS+tW8v+05AIbruX1a7uw60qJMJakVdu+2IzxhXwX0B1KSVaoX8GA89MKFhvZWGz1Ru4r1zCtvJyOpv+XxQxU36qSaLIDVWIcy2s=
+	t=1774280290; cv=none; b=Ze+35sdjDA27LKpSG15rW4a6DECDJjFhTxcfYyh5R2KHgtJuhnaU/BFhR+l6k2bhIDDmfEam6hv1DzxuSeeeWZ7MtzVZbSMCaaKaeYxG6jea9pCDfb5W7yVFd4lLv/0oJbJwdybT/MU9lmMopZtwqHkHsahoXfn3Zkq/uUoEBNE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1774277275; c=relaxed/simple;
-	bh=TgoZDC+7lVDdNRf5BJDcTfMDsRRTXCPaa+J8MdUELUM=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=iqHJk2uKqj0OHaOTi+T1o5VmgpU0eF9N2XeHiqMkfZwrlyFrAbgWjKKMdxjtp29gvYf9jxq/+7NO1kBYxHzyJ0DJSxDbyMH0Jqv5IlhkXPx0OvvDRzHaK73O31XMbt1ayUJ0ljjjsQ9HS1FYVvj0pqIB5a8tySII0e9lDN8UzsQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=iconn-networks.com; spf=pass smtp.mailfrom=iconn-networks.com; dkim=pass (2048-bit key) header.d=iconn-networks.com header.i=@iconn-networks.com header.b=AQaT0mBh; arc=none smtp.client-ip=62.77.155.212
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=iconn-networks.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=iconn-networks.com
+	s=arc-20240116; t=1774280290; c=relaxed/simple;
+	bh=vToF1UbNvL4l1OkVwlOI7+XcnxHkjKZMzjHswh/EJ+k=;
+	h=From:To:Cc:In-Reply-To:Subject:Date:Message-ID:MIME-Version:
+	 Content-Type:References; b=MzUK1iiTsUvks1hhL4oMgGyXFFRX5A1eZ5vkVBUS5hWLP/BCIXfOmlAFSO4wQN3gk0lEe+M8CVje6Zeg/qnrXbb+80//pzvi/m5pcEXA1hOgYvBbvMKRY9AWMTP+7v5xlTgC3HtXjpmMpADUwIbuYwA0EjG94f0PCO17k/FAa9w=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=samsung.com; spf=pass smtp.mailfrom=samsung.com; dkim=pass (1024-bit key) header.d=samsung.com header.i=@samsung.com header.b=mgU9aFrC; arc=none smtp.client-ip=203.254.224.24
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=samsung.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=samsung.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=iconn-networks.com header.i=@iconn-networks.com header.b="AQaT0mBh"
-Received: from debian (unknown [81.7.79.211])
-	(Authenticated sender: ernestas.k@iconn-networks.com)
-	by zebra.wilibox.com (Postfix) with ESMTPSA id 275261763BA;
-	Mon, 23 Mar 2026 16:38:53 +0200 (EET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=iconn-networks.com;
-	s=default; t=1774276733;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:
-	 content-transfer-encoding:content-transfer-encoding;
-	bh=N2wUzQGUYUtExLAHWgwTpueY71WnmTfKf9fpJlUuows=;
-	b=AQaT0mBh4T7DSUwcwgXWt3XD7zylezpxFRM1aiDL3Y4HYiC/Y+4RsLDe1WbMit5fqvipne
-	WUndfKpnB4oRH06oox8SG9aOQlvd3elBokMcNlqY0sFnftvJzfz5NIX81kSPqGi/Tss5Xc
-	Ep6rCNAbwQtGN5cGglMl1gOcB/is/wrOr93fEoa0U7cHQSny6FV4Ibn75dozhiCKaUjeg3
-	0Xo41KshDAIvpy16bF1fsPdphYXYM4zPeENBCZ1IXkEdl0CnIPEnjcg7gManlJ+Iv/Ex5Z
-	3hY/XANJ6XMyEV9XI9lUrzSAr49Lsei3w3bagio3hj6TgT5NUNg0ErTce2TL9A==
-Authentication-Results: zebra.wilibox.com;
-	auth=pass smtp.auth=ernestas.k@iconn-networks.com smtp.mailfrom=ernestas.k@iconn-networks.com
-From: Ernestas Kulik <ernestas.k@iconn-networks.com>
-To: johan@kernel.org
-Cc: linux-usb@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	Ernestas Kulik <ernestas.k@iconn-networks.com>
-Subject: [PATCH] USB: serial: option: Add MeiG Smart SRT853
-Date: Mon, 23 Mar 2026 16:37:53 +0200
-Message-ID: <20260323143753.686561-1-ernestas.k@iconn-networks.com>
-X-Mailer: git-send-email 2.53.0
+	dkim=pass (1024-bit key) header.d=samsung.com header.i=@samsung.com header.b="mgU9aFrC"
+Received: from epcas5p1.samsung.com (unknown [182.195.41.39])
+	by mailout1.samsung.com (KnoxPortal) with ESMTP id 20260323153802epoutp01a6450ead41b9bfc695a1a0418218a51a~fgoRGAHEI0287802878epoutp01H
+	for <linux-usb@vger.kernel.org>; Mon, 23 Mar 2026 15:38:02 +0000 (GMT)
+DKIM-Filter: OpenDKIM Filter v2.11.0 mailout1.samsung.com 20260323153802epoutp01a6450ead41b9bfc695a1a0418218a51a~fgoRGAHEI0287802878epoutp01H
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=samsung.com;
+	s=mail20170921; t=1774280282;
+	bh=MYU9K1BczlLtBMfJPDu28QIk9pzoA+hXl3yf17nC2HI=;
+	h=From:To:Cc:In-Reply-To:Subject:Date:References:From;
+	b=mgU9aFrC+5Kx+21CCBQ48vtUtevP0XGV5aHjupTGFTw7s0wbx2FYZ7piHu2gEGNx9
+	 7FiJ9iRzTsn7N6OtZVcQFwqx9+/yRy1FbPgDJReQh76dJWCUi3xQdbS9llr9OgF8ia
+	 3KFTDuksHm5/ZDwJUU6SICm8wW+RY1yai4quNiMM=
+Received: from epsnrtp03.localdomain (unknown [182.195.42.155]) by
+	epcas5p1.samsung.com (KnoxPortal) with ESMTPS id
+	20260323153802epcas5p1bb1e979594c5257c037cdf6411e7a177~fgoQZrLX82373723737epcas5p1t;
+	Mon, 23 Mar 2026 15:38:02 +0000 (GMT)
+Received: from epcpadp2new (unknown [182.195.40.142]) by
+	epsnrtp03.localdomain (Postfix) with ESMTP id 4ffckf0KMvz3hhT4; Mon, 23 Mar
+	2026 15:38:02 +0000 (GMT)
+Received: from epsmtip2.samsung.com (unknown [182.195.34.31]) by
+	epcas5p3.samsung.com (KnoxPortal) with ESMTPA id
+	20260323123542epcas5p349d0e7c45d02ccaa06c84dbdf1777126~feJElRtj12139221392epcas5p34;
+	Mon, 23 Mar 2026 12:35:42 +0000 (GMT)
+Received: from INBRO002756 (unknown [107.122.3.168]) by epsmtip2.samsung.com
+	(KnoxPortal) with ESMTPA id
+	20260323123538epsmtip2099c850de3b514ee4ac3f5a0092dd02a~feJAkDKG92361023610epsmtip2P;
+	Mon, 23 Mar 2026 12:35:38 +0000 (GMT)
+From: "Alim Akhtar" <alim.akhtar@samsung.com>
+To: "'Vladimir Oltean'" <vladimir.oltean@nxp.com>, "'Martin K. Petersen'"
+	<martin.petersen@oracle.com>
+Cc: <linux-phy@lists.infradead.org>, "'Vinod Koul'" <vkoul@kernel.org>,
+	"'Neil	Armstrong'" <neil.armstrong@linaro.org>,
+	<dri-devel@lists.freedesktop.org>, <freedreno@lists.freedesktop.org>,
+	<linux-arm-kernel@lists.infradead.org>, <linux-arm-msm@vger.kernel.org>,
+	<linux-can@vger.kernel.org>, <linux-gpio@vger.kernel.org>,
+	<linux-ide@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
+	<linux-media@vger.kernel.org>, <linux-pci@vger.kernel.org>,
+	<linux-renesas-soc@vger.kernel.org>, <linux-riscv@lists.infradead.org>,
+	<linux-rockchip@lists.infradead.org>, <linux-samsung-soc@vger.kernel.org>,
+	<linux-scsi@vger.kernel.org>, <linux-sunxi@lists.linux.dev>,
+	<linux-tegra@vger.kernel.org>, <linux-usb@vger.kernel.org>,
+	<netdev@vger.kernel.org>, <spacemit@lists.linux.dev>,
+	<UNGLinuxDriver@microchip.com>, "'Bart Van Assche'" <bvanassche@acm.org>,
+	"'Peter Griffin'" <peter.griffin@linaro.org>, "'James E.J. Bottomley'"
+	<James.Bottomley@HansenPartnership.com>, "'Krzysztof	Kozlowski'"
+	<krzk@kernel.org>, "'Chanho Park'" <chanho61.park@samsung.com>
+In-Reply-To: <20260323115848.ghdu4sbk75tvggfb@skbuf>
+Subject: RE: [PATCH v5 phy-next 09/27] scsi: ufs: exynos: stop poking into
+ struct phy guts
+Date: Mon, 23 Mar 2026 18:05:36 +0530
+Message-ID: <1891546521.01774280282025.JavaMail.epsvc@epcpadp2new>
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Transfer-Encoding: 7bit
+X-Mailer: Microsoft Outlook 16.0
+Thread-Index: AQJoz1sM+EbPjkyDopxrfJVWkMJWdwI9AyWpAaSC6pgB9ZOp/gJXIgBltGJxFXA=
+Content-Language: en-us
+X-CMS-MailID: 20260323123542epcas5p349d0e7c45d02ccaa06c84dbdf1777126
+X-Msg-Generator: CA
+Content-Type: text/plain; charset="utf-8"
+CMS-TYPE: 105P
+X-CPGSPASS: Y
+X-Hop-Count: 3
+X-CMS-RootMailID: 20260323115859epcas5p10177db12a2e8aee9578271ff1411137b
+References: <20260319223241.1351137-1-vladimir.oltean@nxp.com>
+	<20260319223241.1351137-10-vladimir.oltean@nxp.com>
+	<yq1a4w3l04g.fsf@ca-mkp.ca.oracle.com>
+	<CGME20260323115859epcas5p10177db12a2e8aee9578271ff1411137b@epcas5p1.samsung.com>
+	<20260323115848.ghdu4sbk75tvggfb@skbuf>
 
-This commit adds support for the MeiG Smart SRT853 5G CPE modem.
+Hi Vladimir
 
-If#= 0: RNDIS
-If#= 1: RNDIS
-If#= 2: Diag
-If#= 3: AT
-If#= 4: AT
-If#= 5: NMEA
+> -----Original Message-----
+> From: Vladimir Oltean <vladimir.oltean@nxp.com>
+> Sent: Monday, March 23, 2026 5:29 PM
+> To: Martin K. Petersen <martin.petersen@oracle.com>
+> Cc: linux-phy@lists.infradead.org; Vinod Koul <vkoul@kernel.org>; Neil
+> Armstrong <neil.armstrong@linaro.org>; dri-devel@lists.freedesktop.org;
+> freedreno@lists.freedesktop.org; linux-arm-kernel@lists.infradead.org;
+> linux-arm-msm@vger.kernel.org; linux-can@vger.kernel.org; linux-
+> gpio@vger.kernel.org; linux-ide@vger.kernel.org; linux-
+> kernel@vger.kernel.org; linux-media@vger.kernel.org; linux-
+> pci@vger.kernel.org; linux-renesas-soc@vger.kernel.org; linux-
+> riscv@lists.infradead.org; linux-rockchip@lists.infradead.org;
+linux-samsung-
+> soc@vger.kernel.org; linux-scsi@vger.kernel.org;
+linux-sunxi@lists.linux.dev;
+> linux-tegra@vger.kernel.org; linux-usb@vger.kernel.org;
+> netdev@vger.kernel.org; spacemit@lists.linux.dev;
+> UNGLinuxDriver@microchip.com; Bart Van Assche <bvanassche@acm.org>;
+> Alim Akhtar <alim.akhtar@samsung.com>; Peter Griffin
+> <peter.griffin@linaro.org>; James E.J. Bottomley
+> <James.Bottomley@HansenPartnership.com>; Krzysztof Kozlowski
+> <krzk@kernel.org>; Chanho Park <chanho61.park@samsung.com>
+> Subject: Re: [PATCH v5 phy-next 09/27] scsi: ufs: exynos: stop poking into
+> struct phy guts
+> 
+> On Thu, Mar 19, 2026 at 10:15:17PM -0400, Martin K. Petersen wrote:
+> > Vladimir,
+> >
+> > > The Exynos host controller driver is clearly a PHY consumer (gets
+> > > the
+> > > ufs->phy using devm_phy_get()), but pokes into the guts of struct
+> > > ufs->phy
+> > > to get the generic_phy->power_count.
+> >
+> > Ah, newer version. Would still like an ack from Samsung.
+> >
+> > And I hit the wrong key, I did not actually apply this...
+> 
+> I will have to resend v6 because of an armv7 build error I've caused for
+ufs-
+> qcom.c (which doesn't #include <linux/interrupt.h>, and relies on a
+transitive
+> inclusion from <linux/phy/phy.h>). It would be nice to get the ack from
+> Samsung, but I'll send the next version in the upcoming hours regardless.
+Will review and possibly test on one of the board later tonight
 
-T:  Bus=01 Lev=02 Prnt=02 Port=00 Cnt=01 Dev#= 19 Spd=480  MxCh= 0
-D:  Ver= 2.10 Cls=00(>ifc ) Sub=00 Prot=00 MxPS=64 #Cfgs=  1
-P:  Vendor=2dee ProdID=4d38 Rev= 5.04
-S:  Manufacturer=MEIG
-S:  Product=LTE-A Module
-S:  SerialNumber=da47a175
-C:* #Ifs= 6 Cfg#= 1 Atr=80 MxPwr=500mA
-A:  FirstIf#= 0 IfCount= 2 Cls=e0(wlcon) Sub=01 Prot=03
-I:* If#= 0 Alt= 0 #EPs= 1 Cls=e0(wlcon) Sub=01 Prot=03 Driver=rndis_host
-E:  Ad=81(I) Atr=03(Int.) MxPS=   8 Ivl=32ms
-I:* If#= 1 Alt= 0 #EPs= 2 Cls=0a(data ) Sub=00 Prot=00 Driver=rndis_host
-E:  Ad=8e(I) Atr=02(Bulk) MxPS= 512 Ivl=0ms
-E:  Ad=0f(O) Atr=02(Bulk) MxPS= 512 Ivl=0ms
-I:* If#= 2 Alt= 0 #EPs= 2 Cls=ff(vend.) Sub=ff Prot=30 Driver=option
-E:  Ad=01(O) Atr=02(Bulk) MxPS= 512 Ivl=0ms
-E:  Ad=82(I) Atr=02(Bulk) MxPS= 512 Ivl=0ms
-I:* If#= 3 Alt= 0 #EPs= 3 Cls=ff(vend.) Sub=ff Prot=40 Driver=option
-E:  Ad=84(I) Atr=03(Int.) MxPS=  10 Ivl=32ms
-E:  Ad=83(I) Atr=02(Bulk) MxPS= 512 Ivl=0ms
-E:  Ad=02(O) Atr=02(Bulk) MxPS= 512 Ivl=0ms
-I:* If#= 4 Alt= 0 #EPs= 3 Cls=ff(vend.) Sub=ff Prot=40 Driver=option
-E:  Ad=86(I) Atr=03(Int.) MxPS=  10 Ivl=32ms
-E:  Ad=85(I) Atr=02(Bulk) MxPS= 512 Ivl=0ms
-E:  Ad=03(O) Atr=02(Bulk) MxPS= 512 Ivl=0ms
-I:* If#= 5 Alt= 0 #EPs= 3 Cls=ff(vend.) Sub=ff Prot=60 Driver=option
-E:  Ad=88(I) Atr=03(Int.) MxPS=  10 Ivl=32ms
-E:  Ad=87(I) Atr=02(Bulk) MxPS= 512 Ivl=0ms
-E:  Ad=04(O) Atr=02(Bulk) MxPS= 512 Ivl=0ms
 
-Signed-off-by: Ernestas Kulik <ernestas.k@iconn-networks.com>
----
- drivers/usb/serial/option.c | 3 +++
- 1 file changed, 3 insertions(+)
-
-diff --git a/drivers/usb/serial/option.c b/drivers/usb/serial/option.c
-index e349ed66d2ac..328f14a99953 100644
---- a/drivers/usb/serial/option.c
-+++ b/drivers/usb/serial/option.c
-@@ -2439,10 +2439,13 @@ static const struct usb_device_id option_ids[] = {
- 	{ USB_DEVICE_AND_INTERFACE_INFO(0x2dee, 0x4d22, 0xff, 0x10, 0x02) },	/* MeiG Smart SLM828 */
- 	{ USB_DEVICE_AND_INTERFACE_INFO(0x2dee, 0x4d22, 0xff, 0x10, 0x03) },	/* MeiG Smart SLM828 */
- 	{ USB_DEVICE_AND_INTERFACE_INFO(0x2dee, 0x4d22, 0xff, 0xff, 0x30) },	/* MeiG Smart SRM815 and SRM825L */
- 	{ USB_DEVICE_AND_INTERFACE_INFO(0x2dee, 0x4d22, 0xff, 0xff, 0x40) },	/* MeiG Smart SRM825L */
- 	{ USB_DEVICE_AND_INTERFACE_INFO(0x2dee, 0x4d22, 0xff, 0xff, 0x60) },	/* MeiG Smart SRM825L */
-+	{ USB_DEVICE_AND_INTERFACE_INFO(0x2dee, 0x4d38, 0xff, 0xff, 0x30) },	/* MeiG Smart SRT853 (Diag) */
-+	{ USB_DEVICE_AND_INTERFACE_INFO(0x2dee, 0x4d38, 0xff, 0xff, 0x40) },	/* MeiG Smart SRT853 (AT) */
-+	{ USB_DEVICE_AND_INTERFACE_INFO(0x2dee, 0x4d38, 0xff, 0xff, 0x60) },	/* MeiG Smart SRT853 (NMEA) */
- 	{ USB_DEVICE_INTERFACE_CLASS(0x2df3, 0x9d03, 0xff) },			/* LongSung M5710 */
- 	{ USB_DEVICE_INTERFACE_CLASS(0x305a, 0x1404, 0xff) },			/* GosunCn GM500 RNDIS */
- 	{ USB_DEVICE_INTERFACE_CLASS(0x305a, 0x1405, 0xff) },			/* GosunCn GM500 MBIM */
- 	{ USB_DEVICE_INTERFACE_CLASS(0x305a, 0x1406, 0xff) },			/* GosunCn GM500 ECM/NCM */
- 	{ USB_DEVICE(0x33f8, 0x0104),						/* Rolling RW101-GL (laptop RMNET) */
--- 
-2.53.0
 
