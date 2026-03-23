@@ -1,84 +1,154 @@
-Received: from lgeamrelo12.lge.com (lgeamrelo12.lge.com [156.147.23.52])
+Received: from mailout3.samsung.com (mailout3.samsung.com [203.254.224.33])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C0AED37B01A
-	for <linux-usb@vger.kernel.org>; Tue, 24 Mar 2026 02:19:11 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=156.147.23.52
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B7DC938759B
+	for <linux-usb@vger.kernel.org>; Tue, 24 Mar 2026 02:30:10 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=203.254.224.33
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1774318754; cv=none; b=vASLGKRR/SIDjbx4W7fCVfy37/9gwBkxwkYgTInIHCbg3j+/4y0DwCHV4otLVp4rfGsKdzI8OIJge2YvsJC39PEjzYuXzmY5X+A0Qt3hxIE6buxe9lSz0fO4xPFqb6Mne3nF1c/LjcIlFsmti1pp8vdkLnUythWiz4WuSwQMjsY=
+	t=1774319414; cv=none; b=qBBX6gdpGzpPdUSoMUaemVjWnCy7ukjhRgug65huJp54nj43lpUMEob0UgzAlEGXYDq1KnFovdboijmyZfs0Ejj+cRlFnzfWrcIyTiFQcZPEk9Q89uhpv2zY8VCkE6dpijcm7pF1NepyYUtLACnvTMH3jn1hjfPdPJCNj2fmBnw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1774318754; c=relaxed/simple;
-	bh=+DOTZt+pI31A1817AaaCzPVN5MLv6LUuwxHGo3nAfgA=;
-	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=Y0cjFX4gZGhDHAofaj3lPgpdglVtuRB2REPvdqvlYNFE59YiFkfH/MZQTL4ZIshZnCvbj1RYWDdm01NDn8LcCCqbDuPcmFE9QZ22Ef7yMpJL4nc0KyF6RnLoRb1d3W+iqORX4MtNGnhPNfUlAFg9ymvHA8qUS6V0Y4Upvq2iNqI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lge.com; spf=pass smtp.mailfrom=lge.com; arc=none smtp.client-ip=156.147.23.52
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lge.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=lge.com
-Received: from unknown (HELO lgeamrelo01.lge.com) (156.147.1.125)
-	by 156.147.23.52 with ESMTP; 24 Mar 2026 10:49:10 +0900
-X-Original-SENDERIP: 156.147.1.125
-X-Original-MAILFROM: juno.choi@lge.com
-Received: from unknown (HELO solarsun-desktop..) (10.157.93.226)
-	by 156.147.1.125 with ESMTP; 24 Mar 2026 10:49:10 +0900
-X-Original-SENDERIP: 10.157.93.226
-X-Original-MAILFROM: juno.choi@lge.com
-From: "juno.choi" <juno.choi@lge.com>
-To: hminas@synopsys.com,
-	gregkh@linuxfoundation.org
-Cc: m.grzeschik@pengutronix.de,
-	linux-usb@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	Juno Choi <juno.choi@lge.com>,
-	stable@kernel.org
-Subject: [PATCH] usb: dwc2: gadget: Fix spin_lock/unlock mismatch in dwc2_hsotg_udc_stop()
-Date: Tue, 24 Mar 2026 10:49:10 +0900
-Message-Id: <20260324014910.2798425-1-juno.choi@lge.com>
-X-Mailer: git-send-email 2.34.1
+	s=arc-20240116; t=1774319414; c=relaxed/simple;
+	bh=Vr+wLb3/yfuaY7Ek50G5tqooWQuxrr2KXAF3tU7VBDw=;
+	h=From:To:Cc:In-Reply-To:Subject:Date:Message-ID:MIME-Version:
+	 Content-Type:References; b=K8htJFDl+IljydT/BkBwEHSl6AWZQe9/qqgVIhYaM/Kjqv9FYS8ly+vPScZikHw9SeulEIqC31fT9moO3n6QattfXHjg8uPsu78RyrRfa5L2G9x8lADw/ibCiUYRU2zV6n9Om/n4QVB3yDtSRonvOGM7MrVf2agZ04OYhgClM+o=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=samsung.com; spf=pass smtp.mailfrom=samsung.com; dkim=pass (1024-bit key) header.d=samsung.com header.i=@samsung.com header.b=RTFBubUc; arc=none smtp.client-ip=203.254.224.33
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=samsung.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=samsung.com
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (1024-bit key) header.d=samsung.com header.i=@samsung.com header.b="RTFBubUc"
+Received: from epcas5p2.samsung.com (unknown [182.195.41.40])
+	by mailout3.samsung.com (KnoxPortal) with ESMTP id 20260324023002epoutp03b6560b85f327691c4de9e3e02d86d146~fphifGBxY2265122651epoutp03j
+	for <linux-usb@vger.kernel.org>; Tue, 24 Mar 2026 02:30:02 +0000 (GMT)
+DKIM-Filter: OpenDKIM Filter v2.11.0 mailout3.samsung.com 20260324023002epoutp03b6560b85f327691c4de9e3e02d86d146~fphifGBxY2265122651epoutp03j
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=samsung.com;
+	s=mail20170921; t=1774319402;
+	bh=xiEG8fs8U4waGFe76frAqj8GUGT8PfbUsJqfEpDU4H0=;
+	h=From:To:Cc:In-Reply-To:Subject:Date:References:From;
+	b=RTFBubUceVdG5dBZjg2EJuOun+7AvU7K1xXJVOiY75v5S6AwPDX0GCIymngOFAphd
+	 E4RA3K/kK+gtTKLgy3khdnDiPmc2cGWIz79uHvHB6IujWAiNQY1L9e+YM2hT5hM2cb
+	 67/UCzZXuKEnGh+5DWuT53H601jKazX4GP44bHGA=
+Received: from epsnrtp02.localdomain (unknown [182.195.42.154]) by
+	epcas5p3.samsung.com (KnoxPortal) with ESMTPS id
+	20260324023002epcas5p3c3a08032a55b26ba4a7023fdeaebf3cd~fphhsTMXr1327213272epcas5p3T;
+	Tue, 24 Mar 2026 02:30:02 +0000 (GMT)
+Received: from epcpadp1new (unknown [182.195.40.141]) by
+	epsnrtp02.localdomain (Postfix) with ESMTP id 4ffvBx72xwz2SSKf; Tue, 24 Mar
+	2026 02:30:01 +0000 (GMT)
+Received: from epsmtip1.samsung.com (unknown [182.195.34.30]) by
+	epcas5p4.samsung.com (KnoxPortal) with ESMTPA id
+	20260323172713epcas5p4dd04df01adb71b7563e1cac14b927632~fiHlqRiPK1063110631epcas5p4A;
+	Mon, 23 Mar 2026 17:27:13 +0000 (GMT)
+Received: from INBRO002756 (unknown [107.122.3.168]) by epsmtip1.samsung.com
+	(KnoxPortal) with ESMTPA id
+	20260323172656epsmtip1078ac64ab1a734cd90e8019874a7de3a~fiHV3p2Rc1639516395epsmtip1L;
+	Mon, 23 Mar 2026 17:26:55 +0000 (GMT)
+From: "Alim Akhtar" <alim.akhtar@samsung.com>
+To: "'Vladimir Oltean'" <vladimir.oltean@nxp.com>,
+	<linux-phy@lists.infradead.org>
+Cc: "'Vinod Koul'" <vkoul@kernel.org>, "'Neil Armstrong'"
+	<neil.armstrong@linaro.org>, <dri-devel@lists.freedesktop.org>,
+	<freedreno@lists.freedesktop.org>, <linux-arm-kernel@lists.infradead.org>,
+	<linux-arm-msm@vger.kernel.org>, <linux-can@vger.kernel.org>,
+	<linux-gpio@vger.kernel.org>, <linux-ide@vger.kernel.org>,
+	<linux-kernel@vger.kernel.org>, <linux-media@vger.kernel.org>,
+	<linux-pci@vger.kernel.org>, <linux-renesas-soc@vger.kernel.org>,
+	<linux-riscv@lists.infradead.org>, <linux-rockchip@lists.infradead.org>,
+	<linux-samsung-soc@vger.kernel.org>, <linux-scsi@vger.kernel.org>,
+	<linux-sunxi@lists.linux.dev>, <linux-tegra@vger.kernel.org>,
+	<linux-usb@vger.kernel.org>, <netdev@vger.kernel.org>,
+	<spacemit@lists.linux.dev>, <UNGLinuxDriver@microchip.com>, "'Bart Van
+ Assche'" <bvanassche@acm.org>, "'Peter Griffin'" <peter.griffin@linaro.org>,
+	"'James E.J. Bottomley'" <James.Bottomley@HansenPartnership.com>, "'Martin
+ K. Petersen'" <martin.petersen@oracle.com>, "'Krzysztof Kozlowski'"
+	<krzk@kernel.org>, "'Chanho Park'" <chanho61.park@samsung.com>
+In-Reply-To: <20260319223241.1351137-10-vladimir.oltean@nxp.com>
+Subject: RE: [PATCH v5 phy-next 09/27] scsi: ufs: exynos: stop poking into
+ struct phy guts
+Date: Mon, 23 Mar 2026 22:56:51 +0530
+Message-ID: <1891546521.01774319401971.JavaMail.epsvc@epcpadp1new>
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Transfer-Encoding: 7bit
+X-Mailer: Microsoft Outlook 16.0
+Thread-Index: AQJoz1sM+EbPjkyDopxrfJVWkMJWdwIGLiEOAj0DJam0ghnJMA==
+Content-Language: en-us
+X-CMS-MailID: 20260323172713epcas5p4dd04df01adb71b7563e1cac14b927632
+X-Msg-Generator: CA
+Content-Type: text/plain; charset="utf-8"
+CMS-TYPE: 105P
+X-CPGSPASS: Y
+X-Hop-Count: 3
+X-CMS-RootMailID: 20260319223312epcas5p183a1e0c31206025da8cf00b5d745a0ce
+References: <20260319223241.1351137-1-vladimir.oltean@nxp.com>
+	<CGME20260319223312epcas5p183a1e0c31206025da8cf00b5d745a0ce@epcas5p1.samsung.com>
+	<20260319223241.1351137-10-vladimir.oltean@nxp.com>
 
-From: Juno Choi <juno.choi@lge.com>
+HI Vladimir,
 
-dwc2_gadget_exit_clock_gating() internally calls call_gadget() macro,
-which expects hsotg->lock to be held since it does spin_unlock/spin_lock
-around the gadget driver callback invocation.
+> -----Original Message-----
+> From: Vladimir Oltean <vladimir.oltean@nxp.com>
+> Sent: Friday, March 20, 2026 4:02 AM
+> To: linux-phy@lists.infradead.org
+> Cc: Vinod Koul <vkoul@kernel.org>; Neil Armstrong
+> <neil.armstrong@linaro.org>; dri-devel@lists.freedesktop.org;
+> freedreno@lists.freedesktop.org; linux-arm-kernel@lists.infradead.org;
+> linux-arm-msm@vger.kernel.org; linux-can@vger.kernel.org; linux-
+> gpio@vger.kernel.org; linux-ide@vger.kernel.org; linux-
+> kernel@vger.kernel.org; linux-media@vger.kernel.org; linux-
+> pci@vger.kernel.org; linux-renesas-soc@vger.kernel.org; linux-
+> riscv@lists.infradead.org; linux-rockchip@lists.infradead.org;
+linux-samsung-
+> soc@vger.kernel.org; linux-scsi@vger.kernel.org;
+linux-sunxi@lists.linux.dev;
+> linux-tegra@vger.kernel.org; linux-usb@vger.kernel.org;
+> netdev@vger.kernel.org; spacemit@lists.linux.dev;
+> UNGLinuxDriver@microchip.com; Bart Van Assche <bvanassche@acm.org>;
+> Alim Akhtar <alim.akhtar@samsung.com>; Peter Griffin
+> <peter.griffin@linaro.org>; James E.J. Bottomley
+> <James.Bottomley@HansenPartnership.com>; Martin K. Petersen
+> <martin.petersen@oracle.com>; Krzysztof Kozlowski <krzk@kernel.org>;
+> Chanho Park <chanho61.park@samsung.com>
+> Subject: [PATCH v5 phy-next 09/27] scsi: ufs: exynos: stop poking into
+struct
+> phy guts
+> 
+> The Exynos host controller driver is clearly a PHY consumer (gets the
+> ufs->phy using devm_phy_get()), but pokes into the guts of struct phy
+> to get the generic_phy->power_count.
+> 
+> The UFS core (specifically ufshcd_link_startup()) may call the variant
+> operation exynos_ufs_pre_link() -> exynos_ufs_phy_init() multiple times if
+> the link startup fails and needs to be retried.
+> 
+> However ufs-exynos shouldn't be doing what it's doing, i.e. looking at the
+> generic_phy->power_count, because in the general sense of the API, a
+> single Generic PHY may have multiple consumers. If ufs-exynos looks at
+> generic_phy->power_count, there's no guarantee that this ufs-exynos
+> instance is the one who previously bumped that power count. So it may be
+> powering down the PHY on behalf of another consumer.
+> 
+> The correct way in which this should be handled is ufs-exynos should
+> *remember* whether it has initialized and powered up the PHY before, and
+> power it down during link retries. Not rely on the power_count (which,
+btw,
+> on the writer side is modified under &phy->mutex, but on the reader side
+is
+> accessed unlocked). This is a discouraged pattern even if here it doesn't
+> cause functional problems.
+> 
+> Signed-off-by: Vladimir Oltean <vladimir.oltean@nxp.com>
+> Reviewed-by: Bart Van Assche <bvanassche@acm.org>
+> ---
+Thanks for the patch
+Acked-by: Alim Akhtar <alim.akhtar@samsung.com>
 
-However, dwc2_hsotg_udc_stop() calls dwc2_gadget_exit_clock_gating()
-without holding the lock. This leads to:
- - spin_unlock on a lock that is not held (undefined behavior)
- - The lock remaining held after dwc2_gadget_exit_clock_gating() returns,
-   causing a deadlock when spin_lock_irqsave() is called later in the
-   same function.
+Tested this patch for basic UFS functionality, UFS still works. 
+Feel free to add
+Tested-by: Alim Akhtar <alim.akhtar@samsung.com>
 
-Fix this by acquiring hsotg->lock before calling
-dwc2_gadget_exit_clock_gating() and releasing it afterwards, which
-satisfies the locking requirement of the call_gadget() macro.
 
-Fixes: af076a41f8a2 ("usb: dwc2: also exit clock_gating when stopping udc while suspended")
-Cc: stable@kernel.org
-Signed-off-by: Juno Choi <juno.choi@lge.com>
----
- drivers/usb/dwc2/gadget.c | 2 ++
- 1 file changed, 2 insertions(+)
-
-diff --git a/drivers/usb/dwc2/gadget.c b/drivers/usb/dwc2/gadget.c
-index 834fc02610a2..e88683b1268f 100644
---- a/drivers/usb/dwc2/gadget.c
-+++ b/drivers/usb/dwc2/gadget.c
-@@ -4607,7 +4607,9 @@ static int dwc2_hsotg_udc_stop(struct usb_gadget *gadget)
- 	/* Exit clock gating when driver is stopped. */
- 	if (hsotg->params.power_down == DWC2_POWER_DOWN_PARAM_NONE &&
- 	    hsotg->bus_suspended && !hsotg->params.no_clock_gating) {
-+		spin_lock_irqsave(&hsotg->lock, flags);
- 		dwc2_gadget_exit_clock_gating(hsotg, 0);
-+		spin_unlock_irqrestore(&hsotg->lock, flags);
- 	}
- 
- 	/* all endpoints should be shutdown */
--- 
-2.34.1
 
