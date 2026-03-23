@@ -1,116 +1,220 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.21])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.11])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DBD4B39FCB6
-	for <linux-usb@vger.kernel.org>; Mon, 23 Mar 2026 12:28:12 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.21
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 32FBB3BADA5
+	for <linux-usb@vger.kernel.org>; Mon, 23 Mar 2026 14:01:00 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.11
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1774268894; cv=none; b=HFwbuPV4pYNFatmmcPyvJ1NDp1hrTjzplH1+MbKzPbHX1Rt4dPqc0A5wh+6btPiREf3CIOhdH7px6qCxUFpDaUI7X09u4nRby6x+Xf0kBI2QYLcbQ8SH5TMn8Kbur3KoPruTvBZNDf9rwoGKZgF6XA1aOon/CuJMb6mMNZPD5hk=
+	t=1774274463; cv=none; b=fqYZQNpdr7ie8t7Gudy/xz02OPHY6sXTgjDmOLVBSowiBMltyJf23fcqPTI+END0vTDlyiR7IPoeCL04V8nvClb6M2L0KhZjIxF+hvblikeT2zj95nK7T65aXpXndeilDZMvZgjXS7GTGGCCo2GBC9XG+vjH3nbCtS5iuMpshr0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1774268894; c=relaxed/simple;
-	bh=yxBFSPBlJGSByOMWV+pLsYGngXFCdTuXzxFmcluOFc0=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=FsQVn0m20kvEzAn1QgVKzgy73yCMwUozgJiAbcs4dI35c4PVDNK0qTP1cOQOFJaw6jQHqJpekNzDtXAGAwHMAC2VLH8Ehl1ymAvzFhS2hMO1/DLF7+rVvIxGth2wDtMndyfZq2AmTcoee94pUJZC83WkvS/UYTvQ1PtiJeQW2/4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=pass smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=B92Gi0GR; arc=none smtp.client-ip=198.175.65.21
+	s=arc-20240116; t=1774274463; c=relaxed/simple;
+	bh=iOoxeCml71jS8RpDpVXtmQSHr8afDQmrN78dah/maos=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=soJTrPVZ6hYLfqRiKgzYKU8Fu0YTa0PBay7vKi1pdC96i7s6HTx/hWEfM16tEm6+yk7KxvklgUYpp0UfY2rQo5OhqY5KHY/Bn69sD4HdGZTShkD7ULHIVq7E1mZummpa/lWsaunoyJXgw66+r5y4lSFNfTOVZQP8J1UO/hAaTRA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=pass smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=F5zTZuHM; arc=none smtp.client-ip=192.198.163.11
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="B92Gi0GR"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="F5zTZuHM"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1774268893; x=1805804893;
-  h=from:to:cc:subject:date:message-id:in-reply-to:
-   references:mime-version:content-transfer-encoding;
-  bh=yxBFSPBlJGSByOMWV+pLsYGngXFCdTuXzxFmcluOFc0=;
-  b=B92Gi0GRcfG5n4X5VNiFU1VO9ZZnKEkVXAtslqS9s3ewilJ1P4SeNl4Z
-   K2ERwDkv/rphmc8UFbH1Svz4m0LzoG8m1xqDFRMF5OGDVUWQeJXaSygV0
-   8Z4IReHb0Pu1PJVdTT8RJ9Fe3IQ2ttLlhjffG/6Z7cu0t0rOuqPHbaDTq
-   +/CeIHnVmaywxx3XIRzp8Fxo7g7LcRfFzHDLCJdc/H1RSYNuZRJkv3WIT
-   KNR+cTaHJwPub7zUNqMDYsk5Al5AtDE45dmxyM24N74CecJSR3cR5LnxG
-   tH65h/NZtsyMrj9sErUhrdbGMFDUlAESjdJZ8DoQWf3sx9GvqaWQfasCt
-   w==;
-X-CSE-ConnectionGUID: BQCQQMNBSGO4pEEysB3u9A==
-X-CSE-MsgGUID: NfHAVtf3TNCXLWE+mFRg0A==
-X-IronPort-AV: E=McAfee;i="6800,10657,11737"; a="75151947"
+  t=1774274461; x=1805810461;
+  h=message-id:date:mime-version:subject:to:cc:references:
+   from:in-reply-to:content-transfer-encoding;
+  bh=iOoxeCml71jS8RpDpVXtmQSHr8afDQmrN78dah/maos=;
+  b=F5zTZuHMZaFTuEPCJexFMzpVDL+Hz4Y192ilbzDU+rALyYbDyCdRyyGU
+   CYk3MGAbPEoRU/HTVjVekX6N73RYhLNpI2P5h3v4GgGAgBzowWCPyfn5I
+   Uc/7kg2cTswxdmqxnWLg2/npsgsl4f7H25JYO9ktXhM8y8DSDnOaWTWHr
+   sdsJKo0zRkne/atLuUJ3bxt7u1/hVwyA5zkpYoBuSyIvcY5vw1+KWT9Cz
+   VlM9gOrY2vN6gvYeBHacbFMm5b7K3DRoqRR5bpoZo6FdRdVm/u3Jd7GQw
+   PkAp4Bsgrb2Vc0tkpDXiP4fvrBGJ6B1kl5YUOllZIkCqEnUmpcdILs+67
+   A==;
+X-CSE-ConnectionGUID: HXj4/AXcTT2AZj6On6SGig==
+X-CSE-MsgGUID: USeG2VC1SVmy5TY7JoMtgQ==
+X-IronPort-AV: E=McAfee;i="6800,10657,11738"; a="85894586"
 X-IronPort-AV: E=Sophos;i="6.23,137,1770624000"; 
-   d="scan'208";a="75151947"
-Received: from orviesa006.jf.intel.com ([10.64.159.146])
-  by orvoesa113.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 23 Mar 2026 05:28:13 -0700
-X-CSE-ConnectionGUID: OrOM8iAyQeqb/c9Dj9DO3A==
-X-CSE-MsgGUID: ICapzrp9RSiDGBW7GRif6A==
+   d="scan'208";a="85894586"
+Received: from orviesa009.jf.intel.com ([10.64.159.149])
+  by fmvoesa105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 23 Mar 2026 07:01:00 -0700
+X-CSE-ConnectionGUID: 6n8nIOTpR6Odz++adbrl2Q==
+X-CSE-MsgGUID: uspfll+ORL6uWBqbfViucA==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.23,137,1770624000"; 
-   d="scan'208";a="223083609"
-Received: from klitkey1-mobl1.ger.corp.intel.com (HELO mnyman-desk.intel.com) ([10.245.244.40])
-  by orviesa006-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 23 Mar 2026 05:28:11 -0700
-From: Mathias Nyman <mathias.nyman@linux.intel.com>
-To: <linux-usb@vger.kernel.org>
-Cc: <stern@rowland.harvard.edu>,
-	Thinh.Nguyen@synopsys.com,
-	michal.pecio@gmail.com,
-	oneukum@suse.com,
-	niklas.neronin@linux.intel.com,
-	Mathias Nyman <mathias.nyman@linux.intel.com>
-Subject: [RFC PATCH 2/2] xhci: Ensure URB is given back when endpoint halts on a multi-TD URB
-Date: Mon, 23 Mar 2026 14:25:12 +0200
-Message-ID: <20260323122512.2019893-3-mathias.nyman@linux.intel.com>
-X-Mailer: git-send-email 2.43.0
-In-Reply-To: <20260323122512.2019893-1-mathias.nyman@linux.intel.com>
-References: <20260323122512.2019893-1-mathias.nyman@linux.intel.com>
+   d="scan'208";a="223994066"
+Received: from nneronin-mobl1.ger.corp.intel.com (HELO [10.246.17.204]) ([10.246.17.204])
+  by orviesa009-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 23 Mar 2026 07:00:58 -0700
+Message-ID: <9c6625f0-64d1-4f90-ba89-72eb9a153ea1@linux.intel.com>
+Date: Mon, 23 Mar 2026 16:00:54 +0200
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH 1/2] usb: xhci: fix Command Aborting
+To: Michal Pecio <michal.pecio@gmail.com>
+Cc: mathias.nyman@linux.intel.com, linux-usb@vger.kernel.org,
+ Pavankumar Kondeti <quic_pkondeti@quicinc.com>,
+ Pavankumar Kondeti <pkondeti@codeaurora.org>
+References: <20260316142720.1471906-1-niklas.neronin@linux.intel.com>
+ <20260316142720.1471906-2-niklas.neronin@linux.intel.com>
+ <20260321143057.1bf31b1b.michal.pecio@gmail.com>
+ <56606a55-b1cb-4669-9025-8a91d8d258bf@linux.intel.com>
+ <20260323122458.0af6b4d0.michal.pecio@gmail.com>
+Content-Language: en-US
+From: "Neronin, Niklas" <niklas.neronin@linux.intel.com>
+In-Reply-To: <20260323122458.0af6b4d0.michal.pecio@gmail.com>
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 
-Make sure URB is given back by xhci driver after a stall (EPIPE)
-or transaction error (EPROTO) on one of the TDs in the URB.
 
-Most bulk, interrupt and control transfer URBs consist of one TD,
-so adding that TD to the cancel list was enough to give back the
-entire URB when invalidating and giving back cancelled TDs
 
-Some bulk URBs that need an additional zero length packet consist
-of two TDs. Make sure the second TD is added to the cancel list so
-that URB is given back when clearing the internal endpoint halt.
+On 23/03/2026 13.24, Michal Pecio wrote:
+> On Mon, 23 Mar 2026 12:25:00 +0200, Neronin, Niklas wrote:
+>> On 21/03/2026 15.30, Michal Pecio wrote:
+>>> On Mon, 16 Mar 2026 15:27:19 +0100, Niklas Neronin wrote:  
+>>>> Aborting the command ring requires setting the Command Abort (CA)
+>>>> bit in the 64-bit Command Ring Control Register (CRCR).
+>>>> Historically, several attempts have been made to implement this
+>>>> correctly, but each introduced its own problems. This patch fixes
+>>>> the final remaining issue: accidental modification of the Command
+>>>> Ring Pointer (i'll abbreviate it to CRP).
+>>>>
+>>>> Originally [1], the full 64-bit CRCR value was read and written
+>>>> back after setting CA. This is a bit unnecessary, only RsvdP bits
+>>>> (5:4) should be read and written back (for future-proofing). All
+>>>> other writable fields read as zero.
+>>>>
+>>>> Later patches attempted to solve an issues, caused by 64-bit writes
+>>>> being split into two 32-bit writes. Writing the lower 31:0 bits
+>>>> first immediately stopped the ring (CRR=0), and the following
+>>>> upper-half write then overwrote part of CRP with zeroes, thus
+>>>> corrupting the CRP. Patch [2] avoided this by writing only the
+>>>> lower 31:0 bits with CA set, but that broke controllers that latch
+>>>> 64-bit registers only when the upper bits are written, as reported
+>>>> in [3].  
+>>>
+>>> I too have HW which waits for the high DWORD after low DWORD write.
+>>>
+>>> And I have HW which doesn't. If I write 0xdeadbeef to the high DWORD
+>>> after waiting for CRR=0, some HW will ignore the write and some will
+>>> IOMMU fault at 0xdeadbeefsomething.
+>>>
+>>> The abort itself takes a few microseconds in my tests.  
+>>
+>> Yes, abort completion itself is usually very fast. The 5 second
+>> timeout comes directly from the xHCI 1.9 specification, which
+>> explicitly allows for that duration.
+>>
+>> 4.6.1.2 Aborting a Command:
+>> "If software doesn't see CRR negated in a timely manner (e.g. longer
+>>  than 5 seconds), then it should assume that there are larger problems
+>>  with the xHC and assert HCRST"
+>>
+>> The timeout could probably be reduced to 1 second, but I did not do
+>> that since I do not have evidence that a shorter timeout would be
+>> safe across all hardware.
+> 
+> As noted in my later response to patch 2/2, in rare corner cases
+> ASMedia command abort can take a few seconds and still succeed.
+> 
+>>> Is this race causing problems in the real world?  
+>>
+>> I believe so, given that a fix was proposed specifically to address it:
+>> https://lore.kernel.org/all/20211008092547.3996295-5-mathias.nyman@linux.intel.com/#t
+> 
+> It does look like a problem which people would be unlikely to discover
+> without being affected by it, but the patch says nothing.
+>
+> Hi Pavankumar,
+> 
+> Could you elaborate on the above issue, what was the affected host
+> controller and what sort of workloads made this race turn bad?
+> 
+> In theory the two DWORD writes could be separated by some NMI/SMI
+> hitting the CPU or by heavy traffic on the I/O bus.
+> 
+> 
+> And if probelms are known to happen here, then what about other users
+> of xhci_write_64(), for example updating ERDP aka erst_dequeue?
 
-Signed-off-by: Mathias Nyman <mathias.nyman@linux.intel.com>
----
- drivers/usb/host/xhci-ring.c | 10 ++++++----
- 1 file changed, 6 insertions(+), 4 deletions(-)
+They are not related.
 
-diff --git a/drivers/usb/host/xhci-ring.c b/drivers/usb/host/xhci-ring.c
-index f01f343a7e37..5305ad7be025 100644
---- a/drivers/usb/host/xhci-ring.c
-+++ b/drivers/usb/host/xhci-ring.c
-@@ -982,8 +982,9 @@ static int xhci_reset_halted_ep(struct xhci_hcd *xhci, unsigned int slot_id,
- }
- 
- /*
-- * Mark the TD the endpoint halted on as TD_HALTED and add it to the cancelled
-- * td list, ensuring invalidate_cancelled_tds() clears the TD from xHC cache.
-+ * Mark the TD the endpoint halted on as TD_HALTED, add all TDs of that URB
-+ * to the cancelled td list, ensuring invalidate_cancelled_tds() clears the
-+ * TD from xHC cache and URB is given back.
-  * Mark the other TDs on that bulk or interrupt endpoint as TD_TAINTED to
-  * prevent the ring from being restarted too early.
-  */
-@@ -997,10 +998,11 @@ static void xhci_cancel_halted_tds(struct xhci_hcd *xhci, struct xhci_virt_ep *e
- 	ring = xhci_urb_to_transfer_ring(xhci, td->urb);
- 
- 	td->cancel_status = TD_HALTED;
--	if (list_empty(&td->cancelled_td_list))
--		list_add_tail(&td->cancelled_td_list, &ep->cancelled_td_list);
- 
- 	list_for_each_entry(tdi, &ring->td_list, td_list) {
-+		if (tdi->urb == td->urb && list_empty(&tdi->cancelled_td_list))
-+			list_add_tail(&tdi->cancelled_td_list, &ep->cancelled_td_list);
-+
- 		if (!tdi->cancel_status && ring->type != TYPE_CTRL)
- 			tdi->cancel_status = TD_TAINTED;
- 	}
--- 
-2.43.0
+The ERDP bit field is 63:4 and can therefore hold any TRB address.
+It is also not gated or "locked" behind a control bit in the same register.
+
+Other 63:6 bit fields address in xHCI are all base addresses, which are
+always programmed with correctly aligned values. The only 63:6‑bit
+address field that is not a base address is the Command Ring Pointer.
+
+> 
+>> The current implementation does attempt to change the CRP.
+>> The sequence is as follows:
+>>  1. Fetch the next TRB.
+>>  2. If the TRB is a Link TRB, advance to the next TRB.
+>>  3. Get the DMA address of that TRB.
+>>  4. Write the lower DWORD with the new CRP address and the CA bit set.
+>>  5. Write the upper DWORD with the new CRP address.
+>>
+>> This results in two possible final states, depending on how quickly
+>> CRR is cleared:
+>>  1. The CRP is not updated at all.
+>>  2. Only the upper DWORD of the CRP is updated.
+> 
+> I stand corrected, I wasn't aware of some details. That said,
+> 
+> 1. is a valid outcome and not a bug, jumping to the next TRB is not
+>    necessary, it was a workaround for previous issues.
+> 2. is a bug, but it shouldn't matter because the ring has one segment
+> 
+> But I did have problems on NEC and AMD, which means that something else
+> is also possible. I think I will need to debug it deeper, but I suspect
+> that writing high DWORD alone is enough to trigger bit 4:5 truncation
+> or overwrite low DWORD with some garbage.
+> 
+>> So you believe that when waiting for CRR=0 any software writes to
+>> CRCR, which are not immediately acted on, i.e. Command Stop/Abort,
+>> are instead buffered internally?
+> 
+> We all believe that some HW does nothing and waits for high DWORD.
+> 
+> Other HW is seen to begin aborting more or less immediately. However,
+> until the abort is complete, any subsequent write to high DWORD may
+> be ignored because we can't change CRP while CRR=1.
+> 
+> Problems begin if CRR=0 before we write high DWORD. CRP bits become
+> writeable and any write may trigger truncation of bits 4:5.
+
+Should this be bits 31:6?
+
+> 
+> Note that if the HW interprets this as a single write to high DWORD
+> separate from the previous abort operation (which it has already
+> completed) then this is out of spec, because we should write low-high.
+
+How I see it; hardware which requires an upper DWORD write will "buffer"
+the lower DWORD and wait for the corresponding upper DWORD write.
+
+However, because the specification states that the CRP and RCS are ignored
+while CRR=1, the lower DWORD write ignores lower CRP bits and RCS bit.
+
+As a result, if the upper DWORD is written after CRR=0, only upper CRP bits
+and RsvdP bits are updated.
+Conversely, if the upper DWORD is written before CRR=0, only RsvdP bits are
+updated.
+
+> 
+> It seems that my Etron HC ignores this high DWORD write after CRR=0.
+> I can write 0xdeadbeef there and it continues working normally.
+> Or maybe it's broken and should get the disable 64 bits quirk.
+> 
+> But NEC and AMD start getting "mismatched completion" errors, so it
+> seems that their CRP is corrupted somehow. And I could probably replace
+> waiting for CRR=0 with usleep(20) and get the same corruption.
+> 
+> I will later look closer what happens here.
+> 
+> Regards,
+> Michal
 
