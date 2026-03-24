@@ -1,127 +1,120 @@
-Received: from mail-ej1-f44.google.com (mail-ej1-f44.google.com [209.85.218.44])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp1.tecnico.ulisboa.pt (smtp1.tecnico.ulisboa.pt [193.136.128.21])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9561C3F1646
-	for <linux-usb@vger.kernel.org>; Tue, 24 Mar 2026 12:07:20 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.44
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 608AF3F7ABC;
+	Tue, 24 Mar 2026 12:28:21 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=193.136.128.21
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1774354045; cv=none; b=piKSTo7JbkniXbpTGYjox8jJZOgpyoSZD6D+KEpZquJ1JLcMFNLoqIlyuBYzBepEOgG2J/dk0Oz6n88fnSFO9lTJIqtnYdsEZoB37c0sA4TgqnwrC91G94WYX15tMddSbfc4tDOmK90AjkjpozKFHqdOWX74y9o2oDYKOelbDKs=
+	t=1774355305; cv=none; b=Y8h/7SXO1MUcJCXSKHejd4eQ8wmgFesq6Llfqr/C86k/feAK2vhpEnyDF1YzMs4s1KsSMxjPRlKEF0lIxz/xG6JuZ3jcSBjdvEBOCP2d5XavQMFxui3t6rUGbpUF6gbtbxttJ6HLbwbqT9Ba/Fo3x267hVeGjaV2xBVRV1ErzCU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1774354045; c=relaxed/simple;
-	bh=2G2a51QCI8K6f2AwRf56MeFUJ5650ustP3qdsf8Veo8=;
-	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=ehw4kEsTkocgzzpMY5cfPg2scp4ttNU9jUvW5R8wdJHn2IkjLbRAIv9+L6AWh/QkzBqSGCnQhxsMlzXbLTm0lnYTQA4+v72EML4qo+5v4YODzIr/9eaETTOikCrjBZUtSWdgdT9fYvMn7kbI8mHLMPSznziZeJpMYMelfvuBwes=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=ZR90S3Rz; arc=none smtp.client-ip=209.85.218.44
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1774355305; c=relaxed/simple;
+	bh=3VnP6m7etZxs7IKEhPIG4ni84DChqCCpSXhE7LlGtIY=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=mlg+CeooZ6aM9HbUIUAEJQgcBmrg433BUIajfPgQQarBgxnanoQF6HVa/WOf5GuVn0HhF1ul29PH7vJVTOzOgWvbK8wn7qSU+p9NqE9zOioaAHIjLr76ufArUM2F1hPZa4e0p1FfIZjlYGL4dE6v35wRtPRswAjkvfBn8VR9Rl4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=tecnico.ulisboa.pt; spf=pass smtp.mailfrom=tecnico.ulisboa.pt; dkim=pass (2048-bit key) header.d=tecnico.ulisboa.pt header.i=@tecnico.ulisboa.pt header.b=R1r/LdNx; arc=none smtp.client-ip=193.136.128.21
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=tecnico.ulisboa.pt
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=tecnico.ulisboa.pt
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="ZR90S3Rz"
-Received: by mail-ej1-f44.google.com with SMTP id a640c23a62f3a-b979d16dd0cso773610366b.1
-        for <linux-usb@vger.kernel.org>; Tue, 24 Mar 2026 05:07:20 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1774354039; x=1774958839; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:subject:cc:to:from:date:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=1wv+DLyB0PVqSatPGWYmQ5Ga0Kax66FYWMD7mQDfKzI=;
-        b=ZR90S3RzL0FuGJmBbP13CsLxglC+mh+PAWa0BlVIv39dZ2ZNo3jqwXgoDYCPtV9vJy
-         k2UEKn82B0qgYDOursZFN15cZbQvjJzT8TtcOQPBTrFI7+vR8k8Cdg/CDcb67avvPvjI
-         KQ6IEKc5xokmhKlJGKXGKLZWM6Tq9vOaOQvjMdRf9InizGaR8k6ID0uXyqchw+aulotG
-         pML5Wx5TgB9UuCLYtM01z5DCq8xxkNjvtaD8JfbfjkkOnaNxOGz/SWnSjqEDtMt9dMMN
-         MqF9K21/H5KgyVjauxA2aZPCgHbU09RKASKPb6tBCeD8BivBVV2QN5zvAVDwcl6p78lA
-         Xz/Q==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1774354039; x=1774958839;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:subject:cc:to:from:date:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to;
-        bh=1wv+DLyB0PVqSatPGWYmQ5Ga0Kax66FYWMD7mQDfKzI=;
-        b=h/wuCdrFUL5Pdc4jUmnAwNEZuSQzAj/RPZ0Ql3tZr5Q7bmNGPxM4Ldt0qd4JoeWGxp
-         gPXrsx55tgD+EH0YBTTXOeki8knck7PasGIH7YIZd9N89J9+HBxjQQ7CfOMHmxI+we61
-         HpgWm+UeI8D+DR18vcBnFMrFgl5QnG8dfPcj8vKaha4681qjr8p6Mhi+0/cbY+K32nvi
-         PTnxyi1iRkwzqLbF7D5C7S5DgmQibQHtFivmCX1O6FVo2ozK8IRIxgUhv/EFF3UbbaXU
-         v52c/+kLOQceiJ+UB3HCKHoPA97Lw3t/4WRwDvGm7CXl5MyLiwH5cCsGEvQdJjDiDEDf
-         6Xjw==
-X-Forwarded-Encrypted: i=1; AJvYcCV2M4mItLcP3c4iwcSgm55R7aDGs3q4klnw620p/cG51axZ4TqANReFU48iYMcspB9LJlQu+u/HDys=@vger.kernel.org
-X-Gm-Message-State: AOJu0YwUR/8DDACj6ooTvjzV09VaaDvf1OzEAEda0Gos14be5fRxkzhf
-	fqK1JCW+rEEaVznbeZmP/rUJgnWFscAdAGsoLBFCpu/z+SxGcJ1EpSiC7ZmIlg==
-X-Gm-Gg: ATEYQzyDAfBZES7NaBD/4KSQ/1iuvEiXNn8c/fkCdOu6pedkTtY92uz/t89lw6txomI
-	je2cFPORfOWu8ELi1bAtZum5iL4XIPi4m+B0FhQJXv0Nr3Ghb3kBjOGvg2vDM8iF1V4NBcx0LWx
-	v9RvKd2pbjpPmLGxcuNHyGE8Giichi4Mo+7fXAKldy3NXCr6sw8a9aZ3T5mz12hTwLJWchNHHg/
-	nhvv86+p/3NmQQzJ5GQnTSgH5++s7HogX21UemzQYpNuTwMLbtvb/ZNdt/7Wv2492igkKZY3Az2
-	0azivo5FFDki3cXgEqepgPW6jeO/c6oNDk3LjPp33zkwjRB1WoG+SvfSAwzFzQ9LaX4oqJ8nUEO
-	O2IwmfisGyQgPW8gbIH88Jit3ojT3qHN52Rbu40P5oNdxSHMxQI1oJ9FbgkfjxLRdLfaOLXARoD
-	KtCYiOIA7yUx6X7/wFmW7jrgd2Y0rjyi0lmtw=
-X-Received: by 2002:a17:906:6da:b0:b8f:a174:3186 with SMTP id a640c23a62f3a-b982f3e783dmr947383166b.57.1774354038059;
-        Tue, 24 Mar 2026 05:07:18 -0700 (PDT)
-Received: from foxbook (bfk214.neoplus.adsl.tpnet.pl. [83.28.48.214])
-        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-b98335de16csm643772766b.41.2026.03.24.05.07.16
-        (version=TLS1_2 cipher=AES128-SHA bits=128/128);
-        Tue, 24 Mar 2026 05:07:17 -0700 (PDT)
-Date: Tue, 24 Mar 2026 13:07:13 +0100
-From: Michal Pecio <michal.pecio@gmail.com>
-To: Ricardo Ribalda <ribalda@chromium.org>
-Cc: Laurent Pinchart <laurent.pinchart@ideasonboard.com>, Hans de Goede
- <hansg@kernel.org>, Mauro Carvalho Chehab <mchehab@kernel.org>, Greg
- Kroah-Hartman <gregkh@linuxfoundation.org>, linux-media@vger.kernel.org,
- linux-kernel@vger.kernel.org, linux-usb@vger.kernel.org
-Subject: Re: [PATCH v3 3/4] media: uvcvideo: Introduce
- allow_privacy_override module parameter
-Message-ID: <20260324130713.5c9c3633.michal.pecio@gmail.com>
-In-Reply-To: <CANiDSCvw8+KAbrqqSr76eLpdyMoG_o6miy_nGEyS6bRqR4j0PA@mail.gmail.com>
-References: <20260316-uvcdynctrl-v3-0-19cd4657e1f3@chromium.org>
-	<20260316-uvcdynctrl-v3-3-19cd4657e1f3@chromium.org>
-	<20260319013657.155efeb0.michal.pecio@gmail.com>
-	<CANiDSCsBjgZL0MGFgkDzbTaJ03hE0gZbV3tu3fKo7k6KaAcMZw@mail.gmail.com>
-	<20260319120856.09f2f15a.michal.pecio@gmail.com>
-	<CANiDSCvw8+KAbrqqSr76eLpdyMoG_o6miy_nGEyS6bRqR4j0PA@mail.gmail.com>
+	dkim=pass (2048-bit key) header.d=tecnico.ulisboa.pt header.i=@tecnico.ulisboa.pt header.b="R1r/LdNx"
+Received: from localhost (localhost.localdomain [127.0.0.1])
+	by smtp1.tecnico.ulisboa.pt (Postfix) with ESMTP id 44CD0600085A;
+	Tue, 24 Mar 2026 12:28:19 +0000 (WET)
+X-Virus-Scanned: by amavis-2.13.0 (20230106) (Debian) at tecnico.ulisboa.pt
+Received: from smtp1.tecnico.ulisboa.pt ([127.0.0.1])
+ by localhost (smtp1.tecnico.ulisboa.pt [127.0.0.1]) (amavis, port 10025)
+ with LMTP id ZSyy3OFlWjsN; Tue, 24 Mar 2026 12:28:17 +0000 (WET)
+Received: from mail1.tecnico.ulisboa.pt (mail1.ist.utl.pt [IPv6:2001:690:2100:1::b3dd:b9ac])
+	by smtp1.tecnico.ulisboa.pt (Postfix) with ESMTPS id B7CE36000872;
+	Tue, 24 Mar 2026 12:28:16 +0000 (WET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=tecnico.ulisboa.pt;
+	s=mail2; t=1774355296;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=0H07sbfA7geFvMVbwBHgjO9Zv4YRqDulO8wi0QJ4JIg=;
+	b=R1r/LdNxDWwh5jSyABP8e+EE3vZwy4hwHQI6Fb+sHg77++Ws2tOUkybACtMSYyv1beB9bT
+	Ia7pVb1GUjrjT2sWiAmuZ3wT/znd3dEBIyiiUMMrMnnwiVfSJzSELd9Saj9OrIN+xyRqlE
+	5qYq/U02pF8nrIhBKMGz3rn03bRE/suN1vgf4jNFJ7YFeXEHg63FH+Btc9D66tGirT6a6B
+	rfIervl+oGLlR5NxihO/gaz3dcI2Xswn7SISTuXtkl5Zz/FFJp87s95VH7dcZ1hUzVon+c
+	cK8xdEWDNzomsLF6f7CSX+AbM77BXQio+Y+acBK9zAl6pilcUQbqHWZtIXvr2Q==
+Received: from [IPV6:2001:8a0:57db:f00:3ee2:38aa:e2c9:7dde] (unknown [IPv6:2001:8a0:57db:f00:3ee2:38aa:e2c9:7dde])
+	(Authenticated sender: ist187313)
+	by mail1.tecnico.ulisboa.pt (Postfix) with ESMTPSA id 466F1360187;
+	Tue, 24 Mar 2026 12:28:16 +0000 (WET)
+Message-ID: <991ecd66-9db0-468d-b3b0-570ca89191bf@tecnico.ulisboa.pt>
+Date: Tue, 24 Mar 2026 12:28:16 +0000
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v2 2/6] usb: xhci: tegra: Remove redundant mutex when
+ setting phy mode
+To: Thierry Reding <thierry.reding@kernel.org>
+Cc: Mathias Nyman <mathias.nyman@intel.com>,
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+ Thierry Reding <thierry.reding@gmail.com>,
+ Jonathan Hunter <jonathanh@nvidia.com>, JC Kuo <jckuo@nvidia.com>,
+ Vinod Koul <vkoul@kernel.org>, Kishon Vijay Abraham I <kishon@kernel.org>,
+ Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>,
+ Conor Dooley <conor+dt@kernel.org>,
+ Neil Armstrong <neil.armstrong@linaro.org>, linux-usb@vger.kernel.org,
+ linux-tegra@vger.kernel.org, linux-kernel@vger.kernel.org,
+ linux-phy@lists.infradead.org, devicetree@vger.kernel.org
+References: <20260127-diogo-tegra_phy-v2-0-787b9eed3ed5@tecnico.ulisboa.pt>
+ <20260127-diogo-tegra_phy-v2-2-787b9eed3ed5@tecnico.ulisboa.pt>
+ <acJ50sQraVmy4zXs@orome>
+Content-Language: en-US
+From: Diogo Ivo <diogo.ivo@tecnico.ulisboa.pt>
+In-Reply-To: <acJ50sQraVmy4zXs@orome>
+Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
 
-On Thu, 19 Mar 2026 12:43:21 +0100, Ricardo Ribalda wrote:
-> > > We can then decide if we need a specialized API for their use
-> > > case or a Kconfig option, rather than leaving the current "anyone
-> > > can turn off the privacy LED" status quo.  
-> >
-> > Why not just add the specialized API right away?  
+
+
+On 3/24/26 11:48, Thierry Reding wrote:
+> On Tue, Jan 27, 2026 at 03:11:48PM +0000, Diogo Ivo wrote:
+>> As the PHY subsystem already synchronizes concurrent accesses to a PHY
+>> instance with a core-internal mutex remove the driver specific mutex
+>> synchronization.
+>>
+>> Signed-off-by: Diogo Ivo <diogo.ivo@tecnico.ulisboa.pt>
+>> ---
+>> v1->v2:
+>> - New patch
+>> ---
+>>   drivers/usb/host/xhci-tegra.c | 4 ----
+>>   1 file changed, 4 deletions(-)
+>>
+>> diff --git a/drivers/usb/host/xhci-tegra.c b/drivers/usb/host/xhci-tegra.c
+>> index 8b492871d21d..927861ca14f2 100644
+>> --- a/drivers/usb/host/xhci-tegra.c
+>> +++ b/drivers/usb/host/xhci-tegra.c
+>> @@ -1357,15 +1357,11 @@ static void tegra_xhci_id_work(struct work_struct *work)
+>>   
+>>   	dev_dbg(tegra->dev, "host mode %s\n", str_on_off(tegra->host_mode));
+>>   
+>> -	mutex_lock(&tegra->lock);
+>> -
+>>   	if (tegra->host_mode)
+>>   		phy_set_mode_ext(phy, PHY_MODE_USB_OTG, USB_ROLE_HOST);
+>>   	else
+>>   		phy_set_mode_ext(phy, PHY_MODE_USB_OTG, USB_ROLE_NONE);
+>>   
+>> -	mutex_unlock(&tegra->lock);
+>> -
 > 
-> We don't know the exact use cases yet, and I do not want to design
-> an API without understanding the users for it.
-> 
-> At this moment, we have only identified these usecases:
-> 
-> - Disabling the LED to avoid reflections in glasses. (This is
->   generally a non-issue with modern hardware).
-> - Baby monitors. (I would argue that physical tape is the correct
->   solution for a sleep-disturbing light).
+> It looks to me like the mutex here is trying to protect against
+> tegra->host_mode changing while we're setting a different mode. That
+> doesn't seem to be taken care of by the PHY internal mutex.
 
-Indeed it was a rhetorical question, I suspect this won't go anywhere
-beyond the module parameter for lack of interest from users. Apparently
-it's a niche thing and it already works well enough for those who care.
+I'm not sure I understand your point. Do you mean guarding against
+tegra->host_mode changing in tegra_xhci_id_notify()? If so I don't see
+how it would guard against that.
 
-Kconfig could make more sense to exclude this whole "filtering" logic
-for those who don't care and may not appreciate bloat, e.g. embedded.
+Diogo
 
-> I rely on my LEDs. I know they are wired to the sensor power supply,
-> so the LED is definitely on when the camera is in use.
-> I want all users to be able to trust their LEDs like I do.
-
-This is objectively impossible without a soldering iron, and trust in
-something that's not even real is ralely a good thing.
-
-Ultimately it's just a software controllable LED. Anyone can drive it
-through USBFS. You have a point that restricting this in uvcvideo may
-keep some sandboxed applications on some HW from behaving in a manner
-unexpected by some users, but that's about the limit of it.
-
-And I wish that you enjoyed the same flexibility as those Logitech
-camera owners. But you wouldn't want me to try make it happen ;)
-
-Regards,
-Michal
+> Thierry
