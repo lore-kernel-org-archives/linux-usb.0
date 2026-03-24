@@ -1,170 +1,68 @@
-Received: from mail-ej1-f44.google.com (mail-ej1-f44.google.com [209.85.218.44])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4F7843BC670
-	for <linux-usb@vger.kernel.org>; Tue, 24 Mar 2026 10:30:20 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.44
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 025A7296BB6
+	for <linux-usb@vger.kernel.org>; Tue, 24 Mar 2026 10:41:03 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1774348223; cv=none; b=rTXXkBUsj83h0yoAGXTOu+Y8AtmAh7D+HR/rvE9+PUmUR8hmi/0e97jNT14VwQRncUZEEIktXOvORD+5vdM+u5roiWn/yyS2Z3VLd8EM+1t/VZfVOm88VlUFi/c5lhlBJX8MYcRaXAeJh9V2NGrXWGcUAypSXwUb+/g3KhOLTfU=
+	t=1774348864; cv=none; b=OvUphiOEGTrWNtU7TF6DUhI/UtPncubVtd/4gK0iEfuqZ3ko+l1Ev7JvYeedjvZqmjl1Fd+DJ1zGtMopGfx44dOpmIVWQSkWhuRGsurs0B8P1KhI9ufX4Uz1Hmd9xiyi1pO+KKr4zEdDplf+gv8wUMpFxGubAmj/BGuCHvVeCqo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1774348223; c=relaxed/simple;
-	bh=qmvn95qLYi5zD/L9ziLnVeERZqUjiU0m9oMXTSssOxk=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=G0Ks2l01hXdhfmSy73JYe8W5/wlrwm/Defs3MLr7pb0nXvy1DJsXp45nuePGiUwuIAd0cWrEIuK31Gbj8r5NnEqtDa6mq6q0HWdEcGBcLX0uLfkvpPeiSeZjPDbiwYSA7aTWPubToMTwWYZSpG6fc1hGi3QUZ+ZVdOh91l6678c=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org; spf=pass smtp.mailfrom=chromium.org; dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b=NWkxjUCx; arc=none smtp.client-ip=209.85.218.44
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=chromium.org
+	s=arc-20240116; t=1774348864; c=relaxed/simple;
+	bh=vu8Q6TPpDPN703roMr360klKnJeZHeHCPzq9IGeo4l4=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=nAEIihS9WZQHt46YBwkTpiEUyG8d8WHWfUf3PNk+5Rx9gCYoDzGBAsO7Qw01hhLORPLC4knLxvAbczcbKf0Gm1qZ55wHeZ/zXhwR+1Z431mH4PlbwrGTzKZDkpiERbjWlgPDgqs9uJ187r3ROdcEl2dkjhSBNzQ/hYNnEV1+nFc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b=R7BMxyAy; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b="NWkxjUCx"
-Received: by mail-ej1-f44.google.com with SMTP id a640c23a62f3a-b9793fa5371so694747466b.2
-        for <linux-usb@vger.kernel.org>; Tue, 24 Mar 2026 03:30:20 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=chromium.org; s=google; t=1774348218; x=1774953018; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=KJ5B9EsEVAtAKUbh3SIdMjXFUTqdrORMXqDWfN2cV3k=;
-        b=NWkxjUCxEo0Wp6N8/JGTSoR2kVyB1LwvkSIk8He9g/jMAcwLAflHid8S8nqaqVyhFz
-         6kPQsb1JZUmAEHeZEuUQLoAy7J8n1+Dq/IXLBzg4jKESSpWhKsmTyDCVyg2SA7/HCnRk
-         MauLX6OyZjJKTVX295BWIzSUIuYnR4BHGffSI=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1774348218; x=1774953018;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=KJ5B9EsEVAtAKUbh3SIdMjXFUTqdrORMXqDWfN2cV3k=;
-        b=ljxyNMSfKfsR34bxHayceO7Drmi7OFSjPR0p3CMf7nnw856FDs6okXc7C3gO6dhEw8
-         LGF8UNwcBWUUYD8ifRsWYiKkdgq6FtVrwNL291ksOXVVnVtc8FA2SoLiSo/2WfqxIUZ+
-         S9NI1Bcn/6JuVdxjcwEPrKRdNtSCel5ldi0wOLuyB3d5RM6baX8+pUjG0rLpWF9uTbVR
-         eFnIxoAho6czDDAc8U99W4yw34jOlodnngxvvvdv8j0ffwGkalSHeVqraJ+gk9ruKuF7
-         fMTui7JCHJ+KgaqxB13hlhEIwVYlBXDTmSVxBA838bfb72wPVfN2JAM0gzGnP1Bam/EO
-         Mb8g==
-X-Forwarded-Encrypted: i=1; AJvYcCW693Qb7AvE4yvpulcwPWBHs0rmKhH/PxqD3yJAmR/4zdG7OTyB6w2ojGt752l7RwEmETfB8yY5Z2o=@vger.kernel.org
-X-Gm-Message-State: AOJu0YxlnDX200cKebmuNU5y4d5RlLBXo2dX+xcIzMgaMvzgj4a67K4g
-	NXYM7LbvV3kwPFlyvIkXDXUJdS2gEpdKXBy/ORRubrnaTlilVbrQELCW0T6efZ5qRg==
-X-Gm-Gg: ATEYQzyXKWLm2K0bGFjAFOJ7wipAA4TIrJWjnK+LLGt9R1tcdUwn5W0f6rdHyXd0Grx
-	65e83NA4GXNNIpfvElg4MCaX3qzgRDC0cI54l+keP3uvTkIYzxNzNczoAtbLl3bgjhTR5ZByhFy
-	GtcCIazTd5JLJmuOcrDdTt4t0bkvOSAgyTyUHPgC0hihySyswG3wSB8HmvZvO/UuKkeUnMu7FAn
-	6962q78AQ+EAhSf4yqdRTsVuKdPwdvVA1WU+9yy/9utK8dLTPxwh6I9sUKgb70FN8ZHe2Kl5pkv
-	Ula4pPCYUiQOr5zClu14fYeCBVckb6tmTsqT52gJtrO4819vMnPpgtxFwa7n+1YvNb9+s59JPPp
-	ltYCsnEc/fsf5kZ/E5DgVTU40xNRpkdiUm1lwrRKGVFfhRHIxvT63QNR7UhtjZyaN9ZRyEKNX8a
-	ZrMAd3OjndHgkSDyHBr6C5Iin1nwbcmlGumBYUhqKsztrdOTfN8MkbSbmclKHZVvgToHqdKnkRa
-	Gn+0laXLydzLtbDQlT3Shw=
-X-Received: by 2002:a17:906:b74d:b0:b96:f329:e66 with SMTP id a640c23a62f3a-b982f39b31dmr905699266b.51.1774348218439;
-        Tue, 24 Mar 2026 03:30:18 -0700 (PDT)
-Received: from akuchynski.c.googlers.com.com (218.127.147.34.bc.googleusercontent.com. [34.147.127.218])
-        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-b98416ac27asm496819666b.59.2026.03.24.03.30.17
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 24 Mar 2026 03:30:17 -0700 (PDT)
-From: Andrei Kuchynski <akuchynski@chromium.org>
-To: Heikki Krogerus <heikki.krogerus@linux.intel.com>,
-	linux-usb@vger.kernel.org,
-	linux-kernel@vger.kernel.org
-Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	Andrei Kuchynski <akuchynski@chromium.org>,
-	stable@vger.kernel.org,
-	Madhu M <madhu.m@intel.corp-partner.google.com>
-Subject: [PATCH v2] usb: typec: thunderbolt: Set enter_vdo during initialization
-Date: Tue, 24 Mar 2026 10:30:12 +0000
-Message-ID: <20260324103012.1417616-1-akuchynski@chromium.org>
-X-Mailer: git-send-email 2.53.0.983.g0bb29b3bc5-goog
+	dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="R7BMxyAy"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 6E63BC19424;
+	Tue, 24 Mar 2026 10:41:03 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
+	s=korg; t=1774348863;
+	bh=vu8Q6TPpDPN703roMr360klKnJeZHeHCPzq9IGeo4l4=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=R7BMxyAyBpmKW8ZcBBgCiFbEm2XmbYairHP7o9gGVreUIGGTPfSN9AWqIUHCK8hKf
+	 M69KjwnAbu7PEMoKMCUXhedSuq0W7tgWgT7JgwgNWdQTq9pFeH56e5H1VYoM16moUI
+	 H50qv1TY+ePVnUChaD20XubyQ9YE7261+CpFBBQg=
+Date: Tue, 24 Mar 2026 11:28:46 +0100
+From: Greg KH <gregkh@linuxfoundation.org>
+To: Francois Scala <francois@scala.name>
+Cc: linux-usb@vger.kernel.org
+Subject: Re: Caldigit TS5+ problem with work in progress patch
+Message-ID: <2026032456-washer-uncut-5caf@gregkh>
+References: <7333738a-8364-42fa-b334-c4dc4b0ee503@scala.name>
+ <2026032244-imprint-reverb-32d0@gregkh>
+ <159947f9-e9a3-42e1-b728-842d60f3b3a3@scala.name>
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
+In-Reply-To: <159947f9-e9a3-42e1-b728-842d60f3b3a3@scala.name>
 
-In the current implementation, if a cable's alternate mode enter operation
-is not supported, the tbt->plug[TYPEC_PLUG_SOP_P] pointer is cleared by the
-time tbt_enter_mode() is called. This prevents the driver from identifying
-the cable's VDO.
+On Tue, Mar 24, 2026 at 11:00:15AM +0100, François Scala wrote:
+> Hi Greg,
+> 
+> I've rebased my patch on the latest kernel version 7.0-rc5 and fixed the
+> linting errors: https://gitlab.archlinux.org/fs75/linux-ts5plus/-/blob/v7.0-ts5plus-test/ts5-test.patch?ref_type=heads
+> The change log of the patch:
+> 
+> usb: typec: Allow altmode to have multiple partners
+> 
+> Signed-off-by: François Scala <francois@scala.name>
+> 
+> Now, how can this been reviewed/tested ?
 
-As a result, the Thunderbolt connection falls back to the default
-TBT_CABLE_USB3_PASSIVE speed, even if the cable supports higher speeds.
-To ensure the correct VDO value is used during mode entry, calculate and
-store the enter_vdo earlier during the initialization phase in tbt_ready().
+Again, read the document I pointed you at, you need to submit this as a
+patch like any of the other thousands of patches that get submitted each
+day :)
 
-Cc: stable@vger.kernel.org
-Fixes: 100e25738659 ("usb: typec: Add driver for Thunderbolt 3 Alternate Mode")
-Tested-by: Madhu M <madhu.m@intel.corp-partner.google.com>
-Signed-off-by: Andrei Kuchynski <akuchynski@chromium.org>
-Reviewed-by: Heikki Krogerus <heikki.krogerus@linux.intel.com>
----
-Changes in V2:
-- Marked as a Fix
+That document should guide you through the process, if you have any
+specific questions about it, please let us know
 
- drivers/usb/typec/altmodes/thunderbolt.c | 44 ++++++++++++------------
- 1 file changed, 22 insertions(+), 22 deletions(-)
+thanks,
 
-diff --git a/drivers/usb/typec/altmodes/thunderbolt.c b/drivers/usb/typec/altmodes/thunderbolt.c
-index c4c5da6154da9..32250b94262a9 100644
---- a/drivers/usb/typec/altmodes/thunderbolt.c
-+++ b/drivers/usb/typec/altmodes/thunderbolt.c
-@@ -39,28 +39,7 @@ static bool tbt_ready(struct typec_altmode *alt);
- 
- static int tbt_enter_mode(struct tbt_altmode *tbt)
- {
--	struct typec_altmode *plug = tbt->plug[TYPEC_PLUG_SOP_P];
--	u32 vdo;
--
--	vdo = tbt->alt->vdo & (TBT_VENDOR_SPECIFIC_B0 | TBT_VENDOR_SPECIFIC_B1);
--	vdo |= tbt->alt->vdo & TBT_INTEL_SPECIFIC_B0;
--	vdo |= TBT_MODE;
--
--	if (plug) {
--		if (typec_cable_is_active(tbt->cable))
--			vdo |= TBT_ENTER_MODE_ACTIVE_CABLE;
--
--		vdo |= TBT_ENTER_MODE_CABLE_SPEED(TBT_CABLE_SPEED(plug->vdo));
--		vdo |= plug->vdo & TBT_CABLE_ROUNDED;
--		vdo |= plug->vdo & TBT_CABLE_OPTICAL;
--		vdo |= plug->vdo & TBT_CABLE_RETIMER;
--		vdo |= plug->vdo & TBT_CABLE_LINK_TRAINING;
--	} else {
--		vdo |= TBT_ENTER_MODE_CABLE_SPEED(TBT_CABLE_USB3_PASSIVE);
--	}
--
--	tbt->enter_vdo = vdo;
--	return typec_altmode_enter(tbt->alt, &vdo);
-+	return typec_altmode_enter(tbt->alt, &tbt->enter_vdo);
- }
- 
- static void tbt_altmode_work(struct work_struct *work)
-@@ -337,6 +316,7 @@ static bool tbt_ready(struct typec_altmode *alt)
- {
- 	struct tbt_altmode *tbt = typec_altmode_get_drvdata(alt);
- 	struct typec_altmode *plug;
-+	u32 vdo;
- 
- 	if (tbt->cable)
- 		return true;
-@@ -364,6 +344,26 @@ static bool tbt_ready(struct typec_altmode *alt)
- 		tbt->plug[i] = plug;
- 	}
- 
-+	vdo = tbt->alt->vdo & (TBT_VENDOR_SPECIFIC_B0 | TBT_VENDOR_SPECIFIC_B1);
-+	vdo |= tbt->alt->vdo & TBT_INTEL_SPECIFIC_B0;
-+	vdo |= TBT_MODE;
-+	plug = tbt->plug[TYPEC_PLUG_SOP_P];
-+
-+	if (plug) {
-+		if (typec_cable_is_active(tbt->cable))
-+			vdo |= TBT_ENTER_MODE_ACTIVE_CABLE;
-+
-+		vdo |= TBT_ENTER_MODE_CABLE_SPEED(TBT_CABLE_SPEED(plug->vdo));
-+		vdo |= plug->vdo & TBT_CABLE_ROUNDED;
-+		vdo |= plug->vdo & TBT_CABLE_OPTICAL;
-+		vdo |= plug->vdo & TBT_CABLE_RETIMER;
-+		vdo |= plug->vdo & TBT_CABLE_LINK_TRAINING;
-+	} else {
-+		vdo |= TBT_ENTER_MODE_CABLE_SPEED(TBT_CABLE_USB3_PASSIVE);
-+	}
-+
-+	tbt->enter_vdo = vdo;
-+
- 	return true;
- }
- 
--- 
-2.53.0.983.g0bb29b3bc5-goog
-
+greg k-h
