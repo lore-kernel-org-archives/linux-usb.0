@@ -1,121 +1,115 @@
-Received: from zebra.wilibox.com (zebra.wilibox.com [62.77.155.212])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.7])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7A638318EDF;
-	Tue, 24 Mar 2026 11:08:49 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=62.77.155.212
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 51E623DFC9D;
+	Tue, 24 Mar 2026 11:09:32 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.7
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1774350531; cv=none; b=TQ1b7Z4iPpqVf5lIQf+r8ZV3+mCMMQe4foSeGM2O/Ap3wFcE0cGq8Tn9aGK5mkSTpnTusdI2wV4dhUdUCTNK3iEwFePA2koKnWQBqYuPKNUJTL7WjAmWcwTsrBJbdCjuX1QjbQpQUv73JaagSXf7zy8RAb55snVsYVOjiOLMHaE=
+	t=1774350574; cv=none; b=KHUpgbflioj7X6VUVaZdN+EafbQLaKloU19BiFsYzVga3i2PucmMRkZf1f7l66j1qO/Vp1ECkh4aAHMiILtvmHwBvaqZAACjDWj+FGJ29lsLd4o8uEkI8ZMA40nXwb+jos8MCqOeSgPA+sh3HSFRsb8c5N84mmXQR1M1ze09Ik8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1774350531; c=relaxed/simple;
-	bh=ymDDcUWqCDL+dQWZGFAk2hWRU2rBH2uLgJDe7dAJY4g=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=F04apt+/bUqpI1koYHPR36Pt4nsIUx2h6iIrWanIuNmaUqjLFner3H8UOhgHqqnv9XEvmr8sn0wtpvdyLTaHF/QlUrtG+MuDgAdBwmwyRF700XYih9lOoCThno2KuNTXEIto0zAmJ7kw/3boyEVvsP8YW2JFIDEseeEfT0J0EFk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=iconn-networks.com; spf=pass smtp.mailfrom=iconn-networks.com; dkim=pass (2048-bit key) header.d=iconn-networks.com header.i=@iconn-networks.com header.b=W0zDpcuc; arc=none smtp.client-ip=62.77.155.212
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=iconn-networks.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=iconn-networks.com
+	s=arc-20240116; t=1774350574; c=relaxed/simple;
+	bh=iOR1h4fcZWeV6zkcSAkDK7aDf13M07RsodIPR4ByCSk=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=qwJAuMYkWvoV2JDrGucOFCsZ1gyXJyWAfXS+bAeWaHiG9or2Nn00bMm3x7qzM25uRMHtYQtvpe02sA72AmfgWGOlsiyczBJ8JT6ZaYyiFs8YDuczqokfAzlq/Tle0la3tI/LGE/JurAUUiq1SFU7bj76G7G3wuFoQW1ksSuyzfY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=mkuk0eIH; arc=none smtp.client-ip=192.198.163.7
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=iconn-networks.com header.i=@iconn-networks.com header.b="W0zDpcuc"
-Received: from debian (unknown [81.7.79.211])
-	(Authenticated sender: ernestas.k@iconn-networks.com)
-	by zebra.wilibox.com (Postfix) with ESMTPSA id C9BE1173643;
-	Tue, 24 Mar 2026 13:08:46 +0200 (EET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=iconn-networks.com;
-	s=default; t=1774350526;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=sqD98U35N4SigI8+FGazdZl8JLGxqVSdvyMhBqPpICg=;
-	b=W0zDpcucWHmYPOWeQmtia+Kf28XdGY2LKy5+aO/REbYG8k0Ea+V5TvXLklcVIpIQDbg/fu
-	8zL++2vkyhqb4hyB4YfuA9s7w6+hcF/UIp9yPFNxSwSEwI9k5IkapNR84A843BMxz/I0gf
-	zKMtPqSrpkflRhsM8wdriWVXk9s6/zIfnSLe/G2GWDqVdgFr+L28D6tTDA5BhMnxGyhuoi
-	7YIPIhvq7lFvMlW10egq/rlzlA+EL3XhxDhYYY/jQyURJlSpFAICXxiuDZZq5gqBaJeWbu
-	TCO+xSnFHlRB4yYEZexcd9tkfRIX042YhPI2/KHI7RNXREBMPfo+3dDFoQVHkQ==
-Authentication-Results: zebra.wilibox.com;
-	auth=pass smtp.auth=ernestas.k@iconn-networks.com smtp.mailfrom=ernestas.k@iconn-networks.com
-From: Ernestas Kulik <ernestas.k@iconn-networks.com>
-To: johan@kernel.org
-Cc: linux-usb@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	Ernestas Kulik <ernestas.k@iconn-networks.com>
-Subject: [PATCH v2] USB: serial: option: Add MeiG Smart SRM825WN
-Date: Tue, 24 Mar 2026 13:07:16 +0200
-Message-ID: <20260324110716.970023-1-ernestas.k@iconn-networks.com>
-X-Mailer: git-send-email 2.53.0
-In-Reply-To: <20260323143753.686561-1-ernestas.k@iconn-networks.com>
-References: <20260323143753.686561-1-ernestas.k@iconn-networks.com>
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="mkuk0eIH"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1774350572; x=1805886572;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=iOR1h4fcZWeV6zkcSAkDK7aDf13M07RsodIPR4ByCSk=;
+  b=mkuk0eIHNa0kKA8v8awlwucrXRELaXAirzUOh3hn33ybDilXlBlDsCcI
+   do3akbtpmJEO52aknNGBx1MuPHwVH2Bnlv7Fy3RwUqvuLBeIsdxSwdowm
+   B5RII6ZVP39wcymiqB3Xv48519zx59rKo4aTBVNRqDsUUyGAhfaWmxX3I
+   9qQjopxrdFL1UZeHgSQFQ9MU3KNo/jSV8le/ZKXgY2QrmZ7dlf5b/3Ae1
+   52yEGZe54ELBWEowICgp4+MmC/kEamCBbH/GnWS1kpWERZakZLyGV0gjS
+   m+kG0dboP7jholPynEt1vxeN28AogcrmJGx9jvIEu1tm3NMaMSU5YQ9p0
+   w==;
+X-CSE-ConnectionGUID: Jh0nCzw9RZOPc5gUfxtA9A==
+X-CSE-MsgGUID: UwIGDrwXQjSKBTHwjA4MeA==
+X-IronPort-AV: E=McAfee;i="6800,10657,11738"; a="100807671"
+X-IronPort-AV: E=Sophos;i="6.23,138,1770624000"; 
+   d="scan'208";a="100807671"
+Received: from orviesa002.jf.intel.com ([10.64.159.142])
+  by fmvoesa101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 24 Mar 2026 04:09:32 -0700
+X-CSE-ConnectionGUID: usaXSFn1TdG0jwqW0DAUuA==
+X-CSE-MsgGUID: ejoi2VIOS7iZOgXip8Ubjg==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.23,138,1770624000"; 
+   d="scan'208";a="254805065"
+Received: from black.igk.intel.com ([10.91.253.5])
+  by orviesa002.jf.intel.com with ESMTP; 24 Mar 2026 04:09:30 -0700
+Received: by black.igk.intel.com (Postfix, from userid 1008)
+	id 0B03A95; Tue, 24 Mar 2026 12:09:29 +0100 (CET)
+Date: Tue, 24 Mar 2026 13:08:43 +0200
+From: Heikki Krogerus <heikki.krogerus@linux.intel.com>
+To: Andrei Kuchynski <akuchynski@chromium.org>
+Cc: linux-usb@vger.kernel.org, linux-kernel@vger.kernel.org,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	stable@vger.kernel.org,
+	Madhu M <madhu.m@intel.corp-partner.google.com>
+Subject: Re: [PATCH v2] usb: typec: Remove alt->adev.dev.class assignment
+Message-ID: <acJwu-kjdGsrf4Pr@kuha>
+References: <20260324102903.1416210-1-akuchynski@chromium.org>
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20260324102903.1416210-1-akuchynski@chromium.org>
 
-This commit adds support for the SDX62-based MeiG Smart SRM825WN module.
+On Tue, Mar 24, 2026 at 10:29:03AM +0000, Andrei Kuchynski wrote:
+> The typec plug alternate mode is already registered as part of the bus.
+> When both class and bus are set for a device, device_add() attempts to
+> create the "subsystem" symlink in the device's sysfs directory twice, once
+> for the bus and once for the class.
+> This results in a duplicate filename error during registration,
+> causing the alternate mode registration to fail with warnings:
+> 
+> cannot create duplicate filename '/devices/pci0000:00/0000:00:1f.0/
+>   PNP0C09:00/GOOG0004:00/cros-ec-dev.1.auto/cros_ec_ucsi.3.auto/typec/
+>   port1/port1-cable/port1-plug0/port1-plug0.0/subsystem'
+> typec port0-plug0: failed to register alternate mode (-17)
+> cros_ec_ucsi.3.auto: failed to registers svid 0x8087 mode 1
+> 
+> Cc: stable@vger.kernel.org
+> Fixes: 67ab45426215 ("usb: typec: Set the bus also for the port and plug altmodes")
+> Tested-by: Madhu M <madhu.m@intel.corp-partner.google.com>
+> Signed-off-by: Andrei Kuchynski <akuchynski@chromium.org>
 
-If#= 0: RNDIS
-If#= 1: RNDIS
-If#= 2: Diag
-If#= 3: AT
-If#= 4: AT
-If#= 5: NMEA
+Reviewed-by: Heikki Krogerus <heikki.krogerus@linux.intel.com>
 
-T:  Bus=01 Lev=02 Prnt=02 Port=00 Cnt=01 Dev#= 19 Spd=480  MxCh= 0
-D:  Ver= 2.10 Cls=00(>ifc ) Sub=00 Prot=00 MxPS=64 #Cfgs=  1
-P:  Vendor=2dee ProdID=4d38 Rev= 5.04
-S:  Manufacturer=MEIG
-S:  Product=LTE-A Module
-S:  SerialNumber=da47a175
-C:* #Ifs= 6 Cfg#= 1 Atr=80 MxPwr=500mA
-A:  FirstIf#= 0 IfCount= 2 Cls=e0(wlcon) Sub=01 Prot=03
-I:* If#= 0 Alt= 0 #EPs= 1 Cls=e0(wlcon) Sub=01 Prot=03 Driver=rndis_host
-E:  Ad=81(I) Atr=03(Int.) MxPS=   8 Ivl=32ms
-I:* If#= 1 Alt= 0 #EPs= 2 Cls=0a(data ) Sub=00 Prot=00 Driver=rndis_host
-E:  Ad=8e(I) Atr=02(Bulk) MxPS= 512 Ivl=0ms
-E:  Ad=0f(O) Atr=02(Bulk) MxPS= 512 Ivl=0ms
-I:* If#= 2 Alt= 0 #EPs= 2 Cls=ff(vend.) Sub=ff Prot=30 Driver=option
-E:  Ad=01(O) Atr=02(Bulk) MxPS= 512 Ivl=0ms
-E:  Ad=82(I) Atr=02(Bulk) MxPS= 512 Ivl=0ms
-I:* If#= 3 Alt= 0 #EPs= 3 Cls=ff(vend.) Sub=ff Prot=40 Driver=option
-E:  Ad=84(I) Atr=03(Int.) MxPS=  10 Ivl=32ms
-E:  Ad=83(I) Atr=02(Bulk) MxPS= 512 Ivl=0ms
-E:  Ad=02(O) Atr=02(Bulk) MxPS= 512 Ivl=0ms
-I:* If#= 4 Alt= 0 #EPs= 3 Cls=ff(vend.) Sub=ff Prot=40 Driver=option
-E:  Ad=86(I) Atr=03(Int.) MxPS=  10 Ivl=32ms
-E:  Ad=85(I) Atr=02(Bulk) MxPS= 512 Ivl=0ms
-E:  Ad=03(O) Atr=02(Bulk) MxPS= 512 Ivl=0ms
-I:* If#= 5 Alt= 0 #EPs= 3 Cls=ff(vend.) Sub=ff Prot=60 Driver=option
-E:  Ad=88(I) Atr=03(Int.) MxPS=  10 Ivl=32ms
-E:  Ad=87(I) Atr=02(Bulk) MxPS= 512 Ivl=0ms
-E:  Ad=04(O) Atr=02(Bulk) MxPS= 512 Ivl=0ms
+> ---
+> Changes in V2:
+> - Marked as a Fix
+> 
+>  drivers/usb/typec/class.c | 4 ----
+>  1 file changed, 4 deletions(-)
+> 
+> diff --git a/drivers/usb/typec/class.c b/drivers/usb/typec/class.c
+> index 8314309094719..0977581ad1b6e 100644
+> --- a/drivers/usb/typec/class.c
+> +++ b/drivers/usb/typec/class.c
+> @@ -686,10 +686,6 @@ typec_register_altmode(struct device *parent,
+>  
+>  	alt->adev.dev.bus = &typec_bus;
+>  
+> -	/* Plug alt modes need a class to generate udev events. */
+> -	if (is_typec_plug(parent))
+> -		alt->adev.dev.class = &typec_class;
+> -
+>  	ret = device_register(&alt->adev.dev);
+>  	if (ret) {
+>  		dev_err(parent, "failed to register alternate mode (%d)\n",
 
-v2: Use SRM825WN instead of SRT853, which is based on it.
+thanks,
 
-Signed-off-by: Ernestas Kulik <ernestas.k@iconn-networks.com>
----
- drivers/usb/serial/option.c | 3 +++
- 1 file changed, 3 insertions(+)
-
-diff --git a/drivers/usb/serial/option.c b/drivers/usb/serial/option.c
-index e349ed66d2ac..a578d6f07d55 100644
---- a/drivers/usb/serial/option.c
-+++ b/drivers/usb/serial/option.c
-@@ -2439,10 +2439,13 @@ static const struct usb_device_id option_ids[] = {
- 	{ USB_DEVICE_AND_INTERFACE_INFO(0x2dee, 0x4d22, 0xff, 0x10, 0x02) },	/* MeiG Smart SLM828 */
- 	{ USB_DEVICE_AND_INTERFACE_INFO(0x2dee, 0x4d22, 0xff, 0x10, 0x03) },	/* MeiG Smart SLM828 */
- 	{ USB_DEVICE_AND_INTERFACE_INFO(0x2dee, 0x4d22, 0xff, 0xff, 0x30) },	/* MeiG Smart SRM815 and SRM825L */
- 	{ USB_DEVICE_AND_INTERFACE_INFO(0x2dee, 0x4d22, 0xff, 0xff, 0x40) },	/* MeiG Smart SRM825L */
- 	{ USB_DEVICE_AND_INTERFACE_INFO(0x2dee, 0x4d22, 0xff, 0xff, 0x60) },	/* MeiG Smart SRM825L */
-+	{ USB_DEVICE_AND_INTERFACE_INFO(0x2dee, 0x4d38, 0xff, 0xff, 0x30) },	/* MeiG Smart SRM825WN (Diag) */
-+	{ USB_DEVICE_AND_INTERFACE_INFO(0x2dee, 0x4d38, 0xff, 0xff, 0x40) },	/* MeiG Smart SRM825WN (AT) */
-+	{ USB_DEVICE_AND_INTERFACE_INFO(0x2dee, 0x4d38, 0xff, 0xff, 0x60) },	/* MeiG Smart SRM825WN (NMEA) */
- 	{ USB_DEVICE_INTERFACE_CLASS(0x2df3, 0x9d03, 0xff) },			/* LongSung M5710 */
- 	{ USB_DEVICE_INTERFACE_CLASS(0x305a, 0x1404, 0xff) },			/* GosunCn GM500 RNDIS */
- 	{ USB_DEVICE_INTERFACE_CLASS(0x305a, 0x1405, 0xff) },			/* GosunCn GM500 MBIM */
- 	{ USB_DEVICE_INTERFACE_CLASS(0x305a, 0x1406, 0xff) },			/* GosunCn GM500 ECM/NCM */
- 	{ USB_DEVICE(0x33f8, 0x0104),						/* Rolling RW101-GL (laptop RMNET) */
 -- 
-2.53.0
-
+heikki
