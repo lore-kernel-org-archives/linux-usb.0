@@ -1,90 +1,145 @@
-Received: from bkemail.birger-koblitz.de (bkemail.birger-koblitz.de [23.88.97.239])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 402893A0B39;
-	Tue, 24 Mar 2026 17:00:12 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=23.88.97.239
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2B17B355F5C;
+	Tue, 24 Mar 2026 18:05:43 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1774371614; cv=none; b=kd6eB8HtdIj52U0LLig+GZ+JadiHAj6OvQKutzhLdeusDs0CkvqKEa/Q/s7X4q9ycXe3qz2yMzVoqtVLrNnI86y4YKSo2iz35P7BFlw+2GUhn5J6xwOChka30QWAOKxfvXuwvfzMJ61SVTILphLplEm1wOlWNhBu10+U4jt6+oc=
+	t=1774375544; cv=none; b=qdzo7xluhRGqxG/UGiTs21SbyYvLNvQ5d2TQr7qMNJKaJION75fEeadypSbOUrT7VEtNGwFZq0Lx0Jqkeo7EEKSb0M6RXFbf/qV/C9jZCjzRBZ9ov19R5EMf/qAvjOYhMqb9HFWOJe5Q/aoGWpDVH9qqXYDQF8o9VQO7zbhnwfg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1774371614; c=relaxed/simple;
-	bh=u38ICIkw85dvG9+E0F0nmzvZgnzaHXcn9KNBe8qnq1w=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=h5yMGEXoGkDTBzGMxy1+UBTWx6jcc9LQqdnwYCLD0RU+aJIwwgv6ylF3JGcn0j10hqDX0QocMvkizKsU/byGrlS8ZhL4i4hX905IHo5spdpOOCvmcAtc2s10r/aCfDoH7Wy98fTmC4wuaYHxZBiT1ZdqCtGrzTkmfNasoV6vpn0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=birger-koblitz.de; spf=pass smtp.mailfrom=birger-koblitz.de; dkim=pass (2048-bit key) header.d=birger-koblitz.de header.i=@birger-koblitz.de header.b=JJPGGqPp; dkim=pass (2048-bit key) header.d=birger-koblitz.de header.i=@birger-koblitz.de header.b=e3+ogGaA; arc=none smtp.client-ip=23.88.97.239
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=birger-koblitz.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=birger-koblitz.de
+	s=arc-20240116; t=1774375544; c=relaxed/simple;
+	bh=AU7UC3UCuzPY9ocU9SOB0BaMWIlQGomG0q9JxYRB0/Q=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version; b=TUwvw46Oef0LKh53Ull8j4tuzwedh74LU+tjqtNKIg0QVybiobO6zeHkJeMdlhvPyTbeHF2ku9hO4faiX9gN1DM0KMxiUXijXg8Hg4NPUodIDCtx8KhRQxtAl+LzeLIefthFRi0tmOynYuOUNhy6D55sgJlxbqyl6zAo3/d0gtU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=qPy4Pqb3; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=birger-koblitz.de header.i=@birger-koblitz.de header.b="JJPGGqPp";
-	dkim=pass (2048-bit key) header.d=birger-koblitz.de header.i=@birger-koblitz.de header.b="e3+ogGaA"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=birger-koblitz.de;
-	s=default; t=1774371610;
-	bh=u38ICIkw85dvG9+E0F0nmzvZgnzaHXcn9KNBe8qnq1w=;
-	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-	b=JJPGGqPp9WS4zDU3VQJMBcD6vZEEBfLEUZNnE8pobkbi4VPIARNJwtqroLcYeOSS+
-	 9s54WB3Xt8y2v2GmQq9JcDEpwoAl4vENmEBicNmXqu3HZYL4osHGWx+W4fBd3BaObm
-	 gwKySMoaEgU0WUyybO5BgFB+FL95aEV5v/0w6rugSOQiM2V7MDXgI76egl1ApBVIEt
-	 bHCPOus4kDcp/tsS9xKKDqpyDExb1NjDKv1gBt/1YLj0+zJbkgdZWRvM478h9cNhyh
-	 FUncr581tFpb2pzZa7hYABa9UKgUgBHMKWk2+FzXWwj2v7yHIkLjGf0uzAztTtzb8N
-	 wsR38EtL11CIw==
-Received: by bkemail.birger-koblitz.de (Postfix, from userid 109)
-	id 1212C4006A; Tue, 24 Mar 2026 17:00:10 +0000 (UTC)
-X-Spam-Level: 
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=birger-koblitz.de;
-	s=default; t=1774371608;
-	bh=u38ICIkw85dvG9+E0F0nmzvZgnzaHXcn9KNBe8qnq1w=;
-	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-	b=e3+ogGaADFKrGah/pp6CbM4PKY/jvYT7WUKnlOUyLnpFQmSIXttQsHuNNr7LRH/G+
-	 kvuTmBkyVmw+HxGdHW2HkPEnw2Vfc1NxOkmNKkvegfZ/Vu0JidnTPL/dW8uk7pJWWJ
-	 Yx9XMIv6IJ99MfUtfJ8lqeb/mJFRQQtJYfrbkz03oM/jq6Z9aFFkORqeqsViyDomVp
-	 +3837ujWhJDvfRluCwDa2uoExvgX6GTqEP4rC44o4kK1pYKJtZnKtLXmKjNOwCswI2
-	 hxonwCIKCAGPyXY1DJSfO9P1gv9CRS+TOLNTJaEEpP9TThlJJMgbocHE86fyUUGJJg
-	 AEbluBIQJ3tCw==
-Received: from [IPV6:2a00:6020:47a3:e800:271c:c6c5:9fde:77cb] (unknown [IPv6:2a00:6020:47a3:e800:271c:c6c5:9fde:77cb])
-	by bkemail.birger-koblitz.de (Postfix) with ESMTPSA id E7CFC4005B;
-	Tue, 24 Mar 2026 17:00:07 +0000 (UTC)
-Message-ID: <eb941ea7-4bca-457f-9a40-5300affe7e8e@birger-koblitz.de>
-Date: Tue, 24 Mar 2026 18:00:07 +0100
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="qPy4Pqb3"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id A828EC19424;
+	Tue, 24 Mar 2026 18:05:41 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1774375543;
+	bh=AU7UC3UCuzPY9ocU9SOB0BaMWIlQGomG0q9JxYRB0/Q=;
+	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
+	b=qPy4Pqb3gM0EEDNRzsSp9FtHw3/xCNLqg3ecnTOASDJXddGQPj8QLlgFncvLNoh8B
+	 sBIIklUijyYY7Jd7lUOP7Ix7AB6VCNS+65TuTepMPFqIrqYCAQWD4vm7NGJieGT5te
+	 GLNEBo1K3xHzJuzRBur094YGhz+5kYrtCkzxROIzTzDTKxkkPdz7+mbywvsGCZNj1j
+	 xVIl1HlNGkDP55vwikSc5n7R70WLKpeUJvPEgyFHynEkTkhVo/2YZ7tJfOyB5zFllz
+	 H8UHOCRtes2s6+RE7P5QLF08QD5MstfCodorjipenSE8u7WmuY9AJGo+xUd8PrARsq
+	 TlMqDK3bVSAwA==
+From: Simon Horman <horms@kernel.org>
+To: hsu.chih.kai@realtek.com
+Cc: Simon Horman <horms@kernel.org>,
+	nic_swsd@realtek.com,
+	edumazet@google.com,
+	kuba@kernel.org,
+	pabeni@redhat.com,
+	bjorn@mork.no,
+	linux-kernel@vger.kernel.org,
+	linux-usb@vger.kernel.org,
+	netdev@vger.kernel.org,
+	davem@davemloft.net
+Subject: Re: [PATCH net-next v3 1/2] r8152: add helper functions for PLA/USB OCP registers
+Date: Tue, 24 Mar 2026 18:05:32 +0000
+Message-ID: <20260324180532.261099-1-horms@kernel.org>
+X-Mailer: git-send-email 2.53.0
+In-Reply-To: <20260323082226.2601-451-nic_swsd@realtek.com>
+References: <20260323082226.2601-451-nic_swsd@realtek.com>
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH net-next v3 2/2] r8152: Add support for the RTL8157
- hardware
-To: Paolo Abeni <pabeni@redhat.com>, Andrew Lunn <andrew+netdev@lunn.ch>,
- "David S. Miller" <davem@davemloft.net>, Eric Dumazet <edumazet@google.com>,
- Jakub Kicinski <kuba@kernel.org>
-Cc: linux-usb@vger.kernel.org, netdev@vger.kernel.org,
- linux-kernel@vger.kernel.org
-References: <20260320-rtl8157_next-v3-0-1aefeca7fda7@birger-koblitz.de>
- <20260320-rtl8157_next-v3-2-1aefeca7fda7@birger-koblitz.de>
- <5ff51617-deb6-48b0-b9e2-2d7066fa2562@redhat.com>
-From: Birger Koblitz <mail@birger-koblitz.de>
-Content-Language: en-US
-In-Reply-To: <5ff51617-deb6-48b0-b9e2-2d7066fa2562@redhat.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
 
-On 24/03/2026 11:58 am, Paolo Abeni wrote:
-> On 3/20/26 12:14 PM, Birger Koblitz wrote:
->> @@ -2022,14 +2277,14 @@ static void intr_callback(struct urb *urb)
->>   	}
->>   }
->>   
->> -static inline void *rx_agg_align(void *data)
->> +static inline void *rx_agg_align(struct r8152 *tp, void *data)
->>   {
->> -	return (void *)ALIGN((uintptr_t)data, RX_ALIGN);
->> +	return (void *)ALIGN((uintptr_t)data, tp->rx_desc.align);
->>   }
->>   
->> -static inline void *tx_agg_align(void *data)
->> +static inline void *tx_agg_align(struct r8152 *tp, void *data)
-> 
-> Since you are touching this functions, in the next revision please
-> additionally drop the 'inline' keyword; the compiler should be good
-> enough to get them inlined anyway.
-Will be fixed in the next version.
+This is an AI-generated review of your patch. The human sending this
+email has considered the AI review valid, or at least plausible.
+
+For local reproduction steps see https://netdev-ai.bots.linux.dev/ai-local.html
+---
+r8152: add helper functions for PLA/USB OCP registers
+
+This commit introduces new helper functions (ocp_dword_w0w1,
+ocp_word_w0w1, ocp_byte_w0w1, and their _clr_bits/_set_bits variants)
+to simplify bitwise operations on PLA/USB OCP registers throughout the
+r8152 driver.
+
+> diff --git a/drivers/net/usb/r8152.c b/drivers/net/usb/r8152.c
+> index 3b6d4252d34c..ba6dc4dbfd80 100644
+> --- a/drivers/net/usb/r8152.c
+> +++ b/drivers/net/usb/r8152.c
+
+[ ... ]
+
+> @@ -3875,35 +3873,30 @@ static void r8153c_ups_en(struct r8152 *tp, bool enable)
+>
+>  static void r8156_ups_en(struct r8152 *tp, bool enable)
+>  {
+> -	u32 ocp_data = ocp_read_byte(tp, MCU_TYPE_USB, USB_POWER_CUT);
+> -
+>  	if (enable) {
+>  		r8156_ups_flags(tp);
+>
+> -		ocp_data |= UPS_EN | USP_PREWAKE | PHASE2_EN;
+> -		ocp_write_byte(tp, MCU_TYPE_USB, USB_POWER_CUT, ocp_data);
+> +		ocp_byte_set_bits(tp, MCU_TYPE_USB, USB_POWER_CUT,
+> +				  UPS_EN | USP_PREWAKE | PHASE2_EN);
+>
+> -		ocp_data = ocp_read_byte(tp, MCU_TYPE_USB, USB_MISC_2);
+> -		ocp_data |= UPS_FORCE_PWR_DOWN;
+> -		ocp_write_byte(tp, MCU_TYPE_USB, USB_MISC_2, ocp_data);
+> +		ocp_byte_set_bits(tp, MCU_TYPE_USB, USB_MISC_2,
+> +				  UPS_FORCE_PWR_DOWN);
+>
+>  		switch (tp->version) {
+>  		case RTL_VER_13:
+>  		case RTL_VER_15:
+> -			ocp_data = ocp_read_word(tp, MCU_TYPE_USB, USB_UPHY_XTAL);
+> -			ocp_data &= ~OOBS_POLLING;
+> -			ocp_write_byte(tp, MCU_TYPE_USB, USB_UPHY_XTAL, ocp_data);
+> +			ocp_word_clr_bits(tp, MCU_TYPE_USB, USB_UPHY_XTAL,
+> +					  OOBS_POLLING);
+                              ^^^^
+
+Does this actually change the hardware behavior for RTL_VER_13 and
+RTL_VER_15?
+
+The old code read a 16-bit word with ocp_read_word() to get
+OOBS_POLLING (BIT(8)), then cleared BIT(8) in the local variable, but
+wrote it back using ocp_write_byte(). Since ocp_write_byte() masks the
+data with 0xff, the write operation would only touch the low 8 bits and
+never actually clear BIT(8) in the hardware register. This made the old
+code effectively a no-op for clearing OOBS_POLLING.
+
+The new code uses ocp_word_clr_bits() which calls ocp_word_w0w1(), and
+that performs a proper 16-bit read-modify-write cycle with
+ocp_write_word(). This means BIT(8) will now actually be cleared in the
+hardware.
+
+While this looks like it fixes a latent bug where OOBS_POLLING was never
+being cleared, the commit message describes this as pure refactoring to
+simplify the code with no mention of a behavioral change.
+
+Can you confirm whether this behavioral change is intentional? Should
+the commit message document that OOBS_POLLING will now actually be
+cleared for RTL_VER_13/15 devices during UPS enable, when it was not
+being cleared before?
+
+>  			break;
+>  		default:
+>  			break;
+>  		}
+>  	} else {
+> -		ocp_data &= ~(UPS_EN | USP_PREWAKE);
+> -		ocp_write_byte(tp, MCU_TYPE_USB, USB_POWER_CUT, ocp_data);
+> +		ocp_byte_clr_bits(tp, MCU_TYPE_USB, USB_POWER_CUT,
+> +				  UPS_EN | USP_PREWAKE);
+>
+> -		ocp_data = ocp_read_byte(tp, MCU_TYPE_USB, USB_MISC_2);
+> -		ocp_data &= ~UPS_FORCE_PWR_DOWN;
+> -		ocp_write_byte(tp, MCU_TYPE_USB, USB_MISC_2, ocp_data);
+> +		ocp_byte_clr_bits(tp, MCU_TYPE_USB, USB_MISC_2,
+> +				  UPS_FORCE_PWR_DOWN);
+>
+>  		if (ocp_read_word(tp, MCU_TYPE_USB, USB_MISC_0) & PCUT_STATUS) {
+>  			tp->rtl_ops.hw_phy_cfg(tp);
