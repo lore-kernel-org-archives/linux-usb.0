@@ -1,154 +1,153 @@
-Received: from mailout3.samsung.com (mailout3.samsung.com [203.254.224.33])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pj1-f45.google.com (mail-pj1-f45.google.com [209.85.216.45])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B7DC938759B
-	for <linux-usb@vger.kernel.org>; Tue, 24 Mar 2026 02:30:10 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=203.254.224.33
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 49F4C1F30AD
+	for <linux-usb@vger.kernel.org>; Tue, 24 Mar 2026 02:38:36 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.216.45
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1774319414; cv=none; b=qBBX6gdpGzpPdUSoMUaemVjWnCy7ukjhRgug65huJp54nj43lpUMEob0UgzAlEGXYDq1KnFovdboijmyZfs0Ejj+cRlFnzfWrcIyTiFQcZPEk9Q89uhpv2zY8VCkE6dpijcm7pF1NepyYUtLACnvTMH3jn1hjfPdPJCNj2fmBnw=
+	t=1774319917; cv=none; b=pWqvtYMNxIhlDyzKDu6jYvvl7WXVvzENb6HBeoU16FtdEjo3s9YqhKXhn+VnPNef1awsrL4f4jOxxZqcUVb3yQQM0aMd3O6ywrudSRobeastk87GntHEKmnJ4MmykdtdSDhgOIYPBCL4glYit3b0JW9Mrx66IKwdToDKZV+WpVw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1774319414; c=relaxed/simple;
-	bh=Vr+wLb3/yfuaY7Ek50G5tqooWQuxrr2KXAF3tU7VBDw=;
-	h=From:To:Cc:In-Reply-To:Subject:Date:Message-ID:MIME-Version:
-	 Content-Type:References; b=K8htJFDl+IljydT/BkBwEHSl6AWZQe9/qqgVIhYaM/Kjqv9FYS8ly+vPScZikHw9SeulEIqC31fT9moO3n6QattfXHjg8uPsu78RyrRfa5L2G9x8lADw/ibCiUYRU2zV6n9Om/n4QVB3yDtSRonvOGM7MrVf2agZ04OYhgClM+o=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=samsung.com; spf=pass smtp.mailfrom=samsung.com; dkim=pass (1024-bit key) header.d=samsung.com header.i=@samsung.com header.b=RTFBubUc; arc=none smtp.client-ip=203.254.224.33
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=samsung.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=samsung.com
+	s=arc-20240116; t=1774319917; c=relaxed/simple;
+	bh=wtuCSFP1+FdCP/Ko/Dz3BZlfpBIvDLYkst4lyMZcr88=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=DS8LQHrmtfXmsuH8ZfqpbGh6wuews54ByXkqVy26OSV9FyoLjxFuqurHcVdM58YfpVLaOOKFs10wXLc/7byL66ZU4y7/Kn/rz9ud89Nc+NmS2dOSrwjI+BmOb50GTil5N6j0LW58dmsfhgdIM458HHYpLKi63lpl89dtkEGwq6Q=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=qbA8KnZV; arc=none smtp.client-ip=209.85.216.45
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=samsung.com header.i=@samsung.com header.b="RTFBubUc"
-Received: from epcas5p2.samsung.com (unknown [182.195.41.40])
-	by mailout3.samsung.com (KnoxPortal) with ESMTP id 20260324023002epoutp03b6560b85f327691c4de9e3e02d86d146~fphifGBxY2265122651epoutp03j
-	for <linux-usb@vger.kernel.org>; Tue, 24 Mar 2026 02:30:02 +0000 (GMT)
-DKIM-Filter: OpenDKIM Filter v2.11.0 mailout3.samsung.com 20260324023002epoutp03b6560b85f327691c4de9e3e02d86d146~fphifGBxY2265122651epoutp03j
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=samsung.com;
-	s=mail20170921; t=1774319402;
-	bh=xiEG8fs8U4waGFe76frAqj8GUGT8PfbUsJqfEpDU4H0=;
-	h=From:To:Cc:In-Reply-To:Subject:Date:References:From;
-	b=RTFBubUceVdG5dBZjg2EJuOun+7AvU7K1xXJVOiY75v5S6AwPDX0GCIymngOFAphd
-	 E4RA3K/kK+gtTKLgy3khdnDiPmc2cGWIz79uHvHB6IujWAiNQY1L9e+YM2hT5hM2cb
-	 67/UCzZXuKEnGh+5DWuT53H601jKazX4GP44bHGA=
-Received: from epsnrtp02.localdomain (unknown [182.195.42.154]) by
-	epcas5p3.samsung.com (KnoxPortal) with ESMTPS id
-	20260324023002epcas5p3c3a08032a55b26ba4a7023fdeaebf3cd~fphhsTMXr1327213272epcas5p3T;
-	Tue, 24 Mar 2026 02:30:02 +0000 (GMT)
-Received: from epcpadp1new (unknown [182.195.40.141]) by
-	epsnrtp02.localdomain (Postfix) with ESMTP id 4ffvBx72xwz2SSKf; Tue, 24 Mar
-	2026 02:30:01 +0000 (GMT)
-Received: from epsmtip1.samsung.com (unknown [182.195.34.30]) by
-	epcas5p4.samsung.com (KnoxPortal) with ESMTPA id
-	20260323172713epcas5p4dd04df01adb71b7563e1cac14b927632~fiHlqRiPK1063110631epcas5p4A;
-	Mon, 23 Mar 2026 17:27:13 +0000 (GMT)
-Received: from INBRO002756 (unknown [107.122.3.168]) by epsmtip1.samsung.com
-	(KnoxPortal) with ESMTPA id
-	20260323172656epsmtip1078ac64ab1a734cd90e8019874a7de3a~fiHV3p2Rc1639516395epsmtip1L;
-	Mon, 23 Mar 2026 17:26:55 +0000 (GMT)
-From: "Alim Akhtar" <alim.akhtar@samsung.com>
-To: "'Vladimir Oltean'" <vladimir.oltean@nxp.com>,
-	<linux-phy@lists.infradead.org>
-Cc: "'Vinod Koul'" <vkoul@kernel.org>, "'Neil Armstrong'"
-	<neil.armstrong@linaro.org>, <dri-devel@lists.freedesktop.org>,
-	<freedreno@lists.freedesktop.org>, <linux-arm-kernel@lists.infradead.org>,
-	<linux-arm-msm@vger.kernel.org>, <linux-can@vger.kernel.org>,
-	<linux-gpio@vger.kernel.org>, <linux-ide@vger.kernel.org>,
-	<linux-kernel@vger.kernel.org>, <linux-media@vger.kernel.org>,
-	<linux-pci@vger.kernel.org>, <linux-renesas-soc@vger.kernel.org>,
-	<linux-riscv@lists.infradead.org>, <linux-rockchip@lists.infradead.org>,
-	<linux-samsung-soc@vger.kernel.org>, <linux-scsi@vger.kernel.org>,
-	<linux-sunxi@lists.linux.dev>, <linux-tegra@vger.kernel.org>,
-	<linux-usb@vger.kernel.org>, <netdev@vger.kernel.org>,
-	<spacemit@lists.linux.dev>, <UNGLinuxDriver@microchip.com>, "'Bart Van
- Assche'" <bvanassche@acm.org>, "'Peter Griffin'" <peter.griffin@linaro.org>,
-	"'James E.J. Bottomley'" <James.Bottomley@HansenPartnership.com>, "'Martin
- K. Petersen'" <martin.petersen@oracle.com>, "'Krzysztof Kozlowski'"
-	<krzk@kernel.org>, "'Chanho Park'" <chanho61.park@samsung.com>
-In-Reply-To: <20260319223241.1351137-10-vladimir.oltean@nxp.com>
-Subject: RE: [PATCH v5 phy-next 09/27] scsi: ufs: exynos: stop poking into
- struct phy guts
-Date: Mon, 23 Mar 2026 22:56:51 +0530
-Message-ID: <1891546521.01774319401971.JavaMail.epsvc@epcpadp1new>
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="qbA8KnZV"
+Received: by mail-pj1-f45.google.com with SMTP id 98e67ed59e1d1-35b982990aeso629397a91.2
+        for <linux-usb@vger.kernel.org>; Mon, 23 Mar 2026 19:38:36 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20251104; t=1774319915; x=1774924715; darn=vger.kernel.org;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=+OHN9SidwM4mOMyIea3fSL57NYFeZ5w74p9KZ3JEjoQ=;
+        b=qbA8KnZVjdN7E6K88C5xOa5VAYHHhw+E9q2xenbO26vqsddosOdritNjQEwMpZPCHs
+         zBzK8LdCrQQ5ZtWY/vpHB20FwYUQxEPamwPFCwjH8mKVpwWpw/gDYJrYbuQT1cdUmUKi
+         EsWpsRK5S5H40TE13DYQdRf5SsaI7qpX6BfHUU5UZJj8wg1c2T/vXABjz4n/nj8nby/4
+         NuLtKf7o9dzKJsLqroS1pOz6qOzB0pollcCVY3d97KbdlIHcARZMwjB2QhL4K8mIR/DR
+         8CCftn8lYT3F5i3m0VoU8nCkblJljolbpQDPfL42XYNiZz6Z9+SqPCnqU193oFtYchgk
+         VQaA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1774319915; x=1774924715;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :x-gm-gg:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=+OHN9SidwM4mOMyIea3fSL57NYFeZ5w74p9KZ3JEjoQ=;
+        b=X8RNqOOG2mmO+3ho5L3+nP+ljfO7PNZrLISWcdBoErI6jiXnk1ELY8kXl2RIATyVvv
+         1iohIbKYxmr1xWrLo/fO/jMbY43SozVxuaCWLcu0WttBfQY+uvQuoMN7tTjNg5zXdHE7
+         4xphMWaNDWAtj+nOSi5cm4hu0x1NrCH2sQPkS8vPlEMM84/hb6n7iqmncgUxhgJbIQGJ
+         shr+NgR+Vq9EthgPIMjC/sYKRH3jrvfbimVS+IOA9W0TkboL2ktZffxgyW5k00LrNsb8
+         JkQw7VvTkJKb4fgYgRhOHC1crUumSDL1+osb5bujZkIQxCEKEyxt7rajSPaRI709W5Wm
+         XXyQ==
+X-Gm-Message-State: AOJu0Yy3t1jrvaZ0/fUC1yEfgPEB86Ch570iMLBdvRc4WTjfXL8esn/q
+	yVOaOVgP7oUywv9CDRp1NOJMNr7s91yxup9LZ+3Qx2RYEY/0b1sZtJcRedpArg==
+X-Gm-Gg: ATEYQzziU/H8jNIQqgnYuB1jB39Tnl9In63tyIQObb1ak0riNQtTJs5grOJiYxHymRZ
+	Z8urMFMlZ+JCRXHPeYinTPjS9mUkHH7LNxpZ21OcZLJqz32otpXTI01GYpwCeDp/OWp3gK032ki
+	6SokNma+mz50SRrPRpHOw15F+6CLtX1FSCVz9/9PQQdYXYWF7333Fbwr6cBSE64AYZTmX/bNjsV
+	0qHarhutTebVauNPsMaB300M0d/UAYQ2SrNesiO0pI+l2Fea23Pj4x1QlU6uqY34gggmviKv4Nt
+	knlhXVNeF4ROBSHGk1ymNtWF0m7Z5u53MP+qUhZjKJkw1mf2yEWLaZakBJ42WNsXbAMHwBQ55Bw
+	Ksw1RwDITRs8xKWPe8ePD7fKwNDHHsvEaTT67ggV7dJFtgY+nJ+5Oc5n20aejyw0qKk44/DYV8O
+	nxiuzYbqQO/xIx7aKjlfuD38Ms+SS/esp3cGaWBtFJ18Y=
+X-Received: by 2002:a17:90b:2684:b0:35b:ed51:afac with SMTP id 98e67ed59e1d1-35bed51b526mr3860146a91.6.1774319915497;
+        Mon, 23 Mar 2026 19:38:35 -0700 (PDT)
+Received: from [192.168.1.7] ([159.192.167.11])
+        by smtp.googlemail.com with ESMTPSA id 98e67ed59e1d1-35c03149db2sm503511a91.9.2026.03.23.19.38.33
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Mon, 23 Mar 2026 19:38:35 -0700 (PDT)
+Message-ID: <f547c497-8da1-4993-8d52-579f42810aba@gmail.com>
+Date: Tue, 24 Mar 2026 09:38:30 +0700
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH] USB: serial: option: Add MeiG Smart SRT853
+To: Ernestas Kulik <ernestas.k@iconn-networks.com>, johan@kernel.org
+Cc: linux-usb@vger.kernel.org, linux-kernel@vger.kernel.org
+References: <20260323143753.686561-1-ernestas.k@iconn-networks.com>
+Content-Language: en-US
+From: Lars Melin <larsm17@gmail.com>
+In-Reply-To: <20260323143753.686561-1-ernestas.k@iconn-networks.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
-X-Mailer: Microsoft Outlook 16.0
-Thread-Index: AQJoz1sM+EbPjkyDopxrfJVWkMJWdwIGLiEOAj0DJam0ghnJMA==
-Content-Language: en-us
-X-CMS-MailID: 20260323172713epcas5p4dd04df01adb71b7563e1cac14b927632
-X-Msg-Generator: CA
-Content-Type: text/plain; charset="utf-8"
-CMS-TYPE: 105P
-X-CPGSPASS: Y
-X-Hop-Count: 3
-X-CMS-RootMailID: 20260319223312epcas5p183a1e0c31206025da8cf00b5d745a0ce
-References: <20260319223241.1351137-1-vladimir.oltean@nxp.com>
-	<CGME20260319223312epcas5p183a1e0c31206025da8cf00b5d745a0ce@epcas5p1.samsung.com>
-	<20260319223241.1351137-10-vladimir.oltean@nxp.com>
 
-HI Vladimir,
-
-> -----Original Message-----
-> From: Vladimir Oltean <vladimir.oltean@nxp.com>
-> Sent: Friday, March 20, 2026 4:02 AM
-> To: linux-phy@lists.infradead.org
-> Cc: Vinod Koul <vkoul@kernel.org>; Neil Armstrong
-> <neil.armstrong@linaro.org>; dri-devel@lists.freedesktop.org;
-> freedreno@lists.freedesktop.org; linux-arm-kernel@lists.infradead.org;
-> linux-arm-msm@vger.kernel.org; linux-can@vger.kernel.org; linux-
-> gpio@vger.kernel.org; linux-ide@vger.kernel.org; linux-
-> kernel@vger.kernel.org; linux-media@vger.kernel.org; linux-
-> pci@vger.kernel.org; linux-renesas-soc@vger.kernel.org; linux-
-> riscv@lists.infradead.org; linux-rockchip@lists.infradead.org;
-linux-samsung-
-> soc@vger.kernel.org; linux-scsi@vger.kernel.org;
-linux-sunxi@lists.linux.dev;
-> linux-tegra@vger.kernel.org; linux-usb@vger.kernel.org;
-> netdev@vger.kernel.org; spacemit@lists.linux.dev;
-> UNGLinuxDriver@microchip.com; Bart Van Assche <bvanassche@acm.org>;
-> Alim Akhtar <alim.akhtar@samsung.com>; Peter Griffin
-> <peter.griffin@linaro.org>; James E.J. Bottomley
-> <James.Bottomley@HansenPartnership.com>; Martin K. Petersen
-> <martin.petersen@oracle.com>; Krzysztof Kozlowski <krzk@kernel.org>;
-> Chanho Park <chanho61.park@samsung.com>
-> Subject: [PATCH v5 phy-next 09/27] scsi: ufs: exynos: stop poking into
-struct
-> phy guts
+On 2026-03-23 21:37, Ernestas Kulik wrote:
+> This commit adds support for the MeiG Smart SRT853 5G CPE modem.
 > 
-> The Exynos host controller driver is clearly a PHY consumer (gets the
-> ufs->phy using devm_phy_get()), but pokes into the guts of struct phy
-> to get the generic_phy->power_count.
+> If#= 0: RNDIS
+> If#= 1: RNDIS
+> If#= 2: Diag
+> If#= 3: AT
+> If#= 4: AT
+> If#= 5: NMEA
 > 
-> The UFS core (specifically ufshcd_link_startup()) may call the variant
-> operation exynos_ufs_pre_link() -> exynos_ufs_phy_init() multiple times if
-> the link startup fails and needs to be retried.
+> T:  Bus=01 Lev=02 Prnt=02 Port=00 Cnt=01 Dev#= 19 Spd=480  MxCh= 0
+> D:  Ver= 2.10 Cls=00(>ifc ) Sub=00 Prot=00 MxPS=64 #Cfgs=  1
+> P:  Vendor=2dee ProdID=4d38 Rev= 5.04
+> S:  Manufacturer=MEIG
+> S:  Product=LTE-A Module
+> S:  SerialNumber=da47a175
+> C:* #Ifs= 6 Cfg#= 1 Atr=80 MxPwr=500mA
+> A:  FirstIf#= 0 IfCount= 2 Cls=e0(wlcon) Sub=01 Prot=03
+> I:* If#= 0 Alt= 0 #EPs= 1 Cls=e0(wlcon) Sub=01 Prot=03 Driver=rndis_host
+> E:  Ad=81(I) Atr=03(Int.) MxPS=   8 Ivl=32ms
+> I:* If#= 1 Alt= 0 #EPs= 2 Cls=0a(data ) Sub=00 Prot=00 Driver=rndis_host
+> E:  Ad=8e(I) Atr=02(Bulk) MxPS= 512 Ivl=0ms
+> E:  Ad=0f(O) Atr=02(Bulk) MxPS= 512 Ivl=0ms
+> I:* If#= 2 Alt= 0 #EPs= 2 Cls=ff(vend.) Sub=ff Prot=30 Driver=option
+> E:  Ad=01(O) Atr=02(Bulk) MxPS= 512 Ivl=0ms
+> E:  Ad=82(I) Atr=02(Bulk) MxPS= 512 Ivl=0ms
+> I:* If#= 3 Alt= 0 #EPs= 3 Cls=ff(vend.) Sub=ff Prot=40 Driver=option
+> E:  Ad=84(I) Atr=03(Int.) MxPS=  10 Ivl=32ms
+> E:  Ad=83(I) Atr=02(Bulk) MxPS= 512 Ivl=0ms
+> E:  Ad=02(O) Atr=02(Bulk) MxPS= 512 Ivl=0ms
+> I:* If#= 4 Alt= 0 #EPs= 3 Cls=ff(vend.) Sub=ff Prot=40 Driver=option
+> E:  Ad=86(I) Atr=03(Int.) MxPS=  10 Ivl=32ms
+> E:  Ad=85(I) Atr=02(Bulk) MxPS= 512 Ivl=0ms
+> E:  Ad=03(O) Atr=02(Bulk) MxPS= 512 Ivl=0ms
+> I:* If#= 5 Alt= 0 #EPs= 3 Cls=ff(vend.) Sub=ff Prot=60 Driver=option
+> E:  Ad=88(I) Atr=03(Int.) MxPS=  10 Ivl=32ms
+> E:  Ad=87(I) Atr=02(Bulk) MxPS= 512 Ivl=0ms
+> E:  Ad=04(O) Atr=02(Bulk) MxPS= 512 Ivl=0ms
 > 
-> However ufs-exynos shouldn't be doing what it's doing, i.e. looking at the
-> generic_phy->power_count, because in the general sense of the API, a
-> single Generic PHY may have multiple consumers. If ufs-exynos looks at
-> generic_phy->power_count, there's no guarantee that this ufs-exynos
-> instance is the one who previously bumped that power count. So it may be
-> powering down the PHY on behalf of another consumer.
-> 
-> The correct way in which this should be handled is ufs-exynos should
-> *remember* whether it has initialized and powered up the PHY before, and
-> power it down during link retries. Not rely on the power_count (which,
-btw,
-> on the writer side is modified under &phy->mutex, but on the reader side
-is
-> accessed unlocked). This is a discouraged pattern even if here it doesn't
-> cause functional problems.
-> 
-> Signed-off-by: Vladimir Oltean <vladimir.oltean@nxp.com>
-> Reviewed-by: Bart Van Assche <bvanassche@acm.org>
+> Signed-off-by: Ernestas Kulik <ernestas.k@iconn-networks.com>
 > ---
-Thanks for the patch
-Acked-by: Alim Akhtar <alim.akhtar@samsung.com>
+>   drivers/usb/serial/option.c | 3 +++
+>   1 file changed, 3 insertions(+)
+> 
+> diff --git a/drivers/usb/serial/option.c b/drivers/usb/serial/option.c
+> index e349ed66d2ac..328f14a99953 100644
+> --- a/drivers/usb/serial/option.c
+> +++ b/drivers/usb/serial/option.c
+> @@ -2439,10 +2439,13 @@ static const struct usb_device_id option_ids[] = {
+>   	{ USB_DEVICE_AND_INTERFACE_INFO(0x2dee, 0x4d22, 0xff, 0x10, 0x02) },	/* MeiG Smart SLM828 */
+>   	{ USB_DEVICE_AND_INTERFACE_INFO(0x2dee, 0x4d22, 0xff, 0x10, 0x03) },	/* MeiG Smart SLM828 */
+>   	{ USB_DEVICE_AND_INTERFACE_INFO(0x2dee, 0x4d22, 0xff, 0xff, 0x30) },	/* MeiG Smart SRM815 and SRM825L */
+>   	{ USB_DEVICE_AND_INTERFACE_INFO(0x2dee, 0x4d22, 0xff, 0xff, 0x40) },	/* MeiG Smart SRM825L */
+>   	{ USB_DEVICE_AND_INTERFACE_INFO(0x2dee, 0x4d22, 0xff, 0xff, 0x60) },	/* MeiG Smart SRM825L */
+> +	{ USB_DEVICE_AND_INTERFACE_INFO(0x2dee, 0x4d38, 0xff, 0xff, 0x30) },	/* MeiG Smart SRT853 (Diag) */
+> +	{ USB_DEVICE_AND_INTERFACE_INFO(0x2dee, 0x4d38, 0xff, 0xff, 0x40) },	/* MeiG Smart SRT853 (AT) */
+> +	{ USB_DEVICE_AND_INTERFACE_INFO(0x2dee, 0x4d38, 0xff, 0xff, 0x60) },	/* MeiG Smart SRT853 (NMEA) */
+>   	{ USB_DEVICE_INTERFACE_CLASS(0x2df3, 0x9d03, 0xff) },			/* LongSung M5710 */
+>   	{ USB_DEVICE_INTERFACE_CLASS(0x305a, 0x1404, 0xff) },			/* GosunCn GM500 RNDIS */
+>   	{ USB_DEVICE_INTERFACE_CLASS(0x305a, 0x1405, 0xff) },			/* GosunCn GM500 MBIM */
+>   	{ USB_DEVICE_INTERFACE_CLASS(0x305a, 0x1406, 0xff) },			/* GosunCn GM500 ECM/NCM */
+>   	{ USB_DEVICE(0x33f8, 0x0104),						/* Rolling RW101-GL (laptop RMNET) */
 
-Tested this patch for basic UFS functionality, UFS still works. 
-Feel free to add
-Tested-by: Alim Akhtar <alim.akhtar@samsung.com>
+Hi Ernestas,
+the SRT835 is the name of a CPE that is available in more than one 
+configuration depending on the installed 5G card.
+You can not use the CPE name when adding linux driver support, please
+find out the type of Meig 5G card (SRMxxx) it is you want to add support 
+for.
+You may have to open up the SRT835 in order to find the name of the 
+installed 5G card/5G module.
 
-
-
+thanks
+Lars
