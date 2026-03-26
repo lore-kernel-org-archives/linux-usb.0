@@ -1,47 +1,47 @@
 Received: from rtits2.realtek.com.tw (rtits2.realtek.com [211.75.126.72])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 751013FD127;
-	Thu, 26 Mar 2026 13:19:30 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7D74A23183F;
+	Thu, 26 Mar 2026 13:20:17 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=211.75.126.72
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1774531172; cv=none; b=mJrThjhf8jQZ0a4KUp47O8Vs3epPXFa46Kd15/ywoPKXmJ/8OsSI5omronOCGLfq3Wubyd2Q9nhBAiSCrneNgYrsR8GxGfjI5GTvhjfspglgNGMwiElNQzQl5VumH+iabRAm7rWXYhfTmDFwdIt5BAzo/SR4s/6cCyaL8Gi7TFM=
+	t=1774531219; cv=none; b=B4xnvUwizxm6s+OFFME31EEKjkaaybWYon5Dche+eoZdLIgnlPjpeAzebX7yd5G0HIGWPjWr+VKnGUCoPfeim3qFu3c2R3yVYxk8ytP/xiXI7iwgyCYuT2YM9vl8l//HZp8lwkbKMADBpItcA9X3s06/Pp6eCO7UAt/kmdla4IU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1774531172; c=relaxed/simple;
-	bh=nUdWqV5g5cc+socYv9eqEbRSrpB3i7mnzdfftPh3+N0=;
+	s=arc-20240116; t=1774531219; c=relaxed/simple;
+	bh=6XlrwPqmw+0icn+y5ERG6JHVFPDcQZzFRoGuwD3WjXo=;
 	h=From:To:CC:Subject:Date:Message-ID:References:In-Reply-To:
-	 Content-Type:MIME-Version; b=MR7GDw25xPPvHhD62GUiwWNj0MX5I/gBH2JZ6BewvuFiL7ACZLjoklFcTg8JFSVqQVpF6VLb7x9q94b9gJiVcpri72+jKVK5szIgp8hpfnUP1378C2PhLOuheHt9lPdKag6Cq/cgHKPVAwNphLiRIqtCQ3hp9h3xt1U+5uDLAQk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=realtek.com; spf=pass smtp.mailfrom=realtek.com; dkim=pass (2048-bit key) header.d=realtek.com header.i=@realtek.com header.b=ePmEqJmE; arc=none smtp.client-ip=211.75.126.72
+	 Content-Type:MIME-Version; b=CGyvHmS1oXCT8iz++sOTxGU9xUwRoIbu38QUwcvDHP8PqFvam2HwJyoGehW0GzdoZGkIrntWlecC46lVGOJ/ghzKaOqRsfqjOPfcwcXqX6BjnmimIUJk+LsKnW3d0PyQT9Y2+pt7zUBg4slFjd/gQImaEMbfuf9OIUnaqGmjDmA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=realtek.com; spf=pass smtp.mailfrom=realtek.com; dkim=pass (2048-bit key) header.d=realtek.com header.i=@realtek.com header.b=i2Puj8Tx; arc=none smtp.client-ip=211.75.126.72
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=realtek.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=realtek.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=realtek.com header.i=@realtek.com header.b="ePmEqJmE"
-X-SpamFilter-By: ArmorX SpamTrap 5.80 with qID 62QDJAleC1574567, This message is accepted by code: ctloc85258
+	dkim=pass (2048-bit key) header.d=realtek.com header.i=@realtek.com header.b="i2Puj8Tx"
+X-SpamFilter-By: ArmorX SpamTrap 5.80 with qID 62QDJs9X21574616, This message is accepted by code: ctloc85258
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=realtek.com; s=dkim;
-	t=1774531150; bh=nUdWqV5g5cc+socYv9eqEbRSrpB3i7mnzdfftPh3+N0=;
+	t=1774531194; bh=6XlrwPqmw+0icn+y5ERG6JHVFPDcQZzFRoGuwD3WjXo=;
 	h=From:To:CC:Subject:Date:Message-ID:References:In-Reply-To:
 	 Content-Type:Content-Transfer-Encoding:MIME-Version;
-	b=ePmEqJmExFudQrkR1CnOUx7gwQt54xZK2oZhaASF1nH8fDlnIC6kwbF6NfWB5M3mC
-	 zLAw/9a+E7/nQzcKC2M5tqEYMOlrOVw7qEmSbJvPFzcahtLedb45LSUkcyMfqOPsae
-	 ejr8ALQYHUREQuWlR+xZ/IIPCQTanfRcPxX9I+V7slzKUXM59DB/ymhtkHucezOEVd
-	 s4EUcwlrd16sMMlwLXIaTYlzPK7UjRXoRtT2SishaAh3L8IuHSQF5GH1vdwkyxuwH7
-	 2csKbK8ZOGekgcMZzV+F315gOLkHR9b+L0R/Y+f9vz93XJY80qEjo3qkS2IKXKyceK
-	 6x7ahicA9LPNA==
-Received: from mail.realtek.com (rtkexhmbs04.realtek.com.tw[10.21.1.54])
-	by rtits2.realtek.com.tw (8.15.2/3.26/5.94) with ESMTPS id 62QDJAleC1574567
+	b=i2Puj8Tx+DAoIULw4bVJ/UKJAt3sRRcHq4wfEp8K1OqteMO/n421J0z8OQjXV9y3H
+	 Ma2/00TS1webtI0Wotvjqx4uWatLL08puA7FAr1n2KgPtYWdgK+jDhidCTmP9icX/k
+	 qc8GM9lg/R1lQobpYn8vU32Lpo+8HKDnv4+9eMwCTE4yGGnW6+CsDeSlC98ywtQk9E
+	 9rpZeDhFaGYo5VQHe0sQtJChTkmLetYyh/FVjaRY8QNLg+LpMpTiCSfRv0gYb6Jdw3
+	 0/fPsi4LixybVY0d5hpvh6zidy5AbF4DX4OMn1fc9/ofTzageMtHT58Onozh1SVnPP
+	 NPUOamVe6BKGg==
+Received: from mail.realtek.com (rtkexhmbs02.realtek.com.tw[172.21.6.41])
+	by rtits2.realtek.com.tw (8.15.2/3.26/5.94) with ESMTPS id 62QDJs9X21574616
 	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
-	Thu, 26 Mar 2026 21:19:10 +0800
-Received: from RTKEXHMBS05.realtek.com.tw (10.21.1.55) by
- RTKEXHMBS04.realtek.com.tw (10.21.1.54) with Microsoft SMTP Server
+	Thu, 26 Mar 2026 21:19:54 +0800
+Received: from RTKEXHMBS06.realtek.com.tw (10.21.1.56) by
+ RTKEXHMBS02.realtek.com.tw (172.21.6.41) with Microsoft SMTP Server
  (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.1748.10; Thu, 26 Mar 2026 21:19:11 +0800
+ 15.2.1748.10; Thu, 26 Mar 2026 21:19:55 +0800
 Received: from RTKEXHMBS03.realtek.com.tw (10.21.1.53) by
- RTKEXHMBS05.realtek.com.tw (10.21.1.55) with Microsoft SMTP Server
+ RTKEXHMBS06.realtek.com.tw (10.21.1.56) with Microsoft SMTP Server
  (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.1748.10; Thu, 26 Mar 2026 21:19:10 +0800
+ 15.2.1748.10; Thu, 26 Mar 2026 21:19:55 +0800
 Received: from RTKEXHMBS03.realtek.com.tw ([::1]) by
  RTKEXHMBS03.realtek.com.tw ([fe80::368f:61f6:1754:de7d%9]) with mapi id
- 15.02.1748.010; Thu, 26 Mar 2026 21:19:10 +0800
+ 15.02.1748.010; Thu, 26 Mar 2026 21:19:55 +0800
 From: Hayes Wang <hayeswang@realtek.com>
 To: Chih Kai Hsu <hsu.chih.kai@realtek.com>,
         "kuba@kernel.org"
@@ -58,16 +58,16 @@ CC: "netdev@vger.kernel.org" <netdev@vger.kernel.org>,
         "bjorn@mork.no" <bjorn@mork.no>,
         "pabeni@redhat.com" <pabeni@redhat.com>,
         Chih Kai Hsu <hsu.chih.kai@realtek.com>
-Subject: RE: [PATCH net-next v4 2/3] r8152: add helper functions for PLA/USB
- OCP registers
-Thread-Topic: [PATCH net-next v4 2/3] r8152: add helper functions for PLA/USB
- OCP registers
-Thread-Index: AQHcvPOytQCwOpc8fUGN85LglroaX7XAzCtg
-Date: Thu, 26 Mar 2026 13:19:10 +0000
-Message-ID: <23030a4425e942e2a9688a9dfc92b52b@realtek.com>
+Subject: RE: [PATCH net-next v4 3/3] r8152: add helper functions for PHY OCP
+ registers
+Thread-Topic: [PATCH net-next v4 3/3] r8152: add helper functions for PHY OCP
+ registers
+Thread-Index: AQHcvPO0ywoZAMBFW0+K73BymOGShLXAzGEw
+Date: Thu, 26 Mar 2026 13:19:54 +0000
+Message-ID: <71b471b6aab74939be1d3abe6802adf6@realtek.com>
 References: <20260326073925.32976-453-nic_swsd@realtek.com>
- <20260326073925.32976-455-nic_swsd@realtek.com>
-In-Reply-To: <20260326073925.32976-455-nic_swsd@realtek.com>
+ <20260326073925.32976-456-nic_swsd@realtek.com>
+In-Reply-To: <20260326073925.32976-456-nic_swsd@realtek.com>
 Accept-Language: zh-TW, en-US
 Content-Language: zh-TW
 Content-Type: text/plain; charset="us-ascii"
@@ -86,23 +86,25 @@ Chih Kai Hsu <hsu.chih.kai@realtek.com>
 > linux-kernel@vger.kernel.org; linux-usb@vger.kernel.org;
 > edumazet@google.com; bjorn@mork.no; pabeni@redhat.com; Chih Kai Hsu
 > <hsu.chih.kai@realtek.com>
-> Subject: [PATCH net-next v4 2/3] r8152: add helper functions for PLA/USB =
-OCP
+> Subject: [PATCH net-next v4 3/3] r8152: add helper functions for PHY OCP
 > registers
 >=20
-> Add the following bitwise operation functions for PLA/USB OCP registers
-> to simplify the code.
+> Add the following bitwise operation functions for PHY OCP registers to si=
+mplify
+> the code.
 >=20
-> - ocp_dword_w0w1()
-> - ocp_word_w0w1()
-> - ocp_byte_w0w1()
-> - ocp_dword_clr_bits()
-> - ocp_dword_set_bits()
-> - ocp_word_clr_bits()
-> - ocp_word_set_bits()
-> - ocp_word_test_and_clr_bits()
-> - ocp_byte_clr_bits()
-> - ocp_byte_set_bits()
+> - ocp_reg_w0w1()
+> - ocp_reg_clr_bits()
+> - ocp_reg_set_bits()
+> - sram_write_w0w1()
+> - sram_clr_bits()
+> - sram_set_bits()
+> - r8152_mdio_clr_bit()
+> - r8152_mdio_set_bit()
+> - r8152_mdio_test_and_clr_bit()
+>=20
+> In addition, remove variable set but not used from r8153_init(),
+> r8153b_init() and r8153c_init().
 >=20
 > Signed-off-by: Chih Kai Hsu <hsu.chih.kai@realtek.com>
 
