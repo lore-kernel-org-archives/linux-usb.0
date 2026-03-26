@@ -1,68 +1,198 @@
-Received: from mail-m49197.qiye.163.com (mail-m49197.qiye.163.com [45.254.49.197])
+Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com [205.220.180.131])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F34033C0612;
-	Thu, 26 Mar 2026 10:00:26 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=45.254.49.197
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1774519232; cv=none; b=fafjHp0ULYqdTb3gq9e9hapJsjc13PYbqJH583otTgJfUQkBN43SN0MECB6/8SA5+nHM5faEbiMThTwkVN9q2wUES5AvdyNiX6Of3iSU7f6UErIqEC1CTEr5DuWouLgvPvqCzWimrxF6H7czN1bDJdbRg9ctAxkNxDCPYFQKjPw=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1774519232; c=relaxed/simple;
-	bh=gfJfakw6BzUUL/qpyMm2q31ARNS8RHJP4aVoKrXBqzU=;
-	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=Ctm50SNg+4BvESLneVFjNXRb2PnF45gMKkXYUTvhodQY8cIzjB494+YQzii5YAyuM/qT0gIAY5QE4ykB8rrwFvXJ7KHC7LohUxF4QqVQdxk6KEBooppxSJmGUGlJm6nbku4B3g1SwwUORXOayCKIEdzzf2EbAXy8xWt7/fGDHNk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=jmu.edu.cn; spf=pass smtp.mailfrom=jmu.edu.cn; arc=none smtp.client-ip=45.254.49.197
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=jmu.edu.cn
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=jmu.edu.cn
-Received: from Vostro-3710.lan (unknown [116.25.95.101])
-	by smtp.qiye.163.com (Hmail) with ESMTP id 38672f74f;
-	Thu, 26 Mar 2026 18:00:17 +0800 (GMT+08:00)
-From: Chukun Pan <amadeus@jmu.edu.cn>
-To: Thinh Nguyen <Thinh.Nguyen@synopsys.com>
-Cc: Yixun Lan <dlan@kernel.org>,
-	Ze Huang <huang.ze@linux.dev>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	linux-riscv@lists.infradead.org,
-	linux-kernel@vger.kernel.org,
-	linux-usb@vger.kernel.org,
-	spacemit@lists.linux.dev,
-	Chukun Pan <amadeus@jmu.edu.cn>
-Subject: [PATCH v3 0/1] usb: dwc3: Add optional VBUS regulator support to SpacemiT K1
-Date: Thu, 26 Mar 2026 18:00:09 +0800
-Message-Id: <20260326100010.3588454-1-amadeus@jmu.edu.cn>
-X-Mailer: git-send-email 2.34.1
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3602731F9AC
+	for <linux-usb@vger.kernel.org>; Thu, 26 Mar 2026 10:07:50 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=205.220.180.131
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1774519672; cv=pass; b=LihHndo12bzB/uOYUI90dsYRPAMLIYGHB0PAWsaywBW3G7j7OsOljNSo3iGzDao7unQ8WlxbszgBU/ZguW0FVwTSCpxMr+dYum7Jx3LOuf9v13dGL+aXfW+nc+RM5wuxcWKVRiqAW4SpD5mfOV62pNYdnW56xDDV6tKJJyeF224=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1774519672; c=relaxed/simple;
+	bh=lqaeI3ynPbRJKQe5PDeB9VaBQLaANlhTZEkq73SPjeY=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=n7DPC7BRnbv+FCwN0AmvM7A0ZPoO15dG1YiY79vgpdCgZIYfF3IAxLE8eBbHUNwvHlzGzil93nl1k3kzul44jmmLmTpvSFSa2lr+wt+S87nVbpyVapxrIH9tEmxCioxbC5RqLeitjtjZYgvexw1smtxsyss8hz0W5N0/DUvDeCc=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com; spf=pass smtp.mailfrom=oss.qualcomm.com; dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b=gVauT+Jv; dkim=pass (2048-bit key) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.b=kMdv2SQL; arc=pass smtp.client-ip=205.220.180.131
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=oss.qualcomm.com
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b="gVauT+Jv";
+	dkim=pass (2048-bit key) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.b="kMdv2SQL"
+Received: from pps.filterd (m0279873.ppops.net [127.0.0.1])
+	by mx0a-0031df01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 62Q6e96I1060684
+	for <linux-usb@vger.kernel.org>; Thu, 26 Mar 2026 10:07:49 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
+	cc:content-transfer-encoding:content-type:date:from:in-reply-to
+	:message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
+	dnMavv9VcWVUyZA6Ex4ByNZK75MDVF8digB1PwkBNzg=; b=gVauT+Jvzf4P/isc
+	y/2dyX8RuxmQPASHXtfsNXVjOqQBoEGQ/nTinY2ccG3c6iJyo7W42gxAg8h63oRw
+	CYW2N0kdLalzBeVllX5sEhtX0GdSJm/vLXEr0X2wFU70axClCyk7IrK3udbBriQo
+	qBqGAsAp8wN9Svk92fiSkCjpiBttcYw4xP6X+yEdEFE8SO6zNY05+KsJ7KNDEpLl
+	00qknhLZp9Yt1DgPp63ZHYrA2IqcPEy27u0xzG69fbudHQx75ovm4eNqxefG9F0n
+	AVRaPSlNvOsUqc7dmDYYX1eLaBAPc/jeWnGzn5U1NLCKQCbOxLSIwIdbTqMe5Pqy
+	Sth0BA==
+Received: from mail-qv1-f71.google.com (mail-qv1-f71.google.com [209.85.219.71])
+	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 4d4qkst64h-1
+	(version=TLSv1.3 cipher=TLS_AES_128_GCM_SHA256 bits=128 verify=NOT)
+	for <linux-usb@vger.kernel.org>; Thu, 26 Mar 2026 10:07:49 +0000 (GMT)
+Received: by mail-qv1-f71.google.com with SMTP id 6a1803df08f44-89cda8de681so14530196d6.2
+        for <linux-usb@vger.kernel.org>; Thu, 26 Mar 2026 03:07:49 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1774519668; cv=none;
+        d=google.com; s=arc-20240605;
+        b=cA43BrXEcLVJxRpN3XW1e+58cb6NrtPT+Vxgo4b/3hc1mLdv7SOB+7hH7pG3CjWiBx
+         /mR5xnTttVK9VXqbjaJR6KFKHL57OczkzV359FOrvvpTFvPBiX6lYchbYnUOokPHIUDk
+         ht/cqtbBbqTg6eUb2jhOWEQ1c9OSPhRFcSaf90x/l7EHP8FdXorNIxA9waO3CgYPr0W1
+         MK++vqIyV08hFzWf7Ym6JPXlFr+3oSDWLP0odVYp/GL8x3+/QsN1uV1Z7IRP6Gvpj176
+         xO1bEVwPjCwT8ElSu22TDvqqwDH7eAIWvL1rPM3mZpTLO/tOxl2Ud2enqRMA/mfP9etZ
+         j+fw==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:dkim-signature;
+        bh=dnMavv9VcWVUyZA6Ex4ByNZK75MDVF8digB1PwkBNzg=;
+        fh=4hByx3Lc4dNi3l2RNNxVPS20pdmNOHHLh7Ujf/nuMpA=;
+        b=HxrqOql4JzoMfmjYfO0gtk3OWOsINqWMhvDYiuOrldnAjeT7zpmDnwzJ81wPHNId6K
+         z1ro5qzvWQe56kFKQaPE1T6LAqz9WEtDz47AujLVoJU0tRpF3XPUn9mjiC0jAAcF7rm4
+         GYUa1prdlbA7u6MfhSquEbH0fiGx4u9kAoSK5rey0p1s5r24rS3TCmZ6YL0GVyh1IHUM
+         NRfbGYIvvwDGN12tggpeHZcWuKXIK6D5Z6URtsKwWS+Zs3LJURXAGpe2JvN8h4TesL6/
+         ZqJMvf8OL/zvzq35srcG2g7XgulUogr9/T5IDo95ZiQp2VWQ37lONn052/7qUMzDyZ0J
+         yKig==;
+        darn=vger.kernel.org
+ARC-Authentication-Results: i=1; mx.google.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=oss.qualcomm.com; s=google; t=1774519668; x=1775124468; darn=vger.kernel.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=dnMavv9VcWVUyZA6Ex4ByNZK75MDVF8digB1PwkBNzg=;
+        b=kMdv2SQLCJw5MBvaFsfhvwANke14fmFNraGxkXyv3ylVTKt/rNVszCc1aR6kB91HXk
+         +Q4EJ78ywvyNoipSNTxDE1u3730AJ0d1MVkkkfFje2qn2SVf1Q0WOwkHY9OYfA9LDA2B
+         XRl6INrZRYlWXWl6UZ7X6p2BWQQZhULnQPejBOH0xliHzF2aZUj1GEzoqjYoP8DKWzgY
+         pcuSu0OK6Qj6gByxv7JBcyC3j+UePM+wzaQ8VU2j96leZrPHDQbdP1JyieSMTv7exa93
+         NHFvn3CXULmcibJ7jwk4Ui+bLghh0vt85nuWyQv8+GkD0sycYlHxYeQaetfrqRWgc/yH
+         OekQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1774519668; x=1775124468;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
+         :to:cc:subject:date:message-id:reply-to;
+        bh=dnMavv9VcWVUyZA6Ex4ByNZK75MDVF8digB1PwkBNzg=;
+        b=YF2hkQdQx72U+VoksbIP9FvzdZohSZa/CUyazeifkzj87cYzTPojltPj4l0RWW7h5C
+         q4Ie8QLeGroYNKe5Z7qoqzv2RSm+VD7mKrqubqkmbD5vGhPLmEf4KLirc1g72BZH41hD
+         1LlNFCVWkRSfjcuCE+pP67biNGogQy1cFDKAvsKswXpWqe7dOo1NVSzgtYrmelaczN8U
+         eHirhSCzJcnbrVUzZCOMEV2B/AZfU3/618gwfG0fmycC9DHAbWsW6uTFLR0kwpznoqRs
+         P6TrhFYcedps001uRFwRuFsqx8N/ciWBx0sz1FuBfNoL7XMWBLJ/yFEsaNBEv03orGuz
+         nLIQ==
+X-Forwarded-Encrypted: i=1; AJvYcCU6jMBHMCy4FFfpGj2zAPIRIaljjnxJNFgzUr6DagXMBu2WLoSKtQNv/Him5tZ2S790YZ5MCN2sLRQ=@vger.kernel.org
+X-Gm-Message-State: AOJu0YyLoswAFw3WB16YO3+6WDld0gO4gaNiNGhwhtYfwpf845AKGO1A
+	PI87tF4pq+rOTK4QW6+mKAOM6YBJFYDKlp55zNZqVa6/4niANz5dOQDZI/oVwL3Hz4paVJRU2en
+	/q3Cdtzwk2vJYxBTn/86ltANKjztwTSpeWwXjxwowGTpbeyM+CvnbxHwrqQGGbmUzg/iBEO35wX
+	SFQfxWE0BWIKQcMQD/t8x0rZpCR15b18oGvq9w/Q==
+X-Gm-Gg: ATEYQzwmNtOhCdxdC0FQz02RBPmeazCnye5xF08Go57R4YYmxkCSUEzmXgMybFxY5rc
+	ShHVbBrHJI5q4wpoGjajWO5azG2mGZovpik2hnm+MOTaK6ko9grgNUGx1NX1dtRTxZrKipYAbsd
+	3KepheZttyi3eNjv1Ik0IeKg82Hhy7eBjhmwB/xo/tuxb1UsQqRm+Q3ay3hsn67cZqM9H/zfgre
+	VFcofk=
+X-Received: by 2002:a05:6214:400b:b0:89c:da4d:de26 with SMTP id 6a1803df08f44-89cda4ddf32mr20561456d6.17.1774519668544;
+        Thu, 26 Mar 2026 03:07:48 -0700 (PDT)
+X-Received: by 2002:a05:6214:400b:b0:89c:da4d:de26 with SMTP id
+ 6a1803df08f44-89cda4ddf32mr20561006d6.17.1774519668124; Thu, 26 Mar 2026
+ 03:07:48 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-HM-Tid: 0a9d29966bbf03a2kunm60643231383e9c
-X-HM-MType: 10
-X-HM-Spam-Status: e1kfGhgUHx5ZQUpXWQgPGg8OCBgUHx5ZQUlOS1dZFg8aDwILHllBWSg2Ly
-	tZV1koWUFITzdXWS1ZQUlXWQ8JGhUIEh9ZQVlCHUgZVkJLTUMfQ0NNGUMfTFYeHw5VEwETFhoSFy
-	QUDg9ZV1kYEgtZQVlKSk1VSU5VQk5VSktKWVdZFhoPEhUdFFlBWU9LSFVKS0lPT09LVUpLS1VLWQ
-	Y+
+References: <20260318040644.3591478-1-swati.agarwal@oss.qualcomm.com>
+ <20260318040644.3591478-2-swati.agarwal@oss.qualcomm.com> <20260318-devious-spider-of-endurance-ede46f@quoll>
+In-Reply-To: <20260318-devious-spider-of-endurance-ede46f@quoll>
+From: Swati Agarwal <swati.agarwal@oss.qualcomm.com>
+Date: Thu, 26 Mar 2026 15:37:36 +0530
+X-Gm-Features: AQROBzDyOqDscpM1Qp598tIiy0z_Urr2uTYFmuTrlyekpsKSj5Jbxn8BdIURSw4
+Message-ID: <CAHz4bYsUAojfB3BCHVoc8PMQBrjme6grdEnkxu7KhTQ+sxOf0A@mail.gmail.com>
+Subject: Re: [PATCH v6 1/4] dt-bindings: usb: Add binding for Genesys Logic
+ GL3590 hub
+To: Krzysztof Kozlowski <krzk@kernel.org>
+Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Rob Herring <robh@kernel.org>,
+        Krzysztof Kozlowski <krzk+dt@kernel.org>,
+        Conor Dooley <conor+dt@kernel.org>, Icenowy Zheng <uwu@icenowy.me>,
+        Matthias Kaehlcke <mka@chromium.org>,
+        Mike Looijmans <mike.looijmans@topic.nl>,
+        Pin-yen Lin <treapking@chromium.org>,
+        Chaoyi Chen <chaoyi.chen@rock-chips.com>,
+        =?UTF-8?B?SiAuIE5ldXNjaMOkZmVy?= <j.ne@posteo.net>,
+        Jens Glathe <jens.glathe@oldschoolsolutions.biz>,
+        Bjorn Andersson <andersson@kernel.org>,
+        Konrad Dybcio <konradybcio@kernel.org>, linux-usb@vger.kernel.org,
+        devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linux-arm-msm@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYwMzI2MDA3MCBTYWx0ZWRfX7ghyUwOD3Ov7
+ kehMK4N0ysyEl9YGW5otH6vSLx+l42GyZ63OmLoVHddBnOKGhYH7pCmQ8wwC8BUuEjQSrQns0i4
+ RHOfOBFt8YMRsXvN2HbUgpQKCKMBPI82d0CuO3DChbaDanMKkcMT+qS16O5Th9XnvWfUXjj/A70
+ reKVLZX9RrvVfM6C/LhrszIBeQUGqArXYwBHU2vZCPLejEmKqeYfGIyhUnKMPjcsxSK1dESkmu6
+ ewrKD4qeG1vYBaTm3kHUGMjNl8oixb9yJPMtoSWq/qticX51uAk5Qj7KaEL6ml90TvlpCgI6QLa
+ mGliSN3vwvY1iHU0qM4He6pRfL2FJVxfhCLMxgqGPkEND+v9CI9yzwtfhki4A5s856GRJJGbhl0
+ rxXJzn4UxyjNkbo2wwUSkUuc4jrvQPLBk2+K9lRmrzp9pehXDPw+hkaPTaDQjm3nIqAwUoQWT2C
+ jI8i5I3EXmlRpB4hVmw==
+X-Proofpoint-ORIG-GUID: xiXqzRP1eCpZYhiqTcawWmAC36048mfD
+X-Authority-Analysis: v=2.4 cv=eOMeTXp1 c=1 sm=1 tr=0 ts=69c50575 cx=c_pps
+ a=UgVkIMxJMSkC9lv97toC5g==:117 a=IkcTkHD0fZMA:10 a=Yq5XynenixoA:10
+ a=s4-Qcg_JpJYA:10 a=VkNPw1HP01LnGYTKEx00:22 a=u7WPNUs3qKkmUXheDGA7:22
+ a=rJkE3RaqiGZ5pbrm-msn:22 a=P-IC7800AAAA:8 a=VwQbUJbxAAAA:8 a=EUspDBNiAAAA:8
+ a=yKxla6SPEuOvPVJYePEA:9 a=QEXdDO2ut3YA:10 a=1HOtulTD9v-eNWfpl4qZ:22
+ a=d3PnA9EDa4IxuAV0gXij:22
+X-Proofpoint-GUID: xiXqzRP1eCpZYhiqTcawWmAC36048mfD
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1143,Hydra:6.1.51,FMLib:17.12.100.49
+ definitions=2026-03-26_02,2026-03-24_01,2025-10-01_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ spamscore=0 phishscore=0 malwarescore=0 suspectscore=0 impostorscore=0
+ lowpriorityscore=0 adultscore=0 bulkscore=0 clxscore=1015 priorityscore=1501
+ classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
+ reason=mlx scancount=1 engine=8.22.0-2603050001 definitions=main-2603260070
 
-The vbus-supply property has been declared in spacemit,k1-dwc3.yaml
-https://github.com/torvalds/linux/blob/master/Documentation/devicetree/bindings/usb/spacemit%2Ck1-dwc3.yaml#L71
+On Wed, Mar 18, 2026 at 12:31=E2=80=AFPM Krzysztof Kozlowski <krzk@kernel.o=
+rg> wrote:
+>
+> On Wed, Mar 18, 2026 at 09:36:41AM +0530, Swati Agarwal wrote:
+>
+> A nit, subject: drop second/last, redundant "binding fir". The
+> "dt-bindings" prefix is already stating that these are bindings.
+> See also:
+> https://elixir.bootlin.com/linux/v6.17-rc3/source/Documentation/devicetre=
+e/bindings/submitting-patches.rst#L18
+>
+> >    reg: true
+> > @@ -26,6 +27,10 @@ properties:
+> >      description:
+> >        The regulator that provides 3.3V or 5.0V core power to the hub.
+> >
+> > +  vdd12-supply:
+> > +    description:
+> > +      The regulator that provides 1.2V power to the hub.
+> > +
+> >    peer-hub: true
+> >
+> >    ports:
+> > @@ -69,6 +74,17 @@ allOf:
+> >          peer-hub: true
+> >          vdd-supply: true
+>
+> Here and in other cases you forgot to forbid new property (: false).
+Hi Krysztof,
+My v5 patch series address this thing as follows:-
+https://lore.kernel.org/all/20260122092852.887624-2-swati.agarwal@oss.qualc=
+omm.com/
 
-Changes in v2:
-- Improve commit title and messages
-- Enable regulator only in host mode
-- Enable regulator when matching compatible "spacemit,k1-dwc3"
-- Link to v1: https://lore.kernel.org/lkml/20260316080000.3130372-1-amadeus@jmu.edu.cn/
+But as per feedback from Rob on v4 and v5 series, i address it as per
+his comment.
 
-Changes in v3:
-- Add missing properties and adjust position
-- Link to v2: https://lore.kernel.org/lkml/20260320100120.1343629-1-amadeus@jmu.edu.cn/
+https://lore.kernel.org/all/20260122170651.GA2632938-robh@kernel.org/#t
+https://lore.kernel.org/all/20260121022449.GA1804139-robh@kernel.org/#t
 
-Chukun Pan (1):
-  usb: dwc3: Add optional VBUS regulator support to SpacemiT K1
+Let me know how we should proceed further on this @Rob Herring
+@Krzysztof Kozlowski .
 
- drivers/usb/dwc3/dwc3-generic-plat.c | 23 ++++++++++++++++++++++-
- 1 file changed, 22 insertions(+), 1 deletion(-)
-
--- 
-2.34.1
-
+Regards,
+Swati
