@@ -1,70 +1,109 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from mail.mainlining.org (mail.mainlining.org [5.75.144.95])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 374103F210F;
-	Thu, 26 Mar 2026 15:26:15 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A78ED3F210F;
+	Thu, 26 Mar 2026 15:26:51 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=5.75.144.95
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1774538776; cv=none; b=DIJqtcQVYRo9sk9ijUrHk2auY8sO+pKweVAGeE1tvzod2N496Yh6Qr45VHSF9Oq0yhYnbg8v90KiRAqwnrWuvrAYYywfa3nGxLWQhpK8rhtYevvS01axhyS31kUf5fYlYkiHkJiuf4dndDavMJVErx0ePReXs97lGDqlSPrRI24=
+	t=1774538813; cv=none; b=Dny/VsXz4GCP4sY9A+SX5EWD9UVxgkpdbOYLLJxlW0mwC2c+Lr6kvD85ycG4xcvJ2KgeWzqndGXt9FXXovK77AW82iLNC/W7sxOejANaHTvVMRKPjcj51UI7aXsJAEV9Y6xDhiA0XomDah48NP07nPgP5rnAtYaiaXZcf90RV44=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1774538776; c=relaxed/simple;
-	bh=n+bIFKSjOB2crmf5AvxNH7lVOr7PCQpihLEsRVjMmi0=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=A7jpUoBLEZfR1+1F3H/NWj6P4ycryKsUsP2iaBxRGrpzJsBtAY34OpWuJ9rEA98LNOavrSF1dUuan97H9HDZDNUWi1jmr896Q2f2X+UvbWZ9Zrn5Lflzh1QgrgAaYnYv1tL99P5lJclYVn9hFW9sEUCjfqY6I7jppT2XFzmGrc4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=OiQg2z3P; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1774538813; c=relaxed/simple;
+	bh=KjbFPWZ52zjrwBOztZYvBAKOfo7bGoPD2DP/sKJUKVw=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=nzin3N8kCZpuJnJuApwqFLQCiIPS1VdyByUNysodIQ7t68IH7Efx1LxDSAsPPjBdq31+4DZUkupLM+5zLq8uENFn9k4sRu248z6W5+G2ZUZOZIiOfEf7k8GBmv5osfFevhjdisPyfWY47t4Q6/Dm6b9HwNUuLzaF0IefO92b2Gs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=mainlining.org; spf=pass smtp.mailfrom=mainlining.org; dkim=pass (2048-bit key) header.d=mainlining.org header.i=@mainlining.org header.b=iZWvtOxo; dkim=permerror (0-bit key) header.d=mainlining.org header.i=@mainlining.org header.b=EkuaFTiN; arc=none smtp.client-ip=5.75.144.95
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=mainlining.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=mainlining.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="OiQg2z3P"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 9B53FC2BCB0;
-	Thu, 26 Mar 2026 15:26:15 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1774538775;
-	bh=n+bIFKSjOB2crmf5AvxNH7lVOr7PCQpihLEsRVjMmi0=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=OiQg2z3PfkurTNn6KUVBI3W95j4EtDIUdMOnt/ajBxfnUzKpI7FbeG7N/Hp7xP1qy
-	 aBNGJbPw1mvIx8zdLU9X4uZUmaOhHB1mq5fjof7xh+QAzvQS+W9zfg00IsE5D1jSZA
-	 RJ9aExSejDG2F+fJ0YX9h7erEVGXC8DjBAMCXvozi9RspGoKy3WI7Oq9YEqZd3TV1/
-	 dXFTNJwODrGTyl7KSqEc8pN63XfmF9qQF22hCo+dI23TELjRvettaOMpi/CCRQ7iIS
-	 JVpV1mEFUGSKOTb+URSeDkAqNAfLiYRbpviLeGrH8O/SOK52KV40vVKUVVWjS4Jmos
-	 aEWIoRfh/G1yg==
-Date: Thu, 26 Mar 2026 10:26:12 -0500
-From: "Rob Herring (Arm)" <robh@kernel.org>
-To: Yixun Lan <dlan@kernel.org>
-Cc: linux-kernel@vger.kernel.org, Inochi Amaoto <inochiama@gmail.com>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	spacemit@lists.linux.dev, Krzysztof Kozlowski <krzk+dt@kernel.org>,
-	Conor Dooley <conor+dt@kernel.org>, linux-usb@vger.kernel.org,
-	Matthias Kaehlcke <mka@chromium.org>, devicetree@vger.kernel.org,
-	Junzhong Pan <panjunzhong@linux.spacemit.com>
-Subject: Re: [PATCH v2 1/2] dt-bindings: usb: Add support for Terminus FE1.1s
- USB2.0 Hub controller
-Message-ID: <177453877141.2506202.3743813210780505738.robh@kernel.org>
-References: <20260319-03-usb-hub-fe1-v2-0-e4e26809dd7d@kernel.org>
- <20260319-03-usb-hub-fe1-v2-1-e4e26809dd7d@kernel.org>
+	dkim=pass (2048-bit key) header.d=mainlining.org header.i=@mainlining.org header.b="iZWvtOxo";
+	dkim=permerror (0-bit key) header.d=mainlining.org header.i=@mainlining.org header.b="EkuaFTiN"
+DKIM-Signature: v=1; a=rsa-sha256; s=202507r; d=mainlining.org; c=relaxed/relaxed;
+	h=From:To:Subject:Date:Message-ID; t=1774538665; bh=5yWH0aBEsh9Z+ZlkcQnP2na
+	Jb810iE/tfOrPtXpGt/E=; b=iZWvtOxobEN+2bXRJ9/vwqsowV7cc9Z2DM1mhUI68D5CoOvxSR
+	VThBf0lpUiRBXLiPjJ/nVAu/zmrAet/8kSDGl3QTRYkub5oInA5ctJJWh3uuGj+LkKLVObcSc9C
+	ErBHpKWYYG83uB+ZHKLagZM2aqIShLVe9JfmdkhUs2syErpzSjm+z+2lmTidwrL628aJTHSGsQI
+	1pWGhqq5e4jb2r3K8FAqRDguWCuJyjmogALRIv58WzwBPF9o690GcKw9t2R5KnZt/cYXXsSYPvK
+	s6afrW4j2wwRM/jaH2pmtLXxj/XPklt7NvSi/mV0htYvGv0xyKoc3yV4SCLR2yEZjig==;
+DKIM-Signature: v=1; a=ed25519-sha256; s=202507e; d=mainlining.org; c=relaxed/relaxed;
+	h=From:To:Subject:Date:Message-ID; t=1774538665; bh=5yWH0aBEsh9Z+ZlkcQnP2na
+	Jb810iE/tfOrPtXpGt/E=; b=EkuaFTiNEjBrnLfchD8BGwWIIKWbo8LulXtIWJDdRORf5YJwVG
+	FVS5iC2Pc2iTZ8B/6jyvBjPPad5ISrAG5VBw==;
+Message-ID: <1f2dd742-a845-4b51-86a5-755c39f75b45@mainlining.org>
+Date: Thu, 26 Mar 2026 16:24:25 +0100
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20260319-03-usb-hub-fe1-v2-1-e4e26809dd7d@kernel.org>
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH] usb: gadget: u_ether: Fix NULL pointer deref in
+ eth_get_drvinfo
+To: Kuen-Han Tsai <khtsai@google.com>,
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+Cc: David Heidelberg <david@ixit.cz>, Val Packett <val@packett.cool>,
+ linux-usb@vger.kernel.org, linux-kernel@vger.kernel.org,
+ stable@vger.kernel.org
+References: <20260316-eth-null-deref-v1-1-07005f33be85@google.com>
+Content-Language: en-US
+From: Aelin Reidel <aelin@mainlining.org>
+In-Reply-To: <20260316-eth-null-deref-v1-1-07005f33be85@google.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 
-
-On Thu, 19 Mar 2026 07:51:03 +0000, Yixun Lan wrote:
-> Terminus FE1.1s is USB2.0 protocol compliant 4-port USB HUB, It support
-> MTT (Multiple Transaction Translator) mode, the upstream port supports
-> high-speed 480MHz and full-speed 12MHz modes, also has integrated 5V to
-> 3.3V, 1.8V regulator and Power-On-Reset circuit.
+On 3/16/26 8:49 AM, Kuen-Han Tsai wrote:
+> Commit ec35c1969650 ("usb: gadget: f_ncm: Fix net_device lifecycle with
+> device_move") reparents the gadget device to /sys/devices/virtual during
+> unbind, clearing the gadget pointer. If the userspace tool queries on
+> the surviving interface during this detached window, this leads to a
+> NULL pointer dereference.
 > 
-> Introduce the DT binding for it.
+> Unable to handle kernel NULL pointer dereference
+> Call trace:
+>  eth_get_drvinfo+0x50/0x90
+>  ethtool_get_drvinfo+0x5c/0x1f0
+>  __dev_ethtool+0xaec/0x1fe0
+>  dev_ethtool+0x134/0x2e0
+>  dev_ioctl+0x338/0x560
 > 
-> Link: https://terminus-usa.com/wp-content/uploads/2024/06/FE1.1s-Product-Brief-Rev.-2.0-2023.pdf [1]
-> Signed-off-by: Yixun Lan <dlan@kernel.org>
+> Add a NULL check for dev->gadget in eth_get_drvinfo(). When detached,
+> skip copying the fw_version and bus_info strings, which is natively
+> handled by ethtool_get_drvinfo for empty strings.
+> 
+> Suggested-by: Val Packett <val@packett.cool>
+> Reported-by: Val Packett <val@packett.cool>
+> Closes: https://lore.kernel.org/linux-usb/10890524-cf83-4a71-b879-93e2b2cc1fcc@packett.cool/
+> Fixes: ec35c1969650 ("usb: gadget: f_ncm: Fix net_device lifecycle with device_move")
+> Cc: stable@vger.kernel.org
+> Signed-off-by: Kuen-Han Tsai <khtsai@google.com>
 > ---
->  .../devicetree/bindings/usb/terminus,fe11.yaml     | 62 ++++++++++++++++++++++
->  1 file changed, 62 insertions(+)
+>  drivers/usb/gadget/function/u_ether.c | 6 ++++--
+>  1 file changed, 4 insertions(+), 2 deletions(-)
 > 
+> diff --git a/drivers/usb/gadget/function/u_ether.c b/drivers/usb/gadget/function/u_ether.c
+> index 1a9e7c495e2e..a653fae9c0cb 100644
+> --- a/drivers/usb/gadget/function/u_ether.c
+> +++ b/drivers/usb/gadget/function/u_ether.c
+> @@ -113,8 +113,10 @@ static void eth_get_drvinfo(struct net_device *net, struct ethtool_drvinfo *p)
+>  
+>  	strscpy(p->driver, "g_ether", sizeof(p->driver));
+>  	strscpy(p->version, UETH__VERSION, sizeof(p->version));
+> -	strscpy(p->fw_version, dev->gadget->name, sizeof(p->fw_version));
+> -	strscpy(p->bus_info, dev_name(&dev->gadget->dev), sizeof(p->bus_info));
+> +	if (dev->gadget) {
+> +		strscpy(p->fw_version, dev->gadget->name, sizeof(p->fw_version));
+> +		strscpy(p->bus_info, dev_name(&dev->gadget->dev), sizeof(p->bus_info));
+> +	}
+>  }
+>  
+>  /* REVISIT can also support:
+> 
+> ---
+> base-commit: d0d9b1f4f5391e6a00cee81d73ed2e8f98446d5f
+> change-id: 20260316-eth-null-deref-0304bb048267
+> 
+> Best regards,
 
-Reviewed-by: Rob Herring (Arm) <robh@kernel.org>
+Thank you for the patch! This does fix the null pointer dereference for me.
 
+Tested-by: Aelin Reidel <aelin@mainlining.org>
