@@ -1,157 +1,70 @@
-Received: from TYDPR03CU002.outbound.protection.outlook.com (mail-japaneastazon11023080.outbound.protection.outlook.com [52.101.127.80])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C28263FEB2D;
-	Thu, 26 Mar 2026 14:49:17 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=52.101.127.80
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1774536560; cv=fail; b=McDFYt6hZSYyuTzPS5AtNv5Gg9Hw8k5CbZyMKNFflqs/SCDIHBug3XwmIjW0YFGSHsFgvHhwiQzB/U3ELWM5B9kvOgUh/ZC1QTpzaEgYK83p9v9ACvGbEFcbaK5JSN/zyuEHg/kH9pl63uTILjZy7knBPHOQKRFztmWVid8WmHw=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1774536560; c=relaxed/simple;
-	bh=YMsJREqlRvqdUNqBXjOIMjeChIU1NlD3k5dcGyaBWAU=;
-	h=From:To:CC:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=g7e0it2SpJKWDtTwjn9iscQLquefYZjl4BkkI6dsNob9JtO/JKv/cO+HLcMpsaZx5Pte4j8GKjdeTftHEWga+mRxqtGlSBdLANJRxgrlqWysatKYoDLwbrzTpMxsditmS0/EXWtE/nb5m3DhDFJMyTfikSMTuiUfwrxHZtiSY0Q=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=oppo.com; spf=pass smtp.mailfrom=oppo.com; dkim=pass (1024-bit key) header.d=oppo.com header.i=@oppo.com header.b=BM9i06Dc; arc=fail smtp.client-ip=52.101.127.80
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=oppo.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=oppo.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 374103F210F;
+	Thu, 26 Mar 2026 15:26:15 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1774538776; cv=none; b=DIJqtcQVYRo9sk9ijUrHk2auY8sO+pKweVAGeE1tvzod2N496Yh6Qr45VHSF9Oq0yhYnbg8v90KiRAqwnrWuvrAYYywfa3nGxLWQhpK8rhtYevvS01axhyS31kUf5fYlYkiHkJiuf4dndDavMJVErx0ePReXs97lGDqlSPrRI24=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1774538776; c=relaxed/simple;
+	bh=n+bIFKSjOB2crmf5AvxNH7lVOr7PCQpihLEsRVjMmi0=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=A7jpUoBLEZfR1+1F3H/NWj6P4ycryKsUsP2iaBxRGrpzJsBtAY34OpWuJ9rEA98LNOavrSF1dUuan97H9HDZDNUWi1jmr896Q2f2X+UvbWZ9Zrn5Lflzh1QgrgAaYnYv1tL99P5lJclYVn9hFW9sEUCjfqY6I7jppT2XFzmGrc4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=OiQg2z3P; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=oppo.com header.i=@oppo.com header.b="BM9i06Dc"
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=Q/R1Y31IgT+dwHn9SvXyimtBs9cY+MncCoWF34MPj4i15c0pOug/tOOTchJZ6NtrGitlefHjD2SDpZ0UOXLoX5iZKY04cxFkk2Urd+IR2oGyIyj7guoLzE+ovbGgmdtb5bvk67IQy0/Vr3NMKgyAKBsLPaMWhDeBbdaNteVR2XV92l+fUFpG1jEqbO7Py0uUXlyXemLrkfxcG71zcgPN6KESLA8473dKNqacD1j140Ca4K2qWI+0ySszalt9XV/io4SInFNpu07Nw7mR/W2KDH+absdz11Zwgw+jM/PPVJw6tF0MXfp860OBLcOMt2gH+MV4Dz11hx4aW7xvrqnSBg==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=YMsJREqlRvqdUNqBXjOIMjeChIU1NlD3k5dcGyaBWAU=;
- b=f7pnZuoZMlwI45bPCC1ZIbkesG6vF2CAHegdIJct3yWwywsV++JrFsbBGUbx1mTknOihydQxGJr9f2iIyZ5JRFHQTwnNRzIdkOxh28dqQ4uHzcq+FqBWAVcOxu2UP9SleMzjLLuxRBOA1j6TO96fAqVlmgG5ZJNeAEb8EaUj/OcElBIHrcUJOWX1z3WvRNxY4cB+9tPaEykRHwGm//gGoHnTAV81d/1pdhMEDz/qKEWDF872DfSdIyyFjHnFuE7j4e6y+/maZncTFuGQffBmAoK2PfQdGMPUlzLhpHDjP6dLeSUHkVOXQYBO4j7/f08kTE4fs6VXgnMXc+jywxr5Bw==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
- 58.252.5.68) smtp.rcpttodomain=google.com smtp.mailfrom=oppo.com; dmarc=pass
- (p=quarantine sp=quarantine pct=100) action=none header.from=oppo.com;
- dkim=none (message not signed); arc=none (0)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oppo.com; s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=YMsJREqlRvqdUNqBXjOIMjeChIU1NlD3k5dcGyaBWAU=;
- b=BM9i06Dc06CQt7EWw7seWzB8MPWoxzz1T87JyE1nFro4iql896Jx2DwbJs5aAl1dBF7Ikwz1rnPozLfeYOKc32Z7FlFrmS/v2RLKMyqsBVQVferTGo77SxT80TbHHUMAddN13e4fb9/TqHseo+3K9QerQ4MaGbF759XMN/3TTzo=
-Received: from SI2PR01CA0001.apcprd01.prod.exchangelabs.com
- (2603:1096:4:191::13) by SEYPR02MB9088.apcprd02.prod.outlook.com
- (2603:1096:101:303::21) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9745.22; Thu, 26 Mar
- 2026 14:49:10 +0000
-Received: from OSA0EPF000000C9.apcprd02.prod.outlook.com
- (2603:1096:4:191:cafe::14) by SI2PR01CA0001.outlook.office365.com
- (2603:1096:4:191::13) with Microsoft SMTP Server (version=TLS1_3,
- cipher=TLS_AES_256_GCM_SHA384) id 15.20.9723.33 via Frontend Transport; Thu,
- 26 Mar 2026 14:49:10 +0000
-X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 58.252.5.68)
- smtp.mailfrom=oppo.com; dkim=none (message not signed)
- header.d=none;dmarc=pass action=none header.from=oppo.com;
-Received-SPF: Pass (protection.outlook.com: domain of oppo.com designates
- 58.252.5.68 as permitted sender) receiver=protection.outlook.com;
- client-ip=58.252.5.68; helo=mail.oppo.com; pr=C
-Received: from mail.oppo.com (58.252.5.68) by
- OSA0EPF000000C9.mail.protection.outlook.com (10.167.240.55) with Microsoft
- SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.20.9745.21 via Frontend Transport; Thu, 26 Mar 2026 14:49:09 +0000
-Received: from PH80250894.adc.com (172.16.40.117) by mailappw31.adc.com
- (172.16.56.198) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2507.57; Thu, 26 Mar
- 2026 22:49:08 +0800
-From: hailong <hailong.liu@oppo.com>
-To: <guanyulin@google.com>
-CC: <amardeep.rai@intel.com>, <andriy.shevchenko@linux.intel.com>,
-	<arnd@arndb.de>, <broonie@kernel.org>, <eadavis@qq.com>,
-	<gregkh@linuxfoundation.org>, <hannelotta@gmail.com>,
-	<linux-kernel@vger.kernel.org>, <linux-sound@vger.kernel.org>,
-	<linux-usb@vger.kernel.org>, <mathias.nyman@intel.com>, <nkapron@google.com>,
-	<perex@perex.cz>, <quic_wcheng@quicinc.com>, <sakari.ailus@linux.intel.com>,
-	<stern@rowland.harvard.edu>, <tiwai@suse.com>,
-	<wesley.cheng@oss.qualcomm.com>, <xiaopei01@kylinos.cn>, <xu.yang_2@nxp.com>,
-	<hailong.liu@oppo.com>
-Subject: Re [PATCH v3 0/2] usb: offload: Decouple interrupter lifecycle and refactor usage tracking
-Date: Thu, 26 Mar 2026 22:48:48 +0800
-Message-ID: <20260326144848.1016104-1-hailong.liu@oppo.com>
-X-Mailer: git-send-email 2.43.0
-In-Reply-To: <20260324203851.4091193-1-guanyulin@google.com>
-References: <20260324203851.4091193-1-guanyulin@google.com>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="OiQg2z3P"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 9B53FC2BCB0;
+	Thu, 26 Mar 2026 15:26:15 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1774538775;
+	bh=n+bIFKSjOB2crmf5AvxNH7lVOr7PCQpihLEsRVjMmi0=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=OiQg2z3PfkurTNn6KUVBI3W95j4EtDIUdMOnt/ajBxfnUzKpI7FbeG7N/Hp7xP1qy
+	 aBNGJbPw1mvIx8zdLU9X4uZUmaOhHB1mq5fjof7xh+QAzvQS+W9zfg00IsE5D1jSZA
+	 RJ9aExSejDG2F+fJ0YX9h7erEVGXC8DjBAMCXvozi9RspGoKy3WI7Oq9YEqZd3TV1/
+	 dXFTNJwODrGTyl7KSqEc8pN63XfmF9qQF22hCo+dI23TELjRvettaOMpi/CCRQ7iIS
+	 JVpV1mEFUGSKOTb+URSeDkAqNAfLiYRbpviLeGrH8O/SOK52KV40vVKUVVWjS4Jmos
+	 aEWIoRfh/G1yg==
+Date: Thu, 26 Mar 2026 10:26:12 -0500
+From: "Rob Herring (Arm)" <robh@kernel.org>
+To: Yixun Lan <dlan@kernel.org>
+Cc: linux-kernel@vger.kernel.org, Inochi Amaoto <inochiama@gmail.com>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	spacemit@lists.linux.dev, Krzysztof Kozlowski <krzk+dt@kernel.org>,
+	Conor Dooley <conor+dt@kernel.org>, linux-usb@vger.kernel.org,
+	Matthias Kaehlcke <mka@chromium.org>, devicetree@vger.kernel.org,
+	Junzhong Pan <panjunzhong@linux.spacemit.com>
+Subject: Re: [PATCH v2 1/2] dt-bindings: usb: Add support for Terminus FE1.1s
+ USB2.0 Hub controller
+Message-ID: <177453877141.2506202.3743813210780505738.robh@kernel.org>
+References: <20260319-03-usb-hub-fe1-v2-0-e4e26809dd7d@kernel.org>
+ <20260319-03-usb-hub-fe1-v2-1-e4e26809dd7d@kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-ClientProxiedBy: mailappw30.adc.com (172.16.56.197) To mailappw31.adc.com
- (172.16.56.198)
-X-EOPAttributedMessage: 0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: OSA0EPF000000C9:EE_|SEYPR02MB9088:EE_
-X-MS-Office365-Filtering-Correlation-Id: 4d2167a9-b2f0-4fbe-c7d4-08de8b46d6d0
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam:
-	BCL:0;ARA:13230040|36860700016|1800799024|7416014|376014|82310400026|18002099003|22082099003|56012099003;
-X-Microsoft-Antispam-Message-Info:
-	78DPaUg5hYueN3jZmroSI1Jv/3BPQWi0pRGO3dzw1k+Qz3xDDPFp04NC3bUef8aWKKzeyqH1v1Nx9VmIsjLIqKGDDy/hmnOsynfPaiyThO1kn26/TeScrWA6FNDflu/9fu2V6GqbL1HCXrS3pC/WHqWGAe0S+xVl3HJS/lIK0di2uVned/ELvqB+DmBiB+ZehC+tZDFu9bpC5tgj+pHHWlKzs5jXzXVgObMPGGQk0fDp8PBG+KG0sdSlOhj9ckOSTLtZW6gK56UNXL3yTFsRciO/rJadEQnfszbwApsXsbEwl3IIRZXJk56PKQ3tb8X2izknqvgehYArygbKpf0yRnT19gKj5HLtx50Jl2T4UmRFYXd3fqlX047Ps7Q0BcSVfNrgxi1VMKhw8FgOdgDbqbJd4Aa86LOmvl1uoXicaXIOb97TGFDPchIzEhpfCupID6vWHZGoHVt8MvCZXvW2gXyn8SuCmdZhEZ9KAFgx1HpOvN+LvPMmNym7ZUinAtEqHm/Qs78EScVMqoMwmHj36/iBkZz/wBFEz05Lp4B3Z98yWFvFse57ifEj3nc3iC96rxbXwKeLst9gDOZaRAJQLBiiwWy0cwA7VGvH8Qk/CFKa8UXBAqxPRo8LI6KIdDcU2Alr0umWkLm4f2asXylcC2MybCeUcAgQdXzNQ/q0YIo2CvmnQQfRn0wWlwwk3ghywhyC/xivP2B+k4x5Qhs50BvnJiiv+PE9SU2k4Nu/Q06CUVgCn50fThR8Gn56fjK7RO8a7OhdI9x3CpOtVKrl2w==
-X-Forefront-Antispam-Report:
-	CIP:58.252.5.68;CTRY:CN;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:mail.oppo.com;PTR:InfoDomainNonexistent;CAT:NONE;SFS:(13230040)(36860700016)(1800799024)(7416014)(376014)(82310400026)(18002099003)(22082099003)(56012099003);DIR:OUT;SFP:1102;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0:
-	6E1Jw21EsWnwGmM/tGtKQJ9oUzRIX0C3gBg7GJj2wmu1eArqzK3QgnqGwAHgLGGodw0j0NVKiq4v2y9TbK5orV6oZFY798EUWJhuLbeO9R6gdxdnZRWXXIX49oT8pOzPU7RHOhkHdeotbnT9KHOZSqW6Lqpv8ETix5Lt6dewEAsjAzSZsvnqk/O3RsBVpEJiCUyfb+Fblr2p4xsBp6uk+JCyy0Q3CZ9tD+Rp/UBG5xwXgbzUw8/MFU2VUmF0N4NXXRf2yEeXUg7AQ0mkIqsRrOYz1xNeVdbtWo3nSxcx7emyYMbsufa0gS741Fyj7ndbQHlBIWrTFcGl81mdCBbtQp7bPovVsWzkKOIYEIy1PyyW7H1+Z9RvWcyldVOsQqMBYGRa1uRCH+SshWfDLiRNQtu955prG8ZgdmA3OPRK6+D7G+25tMkrwLKyK2dbxwtr
-X-OriginatorOrg: oppo.com
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 26 Mar 2026 14:49:09.9197
- (UTC)
-X-MS-Exchange-CrossTenant-Network-Message-Id: 4d2167a9-b2f0-4fbe-c7d4-08de8b46d6d0
-X-MS-Exchange-CrossTenant-Id: f1905eb1-c353-41c5-9516-62b4a54b5ee6
-X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=f1905eb1-c353-41c5-9516-62b4a54b5ee6;Ip=[58.252.5.68];Helo=[mail.oppo.com]
-X-MS-Exchange-CrossTenant-AuthSource:
-	OSA0EPF000000C9.apcprd02.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Anonymous
-X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: SEYPR02MB9088
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20260319-03-usb-hub-fe1-v2-1-e4e26809dd7d@kernel.org>
 
-Hi,
-We, OPPO kernel team, have thoroughly verified this patch on our devices.
-The test results confirm that it effectively resolves a critical headset
-hot-plugging issue and the subsequent system deadlock.
 
-Impact:
-This issue is currently a blocker for our upcoming product shipping.
-We have observed a high reproduction rate on our latest platforms,
-and this patch is essential for our production stability.
+On Thu, 19 Mar 2026 07:51:03 +0000, Yixun Lan wrote:
+> Terminus FE1.1s is USB2.0 protocol compliant 4-port USB HUB, It support
+> MTT (Multiple Transaction Translator) mode, the upstream port supports
+> high-speed 480MHz and full-speed 12MHz modes, also has integrated 5V to
+> 3.3V, 1.8V regulator and Power-On-Reset circuit.
+> 
+> Introduce the DT binding for it.
+> 
+> Link: https://terminus-usa.com/wp-content/uploads/2024/06/FE1.1s-Product-Brief-Rev.-2.0-2023.pdf [1]
+> Signed-off-by: Yixun Lan <dlan@kernel.org>
+> ---
+>  .../devicetree/bindings/usb/terminus,fe11.yaml     | 62 ++++++++++++++++++++++
+>  1 file changed, 62 insertions(+)
+> 
 
-Test Environment:
-Devices: OPPO devices based on SM8850 and SM8845 platforms.
-OS/Kernel: Android 16.0 / Linux Kernel 6.12.
+Reviewed-by: Rob Herring (Arm) <robh@kernel.org>
 
-Background:
-High reproduction rate (typically within 10 cycles) before
-applying this patch.
-
-Original Reproduction Path (Verified fixed):
-Open music player and enable USB exclusive mode.
-Connect a Type-C digital headset and start playback.
-Repeatedly plug/unplug the headset.
-
-Observation:
-Within 10 cycles, the headset icon would persist after
-unplugging, followed by no audio upon reconnection and a system deadlock.
-
-Stress Test Results with This Patch (Phone A & B):
-Test Case 1: USB Exclusive Mode Hot-plug
-Steps: Enable USB exclusive mode -> Play music -> Plug/unplug 100 cycles.
-Result: PASS. Audio functions normally; no deadlock observed.
-
-Test Case 2: Standard Mode Hot-plug
-Steps: Disable USB exclusive mode -> Play music -> Plug/unplug 100 cycles.
-Result: PASS. Audio and system stability remain normal.
-
-Test Case 3: Mixed Accessory Switching (Headset/Charger)
-Steps: Play music -> Unplug headset -> Plug in charger -> Unplug charger
--> Re-plug headset. Repeated for 30 cycles.
-Result: PASS. No issues observed.
-
-The patch looks solid and is critical for our project. We hope these
-results help expedite the upstreaming process.
-
-Free to add
-Tested-by: hailong.liu@oppo.com
