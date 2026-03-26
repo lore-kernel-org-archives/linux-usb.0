@@ -1,35 +1,39 @@
-Received: from mail.mainlining.org (mail.mainlining.org [5.75.144.95])
+Received: from ixit.cz (ixit.cz [185.100.197.86])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A78ED3F210F;
-	Thu, 26 Mar 2026 15:26:51 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=5.75.144.95
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E48333AE1A9;
+	Thu, 26 Mar 2026 16:37:59 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.100.197.86
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1774538813; cv=none; b=Dny/VsXz4GCP4sY9A+SX5EWD9UVxgkpdbOYLLJxlW0mwC2c+Lr6kvD85ycG4xcvJ2KgeWzqndGXt9FXXovK77AW82iLNC/W7sxOejANaHTvVMRKPjcj51UI7aXsJAEV9Y6xDhiA0XomDah48NP07nPgP5rnAtYaiaXZcf90RV44=
+	t=1774543081; cv=none; b=pF3r34nsTtiMnP/vIe2f3oSla49Q1ktup+d8P1CJCzmpZ8P+ZKP4hiTbWRqj4HaJ/bY2eOPkcSR6CQLNBV+HzFaUEGBdfCUNQC26HDSuwj2E6YcAZwA7jyHcxBnAOYSmBo2k4WIboTEVz6kQjwaJ4z5QwjgPwdmbUl6c5nE4AY8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1774538813; c=relaxed/simple;
-	bh=KjbFPWZ52zjrwBOztZYvBAKOfo7bGoPD2DP/sKJUKVw=;
+	s=arc-20240116; t=1774543081; c=relaxed/simple;
+	bh=/h3d/INuLl7i45ToO+vmP3bz5O8ZBP5rdg9zIVyt3Q8=;
 	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=nzin3N8kCZpuJnJuApwqFLQCiIPS1VdyByUNysodIQ7t68IH7Efx1LxDSAsPPjBdq31+4DZUkupLM+5zLq8uENFn9k4sRu248z6W5+G2ZUZOZIiOfEf7k8GBmv5osfFevhjdisPyfWY47t4Q6/Dm6b9HwNUuLzaF0IefO92b2Gs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=mainlining.org; spf=pass smtp.mailfrom=mainlining.org; dkim=pass (2048-bit key) header.d=mainlining.org header.i=@mainlining.org header.b=iZWvtOxo; dkim=permerror (0-bit key) header.d=mainlining.org header.i=@mainlining.org header.b=EkuaFTiN; arc=none smtp.client-ip=5.75.144.95
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=mainlining.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=mainlining.org
+	 In-Reply-To:Content-Type; b=m3RVfxTxmtwErvSQxhd7U5wbM3RwtTgIpcS9sPfU80xaXipmlhEVCMwUjVCeUiEFblCj1PhYau/c3113Plnb4QqEiaQMV4svx7ffKa9BPIkSr40D8lxEMOfK/OaktxGyhAnPb15xd77gzX5awuAkdntZGxZ/DQRANObOzzVd0yw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=ixit.cz; spf=pass smtp.mailfrom=ixit.cz; dkim=pass (1024-bit key) header.d=ixit.cz header.i=@ixit.cz header.b=vi82hO8u; arc=none smtp.client-ip=185.100.197.86
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=ixit.cz
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ixit.cz
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=mainlining.org header.i=@mainlining.org header.b="iZWvtOxo";
-	dkim=permerror (0-bit key) header.d=mainlining.org header.i=@mainlining.org header.b="EkuaFTiN"
-DKIM-Signature: v=1; a=rsa-sha256; s=202507r; d=mainlining.org; c=relaxed/relaxed;
-	h=From:To:Subject:Date:Message-ID; t=1774538665; bh=5yWH0aBEsh9Z+ZlkcQnP2na
-	Jb810iE/tfOrPtXpGt/E=; b=iZWvtOxobEN+2bXRJ9/vwqsowV7cc9Z2DM1mhUI68D5CoOvxSR
-	VThBf0lpUiRBXLiPjJ/nVAu/zmrAet/8kSDGl3QTRYkub5oInA5ctJJWh3uuGj+LkKLVObcSc9C
-	ErBHpKWYYG83uB+ZHKLagZM2aqIShLVe9JfmdkhUs2syErpzSjm+z+2lmTidwrL628aJTHSGsQI
-	1pWGhqq5e4jb2r3K8FAqRDguWCuJyjmogALRIv58WzwBPF9o690GcKw9t2R5KnZt/cYXXsSYPvK
-	s6afrW4j2wwRM/jaH2pmtLXxj/XPklt7NvSi/mV0htYvGv0xyKoc3yV4SCLR2yEZjig==;
-DKIM-Signature: v=1; a=ed25519-sha256; s=202507e; d=mainlining.org; c=relaxed/relaxed;
-	h=From:To:Subject:Date:Message-ID; t=1774538665; bh=5yWH0aBEsh9Z+ZlkcQnP2na
-	Jb810iE/tfOrPtXpGt/E=; b=EkuaFTiNEjBrnLfchD8BGwWIIKWbo8LulXtIWJDdRORf5YJwVG
-	FVS5iC2Pc2iTZ8B/6jyvBjPPad5ISrAG5VBw==;
-Message-ID: <1f2dd742-a845-4b51-86a5-755c39f75b45@mainlining.org>
-Date: Thu, 26 Mar 2026 16:24:25 +0100
+	dkim=pass (1024-bit key) header.d=ixit.cz header.i=@ixit.cz header.b="vi82hO8u"
+Received: from [10.65.0.163] (unknown [87.58.112.195])
+	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
+	 key-exchange x25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+	(No client certificate requested)
+	by ixit.cz (Postfix) with ESMTPSA id 5BC59534250D;
+	Thu, 26 Mar 2026 17:37:49 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ixit.cz; s=dkim;
+	t=1774543070;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
+	bh=Yp2ysZrn68NpT6cfOQHwmOiX0M2aSclKJdn/dx2H1i0=;
+	b=vi82hO8uxOafy5RTmmdYHie1pRpNlnONRoyZFPcb5bp7tjM7asWJICw2fL2HMGorg9KZMw
+	4y4QQMTIgIkLWI/hq5DPaHylKzjqc8I1ma1EM5ts+qp+RWXlMfoHxPYNJ8vdPwEcZA/YUC
+	+nniFOtQXNKzVtl5ZxxdaaV9NF6MUQA=
+Message-ID: <3ccc2539-220f-4a2b-88ad-c7d26dd4be8f@ixit.cz>
+Date: Thu, 26 Mar 2026 17:37:47 +0100
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
@@ -41,17 +45,59 @@ Subject: Re: [PATCH] usb: gadget: u_ether: Fix NULL pointer deref in
  eth_get_drvinfo
 To: Kuen-Han Tsai <khtsai@google.com>,
  Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-Cc: David Heidelberg <david@ixit.cz>, Val Packett <val@packett.cool>,
- linux-usb@vger.kernel.org, linux-kernel@vger.kernel.org,
- stable@vger.kernel.org
+Cc: Val Packett <val@packett.cool>, linux-usb@vger.kernel.org,
+ linux-kernel@vger.kernel.org, stable@vger.kernel.org
 References: <20260316-eth-null-deref-v1-1-07005f33be85@google.com>
 Content-Language: en-US
-From: Aelin Reidel <aelin@mainlining.org>
+From: David Heidelberg <david@ixit.cz>
+Autocrypt: addr=david@ixit.cz; keydata=
+ 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
 In-Reply-To: <20260316-eth-null-deref-v1-1-07005f33be85@google.com>
-Content-Type: text/plain; charset=UTF-8
+Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
 
-On 3/16/26 8:49 AM, Kuen-Han Tsai wrote:
+On 16/03/2026 08:49, Kuen-Han Tsai wrote:
 > Commit ec35c1969650 ("usb: gadget: f_ncm: Fix net_device lifecycle with
 > device_move") reparents the gadget device to /sys/devices/virtual during
 > unbind, clearing the gadget pointer. If the userspace tool queries on
@@ -60,11 +106,11 @@ On 3/16/26 8:49 AM, Kuen-Han Tsai wrote:
 > 
 > Unable to handle kernel NULL pointer dereference
 > Call trace:
->  eth_get_drvinfo+0x50/0x90
->  ethtool_get_drvinfo+0x5c/0x1f0
->  __dev_ethtool+0xaec/0x1fe0
->  dev_ethtool+0x134/0x2e0
->  dev_ioctl+0x338/0x560
+>   eth_get_drvinfo+0x50/0x90
+>   ethtool_get_drvinfo+0x5c/0x1f0
+>   __dev_ethtool+0xaec/0x1fe0
+>   dev_ethtool+0x134/0x2e0
+>   dev_ioctl+0x338/0x560
 > 
 > Add a NULL check for dev->gadget in eth_get_drvinfo(). When detached,
 > skip copying the fw_version and bus_info strings, which is natively
@@ -77,33 +123,10 @@ On 3/16/26 8:49 AM, Kuen-Han Tsai wrote:
 > Cc: stable@vger.kernel.org
 > Signed-off-by: Kuen-Han Tsai <khtsai@google.com>
 > ---
->  drivers/usb/gadget/function/u_ether.c | 6 ++++--
->  1 file changed, 4 insertions(+), 2 deletions(-)
-> 
-> diff --git a/drivers/usb/gadget/function/u_ether.c b/drivers/usb/gadget/function/u_ether.c
-> index 1a9e7c495e2e..a653fae9c0cb 100644
-> --- a/drivers/usb/gadget/function/u_ether.c
-> +++ b/drivers/usb/gadget/function/u_ether.c
-> @@ -113,8 +113,10 @@ static void eth_get_drvinfo(struct net_device *net, struct ethtool_drvinfo *p)
->  
->  	strscpy(p->driver, "g_ether", sizeof(p->driver));
->  	strscpy(p->version, UETH__VERSION, sizeof(p->version));
-> -	strscpy(p->fw_version, dev->gadget->name, sizeof(p->fw_version));
-> -	strscpy(p->bus_info, dev_name(&dev->gadget->dev), sizeof(p->bus_info));
-> +	if (dev->gadget) {
-> +		strscpy(p->fw_version, dev->gadget->name, sizeof(p->fw_version));
-> +		strscpy(p->bus_info, dev_name(&dev->gadget->dev), sizeof(p->bus_info));
-> +	}
->  }
->  
->  /* REVISIT can also support:
-> 
-> ---
-> base-commit: d0d9b1f4f5391e6a00cee81d73ed2e8f98446d5f
-> change-id: 20260316-eth-null-deref-0304bb048267
-> 
-> Best regards,
 
-Thank you for the patch! This does fix the null pointer dereference for me.
+Works for us in sdm845-next too,
 
-Tested-by: Aelin Reidel <aelin@mainlining.org>
+Tested-by: David Heidelberg <david@ixit.cz>
+-- 
+David Heidelberg
+
