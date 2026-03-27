@@ -1,62 +1,82 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.12])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-lf1-f50.google.com (mail-lf1-f50.google.com [209.85.167.50])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 301561474CC
-	for <linux-usb@vger.kernel.org>; Fri, 27 Mar 2026 12:41:22 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.12
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BC5D586323
+	for <linux-usb@vger.kernel.org>; Fri, 27 Mar 2026 12:42:07 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.50
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1774615285; cv=none; b=JDxB1t3W7oIgCBeU4LB6g7KMSvEIBVp8cNx2l6I3dTGIZfuibl3VpLCOjF0+UM4qkU3Ocq8cx8nJ8qof12p9K/JA+cePvXgHvYxbM99hXRlb22ovwKd14jH4TAYz8M4Z0/AWyfipoIIXELzoK3ogvO65XSRC6SaanaKZeo4wVXY=
+	t=1774615329; cv=none; b=rpeGs+4xPkYEy8b7l9aOXuHQbmOltS2YZjj8Pk35AGzh2qynwBTOS/bIaexlpmROustT0Ylk/Ys3c6U6paqFqTlc2qejclYtd6Any8dajV516YKPbe1CbB0raOSy01QRWcVVOxq2I0B2Qnw1UwWdKi5N7gmDdAw+D5HISAsKi4w=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1774615285; c=relaxed/simple;
-	bh=PfkWvlvTBNewUFNXUnUThQHtg6q5nTSgdZEN3foLFmg=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=BGSZ2cSCF/8tM47n3fKGZO1kaRwdSsUgg8yoB8uiKLhKmrJJ58FWANJgoiNoj5CAUHnuaxYwsDAKtofTHJp5tVKQhR2yZ6xcfs+2I21Y2eNt95sA9fY+NmsjtRiQbYo91naxv++EOtyretDaTlg3VCZVAB88KZCm6Q5707ChZSw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=pass smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Wp/5WYbM; arc=none smtp.client-ip=198.175.65.12
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.intel.com
+	s=arc-20240116; t=1774615329; c=relaxed/simple;
+	bh=B3tp398WNbwm1ae+gWHLUuGz3BxoORfZ1NVIHaytnAg=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=btxP/7SnxYW6Ap4ZrnmVRxguvBjavz1uAvuDyzzppopcEdukKD/DTEGgLmPrWPvcRx2BhVPAbyXoVU0BjNXlvxaPP8IERmDekK4nvZX7A5+fweGjI9JqlfFfQSrQJzzUynKL0U8R/9AWSz2jID3MzI8ZR+X0ORA4BQ541QDKoi0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=C9vKBgE0; arc=none smtp.client-ip=209.85.167.50
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Wp/5WYbM"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1774615283; x=1806151283;
-  h=from:to:cc:subject:date:message-id:in-reply-to:
-   references:mime-version:content-transfer-encoding;
-  bh=PfkWvlvTBNewUFNXUnUThQHtg6q5nTSgdZEN3foLFmg=;
-  b=Wp/5WYbMggG8lOX3vqrF9Myd5faykK1jl6Msp+uB5LrfnCx3nARv27D1
-   l8GOa4HsiDTiufXHkZ41J+51aL4TJHrIjSSzi2nUT+jZkl8aF9z3d4CDn
-   sqNOCmrJ/3/XHnuCgE88dgvS/sWTS8crh55w9l3CLcQQ7JJp/MRty42YP
-   Ioe2flev+XmdBazrOeoeNeCMnUNuGuGsl9Zqi+izP/W0tRe+W6OMU2J4A
-   K00RtUAuHkE94L7AUA6PWe+2enSQUmqH2w4LG7fGV/+9hI7S+kYi7SRlc
-   yEvc56gveE9MsCa2QcIRV7iLKhB1JbSEXj0u8w6sfQiNVEt6pmvKe7AmA
-   A==;
-X-CSE-ConnectionGUID: D0QTi8KBQUee+2D4+zMKjA==
-X-CSE-MsgGUID: mTQU3XYHRamqvfRcPUZjTA==
-X-IronPort-AV: E=McAfee;i="6800,10657,11741"; a="87160633"
-X-IronPort-AV: E=Sophos;i="6.23,144,1770624000"; 
-   d="scan'208";a="87160633"
-Received: from fmviesa002.fm.intel.com ([10.60.135.142])
-  by orvoesa104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 27 Mar 2026 05:41:21 -0700
-X-CSE-ConnectionGUID: Labnuc/MTEabb7YsgQ+d/A==
-X-CSE-MsgGUID: ERRio84mTIWdiqG6TsBZyw==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.23,144,1770624000"; 
-   d="scan'208";a="248347709"
-Received: from black.igk.intel.com ([10.91.253.5])
-  by fmviesa002.fm.intel.com with ESMTP; 27 Mar 2026 05:41:19 -0700
-Received: by black.igk.intel.com (Postfix, from userid 1058)
-	id CD4549D; Fri, 27 Mar 2026 13:41:18 +0100 (CET)
-From: Niklas Neronin <niklas.neronin@linux.intel.com>
-To: mathias.nyman@linux.intel.com
-Cc: linux-usb@vger.kernel.org,
-	raoxu@uniontech.com,
-	michal.pecio@gmail.com,
-	Niklas Neronin <niklas.neronin@linux.intel.com>
-Subject: [PATCH 9/9] usb: xhci: optimize resuming from S4 (suspend-to-disk)
-Date: Fri, 27 Mar 2026 13:34:40 +0100
-Message-ID: <20260327123441.806564-10-niklas.neronin@linux.intel.com>
-X-Mailer: git-send-email 2.50.1
-In-Reply-To: <20260327123441.806564-1-niklas.neronin@linux.intel.com>
-References: <20260327123441.806564-1-niklas.neronin@linux.intel.com>
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="C9vKBgE0"
+Received: by mail-lf1-f50.google.com with SMTP id 2adb3069b0e04-5a0fc5e2c59so2465499e87.1
+        for <linux-usb@vger.kernel.org>; Fri, 27 Mar 2026 05:42:07 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20251104; t=1774615326; x=1775220126; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=vnEhmrhTPA7Nd81/VP3XZfiniWMenGZwrrUyIBlvmYM=;
+        b=C9vKBgE0xtvL8Jt4R7jq/jNUIy0sbgkauEQs/mBNZzAfUmhgyPSUM5Ow4bPERhwdaK
+         ++ZA7ixGVWMJcW8PLQI4h0csbGtM3H5Ee9FlG6MzpX5+WLHy7zgCCKFJglqdPS0zg97o
+         85TNJHLNsc+0udA/iPRUcMP6jum219wgf6HQImW1f6Lgv1oIVDfjxUcbK6xcjeBYa4PI
+         NauzZ+vyzdH2DhWqZAb/pQHqHZnNx2gwQtmzdJDax0IA3Q92OqCAUyzo5c04YmpO/KQ6
+         DkRLkBcft98X8VfxPN+DNfGGL+Q0S9Jg+p/5gv4vrKKlLxDxpoGtBYmBAosYaea9ywfA
+         OBpw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1774615326; x=1775220126;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=vnEhmrhTPA7Nd81/VP3XZfiniWMenGZwrrUyIBlvmYM=;
+        b=hgjD3mz9iUWrKEMlvGhkij9GtMARLS0hDDFK+vecqDIsY3Q08f/Lgof8eYT3WVcsPX
+         Mt3CBL29A3baWaYLDuwwq2Sk5b2FF/1NIC/Fxn5DPw+3n5FMPth/3TXK4DLMu4O3BCr1
+         6xm6UxtIq7WWJw5xi7sOao8A2dmQzFnnug3OSG81LmIFw7RRteqjmxZur067LB40uUgi
+         kcZjTWoFF0eJWWL3zlUpdbkpPW8TwdTw7mZJh6/JJnOAiRjLmAQVP6fnO+Qp8kBJ69DT
+         ge3qiPAsfxrlBvB0vxieAY4wSmJzrqndO4P5Pe0uy9tXg9UwfJxnz28Z4fvk+nEDiFwR
+         1bZg==
+X-Forwarded-Encrypted: i=1; AJvYcCVUzEoz4Th6nfOpNjPb0bm3TT7zLvB5X27rnl8ly5sWT99TitfIWrFOFtYjKYhZKt/aFm1YzKTej1M=@vger.kernel.org
+X-Gm-Message-State: AOJu0Ywmn/9Alxl2SanrY5o03o2A+pg8LskTBRHOxFnAIOr6cF6J9ixD
+	RmhKGtwCQB1HTY+Blthvy8QhT2P3rLGDNv+bAuy/AqeN85jAFy5KoMnu
+X-Gm-Gg: ATEYQzz9yBHbOA+BozJ8A5RpIXCHCo1jcckYRFE8JJd2mFcXb1GDDlT1FWJ0opOYdS/
+	Umg2KOub09sNA6UOpz+5gum3jZh4iCYG7nOC3vZmC0Of+aPNqOO6fBw10qbPvTmRPOQmVvF479U
+	4lOcU7hPde8Jh2PSmbHSEAnrYnW5z/uvpg9VD/dAsxUEjQjCPdf72tgHKCTxyRlzao5nAAvTYeI
+	ZOEGK0uF1nA5/bDfi3Hc6kX9cCnstQjyUZF1g/FxAp/3/oLcLftZytWG4cuuFEwZkNTkFNsaBPq
+	3iNP+Xgt0QzgsbV75/MusD2ynmq/d6dNZPlmzx11Bf0mDhc9dngKDXYSpit/u92kZIilhlptnhk
+	cNLdNkuFgAFpk2Cg8iRgNmhLlCD5N/dX471UAWOMEPO9GL93kBC93cZNQOv+EFnHl5B2fTbtQ1e
+	ENqlByiuv6Hw+k/UGwFJSz3Qox1Oc1A59l+A==
+X-Received: by 2002:a05:6512:6c8:b0:5a2:5b88:a8a3 with SMTP id 2adb3069b0e04-5a2ab92854fmr1015552e87.31.1774615325628;
+        Fri, 27 Mar 2026 05:42:05 -0700 (PDT)
+Received: from localhost ([188.234.148.119])
+        by smtp.gmail.com with ESMTPSA id 2adb3069b0e04-5a2a063efbasm1336127e87.14.2026.03.27.05.42.03
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 27 Mar 2026 05:42:04 -0700 (PDT)
+From: Mikhail Gavrilov <mikhail.v.gavrilov@gmail.com>
+To: m.szyprowski@samsung.com,
+	robin.murphy@arm.com
+Cc: iommu@lists.linux.dev,
+	linux-kernel@vger.kernel.org,
+	linux-usb@vger.kernel.org,
+	linux-mm@kvack.org,
+	harry@kernel.org,
+	vbabka@kernel.org,
+	akpm@linux-foundation.org,
+	stern@rowland.harvard.edu,
+	linux@roeck-us.net,
+	andy.shevchenko@gmail.com,
+	hch@lst.de,
+	Jeff.kirsher@gmail.com,
+	catalin.marinas@arm.com,
+	Mikhail Gavrilov <mikhail.v.gavrilov@gmail.com>
+Subject: [PATCH v2] dma-debug: suppress cacheline overlap warning when arch has no DMA alignment requirement
+Date: Fri, 27 Mar 2026 17:41:56 +0500
+Message-ID: <20260327124156.24820-1-mikhail.v.gavrilov@gmail.com>
+X-Mailer: git-send-email 2.53.0
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
@@ -65,161 +85,70 @@ List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-On resume from S4 (power loss after suspend/hibernation), the xHCI
-driver previously freed, reallocated, and fully reinitialized all
-data structures. Most of this is unnecessary because the data is
-restored from a saved image; only the xHCI registers lose their values.
+When CONFIG_DMA_API_DEBUG is enabled, the DMA debug infrastructure
+tracks active mappings per cacheline and warns if two different DMA
+mappings share the same cacheline ("cacheline tracking EEXIST,
+overlapping mappings aren't supported").
 
-This patch optimizes S4 resume by performing only a host controller
-reset, which includes:
-* Freeing or clearing runtime-created data.
-* Rewriting xHCI registers.
+On x86_64, ARCH_KMALLOC_MINALIGN defaults to 8, so small kmalloc
+allocations (e.g. the 8-byte hub->buffer and hub->status in the USB
+hub driver) frequently land in the same 64-byte cacheline.  When both
+are DMA-mapped, this triggers a false positive warning.
 
-Signed-off-by: Niklas Neronin <niklas.neronin@linux.intel.com>
+This has been reported repeatedly since v5.14 (when the EEXIST check
+was added) across various USB host controllers and devices including
+xhci_hcd with USB hubs, USB audio devices, and USB ethernet adapters.
+
+The cacheline overlap is only a real concern on architectures that
+require DMA buffer alignment to cacheline boundaries (i.e. where
+ARCH_DMA_MINALIGN >= L1_CACHE_BYTES).  On architectures like x86_64
+where dma_get_cache_alignment() returns 1, the hardware is
+cache-coherent and overlapping cacheline mappings are harmless.
+
+Suppress the EEXIST warning when dma_get_cache_alignment() is less
+than L1_CACHE_BYTES, indicating the architecture does not require
+cacheline-aligned DMA buffers.
+
+Verified with a kernel module reproducer that performs two kmalloc(8)
+allocations back-to-back and DMA-maps both:
+
+  Before: allocations share a cacheline, EEXIST fires within ~50 pairs
+  After:  same cacheline pair found, but no warning emitted
+
+Fixes: 2b4bbc6231d7 ("dma-debug: report -EEXIST errors in add_dma_entry")
+Link: https://bugzilla.kernel.org/show_bug.cgi?id=215740
+Suggested-by: Harry Yoo <harry@kernel.org>
+Tested-by: Mikhail Gavrilov <mikhail.v.gavrilov@gmail.com>
+Signed-off-by: Mikhail Gavrilov <mikhail.v.gavrilov@gmail.com>
 ---
- drivers/usb/host/xhci-mem.c |  4 +--
- drivers/usb/host/xhci.c     | 53 ++++++++++++++++++++++---------------
- drivers/usb/host/xhci.h     |  2 ++
- 3 files changed, 35 insertions(+), 24 deletions(-)
 
-diff --git a/drivers/usb/host/xhci-mem.c b/drivers/usb/host/xhci-mem.c
-index f1b4f06d4b8b..4156822eb000 100644
---- a/drivers/usb/host/xhci-mem.c
-+++ b/drivers/usb/host/xhci-mem.c
-@@ -936,7 +936,7 @@ void xhci_free_virt_device(struct xhci_hcd *xhci, struct xhci_virt_device *dev,
-  * that tt_info, then free the child first. Recursive.
-  * We can't rely on udev at this point to find child-parent relationships.
-  */
--static void xhci_free_virt_devices_depth_first(struct xhci_hcd *xhci, int slot_id)
-+void xhci_free_virt_devices_depth_first(struct xhci_hcd *xhci, int slot_id)
- {
- 	struct xhci_virt_device *vdev;
- 	struct list_head *tt_list_head;
-@@ -1905,7 +1905,7 @@ void xhci_remove_secondary_interrupter(struct usb_hcd *hcd, struct xhci_interrup
- EXPORT_SYMBOL_GPL(xhci_remove_secondary_interrupter);
- 
- /* Cleanup roothub bandwidth data */
--static void xhci_rh_bw_cleanup(struct xhci_hcd *xhci)
-+void xhci_rh_bw_cleanup(struct xhci_hcd *xhci)
- {
- 	struct xhci_root_port_bw_info *rh_bw;
- 	struct xhci_tt_bw_info *tt_info, *tt_next;
-diff --git a/drivers/usb/host/xhci.c b/drivers/usb/host/xhci.c
-index 232e6143ac4b..8fb2b91fc0cc 100644
---- a/drivers/usb/host/xhci.c
-+++ b/drivers/usb/host/xhci.c
-@@ -1082,9 +1082,11 @@ int xhci_resume(struct xhci_hcd *xhci, bool power_lost, bool is_auto_resume)
- {
- 	u32			command, temp = 0;
- 	struct usb_hcd		*hcd = xhci_to_hcd(xhci);
-+	struct xhci_segment	*seg;
- 	int			retval = 0;
- 	bool			pending_portevent = false;
- 	bool			suspended_usb3_devs = false;
-+	bool			reset_registers = false;
- 
- 	if (!hcd->state)
- 		return 0;
-@@ -1103,10 +1105,11 @@ int xhci_resume(struct xhci_hcd *xhci, bool power_lost, bool is_auto_resume)
- 
- 	spin_lock_irq(&xhci->lock);
- 
--	if (xhci->quirks & XHCI_RESET_ON_RESUME || xhci->broken_suspend)
--		power_lost = true;
--
--	if (!power_lost) {
-+	if (power_lost || xhci->broken_suspend || xhci->quirks & XHCI_RESET_ON_RESUME) {
-+		xhci_dbg(xhci, "HC state lost, performing host controller reset\n");
-+		reset_registers = true;
-+	} else {
-+		xhci_dbg(xhci, "HC state intact, continuing without reset\n");
- 		/*
- 		 * Some controllers might lose power during suspend, so wait
- 		 * for controller not ready bit to clear, just as in xHC init.
-@@ -1144,11 +1147,11 @@ int xhci_resume(struct xhci_hcd *xhci, bool power_lost, bool is_auto_resume)
- 		temp = readl(&xhci->op_regs->status);
- 		if ((temp & (STS_SRE | STS_HCE)) && !(xhci->xhc_state & XHCI_STATE_REMOVING)) {
- 			xhci_warn(xhci, "xHC error in resume, USBSTS 0x%x, Reinit\n", temp);
--			power_lost = true;
-+			reset_registers = true;
- 		}
- 	}
- 
--	if (power_lost) {
-+	if (reset_registers) {
- 		if ((xhci->quirks & XHCI_COMP_MODE_QUIRK) &&
- 				!(xhci_all_ports_seen_u0(xhci))) {
- 			timer_delete_sync(&xhci->comp_mode_recovery_timer);
-@@ -1172,27 +1175,33 @@ int xhci_resume(struct xhci_hcd *xhci, bool power_lost, bool is_auto_resume)
- 		if (retval)
- 			return retval;
- 
--		xhci_dbg(xhci, "// Disabling event ring interrupts\n");
--		temp = readl(&xhci->op_regs->status);
--		writel((temp & ~0x1fff) | STS_EINT, &xhci->op_regs->status);
--		xhci_disable_interrupter(xhci, xhci->interrupters[0]);
-+		cancel_delayed_work_sync(&xhci->cmd_timer);
-+
-+		/* Delete all remaining commands */
-+		xhci_cleanup_command_queue(xhci);
-+
-+		/* Clear data which is re-initilized during runtime */
-+		xhci_for_each_ring_seg(xhci->interrupters[0]->event_ring->first_seg, seg)
-+			memset(seg->trbs, 0, sizeof(union xhci_trb) * TRBS_PER_SEGMENT);
-+
-+		for (int i = xhci->max_slots; i > 0; i--)
-+			xhci_free_virt_devices_depth_first(xhci, i);
-+
-+		xhci_rh_bw_cleanup(xhci);
-+
-+		xhci->cmd_ring_reserved_trbs = 0;
-+		xhci_for_each_ring_seg(xhci->cmd_ring->first_seg, seg)
-+			memset(seg->trbs, 0, sizeof(union xhci_trb) * TRBS_PER_SEGMENT);
- 
--		xhci_dbg(xhci, "cleaning up memory\n");
--		xhci_mem_cleanup(xhci);
- 		xhci_debugfs_exit(xhci);
--		xhci_dbg(xhci, "xhci_stop completed - status = %x\n",
--			    readl(&xhci->op_regs->status));
--
--		/* USB core calls the PCI reinit and start functions twice:
--		 * first with the primary HCD, and then with the secondary HCD.
--		 * If we don't do the same, the host will never be started.
--		 */
--		retval = xhci_mem_init(xhci, GFP_KERNEL);
--		if (retval)
--			return retval;
- 
- 		xhci_init(hcd);
- 
-+		/*
-+		 * USB core calls the PCI reinit and start functions twice:
-+		 * first with the primary HCD, and then with the secondary HCD.
-+		 * If we don't do the same, the host will never be started.
-+		 */
- 		xhci_dbg(xhci, "Start the primary HCD\n");
- 		retval = xhci_run(hcd);
- 		if (!retval && xhci->shared_hcd) {
-diff --git a/drivers/usb/host/xhci.h b/drivers/usb/host/xhci.h
-index ade0198bf9ea..a76e183515b3 100644
---- a/drivers/usb/host/xhci.h
-+++ b/drivers/usb/host/xhci.h
-@@ -1792,6 +1792,7 @@ void xhci_dbg_trace(struct xhci_hcd *xhci, void (*trace)(struct va_format *),
- void xhci_mem_cleanup(struct xhci_hcd *xhci);
- int xhci_mem_init(struct xhci_hcd *xhci, gfp_t flags);
- void xhci_free_virt_device(struct xhci_hcd *xhci, struct xhci_virt_device *dev, int slot_id);
-+void xhci_free_virt_devices_depth_first(struct xhci_hcd *xhci, int slot_id);
- int xhci_alloc_virt_device(struct xhci_hcd *xhci, int slot_id, struct usb_device *udev, gfp_t flags);
- int xhci_setup_addressable_virt_dev(struct xhci_hcd *xhci, struct usb_device *udev);
- void xhci_copy_ep0_dequeue_into_input_ctx(struct xhci_hcd *xhci,
-@@ -1803,6 +1804,7 @@ void xhci_update_tt_active_eps(struct xhci_hcd *xhci,
- 		struct xhci_virt_device *virt_dev,
- 		int old_active_eps);
- void xhci_clear_endpoint_bw_info(struct xhci_bw_info *bw_info);
-+void xhci_rh_bw_cleanup(struct xhci_hcd *xhci);
- void xhci_update_bw_info(struct xhci_hcd *xhci,
- 		struct xhci_container_ctx *in_ctx,
- 		struct xhci_input_control_ctx *ctrl_ctx,
+v1 -> v2:
+  - Moved fix from include/linux/slab.h (ARCH_KMALLOC_MINALIGN)
+    to kernel/dma/debug.c per Harry Yoo's suggestion.
+  - Instead of forcing cacheline-aligned allocations, suppress
+    the warning when the architecture has no DMA alignment
+    requirement (dma_get_cache_alignment() < L1_CACHE_BYTES).
+
+v1: https://lore.kernel.org/all/20260327055846.248829-1-mikhail.v.gavrilov@gmail.com/
+
+Reproducer module that triggers the bug reliably:
+  https://bugzilla.kernel.org/attachment.cgi?id=309769
+
+ kernel/dma/debug.c | 1 +
+ 1 file changed, 1 insertion(+)
+
+diff --git a/kernel/dma/debug.c b/kernel/dma/debug.c
+index 0677918f06a8..1a725edbbbf6 100644
+--- a/kernel/dma/debug.c
++++ b/kernel/dma/debug.c
+@@ -615,6 +615,7 @@ static void add_dma_entry(struct dma_debug_entry *entry, unsigned long attrs)
+ 	} else if (rc == -EEXIST &&
+ 		   !(attrs & DMA_ATTR_SKIP_CPU_SYNC) &&
+ 		   !(entry->is_cache_clean && overlap_cache_clean) &&
++		   dma_get_cache_alignment() >= L1_CACHE_BYTES &&
+ 		   !(IS_ENABLED(CONFIG_DMA_BOUNCE_UNALIGNED_KMALLOC) &&
+ 		     is_swiotlb_active(entry->dev))) {
+ 		err_printk(entry->dev, entry,
 -- 
-2.50.1
+2.53.0
 
