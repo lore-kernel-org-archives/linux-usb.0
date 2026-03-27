@@ -1,31 +1,30 @@
 Received: from outboundhk.mxmail.xiaomi.com (outboundhk.mxmail.xiaomi.com [118.143.206.90])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id E9616225775;
-	Fri, 27 Mar 2026 02:37:31 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 78DD03090F4;
+	Fri, 27 Mar 2026 02:44:21 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=118.143.206.90
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1774579054; cv=none; b=DtQ4lfZCKIV8qmDNgXwTjd+PoN9ePDKoSymruCMOBZmsT73lnlxK9eTiVxVAmF6ryaOA7A2QuYg8NsIPg2p+g3d3y8eOG4lSApck6Khjhl4LQthkzLb4mpQ18+eBi3c77O1HupbloTHeW48aLflqe0OU+FYNbculCxDSxN2zkS4=
+	t=1774579465; cv=none; b=guIZe9EPGK/uxdpMZ2U0b4rdIgnK4PvVbw4kcoY0u18JEgf+3wSsAmBV8UqrEFF0NezaFDkl8bb7rsi2fcNs4Cbi3md7faPrcCbeoObD1s1w1R+3Y0cfSQu+mWF2WAF5kcHL0SofT+FGQqb2uE7hXSz+sz/9rtCPOC8T3MDkrQw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1774579054; c=relaxed/simple;
+	s=arc-20240116; t=1774579465; c=relaxed/simple;
 	bh=peJJaHsjLqEK05OjKSP0jF59iOfq+EQDL41e+emQEio=;
 	h=Date:From:To:CC:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=qSoKA92OCDdOdRU4ZfxK9IjAleDwGbRDUBiC+vWRIIY2Pdu6fwQ9LdqaTu2BT1EnRtCG7o0w5E8CUWarT1qVkAGqi4rwiwznRQOhciPbraub5Xb5j26A5sAEShgEbVVJoVN8P5Qy9/sNu6xO6vWcEahAZ3ZxDMlZJv/djujeOYM=
+	 Content-Type:Content-Disposition:In-Reply-To; b=KFFky/jATR070casXM4D4t6ELsuGz3veQodtttZ0AyTsikuKJD+LPuLPGnW9VadfrV5UPWsxDut+qhWVLo43aoIMEVyGT6thqxzXXLWxLdNueDGver8Qgz6sFlJ/FweZ9NypXuuRggDd+9snlc3Xq7fFG5sl1eGATQx6yi4phFE=
 ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=xiaomi.com; spf=pass smtp.mailfrom=xiaomi.com; arc=none smtp.client-ip=118.143.206.90
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=xiaomi.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=xiaomi.com
-X-CSE-ConnectionGUID: b284LUQbTHCVcXCLpRTR7Q==
-X-CSE-MsgGUID: HOVBZ9OrS/2ZUCrNpm1DVQ==
+X-CSE-ConnectionGUID: lnsJvOpWTqyzRzuc4I0aMQ==
+X-CSE-MsgGUID: kceDxBe3Q8uNdUy5CiXOiA==
 X-IronPort-AV: E=Sophos;i="6.23,143,1770566400"; 
-   d="scan'208";a="144765364"
-Date: Fri, 27 Mar 2026 10:36:15 +0800
+   d="scan'208";a="144766630"
+Date: Fri, 27 Mar 2026 10:44:13 +0800
 From: Dayu Jiang <jiangdayu@xiaomi.com>
 To: Kuen-Han Tsai <khtsai@google.com>, Greg Kroah-Hartman
 	<gregkh@linuxfoundation.org>
-CC: David Brownell <dbrownell@users.sourceforge.net>,
-	<linux-usb@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
+CC: <linux-usb@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
 	<stable@vger.kernel.org>
 Subject: Re: [PATCH] usb: gadget: u_ether: Fix race between gether_disconnect
  and eth_stop
-Message-ID: <acXtH0+AtQ52eHrz@oa-jiangdayu.localdomain>
+Message-ID: <acXu/Vr/+OAq2jqU@oa-jiangdayu.localdomain>
 References: <20260311-gether-disconnect-npe-v1-1-454966adf7c7@google.com>
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
@@ -37,7 +36,7 @@ Content-Type: text/plain; charset="gbk"
 Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
 In-Reply-To: <20260311-gether-disconnect-npe-v1-1-454966adf7c7@google.com>
-X-ClientProxiedBy: bj-mbx11.mioffice.cn (10.237.8.131) To BJ-MBX03.mioffice.cn
+X-ClientProxiedBy: BJ-MBX04.mioffice.cn (10.237.8.124) To BJ-MBX03.mioffice.cn
  (10.237.8.123)
 
 On Wed, Mar 11, 2026 at 05:12:15PM +0800, Kuen-Han Tsai wrote:
