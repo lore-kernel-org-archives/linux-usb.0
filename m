@@ -1,149 +1,134 @@
-Received: from foss.arm.com (foss.arm.com [217.140.110.172])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 0723737AA91;
-	Fri, 27 Mar 2026 12:26:22 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.140.110.172
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1774614384; cv=none; b=GDLvZh9zn5YGJFnyLzMFv4C20o3XJXqgMvOBpXUoKrBIAKFkZ622+NZ20kAewqY4jOGyI9snzzQAgsxOWha1IhEN8MaYsImipvdzCQhUfCALWxfKBJl0or40RNerVDCM6acKimoGDqyhwiwhzYmq/lnGoZP9YouFKzpnKeV4UF0=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1774614384; c=relaxed/simple;
-	bh=3b/hWGfyYHUW6app5fUiIeJn8/Q3oXHdpndPl/twz4c=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=YeCHV5gpdOhe12Bnc8G9Sj86FKa76qGoo1KoA0cQQlyynAsChDwBbLQ/AFlkDlMpFrtjDwUhiLZXiNIsyYQhWxMlSbM1pMjSVQ9x/IjVitsQk/KO9v8OJMqCrq0TcOXBM58ZSDMgrD+c6XEJnihmlw+w3rdc8PXc4wwAy/KUNmA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com; spf=pass smtp.mailfrom=arm.com; dkim=pass (1024-bit key) header.d=arm.com header.i=@arm.com header.b=q8Uvnk/M; arc=none smtp.client-ip=217.140.110.172
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=arm.com
+Received: from mail-ej1-f51.google.com (mail-ej1-f51.google.com [209.85.218.51])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+	(No client certificate requested)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9B2A121ADC7
+	for <linux-usb@vger.kernel.org>; Fri, 27 Mar 2026 12:35:37 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.218.51
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1774614939; cv=pass; b=ZQ/V99690AysLdW4n0KRaaWEyuBmY6q6+0hp42nWvipDsjKZiiGg57rbLY9lSC46wAeIA8jlgRg8q+4wYUT2pfJPFDySFsT5+F1GbvDVkqF7OSCdSP6wJsUbJ9dEYZjEs1onjslzgv9f1mKkG5M81UTBsPukOfnHXY73Z1w+ouE=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1774614939; c=relaxed/simple;
+	bh=5cOyBNoqrTish9nBBS87UAnS6CU3/R9H+gkn7UHvmow=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=NfW4oJAntytHXwNoqQ00TSNVWcVt3MNs2bXXvm3JqEVzQhKUloS3VoolIE6r+RQ8F0O3g98jhh+r5BCy34Vmk+2W+iGafDY1Ysj4zD0vgYTkiKsDvPNDKO2ugaqvWs9vStEMECfWWbpgI0nRZnvSwQRbqMWtjluP/E4cbUO0MVM=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=hDTOTZSl; arc=pass smtp.client-ip=209.85.218.51
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=arm.com header.i=@arm.com header.b="q8Uvnk/M"
-Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
-	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 773232BC0;
-	Fri, 27 Mar 2026 05:26:16 -0700 (PDT)
-Received: from arm.com (usa-sjc-mx-foss1.foss.arm.com [172.31.20.19])
-	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 21A223F641;
-	Fri, 27 Mar 2026 05:26:20 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple; d=arm.com; s=foss;
-	t=1774614382; bh=3b/hWGfyYHUW6app5fUiIeJn8/Q3oXHdpndPl/twz4c=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=q8Uvnk/MiNqXPUx5lsc6/r4nOTgcGl6iLl/9H20jXWBrMBxpzGv8KQv/uJ3e8M9QQ
-	 VavljMayMpegvZLFdL1PgADtsO2tBFFZnYVwUJxKMy767ZRvS+3AQRS0ruN8tPy3qe
-	 Sgsf8LReOo2OMWkjyoBMlFChAbMBx6rv1uGrBG4s=
-Date: Fri, 27 Mar 2026 12:26:13 +0000
-From: Catalin Marinas <catalin.marinas@arm.com>
-To: Mikhail Gavrilov <mikhail.v.gavrilov@gmail.com>
-Cc: vbabka@kernel.org, harry.yoo@oracle.com, akpm@linux-foundation.org,
-	hao.li@linux.dev, cl@gentwo.org, rientjes@google.com,
-	roman.gushchin@linux.dev, linux-mm@kvack.org,
-	linux-kernel@vger.kernel.org, linux-usb@vger.kernel.org,
-	stern@rowland.harvard.edu, linux@roeck-us.net,
-	andy.shevchenko@gmail.com, hch@lst.de, Jeff.kirsher@gmail.com,
-	Marek Szyprowski <m.szyprowski@samsung.com>,
-	Robin Murphy <robin.murphy@arm.com>
-Subject: Re: [PATCH] mm/slab: align kmalloc to cacheline when DMA API
- debugging is active
-Message-ID: <acZ3ZUXhFHpSXzYS@arm.com>
-References: <20260327055846.248829-1-mikhail.v.gavrilov@gmail.com>
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="hDTOTZSl"
+Received: by mail-ej1-f51.google.com with SMTP id a640c23a62f3a-b936331786dso229983666b.3
+        for <linux-usb@vger.kernel.org>; Fri, 27 Mar 2026 05:35:37 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1774614936; cv=none;
+        d=google.com; s=arc-20240605;
+        b=dDrUOq20xijFGZuVixpF5QJD1DKdWCeVzGupbu2/vHBirjCptB99XpLVCPg1BcI0t1
+         I2WAhJOY0Uju/J6V4qsyVAJ4nvglBEULgs+SgIRD9fJU+mjNR7mViHHz/1DEfiChTXl9
+         7i8jZc2ygXGLMRa4FLvsCXhbq2aIQ5fD34p70rjNgMGvfhK4o7D8nbbQ1hxXWbU4GZnJ
+         3UiMGmimKhwTHt4rcj3xFLMjP3R2nkBrPH+2I4IR97ETZ0BpfeSBTelUaDXhf/d7Ugyd
+         TwbXAWXIOQCqcoeh1MRS4vhSSuPhg8vq6WMpp/F3DZWde7alZ8F96K+phIxoIAl0nv2o
+         nj1A==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:dkim-signature;
+        bh=5cOyBNoqrTish9nBBS87UAnS6CU3/R9H+gkn7UHvmow=;
+        fh=ycO3rTy+/ay3vChLPKZ8ZdZsi4BLWN/HpmfCKky+DOQ=;
+        b=QCluzDvcqabjf4TmRrrFM2C2/6lkyhVdxiYWp2qKpJ2pzM46QagN5wp0/pKr3VsNoZ
+         CxEn1DRISGLIar+2MhFNJn/wP6lW9htFHx6d1wNIDuP9gFilN5BLakRK/2nQcATMhE+m
+         wRTcWPzSrJv1+BgpByxzJ3afmvqUDABCJsIdGYKDE57dJLTOqMKBkm18niNfKv4BAXKA
+         wDvUSgAW0mEZZDXS+RpJBx4uNiOhRln7331c4OuPsxj87UfF1+KheovahqRBIeK1ypKR
+         hdzzHIObbUVo7t+btZBv/owFQk/52MMq7rU6q555X1z9oaPsMe9wn3rYfE7BsQ1ew4b4
+         kxoA==;
+        darn=vger.kernel.org
+ARC-Authentication-Results: i=1; mx.google.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20251104; t=1774614936; x=1775219736; darn=vger.kernel.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=5cOyBNoqrTish9nBBS87UAnS6CU3/R9H+gkn7UHvmow=;
+        b=hDTOTZSl8giVTfchqfV1qmgf27MF/qdda6lMtUPEsJgLk6b5H5LsQ0Jl5knXo6igdU
+         ulAVPyKxvwSd392+aI7Kwq+ZD1q5jeL1x1xyCtt2ngLHEAt03Q5Xk95XW6/irQhCHY2K
+         CaO9iunTyJdkP23j8YUKe1ppnFQ80erIFlhi31M+wMuGVIAu/Fhi/UxS8Vc0lK8gzjq5
+         WJl8CQnI+84YsOeo+RJJc8Oj5gACtNYk7uJ/61QA5aDWW0uga4QMfJMsOG1uQHCBgey/
+         MIPHguneBhfL6YFnMg13xV2NVGYVBAgwnDWKuD0ntV3caql4L7D26u1LKHpu2d/07kMp
+         HZ+Q==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1774614936; x=1775219736;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
+         :to:cc:subject:date:message-id:reply-to;
+        bh=5cOyBNoqrTish9nBBS87UAnS6CU3/R9H+gkn7UHvmow=;
+        b=pfUodJslK45GbAGPj0PLdFk3sJlDZO9QRhjk5LN1Cx8Nb3SRG5xrP703vZo0z3KFL3
+         kqWMNgjIHVKC3/PEtRP/+AkwdSJdhEbAUQ1OeooHAd48u/Q5mhXeGb9xPgNYHoShK3MC
+         imYx7WGMuQYgHuWfiiAyCr58k7SSGnAeuY5g58zyPguYYmu59PwPETCOe51Iuylo3aJ4
+         oc07iHaDRcWQsK4acrJ1bqWQvDIuMCakZFppJ6UrlR/QFI6Y98z/a1qdQn/NSANtn4TE
+         ZKy3Cifr23w+SI1PAuYl5idlpshN0kYck6gJrg42+HjftYQFUQ4AFRlSDE+uRfNjw1iJ
+         NM7w==
+X-Forwarded-Encrypted: i=1; AJvYcCVupC3q6P+Sd8VXjC9Bhs+lUsnJ4QDsCHXYYhMFNysH9YRFFJi7LpAEiblNJZtL0cIirmgy8+UrXMw=@vger.kernel.org
+X-Gm-Message-State: AOJu0YxCnuoPnp8pmwwPe0NMKouSpw0dtnRv6D3ht92MEeEhWsn66Pmn
+	0nZDNj2Nml2qwpFnYUNc2PFZxGn1gEw2QtdIjPtpud5UB/MgjJ4qw9SB1IbNbEvdlCjqZnXZxq2
+	b4Iftq/jbN7jCfAwY7lPIzUYsBwAkqrc=
+X-Gm-Gg: ATEYQzxgHrzmLncj8trJetIKqUEQMXlivT1+NVLzf91Xpvv63Kb2TileC3c+SZfZKvz
+	/Li1fcqYwPxr5Sqi+PGf46akc7aSogS4GW0OtAKCJwXhW8VkOVmfCXqeg1B6t7LMyyLHW6fBBqR
+	OmxF470llljSivaRG94ax5u4PTy+TdTq1rm8jWIEnHHsthHIChfz0tYTTF9/dER6ssM1KUed2/2
+	7M026UwPzUIRonok0i724PObiN+jy/PO6pd7ygkknU7nx8zMnIcB1t5XyMm6Hjm496jsaS9GkFl
+	nZwVrdJ5BfjXCcl7ALcxfa4AsSEp8Vqaaia5FrJN7FcPisNE2NvYWOwDRtev0IjQYKQNyt/XvyV
+	XqMQUWQs=
+X-Received: by 2002:a17:907:3f07:b0:b8f:b32e:e196 with SMTP id
+ a640c23a62f3a-b9b507b20ebmr158948066b.30.1774614935669; Fri, 27 Mar 2026
+ 05:35:35 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20260327055846.248829-1-mikhail.v.gavrilov@gmail.com>
+References: <20260327055846.248829-1-mikhail.v.gavrilov@gmail.com> <acZ3ZUXhFHpSXzYS@arm.com>
+In-Reply-To: <acZ3ZUXhFHpSXzYS@arm.com>
+From: Andy Shevchenko <andy.shevchenko@gmail.com>
+Date: Fri, 27 Mar 2026 14:34:58 +0200
+X-Gm-Features: AQROBzAf3n6UCCCVOWz8_h19fmxDUeJxeUYrZ9qKYYIvgXaEOz3JyzyW2dWdB10
+Message-ID: <CAHp75Ved0H=QE0CDfThdOexi0BE2JKrcmTnv1GQJyrf0_-M9fg@mail.gmail.com>
+Subject: Re: [PATCH] mm/slab: align kmalloc to cacheline when DMA API
+ debugging is active
+To: Catalin Marinas <catalin.marinas@arm.com>
+Cc: Mikhail Gavrilov <mikhail.v.gavrilov@gmail.com>, vbabka@kernel.org, harry.yoo@oracle.com, 
+	akpm@linux-foundation.org, hao.li@linux.dev, cl@gentwo.org, 
+	rientjes@google.com, roman.gushchin@linux.dev, linux-mm@kvack.org, 
+	linux-kernel@vger.kernel.org, linux-usb@vger.kernel.org, 
+	stern@rowland.harvard.edu, linux@roeck-us.net, hch@lst.de, 
+	Jeff.kirsher@gmail.com, Marek Szyprowski <m.szyprowski@samsung.com>, 
+	Robin Murphy <robin.murphy@arm.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-+ Marek, Robin
+On Fri, Mar 27, 2026 at 2:26=E2=80=AFPM Catalin Marinas <catalin.marinas@ar=
+m.com> wrote:
+> On Fri, Mar 27, 2026 at 10:58:46AM +0500, Mikhail Gavrilov wrote:
 
-On Fri, Mar 27, 2026 at 10:58:46AM +0500, Mikhail Gavrilov wrote:
-> When CONFIG_DMA_API_DEBUG is enabled, the DMA debug infrastructure
-> tracks active mappings per cacheline and warns if two different DMA
-> mappings share the same cacheline ("cacheline tracking EEXIST,
-> overlapping mappings aren't supported").
-> 
-> On x86_64, ARCH_KMALLOC_MINALIGN defaults to 8, so small kmalloc
-> allocations (e.g. the 8-byte hub->buffer and hub->status in the USB
-> hub driver) frequently land in the same 64-byte cacheline.  When both
-> are DMA-mapped, this triggers a false positive warning.
-> 
-> This has been reported repeatedly since v5.14 (when the EEXIST check
-> was added) across various USB host controllers and devices including
-> xhci_hcd with USB hubs, USB audio devices, and USB ethernet adapters.
 
-This indeed has come up regularly in the past years.
+> TL;DR: I think this is fine:
+>
+> Reviewed-by: Catalin Marinas <catalin.marinas@arm.com>
+>
+> I'm not sure that's the best way to hide the warning but there
+> are no great solutions either. On one hand, we want the DMA debug to
+> capture potential problems on architectures it's not running on. OTOH,
+> we also want to avoid false positives on coherent architectures/devices.
+> I don't think reconciling the two requirements is easy.
+>
+> When DMA_API_DEBUG is enabled, the above will change the x86 behaviour
+> that could have implications beyond DMA (e.g. may not catch some buffer
+> overflow because it's within L1_CACHE_BYTES). Similarly for non-coherent
+> architectures that select DMA_BOUNCE_UNALIGNED_KMALLOC (arm64 and riscv
+> currently). arm64 defines ARCH_DMA_MINALIGN to 128 but
+> ARCH_KMALLOC_MINALIGN to 8 (why 128 is larger than L1_CACHE_BYTES is
+> another matter but let's ignore it for now).
 
-> +/*
-> + * Align memory allocations to cache lines if DMA API debugging is active
-> + * to avoid false positive DMA overlapping error messages.
-> + */
-> +#ifdef CONFIG_DMA_API_DEBUG
-> +#ifndef ARCH_KMALLOC_MINALIGN
-> +#define ARCH_KMALLOC_MINALIGN  L1_CACHE_BYTES
-> +#elif ARCH_KMALLOC_MINALIGN < L1_CACHE_BYTES
-> +#undef ARCH_KMALLOC_MINALIGN
-> +#define ARCH_KMALLOC_MINALIGN  L1_CACHE_BYTES
-> +#endif
-> +#endif
+Maybe for the cases where we do not warn we should introduce a
+dev_dbg_/pr_debug_once()? At least users may be informed about potential is=
+sues.
 
-TL;DR: I think this is fine:
 
-Reviewed-by: Catalin Marinas <catalin.marinas@arm.com>
-
-I'm not sure that's the best way to hide the warning but there
-are no great solutions either. On one hand, we want the DMA debug to
-capture potential problems on architectures it's not running on. OTOH,
-we also want to avoid false positives on coherent architectures/devices.
-I don't think reconciling the two requirements is easy.
-
-When DMA_API_DEBUG is enabled, the above will change the x86 behaviour
-that could have implications beyond DMA (e.g. may not catch some buffer
-overflow because it's within L1_CACHE_BYTES). Similarly for non-coherent
-architectures that select DMA_BOUNCE_UNALIGNED_KMALLOC (arm64 and riscv
-currently). arm64 defines ARCH_DMA_MINALIGN to 128 but
-ARCH_KMALLOC_MINALIGN to 8 (why 128 is larger than L1_CACHE_BYTES is
-another matter but let's ignore it for now).
-
-More of a thinking out loud, we have:
-
-1. Coherent architectures - alignment doesn't matter
-
-2. Non-coherent architectures with:
-   a) Sufficiently large ARCH_KMALLOC_MINALIGN
-   b) Small ARCH_KMALLOC_MINALIGN but DMA_BOUNCE_UNALIGNED_KMALLOC
-   c) Broken config - forgot to set ARCH_DMA_MINALIGN or bouncing
-
-We can ignore (2.c), the aim of the DMA debug is to catch wrong uses in
-drivers. If drivers is the only goal, the above change will do when
-running on (1) or (2.a) hardware - it will catch sub-L1_CACHE_BYTES
-buffers from drivers while assuming kmalloc() machinery is safe.
-However, if running on (2.b) it won't catch anything that may be
-problematic on (2.a) since the DMA debug ignores the overlap.
-
-We could make DMA_BOUNCE_UNALIGNED_KMALLOC dependent on !DMA_API_DEBUG
-but it would be nice to be able to sanity-check the bouncing logic.
-Well, it wasn't checking it before and with commit 03521c892bb8
-("dma-debug: don't report false positives with
-DMA_BOUNCE_UNALIGNED_KMALLOC"), we made this clear that overlapping will
-be ignored.
-
-Irrespective of whether we disable bouncing with DMA_API_DEBUG, maybe we
-could replace the above commit with:
-
-diff --git a/kernel/dma/mapping.c b/kernel/dma/mapping.c
-index 3928a509c44c..488045ef6245 100644
---- a/kernel/dma/mapping.c
-+++ b/kernel/dma/mapping.c
-@@ -175,7 +175,7 @@ dma_addr_t dma_map_phys(struct device *dev, phys_addr_t phys, size_t size,
- 	if (!is_mmio)
- 		kmsan_handle_dma(phys, size, dir);
- 	trace_dma_map_phys(dev, phys, addr, size, dir, attrs);
--	debug_dma_map_phys(dev, phys, size, dir, addr, attrs);
-+	debug_dma_map_phys(dev, dma_to_phys(addr), size, dir, addr, attrs);
-
- 	return addr;
- }
-
-Anyway, this I think is unrelated to the proposed change affecting x86,
-more of a how to make the DMA API debugging more useful when running on
-arm64 or riscv.
-
--- 
-Catalin
+--=20
+With Best Regards,
+Andy Shevchenko
