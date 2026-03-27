@@ -1,134 +1,94 @@
-Received: from mail-ej1-f51.google.com (mail-ej1-f51.google.com [209.85.218.51])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.12])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9B2A121ADC7
-	for <linux-usb@vger.kernel.org>; Fri, 27 Mar 2026 12:35:37 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.218.51
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1774614939; cv=pass; b=ZQ/V99690AysLdW4n0KRaaWEyuBmY6q6+0hp42nWvipDsjKZiiGg57rbLY9lSC46wAeIA8jlgRg8q+4wYUT2pfJPFDySFsT5+F1GbvDVkqF7OSCdSP6wJsUbJ9dEYZjEs1onjslzgv9f1mKkG5M81UTBsPukOfnHXY73Z1w+ouE=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1774614939; c=relaxed/simple;
-	bh=5cOyBNoqrTish9nBBS87UAnS6CU3/R9H+gkn7UHvmow=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=NfW4oJAntytHXwNoqQ00TSNVWcVt3MNs2bXXvm3JqEVzQhKUloS3VoolIE6r+RQ8F0O3g98jhh+r5BCy34Vmk+2W+iGafDY1Ysj4zD0vgYTkiKsDvPNDKO2ugaqvWs9vStEMECfWWbpgI0nRZnvSwQRbqMWtjluP/E4cbUO0MVM=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=hDTOTZSl; arc=pass smtp.client-ip=209.85.218.51
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B14EF13C918
+	for <linux-usb@vger.kernel.org>; Fri, 27 Mar 2026 12:40:58 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.12
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1774615260; cv=none; b=V0oKQxZMJRM0nD7gxHpGW+9N9BcJeRvqU1RT03QbWkU+RazOfEiQKldlY5ND+dIkPlPt2c6e2Ehbt3ZZED1Qtok6a3FuVfd6naJPnRzP8WcJYvDuR/prL1sZrM3eEcuFAGsLkUkiu3qioHTw6kM0sSaA9BFBjQabj9vIkhlQvX0=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1774615260; c=relaxed/simple;
+	bh=leHQ92ICaWLioa6Ap2LRlPxta6XR+K1fsTzgQj2xvOU=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=C4sIW+TZxyOjIN0PYU4PykCc4b9yhd6p5mIG4hjRR6zMss67DZ1ZgITKS8chrznwxAYDYBkOVQGOnOf7DmFgZMihAWU0mdz+OEdYfZCjIOXL46KvjVnHO1FnFNc6yHDEg4wyAhQm7gbp9xt5WEgR0IXUt4XSo7laA/iU+LEs8X4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=pass smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=aGK7js8q; arc=none smtp.client-ip=198.175.65.12
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="hDTOTZSl"
-Received: by mail-ej1-f51.google.com with SMTP id a640c23a62f3a-b936331786dso229983666b.3
-        for <linux-usb@vger.kernel.org>; Fri, 27 Mar 2026 05:35:37 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1774614936; cv=none;
-        d=google.com; s=arc-20240605;
-        b=dDrUOq20xijFGZuVixpF5QJD1DKdWCeVzGupbu2/vHBirjCptB99XpLVCPg1BcI0t1
-         I2WAhJOY0Uju/J6V4qsyVAJ4nvglBEULgs+SgIRD9fJU+mjNR7mViHHz/1DEfiChTXl9
-         7i8jZc2ygXGLMRa4FLvsCXhbq2aIQ5fD34p70rjNgMGvfhK4o7D8nbbQ1hxXWbU4GZnJ
-         3UiMGmimKhwTHt4rcj3xFLMjP3R2nkBrPH+2I4IR97ETZ0BpfeSBTelUaDXhf/d7Ugyd
-         TwbXAWXIOQCqcoeh1MRS4vhSSuPhg8vq6WMpp/F3DZWde7alZ8F96K+phIxoIAl0nv2o
-         nj1A==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:dkim-signature;
-        bh=5cOyBNoqrTish9nBBS87UAnS6CU3/R9H+gkn7UHvmow=;
-        fh=ycO3rTy+/ay3vChLPKZ8ZdZsi4BLWN/HpmfCKky+DOQ=;
-        b=QCluzDvcqabjf4TmRrrFM2C2/6lkyhVdxiYWp2qKpJ2pzM46QagN5wp0/pKr3VsNoZ
-         CxEn1DRISGLIar+2MhFNJn/wP6lW9htFHx6d1wNIDuP9gFilN5BLakRK/2nQcATMhE+m
-         wRTcWPzSrJv1+BgpByxzJ3afmvqUDABCJsIdGYKDE57dJLTOqMKBkm18niNfKv4BAXKA
-         wDvUSgAW0mEZZDXS+RpJBx4uNiOhRln7331c4OuPsxj87UfF1+KheovahqRBIeK1ypKR
-         hdzzHIObbUVo7t+btZBv/owFQk/52MMq7rU6q555X1z9oaPsMe9wn3rYfE7BsQ1ew4b4
-         kxoA==;
-        darn=vger.kernel.org
-ARC-Authentication-Results: i=1; mx.google.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1774614936; x=1775219736; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=5cOyBNoqrTish9nBBS87UAnS6CU3/R9H+gkn7UHvmow=;
-        b=hDTOTZSl8giVTfchqfV1qmgf27MF/qdda6lMtUPEsJgLk6b5H5LsQ0Jl5knXo6igdU
-         ulAVPyKxvwSd392+aI7Kwq+ZD1q5jeL1x1xyCtt2ngLHEAt03Q5Xk95XW6/irQhCHY2K
-         CaO9iunTyJdkP23j8YUKe1ppnFQ80erIFlhi31M+wMuGVIAu/Fhi/UxS8Vc0lK8gzjq5
-         WJl8CQnI+84YsOeo+RJJc8Oj5gACtNYk7uJ/61QA5aDWW0uga4QMfJMsOG1uQHCBgey/
-         MIPHguneBhfL6YFnMg13xV2NVGYVBAgwnDWKuD0ntV3caql4L7D26u1LKHpu2d/07kMp
-         HZ+Q==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1774614936; x=1775219736;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to;
-        bh=5cOyBNoqrTish9nBBS87UAnS6CU3/R9H+gkn7UHvmow=;
-        b=pfUodJslK45GbAGPj0PLdFk3sJlDZO9QRhjk5LN1Cx8Nb3SRG5xrP703vZo0z3KFL3
-         kqWMNgjIHVKC3/PEtRP/+AkwdSJdhEbAUQ1OeooHAd48u/Q5mhXeGb9xPgNYHoShK3MC
-         imYx7WGMuQYgHuWfiiAyCr58k7SSGnAeuY5g58zyPguYYmu59PwPETCOe51Iuylo3aJ4
-         oc07iHaDRcWQsK4acrJ1bqWQvDIuMCakZFppJ6UrlR/QFI6Y98z/a1qdQn/NSANtn4TE
-         ZKy3Cifr23w+SI1PAuYl5idlpshN0kYck6gJrg42+HjftYQFUQ4AFRlSDE+uRfNjw1iJ
-         NM7w==
-X-Forwarded-Encrypted: i=1; AJvYcCVupC3q6P+Sd8VXjC9Bhs+lUsnJ4QDsCHXYYhMFNysH9YRFFJi7LpAEiblNJZtL0cIirmgy8+UrXMw=@vger.kernel.org
-X-Gm-Message-State: AOJu0YxCnuoPnp8pmwwPe0NMKouSpw0dtnRv6D3ht92MEeEhWsn66Pmn
-	0nZDNj2Nml2qwpFnYUNc2PFZxGn1gEw2QtdIjPtpud5UB/MgjJ4qw9SB1IbNbEvdlCjqZnXZxq2
-	b4Iftq/jbN7jCfAwY7lPIzUYsBwAkqrc=
-X-Gm-Gg: ATEYQzxgHrzmLncj8trJetIKqUEQMXlivT1+NVLzf91Xpvv63Kb2TileC3c+SZfZKvz
-	/Li1fcqYwPxr5Sqi+PGf46akc7aSogS4GW0OtAKCJwXhW8VkOVmfCXqeg1B6t7LMyyLHW6fBBqR
-	OmxF470llljSivaRG94ax5u4PTy+TdTq1rm8jWIEnHHsthHIChfz0tYTTF9/dER6ssM1KUed2/2
-	7M026UwPzUIRonok0i724PObiN+jy/PO6pd7ygkknU7nx8zMnIcB1t5XyMm6Hjm496jsaS9GkFl
-	nZwVrdJ5BfjXCcl7ALcxfa4AsSEp8Vqaaia5FrJN7FcPisNE2NvYWOwDRtev0IjQYKQNyt/XvyV
-	XqMQUWQs=
-X-Received: by 2002:a17:907:3f07:b0:b8f:b32e:e196 with SMTP id
- a640c23a62f3a-b9b507b20ebmr158948066b.30.1774614935669; Fri, 27 Mar 2026
- 05:35:35 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="aGK7js8q"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1774615259; x=1806151259;
+  h=from:to:cc:subject:date:message-id:mime-version:
+   content-transfer-encoding;
+  bh=leHQ92ICaWLioa6Ap2LRlPxta6XR+K1fsTzgQj2xvOU=;
+  b=aGK7js8qzSTgNcOo/nikDpwXeLesqEjr6jA1z+f38zMW8bs4bHgvw525
+   ZVblV49NMxFhxrWRJra/CSc5Kn1RjApQg/M2HpPJr0+pVe3fofcl9Y9lO
+   0tRcG+x5MzG4hkXE1B+1t8V2L5qqFfPw7DMoELySJvN5S6+CnrcYwEY7X
+   uiuLx5RGa2ITcaisL9hKK3Raecaaoo0PAK2tvuvraJ95H6/4dJqefjWQH
+   jT5B4pKhfegd1P/mP1BnmJVq5O9Vp4rMFR7FQCUm//ErBPo8jjTUWp/H5
+   XqWySSnSdjHfqh+wWcao3jeBkYp5aoFCItNheey0mNgym6kfymixxCobU
+   Q==;
+X-CSE-ConnectionGUID: AGUa/Ot7Tj2Su7A0oYRZwg==
+X-CSE-MsgGUID: pV69ioi+T12tPsqJce6GDg==
+X-IronPort-AV: E=McAfee;i="6800,10657,11741"; a="87160599"
+X-IronPort-AV: E=Sophos;i="6.23,144,1770624000"; 
+   d="scan'208";a="87160599"
+Received: from fmviesa002.fm.intel.com ([10.60.135.142])
+  by orvoesa104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 27 Mar 2026 05:40:59 -0700
+X-CSE-ConnectionGUID: ywwGKnAuRk6Vz3BPzcRKGg==
+X-CSE-MsgGUID: 1rYFe91tR/SNHqR9PwT37Q==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.23,144,1770624000"; 
+   d="scan'208";a="248347643"
+Received: from black.igk.intel.com ([10.91.253.5])
+  by fmviesa002.fm.intel.com with ESMTP; 27 Mar 2026 05:40:56 -0700
+Received: by black.igk.intel.com (Postfix, from userid 1058)
+	id ADE5E98; Fri, 27 Mar 2026 13:40:55 +0100 (CET)
+From: Niklas Neronin <niklas.neronin@linux.intel.com>
+To: mathias.nyman@linux.intel.com
+Cc: linux-usb@vger.kernel.org,
+	raoxu@uniontech.com,
+	michal.pecio@gmail.com,
+	Niklas Neronin <niklas.neronin@linux.intel.com>
+Subject: [PATCH 0/9] xhci: usb: optimize resuming from S4 (suspend-to-disk)
+Date: Fri, 27 Mar 2026 13:34:31 +0100
+Message-ID: <20260327123441.806564-1-niklas.neronin@linux.intel.com>
+X-Mailer: git-send-email 2.50.1
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20260327055846.248829-1-mikhail.v.gavrilov@gmail.com> <acZ3ZUXhFHpSXzYS@arm.com>
-In-Reply-To: <acZ3ZUXhFHpSXzYS@arm.com>
-From: Andy Shevchenko <andy.shevchenko@gmail.com>
-Date: Fri, 27 Mar 2026 14:34:58 +0200
-X-Gm-Features: AQROBzAf3n6UCCCVOWz8_h19fmxDUeJxeUYrZ9qKYYIvgXaEOz3JyzyW2dWdB10
-Message-ID: <CAHp75Ved0H=QE0CDfThdOexi0BE2JKrcmTnv1GQJyrf0_-M9fg@mail.gmail.com>
-Subject: Re: [PATCH] mm/slab: align kmalloc to cacheline when DMA API
- debugging is active
-To: Catalin Marinas <catalin.marinas@arm.com>
-Cc: Mikhail Gavrilov <mikhail.v.gavrilov@gmail.com>, vbabka@kernel.org, harry.yoo@oracle.com, 
-	akpm@linux-foundation.org, hao.li@linux.dev, cl@gentwo.org, 
-	rientjes@google.com, roman.gushchin@linux.dev, linux-mm@kvack.org, 
-	linux-kernel@vger.kernel.org, linux-usb@vger.kernel.org, 
-	stern@rowland.harvard.edu, linux@roeck-us.net, hch@lst.de, 
-	Jeff.kirsher@gmail.com, Marek Szyprowski <m.szyprowski@samsung.com>, 
-	Robin Murphy <robin.murphy@arm.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Transfer-Encoding: 8bit
 
-On Fri, Mar 27, 2026 at 2:26=E2=80=AFPM Catalin Marinas <catalin.marinas@ar=
-m.com> wrote:
-> On Fri, Mar 27, 2026 at 10:58:46AM +0500, Mikhail Gavrilov wrote:
+On resume from S4, the xHCI controller loses register state, but the
+driver currently responds by tearing down and fully reinitializing all
+xhci data structures.
 
+This is unnecessary. Instead of freeing and reallocating driver structures,
+simply reset the required memory and restore the hardware registers that
+lost their contents across hibernation.
 
-> TL;DR: I think this is fine:
->
-> Reviewed-by: Catalin Marinas <catalin.marinas@arm.com>
->
-> I'm not sure that's the best way to hide the warning but there
-> are no great solutions either. On one hand, we want the DMA debug to
-> capture potential problems on architectures it's not running on. OTOH,
-> we also want to avoid false positives on coherent architectures/devices.
-> I don't think reconciling the two requirements is easy.
->
-> When DMA_API_DEBUG is enabled, the above will change the x86 behaviour
-> that could have implications beyond DMA (e.g. may not catch some buffer
-> overflow because it's within L1_CACHE_BYTES). Similarly for non-coherent
-> architectures that select DMA_BOUNCE_UNALIGNED_KMALLOC (arm64 and riscv
-> currently). arm64 defines ARCH_DMA_MINALIGN to 128 but
-> ARCH_KMALLOC_MINALIGN to 8 (why 128 is larger than L1_CACHE_BYTES is
-> another matter but let's ignore it for now).
+Changes since RFCv2:
+ * Fix virtual device itteration from max-ports to slots.
 
-Maybe for the cases where we do not warn we should introduce a
-dev_dbg_/pr_debug_once()? At least users may be informed about potential is=
-sues.
+Niklas Neronin (9):
+  usb: xhci: simplify CMRT initialization logic
+  usb: xhci: relocate Restore/Controller error check
+  usb: xhci: factor out roothub bandwidth cleanup
+  usb: xhci: move reserving command ring trb
+  usb: xhci: move ring initialization
+  usb: xhci: move initialization for lifetime objects
+  usb: xhci: split core allocation and initialization
+  usb: xhci: improve debug messages during suspend
+  usb: xhci: optimize resuming from S4 (suspend-to-disk)
 
+ drivers/usb/host/xhci-mem.c |  82 +++++++++-------
+ drivers/usb/host/xhci.c     | 183 +++++++++++++++++++-----------------
+ drivers/usb/host/xhci.h     |   3 +
+ 3 files changed, 148 insertions(+), 120 deletions(-)
 
---=20
-With Best Regards,
-Andy Shevchenko
+-- 
+2.50.1
+
