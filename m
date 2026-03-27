@@ -1,59 +1,59 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.15])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.12])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C85A023D2A3
-	for <linux-usb@vger.kernel.org>; Fri, 27 Mar 2026 12:41:18 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.15
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 88FCE33A718
+	for <linux-usb@vger.kernel.org>; Fri, 27 Mar 2026 12:41:19 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.12
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1774615280; cv=none; b=GEPRnHd5iTviMSCCtXb3TXm90Gj0UQPDeCYcMe27DvhGqtoTvaJxlMbonTCL5n4KP3+Pnd3k4nrX8u/q5ijqg83gw46l/Hem6PhvK/Afj860qyCbKqRHbT1Xs3dbxkWS33+smy+nKjTsnkiXdTBQ1ZHgpkFnLbTAGco52RACayY=
+	t=1774615280; cv=none; b=kTBt2jKVnWbf6g6DXqNohwzFbI/wBrK77KTWJD7NPur11ReozwHi+E1doRgB7fFrqdfZSR6Mk/mcXEOYxK7VlcekCnXAk/xSwvIrPkLs1t+IVIyEH+m5hbRh5CJkrACnp0SEIT9rmaf27KLVRPc1mKQKYzxpp6Hr+smKGyHIeEY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
 	s=arc-20240116; t=1774615280; c=relaxed/simple;
-	bh=jM74lLxWqB9qrJYjqqGFAf6NQ144NjhNygQ96kkxB1A=;
+	bh=ASswkset0ZmL+yyqr4I3jG4dIZjR3uP2RM5zvDebfFk=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=WvpnwcBoROxIi0Y4Z0HjoChZsDktbrYeDi33dRO5171NtqG6M5QYCEcUNV2hcsxmCF8VeeDACpzoEtNOhJacDLlw+xS9qUpOKoR/JE5VatOCdwuiiZtnMAu+C3lJ5/0ihPY/8F1beRF0tX/9Uv+0zzDD/edNQsCUvWXc3PMQGwk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=pass smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=HjZ0eamR; arc=none smtp.client-ip=198.175.65.15
+	 MIME-Version; b=A6ZtGatQh0bO5KXlSEq8xz0IFld+TeLsWdAIAM1NCOpBHmlsGEnFB98nTC7hbw6ZM1+1bqZ3WFy+gyeKXmVzb/2MI3rvHqVQw9seQsuB1/+01LjFWG52K8dzMO10qCix1+YFvC8dj/26emiLFVe06N2C4e/fMhmneySVqWhwim4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=pass smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=IIiexpHn; arc=none smtp.client-ip=198.175.65.12
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="HjZ0eamR"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="IIiexpHn"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1774615279; x=1806151279;
+  t=1774615280; x=1806151280;
   h=from:to:cc:subject:date:message-id:in-reply-to:
    references:mime-version:content-transfer-encoding;
-  bh=jM74lLxWqB9qrJYjqqGFAf6NQ144NjhNygQ96kkxB1A=;
-  b=HjZ0eamRmHdT/QChZKHZBdQUHsgDV/zzWw6IGu/lLYEz4QmlbJpEaTeb
-   GACslFMVcBWi8FxSKnhT9t+Q3wdcezDtHkTSq7UQEdayAnFRZPBmg4CSb
-   6juvELRNfDuqj+C+om+DFRHlGXfwP+xG1jTo/42ery+R+/8flRZF+wzag
-   0xnaSJBzQo/indv4IPvhqykxL5RePU1XaBI8zl+335bOqZOVkX6EMHAef
-   We7dr3bE+/+Kk29Cc3k/syxwrEwWRWbUJuXBHQ/Z6YRyoP7UpU/zjaFPn
-   SZuGNid8B2v6gvdIL3VXkde2lQyZPhtGrOBGCeIGHlYiCbFQHc6x2vugD
-   w==;
-X-CSE-ConnectionGUID: sCmYenKJQPO+QAMZ4bUvOw==
-X-CSE-MsgGUID: 1xZKk1ptSCWrWjSCmsG8yA==
-X-IronPort-AV: E=McAfee;i="6800,10657,11741"; a="79287720"
+  bh=ASswkset0ZmL+yyqr4I3jG4dIZjR3uP2RM5zvDebfFk=;
+  b=IIiexpHnLlWHUrodctUclkeFvH+C7qjI0pxQxBzS57j83Uv0PfCco6th
+   rZeF+vYQylz2WT/EQ3DezICSRCTWxziAM8q80uMTs84gf1S15j018wUe4
+   OMClOuA2MxvKD5zQveW6fQURY9GZRJyS7+Ej6FOPVjAz23MvFdcvaUHYJ
+   zneLY3Mtns43y38ef11pd7U+rjULQeT8QL5QqWZ2FAm7r8TxvqHobDoq7
+   fcnhwmhZ3WLVpjiKgo3LXQZogXOUFxUeeACt++3l93j62V4K6Px8PIpRw
+   VN8MdSIu5qOhbuDgsFwqjp5WXAQSLfJJbX30eR5O9LXc2dmPwyREIx0PK
+   Q==;
+X-CSE-ConnectionGUID: ioiZavEmTGCmigoAxVAKOw==
+X-CSE-MsgGUID: cTkmTjJlTVGpqK21RjZrsg==
+X-IronPort-AV: E=McAfee;i="6800,10657,11741"; a="87160627"
 X-IronPort-AV: E=Sophos;i="6.23,144,1770624000"; 
-   d="scan'208";a="79287720"
-Received: from fmviesa005.fm.intel.com ([10.60.135.145])
-  by orvoesa107.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 27 Mar 2026 05:41:18 -0700
-X-CSE-ConnectionGUID: s2KvmFZnTbaKY3/TGaPcJw==
-X-CSE-MsgGUID: A4zK1ZLLSWqAjf060DQFQQ==
+   d="scan'208";a="87160627"
+Received: from fmviesa002.fm.intel.com ([10.60.135.142])
+  by orvoesa104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 27 Mar 2026 05:41:20 -0700
+X-CSE-ConnectionGUID: PzQhMC4cSjaQr153mZwhXQ==
+X-CSE-MsgGUID: 1JmI7gY3T3iUf2iX/MEGUQ==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.23,144,1770624000"; 
-   d="scan'208";a="230076176"
+   d="scan'208";a="248347698"
 Received: from black.igk.intel.com ([10.91.253.5])
-  by fmviesa005.fm.intel.com with ESMTP; 27 Mar 2026 05:41:17 -0700
+  by fmviesa002.fm.intel.com with ESMTP; 27 Mar 2026 05:41:17 -0700
 Received: by black.igk.intel.com (Postfix, from userid 1058)
-	id 0FA159D; Fri, 27 Mar 2026 13:41:16 +0100 (CET)
+	id 28FCA98; Fri, 27 Mar 2026 13:41:17 +0100 (CET)
 From: Niklas Neronin <niklas.neronin@linux.intel.com>
 To: mathias.nyman@linux.intel.com
 Cc: linux-usb@vger.kernel.org,
 	raoxu@uniontech.com,
 	michal.pecio@gmail.com,
 	Niklas Neronin <niklas.neronin@linux.intel.com>
-Subject: [PATCH 4/9] usb: xhci: move reserving command ring trb
-Date: Fri, 27 Mar 2026 13:34:35 +0100
-Message-ID: <20260327123441.806564-5-niklas.neronin@linux.intel.com>
+Subject: [PATCH 6/9] usb: xhci: move initialization for lifetime objects
+Date: Fri, 27 Mar 2026 13:34:37 +0100
+Message-ID: <20260327123441.806564-7-niklas.neronin@linux.intel.com>
 X-Mailer: git-send-email 2.50.1
 In-Reply-To: <20260327123441.806564-1-niklas.neronin@linux.intel.com>
 References: <20260327123441.806564-1-niklas.neronin@linux.intel.com>
@@ -65,55 +65,61 @@ List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-Move the command ring TRB reservation from xhci_mem_init() to xhci_init().
-
-Function xhci_mem_init() is intended for memory allocation,
-while xhci_init() is for initialization.
-
-This split allows xhci_init() to be reused when resuming from S4
-suspend-to-disk.
+Initialize objects that exist for the lifetime of the driver only once,
+rather than repeatedly. These objects do not require re-initialization
+after events such as S4 (suspend-to-disk).
 
 Signed-off-by: Niklas Neronin <niklas.neronin@linux.intel.com>
 ---
- drivers/usb/host/xhci-mem.c | 7 -------
- drivers/usb/host/xhci.c     | 6 ++++++
- 2 files changed, 6 insertions(+), 7 deletions(-)
+ drivers/usb/host/xhci-mem.c |  1 -
+ drivers/usb/host/xhci.c     | 15 ++++++++-------
+ 2 files changed, 8 insertions(+), 8 deletions(-)
 
 diff --git a/drivers/usb/host/xhci-mem.c b/drivers/usb/host/xhci-mem.c
-index d4a9dbed8f16..45638ab13635 100644
+index ca4463eebc49..2cd6111c9707 100644
 --- a/drivers/usb/host/xhci-mem.c
 +++ b/drivers/usb/host/xhci-mem.c
-@@ -2485,13 +2485,6 @@ int xhci_mem_init(struct xhci_hcd *xhci, gfp_t flags)
- 	xhci_dbg_trace(xhci, trace_xhci_dbg_init, "First segment DMA is 0x%pad",
- 		       &xhci->cmd_ring->first_seg->dma);
+@@ -2009,7 +2009,6 @@ void xhci_mem_cleanup(struct xhci_hcd *xhci)
+ 	xhci->port_caps = NULL;
+ 	xhci->interrupters = NULL;
  
--	/*
--	 * Reserve one command ring TRB for disabling LPM.
--	 * Since the USB core grabs the shared usb_bus bandwidth mutex before
--	 * disabling LPM, we only need to reserve one TRB for all devices.
--	 */
--	xhci->cmd_ring_reserved_trbs++;
--
- 	/* Allocate and set up primary interrupter 0 with an event ring. */
- 	xhci_dbg_trace(xhci, trace_xhci_dbg_init, "Allocating primary event ring");
- 	xhci->interrupters = kcalloc_node(xhci->max_interrupters, sizeof(*xhci->interrupters),
+-	xhci->page_size = 0;
+ 	xhci->usb2_rhub.bus_state.bus_suspended = 0;
+ 	xhci->usb3_rhub.bus_state.bus_suspended = 0;
+ }
 diff --git a/drivers/usb/host/xhci.c b/drivers/usb/host/xhci.c
-index a04b1365bb6a..facadf0f0d1e 100644
+index 170615dd1e93..4e811a2668e6 100644
 --- a/drivers/usb/host/xhci.c
 +++ b/drivers/usb/host/xhci.c
-@@ -564,6 +564,12 @@ static int xhci_init(struct usb_hcd *hcd)
- 	/* Set the Number of Device Slots Enabled to the maximum supported value */
- 	xhci_enable_max_dev_slots(xhci);
+@@ -549,13 +549,6 @@ static int xhci_init(struct usb_hcd *hcd)
+ 	int retval;
  
-+	/*
-+	 * Reserve one command ring TRB for disabling LPM.
-+	 * Since the USB core grabs the shared usb_bus bandwidth mutex before
-+	 * disabling LPM, we only need to reserve one TRB for all devices.
-+	 */
-+	xhci->cmd_ring_reserved_trbs = 1;
- 	/* Set the address in the Command Ring Control register */
- 	xhci_set_cmd_ring_deq(xhci);
+ 	xhci_dbg_trace(xhci, trace_xhci_dbg_init, "Starting %s", __func__);
+-	spin_lock_init(&xhci->lock);
+-
+-	INIT_LIST_HEAD(&xhci->cmd_list);
+-	INIT_DELAYED_WORK(&xhci->cmd_timer, xhci_handle_command_timeout);
+-	init_completion(&xhci->cmd_ring_stop_completion);
+-	xhci_hcd_page_size(xhci);
+-	memset(xhci->devs, 0, MAX_HC_SLOTS * sizeof(*xhci->devs));
  
+ 	retval = xhci_mem_init(xhci, GFP_KERNEL);
+ 	if (retval)
+@@ -5525,6 +5518,14 @@ int xhci_gen_setup(struct usb_hcd *hcd, xhci_get_quirks_t get_quirks)
+ 		dma_set_coherent_mask(dev, DMA_BIT_MASK(32));
+ 	}
+ 
++	spin_lock_init(&xhci->lock);
++	INIT_LIST_HEAD(&xhci->cmd_list);
++	INIT_DELAYED_WORK(&xhci->cmd_timer, xhci_handle_command_timeout);
++	init_completion(&xhci->cmd_ring_stop_completion);
++	xhci_hcd_page_size(xhci);
++
++	memset(xhci->devs, 0, MAX_HC_SLOTS * sizeof(*xhci->devs));
++
+ 	xhci_dbg(xhci, "Calling HCD init\n");
+ 	/* Initialize HCD and host controller data structures. */
+ 	retval = xhci_init(hcd);
 -- 
 2.50.1
 
