@@ -1,64 +1,79 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from mail-m49232.qiye.163.com (mail-m49232.qiye.163.com [45.254.49.232])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DE144481B1
-	for <linux-usb@vger.kernel.org>; Sun, 29 Mar 2026 06:21:52 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8E7F42D5A01;
+	Sun, 29 Mar 2026 09:30:47 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=45.254.49.232
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1774765312; cv=none; b=h6hhxYlZW+AVW4whIKQs/JctQSqREUirl+rZyM8j8huWP3aBDVTfeo3xBkVwUlAnw8KB2Zyt5Rf6bSKu6u8u0mLmfX+AiMRVswuqlhZmOjEtVfTAurxiHioMQ/JB2CdR1yNIZ4XrDA3ymbQJWIIM+KDb0MvvlpXfIizxptAoRyM=
+	t=1774776652; cv=none; b=Ss2kGlUSkbcgvmoeD6/WSFO9kK1sN5J3VquX0HQZq8n9883thPB3XF2mtzHozDe66ddjeqNkvjRlVn9GVKc0c3R0xIqrZDqWbBaovok9JxrpFnM7kZKgyHHq8lf7ycxYOsxjG1ohm8MI6mKFjgKCODrfMiR9bJYSkITcZ8fhlKk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1774765312; c=relaxed/simple;
-	bh=nWkR0Y6LyVvfHuw9dNJtt9jDJB8tHJGTUtxIr+ytpJM=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=ZHZHqZFZacjWiwGGjW+oQ5BVM8a1mjpUPn6xOYvHefwQjisIrABr9UJMYyq+lnBgT+zgyTFQj4cP7SJucL48887C/QvMnlAXTMErcLLhH3MVa2/+t1B/l8PqRz3tFTbOm1KD7rPd+CkNrY0MXwNq6bi07024hEaqPyC8JPEa4SI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b=VkEpQT4c; arc=none smtp.client-ip=10.30.226.201
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="VkEpQT4c"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 0F649C116C6;
-	Sun, 29 Mar 2026 06:21:51 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
-	s=korg; t=1774765312;
-	bh=nWkR0Y6LyVvfHuw9dNJtt9jDJB8tHJGTUtxIr+ytpJM=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=VkEpQT4cQMA/TuI9CqRxuP82P0dS7NRKnjreFYOwqdS9j6U5NrkIHt2yfhgvlbn3U
-	 QTd4XYxwLpQRRpjwVdXOyeE8WzlRVZf88b0/vIgeoZjtGSTTygsaZFIq789HLzTvkk
-	 2vwgBnmLSwqtVUDkpEQGLZufGM5QU/dwnxJsGT1w=
-Date: Sun, 29 Mar 2026 08:21:49 +0200
-From: Greg KH <gregkh@linuxfoundation.org>
-To: Johan Gill <johan.gill@bahnhof.se>
-Cc: linux-usb@vger.kernel.org
-Subject: Re: UAS peripheral with unrecognized TRIM support
-Message-ID: <2026032920-enforcer-saxophone-7707@gregkh>
-References: <1717beab-848b-4927-8fa5-26fb5ae05495@bahnhof.se>
+	s=arc-20240116; t=1774776652; c=relaxed/simple;
+	bh=z5U/11YNCgx8Gqmuyc3q7ZfnPCuwOZ7yLuIdoN4ieIc=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version; b=PRliobt4p7ilHPJSXUerpUoGzoJIbe13L0It0s7jLonydkgjTtcjSboSNHVucc3sCvXrQ3RgFyy7uxDTk+FWIiq+0RLBMf9k2t8X68iH40jACPOARMN5aV9qY/zyUlxdRYsXtECErea91b80VhlqisWbzzywaQJrr/hEuaUVtCM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=autochips.com; spf=pass smtp.mailfrom=autochips.com; arc=none smtp.client-ip=45.254.49.232
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=autochips.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=autochips.com
+Received: from H20F120008.autochips.inc (unknown [223.244.89.246])
+	by smtp.qiye.163.com (Hmail) with ESMTP id 38aeab9a7;
+	Sun, 29 Mar 2026 09:34:11 +0800 (GMT+08:00)
+From: Yongchao Wu <yongchao.wu@autochips.com>
+To: Peter Chen <peter.chen@kernel.org>
+Cc: Pawel Laszczak <pawell@cadence.com>,
+	Roger Quadros <rogerq@kernel.org>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	linux-usb@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	Yongchao Wu <yongchao.wu@autochips.com>
+Subject: [PATCH] usb: cdns3: gadget: fix NULL pointer dereference in ep_queue
+Date: Sun, 29 Mar 2026 09:34:04 +0800
+Message-ID: <20260329013404.116481-1-yongchao.wu@autochips.com>
+X-Mailer: git-send-email 2.43.0
+In-Reply-To: <20260328143842.57315-1-yongchao.wu@autochips.com>
+References: <20260328143842.57315-1-yongchao.wu@autochips.com>
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <1717beab-848b-4927-8fa5-26fb5ae05495@bahnhof.se>
+X-HM-Tid: 0a9d373a27e703ackunm5c23841e226bcb2
+X-HM-MType: 1
+X-HM-Spam-Status: e1kfGhgUHx5ZQUpXWQgPGg8OCBgUHx5ZQUlOS1dZFg8aDwILHllBWSg2Ly
+	tZV1koWUFITzdXWS1ZQUlXWQ8JGhUIEh9ZQVlDSx0ZVkxLQk9PSh9IGBlJQlYVFAkWGhdVEwETFh
+	oSFyQUDg9ZV1kYEgtZQVlJSUhVSU9PVUNCVUlPTVlXWRYaDxIVHRRZQVlPS0hVSktJT09PSFVKS0
+	tVSkJLS1kG
 
-On Sat, Mar 28, 2026 at 05:23:48PM +0100, Johan Gill wrote:
-> Hi, I have tested running Linux on the StarTech USB312SAT3CB USB 3.1 -> SATA
-> adapter. It's a more stable UAS implementation than my previous adapter but
-> the device is not recognized as supporting TRIM out of the box (kernel
-> 6.19.9). The technical specifications at
-> https://www.startech.com/en-se/hdd/usb312sat3cb indicate that TRIM is
-> supported, so I enabled it by setting ATTR{provisioning_mode}="unmap" in a
-> udev rule and then fstrim indeed seems to work when I run it. The
-> specification claims that it uses ASMedia ASM235CM, but the device uses the
-> StarTech vendor id and identifies as 14b0:0207.
-> 
-> It would be nice to have the adapter recognized as more capable out of the
-> box. Should I aim at patching drivers/usb/storage/unusual_uas.h?
+When the gadget endpoint is disabled or not yet configured, the ep->desc
+pointer can be NULL. This leads to a NULL pointer dereference when
+__cdns3_gadget_ep_queue() is called, causing a kernel crash.
 
-Isn't that a scsi issue, not a USB/UAS issue to be reporting that value
-properly?  That sysfs attribute comes from the storage portion of the
-kernel, not the USB portion.
+Add a check to return -ESHUTDOWN if ep->desc is NULL, which is the
+standard return code for unconfigured endpoints.
 
-thanks,
+This prevents potential crashes when ep_queue is called on endpoints
+that are not ready.
 
-greg k-h
+Signed-off-by: Yongchao Wu  <yongchao.wu@autochips.com>
+---
+ drivers/usb/cdns3/cdns3-gadget.c | 3 +++
+ 1 file changed, 3 insertions(+)
+
+diff --git a/drivers/usb/cdns3/cdns3-gadget.c b/drivers/usb/cdns3/cdns3-gadget.c
+index d59a60a16..96d2a4c38 100644
+--- a/drivers/usb/cdns3/cdns3-gadget.c
++++ b/drivers/usb/cdns3/cdns3-gadget.c
+@@ -2589,6 +2589,9 @@ static int __cdns3_gadget_ep_queue(struct usb_ep *ep,
+ 	struct cdns3_request *priv_req;
+ 	int ret = 0;
+ 
++	if (!ep->desc)
++		return -ESHUTDOWN;
++
+ 	request->actual = 0;
+ 	request->status = -EINPROGRESS;
+ 	priv_req = to_cdns3_request(request);
+-- 
+2.43.0
+
