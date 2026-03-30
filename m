@@ -1,37 +1,54 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EF5ED3CD8BB
-	for <linux-usb@vger.kernel.org>; Mon, 30 Mar 2026 13:17:15 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 27F933CB2C1;
+	Mon, 30 Mar 2026 13:19:38 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1774876636; cv=none; b=U0Idkn2Iqz3i1gBRwxsTyNDYBuSJ8Mf3/1rtDgfg1/Nx394w6Z114m9VihGPuiRPZjNDzWI6aUfPmYscZTu9QNAwJ7JZrAn1mwn/ceKrx4y8luazNfhc2K0PFzFeHessb+yXEG9Ps29+7JrqsbzhLJQXOcAtf/HyfNFbZWhkXdk=
+	t=1774876779; cv=none; b=iC6Z+f9vUDJGhnQEI6pFAKCev70FDQpEhE6Rfp5k/d6YW0R5187fvLM7C1qvexzChkHuslwWH2kQ2KVCvrLXByiateEJD5OVu44FuIY89o3kI2zCn9OJDpLDGjzD9wMFapnQOmSTIzczW3UOGWBXU6dp2uB/WFQpYQLSLiksF2A=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1774876636; c=relaxed/simple;
-	bh=IQHKQYFZqL1pMZne2bQJgRj65z6QMcmVbxUEFWGyHJM=;
+	s=arc-20240116; t=1774876779; c=relaxed/simple;
+	bh=Xt08PXymCs4YwVjpcynOD9Y9BtXPNMqPh7FYH0XBhoM=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=pw+HgI2rWNZkAMKQn6HKzjSsiW79mwdKpANlZzIicEv/zSXPjSO5ETmHbtxp6m/xhQI5B9cvHb6MsbjYo04ol15yRS0QcIF+JiMKEzRgrTBJ/KPAIDIxzRSVHc+9aWaVc496684fz1i8S9P2xvBrkmnVsjhwGc3tdjN2/7wjhR0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b=OXIOSW06; arc=none smtp.client-ip=10.30.226.201
+	 Content-Type:Content-Disposition:In-Reply-To; b=jSLUfO0b69FtNA9etvnl0F5C3ppVy/YPwK7/aBk3LeGZKJFBmgwOs2Bz4vEy+uXRKcFvXXBnQ4WvkbKzs9mU+UPTEaYRA3wWu0d/hnOs/by8LWqoN/zAXR/H4i+9JXhRFg4kV71kZnUsnOzKFl6NWhcN6wCgr8j/r4Ztli+jI/c=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b=tQMNoMlj; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="OXIOSW06"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id E7221C4CEF7;
-	Mon, 30 Mar 2026 13:17:14 +0000 (UTC)
+	dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="tQMNoMlj"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id DCF4BC4CEF7;
+	Mon, 30 Mar 2026 13:19:37 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
-	s=korg; t=1774876635;
-	bh=IQHKQYFZqL1pMZne2bQJgRj65z6QMcmVbxUEFWGyHJM=;
+	s=korg; t=1774876778;
+	bh=Xt08PXymCs4YwVjpcynOD9Y9BtXPNMqPh7FYH0XBhoM=;
 	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=OXIOSW06C93H51yoDqpYHXCDEYMOGGXggP/xLDrx85J3JhpnhUAn4zMWTurqxN26c
-	 5szznBxnRRiYFaprctl2lP5N2XBixkoDle0fXGaVtPrbdWh6eZtZC//GysSbXXv9ZJ
-	 vV3100B7JcJPzbnh+xUetaH8jTOSlw3NKOJVoPLY=
-Date: Mon, 30 Mar 2026 15:17:11 +0200
-From: Greg KH <gregkh@linuxfoundation.org>
-To: Pooja Katiyar <pooja.katiyar@intel.com>
-Cc: linux-usb@vger.kernel.org, heikki.krogerus@linux.intel.com,
-	dmitry.baryshkov@oss.qualcomm.com, johan@kernel.org,
-	asutosh.pathak@intel.com
-Subject: Re: [PATCH 0/3] usb: typec: ucsi: Add support for SET_PDOS command
-Message-ID: <2026033001-commodore-zap-29cf@gregkh>
-References: <cover.1773090896.git.pooja.katiyar@intel.com>
+	b=tQMNoMlj1NRnTs9ZoEczeHKRYMoX5a+Z2tQ+dI8ELcy1g1k55rFExNZj/XJUrwar7
+	 syT3h7GHUTt1HRLmW4etNkE+JZlDSQ76EMLxJi+sqnm7V23ANlSN1JjmuPnvi/36Sz
+	 W+Qoa8hF1tyo5SxMJWYeOAqcIeqXyclLnV4HabqQ=
+Date: Mon, 30 Mar 2026 15:19:35 +0200
+From: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+To: Vladimir Oltean <vladimir.oltean@nxp.com>
+Cc: linux-phy@lists.infradead.org, Vinod Koul <vkoul@kernel.org>,
+	Neil Armstrong <neil.armstrong@linaro.org>,
+	dri-devel@lists.freedesktop.org, freedreno@lists.freedesktop.org,
+	linux-arm-kernel@lists.infradead.org, linux-arm-msm@vger.kernel.org,
+	linux-can@vger.kernel.org, linux-gpio@vger.kernel.org,
+	linux-ide@vger.kernel.org, linux-kernel@vger.kernel.org,
+	linux-media@vger.kernel.org, linux-pci@vger.kernel.org,
+	linux-renesas-soc@vger.kernel.org, linux-riscv@lists.infradead.org,
+	linux-rockchip@lists.infradead.org,
+	linux-samsung-soc@vger.kernel.org, linux-scsi@vger.kernel.org,
+	linux-sunxi@lists.linux.dev, linux-tegra@vger.kernel.org,
+	linux-usb@vger.kernel.org, netdev@vger.kernel.org,
+	spacemit@lists.linux.dev, UNGLinuxDriver@microchip.com,
+	Thinh Nguyen <Thinh.Nguyen@synopsys.com>,
+	Peter Chen <peter.chen@kernel.org>, Frank Li <Frank.Li@nxp.com>,
+	Sascha Hauer <s.hauer@pengutronix.de>,
+	Pengutronix Kernel Team <kernel@pengutronix.de>,
+	Fabio Estevam <festevam@gmail.com>
+Subject: Re: [PATCH v6 phy-next 03/28] usb: add missing headers transitively
+ included by <linux/phy/phy.h>
+Message-ID: <2026033028-squint-yield-4c23@gregkh>
+References: <20260327184706.1600329-1-vladimir.oltean@nxp.com>
+ <20260327184706.1600329-4-vladimir.oltean@nxp.com>
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
@@ -40,56 +57,47 @@ List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <cover.1773090896.git.pooja.katiyar@intel.com>
+In-Reply-To: <20260327184706.1600329-4-vladimir.oltean@nxp.com>
 
-On Wed, Mar 18, 2026 at 03:25:28PM -0700, Pooja Katiyar wrote:
-> This series implements support for UCSI SET PDOS command. It provides
-> interface to send message out data and update source or sink
-> capabilities PDOs on a connector over debugfs interface.
+On Fri, Mar 27, 2026 at 08:46:41PM +0200, Vladimir Oltean wrote:
+> The chipidea ci_hdrc_imx driver uses regulator consumer API like
+> regulator_enable() but does not include <linux/regulator/consumer.h>.
 > 
-> Pooja Katiyar (3):
->   usb: typec: ucsi: Add support for message_out data structure
->   usb: typec: ucsi: Enable debugfs for message_out data structure
->   usb: typec: ucsi: Add support for SET_PDOS command
+> The core USB HCD driver calls invalidate_kernel_vmap_range() and
+> flush_kernel_vmap_range(), but does not include <linux/highmem.h>.
 > 
->  drivers/usb/typec/ucsi/cros_ec_ucsi.c   |  6 ++-
->  drivers/usb/typec/ucsi/debugfs.c        | 31 +++++++++++++++
->  drivers/usb/typec/ucsi/ucsi.c           | 52 ++++++++++++++++++++-----
->  drivers/usb/typec/ucsi/ucsi.h           | 20 +++++++++-
->  drivers/usb/typec/ucsi/ucsi_acpi.c      | 22 ++++++++++-
->  drivers/usb/typec/ucsi/ucsi_ccg.c       |  6 ++-
->  drivers/usb/typec/ucsi/ucsi_yoga_c630.c |  6 ++-
->  7 files changed, 123 insertions(+), 20 deletions(-)
+> The DWC3 gadget driver calls:
+> - device_property_present()
+> - device_property_count_u8()
+> - device_property_read_u8_array()
+> but does not include <linux/property.h>
 > 
-> -- 
-> 2.43.0
+> The dwc3-generic-plat driver uses of_device_get_match_data() but does
+> not include <linux/of.h>.
 > 
+> In all these cases, the necessary includes were still provided somehow,
+> directly or indirectly, through <linux/phy/phy.h>. The latter header
+> wants to drop those includes, so fill in the required headers to avoid
+> any breakage.
 > 
+> Signed-off-by: Vladimir Oltean <vladimir.oltean@nxp.com>
+> Acked-by: Thinh Nguyen <Thinh.Nguyen@synopsys.com> # dwc3
+> ---
+> Cc: Peter Chen <peter.chen@kernel.org>
+> Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+> Cc: Frank Li <Frank.Li@nxp.com>
+> Cc: Sascha Hauer <s.hauer@pengutronix.de>
+> Cc: Pengutronix Kernel Team <kernel@pengutronix.de>
+> Cc: Fabio Estevam <festevam@gmail.com>
+> Cc: Thinh Nguyen <Thinh.Nguyen@synopsys.com>
+> 
+> v2->v6: none
+> v1->v2: collect tag
+> ---
+>  drivers/usb/chipidea/ci_hdrc_imx.c   | 1 +
+>  drivers/usb/core/hcd.c               | 1 +
+>  drivers/usb/dwc3/dwc3-generic-plat.c | 1 +
+>  drivers/usb/dwc3/gadget.c            | 1 +
+>  4 files changed, 4 insertions(+)
 
-Hi,
-
-This is the friendly patch-bot of Greg Kroah-Hartman.  You have sent him
-a patch that has triggered this response.  He used to manually respond
-to these common problems, but in order to save his sanity (he kept
-writing the same thing over and over, yet to different people), I was
-created.  Hopefully you will not take offence and will fix the problem
-in your patch and resubmit it so that it can be accepted into the Linux
-kernel tree.
-
-You are receiving this message because of the following common error(s)
-as indicated below:
-
-- This looks like a new version of a previously submitted patch, but you
-  did not list below the --- line any changes from the previous version.
-  Please read the section entitled "The canonical patch format" in the
-  kernel file, Documentation/process/submitting-patches.rst for what
-  needs to be done here to properly describe this.
-
-If you wish to discuss this problem further, or you have questions about
-how to resolve this issue, please feel free to respond to this email and
-Greg will reply once he has dug out from the pending patches received
-from other developers.
-
-thanks,
-
-greg k-h's patch email bot
+Acked-by: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
