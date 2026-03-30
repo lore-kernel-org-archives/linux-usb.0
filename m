@@ -1,147 +1,118 @@
-Received: from mail-pj1-f48.google.com (mail-pj1-f48.google.com [209.85.216.48])
+Received: from mail-ed1-f41.google.com (mail-ed1-f41.google.com [209.85.208.41])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A093D126C03
-	for <linux-usb@vger.kernel.org>; Mon, 30 Mar 2026 21:10:33 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.216.48
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D1B4E258EC1
+	for <linux-usb@vger.kernel.org>; Mon, 30 Mar 2026 22:14:27 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.41
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1774905034; cv=none; b=jiulciv2Itev2vi1xNzRBGKfOg52Qpt+csWarSCtxCQBQOW/P7PxEeNVXiAg60zKNZh/91udoteV8fVsHVwAywbiYFbHuO/JGG1h9ddRGClZGW7XNdM6wN34ugKyPH7ZvgiL/SQcdQYU7QzUJE11GQ1Z+KgJ/wENBOOgDFJX1QM=
+	t=1774908869; cv=none; b=nBDTXmp/yKD1TVh3IqOHIVxgeDRx5bqQW9c6a+INdAlX/giv6Jg8XLtr5Ve8a+HCzv80q17TbJN+6yLeHEw3BsgGXkxbBJx6A+JpC8vSGn8F7hDyreLxgH7YLqRPnsVy7QGN+O72rWLM+QpUlWcSjpja2vJSuNgrpyVWB+DizyU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1774905034; c=relaxed/simple;
-	bh=x6LZKPlnMnzPyi+3+BA5c9a8UQjqYHfNM8ypvVO0gGk=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=s326Ho/PM689cWSmCDI9obepq2SGVV7uxr87VnEsGwdfzhcifWXk8SNoNyfyWAvfh7lA0etNHMlXHKfyI5iVdnXhvC3z/8u6YtVfieCNiqf5Gnva64K4yZ1ETxEtxgJ1BTG7RRvNm0BBYZtF+ENGbk4rht/LdSC6H3pksooyIsc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=Tc8aNM77; arc=none smtp.client-ip=209.85.216.48
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1774908869; c=relaxed/simple;
+	bh=13wssujQbIyLQCFM48Stg4nMkhMgvIXI0K6eqdMmGww=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=hVw8G8SYTP7yrYZvSCh2sNMqhsy776RE5jJlyjcw+KFH5NpHSqeHykoqKPUtkoXCdKULKWcJQrhEsL3TKYexYzU1FiLupfiziE3HDT4EPraX5vzNN8IDEPNROrtLhzTdKkT/1QvpnlfsHcX8RwtOzxg+7VoOHCI8kmyH4LZnoQQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-foundation.org; spf=pass smtp.mailfrom=linuxfoundation.org; dkim=pass (1024-bit key) header.d=linux-foundation.org header.i=@linux-foundation.org header.b=TN+vEPan; arc=none smtp.client-ip=209.85.208.41
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-foundation.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linuxfoundation.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Tc8aNM77"
-Received: by mail-pj1-f48.google.com with SMTP id 98e67ed59e1d1-35d9f68d011so1282772a91.2
-        for <linux-usb@vger.kernel.org>; Mon, 30 Mar 2026 14:10:33 -0700 (PDT)
+	dkim=pass (1024-bit key) header.d=linux-foundation.org header.i=@linux-foundation.org header.b="TN+vEPan"
+Received: by mail-ed1-f41.google.com with SMTP id 4fb4d7f45d1cf-66a4c6bb6ecso8943665a12.1
+        for <linux-usb@vger.kernel.org>; Mon, 30 Mar 2026 15:14:27 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1774905032; x=1775509832; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=AEP0zXDzOr+l04/srVbHJJ5LhsariHaPANvTrx9+dlM=;
-        b=Tc8aNM77OyRo1sD0vl1pAu3ucB/tsDS+KJgvrs300wSwYyzPlqR6MATOZsP51upUUA
-         0FRWboluYmEq8AbXGJLhhI/vpXskYKVil6WJ8L6nB7iEv6axFUjwo4DawUAKt/qPKH+/
-         SDecJwJtYWxnjsXug5dG/VWevgjpMMlT+Oah9QK0iSm/N6Kd45hkzAhq5KJTl/ElRF0q
-         wLzjKNvkpbHIo3zOBO+pAdKMuihpKnyL+/26s0uztS1DNBgH4k6b7I+Uopo2rZJEQ4R1
-         kSB/Gsj0N5km/XEBIZB4GgZg7rT3wNDYUO9at4oaqi4p7s3oZ1nKpYJ7s0AJoLlPPplu
-         WqnA==
+        d=linux-foundation.org; s=google; t=1774908866; x=1775513666; darn=vger.kernel.org;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:from:to:cc:subject:date:message-id:reply-to;
+        bh=sgxFsOJvZ8sXCMbDM96Xr96StQzCVgpxG8bopM7guow=;
+        b=TN+vEPanlt0PxB3Mvg54x6W80CFGCmt/IozkLTKxlCtNfBjAYkKb+AsP/Fo/R4zMge
+         t67/hlp1VLpovDo+7j8cI2RZ3qSpUnzBWJGNgN4gBOuo2UpwNI/31y8XW42eoklUVq0B
+         Qi5rhG7KNQZLLEvtUXovdAw4GQYz9ljJN6Hmo=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1774905032; x=1775509832;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+        d=1e100.net; s=20251104; t=1774908866; x=1775513666;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=AEP0zXDzOr+l04/srVbHJJ5LhsariHaPANvTrx9+dlM=;
-        b=M+kHhXJaZhT+VT7gU5QCBW45Ck+w3qA5dDQpsXiuMBffLFFwHKm3edVW4MbyALim9j
-         8NlOKkY1TzQf1Rs2st8FL+F6RDz45Wt6gNudXSM7gWZWUZSeIrRqyG8uB75cIBIkDrm1
-         xItpNRVQXYe5JV50HBraG1cnFy+tINa9xw55eT2W061y7+LfgQ+fcBvMldwWbWMA4IqQ
-         3aZ42ulDj5TOLlOOYMk7Kp7k7yZxjFEM8ad7RmcYfF7iqFCdhAkHm+bfRCAokrq1vLLN
-         rrM2xoUaDHKlZn0fnufjlRcveO6cM0T2v6FsAtR8uxWZQ5yo5F1YVttpMXouV1IJ4son
-         AXJQ==
-X-Gm-Message-State: AOJu0YyZHmXT7tmzCyp+C7OZhOVWqgSCFT1u+CJ01FZ54uNk8NksY09R
-	gg0WkUumRKiMHY3sqbmsl/zdyFkoC7++yJaMp1LYIhzrNClaLdE3ZoqKvRWEbA==
-X-Gm-Gg: ATEYQzzbraLLXWRaIURj/Z696CdrrOT9iGczulYwwA2mkUP5OwxSM5fB2JSxzuRK0AJ
-	crSl02n8u0oOoVpKEEqWFtgP6C09h91/t5YnVppgcD4A1D15bV3l3w6SU4ap2fd6HR0eUVoQq09
-	5hYiDUwMfkEBBE+C++U/M0XrljNTqTVyaBYYG+N1DyZKKeA0bkJmOdUqb/YO/6gl2cATxdz+osl
-	VfW0ZHUsK/udE09MAOdL+9LmCjMEx9fEpP3Jz38eNS0i1dRZbGRtWO4J6XhPFmy2vwOAwx8I2j6
-	I3GGWCn60zY3MwVbZdJ99qFabeyZh9nDkPTL8GG6rnOABTFEm9A13NHZ2+ctkc0c5xOWGL8k8Sk
-	/zYl0NCKmqjycdmpQ/6q0fcFqeIf8WurQKSiOCHjJhU/tRS5Ic47Zy9w/RfZV9tiftu2Y+vjYNu
-	LfMLswvuBepLqSRBjsT2x2BQ8+4aeu3OwuiyR1maXyBdKT621ArkbBqtw=
-X-Received: by 2002:a17:90b:164a:b0:359:f2e1:5906 with SMTP id 98e67ed59e1d1-35c2ffb6610mr12220806a91.4.1774905032521;
-        Mon, 30 Mar 2026 14:10:32 -0700 (PDT)
-Received: from ryzen ([2601:644:8000:5b5d::8bd])
-        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-35d94d289f5sm11648765a91.5.2026.03.30.14.10.31
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 30 Mar 2026 14:10:31 -0700 (PDT)
-From: Rosen Penev <rosenp@gmail.com>
-To: linux-usb@vger.kernel.org
-Cc: Andreas Noever <andreas.noever@gmail.com>,
-	Mika Westerberg <westeri@kernel.org>,
-	Yehezkel Bernat <YehezkelShB@gmail.com>,
-	Kees Cook <kees@kernel.org>,
-	"Gustavo A. R. Silva" <gustavoars@kernel.org>,
-	linux-kernel@vger.kernel.org (open list),
-	linux-hardening@vger.kernel.org (open list:KERNEL HARDENING (not covered by other areas):Keyword:\b__counted_by(_le|_be)?\b)
-Subject: [PATCH] thunderbolt: tunnel: simplify allocation
-Date: Mon, 30 Mar 2026 14:10:14 -0700
-Message-ID: <20260330211014.12121-1-rosenp@gmail.com>
-X-Mailer: git-send-email 2.53.0
+        bh=sgxFsOJvZ8sXCMbDM96Xr96StQzCVgpxG8bopM7guow=;
+        b=ncUs4DglHpKkaDh38z4p+nqL/B1SqrnMybf1nttchbfb1dZoOmC9kwrurcm4XPC/0B
+         E4gOTuM+0HgzSlIHAUso7H0NEpqn7NPMplubLFKIkJt+yHRnUJqVJOzQv0cxEJsXOk/W
+         /ZPCXqEO+J3CMn5DNvLD3Pg+sGXlQm9cFd6NocUqad4nv6YKC/K+PDfOlLHOG20RXZKF
+         HuqK4J5IsA+e9BGjVF12qbha7N/pehZgdW8b0r3K4gnRuxUb6BnM6AI+lAb5EXxDEOn6
+         hq11kSq2E/mRTsTRjOwJ+MpeqtP/3bF4W9P4Y+i8qfDGbEoi+KpujmA+xGcXaXM4Qdyk
+         v56g==
+X-Forwarded-Encrypted: i=1; AJvYcCUd76t9BfFSt3AffXEXvcacn/oPyn7d2k+99qENygjG23P+KcSatQ03VXxfsg9bx/yd5fwrDYUz6EI=@vger.kernel.org
+X-Gm-Message-State: AOJu0Yx6N/iJY6iAC9ckiht3eoFyArZtnC8PZzBuLFce2VpcDmnZNsQq
+	SE2t6w51pwNyg3MQ/08N/miE/sUI5TLl1gQz2mAjd5rpod33/vvZ9p4SqZPAJLVncauZFtiy6IH
+	s4Wd2hrE=
+X-Gm-Gg: ATEYQzxXIpozq3zT961PEbgrjF705hihyAANAUvjZAJnITe/vBwtO9n6QfUJcqconF4
+	N4/kt2oGU3IZx2ygM+4zmJkXPoU2CKHLER/u/aKXlRCRDpl7rIlDKQKuoGOYin4CXx4vgSpy9wd
+	WhscoWbY9NjrO+2X3XuN0pDN1fTPIG/g6mGPG8H+S5hu4U4sugRXmy0FlQXyYiC/Ss2i4HjIP1e
+	ChID0qRl4XdE6Huh1ES8hxi0UdQg7Yaa4aXrqSaNVznUZY84+Q2dYgZ8p+PIaarfEi0YccWKhuM
+	w4DBPglJPZi9oUV3uhquaWWJjulMB/9RNTPxfpWX+zABU7ByOFcBwBYo8wLvL2q9LLOBKnAMOwR
+	qCSBlHxGLuwJJ4So6RBkXFO/LNs/kSPIPsQsG5dS2g9P0H70NtztK6gXyku+7oFK3RKim7UV1tw
+	MT/84UNG8R0TuvbVGDcVYKrW7VG4SoAhmFJyf6ahiWT8CdZg+2UfpwSXMUULo1eVFeXJR/Ggw3
+X-Received: by 2002:a05:6402:51c6:b0:66c:9d2:b208 with SMTP id 4fb4d7f45d1cf-66c09d2b3f6mr1716886a12.25.1774908866058;
+        Mon, 30 Mar 2026 15:14:26 -0700 (PDT)
+Received: from mail-ed1-f53.google.com (mail-ed1-f53.google.com. [209.85.208.53])
+        by smtp.gmail.com with ESMTPSA id 4fb4d7f45d1cf-66beb2d044esm1757773a12.26.2026.03.30.15.14.25
+        for <linux-usb@vger.kernel.org>
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Mon, 30 Mar 2026 15:14:25 -0700 (PDT)
+Received: by mail-ed1-f53.google.com with SMTP id 4fb4d7f45d1cf-66c05fb27e4so1882621a12.2
+        for <linux-usb@vger.kernel.org>; Mon, 30 Mar 2026 15:14:25 -0700 (PDT)
+X-Forwarded-Encrypted: i=1; AJvYcCU46gPdGs/3KZ4ZMLe+IGd6W5Iwx2BGgUVdZoKEOh6Ys9WADsyqDfXNsvbSpwy0ziwS9GURoTBceCA=@vger.kernel.org
+X-Received: by 2002:a05:6402:52c7:b0:662:ab67:a560 with SMTP id
+ 4fb4d7f45d1cf-66b28c526dcmr6891247a12.24.1774908864935; Mon, 30 Mar 2026
+ 15:14:24 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+References: <20260326131838.634095-1-dhowells@redhat.com> <20260326131838.634095-5-dhowells@redhat.com>
+ <20260329121208.6092419d@kernel.org> <CAHk-=wiJ6gEELLviexdmSHnyjVoG7MFo8Qwhd1zxs_tCnL-=gQ@mail.gmail.com>
+ <1179840.1774867765@warthog.procyon.org.uk>
+In-Reply-To: <1179840.1774867765@warthog.procyon.org.uk>
+From: Linus Torvalds <torvalds@linux-foundation.org>
+Date: Mon, 30 Mar 2026 15:14:07 -0700
+X-Gmail-Original-Message-ID: <CAHk-=wjDKfhS5TvEfrsOgBgAvFMPfAd3wT=Um2AQb4txHq5sAQ@mail.gmail.com>
+X-Gm-Features: AQROBzC8ec9XUhg2CYF5IFXZ9-klR-Uxedhu4hxXRVBKoiRq4ZlNxeqrDUpLHRg
+Message-ID: <CAHk-=wjDKfhS5TvEfrsOgBgAvFMPfAd3wT=Um2AQb4txHq5sAQ@mail.gmail.com>
+Subject: Re: [PATCH net v3 04/11] list: Move on_list_rcu() to list.h and add
+ on_list() also
+To: David Howells <dhowells@redhat.com>
+Cc: Jakub Kicinski <kuba@kernel.org>, netdev@vger.kernel.org, 
+	Marc Dionne <marc.dionne@auristor.com>, "David S. Miller" <davem@davemloft.net>, 
+	Eric Dumazet <edumazet@google.com>, Paolo Abeni <pabeni@redhat.com>, linux-afs@lists.infradead.org, 
+	linux-kernel@vger.kernel.org, 
+	Mathieu Desnoyers <mathieu.desnoyers@efficios.com>, 
+	John Johansen <john.johansen@canonical.com>, Minas Harutyunyan <hminas@synopsys.com>, 
+	Simon Horman <horms@kernel.org>, apparmor@lists.ubuntu.com, linux-usb@vger.kernel.org, 
+	stable@kernel.org
+Content-Type: text/plain; charset="UTF-8"
 
-Use a flexible array member and kzalloc_flex to combine allocations.
+On Mon, 30 Mar 2026 at 03:49, David Howells <dhowells@redhat.com> wrote:
+>
+> Anyway, I'll find a different way to do this, not involving checking the prev
+> pointer.  What I don't want to do is hard code "prev == LIST_POISON2" into my
+> stuff.  Anything like that really needs to be in list.h.
 
-Add __counted_by for extra runtime analysis. Move counting variable
-assignment after allocation as required by __counted_by.
+So i think the proper model is:
 
-Signed-off-by: Rosen Penev <rosenp@gmail.com>
----
- drivers/thunderbolt/tunnel.c | 10 ++--------
- drivers/thunderbolt/tunnel.h |  3 ++-
- 2 files changed, 4 insertions(+), 9 deletions(-)
+(a) normal and good list users should never *use* this kind of "is
+this entry on a list or not".
 
-diff --git a/drivers/thunderbolt/tunnel.c b/drivers/thunderbolt/tunnel.c
-index 89676acf1290..f38f7753b6e4 100644
---- a/drivers/thunderbolt/tunnel.c
-+++ b/drivers/thunderbolt/tunnel.c
-@@ -180,19 +180,14 @@ static struct tb_tunnel *tb_tunnel_alloc(struct tb *tb, size_t npaths,
- {
- 	struct tb_tunnel *tunnel;
- 
--	tunnel = kzalloc_obj(*tunnel);
-+	tunnel = kzalloc_flex(*tunnel, paths, npaths);
- 	if (!tunnel)
- 		return NULL;
- 
--	tunnel->paths = kzalloc_objs(tunnel->paths[0], npaths);
--	if (!tunnel->paths) {
--		kfree(tunnel);
--		return NULL;
--	}
-+	tunnel->npaths = npaths;
- 
- 	INIT_LIST_HEAD(&tunnel->list);
- 	tunnel->tb = tb;
--	tunnel->npaths = npaths;
- 	tunnel->type = type;
- 	kref_init(&tunnel->kref);
- 
-@@ -219,7 +214,6 @@ static void tb_tunnel_destroy(struct kref *kref)
- 			tb_path_free(tunnel->paths[i]);
- 	}
- 
--	kfree(tunnel->paths);
- 	kfree(tunnel);
- }
- 
-diff --git a/drivers/thunderbolt/tunnel.h b/drivers/thunderbolt/tunnel.h
-index 2c44fc8a10bc..55eb83900a2f 100644
---- a/drivers/thunderbolt/tunnel.h
-+++ b/drivers/thunderbolt/tunnel.h
-@@ -75,7 +75,6 @@ struct tb_tunnel {
- 	struct tb *tb;
- 	struct tb_port *src_port;
- 	struct tb_port *dst_port;
--	struct tb_path **paths;
- 	size_t npaths;
- 	int (*pre_activate)(struct tb_tunnel *tunnel);
- 	int (*activate)(struct tb_tunnel *tunnel, bool activate);
-@@ -107,6 +106,8 @@ struct tb_tunnel {
- 	struct delayed_work dprx_work;
- 	void (*callback)(struct tb_tunnel *tunnel, void *data);
- 	void *callback_data;
-+
-+	struct tb_path *paths[] __counted_by(npaths);
- };
- 
- struct tb_tunnel *tb_tunnel_discover_pci(struct tb *tb, struct tb_port *down,
--- 
-2.53.0
+Dammit, you should *KNOW* that already from core logic. Not with a
+flag, not with a function to ask, but from how things work. The whole
+"am I on a list or not" should not be a list issue, it should be
+obvious.
 
+(b) if the code in question really doesn't know what the ^%&%^ it did,
+and has lost sight of what it has done to a list entry, and really
+wants some kind of "did I remove this entry already" logic, I would
+encourage such uses to either re-consider, or just use the
+"__list_del_clearprev()" function when removing entries.
+
+Because I really don't want the core list handling to cater to code
+that doesn't know what the hell it has done.
+
+                Linus
