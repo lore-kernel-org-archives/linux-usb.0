@@ -1,92 +1,82 @@
-Received: from bg1.exmail.qq.com (bg1.exmail.qq.com [114.132.62.65])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 09C0E14A0BC;
-	Tue, 31 Mar 2026 01:59:02 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=114.132.62.65
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 136552727FC;
+	Tue, 31 Mar 2026 02:02:55 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1774922346; cv=none; b=kaJmu0Vh9uND1QPD1vMaitJmHZGLI5d/miy0vCi8T5sH8ciUTEdyjOovcGtg0J6E62DpwLnnholzZ/YGj++XSJ8hp+WNtQRXtWlJnVKM1qFNQP0/sAfhtwA9W2SHCHaRblMjGKP1GKwPZGruaba4fEok40cZJ0f8EL19lCNWD8E=
+	t=1774922576; cv=none; b=jLZVYwYCdgprvDVUe25vHASW4cP+xxo/gXCAqML42UpSX0y7jOmL50GmF5bvXqr6gNb99Vo6l9z6h8ZOnPEAulhaDcqLc2JbPdcCh2ZfmG8gfzCEUsWmtvBktmsGRCEWQEOTb4mNygiwpQfzUSb9PDN4TUlUjybHSFwzW/Zl2tM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1774922346; c=relaxed/simple;
-	bh=6LSm60n2ygd+2xm+I2B5kO1Fidf0iltbaKeD/u3dN/4=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=YhMt/srmV/zOLRwMqC2EP4Nc4Dh0HhKbUFtILGZ902ijZv3kwctZ7arBHohuMdtkrTnaG7989fiouTIrpXfsilCIepjLK8KUN71JB9NxGUdvVDzGyuwu5i5Xv1RrPVhl6GIbDXNYqvNPdNgJ2jATQgomjTuHpv6Z1Nu7+B7jtOU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux.spacemit.com; spf=none smtp.mailfrom=linux.spacemit.com; dkim=pass (1024-bit key) header.d=linux.spacemit.com header.i=@linux.spacemit.com header.b=kNFYXLoo; arc=none smtp.client-ip=114.132.62.65
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux.spacemit.com
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=linux.spacemit.com
+	s=arc-20240116; t=1774922576; c=relaxed/simple;
+	bh=RirdtZQT4XKv4gVDUR1oaEGSsQYUx5/kH3a1aqQvyDI=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version; b=aVV5zily0qBKktByeEsbOd6b2olVj2ts4HaJKSI7A4Ov0Yx8IAJPAQVHcqkvQFPVknTW47DmnEdyeQGIVmAEU6VJiX2daUpf1+bBSHi/JgY8IO6ITvX4rBOg+c+6kudIOO8zdGh+u4fOecK03uxblTRjpEB4DWPMllbnPesxfso=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=XV55W4p7; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linux.spacemit.com header.i=@linux.spacemit.com header.b="kNFYXLoo"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.spacemit.com;
-	s=mxsw2412; t=1774922246;
-	bh=XtgU7u3m8ATvONww0EjKILjjpqHOKR3iuEbKdN8Zh18=;
-	h=Date:From:To:Subject:Message-ID:MIME-Version;
-	b=kNFYXLoo43sI7yOa4HgQf+ZpzEqgmz0c0YifIp8z4mxDRC8QABKZQtTGzQvR/beD0
-	 /62wdLfZpSaVcqJhnY840Vws74eQuMRg68EU+hx8IIc+lCyiltIbMIldXTMCmNVqu8
-	 p4G0iyN5sJnZQAYR0vUgpqwLqxF9ENMXBvmKnKBQ=
-X-QQ-mid: zesmtpgz6t1774922244tcdd95944
-X-QQ-Originating-IP: 6YTJ4mxqFD3mYgJQ7VaqcOKTTPDpfV95ifWMMz/gHXs=
-Received: from = ( [120.237.158.181])
-	by bizesmtp.qq.com (ESMTP) with 
-	id ; Tue, 31 Mar 2026 09:57:22 +0800 (CST)
-X-QQ-SSF: 0000000000000000000000000000000
-X-QQ-GoodBg: 0
-X-BIZMAIL-ID: 16396334203676912159
-EX-QQ-RecipientCnt: 10
-Date: Tue, 31 Mar 2026 09:57:22 +0800
-From: Troy Mitchell <troy.mitchell@linux.spacemit.com>
-To: Chukun Pan <amadeus@jmu.edu.cn>,
-	Thinh Nguyen <Thinh.Nguyen@synopsys.com>
-Cc: Yixun Lan <dlan@kernel.org>, Ze Huang <huang.ze@linux.dev>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	linux-riscv@lists.infradead.org, linux-kernel@vger.kernel.org,
-	linux-usb@vger.kernel.org, spacemit@lists.linux.dev,
-	Troy Mitchell <troy.mitchell@linux.spacemit.com>
-Subject: Re: [PATCH v3 1/1] usb: dwc3: Add optional VBUS regulator support to
- SpacemiT K1
-Message-ID: <BC093802795A0616+acsqAiB_4ptd2k3t@kernel.org>
-References: <20260326100010.3588454-1-amadeus@jmu.edu.cn>
- <20260326100010.3588454-2-amadeus@jmu.edu.cn>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="XV55W4p7"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 391D7C4CEF7;
+	Tue, 31 Mar 2026 02:02:55 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1774922575;
+	bh=RirdtZQT4XKv4gVDUR1oaEGSsQYUx5/kH3a1aqQvyDI=;
+	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
+	b=XV55W4p7nuFwEo/aHAkn58rfNcSMi5G/IOhkP2IIctK3HCxMBWBU1I8eDoly8AB3H
+	 re+O44S6sIS4dZiI5PfqktV/9ykUIGj5ADfci2EUJQaRiXPy9kU1Aij3azUz0DDyMS
+	 CgYVzkbudNZVmM7masjONUY5O3tyLwvQ1I7AfUrQf+PrbqTWSc8dYUI2ceZBwcZoys
+	 4noqsFemoaLQGK/8awr0NGLZtuwHOtswrIFr66uzYVOgVPK7fpW/dUsX06jc0Pr/KC
+	 RufrU13ijuFpTT/1EzWowXp9h2wvbnNDHfirtcu5CbABnpzQ/oLt0JgGZGiqlZrSLK
+	 iCKQn1l9Ep1tw==
+From: Jakub Kicinski <kuba@kernel.org>
+To: hsu.chih.kai@realtek.com
+Cc: Jakub Kicinski <kuba@kernel.org>,
+	davem@davemloft.net,
+	netdev@vger.kernel.org,
+	nic_swsd@realtek.com,
+	linux-kernel@vger.kernel.org,
+	linux-usb@vger.kernel.org,
+	edumazet@google.com,
+	bjorn@mork.no,
+	pabeni@redhat.com
+Subject: Re: [PATCH net-next v4 3/3] r8152: add helper functions for PHY OCP registers
+Date: Mon, 30 Mar 2026 19:01:56 -0700
+Message-ID: <20260331020156.3518006-2-kuba@kernel.org>
+X-Mailer: git-send-email 2.53.0
+In-Reply-To: <20260326073925.32976-456-nic_swsd@realtek.com>
+References: <20260326073925.32976-456-nic_swsd@realtek.com>
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20260326100010.3588454-2-amadeus@jmu.edu.cn>
-X-QQ-SENDSIZE: 520
-Feedback-ID: zesmtpgz:linux.spacemit.com:qybglogicsvrgz:qybglogicsvrgz3a-0
-X-QQ-XMAILINFO: N71rnkwxYMwyqDkeb55/NvMDEqSgm7/4SH7D0+05HAhIygSSF/ipEuiQ
-	ZPRO8cfgoX8QxnALzWS1U1fFKcEhNjprWwfeWVv56OjHCC0QKv9IncbeCkZK6+Dhgg+E9o6
-	cx0NsceGNWe7GvUXcSzoOp/rHUH4dg3tbTJ1jnW5pDi9oIq0rFytivjLmSUBfy4Dopm8jV0
-	fwue1smcxzuASeSXjMDrICUYsOZxTT5fiK2EbQQhCKehNXRnRDwo+EY4wyKyaSxx+Hd+CLq
-	PfgTrD+12hyOWVh/CEWMpgud+LyN2ZNwixsyCSvAjzfhInPSNKrxjqr1LZPKozyoqYGevCs
-	EVbPQFoymdSVnHfvwDc3QCAizMzqqAdZWnqcZsT7+Qwb7taHr/HsDiyC8zCawtcI6RUDPNt
-	9R7v42TUjzsjOi1donsy6n/+tqoEJ8qI1YRBtBjaQlZi5ktejNkOrb5s7TeCrCa7uIneynv
-	h8V+0LLhfyYt6GabARAErSFcNbU9jR8bZsMyk9M8Ya/1/SM7CHqW7zF/Ep0uAPmRdLrybG2
-	Iw6AUn1R2xI09vuwzAEglKTCmXHaPgrhHoE2uYJ0SWLdXi8sLbvu8dNxsuqFxrwVkgMdZz8
-	7kYcw23dfPO32mprJlWP9w+Cr/iyfyAwcIYwBL0Y1iaajYNx93g6Li/3txxHqPFFK2dJdXH
-	ymbYcPAv2tfTbn+XWYIN50hRcQF9SudADoK04BelcRQ+dS4Vm219gy9DXHAn6gmsnDZgIqO
-	9ChUMcqFUCEbBNDjvRzOrCzR9X5Q29VvendhleXaOckG/Y+hTqBOUD60l2rNMEXmXi01mfI
-	HcqGh9TbqJfNEKghEkMmZCzpPQ+2hF9tdbWhaU34lwRWITfd+J5NIcZsBcWHv1f920f62kG
-	MHWfLV98RmTrhz5rWZQ41kzH4wa/wWTM33A6DVhTvWGPja32E4Erj/Kj6D8XjpHht4E3P+k
-	zmLo7RpA3TvWpiHDrDEacan2AsY18P1V0wT8T3wYf7OqM1QCxXmdAHMBqx1B29pl3DuNxzn
-	Pvd6ZWu8hOMcvPw/8m2uKsnasVMkYxQLvmW7w7Bq1QcGuV2rqVmYvEWPSHNTw=
-X-QQ-XMRINFO: OD9hHCdaPRBwH5bRRRw8tsiH4UAatJqXfg==
-X-QQ-RECHKSPAM: 0
+Content-Transfer-Encoding: 8bit
 
-On Thu, Mar 26, 2026 at 18:00:10 CST, Chukun Pan wrote:
-> Some SpacemiT K1 boards (like OrangePi R2S) provide USB VBUS
-> through a controllable regulator. Add support for the optional
-> vbus-supply property so the regulator can be properly managed
-> in host mode instead of left always-on. Note that this doesn't
-> apply to USB Hub downstream ports with different VBUS supplies.
-> 
-> The enabled and disabled actions of the regulator are handled
-> automatically by devm_regulator_get_enable_optional().
-> 
-> Signed-off-by: Chukun Pan <amadeus@jmu.edu.cn>
-Thanks for the patch.
+> diff --git a/drivers/net/usb/r8152.c b/drivers/net/usb/r8152.c
+> index 32a4e8d423115..8747c55e0a484 100644
+> --- a/drivers/net/usb/r8152.c
+> +++ b/drivers/net/usb/r8152.c
+[ ... ]
+> +static void sram_write_w0w1(struct r8152 *tp, u16 addr, u16 clear, u16 set)
+> +{
+> +	u16 data;
+> +
+> +	data = sram_read(tp, addr);
+> +	data = (data & ~clear) | set;
+> +	ocp_reg_write(tp, OCP_SRAM_DATA, data);
 
-Reviewed-by: Troy Mitchell <troy.mitchell@linux.spacemit.com>
+AI flags:
+
+  Does writing directly to OCP_SRAM_DATA here actually write to the intended
+  address?
+
+  Because hardware indirect SRAM access ports typically auto-increment their
+  internal address pointer upon access, the sram_read() call will advance the
+  pointer. By writing directly to OCP_SRAM_DATA instead of using
+  sram_write(tp, addr, data) to re-establish the address, the updated value
+  would be written to the next address (addr + 1) rather than the original addr.
+
+  Could this corrupt the PHY configuration memory across the initialization paths
+  that now use sram_clr_bits() and sram_set_bits()?
+
+Can you confirm if this is legit? Not sure whether this device / register
+auto-increments or where AI got it from.
