@@ -1,137 +1,125 @@
-Received: from rtits2.realtek.com.tw (rtits2.realtek.com [211.75.126.72])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtpbgau1.qq.com (smtpbgau1.qq.com [54.206.16.166])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 183083DDDDA;
-	Tue, 31 Mar 2026 08:27:56 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=211.75.126.72
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 140BD37997E;
+	Tue, 31 Mar 2026 08:43:57 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=54.206.16.166
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1774945679; cv=none; b=JgtKfjBAXmiaM2NEJP6jiJ2Aa+pSwcQrFURS5Pjn4WsulWMKHwp4JL06b2lcqdGbIQF4ubyYz/yssQ1f48MY/U+MCogGQN+9m8Ij/zKoiFwMWFx3XVBkrU78L/ktKpdL8gavuuuqCgrryLQbqMR9y2GHGWHYGWtsQ14lrMBmESE=
+	t=1774946641; cv=none; b=X0dMGARp9JajaEr522/9vAIaVL+KNdKtS42MUiAJ8Q2Wvm/HdG49OCMBCZnWtUuQc+ZNtHSTDCFoYZsP94RzoISn8T4e0+GOVZtNFAfLU99WDWPGZLxZnXLP0otYnMlN/HfXmIMhHbDQG6qN/zYAeZFLUBObx8T+dhFejYSOYRY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1774945679; c=relaxed/simple;
-	bh=tfglbo7YKFh2nE83V5/6Vy6ooHG3lE7ZaYqSgCjhWQo=;
-	h=From:To:CC:Subject:Date:Message-ID:References:In-Reply-To:
-	 Content-Type:MIME-Version; b=NJCrOVJWeImCo6+f04gcqZy7B9pHK2Qf4GWhyceyf7je0EmVT45PnGEFJ3rlTrNtl9wEL93IUPpTvykgIo+VPlU8jXRskG0CerQFDGSoWx4+eeW0SDfWdizvFM99WhkkqDEaOGgeEKNZ2CplHVlzTMyS3Tjc1mXyk0yk23zPVDc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=realtek.com; spf=pass smtp.mailfrom=realtek.com; dkim=pass (2048-bit key) header.d=realtek.com header.i=@realtek.com header.b=R/E5nmoq; arc=none smtp.client-ip=211.75.126.72
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=realtek.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=realtek.com
+	s=arc-20240116; t=1774946641; c=relaxed/simple;
+	bh=iai/CORVV26S9lAvHgswniAbqaXve9nbtDysFebyyPc=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=dl5uMhUgizZ43iz9b9ZXzqp5kBegbwi5sPUWkRnBhVLQay+M4+lNJxFDbfjS8FHrkEGOhfnAxjtwv2w8qQnb3iOnKfKVBvq/Ztopep7j9oyAzpDfYTWwZV0JBiI0Cc8pt2R/deptIj4fUiQkZQU/u0X2e0CJTEWD36lO5n578sc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux.spacemit.com; spf=none smtp.mailfrom=linux.spacemit.com; dkim=pass (1024-bit key) header.d=linux.spacemit.com header.i=@linux.spacemit.com header.b=hc0P82ui; arc=none smtp.client-ip=54.206.16.166
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux.spacemit.com
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=linux.spacemit.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=realtek.com header.i=@realtek.com header.b="R/E5nmoq"
-X-SpamFilter-By: ArmorX SpamTrap 5.80 with qID 62V8RHFc82892489, This message is accepted by code: ctloc85258
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=realtek.com; s=dkim;
-	t=1774945642; bh=iB1i/PR6VgFdbFeV7giDXrZhrIHgPqwhIP44cV5hbDw=;
-	h=From:To:CC:Subject:Date:Message-ID:References:In-Reply-To:
-	 Content-Type:Content-Transfer-Encoding:MIME-Version;
-	b=R/E5nmoqOoZyABXAujzTamvpDzZ/W512LVV2aSo6eivnSUaYgEoZxcUFlqAIAojRg
-	 3/KMoxUUyVyV993woaIUD2Jer3sLI0tbrDWSa+yUUPK3PQGPZgDCtXHz2ADAVTb6GW
-	 ViPfrvN18X6srUQ1nTDFg8UItr3CCbfGKzSdbmxIpRaUcegJBHzkoBO7zJ8Fpnvfm6
-	 FWByvr3xftZcHqUoJB8o8wM+NxN7lvuoRveTb4//QGJTOM7dfn6XiUuKNTSCFl0fzg
-	 NZn6BpB4tvsGLHBViM5Ae/Fk1/6wW/DK1MqUiznytiA3MFNsyWJ9Llt+ukIv6/Ly+k
-	 wNI3usTtS66qw==
-Received: from mail.realtek.com (rtkexhmbs04.realtek.com.tw[10.21.1.54])
-	by rtits2.realtek.com.tw (8.15.2/3.26/5.94) with ESMTPS id 62V8RHFc82892489
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
-	Tue, 31 Mar 2026 16:27:22 +0800
-Received: from RTKEXHMBS03.realtek.com.tw (10.21.1.53) by
- RTKEXHMBS04.realtek.com.tw (10.21.1.54) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.1748.10; Tue, 31 Mar 2026 16:24:38 +0800
-Received: from RTKEXHMBS03.realtek.com.tw ([::1]) by
- RTKEXHMBS03.realtek.com.tw ([fe80::368f:61f6:1754:de7d%9]) with mapi id
- 15.02.1748.010; Tue, 31 Mar 2026 16:24:38 +0800
-From: Hayes Wang <hayeswang@realtek.com>
-To: Chih Kai Hsu <hsu.chih.kai@realtek.com>, Jakub Kicinski <kuba@kernel.org>
-CC: "davem@davemloft.net" <davem@davemloft.net>,
-        "netdev@vger.kernel.org"
-	<netdev@vger.kernel.org>,
-        nic_swsd <nic_swsd@realtek.com>,
-        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
-        "linux-usb@vger.kernel.org" <linux-usb@vger.kernel.org>,
-        "edumazet@google.com" <edumazet@google.com>,
-        "bjorn@mork.no" <bjorn@mork.no>,
-        "pabeni@redhat.com" <pabeni@redhat.com>
-Subject: RE: [PATCH net-next v4 3/3] r8152: add helper functions for PHY OCP
- registers
-Thread-Topic: [PATCH net-next v4 3/3] r8152: add helper functions for PHY OCP
- registers
-Thread-Index: AQHcvPO0ywoZAMBFW0+K73BymOGShLXHZLAAgACjrzCAAEsN0A==
-Date: Tue, 31 Mar 2026 08:24:38 +0000
-Message-ID: <44da80d47d2140f687f57df2ed602c02@realtek.com>
-References: <20260326073925.32976-456-nic_swsd@realtek.com>
- <20260331020156.3518006-2-kuba@kernel.org>
- <0fb2fd8f26334b578c299ee71958202c@realtek.com>
-In-Reply-To: <0fb2fd8f26334b578c299ee71958202c@realtek.com>
-Accept-Language: zh-TW, en-US
-Content-Language: zh-TW
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: quoted-printable
+	dkim=pass (1024-bit key) header.d=linux.spacemit.com header.i=@linux.spacemit.com header.b="hc0P82ui"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.spacemit.com;
+	s=mxsw2412; t=1774946569;
+	bh=/uvGm2tgjmbaLFdSZktoAKCcvUL0XxD/eA5skeTmt24=;
+	h=Date:From:To:Subject:Message-ID:MIME-Version;
+	b=hc0P82uiLXmBwiJ10SpbwQHDWalcrCXctz7gaKpoOfm4zjjAj6BzgzNICUHo//51J
+	 RpWJjErLtwfwY8W2MoegH2FS+GeeiEOTwpD8GPKylzrJQdOg96o1lyxHVfbUfdY7vn
+	 peY682b1ySOeOmuw5F1A1Ak2HVRgW9AXOFZjsqkc=
+X-QQ-mid: zesmtpsz9t1774946567t1dceea17
+X-QQ-Originating-IP: Nru55Ic+l8JgLfAeWFW3/2SH3CgH47atZ3QRPmdUeJA=
+Received: from = ( [120.237.158.181])
+	by bizesmtp.qq.com (ESMTP) with 
+	id ; Tue, 31 Mar 2026 16:42:46 +0800 (CST)
+X-QQ-SSF: 0000000000000000000000000000000
+X-QQ-GoodBg: 0
+X-BIZMAIL-ID: 15209079779085793497
+EX-QQ-RecipientCnt: 10
+Date: Tue, 31 Mar 2026 16:42:45 +0800
+From: Troy Mitchell <troy.mitchell@linux.spacemit.com>
+To: Chukun Pan <amadeus@jmu.edu.cn>,
+	Thinh Nguyen <Thinh.Nguyen@synopsys.com>
+Cc: Yixun Lan <dlan@kernel.org>, Ze Huang <huang.ze@linux.dev>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	linux-riscv@lists.infradead.org, linux-kernel@vger.kernel.org,
+	linux-usb@vger.kernel.org, spacemit@lists.linux.dev,
+	Troy Mitchell <troy.mitchell@linux.spacemit.com>
+Subject: Re: [PATCH v3 1/1] usb: dwc3: Add optional VBUS regulator support to
+ SpacemiT K1
+Message-ID: <5E6BDCE16DD4ADB0+acuJBfKF-SCAOu2_@kernel.org>
+References: <20260326100010.3588454-1-amadeus@jmu.edu.cn>
+ <20260326100010.3588454-2-amadeus@jmu.edu.cn>
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20260326100010.3588454-2-amadeus@jmu.edu.cn>
+X-QQ-SENDSIZE: 520
+Feedback-ID: zesmtpsz:linux.spacemit.com:qybglogicsvrgz:qybglogicsvrgz3a-0
+X-QQ-XMAILINFO: NZcrde3zhHkVLuLpntG7TPHMdl/gXoK3X6JuO7HIKdI4knYe0zrsChIs
+	7SspeR4jWF7D2roKU73d4J4YJUR4bTy7RHBHqUyvUDJP3NeaNey6CJH+lGE90IiJna92yLi
+	KjPVHN2vN3zHRMO8JKm7HN1VjUqRJ1T3OYDH/PpBp7n2bwpa2Z0rw35yWOrF1AkBhkfNVpU
+	SgZKkMk2Os0i50Lj/JQUipZ1/HwYfXt/OmbSLBos0tR0ijdUid8HLF9wjIZ6dyO+Kg1XLsK
+	IWJiLt6hWqJTo/bSH2KxIRr+74AFTQq/VkigDlELyxT1mKBrkS7p1NMyhNYQR5XLsAKt1j+
+	BzrPkj3wnzVMXDgUyRWg2MwLBXl6KZuTmCHqTKy89ksWMpxQW3Bd91mVnqh/O5NhKcmhi2p
+	Kk4yUpAyPWyMF8QbJEoxUI7ZOT+MbYebexTsTU0al32aCMvkSRSyLWbKWgAfRr8z9eULLmH
+	ClLgdO8qhSWtQLvGvqgb2wl18JxFrKyI/kirOeUwWoV/UjbIu9JzB+IkK3ty538DzJDVP8D
+	d9j+a/TSUdght6FWAAAggP7rgZex3cWD4JRfrEzOia3SijIuJ9fX5jLJ+KdIhMFqgp45kDY
+	gyZW8ywo57bZLjlVsd9H19hvBUqJu/f20o8xBLxwk72ACaj4fn+EjeYhyUtYLiBH8Ro7yMR
+	ZXt02fq8RSdb7UxR1rJZM/jvFKC7FI1YH7Amhns7kFiJ6yTH5V6wPhkfAuQpQcstBnMT76l
+	uzsYUBHUzIc8k67IlnVvW/rPfI2FvNlR8v0mPoMO/C8TfcgEPfawq+wKdQzhp7GavVOM5w9
+	ajjynfQdOXh0KaTDkwSP1EqA4TqrvRv/5toQXhokr/9lqtFUGNmrqxpW4yoBlOzN4tLofp6
+	cgJqnJSELzFuE0zIqseff8WfUKYf3X2uXcwjBLdyDOkvTdHTTeDnQkiVXXo48KCkoDCuEqb
+	auD8pBYf4QDAtqeB6Q19tzPCbctSjJNaOg238B0Le/hCWScmk4IBOEpGenjp/N1sY+Mt2wu
+	pVx+yINUpeDU6glKtmzfXFjpKM+YZKdz0XfbcNsocz1jd6aZ9b
+X-QQ-XMRINFO: MSVp+SPm3vtSI1QTLgDHQqIV1w2oNKDqfg==
+X-QQ-RECHKSPAM: 0
 
-> -----Original Message-----
-> From: Chih Kai Hsu <hsu.chih.kai@realtek.com>
-> Sent: Tuesday, March 31, 2026 1:46 PM
-> To: Jakub Kicinski <kuba@kernel.org>
-> Cc: davem@davemloft.net; netdev@vger.kernel.org; nic_swsd
-> <nic_swsd@realtek.com>; linux-kernel@vger.kernel.org;
-> linux-usb@vger.kernel.org; edumazet@google.com; bjorn@mork.no;
-> pabeni@redhat.com
-> Subject: RE: [PATCH net-next v4 3/3] r8152: add helper functions for PHY =
-OCP
-> registers
->=20
-> On 31/03/26 10:02 am, Jakub Kicinski wrote:
-> >
-> > > diff --git a/drivers/net/usb/r8152.c b/drivers/net/usb/r8152.c index
-> > > 32a4e8d423115..8747c55e0a484 100644
-> > > --- a/drivers/net/usb/r8152.c
-> > > +++ b/drivers/net/usb/r8152.c
-> > [ ... ]
-> > > +static void sram_write_w0w1(struct r8152 *tp, u16 addr, u16 clear,
-> > > +u16 set) {
-> > > +     u16 data;
-> > > +
-> > > +     data =3D sram_read(tp, addr);
-> > > +     data =3D (data & ~clear) | set;
-> > > +     ocp_reg_write(tp, OCP_SRAM_DATA, data);
-> >
-> > AI flags:
-> >
-> >   Does writing directly to OCP_SRAM_DATA here actually write to the
-> > intended
-> >   address?
-> Yes, this actually writes to the intended address.
->=20
-> >
-> >   Because hardware indirect SRAM access ports typically auto-increment
-> their
-> >   internal address pointer upon access, the sram_read() call will advan=
-ce
-> the
-> >   pointer. By writing directly to OCP_SRAM_DATA instead of using
-> >   sram_write(tp, addr, data) to re-establish the address, the updated v=
-alue
-> >   would be written to the next address (addr + 1) rather than the origi=
-nal
-> addr.
-> >
-> >   Could this corrupt the PHY configuration memory across the
-> > initialization paths
-> >   that now use sram_clr_bits() and sram_set_bits()?
-> >
-> > Can you confirm if this is legit? Not sure whether this device /
-> > register auto-increments or where AI got it from.
-> The address pointer, OCP_SRAM_ADDR, is not auto-incremented after
-> sram_read(tp, addr).
-> However, the address pointer is incremented automatically after
-> ocp_reg_write(tp, OCP_SRAM_DATA, data).
+On Thu, Mar 26, 2026 at 18:00:10 CST, Chukun Pan wrote:
+> Some SpacemiT K1 boards (like OrangePi R2S) provide USB VBUS
+> through a controllable regulator. Add support for the optional
+> vbus-supply property so the regulator can be properly managed
+> in host mode instead of left always-on. Note that this doesn't
+> apply to USB Hub downstream ports with different VBUS supplies.
+> 
+> The enabled and disabled actions of the regulator are handled
+> automatically by devm_regulator_get_enable_optional().
+> 
+> Signed-off-by: Chukun Pan <amadeus@jmu.edu.cn>
+> ---
+>  drivers/usb/dwc3/dwc3-generic-plat.c | 23 ++++++++++++++++++++++-
+>  1 file changed, 22 insertions(+), 1 deletion(-)
+> 
+> diff --git a/drivers/usb/dwc3/dwc3-generic-plat.c b/drivers/usb/dwc3/dwc3-generic-plat.c
+> index e846844e0023..64f5e9f20663 100644
+> --- a/drivers/usb/dwc3/dwc3-generic-plat.c
+> +++ b/drivers/usb/dwc3/dwc3-generic-plat.c
+> @@ -12,6 +12,8 @@
+>  #include <linux/reset.h>
+>  #include <linux/regmap.h>
+>  #include <linux/mfd/syscon.h>
+> +#include <linux/regulator/consumer.h>
+> +#include <linux/usb/otg.h>
+>  #include "glue.h"
+>  
+>  #define EIC7700_HSP_BUS_FILTER_EN	BIT(0)
+> @@ -69,6 +71,20 @@ static int dwc3_eic7700_init(struct dwc3_generic *dwc3g)
+>  	return 0;
+>  }
+>  
+> +static int dwc3_spacemit_k1_init(struct dwc3_generic *dwc3g)
+> +{
+> +	struct device *dev = dwc3g->dev;
+> +
+> +	if (usb_get_dr_mode(dev) == USB_DR_MODE_HOST) {
+The logic looks good, but the structure can be further improved to better align with
+standard kernel coding style:
 
-That's strange - I didn't receive the previous email from Jakub Kicinski.
-Also, the answer above is correct.
+if (usb_get_dr_mode(dev) != USB_DR_MODE_HOST)
+  return 0;
+> +		int ret = devm_regulator_get_enable_optional(dev, "vbus");
+Could you please move the declaration of ret to the top of the function?
 
-Best Regards,
-Hayes
-
+Otherwise, LGTM.
+Reviewed-by: Troy Mitchell <troy.mitchell@linux.spacemit.com>
