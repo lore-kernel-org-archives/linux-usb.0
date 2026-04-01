@@ -1,62 +1,81 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BFBF1224B1E;
-	Wed,  1 Apr 2026 00:56:50 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C3C7033120A;
+	Wed,  1 Apr 2026 02:30:30 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1775005010; cv=none; b=UoIrAl6LKd9g3uTHBHhDR1Zjg3sWAui3EVYuatmg/IPb81L8buAsiprqfnV0ES39v4gYbhpn28FvBZaDD4TPHNDVnTym2F12AbC847Il2PsNCOzoObVJ0ARb7/qUvVrfTcnqI+iacnlcf+RhP/9XnOG0A/UAZSIfqXJkxhAgwno=
+	t=1775010630; cv=none; b=ZErGHpcF/b7oOv2s4RXmTGtfNzVh8WH51psRdmC4FkluPb/Rwr1EC4UnC+lEinbP+6u4uOVn4ptoHSELo/g40f3tRbvMZQiIV/HCq+jKuKVGuTSTtL9tb6AxgkIv7kwZHNKkWxSD4FceRW3VuOjv5rGxltFgsi7p9yS3bhcE5Ck=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1775005010; c=relaxed/simple;
-	bh=AQ2Pn1q455DvqVaoh2xsL2iQtnXLWolK4tmzrltYPz0=;
-	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=LiiYVPKPoi1t2Towp+imlKDM+juoKjdtthCwTv7CYt7EyiVr2H8acTvVO1mUhlqbDBD4RPZD18BiBseUMSbghNfY9fHTfk4tAB8aZ+qPVtVB/0SDloPYlRQQMpItxHYxRhmBTiJuNT10+GPEogq0pPVT4GP14H4b54D7lVrVuZw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=uywcxVNs; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1775010630; c=relaxed/simple;
+	bh=Cwqf7uFjQGTGXEobsj1A8mxxBkvsYAwtxGNsAO5Plco=;
+	h=Content-Type:MIME-Version:Subject:From:Message-Id:Date:References:
+	 In-Reply-To:To:Cc; b=kRP8CdulXgmQ5CDx+7sixEscQE0z4nyTUzBfE5n9gmrUhq9wMqb9q/0Rtf7ozRrqYrq+M5baeq1O2gCQv/mftdVRMI0l1IhaMr2QLfzraF3HLbimWEIoTUgbKIcmlGyP910gmqwv5O+qzIsXu5l1CGj6yykm1vN3194rm3BzTBA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=ap3XrfWi; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="uywcxVNs"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 0B118C2BCB0;
-	Wed,  1 Apr 2026 00:56:50 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="ap3XrfWi"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 77074C2BCB1;
+	Wed,  1 Apr 2026 02:30:30 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1775005010;
-	bh=AQ2Pn1q455DvqVaoh2xsL2iQtnXLWolK4tmzrltYPz0=;
-	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
-	b=uywcxVNsFYVt1voo+N3xRP6VFKlLhyoiQu2RXpiA5brXISY09I78LBUHAH/4x1zgX
-	 sXC4t5+oO9vKQKntWjpfVj7u6L90rxZwM2GgTPdNSQhpvExMKltEKvxW4Ta0aZc3d7
-	 AQ3yxSidjM1w5SWrvOgQmX8Dn2ToK/3UoAq4lXzA90ilmnM960BYxemwHcQwS602Fq
-	 HO/VyLpapm2l6fkv7b7eoXlSvHtVCDrxRBxkeLTzsCz3ZU5hRgeOWBkUyz6WdmORXl
-	 iv9SdmLeL/N4fn/intJ45HMkPfl7BC9bIZ1bViG+41kBSazO0GsolL/22QiPUu0LcL
-	 1PZJIfk7wMcog==
-Date: Tue, 31 Mar 2026 17:56:49 -0700
-From: Jakub Kicinski <kuba@kernel.org>
-To: Birger Koblitz <mail@birger-koblitz.de>
-Cc: andrew+netdev@lunn.ch, davem@davemloft.net, edumazet@google.com,
- pabeni@redhat.com, linux-usb@vger.kernel.org, netdev@vger.kernel.org,
- linux-kernel@vger.kernel.org
-Subject: Re: [PATCH net-next v4 1/2] r8152: Add support for 5Gbit Link
- Speeds and EEE
-Message-ID: <20260331175649.729e60a7@kernel.org>
-In-Reply-To: <50dc7e8c-6c6d-47d1-866e-677638b4deaf@birger-koblitz.de>
-References: <20260324-rtl8157_next-v4-1-034312b12de5@birger-koblitz.de>
-	<20260329193449.2764517-1-kuba@kernel.org>
-	<50dc7e8c-6c6d-47d1-866e-677638b4deaf@birger-koblitz.de>
+	s=k20201202; t=1775010630;
+	bh=Cwqf7uFjQGTGXEobsj1A8mxxBkvsYAwtxGNsAO5Plco=;
+	h=Subject:From:Date:References:In-Reply-To:To:Cc:From;
+	b=ap3XrfWiTtMeadFKnxkQeOcT1CjESA4VjiufQlz4ULRk8UkbhBnaXngJv3KuNJHh8
+	 PS2IglUVjp3bkveHAHBRI0YKfi2GLZjj1p3vuxfk4/vmuwhA+8IuM1JKD+jZVLhPPJ
+	 4ORop27devFNWZBoql/QTN3XLDbfOA6Ot4ntdJTJQmzh/Qc5mOzC2NguGxCrObwJZk
+	 inYU8PpKqcaoDH/1lnCctv3s1tQdehpJbfGHVJTTg3b/OPwFm0lNjNYp/PcrIDgt+2
+	 /SB3urfHswaHOWv0BXYeXCchhF+sID1sRctNXRanM0sr/z7B/BZpqaJow408jwnPMb
+	 mwOW5vlt7FVHA==
+Received: from [10.30.226.235] (localhost [IPv6:::1])
+	by aws-us-west-2-korg-oddjob-rhel9-1.codeaurora.org (Postfix) with ESMTP id 02C5A3808203;
+	Wed,  1 Apr 2026 02:30:15 +0000 (UTC)
+Content-Type: text/plain; charset="utf-8"
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
+Subject: Re: [PATCH 0/2] net: refactor USB endpoint lookups
+From: patchwork-bot+netdevbpf@kernel.org
+Message-Id: 
+ <177501061353.3039405.285600614072699753.git-patchwork-notify@kernel.org>
+Date: Wed, 01 Apr 2026 02:30:13 +0000
+References: <20260330102611.1671546-1-johan@kernel.org>
+In-Reply-To: <20260330102611.1671546-1-johan@kernel.org>
+To: Johan Hovold <johan@kernel.org>
+Cc: andrew+netdev@lunn.ch, davem@davemloft.net, edumazet@google.com,
+ kuba@kernel.org, pabeni@redhat.com, linux-usb@vger.kernel.org,
+ netdev@vger.kernel.org, linux-kernel@vger.kernel.org
 
-On Tue, 31 Mar 2026 17:38:02 +0200 Birger Koblitz wrote:
-> > Are there missing switch cases for NWAY_5000M_FULL in the hardware UPS
-> > flag configurations, such as r8156_ups_flags?  
-> This question has now been raised the third time, see here:
-> https://lkml.org/lkml/2026/3/24/1902 and here https://lkml.org/lkml/2026/3/19/1765
-> However, while I share the concern, I cannot provide a better answer than
-> the first time or second time.
+Hello:
 
-Apologies for the repeats, I tend to send out the full review as
-soon as I spot at least one chunk that looks plausible. 
-I should do better but re-checking the AI reviews takes so much 
-of my time already.. :(
+This series was applied to netdev/net-next.git (main)
+by Jakub Kicinski <kuba@kernel.org>:
+
+On Mon, 30 Mar 2026 12:26:09 +0200 you wrote:
+> Use the common USB helpers for looking up bulk and interrupt endpoints
+> instead of open coding.
+> 
+> Johan
+> 
+> 
+> Johan Hovold (2):
+>   net: hso: refactor endpoint lookup
+>   net: ipeth: refactor endpoint lookup
+> 
+> [...]
+
+Here is the summary with links:
+  - [1/2] net: hso: refactor endpoint lookup
+    https://git.kernel.org/netdev/net-next/c/da45a55748f2
+  - [2/2] net: ipeth: refactor endpoint lookup
+    https://git.kernel.org/netdev/net-next/c/abfca6b13bcf
+
+You are awesome, thank you!
+-- 
+Deet-doot-dot, I am a bot.
+https://korg.docs.kernel.org/patchwork/pwbot.html
+
+
