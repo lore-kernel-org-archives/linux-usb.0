@@ -1,144 +1,140 @@
-Received: from mail-wr1-f51.google.com (mail-wr1-f51.google.com [209.85.221.51])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.10])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F08D035CB61
-	for <linux-usb@vger.kernel.org>; Wed,  1 Apr 2026 21:50:27 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.51
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6EFDE317159
+	for <linux-usb@vger.kernel.org>; Wed,  1 Apr 2026 22:08:44 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.10
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1775080229; cv=none; b=a6NsuGcHLQPHtiSVCHPr3dZ/l2QfgYnO4AQdneMIowte2h6lbPU0tnKCEZXEmSN6p6XXkwDOB7X+jG0Bqp51z8m9cwz8wpG0mWMQTCC2EhZXBPbm1hoCWXIbeHTsI01ZIgo4mjJ0aoz6uilN9K/+U1ns8dsW231LnP+583WQOHw=
+	t=1775081325; cv=none; b=G2Cjj7dZNuVqWCfTta7+FZPK6d48cu8b2NBFDZxMsGD8EjSFXp3PtoI1B+iXI+ZuSqx46z/xw+o0ud7XVMHYWK9HZRvptjR3RFiruT+9qR6jbZX1Y5/A/T+bxbVAC3FrbSvogldSCnZhbx6CDsWYFjPHsFHaENqvadBr3tiQfL4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1775080229; c=relaxed/simple;
-	bh=RqHdpb2duUGJ6d2wphqaOZhFeV+NWj1fFWhss2Vhq28=;
-	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=QoqLDWIIhJxdRVZRLaCsjLr4w4K+cL1Lj+VZzmqSrxCDzaVWSksDa1umLv0PCHhdDItNK8iMxXCdqcnjlzo52GDJ/P6hY87kUSxiPqspdZAp587eGkSWAyyPPOuHy5qtsHNFHpqHnfD6KoL7WDX/0+zYboLyN+gp6SC5LKdJdKU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=AqzvcPSA; arc=none smtp.client-ip=209.85.221.51
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1775081325; c=relaxed/simple;
+	bh=mebR3LDZGRKAnq9Hd1Ve0fiCOVnrCMxLx7aCZed4d5I=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=HPP1qga5vM8B0Q6utYHku+XScLD0c+B4puA3DeWnzIRjj0BK7Rf/+bdektCjVHLntVazx4PheU+SijmbssE/+UFwvAxh2Lc0/vUYSp+Bu6uS7XICJaGQZObZhMTFLZLdWb57C+2exDqy79tV17mEK4/5WZYdmgYjg4B/gtoeCBI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=pass smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=j3VCVCRM; arc=none smtp.client-ip=192.198.163.10
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="AqzvcPSA"
-Received: by mail-wr1-f51.google.com with SMTP id ffacd0b85a97d-43cfbd17589so216455f8f.0
-        for <linux-usb@vger.kernel.org>; Wed, 01 Apr 2026 14:50:27 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1775080226; x=1775685026; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:subject:cc:to:from:date:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=OmvLeu1XrJDKXltfSiF2gr8Yip2920el5FDRpp8OtAg=;
-        b=AqzvcPSAcOHEqjrSeH3Y39mCdwpKUFZMhJkyblvAxCWp05iMPOgybXA5HfldugmKmG
-         91L9nXv/+YjKodiqfb58nbZFXmekPJhyyXMdoBrG3iNjvYtEf9QP6fw3qybwKc2+/wEe
-         k+OqR4UWxpGvASB+XU92iyiKSaTU3QU2HrZQ7w2WAFKpJ1j1ivaS0YI+vUkMGNHrSTKC
-         7kDf/HvQVzaXwfIZNSynV3eq21eD399INM1V6i0PFLRs1BmBVL0RAWJPTSr29bIlhgmC
-         Pk0i1VWtdo24M21FAGvDONoZG8nKF8CEnw0e+t+fq3ENUPhgmJFqlKGT8KQOBaY1XD/Q
-         xTHg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1775080226; x=1775685026;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:subject:cc:to:from:date:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to;
-        bh=OmvLeu1XrJDKXltfSiF2gr8Yip2920el5FDRpp8OtAg=;
-        b=jjecAuClJr5505x8j04hJDt8Pie+XtLVborme2gVNpOfKZ/p2TX1hFuazFMLxtM8U2
-         sJkxqPRZKY9ZdM/wgW24iskGq1VyltKaGg9MfC8vYm3BjNMRGaOtQhuuVeGzhJ5bpi3L
-         v73BxG5u3/Ph6rJSOMcaj8uqFKhlUFtGwtl8+ugygyn6RbFCxgyq2EFn+GunK/LR32hL
-         sZzIKPV3FaM0AmrOGHw3nneQ7ksiG6ywnWNp4Q35aFKe6Ol1EYBbfSy332q79zYUQ3Km
-         oEBvHq+1iXa5N4s043eET4efv6iD0pOudjGXMifFq5+YEoRpboseba8J41LNUesQK2V4
-         /EUQ==
-X-Forwarded-Encrypted: i=1; AJvYcCXLvYEpyMNb6ZWDuq0Vre2QUXkt7CfAFkXE9v0RF89uak/zBKbhfCffIyyruYEbAjAkoKrMXW8/PYo=@vger.kernel.org
-X-Gm-Message-State: AOJu0Ywf1CyUZSqJQgDDGOK/EXpC3McVU/dYGzP1OegohQ6mn5Akhqd/
-	fNWuG4muvwnc1XL5uEww2XHMO5n62yA8lXNBp4wzC0vW/9TMpvAsbTEf
-X-Gm-Gg: ATEYQzyrFyn1K1wHZZjqXNNJ8zjGFsxBfziFHAMLcVojzaebGGqHt8NtW6jVJw6x03q
-	/Z45+M0fTLa5ObhWGc8hU0tZcGrzcc1lVSmVFQbN0U909+WiksLZSVF/9M88QbkrD0VPEFGxkA1
-	3DuUhZKgdfx5G0AJd79Wl518XUpmToMV4vJQ6/NXCueK64EK9ZzmZ9tz9lS8tCn7DrH9y3Fypkp
-	xQ5j99aAyQs00sfCDT/3SPV5rNPeJZBQRqfuFaN2aOui7Jv5tl+fTtfIiX9DzAYeu7LPhRFXw23
-	hdYbj6+MN0Bl2vfXSOmNJC7rtjCwkHavCyKG2Q/eXfqeIbBY/ZWG3H9zvpKs3LVrT5sJifGFtD7
-	lddkFbQ0SnmeshavQDbwJesWz7jlxUiBgKr+RwXO5gCEQsL0cYUkklGU+PedeBh4ZpNYJI6Bcxw
-	xjDdq5AmXu0ASI68mbhF8Srf8ZUS/8GkqL
-X-Received: by 2002:a05:6000:24c1:b0:43b:3cdc:941f with SMTP id ffacd0b85a97d-43d150869ddmr10250408f8f.17.1775080226148;
-        Wed, 01 Apr 2026 14:50:26 -0700 (PDT)
-Received: from foxbook (bfi53.neoplus.adsl.tpnet.pl. [83.28.46.53])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-43d1e4e56fesm2551428f8f.27.2026.04.01.14.50.25
-        (version=TLS1_2 cipher=AES128-SHA bits=128/128);
-        Wed, 01 Apr 2026 14:50:25 -0700 (PDT)
-Date: Wed, 1 Apr 2026 23:50:22 +0200
-From: Michal Pecio <michal.pecio@gmail.com>
-To: Alan Stern <stern@rowland.harvard.edu>
-Cc: Thinh Nguyen <Thinh.Nguyen@synopsys.com>, Oliver Neukum
- <oneukum@suse.com>, =?UTF-8?B?QmrDuHJu?= Mork <bjorn@mork.no>, USB list
- <linux-usb@vger.kernel.org>
-Subject: Re: correctly handling EPROTO
-Message-ID: <20260401235022.67037c98.michal.pecio@gmail.com>
-In-Reply-To: <20260330143600.0594f0da.michal.pecio@gmail.com>
-References: <20260318235920.ioek26hdr25rkksp@synopsys.com>
-	<1eaf4cf3-4278-4d04-87aa-8b6069d544e1@rowland.harvard.edu>
-	<20260319231620.3ukqxsrwqikp5zbd@synopsys.com>
-	<2929d47c-fc02-49d2-873e-758f24c43071@rowland.harvard.edu>
-	<20260321021439.7pmcdrpb5oxbivct@synopsys.com>
-	<20260321065424.76a80508.michal.pecio@gmail.com>
-	<d3fd1c0b-d0cf-40e2-9f21-b4c5de1c421b@rowland.harvard.edu>
-	<20260328222217.297200bd.michal.pecio@gmail.com>
-	<22c70ca7-57dc-4328-a5cc-d46c4f73556f@rowland.harvard.edu>
-	<20260329184611.0afa92c7.michal.pecio@gmail.com>
-	<ba68bdbb-9ffd-47d3-8915-9e2e40fd6adb@rowland.harvard.edu>
-	<20260330143600.0594f0da.michal.pecio@gmail.com>
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="j3VCVCRM"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1775081324; x=1806617324;
+  h=message-id:date:mime-version:subject:to:cc:references:
+   from:in-reply-to:content-transfer-encoding;
+  bh=mebR3LDZGRKAnq9Hd1Ve0fiCOVnrCMxLx7aCZed4d5I=;
+  b=j3VCVCRMWW8E2JRyNi4i6kzPgf3uskUx/b+j08Vf8VhwQVjViOK+Yt7x
+   4jOfYA421TjoJb24WpalLhOhmMJ2raW9zEUmBGckNEmG2h2AgONd0fFy0
+   U/aJAuX67NTReaOLJrTZEy6JbO71+3MoLV8EbxwVgEmhgL9tJJ48uIDV0
+   foh5SqjLpAjN78JIkTGtZnVc25B1L+Kmwvj3tb/xUN3782jgH8IPZ35uY
+   InCYvUdjO8z1QJVYcJkYd/4oOD5R3b8HT8/4C5OfMqPhVHKyPVTLOMHcq
+   0tvhqxPnJ+/LVjro2FT8zb5BtqZfmfX1NpYnQz+rSqa5yz+cGTpCOfRSu
+   Q==;
+X-CSE-ConnectionGUID: 1nhV0iohRyys+JjOWZneHg==
+X-CSE-MsgGUID: UYwu3zpFToO1cgpPSKoi/A==
+X-IronPort-AV: E=McAfee;i="6800,10657,11746"; a="87528500"
+X-IronPort-AV: E=Sophos;i="6.23,153,1770624000"; 
+   d="scan'208";a="87528500"
+Received: from orviesa004.jf.intel.com ([10.64.159.144])
+  by fmvoesa104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 01 Apr 2026 15:08:43 -0700
+X-CSE-ConnectionGUID: r9R2YaApRpSQ5hUWYlhUTA==
+X-CSE-MsgGUID: BRMg8IrIT6CFfPtMl5sRbw==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.23,153,1770624000"; 
+   d="scan'208";a="231209817"
+Received: from vpanait-mobl.ger.corp.intel.com (HELO [10.245.244.145]) ([10.245.244.145])
+  by orviesa004-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 01 Apr 2026 15:08:41 -0700
+Message-ID: <50e61cf7-cce9-45b4-884e-ac65f5e771d7@linux.intel.com>
+Date: Thu, 2 Apr 2026 01:08:31 +0300
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
+User-Agent: Mozilla Thunderbird
+Subject: Re: [RFC PATCH 1/2] xhci: prevent automatic endpoint restart after
+ stall or error
+To: "stern@rowland.harvard.edu" <stern@rowland.harvard.edu>
+Cc: Thinh Nguyen <Thinh.Nguyen@synopsys.com>,
+ "linux-usb@vger.kernel.org" <linux-usb@vger.kernel.org>,
+ "michal.pecio@gmail.com" <michal.pecio@gmail.com>,
+ "oneukum@suse.com" <oneukum@suse.com>,
+ "niklas.neronin@linux.intel.com" <niklas.neronin@linux.intel.com>
+References: <20260323122512.2019893-1-mathias.nyman@linux.intel.com>
+ <20260323122512.2019893-2-mathias.nyman@linux.intel.com>
+ <20260325015110.v4r5smfvdd62fcua@synopsys.com>
+ <0f38e10d-ecac-4beb-ad2c-3a42c2546c3c@linux.intel.com>
+ <20260326011910.t7ijezht7g7ttrec@synopsys.com>
+ <9cf4008e-2d12-4025-809a-8d9371f45dac@linux.intel.com>
+ <20260326232400.zkplsxflhykhayyb@synopsys.com>
+ <2604e951-01e8-44d0-a11e-be63b0849c23@linux.intel.com>
+ <9e62ef5a-5b31-4fca-891b-d028f5bbfc05@rowland.harvard.edu>
+ <54121929-d775-45a0-b31d-09b783aada5d@linux.intel.com>
+ <86876c62-01d2-45da-81f3-7d4499ffa0ad@rowland.harvard.edu>
+Content-Language: en-US
+From: Mathias Nyman <mathias.nyman@linux.intel.com>
+In-Reply-To: <86876c62-01d2-45da-81f3-7d4499ffa0ad@rowland.harvard.edu>
+Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
 
-On Mon, 30 Mar 2026 14:36:00 +0200, Michal Pecio wrote:
-> UVC allows both isoc and bulk transport. I have one bulk device and I
-> found that if I randomly change urb->status to -EPROTO, the URB is not
-> resubmitted but (on xHCI) the endpoint keeps going, until it stops after
-> 5 errors (no URBs left). EHCI would presumably never restart at all.
+On 3/31/26 18:31, stern@rowland.harvard.edu wrote:
+> 
+> How about this instead?  We add a "halted" flag to the usb_host_endpoint
+> structure, and the core will set this flag whenever a bulk or interrupt
+> URB gets a status other than 0 (before putting the URB on the bh list).
+> If an URB has one of these statuses, when its completion handler returns
+> the core will unlink all the URBs queued to the same endpoint.  Finally,
+> the "halted" flag should be cleared after a completion handler returns
+> if there are no more unlinked URBs still in the queue or URBs waiting on
+> the bh list to be given back.
+> 
+> The result of this is that any URB remaining in the queue when the flag
+> is cleared must have been submitted by the class driver _after_ the
+> failing URB's completion handler has run.  We can assume the class
+> driver knows what it's doing in this case.
+> 
+> The endpoint queue shouldn't be restarted until the "halted" flag is
+> cleared.  Either right away, if there are any URBs in the queue, or not
+> until the next URB is submitted.  Doing this might require a new HCD
+> callback.  (It would also mean the kerneldoc for usb_unlink_urb() would
+> need to be updated, because the endpoint might restart before all the
+> completion handlers for the unlinked URBs have run.)
+> 
+> What I'm trying to do here is come up with a single, consistent proposal
+> for exactly when halted endpoint queues should restart.  Maybe someone
+> else has a better suggestion.
 
-I tried this again with real transaction errors (dodgy cable) on EHCI
-with disabled XactErr retries and I see identical result. Failed URBs
-are never submitted again (checked with usbmon) but the endpoint keeps 
-going as long as there are other URBs remaining.
+Sounds like a possible solution to me.
 
-[285740.194700] usb 4-4: new high-speed USB device number 3 using ehci-pci
-[285740.243438] usb 4-4: New USB device found, idVendor=345f, idProduct=2130, bcdDevice=21.00
-[285740.243448] usb 4-4: New USB device strings: Mfr=1, Product=2, SerialNumber=7
-[285740.243452] usb 4-4: Product: USB3 Video
-[285740.243455] usb 4-4: Manufacturer: UltraSemi
-[285740.243457] usb 4-4: SerialNumber: 20210621
-[285740.263078] uvcvideo 4-4:1.0: Found UVC 1.00 device USB3 Video (345f:2130)
-[285745.210034] uvcvideo 4-4:1.0: Allocated 5 URB buffers of 30x512 bytes each
-[285745.563613] ehci-pci 0000:08:00.2: devpath 4 ep3in 3strikes
-[285745.563667] uvcvideo 4-4:1.1: Non-zero status (-71) in video completion handler.
-[285745.830190] ehci-pci 0000:08:00.2: devpath 4 ep3in 3strikes
-[285745.830233] uvcvideo 4-4:1.1: Non-zero status (-71) in video completion handler.
-[285746.145090] ehci-pci 0000:08:00.2: devpath 4 ep3in 3strikes
-[285746.145112] uvcvideo 4-4:1.1: Non-zero status (-71) in video completion handler.
-[285746.500756] ehci-pci 0000:08:00.2: devpath 4 ep3in 3strikes
-[285746.500778] uvcvideo 4-4:1.1: Non-zero status (-71) in video completion handler.
-[285746.771547] ehci-pci 0000:08:00.2: devpath 4 ep3in 3strikes
-[285746.771571] uvcvideo 4-4:1.1: Non-zero status (-71) in video completion handler.
+Just to clarify, core should unlink the remaining URBs queued to that endpoint
+after setting the "halted" flag, but before URB completion is called.
+"Halted" flag should be cleared after URB completion returns, and endpoint
+should be restarted if there are any pending URBs.
 
-# urb1
-ffff8881a653ab40 3478085173 C Bi:4:003:3 0 15360 = 0c8d8a89 cd94dc59 d1941900 10801080 10801080 10801080 10801080 10801080
-ffff8881a653ab40 3478085194 S Bi:4:003:3 -115 15360 <
-# urb2
-ffff8881be27dd80 3478085930 C Bi:4:003:3 0 15360 = 0c8d8a89 cd943acd d2941a00 10801080 10801080 10801080 10801080 10801080
-ffff8881be27dd80 3478085955 S Bi:4:003:3 -115 15360 <
-# urb3
-ffff88814746f840 3478086931 C Bi:4:003:3 0 15360 = 0c8d8a89 cd94fe45 d4941b00 10801080 10801080 10801080 10801080 10801080
-ffff88814746f840 3478086995 S Bi:4:003:3 -115 15360 <
-# urb4
-ffff8881617b3480 3478087544 C Bi:4:003:3 0 15360 = 0c8d8a89 cd94fab6 d5941c00 10801080 10801080 10801080 10801080 10801080
-ffff8881617b3480 3478087563 S Bi:4:003:3 -115 15360 <
-# urb1 errors out
-ffff8881a653ab40 3478087703 C Bi:4:003:3 -71 0
-# urb2
-ffff8881be27dd80 3478088803 C Bi:4:003:3 0 15360 = 0c8d8a89 cd94f730 d7941d00 10801080 10801080 10801080 10801080 10801080
-ffff8881be27dd80 3478088813 S Bi:4:003:3 -115 15360 <
-# urb3
-ffff88814746f840 3478089546 C Bi:4:003:3 0 15360 = 0c8d8a89 cd949cc4 d8941d00 10801080 10801080 10801080 10801080 10801080
-ffff88814746f840 3478089554 S Bi:4:003:3 -115 15360 <
-...
+This allows the class driver URB completion handler to re-queue the halted URB
+without core unlinking it.
 
-Not sure why it happens, maybe it's just the async giveback race,
-but it worked like that reliably several times.
+> 
+>>> Here's a troubling consequence for people to consider: Suppose an
+>>> endpoint queue stops with -EPROTO or -EPIPE, and before the class driver
+>>> gets around to calling usb_clear_halt(), it is unbound.  What happens
+>>> the next time a driver binds to the device and tries to use the
+>>> endpoint?
+>>
+>> The disable/enable interface and set config calls during unbind/bind should,
+>> if I remember correctly flush pending URBs and drop and re-add the endpoint,
+>> clearing the xhci side halt and reset toggle.
+> 
+> usb_probe_interface() doesn't do any of that stuff, other than a
+> deferred switch to altsetting 0 if needed.
+> 
+> usb_unbind_interface() does call usb_enable_interface() if the interface
+> is already in altsetting 0, but the reset_ep argument is false so the
+> endpoint state doesn't get affected.  Should that be changed?
+
+Looks like this needs more attention. Interface driver unbind/bind with
+halted endpoint could be an issue. I don't have an answer right now.
+
+Thanks
+Mathias
+
