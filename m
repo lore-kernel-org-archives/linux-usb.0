@@ -1,159 +1,164 @@
-Received: from canpmsgout11.his.huawei.com (canpmsgout11.his.huawei.com [113.46.200.226])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 037D536AB50;
-	Thu,  2 Apr 2026 06:59:55 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=113.46.200.226
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A105737F000;
+	Thu,  2 Apr 2026 07:10:37 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1775113199; cv=none; b=BB6JEE/Z/YopBbDhonV23F456OJerINOtH2MuV2zn/khSTKSDfM3tpJ0LGa5yWlzZ+IZlZhZ8MzmrKD9lyuZWRPOIkx+WOjs+/1RWIIx8aLw15uqyXxqoHM8KjvLPswzTomOYyXSj9Eb5GTHWi42+PggDoHCRM9W2LuJ71/GYu4=
+	t=1775113837; cv=none; b=hoPRwjrIBOCEF3ceI+ymXdKFI45+q8GoNNmVq1240TuU2xjWI/cfJmYmH9l553PtGX6RJ/UqaAFjVOBZm05f61kR+9LNIIo6HC3x4JXWMDde260nSUCHQBfGGJsIZjuVJ67HjfcpptxlSRUspFqvQSBD+BLjxMvIwewRdb62+i0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1775113199; c=relaxed/simple;
-	bh=ZDEoCEoGwR4n1MolQDEm9fLTMXkYPeAcDweWOQxTSHI=;
-	h=Message-ID:Date:MIME-Version:Subject:To:CC:References:From:
-	 In-Reply-To:Content-Type; b=Uel7GjYidkFO3e0z8yJfmbmE5PHP/D6QZc1IggGTBnMlRShKlMuElTcEvJquLhC2FF+5a1bCsP1O/qrf1BXrxMSteyYai1XADhJTwOoLgBiOyk88kDx+xdSmxqJ68blZQbFZUb8YRfKr247osJ3tPrBNw2YoOP6dYVxl6iTp9DM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=huawei.com; spf=pass smtp.mailfrom=huawei.com; dkim=pass (1024-bit key) header.d=huawei.com header.i=@huawei.com header.b=Szyr1N0a; arc=none smtp.client-ip=113.46.200.226
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=huawei.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=huawei.com
+	s=arc-20240116; t=1775113837; c=relaxed/simple;
+	bh=9yJyuT/SJkwKU+0+ZJyHL0OAOwGO+rPd25aIidvgN7E=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=cBzDtOVEGArura19ajgbB/0rJAgOdaxo/TgHcSE0k7BCPqpu/wqg9/ltawniQSnSFk5AcRBV7Ym1bGL0fo+YBuhL6XYnSMRv+4YhFyFtUUq1EmvlBIMWV6Zc0JS9TE69eXZp9Usd0nycvzB+QRiEeRx3KRl3icsuOlg/BH6kwyI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b=UFSAQhmP; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=huawei.com header.i=@huawei.com header.b="Szyr1N0a"
-dkim-signature: v=1; a=rsa-sha256; d=huawei.com; s=dkim;
-	c=relaxed/relaxed; q=dns/txt;
-	h=From;
-	bh=NvaeLv4xkSNqFdj9tLvDtX5B0ttpvO9UnSQzhaIJ2bc=;
-	b=Szyr1N0aManmA++xNwZx8zNYFmd+ukqvTKfKlTnCsvQXVU8KFYG++R5oWvCLdy6KOvT841lEp
-	zgTapkTDcHBLaJC3W6VMhmmCS4zMECjkVt6QmvQYp+3vOYPwRNcUTmkhu79aHVBVFNEoKRoZ436
-	lvpf/WEyPLkn3iC40j0b6RU=
-Received: from mail.maildlp.com (unknown [172.19.163.127])
-	by canpmsgout11.his.huawei.com (SkyGuard) with ESMTPS id 4fmXcz5TdlzKm4J;
-	Thu,  2 Apr 2026 14:53:39 +0800 (CST)
-Received: from kwepemk100018.china.huawei.com (unknown [7.202.194.66])
-	by mail.maildlp.com (Postfix) with ESMTPS id F0685402AB;
-	Thu,  2 Apr 2026 14:59:51 +0800 (CST)
-Received: from [10.164.148.136] (10.164.148.136) by
- kwepemk100018.china.huawei.com (7.202.194.66) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.1544.36; Thu, 2 Apr 2026 14:59:51 +0800
-Message-ID: <c463f9ed-22ed-4ee6-b4fa-2933770e9c4c@huawei.com>
-Date: Thu, 2 Apr 2026 14:59:35 +0800
+	dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="UFSAQhmP"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id DFEBDC2BC9E;
+	Thu,  2 Apr 2026 07:10:36 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
+	s=korg; t=1775113837;
+	bh=9yJyuT/SJkwKU+0+ZJyHL0OAOwGO+rPd25aIidvgN7E=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=UFSAQhmP+RPnaEAiNPGX0WP2sXlKzatOze+VRmFXRr0TIQ670Wo0MvmmuBUvhtabF
+	 2ovyRzQozeomnvj2ihzN7cxQW3qZEAC+mZRStg8DbkR9HVCLF5Ja5nN+7gxQPBfDrU
+	 oEhosVW/t/WoVhbuEnF/t7KCq/KoxyS2ywsn/EWc=
+Date: Thu, 2 Apr 2026 09:10:34 +0200
+From: Greg KH <gregkh@linuxfoundation.org>
+To: "Xuetao (kirin)" <xuetao09@huawei.com>
+Cc: linux-usb@vger.kernel.org, linux-kernel@vger.kernel.org,
+	caiyadong@huawei.com, stable@kernel.org, stern@rowland.harvard.edu
+Subject: Re: [PATCH] usb: core: Fix bandwidth for devices with invalid
+ wBytesPerInterval
+Message-ID: <2026040232-wrinkly-replace-4fdf@gregkh>
+References: <20260402021400.28853-1-xuetao09@huawei.com>
+ <2026040241-purveyor-bakery-a9f1@gregkh>
+ <c463f9ed-22ed-4ee6-b4fa-2933770e9c4c@huawei.com>
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH] usb: core: Fix bandwidth for devices with invalid
- wBytesPerInterval
-To: Greg KH <gregkh@linuxfoundation.org>
-CC: <linux-usb@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
-	<caiyadong@huawei.com>, <stable@kernel.org>, <stern@rowland.harvard.edu>
-References: <20260402021400.28853-1-xuetao09@huawei.com>
- <2026040241-purveyor-bakery-a9f1@gregkh>
-From: "Xuetao (kirin)" <xuetao09@huawei.com>
-In-Reply-To: <2026040241-purveyor-bakery-a9f1@gregkh>
-Content-Type: text/plain; charset="UTF-8"; format=flowed
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-X-ClientProxiedBy: kwepems200002.china.huawei.com (7.221.188.68) To
- kwepemk100018.china.huawei.com (7.202.194.66)
+In-Reply-To: <c463f9ed-22ed-4ee6-b4fa-2933770e9c4c@huawei.com>
 
-
-
-在 2026/4/2 11:51, Greg KH 写道:
-> On Thu, Apr 02, 2026 at 10:14:00AM +0800, Tao Xue wrote:
->> As specified in Section 4.14.2 of the xHCI Specification, the xHC
->> reserves bandwidth for periodic endpoints according to bInterval and
->> wBytesPerInterval (Max ESIT Payload).
->>
->> Some peripherals report an invalid wBytesPerInterval in their device
->> descriptor, which is either 0 or smaller than the actual data length
->> transmitted. This issue is observed on ASIX AX88179 series USB 3.0
->> Ethernet adapters.
->>
->> These errors may lead to unexpected behavior on certain USB host
->> controllers, causing USB peripherals to malfunction.
->>
->> To address the issue, return max(wBytesPerInterval, max_payload) when
->> calculating bandwidth reservation.
->>
->> Fixes: 9238f25d5d32 ("USB: xhci: properly set endpoint context fields for periodic eps.")
->> Cc: <stable@kernel.org>
->> Signed-off-by: Tao Xue <xuetao09@huawei.com>
->> ---
->>   drivers/usb/core/usb.c | 9 ++++++++-
->>   1 file changed, 8 insertions(+), 1 deletion(-)
->>
->> diff --git a/drivers/usb/core/usb.c b/drivers/usb/core/usb.c
->> index e9a10a33534c..8f2e05a5a015 100644
->> --- a/drivers/usb/core/usb.c
->> +++ b/drivers/usb/core/usb.c
->> @@ -1125,6 +1125,8 @@ EXPORT_SYMBOL_GPL(usb_free_noncoherent);
->>   u32 usb_endpoint_max_periodic_payload(struct usb_device *udev,
->>   				      const struct usb_host_endpoint *ep)
->>   {
->> +	u32 max_payload;
->> +
->>   	if (!usb_endpoint_xfer_isoc(&ep->desc) &&
->>   	    !usb_endpoint_xfer_int(&ep->desc))
->>   		return 0;
->> @@ -1135,7 +1137,12 @@ u32 usb_endpoint_max_periodic_payload(struct usb_device *udev,
->>   			return le32_to_cpu(ep->ssp_isoc_ep_comp.dwBytesPerInterval);
->>   		fallthrough;
->>   	case USB_SPEED_SUPER:
->> -		return le16_to_cpu(ep->ss_ep_comp.wBytesPerInterval);
->> +		max_payload = usb_endpoint_maxp(&ep->desc) * (ep->ss_ep_comp.bMaxBurst + 1);
->> +		if (usb_endpoint_xfer_isoc(&ep->desc))
->> +			return max_t(u32, max_payload * USB_SS_MULT(ep->ss_ep_comp.bmAttributes),
->> +					ep->ss_ep_comp.wBytesPerInterval);
->> +		else
->> +			return max_t(u32, max_payload, ep->ss_ep_comp.wBytesPerInterval);
+On Thu, Apr 02, 2026 at 02:59:35PM +0800, Xuetao (kirin) wrote:
 > 
-> You dropped the conversion from le16 to cpu?  Why?
 > 
-> thanks,
+> 在 2026/4/2 11:51, Greg KH 写道:
+> > On Thu, Apr 02, 2026 at 10:14:00AM +0800, Tao Xue wrote:
+> > > As specified in Section 4.14.2 of the xHCI Specification, the xHC
+> > > reserves bandwidth for periodic endpoints according to bInterval and
+> > > wBytesPerInterval (Max ESIT Payload).
+> > > 
+> > > Some peripherals report an invalid wBytesPerInterval in their device
+> > > descriptor, which is either 0 or smaller than the actual data length
+> > > transmitted. This issue is observed on ASIX AX88179 series USB 3.0
+> > > Ethernet adapters.
+> > > 
+> > > These errors may lead to unexpected behavior on certain USB host
+> > > controllers, causing USB peripherals to malfunction.
+> > > 
+> > > To address the issue, return max(wBytesPerInterval, max_payload) when
+> > > calculating bandwidth reservation.
+> > > 
+> > > Fixes: 9238f25d5d32 ("USB: xhci: properly set endpoint context fields for periodic eps.")
+> > > Cc: <stable@kernel.org>
+> > > Signed-off-by: Tao Xue <xuetao09@huawei.com>
+> > > ---
+> > >   drivers/usb/core/usb.c | 9 ++++++++-
+> > >   1 file changed, 8 insertions(+), 1 deletion(-)
+> > > 
+> > > diff --git a/drivers/usb/core/usb.c b/drivers/usb/core/usb.c
+> > > index e9a10a33534c..8f2e05a5a015 100644
+> > > --- a/drivers/usb/core/usb.c
+> > > +++ b/drivers/usb/core/usb.c
+> > > @@ -1125,6 +1125,8 @@ EXPORT_SYMBOL_GPL(usb_free_noncoherent);
+> > >   u32 usb_endpoint_max_periodic_payload(struct usb_device *udev,
+> > >   				      const struct usb_host_endpoint *ep)
+> > >   {
+> > > +	u32 max_payload;
+> > > +
+> > >   	if (!usb_endpoint_xfer_isoc(&ep->desc) &&
+> > >   	    !usb_endpoint_xfer_int(&ep->desc))
+> > >   		return 0;
+> > > @@ -1135,7 +1137,12 @@ u32 usb_endpoint_max_periodic_payload(struct usb_device *udev,
+> > >   			return le32_to_cpu(ep->ssp_isoc_ep_comp.dwBytesPerInterval);
+> > >   		fallthrough;
+> > >   	case USB_SPEED_SUPER:
+> > > -		return le16_to_cpu(ep->ss_ep_comp.wBytesPerInterval);
+> > > +		max_payload = usb_endpoint_maxp(&ep->desc) * (ep->ss_ep_comp.bMaxBurst + 1);
+> > > +		if (usb_endpoint_xfer_isoc(&ep->desc))
+> > > +			return max_t(u32, max_payload * USB_SS_MULT(ep->ss_ep_comp.bmAttributes),
+> > > +					ep->ss_ep_comp.wBytesPerInterval);
+> > > +		else
+> > > +			return max_t(u32, max_payload, ep->ss_ep_comp.wBytesPerInterval);
+> > 
+> > You dropped the conversion from le16 to cpu?  Why?
+> > 
+> > thanks,
+> > 
+> > greg k-h
 > 
-> greg k-h
+> Hi Greg,
+> 
+> Thank you for the review.
+> 
+> 1、You're right, that was an oversight. I should keep the le16_to_cpu().
+> Here's the corrected version:
+> 
+>     max_payload = usb_endpoint_maxp(&ep->desc) * (ep->ss_ep_comp.bMaxBurst +
+> 1);
+>     if (usb_endpoint_xfer_isoc(&ep->desc))
+>         return max_t(u32, max_payload *
+> USB_SS_MULT(ep->ss_ep_comp.bmAttributes),
+>                         le16_to_cpu(ep->ss_ep_comp.wBytesPerInterval));
+>     else
+>         return max_t(u32, max_payload,
+> le16_to_cpu(ep->ss_ep_comp.wBytesPerInterval));
 
-Hi Greg,
+That's hard to follow as it is line-wrapped, just fix it up for your
+next version and I'll be glad to review it then.
 
-Thank you for the review.
+> 2、Following Alan's suggestion in another email, should I check whether
+> wBytesPerInterval is a valid value and handle it in the
+> usb_parse_ss_endpoint_companion() ?
+> 
+> However, when parsing the device descriptor, we do not know whether the
+> actual data length transmitted by the peripheral is greater than
+> wBytesPerInterval.
+> 
+> Therefore, would it be sufficient to only add a check for whether
+> wBytesPerInterval is 0 in the existing flow, and if it is 0, set
+> wBytesPerInterval to cpu_to_le16(max_tx) by default?
 
-1、You're right, that was an oversight. I should keep the le16_to_cpu().
-Here's the corrected version:
+No, don't override a value given by a device.  Mark the descriptor as
+invalid and fail attaching to the device.
 
-     max_payload = usb_endpoint_maxp(&ep->desc) * 
-(ep->ss_ep_comp.bMaxBurst + 1);
-     if (usb_endpoint_xfer_isoc(&ep->desc))
-         return max_t(u32, max_payload * 
-USB_SS_MULT(ep->ss_ep_comp.bmAttributes),
-                         le16_to_cpu(ep->ss_ep_comp.wBytesPerInterval));
-     else
-         return max_t(u32, max_payload, 
-le16_to_cpu(ep->ss_ep_comp.wBytesPerInterval));
+> For example, modify it in the following way：
+> 
+>      if (le16_to_cpu(desc->wBytesPerInterval) > max_tx ||
+> le16_to_cpu(desc->wBytesPerInterval) == 0) {
+>         dev_notice(ddev, "%s endpoint with wBytesPerInterval of %d in "
+>                 "config %d interface %d altsetting %d ep %d: "
+>                 "setting to %d\n",
+>                 usb_endpoint_xfer_isoc(&ep->desc) ? "Isoc" : "Int",
+>                 le16_to_cpu(desc->wBytesPerInterval),
+>                 cfgno, inum, asnum, ep->desc.bEndpointAddress,
+>                 max_tx);
+>         ep->ss_ep_comp.wBytesPerInterval = cpu_to_le16(max_tx);
+>     }
 
-2、Following Alan's suggestion in another email, should I check whether 
-wBytesPerInterval is a valid value and handle it in the 
-usb_parse_ss_endpoint_companion() ?
+There's nothing a user can do with this type of error, and yet the
+kernel is supposed to fix it up?  We should just fail it and tell the
+user then, like we do for other broken descriptors.
 
-However, when parsing the device descriptor, we do not know whether the 
-actual data length transmitted by the peripheral is greater than 
-wBytesPerInterval.
+Did you find this issue with a real device, or is this just due to
+fuzzing invalid descriptor values?
 
-Therefore, would it be sufficient to only add a check for whether 
-wBytesPerInterval is 0 in the existing flow, and if it is 0, set 
-wBytesPerInterval to cpu_to_le16(max_tx) by default?
+thanks,
 
-For example, modify it in the following way：
-
-      if (le16_to_cpu(desc->wBytesPerInterval) > max_tx || 
-le16_to_cpu(desc->wBytesPerInterval) == 0) {
-         dev_notice(ddev, "%s endpoint with wBytesPerInterval of %d in "
-                 "config %d interface %d altsetting %d ep %d: "
-                 "setting to %d\n",
-                 usb_endpoint_xfer_isoc(&ep->desc) ? "Isoc" : "Int",
-                 le16_to_cpu(desc->wBytesPerInterval),
-                 cfgno, inum, asnum, ep->desc.bEndpointAddress,
-                 max_tx);
-         ep->ss_ep_comp.wBytesPerInterval = cpu_to_le16(max_tx);
-     }
-
-  Could you please give me some advice? Thanks.
+greg k-h
