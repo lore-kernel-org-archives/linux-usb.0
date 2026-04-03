@@ -1,100 +1,123 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0FED43BC670;
-	Fri,  3 Apr 2026 11:56:34 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BF04E21A447;
+	Fri,  3 Apr 2026 12:03:32 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1775217394; cv=none; b=CiCqEXpelk2Z9MPCPydpkZ02E18pKImDvMk4Zl4CWkQRtFvfEsCqWgLBdQ4x1A6CcU4/tCIEJpjsKpMrRre2g70O5mOjIga20WxuY0h+NamJxqB0PX0DbS4WnVeFIXirbLXMbVDGcMX3HBNdG6ww5BRc8SHZzBlXj2+QELMWC8w=
+	t=1775217812; cv=none; b=HqiWnKJPeyIcS6f0wSeqlDCjWLcMm52zJvxEnPHIest5rcCg+exeypNU4yc1mW7crmjBxwcZg8pnV8DNMbCq/EZNh23QcOolxXXk2RYMOLU5r7dOrfOohbipv66Zxs3aW1MlEnnX3pYgT40Ea0BHjGyk/eDcIzRrtM2yYOJq44k=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1775217394; c=relaxed/simple;
-	bh=9l7YRnXiJeaUSputbifksPPi0XaXtllvN3GOhiFO6oo=;
+	s=arc-20240116; t=1775217812; c=relaxed/simple;
+	bh=uHc5YsrHfTkVT8EBijowwSaF1bhfQ6iwR+gHjnBhVXA=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=Wg7/uRao3z49jGQ4yyvZCYtmTLUnIJfj7gug1FVM+ceuL2rKXOvkk4j+ekE0Zaz+7zdc4XBy0f+UFQnMOlBDyaJbSaYvsPWUyxEZXOcF/2ngPZ0ZI35vWaWrMWZPM0/dfAM/CDuax6muNAuxcD9YByyLC7sfEGYY9SYs0d9xr/s=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=eLufVd3z; arc=none smtp.client-ip=10.30.226.201
+	 Content-Type:Content-Disposition:In-Reply-To; b=dVMCRLmu0H4D4E0G7XnBavp2QDYHsqf0GcAb1PxtUZmSZuV0JORVfpB7S8HRullpcO4GYZgzghNlYd0RF/XGo9fmJ7z6DCvbmoOKBUsa4Sn4g879QJU2hmjpuzNbUVbp5MR2e+i7JbhM4wmRoPzKaQjA/keuev7JtuUeRVhWgmQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b=1nocCluc; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="eLufVd3z"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 8E3A6C4CEF7;
-	Fri,  3 Apr 2026 11:56:26 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1775217393;
-	bh=9l7YRnXiJeaUSputbifksPPi0XaXtllvN3GOhiFO6oo=;
+	dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="1nocCluc"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 03775C4CEF7;
+	Fri,  3 Apr 2026 12:03:31 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
+	s=korg; t=1775217812;
+	bh=uHc5YsrHfTkVT8EBijowwSaF1bhfQ6iwR+gHjnBhVXA=;
 	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=eLufVd3zXy9jubkTC9dwkw2QYzwtvaWjru+m4ZdRkawSNi9+nrDNC6gUO4mGVS6/R
-	 gkBybMRFcG6wp9frSh1UrnRTFmFAIWeWQ6JjhxrMtKfvi/L8jlqp4jSjvl7EXEDDzs
-	 ZtNPjIHE0ChL+R5ThH0m0bg+INk64ahwnxdcJwFR/q6vQTBSBkwaCRWtjZT24m2vTQ
-	 7MxtkfclOy/wmKMdP417H2f+HSQV3sLIh5VH4IlCqqK1iv9HKmpZHIBbN8ejL1uHof
-	 f/augOwXmiWn/yGSuidAzKcnlp7ywm1cPXBOrcNHhnI6tgb8ARqohzJKj7eqgaBFB+
-	 mw/4aiwR3j/hQ==
-Date: Fri, 3 Apr 2026 12:56:24 +0100
-From: Mark Brown <broonie@kernel.org>
-To: Douglas Anderson <dianders@chromium.org>
-Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	"Rafael J . Wysocki" <rafael@kernel.org>,
-	Danilo Krummrich <dakr@kernel.org>,
-	Alan Stern <stern@rowland.harvard.edu>,
-	Robin Murphy <robin.murphy@arm.com>,
-	Leon Romanovsky <leon@kernel.org>,
-	Paul Burton <paul.burton@mips.com>,
-	Saravana Kannan <saravanak@kernel.org>,
-	Alexander Lobakin <aleksander.lobakin@intel.com>,
-	Eric Dumazet <edumazet@google.com>, Toshi Kani <toshi.kani@hp.com>,
-	Christoph Hellwig <hch@lst.de>,
-	Alexey Kardashevskiy <aik@ozlabs.ru>,
-	Johan Hovold <johan@kernel.org>, alexander.stein@ew.tq-group.com,
-	andrew@codeconstruct.com.au, andrew@lunn.ch,
-	andriy.shevchenko@linux.intel.com, astewart@tektelic.com,
-	bhelgaas@google.com, brgl@kernel.org, davem@davemloft.net,
-	devicetree@vger.kernel.org, driver-core@lists.linux.dev,
-	hkallweit1@gmail.com, jirislaby@kernel.org, joel@jms.id.au,
-	kees@kernel.org, kuba@kernel.org, lgirdwood@gmail.com,
-	linux-arm-kernel@lists.infradead.org, linux-aspeed@lists.ozlabs.org,
-	linux-kernel@vger.kernel.org, linux-pci@vger.kernel.org,
-	linux-serial@vger.kernel.org, linux-usb@vger.kernel.org,
-	linux@armlinux.org.uk, mani@kernel.org, netdev@vger.kernel.org,
-	pabeni@redhat.com, robh@kernel.org
-Subject: Re: [PATCH v3 8/9] driver core: Replace dev->of_node_reused with
- DEV_FLAG_OF_NODE_REUSED
-Message-ID: <fdbe1d8b-d323-414d-a705-cf2dbafe2fcc@sirena.org.uk>
-References: <20260403005005.30424-1-dianders@chromium.org>
- <20260402174925.v3.8.I806b8636cd3724f6cd1f5e199318ab8694472d90@changeid>
+	b=1nocClucvAt9BzbV/deA5N54IVMje5Tp6QUYUNkupXDo2Eht77vMLZFUqE7Ts403Z
+	 MkQDcg5uPJoZFR/P9HSVGoIp5Aiu3TZNUFzQd+vcnnMiowgkxA2vx7DQt7lzRWgMG2
+	 aJ1nkFOexP3zYiBPe2GgugS4BBw8bbNorJPlqRJw=
+Date: Fri, 3 Apr 2026 14:03:29 +0200
+From: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+To: "Peter Chen (CIX)" <peter.chen@kernel.org>
+Cc: Arnd Bergmann <arnd@kernel.org>, Pawel Laszczak <pawell@cadence.com>,
+	Arnd Bergmann <arnd@arndb.de>, Roger Quadros <rogerq@kernel.org>,
+	linux-usb@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH] usb: cdns3: attempt to fix Kconfig dependencies
+Message-ID: <2026040337-acutely-cinnamon-e751@gregkh>
+References: <20260402141008.2691819-1-arnd@kernel.org>
+ <ac9xVUVB/BKfBUmE@nchen-desktop>
+ <2026040328-residence-auction-d94d@gregkh>
+ <ac+LEWMCQpLSnfoD@nchen-desktop>
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-	protocol="application/pgp-signature"; boundary="7NZIk4CoO0re4Kx0"
-Content-Disposition: inline
-In-Reply-To: <20260402174925.v3.8.I806b8636cd3724f6cd1f5e199318ab8694472d90@changeid>
-X-Cookie: The Korean War must have been fun.
-
-
---7NZIk4CoO0re4Kx0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <ac+LEWMCQpLSnfoD@nchen-desktop>
 
-On Thu, Apr 02, 2026 at 05:49:54PM -0700, Douglas Anderson wrote:
-> In C, bitfields are not necessarily safe to modify from multiple
-> threads without locking. Switch "of_node_reused" over to the "flags"
-> field so modifications are safe.
+On Fri, Apr 03, 2026 at 05:40:33PM +0800, Peter Chen (CIX) wrote:
+> On 26-04-03 10:54:44, Greg Kroah-Hartman wrote:
+> > On Fri, Apr 03, 2026 at 03:50:45PM +0800, Peter Chen (CIX) wrote:
+> > > On 26-04-02 16:09:55, Arnd Bergmann wrote:
+> > > > From: Arnd Bergmann <arnd@arndb.de>
+> > > > 
+> > > > The way that dependencies between host and gadget mode, as well as cdns3
+> > > > and cdnsp were handled was rather fragile before commit 6076388ca1ed
+> > > > ("usb: cdns3: Add USBSSP platform driver support").
+> > > > 
+> > > > After those changes, I get randconfig build failures:
+> > > > 
+> > > > arm-linux-gnueabi-ld: drivers/usb/cdns3/cdnsp-gadget.o: in function `__cdnsp_gadget_init':
+> > > > cdnsp-gadget.c:(.text+0x12da): undefined reference to `cdns_drd_gadget_on'
+> > > > arm-linux-gnueabi-ld: drivers/usb/cdns3/cdnsp-gadget.o: in function `cdnsp_gadget_pullup':
+> > > > cdnsp-gadget.c:(.text+0x3030): undefined reference to `cdns_clear_vbus'
+> > > > arm-linux-gnueabi-ld: cdnsp-gadget.c:(.text+0x3138): undefined reference to `cdns_set_vbus'
+> > > > arm-linux-gnueabi-ld: drivers/usb/cdns3/cdnsp-gadget.o: in function `cdnsp_gadget_exit':
+> > > > cdnsp-gadget.c:(.text+0xe0): undefined reference to `cdns_drd_gadget_off'
+> > > > 
+> > > > and I see additional configurations that are broken. The main problem
+> > > > here is that the 'common' module links against both host and gadget
+> > > > support if they are enabled, but there are insufficient protections
+> > > > agains it being built-in if only one of them is built-in and the other
+> > > > is in a loadable module, causing link failures.
+> > > > 
+> > > > The use of IS_REACHABLE() in gadget-export.h works around a similar
+> > > > problem if one of cdns3 and cdnsp is built-in but the other one is
+> > > > =m. This one is worse because instead of a clear link failure, the
+> > > > logic just makes it not work at all despite support being enabled.
+> > > > 
+> > > > To improve this mess, throw out both the Makefile hacks and the
+> > > > IS_REACHABLE() hack and replace these with regular Kconfig dependencies
+> > > > that ensure each driver is only enabled when its dependencies are there,
+> > > > as we do in most other drivers. The main downside here is that there is no
+> > > > good way to have built-in gadget support on cdn3 along with USB=m. Fixing
+> > > > this part proper would require cleaning up the code to turn the 'common'
+> > > > parts into a library module that only gets called by the other drivers
+> > > > but does not interact with either host or gadget support itself.
+> > > > 
+> > > > Another problem that is not solved by this patch is the way that
+> > > > platform specific glue logic in this driver relies on having
+> > > > a soc specific device as the parent of a generic child, instead of
+> > > > the specific driver just calling into a common helper module.
+> > > > This may be impossible to fix without breaking the DT bindings.
+> > > > 
+> > > > Fixes: 6076388ca1ed ("usb: cdns3: Add USBSSP platform driver support")
+> > > 
+> > > Hi Arnd,
+> > > 
+> > > Thanks for fixing it, I am sorry for taking your effort debug it.
+> > > 
+> > > > Signed-off-by: Arnd Bergmann <arnd@arndb.de>
+> > > > ---
+> > > > TBH, I would be more comfortable with reverting 6076388ca1ed altogether
+> > > > and asking for a new version with the proper fixups included along
+> > > > with more testing for the next merge window.
+> > > 
+> > > It depends on Greg, I am okay for both ways. If Greg reverts the patch,
+> > > I will do below improvements and adapts for most of your changes for v3
+> > > patch.
+> > 
+> > I'll be glad to revert if you want me to, just let me know.
+> > 
+> 
+> Thanks, Greg. Please revert below two patches in your usb-next branch:
+> 
+> 6076388ca1ed usb: cdns3: Add USBSSP platform driver support
+> fb14e7f7cbb4 dt-bindings: usb: cdns,usb3: document USBSSP controller support
 
-Acked-by: Mark Brown <broonie@kernel.org>
+Ick, doesn't revert cleanly, I'm going to also have to drop commit
+7b7f2dd91382 ("usb: cdnsp: Add support for device-only configuration")
+Will go do that now....
 
---7NZIk4CoO0re4Kx0
-Content-Type: application/pgp-signature; name="signature.asc"
+greg k-h
 
------BEGIN PGP SIGNATURE-----
-
-iQEzBAABCgAdFiEEreZoqmdXGLWf4p/qJNaLcl1Uh9AFAmnPqucACgkQJNaLcl1U
-h9BRKQf+LiK4wJzBJvOcF8tPspBBv5slh1Rv07RAYfhsMajrfvb91fBup9erBnC7
-uop2lhbeef3E4GYUNM3af2BFUVTr6Q2yQsCgV5p3nED9j4EZmCsCSp3X0Hbcc+S1
-RmxEf3FESw5jl5dAifyRzEtHhqMmQoiJiWHstiX08tmRvb230IM4SoMj9/XTx/hJ
-qZLOPBhvbwfqLgqtzR6YbvKHy+eG/muzoWEC6sNgi5JBsNQEeCY0Dp4nSfxbN1i6
-VGMAgiL64FDOsOQ3BG7hFoQ0OFAsOB2CiaPDKh4qopTzS+avykiGQvxzCn4XfBfo
-8ZM+Nrnu/VYKm5P6K3uIcHF11UpYhg==
-=Rocu
------END PGP SIGNATURE-----
-
---7NZIk4CoO0re4Kx0--
