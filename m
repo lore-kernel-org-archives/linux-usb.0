@@ -1,39 +1,39 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F3AEF35893
-	for <linux-usb@vger.kernel.org>; Sat,  4 Apr 2026 17:34:39 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E579620DE3
+	for <linux-usb@vger.kernel.org>; Sat,  4 Apr 2026 17:35:01 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1775324080; cv=none; b=SagoVVejkMHKHexY1C7vMlAgtCasJRkOI9wBtpbhDett/tJceG07sIhAcScgcRDqTaczmKOveVM3IGosdn7wUdhWspmt4sKfk4Y/PwTAaBDzMhTIl2yiiyxGM5Fkrn6Rac6bkF0UJpBN3Fwoh6WPnBBD4CkXGyW7ZqvqYLV3hrI=
+	t=1775324102; cv=none; b=UZsKLS/mFjfe7EF3BTcd0q33sml4UfjEeot/0pNZXw21x7JarJRIJWlfYgqgutgCNKEi7iYMe523pvwe2qK//xZ6E48OVnLoufuj4P4uGsyBNwWIV2ZzubQ8wHrk2GNBZVHqF4IBCFyjJ8PKQpO8wAWSGDdU2ketqAnC+QjtCXg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1775324080; c=relaxed/simple;
-	bh=hDbfdprXWH1LWPinKYZTKD494duAu8bHfOaaGvtpDVk=;
+	s=arc-20240116; t=1775324102; c=relaxed/simple;
+	bh=OO4ysjAmguH/Z35/ZNJ8shXAp+DG2Z2A/W6mXEi2vQc=;
 	h=From:To:Subject:Date:Message-ID:In-Reply-To:References:
-	 Content-Type:MIME-Version; b=gpt+ZuSRKnysSed3WqlKNtgmRBJUc1A+vtGy4vcVxC88wx9koqWzlGI+pfkgeE25iauvbQatohuujvDt3w/YcpQayaSDmENXcPuxemhQYTaC/OALMFg9EGtmAP/mglKNfV0sch7BX3QTebXATbPSpnAj0gX7wjBZstFnynGVyJ4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=CmKD7Fw/; arc=none smtp.client-ip=10.30.226.201
+	 Content-Type:MIME-Version; b=hyUfyW+eKdsQowI58iW1Cxd3Sr8KhhEkkOiNu/XMEzeMCiuVG8yF1Ews94nQ3A0CL4nvVvghykszRyvfm/Io274sueO6l4YlQDDlZ9VIKrlSIAfUmvfqvYuuUiqzZylqzHRTTXEL8m1i1KO4vkb3iRVZWDFeE5tlSfdq1pQEXzs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=tT2Navdw; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="CmKD7Fw/"
-Received: by smtp.kernel.org (Postfix) with ESMTPS id A75C2C19425
-	for <linux-usb@vger.kernel.org>; Sat,  4 Apr 2026 17:34:39 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="tT2Navdw"
+Received: by smtp.kernel.org (Postfix) with ESMTPS id 88FE6C19425
+	for <linux-usb@vger.kernel.org>; Sat,  4 Apr 2026 17:35:01 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1775324079;
-	bh=hDbfdprXWH1LWPinKYZTKD494duAu8bHfOaaGvtpDVk=;
+	s=k20201202; t=1775324101;
+	bh=OO4ysjAmguH/Z35/ZNJ8shXAp+DG2Z2A/W6mXEi2vQc=;
 	h=From:To:Subject:Date:In-Reply-To:References:From;
-	b=CmKD7Fw/C944ZPi2q/flfEsYCkOyq0sintxoEVqZErO3oNOpptnkh/PHhWCUbw5qh
-	 t4eKO7KYCQ/jjVFrW6pTTtu4WpZxQCtl31299vDL+6It9XczQFdYD0tEKfoPFS7y8D
-	 QP0vHJZqWLHqiKWffgKihFzNov+UDtxeY3pm8RXgBknbZUiL1Fei1RuKWQJtz7Xy5R
-	 crdSRpNbTei3UVO0MgHFPUY63Gv/f1Po0lnoXxwz/71mhxCQBgxeYewk1TixQd2Zh2
-	 I483scDPSICgQt6dHWpTCiTmSJvX0bkWrfhaBlH0WmrCJD3L4VSxcYD09qTPOPvscP
-	 9ciA/b8q3SFoA==
+	b=tT2Navdw8txYofO+P8ONTZRrxk+/bKyZBsV6dqyH8qI1EJ62+SGNr4ZHVEr04zkNi
+	 vHf+iz+673dA4ZyjCsCu3TJTIiZGpSV0vYyX+kNvdBNZC7J3IgNCHkRN/tj5SnrmH9
+	 08Ktih6sizt+UR8cOc0dg3iR+iMKsQLhKLPBySOSCEE/OgWRC//6xKHVrqwB0p6+YM
+	 cNPx1SPSBQS4yaTedVp6S3zwhsZsvKxo7zuV4Off4XNWSQmw1q5/1yc6tIepIIJn8X
+	 IoQjTmMwGL3punogGg0A8wfe0Frd/jZopJ2qGeyAee73eTDDMndq5Hs+kEt/MfoRPJ
+	 gE7ji8pisaJpg==
 Received: by aws-us-west-2-korg-bugzilla-1.web.codeaurora.org (Postfix, from userid 48)
-	id 9FD63C3279F; Sat,  4 Apr 2026 17:34:39 +0000 (UTC)
+	id 83931C41613; Sat,  4 Apr 2026 17:35:01 +0000 (UTC)
 From: bugzilla-daemon@kernel.org
 To: linux-usb@vger.kernel.org
 Subject: [Bug 221318] mice behind ASMedia ASM1042A via Thunderbolt 2 never
  produce input, most likely due to interrupt pipe idle window during
  enumeration
-Date: Sat, 04 Apr 2026 17:34:39 +0000
+Date: Sat, 04 Apr 2026 17:35:01 +0000
 X-Bugzilla-Reason: None
 X-Bugzilla-Type: changed
 X-Bugzilla-Watch-Reason: AssignedTo drivers_usb@kernel-bugs.kernel.org
@@ -49,7 +49,7 @@ X-Bugzilla-Priority: P3
 X-Bugzilla-Assigned-To: drivers_usb@kernel-bugs.kernel.org
 X-Bugzilla-Flags: 
 X-Bugzilla-Changed-Fields: attachments.created
-Message-ID: <bug-221318-208809-RbvNR2IGxL@https.bugzilla.kernel.org/>
+Message-ID: <bug-221318-208809-zrblumWz2I@https.bugzilla.kernel.org/>
 In-Reply-To: <bug-221318-208809@https.bugzilla.kernel.org/>
 References: <bug-221318-208809@https.bugzilla.kernel.org/>
 Content-Type: text/plain; charset="UTF-8"
@@ -65,10 +65,10 @@ MIME-Version: 1.0
 
 https://bugzilla.kernel.org/show_bug.cgi?id=3D221318
 
---- Comment #4 from manauer.uel@gmail.com ---
-Created attachment 309817
-  --> https://bugzilla.kernel.org/attachment.cgi?id=3D309817&action=3Dedit
-dmesg -W with connection through Thunderbolt 2
+--- Comment #5 from manauer.uel@gmail.com ---
+Created attachment 309818
+  --> https://bugzilla.kernel.org/attachment.cgi?id=3D309818&action=3Dedit
+dmesg -W with connection through USB
 
 --=20
 You may reply to this email to add a comment.
