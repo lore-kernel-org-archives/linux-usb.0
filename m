@@ -1,39 +1,39 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7A0267081E
-	for <linux-usb@vger.kernel.org>; Sun,  5 Apr 2026 22:37:32 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AF327370D48
+	for <linux-usb@vger.kernel.org>; Sun,  5 Apr 2026 22:44:09 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1775428652; cv=none; b=NAPGx4WDvDR/sF9f4AavQtajnVZtJNzFsHsZqOQmQU1jpDqBSbp1RNawITrjDi+MhxJ+GQL0/p1hW7zDT0kBEodZaA084M+vuAytqB1l00uIp8VWhb6Uz56JNfRgklwszbcKDDBMUmIIqWFrOtZ5mOfrljMyo/lQZKeNULFwfFg=
+	t=1775429049; cv=none; b=oKhtNxXkhOxuHWWkzDiNsK/7mAswI6dpdgEK2MY5Csz6b/b0cb7MvLt7O0Xsn/eyYTH6IrLbJ6uXY0kd7PKNBpGwi9u45gm11CAZeEpNzM7/yHvogZ1CLBlk4cB580U4ZZU0Paau6NgFykdsr175SkF4M9/9t7FgPrsVoCUfS8E=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1775428652; c=relaxed/simple;
-	bh=a9ALTBYiaJimXgzpNUVTZsusub+N47kM511UxOrz7pM=;
+	s=arc-20240116; t=1775429049; c=relaxed/simple;
+	bh=+ayvcascu/jB6QBDpwMIItKmeA3EAwmQ8c0enEXgqxo=;
 	h=From:To:Subject:Date:Message-ID:In-Reply-To:References:
-	 Content-Type:MIME-Version; b=KAQvH8AEhgf9mCxLLD9e0RnjWjSGzhkyXSS8Awz/6QfVO7/IfX7gRHB1ampGoGV60XM8EjMgADkJcDw4pyjH7Y4jv+KBiTVaCj0RLWpEy/TQsEnTPmotB0iBu8IprMyr+yxerj15ogAlHoASoMJJGsOSOHFjmtosuedzaYDpaQ0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=bSOxg8rL; arc=none smtp.client-ip=10.30.226.201
+	 Content-Type:MIME-Version; b=jD66TzrZkSVCjwtIJ0nbsJllw5Wz1Ktwc90AxibeLTpeGs3xGED54DR1OjJk6ceep2itt1zXDxki2vGNfW5j5FuZAX8jdI+AEUwdR0LhgqosIXd6h9+OL4H+3MC9zYJimyA7vCTlcb2Xozoau7P7/ycSyQhWAs9JsR6rmAnH5oc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=LBHJ2+Py; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="bSOxg8rL"
-Received: by smtp.kernel.org (Postfix) with ESMTPS id 13F3AC116C6
-	for <linux-usb@vger.kernel.org>; Sun,  5 Apr 2026 22:37:32 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="LBHJ2+Py"
+Received: by smtp.kernel.org (Postfix) with ESMTPS id 8B159C116C6
+	for <linux-usb@vger.kernel.org>; Sun,  5 Apr 2026 22:44:09 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1775428652;
-	bh=a9ALTBYiaJimXgzpNUVTZsusub+N47kM511UxOrz7pM=;
+	s=k20201202; t=1775429049;
+	bh=+ayvcascu/jB6QBDpwMIItKmeA3EAwmQ8c0enEXgqxo=;
 	h=From:To:Subject:Date:In-Reply-To:References:From;
-	b=bSOxg8rLI7V/3ADrN6Q4bWiYRdRgbfOqztpJMkzCSwudEd4oFCW+6r9ECmBSJGTWj
-	 DxjSPTGrAeHKbUY9sTCzqc/EnD+sk1lD6CmgydKswhFQZOl14B84fpylW2/dVuTQVb
-	 s+ZvtmpPMSLGiAg+GlRwuhvaUDWs+a+AQ6eaJ+qV/ysbLdPlIZeh33/ekAZY/cZTYE
-	 wKQoa9qtWdU+RqfVQFq8LX6+aCscjE52lnpytmgPaqaLkYxZw75gTce2bLF5G/T2JH
-	 4KH4ZbmkgYwvxETy2Psdxyjx1V3KkCVDOb48gtvCZnJVf0320ojforSrSEAgT63zPv
-	 rDHh1euNHTz0Q==
+	b=LBHJ2+PyhHbvgDfVQCgXBK1YltQFIGjNWJ0NVryBoQ0Iggivm/yxBMHUPhzI3m72E
+	 g6iHpe1CfMnSkY9hWY0stujRh1iTnjz27mHTvJ1NpARIqDE1V5kbGr8rDQjKzHwka8
+	 txktSuQS/fmGaJLNJdTM5om4Q6aZs3v51Lt0HvkxTq1hE+uM6pDw2doI6C58X2uZF0
+	 dMvXgFcW9lyb1bA+dVl9p59MF8SsaPF7DijF+O2m+LrAG5Z+zAQG2hXhUfmtGWYHzw
+	 SRjVf+H3TNL0WPgmU7OqRrZoGGXWTgXHBUOQvp87FG5RAGvECDc1jDLACwymyxP6+F
+	 pEZZOAaecrxog==
 Received: by aws-us-west-2-korg-bugzilla-1.web.codeaurora.org (Postfix, from userid 48)
-	id 0A434C41613; Sun,  5 Apr 2026 22:37:32 +0000 (UTC)
+	id 82C68C41613; Sun,  5 Apr 2026 22:44:09 +0000 (UTC)
 From: bugzilla-daemon@kernel.org
 To: linux-usb@vger.kernel.org
 Subject: [Bug 221318] mice behind ASMedia ASM1042A via Thunderbolt 2 never
  produce input, most likely due to interrupt pipe idle window during
  enumeration
-Date: Sun, 05 Apr 2026 22:37:31 +0000
+Date: Sun, 05 Apr 2026 22:44:09 +0000
 X-Bugzilla-Reason: None
 X-Bugzilla-Type: changed
 X-Bugzilla-Watch-Reason: AssignedTo drivers_usb@kernel-bugs.kernel.org
@@ -49,7 +49,7 @@ X-Bugzilla-Priority: P3
 X-Bugzilla-Assigned-To: drivers_usb@kernel-bugs.kernel.org
 X-Bugzilla-Flags: 
 X-Bugzilla-Changed-Fields: 
-Message-ID: <bug-221318-208809-2JNibxA1vg@https.bugzilla.kernel.org/>
+Message-ID: <bug-221318-208809-ctg2WYyiOt@https.bugzilla.kernel.org/>
 In-Reply-To: <bug-221318-208809@https.bugzilla.kernel.org/>
 References: <bug-221318-208809@https.bugzilla.kernel.org/>
 Content-Type: text/plain; charset="UTF-8"
@@ -65,95 +65,17 @@ MIME-Version: 1.0
 
 https://bugzilla.kernel.org/show_bug.cgi?id=3D221318
 
---- Comment #9 from manauer.uel@gmail.com ---
-> Can you check what's making this noise?
-> cat /sys/kernel/debug/usb/xhci/0000:00:14.0/devices/02/name
+--- Comment #10 from manauer.uel@gmail.com ---
+Correction to my previous comment:
 
-    $ sudo cat /sys/kernel/debug/usb/xhci/0000:00:14.0/devices/02/name
-    2-3
-
-That would be bus 2, port 3 on the Intel controller, right? Checking sysfs =
-says
-it is the Apple Internal Memory Card Reader (05ac:8406), the SD card slot b=
-uilt
-into the MacBook.
-
-    $ lsusb | grep "Bus 002"
-    Bus 002 Device 001: ID 1d6b:0003 Linux Foundation 3.0 root hub
-    Bus 002 Device 002: ID 05ac:8406 Apple, Inc. Internal Memory Card Reader
-
-    $ cat /sys/bus/usb/devices/2-3/manufacturer
-    Apple
-    $ cat /sys/bus/usb/devices/2-3/product
-    Card Reader
-    $ cat /sys/bus/usb/devices/2-3/idVendor
-    05ac
-    $ cat /sys/bus/usb/devices/2-3/idProduct
-    8406
-
-
-
-
-> Does this cancellation go away when you enable the udev rule or ALWAYS_PO=
-LL?
-> Maybe something goes wrong here.
-
-I captured a new log with the rule enabled and replugged the mouse. I think
-with the udev rule active the cancellation disappears as far as I can see. =
-The
-enumeration looks the same as before up to the point where the mouse is
-recognized and the hidraw nodes are created. After that, the ASMedia contro=
-ller
-goes completely silent. No Cancel URB on ep 0x81, no split transaction erro=
-r,
-nothing. Just the Intel slot 2 ep 2 stalls in the background as usual. The
-mouse works.
-
-
-
-
-> Does it mean that the device kept disconnecting by itself and it wasn't y=
-ou
-> doing it?
-
-Some were definitely me replugging. But I cannot rule out that the device a=
-lso
-disconnected on its own at some point before I pulled the cable. The split
-transaction error appeared very shortly before one of the disconnects, so i=
-t is
-possible both happened. I definitely followed your instruction, if I rememb=
-er
-it correctly:
-> > Then connect the mouse with your udev rule, make a few clicks, disconne=
-ct,
-> remove the udev rule, connect again, make a few clicks.
-
-
-
-
-> Do you have some other USB 2.0/3.0 hub you could put between the monitor =
-and
-> the mouse?
-> Does it make any difference?
-
-I already tried this with two different USB hub dongles placed between the
-monitor and the mouse. The behavior was identical. The problem persists
-regardless of which hub is in between, which made me think the issue is may=
-be
-with the ASMedia controller itself rather than the LG hub specifically.
-
-
-
-
-One observation that might or might not be related I already mentioned in my
-initial report is that plugging in an unrelated wireless Logitech USB dongle
-into the monitor makes the wired mouse start working after replugging. The
-dongle itself has nothing to do with the wired mouse. I have no good
-explanation for why a second device being present would change anything, bu=
-t it
-seemed worth mentioning in case it points at something on the hub or contro=
-ller
-side.
+I said I could not rule out that the device disconnected on its own. Lookin=
+g at
+the new log more carefully, the mouse was already working with the rule act=
+ive
+when I started capturing. When I manually unplugged it, a split transaction
+error appears right at the moment of disconnect. So that error is a consequ=
+ence
+of pulling the cable.
 
 --=20
 You may reply to this email to add a comment.
