@@ -1,38 +1,38 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0D3B41DDC1B
-	for <linux-usb@vger.kernel.org>; Mon,  6 Apr 2026 00:41:43 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B1A101A6811
+	for <linux-usb@vger.kernel.org>; Mon,  6 Apr 2026 00:52:50 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1775436104; cv=none; b=cDVy5YaiPBF3pAJxNRrHbc4j+Cd64c8MWFQC4xQpaVhZ/e+e1Eup4sKSPz/814ql9UpxjbXbohRa/l4mB1O7rDIqXnNv85iwlDU+teh8otS7M2wGrEr8+eoioMPyqAy+gy+gObUVDq5koLNBZiF1qLbJFUhPH5Xf1l1EJFqZe4M=
+	t=1775436770; cv=none; b=gTIAhjQXTZbCpZI45Ed9qO3/wxDUvk155eYSJFbKQpDlmhdkME7ocBXuuc0hJQz9LlikHKa89bdNU4oYiv/z1PWBXLTQkprKkjdcRJUvOeNVxU1juPWlFEUlhRvQt3VZ0QdGZRE/EeSrL2+VMcMYXDFtdAIEX4txVBjfMK3z2Wg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1775436104; c=relaxed/simple;
-	bh=ed36gpOmYMIGF6lSgC7sbU4iWnjGxBaVoj6aPfZMROE=;
+	s=arc-20240116; t=1775436770; c=relaxed/simple;
+	bh=UxejV5YcDdlHnFcAYGxmR9gaR0PS+N4QSZIIg9yN/uw=;
 	h=From:To:Subject:Date:Message-ID:In-Reply-To:References:
-	 Content-Type:MIME-Version; b=lUmej5+AkmF1UReBAPwH0b0fsSKjTOnLr7W6xe5ZegK6SUMNRWkfhTaEmzpqOQmt+q6yHFp174nqZib95ioTrZZzOgpf5/Ex+zIrYuvfi7MApW3kMI4Qk9LjsJoW3jdlwU2a0ADrVPqckn8U6L8YDSCn9UKrCPiaY3QyHLYzHvI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=fdUEhh4g; arc=none smtp.client-ip=10.30.226.201
+	 Content-Type:MIME-Version; b=WqvW2nJnH3dKefZ/f/RzwKRbfkcddSvfS2Xm1gh8tmtSIDQt+6qzsjoxOlGuBfUM8/NCi/u343yFIHGUchzlEBaL8xTyLk4bqrbFPjALCXT25Ng795YilZMweFZLSq1NRNzipYb4grXG3Jf9YCQHlu2ot7OKWJbD1GYKfWNEVWk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=LR5dXW8m; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="fdUEhh4g"
-Received: by smtp.kernel.org (Postfix) with ESMTPS id CCC24C116C6
-	for <linux-usb@vger.kernel.org>; Mon,  6 Apr 2026 00:41:42 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="LR5dXW8m"
+Received: by smtp.kernel.org (Postfix) with ESMTPS id 579B0C116C6
+	for <linux-usb@vger.kernel.org>; Mon,  6 Apr 2026 00:52:50 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1775436102;
-	bh=ed36gpOmYMIGF6lSgC7sbU4iWnjGxBaVoj6aPfZMROE=;
+	s=k20201202; t=1775436770;
+	bh=UxejV5YcDdlHnFcAYGxmR9gaR0PS+N4QSZIIg9yN/uw=;
 	h=From:To:Subject:Date:In-Reply-To:References:From;
-	b=fdUEhh4gk2PwI6MRc+dfDe8C0bmOyo+hy4EIzMpeGFF3WMwb/EfkdZvf9nqKJx/Pc
-	 xFQGsSdDn08pz97jhbEcwC9htPTP5rZ1bHCKPLuMJ7cEINlRUcOc1bT25fQhVzt1mT
-	 G/QaR/xlOHS4NVM6Kt3l46Lhq91yNNbdOkyW+wDPi9n/JBDKxLf2NTwt3UnOxwwRew
-	 6HKfgLFLPbEmtPJcdMIN805fdJP/Yphu25J9ZxSF0GBuyUdkHA5i1vbwBjGhW0z/qe
-	 JxciYKuLmtPsAsr1GYCURrtvQ36tx/3M4ih4O6tt1ZzVHCYzmaWUOQsLvpWdcu3Au4
-	 tCrwQX6S+Lh5A==
+	b=LR5dXW8mHXyR0UkwZ80mrF+2Qr+gGg8xdnmCS5117vyV5uXHV1bfBwVgqz5ZFY2Ak
+	 48EC3Oml+p1/EhPNTE8OEuRhc7qhQtxQck1HllyZyDrwhpPEDlENHDBtV2OHqz72eR
+	 8GQyQk9umttamPdITzRqq4NysC7A0l/31JcMGTfB5xmhIMMm93J4AvPcEP4xSBwCQZ
+	 TgKIL2Uq5e+ikvNuC98re/FtJPw5rz34k/4usZ0Sbb5WGauji2TXoMSdIgr2ylpOMB
+	 oGMI4aFxnvCqTL82YYT0kVMkOUz4GUp47IU9OqNGCOcD5py3Lb444iVaKo+psRoKVF
+	 /M7VSZjqLKbFQ==
 Received: by aws-us-west-2-korg-bugzilla-1.web.codeaurora.org (Postfix, from userid 48)
-	id C46FAC433E1; Mon,  6 Apr 2026 00:41:42 +0000 (UTC)
+	id 4541AC4160E; Mon,  6 Apr 2026 00:52:50 +0000 (UTC)
 From: bugzilla-daemon@kernel.org
 To: linux-usb@vger.kernel.org
 Subject: [Bug 221319] Certain operations via PCIe tunneling between an AMD
  USB4 host and a Thunderbolt-5 peripherals cause an instant reboot
-Date: Mon, 06 Apr 2026 00:41:42 +0000
+Date: Mon, 06 Apr 2026 00:52:50 +0000
 X-Bugzilla-Reason: None
 X-Bugzilla-Type: changed
 X-Bugzilla-Watch-Reason: AssignedTo drivers_usb@kernel-bugs.kernel.org
@@ -47,8 +47,8 @@ X-Bugzilla-Resolution:
 X-Bugzilla-Priority: P3
 X-Bugzilla-Assigned-To: drivers_usb@kernel-bugs.kernel.org
 X-Bugzilla-Flags: 
-X-Bugzilla-Changed-Fields: attachments.created
-Message-ID: <bug-221319-208809-TbTuGQq0bo@https.bugzilla.kernel.org/>
+X-Bugzilla-Changed-Fields: 
+Message-ID: <bug-221319-208809-FyQ2XCvYq6@https.bugzilla.kernel.org/>
 In-Reply-To: <bug-221319-208809@https.bugzilla.kernel.org/>
 References: <bug-221319-208809@https.bugzilla.kernel.org/>
 Content-Type: text/plain; charset="UTF-8"
@@ -64,10 +64,22 @@ MIME-Version: 1.0
 
 https://bugzilla.kernel.org/show_bug.cgi?id=3D221319
 
---- Comment #4 from Morgwai Kotarbinski (foss@morgwai.pl) ---
-Created attachment 309829
-  --> https://bugzilla.kernel.org/attachment.cgi?id=3D309829&action=3Dedit
-systemd journal from a deg2-induced reboot and the boot after
+--- Comment #5 from Morgwai Kotarbinski (foss@morgwai.pl) ---
+@Mario, thanks for your reply! :)
+
+I've had a look at the logs on the next boot, but cannot find anything
+relevant. I've attached the dmesg output from the boot after and the systemd
+journal from a reboot and the boot after: perhaps you will be able to find =
+this
+info there.
+
+Otherwise please advise me if I need to add some kernel boot params or
+configure some other log gathering or apply some patches to my kernel to
+collect some more useful data: to be honest I don't know how to proceed fur=
+ther
+from here on my own.
+
+Thanks :)
 
 --=20
 You may reply to this email to add a comment.
