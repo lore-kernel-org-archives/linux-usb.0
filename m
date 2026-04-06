@@ -1,158 +1,74 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 27653221F1F
-	for <linux-usb@vger.kernel.org>; Mon,  6 Apr 2026 11:54:52 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id ADC3337DEAF
+	for <linux-usb@vger.kernel.org>; Mon,  6 Apr 2026 14:18:41 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1775476493; cv=none; b=DCxSaY2zCs1W5SIvoLCpfVJKWOZwn0r3HFbvpBx6S07TYaydi93DrL6LwZuok4ttDyoAdAvzTcNBenQigMYjVO2UoTqtxsrJqbytuWA2r4xUhNHGAceSNyf8txC0HxlIAW9O3pe0ys82jvlxxVl9F792v7DSE3cG55TezE03A5s=
+	t=1775485121; cv=none; b=YNVDAt9CbARFNVlk1b76DdeimZLAzGZN/2WpwsgmmeoW+GnewmShOKEr1wluSWEvedtmBwLeA8KNrScuFqEWLGbvQtrheAHXDsKxECUlLFj2ToWziWdvdp0guPdFC+sNndivQ1A5R+pmOfe9UQXOroZ4QV/dvNd2ofnOxY5K2f4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1775476493; c=relaxed/simple;
-	bh=tPPt0yOtJF2oseeiWGWkphdxYxy2bA+MR4iSQa3yvMk=;
-	h=From:To:Subject:Date:Message-ID:In-Reply-To:References:
-	 Content-Type:MIME-Version; b=Km88fp+1yv+cdO8aulxCuuURd8n1esrgIpaGzgvuArQCefd00e/3t/pHo7vId4ebrr+xlg69XqySEnTRXHFLUr9cEOE0DdYXcgKJYwQ6wC9s3yQxKtxr22IQ/BjyNDXDoGZUYrYpjr/kYbSrdrSJqlhLwbexawEBfYMu6YALSa0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=IYiI4WLV; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1775485121; c=relaxed/simple;
+	bh=GeYJ2+Z7mpUM6e9HLyPtuChxjms4WWXJNLx2zcAogXo=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=YdDbuSCONTtPZnHJiWhUtculjUf6BncUwiEObNWtrhCyd27XaqkA+KeV0VozHyl5x74Y9xoGTXD5wgvAOif/NhCosOdBX0Jc4fnz3LYRylB62tjPLuX6pQcfRNVZq8AY+Mq2ylfUb4WBtWpZ06OYQ0qa0VBcP4BCMHfYboE1TIk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b=Ca+3+nMa; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="IYiI4WLV"
-Received: by smtp.kernel.org (Postfix) with ESMTPS id B208AC19425
-	for <linux-usb@vger.kernel.org>; Mon,  6 Apr 2026 11:54:52 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1775476492;
-	bh=tPPt0yOtJF2oseeiWGWkphdxYxy2bA+MR4iSQa3yvMk=;
-	h=From:To:Subject:Date:In-Reply-To:References:From;
-	b=IYiI4WLVXdINRMC5PdlGf4MDKhQsoGvAq/4Eg/zVz+02RSnmcbZv2BY5mDWirgh9J
-	 AntUVsod3nDAbgLDD3g6VL+cOWCAeFqdkmHWFmE+yya4Tg6Bnc3O3jgtABCRPhqlUO
-	 RWFOS7NUI8VPXT2vMIkGSwegdHJNNTcS9choWjK5DYwgvOFkeJ39857koLthoRuJZs
-	 nfMkwNVueYIPwwvth2YxI5AdR//BiQYZL/429weD5byd8e3wNhN80Evqgcyxmw0sEY
-	 PKDPo23h82km0FoelA3WCmEP15QnWjMhib6M1oo0eEEg0kQmstUs5YeFDCrZXeKjxO
-	 VIys+v+ph0pSw==
-Received: by aws-us-west-2-korg-bugzilla-1.web.codeaurora.org (Postfix, from userid 48)
-	id A3FD2C3279F; Mon,  6 Apr 2026 11:54:52 +0000 (UTC)
-From: bugzilla-daemon@kernel.org
+	dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="Ca+3+nMa"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id CD9EAC2BCB0;
+	Mon,  6 Apr 2026 14:18:40 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
+	s=korg; t=1775485121;
+	bh=GeYJ2+Z7mpUM6e9HLyPtuChxjms4WWXJNLx2zcAogXo=;
+	h=From:To:Cc:Subject:Date:From;
+	b=Ca+3+nMaLWG66WjjNhi3shwAWv+RK/u8WMcI/vh+lqoCTiQ+0/IDPSt3jAOP20I9d
+	 1e7FMIZChDZfTpsyW0AqbtLVMZ6QVNse4zL3jrhPRQ7kRTSeVNYmYh4cSxr9qd7q86
+	 /qgzrQC4ZeoAKGKdWMxxKrzpdMfueHhnnTfb2CL4=
+From: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
 To: linux-usb@vger.kernel.org
-Subject: [Bug 221318] mice behind ASMedia ASM1042A via Thunderbolt 2 never
- produce input, most likely due to interrupt pipe idle window during
- enumeration
-Date: Mon, 06 Apr 2026 11:54:52 +0000
-X-Bugzilla-Reason: None
-X-Bugzilla-Type: changed
-X-Bugzilla-Watch-Reason: AssignedTo drivers_usb@kernel-bugs.kernel.org
-X-Bugzilla-Product: Drivers
-X-Bugzilla-Component: USB
-X-Bugzilla-Version: 2.5
-X-Bugzilla-Keywords: 
-X-Bugzilla-Severity: high
-X-Bugzilla-Who: manauer.uel@gmail.com
-X-Bugzilla-Status: NEW
-X-Bugzilla-Resolution: 
-X-Bugzilla-Priority: P3
-X-Bugzilla-Assigned-To: drivers_usb@kernel-bugs.kernel.org
-X-Bugzilla-Flags: 
-X-Bugzilla-Changed-Fields: 
-Message-ID: <bug-221318-208809-ojoHSVXDZ8@https.bugzilla.kernel.org/>
-In-Reply-To: <bug-221318-208809@https.bugzilla.kernel.org/>
-References: <bug-221318-208809@https.bugzilla.kernel.org/>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-X-Bugzilla-URL: https://bugzilla.kernel.org/
-Auto-Submitted: auto-generated
+Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+Subject: [PATCH] usb: core: config: reverse the size check of the SSP isoc endpoint descriptor
+Date: Mon,  6 Apr 2026 16:18:31 +0200
+Message-ID: <2026040630-graded-postwar-760f@gregkh>
+X-Mailer: git-send-email 2.53.0
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
+X-Developer-Signature: v=1; a=openpgp-sha256; l=1481; i=gregkh@linuxfoundation.org; h=from:subject:message-id; bh=GeYJ2+Z7mpUM6e9HLyPtuChxjms4WWXJNLx2zcAogXo=; b=owGbwMvMwCRo6H6F97bub03G02pJDJmXD2xbosRyh9G6ds7m1as/qG89ll+zI5Z/TqiMp2j3+ saljf1ZHbEsDIJMDLJiiixftvEc3V9xSNHL0PY0zBxWJpAhDFycAjARy3sM84MNVGJm5G+Y+Hu/ v5HEVl3GaTm12xnmSluKHA3aJBb4N7vnQPe2R/IvXFpCAQ==
+X-Developer-Key: i=gregkh@linuxfoundation.org; a=openpgp; fpr=F4B60CC5BF78C2214A313DCB3147D40DDB2DFB29
+Content-Transfer-Encoding: 8bit
 
-https://bugzilla.kernel.org/show_bug.cgi?id=3D221318
+Reverse the check of the size of the usb_ssp_isoc_ep_comp_descriptor
+structure to be done before accessing the structure itself.
+Functionally, this doesn't really do anything as the buffer is all
+internal to the kernel, and reading off the end is just fine, but static
+checking tools get picky when noticing that a potential read could be
+made "outside" of an allocated buffer.
 
---- Comment #14 from manauer.uel@gmail.com ---
-> One observation that might or might not be related I already mentioned in=
- my
-> initial report is that plugging in an unrelated wireless Logitech USB don=
-gle
-> into the monitor makes the wired mouse start working after replugging.
-> Bizarre. Does it prevent the cancellation, or does it work despite it?
+Not a bugfix, but a cleanup to keep tools from tripping over this
+constantly and annoying me with their pointless reports.
 
-It works despite the cancellation. The Cancel URB on ep 0x81 still happens =
-with
-the dongle present, same as without it.
+Signed-off-by: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+---
+ drivers/usb/core/config.c | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
 
-Note: I had to add a USB hub between the monitor and the mouse to have enou=
-gh
-ports for the dongle, so the mouse now shows up as 3-1.1.4 instead of 3-1.1.
-The issue persists the same way through the hub. Current topology on the
-ASMedia controller:
+diff --git a/drivers/usb/core/config.c b/drivers/usb/core/config.c
+index 6a1fd967e0a6..417140b012bb 100644
+--- a/drivers/usb/core/config.c
++++ b/drivers/usb/core/config.c
+@@ -54,8 +54,8 @@ static void usb_parse_ssp_isoc_endpoint_companion(struct device *ddev,
+ 	 * follows the SuperSpeed Endpoint Companion descriptor
+ 	 */
+ 	desc = (struct usb_ssp_isoc_ep_comp_descriptor *) buffer;
+-	if (desc->bDescriptorType != USB_DT_SSP_ISOC_ENDPOINT_COMP ||
+-	    size < USB_DT_SSP_ISOC_EP_COMP_SIZE) {
++	if (size < USB_DT_SSP_ISOC_EP_COMP_SIZE ||
++	    desc->bDescriptorType != USB_DT_SSP_ISOC_ENDPOINT_COMP) {
+ 		dev_notice(ddev, "Invalid SuperSpeedPlus isoc endpoint companion"
+ 			 "for config %d interface %d altsetting %d ep %d.\n",
+ 			 cfgno, inum, asnum, ep->desc.bEndpointAddress);
+-- 
+2.53.0
 
-    /:  Bus 003.Port 001: Dev 001, Class=3Droot_hub, Driver=3Dxhci_hcd/2p, =
-480M
-        ID 1d6b:0002 Linux Foundation 2.0 root hub
-        |__ Port 001: Dev 002, If 0, Class=3DHub, Driver=3Dhub/4p, 480M
-            ID 043e:9a10 LG Electronics USA, Inc. 34UC88-B
-            |__ Port 001: Dev 005, If 0, Class=3DHub, Driver=3Dhub/5p, 480M
-                ID 0bda:5411 Realtek Semiconductor Corp. RTS5411 Hub
-                |__ Port 001: Dev 006, If 0, Class=3DHuman Interface Device,
-Driver=3Dusbhid, 12M
-                    ID fffe:0005
-                |__ Port 001: Dev 006, If 1, Class=3DHuman Interface Device,
-Driver=3Dusbhid, 12M
-                    ID fffe:0005
-                |__ Port 001: Dev 006, If 2, Class=3DHuman Interface Device,
-Driver=3Dusbhid, 12M
-                    ID fffe:0005
-                |__ Port 004: Dev 011, If 0, Class=3DHuman Interface Device,
-Driver=3Dusbhid, 12M
-                    ID 046d:c049 Logitech, Inc. G5 Laser Mouse
-                |__ Port 004: Dev 011, If 1, Class=3DHuman Interface Device,
-Driver=3Dusbhid, 12M
-                    ID 046d:c049 Logitech, Inc. G5 Laser Mouse
-
-Something I did not notice before appears in both new logs: after the Cancel
-URB and Set TR Deq sequence completes, the ASMedia controller generates the=
-se:
-
-    xhci_hcd 0000:0a:00.0: Spurious event dma 0x00000000012c50b0, comp_code=
- 13
-after 13
-    xhci_hcd 0000:0a:00.0: Spurious event dma 0x00000000012c50e0, comp_code=
- 13
-after 13
-
-This appears both when the mouse does not work (no rule, no dongle) and whe=
-n it
-does work (dongle present). I do not know what to make of it, but it shows =
-up
-in both cases and not in the log with the udev rule active.
-
-The wireless dongle itself also has Cancel URBs on ep 0x81 and ep 0x82 duri=
-ng
-its own enumeration, but it recovers fine and no spurious events follow its
-cancellations. The wired mouse does not recover the same way.
-
-> Yes, I asked to try with and without workarounds, but the log shows multi=
-ple
-> disconnections so I wasn't sure what's going on.
-I think I replugged it multiple times per test, which made the logs harder =
-to
-read. I captured a cleaner second log without the udev rule and without the
-dongle to have a baseline. Both logs are attached if useful.
-
-> Yep. I tried the quirk here and it eliminates the cancellation. Without t=
-he
-> quirk it happens when udev briefly opens and closes the mouse before the =
-GUI
-> does. The kernel can't do much about it, besides the quirk.
-Would it be possible to have a quirk that applies to a whole subset of devi=
-ces
-(in this case mice), instead of one specific device only?
-
-
-I am currently away for Easter break, but next weekend I will have access t=
-o a
-second LG monitor from the same era that shows the same issue. I will check
-whether it runs on the same controller.
-
---=20
-You may reply to this email to add a comment.
-
-You are receiving this mail because:
-You are watching the assignee of the bug.=
