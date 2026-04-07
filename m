@@ -1,162 +1,80 @@
-Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.223.131])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.8])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BD1DB38C2DE
-	for <linux-usb@vger.kernel.org>; Tue,  7 Apr 2026 06:52:58 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.131
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6B8F030DEA6;
+	Tue,  7 Apr 2026 07:02:10 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.8
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1775544780; cv=none; b=VVHs3sXDQOh3JlOUl6XsGoFYUagkgGNtBm5/xRPE5BFInesD1jI4Y4ZD5bISLbk4TV/j29WYF1RVxIlblrKpRMt5EzUJRhjbZbXAC8k2oDYnufDvTzwbJsTdPew+YfMYF4lS/JbfD7B+a8lnWaFM+pZO3ByG5rRHpe7lWks18wQ=
+	t=1775545331; cv=none; b=U3Lps3V6wigKLqVmzuctXTSXEJwvp0V4rXkaLQ2FAWQehjAdbXfMCaJE+74ggsY3zr3kYrw1uw7Df4akaAZYLQHV45tPlY+950tIi/6WtNJpcCNHfUW4nLKr4bYcgOBdFmwzh8tvseSAozxPLmketbqMkqN3mqyiRMyTPKlCxkg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1775544780; c=relaxed/simple;
-	bh=RNGcZgd3URzXt1D740LRT+h43STai320ZejueQi8ejw=;
-	h=Date:Message-ID:From:To:Cc:Subject:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=HeO7cPJogPnLkt7L5pflk2kxqX+4PpmQjjobxKVz/h6QH20/AR3vrP+4cXhx586XlJTXXsXzHhiEL/D7r7Fq1xvjns8yNwt+odSu7DCxZRYCcq6d6FHnl8W0o3zr4Kx6v2NmA7pFixmaMRtzeSgJH9XuzQCmYn8z2xnHRJ8egGE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=nd3SQWNw; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=YtgfRD8R; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=mcm9l5Ub; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=8GJ41VGg; arc=none smtp.client-ip=195.135.223.131
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.de
+	s=arc-20240116; t=1775545331; c=relaxed/simple;
+	bh=V3Pphi3z48sC6cwOlXjuB2roYc9KI1wSiuAh2leMyzk=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=Cw26UFFlcNhXqA8UEj5r2RYUm1TYZUjE0uxMZFrdIIj1PNIluAi+OTLeIb7Jm1cTp2sbFQZUiejSjXqFsi79UrvJjkWDxjlYJTD3golgbuYHTAejSpWtRzUka0XSABgvNu3HFFA6+NeNwUhaYsSb25o3r/afYlP9i4g1+iFGEas=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=pass smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=VXG7SbNI; arc=none smtp.client-ip=192.198.163.8
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="nd3SQWNw";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="YtgfRD8R";
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="mcm9l5Ub";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="8GJ41VGg"
-Received: from imap1.dmz-prg2.suse.org (unknown [10.150.64.97])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by smtp-out2.suse.de (Postfix) with ESMTPS id 1C15F5BD52;
-	Tue,  7 Apr 2026 06:52:56 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1775544777; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=bKMmF32OPlhGw1MWQ6jVYLjMf8gxmtWKr0GcqhLCB1k=;
-	b=nd3SQWNw0D/+nUnSfXiOCWHUviMm1Kkl+wm6lMl/miy4KGcNlBto4+vokMGAES3N2NpPQF
-	kAnu0iatdpBYeZuM4sTWWJGXUMrEttA4TsTiMJmYVDHUc8mY7r0K4M0J3kM76/NGAf6339
-	WQSVfgLq88xlFOWCL1lEktuz8TQ5B74=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1775544777;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=bKMmF32OPlhGw1MWQ6jVYLjMf8gxmtWKr0GcqhLCB1k=;
-	b=YtgfRD8Rh16UUlj1oE++0mL6IMFxz/hEKN461HVysMfpXsa02B0wuRWU5ZRID/P5laidCv
-	TetKBU1X/hPxwADA==
-Authentication-Results: smtp-out2.suse.de;
-	none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1775544776; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=bKMmF32OPlhGw1MWQ6jVYLjMf8gxmtWKr0GcqhLCB1k=;
-	b=mcm9l5UbeGirttA76UGspVFeco90FkVsj0bTEbUuoYsrB002/+zmVvvW27HXqKWeAKRj2O
-	1kELWQDO8Slbpt6UNzp2oaNyT7+D0B4t2UTcrbBqlGz4n5fCTdBUe/zZB5TPPcxLcZtJFT
-	GyAEXhG6oW1GtBYcG+Qp4C3ldU1FE+M=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1775544776;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=bKMmF32OPlhGw1MWQ6jVYLjMf8gxmtWKr0GcqhLCB1k=;
-	b=8GJ41VGgVuiccqbM8/8EmIB31DbO/gYUUfNwcs98lvJwa3RiQwhABmoeP6Q+ywW55BuwYh
-	wgOt4AqNsyvhr2Cw==
-Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id DD9314A0B0;
-	Tue,  7 Apr 2026 06:52:55 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
-	by imap1.dmz-prg2.suse.org with ESMTPSA
-	id 9mzwNMep1GlcNAAAD6G6ig
-	(envelope-from <tiwai@suse.de>); Tue, 07 Apr 2026 06:52:55 +0000
-Date: Tue, 07 Apr 2026 08:52:55 +0200
-Message-ID: <878qazntx4.wl-tiwai@suse.de>
-From: Takashi Iwai <tiwai@suse.de>
-To: Nathan Rebello <nathan.c.rebello@gmail.com>
-Cc: gregkh@linuxfoundation.org,
-	heikki.krogerus@linux.intel.com,
-	linux-usb@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	tiwai@suse.de,
-	stable@vger.kernel.org
-Subject: Re: [PATCH] usb: typec: ucsi: skip connector validation before init
-In-Reply-To: <20260407063958.863-1-nathan.c.rebello@gmail.com>
-References: <20260407063958.863-1-nathan.c.rebello@gmail.com>
-User-Agent: Wanderlust/2.15.9 (Almost Unreal) Emacs/30.2 Mule/6.0
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="VXG7SbNI"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1775545330; x=1807081330;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=V3Pphi3z48sC6cwOlXjuB2roYc9KI1wSiuAh2leMyzk=;
+  b=VXG7SbNIRfKM5tYict/aZzw8lH54oyjy+xJGoc6DH44eH46WWJ3MucoA
+   5+oQdDcMhoVrsKs60S5XAN1Gqpj0cc5tRahWU6kxFPkSxTlEzvZ16qpBq
+   SiChG7iPmOu9IkN9i3GgM6EHz4+ZawqernML/XzRLWj4wyTtgFv1c8Nlg
+   7NHYdiXiZQqPtA+kiMe4Cp1h3GboeeKIllSgq7SC6eMrGsT0y1S6XIzjr
+   xasP+BVIKiSfLjySz7hTOcAPqPiu7THxlRGoqAZFQN5diBNxsUo2C3G3G
+   1yqgBX5NrtbOVbqg3fRHDm9ltb8NjJnSon+zVeiNwM58tbIiG8S4T+tWU
+   Q==;
+X-CSE-ConnectionGUID: LGBV01pBSROoi4WAA8TKJg==
+X-CSE-MsgGUID: OD69kc9eQbqeRxTi5+jM/g==
+X-IronPort-AV: E=McAfee;i="6800,10657,11751"; a="94080815"
+X-IronPort-AV: E=Sophos;i="6.23,165,1770624000"; 
+   d="scan'208";a="94080815"
+Received: from fmviesa001.fm.intel.com ([10.60.135.141])
+  by fmvoesa102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 07 Apr 2026 00:02:10 -0700
+X-CSE-ConnectionGUID: 6HGZ4sFVRQiO9W7KR9tCcg==
+X-CSE-MsgGUID: mxdhmdZYQLKhdFIaTuKD5A==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.23,165,1770624000"; 
+   d="scan'208";a="251375736"
+Received: from black.igk.intel.com ([10.91.253.5])
+  by fmviesa001.fm.intel.com with ESMTP; 07 Apr 2026 00:02:08 -0700
+Received: by black.igk.intel.com (Postfix, from userid 1001)
+	id CFB9195; Tue, 07 Apr 2026 09:02:06 +0200 (CEST)
+Date: Tue, 7 Apr 2026 09:02:06 +0200
+From: Mika Westerberg <mika.westerberg@linux.intel.com>
+To: Rosen Penev <rosenp@gmail.com>
+Cc: linux-usb@vger.kernel.org, Andreas Noever <andreas.noever@gmail.com>,
+	Mika Westerberg <westeri@kernel.org>,
+	Yehezkel Bernat <YehezkelShB@gmail.com>,
+	Kees Cook <kees@kernel.org>,
+	"Gustavo A. R. Silva" <gustavoars@kernel.org>,
+	open list <linux-kernel@vger.kernel.org>,
+	"open list:KERNEL HARDENING (not covered by other areas):Keyword:b__counted_by(_le|_be)?b" <linux-hardening@vger.kernel.org>
+Subject: Re: [PATCHv2] thunderbolt: tunnel: simplify allocation
+Message-ID: <20260407070206.GE3552@black.igk.intel.com>
+References: <20260401214726.3911-1-rosenp@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0 (generated by SEMI-EPG 1.14.7 - "Harue")
-Content-Type: text/plain; charset=US-ASCII
-X-Spam-Score: -1.80
-X-Spam-Level: 
-X-Spamd-Result: default: False [-1.80 / 50.00];
-	BAYES_HAM(-3.00)[99.99%];
-	SUSPICIOUS_RECIPS(1.50)[];
-	MID_CONTAINS_FROM(1.00)[];
-	NEURAL_HAM_LONG(-1.00)[-1.000];
-	NEURAL_HAM_SHORT(-0.20)[-1.000];
-	MIME_GOOD(-0.10)[text/plain];
-	TO_MATCH_ENVRCPT_ALL(0.00)[];
-	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
-	FREEMAIL_TO(0.00)[gmail.com];
-	ARC_NA(0.00)[];
-	FUZZY_RATELIMITED(0.00)[rspamd.com];
-	MIME_TRACE(0.00)[0:+];
-	FREEMAIL_ENVRCPT(0.00)[gmail.com];
-	RCVD_TLS_ALL(0.00)[];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
-	FROM_EQ_ENVFROM(0.00)[];
-	FROM_HAS_DN(0.00)[];
-	TO_DN_SOME(0.00)[];
-	RCVD_COUNT_TWO(0.00)[2];
-	TAGGED_RCPT(0.00)[];
-	RCPT_COUNT_SEVEN(0.00)[7];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[suse.de:mid,suse.de:email]
-X-Spam-Flag: NO
+MIME-Version: 1.0
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <20260401214726.3911-1-rosenp@gmail.com>
 
-On Tue, 07 Apr 2026 08:39:58 +0200,
-Nathan Rebello wrote:
+On Wed, Apr 01, 2026 at 02:47:26PM -0700, Rosen Penev wrote:
+> Use a flexible array member and kzalloc_flex to combine allocations.
 > 
-> Notifications can arrive before ucsi_init() has populated
-> ucsi->cap.num_connectors via GET_CAPABILITY. At that point
-> num_connectors is still 0, causing all valid connector numbers to be
-> incorrectly rejected as bogus.
+> Add __counted_by for extra runtime analysis. Move counting variable
+> assignment after allocation. kzalloc_flex with GCC >= 15 does this
+> automatically.
 > 
-> Skip the bounds check when num_connectors is 0 (not yet initialized).
-> Pre-init notifications are already handled safely by the early-event
-> guard in ucsi_connector_change().
-> 
-> Reported-by: Takashi Iwai <tiwai@suse.de>
-> Fixes: d2d8c17ac01a ("usb: typec: ucsi: validate connector number in ucsi_notify_common()")
-> Cc: stable@vger.kernel.org
-> Signed-off-by: Nathan Rebello <nathan.c.rebello@gmail.com>
-> ---
->  drivers/usb/typec/ucsi/ucsi.c | 3 ++-
->  1 file changed, 2 insertions(+), 1 deletion(-)
-> 
-> diff --git a/drivers/usb/typec/ucsi/ucsi.c b/drivers/usb/typec/ucsi/ucsi.c
-> index b77910152399..7df3a7b94a40 100644
-> --- a/drivers/usb/typec/ucsi/ucsi.c
-> +++ b/drivers/usb/typec/ucsi/ucsi.c
-> @@ -43,7 +43,8 @@ void ucsi_notify_common(struct ucsi *ucsi, u32 cci)
->  		return;
->  
->  	if (UCSI_CCI_CONNECTOR(cci)) {
-> -		if (UCSI_CCI_CONNECTOR(cci) <= ucsi->cap.num_connectors)
-> +		if (!ucsi->cap.num_connectors ||
-> +		    UCSI_CCI_CONNECTOR(cci) <= ucsi->cap.num_connectors)
->  			ucsi_connector_change(ucsi, UCSI_CCI_CONNECTOR(cci));
->  		else
->  			dev_err(ucsi->dev, "bogus connector number in CCI: %lu\n",
+> Signed-off-by: Rosen Penev <rosenp@gmail.com>
 
-Confirmed that it fixes my case.
-
-Tested-by: Takashi Iwai <tiwai@suse.de>
-
-
-Thanks!
-
-Takashi
+Applied to thunderbolt.git/next, thanks!
