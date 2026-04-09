@@ -1,54 +1,55 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5133434404F
-	for <linux-usb@vger.kernel.org>; Thu,  9 Apr 2026 20:56:38 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 24DB4379ECC
+	for <linux-usb@vger.kernel.org>; Thu,  9 Apr 2026 21:24:26 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1775768198; cv=none; b=oeNbOmn6Sbt2qosmTho5lNzwNeDy21OYUYEmUTUi0L6eMdXpgnfa2Fg88sfjZBkuFkyx6pXjiIKK6ddXlwP0wVH7OCv9UGP02tSBYF/j8QM8sQVYP9YGgiCi0i2qgH2tBlRv7pHRV++7luyUC41mj7EU4MlKB1R9UVYT+c73LzM=
+	t=1775769867; cv=none; b=AazLaciNVTlzK0EkalUAhQvBRsDbo5scspfGVxgFDTHnPC5VDwTG4AzcOwxanX5G4yf95BPK3aLrnNCB0WnvZa9xHY8ajXGDVipXMHjbH0mu6z4Nr9Qg+9lUxa9sVGqMLm1hcCr6h0tqSlCK+KvGiR6WJGTPsdlSuoPSJcBI/GA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1775768198; c=relaxed/simple;
-	bh=Oubx7AuLVx7RrNUjBKDOpiRVmdGJJZMPxV6iskgOKWw=;
-	h=From:To:Subject:Date:Message-ID:Content-Type:MIME-Version; b=nEM+pq7fV7LsMbdx4IyhSeUh5VXgWUaZlEkv3qzgTOBKIBUzeAbO1HDFGbOxNA0/5X8wI9uNiyTCdNRoiX6Lyc01GHJ7sA1Nu3LncPIti1rBdVJZ4ezOits2zzcqQjFZRKHYwqFrnZV5t9THIxyBAPJ38s1cApE9ywzEL5arPbc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=bFgFtrw9; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1775769867; c=relaxed/simple;
+	bh=aMfaq5kBqZJv9t6VXnoq7hgEWJDr6pi8OYHpeqv9giU=;
+	h=From:To:Subject:Date:Message-ID:In-Reply-To:References:
+	 Content-Type:MIME-Version; b=lrvcjXb+/0fKCh3EXA6MW3jxCkUMBYr5yQOzov43eOT/vqDo5p+shW2Y7ysIvwpik0Ed8NSv4vq+ALBGcpY4QqiwXFWscdO0PqIQURQSeoae79z+cdGkBFU2uGH+sp6o5DIVHImbHUk41MQP1v9LkpU9GwxWdfeHZJWNi0TJL74=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=iI2fo/oo; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="bFgFtrw9"
-Received: by smtp.kernel.org (Postfix) with ESMTPS id E6E7EC4CEF7
-	for <linux-usb@vger.kernel.org>; Thu,  9 Apr 2026 20:56:37 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="iI2fo/oo"
+Received: by smtp.kernel.org (Postfix) with ESMTPS id C9D54C2BCB0
+	for <linux-usb@vger.kernel.org>; Thu,  9 Apr 2026 21:24:26 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1775768197;
-	bh=Oubx7AuLVx7RrNUjBKDOpiRVmdGJJZMPxV6iskgOKWw=;
-	h=From:To:Subject:Date:From;
-	b=bFgFtrw9f4ftDNqO9YgXVjNMgdwmJ859ixk9mFSdlrYV9fDMvdp/wINDbch59a5Ud
-	 2SJLB6JxFsZ2N79F6pc7kXfKU0URb6skQTeUnBIbu78Wq3opGsd9U40cQ9J2oEpWTT
-	 UuPSZYgkN5y9pJOOKQcX33rOT359telxRrUjoSkRPGPFia+7R+tv3Xq++yd1Etg8MX
-	 dIfde0T1ipWqZ5FfJq9hGagsSl7Mjen2/eoK+i4XfcGaYesOIX6HhHcqIkgq9RHmr+
-	 Wjsnulkm2bsASWjTqqBBoMLQMeDi5KLzd+VumDZV01pl+g0TJBwDaZwg49fI20wxEp
-	 gN8/kJ78mWtGg==
+	s=k20201202; t=1775769866;
+	bh=aMfaq5kBqZJv9t6VXnoq7hgEWJDr6pi8OYHpeqv9giU=;
+	h=From:To:Subject:Date:In-Reply-To:References:From;
+	b=iI2fo/ooWc+apBzq/qrsHwvkKPOQeZjkdZwTZCoFMjTxDIJjwOJ6P8onbINzyBWxt
+	 v/aJ5QCL04f3PXYoH1b0t81nv0Cv3imZN/m8Sh3bbvuk3G9qMs1qNcDvq8lZ/MD2pg
+	 4v96uQA4hcTy+SycE11XK8v+rNZVBa4LXb7WfdgiF/alHL2e7egHLrGU03NWvu5OsU
+	 QOZjPS+LJ0CiEOb8NbfYiFP4qchUfA7kwuMsFy/dtbfH/9kqqJB/atsPBt8L94ZXvQ
+	 78aLiY2KuVbxMaNrmPBFQkxz2hg4Mt8glVUhcJj1W1dB5Xhk/iihGz3wmHHzeeREkK
+	 LKPpqfUI/YH7Q==
 Received: by aws-us-west-2-korg-bugzilla-1.web.codeaurora.org (Postfix, from userid 48)
-	id D6E71C4160E; Thu,  9 Apr 2026 20:56:37 +0000 (UTC)
+	id B9E50C433E1; Thu,  9 Apr 2026 21:24:26 +0000 (UTC)
 From: bugzilla-daemon@kernel.org
 To: linux-usb@vger.kernel.org
-Subject: [Bug 221340] New: uas driver hangs and causes usb reset
-Date: Thu, 09 Apr 2026 20:56:37 +0000
+Subject: [Bug 221340] uas driver hangs and causes usb reset
+Date: Thu, 09 Apr 2026 21:24:26 +0000
 X-Bugzilla-Reason: None
-X-Bugzilla-Type: new
+X-Bugzilla-Type: changed
 X-Bugzilla-Watch-Reason: AssignedTo drivers_usb@kernel-bugs.kernel.org
 X-Bugzilla-Product: Drivers
 X-Bugzilla-Component: USB
 X-Bugzilla-Version: 2.5
 X-Bugzilla-Keywords: 
 X-Bugzilla-Severity: normal
-X-Bugzilla-Who: DaisyTheFoxxo@proton.me
+X-Bugzilla-Who: oliver@neukum.org
 X-Bugzilla-Status: NEW
 X-Bugzilla-Resolution: 
 X-Bugzilla-Priority: P3
 X-Bugzilla-Assigned-To: drivers_usb@kernel-bugs.kernel.org
 X-Bugzilla-Flags: 
-X-Bugzilla-Changed-Fields: bug_id short_desc product version
- cf_kernel_version rep_platform op_sys bug_status bug_severity priority
- component assigned_to reporter cf_regression attachments.created
-Message-ID: <bug-221340-208809@https.bugzilla.kernel.org/>
+X-Bugzilla-Changed-Fields: cc
+Message-ID: <bug-221340-208809-nJgw5iziPD@https.bugzilla.kernel.org/>
+In-Reply-To: <bug-221340-208809@https.bugzilla.kernel.org/>
+References: <bug-221340-208809@https.bugzilla.kernel.org/>
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 X-Bugzilla-URL: https://bugzilla.kernel.org/
@@ -62,28 +63,14 @@ MIME-Version: 1.0
 
 https://bugzilla.kernel.org/show_bug.cgi?id=3D221340
 
-            Bug ID: 221340
-           Summary: uas driver hangs and causes usb reset
-           Product: Drivers
-           Version: 2.5
-    Kernel Version: v6.19.11-arch1-1
-          Hardware: All
-                OS: Linux
-            Status: NEW
-          Severity: normal
-          Priority: P3
-         Component: USB
-          Assignee: drivers_usb@kernel-bugs.kernel.org
-          Reporter: DaisyTheFoxxo@proton.me
-        Regression: No
+Oliver Neukum (oliver@neukum.org) changed:
 
-Created attachment 309850
-  --> https://bugzilla.kernel.org/attachment.cgi?id=3D309850&action=3Dedit
-Linux Kernel log
+           What    |Removed                     |Added
+----------------------------------------------------------------------------
+                 CC|                            |oliver@neukum.org
 
-The driver has been isolated to uas, usb-storage driver works without issue.
-Happens more often the more load there is on the drive.
-I am not aware of any duplicate bug reports.
+--- Comment #1 from Oliver Neukum (oliver@neukum.org) ---
+Are all errors due to READ_10 and WRITE_10?
 
 --=20
 You may reply to this email to add a comment.
