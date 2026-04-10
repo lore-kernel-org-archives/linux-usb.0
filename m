@@ -1,94 +1,94 @@
-Received: from outgoing.mit.edu (outgoing-auth-1.mit.edu [18.9.28.11])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 476853DDDBD
-	for <linux-usb@vger.kernel.org>; Fri, 10 Apr 2026 15:19:02 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=18.9.28.11
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6C7F73783D1
+	for <linux-usb@vger.kernel.org>; Fri, 10 Apr 2026 16:45:52 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1775834343; cv=none; b=b1V9Wpg2LYaJhtQMKUygvqIuBBkb1zervm9jbci7SrmTwp3/YC9ezW/40Wc+V/TzI44a+VC7UZDEOkD0Nd/CBjqMWRgnQaUVeW579FB7ijiNb5fU5pSLsVfV6Q4/tgUeUAEfg97eKay3fHK0YP2WTP0QBA+1uwySec8N1JHeX0s=
+	t=1775839552; cv=none; b=qisyd5DSF3zCY18uWhqnainFhIYHntBg0w/144/w3y/pfQQnJTYBnSdlGoP2A8DjuTSnq3a0MSDVRT/cd8ozFxuKtWCYPj5ugzgKSR4IK+Yl4XnAm8shhiiUhHIkEs0e+I7KzUDXQ87hAgYfzbSmn/1fj9nVtSfTv83qGCpNEfQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1775834343; c=relaxed/simple;
-	bh=2PJcapuxUWWHQgHKuYh+AB0Bg9+uWPE8WWtuj/kl/pY=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=mPnJTED7dWIKP/3GU/aCgGWGmuLDupKm86miP8T0pb8hkdi8TognktzkUHBj2Ihc6SdR7baaGnWRqLRNquyVx/iQTvG2laDZgn9IVGoRTs+N4kzzYDTaOhGbqdoa77Myz4zxyF8CpEpsoT6+lWnanh52fiIJ8zUynDZ++EJ27io=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=mit.edu; spf=pass smtp.mailfrom=mit.edu; dkim=pass (2048-bit key) header.d=mit.edu header.i=@mit.edu header.b=VPk6fsRQ; arc=none smtp.client-ip=18.9.28.11
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=mit.edu
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=mit.edu
+	s=arc-20240116; t=1775839552; c=relaxed/simple;
+	bh=7sA2rkIUGoC7zOVq9WvR/2YXvUw6U7F07GbYEg/An3M=;
+	h=From:To:Subject:Date:Message-ID:In-Reply-To:References:
+	 Content-Type:MIME-Version; b=HcyFWKWW2tpM7KpszQPfQCF4A4pq0ooUqPSWDT6KCxmYrOxOQJW9GxQlL5V6m/Lsf9MCjPgjxIQc5f89v12xyRoCpnEhhPOFStWGaNEufPuJius93pu4sJ7m4p0EHRt0mjM96ZnoFIBVUgrikPFMfO+tI5sLZGGx9d8R/2XL6Ew=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=LTwfzqYq; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=mit.edu header.i=@mit.edu header.b="VPk6fsRQ"
-Received: from trampoline.thunk.org (pool-173-48-116-90.bstnma.fios.verizon.net [173.48.116.90])
-	(authenticated bits=0)
-        (User authenticated as tytso@ATHENA.MIT.EDU)
-	by outgoing.mit.edu (8.14.7/8.12.4) with ESMTP id 63AFIoOX015852
-	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Fri, 10 Apr 2026 11:18:51 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=mit.edu; s=outgoing;
-	t=1775834332; bh=eTlXD+fEi5OyNbu4TxRTwpDmEzFd2ThBwniicSqJG9M=;
-	h=From:Subject:Date:Message-ID:MIME-Version:Content-Type;
-	b=VPk6fsRQSXd/5Nh8TyOtre/wyuiwILVUqAvKliAeAoP9NWxPWea1Q4bx2oJrpWurM
-	 p0KwKN2oR00yADJbGywtFxHrkSJG+7akpDxyNmS3k4sITB9+LAQ7TS8gLOxrGyZcxm
-	 iD4ByRUzuod5KLDmmiVM+UapW56A71UlQ86DKwTjUgLnxxFdmaZEmaxScOtN1jt83o
-	 KncTyarsQsfg740s5ZTPNDrP3EVWK9I1eaZQ8RpFbx0tpkzHLOeLlgiMDfG5/h1trz
-	 DW2Ox+J23d04yMQY9WVUywWKP2CKxWAo6qH71mwqDeJ5+jdH6erLL9AAKNO/NyVKi7
-	 5qupF6y+RLfJA==
-Received: by trampoline.thunk.org (Postfix, from userid 15806)
-	id 0D7462E00E1; Fri, 10 Apr 2026 11:18:48 -0400 (EDT)
-From: "Theodore Ts'o" <tytso@mit.edu>
-To: amd-gfx@lists.freedesktop.org, apparmor@lists.ubuntu.com,
-        bpf@vger.kernel.org, ceph-devel@vger.kernel.org, cocci@inria.fr,
-        dm-devel@lists.linux.dev, dri-devel@lists.freedesktop.org,
-        gfs2@lists.linux.dev, intel-gfx@lists.freedesktop.org,
-        intel-wired-lan@lists.osuosl.org, iommu@lists.linux.dev,
-        kvm@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
-        linux-block@vger.kernel.org, linux-bluetooth@vger.kernel.org,
-        linux-btrfs@vger.kernel.org, linux-cifs@vger.kernel.org,
-        linux-clk@vger.kernel.org, linux-erofs@lists.ozlabs.org,
-        linux-ext4@vger.kernel.org, linux-fsdevel@vger.kernel.org,
-        linux-gpio@vger.kernel.org, linux-hyperv@vger.kernel.org,
-        linux-input@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-leds@vger.kernel.org, linux-media@vger.kernel.org,
-        linux-mips@vger.kernel.org, linux-mm@kvack.org,
-        linux-modules@vger.kernel.org, linux-mtd@lists.infradead.org,
-        linux-nfs@vger.kernel.org, linux-omap@vger.kernel.org,
-        linux-phy@lists.infradead.org, linux-pm@vger.kernel.org,
-        linux-rockchip@lists.infradead.org, linux-s390@vger.kernel.org,
-        linux-scsi@vger.kernel.org, linux-sctp@vger.kernel.org,
-        linux-security-module@vger.kernel.org, linux-sh@vger.kernel.org,
-        linux-sound@vger.kernel.org, linux-stm32@st-md-mailman.stormreply.com,
-        linux-trace-kernel@vger.kernel.org, linux-usb@vger.kernel.org,
-        linux-wireless@vger.kernel.org, netdev@vger.kernel.org,
-        ntfs3@lists.linux.dev, samba-technical@lists.samba.org,
-        sched-ext@lists.linux.dev, target-devel@vger.kernel.org,
-        tipc-discussion@lists.sourceforge.net, v9fs@lists.linux.dev,
-        Philipp Hahn <phahn-oss@avm.de>
-Cc: "Theodore Ts'o" <tytso@mit.edu>, Andreas Dilger <adilger.kernel@dilger.ca>
-Subject: Re: [PATCH 04/61] ext4: Prefer IS_ERR_OR_NULL over manual NULL check
-Date: Fri, 10 Apr 2026 11:18:40 -0400
-Message-ID: <177583430870.2758959.6171961359325912353.b4-ty@b4>
-X-Mailer: git-send-email 2.51.0
-In-Reply-To: <20260310-b4-is_err_or_null-v1-4-bd63b656022d@avm.de>
-References: <20260310-b4-is_err_or_null-v1-4-bd63b656022d@avm.de>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="LTwfzqYq"
+Received: by smtp.kernel.org (Postfix) with ESMTPS id 50DC4C19421
+	for <linux-usb@vger.kernel.org>; Fri, 10 Apr 2026 16:45:52 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1775839552;
+	bh=7sA2rkIUGoC7zOVq9WvR/2YXvUw6U7F07GbYEg/An3M=;
+	h=From:To:Subject:Date:In-Reply-To:References:From;
+	b=LTwfzqYqzKzwsI6eet/GZHtiwR66ecHVslK2g9OjIGgOgk6OLOtCQKhZXEwZ1J5D5
+	 ngVINIrtDttVtWUcZGtHmdzmTPxM02hT7XXGwgMMeclnWS0KJhv2qic2arYJtflvbT
+	 +JhP6unM+VgGYsdhK1wAwd89A44Xv/DROP+VbBkCokHBYu6I4h0cPlmI9NXlPB4/EW
+	 AaOtYUIXEqknotY/+x6SFfbVu+yhK6/kraXmUq4XrLOMVM9vyxl9Ef8qqCVklZIQSH
+	 AIarZBrzmgWc/6fv6vXhwTfClBahMYZKeOyZ1zr8tmM7gJTtzb/nic2U2P3a/XXbIX
+	 ADzu/k685phDg==
+Received: by aws-us-west-2-korg-bugzilla-1.web.codeaurora.org (Postfix, from userid 48)
+	id 48B0AC41612; Fri, 10 Apr 2026 16:45:52 +0000 (UTC)
+From: bugzilla-daemon@kernel.org
+To: linux-usb@vger.kernel.org
+Subject: [Bug 221340] uas driver hangs and causes usb reset
+Date: Fri, 10 Apr 2026 16:45:52 +0000
+X-Bugzilla-Reason: None
+X-Bugzilla-Type: changed
+X-Bugzilla-Watch-Reason: AssignedTo drivers_usb@kernel-bugs.kernel.org
+X-Bugzilla-Product: Drivers
+X-Bugzilla-Component: USB
+X-Bugzilla-Version: 2.5
+X-Bugzilla-Keywords: 
+X-Bugzilla-Severity: normal
+X-Bugzilla-Who: DaisyTheFoxxo@proton.me
+X-Bugzilla-Status: NEW
+X-Bugzilla-Resolution: 
+X-Bugzilla-Priority: P3
+X-Bugzilla-Assigned-To: drivers_usb@kernel-bugs.kernel.org
+X-Bugzilla-Flags: 
+X-Bugzilla-Changed-Fields: 
+Message-ID: <bug-221340-208809-ZK2QbFWGJE@https.bugzilla.kernel.org/>
+In-Reply-To: <bug-221340-208809@https.bugzilla.kernel.org/>
+References: <bug-221340-208809@https.bugzilla.kernel.org/>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+X-Bugzilla-URL: https://bugzilla.kernel.org/
+Auto-Submitted: auto-generated
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 8bit
 
+https://bugzilla.kernel.org/show_bug.cgi?id=3D221340
 
-On Tue, 10 Mar 2026 12:48:30 +0100, Philipp Hahn wrote:
-> Prefer using IS_ERR_OR_NULL() over using IS_ERR() and a manual NULL
-> check.
-> 
-> Change generated with coccinelle.
+--- Comment #4 from DaisyTheFoxxo@proton.me ---
+(In reply to Micha=C5=82 Pecio from comment #3)
+> There is also Unmap/Read sub-channel in this log.
+>=20
+> By "hang", do you mean that no I/O happens for 30 seconds or some other t=
+ime
+> before these messages show up?
 
-Applied, thanks!
+yes
 
-[04/61] ext4: Prefer IS_ERR_OR_NULL over manual NULL check
-        commit: 1d749e110277ce4103f27bd60d6181e52c0cc1e3
+>=20
+> BTW, if you run (as root)
+> echo 'func handle_tx_event +p' >/proc/dynamic_debug/control
+>=20
+> do you see anything new appear in dmesg at this time?
+>=20
+> That would point to some "action" at xHCI layer, though I suppose it's al=
+so
+> possible that nothing interesting happens and the device simply never
+> responds to some commands under some circumstances.
 
-Best regards,
--- 
-Theodore Ts'o <tytso@mit.edu>
+I have been having difficulties reproducing the bug recently, I will let you
+know when it happens again
+
+--=20
+You may reply to this email to add a comment.
+
+You are receiving this mail because:
+You are watching the assignee of the bug.=
