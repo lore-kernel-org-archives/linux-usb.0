@@ -1,103 +1,160 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.9])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wm1-f51.google.com (mail-wm1-f51.google.com [209.85.128.51])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7B9663C2770;
-	Mon, 13 Apr 2026 11:40:19 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.9
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5F6BB3AB28F
+	for <linux-usb@vger.kernel.org>; Mon, 13 Apr 2026 11:42:37 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.51
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1776080421; cv=none; b=DPl9qvuH5Rds+R4ZMxbFVnjfz3ykdimFmqjhidIENuq+PQFArZVxUVf6rbRR2Qx1tv71PL8vnpXBl+fFyO9lgBSRS4kevdjga2b5a6pqTKn6lsYf70Uemfs21HwPHQRzG0NO8+xAH+MWVN68aFvpU5M6VTC59o7c+jvPtBaMxO4=
+	t=1776080558; cv=none; b=mjgJbb9W/FgSe1NbGzxxobtTFiKM2GC4ymtH0epdVF4W1u97GBbhOfswUGw74eO2/mdYfiQw6QPr4Q7eqwwX1kPSo8c58IkDbHQT2wDkVzgaCG8UuvYvYPIXYqHWxouexBpD/HAkjC+MVKT5gE/3pqTDkzk6D3Q2Qkbxh4LfP5Y=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1776080421; c=relaxed/simple;
-	bh=r9TNnNnsoRt6m6UoOw05fdrKBCsY/0C3qAXxYtK15xU=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=LwZKdVLCk5Zjm8bLohEhj+c2g6bkoeOX6b2rYkYdz6gHA26/vQ9mcr7HcV2SswW2wxA1+BgjFrcdl4Aol8/xoo1N+QSDVh9QUfYqKcy5TjCxrqYrSz8nHFCaGRB4XL5+wyUQsrSDSaZN5tveshAuuYX33u6dt9LqKtiVYEndaiM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=pass smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=hO9A0Myv; arc=none smtp.client-ip=192.198.163.9
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.intel.com
+	s=arc-20240116; t=1776080558; c=relaxed/simple;
+	bh=PnNMMbjwcKzVWP+m7FD53JqeYKvEanJzlNiXzEuxsp4=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version; b=XQOUgiRGukGOtdl9yj5fnUGiMGdvVSuQ//xbYwtIWXm5pkFps0Qvr5j+A+lCgMjjErXKa2y5KIWczpuRyrJgl0+0Tl3TG6OgX2OWvlaPiKzSAgF7JXLzGROHligSildFUy+fmjbZpRagc/Oi2XJ7c0OGp5onFf/w5k2nEoca7hI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=starlabs.systems; spf=pass smtp.mailfrom=starlabs.systems; dkim=pass (2048-bit key) header.d=starlabs-systems.20251104.gappssmtp.com header.i=@starlabs-systems.20251104.gappssmtp.com header.b=cAr3l21V; arc=none smtp.client-ip=209.85.128.51
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=starlabs.systems
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=starlabs.systems
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="hO9A0Myv"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1776080420; x=1807616420;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:content-transfer-encoding:in-reply-to;
-  bh=r9TNnNnsoRt6m6UoOw05fdrKBCsY/0C3qAXxYtK15xU=;
-  b=hO9A0MyvoMglIgP2ZiHv19P7TgbbVKoQaUsp5rTuZ9/aHjgNdcRTFRE8
-   pmqynL5noHOHMbz/HXaIVqdq11Nu+/Bgj0SQykD8SUbDchLBK3CJUQwHM
-   BfySHB20wqcK4U5EseNM50kk9pl1xKA7Aj7KBWss/0c0nAA1fC1n6ECqa
-   he9SD6oBGJmrUHFAsafSywgv3AyM4f0wDvfiRnqTTMLxiuma1/GWvl5ls
-   3HvOrXh8ZaQzPu0BQeNKzxNEsKPYcYbbkmn5H23Rby6wPBjUKHgWXpfom
-   t//dadpu7Zioq0fyYD1kMBdpuwcexN2leZ+3B4ddxclFboLQGapkxGfCZ
-   Q==;
-X-CSE-ConnectionGUID: +T+RI5oCQIS/P4fZOyLAnw==
-X-CSE-MsgGUID: NHsJxmJYRq6nP17tm8Pjow==
-X-IronPort-AV: E=McAfee;i="6800,10657,11757"; a="87714544"
-X-IronPort-AV: E=Sophos;i="6.23,177,1770624000"; 
-   d="scan'208";a="87714544"
-Received: from orviesa009.jf.intel.com ([10.64.159.149])
-  by fmvoesa103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 13 Apr 2026 04:40:19 -0700
-X-CSE-ConnectionGUID: ToM4Rj6CSF+2r2YhW9bguw==
-X-CSE-MsgGUID: du0MFIdISZetE7neBUG8yA==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.23,177,1770624000"; 
-   d="scan'208";a="229635600"
-Received: from black.igk.intel.com ([10.91.253.5])
-  by orviesa009.jf.intel.com with ESMTP; 13 Apr 2026 04:40:16 -0700
-Received: by black.igk.intel.com (Postfix, from userid 1001)
-	id E11E098; Mon, 13 Apr 2026 13:40:15 +0200 (CEST)
-Date: Mon, 13 Apr 2026 13:40:15 +0200
-From: Mika Westerberg <mika.westerberg@linux.intel.com>
-To: Konrad Dybcio <konradybcio@kernel.org>
-Cc: Andreas Noever <andreas.noever@gmail.com>,
-	Mika Westerberg <westeri@kernel.org>,
-	Yehezkel Bernat <YehezkelShB@gmail.com>,
+	dkim=pass (2048-bit key) header.d=starlabs-systems.20251104.gappssmtp.com header.i=@starlabs-systems.20251104.gappssmtp.com header.b="cAr3l21V"
+Received: by mail-wm1-f51.google.com with SMTP id 5b1f17b1804b1-488a041eae5so31281705e9.1
+        for <linux-usb@vger.kernel.org>; Mon, 13 Apr 2026 04:42:37 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=starlabs-systems.20251104.gappssmtp.com; s=20251104; t=1776080556; x=1776685356; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=BbrAMVuoymvOc0pbOyeM4Q5RieftEOwF5FE/RDRgc9A=;
+        b=cAr3l21VklToYwJNBQlMpmkHi/IkaKzFZNR3zfRMRHDHD8AeOwM03n9e/+Tk0TMyOp
+         krpOgQ/otkHzuDNYhKQOonYyTEwGfqyl5FlP8tgxDQyr6GwpUPZf3yp2QkU/cSHDE0Jb
+         euLnduKsneFyppNarzFmJhW9kFnY8qPUaRoE+FPaztQuPa3db8LLQIlQTIZHqMVZHGlR
+         l2Z6XzeAO1e+7edNDXNPFca3q/atkjigMGFSMLmbwrF+zcrFpecNmnZzjEoMlmXvjPWW
+         /cWa2D6ZuE48wdFKeZN7757uW5gc6V1nmJ+4DbZKKT1WFe47J/SsWkHC5qaCP/1lPtn9
+         6auQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1776080556; x=1776685356;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
+         :to:cc:subject:date:message-id:reply-to;
+        bh=BbrAMVuoymvOc0pbOyeM4Q5RieftEOwF5FE/RDRgc9A=;
+        b=l1ggzo0QhGfo5vWnn55ege6RNpOAd9OnedvBTe2EXXzHTUJPzOd1N38bRu455wM2NL
+         xn2Kxtd2ZMqk+0bIsw/8xMTiDEZf+8GoL9PGWHgzzKu+JcXSz/VbDUbpqHXgZ/OuZDF6
+         FDLaoQGKtNyOvN16Am9OpKxtIac8eE4mH2bbts75vMllmFXLAb8BVdvONnJpDcWax8Yw
+         XgXboHbHzBcTckdheEeU0Kml3ft0egv5mJa76CGZkNyLInXnKudlgl6105OR7Mef6uef
+         KjiH3kcgannU5QqUoYP/RqT/lFNi6gLrSpN41m10B2M1ULG52ujqDmvYVs4+h627ANTQ
+         09qg==
+X-Forwarded-Encrypted: i=1; AFNElJ8vBgWEGj9sNV0OoeEj26JafCkqW4mgsl0yTbD456tuJqVcFUdrmJqmAlPvoolMQ8hvUzGWE7t8SuU=@vger.kernel.org
+X-Gm-Message-State: AOJu0YytzQ5icqYT33mVWJvBhFOmnpP/ljg2PeY1sMhspQDIoluhixx4
+	hxKVNbuqezPauBvHnayihDOLXXQWAwF+AL9eSRFRsr4PHgSid8W1YNBp3YMKSHdFZg==
+X-Gm-Gg: AeBDiev2b6jbBlbjFLYxeu4DP1Nfifo3vX01jWocbW6Rxrfo54p5dXjSmmzFE3mthqr
+	35J3MZO6PIjBbfEhu5hSqhOiwcF3wwA2VjB7gnOx9Tlh5vEi8R2TS05DCwVcv1bgmdzE1ahi7Yh
+	VuS45XXO2FkeZqRk3l/zAjaN0KPiee772dwSkqUB5q0SnEg9kisZ4QwQIy+HLnoMJ40wRkBhj+n
+	n6Cirq2pip46RIkaXncfQCTXqP4vsIXhdqyZGMnKywa/9oJNj2Qhd0RGn6+zNpfo9eUYGBGytMM
+	HRs9EAUpId6TzzGGBzvyDu4yyWuaTyAIP32YUsmB/ZnXOyBWbwirWjrgcseullrk6B1qFYZT/km
+	EdrhR63Za8j/QjC8ACT0XnqtUD+hgeiBJpOt2e9TnxGtR5UDsI3s8RosqOLARZ0fDQehyseC6ex
+	Yfe2pDkJ80/RPdWP556UauUM7kPTx/Xb9bAePsAfUX73abCzW7DuK+sxtGdYCFG9o4R2Dh
+X-Received: by 2002:a05:600c:3f0e:b0:485:3f72:323f with SMTP id 5b1f17b1804b1-488d67e6973mr177577725e9.11.1776080555721;
+        Mon, 13 Apr 2026 04:42:35 -0700 (PDT)
+Received: from horizon.localdomain ([212.105.128.254])
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-488d67b46ffsm126301165e9.6.2026.04.13.04.42.34
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 13 Apr 2026 04:42:34 -0700 (PDT)
+From: Sean Rhodes <sean@starlabs.systems>
+To: linux-kernel@vger.kernel.org
+Cc: Arnd Bergmann <arnd@arndb.de>,
 	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	Gil Fine <gil.fine@intel.com>, linux-usb@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	Konrad Dybcio <konrad.dybcio@oss.qualcomm.com>
-Subject: Re: [PATCH RFC] thunderbolt: Skip reading Rsvd SB registers on
- older-gen hardware
-Message-ID: <20260413114015.GO3552@black.igk.intel.com>
-References: <20260413-topic-usb4_limit_sb_reads-v1-1-778a6eb37f7b@oss.qualcomm.com>
+	Sean Rhodes <sean@starlabs.systems>,
+	Ulf Hansson <ulf.hansson@linaro.org>,
+	Ricky Wu <ricky_wu@realtek.com>,
+	Ingo Molnar <mingo@kernel.org>,
+	Thomas Gleixner <tglx@linutronix.de>,
+	linux-usb@vger.kernel.org,
+	linux-mmc@vger.kernel.org
+Subject: [RFC PATCH 1/2] rtsx_usb: hold runtime PM during transfers
+Date: Mon, 13 Apr 2026 12:42:30 +0100
+Message-ID: <95a293902585bd43c6857b79bdcdb8be692ff687.1776080528.git.sean@starlabs.systems>
+X-Mailer: git-send-email 2.51.0
+In-Reply-To: <cover.1776080528.git.sean@starlabs.systems>
+References: <cover.1776080528.git.sean@starlabs.systems>
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <20260413-topic-usb4_limit_sb_reads-v1-1-778a6eb37f7b@oss.qualcomm.com>
 
-On Mon, Apr 13, 2026 at 12:54:41PM +0200, Konrad Dybcio wrote:
-> From: Konrad Dybcio <konrad.dybcio@oss.qualcomm.com>
-> 
-> The Linux TBT subsystem supports hardware aligned with the latest
-> USB4 v2.0 specification. In some places though, it assumes registers
-> only defined in that specification version (previously marked as
-> Reserved) are always accessible.
-> 
-> Every version of the spec states:
-> 
-> """
-> Unless specified otherwise, the Connection Manager shall not write a
-> register with a value that is marked as “Rsvd”. Writing a register with
-> a value that is marked as “Rsvd” results in undefined behavior.
-> """
-> 
-> The effective list of SB registers that need this guarding currently
-> exclusively contains ones that aren't used outside the debugfs dump
-> logic, so just add the required checks there.
-> 
-> Fixes: 54e418106c76 ("thunderbolt: Add debugfs interface")
-> Signed-off-by: Konrad Dybcio <konrad.dybcio@oss.qualcomm.com>
-> ---
->  drivers/thunderbolt/debugfs.c | 20 ++++++++++++--------
->  drivers/thunderbolt/retimer.c | 11 ++++++++++-
->  drivers/thunderbolt/sb_regs.h | 11 ++++++-----
->  drivers/thunderbolt/tb.h      |  2 ++
->  4 files changed, 30 insertions(+), 14 deletions(-)
+Hold a runtime-PM reference across bulk transfers, and mark the device
+busy afterwards.
 
-This is alternative for the v2 patch you sent earlier, right? I prefer that
-one over this.
+When runtime PM is already in progress (e.g. from rtsx_usb_suspend()),
+avoid forcing a runtime resume from within the PM path by using
+usb_autopm_get_interface_no_resume() unless the interface is already
+runtime-suspended.
+
+Signed-off-by: Sean Rhodes <sean@starlabs.systems>
+---
+ drivers/misc/cardreader/rtsx_usb.c | 38 ++++++++++++++++++++++++------
+ 1 file changed, 31 insertions(+), 7 deletions(-)
+
+diff --git a/drivers/misc/cardreader/rtsx_usb.c b/drivers/misc/cardreader/rtsx_usb.c
+index f65acf4d1164..c8badd0db87b 100644
+--- a/drivers/misc/cardreader/rtsx_usb.c
++++ b/drivers/misc/cardreader/rtsx_usb.c
+@@ -12,6 +12,7 @@
+ #include <linux/usb.h>
+ #include <linux/platform_device.h>
+ #include <linux/mfd/core.h>
++#include <linux/pm_runtime.h>
+ #include <linux/rtsx_usb.h>
+ 
+ static int polling_pipe = 1;
+@@ -65,19 +66,42 @@ static int rtsx_usb_bulk_transfer_sglist(struct rtsx_ucr *ucr,
+ }
+ 
+ int rtsx_usb_transfer_data(struct rtsx_ucr *ucr, unsigned int pipe,
+-			      void *buf, unsigned int len, int num_sg,
+-			      unsigned int *act_len, int timeout)
++				      void *buf, unsigned int len, int num_sg,
++				      unsigned int *act_len, int timeout)
+ {
++	int ret;
++	struct device *dev = &ucr->pusb_intf->dev;
++
+ 	if (timeout < 600)
+ 		timeout = 600;
+ 
++	/*
++	 * During runtime suspend/resume callbacks, avoid forcing a runtime resume
++	 * from within the PM path. The device is still active when
++	 * rtsx_usb_suspend() runs, but usb_autopm_get_interface() can block when
++	 * runtime PM is already in progress.
++	 */
++	if (pm_runtime_status_suspended(dev)) {
++		ret = usb_autopm_get_interface(ucr->pusb_intf);
++	} else {
++		usb_autopm_get_interface_no_resume(ucr->pusb_intf);
++		ret = 0;
++	}
++	if (ret)
++		return ret;
++
+ 	if (num_sg)
+-		return rtsx_usb_bulk_transfer_sglist(ucr, pipe,
+-				(struct scatterlist *)buf, num_sg, len, act_len,
+-				timeout);
++		ret = rtsx_usb_bulk_transfer_sglist(ucr, pipe,
++						    (struct scatterlist *)buf,
++						    num_sg, len, act_len,
++						    timeout);
+ 	else
+-		return usb_bulk_msg(ucr->pusb_dev, pipe, buf, len, act_len,
+-				timeout);
++		ret = usb_bulk_msg(ucr->pusb_dev, pipe, buf, len, act_len,
++				   timeout);
++
++	usb_mark_last_busy(ucr->pusb_dev);
++	usb_autopm_put_interface(ucr->pusb_intf);
++	return ret;
+ }
+ EXPORT_SYMBOL_GPL(rtsx_usb_transfer_data);
+ 
