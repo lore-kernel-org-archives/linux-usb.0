@@ -1,107 +1,61 @@
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2C59A3C7DF1
-	for <linux-usb@vger.kernel.org>; Tue, 14 Apr 2026 09:47:14 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.133.124
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D751A3D410B;
+	Tue, 14 Apr 2026 10:20:35 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1776160035; cv=none; b=TmJcF3eHtnAjzlaCHiLWcuMFyvhzTSuiVRkFqwYUYUWB/mmcxOaAhUt9kquv5IT8iOcQi9VTH8TBeNmxiWt8pwTrlVOh8EOUFky/3lrUcFlIRLdIpfrE57ET3asdHv08g60Z0lAQxDbLwybdRu+H/nAXKn/jK4X1S1MB9cwuosc=
+	t=1776162036; cv=none; b=hMmaKgJiBcVWqZ9Ltx9n5+yVB9uo8tv1AYzODXP43OALIjtmbHY/NxhYXDsPSgSbBW4ViJWX/vFq8jdhswPLAtFEUWvipi3oHIbsDeVtkWoeBDhLAybFzaiqGODGwNJ+fdEY+tBtDkW3IWsu/8xDQEVdounQ34KbHnjBsZag6Lk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1776160035; c=relaxed/simple;
-	bh=bv5AeWRl6aqaLxTnVdjqykd7H/2wPJRUbc+/MvSkyxc=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=F8acGHFK2ybQkIAnPLnnEgwSkABcWl625sfa3WMo00DCZ7Dyt/BIf49L9vL2UY9nWeRd9QcnAI0U6+aWQ5TcrdALC80CSFBm6M8/aITu8TSdNW1+AdpoN7kQ4jwlUJyFHPjqoTfFbWHJ13c08Wj7ygxod7W3Q2vhrMVcxrOkt4M=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=IDB0Mgid; dkim=pass (2048-bit key) header.d=redhat.com header.i=@redhat.com header.b=UZq20/WJ; arc=none smtp.client-ip=170.10.133.124
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
+	s=arc-20240116; t=1776162036; c=relaxed/simple;
+	bh=DB088bkm+R5WzfKl/khDK+zsssDou6km3IYDge0gM04=;
+	h=Content-Type:MIME-Version:Subject:From:Message-Id:Date:References:
+	 In-Reply-To:To:Cc; b=KBL/uDCCoaX5EVYIEnfue876Es0Eg1iltiswq1qANdHK6RkC91uw8ofkJQTW+1TYnvVUqvo8WiJfgJlY6zeVcy5pwoou7uec4tPLzGDJmhhJ0ihrg95FKNZHBUYCaZJiJQQKDPrvY5IIC1fLCc/IWIKhPwDMZuKP/D4LBVCHrNc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=NzAizErS; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="IDB0Mgid";
-	dkim=pass (2048-bit key) header.d=redhat.com header.i=@redhat.com header.b="UZq20/WJ"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1776160033;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=oFua1/KhgIXdwvS4cvD1iQ3GFhM2dsTn/9+KosrTEag=;
-	b=IDB0Mgidfd1ERE8ECMjkVa5PBlfP+mftZKBOJJp1W1uzf3TWMADurkkyr5TGGPKv4EynCw
-	atlLmL9R7hXsZkYy10K9SwDXkXmuOZGTzMYtG+D8KuKJ144YNFJsY2sWLIwUbHWtWfVqeV
-	Di0bdnJeO+VXMXus/3FLjFT5m83vOtU=
-Received: from mail-wr1-f70.google.com (mail-wr1-f70.google.com
- [209.85.221.70]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-682-SyHweeFKPPSIDdVDzg34GA-1; Tue, 14 Apr 2026 05:47:12 -0400
-X-MC-Unique: SyHweeFKPPSIDdVDzg34GA-1
-X-Mimecast-MFC-AGG-ID: SyHweeFKPPSIDdVDzg34GA_1776160031
-Received: by mail-wr1-f70.google.com with SMTP id ffacd0b85a97d-43d02fa5860so4606713f8f.0
-        for <linux-usb@vger.kernel.org>; Tue, 14 Apr 2026 02:47:12 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=redhat.com; s=google; t=1776160031; x=1776764831; darn=vger.kernel.org;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=oFua1/KhgIXdwvS4cvD1iQ3GFhM2dsTn/9+KosrTEag=;
-        b=UZq20/WJIQ3sBx/QUx8NBDXGQG2Qn27OakOmsXMglzBadJnJzIb9eC8gxJSo4qU4B9
-         0s6eIxQIFveDAgegRZx2ODLwqdt9QsIy3n1ctMQoBSNhlKt5iDbiwU1kOF9vl+bZmYsv
-         ++/WTDYYuVEP9X+H0lyPZbQDifY1eImOITlcNCcmQsl02WY5+vYdBu3WFF6pnOm6l2b0
-         q0bUvWvUSjTngwQ4hDkxJ9ElFsea3eMr1/qbgutfcpDpLqPod9lrTfugrlxaDETefQRy
-         9lhuFXhUaUbIPQSetpFDVxmCKO1rFloLCOXKvgSyXebVLqRQfV74LxMvfLB1JrHRrlEQ
-         c8dA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1776160031; x=1776764831;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :x-gm-gg:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=oFua1/KhgIXdwvS4cvD1iQ3GFhM2dsTn/9+KosrTEag=;
-        b=NRG4K/pDO//JivxOpCUhvSTrhxLuhssaCnvyF2w93Hq87YjfX27hx+QgfQ+D7CCxoH
-         CkGNbF1L8kNWL5HYSsW+xUdtUrvUR5m+E+hzJh/vTd/JwihWtsKSq1e+XVxHbuGEbtHx
-         Q1cBrt8FT+RMe1hFLXG4dqxPeidxwCkd3y5w4+0LIvPTToqR/KG33twDLNRdyfiJdAxh
-         WXeuhlWq8M6erkNOdhUavwFCRTg6vEkrEqhTC9mCLfccdLO8SRJWaHAUfM+Ez1CHG6KQ
-         eWwkIhZKhrXGTOVvij+R2wr8MingFiRnrU5/pabzU/LX4Z3zXt/XkBY/QzuSkx8JzCkd
-         8JMw==
-X-Forwarded-Encrypted: i=1; AFNElJ9FOPSDM17BBW128Rj2GH0VdiJvA7tjRoHCnsGZrnBWKcycOCJQcYp4mzA0yKI7+qT3GEsf0NXtkmo=@vger.kernel.org
-X-Gm-Message-State: AOJu0YyUDOV5gmRLDuSqVEwpFs/a6P+oup4KJv9ewPB+1Lrnd9kQOMV6
-	fFs7RD/ofShJFSEQvScEwwI4ObyIRDKH3A7EWUU8ZPC/IHQvYWeB2L9s9rqS19YEG8bjLIoB2o0
-	l4nWvP6DEHB/OQMCJ46gDLsUO2ZUYSsCizHapVGP1bfBls7uOdSvitK2DSoNgAKiuIrSiRw==
-X-Gm-Gg: AeBDiet9ErFPLZS+sBrFkvPmP7C3dmS/kxDo7MTBneJpdTHOjiZIoIFANKaSHReu5Vz
-	gvBylqFhvgkGNTueeFHCDJDBwIWEq+vbk0kZs0LRqjd/j7cwPP4rK3aclbweyntIhvkrnyh6NRk
-	Msdcc349DCnuQXeU3+nCiH4ipOzT9ppl3/Y5+7x8u0Npd4muMR/drr+LNeB8NJJaPxuos5RAVXM
-	WKNbrcHKJ6gIWt8iqPemNATIWIRINWQ6T6V1gJ+SlgII7M/MDsSiIoct93Z8J6lsQjFH6P0XDw+
-	vqMzfCmlwoeecMiud9LroxieOW3zTF30iwcLdckEBDIYEOWHwPfI2fE37O9TDCSXQFQDruUD7Px
-	ew/mSDQTuQK4ZgL6pBSYEC/SFBHollrQOPGsFXL6S4S9rtWJvSKXqfD1G
-X-Received: by 2002:a05:600c:c108:b0:488:c282:e78c with SMTP id 5b1f17b1804b1-488d684bd3amr159160495e9.19.1776160030513;
-        Tue, 14 Apr 2026 02:47:10 -0700 (PDT)
-X-Received: by 2002:a05:600c:c108:b0:488:c282:e78c with SMTP id 5b1f17b1804b1-488d684bd3amr159160155e9.19.1776160029969;
-        Tue, 14 Apr 2026 02:47:09 -0700 (PDT)
-Received: from [192.168.88.32] ([216.128.11.125])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-488ede1513csm42116795e9.2.2026.04.14.02.47.08
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 14 Apr 2026 02:47:09 -0700 (PDT)
-Message-ID: <a3974cae-728d-4eb6-8bfa-f926ed1c49ce@redhat.com>
-Date: Tue, 14 Apr 2026 11:47:08 +0200
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="NzAizErS"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 073B0C19425;
+	Tue, 14 Apr 2026 10:20:35 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1776162035;
+	bh=DB088bkm+R5WzfKl/khDK+zsssDou6km3IYDge0gM04=;
+	h=Subject:From:Date:References:In-Reply-To:To:Cc:From;
+	b=NzAizErS7RdqwA5glbaZAR/AHwe+hpjztJoEJN8bfUPl1Zw0SiUsQ5PwfDQrtrTXs
+	 h0T+9r8I+GTXi7ZtjO122qUfZ2dvf7OUwYUCql36lhUP3QE3flEMcN7wK3YOh0mvXD
+	 MibOfTVp4SwleJUW0Dw4jEaKzLEPcOuGA22c5FL5ib72XxkHouqHUUWDCDHWU+oDmH
+	 bZIpbODTr1VpoRcZ4EfpmcBc5Iw5O7DuobrHD8bJLFjzZ6Q58/XwtSPGgOOs6XVmYu
+	 rTWAMYYgn+GALGeniyrQM4SqP4cxAGzBeKSzz8FTy2hCrxZ2S1g2kdMZfX2vGH8KP1
+	 kXlZbe5Egg5bw==
+Received: from [10.30.226.235] (localhost [IPv6:::1])
+	by aws-us-west-2-korg-oddjob-rhel9-1.codeaurora.org (Postfix) with ESMTP id 02D2A380A957;
+	Tue, 14 Apr 2026 10:20:07 +0000 (UTC)
+Content-Type: text/plain; charset="utf-8"
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
+Content-Transfer-Encoding: 8bit
 Subject: Re: [PATCH net] net: usb: cdc-phonet: fix skb frags[] overflow in
  rx_complete()
-To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
- linux-usb@vger.kernel.org, netdev@vger.kernel.org
-Cc: linux-kernel@vger.kernel.org, Andrew Lunn <andrew+netdev@lunn.ch>,
- "David S. Miller" <davem@davemloft.net>, Eric Dumazet <edumazet@google.com>,
- Jakub Kicinski <kuba@kernel.org>, stable <stable@kernel.org>
+From: patchwork-bot+netdevbpf@kernel.org
+Message-Id: 
+ <177616200580.811155.3079803654201633076.git-patchwork-notify@kernel.org>
+Date: Tue, 14 Apr 2026 10:20:05 +0000
 References: <2026041134-dreamboat-buddhism-d1ec@gregkh>
-Content-Language: en-US
-From: Paolo Abeni <pabeni@redhat.com>
 In-Reply-To: <2026041134-dreamboat-buddhism-d1ec@gregkh>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+Cc: linux-usb@vger.kernel.org, netdev@vger.kernel.org,
+ linux-kernel@vger.kernel.org, andrew+netdev@lunn.ch, davem@davemloft.net,
+ edumazet@google.com, kuba@kernel.org, pabeni@redhat.com, stable@kernel.org
 
-On 4/11/26 1:01 PM, Greg Kroah-Hartman wrote:
+Hello:
+
+This patch was applied to netdev/net.git (main)
+by Paolo Abeni <pabeni@redhat.com>:
+
+On Sat, 11 Apr 2026 13:01:35 +0200 you wrote:
 > A malicious USB device claiming to be a CDC Phonet modem can overflow
 > the skb_shared_info->frags[] array by sending an unbounded sequence of
 > full-page bulk transfers.
@@ -111,20 +65,15 @@ On 4/11/26 1:01 PM, Greg Kroah-Hartman wrote:
 > wwan: t7xx: fix potential skb->frags overflow in RX path") did for the
 > t7xx driver.
 > 
-> Cc: Andrew Lunn <andrew+netdev@lunn.ch>
-> Cc: "David S. Miller" <davem@davemloft.net>
-> Cc: Eric Dumazet <edumazet@google.com>
-> Cc: Jakub Kicinski <kuba@kernel.org>
-> Cc: Paolo Abeni <pabeni@redhat.com>
-> Cc: stable <stable@kernel.org>
-> Assisted-by: gregkh_clanker_t1000
-> Signed-off-by: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+> [...]
 
-It looks like the fixes tag should be:
+Here is the summary with links:
+  - [net] net: usb: cdc-phonet: fix skb frags[] overflow in rx_complete()
+    https://git.kernel.org/netdev/net/c/600dc40554dc
 
-Fixes: 87cf65601e17 ("USB host CDC Phonet network interface driver")
+You are awesome, thank you!
+-- 
+Deet-doot-dot, I am a bot.
+https://korg.docs.kernel.org/patchwork/pwbot.html
 
-Right?
-
-/P
 
