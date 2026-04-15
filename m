@@ -1,19 +1,20 @@
-Received: from zg8tmtyylji0my4xnjeumjiw.icoremail.net (zg8tmtyylji0my4xnjeumjiw.icoremail.net [162.243.161.220])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 10B6D19D8BC;
-	Wed, 15 Apr 2026 06:41:43 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=162.243.161.220
+Received: from azure-sdnproxy.icoremail.net (azure-sdnproxy.icoremail.net [4.193.249.245])
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 8AF4B1F2380;
+	Wed, 15 Apr 2026 06:42:56 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=4.193.249.245
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1776235308; cv=none; b=sUbOpp6okQXHHl3thEH9QE3kl7uATzpTvGEnypN56OF9x58BO0KMm2oBr+2YiRDS8NfXkX1q5B/JRFOLHLyNicvqoaMj5x8uO1rJtDKx26w6gSfhUSco0jAtpdaJAOBhn9XyBa/brEY5tBpgTDiHW1hmNWXa5voZ+rEPQ2uKJlQ=
+	t=1776235379; cv=none; b=YxomhkmhVRoPEKXG8NBiXWCCZrmVhHxhkC9DzTVvk/Q2Ki1v9a01yhxsAdoYfN3hRxihihzrMnBb9TWPNuSBHiyb+6Zj6KQ/vsnKBUmbw3XIL5ig5NXgDJ1DJHMDo0+ThAW+apQDAXKyvq/l2GtarldpmZVTkj2Juv8h/UZhOr4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1776235308; c=relaxed/simple;
-	bh=Jpm1z6JzqxFYAqLP5UZIZdaW+uhwuoPafdNc8vOYW8k=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=H2/SWa7Ki4bUGPcgyyHz1EKxQe2ieNwB4WcsaN8KGRubb3S6qmei/XVwBgjIhUIXPTvt3iV8fMlUaSxLV7NGlewjnF7xQoiuNJ6Wo4kSBBM7GqUXdjUQfjXoQPCAk04gW3VT0anc8BzsENfDJpUh8qtpJXnlC+AtPhSUkrcY45Q=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=eswincomputing.com; spf=pass smtp.mailfrom=eswincomputing.com; arc=none smtp.client-ip=162.243.161.220
+	s=arc-20240116; t=1776235379; c=relaxed/simple;
+	bh=4feWVL1jWWFUHUQ97/N4BrM5XufWLfKISIcTIH8Q0pM=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version; b=nNQfRE8COq7vQlfbbmFUn3VroTWF7Z1/RPznMb6PlYVFormvSRpp+DyyOcTf6ko5vETSPK7dyK30CXvGGO3SrYU+2IHPt1IPotqAd7E4vUWRqitNU9A8ytL++W1XZ2iPS6Y9vnFjEoIN2OPMtYFToJf3K4rmZAyr2XTj/Mx/T9c=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=eswincomputing.com; spf=pass smtp.mailfrom=eswincomputing.com; arc=none smtp.client-ip=4.193.249.245
 Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=eswincomputing.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=eswincomputing.com
 Received: from E0006493LT.eswin.cn (unknown [10.127.112.153])
-	by app1 (Coremail) with SMTP id TAJkCgD3jHH6Mt9pAN0RAA--.7016S4;
-	Wed, 15 Apr 2026 14:41:01 +0800 (CST)
+	by app1 (Coremail) with SMTP id TAJkCgDniHJhM99pLN0RAA--.7331S4;
+	Wed, 15 Apr 2026 14:42:43 +0800 (CST)
 From: caohang@eswincomputing.com
 To: gregkh@linuxfoundation.org,
 	robh@kernel.org,
@@ -28,10 +29,12 @@ Cc: ningyu@eswincomputing.com,
 	linmin@eswincomputing.com,
 	pinkesh.vaghela@einfochips.com,
 	Hang Cao <caohang@eswincomputing.com>
-Subject: [PATCH v2 0/1] Fix EIC7700 USB reset's issue
-Date: Wed, 15 Apr 2026 14:40:56 +0800
-Message-ID: <20260415064056.1757-1-caohang@eswincomputing.com>
+Subject: [PATCH v2 1/1] dt-bindings: usb: Fix EIC7700 USB reset's issue
+Date: Wed, 15 Apr 2026 14:42:38 +0800
+Message-ID: <20260415064238.1784-1-caohang@eswincomputing.com>
 X-Mailer: git-send-email 2.45.1.windows.1
+In-Reply-To: <20260415064056.1757-1-caohang@eswincomputing.com>
+References: <20260415064056.1757-1-caohang@eswincomputing.com>
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
@@ -39,38 +42,75 @@ List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-CM-TRANSID:TAJkCgD3jHH6Mt9pAN0RAA--.7016S4
-X-Coremail-Antispam: 1UD129KBjDUn29KB7ZKAUJUUUUU529EdanIXcx71UUUUU7v73
-	VFW2AGmfu7bjvjm3AaLaJ3UjIYCTnIWjp_UUUYR7AC8VAFwI0_Gr0_Xr1l1xkIjI8I6I8E
-	6xAIw20EY4v20xvaj40_Wr0E3s1l1IIY67AEw4v_Jr0_Jr4l8cAvFVAK0II2c7xJM28Cjx
-	kF64kEwVA0rcxSw2x7M28EF7xvwVC0I7IYx2IY67AKxVW7JVWDJwA2z4x0Y4vE2Ix0cI8I
-	cVCY1x0267AKxVW8Jr0_Cr1UM28EF7xvwVC2z280aVAFwI0_GcCE3s1l84ACjcxK6I8E87
-	Iv6xkF7I0E14v26rxl6s0DM2AIxVAIcxkEcVAq07x20xvEncxIr21l5I8CrVACY4xI64kE
-	6c02F40Ex7xfMcIj6xIIjxv20xvE14v26r1j6r18McIj6I8E87Iv67AKxVWUJVW8JwAm72
-	CE4IkC6x0Yz7v_Jr0_Gr1lF7xvr2IYc2Ij64vIr41lF7I21c0EjII2zVCS5cI20VAGYxC7
-	M4IIrI8v6xkF7I0E8cxan2IY04v7M4kE6xkIj40Ew7xC0wCY02Avz4vE-syl42xK82IYc2
-	Ij64vIr41l4c8EcI0Ec7CjxVAaw2AFwI0_Jw0_GFyl4I8I3I0E4IkC6x0Yz7v_Jr0_Gr1l
-	x2IqxVAqx4xG67AKxVWUJVWUGwC20s026x8GjcxK67AKxVWUGVWUWwC2zVAF1VAY17CE14
-	v26r1q6r43MIIYrxkI7VAKI48JMIIF0xvE2Ix0cI8IcVAFwI0_Jr0_JF4lIxAIcVC0I7IY
-	x2IY6xkF7I0E14v26r4j6F4UMIIF0xvE42xK8VAvwI8IcIk0rVWUJVWUCwCI42IY6I8E87
-	Iv67AKxVWUJVW8JwCI42IY6I8E87Iv6xkF7I0E14v26r4j6r4UJbIYCTnIWIevJa73UjIF
-	yTuYvjfUOxhLUUUUU
+X-CM-TRANSID:TAJkCgDniHJhM99pLN0RAA--.7331S4
+X-Coremail-Antispam: 1UD129KBjvJXoW7CFWktF1kWryxWFWrZrWkZwb_yoW8Cr4fpa
+	y3GFs2qrn7Xr1fCayUXF10k3WxW3Z3AF4YkFZ7Ca17XF1DX345tr13t3WYgF1UCr4xZrWa
+	vFWagw15Ca42yrJanT9S1TB71UUUUU7qnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
+	9KBjDU0xBIdaVrnRJUUUBv14x267AKxVW8JVW5JwAFc2x0x2IEx4CE42xK8VAvwI8IcIk0
+	rVWrJVCq3wAFIxvE14AKwVWUJVWUGwA2ocxC64kIII0Yj41l84x0c7CEw4AK67xGY2AK02
+	1l84ACjcxK6xIIjxv20xvE14v26w1j6s0DM28EF7xvwVC0I7IYx2IY6xkF7I0E14v26r4U
+	JVWxJr1l84ACjcxK6I8E87Iv67AKxVW0oVCq3wA2z4x0Y4vEx4A2jsIEc7CjxVAFwI0_Gc
+	CE3s1le2I262IYc4CY6c8Ij28IcVAaY2xG8wAqx4xG64xvF2IEw4CE5I8CrVC2j2WlYx0E
+	2Ix0cI8IcVAFwI0_JrI_JrylYx0Ex4A2jsIE14v26r1j6r4UMcvjeVCFs4IE7xkEbVWUJV
+	W8JwACjcxG0xvY0x0EwIxGrwACjI8F5VA0II8E6IAqYI8I648v4I1lFIxGxcIEc7CjxVA2
+	Y2ka0xkIwI1lw4CEc2x0rVAKj4xxMxkF7I0En4kS14v26r1q6r43MxkIecxEwVCm-wCF04
+	k20xvY0x0EwIxGrwCFx2IqxVCFs4IE7xkEbVWUJVW8JwC20s026c02F40E14v26r1j6r18
+	MI8I3I0E7480Y4vE14v26r106r1rMI8E67AF67kF1VAFwI0_Jw0_GFylIxkGc2Ij64vIr4
+	1lIxAIcVC0I7IYx2IY67AKxVWUJVWUCwCI42IY6xIIjxv20xvEc7CjxVAFwI0_Gr0_Cr1l
+	IxAIcVCF04k26cxKx2IYs7xG6r1j6r1xMIIF0xvEx4A2jsIE14v26r1j6r4UMIIF0xvEx4
+	A2jsIEc7CjxVAFwI0_Gr0_Gr1UYxBIdaVFxhVjvjDU0xZFpf9x0JUXJ5wUUUUU=
 X-CM-SenderInfo: xfdrxt1qj6v25zlqu0xpsx3x1qjou0bp/
 
 From: Hang Cao <caohang@eswincomputing.com>
 
-Fix EIC7700 USB reset's issue
+The EIC7700 USB requires a USB PHY reset operation; otherwise, the USB
+will not work. The reason why the USB driver that was applied can work
+properly is that the USB PHY has already been reset in ESWIN's U-Boot.
 
-Changes in v2->v1:
-- Update commit message.
-- Link to V1:https://lore.kernel.org/all/20260407061703.1564-1-caohang@eswincomputing.com/
+However, the proper functioning of the USB driver should not be dependent
+on the bootloader. Therefore, it is necessary to incorporate the USB PHY
+reset signal into the DT bindings.
 
-Hang Cao (1):
-  dt-bindings: usb: Fix EIC7700 USB reset's issue
+This patch does not introduce any backward incompatibility since the dts
+is not upstream yet. As array of reset operations are used in the driver,
+no modifications to the USB controller driver are needed.
 
+Fixes: c640a4239db5 ("dt-bindings: usb: Add ESWIN EIC7700 USB controller")
+Signed-off-by: Hang Cao <caohang@eswincomputing.com>
+---
  .../devicetree/bindings/usb/eswin,eic7700-usb.yaml         | 7 ++++---
  1 file changed, 4 insertions(+), 3 deletions(-)
 
+diff --git a/Documentation/devicetree/bindings/usb/eswin,eic7700-usb.yaml b/Documentation/devicetree/bindings/usb/eswin,eic7700-usb.yaml
+index 41c3b1b98991..658260619423 100644
+--- a/Documentation/devicetree/bindings/usb/eswin,eic7700-usb.yaml
++++ b/Documentation/devicetree/bindings/usb/eswin,eic7700-usb.yaml
+@@ -41,12 +41,13 @@ properties:
+       - const: usb_en
+
+   resets:
+-    maxItems: 2
++    maxItems: 3
+
+   reset-names:
+     items:
+       - const: vaux
+       - const: usb_rst
++      - const: usb_phy
+
+   eswin,hsp-sp-csr:
+     description:
+@@ -85,8 +86,8 @@ examples:
+         interrupt-parent = <&plic>;
+         interrupts = <85>;
+         interrupt-names = "peripheral";
+-        resets = <&reset 84>, <&hspcrg 2>;
+-        reset-names = "vaux", "usb_rst";
++        resets = <&reset 84>, <&hspcrg 2>, <&hspcrg 4>;
++        reset-names = "vaux", "usb_rst", "usb_phy";
+         dr_mode = "peripheral";
+         maximum-speed = "high-speed";
+         phy_type = "utmi";
 --
 2.34.1
 
