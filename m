@@ -1,37 +1,37 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2FD412FA0C4
-	for <linux-usb@vger.kernel.org>; Sat, 18 Apr 2026 22:25:22 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7278A233D9E
+	for <linux-usb@vger.kernel.org>; Sat, 18 Apr 2026 23:37:32 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1776551122; cv=none; b=EhCOXsTvfQWs2Cig/PjzA765OiZ0vNqOKupppUQPhOuWArTKDoLLNyITETqsOBs0zu0gYtuhZqdmVbpJdNXMt2sbxJ+jCbzVG+h3i6f82VwajvPzIIw0XXbzAYkTu33NSpKoSxRsJTxzDwKAl1I2xLhcY7y164scPVZyli3NjmU=
+	t=1776555452; cv=none; b=aNht/g6X4Cw+y/GTLcY5oyI4JtAUU7xCeKwWakUTTnR5eZH2zmYL4ChlM9UV258pQLpdpUnk+ddNpilJeuip4roWIp9g1RrWZMv564QiUGxPLu3/p95PV3/msLDf6KjWlyFYxpvw5k1I9mP2p3TmBsYpEPuJ+piiTYIA8qvzXo0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1776551122; c=relaxed/simple;
-	bh=ZVze8v36lT9uTdiGF2LiFYunwww3ayr5D5NDvyvf0W8=;
+	s=arc-20240116; t=1776555452; c=relaxed/simple;
+	bh=9oGSI5qz4BapdIlXBmnCfj9Oi8BB83sMUNEbyNl3rzU=;
 	h=From:To:Subject:Date:Message-ID:In-Reply-To:References:
-	 Content-Type:MIME-Version; b=Mn6EKYUyH/RWTmE/QDj6kTAVg5x9eB/sd2HXAF3dNnBwsVUUuy7t3pQ9ZzJ6sqDVz/vxIqpUZscgUlQI68ROmcZ18+B7eWhgjTkdWSJT+zTI6Us4vzVvaxQVD3xofMYnW0848cJw8lLVGVRcrfI36N2Uy06FeacUVvm5Ue9+Ong=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=UQltcU37; arc=none smtp.client-ip=10.30.226.201
+	 Content-Type:MIME-Version; b=gztegaEfMLR33qsZByo7UXjRM7qzED3laqx5uKVVNgw8BtsHcpdUJnPZJ7/nudxkaFrCxqIeoxHwc0CERxfxtcWAG1WbnxQRnQ97RqqUzDm/5ZxZmICuDYcUiA+Pnce4Pn6zuoX8If+nbWIia69Iu6OAKRignA+2janQW3D4ltQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=h6eCYFRn; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="UQltcU37"
-Received: by smtp.kernel.org (Postfix) with ESMTPS id 09B62C19424
-	for <linux-usb@vger.kernel.org>; Sat, 18 Apr 2026 22:25:22 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="h6eCYFRn"
+Received: by smtp.kernel.org (Postfix) with ESMTPS id 08E3EC2BCB0
+	for <linux-usb@vger.kernel.org>; Sat, 18 Apr 2026 23:37:32 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1776551122;
-	bh=ZVze8v36lT9uTdiGF2LiFYunwww3ayr5D5NDvyvf0W8=;
+	s=k20201202; t=1776555452;
+	bh=9oGSI5qz4BapdIlXBmnCfj9Oi8BB83sMUNEbyNl3rzU=;
 	h=From:To:Subject:Date:In-Reply-To:References:From;
-	b=UQltcU37SRYrJn8RW0RKi3kIb9f/QtQ4oRAlT33q37vdVo8UzEolIyTza9nPw2/m/
-	 OL+KPIKb6ZxbDJPbHDXEem0os8J9gLZ6TBsez7kNFxQYGLayxsU2SujS2kIkzdKHPs
-	 7yF8UcSYe5DtDJqbWfCGS3Vbpi9ti3KLat0IxMq3xDtmdK8XvcFioSrFFIqB2brTwT
-	 n3zJwWrFEquN36X94+6aAsn3gnATqnMrB+iDqDy6wzYfAWZfmbBDaIQmO8rSVo6AKd
-	 CmB7SjlsbeVrJqQhgMAKF5NsgChcrWGqDztOSPcNlas2SPbepWmp1DXE3SRLSC/QLT
-	 wgVZxkt/lf+AA==
+	b=h6eCYFRnyvmGjZrL1XSl3G5O9ObypZyvY1/OBoGifjZC4gvG7bE2s8uLxN+3OAPib
+	 CEbAIssNQPvRedRsncSWiTyLfUB2wUbQjW/co5mxEct4seITcfYu7vWdDCr3xnzGyc
+	 hOm0S/7GM5LRN/nU9t7fM/Q8MFxCwF2r7/AzX8zI1if0hI+JGExKDdyItKjtq/MJ8C
+	 dA1vtQoZwREjj2BKM/bdUXR1gtlYKKwmCm70ZC7+3logf0Ht3dlNCHG3cncNRlcu0N
+	 +nVlaH8kAA+6ExB1XFhaKuxY7YLoGohEs5eUq9IAbG8XsjXPLqAg4QkfuRlp1fk2He
+	 oCoPgn5wYnTcg==
 Received: by aws-us-west-2-korg-bugzilla-1.web.codeaurora.org (Postfix, from userid 48)
-	id 00C62C41613; Sat, 18 Apr 2026 22:25:21 +0000 (UTC)
+	id ED21BC3279F; Sat, 18 Apr 2026 23:37:31 +0000 (UTC)
 From: bugzilla-daemon@kernel.org
 To: linux-usb@vger.kernel.org
 Subject: [Bug 221340] uas driver hangs and causes usb reset
-Date: Sat, 18 Apr 2026 22:25:21 +0000
+Date: Sat, 18 Apr 2026 23:37:31 +0000
 X-Bugzilla-Reason: None
 X-Bugzilla-Type: changed
 X-Bugzilla-Watch-Reason: AssignedTo drivers_usb@kernel-bugs.kernel.org
@@ -47,7 +47,7 @@ X-Bugzilla-Priority: P3
 X-Bugzilla-Assigned-To: drivers_usb@kernel-bugs.kernel.org
 X-Bugzilla-Flags: 
 X-Bugzilla-Changed-Fields: 
-Message-ID: <bug-221340-208809-nkiDO4h4AB@https.bugzilla.kernel.org/>
+Message-ID: <bug-221340-208809-VasuYAtjKi@https.bugzilla.kernel.org/>
 In-Reply-To: <bug-221340-208809@https.bugzilla.kernel.org/>
 References: <bug-221340-208809@https.bugzilla.kernel.org/>
 Content-Type: text/plain; charset="UTF-8"
@@ -63,8 +63,8 @@ MIME-Version: 1.0
 
 https://bugzilla.kernel.org/show_bug.cgi?id=3D221340
 
---- Comment #10 from DaisyTheFoxxo@proton.me ---
-it appears to be working. I have yet to have an issue
+--- Comment #11 from DaisyTheFoxxo@proton.me ---
+Nevermind, It happened again. It took longer this time though
 
 --=20
 You may reply to this email to add a comment.
