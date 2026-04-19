@@ -1,138 +1,74 @@
-Received: from sender4-op-o12.zoho.com (sender4-op-o12.zoho.com [136.143.188.12])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-qv1-f48.google.com (mail-qv1-f48.google.com [209.85.219.48])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8A68727FB0E;
-	Sun, 19 Apr 2026 16:26:54 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=136.143.188.12
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1776616015; cv=pass; b=oUT6hLm/fxhoa8NT7T+NoCAk0LX3sAyLp7sZaxy4WPxwCnEGGCR6RlAhzbqtJmXimhFbE3EF0JDlSJMg0N+6xW8wHB7bdyl0zBWWXg0GCYVye+UoRcAtjyoQWW2Byg5XV+3LisNTMqxrvJP+Y2Cf4EjQH77DdNNXRozzbPbPMfY=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1776616015; c=relaxed/simple;
-	bh=yxjEoMXGzc/WdkfSdsocpIic0FHGlTrW9jCQZ5b8YNk=;
-	h=Message-ID:Subject:From:To:Cc:Date:In-Reply-To:References:
-	 Content-Type:MIME-Version; b=Xmd9ieqHhzPFJQTEaFrON9XhR66J5gYyCBjmqfET3ClDk805LXdaxaqNZYKsbttI8MadJy1yDfS4x+q2/DOciRX1XcyiHOJYj/ZsOPaQwqYiecHgbgq5lYLz6/ED/S0WcwY+nIgwOaYrxFMxzWNNOtBlAnrmMBaT20nZSwrQgC4=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=icenowy.me; spf=pass smtp.mailfrom=icenowy.me; dkim=pass (2048-bit key) header.d=icenowy.me header.i=uwu@icenowy.me header.b=nsdRXPDA; arc=pass smtp.client-ip=136.143.188.12
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=icenowy.me
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=icenowy.me
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2097D1A9F9B
+	for <linux-usb@vger.kernel.org>; Sun, 19 Apr 2026 18:25:33 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.219.48
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1776623136; cv=none; b=AInALGtxrmc8oIofaYcFPcBp9kW13De35tiz0BwX3bFtTD9RdT1wg5ybfSX1d11YZG1XvveMfdHN0q5dFFhKUzYy131FcJXeMpVNxfcJr/JcuNbWaTjfII+zsP92CkolFiw8edvL4Bl+fLwu4fwIDwC8hIaFGMrXkA8A/57spPE=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1776623136; c=relaxed/simple;
+	bh=N4EDej4qSuztuncnNEintIXs6Kmf4PCZf7If4QpiTRM=;
+	h=Message-ID:Subject:From:To:Date:Content-Type:MIME-Version; b=BepmHftFG7a5f0yRzZjLR5BNua9AxWYeFjYqkwL9kmi+XU16PsE5qkltyuOZOkoiUR5Cd9MQcHVZNzg2vW23kLMvpuP+CZTq8hB4GaqCfAQgwEtUTyfrsuShUereHRyHtZDRETKYPsD2VkO25mt6FoLCXKJXSI+2zu2fDIrUjqU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=ieee.org; spf=pass smtp.mailfrom=ieee.org; dkim=pass (1024-bit key) header.d=ieee.org header.i=@ieee.org header.b=adXGN5VU; arc=none smtp.client-ip=209.85.219.48
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=ieee.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ieee.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=icenowy.me header.i=uwu@icenowy.me header.b="nsdRXPDA"
-ARC-Seal: i=1; a=rsa-sha256; t=1776615992; cv=none; 
-	d=zohomail.com; s=zohoarc; 
-	b=kQSnz1iBfr3zPc9JyMtd71bSN55fRDtkz8V+izPOrszcIFWW8eiE2GQ805NYkzw77JS5KVENc6lXWNqZOe+/sKNLz69fHuCgfAF9oCtd1e5aU6VeHPwPIef8/XgyMuaMjGAkUPZoJNTH9pAZNy3PCt9oSc0vBJAAF2REgRnjEu4=
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=zohomail.com; s=zohoarc; 
-	t=1776615992; h=Content-Type:Content-Transfer-Encoding:Cc:Cc:Date:Date:From:From:In-Reply-To:MIME-Version:Message-ID:References:Subject:Subject:To:To:Message-Id:Reply-To; 
-	bh=XDxRzUYghQyLSOtVSFJCCp821NYg75PtJOz/TeevvgQ=; 
-	b=F+vTlr3zGS9R9vpQsoUo6w/jtWCGwtwsWifitwBJRmWj5Oc0ZJqTvR+Qoq63JAbiZzaKyzNxjDWmicFYMzfQHkC/DurWfG2e41wz5IDi9JM0qfH7bNq2MXicFJ5hGdhAwEKiTYXPVCcLFzOZxN2YXPJqlTA/9X+LVqyuTqv5uT4=
-ARC-Authentication-Results: i=1; mx.zohomail.com;
-	dkim=pass  header.i=icenowy.me;
-	spf=pass  smtp.mailfrom=uwu@icenowy.me;
-	dmarc=pass header.from=<uwu@icenowy.me>
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; t=1776615992;
-	s=zmail2; d=icenowy.me; i=uwu@icenowy.me;
-	h=Message-ID:Subject:Subject:From:From:To:To:Cc:Cc:Date:Date:In-Reply-To:References:Content-Type:Content-Transfer-Encoding:MIME-Version:Message-Id:Reply-To;
-	bh=XDxRzUYghQyLSOtVSFJCCp821NYg75PtJOz/TeevvgQ=;
-	b=nsdRXPDAm9LAwbVoZpAUCLGasQ0RZhdslKj90S5qOE/YGg6tTQNGWI++ab7vFRhm
-	tPo+C6x4ZEwqbQgprBNDC0VpMnZPpBVq519MrRKAXD6UrRI9aeEjP6c8p4sHI0me7oj
-	+vk8EP4DaZcvoR9xvAB77dl7f+W2Q8fdGtIrAED43YQ8fZWfGYPKZ9CSX/3D4+L/m8I
-	FSskX4UJkqr4+vW0c++dI1oahwaQ7tafT9MGLcOpXrj1JlRj7GDhF5w9z0qdiuGmiPP
-	iI5D7oJdTY/7n1AwonQDyHr22e2tyhDVq198BodPjidz+iYfWris+qlVcGt+fn+Zg5O
-	imvgwHnlNg==
-Received: by mx.zohomail.com with SMTPS id 1776615989353789.8106081725186;
-	Sun, 19 Apr 2026 09:26:29 -0700 (PDT)
-Message-ID: <938e8afadcbf2d7b9f0397e24926224985d9c385.camel@icenowy.me>
-Subject: Re: [PATCH v2 1/4] HID: pass the buffer size to hid_report_raw_event
-From: Icenowy Zheng <uwu@icenowy.me>
-To: Benjamin Tissoires <bentiss@kernel.org>, Jiri Kosina <jikos@kernel.org>,
-  Filipe =?ISO-8859-1?Q?La=EDns?=	 <lains@riseup.net>, Bastien Nocera
- <hadess@hadess.net>, Ping Cheng	 <ping.cheng@wacom.com>, Jason Gerecke
- <jason.gerecke@wacom.com>, Viresh Kumar	 <vireshk@kernel.org>, Johan Hovold
- <johan@kernel.org>, Alex Elder	 <elder@kernel.org>, Greg Kroah-Hartman
- <gregkh@linuxfoundation.org>, Lee Jones	 <lee@kernel.org>
-Cc: linux-input@vger.kernel.org, linux-kernel@vger.kernel.org, 
-	greybus-dev@lists.linaro.org, linux-staging@lists.linux.dev, 
-	linux-usb@vger.kernel.org, stable@vger.kernel.org
-Date: Mon, 20 Apr 2026 00:26:21 +0800
-In-Reply-To: <20260416-wip-fix-core-v2-1-be92570e5627@kernel.org>
-References: <20260416-wip-fix-core-v2-0-be92570e5627@kernel.org>
-	 <20260416-wip-fix-core-v2-1-be92570e5627@kernel.org>
-Organization: Anthon Open-Source Community
+	dkim=pass (1024-bit key) header.d=ieee.org header.i=@ieee.org header.b="adXGN5VU"
+Received: by mail-qv1-f48.google.com with SMTP id 6a1803df08f44-8a3970f1a0eso29406766d6.2
+        for <linux-usb@vger.kernel.org>; Sun, 19 Apr 2026 11:25:33 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=ieee.org; s=google; t=1776623133; x=1777227933; darn=vger.kernel.org;
+        h=mime-version:user-agent:content-transfer-encoding:date:to:from
+         :subject:message-id:from:to:cc:subject:date:message-id:reply-to;
+        bh=N4EDej4qSuztuncnNEintIXs6Kmf4PCZf7If4QpiTRM=;
+        b=adXGN5VUq1G2dJPy1cD+vb5eT5g3UWfpejRa6ZaoEHf1/8QjcqUu7g+nzm65XnGs/b
+         5f/hWDYBsPRJLYvBYODbqZk9x2nsi3CTR+X4tXT5R8uxU+lXWEXtwvHo3Zb1MZbc1z3I
+         4Ry1ZKfZQ89yQ1qBtOsg1KsRxoaATyMLKZ4rE=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1776623133; x=1777227933;
+        h=mime-version:user-agent:content-transfer-encoding:date:to:from
+         :subject:message-id:x-gm-gg:x-gm-message-state:from:to:cc:subject
+         :date:message-id:reply-to;
+        bh=N4EDej4qSuztuncnNEintIXs6Kmf4PCZf7If4QpiTRM=;
+        b=Z704Qfu2wlzXGXoZxNjHGikFzA7ttfzQbLPpixziVGyGvSz2t1QrjIo+8T7LdUDceg
+         OrsU/EAdGzWb8CkbxcINPdwY+tF2lp4I30aME0Q+Wkn0TelFlkdt0tLGYuCpfs2PU2hR
+         Gft3pCs1yw5dUK459iRxFoKlG3copJax0NlmHNM2+OVwZ9c2tR32ih7LwFYemH7cUSFX
+         WnKavNl9PR0kkkCt3lybNQslKL/RB2eDqFNdoXRWQsgqJ0UyGGWaS5MWrHhOeeXt8ylJ
+         XshbQ1twao8g95x3epbNCYW2qAawdKu7/bHM7T0MuyPpipUgoNR99bTTZ2/jAd2Q7KvS
+         oHmA==
+X-Gm-Message-State: AOJu0YwgPn3iWFTPq7fMQsuMVcbSbEsgYhGMP0FYgMm98cawbD0uaXoC
+	l6ZLxg3IoY+x0/xlRq6Y6sdcJqN/xOGm7oji8JT8wzdsAPoNAoGNkIDi77mLJvi/G1kxcVhg5sQ
+	SPQYQWdMI20HdaU4j6ltIXI/53gPVCMFasTSwgdEN6iBtB1+tuzrMtQ89fUs0vEwhP5MMSgfzCt
+	60rn0eT+a2FAWWzPMiKqIelwBqdFGe9YeLmRnRKgY=
+X-Gm-Gg: AeBDiesnCxPJVPu2EmzwdiW4ELaUhqHwXxRMzyrl8P+JJHXNdohkACeLmWqLKhAD7fV
+	APzwQXlh30PZRCNWJQvV6+bLUDLddYPNfozuTRBFEQVSKXnYCoQiA1F6nEzPK7mTlZc3I41CODg
+	xONddNoCb7H1exUTj7qDzYTV9bcKxIrxXyvUrJqpQXZl7Nu/rFEt3Fnb2H0+tL/OtMk+qG8ureX
+	ah62I8fJ3F3TLklIiOf7qpyrueIDSi/87JjmjrX6cczqvp1MYAMJnpVFE5nav1hxqcYn4e1gqh4
+	zNkHfuyBi23QDOdsNcfooNm5/bLPccIPZFUmDOJ2hKQjdKVrztKfu6KcAEm3GF/VGpSb/QN2J0x
+	5Lp4oEOwM3rLLx6jZJQhLpoNal7d6+sSEew3TtrI/5asXPbFG0EMJuD8jfLkZq2TYusrcinU14U
+	wVylH0TzOYkQ3fSzN75GlMzKveSdlaS85fNg==
+X-Received: by 2002:ad4:5de5:0:b0:8ac:a553:529d with SMTP id 6a1803df08f44-8b0280d201cmr179615676d6.23.1776623132696;
+        Sun, 19 Apr 2026 11:25:32 -0700 (PDT)
+Received: from [192.168.153.215] ([73.29.38.247])
+        by smtp.gmail.com with ESMTPSA id 6a1803df08f44-8b02ae97347sm58920246d6.41.2026.04.19.11.25.32
+        for <linux-usb@vger.kernel.org>
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sun, 19 Apr 2026 11:25:32 -0700 (PDT)
+Message-ID: <935d4557704d963475364ed1fb033c20e8bb7cbb.camel@ieee.org>
+Subject: vhci_hcd: bulk streams
+From: Cristian Cocos <cristi@ieee.org>
+To: linux-usb@vger.kernel.org
+Date: Sun, 19 Apr 2026 14:25:32 -0400
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
-User-Agent: Evolution 3.58.3 
+User-Agent: Evolution 3.60.0 (by Flathub.org) 
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-ZohoMailClient: External
 
-=E5=9C=A8 2026-04-16=E5=9B=9B=E7=9A=84 16:48 +0200=EF=BC=8CBenjamin Tissoir=
-es=E5=86=99=E9=81=93=EF=BC=9A
-> commit 0a3fe972a7cb ("HID: core: Mitigate potential OOB by removing
-> bogus memset()") enforced the provided data to be at least the size
-> of
-> the declared buffer in the report descriptor to prevent a buffer
-> overflow. However, we can try to be smarter by providing both the
-> buffer
-> size and the data size, meaning that hid_report_raw_event() can make
-> better decision whether we should plaining reject the buffer (buffer
-> overflow attempt) or if we can safely memset it to 0 and pass it to
-> the
-> rest of the stack.
->=20
-> Fixes: 0a3fe972a7cb ("HID: core: Mitigate potential OOB by removing
-> bogus memset()")
-> Cc: stable@vger.kernel.org
-> Signed-off-by: Benjamin Tissoires <bentiss@kernel.org>
-> ---
-> =C2=A0drivers/hid/bpf/hid_bpf_dispatch.c |=C2=A0 6 ++++--
-> =C2=A0drivers/hid/hid-core.c=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
-=A0=C2=A0=C2=A0=C2=A0=C2=A0 | 42 +++++++++++++++++++++++++---
-> ----------
-> =C2=A0drivers/hid/hid-gfrm.c=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
-=A0=C2=A0=C2=A0=C2=A0=C2=A0 |=C2=A0 4 ++--
-> =C2=A0drivers/hid/hid-logitech-hidpp.c=C2=A0=C2=A0 |=C2=A0 2 +-
-> =C2=A0drivers/hid/hid-multitouch.c=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 |=
-=C2=A0 2 +-
-> =C2=A0drivers/hid/hid-primax.c=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
-=C2=A0=C2=A0=C2=A0 |=C2=A0 2 +-
-> =C2=A0drivers/hid/hid-vivaldi-common.c=C2=A0=C2=A0 |=C2=A0 2 +-
-> =C2=A0drivers/hid/wacom_sys.c=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
-=C2=A0=C2=A0=C2=A0=C2=A0 |=C2=A0 6 +++---
-> =C2=A0drivers/staging/greybus/hid.c=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 |=C2=A0=
- 2 +-
-> =C2=A0include/linux/hid.h=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
-=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 |=C2=A0 4 ++--
-> =C2=A0include/linux/hid_bpf.h=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
-=C2=A0=C2=A0=C2=A0=C2=A0 | 14 ++++++++-----
-> =C2=A011 files changed, 53 insertions(+), 33 deletions(-)
-
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D 8< =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D=3D=3D=3D=3D=3D
-
-> diff --git a/drivers/staging/greybus/hid.c
-> b/drivers/staging/greybus/hid.c
-> index 1f58c907c036..37e8605c6767 100644
-> --- a/drivers/staging/greybus/hid.c
-> +++ b/drivers/staging/greybus/hid.c
-> @@ -201,7 +201,7 @@ static void gb_hid_init_report(struct gb_hid
-> *ghid, struct hid_report *report)
-> =C2=A0	 * we just need to setup the input fields, so using
-> =C2=A0	 * hid_report_raw_event is safe.
-> =C2=A0	 */
-> -	hid_report_raw_event(ghid->hid, report->type, ghid->inbuf,
-> size, 1);
-> +	hid_report_raw_event(ghid->hid, report->type, ghid->inbuf,
-> ghib->bufsize, size, 1);
-
-Oops, "ghid" is misspelled here...
-
-Found this when building some gaint kernel with this patchset.
-
-Thanks,
-Icenowy
-
-> =C2=A0}
-> =C2=A0
-> =C2=A0static void gb_hid_init_reports(struct gb_hid *ghid)
+As of this writing, vhci_hcd does not support bulk streams. Are there
+any plans to enhance vhci_hcd so as to support bulk streams?
