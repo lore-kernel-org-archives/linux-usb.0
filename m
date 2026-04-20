@@ -1,35 +1,39 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2F29713B7AE
-	for <linux-usb@vger.kernel.org>; Mon, 20 Apr 2026 05:39:23 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B343013B7AE;
+	Mon, 20 Apr 2026 05:40:42 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1776663564; cv=none; b=o7RQom3y1Y2yKOorL9XVwIqaDnXnvAJCNtGMpshL7n+4c6lKaUimzU1EuIqDobF5+/ET2Kf8BOXU+xxXFsR8V2ixTQsP4u3IZlHPR+435nnMIDjgwk4gJDzcga1kbOq6taL9wcozFO5/ObI7lXJOKGm2OQ9287jPe4yEwVrBf/Y=
+	t=1776663642; cv=none; b=F/+1aiZtvTnPLK0aUUi6nA3EP236npoBERWTFNuWoW2n+4bZc/zYrxcb+lcLkcF9RB9pblNQcMFQfoCkvKjSZTcCytZUzNeIdrLU5KAUrjWas9pDKlXXI4zQjk55P9mKKvhAvtkixCr8AK8tg6ZrWpoHp9VOVH+eJqmPH+VZRo0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1776663564; c=relaxed/simple;
-	bh=AKwFOI7MF+YfT1zbL6T7X2TF2aqmHkVv+0xo3PEsSBc=;
+	s=arc-20240116; t=1776663642; c=relaxed/simple;
+	bh=GzwCi5BcX2RA421ePA0GJp/Tpqu585IovDCncg+JswE=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=Wu4OJo0bs7R6HmvcL+SN8Ky4ybqeWqUowqBoUxgGpMctAkfhC8aRxbi7hD036v5JfiIedtMHnC0dupIe99J/RhaFvmqd4BibrfxxHP8Rnnam1sfKTtSR6XPjpN/71+83X2HRnHIWRM2RU8Jx8FhdZLFxCTbZkMCguJeYObE37VY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b=rbwMqum1; arc=none smtp.client-ip=10.30.226.201
+	 Content-Type:Content-Disposition:In-Reply-To; b=DRuVkDCOZ5TDDdEjFNfBBm646Ia+gY0bXjxsGGHv2DLdoJGPD+q1p68a1Sq1A3O8T0hXZnwmdA3Ij2eW29OKYUiBVIk2PMg5F6Wl4sfA0ft6u9nNZS9Bb8F/XpWoDyqrTYWy0F8tdJrZMhrihduPByMfoOxWRwkyDrArW6usU8I=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b=S3UAcwl1; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="rbwMqum1"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 583A1C19425;
-	Mon, 20 Apr 2026 05:39:23 +0000 (UTC)
+	dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="S3UAcwl1"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 0CDB1C19425;
+	Mon, 20 Apr 2026 05:40:41 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
-	s=korg; t=1776663563;
-	bh=AKwFOI7MF+YfT1zbL6T7X2TF2aqmHkVv+0xo3PEsSBc=;
+	s=korg; t=1776663642;
+	bh=GzwCi5BcX2RA421ePA0GJp/Tpqu585IovDCncg+JswE=;
 	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=rbwMqum1ocJoBGBaHTvmueymNzTrWioC8as4elvIqjdYWWdRSC46V0gR6CnMrDyko
-	 9NxWsNas8W37bf5VGyF7E4tNfPcTf8DKt86ijfBQQtZ2t3x0hRlmSO5vXYC8AauxdA
-	 5w2QNYSTZ6vDWOgr88WkstzTs69mKi2P+ul0+Shk=
-Date: Mon, 20 Apr 2026 07:38:51 +0200
+	b=S3UAcwl1vbn6Qox6Roa9QPC9NLUDx6Co5GF5TuZYYVIo4thXGFgqQRMC/mIfYJAuX
+	 Bqp+Dr0FQ3dviz1atNgwxyXm8NkJ4FxAouvEcK7xooi5n8JK5sAHSXeDXh/Rs8pkwA
+	 qQb7ivgylS4QwGOf+3krWE5hz1I4CsSdZSc7djnw=
+Date: Mon, 20 Apr 2026 07:40:09 +0200
 From: Greg KH <gregkh@linuxfoundation.org>
-To: Cristian Cocos <cristi@ieee.org>
-Cc: linux-usb@vger.kernel.org
-Subject: Re: vhci_hcd: bulk streams
-Message-ID: <2026042051-tile-pecan-048c@gregkh>
-References: <935d4557704d963475364ed1fb033c20e8bb7cbb.camel@ieee.org>
+To: Huisong Li <lihuisong@huawei.com>
+Cc: khtsai@google.com, hhhuuu@google.com, kees@kernel.org,
+	kexinsun@smail.nju.edu.cn, linux-kernel@vger.kernel.org,
+	linux-usb@vger.kernel.org, linuxarm@huawei.com,
+	zhanjie9@hisilicon.com
+Subject: Re: [PATCH v1 0/2] usb: gadget: udc: simplify lock holding using
+ guards
+Message-ID: <2026042034-grunt-freeware-8ce6@gregkh>
+References: <20260420035722.1133418-1-lihuisong@huawei.com>
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
@@ -38,14 +42,23 @@ List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <935d4557704d963475364ed1fb033c20e8bb7cbb.camel@ieee.org>
+In-Reply-To: <20260420035722.1133418-1-lihuisong@huawei.com>
 
-On Sun, Apr 19, 2026 at 02:25:32PM -0400, Cristian Cocos wrote:
-> As of this writing, vhci_hcd does not support bulk streams. Are there
-> any plans to enhance vhci_hcd so as to support bulk streams?
+On Mon, Apr 20, 2026 at 11:57:20AM +0800, Huisong Li wrote:
+> Simplify udc_lock and connect_lock holding using guards in
+> gadget_bind_driver() and gadget_unbind_driver().
+> 
+> Huisong Li (2):
+>   usb: gadget: udc: simplify udc_lock holding using guards
+>   usb: gadget: udc: simplify connect_lock holding using guards
+> 
+>  drivers/usb/gadget/udc/core.c | 77 ++++++++++++++++-------------------
+>  1 file changed, 35 insertions(+), 42 deletions(-)
 
-We have not seen any patches submitted for this.  If you need/want this
-feature, feel free to contribute it!
+Only do this for new drivers, don't convert existing code that works
+just fine for no valid reason other than wanting to clean stuff up.
+
+Does this fix a bug?
 
 thanks,
 
