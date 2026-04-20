@@ -1,88 +1,88 @@
-Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com [205.220.168.131])
+Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com [205.220.180.131])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4DEF63264CF
-	for <linux-usb@vger.kernel.org>; Mon, 20 Apr 2026 15:31:47 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.168.131
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 48FA330F533
+	for <linux-usb@vger.kernel.org>; Mon, 20 Apr 2026 15:31:50 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.180.131
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1776699108; cv=none; b=VlZaJRxt8tmqqoS6mPG4JVdFcR4yDRXXyfEvNWoK5IDcV3LtyT6TvHcjqxV1yF3TqxLVP0ROJx85UrE/XmCD88qzBEJPpk0r1NT+0btdPo+M8U3zKDneUs8heDqQF42xoHmF0HW65zaVQb0fAEYR1tOik4ECC2OCDIC7qRXm92s=
+	t=1776699113; cv=none; b=nnOVpHLiNVKQVQ90Xz8V3bpcCUAitsxOeF8Uz+rHi6SPK4G5ioslqO6uC9UDiNF3py3J/ezgaUy1pbVy6QEGoTFomWaSrdaUm7Y4Dl+zLko5e+Hptc/icHAfuI91J1oXpsBjdFMPmRFubrE/0m3rSqJzBAUiNCz3z6Uc2sm/cYA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1776699108; c=relaxed/simple;
-	bh=lnVODOLTo2WpHrvqFht5FXa9gKD0IeWSjwE7+hKxwmM=;
+	s=arc-20240116; t=1776699113; c=relaxed/simple;
+	bh=k6AWZfyGwiIVOlZPNJJzk3hTEvXIgqogLu61ZvsyYxE=;
 	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
-	 In-Reply-To:To:Cc; b=pjskYqCsbo1rlN3cOb7YhaYYMMhHbuzKG/1XYx6Zckke35M25JjBrQMz2qN7TgLpKT/ONGCDejDHkk6J3cDAjvGuxQITG2ya/OW9ubuWnCQnmo3HEjDovqV0aFKaqcAnkRLmHwnDeFUTHzmvvWKOjxS1EfpCSeuGhrLePA+x1uc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com; spf=pass smtp.mailfrom=oss.qualcomm.com; dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b=lUIbGvQZ; dkim=pass (2048-bit key) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.b=DjAnNSTV; arc=none smtp.client-ip=205.220.168.131
+	 In-Reply-To:To:Cc; b=uibSMeLfSwg6cu0purm4s4cUEYVk1G3aXJZtbOYbjDcJGNk20UHjocNBdVe1jxAQAMYHj00RuC5PXHASguIQXLRNNtSYDRbJ8ZyY0GeR/JfV3ZGFsYIVezzAAH6YmXO4xSafQMlH5FQb03VstPICbSJw1Ymo0Mud4F6erOwWEvQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com; spf=pass smtp.mailfrom=oss.qualcomm.com; dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b=HzNtXH2b; dkim=pass (2048-bit key) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.b=Y7cPakGM; arc=none smtp.client-ip=205.220.180.131
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=oss.qualcomm.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b="lUIbGvQZ";
-	dkim=pass (2048-bit key) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.b="DjAnNSTV"
-Received: from pps.filterd (m0279863.ppops.net [127.0.0.1])
-	by mx0a-0031df01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 63KBIdqg1599247
-	for <linux-usb@vger.kernel.org>; Mon, 20 Apr 2026 15:31:46 GMT
+	dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b="HzNtXH2b";
+	dkim=pass (2048-bit key) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.b="Y7cPakGM"
+Received: from pps.filterd (m0279872.ppops.net [127.0.0.1])
+	by mx0a-0031df01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 63KAvLr43015162
+	for <linux-usb@vger.kernel.org>; Mon, 20 Apr 2026 15:31:50 GMT
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
 	cc:content-transfer-encoding:content-type:date:from:in-reply-to
 	:message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
-	lUxjcmVB1mry2JFOZUVE65+ZJk/cVp6zUgik6yCWYSo=; b=lUIbGvQZ5qpNp4Gr
-	QY6vrMBwk+A6tYOPjjoOHnbdSdN3EyYfSEgfbOzFlvu/aTF87y02bKmkxi3fhzyp
-	ZLqsTfOcH7bUoEfoDkeQdsfcrL/2WeOKCs5wzHFizkFr1jcHuW/DkpzDvgs8D8TL
-	m2KsoVMlz7UD+hSPF9Sjown2QTRx03z8jYu7KvlbH5Rqm6hn6lViKzI4O1Pl8sDG
-	o1MP1usTGTfAD5l5lQuVBoCYh8k2z37Wbhvz6YbAXZy6BsuSJ6EDfL7lQ5RZP1Nr
-	yu0VyVqqrDy56UkKqn36L/WUrK0SoUC0KJzEM78z0PIC2Y+hZ+8s4m24sKJIanIh
-	Wnoe6w==
-Received: from mail-oi1-f198.google.com (mail-oi1-f198.google.com [209.85.167.198])
-	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 4dnfgnj420-1
+	AmYXQGfZQ3O+GgA0tO4TttSZ2SWimLy/iubKy0FAa3c=; b=HzNtXH2bvzTox7o2
+	vnkPd4sgI/sS/DKOfRf6aX53mydCGVWVJlA4CK/Ed53DieRqMAFPl59F3iZtAPvP
+	xRZm50UiMSsamOVwmEbOGL74IkUpoYbuJf54e9C6+3KOTQyzfqZDqM7RAUNfzL/A
+	fR+b0R/crLZGrmqg90XO8eJG+ggQa3Ly/SID9r/nwgpha4viJgun5m+QMxRGqXE/
+	pv6wdVpbMZIBmCowX7vjYZQVVjZCBSJjVxJfBw1kHc4P9zlkQemuwlAdOv9X+cE3
+	xGNCuSJaERFq7jS7xr/oNVn9KfLMuR0Fg90XbpPyWQ+nvXKk5KH/QsJgIM/yBGjX
+	OE4YRA==
+Received: from mail-ot1-f70.google.com (mail-ot1-f70.google.com [209.85.210.70])
+	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 4dnjuks024-1
 	(version=TLSv1.3 cipher=TLS_AES_128_GCM_SHA256 bits=128 verify=NOT)
-	for <linux-usb@vger.kernel.org>; Mon, 20 Apr 2026 15:31:46 +0000 (GMT)
-Received: by mail-oi1-f198.google.com with SMTP id 5614622812f47-479d74f0d95so681346b6e.0
-        for <linux-usb@vger.kernel.org>; Mon, 20 Apr 2026 08:31:46 -0700 (PDT)
+	for <linux-usb@vger.kernel.org>; Mon, 20 Apr 2026 15:31:49 +0000 (GMT)
+Received: by mail-ot1-f70.google.com with SMTP id 46e09a7af769-7dcc5fa38faso893730a34.1
+        for <linux-usb@vger.kernel.org>; Mon, 20 Apr 2026 08:31:49 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=oss.qualcomm.com; s=google; t=1776699105; x=1777303905; darn=vger.kernel.org;
+        d=oss.qualcomm.com; s=google; t=1776699109; x=1777303909; darn=vger.kernel.org;
         h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
          :mime-version:subject:date:from:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=lUxjcmVB1mry2JFOZUVE65+ZJk/cVp6zUgik6yCWYSo=;
-        b=DjAnNSTVs4JBhMhbhH9CbKyhCFMIwvpKNSf8aGRwiNyQDWA1JavWwrLbVTZslp2rEJ
-         ZZiXByw/PnRtxLPdL3mkGnKxnzbR+UQe6gfyYfyEVV6KVOdpNC0+0Opj+vc+ufPmsmlJ
-         htve+E7KSDLfj7Un2avM+gLXoNsua2MN34ihWYqEwykKqUUncGCOA1HfqZeQ3Kv0Cpq4
-         u1ABaobhEaHgqJTUPx9Rc+HW2sVCZLwzu+0nqSnNaS9rALKHnn5aJG+WAbw483RvSQL/
-         J11Y0HZowiI96KiZDS/HFb61QlW7kLrnBwf9YpHUITOO5en89GBcPY0NhISZ1rRcQrUw
-         yPZg==
+        bh=AmYXQGfZQ3O+GgA0tO4TttSZ2SWimLy/iubKy0FAa3c=;
+        b=Y7cPakGMV4grBN8U6hdzoTEfE5t1ENsv006RNIRi1OvdEZ3ahbG8SCtqpIzBepzztk
+         MxwRA4IIlBIofExmJ0Eb+MqYHBTtA/S9J5vlj1cPQWmAs9hkBAIYy9yXA7k9wqeNSSFO
+         8xqoGAyoZHJm7AubHO2SbfZX4eZjtMHfq1hXlOt56rztD//3w/6X4axlkI3NpBs8b+KX
+         XdYrmjTVmXaZFW7VxDN3cVwfRfoie2OMNjq3E23agGNAobiI3J+8LATWtan4AyLoFCcT
+         Kp+6OzE8GUfF+nyzSIZVFVZygZEsP6SHGyDmIqGNEyMsADE7q2u5XQzWOKezQVZ2h4q7
+         lfaA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1776699105; x=1777303905;
+        d=1e100.net; s=20251104; t=1776699109; x=1777303909;
         h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
          :mime-version:subject:date:from:x-gm-gg:x-gm-message-state:from:to
          :cc:subject:date:message-id:reply-to;
-        bh=lUxjcmVB1mry2JFOZUVE65+ZJk/cVp6zUgik6yCWYSo=;
-        b=RpqJ0aMmfmfAAnIRE1uG7c43JFlRKXf9cd/xvlfCpLR+dCfEFVY3/mF0kRep9pZj/v
-         KZu2PBTylLSEUwPRd2o/CaKXFsBgZ9YA9EsRhBKS4WqYrpIQvgfoGphztiXwftDEKAIV
-         7QdGMvTjxUR8VFRL0qdb+VWL9w5aY6h0HTRu4BT7wWuUbJ7hcXDPQb0GVHf6eKjOZ78f
-         ueUC6mdhcNhU3+QZtsCx8Dvsi1GCcqY00CD/n7DXUHXyHbrTT6EeaUL8QmxO8963Vbct
-         Eo92rkFpUIP85cMFr2DDVaf5S1b0VeoEAQwxmOYLgEG9vOrCj8w1yoMdcJUsH1vbbIE4
-         SMmA==
-X-Forwarded-Encrypted: i=1; AFNElJ83/0Bjhr1K0/BjtHOCOSGYNLW6ZWMq5jkRmpkf9II4jT5Xd1SaprGPCVls4rmjbAff7c4XxbU6FMA=@vger.kernel.org
-X-Gm-Message-State: AOJu0YxE4Mkqqr3rHWKhZN2HHoxb+N34IqLllovZzwqaxP9noAl2vbwr
-	Mfgq4mjfZDLzjJwLUaxKYfLjdzWsXQ9JUcZ3dmY2qLDZpw07dbUlF/y0WP0/c5mR7PNzai9LQmt
-	XZnvW7RI4e2cHlPu/NUQhEyeTCeq1nS3mrZe7xVhArk0X3EfsSVe+9Tw2g3tP8X8=
-X-Gm-Gg: AeBDieuMxU76bLSj6TsrdFYh22Is8HnhI7FxcX+kE8YUmu5/LVyjTWdal9pyeDz8J2a
-	yxzYg2Z2oNeEfe5FEe21rIJGIM7GD+pddBtMwX3NX3DrP2xOtzjpwDXiavsAa69gXSCDG7TaFgs
-	nIXIf3pHPTEcTFM1VICkgdLR/Ajn+Rc2O/TMk2sh3zqaRGcpzVddJKEUjOCBYOVbDoPK85muudN
-	Y3km+Dh+0EQoGwh8CMAzezgwCbG50olN0OBkBOUz0R14fvhGHyA5BxdbTZsi9R9eZdDLhfpp8YC
-	pewDPxvEWdcKfMKAkBKiThYMkNOJxhb9JwvwRYw0jSDl5k4HJBg1H+uWIGaXCzA7/fsAhKLVWzR
-	JsXxpb3UVj8yN95v23bg3osqWw4wqlfu7SySynHbaN+bakXtKnhFO9yEak0LoFcSvv7T4cxzW9H
-	EaYMPdeH1dorJgR5d8jzgb+5R6iwTiJth7qEQRZ6gnZOXrOg==
-X-Received: by 2002:a05:6808:2448:b0:467:db23:25c with SMTP id 5614622812f47-4799ca83a59mr7243598b6e.46.1776699105198;
-        Mon, 20 Apr 2026 08:31:45 -0700 (PDT)
-X-Received: by 2002:a05:6808:2448:b0:467:db23:25c with SMTP id 5614622812f47-4799ca83a59mr7243507b6e.46.1776699104557;
-        Mon, 20 Apr 2026 08:31:44 -0700 (PDT)
+        bh=AmYXQGfZQ3O+GgA0tO4TttSZ2SWimLy/iubKy0FAa3c=;
+        b=YA8XuUn7QFgb/qUu6QoHJlVahzVG5PQL5xihej+deVdgdKN3qRhbcU4HsILNiA6hPF
+         rf+SiKS+3TZatYMfQkq4qFAhGdSZtwy6gnIYfLx9qjWv/qN5F8kcGUqkJQQwav2ot3xX
+         DKdtXwY31c5v1P8tCrjVKr9sR8xkhbsyqdL+PQ/DdTQdiYLO6gzBSySGaAWs0H8TPR7d
+         fNQi9h2p18tHoR2Xq0JV8AF/b3Qdnx1QDb/InY9UrnC7QSVArpxcJ/fkAyK+urPUfuJm
+         HAit9dmcXMwgNeJcp9mP8lI1dHUzXS+qbYQJY+XlJxpTKYZwpJkkH+8KfKqL5HqyNYCS
+         /1/g==
+X-Forwarded-Encrypted: i=1; AFNElJ8XYjE4CVO0RcjDyYL9bbvp7i+kaL7vfImFdg3raT3zBlxB0kUCH5fZkuVGiomLTyvsqaWa7ASV/LE=@vger.kernel.org
+X-Gm-Message-State: AOJu0Yz4kIlAQMooQx/YPrtnODAJTETjlhYg8C0IkEKQFNS+y5C7NhVt
+	K7aySvaHVpTrAeZzhV/FUpkM4zTiexKYzs+pVMsSrJA+qnEkXAcBiN1xHBsRpY0psU9sXtszAT7
+	W8r4cvNrV+QMX3X6FDEXUI1m+L4WKFnf20zp/D3M8cJoQpszrCohhqWiCHxrtE58=
+X-Gm-Gg: AeBDies1UhL8aCF9+4GC0pjbZ3qrVwitukPS0JQpVviRfT9OH8y0CZ0bbnoFPcp9DLy
+	CROnVbDJZ6+edIc2HEiZ3HX5us1mO1NYWsbZweYt2liVKWfg686oI66k1swGXMlB7m7U5j3VMw2
+	llEtHdx1MW+J4JJUhg6S8hmuq/yDJ7qM8Bg2RxgnjvAnz6PJtftQoM36XpLkSzesBUfaAt777NA
+	9t9JQ5S7Aem4Q0CK21N3ckvCZAJwuMUUnhVf12mUdd6tKswCfAaQ+VTj8PlzDlC/gKzP9ikA7cD
+	vU/MWi+3k67TEv0CsPq21LaOlLAwoxo1iihySdVqrJF4Dv9a+sM3O15Jox5uDcHkvQFWHe7dL9h
+	yJcuHPDvXNwoumciychmOZ2HAwtLUlOgMUDV9WaLiZKmCj0Q5oifuywVl0oUu1NIseYKlt14A/q
+	zOBaxPqhsBS1DFmYhE93Tts1SytooJYJ9/wgLm4jcsM/K6NA==
+X-Received: by 2002:a05:6808:220f:b0:46a:5558:59a6 with SMTP id 5614622812f47-4799c917c15mr7094940b6e.6.1776699108609;
+        Mon, 20 Apr 2026 08:31:48 -0700 (PDT)
+X-Received: by 2002:a05:6808:220f:b0:46a:5558:59a6 with SMTP id 5614622812f47-4799c917c15mr7094834b6e.6.1776699107907;
+        Mon, 20 Apr 2026 08:31:47 -0700 (PDT)
 Received: from umbar.lan (2001-14ba-a073-af00-264b-feff-fe8b-be8a.rev.dnainternet.fi. [2001:14ba:a073:af00:264b:feff:fe8b:be8a])
-        by smtp.gmail.com with ESMTPSA id 2adb3069b0e04-5a4185bc31dsm3071171e87.22.2026.04.20.08.31.43
+        by smtp.gmail.com with ESMTPSA id 2adb3069b0e04-5a4185bc31dsm3071171e87.22.2026.04.20.08.31.46
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 20 Apr 2026 08:31:43 -0700 (PDT)
+        Mon, 20 Apr 2026 08:31:46 -0700 (PDT)
 From: Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
-Date: Mon, 20 Apr 2026 18:31:39 +0300
-Subject: [PATCH v2 1/6] drm/connector: report IRQ_HPD events to
- drm_connector_oob_hotplug_event()
+Date: Mon, 20 Apr 2026 18:31:41 +0300
+Subject: [PATCH v2 3/6] drm/bridge: aux-hpd: let drivers pass IRQ_HPD
+ events
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
@@ -91,7 +91,7 @@ List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20260420-hpd-irq-events-v2-1-402ffe27e9e9@oss.qualcomm.com>
+Message-Id: <20260420-hpd-irq-events-v2-3-402ffe27e9e9@oss.qualcomm.com>
 References: <20260420-hpd-irq-events-v2-0-402ffe27e9e9@oss.qualcomm.com>
 In-Reply-To: <20260420-hpd-irq-events-v2-0-402ffe27e9e9@oss.qualcomm.com>
 To: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
@@ -130,168 +130,203 @@ Cc: dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
         linux-arm-kernel@lists.infradead.org, linux-arm-msm@vger.kernel.org,
         freedreno@lists.freedesktop.org
 X-Mailer: b4 0.15.1
-X-Developer-Signature: v=1; a=openpgp-sha256; l=5422;
+X-Developer-Signature: v=1; a=openpgp-sha256; l=7165;
  i=dmitry.baryshkov@oss.qualcomm.com; h=from:subject:message-id;
- bh=lnVODOLTo2WpHrvqFht5FXa9gKD0IeWSjwE7+hKxwmM=;
- b=owEBbQGS/pANAwAKAYs8ij4CKSjVAcsmYgBp5kbc/UNMXpIQgQu+RMvj2dYIBCbr7675k+ZbB
- 1bJy3KI4xuJATMEAAEKAB0WIQRMcISVXLJjVvC4lX+LPIo+Aiko1QUCaeZG3AAKCRCLPIo+Aiko
- 1ZEhB/40fMwfOsuT8UnELg06dXKJmgx9BwjiERV+6ig4vkQlD1N3pMzFrTpR7ZV19GcfER4uBAb
- mhH1u4t1lQPCH/rYzpC8djiuPi598d6eQCICO45jiYBrWW2m/5hWcc1ACFO6LwpEJNAMZS9AJTE
- j+Zl4yyKkFLCFRwPOIKR88dQp2S5TYCbs9dHrEQPeNXrhvp3LouEZ6NXq0xRvDGczDb4zKk4GNc
- a4TA9/WzbbmISLLs1bNG76+FGXHvATVLYt+Q/LC+/CBuA1b4WSZzkymfPFtaT3QUMDhR2DHmk9D
- 4iKNimC7DYMtYIj+iG+/H2jJk00Ad7W3ys+v2IZuw5LMMjFa
+ bh=k6AWZfyGwiIVOlZPNJJzk3hTEvXIgqogLu61ZvsyYxE=;
+ b=owEBbQGS/pANAwAKAYs8ij4CKSjVAcsmYgBp5kbcgJtT3lfdmdIakF6z34HZ3ktHXV3p5BfOq
+ 8z0zUrUpH+JATMEAAEKAB0WIQRMcISVXLJjVvC4lX+LPIo+Aiko1QUCaeZG3AAKCRCLPIo+Aiko
+ 1emiB/9qqgqonWDO5IRxMutPkvsP/O4ZS025ejyoyaHHApifkD4C9iGzmoGgjhWTkfpnRhKgQ2r
+ isp0o3w5u5p1qilZ4V6XFgsyRjfLzICk7d4DvrH5EvOUEmvAa2mS+K7jYE7qKFvKudyGvkv2DoI
+ tt38bW6J7tDM6lKdvnf76uqsppAMrrt3IxrUjPImUdq4j/2qMAqOPdm0Qn/UrrDUS1JpAVFe//a
+ 4rMM3d0LOFW8D4FY7E1lGZI74H65rwyepCg9WZRJ63ZP6ZiSwTmDkUNbVABy1OydVVQyTEtIrcL
+ tyGhgYg2tvFXBSx1rzfsvkhA5hiunDOHNOAVyeg4gsu4okr0
 X-Developer-Key: i=dmitry.baryshkov@oss.qualcomm.com; a=openpgp;
  fpr=8F88381DD5C873E4AE487DA5199BF1243632046A
-X-Proofpoint-ORIG-GUID: 7WQfkChKTdl4hpjO7CoYRVsUy43xvc0W
-X-Proofpoint-GUID: 7WQfkChKTdl4hpjO7CoYRVsUy43xvc0W
-X-Authority-Analysis: v=2.4 cv=TK11jVla c=1 sm=1 tr=0 ts=69e646e2 cx=c_pps
- a=4ztaESFFfuz8Af0l9swBwA==:117 a=xqWC_Br6kY4A:10 a=IkcTkHD0fZMA:10
+X-Proofpoint-GUID: uOEH-CCijH2H1TT9BypWJKX_udDyZAOb
+X-Proofpoint-ORIG-GUID: uOEH-CCijH2H1TT9BypWJKX_udDyZAOb
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYwNDIwMDE1MSBTYWx0ZWRfXw8cbbPnPpAcW
+ NCGxBiquEsl2IEBgjixMHP9PM1wmyXHo3+btKjDnNwT0SPVy+b/xKppWivlhKH0lyLvUXVnFL/0
+ hL/NviNgFK8pygHkWIyBX0hFaewwGgWoJvnv7Yal/FJt3x37CB/fzzOa7woMyojTDBrBIeFT8J+
+ Ag3iYfHBhkzDOj9/2A2EIOmYYZZ3NSOD3BO77CQ2Rrl8W2bOBDFW57RaIt33cjxJ32xgOgw4alE
+ J1THED/PqMYrlu+ReHqSGo/bLaASJ1mLOUdWOG4QFKmLL3bJTJK4s8YNBTrxS06tIowO4Xck0+2
+ njYpf6tG7fS9GmyalnoJ+iNzZU2TAvD2GYOHoGjOhXsJ4Ef2wB4xGbw6Il8BzHuSIsBkr4gQHgG
+ CWN8crMxX82w0Q7QdRsoYGx+javkriBK0Vy5u+1d8UTY8bh4Q2wleoKA0efN9SGX6etI73yf0S/
+ UdVLksEoFkcUoFcWSHA==
+X-Authority-Analysis: v=2.4 cv=WuUb99fv c=1 sm=1 tr=0 ts=69e646e5 cx=c_pps
+ a=7uPEO8VhqeOX8vTJ3z8K6Q==:117 a=xqWC_Br6kY4A:10 a=IkcTkHD0fZMA:10
  a=A5OVakUREuEA:10 a=s4-Qcg_JpJYA:10 a=VkNPw1HP01LnGYTKEx00:22
- a=u7WPNUs3qKkmUXheDGA7:22 a=yOCtJkima9RkubShWh1s:22 a=EUspDBNiAAAA:8
- a=-JEBqWJC5KD3P7x9m9UA:9 a=QEXdDO2ut3YA:10 a=TPnrazJqx2CeVZ-ItzZ-:22
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYwNDIwMDE1MSBTYWx0ZWRfX0rL/n/eCZsj0
- DLxJTRLeQ5S0bwScPN+sVb9LIky29xaA83ZnOHNc24pGEQ6t5SlkUdOS19vn1NT1a1FFKCzF9Sp
- CDBBypLtxs6wwAB9/8TpvqF/YMlsHq/BpdiCiSp9y3ZY86HIXnE9mq7ZfuO2MQEh9gEgnfYHApg
- xTmZUIxvqG4CNuxWUOcX5Zu5CYZczeOIFaZl8fQP9bIGvoY9KNPfP9fyZHtbkqqFpOSynezTxp6
- ESJmJDf3jyL2vxKgXtzSObeIR2V+hI6KhrO9f3d7wgBwhvcwyo1Jo01uLud0VpjcaqIWs8FtPP+
- Vp3cm3TdMh1dwOaTNvWcT33ebPgEV8xgR/z7v+OhozuGmJK1DxFFJsBGc+CcEea+NAvpcxcMRhY
- P21LjtcW9NGbi81MOgW0bhTOQOW5sXUjgos0+efMb8GcDSxOCyd+xAQeJUpZFi0BQyPRQpKEX6w
- RTbOQ1t6pzTtuatrJpA==
+ a=u7WPNUs3qKkmUXheDGA7:22 a=yx91gb_oNiZeI1HMLzn7:22 a=EUspDBNiAAAA:8
+ a=sF2-0BiPaN5ps1Od_V4A:9 a=QEXdDO2ut3YA:10 a=EXS-LbY8YePsIyqnH6vw:22
 X-Proofpoint-Virus-Version: vendor=baseguard
  engine=ICAP:2.0.293,Aquarius:18.0.1143,Hydra:6.1.51,FMLib:17.12.100.49
  definitions=2026-04-20_03,2026-04-20_02,2025-10-01_01
 X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- impostorscore=0 clxscore=1015 lowpriorityscore=0 malwarescore=0
- priorityscore=1501 suspectscore=0 adultscore=0 phishscore=0 spamscore=0
- bulkscore=0 classifier=typeunknown authscore=0 authtc= authcc= route=outbound
- adjust=0 reason=mlx scancount=1 engine=8.22.0-2604070000
- definitions=main-2604200151
+ malwarescore=0 lowpriorityscore=0 adultscore=0 spamscore=0 phishscore=0
+ priorityscore=1501 suspectscore=0 clxscore=1015 impostorscore=0 bulkscore=0
+ classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
+ reason=mlx scancount=1 engine=8.22.0-2604070000 definitions=main-2604200151
 
-The DisplayPort standard defines a special kind of events called IRQ.
-These events are used to notify DP Source about the events on the Sink
-side. It is extremely important for DP MST handling, where the MST
-events are reported through this IRQ.
+Let users of aux-hpd, the UCSI and PMIC GLINK drivers pass the IRQ_HPD
+events to the DisplayPort drivers.
 
-In case of the USB-C DP AltMode there is no actual HPD pulse, but the
-events are ported through the bits in the AltMode VDOs.
-
-Extend the drm_connector_oob_hotplug_event() interface and report IRQ
-events to the DisplayPort Sink drivers.
+The drm_aux_hpd_bridge_notify() is keps to ease merging of the series,
+preventing extra cross-tree merges. It will be removed once all
+drivers are converted. The drm_bridge_hpd_notify() function is kept for
+the driver which only care about the connector status and will always
+pass false as the irq_hpd event.
 
 Signed-off-by: Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
 ---
- drivers/gpu/drm/drm_connector.c          |  5 ++++-
- drivers/usb/typec/altmodes/displayport.c | 15 +++++++++++----
- include/drm/drm_connector.h              | 19 ++++++++++++++++++-
- 3 files changed, 33 insertions(+), 6 deletions(-)
+ drivers/gpu/drm/bridge/aux-hpd-bridge.c | 11 +++++++----
+ drivers/gpu/drm/drm_bridge.c            | 17 ++++++++++-------
+ include/drm/bridge/aux-bridge.h         | 13 +++++++++++--
+ include/drm/drm_bridge.h                | 22 ++++++++++++++++++++--
+ 4 files changed, 48 insertions(+), 15 deletions(-)
 
-diff --git a/drivers/gpu/drm/drm_connector.c b/drivers/gpu/drm/drm_connector.c
-index 47dc53c4a738..edee9daccd51 100644
---- a/drivers/gpu/drm/drm_connector.c
-+++ b/drivers/gpu/drm/drm_connector.c
-@@ -3510,6 +3510,8 @@ struct drm_connector *drm_connector_find_by_fwnode(struct fwnode_handle *fwnode)
-  * drm_connector_oob_hotplug_event - Report out-of-band hotplug event to connector
-  * @connector_fwnode: fwnode_handle to report the event on
-  * @status: hot plug detect logical state
-+ * @extra_status: additional information provided by the sink without changing
-+ * the HPD state (or in addition to such a change).
+diff --git a/drivers/gpu/drm/bridge/aux-hpd-bridge.c b/drivers/gpu/drm/bridge/aux-hpd-bridge.c
+index f02a38a2638a..0e2f0b046121 100644
+--- a/drivers/gpu/drm/bridge/aux-hpd-bridge.c
++++ b/drivers/gpu/drm/bridge/aux-hpd-bridge.c
+@@ -136,16 +136,19 @@ struct device *drm_dp_hpd_bridge_register(struct device *parent, struct device_n
+ EXPORT_SYMBOL_GPL(drm_dp_hpd_bridge_register);
+ 
+ /**
+- * drm_aux_hpd_bridge_notify - notify hot plug detection events
++ * drm_aux_hpd_bridge_notify_extra - notify hot plug detection events
+  * @dev: device created for the HPD bridge
+  * @status: output connection status
++ * @extra_status: extra status bits like DRM_CONNECTOR_DP_IRQ_HPD
   *
-  * On some hardware a hotplug event notification may come from outside the display
-  * driver / device. An example of this is some USB Type-C setups where the hardware
-@@ -3520,7 +3522,8 @@ struct drm_connector *drm_connector_find_by_fwnode(struct fwnode_handle *fwnode)
-  * a drm_connector reference through calling drm_connector_find_by_fwnode().
+  * A wrapper around drm_bridge_hpd_notify() that is used to report hot plug
+  * detection events for bridges created via drm_dp_hpd_bridge_register().
+  *
+  * This function shall be called in a context that can sleep.
   */
- void drm_connector_oob_hotplug_event(struct fwnode_handle *connector_fwnode,
--				     enum drm_connector_status status)
+-void drm_aux_hpd_bridge_notify(struct device *dev, enum drm_connector_status status)
++void drm_aux_hpd_bridge_notify_extra(struct device *dev,
 +				     enum drm_connector_status status,
 +				     enum drm_connector_status_extra extra_status)
  {
- 	struct drm_connector *connector;
+ 	struct auxiliary_device *adev = to_auxiliary_dev(dev);
+ 	struct drm_aux_hpd_bridge_data *data = auxiliary_get_drvdata(adev);
+@@ -153,9 +156,9 @@ void drm_aux_hpd_bridge_notify(struct device *dev, enum drm_connector_status sta
+ 	if (!data)
+ 		return;
  
-diff --git a/drivers/usb/typec/altmodes/displayport.c b/drivers/usb/typec/altmodes/displayport.c
-index 35d9c3086990..7182a8e2e710 100644
---- a/drivers/usb/typec/altmodes/displayport.c
-+++ b/drivers/usb/typec/altmodes/displayport.c
-@@ -189,7 +189,9 @@ static int dp_altmode_status_update(struct dp_altmode *dp)
- 	} else {
- 		drm_connector_oob_hotplug_event(dp->connector_fwnode,
- 						hpd ? connector_status_connected :
--						      connector_status_disconnected);
-+						      connector_status_disconnected,
-+						(hpd && irq_hpd) ? DRM_CONNECTOR_DP_IRQ_HPD :
-+								   DRM_CONNECTOR_NO_EXTRA_STATUS);
- 		dp->hpd = hpd;
- 		sysfs_notify(&dp->alt->dev.kobj, "displayport", "hpd");
- 		if (hpd && irq_hpd) {
-@@ -212,7 +214,10 @@ static int dp_altmode_configured(struct dp_altmode *dp)
- 	 */
- 	if (dp->pending_hpd) {
- 		drm_connector_oob_hotplug_event(dp->connector_fwnode,
--						connector_status_connected);
-+						connector_status_connected,
-+						dp->pending_irq_hpd ?
-+						DRM_CONNECTOR_DP_IRQ_HPD :
-+						DRM_CONNECTOR_NO_EXTRA_STATUS);
- 		sysfs_notify(&dp->alt->dev.kobj, "displayport", "hpd");
- 		dp->pending_hpd = false;
- 		if (dp->pending_irq_hpd) {
-@@ -397,7 +402,8 @@ static int dp_altmode_vdm(struct typec_altmode *alt,
- 			dp->data.conf = 0;
- 			if (dp->hpd) {
- 				drm_connector_oob_hotplug_event(dp->connector_fwnode,
--								connector_status_disconnected);
-+								connector_status_disconnected,
-+								DRM_CONNECTOR_NO_EXTRA_STATUS);
- 				dp->hpd = false;
- 				sysfs_notify(&dp->alt->dev.kobj, "displayport", "hpd");
- 			}
-@@ -827,7 +833,8 @@ void dp_altmode_remove(struct typec_altmode *alt)
- 
- 	if (dp->connector_fwnode) {
- 		drm_connector_oob_hotplug_event(dp->connector_fwnode,
--						connector_status_disconnected);
-+						connector_status_disconnected,
-+						DRM_CONNECTOR_NO_EXTRA_STATUS);
- 
- 		fwnode_handle_put(dp->connector_fwnode);
- 	}
-diff --git a/include/drm/drm_connector.h b/include/drm/drm_connector.h
-index f83f28cae207..e05197e970d3 100644
---- a/include/drm/drm_connector.h
-+++ b/include/drm/drm_connector.h
-@@ -91,6 +91,22 @@ enum drm_connector_status {
- 	connector_status_unknown = 3,
- };
- 
-+/**
-+ * enum drm_connector_status_extra - additional events sent by the sink /
-+ * display together or in replacement of the HPD status changes.
-+ */
-+enum drm_connector_status_extra {
-+	/**
-+	 * @DRM_CONNECTOR_NO_EXTRA_STATUS: No additional status reported.
-+	 */
-+	DRM_CONNECTOR_NO_EXTRA_STATUS,
-+	/**
-+	 * @DRM_CONNECTOR_DP_IRQ_HPD: DisplayPort Sink has sent the
-+	 * IRQ_HPD (either by the HPD short pulse or via the AltMode event).
-+	 */
-+	DRM_CONNECTOR_DP_IRQ_HPD,
-+};
-+
- /**
-  * enum drm_connector_registration_state - userspace registration status for
-  * a &drm_connector
-@@ -2521,7 +2537,8 @@ drm_connector_is_unregistered(struct drm_connector *connector)
+-	drm_bridge_hpd_notify(&data->bridge, status);
++	drm_bridge_hpd_notify_extra(&data->bridge, status, extra_status);
  }
+-EXPORT_SYMBOL_GPL(drm_aux_hpd_bridge_notify);
++EXPORT_SYMBOL_GPL(drm_aux_hpd_bridge_notify_extra);
  
- void drm_connector_oob_hotplug_event(struct fwnode_handle *connector_fwnode,
--				     enum drm_connector_status status);
+ static int drm_aux_hpd_bridge_attach(struct drm_bridge *bridge,
+ 				     struct drm_encoder *encoder,
+diff --git a/drivers/gpu/drm/drm_bridge.c b/drivers/gpu/drm/drm_bridge.c
+index c8c3301cd936..09c3f5954ade 100644
+--- a/drivers/gpu/drm/drm_bridge.c
++++ b/drivers/gpu/drm/drm_bridge.c
+@@ -1495,25 +1495,28 @@ void drm_bridge_hpd_disable(struct drm_bridge *bridge)
+ EXPORT_SYMBOL_GPL(drm_bridge_hpd_disable);
+ 
+ /**
+- * drm_bridge_hpd_notify - notify hot plug detection events
++ * drm_bridge_hpd_notify_extra - notify hot plug detection and sink IRQ events
+  * @bridge: bridge control structure
+  * @status: output connection status
++ * @extra_status: additional status recorded by the sink
+  *
+  * Bridge drivers shall call this function to report hot plug events when they
+- * detect a change in the output status, when hot plug detection has been
+- * enabled by drm_bridge_hpd_enable().
++ * detect a change in the output status or when the sink has reported extra HPD
++ * status events (like the IRQ_HPD in case of the DisplayPort), when hot plug
++ * detection has been enabled by drm_bridge_hpd_enable().
+  *
+  * This function shall be called in a context that can sleep.
+  */
+-void drm_bridge_hpd_notify(struct drm_bridge *bridge,
+-			   enum drm_connector_status status)
++void drm_bridge_hpd_notify_extra(struct drm_bridge *bridge,
++				 enum drm_connector_status status,
++				 enum drm_connector_status_extra extra_status)
+ {
+ 	mutex_lock(&bridge->hpd_mutex);
+ 	if (bridge->hpd_cb)
+-		bridge->hpd_cb(bridge->hpd_data, status, DRM_CONNECTOR_NO_EXTRA_STATUS);
++		bridge->hpd_cb(bridge->hpd_data, status, extra_status);
+ 	mutex_unlock(&bridge->hpd_mutex);
+ }
+-EXPORT_SYMBOL_GPL(drm_bridge_hpd_notify);
++EXPORT_SYMBOL_GPL(drm_bridge_hpd_notify_extra);
+ 
+ #ifdef CONFIG_OF
+ /**
+diff --git a/include/drm/bridge/aux-bridge.h b/include/drm/bridge/aux-bridge.h
+index c2f5a855512f..7b258485acbd 100644
+--- a/include/drm/bridge/aux-bridge.h
++++ b/include/drm/bridge/aux-bridge.h
+@@ -25,7 +25,9 @@ struct auxiliary_device *devm_drm_dp_hpd_bridge_alloc(struct device *parent, str
+ int devm_drm_dp_hpd_bridge_add(struct device *dev, struct auxiliary_device *adev);
+ struct device *drm_dp_hpd_bridge_register(struct device *parent,
+ 					  struct device_node *np);
+-void drm_aux_hpd_bridge_notify(struct device *dev, enum drm_connector_status status);
++void drm_aux_hpd_bridge_notify_extra(struct device *dev,
 +				     enum drm_connector_status status,
 +				     enum drm_connector_status_extra extra_status);
- const char *drm_get_connector_type_name(unsigned int connector_type);
- const char *drm_get_connector_status_name(enum drm_connector_status status);
- const char *drm_get_subpixel_order_name(enum subpixel_order order);
+ #else
+ static inline struct auxiliary_device *devm_drm_dp_hpd_bridge_alloc(struct device *parent,
+ 								    struct device_node *np)
+@@ -44,9 +46,16 @@ static inline struct device *drm_dp_hpd_bridge_register(struct device *parent,
+ 	return NULL;
+ }
+ 
+-static inline void drm_aux_hpd_bridge_notify(struct device *dev, enum drm_connector_status status)
++static inline void drm_aux_hpd_bridge_notify_extra(struct device *dev,
++						   enum drm_connector_status status,
++						   enum drm_connector_status_extra extra_status);
+ {
+ }
+ #endif
+ 
++static inline void drm_aux_hpd_bridge_notify(struct device *dev, enum drm_connector_status status)
++{
++	drm_aux_hpd_bridge_notify_extra(dev, status, DRM_CONNECTOR_NO_EXTRA_STATUS);
++}
++
+ #endif
+diff --git a/include/drm/drm_bridge.h b/include/drm/drm_bridge.h
+index 3e4672fbd7a8..2cf604cf02db 100644
+--- a/include/drm/drm_bridge.h
++++ b/include/drm/drm_bridge.h
+@@ -1556,8 +1556,26 @@ void drm_bridge_hpd_enable(struct drm_bridge *bridge,
+ 				      enum drm_connector_status_extra extra_status),
+ 			   void *data);
+ void drm_bridge_hpd_disable(struct drm_bridge *bridge);
+-void drm_bridge_hpd_notify(struct drm_bridge *bridge,
+-			   enum drm_connector_status status);
++void drm_bridge_hpd_notify_extra(struct drm_bridge *bridge,
++				 enum drm_connector_status status,
++				 enum drm_connector_status_extra extra_status);
++
++/**
++ * drm_bridge_hpd_notify - notify hot plug detection events
++ * @bridge: bridge control structure
++ * @status: output connection status
++ *
++ * Bridge drivers shall call this function to report hot plug events when they
++ * detect a change in the output status, when hot plug detection has been
++ * enabled by drm_bridge_hpd_enable().
++ *
++ * This function shall be called in a context that can sleep.
++ */
++static inline void drm_bridge_hpd_notify(struct drm_bridge *bridge,
++					 enum drm_connector_status status)
++{
++	drm_bridge_hpd_notify_extra(bridge, status, DRM_CONNECTOR_NO_EXTRA_STATUS);
++}
+ 
+ #ifdef CONFIG_DRM_PANEL_BRIDGE
+ bool drm_bridge_is_panel(const struct drm_bridge *bridge);
 
 -- 
 2.47.3
