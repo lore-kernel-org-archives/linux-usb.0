@@ -1,156 +1,124 @@
-Received: from TYPPR03CU001.outbound.protection.outlook.com (mail-japaneastazon11022119.outbound.protection.outlook.com [52.101.126.119])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.13])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5A770282F39;
-	Tue, 21 Apr 2026 02:35:08 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=52.101.126.119
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1776738910; cv=fail; b=opZjaHdc6/sPhOX47y8/AJSo3AKW9wNHBAuzWv4vEoRLHNZjDeVsRzZxBgB31unwX6E0Hlz2kM0dYvgp6ZU2repyIUcWMELzG+4iQQWLzIg9GhaKlVYdtwk5R8z0ggHdXKiWHC2tB4s7E03XTyOz3uVdEAtzXLYlOQlW1FN+7vY=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1776738910; c=relaxed/simple;
-	bh=u4geRa/haP7v2aaNn33kcv8eCoFrePVlTncTH6gB/Yg=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=SsxSVhKCL5g4rPFPs4myze4q7ZAYFvqbZ+BzyYsPqidh4SYR7q3c7sUv5nyHrcqcLjOdsX0j6VDpA2r4RqObgpBbl1mYhFez7IeFYMju6rhQHVy8/aGeAEvsAQOalYfQj88U7zB1Cl9mM0L5Ewz15d1nRxJk85fysTeeHr2dBiA=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=cixtech.com; spf=pass smtp.mailfrom=cixtech.com; arc=fail smtp.client-ip=52.101.126.119
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=cixtech.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=cixtech.com
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=Fx7HNsDxo7b6GxNUGHg1ox9/CA/nQpqUmjQBH2RTWKYkcdhejwtBxIrIRPgwts+zPet7mbNDDo0vBA7WQUaUILoNhAnlK8yce6nNVUs1guh2zl6/nqw7LWSSraq8RJckM263ilmjI3Dinb6eg3Cm4+iaYgNAiqOSENA77VG0ZObArnVLv2rB+xOXExMwMZrQYYMg5R+v37YT1zGNtTIV3ixvoAIzvzku5MZNVh3OHa0HnpCm7Ps6RAXheVmBcBviyV2lNOnoknQ7K1Briidq2GF9h7kr5N1q65FRoagdlLOxsrSHKPTtVUTuBH9jXMXbl34BqEARyPcw5XieG7/0MQ==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=MBX0+BBzZg50Jd/nRsSeX7H/x5pFQvBiZ6iNsPAUPNI=;
- b=LsmdcC0OyXt6wYeKatgROpQPl3sICC+LR5fZYwh39GEJqG2XzpGQTCMRF+tCuUkwkae18CHSk+GC9foipYc5aiOlHEylDithdsZpRGykRa6XFsc7vw0XmUbdcIcgmKDAH9kWDtKWeFCx6b1XLCRwWQLzi8EG+vJHsdr6lClYigEQr+2yL618M64+E5xO0uHilxPnFkixnZgaaVRu/EIsYixxvNILw0lACfqPBv62qugSsyop7+nA7geKOOXag7j8nvqda6i1kp3kq10o2v/22qrPQJRbTAHc/qmVF/RBu7arFvz0pKyomPJEJGDNZvb0wc6FcO51tBedhf63ivQXUQ==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
- 222.71.101.198) smtp.rcpttodomain=arndb.de smtp.mailfrom=cixtech.com;
- dmarc=bestguesspass action=none header.from=cixtech.com; dkim=none (message
- not signed); arc=none (0)
-Received: from SL2P216CA0166.KORP216.PROD.OUTLOOK.COM (2603:1096:101:1b::17)
- by KU2PPF39B5AFA96.apcprd06.prod.outlook.com (2603:1096:d18::48c) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9818.31; Tue, 21 Apr
- 2026 02:35:01 +0000
-Received: from OSA0EPF000000CA.apcprd02.prod.outlook.com
- (2603:1096:101:1b:cafe::15) by SL2P216CA0166.outlook.office365.com
- (2603:1096:101:1b::17) with Microsoft SMTP Server (version=TLS1_3,
- cipher=TLS_AES_256_GCM_SHA384) id 15.20.9791.48 via Frontend Transport; Tue,
- 21 Apr 2026 02:35:00 +0000
-X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 222.71.101.198)
- smtp.mailfrom=cixtech.com; dkim=none (message not signed)
- header.d=none;dmarc=bestguesspass action=none header.from=cixtech.com;
-Received-SPF: Pass (protection.outlook.com: domain of cixtech.com designates
- 222.71.101.198 as permitted sender) receiver=protection.outlook.com;
- client-ip=222.71.101.198; helo=smtprelay.cixcomputing.com; pr=C
-Received: from smtprelay.cixcomputing.com (222.71.101.198) by
- OSA0EPF000000CA.mail.protection.outlook.com (10.167.240.56) with Microsoft
- SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.9791.48 via Frontend Transport; Tue, 21 Apr 2026 02:35:00 +0000
-Received: from nchen-desktop (unknown [172.16.64.25])
-	by smtprelay.cixcomputing.com (Postfix) with ESMTPSA id 728004126F8F;
-	Tue, 21 Apr 2026 10:34:59 +0800 (CST)
-From: Peter Chen <peter.chen@cixtech.com>
-To: robh@kernel.org,
-	krzk+dt@kernel.org,
-	conor+dt@kernel.org,
-	arnd@arndb.de,
-	gregkh@linuxfoundation.org,
-	pawell@cadence.com,
-	rogerq@kernel.org
-Cc: devicetree@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	linux-usb@vger.kernel.org,
-	cix-kernel-upstream@cixtech.com,
-	Peter Chen <peter.chen@cixtech.com>
-Subject: [PATCH v3 1/2] dt-bindings: usb: cdns,usb3: document USBSSP controller support
-Date: Tue, 21 Apr 2026 10:34:58 +0800
-Message-ID: <20260421023459.506145-2-peter.chen@cixtech.com>
-X-Mailer: git-send-email 2.50.1
-In-Reply-To: <20260421023459.506145-1-peter.chen@cixtech.com>
-References: <20260421023459.506145-1-peter.chen@cixtech.com>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A044226ACC
+	for <linux-usb@vger.kernel.org>; Tue, 21 Apr 2026 04:45:46 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.13
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1776746748; cv=none; b=fZ4599DjJNexSDNjMMRdaNGRy4F21oSQIgRRqWZ3fED7cnMmqBHgyQ8hTB73ojAmudEFxSmaVtLQlC3gGazDY0Wd0hm1O28U9z+N3wbkUidOrYQCF4f4IdBB0yhRw31TTAtKfef66W7W0wnXbqNRT5Q2TAEaNOu1gPMbN3DO6NI=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1776746748; c=relaxed/simple;
+	bh=IHKDrg7cPuZh6SeYBWJF66K4+eswB/V3HUJn5K628HI=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=XDDOoN3RtyFFLC4gmbQIuziCEdG9hHxxKHu8F86OPETerMDKd4PwJCHT5lVx7N1T7zBEy+SbvseGMXsxrovfttT2rmKqXH5+lAGG3mI9UKoeEXIcrJi5qaaIfo+bO9Zy5ceMCTUGWt021eTQuKJ+1lAUkT1fiC9hMKMivpcMrZ4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=pass smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=jC89sHcy; arc=none smtp.client-ip=192.198.163.13
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.intel.com
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="jC89sHcy"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1776746747; x=1808282747;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=IHKDrg7cPuZh6SeYBWJF66K4+eswB/V3HUJn5K628HI=;
+  b=jC89sHcysYigkYYsGrgEms47K27hbgUUrgoMIe2KBvM76bIsMETo5cZZ
+   l5Q/7rlznf5jofbDTtcxURYI8fY2OlXggXlPwzYBO7ug4vDM63d0Y/wB1
+   TmKWHvwJtihklMLAE7x8sanFBL+Mjag26Dua1W/1wWVnHp3E7q78R8r+G
+   Fh/ZZgbg5uGTuXyGN8aXBa6LBpAa8ohkTXNWPlKqdHpkwca6t6HHoL6gw
+   Zal3tYBfNuN4xmbATsUzr0mAZIlTgWcL/ykehggPRvlTGVete+LoTYhA5
+   oZELZuWbzlhqXrOruRmfHifnjQEfGnssrkoF84hc/Ki+AmbBxv6pK4nKV
+   g==;
+X-CSE-ConnectionGUID: jRqIVUkISIS0zrnislgAsw==
+X-CSE-MsgGUID: 1QxREO8QRhyaeP1tO5VmQw==
+X-IronPort-AV: E=McAfee;i="6800,10657,11762"; a="80261109"
+X-IronPort-AV: E=Sophos;i="6.23,191,1770624000"; 
+   d="scan'208";a="80261109"
+Received: from fmviesa007.fm.intel.com ([10.60.135.147])
+  by fmvoesa107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 20 Apr 2026 21:45:46 -0700
+X-CSE-ConnectionGUID: 3g8bq7RqTVKDJg9YslSzuA==
+X-CSE-MsgGUID: bK4x4j0MSs2VtqWS1JJTFA==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.23,191,1770624000"; 
+   d="scan'208";a="228761144"
+Received: from black.igk.intel.com ([10.91.253.5])
+  by fmviesa007.fm.intel.com with ESMTP; 20 Apr 2026 21:45:44 -0700
+Received: by black.igk.intel.com (Postfix, from userid 1001)
+	id EAC2295; Tue, 21 Apr 2026 06:45:42 +0200 (CEST)
+Date: Tue, 21 Apr 2026 06:45:42 +0200
+From: Mika Westerberg <mika.westerberg@linux.intel.com>
+To: Rodrigo Vivi <rodrigo.vivi@intel.com>
+Cc: Francesco Orro <ncesco@interstellar.eu>,
+	intel-gfx@lists.freedesktop.org, Imre Deak <imre.deak@intel.com>,
+	Ville =?utf-8?B?U3lyasOkbMOk?= <ville.syrjala@linux.intel.com>,
+	Uma Shankar <uma.shankar@intel.com>,
+	"dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
+	"linux-usb@vger.kernel.org" <linux-usb@vger.kernel.org>,
+	Jani Nikula <jani.nikula@linux.intel.com>
+Subject: Re: DP routing from iGPU to discrete Barlow Ridge TB5 on HP ZBook
+ Fury G1i
+Message-ID: <20260421044542.GA557136@black.igk.intel.com>
+References: <pCmilDgt3Xijjdzu7H1d30dzm8IJbXFnle3yQ5nSR1Pj-snchn5xNpcq9Gb7hlh5bnsA3Efnm9cOR_VKi9RyxcRJxHlrqTW7WRPG36UgY5Q=@interstellar.eu>
+ <aeaQ3Vlh6bp8-rwW@intel.com>
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-X-EOPAttributedMessage: 0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: OSA0EPF000000CA:EE_|KU2PPF39B5AFA96:EE_
-X-MS-Office365-Filtering-Correlation-Id: b927dafb-41d4-4ee0-1f17-08de9f4e95f3
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam:
-	BCL:0;ARA:13230040|1800799024|7416014|376014|36860700016|82310400026|56012099003|18002099003|22082099003;
-X-Microsoft-Antispam-Message-Info:
-	AjN4zzuvUg1Qi9kLhhV14rPuq2N3T61SSPtzJUdeI8hIEETHQbqluA0M3qSoPeVoVsspArCpWUC+QzZGzXZWSeunEl+1EzVUWbrVAKQzKWqWJwj5kKYqer7gQBxLGrb9I4FWIuFwvUMUTZG8WvExdJWkY3JXNCdu3v7X/GKOSnj44h0xAyMD6AmfO4JX9l0Podojs1UUWbsxLYXlF9qTQRUZLRcFX6BTgttdAQMPso51cUyu5k5Io81ZPYaNDq92sUFnK5XtFsNEvrXPjhX3dQOIao9WgHeCGon8MAoY5JwUt/XbVaXVEX+4BXIGNyXWyEhhqqPXvbc8H86O7l3GKI0Vao6d8Sg7ybD2Zzp/5dyWrupVfnt5orVtBf3O1AwG1fKK6bhlz7EFH4jsMLHTp2OfgQIW/wCZfSe6HQoULj1MIkG8/cTtIQqUs/CWmWB22TD4KAnOjLyFg9KeYAhgAq/M6jhfZPko5Or20Fm4nJlXmZQvI7wBm4ZPZhh0fh5wSV3Zt+Fl/9XTtJhVFpQsTUU6D+eY0T6Loti7bWlt/1fS5EDSRoGjahTd7rDFzuKad98MAgOhsAwz97bXLCa8kDiR2nNe0Eb5qU2PYrPnpyhgHZpaIDcgTYvJRDumcN3wfjz86fjrI7AYItjS0P3NdaTlR++khes3SSfsZUoZhOcjvEQNNkdP+Hf1IRDGkXv0hIqtibr/h+b15ftvXtAwTNoNaf6DRDmDfAfTuoVNkmk=
-X-Forefront-Antispam-Report:
-	CIP:222.71.101.198;CTRY:CN;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:smtprelay.cixcomputing.com;PTR:InfoDomainNonexistent;CAT:NONE;SFS:(13230040)(1800799024)(7416014)(376014)(36860700016)(82310400026)(56012099003)(18002099003)(22082099003);DIR:OUT;SFP:1102;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0:
-	5N5oYfxVcq95GW6DUWdJqJeba4QW+lV5aRUr0tHInOlOBrPyNJIfEjJWtZDwBtMrhMlAH+slDaBSGTvMcVXUyieN2LCDbtYjiyuCm3cYpF567dR75LQttRDnz/G6bdmAPGoqnlb0eZ2I1vIB/f0i5jbv2x9a/EIWgwh1FR45q2dASpFpPpkpvxuu8ATqReHuUPBk/SW3HZgo1ZJ9D1GS1k4gAhHN4HY8zn6RlFeZpk98Z49dgv0EXHjMmegNcW6XvtyAT+d0N43i4g1jMqWqid8zRzBzqFc325A0EYulNGO3wI+y493zZtch+45v6LuaejDFOISUm8gz6Rar9ITl2GJV0E3GBMU6BFmgZSoNPic5TpaP3JqdXrIz9OKnq8eRZJhlImQKmhrzOzFf6TMIQ6HVcZ6stgLWjmxlMuER2CRzcCRuhZvnZHol5AiXcAQ8
-X-OriginatorOrg: cixtech.com
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 21 Apr 2026 02:35:00.2830
- (UTC)
-X-MS-Exchange-CrossTenant-Network-Message-Id: b927dafb-41d4-4ee0-1f17-08de9f4e95f3
-X-MS-Exchange-CrossTenant-Id: 0409f77a-e53d-4d23-943e-ccade7cb4811
-X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=0409f77a-e53d-4d23-943e-ccade7cb4811;Ip=[222.71.101.198];Helo=[smtprelay.cixcomputing.com]
-X-MS-Exchange-CrossTenant-AuthSource:
-	OSA0EPF000000CA.apcprd02.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Anonymous
-X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: KU2PPF39B5AFA96
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <aeaQ3Vlh6bp8-rwW@intel.com>
 
-Update the Cadence USBSS DRD binding to document that it also covers
-the USBSSP (SuperSpeed Plus, USB 3.1 gen2x1) controller. Both USBSS
-and USBSSP share the same DRD/OTG register interface, so the driver
-auto-detects the controller version at runtime: no additional
-compatible string is needed.
+On Mon, Apr 20, 2026 at 04:47:25PM -0400, Rodrigo Vivi wrote:
+> On Mon, Apr 20, 2026 at 04:04:02PM +0000, Francesco Orro wrote:
+> > Hi,
+> > 
+> > Setup:
+> >   HP ZBook Fury G1i 16 inch, BIOS X96 01.03.04
+> >   Intel Arrow Lake-HX + Nvidia RTX PRO 1000 Blackwell (hybrid graphics)
+> >   Kernel 6.19.13
+> > 
+> > The laptop exposes Thunderbolt 5 on both the integrated MTL iTBT (right
+> > USB-C, domain0, 00:0d.2) and a discrete Intel Barlow Ridge (left USB-C,
+> > domain1, 00:06.1 -> 05:00.0).
+> > 
+> > - Right port: i915 drives a DP tunnel over the iTBT host without issues.
+> > - Left port: no i915 connector ever sees the external monitor. The TB
+> >   driver allocates a DP tunnel on demand but DPRX reads time out, no DP
+> >   source is feeding the Barlow DP_IN adapter.
+> > - With nvidia-drm.modeset=1, a DP-MST connector on the Nvidia DRM device
+> >   sees the monitor via the left port (EDID readable, modes negotiated).
+> >   The path Nvidia -> Barlow DP_IN is functional.
+> > 
+> > Current hypothesis: on this board the discrete Barlow Ridge DP_IN is
+> > either hardwired to a Nvidia output or behind a firmware-programmed mux
+> > that BIOS latches to Nvidia at POST and is not exposed to the OS. i915
+> > would therefore have no path to drive the left ports, by design.
+> 
+> yes, that is usually the case.
+> 
+> > 
+> > Tests done that did not surface an OS-visible lever:
+> > - i2cdetect across all SMBus/i801 busses: no DP mux/retimer at plausible
+> >   addresses (0x60-0x7F).
+> > - DSDT/SSDT dump (iasl -d): no Device/Method referring to DP routing,
+> >   DPMUX, retimer programming, or dock display source selection.
+> > - HP WMI + /sys/devices/virtual/firmware-attributes/hp-bioscfg attribute
+> >   enumeration: nothing switching dock display source. "Graphics"
+> >   attribute only offers Hybrid/Discrete.
+> > - PCI config dump of Barlow Ridge: standard USB4 NHI, no vendor-specific
+> >   capability hinting at source selection.
+> > - acpi.no_usb4_osc kernel param (locally patched) to opt out of OSC USB4
+> >   native support: no change in i915 visibility of the dock.
+> > 
+> > Is there any known way to route an Intel DDI output to a PCIe-attached
+> > Barlow Ridge DP_IN adapter, or is this strictly a design where the dGPU
+> > is the only valid DP source for the discrete TB controller on this class
+> > of HP workstations?
+> 
+> I believe this is physically connected or static mux without any way to
+> re-route this. But I might be wrong.
+> 
 
-Changes to the binding:
-- Update title and add description
-- maximum-speed: add super-speed-plus
-
-Assisted-by: Cursor:claude-4.6-opus
-Acked-by: Rob Herring (Arm) <robh@kernel.org>
-Signed-off-by: Peter Chen <peter.chen@cixtech.com>
----
- Documentation/devicetree/bindings/usb/cdns,usb3.yaml | 10 ++++++++--
- 1 file changed, 8 insertions(+), 2 deletions(-)
-
-diff --git a/Documentation/devicetree/bindings/usb/cdns,usb3.yaml b/Documentation/devicetree/bindings/usb/cdns,usb3.yaml
-index f454ddd9bbaa..ad5acf956edf 100644
---- a/Documentation/devicetree/bindings/usb/cdns,usb3.yaml
-+++ b/Documentation/devicetree/bindings/usb/cdns,usb3.yaml
-@@ -4,11 +4,17 @@
- $id: http://devicetree.org/schemas/usb/cdns,usb3.yaml#
- $schema: http://devicetree.org/meta-schemas/core.yaml#
- 
--title: Cadence USBSS-DRD controller
-+title: Cadence USBSS and USBSSP DRD controller
- 
- maintainers:
-   - Pawel Laszczak <pawell@cadence.com>
- 
-+description:
-+  Cadence USB dual-role controller. Covers USBSS (SuperSpeed, USB 3.0) and
-+  USBSSP (SuperSpeed Plus, USB 3.1 gen2x1). Both variants share the same
-+  DRD/OTG register interface, so the driver auto-detects the controller
-+  version at runtime.
-+
- properties:
-   compatible:
-     const: cdns,usb3
-@@ -49,7 +55,7 @@ properties:
-       cdns3 to type C connector.
- 
-   maximum-speed:
--    enum: [super-speed, high-speed, full-speed]
-+    enum: [super-speed-plus, super-speed, high-speed, full-speed]
- 
-   phys:
-     minItems: 1
--- 
-2.50.1
-
+This is my understanding too based on the systems I've seen.
