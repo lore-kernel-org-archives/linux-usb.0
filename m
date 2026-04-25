@@ -1,235 +1,163 @@
-Received: from mail-oo1-f80.google.com (mail-oo1-f80.google.com [209.85.161.80])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com [205.220.180.131])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B549015A86D
-	for <linux-usb@vger.kernel.org>; Sat, 25 Apr 2026 02:12:43 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.161.80
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A11E5315D53
+	for <linux-usb@vger.kernel.org>; Sat, 25 Apr 2026 07:00:17 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.180.131
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1777083169; cv=none; b=t2QUE5BB03yMFQiKIZ729Q81iCL741TJpluwdbatFbIoGkVzWzzk3OhLGl+lwILZ+t3Tm3Fu5lW4eAgk6AkDClwTlcmXkGmW/A+a/rd1qBGI6lflp7pK2aHZJLswHJOkdTRFgWDe+heOw2wVPSbfmHyVl71PKDzwzl48rS/h1rQ=
+	t=1777100422; cv=none; b=asuLqEDzDTbfSw2Y1SGikIYj0QleRu7/Qhwz/2lnyATUNldwfPwIFFotvZIL0mxUh6VIeFuDU3K0J1NzVDJinO2kbeWjeEiElzqVEV1f4q7LSqbX6L8FL1tNTp0ExD92zJa+9AZNM0bApeizj6D+Lz7zf5ERwBNSnxYe6+GOnxc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1777083169; c=relaxed/simple;
-	bh=IWgMe8s+AQbWmaFMfl/7KXrDy9bHO8MO2AXEI5Xd1EM=;
-	h=MIME-Version:Date:Message-ID:Subject:From:To:Content-Type; b=U6P5puWMlG1GG1u7eHUlk0VI5/zCFwsajozG0hinmhBIMaPeCGG1wJdWQLcWXinygUJeIpW01g4X1TTTc0WqB6VO0ECDTk/stPXiJJo1JK1czXA5gNZOu1BhG/ztw1WOKgkzBKgy2Fv6K4+ZztNVF9JFn47Ft7OA2E3/XIlXDe0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=syzkaller.appspotmail.com; spf=pass smtp.mailfrom=M3KW2WVRGUFZ5GODRSRYTGD7.apphosting.bounces.google.com; arc=none smtp.client-ip=209.85.161.80
-Authentication-Results: smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=syzkaller.appspotmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=M3KW2WVRGUFZ5GODRSRYTGD7.apphosting.bounces.google.com
-Received: by mail-oo1-f80.google.com with SMTP id 006d021491bc7-696233b2816so3097472eaf.1
-        for <linux-usb@vger.kernel.org>; Fri, 24 Apr 2026 19:12:43 -0700 (PDT)
+	s=arc-20240116; t=1777100422; c=relaxed/simple;
+	bh=VhEbUk1qn4YDvonKrVyzLLile8oLTXo5Zt+QFXASqso=;
+	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
+	 MIME-Version; b=T7upQgKRVoLIEWbr3g3cdBZapn+rk+wPNpUDqa3V7igrpviUaRtI1tvdU/EcJ0bcOKUyyzoHijucPIElRhjohr1TgKuug9oxjvIyc773OF8p8GelBxxkUa1ysB2VX4FUCKq3ixRS8Cv9bxXwteFiymRxbTNHMHcNpufdmAiXPcQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com; spf=pass smtp.mailfrom=oss.qualcomm.com; dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b=K6/Tg3KP; dkim=pass (2048-bit key) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.b=PCXFGSoy; arc=none smtp.client-ip=205.220.180.131
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=oss.qualcomm.com
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b="K6/Tg3KP";
+	dkim=pass (2048-bit key) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.b="PCXFGSoy"
+Received: from pps.filterd (m0279868.ppops.net [127.0.0.1])
+	by mx0a-0031df01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 63P3JQeJ1727122
+	for <linux-usb@vger.kernel.org>; Sat, 25 Apr 2026 07:00:16 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
+	cc:content-transfer-encoding:date:from:in-reply-to:message-id
+	:mime-version:references:subject:to; s=qcppdkim1; bh=uwC5mL1xfh1
+	AHGE2caBgkXGnAkeW6s6MztU7SU+1oKE=; b=K6/Tg3KPq68RgCj77DQeBvg8LTk
+	msfFsI/az+anqAs3FcDle+P9aOX12+UqxonBvoCdZugzhGPxHwNUDr2N1A83+WXB
+	INAW7jkJI7zsUzCfArQKZLTkpF4GRSrX2EQA/N3zWL5DU1x0QO1g/d9UcyF63jZx
+	MmZtvPE0q3Xa79Oc8s0f5UOAewaZ8TEcsGiyhl4FJp4ioVyjFi+rKfoujkQDATRk
+	Asu62rHjwcz6QJILTZBmjneaoJe12azmSxj0icc484Qn09xrbdU1HdYWFOfQ995u
+	quzNWi28WH2+NqTBVaZejixG7WUf0YB58z3RtKVVSKz5T58YAjlgBrCGbpQ==
+Received: from mail-dl1-f71.google.com (mail-dl1-f71.google.com [74.125.82.71])
+	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 4drnkx8c6y-1
+	(version=TLSv1.3 cipher=TLS_AES_128_GCM_SHA256 bits=128 verify=NOT)
+	for <linux-usb@vger.kernel.org>; Sat, 25 Apr 2026 07:00:16 +0000 (GMT)
+Received: by mail-dl1-f71.google.com with SMTP id a92af1059eb24-126e8ee6227so8515326c88.0
+        for <linux-usb@vger.kernel.org>; Sat, 25 Apr 2026 00:00:16 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=oss.qualcomm.com; s=google; t=1777100415; x=1777705215; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=uwC5mL1xfh1AHGE2caBgkXGnAkeW6s6MztU7SU+1oKE=;
+        b=PCXFGSoyObjnuSvmMiS/NPkaVcBZ0m7njFUT61UxiPcM5rbUIhLD5d7iSvA/ribrTj
+         yOCvU76dtZu5wk7FlmIP2b2wIRSd/RApL3wH58VPSN2BkbekQZBkZfRwScSKTrCT9CE9
+         2DeaMSetVgoLwSTaQzsMOEjCMAdqCag6FummlwIRl0uSJzgqKnrO+O2Z1y1ThnYo/RNQ
+         9lqOMQ5TqNN/iUk18EliVZ11lmjdizIQsVQ9Z08ciJr/kNIfinSEMyxF4poX4C/ohnDz
+         etM/Os3+RjnKYSeK3p0iR/f6icFNs76Xuur2W9pyQKdn9bOmx459HkaMDZLytFFpLSAa
+         I/ug==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1777083162; x=1777687962;
-        h=to:from:subject:message-id:date:mime-version:x-gm-message-state
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=Rr2IepSP1DGPLr9difMNhjzKyF9Yh6uHOKDzF138jpk=;
-        b=NeHkttMNcZODf2cmhw2RHX+MXEIrqGUOqs7p4R9MWzsdyMUOaQYsjJ36fzAtMMyvZ3
-         mcGiK6/q3lyT+MlCEWyCXwN+XCto4ZSMXwaf8OxvjJNOV4a8ZBFoTlXFIZWSi9wky7So
-         dnya27bSjxRaWBqOmdYTawqJ0CZIHSvRczqNIhKQ0qW7bZun3uwo8nWpxikuLykNkVV3
-         Lw2nFGXLjh5e6OGxofDipaOMzvWOFJ3GnokRyCFTvulgF/DPHG9BJuVeeN7xJ6TdzpH5
-         lXnplLNpEY2U+MbuvoO/xXSGPr0ScF9Z/Se5xPOuCJVyuGkDf8GtE2SlUJXw9ebZPl6c
-         GW1w==
-X-Forwarded-Encrypted: i=1; AFNElJ8C3SrSB3OAJxAFiuOlM4d1bCmiGIjrwkg/z8FxDjMqOFRIABHS3h6Yvi7tIKgXegoOoWbU8WaC4Vc=@vger.kernel.org
-X-Gm-Message-State: AOJu0YynQE+BShSb34kVOscHq6glxg5SI4eyrGsuT8RKYgDht3J80/Xt
-	2Wf0TQK2ZWhod9DMgpnRNbHYJABKdzXQCQkbhB8nYglOPgc2tUYMwJxqCXuxU0KQ0MwXb8mOFZb
-	ybMU5+qUq/Su7jiW6RqhwBe9VfXzjGU2VXQLyfHbX7In7Xnxe5b84MUtx7hs=
+        d=1e100.net; s=20251104; t=1777100415; x=1777705215;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
+         :to:cc:subject:date:message-id:reply-to;
+        bh=uwC5mL1xfh1AHGE2caBgkXGnAkeW6s6MztU7SU+1oKE=;
+        b=EpansIdbMocgBdiSwnWwsgORsZKJefnZykIaR61EUMsJVGsRL9Prhz5LPXxAFE6dyG
+         4HCWE7/6/CNSsNjLOandgZo1f6Ft+47iMMVGpFjxFnNxTpR4YwyaxzeK3CFXjBrR5bip
+         x6i1SZV4aGiFccs0u+BJQWXpSUzpggaFkLFaAwZ9WIKmUgI7iElPUuEQSb/ZI7KoJlnw
+         T7tXUPP6eCZmlGIPU+AuXISTguvxsdGdjpp19CQl475BWYB4jVTF83qBMk2z95cPFsfB
+         O2PnVuEnqIL99EOVqfxWW+WBJXsQFyMM+o6Nbvjv9HNMbkG9dXYfp6SVwNxfXsmXvRZo
+         hHzw==
+X-Forwarded-Encrypted: i=1; AFNElJ+epPGsfP1aPfVfbNJiHs9IeLEDC3BkhW8VyZu2nsjPZY2pVl1vGuGHncx0hVr5IBpzB+O19cjjAoc=@vger.kernel.org
+X-Gm-Message-State: AOJu0YxUFcWLAK8uibUl+3hJAZ7zGD2x9sc1PtYDtP2imhEBYf3mkLYu
+	nQfQLUSR0eymciitBon0gA7mSeR4Yvp2XKjYh9+E5zIOaRVLmgy038Mbu47wTz84HZfi1eKUjJU
+	WQRES0eAHVrJ/Yz1FdPuxBYi+4UU0sXlMlGQt0FLsNE9fkj+g8IWItXYgNI3+mJE=
+X-Gm-Gg: AeBDiev91KBSfn91yKBRRHCaBble9dGH4rpAEqOd46BJjo6LNVadUMWXXY+H1AYz4yQ
+	o1vxoc+pa6Ne5UfNb5ofy+PyjJIlsyxJp9kIuiNSXhvyTvVncnWZdx7BtaaNzvwBWUgfSoWDCTs
+	p9JQ3qE/AH3jzIrPpRro4wbDUYetq1r+hHbOGFhe68yYDMmSRBNdvMR+zqjW3czKeF7KLBWsjXg
+	KhFMsmLTkY1YcnwFiXunI1p6R3/5SYfsl8AW8Ym6/lEzQDSd0MPGvGqlWh5QKLvftfkF6mekTu5
+	EKvF6JwPXske7nUPn97bbPW+w48Rj2Cy154N8dbc91Ry6NXmVkYy8MBk5b3qovzVHe7cjUakUeX
+	vAZ4CyX3iM5JC6EAknsEkUO7G5U1AZolZn0QaWXTR3gTspITjETVtG1JLSpCT7jNT33OQLaQ3WK
+	SoPlJDo5xDlw==
+X-Received: by 2002:a05:7022:1282:b0:122:33e:6d41 with SMTP id a92af1059eb24-12c73f975e0mr15319076c88.23.1777100415261;
+        Sat, 25 Apr 2026 00:00:15 -0700 (PDT)
+X-Received: by 2002:a05:7022:1282:b0:122:33e:6d41 with SMTP id a92af1059eb24-12c73f975e0mr15319055c88.23.1777100414748;
+        Sat, 25 Apr 2026 00:00:14 -0700 (PDT)
+Received: from hu-rraheja-lv.qualcomm.com (Global_NAT1.qualcomm.com. [129.46.96.20])
+        by smtp.gmail.com with ESMTPSA id a92af1059eb24-12dc2dfad8csm9430630c88.3.2026.04.25.00.00.14
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sat, 25 Apr 2026 00:00:14 -0700 (PDT)
+From: Ronak Raheja <ronak.raheja@oss.qualcomm.com>
+To: vkoul@kernel.org, krzk+dt@kernel.org, conor+dt@kernel.org, robh@kernel.org,
+        neil.armstrong@linaro.org, gregkh@linuxfoundation.org
+Cc: dmitry.baryshkov@oss.qualcomm.com, konrad.dybcio@oss.qualcomm.com,
+        abel.vesa@oss.qualcomm.com, wesley.cheng@oss.qualcomm.com,
+        ronak.raheja@oss.qualcomm.com, linux-arm-msm@vger.kernel.org,
+        linux-phy@lists.infradead.org, devicetree@vger.kernel.org,
+        linux-usb@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: [PATCH 3/4] dt-bindings: usb: qcom,snps-dwc3: Add Hawi compatible
+Date: Sat, 25 Apr 2026 00:00:01 -0700
+Message-Id: <20260425070002.348733-4-ronak.raheja@oss.qualcomm.com>
+X-Mailer: git-send-email 2.34.1
+In-Reply-To: <20260425070002.348733-1-ronak.raheja@oss.qualcomm.com>
+References: <20260425070002.348733-1-ronak.raheja@oss.qualcomm.com>
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-Received: by 2002:a05:6820:4b0b:b0:67d:ea53:b9c8 with SMTP id
- 006d021491bc7-69462e62450mr20912089eaf.18.1777083162786; Fri, 24 Apr 2026
- 19:12:42 -0700 (PDT)
-Date: Fri, 24 Apr 2026 19:12:42 -0700
-X-Google-Appengine-App-Id: s~syzkaller
-X-Google-Appengine-App-Id-Alias: syzkaller
-Message-ID: <69ec231a.a00a0220.7773.000c.GAE@google.com>
-Subject: [syzbot] [usb?] memory leak in hub_event (4)
-From: syzbot <syzbot+2afd7e71155c7e241560@syzkaller.appspotmail.com>
-To: gregkh@linuxfoundation.org, linux-kernel@vger.kernel.org, 
-	linux-usb@vger.kernel.org, syzkaller-bugs@googlegroups.com
-Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8bit
+X-Proofpoint-GUID: gWNUvd8ZXwJ4YjfXlMVb9OavDAWr7_3-
+X-Proofpoint-ORIG-GUID: gWNUvd8ZXwJ4YjfXlMVb9OavDAWr7_3-
+X-Authority-Analysis: v=2.4 cv=TuPWQjXh c=1 sm=1 tr=0 ts=69ec6680 cx=c_pps
+ a=JYo30EpNSr/tUYqK9jHPoA==:117 a=ouPCqIW2jiPt+lZRy3xVPw==:17
+ a=A5OVakUREuEA:10 a=s4-Qcg_JpJYA:10 a=VkNPw1HP01LnGYTKEx00:22
+ a=u7WPNUs3qKkmUXheDGA7:22 a=ZpdpYltYx_vBUK5n70dp:22 a=EUspDBNiAAAA:8
+ a=6lSwUGAo5LeF7p0M46YA:9 a=Fk4IpSoW4aLDllm1B1p-:22
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYwNDI1MDA2NSBTYWx0ZWRfX3g+CjxruZcny
+ eRTDYDXmgpSbIq+trAP32Mp/PH65Yn3yRQJs4Q4//p8YCgsAJuCIDo/WXx2Q7ZdfGLEbi0NZWwc
+ UbmyDxQ5Y85NnKeeKlJ29keI8d3MzAlUIH98yvnpgGChK3ZbJpqce7C7eZiLIx16dnUTqTwrMKd
+ AWsZmNhEYieI/4NJEkeJMfIrun6FaHX4GHBBIZ73bKKIxYPaJy3Mt31bij6ZOvKvS4jf+/bOBtp
+ kIdX31Yn7ZpBBfwVImNeMWZsD1bcFaFiLwpej9YPeId/QP8SPhkhVUiMk8vOvWldk5bXuBRhLiN
+ FBQV1KnmAYIXVyXSPwaJfTqQrwszN4rEnygk1xM4VurTK0WLIHAydQs4lsJYkzfdkgFOUNuiKG4
+ GJLVcpY5ccPy+ocSaXJ77zLnuN0w0m5WOWZOPZmOqWcBTnO+S2tlbqyyg6NidoYFfrCvfE0aEZA
+ 3HzU7OnQ9TbdJFMwBlw==
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1143,Hydra:6.1.51,FMLib:17.12.100.49
+ definitions=2026-04-25_02,2026-04-21_02,2025-10-01_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ priorityscore=1501 spamscore=0 lowpriorityscore=0 adultscore=0 malwarescore=0
+ impostorscore=0 clxscore=1015 suspectscore=0 phishscore=0 bulkscore=0
+ classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
+ reason=mlx scancount=1 engine=8.22.0-2604200000 definitions=main-2604250065
 
-Hello,
+Document the Synopsys DWC3 USB controller found on the Hawi platform.
 
-syzbot found the following issue on:
-
-HEAD commit:    dd6c438c3e64 Merge tag 'vfs-7.1-rc1.fixes' of git://git.ke..
-git tree:       upstream
-console output: https://syzkaller.appspot.com/x/log.txt?x=15cf7702580000
-kernel config:  https://syzkaller.appspot.com/x/.config?x=ac5083db84233db3
-dashboard link: https://syzkaller.appspot.com/bug?extid=2afd7e71155c7e241560
-compiler:       gcc (Debian 14.2.0-19) 14.2.0, GNU ld (GNU Binutils for Debian) 2.44
-syz repro:      https://syzkaller.appspot.com/x/repro.syz?x=13cf7702580000
-C reproducer:   https://syzkaller.appspot.com/x/repro.c?x=17941c36580000
-
-Downloadable assets:
-disk image: https://storage.googleapis.com/syzbot-assets/dea6ab846ab3/disk-dd6c438c.raw.xz
-vmlinux: https://storage.googleapis.com/syzbot-assets/acebe380aa03/vmlinux-dd6c438c.xz
-kernel image: https://storage.googleapis.com/syzbot-assets/2cdbd012d0d3/bzImage-dd6c438c.xz
-
-IMPORTANT: if you fix the issue, please add the following tag to the commit:
-Reported-by: syzbot+2afd7e71155c7e241560@syzkaller.appspotmail.com
-
-BUG: memory leak
-unreferenced object 0xffff8881277dc000 (size 2048):
-  comm "kworker/0:2", pid 1783, jiffies 4294946784
-  hex dump (first 32 bytes):
-    ff ff ff ff 31 00 00 00 00 00 00 00 00 00 00 00  ....1...........
-    00 00 00 00 00 00 00 00 00 00 00 00 02 00 00 00  ................
-  backtrace (crc 20105372):
-    kmemleak_alloc_recursive include/linux/kmemleak.h:44 [inline]
-    slab_post_alloc_hook mm/slub.c:4574 [inline]
-    slab_alloc_node mm/slub.c:4898 [inline]
-    __kmalloc_cache_noprof+0x371/0x480 mm/slub.c:5410
-    kmalloc_noprof include/linux/slab.h:950 [inline]
-    kzalloc_noprof include/linux/slab.h:1188 [inline]
-    usb_alloc_dev+0x36/0x4e0 drivers/usb/core/usb.c:651
-    hub_port_connect drivers/usb/core/hub.c:5470 [inline]
-    hub_port_connect_change drivers/usb/core/hub.c:5707 [inline]
-    port_event drivers/usb/core/hub.c:5871 [inline]
-    hub_event+0x14d0/0x2180 drivers/usb/core/hub.c:5953
-    process_one_work+0x277/0x5b0 kernel/workqueue.c:3302
-    process_scheduled_works kernel/workqueue.c:3385 [inline]
-    worker_thread+0x255/0x4a0 kernel/workqueue.c:3466
-    kthread+0x14e/0x1a0 kernel/kthread.c:436
-    ret_from_fork+0x219/0x490 arch/x86/kernel/process.c:158
-    ret_from_fork_asm+0x1a/0x30 arch/x86/entry/entry_64.S:245
-
-BUG: memory leak
-unreferenced object 0xffff888128b06c00 (size 1024):
-  comm "kworker/0:2", pid 1783, jiffies 4294946815
-  hex dump (first 32 bytes):
-    09 02 49 00 02 01 00 10 40 00 00 00 00 00 00 00  ..I.....@.......
-    00 00 00 00 00 00 00 00 89 b8 69 09 81 88 ff ff  ..........i.....
-  backtrace (crc b43c3ef8):
-    kmemleak_alloc_recursive include/linux/kmemleak.h:44 [inline]
-    slab_post_alloc_hook mm/slub.c:4574 [inline]
-    slab_alloc_node mm/slub.c:4898 [inline]
-    __do_kmalloc_node mm/slub.c:5294 [inline]
-    __kmalloc_noprof+0x3b7/0x550 mm/slub.c:5307
-    kmalloc_noprof include/linux/slab.h:954 [inline]
-    kzalloc_noprof include/linux/slab.h:1188 [inline]
-    usb_get_configuration+0xeb/0x2110 drivers/usb/core/config.c:940
-    usb_enumerate_device drivers/usb/core/hub.c:2527 [inline]
-    usb_new_device+0x1b4/0x300 drivers/usb/core/hub.c:2665
-    hub_port_connect drivers/usb/core/hub.c:5567 [inline]
-    hub_port_connect_change drivers/usb/core/hub.c:5707 [inline]
-    port_event drivers/usb/core/hub.c:5871 [inline]
-    hub_event+0x1723/0x2180 drivers/usb/core/hub.c:5953
-    process_one_work+0x277/0x5b0 kernel/workqueue.c:3302
-    process_scheduled_works kernel/workqueue.c:3385 [inline]
-    worker_thread+0x255/0x4a0 kernel/workqueue.c:3466
-    kthread+0x14e/0x1a0 kernel/kthread.c:436
-    ret_from_fork+0x219/0x490 arch/x86/kernel/process.c:158
-    ret_from_fork_asm+0x1a/0x30 arch/x86/entry/entry_64.S:245
-
-BUG: memory leak
-unreferenced object 0xffff88810c3d5a50 (size 8):
-  comm "kworker/0:2", pid 1783, jiffies 4294946815
-  hex dump (first 8 bytes):
-    80 b8 69 09 81 88 ff ff                          ..i.....
-  backtrace (crc 66af3167):
-    kmemleak_alloc_recursive include/linux/kmemleak.h:44 [inline]
-    slab_post_alloc_hook mm/slub.c:4574 [inline]
-    slab_alloc_node mm/slub.c:4898 [inline]
-    __do_kmalloc_node mm/slub.c:5294 [inline]
-    __kmalloc_noprof+0x3b7/0x550 mm/slub.c:5307
-    kmalloc_noprof include/linux/slab.h:954 [inline]
-    kzalloc_noprof include/linux/slab.h:1188 [inline]
-    usb_get_configuration+0x11d/0x2110 drivers/usb/core/config.c:945
-    usb_enumerate_device drivers/usb/core/hub.c:2527 [inline]
-    usb_new_device+0x1b4/0x300 drivers/usb/core/hub.c:2665
-    hub_port_connect drivers/usb/core/hub.c:5567 [inline]
-    hub_port_connect_change drivers/usb/core/hub.c:5707 [inline]
-    port_event drivers/usb/core/hub.c:5871 [inline]
-    hub_event+0x1723/0x2180 drivers/usb/core/hub.c:5953
-    process_one_work+0x277/0x5b0 kernel/workqueue.c:3302
-    process_scheduled_works kernel/workqueue.c:3385 [inline]
-    worker_thread+0x255/0x4a0 kernel/workqueue.c:3466
-    kthread+0x14e/0x1a0 kernel/kthread.c:436
-    ret_from_fork+0x219/0x490 arch/x86/kernel/process.c:158
-    ret_from_fork_asm+0x1a/0x30 arch/x86/entry/entry_64.S:245
-
-BUG: memory leak
-unreferenced object 0xffff888113c25840 (size 64):
-  comm "kworker/0:2", pid 1783, jiffies 4294946817
-  hex dump (first 32 bytes):
-    01 00 00 00 01 00 00 00 09 04 00 00 00 01 01 30  ...............0
-    00 00 00 00 0a 00 00 00 9a b8 69 09 81 88 ff ff  ..........i.....
-  backtrace (crc a90fa323):
-    kmemleak_alloc_recursive include/linux/kmemleak.h:44 [inline]
-    slab_post_alloc_hook mm/slub.c:4574 [inline]
-    slab_alloc_node mm/slub.c:4898 [inline]
-    __do_kmalloc_node mm/slub.c:5294 [inline]
-    __kmalloc_noprof+0x3b7/0x550 mm/slub.c:5307
-    kmalloc_noprof include/linux/slab.h:954 [inline]
-    kzalloc_noprof include/linux/slab.h:1188 [inline]
-    usb_parse_configuration drivers/usb/core/config.c:826 [inline]
-    usb_get_configuration+0x88f/0x2110 drivers/usb/core/config.c:1002
-    usb_enumerate_device drivers/usb/core/hub.c:2527 [inline]
-    usb_new_device+0x1b4/0x300 drivers/usb/core/hub.c:2665
-    hub_port_connect drivers/usb/core/hub.c:5567 [inline]
-    hub_port_connect_change drivers/usb/core/hub.c:5707 [inline]
-    port_event drivers/usb/core/hub.c:5871 [inline]
-    hub_event+0x1723/0x2180 drivers/usb/core/hub.c:5953
-    process_one_work+0x277/0x5b0 kernel/workqueue.c:3302
-    process_scheduled_works kernel/workqueue.c:3385 [inline]
-    worker_thread+0x255/0x4a0 kernel/workqueue.c:3466
-    kthread+0x14e/0x1a0 kernel/kthread.c:436
-    ret_from_fork+0x219/0x490 arch/x86/kernel/process.c:158
-    ret_from_fork_asm+0x1a/0x30 arch/x86/entry/entry_64.S:245
-
-BUG: memory leak
-unreferenced object 0xffff88811d54a500 (size 256):
-  comm "kworker/0:2", pid 1783, jiffies 4294946821
-  hex dump (first 32 bytes):
-    00 00 00 00 00 00 00 00 08 a5 54 1d 81 88 ff ff  ..........T.....
-    08 a5 54 1d 81 88 ff ff 20 e7 41 83 ff ff ff ff  ..T..... .A.....
-  backtrace (crc 85d09f91):
-    kmemleak_alloc_recursive include/linux/kmemleak.h:44 [inline]
-    slab_post_alloc_hook mm/slub.c:4574 [inline]
-    slab_alloc_node mm/slub.c:4898 [inline]
-    __kmalloc_cache_noprof+0x371/0x480 mm/slub.c:5410
-    kmalloc_noprof include/linux/slab.h:950 [inline]
-    kzalloc_noprof include/linux/slab.h:1188 [inline]
-    device_private_init drivers/base/core.c:3536 [inline]
-    device_add+0x73c/0xc70 drivers/base/core.c:3587
-    usb_new_device.cold+0x115/0x626 drivers/usb/core/hub.c:2695
-    hub_port_connect drivers/usb/core/hub.c:5567 [inline]
-    hub_port_connect_change drivers/usb/core/hub.c:5707 [inline]
-    port_event drivers/usb/core/hub.c:5871 [inline]
-    hub_event+0x1723/0x2180 drivers/usb/core/hub.c:5953
-    process_one_work+0x277/0x5b0 kernel/workqueue.c:3302
-    process_scheduled_works kernel/workqueue.c:3385 [inline]
-    worker_thread+0x255/0x4a0 kernel/workqueue.c:3466
-    kthread+0x14e/0x1a0 kernel/kthread.c:436
-    ret_from_fork+0x219/0x490 arch/x86/kernel/process.c:158
-    ret_from_fork_asm+0x1a/0x30 arch/x86/entry/entry_64.S:245
-
-connection error: failed to recv *flatrpc.ExecutorMessageRawT: EOF
-
-
+Signed-off-by: Ronak Raheja <ronak.raheja@oss.qualcomm.com>
 ---
-This report is generated by a bot. It may contain errors.
-See https://goo.gl/tpsmEJ for more information about syzbot.
-syzbot engineers can be reached at syzkaller@googlegroups.com.
+ Documentation/devicetree/bindings/usb/qcom,snps-dwc3.yaml | 3 +++
+ 1 file changed, 3 insertions(+)
 
-syzbot will keep track of this issue. See:
-https://goo.gl/tpsmEJ#status for how to communicate with syzbot.
+diff --git a/Documentation/devicetree/bindings/usb/qcom,snps-dwc3.yaml b/Documentation/devicetree/bindings/usb/qcom,snps-dwc3.yaml
+index 8201656b41ed..2d10994f7b44 100644
+--- a/Documentation/devicetree/bindings/usb/qcom,snps-dwc3.yaml
++++ b/Documentation/devicetree/bindings/usb/qcom,snps-dwc3.yaml
+@@ -27,6 +27,7 @@ properties:
+           - qcom,eliza-dwc3
+           - qcom,glymur-dwc3
+           - qcom,glymur-dwc3-mp
++          - qcom,hawi-dwc3
+           - qcom,ipq4019-dwc3
+           - qcom,ipq5018-dwc3
+           - qcom,ipq5332-dwc3
+@@ -203,6 +204,7 @@ allOf:
+         compatible:
+           contains:
+             enum:
++              - qcom,hawi-dwc3
+               - qcom,ipq5424-dwc3
+               - qcom,ipq9574-dwc3
+               - qcom,kaanapali-dwc3
+@@ -540,6 +542,7 @@ allOf:
+           contains:
+             enum:
+               - qcom,eliza-dwc3
++              - qcom,hawi-dwc3
+               - qcom,ipq4019-dwc3
+               - qcom,ipq8064-dwc3
+               - qcom,kaanapali-dwc3
+-- 
+2.34.1
 
-If the report is already addressed, let syzbot know by replying with:
-#syz fix: exact-commit-title
-
-If you want syzbot to run the reproducer, reply with:
-#syz test: git://repo/address.git branch-or-commit-hash
-If you attach or paste a git patch, syzbot will apply it before testing.
-
-If you want to overwrite report's subsystems, reply with:
-#syz set subsystems: new-subsystem
-(See the list of subsystem names on the web dashboard)
-
-If the report is a duplicate of another one, reply with:
-#syz dup: exact-subject-of-another-report
-
-If you want to undo deduplication, reply with:
-#syz undup
