@@ -1,73 +1,86 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from mx4.wp.pl (mx4.wp.pl [212.77.101.11])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 39F6B21ABD7
-	for <linux-usb@vger.kernel.org>; Sun, 26 Apr 2026 02:54:17 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A98FD219EB
+	for <linux-usb@vger.kernel.org>; Sun, 26 Apr 2026 21:49:19 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=212.77.101.11
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1777172057; cv=none; b=hPFMQYrgppDP3/1Brz6/73d3h+57OjDctJqyeEp0a77qBWgh6fONXpblI7G1Od/n21jjE/KfOwkRJqytnh7dDFikDw/diBfPCcnGBlPCo4qJrDn8w/mNnbHRh++siNyqNVs6BdjLCyM0YOPFU5sRQlkJdlpB8ZO/BxsVH0+G5b8=
+	t=1777240162; cv=none; b=gUZitJHFuV2I+1zjqgGoSpIyVgz1j6rDRr1ir7gP4QpKgTCeuhZlgn6ZPi/hzYF8XGGv2Kq99mo/jcwq8i+Z8WZizpxAkYtYbzM5fgjUZdCXMMmKMy/11QgTPkh2J5JQvpRZLLe5uVuXQaZ2CqIubx5bjqBKrBfz2M5DD3Y90ZQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1777172057; c=relaxed/simple;
-	bh=mUeXsI+lXu18KoD2uc3smrVTLPiKG3tomgaxcdR5KDo=;
-	h=From:To:Subject:Date:Message-ID:In-Reply-To:References:
-	 Content-Type:MIME-Version; b=L5rdYATQJoPeBxyqfzdClkfX7CH5BcaCF4Ceno31DDK8EdmiE5sL2bZKgzN87LMP6t885+0+X0cYdzEscoDifXjtvCCDtUyuQgDCaDvWlI238CQ0IlOs01g93V73+Plc39ziJriTM0UJwv85eC0LpWeF7lhHgduzygbHTypPBxs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=RhFddVUS; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1777240162; c=relaxed/simple;
+	bh=hqc/CK0y2YVF3dMMJiIgh0dUs3rUUbZBVUb0oTGFGbI=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=C3D79XhXA7nTla8CsUhatvmffkqWUYZM+x+KoYqCyMjVvMWzfavsghvLxtB4cZ63Vu1OWgK9xg1v662A7EFLlOLORVNIss/pbNp6/XGg3uHYUOt704VbEyf4dLQVQtKoFi7yfr8w2ba8R/LRfIC6nY/pOww93gPFR3InLcOyo4Q=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=wp.pl; spf=pass smtp.mailfrom=wp.pl; dkim=pass (2048-bit key) header.d=wp.pl header.i=@wp.pl header.b=MzOhzEeX; arc=none smtp.client-ip=212.77.101.11
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=wp.pl
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=wp.pl
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="RhFddVUS"
-Received: by smtp.kernel.org (Postfix) with ESMTPS id D50A2C2BCB2
-	for <linux-usb@vger.kernel.org>; Sun, 26 Apr 2026 02:54:16 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1777172056;
-	bh=mUeXsI+lXu18KoD2uc3smrVTLPiKG3tomgaxcdR5KDo=;
-	h=From:To:Subject:Date:In-Reply-To:References:From;
-	b=RhFddVUSz6lBJ/SOgYXfiMbZyVYzhIoEsOvDcizGC39dtu7asobGleWcxzaypqFyf
-	 Nx4H91hxu6eHHu/0/tj7gNZTWakzQyLTRGPXRiYE0Nn4dzHRw1QUd12HiMZS8wTvuU
-	 FJaWwayy6czw9M0ixrUCmAAIIakZG1aNKSiBDmBkNRzqUj4/Mn+HGwqNJx8vdHgHoW
-	 zRCd7DMZCYdYC0WNhmhU1u2rhjpWWM95l9mZndIUSsoTyrlMwYZVh8tPSvMLWSnfsm
-	 sDESoiAEAx7O3M+toXBbHfFIb9IqQ1fvn0GOc+xfSpi2KX2UPaslxAIz1rxocH0DFi
-	 uDnXj9LxJM6VA==
-Received: by aws-us-west-2-korg-bugzilla-1.web.codeaurora.org (Postfix, from userid 48)
-	id C8020C41612; Sun, 26 Apr 2026 02:54:16 +0000 (UTC)
-From: bugzilla-daemon@kernel.org
-To: linux-usb@vger.kernel.org
-Subject: [Bug 221340] uas driver hangs and causes usb reset
-Date: Sun, 26 Apr 2026 02:54:16 +0000
-X-Bugzilla-Reason: None
-X-Bugzilla-Type: changed
-X-Bugzilla-Watch-Reason: AssignedTo drivers_usb@kernel-bugs.kernel.org
-X-Bugzilla-Product: Drivers
-X-Bugzilla-Component: USB
-X-Bugzilla-Version: 2.5
-X-Bugzilla-Keywords: 
-X-Bugzilla-Severity: normal
-X-Bugzilla-Who: DaisyTheFoxxo@proton.me
-X-Bugzilla-Status: NEW
-X-Bugzilla-Resolution: 
-X-Bugzilla-Priority: P3
-X-Bugzilla-Assigned-To: drivers_usb@kernel-bugs.kernel.org
-X-Bugzilla-Flags: 
-X-Bugzilla-Changed-Fields: 
-Message-ID: <bug-221340-208809-vduRPUcPTW@https.bugzilla.kernel.org/>
-In-Reply-To: <bug-221340-208809@https.bugzilla.kernel.org/>
-References: <bug-221340-208809@https.bugzilla.kernel.org/>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-X-Bugzilla-URL: https://bugzilla.kernel.org/
-Auto-Submitted: auto-generated
+	dkim=pass (2048-bit key) header.d=wp.pl header.i=@wp.pl header.b="MzOhzEeX"
+Received: (wp-smtpd smtp.wp.pl 23436 invoked from network); 26 Apr 2026 23:49:11 +0200
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=wp.pl; s=20241105;
+          t=1777240151; bh=wNiG3vmaZvmJc/Ed24L3ke+xWsq9YoBhZy8VatvB0CY=;
+          h=From:To:Cc:Subject;
+          b=MzOhzEeX0WBcWZhX5JGkOt/ze9j2PrSpXwWk8+I6idbLvFY59mr/S0KAPo9IYd8eI
+           5X3iDJzMR2ag+YP97YlWQN4S57HwM71TTnVS5rt60X4fdgajMCR2JJdXSbU1kxA6s9
+           TUKYebkCYqzDvswpHHypuu2eylRQaY8dqjQ6l7G9empyiuQM9xBsZs9JkCvtXp9moE
+           E5EihUC/hu7z/lZay+h+4hoxDOhsSlf/iP5c294toQPr/5VaVNLLTblK6MYSXeycUg
+           0HnqVVcjyAT4hPY6RkA2hoOwQT1dDStY1Pj0UZAwp7fr/lhd7jNnbVxbk6PcsobdSn
+           XD0C/O1ssB/5A==
+Received: from 83.24.138.167.ipv4.supernova.orange.pl (HELO abajkowski.lan) (olek2@wp.pl@[83.24.138.167])
+          (envelope-sender <olek2@wp.pl>)
+          by smtp.wp.pl (WP-SMTPD) with TLS_AES_256_GCM_SHA384 encrypted SMTP
+          for <andrew+netdev@lunn.ch>; 26 Apr 2026 23:49:11 +0200
+From: Aleksander Jan Bajkowski <olek2@wp.pl>
+To: andrew+netdev@lunn.ch,
+	davem@davemloft.net,
+	edumazet@google.com,
+	kuba@kernel.org,
+	pabeni@redhat.com,
+	hayeswang@realtek.com,
+	hsu.chih.kai@realtek.com,
+	kees@kernel.org,
+	mail@birger-koblitz.de,
+	linux-usb@vger.kernel.org,
+	netdev@vger.kernel.org,
+	linux-kernel@vger.kernel.org
+Cc: Aleksander Jan Bajkowski <olek2@wp.pl>
+Subject: [PATCH net-next] net: usb: r8152: add TRENDnet TUC-ET2G v2.0
+Date: Sun, 26 Apr 2026 23:49:00 +0200
+Message-ID: <20260426214909.3426105-1-olek2@wp.pl>
+X-Mailer: git-send-email 2.53.0
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
+X-WP-DKIM-Status: good (id: wp.pl)                                                      
+X-WP-MailID: 596669f7ac28c279c4a913887e3b90b9
+X-WP-AV: skaner antywirusowy Poczty Wirtualnej Polski
+X-WP-SPAM: NO 0000000 [8YMk]                               
 
-https://bugzilla.kernel.org/show_bug.cgi?id=3D221340
+The TRENDnet TUC-ET2G V2.0 is an RTL8156B based 2.5G Ethernet controller.
 
---- Comment #16 from DaisyTheFoxxo@proton.me ---
-Reaffirming that I would like to try out the patches mentioned
+Add the vendor and product ID values to the driver. This makes Ethernet
+work with the adapter.
 
---=20
-You may reply to this email to add a comment.
+Signed-off-by: Aleksander Jan Bajkowski <olek2@wp.pl>
+---
+ drivers/net/usb/r8152.c | 1 +
+ 1 file changed, 1 insertion(+)
 
-You are receiving this mail because:
-You are watching the assignee of the bug.=
+diff --git a/drivers/net/usb/r8152.c b/drivers/net/usb/r8152.c
+index 7337bf1b7d6a..1ace1d2398c9 100644
+--- a/drivers/net/usb/r8152.c
++++ b/drivers/net/usb/r8152.c
+@@ -10138,6 +10138,7 @@ static const struct usb_device_id rtl8152_table[] = {
+ 	{ USB_DEVICE(VENDOR_ID_DELL,    0xb097) },
+ 	{ USB_DEVICE(VENDOR_ID_ASUS,    0x1976) },
+ 	{ USB_DEVICE(VENDOR_ID_TRENDNET, 0xe02b) },
++	{ USB_DEVICE(VENDOR_ID_TRENDNET, 0xe02c) },
+ 	{}
+ };
+ 
+-- 
+2.53.0
+
