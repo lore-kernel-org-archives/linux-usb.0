@@ -1,50 +1,50 @@
 Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.17])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8701739A058
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A50003537E0
 	for <linux-usb@vger.kernel.org>; Mon, 27 Apr 2026 08:11:15 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.17
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1777277477; cv=none; b=cX9pt93++++d4fAKfKjm84hjqWE2Ir6mWf5t50hM1C2guEpkv5ali+cM5aui0YQV4aFB5TnjpAU2e/W3rDXCXiQoYmVzKbV5sAr8Fh7o5UoWg+bCUnGEhzUjk5LkT/98Zu/RIzE3VCj+N9MnTEdDUDDuDSsx0pkFaRJlrDlJgXs=
+	t=1777277477; cv=none; b=VwalT1VcOmAFEeO62ffJ0Ohqdi6JddgxYirNrBjXAEe9Fi5CtEgRh7Cgiejqhe7lkvEDC3ug5jG7MHuLd6Dq10l3vUYUW3hVNUz2Ts/5Z6ggVYZtvhalPYEcMFxCHDtU2ic1thzh6MKnHB6+oJF526snXb8PP0CXSywkXmDMAiQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
 	s=arc-20240116; t=1777277477; c=relaxed/simple;
-	bh=KNd3iwdpWK7AQa3H6R5oh7hdElDzb4V01q4GLbMx5MI=;
+	bh=LuilJs/8MblmvL9zoollb70chFNzeQp37VSrw4suFjk=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=FYdtcOjSbF/HsfQSiJYGf4D3kfGR5WeN9iBCOxUBT2BPTIrFvCecB3zgt/fDHgPLmCdlla+nFyJB39fqWe2G6zD+dSmQrrK7M9Bgiz63nd3L4dn2TrlUw5/d5oH0qbQGiokmbzaSjbkyPSz1rp/wiwSCMesBEqinEE7Vzw9ouko=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=pass smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=AhsUDzpz; arc=none smtp.client-ip=192.198.163.17
+	 MIME-Version; b=SUPDEBsuuiGR4WnVJIbqiUj+HNoeZkzgGE72HNaZo6pCy3lO/nLalvLX0JjtBhKUYYWw1Q2y2jVfx54NTfw2ubzALLDhyUqwsyO6uGr17Im/+SEw6T9VgbOC3sJ64fWANhGmaOG4R5HmMgcKG5n7tC735oEpmdubvQcDM1C1K38=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=pass smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=bUM8BZ6b; arc=none smtp.client-ip=192.198.163.17
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="AhsUDzpz"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="bUM8BZ6b"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
   t=1777277476; x=1808813476;
   h=from:to:cc:subject:date:message-id:in-reply-to:
    references:mime-version:content-transfer-encoding;
-  bh=KNd3iwdpWK7AQa3H6R5oh7hdElDzb4V01q4GLbMx5MI=;
-  b=AhsUDzpz+rqUySqfgD7SSUMI2VcEDS9fTzgIa0sUadTLHrWFCHkulOih
-   ME/35OZXcH11VdoCe4aV6iECbSKdlxG5v1cehd7KNmdg39iCGruvmDeIl
-   t0ZW1ri6l9Plq6V4W6yWVvvhpUcZoSlr8uUN2+s9IVMuat43LuRGj06Sk
-   JEAZ5U981Fg6Zs6hZ9ZZBYRvMRUKMOZp9RqidVs9nwR2QhmdRApy2EP/4
-   zJZT6PHqxdAkpsopa12A30qu2g7V19hwAkz+hwje1WgHq0wkuiN2ykvCy
-   nrNV9Lu675xIryE0k6m5ALw/Meyh6ceivsiBSoVr/FXJtIO2XzlfAKZti
-   w==;
-X-CSE-ConnectionGUID: n9pMi2iWRDG+fsqZKBMc7g==
-X-CSE-MsgGUID: 3uha7mU5TlGeiLr01qaKqg==
-X-IronPort-AV: E=McAfee;i="6800,10657,11768"; a="78034436"
+  bh=LuilJs/8MblmvL9zoollb70chFNzeQp37VSrw4suFjk=;
+  b=bUM8BZ6b8zWbl1HSp+9KTdtx2gTxXPLUL3hVxk16h2HPikBrThBzHpJG
+   xQT/nXngXFp5aO1/UC+LF8Komg/fhVXRMko1nMgHghc7AVcJA6x091KiM
+   gZ8H5WTSBC1n+KnoRj/3PhZ5LrWnnMUwUwqkoHmc7cDCnyV/5tTgQ3mR+
+   +HVxuH0dZWrAyIGSgas6LvjuNZZ+t0aLFqQk5qjWrntu2ROwo0QyxjlaR
+   6Dt7notYx9OW17kTY7T/LsMC7aQwCwdrLdKY6X2clLMgM4kn4MorR6Uzw
+   ATF5LJb8K9EFMRL6iq2XKo2LE7Q6RyZq32dxPEGr+Cv4VcUdj/oDCSU05
+   g==;
+X-CSE-ConnectionGUID: 5tbBXpRkRlOsLy3osJx2JQ==
+X-CSE-MsgGUID: pxhUUHr6T9KwodmqsiG15A==
+X-IronPort-AV: E=McAfee;i="6800,10657,11768"; a="78034438"
 X-IronPort-AV: E=Sophos;i="6.23,201,1770624000"; 
-   d="scan'208";a="78034436"
+   d="scan'208";a="78034438"
 Received: from orviesa003.jf.intel.com ([10.64.159.143])
   by fmvoesa111.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 27 Apr 2026 01:11:15 -0700
-X-CSE-ConnectionGUID: zYM898B1QQ+ULSpnBoZBgg==
-X-CSE-MsgGUID: sqLApeArSDya93ZAg41QEA==
+X-CSE-ConnectionGUID: y7LSobICQSyb7xr/UwILsQ==
+X-CSE-MsgGUID: BwZ8cAejTka9dlUpjwrTAg==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.23,201,1770624000"; 
-   d="scan'208";a="237531367"
+   d="scan'208";a="237531368"
 Received: from black.igk.intel.com ([10.91.253.5])
   by orviesa003.jf.intel.com with ESMTP; 27 Apr 2026 01:11:13 -0700
 Received: by black.igk.intel.com (Postfix, from userid 1001)
-	id 7D0E2A2; Mon, 27 Apr 2026 10:11:09 +0200 (CEST)
+	id 855E9A6; Mon, 27 Apr 2026 10:11:09 +0200 (CEST)
 From: Mika Westerberg <mika.westerberg@linux.intel.com>
 To: linux-usb@vger.kernel.org
 Cc: Yehezkel Bernat <YehezkelShB@gmail.com>,
@@ -53,9 +53,9 @@ Cc: Yehezkel Bernat <YehezkelShB@gmail.com>,
 	Alan Borzeszkowski <alan.borzeszkowski@linux.intel.com>,
 	Gil Fine <gil.fine@linux.intel.com>,
 	Mika Westerberg <mika.westerberg@linux.intel.com>
-Subject: [PATCH 07/12] thunderbolt: Wait for tb_domain_release() to complete when driver is removed
-Date: Mon, 27 Apr 2026 10:11:04 +0200
-Message-ID: <20260427081109.2337731-8-mika.westerberg@linux.intel.com>
+Subject: [PATCH 10/12] thunderbolt: Remove service debugfs entries during unregister
+Date: Mon, 27 Apr 2026 10:11:07 +0200
+Message-ID: <20260427081109.2337731-11-mika.westerberg@linux.intel.com>
 X-Mailer: git-send-email 2.50.1
 In-Reply-To: <20260427081109.2337731-1-mika.westerberg@linux.intel.com>
 References: <20260427081109.2337731-1-mika.westerberg@linux.intel.com>
@@ -67,89 +67,69 @@ List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-We should not call nhi_shutdown() before the domain structure and the
-control channel rings are completely released. Otherwise we might
-release resources like the nhi->msix_ida that are still referenced in
-tb_domain_release(). For this reason wait for the tb_domain_release() to
-be completed before continuing to nhi_shutdown() and eventually
-releasing of the rest of the data structures.
+We add them as part of the register path so to keep it symmetric remove
+them as part of the unregister path. This also removes them even if the
+service itself is not yet released (but is unregistered), thus allowing
+new register with the same service name to happen.
 
 Signed-off-by: Mika Westerberg <mika.westerberg@linux.intel.com>
 ---
- drivers/thunderbolt/domain.c | 3 +++
- drivers/thunderbolt/nhi.c    | 4 ++++
- include/linux/thunderbolt.h  | 2 ++
- 3 files changed, 9 insertions(+)
+ drivers/thunderbolt/xdomain.c | 14 +++++++++++---
+ 1 file changed, 11 insertions(+), 3 deletions(-)
 
-diff --git a/drivers/thunderbolt/domain.c b/drivers/thunderbolt/domain.c
-index 317780b99992..df4d7dd45adf 100644
---- a/drivers/thunderbolt/domain.c
-+++ b/drivers/thunderbolt/domain.c
-@@ -319,12 +319,15 @@ const struct bus_type tb_bus_type = {
- static void tb_domain_release(struct device *dev)
- {
- 	struct tb *tb = container_of(dev, struct tb, dev);
-+	struct tb_nhi *nhi = tb->nhi;
+diff --git a/drivers/thunderbolt/xdomain.c b/drivers/thunderbolt/xdomain.c
+index 0e97d0ad7733..76e1902d18f3 100644
+--- a/drivers/thunderbolt/xdomain.c
++++ b/drivers/thunderbolt/xdomain.c
+@@ -1035,7 +1035,6 @@ static void tb_service_release(struct device *dev)
+ 	struct tb_service *svc = container_of(dev, struct tb_service, dev);
+ 	struct tb_xdomain *xd = tb_service_parent(svc);
  
- 	tb_ctl_free(tb->ctl);
- 	destroy_workqueue(tb->wq);
- 	ida_free(&tb_domain_ida, tb->index);
- 	mutex_destroy(&tb->lock);
- 	kfree(tb);
-+
-+	complete(&nhi->domain_released);
- }
- 
- const struct device_type tb_domain_type = {
-diff --git a/drivers/thunderbolt/nhi.c b/drivers/thunderbolt/nhi.c
-index 2bb2e79ca3cb..1a2051673067 100644
---- a/drivers/thunderbolt/nhi.c
-+++ b/drivers/thunderbolt/nhi.c
-@@ -1401,6 +1401,8 @@ static int nhi_probe(struct pci_dev *pdev, const struct pci_device_id *id)
- 
- 	dev_dbg(dev, "NHI initialized, starting thunderbolt\n");
- 
-+	init_completion(&nhi->domain_released);
-+
- 	res = tb_domain_add(tb, host_reset);
- 	if (res) {
- 		/*
-@@ -1408,6 +1410,7 @@ static int nhi_probe(struct pci_dev *pdev, const struct pci_device_id *id)
- 		 * activated. Do a proper shutdown.
- 		 */
- 		tb_domain_put(tb);
-+		wait_for_completion(&nhi->domain_released);
- 		nhi_shutdown(nhi);
- 		return res;
- 	}
-@@ -1433,6 +1436,7 @@ static void nhi_remove(struct pci_dev *pdev)
- 	pm_runtime_forbid(&pdev->dev);
- 
- 	tb_domain_remove(tb);
-+	wait_for_completion(&nhi->domain_released);
- 	nhi_shutdown(nhi);
- }
- 
-diff --git a/include/linux/thunderbolt.h b/include/linux/thunderbolt.h
-index 0ba112175bb3..a5ef7100a6d3 100644
---- a/include/linux/thunderbolt.h
-+++ b/include/linux/thunderbolt.h
-@@ -493,6 +493,7 @@ static inline struct tb_xdomain *tb_service_parent(struct tb_service *svc)
-  *		    MSI-X is used.
-  * @hop_count: Number of rings (end point hops) supported by NHI.
-  * @quirks: NHI specific quirks if any
-+ * @domain_released: Completed when domain has been fully released
-  */
- struct tb_nhi {
- 	spinlock_t lock;
-@@ -507,6 +508,7 @@ struct tb_nhi {
- 	struct work_struct interrupt_work;
- 	u32 hop_count;
- 	unsigned long quirks;
-+	struct completion domain_released;
+-	tb_service_debugfs_remove(svc);
+ 	ida_free(&xd->service_ids, svc->id);
+ 	kfree(svc->key);
+ 	kfree(svc);
+@@ -1050,6 +1049,14 @@ const struct device_type tb_service_type = {
  };
+ EXPORT_SYMBOL_GPL(tb_service_type);
  
- /**
++static void __unregister_service(struct device *dev)
++{
++	struct tb_service *svc = tb_to_service(dev);
++
++	tb_service_debugfs_remove(svc);
++	device_unregister(&svc->dev);
++}
++
+ static int remove_missing_service(struct device *dev, void *data)
+ {
+ 	struct tb_xdomain *xd = data;
+@@ -1061,7 +1068,7 @@ static int remove_missing_service(struct device *dev, void *data)
+ 
+ 	if (!tb_property_find(xd->remote_properties, svc->key,
+ 			      TB_PROPERTY_TYPE_DIRECTORY))
+-		device_unregister(dev);
++		__unregister_service(dev);
+ 
+ 	return 0;
+ }
+@@ -1154,6 +1161,7 @@ static void enumerate_services(struct tb_xdomain *xd)
+ 		tb_service_debugfs_init(svc);
+ 
+ 		if (device_register(&svc->dev)) {
++			tb_service_debugfs_remove(svc);
+ 			put_device(&svc->dev);
+ 			break;
+ 		}
+@@ -2092,7 +2100,7 @@ void tb_xdomain_add(struct tb_xdomain *xd)
+ 
+ static int unregister_service(struct device *dev, void *data)
+ {
+-	device_unregister(dev);
++	__unregister_service(dev);
+ 	return 0;
+ }
+ 
 -- 
 2.50.1
 
