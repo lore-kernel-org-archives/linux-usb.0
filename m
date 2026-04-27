@@ -1,50 +1,50 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.17])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.20])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3D84139903A
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 77BA3399360
 	for <linux-usb@vger.kernel.org>; Mon, 27 Apr 2026 08:11:14 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.17
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.20
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1777277475; cv=none; b=HJ/OCz4Y9TXaURG2YOBv8lym95HhfyhxCzMRNcVg5mqXgCl3dUJAtEkAjG8rOXDOM12SQPDIyI16JkTBZeqihbrEspDLM35b7YgU40qFEiTRBC3TpDkmDXIE81Rb3CjAOO4SJAbqQp3o3ZFbXOd6+AVL5zGWEPND48yopFqAUWo=
+	t=1777277475; cv=none; b=dqxinYsvCEd3n/N3BQG6H5ygON3ByWBkDx3C7oxLv7xTgXeeaZlHWY7LtAhZkbSoKc89jxwXWX/0IGUHWBriaXjfSUlbXpREp8BzP+d+dwDnkdyW7G7Jkxk9hP50Sz1GMo+2qQE7bw+UxkTs9V+8i2aFhVuuUwSrW2cF0h67AZU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
 	s=arc-20240116; t=1777277475; c=relaxed/simple;
-	bh=f5MbmcxR7dYDCG4cNMmSBE3HjwTANkPtJd93bdWgqxw=;
+	bh=nqLUGkRJOpPfyzxP+f2fejApsQOJRGzruWYJX2aB40I=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=mKLq0xXnYCSqSHOd9PwO8mOYywWSot+xx9uiLWEIn+Qo5BN0upp95PdrQUZ3Clj5zb2WMnXkVr8V/HQAuvSwJhFsW94xZkHaGYAwpx/SCJOAssaV6QdJR8y09f2SugQ+cE0VXdrEA1zqpztDBQoymYsttwgAIoO6CT+btPcIYec=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=pass smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=eS1opkvq; arc=none smtp.client-ip=192.198.163.17
+	 MIME-Version; b=mfc2mTTG5+l8Wqaw2aKHiDkQs9tpKVWyViecC8TK1JfUa1R9zskQ6T9UabqRCriuxdQFj6jjF7IIadU5jUU37jYuCKOsr3EOBgPah6Qudxg7I/g1puAJV3ORqW1nj2z7Sf94RF+kBy98G7fnVEh8jgThgZ9Prkrf9Xsl/dlJqJM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=pass smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=iQLR5i7x; arc=none smtp.client-ip=198.175.65.20
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="eS1opkvq"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="iQLR5i7x"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
   t=1777277474; x=1808813474;
   h=from:to:cc:subject:date:message-id:in-reply-to:
    references:mime-version:content-transfer-encoding;
-  bh=f5MbmcxR7dYDCG4cNMmSBE3HjwTANkPtJd93bdWgqxw=;
-  b=eS1opkvqbgwXXa5SSUcxfHVlpTs43tCioqnJzFiCw6kF778KGUOaaeKw
-   B+B+Aun1v6BPbInCYm/vaFeuXiwmVhwdBCBylfJbszjljWN7/YiP/P/vj
-   /WzmqGxzUra+ongfan2uxWDRXY0Cn9HZns3AsGJ79u47AiFk57FWct9Yv
-   pKokvWwbRdC4q2sNWEU28JstFDjBh8vqV8DzHZlO0+mg0xCB0EwxFpJ+J
-   f9BqiYhlPg84q4XQVgEU0KFZadDxSHP3FEfFLqLGAUzyOz8g90s7PTKus
-   EttqNvHHslKMRy5oOcJ3Ysb/CZgnRZUOTgLvrL4dEZULRhFNw1gqAD+UW
-   A==;
-X-CSE-ConnectionGUID: suBhXqJtRf+B2+OcFP20Mw==
-X-CSE-MsgGUID: RV80tci8T2Og8gaontlwyA==
-X-IronPort-AV: E=McAfee;i="6800,10657,11768"; a="78034421"
+  bh=nqLUGkRJOpPfyzxP+f2fejApsQOJRGzruWYJX2aB40I=;
+  b=iQLR5i7xRkKN/IngzxplCcP1DqWO51C59wKUZ2wS+sRjDDsy/DrnsUhS
+   vbPRWkLVoQaeUFvBmTEgm/u6+ViklD07DalpZw1K9T6YjqH/juakPh6nB
+   LhTQKVc2j2bAr9EZhT9SwgywxlycQSckwwkBXxuuGwPXPdRB5oEO4/cU6
+   Hc7iZ/lQgpgwF7gVvwI/+ogPHG47sXiey6O5HlW54vknfxiQ5VxPM6Usd
+   TPqPYj0acgWI1cyKdzPSliPjZuzm8epw8EBV19GB2pujeH4Y0JUQ8gXeF
+   q5mX1cWcK+w+by0jC9/ICv2ThL6/dmYghXirp5+Og8/ELqp3E4EdOqY4V
+   g==;
+X-CSE-ConnectionGUID: I2hSRBuXSsu9/TmIDXvXAA==
+X-CSE-MsgGUID: sfprzaUnQX6jqA4mbT2eQg==
+X-IronPort-AV: E=McAfee;i="6800,10657,11768"; a="77863246"
 X-IronPort-AV: E=Sophos;i="6.23,201,1770624000"; 
-   d="scan'208";a="78034421"
-Received: from orviesa003.jf.intel.com ([10.64.159.143])
-  by fmvoesa111.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 27 Apr 2026 01:11:12 -0700
-X-CSE-ConnectionGUID: cWwI75ejRPOJl3ifThvTQQ==
-X-CSE-MsgGUID: SBh/uFwQQOKW17qWYFDXXA==
+   d="scan'208";a="77863246"
+Received: from fmviesa006.fm.intel.com ([10.60.135.146])
+  by orvoesa112.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 27 Apr 2026 01:11:12 -0700
+X-CSE-ConnectionGUID: Gt6t56mBSEav0ru0vngOqg==
+X-CSE-MsgGUID: IvVcW2ZHQJCG7XPLP16QhQ==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.23,201,1770624000"; 
-   d="scan'208";a="237531363"
+   d="scan'208";a="229008927"
 Received: from black.igk.intel.com ([10.91.253.5])
-  by orviesa003.jf.intel.com with ESMTP; 27 Apr 2026 01:11:10 -0700
+  by fmviesa006.fm.intel.com with ESMTP; 27 Apr 2026 01:11:10 -0700
 Received: by black.igk.intel.com (Postfix, from userid 1001)
-	id 6D9E299; Mon, 27 Apr 2026 10:11:09 +0200 (CEST)
+	id 70CA09B; Mon, 27 Apr 2026 10:11:09 +0200 (CEST)
 From: Mika Westerberg <mika.westerberg@linux.intel.com>
 To: linux-usb@vger.kernel.org
 Cc: Yehezkel Bernat <YehezkelShB@gmail.com>,
@@ -53,9 +53,9 @@ Cc: Yehezkel Bernat <YehezkelShB@gmail.com>,
 	Alan Borzeszkowski <alan.borzeszkowski@linux.intel.com>,
 	Gil Fine <gil.fine@linux.intel.com>,
 	Mika Westerberg <mika.westerberg@linux.intel.com>
-Subject: [PATCH 02/12] thunderbolt: Don't disable lane adapter if XDomain lane bonding isn't possible
-Date: Mon, 27 Apr 2026 10:10:59 +0200
-Message-ID: <20260427081109.2337731-3-mika.westerberg@linux.intel.com>
+Subject: [PATCH 03/12] thunderbolt: Make XDomain lane bonding comply with the USB4 v2 spec
+Date: Mon, 27 Apr 2026 10:11:00 +0200
+Message-ID: <20260427081109.2337731-4-mika.westerberg@linux.intel.com>
 X-Mailer: git-send-email 2.50.1
 In-Reply-To: <20260427081109.2337731-1-mika.westerberg@linux.intel.com>
 References: <20260427081109.2337731-1-mika.westerberg@linux.intel.com>
@@ -67,36 +67,106 @@ List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-This happens when firmware connection manager is being used. It will
-deal with disabling the lane 1 adapter after the tunnel has been
-established and re-enabling it afterwards. For this reason only do this
-when we know that lane bonding is possible (e.g running software
-connection manager).
+The USB4 v2 Inter-Domain spec "unified" the lane bonding flow so that
+when the other end (with higher UUID) is not yet set the target link
+width accordingly it is expected to reply with ERROR_NOT_READY.
+Implement this for Linux.
 
 Signed-off-by: Mika Westerberg <mika.westerberg@linux.intel.com>
 ---
- drivers/thunderbolt/xdomain.c | 8 +++++++-
- 1 file changed, 7 insertions(+), 1 deletion(-)
+ drivers/thunderbolt/xdomain.c | 65 +++++++++++++++++++++++++----------
+ 1 file changed, 47 insertions(+), 18 deletions(-)
 
 diff --git a/drivers/thunderbolt/xdomain.c b/drivers/thunderbolt/xdomain.c
-index 754808c43f00..57367e18733a 100644
+index 57367e18733a..680b2204875a 100644
 --- a/drivers/thunderbolt/xdomain.c
 +++ b/drivers/thunderbolt/xdomain.c
-@@ -1931,7 +1931,13 @@ static void tb_xdomain_link_exit(struct tb_xdomain *xd)
- 	if (tb_port_get_link_generation(down) >= 4) {
- 		down->bonded = false;
- 		down->dual_link_port->bonded = false;
--	} else if (xd->link_width > TB_LINK_WIDTH_SINGLE) {
-+		return;
-+	}
+@@ -535,29 +535,19 @@ static int tb_xdp_link_state_status_request(struct tb_ctl *ctl, u64 route,
+ }
+ 
+ static int tb_xdp_link_state_status_response(struct tb *tb, struct tb_ctl *ctl,
+-					     struct tb_xdomain *xd, u8 sequence)
++					     struct tb_xdomain *xd, u8 sequence,
++					     u8 slw, u8 sls, u8 tls, u8 tlw)
+ {
+ 	struct tb_xdp_link_state_status_response res;
+-	struct tb_port *port = tb_xdomain_downstream_port(xd);
+-	u32 val[2];
+-	int ret;
+ 
+ 	memset(&res, 0, sizeof(res));
+ 	tb_xdp_fill_header(&res.hdr, xd->route, sequence,
+ 			   LINK_STATE_STATUS_RESPONSE, sizeof(res));
+ 
+-	ret = tb_port_read(port, val, TB_CFG_PORT,
+-			   port->cap_phy + LANE_ADP_CS_0, ARRAY_SIZE(val));
+-	if (ret)
+-		return ret;
+-
+-	res.slw = (val[0] & LANE_ADP_CS_0_SUPPORTED_WIDTH_MASK) >>
+-			LANE_ADP_CS_0_SUPPORTED_WIDTH_SHIFT;
+-	res.sls = (val[0] & LANE_ADP_CS_0_SUPPORTED_SPEED_MASK) >>
+-			LANE_ADP_CS_0_SUPPORTED_SPEED_SHIFT;
+-	res.tls = val[1] & LANE_ADP_CS_1_TARGET_SPEED_MASK;
+-	res.tlw = (val[1] & LANE_ADP_CS_1_TARGET_WIDTH_MASK) >>
+-			LANE_ADP_CS_1_TARGET_WIDTH_SHIFT;
++	res.slw = slw;
++	res.sls = sls;
++	res.tls = tls;
++	res.tlw = tlw;
+ 
+ 	return __tb_xdomain_response(ctl, &res, sizeof(res),
+ 				     TB_CFG_PKG_XDOMAIN_RESP);
+@@ -804,8 +794,47 @@ static void tb_xdp_handle_request(struct work_struct *work)
+ 		       route);
+ 
+ 		if (xd) {
+-			ret = tb_xdp_link_state_status_response(tb, ctl, xd,
+-								sequence);
++			struct tb_port *port = tb_xdomain_downstream_port(xd);
++			u8 slw, sls, tls, tlw;
++			u32 val[2];
 +
-+	if (!xd->bonding_possible)
-+		return;
++			/*
++			 * Read the adapter supported and target widths
++			 * and speeds.
++			 */
++			ret = tb_port_read(port, val, TB_CFG_PORT,
++					   port->cap_phy + LANE_ADP_CS_0,
++					   ARRAY_SIZE(val));
++			if (ret)
++				break;
 +
-+	if (xd->link_width > TB_LINK_WIDTH_SINGLE) {
- 		/*
- 		 * Just return port structures back to way they were and
- 		 * update credits. No need to update userspace because
++			slw = (val[0] & LANE_ADP_CS_0_SUPPORTED_WIDTH_MASK) >>
++				LANE_ADP_CS_0_SUPPORTED_WIDTH_SHIFT;
++			sls = (val[0] & LANE_ADP_CS_0_SUPPORTED_SPEED_MASK) >>
++				LANE_ADP_CS_0_SUPPORTED_SPEED_SHIFT;
++			tls = val[1] & LANE_ADP_CS_1_TARGET_SPEED_MASK;
++			tlw = (val[1] & LANE_ADP_CS_1_TARGET_WIDTH_MASK) >>
++				LANE_ADP_CS_1_TARGET_WIDTH_SHIFT;
++
++			/*
++			 * When we have higher UUID, we are supposed to
++			 * return ERROR_NOT_READY if the tlw is not yet
++			 * set according to the Inter-Domain spec for
++			 * USB4 v2.
++			 */
++			if (xd->state == XDOMAIN_STATE_BONDING_UUID_HIGH &&
++			    xd->target_link_width &&
++			    xd->target_link_width != tlw) {
++				tb_dbg(tb, "%llx: target link width not yet set %#x != %#x\n",
++				       route, tlw, xd->target_link_width);
++				tb_xdp_error_response(ctl, route, sequence,
++						      ERROR_NOT_READY);
++			} else {
++				tb_dbg(tb, "%llx: replying with target link width set to %#x\n",
++				       route, tlw);
++				ret = tb_xdp_link_state_status_response(tb, ctl,
++					xd, sequence, slw, sls, tls, tlw);
++			}
+ 		} else {
+ 			tb_xdp_error_response(ctl, route, sequence,
+ 					      ERROR_NOT_READY);
 -- 
 2.50.1
 
