@@ -1,101 +1,115 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.17])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.19])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 919D739936F
-	for <linux-usb@vger.kernel.org>; Mon, 27 Apr 2026 08:11:19 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.17
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0D8EB399004
+	for <linux-usb@vger.kernel.org>; Mon, 27 Apr 2026 08:39:11 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.19
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1777277483; cv=none; b=c7WkHYroafq5pZB8oSuJOTwN0Qf4Kogkgbut3sktDNXlxkwHcX+ofX/YhlAZLJ7aPksyoobGidCl0FzZZRLOu65bdi4A+T2RL7zYn8mPHcgZ6norKs+9gGNtFEpsKrcD2V46tp9gFi9CjIHoGFYSaoDWffiK0qZS+I6pPUZKGW0=
+	t=1777279153; cv=none; b=WE5qQB7ZbR+4Xn91IiApncBRAujKetm34KtOCEnXysPAJrXG3/UH1DCeNbbjlbTiZXH21KVQa8NnBANl2izK2yVpwpXfrEyZXhMbPpqwkarq4HZU3LaOfFmc/xNiI5NX4QG+ppq5xpSGbjrkklekIvdEhREHJPyY5XQhpOonS+c=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1777277483; c=relaxed/simple;
-	bh=JbVQB2TJjhnPnYjWP78pRddv3rZFpJoKdXWt8kg3U9s=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=MuhEdEVfLc9muQcPKin8kmfRa4FUV0LR/VFaqPt9Po7lYRwByvVE7zifmFcwvOUKbB9WTdgHEUjpdEdGiKgsW/z594hQXlupPETmrw4/YQMvpV7CQw0Olw2w+qYVtqrIwycgX8s8+C9/d4a2AevjEtxKleK2SUNNwpXL2eQntpw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=pass smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=IAZZP9sr; arc=none smtp.client-ip=192.198.163.17
+	s=arc-20240116; t=1777279153; c=relaxed/simple;
+	bh=2DcBJsqBcjLhy4vfdagro6yXUs+8LFEzaKk9tIyFTpU=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=Ck2ZSgjbkqreccelLmgoms9DSCfnGLgDdzzLG9+IfNpNWREa7AWSwbGzDLloITkROmiOqwGXrA+TH4l7HIYrtLF7+a+3xO8mNrvW8d3eBTMvm9/vJLDZKA+toEQfm15AW24WlhDEsKBNbpl+H07skjSJMEP8t3CSW37NopEimgk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=d/RMeQWa; arc=none smtp.client-ip=198.175.65.19
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="IAZZP9sr"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="d/RMeQWa"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1777277480; x=1808813480;
-  h=from:to:cc:subject:date:message-id:in-reply-to:
-   references:mime-version:content-transfer-encoding;
-  bh=JbVQB2TJjhnPnYjWP78pRddv3rZFpJoKdXWt8kg3U9s=;
-  b=IAZZP9srHUpIjPjr9Af+8mbO6a9Y7JqQufEA12Ri0I26S70SbIz45waZ
-   cVzSWgaG//z0+5iaMf6wW+Te+8ek0e23bzCaseyjrV6rRn4rCdr12aF3C
-   49/y8131wbrxcHNP8Cxj4izv++IPf5UIlJf4Lc+ajJ66UFWIalFthEOsG
-   CcDoQ+W75uJ+krJdz681IYnScq8u860+3DE+H/pWPir5sj8hb7n3aoRVV
-   DlLGQ/Y/iuNYVwb1DBzSDoOGTFPSCQJmum1j5FN1fJMDvtzrVm7DPSks2
-   FBV3ZzsjqL/tHtBpZ4y5OT+52h8xG/DmS17UpOQV3p0QcYiaw1JCsD0ts
+  t=1777279153; x=1808815153;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=2DcBJsqBcjLhy4vfdagro6yXUs+8LFEzaKk9tIyFTpU=;
+  b=d/RMeQWaIJWmjTv2/tTUbiEUwVga7wjuJjHNIBBWtA/SZm155Gxd4Mu+
+   1TVE4tRX7zsZlsq/Rge0SI4hdkVRQlaGdAkppItbBxGzzp8KfaDQxh8Al
+   QAmfco2VF4ugHCqLGw2R+t3aglouqD+oA/h/zg9LqWl28h84fEjpEHg9e
+   S7FoG5m6vvjIukuMgQtwWyI7RG0W+kx7/WAaBNoTo/tapPoYcYKLhQkec
+   759hDNw7Yyl51tuyDBD/jImAZtBdJvBzPUisNelKTC8zaxa9UbfgLc8Qa
+   TuC8o8Ej3GavY2SGX0/9pBrjSlvaKtGP1g6iiajVXgxuZ2s22Vtm+h8Ry
    A==;
-X-CSE-ConnectionGUID: ycbR00EwQQGe9KOevtwILA==
-X-CSE-MsgGUID: 6qUr03iORcCe5x89nnWtRQ==
-X-IronPort-AV: E=McAfee;i="6800,10657,11768"; a="78034454"
+X-CSE-ConnectionGUID: P1uE1jYVT9+ehuGbTam29w==
+X-CSE-MsgGUID: RxSbcwFcT2qS4wLv876AKw==
+X-IronPort-AV: E=McAfee;i="6800,10657,11768"; a="78078200"
 X-IronPort-AV: E=Sophos;i="6.23,201,1770624000"; 
-   d="scan'208";a="78034454"
-Received: from orviesa003.jf.intel.com ([10.64.159.143])
-  by fmvoesa111.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 27 Apr 2026 01:11:19 -0700
-X-CSE-ConnectionGUID: EYBX/2VXQaaQDpM+MpkUpw==
-X-CSE-MsgGUID: +tnoQg53TUWmnaRxzn7E3A==
+   d="scan'208";a="78078200"
+Received: from orviesa007.jf.intel.com ([10.64.159.147])
+  by orvoesa111.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 27 Apr 2026 01:39:12 -0700
+X-CSE-ConnectionGUID: OFdToTRjQvmRHpBZN6UESA==
+X-CSE-MsgGUID: ckGsLMaJS4adoolrCLF4xw==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.23,201,1770624000"; 
-   d="scan'208";a="237531373"
+   d="scan'208";a="233848434"
 Received: from black.igk.intel.com ([10.91.253.5])
-  by orviesa003.jf.intel.com with ESMTP; 27 Apr 2026 01:11:18 -0700
-Received: by black.igk.intel.com (Postfix, from userid 1001)
-	id 801E0A4; Mon, 27 Apr 2026 10:11:09 +0200 (CEST)
-From: Mika Westerberg <mika.westerberg@linux.intel.com>
-To: linux-usb@vger.kernel.org
-Cc: Yehezkel Bernat <YehezkelShB@gmail.com>,
-	Lukas Wunner <lukas@wunner.de>,
-	Andreas Noever <andreas.noever@gmail.com>,
-	Alan Borzeszkowski <alan.borzeszkowski@linux.intel.com>,
-	Gil Fine <gil.fine@linux.intel.com>,
-	Mika Westerberg <mika.westerberg@linux.intel.com>
-Subject: [PATCH 08/12] thunderbolt: Keep XDomain reference during the lifetime of a service
-Date: Mon, 27 Apr 2026 10:11:05 +0200
-Message-ID: <20260427081109.2337731-9-mika.westerberg@linux.intel.com>
-X-Mailer: git-send-email 2.50.1
-In-Reply-To: <20260427081109.2337731-1-mika.westerberg@linux.intel.com>
-References: <20260427081109.2337731-1-mika.westerberg@linux.intel.com>
+  by orviesa007.jf.intel.com with ESMTP; 27 Apr 2026 01:39:10 -0700
+Received: by black.igk.intel.com (Postfix, from userid 1008)
+	id A486995; Mon, 27 Apr 2026 10:39:09 +0200 (CEST)
+Date: Mon, 27 Apr 2026 11:39:08 +0300
+From: Heikki Krogerus <heikki.krogerus@linux.intel.com>
+To: Francesco Orro <ncesco@interstellar.eu>
+Cc: "linux-usb@vger.kernel.org" <linux-usb@vger.kernel.org>,
+	Greg KH <gregkh@linuxfoundation.org>
+Subject: Re: [RFC PATCH] usb: typec: ucsi: acpi: bootstrap PPM on HP systems
+ with empty _DSM func 2
+Message-ID: <ae8grG-g0PqsScEn@kuha>
+References: <f3M_fpjtt8FxDqGKcA84vqXmRbKzCBfpCrIK4-jCWvIscER51zkD8qD8FYpz75qZw51rMDRSkUyYlrBvLvdM8CGRY2l8TFVvr4MC1LdTzbc=@interstellar.eu>
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <f3M_fpjtt8FxDqGKcA84vqXmRbKzCBfpCrIK4-jCWvIscER51zkD8qD8FYpz75qZw51rMDRSkUyYlrBvLvdM8CGRY2l8TFVvr4MC1LdTzbc=@interstellar.eu>
 
-This is needed because we release the service ID in tb_service_release()
-and the ID array is owned by the parent XDomain.
+Hi,
 
-Signed-off-by: Mika Westerberg <mika.westerberg@linux.intel.com>
----
- drivers/thunderbolt/xdomain.c | 3 ++-
- 1 file changed, 2 insertions(+), 1 deletion(-)
+On Mon, Apr 20, 2026 at 04:05:47PM +0000, Francesco Orro wrote:
+> Hi,
+> 
+> The attached RFC patch lets ucsi_acpi probe successfully on HP ZBook
+> Fury G1i 16 inch (and likely other HP workstations shipping the same
+> "UcsiAcpi" SSDT), where _DSM func 2 (READ) is a stub and UCSI_VERSION
+> stays 0. Details in the commit message below.
 
-diff --git a/drivers/thunderbolt/xdomain.c b/drivers/thunderbolt/xdomain.c
-index a1887a15a284..0e97d0ad7733 100644
---- a/drivers/thunderbolt/xdomain.c
-+++ b/drivers/thunderbolt/xdomain.c
-@@ -1039,6 +1039,7 @@ static void tb_service_release(struct device *dev)
- 	ida_free(&xd->service_ids, svc->id);
- 	kfree(svc->key);
- 	kfree(svc);
-+	tb_xdomain_put(xd);
- }
- 
- const struct device_type tb_service_type = {
-@@ -1147,7 +1148,7 @@ static void enumerate_services(struct tb_xdomain *xd)
- 		svc->id = id;
- 		svc->dev.bus = &tb_bus_type;
- 		svc->dev.type = &tb_service_type;
--		svc->dev.parent = &xd->dev;
-+		svc->dev.parent = get_device(&xd->dev);
- 		dev_set_name(&svc->dev, "%s.%d", dev_name(&xd->dev), svc->id);
- 
- 		tb_service_debugfs_init(svc);
+Please report this to HP. We really need to know which version they
+support.
+
+> Main open question for the list: is there a known-good pattern for
+> ucsi_acpi drivers to avoid disrupting alt-mode state already negotiated
+> by BIOS? On cold boot with a Thunderbolt dock attached, the PPM_RESET
+> issued by this patch - and later by Linux UCSI core in ucsi_init() -
+> tears down the TBT alt-mode the BIOS had set up, and the DP tunnel to
+> the dock dies until the user physically replugs. My local workaround
+> is to late-load ucsi_acpi via a systemd service after the thunderbolt
+> driver has adopted the tunnels, but that feels like papering over a
+> design assumption I am missing.
+
+I'm surprised that PPM_RESET has that effect on your system, because
+it does not reset the connectors. If you want to reset the connectors
+you are expected to explicitly reset each of them before the executing
+PPM_RESET. I'm not sure the PPM on this platform is behaving correctly,
+so I think you need to contact HP about this too.
+
+> Tested on one machine only. Happy to refine the patch if the direction
+> is acceptable.
+> 
+> Regards,
+> Francesco Orro
+> 
+> ---
+> 
+> From: Francesco Orro <ncesco@interstellar.eu>
+> Date: Mon, 20 Apr 2026 16:40:00 +0200
+> Subject: [PATCH v7] usb: typec: ucsi: acpi: bootstrap PPM on systems with empty _DSM func 2
+
+Please avoid attaching the patch to the coverletter like this. It is
+a bit confusing. Is this the same patch as the one you've sent
+separately in this thread?
+
+thanks,
+
 -- 
-2.50.1
-
+heikki
