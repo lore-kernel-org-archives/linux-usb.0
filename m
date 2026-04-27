@@ -1,103 +1,102 @@
-Received: from mail-ej1-f47.google.com (mail-ej1-f47.google.com [209.85.218.47])
+Received: from mail-ed1-f42.google.com (mail-ed1-f42.google.com [209.85.208.42])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 54EFE3845BD
-	for <linux-usb@vger.kernel.org>; Mon, 27 Apr 2026 21:47:19 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.47
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4D19D2750ED
+	for <linux-usb@vger.kernel.org>; Mon, 27 Apr 2026 21:52:26 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.42
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1777326440; cv=none; b=iQo6daKyXykViHn5zgiUzaReaRF7jk/JP9vdu/U0h9Pl31KM5HkIL9Sa8e/HY8fpWpkzPQXormgyDwHHZWjcHjao0Q156jpLxq9umtfns+rcHV9INEgJU4aGip0boKQRag++ZdAwSiVbRtcd6ynqxx6W7reVlSeiD10SG3i3E6U=
+	t=1777326747; cv=none; b=ny27GlbZHirrsftpU+AwXIyAmyN764y5epUV9tMWHzU0v0SLbMVBuIaxGtNgjkSaksnFoMs5mXwdfDfE+SHfgn2zyLqxRwD3LyVmIWUI0b/6tVOngrLIRcaNoZyLnwpxV5Uxtbz6VJ7HFUdQz19PmqfnavrchVAR6LnqpU4yR6s=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1777326440; c=relaxed/simple;
-	bh=i/k46YQbNxc6jmDhpSrBTZQploRe2hY24KQV/uGHVj8=;
+	s=arc-20240116; t=1777326747; c=relaxed/simple;
+	bh=7P7VU36hQu4iMsGekLZKiPL3rBFQOW0TOaXA+fXfycA=;
 	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=f4IhYquakWrRnsTKnUR4oWfx+qjpwh+ZVXpJJizlRkWnelkidI5JB+phXt9zVjODSzH+XmId3sPutupSkEodjmSh9S8tDDJjadoDa4xhE6CC0pqtF5nBvFOA1mZQP1WQuiQd/AKPm0tOXeXVU2021LaPQhlKRDh2XCfoCIr5pYM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-foundation.org; spf=pass smtp.mailfrom=linuxfoundation.org; dkim=pass (1024-bit key) header.d=linux-foundation.org header.i=@linux-foundation.org header.b=Ny9FeD37; arc=none smtp.client-ip=209.85.218.47
+	 To:Cc:Content-Type; b=KUg+bkNz3PNsID+LqtvEoHE2Sur0aNQjrJ7Tb7hwgiHTv/0J9D0srlCj/pcrFuOtmyuCZYrW5Tfwvhhryc9xwNG8nMPoevANjUco6/UoLFgbVsasF8SicespU6qE4UUG3QB+a/n7+XDeoDsr5nGtPh3IMm3/VYsojazh6nd8Fys=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-foundation.org; spf=pass smtp.mailfrom=linuxfoundation.org; dkim=pass (1024-bit key) header.d=linux-foundation.org header.i=@linux-foundation.org header.b=NH0RQa3n; arc=none smtp.client-ip=209.85.208.42
 Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-foundation.org
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linuxfoundation.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linux-foundation.org header.i=@linux-foundation.org header.b="Ny9FeD37"
-Received: by mail-ej1-f47.google.com with SMTP id a640c23a62f3a-b886fc047d5so1921144266b.3
-        for <linux-usb@vger.kernel.org>; Mon, 27 Apr 2026 14:47:19 -0700 (PDT)
+	dkim=pass (1024-bit key) header.d=linux-foundation.org header.i=@linux-foundation.org header.b="NH0RQa3n"
+Received: by mail-ed1-f42.google.com with SMTP id 4fb4d7f45d1cf-66e8cf72a93so13200550a12.0
+        for <linux-usb@vger.kernel.org>; Mon, 27 Apr 2026 14:52:26 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linux-foundation.org; s=google; t=1777326438; x=1777931238; darn=vger.kernel.org;
+        d=linux-foundation.org; s=google; t=1777326745; x=1777931545; darn=vger.kernel.org;
         h=cc:to:subject:message-id:date:from:in-reply-to:references
          :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=DjF1Jdn4Kp6xFyaBmAP2391GfFF2q7kuOVlruTChM90=;
-        b=Ny9FeD37w/XGLhbfQHUpKNLnJsBHZkxuPx5AoNh/e/Rhw6ZozsBQ0yJNdL/y6rrqAQ
-         qSShcpf4WBlsQDLizCFj/EoopprhzXoaXQqXuB5SJ/NCRdGHb8kCT8fp/hESnC7NV9Jc
-         8VivAcxpOH1NGJiD2+Rii2myEXwM/fRlQz/yk=
+        bh=eodThUBj1SnOvacXe/3ftYxEWQMFbYqc4B0FCa9Alx4=;
+        b=NH0RQa3nQ3uyg+gIj38iYhfkKJaXQXJd5JtEjohwNyEHHtzQsZRivXRovcFpjLAbR/
+         vuRfqvXSP9QgTautbAAy4/9EiRxlqgwlBI1gcfbW/aJ7PGSFInfhd1uXrmqJpGryeQlE
+         chSY3nb59T2h8Yu3Rk8snYN2NzExsmuU1D7kY=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1777326438; x=1777931238;
+        d=1e100.net; s=20251104; t=1777326745; x=1777931545;
         h=cc:to:subject:message-id:date:from:in-reply-to:references
          :mime-version:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=DjF1Jdn4Kp6xFyaBmAP2391GfFF2q7kuOVlruTChM90=;
-        b=mjQyaPCKn5L8ZegnPtRhU4ZoInRPlQSKNRYffr2bUYG1phe4ioXm+8W4NgHcS5bo6g
-         0WQebfPD++tmq8QMjE/nlumH27M2Ra3SmKahPWGB2sm5ZifPpXrh03CZHob8L9oZ8x5P
-         fGeWU3XD0wjEnxGf6QWzxPPLZZY/3bQLA5vW+zBdcRb69BUNe+x+DoSjFpzWc1i99KLU
-         +tG+PGwsCCLBcGQAV0n3G0YZWCSG5DdXQrkrTjNYDGSIdPyNlymHUMHo7P+hBJ2jtQtW
-         1f/sPvMYM8SQarmWhHMyBA+Fhc1i2iR08kZQ0zmsfXmULyZALUPelDNP7Kd6ayaJ2ESo
-         WQfA==
-X-Forwarded-Encrypted: i=1; AFNElJ/mIB0IyrmKoWANTXeoIISNK3dkgKJL4gWA3d20pWEJdlCOZoypIBtCAHBcgf5uFXxhTRbzZGJa/E4=@vger.kernel.org
-X-Gm-Message-State: AOJu0Yw3k8tjkClHDQk6u49i8CzZ72uvuh5E6Q52C8SuRXb23egEy8Os
-	xRfgWCmetE4pg2e+1ZgqlAzUZCyUWT3a0hQ8lVmS1FlccCeUJ/+z3Ki/liMD3PKE+rc2+/6D+E4
-	v0EiE7XbAow==
-X-Gm-Gg: AeBDievGl2S5mi5X/go+sS/Df9wSUqao7FHDFH7vzjcvAJ3B4PDWJ4aA43SbQ2vW9/f
-	ftUocRQ9XZEuwnuPgqRtJMgCs3oaJC9gA8+pIR7FaV2s0kcqfNPT/SEbQgPHOayhtPVZpafVvFT
-	20n2IIGCrWI/gCe2gn+xHKLZ416v2SnC/e2X/CGB+9aLvpbCA2wSZalF9UmXbYT/2UmR7xnkRy+
-	GGZ+bOCatfXpgfxSTBbwWGUehzk/dWOCAfVuBMa1VLmk8LamAgJbbA+37zyjztoNQ7AeGj0GOqB
-	Qn10Tg2+8VnhXpSxPxRHbfCqJSmvgsvpJ4Q6GudxQvkIdzB/mBG0WAhJqOsZr3sj5tK79ljFg55
-	OCzanX5gCdqKgTj2PYbHY8Nf0Y3vdh/47jFTPJj8SYgyY2iCrddRgLgcNoC1UF+jiDEozNdiUcD
-	6QWkcTNmgMZupauryHVDbsjt98CVT59YXDJ9GfRkTWi5/kRnUOtnK9BN5sqSvstDtrHPmMpCBLJ
-	ESmnc/qp9A=
-X-Received: by 2002:a17:907:8b95:b0:bad:667f:efa3 with SMTP id a640c23a62f3a-bb8026bcbb7mr22532766b.11.1777326437588;
-        Mon, 27 Apr 2026 14:47:17 -0700 (PDT)
-Received: from mail-ej1-f47.google.com (mail-ej1-f47.google.com. [209.85.218.47])
-        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-bb80b2adcf1sm9624066b.35.2026.04.27.14.47.17
+        bh=eodThUBj1SnOvacXe/3ftYxEWQMFbYqc4B0FCa9Alx4=;
+        b=O6a6vPQBRShAEH7nhPfkjKjppbrk6/2nBdrhr1RZxzRZD3tXW8HKSSnLuQi0PepZJK
+         MFHk7vbSlBJwZHVEU+J01FLzvW6uWa2cFW29soMIxgtnbPwIOkf7pw/nOTwJY9TsmjaB
+         jrC0E+yInmPMgIKxUDtfhNgNWf+5hk0Qtzb7QkEt/O9mGYsYR/zYl/0aKgu/2KLoka2m
+         xBkNi/qaYf/3hcy18Ejp8jOX1Ij615GMy357aLclS99F/FWO6x+zREeSnErpcFAOkL8m
+         utjn53/P0qPfn30nMXkCKk/XbnhSc3/3NTqsGMsNr5PHam/G8y7AFbaWAhBW/QPtf2Dt
+         5pcg==
+X-Forwarded-Encrypted: i=1; AFNElJ/CfRds1XVJJN3TTfvIcJIiI5Lhh0ZyVBlTAjBWglisc3CHiiWkeCtVfd3LLlEDY1SPxpTuB0yQYjY=@vger.kernel.org
+X-Gm-Message-State: AOJu0Yz8Erh/WwH1bWi+vRb2S8CaSot/VGHgBxql1J/+LOkIY4Li6Qpy
+	OrA+dZwFfo/BD4WTHN516549WjRiXb2k+epQFW2H247Gsm09e7LaxLNXa16pQi+GcQr0jlrMMLe
+	8l86yqrUpEQ==
+X-Gm-Gg: AeBDievCjr6ijcC/UwknKDvbpNO2aX/UUw7Uw1nziqbk7qgRyGB4onAaDy8+f8Pt1qd
+	miA+yd+0RxC695F4cBLp3TySKeXKq/PKdgIGoPoZN1Oagme0rFfCr9jJCkz0Hcr3vO+B0SmUwfB
+	bzXno/QT+RqXidkBjhLieHhmlOcSaGP2pryMn1LfkIrDzgs8N5NIWS5oRPJ2Ni/mjbGYG5F4K62
+	zE32hAVjuZswRpDGSg7JFGW87oNP5pwuOExCBgAnahfid8aE43PJTBpiumh5nz8mTdgGYics8X1
+	Q0TlI6g8m2/N0e1N6tUmrC/nN0/73n9ly4odWJB8tqsP3GOITFdWFDGoVi97jiF3K0FJfCunFzI
+	7MFGGiqlwVaSl6QPDuXceTYpd/JigmEysnnV5EyZU7G9vEi3v4hAtnSP8wvr1lgi8UQ1C9OdWAG
+	gDhQNPN3ZVgCfXNDWRCh8woszWRc/sZ5x7cqAp7NlSqC6Gr3fjmppgtx8Rpg6/Wpn29YR8hDYut
+	pUb6+hRP3k=
+X-Received: by 2002:a05:6402:2114:b0:66b:aa56:ee5c with SMTP id 4fb4d7f45d1cf-679bb09ac88mr184476a12.28.1777326744611;
+        Mon, 27 Apr 2026 14:52:24 -0700 (PDT)
+Received: from mail-ed1-f51.google.com (mail-ed1-f51.google.com. [209.85.208.51])
+        by smtp.gmail.com with ESMTPSA id 4fb4d7f45d1cf-679b6843097sm149184a12.19.2026.04.27.14.52.22
         for <linux-usb@vger.kernel.org>
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Mon, 27 Apr 2026 14:47:17 -0700 (PDT)
-Received: by mail-ej1-f47.google.com with SMTP id a640c23a62f3a-b9c01854477so696813266b.0
-        for <linux-usb@vger.kernel.org>; Mon, 27 Apr 2026 14:47:17 -0700 (PDT)
-X-Forwarded-Encrypted: i=1; AFNElJ9cbABhY2fmxKFCblarBk6+Wg2KHb3pqEKUlULSjxVZS6eVfUK6SZBUy/KaXDB+Ia98kYsBHySoiZk=@vger.kernel.org
-X-Received: by 2002:a05:6402:5216:b0:679:1f4f:9d30 with SMTP id
- 4fb4d7f45d1cf-679bb04c1a2mr179970a12.4.1777325976937; Mon, 27 Apr 2026
- 14:39:36 -0700 (PDT)
+        Mon, 27 Apr 2026 14:52:23 -0700 (PDT)
+Received: by mail-ed1-f51.google.com with SMTP id 4fb4d7f45d1cf-670ab084a39so16193140a12.3
+        for <linux-usb@vger.kernel.org>; Mon, 27 Apr 2026 14:52:22 -0700 (PDT)
+X-Forwarded-Encrypted: i=1; AFNElJ/pCc24UgDFV6vU/sOOPw6XxFtnGVyLznRfP3kMqBAQmwmEs9NIORqQwQFCQNWE+m+bhnpKl1xUpuI=@vger.kernel.org
+X-Received: by 2002:a05:6402:35c2:b0:677:270f:6f4b with SMTP id
+ 4fb4d7f45d1cf-679bb04a8a7mr185115a12.1.1777326742385; Mon, 27 Apr 2026
+ 14:52:22 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <cover.1777306795.git.chleroy@kernel.org> <289b424e243ba2c4139ea04009cf8b9c448a87ff.1777306795.git.chleroy@kernel.org>
- <CAHk-=whC1DZojwdMB1=sJWG2=dsCdfyU8N6tDE1qx50HRZ-WJQ@mail.gmail.com> <20260427222914.1cb2dd3b@pumpkin>
-In-Reply-To: <20260427222914.1cb2dd3b@pumpkin>
+References: <cover.1777306795.git.chleroy@kernel.org> <0ee46bb228d97163fbdc14f2a7c52b93d8bc34ce.1777306795.git.chleroy@kernel.org>
+ <ae-j2_QirCySZD02@yury> <63a4d0f6-0eb3-48cd-9f98-bf7b223b2606@kernel.org> <ae-2yLWSGnfeTvh1@yury>
+In-Reply-To: <ae-2yLWSGnfeTvh1@yury>
 From: Linus Torvalds <torvalds@linux-foundation.org>
-Date: Mon, 27 Apr 2026 14:39:20 -0700
-X-Gmail-Original-Message-ID: <CAHk-=wg0SGbRYhdZ1kvJUTv1HEvmRJyQauFtBGV_fMcZVF8UpQ@mail.gmail.com>
-X-Gm-Features: AVHnY4I-AxqvQRk42MegvhKMp_z4sSEpEzhzpgw2GyV2bV8dezSPoI0JTlwB18Y
-Message-ID: <CAHk-=wg0SGbRYhdZ1kvJUTv1HEvmRJyQauFtBGV_fMcZVF8UpQ@mail.gmail.com>
-Subject: Re: [RFC PATCH v1 5/9] uaccess: Switch to copy_{to/from}_user_partial()
- when relevant
-To: David Laight <david.laight.linux@gmail.com>
-Cc: "Christophe Leroy (CS GROUP)" <chleroy@kernel.org>, Yury Norov <ynorov@nvidia.com>, 
-	Andrew Morton <akpm@linux-foundation.org>, Thomas Gleixner <tglx@linutronix.de>, 
-	linux-alpha@vger.kernel.org, linux-kernel@vger.kernel.org, 
-	linux-snps-arc@lists.infradead.org, linux-arm-kernel@lists.infradead.org, 
-	linux-mips@vger.kernel.org, linuxppc-dev@lists.ozlabs.org, 
-	kvm@vger.kernel.org, linux-riscv@lists.infradead.org, 
-	linux-s390@vger.kernel.org, sparclinux@vger.kernel.org, 
-	linux-um@lists.infradead.org, dmaengine@vger.kernel.org, 
-	linux-efi@vger.kernel.org, linux-fsi@lists.ozlabs.org, 
-	amd-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org, 
-	intel-gfx@lists.freedesktop.org, linux-wpan@vger.kernel.org, 
-	netdev@vger.kernel.org, linux-wireless@vger.kernel.org, 
-	linux-spi@vger.kernel.org, linux-media@vger.kernel.org, 
-	linux-staging@lists.linux.dev, linux-serial@vger.kernel.org, 
-	linux-usb@vger.kernel.org, xen-devel@lists.xenproject.org, 
-	linux-fsdevel@vger.kernel.org, ocfs2-devel@lists.linux.dev, 
-	bpf@vger.kernel.org, kasan-dev@googlegroups.com, linux-mm@kvack.org, 
-	linux-x25@vger.kernel.org, rust-for-linux@vger.kernel.org, 
+Date: Mon, 27 Apr 2026 14:52:05 -0700
+X-Gmail-Original-Message-ID: <CAHk-=wgPrLy0FR3sEWBYQuNAac1axDASYMnTuPuxEU0WytzL7w@mail.gmail.com>
+X-Gm-Features: AVHnY4LQUFWo9ODz4M3q2vZC9Gn8nsdYr95Nd4ky5ERVHHxIyN_9ZXY5zjebfdc
+Message-ID: <CAHk-=wgPrLy0FR3sEWBYQuNAac1axDASYMnTuPuxEU0WytzL7w@mail.gmail.com>
+Subject: Re: [RFC PATCH v1 7/9] x86: Add unsafe_copy_from_user()
+To: Yury Norov <ynorov@nvidia.com>
+Cc: "Christophe Leroy (CS GROUP)" <chleroy@kernel.org>, Andrew Morton <akpm@linux-foundation.org>, 
+	David Laight <david.laight.linux@gmail.com>, Thomas Gleixner <tglx@linutronix.de>, 
+	linux-alpha@vger.kernel.org, Yury Norov <yury.norov@gmail.com>, 
+	linux-kernel@vger.kernel.org, linux-snps-arc@lists.infradead.org, 
+	linux-arm-kernel@lists.infradead.org, linux-mips@vger.kernel.org, 
+	linuxppc-dev@lists.ozlabs.org, kvm@vger.kernel.org, 
+	linux-riscv@lists.infradead.org, linux-s390@vger.kernel.org, 
+	sparclinux@vger.kernel.org, linux-um@lists.infradead.org, 
+	dmaengine@vger.kernel.org, linux-efi@vger.kernel.org, 
+	linux-fsi@lists.ozlabs.org, amd-gfx@lists.freedesktop.org, 
+	dri-devel@lists.freedesktop.org, intel-gfx@lists.freedesktop.org, 
+	linux-wpan@vger.kernel.org, netdev@vger.kernel.org, 
+	linux-wireless@vger.kernel.org, linux-spi@vger.kernel.org, 
+	linux-media@vger.kernel.org, linux-staging@lists.linux.dev, 
+	linux-serial@vger.kernel.org, linux-usb@vger.kernel.org, 
+	xen-devel@lists.xenproject.org, linux-fsdevel@vger.kernel.org, 
+	ocfs2-devel@lists.linux.dev, bpf@vger.kernel.org, kasan-dev@googlegroups.com, 
+	linux-mm@kvack.org, linux-x25@vger.kernel.org, rust-for-linux@vger.kernel.org, 
 	linux-sound@vger.kernel.org, sound-open-firmware@alsa-project.org, 
 	linux-csky@vger.kernel.org, linux-hexagon@vger.kernel.org, 
 	loongarch@lists.linux.dev, linux-m68k@lists.linux-m68k.org, 
@@ -105,15 +104,22 @@ Cc: "Christophe Leroy (CS GROUP)" <chleroy@kernel.org>, Yury Norov <ynorov@nvidi
 	linux-sh@vger.kernel.org, linux-arch@vger.kernel.org
 Content-Type: text/plain; charset="UTF-8"
 
-On Mon, 27 Apr 2026 at 14:29, David Laight <david.laight.linux@gmail.com> wrote:
+On Mon, 27 Apr 2026 at 12:19, Yury Norov <ynorov@nvidia.com> wrote:
 >
-> I think there is a slight difference in that the normal copy_to_user()
-> will determine the exact offset of the error by retrying with byte copies.
+> This is what Linus said when added x86 implementation for copy_from_user()
+> in c512c69187197:
 
-I have this dim memory that we decided that you can't reply on byte
-exactness anyway, because not all architectures gave that guarantee
-for the user copies.
+Note that some things have happily changed in the six+ years since...
 
-But that thing came up many years ago, I might mis-remember.
+>   That's partly because we have no current users of it, but also partly
+>   because the copy_from_user() case is slightly different and cannot
+>   efficiently be implemented in terms of a unsafe_get_user() loop (because
+>   gcc can't do asm goto with outputs).
 
-            Linus
+now everybody can do asm goto with outputs.
+
+Yes, it's disabled on older versions, so it's not *always* available,
+but all modern versions do it. And if you care about performance, you
+won't be using an old compiler.
+
+             Linus
