@@ -1,50 +1,50 @@
 Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.20])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 05D6839A077
-	for <linux-usb@vger.kernel.org>; Mon, 27 Apr 2026 08:11:15 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 28EBD39A7E7
+	for <linux-usb@vger.kernel.org>; Mon, 27 Apr 2026 08:11:16 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.20
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1777277477; cv=none; b=Jc6my/U7qSGZF35WfXTnY8ELk3z88XdAP8C74KV1WP4WwiD8/1Qu24hDipxTwT0GG/8laEfc00UtHGCIXOvc08mbzUmqDpGBAxt3IEuKwliCF+VFTNbYIcX3p1eUu9LKFr4hS5Gf0sYkJw0qnxjYNWGZX2v1wTVgNi0+TNWh/hk=
+	t=1777277477; cv=none; b=PKDWAGTpD6kE799FprorFnPv7yPB45lZNtSF1pxfNPlllWCdLDlTXSahE8Hh9rMcpyWMuoAwOA3pwa2TXgpOVPEACDlPPP8Osl5nbHJIiUUxklaKjsYOfvs9BlHCndymlETUA2HwpxdaFYw7V/7KD4c7n/JVfoGvEflwqvBO5mE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
 	s=arc-20240116; t=1777277477; c=relaxed/simple;
-	bh=QfjOQ/HqJ0/a8+UtFT2xeGrvqhKTTlmENoSKnzKE0Vs=;
+	bh=eOI3KNax4HuobgQtj6+U+qYdv9x3U0X5EyyJqr+9z+I=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=nu85/7+/Eh1A7WMUegcjOyejnvPrvQ9ozQhoyzJovgPhCL+ER+a0aWoYvZuoH5wmYtRQKZSJBqFbHRLSwCtvIR0nm9JHRaMQP5pfFcMUzlod/fM64Zoq0NvfzL7wNtd81mn1gA6N74ObO5PcrPQ52+Zae+//2g3gqdZfe/GtFVI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=pass smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=OwUhaWs3; arc=none smtp.client-ip=198.175.65.20
+	 MIME-Version; b=rsWZar+oY+PLuUfdxCKXsv7waxVUOgBf074ExoxzRfknIDtxShj0pttgpj0yp8JDPs9LRb9iv+OlD3mh2dvY2dCp+Sgpk3GF9wtstvi/dPq0/sX70DhTsCYWvS4Mjs62oIifZSm7M4BMEK+CmrfUEjEyj7tvK/PCr25PGl57e5Q=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=pass smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=bwvlKpy+; arc=none smtp.client-ip=198.175.65.20
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="OwUhaWs3"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="bwvlKpy+"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
   t=1777277476; x=1808813476;
   h=from:to:cc:subject:date:message-id:in-reply-to:
    references:mime-version:content-transfer-encoding;
-  bh=QfjOQ/HqJ0/a8+UtFT2xeGrvqhKTTlmENoSKnzKE0Vs=;
-  b=OwUhaWs3h6Ksx2kSyLdhFj/ItAqYKpgZMK95wPT78wT2Zli4PgXS6UsQ
-   jvQeYWWc8o7niAT10y/yF7oE+iyToGzhhNrsee6+ADc2J+7LWi6qzTHKt
-   /wcbBH/klqi7+a05q5MBlLlCTQ7gVs0eto4/6skhfxyj+YIFwvkDYd4Tn
-   RScs3qrdFV0pl6U3ZZFBI1E9KCJ5aydCJP7i5KuvUUxLkYMcBNTF1V2Yo
-   LZNn95Ztldc8OQ5HuHJ1MZrXkD8U5tM5+AdxuXXmY8HwH3TB7M89xebnG
-   FZlOeq/78B7rEy2p/XKCW+3xXNy/xbyg7UBqjmbCgnhE0nxScbA0Us8O7
-   w==;
-X-CSE-ConnectionGUID: UUaduL4IRMKjrYuAiJfvxg==
-X-CSE-MsgGUID: SGTRWDvzTey4EDd76dKHeQ==
-X-IronPort-AV: E=McAfee;i="6800,10657,11768"; a="77863257"
+  bh=eOI3KNax4HuobgQtj6+U+qYdv9x3U0X5EyyJqr+9z+I=;
+  b=bwvlKpy+xe6CF0sItF6AhjRI8SB29/CImdzfs2yaJtEu7iT4+T7uyMqN
+   7c/+9nI6nOShjON+YU6j+FCAsNxHieGbWq5FFexS80EuYAfT7bmwHXVTw
+   lOL7Pl1xuTPQjiVeBPLxAZ3s4KzkXX1AqwgOFJytbXsjtgo/CDIq/FS3a
+   s6w3xQ0+PaKCS6cPOfo5yjc4GTN8sQYNTHFq7ag7I0YLpOxloqotCsDd8
+   nDXLHh1u45GaWynswFvwJmpD/gma8/GsDx9rHre5Bh5YqoFV0ccF/VQ7H
+   orYaQ46703bR820HFsRxaEJ78L6N1apSf8iDniGVhiVyV8/6CmW5blICF
+   Q==;
+X-CSE-ConnectionGUID: IZ0s2iPgStigfcnl/4SGBg==
+X-CSE-MsgGUID: xXIsmGxgSaOe1wflSNaqtQ==
+X-IronPort-AV: E=McAfee;i="6800,10657,11768"; a="77863259"
 X-IronPort-AV: E=Sophos;i="6.23,201,1770624000"; 
-   d="scan'208";a="77863257"
+   d="scan'208";a="77863259"
 Received: from fmviesa006.fm.intel.com ([10.60.135.146])
-  by orvoesa112.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 27 Apr 2026 01:11:14 -0700
-X-CSE-ConnectionGUID: MT5rY3dXRomDnwfAs0+rVQ==
-X-CSE-MsgGUID: Xf//yORSTPGa2jtz+88nIA==
+  by orvoesa112.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 27 Apr 2026 01:11:15 -0700
+X-CSE-ConnectionGUID: FOSs8vaSQ7iyQCA2lBFrjQ==
+X-CSE-MsgGUID: FqhXUCf2R2iYKIE9T5650A==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.23,201,1770624000"; 
-   d="scan'208";a="229008935"
+   d="scan'208";a="229008936"
 Received: from black.igk.intel.com ([10.91.253.5])
   by fmviesa006.fm.intel.com with ESMTP; 27 Apr 2026 01:11:12 -0700
 Received: by black.igk.intel.com (Postfix, from userid 1001)
-	id 8299BA5; Mon, 27 Apr 2026 10:11:09 +0200 (CEST)
+	id 8B30FA8; Mon, 27 Apr 2026 10:11:09 +0200 (CEST)
 From: Mika Westerberg <mika.westerberg@linux.intel.com>
 To: linux-usb@vger.kernel.org
 Cc: Yehezkel Bernat <YehezkelShB@gmail.com>,
@@ -53,9 +53,9 @@ Cc: Yehezkel Bernat <YehezkelShB@gmail.com>,
 	Alan Borzeszkowski <alan.borzeszkowski@linux.intel.com>,
 	Gil Fine <gil.fine@linux.intel.com>,
 	Mika Westerberg <mika.westerberg@linux.intel.com>
-Subject: [PATCH 09/12] thunderbolt: dma_test: No need to store debugfs directory pointer
-Date: Mon, 27 Apr 2026 10:11:06 +0200
-Message-ID: <20260427081109.2337731-10-mika.westerberg@linux.intel.com>
+Subject: [PATCH 12/12] thunderbolt: Don't create multiple DMA tunnels on firmware connection manager
+Date: Mon, 27 Apr 2026 10:11:09 +0200
+Message-ID: <20260427081109.2337731-13-mika.westerberg@linux.intel.com>
 X-Mailer: git-send-email 2.50.1
 In-Reply-To: <20260427081109.2337731-1-mika.westerberg@linux.intel.com>
 References: <20260427081109.2337731-1-mika.westerberg@linux.intel.com>
@@ -67,72 +67,120 @@ List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-We don't actually need to store the debugfs directory pointer inside
-struct dma_test. Instead we can use the debugfs_lookup_and_remove()
-which also handles the case if the debugfs directory is already removed
-by the core driver (for example when cable is disconnected).
+From: Alan Borzeszkowski <alan.borzeszkowski@linux.intel.com>
 
+Firmware connection manager supports only one DMA tunnel per XDomain
+connection. Firmware prior Intel Titan Ridge failed the operation
+directly but the same does not happen anymore on Titan Ridge and
+forward. For this reason add an explicit check, and fail the operation
+accordingly in the driver.
+
+Signed-off-by: Alan Borzeszkowski <alan.borzeszkowski@linux.intel.com>
 Signed-off-by: Mika Westerberg <mika.westerberg@linux.intel.com>
 ---
- drivers/thunderbolt/dma_test.c | 20 +++++++++-----------
- 1 file changed, 9 insertions(+), 11 deletions(-)
+ drivers/thunderbolt/icm.c     | 10 ++++++++++
+ drivers/thunderbolt/xdomain.c | 25 +++++++++++++++++++------
+ include/linux/thunderbolt.h   |  2 ++
+ 3 files changed, 31 insertions(+), 6 deletions(-)
 
-diff --git a/drivers/thunderbolt/dma_test.c b/drivers/thunderbolt/dma_test.c
-index b4aa79d482a0..af1e6bc9c7cd 100644
---- a/drivers/thunderbolt/dma_test.c
-+++ b/drivers/thunderbolt/dma_test.c
-@@ -87,7 +87,6 @@ static const char * const dma_test_result_names[] = {
-  * @error_code: Error code of the last run
-  * @complete: Used to wait for the Rx to complete
-  * @lock: Lock serializing access to this structure
-- * @debugfs_dir: dentry of this dma_test
-  */
- struct dma_test {
- 	const struct tb_service *svc;
-@@ -108,7 +107,6 @@ struct dma_test {
- 	enum dma_test_test_error error_code;
- 	struct completion complete;
- 	struct mutex lock;
--	struct dentry *debugfs_dir;
- };
+diff --git a/drivers/thunderbolt/icm.c b/drivers/thunderbolt/icm.c
+index 2f93a7bccad5..c492995166f7 100644
+--- a/drivers/thunderbolt/icm.c
++++ b/drivers/thunderbolt/icm.c
+@@ -587,6 +587,11 @@ static int icm_fr_approve_xdomain_paths(struct tb *tb, struct tb_xdomain *xd,
+ 	struct icm_fr_pkg_approve_xdomain request;
+ 	int ret;
  
- /* DMA test property directory UUID: 3188cd10-6523-4a5a-a682-fdca07a248d8 */
-@@ -619,18 +617,18 @@ DEFINE_SHOW_ATTRIBUTE(status);
++	if (atomic_read(&xd->ntunnels) >= 1) {
++		tb_warn(tb, "only one tunnel is supported by the firmware\n");
++		return -EOPNOTSUPP;
++	}
++
+ 	memset(&request, 0, sizeof(request));
+ 	request.hdr.code = ICM_APPROVE_XDOMAIN;
+ 	request.link_info = xd->depth << ICM_LINK_INFO_DEPTH_SHIFT | xd->link;
+@@ -1158,6 +1163,11 @@ static int icm_tr_approve_xdomain_paths(struct tb *tb, struct tb_xdomain *xd,
+ 	struct icm_tr_pkg_approve_xdomain request;
+ 	int ret;
  
- static void dma_test_debugfs_init(struct tb_service *svc)
++	if (atomic_read(&xd->ntunnels) >= 1) {
++		tb_warn(tb, "only one tunnel is supported by the firmware\n");
++		return -EOPNOTSUPP;
++	}
++
+ 	memset(&request, 0, sizeof(request));
+ 	request.hdr.code = ICM_APPROVE_XDOMAIN;
+ 	request.route_hi = upper_32_bits(xd->route);
+diff --git a/drivers/thunderbolt/xdomain.c b/drivers/thunderbolt/xdomain.c
+index 9a30fe36c4be..6e83f93eee83 100644
+--- a/drivers/thunderbolt/xdomain.c
++++ b/drivers/thunderbolt/xdomain.c
+@@ -2038,6 +2038,7 @@ struct tb_xdomain *tb_xdomain_alloc(struct tb *tb, struct device *parent,
+ 	INIT_DELAYED_WORK(&xd->state_work, tb_xdomain_state_work);
+ 	INIT_DELAYED_WORK(&xd->properties_changed_work,
+ 			  tb_xdomain_properties_changed);
++	atomic_set(&xd->ntunnels, 0);
+ 
+ 	xd->local_uuid = kmemdup(local_uuid, sizeof(uuid_t), GFP_KERNEL);
+ 	if (!xd->local_uuid)
+@@ -2328,9 +2329,15 @@ int tb_xdomain_enable_paths(struct tb_xdomain *xd, int transmit_path,
+ 			    int transmit_ring, int receive_path,
+ 			    int receive_ring)
  {
--	struct dma_test *dt = tb_service_get_drvdata(svc);
-+	struct dentry *debugfs_dir;
- 
--	dt->debugfs_dir = debugfs_create_dir("dma_test", svc->debugfs_dir);
-+	debugfs_dir = debugfs_create_dir("dma_test", svc->debugfs_dir);
- 
--	debugfs_create_file("lanes", 0600, dt->debugfs_dir, svc, &lanes_fops);
--	debugfs_create_file("speed", 0600, dt->debugfs_dir, svc, &speed_fops);
--	debugfs_create_file("packets_to_receive", 0600, dt->debugfs_dir, svc,
-+	debugfs_create_file("lanes", 0600, debugfs_dir, svc, &lanes_fops);
-+	debugfs_create_file("speed", 0600, debugfs_dir, svc, &speed_fops);
-+	debugfs_create_file("packets_to_receive", 0600, debugfs_dir, svc,
- 			    &packets_to_receive_fops);
--	debugfs_create_file("packets_to_send", 0600, dt->debugfs_dir, svc,
-+	debugfs_create_file("packets_to_send", 0600, debugfs_dir, svc,
- 			    &packets_to_send_fops);
--	debugfs_create_file("status", 0400, dt->debugfs_dir, svc, &status_fops);
--	debugfs_create_file("test", 0200, dt->debugfs_dir, svc, &test_fops);
-+	debugfs_create_file("status", 0400, debugfs_dir, svc, &status_fops);
-+	debugfs_create_file("test", 0200, debugfs_dir, svc, &test_fops);
+-	return tb_domain_approve_xdomain_paths(xd->tb, xd, transmit_path,
+-					       transmit_ring, receive_path,
+-					       receive_ring);
++	int ret;
++
++	ret = tb_domain_approve_xdomain_paths(xd->tb, xd, transmit_path,
++					      transmit_ring, receive_path,
++					      receive_ring);
++	if (ret)
++		return ret;
++	atomic_inc(&xd->ntunnels);
++	return 0;
  }
+ EXPORT_SYMBOL_GPL(tb_xdomain_enable_paths);
  
- static int dma_test_probe(struct tb_service *svc, const struct tb_service_id *id)
-@@ -658,7 +656,7 @@ static void dma_test_remove(struct tb_service *svc)
- 	struct dma_test *dt = tb_service_get_drvdata(svc);
- 
- 	mutex_lock(&dt->lock);
--	debugfs_remove_recursive(dt->debugfs_dir);
-+	debugfs_lookup_and_remove("dma_test", svc->debugfs_dir);
- 	mutex_unlock(&dt->lock);
+@@ -2353,9 +2360,15 @@ int tb_xdomain_disable_paths(struct tb_xdomain *xd, int transmit_path,
+ 			     int transmit_ring, int receive_path,
+ 			     int receive_ring)
+ {
+-	return tb_domain_disconnect_xdomain_paths(xd->tb, xd, transmit_path,
+-						  transmit_ring, receive_path,
+-						  receive_ring);
++	int ret;
++
++	ret = tb_domain_disconnect_xdomain_paths(xd->tb, xd, transmit_path,
++						 transmit_ring, receive_path,
++						 receive_ring);
++	if (ret)
++		return ret;
++	atomic_dec(&xd->ntunnels);
++	return 0;
  }
+ EXPORT_SYMBOL_GPL(tb_xdomain_disable_paths);
  
+diff --git a/include/linux/thunderbolt.h b/include/linux/thunderbolt.h
+index a5ef7100a6d3..bbdbbc84c999 100644
+--- a/include/linux/thunderbolt.h
++++ b/include/linux/thunderbolt.h
+@@ -228,6 +228,7 @@ enum tb_link_width {
+  *				changed notification
+  * @bonding_possible: True if lane bonding is possible on local side
+  * @target_link_width: Target link width from the remote host
++ * @ntunnels: Keeps track of how many tunnels go through this XDomain
+  * @link: Root switch link the remote domain is connected (ICM only)
+  * @depth: Depth in the chain the remote domain is connected (ICM only)
+  *
+@@ -273,6 +274,7 @@ struct tb_xdomain {
+ 	int properties_changed_retries;
+ 	bool bonding_possible;
+ 	u8 target_link_width;
++	atomic_t ntunnels;
+ 	u8 link;
+ 	u8 depth;
+ };
 -- 
 2.50.1
 
