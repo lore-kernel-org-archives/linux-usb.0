@@ -1,301 +1,164 @@
-Received: from mail-wr1-f49.google.com (mail-wr1-f49.google.com [209.85.221.49])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com [205.220.168.131])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E31B7379EDF
-	for <linux-usb@vger.kernel.org>; Mon, 27 Apr 2026 21:29:19 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.49
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DF13A38F951
+	for <linux-usb@vger.kernel.org>; Mon, 27 Apr 2026 21:42:39 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.168.131
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1777325362; cv=none; b=YJUfVLQB060AB/qA1jzLHBgeZRxKfvC5FefRaIHPtt9KFjJpDUWnPQN6UUwf/fH+xO6swhAb3hqYL4CNBakuJ04/pAwPNCzw1ClBzODEbGUEWqt7ifoMl3vla8zUXf1paUzF7HsL4rwaoRsdNZXtMLsPh7GwuvJ/EI2y9NY53tw=
+	t=1777326161; cv=none; b=BlVH/Ed2K4Mw4uMAu3GqHBYJBo2orDi70zZLrYbNjSViwqNVsUE+t7bIBFYucjJND8im0lQNgOgXPat1/FqDqrtbG/hXt76Ta+8chCEfyrEBM7uTnviECcb0A4wxC1vpX75IA9VE0XtfSYevYDn9PpUsUHQc2FvDcmIdj4jCSu8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1777325362; c=relaxed/simple;
-	bh=c8Xs8XIDe+SZyyGBpFGQP0PqyLAvYREVB87ThsvQG6c=;
-	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=IL4OORm1uOUKl8dAnX+NaNqW9ndXSRcGRo7Gz9JKazbTz/M9anTxl5W5SInyQvBFKMuRtZs5sRLyrMbj/E5oiu7CQI+zjyfcuBRDD9Pj7hMG9y7uxesukQvpZiSW9eIacE7uP+bsI4iivbzZ8Tg5EzAQsRQVwk5b4YFLDnSXtQE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=pM4bEk+K; arc=none smtp.client-ip=209.85.221.49
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1777326161; c=relaxed/simple;
+	bh=RdFm9GylrrXXv/eeKp9jybJhFAM8XC8WDco+aM6QZOM=;
+	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=H/Lg8/p7QQRrLJqjZLX8uvgWK8SFSeQ7tzDiyVi4Sn6l6uhta1eM1+JExuw7agFh91jeGmZtYMb0QtcMU7vG4EMdO9bznhh9XBAPNdmEM+PqsXFf6QG/qz3ATMV3Ebu6ENJAgLZjGFFKrIKFoKXmVv04AqPLhy9eakuIo20L4uk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com; spf=pass smtp.mailfrom=oss.qualcomm.com; dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b=SA1MYBMv; dkim=pass (2048-bit key) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.b=D1MN/qs4; arc=none smtp.client-ip=205.220.168.131
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=oss.qualcomm.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="pM4bEk+K"
-Received: by mail-wr1-f49.google.com with SMTP id ffacd0b85a97d-43fde5b81a1so8031609f8f.0
-        for <linux-usb@vger.kernel.org>; Mon, 27 Apr 2026 14:29:19 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b="SA1MYBMv";
+	dkim=pass (2048-bit key) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.b="D1MN/qs4"
+Received: from pps.filterd (m0279864.ppops.net [127.0.0.1])
+	by mx0a-0031df01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 63RFLH4w440498
+	for <linux-usb@vger.kernel.org>; Mon, 27 Apr 2026 21:42:39 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
+	cc:content-transfer-encoding:date:from:message-id:mime-version
+	:subject:to; s=qcppdkim1; bh=TJjHZ18GH17YGrCyaUvGtQLd/cBQ2Wd6z+S
+	vG6pXlRU=; b=SA1MYBMv2oQINiSXWPiyj75cCCqKhQtibSeZsvS5Yh3gVG3xW6j
+	TAg9Zac7zhqAA4cRd0onzYu2aVGfmAeBRs923zWqGoplkjaH+e0hRXonriAXukX6
+	BG0YrqB6wOWMwlxQmNLz+63fOuj27Ur38P2pKC38Xl3VycLJlR60jdjJhGRY2Odn
+	jifunNy2ixO32nxPAEKBIyoY5O1wt8W147Y8QejXMjiNfmlff4e7OrcyICkdWJu7
+	eYCnsPlE7rr7qcCh3PFKFFp8rD5fnt3j977VGGIfmK05dqND0NMmAfQpPgv1ZxhD
+	ZvuDDw+kCla/O++ATbhaSsvMKHaGq0qJH7g==
+Received: from mail-dl1-f70.google.com (mail-dl1-f70.google.com [74.125.82.70])
+	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 4dtac41bj6-1
+	(version=TLSv1.3 cipher=TLS_AES_128_GCM_SHA256 bits=128 verify=NOT)
+	for <linux-usb@vger.kernel.org>; Mon, 27 Apr 2026 21:42:39 +0000 (GMT)
+Received: by mail-dl1-f70.google.com with SMTP id a92af1059eb24-1273dfdaf5dso8902035c88.0
+        for <linux-usb@vger.kernel.org>; Mon, 27 Apr 2026 14:42:39 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1777325358; x=1777930158; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:subject:cc:to:from:date:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=Ebg5+i/pOUuQx7xxuERTUppaj1qL6vIxTxgv86V/NC0=;
-        b=pM4bEk+KWuVJs1U70UMTYiYKMTMTofFbWReYwBWyqhmru6Y2DXeQu1JWql0TDyt+VP
-         KU6iTZ27w00J1ijxYV/Il69CxIz0aEodyojX5hvux8QzDCUptjfpO0GxqEopdd5J7LQe
-         xWtNPQshDR5+AecefO+G7XCDnANkqrKF5HDpjRP71LYSISipG8uBZw3Llvrz/plVREw8
-         7hx+6bhgCNzpupXctGieSqZ7959V9vurIkn5LhYgBA0CLbIQE+NEBCLE9iwlyuxnjMVK
-         9ppisP58FPLXgdtkUISOXdh0pbxdbVuAXmsLhiX5O1W4051+CXyd/ZZNlvvioVVvo0G7
-         77DA==
+        d=oss.qualcomm.com; s=google; t=1777326158; x=1777930958; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=TJjHZ18GH17YGrCyaUvGtQLd/cBQ2Wd6z+SvG6pXlRU=;
+        b=D1MN/qs41gNxHSWQfhEVaVdtFJCPtDmoqy5EuJ3ggqoyOG7n1R9/Q9wlpGw/Qorh2v
+         deKddUgS4WjTyk1nMz1i2WYcF1Y0MeUKTNlRPWnXe6wN8LziygWPwcZuko+xdb3kMxea
+         1XuGUBHGgsCJm/vkCsnbk1my8YfBUg4vKMgdckASofpz385IsU5IYU6LGUk6pBAAIJao
+         8Oj3DgWvuZ2kfrW8TL1I41YqLopuI6k3ipZT0Puc9J+oSvOldafEQTkUB3n0OJE9UL/r
+         4EaoWXrfZ1MoVVRz+4UVvU3Pz1KkRRfg0QZC8rfsmnWITLLPKUFmJA0Je0aZ74LuSccs
+         dQzg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1777325358; x=1777930158;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:subject:cc:to:from:date:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to;
-        bh=Ebg5+i/pOUuQx7xxuERTUppaj1qL6vIxTxgv86V/NC0=;
-        b=b10Y7nRGV/D668/jqiXwIlWnE83bXhCBbt2kH1X7WhWfUKRwWXc8yMqnd45chE+fNB
-         gtJbK75XMtl371bJ4GC/RHab+Jk3nlYmu8E/xleDrDNrVWaRG8NY4ozRs40tLvIyiAhu
-         nhqCvqNAKBYuZyuS6YvsrzMX62g6jmDemI+NJ9RT8MeQ04zoir09dIHBJZdpenm8I13O
-         TvkT+Kc54tPFTSr/IR4yn59R7mTvxak/jzPMmnBsG5FFuoMyHam9yPbtHiysX8ceD++2
-         YQAfAuMnxR/NN2+IcAIjM2VneKDeb+2VzALCM2BS2g9seHpPW6zHzToicXj5TZJS9Egc
-         /e9w==
-X-Forwarded-Encrypted: i=1; AFNElJ9aufuHoO9vueCXSPTazuvNHCNG4PSkYHw+0PcZ2ycxdu4JtjRZ+ttzgQCUXKAPKNMm6wVo3En2WKY=@vger.kernel.org
-X-Gm-Message-State: AOJu0YwCS2vkYBb9kmCMcyCwxz9FUUldcn2QfIZqCHOi15+RaRyk5xa8
-	jGn3vsdLHNL+FHB//bZt4wIzbSMXV41O42SZkecp///mMM05Z8YEyGjU
-X-Gm-Gg: AeBDiev7gwRf0/a42amrlv67Jj33rCiylb+VEwsNcBFzqFbURjoaLqFLRU7gxOkT8H1
-	m/bboIB1QmqIwxTul36qMctVjCoURqQ202sn9s+bXGmpS80dnne2DbgnJmA2/ksf2Md4ReKGluJ
-	4Csb2RRCXw7v2Zn9wQrbxaMVMCD9/AjVQsaahbsZ2wBVMbeatr+Hwy52fKXCClIBf5Oh5A/RFFW
-	N2aesCqhIM6QPivauXt72SnCgVmKamtDVtjY6JFTyzVVUQCV1T0vDOp4KMsL+2nhI4tzp+lacLi
-	onzP6ip0fqxR+jms05DFLbCwPNF+OGwZUO8v8ep5bg7laXcLQ8+UvPZH1uIVpdXpq2fGAGEP/eC
-	y44V8kI+F10NcL8x/hhFjTYVdbGO+AQDbsUPL3VeZOCQU4Vb6dTseqetczfzCbrXFbBFEHN/rYT
-	5Jd4uXAqfkapxrU8elrsOs0jrtMa3bWyX2Am1MvmoBs0vYHZOidOWuGkP3F8FW295dSaulaBMzt
-	/tV7qNRVknfHg==
-X-Received: by 2002:a05:6000:3109:b0:43d:7d6f:f531 with SMTP id ffacd0b85a97d-44649ba1f4amr816127f8f.30.1777325358072;
-        Mon, 27 Apr 2026 14:29:18 -0700 (PDT)
-Received: from pumpkin (82-69-66-36.dsl.in-addr.zen.co.uk. [82.69.66.36])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-4463d02f270sm1120515f8f.9.2026.04.27.14.29.16
+        d=1e100.net; s=20251104; t=1777326158; x=1777930958;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=TJjHZ18GH17YGrCyaUvGtQLd/cBQ2Wd6z+SvG6pXlRU=;
+        b=ngSlabRI8fyCvzAmqRgmuHwjq+e8oHxQOu0GlUgqKjSGeslJG1rr/13AIB1PB1Fcil
+         dUeH12L1ifT4jNu+hubidaMK1radNL6/StHY7wdAaE3nac8R9zcr44Gomj3XIE3fP6Yg
+         /ZsgnxK7ipW3uIiSy54h9reLVzteS9KX8L5UPUPrGe2+xPqNTbOwSxeDI1/jYTkwE56h
+         2m9LL9rApNIOPPjJRoSZVeJfqgQcN/bASDf65BasRcghQO/OXlLPelJltNyjZu2qBnXN
+         wQLKZQfO7sSehvvIYK51QQMgDnUDkD31f+MBN7BR12605I59JxzJxQ7Fz2L/IIC2g5tm
+         6Htg==
+X-Forwarded-Encrypted: i=1; AFNElJ9KANohc1HIEjw6ay7PF3g0KTOanlzAPw6YxIqfu2NpyKxwmZRDQgjdLhsZu1dbU0gxBVflz9mWrB4=@vger.kernel.org
+X-Gm-Message-State: AOJu0YwmzQJIKw6FR8BQPmyiR34fltu4oaDuMg40f/OjOmFXzWgehKfI
+	50yYNYknXvaKDS1X66Y9H7cNgI4hZEaiKLwGZShPMamrrsJzF/p95AZVO7h0XQOMtYhciJJgH3a
+	Vkw/nyt8otW38Lu+M5VaZkGB05+eRKqewOQ1qQLxgXT/NogauVycDD0SSM8QiuCU=
+X-Gm-Gg: AeBDiev29oSQGIwGpvReCm7ULPBGw4U7H40XUtOrbySZAyUz8dcPvnRvENvP5xwXr3P
+	3jeUcUpJqCFzLJ5W7JAUd831/L0VgFkzO8xFd5qh9qfVBaEaq3mv5HJuQ6TdriGcxJ7vzEiwyHk
+	/fIJzHdb1cPnE9xa1thO8BzxVtOoW/ewUGm6mbXPt6n6fLDPOCKjV+01VsBFEvuxde6oSHKr/uj
+	h/U4TS7nkM0P4bmeby2lVVwL1VIADPhuCnRsTQN87RY/c82oNZROPfl2CCxtaqjgE9MZOLeU+oi
+	fq6gCfMHJ95DDu1LjJanXN+Z+QJU9z2z5FKsYayfruhkYAyu7A6w+GBQq8SftbwWW95uRvJLyMb
+	42RcnTovGxSEj8+ODeP22iF8RnkWqYCo9IzW2B1J6kPMW14vNpnihVIYEAMUGJcaWCbs+uoFdfM
+	v4uEiTqFmFGQ==
+X-Received: by 2002:a05:7022:b8c:b0:12a:6d05:3938 with SMTP id a92af1059eb24-12dddb46febmr179871c88.7.1777326158505;
+        Mon, 27 Apr 2026 14:42:38 -0700 (PDT)
+X-Received: by 2002:a05:7022:b8c:b0:12a:6d05:3938 with SMTP id a92af1059eb24-12dddb46febmr179836c88.7.1777326157948;
+        Mon, 27 Apr 2026 14:42:37 -0700 (PDT)
+Received: from hu-rraheja-lv.qualcomm.com (Global_NAT1.qualcomm.com. [129.46.96.20])
+        by smtp.gmail.com with ESMTPSA id a92af1059eb24-12ddd927bbbsm653119c88.2.2026.04.27.14.42.37
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 27 Apr 2026 14:29:17 -0700 (PDT)
-Date: Mon, 27 Apr 2026 22:29:14 +0100
-From: David Laight <david.laight.linux@gmail.com>
-To: Linus Torvalds <torvalds@linux-foundation.org>
-Cc: "Christophe Leroy (CS GROUP)" <chleroy@kernel.org>, Yury Norov
- <ynorov@nvidia.com>, Andrew Morton <akpm@linux-foundation.org>, Thomas
- Gleixner <tglx@linutronix.de>, linux-alpha@vger.kernel.org,
- linux-kernel@vger.kernel.org, linux-snps-arc@lists.infradead.org,
- linux-arm-kernel@lists.infradead.org, linux-mips@vger.kernel.org,
- linuxppc-dev@lists.ozlabs.org, kvm@vger.kernel.org,
- linux-riscv@lists.infradead.org, linux-s390@vger.kernel.org,
- sparclinux@vger.kernel.org, linux-um@lists.infradead.org,
- dmaengine@vger.kernel.org, linux-efi@vger.kernel.org,
- linux-fsi@lists.ozlabs.org, amd-gfx@lists.freedesktop.org,
- dri-devel@lists.freedesktop.org, intel-gfx@lists.freedesktop.org,
- linux-wpan@vger.kernel.org, netdev@vger.kernel.org,
- linux-wireless@vger.kernel.org, linux-spi@vger.kernel.org,
- linux-media@vger.kernel.org, linux-staging@lists.linux.dev,
- linux-serial@vger.kernel.org, linux-usb@vger.kernel.org,
- xen-devel@lists.xenproject.org, linux-fsdevel@vger.kernel.org,
- ocfs2-devel@lists.linux.dev, bpf@vger.kernel.org,
- kasan-dev@googlegroups.com, linux-mm@kvack.org, linux-x25@vger.kernel.org,
- rust-for-linux@vger.kernel.org, linux-sound@vger.kernel.org,
- sound-open-firmware@alsa-project.org, linux-csky@vger.kernel.org,
- linux-hexagon@vger.kernel.org, loongarch@lists.linux.dev,
- linux-m68k@lists.linux-m68k.org, linux-openrisc@vger.kernel.org,
- linux-parisc@vger.kernel.org, linux-sh@vger.kernel.org,
- linux-arch@vger.kernel.org
-Subject: Re: [RFC PATCH v1 5/9] uaccess: Switch to
- copy_{to/from}_user_partial() when relevant
-Message-ID: <20260427222914.1cb2dd3b@pumpkin>
-In-Reply-To: <CAHk-=whC1DZojwdMB1=sJWG2=dsCdfyU8N6tDE1qx50HRZ-WJQ@mail.gmail.com>
-References: <cover.1777306795.git.chleroy@kernel.org>
-	<289b424e243ba2c4139ea04009cf8b9c448a87ff.1777306795.git.chleroy@kernel.org>
-	<CAHk-=whC1DZojwdMB1=sJWG2=dsCdfyU8N6tDE1qx50HRZ-WJQ@mail.gmail.com>
-X-Mailer: Claws Mail 4.1.1 (GTK 3.24.38; arm-unknown-linux-gnueabihf)
+        Mon, 27 Apr 2026 14:42:37 -0700 (PDT)
+From: Ronak Raheja <ronak.raheja@oss.qualcomm.com>
+To: vkoul@kernel.org, krzk+dt@kernel.org, conor+dt@kernel.org, robh@kernel.org,
+        neil.armstrong@linaro.org, gregkh@linuxfoundation.org
+Cc: dmitry.baryshkov@oss.qualcomm.com, konrad.dybcio@oss.qualcomm.com,
+        abel.vesa@oss.qualcomm.com, wesley.cheng@oss.qualcomm.com,
+        krzysztof.kozlowski@oss.qualcomm.com, ronak.raheja@oss.qualcomm.com,
+        linux-arm-msm@vger.kernel.org, linux-phy@lists.infradead.org,
+        devicetree@vger.kernel.org, linux-usb@vger.kernel.org,
+        linux-kernel@vger.kernel.org
+Subject: [PATCH v2 0/4] phy: qcom: Introduce USB support for Hawi
+Date: Mon, 27 Apr 2026 14:42:13 -0700
+Message-Id: <20260427214217.2735240-1-ronak.raheja@oss.qualcomm.com>
+X-Mailer: git-send-email 2.34.1
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
+X-Proofpoint-GUID: rZVO0DrIwtWjbEERTAGNES4ZhXPtE7_I
+X-Authority-Analysis: v=2.4 cv=D7J37PRj c=1 sm=1 tr=0 ts=69efd84f cx=c_pps
+ a=SvEPeNj+VMjHSW//kvnxuw==:117 a=ouPCqIW2jiPt+lZRy3xVPw==:17
+ a=A5OVakUREuEA:10 a=s4-Qcg_JpJYA:10 a=VkNPw1HP01LnGYTKEx00:22
+ a=u7WPNUs3qKkmUXheDGA7:22 a=DJpcGTmdVt4CTyJn9g5Z:22 a=VwQbUJbxAAAA:8
+ a=EUspDBNiAAAA:8 a=fySfh4wnc5TE2N7XS4QA:9 a=Kq8ClHjjuc5pcCNDwlU0:22
+X-Proofpoint-ORIG-GUID: rZVO0DrIwtWjbEERTAGNES4ZhXPtE7_I
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYwNDI3MDIzMCBTYWx0ZWRfXz/XBnZJgT4M/
+ qzj630qDZNglt2ceNP2I5tfi5oDvGJXACsaXpAa86FBsuDF/10iHY6upKTDUuCxhI1MqysmK+fR
+ Uz6084MLtnwicZWgB5MyOeTeWcKaypZkkyWTfUfK2GbxMuDXu+e4x6mCzQ8k+IHWswMi8d+HQeT
+ G4sXf1QotvS+ORWdqu7H3LkGAS9sFKwKQ9iB6ermsZ2GbJqzvXgp5frEGGQTQNa634OUgPbDE/u
+ 7w+uqH1uhWF8uh4FTOZ9blcGz0uwQ7WxQE/V+nH9/+r0QKq6ReqkXTX3tN2E1tn5ruf8bBBbrKh
+ +zeCGV33h6lNlaH3F9PLBSTYaOcRydnefhjsYnM2L78oIC2v2o0bq50EYrcy9uSkITfZsGWEeiT
+ 1DSsj+D8/cJ21ZKtw3SaXbCfG1j88hHEVwGwzLf7858yF4LXkvYZkro3xP7X4hy1dJ1T4KU8HG8
+ fNmwmlVt8Wi84EBVQAA==
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1143,Hydra:6.1.51,FMLib:17.12.100.49
+ definitions=2026-04-27_04,2026-04-21_02,2025-10-01_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ impostorscore=0 bulkscore=0 phishscore=0 lowpriorityscore=0 spamscore=0
+ priorityscore=1501 suspectscore=0 clxscore=1015 adultscore=0 malwarescore=0
+ classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
+ reason=mlx scancount=1 engine=8.22.0-2604200000 definitions=main-2604270230
 
-On Mon, 27 Apr 2026 12:01:23 -0700
-Linus Torvalds <torvalds@linux-foundation.org> wrote:
+This series adds USB PHY support for the Hawi SoC. It documents the
+QMP USB3-DP combo PHY and M31 eUSB2 PHY bindings, adds the Hawi
+compatible to the DWC3 USB binding, and adds the PHY initialization
+sequences to the qmp-combo driver.
 
-> On Mon, 27 Apr 2026 at 10:18, Christophe Leroy (CS GROUP)
-> <chleroy@kernel.org> wrote:
-> >
-> > In a subsequent patch, copy_{to/from}_user() will be modified to
-> > return -EFAULT when copy fails.  
-> 
-> Please don't do this.
-> 
-> This is a maintenance nightmare, and changes pretty much three decades
-> of semantics, and will cause *very* subtle backporting issues if
-> somebody happens to rely on the old / new behavior.
-> 
-> I understand the reasoning for the change, but I really don't think
-> the pain of creating yet another user copy interface is worth it.
-> 
-> We already have a lot of different versions of user copies for
-> different reasons, and while they all tend to have a good reason (and
-> some not-so-good, but historical reasons) for existing, this one
-> doesn't seem worth it.
-> 
-> The main - perhaps only - reason for this "partial" version is that
-> you want to do that "automatically inlined and optimized fixed-sized
-> case".
-> 
-> But here's the thing: I think you can already do that. Yes, it
-> requires some improvements to unsafe_copy_from_user(), but *that*
-> interface doesn't have three decades of history associated with it,
-> _and_ you're extending on that one anyway in this series.
-> 
-> "unsafe_copy_from_user()" is very odd, is meant only for small simple
-> copies that can be inlined and it's special-cased for 'objtool' anyway
-> (because objtool would have complained about an out-of-line call,
-> although it could have been special-cased other ways).
-> 
-> In other words: unsafe_copy_from_user() is *very* close to what you
-> want for that "Oh, I noticed that it's a small fixed-size copy, so I
-> want to special-case copy-from-user for that".
-> 
-> The _only_ issue with unsafe_copy_from_user() is that you can't see
-> that there were partial successes. But if *that* was fixed, then this
-> whole "create a new copy_from_user interface" issue would just go
-> away.
-> 
-> So please - let's just change unsafe_copy_from_user() to be usable for
-> the partial case.
-> 
-> And the thing is, all the existing unsafe_copy_from_user()
-> implementations already effectively *have* the "how much did I not
-> copy" internally, and they actually do extra work to hide it, ie they
-> have things like that
-> 
->         int _i;
-> 
-> that is "how many bytes have I copied" in the powerpc implementation,
-> or the x86 code does
-> 
->         size_t __ucu_len = (_len);
-> 
-> where that "ucu_len" is updated as you go along and is literally the
-> "how many bytes are left to copy" return value that is missing from
-> this interface.
-> 
-> So what I would suggest is
-> 
->  - introduce a new user accessor helper that is used for *both*
-> unsafe_copy_to/from_user() *and* the "inline small constant-sized
-> normal copy_to/from_user()" calls
-> 
->  - it's the same thing as the existing  unsafe_copy_to/from_user()
-> implementation, except it exposes how many bytes are left to be copied
-> to the exception label.
+---
+Changes in v2:
+- Clarify in the QMP PHY binding commit message why Hawi needs a
+  dedicated compatible string vs previous targets
+- Remove stray blank line in hawi_usb3_rx_tbl
+- Link to v1: https://lore.kernel.org/all/20260425070002.348733-1-ronak.raheja@oss.qualcomm.com/
 
-I think there is a slight difference in that the normal copy_to_user()
-will determine the exact offset of the error by retrying with byte copies.
+Ronak Raheja (4):
+  dt-bindings: phy: qcom,sc8280xp-qmp-usb43dp-phy: Add Hawi QMP PHY
+  dt-bindings: phy: qcom,m31-eusb2-phy: Document M31 eUSB2 PHY for Hawi
+  dt-bindings: usb: qcom,snps-dwc3: Add Hawi compatible
+  phy: qualcomm: qmp-combo: Add support for Hawi SoC
 
-There is also the issue of misaligned copies.
+ .../bindings/phy/qcom,m31-eusb2-phy.yaml      |   1 +
+ .../phy/qcom,sc8280xp-qmp-usb43dp-phy.yaml    |   2 +
+ .../bindings/usb/qcom,snps-dwc3.yaml          |   3 +
+ .../phy/qualcomm/phy-qcom-qmp-com-aon-v10.h   |  15 ++
+ drivers/phy/qualcomm/phy-qcom-qmp-combo.c     | 231 +++++++++++++++++-
+ .../phy/qualcomm/phy-qcom-qmp-dp-phy-v10.h    |  15 ++
+ .../phy/qualcomm/phy-qcom-qmp-pcs-aon-v10.h   |  13 +
+ .../phy/qualcomm/phy-qcom-qmp-pcs-usb-v10.h   |  19 ++
+ drivers/phy/qualcomm/phy-qcom-qmp-pcs-v10.h   |  34 +++
+ .../qualcomm/phy-qcom-qmp-qserdes-com-v10.h   |  89 +++++++
+ .../qualcomm/phy-qcom-qmp-qserdes-txrx-v10.h  |  89 +++++++
+ drivers/phy/qualcomm/phy-qcom-qmp.h           |   5 +
+ 12 files changed, 512 insertions(+), 4 deletions(-)
+ create mode 100644 drivers/phy/qualcomm/phy-qcom-qmp-com-aon-v10.h
+ create mode 100644 drivers/phy/qualcomm/phy-qcom-qmp-dp-phy-v10.h
+ create mode 100644 drivers/phy/qualcomm/phy-qcom-qmp-pcs-aon-v10.h
+ create mode 100644 drivers/phy/qualcomm/phy-qcom-qmp-pcs-usb-v10.h
+ create mode 100644 drivers/phy/qualcomm/phy-qcom-qmp-pcs-v10.h
+ create mode 100644 drivers/phy/qualcomm/phy-qcom-qmp-qserdes-com-v10.h
+ create mode 100644 drivers/phy/qualcomm/phy-qcom-qmp-qserdes-txrx-v10.h
 
-Then there is the 'bugbear' of hardened user copies.
-Chasing down the stack to find whether the kernel buffer crosses
-a stack frame is probably more expensive than the copy for the typically
-small copies that will use on-stack buffers.
-
-	David
-
-> 
-> IOW, it would look something like
-> 
->      #define unsafe_copy_to_user_outlen(_dst,_src,_len,label)...
-> 
-> which is exactly the same as the current unsafe_copy_to_user(),
-> *except* it changes "_len" as it does along.
-> 
-> And then you use that for both the "real" unsafe_copy_user and for the
-> "small constant values" case.
-> 
-> Just as an example, attached is a completely stupid rough draft of a
-> patch that does this for x86 and only for unsafe_copy_to_user().
-> 
-> And I made a very very hacky change to kernel/sys.c to see what the
-> code generation looks like.
-> 
-> This is what it results in on x86 with clang (with all the magic
-> .section data edited out):
-> 
->         ... edited out the code to generate the times
->         ... this is the actual user copy:
->         # HERE!
->         movabsq $81985529216486895, %rcx        # imm = 0x123456789ABCDEF
->         cmpq    %rcx, %rbx
->         cmovaq  %rcx, %rbx
->         stac
->         movq    %r13, (%rbx)                    # exception to .LBB45_8
->         movq    %r14, 8(%rbx)                   # exception to .LBB45_8
->         movq    %r15, 16(%rbx)                  # exception to .LBB45_8
->         movq    %rax, 24(%rbx)                  # exception to .LBB45_8
->         clac
-> .LBB45_6:
->         movq    jiffies(%rip), %rdi
->         callq   jiffies_64_to_clock_t
-> .LBB45_7:
->         addq    $16, %rsp
->         popq    %rbx
->         popq    %r12
->         popq    %r13
->         popq    %r14
->         popq    %r15
->         retq
-> .LBB45_8:
->         clac
->         movq    $-14, %rax
->         jmp     .LBB45_7
-> 
-> and notice how the compiler noticed that the 'outlen' isn't actually
-> used, and turned the exception label into just a "return -EFAULT" and
-> never actually generated any code for updating remaining lengths?
-> 
-> That actually looks pretty much optimal for a 32-byte user copy.
-> 
-> And it didn't involve changing the semantics at all.
-> 
-> Just to check, I changed that "times()" system call to return the
-> number of bytes uncopied instead (to emulate the "I actually want to
-> know what's left" case), and it generated this:
-> 
->         # HERE!
->         movabsq $81985529216486895, %rcx        # imm = 0x123456789ABCDEF
->         cmpq    %rcx, %rbx
->         cmovaq  %rcx, %rbx
->         stac
->         movl    $32, %ecx
->         movq    %r13, (%rbx)                    # exception to .LBB45_7
->         movl    $24, %ecx
->         movq    %r15, 8(%rbx)                   # exception to .LBB45_7
->         movl    $16, %ecx
->         movq    %r14, 16(%rbx)                  # exception to .LBB45_7
->         movl    $8, %ecx
->         movq    %rax, 24(%rbx)                  # exception to .LBB45_7
->         clac
->         xorl    %ecx, %ecx
-> .LBB45_8:
->         movq    %rcx, %rax
->         addq    $16, %rsp
->         popq    %rbx
->         popq    %r12
->         popq    %r13
->         popq    %r14
->         popq    %r15
->         retq
-> .LBB45_6:
->         movq    jiffies(%rip), %rdi
->         jmp     jiffies_64_to_clock_t           # TAILCALL
-> .LBB45_7:
->         clac
->         jmp     .LBB45_8
-> 
-> so it all seems to work - although obviously the above is *not* the normal case.
-> 
-> NOTE NOTE NOTE! The attached patch is entirely untested. I obviously
-> did some "test code generation" with it, but I only *looked* at the
-> result, and maybe it has some fundamental problem that I just didn't
-> notice. So treat this as a "how about this approach" patch, not as
-> anything more serious than that.
-> 
-> And the kerrnel/sys.c hack is very obviously just that: a complate
-> hack for testing.
-> 
-> A real patch would do that "for small constant-sized copies, turn
-> copy_to_user() automatically into "_small_copy_to_user()".
-> 
-> The attached is *not* a real patch. Treat it with the contempt it deserves.
-> 
->              Linus
+-- 
+2.34.1
 
