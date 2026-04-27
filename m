@@ -1,50 +1,50 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.20])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.17])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 799F13537E0
-	for <linux-usb@vger.kernel.org>; Mon, 27 Apr 2026 08:11:12 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.20
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3D84139903A
+	for <linux-usb@vger.kernel.org>; Mon, 27 Apr 2026 08:11:14 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.17
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1777277474; cv=none; b=l/aKg5+A2IMyEInyCUTEN7IjWLYdib7ZcCtLhG4JotpLy1gnRkk7CFH6CIzuhv/fohb4gOlRkd/kxXH/HBOKwvRwEHb68qkGqnXoyZD4Lk3gS/mec7VG1GnPj1dqxiN+lok4+q5C/MujKRFIzE/mqzo93pXO4MddklDxZrXEpXQ=
+	t=1777277475; cv=none; b=HJ/OCz4Y9TXaURG2YOBv8lym95HhfyhxCzMRNcVg5mqXgCl3dUJAtEkAjG8rOXDOM12SQPDIyI16JkTBZeqihbrEspDLM35b7YgU40qFEiTRBC3TpDkmDXIE81Rb3CjAOO4SJAbqQp3o3ZFbXOd6+AVL5zGWEPND48yopFqAUWo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1777277474; c=relaxed/simple;
-	bh=OV6cXHsKhht9PRauGZoERydqDgxANolu7NVs0q+CPHM=;
+	s=arc-20240116; t=1777277475; c=relaxed/simple;
+	bh=f5MbmcxR7dYDCG4cNMmSBE3HjwTANkPtJd93bdWgqxw=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=e3R8rDYqSxdkXTldv/+fEQH0XXX+GVlwt6wLmBYTtR7SH0f2zNk9bo2ucfeLPeJZ2wzvskcQTEj+Bl+i7Xpx8n5DePdFgbsJkoqHKjTPbHtZVOUrqS640UqFodT503y5gMakB5cRZP16qIQN+10RAz9YKBu5m8YrBZmP40BXENw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=pass smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Y3xgmFOj; arc=none smtp.client-ip=198.175.65.20
+	 MIME-Version; b=mKLq0xXnYCSqSHOd9PwO8mOYywWSot+xx9uiLWEIn+Qo5BN0upp95PdrQUZ3Clj5zb2WMnXkVr8V/HQAuvSwJhFsW94xZkHaGYAwpx/SCJOAssaV6QdJR8y09f2SugQ+cE0VXdrEA1zqpztDBQoymYsttwgAIoO6CT+btPcIYec=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=pass smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=eS1opkvq; arc=none smtp.client-ip=192.198.163.17
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Y3xgmFOj"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="eS1opkvq"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1777277472; x=1808813472;
+  t=1777277474; x=1808813474;
   h=from:to:cc:subject:date:message-id:in-reply-to:
    references:mime-version:content-transfer-encoding;
-  bh=OV6cXHsKhht9PRauGZoERydqDgxANolu7NVs0q+CPHM=;
-  b=Y3xgmFOjUP0M8h9sI7y815miGZkzoyQ0Iss+Wohy32KYhlsKNJRY0Sfr
-   ybCQqxb+XDLaw8tNrzHZ17Kuc9yy6EfKh0m0dT+v8UTFA1BhM7mH4YegI
-   l9yF4LHBCnPIAcWK/ZH/ZfsdwbTENxtOO5Wamuz453yemzTu6bSPeEk/Y
-   cM4zWBa4kqS1JRAdw3RU4WJlvcVggyRXZ32jE+CCd6p55o6Lq8jE8moMS
-   Q+bNSISMHeM2nI5MyL67r6fgjHhZy2l/W6Xh87LSXPePEOjutrpayp/jL
-   qm4A//oqqgY/hsqqIrxJr3+fzS76gVBbHVasijSU6CvndFyvqxYYl6KLb
-   g==;
-X-CSE-ConnectionGUID: FKyv1Dd1TbyUojADjsJxQQ==
-X-CSE-MsgGUID: vLnryVp3SE6F3hpxdc8q3A==
-X-IronPort-AV: E=McAfee;i="6800,10657,11768"; a="77863243"
+  bh=f5MbmcxR7dYDCG4cNMmSBE3HjwTANkPtJd93bdWgqxw=;
+  b=eS1opkvqbgwXXa5SSUcxfHVlpTs43tCioqnJzFiCw6kF778KGUOaaeKw
+   B+B+Aun1v6BPbInCYm/vaFeuXiwmVhwdBCBylfJbszjljWN7/YiP/P/vj
+   /WzmqGxzUra+ongfan2uxWDRXY0Cn9HZns3AsGJ79u47AiFk57FWct9Yv
+   pKokvWwbRdC4q2sNWEU28JstFDjBh8vqV8DzHZlO0+mg0xCB0EwxFpJ+J
+   f9BqiYhlPg84q4XQVgEU0KFZadDxSHP3FEfFLqLGAUzyOz8g90s7PTKus
+   EttqNvHHslKMRy5oOcJ3Ysb/CZgnRZUOTgLvrL4dEZULRhFNw1gqAD+UW
+   A==;
+X-CSE-ConnectionGUID: suBhXqJtRf+B2+OcFP20Mw==
+X-CSE-MsgGUID: RV80tci8T2Og8gaontlwyA==
+X-IronPort-AV: E=McAfee;i="6800,10657,11768"; a="78034421"
 X-IronPort-AV: E=Sophos;i="6.23,201,1770624000"; 
-   d="scan'208";a="77863243"
-Received: from fmviesa006.fm.intel.com ([10.60.135.146])
-  by orvoesa112.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 27 Apr 2026 01:11:12 -0700
-X-CSE-ConnectionGUID: J9IGOfEYRJisr555R10Wag==
-X-CSE-MsgGUID: vp4TdiJuRbq5yJphfmyC6w==
+   d="scan'208";a="78034421"
+Received: from orviesa003.jf.intel.com ([10.64.159.143])
+  by fmvoesa111.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 27 Apr 2026 01:11:12 -0700
+X-CSE-ConnectionGUID: cWwI75ejRPOJl3ifThvTQQ==
+X-CSE-MsgGUID: SBh/uFwQQOKW17qWYFDXXA==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.23,201,1770624000"; 
-   d="scan'208";a="229008928"
+   d="scan'208";a="237531363"
 Received: from black.igk.intel.com ([10.91.253.5])
-  by fmviesa006.fm.intel.com with ESMTP; 27 Apr 2026 01:11:10 -0700
+  by orviesa003.jf.intel.com with ESMTP; 27 Apr 2026 01:11:10 -0700
 Received: by black.igk.intel.com (Postfix, from userid 1001)
-	id 741679D; Mon, 27 Apr 2026 10:11:09 +0200 (CEST)
+	id 6D9E299; Mon, 27 Apr 2026 10:11:09 +0200 (CEST)
 From: Mika Westerberg <mika.westerberg@linux.intel.com>
 To: linux-usb@vger.kernel.org
 Cc: Yehezkel Bernat <YehezkelShB@gmail.com>,
@@ -53,9 +53,9 @@ Cc: Yehezkel Bernat <YehezkelShB@gmail.com>,
 	Alan Borzeszkowski <alan.borzeszkowski@linux.intel.com>,
 	Gil Fine <gil.fine@linux.intel.com>,
 	Mika Westerberg <mika.westerberg@linux.intel.com>
-Subject: [PATCH 04/12] thunderbolt: Keep the domain reference while processing hotplug
-Date: Mon, 27 Apr 2026 10:11:01 +0200
-Message-ID: <20260427081109.2337731-5-mika.westerberg@linux.intel.com>
+Subject: [PATCH 02/12] thunderbolt: Don't disable lane adapter if XDomain lane bonding isn't possible
+Date: Mon, 27 Apr 2026 10:10:59 +0200
+Message-ID: <20260427081109.2337731-3-mika.westerberg@linux.intel.com>
 X-Mailer: git-send-email 2.50.1
 In-Reply-To: <20260427081109.2337731-1-mika.westerberg@linux.intel.com>
 References: <20260427081109.2337731-1-mika.westerberg@linux.intel.com>
@@ -67,41 +67,36 @@ List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-We process hotplug events in a workqueue that may run after the domain
-has been removed by tb_domain_remove(). For example if user unloads the
-driver while at the same time plugging  a device router we may have
-scheduled tb_handle_hotplug() to run. Avoid possible UAF in this case by
-taking the domain reference before scheduling the hotplug handler in
-tb_queue_hotplug().
+This happens when firmware connection manager is being used. It will
+deal with disabling the lane 1 adapter after the tunnel has been
+established and re-enabling it afterwards. For this reason only do this
+when we know that lane bonding is possible (e.g running software
+connection manager).
 
 Signed-off-by: Mika Westerberg <mika.westerberg@linux.intel.com>
 ---
- drivers/thunderbolt/tb.c | 5 ++++-
- 1 file changed, 4 insertions(+), 1 deletion(-)
+ drivers/thunderbolt/xdomain.c | 8 +++++++-
+ 1 file changed, 7 insertions(+), 1 deletion(-)
 
-diff --git a/drivers/thunderbolt/tb.c b/drivers/thunderbolt/tb.c
-index c69c323e6952..34b7d18cce56 100644
---- a/drivers/thunderbolt/tb.c
-+++ b/drivers/thunderbolt/tb.c
-@@ -98,7 +98,7 @@ static void tb_queue_hotplug(struct tb *tb, u64 route, u8 port, bool unplug)
- 	if (!ev)
- 		return;
- 
--	ev->tb = tb;
-+	ev->tb = tb_domain_get(tb);
- 	ev->route = route;
- 	ev->port = port;
- 	ev->unplug = unplug;
-@@ -2527,6 +2527,9 @@ static void tb_handle_hotplug(struct work_struct *work)
- 	pm_runtime_mark_last_busy(&tb->dev);
- 	pm_runtime_put_autosuspend(&tb->dev);
- 
-+	/* Undo the refcount increased in tb_queue_hotplug() */
-+	tb_domain_put(tb);
+diff --git a/drivers/thunderbolt/xdomain.c b/drivers/thunderbolt/xdomain.c
+index 754808c43f00..57367e18733a 100644
+--- a/drivers/thunderbolt/xdomain.c
++++ b/drivers/thunderbolt/xdomain.c
+@@ -1931,7 +1931,13 @@ static void tb_xdomain_link_exit(struct tb_xdomain *xd)
+ 	if (tb_port_get_link_generation(down) >= 4) {
+ 		down->bonded = false;
+ 		down->dual_link_port->bonded = false;
+-	} else if (xd->link_width > TB_LINK_WIDTH_SINGLE) {
++		return;
++	}
 +
- 	kfree(ev);
- }
- 
++	if (!xd->bonding_possible)
++		return;
++
++	if (xd->link_width > TB_LINK_WIDTH_SINGLE) {
+ 		/*
+ 		 * Just return port structures back to way they were and
+ 		 * update credits. No need to update userspace because
 -- 
 2.50.1
 
