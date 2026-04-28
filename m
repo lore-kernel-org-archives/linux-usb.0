@@ -1,134 +1,142 @@
-Received: from mail-dy1-f179.google.com (mail-dy1-f179.google.com [74.125.82.179])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from bkemail.birger-koblitz.de (bkemail.birger-koblitz.de [23.88.97.239])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0404D2E717B
-	for <linux-usb@vger.kernel.org>; Tue, 28 Apr 2026 01:55:27 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.82.179
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AFA23301485;
+	Tue, 28 Apr 2026 03:45:03 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=23.88.97.239
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1777341329; cv=none; b=XBjwA+YId4lYS+X4/A+xKckLPemge5MaOWofRWpGPrjojc+4Lhq8JFsjEZIfkUGZXxdmmtvZEtLR5ANJccf5WPxYFqyC2a55wzJw3ygtgM1OhRePFVX6B4woRaVnTyxM54E5qx68BpFhHje8dlqh+6l+1TOlJsv/rBYUKWLERnA=
+	t=1777347905; cv=none; b=N5gR2njG+HXayIILqcE7DqUrRuPpvG5hNHTcreaZfeONHZKeAIhue8O7N2bR93SYS2zA19Cby1EkOS4Jup7AopmW/q7u3SRA5Dv0MkVJGHoOjSQKTv2NozZQBXJeBLuKdfSynkeOvpO3Ery9T24Z6c3Am0Fbw4iPfvnLh5Hk3Eo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1777341329; c=relaxed/simple;
-	bh=kEC8iz+za6oVFzoBL743u86JXYeZApyXb7bIcdS8eOw=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=WMjrVX0udgvDMvO3w8v8UC4FTjuphEL/ycN4hAhCrpwD2H1is6ZKlGul3pi/2DJiXayHPDBewX2zrhuD0OLwPO3h40cxWenZTcHNtoX4Di6G19FBZ0bnaJN9ntd4mh4hXbeEQrNJ/op6X/MyAcY0nchUmSmZ5lNQSNeCds6SZNg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=jFJLtLKr; arc=none smtp.client-ip=74.125.82.179
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1777347905; c=relaxed/simple;
+	bh=xs7FohA2kQ00M5o/FHhRwv43hH00H8f8LM+NLgsZgU0=;
+	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:To:Cc; b=aUgAYeT4OU2cJP60QaicErSFOKmW5L+2/VEIgOz1W4sMFpWSqKdNDjmuBRKaAy0oPz5rWBofixJcyncdButYxcR3QEtPipmFekRPY0Fzm52bqqqPTOah+lSwLas4BTYV5lXM8L0XvczkrSlN0tpA+gc7FAu0r2aMOLYfBD5v+Dk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=birger-koblitz.de; spf=pass smtp.mailfrom=birger-koblitz.de; dkim=pass (2048-bit key) header.d=birger-koblitz.de header.i=@birger-koblitz.de header.b=v1BLrdcP; dkim=pass (2048-bit key) header.d=birger-koblitz.de header.i=@birger-koblitz.de header.b=v1BLrdcP; arc=none smtp.client-ip=23.88.97.239
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=birger-koblitz.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=birger-koblitz.de
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="jFJLtLKr"
-Received: by mail-dy1-f179.google.com with SMTP id 5a478bee46e88-2d9916deb14so19212853eec.0
-        for <linux-usb@vger.kernel.org>; Mon, 27 Apr 2026 18:55:27 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1777341327; x=1777946127; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=fARec+nI7yhQfM7l30+YoxkOthmyRbzKG9sUe2e81Lo=;
-        b=jFJLtLKro7bXzvQqRH3l1hNwqwbHECBxdIt64TQvmYHkq8TdWYeLQHlFDYUuB9IF2w
-         fWixNxxJRdfc0+AXct5s7DMC8PB2uSDCK5lEflR5p9oJvJ5XmfaRGp6ifV68g8jMihfH
-         L1WO+BH+fnOA5zYElRIeKNgfb07r374M+cgyeg0/kFA6t/tVtny33QKfa4BEZQxbnw8F
-         eap/algqk00rdWBNGVjUM8HGaqGvmNEwEp1QeP6U26Y7ss5D2sLwpRVqZbqjaFbJSo6x
-         S75IFtyy2l56/r6pm4Co7cwDKfx4FYNNVwdeR+Vfkysa+ubQto+sjMrh66SuUYJ0loQz
-         ZHCQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1777341327; x=1777946127;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to;
-        bh=fARec+nI7yhQfM7l30+YoxkOthmyRbzKG9sUe2e81Lo=;
-        b=OvezwwlLPtp/Xj7vgTFtJxN+rwZEVAG4DDgsOoce90JkXjRxh/i5ruYbP6fCOvyN9s
-         8+nQUjL68uZbZV9SZKVJDTUHraxx694oOvZZMSDMvQo+KenTd+6PreU+iDlXrtMIOet/
-         bQtVqFT4y4rEu5lhcgrbriPCEKiHLKhMrZ7yBQIsy0zno2lq8EJvxTcv8xbciwoYrlWS
-         GyhkQCP9ywFpPqts1JuVh8GPoKJtli2KmYqC+jX9/K6jU2sfTc0Sgzp6EK3niVPs89ev
-         ZuovdGQpFVmEkNxlGsT8I2+T1GQsc55iQgOC/gHWQArIx3E4JitmG9A4rH0DWT9tkYH2
-         yS6w==
-X-Forwarded-Encrypted: i=1; AFNElJ+akAtL5BgcY77ni7cSkW7QjRfVjEGG96zu+cfiqKjTfAwaJL7KaxAUnWFPgepfzKR0RpOMnu8UeqY=@vger.kernel.org
-X-Gm-Message-State: AOJu0YwenC6YJ1HmPp4D8DAPnpIHjfytI2dgwJVLgD5vPdmaLvu2+qpq
-	bSscdThMPtMXhClqORVcwuiYoAiXDkSVo85dwYt21Dm8iXDy3Psa5AjG
-X-Gm-Gg: AeBDievZvXfB9/YK7L01lYzALM1BhyQtXRK2Rr1K4FrNC9CcyOyIjoridzxia/ynNGy
-	Rbxc2OQscQ+ZIFFjYT6Tb0zOLk8Y3Ae8lQT6j1mCkwxKt4zOFSPQCDNMv8LB25azY1nibxOwPae
-	LKISEq0Hw12aAuOtFVHk3f84LOX9R5QAzqytCvXYT/sr6qzT5DLXoIhz7p4RUR1Mg1Ol4KOzN+L
-	rZaSeRc+MWFIsvFCXzk14jMjXA7DXCfiHiJlDcO5DdEBuzK/JCsKFFoROZZKiZmnzWp1e7Q6cJI
-	Ef66pu2qCAUjRtoUCSqCyM6miYZBG6I12HUbXYQWFBJdhWgJTSPumyeJYItJAZTVsJgnmi0deoF
-	kCgaHQEq4ly+6fbFMMYn7Ifxqpi26kfr+uOEH1m306jgGYeQUJYHfwgFjysHgIfrmHDk3lYxkhs
-	YaRhNpG7mmXj2r+Yv3ITVlY5JIr9VllkatFBrhjannbVhQ/9yzbcigCbStVd/3BKDL7bQ51+QZX
-	S2DSrK8ooInTD63ttVM65NJC2LRFwyKEr/3yhRAQCheSzZ/FIIkLpFqJNwAsABWL4tiEhQsb60T
-	cA/DdQBYfkRuXCEAfDPzfyu0cffKeqWCxD/GXQ8=
-X-Received: by 2002:a05:7300:dc88:b0:2dd:5641:ef2 with SMTP id 5a478bee46e88-2ed0a185d4bmr685315eec.25.1777341327172;
-        Mon, 27 Apr 2026 18:55:27 -0700 (PDT)
-Received: from appmana-001.i.appmana.com (23-93-84-4.dedicated.static.sonic.net. [23.93.84.4])
-        by smtp.gmail.com with ESMTPSA id 5a478bee46e88-2ed09f8a909sm1233947eec.4.2026.04.27.18.55.25
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 27 Apr 2026 18:55:26 -0700 (PDT)
-From: Benjamin Berman <benjamin.s.berman@gmail.com>
-To: Andreas Noever <andreas.noever@gmail.com>,
-	Mika Westerberg <westeri@kernel.org>,
-	Yehezkel Bernat <YehezkelShB@gmail.com>
-Cc: Andrew Lunn <andrew+netdev@lunn.ch>,
-	"David S . Miller" <davem@davemloft.net>,
-	Eric Dumazet <edumazet@google.com>,
-	Jakub Kicinski <kuba@kernel.org>,
-	Paolo Abeni <pabeni@redhat.com>,
-	linux-usb@vger.kernel.org,
-	netdev@vger.kernel.org,
-	linux-kernel@vger.kernel.org
-Subject: [PATCH 2/2] net: thunderbolt: enlarge RX/TX ring and set NAPI weight for sustained load
-Date: Mon, 27 Apr 2026 18:55:21 -0700
-Message-ID: <20260428015521.3454006-3-benjamin.s.berman@gmail.com>
-X-Mailer: git-send-email 2.43.0
-In-Reply-To: <20260428015521.3454006-1-benjamin.s.berman@gmail.com>
-References: <20260428015521.3454006-1-benjamin.s.berman@gmail.com>
+	dkim=pass (2048-bit key) header.d=birger-koblitz.de header.i=@birger-koblitz.de header.b="v1BLrdcP";
+	dkim=pass (2048-bit key) header.d=birger-koblitz.de header.i=@birger-koblitz.de header.b="v1BLrdcP"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=birger-koblitz.de;
+	s=default; t=1777347901;
+	bh=xs7FohA2kQ00M5o/FHhRwv43hH00H8f8LM+NLgsZgU0=;
+	h=From:Date:Subject:To:Cc:From;
+	b=v1BLrdcP/Yqim8VGoap4xUT6qX+McMcu+7N81pYfOFS4oa+hLriqkqIqg9OX34nOV
+	 oZaq/tU4NZuuT++YRMtW9Hs8AetjAhSyXI1AgOkJDFzl+VpXaPGcTTiXyEjL6XjUWx
+	 OvKAWlqtdf/puTxD1dv8Tol+Tkvybmi6/CjFOTSS0f+oolWPU9ufNppxsPDrSJf8dT
+	 LWzwKzbEHxIkNB8+lD4Nv6beHMujv1zcH1xEmX/ZelYjYM+5bsyboeK4qKkMGtZm7E
+	 xn7vLmt+GPDh8jewYnNFe8IXIOHxCXGDakJfOsVDK63GmL52QC0LAls+zFWdfAY/yI
+	 59de88ndw65dQ==
+Received: by bkemail.birger-koblitz.de (Postfix, from userid 109)
+	id A9503478CD; Tue, 28 Apr 2026 03:45:01 +0000 (UTC)
+X-Spam-Level: 
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=birger-koblitz.de;
+	s=default; t=1777347901;
+	bh=xs7FohA2kQ00M5o/FHhRwv43hH00H8f8LM+NLgsZgU0=;
+	h=From:Date:Subject:To:Cc:From;
+	b=v1BLrdcP/Yqim8VGoap4xUT6qX+McMcu+7N81pYfOFS4oa+hLriqkqIqg9OX34nOV
+	 oZaq/tU4NZuuT++YRMtW9Hs8AetjAhSyXI1AgOkJDFzl+VpXaPGcTTiXyEjL6XjUWx
+	 OvKAWlqtdf/puTxD1dv8Tol+Tkvybmi6/CjFOTSS0f+oolWPU9ufNppxsPDrSJf8dT
+	 LWzwKzbEHxIkNB8+lD4Nv6beHMujv1zcH1xEmX/ZelYjYM+5bsyboeK4qKkMGtZm7E
+	 xn7vLmt+GPDh8jewYnNFe8IXIOHxCXGDakJfOsVDK63GmL52QC0LAls+zFWdfAY/yI
+	 59de88ndw65dQ==
+Received: from AMDDesktop.lan (unknown [IPv6:2a00:6020:47a3:e800:271c:c6c5:9fde:77cb])
+	by bkemail.birger-koblitz.de (Postfix) with ESMTPSA id 054EB475CE;
+	Tue, 28 Apr 2026 03:45:01 +0000 (UTC)
+From: Birger Koblitz <mail@birger-koblitz.de>
+Date: Tue, 28 Apr 2026 05:44:58 +0200
+Subject: [PATCH net-next] r8152: Use ocp/mdio test and clear functions in
+ r8157_hw_phy_cfg()
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+Message-Id: <20260428-use_bit_functions-v1-1-6eb5a3507610@birger-koblitz.de>
+X-B4-Tracking: v=1; b=H4sIADkt8GkC/x2M0QoCIRAAf0X2OcGs7K5fOULU1m5ftsP1Qjj89
+ 6THgZk5QLAQCjzUAQW/JPThAeeTgrQGfqOm12CwxjpztXe9C/pI1eedUx2yaONymN0txuliYXR
+ bwUzt/1yAsWrGVuHZ+w9Gykg2bQAAAA==
+X-Change-ID: 20260427-use_bit_functions-06fa965bb832
+To: Andrew Lunn <andrew+netdev@lunn.ch>, 
+ "David S. Miller" <davem@davemloft.net>, Eric Dumazet <edumazet@google.com>, 
+ Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>
+Cc: linux-usb@vger.kernel.org, netdev@vger.kernel.org, 
+ linux-kernel@vger.kernel.org, Chih Kai Hsu <hsu.chih.kai@realtek.com>, 
+ Birger Koblitz <mail@birger-koblitz.de>
+X-Mailer: b4 0.14.2
 
-The default TBNET_RING_SIZE of 256 and the NAPI_POLL_WEIGHT of 64
-implicit in netif_napi_add() are too small for host-to-host Thunderbolt
-networking under sustained bulk traffic.  Running NCCL all-reduce over
-tb-lo on a three-node chain (two TB3 endpoints plus a TB4 Maple Ridge
-transit) produces rx_missed_errors at ~1 % of rx_packets on the transit
-and ~0.6 % on the endpoints, with rx_packets stalling against a peer's
-continuing tx_packets.
+Replace explicit testing of bits and clearing these bits by existing
+functions ocp_word_test_and_clr_bits() and r8152_mdio_test_and_clr_bit()
+to re-use this code.
 
-Raise TBNET_RING_SIZE to 2048 (8x) and use netif_napi_add_weight() with
-a per-NAPI weight of 256 so tbnet_poll() drains more frames per softirq
-invocation.  With matching sysctls (net.core.netdev_budget=1024,
-net.core.netdev_budget_usecs=8000) rx_missed_errors stays below 0.005 %
-over a 192 GB all-reduce workload on the same hardware.
+This allows to remove the "ocp_data" variable. Also remove the "ret" variable
+which was incorrectly used for the r8153_phy_status() return value which
+is a u16, so that the remaining "data" variable is sufficient.
 
-Generated-by: Claude Opus 4.7 <claude-opus-4-7@anthropic.com>
-Tested-by: Benjamin Berman <benjamin.s.berman@gmail.com>
-Signed-off-by: Benjamin Berman <benjamin.s.berman@gmail.com>
+Signed-off-by: Birger Koblitz <mail@birger-koblitz.de>
 ---
- drivers/net/thunderbolt/main.c | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
+The ocp and mdio bit test-and-clear functions were added in the last
+netdev patch submission cycle at the same time as the support for
+the RTL8157. Make use of these new functions in the PHY setup of
+that Chip. 
+---
+ drivers/net/usb/r8152.c | 20 ++++----------------
+ 1 file changed, 4 insertions(+), 16 deletions(-)
 
-diff --git a/drivers/net/thunderbolt/main.c b/drivers/net/thunderbolt/main.c
-index 7aae5d915..3a096f7c5 100644
---- a/drivers/net/thunderbolt/main.c
-+++ b/drivers/net/thunderbolt/main.c
-@@ -31,7 +31,7 @@
- #define TBNET_LOGIN_TIMEOUT	500
- #define TBNET_LOGOUT_TIMEOUT	1000
+diff --git a/drivers/net/usb/r8152.c b/drivers/net/usb/r8152.c
+index 7337bf1b7d6ad03572edbc492706c07a8f58760f..c7c1b07d4159d50a1641894235a011e467e5d3e7 100644
+--- a/drivers/net/usb/r8152.c
++++ b/drivers/net/usb/r8152.c
+@@ -7952,17 +7952,11 @@ static void r8156b_hw_phy_cfg(struct r8152 *tp)
  
--#define TBNET_RING_SIZE		256
-+#define TBNET_RING_SIZE		2048
- #define TBNET_LOGIN_RETRIES	60
- #define TBNET_LOGOUT_RETRIES	10
- #define TBNET_E2E		BIT(0)
-@@ -1383,7 +1383,7 @@ static int tbnet_probe(struct tb_service *svc, const struct tb_service_id *id)
- 	dev->features = dev->hw_features | NETIF_F_HIGHDMA;
- 	dev->hard_header_len += sizeof(struct thunderbolt_ip_frame_header);
+ static void r8157_hw_phy_cfg(struct r8152 *tp)
+ {
+-	u32 ocp_data;
+ 	u16 data;
+-	int ret;
  
--	netif_napi_add(dev, &net->napi, tbnet_poll);
-+	netif_napi_add_weight(dev, &net->napi, tbnet_poll, 256);
+ 	r8156b_wait_loading_flash(tp);
  
- 	/* MTU range: 68 - 65522 */
- 	dev->min_mtu = ETH_MIN_MTU;
+-	ocp_data = ocp_read_word(tp, MCU_TYPE_USB, USB_MISC_0);
+-	if (ocp_data & PCUT_STATUS) {
+-		ocp_data &= ~PCUT_STATUS;
+-		ocp_write_word(tp, MCU_TYPE_USB, USB_MISC_0, ocp_data);
+-	}
++	ocp_word_test_and_clr_bits(tp, MCU_TYPE_USB, USB_MISC_0, PCUT_STATUS);
+ 
+ 	data = r8153_phy_status(tp, 0);
+ 	switch (data) {
+@@ -7976,19 +7970,13 @@ static void r8157_hw_phy_cfg(struct r8152 *tp)
+ 		break;
+ 	}
+ 
+-	data = r8152_mdio_read(tp, MII_BMCR);
+-	if (data & BMCR_PDOWN) {
+-		data &= ~BMCR_PDOWN;
+-		r8152_mdio_write(tp, MII_BMCR, data);
+-	}
++	r8152_mdio_test_and_clr_bit(tp, MII_BMCR, BMCR_PDOWN);
+ 
+ 	r8153_aldps_en(tp, false);
+ 	rtl_eee_enable(tp, false);
+ 
+-	ret = r8153_phy_status(tp, PHY_STAT_LAN_ON);
+-	if (ret < 0)
+-		return;
+-	WARN_ON_ONCE(ret != PHY_STAT_LAN_ON);
++	data = r8153_phy_status(tp, PHY_STAT_LAN_ON);
++	WARN_ON_ONCE(data != PHY_STAT_LAN_ON);
+ 
+ 	/* PFM mode */
+ 	ocp_word_clr_bits(tp, MCU_TYPE_PLA, PLA_PHY_PWR, PFM_PWM_SWITCH);
+
+---
+base-commit: 35c2c39832e569449b9192fa1afbbc4c66227af7
+change-id: 20260427-use_bit_functions-06fa965bb832
+
+Best regards,
 -- 
-2.43.0
+Birger Koblitz <mail@birger-koblitz.de>
 
