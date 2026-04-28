@@ -1,53 +1,35 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.17])
+Received: from vps0.lunn.ch (vps0.lunn.ch [156.67.10.101])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 37899449EAB;
-	Tue, 28 Apr 2026 14:20:01 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.17
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3E3A03E1230;
+	Tue, 28 Apr 2026 14:39:36 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=156.67.10.101
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1777386015; cv=none; b=nQ+EEVKLhMjD5jPH8/UONOSIKLh+2XisqFJpQa16wQIaxIL2wwivkJ9PV9XFyeoKv2IoQEJ/iu9oGaEjmsViHJ0ZKdH/bdAUg2F/Jo5+8JfXUEbVS/n1X1hbkNCY8jVkIU3ShAm4uf+0LAi/nFqUOp/bxvbixFLG8af/9zJtYSs=
+	t=1777387180; cv=none; b=N7iSKD+CqlhVofEKmkXf9WvJtOOwVc0B1I2sBiMLIjc3dCz9if4NwMnKXf55rVGkt7/TgJKj3wWJku3Z3svnRjePVZ6g00bE/Ac2QIQk5LiQNXpvakMzp8ff6TZgmiRsX2Hu86/9isAP0G+GIWZy5tbiZ7w7q1uWsydCID7GHTE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1777386015; c=relaxed/simple;
-	bh=kIuxbgIaJCMhQuNLYkCckOFDeUskSr2OVQDRPgW9pF4=;
+	s=arc-20240116; t=1777387180; c=relaxed/simple;
+	bh=ndkYltk4TrLKbkDE2D7T8XnXR1jyK3Ql7fiYgPBtnG8=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=P/OeNfxyxOj3eynDJrNUvEfFGmsqaxgaADBI2buwNXTvxSgdb6DrlVrugsClkLXZiBNbgXCkmaeOkIQE7SNYhdXOaT6pavM5NExcZMZkFyil9VwDqg9SyfXeKsIrzc1ic0sHlhGro4ltX6vmJ1ZuIqmsgvucybLRAUG7Q49UO6g=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=pass smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=eYq8WcA5; arc=none smtp.client-ip=198.175.65.17
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.intel.com
+	 Content-Type:Content-Disposition:In-Reply-To; b=JNyezvUG5SyRb/XcYYrFRKdKpsuAFIo1tR6ROGsi4En9qlDzn7mxif00uZdVXdBwQv/Hmu1RzWH36VDslhSyAPF5y0h8AZEb1f3m8y0mMdKkOrVzYpi/TzJXHqBMVs6qsWcOPVgnskD1uCgFZXAIt9+loonPRdZ1GpywRKeR3fk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lunn.ch; spf=pass smtp.mailfrom=lunn.ch; dkim=pass (1024-bit key) header.d=lunn.ch header.i=@lunn.ch header.b=LbRg61Jr; arc=none smtp.client-ip=156.67.10.101
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lunn.ch
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=lunn.ch
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="eYq8WcA5"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1777386005; x=1808922005;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=kIuxbgIaJCMhQuNLYkCckOFDeUskSr2OVQDRPgW9pF4=;
-  b=eYq8WcA5G8HO9oKh1BmeKoYJzNZuOB/huR0pDFhCv8MiMtOixkujrIdB
-   TwBwPS9rn9QjJT/TSOVNWXo0jBdGEIeEPEa8fGyRyC5ilwFrLbxM9F2P5
-   mWG5urdieC5Z7WeSUrXMZ0Or5+VOO+jnmwM5XpFF7ZabgjZ8nqQxWrgZC
-   Qefd/SEH8ElxpgH4Ryvpulnd3VLDw1ZYHouycjkjbCvx5EjKeKhlqkgeA
-   dQHYoN+OOTuvmsl/PeZcXS2QNws/I1lH57+EbABik0YNeYLz7a2M/5LWi
-   C2mrD0D5iZIXhU73K1dX4yCuJ3IeYrYc5zOXuLWtRa238brkW2wELapxv
-   Q==;
-X-CSE-ConnectionGUID: i6j1PG9BSi2EsHhoGUQ13A==
-X-CSE-MsgGUID: MDsVBLIRQr+3x4PrQXjeXQ==
-X-IronPort-AV: E=McAfee;i="6800,10657,11770"; a="78279286"
-X-IronPort-AV: E=Sophos;i="6.23,204,1770624000"; 
-   d="scan'208";a="78279286"
-Received: from fmviesa005.fm.intel.com ([10.60.135.145])
-  by orvoesa109.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 28 Apr 2026 07:20:00 -0700
-X-CSE-ConnectionGUID: otW1OplASGq46IDj0untFQ==
-X-CSE-MsgGUID: oNunmfWLRSa2/fFupSSg8g==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.23,204,1770624000"; 
-   d="scan'208";a="238940813"
-Received: from black.igk.intel.com ([10.91.253.5])
-  by fmviesa005.fm.intel.com with ESMTP; 28 Apr 2026 07:19:56 -0700
-Received: by black.igk.intel.com (Postfix, from userid 1001)
-	id 02F5695; Tue, 28 Apr 2026 16:19:55 +0200 (CEST)
-Date: Tue, 28 Apr 2026 16:19:54 +0200
-From: Mika Westerberg <mika.westerberg@linux.intel.com>
-To: Andrew Lunn <andrew@lunn.ch>
+	dkim=pass (1024-bit key) header.d=lunn.ch header.i=@lunn.ch header.b="LbRg61Jr"
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=lunn.ch;
+	s=20171124; h=In-Reply-To:Content-Disposition:Content-Type:MIME-Version:
+	References:Message-ID:Subject:Cc:To:From:Date:From:Sender:Reply-To:Subject:
+	Date:Message-ID:To:Cc:MIME-Version:Content-Type:Content-Transfer-Encoding:
+	Content-ID:Content-Description:Content-Disposition:In-Reply-To:References;
+	bh=UNK6Fl0ayUn6bkL7QNJCB3dd44T2ZvOmBCycUQo2hN8=; b=LbRg61Jr4BQeXALqT6iAAslTrw
+	84lcTLxSueuJ24hY5JwrpeSWCt9mdcXbCVTsv4oY7kv3pnnQCY9Jbem5Z9ZsuHAZiSGUjHOzpAOSm
+	lUnK0Jqlf/bdbnGhq5rHY9SkJI1QJy32oaTnPeJSQO8NKx5ipGLuRKgSJkMJzbGKCEwU=;
+Received: from andrew by vps0.lunn.ch with local (Exim 4.94.2)
+	(envelope-from <andrew@lunn.ch>)
+	id 1wHjav-000Lo2-3p; Tue, 28 Apr 2026 16:39:25 +0200
+Date: Tue, 28 Apr 2026 16:39:25 +0200
+From: Andrew Lunn <andrew@lunn.ch>
+To: Mika Westerberg <mika.westerberg@linux.intel.com>
 Cc: Benjamin Berman <benjamin.s.berman@gmail.com>,
 	Andreas Noever <andreas.noever@gmail.com>,
 	Mika Westerberg <westeri@kernel.org>,
@@ -60,82 +42,59 @@ Cc: Benjamin Berman <benjamin.s.berman@gmail.com>,
 	linux-kernel@vger.kernel.org
 Subject: Re: [PATCH 2/2] net: thunderbolt: enlarge RX/TX ring and set NAPI
  weight for sustained load
-Message-ID: <20260428141954.GT557136@black.igk.intel.com>
+Message-ID: <0dce1878-f54a-44f4-b755-2ea6899c8c9f@lunn.ch>
 References: <20260428015521.3454006-1-benjamin.s.berman@gmail.com>
  <20260428015521.3454006-3-benjamin.s.berman@gmail.com>
  <20260428074253.GP557136@black.igk.intel.com>
  <e6a249d5-8b11-43cf-89ee-14d436c70cf8@lunn.ch>
+ <20260428141954.GT557136@black.igk.intel.com>
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <e6a249d5-8b11-43cf-89ee-14d436c70cf8@lunn.ch>
+In-Reply-To: <20260428141954.GT557136@black.igk.intel.com>
 
-On Tue, Apr 28, 2026 at 02:54:58PM +0200, Andrew Lunn wrote:
-> On Tue, Apr 28, 2026 at 09:42:53AM +0200, Mika Westerberg wrote:
-> > On Mon, Apr 27, 2026 at 06:55:21PM -0700, Benjamin Berman wrote:
-> > > The default TBNET_RING_SIZE of 256 and the NAPI_POLL_WEIGHT of 64
-> > > implicit in netif_napi_add() are too small for host-to-host Thunderbolt
-> > > networking under sustained bulk traffic.  Running NCCL all-reduce over
-> > > tb-lo on a three-node chain (two TB3 endpoints plus a TB4 Maple Ridge
-> > > transit) produces rx_missed_errors at ~1 % of rx_packets on the transit
-> > > and ~0.6 % on the endpoints, with rx_packets stalling against a peer's
-> > > continuing tx_packets.
-> > > 
-> > > Raise TBNET_RING_SIZE to 2048 (8x) and use netif_napi_add_weight() with
-> > > a per-NAPI weight of 256 so tbnet_poll() drains more frames per softirq
-> > > invocation.  With matching sysctls (net.core.netdev_budget=1024,
-> > > net.core.netdev_budget_usecs=8000) rx_missed_errors stays below 0.005 %
-> > > over a 192 GB all-reduce workload on the same hardware.
-> > > 
-> > > Generated-by: Claude Opus 4.7 <claude-opus-4-7@anthropic.com>
-> > > Tested-by: Benjamin Berman <benjamin.s.berman@gmail.com>
-> > > Signed-off-by: Benjamin Berman <benjamin.s.berman@gmail.com>
-> > 
-> > For ring size I don't have any objections. The current ring size 256 is
-> > arbitrary and at the time seemed reasonable.
-> > 
-> > For the poll weigth there is the comment in netdevice.h:
-> > 
-> > /* Default NAPI poll() weight
-> >  * Device drivers are strongly advised to not use bigger value
-> >  */
-> > #define NAPI_POLL_WEIGHT 64
-> > 
-> > But if you see improvement using 256 here I'm fine with that unless the
-> > network folks advice otherwise.
+> > Is there interrupt coalesce going on, and the coalesce time set too
+> > high, so that by the time the interrupt fires the ring is full? Can
+> > you play with ethtool -C?
 > 
-> I just did a quick sample of other drivers which change the NAPI
-> weight. Of the 10 i looked at, 9 reduced the weight. Only one
-> increased it.
-
-Yeah, I noticed it too. That's why asking for consultancy :)
-
-> I would like the core netdev people to comment on this, before it is
-> accepted.
+> Thanks!
 > 
-> Questions which come to mind:
+> I'll leave these to Benjamin and Claude AI to answer.
 > 
-> Why is the polling not happening frequently enough? 
+> One thing that could affect is the interrupt throttling that the hardware
+> is doing. We have quite big value there by default. Lowering that may have
+> affect as well. I just posted a patch series where one of the patches makes
+> this configurable in the tbnet driver so you could apply that and play with
+> the throttling value:
 > 
-> Is it frequently swapping between polling and interrupts?
-> 
-> Is there interrupt coalesce going on, and the coalesce time set too
-> high, so that by the time the interrupt fires the ring is full? Can
-> you play with ethtool -C?
+> https://lore.kernel.org/linux-usb/20260428072209.3084930-6-mika.westerberg@linux.intel.com/
 
-Thanks!
+So i guess this is interrupt coalesce by another name.
 
-I'll leave these to Benjamin and Claude AI to answer.
+In netdev, the module parameter would get NACKed.
 
-One thing that could affect is the interrupt throttling that the hardware
-is doing. We have quite big value there by default. Lowering that may have
-affect as well. I just posted a patch series where one of the patches makes
-this configurable in the tbnet driver so you could apply that and play with
-the throttling value:
+[Looks more closely at the code].
 
-https://lore.kernel.org/linux-usb/20260428072209.3084930-6-mika.westerberg@linux.intel.com/
+So, you are adding the module parameter in
+drivers/net/thunderbolt/main.c. That clearly is netdev code. So sorry,
+please don't do that.
+
+But ethtool provides an API for configuring these things:
+
+       ethtool -C|--coalesce devname [adaptive-rx on|off] [adaptive-tx on|off]
+              [rx-usecs N] [rx-frames N] [rx-usecs-irq N] [rx-frames-irq N]
+              [tx-usecs N] [tx-frames N] [tx-usecs-irq N] [tx-frames-irq N]
+              [stats-block-usecs N] [pkt-rate-low N] [rx-usecs-low N]
+              [rx-frames-low N] [tx-usecs-low N] [tx-frames-low N]
+              [pkt-rate-high N] [rx-usecs-high N] [rx-frames-high N]
+              [tx-usecs-high N] [tx-frames-high N] [sample-interval N]
+
+So i hope you can map these parameters to your tb_ring_throttling()
+call.
+
+   Andrew
