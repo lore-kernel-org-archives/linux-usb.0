@@ -1,44 +1,36 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 21F233B27C7;
-	Tue, 28 Apr 2026 11:58:14 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2C2D13F23A1;
+	Tue, 28 Apr 2026 11:58:53 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1777377495; cv=none; b=I2AZgqeppBYcVEvllKQgLx6IDjJD3N+gsfRWA6S+Rr56hn/O0ndywMoEF/A8C4B4xcl7rfQxGjpU3O9Gmt2IBCGISJYc/uABg5W6mRwCt9iKQFlnbl9F+B1Ez6VG4RrqAzSaEx5I1OMWj5Em2uueWY0G1ZM3ZFauE+La0KAFIHY=
+	t=1777377534; cv=none; b=BtQ2PS72igMJAIA3uLY/EFcN1nfSL04WNfWYkX7t3ttnb9QuiHt0mrko0iSvKvX8xIAzaVi8/z6FkHcQe4DGxHZRr3W9AW2HPMPtPdo2L/PCMh7h/xhOATf0xUgFbtM8mtMuttv8PXi0XLN9PYfIjVSYXUnH8MCQl8/VD8LCN0k=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1777377495; c=relaxed/simple;
-	bh=QcnsbqrbpeiW6ECmDzgYnggxr4kRdMbrmWvZ4O4SbxE=;
+	s=arc-20240116; t=1777377534; c=relaxed/simple;
+	bh=tn+y8uCLe3YX1zgm7VU1H10cIr3zbLQPqDQXB4GIjMI=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=jt4zkEoVSwJksONGGIPQGUexfZCHpx62ih97yEX2terLxfu9HSCk3GyiMVRrXdMzDyCtCk9gcyxy4iVizwcuLZqA7NSp4QnXNdtucCxYMl7LLDw3ElouBJSVMvP71zfIhBjlMq9w3RF/Y+GI019B16k1QDYDMQOkDQ5540V6+WY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b=PuyLxh2Y; arc=none smtp.client-ip=10.30.226.201
+	 Content-Type:Content-Disposition:In-Reply-To; b=LsKJjMJ6F/8uKEbtYbrkJqfmAK6Gy4hcglW2vvBpgGyP6J9YbECFkYErehj2oIM9n1KFho6eZcgxP4yKtOoVshGHX4e2p9XfWv1sKl8SrLPZd2IEZ2e3TQferiCLwFKSP0M0dbz4+MxW6O+ezFJPRA5DgfgsOVdeerJopChYqEI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b=mkVczpe9; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="PuyLxh2Y"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 57CEBC2BCAF;
-	Tue, 28 Apr 2026 11:58:14 +0000 (UTC)
+	dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="mkVczpe9"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id A6D1BC2BCB6;
+	Tue, 28 Apr 2026 11:58:53 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
-	s=korg; t=1777377494;
-	bh=QcnsbqrbpeiW6ECmDzgYnggxr4kRdMbrmWvZ4O4SbxE=;
+	s=korg; t=1777377533;
+	bh=tn+y8uCLe3YX1zgm7VU1H10cIr3zbLQPqDQXB4GIjMI=;
 	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=PuyLxh2Yre3m3PbD5JRhDKb1V+ydQlZ//1r/JTwu5j02S6yEOBCaJQVdHjBoYlFuQ
-	 JqrMWlnhFtxZ3jMmDC05vlZ4EpUHodkEuKOc84Q+u8fzqqh2VINAEn/MnFo2U6N6j/
-	 SKQyYkyPfR1CSxEICSFy7imybMrBnGLzpW55PmBw=
-Date: Tue, 28 Apr 2026 05:57:37 -0600
+	b=mkVczpe9Bgwwb9JzOWPyq0uN+RyFJlVKDjpbJ20+yYh3kDSWjq4xf3Hg+3aFdQK68
+	 4eIX6xQNsZogsUOJg+Kw4aVuqCtJ+4kn5PPyUQWiX2IrSBR0CnCLtQmsQX/7z8Adta
+	 E9PKnrkTicxPU9uxmj6phdp12V8iMObDdMKrSIUw=
+Date: Tue, 28 Apr 2026 05:58:16 -0600
 From: Greg KH <gregkh@linuxfoundation.org>
-To: Mika Westerberg <mika.westerberg@linux.intel.com>
-Cc: linux-usb@vger.kernel.org, Yehezkel Bernat <YehezkelShB@gmail.com>,
-	Lukas Wunner <lukas@wunner.de>,
-	Andreas Noever <andreas.noever@gmail.com>,
-	Alan Borzeszkowski <alan.borzeszkowski@linux.intel.com>,
-	Andrew Lunn <andrew+netdev@lunn.ch>,
-	"David S . Miller" <davem@davemloft.net>,
-	Eric Dumazet <edumazet@google.com>,
-	Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>,
-	netdev@vger.kernel.org
-Subject: Re: [PATCH 9/9] thunderbolt: Add support for USB4STREAM
-Message-ID: <2026042848-cubical-penalize-807c@gregkh>
-References: <20260428072209.3084930-1-mika.westerberg@linux.intel.com>
- <20260428072209.3084930-10-mika.westerberg@linux.intel.com>
+To: Ginger <ginger.jzllee@gmail.com>
+Cc: linux-usb@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH] usb: misc: yurex: fix ordering of usb_deregister_dev()
+ and usb_set_intfdata()
+Message-ID: <2026042854-shrivel-deplete-1280@gregkh>
+References: <CAGp+u1YpY=StJYjr0HdYV+uaKBdcaT3iU4jq-9vr3d_a=t_nvQ@mail.gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
@@ -47,87 +39,93 @@ List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20260428072209.3084930-10-mika.westerberg@linux.intel.com>
+In-Reply-To: <CAGp+u1YpY=StJYjr0HdYV+uaKBdcaT3iU4jq-9vr3d_a=t_nvQ@mail.gmail.com>
 
-On Tue, Apr 28, 2026 at 09:22:09AM +0200, Mika Westerberg wrote:
-> Introduce USB4STREAM protocol and Linux implementation. This allows two
-> (or more) hosts to transfer data directly over Thunderbolt/USB4 cable
-> through a character device without need to go through the network stack.
+On Tue, Apr 28, 2026 at 12:54:22PM +0800, Ginger wrote:
+> In yurex_disconnect(), usb_set_intfdata(interface, NULL) was called
+> before usb_deregister_dev(interface, &yurex_class).  This opens a race
+> window with usb_open() in the USB core:
 > 
-> Any application that supports read(2) and write(2) in some form should
-> be able to use the device without changes. The data is sent out to the
-> other side over a tunnel inside Thunderbolt/USB4 fabric. The character
-> device is called /dev/tbstreamX where X is the minor number starting
-> from 0.
+>   T0 (yurex_disconnect)               T1 (usb_open)
+>   --------------------------           -------------------------
+>   usb_set_intfdata(iface, NULL) [t0]
+>                                        fops = usb_minors[minor]  [t1]
+>                                        /* fops still valid here */
+>   usb_deregister_dev()
+>     usb_minors[minor] = NULL   [t2]
+>                                        file->f_op->open(inode, file)
+>                                          yurex_open()
+>                                            dev = usb_get_intfdata() [t3]
+>                                            /* dev is NULL */
 > 
-> All stream devices need to be configured first. This is done through
-> ConfigFS interface. There can be multiple streams at the same time (this
-> depends on number of DMA rings and available HopIDs) and a single stream
-> supports traffic in both directions. For example there could be an
-> application that uses one stream as control channel and another one as
-> bi-directional data channel.
+> Because t0 precedes t1 precedes t2 precedes t3, T1 can obtain the
+> file_operations pointer for the device (t1, while the minor is still
+> registered), then continue into yurex_open() where it calls
+> usb_get_intfdata() and gets NULL back, leading to a NULL dereference.
 > 
-> A real use-case for this is to take a backup as a part of recovery
-> initramfs tooling (no need to setup networking or have ssh or similar
-> tooling as part of the initramfs). Say we want to backup the disk of
-> host1 to host2. First Thunderbolt/USB4 cable is connected between the
-> hosts (there can be devices in the middle too) then the receiving side
-> configures the stream:
+> Fix the race by calling usb_deregister_dev() first, which removes the
+> device from usb_minors[] before the interface data pointer is cleared.
+> Concurrent usb_open() that arrives after usb_deregister_dev() returns
+> will fail to look up the fops and will never reach yurex_open().
 > 
->   host2 # mkdir /sys/kernel/config/thunderbolt/stream/0-1.0
->   host2 # mkdir /sys/kernel/config/thunderbolt/stream/0-1.0/backup
->   host2 # echo -1 > /sys/kernel/config/thunderbolt/stream/0-1.0/backup/in_hopid
->   host2 # echo -1 > /sys/kernel/config/thunderbolt/stream/0-1.0/backup/out_hopid
+> Reported-by: Ginger <ginger.jzllee@gmail.com>
+> Closes: https://lore.kernel.org/linux-usb/2026042718-unwieldy-dicing-626f@gregkh
+> Signed-off-by: Ginger <ginger.jzllee@gmail.com>
+> ---
+>  drivers/usb/misc/yurex.c | 3 ++-
+>  1 file changed, 2 insertions(+), 1 deletion(-)
 > 
-> We use automatic HopID allocation (writing -1 to HopIDs) for simplicity.
-> >From this point forward the /dev/tbstream0 can be used pretty much as
-> regular file:
+> diff --git a/drivers/usb/misc/yurex.c b/drivers/usb/misc/yurex.c
+> index 6d03e689850a..b5484ab77e91 100644
+> --- a/drivers/usb/misc/yurex.c
+> +++ b/drivers/usb/misc/yurex.c
+> @@ -310,11 +310,12 @@ static void yurex_disconnect(struct
+> usb_interface *interface)
+>     int minor = interface->minor;
 > 
->   host2 # dd if=/dev/tbstream0 of=/tmp/host1.nvme0n1.backup-$(date +%F) bs=256k
+>     dev = usb_get_intfdata(interface);
+> -   usb_set_intfdata(interface, NULL);
 > 
-> The host that is being backed up then configures the stream accordingly:
+>     /* give back our minor */
+>     usb_deregister_dev(interface, &yurex_class);
 > 
->   host1 # mkdir /sys/kernel/config/thunderbolt/stream/0-503.0
->   host1 # mkdir /sys/kernel/config/thunderbolt/stream/0-503.0/backup
+> +   usb_set_intfdata(interface, NULL);
+> +
+>     /* prevent more I/O from starting */
+>     usb_poison_urb(dev->urb);
+>     usb_poison_urb(dev->cntl_urb);
+> --
+> 2.39.5
 > 
-> Here we take advantage of the fact that host2 also announces the active
-> streams through XDomain properties so the name "backup" gives us the
-> HopIDs. It is also possible to configure them manually in the same way
-> we did for host2.
-> 
-> Then it is just a matter of copying the data over:
-> 
->   host1 # dd if=/dev/nvme0n1 of=/dev/tbstream0 bs=256k
-> 
-> Similarly it is possible to transfer parts of the filesystem. For
-> example copy contents of mydir over to the host2:
-> 
->   host2 # gunzip < /dev/tbstream0 | tar xf -
->   host1 # tar cf - mydir | gzip > /dev/tbstream0
-> 
-> Other end of the spectrum use-case is "borrowing" laptop (host1) camera
-> to desktop (host2):
-> 
->   host2 # gst-launch-1.0 filesrc location=/dev/tbstream0 ! jpegdec ! videoconvert ! \
->                          autovideosink
-> 
->   host1 # gst-launch-1.0 v4l2src device=/dev/video0 ! video/x-raw,width=1920,height=1080 ! \
->                          jpegenc quality=90 ! filesink location=/dev/tbstream0
-> 
-> Once the streams are no longer needed they can be removed:
-> 
->   host1 # cd /sys/kernel/config/thunderbolt/stream/
->   host1 # rmdir -p 0-503.0/backup
-> 
->   host2 # cd /sys/kernel/config/thunderbolt/stream
->   host2 # rmdir -p 0-1.0/backup
 
-Very cool, but shouldn't the above be in some documentation somewhere so
-that people know how to use it?
+Hi,
 
-And why do you need a whole major for this, why not just use a misc
-device that it dynamically created for every new dev?
+This is the friendly patch-bot of Greg Kroah-Hartman.  You have sent him
+a patch that has triggered this response.  He used to manually respond
+to these common problems, but in order to save his sanity (he kept
+writing the same thing over and over, yet to different people), I was
+created.  Hopefully you will not take offence and will fix the problem
+in your patch and resubmit it so that it can be accepted into the Linux
+kernel tree.
+
+You are receiving this message because of the following common error(s)
+as indicated below:
+
+- Your patch is malformed (tabs converted to spaces, linewrapped, etc.)
+  and can not be applied.  Please read the file,
+  Documentation/process/email-clients.rst in order to fix this.
+
+- It looks like you did not use your "real" name for the patch on either
+  the Signed-off-by: line, or the From: line (both of which have to
+  match).  Please read the kernel file,
+  Documentation/process/submitting-patches.rst for how to do this
+  correctly.
+
+If you wish to discuss this problem further, or you have questions about
+how to resolve this issue, please feel free to respond to this email and
+Greg will reply once he has dug out from the pending patches received
+from other developers.
 
 thanks,
 
-greg k-h
+greg k-h's patch email bot
