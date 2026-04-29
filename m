@@ -1,502 +1,332 @@
-Received: from bkemail.birger-koblitz.de (bkemail.birger-koblitz.de [23.88.97.239])
+Received: from PH7PR06CU001.outbound.protection.outlook.com (mail-westus3azon11010016.outbound.protection.outlook.com [52.101.201.16])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2B61A40FDB7;
-	Wed, 29 Apr 2026 17:01:45 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=23.88.97.239
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1777482107; cv=none; b=en5mgvETe3NwJ6qtsoqcUdGfOJNtmhoJOogQ5c62zgA705GLTR+bcU8/nYmtVfBHd3Cv/VRtYyo6mB+jbS6e4Nl4Lok8i9Wl7xBbvHJKZ/ltCob6PRwa/TwwSA3mGjkikTyGQwBBfh1Flq2pU9imxUVlVkxy3+ctRAPj5C2E2GY=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1777482107; c=relaxed/simple;
-	bh=Dd2wYPSGtYN1H3N/e+YnaklDoZEAoKSnAWn49QqglS8=;
-	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
-	 In-Reply-To:To:Cc; b=i/vvYgN/2UXqwuKVRICiWaqkNe2MHZ2Fbk4ZKpvIdugLEAICp8CJBYItgDwvgyWNEdgBSDajCaAkOgJfOHSjT3CHOhohW96G1VtkhbcjQfB1d+vZoBKkTtKJl6xjNhw5+2WC18IpLBNa3fHUsskOXHTPTBw/tqWgULbX6pQMY1A=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=birger-koblitz.de; spf=pass smtp.mailfrom=birger-koblitz.de; dkim=pass (2048-bit key) header.d=birger-koblitz.de header.i=@birger-koblitz.de header.b=0Eu+Kh1i; dkim=pass (2048-bit key) header.d=birger-koblitz.de header.i=@birger-koblitz.de header.b=0lhVgG8h; arc=none smtp.client-ip=23.88.97.239
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=birger-koblitz.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=birger-koblitz.de
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 116472EAD1C;
+	Wed, 29 Apr 2026 17:32:20 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=52.101.201.16
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1777483942; cv=fail; b=jce/ApANmXIBDjJ5WRvGe/hwLnzPS6tbh6wdzwT1iNgdD+hRmYOObJyzwOaoB8Xc8JPI6ZO3FT7/rNt206SHCXmx8fH4+mDdBkxo3+ISEORuKFhES8c+1OgOHUuh4yFoe+CTXTEtSiGthbq7Twe37whCNx3KwfrHNICEFcCr0wQ=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1777483942; c=relaxed/simple;
+	bh=VEgtLeU9bKF+qUL9urxwWfRYu5f0CkOMRFLZukK0r6g=;
+	h=From:To:CC:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=Xu4LPHyTjzDF6D5zTPcqeX99q68lrcHpXmCRcwcZ4++STQ4pZlYCBjwMTt6Ogak+xf3tnOnZw1sokMdYxSi8PdAUK84S0oSeurgMsQe3hTXTQVE/FZif/Y9hCxJ0/sxG9WMkeBkB+NosoGf8zBettmNdjZEM7fiA3wpLSPWNAFU=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amd.com; spf=fail smtp.mailfrom=amd.com; dkim=pass (1024-bit key) header.d=amd.com header.i=@amd.com header.b=Ip6rWcD3; arc=fail smtp.client-ip=52.101.201.16
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amd.com
+Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=amd.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=birger-koblitz.de header.i=@birger-koblitz.de header.b="0Eu+Kh1i";
-	dkim=pass (2048-bit key) header.d=birger-koblitz.de header.i=@birger-koblitz.de header.b="0lhVgG8h"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=birger-koblitz.de;
-	s=default; t=1777482103;
-	bh=Dd2wYPSGtYN1H3N/e+YnaklDoZEAoKSnAWn49QqglS8=;
-	h=From:Date:Subject:References:In-Reply-To:To:Cc:From;
-	b=0Eu+Kh1ij7mCUGRw9o0D1MHB/BPeqgm7xIEH8b1eOMnGVjuZhtmOcr5lDhKKvUPyd
-	 /nMXygfSQhTd5vB67YKPtDJtmzJSfVY6d+OSGXqF3CV7erhCqXtUF+FMrl1t9Gkx2A
-	 d+HZ1TkNuEuQ/DfUhUSxsML1lPI1to/sMmBYCwX95LEEc/Wj0bzVBcCn9vftO0Qabi
-	 PjmB/s/xXuNprG9cgVdP/gp4QeWY3cRtJ9ISdTG2Hne9/Bv1kRLkqYSbZ9ZkQf7bll
-	 aC42dVaSvRyiKlEKSKB+LLyF3eE92EJIcwCXiWPujeh0JoVMa44ni4SWdHSNHme49M
-	 E6z+/p3tegsog==
-Received: by bkemail.birger-koblitz.de (Postfix, from userid 109)
-	id 94EC8481BF; Wed, 29 Apr 2026 17:01:43 +0000 (UTC)
-X-Spam-Level: 
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=birger-koblitz.de;
-	s=default; t=1777482099;
-	bh=Dd2wYPSGtYN1H3N/e+YnaklDoZEAoKSnAWn49QqglS8=;
-	h=From:Date:Subject:References:In-Reply-To:To:Cc:From;
-	b=0lhVgG8hgxfWqkgUP9i/hJvVgbAcl9Rs+VeRWEO9VmOLQVulFL81F+5L3Em2S9Fli
-	 LqyP+hT8RQBiL4LkremahItUC67gdUxZQQnNX+9uf8J2zj9BWJadtZ9DYlJFAb1S69
-	 mSx8ShLxj+2qR8p9NZhz4t7xVF0As/HPU/7Yw6BeupPGOMIrAAJ4uOwTL4EGgbAEPO
-	 Q6qNAiC5hZAeIslTAXElwh2QSk/3feLBHcvaLzkyLt/N6X3+Qg0iPYNsZ24S1BbKeN
-	 yetoirMc7R13m4gZlENAeZ/aDsv0kaT+GEVY06lAAkl23syTiatuBaWe/ZwVhQa1P7
-	 s6jw4CClXs3kQ==
-Received: from AMDDesktop.lan (unknown [IPv6:2a00:6020:47a3:e800:271c:c6c5:9fde:77cb])
-	by bkemail.birger-koblitz.de (Postfix) with ESMTPSA id 0C9F647E49;
-	Wed, 29 Apr 2026 17:01:39 +0000 (UTC)
-From: Birger Koblitz <mail@birger-koblitz.de>
-Date: Wed, 29 Apr 2026 19:01:10 +0200
-Subject: [PATCH net-next v2 2/4] r8152: Add support for the RTL8159 chip
+	dkim=pass (1024-bit key) header.d=amd.com header.i=@amd.com header.b="Ip6rWcD3"
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=SZR95Kz/gOPlVm8/xP9hTVkceeZKC+VQAljhDcGRMzO8+4sF5QYfuWx9ZsKmCpew4NHaBRhGVBJlWlzZCcRyV4p/F7RQg2wXqF+KBcSUIW5cPn1cq9zMtNVbna4W8pqdNtepOsy90fyP8qIDRPHw6U0fHUJo+8CZCwuzn0xzoThi+osNQH/6dV2pM+WTHLEt5M8zQQO2Is+RNjGqfXXfkv/lA5qcZ2HjkOIr1GnzXrqEBvoALN1Zrn67h1cLt7ZqQCSniSDMtypQsYPUaROYxciubasbic1yHyOivTmnUN6cMotb5bGbfWhhok3zBKOIY+jeLUOyWC+L7iDlUd02Cw==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=rTm78k3fFETGWViJ721DhEUmbtENttOSBrfkcivcRUM=;
+ b=nDqyXOWY8iRHK7I+EBSpjUvQEafFFwfflCamHOBbMDl6HM0/9zo35sU86cY+aRtAMSjZsf04/Lksnrbx9FCj/LT29hFzgv2JUJ5BhWIxIxr0AvDnyLynVfL0+TZ148AptIgUpmbgbneBhwjQq1iTRajE8iXfmbhMVnF0jkabojSG6VcY/AQv35DVCofQmgq0cvtRg7uwdjYXWMEFN/iLs5LHXKRJvilpw8HErNrfScoUHJsw6NTH0z+Zpg45AqQhow7ccGdKMFJFlX4fuCWx5wHQu+Ekt/R+n2htQKD/M5GHKF1xtImsmUQ8It4B4zxr10n3vXKWeBScZmpNirRt+g==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
+ 165.204.84.17) smtp.rcpttodomain=linuxfoundation.org smtp.mailfrom=amd.com;
+ dmarc=pass (p=quarantine sp=quarantine pct=100) action=none
+ header.from=amd.com; dkim=none (message not signed); arc=none (0)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=rTm78k3fFETGWViJ721DhEUmbtENttOSBrfkcivcRUM=;
+ b=Ip6rWcD32PquLxcq16Q9bk4vJYW9J2yf2COEQXYNyd2vPq/35c5Ks9m1JfHbNsn7Mm4EiZUY6NlQQGQjBADtbEWX8NhqC+R7uGeuQtQvrgoBC7AENQXquHor0tcT6JvYGBGx/rgeQC/pEc1zx6/H/LdvR8vYIZsgrYy4ks+88nc=
+Received: from SJ0PR05CA0042.namprd05.prod.outlook.com (2603:10b6:a03:33f::17)
+ by MW4PR12MB6921.namprd12.prod.outlook.com (2603:10b6:303:208::8) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9870.18; Wed, 29 Apr
+ 2026 17:32:18 +0000
+Received: from CO1PEPF000066E7.namprd05.prod.outlook.com
+ (2603:10b6:a03:33f:cafe::38) by SJ0PR05CA0042.outlook.office365.com
+ (2603:10b6:a03:33f::17) with Microsoft SMTP Server (version=TLS1_3,
+ cipher=TLS_AES_256_GCM_SHA384) id 15.20.9870.16 via Frontend Transport; Wed,
+ 29 Apr 2026 17:32:17 +0000
+X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 165.204.84.17)
+ smtp.mailfrom=amd.com; dkim=none (message not signed)
+ header.d=none;dmarc=pass action=none header.from=amd.com;
+Received-SPF: Pass (protection.outlook.com: domain of amd.com designates
+ 165.204.84.17 as permitted sender) receiver=protection.outlook.com;
+ client-ip=165.204.84.17; helo=satlexmb07.amd.com; pr=C
+Received: from satlexmb07.amd.com (165.204.84.17) by
+ CO1PEPF000066E7.mail.protection.outlook.com (10.167.249.9) with Microsoft
+ SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.20.9846.18 via Frontend Transport; Wed, 29 Apr 2026 17:32:17 +0000
+Received: from SATLEXMB03.amd.com (10.181.40.144) by satlexmb07.amd.com
+ (10.181.42.216) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.2.2562.17; Wed, 29 Apr
+ 2026 12:31:52 -0500
+Received: from satlexmb08.amd.com (10.181.42.217) by SATLEXMB03.amd.com
+ (10.181.40.144) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2507.39; Wed, 29 Apr
+ 2026 12:31:34 -0500
+Received: from xhdradheys41.xilinx.com (10.180.168.240) by satlexmb08.amd.com
+ (10.181.42.217) with Microsoft SMTP Server id 15.2.2562.17 via Frontend
+ Transport; Wed, 29 Apr 2026 12:31:30 -0500
+From: Radhey Shyam Pandey <radhey.shyam.pandey@amd.com>
+To: <gregkh@linuxfoundation.org>, <robh@kernel.org>, <krzk+dt@kernel.org>,
+	<conor+dt@kernel.org>, <michal.simek@amd.com>, <Thinh.Nguyen@synopsys.com>,
+	<p.zabel@pengutronix.de>
+CC: <linux-usb@vger.kernel.org>, <devicetree@vger.kernel.org>,
+	<linux-arm-kernel@lists.infradead.org>, <linux-kernel@vger.kernel.org>,
+	<git@amd.com>, Radhey Shyam Pandey <radhey.shyam.pandey@amd.com>
+Subject: [PATCH v3 4/4] usb: dwc3: xilinx: Add support to program MMI USB TX deemphasis
+Date: Wed, 29 Apr 2026 23:00:50 +0530
+Message-ID: <20260429173050.1772377-5-radhey.shyam.pandey@amd.com>
+X-Mailer: git-send-email 2.43.0
+In-Reply-To: <20260429173050.1772377-1-radhey.shyam.pandey@amd.com>
+References: <20260429173050.1772377-1-radhey.shyam.pandey@amd.com>
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-Message-Id: <20260429-rtl8159_net_next-v2-2-bab3cd4e4c66@birger-koblitz.de>
-References: <20260429-rtl8159_net_next-v2-0-bab3cd4e4c66@birger-koblitz.de>
-In-Reply-To: <20260429-rtl8159_net_next-v2-0-bab3cd4e4c66@birger-koblitz.de>
-To: Andrew Lunn <andrew+netdev@lunn.ch>, 
- "David S. Miller" <davem@davemloft.net>, Eric Dumazet <edumazet@google.com>, 
- Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>
-Cc: linux-usb@vger.kernel.org, netdev@vger.kernel.org, 
- linux-kernel@vger.kernel.org, Chih Kai Hsu <hsu.chih.kai@realtek.com>, 
- Birger Koblitz <mail@birger-koblitz.de>
-X-Mailer: b4 0.14.2
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+Received-SPF: None (SATLEXMB03.amd.com: radhey.shyam.pandey@amd.com does not
+ designate permitted sender hosts)
+X-EOPAttributedMessage: 0
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: CO1PEPF000066E7:EE_|MW4PR12MB6921:EE_
+X-MS-Office365-Filtering-Correlation-Id: b2e1c753-b705-4149-3470-08dea61542cd
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam:
+	BCL:0;ARA:13230040|36860700016|82310400026|7416014|376014|1800799024|18002099003|22082099003|56012099003;
+X-Microsoft-Antispam-Message-Info:
+	zOaFGPasF7Pnf01XC1Frwd3i5prNaq16T78Xp/S6FwrlsRRY2zlO4xP6CLY2s3GwFDPUkDpcrdJV4pgq+pWf/w9PPvCuB+6Sn+wCtg0J3LGtSf8SFSi4GldbRKLbd+/fo+lQBQWdhMaCjz13tKCs9OVyxWXPJZrYZ6/H3crMg8x2qWWWcyOUm1B0lIhGYAo6ZlfWfsGgc5xanCI3G6AfnXYQB7eEEoeIiZRtqHSPsMh5kBVtM5STo6+eOM3vuecJq3bipcUBLHyUtEXVXXUj9e1NbVa5JMDBiy5qm1cHjO6dmNWUwHzhL2kW0RMTn7eSbqstX/3Zo9lKexSYoB3l1WKYDQLyMRta8A3tAfcSR0BHtBw4NbU4a/mecmkA4CfRQq72zZGe16mIdTxba8JSNwkb565wVtu8be11zimxPEOPwElYcG97s0Wzi3txi17Py0xkvm9bz+9iKCZMRJ71amEyRPYmTnCb7jdvszHUyjxUt4Ak+oD64AhTrKwd1Kj6ukQs/4bAiNVWauhth9LscKlACG5yllZ9kkDxGGOieLLPFV9lJPbUaHQVNjBC2ycONrTSizVP5tyO4toU+xWM+iVNY9jEZQVU150VkmiHayL+Xnd64LtqI4eoWVdTkbb7UjZP54AuLndKczYhvfyWUNZulCdEBAmyfBr4dOPyhc2YB0A0yGlbLZ93MfQZn/xPlCYRgTTbCI5/1IRoCRDI7VEUTR3aN5ddPjw7eqiXSBuH57tPnIUARmQLLWA/UcHjvOywf78bxrTecpSn1W27jA==
+X-Forefront-Antispam-Report:
+	CIP:165.204.84.17;CTRY:US;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:satlexmb07.amd.com;PTR:InfoDomainNonexistent;CAT:NONE;SFS:(13230040)(36860700016)(82310400026)(7416014)(376014)(1800799024)(18002099003)(22082099003)(56012099003);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0:
+	+B6PkhKMkWEccLbzLvZOEBDa34B9b0aU+uYa/Sx+LWQx8sX67HV3L3dyKy4Z7esdxSNqk5Hpu/dB3zS7T+4khEATp9Ds4wM+hzSQNo89petihZNd14RaCMlo/HT9cn8vqP13wZHws0QcN1Ezl/2mk1qgqqhDaBqyhPrfFVEzW8SRBbYtDhJH0kTfhfajnCUOGmCzoEK++e1aHmqNbuF85NxSbiHT0FjuTrbIr/p84s+xFrtdo/YzuBHK8QYTyYOtce7WjgtXzAG5SZlcyq2sTgijMBPFlvMwEVq48vk8ti4qJdC+5a7sHoyhaIiO+EGtECrfpnkcvzx/0k+bduAzlzR9suHLL1BZ6qyhKU7t0vN7okr1Te+ASxKDA2kK/wvE8GgfZA2SIUKTNyUFkV6WXyGCP2/+jSSKR0/l2nks8CRIY27MUiNN7Sdg8Mlf4tNa
+X-OriginatorOrg: amd.com
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 29 Apr 2026 17:32:17.7645
+ (UTC)
+X-MS-Exchange-CrossTenant-Network-Message-Id: b2e1c753-b705-4149-3470-08dea61542cd
+X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
+X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=3dd8961f-e488-4e60-8e11-a82d994e183d;Ip=[165.204.84.17];Helo=[satlexmb07.amd.com]
+X-MS-Exchange-CrossTenant-AuthSource:
+	CO1PEPF000066E7.namprd05.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Anonymous
+X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: MW4PR12MB6921
 
-The RTL8157 re-uses the packet descriptor format introduced with the
-RTL8157 and other hardware features of the RTL8157 (RTL_VER_16) such
-as the SRAM access. The support therefore consists in expanding the
-existing RTL8157 code for initialization and USB power management
-to also be used for the RTL8159 (RTL_VER_17).
+Introduces support for programming the 18-bit TX deemphasis value that
+drives the pipe_TxDeemph signal, as defined in the PIPE4 specification.
 
-Most of the addiitonal code is added in r8157_hw_phy_cfg() to configure
-the RTL8159 PHY.
+The configured value is recommended by Synopsys and is intended for
+standard (non-compliance) operation. These Gen2 equalization settings
+have been validated through both internal and external compliance
+testing. By applying this setting, the stability of USB 3.2 enumeration
+is improved and now SuperSpeedPlus devices are consistently recognized as
+USB 3.2 Gen2 by the MMI USB Host controller.
 
-Add support for the USB device ID of Realtek RTL8157-based adapters. Detect
-the RTL8159 as RTL_VER_17 and set it up.
+Signed-off-by: Radhey Shyam Pandey <radhey.shyam.pandey@amd.com>
+--
+Changes for v3:
+- Define DWC3_LCSR_TX_DEEMPH(n) and multiport handling. Thinh: Please
+  review on this offset calculation as MMI USB IP support single usb3
+  port.
+- Default set the tx_deemph to the DWC3_LCSR_TX_DEEMPH_UNSPECIFIED.
 
-Signed-off-by: Birger Koblitz <mail@birger-koblitz.de>
+Changes for v2:
+- Don't use compatible check for deemphasis programming.
+- Rename property "snps,lcsr_tx_deemph" to "snps,lcsr-tx-deemph"
+  (hyphens per kernel convention).
+- Fix double space in LCSR_TX_DEEMPH register comment.
+- Add blank line between register offset define and "Bit fields" section.
 ---
- drivers/net/usb/r8152.c | 257 ++++++++++++++++++++++++++++++++++++++++++++++--
- 1 file changed, 249 insertions(+), 8 deletions(-)
+ drivers/usb/dwc3/core.c        | 24 ++++++++++++++++++++++++
+ drivers/usb/dwc3/core.h        | 14 ++++++++++++++
+ drivers/usb/dwc3/dwc3-xilinx.c | 20 +++++++++++++++++---
+ 3 files changed, 55 insertions(+), 3 deletions(-)
 
-diff --git a/drivers/net/usb/r8152.c b/drivers/net/usb/r8152.c
-index 01e65d845f8732f23427305423e4e270dae775dc..2a07dde289e2240b221664ae5c5bceec35b5a1ef 100644
---- a/drivers/net/usb/r8152.c
-+++ b/drivers/net/usb/r8152.c
-@@ -1247,6 +1247,7 @@ enum rtl_version {
- 	RTL_VER_14,
- 	RTL_VER_15,
- 	RTL_VER_16,
-+	RTL_VER_17,
- 
- 	RTL_VER_MAX
- };
-@@ -3432,6 +3433,7 @@ static void rtl8152_nic_reset(struct r8152 *tp)
- 		break;
- 
- 	case RTL_VER_16:
-+	case RTL_VER_17:
- 		ocp_byte_clr_bits(tp, MCU_TYPE_PLA, PLA_CR, CR_RE | CR_TE);
- 		break;
- 
-@@ -3471,6 +3473,9 @@ static void rtl_eee_plus_en(struct r8152 *tp, bool enable)
- 
- static void rtl_set_eee_plus(struct r8152 *tp)
- {
-+	if (tp->version == RTL_VER_17)
-+		return rtl_eee_plus_en(tp, false);
-+
- 	if (rtl8152_get_speed(tp) & _10bps)
- 		rtl_eee_plus_en(tp, true);
- 	else
-@@ -3656,6 +3661,7 @@ static void r8153_set_rx_early_timeout(struct r8152 *tp)
- 	case RTL_VER_13:
- 	case RTL_VER_15:
- 	case RTL_VER_16:
-+	case RTL_VER_17:
- 		ocp_write_word(tp, MCU_TYPE_USB, USB_RX_EARLY_TIMEOUT,
- 			       640 / 8);
- 		ocp_write_word(tp, MCU_TYPE_USB, USB_RX_EXTRA_AGGR_TMR,
-@@ -3700,6 +3706,7 @@ static void r8153_set_rx_early_size(struct r8152 *tp)
- 			       ocp_data / 8);
- 		break;
- 	case RTL_VER_16:
-+	case RTL_VER_17:
- 		ocp_write_word(tp, MCU_TYPE_USB, USB_RX_EARLY_SIZE,
- 			       ocp_data / 16);
- 		break;
-@@ -4548,6 +4555,7 @@ static void rtl_clear_bp(struct r8152 *tp, u16 type)
- 		break;
- 	case RTL_VER_14:
- 	case RTL_VER_16:
-+	case RTL_VER_17:
- 	default:
- 		ocp_write_word(tp, type, USB_BP2_EN, 0);
- 		bp_num = 16;
-@@ -5823,6 +5831,7 @@ static void rtl_eee_enable(struct r8152 *tp, bool enable)
- 	case RTL_VER_13:
- 	case RTL_VER_15:
- 	case RTL_VER_16:
-+	case RTL_VER_17:
- 		if (enable) {
- 			r8156_eee_en(tp, true);
- 			ocp_reg_write(tp, OCP_EEE_ADV, tp->eee_adv);
-@@ -6894,7 +6903,7 @@ static void rtl8156_down(struct r8152 *tp)
- 			  PLA_MCU_SPDWN_EN);
- 
- 	r8153b_u1u2en(tp, false);
--	if (tp->version != RTL_VER_16) {
-+	if (tp->version < RTL_VER_16) {
- 		r8153_u2p3en(tp, false);
- 		r8153b_power_cut_en(tp, false);
+diff --git a/drivers/usb/dwc3/core.c b/drivers/usb/dwc3/core.c
+index 58899b1fa96d..426e30563caf 100644
+--- a/drivers/usb/dwc3/core.c
++++ b/drivers/usb/dwc3/core.c
+@@ -646,6 +646,22 @@ static void dwc3_config_soc_bus(struct dwc3 *dwc)
+ 		reg |= DWC3_GSBUSCFG0_REQINFO(dwc->gsbuscfg0_reqinfo);
+ 		dwc3_writel(dwc, DWC3_GSBUSCFG0, reg);
  	}
-@@ -8016,7 +8025,7 @@ static void r8157_hw_phy_cfg(struct r8152 *tp)
- 	/* Advanced Power Saving parameter */
- 	ocp_reg_set_bits(tp, 0xa430, BIT(0) | BIT(1));
- 
--	/* aldpsce force mode */
-+	/* Disable ALDPS force mode */
- 	ocp_reg_clr_bits(tp, 0xa44a, BIT(2));
- 
- 	switch (tp->version) {
-@@ -8140,6 +8149,190 @@ static void r8157_hw_phy_cfg(struct r8152 *tp)
- 		sram2_write_w0w1(tp, 0x807c, 0xff00, 0x5000);
- 		sram2_write_w0w1(tp, 0x809d, 0xff00, 0x5000);
- 		break;
 +
-+	case RTL_VER_17:
-+		/* Disable bypass turn off clk in ALDPS */
-+		 ocp_byte_clr_bits(tp, MCU_TYPE_PLA, 0xd3c8, BIT(0));
++	/*
++	 * The csr_tx_deemph setting is common across the controller and
++	 * is configured per port using DWC3_LCSR_TX_DEEMPH(port).
++	 */
++	if (dwc->csr_tx_deemph_field_1 != DWC3_LCSR_TX_DEEMPH_UNSPECIFIED) {
++		unsigned int port;
++		u32 reg;
 +
-+		/* Power level tuning
-+		 * test mode power level
-+		 */
-+		sram_write_w0w1(tp, 0x8415, 0xff00, 0x9300);
-+		/* normal link power level 10G, 5G, 2.5G */
-+		sram_write_w0w1(tp, 0x81a3, 0xff00, 0x0f00);
-+		sram_write_w0w1(tp, 0x81ae, 0xff00, 0x0f00);
-+		sram_write_w0w1(tp, 0x81b9, 0xff00, 0xb900);
-+		/* nomal link TX filter */
-+		sram2_write_w0w1(tp, 0x83b0, 0x0e00, 0);
-+		sram2_write_w0w1(tp, 0x83c5, 0x0e00, 0);
-+		sram2_write_w0w1(tp, 0x83da, 0x0e00, 0);
-+		sram2_write_w0w1(tp, 0x83ef, 0x0e00, 0);
-+
-+		/* AFE power saving for 2.5G & 5G */
-+		sram_write(tp, 0x8173, 0x8620);
-+		sram_write(tp, 0x8175, 0x8671);
-+
-+		sram_write_w0w1(tp, 0x817c, 0, BIT(13));
-+		sram_write_w0w1(tp, 0x8187, 0, BIT(13));
-+		sram_write_w0w1(tp, 0x8192, 0, BIT(13));
-+		sram_write_w0w1(tp, 0x819d, 0, BIT(13));
-+		sram_write_w0w1(tp, 0x81a8, BIT(13), 0);
-+		sram_write_w0w1(tp, 0x81b3, BIT(13), 0);
-+		sram_write_w0w1(tp, 0x81be, 0, BIT(13));
-+
-+		sram_write_w0w1(tp, 0x817d, 0xff00, 0xa600);
-+		sram_write_w0w1(tp, 0x8188, 0xff00, 0xa600);
-+		sram_write_w0w1(tp, 0x8193, 0xff00, 0xa600);
-+		sram_write_w0w1(tp, 0x819e, 0xff00, 0xa600);
-+		sram_write_w0w1(tp, 0x81a9, 0xff00, 0x1400);
-+		sram_write_w0w1(tp, 0x81b4, 0xff00, 0x1400);
-+		sram_write_w0w1(tp, 0x81bf, 0xff00, 0xa600);
-+
-+		/* RFI parameter
-+		 * disable preset FBE
-+		 */
-+		ocp_reg_clr_bits(tp, 0xaeaa, BIT(5) | BIT(3));
-+		/* modify PGA for 5G&10G */
-+		sram2_write(tp, 0x84f0, 0x201c);
-+		sram2_write(tp, 0x84f2, 0x3117);
-+		/* RFI parameter */
-+		ocp_reg_write(tp, 0xaec6, 0x0000);
-+		ocp_reg_write(tp, 0xae20, 0xffff);
-+		ocp_reg_write(tp, 0xaece, 0xffff);
-+		ocp_reg_write(tp, 0xaed2, 0xffff);
-+		ocp_reg_write(tp, 0xaec8, 0x0000);
-+		ocp_reg_clr_bits(tp, 0xaed0, BIT(0));
-+		ocp_reg_write(tp, 0xadb8, 0x0150);
-+		sram2_write_w0w1(tp, 0x8197, 0xff00, 0x5000);
-+		sram2_write_w0w1(tp, 0x8231, 0xff00, 0x5000);
-+		sram2_write_w0w1(tp, 0x82cb, 0xff00, 0x5000);
-+		sram2_write_w0w1(tp, 0x82cd, 0xff00, 0x5700);
-+		sram2_write_w0w1(tp, 0x8233, 0xff00, 0x5700);
-+		sram2_write_w0w1(tp, 0x8199, 0xff00, 0x5700);
-+
-+		sram2_write(tp, 0x815a, 0x0150);
-+		sram2_write(tp, 0x81f4, 0x0150);
-+		sram2_write(tp, 0x828e, 0x0150);
-+		sram2_write(tp, 0x81b1, 0x0000);
-+		sram2_write(tp, 0x824b, 0x0000);
-+		sram2_write(tp, 0x82e5, 0x0000);
-+
-+		sram2_write_w0w1(tp, 0x84f7, 0xff00, 0x2800);
-+		ocp_reg_set_bits(tp, 0xaec2, BIT(12));
-+		sram2_write_w0w1(tp, 0x81b3, 0xff00, 0xad00);
-+		sram2_write_w0w1(tp, 0x824d, 0xff00, 0xad00);
-+		sram2_write_w0w1(tp, 0x82e7, 0xff00, 0xad00);
-+		ocp_reg_w0w1(tp, 0xae4e, 0x000f, 0x0001);
-+		sram2_write_w0w1(tp, 0x82ce, 0xf000, 0x4000);
-+
-+		/* 5G shift sel, default = '04'
-+		 * 10G shift sel, default = '03'
-+		 */
-+		sram2_write_w0w1(tp, 0x83a5, 0xff00, 0x0400);
-+		sram2_write_w0w1(tp, 0x83a6, 0xff00, 0x0400);
-+		sram2_write_w0w1(tp, 0x83a7, 0xff00, 0x0400);
-+		sram2_write_w0w1(tp, 0x83a8, 0xff00, 0x0400);
-+
-+		/* XG INRX parameters
-+		 * RC coefficients
-+		 */
-+		sram2_write(tp, 0x84ac, 0x0000);
-+		sram2_write(tp, 0x84ae, 0x0000);
-+		sram2_write(tp, 0x84b0, 0xf818);
-+		sram2_write_w0w1(tp, 0x84b2, 0xff00, 0x6000);
-+		/* Training AAGC PAR (with uc2 patch) */
-+		sram2_write(tp, 0x8ffc, 0x6008);
-+		sram2_write(tp, 0x8ffe, 0xf450);
-+		/* DAC BGK */
-+		sram2_write_w0w1(tp, 0x8015, 0, BIT(9));
-+		sram2_write_w0w1(tp, 0x8016, 0, BIT(11));
-+		sram2_write_w0w1(tp, 0x8fe6, 0xff00, 0x0800);
-+		sram2_write(tp, 0x8fe4, 0x2114);
-+		/* 10G PBO table */
-+		sram2_write(tp, 0x8647, 0xa7b1);
-+		sram2_write(tp, 0x8649, 0xbbca);
-+		sram2_write_w0w1(tp, 0x864b, 0xff00, 0xdc00);
-+		/* 2.5G ado power window size */
-+		sram2_write_w0w1(tp, 0x8154, 0xc000, 0x4000);
-+		sram2_write_w0w1(tp, 0x8158, 0xc000, 0);
-+		/* 10G lock far */
-+		sram2_write(tp, 0x826c, 0xffff);
-+		sram2_write(tp, 0x826e, 0xffff);
-+		/* XG INRX parameter */
-+		sram2_write_w0w1(tp, 0x8872, 0xff00, 0x0e00);
-+		sram_write_w0w1(tp, 0x8012, 0, BIT(11));
-+		sram_write_w0w1(tp, 0x8012, 0, BIT(14));
-+		ocp_reg_set_bits(tp, 0xb576, BIT(0));
-+		sram_write_w0w1(tp, 0x834a, 0xff00, 0x0700);
-+		sram2_write_w0w1(tp, 0x8217, 0x3f00, 0x2a00);
-+		sram_write_w0w1(tp, 0x81b1, 0xff00, 0x0b00);
-+		sram2_write_w0w1(tp, 0x8fed, 0xff00, 0x4e00);
-+		/* Slave about EC mu of datamode AAGC  and DAC BG */
-+		sram2_write_w0w1(tp, 0x88ac, 0xff00, 0x2300);
-+		/* improve UBE */
-+		ocp_reg_set_bits(tp, 0xbf0c, 0x7 << 11);
-+		/* close Sparse NEC, improve connect 5EUU calble performace */
-+		sram2_write_w0w1(tp, 0x88de, 0xff00, 0);
-+		/* 5G slave compatibility issue (will include in v10) */
-+		sram2_write(tp, 0x80b4, 0x5195);
-+
-+		/* XG Test Mode
-+		 * xgtstm_map_tbl for mdi_cap_sel
-+		 */
-+		sram_write(tp, 0x8370, 0x8671);
-+		sram_write(tp, 0x8372, 0x86c8);
-+		/* xgtstm_amp_map_tbl for  REG_IBX_UP_SHIFT_L */
-+		sram_write(tp, 0x8401, 0x86c8);
-+		sram_write(tp, 0x8403, 0x86da);
-+		sram_write_w0w1(tp, 0x8406, 0x1800, 0x1000);
-+		sram_write_w0w1(tp, 0x8408, 0x1800, 0x1000);
-+		sram_write_w0w1(tp, 0x840a, 0x1800, 0x1000);
-+		sram_write_w0w1(tp, 0x840c, 0x1800, 0x1000);
-+		sram_write_w0w1(tp, 0x840e, 0x1800, 0x1000);
-+		sram_write_w0w1(tp, 0x8410, 0x1800, 0x1000);
-+		sram_write_w0w1(tp, 0x8412, 0x1800, 0x1000);
-+		sram_write_w0w1(tp, 0x8414, 0x1800, 0x1000);
-+		sram_write_w0w1(tp, 0x8416, 0x1800, 0x1000);
-+
-+		/* Cable Test Patch */
-+		sram_write(tp, 0x82bd, 0x1f40);
-+
-+		/* Thermal sensor parameters */
-+		ocp_reg_w0w1(tp, 0xbfb4, 0x07ff, 0x0328);
-+		ocp_reg_write(tp, 0xbfb6, 0x3e14);
-+
-+		/* spdchg_gtx_shape_100M */
-+		ocp_reg_write(tp, OCP_SRAM_ADDR, 0x81c4);
-+		ocp_reg_write(tp, OCP_SRAM_DATA, 0x003b);
-+		ocp_reg_write(tp, OCP_SRAM_DATA, 0x0086);
-+		ocp_reg_write(tp, OCP_SRAM_DATA, 0x00b7);
-+		ocp_reg_write(tp, OCP_SRAM_DATA, 0x00db);
-+		ocp_reg_write(tp, OCP_SRAM_DATA, 0x00fe);
-+		ocp_reg_write(tp, OCP_SRAM_DATA, 0x00fe);
-+		ocp_reg_write(tp, OCP_SRAM_DATA, 0x00fe);
-+		ocp_reg_write(tp, OCP_SRAM_DATA, 0x00fe);
-+		ocp_reg_write(tp, OCP_SRAM_DATA, 0x00c3);
-+		ocp_reg_write(tp, OCP_SRAM_DATA, 0x0078);
-+		ocp_reg_write(tp, OCP_SRAM_DATA, 0x0047);
-+		ocp_reg_write(tp, OCP_SRAM_DATA, 0x0023);
-+
-+		/* lsbmsk_parameters
-+		 * RL6961_lsbmsk_parameter_250207
-+		 */
-+		sram2_write(tp, 0x88d7, 0x01a0);
-+		sram2_write(tp, 0x88d9, 0x01a0);
-+		sram2_write(tp, 0x8ffa, 0x002a);
-+
-+		sram2_write(tp, 0x8fee, 0xffdf);
-+		sram2_write(tp, 0x8ff0, 0xffff);
-+		sram2_write(tp, 0x8ff2, 0x0a4a);
-+		sram2_write(tp, 0x8ff4, 0xaa5a);
-+		sram2_write(tp, 0x8ff6, 0x0a4a);
-+		sram2_write(tp, 0x8ff8, 0xaa5a);
-+
-+		sram2_write_w0w1(tp, 0x88d5, 0xff00, 0x0200);
-+		break;
-+
- 	default:
- 		break;
- 	}
-@@ -8175,6 +8368,18 @@ static void r8157_hw_phy_cfg(struct r8152 *tp)
- 	set_bit(PHY_RESET, &tp->flags);
++		for (port = 0; port < dwc->num_usb3_ports; port++) {
++			reg = dwc3_readl(dwc, DWC3_LCSR_TX_DEEMPH(port));
++			reg &= ~DWC3_LCSR_TX_DEEMPH_MASK(~0);
++			reg |= DWC3_LCSR_TX_DEEMPH_MASK(dwc->csr_tx_deemph_field_1);
++			dwc3_writel(dwc, DWC3_LCSR_TX_DEEMPH(port), reg);
++		}
++	}
  }
  
-+static int r8159_wait_backup_restore(struct r8152 *tp)
-+{
-+	u32 ocp_data;
-+
-+	ocp_data = ocp_read_word(tp, MCU_TYPE_USB, USB_MISC_0);
-+	if (!(ocp_data & PCUT_STATUS))
-+		return 0;
-+
-+	return poll_timeout_us(ocp_data = ocp_read_word(tp, MCU_TYPE_USB, USB_GPHY_CTRL),
-+			       ocp_data & BACKUP_RESTRORE, 200, 2000, false);
-+}
-+
- static void r8156_init(struct r8152 *tp)
+ static int dwc3_core_ulpi_init(struct dwc3 *dwc)
+@@ -1691,6 +1707,7 @@ static void dwc3_core_exit_mode(struct dwc3 *dwc)
+ static void dwc3_get_software_properties(struct dwc3 *dwc,
+ 					 const struct dwc3_properties *properties)
  {
- 	u32 ocp_data;
-@@ -8184,14 +8389,14 @@ static void r8156_init(struct r8152 *tp)
- 	if (test_bit(RTL8152_INACCESSIBLE, &tp->flags))
- 		return;
++	u32 csr_tx_deemph_field_1;
+ 	struct device *tmpdev;
+ 	u16 gsbuscfg0_reqinfo;
+ 	int ret;
+@@ -1699,6 +1716,7 @@ static void dwc3_get_software_properties(struct dwc3 *dwc,
+ 		dwc->needs_full_reinit = true;
  
--	if (tp->version == RTL_VER_16) {
-+	if (tp->version == RTL_VER_16 || tp->version == RTL_VER_17) {
- 		ocp_byte_set_bits(tp, MCU_TYPE_USB, 0xcffe, BIT(3));
- 		ocp_byte_clr_bits(tp, MCU_TYPE_USB, 0xd3ca, BIT(0));
- 	}
+ 	dwc->gsbuscfg0_reqinfo = DWC3_GSBUSCFG0_REQINFO_UNSPECIFIED;
++	dwc->csr_tx_deemph_field_1 = DWC3_LCSR_TX_DEEMPH_UNSPECIFIED;
  
- 	ocp_byte_clr_bits(tp, MCU_TYPE_USB, USB_ECM_OP, EN_ALL_SPEED);
- 
--	if (tp->version != RTL_VER_16)
-+	if (tp->version < RTL_VER_16)
- 		ocp_write_word(tp, MCU_TYPE_USB, USB_SPEED_OPTION, 0);
- 
- 	ocp_word_set_bits(tp, MCU_TYPE_USB, USB_ECM_OPTION, BYPASS_MAC_RESET);
-@@ -8205,6 +8410,7 @@ static void r8156_init(struct r8152 *tp)
- 	case RTL_VER_13:
- 	case RTL_VER_15:
- 	case RTL_VER_16:
-+	case RTL_VER_17:
- 		r8156b_wait_loading_flash(tp);
- 		break;
- 	default:
-@@ -8221,6 +8427,11 @@ static void r8156_init(struct r8152 *tp)
- 			return;
- 	}
- 
-+	if (tp->version == RTL_VER_17 && r8159_wait_backup_restore(tp)) {
-+		dev_err(&tp->intf->dev, "init failed, backup-restore timed out\n");
-+		return;
-+	}
+ 	if (properties->gsbuscfg0_reqinfo !=
+ 	    DWC3_GSBUSCFG0_REQINFO_UNSPECIFIED) {
+@@ -1716,6 +1734,12 @@ static void dwc3_get_software_properties(struct dwc3 *dwc,
+ 					       &gsbuscfg0_reqinfo);
+ 		if (!ret)
+ 			dwc->gsbuscfg0_reqinfo = gsbuscfg0_reqinfo;
 +
- 	data = r8153_phy_status(tp, 0);
- 	if (data == PHY_STAT_EXT_INIT) {
- 		ocp_reg_clr_bits(tp, 0xa468, BIT(3) | BIT(1));
-@@ -8236,7 +8447,7 @@ static void r8156_init(struct r8152 *tp)
++		ret = device_property_read_u32(tmpdev,
++					       "snps,lcsr-tx-deemph",
++					       &csr_tx_deemph_field_1);
++		if (!ret)
++			dwc->csr_tx_deemph_field_1 = csr_tx_deemph_field_1;
+ 	}
+ }
  
- 	data = r8153_phy_status(tp, PHY_STAT_LAN_ON);
+diff --git a/drivers/usb/dwc3/core.h b/drivers/usb/dwc3/core.h
+index e0dee9d28740..ab68c6d7b021 100644
+--- a/drivers/usb/dwc3/core.h
++++ b/drivers/usb/dwc3/core.h
+@@ -181,6 +181,12 @@
  
--	if (tp->version == RTL_VER_16)
-+	if (tp->version >= RTL_VER_16)
- 		r8157_u2p3en(tp, false);
- 	else
- 		r8153_u2p3en(tp, false);
-@@ -8247,7 +8458,7 @@ static void r8156_init(struct r8152 *tp)
- 	/* U1/U2/L1 idle timer. 500 us */
- 	ocp_write_word(tp, MCU_TYPE_USB, USB_U1U2_TIMER, 500);
+ #define DWC3_LLUCTL(n)		(0xd024 + ((n) * 0x80))
  
--	if (tp->version == RTL_VER_16)
-+	if (tp->version >= RTL_VER_16)
- 		r8157_power_cut_en(tp, false);
- 	else
- 		r8153b_power_cut_en(tp, false);
-@@ -8294,7 +8505,10 @@ static void r8156_init(struct r8152 *tp)
- 	set_bit(GREEN_ETHERNET, &tp->flags);
- 
- 	/* rx aggregation / 16 bytes Rx descriptor */
--	if (tp->version == RTL_VER_16)
-+	if (tp->version == RTL_VER_17)
-+		ocp_word_clr_bits(tp, MCU_TYPE_USB, USB_USB_CTRL,
-+				  RX_AGG_DISABLE | RX_DESC_16B | BIT(11));
-+	else if (tp->version == RTL_VER_16)
- 		ocp_word_clr_bits(tp, MCU_TYPE_USB, USB_USB_CTRL, RX_AGG_DISABLE | RX_DESC_16B);
- 	else
- 		ocp_word_clr_bits(tp, MCU_TYPE_USB, USB_USB_CTRL, RX_AGG_DISABLE | RX_ZERO_EN);
-@@ -8302,7 +8516,7 @@ static void r8156_init(struct r8152 *tp)
- 	if (tp->version < RTL_VER_12)
- 		ocp_byte_set_bits(tp, MCU_TYPE_USB, USB_BMU_CONFIG, ACT_ODMA);
- 
--	if (tp->version == RTL_VER_16) {
-+	if (tp->version >= RTL_VER_16) {
- 		/* Disable Rx Zero Len */
- 		rtl_bmu_clr_bits(tp, 0x2300, BIT(3));
- 		/* TX descriptor Signature */
-@@ -9690,6 +9904,29 @@ static int rtl_ops_init(struct r8152 *tp)
- 		r8157_desc_init(tp);
- 		break;
- 
-+	case RTL_VER_17:
-+		tp->eee_en		= true;
-+		tp->eee_adv		= MDIO_EEE_100TX | MDIO_EEE_1000T | MDIO_EEE_10GT;
-+		tp->eee_adv2		= MDIO_EEE_2_5GT | MDIO_EEE_5GT;
-+		ops->init		= r8156_init;
-+		ops->enable		= rtl8156_enable;
-+		ops->disable		= rtl8153_disable;
-+		ops->up			= rtl8156_up;
-+		ops->down		= rtl8156_down;
-+		ops->unload		= rtl8153_unload;
-+		ops->eee_get		= r8153_get_eee;
-+		ops->eee_set		= r8152_set_eee;
-+		ops->in_nway		= rtl8153_in_nway;
-+		ops->hw_phy_cfg		= r8157_hw_phy_cfg;
-+		ops->autosuspend_en	= rtl8157_runtime_enable;
-+		ops->change_mtu		= rtl8156_change_mtu;
-+		tp->rx_buf_sz		= 48 * 1024;
-+		tp->support_2500full	= 1;
-+		tp->support_5000full	= 1;
-+		tp->support_10000full	= 1;
-+		r8157_desc_init(tp);
-+		break;
++/*
++ * LCSR TX deemphasis register for USB3 port @n.
++ * Offset stride matches DWC3_LLUCTL.
++ */
++#define DWC3_LCSR_TX_DEEMPH(n)		(0xd060 + ((n) * 0x80))
 +
- 	default:
- 		ret = -ENODEV;
- 		dev_err(&tp->intf->dev, "Unknown Device\n");
-@@ -9843,6 +10080,9 @@ static u8 __rtl_get_hw_ver(struct usb_device *udev)
- 	case 0x1030:
- 		version = RTL_VER_16;
- 		break;
-+	case 0x2020:
-+		version = RTL_VER_17;
-+		break;
- 	default:
- 		version = RTL_VER_UNKNOWN;
- 		dev_info(&udev->dev, "Unknown version 0x%04x\n", ocp_data);
-@@ -10160,6 +10400,7 @@ static const struct usb_device_id rtl8152_table[] = {
- 	{ USB_DEVICE(VENDOR_ID_REALTEK, 0x8155) },
- 	{ USB_DEVICE(VENDOR_ID_REALTEK, 0x8156) },
- 	{ USB_DEVICE(VENDOR_ID_REALTEK, 0x8157) },
-+	{ USB_DEVICE(VENDOR_ID_REALTEK, 0x815a) },
+ /* Bit fields */
  
- 	/* Microsoft */
- 	{ USB_DEVICE(VENDOR_ID_MICROSOFT, 0x07ab) },
-
+ /* Global SoC Bus Configuration INCRx Register 0 */
+@@ -198,6 +204,10 @@
+ #define DWC3_GSBUSCFG0_REQINFO(n)	(((n) & 0xffff) << 16)
+ #define DWC3_GSBUSCFG0_REQINFO_UNSPECIFIED	0xffffffff
+ 
++/* LCSR_TX_DEEMPH Register: setting TX deemphasis used in normal operation in gen2 */
++#define DWC3_LCSR_TX_DEEMPH_MASK(n)		((n) & 0x3ffff)
++#define DWC3_LCSR_TX_DEEMPH_UNSPECIFIED		0xffffffff
++
+ /* Global Debug LSP MUX Select */
+ #define DWC3_GDBGLSPMUX_ENDBC		BIT(15)	/* Host only */
+ #define DWC3_GDBGLSPMUX_HOSTSELECT(n)	((n) & 0x3fff)
+@@ -1185,6 +1195,9 @@ struct dwc3_glue_ops {
+  * @wakeup_pending_funcs: Indicates whether any interface has requested for
+  *			 function wakeup in bitmap format where bit position
+  *			 represents interface_id.
++ * @csr_tx_deemph_field_1: stores TX deemphasis used in Gen2 operation.
++ *                         The csr_tx_deemph setting is applied to each
++ *			   USB3 port.
+  */
+ struct dwc3 {
+ 	struct work_struct	drd_work;
+@@ -1424,6 +1437,7 @@ struct dwc3 {
+ 	struct dentry		*debug_root;
+ 	u32			gsbuscfg0_reqinfo;
+ 	u32			wakeup_pending_funcs;
++	u32			csr_tx_deemph_field_1;
+ };
+ 
+ #define INCRX_BURST_MODE 0
+diff --git a/drivers/usb/dwc3/dwc3-xilinx.c b/drivers/usb/dwc3/dwc3-xilinx.c
+index b601cca485ed..7c6111a9ca44 100644
+--- a/drivers/usb/dwc3/dwc3-xilinx.c
++++ b/drivers/usb/dwc3/dwc3-xilinx.c
+@@ -25,6 +25,8 @@
+ 
+ #include <linux/phy/phy.h>
+ 
++#include "core.h"
++
+ /* USB phy reset mask register */
+ #define XLNX_USB_PHY_RST_EN			0x001C
+ #define XLNX_PHY_RST_MASK			0x1
+@@ -41,12 +43,14 @@
+ #define PIPE_CLK_SELECT				0
+ #define XLNX_USB_FPD_POWER_PRSNT		0x80
+ #define FPD_POWER_PRSNT_OPTION			BIT(0)
++#define XLNX_MMI_USB_TX_DEEMPH_DEF		0x8c45
+ 
+ struct dwc3_xlnx;
+ 
+ struct dwc3_xlnx_config {
+ 	int				(*pltfm_init)(struct dwc3_xlnx *data);
+ 	bool				no_mem_map;
++	u32				tx_deemph;
+ };
+ 
+ struct dwc3_xlnx {
+@@ -280,15 +284,18 @@ static int dwc3_xlnx_init_zynqmp(struct dwc3_xlnx *priv_data)
+ 
+ static const struct dwc3_xlnx_config zynqmp_config = {
+ 	.pltfm_init = dwc3_xlnx_init_zynqmp,
++	.tx_deemph = DWC3_LCSR_TX_DEEMPH_UNSPECIFIED,
+ };
+ 
+ static const struct dwc3_xlnx_config versal_config = {
+ 	.pltfm_init = dwc3_xlnx_init_versal,
++	.tx_deemph = DWC3_LCSR_TX_DEEMPH_UNSPECIFIED,
+ };
+ 
+ static const struct dwc3_xlnx_config versal2_config = {
+ 	.pltfm_init = dwc3_xlnx_init_versal2,
+ 	.no_mem_map = true,
++	.tx_deemph = XLNX_MMI_USB_TX_DEEMPH_DEF,
+ };
+ 
+ static const struct of_device_id dwc3_xlnx_of_match[] = {
+@@ -308,10 +315,12 @@ static const struct of_device_id dwc3_xlnx_of_match[] = {
+ };
+ MODULE_DEVICE_TABLE(of, dwc3_xlnx_of_match);
+ 
+-static int dwc3_set_swnode(struct device *dev)
++static int dwc3_set_swnode(struct dwc3_xlnx *priv_data)
+ {
++	struct device *dev = priv_data->dev;
++	const struct dwc3_xlnx_config *config = priv_data->dwc3_config;
+ 	struct device_node *np = dev->of_node, *dwc3_np;
+-	struct property_entry props[2];
++	struct property_entry props[3];
+ 	int prop_idx = 0, ret = 0;
+ 
+ 	dwc3_np = of_get_compatible_child(np, "snps,dwc3");
+@@ -325,6 +334,11 @@ static int dwc3_set_swnode(struct device *dev)
+ 	if (of_dma_is_coherent(dwc3_np))
+ 		props[prop_idx++] = PROPERTY_ENTRY_U16("snps,gsbuscfg0-reqinfo",
+ 						       0xffff);
++
++	if (config->tx_deemph != DWC3_LCSR_TX_DEEMPH_UNSPECIFIED)
++		props[prop_idx++] = PROPERTY_ENTRY_U32("snps,lcsr-tx-deemph",
++						       config->tx_deemph);
++
+ 	of_node_put(dwc3_np);
+ 
+ 	if (prop_idx)
+@@ -377,7 +391,7 @@ static int dwc3_xlnx_probe(struct platform_device *pdev)
+ 	if (ret)
+ 		goto err_clk_put;
+ 
+-	ret = dwc3_set_swnode(dev);
++	ret = dwc3_set_swnode(priv_data);
+ 	if (ret)
+ 		goto err_clk_put;
+ 
 -- 
-2.47.3
+2.43.0
 
