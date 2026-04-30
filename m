@@ -1,29 +1,29 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DE36A3624AB;
-	Thu, 30 Apr 2026 16:53:26 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A9566365A19;
+	Thu, 30 Apr 2026 16:53:29 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1777568006; cv=none; b=GovXlNEMQ/yoClTcW2yWq6IuWRWTlqA7zuJlhFxDk+fFrR7G0liUeY7DfQSOpy7ClIJkOWw34YCYzwHDYPC3GUuvqxLKgOQH9t7RMEp2gDax45+DcalbUOPbOtfgBx3KY7rCtdhHHN8/mlYsHFkfF/F8y26B+r0MhTYv0ZIG5Oo=
+	t=1777568009; cv=none; b=VBe9BB0GYKoqS/Z/Bn2CILWvMALZugGzigMXMG9ANp/VpbYq8rxnwmIDEUGScqHISi2Jt25la2RG0Y7JmOwNR5+Jv2L6fw+KUkRqUXZAAwP/igoCXdmIanXhy3DE5xrVKsLnWp9oq/mq4endQ0L3Px25mcrPkgkeQMNy6TzuR+s=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1777568006; c=relaxed/simple;
-	bh=1N+AWIpyBPX3Hg1K9IC6abjOw/k9hF6/DbnNdoiaz/Q=;
+	s=arc-20240116; t=1777568009; c=relaxed/simple;
+	bh=6w4iw2zeADltB653674XblRvf+VzLBCWAhzSrkTyIYw=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=RK3nbqfzMCLlIBLPn9w6tR4RviO0m9WLnPi06bKaG3jaM4veAXKBo79DwLn4RzmJPTFPngW+XPRcY+Hl/Q454uJLe/45IxojkVzCj7D6X9CMhU+d9C7R8SuqK/CVYR9nqRUGmqVBoGZsfjShHq6UN6Hw078k067AgurZCxqgMQk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b=TMRrztkt; arc=none smtp.client-ip=10.30.226.201
+	 Content-Type:Content-Disposition:In-Reply-To; b=Zc8K2G+6Eal3TpomyJz4KEzq27jManzxD3ut7uU3gUTT10vU1lQbSAT8MEcxIHJOBcG5dV9cmzISnFH7FtjiT8kxx5M02ve1LQ8yhWAZ5xdul0Z+OCi+FExe40A8vyPHF0j8klzcFu5vLGL7+4Wbz6Mgp0I3Dlo5anWnL4h7fYU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b=YczDOytn; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="TMRrztkt"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 271BDC2BCB3;
-	Thu, 30 Apr 2026 16:53:26 +0000 (UTC)
+	dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="YczDOytn"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id A5421C2BCB8;
+	Thu, 30 Apr 2026 16:53:28 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
-	s=korg; t=1777568006;
-	bh=1N+AWIpyBPX3Hg1K9IC6abjOw/k9hF6/DbnNdoiaz/Q=;
+	s=korg; t=1777568009;
+	bh=6w4iw2zeADltB653674XblRvf+VzLBCWAhzSrkTyIYw=;
 	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=TMRrztktLZQEIA5z8JDWGwZ1AY0Fj2VzBvAoOWuRC1m8OOqLtQfOMJTRG0PbSCp1J
-	 F9NAJdNwyJLFmncCUZeHl31Rnm6sCiS/wTzxDKh1M55njqb5fs4sKBgOoL7YA8CGGQ
-	 AxICsByjBoggNAe8Xw81npcQQ1ylFg2OqNobLxjc=
-Date: Thu, 30 Apr 2026 18:26:40 +0200
+	b=YczDOytnbHOog3TjPbkM00wBTm9uVWcmzIEhrktmXn9L2VwRx+guepvsOhfePyoOo
+	 pWZSxgu2MfGIZ/sDR7wPlrnddAvuZda1R1AH8KznjCxDIebL2aWrx75nF/20p6jbmX
+	 ELqnxBz7IToZxa2YcVXlNHV0VU/VB5EZrpcclusI=
+Date: Thu, 30 Apr 2026 18:47:07 +0200
 From: Greg KH <gregkh@linuxfoundation.org>
 To: SnailSploit | Kai Aizen <kai.aizen.dev@gmail.com>
 Cc: linux-usb@vger.kernel.org, laurent.pinchart@ideasonboard.com,
@@ -32,8 +32,8 @@ Cc: linux-usb@vger.kernel.org, laurent.pinchart@ideasonboard.com,
 	SnailSploit | Kai Aizen <95986478+SnailSploit@users.noreply.github.com>
 Subject: Re: [PATCH] usb: gadget: uvc: hold opts->lock across XU walks in
  uvc_function_bind
-Message-ID: <2026043022-calcium-rendering-375e@gregkh>
-References: <20260430152702.60771-1-95986478+SnailSploit@users.noreply.github.com>
+Message-ID: <2026043055-atlantic-boots-cc28@gregkh>
+References: <20260430154104.61633-1-95986478+SnailSploit@users.noreply.github.com>
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
@@ -42,12 +42,12 @@ List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20260430152702.60771-1-95986478+SnailSploit@users.noreply.github.com>
+In-Reply-To: <20260430154104.61633-1-95986478+SnailSploit@users.noreply.github.com>
 
-On Thu, Apr 30, 2026 at 06:27:02PM +0300, SnailSploit | Kai Aizen wrote:
+On Thu, Apr 30, 2026 at 06:41:04PM +0300, SnailSploit | Kai Aizen wrote:
 > From: "SnailSploit | Kai Aizen" <95986478+SnailSploit@users.noreply.github.com>
 
-That's not a valid name/email address :(
+Again, please use a real name/email address.
 
 thanks,
 
