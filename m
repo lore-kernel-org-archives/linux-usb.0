@@ -1,76 +1,51 @@
-Received: from mail-wr1-f45.google.com (mail-wr1-f45.google.com [209.85.221.45])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from m16.mail.163.com (m16.mail.163.com [220.197.31.3])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DC60F339B3D
-	for <linux-usb@vger.kernel.org>; Thu, 30 Apr 2026 15:41:10 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.45
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 65171340281;
+	Thu, 30 Apr 2026 16:40:24 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=220.197.31.3
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1777563672; cv=none; b=IIPf0CYJV3GtOd7WnscrcZLaCAxoK2gDWMiJksUEScqjvaCGAYMdL7KsQziFMdGuuG4lut63QorT/XHMJRDgMkDdBse367WaXNpR/dlH25PkMp2IE7vIc1DMKa7mAHvEUVoVjHqjNiPyxI1g3PolHhn0GzzZs9slLBSdREtmxVc=
+	t=1777567228; cv=none; b=pSVAFpBzHAJSCBDJqIe6fHCehQbHUqguUk5eMm74L8Jbp9Vf05PN46XkiJGhikNuoQI2HdC2UuGl5TbvTsuxVvIyPOtk2cDB4Vpoiqn9sxKCNbh3VCRHK+89FdmhH4iabAk2mqi0JgTRmmQpc5Caw2V07bAMOcY6JFpmmsA8UKE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1777563672; c=relaxed/simple;
-	bh=Xm4FEazpY1d55SvwIO4bAfwbtbgoqCSlA2mZfkuu6ME=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=GyfF2kUdf+MyuknQpbTihdxp+ue8HRpOxWiAXIDJcXNuEy+5quSnuZht/jevsF2klhllTI6399wk6gQijM865ef7ot73DRwTsNnIFOdCzkn7Twf7GVsR54SOKpMlhPSCH6K4ayxRVf7oFXcFJK+1ZG2k7x3KS3XjvBYWY/kiUdA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=aHwHwWAa; arc=none smtp.client-ip=209.85.221.45
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1777567228; c=relaxed/simple;
+	bh=JTnzdK5G65pkRq/y78INNPq4ag6DFHyic5F4xsSNXLU=;
+	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=aOnTU2XaszzcBF5Cu5mkawsF6jd6C9Hax+5BzfzbGE5g4Khn4jDB6IG6DxZpN6ms/2jMCLlxK7hRx/PqTdj/wTPnD3KIeu7xgUy7zcQyHBiolfqpHQdHEvnDKsAI7RRbudP3GHHOM+Oo7FaHdrN/CfkjEd5py6RcqTnGMY3MP7Q=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=163.com; spf=pass smtp.mailfrom=163.com; dkim=pass (1024-bit key) header.d=163.com header.i=@163.com header.b=TCAFEOLo; arc=none smtp.client-ip=220.197.31.3
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=163.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=163.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="aHwHwWAa"
-Received: by mail-wr1-f45.google.com with SMTP id ffacd0b85a97d-43cfd832155so730824f8f.1
-        for <linux-usb@vger.kernel.org>; Thu, 30 Apr 2026 08:41:10 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1777563669; x=1778168469; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=+qcWerMpQDAoEvXfjALo/ClX/15Aw2GMj+ACfo5gS4o=;
-        b=aHwHwWAaCoqjJWYHakRJooqk4nJBci8A10SPT0rsLMKx8g8v7tGp8AcCEhOtkTWJNq
-         /xuj+H+HcWFVrOj5Ha/frPdio4ZenFVDcyj3yK6EGao5xsd3MnCauMhurCsKXCa97ZgP
-         9GfJIEcX8HOKu9Q/ABhEeWM9E5LIONCmsH9EFfEikWZTYyHFFQO9sQOUeAsYei/sjF90
-         GidGxx9kkThrZknRegz8xpCPuhgv8jZ4S9ueoi9L17Oh5Y6rkvYkrZwGnFvX/l3Ozldt
-         MZyevrZ9f3y/Ibicvi5euzuEB1xN/EVl42kNPLGk+EF7XS5RtUnOkLf6opkm3T8vU9jd
-         il/A==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1777563669; x=1778168469;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=+qcWerMpQDAoEvXfjALo/ClX/15Aw2GMj+ACfo5gS4o=;
-        b=dcH0gcQEPsfJPdT7AM48Wzc15bWEA8wGbr8xgVsuLNFFuXVkZ37TDA5poFRxG/rWOo
-         QCQAr3r1zMjp8EL5PQ6hvcWlFXfatD5setiZE4V6zqr5t0s3tO854PklwqJVP1BU8NT4
-         8G50Trkos6glkFromU9/XUf63ASrbT6YJGarLuLG5xud+MXcRBPpmdyaLclY+ch60M+C
-         aIkD0v/Emdjnb56LqUIi1BkMkL6yXX+2Koy+VYuVI63/CT1wDy14pnEdEN3BHY2ZaZbA
-         FHf8oyWPxlk0Rp8szihn1E/4jpiONnlLKh+CMjS70vPaej/Br4+pAGpEMrGZcPVAsmFL
-         bKFg==
-X-Gm-Message-State: AOJu0Yxhm/47MMxblxLxj9W4tmD7QXbDBJNv8l7nhci3L1dOyhLUhy3r
-	Bvtzx3WvIKgRt6xIb/+nHxX46q6L28iLQIPm880YJerjLTPzG+6bAoG9XVhuZZisMtjBQg==
-X-Gm-Gg: AeBDiesGOfZGwZZUH/X+f4idQ23CgY8HhuVSkM7Gkw3lhIwV9K0UK5s9Ms0HGI31QO+
-	i0JLCK2MeVTk7n875foAt3BUOquEj4QyUHpsf4QZDbKJETaL833D824TlNnD3rzT5c2138zfrE8
-	cTLfl4aPyonE9GL9UIybhXRvmv0NktHgPd/XZGKQXlYXEQnum2F/eFZpDlQ60JhVUEnYRcnCyDZ
-	TaYCq1Xl7RFSMbqxtSnGE6PJirZ0Ga7FRo0mEqR0l/WcX/AIVGJut6d4tAIuWd1egMVagcIck1j
-	9qQz5ALBVwdzoXcLRu8X4mCLthASfeteaeoNiyr1qdvtejjLWn6uj0/Gvm1MFWxhCnuOjxTnQ0T
-	JrchBFJ3gcHD3WqyhSsfnCZ6ngFyDG5ANUZYJWgfAQI8YYU6TZUhJONvc+otv7WNSgRv1S24t1t
-	SlLKRwBQKBVPb35gVP8fuRTCiON5sJbVtbqK9+BLO77eiwcg9igKMWMHI1cAb1bSk8nRgQSoabR
-	gFlzKpKQlqrYOoPL/pjLnwczn6L0UXcbUgEXQ==
-X-Received: by 2002:a05:6000:2601:b0:43e:a73e:cc8a with SMTP id ffacd0b85a97d-4493ec61acdmr6469160f8f.36.1777563668561;
-        Thu, 30 Apr 2026 08:41:08 -0700 (PDT)
-Received: from localhost.localdomain ([2a00:a041:e04f:2600:a0c9:1d35:8283:f96b])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-449c576d0a2sm3593443f8f.31.2026.04.30.08.41.07
-        (version=TLS1_3 cipher=TLS_CHACHA20_POLY1305_SHA256 bits=256/256);
-        Thu, 30 Apr 2026 08:41:08 -0700 (PDT)
-From: "SnailSploit | Kai Aizen" <kai.aizen.dev@gmail.com>
-X-Google-Original-From: SnailSploit | Kai Aizen <95986478+SnailSploit@users.noreply.github.com>
-To: linux-usb@vger.kernel.org
-Cc: laurent.pinchart@ideasonboard.com,
-	paulelder@kernel.org,
-	balbi@kernel.org,
+	dkim=pass (1024-bit key) header.d=163.com header.i=@163.com header.b="TCAFEOLo"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=163.com;
+	s=s110527; h=From:To:Subject:Date:Message-Id:MIME-Version; bh=Pd
+	m0Q5wvmCn6GgEqOUMjbFnoJ2kFK5BaF9LzslBFdQE=; b=TCAFEOLoYE9t+l126j
+	uiN+UYc+AS0VC7guWxrC55BnHg12MgNlGinScfkU2dxPFg6kHgRKAXeAYuQ7YXvF
+	ObdfoQ+Mlq7+Dmnwf6K9pbFDRuz4m4LvxVzz04WxWWZQvr8RZz3JM8HnkBJza/nD
+	j85BWvzv1qRavZaFLvDOfS7y0=
+Received: from zhb.. (unknown [])
+	by gzga-smtp-mtada-g0-3 (Coremail) with SMTP id _____wDnUmm+hfNptZrZCg--.19910S2;
+	Fri, 01 May 2026 00:39:27 +0800 (CST)
+From: Hans Zhang <18255117159@163.com>
+To: Thinh.Nguyen@synopsys.com,
 	gregkh@linuxfoundation.org,
-	w@1wt.eu,
+	peter.griffin@linaro.org,
+	andre.draszik@linaro.org,
+	tudor.ambarus@linaro.org,
+	mathias.nyman@intel.com,
+	chunfeng.yun@mediatek.com,
+	matthias.bgg@gmail.com,
+	angelogioacchino.delregno@collabora.com,
+	badhri@google.com,
+	heikki.krogerus@linux.intel.com
+Cc: linux-usb@vger.kernel.org,
 	linux-kernel@vger.kernel.org,
-	stable@vger.kernel.org,
-	"SnailSploit | Kai Aizen" <95986478+SnailSploit@users.noreply.github.com>
-Subject: [PATCH] usb: gadget: uvc: hold opts->lock across XU walks in uvc_function_bind
-Date: Thu, 30 Apr 2026 18:41:04 +0300
-Message-ID: <20260430154104.61633-1-95986478+SnailSploit@users.noreply.github.com>
-X-Mailer: git-send-email 2.53.0
+	linux-arm-kernel@lists.infradead.org,
+	linux-samsung-soc@vger.kernel.org,
+	linux-mediatek@lists.infradead.org,
+	Hans Zhang <18255117159@163.com>
+Subject: [PATCH 0/6] usb: Use FIELD_MODIFY() for bitfield operations
+Date: Fri,  1 May 2026 00:39:13 +0800
+Message-Id: <20260430163919.47372-1-18255117159@163.com>
+X-Mailer: git-send-email 2.34.1
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
@@ -78,136 +53,39 @@ List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
+X-CM-TRANSID:_____wDnUmm+hfNptZrZCg--.19910S2
+X-Coremail-Antispam: 1Uf129KBjvdXoW7JryfZFyfCF45tw1UWF4rXwb_yoWftrb_AF
+	ykuF4ftw1DWFWakFyUC3savrZ8urWkZrnYvF1vq3W3K3srKr1rXr1vyrW8J3W3ZFW8uF1v
+	qF4DWryS9FZ7AjkaLaAFLSUrUUUUjb8apTn2vfkv8UJUUUU8Yxn0WfASr-VFAUDa7-sFnT
+	9fnUUvcSsGvfC2KfnxnUUI43ZEXa7sRKFALPUUUUU==
+X-CM-SenderInfo: rpryjkyvrrlimvzbiqqrwthudrp/xtbC7B-ni2nzhb-ZWQAA3-
 
-From: "SnailSploit | Kai Aizen" <95986478+SnailSploit@users.noreply.github.com>
+Replace open-coded bitfield modifications with the standard FIELD_MODIFY()
+macro across multiple USB drivers (dwc3, xhci, typec). This improves
+readability and adds compile-time checking without functional changes.
 
-uvc_function_bind() walks &opts->extension_units twice without holding
-opts->lock:
-
-  - directly, for the iExtension string-descriptor fixup loop;
-  - indirectly, four times via uvc_copy_descriptors() (once per speed),
-    where the helper iterates uvc->desc.extension_units (which aliases
-    &opts->extension_units) to size and emit XU descriptors.
-
-The configfs side (uvcg_extension_make / uvcg_extension_drop, in
-drivers/usb/gadget/function/uvc_configfs.c) takes opts->lock around its
-list_add_tail / list_del operations.  A privileged userspace process
-that holds the configfs subtree open and writes the gadget UDC name
-to bind the function while concurrently rmdir()'ing an extensions
-subdir can race uvcg_extension_drop() against the bind-time list walks
-and dereference a freed struct uvcg_extension.
-
-Hold opts->lock from the start of the XU string-descriptor fixup
-through the last uvc_copy_descriptors() call, releasing on the
-descriptor-error path via a new error_unlock label that drops the
-lock before falling through to the existing error label.  This
-matches the locking discipline of the configfs callbacks and removes
-the only remaining unsynchronised reader of the XU list during bind.
-
-Reachability: only privileged processes that can mount configfs and
-write to gadget UDC files can trigger the race, so this is a
-correctness fix rather than a security boundary.
-
-Fixes: 0525210c9840 ("usb: gadget: uvc: Allow definition of XUs in configfs")
-Cc: stable@vger.kernel.org
-Signed-off-by: SnailSploit | Kai Aizen <95986478+SnailSploit@users.noreply.github.com>
 ---
- drivers/usb/gadget/function/f_uvc.c | 28 +++++++++++++++++++++-------
- 1 file changed, 21 insertions(+), 7 deletions(-)
+Hi, If the Maintainers think it's not necessary, please ignore it.
+---
 
-diff --git a/drivers/usb/gadget/function/f_uvc.c b/drivers/usb/gadget/function/f_uvc.c
-index 8d404d883..73dc7e428 100644
---- a/drivers/usb/gadget/function/f_uvc.c
-+++ b/drivers/usb/gadget/function/f_uvc.c
-@@ -768,6 +768,16 @@ uvc_function_bind(struct usb_configuration *c, struct usb_function *f)
- 	uvc_hs_streaming_ep.bEndpointAddress = uvc->video.ep->address;
- 	uvc_ss_streaming_ep.bEndpointAddress = uvc->video.ep->address;
- 
-+	/*
-+	 * Hold opts->lock across both the XU string-descriptor fixup below and
-+	 * the descriptor-copy block further down.  Without this, configfs
-+	 * uvcg_extension_drop() (which takes opts->lock) can race with the
-+	 * list_for_each_entry() walks here and inside uvc_copy_descriptors(),
-+	 * leading to a UAF on a freed struct uvcg_extension.  See
-+	 * drivers/usb/gadget/function/uvc_configfs.c::uvcg_extension_drop().
-+	 */
-+	mutex_lock(&opts->lock);
-+
- 	/*
- 	 * XUs can have an arbitrary string descriptor describing them. If they
- 	 * have one pick up the ID.
-@@ -785,7 +795,7 @@ uvc_function_bind(struct usb_configuration *c, struct usb_function *f)
- 				 ARRAY_SIZE(uvc_en_us_strings));
- 	if (IS_ERR(us)) {
- 		ret = PTR_ERR(us);
--		goto error;
-+		goto error_unlock;
- 	}
- 
- 	uvc_iad.iFunction = opts->iad_index ? cdev->usb_strings[opts->iad_index].id :
-@@ -799,14 +809,14 @@ uvc_function_bind(struct usb_configuration *c, struct usb_function *f)
- 
- 	/* Allocate interface IDs. */
- 	if ((ret = usb_interface_id(c, f)) < 0)
--		goto error;
-+		goto error_unlock;
- 	uvc_iad.bFirstInterface = ret;
- 	uvc_control_intf.bInterfaceNumber = ret;
- 	uvc->control_intf = ret;
- 	opts->control_interface = ret;
- 
- 	if ((ret = usb_interface_id(c, f)) < 0)
--		goto error;
-+		goto error_unlock;
- 	uvc_streaming_intf_alt0.bInterfaceNumber = ret;
- 	uvc_streaming_intf_alt1.bInterfaceNumber = ret;
- 	uvc->streaming_intf = ret;
-@@ -817,30 +827,32 @@ uvc_function_bind(struct usb_configuration *c, struct usb_function *f)
- 	if (IS_ERR(f->fs_descriptors)) {
- 		ret = PTR_ERR(f->fs_descriptors);
- 		f->fs_descriptors = NULL;
--		goto error;
-+		goto error_unlock;
- 	}
- 
- 	f->hs_descriptors = uvc_copy_descriptors(uvc, USB_SPEED_HIGH);
- 	if (IS_ERR(f->hs_descriptors)) {
- 		ret = PTR_ERR(f->hs_descriptors);
- 		f->hs_descriptors = NULL;
--		goto error;
-+		goto error_unlock;
- 	}
- 
- 	f->ss_descriptors = uvc_copy_descriptors(uvc, USB_SPEED_SUPER);
- 	if (IS_ERR(f->ss_descriptors)) {
- 		ret = PTR_ERR(f->ss_descriptors);
- 		f->ss_descriptors = NULL;
--		goto error;
-+		goto error_unlock;
- 	}
- 
- 	f->ssp_descriptors = uvc_copy_descriptors(uvc, USB_SPEED_SUPER_PLUS);
- 	if (IS_ERR(f->ssp_descriptors)) {
- 		ret = PTR_ERR(f->ssp_descriptors);
- 		f->ssp_descriptors = NULL;
--		goto error;
-+		goto error_unlock;
- 	}
- 
-+	mutex_unlock(&opts->lock);
-+
- 	/* Preallocate control endpoint request. */
- 	uvc->control_req = usb_ep_alloc_request(cdev->gadget->ep0, GFP_KERNEL);
- 	uvc->control_buf = kmalloc(UVC_MAX_REQUEST_SIZE, GFP_KERNEL);
-@@ -872,6 +884,8 @@ uvc_function_bind(struct usb_configuration *c, struct usb_function *f)
- 
- 	return 0;
- 
-+error_unlock:
-+	mutex_unlock(&opts->lock);
- v4l2_error:
- 	v4l2_device_unregister(&uvc->v4l2_dev);
- error:
+Hans Zhang (6):
+  usb: dwc3: Use FIELD_MODIFY()
+  usb: dwc3: google: Use FIELD_MODIFY()
+  usb: dwc3: dwc3-octeon: Use FIELD_MODIFY()
+  usb: xhci: Use FIELD_MODIFY()
+  usb: xhci-mtk: Use FIELD_MODIFY()
+  usb: typec: Use FIELD_MODIFY()
+
+ drivers/usb/dwc3/core.c        | 12 ++++--------
+ drivers/usb/dwc3/dwc3-google.c |  5 ++---
+ drivers/usb/dwc3/dwc3-octeon.c | 11 ++++-------
+ drivers/usb/host/xhci-hub.c    |  5 ++---
+ drivers/usb/host/xhci-mtk.c    |  6 +++---
+ drivers/usb/typec/tcpm/tcpci.c | 11 ++++-------
+ 6 files changed, 19 insertions(+), 31 deletions(-)
+
+
+base-commit: 3b3bea6d4b9c162f9e555905d96b8c1da67ecd5b
 -- 
-2.43.0
+2.34.1
 
