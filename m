@@ -1,336 +1,167 @@
-Received: from PA4PR04CU001.outbound.protection.outlook.com (mail-francecentralazon11013003.outbound.protection.outlook.com [40.107.162.3])
+Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com [205.220.180.131])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 316C14611EB;
-	Thu, 30 Apr 2026 11:07:58 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=40.107.162.3
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1777547280; cv=fail; b=nlZLKjZTtKzeTbPLkyWKz5933+lGIfgguHwzyHC282wC6wW1RYx79L3SGl4CCvRxFmstxkY+1I+LRdP8XpWah8flEc/llmdmBWnjjQ9kArd0jzMhYGee3Hb6WL5KfNELZKngyxJsldu/sZXP1K8QC2jNqU3mNbYHpiuKSHvmDN4=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1777547280; c=relaxed/simple;
-	bh=W6Ze/Sc61KjKcNTf6UMIsJbg52R0jAhE4wdz6vt0gbA=;
-	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
-	 Content-Type:MIME-Version; b=IcrydxwFJnNLoDZC8EfQqR3oHiS5zXRE2vxaU2qy1Se1my/em71QO1lmsNx/U4c4DKa9rfrTPEJI6fFmwI/o/D3anuGnf4jk6bCSkCZcTUDHenw2EADxfKDTMEjpJno7L+euFs3Wt9fOlVyZdjfHT/WSjGNlIj3u4MC2S18/mXQ=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=nxp.com; spf=pass smtp.mailfrom=nxp.com; dkim=pass (2048-bit key) header.d=nxp.com header.i=@nxp.com header.b=BS5Y1Ai/; arc=fail smtp.client-ip=40.107.162.3
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=nxp.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=nxp.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 391753A3E98
+	for <linux-usb@vger.kernel.org>; Thu, 30 Apr 2026 11:53:10 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.180.131
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1777549993; cv=none; b=IwucLah2dngZhDTyA3hdZbqV1pNVZQlLBu7JVoqGILfu8fJzHeC9FoDSHJ4l9NHvU7fyaXbAJjG9nqlUVjfzrZLObYXejncEigEubEQBIDAyWfooJYDSYMyGinm/M3kE9Zug4l+OcBDQjMo3zeXMByyQs1zRbQERpZOHAHoLunU=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1777549993; c=relaxed/simple;
+	bh=Wy35dkk+x7J7hVzibp+tGhexsVcSnAJWVDQsf3OwioY=;
+	h=From:Subject:Date:Message-Id:MIME-Version:Content-Type:To:Cc; b=bbZwAAcIWymiPw9Mw8NkQurdTmGcpNtfUeFglkr2RrzF3pYEs1FuKSM6A/qLPxjSvwhCoXJ2iujNy2hl1XOOscwjpkhMjmrJRfpa3ReMwvvCYD8oG8r3XlSquaZyIovT4s7hNwcPyq6xMvTr145wiPEisOanz6aJf9xbIBgpLEQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com; spf=pass smtp.mailfrom=oss.qualcomm.com; dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b=Jp8h/2Dm; dkim=pass (2048-bit key) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.b=gg8D9+3Z; arc=none smtp.client-ip=205.220.180.131
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=oss.qualcomm.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=nxp.com header.i=@nxp.com header.b="BS5Y1Ai/"
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=rIyFbXxqyf3bYdWx+icI2S3mLExqAQQZcyKRuhr8PrIHI2xzLS8rlXJMRZsTjnJ9Fba/+0j7uNJ5AfcQRFHAAZSD3ev1f+NVkfhBsVkACH5rOxXxNah9ChFyT57I/kWF6heKdzY/anNGU6pBiQ36D91rou+yu2WlZyzihFlCrxHrcw3X1SD1qXIFREcGGDLoeTwUU7QD26yXdgg1rRg9cbQIxy72e3JwKlb0eCimNiYF1fM3ZbRxTDMMPGa4gDKEcn1LxYAOwewAC8pocNCEccofpG0bSe86XUWlqRw8kaXlWbl9qRAIMHeO8bzPD/RIvuz4Mh6rZ0q7fgQklfK4Tw==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=Si6UMc96n2N2DF/XC4cnF9nZvr3A9AlpPHbLG67E9R8=;
- b=fnrtMy5Vpv6XciWbZ9Uk5AKp31YZIvfqeAy9NE5QkG+jL1c7CQlIamir3QY2TCOVfi3/9vF7qSnecJLelYQ7e+Trxo+bYB2t8B9DJ11e6qQCc5lvWVlD4vL8yrFlEXZtUG8n0kCRFQg7iE1T+YbA2/zqwDszmkBbDqvM6YZyA2ETiA8hpXH486kubEWkh849QYuQxlYFtlNDXLi2PIAJZWtmKuRLbb0dyfsi/Zx5qgcdb8RI6K5NkWbTj27iEx361kb6sUa681PBpc0OliU6C8C5MvgWbAL5B5SD2UvDcNDABP6hrr6Kx9PCbzUYSQKL5ZQpJLoCc6yF3cw8gEtfrg==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=nxp.com; dmarc=pass action=none header.from=nxp.com; dkim=pass
- header.d=nxp.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nxp.com; s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=Si6UMc96n2N2DF/XC4cnF9nZvr3A9AlpPHbLG67E9R8=;
- b=BS5Y1Ai//6ZqNt7M/YVk29LITvOeHBwWNiFRrNd3fusAX3BY10B7sQpxVri6Y0/Hi2/ptrRGx0fjMr+Tqn0plkrTZpG/HrZ/S6d0FAe8siDwo+UORz7S+ouGVo0yHTzJ4iFjG5JUTtL6za9F54ZwDoTXoUasLYj0IdVbIWC5QwyYMU9cV/yKSh3MAc1AS7so9sC4w0Nu1DzjtnGKc6SJnYsmdzKDgdwfMxf73fUTwKzwWPcN9eCvVAW7nsBcpK7rbZKfHDih5W7GtcLA2tii8dJdPV4e5D49g2xbbfPm4DUAA78GJnMXUGum5n+6cYqEaHSuQaGwIZbEJ4ALQmbQMQ==
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=nxp.com;
-Received: from AM9PR04MB8585.eurprd04.prod.outlook.com (2603:10a6:20b:438::13)
- by GV1PR04MB10583.eurprd04.prod.outlook.com (2603:10a6:150:203::7) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9870.18; Thu, 30 Apr
- 2026 11:07:43 +0000
-Received: from AM9PR04MB8585.eurprd04.prod.outlook.com
- ([fe80::f010:fca8:7ef:62f4]) by AM9PR04MB8585.eurprd04.prod.outlook.com
- ([fe80::f010:fca8:7ef:62f4%4]) with mapi id 15.20.9846.025; Thu, 30 Apr 2026
- 11:07:42 +0000
-From: Vladimir Oltean <vladimir.oltean@nxp.com>
-To: linux-phy@lists.infradead.org
-Cc: Vinod Koul <vkoul@kernel.org>,
-	Neil Armstrong <neil.armstrong@linaro.org>,
-	dri-devel@lists.freedesktop.org,
-	freedreno@lists.freedesktop.org,
-	linux-arm-kernel@lists.infradead.org,
-	linux-arm-msm@vger.kernel.org,
-	linux-can@vger.kernel.org,
-	linux-gpio@vger.kernel.org,
-	linux-ide@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	linux-media@vger.kernel.org,
-	linux-pci@vger.kernel.org,
-	linux-renesas-soc@vger.kernel.org,
-	linux-riscv@lists.infradead.org,
-	linux-rockchip@lists.infradead.org,
-	linux-samsung-soc@vger.kernel.org,
-	linux-scsi@vger.kernel.org,
-	linux-sunxi@lists.linux.dev,
-	linux-tegra@vger.kernel.org,
-	linux-usb@vger.kernel.org,
-	netdev@vger.kernel.org,
-	spacemit@lists.linux.dev,
-	UNGLinuxDriver@microchip.com,
-	Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>,
-	Abhinav Kumar <abhinav.kumar@linux.dev>,
-	Alexandre Belloni <alexandre.belloni@bootlin.com>,
-	=?UTF-8?q?Andr=C3=A9=20Draszik?= <andre.draszik@linaro.org>,
-	Andrew Lunn <andrew+netdev@lunn.ch>,
-	Andrzej Hajda <andrzej.hajda@intel.com>,
-	Andy Yan <andy.yan@rock-chips.com>,
-	Bjorn Helgaas <bhelgaas@google.com>,
-	Chanho Park <chanho61.park@samsung.com>,
-	Chen-Yu Tsai <wens@kernel.org>,
-	Claudiu Beznea <claudiu.beznea@tuxon.dev>,
-	Damien Le Moal <dlemoal@kernel.org>,
-	Daniel Machon <daniel.machon@microchip.com>,
-	David Airlie <airlied@gmail.com>,
-	"David S. Miller" <davem@davemloft.net>,
-	Dmitry Baryshkov <lumag@kernel.org>,
-	Eric Dumazet <edumazet@google.com>,
-	Fabio Estevam <festevam@gmail.com>,
-	Frank Li <Frank.Li@nxp.com>,
-	Geert Uytterhoeven <geert+renesas@glider.be>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	=?UTF-8?q?Heiko=20St=C3=BCbner?= <heiko@sntech.de>,
-	Inki Dae <inki.dae@samsung.com>,
-	Jagan Teki <jagan@amarulasolutions.com>,
-	Jakub Kicinski <kuba@kernel.org>,
-	"James E.J. Bottomley" <James.Bottomley@HansenPartnership.com>,
-	JC Kuo <jckuo@nvidia.com>,
-	Jernej Skrabec <jernej.skrabec@gmail.com>,
-	Jessica Zhang <jesszhan0024@gmail.com>,
-	Joe Perches <joe@perches.com>,
-	Johan Hovold <johan+linaro@kernel.org>,
-	Jonas Karlman <jonas@kwiboo.se>,
-	Jonathan Hunter <jonathanh@nvidia.com>,
-	Kevin Xie <kevin.xie@starfivetech.com>,
-	Krzysztof Kozlowski <krzysztof.kozlowski@oss.qualcomm.com>,
-	=?UTF-8?q?Krzysztof=20Wilczy=C5=84ski?= <kwilczynski@kernel.org>,
-	Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
-	Linus Walleij <linusw@kernel.org>,
-	Lorenzo Pieralisi <lpieralisi@kernel.org>,
-	Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
-	Magnus Damm <magnus.damm@gmail.com>,
-	Manivannan Sadhasivam <mani@kernel.org>,
-	Marc Kleine-Budde <mkl@pengutronix.de>,
-	Marek Szyprowski <m.szyprowski@samsung.com>,
-	Marijn Suijten <marijn.suijten@somainline.org>,
-	Markus Schneider-Pargmann <msp@baylibre.com>,
-	"Martin K. Petersen" <martin.petersen@oracle.com>,
-	Mathias Nyman <mathias.nyman@intel.com>,
-	Mauro Carvalho Chehab <mchehab@kernel.org>,
-	Maxime Ripard <mripard@kernel.org>,
-	Michael Dege <michael.dege@renesas.com>,
-	Nicolas Ferre <nicolas.ferre@microchip.com>,
-	Niklas Cassel <cassel@kernel.org>,
-	Nitin Rawat <quic_nitirawa@quicinc.com>,
-	Paolo Abeni <pabeni@redhat.com>,
-	Pengutronix Kernel Team <kernel@pengutronix.de>,
-	Peter Chen <peter.chen@kernel.org>,
-	Peter Griffin <peter.griffin@linaro.org>,
-	Rob Clark <robin.clark@oss.qualcomm.com>,
-	Robert Foss <rfoss@kernel.org>,
-	Rob Herring <robh@kernel.org>,
-	"Russell King (Oracle)" <rmk+kernel@armlinux.org.uk>,
-	Samuel Holland <samuel@sholland.org>,
-	Sandy Huang <hjc@rock-chips.com>,
-	Sascha Hauer <s.hauer@pengutronix.de>,
-	Sean Paul <sean@poorly.run>,
-	Sebastian Reichel <sre@kernel.org>,
-	Shawn Guo <shawn.guo@linaro.org>,
-	Shawn Lin <shawn.lin@rock-chips.com>,
-	Simona Vetter <simona@ffwll.ch>,
-	Steen Hegelund <Steen.Hegelund@microchip.com>,
-	Thierry Reding <thierry.reding@gmail.com>,
-	Thinh Nguyen <Thinh.Nguyen@synopsys.com>,
-	Thomas Zimmermann <tzimmermann@suse.de>,
-	Tudor Ambarus <tudor.ambarus@linaro.org>,
-	Vincent Mailhol <mailhol@kernel.org>,
-	Yixun Lan <dlan@kernel.org>,
-	Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>
-Subject: [PATCH v7 phy-next 26/27] phy: remove temporary provider compatibility from consumer header
-Date: Thu, 30 Apr 2026 14:06:51 +0300
-Message-Id: <20260430110652.558622-27-vladimir.oltean@nxp.com>
-X-Mailer: git-send-email 2.34.1
-In-Reply-To: <20260430110652.558622-1-vladimir.oltean@nxp.com>
-References: <20260430110652.558622-1-vladimir.oltean@nxp.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-X-ClientProxiedBy: AS4P250CA0026.EURP250.PROD.OUTLOOK.COM
- (2603:10a6:20b:5e3::14) To AM9PR04MB8585.eurprd04.prod.outlook.com
- (2603:10a6:20b:438::13)
+	dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b="Jp8h/2Dm";
+	dkim=pass (2048-bit key) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.b="gg8D9+3Z"
+Received: from pps.filterd (m0279868.ppops.net [127.0.0.1])
+	by mx0a-0031df01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 63U75YOb831472
+	for <linux-usb@vger.kernel.org>; Thu, 30 Apr 2026 11:53:09 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
+	cc:content-transfer-encoding:content-type:date:from:message-id
+	:mime-version:subject:to; s=qcppdkim1; bh=S4gD0cycTGKSJtK98/zmKq
+	rbMyKEPcJ5+g2Xd9XvCl8=; b=Jp8h/2DmmjhkcdXnovykDDmIcVBQ2HL6cZ8DPq
+	git6edin9YkdGhUvPEdJu18DIl2HLHLnCRBxDOqu6QuIJs5tjg/au5DP1M21PCsA
+	VtciYYdVMsMv9OrR4PThipusOBq5LuAI+D43FIoZsrQd+DOMWFaKUtt26LBzsgmh
+	avHDZ+kA4hAYEpIxVtBohN/ILemJGG8h7oKc4ETs49ylvM98orE/gnvYbNGLdjph
+	6n4vfdZTnP6EwlrtwspHhLqkxfW1RLwOCV5iY2suQGjw79nGebtX9T9x/tGcCxNe
+	c1cwK42khYDr+fZye8WgGoWQI3fGW5nXFCztOZAMY+UusVcQ==
+Received: from mail-pl1-f200.google.com (mail-pl1-f200.google.com [209.85.214.200])
+	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 4dv2cq178w-1
+	(version=TLSv1.3 cipher=TLS_AES_128_GCM_SHA256 bits=128 verify=NOT)
+	for <linux-usb@vger.kernel.org>; Thu, 30 Apr 2026 11:53:09 +0000 (GMT)
+Received: by mail-pl1-f200.google.com with SMTP id d9443c01a7336-2b2d0c1ead1so13461045ad.0
+        for <linux-usb@vger.kernel.org>; Thu, 30 Apr 2026 04:53:09 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=oss.qualcomm.com; s=google; t=1777549988; x=1778154788; darn=vger.kernel.org;
+        h=cc:to:content-transfer-encoding:mime-version:message-id:date
+         :subject:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=S4gD0cycTGKSJtK98/zmKqrbMyKEPcJ5+g2Xd9XvCl8=;
+        b=gg8D9+3ZpNsJGcAKL11ElygMFOEepPRJy1EYtwR4gdSunq+lfoNAm8jufs9Rty+C4V
+         puyaK2Pnb8xJGaGR0n5Y8S5X4Mnr7BPPqajsushvYV7FFbsNEoQxmEO2/CCEnSk5nqJe
+         mKoY8gNECbegKIZQz4uA/SbzdcRwi/IaSJ7Q6fBr01FfBIbX6hvNcGqNZu3XG6tOJMfh
+         YRpUuqc0Ti7lywuIlBsxG8SyMZeAF9Ll0W4TNzpiC9Pz1JHGVhIfFF8C2J3WTiFWirWt
+         OWTtjKYVh8MakmP83NPgHXdKDgAc100LooG5EMBjpMeEf9dFXA4vXSisQyA8j7lFf5hO
+         kO3Q==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1777549988; x=1778154788;
+        h=cc:to:content-transfer-encoding:mime-version:message-id:date
+         :subject:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=S4gD0cycTGKSJtK98/zmKqrbMyKEPcJ5+g2Xd9XvCl8=;
+        b=ohLbMRc4n+xHurgBuCciAZBENZrkdMBFLhdkV1EKumT14qFUX5dC1EoexbJBRKKs70
+         7wS8Xngu/66SFtPFUOzNrItp0kaYybXl+AsGtdIplen0Cs9s3O9Ub8zvzjc58U22cosT
+         ph5BgZFBQvj2cyqVkwd40sESAEjPz8Zrmk2xZTGngi84ZWjfRBETvHWI9LiX8NAKDUf/
+         rZgStz3ggEwGcfR+7mHU7pUNlTs9xgHHXRScABhiDNaTSxdZI/0oyGfs8v+jiLRbV718
+         uxA+fJYmqfRv+9QO6rtwxrjoweth+irFm/qZkmx9WbGrUOMginK975Kt+QF4ha1q6fXs
+         IuSA==
+X-Forwarded-Encrypted: i=1; AFNElJ89cgG+NmzpyawAF6WJ9R+mg5IlKQJ/haYP6B15BY2dbgl9SZ9PilHQKBe21QVIqoj3q6IOOA6aSDI=@vger.kernel.org
+X-Gm-Message-State: AOJu0Yyluzr+36cMrhgR3NOPvaSeij2x4RC/Xl2OfRoTZRK3RjkWHP4a
+	SGn1+Op/vHz8a85kuChcDptGcWBGSxmEOUCIEy4Surdq+dKfMobaCFU1ACUwE5lP0s1KAJlpXfe
+	faI6gl86pFI2Knl92A0rXfFXmExeQv+fgSxRHKIchH/+37V1ZaMqpeW7Bd2SWHTI=
+X-Gm-Gg: AeBDiesquKxzB50t1/iPuGgHPyaTLUmDPrnP7wyn02XVLP56s3aNswbPmGXL0H6Hrev
+	srA7drpDZl7OKb0+Oox1eYyHpy+8O3A4P9cdfY7LrM+ihFrvl7KNRcd9p+9C9Au7wpFYlRQ3WFi
+	ubcWVIGpzWy+9QngSVnfkf/ngdja39G6FlZk5DARU6XHDJqPsfrypnEC0gs+Z3tiOeSimWjQA2J
+	tOlAygsDwS5VQkDghEfdz8oVWZLO3QVLj349AdQGMK7An1/174+H2/W+D1xPM1AqXMlHOslLT5F
+	iRS2jnNVMvRNNnt0oyPE8RFg93skak5AvJI36+fEJL6QS10mVzKvoBKHpu+ShOvXG24tNCDfPHo
+	Ytx1eZEq0gaqOFEkDbLKz6k/yDoCbynDGeVYBUa5vOCJ6MlU=
+X-Received: by 2002:a17:902:f20d:b0:2b2:81aa:f6c3 with SMTP id d9443c01a7336-2b9a24e293dmr22500135ad.29.1777549988503;
+        Thu, 30 Apr 2026 04:53:08 -0700 (PDT)
+X-Received: by 2002:a17:902:f20d:b0:2b2:81aa:f6c3 with SMTP id d9443c01a7336-2b9a24e293dmr22499885ad.29.1777549987989;
+        Thu, 30 Apr 2026 04:53:07 -0700 (PDT)
+Received: from [10.213.101.118] ([202.46.23.25])
+        by smtp.gmail.com with ESMTPSA id d9443c01a7336-2b988971138sm53834955ad.70.2026.04.30.04.53.03
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 30 Apr 2026 04:53:07 -0700 (PDT)
+From: Komal Bajaj <komal.bajaj@oss.qualcomm.com>
+Subject: [PATCH 0/5] Add USB driver and binding changes for Qualcomm Shikra
+ SoC
+Date: Thu, 30 Apr 2026 17:20:25 +0530
+Message-Id: <20260430-shikra-usb-v1-0-c9c108536fdc@oss.qualcomm.com>
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: AM9PR04MB8585:EE_|GV1PR04MB10583:EE_
-X-MS-Office365-Filtering-Correlation-Id: a2f5fde0-ba0f-4971-6717-08dea6a8b343
-X-LD-Processed: 686ea1d3-bc2b-4c6f-a92c-d99c5c301635,ExtAddr
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam:
- BCL:0;ARA:13230040|366016|19092799006|376014|7416014|10070799003|1800799024|22082099003|56012099003|18002099003;
-X-Microsoft-Antispam-Message-Info:
- bjDhtYlwTEjLGAG6PD8fzABylAebhnFcZ+11DQ5eWy476jzU7w8Pu57C4FqUfkvLEqhk1ygyV4jWFwHlZFIUQTsXrF1EzuNRHCkgZWQzt/B3kEXgoK6rkylQSKzyoX5LJB1uGojv6/yY7dEswy7krIaure2AJEg+U9n63r9Tm7U44TLbT8Or6GGTDjSkPg2u9DBl5KGR+hLrXcbasbAOmeo4nsVNDdO/FVPsRGRPZRnqrg0qtoGDqzbadVcO6zVohoinb195wTtpNhqF5k7VblzQI7ELe5dmgSHrUeNJ52MW0a7soWiuSjTbKQT4+dmgqjtM4xXC2va2PXXn9xCIgVTSeel8m8BpXY3qhvZyaLLOnOhggl1Qh0EbfhlNHrr/lb+H6kscSA7VJhfE7bbpoFrzVl8QfMVHucWJIRtZRYHKatInJklU9Rt0ZqX2lcIumm67ZuwnoDS0Axz6/XTUQQQaeiKtXPZQL0zug6j2qmtCwHzbBBmEgJWEY6ZjB8kBYwWuXett42GF2fBwa8ZTsFRlCJfbuxr6QeDWbJf87RUajjZjabJcfSlk3ouLJM8FKAcSqouY6RR1o58KeDEy0fs3Y96vAsMD+oQ4/oFDurzP1d1WqsEwUeHkfmB9ZFgvhVFLjCRSSrAc3XRpJ12epa90JcNEjMKclOubikCj8JFY7pKTqCxVLwvbaiQKinsznczaTWXiqlE3d3BLW7MSH6atPIKcZy6CHX8Mfj2BNuo=
-X-Forefront-Antispam-Report:
- CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:AM9PR04MB8585.eurprd04.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(366016)(19092799006)(376014)(7416014)(10070799003)(1800799024)(22082099003)(56012099003)(18002099003);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0:
- =?utf-8?B?SFRCRVBraWMrQWxFUWZTU2xBNElELzFsWHdRbVl3R0tlY28zbGg0MzFrbTNX?=
- =?utf-8?B?cHZDOEo4RXUwYlJKbFFndS9MSm9JMGtmbWJuSWlDZHZYTElRSzBoL0I3amdK?=
- =?utf-8?B?WnBPKzZBdEIvcG14NitoZy9tSGJXWlE4NXBBZXNJb0tpUVUwSXdmQmF3Vmxh?=
- =?utf-8?B?bjk4bUs0OWVKdUxnMDF0U2tCcFRXbFpnMjhkTkxqT1NUaHJmdnpYc1BoV1A1?=
- =?utf-8?B?WVMzNVNmTnlSaklNcDI3eTBPeU15YkcxVU1RUEhmY2Q3cXgzZ1dXNDBJOVBi?=
- =?utf-8?B?cDZ4STNPUEFsS1BSbkowY3FtazRtblZlRUg5dUFpcjQwSkIzS3JRK2dFWHFm?=
- =?utf-8?B?ZHU3Z1dYQjZHMzJwRytSU1E4eStkNHZYeVB5Y0lCVDZycTN6eEZIU3BZZjA4?=
- =?utf-8?B?clF6SG1CSGFmSXQ0UXBaVGVQc0cxNEtUZWpubTVKR0VjQWNOQkhQVCtmVTZi?=
- =?utf-8?B?dHU3dHkzcEYvVDVoR0NyOXdLMzJ3RUtTV1A2YzVvYWFiNFNlSGdLQXRYU2JM?=
- =?utf-8?B?Y21xbTV3LzUwRzgzMWlwNnVCODJyUFN6UzZrNkI1c0xKTE1pZ3hBeVBFUW9D?=
- =?utf-8?B?ZWxGNmpYVGkrYVg5dmtMbTFyTE45YnJqbEk4dlRLNEI2KzRZN2dXSnpBZ0Z6?=
- =?utf-8?B?WUdkbHpWUVlucmtSNmFIQ2tuTSt1QThHMTczYjY1UHp0YjMyRW1BZ25zZmk1?=
- =?utf-8?B?MUltUWhweVpLZ3Vxam1jMUJqM2Z1dWNTQ2xCWksvYXJ3UllvSXpKQ1FkbVVI?=
- =?utf-8?B?Y1VvVWFQL3FEY1ZhRWQ1OEZiMlBQbzl6a1BFTTZTelU3RVg1ZjdWT1EwRDRp?=
- =?utf-8?B?Z2RYdGNqOUlIanZPWTBFdmcwMDdseDFUY1NJRTdUOUZoak9MRURRTERJeWNw?=
- =?utf-8?B?VmhlSkVwQU0zdmRCRVg0V2pPREx2QkJrOHkvM25BVUpqODd0dkxUeHdQVzNI?=
- =?utf-8?B?WWdRYXRWbVRtOTFUTFJPYUxPcFZ5NTFQbW1ZN0hZYy9vazBjK0xGdmRHa3BH?=
- =?utf-8?B?Z0Z1QmRld0Ivb29NRVQ4Uy9yRWJRdXgyVE45dHgvZTg2VUszMThxZlFhSTYr?=
- =?utf-8?B?dG4wMFdWOGF6Ny90L1EwdTVQamFoMER3elVWekFKeTFtMU5pakVDcWNYZVdL?=
- =?utf-8?B?bTRGWDZKcnk1L1pYdGs5N0kxVmt0dU9VV1k4UG01ZkpqcmRsRURVd3ZlUjlt?=
- =?utf-8?B?bXJKalVsYjVLNTZEVnJxUHUrOHgvZGliSG9KTFA4YXFEQUxQZEFFMVpzTDRD?=
- =?utf-8?B?WmEzbU12RXVjbnRmNVREK25tbTZYTlM5YWZ1ZWlZY0h6QXJsMDJxa2NXSGZy?=
- =?utf-8?B?em0yWlVTZjhKQTQxS1JMSGl5WmVyWFlibkloajV0VHErR2JQQWhlcGdMdXRG?=
- =?utf-8?B?TTFPNGY1eExLeENWSGRkMUpJaGtTbUdlWmYxZlRrc3orcXhKaWhwbmhsTlhU?=
- =?utf-8?B?K3pncWtscHY0dVpjT3loVUxsYlU5SVVLMDBsekJDTS9PdHd3TURMUzZpNzFD?=
- =?utf-8?B?bjNON0dZbkJSemdHdEZNTGlNL3VLM1cyTllrdTllcUtpWTJ3cVROcng5UFYz?=
- =?utf-8?B?NUFUeTNEOW1VWHE0Uzg3YWhLRnVvMHhWczNVMG1Pb0hMZUpRWHBsbWlmTXJs?=
- =?utf-8?B?bkQ2cUlza0J0ZkgrbHAzUzZ0STU3QzE5b0Z3blRSclVCNnhiV1dRQmhqc1BQ?=
- =?utf-8?B?MjZIbmY4SUhnaHZsSmMwRzB0NW1rakNTMmM5UExKV2ZuNncvZ24xbGtVSk1B?=
- =?utf-8?B?NVA2bHNOWVVzRzhGdXdXdU1NdENFY0JPUTVwa0dhVDFZQWE2eVFQZUIxbkEw?=
- =?utf-8?B?eVNScXJSVnA4M1VIcG90T2R2TXU0d3crZ3IvNlk4OFN1Y1ArNlh4ZEtuMjlD?=
- =?utf-8?B?N1NZMmZNZzNxandrSUpmTFRvRTR0eldpcVUybVEvOWI5LzFHWGtkeGJNMkQ5?=
- =?utf-8?B?ZzNnNlV0STlnb3VzWVZGUVFqa0ZpbDVYL0VMTHRwYlBkeEs4ejJBOEFadWN2?=
- =?utf-8?B?NkdVQ1JPQUJQT0dLUHZuc05oenViTmF2bUdMRnZSS1ZvWGc0QldOOWJQdTJB?=
- =?utf-8?B?QmxxZGFqckwrVnZQaFE1bWhkVGdheXdFZFBXM1Ntczg4UzQ4MWRjb1VoYitP?=
- =?utf-8?B?VzVvNFpPNVZZbUc1MnFrcnRBa2RvcUVpUnBBNFUwNFZuTHF0WW1CT1A0Z3ZJ?=
- =?utf-8?B?QjhieW5XNlJuSjl4U3JvS0hiUE94d2lpYmM5WjdYeVRDdVlURzIzUjdSQno2?=
- =?utf-8?B?M0lna2JDbzZYcHd4eGxsK1RYaEZoSW1lOUQ5ZXM4QjQ0K0dQTlJZd28vRkZs?=
- =?utf-8?B?MWZxMjRNVk5TaENMa3d2dGhmVlRycmpVcFpYVzE1TU56T0g1MGdUQ3VTRXlR?=
- =?utf-8?Q?O2k9QUQTo3urSp9MmsvYAffK9GCzd+ALIrnsl?=
-X-OriginatorOrg: nxp.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: a2f5fde0-ba0f-4971-6717-08dea6a8b343
-X-MS-Exchange-CrossTenant-AuthSource: AM9PR04MB8585.eurprd04.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 30 Apr 2026 11:07:42.7151
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 686ea1d3-bc2b-4c6f-a92c-d99c5c301635
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: 4Cg3c80wgXqplKxSJmmolV7blTeRNxwjaIsz9Q2dSHRgX1MeYE3tXm5nbpUyTCuQxP8aCc+nXnz6acXnGfeA3g==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: GV1PR04MB10583
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+X-B4-Tracking: v=1; b=H4sIAAFC82kC/6tWKk4tykwtVrJSqFYqSi3LLM7MzwNyDHUUlJIzE
+ vPSU3UzU4B8JSMDIzMDE2MD3eKMzOyiRN3S4iRdw7RkgxTjNMtkQ0NzJaCGgqLUtMwKsGHRsbW
+ 1AJa0b9NcAAAA
+X-Change-ID: 20260430-shikra-usb-1fc0d3f9c117
+To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Rob Herring <robh@kernel.org>,
+        Krzysztof Kozlowski <krzk+dt@kernel.org>,
+        Conor Dooley <conor+dt@kernel.org>,
+        Wesley Cheng <quic_wcheng@quicinc.com>, Vinod Koul <vkoul@kernel.org>,
+        Neil Armstrong <neil.armstrong@linaro.org>
+Cc: linux-arm-msm@vger.kernel.org, linux-usb@vger.kernel.org,
+        devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linux-phy@lists.infradead.org,
+        Komal Bajaj <komal.bajaj@oss.qualcomm.com>,
+        Krishna Kurapati <krishna.kurapati@oss.qualcomm.com>
+X-Mailer: b4 0.14.3
+X-Developer-Signature: v=1; a=ed25519-sha256; t=1777549983; l=1179;
+ i=komal.bajaj@oss.qualcomm.com; s=20250710; h=from:subject:message-id;
+ bh=Wy35dkk+x7J7hVzibp+tGhexsVcSnAJWVDQsf3OwioY=;
+ b=EzKgLLmHkhOhpXWlxFsqT4An/gtiBGVcCoWJug4OSDZdbwaJtBRecdGA7cSDgH8odE6pmNwWV
+ SOihEZOIutnDBqlGrB93QQ/0mg0nNUd08Ih2mip/nRe9m3yrjPYSe9f
+X-Developer-Key: i=komal.bajaj@oss.qualcomm.com; a=ed25519;
+ pk=wKh8mgDh+ePUZ4IIvpBhQOqf16/KvuQHvSvHK20LXNU=
+X-Proofpoint-GUID: llRG3B-gRVroNiswtshTRjcSeRgeZvLt
+X-Authority-Analysis: v=2.4 cv=aYRRWxot c=1 sm=1 tr=0 ts=69f342a5 cx=c_pps
+ a=IZJwPbhc+fLeJZngyXXI0A==:117 a=ZePRamnt/+rB5gQjfz0u9A==:17
+ a=IkcTkHD0fZMA:10 a=A5OVakUREuEA:10 a=s4-Qcg_JpJYA:10
+ a=VkNPw1HP01LnGYTKEx00:22 a=u7WPNUs3qKkmUXheDGA7:22 a=ZpdpYltYx_vBUK5n70dp:22
+ a=EUspDBNiAAAA:8 a=UoB5GuWjjGMfoql652sA:9 a=QEXdDO2ut3YA:10
+ a=uG9DUKGECoFWVXl0Dc02:22
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYwNDMwMDEyMCBTYWx0ZWRfXzw9UKkNK8LtU
+ Jlw/hgtWS0Gjj9BLQOzmzheKy5qR/VrWPMYjQHdIBjSyUOAUuF14ti/cMMvbKfhisE62a8DdxBs
+ z5HEs+f5JoJf4Bm9AWSwgc1Tv1e7rxUaD0JuXY0xKPuZgy6kOOo62S3SMa7ORsxmIlxWZw0AoFq
+ /jgXcdM4lkMLxAzveZL11erNQfI2bTx3MmDNhGYdFFk7lm9dU4VDuWE6G7nY7rJwzjIFK5m3C4u
+ D+wpmcWZb8YaBktPlINCFkIhhDrElYG25U4AvdYBNpX/DqdnxYUQ/UzTG4bbqKUedx6k3tKfimT
+ KD6YpxC0AyQNq1KYC5ZiBK3OrlOfZN8utVJOhckTO/17U9wnt02bVGm7gaL8d2DxAR5Yf6e/T5B
+ 7e1uAV0UuGA30wK7vxSm/8uArjcAJmzX7UyiL4fqwAS2UfoozT40c761zExXDRp/WdDgP2UrWWK
+ 1CQ//5JyxAfHGX53xLQ==
+X-Proofpoint-ORIG-GUID: llRG3B-gRVroNiswtshTRjcSeRgeZvLt
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1143,Hydra:6.1.51,FMLib:17.12.100.49
+ definitions=2026-04-30_04,2026-04-28_01,2025-10-01_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ bulkscore=0 malwarescore=0 clxscore=1011 phishscore=0 spamscore=0
+ priorityscore=1501 lowpriorityscore=0 suspectscore=0 impostorscore=0
+ adultscore=0 classifier=typeunknown authscore=0 authtc= authcc=
+ route=outbound adjust=0 reason=mlx scancount=1 engine=8.22.0-2604200000
+ definitions=main-2604300120
 
-Now that all consumers have been updated to no longer dereference fields
-inside struct phy, we can hide its definition altogether from public view.
+This series adds Driver and binding changes for USB controllers on
+Shikra. There are two USB controllers - One of them is SS capable
+and other is HS only capable. The ss Phy init sequence is same as
+that of Talos.
 
-Signed-off-by: Vladimir Oltean <vladimir.oltean@nxp.com>
-Reviewed-by: Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
+Signed-off-by: Komal Bajaj <komal.bajaj@oss.qualcomm.com>
 ---
-Cc: Abhinav Kumar <abhinav.kumar@linux.dev>
-Cc: Alexandre Belloni <alexandre.belloni@bootlin.com>
-Cc: "André Draszik" <andre.draszik@linaro.org>
-Cc: Andrew Lunn <andrew+netdev@lunn.ch>
-Cc: Andrzej Hajda <andrzej.hajda@intel.com>
-Cc: Andy Yan <andy.yan@rock-chips.com>
-Cc: Bjorn Helgaas <bhelgaas@google.com>
-Cc: Chanho Park <chanho61.park@samsung.com>
-Cc: Chen-Yu Tsai <wens@kernel.org>
-Cc: Claudiu Beznea <claudiu.beznea@tuxon.dev>
-Cc: Damien Le Moal <dlemoal@kernel.org>
-Cc: Daniel Machon <daniel.machon@microchip.com>
-Cc: David Airlie <airlied@gmail.com>
-Cc: "David S. Miller" <davem@davemloft.net>
-Cc: Dmitry Baryshkov <lumag@kernel.org>
-Cc: Eric Dumazet <edumazet@google.com>
-Cc: Fabio Estevam <festevam@gmail.com>
-Cc: Frank Li <Frank.Li@nxp.com>
-Cc: Geert Uytterhoeven <geert+renesas@glider.be>
-Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-Cc: "Heiko Stübner" <heiko@sntech.de>
-Cc: Inki Dae <inki.dae@samsung.com>
-Cc: Jagan Teki <jagan@amarulasolutions.com>
-Cc: Jakub Kicinski <kuba@kernel.org>
-Cc: "James E.J. Bottomley" <James.Bottomley@HansenPartnership.com>
-Cc: JC Kuo <jckuo@nvidia.com>
-Cc: Jernej Skrabec <jernej.skrabec@gmail.com>
-Cc: Jessica Zhang <jesszhan0024@gmail.com>
-Cc: Joe Perches <joe@perches.com>
-Cc: Johan Hovold <johan+linaro@kernel.org>
-Cc: Jonas Karlman <jonas@kwiboo.se>
-Cc: Jonathan Hunter <jonathanh@nvidia.com>
-Cc: Kevin Xie <kevin.xie@starfivetech.com>
-Cc: Krzysztof Kozlowski <krzysztof.kozlowski@oss.qualcomm.com>
-Cc: "Krzysztof Wilczyński" <kwilczynski@kernel.org>
-Cc: Laurent Pinchart <Laurent.pinchart@ideasonboard.com>
-Cc: Linus Walleij <linusw@kernel.org>
-Cc: Lorenzo Pieralisi <lpieralisi@kernel.org>
-Cc: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>
-Cc: Magnus Damm <magnus.damm@gmail.com>
-Cc: Manivannan Sadhasivam <mani@kernel.org>
-Cc: Marc Kleine-Budde <mkl@pengutronix.de>
-Cc: Marek Szyprowski <m.szyprowski@samsung.com>
-Cc: Marijn Suijten <marijn.suijten@somainline.org>
-Cc: Markus Schneider-Pargmann <msp@baylibre.com>
-Cc: "Martin K. Petersen" <martin.petersen@oracle.com>
-Cc: Mathias Nyman <mathias.nyman@intel.com>
-Cc: Mauro Carvalho Chehab <mchehab@kernel.org>
-Cc: Maxime Ripard <mripard@kernel.org>
-Cc: Michael Dege <michael.dege@renesas.com>
-Cc: Neil Armstrong <neil.armstrong@linaro.org>
-Cc: Nicolas Ferre <nicolas.ferre@microchip.com>
-Cc: Niklas Cassel <cassel@kernel.org>
-Cc: Nitin Rawat <quic_nitirawa@quicinc.com>
-Cc: Paolo Abeni <pabeni@redhat.com>
-Cc: Pengutronix Kernel Team <kernel@pengutronix.de>
-Cc: Peter Chen <peter.chen@kernel.org>
-Cc: Peter Griffin <peter.griffin@linaro.org>
-Cc: Rob Clark <robin.clark@oss.qualcomm.com>
-Cc: Robert Foss <rfoss@kernel.org>
-Cc: Rob Herring <robh@kernel.org>
-Cc: "Russell King (Oracle)" <rmk+kernel@armlinux.org.uk>
-Cc: Samuel Holland <samuel@sholland.org>
-Cc: Sandy Huang <hjc@rock-chips.com>
-Cc: Sascha Hauer <s.hauer@pengutronix.de>
-Cc: Sean Paul <sean@poorly.run>
-Cc: Sebastian Reichel <sre@kernel.org>
-Cc: Shawn Guo <shawn.guo@linaro.org>
-Cc: Shawn Lin <shawn.lin@rock-chips.com>
-Cc: Simona Vetter <simona@ffwll.ch>
-Cc: Steen Hegelund <Steen.Hegelund@microchip.com>
-Cc: Thierry Reding <thierry.reding@gmail.com>
-Cc: Thinh Nguyen <Thinh.Nguyen@synopsys.com>
-Cc: Thomas Zimmermann <tzimmermann@suse.de>
-Cc: Tudor Ambarus <tudor.ambarus@linaro.org>
-Cc: Vincent Mailhol <mailhol@kernel.org>
-Cc: Yixun Lan <dlan@kernel.org>
-Cc: Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>
+Krishna Kurapati (5):
+      dt-bindings: usb: qcom,snps-dwc3: Add Shikra compatible
+      dt-bindings: phy: qcom,qusb2: Document QUSB2 Phy for Shikra
+      dt-bindings: phy: qcom,msm8998-qmp-usb3-phy: Add support for Shikra
+      phy: qcom-qusb2: Add support for Shikra
+      phy: qcom: qmp-usbc: Add qmp configuration for Shikra
 
-v2->v7: none
-v1->v2: collect tag
+ .../bindings/phy/qcom,msm8998-qmp-usb3-phy.yaml          |  2 ++
+ .../devicetree/bindings/phy/qcom,qusb2-phy.yaml          |  1 +
+ .../devicetree/bindings/usb/qcom,snps-dwc3.yaml          |  3 +++
+ drivers/phy/qualcomm/phy-qcom-qmp-usbc.c                 |  3 +++
+ drivers/phy/qualcomm/phy-qcom-qusb2.c                    | 16 ++++++++++++++++
+ 5 files changed, 25 insertions(+)
 ---
- include/linux/phy/phy.h | 2 --
- 1 file changed, 2 deletions(-)
+base-commit: 39704f00f747aba3144289870b5fd8ac230a9aaf
+change-id: 20260430-shikra-usb-1fc0d3f9c117
 
-diff --git a/include/linux/phy/phy.h b/include/linux/phy/phy.h
-index 34b656084caf..0fdcefaa3f55 100644
---- a/include/linux/phy/phy.h
-+++ b/include/linux/phy/phy.h
-@@ -12,8 +12,6 @@
- 
- #include <linux/phy/phy-props.h>
- 
--#include "../../../drivers/phy/phy-provider.h"
--
- struct device;
- struct device_node;
- struct phy;
+Best regards,
 -- 
-2.34.1
+Komal Bajaj <komal.bajaj@oss.qualcomm.com>
 
