@@ -1,246 +1,118 @@
-Received: from mail-qv1-f47.google.com (mail-qv1-f47.google.com [209.85.219.47])
+Received: from mail-wr1-f53.google.com (mail-wr1-f53.google.com [209.85.221.53])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CD5133B8BC3
-	for <linux-usb@vger.kernel.org>; Thu, 30 Apr 2026 07:32:00 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.219.47
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7E9BB3BAD9A
+	for <linux-usb@vger.kernel.org>; Thu, 30 Apr 2026 07:44:10 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.53
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1777534323; cv=none; b=jRpoJvvaxT1QHG94yW1NfUtx2g6j4DBXfC1gKKUkMO9qLMdGNsXximoHRJwGRZl5CEya5e/Zz1PYszhcJtm7NPZXGqiiAzCzHQu3ON5qQmDY77VBeYgEZbAe+GCOdTvg/6LqFIzslFvhQFvEIv87qTknAvwbJ3Y/7gwmz+ut1Jo=
+	t=1777535052; cv=none; b=qCTmcM9/+JwDq0WTWFIHXqppgSgNDI+npHkuw6J0p5mIbZL9AowsREE+AKSsN3J/o2SNeNLZ0vg5yc5/u/qpTtwfdgUzE69AJSvrqHTukCXCwdXqZXfqP09jE/qeq7s8roXzVUL1WO8PyGp1vka80elyoKGMCCq8qijTCBFxKJI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1777534323; c=relaxed/simple;
-	bh=7RsouvFjpj5GmxVRn+glZzUg1LkRrQtIaq/9AwVnpB0=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=DuKVFHi6CFUWGDL/pbmzyNXnnQflBdLXn+ezqmxypTj7OiFNK+j6l2D2AGs64xD9lz9N/3u3aswhP/a/VnidU2wmnJ4bppWtP2Cd1l28wQ6fLYpUkq8nbTyCxy/6d0uOVAOZMBGzzCCd4uoAOXsuXaaoeFM0XCoAAoGPurqyIDQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=fail (p=reject dis=none) header.from=canonical.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=NLrQ88So; arc=none smtp.client-ip=209.85.219.47
-Authentication-Results: smtp.subspace.kernel.org; dmarc=fail (p=reject dis=none) header.from=canonical.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1777535052; c=relaxed/simple;
+	bh=xQAiWiKRZknMt4OiF6xRbP6A9xpo4UcsDr6nkkq1v3Y=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=PXK+CEBLhalXU1hfXX7VAnRNDf3XiJqS2+yS/7Jn9KTLNbHl7RFzg8y1Ik0xYCgtiRrk2OXvLnxKjgFn+aR8iPQHsRNVI/Yc5xUpwBAAq62pIjwG6B7XFXt34m83TqvdVjRFDh93S6J2zmI795tO+6cyfVQtu9Jk7bfHvGTqFGw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=suse.com; spf=pass smtp.mailfrom=suse.com; dkim=pass (2048-bit key) header.d=suse.com header.i=@suse.com header.b=bFb8c50c; arc=none smtp.client-ip=209.85.221.53
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=suse.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="NLrQ88So"
-Received: by mail-qv1-f47.google.com with SMTP id 6a1803df08f44-8acb3daf2aaso10201816d6.0
-        for <linux-usb@vger.kernel.org>; Thu, 30 Apr 2026 00:32:00 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=suse.com header.i=@suse.com header.b="bFb8c50c"
+Received: by mail-wr1-f53.google.com with SMTP id ffacd0b85a97d-43fe62837baso318548f8f.3
+        for <linux-usb@vger.kernel.org>; Thu, 30 Apr 2026 00:44:10 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1777534319; x=1778139119; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:sender:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=y3I8n1sOfvbTqiIP+WwNqLVTCh1bELZRbLWAtaqgXdo=;
-        b=NLrQ88So8ydyQX19AVBlU9Cq9K46dMnBfgkxS43QThcmwYN6KL5Q9vbPbumLSnZFia
-         WjOrspjfsl0ZU9DylKCKz+9LBsCHcKYwuI1MWD5JYw8Uw4iRCcrnCcj7urlz0K56+SLi
-         HQSFiafVxk2o5gH2LW6ikReMtzzJa6S3oGn8ADeVcLYXpX+rpduz3Fe4fDm6sZO+30MR
-         +6K7/kJAPyZZQG6eSxM6oFZO3G9ZPa9AOy5SlBbIqcKNlZmhJJlI9rGs5gkKuiIeda06
-         46TPUaTS7WkOBpymgOHkY5y+MzCP3xQeQtAsG1/KFmjq9yY8XU+wLqz7dfiSjeL0T8nN
-         YG0A==
+        d=suse.com; s=google; t=1777535049; x=1778139849; darn=vger.kernel.org;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=Xjr3lQ9N85a7v4wbfT9HJYQv0tAfWVt69OdXRIx5aeQ=;
+        b=bFb8c50c50RLq/L6Hp4X+Dth1+9LEo8KPouDqKcw7hc7Zmg2I9MptGukJnHL2UaIly
+         HD4aLwJHDl2u1lKZS3rWxYr2Evdu9D/Tmj2/xyktSJX+zACz83lAAxgmaleQK4feSVEz
+         kUSCJvP0qkpcugfe2wNFildvbehSg6ONQ2TbDrT28NBbYfGKX3s7P14vw8UUy59aPItG
+         vYrItOZtAJzlz6pJPfNtkbNHKMM1ci8zQCrYQQ4+JlhCf/BitBMdmf4UfzSQBMLu7+ye
+         Pu+M8m215PqdOxmYrWr8gTzg/Y7sq6GuVefmNEfivraTkWxNKJyGkoURQDCcvUhQLsat
+         ABMg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1777534319; x=1778139119;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:sender:x-gm-gg
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=y3I8n1sOfvbTqiIP+WwNqLVTCh1bELZRbLWAtaqgXdo=;
-        b=OkODtvJMsF32QH0HMUdBt19gZU1Gcdx/x0HbIZeFlzWCL/zO247HlCv1ynnVmkf8UR
-         lERVEurhM31tOD6X67lRgs2upkqAFNoK4xZGVnLcWJAbs1rSBRxLRPdSdlqkcTZdQE+P
-         3Lp+alg0wNPEODlPSi4sLT9Ma13oR9uN0k+KUugX2aja6KMWeHo63ixikkXVVwe+ZqTH
-         P7Gb8ucdaSHbuKc+jlTjJOImJjwAxPSSKx3azqEeYtByk8QIYqf1z1xLeW9M485ed8Fc
-         6mGTifMhA7Zto8hEulBtcPINWEzagvanXBKWrlFNi8XF46bMJqpjnRajE9LLUwCpooU0
-         4kRw==
-X-Gm-Message-State: AOJu0YxgsOWZtcldUebiC7icEKOZ/ta/KK1b0ehTJHA9Q/VgELzknLyV
-	I/FyFQE2k1sJazdD2728DRUG01GAsJCnOvjPQj8yOnGhyettPeOgKp4n
-X-Gm-Gg: AeBDiesXsAuX0R2U/VIBBzdaijGoBKIs5NEeTE2JIPzXfIViFlidRb+YpxmS51JDtl7
-	hzbbGVl9QQ4Hka29ApRY+rUJd/DLgAzeP7dmuH+w+Xaf9ae6htTHt1/ngK8VQeyR60OuACdDIXm
-	zRuJh+29ny9TWIZkFpyMYBgo+RcxjcUj9glvdQ8Z8VuGEy5ZWzK0a3PKkv7udz+DC4CtK4s94e9
-	M5GwZtU2h2Sxs7yld6y6F6B4lw0xtvSRJXItKgcbRrpFVt/9L5ikGZ2C13D27aNOp+NhVp0Jz3s
-	RmktVplmYf7++IgKWuE9btEWtAjw7WlElDMNxGzglOXvfTBQUmkQ61+a1uHoaXB0tPIz4OP9vOR
-	9eOGFPKgKVyaksZqUB+NEJ6z+gkOdUdqt6d8E38Ynn5Uu7HRiIsaTnUBEyKbK5PV3h+JeOydQOU
-	zuwjJQLGfYxbTgPnfD
-X-Received: by 2002:ad4:5d4d:0:b0:8ac:a097:2810 with SMTP id 6a1803df08f44-8b3fece79a6mr23335726d6.27.1777534319165;
-        Thu, 30 Apr 2026 00:31:59 -0700 (PDT)
-Received: from localhost ([2001:67c:1562:8007::aac:4468])
-        by smtp.gmail.com with ESMTPSA id 6a1803df08f44-8b3ff323874sm11583506d6.12.2026.04.30.00.31.56
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 30 Apr 2026 00:31:57 -0700 (PDT)
-Sender: AceLan Kao <acelan@gmail.com>
-From: "Chia-Lin Kao (AceLan)" <acelan.kao@canonical.com>
-To: Mika Westerberg <westeri@kernel.org>,
-	Andreas Noever <andreas.noever@gmail.com>,
-	Yehezkel Bernat <YehezkelShB@gmail.com>
-Cc: linux-usb@vger.kernel.org,
-	linux-kernel@vger.kernel.org
-Subject: [PATCH 1/1] thunderbolt: Retry DP tunnel setup on DPRX negotiation failure
-Date: Thu, 30 Apr 2026 15:31:43 +0800
-Message-ID: <20260430073145.331419-2-acelan.kao@canonical.com>
-X-Mailer: git-send-email 2.53.0
-In-Reply-To: <20260430073145.331419-1-acelan.kao@canonical.com>
-References: <20260430073145.331419-1-acelan.kao@canonical.com>
+        d=1e100.net; s=20251104; t=1777535049; x=1778139849;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :x-gm-gg:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=Xjr3lQ9N85a7v4wbfT9HJYQv0tAfWVt69OdXRIx5aeQ=;
+        b=PiqW9oTho5VdsG8B5RqBsDyQpraUfq7tCHfXJTG2mweZZSYo0MeSNV/1UF4wOY27qi
+         sDVjYqa9Q+HQn2qC0FCZxHAoSFxneoCdjgiQamm4mBwbYTh2KGAvoLVo2MjYFGqnUZQ2
+         0unq5o48WliQOM5vtpQm3cZZY74phHt50PAyrzJNcYq8YlmcpmxXqKEiQ1SVpLUxEy2o
+         11XBX+2pc3AaHYQECpe6hijoYctpMNjZveX88CdFhiuI/eA7qG6fUCGV58Q7FCGGvz05
+         ISg92m673Lbeksfu3m8bSbE34LIqY0tjd9ZhfJXCh4aD/xci7+C71kaZCZbFeq583/6d
+         H2bg==
+X-Forwarded-Encrypted: i=1; AFNElJ8yxnfJ69VX3VCu4eQYp9VhPm1ojF5FBLuZnFS3Rzl+ScKa5BwTGqQnSsdKU57FmFhCzMhftfQ2Ulc=@vger.kernel.org
+X-Gm-Message-State: AOJu0YxTwATqOJAO5b+tzB+ETGwz7NGGRbBdJ5rGa1bF/3TNYTiGENKD
+	LwcsRXjS2w7KMnZRj7kRSGVejH16fKqZhJl4Eb7bz7kOmud/tDeEypgyKDm7Iluhxd4=
+X-Gm-Gg: AeBDievcgdU1iWONwwgFV0zpPjw2Wk+JMjlt6KVPsTqGRa8cH31Tx+1VnICYCoB/ftc
+	LAbcJc0/Mz8cxHKG1J0eBxw4c0l3Kdew0a2bI0PPfnrIdq9FkYAtiIVIYRMi+qReFEaov60PUjm
+	E0gJJ+bUJNsN/FytbA4h1dI2CXYHhVq0TtWNLoK5/8yoDbJe80Gh41ZYmCcvz9HIsg0oQZ0VgOb
+	tmUXpEpgHqKvx/TH8teYGXY9RLdGkVrkvyft/EiJoZ/c/SdcKot6fose2yTo+S4mUPMGRlEDPL+
+	YXX6db7MCeFNr914ayNlHamaDsZh1FOoiJA4U17CckfmdgfTQILaOh1RzI3MBjN6uL2yNPqvvRZ
+	Uct4tXigBqcZL71+gN1HCirIwK25H/lfIPj6ikL/FBQj4jm/7M9YyuKlnatcdP1IxZ15yfWxt1o
+	TZTHI4wj0BFpc6+vXtx1xZ+LX2SQYdnW8shq5BpGIGmL0b3xsuQyU/d077thiEyIL2Ivg5cxXPb
+	uioMzXH2u5OQm4u
+X-Received: by 2002:a05:6000:2389:b0:43d:14ae:1340 with SMTP id ffacd0b85a97d-4493f812569mr2534686f8f.23.1777535048727;
+        Thu, 30 Apr 2026 00:44:08 -0700 (PDT)
+Received: from ?IPV6:2001:a61:13b3:7c01:f1f9:97ca:8fa3:c597? ([2001:a61:13b3:7c01:f1f9:97ca:8fa3:c597])
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-447b72176fesm10563356f8f.17.2026.04.30.00.44.08
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Thu, 30 Apr 2026 00:44:08 -0700 (PDT)
+Message-ID: <8591a0ab-2d53-4223-99e6-fdc15851f737@suse.com>
+Date: Thu, 30 Apr 2026 09:44:07 +0200
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+User-Agent: Mozilla Thunderbird
+Subject: Re: [RFC] USB/PM: should USB interface drivers distinguish
+ hibernation THAW from RESTORE?
+To: Haowen Tu <tuhaowen@uniontech.com>, stern@rowland.harvard.edu
+Cc: oneukum@suse.com, gregkh@linuxfoundation.org, rafael@kernel.org,
+ linux-usb@vger.kernel.org, linux-pm@vger.kernel.org,
+ linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
+ laurent.pinchart@ideasonboard.com, hansg@kernel.org, mchehab@kernel.org,
+ pavel@kernel.org, lenb@kernel.org, kernel@uniontech.com
+References: <37c9bf07-7b21-403c-b4fe-d54ff6f811db@rowland.harvard.edu>
+ <20260430021433.2083281-1-tuhaowen@uniontech.com>
+Content-Language: en-US
+From: Oliver Neukum <oneukum@suse.com>
+In-Reply-To: <20260430021433.2083281-1-tuhaowen@uniontech.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 
-On USB4 v2 routers the Host Router Reset (HRR) performed during
-nhi_probe() destroys all BIOS-established tunnels. When the driver
-re-creates the DP tunnel after hotplug re-discovery, DPRX negotiation
-may fail because the graphics driver is not yet ready.
+On 30.04.26 04:14, Haowen Tu wrote:
+Hi,
 
-Currently the driver permanently removes the DP IN adapter from the
-available resources on the first DPRX failure, leaving the external
-display blank until the next reboot.
+  
+> But after your replies, I agree that this is not really a USB-specific
+> problem. The more fundamental question seems to be whether, in the
+> current S4 flow, resuming the full device set at that point is the
+> intended model, or whether there is any room for resuming only the
+> subset of devices needed for image writeout and whatever else must
+> remain functional during that phase.
 
-Fix this by retrying the DP tunnel setup up to 3 times with a 5-second
-delay between attempts, giving the graphics driver time to initialize.
-The retry counter is reset on success and on suspend.
+In principle you could do so. Your problem would be
+a) computing the subset of devices that need not be thawed
+b) error handling
 
-Cc: linux-usb@vger.kernel.org
-Signed-off-by: Chia-Lin Kao (AceLan) <acelan.kao@canonical.com>
+>    1. a full THAW of the suspended system, as it is today, or
+>    2. potentially a narrower resume of only the devices needed for
+>       writeout, followed by broader recovery only if writeout fails.
 
----
- drivers/thunderbolt/tb.c | 63 +++++++++++++++++++++++++++++++++-------
- 1 file changed, 52 insertions(+), 11 deletions(-)
+Well, that is a question of motivation. Why do you want to avoid
+thawing devices? What advantage justifies deviating from the simple
+model?
 
-diff --git a/drivers/thunderbolt/tb.c b/drivers/thunderbolt/tb.c
-index c69c323e6952a..19052cac078a2 100644
---- a/drivers/thunderbolt/tb.c
-+++ b/drivers/thunderbolt/tb.c
-@@ -25,6 +25,15 @@
-  */
- #define TB_BW_ALLOC_RETRIES	3
- 
-+/*
-+ * Number of retries for DP tunnel DPRX negotiation if it fails during
-+ * boot. This commonly happens on USB4 v2 routers where Host Router
-+ * Reset (HRR) destroys BIOS-established tunnels and the Thunderbolt
-+ * driver re-creates them before the graphics driver is ready.
-+ */
-+#define TB_DP_ACTIVATE_RETRIES	3
-+#define TB_DP_ACTIVATE_DELAY	5000	/* ms */
-+
- /*
-  * Minimum bandwidth (in Mb/s) that is needed in the single transmitter/receiver
-  * direction. This is 40G - 10% guard band bandwidth.
-@@ -59,6 +68,8 @@ MODULE_PARM_DESC(asym_threshold,
-  *		    after cfg has been paused.
-  * @remove_work: Work used to remove any unplugged routers after
-  *		 runtime resume
-+ * @dp_retry_work: Work used to retry DP tunnel setup after DPRX failure
-+ * @dp_retries: Number of remaining DP tunnel activation retries
-  * @groups: Bandwidth groups used in this domain.
-  */
- struct tb_cm {
-@@ -66,6 +77,8 @@ struct tb_cm {
- 	struct list_head dp_resources;
- 	bool hotplug_active;
- 	struct delayed_work remove_work;
-+	struct delayed_work dp_retry_work;
-+	int dp_retries;
- 	struct tb_bandwidth_group groups[MAX_GROUPS];
- };
- 
-@@ -1903,11 +1916,25 @@ static struct tb_port *tb_find_dp_out(struct tb *tb, struct tb_port *in)
- 	return NULL;
- }
- 
-+static void tb_tunnel_dp(struct tb *tb);
-+
-+static void tb_dp_retry_work_fn(struct work_struct *work)
-+{
-+	struct tb_cm *tcm = container_of(work, struct tb_cm,
-+					 dp_retry_work.work);
-+	struct tb *tb = tcm_to_tb(tcm);
-+
-+	mutex_lock(&tb->lock);
-+	tb_tunnel_dp(tb);
-+	mutex_unlock(&tb->lock);
-+}
-+
- static void tb_dp_tunnel_active(struct tb_tunnel *tunnel, void *data)
- {
- 	struct tb_port *in = tunnel->src_port;
- 	struct tb_port *out = tunnel->dst_port;
- 	struct tb *tb = data;
-+	struct tb_cm *tcm = tb_priv(tb);
- 
- 	mutex_lock(&tb->lock);
- 	if (tb_tunnel_is_active(tunnel)) {
-@@ -1915,6 +1942,8 @@ static void tb_dp_tunnel_active(struct tb_tunnel *tunnel, void *data)
- 
- 		tb_tunnel_dbg(tunnel, "DPRX capabilities read completed\n");
- 
-+		tcm->dp_retries = 0;
-+
- 		/* If fail reading tunnel's consumed bandwidth, tear it down */
- 		ret = tb_tunnel_consumed_bandwidth(tunnel, &consumed_up,
- 						   &consumed_down);
-@@ -1943,8 +1972,6 @@ static void tb_dp_tunnel_active(struct tb_tunnel *tunnel, void *data)
- 			tb_increase_tmu_accuracy(tunnel);
- 		}
- 	} else {
--		struct tb_port *in = tunnel->src_port;
--
- 		/*
- 		 * This tunnel failed to establish. This means DPRX
- 		 * negotiation most likely did not complete which
-@@ -1952,16 +1979,26 @@ static void tb_dp_tunnel_active(struct tb_tunnel *tunnel, void *data)
- 		 * loaded or not all DP cables where connected to the
- 		 * discrete router.
- 		 *
--		 * In both cases we remove the DP IN adapter from the
--		 * available resources as it is not usable. This will
--		 * also tear down the tunnel and try to re-use the
--		 * released DP OUT.
--		 *
--		 * It will be added back only if there is hotplug for
--		 * the DP IN again.
-+		 * On USB4 v2 routers Host Router Reset (HRR) at boot
-+		 * destroys BIOS-established tunnels and the driver
-+		 * re-creates them before the graphics driver is ready.
-+		 * Retry a few times to allow the graphics driver to
-+		 * come up.
- 		 */
--		tb_tunnel_warn(tunnel, "not active, tearing down\n");
--		tb_dp_resource_unavailable(tb, in, "DPRX negotiation failed");
-+		if (tcm->dp_retries < TB_DP_ACTIVATE_RETRIES) {
-+			tcm->dp_retries++;
-+			tb_tunnel_warn(tunnel,
-+				       "not active, retrying in %d ms (attempt %d/%d)\n",
-+				       TB_DP_ACTIVATE_DELAY, tcm->dp_retries,
-+				       TB_DP_ACTIVATE_RETRIES);
-+			tb_deactivate_and_free_tunnel(tunnel);
-+			queue_delayed_work(tb->wq, &tcm->dp_retry_work,
-+					   msecs_to_jiffies(TB_DP_ACTIVATE_DELAY));
-+		} else {
-+			tb_tunnel_warn(tunnel, "not active, tearing down\n");
-+			tb_dp_resource_unavailable(tb, in,
-+						   "DPRX negotiation failed");
-+		}
- 	}
- 	mutex_unlock(&tb->lock);
- 
-@@ -2937,6 +2974,7 @@ static void tb_stop(struct tb *tb)
- 	struct tb_tunnel *n;
- 
- 	cancel_delayed_work(&tcm->remove_work);
-+	cancel_delayed_work(&tcm->dp_retry_work);
- 	/* tunnels are only present after everything has been initialized */
- 	list_for_each_entry_safe(tunnel, n, &tcm->tunnel_list, list) {
- 		/*
-@@ -3073,6 +3111,8 @@ static int tb_suspend_noirq(struct tb *tb)
- 	tb_switch_exit_redrive(tb->root_switch);
- 	tb_switch_suspend(tb->root_switch, false);
- 	tcm->hotplug_active = false; /* signal tb_handle_hotplug to quit */
-+	cancel_delayed_work(&tcm->dp_retry_work);
-+	tcm->dp_retries = 0;
- 	tb_dbg(tb, "suspend finished\n");
- 
- 	return 0;
-@@ -3383,6 +3423,7 @@ struct tb *tb_probe(struct tb_nhi *nhi)
- 	INIT_LIST_HEAD(&tcm->tunnel_list);
- 	INIT_LIST_HEAD(&tcm->dp_resources);
- 	INIT_DELAYED_WORK(&tcm->remove_work, tb_remove_work);
-+	INIT_DELAYED_WORK(&tcm->dp_retry_work, tb_dp_retry_work_fn);
- 	tb_init_bandwidth_groups(tcm);
- 
- 	tb_dbg(tb, "using software connection manager\n");
--- 
-2.53.0
+If you really wanted to do this, the implementation would be rather
+straight forward. The difficult question is deciding whether you
+want to do it at all. Do you have systems in which going STD is
+critical in terms of performance?
+
+	Regards
+		Oliver
 
