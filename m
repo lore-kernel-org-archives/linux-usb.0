@@ -1,61 +1,61 @@
-Received: from mail-wm1-f53.google.com (mail-wm1-f53.google.com [209.85.128.53])
+Received: from mail-wr1-f45.google.com (mail-wr1-f45.google.com [209.85.221.45])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6848C2FC881
-	for <linux-usb@vger.kernel.org>; Thu, 30 Apr 2026 15:27:08 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.53
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DC60F339B3D
+	for <linux-usb@vger.kernel.org>; Thu, 30 Apr 2026 15:41:10 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.45
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1777562831; cv=none; b=pXOArS4xJGoZ2M3U2t/3GZIoIZF9wXjakKrE3ioMEiwomUaipbTTVsvToHLD42DJifolH+XxknyXCFkv9BvJYJPfCmLBPjpVWVfsvv6HAxGeT2CRZLc+TDLYtuFLSW7nsgMWQ3LZIyu9i021XX4qUcXUGDHQqZ78O6tG+1AiaQY=
+	t=1777563672; cv=none; b=IIPf0CYJV3GtOd7WnscrcZLaCAxoK2gDWMiJksUEScqjvaCGAYMdL7KsQziFMdGuuG4lut63QorT/XHMJRDgMkDdBse367WaXNpR/dlH25PkMp2IE7vIc1DMKa7mAHvEUVoVjHqjNiPyxI1g3PolHhn0GzzZs9slLBSdREtmxVc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1777562831; c=relaxed/simple;
+	s=arc-20240116; t=1777563672; c=relaxed/simple;
 	bh=Xm4FEazpY1d55SvwIO4bAfwbtbgoqCSlA2mZfkuu6ME=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=KieoFDGQaDUw5MAQeYvtPYWkj/UstjQweJ48zQVtBLs21Y+zbyi4DvwheSmiovsIaSp5fNp2HOnXzv0Q8DIBJZckw0Z5MSXoC4kpqp4pmWze7xq2EF/9aKPV9qP9BInaPbE+hfqEp/fbpRfQoI9QjbIiMtNLjzdsyymEjGOcGrQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=ZyzOHaYK; arc=none smtp.client-ip=209.85.128.53
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=GyfF2kUdf+MyuknQpbTihdxp+ue8HRpOxWiAXIDJcXNuEy+5quSnuZht/jevsF2klhllTI6399wk6gQijM865ef7ot73DRwTsNnIFOdCzkn7Twf7GVsR54SOKpMlhPSCH6K4ayxRVf7oFXcFJK+1ZG2k7x3KS3XjvBYWY/kiUdA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=aHwHwWAa; arc=none smtp.client-ip=209.85.221.45
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="ZyzOHaYK"
-Received: by mail-wm1-f53.google.com with SMTP id 5b1f17b1804b1-48a563e4ef7so10798565e9.0
-        for <linux-usb@vger.kernel.org>; Thu, 30 Apr 2026 08:27:07 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="aHwHwWAa"
+Received: by mail-wr1-f45.google.com with SMTP id ffacd0b85a97d-43cfd832155so730824f8f.1
+        for <linux-usb@vger.kernel.org>; Thu, 30 Apr 2026 08:41:10 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1777562825; x=1778167625; darn=vger.kernel.org;
+        d=gmail.com; s=20251104; t=1777563669; x=1778168469; darn=vger.kernel.org;
         h=content-transfer-encoding:mime-version:message-id:date:subject:cc
          :to:from:from:to:cc:subject:date:message-id:reply-to;
         bh=+qcWerMpQDAoEvXfjALo/ClX/15Aw2GMj+ACfo5gS4o=;
-        b=ZyzOHaYK3fcy7RzZmnbI9g0DNZyCJhYVJ2zS+Vx8x4t+24fSw7Edm7RXLxoRnuYsTZ
-         FFNQmxAjSJZgT8AwFJXc40Vx6HEdoQBOnbM2JhHHIyXaiIp1awILrm+bHbKCxc1M4e4n
-         bmuBPvq4NShYRbj1Pf0OgUrEL84/hRt7n751ma8G4XNUbuCuvxu+SOZ5HwMgego2zszl
-         hdt9/VOHcJDudX3AN5+ohUuRnhrQHKkCPjDYK/+b1qM+kq6R55uI+vSb3Wn7J9qDcG9g
-         17k2O3hTsKRObYXir5g6O7Fml58ulwknxvlxR5uDGBvgjql9VOGv5IyKkkR++NrGeoqR
-         RP7g==
+        b=aHwHwWAaCoqjJWYHakRJooqk4nJBci8A10SPT0rsLMKx8g8v7tGp8AcCEhOtkTWJNq
+         /xuj+H+HcWFVrOj5Ha/frPdio4ZenFVDcyj3yK6EGao5xsd3MnCauMhurCsKXCa97ZgP
+         9GfJIEcX8HOKu9Q/ABhEeWM9E5LIONCmsH9EFfEikWZTYyHFFQO9sQOUeAsYei/sjF90
+         GidGxx9kkThrZknRegz8xpCPuhgv8jZ4S9ueoi9L17Oh5Y6rkvYkrZwGnFvX/l3Ozldt
+         MZyevrZ9f3y/Ibicvi5euzuEB1xN/EVl42kNPLGk+EF7XS5RtUnOkLf6opkm3T8vU9jd
+         il/A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1777562825; x=1778167625;
+        d=1e100.net; s=20251104; t=1777563669; x=1778168469;
         h=content-transfer-encoding:mime-version:message-id:date:subject:cc
          :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
          :message-id:reply-to;
         bh=+qcWerMpQDAoEvXfjALo/ClX/15Aw2GMj+ACfo5gS4o=;
-        b=lmBX+pjalifeg8v7JvKQjiKNh+sCXZ4vFSx+1WnG/fufaUQv6kGXhC4sktLkmm0ydZ
-         9LgOkc2CONumU7RfKn7zEYZzxsNmFm4KUlJ3rMbvqNJB3eZvQqeg6wv9S6fxypsZfylc
-         o1KHUGxfWkl1E8Q9wrJ6P6GNvFcYEMLXrPqtGHRtsJEa8AvR8BllRQHRVyUolN3CLX/a
-         JokLxKmhYvusbwTHbUnoeR3BoXvhdLewvOcV6AYElU5cJUO/VXNab0xhnqVf1F7qbLfN
-         zNtkiux0/MxSMfNVHdgGZdO+ibF3v0ZvBhtwRcFBgQ8kE9Eu/TKD0T6vHiiNqYk38Z+p
-         R7Rw==
-X-Gm-Message-State: AOJu0YxmpAjA+KN5xc84S0Lbdj2LnH+U0ZxDoKrt72SQJFQen7VKm6Ad
-	s2tp/tLPkJMzw1wUG09Je96D3e/7aXwJj//fNS7msICGm0LtZnvx33OrMBMOjp8vfbhaWg==
-X-Gm-Gg: AeBDiet8ycUMj0Dyhr/3pKVAx1FkdS81Dxm46yUE6fKMmOxNTvA0yV6P3d4nDy08mB6
-	hxoZ/KymiI5ol/Q8+DuU/JTrJTh9JAXTexwy/5dN83w43a5NJuHZrjCM7UrxePOKY3B2UkomTt0
-	rxk5R4qJkcqU88NqUUzfPdT9WP/Y0mPQpvy1dKI6DOplNe811wo/Hq+aYbf76bbHM3lbY9P05BQ
-	ttNLFrww8wv8buDC3oL9bUXJwHd85nADsMpJW05F6nTEgQwCAxSlwHduUAP8jWrP2akebjGQ2cz
-	aQ4QwDpD/2uGtj9NF0eBqrE6iVc0rr7kiW15NaNLewJHQ2nO3I11v1UahFy+kx0zs7vorVDuoVr
-	dHC3a8OPxmfV2Fn8X440kMlfTVk6GfpCW4Us/xhThSoILttY5/8i2Fyp9H22pG36kTUA4Htg5NL
-	8u78O6BVwO8miK0Gzh31nKlOl1eRY89sKd1WXviyvcr+eyOseE0EYamdOa5difCl++I2UJ4e9mu
-	k1W8j46kUk9DVNd12jCf1SQeE42SfpzvOM08S/HIPiMkNp/
-X-Received: by 2002:a05:600c:3e10:b0:488:ffb1:494c with SMTP id 5b1f17b1804b1-48a84456732mr55948825e9.12.1777562824666;
-        Thu, 30 Apr 2026 08:27:04 -0700 (PDT)
+        b=dcH0gcQEPsfJPdT7AM48Wzc15bWEA8wGbr8xgVsuLNFFuXVkZ37TDA5poFRxG/rWOo
+         QCQAr3r1zMjp8EL5PQ6hvcWlFXfatD5setiZE4V6zqr5t0s3tO854PklwqJVP1BU8NT4
+         8G50Trkos6glkFromU9/XUf63ASrbT6YJGarLuLG5xud+MXcRBPpmdyaLclY+ch60M+C
+         aIkD0v/Emdjnb56LqUIi1BkMkL6yXX+2Koy+VYuVI63/CT1wDy14pnEdEN3BHY2ZaZbA
+         FHf8oyWPxlk0Rp8szihn1E/4jpiONnlLKh+CMjS70vPaej/Br4+pAGpEMrGZcPVAsmFL
+         bKFg==
+X-Gm-Message-State: AOJu0Yxhm/47MMxblxLxj9W4tmD7QXbDBJNv8l7nhci3L1dOyhLUhy3r
+	Bvtzx3WvIKgRt6xIb/+nHxX46q6L28iLQIPm880YJerjLTPzG+6bAoG9XVhuZZisMtjBQg==
+X-Gm-Gg: AeBDiesGOfZGwZZUH/X+f4idQ23CgY8HhuVSkM7Gkw3lhIwV9K0UK5s9Ms0HGI31QO+
+	i0JLCK2MeVTk7n875foAt3BUOquEj4QyUHpsf4QZDbKJETaL833D824TlNnD3rzT5c2138zfrE8
+	cTLfl4aPyonE9GL9UIybhXRvmv0NktHgPd/XZGKQXlYXEQnum2F/eFZpDlQ60JhVUEnYRcnCyDZ
+	TaYCq1Xl7RFSMbqxtSnGE6PJirZ0Ga7FRo0mEqR0l/WcX/AIVGJut6d4tAIuWd1egMVagcIck1j
+	9qQz5ALBVwdzoXcLRu8X4mCLthASfeteaeoNiyr1qdvtejjLWn6uj0/Gvm1MFWxhCnuOjxTnQ0T
+	JrchBFJ3gcHD3WqyhSsfnCZ6ngFyDG5ANUZYJWgfAQI8YYU6TZUhJONvc+otv7WNSgRv1S24t1t
+	SlLKRwBQKBVPb35gVP8fuRTCiON5sJbVtbqK9+BLO77eiwcg9igKMWMHI1cAb1bSk8nRgQSoabR
+	gFlzKpKQlqrYOoPL/pjLnwczn6L0UXcbUgEXQ==
+X-Received: by 2002:a05:6000:2601:b0:43e:a73e:cc8a with SMTP id ffacd0b85a97d-4493ec61acdmr6469160f8f.36.1777563668561;
+        Thu, 30 Apr 2026 08:41:08 -0700 (PDT)
 Received: from localhost.localdomain ([2a00:a041:e04f:2600:a0c9:1d35:8283:f96b])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-48a820c71f2sm109433045e9.5.2026.04.30.08.27.03
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-449c576d0a2sm3593443f8f.31.2026.04.30.08.41.07
         (version=TLS1_3 cipher=TLS_CHACHA20_POLY1305_SHA256 bits=256/256);
-        Thu, 30 Apr 2026 08:27:04 -0700 (PDT)
+        Thu, 30 Apr 2026 08:41:08 -0700 (PDT)
 From: "SnailSploit | Kai Aizen" <kai.aizen.dev@gmail.com>
 X-Google-Original-From: SnailSploit | Kai Aizen <95986478+SnailSploit@users.noreply.github.com>
 To: linux-usb@vger.kernel.org
@@ -68,8 +68,8 @@ Cc: laurent.pinchart@ideasonboard.com,
 	stable@vger.kernel.org,
 	"SnailSploit | Kai Aizen" <95986478+SnailSploit@users.noreply.github.com>
 Subject: [PATCH] usb: gadget: uvc: hold opts->lock across XU walks in uvc_function_bind
-Date: Thu, 30 Apr 2026 18:27:02 +0300
-Message-ID: <20260430152702.60771-1-95986478+SnailSploit@users.noreply.github.com>
+Date: Thu, 30 Apr 2026 18:41:04 +0300
+Message-ID: <20260430154104.61633-1-95986478+SnailSploit@users.noreply.github.com>
 X-Mailer: git-send-email 2.53.0
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
