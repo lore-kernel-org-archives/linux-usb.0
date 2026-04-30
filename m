@@ -1,36 +1,36 @@
 Received: from smtpbg151.qq.com (smtpbg151.qq.com [18.169.211.239])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2DB7E37754C
-	for <linux-usb@vger.kernel.org>; Thu, 30 Apr 2026 06:42:29 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 98EB79443
+	for <linux-usb@vger.kernel.org>; Thu, 30 Apr 2026 06:42:50 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=18.169.211.239
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1777531353; cv=none; b=g6FMUUU9VAMVgrfHm5MX27bzUi/qHBaR2iyQmsW2Kxr4t/XGXuj8WaSsGPh4bmF/yPKMQfIc6eOiOkH3uFt+WrEog7ASE0wwziVcZh2Yll+oQSJ2/wHszz+oxzEk3/3x+L3wyUD3DO4Gvzv6auUq+P01eqOpjWXwi8lZaHAgRv0=
+	t=1777531373; cv=none; b=EVLtWB79x9WaxGbbKwv5DMEGcTUGtmHcMMq8l4abNHJYPbDOdhtYxHg2Qkqlci1xx2eSUSpL6qG6X8isHVNRRkPLRyF1HNnwFicgSXtYXBmT6P+DR1cuZccg00iAGFXRK8kcYPs/W2Xz1JagCKCPkf/U3cx+9kQgRTGUetbQkB8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1777531353; c=relaxed/simple;
-	bh=77UfxzfWjtxnFAEj1InzHOkbniR07RV9Dkgf1UgwOs4=;
+	s=arc-20240116; t=1777531373; c=relaxed/simple;
+	bh=T8ug1BRwVjBSe5pyg4eS5q5qpntdY4QJJxw6h6TXjU0=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=qyEgPr+JKtA6OV0iXKasjlSCcKTfUPQdMqPUzP2FKsCVFxZgvyb/GJS4S0JgP6EnrrJGIsxXKTHaw7Fc4F66797KW/EX7VIKHNb174hCknn56VV8dpP53LBpZS1AkTyQoEiv5WNa9BSQXtzIbgkxdU8wmwCaqfQfOUa4U4gqKdA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=uniontech.com; spf=pass smtp.mailfrom=uniontech.com; dkim=pass (1024-bit key) header.d=uniontech.com header.i=@uniontech.com header.b=g9Wmt2tq; arc=none smtp.client-ip=18.169.211.239
+	 MIME-Version; b=dbZyDUPwp1yeRYIxuspwj03e25MzT7addEz1Xq15gKl53UAnp8n4VbfOn0kZZABMWiTmZT1F2yqEYnvnYcEvPrCv9G2uIFThHDPRLbYUyeKBvjSGBNM82Qz4atD6yyTuVZpTmYQLWZSzcyCR7biTxeTxoV7bhqyEoo1uXd/fypI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=uniontech.com; spf=pass smtp.mailfrom=uniontech.com; dkim=pass (1024-bit key) header.d=uniontech.com header.i=@uniontech.com header.b=PCF6Sjzn; arc=none smtp.client-ip=18.169.211.239
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=uniontech.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=uniontech.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=uniontech.com header.i=@uniontech.com header.b="g9Wmt2tq"
+	dkim=pass (1024-bit key) header.d=uniontech.com header.i=@uniontech.com header.b="PCF6Sjzn"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=uniontech.com;
-	s=onoh2408; t=1777531316;
-	bh=VRkpln2uwvtNP3RPQI+CSCMcpZNqRjqjwmmC2T16MrM=;
+	s=onoh2408; t=1777531347;
+	bh=F1WVIJ7HbaF2eOvbVzaA28LrB/mfnPFVUoHBF0xnHl0=;
 	h=From:To:Subject:Date:Message-ID:MIME-Version;
-	b=g9Wmt2tqA9sI5QKbEzjKoaCvH6HRi3h3tCXDzWnl01WJlie6nowR0leLBW12vpyi5
-	 lwU8lcPMXGGLd2A4+UydLJDZSZ5HYx1PNmQKzcNsH6Ki/ePr2pmmpuS2n40QluNxwY
-	 KVewFXFAcsTx8Sqzo/xU+8nC2z96FEVcRWedIFSU=
-X-QQ-mid: zesmtpip2t1777531300t804dcea8
-X-QQ-Originating-IP: j83DvPJCUPIIj7CpJdXR1PggpV6gRJXsU3wMljaQ538=
+	b=PCF6Sjzn4PNDcbYpKLWTwMJzHi52XZ50D8ixk/EWgmIEiZptahTj2WDJud4j/CTsO
+	 vK5tIN0+tT5WMwI41MbtFoDycg+f4gl/Jln9quvIvAL7b9R0cJY8L7o7CllJK70qPI
+	 SiOFXvVlbS44vjAJrcP9C3aepibIYvk3+e7V+DAo=
+X-QQ-mid: zesmtpip4t1777531331t1c612aa8
+X-QQ-Originating-IP: NYojwb8nz4+34hSOYZrSx7JX64l57MsSPG6dBKWSOBc=
 Received: from PEN202512010004 ( [localhost])
 	by bizesmtp.qq.com (ESMTP) with 
-	id ; Thu, 30 Apr 2026 14:41:39 +0800 (CST)
+	id ; Thu, 30 Apr 2026 14:42:10 +0800 (CST)
 X-QQ-SSF: 0000000000000000000000000000000
 X-QQ-GoodBg: 1
-X-BIZMAIL-ID: 8631150012452344517
+X-BIZMAIL-ID: 16597926817817289979
 EX-QQ-RecipientCnt: 6
 From: raoxu <raoxu@uniontech.com>
 To: raoxu@uniontech.com
@@ -39,9 +39,9 @@ Cc: gregkh@linuxfoundation.org,
 	mathias.nyman@linux.intel.com,
 	michal.pecio@gmail.com,
 	niklas.neronin@linux.intel.com
-Subject: [PATCH 1/4] usb: xhci: store xhci pointer in xhci_interrupter
-Date: Thu, 30 Apr 2026 14:41:37 +0800
-Message-ID: <91711BF87BBE8BF2+20260430064137.1724533-1-raoxu@uniontech.com>
+Subject: [PATCH 3/4] usb: xhci-pci: use the interrupter entry as MSI dev_id
+Date: Thu, 30 Apr 2026 14:42:08 +0800
+Message-ID: <85CC13362072C2B0+20260430064208.1725201-1-raoxu@uniontech.com>
 X-Mailer: git-send-email 2.50.1
 In-Reply-To: <30A1A28C68CF9D88+20260430063849.1721157-1-raoxu@uniontech.com>
 References: <30A1A28C68CF9D88+20260430063849.1721157-1-raoxu@uniontech.com>
@@ -54,67 +54,75 @@ MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-QQ-SENDSIZE: 520
 Feedback-ID: zesmtpip:uniontech.com:qybglogicsvrgz:qybglogicsvrgz6b-0
-X-QQ-XMAILINFO: NlUc2cqXmL745hE6dMVME3LCBDTGW3jgbVh2LjH6i7jbCFXsKQpw/4QI
-	L7AeD2qdt25eEz8oMN9reRVLROp8ftrDGhu7Ebc0TkTbXFT0Ym/eqYbKNQVu/fwYqFTephO
-	wkvE04aYBSJ86ejiofniY8nxpyF65x17caYWEfZgQCXKzXC42eQXatI9yNJi309VoTgy1MG
-	PB1Bydiw0NciWE/OdkE4JLJre9jbBruVeAAF7jpWPXUjfLE9hrpp28sNsUtHd3EZyvakgZF
-	jlPfhVxdP6cbOqM5cmSy5HqSALTelJjNfcNn2mear208PteDb9VWc5KrGC4RIaUsbc1LBt9
-	2ResqAs+9+ylZAshNoe4hTTH6Cih4uH92Ig7eM15kAhwXxDhs9EQjXT//9Y3UU4mRUfHUVv
-	4CBfs5m8vm5+VZCq8gQQmZcG0FqYvLRl1xyI99WIQ6/ca9YdBDG9Cqzf7KCNa07NCrg33xm
-	ksLkcrGm8d//DEcGY+JRKz9GkQxfrEcsHxT0jTmWs6ZfuyH3os948KO7FngRg9XFKmQ2ZSi
-	Djb707LftdTcGjJ89yMRZkp8SbJBnIraCbRMHTNfJWctppwVaretvF09qhd91PnVqfRP8z5
-	KePXigQxROil7Bvr74PkJmxfz0tgrcW1M9+n/hRbE5m6usejyI7CZMx+nU99DYneo/eRTby
-	XPdlOSy1QvQBL+QaXWtTAbEiWR0FmNTm8Pfu6DNp456NLi7QzS9TKo8OKNIMENNXVMI2IWl
-	dXmWxPUZG4m4yk6b0iD1FglBiqwc3whoMkps/qgH5N6KscKmRaG/uDGkVr7dLElQn2wP1J4
-	hHFhwFC+/W/MvFrl4jrmhat0/vc4i4ml5AHGcFZDd3hmbYtUbS7P5AfJLXvIjWo/VD+UN9z
-	mntGiIWQi51S2poTSw1w2c7xpJi7W+8ZiJxFhh/duSx5TpxPnEewpuCYh3cAxsh/qGvCnj0
-	fwAKZh06+vpv/nqV6ieOQ6bwgAWJ9k80R+iemHQy2ZgKaaHCp2ms8V60wEAXEZMlJa+puU/
-	SxM+W/hgkUa16y1OPW5J+leezS6p1EFeFQ4ASBGpxKnBIyJpDc
-X-QQ-XMRINFO: M/715EihBoGS47X28/vv4NpnfpeBLnr4Qg==
+X-QQ-XMAILINFO: MP9Cvol/R4C0mVhrVlnGZ7w/SQtVZrGZlm7EWxEzTCQ4Eq/tlAI4++1M
+	YuiTpCc2JEQZVtGV2dAPGFVJAyan8qQqWJ1r+DSn65E8xZHq2tQOjLxvzkO5Y4/w9W7INtZ
+	PutZ1OMKSlYipmCvXP007A0B7GeCyFfpTLSiU3kPzEGmPVIFTdnGPpvsp5b/ckWw1xRsEKp
+	C3/CbOfQ2u0rIbF6VqeGJJ+25bcDdaSwRZaQnD5OjFQoJox3cP1VRg0jGhnqRWN1u2Os89K
+	2R8pda/w2gM1nhaDUI2+r96q2gLrKi3l1zx3vSHYElOVZKOSKYmSTeq48pPPbzoi+0PxA1f
+	x6UR2VHmQAgFx1+2z+HjxKGCS7zACEPzK027G+8H74OLP44ADhKpn9Kygz8WeHv9TmncVQ+
+	LuBhKliCnMFmwlUHROnIwSbwNE+F7Cut0uXsduLVNwqgADex4K371JTQE9AtKm/KevijcOL
+	MJf10AxUo6QuuwoNbv4yrPsFJBIpt//KLALR/9jiEbyTHPN7pc08qL81Ac3/XzG9b7CYAvk
+	jjqe4vW/a272mUHjpJqipcn36QTdEgRyJ/b6InQLbmWnRR9j47YPFNy4Yom0b1lxlAq+WcQ
+	pExU/D5cTcqX3fIdnUmzi7Vl7/qdtJqOJ8s/AcJo+NumVHzBglR/Y4cR7Lg71A80ltdVO3M
+	Rt2JBZSvILHYNApbXf4oUjUF+iPEKLTBAF3mcbalBttriToBCBZXuuePRDwgycDT+RXwobZ
+	bop0sOlCl7NCHtE75+g9X1m16on80DZxfkgfeTPt8q8KOaihiBR5RjLWg61Co4OUjhh1Rmz
+	q4nbJjJ5LBd9hvasM72uXOO3/XUgyoKLS3yIwjpP7oQQ/3VDtCBKlAOwmjtuP/x6FDaBUdU
+	jSp1W1vSmPH5tmLDk7mffJWiqBTmLag6welFpPvtqJcOj1HOmehbEnXx5s+CUrDIWTmqQBf
+	FijzbtJKS3e0bsPD2UhCgif7a3IkcLcAYy29LS8N1/Fo+oA0SGwV55mr6yRChIgOuxvv0xm
+	JiwJyTnVJU/pgMu9Atg/Zbd1EqUJWbmMu/60xLvg==
+X-QQ-XMRINFO: NI4Ajvh11aEjEMj13RCX7UuhPEoou2bs1g==
 X-QQ-RECHKSPAM: 0
 
 From: Xu Rao <raoxu@uniontech.com>
 
-Secondary interrupters keep event ring state in
-struct xhci_interrupter, but the MSI path needs the owning
-host controller as well.
+After routing xhci_msi_irq() through xhci_interrupter, PCI
+MSI setup still registers the primary vector with usb_hcd as
+the request_irq() dev_id.
 
-Store the xhci_hcd pointer when an interrupter is initialized.
-This prepares the interrupt path to use interrupter context
-directly.
-
-No functional change.
+Use &xhci->interrupters[0] instead, pass the same dev_id to
+free_irq(), and release the IRQ before xhci_stop() tears
+down the interrupter array.
 
 Signed-off-by: Xu Rao <raoxu@uniontech.com>
 ---
- drivers/usb/host/xhci-mem.c | 1 +
- drivers/usb/host/xhci.h     | 1 +
- 2 files changed, 2 insertions(+)
+ drivers/usb/host/xhci-pci.c | 8 ++++----
+ 1 file changed, 4 insertions(+), 4 deletions(-)
 
-diff --git a/drivers/usb/host/xhci-mem.c b/drivers/usb/host/xhci-mem.c
-index 997fe90f54e5..73be00cdd98f 100644
---- a/drivers/usb/host/xhci-mem.c
-+++ b/drivers/usb/host/xhci-mem.c
-@@ -2331,6 +2331,7 @@ void xhci_add_interrupter(struct xhci_hcd *xhci, unsigned int intr_num)
- 	u32 erst_size;
+diff --git a/drivers/usb/host/xhci-pci.c b/drivers/usb/host/xhci-pci.c
+index 585b2f3117b0..6df2fe78ab47 100644
+--- a/drivers/usb/host/xhci-pci.c
++++ b/drivers/usb/host/xhci-pci.c
+@@ -134,7 +134,7 @@ static void xhci_cleanup_msix(struct xhci_hcd *xhci)
+ 	if (hcd->irq > 0)
+ 		return;
 
- 	ir = xhci->interrupters[intr_num];
-+	ir->xhci = xhci;
- 	ir->intr_num = intr_num;
- 	ir->ir_set = &xhci->run_regs->ir_set[intr_num];
+-	free_irq(pci_irq_vector(pdev, 0), xhci_to_hcd(xhci));
++	free_irq(pci_irq_vector(pdev, 0), &xhci->interrupters[0]);
+ 	pci_free_irq_vectors(pdev);
+ 	hcd->msix_enabled = 0;
+ }
+@@ -175,7 +175,7 @@ static int xhci_try_enable_msi(struct usb_hcd *hcd)
+ 	}
 
-diff --git a/drivers/usb/host/xhci.h b/drivers/usb/host/xhci.h
-index aeecd301f207..96cd3e751067 100644
---- a/drivers/usb/host/xhci.h
-+++ b/drivers/usb/host/xhci.h
-@@ -1445,6 +1445,7 @@ struct xhci_bus_state {
- };
+ 	ret = request_irq(pci_irq_vector(pdev, 0), xhci_msi_irq, 0, "xhci_hcd",
+-			  xhci_to_hcd(xhci));
++			  &xhci->interrupters[0]);
+ 	if (ret)
+ 		goto free_irq_vectors;
 
- struct xhci_interrupter {
-+	struct xhci_hcd		*xhci;
- 	struct xhci_ring	*event_ring;
- 	struct xhci_erst	erst;
- 	struct xhci_intr_reg __iomem *ir_set;
+@@ -225,10 +225,10 @@ static void xhci_pci_stop(struct usb_hcd *hcd)
+ {
+ 	struct xhci_hcd *xhci = hcd_to_xhci(hcd);
+
+-	xhci_stop(hcd);
+-
+ 	if (usb_hcd_is_primary_hcd(hcd))
+ 		xhci_cleanup_msix(xhci);
++
++	xhci_stop(hcd);
+ }
+
+ /* called after powerup, by probe or system-pm "wakeup" */
 --
 2.50.1
 
