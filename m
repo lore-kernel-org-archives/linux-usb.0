@@ -1,54 +1,99 @@
-Received: from c2682.mx.srv.dfn.de (c2682.mx.srv.dfn.de [194.95.239.80])
+Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com [205.220.180.131])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0AD753FBEA4;
-	Fri,  1 May 2026 16:50:07 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=194.95.239.80
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 20C963D16F2
+	for <linux-usb@vger.kernel.org>; Fri,  1 May 2026 17:06:40 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.180.131
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1777654218; cv=none; b=YwwDjVbaQDzbGauRVF6xPNcAsBBPdjIplXOpMuQetv+AMuTLaN/Fn3sJWxyyzGoFWJET4iIJZUZsMcc8H4z/AsKP8NVRG461jlSsO2j1yG3kmZivczgHBUGTgUPqvETD5VKIsOoVSwdtKBB6kmGtXUw6/vdxMvP9EgnVR69w10A=
+	t=1777655201; cv=none; b=hN8o9RurU04dT4WRAj35hSa4e3ufhlXHAcZ0FncNz0SzCjNqbrGwA9E641iydKvNLBSsclmuLzLxvAThMyruGdMUv+QyiS/DwvPxLxuPygJttP/41GczdqnEsZw09JSAt0Ohf8JAOLHk6urM9yhlCE5YzovtmqpIxscOPI49c10=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1777654218; c=relaxed/simple;
-	bh=7GvWlYJ66GEsKXxb5c+BB1NizN+kBkLoRH4YlKVEf9M=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=bDEpT08/ipQvontHj/FL6N/SpdQsEUfl6L6E2IIJJnLXho68QPQaYAG8S/aSa4ZypB9BycK1YtegGGlBla5Q6tKJTHkNqOIjmy8pPwqOtsd/Zqi3TUlvi6WYs1f09v9KdbAhJJdol2jn1oMKut3pq654gOEDmd6pSYXQqUkBozM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=soslab.tu-darmstadt.de; spf=pass smtp.mailfrom=soslab.tu-darmstadt.de; dkim=pass (1024-bit key) header.d=soslab.tu-darmstadt.de header.i=@soslab.tu-darmstadt.de header.b=Qzc8N4Qc; arc=none smtp.client-ip=194.95.239.80
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=soslab.tu-darmstadt.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=soslab.tu-darmstadt.de
+	s=arc-20240116; t=1777655201; c=relaxed/simple;
+	bh=KvqAs5R+iIDwc5i3JUTq2hNLbPWJGmhxQ+Wfjhe5QAY=;
+	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
+	 MIME-Version; b=SBwlDwD913Matz2D8j5liYMZaHvnfQI/ryaup6RU2Ad/IvPlaTJAFfopCpFmCxAvzfKXTigUuut0BKIOwe8X9Hs356FGR+gANTd1Ea+NRjN0HEnEhIW1A93bZFGGlPjt7vgUdBXXv44kymhw2JGGJ6/DXWcGHSUuygb/IAOFv9Q=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com; spf=pass smtp.mailfrom=oss.qualcomm.com; dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b=W/2Waab9; dkim=pass (2048-bit key) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.b=KOBNlF+P; arc=none smtp.client-ip=205.220.180.131
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=oss.qualcomm.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=soslab.tu-darmstadt.de header.i=@soslab.tu-darmstadt.de header.b="Qzc8N4Qc"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=
-	soslab.tu-darmstadt.de; h=content-transfer-encoding:mime-version
-	:message-id:date:date:subject:subject:from:from:received; s=s1;
-	 t=1777653596; x=1779467997; bh=7GvWlYJ66GEsKXxb5c+BB1NizN+kBkLo
-	RH4YlKVEf9M=; b=Qzc8N4Qc0Xxdm5YkvPaWLZ7jvevJXkG0bONxEbqblwRjn0MU
-	wPXiJo8xPYOSXT0w6OJvjAgGaNo/jSWclBtzZEPldi/6LmkkA4yhU9apk7VCajya
-	G3MoALID5y0KsBbVrG2HTNHAyRsSYzu6c8PZdzaek0CaRfue+38nP6GZlKM=
-Received: from mail-relay150.hrz.tu-darmstadt.de (mailout.hrz.tu-darmstadt.de [130.83.252.150])
-	by c2682.mx.srv.dfn.de (Postfix) with ESMTPS id 4D511438;
-	Fri,  1 May 2026 18:39:54 +0200 (CEST)
-Received: from smtp.tu-darmstadt.de (mail-relay158.hrz.tu-darmstadt.de [IPv6:2001:41b8:83f:1611::158])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits)
-	 client-signature RSA-PSS (4096 bits))
-	(Client CN "mail-relay158.hrz.tu-darmstadt.de", Issuer "GEANT TLS RSA 1" (not verified))
-	by mail-relay150.hrz.tu-darmstadt.de (Postfix) with ESMTPS id 4g6cG04RMVz43Vv;
-	Fri,  1 May 2026 18:39:52 +0200 (CEST)
-From: Markus Baier <Markus.Baier@soslab.tu-darmstadt.de>
-To: Oleksij Rempel <o.rempel@pengutronix.de>
-Cc: Andrew Lunn <andrew+netdev@lunn.ch>,
-	"David S . Miller" <davem@davemloft.net>,
-	Eric Dumazet <edumazet@google.com>,
-	Jakub Kicinski <kuba@kernel.org>,
-	Paolo Abeni <pabeni@redhat.com>,
-	Russell King <linux@armlinux.org.uk>,
-	Ethan Nelson-Moore <enelsonmoore@gmail.com>,
-	Miaoqian Lin <linmq006@gmail.com>,
-	linux-usb@vger.kernel.org,
-	netdev@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	Markus Baier <Markus.Baier@soslab.tu-darmstadt.de>
-Subject: [PATCH net] net: usb: asix: ax88772: re-add usbnet_link_change() in phylink callbacks
-Date: Fri,  1 May 2026 18:39:41 +0200
-Message-ID: <20260501163941.107668-1-Markus.Baier@soslab.tu-darmstadt.de>
+	dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b="W/2Waab9";
+	dkim=pass (2048-bit key) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.b="KOBNlF+P"
+Received: from pps.filterd (m0279870.ppops.net [127.0.0.1])
+	by mx0a-0031df01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 641GLTcA3938652
+	for <linux-usb@vger.kernel.org>; Fri, 1 May 2026 17:06:39 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
+	cc:content-transfer-encoding:date:from:in-reply-to:message-id
+	:mime-version:references:subject:to; s=qcppdkim1; bh=l02V6N4JgrN
+	OPuusUfSdP43C6TvNDkrqHvXRRW/M3Cg=; b=W/2Waab9WSzoVY2eDwwqwhFcGXc
+	YeIT9D4M8HxpFrMU3OAR8jD//ajACCC3l0AxeIEFYaHY+lL+Sgq4lYyFJvGTVisy
+	bOiPsex4upb8koTSLW54K3NRP4IWpW6Dlg9qk0YFDxGxxjY8s5P1tYtCDsxvnddU
+	JNr8BT4gMnGxTd/SsjGKNa4R5mlM/T920EAQDPjsVeRy1Pgl3KzlX58AeVHgExvH
+	U/asnMKTiXZh94Av0p4Ha7+Xhv1mrO+pOw1uZhciL0wZCLyOcP9wDZzlL1n/Gzgn
+	99LNQtxlFUYBTAdHPb2rFUFB+00JWBH7byyLqeoGB9jzbi40nPZgdN1njhw==
+Received: from mail-dy1-f200.google.com (mail-dy1-f200.google.com [74.125.82.200])
+	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 4dvtrn12mj-1
+	(version=TLSv1.3 cipher=TLS_AES_128_GCM_SHA256 bits=128 verify=NOT)
+	for <linux-usb@vger.kernel.org>; Fri, 01 May 2026 17:06:39 +0000 (GMT)
+Received: by mail-dy1-f200.google.com with SMTP id 5a478bee46e88-2c0f6593ef5so3236596eec.1
+        for <linux-usb@vger.kernel.org>; Fri, 01 May 2026 10:06:39 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=oss.qualcomm.com; s=google; t=1777655198; x=1778259998; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=l02V6N4JgrNOPuusUfSdP43C6TvNDkrqHvXRRW/M3Cg=;
+        b=KOBNlF+PocSEEkRuuzkhNRETuYwWKxLZC86KhsqdvdAd5EyqOYDrSoBz25+ua6lDHh
+         MDQxCYjpHHWIxeR+umc03tR3ZMJ15R9E60lJjTzPSMC8rXzo/26F3R33XkVWo+4XPvow
+         qNYy9yWXiWreNPh5klTNDcjALdPOU/F3RxpVq2ncu9kRy4gjfhOMK5I8ehOmlHbtySzA
+         TUqp/Hg849FJJqzpSNJqGkSSFpdEEB5jbDBxtXqAVDXJlIsZKGM5vjT8MleVRaaIooH8
+         EI6ph/c65h/eG/y73Yk4RbmVTooLDzshD3qJJRoy7ofWM/tAQxI7jE8ERwp6RGi44/iL
+         2JXA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1777655198; x=1778259998;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
+         :to:cc:subject:date:message-id:reply-to;
+        bh=l02V6N4JgrNOPuusUfSdP43C6TvNDkrqHvXRRW/M3Cg=;
+        b=OnzxyeJSJaBpUrWFBxXnql2f3iK40U2t0tVD4ZaHDe40agQJBWqVha7yaidlRihdiJ
+         FolsAQO7Slrey2SaoPIgQgv96gqWmhrvqRWo4n3ePbPZfmLXka7PNDirt05BujYdnNLj
+         HXrDSYlLpa/jqPW4BuQAZsqsMBCZJTo1Q+QRa6N0oMa0AlsXw5eOXmblG0L/BtlmKB1j
+         ShEL2gGPwS8v5f1jBYNE0WjtJgkK/cxvV1NU7sTDcnwGD3rv203qpoWxMoEOjsGGd4mB
+         m7/hZVwprjoqHanhWhkDS6Z7TXi+U0N+zTjhdapEbNVRZ+8FpcaM5I300o4txQ5XF0aC
+         XADQ==
+X-Forwarded-Encrypted: i=1; AFNElJ8vTQFbkIr5E+fWYMPvv5AEnf7PaZ6rJLpfflIIyaRjs1Rjpm5qmlBDUyrM7wNbrZ0fpg2AywSZUhw=@vger.kernel.org
+X-Gm-Message-State: AOJu0YyR6Io6n+64KirUmmzXd/UDwaRHnH+6lk8SNf4phkJeO67dEWLg
+	8ZSQcGpthcs1MDbEM6apjXD+bHLn1ZJo474LMvLACQJJnPh2ztkuCP9nLSAefnnkyAenWFLHXI2
+	0n574xhfxSslx6JA34x9gBtgWsLmTNCgYXA8LTFFf/N1ZSaWrUvUfZwavZNxY640=
+X-Gm-Gg: AeBDievhRJWov4mRjQXb2+TSzYV4HZD7nLmq8cwpr000uHUx76fVNeEskH/UlSbt0w0
+	JL4dfY8PgmSnQDtbfhpZl7xQM55stFb5RHZpxHduK/GJKJ6lK3VaMT5FpHtiojIXK1T80ynRxQ8
+	xHgiqSbl6qPqKulYCI2bxjNY2NqMopnd8Pw7qIa0ByGP0wQfQZtw98AlVAO1s1T2B9BIY2oaE7k
+	DCFEUrrtJ82JvQ00MJc/xGLoJxn2CvBfOqr0DZy77zMfxGiFRFTT78FAhd1GvS9PYUBqwSCC3vH
+	tQe6jOGgWw9J0NcGSw4ypi4c5cIAOKfMD1aCjcVTPa6jO322PLaFRdCNtKFI1/K0WTMpkfJW3Xe
+	PmIJkP1hVUo01pFXjYG4yjLS2nFJgQV+DG9ty1MDnVan8ZO1Oanr9tK+sP3QsI6n5ch6dvKFnmI
+	CpcUbvIgsNEw==
+X-Received: by 2002:a05:7300:2322:b0:2c0:bfe3:b95c with SMTP id 5a478bee46e88-2efb8aa1f8bmr96524eec.4.1777655198106;
+        Fri, 01 May 2026 10:06:38 -0700 (PDT)
+X-Received: by 2002:a05:7300:2322:b0:2c0:bfe3:b95c with SMTP id 5a478bee46e88-2efb8aa1f8bmr96494eec.4.1777655197477;
+        Fri, 01 May 2026 10:06:37 -0700 (PDT)
+Received: from hu-eserrao-lv.qualcomm.com (Global_NAT1.qualcomm.com. [129.46.96.20])
+        by smtp.gmail.com with ESMTPSA id 5a478bee46e88-2ee3537d300sm6655978eec.0.2026.05.01.10.06.36
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 01 May 2026 10:06:37 -0700 (PDT)
+From: Elson Serrao <elson.serrao@oss.qualcomm.com>
+To: Bjorn Andersson <andersson@kernel.org>,
+        Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Konrad Dybcio <konradybcio@kernel.org>,
+        Krzysztof Kozlowski <krzk+dt@kernel.org>,
+        Rob Herring <robh@kernel.org>, Conor Dooley <conor+dt@kernel.org>,
+        Souradeep Chowdhury <quic_schowdhu@quicinc.com>
+Cc: linux-arm-msm@vger.kernel.org, devicetree@vger.kernel.org,
+        linux-usb@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: [PATCH v4 1/9] dt-bindings: soc: qcom: eud: Add per-path child nodes for UTMI routing
+Date: Fri,  1 May 2026 10:06:27 -0700
+Message-Id: <20260501170635.2641748-2-elson.serrao@oss.qualcomm.com>
+X-Mailer: git-send-email 2.34.1
+In-Reply-To: <20260501170635.2641748-1-elson.serrao@oss.qualcomm.com>
+References: <20260501170635.2641748-1-elson.serrao@oss.qualcomm.com>
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
@@ -56,72 +101,127 @@ List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-Header-TUDa: <oLVU8RZcsZEyAQfzRmgEF3b1uXjKJR8xr9rjOseZUALhHMCE0j7fB4s3GsGmqsRPyzo3qQyFCncAZxJRB4qZR58VDy64pXzojSOaT.1777653593>
-X-TUDa-Umlauf: 1
+X-Proofpoint-ORIG-GUID: KG8VXzLc2Avu-G7fHeBUxwPwCoZr2DV5
+X-Proofpoint-GUID: KG8VXzLc2Avu-G7fHeBUxwPwCoZr2DV5
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYwNTAxMDE2OCBTYWx0ZWRfX1MY9ULEMVgZ/
+ KqF0vGFN7HnKCd/DIJYQ9wbMaJQIA0eYsYmhsCbR3hWYAzlj+KWSSB05jt/sCW7PancJvVwz/Z6
+ OcY4Sqnc3Ed7E1iyurIwdwAVTV3XnMywnAPClKkNVcW6FMpqqljlvyvjsOdclfIlRTkauXx51N7
+ gKEKnf74GCtoe/wOOlxOimXvrGJgDvgPnwO0c7lVLKKsoA/fMZHKGWxd+fMZzwsHBNiQlVyFH3y
+ cw4vo0AyRJNBKiumUC6sBZ37Vhw1XM/L9meSJ7Y0/AuO/RPlYN6ZFJXXzSrtWQS1NTmNN/MHqtm
+ GjLDyMM5Qa92DFaGFYP3IiJV15xPqw9On8f7AVbaClhqcdf/N0SUdBtgdjv59xOzmo9391K2rZm
+ VfQ2iIve/EiUb5NO2FoiU8QU5WGws2iP2JAb9FcVYSYzGnHqrspfCEK8GASYQp/PuQCkLc2ZjXU
+ VnsbDQaLUX3Dlqk9glg==
+X-Authority-Analysis: v=2.4 cv=KrZ9H2WN c=1 sm=1 tr=0 ts=69f4dd9f cx=c_pps
+ a=PfFC4Oe2JQzmKTvty2cRDw==:117 a=ouPCqIW2jiPt+lZRy3xVPw==:17
+ a=NGcC8JguVDcA:10 a=s4-Qcg_JpJYA:10 a=VkNPw1HP01LnGYTKEx00:22
+ a=u7WPNUs3qKkmUXheDGA7:22 a=gowsoOTTUOVcmtlkKump:22 a=EUspDBNiAAAA:8
+ a=S5Gqkj48huS8qG7z_KgA:9 a=6Ab_bkdmUrQuMsNx7PHu:22
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1143,Hydra:6.1.51,FMLib:17.12.100.49
+ definitions=2026-05-01_04,2026-04-30_02,2025-10-01_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ spamscore=0 clxscore=1015 priorityscore=1501 bulkscore=0 adultscore=0
+ impostorscore=0 phishscore=0 suspectscore=0 lowpriorityscore=0 malwarescore=0
+ classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
+ reason=mlx scancount=1 engine=8.22.0-2604200000 definitions=main-2605010168
 
-Commit e0bffe3e6894 ("net: asix: ax88772: migrate to phylink") replaced
-the asix_adjust_link() PHY callback with phylink's mac_link_up() and
-mac_link_down() handlers, but did not carry over the usbnet_link_change()
-notification that commit 805206e66fab ("net: asix: fix "can't send until
-first packet is send" issue") had added.
+The Qualcomm Embedded USB Debugger (EUD) can intercept one or two
+independent High-Speed UTMI paths, depending on the SoC configuration.
+Each path is distinct, with its own connector/controller connection
+and role-dependent UTMI routing.
 
-As a result, the original symptom returns: when the link comes up,
-usbnet is never notified, so the RX URB submission stays dormant until
-some other event (e.g. a transmitted packet triggering the status
-endpoint interrupt) wakes it up.
+Because the EUD sits between the USB connector and the USB controller,
+it must relay role changes across the UTMI path. In device role, the
+EUD inserts its internal hub into the path to enable debug
+functionality. In host role, the path remains directly connected
+between the PHY and the USB controller, bypassing the EUD hub. These
+hardware constraints require per-path role awareness, as UTMI path
+roles may differ.
 
-This is reproducible with the Apple A1277 USB Ethernet Adapter
-(05ac:1402, AX88772A based) on a Banana Pro using a static IPv4
-configuration. After bringing the interface up, no incoming packets are
-received until the first outgoing frame triggers usbnet's RX path.
+The existing binding models only a single UTMI path and assumes a
+uniform routing model. While sufficient for simple device-role-only
+configurations, this representation does not accurately describe EUD
+hardware when role switching and/or multiple UTMI paths are involved.
 
-Restore the link change notification, gated on a carrier transition so
-the call remains idempotent if the status endpoint also reports the
-change later.
+To address this limitation, per-path child nodes are introduced to
+describe individual UTMI paths through the EUD. Each path includes its
+own ports description, allowing controller and connector associations,
+as well as role-aware routing.
 
-Fixes: e0bffe3e6894 ("net: asix: ax88772: migrate to phylink")
-Assisted-by: Claude:claude-opus-4-7
-Signed-off-by: Markus Baier <Markus.Baier@soslab.tu-darmstadt.de>
+Signed-off-by: Elson Serrao <elson.serrao@oss.qualcomm.com>
 ---
+ .../bindings/soc/qcom/qcom,eud.yaml           | 55 ++++++++++++++++++-
+ 1 file changed, 54 insertions(+), 1 deletion(-)
 
-Transparency notice: The English formulation of this bug report was
-prepared with AI assistance. The actual system testing and verification
-of the issue were performed manually without AI involvement.
-The bug was originally located via git bisect between v5.13 (good)
-and v5.14 (first bad), pointing to commit e532a096be0e ("net: usb: asix:
-ax88772: add phylib support"). Commit 805206e66fab later fixed this in
-v5.19, but commit e0bffe3e6894 (phylink migration in v6.x) re-introduced
-the same symptom by replacing the asix_adjust_link() callback path
-without porting the usbnet_link_change() call to the new phylink
-mac_link_up/down handlers.
-
-First Tested on Linux 6.18.18-gentoo with Apple A1277 USB Ethernet Adapter
-(05ac:1402, AX88772A based) on a Banana Pro (Allwinner A20).
-Later on Linux 7.1.0-rc1 with identical hardware setup.
-
- drivers/net/usb/asix_devices.c | 2 ++
- 1 file changed, 2 insertions(+)
-
-diff --git a/drivers/net/usb/asix_devices.c b/drivers/net/usb/asix_devices.c
-index df0bcfedddbc..293ef80c4e30 100644
---- a/drivers/net/usb/asix_devices.c
-+++ b/drivers/net/usb/asix_devices.c
-@@ -756,6 +756,7 @@ static void ax88772_mac_link_down(struct phylink_config *config,
- 	struct usbnet *dev = netdev_priv(to_net_dev(config->dev));
+diff --git a/Documentation/devicetree/bindings/soc/qcom/qcom,eud.yaml b/Documentation/devicetree/bindings/soc/qcom/qcom,eud.yaml
+index 84218636c0d8..21f75038a81c 100644
+--- a/Documentation/devicetree/bindings/soc/qcom/qcom,eud.yaml
++++ b/Documentation/devicetree/bindings/soc/qcom/qcom,eud.yaml
+@@ -45,10 +45,63 @@ properties:
+         $ref: /schemas/graph.yaml#/properties/port
+         description: This port is to be attached to the type C connector.
  
- 	asix_write_medium_mode(dev, 0, 0);
-+	usbnet_link_change(dev, false, false);
- }
++  '#address-cells':
++    const: 1
++
++  '#size-cells':
++    const: 0
++
++patternProperties:
++  "^eud-path@[0-1]$":
++    type: object
++    description:
++      Represents one High-Speed UTMI path that EUD intercepts. Use eud-path nodes
++      to associate role-switching behavior with specific port connections, allowing
++      EUD to manage role transitions independently for each UTMI path.
++
++    properties:
++      reg:
++        maxItems: 1
++        description: Path number
++
++      usb-role-switch:
++        type: boolean
++        description:
++          Indicates that EUD should act as a role switch for this path.
++          In device role, debug mode inserts the EUD hub into the UTMI path. In
++          host role, the EUD hub is bypassed and UTMI traffic flows directly
++          between the PHY and the USB controller.
++
++      ports:
++        $ref: /schemas/graph.yaml#/properties/ports
++        description:
++          These ports are to be attached to the endpoint of the USB controller node
++          and USB connector node.
++
++        properties:
++          port@0:
++            $ref: /schemas/graph.yaml#/properties/port
++            description: This port is to be attached to the USB controller.
++
++          port@1:
++            $ref: /schemas/graph.yaml#/properties/port
++            description: This port is to be attached to the USB connector.
++
++    required:
++      - reg
++      - ports
++
++    additionalProperties: false
++
+ required:
+   - compatible
+   - reg
+-  - ports
++
++oneOf:
++  - required:
++      - ports
++  - required:
++      - eud-path@0
  
- static void ax88772_mac_link_up(struct phylink_config *config,
-@@ -786,6 +787,7 @@ static void ax88772_mac_link_up(struct phylink_config *config,
- 		m |= AX_MEDIUM_RFC;
+ additionalProperties: false
  
- 	asix_write_medium_mode(dev, m, 0);
-+	usbnet_link_change(dev, true, false);
- }
- 
- static const struct phylink_mac_ops ax88772_phylink_mac_ops = {
 -- 
-2.52.0
+2.34.1
 
