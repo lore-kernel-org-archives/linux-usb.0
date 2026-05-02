@@ -1,571 +1,150 @@
-Received: from bkemail.birger-koblitz.de (bkemail.birger-koblitz.de [23.88.97.239])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wm1-f42.google.com (mail-wm1-f42.google.com [209.85.128.42])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D9ECC2E7631;
-	Sat,  2 May 2026 04:50:59 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=23.88.97.239
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EA9E32DC332
+	for <linux-usb@vger.kernel.org>; Sat,  2 May 2026 09:46:52 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.42
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1777697462; cv=none; b=pZd0Gz4q02TNhpjWdGGELaT/dqFg1u1ToHgkafnl7MEqp89H5F1+kJm1jhqSPDqdXWrgL7grgVa2vIOMV1WKocxZwtHf8Tj8IWdWMbbIsCJ49/FxNQduJrajgTh6sraa7ix+F7BAj5FZAyp5lZg3X5+CkRySdezcQBc+9olxKJY=
+	t=1777715215; cv=none; b=fBoJFTgRLUmcp+1pWVkW/hNgQqXFbCQNov+nEtNXI9HWJt6GQe6C8TQvw+u8Iw0UlrZT0vEml01UVQcyIlF161J/X/2l/kJMFe4hnVXvRJE/Q7ABIrNWe/RyUrmUwnwKZ4DC1x5VV1chlD8z9jVrmaXjU0BmmsykiNZle476O3M=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1777697462; c=relaxed/simple;
-	bh=KX+qsapuNC161MC5n1ZbXkh7JgXzBBApHYToRWf5Sgs=;
-	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
-	 In-Reply-To:To:Cc; b=M6+fj+h1JT/wecPE3gmQ7oUs0ibWbm3thypTGzfQIdtedwouZo8lobO6pBniKOCx+RyzSiUT4GbTHE2YXEsYe6gscK20wFPiP7LaR+HMjCknigZa004OL/nosbvSN4RtX4HZO3HRitUzRAsnDb6Yc+CtIs/qG7p9muBqhHIbjJs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=birger-koblitz.de; spf=pass smtp.mailfrom=birger-koblitz.de; dkim=pass (2048-bit key) header.d=birger-koblitz.de header.i=@birger-koblitz.de header.b=c5sYIar9; dkim=pass (2048-bit key) header.d=birger-koblitz.de header.i=@birger-koblitz.de header.b=g6EG+7+H; arc=none smtp.client-ip=23.88.97.239
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=birger-koblitz.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=birger-koblitz.de
+	s=arc-20240116; t=1777715215; c=relaxed/simple;
+	bh=DPiNTEITt1TPBpjArvFJpFpEyHTx0vdtATFnbHgPgfU=;
+	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=UzlcgR6K0oXzXa6pnofOPUpcN6JYX01nroBbZDaPzHgpqBkw5XEURyVZIpR6fFWfM/3l1kCW2638PMtE+3Ax9UM+SHXKSQRpx4GuTZ0ivkj4h2FmFuUk7OSRRsS3xmBD8KApiwwKGVEtSbSkPJMKrBjQ7NvUzrgRCeKA/WVb/+I=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=MP2O6I6U; arc=none smtp.client-ip=209.85.128.42
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=birger-koblitz.de header.i=@birger-koblitz.de header.b="c5sYIar9";
-	dkim=pass (2048-bit key) header.d=birger-koblitz.de header.i=@birger-koblitz.de header.b="g6EG+7+H"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=birger-koblitz.de;
-	s=default; t=1777697458;
-	bh=KX+qsapuNC161MC5n1ZbXkh7JgXzBBApHYToRWf5Sgs=;
-	h=From:Date:Subject:References:In-Reply-To:To:Cc:From;
-	b=c5sYIar9bfs6UwDfTeeiIx9hCDK65wa6RBKg33vBIm8Rzg45T/2l9w90DvUZlFjox
-	 5lumAX4HxiZlavABwnmJKbXNh6VAjy+4zbutL58LpVO+ZFd1J20U2X1huMVjsGB/W1
-	 GYT6H4W7FqO3fOG0qiavDf3Dt1ZsPSG7YLg3npuRqmVvS5jikbxvmBopi1qTqnyY0y
-	 tfDvf2NIIvowy2EUMLtuIhQ63sWcBaufm9KbAgg0y474b88ZIdZV5C1E2s4W6rXX07
-	 q7hohe7D5eA+Oo3sObSGHflJ5svP/1RwTeEAXwj9KIebDzKJnVuIPdCbZEqoI/GkzH
-	 Iljiy/cAr3tEw==
-Received: by bkemail.birger-koblitz.de (Postfix, from userid 109)
-	id 5059E482C5; Sat,  2 May 2026 04:50:58 +0000 (UTC)
-X-Spam-Level: 
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=birger-koblitz.de;
-	s=default; t=1777697455;
-	bh=KX+qsapuNC161MC5n1ZbXkh7JgXzBBApHYToRWf5Sgs=;
-	h=From:Date:Subject:References:In-Reply-To:To:Cc:From;
-	b=g6EG+7+Hb4s8Cbd0HdZGSBznguvDak9Co92eKGZUOLW1nSkrW3feGBHMCSvNeUQzY
-	 5r3G/P/eGjtSDtB6soDePLQaH+aaERJxe5zJYXw1/IdwfCV6oE9Z2vn+yOwd31P5Ae
-	 0uYUkk+I8IgmaV5p3xEBTCexf0nGY6IG5pAPSJJVnhKVDxRqOe7vx8f8TdupnACmXC
-	 /+dnw4Yh6rcRfk6GjNUJ09PSTPKyYGFk9ogMas8mOC8w/N258TBDwqsiGXA/fHeJqG
-	 ZMdXDmKK4toYHyUREL9TCbkmulTOPezO7gFJnqgZ5MhEkZCgIbXp1P1p/DTvvdoOpm
-	 zrMgsCsB1cGfA==
-Received: from AMDDesktop.lan (unknown [IPv6:2a00:6020:47a3:e800:271c:c6c5:9fde:77cb])
-	by bkemail.birger-koblitz.de (Postfix) with ESMTPSA id EED92482A1;
-	Sat,  2 May 2026 04:50:54 +0000 (UTC)
-From: Birger Koblitz <mail@birger-koblitz.de>
-Date: Sat, 02 May 2026 06:50:37 +0200
-Subject: [PATCH net-next v3 2/3] r8152: Add support for the RTL8159 chip
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="MP2O6I6U"
+Received: by mail-wm1-f42.google.com with SMTP id 5b1f17b1804b1-488ab2db91aso30506835e9.3
+        for <linux-usb@vger.kernel.org>; Sat, 02 May 2026 02:46:52 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20251104; t=1777715211; x=1778320011; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:subject:cc:to:from:date:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=ezmD1eosO8J8L5bV2blwD7uKVAJ5uRnCIe2hKB1QaCg=;
+        b=MP2O6I6UmkMu+yWeLeSdXoUwOAlMSjK4K9IympeZv4SCa8wB4CWZAwZoY/hzIZpP2U
+         OMuXbB3PskdWK3w7ugNJ/lE/Yqj7fOqV4s3R26NigI8nW6srpOCBRv1eSMFHVl7Ptpb3
+         KuOsnHNBNnNMcB9qZqjERcYVNV+uj/9jtgJBe1KQZKtqu3M0+NUaPqk7s9e6/VAwzT14
+         Av57RaZeFOAhskc3eTbOxpe/ZEfBosxnZ399ZYK3Zsy9POuvbnY2OvnxxZdWEi5xiTNd
+         1e3TGxj3pgeHhHQ6iobs/Hi/8McrRTcTpCsSEvgmCcxRXTeYFzOHjpABo1s93sGRH9xC
+         X8Yw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1777715211; x=1778320011;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:subject:cc:to:from:date:x-gm-gg:x-gm-message-state:from
+         :to:cc:subject:date:message-id:reply-to;
+        bh=ezmD1eosO8J8L5bV2blwD7uKVAJ5uRnCIe2hKB1QaCg=;
+        b=V/0cligR8+ooUXI1YiMjEC+SM8qlnUlH3mCnusZvjsF1WUVv6X5BKdHGaS8NNmh9Vc
+         zGgbz442sOCViGm7u+aqMozafCSpahYbqkC56N1xgeW3jzd1xJuSEZjNRqtyGOejNYK4
+         lLE3EBlIQlmpn+PP4naryg4FcL1pofJv1ZA8YD7IW2ZGeoSb4msFjD8JhPCCxIIQMFhV
+         NHyuq3dS9FNrCXN/d9T/HR1Ukjq0qD+XzzZioumbjMO1VARCetARhA6oesEYIEoWiBsP
+         1NYUclygQf8zcAlpUcWOYUWXIgCWMEhCQf1sGe68uNH++C9LXyG50d9XYvVJb8MDjVPF
+         /vXA==
+X-Forwarded-Encrypted: i=1; AFNElJ/pyH3ZDV6+bNgOqbaOQPol6E0RNpBj6cgT81mkENn8+UTf2sQwKaV2CYQbLFx6vVXotH0C162R77M=@vger.kernel.org
+X-Gm-Message-State: AOJu0YwotPOQoIWO2lyPXEnMMYl8MJhhbUvbgvkFQVIyEgZcACBQVxpD
+	m4sHN7p2fNAND7LpUUsiZ23YKgXnIrx8hyxx15k6r1fUUSHpkPXzRnAz
+X-Gm-Gg: AeBDietcMi2QhVklnkVz1lqXbaz8ErfUUCOc5kuNuJ9Ff6uqHCmttIwVPJ4vsjSiVeb
+	7vLJOHnz2w02zIrzbm7GrnWnXwRTKA/35mOStwuboTxhXAB9xQTvhpYQYBDfhUfEVbJu8FGrk0U
+	TEm12wGuZzctv3iy4N8OjMCcvARmaTuh/RQGiT5EI1zxpk7/TS4B2+4Wnqi5O3+4yQz25PV1+JF
+	PmLhhYlxl+BmtHp3TXRGCjRJHemgHULY8UBWmp0y36wpfJwgtSb9geAVWy0VX9ZiZk8naFQWKCH
+	V1J7rzzerj9j92Br0AqDhZYAcpD/5vljovuWUmf2fgTUkGwQJcp5x9KeAFnf9VBFMWCepDHTitr
+	1FHLY1QVBJm7jYBXpmMkvQDPmP/Uo7PinwjHjyKI5SiAyObJWSccfRnBKKyA+1yra7kf1US+Gaa
+	p6mm1HCP1D6pbayN4HG75qis0HFL7xJ81AmN8HTQggDdo9yg==
+X-Received: by 2002:a05:6000:40c7:b0:43b:5672:efe with SMTP id ffacd0b85a97d-44bb36d17efmr4004334f8f.9.1777715211096;
+        Sat, 02 May 2026 02:46:51 -0700 (PDT)
+Received: from foxbook (bgt227.neoplus.adsl.tpnet.pl. [83.28.83.227])
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-44a8ea7d035sm9943933f8f.5.2026.05.02.02.46.50
+        (version=TLS1_2 cipher=AES128-SHA bits=128/128);
+        Sat, 02 May 2026 02:46:50 -0700 (PDT)
+Date: Sat, 2 May 2026 11:46:44 +0200
+From: Michal Pecio <michal.pecio@gmail.com>
+To: Desnes Nunes <desnesn@redhat.com>
+Cc: linux-kernel@vger.kernel.org, linux-usb@vger.kernel.org,
+ gregkh@linuxfoundation.org, mathias.nyman@intel.com, stable@vger.kernel.org
+Subject: [PATCH RFT RFC] usb: xhci: Kill hosts with HCE or HSE on command
+ timeout
+Message-ID: <20260502114644.76e6b5a3.michal.pecio@gmail.com>
+In-Reply-To: <CACaw+ewwM_5eqyGW5=+THwHsYPs7u3NT096AFQdt6x4E6HcWtA@mail.gmail.com>
+References: <20260430014817.2006885-1-desnesn@redhat.com>
+	<20260430104850.352bd946.michal.pecio@gmail.com>
+	<CACaw+exdPSVSfdAob7+d-xH=JEjBbPpY_z1cPPU6rzXx4wUZpA@mail.gmail.com>
+	<20260430235453.2288c973.michal.pecio@gmail.com>
+	<CACaw+ewwM_5eqyGW5=+THwHsYPs7u3NT096AFQdt6x4E6HcWtA@mail.gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-Message-Id: <20260502-rtl8159_net_next-v3-2-12c895d46cd6@birger-koblitz.de>
-References: <20260502-rtl8159_net_next-v3-0-12c895d46cd6@birger-koblitz.de>
-In-Reply-To: <20260502-rtl8159_net_next-v3-0-12c895d46cd6@birger-koblitz.de>
-To: Andrew Lunn <andrew+netdev@lunn.ch>, 
- "David S. Miller" <davem@davemloft.net>, Eric Dumazet <edumazet@google.com>, 
- Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>
-Cc: linux-usb@vger.kernel.org, netdev@vger.kernel.org, 
- linux-kernel@vger.kernel.org, Chih Kai Hsu <hsu.chih.kai@realtek.com>, 
- Birger Koblitz <mail@birger-koblitz.de>, 
- Aleksander Jan Bajkowski <olek2@wp.pl>
-X-Mailer: b4 0.14.2
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
 
-The RTL8159 re-uses the packet descriptor format introduced with the
-RTL8157 and other hardware features of the RTL8157 (RTL_VER_16) such
-as the SRAM access. The support therefore consists in expanding the
-existing RTL8157 code for initialization and USB power management
-to also be used for the RTL8159 (RTL_VER_17).
+On Fri, 1 May 2026 11:09:27 -0300, Desnes Nunes wrote:
+> On Thu, Apr 30, 2026 at 6:55=E2=80=AFPM Michal Pecio <michal.pecio@gmail.=
+com> wrote:
+> > When xhci_handle_command_timeout() logs USBSTS, does it help to add:
+> >
+> > if (usbsts & STS_FATAL) {
+> >         xhci_halt(xhci);
+> >         xhci_hc_died(xhci);
+> >         goto time_out_completed;
+> > }
+> > It may not be perfect solution (race conditions?) but it could hint
+> > that we are on the right track, if it works. =20
+>=20
+> This panicked the system as soon as I hit `echo c > /proc/sysrq-trigger`:
+>=20
+> [  141.683476] sysrq: Trigger a crash
+> [  141.686970] Kernel panic - not syncing: sysrq triggered crash
 
-Most of the additional code is added in r8157_hw_phy_cfg() to configure
-the RTL8159 PHY.
+Damn, that sucks. Any chance it's not a problem with my proposed change
+but some sort of issue on your side?
 
-Add support for the USB device ID of Realtek RTL8159-based adapters,
-for which the product ID is 0x815a. Detect the RTL8159 as RTL_VER_17
-and set it up.
+Anyway, I think the patch below might cover it. It works for me in the
+sense that the bus does get killed, without ill effect. I tested on
+VL805 where HSE is easily triggered by disabling XHCI_TRB_OVERFETCH.
+However, the patch isn't necessary here - VL805 doesn't clear CRCR.CRR
+on HSE, so normal abort path is taken and times out, then hc_died().
 
-Signed-off-by: Birger Koblitz <mail@birger-koblitz.de>
-Tested-by: Aleksander Jan Bajkowski <olek2@wp.pl>
+Can somebody serious confirm if this issue actually exists in the first
+place, and whether the patch solves it?
+
+Hello Redhat, anyone alive there? Or only stochastic parrots?
+
+Mathias, do you remember what's the point of the "Command timeout on
+stopped ring" branch? Can it happen in any case other than dead chip?
+
+I also wonder if it wouldn't make sense to just hc_died() on every
+command timeout except Address Device. We rely on Stop Endpoint
+timeouts to kill chips which go unresponsive without setting HCE/HSE,
+because sooner or later somebody loses patience and unlinks an URB,
+but this story (real or hallucinated, but plausible) shows that this
+may not help when there are no devices created yet.
+
 ---
- drivers/net/usb/r8152.c | 272 +++++++++++++++++++++++++++++++++++++++++++++---
- 1 file changed, 257 insertions(+), 15 deletions(-)
 
-diff --git a/drivers/net/usb/r8152.c b/drivers/net/usb/r8152.c
-index 05abfab1df94a571347196bfce7c232865e1058e..a2cdd57558c78b025ea61d33b99eca72c19f535f 100644
---- a/drivers/net/usb/r8152.c
-+++ b/drivers/net/usb/r8152.c
-@@ -1247,6 +1247,7 @@ enum rtl_version {
- 	RTL_VER_14,
- 	RTL_VER_15,
- 	RTL_VER_16,
-+	RTL_VER_17,
- 
- 	RTL_VER_MAX
- };
-@@ -3432,6 +3433,7 @@ static void rtl8152_nic_reset(struct r8152 *tp)
- 		break;
- 
- 	case RTL_VER_16:
-+	case RTL_VER_17:
- 		ocp_byte_clr_bits(tp, MCU_TYPE_PLA, PLA_CR, CR_RE | CR_TE);
- 		break;
- 
-@@ -3471,6 +3473,9 @@ static void rtl_eee_plus_en(struct r8152 *tp, bool enable)
- 
- static void rtl_set_eee_plus(struct r8152 *tp)
- {
-+	if (tp->version == RTL_VER_17)
-+		return rtl_eee_plus_en(tp, false);
-+
- 	if (rtl8152_get_speed(tp) & _10bps)
- 		rtl_eee_plus_en(tp, true);
- 	else
-@@ -3656,6 +3661,7 @@ static void r8153_set_rx_early_timeout(struct r8152 *tp)
- 	case RTL_VER_13:
- 	case RTL_VER_15:
- 	case RTL_VER_16:
-+	case RTL_VER_17:
- 		ocp_write_word(tp, MCU_TYPE_USB, USB_RX_EARLY_TIMEOUT,
- 			       640 / 8);
- 		ocp_write_word(tp, MCU_TYPE_USB, USB_RX_EXTRA_AGGR_TMR,
-@@ -3700,6 +3706,7 @@ static void r8153_set_rx_early_size(struct r8152 *tp)
- 			       ocp_data / 8);
- 		break;
- 	case RTL_VER_16:
-+	case RTL_VER_17:
- 		ocp_write_word(tp, MCU_TYPE_USB, USB_RX_EARLY_SIZE,
- 			       ocp_data / 16);
- 		break;
-@@ -4548,6 +4555,7 @@ static void rtl_clear_bp(struct r8152 *tp, u16 type)
- 		break;
- 	case RTL_VER_14:
- 	case RTL_VER_16:
-+	case RTL_VER_17:
- 	default:
- 		ocp_write_word(tp, type, USB_BP2_EN, 0);
- 		bp_num = 16;
-@@ -5818,6 +5826,7 @@ static void rtl_eee_enable(struct r8152 *tp, bool enable)
- 	case RTL_VER_13:
- 	case RTL_VER_15:
- 	case RTL_VER_16:
-+	case RTL_VER_17:
- 		if (enable) {
- 			r8156_eee_en(tp, true);
- 			ocp_reg_write(tp, OCP_EEE_ADV, tp->eee_adv);
-@@ -6408,7 +6417,7 @@ static int rtl8156_enable(struct r8152 *tp)
- 	set_tx_qlen(tp);
- 	rtl_set_eee_plus(tp);
- 
--	if (tp->version >= RTL_VER_12 && tp->version <= RTL_VER_16)
-+	if (tp->version >= RTL_VER_12 && tp->version <= RTL_VER_17)
- 		ocp_word_clr_bits(tp, MCU_TYPE_USB, USB_RX_AGGR_NUM, RX_AGGR_NUM_MASK);
- 
- 	r8153_set_rx_early_timeout(tp);
-@@ -6817,7 +6826,7 @@ static void rtl8156_up(struct r8152 *tp)
- 		return;
- 
- 	r8153b_u1u2en(tp, false);
--	if (tp->version != RTL_VER_16)
-+	if (tp->version < RTL_VER_16)
- 		r8153_u2p3en(tp, false);
- 	r8153_aldps_en(tp, false);
- 
-@@ -6831,7 +6840,7 @@ static void rtl8156_up(struct r8152 *tp)
- 
- 	ocp_byte_clr_bits(tp, MCU_TYPE_PLA, PLA_OOB_CTRL, NOW_IS_OOB);
- 
--	if (tp->version == RTL_VER_16)
-+	if (tp->version >= RTL_VER_16)
- 		ocp_word_clr_bits(tp, MCU_TYPE_PLA, PLA_RCR1, BIT(3));
- 
- 	ocp_word_clr_bits(tp, MCU_TYPE_PLA, PLA_SFF_STS_7, MCU_BORW_EN);
-@@ -6856,7 +6865,7 @@ static void rtl8156_up(struct r8152 *tp)
- 
- 	ocp_word_clr_bits(tp, MCU_TYPE_PLA, PLA_MAC_PWR_CTRL3, PLA_MCU_SPDWN_EN);
- 
--	if (tp->version != RTL_VER_16)
-+	if (tp->version < RTL_VER_16)
- 		ocp_word_clr_bits(tp, MCU_TYPE_USB, USB_SPEED_OPTION,
- 				  RG_PWRDN_EN | ALL_SPEED_OFF);
- 
-@@ -6868,10 +6877,10 @@ static void rtl8156_up(struct r8152 *tp)
+diff --git a/drivers/usb/host/xhci-ring.c b/drivers/usb/host/xhci-ring.c
+index e5823650850a..3041deb67b57 100644
+--- a/drivers/usb/host/xhci-ring.c
++++ b/drivers/usb/host/xhci-ring.c
+@@ -1761,13 +1761,15 @@ void xhci_handle_command_timeout(struct work_struct=
+ *work)
+ 	/* mark this command to be cancelled */
+ 	xhci->current_cmd->status =3D COMP_COMMAND_ABORTED;
+=20
+-	/* Make sure command ring is running before aborting it */
++	/* check for crashed or disconnected chip */
+ 	hw_ring_state =3D xhci_read_64(xhci, &xhci->op_regs->cmd_ring);
+-	if (hw_ring_state =3D=3D ~(u64)0) {
++	if (hw_ring_state =3D=3D ~(u64)0 || usbsts & (STS_FATAL | STS_HCE)) {
++		xhci_info(xhci, "kill the damn thing\n");
+ 		xhci_hc_died(xhci);
+ 		goto time_out_completed;
  	}
- 
- 	r8153_aldps_en(tp, true);
--	if (tp->version != RTL_VER_16)
-+	if (tp->version < RTL_VER_16)
- 		r8153_u2p3en(tp, true);
- 
--	if (tp->version != RTL_VER_16 && tp->udev->speed >= USB_SPEED_SUPER)
-+	if (tp->version < RTL_VER_16 && tp->udev->speed >= USB_SPEED_SUPER)
- 		r8153b_u1u2en(tp, true);
- }
- 
-@@ -6886,7 +6895,7 @@ static void rtl8156_down(struct r8152 *tp)
- 			  PLA_MCU_SPDWN_EN);
- 
- 	r8153b_u1u2en(tp, false);
--	if (tp->version != RTL_VER_16) {
-+	if (tp->version < RTL_VER_16) {
- 		r8153_u2p3en(tp, false);
- 		r8153b_power_cut_en(tp, false);
- 	}
-@@ -7996,7 +8005,7 @@ static void r8157_hw_phy_cfg(struct r8152 *tp)
- 	/* Advanced Power Saving parameter */
- 	ocp_reg_set_bits(tp, 0xa430, BIT(0) | BIT(1));
- 
--	/* aldpsce force mode */
-+	/* Disable ALDPS force mode */
- 	ocp_reg_clr_bits(tp, 0xa44a, BIT(2));
- 
- 	switch (tp->version) {
-@@ -8120,6 +8129,190 @@ static void r8157_hw_phy_cfg(struct r8152 *tp)
- 		sram2_write_w0w1(tp, 0x807c, 0xff00, 0x5000);
- 		sram2_write_w0w1(tp, 0x809d, 0xff00, 0x5000);
- 		break;
-+
-+	case RTL_VER_17:
-+		/* Disable bypass turn off clk in ALDPS */
-+		 ocp_byte_clr_bits(tp, MCU_TYPE_PLA, 0xd3c8, BIT(0));
-+
-+		/* Power level tuning
-+		 * test mode power level
-+		 */
-+		sram_write_w0w1(tp, 0x8415, 0xff00, 0x9300);
-+		/* normal link power level 10G, 5G, 2.5G */
-+		sram_write_w0w1(tp, 0x81a3, 0xff00, 0x0f00);
-+		sram_write_w0w1(tp, 0x81ae, 0xff00, 0x0f00);
-+		sram_write_w0w1(tp, 0x81b9, 0xff00, 0xb900);
-+		/* nomal link TX filter */
-+		sram2_write_w0w1(tp, 0x83b0, 0x0e00, 0);
-+		sram2_write_w0w1(tp, 0x83c5, 0x0e00, 0);
-+		sram2_write_w0w1(tp, 0x83da, 0x0e00, 0);
-+		sram2_write_w0w1(tp, 0x83ef, 0x0e00, 0);
-+
-+		/* AFE power saving for 2.5G & 5G */
-+		sram_write(tp, 0x8173, 0x8620);
-+		sram_write(tp, 0x8175, 0x8671);
-+
-+		sram_write_w0w1(tp, 0x817c, 0, BIT(13));
-+		sram_write_w0w1(tp, 0x8187, 0, BIT(13));
-+		sram_write_w0w1(tp, 0x8192, 0, BIT(13));
-+		sram_write_w0w1(tp, 0x819d, 0, BIT(13));
-+		sram_write_w0w1(tp, 0x81a8, BIT(13), 0);
-+		sram_write_w0w1(tp, 0x81b3, BIT(13), 0);
-+		sram_write_w0w1(tp, 0x81be, 0, BIT(13));
-+
-+		sram_write_w0w1(tp, 0x817d, 0xff00, 0xa600);
-+		sram_write_w0w1(tp, 0x8188, 0xff00, 0xa600);
-+		sram_write_w0w1(tp, 0x8193, 0xff00, 0xa600);
-+		sram_write_w0w1(tp, 0x819e, 0xff00, 0xa600);
-+		sram_write_w0w1(tp, 0x81a9, 0xff00, 0x1400);
-+		sram_write_w0w1(tp, 0x81b4, 0xff00, 0x1400);
-+		sram_write_w0w1(tp, 0x81bf, 0xff00, 0xa600);
-+
-+		/* RFI parameter
-+		 * disable preset FBE
-+		 */
-+		ocp_reg_clr_bits(tp, 0xaeaa, BIT(5) | BIT(3));
-+		/* modify PGA for 5G&10G */
-+		sram2_write(tp, 0x84f0, 0x201c);
-+		sram2_write(tp, 0x84f2, 0x3117);
-+		/* RFI parameter */
-+		ocp_reg_write(tp, 0xaec6, 0x0000);
-+		ocp_reg_write(tp, 0xae20, 0xffff);
-+		ocp_reg_write(tp, 0xaece, 0xffff);
-+		ocp_reg_write(tp, 0xaed2, 0xffff);
-+		ocp_reg_write(tp, 0xaec8, 0x0000);
-+		ocp_reg_clr_bits(tp, 0xaed0, BIT(0));
-+		ocp_reg_write(tp, 0xadb8, 0x0150);
-+		sram2_write_w0w1(tp, 0x8197, 0xff00, 0x5000);
-+		sram2_write_w0w1(tp, 0x8231, 0xff00, 0x5000);
-+		sram2_write_w0w1(tp, 0x82cb, 0xff00, 0x5000);
-+		sram2_write_w0w1(tp, 0x82cd, 0xff00, 0x5700);
-+		sram2_write_w0w1(tp, 0x8233, 0xff00, 0x5700);
-+		sram2_write_w0w1(tp, 0x8199, 0xff00, 0x5700);
-+
-+		sram2_write(tp, 0x815a, 0x0150);
-+		sram2_write(tp, 0x81f4, 0x0150);
-+		sram2_write(tp, 0x828e, 0x0150);
-+		sram2_write(tp, 0x81b1, 0x0000);
-+		sram2_write(tp, 0x824b, 0x0000);
-+		sram2_write(tp, 0x82e5, 0x0000);
-+
-+		sram2_write_w0w1(tp, 0x84f7, 0xff00, 0x2800);
-+		ocp_reg_set_bits(tp, 0xaec2, BIT(12));
-+		sram2_write_w0w1(tp, 0x81b3, 0xff00, 0xad00);
-+		sram2_write_w0w1(tp, 0x824d, 0xff00, 0xad00);
-+		sram2_write_w0w1(tp, 0x82e7, 0xff00, 0xad00);
-+		ocp_reg_w0w1(tp, 0xae4e, 0x000f, 0x0001);
-+		sram2_write_w0w1(tp, 0x82ce, 0xf000, 0x4000);
-+
-+		/* 5G shift sel, default = '04'
-+		 * 10G shift sel, default = '03'
-+		 */
-+		sram2_write_w0w1(tp, 0x83a5, 0xff00, 0x0400);
-+		sram2_write_w0w1(tp, 0x83a6, 0xff00, 0x0400);
-+		sram2_write_w0w1(tp, 0x83a7, 0xff00, 0x0400);
-+		sram2_write_w0w1(tp, 0x83a8, 0xff00, 0x0400);
-+
-+		/* XG INRX parameters
-+		 * RC coefficients
-+		 */
-+		sram2_write(tp, 0x84ac, 0x0000);
-+		sram2_write(tp, 0x84ae, 0x0000);
-+		sram2_write(tp, 0x84b0, 0xf818);
-+		sram2_write_w0w1(tp, 0x84b2, 0xff00, 0x6000);
-+		/* Training AAGC PAR (with uc2 patch) */
-+		sram2_write(tp, 0x8ffc, 0x6008);
-+		sram2_write(tp, 0x8ffe, 0xf450);
-+		/* DAC BGK */
-+		sram2_write_w0w1(tp, 0x8015, 0, BIT(9));
-+		sram2_write_w0w1(tp, 0x8016, 0, BIT(11));
-+		sram2_write_w0w1(tp, 0x8fe6, 0xff00, 0x0800);
-+		sram2_write(tp, 0x8fe4, 0x2114);
-+		/* 10G PBO table */
-+		sram2_write(tp, 0x8647, 0xa7b1);
-+		sram2_write(tp, 0x8649, 0xbbca);
-+		sram2_write_w0w1(tp, 0x864b, 0xff00, 0xdc00);
-+		/* 2.5G ado power window size */
-+		sram2_write_w0w1(tp, 0x8154, 0xc000, 0x4000);
-+		sram2_write_w0w1(tp, 0x8158, 0xc000, 0);
-+		/* 10G lock far */
-+		sram2_write(tp, 0x826c, 0xffff);
-+		sram2_write(tp, 0x826e, 0xffff);
-+		/* XG INRX parameter */
-+		sram2_write_w0w1(tp, 0x8872, 0xff00, 0x0e00);
-+		sram_write_w0w1(tp, 0x8012, 0, BIT(11));
-+		sram_write_w0w1(tp, 0x8012, 0, BIT(14));
-+		ocp_reg_set_bits(tp, 0xb576, BIT(0));
-+		sram_write_w0w1(tp, 0x834a, 0xff00, 0x0700);
-+		sram2_write_w0w1(tp, 0x8217, 0x3f00, 0x2a00);
-+		sram_write_w0w1(tp, 0x81b1, 0xff00, 0x0b00);
-+		sram2_write_w0w1(tp, 0x8fed, 0xff00, 0x4e00);
-+		/* Slave about EC mu of datamode AAGC  and DAC BG */
-+		sram2_write_w0w1(tp, 0x88ac, 0xff00, 0x2300);
-+		/* improve UBE */
-+		ocp_reg_set_bits(tp, 0xbf0c, 0x7 << 11);
-+		/* close Sparse NEC, improve connect 5EUU calble performace */
-+		sram2_write_w0w1(tp, 0x88de, 0xff00, 0);
-+		/* 5G slave compatibility issue (will include in v10) */
-+		sram2_write(tp, 0x80b4, 0x5195);
-+
-+		/* XG Test Mode
-+		 * xgtstm_map_tbl for mdi_cap_sel
-+		 */
-+		sram_write(tp, 0x8370, 0x8671);
-+		sram_write(tp, 0x8372, 0x86c8);
-+		/* xgtstm_amp_map_tbl for  REG_IBX_UP_SHIFT_L */
-+		sram_write(tp, 0x8401, 0x86c8);
-+		sram_write(tp, 0x8403, 0x86da);
-+		sram_write_w0w1(tp, 0x8406, 0x1800, 0x1000);
-+		sram_write_w0w1(tp, 0x8408, 0x1800, 0x1000);
-+		sram_write_w0w1(tp, 0x840a, 0x1800, 0x1000);
-+		sram_write_w0w1(tp, 0x840c, 0x1800, 0x1000);
-+		sram_write_w0w1(tp, 0x840e, 0x1800, 0x1000);
-+		sram_write_w0w1(tp, 0x8410, 0x1800, 0x1000);
-+		sram_write_w0w1(tp, 0x8412, 0x1800, 0x1000);
-+		sram_write_w0w1(tp, 0x8414, 0x1800, 0x1000);
-+		sram_write_w0w1(tp, 0x8416, 0x1800, 0x1000);
-+
-+		/* Cable Test Patch */
-+		sram_write(tp, 0x82bd, 0x1f40);
-+
-+		/* Thermal sensor parameters */
-+		ocp_reg_w0w1(tp, 0xbfb4, 0x07ff, 0x0328);
-+		ocp_reg_write(tp, 0xbfb6, 0x3e14);
-+
-+		/* spdchg_gtx_shape_100M */
-+		ocp_reg_write(tp, OCP_SRAM_ADDR, 0x81c4);
-+		ocp_reg_write(tp, OCP_SRAM_DATA, 0x003b);
-+		ocp_reg_write(tp, OCP_SRAM_DATA, 0x0086);
-+		ocp_reg_write(tp, OCP_SRAM_DATA, 0x00b7);
-+		ocp_reg_write(tp, OCP_SRAM_DATA, 0x00db);
-+		ocp_reg_write(tp, OCP_SRAM_DATA, 0x00fe);
-+		ocp_reg_write(tp, OCP_SRAM_DATA, 0x00fe);
-+		ocp_reg_write(tp, OCP_SRAM_DATA, 0x00fe);
-+		ocp_reg_write(tp, OCP_SRAM_DATA, 0x00fe);
-+		ocp_reg_write(tp, OCP_SRAM_DATA, 0x00c3);
-+		ocp_reg_write(tp, OCP_SRAM_DATA, 0x0078);
-+		ocp_reg_write(tp, OCP_SRAM_DATA, 0x0047);
-+		ocp_reg_write(tp, OCP_SRAM_DATA, 0x0023);
-+
-+		/* lsbmsk_parameters
-+		 * RL6961_lsbmsk_parameter_250207
-+		 */
-+		sram2_write(tp, 0x88d7, 0x01a0);
-+		sram2_write(tp, 0x88d9, 0x01a0);
-+		sram2_write(tp, 0x8ffa, 0x002a);
-+
-+		sram2_write(tp, 0x8fee, 0xffdf);
-+		sram2_write(tp, 0x8ff0, 0xffff);
-+		sram2_write(tp, 0x8ff2, 0x0a4a);
-+		sram2_write(tp, 0x8ff4, 0xaa5a);
-+		sram2_write(tp, 0x8ff6, 0x0a4a);
-+		sram2_write(tp, 0x8ff8, 0xaa5a);
-+
-+		sram2_write_w0w1(tp, 0x88d5, 0xff00, 0x0200);
-+		break;
-+
- 	default:
- 		break;
- 	}
-@@ -8155,6 +8348,18 @@ static void r8157_hw_phy_cfg(struct r8152 *tp)
- 	set_bit(PHY_RESET, &tp->flags);
- }
- 
-+static int r8159_wait_backup_restore(struct r8152 *tp)
-+{
-+	u32 ocp_data;
-+
-+	ocp_data = ocp_read_word(tp, MCU_TYPE_USB, USB_MISC_0);
-+	if (!(ocp_data & PCUT_STATUS))
-+		return 0;
-+
-+	return poll_timeout_us(ocp_data = ocp_read_word(tp, MCU_TYPE_USB, USB_GPHY_CTRL),
-+			       ocp_data & BACKUP_RESTRORE, 200, 20000, false);
-+}
-+
- static void r8156_init(struct r8152 *tp)
- {
- 	u32 ocp_data;
-@@ -8164,14 +8369,14 @@ static void r8156_init(struct r8152 *tp)
- 	if (test_bit(RTL8152_INACCESSIBLE, &tp->flags))
- 		return;
- 
--	if (tp->version == RTL_VER_16) {
-+	if (tp->version == RTL_VER_16 || tp->version == RTL_VER_17) {
- 		ocp_byte_set_bits(tp, MCU_TYPE_USB, 0xcffe, BIT(3));
- 		ocp_byte_clr_bits(tp, MCU_TYPE_USB, 0xd3ca, BIT(0));
- 	}
- 
- 	ocp_byte_clr_bits(tp, MCU_TYPE_USB, USB_ECM_OP, EN_ALL_SPEED);
- 
--	if (tp->version != RTL_VER_16)
-+	if (tp->version < RTL_VER_16)
- 		ocp_write_word(tp, MCU_TYPE_USB, USB_SPEED_OPTION, 0);
- 
- 	ocp_word_set_bits(tp, MCU_TYPE_USB, USB_ECM_OPTION, BYPASS_MAC_RESET);
-@@ -8185,6 +8390,7 @@ static void r8156_init(struct r8152 *tp)
- 	case RTL_VER_13:
- 	case RTL_VER_15:
- 	case RTL_VER_16:
-+	case RTL_VER_17:
- 		r8156b_wait_loading_flash(tp);
- 		break;
- 	default:
-@@ -8201,6 +8407,11 @@ static void r8156_init(struct r8152 *tp)
- 			return;
- 	}
- 
-+	if (tp->version == RTL_VER_17 && r8159_wait_backup_restore(tp)) {
-+		dev_err(&tp->intf->dev, "init failed, backup-restore timed out\n");
-+		return;
-+	}
-+
- 	data = r8153_phy_status(tp, 0);
- 	if (data == PHY_STAT_EXT_INIT) {
- 		ocp_reg_clr_bits(tp, 0xa468, BIT(3) | BIT(1));
-@@ -8216,7 +8427,7 @@ static void r8156_init(struct r8152 *tp)
- 
- 	data = r8153_phy_status(tp, PHY_STAT_LAN_ON);
- 
--	if (tp->version == RTL_VER_16)
-+	if (tp->version >= RTL_VER_16)
- 		r8157_u2p3en(tp, false);
- 	else
- 		r8153_u2p3en(tp, false);
-@@ -8227,7 +8438,7 @@ static void r8156_init(struct r8152 *tp)
- 	/* U1/U2/L1 idle timer. 500 us */
- 	ocp_write_word(tp, MCU_TYPE_USB, USB_U1U2_TIMER, 500);
- 
--	if (tp->version == RTL_VER_16)
-+	if (tp->version >= RTL_VER_16)
- 		r8157_power_cut_en(tp, false);
- 	else
- 		r8153b_power_cut_en(tp, false);
-@@ -8260,7 +8471,7 @@ static void r8156_init(struct r8152 *tp)
- 
- 	r8156_mac_clk_spd(tp, true);
- 
--	if (tp->version != RTL_VER_16)
-+	if (tp->version < RTL_VER_16)
- 		ocp_word_clr_bits(tp, MCU_TYPE_PLA, PLA_MAC_PWR_CTRL3, PLA_MCU_SPDWN_EN);
- 
- 	ocp_data = ocp_read_word(tp, MCU_TYPE_PLA, PLA_EXTRA_STATUS);
-@@ -8274,7 +8485,10 @@ static void r8156_init(struct r8152 *tp)
- 	set_bit(GREEN_ETHERNET, &tp->flags);
- 
- 	/* rx aggregation / 16 bytes Rx descriptor */
--	if (tp->version == RTL_VER_16)
-+	if (tp->version == RTL_VER_17)
-+		ocp_word_clr_bits(tp, MCU_TYPE_USB, USB_USB_CTRL,
-+				  RX_AGG_DISABLE | RX_DESC_16B | BIT(11));
-+	else if (tp->version == RTL_VER_16)
- 		ocp_word_clr_bits(tp, MCU_TYPE_USB, USB_USB_CTRL, RX_AGG_DISABLE | RX_DESC_16B);
- 	else
- 		ocp_word_clr_bits(tp, MCU_TYPE_USB, USB_USB_CTRL, RX_AGG_DISABLE | RX_ZERO_EN);
-@@ -8282,7 +8496,7 @@ static void r8156_init(struct r8152 *tp)
- 	if (tp->version < RTL_VER_12)
- 		ocp_byte_set_bits(tp, MCU_TYPE_USB, USB_BMU_CONFIG, ACT_ODMA);
- 
--	if (tp->version == RTL_VER_16) {
-+	if (tp->version >= RTL_VER_16) {
- 		/* Disable Rx Zero Len */
- 		rtl_bmu_clr_bits(tp, 0x2300, BIT(3));
- 		/* TX descriptor Signature */
-@@ -9670,6 +9884,29 @@ static int rtl_ops_init(struct r8152 *tp)
- 		r8157_desc_init(tp);
- 		break;
- 
-+	case RTL_VER_17:
-+		tp->eee_en		= true;
-+		tp->eee_adv		= MDIO_EEE_100TX | MDIO_EEE_1000T | MDIO_EEE_10GT;
-+		tp->eee_adv2		= MDIO_EEE_2_5GT | MDIO_EEE_5GT;
-+		ops->init		= r8156_init;
-+		ops->enable		= rtl8156_enable;
-+		ops->disable		= rtl8153_disable;
-+		ops->up			= rtl8156_up;
-+		ops->down		= rtl8156_down;
-+		ops->unload		= rtl8153_unload;
-+		ops->eee_get		= r8153_get_eee;
-+		ops->eee_set		= r8152_set_eee;
-+		ops->in_nway		= rtl8153_in_nway;
-+		ops->hw_phy_cfg		= r8157_hw_phy_cfg;
-+		ops->autosuspend_en	= rtl8157_runtime_enable;
-+		ops->change_mtu		= rtl8156_change_mtu;
-+		tp->rx_buf_sz		= 48 * 1024;
-+		tp->support_2500full	= 1;
-+		tp->support_5000full	= 1;
-+		tp->support_10000full	= 1;
-+		r8157_desc_init(tp);
-+		break;
-+
- 	default:
- 		ret = -ENODEV;
- 		dev_err(&tp->intf->dev, "Unknown Device\n");
-@@ -9823,6 +10060,9 @@ static u8 __rtl_get_hw_ver(struct usb_device *udev)
- 	case 0x1030:
- 		version = RTL_VER_16;
- 		break;
-+	case 0x2020:
-+		version = RTL_VER_17;
-+		break;
- 	default:
- 		version = RTL_VER_UNKNOWN;
- 		dev_info(&udev->dev, "Unknown version 0x%04x\n", ocp_data);
-@@ -9975,6 +10215,7 @@ static int rtl8152_probe_once(struct usb_interface *intf,
- 	case RTL_VER_13:
- 	case RTL_VER_15:
- 	case RTL_VER_16:
-+	case RTL_VER_17:
- 		netdev->max_mtu = size_to_mtu(16 * 1024);
- 		break;
- 	case RTL_VER_01:
-@@ -10140,6 +10381,7 @@ static const struct usb_device_id rtl8152_table[] = {
- 	{ USB_DEVICE(VENDOR_ID_REALTEK, 0x8155) },
- 	{ USB_DEVICE(VENDOR_ID_REALTEK, 0x8156) },
- 	{ USB_DEVICE(VENDOR_ID_REALTEK, 0x8157) },
-+	{ USB_DEVICE(VENDOR_ID_REALTEK, 0x815a) },
- 
- 	/* Microsoft */
- 	{ USB_DEVICE(VENDOR_ID_MICROSOFT, 0x07ab) },
-
--- 
-2.47.3
-
+=20
++	/* Make sure command ring is running before aborting it */
+ 	if ((xhci->cmd_ring_state & CMD_RING_STATE_RUNNING) &&
+ 	    (hw_ring_state & CMD_RING_RUNNING))  {
+ 		/* Prevent new doorbell, and start command abort */
