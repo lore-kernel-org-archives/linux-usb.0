@@ -1,77 +1,120 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A2D443DD501
-	for <linux-usb@vger.kernel.org>; Mon,  4 May 2026 23:54:28 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A551B17A300;
+	Tue,  5 May 2026 00:18:43 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.137.202.133
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1777938868; cv=none; b=jCRaaewsEW8vRXuJ6hvATybsAFcbBAIP0YxoHWLgmCJC4kK+z7bkMkGuSGGbAIt/zJNO/I+2FHAz0j0SGHH5C0RMd8g/YZ1PXMIHCsjSEVDqAfUc73BzArjlONOBZ+LUHkUPyH9WWKhs7UwomuQkhw4A3oD0pkn5i8PkjLUeX2Q=
+	t=1777940328; cv=none; b=MasgmRMBmcziB47N8dQaXInvJFI4TU/BbOIf1zulcyO6M4yMFKGudWK7QffdnywuYbPghUxp3ikiKYqzDD9lkJ5n+14+IGwH09A8iRRuvz/cevuGtr1ePd7zbCHGE7VtvFrliqnXl5s9+fcCsicLheVvcym6tN2ZGZfWVJ+WxOk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1777938868; c=relaxed/simple;
-	bh=JTNU6YLjZMTEpFkkdTyLSvZGQsgAk900ylnpBwcf1KU=;
-	h=From:To:Subject:Date:Message-ID:In-Reply-To:References:
-	 Content-Type:MIME-Version; b=BCr9xrTbZ/McFYCh8YnwENn3tuEi1m/9boPdlRRs54LsdM4TXQpBH5YgICKLTbNopFYxR21Bn2iS+kD52Q+ZIcjdFkSzRZFaZPLjsx6jc4bWWYi6pxNRQm8B+Dza9i5q6Fd0tdYQMefNcSLDQMqOkHKPgwZfhQXeCdcaAW2hYIc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=t3L+Vwb2; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1777940328; c=relaxed/simple;
+	bh=hs17YSO5zdLa9CQfIIBW0p/kb4VlFchE5/CMRTDODlQ=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=Rnw4HnB2smHRPq+bfU5/YgfTRY+zQuSSO7NzwKC7eqGZ86avV+EROcK0g5r3U/3ITwmqgysjy1vdhT2csjjaaWVtFP/qTjir8YqiE55AoDbxO2L6EBFwKCB/RiH5r8xCDo5n7VSyGuF5ZePKFVYOiUWffgkjAEXMjl2D6hLJAk0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=infradead.org; spf=none smtp.mailfrom=infradead.org; dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b=n1/tnQkD; arc=none smtp.client-ip=198.137.202.133
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=infradead.org
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=infradead.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="t3L+Vwb2"
-Received: by smtp.kernel.org (Postfix) with ESMTPS id 50A63C2BCFA
-	for <linux-usb@vger.kernel.org>; Mon,  4 May 2026 23:54:28 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1777938868;
-	bh=JTNU6YLjZMTEpFkkdTyLSvZGQsgAk900ylnpBwcf1KU=;
-	h=From:To:Subject:Date:In-Reply-To:References:From;
-	b=t3L+Vwb23Hl1Ufgu58qiKrAOGCOfBb0yqZ1Wp+zG8BfQyWBY+XIAkWLT4RCVDNShh
-	 4pu0Rj0JXKuc2seNVGKLXPDceYuSKIkDTgV93x8/yoysx0pWED8X/qON3ghJ/XfdCq
-	 hQOtr0iqatikGFX3IFp1BCFGvsdpreYF6rD4jn3/XXsdlX7M8TcjJTQgVT7Q6y7KYu
-	 iBTJT882i80GZF83GnDbu2gFinRyw2VXBHM35bDtjXlLGp7J2XpiOQtJUJWBw/6mIO
-	 4cQI4nfUPtlP66aeVCodjjdKjZsUpqPeTdzHFDMUH+SRD203qW0rsNQnCQC6A18Z7L
-	 HgPH+JLat7hzA==
-Received: by aws-us-west-2-korg-bugzilla-1.web.codeaurora.org (Postfix, from userid 48)
-	id 480E6C53BBF; Mon,  4 May 2026 23:54:28 +0000 (UTC)
-From: bugzilla-daemon@kernel.org
-To: linux-usb@vger.kernel.org
-Subject: [Bug 220748] usb: xhci_queue_isoc_tx_prepare ignore start_frame and
- always assumes URB_ISO_ASAP is set
-Date: Mon, 04 May 2026 23:54:27 +0000
-X-Bugzilla-Reason: None
-X-Bugzilla-Type: changed
-X-Bugzilla-Watch-Reason: AssignedTo drivers_usb@kernel-bugs.kernel.org
-X-Bugzilla-Product: Drivers
-X-Bugzilla-Component: USB
-X-Bugzilla-Version: 2.5
-X-Bugzilla-Keywords: 
-X-Bugzilla-Severity: normal
-X-Bugzilla-Who: nick83ola@gmail.com
-X-Bugzilla-Status: NEW
-X-Bugzilla-Resolution: 
-X-Bugzilla-Priority: P3
-X-Bugzilla-Assigned-To: drivers_usb@kernel-bugs.kernel.org
-X-Bugzilla-Flags: 
-X-Bugzilla-Changed-Fields: 
-Message-ID: <bug-220748-208809-7RP35836NJ@https.bugzilla.kernel.org/>
-In-Reply-To: <bug-220748-208809@https.bugzilla.kernel.org/>
-References: <bug-220748-208809@https.bugzilla.kernel.org/>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-X-Bugzilla-URL: https://bugzilla.kernel.org/
-Auto-Submitted: auto-generated
+	dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="n1/tnQkD"
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+	d=infradead.org; s=bombadil.20210309; h=Content-Transfer-Encoding:
+	Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
+	Message-ID:Sender:Reply-To:Content-ID:Content-Description;
+	bh=YsvbD8znTiKAHU1uxCkygMz8F00bLo5nvIAxppBphy4=; b=n1/tnQkDTT3SyWoayvb6b8WCJM
+	pYFGm8r6u/ZsI/NEXYYYzgxdfW7PphQqoHsaO5k52dVQ92izE5GY5swfKerqGzKG4y/F6fj3hKcfn
+	f9QQJUYcOZ0Edpbr+qgFAQcM1vJS/UaaZNwrZ96eIri4clr+mrfvmPXcVmfB/FurCq8X3e0p/3rvk
+	Hzs1eHCQPCawmb5pJTylw6cp+UW1qtnLGPcdEJkPi4RbXTTtblWm0Q4G4ehM2/phIo0e8sCMbbj15
+	p9/ZZonicJCAWDh35y2mY4lxScgLiPkk75GKS7UlifQIELoi+MHVLI8qYBcY0P6Kb4k/cTH7XGckK
+	NI0Ik5WA==;
+Received: from [50.53.43.113] (helo=[192.168.254.34])
+	by bombadil.infradead.org with esmtpsa (Exim 4.98.2 #2 (Red Hat Linux))
+	id 1wK3Un-0000000EhRx-1BtI;
+	Tue, 05 May 2026 00:18:41 +0000
+Message-ID: <0a8be4da-73f4-42cc-b026-c3ac031f3268@infradead.org>
+Date: Mon, 4 May 2026 17:18:40 -0700
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
+User-Agent: Mozilla Thunderbird
+Subject: Re: [REGRESSION] next/master: (build) variable 'num_ports' is
+ uninitialized when used here [-Werror,-Wun...
+To: kernelci@lists.linux.dev, kernelci-results@groups.io,
+ Rosen Penev <rosenp@gmail.com>,
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>, linux-usb@vger.kernel.org,
+ Heikki Krogerus <heikki.krogerus@linux.intel.com>
+Cc: regressions@lists.linux.dev, gus@collabora.com, linux-next@vger.kernel.org
+References: <177793914437.2560.9287713196857718000@997d03828cfd>
+Content-Language: en-US
+From: Randy Dunlap <rdunlap@infradead.org>
+In-Reply-To: <177793914437.2560.9287713196857718000@997d03828cfd>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 
-https://bugzilla.kernel.org/show_bug.cgi?id=3D220748
+[add more people/list]
 
---- Comment #19 from Nicola Lunghi (nick83ola@gmail.com) ---
-Sorry better link
+commit 8bdb0b3830ea
+Author: Rosen Penev <rosenp@gmail.com>
+Date:   Fri Apr 24 18:42:01 2026 -0700
+    usb: typec: intel_pmc_mux: combine kzalloc + kcalloc
 
-https://lore.kernel.org/linux-usb/20260504233143.10242-2-nick83ola@gmail.co=
-m/T/#ma81ee2dadce78c645d1a4320e0f5f55b5b58ef8f
 
---=20
-You may reply to this email to add a comment.
+On 5/4/26 4:59 PM, KernelCI bot wrote:
+> 
+> 
+> 
+> 
+> Hello,
+> 
+> New build issue found on next/master:
+> 
+> ---
+>  variable 'num_ports' is uninitialized when used here [-Werror,-Wuninitialized] in drivers/usb/typec/mux/intel_pmc_mux.o (drivers/usb/typec/mux/intel_pmc_mux.c) [logspec:kbuild,kbuild.compiler.error]
+> ---
+> 
+> - dashboard: https://d.kernelci.org/i/maestro:4c562376c15477320ad9a138b83a5256431b57cb
+> - giturl: https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git
+> - commit HEAD:  9d0d467c3572e93c5faa2e5906a8bbcd70b24efd
+> - tags: next-20260504
+> 
+> Please include the KernelCI tag when submitting a fix:
+> 
+> Reported-by: kernelci.org bot <bot@kernelci.org>
+> 
+> 
+> Log excerpt:
+> =====================================================
+> /tmp/kci/linux/drivers/usb/typec/mux/intel_pmc_mux.c:740:3: error: variable 'num_ports' is uninitialized when used here [-Werror,-Wuninitialized]
+>   740 |                 num_ports++;
+>       |                 ^~~~~~~~~
+> /tmp/kci/linux/drivers/usb/typec/mux/intel_pmc_mux.c:735:14: note: initialize the variable 'num_ports' to silence this warning
+>   735 |         u8 num_ports;
+>       |                     ^
+>       |                      = '\0'
+> 1 error generated.
+> 
+> =====================================================
+> 
+> 
+> # Builds where the incident occurred:
+> 
+> ## x86_64_defconfig+kselftest+x86-board on (x86_64):
+> - compiler: clang-21
+> - config: None
+> - dashboard: https://d.kernelci.org/build/maestro:69f922810e4ee292cbd1a001
+> 
+> 
+> #kernelci issue maestro:4c562376c15477320ad9a138b83a5256431b57cb
+> 
+> --
+> This is an experimental report format. Please send feedback in!
+> Talk to us at kernelci@lists.linux.dev
+> 
+> Made with love by the KernelCI team - https://kernelci.org
+> 
 
-You are receiving this mail because:
-You are watching the assignee of the bug.=
+-- 
+~Randy
+
