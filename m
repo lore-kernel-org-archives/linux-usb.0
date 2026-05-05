@@ -1,120 +1,98 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.18])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.19])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B2DF6396B73;
-	Tue,  5 May 2026 12:14:08 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6D46247886A;
+	Tue,  5 May 2026 13:33:00 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.19
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1777983250; cv=none; b=EpGdufqwUGTOFodpi9DJjYHvN/R6vr6GG/eY8+meiCw7af+GvITejSCfh28l7C3aYyZYscNhqvQEIgSNDm9dFHLWC6jT8xaRq/hw5i2b9r8EpzKSjyZh4fx1PrDVBvLC9uf6iMaLQW+IU6VwxaE4O2a47ImrV/yUnGw5hYTBlos=
+	t=1777987981; cv=none; b=HaAR2Gv3V1xoBWmT92eUcan4CqxeWaUdTWiOoeh3L0gbQ6s2QOSCmPP4lA4J2Um3uE5RXUcghsvjv8+RqPawdGJu2mVkYMnfxghOeZ10+Uxe53G9S5HVFDExNlGFhEaFXbo15O8UKKVGVxPuhpI7aMeJsfVfp9B/BZcqQA9+zo0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1777983250; c=relaxed/simple;
-	bh=8dSoXPZygWVPtyXiSpVIBOIVstqia1BSRKp//ijHQK4=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=mBejvoM6sg8PR13aCbCK6yckuvvibZB2nhoT3wfMlLlnPT1Ro9F/tCQWCYOtBLEbaJjcOj4dh7RACyU7o6xzJUJVCyf4/Ekoh0WQY9atwV8ugmVHfN+3oIifoor1x1p9W9lSVAZrW/bI3aiEikYlynQY9bywYU5skM3gu/aTmLs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=pass smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=attG+CJR; arc=none smtp.client-ip=198.175.65.18
+	s=arc-20240116; t=1777987981; c=relaxed/simple;
+	bh=EQm/BkygmjaS40YCAwAzhAI7bhhEsKn7rOKOdXHNW8c=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=lS5E0LiYlgE80pQm6kA6OlPSVO12fjJ7m/yrPO2KwnmaWab/v//Pm2KMDWQaZC96qhuFzxyw6CL09f5nrwIvbe7Ctnfy44tNofHf6cktSywTiMOFd+kg06l84r17wvm/jtuae/MMtwyP4DS2oeZFeFo7dREknYzMblpDpBvIywA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=pass smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=O3rLdTp7; arc=none smtp.client-ip=192.198.163.19
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="attG+CJR"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="O3rLdTp7"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1777983248; x=1809519248;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=8dSoXPZygWVPtyXiSpVIBOIVstqia1BSRKp//ijHQK4=;
-  b=attG+CJRlEhmoLaIuZLQXxi/Bsfvg3UKuKqhHRF73xVtumOAYBCREKRs
-   VUs7Nha7ig+stUV9A2oEjwpMOf05sKyx720mkB6TgipdZwEyBjqkUwapi
-   ppPQOC8cvUotgfelR4LI245hVUM11dvCxkd9ACpYsJKF+pPmCLnnje7Kv
-   NlEHdel3T3tA+3Eiy2oEnLLXtVhknWQwS9UBqkDqvSY0M1lT2RmA6Xg0E
-   aNiB/Nnz4nH/8e+wpgky6gmhv95t4C4f4qRvjtv9+sxVUbFOVgjotI85R
-   UGcLUmakU76P86272oXEpadA032MPxZDSp0pzArksah9vWtDEzrglvvho
-   A==;
-X-CSE-ConnectionGUID: Jx1EDEFuTQizdOt3F+Y4jQ==
-X-CSE-MsgGUID: 551DSAdqQK+uqW7PS5j0yQ==
-X-IronPort-AV: E=McAfee;i="6800,10657,11776"; a="78875554"
+  t=1777987980; x=1809523980;
+  h=message-id:date:mime-version:subject:to:cc:references:
+   from:in-reply-to:content-transfer-encoding;
+  bh=EQm/BkygmjaS40YCAwAzhAI7bhhEsKn7rOKOdXHNW8c=;
+  b=O3rLdTp7yVQDEouEzcydQ6GHrS4+xYABOup6Xhb7VsHNmYUJsG/o+LhZ
+   ASKUZaKs3fP9zW6GuDE3XTjNeqp0rmes30gcuxxfVD8IY5ARLJMa1l5JI
+   YktR55Qr2zT9MsOdyhSrxZAdxZuXQCVlgJxi+/cwzUotfQO9sfpchqF48
+   nP/FTBBNLJ87qVg/cGicJ6Yni4FKjv/n83Xr9TJZw50Hv2p1Ndg/2wuxE
+   ksorQOdmugvOwKLtgiw8kcfuaBpqdJf8jmUUo+RexqJ/MVJdsDqiViTpP
+   PmFMXxsPjeX3C4pjfWvDAfo5ckB1prURwogw/Sd4BAIGkwW1UFdCv49rK
+   Q==;
+X-CSE-ConnectionGUID: SJyb7RpzT+GEZGO3oURdYQ==
+X-CSE-MsgGUID: 1MpYQqTzSnaAOFX3UCGYwA==
+X-IronPort-AV: E=McAfee;i="6800,10657,11777"; a="77879989"
 X-IronPort-AV: E=Sophos;i="6.23,217,1770624000"; 
-   d="scan'208";a="78875554"
-Received: from fmviesa004.fm.intel.com ([10.60.135.144])
-  by orvoesa110.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 05 May 2026 05:14:08 -0700
-X-CSE-ConnectionGUID: 5Katc3A2Q2eQ/GCy+y+u+g==
-X-CSE-MsgGUID: IM1h9J9pRgiC1DZ2kuNvYA==
+   d="scan'208";a="77879989"
+Received: from fmviesa009.fm.intel.com ([10.60.135.149])
+  by fmvoesa113.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 05 May 2026 06:32:59 -0700
+X-CSE-ConnectionGUID: xzZ8d71KR72aXTg4tUw4og==
+X-CSE-MsgGUID: 4zS5zGTjR6id8gJfg2CBig==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.23,217,1770624000"; 
-   d="scan'208";a="237571967"
-Received: from black.igk.intel.com ([10.91.253.5])
-  by fmviesa004.fm.intel.com with ESMTP; 05 May 2026 05:14:06 -0700
-Received: by black.igk.intel.com (Postfix, from userid 1001)
-	id D8A5895; Tue, 05 May 2026 14:14:04 +0200 (CEST)
-Date: Tue, 5 May 2026 14:14:04 +0200
-From: Mika Westerberg <mika.westerberg@linux.intel.com>
-To: Konrad Dybcio <konradybcio@kernel.org>
-Cc: Thinh Nguyen <Thinh.Nguyen@synopsys.com>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	Mathias Nyman <mathias.nyman@intel.com>, linux-usb@vger.kernel.org,
-	linux-kernel@vger.kernel.org, usb4-upstream@oss.qualcomm.com,
-	Raghavendra Thoorpu <rthoorpu@qti.qualcomm.com>,
-	Konrad Dybcio <konrad.dybcio@oss.qualcomm.com>
-Subject: Re: [PATCH 1/2] usb: host: xhci: Allow non-Intel
- usb_link_tunnel_mode reporting
-Message-ID: <20260505121404.GG6785@black.igk.intel.com>
-References: <20260505-topic-dwc3_tunneling_state-v1-0-4aaa6c3c14cb@oss.qualcomm.com>
- <20260505-topic-dwc3_tunneling_state-v1-1-4aaa6c3c14cb@oss.qualcomm.com>
+   d="scan'208";a="229331899"
+Received: from ettammin-mobl3.ger.corp.intel.com (HELO [10.245.244.68]) ([10.245.244.68])
+  by fmviesa009-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 05 May 2026 06:32:56 -0700
+Message-ID: <50ce5341-bf93-474b-acd8-c25dc3e42f87@linux.intel.com>
+Date: Tue, 5 May 2026 16:32:54 +0300
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <20260505-topic-dwc3_tunneling_state-v1-1-4aaa6c3c14cb@oss.qualcomm.com>
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH 1/2] usb: xhci: fix isoc silent reschedule creating stream
+ gap on CFC controllers
+To: Nicola Lunghi <nick83ola@gmail.com>, mathias.nyman@intel.com,
+ michal.pecio@gmail.com, niklas.neronin@linux.intel.com,
+ gregkh@linuxfoundation.org
+Cc: linux-usb@vger.kernel.org, linux-kernel@vger.kernel.org
+References: <20260504233143.10242-2-nick83ola@gmail.com>
+ <20260504233143.10242-3-nick83ola@gmail.com>
+Content-Language: en-US
+From: Mathias Nyman <mathias.nyman@linux.intel.com>
+In-Reply-To: <20260504233143.10242-3-nick83ola@gmail.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 
-Hi,
+On 5/5/26 02:31, Nicola Lunghi wrote:
+> xhci_get_isoc_frame_id() silently rescheduled the first TRB to
+> start_frame_id+1 when the requested start frame was out of the valid
+> scheduling window or landed exactly on its boundary. This creates an
+> explicit one-frame hole in the isochronous stream.
 
-On Tue, May 05, 2026 at 10:55:04AM +0200, Konrad Dybcio wrote:
-> From: Konrad Dybcio <konrad.dybcio@oss.qualcomm.com>
-> 
-> The Thunderbolt framework relies on the USB core to create device links
-> for tunneled ports, so that the USB3 controller is only kept
-> runtime-resumed for the duration of the tunneling.
-> 
-> Currently, retrieving that information is only possibe on Intel XHCI
-> hosts, through a vendor-specific capability. Extend xhci-plat to allow
-> plumbing a custom one.
-> 
-> Signed-off-by: Konrad Dybcio <konrad.dybcio@oss.qualcomm.com>
-> ---
->  drivers/usb/host/xhci-hub.c  | 4 ++--
->  drivers/usb/host/xhci-plat.c | 2 ++
->  drivers/usb/host/xhci-plat.h | 1 +
->  drivers/usb/host/xhci.c      | 6 +++++-
->  drivers/usb/host/xhci.h      | 5 ++++-
->  5 files changed, 14 insertions(+), 4 deletions(-)
-> 
-> diff --git a/drivers/usb/host/xhci-hub.c b/drivers/usb/host/xhci-hub.c
-> index bacd0ddd0d09..09e5da912066 100644
-> --- a/drivers/usb/host/xhci-hub.c
-> +++ b/drivers/usb/host/xhci-hub.c
-> @@ -750,7 +750,7 @@ static int xhci_exit_test_mode(struct xhci_hcd *xhci)
->  }
->  
->  /**
-> - * xhci_port_is_tunneled() - Check if USB3 connection is tunneled over USB4
-> + * xhci_port_tunnel_mode() - Check if USB3 connection is tunneled over USB4
->   * @xhci: xhci host controller
->   * @port: USB3 port to be checked.
->   *
-> @@ -764,7 +764,7 @@ static int xhci_exit_test_mode(struct xhci_hcd *xhci)
->   * detecting USB3 over USB4 tunnels. USB_LINK_NATIVE or USB_LINK_TUNNELED
->   * otherwise.
->   */
-> -enum usb_link_tunnel_mode xhci_port_is_tunneled(struct xhci_hcd *xhci,
-> +enum usb_link_tunnel_mode xhci_port_tunnel_mode(struct xhci_hcd *xhci,
->  						struct xhci_port *port)
+Agreed, setting start_frame to start_frame_id + 1 would only make
+sense for the very first URB, otherwise we create glitches.
 
-I'm wondering if this could be:
+Looks like the whole start_frame_id calculation is incorrect.
 
-bool xhci_port_is_tunneled()
+xhci specification 4.11.2.5 'Start Frame ID' formula sums together several
+values in frame units, while driver currently sums values in microframes, and
+then turns it into frames.
 
-becase if I understand correctly that's the only information we need e.g is
-it going over tunnel or not.
+xhci 4.11.2.5
+"Software should not schedule an Isoch TD with a Frame ID value that is less than
+  the Start Frame ID, where:
+
+  Start Frame ID = (Frame Index of the current MFINDEX register value + IST + 1) MOD 2048
+  where IST shall be rounded up to the nearest frame boundary if it is defined in
+  microframes"
+
+Looks like we don't consider the ESIT rules for frame id either (xhci 4.11.2.5.1).
+frame ID must be aligned with starting frames of an ESIT, so if ESIT is 2ms then
+allowed frame ID values are 0,2,4,6... not 1,3,5..
+
+Thanks
+Mathias
+
