@@ -1,38 +1,38 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 849CF49550A
-	for <linux-usb@vger.kernel.org>; Tue,  5 May 2026 17:10:34 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 37B0648B37D
+	for <linux-usb@vger.kernel.org>; Tue,  5 May 2026 17:10:57 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1778001034; cv=none; b=Cd9fcTAWpKNhoo+vH/Zryhgiiymm+UalB/X0efrZsKPjH+jCxkyUHwkA8BMylnqkGI2yq/xzm2/UezioZXsGeFKjBagfq+N9CIYwKlQ0rSBG50smicdlRnZ2RmtoeJwv6JyjVXZlUPBLCrZ1AY2d3IZspkiULPie9FTBSYjTDYA=
+	t=1778001058; cv=none; b=NGd/XJwEbg/jhH4a2SPEgiCzuVO+asMcRia7sxJHxtUvdrb8OcmwsjDRLZW+Rh1hyllQ4831uRHQThDAwuexu89KtvLRRS2T16KMOPLCdlNLeM7a4ARgXrDODzvaMNhUDOJ99CJK9GrYuFKD39YlZUG/Rsj2/voWCo7Frn4yq14=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1778001034; c=relaxed/simple;
-	bh=StsWVpiR0iB1m18vetkqvr0MhE0T1D4v9cDNeEAbxxw=;
+	s=arc-20240116; t=1778001058; c=relaxed/simple;
+	bh=+O3kRSR6Is6pxhBD+TWGrbUn7lWXo/A9o9+iLoChois=;
 	h=From:To:Subject:Date:Message-ID:In-Reply-To:References:
-	 Content-Type:MIME-Version; b=Fmn36b8aRQgnrHju07ErPb4MPZ8Ak9jxWI77wOYGmDEWMdMxtwBohtwtloWnXmQOqFljl7eClZ+8ifyaKNe5RT3xJtXss8O9P5Ta+V2s3PrGPMq0it5yTV033hF66Go+Yv3MQVsq5SDiTnE/YK3j03CbaKqBQIbVZzIFEzs8i1Q=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=nDdo963S; arc=none smtp.client-ip=10.30.226.201
+	 Content-Type:MIME-Version; b=q5OJFYRieFA0Y5C/xJWKysqT7TafIJeEAl6O7ClNf1UYxX8p3MIumZ2g1XGbPPHBe0esGsXSsM451Nw1gxOTmqNMxgwmhnl9hnHc0okbBQixqNasQfMhdq0wt8wiY6Uc85rGK4nwENfAny/kT/goNpWTPr2SrfZ2bGfrt3QK6BA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=FTbSBJ+M; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="nDdo963S"
-Received: by smtp.kernel.org (Postfix) with ESMTPS id 1E2ACC2BCFA
-	for <linux-usb@vger.kernel.org>; Tue,  5 May 2026 17:10:34 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="FTbSBJ+M"
+Received: by smtp.kernel.org (Postfix) with ESMTPS id D4CECC2BCF5
+	for <linux-usb@vger.kernel.org>; Tue,  5 May 2026 17:10:57 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1778001034;
-	bh=StsWVpiR0iB1m18vetkqvr0MhE0T1D4v9cDNeEAbxxw=;
+	s=k20201202; t=1778001057;
+	bh=+O3kRSR6Is6pxhBD+TWGrbUn7lWXo/A9o9+iLoChois=;
 	h=From:To:Subject:Date:In-Reply-To:References:From;
-	b=nDdo963SYtn5EqpXUpEm1nvTRsUEfC0ilZQBq//QDBQ2j8kFeutERf+qP8czPAakG
-	 PZVCzkZnQHMXKFWpbA77yopHIPgRzIYTexliyAxVCUz4iSw6jm11MyaLYDiE4ZYTR9
-	 IHoLD0MwG0eu3QouZvHsEskMcflqHMskEZMLiypOJ/doPy5qnDk9C6sexnyLkVC2f6
-	 JxRm03tvtUfor4k+BoGnuVDgC9pznkStyM552z6WTF9/AeSz13XRjeJmt1WA+/D1ky
-	 BwbE7Qb3epKFcNR0bf1rcqMM6+NVa6PiJz6hUu0MY4QeN6EGymJs9lWt/uA3rcpIIk
-	 VQNKCmlHZgoBQ==
+	b=FTbSBJ+MMc3uC3WgSTVMeyNI9owXeymHWxH8stuo1ShDahBDiFU8EbiSMB9n+KuJs
+	 H44nQzfkWjg0CXiyu521/mrZ4J5lII1c/1FDhJqHCuYjt5etl9Zj4a4ovXdZZuUZA3
+	 sYQnEg+OJIKkvmDXTnlM3U/ypNrC3j5+kFxSxHReMm1S/EstqoFnS0HjUP+0/rEk3j
+	 2qcLaBjSBBsNFWMCWJptw6ErZ0VxSr0bI+sUkRF7foPDIJm2B6v6pEd6sW/6SqOvLU
+	 iYxBbUi7FXL1oyJTiQp40oQm76qcLF47oBDJftTPUqEoGO6NTVldMMV9KpE08oE04H
+	 56iC4+XRc2DmA==
 Received: by aws-us-west-2-korg-bugzilla-1.web.codeaurora.org (Postfix, from userid 48)
-	id 17563C433E1; Tue,  5 May 2026 17:10:34 +0000 (UTC)
+	id CF888C41613; Tue,  5 May 2026 17:10:57 +0000 (UTC)
 From: bugzilla-daemon@kernel.org
 To: linux-usb@vger.kernel.org
 Subject: [Bug 220748] usb: xhci_queue_isoc_tx_prepare ignore start_frame and
  always assumes URB_ISO_ASAP is set
-Date: Tue, 05 May 2026 17:10:33 +0000
+Date: Tue, 05 May 2026 17:10:57 +0000
 X-Bugzilla-Reason: None
 X-Bugzilla-Type: changed
 X-Bugzilla-Watch-Reason: AssignedTo drivers_usb@kernel-bugs.kernel.org
@@ -48,7 +48,7 @@ X-Bugzilla-Priority: P3
 X-Bugzilla-Assigned-To: drivers_usb@kernel-bugs.kernel.org
 X-Bugzilla-Flags: 
 X-Bugzilla-Changed-Fields: attachments.created
-Message-ID: <bug-220748-208809-IfOxgvqTpK@https.bugzilla.kernel.org/>
+Message-ID: <bug-220748-208809-tR58Yh77CP@https.bugzilla.kernel.org/>
 In-Reply-To: <bug-220748-208809@https.bugzilla.kernel.org/>
 References: <bug-220748-208809@https.bugzilla.kernel.org/>
 Content-Type: text/plain; charset="UTF-8"
@@ -64,10 +64,10 @@ MIME-Version: 1.0
 
 https://bugzilla.kernel.org/show_bug.cgi?id=3D220748
 
---- Comment #23 from Nicola Lunghi (nick83ola@gmail.com) ---
-Created attachment 310037
-  --> https://bugzilla.kernel.org/attachment.cgi?id=3D310037&action=3Dedit
-first utility patch
+--- Comment #24 from Nicola Lunghi (nick83ola@gmail.com) ---
+Created attachment 310038
+  --> https://bugzilla.kernel.org/attachment.cgi?id=3D310038&action=3Dedit
+second patch to enable automatic link reestablishment
 
 --=20
 You may reply to this email to add a comment.
