@@ -1,117 +1,107 @@
-Received: from smtpbguseast3.qq.com (smtpbguseast3.qq.com [54.243.244.52])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.21])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0811530AD0C;
-	Wed,  6 May 2026 09:34:21 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=54.243.244.52
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AD3393E3C45;
+	Wed,  6 May 2026 09:40:02 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.21
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1778060068; cv=none; b=gCzW++2WHKl4trnEe/gj7a9ciJKSmfX+r7KnRoBjoxsI4Vpr7yzUwaAJ2mY0V77bv+lRXaa2k0d/mNGiWVpYZDSnODc0ZXeqfSZlpExM3xV0qv4/k6Y3FyNloDNvghkp2AaO0nohLeF48yE/BikmSB0mDHjlKMk/LYWLHz2BJEs=
+	t=1778060405; cv=none; b=ColjbbJTqTkIWF9Bcq4XOC1NfUj1ec2X8OAO6hthJl/gTiQ+6iwFTEX7CK/7SRbIeFUgsygbckhmMNF7HIcHd5lWeOs9dpyI6O1Occ3Ck5E4AxnF+E/GfMO97deMxhNr4HyuUX4h8KeegmCmt7gqOfmNWt8T4GnnHT/ujHyE5aM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1778060068; c=relaxed/simple;
-	bh=2SbNXowNHpvWPIiCfe401PTzplou7NoVrJmAVIt+aLw=;
-	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=AShyAuCx7ejrxbGBvxpA8keHW92UrrPGGx6E2aiSNC95Um3LVje+tba2pfR4q8jv6E47uamINJSiYaN6LZLN+vljjGS2PrNU0/h9p9LkxGkGoXqXPK//brybG24+3+ismvLPvFwVOkIsOdU/uE4zPgcjYW9cUjaJiGvHPIiNGsA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=uniontech.com; spf=pass smtp.mailfrom=uniontech.com; dkim=pass (1024-bit key) header.d=uniontech.com header.i=@uniontech.com header.b=Iu5v3UIw; arc=none smtp.client-ip=54.243.244.52
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=uniontech.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=uniontech.com
+	s=arc-20240116; t=1778060405; c=relaxed/simple;
+	bh=qmjYHGZXtiYUtQtV14Rvb+sQ5RX2t6MVyg4wbNNzAnY=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=IHCCYnwtLTyQe95jhBbYxecQwO271/WGfSQIvHGtvmVJd4D0hSeJMccddhJX/N8ig1B+rHIc2GA9V3dlw3Xg9W2lu3+g8tg/9ipwiRIEkNjqMjO3sXCEy0cHH1Fa9umTKrC/LaCkRsgrZSc2y5S/DA8qBj7CKqnnIgo19wzMBsc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=cwaZOiSM; arc=none smtp.client-ip=198.175.65.21
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=uniontech.com header.i=@uniontech.com header.b="Iu5v3UIw"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=uniontech.com;
-	s=onoh2408; t=1778060028;
-	bh=J6oht+sP+4WEJo5bT3rgLuTOd0k0qN1hF4d444/Uq0M=;
-	h=From:To:Subject:Date:Message-Id:MIME-Version;
-	b=Iu5v3UIwJj2djy39Jo2xusG+OkuEizNvrTJKcm5u4VftHOpQauGifCdtagFPoaGPE
-	 a5Xu2iQsxv876ad3X05Hvw5T8FuEsLorcfvRLk5/zyuiRk4dGlbAc2+bybWlPaiXqS
-	 98Xd1w66Vp0IpWqD5QRfjbAf/BIqU8f8vWjpjaLg=
-X-QQ-mid: zesmtpip4t1778060010t49f08edb
-X-QQ-Originating-IP: axCIc/X3jw/VG1gBCJ6Fy/52PHOb782UTf1Pg4xqLek=
-Received: from localhost.localdomain ( [localhost])
-	by bizesmtp.qq.com (ESMTP) with 
-	id ; Wed, 06 May 2026 17:33:28 +0800 (CST)
-X-QQ-SSF: 0000000000000000000000000000000
-X-QQ-GoodBg: 1
-X-BIZMAIL-ID: 18334382572935874406
-EX-QQ-RecipientCnt: 7
-From: Wentao Guan <guanwentao@uniontech.com>
-To: oneukum@suse.com
-Cc: carvsdriver@gmail.com,
-	gregkh@linuxfoundation.org,
-	linux-usb@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	Wentao Guan <guanwentao@uniontech.com>,
-	stable@vger.kernel.org
-Subject: [PATCH RFC] USB: cdc-acm: Fix bit overlap and move quirk definitions to header
-Date: Wed,  6 May 2026 17:32:13 +0800
-Message-Id: <20260506093213.1473262-1-guanwentao@uniontech.com>
-X-Mailer: git-send-email 2.30.2
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="cwaZOiSM"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1778060403; x=1809596403;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=qmjYHGZXtiYUtQtV14Rvb+sQ5RX2t6MVyg4wbNNzAnY=;
+  b=cwaZOiSMxOu9/yXQaji5SHDr14fh6OsRmOTPoaGXKUCh6IHfFlL/OvQ/
+   JQXMqSDl3ztTwASb4LYOTgaTimlwesx5Zby1tjQeJeGJNYhahChUeWj90
+   HVgr7IHsFj7yRoqHuJcvrTr2Jk+X+OANivvvBIDsq2+hZmcrjGsNEaa0H
+   3KsU87w0udlU8gVIJy9u0V3qhq6FOi4PX7YQTJsYpMGDJ9Xvbyi9fA+6e
+   UNto3RZSdHeu/xVqdyo3SV3pxcd9ZFn1cAwkoGpMfyE/sYTTMHMUr/kyQ
+   S5zXTiwMCUF2Vi6/THHyspdq4BGeKroe3npKW74MFxn81Nbx/s3ZC5oiH
+   A==;
+X-CSE-ConnectionGUID: V7FIkSteTlSngZjCKb3Yiw==
+X-CSE-MsgGUID: Gw2bLFQgSqeCxQ8MS0HVLg==
+X-IronPort-AV: E=McAfee;i="6800,10657,11777"; a="78875562"
+X-IronPort-AV: E=Sophos;i="6.23,219,1770624000"; 
+   d="scan'208";a="78875562"
+Received: from fmviesa004.fm.intel.com ([10.60.135.144])
+  by orvoesa113.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 06 May 2026 02:40:03 -0700
+X-CSE-ConnectionGUID: BZvwe19/RBGv8e+twRE6WQ==
+X-CSE-MsgGUID: wj1vVCwCQq+amL1x7Gp8ZQ==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.23,219,1770624000"; 
+   d="scan'208";a="237904989"
+Received: from black.igk.intel.com ([10.91.253.5])
+  by fmviesa004.fm.intel.com with ESMTP; 06 May 2026 02:40:00 -0700
+Received: by black.igk.intel.com (Postfix, from userid 1008)
+	id 5273595; Wed, 06 May 2026 11:39:59 +0200 (CEST)
+Date: Wed, 6 May 2026 12:39:57 +0300
+From: Heikki Krogerus <heikki.krogerus@linux.intel.com>
+To: Nathan Chancellor <nathan@kernel.org>
+Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	Rosen Penev <rosenp@gmail.com>, linux-usb@vger.kernel.org,
+	linux-kernel@vger.kernel.org, llvm@lists.linux.dev,
+	"kernelci.org bot" <bot@kernelci.org>
+Subject: Re: [PATCH] usb: typec: intel_pmc_mux: Zero initialize num_ports in
+ pmc_usb_probe()
+Message-ID: <afsMbeGfk5EHxFHV@kuha>
+References: <20260506-typec-intel_pmc_mux-fix-uninit-num_ports-v1-1-929b128a32e9@kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-QQ-SENDSIZE: 520
-Feedback-ID: zesmtpip:uniontech.com:qybglogicsvrgz:qybglogicsvrgz3a-0
-X-QQ-XMAILINFO: OIjQjTDPb0/fr08D/+2dJw6Ttq2NhP3fIi3FNxcW9mi8Xs8kaHrar6ma
-	VtslOPDMYHh7qKzUAeRBP2zYhZoh/jCgUwfDihOh6Xya5nG0wTzTtlML6jxme1y97FOgBNR
-	v5d2ON0MYz15FRb5WaZ3+6Ug8dVCT42t1UZ/7fkGULizEmayll3FduIxk+C5p1tDQuSaRQe
-	kUhWLcwbsO6YwAG38aJhMaayt/j7oQs3RsBS7gieoWCtkggSk8nVni1yUJo+9E3A9dQIkoT
-	wzVEnzf2G+JHoDvMR8FF2ZUvFv56utHXk0puiChb+6BYIDjzJi3fZ1ZO02NFUPMfVvwVGTP
-	MhDxCOphWNBApfaDbQ7Mzzrgtni5u4XndG1YzPERDfq9AHKdMtpSKb/vFKbYj6vHeFzlbO/
-	5r9ik8dhddY8rCJ2AwFGHsa8SNE2FiQ8Q54sTId7rTMxUcT8XDeXBNnUrHeeu25u/isg2Z0
-	G1J5dtcF+I5UeLIXNjQMyE/ZWY2s3TWW1ykb/zOXWhAUd4BgLE2VmwUCgk+TVqkAluhNQRF
-	xo/6CB4v/4ikrS1DRtquGulgXlkc5wwIKn7esvkyT9SDodFYfXA0cqi2+VLvjDDACwjU3up
-	kAuHPdysoCmjfCMLzhUGegWrlCTPSzXx3sEZDTdgELov3IPWSgMx/DdQPlLMNGWnVWqTpH8
-	yITJVP75Tg99gLDEnN7xDyNTPFaDfssNXOjXsi9Dj3u2NXCND2PPifQCxvilt7BZiNvXnjc
-	bHa4FyJgv1h8HqF08W2WC7fpkOUhFwEOELPO6rYT88nsrmvwoQNJngMQQbpPds69G0vPxMo
-	f6gJMfVOBYtInavaTrBDcAmv2Ehb4y+9howxyDyi+OBJhX2ngU8WFulDc0AO1wYSbp6QdkP
-	BluVW81tScp7dJEXOzbAEUtllj9g6zsduUjnaoOX96zaeJhRdyb6wXloXhbb4FfJfjHsn2u
-	wAvjzefcP1c4Y3r5gCO9ZDNusc4shU7T1dqhTRYpK+tFt3XSjywLpQuhHTpTb+VM0Z6Dt5k
-	PaOidmUgkK1E8cNGYiiXnshkKsp9A=
-X-QQ-XMRINFO: MSVp+SPm3vtSI1QTLgDHQqIV1w2oNKDqfg==
-X-QQ-RECHKSPAM: 0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20260506-typec-intel_pmc_mux-fix-uninit-num_ports-v1-1-929b128a32e9@kernel.org>
 
-The VENDOR_CLASS_DATA_IFACE and ALWAYS_POLL_CTRL quirk flags added in
-commit f58752ebcb35 ("USB: cdc-acm: Add quirks for Yoga Book 9 14IAH10
-INGENIC touchscreen") were placed inside the acm_ctrl_msg() function
-rather than in the header with the other quirk flags.  Then, their
-values (BIT(9) and BIT(10)) collided with NO_UNION_12 which is already
-BIT(9).
+On Wed, May 06, 2026 at 02:05:54PM +0800, Nathan Chancellor wrote:
+> Clang warns (or errors with CONFIG_WERROR=y / W=e):
+> 
+>   drivers/usb/typec/mux/intel_pmc_mux.c:740:3: error: variable 'num_ports' is uninitialized when used here [-Werror,-Wuninitialized]
+>     740 |                 num_ports++;
+>         |                 ^~~~~~~~~
+> 
+> This should have been initialized to zero. Do so now to clean up the
+> warning and ensure num_ports does not use uninitialized memory.
+> 
+> Fixes: 8bdb0b3830ea ("usb: typec: intel_pmc_mux: combine kzalloc + kcalloc")
+> Reported-by: kernelci.org bot <bot@kernelci.org>
+> Closes: https://lore.kernel.org/177793914437.2560.9287713196857718000@997d03828cfd/
+> Signed-off-by: Nathan Chancellor <nathan@kernel.org>
 
-Move the definitions to drivers/usb/class/cdc-acm.h where they belong
-and shift them to BIT(10) and BIT(11) to avoid the overlap.
+Reviewed-by: Heikki Krogerus <heikki.krogerus@linux.intel.com>
 
-Fixes: f58752ebcb35 ("USB: cdc-acm: Add quirks for Yoga Book 9 14IAH10 INGENIC touchscreen")
-Cc: stable@vger.kernel.org
-Signed-off-by: Wentao Guan <guanwentao@uniontech.com>
----
- drivers/usb/class/cdc-acm.c | 2 --
- drivers/usb/class/cdc-acm.h | 2 ++
- 2 files changed, 2 insertions(+), 2 deletions(-)
+> ---
+>  drivers/usb/typec/mux/intel_pmc_mux.c | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
+> 
+> diff --git a/drivers/usb/typec/mux/intel_pmc_mux.c b/drivers/usb/typec/mux/intel_pmc_mux.c
+> index e22b070a140f..219a32da1348 100644
+> --- a/drivers/usb/typec/mux/intel_pmc_mux.c
+> +++ b/drivers/usb/typec/mux/intel_pmc_mux.c
+> @@ -732,7 +732,7 @@ static int pmc_usb_probe(struct platform_device *pdev)
+>  {
+>  	struct fwnode_handle *fwnode = NULL;
+>  	struct pmc_usb *pmc;
+> -	u8 num_ports;
+> +	u8 num_ports = 0;
+>  	int i = 0;
+>  	int ret;
+>  
 
-diff --git a/drivers/usb/class/cdc-acm.c b/drivers/usb/class/cdc-acm.c
-index c024011dc336a..d64751c42c2bc 100644
---- a/drivers/usb/class/cdc-acm.c
-+++ b/drivers/usb/class/cdc-acm.c
-@@ -114,8 +114,6 @@ static int acm_ctrl_msg(struct acm *acm, int request, int value,
- 	int retval;
- 
- 	retval = usb_autopm_get_interface(acm->control);
--#define VENDOR_CLASS_DATA_IFACE		BIT(9)  /* data interface uses vendor-specific class */
--#define ALWAYS_POLL_CTRL		BIT(10) /* keep ctrl URB active even without an open TTY */
- 	if (retval)
- 		return retval;
- 
-diff --git a/drivers/usb/class/cdc-acm.h b/drivers/usb/class/cdc-acm.h
-index 25fd5329a8781..01f448a783c03 100644
---- a/drivers/usb/class/cdc-acm.h
-+++ b/drivers/usb/class/cdc-acm.h
-@@ -115,3 +115,5 @@ struct acm {
- #define DISABLE_ECHO			BIT(7)
- #define MISSING_CAP_BRK			BIT(8)
- #define NO_UNION_12			BIT(9)
-+#define VENDOR_CLASS_DATA_IFACE		BIT(10)  /* data interface uses vendor-specific class */
-+#define ALWAYS_POLL_CTRL		BIT(11) /* keep ctrl URB active even without an open TTY */
+thanks,
+
 -- 
-2.30.2
-
+heikki
