@@ -1,191 +1,78 @@
-Received: from mail-m15586.qiye.163.com (mail-m15586.qiye.163.com [101.71.155.86])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 61F103DDDC6;
-	Wed,  6 May 2026 09:27:46 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=101.71.155.86
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AFB183E9F7D
+	for <linux-usb@vger.kernel.org>; Wed,  6 May 2026 09:33:34 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1778059671; cv=none; b=Uqdy+lBv1Q65UwcU6U/YRUawsyyNMb3efCE7px9qJ3r8iI0SlQ7IXZpWwtPYQgJ64xWfntNvcLlL2jyGk7Z0WRtZYdIPE0/ZYromROkmTnwrqq9WLDPs7U0723gfZRdm+2HEs+LWfsUoL0FAZXiJ7shO2weQCaeaAGE4q6zl9YQ=
+	t=1778060014; cv=none; b=oXpX7hLN34wTi0lamAWAdHTSc7ZiAWVAV4hXg+sDir3P7typ7wB233eC12JMIuaHIq9ql4Nc8+UYFVQwMN5W4B1MfsFzjN57ngycR+BxYS/Z+LyFGoB1y0bq94amJC56PpB26zAJJJ0iGx0dZ59jwmFby1/9Ur0uC/MJKCQe80g=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1778059671; c=relaxed/simple;
-	bh=pa2Zj33wc/yFZ3u9m/LMro0SdsCGyWznuk2wVVF4lUY=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=rs8zuSgU6zip3r43Rd6impIk46doUq4Efjp/woYaTYDWOH3qzWRkUn8Zprcp9NDnYpE3VbHBunBDnI7IGHwpAhRCRKK6mDDFOE0C7mfu5YJQv+50Wh7BUnfb4+pNPk+V8zWAkUmAWxFBuVCXup9dKIyH8/ppVWUu/Uls3+lxQus=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=autochips.com; spf=pass smtp.mailfrom=autochips.com; arc=none smtp.client-ip=101.71.155.86
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=autochips.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=autochips.com
-Received: from [172.25.88.78] (unknown [223.244.89.246])
-	by smtp.qiye.163.com (Hmail) with ESMTP id 3d4ff1d4f;
-	Wed, 6 May 2026 17:27:34 +0800 (GMT+08:00)
-Message-ID: <4cbc0a7f-19e6-4ce5-b36e-079e4cb22086@autochips.com>
-Date: Wed, 6 May 2026 17:27:33 +0800
+	s=arc-20240116; t=1778060014; c=relaxed/simple;
+	bh=Y882FqXpCHe0JBAEKxpZw2Tvr2cU/Kp2OlTGVz5WwNc=;
+	h=From:To:Subject:Date:Message-ID:In-Reply-To:References:
+	 Content-Type:MIME-Version; b=iPBGmXQAGlan2l2J/FgMeZ0j/YbiTz6nR/5juIRdJUxP8QHq9L3Ck6kOLgHwsNZIJ/sIHnBNVDMFUE4z/pAdtn2nqQwOMawyBHLaf5E6IVEcPYb3oBUOIcTPbIdcYtkpFCR+qZls9X14M07tdVzF7+nfCYX0Z0laTzzOdRz6vP0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=pelRjn+d; arc=none smtp.client-ip=10.30.226.201
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="pelRjn+d"
+Received: by smtp.kernel.org (Postfix) with ESMTPS id 4ABDBC2BCF6
+	for <linux-usb@vger.kernel.org>; Wed,  6 May 2026 09:33:34 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1778060014;
+	bh=Y882FqXpCHe0JBAEKxpZw2Tvr2cU/Kp2OlTGVz5WwNc=;
+	h=From:To:Subject:Date:In-Reply-To:References:From;
+	b=pelRjn+dZD0TFvCGi/t7HxYH+HnSKZeTwPBVHu7482Sqb84LDxJN0FGDZ97CjM5Ml
+	 zwERqDiqmjAnuk5j9DULR+rk88D3dikvEdmnoKOe00TrPqAe6JcLhO0ejZ1PHXTYc7
+	 Zyr8KShfcj11FMGtDkWswuRgsqikcKCAi7/a1FB7OGIqQ3TmCeMOHMwB5zAVAmcqTx
+	 IVjhr976z5AnefLP9TnACe5J9+BAwgK5OAmqW8LEbtb+Bb8IP2ttC83J5TVAVADRqU
+	 JgwsaNNXCc1mstvPXMc5LHHB2sszxvGxc6ZV9uw6OYmRWgWyheIB7O5XLi0YegEtnN
+	 X9Wa76KPja6Cw==
+Received: by aws-us-west-2-korg-bugzilla-1.web.codeaurora.org (Postfix, from userid 48)
+	id 33F6BC53BBF; Wed,  6 May 2026 09:33:34 +0000 (UTC)
+From: bugzilla-daemon@kernel.org
+To: linux-usb@vger.kernel.org
+Subject: [Bug 205841] Lenovo USB-C dock audio NULL pointer
+Date: Wed, 06 May 2026 09:33:33 +0000
+X-Bugzilla-Reason: None
+X-Bugzilla-Type: changed
+X-Bugzilla-Watch-Reason: AssignedTo drivers_usb@kernel-bugs.kernel.org
+X-Bugzilla-Product: Drivers
+X-Bugzilla-Component: USB
+X-Bugzilla-Version: 2.5
+X-Bugzilla-Keywords: 
+X-Bugzilla-Severity: normal
+X-Bugzilla-Who: heikki.krogerus@linux.intel.com
+X-Bugzilla-Status: NEW
+X-Bugzilla-Resolution: 
+X-Bugzilla-Priority: P1
+X-Bugzilla-Assigned-To: drivers_usb@kernel-bugs.kernel.org
+X-Bugzilla-Flags: 
+X-Bugzilla-Changed-Fields: 
+Message-ID: <bug-205841-208809-0IeKk36I01@https.bugzilla.kernel.org/>
+In-Reply-To: <bug-205841-208809@https.bugzilla.kernel.org/>
+References: <bug-205841-208809@https.bugzilla.kernel.org/>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+X-Bugzilla-URL: https://bugzilla.kernel.org/
+Auto-Submitted: auto-generated
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH] usb: cdns3: gadget: fix request skipping after clearing
- halt
-To: Pawel Laszczak <pawell@cadence.com>,
- "Peter Chen (CIX)" <peter.chen@kernel.org>
-Cc: "rogerq@kernel.org" <rogerq@kernel.org>,
- "gregkh@linuxfoundation.org" <gregkh@linuxfoundation.org>,
- "linux-usb@vger.kernel.org" <linux-usb@vger.kernel.org>,
- "stable@vger.kernel.org" <stable@vger.kernel.org>
-References: <20260423160601.2949010-1-yongchao.wu@autochips.com>
- <ae66WphA+lO6t3rE@nchen-desktop>
- <PH7PR07MB9538E83DB108635EAE7B21E3DD362@PH7PR07MB9538.namprd07.prod.outlook.com>
- <ae/qXIT19Z2zWsDs@nchen-desktop>
- <e963d293-63cd-4124-9a53-8fc16e44ec72@autochips.com>
- <PH7PR07MB95388984DB7A5265770CEE58DD372@PH7PR07MB9538.namprd07.prod.outlook.com>
- <49e3cff9-9ace-4eed-aa2c-7f83825c44ee@autochips.com>
- <PH7PR07MB95384829A877906E69145C76DD312@PH7PR07MB9538.namprd07.prod.outlook.com>
-Content-Language: en-US
-From: Yongchao Wu <yongchao.wu@autochips.com>
-In-Reply-To: <PH7PR07MB95384829A877906E69145C76DD312@PH7PR07MB9538.namprd07.prod.outlook.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
-X-HM-Tid: 0a9dfc9d357703ackunm073b0d1459e418
-X-HM-MType: 1
-X-HM-Spam-Status: e1kfGhgUHx5ZQUpXWQgPGg8OCBgUHx5ZQUlOS1dZFg8aDwILHllBWSg2Ly
-	tZV1koWUFITzdXWRgWCB1ZQUpXWS1ZQUlXWQ8JGhUIEh9ZQVlCShhOVk9KTR1DTUsdHhgaT1YVFA
-	kWGhdVEwETFhoSFyQUDg9ZV1kYEgtZQVlJSUhVSU9PVUNCVUlPTVlXWRYaDxIVHRRZQVlPS0hVSk
-	tJT09PSFVKS0tVSkJLS1kG
 
-On 5/4/2026 5:15 PM, Pawel Laszczak wrote:
->>>
->>>>
->>>> On 26-04-27 09:01:47, Pawel Laszczak wrote:
->>>>>>
->>>>>>
->>>>>> On 26-04-24 00:06:01, Yongchao Wu wrote:
->>>>>>> According to the cdns3 datasheet, the EPRST (Endpoint Reset)
->>>>>>> command causes the DMA engine to reposition its internal pointer
->>>>>>> to the next Transfer Descriptor (TD) if it was already processing one.
->>>>>>>
->>>>>>> This issue is consistently observed during the ADB identification
->>>>>>> process on macOS hosts, where the host issues a Clear_Halt. Although
->>>>>>> commit 4bf2dd65135a ("usb: cdns3: gadget: toggle cycle bit before
->> reset
->>>>>>> reset endpoint") attempted to avoid DMA advance by toggling the
->>>>>>> cycle bit, trace logs show that on certain hosts like macOS, the
->>>>>>> DMA pointer
->>>>>>> (EP_TRADDR) still shifts after EPRST:
->>>>>>>
->>>>>>>    cdns3_ctrl_req: Clear Endpoint Feature(Halt ep1out)
->>>>>>>    cdns3_doorbell_epx: ep1out, ep_trbaddr f9c04030  <- Should be
->> f9c04000
->>>>>>>    cdns3_gadget_giveback: ep1out: req: ... length: 16384/16384
->>>>>>>
->>>>>>> As shown above, the DMA pointer jumped to index 3 (offset 0x30),
->>>>>>> causing the controller to skip the initial TRBs of the request.
->>>>>>> This leads to data misalignment and ADB protocol hangs on macOS.
->>>>>>
->>>>>> Pawel, Is it a hardware issue? The cycle bit has already been
->>>>>> toggled before the endpoint has been reset, why the DMA pointer still
->> advances?
->>>>>
->>>>> Yongchao, could you confirm if the TD consists of three TRBs?
->>>> In our case, each TD consists of 4 TRBs.
->>>> The DMA pointer appears to advance within the same TD after EPRST.
->>>>
->>>> Each 16KB request is split into 4 TRBs (4KB each):
->>>> - TRB0 - TRB2: CHAIN
->>>> - TRB3: IOC (last TRB of the TD)
->>>>
->>>> After enqueue, the initial EP_TRADDR points to the first TRB:
->>>>    EP_TRADDR = 0xf9c04000 (TRB0)
->>>>
->>>> After Clear_Halt (EPRST), it becomes:
->>>>    EP_TRADDR = 0xf9c04030 (TRB3)
->>>>
->>>> Since each TRB is 12 bytes, the offset 0x30 corresponds to 4 TRBs.
->>>> This indicates that after EPRST, the DMA pointer skipped the entire
->>>> current Request and jumped directly to the start of the next Request
->>>> at 0xf9c04030
->>>>
->>>> Below is the relevant trace (trimmed):
->>>>
->>>> // enqueue request (16KB -> 4 TRBs)
->>>> cdns3_prepare_trb: dma buf: 0xf7abc000, size: 4096, ctrl: 0x00200415
->>>> cdns3_prepare_trb: dma buf: 0xf7abd000, size: 4096, ctrl: 0x00000415
->>>> cdns3_prepare_trb: dma buf: 0xf7abe000, size: 4096, ctrl: 0x00000415
->>>> cdns3_prepare_trb: dma buf: 0xf7abf000, size: 4096, ctrl: 0x00000425
->>>>
->>>> cdns3_doorbell_epx: ep1out, ep_trbaddr f9c04000
->>>>
->>>> // Clear_Halt
->>>> cdns3_ctrl_req: Clear Endpoint Feature(Halt ep1out)
->>>> cdns3_doorbell_epx: ep1out, ep_trbaddr f9c04030
->>>>
->>>
->>> Can you confirm whether the host had already sent some data for this
->>> TD prior to the endpoint reset operation?
->>>
->>
->> I confirm that the host sent no data prior to or during the EPRST operation.
-> 
-> According to the specification, the controller may fetch TRB descriptors after
-> the endpoint has been initialized.
-> In complex Transfer Descriptors (TDs) consisting of several TRBs with the CH=1
-> bit set, the controller may fetch additional TRBs because it treats them as a
-> single logical entity.
-> 
-> I have not been able to determine exactly how many TRBs can be prefetched
-> in such a situation. 
-> 
-> According to the description of the EPRST bit:
-> After endpoint reset the software is responsible for it to re-set the Endpoint
-> TRADDR.
-> 
-> This fix looks correct to me, 
-> 
-> Can you confirm which version of controller do you have in usb_cap6 register?
-> 
-> Pawel
+https://bugzilla.kernel.org/show_bug.cgi?id=3D205841
 
-Thanks for the clarification.
+--- Comment #14 from Heikki Krogerus (heikki.krogerus@linux.intel.com) ---
+The original NULL pointer dereference was fixed a long long time ago with
+commit b0fcdffdd626 ("usb: typec: Prepare alt mode enter/exit reporting for
+UCSI alt mode support"). Unfortunately I can not close this bug.
 
-I confirm that the version read from the usb_cap6 register is 0002450d.
+What you are seeing something else, so please create a new report for that.
+This one really should be closed already.
 
-Best regards,
-Yongchao Wu
+--=20
+You may reply to this email to add a comment.
 
->>
->> TotalPhase Trace:
->> 0,HS,2700,0:06.078.671,2.057.666 ms,0 B,,13,00,Set
->> Configuration,Configuration=1
->> 0,HS,2710,0:06.080.811,1.125.266 ms,,,,,[10 SOF],[Frames: 1243.7 - 1245.0]
->> 0,HS,2711,0:06.080.955,992.550 us,2 B,,13,00,Get String Descriptor,Index=5
->> Length=2
->> 0,HS,2733,0:06.082.061,125.083 us,,,,,[2 SOF],[Frames: 1245.1 - 1245.2]
->> 0,HS,2734,0:06.082.119,104.566 us,28 B,,13,00,Get String Descriptor,Index=5
->> Length=28
->> 0,HS,2756,0:06.082.311,355.935.283 ms,,,,,[2848 SOF],[Frames: 1245.3 -
->> 1601.2]
->> 0,HS,2757,0:06.438.196,105.033 us,4 B,,13,00,Get String Descriptor,Index=0
->> Length=256
->> 0,HS,2778,0:06.438.371,875.233 us,,,,,[8 SOF],[Frames: 1601.3 - 1602.2] //1.
->> Host issues Clear_Halt
->> 0,HS,2779,0:06.439.278,51.433 us,0 B,,13,00,Clear Endpoint Feature,Halt
->> Endpoint 01 OUT
->> 0,HS,2789,0:06.439.371,500.150 us,,,,,[5 SOF],[Frames: 1602.3 - 1602.7]
->> 0,HS,2790,0:06.439.874,51.416 us,0 B,,13,00,Clear Endpoint Feature,Halt
->> Endpoint 01 IN
->> 0,HS,2800,0:06.439.996,250.116 us,,,,,[3 SOF],[Frames: 1603.0 - 1603.2] //2.
->> First OUT transaction happens
->> 0,HS,2801,0:06.440.350,1.066 us,24 B,,13,01,OUT txn,43 4E 58 4E 01 00 00 01
->> 00 00 10 00..
->> 0,HS,2805,0:06.440.371,66 ns,,,,,[1 SOF],[Frame: 1603.3]
->> 0,HS,2806,0:06.440.453,4.283 us,218 B,,13,01,OUT txn,68 6F 73 74 3A 3A 66 65
->> 61 74 75 72..
->>
->>> Pawel
->>>
->>>> Best regards,
->>>> Yongchao
-
-> 
-
+You are receiving this mail because:
+You are watching the assignee of the bug.=
